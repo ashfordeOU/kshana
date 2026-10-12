@@ -1,0 +1,61 @@
+{
+  "format": "kshana-evidence/1",
+  "title": "Synthetic demonstration pack",
+  "engine_version": "0.35.0",
+  "created_utc": "2026-01-01T00:00:00Z",
+  "disclaimer": "This pack is a technical record of what the Kshana engine computed from the stated receiver log with the stated configuration. It is not a legal opinion, not a finding of fact about any event or its cause, and not a certification.",
+  "window": {
+    "from_s": 0.0,
+    "to_s": 60.0
+  },
+  "epochs_in_window": 61,
+  "log": {
+    "format": "nmea",
+    "file_name": "tallinn-helsinki.nmea",
+    "full_sha256": "008462359dbed742a84445c1585aa465827709ff146d92d4f6069901df82efe0",
+    "full_bytes": 881286,
+    "start_label": "2025-06-14T08:00:00.000Z",
+    "slice": {
+      "kind": "byte-range",
+      "start": 0,
+      "end": 18206,
+      "sha256": "7e98d9ba45ac0822354655ef0ca0d26dfd6b70b0c48b06d676767d0a6e355957"
+    }
+  },
+  "signer": {
+    "algorithm": "ed25519",
+    "public_key": "d351d6c51d5a15622867eaf35941204408137af720c3f2c8f06987df2ec5c07e",
+    "fingerprint": "55b171d79eee435fc40deb3df790f8c9"
+  },
+  "artifacts": [
+    {
+      "name": "log-slice.bin",
+      "role": "raw receiver-log bytes for the window",
+      "bytes": 18206,
+      "sha256": "7e98d9ba45ac0822354655ef0ca0d26dfd6b70b0c48b06d676767d0a6e355957",
+      "link": "df24c2f07d049ec0c140bd44b0d128570e278b806d748d2e12b086b771ba2894"
+    },
+    {
+      "name": "config.json",
+      "role": "configuration and every threshold",
+      "bytes": 2482,
+      "sha256": "9e009bcc3900dfbd24834a595876c8cf6a99243268d5a51bb4e8ac3834af32a7",
+      "link": "f26f756bf0380fcb66a44771f701462dfc1e1b4eded116c0c16e62982e51aac3"
+    },
+    {
+      "name": "epochs.json",
+      "role": "per-epoch results and reasons",
+      "bytes": 49883,
+      "sha256": "da336839fc86d4627d4b93b141a31f4fe92b99a6bbd360793b918342c3d3b826",
+      "link": "7cdd4719cdb3c60ec47d67e16f8a775369cd568c55ddb30c55ac131b4cf5ceb7"
+    },
+    {
+      "name": "summary.html",
+      "role": "human-readable summary",
+      "bytes": 15114,
+      "sha256": "d6ade9ccd912a026419e75c99209dc2fbf7cbd75b6b3b4f17dbca4f1be2c423d",
+      "link": "1e7e3db4777e4dec6a0df66bf3feb7023b15727438de350a65b848f97e7151d5"
+    }
+  ],
+  "chain_head": "1e7e3db4777e4dec6a0df66bf3feb7023b15727438de350a65b848f97e7151d5"
+}

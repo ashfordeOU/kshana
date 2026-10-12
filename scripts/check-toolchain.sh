@@ -30,24 +30,43 @@ echo "OK: rustc $active matches the pinned toolchain"
 # wasm-pack 0.13.1 while 0.15.0 was current: that installer is frozen, not "latest", and
 # nothing recorded which version built the package.
 #
-# So: every dtolnay/rust-toolchain ref must be the pinned channel (or, for the msrv job
-# only, the rust-version Cargo.toml declares), and no workflow may pipe an installer
-# script into a shell. Skipped where there are no workflows to read (a packaged crate).
+# So: every dtolnay/rust-toolchain use is pinned by commit SHA and its `toolchain:` input must be the
+# pinned channel (or, for the msrv job only, the rust-version Cargo.toml declares), and no workflow
+# may pipe an installer script into a shell. Skipped where there are no workflows to read (a packaged crate).
 if [ -d .github/workflows ]; then
   msrv="$(grep -m1 '^rust-version' Cargo.toml | sed -E 's/.*"([^"]+)".*/\1/')"
-  bad=""
-  while IFS= read -r hit; do
-    [ -n "$hit" ] || continue
-    ref="$(printf '%s' "$hit" | sed -E 's/.*dtolnay\/rust-toolchain@([^[:space:]#]+).*/\1/')"
-    case "$ref" in
-      "$pinned"|"$msrv"|"$msrv".*) ;;
-      *) bad="${bad}  ${hit}\n" ;;
-    esac
-  done <<EOF
-$(grep -n 'dtolnay/rust-toolchain@' .github/workflows/*.yml || true)
-EOF
+  # Every `dtolnay/rust-toolchain` use is pinned by commit SHA (a branch such as `@1.93.0` moves), and
+  # the compiler it installs is its `toolchain:` input, which must be the pinned channel (or the MSRV).
+  bad="$(python3 - "$pinned" "$msrv" <<'PY'
+import glob, re, sys
+pinned, msrv = sys.argv[1], sys.argv[2]
+for f in sorted(glob.glob(".github/workflows/*.yml")):
+    lines = open(f, encoding="utf-8").read().split("\n")
+    for i, line in enumerate(lines):
+        m = re.search(r"uses:\s*dtolnay/rust-toolchain@([^\s#]+)", line)
+        if not m:
+            continue
+        where = f"{f}:{i + 1}"
+        if not re.fullmatch(r"[0-9a-f]{40}", m.group(1)):
+            print(f"  {where}: not pinned by commit SHA ({m.group(1)})")
+            continue
+        indent = len(line) - len(line.lstrip()) + (2 if line.lstrip().startswith("- ") else 0)
+        tool = None
+        for nxt in lines[i + 1:]:
+            if nxt.strip() and len(nxt) - len(nxt.lstrip()) < indent:
+                break
+            if re.match(r"\s*- ", nxt) and len(nxt) - len(nxt.lstrip()) <= indent - 2:
+                break
+            t = re.match(r"\s*toolchain:\s*([^\s#]+)", nxt)
+            if t:
+                tool = t.group(1)
+                break
+        if tool is None or not (tool == pinned or tool == msrv or tool.startswith(msrv + ".")):
+            print(f"  {where}: toolchain input is {tool!r}, not {pinned} (or the MSRV {msrv})")
+PY
+)"
   if [ -n "$bad" ]; then
-    printf 'FAIL: a workflow requests a toolchain other than %s (or the MSRV %s):\n%b' \
+    printf 'FAIL: a workflow does not pin dtolnay/rust-toolchain by SHA with the toolchain %s (or the MSRV %s):\n%s\n' \
       "$pinned" "$msrv" "$bad" >&2
     exit 1
   fi

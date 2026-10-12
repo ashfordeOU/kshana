@@ -1,0 +1,1045 @@
+{
+  "resourceMetrics": [
+    {
+      "resource": {
+        "attributes": [
+          {
+            "key": "service.name",
+            "value": {
+              "stringValue": "kshana"
+            }
+          },
+          {
+            "key": "service.version",
+            "value": {
+              "stringValue": "9.9.9-oracle"
+            }
+          }
+        ]
+      },
+      "scopeMetrics": [
+        {
+          "metrics": [
+            {
+              "description": "Latest GNSS trust score, 0 to 100.",
+              "gauge": {
+                "dataPoints": [
+                  {
+                    "asDouble": 23.4,
+                    "timeUnixNano": "1790000100000000000"
+                  }
+                ]
+              },
+              "name": "kshana.trust.score",
+              "unit": "1"
+            },
+            {
+              "description": "1 for the current trust band, 0 for the others.",
+              "gauge": {
+                "dataPoints": [
+                  {
+                    "asInt": "0",
+                    "attributes": [
+                      {
+                        "key": "band",
+                        "value": {
+                          "stringValue": "calibrating"
+                        }
+                      }
+                    ],
+                    "timeUnixNano": "1790000100000000000"
+                  },
+                  {
+                    "asInt": "0",
+                    "attributes": [
+                      {
+                        "key": "band",
+                        "value": {
+                          "stringValue": "nominal"
+                        }
+                      }
+                    ],
+                    "timeUnixNano": "1790000100000000000"
+                  },
+                  {
+                    "asInt": "0",
+                    "attributes": [
+                      {
+                        "key": "band",
+                        "value": {
+                          "stringValue": "degraded"
+                        }
+                      }
+                    ],
+                    "timeUnixNano": "1790000100000000000"
+                  },
+                  {
+                    "asInt": "1",
+                    "attributes": [
+                      {
+                        "key": "band",
+                        "value": {
+                          "stringValue": "untrusted"
+                        }
+                      }
+                    ],
+                    "timeUnixNano": "1790000100000000000"
+                  },
+                  {
+                    "asInt": "0",
+                    "attributes": [
+                      {
+                        "key": "band",
+                        "value": {
+                          "stringValue": "unknown"
+                        }
+                      }
+                    ],
+                    "timeUnixNano": "1790000100000000000"
+                  }
+                ]
+              },
+              "name": "kshana.trust.band",
+              "unit": "1"
+            },
+            {
+              "description": "Epochs received, by trust band.",
+              "name": "kshana.trust.epochs",
+              "sum": {
+                "aggregationTemporality": 2,
+                "dataPoints": [
+                  {
+                    "asInt": "3",
+                    "attributes": [
+                      {
+                        "key": "band",
+                        "value": {
+                          "stringValue": "calibrating"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1790000000000000000",
+                    "timeUnixNano": "1790000100000000000"
+                  },
+                  {
+                    "asInt": "5",
+                    "attributes": [
+                      {
+                        "key": "band",
+                        "value": {
+                          "stringValue": "nominal"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1790000000000000000",
+                    "timeUnixNano": "1790000100000000000"
+                  },
+                  {
+                    "asInt": "73",
+                    "attributes": [
+                      {
+                        "key": "band",
+                        "value": {
+                          "stringValue": "degraded"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1790000000000000000",
+                    "timeUnixNano": "1790000100000000000"
+                  },
+                  {
+                    "asInt": "1",
+                    "attributes": [
+                      {
+                        "key": "band",
+                        "value": {
+                          "stringValue": "untrusted"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1790000000000000000",
+                    "timeUnixNano": "1790000100000000000"
+                  },
+                  {
+                    "asInt": "0",
+                    "attributes": [
+                      {
+                        "key": "band",
+                        "value": {
+                          "stringValue": "unknown"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1790000000000000000",
+                    "timeUnixNano": "1790000100000000000"
+                  }
+                ],
+                "isMonotonic": true
+              },
+              "unit": "1"
+            },
+            {
+              "description": "Epochs in which a reason was present, by reason.",
+              "name": "kshana.trust.reason.epochs",
+              "sum": {
+                "aggregationTemporality": 2,
+                "dataPoints": [
+                  {
+                    "asInt": "1",
+                    "attributes": [
+                      {
+                        "key": "reason",
+                        "value": {
+                          "stringValue": "agc"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1790000000000000000",
+                    "timeUnixNano": "1790000100000000000"
+                  },
+                  {
+                    "asInt": "1",
+                    "attributes": [
+                      {
+                        "key": "reason",
+                        "value": {
+                          "stringValue": "back\\slash"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1790000000000000000",
+                    "timeUnixNano": "1790000100000000000"
+                  },
+                  {
+                    "asInt": "2",
+                    "attributes": [
+                      {
+                        "key": "reason",
+                        "value": {
+                          "stringValue": "cn0-drop"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1790000000000000000",
+                    "timeUnixNano": "1790000100000000000"
+                  },
+                  {
+                    "asInt": "2",
+                    "attributes": [
+                      {
+                        "key": "reason",
+                        "value": {
+                          "stringValue": "kinematic"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1790000000000000000",
+                    "timeUnixNano": "1790000100000000000"
+                  },
+                  {
+                    "asInt": "1",
+                    "attributes": [
+                      {
+                        "key": "reason",
+                        "value": {
+                          "stringValue": "line\nfeed"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1790000000000000000",
+                    "timeUnixNano": "1790000100000000000"
+                  },
+                  {
+                    "asInt": "13",
+                    "attributes": [
+                      {
+                        "key": "reason",
+                        "value": {
+                          "stringValue": "other"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1790000000000000000",
+                    "timeUnixNano": "1790000100000000000"
+                  },
+                  {
+                    "asInt": "2",
+                    "attributes": [
+                      {
+                        "key": "reason",
+                        "value": {
+                          "stringValue": "quote\"inside"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1790000000000000000",
+                    "timeUnixNano": "1790000100000000000"
+                  },
+                  {
+                    "asInt": "1",
+                    "attributes": [
+                      {
+                        "key": "reason",
+                        "value": {
+                          "stringValue": "réason ✓"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1790000000000000000",
+                    "timeUnixNano": "1790000100000000000"
+                  },
+                  {
+                    "asInt": "1",
+                    "attributes": [
+                      {
+                        "key": "reason",
+                        "value": {
+                          "stringValue": "synthetic-reason-00"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1790000000000000000",
+                    "timeUnixNano": "1790000100000000000"
+                  },
+                  {
+                    "asInt": "1",
+                    "attributes": [
+                      {
+                        "key": "reason",
+                        "value": {
+                          "stringValue": "synthetic-reason-01"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1790000000000000000",
+                    "timeUnixNano": "1790000100000000000"
+                  },
+                  {
+                    "asInt": "1",
+                    "attributes": [
+                      {
+                        "key": "reason",
+                        "value": {
+                          "stringValue": "synthetic-reason-02"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1790000000000000000",
+                    "timeUnixNano": "1790000100000000000"
+                  },
+                  {
+                    "asInt": "1",
+                    "attributes": [
+                      {
+                        "key": "reason",
+                        "value": {
+                          "stringValue": "synthetic-reason-03"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1790000000000000000",
+                    "timeUnixNano": "1790000100000000000"
+                  },
+                  {
+                    "asInt": "1",
+                    "attributes": [
+                      {
+                        "key": "reason",
+                        "value": {
+                          "stringValue": "synthetic-reason-04"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1790000000000000000",
+                    "timeUnixNano": "1790000100000000000"
+                  },
+                  {
+                    "asInt": "1",
+                    "attributes": [
+                      {
+                        "key": "reason",
+                        "value": {
+                          "stringValue": "synthetic-reason-05"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1790000000000000000",
+                    "timeUnixNano": "1790000100000000000"
+                  },
+                  {
+                    "asInt": "1",
+                    "attributes": [
+                      {
+                        "key": "reason",
+                        "value": {
+                          "stringValue": "synthetic-reason-06"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1790000000000000000",
+                    "timeUnixNano": "1790000100000000000"
+                  },
+                  {
+                    "asInt": "1",
+                    "attributes": [
+                      {
+                        "key": "reason",
+                        "value": {
+                          "stringValue": "synthetic-reason-07"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1790000000000000000",
+                    "timeUnixNano": "1790000100000000000"
+                  },
+                  {
+                    "asInt": "1",
+                    "attributes": [
+                      {
+                        "key": "reason",
+                        "value": {
+                          "stringValue": "synthetic-reason-08"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1790000000000000000",
+                    "timeUnixNano": "1790000100000000000"
+                  },
+                  {
+                    "asInt": "1",
+                    "attributes": [
+                      {
+                        "key": "reason",
+                        "value": {
+                          "stringValue": "synthetic-reason-09"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1790000000000000000",
+                    "timeUnixNano": "1790000100000000000"
+                  },
+                  {
+                    "asInt": "1",
+                    "attributes": [
+                      {
+                        "key": "reason",
+                        "value": {
+                          "stringValue": "synthetic-reason-10"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1790000000000000000",
+                    "timeUnixNano": "1790000100000000000"
+                  },
+                  {
+                    "asInt": "1",
+                    "attributes": [
+                      {
+                        "key": "reason",
+                        "value": {
+                          "stringValue": "synthetic-reason-11"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1790000000000000000",
+                    "timeUnixNano": "1790000100000000000"
+                  },
+                  {
+                    "asInt": "1",
+                    "attributes": [
+                      {
+                        "key": "reason",
+                        "value": {
+                          "stringValue": "synthetic-reason-12"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1790000000000000000",
+                    "timeUnixNano": "1790000100000000000"
+                  },
+                  {
+                    "asInt": "1",
+                    "attributes": [
+                      {
+                        "key": "reason",
+                        "value": {
+                          "stringValue": "synthetic-reason-13"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1790000000000000000",
+                    "timeUnixNano": "1790000100000000000"
+                  },
+                  {
+                    "asInt": "1",
+                    "attributes": [
+                      {
+                        "key": "reason",
+                        "value": {
+                          "stringValue": "synthetic-reason-14"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1790000000000000000",
+                    "timeUnixNano": "1790000100000000000"
+                  },
+                  {
+                    "asInt": "1",
+                    "attributes": [
+                      {
+                        "key": "reason",
+                        "value": {
+                          "stringValue": "synthetic-reason-15"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1790000000000000000",
+                    "timeUnixNano": "1790000100000000000"
+                  },
+                  {
+                    "asInt": "1",
+                    "attributes": [
+                      {
+                        "key": "reason",
+                        "value": {
+                          "stringValue": "synthetic-reason-16"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1790000000000000000",
+                    "timeUnixNano": "1790000100000000000"
+                  },
+                  {
+                    "asInt": "1",
+                    "attributes": [
+                      {
+                        "key": "reason",
+                        "value": {
+                          "stringValue": "synthetic-reason-17"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1790000000000000000",
+                    "timeUnixNano": "1790000100000000000"
+                  },
+                  {
+                    "asInt": "1",
+                    "attributes": [
+                      {
+                        "key": "reason",
+                        "value": {
+                          "stringValue": "synthetic-reason-18"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1790000000000000000",
+                    "timeUnixNano": "1790000100000000000"
+                  },
+                  {
+                    "asInt": "1",
+                    "attributes": [
+                      {
+                        "key": "reason",
+                        "value": {
+                          "stringValue": "synthetic-reason-19"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1790000000000000000",
+                    "timeUnixNano": "1790000100000000000"
+                  },
+                  {
+                    "asInt": "1",
+                    "attributes": [
+                      {
+                        "key": "reason",
+                        "value": {
+                          "stringValue": "synthetic-reason-20"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1790000000000000000",
+                    "timeUnixNano": "1790000100000000000"
+                  },
+                  {
+                    "asInt": "1",
+                    "attributes": [
+                      {
+                        "key": "reason",
+                        "value": {
+                          "stringValue": "synthetic-reason-21"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1790000000000000000",
+                    "timeUnixNano": "1790000100000000000"
+                  },
+                  {
+                    "asInt": "1",
+                    "attributes": [
+                      {
+                        "key": "reason",
+                        "value": {
+                          "stringValue": "synthetic-reason-22"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1790000000000000000",
+                    "timeUnixNano": "1790000100000000000"
+                  },
+                  {
+                    "asInt": "1",
+                    "attributes": [
+                      {
+                        "key": "reason",
+                        "value": {
+                          "stringValue": "synthetic-reason-23"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1790000000000000000",
+                    "timeUnixNano": "1790000100000000000"
+                  },
+                  {
+                    "asInt": "1",
+                    "attributes": [
+                      {
+                        "key": "reason",
+                        "value": {
+                          "stringValue": "synthetic-reason-24"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1790000000000000000",
+                    "timeUnixNano": "1790000100000000000"
+                  },
+                  {
+                    "asInt": "1",
+                    "attributes": [
+                      {
+                        "key": "reason",
+                        "value": {
+                          "stringValue": "synthetic-reason-25"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1790000000000000000",
+                    "timeUnixNano": "1790000100000000000"
+                  },
+                  {
+                    "asInt": "1",
+                    "attributes": [
+                      {
+                        "key": "reason",
+                        "value": {
+                          "stringValue": "synthetic-reason-26"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1790000000000000000",
+                    "timeUnixNano": "1790000100000000000"
+                  },
+                  {
+                    "asInt": "1",
+                    "attributes": [
+                      {
+                        "key": "reason",
+                        "value": {
+                          "stringValue": "synthetic-reason-27"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1790000000000000000",
+                    "timeUnixNano": "1790000100000000000"
+                  },
+                  {
+                    "asInt": "1",
+                    "attributes": [
+                      {
+                        "key": "reason",
+                        "value": {
+                          "stringValue": "synthetic-reason-28"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1790000000000000000",
+                    "timeUnixNano": "1790000100000000000"
+                  },
+                  {
+                    "asInt": "1",
+                    "attributes": [
+                      {
+                        "key": "reason",
+                        "value": {
+                          "stringValue": "synthetic-reason-29"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1790000000000000000",
+                    "timeUnixNano": "1790000100000000000"
+                  },
+                  {
+                    "asInt": "1",
+                    "attributes": [
+                      {
+                        "key": "reason",
+                        "value": {
+                          "stringValue": "synthetic-reason-30"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1790000000000000000",
+                    "timeUnixNano": "1790000100000000000"
+                  },
+                  {
+                    "asInt": "1",
+                    "attributes": [
+                      {
+                        "key": "reason",
+                        "value": {
+                          "stringValue": "synthetic-reason-31"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1790000000000000000",
+                    "timeUnixNano": "1790000100000000000"
+                  },
+                  {
+                    "asInt": "1",
+                    "attributes": [
+                      {
+                        "key": "reason",
+                        "value": {
+                          "stringValue": "synthetic-reason-32"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1790000000000000000",
+                    "timeUnixNano": "1790000100000000000"
+                  },
+                  {
+                    "asInt": "1",
+                    "attributes": [
+                      {
+                        "key": "reason",
+                        "value": {
+                          "stringValue": "synthetic-reason-33"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1790000000000000000",
+                    "timeUnixNano": "1790000100000000000"
+                  },
+                  {
+                    "asInt": "1",
+                    "attributes": [
+                      {
+                        "key": "reason",
+                        "value": {
+                          "stringValue": "synthetic-reason-34"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1790000000000000000",
+                    "timeUnixNano": "1790000100000000000"
+                  },
+                  {
+                    "asInt": "1",
+                    "attributes": [
+                      {
+                        "key": "reason",
+                        "value": {
+                          "stringValue": "synthetic-reason-35"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1790000000000000000",
+                    "timeUnixNano": "1790000100000000000"
+                  },
+                  {
+                    "asInt": "1",
+                    "attributes": [
+                      {
+                        "key": "reason",
+                        "value": {
+                          "stringValue": "synthetic-reason-36"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1790000000000000000",
+                    "timeUnixNano": "1790000100000000000"
+                  },
+                  {
+                    "asInt": "1",
+                    "attributes": [
+                      {
+                        "key": "reason",
+                        "value": {
+                          "stringValue": "synthetic-reason-37"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1790000000000000000",
+                    "timeUnixNano": "1790000100000000000"
+                  },
+                  {
+                    "asInt": "1",
+                    "attributes": [
+                      {
+                        "key": "reason",
+                        "value": {
+                          "stringValue": "synthetic-reason-38"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1790000000000000000",
+                    "timeUnixNano": "1790000100000000000"
+                  },
+                  {
+                    "asInt": "1",
+                    "attributes": [
+                      {
+                        "key": "reason",
+                        "value": {
+                          "stringValue": "synthetic-reason-39"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1790000000000000000",
+                    "timeUnixNano": "1790000100000000000"
+                  },
+                  {
+                    "asInt": "1",
+                    "attributes": [
+                      {
+                        "key": "reason",
+                        "value": {
+                          "stringValue": "synthetic-reason-40"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1790000000000000000",
+                    "timeUnixNano": "1790000100000000000"
+                  },
+                  {
+                    "asInt": "1",
+                    "attributes": [
+                      {
+                        "key": "reason",
+                        "value": {
+                          "stringValue": "synthetic-reason-41"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1790000000000000000",
+                    "timeUnixNano": "1790000100000000000"
+                  },
+                  {
+                    "asInt": "1",
+                    "attributes": [
+                      {
+                        "key": "reason",
+                        "value": {
+                          "stringValue": "synthetic-reason-42"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1790000000000000000",
+                    "timeUnixNano": "1790000100000000000"
+                  },
+                  {
+                    "asInt": "1",
+                    "attributes": [
+                      {
+                        "key": "reason",
+                        "value": {
+                          "stringValue": "synthetic-reason-43"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1790000000000000000",
+                    "timeUnixNano": "1790000100000000000"
+                  },
+                  {
+                    "asInt": "1",
+                    "attributes": [
+                      {
+                        "key": "reason",
+                        "value": {
+                          "stringValue": "synthetic-reason-44"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1790000000000000000",
+                    "timeUnixNano": "1790000100000000000"
+                  },
+                  {
+                    "asInt": "1",
+                    "attributes": [
+                      {
+                        "key": "reason",
+                        "value": {
+                          "stringValue": "synthetic-reason-45"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1790000000000000000",
+                    "timeUnixNano": "1790000100000000000"
+                  },
+                  {
+                    "asInt": "1",
+                    "attributes": [
+                      {
+                        "key": "reason",
+                        "value": {
+                          "stringValue": "synthetic-reason-46"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1790000000000000000",
+                    "timeUnixNano": "1790000100000000000"
+                  },
+                  {
+                    "asInt": "1",
+                    "attributes": [
+                      {
+                        "key": "reason",
+                        "value": {
+                          "stringValue": "synthetic-reason-47"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1790000000000000000",
+                    "timeUnixNano": "1790000100000000000"
+                  },
+                  {
+                    "asInt": "1",
+                    "attributes": [
+                      {
+                        "key": "reason",
+                        "value": {
+                          "stringValue": "synthetic-reason-48"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1790000000000000000",
+                    "timeUnixNano": "1790000100000000000"
+                  },
+                  {
+                    "asInt": "1",
+                    "attributes": [
+                      {
+                        "key": "reason",
+                        "value": {
+                          "stringValue": "synthetic-reason-49"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1790000000000000000",
+                    "timeUnixNano": "1790000100000000000"
+                  },
+                  {
+                    "asInt": "1",
+                    "attributes": [
+                      {
+                        "key": "reason",
+                        "value": {
+                          "stringValue": "synthetic-reason-50"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1790000000000000000",
+                    "timeUnixNano": "1790000100000000000"
+                  },
+                  {
+                    "asInt": "1",
+                    "attributes": [
+                      {
+                        "key": "reason",
+                        "value": {
+                          "stringValue": "synthetic-reason-51"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1790000000000000000",
+                    "timeUnixNano": "1790000100000000000"
+                  },
+                  {
+                    "asInt": "1",
+                    "attributes": [
+                      {
+                        "key": "reason",
+                        "value": {
+                          "stringValue": "synthetic-reason-52"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1790000000000000000",
+                    "timeUnixNano": "1790000100000000000"
+                  },
+                  {
+                    "asInt": "1",
+                    "attributes": [
+                      {
+                        "key": "reason",
+                        "value": {
+                          "stringValue": "synthetic-reason-53"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1790000000000000000",
+                    "timeUnixNano": "1790000100000000000"
+                  },
+                  {
+                    "asInt": "1",
+                    "attributes": [
+                      {
+                        "key": "reason",
+                        "value": {
+                          "stringValue": "synthetic-reason-54"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1790000000000000000",
+                    "timeUnixNano": "1790000100000000000"
+                  },
+                  {
+                    "asInt": "1",
+                    "attributes": [
+                      {
+                        "key": "reason",
+                        "value": {
+                          "stringValue": "synthetic-reason-55"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1790000000000000000",
+                    "timeUnixNano": "1790000100000000000"
+                  },
+                  {
+                    "asInt": "1",
+                    "attributes": [
+                      {
+                        "key": "reason",
+                        "value": {
+                          "stringValue": "synthetic-reason-56"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1790000000000000000",
+                    "timeUnixNano": "1790000100000000000"
+                  }
+                ],
+                "isMonotonic": true
+              },
+              "unit": "1"
+            }
+          ],
+          "scope": {
+            "name": "kshana.telemetry"
+          }
+        }
+      ]
+    }
+  ]
+}

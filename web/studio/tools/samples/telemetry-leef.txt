@@ -1,0 +1,4 @@
+<134>1 2026-10-11T14:55:58Z kshana kshana - GNSSTRUST - LEEF:2.0|Ashforde OU|Kshana|0.35.0|gnss-trust.calibrating|^|cat=gnss-trust^sev=1^devHost=kshana^band=calibrating^epochOffsetSeconds=0
+<134>1 2026-10-11T14:55:58Z kshana kshana - GNSSTRUST - LEEF:2.0|Ashforde OU|Kshana|0.35.0|gnss-trust.nominal|^|cat=gnss-trust^sev=1^devHost=kshana^band=nominal^previousBand=calibrating^trustScore=100^epochOffsetSeconds=300
+<132>1 2026-10-11T14:55:58Z kshana kshana - GNSSTRUST - LEEF:2.0|Ashforde OU|Kshana|0.35.0|gnss-trust.degraded|^|cat=gnss-trust^sev=5^devHost=kshana^band=degraded^previousBand=nominal^trustScore=89.7^reasons=cn0-spread^epochOffsetSeconds=1550
+<130>1 2026-10-11T14:55:58Z kshana kshana - GNSSTRUST - LEEF:2.0|Ashforde OU|Kshana|0.35.0|gnss-trust.untrusted|^|cat=gnss-trust^sev=9^devHost=kshana^band=untrusted^previousBand=degraded^trustScore=54.4^reasons=cn0-spread,speed-log,heading-course^epochOffsetSeconds=1619

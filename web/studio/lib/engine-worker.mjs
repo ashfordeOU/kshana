@@ -9,10 +9,12 @@
 // 8 MB engine file is downloaded once per visit, not once by the page and again here.
 // If the first message carries no module (an older page), the worker fetches the
 // engine itself, as before.
-import init, { run, run_all, summary, chart_svg, table_csv, export_sp3, export_omm, export_oem } from "../pkg/kshana.js";
-import { dispatch, errorMessage } from "./engine.mjs";
+// A namespace import, not a list of names: an engine package older than a function the page offers (0.35's)
+// then simply lacks it, and dispatch() says so, instead of the whole module failing to load.
+import init, * as kshana from "../pkg/kshana.js";
+import { dispatch, errorMessage, ENGINE_FNS, classifyMessage } from "./engine.mjs";
 
-const api = { run, run_all, summary, chart_svg, table_csv, export_sp3, export_omm, export_oem };
+const api = Object.fromEntries(ENGINE_FNS.filter((n) => typeof kshana[n] === "function").map((n) => [n, kshana[n]]));
 
 let gotModule;
 const moduleArrived = new Promise((resolve) => { gotModule = resolve; });
@@ -32,8 +34,13 @@ ready.catch(() => {});
 // Requests are handled one at a time in arrival order; a call that arrives while the
 // engine is still loading waits for it.
 self.addEventListener("message", async (ev) => {
-  const msg = ev.data || {};
-  if ("init" in msg) { gotModule(msg.init); return; }
+  // A dedicated worker hears only its owning page: the event has no source and an empty (or this worker's own)
+  // origin. Anything else is dropped, and so is any message that is not on the allow-list (engine.mjs classifyMessage).
+  if (ev.source || (ev.origin && ev.origin !== self.location.origin)) return;
+  const kind = classifyMessage(ev.data);
+  if (!kind) return;
+  const msg = ev.data;
+  if (kind === "init") { gotModule(msg.init); return; }
   gotModule(undefined); // the first message was a call: no module is coming, so load the engine here
   try {
     await ready;

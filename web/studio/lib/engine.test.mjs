@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 // Tests for the off-main-thread engine client (engine.mjs), against a fake worker so they
 // run under plain node with no WebAssembly build. Run with `node web/engine.test.mjs`.
-import { createEngineClient, dispatch, isCancelled, busyLabel, ENGINE_FNS } from "./engine.mjs";
+import { classifyMessage, createEngineClient, dispatch, isCancelled, busyLabel, ENGINE_FNS, ENGINE_FNS_035, engineHas } from "./engine.mjs";
+import { engineAtLeast, versionParts } from "./engine-page.mjs";
 import assert from "node:assert/strict";
 
 const now = () => new Promise((r) => setTimeout(r, 0));
@@ -49,6 +50,20 @@ const api = {
   assert.match(dispatch(api, { id: 2, fn: "export_sp3", args: ["x"] }).error, /not an orbit/, "string throw surfaces");
   assert.deepEqual(dispatch(api, { id: 3, fn: "summary", args: ["a"] }), { id: 3, ok: true, value: "summary:a" });
   assert.ok(ENGINE_FNS.includes("run_all"), "run_all is callable through the worker");
+}
+
+// 0.35 functions: callable through the worker when the engine has them; an older engine says so, plainly.
+{
+  for (const n of ["receiver_trust", "assess_vessel_log", "receiver_trust_replay", "nmea_training", "interference_map", "route_exposure", "bench_export", "compliance_report", "compliance_mapping", "evidence_verify", "evidence_attach_timestamp", "osnma_verify", "trust_telemetry"]) assert.ok(ENGINE_FNS_035.includes(n), n);
+  assert.ok(!ENGINE_FNS_035.includes("run"), "the 0.35 list holds only the 0.35 functions");
+  const r = dispatch(api, { id: 9, fn: "bench_export", args: ["x", ""] });
+  assert.equal(r.ok, false); assert.equal(r.missing, true);
+  assert.match(r.error, /this engine build has no bench_export \(it predates the version this page needs\)/);
+  assert.equal(dispatch(api, { id: 10, fn: "constructor", args: [] }).missing, undefined, "a non-engine name is refused, not reported as missing");
+  assert.deepEqual(dispatch({ ...api, bench_export: () => "{}" }, { id: 11, fn: "bench_export", args: [] }), { id: 11, ok: true, value: "{}" });
+  assert.equal(engineHas(api, "run"), true); assert.equal(engineHas(api, "bench_export"), false); assert.equal(engineHas(null, "run"), false);
+  assert.deepEqual(versionParts("0.35.1"), [0, 35, 1]);
+  assert.equal(engineAtLeast("0.35.0", 0, 35), true); assert.equal(engineAtLeast("0.31.0", 0, 35), false); assert.equal(engineAtLeast("1.0.0", 0, 35), true); assert.equal(engineAtLeast(null, 0, 35), false);
 }
 
 // Worker path: a call round-trips and resolves with the worker's value.
@@ -141,3 +156,16 @@ const api = {
 }
 
 console.log("engine.test.mjs: all assertions passed");
+
+// The worker's allow-list: only the owning page's init and well-formed calls get through.
+{
+  assert.equal(classifyMessage({ id: 1, fn: "run", args: ["x"] }), "call");
+  assert.equal(classifyMessage({ id: "a", fn: "version" }), "call");
+  assert.equal(classifyMessage({ id: 1, fn: "osnma_verify", args: [] }), "call");
+  for (const bad of [null, undefined, 5, "run", [], [1], { fn: "run" }, { id: 1 }, { id: 1, fn: "eval" }, { id: 1, fn: "constructor" }, { id: 1, fn: "__proto__" },
+    { id: 1, fn: "run", extra: 1 }, { id: {}, fn: "run" }, { id: NaN, fn: "run" }, { id: "x".repeat(65), fn: "run" }, { id: 1, fn: "run", args: "x" }, { id: 1, fn: "run", args: new Array(17).fill(0) },
+    { init: {} }, { init: "module" }, { init: null }, { init: undefined, id: 1 }, { init: 1, fn: "run", id: 1 }, Object.create({ id: 1, fn: "run" })]) {
+    assert.equal(classifyMessage(bad), null, JSON.stringify(bad));
+  }
+  assert.equal(classifyMessage({ init: new WebAssembly.Module(new Uint8Array([0, 97, 115, 109, 1, 0, 0, 0])) }), "init");
+}

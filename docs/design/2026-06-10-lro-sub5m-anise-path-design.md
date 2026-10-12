@@ -3,7 +3,7 @@
 - **Date:** 2026-06-10
 - **Status:** **IMPLEMENTED (Approach A) — outcome below.** Built as `xval/anise-lunar-od`. The hypothesis in §1/§7 (that the floor was orientation/ephemeris fidelity) was **tested and refuted for the reduced-dynamic tier**: DE-grade DE440 orientation + ephemeris improve the dynamic fit (12.6 → 12.0 m) but leave the **reduced-dynamic** residual unchanged (6.65 → 6.67 m), so the operational floor is *not* frame fidelity but an empirical-tier-irreducible residual (most consistent with LRO non-gravitational dynamics over the short arc). The lean analytic stack already matches DE-grade for the reduced-dynamic orbit; LRO stays honestly above 5 m and the milestone holds 3/6. Full result in `docs/AGENCY-ORBIT-VALIDATION.md`. The §7 residual-attribution fallback is exactly what played out.
 - **Roadmap milestone:** P4 "Precise astrodynamics", step 4 ("validate vs 3 agency datasets, < 5 m RMS") — the one dataset still above the bar
-- **Author:** Chakshu Baweja
+- **Author:** Ashforde OÜ
 - **Note on 2026-09-29 (added in a later docs audit; the design text below is unchanged):** figures in this record are as of 2026-06-10. Two have since moved: the crate's minimum supported Rust version (MSRV) is now 1.85 (`rust-version` in `Cargo.toml`), no longer the 1.75 of §3, and the library test count has grown past the 679 quoted in §5.1. The LRO result itself is as recorded in `docs/AGENCY-ORBIT-VALIDATION.md` (reduced-dynamic 6.65 m analytic, 6.67 m DE-grade).
 - **Supersedes nothing.** Extends `docs/design/2026-06-09-precise-astrodynamics-design.md` (the agency-orbit force-model-validation design) and the W4b LRO result recorded in `docs/AGENCY-ORBIT-VALIDATION.md`.
 
@@ -291,7 +291,7 @@ result, not a failure.
 
 Each step: TDD where there is logic to test; `fmt` + `clippy -D warnings` +
 `cargo test` (main crate) + the xval crate's own build/test; the no-attribution + naming-hygiene
-guards; atomic commit; author `Chakshu Baweja <contact@ashforde.org>`, no trailers.
+guards; atomic commit; author `Ashforde OÜ <contact@ashforde.org>`, no trailers.
 
 1. **Main-crate provider refactor** (§5.1). RED: none (behaviour-preserving). GREEN gate: the
    **entire existing suite passes unchanged**, including `tests/agency_lro.rs` still reporting

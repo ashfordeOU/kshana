@@ -55,6 +55,14 @@ SLSA build-provenance (verify with \`gh attestation verify <file> --repo Ashford
 - \`kshana-mcp\` — the Model Context Protocol server (Linux x86-64)
 - \`kshana-sbom.cdx.json\` — CycloneDX SBOM
 - \`kshana-validation-summary.html\` — the per-release validation summary
+- \`kshana-channels-sbom.cdx.json\` — CycloneDX SBOM for the OpenCPN plugin, the Signal K plugin,
+  the reference-build image and the Grafana dashboard (the engine's crates are in \`kshana-sbom.cdx.json\`)
+- \`kshana_pi-$version-1_ubuntu-wx32-24.04-x86_64.tar.gz\` · \`kshana_pi-$version-ubuntu-wx32-x86_64-24.04.xml\` —
+  the OpenCPN trust-panel plugin (GPL-3.0-or-later; Ubuntu 24.04, wxWidgets 3.2, x86-64) and its plugin-catalogue
+  metadata; \`kshana-opencpn-plugin-$version-source.tar.gz\` is its source. Install the tarball with
+  OpenCPN's Import Plugin button. Not yet in OpenCPN's own catalogue.
+- \`signalk-kshana-trust-$version.tgz\` — the Signal K server plugin, the same file as the npm package
+- \`kshana-grafana-*.json\` — the Grafana dashboard for the GNSS trust telemetry
 - \`SHA256SUMS\` — a SHA-256 (Secure Hash Algorithm) checksum of every file above, so a
   download can be checked with \`sha256sum -c SHA256SUMS --ignore-missing\` (releases after 0.27.2)
 
@@ -68,6 +76,8 @@ The PyPI wheels, the npm/WASM package and the Docker image below are cross-platf
 | [PyPI](https://pypi.org/project/kshana/) | \`pip install kshana\` |
 | [npm](https://www.npmjs.com/package/kshana) | \`npm install kshana\` |
 | [ghcr.io](https://github.com/AshfordeOU/kshana/pkgs/container/kshana-mcp) | \`docker run -i ghcr.io/ashfordeou/kshana-mcp:$version\` |
+| [npm](https://www.npmjs.com/package/signalk-kshana-trust) | \`signalk-kshana-trust\` — the Signal K plugin (Signal K app store, keyword \`signalk-node-server-plugin\`) |
+| [ghcr.io](https://github.com/AshfordeOU/kshana/pkgs/container/kshana-reference-build) | \`docker pull ghcr.io/ashfordeou/kshana-reference-build:$version\` — the trust gate service image (amd64, arm64) |
 | MCP registry | \`io.github.ashfordeOU/kshana-mcp\` (auto-discovered by MCP clients) |
 | [JetBrains Marketplace](https://plugins.jetbrains.com/plugin/32181-kshana--pnt-simulator) | search "Kshana" in your IDE → Plugins |
 

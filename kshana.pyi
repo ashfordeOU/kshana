@@ -20,6 +20,32 @@ __all__ = [
     "error_kind",
     "version",
     "receiver_trust",
+    "receiver_trust_replay",
+    "assess_vessel_log",
+    "evidence_create",
+    "evidence_verify",
+    "interference_map",
+    "bench_export",
+    "iq_sweep",
+    "iq_info",
+    "iq_inventory",
+    "evidence_attach_timestamp",
+    "evidence_keygen",
+    "export_sp3",
+    "export_omm",
+    "export_oem",
+    "export_formats",
+    "export_scenario",
+    "import_route",
+    "animate_scenario",
+    "list_examples",
+    "get_example",
+    "compliance_report",
+    "compliance_mapping",
+    "osnma_verify",
+    "trust_telemetry",
+    "route_exposure",
+    "nmea_training",
     "iq_scene",
     "iq_scene_broadcast",
     "iq_acquire",
@@ -84,9 +110,228 @@ def run_typed(toml: str) -> RunOutput:
 def receiver_trust(toml: str) -> RunOutput:
     """Assess a real receiver log described by a ``receiver-trust`` scenario (TOML text).
 
+    A ``[platform]`` table with ``kind = "vessel"`` selects the maritime monitors and the
+    0-100 trust score with its reasons; the output is advisory
+    (docs/MARITIME-TRUST.md). Advisory software, not type-approved navigation equipment (IEC 61108, IEC 61162): the operator remains responsible for the navigation of the vessel.
+    ``receiver-trust live`` (a long-running stream process) is command-line only.
+
     Returns the result document, the per-epoch trust CSV, the chart and a summary.
     Raises ``ValueError`` on an invalid scenario or an unreadable log."""
     ...
+
+def receiver_trust_replay(session_toml: str, nmea: str | bytes) -> dict[str, Any]:
+    """Score a bounded excerpt of a vessel's NMEA stream the way ``kshana receiver-trust live``
+    does (at most 2 MiB and 20,000 epochs; it must hold the calibration window).
+
+    ``session_toml`` declares a vessel (``[platform] kind = "vessel"``). Keys: ``schema``
+    (``"1.2"``), ``epochs`` (one dict per epoch: ``state``, ``score``, ``deductions``,
+    ``alarms``, ``position``, ``advisory``, ...), ``last_pksht`` and ``summary`` (counts by state,
+    ``lowest_score``, ``final_score``, ``first_untrusted_t_s``). Opens no socket and does not
+    apply the gate (both are command-line only). Advisory software, not type-approved navigation equipment (IEC 61108, IEC 61162): the operator remains responsible for the navigation of the vessel. Raises ``ValueError``."""
+
+def assess_vessel_log(session_toml: str, log: str | bytes) -> dict[str, Any]:
+    """Assess a vessel's NMEA log as a batch run: the ``result.json`` of
+    ``kshana receiver-trust`` (score model, monitors run, every epoch's 0-100 score with its
+    deductions). ``session_toml`` needs no ``[log]`` table. Advisory software, not type-approved navigation equipment (IEC 61108, IEC 61162): the operator remains responsible for the navigation of the vessel.
+    Raises ``ValueError``."""
+
+def evidence_create(
+    session_toml: str,
+    log: str | bytes,
+    from_s: float,
+    to_s: float,
+    title: Optional[str] = None,
+    created_utc: Optional[str] = None,
+    seed_hex: Optional[str] = None,
+) -> dict[str, Any]:
+    """Build a signed evidence pack for a window (seconds since the first epoch) of a vessel's
+    NMEA log. ``seed_hex`` is the Ed25519 signing-key seed (64 hex digits); omitted, one is
+    generated. ``created_utc``: ``None`` is now, ``"none"`` leaves it out. Keys: ``files``
+    (name to ``bytes``), ``public_key``, ``seed_hex`` (keep it private), ``epochs_in_window``,
+    ``slice`` (``[start, end]`` or ``None`` for the whole log). A technical record, not a legal
+    opinion. Raises ``ValueError``."""
+
+def evidence_verify(
+    files: dict[str, str | bytes],
+    public_key: Optional[str] = None,
+    full_log: Optional[str | bytes] = None,
+    require_timestamp: bool = False,
+) -> dict[str, Any]:
+    """Verify an evidence pack: hashes, chain and signature; with ``public_key`` (64 hex digits
+    from the signer, by another route) that the signer is the one expected; with ``full_log``
+    that it is the log recorded; with ``require_timestamp`` that a timestamp token is present.
+    Keys: ``ok``, ``failures``, ``checks``, ``signer_fingerprint``, ``signer_pinned``, ``notes``,
+    ``verdict`` and ``message``. ``verdict`` is ``"verified"`` (signer pinned),
+    ``"intact-signer-not-pinned"`` (everything checks but no public key was given, so the
+    signature proves only that the pack is intact against the key it names itself) or
+    ``"failed"``. Raises ``ValueError`` on a malformed key."""
+
+def export_sp3(toml: str) -> str:
+    """Export an ``orbit`` scenario's propagated constellation as SP3-c text (``--export-sp3``).
+    Raises ``ValueError`` if the scenario is not an orbit kind."""
+
+def export_omm(toml: str) -> str:
+    """Export a constellation's mean elements as a CCSDS OMM catalogue string
+    (``--export-omm``). Raises ``ValueError``."""
+
+def export_oem(toml: str) -> str:
+    """Export the velocity-carrying state as a CCSDS OEM 2.0 ephemeris string
+    (``--export-oem``). Raises ``ValueError``."""
+
+def export_formats(toml: str) -> list[dict[str, Any]]:
+    """Which interoperability formats apply to a scenario, without running it: a list of
+    ``{format, applies, reason, spec_url}`` for ``czml``, ``kml``, ``geojson``, ``stk`` and
+    ``sigmf``. Raises ``ValueError`` on invalid TOML."""
+
+def export_scenario(toml: str, format: str) -> dict[str, Any]:
+    """Export a scenario in one interoperability format (``czml``, ``kml``, ``geojson``, ``stk``
+    or ``sigmf``) in memory. Returns ``{format, spec_url, files}``; each file is ``{suffix,
+    bytes, sha256, encoding, content}`` with ``encoding`` ``"utf-8"`` (the content is the text)
+    or ``"base64"`` (a binary file). Times are UTC; byte-identical for the same scenario.
+    Raises ``ValueError`` with the reason when the format does not apply."""
+
+def import_route(toml: str, geojson: str) -> str:
+    """Write a GeoJSON route (``LineString``, or a ``Feature``/``FeatureCollection`` holding one)
+    into a ``terrain-nav``, ``terrain-slam``, ``gravity-map`` or ``combined-altpnt`` scenario and
+    return the new TOML (``--import-route``). Raises ``ValueError``."""
+
+def animate_scenario(
+    toml: str,
+    format: str = "svg",
+    fps: Optional[int] = None,
+    duration_s: Optional[float] = None,
+    width: Optional[int] = None,
+) -> dict[str, Any]:
+    """Run a scenario and return its time series as an animation: ``format`` ``"svg"`` (one
+    animated SVG, no script), ``"html"`` (a self-contained player) or ``"frames"`` (numbered
+    SVG frames plus ``manifest.json``, at most 120). Returns ``{summary, files}`` with
+    ``files`` as ``{name: text}``. Raises ``ValueError`` (a kind with no sampled time axis is
+    refused). Nothing is written."""
+
+def list_examples(kind: Optional[str] = None) -> dict[str, Any]:
+    """The bundled reference scenarios: ``{count, scenarios: [{name, kind, about}]}``; ``kind``
+    limits it to one scenario kind. Raises ``ValueError`` on an unknown kind."""
+
+def get_example(name: str) -> str:
+    """The TOML text of one bundled reference scenario, byte for byte the repository's file.
+    Raises ``ValueError`` for an unknown or unbundled name."""
+
+def evidence_attach_timestamp(
+    files: dict[str, str | bytes],
+    token: str | bytes,
+    replace: bool = False,
+) -> dict[str, Any]:
+    """Bind an RFC 3161 timestamp token to an evidence pack, in memory. ``token`` is the raw
+    bytes of the ``.tsr`` file or its base64 text. It is stored as ``timestamp.tsr`` beside the
+    signed manifest, and the pack with the token must still verify (else ``ValueError``). An
+    existing token is kept unless ``replace=True``. This does NOT verify the timestamp
+    authority's signature or certificate chain: use ``openssl ts -verify``. Returns
+    ``{"files": {name: bytes}, "notes": [...]}``."""
+
+def evidence_keygen() -> dict[str, str]:
+    """Generate an Ed25519 signing key for evidence packs, in memory: ``seed_hex`` (the PRIVATE
+    key; keep it secret), ``public_key``, ``fingerprint`` and a ``warning``. Python only: a
+    private key should not pass through a web page or an agent conversation."""
+
+def bench_export(toml: str, epoch: Optional[str] = None) -> dict[str, Any]:
+    """Export a scenario's vehicle motion and events for a laboratory GNSS simulator
+    (``docs/TEST-BENCH.md``), in memory (nothing is written). Applies to ``gnss-ins``, ``jamming``
+    and ``gnss-sim``; other kinds raise ``ValueError`` with the reason. ``epoch`` is the UTC
+    instant of motion time zero (``YYYY-MM-DDTHH:MM:SS``, optional ``Z``; default
+    2024-01-01T00:00:00Z). Returns ``{"files": {suffix: text}, "notes": [...], "notice": str}``
+    (``.motion.csv``, ``.motion.json``, ``.nmea``, ``.events.csv``, ``.events.toml`` and, on a
+    millisecond-regular grid, ``.waypoints.txt``); keep ``notice`` with the files. No
+    radio-frequency or baseband signal is written."""
+
+def compliance_report(runs: list[dict[str, str]]) -> dict[str, Any]:
+    """Fill the public-framework mapping (five resilience frameworks and standards, see
+    ``docs/compliance/``) from result documents given as text. ``runs`` is a list of dicts with
+    ``label``, ``result`` (the result JSON text) and optionally ``scenario`` (the scenario TOML
+    text, which names the kind a result does not); at most 64 runs, nothing read from disk.
+    Returns ``{"report": dict, "markdown": str}``. The report has ``statement`` (carry it
+    verbatim wherever the output is shown), ``runs``, ``unrecognised`` (inputs not used, with
+    the reason), ``capabilities``, ``receiver_trust`` and ``rows``: each row has a ``status``
+    of ``evidenced``, ``partly-evidenced``, ``not-evidenced`` or ``out-of-scope`` and keeps its
+    ``gap``. A status says the runs support evidence for the row's capabilities; it is not a
+    finding that a framework is met. Raises ``ValueError``."""
+
+def compliance_mapping(sources: bool = False) -> str:
+    """The static public-framework mapping as Markdown, led by the statement every report
+    carries: one table per framework, or with ``sources=True`` the source documents they cite
+    (versions and URLs)."""
+
+def osnma_verify(
+    data: bytes | str,
+    format: str = "",
+    start_gst: int | None = None,
+    merkle_root_hex: str = "",
+    public_keys: list[str] | None = None,
+    reference_time: int | None = None,
+    max_time_error: int | None = None,
+) -> dict:
+    """Check Galileo OSNMA authentication of I/NAV pages held in memory, with the verifier
+    ``kshana osnma verify`` runs; returns the dict its ``--json`` prints. Advisory: this is
+    analysis and monitoring output and not type-approved navigation equipment. The authentication
+    status reported here is not a navigation integrity service and must not be the sole basis for
+    any navigation or safety decision. ``data`` is the pages (plain text, or the published vector
+    CSV) or a u-blox UBX byte stream; ``format`` is ``"pages"``, ``"vector-csv"``, ``"ubx"`` or
+    ``""`` (by content); ``start_gst`` is a vector CSV's start in GST seconds;
+    ``merkle_root_hex`` is the trusted Merkle root (64 hex digits, or ``""``); ``public_keys`` are
+    trusted keys as ``"ID:TYPE:HEX"``; ``reference_time`` is the present time in GST seconds from
+    an independent source and ``max_time_error`` the widest distance of a sub-frame from it (below
+    30; needs a reference time). Without a reference time freshness is not enforced and the report
+    says so (``freshness_enforced``). Raises ``ValueError``."""
+
+def trust_telemetry(
+    input: str,
+    format: str,
+    host: str = "",
+    input_kind: str = "jsonl",
+    expose_position: bool = False,
+    syslog_all: bool = False,
+    unix_nano: int = 0,
+) -> str:
+    """Render a trust stream or a batch result in one telemetry format with the encoders
+    ``kshana trust-telemetry`` uses (no process, socket or clock). ``format`` is ``"prometheus"``,
+    ``"cef"``, ``"leef"`` or ``"otlp"``; ``input_kind`` is ``"jsonl"`` (the live per-epoch
+    stream) or ``"result"`` (a ``receiver-trust`` result document); ``host`` names the sender in
+    syslog events (default ``kshana``). ``syslog_all`` gives one event per epoch instead of one
+    per band change; ``expose_position`` adds the receiver-reported position to the metrics;
+    ``unix_nano`` is the export time of the ``"otlp"`` payload. Syslog lines carry no timestamp.
+    Raises ``ValueError`` on an unknown format or an input with no epoch."""
+
+def interference_map(
+    source: str,
+    csv: str,
+    dataset: str,
+    cell_deg: Optional[float] = None,
+    licence: Optional[str] = None,
+    licence_url: Optional[str] = None,
+    attribution: Optional[str] = None,
+    land_geojson: Optional[str] = None,
+) -> list[dict[str, Any]]:
+    """Build a GNSS interference map from ``"adsb"`` or ``"ais"`` CSV text.
+
+    ``dataset`` is an approved preset or ``"custom"`` (which needs ``licence``,
+    ``licence_url`` and ``attribution``). One dict per UTC day: ``file_name``, ``date``,
+    ``cells_published``, ``cells_flagged`` and ``geojson`` (``kshana-interference-map/v1``
+    text). Aggregate only; a degraded cell does not name interference as the cause.
+    Raises ``ValueError`` on bad input."""
+
+def route_exposure(
+    route: str,
+    maps: list[str],
+    date_from: Optional[str] = None,
+    date_to: Optional[str] = None,
+) -> str:
+    """Share of a route through degraded cells of the given maps, as JSON text. Cells not
+    observed are not evidence of a clear route; not a forecast. Raises ``ValueError``."""
+
+def nmea_training(toml: str, seed: Optional[int] = None) -> dict[str, str]:
+    """Synthetic bridge NMEA for crew training from a ``nmea-scenario`` TOML. Keys:
+    ``nmea``, ``log_json`` (instructor log, ``kshana-nmea-training/1``), ``log_text``.
+    Text only; never for a vessel's live navigation systems.
+    Advisory, not type-approved navigation equipment. Raises ``ValueError``."""
 
 def scenario_kinds() -> list[dict[str, Any]]:
     """The available scenario kinds and their metadata (name, description, required
@@ -228,6 +473,41 @@ def iq_acq_surface(
     ``header`` holds the search, ``doppler_bins_hz``, the ``peak`` and two fine-Doppler
     refinements next to the coarse bin: ``parabolic`` (may be ``None``) and ``fine_search``. Raises
     ``ValueError`` on a bad search."""
+
+def iq_info(path: str, hash: bool = False) -> dict[str, Any]:
+    """Describe one IQ recording without processing it (``kshana iq info``): kind, sample format,
+    rate, centre frequency, samples, duration and data files. ``hash=True`` adds SHA-256
+    digests (reads the whole file). Reads the file; writes nothing."""
+
+def iq_inventory(directory: str, recursive: bool = False, hash: bool = False) -> list[dict[str, Any]]:
+    """List the IQ recordings under ``directory`` and describe each (``kshana iq inventory``): a
+    list of what ``iq_info`` returns. Reads only."""
+
+def iq_sweep(
+    i: list[float],
+    q: list[float],
+    fs_hz: float,
+    signal: str,
+    prns: list[int],
+    if_hz: float = ...,
+    center_hz: Optional[float] = ...,
+    pll_bws: Optional[list[float]] = ...,
+    dll_bws: Optional[list[float]] = ...,
+    spacings: Optional[list[float]] = ...,
+    coherents: Optional[list[int]] = ...,
+    design: Optional[str] = ...,
+    reacquire: Optional[bool] = ...,
+    periods_per_bit: Optional[int] = ...,
+    max_seconds: Optional[float] = ...,
+    threads: int = ...,
+) -> dict[str, Any]:
+    """Replay one recording across several tracking-loop designs (``kshana iq sweep``): every
+    design of ``design`` (a ``kshana.loop-design/1`` TOML's text or path) or the product of
+    ``pll_bws``, ``dll_bws``, ``spacings`` and ``coherents`` on the built-in default. Each PRN is
+    acquired once and every (design, PRN) channel tracks the same samples. Returns ``{"designs":
+    [{design, code, epochs, phase_jitter_deg, code_jitter_chips, phase_lock_frac,
+    code_lock_frac, mean_cn0_dbhz, design_hash}], "warnings": [...]}``; jitter is steady state
+    over the second half of the run. Raises ``ValueError`` if a PRN is not acquired."""
 
 def iq_track(
     i: list[float],

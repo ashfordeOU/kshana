@@ -1,0 +1,4719 @@
+{
+ "cases": {
+  "band-change-00": {
+   "extension": {
+    "band": "calibrating",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "0",
+    "gate": "off"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.calibrating",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust calibrating",
+    "Severity": "0"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "calibrating",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "0",
+    "gate": "off"
+   }
+  },
+  "band-change-01": {
+   "extension": {
+    "band": "nominal",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "3",
+    "gate": "off",
+    "previousBand": "calibrating",
+    "trustScore": "97.2"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.nominal",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust nominal",
+    "Severity": "1"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "nominal",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "3",
+    "gate": "off",
+    "previousBand": "calibrating",
+    "trustScore": "97.2"
+   }
+  },
+  "band-change-02": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "8",
+    "gate": "off",
+    "previousBand": "nominal",
+    "reasons": "cn0-drop",
+    "trustScore": "61"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "8",
+    "gate": "off",
+    "previousBand": "nominal",
+    "reasons": "cn0-drop",
+    "trustScore": "61"
+   }
+  },
+  "band-change-03": {
+   "extension": {
+    "band": "untrusted",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "200",
+    "gate": "withheld",
+    "logTime": "2026-01-02T03:04:05.000Z",
+    "previousBand": "degraded",
+    "reasons": "kinematic,quote\"inside",
+    "trustScore": "23.4"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.untrusted",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust untrusted",
+    "Severity": "9"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "untrusted",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "200",
+    "gate": "withheld",
+    "logTime": "2026-01-02T03:04:05.000Z",
+    "previousBand": "degraded",
+    "reasons": "kinematic,quote\"inside",
+    "trustScore": "23.4"
+   }
+  },
+  "epoch-000": {
+   "extension": {
+    "band": "calibrating",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "0",
+    "gate": "off"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.calibrating",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust calibrating",
+    "Severity": "0"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "calibrating",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "0",
+    "gate": "off"
+   }
+  },
+  "epoch-001": {
+   "extension": {
+    "band": "calibrating",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "1",
+    "gate": "off",
+    "previousBand": "calibrating"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.calibrating",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust calibrating",
+    "Severity": "0"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "calibrating",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "1",
+    "gate": "off",
+    "previousBand": "calibrating"
+   }
+  },
+  "epoch-002": {
+   "extension": {
+    "band": "calibrating",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "2",
+    "gate": "off",
+    "previousBand": "calibrating"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.calibrating",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust calibrating",
+    "Severity": "0"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "calibrating",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "2",
+    "gate": "off",
+    "previousBand": "calibrating"
+   }
+  },
+  "epoch-003": {
+   "extension": {
+    "band": "nominal",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "3",
+    "gate": "off",
+    "previousBand": "calibrating",
+    "trustScore": "97.2"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.nominal",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust nominal",
+    "Severity": "1"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "nominal",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "3",
+    "gate": "off",
+    "previousBand": "calibrating",
+    "trustScore": "97.2"
+   }
+  },
+  "epoch-004": {
+   "extension": {
+    "band": "nominal",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "4",
+    "gate": "off",
+    "previousBand": "nominal",
+    "trustScore": "97.1"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.nominal",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust nominal",
+    "Severity": "1"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "nominal",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "4",
+    "gate": "off",
+    "previousBand": "nominal",
+    "trustScore": "97.1"
+   }
+  },
+  "epoch-005": {
+   "extension": {
+    "band": "nominal",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "5",
+    "gate": "off",
+    "previousBand": "nominal",
+    "trustScore": "97"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.nominal",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust nominal",
+    "Severity": "1"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "nominal",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "5",
+    "gate": "off",
+    "previousBand": "nominal",
+    "trustScore": "97"
+   }
+  },
+  "epoch-006": {
+   "extension": {
+    "band": "nominal",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "6",
+    "gate": "off",
+    "previousBand": "nominal",
+    "trustScore": "96.9"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.nominal",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust nominal",
+    "Severity": "1"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "nominal",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "6",
+    "gate": "off",
+    "previousBand": "nominal",
+    "trustScore": "96.9"
+   }
+  },
+  "epoch-007": {
+   "extension": {
+    "band": "nominal",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "7",
+    "gate": "off",
+    "previousBand": "nominal",
+    "trustScore": "96.8"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.nominal",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust nominal",
+    "Severity": "1"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "nominal",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "7",
+    "gate": "off",
+    "previousBand": "nominal",
+    "trustScore": "96.8"
+   }
+  },
+  "epoch-008": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "8",
+    "gate": "off",
+    "previousBand": "nominal",
+    "reasons": "cn0-drop",
+    "trustScore": "61"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "8",
+    "gate": "off",
+    "previousBand": "nominal",
+    "reasons": "cn0-drop",
+    "trustScore": "61"
+   }
+  },
+  "epoch-009": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "9",
+    "gate": "passed",
+    "previousBand": "degraded",
+    "reasons": "cn0-drop,agc",
+    "trustScore": "58.5"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "9",
+    "gate": "passed",
+    "previousBand": "degraded",
+    "reasons": "cn0-drop,agc",
+    "trustScore": "58.5"
+   }
+  },
+  "epoch-010": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "10",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "kinematic,quote\"inside,back\\slash,line\nfeed,réason ✓",
+    "trustScore": "55"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "10",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "kinematic,quote\"inside,back\\\\slash,line\\nfeed,réason ✓",
+    "trustScore": "55"
+   }
+  },
+  "epoch-011": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "11",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-00",
+    "trustScore": "50"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "11",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-00",
+    "trustScore": "50"
+   }
+  },
+  "epoch-012": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "12",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-01",
+    "trustScore": "50"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "12",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-01",
+    "trustScore": "50"
+   }
+  },
+  "epoch-013": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "13",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-02",
+    "trustScore": "50"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "13",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-02",
+    "trustScore": "50"
+   }
+  },
+  "epoch-014": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "14",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-03",
+    "trustScore": "50"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "14",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-03",
+    "trustScore": "50"
+   }
+  },
+  "epoch-015": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "15",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-04",
+    "trustScore": "50"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "15",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-04",
+    "trustScore": "50"
+   }
+  },
+  "epoch-016": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "16",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-05",
+    "trustScore": "50"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "16",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-05",
+    "trustScore": "50"
+   }
+  },
+  "epoch-017": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "17",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-06",
+    "trustScore": "50"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "17",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-06",
+    "trustScore": "50"
+   }
+  },
+  "epoch-018": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "18",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-07",
+    "trustScore": "50"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "18",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-07",
+    "trustScore": "50"
+   }
+  },
+  "epoch-019": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "19",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-08",
+    "trustScore": "50"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "19",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-08",
+    "trustScore": "50"
+   }
+  },
+  "epoch-020": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "20",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-09",
+    "trustScore": "50"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "20",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-09",
+    "trustScore": "50"
+   }
+  },
+  "epoch-021": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "21",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-10",
+    "trustScore": "50"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "21",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-10",
+    "trustScore": "50"
+   }
+  },
+  "epoch-022": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "22",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-11",
+    "trustScore": "50"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "22",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-11",
+    "trustScore": "50"
+   }
+  },
+  "epoch-023": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "23",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-12",
+    "trustScore": "50"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "23",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-12",
+    "trustScore": "50"
+   }
+  },
+  "epoch-024": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "24",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-13",
+    "trustScore": "50"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "24",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-13",
+    "trustScore": "50"
+   }
+  },
+  "epoch-025": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "25",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-14",
+    "trustScore": "50"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "25",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-14",
+    "trustScore": "50"
+   }
+  },
+  "epoch-026": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "26",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-15",
+    "trustScore": "50"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "26",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-15",
+    "trustScore": "50"
+   }
+  },
+  "epoch-027": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "27",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-16",
+    "trustScore": "50"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "27",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-16",
+    "trustScore": "50"
+   }
+  },
+  "epoch-028": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "28",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-17",
+    "trustScore": "50"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "28",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-17",
+    "trustScore": "50"
+   }
+  },
+  "epoch-029": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "29",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-18",
+    "trustScore": "50"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "29",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-18",
+    "trustScore": "50"
+   }
+  },
+  "epoch-030": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "30",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-19",
+    "trustScore": "50"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "30",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-19",
+    "trustScore": "50"
+   }
+  },
+  "epoch-031": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "31",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-20",
+    "trustScore": "50"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "31",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-20",
+    "trustScore": "50"
+   }
+  },
+  "epoch-032": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "32",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-21",
+    "trustScore": "50"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "32",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-21",
+    "trustScore": "50"
+   }
+  },
+  "epoch-033": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "33",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-22",
+    "trustScore": "50"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "33",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-22",
+    "trustScore": "50"
+   }
+  },
+  "epoch-034": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "34",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-23",
+    "trustScore": "50"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "34",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-23",
+    "trustScore": "50"
+   }
+  },
+  "epoch-035": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "35",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-24",
+    "trustScore": "50"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "35",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-24",
+    "trustScore": "50"
+   }
+  },
+  "epoch-036": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "36",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-25",
+    "trustScore": "50"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "36",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-25",
+    "trustScore": "50"
+   }
+  },
+  "epoch-037": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "37",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-26",
+    "trustScore": "50"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "37",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-26",
+    "trustScore": "50"
+   }
+  },
+  "epoch-038": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "38",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-27",
+    "trustScore": "50"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "38",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-27",
+    "trustScore": "50"
+   }
+  },
+  "epoch-039": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "39",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-28",
+    "trustScore": "50"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "39",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-28",
+    "trustScore": "50"
+   }
+  },
+  "epoch-040": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "40",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-29",
+    "trustScore": "50"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "40",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-29",
+    "trustScore": "50"
+   }
+  },
+  "epoch-041": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "41",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-30",
+    "trustScore": "50"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "41",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-30",
+    "trustScore": "50"
+   }
+  },
+  "epoch-042": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "42",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-31",
+    "trustScore": "50"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "42",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-31",
+    "trustScore": "50"
+   }
+  },
+  "epoch-043": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "43",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-32",
+    "trustScore": "50"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "43",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-32",
+    "trustScore": "50"
+   }
+  },
+  "epoch-044": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "44",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-33",
+    "trustScore": "50"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "44",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-33",
+    "trustScore": "50"
+   }
+  },
+  "epoch-045": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "45",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-34",
+    "trustScore": "50"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "45",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-34",
+    "trustScore": "50"
+   }
+  },
+  "epoch-046": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "46",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-35",
+    "trustScore": "50"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "46",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-35",
+    "trustScore": "50"
+   }
+  },
+  "epoch-047": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "47",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-36",
+    "trustScore": "50"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "47",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-36",
+    "trustScore": "50"
+   }
+  },
+  "epoch-048": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "48",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-37",
+    "trustScore": "50"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "48",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-37",
+    "trustScore": "50"
+   }
+  },
+  "epoch-049": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "49",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-38",
+    "trustScore": "50"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "49",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-38",
+    "trustScore": "50"
+   }
+  },
+  "epoch-050": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "50",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-39",
+    "trustScore": "50"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "50",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-39",
+    "trustScore": "50"
+   }
+  },
+  "epoch-051": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "51",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-40",
+    "trustScore": "50"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "51",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-40",
+    "trustScore": "50"
+   }
+  },
+  "epoch-052": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "52",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-41",
+    "trustScore": "50"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "52",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-41",
+    "trustScore": "50"
+   }
+  },
+  "epoch-053": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "53",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-42",
+    "trustScore": "50"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "53",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-42",
+    "trustScore": "50"
+   }
+  },
+  "epoch-054": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "54",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-43",
+    "trustScore": "50"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "54",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-43",
+    "trustScore": "50"
+   }
+  },
+  "epoch-055": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "55",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-44",
+    "trustScore": "50"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "55",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-44",
+    "trustScore": "50"
+   }
+  },
+  "epoch-056": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "56",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-45",
+    "trustScore": "50"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "56",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-45",
+    "trustScore": "50"
+   }
+  },
+  "epoch-057": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "57",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-46",
+    "trustScore": "50"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "57",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-46",
+    "trustScore": "50"
+   }
+  },
+  "epoch-058": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "58",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-47",
+    "trustScore": "50"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "58",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-47",
+    "trustScore": "50"
+   }
+  },
+  "epoch-059": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "59",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-48",
+    "trustScore": "50"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "59",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-48",
+    "trustScore": "50"
+   }
+  },
+  "epoch-060": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "60",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-49",
+    "trustScore": "50"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "60",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-49",
+    "trustScore": "50"
+   }
+  },
+  "epoch-061": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "61",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-50",
+    "trustScore": "50"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "61",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-50",
+    "trustScore": "50"
+   }
+  },
+  "epoch-062": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "62",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-51",
+    "trustScore": "50"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "62",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-51",
+    "trustScore": "50"
+   }
+  },
+  "epoch-063": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "63",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-52",
+    "trustScore": "50"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "63",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-52",
+    "trustScore": "50"
+   }
+  },
+  "epoch-064": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "64",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-53",
+    "trustScore": "50"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "64",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-53",
+    "trustScore": "50"
+   }
+  },
+  "epoch-065": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "65",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-54",
+    "trustScore": "50"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "65",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-54",
+    "trustScore": "50"
+   }
+  },
+  "epoch-066": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "66",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-55",
+    "trustScore": "50"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "66",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-55",
+    "trustScore": "50"
+   }
+  },
+  "epoch-067": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "67",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-56",
+    "trustScore": "50"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "67",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-56",
+    "trustScore": "50"
+   }
+  },
+  "epoch-068": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "68",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-57",
+    "trustScore": "50"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "68",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-57",
+    "trustScore": "50"
+   }
+  },
+  "epoch-069": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "69",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-58",
+    "trustScore": "50"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "69",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-58",
+    "trustScore": "50"
+   }
+  },
+  "epoch-070": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "70",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-59",
+    "trustScore": "50"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "70",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-59",
+    "trustScore": "50"
+   }
+  },
+  "epoch-071": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "71",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-60",
+    "trustScore": "50"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "71",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-60",
+    "trustScore": "50"
+   }
+  },
+  "epoch-072": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "72",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-61",
+    "trustScore": "50"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "72",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-61",
+    "trustScore": "50"
+   }
+  },
+  "epoch-073": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "73",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-62",
+    "trustScore": "50"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "73",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-62",
+    "trustScore": "50"
+   }
+  },
+  "epoch-074": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "74",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-63",
+    "trustScore": "50"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "74",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-63",
+    "trustScore": "50"
+   }
+  },
+  "epoch-075": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "75",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-64",
+    "trustScore": "50"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "75",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-64",
+    "trustScore": "50"
+   }
+  },
+  "epoch-076": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "76",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-65",
+    "trustScore": "50"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "76",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-65",
+    "trustScore": "50"
+   }
+  },
+  "epoch-077": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "77",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-66",
+    "trustScore": "50"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "77",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-66",
+    "trustScore": "50"
+   }
+  },
+  "epoch-078": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "78",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-67",
+    "trustScore": "50"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "78",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-67",
+    "trustScore": "50"
+   }
+  },
+  "epoch-079": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "79",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-68",
+    "trustScore": "50"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "79",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-68",
+    "trustScore": "50"
+   }
+  },
+  "epoch-080": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "80",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-69",
+    "trustScore": "50"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "80",
+    "gate": "off",
+    "previousBand": "degraded",
+    "reasons": "synthetic-reason-69",
+    "trustScore": "50"
+   }
+  },
+  "epoch-081": {
+   "extension": {
+    "band": "untrusted",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "200",
+    "gate": "withheld",
+    "logTime": "2026-01-02T03:04:05.000Z",
+    "previousBand": "degraded",
+    "reasons": "kinematic,quote\"inside",
+    "trustScore": "23.4"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.untrusted",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust untrusted",
+    "Severity": "9"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "untrusted",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "200",
+    "gate": "withheld",
+    "logTime": "2026-01-02T03:04:05.000Z",
+    "previousBand": "degraded",
+    "reasons": "kinematic,quote\"inside",
+    "trustScore": "23.4"
+   }
+  },
+  "header-0": {
+   "error": "IndexError: list index out of range",
+   "parsed": false
+  },
+  "header-1": {
+   "error": "IndexError: list index out of range",
+   "parsed": false
+  },
+  "header-2": {
+   "error": "IndexError: list index out of range",
+   "parsed": false
+  },
+  "header-3": {
+   "error": "IndexError: list index out of range",
+   "parsed": false
+  },
+  "nasty-gate-0": {
+   "extension": {
+    "band": "untrusted",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "3",
+    "gate": "a b",
+    "previousBand": "degraded",
+    "reasons": "kinematic",
+    "trustScore": "50"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.untrusted",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust untrusted",
+    "Severity": "9"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "untrusted",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "3",
+    "gate": "a b",
+    "previousBand": "degraded",
+    "reasons": "kinematic",
+    "trustScore": "50"
+   }
+  },
+  "nasty-gate-1": {
+   "extension": {
+    "band": "untrusted",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "3",
+    "gate": "x=y",
+    "previousBand": "degraded",
+    "reasons": "kinematic",
+    "trustScore": "50"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.untrusted",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust untrusted",
+    "Severity": "9"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "untrusted",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "3",
+    "gate": "x\\=y",
+    "previousBand": "degraded",
+    "reasons": "kinematic",
+    "trustScore": "50"
+   }
+  },
+  "nasty-gate-2": {
+   "extension": {
+    "band": "untrusted",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "3",
+    "gate": "g\\h",
+    "previousBand": "degraded",
+    "reasons": "kinematic",
+    "trustScore": "50"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.untrusted",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust untrusted",
+    "Severity": "9"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "untrusted",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "3",
+    "gate": "g\\\\h",
+    "previousBand": "degraded",
+    "reasons": "kinematic",
+    "trustScore": "50"
+   }
+  },
+  "nasty-gate-3": {
+   "extension": {
+    "band": "untrusted",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "3",
+    "gate": "g\nh",
+    "previousBand": "degraded",
+    "reasons": "kinematic",
+    "trustScore": "50"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.untrusted",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust untrusted",
+    "Severity": "9"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "untrusted",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "3",
+    "gate": "g\\nh",
+    "previousBand": "degraded",
+    "reasons": "kinematic",
+    "trustScore": "50"
+   }
+  },
+  "nasty-host-0": {
+   "extension": {
+    "band": "nominal",
+    "cat": "gnss-trust",
+    "dvchost": "host=name",
+    "epochOffsetSeconds": "1",
+    "trustScore": "90"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.nominal",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust nominal",
+    "Severity": "1"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "nominal",
+    "cat": "gnss-trust",
+    "dvchost": "host\\=name",
+    "epochOffsetSeconds": "1",
+    "trustScore": "90"
+   }
+  },
+  "nasty-host-1": {
+   "extension": {
+    "band": "nominal",
+    "cat": "gnss-trust",
+    "dvchost": "ho\\st",
+    "epochOffsetSeconds": "1",
+    "trustScore": "90"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.nominal",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust nominal",
+    "Severity": "1"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "nominal",
+    "cat": "gnss-trust",
+    "dvchost": "ho\\\\st",
+    "epochOffsetSeconds": "1",
+    "trustScore": "90"
+   }
+  },
+  "nasty-host-2": {
+   "extension": {
+    "band": "nominal",
+    "cat": "gnss-trust",
+    "dvchost": "a\\=b",
+    "epochOffsetSeconds": "1",
+    "trustScore": "90"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.nominal",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust nominal",
+    "Severity": "1"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "nominal",
+    "cat": "gnss-trust",
+    "dvchost": "a\\\\\\=b",
+    "epochOffsetSeconds": "1",
+    "trustScore": "90"
+   }
+  },
+  "nasty-host-3": {
+   "extension": {
+    "band": "nominal",
+    "cat": "gnss-trust",
+    "dvchost": "host with spaces",
+    "epochOffsetSeconds": "1",
+    "trustScore": "90"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.nominal",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust nominal",
+    "Severity": "1"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "nominal",
+    "cat": "gnss-trust",
+    "dvchost": "host with spaces",
+    "epochOffsetSeconds": "1",
+    "trustScore": "90"
+   }
+  },
+  "nasty-host-4": {
+   "extension": {
+    "band": "nominal",
+    "cat": "gnss-trust",
+    "dvchost": "hôst-✓",
+    "epochOffsetSeconds": "1",
+    "trustScore": "90"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.nominal",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust nominal",
+    "Severity": "1"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "nominal",
+    "cat": "gnss-trust",
+    "dvchost": "hôst-✓",
+    "epochOffsetSeconds": "1",
+    "trustScore": "90"
+   }
+  },
+  "nasty-host-5": {
+   "extension": {
+    "band": "nominal",
+    "cat": "gnss-trust",
+    "dvchost": "multi\nline",
+    "epochOffsetSeconds": "1",
+    "trustScore": "90"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.nominal",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust nominal",
+    "Severity": "1"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "nominal",
+    "cat": "gnss-trust",
+    "dvchost": "multi\\nline",
+    "epochOffsetSeconds": "1",
+    "trustScore": "90"
+   }
+  },
+  "nasty-host-6": {
+   "extension": {
+    "band": "nominal",
+    "cat": "gnss-trust",
+    "dvchost": "pipe|host",
+    "epochOffsetSeconds": "1",
+    "trustScore": "90"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.nominal",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust nominal",
+    "Severity": "1"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "nominal",
+    "cat": "gnss-trust",
+    "dvchost": "pipe|host",
+    "epochOffsetSeconds": "1",
+    "trustScore": "90"
+   }
+  },
+  "nasty-host-7": {
+   "extension": {
+    "band": "nominal",
+    "cat": "gnss-trust",
+    "dvchost": "k=v k2=v2",
+    "epochOffsetSeconds": "1",
+    "trustScore": "90"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.nominal",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust nominal",
+    "Severity": "1"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "nominal",
+    "cat": "gnss-trust",
+    "dvchost": "k\\=v k2\\=v2",
+    "epochOffsetSeconds": "1",
+    "trustScore": "90"
+   }
+  },
+  "nasty-reasons-backslash": {
+   "extension": {
+    "band": "nominal",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "11",
+    "gate": "withheld",
+    "previousBand": "degraded",
+    "reasons": "back\\slash",
+    "trustScore": "41"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.nominal",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust nominal",
+    "Severity": "1"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "nominal",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "11",
+    "gate": "withheld",
+    "previousBand": "degraded",
+    "reasons": "back\\\\slash",
+    "trustScore": "41"
+   }
+  },
+  "nasty-reasons-backslash-equals": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "12",
+    "gate": "withheld",
+    "previousBand": "untrusted",
+    "reasons": "x\\=y",
+    "trustScore": "42"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "12",
+    "gate": "withheld",
+    "previousBand": "untrusted",
+    "reasons": "x\\\\\\=y",
+    "trustScore": "42"
+   }
+  },
+  "nasty-reasons-carriage-return": {
+   "extension": {
+    "band": "calibrating",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "15",
+    "gate": "withheld",
+    "previousBand": "nominal",
+    "reasons": "cr\rhere",
+    "trustScore": "45"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.calibrating",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust calibrating",
+    "Severity": "0"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "calibrating",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "15",
+    "gate": "withheld",
+    "previousBand": "nominal",
+    "reasons": "cr\\rhere",
+    "trustScore": "45"
+   }
+  },
+  "nasty-reasons-comma-in-reason": {
+   "extension": {
+    "band": "untrusted",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "23",
+    "gate": "withheld",
+    "previousBand": "unknown",
+    "reasons": "a,b,c",
+    "trustScore": "53"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.untrusted",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust untrusted",
+    "Severity": "9"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "untrusted",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "23",
+    "gate": "withheld",
+    "previousBand": "unknown",
+    "reasons": "a,b,c",
+    "trustScore": "53"
+   }
+  },
+  "nasty-reasons-crlf": {
+   "extension": {
+    "band": "nominal",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "16",
+    "gate": "withheld",
+    "previousBand": "degraded",
+    "reasons": "crlf\r\nboth",
+    "trustScore": "46"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.nominal",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust nominal",
+    "Severity": "1"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "nominal",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "16",
+    "gate": "withheld",
+    "previousBand": "degraded",
+    "reasons": "crlf\\r\\nboth",
+    "trustScore": "46"
+   }
+  },
+  "nasty-reasons-equals": {
+   "extension": {
+    "band": "calibrating",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "10",
+    "gate": "withheld",
+    "previousBand": "nominal",
+    "reasons": "a=b",
+    "trustScore": "40"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.calibrating",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust calibrating",
+    "Severity": "0"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "calibrating",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "10",
+    "gate": "withheld",
+    "previousBand": "nominal",
+    "reasons": "a\\=b",
+    "trustScore": "40"
+   }
+  },
+  "nasty-reasons-key-lookalike": {
+   "extension": {
+    "band": "calibrating",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "20",
+    "gate": "withheld",
+    "previousBand": "nominal",
+    "reasons": "looks like key=value,cs1=fake",
+    "trustScore": "50"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.calibrating",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust calibrating",
+    "Severity": "0"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "calibrating",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "20",
+    "gate": "withheld",
+    "previousBand": "nominal",
+    "reasons": "looks like key\\=value,cs1\\=fake",
+    "trustScore": "50"
+   }
+  },
+  "nasty-reasons-line-feed": {
+   "extension": {
+    "band": "unknown",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "14",
+    "gate": "withheld",
+    "previousBand": "calibrating",
+    "reasons": "line\nfeed",
+    "trustScore": "44"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.unknown",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust unknown",
+    "Severity": "3"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "unknown",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "14",
+    "gate": "withheld",
+    "previousBand": "calibrating",
+    "reasons": "line\\nfeed",
+    "trustScore": "44"
+   }
+  },
+  "nasty-reasons-many": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "22",
+    "gate": "withheld",
+    "previousBand": "untrusted",
+    "reasons": "r00,r01,r02,r03,r04,r05,r06,r07,r08,r09,r10,r11,r12,r13,r14,r15,r16,r17,r18,r19",
+    "trustScore": "52"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "22",
+    "gate": "withheld",
+    "previousBand": "untrusted",
+    "reasons": "r00,r01,r02,r03,r04,r05,r06,r07,r08,r09,r10,r11,r12,r13,r14,r15,r16,r17,r18,r19",
+    "trustScore": "52"
+   }
+  },
+  "nasty-reasons-pipe": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "17",
+    "gate": "withheld",
+    "previousBand": "untrusted",
+    "reasons": "pipe|inside,a|b|c",
+    "trustScore": "47"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "17",
+    "gate": "withheld",
+    "previousBand": "untrusted",
+    "reasons": "pipe|inside,a|b|c",
+    "trustScore": "47"
+   }
+  },
+  "nasty-reasons-spaces": {
+   "extension": {
+    "band": "unknown",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "19",
+    "gate": "withheld",
+    "previousBand": "calibrating",
+    "reasons": "multi word reason,two  spaces  inside",
+    "trustScore": "49"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.unknown",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust unknown",
+    "Severity": "3"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "unknown",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "19",
+    "gate": "withheld",
+    "previousBand": "calibrating",
+    "reasons": "multi word reason,two  spaces  inside",
+    "trustScore": "49"
+   }
+  },
+  "nasty-reasons-tab": {
+   "extension": {
+    "band": "untrusted",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "18",
+    "gate": "withheld",
+    "previousBand": "unknown",
+    "reasons": "tab\there",
+    "trustScore": "48"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.untrusted",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust untrusted",
+    "Severity": "9"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "untrusted",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "18",
+    "gate": "withheld",
+    "previousBand": "unknown",
+    "reasons": "tab\there",
+    "trustScore": "48"
+   }
+  },
+  "nasty-reasons-trailing-backslash": {
+   "extension": {
+    "band": "untrusted",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "13",
+    "gate": "withheld",
+    "previousBand": "unknown",
+    "reasons": "ends-with\\",
+    "trustScore": "43"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.untrusted",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust untrusted",
+    "Severity": "9"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "untrusted",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "13",
+    "gate": "withheld",
+    "previousBand": "unknown",
+    "reasons": "ends-with\\\\",
+    "trustScore": "43"
+   }
+  },
+  "nasty-reasons-unicode": {
+   "extension": {
+    "band": "nominal",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "21",
+    "gate": "withheld",
+    "previousBand": "degraded",
+    "reasons": "réason ✓,🛰 satellite,日本語",
+    "trustScore": "51"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.nominal",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust nominal",
+    "Severity": "1"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "nominal",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "21",
+    "gate": "withheld",
+    "previousBand": "degraded",
+    "reasons": "réason ✓,🛰 satellite,日本語",
+    "trustScore": "51"
+   }
+  },
+  "nasty-time-label-0": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "2",
+    "logTime": "2026-01-01T00:00:00Z",
+    "previousBand": "nominal",
+    "reasons": "cn0-drop"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "2",
+    "logTime": "2026-01-01T00:00:00Z",
+    "previousBand": "nominal",
+    "reasons": "cn0-drop"
+   }
+  },
+  "nasty-time-label-1": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "2",
+    "logTime": "hh:mm:ss.mmm UTC (date not in log)",
+    "previousBand": "nominal",
+    "reasons": "cn0-drop"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "2",
+    "logTime": "hh:mm:ss.mmm UTC (date not in log)",
+    "previousBand": "nominal",
+    "reasons": "cn0-drop"
+   }
+  },
+  "nasty-time-label-2": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "2",
+    "logTime": "a=b c=d",
+    "previousBand": "nominal",
+    "reasons": "cn0-drop"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "2",
+    "logTime": "a\\=b c\\=d",
+    "previousBand": "nominal",
+    "reasons": "cn0-drop"
+   }
+  },
+  "nasty-time-label-3": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "2",
+    "logTime": "back\\slash",
+    "previousBand": "nominal",
+    "reasons": "cn0-drop"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "2",
+    "logTime": "back\\\\slash",
+    "previousBand": "nominal",
+    "reasons": "cn0-drop"
+   }
+  },
+  "nasty-time-label-4": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "2",
+    "logTime": "new\nline",
+    "previousBand": "nominal",
+    "reasons": "cn0-drop"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "2",
+    "logTime": "new\\nline",
+    "previousBand": "nominal",
+    "reasons": "cn0-drop"
+   }
+  },
+  "nasty-time-label-5": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "2",
+    "logTime": "x  y",
+    "previousBand": "nominal",
+    "reasons": "cn0-drop"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "2",
+    "logTime": "x  y",
+    "previousBand": "nominal",
+    "reasons": "cn0-drop"
+   }
+  },
+  "numbers-calibrating-0": {
+   "extension": {
+    "band": "calibrating",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "0",
+    "reasons": "m",
+    "trustScore": "0"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.calibrating",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust calibrating",
+    "Severity": "0"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "calibrating",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "0",
+    "reasons": "m",
+    "trustScore": "0"
+   }
+  },
+  "numbers-calibrating-1": {
+   "extension": {
+    "band": "calibrating",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "0.001",
+    "previousBand": "nominal",
+    "reasons": "m",
+    "trustScore": "100"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.calibrating",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust calibrating",
+    "Severity": "0"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "calibrating",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "0.001",
+    "previousBand": "nominal",
+    "reasons": "m",
+    "trustScore": "100"
+   }
+  },
+  "numbers-calibrating-2": {
+   "extension": {
+    "band": "calibrating",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "86400.5",
+    "reasons": "m",
+    "trustScore": "23.4"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.calibrating",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust calibrating",
+    "Severity": "0"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "calibrating",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "86400.5",
+    "reasons": "m",
+    "trustScore": "23.4"
+   }
+  },
+  "numbers-calibrating-3": {
+   "extension": {
+    "band": "calibrating",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "1000000000000000",
+    "previousBand": "untrusted",
+    "reasons": "m",
+    "trustScore": "0.30000000000000004"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.calibrating",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust calibrating",
+    "Severity": "0"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "calibrating",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "1000000000000000",
+    "previousBand": "untrusted",
+    "reasons": "m",
+    "trustScore": "0.30000000000000004"
+   }
+  },
+  "numbers-calibrating-4": {
+   "extension": {
+    "band": "calibrating",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "0.30000000000000004",
+    "reasons": "m",
+    "trustScore": "0.0000001"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.calibrating",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust calibrating",
+    "Severity": "0"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "calibrating",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "0.30000000000000004",
+    "reasons": "m",
+    "trustScore": "0.0000001"
+   }
+  },
+  "numbers-calibrating-5": {
+   "extension": {
+    "band": "calibrating",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "123.456",
+    "previousBand": "calibrating",
+    "reasons": "m",
+    "trustScore": "123456789.125"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.calibrating",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust calibrating",
+    "Severity": "0"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "calibrating",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "123.456",
+    "previousBand": "calibrating",
+    "reasons": "m",
+    "trustScore": "123456789.125"
+   }
+  },
+  "numbers-calibrating-6": {
+   "extension": {
+    "band": "calibrating",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "0",
+    "reasons": "m",
+    "trustScore": "99.99999999999999"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.calibrating",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust calibrating",
+    "Severity": "0"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "calibrating",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "0",
+    "reasons": "m",
+    "trustScore": "99.99999999999999"
+   }
+  },
+  "numbers-degraded-0": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "86400.5",
+    "reasons": "m",
+    "trustScore": "0"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "86400.5",
+    "reasons": "m",
+    "trustScore": "0"
+   }
+  },
+  "numbers-degraded-1": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "1000000000000000",
+    "previousBand": "untrusted",
+    "reasons": "m",
+    "trustScore": "100"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "1000000000000000",
+    "previousBand": "untrusted",
+    "reasons": "m",
+    "trustScore": "100"
+   }
+  },
+  "numbers-degraded-2": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "0.30000000000000004",
+    "reasons": "m",
+    "trustScore": "23.4"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "0.30000000000000004",
+    "reasons": "m",
+    "trustScore": "23.4"
+   }
+  },
+  "numbers-degraded-3": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "123.456",
+    "previousBand": "calibrating",
+    "reasons": "m",
+    "trustScore": "0.30000000000000004"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "123.456",
+    "previousBand": "calibrating",
+    "reasons": "m",
+    "trustScore": "0.30000000000000004"
+   }
+  },
+  "numbers-degraded-4": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "0",
+    "reasons": "m",
+    "trustScore": "0.0000001"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "0",
+    "reasons": "m",
+    "trustScore": "0.0000001"
+   }
+  },
+  "numbers-degraded-5": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "0.001",
+    "previousBand": "degraded",
+    "reasons": "m",
+    "trustScore": "123456789.125"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "0.001",
+    "previousBand": "degraded",
+    "reasons": "m",
+    "trustScore": "123456789.125"
+   }
+  },
+  "numbers-degraded-6": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "86400.5",
+    "reasons": "m",
+    "trustScore": "99.99999999999999"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "86400.5",
+    "reasons": "m",
+    "trustScore": "99.99999999999999"
+   }
+  },
+  "numbers-nominal-0": {
+   "extension": {
+    "band": "nominal",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "0.001",
+    "reasons": "m",
+    "trustScore": "0"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.nominal",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust nominal",
+    "Severity": "1"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "nominal",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "0.001",
+    "reasons": "m",
+    "trustScore": "0"
+   }
+  },
+  "numbers-nominal-1": {
+   "extension": {
+    "band": "nominal",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "86400.5",
+    "previousBand": "degraded",
+    "reasons": "m",
+    "trustScore": "100"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.nominal",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust nominal",
+    "Severity": "1"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "nominal",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "86400.5",
+    "previousBand": "degraded",
+    "reasons": "m",
+    "trustScore": "100"
+   }
+  },
+  "numbers-nominal-2": {
+   "extension": {
+    "band": "nominal",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "1000000000000000",
+    "reasons": "m",
+    "trustScore": "23.4"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.nominal",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust nominal",
+    "Severity": "1"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "nominal",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "1000000000000000",
+    "reasons": "m",
+    "trustScore": "23.4"
+   }
+  },
+  "numbers-nominal-3": {
+   "extension": {
+    "band": "nominal",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "0.30000000000000004",
+    "previousBand": "unknown",
+    "reasons": "m",
+    "trustScore": "0.30000000000000004"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.nominal",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust nominal",
+    "Severity": "1"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "nominal",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "0.30000000000000004",
+    "previousBand": "unknown",
+    "reasons": "m",
+    "trustScore": "0.30000000000000004"
+   }
+  },
+  "numbers-nominal-4": {
+   "extension": {
+    "band": "nominal",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "123.456",
+    "reasons": "m",
+    "trustScore": "0.0000001"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.nominal",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust nominal",
+    "Severity": "1"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "nominal",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "123.456",
+    "reasons": "m",
+    "trustScore": "0.0000001"
+   }
+  },
+  "numbers-nominal-5": {
+   "extension": {
+    "band": "nominal",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "0",
+    "previousBand": "nominal",
+    "reasons": "m",
+    "trustScore": "123456789.125"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.nominal",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust nominal",
+    "Severity": "1"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "nominal",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "0",
+    "previousBand": "nominal",
+    "reasons": "m",
+    "trustScore": "123456789.125"
+   }
+  },
+  "numbers-nominal-6": {
+   "extension": {
+    "band": "nominal",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "0.001",
+    "reasons": "m",
+    "trustScore": "99.99999999999999"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.nominal",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust nominal",
+    "Severity": "1"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "nominal",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "0.001",
+    "reasons": "m",
+    "trustScore": "99.99999999999999"
+   }
+  },
+  "numbers-unknown-0": {
+   "extension": {
+    "band": "unknown",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "0.30000000000000004",
+    "reasons": "m",
+    "trustScore": "0"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.unknown",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust unknown",
+    "Severity": "3"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "unknown",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "0.30000000000000004",
+    "reasons": "m",
+    "trustScore": "0"
+   }
+  },
+  "numbers-unknown-1": {
+   "extension": {
+    "band": "unknown",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "123.456",
+    "previousBand": "calibrating",
+    "reasons": "m",
+    "trustScore": "100"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.unknown",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust unknown",
+    "Severity": "3"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "unknown",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "123.456",
+    "previousBand": "calibrating",
+    "reasons": "m",
+    "trustScore": "100"
+   }
+  },
+  "numbers-unknown-2": {
+   "extension": {
+    "band": "unknown",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "0",
+    "reasons": "m",
+    "trustScore": "23.4"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.unknown",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust unknown",
+    "Severity": "3"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "unknown",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "0",
+    "reasons": "m",
+    "trustScore": "23.4"
+   }
+  },
+  "numbers-unknown-3": {
+   "extension": {
+    "band": "unknown",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "0.001",
+    "previousBand": "degraded",
+    "reasons": "m",
+    "trustScore": "0.30000000000000004"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.unknown",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust unknown",
+    "Severity": "3"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "unknown",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "0.001",
+    "previousBand": "degraded",
+    "reasons": "m",
+    "trustScore": "0.30000000000000004"
+   }
+  },
+  "numbers-unknown-4": {
+   "extension": {
+    "band": "unknown",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "86400.5",
+    "reasons": "m",
+    "trustScore": "0.0000001"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.unknown",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust unknown",
+    "Severity": "3"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "unknown",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "86400.5",
+    "reasons": "m",
+    "trustScore": "0.0000001"
+   }
+  },
+  "numbers-unknown-5": {
+   "extension": {
+    "band": "unknown",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "1000000000000000",
+    "previousBand": "unknown",
+    "reasons": "m",
+    "trustScore": "123456789.125"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.unknown",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust unknown",
+    "Severity": "3"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "unknown",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "1000000000000000",
+    "previousBand": "unknown",
+    "reasons": "m",
+    "trustScore": "123456789.125"
+   }
+  },
+  "numbers-unknown-6": {
+   "extension": {
+    "band": "unknown",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "0.30000000000000004",
+    "reasons": "m",
+    "trustScore": "99.99999999999999"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.unknown",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust unknown",
+    "Severity": "3"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "unknown",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "0.30000000000000004",
+    "reasons": "m",
+    "trustScore": "99.99999999999999"
+   }
+  },
+  "numbers-untrusted-0": {
+   "extension": {
+    "band": "untrusted",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "1000000000000000",
+    "reasons": "m",
+    "trustScore": "0"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.untrusted",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust untrusted",
+    "Severity": "9"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "untrusted",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "1000000000000000",
+    "reasons": "m",
+    "trustScore": "0"
+   }
+  },
+  "numbers-untrusted-1": {
+   "extension": {
+    "band": "untrusted",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "0.30000000000000004",
+    "previousBand": "unknown",
+    "reasons": "m",
+    "trustScore": "100"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.untrusted",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust untrusted",
+    "Severity": "9"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "untrusted",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "0.30000000000000004",
+    "previousBand": "unknown",
+    "reasons": "m",
+    "trustScore": "100"
+   }
+  },
+  "numbers-untrusted-2": {
+   "extension": {
+    "band": "untrusted",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "123.456",
+    "reasons": "m",
+    "trustScore": "23.4"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.untrusted",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust untrusted",
+    "Severity": "9"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "untrusted",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "123.456",
+    "reasons": "m",
+    "trustScore": "23.4"
+   }
+  },
+  "numbers-untrusted-3": {
+   "extension": {
+    "band": "untrusted",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "0",
+    "previousBand": "nominal",
+    "reasons": "m",
+    "trustScore": "0.30000000000000004"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.untrusted",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust untrusted",
+    "Severity": "9"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "untrusted",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "0",
+    "previousBand": "nominal",
+    "reasons": "m",
+    "trustScore": "0.30000000000000004"
+   }
+  },
+  "numbers-untrusted-4": {
+   "extension": {
+    "band": "untrusted",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "0.001",
+    "reasons": "m",
+    "trustScore": "0.0000001"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.untrusted",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust untrusted",
+    "Severity": "9"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "untrusted",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "0.001",
+    "reasons": "m",
+    "trustScore": "0.0000001"
+   }
+  },
+  "numbers-untrusted-5": {
+   "extension": {
+    "band": "untrusted",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "86400.5",
+    "previousBand": "untrusted",
+    "reasons": "m",
+    "trustScore": "123456789.125"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.untrusted",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust untrusted",
+    "Severity": "9"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "untrusted",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "86400.5",
+    "previousBand": "untrusted",
+    "reasons": "m",
+    "trustScore": "123456789.125"
+   }
+  },
+  "numbers-untrusted-6": {
+   "extension": {
+    "band": "untrusted",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "1000000000000000",
+    "reasons": "m",
+    "trustScore": "99.99999999999999"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.untrusted",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust untrusted",
+    "Severity": "9"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "untrusted",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "1000000000000000",
+    "reasons": "m",
+    "trustScore": "99.99999999999999"
+   }
+  }
+ },
+ "oracle": "pycef==1.11 parse(); CEF-specification unescape applied by this script"
+}

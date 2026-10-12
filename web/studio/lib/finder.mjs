@@ -8,7 +8,8 @@ import * as K from "./kinds.mjs";
 
 // Plain-word names for common key fragments, so a reader's words find the engine's keys.
 const SYNONYMS = [
-  [/(^|_)(elev_)?mask(_deg)?$|elevation_mask|elev_mask/, "elevation mask"],
+  // every alternative is anchored: the key IS mask / mask_deg / <anything>_elev_mask_deg, or CONTAINS elevation_mask / elev_mask
+  [/^(?:(?:.*_)?(?:elev_)?mask(?:_deg)?|.*elevation_mask.*|.*elev_mask.*)$/, "elevation mask"],
   [/pdop/, "PDOP position dilution of precision"],
   [/gdop/, "GDOP geometric dilution of precision"],
   [/hdop/, "HDOP horizontal dilution of precision"],
@@ -23,7 +24,8 @@ const SYNONYMS = [
   [/sigma|std/, "error standard deviation noise"],
   [/threshold/, "threshold limit"],
   [/bandwidth/, "bandwidth"],
-  [/duration|_s$/, "time"],
+  [/duration/, "time"],
+  [/_s$/, "time"], // a key that ENDS in _s (seconds); a separate pattern so the end anchor applies to this alone
   [/seed/, "random seed"],
   [/range_m|range_km/, "range distance"],
   [/lat_/, "latitude"],
@@ -31,6 +33,9 @@ const SYNONYMS = [
 ];
 
 const kindOf = (toml) => ((String(toml).match(/^\s*kind\s*=\s*"([^"]+)"/m) || [])[1]) || "";
+
+// The plain-word synonyms a key earns (tested directly: finder.test.mjs).
+export const synonymsFor = (key) => SYNONYMS.filter(([re]) => re.test(String(key))).map(([, w]) => w);
 
 // A readable name for a field key: "mask_deg" -> "Mask (°)", "jammer_power_dbw" -> "Jammer power (dBW)".
 const UNIT = { deg: "°", dbw: "dBW", dbm: "dBm", db: "dB", dbhz: "dB-Hz", hz: "Hz", mhz: "MHz", khz: "kHz", s: "s", m: "m", km: "km", ns: "ns", ps: "ps", pct: "%", k: "K", w: "W", tecu: "TECU", min: "min", h: "h", d: "d", au: "AU" };

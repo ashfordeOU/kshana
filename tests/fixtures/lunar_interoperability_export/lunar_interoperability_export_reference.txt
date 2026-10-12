@@ -1,5 +1,5 @@
 # External-oracle reference for kshana's lunar CCSDS OEM export.
-# Oracle: oem 0.4.5 (Brad Sease <bradsease@gmail.com>, MIT) + astropy + numpy.
+# Oracle: oem 0.4.5 (MIT, https://pypi.org/project/oem/) + astropy + numpy.
 # Independent CCSDS 502.0-B OEM parser; separate codebase from src/oem.rs.
 # Consumed by tests/lunar_interoperability_export_reference.rs.
 # See generate_lunar_interoperability_export_reference.py for provenance/scope.
