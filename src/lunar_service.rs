@@ -186,6 +186,83 @@ impl Default for LunarConstellation {
 }
 
 // ---------------------------------------------------------------------------
+// The south-polar ring grid
+// ---------------------------------------------------------------------------
+
+/// One point of [`south_polar_ring_grid`].
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct PolarGridPoint {
+    /// Selenographic latitude (deg).
+    pub lat_deg: f64,
+    /// Selenographic longitude (deg), in `[0, 360)`.
+    pub lon_deg: f64,
+    /// The surface point (zero altitude) in the Moon-fixed frame (m).
+    pub mcmf: Vec3,
+    /// The solid angle (sr) of the cell the point stands for: its ring's latitude band,
+    /// one step wide and centred on the ring, divided among the ring's points; for the
+    /// pole, the cap of half a step around it. The cells tile the cap, so these are the
+    /// weights of an area-weighted mean.
+    pub area_sr: f64,
+}
+
+/// The south-polar ring grid: rings every `step_deg` of latitude from `outer_lat_deg`
+/// toward the pole (`outer_lat_deg`, `outer_lat_deg - step_deg`, … while above -90°),
+/// each with `round(360 cos lat)` equally spaced longitudes starting at 0°, then the pole.
+/// The points are therefore close to equal-area. This is the grid the published lunar
+/// service-volume comparison uses (80° S to 89° S every degree, plus the pole), shared
+/// here so that comparison and the `lunar-station-coverage` kind cannot drift apart.
+///
+/// Empty for a non-finite or non-positive step, or an outer latitude that is not in
+/// `(-90, 0]`.
+pub fn south_polar_ring_grid(outer_lat_deg: f64, step_deg: f64) -> Vec<PolarGridPoint> {
+    let mut pts = Vec::new();
+    let valid = step_deg.is_finite()
+        && step_deg > 0.0
+        && outer_lat_deg.is_finite()
+        && outer_lat_deg > -90.0
+        && outer_lat_deg <= 0.0;
+    if !valid {
+        return pts;
+    }
+    let half = (step_deg / 2.0).to_radians();
+    let mut i = 0usize;
+    loop {
+        let lat_deg = -(-outer_lat_deg + i as f64 * step_deg);
+        if lat_deg <= -90.0 + 1e-9 {
+            break;
+        }
+        let lat = lat_deg.to_radians();
+        let n = ((360.0 * lat.cos()).round() as usize).max(1);
+        let band_sr = 2.0 * std::f64::consts::PI * ((lat + half).sin() - (lat - half).sin());
+        for k in 0..n {
+            let lon_deg = 360.0 * k as f64 / n as f64;
+            pts.push(PolarGridPoint {
+                lat_deg,
+                lon_deg,
+                mcmf: selenographic_to_mcmf(Selenographic {
+                    lat_rad: lat,
+                    lon_rad: lon_deg.to_radians(),
+                    alt_m: 0.0,
+                }),
+                area_sr: band_sr / n as f64,
+            });
+        }
+        i += 1;
+    }
+    pts.push(PolarGridPoint {
+        lat_deg: -90.0,
+        lon_deg: 0.0,
+        mcmf: selenographic_to_mcmf(Selenographic {
+            lat_rad: -std::f64::consts::FRAC_PI_2,
+            lon_rad: 0.0,
+            alt_m: 0.0,
+        }),
+        area_sr: 2.0 * std::f64::consts::PI * (1.0 - half.cos()),
+    });
+    pts
+}
+
+// ---------------------------------------------------------------------------
 // Visibility, DOP, coverage, protection level
 // ---------------------------------------------------------------------------
 
@@ -2615,6 +2692,42 @@ pub fn lunar_service_svg(r: &LunarServiceReport) -> String {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    /// The shared ring grid is the loop the published service-volume comparison ran
+    /// before the helper existed, point for point and bit for bit.
+    #[test]
+    fn south_polar_ring_grid_is_the_published_comparison_grid() {
+        let mut old = Vec::new();
+        for lat in 80..90 {
+            let lat_deg = -(lat as f64);
+            let n = (360.0 * lat_deg.to_radians().cos()).round() as usize;
+            for k in 0..n {
+                old.push(selenographic_to_mcmf(Selenographic {
+                    lat_rad: lat_deg.to_radians(),
+                    lon_rad: (360.0 * k as f64 / n as f64).to_radians(),
+                    alt_m: 0.0,
+                }));
+            }
+        }
+        old.push(selenographic_to_mcmf(Selenographic {
+            lat_rad: -std::f64::consts::FRAC_PI_2,
+            lon_rad: 0.0,
+            alt_m: 0.0,
+        }));
+        let new: Vec<Vec3> = south_polar_ring_grid(-80.0, 1.0)
+            .iter()
+            .map(|p| p.mcmf)
+            .collect();
+        assert_eq!(new, old);
+        // The cells tile the cap out to 79.5 deg S: the weights sum to its solid angle.
+        let total: f64 = south_polar_ring_grid(-80.0, 1.0)
+            .iter()
+            .map(|p| p.area_sr)
+            .sum();
+        let cap = 2.0 * std::f64::consts::PI * (1.0 - (10.5_f64).to_radians().cos());
+        assert!((total - cap).abs() < 1e-12, "{total} vs {cap}");
+        assert!(south_polar_ring_grid(-80.0, 0.0).is_empty());
+    }
     use crate::lunar::{lunar_araim, lunar_sky_geometry};
     use std::f64::consts::FRAC_PI_2;
 

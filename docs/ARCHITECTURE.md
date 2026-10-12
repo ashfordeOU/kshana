@@ -320,7 +320,7 @@ the quantum demonstrator are modelled, illustrative, public-source, and carry no
 
 ```mermaid
 flowchart TD
-    api["api.rs — run_toml / run_scenario · 75 kinds"]
+    api["api.rs — run_toml / run_scenario · 76 kinds"]
 
     subgraph gnss["Integrity & GNSS measurement"]
       raim["raim — RAIM/ARAIM · HPL/VPL (kernel vs SciPy)"]
@@ -335,7 +335,7 @@ flowchart TD
       mars["deepspace_od · mars_frame · mars_atmos · mars_pnt · linkbudget · gse_sim — SRIF OD · Mars frame · relay-PNT · GSE sim"]
     end
 
-    subgraph lunar["Lunar PNT suite (MODELLED · illustrative public-source)"]
+    subgraph lunar["Lunar PNT suite (evidence tier per piece in the matrix · illustrative public-source)"]
       cis["cr3bp · lunar · lunar_frame · lunar_od — CR3BP · halo/NRHO · cislunar ARAIM · MCI↔MCMF"]
       suite["lunar_time · lunar_vlbi · lunar_combination · lunar_frame_realise — LTC time · VLBI · joint OD+clock · frame realisation"]
       suite2["lunar_service · lunar_dpnt · lunar_interop — Moonlight service-volume · differential PNT · LunaNet/IOAG interop"]
@@ -517,7 +517,7 @@ to the host. One dispatch, no drift.
 
 ```mermaid
 flowchart TD
-    F["api::run_toml(src) · run_scenario(src)"] --> K{"ScenarioKind::classify<br/>typed · exhaustive · 75 kinds<br/>(absent kind → clock; unknown kind → InvalidInput)"}
+    F["api::run_toml(src) · run_scenario(src)"] --> K{"ScenarioKind::classify<br/>typed · exhaustive · 76 kinds<br/>(absent kind → clock; unknown kind → InvalidInput)"}
     K --> G1["Timing<br/>clock · timetransfer · quantum-time-transfer · telecom-timing · slot-timing"]
     K --> G2["Inertial & fusion<br/>inertial · hybrid · hybrid-ukf · fusion · gnss-ins · quantum-gnss-free-nav · ins-trn-coast · hybrid-optical-rf"]
     K --> G3["Orbit, geometry & positioning<br/>orbit · ephemeris · constellation-design · gnss-sim · pvt"]
