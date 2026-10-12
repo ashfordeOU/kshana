@@ -10,7 +10,7 @@ only for the test suite.
 
 Oracle
 ------
-gnss_lib_py 1.0.4 — the Stanford NAV Lab GNSS library (open source, Apache-2.0;
+gnss_lib_py 1.0.4 — the Stanford NAV Lab GNSS library (open source, MIT licence;
 peer-reviewed in JOSS, 2023: D. Knowles, A. Kanhere, B. Triplet, G. Gao,
 "gnss_lib_py: Analyze GNSS Data with Python"). DOP is a deterministic function
 of line-of-sight geometry alone, so matching gnss_lib_py's numeric output for a
