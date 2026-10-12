@@ -3,7 +3,7 @@
 Registration: this file was committed alone, before `lunar-station-coverage` existed on this branch and
 before any comparison run. The commit that registered it is recorded in the next line by a later commit
 that changes only that line.
-Registered at commit: (recorded by the following commit)
+Registered at commit: 4c340bd6df46efbb862d7ae43c160943c3819f4e (file SHA-256 at that commit: b25e334eb84c7e78d047c81b8f9e20706d34e212e0e79adbb2bd62f0c54f0c15)
 
 These bars, cases and inputs are not changed after the results are seen. A failure is reported with its
 numbers, not tuned away. Workstream B of the 0.36 lunar reference-station plan.
