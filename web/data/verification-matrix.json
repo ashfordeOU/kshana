@@ -4,9 +4,9 @@
   "repo_blob_base": "https://github.com/AshfordeOU/kshana/blob/main/",
   "summary": {
     "validated": 134,
-    "modelled": 133,
+    "modelled": 134,
     "partner_owned": 4,
-    "total": 271
+    "total": 272
   },
   "rows": [
     {
@@ -4125,6 +4125,28 @@
         {
           "path": "tests/validate_llr_datum_spice_oracle.rs",
           "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/validate_llr_datum_spice_oracle.rs"
+        }
+      ],
+      "fixture": null
+    },
+    {
+      "requirement": "Lunar reference-station geodesy: added retroreflector and VLBI beacon against the five-array datum",
+      "capability": "Optional extra_reflectors and extra_beacons inputs on the lunar-llr-datum scenario add a station_geodesy block: the five-array Helmert information from the archived lunar laser ranging slice plus the information an added retroreflector (ranged at the archived normal-point epochs at which the ranging station is above its horizon, each with that normal point's archived weight) and an added VLBI beacon (observed by the lunar-frame-campaign network and schedule with the Earth stations fixed, through the lunar-vlbi-fim delay partials) at stated sites put on the seven-parameter datum, re-solved, with each Helmert parameter's 1-sigma before and after, their ratio, the before and after norms, and the extreme eigenvalues of the Fisher difference. Absent or empty, the report is unchanged",
+      "status": "MODELLED",
+      "oracle_kind": "InternalConsistency",
+      "oracle": "Internal consistency only: each added site is a distinct point and a laser range or a fixed-station VLBI delay touches one point, so its information A_p^T M_p A_p is positive semi-definite and adds; the test checks the Fisher difference and every variance against that. The five-array result is the existing real-data row and is unchanged. The added reflector reuses epochs scheduled for the five existing arrays, an ILLUSTRATIVE schedule, and the added beacon's network, schedule and delay sigma are the ILLUSTRATIVE lunar-frame-campaign inputs; the site is an ILLUSTRATIVE south-polar position. A south-polar site sees the Earth low on its horizon or not at all, which the existing look-angle tests express; neither site is ranged continuously. The figures are Cramer-Rao bounds for a reduced parameter set, not a solved datum and not a statement about any real station",
+      "module": "lunar_llr (over lunar_frame_campaign::beacon_information, schedule_for and solve_datum_information, lunar_vlbi_fim)",
+      "tests": "tests/lunar_station_geodesy.rs (empty_or_absent_extra_lists_are_bit_identical: empty lists and the baseline example give the default report and summary byte for byte; an_added_site_never_increases_any_variance: the smallest eigenvalue of H_after - H_before is non-negative to 1e-9 of the largest, every after/before sigma ratio is at most one, and both added sites are observed; the_rest_of_the_report_is_the_five_array_result; every_station_geodesy_field_has_a_unit; a_beacon_list_inside_the_campaign_block_is_refused); scenarios/lunar-station-geodesy-baseline.toml and scenarios/lunar-station-geodesy-with-station.toml (same archived schedule and the same VLBI campaign block)",
+      "module_links": [
+        {
+          "path": "src/lunar_llr.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/src/lunar_llr.rs"
+        }
+      ],
+      "test_links": [
+        {
+          "path": "tests/lunar_station_geodesy.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/lunar_station_geodesy.rs"
         }
       ],
       "fixture": null
