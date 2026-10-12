@@ -181,6 +181,26 @@ breaking changes are called out explicitly.
 
 ### Changed
 
+- **Docs truth pass (0.36).** Roadmap, capability rows, design-doc status lines and module
+  comments brought in line with the code; no output changes. Items already built but still
+  listed as open are now marked done: the ITU-T mask checks, the 24 h holdover scenario and
+  clock-log ingest (telecom timing), the first-minute quickstarts, Lense–Thirring and the
+  Orekit propagator cross-check, the ITRF-precise GCRS chain, golden and cross-platform
+  hashes, provenance, multi-fault ARAIM (ADD v4.2), single-satellite FDE, the CRPA library,
+  the CAI fringe-ambiguity limit, streets-of-coverage sizing and the 3-D orbit view,
+  rigid-body attitude dynamics, the OMM writer and NAIF kernel reader, DE440 lunar
+  libration, the run-meaning sentence in the playground, `PositioningFom`, the 17-state
+  tightly-coupled navigator and the gravity-map kind. The rows also state precisely what
+  is still open (for example two-part JD in `orbit::Propagator`, the `src/ionex.rs` reader
+  against a real product, and multi-satellite exclusion in `raim`). The missing
+  `docs/design/evidence/cn0-m2m4/RESULTS.md` is written from a fresh run of its tests (M1–M4
+  pass), and the partner-facing IQ validation draft has current ledger counts.
+- **Galileo E1 memory codes: licence status stated.** `NOTICE` and `LICENSING.md` now record
+  the source, version and hash of the vendored E1-B/E1-C code files and quote the ICD's own
+  terms of use and IPR authorisation. The status is "under review": the ICD's covenant covers
+  use in products and storage with the source acknowledged, but redistribution only for
+  non-commercial purposes and with the ICD's terms reproduced alongside.
+
 - README: the lunar suite row states each piece's evidence tier (it said all were MODELLED).
 - `realdata::clk::rinex_clock_series` returns `RinexClockSeries` (series, gridding log, time system,
   whether it was declared, record type) instead of a `(PhaseSeries, GriddingLog)` tuple. It now

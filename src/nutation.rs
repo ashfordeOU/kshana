@@ -30,8 +30,11 @@
 //! it already makes; the equation of the equinoxes carries the two leading IAU
 //! 1994 complementary terms only; the TEME→GCRS rotation is applied to velocity
 //! as well as position, neglecting the ~7e-12 rad/s precession-nutation frame
-//! rotation (a < 1e-4 m/s error at orbital speeds). An ANISE/SPICE numerical
-//! cross-check to the < 10 m level is a follow-on (see `ROADMAP.md`).
+//! rotation (a < 1e-4 m/s error at orbital speeds). The nutation series match the
+//! SOFA/ERFA `nut00a`/`nut00b` vectors, and the composed GCRS→ITRS reduction is
+//! cross-checked against ANISE in `xval/anise-frames`; a direct ERFA vector check of
+//! [`teme_to_gcrs`] is not yet in the suite, and the celestial-pole offsets dX/dY are
+//! neglected.
 
 use crate::precession::{
     fw_angles, mat_vec, matmul, precession_matrix, rx, rz, transpose, Mat3, Vec3,

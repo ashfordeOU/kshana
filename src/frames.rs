@@ -23,8 +23,8 @@
 //! adequate for visibility, pass geometry, and look-angle work (sub-km on the
 //! ground track); [`teme_to_itrf`] adds polar motion for an ITRF-precise position.
 //! `x_p`/`y_p` are observed IERS quantities the caller supplies (Bulletin A/B), not
-//! predicted here; a fully CIO-based (X, Y, s) chain and an ANISE/SPICE numerical
-//! cross-check remain follow-ons.
+//! predicted here. The fully CIO-based (X, Y, s) chain is [`crate::cio`] (checked against
+//! SOFA), and the GCRS→ITRS reduction is cross-checked against ANISE in `xval/anise-frames`.
 
 use crate::precession::{mat_vec, matmul, rx, ry, rz, transpose, Mat3};
 use crate::sgp4::gstime;
