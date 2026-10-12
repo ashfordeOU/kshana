@@ -147,7 +147,8 @@ fn solve(mut a: Vec<Vec<f64>>, mut b: Vec<f64>) -> Option<Vec<f64>> {
     let diag: Vec<f64> = (0..n).map(|c| a[c][c].abs()).collect();
     for col in 0..n {
         let piv = (col..n).max_by(|&i, &j| a[i][col].abs().total_cmp(&a[j][col].abs()))?;
-        if !(a[piv][col].abs() > 1e-12 * diag[col]) {
+        let pivot = a[piv][col].abs();
+        if pivot.is_nan() || pivot <= 1e-12 * diag[col] {
             return None;
         }
         a.swap(col, piv);
@@ -157,8 +158,9 @@ fn solve(mut a: Vec<Vec<f64>>, mut b: Vec<f64>) -> Option<Vec<f64>> {
             if f == 0.0 {
                 continue;
             }
-            for c in col..n {
-                a[r][c] -= f * a[col][c];
+            let pivot_row = a[col].clone();
+            for (x, p) in a[r][col..].iter_mut().zip(&pivot_row[col..]) {
+                *x -= f * p;
             }
             b[r] -= f * b[col];
         }
@@ -230,7 +232,7 @@ mod tests {
     fn three_satellites_need_the_height_row() {
         let (user, sats) = geometry();
         let r = rows(user, &sats[..3], &[1.0, 2.0, -1.0]);
-        assert!(position_error(&[r.clone()], None, 5.0).is_none());
+        assert!(position_error(std::slice::from_ref(&r), None, 5.0).is_none());
         assert!(position_error(&[r], Some(([0.0, 0.0, 1.0], 0.0, 1.0)), 5.0).is_some());
     }
 
