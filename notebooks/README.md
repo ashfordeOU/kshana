@@ -1,9 +1,10 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 # Notebooks
 
-Runnable Jupyter notebooks that use the Kshana Python package on synthetic data only. Each
-notebook has a `.md` mirror (the same cells as Markdown, for review in a diff) next to its
-`.ipynb`. Nothing here reads the network from a clone.
+Runnable Jupyter notebooks that use the Kshana Python package on synthetic data, and on public
+element sets kept in the repository, only. Each notebook has a `.md` mirror (the same cells as
+Markdown, for review in a diff) next to its `.ipynb`. Nothing here reads the network from a
+clone.
 
 | Notebook | What it shows | Mirror |
 |---|---|---|
@@ -11,6 +12,7 @@ notebook has a `.md` mirror (the same cells as Markdown, for review in a diff) n
 | `interference-map-route-exposure.ipynb` | where aircraft and ships reported degraded navigation data, and how much of a route falls inside it | [`.md`](interference-map-route-exposure.md) |
 | `compliance-and-test-bench.ipynb` | which public-framework rows a set of runs supports evidence for, and a scenario's motion exported as text for a laboratory simulator | [`.md`](compliance-and-test-bench.md) |
 | `quantum-vs-classical-gdop.ipynb` | a quantum and a classical sensor in the same constellation geometry, compared by dilution of precision | [`.md`](quantum-vs-classical-gdop.md) |
+| `geometry.ipynb` | which satellites a site sees under a skyline (a street, a container terminal), their dilution of precision and error ellipse, a dated sky from element sets, a seeded Monte Carlo against the covariance, and the skyplot (MODELLED; REPRESENTATIVE presets) | [`.md`](geometry.md) |
 
 The training stream and the trust score are advisory, not type-approved navigation equipment;
 the stream is synthetic training data and is never for a vessel's live navigation systems.

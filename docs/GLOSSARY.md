@@ -420,6 +420,19 @@ considered usable; signals too low are excluded.
 
 **Occultation.** When the Earth physically blocks the line of sight to a satellite.
 
+**Skyline (skyline mask).** In plain terms: *the outline of buildings, cranes or hills
+against the sky, as an elevation for every azimuth.* A satellite counts as in view only above
+`max(elevation mask, skyline)` at its azimuth, and one above the mask but behind the skyline is
+"masked by the skyline". Kshana builds one from a table, a street canyon, sectors and terrain
+(their pointwise maximum) or a REPRESENTATIVE preset; line of sight only, no reflection or
+diffraction ([`SKYLINE.md`](SKYLINE.md)).
+
+**Sky geometry.** Which satellites a site sees under a skyline and what that does to the
+solution: the DOP factors, the east-north-up covariance of the least-squares fix and its
+**error ellipse**, the horizontal region that holds the stated share of the fixes (95 % by
+default) for independent, equal Gaussian range errors. MODELLED geometry under a stated error
+model, not a receiver's real error ([`SKYLINE.md`](SKYLINE.md)).
+
 **CTI — Composed Timing Integrity.**
 Protection levels for *time* rather than position, computed across a hand-over between
 different time sources — for example from a satellite-checked (RAIM-available) clock to

@@ -524,6 +524,11 @@ pub struct LeoPassScenario {
     /// `signal` name before the public presets. Not a scenario field.
     #[serde(skip)]
     pub signal_designs: Vec<crate::leo_signal::SignalDesign>,
+    /// Optional azimuth-dependent skyline over `user.mask_deg` (see [`crate::skyline`]):
+    /// a satellite counts as above the mask only where it clears the skyline in its
+    /// direction. Absent, the mask is the flat `user.mask_deg`, as before.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub skyline: Option<crate::skyline::SkylineCfg>,
 }
 
 // ── Report ───────────────────────────────────────────────────────────────────────────────
@@ -705,6 +710,10 @@ pub struct PassOut {
     pub los_s: Option<f64>,
     /// Time above the elevation mask: visible epochs times the step (s).
     pub duration_above_mask_s: f64,
+    /// Epochs above the mask but below the skyline; present only when the scenario has a
+    /// `[skyline]` section.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub epochs_masked_by_skyline: Option<usize>,
 }
 
 /// Closed form against central differences over the run.
@@ -1088,6 +1097,9 @@ pub struct LeoPassReport {
     pub spoof: Option<SpoofOut>,
     /// Caveats stated with the result.
     pub notes: Vec<String>,
+    /// The skyline applied, present only when the scenario has a `[skyline]` section.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub skyline: Option<crate::skyline::SkylineSummary>,
 }
 
 // ── Resolution helpers ───────────────────────────────────────────────────────────────────
@@ -1428,6 +1440,7 @@ fn min_of(v: impl Iterator<Item = f64>) -> Option<f64> {
 struct Env {
     user: UserMotion,
     mask_deg: f64,
+    sky: Option<crate::skyline::Skyline>,
     antenna: UserAntenna,
     rx_pol: Polarisation,
     rx_ar_db: f64,
@@ -1454,6 +1467,22 @@ enum IonoModel {
 }
 
 impl Env {
+    /// Whether a satellite at (`el_deg`, `az_deg`) clears the mask and any skyline. Without a
+    /// skyline this is exactly `el_deg >= mask_deg`.
+    fn in_view(&self, el_deg: f64, az_deg: f64) -> bool {
+        match &self.sky {
+            None => el_deg >= self.mask_deg,
+            Some(sky) => sky.visible(az_deg, el_deg, self.mask_deg),
+        }
+    }
+
+    /// Whether a satellite clears the mask but not the skyline.
+    fn masked(&self, el_deg: f64, az_deg: f64) -> bool {
+        self.sky
+            .as_ref()
+            .is_some_and(|sky| sky.masked(az_deg, el_deg, self.mask_deg))
+    }
+
     /// Slant TEC (electrons/m²) at the user toward a satellite at height `h_sat_m`.
     fn stec(&self, geo: &Geodetic, el_deg: f64, az_deg: f64, t: f64, frac: f64) -> f64 {
         let el = el_deg.max(0.0).to_radians();
@@ -1822,6 +1851,7 @@ impl LeoPassScenario {
                 heading_rad: u.heading_deg.unwrap_or(90.0).to_radians(),
             },
             mask_deg: u.mask_deg.unwrap_or(5.0),
+            sky: crate::skyline::resolve(self.skyline.as_ref())?,
             antenna,
             rx_pol: Polarisation::parse(u.polarisation.as_deref().unwrap_or("rhcp"))?,
             rx_ar_db: u.axial_ratio_db.unwrap_or(3.0),
@@ -2017,12 +2047,16 @@ impl LeoPassScenario {
             let mut ranked: Vec<(f64, usize)> = Vec::new();
             for (i, el) in built.elements.iter().enumerate() {
                 let m = SatMotion::kepler(*el, j2);
+                // Highest elevation among the samples that clear the mask. Under a flat
+                // mask this equals the highest elevation whenever any sample clears it.
                 let mut best = f64::MIN;
                 let mut t = 0.0;
                 while t <= duration {
                     let s = m.state(t)?;
                     let g = link_geometry(&s, &env.user.state(t), t);
-                    best = best.max(g.el_deg);
+                    if env.in_view(g.el_deg, g.az_deg) {
+                        best = best.max(g.el_deg);
+                    }
                     t += 30.0;
                 }
                 if best >= env.mask_deg {
@@ -2074,12 +2108,16 @@ impl LeoPassScenario {
         for s in &sats {
             let mut series = Vec::with_capacity(n_epochs);
             let (mut d_rr, mut d_ra) = (0.0_f64, 0.0_f64);
+            let mut masked_epochs = 0usize;
             for k in 0..n_epochs {
                 let t = k as f64 * step;
                 let st = s.motion.state(t)?;
                 let us = env.user.state(t);
                 let g = link_geometry(&st, &us, t);
-                let visible = g.el_deg >= env.mask_deg;
+                let visible = env.in_view(g.el_deg, g.az_deg);
+                if env.masked(g.el_deg, g.az_deg) {
+                    masked_epochs += 1;
+                }
                 let frac = io.leo_fraction.unwrap_or_else(|| {
                     iono::fraction_below(g.sat_radius_m - RE_EARTH, peak_m, scale_m)
                 });
@@ -2131,6 +2169,7 @@ impl LeoPassScenario {
                 aos_s: aos,
                 los_s: los,
                 duration_above_mask_s: vis.len() as f64 * step,
+                epochs_masked_by_skyline: env.sky.as_ref().map(|_| masked_epochs),
             };
             let f_max = s.bands.iter().map(|b| b.f_hz).fold(0.0, f64::max);
             let env_rr = s.circular.map(|(alt, inc)| {
@@ -2310,6 +2349,11 @@ impl LeoPassScenario {
             iono_free,
             iot,
             spoof,
+            skyline: crate::skyline::SkylineSummary::of(
+                self.skyline.as_ref(),
+                env.sky.as_ref(),
+                env.mask_deg,
+            ),
             notes,
         })
     }
@@ -2777,13 +2821,16 @@ impl LeoPassScenario {
             let m = SatMotion::kepler(*el, false);
             let mut series = Vec::with_capacity(n_epochs);
             let mut maxel = f64::MIN;
+            let mut any_visible = false;
             for k in 0..n_epochs {
                 let t = k as f64 * step;
                 let st = m.state(t)?;
                 let us = env.user.state(t);
                 let geo = link_geometry(&st, &us, t);
                 maxel = maxel.max(geo.el_deg);
-                let cn0 = (geo.el_deg >= env.mask_deg).then(|| {
+                let in_view = env.in_view(geo.el_deg, geo.az_deg);
+                any_visible |= in_view;
+                let cn0 = in_view.then(|| {
                     let p_iso =
                         (band.min_power_dbw + 20.0 * (rho_ref / geo.range_m).log10() + excess)
                             .min(band.max_power_dbw);
@@ -2810,7 +2857,7 @@ impl LeoPassScenario {
                     doppler_hz: doppler_hz(band.centre_hz, geo.range_rate_m_s),
                 });
             }
-            if maxel >= env.mask_deg {
+            if any_visible {
                 sats_out.push(GnssSatOut {
                     id: built.ids[i].clone(),
                     max_elevation_deg: maxel,
@@ -3279,7 +3326,16 @@ fn report_json(r: &LeoPassReport) -> Result<String, String> {
     let mut doc = serde_json::to_value(r).map_err(|e| format!("serialising report: {e}"))?;
     match doc.as_object_mut() {
         Some(o) => {
-            o.insert("units".into(), crate::solar_system::units_block_from(UNITS));
+            let mut units = crate::solar_system::units_block_from(UNITS);
+            if r.skyline.is_some() {
+                if let (Some(u), serde_json::Value::Object(extra)) = (
+                    units.as_object_mut(),
+                    crate::field_schema::units_block(crate::skyline::UNITS),
+                ) {
+                    u.extend(extra);
+                }
+            }
+            o.insert("units".into(), units);
         }
         None => return Err("the report must serialise to a JSON object".to_string()),
     }

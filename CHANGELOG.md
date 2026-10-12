@@ -68,8 +68,53 @@ breaking changes are called out explicitly.
   gnss_lib_py-matched DOP geometries against the covariance factor of the validated DOP kernel,
   with tolerances pre-registered before the first run and two negative controls that fail as
   required; beside it, an earlier check on four hand-chosen skies with chi-square confidence
-  intervals, reported as run before the pre-registration. 264 rows: 132 Validated, 128 Modelled,
-  4 Partner (the site pages state the new counts after the 0.36 integration re-port).
+  intervals, reported as run before the pre-registration.
+- **Azimuth-dependent skyline masks** (`src/skyline.rs`, [`docs/SKYLINE.md`](docs/SKYLINE.md),
+  design note item 1): an elevation cut that depends on azimuth, the pointwise maximum of tables
+  (each interpolated on its own, wrapped at 360°), a street canyon in closed form (with optional open ends),
+  sharp-edged sectors and a terrain profile with the Earth's curvature; the effective cut is
+  `max(mask_deg, skyline)`. Four REPRESENTATIVE presets with stated provenance (`city-street`,
+  `harbour-approach`, `fjord`, `container-terminal`), overridable field by field. An optional
+  `[skyline]` section in `gnss-sim`, `jamming`, `leo-pvt` (every mode, the polar sweep included),
+  `leo-pass` and `nmea-scenario` training files, and in `orbit` and `integrity` through a new
+  ground-site user, `user_site = { lat_deg, lon_deg, height_m }` (geodetic look angles on the
+  rotating Earth, with the geodetic up for the ARAIM horizontal and vertical split; each sample
+  is one absolute instant, `epoch + t`, to which element sets, broadcast ephemerides and SP3
+  files are advanced from their own epochs, dated from the newest satellite epoch when no
+  `epoch` is stated; an orbiting `user` refuses a skyline). Results gain `skyline { source,
+  open_fraction, provenance }` and per-sample `masked_by_skyline`. Without the section every
+  scenario is byte-identical to 0.35.0, checked against digests from the release commit. Six
+  bundled examples: `orbit-urban-canyon-skyline`, `integrity-harbour-approach`,
+  `gnss-sim-container-terminal-skyline`, `jamming-harbour-approach-skyline`,
+  `leo-pvt-fjord-skyline` and the campaign `leo-vertical-autonomous-vehicle-skyline` (the
+  autonomous-vehicle canyon as a flat cut and as a street; the existing campaign is
+  unchanged). MODELLED.
+- **Sky geometry functions** (`src/geometry.rs`, design note item 2): `sky_geometry` (visible
+  and masked satellites from a site, a time and constellation presets, two-line element sets
+  (`tle`, at most 4 MiB, propagated by the engine's SGP4 to a UTC `epoch`) or given satellites;
+  `sky_source` and `sky_statement` say whether the sky is representative or the sky the element
+  sets give at that epoch, not a measurement; `tle_skipped` lists every unused line with its
+  reason; input caps of 2000 satellites above the horizon, checked before a system table is
+  built, and 16 receiver clocks; the
+  five DOPs; the ENU cofactor and covariance with one clock per system or one in common; the
+  horizontal error ellipse at one sigma and at a stated confidence), `sky_monte_carlo` (seeded
+  least-squares errors, at most 5000), `skyline_presets`, `skyline_profile` and `skyplot_svg`.
+  `orbit::dop_cov` exposes the covariance behind `orbit::dop`, which is now its reduction (the
+  validated scalars are unchanged). Surfaces: `kshana sky` and `kshana skyline`, Python and WASM
+  functions of the same names, and the MCP tool `sky_geometry` (40 tools), and the notebook
+  `notebooks/geometry.ipynb` (with its `.md` mirror; run by `tests/python/test_notebooks.py`).
+  Every result carries the MODELLED label, the error-model statement and the advisory.
+- Ledger: five skyline and sky-geometry rows. **VALIDATED**, each in a
+  comparison pre-registered before its oracle ran: *Azimuth-dependent skyline mask: visible set,
+  azimuth and elevation, and DOP under the mask* against Orekit 12.2 (`TopocentricFrame`,
+  `ElevationMask`) and gnss_lib_py 1.0.4 (`get_dop`), worst look-angle and mask differences
+  1.1e-12° against 1e-9°, identical visible sets, DOP 3.3e-13 relative
+  (`xval/orekit-skyline/`); *Horizontal error ellipse and per-system cofactor from the geometry
+  covariance* against numpy `linalg.inv` and `linalg.eigh` (standard P2), 270 cases, axes 5.1e-13
+  relative (`xval/numpy-ellipse/`). **MODELLED**: the canyon, sector and terrain reductions; the
+  presets; the sky-geometry composition (preset sky, Monte Carlo cloud).
+- With the geometry-trust and skyline rows, the ledger has 270 rows: 134 Validated, 132 Modelled,
+  4 Partner.
 
 ### Changed
 
@@ -92,10 +137,29 @@ breaking changes are called out explicitly.
 - The NMEA reader now reads GSA (a short GSA is ignored, not counted as skipped) and keeps GSV
   elevations and azimuths, including for satellites listed without a signal; the UBX reader keeps
   NAV-SAT elevation and azimuth. C/N0 is read exactly as before.
+- JetBrains plugin: no deprecated or scheduled-for-removal platform API. The five choice dialogs use
+  a small `DialogWrapper` with a drop-down in place of the deprecated `Messages.showChooseDialog`;
+  single-file choosers use the `FileChooserDescriptor` constructor in place of the deprecated
+  `FileChooserDescriptorFactory.createSingleFileDescriptor()`; the animation opens with
+  `BrowserUtil.browse(Path)` in place of `browse(File)`, which the 2026.3 platform schedules for
+  removal. Since-build stays 243. The IntelliJ Plugin Verifier reports Compatible with no
+  deprecated or scheduled-for-removal usage against 2024.3 (IC-243.21565.193), 2025.2
+  (IC-252.23892.409), 2026.2.3 (IU-262.10968.63) and 2026.3 EAP (IU-263.6259.32); `verifyPlugin`
+  checks 2024.3 by default and any list given in `KSHANA_VERIFY_IDES`.
+- `gnss_sim::run_gnss_sim` and `jamming::run_jamming` return `Result`: an invalid `[skyline]`
+  section is an error when called directly, as it already was through `api::run_toml`, rather
+  than a silent fall-back to the flat mask. **Breaking** for Rust callers of these two functions.
+
+### Fixed
+
+- `Jd2::from_parts` with a fractional day part dropped the fraction in the UTC, TAI, UT1 and
+  Earth-rotation conversions (one hour of day part turned the Earth 15° wrong); the day part is
+  now normalised to an integer. No engine caller was affected: every one passes an integer day,
+  and every shipped output is bit-identical.
 
 ### Planned
 
-- The geometry from a stated skyline (0.36 item 1) once it is integrated: `sky-blocked` and
+- The geometry from a stated skyline (0.36 item 1, now in the engine as `src/skyline.rs`): `sky-blocked` and
   `open_fraction` from the skyline where the input gives one (the azimuth gap as the fallback), a
   natural-degradation (fjord or terminal) event in `nmea-scenario`, and the design note's two
   masked geometries in the sigma_UERE x DOP row, pre-registered as an addendum.

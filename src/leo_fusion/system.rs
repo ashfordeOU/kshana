@@ -157,9 +157,31 @@ pub struct System {
     pub isb_m: f64,
     /// Elevation mask (rad).
     pub mask_rad: f64,
+    /// Elevation mask (deg), as given (or defaulted) in the scenario: the floor under
+    /// a skyline.
+    #[serde(skip)]
+    pub mask_deg: f64,
+    /// Optional azimuth-dependent skyline over the system's mask (see
+    /// [`crate::skyline`]); `None` is the flat `mask_rad` test, as before.
+    #[serde(skip)]
+    pub sky: Option<crate::skyline::Skyline>,
 }
 
 impl System {
+    /// Whether a satellite at ECEF `pos`, elevation `el` (rad) as seen from `user`
+    /// (ECEF, local up `up`), clears this system's mask. Without a skyline this is
+    /// exactly the pre-skyline `el >= mask_rad`.
+    pub fn admits(&self, user: [f64; 3], up: [f64; 3], pos: [f64; 3], el: f64) -> bool {
+        match &self.sky {
+            None => el >= self.mask_rad,
+            Some(sky) => sky.visible(
+                super::geom::azimuth_deg(user, up, pos),
+                el / DEG,
+                self.mask_deg,
+            ),
+        }
+    }
+
     /// Carrier wavelength (m).
     pub fn wavelength_m(&self) -> f64 {
         super::C_LIGHT / self.carrier_hz
@@ -358,8 +380,42 @@ impl SystemCfg {
             clock,
             isb_m: self.isb_ns.unwrap_or(0.0) * 1e-9 * super::C_LIGHT,
             mask_rad: mask * DEG,
+            mask_deg: mask,
+            sky: None,
         })
     }
+}
+
+/// Put the scenario's `[skyline]` section on every system, over each system's own mask.
+pub fn apply_skyline(
+    systems: &mut [System],
+    cfg: Option<&crate::skyline::SkylineCfg>,
+) -> Result<(), String> {
+    if let Some(sky) = crate::skyline::resolve(cfg)? {
+        for s in systems.iter_mut() {
+            s.sky = Some(sky.clone());
+        }
+    }
+    Ok(())
+}
+
+/// Satellites of every system above that system's mask but hidden by its skyline, seen from
+/// `user` (ECEF) with local up `up` at time `t`. Zero for systems without a skyline.
+pub fn masked_count(systems: &[System], user: [f64; 3], up: [f64; 3], t: f64) -> usize {
+    let mut n = 0;
+    for s in systems {
+        let Some(sky) = &s.sky else {
+            continue;
+        };
+        for o in &s.orbits {
+            let (pos, _) = o.state(t);
+            let el = super::geom::elevation(user, up, pos) / DEG;
+            if sky.masked(super::geom::azimuth_deg(user, up, pos), el, s.mask_deg) {
+                n += 1;
+            }
+        }
+    }
+    n
 }
 
 /// Build every system of a run; at least one is required.
@@ -393,7 +449,7 @@ pub fn in_view(systems: &[System], user: [f64; 3], up: [f64; 3], t: f64) -> Vec<
         for (j, o) in s.orbits.iter().enumerate() {
             let (pos, vel) = o.state(t);
             let el = super::geom::elevation(user, up, pos);
-            if el >= s.mask_rad {
+            if s.admits(user, up, pos, el) {
                 out.push(InView {
                     system: k,
                     sat: j,

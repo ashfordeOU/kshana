@@ -185,6 +185,10 @@ pub struct LeoPvtScenario {
     /// The systems.
     #[serde(default)]
     pub system: Vec<SystemCfg>,
+    /// Optional azimuth-dependent skyline, applied over every system's own mask in
+    /// every mode (in the polar mode, the same skyline at every site of the sweep).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub skyline: Option<crate::skyline::SkylineCfg>,
 }
 
 /// Summary of one system in the report.
@@ -297,6 +301,10 @@ pub struct JointEpoch {
     pub error_fused_m: Option<f64>,
     /// 3D error, LEO only (m).
     pub error_leo_m: Option<f64>,
+    /// Satellites above their system's mask but below the skyline; present only when the
+    /// scenario has a `[skyline]` section.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub masked_by_skyline: Option<usize>,
 }
 
 /// DOP against the number of LEO satellites.
@@ -411,6 +419,9 @@ pub struct LeoPvtReport {
     pub polar: Option<PolarOut>,
     /// Timing block.
     pub timing: Option<TimingOut>,
+    /// The skyline applied, present only when the scenario has a `[skyline]` section.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub skyline: Option<crate::skyline::SkylineSummary>,
 }
 
 /// Running sums of one fix type: PDOPs, 3D errors, formal 3D sigmas, fixes.
@@ -447,7 +458,8 @@ impl LeoPvtScenario {
         } else {
             self.system.clone()
         };
-        let systems = build_all(&cfgs)?;
+        let mut systems = build_all(&cfgs)?;
+        super::system::apply_skyline(&mut systems, self.skyline.as_ref())?;
         let dll = self.dll.unwrap_or_default();
         let u = self.user.unwrap_or_default();
         let site = Site {
@@ -488,6 +500,13 @@ impl LeoPvtScenario {
             joint: None,
             polar: None,
             timing: None,
+            skyline: systems.first().and_then(|s| {
+                crate::skyline::SkylineSummary::of(
+                    self.skyline.as_ref(),
+                    s.sky.as_ref(),
+                    s.mask_deg,
+                )
+            }),
         };
         match mode.as_str() {
             "doppler" => {
@@ -864,6 +883,10 @@ impl LeoPvtScenario {
                 error_gnss_m: eg,
                 error_fused_m: ef,
                 error_leo_m: el,
+                masked_by_skyline: self
+                    .skyline
+                    .as_ref()
+                    .map(|_| super::system::masked_count(systems, user, up, t)),
             });
         }
         let fom = |a: &FixAcc| FixFom {
@@ -994,7 +1017,13 @@ impl LeoPvtScenario {
         let r = self.compute()?;
         let mut doc = serde_json::to_value(&r).map_err(|e| e.to_string())?;
         if let Some(o) = doc.as_object_mut() {
-            o.insert("units".into(), crate::field_schema::units_block(PVT_UNITS));
+            o.insert(
+                "units".into(),
+                crate::field_schema::units_block(&crate::skyline::with_units(
+                    r.skyline.is_some(),
+                    &[PVT_UNITS],
+                )),
+            );
         }
         let json = serde_json::to_string_pretty(&doc).map_err(|e| e.to_string())?;
         Ok((json, summary(&r), svg(&r)))
