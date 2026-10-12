@@ -31,7 +31,6 @@
 
 pub mod closed_loop;
 pub mod coupled;
-pub mod coupled3d;
 mod dense;
 pub mod gnss_ins_ekf;
 pub mod hybrid_ukf;
