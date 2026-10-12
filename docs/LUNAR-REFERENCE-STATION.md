@@ -97,7 +97,9 @@ every document is byte-identical to a run without it.
 
 Checks: the ray march reproduces closed-form horizons (the bare-sphere dip, a crater in a plateau
 from its centre and off it, a rasterised cone against the analytic cone); the vendored crop is
-oriented as the source (Shackleton and Haworth floors low, the Malapert massif high). No published
+oriented as the source (Shackleton and Haworth floors low, the Malapert massif high); an independent
+numpy ray-cast on the crop, pre-registered (`tests/fixtures/lunar_terrain/PREREGISTRATION.md`), agrees
+to 5.5e-10 deg at five sites, which checks the arithmetic, not the terrain. No published
 polar horizon or illumination figure has been reproduced, so the row stays MODELLED (ledger row
 "Lunar terrain horizon masks from a stated profile or a polar DEM").
 
