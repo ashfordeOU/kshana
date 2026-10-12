@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="780" height="300" viewBox="0 0 780 300" font-family="Geist, ui-sans-serif, system-ui, sans-serif">
-  <title>kshana verification status breakdown across all 273 capabilities</title>
+  <title>kshana verification status breakdown across all 274 capabilities</title>
   <desc>Generated from src/verification.rs via web/data/verification-matrix.json by tools/gen_validation_figures.py. Do not edit by hand.</desc>
   <rect x="0" y="0" width="780" height="300" fill="#060A14"/>
   <text x="40" y="56" font-size="26" font-weight="700" fill="#EAF0FF">Verification status</text>
-  <text x="40" y="86" font-size="16" fill="#8190B0">273 capabilities &#183; one row per requirement in the matrix</text>
-  <rect x="40" y="150" width="343.59" height="64" fill="#A8EE5E"/>
-  <text x="211.79" y="190" font-size="24" font-weight="700" fill="#060A14" text-anchor="middle">134</text>
-  <rect x="383.59" y="150" width="346.15" height="64" fill="#FFB547"/>
-  <text x="556.67" y="190" font-size="24" font-weight="700" fill="#060A14" text-anchor="middle">135</text>
-  <rect x="729.74" y="150" width="10.26" height="64" fill="#F45CCB"/>
+  <text x="40" y="86" font-size="16" fill="#8190B0">274 capabilities &#183; one row per requirement in the matrix</text>
+  <rect x="40" y="150" width="342.34" height="64" fill="#A8EE5E"/>
+  <text x="211.17" y="190" font-size="24" font-weight="700" fill="#060A14" text-anchor="middle">134</text>
+  <rect x="382.34" y="150" width="347.45" height="64" fill="#FFB547"/>
+  <text x="556.06" y="190" font-size="24" font-weight="700" fill="#060A14" text-anchor="middle">136</text>
+  <rect x="729.78" y="150" width="10.22" height="64" fill="#F45CCB"/>
   <rect x="40" y="150" width="700" height="64" fill="none" stroke="#343F57" stroke-width="1"/>
   <rect x="40" y="251" width="18" height="18" fill="#A8EE5E"/>
   <text x="66" y="266" font-size="17" fill="#A7B4D2"><tspan font-weight="700">134</tspan> Validated</text>
   <rect x="273.33" y="251" width="18" height="18" fill="#FFB547"/>
-  <text x="299.33" y="266" font-size="17" fill="#A7B4D2"><tspan font-weight="700">135</tspan> Modelled</text>
+  <text x="299.33" y="266" font-size="17" fill="#A7B4D2"><tspan font-weight="700">136</tspan> Modelled</text>
   <rect x="506.67" y="251" width="18" height="18" fill="#F45CCB"/>
   <text x="532.67" y="266" font-size="17" fill="#A7B4D2"><tspan font-weight="700">4</tspan> Partner</text>
 </svg>
