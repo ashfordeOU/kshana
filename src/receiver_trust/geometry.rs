@@ -43,12 +43,16 @@ use crate::portable_math::PortableFloat;
 pub struct GeometryCfg {
     /// HDOP above which the geometry is degraded. Default 4: at `sigma_uere_m` 1.5 m an HDOP of
     /// 4 is a 2drms of 12 m, the kinematic check's own allowance (`[maritime] kin_pos_tol_m`);
-    /// above it geometry noise alone can approach that allowance. Chosen (design note, 4.2);
-    /// IEC 61108-1 states its accuracy requirements under the same HDOP 4 (or PDOP 6).
+    /// above it geometry noise alone can approach that allowance. Chosen (design note, 4.2).
+    /// IEC 61108-1 is commonly cited as stating its accuracy requirements for HDOP 4 or less
+    /// (or PDOP 6): recalled from secondary GNSS receiver literature, no specific secondary
+    /// source consulted and the standard not read; to be checked against the standard's text.
     pub hdop_max: f64,
     /// PDOP above which the geometry is degraded. Default 6: the PDOP availability threshold
-    /// of the bundled `scenarios/polar-arctic-leo-coverage.toml` (`pdop_threshold = 6.0`) and
-    /// of the GPS SPS Performance Standard (5th ed., 2020).
+    /// of the bundled `scenarios/polar-arctic-leo-coverage.toml` (`pdop_threshold = 6.0`), and
+    /// the GPS SPS Performance Standard (5th ed., 2020) PDOP availability standard (PDOP 6 or
+    /// less) as cited in `tests/constellation_availability_published_spec_oracle.rs`; to be
+    /// checked against the standard's text.
     pub pdop_max: f64,
     /// Fewest satellites used for a geometry that is not degraded. Default 5: one more than a
     /// fix needs, so a single loss does not end the fix, and the fewest with one redundant
@@ -57,10 +61,18 @@ pub struct GeometryCfg {
     /// The ranging error the HDOP threshold is stated against, m. Default 1.5: a stated input
     /// for the 2drms link above; set the receiver's own figure.
     pub sigma_uere_m: f64,
-    /// Largest difference between the HDOP the receiver states (GSA, else GGA) and the HDOP
-    /// derived from the sky it states, above which the geometry deduction is classed
-    /// `inconsistency`. Default 1.0 (design note, 4.2).
+    /// Absolute part of the tolerance between the HDOP the receiver states (GSA, else GGA) and
+    /// the HDOP derived from the sky it states. Default 1.0 (design note, 4.2). The tolerance is
+    /// `max(reported_vs_derived_tol, reported_vs_derived_rel * derived HDOP)`; beyond it the
+    /// geometry deduction is classed `inconsistency`.
     pub reported_vs_derived_tol: f64,
+    /// Relative part of that tolerance, a fraction of the derived HDOP. Default 0.25, a
+    /// REPRESENTATIVE engineering choice, not a measured or standard figure: a receiver that
+    /// solves with one clock per constellation, or with a subset of the satellites it tracks
+    /// (an elevation mask, a C/N0 cut, a RAIM exclusion), states an HDOP that differs from the
+    /// single-clock HDOP of every tracked satellite by an amount that grows with the HDOP, so a
+    /// fixed absolute tolerance alone would class natural poor geometry as inconsistency.
+    pub reported_vs_derived_rel: f64,
     /// Elevation below which a lost satellite counts as lost to the sky, degrees. Default 15
     /// (design note, 4.3): when every satellite lost against the baseline was below it at its
     /// last report, `loss-of-lock` is classed `geometry`. A skyline (0.36 item 1) will extend
@@ -80,6 +92,7 @@ impl Default for GeometryCfg {
             min_used: 5,
             sigma_uere_m: 1.5,
             reported_vs_derived_tol: 1.0,
+            reported_vs_derived_rel: 0.25,
             low_elev_deg: 15.0,
             azimuth_gap_deg: 180.0,
         }
@@ -88,17 +101,21 @@ impl Default for GeometryCfg {
 
 /// Where each default of [`GeometryCfg`] comes from, `(key, provenance)`; recorded in every
 /// result's `geometry_model`. The geometry monitor's weight (15) is in the score model.
-pub const PROVENANCE: [(&str, &str); 8] = [
+pub const PROVENANCE: [(&str, &str); 9] = [
     (
         "hdop_max",
         "chosen (0.36 geometry design note, 4.2): at sigma_uere_m 1.5 m, HDOP 4 is a 2drms of \
-         12 m, the kinematic check's kin_pos_tol_m; IEC 61108-1 states its accuracy requirements \
-         for HDOP <= 4 (or PDOP <= 6)",
+         12 m, the kinematic check's kin_pos_tol_m. IEC 61108-1 is commonly cited as stating its \
+         accuracy requirements for HDOP <= 4 (or PDOP <= 6): recalled from secondary GNSS \
+         receiver literature, no specific secondary source consulted and the standard not \
+         read; to be checked against the standard's text",
     ),
     (
         "pdop_max",
         "the PDOP availability threshold of scenarios/polar-arctic-leo-coverage.toml \
-         (pdop_threshold = 6.0); GPS SPS Performance Standard, 5th ed. (2020): PDOP <= 6",
+         (pdop_threshold = 6.0); GPS SPS Performance Standard, 5th ed. (2020), PDOP <= 6, as \
+         cited in tests/constellation_availability_published_spec_oracle.rs; to be checked \
+         against the standard's text",
     ),
     (
         "min_used",
@@ -112,8 +129,15 @@ pub const PROVENANCE: [(&str, &str); 8] = [
     ),
     (
         "reported_vs_derived_tol",
-        "chosen (design note, 4.2): a stated HDOP more than 1.0 from the derived one is not \
-         geometry and is classed inconsistency",
+        "chosen (design note, 4.2): a stated HDOP more than the tolerance from the derived one \
+         is not geometry and is classed inconsistency; the tolerance is max(1.0, \
+         reported_vs_derived_rel x derived HDOP)",
+    ),
+    (
+        "reported_vs_derived_rel",
+        "REPRESENTATIVE engineering choice (0.25): per-constellation receiver clocks and subset \
+         solutions make the stated HDOP differ from the derived single-clock HDOP by an amount \
+         that grows with the HDOP; not a measured or standard figure",
     ),
     (
         "low_elev_deg",
@@ -149,6 +173,12 @@ impl GeometryCfg {
             if !(v.is_finite() && v > 0.0) {
                 return Err(format!("geometry: {name} must be finite and > 0 (got {v})"));
             }
+        }
+        if !(self.reported_vs_derived_rel.is_finite() && self.reported_vs_derived_rel >= 0.0) {
+            return Err(format!(
+                "geometry: reported_vs_derived_rel must be finite and >= 0 (got {})",
+                self.reported_vs_derived_rel
+            ));
         }
         if self.min_used == 0 {
             return Err("geometry: min_used must be at least 1".into());
@@ -240,7 +270,8 @@ pub struct EpochGeometry {
     pub age_s: Option<f64>,
     /// The HDOP the receiver stated (GSA within the hold, else GGA), where it did.
     pub reported_hdop: Option<f64>,
-    /// The stated HDOP and the derived one differ by more than `reported_vs_derived_tol`.
+    /// The stated HDOP and the derived one differ by more than
+    /// `max(reported_vs_derived_tol, reported_vs_derived_rel * derived)`.
     pub reported_derived_mismatch: bool,
     /// The reason in words, for example "degraded by geometry: HDOP 5.200 above 4 (derived
     /// from 7 logged satellites); not an inconsistency". `null` for good geometry.
@@ -279,8 +310,8 @@ impl EpochGeometry {
 
 /// The geometry monitor's ratio for an epoch and whether it is an inconsistency: the
 /// geometry ratio `max(hdop / hdop_max, pdop / pdop_max, min_used / n_used)` and, where the
-/// receiver states an HDOP that disagrees with the derived one, `|stated - derived| /
-/// reported_vs_derived_tol`. Returns `(ratio, inconsistency)` where `ratio` is the larger and
+/// receiver states an HDOP that disagrees with the derived one, `|stated - derived| / tol` with
+/// `tol = max(reported_vs_derived_tol, reported_vs_derived_rel * derived)`. Returns `(ratio, inconsistency)` where `ratio` is the larger and
 /// `inconsistency` says the disagreement is at or above its tolerance. `None` when the
 /// geometry is unknown (the monitor does not decide). A singular derived geometry with four or
 /// more satellites, or no satellite at all, is given the full ratio 1.5.
@@ -303,7 +334,12 @@ pub fn geometry_ratio(g: &EpochGeometry, cfg: &GeometryCfg) -> Option<(f64, bool
         None => {}
     }
     let mismatch = match (g.hdop, g.reported_hdop, g.source) {
-        (Some(d), Some(s), GeometrySource::Derived) => (d - s).abs() / cfg.reported_vs_derived_tol,
+        (Some(d), Some(s), GeometrySource::Derived) => {
+            (d - s).abs()
+                / cfg
+                    .reported_vs_derived_tol
+                    .max(cfg.reported_vs_derived_rel * d)
+        }
         _ => 0.0,
     };
     Some((r.max(mismatch), mismatch >= 1.0))
@@ -536,7 +572,13 @@ impl GeometryTracker {
                 let mut g = from_sky(sky, age);
                 g.reported_hdop = stated;
                 g.reported_derived_mismatch = match (g.hdop, stated) {
-                    (Some(d), Some(s)) => (d - s).abs() > self.cfg.reported_vs_derived_tol,
+                    (Some(d), Some(s)) => {
+                        (d - s).abs()
+                            > self
+                                .cfg
+                                .reported_vs_derived_tol
+                                .max(self.cfg.reported_vs_derived_rel * d)
+                    }
                     _ => false,
                 };
                 return finish(g, &self.cfg);
@@ -573,7 +615,7 @@ pub const CLASSES: &str = "geometry: the geometry monitor, and loss-of-lock when
 satellite lost against the baseline was below low_elev_deg at its last report; environment: \
 cn0-drop, cn0-spread, cn0-rise, agc, jam-ind, loss-of-lock otherwise; inconsistency: every other monitor, and the \
 geometry monitor when the stated HDOP disagrees with the derived one by \
-reported_vs_derived_tol or more. A geometry class is a statement about the sky, not a finding \
+max(reported_vs_derived_tol, reported_vs_derived_rel x derived HDOP) or more. A geometry class is a statement about the sky, not a finding \
 that no attack occurred.";
 
 impl GeometryModel {
@@ -810,6 +852,48 @@ mod tests {
         assert!(g.hdop.unwrap() > 1.9, "{g:?}");
         assert!(g.reported_derived_mismatch);
         assert!(geometry_ratio(&g, &GeometryCfg::default()).unwrap().1);
+    }
+
+    #[test]
+    fn in_poor_geometry_the_tolerance_grows_with_the_hdop() {
+        // Four satellites in one quarter of the sky: a poor derived HDOP. A receiver solving
+        // with one clock per constellation, or with a subset of its satellites, states an HDOP
+        // 1.2 above it: inside 25 % of the derived HDOP, so not an inconsistency.
+        let sky: Vec<SatSky> = [(70.0, 10.0), (40.0, 30.0), (20.0, 60.0), (55.0, 80.0)]
+            .iter()
+            .enumerate()
+            .map(|(i, (e, a))| sat(&format!("G{:02}", i + 1), *e, *a))
+            .collect();
+        let stated = |h: Option<f64>| {
+            let mut e = epoch(0.0, sky.clone());
+            e.marine = Some(super::super::MarineObs {
+                hdop: h,
+                ..Default::default()
+            });
+            GeometryTracker::new(&GeometryCfg::default(), 10.0).push(&e)
+        };
+        let derived = stated(None).hdop.unwrap();
+        assert!(derived > 4.8, "a poor geometry: HDOP {derived}");
+        let cfg = GeometryCfg::default();
+        let g = stated(Some(derived + 1.2));
+        assert!(!g.reported_derived_mismatch);
+        assert!(!geometry_ratio(&g, &cfg).unwrap().1);
+        // Beyond 25 % it is an inconsistency.
+        let g = stated(Some(derived * 1.3));
+        assert!(g.reported_derived_mismatch);
+        assert!(geometry_ratio(&g, &cfg).unwrap().1);
+        // In an open sky the 1.0 absolute floor applies.
+        let open = |h: f64| {
+            let mut e = epoch(0.0, open_sky());
+            e.marine = Some(super::super::MarineObs {
+                hdop: Some(h),
+                ..Default::default()
+            });
+            GeometryTracker::new(&GeometryCfg::default(), 10.0).push(&e)
+        };
+        let d = open(1.0).hdop.unwrap();
+        assert!(!open(d + 0.9).reported_derived_mismatch);
+        assert!(open(d + 1.1).reported_derived_mismatch);
     }
 
     #[test]
