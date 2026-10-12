@@ -17,7 +17,7 @@
 | Item | Value |
 |---|---|
 | Frozen commit (the inputs) | `c05dac1d167988c33daf7ffc0ff8567b1c193ad4` |
-| Engine | Kshana 0.36.0 development line (the crate version string at freezing is 0.35.0; the result JSON carries no version) |
+| Engine | the tree at `c05dac1d` (its crate version string is 0.35.0; the result JSON carries no version) |
 | Region run | [`lunar-reference-station.region.toml`](lunar-reference-station.region.toml), SHA-256 `c265df1701a441df43b497eba39c63dfbe18bfd53087052315f49c99f105ec13` |
 | Its result | [`lunar-reference-station.region.result.json`](lunar-reference-station.region.result.json), SHA-256 `d108f77ecca57902774fdb3d9f62a8b8318c8435136864736d7e630cab0d4df3` |
 | Points run | [`lunar-reference-station.points.toml`](lunar-reference-station.points.toml), SHA-256 `c3bc398cad21c718ead419cb5499eaad9c9aa6388865f8d8ff1fcbfa106ae97c` |
@@ -35,6 +35,11 @@ south-polar station site (89.4765 S, 138.135 W), the 80 deg S region. ILLUSTRATI
 set, the 5 deg mask, the 50/50 orbit/clock split of the SISE, the 0.30 m station survey, 8-bit
 quantization, the 10 m alert limit, the 5 m protection-level residual, a day at 600 s, 200
 trials. The coverage threshold, 1 m at p95, was stated before the run.
+
+The right ascension of the ascending node and the phasing are not inputs: at the frozen commit the
+engine spaces the satellites evenly, satellite k of n at 360 k / n deg in both
+(`src/lunar_station.rs`, the constellation builder). That spacing is ILLUSTRATIVE, like the rest of
+the element set.
 
 ## Predicted figures
 

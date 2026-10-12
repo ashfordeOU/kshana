@@ -2,6 +2,8 @@
 *.result.json
 # the Studio ships recorded example results as site data (listed in web/PORT-MANIFEST.json)
 !web/studio/**/*.result.json
+# the frozen results of the pre-registered predictions are part of the record (tests/prediction_frozen.rs)
+!docs/predictions/*.result.json
 *.chart.svg
 *.report.html
 *.report.json
