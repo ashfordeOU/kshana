@@ -98,6 +98,7 @@ pub const BUNDLED: &[(&str, &str)] = &[
     bundled!("leo-vertical-5g-network-timing"),
     bundled!("leo-vertical-asset-tracking-iot"),
     bundled!("leo-vertical-autonomous-vehicle"),
+    bundled!("leo-vertical-autonomous-vehicle-skyline"),
     bundled!("leo-vertical-critical-infrastructure-timing"),
     bundled!("leo-vertical-polar-arctic"),
     bundled!("leo-vertical-rail-maritime"),
