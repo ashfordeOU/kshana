@@ -485,6 +485,8 @@ pub struct LunarStationCoverageReport {
     pub n_trials: usize,
     /// The percentile reported (0 to 100).
     pub percentile: f64,
+    /// The mean lunar radius the distances use (m).
+    pub moon_radius_m: f64,
     /// Region figures.
     pub region: RegionFigures,
     /// Coverage radius per azimuth sector.
@@ -1220,6 +1222,7 @@ impl LunarStationCoverageScenario {
             n_epochs: n_ep,
             n_trials: self.n_trials,
             percentile: p,
+            moon_radius_m: R_MOON_M,
             region,
             coverage_radius_km,
             points,
@@ -1379,6 +1382,7 @@ pub const UNITS: &[crate::field_schema::FieldUnit] = {
         u!("n_epochs", "count", Computed, "epochs swept"),
         u!("n_trials", "count", Input, "Monte Carlo trials per epoch"),
         u!("percentile", "1", Input, "the percentile reported, in percent (0 to 100)"),
+        u!("moon_radius_m", "m", Constant, "the mean lunar radius the great-circle distances use"),
         u!("region.availability", "1", Computed, "area-weighted mean over the points of the share of epochs available"),
         u!("region.coverage_fraction", "1", Computed, "area-weighted mean over the points of the share of epochs whose percentile 3-D error is at most accuracy_threshold_m"),
         u!("region.corrected_p_3d_m", "m", Computed, "area-weighted mean over the points with samples of each point's percentile corrected 3-D error"),

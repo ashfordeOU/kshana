@@ -125,6 +125,10 @@ pub struct LunarTimeBudgetScenario {
     /// one run, every row against the same frame term. Names are the same set the `clock`
     /// field accepts. Default: all four classes, best (optical) to coarsest (miniRAFS).
     pub clocks: Option<Vec<String>>,
+    /// Optional station time laboratory ([`crate::lunar_time_lab`]): a clock steered to LTC
+    /// then free-running or re-steered, evaluated over the same grid. Absent by default, and
+    /// then the report is exactly what it was without it.
+    pub time_lab: Option<crate::lunar_time_lab::TimeLabInput>,
 }
 
 impl LunarTimeBudgetScenario {
@@ -245,6 +249,7 @@ impl LunarTimeBudgetScenario {
     /// Run the scenario, returning `(json, summary)`.
     pub fn run_json(&self) -> Result<(String, String), String> {
         let clock = self.resolve_clock()?;
+        let lab = self.time_lab.as_ref().map(|l| l.resolve()).transpose()?;
         let taus = self.build_tau_grid()?;
         let params = BudgetParams::for_clock(clock);
         let budget = lunar_time_budget(&params, &taus);
@@ -267,7 +272,16 @@ impl LunarTimeBudgetScenario {
                 "clock_crossovers".to_string(),
                 serde_json::to_value(&crossovers).map_err(|e| e.to_string())?,
             );
-            obj.insert("units".to_string(), crossover_units());
+            let mut units = crossover_units();
+            if let Some(lab) = &lab {
+                obj.insert("time_lab".to_string(), lab.report(&taus));
+                if let (Some(u), serde_json::Value::Object(extra)) =
+                    (units.as_object_mut(), crate::lunar_time_lab::units())
+                {
+                    u.extend(extra);
+                }
+            }
+            obj.insert("units".to_string(), units);
         }
         let json = serde_json::to_string_pretty(&v).map_err(|e| e.to_string())?;
 
@@ -285,6 +299,17 @@ impl LunarTimeBudgetScenario {
             budget.frame_term_s,
             x_1day_ns,
         );
+        let summary = match &lab {
+            None => summary,
+            Some(lab) => {
+                format!(
+                    "{summary} | time lab: {} {} to LTC, x(1 d) {:.3} ns (MODELLED)",
+                    lab.clock_name(),
+                    lab.mode(),
+                    lab.total_at(86_400.0) * 1e9
+                )
+            }
+        };
         Ok((json, summary))
     }
 }

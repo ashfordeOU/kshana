@@ -51,6 +51,15 @@ pub struct ClockRinex {
 /// Parse the satellite (`AS`) records of a RINEX clock file (versions 2 and 3; the 3.04 nine-
 /// character name field is accepted too). Other records and the header are skipped.
 pub fn parse_clock_rinex(text: &str) -> Result<ClockRinex, String> {
+    parse_clock_rinex_records(text, "AS")
+}
+
+/// Parse the records of one type of a RINEX clock file (`"AS"` satellite clocks, `"AR"`
+/// receiver or station clocks, and so on), keyed by the record's name field. Epochs are the
+/// record's calendar fields counted as seconds from 1980-01-06 00:00:00 with no time-scale
+/// conversion: they are in whatever time system the file declares, which this function does not
+/// read (see [`crate::realdata::clk::rinex_clock_time_system`]).
+pub fn parse_clock_rinex_records(text: &str, record: &str) -> Result<ClockRinex, String> {
     let mut out = ClockRinex::default();
     let mut in_header = true;
     for line in text.lines() {
@@ -60,12 +69,12 @@ pub fn parse_clock_rinex(text: &str) -> Result<ClockRinex, String> {
             }
             continue;
         }
-        if !line.starts_with("AS") {
+        if !line.starts_with(record) {
             continue;
         }
         let t: Vec<&str> = line.split_whitespace().collect();
         if t.len() < 10 {
-            return Err(format!("short AS record: {line:?}"));
+            return Err(format!("short {record} record: {line:?}"));
         }
         let num = |s: &str| -> Result<f64, String> {
             s.replace(['D', 'd'], "E")

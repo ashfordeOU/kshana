@@ -158,6 +158,8 @@ pub mod ids {
         ScenarioId::from_static("moonlight-service-volume");
     pub const LUNAR_DIFFERENTIAL_PNT: ScenarioId =
         ScenarioId::from_static("lunar-differential-pnt");
+    /// Lunar reference-station coverage: the differential model swept over a south-polar
+    /// user grid and a day of epochs.
     pub const LUNAR_STATION_COVERAGE: ScenarioId =
         ScenarioId::from_static("lunar-station-coverage");
     pub const LUNAR_INTEROP_EXPORT: ScenarioId = ScenarioId::from_static("lunar-interop-export");

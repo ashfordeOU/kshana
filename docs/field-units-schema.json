@@ -1,8 +1,8 @@
 {
   "coverage": {
     "described_fields_without_definition": 239,
-    "fields_described": 2663,
-    "fields_total": 2665,
+    "fields_described": 2664,
+    "fields_total": 2666,
     "fields_without_units": 2,
     "kinds_complete": 75,
     "kinds_total": 76,
@@ -11297,6 +11297,12 @@
           "provenance": "input",
           "unit": "s"
         },
+        "moon_radius_m": {
+          "definition": "the mean lunar radius the great-circle distances use",
+          "evidence_tier": "validated",
+          "provenance": "constant",
+          "unit": "m"
+        },
         "n_epochs": {
           "definition": "epochs swept",
           "evidence_tier": "inherits-scenario-label",
@@ -11508,8 +11514,8 @@
           "unit": "deg"
         }
       },
-      "fields_described": 126,
-      "fields_total": 126,
+      "fields_described": 127,
+      "fields_total": 127,
       "fields_without_units": [],
       "label": "MODELLED",
       "source": "tests/fixtures/lunar_station/gate.toml"

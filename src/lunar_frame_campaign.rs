@@ -535,8 +535,18 @@ impl LunarFrameCampaignScenario {
     ///
     /// Public because the accumulation is only meaningful next to the schedule that produced it.
     pub fn schedule(&self) -> Result<CampaignSchedule, String> {
-        let stations = self.resolved_stations()?;
+        self.resolved_stations()?;
         let beacons = self.resolved_beacons()?;
+        let sels: Vec<Selenographic> = beacons.iter().map(|(_, _, s)| *s).collect();
+        self.schedule_for(&sels)
+    }
+
+    /// [`Self::schedule`] for an explicit list of beacon positions instead of the scenario's
+    /// catalogue, with the same stations, epochs and both visibility tests. It does not apply
+    /// the catalogue's three-beacon minimum, which belongs to the datum and not to the schedule,
+    /// so a single added beacon can be scheduled on its own.
+    pub fn schedule_for(&self, beacons: &[Selenographic]) -> Result<CampaignSchedule, String> {
+        let stations = self.resolved_stations()?;
         let (_arc, step_min, n_epochs) = self.resolved_schedule()?;
         let mask = self.resolved_mask()?;
         let earth_mask = self.resolved_earth_mask()?;
@@ -554,7 +564,7 @@ impl LunarFrameCampaignScenario {
         let mut geoms: Vec<Vec<EpochGeometry>> = Vec::with_capacity(beacons.len());
         let mut observations = Vec::new();
         let mut earth_below = vec![0usize; beacons.len()];
-        for (b, (_, _, sel)) in beacons.iter().enumerate() {
+        for (b, sel) in beacons.iter().enumerate() {
             let per_epoch: Vec<EpochGeometry> = (0..n_epochs)
                 .map(|k| epoch_geometry(&geodetics, *sel, jd_utc_epoch, k as f64 * step_h))
                 .collect();
@@ -601,6 +611,69 @@ impl LunarFrameCampaignScenario {
             geoms,
             observations,
             earth_below_beacon_horizon: earth_below,
+        })
+    }
+}
+
+/// The VLBI information this campaign's stations and schedule put on each of a list of beacon
+/// positions, with the Earth stations held fixed: per beacon, the `3 x 3` body-fixed coordinate
+/// information (1/m^2), the observations that cleared both visibility tests, and the epochs at
+/// which no station passed both visibility tests (Moon above the station's elevation mask and
+/// station above the beacon's horizon).
+pub struct BeaconInformation {
+    /// Per-beacon `3 x 3` information, in the order the beacons were given.
+    pub info: Vec<[[f64; 3]; 3]>,
+    /// Per-beacon count of scheduled observations.
+    pub observations: Vec<usize>,
+    /// Per-beacon count of epochs at which no station passed both visibility tests (Moon above the station's elevation mask and station above the beacon's horizon).
+    pub earth_below_beacon_horizon: Vec<usize>,
+    /// The per-observation delay sigma used as weight (s).
+    pub delay_sigma_s: f64,
+    /// Epochs in the schedule.
+    pub n_epochs: usize,
+    /// Earth stations in the network.
+    pub n_stations: usize,
+}
+
+impl LunarFrameCampaignScenario {
+    /// The fixed-station VLBI information on each of `beacons` from this campaign's network and
+    /// schedule ([`Self::schedule_for`]). With the stations fixed no observation touches two
+    /// beacons, so each beacon's block is exact on its own. Refuses an estimated station datum,
+    /// which would couple the beacons through the shared station parameters.
+    pub fn beacon_information(
+        &self,
+        beacons: &[Selenographic],
+    ) -> Result<BeaconInformation, String> {
+        if self.resolved_station_datum()? != StationDatum::Fixed {
+            return Err(
+                "beacon information per site needs station_datum = \"fixed\"; an estimated \
+                 station datum couples the beacons"
+                    .to_string(),
+            );
+        }
+        let sigma = self.resolved_sigma()?;
+        let sched = self.schedule_for(beacons)?;
+        let dim = 3 * beacons.len();
+        let w = 1.0 / (sigma * sigma);
+        let mut info = vec![[[0.0; 3]; 3]; beacons.len()];
+        let mut observations = vec![0usize; beacons.len()];
+        for obs in &sched.observations {
+            let row = campaign_jacobian_row(&sched.geoms[obs.beacon][obs.epoch], 0, *obs, dim);
+            let o = 3 * obs.beacon;
+            for p in 0..3 {
+                for q in 0..3 {
+                    info[obs.beacon][p][q] += w * row[o + p] * row[o + q];
+                }
+            }
+            observations[obs.beacon] += 1;
+        }
+        Ok(BeaconInformation {
+            info,
+            observations,
+            earth_below_beacon_horizon: sched.earth_below_beacon_horizon,
+            delay_sigma_s: sigma,
+            n_epochs: sched.geoms.first().map(|g| g.len()).unwrap_or(0),
+            n_stations: self.resolved_stations()?.len(),
         })
     }
 }
@@ -743,9 +816,18 @@ pub fn solve_datum(
 ) -> (Vec<Vec<f64>>, DatumSolution) {
     let at = transpose(a);
     let h = matmul(&matmul(&at, info_b), a);
-    let c = crlb(&h, rel_tol);
-    let dm = design_metrics(&h, rel_tol);
-    let eig = crate::fim::sym_eig(&h);
+    let sol = solve_datum_information(&h, rel_tol);
+    (h, sol)
+}
+
+/// The seven-parameter datum solution of a Helmert information matrix `h` (`7 x 7`, in the
+/// balanced units of [`HELMERT_PARAMETERS`]), diagnosed by [`crate::fim::crlb`]. [`solve_datum`]
+/// is this applied to `A^T M_b A`; it is public so that independent contributions to `h` (for
+/// example added sites, each `A_p^T M_p A_p`) can be summed before the solve.
+pub fn solve_datum_information(h: &[Vec<f64>], rel_tol: f64) -> DatumSolution {
+    let c = crlb(h, rel_tol);
+    let dm = design_metrics(h, rel_tol);
+    let eig = crate::fim::sym_eig(h);
     // Column 0 is the smallest eigenvalue's eigenvector (sym_eig sorts ascending). An
     // eigenvector's sign is arbitrary, so pin it: the largest-magnitude component is made
     // positive, and the emitted direction is then reproducible rather than sign-flipping between
@@ -773,7 +855,7 @@ pub fn solve_datum(
             (1.0 - leak).clamp(0.0, 1.0)
         })
         .collect();
-    let sol = DatumSolution {
+    DatumSolution {
         rank: c.rank,
         defect: c.defect,
         eigenvalues: c.eigenvalues.clone(),
@@ -784,8 +866,7 @@ pub fn solve_datum(
         constrained_fraction,
         weakest_direction: weakest,
         weakest_eigenvalue: eig.values[0],
-    };
-    (h, sol)
+    }
 }
 
 impl DatumSolution {
