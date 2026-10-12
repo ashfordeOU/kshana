@@ -113,6 +113,7 @@ pub const BUNDLED: &[(&str, &str)] = &[
     bundled!("lunar-jamming"),
     bundled!("lunar-joint-od-clock"),
     bundled!("lunar-relay-constellation"),
+    bundled!("lunar-station-time-lab"),
     bundled!("lunar-time-budget"),
     bundled!("lunar-time-offset"),
     bundled!("lunar-vlbi"),
@@ -212,6 +213,20 @@ pub const REPO_ONLY: &[(&str, &str)] = &[
         "reads the archived lunar laser-ranging data slice under tests/fixtures/lunar_llr, \
          which ships with the repository but not with the registry packages; clone \
          https://github.com/ashfordeOU/kshana and run `kshana scenarios/lunar-llr-datum.toml` \
+         from the checkout, or set `data_dir` to a copy of that slice",
+    ),
+    (
+        "lunar-station-geodesy-baseline",
+        "reads the archived lunar laser-ranging data slice under tests/fixtures/lunar_llr, \
+         which ships with the repository but not with the registry packages; clone \
+         https://github.com/ashfordeOU/kshana and run `kshana scenarios/lunar-station-geodesy-baseline.toml` \
+         from the checkout, or set `data_dir` to a copy of that slice",
+    ),
+    (
+        "lunar-station-geodesy-with-station",
+        "reads the archived lunar laser-ranging data slice under tests/fixtures/lunar_llr, \
+         which ships with the repository but not with the registry packages; clone \
+         https://github.com/ashfordeOU/kshana and run `kshana scenarios/lunar-station-geodesy-with-station.toml` \
          from the checkout, or set `data_dir` to a copy of that slice",
     ),
     (
