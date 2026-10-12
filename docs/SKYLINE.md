@@ -166,6 +166,25 @@ instead (or as well) be given directly: `"satellites": [{"id": "G05", "system": 
 directly), one receiver clock per system (`"common"` for one shared clock), `σ_UERE` 1 m (a
 representative dual-frequency budget line), confidence 0.95.
 
+**A dated sky from element sets.** `"tle"` takes two-line element set text (a name line before
+each set is optional; at most 4 MiB, an input cap), propagated by the engine's SGP4 (WGS-72, the
+propagator `orbit-real-tle` uses) to `"epoch"` plus `time_s`, rotated to Earth-fixed with UT1
+taken as UTC and no polar motion, and seen from `site`. `"epoch"` is UTC ISO 8601
+(`2026-06-07T12:00:00Z`) and dates only the element sets (the presets carry no date, so an
+`epoch` without `tle` is refused); `"tle_system"` labels them for the per-system clock (default
+`TLE`). Every result says what sky it is in `sky_source` and `sky_statement`:
+
+| `sky_source` | The sky |
+|---|---|
+| `presets` | the engine's constellation presets: a representative geometry |
+| `tle-at-epoch` | the element sets propagated to the stated epoch: the sky those element sets give at that epoch, not a measurement of it (their own accuracy is SGP4's and the sets' age) |
+| `tle-at-element-epoch` | no `epoch`: the element sets propagated to the newest set's own epoch plus `time_s`, a representative sky |
+| `satellites` | satellites given directly, as stated |
+
+A mix joins them with `+`. `epoch_utc` is the instant the element sets were propagated to, and
+`tle_skipped` names any set SGP4 refused there (decayed, or past its limits) with the reason.
+The skyplot states the basis in its footer.
+
 **One kernel.** The cofactor matrix is `orbit::cofactor_from_los`, the design-matrix assembly and
 Gauss-Jordan inverse behind `orbit::dop`. `orbit::dop_cov` exposes the covariance and `orbit::dop`
 is its reduction, so the VALIDATED scalars are unchanged and still pinned by
@@ -177,7 +196,7 @@ is its reduction, so the VALIDATED scalars are unchanged and still pinned by
 
 | Surface | Entry points |
 |---|---|
-| CLI | `kshana sky <request.json\|toml>` or `kshana sky --site <lat,lon[,h]> --systems <a,b> [--time] [--mask] [--skyline-preset] [--uere] [--clock]`, with `--monte-carlo <n> --seed <s>` or `--svg`; `kshana skyline --preset <name> \| --presets \| --profile <file>` |
+| CLI | `kshana sky <request.json\|toml>` or `kshana sky --site <lat,lon[,h]> (--systems <a,b> \| --tle <file>) [--epoch] [--tle-system] [--time] [--mask] [--skyline-preset] [--uere] [--clock]`, with `--monte-carlo <n> --seed <s>` or `--svg`; `kshana skyline --preset <name> \| --presets \| --profile <file>` |
 | Rust | `kshana::geometry::{sky_geometry, sky_monte_carlo, skyline_presets, skyline_profile, skyplot_svg}`, `kshana::surface::*` of the same names |
 | Python | `kshana.sky_geometry`, `sky_monte_carlo`, `skyline_presets`, `skyline_profile`, `skyplot_svg` |
 | WASM | `sky_geometry(request_json)`, `sky_monte_carlo(request_json, seed, n)`, `skyline_presets()`, `skyline_profile(skyline_json)`, `skyplot_svg(request_json)` |

@@ -101,3 +101,34 @@ fn skyline_lists_and_describes_presets() {
     let (ok, _, err) = kshana(&["skyline"]);
     assert!(!ok && err.contains("usage"), "{err}");
 }
+
+#[test]
+fn sky_reads_element_sets_and_dates_the_sky() {
+    let tle = concat!(
+        env!("CARGO_MANIFEST_DIR"),
+        "/tests/fixtures/celestrak/gps-ops_2026-06-07.txt"
+    );
+    let (ok, out, err) = kshana(&[
+        "sky",
+        "--site",
+        "52.0,5.0,45",
+        "--tle",
+        tle,
+        "--tle-system",
+        "G",
+        "--epoch",
+        "2026-06-07T12:00:00Z",
+        "--skyline-preset",
+        "city-street",
+    ]);
+    assert!(ok, "{err}");
+    let v: serde_json::Value = serde_json::from_str(&out).unwrap();
+    assert_eq!(v["sky_source"], "tle-at-epoch");
+    assert_eq!(v["epoch_utc"], "2026-06-07T12:00:00.000000Z");
+    assert!(v["sky_statement"]
+        .as_str()
+        .unwrap()
+        .contains("not a measurement"));
+    let (ok, _, err) = kshana(&["sky", "--site", "52,5", "--tle", "/nonexistent.tle"]);
+    assert!(!ok && err.contains("cannot read"), "{err}");
+}
