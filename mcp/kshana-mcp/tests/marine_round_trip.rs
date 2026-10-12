@@ -129,6 +129,14 @@ async fn vessel_stream_excerpt_is_scored() {
     assert!(!lines.is_empty() && lines.len() <= MAX_REPORT_LINES);
     let first: Value = serde_json::from_str(lines[0]).unwrap();
     assert!(first["score"].is_number() && first["state"] != "nominal");
+    // Schema 1.3: the satellite geometry and the attribution travel with every epoch.
+    assert_eq!(
+        v["report_schema"],
+        "JSON lines, version 1.3 (docs/MARITIME-TRUST.md)"
+    );
+    assert!(first["geometry"]["status"].is_string(), "{first}");
+    assert!(first["degradation"].is_string(), "{first}");
+    assert!(v["summary"]["geometry"]["good"].is_u64(), "{v}");
     // A static platform is refused with the reason.
     let e = call(
         &client,
@@ -160,6 +168,13 @@ async fn vessel_log_batch_is_trimmed_to_counts_and_notable_epochs() {
         .unwrap();
     assert!(!notable.is_empty() && notable.len() <= MAX_REPORT_LINES);
     assert!(v["notice"].as_str().unwrap().contains("Advisory only"));
+    // The geometry thresholds, their provenance and the per-epoch geometry are kept.
+    assert!(
+        v["geometry_model"]["provenance"]["pdop_max"].is_string(),
+        "{v}"
+    );
+    assert!(v["geometry_summary"].is_object());
+    assert!(notable[0]["geometry"]["status"].is_string());
     client.cancel().await.ok();
 }
 

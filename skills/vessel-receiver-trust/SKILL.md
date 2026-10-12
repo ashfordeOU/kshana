@@ -15,6 +15,11 @@ Rules that apply every time:
   change a threshold to fit a result.
 - Report the score, the epoch counts by state, and the monitors that deducted, as the tool
   returned them. Do not invent figures.
+- Report each epoch's satellite `geometry` beside the score, never instead of it, and its
+  `degradation`: `geometry` means the evidence fits a masked or thin sky (natural degradation),
+  `inconsistency` or `geometry-and-inconsistency` keeps the attack-like evidence. When the status
+  is `unknown` (no GSV or GSA in the log), say "geometry unknown"; do not infer one. The geometry
+  never changes the score.
 - **Advisory only**: not type-approved navigation equipment (IEC 61108, IEC 61162); the
   operator is responsible. The monitors are **MODELLED**. A high score is not proof of a
   genuine fix: the checks cannot see a spoofer consistent with every other sensor on the bus.

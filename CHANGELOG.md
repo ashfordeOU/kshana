@@ -9,6 +9,49 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+### Added
+
+- **Geometry-aware trust.** Every `receiver-trust` epoch, static or vessel, batch or live, now
+  carries its satellite geometry beside the trust score: `good`, `degraded` (reasons
+  `few-satellites`, `high-pdop`, `high-hdop`, `sky-blocked`) or `unknown` where the log gives no
+  satellite geometry, with the DOP and the largest azimuth gap. It is computed from the
+  elevations and azimuths the receiver reports (NMEA GSV, UBX NAV-SAT) through the existing
+  `orbit::dop` kernel, or taken from NMEA GSA. Each epoch also says what its degradation is
+  attributed to (`none`, `geometry`, `inconsistency`, `geometry-and-inconsistency`), so a sky
+  masked on one side does not read as an attack while every other consistency check stays
+  attack-like. Thresholds in a new `[geometry]` table, each with its provenance (PDOP 6 and HDOP 4
+  after the GPS SPS Performance Standard and IEC 61108-1, five satellites for one redundant
+  measurement, an azimuth gap of 180 degrees, and a 1.0 HDOP tolerance between the HDOP the
+  receiver states and the one its stated sky gives, beyond which nothing is put down to geometry,
+  so a forged poor sky cannot buy the label). MODELLED; advisory software, not type-approved
+  navigation equipment (IEC 61108, IEC 61162): the operator remains responsible for the
+  navigation of the vessel.
+- The geometry reaches every surface: the result JSON (`epochs[].geometry`, `degradation`,
+  `explained_by_geometry`, `geometry_model`, `geometry_summary`), the live JSON lines (schema 1.3),
+  the Python and WebAssembly `receiver_trust`, `assess_vessel_log` and `receiver_trust_replay`,
+  the MCP `assess_*` tools, evidence packs (`epochs.json`, `config.json`, the summary page) and
+  `trust-telemetry` (Prometheus `kshana_trust_geometry*` and `kshana_trust_degradation*`, OTLP
+  `kshana.trust.geometry*`, CEF `cs6`/`flexString1`/`flexString2`/`cfp3`, LEEF
+  `geometry`/`geometryReasons`/`degradation`/`pdop`).
+- Ledger row "Position error from geometry: RMS error = sigma_UERE x DOP" (**MODELLED**,
+  internal consistency): a seeded Monte Carlo of the engine's least-squares fix on four skies
+  against the analytic covariance from the validated DOP kernel, with chi-square confidence
+  intervals as tolerances. 264 rows: 132 Validated, 128 Modelled, 4 Partner.
+
+### Changed
+
+- The geometry never changes a score, band, alarm or deduction:
+  `tests/geometry_trust_no_change.rs` holds both example sessions' outputs to the 0.35.0 bytes
+  once the appended keys are removed. Intended changes, all additions: the keys above in the
+  result JSON and evidence packs; the live JSON-lines schema goes from 1.2 to 1.3 with
+  `geometry`, `degradation` and `explained_by_geometry` appended; the excerpt summary gains
+  `geometry`; telemetry gains geometry series and fields only for inputs that carry geometry, so
+  a 0.35 stream or result renders byte for byte as before. The CSV, SVG, one-line verdict and
+  `$PKSHT` are unchanged.
+- The NMEA reader now reads GSA (a short GSA is ignored, not counted as skipped) and keeps GSV
+  elevations and azimuths, including for satellites listed without a signal; the UBX reader keeps
+  NAV-SAT elevation and azimuth. C/N0 is read exactly as before.
+
 ## [0.35.0] - 2026-10-12
 
 Trusted fix: software that scores the trust of a vessel's navigation fix from the receiver
