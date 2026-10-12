@@ -98,7 +98,7 @@ pub const KIND_CAPABILITIES: &[(&str, &[&str])] = &[
     ("lunar-joint-od-clock", &["Lunar joint multi-technique OD + clock", "Lunar absolute-station observability (datum defect)", "Fisher information & Cramér–Rao observability"]),
     ("lunar-frame-realisation", &["Lunar reference-frame realisation"]),
     ("lunar-frame-campaign", &["Lunar frame datum from an observing campaign"]),
-    ("lunar-llr-datum", &["Lunar frame datum from a REAL observing campaign"]),
+    ("lunar-llr-datum", &["Lunar frame datum from a REAL observing campaign", "Lunar reference-station geodesy: added retroreflector and VLBI beacon against the five-array datum"]),
     ("moonlight-service-volume", &["Lunar navigation service volume", "Lunar joint communications-and-navigation geometry"]),
     ("lunar-differential-pnt", &["Lunar differential PNT", "Lunar differential PNT — correction-link residual budget"]),
     ("lunar-beacon", &["Lunar surface-beacon DOP augmentation"]),
