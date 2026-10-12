@@ -32,6 +32,11 @@ const TOL_DOP_WELL: f64 = 1e-9;
 const TOL_DOP_ILL: f64 = 1e-6;
 const PDOP_SPLIT: f64 = 20.0;
 
+/// A three-part key: (site, epoch, satellite) for a look angle, (site, epoch, mask) for a set.
+type Key = (String, String, String);
+/// Orekit's row for one look angle: (azimuth, elevation, the mask cut under each table).
+type OrekitRow = (f64, f64, Vec<f64>);
+
 fn dir() -> PathBuf {
     Path::new(env!("CARGO_MANIFEST_DIR")).join("tests/fixtures/skyline_orekit_oracle")
 }
@@ -184,7 +189,7 @@ fn skyline_masks_agree_with_orekit_and_gnss_lib_py_as_pre_registered() {
         mask_ids.iter().cloned().collect::<BTreeSet<_>>(),
         inp.masks.keys().cloned().collect::<BTreeSet<_>>()
     );
-    let orekit: BTreeMap<(String, String, String), (f64, f64, Vec<f64>)> = csv(&orekit_path)
+    let orekit: BTreeMap<Key, OrekitRow> = csv(&orekit_path)
         .into_iter()
         .map(|r| {
             (
@@ -197,9 +202,8 @@ fn skyline_masks_agree_with_orekit_and_gnss_lib_py_as_pre_registered() {
     let (mut worst_el, mut worst_az, mut worst_cut) = (0.0_f64, 0.0_f64, 0.0_f64);
     let (mut n_look, mut band, mut set_mismatch) = (0usize, 0usize, Vec::new());
     // Kshana's own visible sets: (site, epoch, mask) -> [(sat, az, el)].
-    let mut kshana_sets: BTreeMap<(String, String, String), Vec<(String, f64, f64)>> =
-        BTreeMap::new();
-    let mut orekit_sets: BTreeMap<(String, String, String), BTreeSet<String>> = BTreeMap::new();
+    let mut kshana_sets: BTreeMap<Key, Vec<(String, f64, f64)>> = BTreeMap::new();
+    let mut orekit_sets: BTreeMap<Key, BTreeSet<String>> = BTreeMap::new();
     for (site, geo) in &inp.sites {
         for (epoch, sat, pos) in &inp.sats {
             let l = look_angles(*geo, *pos);

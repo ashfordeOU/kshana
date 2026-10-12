@@ -148,16 +148,15 @@ fn ellipse_and_cofactor_agree_with_numpy_as_pre_registered() {
         let up: Vec<f64> = r[11].split(';').map(f).collect();
         let scale = up.iter().fold(0.0_f64, |m, v| m.max(v.abs()));
         let mut it = up.iter();
-        for i in 0..q.len() {
-            for j in i..q.len() {
+        for (i, row) in q.iter().enumerate() {
+            for (j, qij) in row.iter().enumerate().skip(i) {
                 let o = it.next().expect("numpy gave the whole triangle");
-                let diff = (q[i][j] - o).abs() / scale;
+                let diff = (qij - o).abs() / scale;
                 worst_q = worst_q.max(diff);
                 assert!(
                     diff <= tol,
-                    "(c) {key:?} {} q[{i}][{j}]: {} vs {o}",
-                    r[3],
-                    q[i][j]
+                    "(c) {key:?} {} q[{i}][{j}]: {qij} vs {o}",
+                    r[3]
                 );
             }
         }
