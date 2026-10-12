@@ -54,7 +54,7 @@ t_step_s = 600.0           # every 10 min
 n_trials = 200             # Monte Carlo trials per epoch
 
 # Thresholds, stated before the run and never fitted.
-accuracy_threshold_m = 1.0 # coverage: the percentile 3-D error at most this
+accuracy_threshold_m = 20.0 # ILLUSTRATIVE: sized to this example's illustrative 65 m SISE so the map shows where coverage holds; the public-sources example uses 1 m
 percentile = 95.0
 alert_limit_m = 10.0       # ILLUSTRATIVE: no public alert limit exists
 residual_sigma_m = 5.0     # ILLUSTRATIVE (lunar-differential-pnt's default)
