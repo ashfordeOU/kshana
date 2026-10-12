@@ -52,6 +52,26 @@ breaking changes are called out explicitly.
   relative (`xval/numpy-ellipse/`). **MODELLED**: the canyon, sector and terrain reductions; the
   presets; the sky-geometry composition (preset sky, Monte Carlo cloud).
 
+### Changed
+
+- `gnss_sim::run_gnss_sim` and `jamming::run_jamming` return `Result`: an invalid `[skyline]`
+  section is an error when called directly, as it already was through `api::run_toml`, rather
+  than a silent fall-back to the flat mask. **Breaking** for Rust callers of these two functions.
+- A ground site (`user_site`) of `orbit` and `integrity` evaluates each sample at one absolute
+  instant, `epoch + t`: element sets, broadcast ephemerides and SP3 files are advanced from their
+  own epochs to it and every satellite is rotated to Earth-fixed at it, so the site sees one
+  consistent sky. Without a stated `epoch` (always for `integrity`) the instant is dated from the
+  newest satellite epoch. Orbiting users are unchanged.
+
+### Fixed
+
+- A skyline's added `table` or `terrain` no longer lowers the cut of a preset's own table or
+  terrain: each table and terrain profile is interpolated on its own and the cut is their
+  pointwise maximum (they were interleaved into one table, so a far, low point beside the fjord's
+  walls could pull the cut down to the mask). Property-tested on a 0.1° grid.
+- `sky_geometry` refuses a system table asking for more than 2000 satellites before building it
+  (a short request could otherwise exhaust memory), and refuses more than 16 receiver clocks.
+
 ## [0.35.0] - 2026-10-12
 
 Trusted fix: software that scores the trust of a vessel's navigation fix from the receiver

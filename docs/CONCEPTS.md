@@ -64,6 +64,9 @@ reach past the sensors to the signals and the geometry the sensors depend on:
 
 - **Where the satellites are** — orbit propagation, constellation design around the
   Earth, the Moon or another body, and the positions of the solar-system bodies.
+- **What the receiver can see** — an azimuth-dependent skyline (a street, a quay, a fjord)
+  over the elevation mask, and the sky geometry it leaves: the satellites in view, their
+  dilution of precision and the error ellipse.
 - **What the receiver hears** — the L-band spectrum under a jammer, jamming and spoofing,
   and tracking-loop loss of lock.
 - **Whether the answer can be trusted** — integrity monitoring (RAIM, receiver autonomous
