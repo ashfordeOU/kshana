@@ -463,6 +463,18 @@ jobs:
         run: node web/studio/lib/geojson-layer.test.mjs
       - name: Test the training debrief's logic
         run: node web/studio/lib/training.test.mjs
+      - name: Test the Geometry view's address (state round trip, bounds and refusals)
+        run: node web/studio/lib/geometry-url.test.mjs
+      - name: Test the Geometry view's skyline drawing (360-bin table, snapping, encoding)
+        run: node web/studio/lib/skyline-edit.test.mjs
+      - name: Test the Geometry view's skyplot drawing helpers
+        run: node web/studio/lib/skyplot.test.mjs
+      - name: Test the Geometry view's engine adapter
+        run: node web/studio/lib/geometry-adapter.test.mjs
+      - name: Test the trust view's geometry lane (0.36 fields, never good when unknown)
+        run: node web/studio/lib/trust-geometry.test.mjs
+      - name: Test the lunar station view's reader, address and map placement (0.36)
+        run: node web/studio/lib/lunar-station.test.mjs
   # ---------------------------------------------------------------------------
   # Overlay-registry assurance gates (Phase 0).
   #
