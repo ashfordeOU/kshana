@@ -121,7 +121,7 @@ pub const KIND_CAPABILITIES: &[(&str, &[&str])] = &[
     ("attitude-budget", &["3-DOF attitude & pointing error budget (AOCS)", "Spacecraft bus engineering (AOCS/thermal/structures/propulsion/power)"]),
     ("passes", &["Ground-station pass prediction (ground segment)"]),
     ("link-budget", &["One-way link budget (comms / link design)", "Link-budget report self-description"]),
-    ("lunar-time-budget", &["Per-clock-class lunar time crossover table", "Lunar time-error budget reproducibility"]),
+    ("lunar-time-budget", &["Per-clock-class lunar time crossover table", "Lunar time-error budget reproducibility", "Lunar station time laboratory: miniRAFS holdover against LTC"]),
     ("realtime-frame-eop", &["Joint UT1 and polar-motion error over a common row set", "Offline default Earth-orientation input is a real IERS product", "Operational-style Earth-orientation prediction error, measured predicted-versus-final"]),
     ("hybrid-optical-rf", &["Hybrid optical/RF report self-description", "Hybrid optical/RF link availability on the RF side", "Like-for-like optical-versus-RF ranging comparison", "Cross-modality integrity monitor detection power", "Post-handover covariance re-growth against the alert limit"]),
     ("cislunar-observability", &["Spatial, noisy, multi-family cislunar arc-length observability"]),
