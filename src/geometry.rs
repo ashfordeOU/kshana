@@ -83,6 +83,10 @@ pub const MAX_MC_SAMPLES: usize = 5000;
 /// they are above the horizon.
 pub const MAX_SATELLITES: usize = 2000;
 
+/// Most receiver clocks one request may estimate (`clock = "per-system"` with that many
+/// systems in view): an input cap, so a request cannot ask for a thousand-state solution.
+pub const MAX_CLOCKS: usize = 16;
+
 /// Largest `tle` text one request may carry (4 MiB, the Studio's cap): an input cap.
 pub const MAX_TLE_BYTES: usize = 4 * 1024 * 1024;
 
@@ -639,6 +643,21 @@ fn looks(req: &SkyRequest) -> Result<(Vec<Look>, usize, Basis), String> {
             return Err("sky: time_s must be finite".into());
         }
         for spec in systems {
+            // Refuse an oversized table before building it: a short request can ask for
+            // millions of Walker satellites, and building them first would exhaust memory.
+            if let SystemSpec::Table(cfg) = spec {
+                let asked = cfg
+                    .shell
+                    .iter()
+                    .fold(cfg.satellite.len(), |n, sh| n.saturating_add(sh.total));
+                if all.len().saturating_add(asked) > MAX_SATELLITES {
+                    return Err(format!(
+                        "sky: system \"{}\" asks for {asked} satellites; a request holds at most \
+                         {MAX_SATELLITES}",
+                        cfg.name
+                    ));
+                }
+            }
             let sys = build_system(spec)?;
             let mask = req.mask_deg.unwrap_or(sys.mask_deg);
             for (j, o) in sys.orbits.iter().enumerate() {
@@ -781,6 +800,13 @@ fn solve(req: &SkyRequest) -> Result<Solved, String> {
                 let k = match clock_labels.iter().position(|c| *c == l.system) {
                     Some(k) => k,
                     None => {
+                        if clock_labels.len() == MAX_CLOCKS {
+                            return Err(format!(
+                                "sky: more than {MAX_CLOCKS} systems in view, each with its own \
+                                 clock; group satellites under fewer `system` labels or use \
+                                 clock = \"common\""
+                            ));
+                        }
                         clock_labels.push(l.system.clone());
                         clock_labels.len() - 1
                     }
@@ -1614,5 +1640,49 @@ mod tests {
             ..Default::default()
         };
         assert!(err(empty).contains("no complete"));
+    }
+
+    #[test]
+    fn an_oversized_system_table_is_refused_before_it_is_built() {
+        // The review's request: about 150 bytes asking for 200 million Walker satellites.
+        let text = r#"{"site":{"lat_deg":0,"lon_deg":0},"systems":[{"name":"x","shell":[{"total":200000000,"planes":1,"phasing":0,"altitude_km":1000,"inclination_deg":50}]}]}"#;
+        let err = sky_geometry_json(text).unwrap_err();
+        assert!(
+            err.contains("200000000") && err.contains("at most"),
+            "{err}"
+        );
+        let huge = format!(
+            r#"{{"site":{{"lat_deg":0,"lon_deg":0}},"systems":[{{"name":"x","shell":[{{"total":{},"planes":1,"phasing":0,"altitude_km":1000,"inclination_deg":50}},{{"total":{},"planes":1,"phasing":0,"altitude_km":1000,"inclination_deg":50}}]}}]}}"#,
+            usize::MAX,
+            usize::MAX
+        );
+        assert!(sky_geometry_json(&huge).unwrap_err().contains("at most"));
+    }
+
+    #[test]
+    fn more_clocks_than_the_cap_are_refused() {
+        let sats = |systems: usize| -> Vec<SatelliteInput> {
+            (0..2 * systems)
+                .map(|i| SatelliteInput {
+                    id: Some(format!("S{i}")),
+                    system: Some(format!("sys{}", i % systems)),
+                    az_deg: Some((i as f64 * 7.3) % 360.0),
+                    el_deg: Some(10.0 + (i as f64 * 3.1) % 70.0),
+                    ..Default::default()
+                })
+                .collect()
+        };
+        let req = |n| SkyRequest {
+            satellites: Some(sats(n)),
+            ..Default::default()
+        };
+        assert!(sky_geometry(&req(MAX_CLOCKS)).is_ok());
+        let err = sky_geometry(&req(MAX_CLOCKS + 1)).unwrap_err();
+        assert!(err.contains("more than 16 systems"), "{err}");
+        let common = SkyRequest {
+            clock: ClockModel::Common,
+            ..req(1000)
+        };
+        assert!(sky_geometry(&common).is_ok());
     }
 }
