@@ -2,13 +2,13 @@
 //! The lab-replay campaign runner and scoring engine (`kshana::iq::campaign`), end to end
 //! on a synthetic campaign whose truth is known.
 //!
-//! PIN-SCOPE: the three 64-character pins below. `PRE_M2M4_METRICS` covers the per-satellite
+//! PIN-SCOPE: the three 64-character pins below. `PRE_M2M4_SCORED` covers the per-satellite
 //! scored results of the 12 reference cells (canonical hash of their `satellites` arrays).
 //! `DIGEST_M2M4` and `DIGEST_NWPR` cover every cell file of the reference campaign and of
 //! its NWPR twin, so they include each cell's `engine_version` and key: they move at every
 //! version bump, by design, and are re-pinned in the bump commit.
-//! PIN-EXCLUDES: `PRE_M2M4_METRICS` strips the per-estimator fields added with
-//! `cn0_estimator`; the DIGESTs exclude the HTML report, the scorecards and `hashes.json`.
+//! PIN-EXCLUDES: `PRE_M2M4_SCORED` strips the per-estimator fields added with
+//! `cn0_estimator` and the MODELLED reference; the DIGESTs exclude the HTML report, the scorecards and `hashes.json`.
 //!
 //! Kshana scenes stand in for lab recordings. Each satellite's C/N0 follows a stated
 //! profile, applied as a per-satellite amplitude through the scene's channel hook. That is
@@ -16,8 +16,9 @@
 //! or spoofer. The test-condition files then state the events a lab would have stated:
 //!
 //! * `ramp`: a broadband event whose stated J/S steps from 20 dB to 30 dB. The scene's C/N0
-//!   follows the analytic spectral-separation value for that J/S, so the measured
-//!   degradation must sit on the MODELLED reference.
+//!   follows the analytic spectral-separation value for that J/S at `SCENE_Q` = 1, so the
+//!   measured degradation must follow it; the MODELLED reference beside it uses the jamming
+//!   kind's Q table (broadband 2 since 0.36).
 //! * `gap`: an outage, where the signal is absent for 1.5 s. Lock must be lost shortly
 //!   after the onset, and the loss and re-acquisition times must agree with the injected
 //!   gap.
@@ -56,6 +57,11 @@ use std::sync::OnceLock;
 // hide the DLL jitter's growth with falling C/N0.
 const FS: f64 = 2.5e6;
 const NOMINAL: f64 = 45.0;
+/// The Q the scenes' stated C/N0 profile is built with: 1, the broadband table value these
+/// fixtures and their pins (one pre-registered) were made at. The table gives 2 since 0.36
+/// (`xval/jammer-q/`); the scorer's MODELLED reference follows the table, the scenes do not, so
+/// the synthetic truth and every scored result stay as pinned.
+const SCENE_Q: f64 = 1.0;
 const RC: f64 = 1.023e6;
 
 /// A fresh scratch folder.
@@ -171,7 +177,7 @@ fn fixture() -> &'static Fixture {
     static F: OnceLock<Fixture> = OnceLock::new();
     F.get_or_init(|| {
         let dir = scratch("fixture");
-        let q = kshana::jamming::q_factor("broadband", None);
+        let q = SCENE_Q;
 
         // ramp: two satellites, broadband event 3-9 s, stated J/S 20 then 30 dB.
         let truth = scene(&dir, "ramp", 10.0, &[(3, 1200.0), (11, -800.0)], move |_, t| {
@@ -462,7 +468,7 @@ fn the_reference_run_completes_every_cell_and_stamps_provenance() {
 }
 
 #[test]
-fn ramp_degradation_follows_the_stated_js_and_sits_on_the_modelled_reference() {
+fn ramp_degradation_follows_the_stated_js_and_the_reference_follows_the_q_table() {
     let f = fixture();
     let all = cells(&f.reference_out);
     // Whether and when a channel loses lock is the tracker's lock state machine's call
@@ -497,6 +503,7 @@ fn ramp_degradation_follows_the_stated_js_and_sits_on_the_modelled_reference() {
         assert!((base - NOMINAL).abs() < 3.0, "baseline {base}");
         assert_eq!(e.baseline_source.as_deref(), Some("measured"));
         let m = e.modelled.as_ref().expect("broadband has a reference");
+        assert_eq!(m.q, kshana::jamming::q_factor("broadband", None));
         assert_eq!(m.label, "MODELLED");
         assert_eq!(m.chip_rate_hz, RC);
         let bins: Vec<f64> = e.cn0_curve.iter().map(|b| b.js_db).collect();
@@ -507,7 +514,9 @@ fn ramp_degradation_follows_the_stated_js_and_sits_on_the_modelled_reference() {
                 continue; // a bin cut short by losses of lock
             }
             let modelled = b.modelled_degradation_db.unwrap();
-            let truth = NOMINAL - effective_cn0_dbhz(NOMINAL, b.js_db, m.q, RC);
+            // The scene injects its stated J/S at SCENE_Q; the reference uses the table's Q.
+            let truth = NOMINAL - effective_cn0_dbhz(NOMINAL, b.js_db, SCENE_Q, RC);
+            let table = NOMINAL - effective_cn0_dbhz(NOMINAL, b.js_db, m.q, RC);
             assert!(
                 (measured - truth).abs() < 2.0,
                 "PRN {} J/S {}: measured {measured:.2} vs injected {truth:.2}",
@@ -517,8 +526,8 @@ fn ramp_degradation_follows_the_stated_js_and_sits_on_the_modelled_reference() {
             // The reference is drawn from the measured baseline (a few tenths of a dB from the
             // scene's), which moves it by up to that much at high J/S.
             assert!(
-                (modelled - truth).abs() < 2.5,
-                "modelled {modelled} vs {truth}"
+                (modelled - table).abs() < 2.5,
+                "modelled {modelled} vs {table}"
             );
         }
         // Carrier and code jitter both grow as C/N0 falls.
@@ -702,23 +711,44 @@ fn resuming_after_a_partial_single_worker_run_gives_identical_cells_and_digest()
     assert!(s.rows_failed > 0);
 }
 
-/// The canonical hash of every cell's scored results (`satellites`), taken in (recording,
-/// front end, design) order. It leaves out the keys, hashes and provenance fields, so it is
-/// unchanged by anything that does not change a result.
-fn metrics_digest(out: &Path, strip_added: bool) -> String {
+// Pre-registered before the `cn0_estimator` change (commit `b6cf9766`): the scored results of
+// the 12 reference cells at the tree that carries #45 `010b30b9`, #64 `21210183` and main
+// `51dce137`, where the only C/N0 estimator the scorer read was NWPR, hashed with the MODELLED
+// reference: b3c2d8a01164760899341692e3bc7d552c5a38ddfd7a947873c6b4aa915c340b. The reference
+// DIGEST at that tree was `64e701cb8710f9bbfa614be16cb9430dceb5f52ed12a20063c38df21be420734`.
+
+/// The pre-registered pin's scored results without the MODELLED reference ([`scored_digest`]),
+/// computed at release/0.36.0-rc @ 617d4f51, where the scored results with the MODELLED reference
+/// (as hashed before this change) still reproduced that pin.
+const PRE_M2M4_SCORED: &str = "e9c9f84010be7925176977e1ee58e8f2530c1ea0707887480c173eced89a05c7";
+
+/// The per-estimator fields the `cn0_estimator` change added to the scored results.
+const ADDED_FIELDS: [&str; 6] = [
+    "median_cn0_nwpr_dbhz",
+    "median_cn0_m2m4_dbhz",
+    "baseline_cn0_nwpr_dbhz",
+    "baseline_cn0_m2m4_dbhz",
+    "measured_cn0_nwpr_dbhz",
+    "measured_cn0_m2m4_dbhz",
+];
+
+/// The MODELLED analytic reference the scorer draws beside each measured C/N0 bin. It is not a
+/// scored result, and it moves with the jamming kind's Q table (broadband 1 -> 2 in 0.36).
+const MODELLED_FIELDS: [&str; 3] = ["modelled_cn0_dbhz", "modelled_degradation_db", "modelled"];
+
+/// The canonical hash of every cell's scored results (`satellites`), taken in (recording, front
+/// end, design) order, with the added per-estimator fields and the MODELLED reference left out.
+fn scored_digest(out: &Path) -> String {
     use kshana::iq::campaign::hash::canonical_hash;
     let mut rows: Vec<(String, serde_json::Value)> = cells(out)
         .values()
         .map(|(_, c)| {
+            let mut v = serde_json::to_value(&c.satellites).unwrap();
+            without_added(&mut v);
+            without_modelled(&mut v);
             (
                 format!("{}/{}/{}", c.recording.id, c.frontend.name, c.design.name),
-                {
-                    let mut v = serde_json::to_value(&c.satellites).unwrap();
-                    if strip_added {
-                        without_added(&mut v);
-                    }
-                    v
-                },
+                v,
             )
         })
         .collect();
@@ -731,21 +761,18 @@ fn metrics_digest(out: &Path, strip_added: bool) -> String {
     .to_string()
 }
 
-/// Pre-registered before the `cn0_estimator` change (commit `b6cf9766`): the scored results of
-/// the 12 reference cells at the tree that carries #45 `010b30b9`, #64 `21210183` and main
-/// `51dce137`, where the only C/N0 estimator the scorer read was NWPR. The reference DIGEST at
-/// that tree was `64e701cb8710f9bbfa614be16cb9430dceb5f52ed12a20063c38df21be420734`.
-const PRE_M2M4_METRICS: &str = "b3c2d8a01164760899341692e3bc7d552c5a38ddfd7a947873c6b4aa915c340b";
-
-/// The per-estimator fields the `cn0_estimator` change added to the scored results.
-const ADDED_FIELDS: [&str; 6] = [
-    "median_cn0_nwpr_dbhz",
-    "median_cn0_m2m4_dbhz",
-    "baseline_cn0_nwpr_dbhz",
-    "baseline_cn0_m2m4_dbhz",
-    "measured_cn0_nwpr_dbhz",
-    "measured_cn0_m2m4_dbhz",
-];
+fn without_modelled(v: &mut serde_json::Value) {
+    match v {
+        serde_json::Value::Object(m) => {
+            for k in MODELLED_FIELDS {
+                m.remove(k);
+            }
+            m.values_mut().for_each(without_modelled);
+        }
+        serde_json::Value::Array(a) => a.iter_mut().for_each(without_modelled),
+        _ => {}
+    }
+}
 
 fn without_added(v: &mut serde_json::Value) {
     match v {
@@ -788,8 +815,11 @@ fn nwpr_out() -> &'static PathBuf {
 
 /// The reference DIGESTs after the `cn0_estimator` change, pinned the way the pre-change one was
 /// (`64e701cb8710f9bbfa614be16cb9430dceb5f52ed12a20063c38df21be420734`).
-const DIGEST_M2M4: &str = "eae86091215c0ba616145262873f348322dcaa57e2cb236b6dff43b631c82ab7";
-const DIGEST_NWPR: &str = "fd5b8c322836af5c1648312cdc307aa63ec3855830f9f8b1b82124d2c2e0ef37";
+// Re-pinned for the 0.36 Q table (broadband 1 -> 2, xval/jammer-q/): the cells differ only
+// in the MODELLED reference (`modelled_cn0_dbhz`, `modelled_degradation_db`, `modelled.q`);
+// the scored results are unchanged (`PRE_M2M4_SCORED`). Before: eae86091215c0ba6...
+const DIGEST_M2M4: &str = "89c76e01c178ff26a6e48aa046a60ba2a0e54ec821ccc3050590a128628d5d09";
+const DIGEST_NWPR: &str = "796961479aa9a4553b610422d6827dad9aa1c1a1dc45eb49e283900fd8abf9db";
 
 #[test]
 fn the_reference_digests_are_pinned() {
@@ -803,8 +833,12 @@ fn the_reference_digests_are_pinned() {
 fn nwpr_reproduces_the_pre_m2m4_results_exactly() {
     let out = nwpr_out();
     // Every scored result, minus the per-estimator fields this change added, hashes to the
-    // value pinned before the change.
-    assert_eq!(metrics_digest(out, true), PRE_M2M4_METRICS);
+    // value pinned before the change. That pin also hashed the MODELLED reference at Q = 1, and
+    // the reference moves with the 0.36 Q table (broadband 1 -> 2; xval/jammer-q/, where the
+    // campaign cells were compared and only the three MODELLED fields differ). So the scored
+    // results are now pinned without the reference, to the value computed at
+    // release/0.36.0-rc @ 617d4f51, the tree that still reproduced the pre-registered pin.
+    assert_eq!(scored_digest(out), PRE_M2M4_SCORED);
     // In an NWPR run the primary C/N0 fields are the NWPR ones.
     for (_, c) in cells(out).values() {
         assert_eq!(c.cn0_estimator, "nwpr");

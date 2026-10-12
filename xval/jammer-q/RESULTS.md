@@ -60,4 +60,34 @@ The SVG charts and summaries of the changed scenarios move with their results, a
     `q_override = 1.0`, keeping that operating point and every pin exactly;
   - the narrowband-versus-broadband test now expects the tone to leave less C/N0 than
     broadband noise (by at most 3.0103 dB) and checks the broadband Q is 2.
-- Other test files with pins on these outputs are listed in the commit that regenerates them.
+- **`tests/registry_golden.rs` (`golden_jamming`):** the canonical hash of `jamming-demo` is
+  re-pinned (0x6b7d2ec5c92b4a47 → 0x770f2bfff91cbfcf). Its summary string is unchanged; only
+  its effective C/N0 values moved (item 1).
+- **`tests/skyline_scenarios.rs`:** the 0.35.0 byte-identity check lists the 7 skyline-wired
+  files above that this change moves. It requires that exactly those differ, no fewer and no
+  others. Their skyline neutrality stays checked by the empty-skyline test.
+- **`tests/iq_campaign.rs`:**
+  - **Scenes:** the synthetic scenes are built at an explicit `SCENE_Q = 1`, the value their
+    pins were made at, so the synthetic truth is unchanged.
+  - **Diff:** the 12 reference cells and their NWPR twins were dumped from the rc and from the
+    change and compared. Only the three MODELLED reference fields differ (32 bins:
+    `modelled_cn0_dbhz` +1.99 to +2.87 dB, `modelled_degradation_db` by the opposite amount;
+    16 events: `modelled.q` 1 → 2). No measured or scored field differs (item 7).
+  - **Pinned scored results:** these were pre-registered as `b3c2d8a0…`, hashed with the
+    reference included. They are now pinned without the reference, as `e9c9f840…`. That value
+    was computed at the rc, where the old pin still holds, and the change reproduces it
+    exactly.
+  - **Cell-file DIGESTs:** these cover the reference fields, so they are re-pinned: M2M4
+    eae86091… → 89c76e01…, and NWPR fd5b8c32… → 79696147….
+  - **Ramp test:** it now checks the measured degradation against the scene's injected truth
+    at `SCENE_Q`, and the MODELLED reference against the Q table.
+- **`tests/conflict_resilience_architecture_guard.rs`:** this guard reads the lunar orbital
+  service's jamming susceptibility from `lunar-jamming` and recorded it as "1.0, measured".
+  - That held only while broadband noise had Q = 1. As shipped (a 10 W broadband jammer), the
+    layer is now degraded but not denied: availability under jamming equals nominal (0.1667),
+    so the susceptibility is 0.
+  - A CW tone at the same power (Q = 1) still denies it fully, so the susceptibility to a tone
+    is 1.0.
+  - The guard now asserts both, measured, with the jammer type named. This changes a recorded
+    prior of finding F36, but no number the conflict-resilience pack computes: the guard
+    records the prior and nothing reads it.
