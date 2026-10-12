@@ -91,7 +91,8 @@ pub struct SkyGeometryRequest {
     /// The request as JSON (or TOML) text: `site` (`{lat_deg, lon_deg, height_m}`), `time_s`,
     /// `systems` (preset names such as `gps-baseline`, `galileo`, `beidou-meo`, `glonass`,
     /// `xona-pulsar`) and/or `satellites` (`{id?, system?, az_deg, el_deg}` or `{id?, system?,
-    /// ecef_m}`), `mask_deg`, `skyline` (`preset` or `street_az_deg`, `width_m`,
+    /// ecef_m}`) and/or `tle` (two-line element set text, propagated by SGP4) with `epoch` (UTC
+    /// ISO 8601) and `tle_system`, `mask_deg`, `skyline` (`preset` or `street_az_deg`, `width_m`,
     /// `height_left_m`, `height_right_m`, `antenna_m`, `length_m`, `table`, `sectors`,
     /// `terrain`), `clock` (`per-system` or `common`), `sigma_uere_m`, `confidence`. Omit it to
     /// describe a skyline preset instead.
@@ -725,7 +726,7 @@ impl KshanaServer {
     }
 
     #[tool(
-        description = "Sky geometry under an azimuth-dependent skyline (a street canyon, a harbour, a fjord, a container terminal): from a site, a time and constellation presets (or satellites given as azimuth/elevation or ECEF), which satellites are visible and which are hidden by the skyline, GDOP/PDOP/HDOP/VDOP/TDOP from the gnss_lib_py-checked DOP kernel, the east-north-up cofactor and covariance with one receiver clock per system (or one in common), and the horizontal error ellipse at one sigma and at a stated confidence for a stated UERE. With no `request`, describes a REPRESENTATIVE skyline preset with its provenance and its cut every degree (an empty `skyline_preset` lists them). Scenarios of the orbit and integrity (with `user_site`), gnss-sim, jamming, leo-pvt and leo-pass kinds take the same `[skyline]` section through run_scenario. Evidence tier MODELLED: geometry under a stated error model, line of sight only; not a prediction of a receiver's real error and not an integrity bound; preset constellations are a representative sky, not the sky of a date. Carries the advisory: not type-approved navigation equipment. No Monte Carlo over MCP (bulk samples; use the CLI, Python or WASM). Inline only, at most 4 MiB."
+        description = "Sky geometry under an azimuth-dependent skyline (a street canyon, a harbour, a fjord, a container terminal): from a site, a time and constellation presets, two-line element sets (`tle`, with a UTC `epoch`) or satellites given as azimuth/elevation or ECEF, which satellites are visible and which are hidden by the skyline, GDOP/PDOP/HDOP/VDOP/TDOP from the gnss_lib_py-checked DOP kernel, the east-north-up cofactor and covariance with one receiver clock per system (or one in common), and the horizontal error ellipse at one sigma and at a stated confidence for a stated UERE. With no `request`, describes a REPRESENTATIVE skyline preset with its provenance and its cut every degree (an empty `skyline_preset` lists them). Scenarios of the orbit and integrity (with `user_site`), gnss-sim, jamming, leo-pvt and leo-pass kinds take the same `[skyline]` section through run_scenario. Evidence tier MODELLED: geometry under a stated error model, line of sight only; not a prediction of a receiver's real error and not an integrity bound; preset constellations are a representative sky, not the sky of a date; `tle` text with an `epoch` (UTC) gives the sky those element sets give at that epoch (SGP4), not a measurement, and `sky_source` says which. Carries the advisory: not type-approved navigation equipment. No Monte Carlo over MCP (bulk samples; use the CLI, Python or WASM). Inline only, at most 4 MiB."
     )]
     fn sky_geometry(
         &self,

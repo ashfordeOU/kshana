@@ -1098,15 +1098,19 @@ fn run_bench_export_cli(args: &[String]) -> ExitCode {
 
 const SKY_USAGE: &str =
     "usage: kshana sky <request.json|request.toml> [--monte-carlo <n> --seed <s>] [--svg]
-   or: kshana sky --site <lat,lon[,height_m]> --systems <preset,...> [--time <s>] [--mask <deg>]
-                  [--skyline-preset <name>] [--uere <m>] [--clock per-system|common]
-                  [--monte-carlo <n> --seed <s>] [--svg]
+   or: kshana sky --site <lat,lon[,height_m]> (--systems <preset,...> | --tle <file>)
+                  [--epoch <YYYY-MM-DDTHH:MM:SSZ>] [--tle-system <label>] [--time <s>]
+                  [--mask <deg>] [--skyline-preset <name>] [--uere <m>]
+                  [--clock per-system|common] [--monte-carlo <n> --seed <s>] [--svg]
 
 Prints the satellites the site sees under the skyline, their DOP, the east-north-up cofactor
 and covariance and the horizontal error ellipse as JSON (sky_geometry); with --monte-carlo,
 n (at most 5000) seeded least-squares errors (sky_monte_carlo); with --svg, the skyplot.
 Systems are engine presets (gps-baseline, galileo, beidou-meo, glonass, xona-pulsar, ...):
-a representative geometry, not the sky of a date at a place. MODELLED; docs/SKYLINE.md.";
+a representative geometry, not the sky of a date at a place. --tle reads two-line element
+sets (at most 4 MiB) and propagates them by SGP4 to --epoch (UTC) plus --time: the sky those
+element sets give at that epoch, not a measurement. Without --epoch they go to the newest
+element set's epoch, a representative sky. MODELLED; docs/SKYLINE.md.";
 
 const SKYLINE_USAGE: &str = "usage: kshana skyline --preset <name> [--json]
    or: kshana skyline --presets
@@ -1208,12 +1212,48 @@ fn run_sky_cli(args: &[String]) -> ExitCode {
                 }
                 i += 1;
             }
-            "--clock" => {
+            "--clock" | "--epoch" | "--tle-system" => {
+                let key = match a {
+                    "--clock" => "clock",
+                    "--epoch" => "epoch",
+                    _ => "tle_system",
+                };
                 match val() {
                     Ok(v) => {
-                        req.insert("clock".into(), serde_json::Value::String(v));
+                        req.insert(key.into(), serde_json::Value::String(v));
                     }
                     Err(e) => return usage_err(e),
+                }
+                i += 1;
+            }
+            "--tle" => {
+                let p = match val() {
+                    Ok(v) => v,
+                    Err(e) => return usage_err(e),
+                };
+                let cap = kshana::geometry::MAX_TLE_BYTES as u64;
+                match std::fs::metadata(&p) {
+                    Ok(m) if m.len() > cap => {
+                        eprintln!(
+                            "error: {p} is {} bytes; the TLE cap is {cap} (4 MiB)",
+                            m.len()
+                        );
+                        return ExitCode::FAILURE;
+                    }
+                    Ok(_) => {}
+                    Err(e) => {
+                        eprintln!("error: cannot read {p}: {e}");
+                        return ExitCode::FAILURE;
+                    }
+                }
+                match std::fs::read_to_string(&p) {
+                    Ok(t) => {
+                        req.insert("tle".into(), serde_json::Value::String(t));
+                    }
+                    Err(e) => {
+                        eprintln!("error: cannot read {p}: {e}");
+                        return ExitCode::FAILURE;
+                    }
                 }
                 i += 1;
             }

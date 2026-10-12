@@ -30,7 +30,10 @@ breaking changes are called out explicitly.
   autonomous-vehicle canyon as a flat cut and as a street; the existing campaign is
   unchanged). MODELLED.
 - **Sky geometry functions** (`src/geometry.rs`, design note item 2): `sky_geometry` (visible
-  and masked satellites from a site, a time and constellation presets or given satellites; the
+  and masked satellites from a site, a time and constellation presets, two-line element sets
+  (`tle`, at most 4 MiB, propagated by the engine's SGP4 to a UTC `epoch`) or given satellites;
+  `sky_source` and `sky_statement` say whether the sky is representative or the sky the element
+  sets give at that epoch, not a measurement; the
   five DOPs; the ENU cofactor and covariance with one clock per system or one in common; the
   horizontal error ellipse at one sigma and at a stated confidence), `sky_monte_carlo` (seeded
   least-squares errors, at most 5000), `skyline_presets`, `skyline_profile` and `skyplot_svg`.
