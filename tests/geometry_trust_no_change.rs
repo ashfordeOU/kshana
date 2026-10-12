@@ -9,8 +9,10 @@
 //! CSV, the SVG, the one-line verdict, the `$PKSHT` sentence, telemetry of a 0.35 input) are
 //! byte-identical as they stand.
 //!
-//! The pinned hashes were taken by running this file on the 0.35.0 release commit, where the
-//! removal is a no-op. JSON is compared through `serde_json::Value` (keys sorted), so the
+//! The pinned hashes were taken by running this file on the 0.35.0 release commit, checked out
+//! at a different path from this one, where the removal is a no-op. The scenario hash covers the
+//! resolved (absolute) log path, so it is replaced by a placeholder in the result JSON and in the
+//! summary line: the pins hold for any checkout. JSON is compared through `serde_json::Value` (keys sorted), so the
 //! comparison is of content, not of key order; the appended keys are listed in `APPENDED`
 //! and documented in `docs/RECEIVER-TRUST.md` ("Geometry").
 
@@ -30,6 +32,8 @@ const ROOT: &str = env!("CARGO_MANIFEST_DIR");
 /// Keys added by 0.36 geometry-aware trust, at any depth (`geometry` is also the geometry
 /// monitor's entry in `score_model.weights`; `class` is on every deduction). `schema` is the
 /// version string of the excerpt document, which moves from 1.2 to 1.3 for them.
+/// `scenario_hash` is replaced too: it covers the resolved (absolute) log path, so it
+/// depends on where the repository is checked out.
 const APPENDED: [&str; 4] = ["geometry", "geometry_model", "geometry_summary", "class"];
 
 fn strip(v: &mut Value) {
@@ -40,6 +44,12 @@ fn strip(v: &mut Value) {
             }
             if m.contains_key("schema") {
                 m.insert("schema".into(), Value::String("<schema>".into()));
+            }
+            if m.contains_key("scenario_hash") {
+                m.insert(
+                    "scenario_hash".into(),
+                    Value::String("<scenario_hash>".into()),
+                );
             }
             m.values_mut().for_each(strip);
         }
@@ -53,6 +63,15 @@ fn legacy(json: &str) -> String {
     let mut v: Value = serde_json::from_str(json).unwrap();
     strip(&mut v);
     serde_json::to_string(&v).unwrap()
+}
+
+/// The one-line summary with its `scenario <12 hex>` prefix replaced: the scenario hash covers
+/// the resolved (absolute) log path, so it differs between checkouts.
+fn summary_view(r: &kshana::receiver_trust::scenario::ReceiverTrustResult) -> String {
+    let s = summary(r);
+    let hex = &s["scenario ".len().."scenario ".len() + 12];
+    assert!(s.starts_with("scenario ") && hex.bytes().all(|b| b.is_ascii_hexdigit()));
+    s.replacen(hex, "<scenario_hash>", 1)
 }
 
 fn sha(s: &str) -> String {
@@ -84,7 +103,7 @@ fn batch_hashes(dir: &str) -> Vec<(String, String)> {
         ("result.json (0.35 view)".to_string(), sha(&old)),
         ("trust.csv".to_string(), sha(&to_csv(&r))),
         ("trust.svg".to_string(), sha(&to_svg(&r))),
-        ("summary".to_string(), sha(&summary(&r))),
+        ("summary".to_string(), sha(&summary_view(&r))),
     ];
     for (name, f) in [
         ("prometheus", TelemetryFormat::Prometheus),
@@ -145,13 +164,13 @@ fn check(got: Vec<(String, String)>, want: &[(&str, &str)]) {
 #[test]
 fn the_vessel_demo_outputs_are_those_of_0_35_0_apart_from_the_appended_keys() {
     // PIN-SCOPE:    every batch output of examples/maritime-trust, appended keys removed
-    // PIN-EXCLUDES: the keys in APPENDED (new in 0.36) and key order of the JSON
+    // PIN-EXCLUDES: the keys in APPENDED (new in 0.36), scenario_hash (path-dependent), key order
     check(
         batch_hashes("examples/maritime-trust"),
         &[
             (
                 "result.json (0.35 view)",
-                "60cfab46ea66bd8be8d3c8da8c571e35c12b30319839f9430f303ac3dcebd086",
+                "c173f350ede11074e0a5200ecde004f21061e8094bad7168d96962bbc75cabfb",
             ),
             (
                 "trust.csv",
@@ -163,7 +182,7 @@ fn the_vessel_demo_outputs_are_those_of_0_35_0_apart_from_the_appended_keys() {
             ),
             (
                 "summary",
-                "730bbd019993dd51fb0d366363b84dd8a8aec460aa6500f8c92e04381ea197f8",
+                "dc4d44710b73596aea6381378c6b76463c7c5bc9b999ab7ae6cbbf94ba40d538",
             ),
             (
                 "telemetry prometheus of the 0.35 result",
@@ -184,13 +203,13 @@ fn the_vessel_demo_outputs_are_those_of_0_35_0_apart_from_the_appended_keys() {
 #[test]
 fn the_static_example_outputs_are_those_of_0_35_0_apart_from_the_appended_keys() {
     // PIN-SCOPE:    every batch output of examples/receiver-trust, appended keys removed
-    // PIN-EXCLUDES: the keys in APPENDED (new in 0.36) and key order of the JSON
+    // PIN-EXCLUDES: the keys in APPENDED (new in 0.36), scenario_hash (path-dependent), key order
     check(
         batch_hashes("examples/receiver-trust"),
         &[
             (
                 "result.json (0.35 view)",
-                "c5917055e9717f24c0f5d80c702cd82b56b7d1a6b2b0c68ef6f0140d5616f494",
+                "13bdaba51c9c73a494c8e52affd28e61a5d7c6a54ca042af75aca2ec1338072a",
             ),
             (
                 "trust.csv",
@@ -202,7 +221,7 @@ fn the_static_example_outputs_are_those_of_0_35_0_apart_from_the_appended_keys()
             ),
             (
                 "summary",
-                "1822897e5ffd655a4495784b99df2e556dc87d3074d795bafc65688343383fb1",
+                "855ceacae4b3f91dd8ff602d69f82e2ef9caec342e303db7e9815b2f8e634740",
             ),
             (
                 "telemetry prometheus of the 0.35 result",
@@ -293,11 +312,11 @@ fn the_0_36_telemetry_of_the_vessel_demo_is_pinned() {
         &[
             (
                 "0.36 telemetry prometheus of the result",
-                "e211c7f740e9a1bf9bcc7834ef38af6f722337191466b9ce202ee1284f3fc749",
+                "e79d328d92077016fdeccbcfaa1e70cab207d7509d67fe3305fe2021931e7dbc",
             ),
             (
                 "0.36 telemetry prometheus of the lines",
-                "1b6b6d109ebd8a587cdf14fc47eaf94ffd6561953147d9fc663cf80d40d27f4e",
+                "9714c93f47f8b7efae4697290ff5afa0816e32f5462a1ce491ed73f6bdea19cb",
             ),
             (
                 "0.36 telemetry cef of the result",
