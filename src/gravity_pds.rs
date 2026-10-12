@@ -197,7 +197,9 @@ impl SphericalHarmonicField {
         }
         for (n, row) in seen.iter().enumerate().skip(2) {
             if let Some(m) = row[..=n].iter().position(|&b| !b) {
-                return Err(format!("SHADR table incomplete: missing (n, m) = ({n}, {m})"));
+                return Err(format!(
+                    "SHADR table incomplete: missing (n, m) = ({n}, {m})"
+                ));
             }
         }
         let mut f = Self::zeros(gm, re, max_n);
@@ -285,7 +287,10 @@ mod tests {
         assert!(e.contains("(2, 1)"), "{e}");
         assert!(SphericalHarmonicField::from_shadr(&table("    2,    3, 0.0, 0.0\n"), 2).is_err());
         assert!(SphericalHarmonicField::from_shadr(&table("    2,    0, x, 0.0\n"), 2).is_err());
-        assert!(SphericalHarmonicField::from_shadr(HDR, 2).is_err(), "no records");
+        assert!(
+            SphericalHarmonicField::from_shadr(HDR, 2).is_err(),
+            "no records"
+        );
         assert!(SphericalHarmonicField::from_shadr("", 2).is_err());
     }
 
