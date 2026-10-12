@@ -267,3 +267,43 @@ fn k5_growth_addendum_run() {
         assert!(p > 1.5, "{name}: K5 as recorded (fail)");
     }
 }
+
+/// The addendum with the sources' solution style (LRS-06), pre-registered alone in
+/// tests/fixtures/lunar_station_published/ADDENDUM-LRS06.md (001ca100) before this run. The
+/// recorded comparison above is not edited. Ignored: three full grids.
+#[test]
+#[ignore]
+fn solution_style_addendum_run() {
+    const SOL: &str = "\n[solution]\nheight_aided = true\nheight_sigma_m = 1.0\nmin_satellites = 3\nwindow_epochs = 6";
+    let r300 = run(SOL);
+    let r600 = run(&format!("grid_lat_max_deg = -70.0{SOL}"));
+    let lat600 = run(&format!("latency_s = 600.0{SOL}"));
+    for (name, r) in [
+        ("R300-sol", &r300),
+        ("R600-sol", &r600),
+        ("LAT600-sol", &lat600),
+    ] {
+        let g = &r.region;
+        println!(
+            "ADDENDUM6 {name} availability={:.6} coverage_fraction={:.6} corrected_p_3d_m={:?} corrected_p_h_m={:?}",
+            g.availability, g.coverage_fraction, g.corrected_p_3d_m, g.corrected_p_h_m
+        );
+    }
+    let a = nearest(&r600, 10.0);
+    let b = nearest(&r600, 500.0);
+    println!("ADDENDUM6 nearest10={a:?} nearest500={b:?}");
+    let p = |r: &LunarStationCoverageReport| r.region.corrected_p_3d_m.unwrap_or(f64::INFINITY);
+    let k6 = match (a.3, b.3) {
+        (Some(x), Some(y)) => Some(y / x),
+        _ => None,
+    };
+    let bars = [
+        ("K1", r300.region.coverage_fraction >= 0.95),
+        ("K2", r600.region.coverage_fraction >= 0.95),
+        ("K3", p(&r300) <= 1.5),
+        ("K4", p(&r300) <= 0.15),
+        ("K5", p(&lat600) <= 1.5),
+        ("K6", k6.is_some_and(|v| v <= 1.5)),
+    ];
+    println!("ADDENDUM6 ratio500/10={k6:?} bars={bars:?}");
+}
