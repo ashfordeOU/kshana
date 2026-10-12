@@ -265,6 +265,50 @@ impl Sp3File {
             start_jd_ut1: jd0,
         })
     }
+
+    /// The valid clock nodes of satellite `sat` as (seconds from the file start, clock offset
+    /// in s), in increasing time. Records carrying the [`BAD_CLOCK_US`] sentinel are left out.
+    pub fn clock_nodes(&self, sat: &str) -> Vec<(f64, f64)> {
+        let s0 = self.header.start;
+        let mut out: Vec<(f64, f64)> = self
+            .epochs
+            .iter()
+            .filter_map(|epoch| {
+                let st = epoch.sats.iter().find(|s| s.sat == sat)?;
+                (!st.clock_is_bad()).then(|| (node_offset_s(s0, epoch.time), st.clock_us * 1e-6))
+            })
+            .collect();
+        out.sort_by(|a, b| a.0.total_cmp(&b.0));
+        out
+    }
+
+    /// The satellite clock offset (s) of `sat` at `t` seconds from the file start, by linear
+    /// interpolation between the two valid clock nodes that bracket `t` (the node value itself
+    /// at a node). This is the scheme of RTKLIB's `pephclk` (`preceph.c`) and of the IGS
+    /// guidance for tabulated clocks: a satellite clock is a random process, so a high-order
+    /// polynomial through it does not help and can hurt. `None` when a bracketing node is
+    /// missing or bad, or when either bracketing node lies more than `max_gap_s` from `t`.
+    pub fn clock_s(&self, sat: &str, t: f64, max_gap_s: f64) -> Option<f64> {
+        interpolate_clock_linear(&self.clock_nodes(sat), t, max_gap_s)
+    }
+}
+
+/// Linear interpolation of a clock series `(t, offset)` sorted by time, as
+/// [`Sp3File::clock_s`] describes. Exact at a node.
+pub fn interpolate_clock_linear(nodes: &[(f64, f64)], t: f64, max_gap_s: f64) -> Option<f64> {
+    let i = nodes.partition_point(|&(ti, _)| ti < t);
+    if i < nodes.len() && nodes[i].0 == t {
+        return Some(nodes[i].1);
+    }
+    if i == 0 || i == nodes.len() {
+        return None;
+    }
+    let (t0, c0) = nodes[i - 1];
+    let (t1, c1) = nodes[i];
+    if t - t0 > max_gap_s || t1 - t > max_gap_s {
+        return None;
+    }
+    Some(c0 + (c1 - c0) * (t - t0) / (t1 - t0))
 }
 
 /// Seconds elapsed from epoch `from` to epoch `to`, computed without the
@@ -928,5 +972,25 @@ EOF";
         // And it serialises to something the reader accepts.
         let reparsed = parse_sp3(&f.to_sp3_string()).expect("built SP3 re-parses");
         assert_eq!(reparsed.observed_satellites(), ids);
+    }
+
+    #[test]
+    fn clock_interpolation_is_linear_between_valid_nodes_and_exact_at_them() {
+        let f = parse_sp3(SAMPLE).expect("parses");
+        // G01: 123.456789 µs at 0 s, 124.0 µs at 900 s.
+        let at = |t| f.clock_s("G01", t, 900.0).expect("bracketed");
+        assert_eq!(at(0.0), 123.456789e-6);
+        assert_eq!(at(900.0), 124.0e-6);
+        let mid = 0.5 * (123.456789e-6 + 124.0e-6);
+        assert!((at(450.0) - mid).abs() < 1e-18);
+        // Outside the table, and a gap larger than allowed.
+        assert!(f.clock_s("G01", -1.0, 900.0).is_none());
+        assert!(f.clock_s("G01", 901.0, 900.0).is_none());
+        assert!(f.clock_s("G01", 450.0, 300.0).is_none());
+        // G02's first clock is the bad sentinel: one valid node only, nothing to interpolate.
+        assert_eq!(f.clock_nodes("G02"), vec![(900.0, -46.0e-6)]);
+        assert!(f.clock_s("G02", 450.0, 900.0).is_none());
+        assert_eq!(f.clock_s("G02", 900.0, 900.0), Some(-46.0e-6));
+        assert!(f.clock_s("G03", 0.0, 900.0).is_none());
     }
 }
