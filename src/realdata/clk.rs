@@ -9,29 +9,113 @@
 //! the grid at all.
 
 use crate::clock_library::series::{GriddingLog, PhaseSeries};
-use crate::precise_products::parse_clock_rinex;
+use crate::precise_products::{parse_clock_rinex, parse_clock_rinex_records};
 
-/// The satellite (`AS`) clock record of `sat` (e.g. `"G08"`) across several RINEX clock files
-/// (for example consecutive daily IGS files), gridded at `tau0` seconds from its first epoch.
-/// Times are seconds from the GPS epoch; a record repeated in two files is kept once.
-pub fn rinex_clock_series(
-    texts: &[&str],
-    sat: &str,
-    tau0: f64,
-) -> Result<(PhaseSeries, GriddingLog), String> {
-    let mut samples: Vec<(f64, f64)> = Vec::new();
-    for t in texts {
-        let c = parse_clock_rinex(t)?;
-        if let Some(v) = c.sats.get(sat) {
-            samples.extend_from_slice(v);
+/// The time systems a RINEX clock header may declare in its `TIME SYSTEM ID` record, per the
+/// RINEX clock format. Anything else is refused by [`rinex_clock_time_system`], so a file in a
+/// time scale this reader does not know (a lunar time scale, for example) is never read as GPS
+/// time.
+pub const KNOWN_CLOCK_TIME_SYSTEMS: [&str; 8] =
+    ["GPS", "GLO", "GAL", "BDT", "QZS", "IRN", "UTC", "TAI"];
+
+/// The time system of a RINEX clock file: the `TIME SYSTEM ID` header value, and whether the
+/// header stated it. A file that states none is GPS time by the format's default, and is
+/// reported as `("GPS", false)` so the default is visible rather than silent. An unknown value is
+/// an error naming it.
+pub fn rinex_clock_time_system(text: &str) -> Result<(String, bool), String> {
+    for line in text.lines() {
+        let label = line.get(60..).map(str::trim_end).unwrap_or("");
+        if label == "END OF HEADER" {
+            break;
+        }
+        if label == "TIME SYSTEM ID" {
+            let id = line[..60].trim().to_string();
+            if KNOWN_CLOCK_TIME_SYSTEMS.contains(&id.as_str()) {
+                return Ok((id, true));
+            }
+            return Err(format!(
+                "RINEX clock file declares time system {id:?}, which this reader does not \
+                 know (known: {}); refusing it rather than reading its epochs as GPS time",
+                KNOWN_CLOCK_TIME_SYSTEMS.join(", ")
+            ));
         }
     }
-    if samples.is_empty() {
-        return Err(format!("no AS records for {sat}"));
+    Ok(("GPS".to_string(), false))
+}
+
+/// One clock record gridded from RINEX clock files, with the time system its epochs are in.
+#[derive(Clone, Debug)]
+pub struct RinexClockSeries {
+    /// The gridded phase record (s), epochs as seconds from 1980-01-06 00:00:00 counted in
+    /// [`Self::time_system`]; no conversion between time systems is applied.
+    pub series: PhaseSeries,
+    /// What could not be placed on the grid.
+    pub log: GriddingLog,
+    /// The time system of the epochs (`"GPS"`, `"GAL"`, `"UTC"`, ...).
+    pub time_system: String,
+    /// Whether the files stated it (`false`: the format's GPS default applied).
+    pub time_system_declared: bool,
+    /// The record type read: `"AS"` (satellite clock) or `"AR"` (receiver or station clock).
+    pub record: &'static str,
+}
+
+/// The clock record of `id` across several RINEX clock files (for example consecutive daily IGS
+/// files), gridded at `tau0` seconds from its first epoch: the satellite (`AS`) record when
+/// `id` names a satellite (e.g. `"G08"`), otherwise the receiver or station (`AR`) record of that
+/// name. A record repeated in two files is kept once.
+///
+/// The time system is explicit in the result. Every file must declare the same one (a file with
+/// no declaration counts as GPS); an unknown time system, or files that disagree, are refused
+/// with an error rather than read as GPS time.
+pub fn rinex_clock_series(texts: &[&str], id: &str, tau0: f64) -> Result<RinexClockSeries, String> {
+    let mut system: Option<(String, bool)> = None;
+    for t in texts {
+        let ts = rinex_clock_time_system(t)?;
+        match &system {
+            None => system = Some(ts),
+            Some((s, _)) if *s != ts.0 => {
+                return Err(format!(
+                    "RINEX clock files declare different time systems ({s} and {}); refusing to \
+                     join them on one time axis",
+                    ts.0
+                ))
+            }
+            Some(_) => {}
+        }
     }
+    let (time_system, declared) = system.unwrap_or_else(|| ("GPS".to_string(), false));
+
+    let mut out: Option<(&'static str, Vec<(f64, f64)>)> = None;
+    for record in ["AS", "AR"] {
+        let mut samples: Vec<(f64, f64)> = Vec::new();
+        for t in texts {
+            let c = if record == "AS" {
+                parse_clock_rinex(t)?
+            } else {
+                parse_clock_rinex_records(t, record)?
+            };
+            if let Some(v) = c.sats.get(id) {
+                samples.extend_from_slice(v);
+            }
+        }
+        if !samples.is_empty() {
+            out = Some((record, samples));
+            break;
+        }
+    }
+    let Some((record, mut samples)) = out else {
+        return Err(format!("no AS or AR records for {id}"));
+    };
     samples.sort_by(|a, b| a.0.total_cmp(&b.0));
     samples.dedup_by(|a, b| a.0 == b.0);
-    Ok(PhaseSeries::from_samples(&samples, tau0))
+    let (series, log) = PhaseSeries::from_samples(&samples, tau0);
+    Ok(RinexClockSeries {
+        series,
+        log,
+        time_system,
+        time_system_declared: declared,
+        record,
+    })
 }
 
 /// Every satellite with `AS` records in any of `texts`, sorted.
@@ -200,13 +284,48 @@ AS G10  2026 03 01 00 00  0.000000  1   -2.000000000000E-04
 
     #[test]
     fn rinex_clock_records_grid_with_gaps() {
-        let (s, log) = rinex_clock_series(&[CLK, CLK], "G08", 30.0).unwrap();
+        let r = rinex_clock_series(&[CLK, CLK], "G08", 30.0).unwrap();
+        let (s, log) = (r.series, r.log);
+        assert_eq!(
+            (r.time_system.as_str(), r.time_system_declared),
+            ("GPS", false)
+        );
+        assert_eq!(r.record, "AS");
         assert_eq!(s.len(), 4);
         assert!(s.x[2].is_nan());
         assert!((s.x[3] - 1.0000003e-4).abs() < 1e-18);
         assert_eq!(log, GriddingLog::default());
         assert_eq!(rinex_clock_satellites(&[CLK]).unwrap(), vec!["G08", "G10"]);
         assert!(rinex_clock_series(&[CLK], "G01", 30.0).is_err());
+    }
+
+    fn with_time_system(id: &str) -> String {
+        CLK.replacen(
+            "                                                            END OF HEADER",
+            &format!(
+                "{:<60}TIME SYSTEM ID\n{:60}END OF HEADER",
+                format!("   {id}"),
+                ""
+            ),
+            1,
+        )
+    }
+
+    #[test]
+    fn declared_time_system_is_explicit_and_unknown_is_refused() {
+        let gal = with_time_system("GAL");
+        let r = rinex_clock_series(&[&gal], "G08", 30.0).unwrap();
+        assert_eq!(
+            (r.time_system.as_str(), r.time_system_declared),
+            ("GAL", true)
+        );
+
+        let ltc = with_time_system("LTC");
+        let e = rinex_clock_series(&[&ltc], "G08", 30.0).unwrap_err();
+        assert!(e.contains("\"LTC\"") && e.contains("refusing"), "{e}");
+
+        let e = rinex_clock_series(&[&gal, CLK], "G08", 30.0).unwrap_err();
+        assert!(e.contains("different time systems"), "{e}");
     }
 
     #[test]
