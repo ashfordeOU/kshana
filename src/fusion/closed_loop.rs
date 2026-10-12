@@ -184,6 +184,72 @@ impl ClosedLoopInsGnss {
         Ok(self.apply_feedback(dx))
     }
 
+    /// Propagate one IMU sample given as **increments** (the form many IMU logs and
+    /// KF-GINS use): the body angular increment `dtheta_raw` (rad) and velocity
+    /// increment `dv_raw` (m/s) over `dt`. The running bias estimates are removed as
+    /// `Δθ − b̂_g·dt`, `Δv − b̂_a·dt`; the EKF is time-propagated with the pre-step
+    /// context (specific force `Δv/dt` resolved in NED) and the strapdown state is
+    /// advanced by [`NavState::step_increments`]. Any multi-sample coning/sculling
+    /// correction is the caller's to fold into the increments.
+    pub fn propagate_increments(&mut self, dtheta_raw: Vec3, dv_raw: Vec3, dt: f64) {
+        let dtheta = [
+            dtheta_raw[0] - self.b_g[0] * dt,
+            dtheta_raw[1] - self.b_g[1] * dt,
+            dtheta_raw[2] - self.b_g[2] * dt,
+        ];
+        let dv = [
+            dv_raw[0] - self.b_a[0] * dt,
+            dv_raw[1] - self.b_a[1] * dt,
+            dv_raw[2] - self.b_a[2] * dt,
+        ];
+        let c_bn = self.nav.q.to_dcm();
+        let f_n = self.nav.q.rotate([dv[0] / dt, dv[1] / dt, dv[2] / dt]);
+        let omega_ie = self.nav.omega_ie_n();
+        let omega_en = self.nav.omega_en_n();
+        let omega_in = [
+            omega_ie[0] + omega_en[0],
+            omega_ie[1] + omega_en[1],
+            omega_ie[2] + omega_en[2],
+        ];
+        self.ekf.predict(f_n, c_bn, omega_ie, omega_in, dt);
+        self.nav.step_increments(dtheta, dv, dt);
+    }
+
+    /// Fuse a GNSS **antenna** position fix with lever-arm compensation and feed the
+    /// estimated errors back.
+    ///
+    /// `antenna` is the fix (geodetic), `lever_b` the antenna phase centre relative to
+    /// the IMU centre in the body frame (m), `sigma_ned` the fix's per-axis 1-σ (m).
+    /// The predicted antenna position is the INS (IMU-centre) position plus
+    /// `Ĉ_b^n l_b`; the innovation is formed in the local NED frame at the current INS
+    /// position (radii of curvature at the INS latitude), and the measurement model
+    /// carries the attitude-error column of the lever arm
+    /// ([`GnssInsEkf::update_position_lever_arm`]). A zero `lever_b` is a plain
+    /// position update of the IMU centre. Returns the position correction (NED, m),
+    /// or `None` when the update was skipped as ill-conditioned.
+    pub fn fuse_position_lever_arm(
+        &mut self,
+        antenna: Geodetic,
+        lever_b: Vec3,
+        sigma_ned: Vec3,
+    ) -> Option<Vec3> {
+        let p = self.nav.p_llh;
+        let (rn, re) = radii_of_curvature(p.lat_rad);
+        let d_ins = [
+            (p.lat_rad - antenna.lat_rad) * (rn + p.alt_m),
+            (p.lon_rad - antenna.lon_rad) * (re + p.alt_m) * p.lat_rad.cos(),
+            -(p.alt_m - antenna.alt_m),
+        ];
+        let lever_n = self.nav.q.rotate(lever_b);
+        let z = [
+            d_ins[0] + lever_n[0],
+            d_ins[1] + lever_n[1],
+            d_ins[2] + lever_n[2],
+        ];
+        let dx = self.ekf.update_position_lever_arm(z, lever_n, sigma_ned)?;
+        Some(self.apply_feedback(dx))
+    }
+
     /// Apply the estimated error state `dx` (15) to the strapdown solution and the
     /// bias estimates, then reset the EKF error-state mean. Shared by the loosely-
     /// and tightly-coupled fixes. Returns the position correction (NED, m).
