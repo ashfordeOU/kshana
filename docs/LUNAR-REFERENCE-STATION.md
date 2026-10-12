@@ -16,9 +16,6 @@ each piece separately. This study composes them into one reproducible, open anal
 such a station could do under public assumptions, and pre-registers it so it can be scored
 against published results and, eventually, flight results.
 
-This page is a skeleton in 0.36 development; sections marked *pending* are filled by the
-workstreams named.
-
 ## Run it
 
 ```sh
@@ -30,7 +27,7 @@ or `run_toml` from Python, WebAssembly or the MCP server's `run_scenario` with
 
 ## Coverage and accuracy map (`lunar-station-coverage`)
 
-For a differential reference station at a known south-polar site: per user point on a ring grid
+For a differential reference station at a known south-polar site: at each user point on a ring grid
 from 80° S to the pole and over the region, across a day of epochs and Monte Carlo trials, the
 percentile corrected and uncorrected position error (3-D, horizontal, vertical), availability
 with a reason for every unavailable epoch, coverage against a threshold stated before the run,
@@ -42,11 +39,11 @@ at the station and at the worst point. No new physics: it sweeps the tested func
 
 | Input | Default | Source |
 |---|---|---|
-| Constellation (`n_sats`, `sma_km`, `eccentricity`, `inc_deg`, `argp_deg`) or `ephemeris_path` | the in-tree LCNS-class set | ILLUSTRATIVE (sourced values: *pending B*) |
+| Constellation (`n_sats`, `sma_km`, `eccentricity`, `inc_deg`, `argp_deg`) or `ephemeris_path` | the in-tree LCNS-class set | ILLUSTRATIVE in the bundled default; the public-sources example sets four satellites and the 24 h period from S2 and S4, the element set staying ILLUSTRATIVE (no source states it) |
 | `mask_deg` | 5° | ILLUSTRATIVE |
 | Station (`station_lat_deg`, `station_lon_deg`, `station_height_m`) | 89° S, 0°, 0 m | ILLUSTRATIVE |
 | `survey_sigma_m` | 0.30 m | ILLUSTRATIVE (the in-tree frame-realisation allocation, itself MODELLED) |
-| `orbit_err_m`, `clock_err_m`, or `sise_sigma_m` with `sise_orbit_variance_fraction` | 100 m, 30 m (line-of-sight SISE 65 m) | ILLUSTRATIVE (sourced values: *pending B*) |
+| `orbit_err_m`, `clock_err_m`, or `sise_sigma_m` with `sise_orbit_variance_fraction` | 100 m, 30 m (line-of-sight SISE 65 m) | ILLUSTRATIVE in the bundled default; the public-sources example sets `sise_sigma_m` = 10 / 1.96 m from S4 p8 |
 | `noise_m`, `latency_s`, `quantization_bits` | 0 m, 10 s, 8 bits | ILLUSTRATIVE |
 | Grid (`grid_lat_max_deg`, `grid_lat_step_deg`) or `points` | 80° S, 1° (346 points) | the study region |
 | Time (`t_start_s`, `t_span_s`, `t_step_s`), `n_trials` | 0 s, one day, 600 s, 200 | |
@@ -125,12 +122,35 @@ element set of the four-satellite constellation (the elements used are ILLUSTRAT
 
 ## Station time laboratory
 
-*Pending D.*
+Whether the station's miniRAFS, steered to LTC and then free-running or re-steered, stays within
+1, 10 and 100 ns: the optional `[time_lab]` block of `lunar-time-budget`
+(`scenarios/lunar-station-time-lab.toml`). The miniRAFS reaches 1 ns after 2.8 s, 10 ns after
+377 s and 100 ns after 10.5 h; the source's nanosecond-level target is quoted, not adopted.
+MODELLED. Model, outputs, the time-to-threshold table for four clock classes and the comparison
+with the sources: [`docs/lunar-station/time-lab.md`](lunar-station/time-lab.md).
 
 ## Station geodesy
 
-*Pending E.*
+How much one retroreflector and one VLBI beacon at the station site tighten the lunar frame
+datum beyond the five archived retroreflector arrays: the optional `extra_reflectors` and
+`extra_beacons` inputs of `lunar-llr-datum` (`scenarios/lunar-station-geodesy-baseline.toml`
+and `-with-station.toml`). Cramer-Rao bounds for a reduced parameter set on an ILLUSTRATIVE
+schedule and site: the translation norm 1-sigma falls from 0.0185 m to 0.0102 m (ratio 0.551),
+the scale from 0.00178 to 0.00063 ppm. MODELLED. Method, caveats (a south-polar site sees the
+Earth low or not at all) and the full Helmert table:
+[`docs/lunar-station/geodesy.md`](lunar-station/geodesy.md).
 
 ## Sources
 
-*Pending B: S1 to S6 by title, identifier and publisher, with the dates retrieved and licences.*
+Every source by title, identifier, URL, publisher, date, retrieval date (2026-10-12), SHA-256
+and licence, with notes on where the sources disagree:
+[`tests/fixtures/lunar_station/SOURCES.md`](../tests/fixtures/lunar_station/SOURCES.md). No
+source file is redistributed. In short:
+
+- **S1** arXiv:2602.08432v3, a white paper describing the station.
+- **S2** ICG-IOAG Workshop on Cislunar PNT, February 2025: slides on the lunar local
+  differential PNT and selenodetic reference station.
+- **S3** UNOOSA ICG Joint Working Group Session on Lunar PNT, June 2024 (`LunarPNT_Jun24_01_04.pdf`).
+- **S4** 2nd ICG-IOAG Cislunar PNT Workshop, February 2026: "Moonlight Programme Development Status".
+- **S5** the same workshop: "Lunar Reference Time: ESA's Views".
+- **S6** LunaNet LSIS V1.0 and the in-tree `LUNAR_SIGMA_URE_M`, as recorded with `lunar_afs`.
