@@ -6,9 +6,7 @@
 //! Metric names and labels are listed in `docs/TRUST-TELEMETRY.md`; the golden test in
 //! this module pins the exact output.
 
-use super::sample::{
-    Band, GeometrySample, Position, TrustSample, DEGRADATIONS, GEOMETRY_REASONS, GEOMETRY_STATUSES,
-};
+use super::sample::{Band, GeometrySample, Position, TrustSample, GEOMETRY_STATUSES};
 use std::collections::BTreeMap;
 use std::io::{Read, Write};
 use std::net::{SocketAddr, TcpListener, TcpStream};
@@ -39,7 +37,9 @@ pub struct Registry {
     geometry: Option<GeometrySample>,
     geometry_seen: bool,
     geometry_epochs: [u64; 3],
-    degradation_epochs: [u64; 5],
+    /// The latest class of each reason that came with one (schema 1.3); a reason with a class
+    /// carries it as a `class` label on `kshana_trust_reason_active`.
+    reason_class: BTreeMap<String, &'static str>,
 }
 
 /// Most distinct reason names kept as label values; later ones are folded into `other`.
@@ -76,11 +76,12 @@ impl Registry {
             if let Some(i) = GEOMETRY_STATUSES.iter().position(|k| *k == g.status) {
                 self.geometry_epochs[i] += 1;
             }
-            if let Some(i) = DEGRADATIONS.iter().position(|k| *k == g.degradation) {
-                self.degradation_epochs[i] += 1;
-            }
         }
         self.geometry = s.geometry.clone();
+        for (r, c) in &s.reason_class {
+            let name = self.reason_key(r);
+            self.reason_class.insert(name, c);
+        }
         for v in self.reason_active.values_mut() {
             *v = false;
         }
@@ -189,11 +190,6 @@ impl Registry {
         self.geometry_epochs
     }
 
-    /// Epochs by attribution, in [`DEGRADATIONS`] order.
-    pub fn degradation_epochs(&self) -> [u64; 5] {
-        self.degradation_epochs
-    }
-
     /// Count one input line that could not be parsed.
     pub fn observe_input_error(&mut self) {
         self.input_errors += 1;
@@ -282,8 +278,14 @@ impl Registry {
             "gauge",
         );
         for (r, on) in &self.reason_active {
+            // A reason that came with a class (schema 1.3) carries it as a label.
+            let class = self
+                .reason_class
+                .get(r)
+                .map(|c| format!(",class=\"{c}\""))
+                .unwrap_or_default();
             o.push_str(&format!(
-                "kshana_trust_reason_active{{reason=\"{}\"}} {}\n",
+                "kshana_trust_reason_active{{reason=\"{}\"{class}}} {}\n",
                 escape_label(r),
                 u8::from(*on)
             ));
@@ -374,13 +376,13 @@ impl Registry {
     }
 
     /// The geometry series (schema 1.3 inputs only), after every 0.35 series so a 0.35
-    /// exposition is a prefix-identical subset.
+    /// exposition is unchanged.
     fn render_geometry(&self, o: &mut String) {
         let g = self.geometry.as_ref();
         header(
             o,
             "kshana_trust_geometry",
-            "Satellite geometry at the latest epoch: 1 for the current status (good, degraded, unknown), 0 for the others. Beside the trust score, never part of it.",
+            "Satellite geometry at the latest epoch: 1 for the current status (good, degraded, unknown), 0 for the others.",
             "gauge",
         );
         for st in GEOMETRY_STATUSES {
@@ -389,38 +391,39 @@ impl Registry {
                 u8::from(g.is_some_and(|g| g.status == st))
             ));
         }
-        header(
-            o,
-            "kshana_trust_geometry_reason_active",
-            "1 if the geometry reason was present at the latest epoch.",
-            "gauge",
-        );
-        for r in GEOMETRY_REASONS {
-            o.push_str(&format!(
-                "kshana_trust_geometry_reason_active{{reason=\"{r}\"}} {}\n",
-                u8::from(g.is_some_and(|g| g.reasons.contains(&r)))
-            ));
-        }
-        if let Some(p) = g.and_then(|g| g.pdop) {
+        if let Some(g) = g.filter(|g| g.status != "unknown") {
             header(
                 o,
-                "kshana_trust_geometry_pdop",
-                "Position dilution of precision at the latest epoch.",
+                "kshana_trust_geometry_degraded",
+                "1 if the satellite geometry at the latest epoch is degraded, 0 if good; absent when unknown.",
                 "gauge",
             );
-            o.push_str(&format!("kshana_trust_geometry_pdop {}\n", fmt_f64(p)));
-        }
-        header(
-            o,
-            "kshana_trust_degradation",
-            "What the latest epoch's degradation is attributed to: 1 for the current cause, 0 for the others.",
-            "gauge",
-        );
-        for d in DEGRADATIONS {
             o.push_str(&format!(
-                "kshana_trust_degradation{{cause=\"{d}\"}} {}\n",
-                u8::from(g.is_some_and(|g| g.degradation == d))
+                "kshana_trust_geometry_degraded {}\n",
+                u8::from(g.status == "degraded")
             ));
+        }
+        for (name, help, v) in [
+            (
+                "kshana_trust_geometry_hdop",
+                "Horizontal dilution of precision at the latest epoch.",
+                g.and_then(|g| g.hdop),
+            ),
+            (
+                "kshana_trust_geometry_pdop",
+                "Position dilution of precision at the latest epoch.",
+                g.and_then(|g| g.pdop),
+            ),
+            (
+                "kshana_trust_geometry_used_satellites",
+                "Satellites used (tracked, where derived from the sky) at the latest epoch.",
+                g.and_then(|g| g.n_used),
+            ),
+        ] {
+            if let Some(v) = v {
+                header(o, name, help, "gauge");
+                o.push_str(&format!("{name} {}\n", fmt_f64(v)));
+            }
         }
         header(
             o,
@@ -432,18 +435,6 @@ impl Registry {
             o.push_str(&format!(
                 "kshana_trust_geometry_epochs_total{{status=\"{st}\"}} {}\n",
                 self.geometry_epochs[i]
-            ));
-        }
-        header(
-            o,
-            "kshana_trust_degradation_epochs_total",
-            "Epochs received, by what their degradation is attributed to.",
-            "counter",
-        );
-        for (i, d) in DEGRADATIONS.iter().enumerate() {
-            o.push_str(&format!(
-                "kshana_trust_degradation_epochs_total{{cause=\"{d}\"}} {}\n",
-                self.degradation_epochs[i]
             ));
         }
     }
@@ -549,6 +540,7 @@ mod tests {
             gate: None,
             position: None,
             geometry: None,
+            reason_class: Default::default(),
         }
     }
 
@@ -557,50 +549,55 @@ mod tests {
         let mut r = Registry::new("0.0.0-test");
         r.observe(&sample(1.0, Some(100.0), Band::Nominal, &[]), None);
         let before = r.render();
-        assert!(!before.contains("geometry") && !before.contains("degradation"));
-        let mut s = sample(2.0, Some(87.5), Band::Degraded, &["loss-of-lock"]);
-        s.geometry = Some(GeometrySample::from_names(
-            "degraded",
-            &["sky-blocked"],
-            Some(7.25),
-            Some("geometry"),
-        ));
+        assert!(!before.contains("geometry") && !before.contains("class="));
+        let mut s = sample(
+            2.0,
+            Some(87.5),
+            Band::Degraded,
+            &["loss-of-lock", "geometry"],
+        );
+        s.geometry = Some(GeometrySample {
+            status: "degraded",
+            hdop: Some(5.2),
+            pdop: Some(7.25),
+            n_used: Some(4.0),
+            classes: vec!["environment", "geometry"],
+        });
+        s.reason_class = [
+            ("loss-of-lock".to_string(), "environment"),
+            ("geometry".to_string(), "geometry"),
+        ]
+        .into_iter()
+        .collect();
         r.observe(&s, None);
         let after = r.render();
-        let tail = "# HELP kshana_trust_geometry Satellite geometry at the latest epoch: 1 for the current status (good, degraded, unknown), 0 for the others. Beside the trust score, never part of it.
+        assert!(after
+            .contains("kshana_trust_reason_active{reason=\"geometry\",class=\"geometry\"} 1\n"));
+        assert!(after.contains(
+            "kshana_trust_reason_active{reason=\"loss-of-lock\",class=\"environment\"} 1\n"
+        ));
+        let tail = "# HELP kshana_trust_geometry Satellite geometry at the latest epoch: 1 for the current status (good, degraded, unknown), 0 for the others.
 # TYPE kshana_trust_geometry gauge
 kshana_trust_geometry{status=\"good\"} 0
 kshana_trust_geometry{status=\"degraded\"} 1
 kshana_trust_geometry{status=\"unknown\"} 0
-# HELP kshana_trust_geometry_reason_active 1 if the geometry reason was present at the latest epoch.
-# TYPE kshana_trust_geometry_reason_active gauge
-kshana_trust_geometry_reason_active{reason=\"few-satellites\"} 0
-kshana_trust_geometry_reason_active{reason=\"high-pdop\"} 0
-kshana_trust_geometry_reason_active{reason=\"high-hdop\"} 0
-kshana_trust_geometry_reason_active{reason=\"sky-blocked\"} 1
-kshana_trust_geometry_reason_active{reason=\"other\"} 0
+# HELP kshana_trust_geometry_degraded 1 if the satellite geometry at the latest epoch is degraded, 0 if good; absent when unknown.
+# TYPE kshana_trust_geometry_degraded gauge
+kshana_trust_geometry_degraded 1
+# HELP kshana_trust_geometry_hdop Horizontal dilution of precision at the latest epoch.
+# TYPE kshana_trust_geometry_hdop gauge
+kshana_trust_geometry_hdop 5.2
 # HELP kshana_trust_geometry_pdop Position dilution of precision at the latest epoch.
 # TYPE kshana_trust_geometry_pdop gauge
 kshana_trust_geometry_pdop 7.25
-# HELP kshana_trust_degradation What the latest epoch's degradation is attributed to: 1 for the current cause, 0 for the others.
-# TYPE kshana_trust_degradation gauge
-kshana_trust_degradation{cause=\"none\"} 0
-kshana_trust_degradation{cause=\"geometry\"} 1
-kshana_trust_degradation{cause=\"inconsistency\"} 0
-kshana_trust_degradation{cause=\"geometry-and-inconsistency\"} 0
-kshana_trust_degradation{cause=\"unknown\"} 0
+# HELP kshana_trust_geometry_used_satellites Satellites used (tracked, where derived from the sky) at the latest epoch.
+# TYPE kshana_trust_geometry_used_satellites gauge
+kshana_trust_geometry_used_satellites 4
 # HELP kshana_trust_geometry_epochs_total Epochs received, by geometry status.
 # TYPE kshana_trust_geometry_epochs_total counter
 kshana_trust_geometry_epochs_total{status=\"good\"} 0
 kshana_trust_geometry_epochs_total{status=\"degraded\"} 1
 kshana_trust_geometry_epochs_total{status=\"unknown\"} 0
-# HELP kshana_trust_degradation_epochs_total Epochs received, by what their degradation is attributed to.
-# TYPE kshana_trust_degradation_epochs_total counter
-kshana_trust_degradation_epochs_total{cause=\"none\"} 0
-kshana_trust_degradation_epochs_total{cause=\"geometry\"} 1
-kshana_trust_degradation_epochs_total{cause=\"inconsistency\"} 0
-kshana_trust_degradation_epochs_total{cause=\"geometry-and-inconsistency\"} 0
-kshana_trust_degradation_epochs_total{cause=\"unknown\"} 0
 ";
         assert!(after.ends_with(tail), "{after}");
     }

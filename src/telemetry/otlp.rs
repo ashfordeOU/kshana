@@ -8,7 +8,7 @@
 //! forwarding over TLS). Metric names match the Prometheus ones.
 
 use super::prometheus::Registry;
-use super::sample::{Band, DEGRADATIONS, GEOMETRY_STATUSES};
+use super::sample::{Band, GEOMETRY_STATUSES};
 use serde_json::{json, Value};
 use std::io::{Read, Write};
 use std::net::{TcpStream, ToSocketAddrs};
@@ -98,54 +98,45 @@ pub fn build_payload(reg: &Registry, unix_nano: u64) -> Value {
             })
             .collect();
         metrics.push(json!({
-            "name": "kshana.trust.geometry",
+            "name": "kshana.geometry.status",
             "description": "1 for the current satellite-geometry status (good, degraded, unknown), 0 for the others.",
             "unit": "1",
             "gauge": {"dataPoints": status_points}
         }));
-        if let Some(p) = g.and_then(|g| g.pdop) {
+        if let Some(g) = g.filter(|g| g.status != "unknown") {
             metrics.push(json!({
-                "name": "kshana.trust.geometry.pdop",
-                "description": "Position dilution of precision at the latest epoch.",
+                "name": "kshana.geometry.degraded",
+                "description": "1 if the satellite geometry is degraded, 0 if good.",
                 "unit": "1",
-                "gauge": {"dataPoints": [{"asDouble": p, "timeUnixNano": t}]}
+                "gauge": {"dataPoints": [{"asInt": i64::from(g.status == "degraded").to_string(), "timeUnixNano": t}]}
             }));
         }
-        let cause_points: Vec<Value> = DEGRADATIONS
-            .iter()
-            .map(|d| {
-                json!({
-                    "asInt": i64::from(g.is_some_and(|g| g.degradation == *d)).to_string(),
-                    "timeUnixNano": t,
-                    "attributes": [{"key": "cause", "value": {"stringValue": d}}]
-                })
-            })
-            .collect();
-        metrics.push(json!({
-            "name": "kshana.trust.degradation",
-            "description": "1 for what the latest epoch's degradation is attributed to, 0 for the others.",
-            "unit": "1",
-            "gauge": {"dataPoints": cause_points}
-        }));
-        let counts = reg.geometry_epochs();
-        let geo_epoch_points: Vec<Value> = GEOMETRY_STATUSES
-            .iter()
-            .zip(counts)
-            .map(|(st, n)| {
-                json!({
-                    "asInt": n.to_string(),
-                    "startTimeUnixNano": start,
-                    "timeUnixNano": t,
-                    "attributes": [{"key": "status", "value": {"stringValue": st}}]
-                })
-            })
-            .collect();
-        metrics.push(json!({
-            "name": "kshana.trust.geometry.epochs",
-            "description": "Epochs received, by satellite-geometry status.",
-            "unit": "1",
-            "sum": {"aggregationTemporality": 2, "isMonotonic": true, "dataPoints": geo_epoch_points}
-        }));
+        for (name, description, v) in [
+            (
+                "kshana.geometry.hdop",
+                "Horizontal dilution of precision.",
+                g.and_then(|g| g.hdop),
+            ),
+            (
+                "kshana.geometry.pdop",
+                "Position dilution of precision.",
+                g.and_then(|g| g.pdop),
+            ),
+            (
+                "kshana.geometry.used_satellites",
+                "Satellites used.",
+                g.and_then(|g| g.n_used),
+            ),
+        ] {
+            if let Some(v) = v {
+                metrics.push(json!({
+                    "name": name,
+                    "description": description,
+                    "unit": "1",
+                    "gauge": {"dataPoints": [{"asDouble": v, "timeUnixNano": t}]}
+                }));
+            }
+        }
     }
     json!({"resourceMetrics": [{
         "resource": {"attributes": [
@@ -274,6 +265,7 @@ mod tests {
                 gate: None,
                 position: None,
                 geometry: None,
+                reason_class: Default::default(),
             },
             None,
         );
@@ -367,6 +359,7 @@ mod tests {
                 gate: None,
                 position: None,
                 geometry: None,
+                reason_class: Default::default(),
             },
             Some(1_700_000_000.0),
         );

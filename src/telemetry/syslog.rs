@@ -79,8 +79,9 @@ fn num(x: f64) -> String {
 /// `CEF:0|Ashforde OU|Kshana|<version>|gnss-trust.<band>|GNSS trust <band>|<sev>|ext`
 /// where the extension carries `cat`, `cs1` band, `cs2` reasons (comma-separated), `cs3`
 /// the previous band, `cfp1` trust score and `cfp2` epoch offset in seconds, `cs4` log time and
-/// `cs5` gate state; from schema 1.3 inputs also `cs6` geometry status, `flexString1` the
-/// attribution of the degradation, `flexString2` the geometry reasons and `cfp3` the PDOP.
+/// `cs5` gate state; from schema 1.3 inputs also `geoStatus` (the geometry status), `geoHdop`
+/// and `geoClass` (the classes of the deductions, comma-separated), the keys of the 0.36
+/// geometry design note.
 /// `cfp1` and `cfp2` are the CEF dictionary's floating-point custom fields
 /// (deviceCustomFloatingPoint); the integer fields `cn1` to `cn3` are not used, because the score
 /// and the offset are not integers. `cfp1` is left out when the source gives no score. `dvchost`
@@ -114,20 +115,13 @@ pub fn cef(s: &TrustSample, prev: Option<Band>, host: &str, version: &str) -> St
         ext.push_str(&format!(" cs5Label=gate cs5={}", cef_ext_escape(g)));
     }
     if let Some(g) = &s.geometry {
-        // Schema 1.3 only: the satellite geometry and what the degradation is attributed to.
-        ext.push_str(&format!(" cs6Label=geometry cs6={}", g.status));
-        if !g.reasons.is_empty() {
-            ext.push_str(&format!(
-                " flexString2Label=geometryReasons flexString2={}",
-                g.reasons.join(",")
-            ));
+        // Schema 1.3 only: the satellite geometry and the classes of the deductions.
+        ext.push_str(&format!(" geoStatus={}", g.status));
+        if let Some(h) = g.hdop {
+            ext.push_str(&format!(" geoHdop={}", num(h)));
         }
-        ext.push_str(&format!(
-            " flexString1Label=degradation flexString1={}",
-            g.degradation
-        ));
-        if let Some(p) = g.pdop {
-            ext.push_str(&format!(" cfp3Label=pdop cfp3={}", num(p)));
+        if !g.classes.is_empty() {
+            ext.push_str(&format!(" geoClass={}", g.classes.join(",")));
         }
     }
     format!(
@@ -145,7 +139,7 @@ pub fn cef(s: &TrustSample, prev: Option<Band>, host: &str, version: &str) -> St
 ///
 /// Attributes: `cat`, `sev` (1-10, the CEF severity with a floor of 1), `devHost`, `band`,
 /// `previousBand`, `trustScore`, `reasons`, `epochOffsetSeconds`, `logTime`, `gate`; from
-/// schema 1.3 inputs also `geometry`, `geometryReasons`, `degradation` and `pdop`.
+/// schema 1.3 inputs also `geoStatus`, `geoHdop` and `geoClass`.
 pub fn leef(s: &TrustSample, prev: Option<Band>, host: &str, version: &str) -> String {
     let mut a: Vec<String> = vec![
         format!("cat={EVENT_PREFIX}"),
@@ -170,13 +164,12 @@ pub fn leef(s: &TrustSample, prev: Option<Band>, host: &str, version: &str) -> S
         a.push(format!("gate={}", leef_escape(g)));
     }
     if let Some(g) = &s.geometry {
-        a.push(format!("geometry={}", g.status));
-        if !g.reasons.is_empty() {
-            a.push(format!("geometryReasons={}", g.reasons.join(",")));
+        a.push(format!("geoStatus={}", g.status));
+        if let Some(h) = g.hdop {
+            a.push(format!("geoHdop={}", num(h)));
         }
-        a.push(format!("degradation={}", g.degradation));
-        if let Some(p) = g.pdop {
-            a.push(format!("pdop={}", num(p)));
+        if !g.classes.is_empty() {
+            a.push(format!("geoClass={}", g.classes.join(",")));
         }
     }
     format!(
@@ -405,6 +398,7 @@ mod tests {
             gate: Some("withheld".into()),
             position: None,
             geometry: None,
+            reason_class: Default::default(),
         }
     }
 
@@ -434,12 +428,13 @@ mod tests {
     #[test]
     fn geometry_fields_are_appended_for_a_schema_1_3_sample() {
         let mut s = sample();
-        s.geometry = Some(crate::telemetry::sample::GeometrySample::from_names(
-            "degraded",
-            &["sky-blocked"],
-            Some(7.25),
-            Some("geometry"),
-        ));
+        s.geometry = Some(crate::telemetry::sample::GeometrySample {
+            status: "degraded",
+            hdop: Some(5.2),
+            pdop: Some(7.25),
+            n_used: Some(4.0),
+            classes: vec!["environment", "geometry"],
+        });
         assert_eq!(
             cef(&s, Some(Band::Nominal), "ops-gw1", "0.35.0"),
             "CEF:0|Ashforde OU|Kshana|0.35.0|gnss-trust.degraded|GNSS trust degraded|5|\
@@ -447,17 +442,15 @@ mod tests {
              cs2Label=reasons cs2=cn0-drop,agc cs3Label=previousBand cs3=nominal \
              cfp1Label=trustScore cfp1=41.5 cfp2Label=epochOffsetSeconds cfp2=130.5 \
              cs4Label=logTime cs4=2026-01-01T00:02:10Z cs5Label=gate cs5=withheld \
-             cs6Label=geometry cs6=degraded flexString2Label=geometryReasons \
-             flexString2=sky-blocked flexString1Label=degradation flexString1=geometry \
-             cfp3Label=pdop cfp3=7.25"
+             geoStatus=degraded geoHdop=5.2 geoClass=environment,geometry"
         );
         assert_eq!(
             leef(&s, Some(Band::Nominal), "ops-gw1", "0.35.0"),
             "LEEF:2.0|Ashforde OU|Kshana|0.35.0|gnss-trust.degraded|^|\
              cat=gnss-trust^sev=5^devHost=ops-gw1^band=degraded^previousBand=nominal^\
              trustScore=41.5^reasons=cn0-drop,agc^epochOffsetSeconds=130.5^\
-             logTime=2026-01-01T00:02:10Z^gate=withheld^geometry=degraded^\
-             geometryReasons=sky-blocked^degradation=geometry^pdop=7.25"
+             logTime=2026-01-01T00:02:10Z^gate=withheld^geoStatus=degraded^geoHdop=5.2^\
+             geoClass=environment,geometry"
         );
     }
 
