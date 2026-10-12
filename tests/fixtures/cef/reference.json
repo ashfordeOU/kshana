@@ -3026,6 +3026,214 @@
     "trustScore": "85"
    }
   },
+  "geometry-label-fair": {
+   "extension": {
+    "band": "nominal",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "701",
+    "geometry": "good;;fair",
+    "geometryHdop": "2.25",
+    "geometryPdop": "3.5",
+    "geometryUsedSatellites": "8",
+    "previousBand": "nominal",
+    "trustScore": "92.5"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.nominal",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust nominal",
+    "Severity": "1"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "nominal",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "701",
+    "geometry": "good;;fair",
+    "geometryHdop": "2.25",
+    "geometryPdop": "3.5",
+    "geometryUsedSatellites": "8",
+    "previousBand": "nominal",
+    "trustScore": "92.5"
+   }
+  },
+  "geometry-label-fair-sky-blocked": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "702",
+    "geometry": "degraded;environment;fair",
+    "geometryHdop": "3.25",
+    "geometryPdop": "4.5",
+    "geometryUsedSatellites": "6",
+    "reasons": "geometry",
+    "trustScore": "85"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "702",
+    "geometry": "degraded;environment;fair",
+    "geometryHdop": "3.25",
+    "geometryPdop": "4.5",
+    "geometryUsedSatellites": "6",
+    "reasons": "geometry",
+    "trustScore": "85"
+   }
+  },
+  "geometry-label-good": {
+   "extension": {
+    "band": "nominal",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "700",
+    "geometry": "good;;good",
+    "geometryHdop": "1.25",
+    "geometryPdop": "2.5",
+    "geometryUsedSatellites": "9",
+    "trustScore": "100"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.nominal",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust nominal",
+    "Severity": "1"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "nominal",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "700",
+    "geometry": "good;;good",
+    "geometryHdop": "1.25",
+    "geometryPdop": "2.5",
+    "geometryUsedSatellites": "9",
+    "trustScore": "100"
+   }
+  },
+  "geometry-label-poor": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "703",
+    "geometry": "degraded;geometry,inconsistency;poor",
+    "geometryHdop": "4.25",
+    "geometryPdop": "5.5",
+    "geometryUsedSatellites": "4",
+    "previousBand": "nominal",
+    "reasons": "geometry",
+    "trustScore": "77.5"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "703",
+    "geometry": "degraded;geometry,inconsistency;poor",
+    "geometryHdop": "4.25",
+    "geometryPdop": "5.5",
+    "geometryUsedSatellites": "4",
+    "previousBand": "nominal",
+    "reasons": "geometry",
+    "trustScore": "77.5"
+   }
+  },
+  "geometry-label-poor-no-count": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "704",
+    "geometry": "degraded;environment;poor",
+    "geometryHdop": "5.25",
+    "geometryPdop": "6.5",
+    "reasons": "geometry",
+    "trustScore": "70"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "704",
+    "geometry": "degraded;environment;poor",
+    "geometryHdop": "5.25",
+    "geometryPdop": "6.5",
+    "reasons": "geometry",
+    "trustScore": "70"
+   }
+  },
+  "geometry-label-unknown": {
+   "extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "705",
+    "geometry": "unknown;;unknown",
+    "previousBand": "nominal",
+    "trustScore": "62.5"
+   },
+   "header": {
+    "CEFVersion": "0",
+    "DeviceEventClassID": "gnss-trust.degraded",
+    "DeviceProduct": "Kshana",
+    "DeviceVendor": "Ashforde OU",
+    "DeviceVersion": "9.9.9-oracle",
+    "Name": "GNSS trust degraded",
+    "Severity": "5"
+   },
+   "parsed": true,
+   "raw_extension": {
+    "band": "degraded",
+    "cat": "gnss-trust",
+    "dvchost": "ops-gw1",
+    "epochOffsetSeconds": "705",
+    "geometry": "unknown;;unknown",
+    "previousBand": "nominal",
+    "trustScore": "62.5"
+   }
+  },
   "geometry-unknown-0": {
    "extension": {
     "band": "nominal",
