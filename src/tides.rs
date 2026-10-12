@@ -286,6 +286,121 @@ pub fn atmospheric_tide(jd_tt: f64) -> Vec<StokesDelta> {
     out
 }
 
+/// One S1 air-tide row of the Biancale & Bode model N1: (n, m, C [cm of equivalent water
+/// height], ε [deg]); fully normalised, prograde, `h = C·sin(θ_S1 + mλ + ε)·P̄_nm(sin φ)`.
+type S1AirRow = (u8, u8, f64, f64);
+
+// Atmospheric S1 pressure-tide model N1, annual mean (the 6-hourly ECMWF surface-pressure fit of
+// May 1985 to October 2002). Source: R. Biancale and A. Bode, "Mean annual and seasonal
+// atmospheric tide models based on 3-hourly and 6-hourly ECMWF surface pressure data",
+// Scientific Technical Report STR06/01, GeoForschungsZentrum Potsdam (2006), Table 1, column
+// "Model N1" (all 24 rows, values in parentheses included as printed). Convention (ibid. Eqs. 3-4
+// and the text after Eq. 6): fully normalised harmonics, amplitudes as equivalent ocean-water
+// height (ρ_w = 1025 kg/m³), phases are leads of a sine, measured from the Doodson argument
+// with no phase-bias convention. The paper's sources are ECMWF analyses; the Ray & Ponte (2003)
+// ECMWF S1 grid is the same data family, but its spherical-harmonic expansion is not printed in
+// that paper, so this published expansion is used.
+static S1_AIR_N1: &[S1AirRow] = &[
+    (0, 0, 0.011, 295.1),
+    (1, 0, 0.014, 301.7),
+    (2, 0, 0.029, 228.6),
+    (3, 0, 0.019, 266.8),
+    (1, 1, 0.220, 73.2),
+    (2, 1, 0.019, 37.6),
+    (3, 1, 0.125, 264.8),
+    (4, 1, 0.016, 155.8),
+    (2, 2, 0.066, 37.7),
+    (3, 2, 0.025, 358.1),
+    (4, 2, 0.031, 241.7),
+    (5, 2, 0.003, 147.4),
+    (3, 3, 0.020, 235.6),
+    (4, 3, 0.032, 298.3),
+    (5, 3, 0.019, 258.3),
+    (6, 3, 0.011, 186.3),
+    (4, 4, 0.029, 336.3),
+    (5, 4, 0.014, 100.1),
+    (6, 4, 0.010, 34.8),
+    (7, 4, 0.011, 344.7),
+    (5, 5, 0.037, 327.4),
+    (6, 5, 0.034, 93.0),
+    (7, 5, 0.012, 83.9),
+    (8, 5, 0.007, 266.1),
+];
+
+/// S1 (radiational solar diurnal) Doodson number 164.556 → fundamental-argument multipliers
+/// (IERS Conventions 2010, Table 6.5b).
+const S1_DOODSON: [i8; 6] = [1, 1, -1, 0, 0, 1];
+
+/// Highest degree the S1 air tide is evaluated to: the load Love numbers `k′_n` the IERS
+/// Conventions 2010 print stop at degree 6 (§6.3.1, after Eq. 6.21), so the four N1 rows of degree
+/// 7 and 8 (amplitudes 0.007 to 0.012 cm) are left out rather than given an uncited `k′_n`.
+pub const S1_AIR_MAX_DEGREE: usize = 6;
+
+/// Load Love numbers `k′_n`, n = 2..6, IERS Conventions 2010 §6.3.1 (after Eq. 6.21).
+fn load_love_iers(n: usize) -> f64 {
+    match n {
+        2 => -0.3075,
+        3 => -0.195,
+        4 => -0.132,
+        5 => -0.1032,
+        6 => -0.0892,
+        _ => 0.0,
+    }
+}
+
+/// Atmospheric **S1 (diurnal) air tide** on the geopotential, as normalized Stokes corrections:
+/// the Biancale & Bode (2006) model N1 surface-pressure harmonics (equivalent water height,
+/// fully normalised) through the IERS Eq. 6.21 surface-load factor
+/// `ΔC̄_nm = (4πGρ_w/g)·((1+k′_n)/(2n+1))·h·sin(θ_S1+ε)`, `ΔS̄_nm = (…)·h·cos(θ_S1+ε)`
+/// (the prograde case of Eqs. 6.15 and 6.20 with the source's sine-lead phases, phase bias 0).
+/// Degrees 2 to [`S1_AIR_MAX_DEGREE`]: degree 0 (a total-mass term, unphysical for a closed
+/// atmosphere) and degree 1 (a geocentre term, absent in the centre-of-mass frame the
+/// propagator integrates in) are left out.
+///
+/// **Opt-in.** It is *not* part of [`tidal_acceleration`] (whose output is unchanged); add
+/// [`s1_air_tide_acceleration`], or set the propagator's `ForceModel::air_tide_s1`. It is
+/// MODELLED: no third-party geopotential-coefficient oracle exists for the air tide, so it is
+/// checked against the source table, its own load-factor closed form, and physical magnitude.
+pub fn atmospheric_tide_s1(jd_tt: f64) -> Vec<StokesDelta> {
+    const G: f64 = 6.674e-11; // m³ kg⁻¹ s⁻²
+    const GE: f64 = 9.806_65; // m s⁻²
+    const RHO_W: f64 = 1025.0; // kg m⁻³, the source's and IERS Eq. 6.21's sea-water density
+    const CM_TO_M: f64 = 0.01;
+    let theta = doodson_phase(&S1_DOODSON, &doodson_args(jd_tt));
+    S1_AIR_N1
+        .iter()
+        .filter(|&&(n, ..)| (2..=S1_AIR_MAX_DEGREE).contains(&(n as usize)))
+        .map(|&(n8, m8, c_cm, eps_deg)| {
+            let n = n8 as usize;
+            let fac = (4.0 * std::f64::consts::PI * G * RHO_W / GE)
+                * ((1.0 + load_love_iers(n)) / (2.0 * n as f64 + 1.0))
+                * c_cm
+                * CM_TO_M;
+            let (sa, ca) = (theta + eps_deg.to_radians()).sin_cos();
+            StokesDelta {
+                n,
+                m: m8 as usize,
+                dc: fac * sa,
+                ds: fac * ca,
+            }
+        })
+        .collect()
+}
+
+/// Perturbing acceleration (m/s², ECI) of the opt-in S1 air tide ([`atmospheric_tide_s1`]) at
+/// `r_eci` and epoch `jd_tt`, evaluated in the Earth-fixed frame with the same Earth-rotation
+/// convention as [`tidal_acceleration`] and rotated back. Add it to `tidal_acceleration` to
+/// include S1.
+pub fn s1_air_tide_acceleration(r_eci: Vec3, jd_tt: f64) -> Vec3 {
+    let theta_g = earth_rotation_angle(jd_tt);
+    let r_ecef = rot_eci_to_ecef(theta_g, r_eci);
+    let mut field = SphericalHarmonicField::zeros(EGM2008_GM, EGM2008_RE, S1_AIR_MAX_DEGREE);
+    for d in atmospheric_tide_s1(jd_tt) {
+        field.set(d.n, d.m, d.dc, d.ds);
+    }
+    rot_ecef_to_eci(theta_g, field.acceleration(r_ecef))
+}
+
 /// Rotate an ECI vector into the Earth-fixed frame by the Greenwich sidereal angle `θ_g`
 /// (z-axis rotation). The inverse is [`rot_ecef_to_eci`].
 fn rot_eci_to_ecef(theta_g: f64, v: Vec3) -> Vec3 {
@@ -390,6 +505,76 @@ mod tests {
         assert!(
             mag < 1e-5 * two_body,
             "tide should be << two-body ({mag:e} vs {two_body:e})"
+        );
+    }
+
+    /// Data integrity: the S1 table is the 24-row model N1 column of Biancale & Bode (2006)
+    /// Table 1, with its dominant (1,1) row and the largest kept row (3,1) verbatim.
+    #[test]
+    fn s1_air_tide_table_matches_biancale_bode_n1() {
+        assert_eq!(S1_AIR_N1.len(), 24);
+        let row = |n: u8, m: u8| {
+            S1_AIR_N1
+                .iter()
+                .find(|r| r.0 == n && r.1 == m)
+                .map(|r| (r.2, r.3))
+        };
+        assert_eq!(row(1, 1), Some((0.220, 73.2)));
+        assert_eq!(row(3, 1), Some((0.125, 264.8)));
+        assert_eq!(row(8, 5), Some((0.007, 266.1)));
+    }
+
+    /// The S1 argument advances by one cycle per mean solar day (15°/h, IERS Table 6.5b), and
+    /// each Stokes pair has the constant modulus of its Eq. 6.21 load factor.
+    #[test]
+    fn s1_air_tide_is_diurnal_with_its_load_factor_amplitude() {
+        let jd = 2_455_197.5;
+        let a = atmospheric_tide_s1(jd);
+        let b = atmospheric_tide_s1(jd + 0.25);
+        let c = atmospheric_tide_s1(jd + 1.0);
+        // only degrees 2..=6 kept: 24 rows minus 2 of degree 0/1 order 0, 1 of (1,1), 4 of degree ≥ 7
+        assert_eq!(a.len(), 24 - 3 - 4);
+        assert!(a.iter().all(|d| (2..=S1_AIR_MAX_DEGREE).contains(&d.n)));
+        for ((x, y), z) in a.iter().zip(&b).zip(&c) {
+            let amp = |d: &StokesDelta| d.dc.hypot(d.ds);
+            assert!((amp(x) - amp(y)).abs() < 1e-24 && (amp(x) - amp(z)).abs() < 1e-24);
+            // one solar day later the phase is back (to the slow drift of p_s and h)
+            assert!((x.dc - z.dc).abs() < 1e-3 * amp(x), "{x:?} vs {z:?}");
+            // a quarter day later it has turned by 90°: dc ↔ ds
+            assert!((x.dc - y.ds).abs() < 1e-2 * amp(x), "{x:?} vs {y:?}");
+            let row = S1_AIR_N1
+                .iter()
+                .find(|r| r.0 as usize == x.n && r.1 as usize == x.m)
+                .expect("row");
+            let want = 4.0 * std::f64::consts::PI * 6.674e-11 * 1025.0 / 9.806_65
+                * (1.0 + load_love_iers(x.n))
+                / (2.0 * x.n as f64 + 1.0)
+                * row.2
+                * 0.01;
+            assert!((amp(x) - want).abs() < 1e-15 * want.max(1e-30) + 1e-25);
+        }
+    }
+
+    /// The surface pressure the S1 table describes has the physical size of the diurnal
+    /// barometric tide (a few tenths of a hectopascal; 1 cm of water ≈ 1.005 hPa), and its
+    /// acceleration at LEO is a sub-1e-8 m/s² perturbation far below the S2-led tide total.
+    #[test]
+    fn s1_air_tide_has_physical_magnitude() {
+        // Equatorial amplitude of the (1,1) wave alone: 0.220 cm · P̄11(0) = 0.220·√3 cm.
+        let p11 = 0.220 * 3f64.sqrt() * 1025.0 * 9.80 * 0.01 / 100.0; // hPa
+        assert!(
+            (0.1..2.0).contains(&p11),
+            "S1 (1,1) equatorial amplitude {p11} hPa"
+        );
+        let r = [7.0e6, 1.0e6, 2.0e6];
+        let mut worst = 0.0f64;
+        for k in 0..24 {
+            let a = s1_air_tide_acceleration(r, 2_455_197.5 + k as f64 / 24.0);
+            worst = worst.max((a[0] * a[0] + a[1] * a[1] + a[2] * a[2]).sqrt());
+        }
+        assert!(
+            (1e-12..1e-8).contains(&worst),
+            "S1 air-tide acceleration {worst:e} m/s² outside 1e-12..1e-8"
         );
     }
 

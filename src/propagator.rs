@@ -44,14 +44,18 @@
 
 use crate::body::Body;
 use crate::ephem::{moon_position, sun_position};
+use crate::ephem_provider::{tt_to_tdb_jd2, EphemerisProvider};
 use crate::forces::{
     drag_accel, j2_accel, lense_thirring_accel, relativistic_accel, srp_accel, third_body_accel,
     two_body_accel_body, zonal_accel, EARTH_ZONALS_J2_J6, MU_EARTH, MU_MOON, MU_SUN,
 };
 use crate::integrator::{integrate, integrate_dopri, rk4_step, Tolerance};
+use crate::jd2::Jd2;
 use crate::precession::julian_centuries_tt;
 use crate::sgp4::Sgp4;
 use crate::timescales::SECONDS_PER_DAY;
+use std::sync::atomic::{AtomicUsize, Ordering};
+use std::sync::Arc;
 
 type Vec3 = [f64; 3];
 
@@ -127,6 +131,75 @@ pub struct ForceModel {
     /// `epoch_jd_tt + t/86400`), so set the epoch via [`third_body`](Self::third_body). The
     /// permanent tide is removed so it does not double-count a zero-tide static field.
     pub tides: bool,
+    /// Opt-in **ephemeris tier** for the Sun and Moon positions that feed the third-body and SRP
+    /// terms. `None` (the default) keeps the [`crate::ephem`] low-precision analytic series, bit for
+    /// bit. `Some` reads the positions from an [`crate::ephem_provider::EphemerisProvider`] — a
+    /// JPL DE440 kernel through [`crate::ephem_provider::KernelEphemeris`] is the intended use —
+    /// at the TDB epoch of each right-hand-side evaluation. Set it with
+    /// [`with_ephemeris`](Self::with_ephemeris).
+    pub ephemeris: Option<ForceEphemeris>,
+}
+
+/// A shared [`EphemerisProvider`] for the propagator's opt-in ephemeris tier
+/// ([`ForceModel::ephemeris`]), with a count of the evaluations the provider could not serve.
+///
+/// The kernel positions are geocentric in the ICRF (the kernel's J2000 frame), so with this tier
+/// the integration frame is the GCRF; the analytic series of the default tier are mean of date to
+/// within their own truncation error. When the provider returns `None` at some epoch (outside the
+/// kernel's coverage), that evaluation falls back to the analytic series and the fallback is
+/// counted; [`fallbacks`](Self::fallbacks) reports it, so a run that left the kernel is visible
+/// rather than silent. [`ForceModel::with_ephemeris`] refuses a provider that cannot serve the
+/// epoch itself.
+#[derive(Clone)]
+pub struct ForceEphemeris {
+    provider: Arc<dyn EphemerisProvider + Send + Sync>,
+    fallbacks: Arc<AtomicUsize>,
+}
+
+impl std::fmt::Debug for ForceEphemeris {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("ForceEphemeris")
+            .field("provider", &self.provider)
+            .field("fallbacks", &self.fallbacks())
+            .finish()
+    }
+}
+
+impl ForceEphemeris {
+    /// Wrap a provider.
+    pub fn new(provider: Arc<dyn EphemerisProvider + Send + Sync>) -> Self {
+        Self {
+            provider,
+            fallbacks: Arc::new(AtomicUsize::new(0)),
+        }
+    }
+
+    /// The wrapped provider.
+    pub fn provider(&self) -> &(dyn EphemerisProvider + Send + Sync) {
+        self.provider.as_ref()
+    }
+
+    /// How many right-hand-side evaluations fell back to the analytic series because the provider
+    /// returned no position (shared by every clone of this model).
+    pub fn fallbacks(&self) -> usize {
+        self.fallbacks.load(Ordering::Relaxed)
+    }
+
+    /// The geocentric position (m) of `body` at the TT epoch `jd_tt`, from the provider at the
+    /// corresponding TDB epoch, or the analytic `fallback` (counted) when it has none.
+    fn geocentric(&self, body: &Body, jd_tt: Jd2, fallback: impl FnOnce() -> Vec3) -> Vec3 {
+        let jd_tdb = tt_to_tdb_jd2(jd_tt);
+        match self
+            .provider
+            .relative_position_jd2(body, &Body::earth(), jd_tdb)
+        {
+            Some(p) => p,
+            None => {
+                self.fallbacks.fetch_add(1, Ordering::Relaxed);
+                fallback()
+            }
+        }
+    }
 }
 
 impl ForceModel {
@@ -220,6 +293,56 @@ impl ForceModel {
         self
     }
 
+    /// Take the Sun and Moon positions of the third-body and SRP terms from `provider` (the opt-in
+    /// DE-grade ephemeris tier, [`ForceModel::ephemeris`]) instead of the analytic series. The
+    /// epoch must already be set (with [`third_body`](Self::third_body)); the provider must serve
+    /// the geocentric Sun and Moon there, or this returns `Err` and nothing is changed. A
+    /// [`crate::ephem_provider::KernelEphemeris`] over `de440s.bsp` is the intended provider.
+    pub fn with_ephemeris(
+        mut self,
+        provider: Arc<dyn EphemerisProvider + Send + Sync>,
+    ) -> Result<Self, String> {
+        let jd_tdb = tt_to_tdb_jd2(Jd2::new(self.epoch_jd_tt));
+        for body in [Body::sun(), Body::moon()] {
+            if provider
+                .relative_position_jd2(&body, &Body::earth(), jd_tdb)
+                .is_none()
+            {
+                return Err(format!(
+                    "the ephemeris provider has no geocentric {} at JD(TT) {}",
+                    body.name, self.epoch_jd_tt
+                ));
+            }
+        }
+        self.ephemeris = Some(ForceEphemeris::new(provider));
+        Ok(self)
+    }
+
+    /// The geocentric Sun and Moon (m) the perturbation terms use at integration time `t`, from
+    /// the opt-in ephemeris tier when set, else the analytic series at `tjc` (the default path,
+    /// unchanged). Only the requested bodies are evaluated.
+    fn perturbers(
+        &self,
+        t: f64,
+        tjc: f64,
+        want_sun: bool,
+        want_moon: bool,
+    ) -> (Option<Vec3>, Option<Vec3>) {
+        match &self.ephemeris {
+            None => (
+                want_sun.then(|| sun_position(tjc)),
+                want_moon.then(|| moon_position(tjc)),
+            ),
+            Some(e) => {
+                let jd_tt = Jd2::new(self.epoch_jd_tt).add_seconds(t);
+                (
+                    want_sun.then(|| e.geocentric(&Body::sun(), jd_tt, || sun_position(tjc))),
+                    want_moon.then(|| e.geocentric(&Body::moon(), jd_tt, || moon_position(tjc))),
+                )
+            }
+        }
+    }
+
     /// The time-independent **central** gravity (m/s², ECI) at position `r` (m): two-body plus
     /// the configured J2/zonal field, but *not* the third-body terms (which depend on time
     /// through the ephemeris — see [`accel_at`](Self::accel_at)). For a model without Sun/Moon
@@ -281,11 +404,7 @@ impl ForceModel {
         if self.sun || self.moon || self.srp {
             let tjc = julian_centuries_tt(jd_tt);
             // The Sun ephemeris feeds both the Sun third body and SRP — evaluate it once.
-            let sun = if self.sun || self.srp {
-                Some(sun_position(tjc))
-            } else {
-                None
-            };
+            let (sun, moon) = self.perturbers(t, tjc, self.sun || self.srp, self.moon);
             if self.sun {
                 let sun = sun.expect(
                     "`sun` is Some whenever `self.sun || self.srp`, and `self.sun` holds here",
@@ -294,7 +413,8 @@ impl ForceModel {
                 a = [a[0] + p[0], a[1] + p[1], a[2] + p[2]];
             }
             if self.moon {
-                let p = third_body_accel(r, moon_position(tjc), MU_MOON);
+                let moon = moon.expect("`moon` is Some whenever `self.moon` holds");
+                let p = third_body_accel(r, moon, MU_MOON);
                 a = [a[0] + p[0], a[1] + p[1], a[2] + p[2]];
             }
             if self.srp {
