@@ -60,6 +60,11 @@ __all__ = [
     "iq_test_conditions",
     "iq_campaign",
     "iq_campaign_report",
+    "sky_geometry",
+    "sky_monte_carlo",
+    "skyline_presets",
+    "skyline_profile",
+    "skyplot_svg",
     "__version__",
 ]
 
