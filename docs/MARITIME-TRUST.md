@@ -156,7 +156,8 @@ no real log has). A view should run the session and read the truth file alongsid
 3. *Reasons*: for the epoch under the cursor, the deductions (monitor, ratio against threshold,
    points) as horizontal bars, largest first, with the weight each monitor carries from
    `score_model.weights`; monitors that ran and cost nothing shown faint, monitors that did not run
-   (not in `monitors_run`) listed as "not run", never as passing.
+   (not in `monitors_run`) listed as "not run", never as passing. The `geometry` monitor has no
+   `score_model.weights` entry: its cap is `geometry_model.cap_in_force`.
 4. *Monitor strips*: one thin strip per monitor in `monitors_run` showing its ratio over time
    (alarm at 1), so a reader sees which check moved first.
 5. *Gate state*: in a live view, the `gate` of each epoch (`off`, `passed`, `withheld`) as a strip

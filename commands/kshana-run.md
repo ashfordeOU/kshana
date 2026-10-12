@@ -54,6 +54,15 @@ Do this:
    Cesium Language, for CesiumJS; KML, the Keyhole Markup Language, for Google Earth;
    GeoJSON; or an STK, Systems Tool Kit, ephemeris; a `spectrum` scenario's samples as
    SigMF, the Signal Metadata Format).
+7. For a question about which satellites a user sees from a street, a harbour, a fjord or a
+   container terminal, call **`sky_geometry`**: with a `request` (a `site`, a `time_s` and
+   `systems` presets, or satellites as azimuth/elevation or ECEF, plus a `skyline`) it returns
+   the visible and masked satellites, the DOP, the east-north-up covariance and the
+   horizontal error ellipse; with `skyline_preset` it describes a REPRESENTATIVE preset and its
+   provenance. Scenarios of the `gnss-sim`, `jamming`, `leo-pvt` and `leo-pass` kinds, and of
+   `orbit` and `integrity` with a `user_site`, take the same `[skyline]` section. Keep the
+   MODELLED label and the advisory: geometry under a stated error model, line of sight only,
+   a representative sky, and the ellipse is not a measured accuracy or an integrity bound.
 
 If the `kshana` MCP tools aren't available, tell the user the server isn't connected and
 point them at installation: `cargo install kshana-mcp` (or the `ghcr.io/ashfordeou/kshana-mcp`

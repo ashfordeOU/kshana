@@ -67,12 +67,11 @@ class BuildInterferenceMapAction : KshanaFileAction() {
         val project = e.project ?: return
         val file = e.getData(CommonDataKeys.VIRTUAL_FILE) ?: return
         val datasets = KshanaCli.MapDataset.values()
-        val choice = Messages.showChooseDialog(
+        val choice = KshanaChooser.chooseOne(
             project,
             "Which approved dataset is ${file.name}? (Another licence: use the command line with --dataset custom.)",
             "Build Interference Map",
-            Messages.getQuestionIcon(),
-            datasets.map { it.label }.toTypedArray(),
+            datasets.map { it.label },
             datasets[0].label,
         )
         if (choice < 0) return
@@ -200,7 +199,7 @@ class VerifyEvidencePackAction : AnAction() {
         )
         if (withLog == Messages.YES) {
             log = FileChooser.chooseFile(
-                FileChooserDescriptorFactory.createSingleFileDescriptor().withTitle("Full session log"),
+                KshanaChooser.singleFile().withTitle("Full session log"),
                 project,
                 dir.parent,
             )?.path
@@ -227,7 +226,7 @@ class AssessReceiverStreamAction : KshanaFileAction() {
         val project = e.project ?: return
         val file = e.getData(CommonDataKeys.VIRTUAL_FILE) ?: return
         val log = FileChooser.chooseFile(
-            FileChooserDescriptorFactory.createSingleFileDescriptor().withTitle("NMEA log to score"),
+            KshanaChooser.singleFile().withTitle("NMEA log to score"),
             project,
             null,
         ) ?: return
@@ -250,12 +249,11 @@ class RenderTrustTelemetryAction : KshanaFileAction() {
         val project = e.project ?: return
         val file = e.getData(CommonDataKeys.VIRTUAL_FILE) ?: return
         val formats = KshanaCli.TelemetryFormat.values()
-        val choice = Messages.showChooseDialog(
+        val choice = KshanaChooser.chooseOne(
             project,
             "Which telemetry format? It is printed to the Kshana window; nothing is sent.",
             "Render Trust Telemetry",
-            Messages.getQuestionIcon(),
-            formats.map { it.label }.toTypedArray(),
+            formats.map { it.label },
             formats[0].label,
         )
         if (choice < 0) return

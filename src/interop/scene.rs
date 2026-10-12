@@ -498,7 +498,12 @@ pub fn scene_of(src: &str) -> Result<Scene, ExportError> {
                     "the scenario's `epoch`, read as UTC".to_string(),
                 )
             });
-            orbit_like(&mut scene, given, &scn.time, &scn.user, sats)?;
+            orbit_like(&mut scene, given, &scn.time, scn.user.as_ref(), sats)?;
+            if let Some(site) = &scn.user_site {
+                scene
+                    .sites
+                    .push(receiver_site(site.lat_deg, site.lon_deg, site.height_m));
+            }
         }
         ScenarioKind::Integrity => {
             let scn: crate::raim::IntegrityScenario = toml::from_str(src).map_err(bad)?;
@@ -511,7 +516,12 @@ pub fn scene_of(src: &str) -> Result<Scene, ExportError> {
             }
             // The integrity kind has no `epoch` of its own, so t = 0 is dated as for an
             // orbit scenario without one.
-            orbit_like(&mut scene, None, &scn.time, &scn.user, sats)?;
+            orbit_like(&mut scene, None, &scn.time, scn.user.as_ref(), sats)?;
+            if let Some(site) = &scn.user_site {
+                scene
+                    .sites
+                    .push(receiver_site(site.lat_deg, site.lon_deg, site.height_m));
+            }
         }
         ScenarioKind::Jamming => {
             let scn: crate::jamming::JammingScenario = toml::from_str(src).map_err(bad)?;
@@ -918,7 +928,7 @@ fn orbit_like(
     scene: &mut Scene,
     given: Option<(UtcEpoch, String)>,
     time: &crate::scenario::TimeCfg,
-    user: &crate::orbit::OrbitCfg,
+    user: Option<&crate::orbit::OrbitCfg>,
     sats: Vec<Propagator>,
 ) -> Result<(), ExportError> {
     // A satellite is dated by its own data only when the scenario names no epoch; an
@@ -942,17 +952,20 @@ fn orbit_like(
             )
         })
         .collect();
-    items.push((
-        "user".into(),
-        MoverRole::User,
-        format!(
-            "user orbit, {} km altitude, {} deg inclination (Keplerian{})",
-            user.altitude_km,
-            user.inclination_deg,
-            if user.j2 { ", secular J2" } else { "" }
-        ),
-        Propagator::Kepler(user.to_orbit()),
-    ));
+    // A ground-site user (`user_site`) is a site, added by the caller, not a mover.
+    if let Some(user) = user {
+        items.push((
+            "user".into(),
+            MoverRole::User,
+            format!(
+                "user orbit, {} km altitude, {} deg inclination (Keplerian{})",
+                user.altitude_km,
+                user.inclination_deg,
+                if user.j2 { ", secular J2" } else { "" }
+            ),
+            Propagator::Kepler(user.to_orbit()),
+        ));
+    }
     scene.movers = sample(items, &epoch, &scene.times_s, own_dates)?;
     Ok(())
 }

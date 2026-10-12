@@ -1,0 +1,7 @@
+site_id,lat_deg,lon_deg,height_m
+equator,0,0,0
+mid-latitude,45,10,100
+baltic-port,59.45,24.75,15
+west-norway,61.1,6.6,20
+high-arctic,78.2,15.6,50
+southern,-33.9,151.2,40

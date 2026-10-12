@@ -32,6 +32,12 @@ pub struct TrainingScenario {
     /// Scripted events (`[[event]]`).
     #[serde(default, rename = "event")]
     pub events: Vec<EventCfg>,
+    /// Optional azimuth-dependent skyline over `receiver.elevation_mask_deg` (see
+    /// [`crate::skyline`]): a quay, a fjord or a terminal that hides part of the sky.
+    /// Azimuths are true bearings, fixed to the ground, not to the vessel's heading.
+    /// Absent, the mask is the flat `elevation_mask_deg`, as before.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub skyline: Option<crate::skyline::SkylineCfg>,
 }
 
 /// `[scenario]`.
@@ -458,8 +464,15 @@ impl TrainingScenario {
         Ok(s)
     }
 
+    /// The skyline of the `[skyline]` section (`None` without one), applied over the
+    /// receiver's `elevation_mask_deg`.
+    pub fn sky(&self) -> Result<Option<crate::skyline::Skyline>, String> {
+        crate::skyline::resolve(self.skyline.as_ref())
+    }
+
     /// Check every range and every event's parameter set.
     pub fn validate(&self) -> Result<(), String> {
+        self.sky()?;
         let m = &self.scenario;
         let name_ok = !m.name.is_empty()
             && m.name.len() <= 64
