@@ -32,11 +32,10 @@ mod frontend;
 mod labfit;
 mod monitor;
 mod scene;
-mod signal;
 mod sweep;
 mod track;
 
-pub use signal::build_code;
+pub use crate::iq::signals::by_name::build_code;
 // Re-exported for the Python bindings, which build and generate a scene in-process.
 #[cfg(feature = "python")]
 pub(crate) use channel::{build_channel, ChannelParams};
@@ -172,7 +171,7 @@ impl Args {
 /// The GNSS signal names the `scene`, `acquire`, `track` and `sweep` commands (and the
 /// Python and MCP surfaces) accept, in help-text order.
 pub fn signal_names() -> &'static [&'static str] {
-    signal::SIGNAL_NAMES
+    crate::iq::signals::by_name::SIGNAL_NAMES
 }
 
 /// Why [`execute`] did not complete a command.
