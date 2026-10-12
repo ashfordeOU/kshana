@@ -4,9 +4,9 @@
   "repo_blob_base": "https://github.com/AshfordeOU/kshana/blob/main/",
   "summary": {
     "validated": 134,
-    "modelled": 133,
+    "modelled": 135,
     "partner_owned": 4,
-    "total": 271
+    "total": 273
   },
   "rows": [
     {
@@ -2581,6 +2581,32 @@
       "fixture": null
     },
     {
+      "requirement": "Lunar station time laboratory: miniRAFS holdover against LTC",
+      "capability": "The optional [time_lab] block of the lunar-time-budget scenario models a lunar reference station clock (default the miniRAFS class, or any named class, or a device card fitted to stated stability points) steered to Coordinated Lunar Time and then free-running or re-steered every N seconds: the time-error curve x(t) as the root-sum-square of the clock power-law term, a constant steer residual (ILLUSTRATIVE), a constant LTC realisation residual and an opt-in station-height rate term; the time after a steer to 1, 10 and 100 ns (or stated thresholds) by bisection beside the closed-form inverse for the dominant noise type, and the dominant term at each stated horizon, all with units",
+      "status": "MODELLED",
+      "oracle_kind": "InternalConsistency",
+      "oracle": "Internal consistency only: the bisected time to threshold is checked against the closed-form inverse of the clock's dominant noise type, and the free-running clock term against the budget's own clock term. The clock classes rest on published one-day specifications (their own rows); the LTC rate is not re-derived here and keeps its own VALIDATED row (Lunar coordinate time); the steer residual is ILLUSTRATIVE, the realisation residual is a budget allocation and no thermal model is included. The nanosecond-level target described in the ICG WG-B Lunar PNT material of June 2024 is quoted as a source statement, not adopted as a claim; nothing here is a statement about any real station clock",
+      "module": "lunar_time_lab (over clock_specs, lunar_time_budget, lunar_time)",
+      "tests": "lunar_time_lab::tests (free_run_clock_term_is_the_budget_clock_term: with steering off the clock term equals the budget's clock term to the bit for all four classes; bisection_matches_the_closed_form within 1e-9 relative for both noise classes; threshold_below_the_floor_is_flagged; steering_holds_and_resets; height_term_is_opt_in_and_linear; device_card_reproduces_a_named_class; bad_inputs_are_refused); tests/lunar_station_time_lab.rs (the_block_is_additive: the default document, table and summary are unchanged and the block adds only its own object and units; time_to_threshold_matches_the_closed_form_through_the_scenario; clocks_are_ordered_over_the_span_where_the_model_orders_them: optical < PHM < RAFS < miniRAFS from 1 s to 7e5 s, with the PHM and RAFS curves crossing between 7e5 and 8e5 s pinned as a disclosed property of the single-noise-type clock models; every_time_lab_field_has_a_unit; unknown_time_lab_fields_and_clocks_are_refused)",
+      "module_links": [
+        {
+          "path": "src/lunar_time_lab.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/src/lunar_time_lab.rs"
+        },
+        {
+          "path": "src/lunar_time_budget.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/src/lunar_time_budget.rs"
+        }
+      ],
+      "test_links": [
+        {
+          "path": "tests/lunar_station_time_lab.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/lunar_station_time_lab.rs"
+        }
+      ],
+      "fixture": null
+    },
+    {
       "requirement": "Lunar geodetic VLBI",
       "capability": "Near-field VLBI delay for an Earth baseline observing a lunar beacon + partials",
       "status": "MODELLED",
@@ -4137,6 +4163,28 @@
         {
           "path": "tests/validate_llr_datum_spice_oracle.rs",
           "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/validate_llr_datum_spice_oracle.rs"
+        }
+      ],
+      "fixture": null
+    },
+    {
+      "requirement": "Lunar reference-station geodesy: added retroreflector and VLBI beacon against the five-array datum",
+      "capability": "Optional extra_reflectors and extra_beacons inputs on the lunar-llr-datum scenario add a station_geodesy block: the five-array Helmert information from the archived lunar laser ranging slice plus the information an added retroreflector (ranged at the archived normal-point epochs at which the ranging station is above its horizon, each with that normal point's archived weight) and an added VLBI beacon (observed by the lunar-frame-campaign network and schedule with the Earth stations fixed, through the lunar-vlbi-fim delay partials) at stated sites put on the seven-parameter datum, re-solved, with each Helmert parameter's 1-sigma before and after, their ratio, the before and after norms, and the extreme eigenvalues of the Fisher difference. Absent or empty, the report is unchanged",
+      "status": "MODELLED",
+      "oracle_kind": "InternalConsistency",
+      "oracle": "Internal consistency only: each added site is a distinct point and a laser range or a fixed-station VLBI delay touches one point, so its information A_p^T M_p A_p is positive semi-definite and adds; the test checks the Fisher difference and every variance against that. The five-array result is the existing real-data row and is unchanged. The added reflector reuses epochs scheduled for the five existing arrays, an ILLUSTRATIVE schedule, and the added beacon's network, schedule and delay sigma are the ILLUSTRATIVE lunar-frame-campaign inputs; the site is an ILLUSTRATIVE south-polar position. A south-polar site sees the Earth low on its horizon or not at all, which the existing look-angle tests express; neither site is ranged continuously. The figures are Cramer-Rao bounds for a reduced parameter set, not a solved datum and not a statement about any real station",
+      "module": "lunar_llr (over lunar_frame_campaign::beacon_information, schedule_for and solve_datum_information, lunar_vlbi_fim)",
+      "tests": "tests/lunar_station_geodesy.rs (empty_or_absent_extra_lists_are_bit_identical: empty lists and the baseline example give the default report and summary byte for byte; an_added_site_never_increases_any_variance: the smallest eigenvalue of H_after - H_before is non-negative to 1e-9 of the largest, every after/before sigma ratio is at most one, and both added sites are observed; the_rest_of_the_report_is_the_five_array_result; every_station_geodesy_field_has_a_unit; a_beacon_list_inside_the_campaign_block_is_refused); scenarios/lunar-station-geodesy-baseline.toml and scenarios/lunar-station-geodesy-with-station.toml (same archived schedule and the same VLBI campaign block)",
+      "module_links": [
+        {
+          "path": "src/lunar_llr.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/src/lunar_llr.rs"
+        }
+      ],
+      "test_links": [
+        {
+          "path": "tests/lunar_station_geodesy.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/lunar_station_geodesy.rs"
         }
       ],
       "fixture": null

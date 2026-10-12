@@ -1,0 +1,9 @@
+     3.04           C                   G                   RINEX VERSION / TYPE
+SYNTHETIC           KSHANA TEST FIXTURE 20261012 000000 UTC PGM / RUN BY / DATE
+SYNTHETIC: NOT A MEASUREMENT; SEE NOTICE.md                 COMMENT
+   GPS                                                      TIME SYSTEM ID
+     1    AR                                                # / TYPES OF DATA
+                                                            END OF HEADER
+AR LRS1      2030 01 01 00 00  0.000000  1    1.000000000000E-07
+AR LRS1      2030 01 01 00 00 30.000000  1    1.000000150000E-07
+AR LRS1      2030 01 01 00 01  0.000000  1    1.000000300000E-07

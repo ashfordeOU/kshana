@@ -203,6 +203,7 @@ pub mod lunar_techniques;
 pub mod lunar_time;
 pub mod lunar_time_budget;
 pub mod lunar_time_budget_scenario;
+pub mod lunar_time_lab;
 pub mod lunar_vlbi;
 /// Station-coordinate covariance from a lunar-VLBI schedule: the delay partials of
 /// [`lunar_vlbi`] accumulated over baselines and epochs into a Fisher information matrix.
