@@ -7,7 +7,7 @@ Revision 2 (this text) was committed alone, before any run, after a review of re
 provenance, the R600-orbit100 sensitivity case and three disclosures. No bar, case or scored input changed.
 Revision 1 (commit 4c340bd6df46efbb862d7ae43c160943c3819f4e, file SHA-256
 b25e334eb84c7e78d047c81b8f9e20706d34e212e0e79adbb2bd62f0c54f0c15) is superseded. No comparison was run under it.
-Registered at commit: (revision 2; recorded by the following commit)
+Registered at commit: 05bf9a195156599daa221412cba1dc9b68527f02 (revision 2; file SHA-256 at that commit: 47dfa8780d471fc8033a1fc9a66eeb6031a094a7192decef7eac5ec49cd88967)
 
 These bars, cases and inputs are not changed after the results are seen. A failure is reported with its
 numbers, not tuned away. Workstream B of the 0.36 lunar reference-station plan.
