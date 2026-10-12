@@ -237,6 +237,18 @@ with the HDOP, so a fixed tolerance alone would read natural poor geometry as an
 larger difference still reads as one. A deduction classed `geometry` is
 a statement about the sky, not a finding that no attack occurred.
 
+**Signal loss is not the sky.** When satellites the receiver lists in view (above `low_elev_deg`)
+are not tracked, the engine also derives the DOP of every satellite in view. If that in-view DOP is
+within the thresholds and either nothing is tracked or the untracked satellites are spread around
+the horizon (not confined to one half of it), the sky was there and the signal was not: the epoch
+carries `signal_loss: true`, the note "satellites in view but not tracked: signal environment, not
+geometry", and the geometry deduction is classed `environment`. Untracked satellites confined to one
+half of the horizon still read as a blocked sky (a wall, a cliff, a quay). A two-sided obstruction
+(a canyon or a narrow fjord) reads as signal loss until a skyline is configured. The receiver's
+no-fix sentinels are not DOP: a stated HDOP or PDOP of 99 or more, GGA quality 0 and GSA mode 1
+give no stated DOP. The configured geometry weight must be at most `100 - degraded_min`, so geometry
+alone can never reach the untrusted band; a configuration that breaks this is rejected.
+
 | `[geometry]` key | Default | Provenance |
 |---|---|---|
 | `hdop_max` | 4 | chosen (design note 4.2): at `sigma_uere_m` 1.5 m, HDOP 4 is a 2drms of 12 m, the kinematic check's `kin_pos_tol_m`. IEC 61108-1 is commonly cited as stating its accuracy requirements for HDOP ≤ 4 (or PDOP ≤ 6): recalled from secondary GNSS receiver literature, no specific secondary source consulted and the standard not read; to be checked against the standard's text |
@@ -252,7 +264,8 @@ a statement about the sky, not a finding that no attack occurred.
 **What changed in the outputs, and what did not.** Appended keys: `epochs[].geometry` (`status`,
 `reasons`, `source`, `n_used`, `hdop`, `pdop`, `vdop` rounded to 0.001, `open_fraction` (null until a
 skyline is configured), `max_azimuth_gap_deg`, `age_s`, `reported_hdop`,
-`reported_derived_mismatch`, `note`), `class` on every deduction, `geometry` in
+`reported_derived_mismatch`, `note`, `in_view` (satellites listed above `low_elev_deg`),
+`signal_loss`), `class` on every deduction, `geometry` in
 `score_model.weights`, and at the end `geometry_model` (thresholds, hold, weight, provenance,
 class rules) and `geometry_summary` (epochs by status and by deduction class).
 `tests/geometry_trust_no_change.rs` holds every output of both example sessions (result JSON, CSV,

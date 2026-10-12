@@ -5,7 +5,8 @@
 //! Under the stated model (independent, zero-mean Gaussian range errors of equal variance σ²)
 //! the unweighted least-squares estimate of position and clock has covariance `σ²·Q` with
 //! `Q = (HᵀH)⁻¹`, so the RMS error along each axis is σ times the matching DOP (Kaplan and
-//! Hegarty, *Understanding GPS/GNSS*, ch. 7). [`run_geometry`] checks that the engine's solver,
+//! Hegarty (eds.), *Understanding GPS: Principles and Applications*, 2nd ed., Artech House,
+//! 2006, ch. 7). [`run_geometry`] checks that the engine's solver,
 //! [`crate::pvt::solve_spp`], with its seeded noise realises that covariance on one geometry:
 //! it places the satellites at their elevation and azimuth 20,000 km from the user, draws `N`
 //! epochs of range errors, solves each epoch from the true position, and returns the error

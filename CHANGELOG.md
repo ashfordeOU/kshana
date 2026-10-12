@@ -21,12 +21,16 @@ breaking changes are called out explicitly.
   deduction a class, `geometry`, `environment` or `inconsistency`, so a poor sky does not read as
   an attack. `loss-of-lock` is `geometry` when the satellites lost were all below 15 degrees at
   their last report; the geometry deduction is `inconsistency` when the HDOP the receiver states
-  disagrees with its stated sky by more than 1.0, so a forged poor sky cannot buy the label. A new
+  disagrees with its stated sky by more than max(1.0, 25 % of the derived HDOP), so a forged poor sky cannot buy the label. A new
   `[geometry]` table states every threshold with its provenance (HDOP 4, PDOP 6, at least 5 used,
   sigma_UERE 1.5 m, an HDOP tolerance of max(1.0, 25 % of the derived HDOP) with the 25 % a
   representative choice for receivers with per-constellation clocks or subset solutions,
   15 degrees; the IEC 61108-1 and GPS SPS figures as cited, to be checked against the standards'
-  text). MODELLED; advisory software, not type-approved
+  text). Total signal loss is not labelled as sky: when satellites in view are not tracked and
+  the DOP of the satellites in view is good (and the untracked ones are not confined to one half of
+  the horizon), the epoch carries `signal_loss` and the geometry deduction is `environment`. A
+  stated HDOP or PDOP of 99 or more, GGA quality 0 and GSA mode 1 are read as no fix, not as DOP;
+  the geometry weight is rejected above `100 - degraded_min`. MODELLED; advisory software, not type-approved
   navigation equipment (IEC 61108, IEC 61162): the operator remains responsible for the navigation
   of the vessel.
 - The geometry reaches every surface: the result JSON (`epochs[].geometry`, `class` on every
@@ -72,6 +76,13 @@ breaking changes are called out explicitly.
 - Geometry for RINEX logs with navigation (from the engine's own fix) and Android logs (from the
   `Status` rows); both read `unknown` today. Geometry in `$PKSHT` (version 1 unchanged in 0.36)
   and the Signal K and OpenCPN integrations.
+- A pre-existing gap, not introduced in 0.36: once every satellite's SNR field is empty, no
+  `loss-of-lock` or C/N0 deduction fires; total signal loss is visible only through the geometry
+  monitor's `signal_loss` (classed `environment`). A deduction for it is planned.
+- A schema 1.3 stream in the external telemetry oracles (Prometheus text-format parser and the
+  OTLP collector), which cover 1.2 streams only today.
+- A two-sided obstruction (a canyon or narrow fjord) reads as signal loss rather than a blocked sky
+  until the skyline is integrated.
 
 ## [0.35.0] - 2026-10-12
 

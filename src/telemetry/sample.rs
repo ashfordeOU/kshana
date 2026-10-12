@@ -13,9 +13,9 @@
 //!   state and the monitors that alarmed but no numeric score ([`from_epoch_trust`]).
 //!   A score is never invented for them: the sample's `score` is `None`.
 //!
-//! Schema 1.3 (0.36) appends the epoch's satellite geometry (`geometry`) and the attribution
-//! of its degradation (`degradation`); a sample carries them as [`GeometrySample`] only when
-//! the source does, so a 0.35 stream renders exactly as it did.
+//! Schema 1.3 (0.36) appends the epoch's satellite geometry (`geometry`) and a `class` on
+//! every deduction; a sample carries them ([`GeometrySample`], `reason_class`) only when the
+//! source does, so a 0.35 stream renders exactly as it did.
 
 use crate::receiver_trust::monitors::{EpochTrust, TrustState};
 use serde_json::Value;
