@@ -85,7 +85,34 @@ by `tests/field_units_global.rs`). The region block: `availability`, `coverage_f
 
 ## Comparison against published claims
 
-*Pending B: the claims table, the pre-registration and the finding.*
+MODELLED. A comparison of this model, run under the public assumptions, with the claims the sources
+make. It is not a statement about the performance of any real system.
+
+- Sources S1 to S5 (title, URL, retrieval date, SHA-256, licence): `tests/fixtures/lunar_station/SOURCES.md`.
+- Every numeric claim, quoted with its page and stated assumptions and classified as comparable, partly
+  comparable or not comparable: `tests/fixtures/lunar_station_published/CLAIMS.md`. No claim is fully
+  comparable, because no source states a percentile or the satellites' orbit elements.
+- Bars, cases and inputs, committed alone before the run (revision 2, 05bf9a19), and the recorded run:
+  `tests/fixtures/lunar_station_published/PREREGISTRATION.md`. The finding is pinned in
+  `tests/lunar_station_published_oracle.rs`.
+
+| bar | claim (sources) | this model | bar | verdict |
+|---|---|---|---|---|
+| K1 | one station gives sub-metre accuracy over the whole south pole, 300 km circle (S1, S2, S3) | coverage 0.00 | >= 0.95 | fail |
+| K2 | the same, 600 km circle (S2 p10, S3 p23) | coverage 0.00 | >= 0.95 | fail |
+| K3 | sub-metre with code corrections (S1, S2) | corrected p95 3-D 280.6 m | <= 1.5 m | fail |
+| K4 | "decimeter level" from pseudorange corrections (S3 p22, S5 p5) | 280.6 m | <= 0.15 m | fail (could not pass at the sources' 0.30 m code noise) |
+| K5 | sub-metre kept at 600 s latency (S2 p16) | 293.0 m | <= 1.5 m | fail |
+| K6 | the same accuracy from 10 km to 500 km baseline (S2 p17) | ratio 1.39 | <= 1.5 | pass |
+
+1 of 6 bars passes. The cause is geometry. No source publishes the constellation's orbit elements. On
+the ILLUSTRATIVE in-tree elements, a user and the station share four satellites above 5 deg in only 8 %
+(300 km) and 6 % (600 km) of epochs, at near-singular geometry: the uncorrected p95 is 3.8 km, where
+the sources quote < 10 m. The sources' own simulations used a filter, a height constraint and three
+satellites in common view, which this snapshot model does not have. The run therefore does not
+reproduce the claims on those elements, and it is not evidence that the claims are wrong. The K6 pass is
+a ratio of two geometry-dominated figures and says nothing about decorrelation. A published set of the
+constellation's elements would be scored under the same bars as a second, dated run.
 
 ## Pre-registered prediction
 
