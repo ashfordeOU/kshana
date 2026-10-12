@@ -30,8 +30,11 @@ fn user() -> [f64; 3] {
     ]
 }
 
-/// `(label, [(elevation, azimuth)], gnss_lib_py PDOP)` of every fixture row, in file order.
-fn geometries() -> Vec<(String, Vec<(f64, f64)>, f64)> {
+/// `(label, [(elevation, azimuth)], gnss_lib_py PDOP)` of one fixture row.
+type Geometry = (String, Vec<(f64, f64)>, f64);
+
+/// Every fixture row, in file order.
+fn geometries() -> Vec<Geometry> {
     REF.lines()
         .map(str::trim)
         .filter(|l| !l.is_empty() && !l.starts_with('#'))
