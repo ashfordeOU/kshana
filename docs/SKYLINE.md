@@ -79,8 +79,12 @@ An optional `[skyline]` section, over the kind's own cut-off:
 **The ground site of `orbit` and `integrity`.** Both kinds model an orbiting user with a
 geocentric elevation and no Earth-fixed azimuth, so they take a skyline only with the design
 note's ground-site mode: `user_site = { lat_deg, lon_deg, height_m }` in place of `user` (exactly
-one of the two). The site turns with the Earth (Greenwich mean sidereal time at the scenario's
-`epoch`, J2000 by default, plus `t`), and its elevation and azimuth are geodetic (WGS-84). The
+one of the two). Each sample is one absolute instant, `epoch + t`: every satellite is propagated
+to it (an element set, broadcast ephemeris or SP3 file is advanced from its own epoch, a Walker
+satellite counts `t` from `epoch`) and rotated to Earth-fixed at it, so the site sees one
+consistent sky. `epoch` is the orbit scenario's own; without one (and always for `integrity`,
+which has none) it is the newest epoch among the satellites that carry one, or J2000 for Walker
+patterns only. Elevation and azimuth are geodetic (WGS-84). The
 horizontal and vertical split of the integrity kind's ARAIM protection levels and Stanford
 vertical error uses the same geodetic up (the WGS-84 ellipsoid normal, about 0.19° from the
 geocentric radial at 45° latitude); snapshot RAIM already used it. A `user_site` without a
@@ -164,7 +168,9 @@ instead (or as well) be given directly: `"satellites": [{"id": "G05", "system": 
 "az_deg": 120, "el_deg": 35}, ...]`, or with `"ecef_m": [x, y, z]` and a `site` or
 `user_ecef_m`. Defaults: each system's own mask (5° GNSS, 10° LEO; 5° for satellites given
 directly), one receiver clock per system (`"common"` for one shared clock), `σ_UERE` 1 m (a
-representative dual-frequency budget line), confidence 0.95.
+representative dual-frequency budget line), confidence 0.95. Input caps: at most 2000
+satellites above the horizon (a system table asking for more is refused before it is built) and
+16 receiver clocks.
 
 **A dated sky from element sets.** `"tle"` takes two-line element set text (a name line before
 each set is optional; at most 4 MiB, an input cap), propagated by the engine's SGP4 (WGS-72, the
