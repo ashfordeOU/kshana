@@ -17,11 +17,15 @@
 //!
 //! Pre-registered bars B1–B9: `xval/od-measurements-orekit/PREREGISTRATION.md` (committed alone,
 //! before the first comparison run). Measured numbers: `xval/od-measurements-orekit/RESULTS.md`.
+//! Every bar passes except B4 on two noiseless scenarios: Orekit's own estimate sits 1.5–1.7 cm from
+//! the truth it simulated (kshana's sits < 1e-8 m from it), so kshana–Orekit misses the 1 cm bar.
 //!
 //! PIN-SCOPE:    the committed Orekit fixture `tests/fixtures/od_tracking_measurements/
 //!               od_tracking_measurements_reference.txt` (8 scenarios: range-rate, az/el and mixed,
 //!               LEO and MEO, noiseless and seeded-noisy, 5°/10° masks) and the pre-registered
 //!               bars B1–B9 on visibility, simulated values, STM, recovered state and post-fit RMS.
+//!               B4 (kshana vs Orekit epoch state, noiseless, ≤ 1 cm) is MISSED on `rr_leo` and
+//!               `mixed_leo` (1.46 / 1.74 cm); the miss is pinned at its recorded size, not passed.
 //! PIN-EXCLUDES: light time, Earth rotation, real station coordinates, refraction, biases,
 //!               higher-order gravity and non-gravitational forces, sequential filtering, and the
 //!               range-only path (pinned by `tests/batch_sequential_orbit_determination_reference.rs`).
@@ -41,6 +45,14 @@ const B2_ANGLE: f64 = 1e-9; // rad
 const B3_STM_REL: f64 = 1e-6;
 const B4_POS: f64 = 1e-2; // m
 const B4_VEL: f64 = 1e-5; // m/s
+                          // B4 is MISSED on two scenarios (xval/od-measurements-orekit/RESULTS.md). The miss is pinned,
+                          // not hidden: exactly these scenarios miss, by no more than the recorded amounts (rr_leo
+                          // 1.464e-2 m / 4.59e-6 m/s, mixed_leo 1.740e-2 m / 1.139e-5 m/s). kshana itself recovers the
+                          // truth to < 1e-8 m on the same data (B5); the offset is Orekit's estimate vs its own simulated
+                          // truth, unchanged when its convergence threshold is tightened from 1e-9 to 1e-14.
+const B4_RECORDED_MISSES: [&str; 2] = ["rr_leo", "mixed_leo"];
+const B4_MISS_POS: f64 = 2e-2; // m, recorded-miss regression bound (not a pass bar)
+const B4_MISS_VEL: f64 = 1.2e-5; // m/s, recorded-miss regression bound (not a pass bar)
 const B6_POS: f64 = 5e-2; // m
 const B6_VEL: f64 = 5e-5; // m/s
 const B7_RMS_REL: f64 = 1e-3;
@@ -150,11 +162,22 @@ fn dist(a: &[f64], b: &[f64], off: usize) -> f64 {
         .sqrt()
 }
 
+/// Record a bar miss instead of stopping at the first one, so every number is reported.
+macro_rules! check {
+    ($misses:expr, $cond:expr, $($fmt:tt)*) => {
+        if !$cond {
+            $misses.push(format!($($fmt)*));
+        }
+    };
+}
+
 #[test]
 fn tracking_od_matches_orekit_batch_ls_within_the_preregistered_bars() {
     let scen = parse();
     assert_eq!(scen.len(), 8, "eight scenarios in the fixture");
     let mut worst = [0.0f64; 10];
+    let mut misses: Vec<String> = Vec::new();
+    let mut b4_missed: Vec<String> = Vec::new();
     for s in &scen {
         assert!(
             s.obs.len() >= 40,
@@ -198,7 +221,13 @@ fn tracking_od_matches_orekit_batch_ls_within_the_preregistered_bars() {
                         MeasurementType::AzEl => (B2_ANGLE, 2),
                     };
                     worst[slot] = worst[slot].max(d);
-                    assert!(d <= bar, "{}: B2 {:?}[{c}] differs by {d}", s.name, a.kind);
+                    check!(
+                        misses,
+                        d <= bar,
+                        "{}: B2 {:?}[{c}] differs by {d}",
+                        s.name,
+                        a.kind
+                    );
                 }
             }
         }
@@ -217,7 +246,8 @@ fn tracking_od_matches_orekit_batch_ls_within_the_preregistered_bars() {
                     }
                 }
                 worst[3] = worst[3].max(dmax / omax);
-                assert!(
+                check!(
+                    misses,
                     dmax <= B3_STM_REL * omax,
                     "{}: B3 STM block ({bi},{bj}) at k={k}: {dmax} vs scale {omax}",
                     s.name
@@ -228,7 +258,12 @@ fn tracking_od_matches_orekit_batch_ls_within_the_preregistered_bars() {
         // B4–B9: the estimate.
         let fit = determine_orbit_batch_tracking(&s.obs, &s.guess, &s.stations, s.dt, 50, 1e-6)
             .unwrap_or_else(|| panic!("{}: tracking OD failed", s.name));
-        assert!(fit.converged, "{}: B9 not converged: {fit:?}", s.name);
+        check!(
+            misses,
+            fit.converged,
+            "{}: B9 not converged: {fit:?}",
+            s.name
+        );
         let (dp, dv) = (dist(&fit.x, &s.orekit, 0), dist(&fit.x, &s.orekit, 3));
         let (tp, tv) = (dist(&fit.x, &s.truth, 0), dist(&fit.x, &s.truth, 3));
         let k_rms = [
@@ -239,7 +274,7 @@ fn tracking_od_matches_orekit_batch_ls_within_the_preregistered_bars() {
         ];
         let sig4 = [s.sigma[0], s.sigma[1], s.sigma[2], s.sigma[2]];
         eprintln!(
-            "{:16} obs {:4} iters {:2} (Orekit-LM) | kshana-Orekit dr {:.3e} m dv {:.3e} m/s | \
+            "{:16} obs {:4} kshana GN iters {:2} | kshana-Orekit dr {:.3e} m dv {:.3e} m/s | \
              kshana-truth dr {:.3e} m dv {:.3e} m/s | norm-RMS {:.4} | RMS k {:?} o {:?}",
             s.name,
             s.obs.len(),
@@ -255,7 +290,8 @@ fn tracking_od_matches_orekit_batch_ls_within_the_preregistered_bars() {
         if s.noisy {
             worst[6] = worst[6].max(dp);
             worst[7] = worst[7].max(dv);
-            assert!(
+            check!(
+                misses,
                 dp <= B6_POS && dv <= B6_VEL,
                 "{}: B6 {dp} m {dv} m/s",
                 s.name
@@ -265,7 +301,8 @@ fn tracking_od_matches_orekit_batch_ls_within_the_preregistered_bars() {
                     Some(v) => {
                         let rel = (v - s.orekit_rms[j]).abs() / s.orekit_rms[j];
                         worst[8] = worst[8].max(rel);
-                        assert!(
+                        check!(
+                            misses,
                             rel <= B7_RMS_REL,
                             "{}: B7 type {j}: {v} vs {}",
                             s.name,
@@ -278,12 +315,27 @@ fn tracking_od_matches_orekit_batch_ls_within_the_preregistered_bars() {
         } else {
             worst[4] = worst[4].max(dp.max(tp));
             worst[5] = worst[5].max(dv.max(tv));
-            assert!(
-                dp <= B4_POS && dv <= B4_VEL,
-                "{}: B4 {dp} m {dv} m/s",
-                s.name
-            );
-            assert!(
+            if dp <= B4_POS && dv <= B4_VEL {
+                check!(
+                    misses,
+                    !B4_RECORDED_MISSES.contains(&s.name.as_str()),
+                    "{}: B4 now passes ({dp} m {dv} m/s); update RESULTS.md and this pin",
+                    s.name
+                );
+            } else {
+                b4_missed.push(s.name.clone());
+                eprintln!("RECORDED MISS {}: B4 {dp:.3e} m {dv:.3e} m/s", s.name);
+                check!(
+                    misses,
+                    B4_RECORDED_MISSES.contains(&s.name.as_str())
+                        && dp <= B4_MISS_POS
+                        && dv <= B4_MISS_VEL,
+                    "{}: B4 {dp} m {dv} m/s (unrecorded or larger miss)",
+                    s.name
+                );
+            }
+            check!(
+                misses,
                 tp <= B4_POS && tv <= B4_VEL,
                 "{}: B5 {tp} m {tv} m/s",
                 s.name
@@ -291,7 +343,12 @@ fn tracking_od_matches_orekit_batch_ls_within_the_preregistered_bars() {
             for (j, kr) in k_rms.iter().enumerate() {
                 if let Some(v) = kr {
                     worst[9] = worst[9].max(v / sig4[j]);
-                    assert!(*v <= B8_RMS_FRAC * sig4[j], "{}: B8 type {j}: {v}", s.name);
+                    check!(
+                        misses,
+                        *v <= B8_RMS_FRAC * sig4[j],
+                        "{}: B8 type {j}: {v}",
+                        s.name
+                    );
                 }
             }
         }
@@ -310,5 +367,14 @@ fn tracking_od_matches_orekit_batch_ls_within_the_preregistered_bars() {
         worst[7],
         worst[8],
         worst[9]
+    );
+    assert_eq!(b4_missed, B4_RECORDED_MISSES, "the recorded B4 misses");
+    for m in &misses {
+        eprintln!("MISS {m}");
+    }
+    assert!(
+        misses.is_empty(),
+        "{} pre-registered bar misses",
+        misses.len()
     );
 }
