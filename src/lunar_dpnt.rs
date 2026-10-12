@@ -92,7 +92,7 @@
 
 use crate::clock_specs::{x_clock_s, LunarClock};
 use crate::lunar::{lunar_look_angle, selenographic_to_mcmf, Selenographic, R_MOON_M};
-use crate::lunar_service::{LunarConstellation, LunarSat};
+use crate::lunar_service::{LunarConstellation, LunarSat, PositionsMcmf};
 use crate::palette::chart::{AXIS, BG, CORAL, CYAN, FONT_SANS, INK_2};
 use crate::sbas::{sbas_protection_level, SbasErrorModel, SbasMode, SbasProtectionLevel, SbasSat};
 use crate::timegeo::C_M_PER_S;
@@ -217,6 +217,21 @@ fn position_error_from_range_errors(
     sats_mcmf: &[Vec3],
     range_errors: &[f64],
 ) -> Option<f64> {
+    let dx = position_error_vector_from_range_errors(user_mcmf, sats_mcmf, range_errors)?;
+    // 3-D position-error magnitude (the clock unknown is discarded).
+    Some((dx[0] * dx[0] + dx[1] * dx[1] + dx[2] * dx[2]).sqrt())
+}
+
+/// The 3-D position-error **vector** (m, MCMF axes) behind
+/// [`position_error_from_range_errors`]: the same snapshot least-squares solve, with the
+/// estimated clock unknown discarded. `None` for fewer than four satellites, a singular
+/// geometry or a non-finite solution (the clock unknown included), exactly where the
+/// magnitude is `None`.
+pub fn position_error_vector_from_range_errors(
+    user_mcmf: Vec3,
+    sats_mcmf: &[Vec3],
+    range_errors: &[f64],
+) -> Option<Vec3> {
     if sats_mcmf.len() < 4 {
         return None;
     }
@@ -239,8 +254,7 @@ fn position_error_from_range_errors(
     if dx.iter().any(|v| !v.is_finite()) {
         return None;
     }
-    // 3-D position-error magnitude (the clock unknown dx[3] is discarded).
-    Some((dx[0] * dx[0] + dx[1] * dx[1] + dx[2] * dx[2]).sqrt())
+    Some([dx[0], dx[1], dx[2]])
 }
 
 /// The user's 3-D **position error** (m) from the constellation, with or without the
@@ -886,6 +900,39 @@ fn report_units() -> serde_json::Value {
     serde_json::Value::Object(out)
 }
 
+/// Deterministically draw the common-mode per-satellite broadcast errors the
+/// `lunar-differential-pnt` scenario injects: for each of `n` satellites an orbit-error
+/// vector of magnitude `orbit_err_m` in a uniformly random direction, and a clock error of
+/// magnitude `clock_err_m` with a random sign, all from one [`ChaCha8Rng`] seeded with
+/// `seed`. The `lunar-station-coverage` kind draws through the same function, which is
+/// what lets it reduce to this scenario bit for bit.
+pub fn inject_common_mode_errors(
+    seed: u64,
+    n: usize,
+    orbit_err_m: f64,
+    clock_err_m: f64,
+) -> (Vec<Vec3>, Vec<f64>) {
+    let mut rng = ChaCha8Rng::seed_from_u64(seed);
+    let g = Normal::new(0.0, 1.0)
+        .expect("std_dev is the finite literal 1.0, which Normal::new always accepts");
+    let mut orbit_err = Vec::with_capacity(n);
+    let mut clock_err = Vec::with_capacity(n);
+    for _ in 0..n {
+        let v = [g.sample(&mut rng), g.sample(&mut rng), g.sample(&mut rng)];
+        let vn = norm(v).max(1e-12);
+        orbit_err.push([
+            v[0] / vn * orbit_err_m,
+            v[1] / vn * orbit_err_m,
+            v[2] / vn * orbit_err_m,
+        ]);
+        // A per-satellite clock error with a random sign so it does not look like a
+        // single common receiver bias (which a clock unknown would simply absorb).
+        let sign = if g.sample(&mut rng) >= 0.0 { 1.0 } else { -1.0 };
+        clock_err.push(sign * clock_err_m);
+    }
+    (orbit_err, clock_err)
+}
+
 // ───────────────────────────────────────────────────────────────────────────
 // Scenario
 // ───────────────────────────────────────────────────────────────────────────
@@ -1148,36 +1195,18 @@ impl LunarDpntScenario {
     /// Deterministically draw the injected common-mode per-satellite orbit-error vectors
     /// (random direction × `orbit_err_m`) and clock errors (`±clock_err_m`).
     fn inject_errors(&self, n: usize) -> (Vec<Vec3>, Vec<f64>) {
-        let mut rng = ChaCha8Rng::seed_from_u64(self.seed);
-        let g = Normal::new(0.0, 1.0)
-            .expect("std_dev is the finite literal 1.0, which Normal::new always accepts");
-        let mut orbit_err = Vec::with_capacity(n);
-        let mut clock_err = Vec::with_capacity(n);
-        for _ in 0..n {
-            let v = [g.sample(&mut rng), g.sample(&mut rng), g.sample(&mut rng)];
-            let vn = norm(v).max(1e-12);
-            orbit_err.push([
-                v[0] / vn * self.orbit_err_m,
-                v[1] / vn * self.orbit_err_m,
-                v[2] / vn * self.orbit_err_m,
-            ]);
-            // A per-satellite clock error with a random sign so it does not look like a
-            // single common receiver bias (which a clock unknown would simply absorb).
-            let sign = if g.sample(&mut rng) >= 0.0 { 1.0 } else { -1.0 };
-            clock_err.push(sign * self.clock_err_m);
-        }
-        (orbit_err, clock_err)
+        inject_common_mode_errors(self.seed, n, self.orbit_err_m, self.clock_err_m)
     }
 
     /// The position-domain 3-D 1-σ (m) of the whole correction-link budget at an
     /// arbitrary latency, reusing everything the full budget uses. Factored out so the
     /// `latency_curve` and the headline number cannot drift apart.
-    fn link_total_position_sigma_m(
+    fn link_total_position_sigma_m<C: PositionsMcmf + ?Sized>(
         &self,
         user_mcmf: Vec3,
         ref_mcmf: Vec3,
         sats_now: &[Vec3],
-        constellation: &LunarConstellation,
+        constellation: &C,
         latency_s: f64,
         fixed: LinkFixedTerms,
     ) -> f64 {
@@ -1195,14 +1224,17 @@ impl LunarDpntScenario {
     }
 
     /// Evaluate the [`CorrectionLinkBudget`] for this configuration at the user position
-    /// `user_mcmf`. Pure geometry plus the [`AGEING_CLOCK`] spec curve — no RNG, so it
-    /// cannot perturb the seeded draws the rest of the scenario depends on.
-    fn correction_link_budget(
+    /// `user_mcmf`, against the reference station at `ref_mcmf` and the satellites
+    /// `sats_now` (at `t_s`), which `constellation` places again at `t_s + latency`. Pure
+    /// geometry plus the [`AGEING_CLOCK`] spec curve — no RNG, so it cannot perturb the
+    /// seeded draws the rest of the scenario depends on. Public so the
+    /// `lunar-station-coverage` kind reports the same budget at any user position.
+    pub fn correction_link_budget<C: PositionsMcmf + ?Sized>(
         &self,
         user_mcmf: Vec3,
         ref_mcmf: Vec3,
         sats_now: &[Vec3],
-        constellation: &LunarConstellation,
+        constellation: &C,
     ) -> CorrectionLinkBudget {
         let pdop = user_pdop(user_mcmf, sats_now).unwrap_or(0.0);
 

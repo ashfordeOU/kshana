@@ -4,9 +4,9 @@
   "repo_blob_base": "https://github.com/AshfordeOU/kshana/blob/main/",
   "summary": {
     "validated": 134,
-    "modelled": 134,
+    "modelled": 135,
     "partner_owned": 4,
-    "total": 272
+    "total": 273
   },
   "rows": [
     {
@@ -3857,6 +3857,44 @@
       ],
       "test_links": [],
       "fixture": null
+    },
+    {
+      "requirement": "Lunar reference-station coverage and accuracy map",
+      "capability": "Monte Carlo sweep of the lunar differential-PNT model over a south-polar user grid and a day of epochs (the `lunar-station-coverage` kind): for a differential reference station at a known south-polar site, per point and over the region, the percentile corrected and uncorrected position error (3-D, horizontal, vertical), availability with a reason for each unavailable epoch (user_lt4, station_missing_sat), coverage against a threshold stated before the run, DO-229E protection levels, the coverage radius per azimuth sector, and the correction-link budget at the station and at the worst point. Not a statement about the performance of any real system; not affiliated with or endorsed by any agency",
+      "status": "MODELLED",
+      "oracle_kind": "InternalConsistency",
+      "oracle": "Arithmetic re-computed by an independent numpy script on exported cases (scripts/gen_lunar_station_ref.py, numpy 2.5.4; pre-registered in tests/fixtures/lunar_station/PREREGISTRATION.md, committed alone in 9caedf97 before the first run): on 20 cases with every error term on, the visible sets and status are identical, the raw range errors agree to 1.4e-14 m, the position-error vectors and magnitudes to 1.4e-9 m against a 1e-6 m bar, and each point's p95 equals numpy.percentile bit for bit; the station corrections MISSED their 1e-9 m bar (worst 3.73e-9 m, 15 of 20 cases), and with them the corrected range errors: checked in 60-digit arithmetic, both sides are within double-precision rounding of the exact value, the survey term being a difference of two 1e7 m ranges whose last-place unit is 1.86e-9 m; recorded, not tuned. The kind reduces exactly to the lunar-differential-pnt kind at one point, one epoch and one trial. The error model, the decorrelation model and every threshold are this project's own or ILLUSTRATIVE; nothing here is a statement about any real system",
+      "module": "lunar_station (over lunar_dpnt, lunar_service)",
+      "tests": "tests/lunar_station_coverage_reference.rs (one_point_one_epoch_one_trial_reduces_to_lunar_differential_pnt: to 1e-12 m with and without receiver noise; zero_baseline_floor_is_zero_in_every_trial: 0 to 1e-9 m; survey_floor_matches_the_survey_transfer_prediction: p95 within the 5 % band stated before the run; coverage_is_non_decreasing_in_the_threshold; corrected_error_grows_with_distance_along_an_azimuth; three_satellites_are_unavailable_with_a_reason_and_no_error; a_satellite_the_station_does_not_see_is_reported; deterministic_for_a_seed_and_moved_by_another; the_work_guard_refuses_an_oversized_grid; the_bundled_scenario_states_a_source_for_every_input; the_result_is_labelled_modelled_with_the_honesty_statement); tests/lunar_station_numpy_oracle.rs (the pre-registered numpy re-computation, recorded with its miss); lunar_service::tests::south_polar_ring_grid_is_the_published_comparison_grid; tests/lunar_differential_pnt_reference.rs and the registry and cross-platform goldens unchanged (additivity); tests/field_units_global.rs (every emitted field described, no exemption)",
+      "module_links": [
+        {
+          "path": "src/lunar_station.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/src/lunar_station.rs"
+        }
+      ],
+      "test_links": [
+        {
+          "path": "tests/lunar_station_coverage_reference.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/lunar_station_coverage_reference.rs"
+        },
+        {
+          "path": "tests/lunar_station_numpy_oracle.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/lunar_station_numpy_oracle.rs"
+        },
+        {
+          "path": "tests/lunar_differential_pnt_reference.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/lunar_differential_pnt_reference.rs"
+        },
+        {
+          "path": "tests/field_units_global.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/field_units_global.rs"
+        }
+      ],
+      "fixture": {
+        "path": "tests/fixtures/lunar_differential_pnt",
+        "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/fixtures/lunar_differential_pnt",
+        "notice_url": null
+      }
     },
     {
       "requirement": "Lunar ARAIM protection-level kernel",

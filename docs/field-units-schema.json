@@ -1,11 +1,11 @@
 {
   "coverage": {
     "described_fields_without_definition": 239,
-    "fields_described": 2537,
-    "fields_total": 2539,
+    "fields_described": 2664,
+    "fields_total": 2666,
     "fields_without_units": 2,
-    "kinds_complete": 74,
-    "kinds_total": 75,
+    "kinds_complete": 75,
+    "kinds_total": 76,
     "kinds_uncovered": 1,
     "uncovered_kind_ceiling": 1,
     "uncovered_kinds": [
@@ -10693,6 +10693,832 @@
       "fields_without_units": [],
       "label": "Lunar frame datum from a REAL observing campaign. The schedule, the observation count and every observation weight come from archived ILRS lunar laser ranging normal points (measured); the station coordinates come from IERS ITRF2020 and the retroreflector coordinates from JPL DE430 Table 7 (published). The Moon-centre ephemeris, the IAU 2015 WGCCRE body orientation, and the absence of troposphere, tides, station eccentricity, polar motion, UT1-UTC, relativistic delay and station clocks remain MODELLED, and the emitted observed-minus-computed residual is their combined size. The seven-parameter figures are a Cramer-Rao bound for a reduced parameter set on a real schedule, NOT a solved datum, NOT an LLR analysis and NOT a geodetic product.",
       "source": "defaults"
+    },
+    "lunar-station-coverage": {
+      "complete": true,
+      "fields": {
+        "budget_at_station_and_at_edge.epoch_s": {
+          "definition": "the representative epoch of the budget: t_start_s",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "s"
+        },
+        "budget_at_station_and_at_edge.station.ageing_clock_time_error_s": {
+          "declared_as": "budget_at_station_and_at_edge.*.ageing_clock_time_error_s",
+          "definition": "sigma_y(tau) tau of the ageing clock's power law",
+          "evidence_tier": "validated",
+          "provenance": "spec",
+          "unit": "s"
+        },
+        "budget_at_station_and_at_edge.station.ageing_orbit_rate_m_per_s": {
+          "declared_as": "budget_at_station_and_at_edge.*.ageing_orbit_rate_m_per_s",
+          "definition": "RMS orbit-ageing range-error growth rate from the propagator",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m/s"
+        },
+        "budget_at_station_and_at_edge.station.latency_clock_position_sigma_m": {
+          "declared_as": "budget_at_station_and_at_edge.*.latency_clock_position_sigma_m",
+          "definition": "position-domain 1-sigma of clock ageing",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "budget_at_station_and_at_edge.station.latency_clock_range_sigma_m": {
+          "declared_as": "budget_at_station_and_at_edge.*.latency_clock_range_sigma_m",
+          "definition": "range-domain 1-sigma of clock ageing",
+          "evidence_tier": "validated",
+          "provenance": "spec",
+          "unit": "m"
+        },
+        "budget_at_station_and_at_edge.station.latency_curve[][]": {
+          "declared_as": "budget_at_station_and_at_edge.*.latency_curve[][]",
+          "definition": "latency_s against total_position_sigma_m",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "(s, m)"
+        },
+        "budget_at_station_and_at_edge.station.latency_orbit_position_sigma_m": {
+          "declared_as": "budget_at_station_and_at_edge.*.latency_orbit_position_sigma_m",
+          "definition": "position-domain 1-sigma of orbit ageing",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "budget_at_station_and_at_edge.station.latency_orbit_range_sigma_m": {
+          "declared_as": "budget_at_station_and_at_edge.*.latency_orbit_range_sigma_m",
+          "definition": "range-domain 1-sigma, RMS over satellites, of orbit ageing",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "budget_at_station_and_at_edge.station.latency_position_sigma_m": {
+          "declared_as": "budget_at_station_and_at_edge.*.latency_position_sigma_m",
+          "definition": "position-domain 1-sigma of the latency term",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "budget_at_station_and_at_edge.station.latency_range_sigma_m": {
+          "declared_as": "budget_at_station_and_at_edge.*.latency_range_sigma_m",
+          "definition": "range-domain 1-sigma of the whole latency term",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "budget_at_station_and_at_edge.station.latency_s": {
+          "declared_as": "budget_at_station_and_at_edge.*.latency_s",
+          "definition": "age of a correction when applied",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "s"
+        },
+        "budget_at_station_and_at_edge.station.pdop": {
+          "declared_as": "budget_at_station_and_at_edge.*.pdop",
+          "definition": "user PDOP over the satellites in view at the budget epoch",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "budget_at_station_and_at_edge.station.protection_level_with_link_m": {
+          "declared_as": "budget_at_station_and_at_edge.*.protection_level_with_link_m",
+          "definition": "DO-229E HPL at the augmented sigma",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "budget_at_station_and_at_edge.station.quantization_bits": {
+          "declared_as": "budget_at_station_and_at_edge.*.quantization_bits",
+          "definition": "bits per transmitted correction",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "bit"
+        },
+        "budget_at_station_and_at_edge.station.quantization_full_scale_m": {
+          "declared_as": "budget_at_station_and_at_edge.*.quantization_full_scale_m",
+          "definition": "half-range orbit_err_m + clock_err_m",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "m"
+        },
+        "budget_at_station_and_at_edge.station.quantization_position_sigma_m": {
+          "declared_as": "budget_at_station_and_at_edge.*.quantization_position_sigma_m",
+          "definition": "position-domain 1-sigma of quantization",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "budget_at_station_and_at_edge.station.quantization_range_sigma_m": {
+          "declared_as": "budget_at_station_and_at_edge.*.quantization_range_sigma_m",
+          "definition": "step / sqrt(12)",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "m"
+        },
+        "budget_at_station_and_at_edge.station.quantization_step_m": {
+          "declared_as": "budget_at_station_and_at_edge.*.quantization_step_m",
+          "definition": "2 full_scale / 2^bits",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "m"
+        },
+        "budget_at_station_and_at_edge.station.residual_sigma_m": {
+          "declared_as": "budget_at_station_and_at_edge.*.residual_sigma_m",
+          "definition": "the differential residual 1-sigma",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "m"
+        },
+        "budget_at_station_and_at_edge.station.survey_position_sigma_m": {
+          "declared_as": "budget_at_station_and_at_edge.*.survey_position_sigma_m",
+          "definition": "position-domain 1-sigma of the survey term",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "budget_at_station_and_at_edge.station.survey_range_sigma_m": {
+          "declared_as": "budget_at_station_and_at_edge.*.survey_range_sigma_m",
+          "definition": "per-satellite 1-sigma of the survey term; correlated across satellites",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "m"
+        },
+        "budget_at_station_and_at_edge.station.survey_sigma_m": {
+          "declared_as": "budget_at_station_and_at_edge.*.survey_sigma_m",
+          "definition": "station 3-D coordinate 1-sigma",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "m"
+        },
+        "budget_at_station_and_at_edge.station.survey_sigma_per_axis_m": {
+          "declared_as": "budget_at_station_and_at_edge.*.survey_sigma_per_axis_m",
+          "definition": "survey_sigma_m / sqrt(3)",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "m"
+        },
+        "budget_at_station_and_at_edge.station.survey_transfer": {
+          "declared_as": "budget_at_station_and_at_edge.*.survey_transfer",
+          "definition": "3-D position error per metre of per-axis station error, RSS over the three axes (ratio)",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "budget_at_station_and_at_edge.station.total_position_sigma_m": {
+          "declared_as": "budget_at_station_and_at_edge.*.total_position_sigma_m",
+          "definition": "RSS of the three position-domain terms",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "budget_at_station_and_at_edge.station.total_range_sigma_m": {
+          "declared_as": "budget_at_station_and_at_edge.*.total_range_sigma_m",
+          "definition": "RSS of the three range-domain terms",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "budget_at_station_and_at_edge.station.total_with_residual_range_sigma_m": {
+          "declared_as": "budget_at_station_and_at_edge.*.total_with_residual_range_sigma_m",
+          "definition": "sqrt(residual_sigma_m^2 + total_range_sigma_m^2)",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "budget_at_station_and_at_edge.station.vpl_with_link_m": {
+          "declared_as": "budget_at_station_and_at_edge.*.vpl_with_link_m",
+          "definition": "DO-229E VPL at the augmented sigma",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "budget_at_station_and_at_edge.worst_point.ageing_clock_time_error_s": {
+          "declared_as": "budget_at_station_and_at_edge.*.ageing_clock_time_error_s",
+          "definition": "sigma_y(tau) tau of the ageing clock's power law",
+          "evidence_tier": "validated",
+          "provenance": "spec",
+          "unit": "s"
+        },
+        "budget_at_station_and_at_edge.worst_point.ageing_orbit_rate_m_per_s": {
+          "declared_as": "budget_at_station_and_at_edge.*.ageing_orbit_rate_m_per_s",
+          "definition": "RMS orbit-ageing range-error growth rate from the propagator",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m/s"
+        },
+        "budget_at_station_and_at_edge.worst_point.latency_clock_position_sigma_m": {
+          "declared_as": "budget_at_station_and_at_edge.*.latency_clock_position_sigma_m",
+          "definition": "position-domain 1-sigma of clock ageing",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "budget_at_station_and_at_edge.worst_point.latency_clock_range_sigma_m": {
+          "declared_as": "budget_at_station_and_at_edge.*.latency_clock_range_sigma_m",
+          "definition": "range-domain 1-sigma of clock ageing",
+          "evidence_tier": "validated",
+          "provenance": "spec",
+          "unit": "m"
+        },
+        "budget_at_station_and_at_edge.worst_point.latency_curve[][]": {
+          "declared_as": "budget_at_station_and_at_edge.*.latency_curve[][]",
+          "definition": "latency_s against total_position_sigma_m",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "(s, m)"
+        },
+        "budget_at_station_and_at_edge.worst_point.latency_orbit_position_sigma_m": {
+          "declared_as": "budget_at_station_and_at_edge.*.latency_orbit_position_sigma_m",
+          "definition": "position-domain 1-sigma of orbit ageing",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "budget_at_station_and_at_edge.worst_point.latency_orbit_range_sigma_m": {
+          "declared_as": "budget_at_station_and_at_edge.*.latency_orbit_range_sigma_m",
+          "definition": "range-domain 1-sigma, RMS over satellites, of orbit ageing",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "budget_at_station_and_at_edge.worst_point.latency_position_sigma_m": {
+          "declared_as": "budget_at_station_and_at_edge.*.latency_position_sigma_m",
+          "definition": "position-domain 1-sigma of the latency term",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "budget_at_station_and_at_edge.worst_point.latency_range_sigma_m": {
+          "declared_as": "budget_at_station_and_at_edge.*.latency_range_sigma_m",
+          "definition": "range-domain 1-sigma of the whole latency term",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "budget_at_station_and_at_edge.worst_point.latency_s": {
+          "declared_as": "budget_at_station_and_at_edge.*.latency_s",
+          "definition": "age of a correction when applied",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "s"
+        },
+        "budget_at_station_and_at_edge.worst_point.pdop": {
+          "declared_as": "budget_at_station_and_at_edge.*.pdop",
+          "definition": "user PDOP over the satellites in view at the budget epoch",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "budget_at_station_and_at_edge.worst_point.protection_level_with_link_m": {
+          "declared_as": "budget_at_station_and_at_edge.*.protection_level_with_link_m",
+          "definition": "DO-229E HPL at the augmented sigma",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "budget_at_station_and_at_edge.worst_point.quantization_bits": {
+          "declared_as": "budget_at_station_and_at_edge.*.quantization_bits",
+          "definition": "bits per transmitted correction",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "bit"
+        },
+        "budget_at_station_and_at_edge.worst_point.quantization_full_scale_m": {
+          "declared_as": "budget_at_station_and_at_edge.*.quantization_full_scale_m",
+          "definition": "half-range orbit_err_m + clock_err_m",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "m"
+        },
+        "budget_at_station_and_at_edge.worst_point.quantization_position_sigma_m": {
+          "declared_as": "budget_at_station_and_at_edge.*.quantization_position_sigma_m",
+          "definition": "position-domain 1-sigma of quantization",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "budget_at_station_and_at_edge.worst_point.quantization_range_sigma_m": {
+          "declared_as": "budget_at_station_and_at_edge.*.quantization_range_sigma_m",
+          "definition": "step / sqrt(12)",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "m"
+        },
+        "budget_at_station_and_at_edge.worst_point.quantization_step_m": {
+          "declared_as": "budget_at_station_and_at_edge.*.quantization_step_m",
+          "definition": "2 full_scale / 2^bits",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "m"
+        },
+        "budget_at_station_and_at_edge.worst_point.residual_sigma_m": {
+          "declared_as": "budget_at_station_and_at_edge.*.residual_sigma_m",
+          "definition": "the differential residual 1-sigma",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "m"
+        },
+        "budget_at_station_and_at_edge.worst_point.survey_position_sigma_m": {
+          "declared_as": "budget_at_station_and_at_edge.*.survey_position_sigma_m",
+          "definition": "position-domain 1-sigma of the survey term",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "budget_at_station_and_at_edge.worst_point.survey_range_sigma_m": {
+          "declared_as": "budget_at_station_and_at_edge.*.survey_range_sigma_m",
+          "definition": "per-satellite 1-sigma of the survey term; correlated across satellites",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "m"
+        },
+        "budget_at_station_and_at_edge.worst_point.survey_sigma_m": {
+          "declared_as": "budget_at_station_and_at_edge.*.survey_sigma_m",
+          "definition": "station 3-D coordinate 1-sigma",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "m"
+        },
+        "budget_at_station_and_at_edge.worst_point.survey_sigma_per_axis_m": {
+          "declared_as": "budget_at_station_and_at_edge.*.survey_sigma_per_axis_m",
+          "definition": "survey_sigma_m / sqrt(3)",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "m"
+        },
+        "budget_at_station_and_at_edge.worst_point.survey_transfer": {
+          "declared_as": "budget_at_station_and_at_edge.*.survey_transfer",
+          "definition": "3-D position error per metre of per-axis station error, RSS over the three axes (ratio)",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "budget_at_station_and_at_edge.worst_point.total_position_sigma_m": {
+          "declared_as": "budget_at_station_and_at_edge.*.total_position_sigma_m",
+          "definition": "RSS of the three position-domain terms",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "budget_at_station_and_at_edge.worst_point.total_range_sigma_m": {
+          "declared_as": "budget_at_station_and_at_edge.*.total_range_sigma_m",
+          "definition": "RSS of the three range-domain terms",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "budget_at_station_and_at_edge.worst_point.total_with_residual_range_sigma_m": {
+          "declared_as": "budget_at_station_and_at_edge.*.total_with_residual_range_sigma_m",
+          "definition": "sqrt(residual_sigma_m^2 + total_range_sigma_m^2)",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "budget_at_station_and_at_edge.worst_point.vpl_with_link_m": {
+          "declared_as": "budget_at_station_and_at_edge.*.vpl_with_link_m",
+          "definition": "DO-229E VPL at the augmented sigma",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "coverage_radius_km[].azimuth_deg": {
+          "definition": "centre of a 30-degree azimuth sector from the station",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "deg"
+        },
+        "coverage_radius_km[].n_points": {
+          "definition": "points in the sector",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "coverage_radius_km[].radius_km": {
+          "definition": "distance walked outward from the station before the first point of the sector below 95 % coverage",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "km"
+        },
+        "error_model.clock_err_m": {
+          "definition": "clock-error magnitude injected per satellite, after any SISE split",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "error_model.los_sise_sigma_m": {
+          "definition": "sqrt(orbit_err_m^2 / 3 + clock_err_m^2), the line-of-sight SISE 1-sigma",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "m"
+        },
+        "error_model.orbit_err_m": {
+          "definition": "orbit-error magnitude injected per satellite, after any SISE split",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "inputs_echo.accuracy_threshold_m": {
+          "definition": "coverage threshold on the percentile 3-D error, stated before the run",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "m"
+        },
+        "inputs_echo.alert_limit_m": {
+          "definition": "horizontal alert limit; ILLUSTRATIVE, no public value exists",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "m"
+        },
+        "inputs_echo.argp_deg": {
+          "definition": "argument of perilune of the illustrative constellation",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "deg"
+        },
+        "inputs_echo.clock_err_m": {
+          "definition": "common-mode clock-error magnitude per satellite (ignored with sise_sigma_m)",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "m"
+        },
+        "inputs_echo.eccentricity": {
+          "definition": "eccentricity of the illustrative constellation",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "1"
+        },
+        "inputs_echo.grid_lat_max_deg": {
+          "definition": "outer latitude of the ring grid",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "deg"
+        },
+        "inputs_echo.grid_lat_step_deg": {
+          "definition": "ring spacing of the grid",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "deg"
+        },
+        "inputs_echo.inc_deg": {
+          "definition": "inclination of the illustrative constellation",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "deg"
+        },
+        "inputs_echo.latency_s": {
+          "definition": "age of a correction when applied",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "s"
+        },
+        "inputs_echo.mask_deg": {
+          "definition": "elevation mask at the user and at the station",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "deg"
+        },
+        "inputs_echo.n_sats": {
+          "definition": "satellites in the illustrative constellation (ignored with ephemeris_path)",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "count"
+        },
+        "inputs_echo.n_trials": {
+          "definition": "Monte Carlo trials per epoch",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "count"
+        },
+        "inputs_echo.noise_m": {
+          "definition": "per-receiver measurement-noise 1-sigma at the user and at the station",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "m"
+        },
+        "inputs_echo.orbit_err_m": {
+          "definition": "common-mode orbit-error magnitude per satellite (ignored with sise_sigma_m)",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "m"
+        },
+        "inputs_echo.p_hmi": {
+          "definition": "integrity-risk budget, a probability (interface parity; DO-229E K-factors are fixed)",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "1"
+        },
+        "inputs_echo.percentile": {
+          "definition": "the percentile reported, in percent (0 to 100)",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "1"
+        },
+        "inputs_echo.points[].lat_deg": {
+          "definition": "latitude of a listed user point",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "deg"
+        },
+        "inputs_echo.points[].lon_deg": {
+          "definition": "longitude of a listed user point",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "deg"
+        },
+        "inputs_echo.quantization_bits": {
+          "definition": "bits per transmitted correction; 0 disables quantization",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "bit"
+        },
+        "inputs_echo.residual_sigma_m": {
+          "definition": "differential residual 1-sigma the protection levels scale with",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "m"
+        },
+        "inputs_echo.seed": {
+          "definition": "seed of every draw (an integer label)",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "1"
+        },
+        "inputs_echo.sise_orbit_variance_fraction": {
+          "definition": "orbit share of the SISE variance (fraction)",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "1"
+        },
+        "inputs_echo.sma_km": {
+          "definition": "semi-major axis of the illustrative constellation",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "km"
+        },
+        "inputs_echo.station_height_m": {
+          "definition": "station height above the mean lunar sphere",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "m"
+        },
+        "inputs_echo.station_lat_deg": {
+          "definition": "station selenographic latitude",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "deg"
+        },
+        "inputs_echo.station_lon_deg": {
+          "definition": "station selenographic longitude",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "deg"
+        },
+        "inputs_echo.survey_sigma_m": {
+          "definition": "station 3-D coordinate 1-sigma, isotropic, drawn once per trial",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "m"
+        },
+        "inputs_echo.t_span_s": {
+          "definition": "span of the epochs",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "s"
+        },
+        "inputs_echo.t_start_s": {
+          "definition": "first epoch, seconds past the MCI/MCMF-aligned epoch",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "s"
+        },
+        "inputs_echo.t_step_s": {
+          "definition": "epoch spacing",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "s"
+        },
+        "moon_radius_m": {
+          "definition": "the mean lunar radius the great-circle distances use",
+          "evidence_tier": "validated",
+          "provenance": "constant",
+          "unit": "m"
+        },
+        "n_epochs": {
+          "definition": "epochs swept",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "n_grid_points": {
+          "definition": "user points swept",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "n_sats": {
+          "definition": "satellites in the constellation the run used",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "n_trials": {
+          "definition": "Monte Carlo trials per epoch",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "count"
+        },
+        "percentile": {
+          "definition": "the percentile reported, in percent (0 to 100)",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "1"
+        },
+        "points[].area_weight": {
+          "definition": "weight of the point in the region means: its grid cell's solid angle, or 1 for a listed point",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "sr"
+        },
+        "points[].availability": {
+          "definition": "share of epochs not marked unavailable",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "points[].azimuth_deg": {
+          "definition": "initial bearing from the station, clockwise from north",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "deg"
+        },
+        "points[].corrected_p_3d_m": {
+          "definition": "percentile of the corrected 3-D error over the available (epoch, trial) samples",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "points[].corrected_p_h_m": {
+          "definition": "the same, horizontal",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "points[].corrected_p_v_m": {
+          "definition": "the same, vertical",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "points[].coverage_fraction": {
+          "definition": "share of all epochs whose percentile over the trials of the corrected 3-D error is at most accuracy_threshold_m",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "points[].distance_km": {
+          "definition": "great-circle distance from the station on the mean lunar sphere",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "km"
+        },
+        "points[].hpl_below_alert_fraction": {
+          "definition": "share of all epochs with an HPL below alert_limit_m",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "points[].hpl_max_m": {
+          "definition": "largest DO-229E HPL",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "points[].hpl_median_m": {
+          "definition": "median DO-229E HPL over the epochs with one",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "points[].lat_deg": {
+          "definition": "user point latitude",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "deg"
+        },
+        "points[].lon_deg": {
+          "definition": "user point longitude",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "deg"
+        },
+        "points[].unavailable.station_missing_sat": {
+          "definition": "epochs where a satellite the point uses is below the mask at the station",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "points[].unavailable.user_lt4": {
+          "definition": "epochs with fewer than four satellites above the mask at the point",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "points[].uncorrected_p_3d_m": {
+          "definition": "percentile of the uncorrected 3-D error",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "points[].vpl_max_m": {
+          "definition": "largest DO-229E VPL",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "region.availability": {
+          "definition": "area-weighted mean over the points of the share of epochs available",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "region.corrected_p_3d_m": {
+          "definition": "area-weighted mean over the points with samples of each point's percentile corrected 3-D error",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "region.corrected_p_h_m": {
+          "definition": "the same, horizontal",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "region.corrected_p_v_m": {
+          "definition": "the same, vertical",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "region.coverage_fraction": {
+          "definition": "area-weighted mean over the points of the share of epochs whose percentile 3-D error is at most accuracy_threshold_m",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "region.hpl_below_alert_fraction": {
+          "definition": "area-weighted mean of the share of epochs with an HPL below alert_limit_m",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "region.hpl_max_m": {
+          "definition": "largest DO-229E HPL over every point and epoch",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "region.improvement_factor": {
+          "definition": "region uncorrected_p_3d_m / corrected_p_3d_m (ratio)",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "region.uncorrected_p_3d_m": {
+          "definition": "the same, uncorrected 3-D",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "region.vpl_max_m": {
+          "definition": "largest DO-229E VPL over every point and epoch",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "region.worst_point.corrected_p_3d_m": {
+          "definition": "its percentile corrected 3-D error",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "region.worst_point.lat_deg": {
+          "definition": "latitude of the point with the largest percentile corrected 3-D error",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "deg"
+        },
+        "region.worst_point.lon_deg": {
+          "definition": "longitude of that point",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "deg"
+        }
+      },
+      "fields_described": 127,
+      "fields_total": 127,
+      "fields_without_units": [],
+      "label": "MODELLED",
+      "source": "tests/fixtures/lunar_station/gate.toml"
     },
     "lunar-time-budget": {
       "complete": true,
