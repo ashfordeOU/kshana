@@ -166,7 +166,7 @@ version 0.36.0-rc. Nothing above this section was edited.
 | registered | kind | note |
 |---|---|---|
 | `grid_lat_min_deg` = −90 | not an input | the kind's grid always runs to the pole, which is −90 |
-| orbit/clock variance split 50/50 (100/0 for R600-orbit100) | `sise_orbit_variance_fraction` = 0.5 (1.0) | orbit = σ·√(3f) per axis, clock = σ·√(1−f). Echoed: orbit 6.2486 m, clock 3.6077 m (8.8369 m, 0 m) |
+| orbit/clock variance split 50/50 (100/0 for R600-orbit100) | `sise_orbit_variance_fraction` = 0.5 (1.0) | orbit = an error vector of magnitude σ·√(3f) along a random unit direction, clock = ±σ·√(1−f) (magnitudes, as `inject_common_mode_errors` draws them). Echoed: orbit 6.2486 m, clock 3.6077 m (8.8369 m, 0 m) |
 | `mask_deg`: the kind's default | 5° | |
 | `corrected_p95_3d_m` (region) | `region.corrected_p_3d_m` at `percentile` = 95 | solid-angle-weighted mean of per-point p95 over each point's available samples |
 | per-point `corrected_p_3d_m` | `points[].corrected_p_3d_m` | |
@@ -210,18 +210,34 @@ The model gives 3770 m.
   by less than 0.1 %, the code noise (R300-lowq) scales it about 3.3×, and the orbit/clock split
   (R600-orbit100) moves it 2.6 %. The noise dominates and the geometry multiplies it.
 - **This is a finding about the ILLUSTRATIVE constellation and the snapshot model, not about the
-  sources' claims.** No source publishes the Moonlight elements (S4 p6 says only frozen ELFO, 24 h). The
+  sources' claims.** No source publishes the constellation's elements (S4 p6 says only frozen ELFO, 24 h). The
   sources' simulations used "at least 3 satellites in common view" with a height constraint, a filter and
   DEM aiding (S2 p14 to p16). The kind requires four in common view, has no height constraint and solves
   each epoch alone. Under those differences the comparison cannot confirm or refute "sub-metre over the
-  whole south pole". It shows that the claim depends on assumptions the sources do not publish (the
+  whole south pole". It shows that this model's result depends on assumptions the sources do not publish (the
   orbits) or that this model does not have (a height constraint, filtering).
-- K6 passes: with the 50/50 split, decorrelation from 16 km to 500 km raises the corrected p95 by 39 %
-  (44 % with 100/0). It is not evidence for the sources' "same accuracy upon convergence", which is a
-  filter statement.
+- K6 passes, but the pass is a ratio of two geometry-dominated figures (about 113 m at 16 km and 157 m at
+  500 km, both set by the same near-singular DOP). It is not evidence about decorrelation either way: at
+  R300 the 320 km / 16 km ratio is 0.749, and moving all SISE variance into the orbit term (R600-orbit100)
+  changes the R600 ratio only from 1.394 to 1.437. Nor is it evidence for the sources' "same accuracy upon
+  convergence", which is a filter statement.
 - The critic's note on revision 2 is recorded here, not edited above: the header says "three
   disclosures", but four were added (zenith noise, area-weighted region p95, the K4 impossibility, and the
   K6 dependence on the split under "does NOT establish").
-- What would change this: a published set of Moonlight elements (or ephemeris), which would replace the
+- What would change this: a published set of the constellation's elements (or ephemeris), which would replace the
   ILLUSTRATIVE ones under the same bars as a second, dated run; and a height-constrained solution in the
   kind. Neither is in 0.36. This run stays as recorded.
+
+### Post-run wording correction of the Reading; no figures changed
+
+Made after a review of the run commit (832c363f), in one appended commit. No figure, verdict, bar or input
+changed. The corrections:
+
+1. The K6 bullet attributed the 500 km / 16 km ratio to decorrelation. Both points are dominated by the
+   geometry, so the bullet now says the pass is a ratio of two geometry-dominated figures and is evidence
+   about decorrelation in neither direction.
+2. Two mentions of the programme's elements outside a citation now read "the constellation's elements",
+   as this file's wording rule requires.
+3. The mapping row now describes the injected orbit and clock errors as magnitudes (a random direction
+   for the orbit vector, a random sign for the clock), as the kind draws them, not as per-axis sigmas.
+4. "the claim depends on assumptions" now reads "this model's result depends on assumptions".
