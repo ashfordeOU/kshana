@@ -991,9 +991,13 @@ pub fn run_monitors(
                     ratios.insert(Monitor::Geometry, r);
                 }
                 // A source that did not report at this epoch keeps its last statistic for
-                // the stated hold, so slow sentences (GSV) do not blink in and out.
+                // the stated hold, so slow sentences (GSV) do not blink in and out. Not the
+                // geometry monitor: the geometry tracker already holds the sky, and holding its
+                // ratio again would double the hold and lose the epoch's class.
                 for (m, r) in &ratios {
-                    held.insert(*m, (et.t_s, *r));
+                    if *m != Monitor::Geometry {
+                        held.insert(*m, (et.t_s, *r));
+                    }
                 }
                 for (m, (t, r)) in &held {
                     if !ratios.contains_key(m) && et.t_s - t <= cfg.score.evidence_hold_s {
@@ -1031,6 +1035,10 @@ pub fn run_monitors(
                     match d.monitor {
                         Monitor::Geometry if geo_ratio.is_some_and(|(_, inc)| inc) => {
                             d.class = Some(DeductionClass::Inconsistency)
+                        }
+                        // Satellites in view but not tracked: the signal, not the sky.
+                        Monitor::Geometry if et.geometry.signal_loss => {
+                            d.class = Some(DeductionClass::Environment)
                         }
                         Monitor::LossOfLock if lost_low => d.class = Some(DeductionClass::Geometry),
                         _ => {}
