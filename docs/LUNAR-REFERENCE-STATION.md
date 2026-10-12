@@ -145,7 +145,11 @@ satellite from the point can make the epoch available.
    epochs' errors as independent, so it averages down faster than errors correlated in time would;
    it is static-user only; there is no dynamic filter, carrier phase or ambiguity resolution; the
    case trace (`trace_case`) shows the snapshot arithmetic. The published-claims addendum with this
-   mode is `tests/fixtures/lunar_station_published/ADDENDUM-LRS06.md` (pre-registered alone).
+   mode is `tests/fixtures/lunar_station_published/ADDENDUM-LRS06.md` (pre-registered alone). With a
+   1 m height constraint, three satellites and a 6-epoch window (ILLUSTRATIVE settings), the R300
+   corrected p95 3-D error falls from 280.6 m to 2.11 m (horizontal 0.90 m, not scored); K1 to K5
+   still fail and K6 passes, 1 of 6 as in the recorded run. The window's independence assumption
+   favours it.
 
 ## Comparison against published claims
 
