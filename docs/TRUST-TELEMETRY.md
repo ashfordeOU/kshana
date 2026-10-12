@@ -94,6 +94,14 @@ class is dropped). Alert on `kshana_trust_reason_active{class="inconsistency"}` 
 band alone, so a poor sky does not page as an attack; a `geometry` class is a statement about the
 sky, not a finding that no attack occurred (see `docs/RECEIVER-TRUST.md`).
 
+The `class` label is part of a series' identity: when a reason's class changes between epochs
+(`loss-of-lock` from `environment` to `geometry` when the satellites lost were low, or `geometry`
+to `inconsistency` when the stated HDOP disagrees with the stated sky), the old series is no longer
+exported and a new one starts. Query by `reason` with `max by (reason)` when the class does not
+matter, and expect such a flip to look like one series ending and another beginning. The schema 1.3
+series, the `class` label and the CEF/LEEF geometry fields are checked by the engine's own tests and
+by the CEF oracles (pycef, Logstash); the external Prometheus and OTLP oracles have no 1.3 stream yet.
+
 Reason names are cut to 128 characters, and at most 64 distinct reasons get their own series; later ones are counted under `reason="other"` and in `kshana_trust_reason_overflow_total`, so a hostile or buggy input cannot create unbounded label cardinality.
 
 `band` is one of `calibrating`, `nominal`, `degraded`, `untrusted`, `unknown`. Reason
