@@ -205,9 +205,10 @@ fingerprint with one you obtained from the signer by another route.</p>"
         h.push_str("</table>\n");
     }
 
-    // Satellite geometry (0.36), where the epochs carry it.
+    // Satellite geometry and deduction classes (0.36), where the epochs carry them: a
+    // geometry lane separate from the inconsistency lane.
     let mut by_geometry: BTreeMap<String, usize> = BTreeMap::new();
-    let mut by_cause: BTreeMap<String, usize> = BTreeMap::new();
+    let mut by_class: BTreeMap<String, usize> = BTreeMap::new();
     for e in i.epochs {
         if let Some(g) = e.get("geometry") {
             let st = g
@@ -215,20 +216,33 @@ fingerprint with one you obtained from the signer by another route.</p>"
                 .map(scalar)
                 .unwrap_or_else(|| "unknown".into());
             *by_geometry.entry(st).or_insert(0) += 1;
-            let cause = e
-                .get("degradation")
-                .map(scalar)
-                .unwrap_or_else(|| "unknown".into());
-            *by_cause.entry(cause).or_insert(0) += 1;
+        }
+        let mut classes: Vec<String> = e
+            .get("score")
+            .and_then(|s| s.get("deductions"))
+            .and_then(Value::as_array)
+            .map(|ds| {
+                ds.iter()
+                    .filter_map(|d| d.get("class").map(scalar))
+                    .collect()
+            })
+            .unwrap_or_default();
+        classes.sort();
+        classes.dedup();
+        for c in classes {
+            *by_class.entry(c).or_insert(0) += 1;
         }
     }
     if !by_geometry.is_empty() {
-        h.push_str("<h3>Satellite geometry, epochs each (beside the score, never part of it; <code>unknown</code> where the log gives no satellite geometry)</h3>\n<table>\n");
+        h.push_str("<h3>Satellite geometry, epochs each (<code>unknown</code> where the log gives no satellite geometry)</h3>\n<table>\n");
         for (s, n) in &by_geometry {
             let _ = writeln!(h, "<tr><th>{}</th><td>{n}</td></tr>", esc(s));
         }
-        h.push_str("</table>\n<h3>Degradation attributed to, epochs each</h3>\n<table>\n");
-        for (s, n) in &by_cause {
+        h.push_str("</table>\n");
+    }
+    if !by_class.is_empty() {
+        h.push_str("<h3>Deductions by class, epochs each (geometry: the sky; environment: the signal environment; inconsistency: attack-like evidence)</h3>\n<table>\n");
+        for (s, n) in &by_class {
             let _ = writeln!(h, "<tr><th>{}</th><td>{n}</td></tr>", esc(s));
         }
         h.push_str("</table>\n");
