@@ -254,3 +254,67 @@ fn the_replayed_stream_is_that_of_0_35_0_apart_from_the_appended_keys() {
         ],
     );
 }
+
+/// The telemetry of the real 0.36 outputs of the vessel demo, geometry series and class labels
+/// included: a regression pin taken on this branch (not a 0.35 identity), so a change to the
+/// 0.36 series is seen.
+fn telemetry_036_hashes() -> Vec<(String, String)> {
+    let r = run_receiver_trust(&load("examples/maritime-trust")).unwrap();
+    let json = serde_json::to_string_pretty(&r).unwrap();
+    let dir = Path::new(ROOT).join("examples/maritime-trust");
+    let session = std::fs::read_to_string(dir.join("session.toml")).unwrap();
+    let log = std::fs::read(dir.join("tallinn-helsinki.nmea")).unwrap();
+    let a = assess_stream_excerpt(&session, &log).unwrap();
+    let lines: String = a.epochs.iter().map(|e| e.to_json_line() + "\n").collect();
+    let mut out = Vec::new();
+    for (name, f) in [
+        ("prometheus", TelemetryFormat::Prometheus),
+        ("cef", TelemetryFormat::Cef),
+        ("leef", TelemetryFormat::Leef),
+    ] {
+        out.push((
+            format!("0.36 telemetry {name} of the result"),
+            sha(&telemetry(&json, TelemetryInput::Result, f)),
+        ));
+        out.push((
+            format!("0.36 telemetry {name} of the lines"),
+            sha(&telemetry(&lines, TelemetryInput::Jsonl, f)),
+        ));
+    }
+    out
+}
+
+#[test]
+fn the_0_36_telemetry_of_the_vessel_demo_is_pinned() {
+    // PIN-SCOPE:    Prometheus, CEF and LEEF of the demo's 0.36 result and live lines, as written
+    // PIN-EXCLUDES: nothing; the build version string is part of the Prometheus text
+    check(
+        telemetry_036_hashes(),
+        &[
+            (
+                "0.36 telemetry prometheus of the result",
+                "e211c7f740e9a1bf9bcc7834ef38af6f722337191466b9ce202ee1284f3fc749",
+            ),
+            (
+                "0.36 telemetry prometheus of the lines",
+                "1b6b6d109ebd8a587cdf14fc47eaf94ffd6561953147d9fc663cf80d40d27f4e",
+            ),
+            (
+                "0.36 telemetry cef of the result",
+                "a6d35405d856532b3d4606ed4c44c37cb48d8ce0c118a98a37482bf166fad71a",
+            ),
+            (
+                "0.36 telemetry cef of the lines",
+                "73780319cc14859bf823f84d3c4f4b02c19b3ccc280e7112b6414c7831ede560",
+            ),
+            (
+                "0.36 telemetry leef of the result",
+                "776bb3c674efb22f615112726967b30c54d412f900e635e5be4a1b782cd4eb83",
+            ),
+            (
+                "0.36 telemetry leef of the lines",
+                "7bc3ef383458431a6166bc131ddb2f88140aa002db212605947e490b53947d23",
+            ),
+        ],
+    );
+}
