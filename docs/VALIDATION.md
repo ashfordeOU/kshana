@@ -724,7 +724,7 @@ what Kshana does today, and where the real version sits on the roadmap.
 
 ## Lunar-PNT paper cross-checks (regression evidence, not matrix rows)
 
-The modelled lunar/cislunar suite (the "Lunar & cislunar" and "Lunar PNT suite"
+The lunar/cislunar suite (the "Lunar & cislunar" and "Lunar PNT suite"
 capabilities in the README) has its published-paper claims independently cross-checked
 in `tests/validate_p*.rs`, each against an oracle from a *different* implementation:
 
