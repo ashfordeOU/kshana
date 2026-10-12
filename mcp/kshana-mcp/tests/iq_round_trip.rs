@@ -737,3 +737,61 @@ async fn sweep_and_monitor_run_in_the_work_directory_and_labfit_refuses_log_path
     );
     client.cancel().await.ok();
 }
+
+#[tokio::test]
+async fn labfit_reads_a_campaign_only_inside_the_work_dir() {
+    let dir = work_dir("labfit-campaign");
+    let canon = dir.canonicalize().unwrap();
+    // A real folder next to the work directory, reachable as `../<name>`.
+    let name = format!("kshana-mcp-iq-labfit-outside-{}", std::process::id());
+    let outside = canon.parent().unwrap().join(&name);
+    std::fs::create_dir_all(&outside).unwrap();
+    std::fs::create_dir_all(dir.join("empty")).unwrap();
+    let scenario = |campaign: &str| format!("[input]\ncampaign = \"{campaign}\"\n");
+    let client = connect(IqConfig::new(&dir, 5_000_000).unwrap()).await;
+    let tmp = std::env::temp_dir().canonicalize().unwrap();
+    for c in [
+        format!("../{name}"),
+        outside.display().to_string(),
+        tmp.display().to_string(),
+        "..".to_string(),
+    ] {
+        let e = call(&client, "iq_labfit", json!({ "toml": scenario(&c) }))
+            .await
+            .unwrap_err();
+        assert!(e.contains("outside the IQ work directory"), "{c}: {e}");
+    }
+    #[cfg(unix)]
+    {
+        std::os::unix::fs::symlink(&outside, dir.join("link")).unwrap();
+        let e = call(&client, "iq_labfit", json!({ "toml": scenario("link") }))
+            .await
+            .unwrap_err();
+        assert!(e.contains("outside the IQ work directory"), "symlink: {e}");
+    }
+    // A folder that does not exist is refused with the reason.
+    let e = call(&client, "iq_labfit", json!({ "toml": scenario("missing") }))
+        .await
+        .unwrap_err();
+    assert!(e.contains("[input] campaign `missing`"), "{e}");
+    // A folder inside the work directory is accepted and read; one holding no campaign fails
+    // with the loader's reason.
+    let e = call(&client, "iq_labfit", json!({ "toml": scenario("empty") }))
+        .await
+        .unwrap_err();
+    assert!(e.contains("campaign.json"), "{e}");
+    client.cancel().await.ok();
+
+    // Without a work directory a campaign scenario is refused, saying how to enable it.
+    let client = connect(IqConfig::disabled(
+        "no IQ work directory is configured; set KSHANA_MCP_IQ_DIR",
+    ))
+    .await;
+    let e = call(&client, "iq_labfit", json!({ "toml": scenario("empty") }))
+        .await
+        .unwrap_err();
+    assert!(e.contains("KSHANA_MCP_IQ_DIR"), "{e}");
+    client.cancel().await.ok();
+    std::fs::remove_dir_all(&dir).ok();
+    std::fs::remove_dir_all(&outside).ok();
+}

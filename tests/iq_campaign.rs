@@ -2,12 +2,16 @@
 //! The lab-replay campaign runner and scoring engine (`kshana::iq::campaign`), end to end
 //! on a synthetic campaign whose truth is known.
 //!
-//! PIN-SCOPE: the three 64-character pins below. `PRE_M2M4_SCORED` covers the per-satellite
+//! PIN-SCOPE: the four 64-character pins below. `PRE_REGISTERED_SCORED` is the pre-registered
+//! pin: the scored results of the 12 reference cells with the MODELLED reference, reproduced by
+//! the NWPR campaign with the `ramp` event stating `q = 1`. `PRE_M2M4_SCORED` covers the per-satellite
 //! scored results of the 12 reference cells (canonical hash of their `satellites` arrays).
 //! `DIGEST_M2M4` and `DIGEST_NWPR` cover every cell file of the reference campaign and of
 //! its NWPR twin, so they include each cell's `engine_version` and key: they move at every
 //! version bump, by design, and are re-pinned in the bump commit.
-//! PIN-EXCLUDES: `PRE_M2M4_SCORED` strips the per-estimator fields added with
+//! PIN-EXCLUDES: `PRE_REGISTERED_SCORED` strips the per-estimator fields added with
+//! `cn0_estimator` and maps the one label `modelled.q_source` from `event-override` back to the
+//! `type-table` it read at pre-registration. `PRE_M2M4_SCORED` strips the per-estimator fields added with
 //! `cn0_estimator` and the MODELLED reference; the DIGESTs exclude the HTML report, the scorecards and `hashes.json`.
 //!
 //! Kshana scenes stand in for lab recordings. Each satellite's C/N0 follows a stated
@@ -811,6 +815,112 @@ fn nwpr_out() -> &'static PathBuf {
         assert_eq!(s.cells_run, 12);
         out
     })
+}
+
+/// The pre-registered pin itself (`b3c2d8a0…`, above), kept live: the scored results of the 12
+/// reference cells with the MODELLED reference included, as hashed at pre-registration.
+const PRE_REGISTERED_SCORED: &str =
+    "b3c2d8a01164760899341692e3bc7d552c5a38ddfd7a947873c6b4aa915c340b";
+
+/// The NWPR reference campaign with the `ramp` event's `q = 1` stated in its test conditions:
+/// the broadband Q the pre-registered pin was made at, now given at event level because the
+/// 0.36 type table gives broadband Q = 2.
+fn nwpr_q1_out() -> &'static PathBuf {
+    static OUT: OnceLock<PathBuf> = OnceLock::new();
+    OUT.get_or_init(|| {
+        let f = fixture();
+        let conds = f.dir.join("conds-q1");
+        std::fs::create_dir_all(&conds).unwrap();
+        for n in ["ramp", "gap", "alias"] {
+            let t = std::fs::read_to_string(f.dir.join("conds").join(format!("{n}.toml"))).unwrap();
+            let t = if n == "ramp" {
+                let q1 = t.replace("offset_s = 9.0\n", "offset_s = 9.0\nq = 1.0\n");
+                assert_ne!(q1, t, "the ramp event states q = 1");
+                q1
+            } else {
+                t
+            };
+            std::fs::write(conds.join(format!("{n}.toml")), t).unwrap();
+        }
+        let text = std::fs::read_to_string(&f.campaign)
+            .unwrap()
+            .replace("[\"conds/*.toml\"]", "[\"conds-q1/*.toml\"]")
+            .replace("[scoring]\n", "[scoring]\ncn0_estimator = \"nwpr\"\n");
+        assert!(text.contains("conds-q1/*.toml") && text.contains("cn0_estimator = \"nwpr\""));
+        let c = LoadedCampaign::load_text(&text, &f.campaign).unwrap();
+        let out = f.dir.join("out-nwpr-q1");
+        let _ = std::fs::remove_dir_all(&out);
+        let s = run(
+            &c,
+            &out,
+            &RunOptions {
+                workers: 4,
+                ..Default::default()
+            },
+        )
+        .unwrap();
+        assert_eq!(s.cells_run, 12);
+        out
+    })
+}
+
+/// The canonical hash of every cell's scored results as the pre-registered pin hashed them:
+/// with the MODELLED reference, without the per-estimator fields added after it. The one
+/// label that cannot match is `modelled.q_source`: at pre-registration Q = 1 came from the
+/// type table (`type-table`); here the same Q = 1 is the event's stated `q`
+/// (`event-override`). That label, and nothing else, is mapped back before hashing.
+fn pre_registered_digest(out: &Path) -> String {
+    use kshana::iq::campaign::hash::canonical_hash;
+    fn relabel(v: &mut serde_json::Value) {
+        match v {
+            serde_json::Value::Object(m) => {
+                if m.get("q_source").and_then(|x| x.as_str()) == Some("event-override") {
+                    m.insert("q_source".into(), "type-table".into());
+                }
+                m.values_mut().for_each(relabel);
+            }
+            serde_json::Value::Array(a) => a.iter_mut().for_each(relabel),
+            _ => {}
+        }
+    }
+    let mut rows: Vec<(String, serde_json::Value)> = cells(out)
+        .values()
+        .map(|(_, c)| {
+            let mut v = serde_json::to_value(&c.satellites).unwrap();
+            without_added(&mut v);
+            relabel(&mut v);
+            (
+                format!("{}/{}/{}", c.recording.id, c.frontend.name, c.design.name),
+                v,
+            )
+        })
+        .collect();
+    rows.sort_by(|a, b| a.0.cmp(&b.0));
+    canonical_hash(&serde_json::Value::Array(
+        rows.into_iter()
+            .map(|(k, v)| serde_json::json!([k, v]))
+            .collect(),
+    ))
+    .to_string()
+}
+
+#[test]
+fn the_pre_registered_pin_holds_with_the_event_stating_q_1() {
+    let out = nwpr_q1_out();
+    // Every scored result and the MODELLED reference at Q = 1 reproduce the pre-registered pin.
+    assert_eq!(pre_registered_digest(out), PRE_REGISTERED_SCORED);
+    // Beside it, the current pin (without the reference) is unchanged by stating q.
+    assert_eq!(scored_digest(out), PRE_M2M4_SCORED);
+    // The relabelling touched only events whose Q is the stated q = 1.
+    for (_, c) in cells(out).values() {
+        for s in &c.satellites {
+            for e in &s.score.events {
+                if let Some(m) = &e.modelled {
+                    assert_eq!((m.q, m.q_source.as_str()), (1.0, "event-override"));
+                }
+            }
+        }
+    }
 }
 
 /// The reference DIGESTs after the `cn0_estimator` change, pinned the way the pre-change one was

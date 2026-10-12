@@ -365,6 +365,30 @@ fn the_definition_backlog_only_shrinks() {
 /// The machine-readable schema, built from the corpus: for every kind, every emitted
 /// numeric field with its unit, provenance class, evidence tier and definition — and, by
 /// name, every field that has none yet.
+/// Result documents that are not scenario kinds, with their declared units tables. Each is
+/// audited against an emitted document by its own test (named in `audited_by`).
+fn documents() -> Value {
+    let mut fields = Map::new();
+    for f in kshana::iq::labfit::iqfit::FIELD_UNITS {
+        fields.insert(
+            f.path.to_string(),
+            json!({
+                "unit": f.unit,
+                "provenance": f.provenance.as_str(),
+                "evidence_tier": f.provenance.evidence_tier().as_str(),
+                "definition": f.definition,
+            }),
+        );
+    }
+    json!({
+        "kshana.labfit-iq/1": {
+            "label": "MODELLED",
+            "audited_by": "tests/iq_labfit_campaign.rs (the_report_carries_its_inputs_censoring_validation_and_labels)",
+            "fields": fields,
+        }
+    })
+}
+
 fn build_schema() -> Value {
     let runs = corpus();
 
@@ -475,6 +499,7 @@ fn build_schema() -> Value {
         "provenance_classes": classes,
         "evidence_tiers": tiers,
         "kinds": kinds,
+        "documents": documents(),
     })
 }
 
