@@ -1150,6 +1150,32 @@ pub fn araim_dual_raim(
     priors: DualFaultPriors,
     budget: IntegrityBudget,
 ) -> Option<AraimResult> {
+    araim_dual_raim_in(
+        user,
+        enu_basis(user)?,
+        sats,
+        constellation,
+        range_residual_m,
+        sigma_m,
+        priors,
+        budget,
+    )
+}
+
+/// [`araim_dual_raim`] with the local level given: `basis` is the east-north-up triad the
+/// horizontal and vertical protection levels are split along ([`crate::orbit::UserPath::enu_basis`]:
+/// geocentric for an orbiting user, geodetic for a ground site).
+#[allow(clippy::too_many_arguments)]
+pub fn araim_dual_raim_in(
+    user: Vec3,
+    basis: (Vec3, Vec3, Vec3),
+    sats: &[Vec3],
+    constellation: &[u8],
+    range_residual_m: &[f64],
+    sigma_m: f64,
+    priors: DualFaultPriors,
+    budget: IntegrityBudget,
+) -> Option<AraimResult> {
     let n = sats.len();
     if n != range_residual_m.len() || n != constellation.len() || n < 6 || sigma_m <= 0.0 {
         return None;
@@ -1159,7 +1185,7 @@ pub fn araim_dual_raim(
         let e = los_unit(user, s)?;
         g.push([-e[0], -e[1], -e[2], 1.0]);
     }
-    let (east, north, up) = enu_basis(user)?;
+    let (east, north, up) = basis;
     let (x0, a0) = lsq_solution(&g, range_residual_m)?;
     let var0_v = axis_variance(&a0, up);
     let var0_h = axis_variance(&a0, east) + axis_variance(&a0, north);
@@ -1751,7 +1777,10 @@ pub fn constellation_raim_availability_at(
         // stable in `seed` regardless of which epochs are protected.
         let residuals: Vec<f64> = (0..sats.len()).map(|_| noise.sample(&mut rng)).collect();
         if let Some(vpl) = e.vpl_m {
-            if let Some(verr) = vertical_position_error(user_ecef, &sats, &residuals) {
+            let up = user.enu_basis(t).map(|b| b.2);
+            if let Some(verr) =
+                up.and_then(|up| vertical_position_error(user_ecef, up, &sats, &residuals))
+            {
                 stanford.add(verr.abs(), vpl);
             }
         }
@@ -1830,15 +1859,19 @@ pub fn araim_dual_constellation_availability_at(
         let view = crate::orbit::sky_view(user, gnss, Some(labels), t, mask_deg, sky);
         let (sats, vis_labels) = (view.positions, view.labels);
         let resid = vec![0.0; sats.len()];
-        let mut e = match araim_dual_raim(
-            user_ecef,
-            &sats,
-            &vis_labels,
-            &resid,
-            sigma_m,
-            priors,
-            budget,
-        ) {
+        let basis = user.enu_basis(t);
+        let mut e = match basis.and_then(|basis| {
+            araim_dual_raim_in(
+                user_ecef,
+                basis,
+                &sats,
+                &vis_labels,
+                &resid,
+                sigma_m,
+                priors,
+                budget,
+            )
+        }) {
             Some(r) => RaimAvailabilityEpoch {
                 t_s: t,
                 n_visible: sats.len(),
@@ -1877,7 +1910,7 @@ pub fn araim_dual_constellation_availability_at(
 /// The vertical (geocentric-up) component of the least-squares position error
 /// produced by the per-satellite range residuals `residuals` at geometry
 /// `(user, sats)`. `None` for a singular geometry or a missing line of sight.
-fn vertical_position_error(user: Vec3, sats: &[Vec3], residuals: &[f64]) -> Option<f64> {
+fn vertical_position_error(user: Vec3, up: Vec3, sats: &[Vec3], residuals: &[f64]) -> Option<f64> {
     if sats.len() != residuals.len() {
         return None;
     }
@@ -1886,7 +1919,6 @@ fn vertical_position_error(user: Vec3, sats: &[Vec3], residuals: &[f64]) -> Opti
         let e = los_unit(user, s)?;
         g.push([-e[0], -e[1], -e[2], 1.0]);
     }
-    let (_east, _north, up) = enu_basis(user)?;
     let (x, _a) = lsq_solution(&g, residuals)?;
     Some(x[0] * up[0] + x[1] * up[1] + x[2] * up[2])
 }

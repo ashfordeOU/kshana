@@ -1103,6 +1103,26 @@ impl UserPath {
         }
     }
 
+    /// The local east-north-up basis of the user at `t`, each a unit vector in the inertial
+    /// frame. An orbiting user keeps the geocentric basis of [`enu_basis`] (the 0.35
+    /// behaviour); a ground site uses the geodetic one (Up along the WGS-84 ellipsoid normal),
+    /// the frame its look angles and its horizontal and vertical errors are defined in.
+    pub fn enu_basis(&self, t: f64) -> Option<(Vec3, Vec3, Vec3)> {
+        match self {
+            UserPath::Orbit(o) => enu_basis(o.position_eci(t)),
+            UserPath::Site { geo, jd0_ut1, .. } => {
+                let lon = geo.lon_rad + crate::sgp4::gstime(jd0_ut1 + t / 86_400.0);
+                let (sl, cl) = geo.lat_rad.sin_cos();
+                let (so, co) = lon.sin_cos();
+                Some((
+                    [-so, co, 0.0],
+                    [-sl * co, -sl * so, cl],
+                    [cl * co, cl * so, sl],
+                ))
+            }
+        }
+    }
+
     /// Whether the inertial satellite position `sat` is in view at `t` under `mask_deg` and an
     /// optional skyline, and whether it is above the mask but hidden by the skyline. For an
     /// orbiting user with no skyline the first is exactly the 0.35 test
@@ -2230,6 +2250,70 @@ G01 2023 01 01 00 00 00 4.567890123456D-04 1.136868377216D-12 0.000000000000D+00
             .unwrap_err()
             .contains("user_site"));
         assert!(resolve_user(None, Some(&site), Some(&cfg), jd0).is_ok());
+    }
+
+    #[test]
+    fn a_ground_site_splits_horizontal_and_vertical_along_the_geodetic_up() {
+        // The reference: the ENU components of a line of sight from the geodetic look angles
+        // (frames::look_angles, the WGS-84 ellipsoid normal), compared with the projection
+        // onto the site's inertial basis.
+        let jd0 = 2_451_545.0;
+        let user = UserPath::site(
+            &SiteCfg {
+                lat_deg: 45.0,
+                lon_deg: -73.0,
+                height_m: 120.0,
+            },
+            jd0,
+        )
+        .unwrap();
+        let UserPath::Site { geo, .. } = &user else {
+            panic!("a site")
+        };
+        for (t, sat) in [
+            (0.0, [1.5e7, -1.9e7, 1.2e7]),
+            (5400.0, [-2.0e7, 4.0e6, 1.8e7]),
+            (40_000.0, [9.0e6, 2.1e7, -3.0e6]),
+        ] {
+            let (e, n, u) = user.enu_basis(t).unwrap();
+            for (a, b) in [(e, n), (n, u), (u, e)] {
+                assert!(dot(a, b).abs() < 1e-15);
+            }
+            let l = crate::frames::look_angles(
+                *geo,
+                crate::frames::teme_to_ecef(sat, jd0 + t / 86_400.0),
+            );
+            let (sa, ca) = l.az_rad.sin_cos();
+            let (se, ce) = l.el_rad.sin_cos();
+            let reference = [l.range_m * ce * sa, l.range_m * ce * ca, l.range_m * se];
+            let d = sub(sat, user.position_eci(t));
+            let got = [dot(d, e), dot(d, n), dot(d, u)];
+            for k in 0..3 {
+                assert!(
+                    (got[k] - reference[k]).abs() < 1e-6 * l.range_m,
+                    "t {t} axis {k}"
+                );
+            }
+        }
+        // The geodetic up leans from the geocentric radial by the deflection (~0.19 deg at 45 deg),
+        // and an orbiting user keeps the geocentric basis exactly.
+        let (_, _, up) = user.enu_basis(0.0).unwrap();
+        let (_, _, radial) = enu_basis(user.position_eci(0.0)).unwrap();
+        let lean = dot(up, radial).clamp(-1.0, 1.0).acos().to_degrees();
+        assert!(lean > 0.18 && lean < 0.2, "{lean}");
+        let orbit = UserPath::Orbit(
+            OrbitCfg {
+                altitude_km: 700.0,
+                inclination_deg: 51.6,
+                raan_deg: 10.0,
+                u0_deg: 30.0,
+                eccentricity: 0.0,
+                argp_deg: 0.0,
+                j2: false,
+            }
+            .to_orbit(),
+        );
+        assert_eq!(orbit.enu_basis(900.0), enu_basis(orbit.position_eci(900.0)));
     }
 
     #[test]

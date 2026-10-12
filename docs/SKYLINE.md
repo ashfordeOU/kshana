@@ -80,8 +80,11 @@ An optional `[skyline]` section, over the kind's own cut-off:
 geocentric elevation and no Earth-fixed azimuth, so they take a skyline only with the design
 note's ground-site mode: `user_site = { lat_deg, lon_deg, height_m }` in place of `user` (exactly
 one of the two). The site turns with the Earth (Greenwich mean sidereal time at the scenario's
-`epoch`, J2000 by default, plus `t`), and its elevation and azimuth are geodetic (WGS-84). A
-`user_site` without a skyline is a plain ground user; the orbiting `user` path is unchanged.
+`epoch`, J2000 by default, plus `t`), and its elevation and azimuth are geodetic (WGS-84). The
+horizontal and vertical split of the integrity kind's ARAIM protection levels and Stanford
+vertical error uses the same geodetic up (the WGS-84 ellipsoid normal, about 0.19° from the
+geocentric radial at 45° latitude); snapshot RAIM already used it. A `user_site` without a
+skyline is a plain ground user; the orbiting `user` path is unchanged.
 
 ```toml
 kind = "integrity"
@@ -123,6 +126,7 @@ Bundled examples (`kshana example <name>`):
 | `gnss-sim-container-terminal-skyline` | Pseudoranges and RAIM on a quay: 44 satellite-epochs hidden; RAIM availability 0.59 (0.85 under open sky). |
 | `jamming-harbour-approach-skyline` | A 2 W jammer in a harbour: 83 satellite-epochs hidden, tracking unchanged (the jammer had taken them). |
 | `leo-pvt-fjord-skyline` | GPS + Galileo + a LEO layer in a fjord: median fused PDOP 1.14 (0.93 under open sky). |
+| `leo-vertical-autonomous-vehicle-skyline` | The `leo-vertical-autonomous-vehicle` canyon as a flat 35° cut and as `city-street` turned along the car's heading: 8 against 4 to 5 GPS and Galileo satellites; fused mean error 2.1 m in both; the 1.5 m alarm at 51 % and 59 % of epochs. |
 
 ## Sky geometry
 
