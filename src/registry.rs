@@ -67,6 +67,7 @@ const BUILTIN_KINDS: &[crate::api::ScenarioKind] = {
         LunarFrameCampaign,
         LunarService,
         LunarDpnt,
+        LunarStationCoverage,
         LunarBeacon,
         EarthGnssLunar,
         LunarInterop,
@@ -157,6 +158,8 @@ pub mod ids {
         ScenarioId::from_static("moonlight-service-volume");
     pub const LUNAR_DIFFERENTIAL_PNT: ScenarioId =
         ScenarioId::from_static("lunar-differential-pnt");
+    pub const LUNAR_STATION_COVERAGE: ScenarioId =
+        ScenarioId::from_static("lunar-station-coverage");
     pub const LUNAR_INTEROP_EXPORT: ScenarioId = ScenarioId::from_static("lunar-interop-export");
     pub const GRAVITY_MAP: ScenarioId = ScenarioId::from_static("gravity-map");
     pub const TERRAIN_NAV: ScenarioId = ScenarioId::from_static("terrain-nav");
