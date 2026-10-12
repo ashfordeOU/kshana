@@ -249,7 +249,9 @@ public class OrekitTrackingOd {
         BatchLSEstimator est = new BatchLSEstimator(new LevenbergMarquardtOptimizer(), b);
         est.setMaxIterations(50);
         est.setMaxEvaluations(200);
-        est.setParametersConvergenceThreshold(1e-9);
+        // Default 1e-9 generates the committed fixture. -Dod.threshold=<x> is for the post-hoc
+        // convergence diagnostic recorded in xval/od-measurements-orekit/RESULTS.md only.
+        est.setParametersConvergenceThreshold(Double.parseDouble(System.getProperty("od.threshold", "1e-9")));
         for (Obs o : obs) {
             AbsoluteDate tk = t0.shiftedBy(o.k * s.dt);
             switch (o.type) {
