@@ -59,6 +59,9 @@ form the campaign already draws as its MODELLED reference:
   calibration offset in dB (bounded to ±10 dB), shared by the unit, which absorbs a stated-power
   calibration error.
 
+*(Amended 2026-10-12, §13: `Q_eff` and `δ` are not separately identifiable; the fit estimates
+`δ_eff = δ − 10·log10 Q_eff` with `Q` stated, never fitted.)*
+
 The objective is weighted least squares on `measured_cn0_dbhz` in dB, each bin weighted by its
 `n`. A bin enters only when the satellite was locked for at least 90 % of the bin's epochs: C/N0
 is measured only while locked, so bins near loss of lock are biased high and are **censored**,
@@ -142,6 +145,11 @@ later; they are never loosened after a run.
 | b | coverage of the true parameters by their 95 % bootstrap intervals | in at least 90 % of 50 seeded synthetic campaigns |
 | c | leave-one-recording-out coverage of the 90 % prediction interval, interpolation bins and events | between 80 % and 98 % |
 | d | threshold J/S from the closed form (§3.2) against the direct `js_at_loss_db` estimate | within 1 dB |
+
+> **Amended 2026-10-12 (§13).** The table above is kept verbatim. The `Q_eff` clause of (a) and
+> the coverage of `Q` in (b) are unattainable by construction: `Q_eff` is not identifiable from
+> C/N0 data (§13.1). They are recorded as **NOT MET**, not removed. The identifiable parameter
+> `δ_eff` carries its own bars, pre-registered in §13.3; (c) and (d) are unchanged.
 
 ### 5.2 Hold-out procedure and the bars of a real study
 
@@ -273,3 +281,61 @@ validation, so it is **0.37** work, not 0.36. The parts, in build order:
 A defensible first cut (loader, C/N0 model, bootstrap, report, synthetic recovery for bar (a))
 is about two days. Bars (b) to (d) and the surfaces add about two more. Nothing here changes an
 existing output.
+
+## 13. Amendment 2026-10-12: identifiability
+
+Dated 2026-10-12, committed on its own before any fit was run on synthetic data. Found
+analytically while B7.1 was being built for 0.36. Before this commit, one diagnostic tracking run
+of a single synthetic recording compared its scored C/N0 bins with the imposed profile. No fit
+was run, and no bar was evaluated.
+
+### 13.1 Only `δ − 10·log10 Q_eff` is identifiable
+
+§3.1 calls `Q_eff` and `δ` "partly degenerate when a unit spans a narrow J/S range". They are
+fully degenerate at any span:
+
+    10^((J/S + δ)/10) / (Q_eff · R_c)  =  10^(J/S/10) · κ / R_c,     κ = 10^(δ/10) / Q_eff
+
+`(C/N0)_0` is held at each satellite's measured baseline, so the model depends on `κ` alone. Every
+pair `(Q, δ)` with the same `δ − 10·log10 Q` gives the same residuals. The §3.2 closed form
+depends on the same combination:
+`10·log10(Q·R_c·(1/C_thr − 1/C0)) − δ = 10·log10(R_c·(1/C_thr − 1/C0)) − (δ − 10·log10 Q)`.
+Under §8 a synthetic scene sees the J/S only as a C/N0 profile. A real campaign scored on C/N0
+is no different. So **`Q_eff` is not identifiable from C/N0 data without an independent
+measurement of the jammer and signal powers**. It is stated, never fitted.
+
+### 13.2 What §3.1 now fits
+
+* The fitted parameter is the identifiable offset **`δ_eff = δ − 10·log10 Q_eff`**: the J/S
+  offset referred to `Q = 1`. It is computed as `δ` fitted with `Q` held at its stated value,
+  minus `10·log10 Q_stated`. The report gives `δ_eff` with its interval. It also gives `δ` at
+  the stated `Q`.
+* `Q` is always reported **"stated, not fitted"**, with its source: the event's `q`, the type
+  table (`jamming::q_factor`), or, for a type the table does not cover (including `unknown`),
+  the most damaging stated value, the smallest `Q` in the table (CW, `Q = 1`). A wrong stated
+  `Q` moves `δ` by exactly `10·log10(Q_true/Q_stated)` and leaves `δ_eff` and every prediction
+  unchanged.
+* The correlation check stays as the guard. The fit reports the correlation of the
+  `10·log10 Q_eff` and `δ` estimates from the weighted Jacobian at the stated `Q`. It fits
+  both only if the span is at least 8 dB **and** that correlation is below 0.999 in magnitude,
+  which this model never satisfies.
+
+### 13.3 Pre-registered bars for `δ_eff` (2026-10-12)
+
+At least as strict as the bars they stand in for. (c) and (d) are unchanged.
+
+| # | quantity | bar |
+|---|---|---|
+| a′ | recovery of `δ_eff` on a synthetic campaign whose uncensored J/S span is at least 12 dB | `|δ̂_eff − δ_eff| ≤ 0.5 dB` |
+| b′ | coverage of the true `δ_eff` by its 95 % bootstrap interval | in at least 90 % (45) of 50 seeded synthetic campaigns |
+
+The original table in §5.1 is reported beside these, with the `Q_eff` clause of (a) and the `Q`
+coverage of (b) recorded as **NOT MET**, with this section as the reason.
+
+### 13.4 How (c) and (d) are read
+
+* **(c)** Leave-one-recording-out on the bar-(a′) campaign, interpolation items only. The 90 %
+  prediction intervals are evaluated in three groups: the C/N0 bins, and the time-to-loss events
+  under each of the two lock models. Each group's coverage must lie in [0.80, 0.98].
+* **(d)** On the bar-(a′) campaign: for each lock model, the median of the §3.2 closed form at
+  each lost event's own baseline lies within 1 dB of the median scored `js_at_loss_db`.
