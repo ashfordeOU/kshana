@@ -10,8 +10,9 @@ horizontal error ellipse, a Monte Carlo cloud and a skyplot. The design is
 
 Evidence: the masked visibility decision (geodetic look angles, the table mask, the visible set
 and its DOP) is **VALIDATED** against Orekit 12.2 and gnss_lib_py 1.0.4 in a pre-registered
-comparison; the canyon, sector and terrain reductions, the presets and the sky-geometry functions
-are **MODELLED** ([Evidence](#evidence)). A skyline removes line-of-sight satellites and nothing
+comparison, and so are the error ellipse and the per-system cofactor (numpy, pre-registered); the
+canyon, sector and terrain reductions, the presets and the rest of the sky-geometry functions are
+**MODELLED** ([Evidence](#evidence)). A skyline removes line-of-sight satellites and nothing
 more. The presets are REPRESENTATIVE geometries, not surveys.
 
 ## The skyline
@@ -186,14 +187,15 @@ operator remains responsible for the navigation of the vessel.*
 
 ## Evidence
 
-Four ledger rows (`docs/VERIFICATION-MATRIX.md`), as the design note scopes them:
+Five ledger rows (`docs/VERIFICATION-MATRIX.md`), as the design note scopes them:
 
 | Row | Status | Oracle |
 |---|---|---|
 | Azimuth-dependent skyline mask: visible set, azimuth and elevation, and DOP under the mask | **VALIDATED** | Orekit 12.2 (`TopocentricFrame` look angles, `ElevationMask`) with gnss_lib_py 1.0.4 (`get_dop` and the DOP matrix), pre-registered in `xval/orekit-skyline/PREREGISTRATION.md` (commit e4b9d912) before either was run: 1173 look angles at six sites and four epochs, six tables, 142 visible sets; worst elevation 1.3e-13°, azimuth 2.3e-13°, mask 1.1e-12° against 1e-9°; identical visible sets, none in the boundary band; DOP 3.3e-13 relative and cofactor 6.6e-13 of the matrix scale against 1e-9. Scope: table masks, geodetic look angles, the masked set and its common-clock DOP and cofactor. |
 | Street-canyon, sector and terrain reductions to a table | MODELLED | hand-computed values; the comparison above reads their tables as inputs and does not check them |
 | Skyline presets | MODELLED | none: chosen, stated dimensions (checked only against themselves) |
-| Sky geometry functions | MODELLED | the single-clock DOP rests on the validated kernel; the per-system clocks, the ellipse and the Monte Carlo cloud are checked internally; the note's numpy `linalg.eigh` comparison of the ellipse is open |
+| Horizontal error ellipse and per-system cofactor from the geometry covariance | **VALIDATED** | numpy 2.5.4 `linalg.inv` and `linalg.eigh` (standard P2) on the 142 committed visible sets, common clock and one clock per system, pre-registered in `xval/numpy-ellipse/PREREGISTRATION.md` (commit 0bbeeaee): 270 cases, axes 5.1e-13 relative, orientation 5.3e-12°, cofactor 1.0e-12 of the matrix scale, against 1e-9 and 1e-6° |
+| Sky geometry functions | MODELLED | the composition: preset propagation to a representative sky, the Monte Carlo cloud (checked against the geometry it samples), the surfaces |
 
 The absence of a `[skyline]` section is checked byte for byte against the 0.35.0 outputs, which
 shows backward compatibility and validates nothing. gnss_lib_py applies a single elevation mask

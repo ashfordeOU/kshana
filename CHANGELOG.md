@@ -35,13 +35,15 @@ breaking changes are called out explicitly.
   validated scalars are unchanged). Surfaces: `kshana sky` and `kshana skyline`, Python and WASM
   functions of the same names, and the MCP tool `sky_geometry` (40 tools). Every result carries
   the MODELLED label, the error-model statement and the advisory.
-- Ledger: four rows (267 rows: 133 Validated, 130 Modelled, 4 Partner). **VALIDATED**:
-  *Azimuth-dependent skyline mask: visible set, azimuth and elevation, and DOP under the mask*,
-  against Orekit 12.2 (`TopocentricFrame`, `ElevationMask`) and gnss_lib_py 1.0.4 (`get_dop`),
-  pre-registered before either was run (`xval/orekit-skyline/PREREGISTRATION.md`); worst
-  look-angle and mask differences 1.1e-12° against 1e-9°, identical visible sets, DOP 3.3e-13
-  relative. **MODELLED**: the canyon, sector and terrain reductions; the presets; the sky geometry
-  functions (per-system clocks, ellipse, Monte Carlo).
+- Ledger: five rows (268 rows: 134 Validated, 130 Modelled, 4 Partner). **VALIDATED**, each in a
+  comparison pre-registered before its oracle ran: *Azimuth-dependent skyline mask: visible set,
+  azimuth and elevation, and DOP under the mask* against Orekit 12.2 (`TopocentricFrame`,
+  `ElevationMask`) and gnss_lib_py 1.0.4 (`get_dop`), worst look-angle and mask differences
+  1.1e-12° against 1e-9°, identical visible sets, DOP 3.3e-13 relative
+  (`xval/orekit-skyline/`); *Horizontal error ellipse and per-system cofactor from the geometry
+  covariance* against numpy `linalg.inv` and `linalg.eigh` (standard P2), 270 cases, axes 5.1e-13
+  relative (`xval/numpy-ellipse/`). **MODELLED**: the canyon, sector and terrain reductions; the
+  presets; the sky-geometry composition (preset sky, Monte Carlo cloud).
 
 ## [0.35.0] - 2026-10-12
 

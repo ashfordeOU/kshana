@@ -3,7 +3,9 @@
 //! `xval/numpy-ellipse/PREREGISTRATION.md` (inputs, quantities, tolerances and decision rule
 //! committed before the oracle was run). numpy inverts `GᵀG` and eigen-decomposes the
 //! horizontal block on the committed visible sets of `tests/fixtures/skyline_orekit_oracle/`;
-//! Kshana computes the same with `geometry::sky_geometry` from its own look angles.
+//! Kshana computes the same with `geometry::sky_geometry` from its own look angles. Pre-registered
+//! in 0bbeeaee. Result: 270 cases pass; worst axis 5.1e-13 relative, orientation 5.3e-12 deg,
+//! cofactor 1.0e-12 of the matrix scale.
 
 use kshana::frames::{look_angles, Geodetic};
 use kshana::geometry::{sky_geometry, ClockModel, SatelliteInput, SkyRequest};
@@ -40,10 +42,8 @@ fn f(s: &str) -> f64 {
 #[test]
 fn ellipse_and_cofactor_agree_with_numpy_as_pre_registered() {
     let numpy = dir().join("outputs/numpy_ellipse.csv");
-    if !numpy.exists() {
-        eprintln!("numpy ellipse output absent: pre-registered, not yet compared");
-        return;
-    }
+    // The output is committed: a missing file is a failure, never a skip.
+    assert!(numpy.exists(), "the committed numpy output is missing");
     let d = dir().join("inputs");
     let sites: BTreeMap<String, Geodetic> = rows(&d.join("sites.csv"))
         .into_iter()

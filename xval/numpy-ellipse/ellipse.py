@@ -61,8 +61,8 @@ def main(root: Path) -> None:
                 pdop = math.sqrt(q[0, 0] + q[1, 1] + q[2, 2])
                 upper = ";".join(repr(float(q[i, j])) for i in range(nst) for j in range(i, nst))
                 w.writerow([*key, model, len(sats), "|".join(labels), repr(pdop),
-                            repr(k * SIGMA * math.sqrt(l1)), repr(k * SIGMA * math.sqrt(max(l2, 0.0))),
-                            repr(orient), repr((l1 - l2) / l1), upper, np.__version__])
+                            repr(float(k * SIGMA * math.sqrt(l1))), repr(float(k * SIGMA * math.sqrt(max(l2, 0.0)))),
+                            repr(float(orient)), repr(float((l1 - l2) / l1)), upper, np.__version__])
 
 
 if __name__ == "__main__":
