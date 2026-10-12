@@ -25,7 +25,7 @@ New to the project? Read the [concepts primer](../CONCEPTS.md) and the
 
 ## Notebooks
 
-Runnable Jupyter notebooks, on synthetic data only, are in [`notebooks/`](../../notebooks/README.md):
+Runnable Jupyter notebooks, on synthetic data and public element sets kept in the repository only, are in [`notebooks/`](../../notebooks/README.md):
 
 | Notebook | What you learn |
 |---|---|
@@ -33,6 +33,7 @@ Runnable Jupyter notebooks, on synthetic data only, are in [`notebooks/`](../../
 | [Interference map and route exposure](../../notebooks/interference-map-route-exposure.md) | where navigation data has looked degraded, and how much of a route it touches |
 | [Compliance mapping and test-bench export](../../notebooks/compliance-and-test-bench.md) | which public-framework rows a set of runs supports evidence for (never that a framework is met), and a scenario's motion and events exported as text for a laboratory GNSS simulator (no signal is written) |
 | [Quantum vs classical GDOP](../../notebooks/quantum-vs-classical-gdop.md) | the same constellation geometry with a quantum and a classical sensor, compared by dilution of precision |
+| [Sky geometry under a skyline](../../notebooks/geometry.md) | the satellites a site sees under a street or quay skyline, their DOP and error ellipse, a dated sky from element sets and a seeded Monte Carlo against the covariance (MODELLED) |
 
 ## How to run a tutorial
 

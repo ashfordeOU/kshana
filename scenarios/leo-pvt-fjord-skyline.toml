@@ -1,0 +1,53 @@
+# Fused MEO and LEO positioning for a vessel deep in a fjord, where the valley walls hide
+# everything low across the channel: the `leo-pvt` joint mode under the `fjord` skyline
+# preset.
+#
+# The question a coastal-navigation or ferry operator asks: the walls of a deep fjord leave
+# a strip of sky along the channel, so how much does a low Earth orbit (LEO) layer add to GPS
+# and Galileo there, where the passes are short and fast? The fjord runs north-south with
+# walls rising to 600 m above the antenna 1.5 km either side: 21.8 deg across the channel,
+# below 1 deg along it, each wall point lowered by the Earth's curvature (4/3 effective
+# radius). The site is a generic point in western Norway at 61.1 N, 6.6 E; the systems are
+# those of `meo-leo-fused-pvt.toml` (GPS baseline, Galileo, the public Xona Pulsar X5
+# signal), each with its own receiver clock, and the same skyline applies over each system's
+# own elevation mask. Each epoch reports `masked_by_skyline`.
+#
+# The skyline preset is REPRESENTATIVE (provenance in docs/SKYLINE.md and `kshana skyline
+# --preset fjord`): the order of the width and relief of the deep west-Norwegian fjords, not
+# a survey of any fjord. Line of sight only: no diffraction, reflection or non-line-of-sight
+# reception. Remove the [skyline] section to compare with open sky. MODELLED.
+kind = "leo-pvt"
+mode = "joint"
+seed = 3
+duration_s = 1800.0
+step_s = 30.0
+
+[user]
+lat_deg = 61.1
+lon_deg = 6.6
+height_m = 20.0
+
+[joint]
+max_leo_sweep = 12
+
+[[system]]
+name = "GPS"
+preset = "gps-baseline"
+cn0_dbhz = [38.0, 48.0]
+sisre_m = 0.6
+
+[[system]]
+name = "Galileo"
+preset = "galileo"
+cn0_dbhz = [38.0, 48.0]
+sisre_m = 0.3
+isb_ns = 12.0
+
+[[system]]
+name = "Pulsar X5"
+leo_preset = "xona-pulsar"
+signal = "X5"
+isb_ns = 40.0
+
+[skyline]
+preset = "fjord"

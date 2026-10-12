@@ -79,6 +79,7 @@ async fn serves_exactly_the_expected_tool_set() {
         "export_omm",
         "export_oem",
         "export_table_csv",
+        "sky_geometry",
         "assess_receiver_log",
         "assess_vessel_stream",
         "assess_vessel_log",
@@ -1463,5 +1464,71 @@ async fn assess_receiver_log_scores_an_inline_nmea_log() {
         texts.iter().any(|t| t.starts_with("t_s,state,")),
         "the CSV block"
     );
+    client.cancel().await.ok();
+}
+
+#[tokio::test]
+async fn sky_geometry_answers_a_request_and_describes_a_preset() {
+    let client = connect().await;
+    let request = serde_json::json!({
+        "satellites": [
+            {"id": "G01", "az_deg": 0, "el_deg": 80},
+            {"id": "G02", "az_deg": 10, "el_deg": 30},
+            {"id": "G03", "az_deg": 170, "el_deg": 40},
+            {"id": "G04", "az_deg": 95, "el_deg": 12},
+            {"id": "G05", "az_deg": 270, "el_deg": 45},
+            {"id": "G06", "az_deg": 190, "el_deg": 35},
+            {"id": "G07", "az_deg": 350, "el_deg": 50}
+        ],
+        "skyline": {"preset": "city-street"}
+    })
+    .to_string();
+    let res = client
+        .call_tool(call(
+            "sky_geometry",
+            serde_json::json!({ "request": request }),
+        ))
+        .await
+        .expect("call sky_geometry");
+    let v: serde_json::Value = serde_json::from_str(&first_text(&res)).expect("JSON reply");
+    assert_eq!(v["label"], "MODELLED");
+    assert!(
+        v["advisory"]
+            .as_str()
+            .expect("advisory")
+            .contains("not type-approved")
+    );
+    // The north-south street (walls 70.7 deg across it) hides the two satellites across it
+    // (G04 at 095 deg, G05 at 270 deg) and keeps the five along it.
+    assert_eq!(v["n_masked"], 2);
+    assert_eq!(v["n_visible"], 5);
+    assert!(v["dop"]["pdop"].as_f64().expect("pdop") > 0.0);
+    assert!(v["ellipse"]["semi_major_m"].as_f64().expect("ellipse") > 0.0);
+
+    let res = client
+        .call_tool(call(
+            "sky_geometry",
+            serde_json::json!({ "skyline_preset": "fjord" }),
+        ))
+        .await
+        .expect("call sky_geometry for a preset");
+    let v: serde_json::Value = serde_json::from_str(&first_text(&res)).expect("JSON reply");
+    assert_eq!(v["label"], "REPRESENTATIVE");
+    assert_eq!(v["table"].as_array().map(Vec::len), Some(360));
+    let res = client
+        .call_tool(call(
+            "sky_geometry",
+            serde_json::json!({ "skyline_preset": "" }),
+        ))
+        .await
+        .expect("list the presets");
+    let v: serde_json::Value = serde_json::from_str(&first_text(&res)).expect("JSON reply");
+    assert_eq!(v.as_array().map(Vec::len), Some(4));
+
+    let err = client
+        .call_tool(call("sky_geometry", serde_json::json!({})))
+        .await
+        .expect_err("neither a request nor a preset must be refused");
+    assert!(err.to_string().contains("exactly one"), "{err}");
     client.cancel().await.ok();
 }

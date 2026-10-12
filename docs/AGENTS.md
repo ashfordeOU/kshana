@@ -40,6 +40,7 @@ engine version, so the run can be repeated. Keep each result's own caveats with 
 | I need a scenario's vehicle motion and event times to replay through a laboratory GNSS simulator | `export_test_bench` | `/kshana-bench-export` |
 | Which public-framework requirement rows do these runs support evidence for, and what is the gap? | `compliance_report` (from result text), `compliance_mapping` (the tables, no runs) | `/kshana-compliance-report` |
 | I need a scenario to fly a GeoJSON route (terrain-nav, terrain-slam, gravity-map, combined-altpnt) | `import_route` | `/kshana-import-route` |
+| Which satellites does a user in a street, a harbour, a fjord or a container terminal see, and what are the DOP and the error ellipse? | `sky_geometry` (a request, or a `skyline_preset`); a scenario's `[skyline]` section through `run_scenario` (`orbit` and `integrity` need `user_site`) | `/kshana-run` |
 | Where has GNSS looked degraded, and how much of this route is in it? | `build_interference_map`, then `route_exposure` | `/kshana-interference-map` |
 | GNSS IQ recordings (scene, acquire, track, front-end, campaigns) | `iq_signals` first, then the `iq_*` tools | `/kshana-iq` |
 
@@ -71,6 +72,7 @@ carry the rules below for agents that load skills.
 | Evidence pack | A **technical record**, not a legal opinion, a finding of fact or an approval. Verify with the signer's public key obtained by another route; without it the verdict is `intact-signer-not-pinned`, which proves only integrity against the key the pack names itself: say "intact, signer not established", never "verified". Never return, log or ask for a signing seed in a conversation if the key matters: use the CLI. |
 | Training NMEA | **Text only**, for training and testing, **never** for a vessel's live navigation systems. Return the seed and the instructor log. |
 | Interference map, route exposure | How the accuracy codes are read and the grid and route geometry are **VALIDATED** against independent libraries on synthetic inputs; the method's thresholds stay **MODELLED**, and that a degraded cell is interference is **not** checked: a degraded cell does **not** identify interference as the cause. A cell not observed is **not** evidence of a clear route. Past reports, **not a forecast**. Aggregate only: do not try to recover identifiers. ADS-B and AIS maps stay separate. |
+| Sky geometry, skyline | **MODELLED** geometry under a stated error model, line of sight only: no diffraction, multipath or non-line-of-sight reception. Presets are **REPRESENTATIVE**, not surveys; carry the preset's provenance. Preset constellations are a representative sky, not the sky of a date. The ellipse scales a stated UERE: not a measured accuracy and not an integrity bound. Keep the `advisory`. |
 | Any scenario result | The `figure_tiers` or `label` it states, and the provenance line. |
 
 ## Boundaries

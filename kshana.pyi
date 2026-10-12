@@ -333,6 +333,36 @@ def nmea_training(toml: str, seed: Optional[int] = None) -> dict[str, str]:
     Text only; never for a vessel's live navigation systems.
     Advisory, not type-approved navigation equipment. Raises ``ValueError``."""
 
+def sky_geometry(request: str | dict[str, Any]) -> dict[str, Any]:
+    """The satellites a site sees under a skyline and their geometry: per satellite
+    ``visible`` and ``masked``, GDOP/PDOP/HDOP/VDOP/TDOP, the ENU cofactor and covariance and
+    the horizontal error ellipses. ``request`` is JSON or TOML text, or a dict, with ``site``,
+    ``time_s``, ``systems`` (preset names or ``leo-pvt`` system tables), ``tle`` (two-line element
+    set text, at most 4 MiB, propagated by SGP4 to ``epoch``, a UTC ISO 8601 time, plus
+    ``time_s``; ``tle_system`` labels them) and/or ``satellites`` (``az_deg``/``el_deg`` or
+    ``ecef_m``), ``mask_deg``, ``skyline``, ``clock``
+    (``"per-system"`` or ``"common"``), ``sigma_uere_m`` and ``confidence``. MODELLED; carries
+    the advisory; ``sky_source`` and ``sky_statement`` say whether the sky is representative or
+    the sky element sets give at an epoch. Raises ``ValueError``."""
+
+def sky_monte_carlo(request: str | dict[str, Any], seed: int = 0, n: int = 1000) -> dict[str, Any]:
+    """``n`` (1 to 5000) seeded least-squares errors on the visible set of ``request``, with
+    their empirical covariance, RMS and the fraction inside the 95 % ellipse. Raises
+    ``ValueError``."""
+
+def skyline_presets() -> list[dict[str, Any]]:
+    """The skyline presets (``city-street``, ``harbour-approach``, ``fjord``,
+    ``container-terminal``) with their REPRESENTATIVE label, provenance and the cut every
+    degree of azimuth."""
+
+def skyline_profile(skyline: str | dict[str, Any]) -> dict[str, Any]:
+    """A skyline section reduced to the normalised 360-entry table the engine uses. Raises
+    ``ValueError``."""
+
+def skyplot_svg(request: str | dict[str, Any]) -> str:
+    """The skyplot of ``request`` (as for ``sky_geometry``) as static SVG text. Raises
+    ``ValueError``."""
+
 def scenario_kinds() -> list[dict[str, Any]]:
     """The available scenario kinds and their metadata (name, description, required
     and optional fields). A required entry is usually one key; ``a|b`` means at
