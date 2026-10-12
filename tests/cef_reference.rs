@@ -111,6 +111,7 @@ fn sample(t_s: f64, score: Option<f64>, band: Band, reasons: &[&str]) -> TrustSa
         gate: None,
         position: None,
         geometry: None,
+        reason_class: Default::default(),
     }
 }
 
