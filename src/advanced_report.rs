@@ -101,6 +101,7 @@ pub const KIND_CAPABILITIES: &[(&str, &[&str])] = &[
     ("lunar-llr-datum", &["Lunar frame datum from a REAL observing campaign"]),
     ("moonlight-service-volume", &["Lunar navigation service volume", "Lunar joint communications-and-navigation geometry"]),
     ("lunar-differential-pnt", &["Lunar differential PNT", "Lunar differential PNT — correction-link residual budget"]),
+    ("lunar-station-coverage", &["Lunar reference-station coverage and accuracy map", "Lunar differential PNT", "Lunar differential PNT — correction-link residual budget"]),
     ("lunar-beacon", &["Lunar surface-beacon DOP augmentation"]),
     ("earth-gnss-lunar", &["Earth-GNSS at lunar distance", "Navigation RF payload & antenna hardware design"]),
     ("lunar-interop-export", &["Lunar interoperability export"]),
