@@ -76,6 +76,18 @@ impl MemoryCodeTable {
         Ok(Self { codes })
     }
 
+    /// Read and parse a user-supplied table file in the Annex C format (see [`Self::parse`]).
+    ///
+    /// The committed tables (`data/galileo-os-sis-icd/`) await a licence review of the ICD
+    /// annex under the repository's dual-licensing model (scope audit DS-GIQ-10). This path,
+    /// with [`e1b_from_table`] / [`e1c_from_table`], lets a user supply the ICD's own files
+    /// instead, so nothing new in the library depends on the committed copy.
+    pub fn from_path(path: &std::path::Path, len: usize) -> Result<Self, SignalError> {
+        let text = std::fs::read_to_string(path)
+            .map_err(|e| SignalError::Table(format!("{}: {e}", path.display())))?;
+        Self::parse(&text, len)
+    }
+
     /// Code numbers present in the table, in file order.
     pub fn numbers(&self) -> Vec<u16> {
         self.codes.iter().map(|(n, _)| *n).collect()
@@ -263,6 +275,18 @@ mod tests {
         let c = e1b_from_table(&t, 7).unwrap();
         assert_eq!(c.primary_bits(), vec![1, 0, 1, 0, 0, 1, 0, 1]);
         assert!(e1b_from_table(&t, 1).is_err());
+    }
+
+    #[test]
+    fn user_table_file_loads_from_a_path() {
+        let dir = std::env::temp_dir().join(format!("kshana-e1-{}", std::process::id()));
+        std::fs::create_dir_all(&dir).unwrap();
+        let path = dir.join("user_e1b.txt");
+        std::fs::write(&path, "E1B__Code_No_07;A5\r\n").unwrap();
+        let t = MemoryCodeTable::from_path(&path, 8).unwrap();
+        assert_eq!(t.numbers(), vec![7]);
+        assert!(MemoryCodeTable::from_path(&dir.join("absent.txt"), 8).is_err());
+        std::fs::remove_dir_all(&dir).ok();
     }
 
     #[test]
