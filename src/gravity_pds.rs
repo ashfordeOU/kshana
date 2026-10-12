@@ -42,9 +42,11 @@
 //!   modelled here.
 //! * **Degree limit of the evaluator.** [`SphericalHarmonicField::acceleration`] uses an unscaled
 //!   sectoral recurrence (`P̄_mm ∝ cos^m φ`), which underflows double precision when `cos^n φ`
-//!   falls below ~1e-308: for degree 660 above about 70° latitude. Within |latitude| ≤ 60° the
-//!   degree-660 GL0660B evaluation was compared with the oracle (see the results file); at
-//!   degree 120 (GMM-3) the whole sphere was.
+//!   falls below ~1e-308: for degree 660 above about 70° latitude. The pre-registered degree-660
+//!   GL0660B comparison covers |latitude| ≤ 60° (worst relative error 5.0e-14 of the total,
+//!   1.0e-10 of the non-central part). Degree 120 (GMM-3) was compared over the whole sphere,
+//!   including 0.1° from the pole (worst 3.7e-15 and 6.3e-12). Results are in
+//!   `xval/planetary-gravity-pyshtools/RESULTS.md`.
 
 use crate::body::Body;
 use crate::gravity_sh::SphericalHarmonicField;
