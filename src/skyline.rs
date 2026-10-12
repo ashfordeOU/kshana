@@ -186,16 +186,18 @@ impl TerrainPoint {
 /// nothing, so with it the receiver's `mask_deg` alone decides.
 #[derive(Clone, Debug, Default, PartialEq, Serialize)]
 pub struct Skyline {
-    /// Table points `(azimuth_deg, elevation_deg)`, azimuths strictly increasing in
-    /// `[0, 360)`, linearly interpolated with wrap.
-    pub table: Vec<(f64, f64)>,
+    /// Tables of points `(azimuth_deg, elevation_deg)`, each with azimuths strictly
+    /// increasing in `[0, 360)` and linearly interpolated with wrap on its own. A preset's table
+    /// and a section's `table` are separate entries, so adding one can never lower the cut.
+    pub tables: Vec<Vec<(f64, f64)>>,
     /// A street canyon.
     pub canyon: Option<Canyon>,
     /// Sharp-edged sectors.
     pub sectors: Vec<Sector>,
-    /// The terrain points reduced to a table (azimuth, elevation after the curvature drop),
-    /// interpolated like `table`.
-    pub terrain_table: Vec<(f64, f64)>,
+    /// Terrain profiles, each reduced to a table (azimuth, elevation after the curvature drop)
+    /// and interpolated on its own like `tables`: a preset's terrain and a section's `terrain`
+    /// are separate entries.
+    pub terrain_tables: Vec<Vec<(f64, f64)>>,
 }
 
 fn interpolate(p: &[(f64, f64)], az_deg: f64) -> Option<f64> {
@@ -232,18 +234,21 @@ impl Skyline {
 
     /// True when nothing is described, so visibility is the scalar `mask_deg` test.
     pub fn is_empty(&self) -> bool {
-        self.table.is_empty()
+        self.tables.iter().all(Vec::is_empty)
             && self.canyon.is_none()
             && self.sectors.is_empty()
-            && self.terrain_table.is_empty()
+            && self.terrain_tables.iter().all(Vec::is_empty)
     }
 
-    /// The skyline's own cut (deg) at azimuth `az_deg`: the largest of the table, the canyon,
-    /// the sectors containing the azimuth and the terrain; 0 where nothing is described.
+    /// The skyline's own cut (deg) at azimuth `az_deg`: the pointwise maximum of every table,
+    /// the canyon, the sectors containing the azimuth and every terrain profile; 0 where
+    /// nothing is described.
     pub fn cut_deg(&self, az_deg: f64) -> f64 {
         let mut m = 0.0_f64;
-        if let Some(v) = interpolate(&self.table, az_deg) {
-            m = m.max(v);
+        for t in &self.tables {
+            if let Some(v) = interpolate(t, az_deg) {
+                m = m.max(v);
+            }
         }
         if let Some(c) = &self.canyon {
             m = m.max(c.cut_deg(az_deg));
@@ -253,8 +258,10 @@ impl Skyline {
                 m = m.max(s.el_deg);
             }
         }
-        if let Some(v) = interpolate(&self.terrain_table, az_deg) {
-            m = m.max(v);
+        for t in &self.terrain_tables {
+            if let Some(v) = interpolate(t, az_deg) {
+                m = m.max(v);
+            }
         }
         m
     }
@@ -481,8 +488,7 @@ impl SkylineCfg {
             sky.canyon = Some(self.build_canyon(sky.canyon.as_ref())?);
         }
         if let Some(rows) = &self.table {
-            let own = Self::build_table(rows)?;
-            sky.table = merge_tables(&sky.table, &own);
+            sky.tables.push(Self::build_table(rows)?);
         }
         if let Some(secs) = &self.sectors {
             if sky.sectors.len() + secs.len() > MAX_SECTORS {
@@ -522,7 +528,7 @@ impl SkylineCfg {
             for &(_, el) in &reduced {
                 check_elevation("a terrain point's elevation", el)?;
             }
-            sky.terrain_table = merge_tables(&sky.terrain_table, &reduced);
+            sky.terrain_tables.push(reduced);
         }
         Ok(sky)
     }
@@ -558,13 +564,13 @@ pub fn reduce_terrain(points: &[TerrainPoint]) -> Vec<(f64, f64)> {
         .iter()
         .map(|p| (wrap_deg(p.az), p.elevation_deg()))
         .collect();
-    merge_tables(&[], &rows)
+    sort_highest(rows)
 }
 
-/// Combine two tables of the same kind into one sorted table; where an azimuth appears in
-/// both, the higher elevation wins.
-fn merge_tables(a: &[(f64, f64)], b: &[(f64, f64)]) -> Vec<(f64, f64)> {
-    let mut all: Vec<(f64, f64)> = a.iter().chain(b.iter()).copied().collect();
+/// One profile's points sorted by azimuth; where several share an azimuth, the highest wins.
+/// Used within one terrain list only: separate tables are never interleaved (see
+/// [`Skyline::tables`]).
+fn sort_highest(mut all: Vec<(f64, f64)>) -> Vec<(f64, f64)> {
     all.sort_by(|x, y| x.0.total_cmp(&y.0));
     let mut out: Vec<(f64, f64)> = Vec::with_capacity(all.len());
     for (az, el) in all {
@@ -623,7 +629,7 @@ fn fjord() -> Skyline {
         })
         .collect();
     Skyline {
-        terrain_table: reduce_terrain(&pts),
+        terrain_tables: vec![reduce_terrain(&pts)],
         ..Skyline::none()
     }
 }
@@ -659,7 +665,8 @@ pub const PRESETS: &[Preset] = &[
         provenance: "REPRESENTATIVE, chosen and stated, not a survey of any port: open to \
                      seaward over the 180 deg sector 090-270; quay buildings 8 deg over the 90 \
                      deg sector 315-045 (for example 40 m warehouses about 285 m off); the \
-                     breakwater and its light 3 deg over 045-090 and 270-315.",
+                     breakwater 3 deg over 045-090 and 270-315 (a 5 m crest about 95 m off: atan(5/95) = \
+                     3.0 deg).",
         build: || Skyline {
             sectors: vec![
                 Sector {
@@ -1137,5 +1144,66 @@ mod tests {
         assert!(close(Skyline::none().open_fraction_above(30.0), 0.5, 1e-12));
         let flat30 = cfg("table = [[0.0, 30.0]]\n").build().unwrap();
         assert!(close(flat30.open_fraction(), 0.5, 1e-12));
+    }
+
+    #[test]
+    fn adding_a_table_or_terrain_to_a_preset_never_lowers_the_cut() {
+        // The review's case: one far, low terrain point beside the fjord's walls used to be
+        // interleaved with them and pull the interpolated cut down to the mask.
+        let fjord = cfg("preset = \"fjord\"\n").build().unwrap();
+        let plus = cfg(
+            "preset = \"fjord\"\n[[terrain]]\naz = 90.5\ndistance_m = 100000.0\nheight_m = 1.0\n",
+        )
+        .build()
+        .unwrap();
+        assert!((fjord.cut_deg(90.5) - 21.8).abs() < 0.05);
+        assert_eq!(plus.cut_deg(90.5), fjord.cut_deg(90.5));
+
+        // Property, on a 0.1 deg grid: every preset plus seeded random tables, terrain lists
+        // and sectors cuts at least as high as the preset, and at least as high as the
+        // addition on its own.
+        use rand::{Rng, SeedableRng};
+        let mut rng = rand_chacha::ChaCha8Rng::seed_from_u64(36);
+        for p in PRESETS {
+            for _ in 0..25 {
+                let mut add = SkylineCfg::default();
+                let n = rng.gen_range(1..12);
+                let mut azs: Vec<f64> = (0..n).map(|_| rng.gen_range(0.0..360.0)).collect();
+                azs.sort_by(f64::total_cmp);
+                azs.dedup();
+                add.table = Some(azs.iter().map(|&a| [a, rng.gen_range(0.0..60.0)]).collect());
+                add.terrain = Some(
+                    (0..rng.gen_range(1..8))
+                        .map(|_| TerrainPoint {
+                            az: rng.gen_range(0.0..360.0),
+                            distance_m: rng.gen_range(50.0..200_000.0),
+                            height_m: rng.gen_range(0.0..800.0),
+                        })
+                        .collect(),
+                );
+                let from = rng.gen_range(0.0..360.0);
+                add.sectors = Some(vec![Sector {
+                    az_from: from,
+                    az_to: (from + rng.gen_range(1.0..90.0)) % 360.0,
+                    el_deg: rng.gen_range(0.0..45.0),
+                }]);
+                let alone = add.build().unwrap();
+                add.preset = Some(p.name.to_string());
+                let both = add.build().unwrap();
+                let base = p.skyline();
+                for k in 0..3600 {
+                    let az = k as f64 * 0.1;
+                    let c = both.cut_deg(az);
+                    assert!(c >= base.cut_deg(az), "{} at {az}", p.name);
+                    assert!(c >= alone.cut_deg(az), "{} at {az}", p.name);
+                    assert_eq!(
+                        c,
+                        base.cut_deg(az).max(alone.cut_deg(az)),
+                        "{} at {az}",
+                        p.name
+                    );
+                }
+            }
+        }
     }
 }
