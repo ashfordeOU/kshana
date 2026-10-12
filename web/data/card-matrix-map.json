@@ -226,5 +226,10 @@
   ],
   "Geometry-aware trust classification": [
     "Geometry-aware trust classification: satellite geometry beside the receiver-trust score and a class on every deduction"
+  ],
+  "Lunar reference-station study": [
+    "Lunar reference-station coverage and accuracy map",
+    "Lunar station time laboratory: miniRAFS holdover against LTC",
+    "Lunar reference-station geodesy: added retroreflector and VLBI beacon against the five-array datum"
   ]
 }

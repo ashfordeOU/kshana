@@ -484,6 +484,14 @@
       "name": "Geometry-aware trust classification",
       "summary": "Puts the satellite geometry beside the receiver-trust score and names a class on every deduction: signal loss, poor geometry or an inconsistency between the receiver's stated DOP and the one derived from the satellites in view. Geometry is judged only when it is known, and the label is the headline: only a poor geometry costs points. Advisory software, not type-approved navigation equipment.",
       "proof": "the classification rule and thresholds are the project's own, checked against themselves"
+    },
+    {
+      "domain": "Lunar",
+      "group": "Lunar",
+      "status": "modelled",
+      "name": "Lunar reference-station study",
+      "summary": "One reproducible study of what a lunar south-pole reference station could do under public assumptions: a coverage and accuracy map over the polar region (percentile corrected and uncorrected position error, availability with a reason for every unavailable epoch, protection levels and the correction-link budget), a time laboratory that holds a lunar time reference on an atomic clock, and the geodesy of an added laser retroreflector and VLBI beacon against the five-array datum. Every input is labelled with its public source or as illustrative. It is not a statement about the performance of any real system, and Kshana is not affiliated with any agency.",
+      "proof": "composes tested lunar differential, clock and frame functions; checked against themselves and a numpy reference, no external flight data"
     }
   ],
   "standards": [
