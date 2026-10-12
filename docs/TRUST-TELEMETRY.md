@@ -85,6 +85,8 @@ At end of input the sender threads are given their remaining time limits to fini
 | `kshana_trust_geometry_signal_loss` | gauge | | 1 when satellites in view are not tracked while their geometry is good (the signal was lost, not the sky; `geometry_degraded` still reads 1), else 0; absent when the geometry is unknown or the input does not say *(1.3)* |
 | `kshana_trust_geometry_hdop`, `..._pdop`, `..._used_satellites` | gauge | | HDOP, PDOP and satellites used at the latest epoch; each absent when none *(1.3)* |
 | `kshana_trust_geometry_epochs_total` | counter | `status` | epochs by geometry status *(1.3)* |
+| `kshana_trust_geometry_label` | gauge | `label` | geometry label at the latest epoch, `good`, `fair`, `poor`, `unknown`: 1 for the current one; never scored (the score deducts only for `poor`); from inputs that carry the label (0.36) |
+| `kshana_trust_geometry_vdop` | gauge | | VDOP at the latest epoch; absent when none *(0.36)* |
 
 From schema 1.3 inputs `kshana_trust_reason_active` also carries a `class` label (`geometry`,
 `environment`, `inconsistency`) on each reason that came with one: the deduction's class at the
@@ -141,14 +143,20 @@ Field mapping (event id is `gnss-trust.<band>`):
 | epoch offset, s | `cfp2` (`epochOffsetSeconds`) | `epochOffsetSeconds` |
 | log time label | `cs4` (`logTime`) | `logTime` |
 | gate state | `cs5` (`gate`) | `gate` |
-| geometry status, then `;` and the classes of the epoch's deductions, comma-separated (for example `degraded;environment,geometry`) *(1.3 inputs)* | `cs6` (`geometry`) | `geoStatus` (status only) and `geoClass` (classes) |
+| geometry status, then `;` and the classes of the epoch's deductions, comma-separated (for example `degraded;environment,geometry`) *(1.3 inputs)*; from inputs that carry the label (0.36) a third field, `;` and the label, the classes field then always present (for example `degraded;;poor`, `good;;fair`) | `cs6` (`geometry`) | `geoStatus` (status only), `geoClass` (classes) and `geoLabel` (label) |
 | HDOP *(1.3)* | `cfp3` (`geometryHdop`) | `geoHdop` |
-| PDOP *(1.3)* | `cfp4` (`geometryPdop`) | not carried |
+| PDOP *(1.3)* | `cfp4` (`geometryPdop`) | `geoPdop` *(0.36, with the label)* |
+| VDOP *(0.36, with the label)* | not carried: the four floating-point custom fields are taken | `geoVdop` |
+| satellites used *(0.36, with the label)* | `cn1` (`geometryUsedSatellites`), an integer | `geoUsed` |
 | signal loss: satellites in view not tracked while their geometry is good *(1.3)* | not carried as a field (no CEF dictionary key is free for it): the status reads `degraded` and the geometry deduction's class `environment` in `cs6` | `geoSignalLoss=1`, only while it holds |
 
-In CEF the geometry uses dictionary custom fields only (no invented keys). The 1.3 geometry
-events are part of the VALIDATED CEF row: both oracle parsers read them back as written
-(`tests/cef_reference.rs`, amendment registered before either was run on them).
+In CEF the geometry uses dictionary custom fields only (no invented keys); the label rides in
+`cs6` rather than `flexString1` because the Logstash CEF codec does not map the `flexString`
+fields. The 1.3 geometry events, the label cases included, are part of the VALIDATED CEF row:
+both oracle parsers read them back as written (`tests/cef_reference.rs`, amendments 4 and 5,
+each registered before either parser was run on its cases). The label, VDOP and satellite-count
+fields are appended after every earlier field and series, and only for inputs that carry the
+label, so an input without one renders exactly as before.
 
 Empty fields are left out (no `cs2=` without reasons). The host name is cut to 255
 characters. CEF header values escape `\` and `|`; extension values escape `\`, `=` and line breaks.
@@ -159,7 +167,8 @@ LEEF values have `^` and line breaks replaced by spaces.
 Build with `--features otlp` and pass `--otlp http://host:4318/v1/metrics`. The exporter
 posts OTLP/HTTP JSON (`kshana.trust.score`, `kshana.trust.band`, `kshana.trust.epochs`,
 `kshana.trust.reason.epochs`, and for schema 1.3 inputs `kshana.geometry.status`,
-`kshana.geometry.degraded`, `kshana.geometry.signal_loss`, `kshana.geometry.hdop`, `kshana.geometry.pdop` and
-`kshana.geometry.used_satellites`; the cumulative sums carry `startTimeUnixNano`) every `--otlp-every` epochs (default 10) and at end of
+`kshana.geometry.degraded`, `kshana.geometry.signal_loss`, `kshana.geometry.hdop`, `kshana.geometry.pdop`,
+`kshana.geometry.used_satellites` and, from inputs that carry the label (0.36),
+`kshana.geometry.label` (attribute `label`) and `kshana.geometry.vdop`; the cumulative sums carry `startTimeUnixNano`) every `--otlp-every` epochs (default 10) and at end of
 input. It adds no dependency and has no TLS: send to a collector on the same host or a
 trusted segment, which forwards onwards over TLS. `https://` endpoints are refused.
