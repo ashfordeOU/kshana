@@ -10,7 +10,7 @@
 use std::path::Path;
 
 use kshana::receiver_trust::assess::{assess_stream_excerpt, assess_vessel_log};
-use kshana::receiver_trust::geometry::{GeometryReason, GeometryStatus};
+use kshana::receiver_trust::geometry::{GeometryLabel, GeometryReason, GeometryStatus};
 use kshana::receiver_trust::monitors::{EpochTrust, Monitor, TrustState};
 use kshana::receiver_trust::scenario::ReceiverTrustResult;
 use kshana::receiver_trust::score::{Deduction, DeductionClass};
@@ -31,10 +31,12 @@ fn checksum(body: &str) -> String {
 
 /// The demo with every GSV satellite at an azimuth of 180 degrees or more reported as not
 /// tracked (SNR emptied) from `from_s` seconds on, and the C/N0 of the rest lowered by
-/// `drop_db`: a wall or a hull to the west, and optionally a power drop as well. From then on
-/// GGA reports HDOP `gga_hdop` (a receiver's HDOP rises when half its sky goes; the remaining
-/// sky's HDOP is 2.87).
-fn masked_with(from_s: f64, drop_db: f64, gga_hdop: &str) -> String {
+/// `drop_db`: a wall or a hull to the west, and optionally a power drop as well. The
+/// satellites in `low` are reported at 10 degrees and not tracked as well (a crane to the
+/// east). From then on GGA reports HDOP `gga_hdop`. The western half alone leaves six
+/// satellites with HDOP 2.87: fair geometry. With [`POOR_EAST`] four remain, in the north-east,
+/// HDOP 10.4 to 10.8: poor.
+fn masked_with(from_s: f64, drop_db: f64, gga_hdop: &str, low: &[&str]) -> String {
     let mut out = String::new();
     let mut t = 0.0;
     let mut t0: Option<f64> = None;
@@ -58,7 +60,10 @@ fn masked_with(from_s: f64, drop_db: f64, gga_hdop: &str) -> String {
             let mut i = 4;
             while i + 3 < g.len() {
                 let az: f64 = g[i + 2].parse().unwrap_or(0.0);
-                if az >= 180.0 {
+                if low.contains(&format!("{}{}", &f[0][..2], g[i]).as_str()) {
+                    g[i + 1] = "10".into();
+                    g[i + 3].clear();
+                } else if az >= 180.0 {
                     g[i + 3].clear();
                 } else if let Ok(snr) = g[i + 3].parse::<f64>() {
                     g[i + 3] = format!("{:.0}", snr - drop_db);
@@ -75,8 +80,18 @@ fn masked_with(from_s: f64, drop_db: f64, gga_hdop: &str) -> String {
     out
 }
 
+/// The western half masked: fair geometry (HDOP 2.87, six satellites), stated as it is.
 fn masked(from_s: f64, drop_db: f64) -> String {
-    masked_with(from_s, drop_db, "2.9")
+    masked_with(from_s, drop_db, "2.9", &[])
+}
+
+/// Two eastern satellites reported low and untracked besides the western mask: four remain.
+const POOR_EAST: [&str; 2] = ["GP11", "GP31"];
+
+/// The western half and [`POOR_EAST`] masked: poor geometry (four satellites, HDOP about
+/// 10.6), stated as it is.
+fn masked_poor(from_s: f64, drop_db: f64) -> String {
+    masked_with(from_s, drop_db, "10.6", &POOR_EAST)
 }
 
 fn run(log: &str) -> ReceiverTrustResult {
@@ -143,12 +158,19 @@ fn lose_low(lose: &[&str], low_el: f64) -> String {
 }
 
 #[test]
-fn a_sky_masked_on_one_side_costs_geometry_points_classed_geometry() {
-    let r = run(&masked(600.0, 0.0));
+fn a_poor_masked_sky_costs_geometry_points_classed_geometry() {
+    let r = run(&masked_poor(600.0, 0.0));
     let w = window(&r);
     assert!(!w.is_empty());
     for e in &w {
         assert_eq!(e.geometry.status, GeometryStatus::Degraded, "{e:?}");
+        assert_eq!(e.geometry.label, GeometryLabel::Poor, "{e:?}");
+        // Ratio above 1.5 (HDOP above 6): the full cap.
+        let g = deductions(e)
+            .iter()
+            .find(|d| d.monitor == Monitor::Geometry)
+            .unwrap();
+        assert!(g.ratio >= 1.5 && g.points == 15.0, "{g:?}");
         assert!(e.geometry.reasons.contains(&GeometryReason::SkyBlocked));
         assert!(!e.geometry.reported_derived_mismatch);
         assert_eq!(
@@ -219,7 +241,7 @@ fn satellites_lost_low_in_the_sky_make_loss_of_lock_a_geometry_deduction() {
 
 #[test]
 fn the_same_mask_with_a_power_drop_is_environment_as_well() {
-    let r = run(&masked(600.0, 10.0));
+    let r = run(&masked_poor(600.0, 10.0));
     for e in window(&r) {
         assert_eq!(
             class_of(e, Monitor::Cn0Drop),
@@ -237,7 +259,7 @@ fn the_same_mask_with_a_power_drop_is_environment_as_well() {
 fn a_stated_hdop_the_masked_sky_does_not_explain_is_an_inconsistency() {
     // The same mask, but GGA keeps reporting HDOP 0.9 as if the sky were open: the geometry
     // deduction is classed inconsistency (the guard against a forged poor sky).
-    let r = run(&masked_with(600.0, 0.0, "0.9"));
+    let r = run(&masked_with(600.0, 0.0, "0.9", &POOR_EAST));
     for e in window(&r) {
         assert!(e.geometry.reported_derived_mismatch, "{:?}", e.geometry);
         assert_eq!(
@@ -302,8 +324,8 @@ fn total_signal_loss_is_the_environment_not_the_sky() {
 
 #[test]
 fn a_drag_off_during_poor_geometry_still_reaches_untrusted_as_an_inconsistency() {
-    // The western sky masked from 600 s and the demo's drag-off from 1500 s.
-    let r = run(&masked(600.0, 0.0));
+    // A poor sky from 600 s and the demo's drag-off from 1500 s.
+    let r = run(&masked_poor(600.0, 0.0));
     let late: Vec<&EpochTrust> = r.epochs.iter().filter(|e| e.t_s >= 2500.0).collect();
     assert!(!late.is_empty());
     assert!(late
@@ -337,7 +359,7 @@ fn the_drag_off_is_inconsistency_with_good_geometry() {
 fn the_geometry_moves_the_score_only_through_the_geometry_monitor() {
     // The masked log and the same log with the lost satellites' azimuths spread round the
     // horizon lose the same satellites: every deduction but the geometry monitor's is the same.
-    let masked_log = masked(600.0, 0.0);
+    let masked_log = masked_poor(600.0, 0.0);
     let spread: String = masked_log
         .lines()
         .map(|l| {
@@ -405,7 +427,7 @@ fn a_stream_without_gsv_or_gsa_says_geometry_unknown() {
 
 #[test]
 fn live_lines_carry_the_geometry_and_classes() {
-    let ex = assess_stream_excerpt(&session(), masked(600.0, 0.0).as_bytes()).unwrap();
+    let ex = assess_stream_excerpt(&session(), masked_poor(600.0, 0.0).as_bytes()).unwrap();
     assert_eq!(ex.schema, "1.3");
     let e = ex.epochs.iter().find(|e| e.t_s == 700.0).unwrap();
     let line = e.to_json_line();
@@ -417,4 +439,71 @@ fn live_lines_carry_the_geometry_and_classes() {
         "{line}"
     );
     assert!(ex.summary.geometry.class_geometry > 0);
+}
+
+#[test]
+fn a_fair_masked_sky_is_labelled_and_costs_nothing() {
+    // The western half masked: six satellites, HDOP 2.87, every satellite in one half of the
+    // sky. Fair, not poor: labelled and noted, never scored (founder decision B1, 0.36).
+    for gga in ["2.9", "0.9"] {
+        let r = run(&masked_with(600.0, 0.0, gga, &[]));
+        let w = window(&r);
+        assert!(!w.is_empty());
+        for e in &w {
+            assert_eq!(e.geometry.label, GeometryLabel::Fair, "{e:?}");
+            assert!(e.geometry.reasons.contains(&GeometryReason::SkyBlocked));
+            // A stated HDOP of 0.9 disagrees with the sky's 2.87: reported, not scored.
+            assert_eq!(e.geometry.reported_derived_mismatch, gga == "0.9");
+            assert!(deductions(e).iter().all(|d| d.monitor != Monitor::Geometry));
+            let note = e.geometry.note.as_deref().unwrap();
+            assert!(note.starts_with("geometry fair: HDOP 2.8"), "{note}");
+        }
+        assert_eq!(r.geometry_summary.class_geometry, 0);
+    }
+}
+
+#[test]
+fn live_lines_label_every_epoch() {
+    let ex = assess_stream_excerpt(&session(), masked(600.0, 0.0).as_bytes()).unwrap();
+    let mut seen = std::collections::BTreeSet::new();
+    for e in &ex.epochs {
+        let line = e.to_json_line();
+        let label = e.geometry.label.as_str();
+        assert!(line.contains(&format!(r#""label":"{label}""#)), "{line}");
+        assert!(line.contains(r#""signal_loss":"#) && line.contains(r#""vdop":"#));
+        seen.insert(label);
+    }
+    // Good before the mask, fair after it.
+    assert!(seen.contains("good") && seen.contains("fair"), "{seen:?}");
+}
+
+#[test]
+fn the_session_geometry_table_moves_the_thresholds_and_the_cap() {
+    let with = |table: &str, log: &str| {
+        assess_vessel_log(&format!("{}\n{table}\n", session()), log.as_bytes()).unwrap()
+    };
+    // HDOP 2.87 is fair under the default 4 and poor under a stated 2.5.
+    let r = with("[geometry]\nhdop_max = 2.5", &masked(600.0, 0.0));
+    for e in window(&r) {
+        assert_eq!(e.geometry.label, GeometryLabel::Poor, "{e:?}");
+        assert_eq!(
+            class_of(e, Monitor::Geometry),
+            Some(DeductionClass::Geometry)
+        );
+    }
+    assert_eq!(r.geometry_model.cfg.hdop_max, 2.5);
+    // A cap of 0: poor geometry labelled, nothing deducted.
+    let r = with("[geometry]\ncap_points = 0.0", &masked_poor(600.0, 0.0));
+    assert_eq!(r.geometry_model.cap_in_force, 0.0);
+    for e in window(&r) {
+        assert_eq!(e.geometry.label, GeometryLabel::Poor);
+        assert!(deductions(e).iter().all(|d| d.monitor != Monitor::Geometry));
+    }
+    // A floor below degraded_min is refused.
+    let err = assess_vessel_log(
+        &format!("{}\n[geometry]\nfloor = 40.0\n", session()),
+        demo().as_bytes(),
+    )
+    .unwrap_err();
+    assert!(err.contains("untrusted"), "{err}");
 }

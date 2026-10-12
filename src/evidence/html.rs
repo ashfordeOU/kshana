@@ -208,6 +208,7 @@ fingerprint with one you obtained from the signer by another route.</p>"
     // Satellite geometry and deduction classes (0.36), where the epochs carry them: a
     // geometry lane separate from the inconsistency lane.
     let mut by_geometry: BTreeMap<String, usize> = BTreeMap::new();
+    let mut by_label: BTreeMap<String, usize> = BTreeMap::new();
     let mut by_class: BTreeMap<String, usize> = BTreeMap::new();
     for e in i.epochs {
         if let Some(g) = e.get("geometry") {
@@ -216,6 +217,9 @@ fingerprint with one you obtained from the signer by another route.</p>"
                 .map(scalar)
                 .unwrap_or_else(|| "unknown".into());
             *by_geometry.entry(st).or_insert(0) += 1;
+            if let Some(l) = g.get("label") {
+                *by_label.entry(scalar(l)).or_insert(0) += 1;
+            }
         }
         let mut classes: Vec<String> = e
             .get("score")
@@ -236,6 +240,13 @@ fingerprint with one you obtained from the signer by another route.</p>"
     if !by_geometry.is_empty() {
         h.push_str("<h3>Satellite geometry, epochs each (<code>unknown</code> where the log gives no satellite geometry)</h3>\n<table>\n");
         for (s, n) in &by_geometry {
+            let _ = writeln!(h, "<tr><th>{}</th><td>{n}</td></tr>", esc(s));
+        }
+        h.push_str("</table>\n");
+    }
+    if !by_label.is_empty() {
+        h.push_str("<h3>Geometry label, epochs each (good, fair, poor: always reported; the score deducts only for <code>poor</code>)</h3>\n<table>\n");
+        for (s, n) in &by_label {
             let _ = writeln!(h, "<tr><th>{}</th><td>{n}</td></tr>", esc(s));
         }
         h.push_str("</table>\n");
