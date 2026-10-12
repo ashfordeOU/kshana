@@ -56,12 +56,11 @@ class InsertExampleAction : AnAction() {
     }
 
     private fun choose(project: Project, bin: String, dirPath: String, names: List<String>) {
-        val i = Messages.showChooseDialog(
+        val i = KshanaChooser.chooseOne(
             project,
             "Which bundled scenario? It is written to $dirPath as <name>.toml.",
             "Insert Example Scenario",
-            Messages.getQuestionIcon(),
-            names.toTypedArray(),
+            names,
             names[0],
         )
         if (i < 0) return
@@ -108,12 +107,11 @@ class ExportScenarioAction : KshanaFileAction() {
         val project = e.project ?: return
         val file = e.getData(CommonDataKeys.VIRTUAL_FILE) ?: return
         val formats = KshanaCli.ExportFormat.values()
-        val i = Messages.showChooseDialog(
+        val i = KshanaChooser.chooseOne(
             project,
             "Export format for ${file.name}:",
             "Export Scenario",
-            Messages.getQuestionIcon(),
-            formats.map { it.label }.toTypedArray(),
+            formats.map { it.label },
             formats[0].label,
         )
         if (i < 0) return
@@ -135,12 +133,11 @@ class AnimateScenarioAction : KshanaFileAction() {
         val project = e.project ?: return
         val file = e.getData(CommonDataKeys.VIRTUAL_FILE) ?: return
         val formats = arrayOf("html", "svg")
-        val i = Messages.showChooseDialog(
+        val i = KshanaChooser.chooseOne(
             project,
             "Animation format for ${file.name} (opened in the browser when the run finishes):",
             "Animate Scenario",
-            Messages.getQuestionIcon(),
-            formats,
+            formats.toList(),
             formats[0],
         )
         if (i < 0) return
@@ -155,7 +152,7 @@ class AnimateScenarioAction : KshanaFileAction() {
             null,
         ) {
             if (result.isFile) {
-                ApplicationManager.getApplication().invokeLater { BrowserUtil.browse(result) }
+                ApplicationManager.getApplication().invokeLater { BrowserUtil.browse(result.toPath()) }
             } else {
                 report(project, "note: ${result.path} was not written", true)
             }
@@ -204,7 +201,7 @@ class CreateEvidencePackAction : KshanaFileAction() {
         )?.trim()
         if (to.isNullOrEmpty()) return
         val key = FileChooser.chooseFile(
-            FileChooserDescriptorFactory.createSingleFileDescriptor().withTitle("Your signing key file (64 hex digits; never made by this plugin)"),
+            KshanaChooser.singleFile().withTitle("Your signing key file (64 hex digits; never made by this plugin)"),
             project,
             session.parent,
         ) ?: return
