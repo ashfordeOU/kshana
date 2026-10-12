@@ -918,6 +918,84 @@
     "version": "9.9.9-oracle"
   },
   {
+    "id": "geometry-good-0",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.nominal|GNSS trust nominal|1|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=nominal cfp1Label=trustScore cfp1=100 cfp2Label=epochOffsetSeconds cfp2=600 cs6Label=geometry cs6=good cfp3Label=geometryHdop cfp3=0.801 cfp4Label=geometryPdop cfp4=1.433",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "geometry-good-1",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=loss-of-lock cs3Label=previousBand cs3=nominal cfp1Label=trustScore cfp1=95 cfp2Label=epochOffsetSeconds cfp2=601 cs6Label=geometry cs6=good;environment cfp3Label=geometryHdop cfp3=33.649 cfp4Label=geometryPdop cfp4=123456.789",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "geometry-good-2",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=loss-of-lock,geometry cfp1Label=trustScore cfp1=90 cfp2Label=epochOffsetSeconds cfp2=602 cs6Label=geometry cs6=good;geometry",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "geometry-good-3",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=loss-of-lock,geometry cs3Label=previousBand cs3=nominal cfp1Label=trustScore cfp1=85 cfp2Label=epochOffsetSeconds cfp2=603 cs6Label=geometry cs6=good;inconsistency,environment,geometry cfp3Label=geometryHdop cfp3=0.801 cfp4Label=geometryPdop cfp4=1.433",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "geometry-degraded-0",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.nominal|GNSS trust nominal|1|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=nominal cfp1Label=trustScore cfp1=100 cfp2Label=epochOffsetSeconds cfp2=600 cs6Label=geometry cs6=degraded cfp3Label=geometryHdop cfp3=33.649 cfp4Label=geometryPdop cfp4=123456.789",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "geometry-degraded-1",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=loss-of-lock cs3Label=previousBand cs3=nominal cfp1Label=trustScore cfp1=95 cfp2Label=epochOffsetSeconds cfp2=601 cs6Label=geometry cs6=degraded;environment",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "geometry-degraded-2",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=loss-of-lock,geometry cfp1Label=trustScore cfp1=90 cfp2Label=epochOffsetSeconds cfp2=602 cs6Label=geometry cs6=degraded;geometry cfp3Label=geometryHdop cfp3=0.801 cfp4Label=geometryPdop cfp4=1.433",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "geometry-degraded-3",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=loss-of-lock,geometry cs3Label=previousBand cs3=nominal cfp1Label=trustScore cfp1=85 cfp2Label=epochOffsetSeconds cfp2=603 cs6Label=geometry cs6=degraded;inconsistency,environment,geometry cfp3Label=geometryHdop cfp3=33.649 cfp4Label=geometryPdop cfp4=123456.789",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "geometry-unknown-0",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.nominal|GNSS trust nominal|1|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=nominal cfp1Label=trustScore cfp1=100 cfp2Label=epochOffsetSeconds cfp2=600 cs6Label=geometry cs6=unknown",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "geometry-unknown-1",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=loss-of-lock cs3Label=previousBand cs3=nominal cfp1Label=trustScore cfp1=95 cfp2Label=epochOffsetSeconds cfp2=601 cs6Label=geometry cs6=unknown;environment cfp3Label=geometryHdop cfp3=0.801 cfp4Label=geometryPdop cfp4=1.433",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "geometry-unknown-2",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=loss-of-lock,geometry cfp1Label=trustScore cfp1=90 cfp2Label=epochOffsetSeconds cfp2=602 cs6Label=geometry cs6=unknown;geometry cfp3Label=geometryHdop cfp3=33.649 cfp4Label=geometryPdop cfp4=123456.789",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "geometry-unknown-3",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=loss-of-lock,geometry cs3Label=previousBand cs3=nominal cfp1Label=trustScore cfp1=85 cfp2Label=epochOffsetSeconds cfp2=603 cs6Label=geometry cs6=unknown;inconsistency,environment,geometry",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "geometry-float",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=geometry cfp1Label=trustScore cfp1=85 cfp2Label=epochOffsetSeconds cfp2=601.5 cs6Label=geometry cs6=degraded;geometry cfp3Label=geometryHdop cfp3=5.000000000000001 cfp4Label=geometryPdop cfp4=0.30000000000000004",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
     "id": "header-0",
     "line": "CEF:0|Ashforde OU|Kshana|1\\|0|gnss-trust.nominal|GNSS trust nominal|1|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=nominal cfp1Label=trustScore cfp1=80 cfp2Label=epochOffsetSeconds cfp2=1",
     "tier": 2,

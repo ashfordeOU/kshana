@@ -79,9 +79,9 @@ fn num(x: f64) -> String {
 /// `CEF:0|Ashforde OU|Kshana|<version>|gnss-trust.<band>|GNSS trust <band>|<sev>|ext`
 /// where the extension carries `cat`, `cs1` band, `cs2` reasons (comma-separated), `cs3`
 /// the previous band, `cfp1` trust score and `cfp2` epoch offset in seconds, `cs4` log time and
-/// `cs5` gate state; from schema 1.3 inputs also `geoStatus` (the geometry status), `geoHdop`
-/// and `geoClass` (the classes of the deductions, comma-separated), the keys of the 0.36
-/// geometry design note.
+/// `cs5` gate state; from schema 1.3 inputs also `cs6` (label `geometry`: the geometry status,
+/// then `;` and the classes of the deductions, comma-separated, where there are any), `cfp3`
+/// (`geometryHdop`) and `cfp4` (`geometryPdop`): CEF dictionary custom fields, no invented keys.
 /// `cfp1` and `cfp2` are the CEF dictionary's floating-point custom fields
 /// (deviceCustomFloatingPoint); the integer fields `cn1` to `cn3` are not used, because the score
 /// and the offset are not integers. `cfp1` is left out when the source gives no score. `dvchost`
@@ -115,13 +115,20 @@ pub fn cef(s: &TrustSample, prev: Option<Band>, host: &str, version: &str) -> St
         ext.push_str(&format!(" cs5Label=gate cs5={}", cef_ext_escape(g)));
     }
     if let Some(g) = &s.geometry {
-        // Schema 1.3 only: the satellite geometry and the classes of the deductions.
-        ext.push_str(&format!(" geoStatus={}", g.status));
+        // Schema 1.3 only, in CEF dictionary custom fields (cs1 to cs5 are taken): cs6 the
+        // geometry status, followed after `;` by the classes of the deductions; cfp3 the HDOP;
+        // cfp4 the PDOP.
+        let classes = if g.classes.is_empty() {
+            String::new()
+        } else {
+            format!(";{}", g.classes.join(","))
+        };
+        ext.push_str(&format!(" cs6Label=geometry cs6={}{classes}", g.status));
         if let Some(h) = g.hdop {
-            ext.push_str(&format!(" geoHdop={}", num(h)));
+            ext.push_str(&format!(" cfp3Label=geometryHdop cfp3={}", num(h)));
         }
-        if !g.classes.is_empty() {
-            ext.push_str(&format!(" geoClass={}", g.classes.join(",")));
+        if let Some(p) = g.pdop {
+            ext.push_str(&format!(" cfp4Label=geometryPdop cfp4={}", num(p)));
         }
     }
     format!(
@@ -442,7 +449,8 @@ mod tests {
              cs2Label=reasons cs2=cn0-drop,agc cs3Label=previousBand cs3=nominal \
              cfp1Label=trustScore cfp1=41.5 cfp2Label=epochOffsetSeconds cfp2=130.5 \
              cs4Label=logTime cs4=2026-01-01T00:02:10Z cs5Label=gate cs5=withheld \
-             geoStatus=degraded geoHdop=5.2 geoClass=environment,geometry"
+             cs6Label=geometry cs6=degraded;environment,geometry cfp3Label=geometryHdop cfp3=5.2 \
+             cfp4Label=geometryPdop cfp4=7.25"
         );
         assert_eq!(
             leef(&s, Some(Band::Nominal), "ops-gw1", "0.35.0"),

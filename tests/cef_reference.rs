@@ -69,8 +69,20 @@
 //!   extension meet the tier 1 bar.
 //! * The codec tags a line it cannot parse `_cefparsefailure`; that is a failure for a line in
 //!   either tier.
+//!
+//! # AMENDMENT (0.36, disclosed): schema 1.3 geometry, registered before either parser ran on it
+//!
+//! Registered in the commit that adds the `geometry-*` cases below, before `pycef` or Logstash
+//! was run on any of them. From a schema 1.3 input the events also carry the satellite geometry in
+//! CEF dictionary custom fields: `cs6` (label `geometry`) = the geometry status (`good`,
+//! `degraded`, `unknown`), followed by `;` and the classes of the deductions joined by a comma
+//! where there are any; `cfp3` (label `geometryHdop`) = the HDOP and `cfp4` (label
+//! `geometryPdop`) = the PDOP, each only where given. The `geometry-*` cases are tier 1 for both
+//! oracles, under the same bar: the extension key set then ALSO holds, EXACTLY, `geometry` and,
+//! where given, `geometryHdop` and `geometryPdop`; their values equal the original text, and the
+//! two numbers parse back to the original `f64` exactly (`==`). Every earlier case is unchanged.
 
-use kshana::telemetry::sample::{parse_live_line, Band, TrustSample};
+use kshana::telemetry::sample::{parse_live_line, Band, GeometrySample, TrustSample};
 use kshana::telemetry::syslog::cef;
 use serde_json::{json, Value};
 use std::collections::BTreeMap;
@@ -277,6 +289,65 @@ fn corpus() -> Vec<Case> {
             });
         }
     }
+    // Tier 1 (amendment, 0.36): schema 1.3 geometry in the custom fields cs6, cfp3, cfp4.
+    let class_sets: [&[&'static str]; 4] = [
+        &[],
+        &["environment"],
+        &["geometry"],
+        &["inconsistency", "environment", "geometry"],
+    ];
+    let dops: [(Option<f64>, Option<f64>); 3] = [
+        (Some(0.801), Some(1.433)),
+        (Some(33.649), Some(123_456.789)),
+        (None, None),
+    ];
+    for (i, status) in ["good", "degraded", "unknown"].iter().enumerate() {
+        for (j, classes) in class_sets.iter().enumerate() {
+            let (hdop, pdop) = dops[(i + j) % dops.len()];
+            let mut s = sample(
+                600.0 + j as f64,
+                Some(100.0 - 5.0 * j as f64),
+                if j == 0 {
+                    Band::Nominal
+                } else {
+                    Band::Degraded
+                },
+                &["loss-of-lock", "geometry"][..j.min(2)],
+            );
+            s.geometry = Some(GeometrySample {
+                status,
+                hdop,
+                pdop,
+                n_used: Some(6.0),
+                classes: classes.to_vec(),
+            });
+            v.push(Case {
+                id: format!("geometry-{status}-{j}"),
+                tier: 1,
+                sample: s,
+                prev: (j % 2 == 1).then_some(Band::Nominal),
+                host: HOST.into(),
+                version: VERSION.into(),
+            });
+        }
+    }
+    // A float that does not round-trip through a short decimal, in both custom numbers.
+    let mut s = sample(601.5, Some(85.0), Band::Degraded, &["geometry"]);
+    s.geometry = Some(GeometrySample {
+        status: "degraded",
+        hdop: Some(5.000000000000001),
+        pdop: Some(0.1 + 0.2),
+        n_used: Some(4.0),
+        classes: vec!["geometry"],
+    });
+    v.push(Case {
+        id: "geometry-float".into(),
+        tier: 1,
+        sample: s,
+        prev: None,
+        host: HOST.into(),
+        version: VERSION.into(),
+    });
     // Tier 2: header text that needs escaping; recorded, not part of the claim.
     for (i, ver) in ["1|0", "a\\b", "x=y", "v|\\=|"].iter().enumerate() {
         v.push(Case {
@@ -332,6 +403,10 @@ fn the_committed_corpus_is_what_this_crate_produces_and_covers_what_was_register
         "band changes of the stream"
     );
     assert!(t1.len() >= 100);
+    assert!(
+        now.iter().filter(|c| c.id.starts_with("geometry-")).count() >= 13,
+        "the schema 1.3 geometry cases of the 0.36 amendment"
+    );
     // Every escape class actually occurs in some tier 1 line, and every severity.
     let all: String = t1.iter().map(|c| line(c)).collect::<Vec<_>>().join("\n");
     for needle in ["\\=", "\\\\", "\\n", "\\r"] {
@@ -376,6 +451,20 @@ fn expected_extension(c: &Case) -> BTreeMap<String, String> {
     }
     if let Some(g) = &s.gate {
         m.insert("gate".into(), g.clone());
+    }
+    if let Some(g) = &s.geometry {
+        let classes = if g.classes.is_empty() {
+            String::new()
+        } else {
+            format!(";{}", g.classes.join(","))
+        };
+        m.insert("geometry".into(), format!("{}{classes}", g.status));
+        if let Some(h) = g.hdop {
+            m.insert("geometryHdop".into(), format!("{h}"));
+        }
+        if let Some(p) = g.pdop {
+            m.insert("geometryPdop".into(), format!("{p}"));
+        }
     }
     m
 }
@@ -427,9 +516,12 @@ fn disagreements(reference_file: &str, tiers: &[u8]) -> (usize, Vec<String>) {
             ));
             continue;
         }
+        let geo = c.sample.geometry.as_ref();
         for (k, orig) in [
             ("trustScore", c.sample.score),
             ("epochOffsetSeconds", Some(c.sample.t_s)),
+            ("geometryHdop", geo.and_then(|g| g.hdop)),
+            ("geometryPdop", geo.and_then(|g| g.pdop)),
         ] {
             if let Some(x) = orig {
                 if got[k].parse::<f64>().ok() != Some(x) {
