@@ -1,34 +1,52 @@
 // SPDX-License-Identifier: AGPL-3.0-only
-//! Full **tesseral** spherical-harmonic geopotential — the EGM2008 field to degree/order 70,
-//! the high-degree gravity model the numerical propagator's [`crate::forces`] zonal-only field
-//! was missing.
+//! Full **tesseral** spherical-harmonic geopotential: the EGM2008 field (bundled to
+//! degree/order 70, loadable to its full degree 2190), the high-degree gravity model the
+//! numerical propagator's [`crate::forces`] zonal-only field was missing.
 //!
 //! [`SphericalHarmonicField`] holds fully-normalized `C̄_nm, S̄_nm` coefficients and evaluates
 //! the gravitational potential and acceleration in the **Earth-fixed (ECEF) frame** the
-//! coefficients are defined in. The normalized associated Legendre functions are computed by the
-//! stable Holmes–Featherstone (2002) forward-column recurrence — de-normalizing to the classical
-//! `P_nm` would overflow at this degree, so the recurrence is carried out in the normalized
-//! variables directly. The shipped coefficients are the NGA EGM2008 product (public domain, via
-//! ICGEM), bundled in [`crate::egm2008_data`]; any ICGEM `.gfc` model (EGM2008 to its full
-//! degree, EGM96, GGM03, …) loads through [`SphericalHarmonicField::from_gfc`].
+//! coefficients are defined in. The shipped coefficients are the NGA EGM2008 product (released
+//! for public use; via ICGEM), bundled to degree 70 in [`crate::egm2008_data`]; any ICGEM `.gfc`
+//! model loads through [`SphericalHarmonicField::from_gfc`] (text in memory) or
+//! [`SphericalHarmonicField::from_gfc_file`] (streamed; the full 252 MB EGM2008 file, fetched
+//! by `scripts/fetch_egm2008.sh` and never committed, loads to degree 2190 in about 1.5 s).
+//!
+//! Two evaluators:
+//!
+//! * [`SphericalHarmonicField::acceleration`] / [`SphericalHarmonicField::potential`] (the
+//!   historical ones, unchanged bit for bit because existing outputs depend on them): the
+//!   Holmes–Featherstone forward-column recurrence on `P̄_nm` directly, with spherical partials
+//!   and a `1/cos φ` term floored at the poles. Valid to degree ~180 away from the poles.
+//!   At higher degree the sectoral `P̄_mm ∝ cos^m φ` underflows (at degree 2190, an 8e-9 m/s²
+//!   error at 68° latitude on the reference sphere), and each call allocates two N×N matrices.
+//! * [`SphericalHarmonicField::acceleration_hf`] / [`SphericalHarmonicField::potential_hf`]:
+//!   the Holmes & Featherstone (2002) modified forward-column method (`2^-930` scaling,
+//!   Horner summation in `cos φ`) with a gradient formed without `1/cos φ`. Valid to degree
+//!   2190 at every latitude, the poles exactly included; O(N) working memory per call.
 //!
 //! ## Validation
 //!
-//! Correctness is pinned against three independent oracles: (1) with only `C̄_00 = 1` the
-//! acceleration is the exact point mass `−μr/|r|³`; (2) a *zonal-only* field built from the
-//! `[J2..J6]` constants reproduces the independently-implemented [`crate::forces::zonal_accel`]
-//! (plus two-body) to ~1e-9 — this validates the whole normalized recurrence against code that
-//! never touches it; (3) the analytic acceleration equals the central-difference gradient of the
-//! directly-summed [`SphericalHarmonicField::potential`] for the full EGM2008 field at a LEO
-//! point, tying the two code paths together.
+//! The historical evaluator: (1) with only `C̄_00 = 1` the acceleration is the exact point
+//! mass `−μr/|r|³`; (2) a *zonal-only* field built from the `[J2..J6]` constants reproduces the
+//! independently-implemented [`crate::forces::zonal_accel`] (plus two-body) to ~1e-9; (3) the
+//! analytic acceleration equals the central-difference gradient of
+//! [`SphericalHarmonicField::potential`] for the EGM2008 field at a LEO point.
+//!
+//! The high-degree evaluator: the same two exact cases (on the polar axis too); agreement with
+//! the historical one to 1e-13 relative at degree 70; finite-difference, pole-continuity and
+//! extended-exponent checks to degree 2190 (MODELLED, unit tests below); and EGM2008 at ten
+//! points to degree 2190 against Orekit 12.2 (worst 7.3e-17 m/s²) and pyshtools 4.14.1
+//! (`tests/gravity_sh_high_degree.rs`, `xval/high-degree-gravity/`, with a recorded near-pole
+//! pyshtools miss; the oracles give no value exactly on the axis).
 //!
 //! ## Scope (honest)
 //!
-//! The acceleration uses the spherical-partials transform, which has a `1/cos φ` term that is
-//! singular at the geographic poles (floored here); the singularity-free Pines/Cunningham
-//! Cartesian recursion is the production follow-on. Evaluation is in the Earth-fixed frame — to
-//! perturb the ECI/TEME integration the caller rotates `r` through the ECI↔ECEF reduction
-//! ([`crate::cio`]) before calling and rotates the acceleration back.
+//! Evaluation is in the Earth-fixed frame: to perturb the ECI/TEME integration the caller
+//! rotates `r` through the ECI↔ECEF reduction ([`crate::cio`]) before calling and rotates the
+//! acceleration back. No tide-system conversion is applied (EGM2008 is tide-free; the header
+//! is reported by [`SphericalHarmonicField::tide_system`]). Time-variable (ICGEM 2.0) models are
+//! rejected. No gravity-gradient (∂a/∂r) output yet. Terms below about `1e-28·GM/r` may
+//! underflow to zero in the high-degree method.
 
 use crate::egm2008_data::{EGM2008_COEFFS, EGM2008_GM, EGM2008_NMAX, EGM2008_RE};
 use crate::portable_math::{Maths, Platform, Portable};
