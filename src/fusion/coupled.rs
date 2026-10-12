@@ -181,6 +181,178 @@ impl CoupledPntFilter {
     }
 }
 
+// --- augmented constant-bias variant ----------------------------------------------
+
+pub use super::dense::Innovation;
+use super::dense::{self, Mat};
+
+/// Process-noise intensities of [`CoupledPntBiasFilter`].
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct CoupledBiasNoise {
+    /// White-acceleration PSD driving velocity random walk ((m/s²)²/Hz = m²/s³).
+    pub q_va: f64,
+    /// Accelerometer-bias random-walk PSD ((m/s²)²/s). `0` makes the bias a pure
+    /// random constant (the "constant bias" model).
+    pub q_ba: f64,
+    /// White-FM clock PSD (s²/s).
+    pub q_wf: f64,
+    /// Random-walk-FM clock PSD (1/s).
+    pub q_rw: f64,
+}
+
+/// The coupled 1-DOF PNT filter **augmented with a constant accelerometer-bias state**.
+///
+/// State (5): `x = [position (m), velocity (m/s), clock phase (s), clock frequency (1/s),
+/// accelerometer bias b_a (m/s²)]`.
+///
+/// Continuous model: `ṗ = v`, `v̇ = b_a + w_a` (`w_a` white, PSD `q_va`),
+/// `ḃ_a = w_b` (PSD `q_ba`; `q_ba = 0` is the random-constant bias), and the clock
+/// block `φ̇ = f + w_φ` (PSD `q_wf`), `ḟ = w_f` (PSD `q_rw`), as in
+/// [`CoupledPntFilter`]. Discretised exactly over `dt`:
+///
+/// ```text
+///   F_pos = [[1, dt, dt²/2], [0, 1, dt], [0, 0, 1]]           (rows/cols pos, vel, b_a)
+///   Q_pos = q_va·[[dt³/3, dt²/2, 0], [dt²/2, dt, 0], [0, 0, 0]]
+///         + q_ba·[[dt⁵/20, dt⁴/8, dt³/6], [dt⁴/8, dt³/3, dt²/2], [dt³/6, dt²/2, dt]]
+///   F_clk = [[1, dt], [0, 1]],  Q_clk = [[q_wf·dt + q_rw·dt³/3, q_rw·dt²/2],
+///                                       [q_rw·dt²/2,            q_rw·dt   ]]
+/// ```
+///
+/// Measurements are the same pseudoranges `ρ = g·position + c·phase + noise`
+/// (`H = [g, 0, c, 0, 0]`); the bias is observed only through the position history
+/// it bends. A constant **pseudorange** bias common to every range is deliberately not
+/// a state: its observation column would be identical to the clock-phase column
+/// `c`, so it is unobservable from the clock and is absorbed by it.
+///
+/// This is a separate type: [`CoupledPntFilter`] is unchanged.
+#[derive(Clone, Debug)]
+pub struct CoupledPntBiasFilter {
+    x: [f64; 5],
+    p: Mat<5>,
+    noise: CoupledBiasNoise,
+}
+
+impl CoupledPntBiasFilter {
+    /// Index of the accelerometer-bias state.
+    pub const BIAS: usize = 4;
+
+    /// New filter at the zero state with initial covariance
+    /// `diag(pos_var, vel_var, phase_var, freq_var, bias_var)` (`p0_diag`).
+    pub fn new(noise: CoupledBiasNoise, p0_diag: [f64; 5]) -> Self {
+        let mut p = [[0.0; 5]; 5];
+        for (i, v) in p0_diag.iter().enumerate() {
+            p[i][i] = *v;
+        }
+        Self {
+            x: [0.0; 5],
+            p,
+            noise,
+        }
+    }
+
+    /// The state-transition matrix over `dt`, state order as [`Self::state`].
+    pub fn transition(dt: f64) -> [[f64; 5]; 5] {
+        let mut f = [[0.0; 5]; 5];
+        for (i, row) in f.iter_mut().enumerate() {
+            row[i] = 1.0;
+        }
+        f[0][1] = dt;
+        f[0][4] = dt * dt / 2.0;
+        f[1][4] = dt;
+        f[2][3] = dt;
+        f
+    }
+
+    /// The discrete process-noise covariance over `dt` (the `Q` stated on the type).
+    pub fn process_noise(&self, dt: f64) -> [[f64; 5]; 5] {
+        let CoupledBiasNoise {
+            q_va,
+            q_ba,
+            q_wf,
+            q_rw,
+        } = self.noise;
+        let (dt2, dt3) = (dt * dt, dt * dt * dt);
+        let (dt4, dt5) = (dt3 * dt, dt3 * dt2);
+        let mut q = [[0.0; 5]; 5];
+        q[0][0] = q_va * dt3 / 3.0 + q_ba * dt5 / 20.0;
+        q[0][1] = q_va * dt2 / 2.0 + q_ba * dt4 / 8.0;
+        q[1][1] = q_va * dt + q_ba * dt3 / 3.0;
+        q[0][4] = q_ba * dt3 / 6.0;
+        q[1][4] = q_ba * dt2 / 2.0;
+        q[4][4] = q_ba * dt;
+        q[2][2] = q_wf * dt + q_rw * dt3 / 3.0;
+        q[2][3] = q_rw * dt2 / 2.0;
+        q[3][3] = q_rw * dt;
+        for i in 0..5 {
+            for j in 0..i {
+                q[i][j] = q[j][i];
+            }
+        }
+        q
+    }
+
+    /// Time update over `dt` (no-op for `dt <= 0`).
+    pub fn predict(&mut self, dt: f64) {
+        if dt <= 0.0 {
+            return;
+        }
+        let f = Self::transition(dt);
+        let q = self.process_noise(dt);
+        dense::propagate(&mut self.x, &mut self.p, &f, &q);
+    }
+
+    /// Pseudorange update `ρ = g·position + c·phase + noise` (`r` in m²). `g = 0` is a
+    /// clock-only (time-transfer) fix. Returns the innovation for NIS monitoring.
+    pub fn update_pseudorange(&mut self, rho: f64, g: f64, c: f64, r: f64) -> Option<Innovation> {
+        dense::joseph_update(&mut self.x, &mut self.p, &[g, 0.0, c, 0.0, 0.0], rho, r)
+    }
+
+    /// The full state `[pos, vel, phase, freq, b_a]`.
+    pub fn state(&self) -> [f64; 5] {
+        self.x
+    }
+    /// The full 5×5 covariance.
+    pub fn covariance(&self) -> [[f64; 5]; 5] {
+        self.p
+    }
+    /// Estimated position (m).
+    pub fn pos_est(&self) -> f64 {
+        self.x[0]
+    }
+    /// Estimated clock phase error (s).
+    pub fn phase_est(&self) -> f64 {
+        self.x[2]
+    }
+    /// Estimated accelerometer bias (m/s²).
+    pub fn accel_bias_est(&self) -> f64 {
+        self.x[Self::BIAS]
+    }
+    /// Accelerometer-bias 1-σ (m/s²).
+    pub fn accel_bias_sigma(&self) -> f64 {
+        self.p[Self::BIAS][Self::BIAS].max(0.0).sqrt()
+    }
+    /// Position↔clock-phase cross-covariance `P[pos, phase]` (m·s).
+    pub fn pos_phase_cov(&self) -> f64 {
+        self.p[0][2]
+    }
+    /// Position 1-σ (m).
+    pub fn pos_sigma(&self) -> f64 {
+        self.p[0][0].max(0.0).sqrt()
+    }
+    /// Clock-phase 1-σ (s).
+    pub fn phase_sigma(&self) -> f64 {
+        self.p[2][2].max(0.0).sqrt()
+    }
+    /// NEES `eᵀP⁻¹e` of the estimate against a truth state (χ²(5) when consistent).
+    pub fn nees(&self, truth: &[f64; 5]) -> Option<f64> {
+        let mut e = [0.0; 5];
+        for (ei, (t, x)) in e.iter_mut().zip(truth.iter().zip(self.x.iter())) {
+            *ei = t - x;
+        }
+        dense::nees(&e, &self.p)
+    }
+}
+
 // --- small fixed-size linear algebra (4×4) --------------------------------------
 
 fn dot(a: &[f64; 4], b: &[f64; 4]) -> f64 {
