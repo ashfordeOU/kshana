@@ -3,7 +3,11 @@
 Registration: this file was committed alone, before `lunar-station-coverage` existed on this branch and
 before any comparison run. The commit that registered it is recorded in the next line by a later commit
 that changes only that line.
-Registered at commit: 4c340bd6df46efbb862d7ae43c160943c3819f4e (file SHA-256 at that commit: b25e334eb84c7e78d047c81b8f9e20706d34e212e0e79adbb2bd62f0c54f0c15)
+Revision 2 (this text) was committed alone, before any run, after a review of revision 1. It adds S5 to the
+provenance, the R600-orbit100 sensitivity case and three disclosures. No bar, case or scored input changed.
+Revision 1 (commit 4c340bd6df46efbb862d7ae43c160943c3819f4e, file SHA-256
+b25e334eb84c7e78d047c81b8f9e20706d34e212e0e79adbb2bd62f0c54f0c15) is superseded. No comparison was run under it.
+Registered at commit: (revision 2; recorded by the following commit)
 
 These bars, cases and inputs are not changed after the results are seen. A failure is reported with its
 numbers, not tuned away. Workstream B of the 0.36 lunar reference-station plan.
@@ -85,6 +89,11 @@ Sensitivity cases, declared now, reported, and **not scored**:
 |---|---|---|
 | R300-lowq | `noise_m` = 1.0 | S2 p14's low-quality code |
 | R300-survey030 | `survey_sigma_m` = 0.30 | the in-tree ILLUSTRATIVE default, for contrast with the sourced 0.10 |
+| R600-orbit100 | the orbit/clock variance split = 100/0 (all SISE variance in the orbit error) | the worst case for spatial decorrelation. The split is ILLUSTRATIVE and drives K6 and the K3/K5 levels |
+
+Reported with every case, not scored: the region `worst_point` (lat, lon, value) next to K3 and K5, the
+region availability next to K1 and K2, the region horizontal p95 next to K3 and K5, and the region
+uncorrected p95 3-D next to U1.
 
 The cases are run by `tests/lunar_station_published_oracle.rs` (new) through the kind's public API,
 at the first commit on `feat/lunar-claims-0.36` that contains both this file and the kind. The engine
@@ -119,13 +128,29 @@ coverage extent (K1, K2).
   bar. This shows only that the model does not contradict the claim.
 - The S2 p21 range-domain claim (SISE 10 m → 0.5 m, 95 %) is not scored, because the kind reports
   position-domain figures only.
+- K6, and the levels in K3 and K5, depend on the ILLUSTRATIVE 50/50 orbit/clock split of the SISE
+  variance. Only the orbit part decorrelates with baseline: the clock part cancels exactly. R600-orbit100
+  reports the worst case. It is not scored.
+- `noise_m` = 0.30 m is the source's value at zenith (S2 p14). The kind applies it at every elevation,
+  with no elevation weighting or low-elevation inflation, so the corrected errors are optimistic.
+- The region `corrected_p95_3d_m` is an area-weighted mean of per-point p95 values, each over that
+  point's available epochs only. That is weaker than "over the whole south pole": a mean can sit below
+  the bar while some points do not, and unavailable epochs do not enter it. K1 and K2 (coverage, where
+  unavailable epochs count against the point) and the reported `worst_point` carry that part.
+- K4 (≤ 0.15 m) cannot pass with these inputs. Code noise of 0.30 m at both receivers alone gives a
+  differenced range noise of about 0.42 m (1-σ) before DOP amplification, so the p95 3-D error is well
+  above 0.15 m. A K4 failure therefore reflects the conflict between the sources ("decimeter level"
+  from pseudorange corrections in S3 p22 and S5 p5, against code-only "sub-meter level" and code-and-phase
+  "few-dm level" in S2 p13). It is not a weakness found in the model. It is still scored and still
+  counts against VALIDATED.
 
 ## Oracle provenance
 
 The oracle is the published claims: S1 (arXiv:2602.08432v3), S2 (IOAG Cislunar PNT Workshop 2025), S3
-(UNOOSA ICG WG-B Lunar PNT, June 2024) and S4 (IOAG Cislunar 2026), each with its URL, retrieval date
+(UNOOSA ICG WG-B Lunar PNT, June 2024), S4 (IOAG Cislunar 2026, "Moonlight Programme Development Status")
+and S5 (IOAG Cislunar 2026, "Lunar Reference Time: ESA's Views"; K4 scores C10 from S5 p5), each with its URL, retrieval date
 (2026-10-12), SHA-256 and licence in `tests/fixtures/lunar_station/SOURCES.md`. They are independent of
-this codebase. They are not independent of each other: S1 to S4 come from the same programme and
+this codebase. They are not independent of each other: S1 to S5 come from the same programme and
 partly repeat one another, and CLAIMS.md marks the duplicates. No PDF is redistributed.
 
 ## First comparison run
