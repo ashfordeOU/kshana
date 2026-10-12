@@ -129,6 +129,16 @@ pub fn generate(scn: &TrainingScenario) -> Result<Generated, String> {
     };
     let want = |name: &str| scn.output.sentences.iter().any(|s| s == name);
     let evs: Vec<&EventCfg> = scn.events.iter().collect();
+    // The skyline of each natural-degradation event (validated above).
+    let natural: Vec<Option<crate::skyline::Skyline>> = evs
+        .iter()
+        .map(|e| {
+            (e.kind == EventKind::NaturalDegradation)
+                .then(|| e.skyline.as_ref().map(|k| k.build()))
+                .flatten()
+                .transpose()
+        })
+        .collect::<Result<_, _>>()?;
 
     // A drag-off's direction is fixed at its onset: a relative bearing is taken against
     // the course the vessel has then, not followed as the vessel turns.
@@ -169,6 +179,8 @@ pub fn generate(scn: &TrainingScenario) -> Result<Generated, String> {
         let mut delay_s = 0.0;
         let mut locked = false;
         let mut level: Option<f64> = None;
+        // Natural degradation: (event strength, skyline) of every active event.
+        let mut blocked: Vec<(f64, &crate::skyline::Skyline)> = Vec::new();
         let mut active = Vec::new();
         for (i, e) in evs.iter().enumerate() {
             let w = e.window();
@@ -227,6 +239,11 @@ pub fn generate(scn: &TrainingScenario) -> Result<Generated, String> {
                     delay_rate += e.delay_s.unwrap_or(0.0) * w.strength_smooth_rate(t);
                     if e.affect_time.unwrap_or(true) {
                         time_off_s -= d;
+                    }
+                }
+                EventKind::NaturalDegradation => {
+                    if let Some(k) = &natural[i] {
+                        blocked.push((s, k));
                     }
                 }
             }
@@ -300,13 +317,16 @@ pub fn generate(scn: &TrainingScenario) -> Result<Generated, String> {
                 genuine
             };
             let cn0 = cn0.round().clamp(0.0, 55.0);
+            // Behind a natural obstruction: still listed, not tracked; nothing else changes.
+            let az = la.az_rad / DEG;
+            let lost_to_sky = blocked.iter().any(|(s, k)| el < s * k.cut_deg(az));
             seen.push(Seen {
                 sys: def.sys,
                 num: def.num,
                 el_deg: el,
-                az_deg: la.az_rad / DEG,
+                az_deg: az,
                 cn0,
-                tracked: cn0 >= rc.track_threshold_dbhz,
+                tracked: cn0 >= rc.track_threshold_dbhz && !lost_to_sky,
                 used: false,
                 pos: positions[def.idx],
             });

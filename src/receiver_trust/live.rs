@@ -300,7 +300,7 @@ impl LiveEngine {
             host_clock: true,
             withheld: false,
             clear_since: None,
-            geo: GeometryTracker::new(&cfg.geometry, cfg.score.evidence_hold_s),
+            geo: cfg.geometry_tracker(),
         })
     }
 
