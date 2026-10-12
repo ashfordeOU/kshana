@@ -96,7 +96,10 @@
 use crate::ephem_provider::{KernelEphemeris, LunisolarSource};
 use crate::fim::{crlb, information_matrix};
 use crate::jd2::Jd2;
-use crate::lunar_frame_campaign::{helmert_design, solve_datum, HELMERT_PARAMETERS, N_HELMERT};
+use crate::lunar::Selenographic;
+use crate::lunar_frame_campaign::{
+    helmert_design, solve_datum, solve_datum_information, HELMERT_PARAMETERS, N_HELMERT,
+};
 use crate::precession::{mat_vec, transpose, Mat3, Vec3};
 use crate::realdata::llr_crd::{read_crd_dir, LlrNormalPoint};
 use serde::Deserialize;
@@ -552,11 +555,42 @@ pub struct LunarLlrDatumScenario {
     /// series, and the report gains a `moon_ephemeris` block naming the kernel and its SHA-256.
     /// Nothing else changes. Default unset: the analytic series, as before.
     pub planetary_kernel_path: Option<String>,
+    /// Retroreflectors added at stated sites (for example a lunar reference station), ranged
+    /// at the archived normal-point epochs at which the ranging station is above the added
+    /// site's horizon, each with that normal point's own archived weight. They feed only the
+    /// `station_geodesy` block; every other field is the five-array result. Absent or empty:
+    /// the report is unchanged.
+    pub extra_reflectors: Option<Vec<ExtraSite>>,
+    /// VLBI beacons added at stated sites, observed by the `beacon_campaign` network and
+    /// schedule with the Earth stations held fixed. Same scope as `extra_reflectors`.
+    pub extra_beacons: Option<Vec<ExtraSite>>,
+    /// Elevation mask (deg) the ranging station must clear above an added reflector's local
+    /// horizon. Default 0, the geometric horizon.
+    pub extra_earth_elevation_mask_deg: Option<f64>,
+    /// Network, schedule and delay sigma for `extra_beacons`, in the `lunar-frame-campaign`
+    /// spelling (its `beacons` field is not used here). Default: that kind's defaults.
+    pub beacon_campaign: Option<crate::lunar_frame_campaign::LunarFrameCampaignScenario>,
+}
+
+/// One added lunar surface site (a retroreflector or a VLBI beacon).
+#[derive(Clone, Debug, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct ExtraSite {
+    /// Label used in the report. Defaults to `reflector-<n>` or `beacon-<n>`.
+    pub name: Option<String>,
+    /// Selenographic latitude (deg), north-positive.
+    pub lat_deg: f64,
+    /// Selenographic longitude (deg), east-positive.
+    pub lon_deg: f64,
+    /// Height above the mean lunar sphere (m). Default 0.
+    pub alt_m: Option<f64>,
 }
 
 /// One usable observation after the catalogues have been joined to a normal point.
 struct Used {
     reflector: usize,
+    station: usize,
+    jd_utc: f64,
     partial_mer_s_per_m: Vec3,
     weight: f64,
     residual_m: f64,
@@ -663,6 +697,8 @@ impl LunarLlrDatumScenario {
             raw_counts.push(p.raw_ranges as f64);
             used.push(Used {
                 reflector: ri,
+                station: si,
+                jd_utc: p.jd_utc,
                 partial_mer_s_per_m: g.partial_mer_s_per_m,
                 weight: 1.0 / (sigma * sigma),
                 residual_m: 0.5 * (p.two_way_tof_s - g.two_way_tof_s) * C,
@@ -1022,6 +1058,34 @@ impl LunarLlrDatumScenario {
         });
         // A kernel run says so, and names the kernel; the analytic document is unchanged.
         let mut json = json;
+        // The station-geodesy block: present only when an added site is stated, so the
+        // five-array document is unchanged otherwise.
+        let extra_reflectors = self.extra_reflectors.as_deref().unwrap_or(&[]);
+        let extra_beacons = self.extra_beacons.as_deref().unwrap_or(&[]);
+        if !extra_reflectors.is_empty() || !extra_beacons.is_empty() {
+            let sg = self.station_geodesy(
+                &source,
+                &stations,
+                &used,
+                dut1,
+                &h,
+                &datum,
+                extra_reflectors,
+                extra_beacons,
+            )?;
+            json["station_geodesy"] = sg;
+            if let Some(u) = json["units"].as_object_mut() {
+                for (field, unit, provenance, note) in STATION_GEODESY_UNITS {
+                    let mut e = serde_json::Map::new();
+                    e.insert("unit".into(), serde_json::Value::from(*unit));
+                    e.insert("provenance".into(), serde_json::Value::from(*provenance));
+                    if let Some(n) = note {
+                        e.insert("note".into(), serde_json::Value::from(*n));
+                    }
+                    u.insert((*field).to_string(), serde_json::Value::Object(e));
+                }
+            }
+        }
         if let Some(k) = &kernel {
             json["moon_ephemeris"] = serde_json::json!({
                 "source": "kernel",
@@ -1064,6 +1128,226 @@ impl LunarLlrDatumScenario {
         );
 
         Ok(Computed { json, summary })
+    }
+
+    /// The `station_geodesy` block: the five-array Helmert information `h_before` plus the
+    /// information each added reflector and beacon puts on the datum, solved again, with the
+    /// per-parameter sigma before and after.
+    ///
+    /// Each added site is a distinct point and a laser range or a fixed-station VLBI delay
+    /// touches one point, so each contributes `A_p^T M_p A_p` and the contributions add. The
+    /// difference `H_after - H_before` is therefore a sum of positive semi-definite terms; its
+    /// smallest eigenvalue is emitted so that is a printed number, not an argument.
+    #[allow(clippy::too_many_arguments)]
+    fn station_geodesy(
+        &self,
+        source: &LunisolarSource,
+        stations: &[LlrStation],
+        used: &[Used],
+        dut1: f64,
+        h_before: &[Vec<f64>],
+        before: &crate::lunar_frame_campaign::DatumSolution,
+        extra_reflectors: &[ExtraSite],
+        extra_beacons: &[ExtraSite],
+    ) -> Result<serde_json::Value, String> {
+        let mask = self.extra_earth_elevation_mask_deg.unwrap_or(0.0);
+        if !mask.is_finite() || !(-90.0..90.0).contains(&mask) {
+            return Err(format!(
+                "extra_earth_elevation_mask_deg must be finite and in [-90, 90), got {mask}"
+            ));
+        }
+        let site =
+            |kind: &str, i: usize, e: &ExtraSite| -> Result<(String, Selenographic), String> {
+                let name = e
+                    .name
+                    .clone()
+                    .unwrap_or_else(|| format!("{kind}-{}", i + 1));
+                let alt = e.alt_m.unwrap_or(0.0);
+                if !e.lat_deg.is_finite() || !e.lon_deg.is_finite() || !alt.is_finite() {
+                    return Err(format!("{kind} {name:?} has a non-finite coordinate"));
+                }
+                if !(-90.0..=90.0).contains(&e.lat_deg) {
+                    return Err(format!(
+                        "{kind} {name:?} latitude {} deg is outside [-90, 90]",
+                        e.lat_deg
+                    ));
+                }
+                Ok((
+                    name,
+                    Selenographic {
+                        lat_rad: e.lat_deg.to_radians(),
+                        lon_rad: e.lon_deg.to_radians(),
+                        alt_m: alt,
+                    },
+                ))
+            };
+
+        let mut h_after: Vec<Vec<f64>> = h_before.to_vec();
+        let mut add_point = |p: Vec3, m: &[[f64; 3]; 3]| {
+            let a = helmert_design(&[p]);
+            for i in 0..N_HELMERT {
+                for j in 0..N_HELMERT {
+                    let mut acc = 0.0;
+                    for r in 0..3 {
+                        for c in 0..3 {
+                            acc += a[r][i] * m[r][c] * a[c][j];
+                        }
+                    }
+                    h_after[i][j] += acc;
+                }
+            }
+        };
+        let site_sigma = |m: &[[f64; 3]; 3]| -> serde_json::Value {
+            let mm: Vec<Vec<f64>> = m.iter().map(|r| r.to_vec()).collect();
+            let c = crlb(&mm, self.rel_tol());
+            let s3 = (c.crlb_std[0].powi(2) + c.crlb_std[1].powi(2) + c.crlb_std[2].powi(2)).sqrt();
+            number_or_null(c.defect == 0, s3)
+        };
+
+        // ---- Added retroreflectors: ranged at the archived epochs they can see. ----
+        let mut refl_json = Vec::with_capacity(extra_reflectors.len());
+        for (i, e) in extra_reflectors.iter().enumerate() {
+            let (name, sel) = site("reflector", i, e)?;
+            let p = crate::lunar::selenographic_to_mcmf(sel);
+            let mut m = [[0.0; 3]; 3];
+            let (mut added, mut below) = (0usize, 0usize);
+            for u in used {
+                let g = llr_geometry_with(
+                    source,
+                    stations[u.station].position_at(u.jd_utc),
+                    p,
+                    u.jd_utc,
+                    dut1,
+                )?;
+                let d = g.station_direction_mer;
+                let station = [
+                    p[0] + d[0] * g.one_way_range_m,
+                    p[1] + d[1] * g.one_way_range_m,
+                    p[2] + d[2] * g.one_way_range_m,
+                ];
+                if crate::lunar::lunar_look_angle(p, station).el_deg < mask {
+                    below += 1;
+                    continue;
+                }
+                let g3 = g.partial_mer_s_per_m;
+                for r in 0..3 {
+                    for c in 0..3 {
+                        m[r][c] += u.weight * g3[r] * g3[c];
+                    }
+                }
+                added += 1;
+            }
+            add_point(p, &m);
+            refl_json.push(serde_json::json!({
+                "name": name,
+                "lat_deg": e.lat_deg,
+                "lon_deg": e.lon_deg,
+                "alt_m": sel.alt_m,
+                "mer_x_m": p[0],
+                "mer_y_m": p[1],
+                "mer_z_m": p[2],
+                "observations_added": added,
+                "epochs_station_below_horizon": below,
+                "sigma_3d_m": site_sigma(&m),
+            }));
+        }
+
+        // ---- Added VLBI beacons: the campaign network and schedule, stations fixed. ----
+        let campaign = self.beacon_campaign.clone().unwrap_or_default();
+        if campaign.beacons.is_some() {
+            return Err(
+                "beacon_campaign.beacons is not used here; state added beacons in extra_beacons"
+                    .to_string(),
+            );
+        }
+        let mut beacon_json = Vec::with_capacity(extra_beacons.len());
+        let mut campaign_json = serde_json::Value::Null;
+        if !extra_beacons.is_empty() {
+            let named: Vec<(String, Selenographic)> = extra_beacons
+                .iter()
+                .enumerate()
+                .map(|(i, e)| site("beacon", i, e))
+                .collect::<Result<_, _>>()?;
+            let sels: Vec<Selenographic> = named.iter().map(|(_, s)| *s).collect();
+            let bi = campaign.beacon_information(&sels)?;
+            for (k, ((name, sel), e)) in named.iter().zip(extra_beacons).enumerate() {
+                let p = crate::lunar::selenographic_to_mcmf(*sel);
+                add_point(p, &bi.info[k]);
+                beacon_json.push(serde_json::json!({
+                    "name": name,
+                    "lat_deg": e.lat_deg,
+                    "lon_deg": e.lon_deg,
+                    "alt_m": sel.alt_m,
+                    "mer_x_m": p[0],
+                    "mer_y_m": p[1],
+                    "mer_z_m": p[2],
+                    "observations": bi.observations[k],
+                    "epochs_earth_below_horizon": bi.earth_below_beacon_horizon[k],
+                    "sigma_3d_m": site_sigma(&bi.info[k]),
+                }));
+            }
+            campaign_json = serde_json::json!({
+                "stations": bi.n_stations,
+                "epochs": bi.n_epochs,
+                "arc_hours": campaign.arc_hours.unwrap_or(24.0),
+                "step_min": campaign.step_min.unwrap_or(30.0),
+                "delay_sigma_s": bi.delay_sigma_s,
+                "station_datum": "fixed",
+            });
+        }
+
+        let after = solve_datum_information(&h_after, self.rel_tol());
+        let diff: Vec<Vec<f64>> = h_after
+            .iter()
+            .zip(h_before)
+            .map(|(a, b)| a.iter().zip(b).map(|(x, y)| x - y).collect())
+            .collect();
+        let eig = crate::fim::sym_eig(&diff);
+        let parameters: Vec<serde_json::Value> = HELMERT_PARAMETERS
+            .iter()
+            .enumerate()
+            .map(|(k, (name, unit))| {
+                serde_json::json!({
+                    "name": name,
+                    "unit": unit,
+                    "sigma_before": number_or_null(before.full_rank, before.sigma[k]),
+                    "sigma_after": number_or_null(after.full_rank, after.sigma[k]),
+                    "ratio_after_over_before": if before.full_rank && after.full_rank {
+                        serde_json::Value::from(ratio(after.sigma[k], before.sigma[k]))
+                    } else {
+                        serde_json::Value::Null
+                    },
+                })
+            })
+            .collect();
+        let summary = |d: &crate::lunar_frame_campaign::DatumSolution| {
+            serde_json::json!({
+                "rank": d.rank,
+                "condition_number": d.condition,
+                "translation_sigma_norm_m": number_or_null(d.full_rank, d.translation_sigma_norm_m()),
+                "rotation_sigma_norm_rad": number_or_null(d.full_rank, d.rotation_sigma_norm_rad()),
+                "scale_sigma_ppb": number_or_null(d.full_rank, d.scale_sigma_ppb()),
+            })
+        };
+        Ok(serde_json::json!({
+            "label": STATION_GEODESY_LABEL,
+            "caveat": "A south-polar site sees the Earth low on its horizon or not at all, so an \
+                added reflector there is ranged only at the archived epochs at which the ranging \
+                station is above its horizon (the existing look-angle test), and an added beacon \
+                only at scheduled epochs that clear both visibility tests. Neither is continuous \
+                ranging. The archived epochs were scheduled for the five existing arrays, so \
+                reusing them for an added reflector is an ILLUSTRATIVE schedule, not a plan of any \
+                station.",
+            "extra_earth_elevation_mask_deg": mask,
+            "extra_reflectors": refl_json,
+            "extra_beacons": beacon_json,
+            "beacon_campaign": campaign_json,
+            "before": summary(before),
+            "after": summary(&after),
+            "parameters": parameters,
+            "fisher_difference_min_eigenvalue": eig.values[0],
+            "fisher_difference_max_eigenvalue": eig.values[N_HELMERT - 1],
+        }))
     }
 
     /// Run the scenario, returning `(json, summary)`.
@@ -1209,6 +1493,57 @@ const UNITS: &[(&str, &str, &str, Option<&str>)] = &[
     ("sensitivity.ratio_tilted_over_nominal_translation", "1", "computed", Some("THE ANSWER to 'does a kilometre-level range residual invalidate a centimetre-level datum sigma': how far the deliverable moves when the geometry is perturbed by the full stated ephemeris-induced tilt")),
     ("sensitivity.ratio_tilted_over_nominal_rotation", "1", "computed", Some("the same sensitivity for the rotation norm")),
     ("sensitivity.ratio_tilted_over_nominal_scale", "1", "computed", Some("the same sensitivity for the scale parameter")),
+];
+
+/// The honesty label of the `station_geodesy` block.
+const STATION_GEODESY_LABEL: &str = "MODELLED lunar reference-station geodesy: the five-array \
+LLR datum information plus the information an added retroreflector and an added VLBI beacon at \
+stated sites would put on it, as Cramer-Rao bounds for a reduced parameter set. The added \
+reflector reuses the archived epochs and weights; the added beacon's network, schedule and delay \
+sigma are the ILLUSTRATIVE lunar-frame-campaign inputs. Not a solved datum and not a statement \
+about any real station; not affiliated with or endorsed by any agency.";
+
+/// Units for the `station_geodesy` block, merged into `units` only when the block is emitted.
+const STATION_GEODESY_UNITS: &[(&str, &str, &str, Option<&str>)] = &[
+    ("station_geodesy.extra_earth_elevation_mask_deg", "deg", "input", Some("mask the ranging station must clear above an added reflector's local horizon")),
+    ("station_geodesy.extra_reflectors.lat_deg", "deg", "input", Some("selenographic latitude of the added reflector")),
+    ("station_geodesy.extra_reflectors.lon_deg", "deg", "input", Some("selenographic longitude of the added reflector")),
+    ("station_geodesy.extra_reflectors.alt_m", "m", "input", Some("height of the added reflector above the mean lunar sphere")),
+    ("station_geodesy.extra_reflectors.mer_x_m", "m", "computed", Some("body-fixed X of the added reflector on the mean sphere")),
+    ("station_geodesy.extra_reflectors.mer_y_m", "m", "computed", Some("body-fixed Y of the added reflector")),
+    ("station_geodesy.extra_reflectors.mer_z_m", "m", "computed", Some("body-fixed Z of the added reflector")),
+    ("station_geodesy.extra_reflectors.observations_added", "count", "computed", Some("archived normal-point epochs at which the ranging station was above the added reflector's horizon; each adds one range with that normal point's archived weight")),
+    ("station_geodesy.extra_reflectors.epochs_station_below_horizon", "count", "computed", Some("archived epochs skipped because the ranging station was below the added reflector's horizon mask")),
+    ("station_geodesy.extra_reflectors.sigma_3d_m", "m", "computed", Some("root-sum-square Cramer-Rao bound on the added reflector's three coordinates; null when its own block is rank-deficient")),
+    ("station_geodesy.extra_beacons.lat_deg", "deg", "input", Some("selenographic latitude of the added beacon")),
+    ("station_geodesy.extra_beacons.lon_deg", "deg", "input", Some("selenographic longitude of the added beacon")),
+    ("station_geodesy.extra_beacons.alt_m", "m", "input", Some("height of the added beacon above the mean lunar sphere")),
+    ("station_geodesy.extra_beacons.mer_x_m", "m", "computed", Some("body-fixed X of the added beacon on the mean sphere")),
+    ("station_geodesy.extra_beacons.mer_y_m", "m", "computed", Some("body-fixed Y of the added beacon")),
+    ("station_geodesy.extra_beacons.mer_z_m", "m", "computed", Some("body-fixed Z of the added beacon")),
+    ("station_geodesy.extra_beacons.observations", "count", "computed", Some("scheduled baseline delays that cleared both visibility tests")),
+    ("station_geodesy.extra_beacons.epochs_earth_below_horizon", "count", "computed", Some("scheduled epochs with every Earth station below the beacon's horizon")),
+    ("station_geodesy.extra_beacons.sigma_3d_m", "m", "computed", Some("root-sum-square Cramer-Rao bound on the added beacon's three coordinates with the stations fixed; null when rank-deficient")),
+    ("station_geodesy.beacon_campaign.stations", "count", "input", Some("Earth stations in the VLBI network")),
+    ("station_geodesy.beacon_campaign.epochs", "count", "computed", Some("epochs in the VLBI schedule")),
+    ("station_geodesy.beacon_campaign.arc_hours", "h", "input", Some("VLBI schedule length")),
+    ("station_geodesy.beacon_campaign.step_min", "min", "input", Some("VLBI schedule step")),
+    ("station_geodesy.beacon_campaign.delay_sigma_s", "s", "modelled-input", Some("per-observation VLBI delay sigma; ILLUSTRATIVE, the lunar-frame-campaign default")),
+    ("station_geodesy.before.rank", "count", "computed", Some("Helmert rank from the five archived arrays alone")),
+    ("station_geodesy.before.condition_number", "1", "computed", Some("condition number of the five-array Helmert information")),
+    ("station_geodesy.before.translation_sigma_norm_m", "m", "computed", Some("five-array translation sigma norm; equals datum_accuracy.translation_sigma_norm_m")),
+    ("station_geodesy.before.rotation_sigma_norm_rad", "rad", "computed", Some("five-array rotation sigma norm")),
+    ("station_geodesy.before.scale_sigma_ppb", "ppb", "computed", Some("five-array scale sigma")),
+    ("station_geodesy.after.rank", "count", "computed", Some("Helmert rank with the added sites")),
+    ("station_geodesy.after.condition_number", "1", "computed", Some("condition number with the added sites")),
+    ("station_geodesy.after.translation_sigma_norm_m", "m", "computed", Some("translation sigma norm with the added sites")),
+    ("station_geodesy.after.rotation_sigma_norm_rad", "rad", "computed", Some("rotation sigma norm with the added sites")),
+    ("station_geodesy.after.scale_sigma_ppb", "ppb", "computed", Some("scale sigma with the added sites")),
+    ("station_geodesy.parameters.sigma_before", "see parameters.unit", "computed", Some("Helmert parameter sigma from the five arrays alone, in the unit its row names")),
+    ("station_geodesy.parameters.sigma_after", "see parameters.unit", "computed", Some("the same parameter's sigma with the added sites")),
+    ("station_geodesy.parameters.ratio_after_over_before", "1", "computed", Some("after over before; at most 1 because added information is positive semi-definite")),
+    ("station_geodesy.fisher_difference_min_eigenvalue", "1/(balanced unit)^2", "internal-consistency", Some("smallest eigenvalue of H_after - H_before; non-negative up to rounding because each added site contributes A^T M A")),
+    ("station_geodesy.fisher_difference_max_eigenvalue", "1/(balanced unit)^2", "computed", Some("largest eigenvalue of H_after - H_before: the most information the added sites put into any direction")),
 ];
 
 /// Render [`UNITS`] as the result document's `units` object.
