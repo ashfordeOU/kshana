@@ -1018,5 +1018,41 @@
     "line": "CEF:0|Ashforde OU|Kshana|v\\|\\\\=\\||gnss-trust.nominal|GNSS trust nominal|1|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=nominal cfp1Label=trustScore cfp1=80 cfp2Label=epochOffsetSeconds cfp2=1",
     "tier": 2,
     "version": "v|\\=|"
+  },
+  {
+    "id": "geometry-label-good",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.nominal|GNSS trust nominal|1|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=nominal cfp1Label=trustScore cfp1=100 cfp2Label=epochOffsetSeconds cfp2=700 cs6Label=geometry cs6=good;;good cfp3Label=geometryHdop cfp3=1.25 cfp4Label=geometryPdop cfp4=2.5 cn1Label=geometryUsedSatellites cn1=9",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "geometry-label-fair",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.nominal|GNSS trust nominal|1|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=nominal cs3Label=previousBand cs3=nominal cfp1Label=trustScore cfp1=92.5 cfp2Label=epochOffsetSeconds cfp2=701 cs6Label=geometry cs6=good;;fair cfp3Label=geometryHdop cfp3=2.25 cfp4Label=geometryPdop cfp4=3.5 cn1Label=geometryUsedSatellites cn1=8",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "geometry-label-fair-sky-blocked",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=geometry cfp1Label=trustScore cfp1=85 cfp2Label=epochOffsetSeconds cfp2=702 cs6Label=geometry cs6=degraded;environment;fair cfp3Label=geometryHdop cfp3=3.25 cfp4Label=geometryPdop cfp4=4.5 cn1Label=geometryUsedSatellites cn1=6",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "geometry-label-poor",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=geometry cs3Label=previousBand cs3=nominal cfp1Label=trustScore cfp1=77.5 cfp2Label=epochOffsetSeconds cfp2=703 cs6Label=geometry cs6=degraded;geometry,inconsistency;poor cfp3Label=geometryHdop cfp3=4.25 cfp4Label=geometryPdop cfp4=5.5 cn1Label=geometryUsedSatellites cn1=4",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "geometry-label-poor-no-count",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=geometry cfp1Label=trustScore cfp1=70 cfp2Label=epochOffsetSeconds cfp2=704 cs6Label=geometry cs6=degraded;environment;poor cfp3Label=geometryHdop cfp3=5.25 cfp4Label=geometryPdop cfp4=6.5",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "geometry-label-unknown",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs3Label=previousBand cs3=nominal cfp1Label=trustScore cfp1=62.5 cfp2Label=epochOffsetSeconds cfp2=705 cs6Label=geometry cs6=unknown;;unknown",
+    "tier": 1,
+    "version": "9.9.9-oracle"
   }
 ]

@@ -6,7 +6,9 @@
 //! Metric names and labels are listed in `docs/TRUST-TELEMETRY.md`; the golden test in
 //! this module pins the exact output.
 
-use super::sample::{Band, GeometrySample, Position, TrustSample, GEOMETRY_STATUSES};
+use super::sample::{
+    Band, GeometrySample, Position, TrustSample, GEOMETRY_LABELS, GEOMETRY_STATUSES,
+};
 use std::collections::BTreeMap;
 use std::io::{Read, Write};
 use std::net::{SocketAddr, TcpListener, TcpStream};
@@ -449,6 +451,31 @@ impl Registry {
                 self.geometry_epochs[i]
             ));
         }
+        // The label (0.36: always reported, never scored) and the VDOP, appended after every
+        // earlier geometry series, only where the input carries them.
+        if let Some(label) = g.and_then(|g| g.label) {
+            header(
+                o,
+                "kshana_trust_geometry_label",
+                "Geometry label at the latest epoch: 1 for the current one (good, fair, poor, unknown), 0 for the others; never scored, the score deducts only for poor.",
+                "gauge",
+            );
+            for l in GEOMETRY_LABELS {
+                o.push_str(&format!(
+                    "kshana_trust_geometry_label{{label=\"{l}\"}} {}\n",
+                    u8::from(label == l)
+                ));
+            }
+        }
+        if let Some(v) = g.and_then(|g| g.vdop) {
+            header(
+                o,
+                "kshana_trust_geometry_vdop",
+                "Vertical dilution of precision at the latest epoch.",
+                "gauge",
+            );
+            o.push_str(&format!("kshana_trust_geometry_vdop {}\n", fmt_f64(v)));
+        }
     }
 }
 
@@ -557,6 +584,42 @@ mod tests {
     }
 
     #[test]
+    fn the_label_and_vdop_are_appended_after_the_earlier_geometry_series() {
+        let mut s = sample(1.0, Some(100.0), Band::Nominal, &[]);
+        s.geometry = Some(GeometrySample {
+            status: "good",
+            hdop: Some(1.1),
+            pdop: Some(1.8),
+            n_used: Some(8.0),
+            vdop: None,
+            label: None,
+            classes: vec![],
+            signal_loss: Some(false),
+        });
+        let mut r = Registry::new("0.0.0-test");
+        r.observe(&s, None);
+        let before = r.render();
+        assert!(!before.contains("geometry_label") && !before.contains("geometry_vdop"));
+        let g = s.geometry.as_mut().unwrap();
+        (g.label, g.vdop) = (Some("fair"), Some(1.4));
+        let mut r2 = Registry::new("0.0.0-test");
+        r2.observe(&s, None);
+        let after = r2.render();
+        let tail = "# HELP kshana_trust_geometry_label Geometry label at the latest epoch: 1 for the current one (good, fair, poor, unknown), 0 for the others; never scored, the score deducts only for poor.
+# TYPE kshana_trust_geometry_label gauge
+kshana_trust_geometry_label{label=\"good\"} 0
+kshana_trust_geometry_label{label=\"fair\"} 1
+kshana_trust_geometry_label{label=\"poor\"} 0
+kshana_trust_geometry_label{label=\"unknown\"} 0
+# HELP kshana_trust_geometry_vdop Vertical dilution of precision at the latest epoch.
+# TYPE kshana_trust_geometry_vdop gauge
+kshana_trust_geometry_vdop 1.4
+";
+        assert!(after.starts_with(before.as_str()), "appended only");
+        assert_eq!(&after[before.len()..], tail);
+    }
+
+    #[test]
     fn signal_loss_is_exported_beside_the_degraded_geometry() {
         let mut r = Registry::new("0.0.0-test");
         let mut s = sample(1.0, Some(90.0), Band::Degraded, &["geometry"]);
@@ -565,6 +628,8 @@ mod tests {
             hdop: None,
             pdop: None,
             n_used: Some(0.0),
+            vdop: None,
+            label: None,
             classes: vec!["environment"],
             signal_loss: Some(true),
         });
@@ -597,6 +662,8 @@ mod tests {
             hdop: Some(5.2),
             pdop: Some(7.25),
             n_used: Some(4.0),
+            vdop: None,
+            label: None,
             classes: vec!["environment", "geometry"],
             signal_loss: None,
         });

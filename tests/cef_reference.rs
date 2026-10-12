@@ -81,6 +81,21 @@
 //! oracles, under the same bar: the extension key set then ALSO holds, EXACTLY, `geometry` and,
 //! where given, `geometryHdop` and `geometryPdop`; their values equal the original text, and the
 //! two numbers parse back to the original `f64` exactly (`==`). Every earlier case is unchanged.
+//!
+//! # AMENDMENT 2 (0.36, disclosed): the geometry label, registered before either parser ran on it
+//!
+//! Registered in the commit that adds the `geometry-label-*` cases below (appended after every
+//! earlier case), before `pycef` or Logstash was run on any of them. From an input that carries
+//! the geometry label (`good`, `fair`, `poor`, `unknown`), `cs6` gains a third field: the
+//! geometry status, `;`, the classes joined by a comma (empty when there are none), `;`, the
+//! label; and `cn1` (label `geometryUsedSatellites`) carries the satellites used, where given, as
+//! an integer. `cn1` is a CEF dictionary custom field that both parsers map (the Logstash codec's
+//! mapping table was read before the run: it has `cs1` to `cs6`, `cn1` to `cn3` and `cfp1` to
+//! `cfp4`, and no `flexString` fields, which is why the label is not in `flexString1`). The VDOP
+//! is not carried in CEF: the four floating-point fields are taken. The `geometry-label-*` cases
+//! are tier 1 for both oracles, under the same bar: the extension key set then ALSO holds,
+//! EXACTLY, `geometryUsedSatellites` where given, its value equal to the original text; `geometry`
+//! equals the three-field text. Every earlier case, and its line, is unchanged.
 
 use kshana::telemetry::sample::{parse_live_line, Band, GeometrySample, TrustSample};
 use kshana::telemetry::syslog::cef;
@@ -319,6 +334,8 @@ fn corpus() -> Vec<Case> {
                 hdop,
                 pdop,
                 n_used: Some(6.0),
+                vdop: None,
+                label: None,
                 classes: classes.to_vec(),
                 signal_loss: None,
             });
@@ -339,6 +356,8 @@ fn corpus() -> Vec<Case> {
         hdop: Some(5.000000000000001),
         pdop: Some(0.1 + 0.2),
         n_used: Some(4.0),
+        vdop: None,
+        label: None,
         classes: vec!["geometry"],
         signal_loss: None,
     });
@@ -359,6 +378,52 @@ fn corpus() -> Vec<Case> {
             prev: None,
             host: HOST.into(),
             version: ver.to_string(),
+        });
+    }
+    // AMENDMENT 2 (0.36): the geometry label, appended after every earlier case.
+    let labelled: [(&str, &str, &[&str], Option<f64>); 6] = [
+        ("good", "good", &[], Some(9.0)),
+        ("fair", "good", &[], Some(8.0)),
+        ("fair-sky-blocked", "degraded", &["environment"], Some(6.0)),
+        (
+            "poor",
+            "degraded",
+            &["geometry", "inconsistency"],
+            Some(4.0),
+        ),
+        ("poor-no-count", "degraded", &["environment"], None),
+        ("unknown", "unknown", &[], None),
+    ];
+    for (k, (id, status, classes, n_used)) in labelled.iter().enumerate() {
+        let label = id.split('-').next().unwrap();
+        let mut s = sample(
+            700.0 + k as f64,
+            Some(100.0 - 7.5 * k as f64),
+            if k < 2 { Band::Nominal } else { Band::Degraded },
+            &["geometry"][..usize::from(!classes.is_empty())],
+        );
+        s.geometry = Some(GeometrySample {
+            status,
+            hdop: (*status != "unknown").then_some(1.25 + k as f64),
+            pdop: (*status != "unknown").then_some(2.5 + k as f64),
+            n_used: *n_used,
+            vdop: (*status != "unknown").then_some(1.5 + k as f64),
+            label: Some(match label {
+                "good" => "good",
+                "fair" => "fair",
+                "poor" => "poor",
+                _ => "unknown",
+            }),
+            classes: classes.to_vec(),
+            signal_loss: (*status != "unknown").then_some(false),
+        });
+        v.push(Case {
+            id: format!("geometry-label-{id}"),
+            tier: 1,
+            sample: s,
+            prev: (k % 2 == 1).then_some(Band::Nominal),
+            host: HOST.into(),
+            version: VERSION.into(),
         });
     }
     v
@@ -455,12 +520,15 @@ fn expected_extension(c: &Case) -> BTreeMap<String, String> {
         m.insert("gate".into(), g.clone());
     }
     if let Some(g) = &s.geometry {
-        let classes = if g.classes.is_empty() {
-            String::new()
-        } else {
-            format!(";{}", g.classes.join(","))
+        let classes = match (g.classes.is_empty(), g.label) {
+            (_, Some(l)) => format!(";{};{l}", g.classes.join(",")),
+            (true, None) => String::new(),
+            (false, None) => format!(";{}", g.classes.join(",")),
         };
         m.insert("geometry".into(), format!("{}{classes}", g.status));
+        if let (Some(_), Some(n)) = (g.label, g.n_used) {
+            m.insert("geometryUsedSatellites".into(), format!("{}", n as i64));
+        }
         if let Some(h) = g.hdop {
             m.insert("geometryHdop".into(), format!("{h}"));
         }

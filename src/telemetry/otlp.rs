@@ -8,7 +8,7 @@
 //! forwarding over TLS). Metric names match the Prometheus ones.
 
 use super::prometheus::Registry;
-use super::sample::{Band, GEOMETRY_STATUSES};
+use super::sample::{Band, GEOMETRY_LABELS, GEOMETRY_STATUSES};
 use serde_json::{json, Value};
 use std::io::{Read, Write};
 use std::net::{TcpStream, ToSocketAddrs};
@@ -145,6 +145,34 @@ pub fn build_payload(reg: &Registry, unix_nano: u64) -> Value {
                 }));
             }
         }
+        // The label (0.36: always reported, never scored) and the VDOP, appended, only where
+        // the input carries them.
+        if let Some(label) = g.and_then(|g| g.label) {
+            let points: Vec<Value> = GEOMETRY_LABELS
+                .iter()
+                .map(|l| {
+                    json!({
+                        "asInt": i64::from(label == *l).to_string(),
+                        "timeUnixNano": t,
+                        "attributes": [{"key": "label", "value": {"stringValue": l}}]
+                    })
+                })
+                .collect();
+            metrics.push(json!({
+                "name": "kshana.geometry.label",
+                "description": "1 for the current geometry label (good, fair, poor, unknown), 0 for the others; never scored, the score deducts only for poor.",
+                "unit": "1",
+                "gauge": {"dataPoints": points}
+            }));
+        }
+        if let Some(v) = g.and_then(|g| g.vdop) {
+            metrics.push(json!({
+                "name": "kshana.geometry.vdop",
+                "description": "Vertical dilution of precision.",
+                "unit": "1",
+                "gauge": {"dataPoints": [{"asDouble": v, "timeUnixNano": t}]}
+            }));
+        }
     }
     json!({"resourceMetrics": [{
         "resource": {"attributes": [
@@ -278,6 +306,53 @@ mod tests {
             None,
         );
         r
+    }
+
+    #[test]
+    fn the_geometry_label_and_vdop_are_appended_last() {
+        let mut r = Registry::new("9.9.9");
+        r.observe(
+            &TrustSample {
+                t_s: 1.0,
+                time_label: None,
+                score: Some(100.0),
+                band: Band::Nominal,
+                reasons: vec![],
+                gate: None,
+                position: None,
+                geometry: Some(super::super::sample::GeometrySample {
+                    status: "good",
+                    hdop: Some(1.1),
+                    pdop: Some(1.8),
+                    n_used: Some(8.0),
+                    vdop: Some(1.4),
+                    label: Some("fair"),
+                    classes: vec![],
+                    signal_loss: Some(false),
+                }),
+                reason_class: Default::default(),
+            },
+            None,
+        );
+        let p = build_payload(&r, 1_700_000_000_000_000_000);
+        let m = p["resourceMetrics"][0]["scopeMetrics"][0]["metrics"]
+            .as_array()
+            .unwrap()
+            .clone();
+        let names: Vec<&str> = m.iter().map(|x| x["name"].as_str().unwrap()).collect();
+        assert_eq!(
+            &names[names.len() - 2..],
+            ["kshana.geometry.label", "kshana.geometry.vdop"]
+        );
+        let label = &m[names.len() - 2]["gauge"]["dataPoints"];
+        let on: Vec<&str> = label
+            .as_array()
+            .unwrap()
+            .iter()
+            .filter(|d| d["asInt"] == "1")
+            .map(|d| d["attributes"][0]["value"]["stringValue"].as_str().unwrap())
+            .collect();
+        assert_eq!(on, ["fair"]);
     }
 
     #[test]
