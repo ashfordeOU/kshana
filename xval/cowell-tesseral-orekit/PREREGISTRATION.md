@@ -31,7 +31,11 @@ G70 GTO (400 km × GEO, i = 28.5°, J2000); G70P LEO (+ Sun/Moon + SRP, 2026-01-
 `propagator::propagate_dopri` (Dormand–Prince 5(4)) with `Tolerance { rtol: 1e-12, atol: 1e-9 }`,
 `ForceModel::two_body().with_geopotential(Geopotential::egm2008(N))`, plus for G70P
 `.third_body(true, true, epoch).solar_radiation(1.5, 0.02)`; for the others `.third_body(false,
-false, epoch)` (sets the epoch only). Each hourly state is propagated from t = 0.
+false, epoch)` (sets the epoch only). Each case is one integration continued hour by hour: the
+state at hour k+1 is propagated from the state at hour k with the epoch advanced by k hours
+(the adaptive driver restarts each hour). Amendment (before any comparison was run): the first
+version said each state is propagated from t = 0; that costs twelve times as much in the
+unoptimised CI test build for no difference in what is tested.
 
 ## Bars (fixed now)
 
