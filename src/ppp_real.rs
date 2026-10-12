@@ -564,7 +564,9 @@ pub fn run_ppp(obs: &RinexObs, prod: &PreciseProducts, cfg: &PppConfig) -> PppRe
                 if out.len() < 10 { 1e6 } else { 8.0 },
             );
             if cfg.use_phase {
-                let model_l = rho + kf.x[3] - C * st.clock_s + zhd * mh + mw * kf.x[4]
+                let model_l = rho + kf.x[3] - C * st.clock_s
+                    + zhd * mh
+                    + mw * kf.x[4]
                     + ant
                     + shapiro
                     + lam_nl * wu
@@ -645,7 +647,11 @@ fn geo_of(r: Vec3) -> Geodetic {
 pub fn enu_axes(lat: f64, lon: f64) -> (Vec3, Vec3, Vec3) {
     let (sl, cl) = lat.sin_cos();
     let (so, co) = lon.sin_cos();
-    ([-so, co, 0.0], [-sl * co, -sl * so, cl], [cl * co, cl * so, sl])
+    (
+        [-so, co, 0.0],
+        [-sl * co, -sl * so, cl],
+        [cl * co, cl * so, sl],
+    )
 }
 
 /// The east, north and up components (m) of `est − truth` in the local frame at `truth`.

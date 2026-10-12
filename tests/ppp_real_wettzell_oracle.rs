@@ -32,7 +32,11 @@ fn itrf2020(site: &str, epoch_year: f64) -> [f64; 3] {
     for k in (0..lines.len()).step_by(2) {
         let l = lines[k];
         if l.contains(&format!(" {site} ")) && l.trim_end().ends_with("00:000:00000") {
-            let p: Vec<f64> = l[36..].split_whitespace().take(3).map(|s| s.parse().unwrap()).collect();
+            let p: Vec<f64> = l[36..]
+                .split_whitespace()
+                .take(3)
+                .map(|s| s.parse().unwrap())
+                .collect();
             let v: Vec<f64> = lines[k + 1][36..]
                 .split_whitespace()
                 .take(3)
@@ -60,7 +64,10 @@ pub fn products() -> PreciseProducts {
 
 fn run(file: &str, arp_up: f64, use_phase: bool) -> PppResult {
     let obs = parse_obs(&read(DIR, file)).unwrap();
-    let ant = parse_antex_receiver(&read(DIR, "igs20_2025055_G_LEIAR25.atx"), "LEIAR25.R3      LEIT");
+    let ant = parse_antex_receiver(
+        &read(DIR, "igs20_2025055_G_LEIAR25.atx"),
+        "LEIAR25.R3      LEIT",
+    );
     assert!(ant.is_some());
     let cfg = PppConfig {
         antenna: ant,
@@ -87,7 +94,12 @@ fn report(name: &str, r: &PppResult, truth: [f64; 3]) {
             );
         }
     }
-    eprintln!("{name}: {} of {} epochs, {} slips", r.epochs.len(), r.n_offered, r.n_slips);
+    eprintln!(
+        "{name}: {} of {} epochs, {} slips",
+        r.epochs.len(),
+        r.n_offered,
+        r.n_slips
+    );
 }
 
 /// Development run on WTZZ (not the registered test; printed, with a loose sanity bound).
@@ -99,4 +111,92 @@ fn wtzz_development_run() {
     let last = r.epochs.last().unwrap();
     let d = enu_error(truth, last.pos_ecef_m);
     assert!((d[0] * d[0] + d[1] * d[1] + d[2] * d[2]).sqrt() < 1.0);
+}
+
+fn d3(d: [f64; 3]) -> f64 {
+    (d[0] * d[0] + d[1] * d[1] + d[2] * d[2]).sqrt()
+}
+
+fn p95(mut v: Vec<f64>) -> f64 {
+    v.sort_by(f64::total_cmp);
+    v[((0.95 * (v.len() - 1) as f64).round()) as usize]
+}
+
+/// Seconds of day of the last-two-hours window, 04:00:00-05:59:30.
+fn in_window(t: f64) -> bool {
+    let sod = t.rem_euclid(86_400.0);
+    (14_400.0..21_600.0).contains(&sod)
+}
+
+/// The registered test (P1, P2, P3, D; Z when the EUREF product is given).
+#[test]
+fn wtzr_float_ppp_meets_the_registered_itrf2020_bars() {
+    let truth = itrf2020("WTZR", EPOCH_YEAR);
+    let r = run("wtzr_2025055_0006_G.rnx", 0.0710, true);
+    report("WTZR", &r, truth);
+    let code = run("wtzr_2025055_0006_G.rnx", 0.0710, false);
+
+    let last = r.epochs.last().unwrap();
+    let dl = enu_error(truth, last.pos_ecef_m);
+    let h_last = (dl[0] * dl[0] + dl[1] * dl[1]).sqrt();
+    let win: Vec<f64> = r
+        .epochs
+        .iter()
+        .filter(|e| in_window(e.t_gps_s))
+        .map(|e| d3(enu_error(truth, e.pos_ecef_m)))
+        .collect();
+    let within = win.iter().filter(|&&d| d <= 0.10).count() as f64 / win.len() as f64;
+    let ppp_p95 = p95(win.clone());
+    let code_win: Vec<f64> = code
+        .epochs
+        .iter()
+        .filter(|e| in_window(e.t_gps_s))
+        .map(|e| d3(enu_error(truth, e.pos_ecef_m)))
+        .collect();
+    let code_p95 = p95(code_win);
+    let solved = r.epochs.len() as f64 / 720.0;
+    eprintln!(
+        "WTZR last epoch: horizontal {h_last:.4} m, up {:+.4} m; 04-06 h: {:.1} % within 0.10 m \
+         ({} epochs), p95 {ppp_p95:.4} m; code-only p95 {code_p95:.4} m; solved {:.1} %",
+        dl[2],
+        100.0 * within,
+        win.len(),
+        100.0 * solved
+    );
+
+    // Z (data-gated): EUREF zenith total delay.
+    match std::env::var("KSHANA_EUREF_TRO") {
+        Ok(path) => {
+            let text = std::fs::read_to_string(&path).expect("KSHANA_EUREF_TRO (plain text)");
+            let mut sq = Vec::new();
+            for l in text
+                .lines()
+                .filter(|l| l.starts_with(" WTZR00DEU 2025:055:"))
+            {
+                let sod: f64 = l[21..26].parse().unwrap();
+                let ztd_mm: f64 = l[26..].split_whitespace().next().unwrap().parse().unwrap();
+                if !(9_000.0..=19_800.0).contains(&sod) {
+                    continue;
+                }
+                if let Some(e) = r
+                    .epochs
+                    .iter()
+                    .find(|e| e.t_gps_s.rem_euclid(86_400.0) == sod)
+                {
+                    sq.push((e.ztd_m - ztd_mm * 1e-3).powi(2));
+                }
+            }
+            let rms = (sq.iter().sum::<f64>() / sq.len() as f64).sqrt();
+            eprintln!(
+                "Z: ZTD RMS vs EUREF {rms:.4} m over {} hourly epochs (bar 0.02 m)",
+                sq.len()
+            );
+        }
+        Err(_) => eprintln!("Z: skipped (set KSHANA_EUREF_TRO to the decompressed EUREF TRO file)"),
+    }
+
+    assert!(solved >= 0.95, "P3");
+    assert!(h_last <= 0.05 && dl[2].abs() <= 0.10, "P1");
+    assert!(within >= 0.95, "P2");
+    assert!(code_p95 >= 2.0 * ppp_p95, "D");
 }
