@@ -11,6 +11,17 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **DOP853 integrator (FUT-11).** `integrator::integrate_dop853`, `integrate_dop853_checked`,
+  `integrate_dop853_dense` (7th-order dense output), `dop853_step`, `dop853_initial_step`, with a
+  fail-closed step guard; `propagator::Integrator::Dop853`, `propagate_dop853`,
+  `propagate_dop853_checked`. The default driver is unchanged. VALIDATED against SciPy 1.18.1
+  `solve_ivp(method="DOP853")`: single steps within 5.6e-15, matching step sequences, end states
+  within 1.6e-12 (`xval/dop853-scipy/`).
+- **Robust Kepler solver (FUT-12).** New `kepler` module: `solve_kepler_markley` (Markley 1995
+  starter, cancellation-free residual) for all 0 ≤ e < 1, wrapped by
+  `propagator::solve_kepler_robust`. VALIDATED against 50-digit mpmath roots to 0.9 ε·|E| up to
+  e = 0.999999 (`xval/kepler-mpmath/`).
+
 - **Opt-in tesseral Earth gravity in the Cowell propagator (RM-09).** `propagator::ForceModel`
   gains `geopotential: Option<Geopotential>` (`with_geopotential`, `with_egm2008(nmax)`). It
   evaluates a `SphericalHarmonicField` (bundled EGM2008 to degree/order 70, or any ICGEM `.gfc`) in
@@ -188,6 +199,9 @@ breaking changes are called out explicitly.
   one exists.
 
 ### Changed
+
+- Docs only: `propagator::solve_kepler_checked`, `orbit::solve_kepler` and `ephem::solve_kepler`
+  are documented as legacy solvers, numerically unchanged, pointing to `kepler::solve_kepler_markley`.
 
 - README: the lunar suite row states each piece's evidence tier (it said all were MODELLED).
 - `realdata::clk::rinex_clock_series` returns `RinexClockSeries` (series, gridding log, time system,

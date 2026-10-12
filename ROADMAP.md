@@ -65,12 +65,14 @@ A validated, fully reproducible engine spanning the PNT (positioning, navigation
   Lambert outputs round-tripped against two-body truth and the porkchop minimum checked against the
   analytic Hohmann floor.
 - **Numerical propagator** — a Cowell propagator (`src/propagator.rs`) integrating a configurable
-  zonal-gravity force model with a choice of adaptive driver — RK4 (fourth-order Runge–Kutta) **step doubling** or the
+  zonal-gravity force model with a choice of adaptive driver — RK4 (fourth-order Runge–Kutta) **step doubling**, the
   **Dormand–Prince RK5(4)** embedded pair (`integrator::integrate_dopri` / `propagate_dopri`, a
-  cheaper 7-eval embedded error estimate) — pinned against analytic truth:
+  cheaper 7-eval embedded error estimate) or the **DOP853** 8(5,3) pair with dense output
+  (`integrate_dop853` / `propagate_dop853`, validated against SciPy's DOP853) — pinned against analytic truth:
   the unperturbed orbit matches the exact universal-variable Kepler solution to sub-metre over 24 h,
   energy/angular-momentum conserve to ~1e-9, and the J2 nodal regression reproduces the closed-form
-  secular rate; plus a convergence-guarded Kepler-equation solver. The force model spans the **full
+  secular rate; plus a convergence-guarded legacy Kepler solver and a robust Markley-starter solver
+  (`kepler::solve_kepler_markley`, validated against mpmath for 0 ≤ e ≤ 0.999999). The force model spans the **full
   Earth zonal field through degree 6** (`forces::zonal_accel`, the published EGM-96 (EGM: Earth Gravitational Model) `J2..J6`): the
   acceleration is the exact analytic gradient of the zonal disturbing potential, validated against its
   own numerically-differentiated potential, against the 666-vector-validated J2 closed form, and via
