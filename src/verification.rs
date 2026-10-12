@@ -298,6 +298,15 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            requirement: "SP3 precise-clock interpolation",
+            capability: "Satellite clock offset between the tabulated SP3 clock nodes by linear interpolation over the two bracketing valid nodes (the RTKLIB pephclk scheme; bad-clock sentinel skipped), and the same nodes fed to the precise-product chain as RINEX-clock-equivalent records",
+            module: "sp3 (Sp3File::clock_s, clock_nodes), precise_products (ClockRinex::from_sp3)",
+            tests: "tests/sp3_clock_igs_oracle.rs (IGS final 15 min SP3 of 2025-02-24 vs the IGS final 30 s clocks, 32 GPS satellites: node median |Δ| 2.6e-13 s; 3038 mid-point records RMS 0.121 ns, p95 0.265 ns; holding the node instead 4.24 ns RMS); sp3::tests::clock_interpolation_is_linear_between_valid_nodes_and_exact_at_them",
+            oracle: "IGS final 30 s satellite clock combination (IGS0OPSFIN 30S CLK, 2025-02-24): published clock estimates at the query instants, not interpolated from the SP3; bars pre-registered in tests/fixtures/sp3_clock_igs_oracle/PREREGISTRATION.md before the first run (RMS 0.15 ns, p95 0.30 ns, node median 1e-12 s, discrimination 2x)",
+            oracle_kind: ExternalDataset,
+            status: Validated,
+        },
+        VerificationItem {
             requirement: "Strapdown INS mechanization",
             capability: "Quaternion-attitude, WGS-84 NED strapdown inertial mechanization (coning/sculling-compensated) propagating a navigation state from (Δθ, Δv) increments",
             module: "inertial::mechanization, inertial::attitude, inertial::imu_errors",
@@ -2818,6 +2827,13 @@ pub fn validated_oracle_basis() -> Vec<OracleBasisEntry> {
             basis: Library,
             oracle_test: "tests/sp3_interp_reference.rs",
             source: "RTKLIB peph2pos",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "SP3 precise-clock interpolation",
+            basis: Reference,
+            oracle_test: "tests/sp3_clock_igs_oracle.rs",
+            source: "IGS final 30 s satellite clock combination",
             flag: "",
         },
         OracleBasisEntry {
