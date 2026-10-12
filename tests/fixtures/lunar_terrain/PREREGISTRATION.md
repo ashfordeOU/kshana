@@ -34,3 +34,15 @@ sites (lat, lon) in degrees: (-89.0, 0.0), (-88.0, 90.0), (-86.0, 180.0), (-84.0
 * B3: the number of rays leaving the grid agrees exactly at every site.
 
 A miss is recorded here with its numbers, not tuned away.
+
+## Recorded run (2026-10-12, numpy 2.5.3)
+
+Script and comparison committed in a32a5d57; `tests/lunar_station_terrain.rs::
+the_horizon_matches_the_preregistered_numpy_ray_cast` re-runs the comparison.
+
+* B1 met: worst site height difference 1.0e-11 m (bar 1e-6 m).
+* B2 met: worst of the 1800 horizon elevations 5.5e-10 deg (bar 1e-6 deg).
+* B3 met: the truncated-ray counts agree at all five sites.
+
+All three bars met. This confirms the arithmetic of the ray march on the real crop; it does
+not validate the horizon against the real terrain, and the ledger row stays MODELLED.
