@@ -618,13 +618,14 @@ impl LunarFrameCampaignScenario {
 /// The VLBI information this campaign's stations and schedule put on each of a list of beacon
 /// positions, with the Earth stations held fixed: per beacon, the `3 x 3` body-fixed coordinate
 /// information (1/m^2), the observations that cleared both visibility tests, and the epochs at
-/// which no station was above the beacon's own horizon.
+/// which no station passed both visibility tests (Moon above the station's elevation mask and
+/// station above the beacon's horizon).
 pub struct BeaconInformation {
     /// Per-beacon `3 x 3` information, in the order the beacons were given.
     pub info: Vec<[[f64; 3]; 3]>,
     /// Per-beacon count of scheduled observations.
     pub observations: Vec<usize>,
-    /// Per-beacon count of epochs with every station below the beacon's horizon mask.
+    /// Per-beacon count of epochs at which no station passed both visibility tests (Moon above the station's elevation mask and station above the beacon's horizon).
     pub earth_below_beacon_horizon: Vec<usize>,
     /// The per-observation delay sigma used as weight (s).
     pub delay_sigma_s: f64,
