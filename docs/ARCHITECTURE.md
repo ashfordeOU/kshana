@@ -335,7 +335,7 @@ flowchart TD
       mars["deepspace_od · mars_frame · mars_atmos · mars_pnt · linkbudget · gse_sim — SRIF OD · Mars frame · relay-PNT · GSE sim"]
     end
 
-    subgraph lunar["Lunar PNT suite (MODELLED · illustrative public-source)"]
+    subgraph lunar["Lunar PNT suite (evidence tier per piece in the matrix · illustrative public-source)"]
       cis["cr3bp · lunar · lunar_frame · lunar_od — CR3BP · halo/NRHO · cislunar ARAIM · MCI↔MCMF"]
       suite["lunar_time · lunar_vlbi · lunar_combination · lunar_frame_realise — LTC time · VLBI · joint OD+clock · frame realisation"]
       suite2["lunar_service · lunar_dpnt · lunar_interop — Moonlight service-volume · differential PNT · LunaNet/IOAG interop"]
