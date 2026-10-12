@@ -1501,7 +1501,7 @@ mod tests {
         let model = ForceModel::two_body()
             .with_geopotential(gp.clone())
             .third_body(false, false, epoch);
-        let omega = std::f64::consts::TAU * 1.002_737_811_911_354_48 / SECONDS_PER_DAY;
+        let omega = std::f64::consts::TAU * 1.002_737_811_911_354_5 / SECONDS_PER_DAY;
         let jacobi = |t: f64, r: Vec3, v: Vec3| {
             let m = gp.inertial_to_earth_fixed(epoch + t / SECONDS_PER_DAY);
             let u = field.potential(mat_vec(&m, r));
