@@ -162,35 +162,42 @@ pub fn effective_cn0_dbhz(cn0_nominal_dbhz: f64, js_db: f64, q: f64, chip_rate_h
     -10.0 * denom.log10()
 }
 
-/// Representative spectral-separation coefficient `Q` for a jammer type.
+/// Spread-spectrum adjustment `Q` of a continuous-wave (CW) or narrowband jammer on the
+/// signal's carrier: `Q = 1`, the most damaging case. The despread tone keeps the signal's
+/// spectral peak, `κ = G_s(0) = T_c`, so `Q = 1/(R_c·κ) = 1`.
+pub const Q_CW: f64 = 1.0;
+
+/// Spread-spectrum adjustment `Q` of band-limited white noise over the signal's main lobe
+/// (`±R_c`): `Q = 2`, with the signal's in-band power normalised to one (`κ = 1/(2R_c)`).
+/// Without that normalisation the C/A main lobe holds 90.28 % of the power and
+/// `Q = 2/0.9028 = 2.215`. The value between the two, `Q = 1.5`, belongs to spread-spectrum
+/// noise matched to the signal (`κ = 2/(3R_c)` for C/A), which the `spectrum` kind models from
+/// its spectrum.
+pub const Q_BROADBAND: f64 = 2.0;
+
+/// Spread-spectrum adjustment coefficient `Q` of the anti-jam equation for a jammer type, at
+/// the textbook values (*Understanding GPS/GNSS: Principles and Applications*, 3rd ed., §9.4;
+/// the spectral-separation coefficients of *Binary Offset Carrier Modulations for
+/// Radionavigation*, NAVIGATION 48(4), 2001, with `Q = 1/(R_c·κ)`):
 ///
-/// * `cw` / `narrowband` (a tone on the carrier): `Q = 1`, the textbook value
-///   (*Understanding GPS/GNSS: Principles and Applications*, 3rd ed., §9.4; the
-///   spectral-separation coefficients of *Binary Offset Carrier Modulations for
-///   Radionavigation*, NAVIGATION 48(4), 2001, with `Q = 1/(R_c·κ)`). The despread tone
-///   keeps the signal's spectral peak, `κ = G_s(0) = T_c`, so `Q = 1`, the most damaging
-///   case: a tone is never less damaging than noise at equal J/S.
-/// * `broadband`: `Q = 1`, kept as a conservative value. The textbook figure for white
-///   noise over the main lobe is about 2, so 1 is about 3 dB more pessimistic; it stays
-///   pending review.
-/// * `swept` and any other type: `Q = 1`.
+/// * `cw` / `narrowband` (a tone or narrowband noise on the carrier): [`Q_CW`] = 1;
+/// * `broadband` (white noise over the main lobe): [`Q_BROADBAND`] = 2;
+/// * `swept` (a tone swept over the main lobe, which over whole sweeps has the flat spectrum
+///   of broadband noise): [`Q_BROADBAND`];
+/// * any other type: [`Q_CW`], the most damaging value, so an unrecognised type is never
+///   treated optimistically.
 ///
-/// A smaller `Q` is a more damaging jammer at equal J/S. `q_override` replaces the
-/// table. For a first-principles value from the actual spectra, use
-/// [`crate::navsignal::q_from_ssc`] or the `spectrum` kind; the CW value is pinned to
-/// that closed form in the tests.
+/// A smaller `Q` is a more damaging jammer at equal J/S. `q_override` replaces the table. For a
+/// first-principles value from the actual spectra, use [`crate::navsignal::q_from_ssc`] or the
+/// `spectrum` kind; the tests pin both table values to those closed forms. Until 0.36 the
+/// broadband and swept entries were 1 (`xval/jammer-q/PREREGISTRATION.md`).
 pub fn q_factor(jammer_type: &str, q_override: Option<f64>) -> f64 {
     if let Some(q) = q_override {
         return q.max(1e-9);
     }
     match jammer_type {
-        // Wideband noise matched to the GNSS band: the canonical reference.
-        "broadband" => 1.0,
-        // A swept tone dwells across the band, wideband-like over an epoch.
-        "swept" => 1.0,
-        // A tone on the carrier keeps the signal's spectral peak: Q = 1 (textbook).
-        "narrowband" | "cw" => 1.0,
-        _ => 1.0,
+        "broadband" | "swept" => Q_BROADBAND,
+        _ => Q_CW,
     }
 }
 
@@ -649,20 +656,28 @@ mod tests {
     use super::*;
 
     #[test]
-    fn representative_broadband_q_matches_psd_derived_value() {
-        // Cross-check the representative broadband Q = 1.0 against the
-        // first-principles value derived from the C/A power spectrum and a
-        // wideband (white) jammer matched to ±1 chip rate.
+    fn broadband_q_equals_the_spectral_separation_closed_form() {
+        // White noise over the main lobe (±R_c) sees kappa = (in-band power)/(2 R_c), so
+        // Q = 1/(R_c kappa) = 2 with the in-band power normalised to one, and 2/0.9028 =
+        // 2.215 without (navsignal's validated SSC code on the C/A spectrum).
         use crate::navsignal::{q_from_ssc, ssc_vs_white, Modulation, F0_HZ};
         let ca = Modulation::BpskR { n: 1.0 };
-        let kappa = ssc_vs_white(&ca, 2.0 * F0_HZ);
-        let q_psd = q_from_ssc(kappa, CA_CHIP_RATE_HZ);
-        let q_table = q_factor("broadband", None);
-        // Same order of magnitude as the representative unit reference.
+        let band = 2.0 * F0_HZ;
+        let kappa = ssc_vs_white(&ca, band);
+        let in_band = kappa * band;
         assert!(
-            (q_psd / q_table).abs() > 0.3 && (q_psd / q_table).abs() < 3.0,
-            "PSD-derived broadband Q {q_psd:.3} vs representative {q_table:.3}"
+            (in_band - 0.9028).abs() < 1e-3,
+            "C/A main-lobe power {in_band}"
         );
+        let q_flat = q_from_ssc(kappa, CA_CHIP_RATE_HZ);
+        assert!((q_flat - 2.215).abs() < 0.005, "flat-noise Q {q_flat}");
+        let q_normalised = q_from_ssc(kappa / in_band, CA_CHIP_RATE_HZ);
+        assert!((q_normalised - Q_BROADBAND).abs() < 1e-9, "{q_normalised}");
+        assert_eq!(q_factor("broadband", None), Q_BROADBAND);
+        assert_eq!(q_factor("swept", None), Q_BROADBAND);
+        assert_eq!(q_factor("broadband", Some(1.5)), 1.5);
+        // An unrecognised type keeps the most damaging value.
+        assert_eq!(q_factor("pulsed-whatever", None), Q_CW);
     }
 
     #[test]
@@ -674,18 +689,27 @@ mod tests {
         assert!((q_cw - 1.0).abs() < 1e-9, "CW Q {q_cw}");
         assert_eq!(q_factor("cw", None), q_cw.round());
         assert_eq!(q_factor("narrowband", None), q_cw.round());
+        assert_eq!(Q_CW, q_cw.round());
     }
 
     #[test]
-    fn narrowband_is_not_less_damaging_than_broadband() {
-        // Smaller Q is more damaging at equal J/S: a tone must never be treated as
-        // easier to despread than noise.
-        assert!(q_factor("cw", None) <= q_factor("broadband", None));
-        assert!(q_factor("narrowband", None) <= q_factor("broadband", None));
+    fn a_cw_jammer_is_more_damaging_than_broadband_noise_at_equal_js() {
+        // Smaller Q is more damaging at equal J/S: a tone keeps the signal's spectral peak
+        // after despreading, broadband noise does not.
+        assert!(q_factor("cw", None) < q_factor("broadband", None));
+        assert!(q_factor("narrowband", None) < q_factor("broadband", None));
         let (cn0, js) = (45.0, 40.0);
         let tone = effective_cn0_dbhz(cn0, js, q_factor("cw", None), CA_CHIP_RATE_HZ);
         let wide = effective_cn0_dbhz(cn0, js, q_factor("broadband", None), CA_CHIP_RATE_HZ);
-        assert!(tone <= wide, "tone {tone} vs broadband {wide}");
+        assert!(tone < wide, "tone {tone} vs broadband {wide}");
+        // In the jammer-dominated regime the gap tends to 10 log10 2 = 3.0103 dB.
+        let tone = effective_cn0_dbhz(45.0, 100.0, Q_CW, CA_CHIP_RATE_HZ);
+        let wide = effective_cn0_dbhz(45.0, 100.0, Q_BROADBAND, CA_CHIP_RATE_HZ);
+        assert!(
+            (wide - tone - 10.0 * 2f64.log10()).abs() < 1e-6,
+            "{}",
+            wide - tone
+        );
     }
 
     #[test]
@@ -706,7 +730,7 @@ mod tests {
         // Nominal C/N0 at zenith (0 dB antenna gain), 290 K: −158.5 − (−203.975).
         let cn0 = nominal_cn0_dbhz(DEFAULT_SIGNAL_POWER_DBW, 0.0, DEFAULT_TEMP_K);
         assert!((cn0 - 45.475).abs() < 0.01, "C/N0 = {cn0}");
-        // Effective C/N0 under that J/S with broadband Q=1, C/A chip rate.
+        // Effective C/N0 under that J/S with Q = 1 (a CW tone), C/A chip rate.
         let eff = effective_cn0_dbhz(cn0, js, 1.0, CA_CHIP_RATE_HZ);
         assert!((eff - (-12.0)).abs() < 0.1, "eff C/N0 = {eff}");
         assert_eq!(
