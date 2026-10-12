@@ -12,9 +12,11 @@
 //! | [`skyline_profile`] | a skyline section reduced to the normalised 360-entry table the engine uses |
 //! | [`skyplot_svg`] | a skyplot of [`sky_geometry`] as SVG |
 //!
-//! A request ([`SkyRequest`]) names its satellites either through `systems` (constellation
-//! presets of the engine, propagated to `time_s` and seen from `site`) or directly through
-//! `satellites` (azimuth and elevation, or ECEF positions with a `site` or `user_ecef_m`).
+//! A request ([`SkyRequest`]) names its satellites through `systems` (constellation presets of
+//! the engine, propagated to `time_s` and seen from `site`), through `tle` (two-line element
+//! sets propagated by the engine's SGP4 to the UTC `epoch` plus `time_s`, rotated to
+//! Earth-fixed with UT1 taken as UTC and no polar motion) or directly through `satellites`
+//! (azimuth and elevation, or ECEF positions with a `site` or `user_ecef_m`), or any mix.
 //!
 //! ## One kernel
 //!
@@ -40,7 +42,10 @@
 //! error, which also has biases, multipath and non-line-of-sight errors, and not an integrity
 //! bound. The `systems` constellations are the engine's presets, whose relative phases come
 //! from different reference epochs: the sky they draw is a representative geometry, not the sky
-//! of a date at a place.
+//! of a date at a place. Element sets with an `epoch` draw the sky those element sets give at
+//! that epoch (their own accuracy, SGP4's, is not re-stated here), not a measurement of it;
+//! without an `epoch` they are propagated to the newest set's own epoch and the sky is again
+//! representative. Every result says which in `sky_source` and `sky_statement`.
 
 use crate::frames::{geodetic_to_ecef, look_angles, Geodetic};
 use crate::skyline::{Skyline, SkylineCfg};
@@ -74,8 +79,12 @@ pub const DEFAULT_CONFIDENCE: f64 = 0.95;
 /// not a performance figure.
 pub const MAX_MC_SAMPLES: usize = 5000;
 
-/// Most satellites one request may carry: an input cap.
+/// Most satellites one request may carry: an input cap. Element sets in `tle` count only when
+/// they are above the horizon.
 pub const MAX_SATELLITES: usize = 2000;
+
+/// Largest `tle` text one request may carry (4 MiB, the Studio's cap): an input cap.
+pub const MAX_TLE_BYTES: usize = 4 * 1024 * 1024;
 
 /// A ground site.
 #[derive(Clone, Copy, Debug, PartialEq, Serialize, Deserialize)]
@@ -146,7 +155,8 @@ pub struct SkyRequest {
     /// The user's ECEF position (m): the alternative to `site` for ECEF satellites.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub user_ecef_m: Option<[f64; 3]>,
-    /// Seconds after the presets' common epoch at which `systems` are propagated.
+    /// Seconds after the presets' common epoch at which `systems` are propagated, and after
+    /// `epoch` (or the newest element set) for `tle`.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub time_s: Option<f64>,
     /// Constellations to propagate.
@@ -155,6 +165,20 @@ pub struct SkyRequest {
     /// Satellites given directly.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub satellites: Option<Vec<SatelliteInput>>,
+    /// Two-line element sets as text (a name line before each is optional), propagated by the
+    /// engine's SGP4 ([`crate::sgp4::SgpOrbit`]) and seen from `site`. At most
+    /// [`MAX_TLE_BYTES`].
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub tle: Option<String>,
+    /// System label of the `tle` satellites (the clock they share under `per-system`);
+    /// default `TLE`.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub tle_system: Option<String>,
+    /// UTC epoch of the sky, ISO 8601 `YYYY-MM-DDTHH:MM:SS[.fff][Z]`; `time_s` is added to it.
+    /// It dates the `tle` satellites; without it they are propagated to the newest element
+    /// set's own epoch plus `time_s`. The preset `systems` are not dated by it.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub epoch: Option<String>,
     /// Receiver cut-off (deg) for every satellite. Default: each system's own mask (10 deg for
     /// a LEO system, 5 deg for GNSS), and [`DEFAULT_MASK_DEG`] for satellites given directly.
     #[serde(default, skip_serializing_if = "Option::is_none")]
@@ -242,6 +266,19 @@ pub struct SkyGeometry {
     pub statement: &'static str,
     /// The advisory statement ([`ADVISORY`]).
     pub advisory: &'static str,
+    /// Where the satellites came from: `satellites` (given directly), `presets` (a
+    /// representative geometry), `tle-at-epoch` (element sets propagated to the request's
+    /// `epoch`) or `tle-at-element-epoch` (no `epoch`: a representative sky), joined with `+`.
+    pub sky_source: String,
+    /// What that sky is, in words.
+    pub sky_statement: String,
+    /// The UTC instant the `tle` satellites were propagated to; absent without `tle`.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub epoch_utc: Option<String>,
+    /// Element sets SGP4 could not propagate to that instant (decayed, or past its limits),
+    /// left out with the reason; absent when there are none.
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    pub tle_skipped: Vec<String>,
     /// Where the skyline came from (`none`, `preset:<name>`, `preset:<name>+overrides`,
     /// `custom`).
     pub skyline_source: String,
@@ -443,10 +480,149 @@ fn direct_look(
     })
 }
 
-fn looks(req: &SkyRequest) -> Result<(Vec<Look>, usize), String> {
-    if req.systems.is_none() && req.satellites.is_none() {
-        return Err("sky: give `systems` (with a `site`) or `satellites`".into());
+/// Where the satellites of a request came from, and what sky that makes.
+struct Basis {
+    /// The short code: `satellites`, `presets`, `tle-at-epoch` or `tle-at-element-epoch`,
+    /// joined with `+` when a request mixes them.
+    source: String,
+    /// The plain-language statement of that sky.
+    statement: String,
+    /// The UTC instant the `tle` satellites were propagated to.
+    epoch_utc: Option<String>,
+    /// Element sets SGP4 refused at that instant, each with its reason.
+    tle_skipped: Vec<String>,
+}
+
+/// The `tle` satellites above the horizon of `g`, the count below it, and the sky basis parts.
+fn tle_looks(
+    req: &SkyRequest,
+    text: &str,
+    g: Geodetic,
+    t: f64,
+) -> Result<(Vec<Look>, usize, Basis), String> {
+    use crate::interop::UtcEpoch;
+    use crate::jd2::Jd2;
+    if text.len() > MAX_TLE_BYTES {
+        return Err(format!(
+            "sky: tle is {} bytes; the cap is {MAX_TLE_BYTES} (4 MiB)",
+            text.len()
+        ));
     }
+    let system = req.tle_system.clone().unwrap_or_else(|| "TLE".to_string());
+    let mut sets: Vec<(String, crate::sgp4::SgpOrbit)> = Vec::new();
+    let mut name: Option<String> = None;
+    let mut pending_l1: Option<&str> = None;
+    for raw in text.lines() {
+        let line = raw.trim();
+        if line.starts_with("1 ") && line.len() >= 63 {
+            pending_l1 = Some(line);
+        } else if line.starts_with("2 ") && line.len() >= 63 {
+            let Some(l1) = pending_l1.take() else {
+                return Err(format!(
+                    "sky: tle: a line 2 without its line 1 ({:?})",
+                    &line[..line.len().min(20)]
+                ));
+            };
+            let orbit =
+                crate::sgp4::SgpOrbit::from_tle(l1, line).map_err(|e| format!("sky: tle: {e}"))?;
+            let id = name
+                .take()
+                .unwrap_or_else(|| format!("{system}-{}", l1.get(2..7).unwrap_or("?").trim()));
+            sets.push((id, orbit));
+        } else if !line.is_empty() {
+            name = Some(line.trim_start_matches("0 ").to_string());
+            pending_l1 = None;
+        }
+    }
+    if sets.is_empty() {
+        return Err("sky: tle holds no complete two-line element set".into());
+    }
+    let (jd0, dated) = match &req.epoch {
+        Some(e) => (
+            UtcEpoch::parse_iso(e)
+                .map_err(|e| format!("sky: epoch: {e}"))?
+                .jd_utc(0.0),
+            true,
+        ),
+        None => (
+            sets.iter()
+                .map(|(_, o)| o.set.epoch_utc.total())
+                .fold(f64::NEG_INFINITY, f64::max),
+            false,
+        ),
+    };
+    let at = Jd2::new(jd0).add_seconds(t);
+    let iso = UtcEpoch::from_jd_utc(jd0).iso(t);
+    let m = crate::sgp4::teme_to_itrs_matrix(at);
+    let (mut out, mut below, mut skipped) = (Vec::new(), 0usize, Vec::new());
+    for (id, o) in &sets {
+        match o.itrs_state_with(at, &m) {
+            Ok((pos, _)) => {
+                let la = look_angles(g, pos);
+                if la.el_rad < 0.0 {
+                    below += 1;
+                    continue;
+                }
+                out.push(Look {
+                    id: id.clone(),
+                    system: system.clone(),
+                    az_deg: la.az_rad.to_degrees(),
+                    el_deg: la.el_rad.to_degrees(),
+                    mask_deg: req.mask_deg.unwrap_or(DEFAULT_MASK_DEG),
+                });
+            }
+            Err(e) => skipped.push(format!("{id}: {e}")),
+        }
+    }
+    let n = sets.len();
+    let (source, statement) = if dated {
+        (
+            "tle-at-epoch",
+            format!(
+                "{n} element sets propagated by the engine's SGP4 (WGS-72) to {iso} and rotated to \
+                 Earth-fixed with UT1 taken as UTC and no polar motion: the sky those element \
+                 sets give at that epoch, not a measurement of it."
+            ),
+        )
+    } else {
+        (
+            "tle-at-element-epoch",
+            format!(
+                "{n} element sets propagated by the engine's SGP4 (WGS-72) to the newest \
+                 element set's epoch plus time_s ({iso}). No epoch was given, so this is a \
+                 representative sky, not the sky of a stated date."
+            ),
+        )
+    };
+    Ok((
+        out,
+        below,
+        Basis {
+            source: source.into(),
+            statement,
+            epoch_utc: Some(iso),
+            tle_skipped: skipped,
+        },
+    ))
+}
+
+fn looks(req: &SkyRequest) -> Result<(Vec<Look>, usize, Basis), String> {
+    if req.systems.is_none() && req.satellites.is_none() && req.tle.is_none() {
+        return Err("sky: give `systems` or `tle` (with a `site`), or `satellites`".into());
+    }
+    if req.tle.is_none() && req.tle_system.is_some() {
+        return Err("sky: tle_system names the `tle` satellites; the request has no `tle`".into());
+    }
+    if req.tle.is_none() && req.epoch.is_some() {
+        return Err(
+            "sky: epoch dates the `tle` satellites; the preset `systems` and the satellites \
+             given directly carry no date, so give `tle` with it"
+                .into(),
+        );
+    }
+    let mut parts: Vec<&str> = Vec::new();
+    let mut statements: Vec<String> = Vec::new();
+    let (mut epoch_utc, mut tle_skipped) = (None, Vec::new());
     let user = user_geodetic(req)?;
     if let Some(m) = req.mask_deg {
         if !(m.is_finite() && (-90.0..90.0).contains(&m)) {
@@ -480,6 +656,38 @@ fn looks(req: &SkyRequest) -> Result<(Vec<Look>, usize), String> {
                 return Err(format!("sky: more than {MAX_SATELLITES} satellites"));
             }
         }
+        parts.push("presets");
+        statements.push(
+            "The preset constellations' relative phases come from different reference \
+             epochs: a representative geometry, not the sky of a date at a place."
+                .into(),
+        );
+    }
+    let mut below = 0usize;
+    if let Some(text) = &req.tle {
+        let Some(g) = user else {
+            return Err("sky: `tle` needs a `site` (or `user_ecef_m`) to look from".into());
+        };
+        let t = req.time_s.unwrap_or(0.0);
+        if !t.is_finite() {
+            return Err("sky: time_s must be finite".into());
+        }
+        let (mut l, b, basis) = tle_looks(req, text, g, t)?;
+        if all.len() + l.len() > MAX_SATELLITES {
+            return Err(format!(
+                "sky: more than {MAX_SATELLITES} satellites above the horizon"
+            ));
+        }
+        all.append(&mut l);
+        below += b;
+        parts.push(if basis.source == "tle-at-epoch" {
+            "tle-at-epoch"
+        } else {
+            "tle-at-element-epoch"
+        });
+        statements.push(basis.statement);
+        epoch_utc = basis.epoch_utc;
+        tle_skipped = basis.tle_skipped;
     }
     if let Some(sats) = &req.satellites {
         if all.len() + sats.len() > MAX_SATELLITES {
@@ -490,9 +698,22 @@ fn looks(req: &SkyRequest) -> Result<(Vec<Look>, usize), String> {
             all.push(direct_look(s, i, user, mask)?);
         }
     }
-    let below = all.iter().filter(|l| l.el_deg < 0.0).count();
+    if req.satellites.is_some() {
+        parts.push("satellites");
+        statements.push("Satellites given directly, as stated by the request.".into());
+    }
+    below += all.iter().filter(|l| l.el_deg < 0.0).count();
     all.retain(|l| l.el_deg >= 0.0);
-    Ok((all, below))
+    Ok((
+        all,
+        below,
+        Basis {
+            source: parts.join("+"),
+            statement: statements.join(" "),
+            epoch_utc,
+            tle_skipped,
+        },
+    ))
 }
 
 fn sigma_and_confidence(req: &SkyRequest) -> Result<(f64, f64), String> {
@@ -512,6 +733,7 @@ fn sigma_and_confidence(req: &SkyRequest) -> Result<(f64, f64), String> {
 /// The visible set, the clock assignment and the cofactor matrix shared by
 /// [`sky_geometry`] and [`sky_monte_carlo`].
 struct Solved {
+    basis: Basis,
     sky: Option<Skyline>,
     looks: Vec<SatelliteLook>,
     below: usize,
@@ -523,7 +745,7 @@ struct Solved {
 
 fn solve(req: &SkyRequest) -> Result<Solved, String> {
     let sky = crate::skyline::resolve(req.skyline.as_ref())?;
-    let (raw, below) = looks(req)?;
+    let (raw, below, basis) = looks(req)?;
     let looks: Vec<SatelliteLook> = raw
         .into_iter()
         .map(|l| {
@@ -576,6 +798,7 @@ fn solve(req: &SkyRequest) -> Result<Solved, String> {
         .collect();
     let q = crate::orbit::cofactor_from_los(&los, &clock_idx, clock_labels.len());
     Ok(Solved {
+        basis,
         sky,
         looks,
         below,
@@ -629,6 +852,10 @@ pub fn sky_geometry(req: &SkyRequest) -> Result<SkyGeometry, String> {
         label: LABEL,
         statement: STATEMENT,
         advisory: ADVISORY,
+        sky_source: s.basis.source,
+        sky_statement: s.basis.statement,
+        epoch_utc: s.basis.epoch_utc,
+        tle_skipped: s.basis.tle_skipped,
         skyline_source: req
             .skyline
             .as_ref()
@@ -658,6 +885,13 @@ pub struct SkyMonteCarlo {
     pub statement: &'static str,
     /// The advisory statement ([`ADVISORY`]).
     pub advisory: &'static str,
+    /// Where the satellites came from (as [`SkyGeometry::sky_source`]).
+    pub sky_source: String,
+    /// What that sky is, in words.
+    pub sky_statement: String,
+    /// The UTC instant the `tle` satellites were propagated to; absent without `tle`.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub epoch_utc: Option<String>,
     /// The seed of the range-error draws.
     pub seed: u64,
     /// Samples drawn.
@@ -750,6 +984,9 @@ pub fn sky_monte_carlo(req: &SkyRequest, seed: u64, n: usize) -> Result<SkyMonte
         label: LABEL,
         statement: STATEMENT,
         advisory: ADVISORY,
+        sky_source: s.basis.source,
+        sky_statement: s.basis.statement,
+        epoch_utc: s.basis.epoch_utc,
         seed,
         n,
         sigma_uere_m: sigma,
@@ -900,6 +1137,15 @@ pub fn skyplot_svg(req: &SkyRequest) -> Result<String, String> {
         "<text x=\"20\" y=\"50\" fill=\"{MUTED}\" font-size=\"11\">{} in view, {} hidden by the \
          skyline · {dop} · hollow: not in view</text>",
         g.n_visible, g.n_masked
+    ));
+    // The sky's basis, from engine-made strings only (the epoch is formatted here).
+    let basis = match (&g.epoch_utc, g.sky_source.contains("tle-at-epoch")) {
+        (Some(e), true) => format!("TLE sky at {e}, not a measurement"),
+        _ if g.sky_source == "satellites" => "satellites as given".to_string(),
+        _ => "representative sky, not a dated one".to_string(),
+    };
+    out.push_str(&format!(
+        "<text x=\"20\" y=\"590\" fill=\"{MUTED}\" font-size=\"10\">{basis}</text>"
     ));
     out.push_str(&format!(
         "<text x=\"{:.1}\" y=\"590\" text-anchor=\"end\" fill=\"{MUTED}\" font-size=\"10\">Kshana v{} \
@@ -1260,5 +1506,113 @@ mod tests {
         assert!(parse_request("satellites = []\nbogus = 1\n").is_err());
         let r: SkyRequest = serde_json::from_str(r#"{"systems": ["galileo"]}"#).unwrap();
         assert!(sky_geometry(&r).unwrap_err().contains("site"));
+    }
+
+    #[test]
+    fn tle_text_is_propagated_to_the_epoch_and_says_what_sky_it_is() {
+        let gps = include_str!("../tests/fixtures/celestrak/gps-ops_2026-06-07.txt");
+        let site = Site {
+            lat_deg: 52.0,
+            lon_deg: 5.0,
+            height_m: 45.0,
+        };
+        let req = |epoch: Option<&str>, t: f64| SkyRequest {
+            site: Some(site),
+            tle: Some(gps.to_string()),
+            tle_system: Some("G".into()),
+            epoch: epoch.map(str::to_string),
+            time_s: Some(t),
+            ..Default::default()
+        };
+        let g = sky_geometry(&req(Some("2026-06-07T12:00:00Z"), 0.0)).unwrap();
+        assert_eq!(g.sky_source, "tle-at-epoch");
+        assert_eq!(g.epoch_utc.as_deref(), Some("2026-06-07T12:00:00.000000Z"));
+        assert!(g.sky_statement.contains("not a measurement"));
+        assert_eq!(
+            g.satellites.len() + g.n_below_horizon,
+            32,
+            "every set placed"
+        );
+        assert!(g.tle_skipped.is_empty());
+        assert!(g.n_visible >= 4 && g.dop.is_some());
+        assert_eq!(g.clock_labels, vec!["G".to_string()]);
+        assert!(g.satellites.iter().any(|l| l.id.starts_with("GPS BIIR")));
+        // `time_s` counts from the epoch: an hour later by either route is the same sky.
+        let a = sky_geometry(&req(Some("2026-06-07T12:00:00Z"), 3600.0)).unwrap();
+        let b = sky_geometry(&req(Some("2026-06-07T13:00:00Z"), 0.0)).unwrap();
+        assert_eq!(a.satellites.len(), b.satellites.len());
+        for (x, y) in a.satellites.iter().zip(&b.satellites) {
+            assert_eq!(x.id, y.id);
+            assert!(close(x.az_deg, y.az_deg, 1e-6) && close(x.el_deg, y.el_deg, 1e-6));
+        }
+        // A sky an hour on has moved.
+        assert!(a
+            .satellites
+            .iter()
+            .zip(&g.satellites)
+            .any(|(x, y)| (x.el_deg - y.el_deg).abs() > 1.0));
+        // Without an epoch: the newest element set's epoch, and a representative sky.
+        let r = sky_geometry(&req(None, 0.0)).unwrap();
+        assert_eq!(r.sky_source, "tle-at-element-epoch");
+        assert!(r.epoch_utc.as_deref().unwrap().starts_with("2026-06-0"));
+        assert!(r.sky_statement.contains("representative sky"));
+        // Mixed with satellites given directly; the Monte Carlo carries the basis too.
+        let mut mixed = req(Some("2026-06-07T12:00:00Z"), 0.0);
+        mixed.satellites = Some(vec![sat("X1", 10.0, 60.0)]);
+        let m = sky_geometry(&mixed).unwrap();
+        assert_eq!(m.sky_source, "tle-at-epoch+satellites");
+        assert_eq!(m.satellites.len(), g.satellites.len() + 1);
+        let mc = sky_monte_carlo(&req(Some("2026-06-07T12:00:00Z"), 0.0), 1, 10).unwrap();
+        assert_eq!(mc.sky_source, "tle-at-epoch");
+        let svg = skyplot_svg(&req(Some("2026-06-07T12:00:00Z"), 0.0)).unwrap();
+        assert!(svg.contains("TLE sky at 2026-06-07T12:00:00.000000Z"));
+    }
+
+    #[test]
+    fn tle_requests_are_checked() {
+        let site = Some(Site {
+            lat_deg: 52.0,
+            lon_deg: 5.0,
+            height_m: 0.0,
+        });
+        let gps = include_str!("../tests/fixtures/celestrak/gps-ops_2026-06-07.txt");
+        let err = |r: SkyRequest| sky_geometry(&r).unwrap_err();
+        let big = SkyRequest {
+            site,
+            tle: Some(" ".repeat(MAX_TLE_BYTES + 1)),
+            ..Default::default()
+        };
+        assert!(err(big).contains("4 MiB"));
+        let no_site = SkyRequest {
+            tle: Some(gps.into()),
+            ..Default::default()
+        };
+        assert!(err(no_site).contains("site"));
+        let undated = SkyRequest {
+            site,
+            satellites: Some(six()),
+            epoch: Some("2026-06-07T12:00:00Z".into()),
+            ..Default::default()
+        };
+        assert!(err(undated).contains("give `tle`"));
+        let bad_epoch = SkyRequest {
+            site,
+            tle: Some(gps.into()),
+            epoch: Some("2026-02-30T00:00:00Z".into()),
+            ..Default::default()
+        };
+        assert!(err(bad_epoch).contains("epoch"));
+        let line2_only = SkyRequest {
+            site,
+            tle: Some(gps.lines().nth(2).unwrap().to_string()),
+            ..Default::default()
+        };
+        assert!(err(line2_only).contains("line 2 without its line 1"));
+        let empty = SkyRequest {
+            site,
+            tle: Some("nothing here".into()),
+            ..Default::default()
+        };
+        assert!(err(empty).contains("no complete"));
     }
 }
