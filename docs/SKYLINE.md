@@ -188,7 +188,10 @@ taken as UTC and no polar motion, and seen from `site`. `"epoch"` is UTC ISO 860
 | `satellites` | satellites given directly, as stated |
 
 A mix joins them with `+`. `epoch_utc` is the instant the element sets were propagated to, and
-`tle_skipped` names any set SGP4 refused there (decayed, or past its limits) with the reason.
+`tle_skipped` names what of the text was not used, with the reason: malformed or orphaned
+element-set lines (with their line numbers), sets the parser refused, and sets SGP4 could not
+propagate to that instant (decayed, or past its limits); at most 100 entries, then a count. An
+empty `systems` list adds no presets.
 The skyplot states the basis in its footer.
 
 **One kernel.** The cofactor matrix is `orbit::cofactor_from_los`, the design-matrix assembly and
