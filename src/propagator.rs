@@ -32,24 +32,33 @@
 //! body + solar-radiation pressure + atmospheric drag + the post-Newtonian relativistic
 //! correction** (the cannonball SRP model with a conical umbra+penumbra eclipse, quadratic drag
 //! against the Vallado piecewise-exponential atmosphere, and the Schwarzschild perigee-advance
-//! term). The full high-degree EGM tesseral field (a 200×200 gravity model and its coefficient
-//! loader), the NRLMSISE-00 thermospheric density (the < 5 % drag-density clause), solar limb
-//! darkening, the Lense–Thirring frame-dragging term — and the cross-validation of a 200×200 EGM
-//! 24-hour orbit against an external high-precision propagator (GMAT/Orekit) — remain follow-ons
-//! (see `ROADMAP.md`). The third-body/SRP ephemerides are the [`crate::ephem`] *low-precision*
-//! analytical series (~0.005° Sun, ~0.3° Moon), not DE/SPK-kernel accuracy, and the drag density
-//! is the static exponential model. What is delivered is the integrator + the
-//! two-body/J2/zonal/third-body/SRP/drag/relativity force model + the analytic-truth validation
-//! harness and the convergence-guarded Kepler solver.
+//! term). A full **tesseral** Earth geopotential (the bundled EGM2008 field to degree/order 70,
+//! or any ICGEM `.gfc` model through [`crate::gravity_sh::SphericalHarmonicField::from_gfc`]) is
+//! available as an **opt-in** [`Geopotential`] ([`ForceModel::with_geopotential`],
+//! [`ForceModel::with_egm2008`]); the default stays the zonal path, so every existing output is
+//! unchanged. The field is evaluated in the Earth-fixed frame reached either by the Earth rotation
+//! angle alone ([`EarthFixedFrame::Era`], the integration frame then being the
+//! celestial-intermediate frame) or by the full CIO-based GCRS→ITRS chain with nominal Earth
+//! orientation ([`EarthFixedFrame::Cio`]). The NRLMSISE-00 thermospheric density (the < 5 %
+//! drag-density clause) and solar limb darkening remain follow-ons (see `ROADMAP.md`). The
+//! third-body/SRP ephemerides are the [`crate::ephem`] *low-precision* analytical series (~0.005°
+//! Sun, ~0.3° Moon), not DE/SPK-kernel accuracy, and the drag density is the static exponential
+//! model. What is delivered is the integrator + the
+//! two-body/J2/zonal/tesseral/third-body/SRP/drag/relativity force model + the analytic-truth
+//! validation harness and the convergence-guarded Kepler solver.
+
+use std::sync::Arc;
 
 use crate::body::Body;
+use crate::cio::{earth_rotation_angle, gcrs_to_itrs_matrix};
 use crate::ephem::{moon_position, sun_position};
 use crate::forces::{
     drag_accel, j2_accel, lense_thirring_accel, relativistic_accel, srp_accel, third_body_accel,
     two_body_accel_body, zonal_accel, EARTH_ZONALS_J2_J6, MU_EARTH, MU_MOON, MU_SUN,
 };
+use crate::gravity_sh::SphericalHarmonicField;
 use crate::integrator::{integrate, integrate_dopri, rk4_step, Tolerance};
-use crate::precession::julian_centuries_tt;
+use crate::precession::{julian_centuries_tt, mat_vec, transpose, Mat3};
 use crate::sgp4::Sgp4;
 use crate::timescales::SECONDS_PER_DAY;
 
@@ -127,6 +136,91 @@ pub struct ForceModel {
     /// `epoch_jd_tt + t/86400`), so set the epoch via [`third_body`](Self::third_body). The
     /// permanent tide is removed so it does not double-count a zero-tide static field.
     pub tides: bool,
+    /// Optional **tesseral Earth geopotential** (opt-in; `None` by default). When `Some`, its
+    /// spherical-harmonic field is the whole central gravity: it supersedes the two-body,
+    /// [`j2`](Self::j2), [`zonals`](Self::zonals) and [`Body::gravity`] paths (the field carries
+    /// its own `GM` and `C̄₀₀`). `None` leaves every historical output bit-for-bit unchanged.
+    pub geopotential: Option<Geopotential>,
+}
+
+/// The Earth-fixed frame an opt-in [`Geopotential`] is evaluated in, i.e. how the propagator's
+/// inertial position is rotated into the frame the `C̄_nm, S̄_nm` coefficients are defined in.
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
+pub enum EarthFixedFrame {
+    /// A rotation about the inertial z axis by the Earth rotation angle
+    /// ([`crate::cio::earth_rotation_angle`], IAU 2000) at UT1 = TT + `ut1_minus_tt_s`. The
+    /// inertial integration frame is then the celestial intermediate frame of date with its
+    /// precession–nutation frozen, which is the propagator's plain-ECI convention. The default.
+    #[default]
+    Era,
+    /// The full CIO-based GCRS→ITRS rotation ([`crate::cio::gcrs_to_itrs_matrix`], SOFA
+    /// `c2tcio`: IAU 2006/2000A precession–nutation, Earth rotation angle) with nominal Earth
+    /// orientation (UT1 = TT + `ut1_minus_tt_s`, no polar motion). The inertial integration frame
+    /// is then the GCRS, as in [`crate::precise_od`].
+    Cio,
+}
+
+/// An opt-in tesseral Earth gravity field for [`ForceModel`]: a fully-normalized
+/// [`SphericalHarmonicField`] (shared, so cloning a model never copies a high-degree field), the
+/// [`EarthFixedFrame`] it is evaluated in, and the UT1 offset that sets the Earth's rotation.
+#[derive(Clone, Debug)]
+pub struct Geopotential {
+    /// The spherical-harmonic field (Earth-fixed, central term included).
+    pub field: Arc<SphericalHarmonicField>,
+    /// The Earth-fixed frame the field is evaluated in.
+    pub frame: EarthFixedFrame,
+    /// `UT1 − TT` (s) used for the Earth rotation angle; `0` (the default) takes UT1 = TT, a
+    /// fixed ~69 s (~0.3°) rotation offset that callers with real Earth orientation replace.
+    pub ut1_minus_tt_s: f64,
+}
+
+impl Geopotential {
+    /// A geopotential over `field`, evaluated in the [`EarthFixedFrame::Era`] frame with UT1 = TT.
+    pub fn new(field: SphericalHarmonicField) -> Self {
+        Self {
+            field: Arc::new(field),
+            frame: EarthFixedFrame::Era,
+            ut1_minus_tt_s: 0.0,
+        }
+    }
+
+    /// The bundled EGM2008 field truncated to degree/order `nmax` (clamped to the shipped 70).
+    pub fn egm2008(nmax: usize) -> Self {
+        Self::new(SphericalHarmonicField::egm2008_truncated(nmax))
+    }
+
+    /// Select the Earth-fixed frame (chainable).
+    pub fn in_frame(mut self, frame: EarthFixedFrame) -> Self {
+        self.frame = frame;
+        self
+    }
+
+    /// Set `UT1 − TT` in seconds (chainable).
+    pub fn with_ut1_minus_tt(mut self, ut1_minus_tt_s: f64) -> Self {
+        self.ut1_minus_tt_s = ut1_minus_tt_s;
+        self
+    }
+
+    /// The inertial→Earth-fixed rotation matrix at TT epoch `jd_tt`.
+    pub fn inertial_to_earth_fixed(&self, jd_tt: f64) -> Mat3 {
+        let jd_ut1 = jd_tt + self.ut1_minus_tt_s / SECONDS_PER_DAY;
+        match self.frame {
+            EarthFixedFrame::Era => {
+                let (s, c) = earth_rotation_angle(jd_ut1).sin_cos();
+                [[c, s, 0.0], [-s, c, 0.0], [0.0, 0.0, 1.0]]
+            }
+            EarthFixedFrame::Cio => gcrs_to_itrs_matrix(jd_tt, jd_ut1, 0.0, 0.0),
+        }
+    }
+
+    /// The central gravitational acceleration (m/s², inertial) at inertial position `r` (m) and
+    /// TT epoch `jd_tt`: rotate `r` into the Earth-fixed frame, evaluate the field there, rotate
+    /// the acceleration back.
+    pub fn acceleration(&self, jd_tt: f64, r: Vec3) -> Vec3 {
+        let m = self.inertial_to_earth_fixed(jd_tt);
+        let a_ef = self.field.acceleration(mat_vec(&m, r));
+        mat_vec(&transpose(&m), a_ef)
+    }
 }
 
 impl ForceModel {
@@ -220,6 +314,20 @@ impl ForceModel {
         self
     }
 
+    /// Use the opt-in tesseral Earth [`Geopotential`] as the central gravity (it supersedes the
+    /// two-body/J2/zonal/[`Body::gravity`] paths). Composable with every other term, e.g.
+    /// `ForceModel::two_body().with_geopotential(Geopotential::egm2008(70)).third_body(true, true, epoch)`.
+    pub fn with_geopotential(mut self, geopotential: Geopotential) -> Self {
+        self.geopotential = Some(geopotential);
+        self
+    }
+
+    /// Shorthand for [`with_geopotential`](Self::with_geopotential) over the bundled EGM2008
+    /// field to degree/order `nmax` (≤ 70) in the [`EarthFixedFrame::Era`] frame with UT1 = TT.
+    pub fn with_egm2008(self, nmax: usize) -> Self {
+        self.with_geopotential(Geopotential::egm2008(nmax))
+    }
+
     /// The time-independent **central** gravity (m/s², ECI) at position `r` (m): two-body plus
     /// the configured J2/zonal field, but *not* the third-body terms (which depend on time
     /// through the ephemeris — see [`accel_at`](Self::accel_at)). For a model without Sun/Moon
@@ -245,6 +353,11 @@ impl ForceModel {
     /// TDB ≈ TT is used for the body orientation (sub-2-ms agreement ⇒ a sub-µas orientation
     /// error, far below the gravity-field accuracy at this degree).
     fn central_accel_at(&self, jd_tt: f64, r: Vec3) -> Vec3 {
+        // The opt-in tesseral Earth geopotential is the whole central field when present. It is
+        // `None` by default, so this branch never runs for a historical configuration.
+        if let Some(gp) = &self.geopotential {
+            return gp.acceleration(jd_tt, r);
+        }
         if let Some(field) = &self.body.gravity {
             // Rotate the inertial position into the body-fixed frame, evaluate the Mars-fixed
             // field, rotate the acceleration back to inertial (mirrors `crate::lunar_od`).
@@ -1320,5 +1433,94 @@ mod tests {
             format!("{e}").contains('6'),
             "Display should name the code: {e}"
         );
+    }
+    // ── opt-in tesseral geopotential (RM-09) ────────────────────────────────────────────────
+
+    #[test]
+    fn the_default_model_carries_no_geopotential() {
+        // Additivity: every constructor leaves the opt-in field off, so the historical central
+        // gravity path (and every golden built on it) is untouched.
+        for m in [
+            ForceModel::two_body(),
+            ForceModel::with_j2(),
+            ForceModel::with_zonals_j2_j6(),
+            ForceModel::default().third_body(true, true, 2_451_545.0),
+        ] {
+            assert!(m.geopotential.is_none());
+        }
+    }
+
+    #[test]
+    fn a_zonal_geopotential_reproduces_the_zonal_path_in_every_frame_rotation() {
+        // A field holding only C̄00 = 1 and the J2..J6 zonals is axially symmetric, so rotating
+        // into the Earth-fixed frame about z and back must reproduce the independently coded
+        // two-body + zonal_accel path, whatever the Earth rotation angle. This ties the rotation
+        // plumbing to code that never touches it.
+        let mut f = SphericalHarmonicField::zeros(MU_EARTH, crate::forces::RE_EARTH, 6);
+        f.set(0, 0, 1.0, 0.0);
+        for (i, &j) in EARTH_ZONALS_J2_J6.iter().enumerate() {
+            let n = i + 2;
+            f.set(n, 0, -j / ((2 * n + 1) as f64).sqrt(), 0.0);
+        }
+        let tess = ForceModel::two_body().with_geopotential(Geopotential::new(f));
+        let zonal = ForceModel::with_zonals_j2_j6();
+        let r = [6.9e6, 1.1e6, 1.4e6];
+        for t in [0.0, 1234.5, 40_000.0] {
+            let a = tess.accel_at(t, r);
+            let b = zonal.accel_at(t, r);
+            let d = norm([a[0] - b[0], a[1] - b[1], a[2] - b[2]]);
+            assert!(d / norm(b) < 1e-12, "t={t}: rel {}", d / norm(b));
+        }
+    }
+
+    #[test]
+    fn the_cio_frame_matches_the_precise_od_geopotential_bit_for_bit() {
+        // In the CIO frame with UT1 = TT the opt-in path evaluates exactly the rotation and field
+        // the precise orbit-determination force model uses, so the two must agree to the bit.
+        use crate::precise_od::{ForceModel as _, PreciseForceModel};
+        let epoch = 2_459_580.5;
+        let ours = ForceModel::two_body()
+            .with_geopotential(Geopotential::egm2008(30).in_frame(EarthFixedFrame::Cio))
+            .third_body(false, false, epoch);
+        let theirs = PreciseForceModel::egm2008(30, epoch);
+        let (r, v) = ([6.9e6, 1.1e6, 1.4e6], [-1.0e3, 7.0e3, 1.5e3]);
+        for t in [0.0, 600.0, 7200.0] {
+            assert_eq!(ours.accel_at(t, r), theirs.accel_rv(t, r, v), "t = {t}");
+        }
+    }
+
+    #[test]
+    fn the_tesseral_orbit_conserves_the_jacobi_integral() {
+        // A gravity field rotating uniformly about z conserves the Jacobi integral
+        // J = ½|v|² − U(r) − ω·(r × v)_z in the inertial frame. The Earth rotation angle advances
+        // at the constant IAU 2000 rate, so a 6 h EGM2008 20×20 propagation must hold J to the
+        // integrator tolerance; a sign or frame error in the rotation breaks it at once.
+        let epoch = 2_451_545.0;
+        let gp = Geopotential::egm2008(20);
+        let field = gp.field.clone();
+        let model = ForceModel::two_body()
+            .with_geopotential(gp.clone())
+            .third_body(false, false, epoch);
+        let omega = std::f64::consts::TAU * 1.002_737_811_911_354_48 / SECONDS_PER_DAY;
+        let jacobi = |t: f64, r: Vec3, v: Vec3| {
+            let m = gp.inertial_to_earth_fixed(epoch + t / SECONDS_PER_DAY);
+            let u = field.potential(mat_vec(&m, r));
+            0.5 * dot(v, v) - u - omega * (r[0] * v[1] - r[1] * v[0])
+        };
+        let (r0, v0) = leo_state();
+        let tol = Tolerance {
+            rtol: 1e-12,
+            atol: 1e-9,
+            ..Tolerance::default()
+        };
+        let t_end = 6.0 * 3600.0;
+        let (r1, v1) = propagate_dopri(r0, v0, t_end, &model, &tol);
+        let (j0, j1) = (jacobi(0.0, r0, v0), jacobi(t_end, r1, v1));
+        let rel = ((j1 - j0) / j0).abs();
+        assert!(rel < 1e-9, "Jacobi drift {rel:e} (J0 = {j0}, J1 = {j1})");
+        // And the tesseral field genuinely moved the orbit away from the J2..J6 zonal one.
+        let (rz, _) = propagate_dopri(r0, v0, t_end, &ForceModel::with_zonals_j2_j6(), &tol);
+        let sep = norm([r1[0] - rz[0], r1[1] - rz[1], r1[2] - rz[2]]);
+        assert!(sep > 10.0, "tesseral vs zonal separation only {sep} m");
     }
 }
