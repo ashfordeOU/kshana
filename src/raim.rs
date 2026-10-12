@@ -31,9 +31,11 @@
 //! satellite from the sub-solution separations, and builds the protection level
 //! from the per-mode separation statistics.
 //!
-//! Scope: single-constellation, snapshot (no carrier smoothing; single-fault
-//! hypotheses — no simultaneous multi-satellite subsets; no full ARAIM
-//! integrity-risk *budget* allocation across constellations). [`snapshot_raim`]
+//! Scope: snapshot (no carrier smoothing). [`snapshot_raim`] and
+//! [`solution_separation_raim`] use single-fault hypotheses; [`araim_raim`] and
+//! [`araim_dual_raim`] add the integrity-risk budget and the constellation-wide fault;
+//! [`araim_subset_raim`] (opt-in) adds simultaneous multi-satellite fault subsets selected
+//! by the ADD v4.2 `P_THRES` rule. [`snapshot_raim`]
 //! and [`snapshot_raim_fde`] are cross-validated against RTKLIB's `estpos`/`raim_fde`
 //! on real station data (`tests/integrity_snapshot_raim_rtklib_oracle.rs`); the
 //! ADD v4.2 ARAIM path lives in `araim_reference`. Together these provide
@@ -863,8 +865,8 @@ pub struct AraimResult {
 /// then lacks the `n−1 ≥ 5` redundancy) or a singular geometry. The
 /// single-fault hypothesis set is the ARAIM baseline; the constellation-wide
 /// fault mode is implemented in [`araim_dual_raim`], and simultaneous multi-SV
-/// subset faults remain a documented extension (each adds further hypotheses to
-/// the same budget sum). Exercised on the real IGS precise-orbit (SP3) geometry
+/// subset faults in [`araim_subset_raim`] (opt-in; each subset adds one more
+/// hypothesis to the same budget sum). Exercised on the real IGS precise-orbit (SP3) geometry
 /// (`tests/igs_real_data.rs`), not only synthetic constellations.
 pub fn araim_raim(
     user: Vec3,
@@ -1298,6 +1300,237 @@ pub fn araim_dual_raim_in(
         p_hmi_horz: 2.0 * araim_integrity_risk(hpl, &modes_h),
         fault_detected,
         excluded_sv,
+    })
+}
+
+/// The subset rule of [`araim_subset_raim`]: which simultaneous multi-satellite fault
+/// hypotheses are monitored. These are the ADD v4.2 subset-determination parameters
+/// ([`crate::araim_reference::add_v42_subset_plan`]).
+#[derive(Clone, Copy, Debug, PartialEq, Serialize, Deserialize)]
+pub struct SubsetRule {
+    /// `P_THRES`: subsets are added (fewest satellites removed first) until the integrity risk
+    /// of everything left unmonitored is at most this. ADD v4.2 / LPV-200: `8e-8`.
+    pub p_thres: f64,
+    /// `FC_THRES`: a subset wholly inside one constellation whose prior is below this times the
+    /// constellation's fault prior is merged into the constellation fault. MAAST default `0.01`.
+    pub fc_thres: f64,
+    /// The largest number of simultaneous events (satellite or constellation faults) the rule
+    /// may enumerate; at least 2. Priors whose `N_fault,max` exceeds it are refused rather than
+    /// silently truncated (an under-counted hypothesis set would shrink every protection level).
+    pub max_order: usize,
+}
+
+impl Default for SubsetRule {
+    fn default() -> Self {
+        Self {
+            p_thres: 8e-8,
+            fc_thres: 0.01,
+            max_order: 3,
+        }
+    }
+}
+
+/// [`araim_subset_raim`]'s result: the protection levels and the integrity risk they achieve,
+/// with the multi-satellite subset bookkeeping.
+#[derive(Clone, Debug, PartialEq, Serialize)]
+pub struct AraimSubsetResult {
+    /// Satellites in the all-in-view solution.
+    pub n_used: usize,
+    /// Horizontal protection level (m).
+    pub hpl_m: f64,
+    /// Vertical protection level (m).
+    pub vpl_m: f64,
+    /// Integrity risk the vertical PL achieves, two-sided (≤ the allocated vertical budget less
+    /// its share of the unmonitored risk).
+    pub p_hmi_vert: f64,
+    /// Integrity risk the horizontal PL achieves, two-sided.
+    pub p_hmi_horz: f64,
+    /// `N_fault,max` from the `P_THRES` rule.
+    pub n_fault_max: usize,
+    /// Monitored fault hypotheses, the all-in-view solution excluded, after identical subsets
+    /// are combined.
+    pub monitored_fault_modes: usize,
+    /// The most satellites any monitored hypothesis removes.
+    pub max_subset_size: usize,
+    /// Integrity risk of every hypothesis left unmonitored, including the priors of monitored
+    /// subsets whose sub-solution turned out unobservable.
+    pub p_not_monitored: f64,
+    /// `true` when some subset solution separates beyond its threshold.
+    pub fault_detected: bool,
+    /// The satellites (indices into `sats`) of the subset with the largest normalised
+    /// separation above threshold, when a fault is detected.
+    pub excluded_subset: Option<Vec<usize>>,
+}
+
+/// Advanced RAIM with **simultaneous multi-satellite fault hypotheses** (opt-in).
+///
+/// [`araim_dual_raim`] monitors the fault-free case, every single-satellite fault and every
+/// constellation-wide fault. This function instead monitors the hypothesis set the ADD v4.2
+/// subset rule selects ([`crate::araim_reference::add_v42_subset_plan`]): every combination of
+/// up to `max(N_fault,max, 2)` simultaneous satellite and constellation faults, with its exact
+/// prior `P_no fault·Π p_e/(1 − p_e)`, low-probability intra-constellation subsets merged into
+/// the constellation fault (`FC_THRES`), and subsets added until the unmonitored risk is at
+/// most `P_THRES`. Each monitored subset adds one `(p_fault, T, b, σ)` mode, built exactly as
+/// the single-SV and constellation modes are ([`araim_exclusion_mode`]), to the same
+/// integrity-risk sum; a subset whose sub-solution keeps fewer than five satellites or is
+/// singular is dropped and its prior moved to the unmonitored risk. The per-axis one-sided
+/// budget is `½·P_HMI,axis·(1 − P_not monitored/(P_HMI,vert + P_HMI,horz))`, the ADD
+/// allocation of the unmonitored risk.
+///
+/// What it shares with [`araim_dual_raim`], and is therefore **not** ADD-conformant: one
+/// `sigma_m` for integrity and separation (no `C_acc`), one clock column, one false-alert
+/// multiplier `K_fa = Φ⁻¹(1 − p_fa/(2N))` over the `N` fault modes for both axes, and the
+/// plain normal tail rather than the ADD's modified tail. The ADD-conformant multi-event path
+/// is [`crate::araim_reference::add_v42_protection_levels_to_order`].
+///
+/// Returns `None` for fewer than six satellites, mismatched inputs, a singular geometry,
+/// priors the rule refuses (`N_fault,max > max_order`), or an unmonitored risk that consumes
+/// the whole budget. The constellation label `constellation[i]` groups satellites into
+/// constellation-fault events, each with prior `priors.p_const` (`0` gives zero-prior
+/// constellation events, which the rule then never needs to monitor for risk).
+#[allow(clippy::too_many_arguments)]
+pub fn araim_subset_raim(
+    user: Vec3,
+    sats: &[Vec3],
+    constellation: &[u8],
+    range_residual_m: &[f64],
+    sigma_m: f64,
+    priors: DualFaultPriors,
+    budget: IntegrityBudget,
+    rule: SubsetRule,
+) -> Option<AraimSubsetResult> {
+    araim_subset_raim_in(
+        user,
+        enu_basis(user)?,
+        sats,
+        constellation,
+        range_residual_m,
+        sigma_m,
+        priors,
+        budget,
+        rule,
+    )
+}
+
+/// [`araim_subset_raim`] with the local level given (see [`araim_dual_raim_in`]).
+#[allow(clippy::too_many_arguments)]
+pub fn araim_subset_raim_in(
+    user: Vec3,
+    basis: (Vec3, Vec3, Vec3),
+    sats: &[Vec3],
+    constellation: &[u8],
+    range_residual_m: &[f64],
+    sigma_m: f64,
+    priors: DualFaultPriors,
+    budget: IntegrityBudget,
+    rule: SubsetRule,
+) -> Option<AraimSubsetResult> {
+    let n = sats.len();
+    if n != range_residual_m.len() || n != constellation.len() || n < 6 || sigma_m <= 0.0 {
+        return None;
+    }
+    let mut g: Vec<[f64; 4]> = Vec::with_capacity(n);
+    for &s in sats {
+        let e = los_unit(user, s)?;
+        g.push([-e[0], -e[1], -e[2], 1.0]);
+    }
+    let (east, north, up) = basis;
+    let (x0, a0) = lsq_solution(&g, range_residual_m)?;
+    let var0_v = axis_variance(&a0, up);
+    let var0_h = axis_variance(&a0, east) + axis_variance(&a0, north);
+
+    // Dense constellation indices for the subset rule.
+    let mut consts: Vec<u8> = constellation.to_vec();
+    consts.sort_unstable();
+    consts.dedup();
+    let dense: Vec<usize> = constellation
+        .iter()
+        .map(|c| consts.binary_search(c).unwrap_or(0))
+        .collect();
+    let p_hmi_total = budget.p_hmi_vert + budget.p_hmi_horz;
+    let plan = crate::araim_reference::add_v42_subset_plan(
+        &dense,
+        consts.len(),
+        &vec![priors.p_sat; n],
+        &vec![priors.p_const; consts.len()],
+        p_hmi_total,
+        rule.p_thres,
+        rule.fc_thres,
+        rule.max_order,
+    )
+    .ok()?;
+    let n_fault_modes = plan.unique.len().saturating_sub(1).max(1);
+    let k_fa = normal_quantile(1.0 - budget.p_fa / (2.0 * n_fault_modes as f64));
+
+    let mut modes_v = vec![AraimMode {
+        p_fault: plan.unique[0].1,
+        threshold_m: 0.0,
+        bias_m: axis_bias_sum(&a0, &g, up, priors.b_nom_m),
+        sigma_m: sigma_m * var0_v.sqrt(),
+    }];
+    let mut modes_h = vec![AraimMode {
+        p_fault: plan.unique[0].1,
+        threshold_m: 0.0,
+        bias_m: horiz_bias_sum(&a0, &g, east, north, priors.b_nom_m),
+        sigma_m: sigma_m * var0_h.sqrt(),
+    }];
+    let mut p_nm = plan.p_not_monitored;
+    let mut monitored = 0usize;
+    let mut max_subset_size = 0usize;
+    let mut fault_detected = false;
+    let mut excluded_subset = None;
+    let mut max_norm_sep = 0.0_f64;
+    for (out, p) in plan.unique.iter().skip(1) {
+        match araim_exclusion_mode(
+            &g,
+            range_residual_m,
+            |i| !out[i],
+            &x0,
+            east,
+            north,
+            up,
+            var0_v,
+            var0_h,
+            sigma_m,
+            k_fa,
+            *p,
+            priors.b_nom_m,
+            5,
+        ) {
+            Some((mv, mh, nrm)) => {
+                modes_v.push(mv);
+                modes_h.push(mh);
+                monitored += 1;
+                max_subset_size = max_subset_size.max(out.iter().filter(|&&x| x).count());
+                if nrm > max_norm_sep {
+                    max_norm_sep = nrm;
+                    if nrm > k_fa {
+                        fault_detected = true;
+                        excluded_subset = Some((0..n).filter(|&i| out[i]).collect());
+                    }
+                }
+            }
+            None => p_nm += *p,
+        }
+    }
+    let scale = 1.0 - p_nm / p_hmi_total;
+    if scale <= 0.0 {
+        return None;
+    }
+    let vpl = araim_protection_level(&modes_v, 0.5 * budget.p_hmi_vert * scale);
+    let hpl = araim_protection_level(&modes_h, 0.5 * budget.p_hmi_horz * scale);
+    Some(AraimSubsetResult {
+        n_used: n,
+        hpl_m: hpl,
+        vpl_m: vpl,
+        p_hmi_vert: 2.0 * araim_integrity_risk(vpl, &modes_v),
+        p_hmi_horz: 2.0 * araim_integrity_risk(hpl, &modes_h),
+        n_fault_max: plan.n_fault_max,
+        monitored_fault_modes: monitored,
+        max_subset_size,
+        p_not_monitored: p_nm,
+        fault_detected,
+        excluded_subset,
     })
 }
 
