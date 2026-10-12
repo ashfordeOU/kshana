@@ -55,7 +55,9 @@ use sha2::{Digest, Sha256};
 
 /// One piece of a piecewise mask: on the observation interval between `lo_s` and `hi_s`
 /// (each end open or closed exactly as the source table states it) the limit is
-/// `slope_ns_per_s · τ + intercept_ns`.
+/// `slope_ns_per_s · τ^tau_exponent + intercept_ns`. Every piece of the G.827x tables is
+/// linear (`tau_exponent` 1); the G.811, G.812 and G.8262 wander-generation tables also
+/// write power laws such as `8 τ^0.5` ns, which are pieces with `intercept_ns` 0.
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct Segment {
     /// Lower end of the observation interval (s).
@@ -66,10 +68,13 @@ pub struct Segment {
     pub hi_s: f64,
     /// Whether `hi_s` itself belongs to the interval.
     pub hi_inclusive: bool,
-    /// Slope of the limit in the observation interval τ (ns per s).
+    /// Coefficient of `τ^tau_exponent` (ns per s^tau_exponent; the slope in ns per s
+    /// for a linear piece).
     pub slope_ns_per_s: f64,
     /// Intercept of the limit, its value extrapolated to τ = 0 (ns).
     pub intercept_ns: f64,
+    /// Exponent of τ in the piece: 1 for a linear piece, as in every G.827x table.
+    pub tau_exponent: f64,
 }
 
 impl Segment {
@@ -90,7 +95,11 @@ impl Segment {
 
     /// The limit at `tau_s`, in nanoseconds (meaningful only inside the interval).
     pub fn limit_ns(&self, tau_s: f64) -> f64 {
-        self.slope_ns_per_s * tau_s + self.intercept_ns
+        if self.tau_exponent == 1.0 {
+            self.slope_ns_per_s * tau_s + self.intercept_ns
+        } else {
+            self.slope_ns_per_s * tau_s.powf(self.tau_exponent) + self.intercept_ns
+        }
     }
 }
 
@@ -109,6 +118,28 @@ const fn seg(
         hi_inclusive,
         slope_ns_per_s,
         intercept_ns,
+        tau_exponent: 1.0,
+    }
+}
+
+/// A power-law piece `coeff_ns · τ^tau_exponent`, as the G.811, G.812 and G.8262 tables
+/// write them.
+const fn pow_seg(
+    lo_s: f64,
+    lo_inclusive: bool,
+    hi_s: f64,
+    hi_inclusive: bool,
+    coeff_ns: f64,
+    tau_exponent: f64,
+) -> Segment {
+    Segment {
+        lo_s,
+        lo_inclusive,
+        hi_s,
+        hi_inclusive,
+        slope_ns_per_s: coeff_ns,
+        intercept_ns: 0.0,
+        tau_exponent,
     }
 }
 
@@ -148,6 +179,11 @@ pub enum MeasurementFilter {
     /// A first-order low-pass filter with a 0.1 Hz bandwidth, as ITU-T G.8273.2 and
     /// G.8271.1 state for the low-pass-filtered time error.
     LowPass0p1Hz,
+    /// The equivalent 10 Hz first-order low-pass measurement filter, at a sampling time of
+    /// at most 1/30 s, that ITU-T G.811 clause 6, G.812 clause 8 and G.8262 / G.8262.1
+    /// clause 8 state for wander generation. It acts before sampling, so the kind takes
+    /// the record as already measured through it and applies nothing.
+    LowPass10HzAtSource,
 }
 
 impl MeasurementFilter {
@@ -156,6 +192,10 @@ impl MeasurementFilter {
         match self {
             MeasurementFilter::None => "none",
             MeasurementFilter::LowPass0p1Hz => "first-order low-pass, 0.1 Hz",
+            MeasurementFilter::LowPass10HzAtSource => {
+                "first-order low-pass, 10 Hz, taken as applied by the measurement before \
+                 sampling"
+            }
         }
     }
 }
@@ -167,14 +207,20 @@ pub enum MaskCondition {
     Locked,
     /// The mask applies while the clock is in holdover.
     Holdover,
+    /// The mask applies to an autonomous clock that is not locked to any reference (an
+    /// ITU-T G.811 primary reference clock, measured in the independent clock
+    /// configuration of G.810 Figure 2a).
+    Autonomous,
 }
 
 impl MaskCondition {
-    /// The condition as it is written in the report (`locked` or `holdover`).
+    /// The condition as it is written in the report (`locked`, `holdover` or
+    /// `autonomous`).
     pub fn as_str(self) -> &'static str {
         match self {
             MaskCondition::Locked => "locked",
             MaskCondition::Holdover => "holdover",
+            MaskCondition::Autonomous => "autonomous",
         }
     }
 }
@@ -212,6 +258,10 @@ const G8272: &str = "ITU-T G.8272/Y.1367 (07/2025)";
 const G8272_1: &str = "ITU-T G.8272.1/Y.1367.1 (2024) Amd. 1 (07/2025)";
 const G8273_2: &str = "ITU-T G.8273.2/Y.1368.2 (2023) Amd. 2 (11/2025)";
 const G8271_1: &str = "ITU-T G.8271.1/Y.1366.1 (2022) Amd. 3 (05/2025)";
+const G811: &str = "ITU-T G.811 (09/1997) Amd. 1 (04/2016)";
+const G812: &str = "ITU-T G.812 (06/2004)";
+const G8262: &str = "ITU-T G.8262 (10/2024)";
+const G8262_1: &str = "ITU-T G.8262.1 (11/2025)";
 
 const INF: f64 = f64::INFINITY;
 
@@ -285,6 +335,96 @@ const POINT_C_ENHANCED_MTIE: &[Segment] = &[
 const POINT_C_ACCESS_MTIE: &[Segment] = &[
     seg(1.0, false, 400.0, false, 0.0475, 25.0),
     seg(400.0, false, 10_000.0, true, 0.0, 44.0),
+];
+
+// Frequency-synchronisation (SDH and synchronous Ethernet) wander generation. Every table
+// below is the constant-temperature (within ±1 K) limit, measured through the equivalent
+// 10 Hz first-order low-pass filter the clause states; the variable-temperature
+// allowances are not implemented.
+//
+// ITU-T G.811 (09/1997) Amd. 1 (04/2016) clause 6.1 (Figure 1), PRC, independent clock
+// configuration: 0.275e-3·τ + 0.025 µs for 0.1 < τ ≤ 1 000 s, 1e-5·τ + 0.29 µs above.
+// Amd. 1 reprints clause 6.1 unchanged.
+const G811_PRC_MTIE: &[Segment] = &[
+    seg(0.1, false, 1000.0, true, 0.275, 25.0),
+    seg(1000.0, false, INF, false, 0.01, 290.0),
+];
+// ITU-T G.811 (09/1997) Amd. 1 (04/2016) clause 6.1 (Figure 2): the last interval is
+// written 1 000 < τ < 10 000, open at 10 000 s.
+const G811_PRC_TDEV: &[Segment] = &[
+    seg(0.1, false, 100.0, true, 0.0, 3.0),
+    seg(100.0, false, 1000.0, true, 0.03, 0.0),
+    seg(1000.0, false, 10_000.0, false, 0.0, 30.0),
+];
+// ITU-T G.812 (06/2004) clause 8.1, Table 3 (Type I, MTIE, constant temperature).
+const G812_TYPE_I_MTIE: &[Segment] = &[
+    seg(0.1, false, 9.0, true, 0.0, 24.0),
+    pow_seg(9.0, false, 400.0, true, 8.0, 0.5),
+    seg(400.0, false, 10_000.0, true, 0.0, 160.0),
+];
+// ITU-T G.812 (06/2004) clause 8.1, Table 4 (Types II and III, MTIE, constant
+// temperature): the last row is written τ > 10, with no upper end.
+const G812_TYPE_II_III_MTIE: &[Segment] = &[
+    seg(0.1, false, 1.0, true, 0.0, 40.0),
+    pow_seg(1.0, false, 10.0, true, 40.0, 0.4),
+    seg(10.0, false, INF, false, 0.0, 100.0),
+];
+// ITU-T G.812 (06/2004) clause 8.1, Table 6 (Type I, TDEV, constant temperature).
+const G812_TYPE_I_TDEV: &[Segment] = &[
+    seg(0.1, false, 25.0, true, 0.0, 3.0),
+    seg(25.0, false, 100.0, true, 0.12, 0.0),
+    seg(100.0, false, 10_000.0, true, 0.0, 12.0),
+];
+// ITU-T G.812 (06/2004) clause 8.1, Table 7 (Types II and III, TDEV, constant
+// temperature): the last row is written τ > 1 000, with no upper end.
+const G812_TYPE_II_III_TDEV: &[Segment] = &[
+    pow_seg(0.1, false, 2.5, true, 3.2, -0.5),
+    seg(2.5, false, 40.0, true, 0.0, 2.0),
+    pow_seg(40.0, false, 1000.0, true, 0.32, 0.5),
+    seg(1000.0, false, INF, false, 0.0, 10.0),
+];
+// ITU-T G.8262 (10/2024) clause 8.1.1, Table 1 (EEC Option 1, MTIE, constant
+// temperature).
+const G8262_OPT1_MTIE: &[Segment] = &[
+    seg(0.1, false, 1.0, true, 0.0, 40.0),
+    pow_seg(1.0, false, 100.0, true, 40.0, 0.1),
+    pow_seg(100.0, false, 1000.0, true, 25.25, 0.2),
+];
+// ITU-T G.8262 (10/2024) clause 8.1.1, Table 3 (EEC Option 1, TDEV, constant
+// temperature).
+const G8262_OPT1_TDEV: &[Segment] = &[
+    seg(0.1, false, 25.0, true, 0.0, 3.2),
+    pow_seg(25.0, false, 100.0, true, 0.64, 0.5),
+    seg(100.0, false, 1000.0, true, 0.0, 6.4),
+];
+// ITU-T G.8262 (10/2024) clause 8.1.2, Table 4 (EEC Option 2, MTIE, constant
+// temperature).
+const G8262_OPT2_MTIE: &[Segment] = &[
+    seg(0.1, false, 1.0, true, 0.0, 20.0),
+    pow_seg(1.0, false, 10.0, true, 20.0, 0.48),
+    seg(10.0, false, 1000.0, true, 0.0, 60.0),
+];
+// ITU-T G.8262 (10/2024) clause 8.1.2, Table 5 (EEC Option 2, TDEV, constant
+// temperature).
+const G8262_OPT2_TDEV: &[Segment] = &[
+    pow_seg(0.1, false, 2.5, true, 3.2, -0.5),
+    seg(2.5, false, 40.0, true, 0.0, 2.0),
+    pow_seg(40.0, false, 1000.0, true, 0.32, 0.5),
+    seg(1000.0, false, 10_000.0, true, 0.0, 10.0),
+];
+// ITU-T G.8262.1 (11/2025) clause 8.1, Table 1 (eEEC, MTIE, constant temperature): the
+// first row is written 0.1 ≤ τ ≤ 1, closed at 0.1 s.
+const G8262_1_MTIE: &[Segment] = &[
+    pow_seg(0.1, true, 1.0, true, 10.0, 0.155),
+    pow_seg(1.0, false, 100.0, true, 10.0, 0.1),
+    pow_seg(100.0, false, 1000.0, true, 6.3, 0.2),
+];
+// ITU-T G.8262.1 (11/2025) clause 8.1, Table 3 (eEEC, TDEV, constant temperature): the
+// first row is written 0.1 ≤ τ ≤ 25.
+const G8262_1_TDEV: &[Segment] = &[
+    seg(0.1, true, 25.0, true, 0.0, 0.64),
+    pow_seg(25.0, false, 100.0, true, 0.128, 0.5),
+    seg(100.0, false, 1000.0, true, 0.0, 1.28),
 ];
 
 /// Every selectable mask.
@@ -524,6 +664,148 @@ pub const MASKS: &[TimingMask] = &[
         tdev: None,
         holdover_envelope: false,
         not_specified: "the TDEV network limit is for further study",
+    },
+    TimingMask {
+        id: "g811-prc",
+        title: "Primary reference clock (PRC)",
+        recommendation: G811,
+        condition: MaskCondition::Autonomous,
+        filter: MeasurementFilter::LowPass10HzAtSource,
+        max_abs_te: None,
+        cte: None,
+        mtie: Some(CurveMask {
+            segments: G811_PRC_MTIE,
+            source: "G.811 clause 6.1 (Figure 1)",
+        }),
+        tdev: Some(CurveMask {
+            segments: G811_PRC_TDEV,
+            source: "G.811 clause 6.1 (Figure 2)",
+        }),
+        holdover_envelope: false,
+        not_specified: "G.811 states no TDEV limit from 10 000 s on; the frequency accuracy of clause 5 \
+                        (1e-11) is not checked here",
+    },
+    TimingMask {
+        id: "g812-type-i",
+        title: "Node clock (G.812), Type I, locked mode",
+        recommendation: G812,
+        condition: MaskCondition::Locked,
+        filter: MeasurementFilter::LowPass10HzAtSource,
+        max_abs_te: None,
+        cte: None,
+        mtie: Some(CurveMask {
+            segments: G812_TYPE_I_MTIE,
+            source: "G.812 Table 3",
+        }),
+        tdev: Some(CurveMask {
+            segments: G812_TYPE_I_TDEV,
+            source: "G.812 Table 6",
+        }),
+        holdover_envelope: false,
+        not_specified: "G.812 constant-temperature (±1 K) wander generation only: the variable-temperature \
+                        MTIE of Table 5 and the holdover and transient requirements of \
+                        clause 11 are not checked here",
+    },
+    TimingMask {
+        id: "g812-type-ii",
+        title: "Node clock (G.812), Type II, locked mode",
+        recommendation: G812,
+        condition: MaskCondition::Locked,
+        filter: MeasurementFilter::LowPass10HzAtSource,
+        max_abs_te: None,
+        cte: None,
+        mtie: Some(CurveMask {
+            segments: G812_TYPE_II_III_MTIE,
+            source: "G.812 Table 4",
+        }),
+        tdev: Some(CurveMask {
+            segments: G812_TYPE_II_III_TDEV,
+            source: "G.812 Table 7",
+        }),
+        holdover_envelope: false,
+        not_specified: "G.812 constant-temperature (±1 K) wander generation only: the holdover and transient requirements of \
+                        clause 11 are not checked here",
+    },
+    TimingMask {
+        id: "g812-type-iii",
+        title: "Node clock (G.812), Type III, locked mode",
+        recommendation: G812,
+        condition: MaskCondition::Locked,
+        filter: MeasurementFilter::LowPass10HzAtSource,
+        max_abs_te: None,
+        cte: None,
+        mtie: Some(CurveMask {
+            segments: G812_TYPE_II_III_MTIE,
+            source: "G.812 Table 4",
+        }),
+        tdev: Some(CurveMask {
+            segments: G812_TYPE_II_III_TDEV,
+            source: "G.812 Table 7",
+        }),
+        holdover_envelope: false,
+        not_specified: "G.812 constant-temperature (±1 K) wander generation only: the holdover and transient requirements of \
+                        clause 11 are not checked here",
+    },
+    TimingMask {
+        id: "g8262-eec-option-1",
+        title: "Synchronous Ethernet equipment clock (EEC), Option 1, locked mode",
+        recommendation: G8262,
+        condition: MaskCondition::Locked,
+        filter: MeasurementFilter::LowPass10HzAtSource,
+        max_abs_te: None,
+        cte: None,
+        mtie: Some(CurveMask {
+            segments: G8262_OPT1_MTIE,
+            source: "G.8262 Table 1",
+        }),
+        tdev: Some(CurveMask {
+            segments: G8262_OPT1_TDEV,
+            source: "G.8262 Table 3",
+        }),
+        holdover_envelope: false,
+        not_specified: "the total TDEV with temperature effects is for further study (clause 8.1.1); the \
+                        additional MTIE allowance with temperature effects (Table 2) is \
+                        not applied, so this is the constant-temperature limit only",
+    },
+    TimingMask {
+        id: "g8262-eec-option-2",
+        title: "Synchronous Ethernet equipment clock (EEC), Option 2, locked mode",
+        recommendation: G8262,
+        condition: MaskCondition::Locked,
+        filter: MeasurementFilter::LowPass10HzAtSource,
+        max_abs_te: None,
+        cte: None,
+        mtie: Some(CurveMask {
+            segments: G8262_OPT2_MTIE,
+            source: "G.8262 Table 4",
+        }),
+        tdev: Some(CurveMask {
+            segments: G8262_OPT2_TDEV,
+            source: "G.8262 Table 5",
+        }),
+        holdover_envelope: false,
+        not_specified: "G.8262 clause 8.1.2 states Option 2 wander generation at constant temperature only",
+    },
+    TimingMask {
+        id: "g8262-1-eeec",
+        title: "Enhanced synchronous Ethernet equipment clock (eEEC), locked mode",
+        recommendation: G8262_1,
+        condition: MaskCondition::Locked,
+        filter: MeasurementFilter::LowPass10HzAtSource,
+        max_abs_te: None,
+        cte: None,
+        mtie: Some(CurveMask {
+            segments: G8262_1_MTIE,
+            source: "G.8262.1 Table 1",
+        }),
+        tdev: Some(CurveMask {
+            segments: G8262_1_TDEV,
+            source: "G.8262.1 Table 3",
+        }),
+        holdover_envelope: false,
+        not_specified: "non-locked wander is for further study (clause 8.2); the additional MTIE allowance \
+                        with temperature effects (Table 2) is not applied, so this is the \
+                        constant-temperature limit only",
     },
 ];
 
@@ -1454,7 +1736,8 @@ pub struct MaskResult {
     pub title: &'static str,
     /// The ITU-T Recommendation, with its edition, the mask is transcribed from.
     pub recommendation: &'static str,
-    /// The operating condition the mask is written for (`locked` or `holdover`).
+    /// The operating condition the mask is written for (`locked`, `holdover` or
+    /// `autonomous`).
     pub condition: &'static str,
     /// The measurement filter the mask is defined through.
     pub measurement_filter: &'static str,
@@ -1584,7 +1867,9 @@ pub fn check_mask(
     let mut checks = Vec::new();
     let filtered;
     let (series, mtie, tdev): (&[f64], Vec<CurvePoint>, Vec<CurvePoint>) = match mask.filter {
-        MeasurementFilter::None => (&rec.te_ns, raw_mtie.to_vec(), raw_tdev.to_vec()),
+        MeasurementFilter::None | MeasurementFilter::LowPass10HzAtSource => {
+            (&rec.te_ns, raw_mtie.to_vec(), raw_tdev.to_vec())
+        }
         MeasurementFilter::LowPass0p1Hz => {
             if rec.dt_s > MAX_FILTER_DT_S {
                 let note = format!(
@@ -2586,6 +2871,243 @@ mod tests {
         // G.8273.2 Table 7-5: class A/B excludes τ = m, class C includes it.
         assert_eq!(limit_at(TBC_AB_TDEV, 1.0), None);
         assert_eq!(limit_at(TBC_C_TDEV, 1.0), Some(2.0));
+    }
+
+    /// `limit_at` within `tol` of `want`.
+    fn at(segs: &[Segment], tau_s: f64, want: f64, tol: f64) {
+        let got = limit_at(segs, tau_s).unwrap_or(f64::NAN);
+        assert!(
+            (got - want).abs() <= tol,
+            "limit at τ = {tau_s} s is {got} ns, want {want} ± {tol}"
+        );
+    }
+
+    /// The two pieces meeting at `tau_s` (the closed end, and a point just inside the
+    /// open one) agree to `tol`, the rounding the table's printed coefficients carry.
+    fn continuous(segs: &[Segment], tau_s: f64, tol: f64) {
+        let left = limit_at(segs, tau_s).unwrap();
+        let right = limit_at(segs, tau_s * (1.0 + 1e-12)).unwrap();
+        assert!(
+            (left - right).abs() <= tol,
+            "jump of {} ns at τ = {tau_s} s (tolerance {tol})",
+            left - right
+        );
+    }
+
+    #[test]
+    fn g811_prc_masks_follow_clause_6_1() {
+        // MTIE: 0.275e-3·τ + 0.025 µs to 1 000 s, then 1e-5·τ + 0.29 µs; both give
+        // 0.300 µs at 1 000 s.
+        assert_eq!(limit_at(G811_PRC_MTIE, 0.1), None, "0.1 < τ");
+        at(G811_PRC_MTIE, 1.0, 25.275, 1e-12);
+        at(G811_PRC_MTIE, 1000.0, 300.0, 1e-9);
+        continuous(G811_PRC_MTIE, 1000.0, 1e-9);
+        at(G811_PRC_MTIE, 100_000.0, 1290.0, 1e-9);
+        // TDEV: 3 ns, 0.03·τ ns, 30 ns, open at 10 000 s; continuous at 100 s and 1 000 s.
+        at(G811_PRC_TDEV, 100.0, 3.0, 1e-12);
+        continuous(G811_PRC_TDEV, 100.0, 1e-9);
+        at(G811_PRC_TDEV, 1000.0, 30.0, 1e-12);
+        continuous(G811_PRC_TDEV, 1000.0, 1e-9);
+        assert_eq!(limit_at(G811_PRC_TDEV, 10_000.0), None, "τ < 10 000");
+    }
+
+    #[test]
+    fn g812_masks_follow_tables_3_4_6_and_7() {
+        // Table 3 (Type I): 24 ns, 8·τ^0.5, 160 ns; 8·√9 = 24 and 8·√400 = 160 exactly.
+        at(G812_TYPE_I_MTIE, 9.0, 24.0, 1e-12);
+        continuous(G812_TYPE_I_MTIE, 9.0, 1e-9);
+        at(G812_TYPE_I_MTIE, 100.0, 80.0, 1e-12);
+        at(G812_TYPE_I_MTIE, 400.0, 160.0, 1e-12);
+        continuous(G812_TYPE_I_MTIE, 400.0, 1e-9);
+        at(G812_TYPE_I_MTIE, 10_000.0, 160.0, 0.0);
+        assert_eq!(limit_at(G812_TYPE_I_MTIE, 10_001.0), None);
+        // Table 4 (Types II, III): 40 ns, 40·τ^0.4, 100 ns. 40·10^0.4 = 100.48 ns: the
+        // 100 ns plateau is that value rounded, a 0.48 ns step at 10 s.
+        at(G812_TYPE_II_III_MTIE, 1.0, 40.0, 1e-12);
+        continuous(G812_TYPE_II_III_MTIE, 1.0, 1e-9);
+        at(G812_TYPE_II_III_MTIE, 10.0, 100.475, 1e-3);
+        continuous(G812_TYPE_II_III_MTIE, 10.0, 0.5);
+        at(G812_TYPE_II_III_MTIE, 1e6, 100.0, 0.0);
+        // Table 6 (Type I): 3 ns, 0.12·τ, 12 ns; exact at 25 s and 100 s.
+        at(G812_TYPE_I_TDEV, 25.0, 3.0, 1e-12);
+        continuous(G812_TYPE_I_TDEV, 25.0, 1e-9);
+        at(G812_TYPE_I_TDEV, 100.0, 12.0, 1e-12);
+        continuous(G812_TYPE_I_TDEV, 100.0, 1e-9);
+        // Table 7 (Types II, III): 3.2·τ^-0.5, 2 ns, 0.32·τ^0.5, 10 ns. 3.2/√2.5 = 2.024
+        // and 0.32·√40 = 2.024 against the 2 ns plateau; 0.32·√1000 = 10.12 against 10.
+        assert_eq!(limit_at(G812_TYPE_II_III_TDEV, 0.1), None, "0.1 < τ");
+        at(G812_TYPE_II_III_TDEV, 1.0, 3.2, 1e-12);
+        at(G812_TYPE_II_III_TDEV, 2.5, 2.0239, 1e-4);
+        continuous(G812_TYPE_II_III_TDEV, 2.5, 0.025);
+        at(G812_TYPE_II_III_TDEV, 40.0, 2.0, 0.0);
+        continuous(G812_TYPE_II_III_TDEV, 40.0, 0.025);
+        at(G812_TYPE_II_III_TDEV, 1000.0, 10.119, 1e-3);
+        continuous(G812_TYPE_II_III_TDEV, 1000.0, 0.12);
+        // Types II and III share the tables.
+        let t2 = mask_by_id("g812-type-ii").unwrap();
+        let t3 = mask_by_id("g812-type-iii").unwrap();
+        assert_eq!(t2.mtie.unwrap().segments, t3.mtie.unwrap().segments);
+        assert_eq!(t2.tdev.unwrap().segments, t3.tdev.unwrap().segments);
+    }
+
+    #[test]
+    fn g8262_masks_follow_tables_1_3_4_and_5() {
+        // Table 1 (Option 1): 40 ns, 40·τ^0.1, 25.25·τ^0.2. 40·100^0.1 = 63.10 against
+        // 25.25·100^0.2 = 63.42 ns: continuous to the coefficients' rounding.
+        at(G8262_OPT1_MTIE, 1.0, 40.0, 1e-12);
+        continuous(G8262_OPT1_MTIE, 1.0, 1e-9);
+        at(G8262_OPT1_MTIE, 100.0, 63.0957, 1e-4);
+        continuous(G8262_OPT1_MTIE, 100.0, 0.35);
+        at(G8262_OPT1_MTIE, 1000.0, 100.52, 1e-2);
+        assert_eq!(limit_at(G8262_OPT1_MTIE, 1000.5), None);
+        // Table 3 (Option 1): 3.2 ns, 0.64·τ^0.5, 6.4 ns; exact at 25 s and 100 s.
+        at(G8262_OPT1_TDEV, 25.0, 3.2, 1e-12);
+        continuous(G8262_OPT1_TDEV, 25.0, 1e-9);
+        at(G8262_OPT1_TDEV, 100.0, 6.4, 1e-12);
+        continuous(G8262_OPT1_TDEV, 100.0, 1e-9);
+        // Table 4 (Option 2): 20 ns, 20·τ^0.48, 60 ns. 20·10^0.48 = 60.40 ns.
+        at(G8262_OPT2_MTIE, 1.0, 20.0, 1e-12);
+        continuous(G8262_OPT2_MTIE, 1.0, 1e-9);
+        at(G8262_OPT2_MTIE, 10.0, 60.398, 1e-3);
+        continuous(G8262_OPT2_MTIE, 10.0, 0.41);
+        // Table 5 (Option 2) is G.812 Table 7 closed at 10 000 s.
+        at(G8262_OPT2_TDEV, 1.0, 3.2, 1e-12);
+        continuous(G8262_OPT2_TDEV, 2.5, 0.025);
+        continuous(G8262_OPT2_TDEV, 40.0, 0.025);
+        continuous(G8262_OPT2_TDEV, 1000.0, 0.12);
+        at(G8262_OPT2_TDEV, 10_000.0, 10.0, 0.0);
+        assert_eq!(limit_at(G8262_OPT2_TDEV, 10_001.0), None);
+    }
+
+    #[test]
+    fn g8262_1_eeec_masks_follow_tables_1_and_3() {
+        // Table 1: 10·τ^0.155 from 0.1 s inclusive, 10·τ^0.1, 6.3·τ^0.2. 10·0.1^0.155 =
+        // 7.00 ns; 10·100^0.1 = 15.85 against 6.3·100^0.2 = 15.83 ns.
+        at(G8262_1_MTIE, 0.1, 6.998, 1e-3);
+        at(G8262_1_MTIE, 1.0, 10.0, 1e-12);
+        continuous(G8262_1_MTIE, 1.0, 1e-9);
+        at(G8262_1_MTIE, 100.0, 15.849, 1e-3);
+        continuous(G8262_1_MTIE, 100.0, 0.03);
+        at(G8262_1_MTIE, 1000.0, 25.08, 1e-2);
+        // Table 3: 0.64 ns from 0.1 s inclusive, 0.128·τ^0.5, 1.28 ns; exact joins.
+        at(G8262_1_TDEV, 0.1, 0.64, 0.0);
+        at(G8262_1_TDEV, 25.0, 0.64, 1e-12);
+        continuous(G8262_1_TDEV, 25.0, 1e-12);
+        at(G8262_1_TDEV, 100.0, 1.28, 1e-12);
+        continuous(G8262_1_TDEV, 100.0, 1e-12);
+        // The eEEC limit is below the EEC Option 1 limit at every tabulated τ.
+        for tau in [0.5, 1.0, 10.0, 100.0, 500.0, 1000.0] {
+            assert!(limit_at(G8262_1_MTIE, tau) < limit_at(G8262_OPT1_MTIE, tau));
+            assert!(limit_at(G8262_1_TDEV, tau) < limit_at(G8262_OPT1_TDEV, tau));
+        }
+    }
+
+    #[test]
+    fn a_linear_piece_is_evaluated_without_powf() {
+        // The G.827x pieces give the same bits as before the power-law field existed.
+        let s = seg(0.0, true, INF, false, 0.275, 25.0);
+        for tau in [0.3, 1.0, 54.5, 273.0, 1e5] {
+            assert_eq!(s.limit_ns(tau).to_bits(), (0.275 * tau + 25.0).to_bits());
+        }
+    }
+
+    /// A seeded series, in ns at one sample per second: white frequency noise (a random
+    /// walk of phase, `white_fm_ns` per step) plus flicker-like phase noise of standard
+    /// deviation about `flicker_ns`, approximated by four first-order relaxations with
+    /// time constants of 1, 10, 100 and 1 000 s.
+    fn white_fm_flicker_series(n: usize, white_fm_ns: f64, flicker_ns: f64, seed: u64) -> Vec<f64> {
+        let mut rng = ChaCha8Rng::seed_from_u64(seed);
+        let norm = Normal::new(0.0, 1.0).unwrap();
+        let mut relax = [0.0_f64; 4];
+        let mut x = 0.0;
+        (0..n)
+            .map(|_| {
+                x += white_fm_ns * norm.sample(&mut rng);
+                let mut f = 0.0;
+                for (r, t) in relax.iter_mut().zip([1.0_f64, 10.0, 100.0, 1000.0]) {
+                    let a = (-1.0 / t).exp();
+                    *r = a * *r + (1.0 - a * a).sqrt() * norm.sample(&mut rng);
+                    f += *r;
+                }
+                x + 0.5 * flicker_ns * f
+            })
+            .collect()
+    }
+
+    fn series_run(masks: &[&str], te: &[f64]) -> TelecomRun {
+        let samples: Vec<[f64; 2]> = te
+            .iter()
+            .enumerate()
+            .map(|(k, &v)| [k as f64, v])
+            .collect();
+        TelecomTimingScenario {
+            kind: "telecom-timing".into(),
+            seed: 1,
+            masks: masks.iter().map(|s| s.to_string()).collect(),
+            budgets: Some(Vec::new()),
+            holdover: None,
+            series: Some(SeriesInput {
+                samples,
+                ..SeriesInput::default()
+            }),
+        }
+        .run()
+        .unwrap()
+    }
+
+    const WANDER_IDS: [&str; 7] = [
+        "g811-prc",
+        "g812-type-i",
+        "g812-type-ii",
+        "g812-type-iii",
+        "g8262-eec-option-1",
+        "g8262-eec-option-2",
+        "g8262-1-eeec",
+    ];
+
+    #[test]
+    fn wander_masks_pass_a_quiet_white_fm_flicker_series() {
+        // 12 001 one-second samples, so TDEV reaches 1 000 s. White FM of 1 ps per second
+        // and about 50 ps of flicker-like phase: inside every mask, the eEEC's included.
+        let quiet = white_fm_flicker_series(12_001, 0.001, 0.05, 11);
+        let r = series_run(&WANDER_IDS, &quiet);
+        for m in &r.masks {
+            assert_eq!(m.verdict, "PASS", "{}: {:?}", m.id, m.checks);
+            assert_eq!(
+                m.measurement_filter,
+                MeasurementFilter::LowPass10HzAtSource.as_str()
+            );
+            assert_eq!(m.checks.len(), 2, "{}", m.id);
+            for c in &m.checks {
+                assert!(c.points_evaluated > 0, "{} {}", m.id, c.metric);
+                assert!(c.margin_ns.unwrap() > 0.0, "{} {}", m.id, c.metric);
+            }
+        }
+        assert_eq!(r.masks[0].condition, "autonomous");
+        assert_eq!(r.masks[1].condition, "locked");
+    }
+
+    #[test]
+    fn wander_masks_fail_the_same_series_scaled_up() {
+        // The quiet series times 1 000 (1 ns per second of white FM, about 50 ns of
+        // flicker-like phase) is outside every mask, and the binding value scales exactly.
+        let quiet = white_fm_flicker_series(12_001, 0.001, 0.05, 11);
+        let noisy: Vec<f64> = quiet.iter().map(|v| 1000.0 * v).collect();
+        let r = series_run(&WANDER_IDS, &noisy);
+        for m in &r.masks {
+            assert_eq!(m.verdict, "FAIL", "{}: {:?}", m.id, m.checks);
+        }
+        let q = series_run(&["g8262-eec-option-1"], &quiet);
+        let c = &r.masks[4].checks[0];
+        assert_eq!((r.masks[4].id, c.metric), ("g8262-eec-option-1", "mtie"));
+        let quiet_at = q
+            .mtie
+            .iter()
+            .find(|p| Some(p.tau_s) == c.worst_tau_s)
+            .unwrap()
+            .value_ns;
+        let ratio = c.value_ns.unwrap() / quiet_at;
+        assert!((ratio - 1000.0).abs() < 1e-6, "{ratio}");
     }
 
     #[test]
