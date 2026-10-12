@@ -12,16 +12,18 @@ breaking changes are called out explicitly.
 ### Added
 
 - **Azimuth-dependent skyline masks** (`src/skyline.rs`, [`docs/SKYLINE.md`](docs/SKYLINE.md),
-  design note item 1): an elevation cut that depends on azimuth, the pointwise maximum of a table
-  (interpolated, wrapped at 360°), a street canyon in closed form (with optional open ends),
+  design note item 1): an elevation cut that depends on azimuth, the pointwise maximum of tables
+  (each interpolated on its own, wrapped at 360°), a street canyon in closed form (with optional open ends),
   sharp-edged sectors and a terrain profile with the Earth's curvature; the effective cut is
   `max(mask_deg, skyline)`. Four REPRESENTATIVE presets with stated provenance (`city-street`,
   `harbour-approach`, `fjord`, `container-terminal`), overridable field by field. An optional
   `[skyline]` section in `gnss-sim`, `jamming`, `leo-pvt` (every mode, the polar sweep included),
   `leo-pass` and `nmea-scenario` training files, and in `orbit` and `integrity` through a new
   ground-site user, `user_site = { lat_deg, lon_deg, height_m }` (geodetic look angles on the
-  rotating Earth, with the geodetic up for the ARAIM horizontal and vertical split; an
-  orbiting `user` refuses a skyline). Results gain `skyline { source,
+  rotating Earth, with the geodetic up for the ARAIM horizontal and vertical split; each sample
+  is one absolute instant, `epoch + t`, to which element sets, broadcast ephemerides and SP3
+  files are advanced from their own epochs, dated from the newest satellite epoch when no
+  `epoch` is stated; an orbiting `user` refuses a skyline). Results gain `skyline { source,
   open_fraction, provenance }` and per-sample `masked_by_skyline`. Without the section every
   scenario is byte-identical to 0.35.0, checked against digests from the release commit. Six
   bundled examples: `orbit-urban-canyon-skyline`, `integrity-harbour-approach`,
@@ -33,7 +35,9 @@ breaking changes are called out explicitly.
   and masked satellites from a site, a time and constellation presets, two-line element sets
   (`tle`, at most 4 MiB, propagated by the engine's SGP4 to a UTC `epoch`) or given satellites;
   `sky_source` and `sky_statement` say whether the sky is representative or the sky the element
-  sets give at that epoch, not a measurement; the
+  sets give at that epoch, not a measurement; `tle_skipped` lists every unused line with its
+  reason; input caps of 2000 satellites above the horizon, checked before a system table is
+  built, and 16 receiver clocks; the
   five DOPs; the ENU cofactor and covariance with one clock per system or one in common; the
   horizontal error ellipse at one sigma and at a stated confidence), `sky_monte_carlo` (seeded
   least-squares errors, at most 5000), `skyline_presets`, `skyline_profile` and `skyplot_svg`.
@@ -57,20 +61,9 @@ breaking changes are called out explicitly.
 - `gnss_sim::run_gnss_sim` and `jamming::run_jamming` return `Result`: an invalid `[skyline]`
   section is an error when called directly, as it already was through `api::run_toml`, rather
   than a silent fall-back to the flat mask. **Breaking** for Rust callers of these two functions.
-- A ground site (`user_site`) of `orbit` and `integrity` evaluates each sample at one absolute
-  instant, `epoch + t`: element sets, broadcast ephemerides and SP3 files are advanced from their
-  own epochs to it and every satellite is rotated to Earth-fixed at it, so the site sees one
-  consistent sky. Without a stated `epoch` (always for `integrity`) the instant is dated from the
-  newest satellite epoch. Orbiting users are unchanged.
 
 ### Fixed
 
-- A skyline's added `table` or `terrain` no longer lowers the cut of a preset's own table or
-  terrain: each table and terrain profile is interpolated on its own and the cut is their
-  pointwise maximum (they were interleaved into one table, so a far, low point beside the fjord's
-  walls could pull the cut down to the mask). Property-tested on a 0.1° grid.
-- `sky_geometry` refuses a system table asking for more than 2000 satellites before building it
-  (a short request could otherwise exhaust memory), and refuses more than 16 receiver clocks.
 - `Jd2::from_parts` with a fractional day part dropped the fraction in the UTC, TAI, UT1 and
   Earth-rotation conversions (one hour of day part turned the Earth 15° wrong); the day part is
   now normalised to an integer. No engine caller was affected: every one passes an integer day,
