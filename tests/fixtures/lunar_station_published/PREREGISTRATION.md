@@ -155,4 +155,73 @@ partly repeat one another, and CLAIMS.md marks the duplicates. No PDF is redistr
 
 ## First comparison run
 
-(Not yet run. Filled in by the commit that records the first run, without editing anything above.)
+Run on 2026-10-12, the first and only run, by `tests/lunar_station_published_oracle.rs`
+(`published_claims_comparison_run`, release build, about 7 s for all six cases). Engine: merge commit
+d8aa075c on `feat/lunar-claims-0.36`, which brings in `lunar-station-coverage` from
+`feat/geometry-trust-0.36` at 9caedf97 (kind added in 9f12cdaf), plus the uncommitted test file. Engine
+version 0.36.0-rc. Nothing above this section was edited.
+
+### Mapping of the registered inputs and fields to the kind (no value changed)
+
+| registered | kind | note |
+|---|---|---|
+| `grid_lat_min_deg` = −90 | not an input | the kind's grid always runs to the pole, which is −90 |
+| orbit/clock variance split 50/50 (100/0 for R600-orbit100) | `sise_orbit_variance_fraction` = 0.5 (1.0) | orbit = σ·√(3f) per axis, clock = σ·√(1−f). Echoed: orbit 6.2486 m, clock 3.6077 m (8.8369 m, 0 m) |
+| `mask_deg`: the kind's default | 5° | |
+| `corrected_p95_3d_m` (region) | `region.corrected_p_3d_m` at `percentile` = 95 | solid-angle-weighted mean of per-point p95 over each point's available samples |
+| per-point `corrected_p_3d_m` | `points[].corrected_p_3d_m` | |
+| `coverage_fraction`, `worst_point` | `region.coverage_fraction`, `region.worst_point` | an epoch counts as covered when its p95 over trials is ≤ 1.0 m. Unavailable epochs count as not covered |
+
+### Scored results
+
+| bar | case | Kshana | bar | verdict |
+|---|---|---|---|---|
+| K1 | R300 | coverage_fraction 0.0000 | ≥ 0.95 | FAIL |
+| K2 | R600 | coverage_fraction 0.0000 | ≥ 0.95 | FAIL |
+| K3 | R300 | corrected p95 3-D 280.58 m | ≤ 1.5 m | FAIL |
+| K4 | R300 | corrected p95 3-D 280.58 m | ≤ 0.15 m | FAIL (could not pass; see above) |
+| K5 | LAT600 | corrected p95 3-D 292.96 m | ≤ 1.5 m | FAIL |
+| K6 | R600 | 157.14 m at (−73°, 209.14°), 500.02 km, against 112.69 m at the pole, 15.87 km (the nearest grid point to 10 km); ratio 1.3945 | ≤ 1.5 | pass |
+
+**1 of 6 bars passes.** Under the B3 rule the row is MODELLED.
+
+### Reported with the scored figures (not scored)
+
+| case | availability | corrected p95 3-D / horizontal | worst point (lat, lon, p95 3-D) | uncorrected p95 3-D | K6 ratio |
+|---|---|---|---|---|---|
+| R300 | 0.0821 | 280.58 m / 123.81 m | −81°, 244.29°, 7880.9 m | 3770.2 m | (0.749; 500 km not on this grid) |
+| R600 | 0.0633 | 435.47 m / 164.36 m | −71°, 95.38°, 171849.5 m | 5044.8 m | 1.3945 |
+| LAT600 | 0.0821 | 292.96 m / 129.30 m | −81°, 244.29°, 7458.0 m | 3770.2 m | – |
+| R300-lowq | 0.0821 | 925.68 m / 408.35 m | −81°, 244.29°, 24617.7 m | 3770.2 m | – |
+| R300-survey030 | 0.0821 | 280.47 m / 123.78 m | −81°, 244.29°, 7847.4 m | 3770.2 m | – |
+| R600-orbit100 | 0.0633 | 446.93 m / 168.09 m | −71°, 95.38°, 169992.6 m | 4996.4 m | 1.4366 |
+
+U1 for reference (circular, not scored): the sources quote "< 10 m (95%)" uncorrected for a surface rover.
+The model gives 3770 m.
+
+### Reading (written after the run, and labelled as such)
+
+- **The failures come from geometry, as the pre-registration anticipated for K1 and K2.** On the four
+  ILLUSTRATIVE satellites, a user and the station see four common satellites above 5° in only 8.2 % of
+  epochs (300 km) and 6.3 % (600 km). In the epochs that are available, the geometry is close to
+  singular: the uncorrected p95 is 3.8 km against an injected SISE of 5.1 m (1-σ), and the worst points
+  reach 7.9 km and 172 km corrected. The corrected p95 of 280 m is then the residual (noise, survey,
+  ageing, decorrelation) multiplied by that DOP. Changing the survey (R300-survey030) moves the result
+  by less than 0.1 %, the code noise (R300-lowq) scales it about 3.3×, and the orbit/clock split
+  (R600-orbit100) moves it 2.6 %. The noise dominates and the geometry multiplies it.
+- **This is a finding about the ILLUSTRATIVE constellation and the snapshot model, not about the
+  sources' claims.** No source publishes the Moonlight elements (S4 p6 says only frozen ELFO, 24 h). The
+  sources' simulations used "at least 3 satellites in common view" with a height constraint, a filter and
+  DEM aiding (S2 p14 to p16). The kind requires four in common view, has no height constraint and solves
+  each epoch alone. Under those differences the comparison cannot confirm or refute "sub-metre over the
+  whole south pole". It shows that the claim depends on assumptions the sources do not publish (the
+  orbits) or that this model does not have (a height constraint, filtering).
+- K6 passes: with the 50/50 split, decorrelation from 16 km to 500 km raises the corrected p95 by 39 %
+  (44 % with 100/0). It is not evidence for the sources' "same accuracy upon convergence", which is a
+  filter statement.
+- The critic's note on revision 2 is recorded here, not edited above: the header says "three
+  disclosures", but four were added (zenith noise, area-weighted region p95, the K4 impossibility, and the
+  K6 dependence on the split under "does NOT establish").
+- What would change this: a published set of Moonlight elements (or ephemeris), which would replace the
+  ILLUSTRATIVE ones under the same bars as a second, dated run; and a height-constrained solution in the
+  kind. Neither is in 0.36. This run stays as recorded.
