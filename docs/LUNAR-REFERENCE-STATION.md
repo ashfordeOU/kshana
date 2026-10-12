@@ -50,7 +50,7 @@ at the station and at the worst point. No new physics: it sweeps the tested func
 | `noise_m`, `latency_s`, `quantization_bits` | 0 m, 10 s, 8 bits | ILLUSTRATIVE |
 | Grid (`grid_lat_max_deg`, `grid_lat_step_deg`) or `points` | 80° S, 1° (346 points) | the study region |
 | Time (`t_start_s`, `t_span_s`, `t_step_s`), `n_trials` | 0 s, one day, 600 s, 200 | |
-| `accuracy_threshold_m`, `percentile` | 1 m at p95 | stated before the run |
+| `accuracy_threshold_m`, `percentile` | 20 m at p95 in the bundled default (1 m in the public-sources example) | stated before the run; 20 m is ILLUSTRATIVE, sized to the default's illustrative errors |
 | `alert_limit_m` | 10 m | ILLUSTRATIVE: no public value exists |
 | `residual_sigma_m`, `p_hmi`, `seed` | 5 m, 1e-4, 42 | |
 
