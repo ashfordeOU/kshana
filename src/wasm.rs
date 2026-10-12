@@ -393,8 +393,9 @@ pub fn nmea_training(toml: &str, seed: f64) -> Result<String, JsValue> {
 /// Score a bounded excerpt of a vessel's NMEA 0183 stream the way `kshana receiver-trust
 /// live` scores it (at most 2 MiB and 20,000 epochs; it must hold the calibration window).
 /// `session_toml` declares a vessel (`[platform] kind = "vessel"`). Returns a JSON object
-/// `{schema, epochs, last_pksht, summary}` (`schema` is `"1.2"`): one report per epoch (`state`, `score`, `advisory`,
-/// `deductions`, `alarms`, ...) and counts by state. The bounded form of the live command: no
+/// `{schema, epochs, last_pksht, summary}` (`schema` is `"1.3"`): one report per epoch (`state`, `score`, `advisory`,
+/// `deductions`, `alarms`, `geometry`, `degradation`, ...) and counts by state and by geometry.
+/// The geometry (`good`, `degraded` with reasons, `unknown`) never changes the score. The bounded form of the live command: no
 /// socket is opened and the gate is not applied (both are command-line only). Advisory software, not type-approved navigation equipment (IEC 61108, IEC 61162): the operator remains responsible for the navigation of the vessel.
 #[wasm_bindgen]
 pub fn receiver_trust_replay(session_toml: &str, nmea: &str) -> Result<String, JsValue> {
