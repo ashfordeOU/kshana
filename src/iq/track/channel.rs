@@ -6,6 +6,7 @@ use super::cn0::{
     beaulieu_cn0_from_term, beaulieu_term, nwpr_cn0_from_ratio, nwpr_power_ratio,
     phase_lock_indicator, BitSync,
 };
+use super::boc::{BumpJump, BumpJumpEvent};
 use super::{Discriminators, FllAssist, LoopConfig, LoopCore};
 use crate::acquisition::m2m4_cn0_from_moments;
 use crate::iq::acq::AcqResult;
@@ -122,11 +123,13 @@ pub struct EpochOutput {
     /// The extra correlator taps (`extra_taps_chips`), as `(offset, value)` in design
     /// order: the correlation with the replica `offset` chips ahead of the prompt (a
     /// positive offset is early), over the same span as `early`/`prompt`/`late`. Empty
-    /// when the design has no taps.
+    /// when the design has no taps. The bump-jump very-early/very-late taps of
+    /// [`LoopConfig::boc`] are not listed here.
     pub extra: Vec<(f64, Cf64)>,
 }
 
-/// The most extra correlator taps a design may ask for.
+/// The most extra correlator taps a design may ask for (including the two bump-jump taps
+/// of [`LoopConfig::boc`]).
 pub const MAX_EXTRA_TAPS: usize = 16;
 /// The largest extra-tap offset magnitude (chips).
 pub const MAX_TAP_OFFSET_CHIPS: f64 = 2.0;
@@ -142,8 +145,13 @@ pub struct Channel {
     len: f64,
     half_d: f64,
     taps: Vec<f64>,
+    /// How many of `taps` are the design's own (the rest are the bump-jump pair).
+    n_user_taps: usize,
     extra_acc: Vec<Cf64>,
     extra_block: Vec<Cf64>,
+    /// The bump-jump monitor and its half-period (chips), when the design asks for one.
+    bump: Option<(BumpJump, f64)>,
+    jumps: Vec<BumpJumpEvent>,
     ppb: Option<usize>,
     // NCOs.
     code_phase: f64,
@@ -210,14 +218,25 @@ impl Channel {
                 ));
             }
         }
-        if cfg.extra_taps_chips.len() > MAX_EXTRA_TAPS {
+        let bump = cfg
+            .boc
+            .and_then(|b| b.bump_jump.map(|j| (BumpJump::new(j), b.kind.half_period_chips())));
+        let mut taps = cfg.extra_taps_chips.clone();
+        if let Some((_, h)) = bump {
+            taps.extend([h, -h]);
+        }
+        if taps.len() > MAX_EXTRA_TAPS {
             return Err(format!(
-                "at most {MAX_EXTRA_TAPS} extra taps are supported (got {})",
-                cfg.extra_taps_chips.len()
+                "at most {MAX_EXTRA_TAPS} extra taps are supported (got {}{})",
+                cfg.extra_taps_chips.len(),
+                if bump.is_some() {
+                    " plus the 2 bump-jump taps"
+                } else {
+                    ""
+                }
             ));
         }
-        if let Some(t) = cfg
-            .extra_taps_chips
+        if let Some(t) = taps
             .iter()
             .find(|t| !(t.is_finite() && t.abs() <= MAX_TAP_OFFSET_CHIPS))
         {
@@ -240,9 +259,12 @@ impl Channel {
             if_hz: spec.baseband_hz(code.carrier_hz()),
             len,
             half_d: 0.5 * cfg.spacing_chips,
-            taps: cfg.extra_taps_chips.clone(),
-            extra_acc: vec![Cf64::default(); cfg.extra_taps_chips.len()],
-            extra_block: vec![Cf64::default(); cfg.extra_taps_chips.len()],
+            n_user_taps: cfg.extra_taps_chips.len(),
+            extra_acc: vec![Cf64::default(); taps.len()],
+            extra_block: vec![Cf64::default(); taps.len()],
+            taps,
+            bump,
+            jumps: Vec::new(),
             ppb: init.periods_per_bit.filter(|&p| p > 1),
             code_phase: init.code_phase_chips.rem_euclid(len),
             dcode: 0.0,
@@ -309,6 +331,13 @@ impl Channel {
     /// Stream samples consumed so far.
     pub fn samples_consumed(&self) -> u64 {
         self.sample_index
+    }
+
+    /// The code NCO jumps the bump-jump monitor has made so far (empty without
+    /// [`LoopConfig::boc`] bump-jump). Jumps are rare on a correctly locked channel, so the
+    /// list stays short.
+    pub fn bump_jumps(&self) -> &[BumpJumpEvent] {
+        &self.jumps
     }
 
     fn set_ncos(&mut self) {
@@ -397,15 +426,29 @@ impl Channel {
             let t = self.block_samples as f64 / self.fs;
             let code_epoch_s = (self.sample_index as f64 - self.code_phase / self.dcode) / self.fs;
             let [be, bp, bl] = std::mem::take(&mut self.block);
-            let extra: Vec<(f64, Cf64)> = self
+            let mut extra: Vec<(f64, Cf64)> = self
                 .taps
                 .iter()
                 .zip(self.extra_block.iter_mut())
                 .map(|(&off, b)| (off, std::mem::take(b)))
                 .collect();
+            let bump_taps = extra.split_off(self.n_user_taps);
             self.fll_gate_step();
             let fll_active = self.core.fll_enabled();
             let disc = self.core.update(be, bp, bl, t);
+            if let (Some((bj, h)), [(_, ve), (_, vl)]) = (self.bump.as_mut(), bump_taps.as_slice())
+            {
+                let dir = bj.update(*ve, bp, *vl);
+                if dir != 0 {
+                    let jump = f64::from(dir) * *h;
+                    self.code_phase += jump;
+                    self.jumps.push(BumpJumpEvent {
+                        epoch: self.epoch,
+                        code_epoch_s,
+                        jump_chips: jump,
+                    });
+                }
+            }
             let cfg = self.core.config();
             out.push(EpochOutput {
                 epoch: self.epoch,
