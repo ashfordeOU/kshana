@@ -56,6 +56,7 @@ use crate::lunar_receiver::ReceiverCfg;
 use crate::lunar_service::{
     south_polar_ring_grid, visible_sat_positions, LunarConstellation, LunarSat, PositionsMcmf,
 };
+use crate::lunar_solution::{EpochRows, SolutionCfg};
 use crate::lunar_terrain::{clears_horizon, LunarTerrainCfg, ResolvedTerrain};
 use crate::palette::chart::{AMBER, AXIS, BG, CORAL, CYAN, FONT_SANS, INK, INK_2, INK_3, LIME};
 use crate::skyline::Skyline;
@@ -93,6 +94,8 @@ pub struct OptIns {
     pub growth: bool,
     /// A `[receiver]` section.
     pub receiver: bool,
+    /// A `[solution]` section.
+    pub solution: bool,
 }
 
 /// The honesty statement for a run with the opt-in models `o`: exactly [`NOTE`] with none,
@@ -141,6 +144,13 @@ pub fn note_for(o: OptIns) -> String {
              re-projection",
         );
     }
+    if o.solution {
+        s.push_str(
+            " Solution: the [solution] mode (height constraint, three-satellite minimum with it, \
+             and/or a static-user window over epochs that treats the epochs' errors as \
+             independent) in place of the snapshot solve.",
+        );
+    }
     s.push_str(" Omitted: ");
     s.push_str(&omitted.join(", "));
     s.push('.');
@@ -156,6 +166,7 @@ const RX_STATION_SALT: u64 = 0x3A11_9A7E_5EED_0002;
 const ICB_STATION_SALT: u64 = 0x3A11_9A7E_5EED_0003;
 const RX_USER_SALT: u64 = 0x3A11_9A7E_5EED_0004;
 const ICB_USER_SALT: u64 = 0x3A11_9A7E_5EED_0005;
+const HEIGHT_SALT: u64 = 0x3A11_9A7E_5EED_0006;
 
 /// The range-domain 1-sigma (m) of the orbit error a correction does not carry because the
 /// broadcast orbit error grew while the correction aged (LRS-03): the error grows by
@@ -429,6 +440,11 @@ pub struct LunarStationCoverageScenario {
     /// [`crate::lunar_receiver`]). Absent (the default), none, and every document unchanged.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub receiver: Option<ReceiverCfg>,
+    /// The solution mode (LRS-06; [`crate::lunar_solution`]): a height constraint, a
+    /// three-satellite minimum with it, and a static-user window over epochs. Absent (the
+    /// default), the snapshot solve, and every document unchanged.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub solution: Option<SolutionCfg>,
 }
 
 impl Default for LunarStationCoverageScenario {
@@ -932,6 +948,9 @@ impl LunarStationCoverageScenario {
         if let Some(r) = &self.receiver {
             r.validate().map_err(|e| format!("{KIND}: {e}"))?;
         }
+        if let Some(c) = &self.solution {
+            c.validate().map_err(|e| format!("{KIND}: {e}"))?;
+        }
         if let Some(g) = self.orbit_err_growth_m_per_s {
             if !(g.is_finite() && g >= 0.0) {
                 return bad("orbit_err_growth_m_per_s must be finite and not negative");
@@ -1297,6 +1316,71 @@ impl LunarStationCoverageScenario {
         }
     }
 
+    /// The (corrected 3-D, horizontal, vertical, uncorrected 3-D) errors of the solution mode
+    /// at epoch `i`, trial `k`, point `j`: this epoch's rows join the trial's window (epochs
+    /// older than `window_epochs` leave it), and the weighted least-squares solve over the
+    /// window, with the height row when asked for, gives the position error.
+    #[allow(clippy::too_many_arguments)]
+    fn solution_figures(
+        &self,
+        sol: &SolutionCfg,
+        window: &mut std::collections::VecDeque<(usize, EpochRows, EpochRows)>,
+        i: usize,
+        j: usize,
+        k: usize,
+        user: Vec3,
+        up: Vec3,
+        sats: &[Vec3],
+        ev: &TrialEval,
+    ) -> (Option<f64>, Option<f64>, Option<f64>, Option<f64>) {
+        let los: Vec<Vec3> = sats
+            .iter()
+            .map(|s| {
+                let d = [s[0] - user[0], s[1] - user[1], s[2] - user[2]];
+                let n = norm(d);
+                [d[0] / n, d[1] / n, d[2] / n]
+            })
+            .collect();
+        window.push_back((
+            i,
+            EpochRows {
+                los: los.clone(),
+                err: ev.corrected_range_m.clone(),
+            },
+            EpochRows {
+                los,
+                err: ev.raw_range_m.clone(),
+            },
+        ));
+        while window.front().is_some_and(|w| w.0 + sol.window_epochs <= i) {
+            window.pop_front();
+        }
+        let height = sol.height_aided.then(|| {
+            // The known height's error is one draw per trial and point (a static user).
+            let mut rng = ChaCha8Rng::seed_from_u64(noise_seed(self.seed, 0, k, j) ^ HEIGHT_SALT);
+            let g = Normal::new(0.0, sol.height_sigma_m).expect("finite positive sigma");
+            (up, g.sample(&mut rng), sol.height_sigma_m)
+        });
+        let rs = sol.range_sigma_m.unwrap_or(self.residual_sigma_m).max(1e-9);
+        let corr: Vec<EpochRows> = window.iter().map(|w| w.1.clone()).collect();
+        let raw: Vec<EpochRows> = window.iter().map(|w| w.2.clone()).collect();
+        let dc = crate::lunar_solution::position_error(&corr, height, rs);
+        let du = crate::lunar_solution::position_error(&raw, height, rs);
+        match (dc, du) {
+            (Some(dc), Some(du)) => {
+                let m = norm(dc);
+                let vert = dot(dc, up);
+                (
+                    Some(m),
+                    Some((m * m - vert * vert).max(0.0).sqrt()),
+                    Some(vert.abs()),
+                    Some(norm(du)),
+                )
+            }
+            _ => (None, None, None, None),
+        }
+    }
+
     /// Everything that went into, and came out of, trial `k` at point `j` and epoch `i`,
     /// for an independent re-computation of the arithmetic (`examples/gen_lunar_station_ref_inputs.rs`).
     pub fn trace_case(&self, j: usize, i: usize, k: usize) -> Result<CaseTrace, String> {
@@ -1342,8 +1426,9 @@ impl LunarStationCoverageScenario {
         let used: Vec<usize> = (0..g.sats.len())
             .filter(|&s| sees_at(user_sky, user, g.sats[s], mask))
             .collect();
-        let status = if used.len() < 4 {
-            if user_sky.is_some() && flat_count(user, &g.sats, mask) >= 4 {
+        let min_sats = self.solution.as_ref().map_or(4, |c| c.min_satellites);
+        let status = if used.len() < min_sats {
+            if user_sky.is_some() && flat_count(user, &g.sats, mask) >= min_sats {
                 "terrain_masked"
             } else {
                 "user_lt4"
@@ -1426,6 +1511,7 @@ impl LunarStationCoverageScenario {
         let n_sats = geo.first().map(|g| g.sats.len()).unwrap_or(0);
         let n_ep = epochs.len();
         let p = self.percentile;
+        let min_sats = self.solution.as_ref().map_or(4, |c| c.min_satellites);
 
         let mut points = Vec::with_capacity(pts.len());
         for (j, &(lat, lon, user, weight)) in pts.iter().enumerate() {
@@ -1448,13 +1534,16 @@ impl LunarStationCoverageScenario {
                 terrain_masked: terrain.map(|_| 0),
                 ..UnavailableReasons::default()
             };
+            // The solution mode's window per trial: (epoch, corrected rows, raw rows).
+            let mut windows: Vec<std::collections::VecDeque<(usize, EpochRows, EpochRows)>> =
+                vec![std::collections::VecDeque::new(); self.n_trials];
             for (i, g) in geo.iter().enumerate() {
                 let used: Vec<usize> = (0..g.sats.len())
                     .filter(|&s| sees_at(user_sky, user, g.sats[s], mask))
                     .collect();
-                if used.len() < 4 {
+                if used.len() < min_sats {
                     match unavailable.terrain_masked.as_mut() {
-                        Some(n) if flat_count(user, &g.sats, mask) >= 4 => *n += 1,
+                        Some(n) if flat_count(user, &g.sats, mask) >= min_sats => *n += 1,
                         _ => unavailable.user_lt4 += 1,
                     }
                     continue;
@@ -1476,12 +1565,26 @@ impl LunarStationCoverageScenario {
                 let mut epoch_c3 = Vec::with_capacity(self.n_trials);
                 for (k, d) in g.draws.iter().enumerate() {
                     let ev = self.trial_eval(j, i, k, user, up, station, &sats, &used, d);
-                    let (Some(e3), Some(h), Some(v), Some(u)) = (
-                        ev.corrected_3d_m,
-                        ev.corrected_h_m,
-                        ev.corrected_v_m,
-                        ev.uncorrected_3d_m,
-                    ) else {
+                    let figures = match &self.solution {
+                        None => (
+                            ev.corrected_3d_m,
+                            ev.corrected_h_m,
+                            ev.corrected_v_m,
+                            ev.uncorrected_3d_m,
+                        ),
+                        Some(sol) => self.solution_figures(
+                            sol,
+                            &mut windows[k],
+                            i,
+                            j,
+                            k,
+                            user,
+                            up,
+                            &sats,
+                            &ev,
+                        ),
+                    };
+                    let (Some(e3), Some(h), Some(v), Some(u)) = figures else {
                         continue;
                     };
                     c3.push(e3);
@@ -1604,6 +1707,7 @@ impl LunarStationCoverageScenario {
                 terrain: terrain_report.is_some(),
                 growth: self.orbit_err_growth_m_per_s.is_some(),
                 receiver: self.receiver.is_some(),
+                solution: self.solution.is_some(),
             }),
             terrain: terrain_report,
         }
@@ -1721,6 +1825,38 @@ pub fn units_for(r: &LunarStationCoverageReport) -> Vec<crate::field_schema::Fie
             provenance: crate::field_schema::ProvenanceClass::ModelledInput,
             definition: "3-D RMS growth rate of the broadcast orbit error with age; ILLUSTRATIVE (no public lunar value)",
         });
+    }
+    if r.inputs_echo.solution.is_some() {
+        use crate::field_schema::{FieldUnit, ProvenanceClass::ModelledInput};
+        for (path, unit, def) in [
+            (
+                "inputs_echo.solution.height_sigma_m",
+                "m",
+                "1-sigma of the known surface height in the height row",
+            ),
+            (
+                "inputs_echo.solution.range_sigma_m",
+                "m",
+                "1-sigma of a range row in the weighting",
+            ),
+            (
+                "inputs_echo.solution.min_satellites",
+                "count",
+                "fewest satellites in view for a solution",
+            ),
+            (
+                "inputs_echo.solution.window_epochs",
+                "count",
+                "epochs sharing the static user's position",
+            ),
+        ] {
+            u.push(FieldUnit {
+                path,
+                unit,
+                provenance: ModelledInput,
+                definition: def,
+            });
+        }
     }
     if r.inputs_echo.receiver.is_some() {
         use crate::field_schema::{FieldUnit, ProvenanceClass::ModelledInput};

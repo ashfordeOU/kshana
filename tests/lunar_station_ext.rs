@@ -254,3 +254,74 @@ fn inter_channel_biases_are_constant_over_a_trial() {
     assert!(common >= 4);
     assert!(ea.receiver_user_m.iter().any(|v| *v != 0.0));
 }
+
+// ── LRS-06: solution modes ────────────────────────────────────────────────────
+
+const SV6: &str = r#"
+kind = "lunar-station-coverage"
+points = [
+  { lat_deg = -89.0, lon_deg = 0.0 },
+  { lat_deg = -86.0, lon_deg = 180.0 },
+  { lat_deg = -82.0, lon_deg = 270.0 },
+]
+n_sats = 4
+t_span_s = 43200.0
+t_step_s = 1800.0
+n_trials = 16
+"#;
+
+fn rel(a: f64, b: f64) -> f64 {
+    (a - b).abs() / b.abs().max(1e-12)
+}
+
+/// A `[solution]` section at its defaults (one epoch, no height row, four satellites) is the
+/// snapshot solve, by a different solver: every figure agrees to 1e-6 relative.
+#[test]
+fn the_default_solution_mode_is_the_snapshot_solve() {
+    let flat = doc(SV6);
+    let sol = doc(&format!("{SV6}[solution]\n"));
+    assert!(sol["note"].as_str().unwrap().contains("Solution:"));
+    for (a, b) in flat["points"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .zip(sol["points"].as_array().unwrap())
+    {
+        assert_eq!(a["availability"], b["availability"]);
+        for k in [
+            "corrected_p_3d_m",
+            "corrected_p_h_m",
+            "corrected_p_v_m",
+            "uncorrected_p_3d_m",
+        ] {
+            if let (Some(x), Some(y)) = (a[k].as_f64(), b[k].as_f64()) {
+                assert!(rel(y, x) < 1e-6, "{k}: {y} vs {x}");
+            } else {
+                assert_eq!(a[k], b[k]);
+            }
+        }
+    }
+}
+
+/// The height row with a three-satellite minimum can only add available epochs, and a window
+/// over independent epochs averages the error down.
+#[test]
+fn height_aiding_and_a_window_do_what_they_say() {
+    let flat = doc(SV6);
+    let h3 = doc(&format!(
+        "{SV6}[solution]\nheight_aided = true\nmin_satellites = 3\nheight_sigma_m = 1.0\n"
+    ));
+    let av = |v: &Value| v["region"]["availability"].as_f64().unwrap();
+    // Four satellites: epochs with three in common view become available with the height row.
+    assert!(av(&h3) > av(&flat), "{} vs {}", av(&h3), av(&flat));
+    // The window needs consecutive available epochs: the eight-satellite default gives them
+    // (with four, available epochs are hours apart and a window holds one).
+    let eight = SV6.replace("n_sats = 4\n", "");
+    let w1 = doc(&format!("{eight}[solution]\n"));
+    let w6 = doc(&format!("{eight}[solution]\nwindow_epochs = 6\n"));
+    let p = |v: &Value| v["region"]["corrected_p_3d_m"].as_f64().unwrap();
+    assert!(p(&w6) < p(&w1), "window 6 {} vs 1 {}", p(&w6), p(&w1));
+    assert!(scn(&format!("{SV6}[solution]\nmin_satellites = 3\n"))
+        .run()
+        .is_err());
+}
