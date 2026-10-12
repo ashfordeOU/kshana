@@ -34,9 +34,10 @@ breaking changes are called out explicitly.
   `kshana.trust.geometry*`, CEF `cs6`/`flexString1`/`flexString2`/`cfp3`, LEEF
   `geometry`/`geometryReasons`/`degradation`/`pdop`).
 - Ledger row "Position error from geometry: RMS error = sigma_UERE x DOP" (**MODELLED**,
-  internal consistency): a seeded Monte Carlo of the engine's least-squares fix on four skies
-  against the analytic covariance from the validated DOP kernel, with chi-square confidence
-  intervals as tolerances. 264 rows: 132 Validated, 128 Modelled, 4 Partner.
+  internal consistency): a seeded Monte Carlo of the engine's least-squares fix on the 8
+  gnss_lib_py-matched DOP geometries against the covariance factor of the validated DOP kernel
+  (`orbit::dop_cofactor`, new, the same arithmetic as `orbit::dop`), with tolerances
+  pre-registered before the first run and two negative controls that fail as required. 264 rows: 132 Validated, 128 Modelled, 4 Partner.
 
 ### Changed
 
@@ -48,6 +49,7 @@ breaking changes are called out explicitly.
   `geometry`; telemetry gains geometry series and fields only for inputs that carry geometry, so
   a 0.35 stream or result renders byte for byte as before. The CSV, SVG, one-line verdict and
   `$PKSHT` are unchanged.
+- `tests/fixtures/dop/NOTICE` named gnss_lib_py's licence Apache-2.0; the 1.0.4 release is MIT.
 - The NMEA reader now reads GSA (a short GSA is ignored, not counted as skipped) and keeps GSV
   elevations and azimuths, including for satellites listed without a signal; the UBX reader keeps
   NAV-SAT elevation and azimuth. C/N0 is read exactly as before.
