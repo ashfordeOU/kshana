@@ -424,7 +424,7 @@ fn cross(a: Vec3, b: Vec3) -> Vec3 {
 
 /// The nominal-yaw satellite body axes (ECEF unit vectors): `z` towards the Earth's centre,
 /// `y = z × (Sun − satellite)` normalised, `x = y × z`.
-fn body_axes(r_sat: Vec3, r_sun: Vec3) -> (Vec3, Vec3, Vec3) {
+pub fn body_axes(r_sat: Vec3, r_sun: Vec3) -> (Vec3, Vec3, Vec3) {
     let ez = unit([-r_sat[0], -r_sat[1], -r_sat[2]]);
     let es = unit([
         r_sun[0] - r_sat[0],
@@ -439,7 +439,7 @@ fn body_axes(r_sat: Vec3, r_sun: Vec3) -> (Vec3, Vec3, Vec3) {
 /// Low-precision Sun position (ECEF, m) at `t` seconds from the GPS epoch: the series of
 /// [`crate::ephem::sun_position`] (mean equator of date) rotated by the Greenwich mean sidereal
 /// time. Its error (about 0.01 degrees) is far below what the satellite attitude needs.
-fn sun_ecef(t: f64) -> Vec3 {
+pub fn sun_ecef(t: f64) -> Vec3 {
     // GPS epoch 1980-01-06 00:00 is JD 2444244.5; UT1 differs from GPS time by at most tens of
     // seconds, which turns the Sun direction by under 0.01 degrees.
     let jd = 2_444_244.5 + t / 86_400.0;
