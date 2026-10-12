@@ -188,25 +188,39 @@ fn the_lunar_priors_the_engine_can_already_source() {
          0 %, which is the honest headline for this layer and must not drift silently"
     );
 
-    // The same layer under a 10 W jammer: availability collapses to zero. This is the
-    // measured jamming susceptibility, not an allocation.
-    let jam: serde_json::Value = serde_json::from_str(
-        &run_toml(include_str!("../scenarios/lunar-jamming.toml"))
-            .expect("lunar-jamming must run")
-            .json,
-    )
-    .expect("valid JSON");
-    let nominal = jam["fom"]["availability_nominal"]
-        .as_f64()
-        .expect("nominal");
-    let jammed = jam["fom"]["availability_under_jamming"]
-        .as_f64()
-        .expect("jammed");
+    // The same layer under the scenario's 10 W surface jammer. The jamming susceptibility
+    // is measured, not allocated, and it depends on the jammer's type. A tone on the carrier
+    // (Q = 1) denies the layer completely: susceptibility 1.0. Broadband noise at the same
+    // power is despread twice as well (Q = 2, the textbook value since 0.36, see
+    // xval/jammer-q/), so the scenario as shipped degrades every link without losing one:
+    // susceptibility 0 at this power. Until 0.36 the table gave broadband Q = 1 and this
+    // test read 1.0 from the shipped (broadband) scenario.
+    let lunar_jamming = include_str!("../scenarios/lunar-jamming.toml");
+    assert!(lunar_jamming.contains("jammer_type = \"broadband\""));
+    let availability = |toml: &str| -> (f64, f64) {
+        let v: serde_json::Value =
+            serde_json::from_str(&run_toml(toml).expect("lunar-jamming must run").json)
+                .expect("valid JSON");
+        (
+            v["fom"]["availability_nominal"].as_f64().expect("nominal"),
+            v["fom"]["availability_under_jamming"]
+                .as_f64()
+                .expect("jammed"),
+        )
+    };
+    let (nominal, broadband) = availability(lunar_jamming);
+    let (_, tone) =
+        availability(&lunar_jamming.replace("jammer_type = \"broadband\"", "jammer_type = \"cw\""));
     assert!(nominal > 0.0, "the nominal availability must be non-zero");
     assert_eq!(
-        jammed, 0.0,
-        "the orbital RF layer is fully denied under the modelled jammer (nominal \
-         {nominal}); a susceptibility of 1.0 for this layer is measured, not allocated"
+        tone, 0.0,
+        "the orbital RF layer is fully denied by a CW tone at the scenario's power (nominal \
+         {nominal}); a susceptibility of 1.0 to a tone is measured, not allocated"
+    );
+    assert_eq!(
+        broadband, nominal,
+        "broadband noise at the same power degrades but does not deny the layer: \
+         susceptibility 0 at this power"
     );
 
     // Layer: onboard inertial with terrain reference. Bounded error over the mission, and
