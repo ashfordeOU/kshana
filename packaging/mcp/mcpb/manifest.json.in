@@ -1,0 +1,36 @@
+{
+  "manifest_version": "0.3",
+  "name": "kshana-mcp",
+  "display_name": "Kshana PNT-resilience simulator",
+  "version": "@VERSION@",
+  "description": "Run the validated Kshana PNT-resilience simulator from Claude: orbits, GNSS availability, receiver trust, interference maps and more. Advisory, not type-approved navigation equipment: the operator remains responsible for navigation.",
+  "long_description": "Kshana is an open, reproducible positioning, navigation and timing (PNT) resilience simulator. This extension runs its MCP server locally, so Claude calls the real, externally validated engine (SGP4/SDP4 orbits, IAU frames, GNSS availability and DOP, ARAIM, Allan and MTIE timing, GNSS/INS fusion, receiver-trust assessment of NMEA logs, interference maps and route exposure) instead of guessing the mathematics.\n\n**Advisory, not type-approved navigation equipment.** Results are modelled or validated engineering outputs, not an approval of any product, and the operator remains responsible for the safe navigation of the vessel or vehicle. The server runs on your computer; nothing is sent to Ashforde OÜ.\n\nThe GNSS IQ file tools are off unless you start the server yourself with `KSHANA_MCP_IQ_DIR` set; see https://kshana.dev for every install option.",
+  "author": {
+    "name": "Ashforde OÜ",
+    "email": "contact@ashforde.org",
+    "url": "https://ashforde.org"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ashfordeOU/kshana"
+  },
+  "homepage": "https://kshana.dev",
+  "documentation": "https://kshana.dev",
+  "support": "https://github.com/ashfordeOU/kshana/issues",
+  "icon": "icon.png",
+  "server": {
+    "type": "binary",
+    "entry_point": "server/@BINARY@",
+    "mcp_config": {
+      "command": "${__dirname}/server/@BINARY@",
+      "args": [],
+      "env": {}
+    }
+  },
+  "tools_generated": true,
+  "keywords": ["pnt", "gnss", "navigation", "timing", "simulation", "orbit", "receiver-trust"],
+  "license": "AGPL-3.0-only",
+  "compatibility": {
+    "platforms": ["@PLATFORM@"]
+  }
+}

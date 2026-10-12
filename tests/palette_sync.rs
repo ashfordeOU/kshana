@@ -270,10 +270,7 @@ fn colour_literals(text: &str) -> Vec<String> {
 }
 
 /// Files still allowed their own colours, each with the reason. Shrink, never grow.
-const NOT_YET_ON_THE_PALETTE: &[(&str, &str)] = &[(
-    "src/jamming.rs",
-    "under concurrent IQ-defect work; routed through the palette in a follow-up once that lands",
-)];
+const NOT_YET_ON_THE_PALETTE: &[(&str, &str)] = &[];
 
 #[test]
 fn no_colour_literal_lives_outside_the_palette() {

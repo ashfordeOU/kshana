@@ -1,0 +1,342 @@
+// SPDX-License-Identifier: AGPL-3.0-only
+//! The one place that knows the shape of the per-epoch trust stream.
+//!
+//! The telemetry sinks never read a trust record directly: they read a [`TrustSample`],
+//! and this file turns the engine's records into samples. If the live stream's line format
+//! changes, [`parse_live_line`] is the only function that has to change.
+//!
+//! Two sources feed it:
+//! * the live stream (JSON-lines schema v1 of `docs/MARITIME-TRUST.md`: `seq`, `t_s`,
+//!   `time`, `state`, `score`, `deductions`, `alarms`, `gate`, `note`), parsed by
+//!   [`parse_live_line`]; unknown extra keys are ignored, as the schema only grows;
+//! * the batch result of `kshana receiver-trust`, whose per-epoch records carry a trust
+//!   state and the monitors that alarmed but no numeric score ([`from_epoch_trust`]).
+//!   A score is never invented for them: the sample's `score` is `None`.
+
+use crate::receiver_trust::monitors::{EpochTrust, TrustState};
+use serde_json::Value;
+
+/// The trust band of one epoch.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
+pub enum Band {
+    /// Inside the calibration window: the baseline is still being formed.
+    Calibrating,
+    /// No monitor alarmed.
+    Nominal,
+    /// The environment is degraded but the fix is not shown wrong.
+    Degraded,
+    /// The fix itself should not be trusted.
+    Untrusted,
+    /// The source named a band this build does not know.
+    Unknown,
+}
+
+impl Band {
+    /// Every band, in the order metrics list them.
+    pub const ALL: [Band; 5] = [
+        Band::Calibrating,
+        Band::Nominal,
+        Band::Degraded,
+        Band::Untrusted,
+        Band::Unknown,
+    ];
+
+    /// The lower-case label used in metric labels and event fields.
+    pub fn label(self) -> &'static str {
+        match self {
+            Band::Calibrating => "calibrating",
+            Band::Nominal => "nominal",
+            Band::Degraded => "degraded",
+            Band::Untrusted => "untrusted",
+            Band::Unknown => "unknown",
+        }
+    }
+
+    /// Parse a band name, case-insensitively; anything unrecognised is [`Band::Unknown`].
+    pub fn parse(s: &str) -> Band {
+        match s.trim().to_ascii_lowercase().as_str() {
+            "calibrating" | "calibration" => Band::Calibrating,
+            "nominal" | "trusted" | "ok" => Band::Nominal,
+            "degraded" | "warning" => Band::Degraded,
+            "untrusted" | "critical" => Band::Untrusted,
+            _ => Band::Unknown,
+        }
+    }
+
+    /// Index into [`Band::ALL`].
+    pub fn index(self) -> usize {
+        Band::ALL.iter().position(|b| *b == self).unwrap_or(4)
+    }
+}
+
+/// A position the receiver reported (schema v1.1 `position`).
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct Position {
+    /// Geodetic latitude, degrees.
+    pub lat_deg: f64,
+    /// Geodetic longitude, degrees.
+    pub lon_deg: f64,
+    /// Height, m.
+    pub height_m: f64,
+}
+
+/// One epoch of the trust stream, as the sinks see it.
+#[derive(Clone, Debug, PartialEq)]
+pub struct TrustSample {
+    /// Seconds since the first epoch of the log or session.
+    pub t_s: f64,
+    /// The epoch's time as the source states it, where it does.
+    pub time_label: Option<String>,
+    /// Trust score 0 (no trust) to 100 (full trust), where the source computes one.
+    pub score: Option<f64>,
+    /// The trust band.
+    pub band: Band,
+    /// Why the epoch is not nominal: monitor or reason names, in the source's order.
+    pub reasons: Vec<String>,
+    /// The live stream's gate state (`off`, `passed`, `withheld`), where it reports one.
+    pub gate: Option<String>,
+    /// The receiver-reported position, where the stream carries one (schema v1.1).
+    pub position: Option<Position>,
+}
+
+/// Parse one line of the live stream.
+///
+/// Keys read: `t_s` seconds; `score` number in 0..=100 or null; `state` (also accepted as
+/// `band`) string; `time` string or null; `gate` string. Reasons are the monitors named
+/// in `deductions` (largest points first), then any further monitors in `alarms`; a
+/// `reasons` array of strings is also accepted. Missing `state` is an error: a sample with
+/// no verdict says nothing. Out-of-range or non-finite numbers are errors rather than
+/// being clamped, so a format change is noticed instead of hidden.
+pub fn parse_live_line(line: &str) -> Result<TrustSample, String> {
+    let v: Value = serde_json::from_str(line.trim()).map_err(|e| format!("not JSON: {e}"))?;
+    let obj = v.as_object().ok_or("not a JSON object")?;
+    let num = |keys: &[&str]| -> Result<Option<f64>, String> {
+        for k in keys {
+            if let Some(x) = obj.get(*k) {
+                if x.is_null() {
+                    return Ok(None);
+                }
+                let f = x.as_f64().ok_or_else(|| format!("`{k}` is not a number"))?;
+                if !f.is_finite() {
+                    return Err(format!("`{k}` is not finite"));
+                }
+                return Ok(Some(f));
+            }
+        }
+        Ok(None)
+    };
+    let t_s = num(&["t_s", "t"])?.ok_or("missing `t_s`")?;
+    let score = num(&["score"])?;
+    if let Some(s) = score {
+        if !(0.0..=100.0).contains(&s) {
+            return Err(format!("`score` {s} outside 0..=100"));
+        }
+    }
+    let band = Band::parse(
+        obj.get("state")
+            .or_else(|| obj.get("band"))
+            .and_then(Value::as_str)
+            .ok_or("missing `state`")?,
+    );
+    let mut reasons: Vec<String> = Vec::new();
+    let mut push = |name: &str| {
+        if !reasons.iter().any(|r| r == name) {
+            reasons.push(name.to_string());
+        }
+    };
+    for key in ["deductions", "alarms", "reasons"] {
+        let Some(r) = obj.get(key) else { continue };
+        if r.is_null() {
+            continue;
+        }
+        for item in r
+            .as_array()
+            .ok_or_else(|| format!("`{key}` is not an array"))?
+        {
+            let name = match item {
+                Value::String(s) => Some(s.as_str()),
+                Value::Object(o) => ["monitor", "name", "reason"]
+                    .iter()
+                    .find_map(|k| o.get(*k).and_then(Value::as_str)),
+                _ => None,
+            };
+            push(name.ok_or_else(|| format!("a `{key}` entry has no name"))?);
+        }
+    }
+    let position = match obj.get("position") {
+        None | Some(Value::Null) => None,
+        Some(Value::Object(o)) => {
+            let f = |k: &str| {
+                o.get(k)
+                    .and_then(Value::as_f64)
+                    .filter(|x| x.is_finite())
+                    .ok_or_else(|| format!("`position.{k}` is missing or not a finite number"))
+            };
+            Some(Position {
+                lat_deg: f("lat_deg")?,
+                lon_deg: f("lon_deg")?,
+                height_m: f("height_m")?,
+            })
+        }
+        Some(_) => return Err("`position` is not an object or null".into()),
+    };
+    let gate = obj.get("gate").and_then(Value::as_str).map(str::to_string);
+    let time_label = ["time", "time_label"]
+        .iter()
+        .find_map(|k| obj.get(*k).and_then(Value::as_str))
+        .map(str::to_string);
+    Ok(TrustSample {
+        t_s,
+        time_label,
+        score,
+        band,
+        reasons,
+        gate,
+        position,
+    })
+}
+
+fn monitor_name(m: &crate::receiver_trust::monitors::Monitor) -> String {
+    serde_json::to_value(m)
+        .ok()
+        .and_then(|v| v.as_str().map(str::to_string))
+        .unwrap_or_else(|| format!("{m:?}"))
+}
+
+/// The sample for one epoch of a batch `receiver-trust` result. The score is the epoch's own
+/// trust score for a vessel platform and `None` otherwise: a state is never turned into a
+/// number here.
+pub fn from_epoch_trust(e: &EpochTrust) -> TrustSample {
+    let band = match e.state {
+        TrustState::Calibrating => Band::Calibrating,
+        TrustState::Nominal => Band::Nominal,
+        TrustState::Degraded => Band::Degraded,
+        TrustState::Untrusted => Band::Untrusted,
+    };
+    let mut reasons: Vec<String> = Vec::new();
+    let named = e
+        .score
+        .iter()
+        .flat_map(|s| s.deductions.iter().map(|d| &d.monitor))
+        .chain(e.alarms.iter());
+    for m in named {
+        let n = monitor_name(m);
+        if !reasons.contains(&n) {
+            reasons.push(n);
+        }
+    }
+    TrustSample {
+        t_s: e.t_s,
+        time_label: None,
+        score: e.score.as_ref().map(|s| s.score),
+        band,
+        reasons,
+        gate: None,
+        position: None,
+    }
+}
+
+/// The samples of a `receiver-trust` result document (`<stem>.result.json`).
+pub fn from_result_json(json: &str) -> Result<Vec<TrustSample>, String> {
+    let v: Value = serde_json::from_str(json).map_err(|e| format!("result is not JSON: {e}"))?;
+    let epochs = v.get("epochs").ok_or("result has no `epochs`")?;
+    let epochs: Vec<EpochTrust> =
+        serde_json::from_value(epochs.clone()).map_err(|e| format!("bad `epochs`: {e}"))?;
+    Ok(epochs.iter().map(from_epoch_trust).collect())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn parses_a_full_line() {
+        let s = parse_live_line(
+            r#"{"seq":13,"t_s":12.5,"time":"2026-01-01T00:00:12Z","state":"degraded","score":62.5,"deductions":[{"monitor":"kinematic","ratio":1.5,"points":20.0}],"alarms":["kinematic","heading-course"],"gate":"withheld","note":null,"position":{"lat_deg":59.5,"lon_deg":24.25,"height_m":39.4},"future_key":1}"#,
+        )
+        .unwrap();
+        assert_eq!(s.t_s, 12.5);
+        assert_eq!(s.score, Some(62.5));
+        assert_eq!(s.band, Band::Degraded);
+        assert_eq!(s.reasons, ["kinematic", "heading-course"]);
+        assert_eq!(s.gate.as_deref(), Some("withheld"));
+        assert_eq!(
+            s.position,
+            Some(Position {
+                lat_deg: 59.5,
+                lon_deg: 24.25,
+                height_m: 39.4
+            })
+        );
+        assert_eq!(s.time_label.as_deref(), Some("2026-01-01T00:00:12Z"));
+    }
+
+    #[test]
+    fn rejects_format_drift_instead_of_hiding_it() {
+        assert!(parse_live_line("garbage").is_err());
+        assert!(parse_live_line(r#"{"t_s":1,"score":140,"state":"nominal"}"#).is_err());
+        assert!(parse_live_line(r#"{"t_s":1,"score":50}"#).is_err());
+        assert!(parse_live_line(r#"{"score":50,"state":"nominal"}"#).is_err());
+        assert!(parse_live_line(r#"{"t_s":1,"state":"nominal","reasons":[3]}"#).is_err());
+        assert!(
+            parse_live_line(r#"{"t_s":1,"state":"nominal","position":{"lat_deg":1}}"#).is_err()
+        );
+    }
+
+    #[test]
+    fn schema_1_2_line_with_advisory_is_read() {
+        let s = parse_live_line(
+            r#"{"seq":941,"t_s":940.0,"time":"2025-06-14T08:15:40.000Z","state":"untrusted","score":23.4,"deductions":[{"monitor":"heading-course","ratio":2.0,"points":40.0}],"alarms":["heading-course"],"gate":"off","note":null,"position":{"lat_deg":59.8123456,"lon_deg":24.9012345,"height_m":39.4},"advisory":"Advisory software, not type-approved navigation equipment."}"#,
+        )
+        .unwrap();
+        assert_eq!((s.band, s.score), (Band::Untrusted, Some(23.4)));
+        assert_eq!(s.reasons, ["heading-course"]);
+        assert!(s.position.is_some());
+    }
+
+    #[test]
+    fn calibrating_line_has_null_score_and_empty_arrays() {
+        let s = parse_live_line(
+            r#"{"seq":1,"t_s":0.0,"time":null,"state":"calibrating","score":null,"deductions":[],"alarms":[],"gate":"off","note":null}"#,
+        )
+        .unwrap();
+        assert_eq!(
+            (s.band, s.score, s.reasons.len()),
+            (Band::Calibrating, None, 0)
+        );
+        assert_eq!(s.time_label, None);
+    }
+
+    #[test]
+    fn unknown_band_is_labelled_not_guessed() {
+        let s = parse_live_line(r#"{"t_s":1,"state":"purple"}"#).unwrap();
+        assert_eq!(s.band, Band::Unknown);
+        assert_eq!(s.score, None);
+    }
+
+    #[test]
+    fn batch_epoch_without_a_score_gets_none() {
+        let e = EpochTrust {
+            t_s: 70.0,
+            n_sats: 8,
+            cn0_mean_dbhz: None,
+            cn0_drop_db: None,
+            agc: None,
+            agc_z: None,
+            jam_ind: None,
+            position_offset_m: None,
+            raim_stat: None,
+            raim_thr: None,
+            clock_innov_ns: None,
+            clock_bound_ns: None,
+            alarms: vec![crate::receiver_trust::monitors::Monitor::Cn0Drop],
+            state: TrustState::Degraded,
+            marine: None,
+            score: None,
+        };
+        let s = from_epoch_trust(&e);
+        assert_eq!(s.score, None);
+        assert_eq!(s.band, Band::Degraded);
+        assert_eq!(s.reasons, ["cn0-drop"]);
+    }
+}

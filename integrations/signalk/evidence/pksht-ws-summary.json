@@ -1,0 +1,79 @@
+{
+  "delta_values_seen": 164,
+  "paths": [
+    "navigation.gnss.kshana.alarms",
+    "navigation.gnss.kshana.band",
+    "navigation.gnss.kshana.gate",
+    "navigation.gnss.kshana.reasons",
+    "navigation.gnss.kshana.score",
+    "notifications.navigation.gnss.kshana.trust"
+  ],
+  "band_sequence": [
+    "nominal",
+    "degraded",
+    "untrusted",
+    "nominal"
+  ],
+  "notification_values": [
+    {
+      "state": "warn",
+      "method": [
+        "visual",
+        "sound"
+      ],
+      "message": "GNSS fix trust degraded (score 70.0): cn0-spread -20.0. Advisory only; check position by other means.",
+      "id": "2b61a74a-9e18-49f2-9a32-924c68d6623b",
+      "status": {
+        "silenced": false,
+        "acknowledged": false,
+        "canSilence": true,
+        "canAcknowledge": true,
+        "canClear": false
+      }
+    },
+    {
+      "state": "alarm",
+      "method": [
+        "visual",
+        "sound"
+      ],
+      "message": "GNSS fix trust untrusted (score 40.0): cn0-spread -30.0, speed-log -30.0. Advisory only; check position by other means.",
+      "id": "2b61a74a-9e18-49f2-9a32-924c68d6623b",
+      "status": {
+        "silenced": false,
+        "acknowledged": false,
+        "canSilence": true,
+        "canAcknowledge": true,
+        "canClear": false
+      }
+    },
+    {
+      "state": "normal",
+      "message": "GNSS trust 100.0 (nominal)",
+      "id": "2b61a74a-9e18-49f2-9a32-924c68d6623b",
+      "status": {
+        "silenced": false,
+        "acknowledged": false,
+        "canSilence": true,
+        "canAcknowledge": true,
+        "canClear": false
+      }
+    },
+    {
+      "state": "warn",
+      "method": [
+        "visual",
+        "sound"
+      ],
+      "message": "No Kshana trust data received; the trust score is not being updated.",
+      "id": "2b61a74a-9e18-49f2-9a32-924c68d6623b",
+      "status": {
+        "silenced": false,
+        "acknowledged": false,
+        "canSilence": true,
+        "canAcknowledge": true,
+        "canClear": false
+      }
+    }
+  ]
+}

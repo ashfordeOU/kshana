@@ -1,0 +1,61 @@
+{
+  "artifacts": [
+    {
+      "bytes": 2600,
+      "link": "60fd377ae16b856928ea27af2d6557f106f28c123ffb9e8de26c61e463fed8cd",
+      "name": "log-slice.bin",
+      "role": "raw receiver-log bytes for the window",
+      "sha256": "b9eaad1d586a079cfadffd72230c19f1e3fda6d64b4f309612f31fd783f3f0bd"
+    },
+    {
+      "bytes": 90,
+      "link": "1cc3514f7218f97c79a99471738a59e371be4c92e332875555e6644fc52e0086",
+      "name": "config.json",
+      "role": "configuration and every threshold",
+      "sha256": "11ab110ecf6b8883fd0edfa36ec5d1b188869d9cb08d449a5239a03cdc5c8eec"
+    },
+    {
+      "bytes": 5493,
+      "link": "262ef8d7a7c7d96bcbcdd87725496d652967c507f089ad6c9a79c583d93e0c1a",
+      "name": "epochs.json",
+      "role": "per-epoch results and reasons",
+      "sha256": "ae6a31019a43b7728c3c547a510be57b3ca3c822f452758a8958e32fbdcfa246"
+    },
+    {
+      "bytes": 9651,
+      "link": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+      "name": "summary.html",
+      "role": "human-readable summary",
+      "sha256": "327fc8f3242d3f7fa0f41c2f249eac74a75969b3f8e01626354e769eac856928"
+    }
+  ],
+  "chain_head": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+  "created_utc": "2026-01-02T03:04:05Z",
+  "disclaimer": "This pack is a technical record of what the Kshana engine computed from the stated receiver log with the stated configuration. It is not a legal opinion, not a finding of fact about any event or its cause, and not a certification.",
+  "engine_version": "0.0.0-oracle",
+  "epochs_in_window": 60,
+  "format": "kshana-evidence/2",
+  "log": {
+    "file_name": "synthetic.log",
+    "format": "nmea",
+    "full_bytes": 5370,
+    "full_sha256": "15aba5224d5c0f7f0cbe25fa20a298182c1c042a8322b5f299961d37b4581792",
+    "slice": {
+      "end": 3000,
+      "kind": "byte-range",
+      "sha256": "b9eaad1d586a079cfadffd72230c19f1e3fda6d64b4f309612f31fd783f3f0bd",
+      "start": 400
+    },
+    "start_label": "2026-01-02T03:04:05Z"
+  },
+  "signer": {
+    "algorithm": "ed25519",
+    "fingerprint": "9a92d2b54a9a5402de3e65a07a5cb12a",
+    "public_key": "db995fe25169d141cab9bbba92baa01f9f2e1ece7df4cb2ac05190f37fcc1f9d"
+  },
+  "title": "Static pack",
+  "window": {
+    "from_s": 0.0,
+    "to_s": 59.0
+  }
+}

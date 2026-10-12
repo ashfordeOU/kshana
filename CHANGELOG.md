@@ -9,12 +9,365 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+## [0.35.0] - 2026-10-12
+
+Trusted fix: software that scores the trust of a vessel's navigation fix from the receiver
+output already installed, with the tooling around it: live and gate modes, Signal K and
+OpenCPN integrations, crew-training NMEA, interference maps with route exposure, telemetry
+exporters, signed evidence packs, a compliance mapping, a test-bench export, Galileo OSNMA verification, every install channel of the MCP server, and the same
+capabilities on the Python, WebAssembly, MCP, Claude Code plugin and JetBrains surfaces. Evidence
+class: the ledger gains twelve rows (263 rows: 132 Validated, 127 Modelled, 4 Partner). Eight are
+**VALIDATED**, each against an independent implementation, published vectors or the official test
+vectors, on synthetic or published inputs, and each stating narrowly what is and is not checked:
+the monitors' arithmetic, the training NMEA, the interference-map reading and geometry, the
+Prometheus and OTLP formats, the CEF events, the evidence-pack primitives and verifier, the
+test-bench export, and Galileo OSNMA verification. Four are **MODELLED**: the score's aggregation,
+the LEEF events, the compliance mapping, and the marine integrations (Signal K, OpenCPN and the
+reference build, a new integration-run kind that is not an oracle). The scores are advisory: this is not type-approved equipment and the operator stays
+responsible. Nothing here synthesises a jammer or spoofer radio waveform and nothing transmits;
+generated NMEA text is for training.
+
+### Galileo OSNMA verifier
+
+- **New module `kshana::osnma` and `kshana osnma verify <input>`: an open, pure-Rust
+  receiver-side verifier for Galileo OSNMA.** It reads I/NAV pages and reports, per
+  satellite and epoch, whether the navigation data is authenticated, with a reason for
+  every failure or delay: HKROOT and MACK parsing, DSM-KROOT and DSM-PKR reassembly,
+  Merkle verification of the public key, TESLA key-chain verification, MACSEQ and tag
+  verification for ADKD 0, 4 and 12 including cross-authentication, and a
+  `$PKSOS`-shaped result for the receiver-trust monitor. Output carries an advisory that
+  the status is not a navigation integrity service. `docs/OSNMA.md` states what is and
+  is not verified, the time requirement, and that Kshana grants no rights under the
+  EU's OSNMA ICD IPRs (users rely on the ICD's Annex E authorisation).
+  Implemented against the SIS ICD Issue 1.1 and the Receiver Guidelines Issue 1.3.
+  Pages are CRC-checked, and a u-blox UBX-RXM-SFRBX byte stream can be read directly
+  (`--format ubx`). Default tests use synthetic data and published primitive known-answer
+  tests; an opt-in test reads a locally downloaded copy of the official vectors.
+  After independent review the verifier takes its time only from verified TESLA keys
+  (a spoofed far-future sub-frame can no longer erase a failure), lets an authentication
+  expire and follow the IODnav in use, honours verified alert messages (whose Merkle
+  leaf now includes the random NPK field) and NMA status "don't use", keeps dummy tags
+  out of the satellite status, keeps chains by CID with revocation and renewal, checks
+  the KROOT padding hash, and caps UBX frame lengths and TESLA verification work. A
+  satellite reads authenticated only while the newest ephemeris and clock data it sends
+  is, bit for bit, the data that was authenticated (not merely under the same IODnav),
+  a status or revocation from the unauthenticated NMA header counts only when two
+  satellites agree or a verified KROOT carries it, a replayed older KROOT cannot replace
+  a chain, and a stalled key stream is reported.
+
+### Added (MCP server channels)
+
+- **`kshana-mcp` reaches its users through every channel from the tag.** Prebuilt binaries
+  `kshana-mcp-<target>[.exe]` for macOS (Apple silicon and Intel), Windows x86-64, Linux x86-64
+  and Linux Arm, smoke-run, listed in `SHA256SUMS` and attested; a Claude Desktop extension
+  `kshana-mcp-<target>.mcpb` per system; one-click Cursor and VS Code links, Docker and binary
+  forms, and snippets for Claude Code, Claude Desktop, Cursor, VS Code, Windsurf, Zed, Goose,
+  Codex CLI, Gemini CLI and Continue (`docs/MCP-INSTALL.md`, generated and decode-tested);
+  `npx kshana-mcp` and `uvx kshana-mcp` launchers that verify `SHA256SUMS` before running the
+  binary; Homebrew, Scoop and winget manifests generated from the release checksums; a Smithery
+  file and refreshed registry and Glama entries. A step whose credential is absent is skipped
+  with a notice. Advisory, not type-approved navigation equipment; nothing is sent to Ashforde OÜ.
+- **`kshana-mcp --http <addr>`, streamable HTTP, self-hosted.** Loopback by default; a
+  non-loopback address needs `--allow-remote` and a bearer token in `KSHANA_MCP_HTTP_TOKEN`;
+  no tool reads or writes a path (the IQ file tools are off); request size, time and concurrency
+  limits; no CORS header; Host and Origin checks. Kshana hosts no endpoint
+  (`docs/deploy/mcp-http.md`, with Docker, Fly.io and Cloud Run templates).
+
+### Added (surfaces)
+
+- **`osnma_verify` on Python and WebAssembly.** The verifier behind `kshana osnma verify` on bytes in
+  memory, returning the JSON `--json` prints (advisory in its `advisory` field; authentication status
+  only, not a navigation integrity service). The same refusals as the command line. Not on MCP: the
+  input is a long raw receiver stream better served by the CLI and Python. `docs/SURFACES.md` and
+  `docs/OSNMA.md` say so.
+
+- **`trust_telemetry` on WebAssembly, Python and MCP, with a plugin command and a JetBrains action.**
+  Renders a trust stream or a `receiver-trust` result as Prometheus text, CEF or LEEF syslog lines or an
+  OTLP JSON payload, with the encoders `kshana trust-telemetry` uses (`kshana::surface::trust_telemetry`);
+  no socket and no clock. Plugin: `/kshana-trust-telemetry` and the `trust-telemetry` skill. JetBrains:
+  Render Trust Telemetry. The `wasm` and `python` features and the MCP server now also enable `otlp`,
+  which adds no crate.
+
+- **Parity sweep.** JetBrains actions Validate Scenario, List Scenario Kinds and Assess Receiver Stream;
+  `kshana --help` now lists `receiver-trust evidence`, `evidence`, `trust-telemetry` and `nmea-scenario`;
+  the notebook `compliance-and-test-bench` (compliance mapping and test-bench export); and every
+  remaining JetBrains "CLI only" cell in `docs/SURFACES.md` is now an explicit N/A with its reason.
+
+- **The 0.35 capabilities on every surface they suit.** Python: `receiver_trust_replay`,
+  `assess_vessel_log`, `evidence_create`, `evidence_verify`, `interference_map`,
+  `route_exposure`, `nmea_training`. WebAssembly: the same except `evidence_create` (a signing
+  key does not belong in a page). MCP server: `assess_vessel_stream`, `assess_vessel_log`,
+  `create_evidence_pack`, `verify_evidence_pack`, `generate_training_nmea`,
+  `build_interference_map`, `route_exposure`, each with input caps and round-trip tests. Claude
+  Code plugin: slash commands `/kshana-assess-receiver`, `/kshana-training-scenario`,
+  `/kshana-interference-map`, `/kshana-evidence-pack` and the matching skills. JetBrains plugin:
+  Assess Receiver Trust, Generate Training NMEA, Build Interference Map and Route Exposure
+  actions. Notebooks: `vessel-trust-and-training`, `interference-map-route-exposure`. Docs:
+  `docs/AGENTS.md` and `docs/SURFACES.md`, which states, for every cell, why a surface cannot
+  carry a capability (a running process: `receiver-trust live`, its gate and listener, the
+  telemetry exporters, streamed training NMEA; the land download). The in-memory entry points
+  share `kshana::surface`, which adds only input size caps and JSON shaping to the feature
+  modules' own functions.
+
+### Added (evidence packs)
+
+- **`kshana receiver-trust evidence` and `kshana evidence verify`: signed, verifiable
+  evidence packs for a GNSS trust event.** A pack bundles the raw log slice and the full
+  log's SHA-256, the configuration with every threshold, the per-epoch results and
+  reasons, the engine version, a hash-chained manifest and a self-contained HTML summary,
+  signed with Ed25519 (a key from `kshana evidence keygen` or your own file; keys are never
+  stored in a pack and `*.evidence-key` is git-ignored). `verify` checks every hash, the
+  chain and the signature and names exactly what fails; with `--pubkey` it pins the signer.
+  An RFC 3161 token can be attached and is read and bound to the manifest (the authority's
+  own signature is not checked by this build; `openssl ts -verify` covers it). The log slice is the
+  window's exact bytes where the reader reports source spans (NMEA, UBX, RINEX 3, Android),
+  otherwise the whole log, and the manifest says which.
+  Creation and verification are pure public functions (`kshana::evidence`) that build for
+  `wasm32`. The packs state that they are a technical record, not a legal opinion. The new dependencies are
+  the `ed25519-dalek` tree (BSD-3-Clause and Apache-2.0/MIT, minimal features) and a direct
+  `zeroize` (already in that tree) to wipe key material. See
+  `docs/EVIDENCE-PACKS.md`.
+
+### Added (trust telemetry)
+
+- **`kshana trust-telemetry`: GNSS trust as a security-telemetry source.** Reads the
+  per-epoch trust stream (JSON lines: score 0-100, band, reasons) or a batch
+  `receiver-trust` result and feeds a Prometheus `/metrics` endpoint (localhost by
+  default), syslog events in CEF or LEEF inside an RFC 5424 envelope (UDP or TCP), and,
+  behind the off-by-default `otlp` feature, OTLP/HTTP JSON export. Delivery runs on worker
+  threads with connect and write time limits, capped reconnect backoff and a
+  `kshana_trust_syslog_send_failures_total` counter, so a dead or stalled collector cannot
+  stall the live assessment or freeze `/metrics`; reason labels are capped at 64 series. No
+  new dependencies.
+  A sample Grafana dashboard is in `deploy/grafana/`. Metric names, labels and the
+  CEF/LEEF field mapping are in `docs/TRUST-TELEMETRY.md`. The stream format is isolated
+  in `src/telemetry/sample.rs`.
+
+### Added
+
+- **Maritime trust: a live 0-100 trust score for a moving vessel's fix, from the NMEA 0183
+  the receiver already outputs, with an opt-in gate.** `kshana receiver-trust` takes a
+  `[platform]` table (`kind = "static"` or `"vessel"`, the vessel's maximum speed, acceleration
+  and turn rate, antenna height above the waterline and an optional heading sensor; every default
+  documented with its reason). For a vessel the static position-jump monitor, which measures
+  distance from the calibration mean and is wrong on a ship under way, is replaced by causal
+  moving-platform monitors: kinematic consistency of the position against the reported speed and
+  course and against the vessel limits, gyro heading against course over ground, speed log against
+  speed over ground, antenna altitude against the stated height above the waterline, C/N0 spread
+  collapsing and rising together against the calibration baseline, and time consistency (against
+  this computer's clock too, in live mode). It also reads a reported authentication status, overall or per satellite
+  (a reported status only: no OSNMA cryptography). Every threshold is stated in a `[maritime]` table before the run. Each epoch then
+  gets a score from 0 to 100 by a deterministic, pre-registered mapping (no learning, nothing fitted
+  to events; weights, band edges and the evidence hold in a `[score]` table), mapped onto the
+  existing trust states, with the monitors that deducted and their points. Static scenarios are
+  unchanged and hash as before. `kshana receiver-trust live <session.toml>` reads stdin, a file
+  being appended, TCP or UDP and writes one JSON line per epoch and a proprietary `$PKSHT`
+  sentence; with `--gate` it passes the stream through unchanged while the fix is trusted and
+  marks the fix invalid (GGA quality 0, RMC and GLL status `V`, GNS and VTG mode `N`) while it is
+  not. The gate is off unless asked for; `--listen tcp:<port>` serves the gated stream to any number of
+  TCP clients (loopback by default, a slow client is dropped rather than blocking the others). This is advisory software, not type-approved navigation
+  equipment (IEC 61108, IEC 61162); the operator remains responsible. `examples/maritime-trust/`
+  is a synthetic Tallinn to Helsinki log, written as text only, with a position drag-off partway
+  through during which the receiver keeps reporting a valid fix; its expected output is pinned by
+  a test. Guide: `docs/MARITIME-TRUST.md`. The checks cannot see a spoofer whose fix is
+  consistent with everything on the bus; the guide says so.
+
+### Interference map
+
+- **`kshana interference-map` and `kshana route-exposure`: a public picture of where
+  aircraft and ships reported degraded navigation data, and how much of a route it touches.**
+  Inputs are local CSV files made from openly licensed ADS-B (adsb.lol, ODbL 1.0) and AIS
+  (NOAA MarineCadastre, Kystverket under NLOD 2.0) data; each output file is one source and
+  one UTC day of GeoJSON carrying the method, its thresholds, the data licence, the
+  attribution and the source's coverage bias. The ADS-B method aggregates NIC and NACp onto
+  a fixed grid and calls a cell degraded from the share of distinct aircraft, with guards for
+  equipment that never reports accuracy, low altitude, and wide-area causes. The AIS method
+  runs five detectors: positions on land (against a user-supplied coastline), circular
+  tracks, implausible jumps, implausible speeds, and many vessels at one position. Thresholds
+  are pre-registered constants of a named method version. Aggregates only: identifiers are
+  hashed in memory and never written, and cells with fewer than 5 distinct aircraft or
+  vessels are not published. A degraded cell is not a finding of interference. The default
+  commands use no network; an opt-in `fetch-land --allow-network` helper downloads Natural
+  Earth land polygons from a commit-pinned address and keeps the file only if its SHA-256
+  matches. ADS-B input is a CSV or the adsb.lol readsb history files directly (new
+  dependency: `flate2` with its pure-Rust backend, for gzip). Both methods are version 2:
+  a degraded or anomalous call needs at least 5 aircraft or vessels (the publication
+  minimum), every per-cell count below 5 is withheld as `null`, and a day whose background
+  cannot be estimated withholds its calls. Output files are named
+  `<source>-<dataset>-<date>.geojson` and are never overwritten; input is streamed line by
+  line; route exposure handles the antimeridian. Tests use synthetic data only. See `docs/INTERFERENCE-MAP.md` and the
+  licence review in `docs/data/INTERFERENCE-DATA-SOURCES.md`.
+
+### Added (training streams)
+
+- **`kshana nmea-scenario`: synthetic bridge NMEA 0183 for crew training in GNSS jamming
+  and spoofing recognition.** From a scenario TOML it writes a file, or streams over TCP
+  or UDP (unicast or broadcast; real time, accelerated or as fast as possible), the full
+  bridge set GGA, RMC, VTG, GSV, GSA, GNS, ZDA, HDT and VBW for a vessel track with
+  rate-of-turn, acceleration and current limits, with satellite geometry from the engine's
+  own nominal constellations. Scripted events on a timeline: jamming, position drag-off
+  (a valid fix that walks away), time spoof and a replay delay, each with onset and
+  recovery ramps. An instructor log (JSON and text) records what was injected when with the
+  true track against the reported one. A library in `scenarios/training/` (open-sea
+  jamming, coastal drag-off, port-approach time spoof, combined) carries trainer notes.
+  Output is checksum-valid and deterministic per seed; tests pin a golden excerpt per
+  scenario and read every sentence with the `receiver-trust` NMEA reader. Text only: no
+  RF, IQ or waveform output; streams are for training and testing and must never be fed
+  to a vessel's live navigation systems. See `docs/NMEA-TRAINING.md`.
+
+### Marine integrations (0.35.0, workstream B)
+
+- **Signal K plugin** (`integrations/signalk/`, not published to npm): runs or connects to `kshana receiver-trust live`
+  (the server's own NMEA input, custom input arguments, a JSON-lines TCP feed, or the `$PKSHT` sentences of a gate
+  stream), publishes the trust score, band, reasons, alarms and gate state under `navigation.gnss.kshana.*` (including the receiver-reported position as context, never `navigation.position`), and raises
+  a Signal K notification (`warn` on degraded, `alarm` on untrusted, with hold, clear and staleness thresholds, all in
+  the config schema). No npm dependencies. Tested on recorded synthetic output.
+- **OpenCPN**: gate-mode NMEA is served directly by `kshana receiver-trust live --gate --listen tcp:10110` (recommended); a
+  dependency-free TCP relay (`integrations/opencpn/nmea-tcp-relay.mjs`) is the optional alternative. Either way OpenCPN
+  sees an invalid fix when trust collapses and `$PKSHT` in its NMEA debug window; tests replay the synthetic gated stream
+  through a real TCP socket and check what a consumer receives. A native score-panel plugin
+  (`integrations/opencpn/plugin/`, plugin API 1.18, CMake) reads `$PKSHT` from OpenCPN's own NMEA stream and alerts
+  on the untrusted band; it builds, its logic is unit-tested, and it was run inside OpenCPN 5.8.4 under a virtual display (evidence
+  and a reproduction script in `integrations/opencpn/evidence/`); it is not packaged for the plugin manager.
+- **Reference build** (`deploy/reference-build/`): generic parts list, OS setup, systemd units for the advisory monitor and
+  the opt-in gate (checked with `systemd-analyze verify` by `check-units.sh`), a container option, Signal K wiring.
+- The Signal K plugin accepts the live JSON schema 1.2 (a `position` then an `advisory` key appended; unknown appended keys are ignored), checked on real 1.2 output and against a real signalk-server.
+- Review fixes: the systemd units restart always and run sandboxed (no shell, no network where none is needed), a logrotate
+  snippet, `check-units.sh` fails on any finding; the container runs the gate from environment variables with a health check
+  and digest-pinned base images; Signal K score metadata, the stale notification is replaced when data resumes, child-process
+  errors are kept and kills escalate, unsafe `inputArgs` are refused, and the notification is at
+  `notifications.navigation.gnss.kshana.trust`; the relay caps a held partial line; the `$PKSHT` parsers reject scores outside
+  0 to 100; a documentation link check; a CI workflow (`marine-integrations.yml`) running all of it, including the real binary
+  end to end.
+- `docs/MARINE-INTEGRATIONS.md`. Advisory software, not type-approved equipment; the operator stays responsible. Software
+  only: nothing transmits, and no detection or false-alarm figure is claimed.
+
+### Added: compliance mapping and test-bench export
+
+- **`docs/compliance/` and `kshana compliance-report`.** A mapping from Kshana outputs to
+  five resilience frameworks and standards (the US DHS Resilient PNT Conformance Framework v2.0,
+  IMO guidance for ships, EASA guidance for aviation, NIS2 Article 21, EN 16803, a paid standard
+  cited by part and by the few clause numbers visible in catalogue text), one table per framework: the reference, what it asks in our
+  paraphrase, the outputs that support evidence for it, and the gap. Source versions, URLs and
+  what was and was not read are recorded. `kshana compliance-report <result.json>...` fills
+  the mapping from the runs given and marks each row `evidenced`, `partly-evidenced`,
+  `not-evidenced` or `out-of-scope`, as Markdown and JSON, with the gap kept on every row. The
+  wording is "supports evidence for"; nothing is rated or approved. Tests use synthetic runs and fail
+  when a committed table drifts from the code.
+- **`kshana bench-export <scenario.toml>`.** Writes a `gnss-ins`, `jamming` or `gnss-sim`
+  scenario's vehicle motion and events for a laboratory GNSS simulator: a user-motion CSV
+  with documented frames and a metadata sidecar, NMEA 0183 `GGA`/`RMC`, waypoint text, and the
+  events as CSV and as `receiver-trust` `[[events]]` blocks (`src/interop/testbench.rs`).
+  Motion and events only: no signal is written. Every file is read back in
+  `tests/interop_testbench.rs` and compared within its stated tolerance.
+  [`docs/TEST-BENCH.md`](docs/TEST-BENCH.md) gives the method for replaying the export
+  through a simulator and scoring the receiver's log with `kshana receiver-trust`.
+- **What counts as evidence.** A result counts for a capability only when it carries the
+  fields its kind writes; a kind label alone counts for nothing. Unknown kinds, a result
+  that disagrees with its sibling scenario, non-hex hashes and malformed receiver-trust
+  counts are listed as not used, with the reason. The report escapes Markdown cells and
+  cannot panic on a non-ASCII hash. `compliance::run_from_text` and `assess_texts` take
+  texts, not paths.
+- **Test-bench export.** `--epoch` is range-checked (`UtcEpoch::parse_iso`); the waypoint
+  file checks every interval and the command says why when it is left out; the docs state
+  that `gnss-ins` heading is the body yaw and not the course, the `GGA` placeholder fields,
+  and the scenario's own height change. `bench-export` and `compliance-report` are in the
+  usage text.
+- `fusion::pack::truth_trajectory` exposes the `gnss-ins` driving profile's true state
+  history (the same stepping the kind's own truth uses), and `UtcEpoch` gains NMEA date and
+  time fields.
+
+### Interference map validation
+
+- **The interference map's decoding semantics and geometry are checked against independent
+  implementations on synthetic inputs.** NIC and NACp code meanings against pyModeS decoding of
+  synthetic ADS-B frames, the AIS not-available values against pyais decoding of synthetic AIVDM
+  sentences, grid cell assignment against shapely, route length per cell state against shapely and
+  GeographicLib, and inland masking against shapely and pyproj, each to a tolerance fixed before the
+  first comparison (`tests/fixtures/interference_map_ref/PREREGISTRATION.md`). This validates how
+  codes and field values are read and the geometry, not that a flagged cell is interference. The
+  land-polygon reader now closes a ring that does not repeat its first vertex, which it used to read
+  without its last edge. The docs state the NACp and NIC low-accuracy thresholds as the bound each
+  code stands for (NACp 6 is a 556 m EPU bound, NIC 5 a 1 NM containment bound).
+
+### Added (validation of the telemetry formats and evidence packs)
+
+- **External checks of the evidence-pack cryptography, the pack verifier and the telemetry
+  wire formats.** The RFC 8032 section 7.1 Ed25519 test vectors (1, 2, 3 and 1024) and the
+  FIPS 180-4 SHA-256 examples run through the pack's own signing, verifying and hashing
+  functions, to exact equality. A verifier written in Python from the normative section of
+  `docs/EVIDENCE-PACKS.md` alone (hashlib and `cryptography`) agrees with the Rust verifier
+  on 71 intact and tampered packs: verdict, failure set, signature verdict and both chain
+  heads. Our Prometheus exposition is read by the official Python client's parser and our
+  OTLP JSON by the official `opentelemetry-proto` message, strictly, and both agree with the
+  state they were made from. CEF and LEEF have no independent open validator and stay
+  modelled. `docs/EVIDENCE-PACKS.md` gained the normative pack format and verification
+  procedure the clean-room verifier was written from; `VerifyReport` gained
+  `signature_valid`. Oracles and fixtures: `scripts/gen_ed25519_rfc8032_ref.py`,
+  `scripts/gen_evidence_pack_ref.py` with `scripts/evidence_verify_cleanroom.py`,
+  `scripts/gen_telemetry_formats_ref.py`; tests `evidence_crypto_reference`,
+  `evidence_pack_reference` and `telemetry_formats_reference`. CI needs no Python.
+
+### Added (validation of the CEF events)
+
+- **The telemetry CEF events are read back correctly by two independent open-source parsers.**
+  `pycef` 1.11 and the Logstash CEF codec (`logstash-codec-cef` 6.2.7 in Logstash 8.15.3) parse
+  157 CEF lines (every band change and every epoch of the committed telemetry stream, plus
+  adversarial text containing `=`, backslashes, pipes, line breaks, tabs and multi-byte text)
+  and recover every header field, the severity, the exact extension key set and every value
+  exactly. The Logstash codec also reads four lines whose header text needs escaping, which
+  `pycef` cannot. The bar was registered before either parser was run
+  (`tests/cef_reference.rs`); fixtures in `tests/fixtures/cef/`, oracle scripts
+  `scripts/gen_cef_ref.py` and `scripts/gen_cef_logstash_ref.py`; CI needs neither Python nor
+  Logstash. LEEF has no maintained open parser and stays modelled. The CEF events now carry the
+  trust score and the epoch offset in the CEF dictionary's floating-point custom fields
+  (`cfp1`, `cfp2`) instead of the integer fields `cn1` and `cn2`, which suited neither value; CEF
+  is new in this release, so nothing that shipped changes.
+
+### Changed
+
+- **MCP: `assess_receiver_log` accepts the log as `text` or `base64`; tool input is capped at 4 MiB.**
+- **The jamming chart takes its colours from the palette too.** `src/jamming.rs` was the one
+  module the Observatory palette revision left on its own colours while the jammer-Q work
+  landed; its `*.chart.svg` (the `jamming`, `maritime-strait-jamming` and other `jamming`
+  kind scenarios) now reads `src/palette.rs`, and the allowlist in `tests/palette_sync.rs` is
+  empty. Colours and font only: the `jamming-demo` and `maritime-strait-jamming` charts are
+  equal to their previously recorded renders once colour, `font-family` and the version
+  footer are normalised. No plotted value moved. The recorded Studio copies under
+  `web/studio/recorded/` were re-recorded at the 0.33.0 and 0.34.0 re-ports (version stamp only):
+  they still carry the jamming chart's old paint, and take the palette paint at the next re-port.
+
+### Fixed
+
+- **The clock-ensemble 3-sigma bound now covers the flicker floor, and the filter-health check sees it.**
+  With a `flicker_floor` the truth clock carried flicker FM but the two-state filter that
+  supplies the integrity bound did not, so the shipped `clock-ensemble` scenario's 3-sigma
+  coverage was 0.41 (classical) and 0.33 (quantum), and the NIS/NEES check, which drew its own
+  truth from the filter's model, reported identical values with and without the floor. The
+  bound is now the two-state variance plus the exact variance of the flicker phase accumulated
+  since the last sync, computed from the same bank the truth clock uses; the NIS/NEES check
+  draws its truth from the extended model with that bank and runs the matched extended filter
+  (and the two-state filter against flicker truth reports `consistent = false`). Output change,
+  only for clocks with a nonzero `flicker_floor`: `integrity` on `clock-ensemble` goes from
+  0.40866 / 0.33026 to 0.99970 / 1.0 (classical / quantum) and `filter_health` NIS/NEES now
+  include the flicker; the timing error, `holdover_s` and `timing_p95_ns` are unchanged, and
+  scenarios without a floor are byte-identical. `scenarios/orbit-gnss-challenged.toml` (orbit
+  kind, seed 7, floors 1e-16 / 2e-11) also moves: `fom.integrity` classical 0.7734 to 1.0 and
+  quantum 0.9796 to 1.0, and the `filter_health` NIS/NEES and their bands change. Its quantum
+  `filter_health.consistent` flips from `true` to `false`: a sampling event of the 16-seed by
+  60-step flicker ensemble (NIS 0.8815 against a band of [0.9125, 1.0914]), not a defect. The
+  band is a 95 % band, so about 5 % of seeds flag a matched filter by construction (40 fresh
+  seeds of this scenario: quantum 1 and classical 2 flagged); at 64 by 200 the same seed is
+  inside the band for both clocks (NIS 0.990 and 1.001). Known follow-up: the fusion kind has the
+  same gap (classical integrity 0.80 with a floor); the hybrid kind stays above 0.99.
+
 ## [0.34.1] - 2026-10-10
 
 ### Security
 
 - **MCP server input hardened.** The MCP server's scenario tools now accept inline content only
   and refuse file-source fields; input size is capped.
+  Advisory: [GHSA-8wpf-hqg5-6xjr](https://github.com/ashfordeOU/kshana/security/advisories/GHSA-8wpf-hqg5-6xjr).
 
 ## [0.34.0] - 2026-10-09
 

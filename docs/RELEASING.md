@@ -18,7 +18,7 @@ the new version.
 2. Bump `version` in `Cargo.toml`, and every surface `scripts/check-version-sync.sh`
    lists (the Model Context Protocol (MCP) server crate and its `kshana` dependency, the
    JetBrains plugin and its newest change-notes entry, the README status line and release
-   badge, the three registry front pages, and the kshana.dev site under `web/`: its
+   badge, the three registry front pages, the Claude Code plugin manifests (`.claude-plugin/`), the Signal K and OpenCPN plugin versions (`integrations/`), the reference-build image's version label, any built Studio wasm package, and the kshana.dev site under `web/`: its
    front page, the Studio's install panel and the port manifest). The site's version is
    written by the site build, so rebuild the site from the bumped checkout and rerun
    `web/tools/port_site.py` rather than editing `web/` by hand. Run the script; it must
@@ -26,6 +26,11 @@ the new version.
    `KSHANA_VERSION_SYNC_SITE`'s default to `strict` (in `scripts/check-version-sync.sh`),
    so the version chip and footer of every page, `web/llms.txt` and the changelog page
    are enforced from then on instead of only warned about.
+   The same script enforces the Studio recordings' `engine_version`
+   (`web/studio/recorded/index.json`), the `Version X.Y.Z,` line of `web/llms.txt` and the newest heading
+   of `web/docs/changelog.html`, and the kshana-mcp launchers (`packaging/mcp/npm/package.json`,
+   `packaging/mcp/pypi/pyproject.toml` and its `__init__.py`) and the package entries of
+   `mcp/kshana-mcp/server.json`; bump them in the same commit.
 3. Merge to `main` and wait for continuous integration (CI, `ci.yml`) to pass on that
    commit. Tag only a commit that is already green on `main`.
 4. The tag is pushed for you. When CI finishes green on a push to `main`, the Auto-tag
@@ -43,10 +48,33 @@ All of it runs inside one run of the Release workflow (`.github/workflows/releas
 | Stage | Where | What it does | If it fails |
 | --- | --- | --- | --- |
 | verify | `release.yml` job `verify` | Formatting, lint (clippy), the full `cargo test --all` suite (golden pins and verification-matrix guards included), the reproducibility guard and the script guards, on the tagged commit | Nothing is published. Fix, re-tag. |
-| release | `release.yml` jobs `binaries`, `release`, `verify-release*` | Builds the command-line binary for Linux x86-64, macOS (Apple silicon and Intel) and Windows x86-64, the MCP server binary, the software bill of materials (SBOM) and the validation summary; writes `SHA256SUMS`; attests every file with SLSA (Supply-chain Levels for Software Artifacts) build provenance; attaches them to the GitHub Release; then downloads them again and checks each one, running the macOS and Windows binaries on their own systems | The GitHub Release is incomplete; the registries are unaffected |
-| publish | `publish.yml`, then `mcp-publish.yml` and `jetbrains-plugin.yml`, all called from `release.yml` | Builds every artifact first (the six Python wheels and the source distribution through `wheels.yml`, the npm package), then publishes crates.io, then the Python Package Index (PyPI), npm and `kshana-mcp` on crates.io, then the container image on ghcr.io (the GitHub Container Registry) and the MCP registry, and the JetBrains Marketplace | See "Retrying" below |
-| parity | `release.yml` job `parity` | Polls crates.io (`kshana`, `kshana-mcp`), npm, PyPI (the source distribution and one wheel for each of the six platforms) and ghcr.io until each serves the version, for up to 45 minutes. docs.rs and the MCP registry are reported but never fatal | The run is red and names the channel that is missing |
+| release | `release.yml` jobs `binaries`, `release`, `verify-release*` | Builds the command-line binary for Linux x86-64, macOS (Apple silicon and Intel) and Windows x86-64, the MCP server binary, the software bill of materials (SBOM) and the validation summary, and (`release-artefacts.yml`) the OpenCPN plugin package for Linux x86-64 with its GPL source tarball, the Signal K plugin tarball, the Grafana dashboard and the channels SBOM; writes `SHA256SUMS`; attests every file with SLSA (Supply-chain Levels for Software Artifacts) build provenance; attaches them to the GitHub Release; then downloads them again and checks each one, running the macOS and Windows binaries on their own systems | The GitHub Release is incomplete; the registries are unaffected |
+| publish | `publish.yml`, then `mcp-publish.yml` and `jetbrains-plugin.yml`, all called from `release.yml` | Builds every artifact first (the six Python wheels and the source distribution through `wheels.yml`, the npm package), then publishes crates.io, then the Python Package Index (PyPI), npm and `kshana-mcp` on crates.io, then the container images on ghcr.io (the GitHub Container Registry: `kshana-mcp` and `kshana-reference-build`) and the MCP registry, the JetBrains Marketplace and, only when switched on, the Signal K plugin on npm (`signalk-publish.yml`) | See "Retrying" below |
+| parity | `release.yml` job `parity` | Polls crates.io (`kshana`, `kshana-mcp`), npm, PyPI (the source distribution and one wheel for each of the six platforms) and ghcr.io (both images) until each serves the version, and the Signal K npm package when it is switched on, for up to 45 minutes. docs.rs and the MCP registry are reported but never fatal | The run is red and names the channel that is missing |
 | site | `release.yml` job `site` | Dispatches `pages.yml`, which rebuilds kshana.dev from the tag | The site still shows the previous release |
+
+### Dry run, and the channels that are off by default
+
+- **Dry run.** Dispatch `release.yml` from any branch with `dry_run` ticked (leave `tag`
+  empty). It builds and stages every asset, runs `scripts/check-release-assets.sh` on them and
+  uploads them as the `dry-run-release-assets` artifact. It skips the long `cargo test`
+  steps, attests nothing, creates no release and publishes nothing. `release-artefacts.yml`
+  and `reference-image.yml` also dispatch by hand (the image build is a dry run on a branch:
+  both architectures build, nothing is pushed).
+- **Signal K plugin on npm: ON.** The package `signalk-kshana-trust` publishes on a tag push (approved by the
+  founder). `signalk-publish.yml` refuses to run unless `integrations/signalk/package.json` has exactly that
+  name, is not `private`, and keeps the `signalk-node-server-plugin` keyword, and it **fails if `NPM_TOKEN` is
+  missing**: the first publish of a new npm package cannot use trusted publishing. Set the repository variable
+  `SIGNALK_NPM_PUBLISH=false` to switch it off. A dry run checks the secret is visible (without printing it)
+  and runs `npm publish --dry-run`.
+- **OpenCPN catalogue: prepared, not submitted.** The release carries the plugin tarball in the catalogue's
+  layout and its catalogue metadata XML. Adding it to OpenCPN's catalogue is a pull request the maintainer opens
+  by hand: `packaging/opencpn/SUBMITTING.md`.
+- The `ghcr.io/ashfordeou/kshana-reference-build` package is private when first pushed. It already
+  exists (created by a release dry run) and the founder sets its visibility to public once, in the
+  package settings (Package settings, Change visibility). After that, every later tag's image inherits
+  it and the parity job's anonymous pull works; the parity check is not relaxed. A brand-new image name
+  would need the same one-time step before its first parity check.
 
 ### Why this order
 
@@ -132,8 +160,15 @@ same tools:
 ## What the pipeline needs from the repository settings
 
 - Secrets: `CARGO_REGISTRY_TOKEN`, `PYPI_API_TOKEN`, `JETBRAINS_MARKETPLACE_TOKEN`. A
-  release tag fails if one is missing. `NPM_TOKEN` is optional once npm trusted publishing
-  is set up (below); until then it is what publishes to npm.
+  release tag fails if one is missing. `NPM_TOKEN` is required for the first publish of each new npm
+  package name, because trusted publishing can only be configured on a package that already exists.
+  The two new names, `signalk-kshana-trust` (`signalk-publish.yml`) and `kshana-mcp` (the npx launcher,
+  `mcp-launchers.yml`), both need a token that can **create new packages**: a classic Automation token, or
+  a granular token with read and write on all packages. A token limited to the existing `kshana`
+  package cannot. Both jobs fail with a clear message when it is missing. Once a package exists,
+  switch it to trusted publishing (below) and the token matters less. `kshana-mcp` on PyPI likewise needs
+  an account-scoped `PYPI_API_TOKEN` or a pending trusted publisher for the new project name
+  (`packaging/mcp/SUBMITTING.md`, section B).
 - Variable: `MCP_REGISTRY_PUBLISH=true` turns on the MCP registry step.
 - Secret: `RELEASE_TAG_TOKEN`, a fine-grained token for this repository with Contents read
   and write, for the Auto-tag workflow. A tag pushed with the workflow's own `GITHUB_TOKEN`

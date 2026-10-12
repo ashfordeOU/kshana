@@ -63,6 +63,7 @@ const NOT_A_SCENARIO_FILE_SOURCE: &[(&str, &str, &str)] = &[
         "csv_schema",
         "the name of a built-in table schema, not a file",
     ),
+    ("src/surface.rs", "file_name", "output"),
 ];
 
 fn rust_files(dir: &Path, out: &mut Vec<PathBuf>) {

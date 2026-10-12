@@ -1,0 +1,163 @@
+# SPDX-License-Identifier: AGPL-3.0-only
+# Build the release artefacts that are neither a Rust binary nor a registry package:
+#
+#   opencpn   the OpenCPN trust-panel plugin (Linux x86-64) and its GPL source tarball
+#   signalk   the Signal K plugin, packed with `npm pack`
+#   grafana   the Grafana dashboard(s) from deploy/grafana
+#   sbom      kshana-channels-sbom.cdx.json, covering the above and the reference image
+#
+# Each job uploads an artifact named `channel-*`. release.yml's `release` job downloads
+# them beside the CLI binaries, so they join SHA256SUMS, the SBOM check and the SLSA
+# attestation like every other asset. Building publishes nothing and needs no secret.
+#
+# Called by release.yml (workflow_call), and runnable by hand as a DRY RUN (workflow_dispatch
+# from any branch): it builds everything and uploads the artifacts, and does nothing else.
+# It also runs on a push to the release-channels branch when this file or its scripts change.
+#
+# The OpenCPN plugin is packaged in the catalogue's tarball layout with its catalogue metadata XML
+# (scripts/package-opencpn-plugin.sh). Both are release assets. Nothing is submitted to OpenCPN's
+# catalogue: that is a pull request the maintainer opens by hand (packaging/opencpn/SUBMITTING.md).
+name: release artefacts
+on:
+  workflow_call:
+    inputs:
+      version:
+        description: "Version to build, without the v (default: Cargo.toml's)"
+        required: false
+        type: string
+      ref:
+        description: "Git ref to build"
+        required: true
+        type: string
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version label for the artefacts (default: Cargo.toml's)"
+        required: false
+        type: string
+  push:
+    branches: [ci/release-0.35-channels]
+    paths:
+      - ".github/workflows/release-artefacts.yml"
+      - "scripts/package-opencpn-plugin.sh"
+      - "scripts/gen-sbom-channels.sh"
+      - "scripts/stage-grafana.sh"
+      - "packaging/**"
+permissions:
+  contents: read
+jobs:
+  opencpn:
+    name: OpenCPN plugin (linux-x86_64)
+    # Pinned image, not ubuntu-latest: the plugin links the runner's glibc and wxWidgets,
+    # so the platform the package targets is the one named here.
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    outputs:
+      version: ${{ steps.v.outputs.version }}
+      wx: ${{ steps.deps.outputs.wx }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ inputs.ref || github.ref }}
+      - id: v
+        env:
+          INPUT: ${{ inputs.version }}
+        run: |
+          set -euo pipefail
+          v="${INPUT:-$(grep -m1 '^version' Cargo.toml | sed -E 's/.*"([^"]+)".*/\1/')}"
+          echo "version=$v" >> "$GITHUB_OUTPUT"
+      - name: Install build dependencies
+        id: deps
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends cmake g++ libwxgtk3.2-dev
+          { echo "cmake $(cmake --version | head -1)"; g++ --version | head -1;
+            dpkg-query -W -f='${Package} ${Version}\n' libwxgtk3.2-dev libc6; } | tee toolchain.txt
+          echo "wx=$(wx-config --version-full 2>/dev/null || wx-config --version)" >> "$GITHUB_OUTPUT"
+      - name: Build and test (core tests, plugin build, export check)
+        run: |
+          cmake -S integrations/opencpn/plugin -B build-pi -DCMAKE_BUILD_TYPE=Release
+          cmake --build build-pi
+          ctest --test-dir build-pi --output-on-failure
+      - name: Package (catalogue-format tarball, its metadata XML, GPL source tarball)
+        run: scripts/package-opencpn-plugin.sh "${{ steps.v.outputs.version }}" build-pi/libkshana_pi.so opencpn-out
+      - name: Stage the release assets (the tarball, its catalogue metadata and the GPL source)
+        run: |
+          mkdir -p assets draft
+          cp opencpn-out/*.tar.gz opencpn-out/*.xml assets/
+          cp toolchain.txt draft/
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: channel-opencpn
+          path: assets
+          if-no-files-found: error
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: draft-opencpn-toolchain
+          path: draft
+          if-no-files-found: error
+
+  signalk:
+    name: Signal K plugin (npm pack)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ inputs.ref || github.ref }}
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: "22"
+      - name: Test
+        run: npm test
+        working-directory: integrations/signalk
+      - name: Pack the exact tarball a publish would upload
+        # The repository LICENSE (AGPL-3.0-only) goes into the package: npm packs a LICENSE
+        # file regardless of the `files` list.
+        run: |
+          set -euo pipefail
+          cp ../../LICENSE LICENSE
+          mkdir -p ../../assets
+          npm pack --pack-destination ../../assets --silent
+          ls -l ../../assets
+        working-directory: integrations/signalk
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: channel-signalk
+          path: assets
+          if-no-files-found: error
+
+  grafana:
+    name: Grafana dashboard
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ inputs.ref || github.ref }}
+      - run: scripts/stage-grafana.sh assets
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: channel-grafana
+          path: assets
+          if-no-files-found: error
+
+  sbom:
+    name: channels SBOM
+    needs: [opencpn]
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ inputs.ref || github.ref }}
+      - run: |
+          set -euo pipefail
+          mkdir -p assets
+          WX_VERSION="${{ needs.opencpn.outputs.wx }}" scripts/gen-sbom-channels.sh "${{ needs.opencpn.outputs.version }}" > assets/kshana-channels-sbom.cdx.json
+          python3 -c "import json;d=json.load(open('assets/kshana-channels-sbom.cdx.json'));assert d['bomFormat']=='CycloneDX' and d['components'];print(len(d['components']),'components')"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: channel-sbom
+          path: assets
+          if-no-files-found: error

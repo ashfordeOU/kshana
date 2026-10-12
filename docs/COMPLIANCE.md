@@ -3,8 +3,8 @@
 
 This document maps the RTCA (formerly the Radio Technical Commission for Aeronautics) **DO-229E** (SBAS (satellite-based augmentation system) MOPS (minimum operational performance standards)) and **DO-316** (GPS/SBAS (GPS: Global Positioning System) airborne
 equipment) protection-level and integrity-monitoring requirements to the Kshana functions that
-implement them. It is an **engineering traceability aid**, not a certified conformance
-statement — Kshana implements the published algorithms; it is not certified avionics.
+implement them. It is an **engineering traceability aid**, not a statement that any requirement is
+met — Kshana implements the published algorithms; it is not approved avionics.
 
 The machine-readable form is [`sbas::do316_compliance_map`](../src/sbas.rs); this prose is its
 companion (mirroring [`docs/ARAIM_REFERENCE.md`](ARAIM_REFERENCE.md)).

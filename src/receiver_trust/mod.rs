@@ -14,11 +14,21 @@
 //! clock-aided bound of [`crate::security`]). Nothing is fitted to the events being
 //! scored: every monitor parameter is an input stated in the scenario.
 
+pub mod assess;
 pub mod ingest;
+pub mod live;
+pub mod maritime;
 pub mod monitors;
+pub mod platform;
 pub mod scenario;
+pub mod score;
+pub mod synth;
 
 use serde::{Deserialize, Serialize};
+
+/// The statement every vessel output carries: what this software is and is not.
+pub const ADVISORY: &str = "Advisory software, not type-approved navigation equipment \
+(IEC 61108, IEC 61162): the operator remains responsible for the navigation of the vessel.";
 
 /// The receiver-log formats the kind reads.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
@@ -79,6 +89,74 @@ pub struct LogEpoch {
     pub jam_ind: Option<f64>,
     /// The receiver's own position, where the log carries one.
     pub fix: Option<ReportedFix>,
+    /// Navigation sentences and security reports of a moving platform (NMEA VTG, HDT, VHW
+    /// and the like, an authentication status); `None` when the log carries none of them.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub marine: Option<MarineObs>,
+    /// `[start, end)` byte offsets into the input the log was read from: the smallest
+    /// contiguous range holding the records that contributed to this epoch, so a caller can
+    /// hash the exact raw slice. `None` where it is not well defined (a live stream, an
+    /// epoch assembled from records far apart). See the readers in [`ingest`] for what each
+    /// format covers. A superset of the epoch's own records where other records lie between
+    /// them (an unrelated NMEA line, say).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub source_span: Option<[usize; 2]>,
+}
+
+/// An OSNMA (Galileo navigation message authentication) status as a receiver reports it.
+/// Only a reported status is ingested; nothing here verifies a signature.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "kebab-case")]
+pub enum OsnmaStatus {
+    /// The receiver reports the navigation data authenticated.
+    Authenticated,
+    /// The receiver reports an authentication failure.
+    Failed,
+    /// The receiver reports no OSNMA result (not enabled, not yet available).
+    Unavailable,
+}
+
+/// What a moving platform's other sensors and the receiver's security reports say at one
+/// epoch. Every field is optional: a source carries what it carries.
+#[derive(Clone, Debug, Default, PartialEq, Serialize, Deserialize)]
+pub struct MarineObs {
+    /// Whether the receiver itself calls the fix valid: GGA quality above 0 and RMC status
+    /// `A`. `false` when either says otherwise.
+    pub fix_valid: Option<bool>,
+    /// Speed over ground, knots (RMC, else VTG).
+    pub sog_kn: Option<f64>,
+    /// Course over ground, degrees true (RMC, else VTG).
+    pub cog_deg: Option<f64>,
+    /// Heading from a gyro or compass, degrees true (HDT, THS, else VHW).
+    pub heading_deg: Option<f64>,
+    /// Speed through the water, knots (VHW, VBW).
+    pub stw_kn: Option<f64>,
+    /// GGA altitude of the antenna above mean sea level, m.
+    pub alt_msl_m: Option<f64>,
+    /// GGA geoid separation, m.
+    pub geoid_sep_m: Option<f64>,
+    /// GGA horizontal dilution of precision.
+    pub hdop: Option<f64>,
+    /// Time of day of the sentence that opened this epoch minus that of the previous timed
+    /// sentence, in arrival order, s (midnight-aware). Negative when the receiver's time
+    /// ran backwards. `None` for the first epoch and for a repeat of the same time.
+    pub time_step_s: Option<f64>,
+    /// This epoch's time is earlier than a time already seen earlier in the stream: the
+    /// receiver's time ran backwards or a stretch of the stream was replayed. Such an epoch is
+    /// never part of the calibration window, whatever its time says.
+    #[serde(default, skip_serializing_if = "std::ops::Not::not")]
+    pub time_rewound: bool,
+    /// Arrival time of the epoch's first timed sentence on the host's monotonic clock, s
+    /// (live input only).
+    pub arrival_s: Option<f64>,
+    /// OSNMA status as the receiver reports it.
+    pub osnma: Option<OsnmaStatus>,
+    /// Per-satellite authentication status, `(satellite id in RINEX style, status)`, as an
+    /// authentication source reports it. This is the input hook of the `osnma` monitor: a
+    /// source that verifies navigation-message authentication fills it (`$PKSOS` carries it
+    /// on the NMEA side). Nothing in `receiver_trust` verifies a signature.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub sat_auth: Vec<(String, OsnmaStatus)>,
 }
 
 /// A receiver log read into time order.

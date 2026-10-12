@@ -1,0 +1,40 @@
+# Self-hosted kshana-mcp on your own Google Cloud project. Kshana does not host this for you.
+# Cloud Run needs the image in a Google registry (Artifact Registry remote repo for ghcr.io, or a copy).
+#   printf '%s' "$(openssl rand -hex 32)" | gcloud secrets create kshana-mcp-token --data-file=-
+#   gcloud run services replace docs/deploy/mcp-http/cloudrun.service.yaml
+# Replace PROJECT, REGION and YOUR-SERVICE-HASH.run.app. Cloud Run terminates HTTPS. Allow
+# unauthenticated invocation only because the bearer token is the access control here.
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: kshana-mcp
+spec:
+  template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/maxScale: "3"
+    spec:
+      containerConcurrency: 2
+      timeoutSeconds: 120
+      containers:
+        - image: REGION-docker.pkg.dev/PROJECT/ghcr/ashfordeou/kshana-mcp:0.35.0
+          args:
+            - --http
+            - 0.0.0.0:8080
+            - --allow-remote
+            - --allowed-host
+            - YOUR-SERVICE-HASH.run.app
+            - --max-concurrent
+            - "2"
+          ports:
+            - containerPort: 8080
+          env:
+            - name: KSHANA_MCP_HTTP_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: kshana-mcp-token
+                  key: latest
+          resources:
+            limits:
+              cpu: "2"
+              memory: 1Gi

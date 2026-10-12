@@ -559,6 +559,32 @@ fn hypot_ne(a: Vec3, b: Vec3) -> f64 {
     ((a[0] - b[0]).powi(2) + (a[1] - b[1]).powi(2)).sqrt()
 }
 
+/// The true trajectory the scenario's driving profile flies, on the scenario's own time
+/// grid: `(t, truth state)` from `t = 0` at the tangent-plane origin, stepped exactly as
+/// [`run_gnss_ins`] steps its truth (no sensor error, no filter). The test-bench export
+/// reads this, so a trajectory handed to a laboratory simulator is the one the engine
+/// scored against.
+pub fn truth_trajectory(scn: &GnssInsScenario) -> Vec<(f64, NavState)> {
+    let origin = Geodetic {
+        lat_rad: scn.lat_deg.to_radians(),
+        lon_rad: scn.lon_deg.to_radians(),
+        alt_m: scn.alt_m,
+    };
+    let mut truth = NavState::new(Quaternion::identity(), [0.0; 3], origin);
+    let dt = scn.time.step_s;
+    let n = (scn.time.duration_s / dt).round() as usize;
+    let mut out = Vec::with_capacity(n + 1);
+    for i in 0..=n {
+        let t = i as f64 * dt;
+        if i > 0 {
+            let (gyro, accel_t) = true_imu(&truth, t);
+            truth.step(gyro, accel_t, dt);
+        }
+        out.push((t, truth));
+    }
+    out
+}
+
 fn run_one(scn: &GnssInsScenario, cfg: &ImuCfg, seed: u64) -> FusedRun {
     let origin = Geodetic {
         lat_rad: scn.lat_deg.to_radians(),

@@ -1,0 +1,1113 @@
+{
+  "advisory": "Advisory: this is analysis and monitoring output and not type-approved navigation equipment. The authentication status reported here is not a navigation integrity service and must not be the sole basis for any navigation or safety decision.",
+  "alert": false,
+  "events": [
+    {
+      "cid": 3,
+      "count": 3,
+      "hash": "Sha256",
+      "key_bits": 128,
+      "kind": "kroot_verified",
+      "mac": "HmacSha256",
+      "maclt": 34,
+      "pkid": 1,
+      "tag_bits": 40
+    },
+    {
+      "count": 1,
+      "gst": 755136210,
+      "kind": "key_verified"
+    },
+    {
+      "count": 1,
+      "gst": 755136240,
+      "kind": "key_verified"
+    },
+    {
+      "count": 1,
+      "gst": 755136270,
+      "kind": "key_verified"
+    },
+    {
+      "count": 1,
+      "gst": 755136300,
+      "kind": "key_verified"
+    },
+    {
+      "count": 1,
+      "gst": 755136330,
+      "kind": "key_verified"
+    },
+    {
+      "count": 1,
+      "gst": 755136360,
+      "kind": "key_verified"
+    },
+    {
+      "count": 1,
+      "gst": 755136390,
+      "kind": "key_verified"
+    },
+    {
+      "count": 1,
+      "gst": 755136420,
+      "kind": "key_verified"
+    },
+    {
+      "count": 1,
+      "gst": 755136450,
+      "kind": "key_verified"
+    },
+    {
+      "count": 1,
+      "gst": 755136480,
+      "kind": "key_verified"
+    },
+    {
+      "count": 1,
+      "gst": 755136510,
+      "kind": "key_verified"
+    },
+    {
+      "count": 1,
+      "gst": 755136540,
+      "kind": "key_verified"
+    },
+    {
+      "count": 1,
+      "gst": 755136570,
+      "kind": "key_verified"
+    },
+    {
+      "count": 1,
+      "gst": 755136600,
+      "kind": "key_verified"
+    },
+    {
+      "count": 1,
+      "gst": 755136630,
+      "kind": "key_verified"
+    },
+    {
+      "count": 1,
+      "gst": 755136660,
+      "kind": "key_verified"
+    },
+    {
+      "count": 1,
+      "gst": 755136690,
+      "kind": "key_verified"
+    }
+  ],
+  "freshness_enforced": false,
+  "input": {
+    "pages": 720,
+    "path": "examples/osnma/pages-corrupt.txt"
+  },
+  "nma_status": 2,
+  "overall": "failed",
+  "pksos": "$PKSOS,F,E02:F,E05:F*39",
+  "reference_time": null,
+  "satellites": [
+    {
+      "last_authenticated_tag_gst": 755136660,
+      "sat": "E02",
+      "status": "failed",
+      "tags": {
+        "authenticated": 30,
+        "discarded": 0,
+        "failed": 0,
+        "pending": 0
+      }
+    },
+    {
+      "last_authenticated_tag_gst": 755136660,
+      "sat": "E05",
+      "status": "failed",
+      "tags": {
+        "authenticated": 48,
+        "discarded": 0,
+        "failed": 3,
+        "pending": 0
+      }
+    }
+  ],
+  "tags": [
+    {
+      "adkd": 0,
+      "ctr": 1,
+      "data_gst": 755136180,
+      "nmas": 2,
+      "prna": 2,
+      "prnd": 2,
+      "status": {
+        "state": "authenticated"
+      },
+      "tag_gst": 755136210
+    },
+    {
+      "adkd": 0,
+      "ctr": 2,
+      "data_gst": 755136180,
+      "nmas": 2,
+      "prna": 2,
+      "prnd": 5,
+      "status": {
+        "state": "authenticated"
+      },
+      "tag_gst": 755136210
+    },
+    {
+      "adkd": 0,
+      "ctr": 3,
+      "data_gst": 755136180,
+      "nmas": 2,
+      "prna": 2,
+      "prnd": 5,
+      "status": {
+        "state": "authenticated"
+      },
+      "tag_gst": 755136210
+    },
+    {
+      "adkd": 0,
+      "ctr": 5,
+      "data_gst": 755136180,
+      "nmas": 2,
+      "prna": 2,
+      "prnd": 5,
+      "status": {
+        "state": "authenticated"
+      },
+      "tag_gst": 755136210
+    },
+    {
+      "adkd": 0,
+      "ctr": 1,
+      "data_gst": 755136210,
+      "nmas": 2,
+      "prna": 2,
+      "prnd": 2,
+      "status": {
+        "state": "authenticated"
+      },
+      "tag_gst": 755136240
+    },
+    {
+      "adkd": 0,
+      "ctr": 2,
+      "data_gst": 755136210,
+      "nmas": 2,
+      "prna": 2,
+      "prnd": 5,
+      "status": {
+        "state": "authenticated"
+      },
+      "tag_gst": 755136240
+    },
+    {
+      "adkd": 4,
+      "ctr": 3,
+      "data_gst": 755136210,
+      "nmas": 2,
+      "prna": 2,
+      "prnd": 2,
+      "status": {
+        "state": "authenticated"
+      },
+      "tag_gst": 755136240
+    },
+    {
+      "adkd": 0,
+      "ctr": 4,
+      "data_gst": 755136210,
+      "nmas": 2,
+      "prna": 2,
+      "prnd": 5,
+      "status": {
+        "state": "authenticated"
+      },
+      "tag_gst": 755136240
+    },
+    {
+      "adkd": 0,
+      "ctr": 6,
+      "data_gst": 755136210,
+      "nmas": 2,
+      "prna": 2,
+      "prnd": 5,
+      "status": {
+        "state": "authenticated"
+      },
+      "tag_gst": 755136240
+    },
+    {
+      "adkd": 0,
+      "ctr": 1,
+      "data_gst": 755136240,
+      "nmas": 2,
+      "prna": 2,
+      "prnd": 2,
+      "status": {
+        "state": "authenticated"
+      },
+      "tag_gst": 755136270
+    },
+    {
+      "adkd": 0,
+      "ctr": 2,
+      "data_gst": 755136240,
+      "nmas": 2,
+      "prna": 2,
+      "prnd": 5,
+      "status": {
+        "state": "authenticated"
+      },
+      "tag_gst": 755136270
+    },
+    {
+      "adkd": 0,
+      "ctr": 3,
+      "data_gst": 755136240,
+      "nmas": 2,
+      "prna": 2,
+      "prnd": 5,
+      "status": {
+        "state": "authenticated"
+      },
+      "tag_gst": 755136270
+    },
+    {
+      "adkd": 0,
+      "ctr": 5,
+      "data_gst": 755136240,
+      "nmas": 2,
+      "prna": 2,
+      "prnd": 5,
+      "status": {
+        "state": "authenticated"
+      },
+      "tag_gst": 755136270
+    },
+    {
+      "adkd": 0,
+      "ctr": 1,
+      "data_gst": 755136270,
+      "nmas": 2,
+      "prna": 2,
+      "prnd": 2,
+      "status": {
+        "state": "authenticated"
+      },
+      "tag_gst": 755136300
+    },
+    {
+      "adkd": 0,
+      "ctr": 2,
+      "data_gst": 755136270,
+      "nmas": 2,
+      "prna": 2,
+      "prnd": 5,
+      "status": {
+        "state": "authenticated"
+      },
+      "tag_gst": 755136300
+    },
+    {
+      "adkd": 4,
+      "ctr": 3,
+      "data_gst": 755136270,
+      "nmas": 2,
+      "prna": 2,
+      "prnd": 2,
+      "status": {
+        "state": "authenticated"
+      },
+      "tag_gst": 755136300
+    },
+    {
+      "adkd": 0,
+      "ctr": 4,
+      "data_gst": 755136270,
+      "nmas": 2,
+      "prna": 2,
+      "prnd": 5,
+      "status": {
+        "state": "authenticated"
+      },
+      "tag_gst": 755136300
+    },
+    {
+      "adkd": 0,
+      "ctr": 6,
+      "data_gst": 755136270,
+      "nmas": 2,
+      "prna": 2,
+      "prnd": 5,
+      "status": {
+        "state": "authenticated"
+      },
+      "tag_gst": 755136300
+    },
+    {
+      "adkd": 0,
+      "ctr": 1,
+      "data_gst": 755136300,
+      "nmas": 2,
+      "prna": 2,
+      "prnd": 2,
+      "status": {
+        "state": "authenticated"
+      },
+      "tag_gst": 755136330
+    },
+    {
+      "adkd": 0,
+      "ctr": 2,
+      "data_gst": 755136300,
+      "nmas": 2,
+      "prna": 2,
+      "prnd": 5,
+      "status": {
+        "state": "authenticated"
+      },
+      "tag_gst": 755136330
+    },
+    {
+      "adkd": 0,
+      "ctr": 3,
+      "data_gst": 755136300,
+      "nmas": 2,
+      "prna": 2,
+      "prnd": 5,
+      "status": {
+        "state": "authenticated"
+      },
+      "tag_gst": 755136330
+    },
+    {
+      "adkd": 0,
+      "ctr": 5,
+      "data_gst": 755136300,
+      "nmas": 2,
+      "prna": 2,
+      "prnd": 5,
+      "status": {
+        "state": "authenticated"
+      },
+      "tag_gst": 755136330
+    },
+    {
+      "adkd": 0,
+      "ctr": 1,
+      "data_gst": 755136330,
+      "nmas": 2,
+      "prna": 2,
+      "prnd": 2,
+      "status": {
+        "state": "authenticated"
+      },
+      "tag_gst": 755136360
+    },
+    {
+      "adkd": 0,
+      "ctr": 2,
+      "data_gst": 755136330,
+      "nmas": 2,
+      "prna": 2,
+      "prnd": 5,
+      "status": {
+        "state": "authenticated"
+      },
+      "tag_gst": 755136360
+    },
+    {
+      "adkd": 4,
+      "ctr": 3,
+      "data_gst": 755136330,
+      "nmas": 2,
+      "prna": 2,
+      "prnd": 2,
+      "status": {
+        "state": "authenticated"
+      },
+      "tag_gst": 755136360
+    },
+    {
+      "adkd": 0,
+      "ctr": 4,
+      "data_gst": 755136330,
+      "nmas": 2,
+      "prna": 2,
+      "prnd": 5,
+      "status": {
+        "state": "authenticated"
+      },
+      "tag_gst": 755136360
+    },
+    {
+      "adkd": 0,
+      "ctr": 6,
+      "data_gst": 755136330,
+      "nmas": 2,
+      "prna": 2,
+      "prnd": 5,
+      "status": {
+        "state": "authenticated"
+      },
+      "tag_gst": 755136360
+    },
+    {
+      "adkd": 0,
+      "ctr": 1,
+      "data_gst": 755136360,
+      "nmas": 2,
+      "prna": 2,
+      "prnd": 2,
+      "status": {
+        "state": "authenticated"
+      },
+      "tag_gst": 755136390
+    },
+    {
+      "adkd": 0,
+      "ctr": 2,
+      "data_gst": null,
+      "nmas": 2,
+      "prna": 2,
+      "prnd": 5,
+      "status": {
+        "reason": "tag_mismatch",
+        "state": "failed"
+      },
+      "tag_gst": 755136390
+    },
+    {
+      "adkd": 0,
+      "ctr": 3,
+      "data_gst": null,
+      "nmas": 2,
+      "prna": 2,
+      "prnd": 5,
+      "status": {
+        "reason": "tag_mismatch",
+        "state": "failed"
+      },
+      "tag_gst": 755136390
+    },
+    {
+      "adkd": 0,
+      "ctr": 5,
+      "data_gst": null,
+      "nmas": 2,
+      "prna": 2,
+      "prnd": 5,
+      "status": {
+        "reason": "tag_mismatch",
+        "state": "failed"
+      },
+      "tag_gst": 755136390
+    },
+    {
+      "adkd": 0,
+      "ctr": 1,
+      "data_gst": 755136390,
+      "nmas": 2,
+      "prna": 2,
+      "prnd": 2,
+      "status": {
+        "state": "authenticated"
+      },
+      "tag_gst": 755136420
+    },
+    {
+      "adkd": 0,
+      "ctr": 2,
+      "data_gst": 755136390,
+      "nmas": 2,
+      "prna": 2,
+      "prnd": 5,
+      "status": {
+        "state": "authenticated"
+      },
+      "tag_gst": 755136420
+    },
+    {
+      "adkd": 4,
+      "ctr": 3,
+      "data_gst": 755136390,
+      "nmas": 2,
+      "prna": 2,
+      "prnd": 2,
+      "status": {
+        "state": "authenticated"
+      },
+      "tag_gst": 755136420
+    },
+    {
+      "adkd": 0,
+      "ctr": 4,
+      "data_gst": 755136390,
+      "nmas": 2,
+      "prna": 2,
+      "prnd": 5,
+      "status": {
+        "state": "authenticated"
+      },
+      "tag_gst": 755136420
+    },
+    {
+      "adkd": 0,
+      "ctr": 6,
+      "data_gst": 755136390,
+      "nmas": 2,
+      "prna": 2,
+      "prnd": 5,
+      "status": {
+        "state": "authenticated"
+      },
+      "tag_gst": 755136420
+    },
+    {
+      "adkd": 0,
+      "ctr": 1,
+      "data_gst": 755136420,
+      "nmas": 2,
+      "prna": 2,
+      "prnd": 2,
+      "status": {
+        "state": "authenticated"
+      },
+      "tag_gst": 755136450
+    },
+    {
+      "adkd": 0,
+      "ctr": 2,
+      "data_gst": 755136420,
+      "nmas": 2,
+      "prna": 2,
+      "prnd": 5,
+      "status": {
+        "state": "authenticated"
+      },
+      "tag_gst": 755136450
+    },
+    {
+      "adkd": 0,
+      "ctr": 3,
+      "data_gst": 755136420,
+      "nmas": 2,
+      "prna": 2,
+      "prnd": 5,
+      "status": {
+        "state": "authenticated"
+      },
+      "tag_gst": 755136450
+    },
+    {
+      "adkd": 0,
+      "ctr": 5,
+      "data_gst": 755136420,
+      "nmas": 2,
+      "prna": 2,
+      "prnd": 5,
+      "status": {
+        "state": "authenticated"
+      },
+      "tag_gst": 755136450
+    },
+    {
+      "adkd": 0,
+      "ctr": 1,
+      "data_gst": 755136450,
+      "nmas": 2,
+      "prna": 2,
+      "prnd": 2,
+      "status": {
+        "state": "authenticated"
+      },
+      "tag_gst": 755136480
+    },
+    {
+      "adkd": 0,
+      "ctr": 2,
+      "data_gst": 755136450,
+      "nmas": 2,
+      "prna": 2,
+      "prnd": 5,
+      "status": {
+        "state": "authenticated"
+      },
+      "tag_gst": 755136480
+    },
+    {
+      "adkd": 4,
+      "ctr": 3,
+      "data_gst": 755136450,
+      "nmas": 2,
+      "prna": 2,
+      "prnd": 2,
+      "status": {
+        "state": "authenticated"
+      },
+      "tag_gst": 755136480
+    },
+    {
+      "adkd": 0,
+      "ctr": 4,
+      "data_gst": 755136450,
+      "nmas": 2,
+      "prna": 2,
+      "prnd": 5,
+      "status": {
+        "state": "authenticated"
+      },
+      "tag_gst": 755136480
+    },
+    {
+      "adkd": 0,
+      "ctr": 6,
+      "data_gst": 755136450,
+      "nmas": 2,
+      "prna": 2,
+      "prnd": 5,
+      "status": {
+        "state": "authenticated"
+      },
+      "tag_gst": 755136480
+    },
+    {
+      "adkd": 12,
+      "ctr": 4,
+      "data_gst": 755136180,
+      "nmas": 2,
+      "prna": 2,
+      "prnd": 2,
+      "status": {
+        "state": "authenticated"
+      },
+      "tag_gst": 755136210
+    },
+    {
+      "adkd": 12,
+      "ctr": 6,
+      "data_gst": 755136180,
+      "nmas": 2,
+      "prna": 2,
+      "prnd": 5,
+      "status": {
+        "state": "authenticated"
+      },
+      "tag_gst": 755136210
+    },
+    {
+      "adkd": 0,
+      "ctr": 1,
+      "data_gst": 755136480,
+      "nmas": 2,
+      "prna": 2,
+      "prnd": 2,
+      "status": {
+        "state": "authenticated"
+      },
+      "tag_gst": 755136510
+    },
+    {
+      "adkd": 0,
+      "ctr": 2,
+      "data_gst": 755136480,
+      "nmas": 2,
+      "prna": 2,
+      "prnd": 5,
+      "status": {
+        "state": "authenticated"
+      },
+      "tag_gst": 755136510
+    },
+    {
+      "adkd": 0,
+      "ctr": 3,
+      "data_gst": 755136480,
+      "nmas": 2,
+      "prna": 2,
+      "prnd": 5,
+      "status": {
+        "state": "authenticated"
+      },
+      "tag_gst": 755136510
+    },
+    {
+      "adkd": 0,
+      "ctr": 5,
+      "data_gst": 755136480,
+      "nmas": 2,
+      "prna": 2,
+      "prnd": 5,
+      "status": {
+        "state": "authenticated"
+      },
+      "tag_gst": 755136510
+    },
+    {
+      "adkd": 12,
+      "ctr": 5,
+      "data_gst": 755136210,
+      "nmas": 2,
+      "prna": 2,
+      "prnd": 2,
+      "status": {
+        "state": "authenticated"
+      },
+      "tag_gst": 755136240
+    },
+    {
+      "adkd": 0,
+      "ctr": 1,
+      "data_gst": 755136510,
+      "nmas": 2,
+      "prna": 2,
+      "prnd": 2,
+      "status": {
+        "state": "authenticated"
+      },
+      "tag_gst": 755136540
+    },
+    {
+      "adkd": 0,
+      "ctr": 2,
+      "data_gst": 755136510,
+      "nmas": 2,
+      "prna": 2,
+      "prnd": 5,
+      "status": {
+        "state": "authenticated"
+      },
+      "tag_gst": 755136540
+    },
+    {
+      "adkd": 4,
+      "ctr": 3,
+      "data_gst": 755136510,
+      "nmas": 2,
+      "prna": 2,
+      "prnd": 2,
+      "status": {
+        "state": "authenticated"
+      },
+      "tag_gst": 755136540
+    },
+    {
+      "adkd": 0,
+      "ctr": 4,
+      "data_gst": 755136510,
+      "nmas": 2,
+      "prna": 2,
+      "prnd": 5,
+      "status": {
+        "state": "authenticated"
+      },
+      "tag_gst": 755136540
+    },
+    {
+      "adkd": 0,
+      "ctr": 6,
+      "data_gst": 755136510,
+      "nmas": 2,
+      "prna": 2,
+      "prnd": 5,
+      "status": {
+        "state": "authenticated"
+      },
+      "tag_gst": 755136540
+    },
+    {
+      "adkd": 12,
+      "ctr": 4,
+      "data_gst": 755136240,
+      "nmas": 2,
+      "prna": 2,
+      "prnd": 2,
+      "status": {
+        "state": "authenticated"
+      },
+      "tag_gst": 755136270
+    },
+    {
+      "adkd": 12,
+      "ctr": 6,
+      "data_gst": 755136240,
+      "nmas": 2,
+      "prna": 2,
+      "prnd": 5,
+      "status": {
+        "state": "authenticated"
+      },
+      "tag_gst": 755136270
+    },
+    {
+      "adkd": 0,
+      "ctr": 1,
+      "data_gst": 755136540,
+      "nmas": 2,
+      "prna": 2,
+      "prnd": 2,
+      "status": {
+        "state": "authenticated"
+      },
+      "tag_gst": 755136570
+    },
+    {
+      "adkd": 0,
+      "ctr": 2,
+      "data_gst": 755136540,
+      "nmas": 2,
+      "prna": 2,
+      "prnd": 5,
+      "status": {
+        "state": "authenticated"
+      },
+      "tag_gst": 755136570
+    },
+    {
+      "adkd": 0,
+      "ctr": 3,
+      "data_gst": 755136540,
+      "nmas": 2,
+      "prna": 2,
+      "prnd": 5,
+      "status": {
+        "state": "authenticated"
+      },
+      "tag_gst": 755136570
+    },
+    {
+      "adkd": 0,
+      "ctr": 5,
+      "data_gst": 755136540,
+      "nmas": 2,
+      "prna": 2,
+      "prnd": 5,
+      "status": {
+        "state": "authenticated"
+      },
+      "tag_gst": 755136570
+    },
+    {
+      "adkd": 12,
+      "ctr": 5,
+      "data_gst": 755136270,
+      "nmas": 2,
+      "prna": 2,
+      "prnd": 2,
+      "status": {
+        "state": "authenticated"
+      },
+      "tag_gst": 755136300
+    },
+    {
+      "adkd": 0,
+      "ctr": 1,
+      "data_gst": 755136570,
+      "nmas": 2,
+      "prna": 2,
+      "prnd": 2,
+      "status": {
+        "state": "authenticated"
+      },
+      "tag_gst": 755136600
+    },
+    {
+      "adkd": 0,
+      "ctr": 2,
+      "data_gst": 755136570,
+      "nmas": 2,
+      "prna": 2,
+      "prnd": 5,
+      "status": {
+        "state": "authenticated"
+      },
+      "tag_gst": 755136600
+    },
+    {
+      "adkd": 4,
+      "ctr": 3,
+      "data_gst": 755136570,
+      "nmas": 2,
+      "prna": 2,
+      "prnd": 2,
+      "status": {
+        "state": "authenticated"
+      },
+      "tag_gst": 755136600
+    },
+    {
+      "adkd": 0,
+      "ctr": 4,
+      "data_gst": 755136570,
+      "nmas": 2,
+      "prna": 2,
+      "prnd": 5,
+      "status": {
+        "state": "authenticated"
+      },
+      "tag_gst": 755136600
+    },
+    {
+      "adkd": 0,
+      "ctr": 6,
+      "data_gst": 755136570,
+      "nmas": 2,
+      "prna": 2,
+      "prnd": 5,
+      "status": {
+        "state": "authenticated"
+      },
+      "tag_gst": 755136600
+    },
+    {
+      "adkd": 12,
+      "ctr": 4,
+      "data_gst": 755136300,
+      "nmas": 2,
+      "prna": 2,
+      "prnd": 2,
+      "status": {
+        "state": "authenticated"
+      },
+      "tag_gst": 755136330
+    },
+    {
+      "adkd": 12,
+      "ctr": 6,
+      "data_gst": 755136300,
+      "nmas": 2,
+      "prna": 2,
+      "prnd": 5,
+      "status": {
+        "state": "authenticated"
+      },
+      "tag_gst": 755136330
+    },
+    {
+      "adkd": 0,
+      "ctr": 1,
+      "data_gst": 755136600,
+      "nmas": 2,
+      "prna": 2,
+      "prnd": 2,
+      "status": {
+        "state": "authenticated"
+      },
+      "tag_gst": 755136630
+    },
+    {
+      "adkd": 0,
+      "ctr": 2,
+      "data_gst": 755136600,
+      "nmas": 2,
+      "prna": 2,
+      "prnd": 5,
+      "status": {
+        "state": "authenticated"
+      },
+      "tag_gst": 755136630
+    },
+    {
+      "adkd": 0,
+      "ctr": 3,
+      "data_gst": 755136600,
+      "nmas": 2,
+      "prna": 2,
+      "prnd": 5,
+      "status": {
+        "state": "authenticated"
+      },
+      "tag_gst": 755136630
+    },
+    {
+      "adkd": 0,
+      "ctr": 5,
+      "data_gst": 755136600,
+      "nmas": 2,
+      "prna": 2,
+      "prnd": 5,
+      "status": {
+        "state": "authenticated"
+      },
+      "tag_gst": 755136630
+    },
+    {
+      "adkd": 12,
+      "ctr": 5,
+      "data_gst": 755136330,
+      "nmas": 2,
+      "prna": 2,
+      "prnd": 2,
+      "status": {
+        "state": "authenticated"
+      },
+      "tag_gst": 755136360
+    },
+    {
+      "adkd": 0,
+      "ctr": 1,
+      "data_gst": 755136630,
+      "nmas": 2,
+      "prna": 2,
+      "prnd": 2,
+      "status": {
+        "state": "authenticated"
+      },
+      "tag_gst": 755136660
+    },
+    {
+      "adkd": 0,
+      "ctr": 2,
+      "data_gst": 755136630,
+      "nmas": 2,
+      "prna": 2,
+      "prnd": 5,
+      "status": {
+        "state": "authenticated"
+      },
+      "tag_gst": 755136660
+    },
+    {
+      "adkd": 4,
+      "ctr": 3,
+      "data_gst": 755136630,
+      "nmas": 2,
+      "prna": 2,
+      "prnd": 2,
+      "status": {
+        "state": "authenticated"
+      },
+      "tag_gst": 755136660
+    },
+    {
+      "adkd": 0,
+      "ctr": 4,
+      "data_gst": 755136630,
+      "nmas": 2,
+      "prna": 2,
+      "prnd": 5,
+      "status": {
+        "state": "authenticated"
+      },
+      "tag_gst": 755136660
+    },
+    {
+      "adkd": 0,
+      "ctr": 6,
+      "data_gst": 755136630,
+      "nmas": 2,
+      "prna": 2,
+      "prnd": 5,
+      "status": {
+        "state": "authenticated"
+      },
+      "tag_gst": 755136660
+    }
+  ],
+  "ubx": null
+}

@@ -4,7 +4,7 @@
 //!
 //! ## Oracles (kind: Library)
 //!
-//! 1. `oem` 0.4.5 (MIT, <https://github.com/bradsease/oem>);
+//! 1. `oem` 0.4.5 (MIT, <https://pypi.org/project/oem/>);
 //! 2. Orekit 12.2 (Apache-2.0, <https://www.orekit.org>) `OemParser` with its default,
 //!    strict settings, through the committed driver
 //!    `tests/fixtures/lunar_interop_oem_oracle/OrekitOemReader.java`.

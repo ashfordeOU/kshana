@@ -48,7 +48,23 @@ figures of merit with their provenance and their VALIDATED or MODELLED label.
 | `export_omm` | Export an `orbit` scenario's elements as a CCSDS (Consultative Committee for Space Data Systems) 502.0-B-2 OMM (Orbit Mean-elements Message) catalogue. |
 | `export_oem` | Export an `orbit` scenario's state series as CCSDS OEM (Orbit Ephemeris Message) 2.0 ephemeris — the TEME (true equator, mean equinox) position *and* velocity series flight-dynamics tools (GMAT, the General Mission Analysis Tool; Orekit; STK, the Systems Tool Kit) read; the velocity-carrying complement of the position-only `export_sp3`. |
 | `export_table_csv` | Run a scenario and return its reproducibility table as CSV (comma-separated values) — the byte-stable table the CLI (command-line interface) writes as `<scenario>.table.csv`. Only `realtime-frame-eop`, `lunar-time-budget`, `lunar-jamming`, `telecom-timing`, `leo-navmsg` (its `encode-decode` analysis on a `kepler16` or `kepler-rac` message model) and `moonlight-service-volume` with `export_site_lat_deg` + `export_site_lon_deg` set emit one; any other kind returns an error naming these. |
-| `assess_receiver_log` | Assess a real GNSS (global navigation satellite system) receiver log for trust. The TOML names the log's `format` (`ubx`, `rinex`, `android` or `nmea`) and gives its bytes inline as `text` or `base64`; the tool runs the trust monitors (carrier-to-noise density drop, loss of lock, AGC (automatic gain control), jamming indicator, position jump and, with RINEX plus broadcast navigation, RAIM (receiver autonomous integrity monitoring) and a clock-aided monitor) and returns when and why the fix stopped being trustworthy. Optional `[[events]]` and `[compare]` sections score stated events and predicted C/N0 drops against stated tolerances. Chart and per-epoch CSV on request. See [`docs/RECEIVER-TRUST.md`](../../docs/RECEIVER-TRUST.md). |
+| `assess_receiver_log` | Assess a real GNSS (global navigation satellite system) receiver log for trust. The TOML names the log's `format` (`ubx`, `rinex`, `android` or `nmea`) and gives its bytes inline as `text` or `base64`; the tool runs the trust monitors (carrier-to-noise density drop, loss of lock, AGC (automatic gain control), jamming indicator, position jump and, with RINEX plus broadcast navigation, RAIM (receiver autonomous integrity monitoring) and a clock-aided monitor) and returns when and why the fix stopped being trustworthy. Optional `[[events]]` and `[compare]` sections score stated events and predicted C/N0 drops against stated tolerances. A `[platform] kind = "vessel"` table selects the maritime monitors and adds a 0-100 trust score per epoch with the monitors that deducted (advisory; MODELLED). The log goes inline as `text` or `base64` (at most 4 MiB). Chart and per-epoch CSV on request. See [`docs/RECEIVER-TRUST.md`](../../docs/RECEIVER-TRUST.md). |
+| `assess_vessel_stream` | Score a bounded NMEA 0183 excerpt (at most 2 MiB and 20,000 epochs; it must hold the calibration window) the way `kshana receiver-trust live` scores it: per-epoch trust state and 0-100 score with the monitors that deducted, a summary and the last `$PKSHT`. The bounded form of the live command: no socket is opened and nothing is written to a port; the gate, `--listen` and the telemetry exporters (Prometheus, OTLP, syslog) are command-line only. Advisory only; MODELLED. See [`docs/MARITIME-TRUST.md`](../../docs/MARITIME-TRUST.md). |
+| `assess_vessel_log` | A vessel's NMEA 0183 log (at most 4 MiB) as a batch run, with the session TOML stating the vessel's limits: the score model and every epoch's 0-100 score with its deductions (the reply keeps counts by state and the first 200 degraded or untrusted epochs). Advisory only; MODELLED. |
+| `create_evidence_pack` | A signed evidence pack for a window of a vessel's log (`kshana receiver-trust evidence`): the raw log bytes for the window, configuration, per-epoch results and reasons, a summary page, and a manifest with every SHA-256 and a hash chain, signed with Ed25519. The signing seed is never returned or logged; without one a one-time key is used, so the pack proves integrity, not identity. A technical record, not a legal opinion. See [`docs/EVIDENCE-PACKS.md`](../../docs/EVIDENCE-PACKS.md). |
+| `attach_evidence_timestamp` | Bind an RFC 3161 timestamp token (base64 of the `.tsr` bytes) to a pack, in memory (`kshana evidence attach-timestamp`); the pack with the token must still verify. The timestamp authority's signature is not checked: use `openssl ts -verify`. |
+| `verify_evidence_pack` | Verify a pack (`kshana evidence verify`): every hash, the chain, the signature, and with the signer's public key and the full log, who signed it and that the slice came from that log. Names every failure and file. The `verdict` is `verified` (signer pinned), `intact-signer-not-pinned` (everything checks but no public key was given, so the signer is not established) or `failed`; `require_timestamp` fails a pack with no timestamp token. |
+| `generate_training_nmea` | Synthetic bridge NMEA 0183 for crew training from a `nmea-scenario` TOML (jamming, position drag-off, time spoof, replay delay) with the instructor log (`kshana-nmea-training/1`); deterministic per seed. Text only: nothing is synthesised at RF or IQ and nothing is transmitted; never for a vessel's live navigation systems. The reply carries the first 2000 lines. |
+| `build_interference_map` | A GNSS interference map from ADS-B or AIS position reports as CSV text (at most 4 MiB): one `kshana-interference-map/v1` GeoJSON per UTC day, aggregate only (no identifiers, cells under 5 distinct aircraft or vessels withheld), with the dataset licence embedded. A degraded cell does not identify interference as the cause; not a forecast. MODELLED. See [`docs/INTERFERENCE-MAP.md`](../../docs/INTERFERENCE-MAP.md). |
+| `export_test_bench` | A scenario's vehicle motion and events for a laboratory GNSS simulator (`kshana bench-export`): motion CSV and JSON, NMEA, waypoints and events as text, nothing written to disk. Kinds `gnss-ins`, `jamming`, `gnss-sim`. No signal: nothing exported is, models or drives a radio-frequency or baseband signal; the simulator and its operator supply the signals. See [`docs/TEST-BENCH.md`](../../docs/TEST-BENCH.md). |
+| `iq_sweep` | Replay one IQ recording in the work directory across several tracking-loop designs (`kshana iq sweep`): per design and PRN the steady-state phase and code jitter, lock fractions and mean C/N0. At most 256 (design, PRN) channels per call; the span must fit the sample budget. |
+| `iq_monitor` | Run the interference and spoofing detection monitors over an IQ recording in the work directory (`kshana iq monitor`): wideband power and spectral monitors and per-satellite C/N0 and signal-quality monitors against a learned baseline. Series names and lengths and up to 200 events in the reply; the whole report on request as files. An event says a measured quantity left its baseline, not why. MODELLED. |
+| `iq_labfit` | Fit the tracking-loop loss-of-lock model to lab runs (`kshana iq labfit`) from an `iq-labfit` scenario whose logs are inline (`text` or `base64`; a `path` is refused). Reads and writes no file. MODELLED. |
+| `iq_test_conditions` | Validate a `kshana.test-conditions/1` file given as text and return the resolved conditions with their hash. Inline only. |
+| `compliance_report` | The public-framework mapping filled from result documents given as text (`kshana compliance-report`): which rows of five resilience frameworks and standards (US DHS Resilient PNT framework v2.0, IMO ships, EASA aviation, NIS2 Article 21, EN 16803) the runs support evidence for, which they do not, and each row's gap. Takes `runs` of `{label, result, scenario?}` (at most 64, 4 MiB in all). A status says the runs support evidence for the row's capabilities; it is not a finding that a framework is met and not a rating or approval of any product. The `statement` is returned with every report; show it verbatim. MODELLED. See [`docs/compliance/`](../../docs/compliance/README.md). |
+| `compliance_mapping` | The static mapping tables (or, with `sources`, the source documents they cite with versions and URLs) as Markdown, led by the same statement. Needs no runs. |
+| `trust_telemetry` | A trust stream (JSON lines) or `receiver-trust` result rendered as Prometheus text, CEF or LEEF syslog lines or an OTLP JSON payload, with the `kshana trust-telemetry` encoders. Text in the reply: nothing is sent or served and no clock is read. Advisory only. |
+| `route_exposure` | The share of a route's length in degraded, not-degraded, unassessed and not-observed cells of one or more interference maps, optionally within a date range. Unobserved cells are not evidence of a clear route. |
 | `iq_signals` | The GNSS IQ layer's set-up: the signal names the IQ tools accept, whether the IQ file tools are on, the work directory and the per-call sample budget. Call it first. |
 | `iq_info` | Describe one IQ (in-phase and quadrature) recording in the work directory without processing it: format, sample rate, centre frequency, samples, duration, data files and sizes (`kshana iq info`). |
 | `iq_scene` | Generate a multi-satellite GNSS IQ scene into the work directory (`kshana iq scene`): stated Doppler/C/N0 profiles, or true broadcast-ephemeris geometry from a RINEX navigation file, with an optional signal-level propagation channel. Replies with the files written and their byte counts and the truth's first epoch per satellite. |
@@ -127,24 +143,48 @@ Not served: study suites (`kshana --study <suite.toml>`), because a suite names 
 scenario files on disk and the scenario tools read no file. Run each member with
 `run_scenario`. (The IQ tools do read and write files, inside their work directory only.)
 
-## Install
+## Install the MCP server
 
-Pick whichever fits — all run the same server over stdio.
+> Advisory, not type-approved navigation equipment: the operator remains responsible for navigation.
+> The server runs on your computer; nothing is sent to Ashforde OÜ.
+
+Pick any channel; all run the same server. Per-client snippets (Claude Desktop, Claude Code, Cursor,
+VS Code, Windsurf, Zed, Goose, Codex CLI, Gemini CLI, Continue) are in
+[docs/MCP-INSTALL.md](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md).
+
+<!-- mcp-install:begin -->
+| Channel | Command or button | Requires | Pinned form |
+|---|---|---|---|
+| Claude Desktop extension | double-click the `.mcpb` for your system: [macOS (Apple silicon)](https://github.com/ashfordeOU/kshana/releases/download/v0.35.0/kshana-mcp-aarch64-apple-darwin.mcpb) · [macOS (Intel)](https://github.com/ashfordeOU/kshana/releases/download/v0.35.0/kshana-mcp-x86_64-apple-darwin.mcpb) · [Windows](https://github.com/ashfordeOU/kshana/releases/download/v0.35.0/kshana-mcp-x86_64-pc-windows-msvc.mcpb) | none | `kshana-mcp-<target>.mcpb` of v0.35.0 |
+| Cursor (one click) | [npx (Node)](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImtzaGFuYS1tY3BAMC4zNS4wIl19) · [Docker](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoiZG9ja2VyIiwiYXJncyI6WyJydW4iLCItaSIsIi0tcm0iLCJnaGNyLmlvL2FzaGZvcmRlb3Uva3NoYW5hLW1jcDowLjM1LjAiXX0%3D) | Node, or Docker | `kshana-mcp@0.35.0` / `ghcr.io/ashfordeou/kshana-mcp:0.35.0` |
+| VS Code (one click) | [npx (Node)](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522npx%2522%252C%2522args%2522%253A%255B%2522-y%2522%252C%2522kshana-mcp%25400.35.0%2522%255D%257D) · [Docker](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522docker%2522%252C%2522args%2522%253A%255B%2522run%2522%252C%2522-i%2522%252C%2522--rm%2522%252C%2522ghcr.io%252Fashfordeou%252Fkshana-mcp%253A0.35.0%2522%255D%257D) · [Insiders (npx)](https://insiders.vscode.dev/redirect?url=vscode-insiders%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522npx%2522%252C%2522args%2522%253A%255B%2522-y%2522%252C%2522kshana-mcp%25400.35.0%2522%255D%257D) | Node, or Docker | `kshana-mcp@0.35.0` / `ghcr.io/ashfordeou/kshana-mcp:0.35.0` |
+| Claude Code | `claude mcp add kshana -- npx -y kshana-mcp@0.35.0` · plugin: `/plugin marketplace add ashfordeOU/kshana` then `/plugin install kshana@ashforde` | Node (or Docker) | `kshana-mcp@0.35.0` |
+| npx | `npx -y kshana-mcp@0.35.0` | Node 18+ | `kshana-mcp@0.35.0` |
+| uvx / pipx | `uvx kshana-mcp==0.35.0` · `pipx run kshana-mcp==0.35.0` | Python 3.9+ with uv or pipx | `kshana-mcp==0.35.0` |
+| Docker | `docker run -i --rm ghcr.io/ashfordeou/kshana-mcp:0.35.0` | Docker | `ghcr.io/ashfordeou/kshana-mcp:0.35.0` |
+| Homebrew | `brew install ashfordeOU/tap/kshana-mcp` | brew | formula for v0.35.0 |
+| Scoop | `scoop bucket add ashforde https://github.com/ashfordeOU/scoop-bucket` then `scoop install kshana-mcp` | Scoop (Windows) | manifest for v0.35.0 |
+| winget | `winget install AshfordeOU.KshanaMcp` | winget (Windows) | `--version 0.35.0` |
+| cargo | `cargo install kshana-mcp --version 0.35.0` | Rust 1.88+ | `kshana-mcp 0.35.0` |
+| Prebuilt binary | [the release page](https://github.com/ashfordeOU/kshana/releases/tag/v0.35.0): `kshana-mcp` (Linux x86-64), `kshana-mcp-<target>[.exe]`, checked by `SHA256SUMS` and `gh attestation verify` | none | v0.35.0 |
+| MCP registry | `io.github.ashfordeOU/kshana-mcp` (found by registry-aware clients) | a registry-aware client | `0.35.0` |
+| Remote (streamable HTTP) | `kshana-mcp --http 127.0.0.1:8080`, self-hosted: see [https://github.com/ashfordeOU/kshana/blob/main/docs/deploy/mcp-http.md](https://github.com/ashfordeOU/kshana/blob/main/docs/deploy/mcp-http.md) | your own host | v0.35.0 |
+<!-- mcp-install:end -->
+
+From a checkout or git (development):
 
 ```sh
-# crates.io (a Rust toolchain builds it from source):
-cargo install kshana-mcp
-
-# Docker / OCI (Open Container Initiative) image — no Rust toolchain needed;
-# published for linux/amd64 and linux/arm64, so Apple silicon runs it natively:
-docker run --rm -i ghcr.io/ashfordeou/kshana-mcp
-
-# From a checkout (development):
 cd mcp/kshana-mcp && cargo install --path .
-
-# Bleeding edge, straight from git:
 cargo install --git https://github.com/AshfordeOU/kshana kshana-mcp
 ```
+
+### HTTP mode (self-hosted)
+
+`kshana-mcp --http 127.0.0.1:8080` serves the same tools over streamable HTTP at `/mcp`. It binds
+loopback only; a non-loopback address needs `--allow-remote` and a bearer token in
+`KSHANA_MCP_HTTP_TOKEN`; the IQ file tools are off; request size, time and concurrency are capped; no
+CORS header is sent. Kshana does not host an endpoint: you self-host it. See
+[docs/deploy/mcp-http.md](https://github.com/ashfordeOU/kshana/blob/main/docs/deploy/mcp-http.md).
 
 `cargo install` puts `kshana-mcp` on your `PATH` (typically `~/.cargo/bin/kshana-mcp`).
 The server talks JSON-RPC (JSON remote procedure call) over stdio; logs go to stderr. Building from source needs a Rust

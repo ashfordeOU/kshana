@@ -1,0 +1,72 @@
+# Combined: jamming, then a counterfeit takeover with a drag-off and a time offset, then a
+# replay delay. Synthetic NMEA for bridge-simulator training only.
+# Synthetic training data: never feed it to a vessel's live navigation systems.
+# Kshana is advisory, not type-approved navigation equipment.
+[scenario]
+name = "combined-event"
+description = "Jam, then spoof: the fix is lost, a counterfeit signal takes over and walks the position off with a time offset, then a replay delay follows."
+trainer_note = "Sequence for the debrief: (1) jamming, SNR falls and the fix is lost; (2) the jamming eases and the receiver re-acquires onto counterfeit signals, which show a uniform raised SNR, so a fix comes back that looks healthy; (3) the position drifts 1.6 km and UTC gains 20 s; (4) after the drag-off is released a replay delay makes the plotter lag the ship by 30 s. HDT and VBW never change."
+seed = 44
+start_utc = "2026-09-02T03:10:00Z"
+duration_s = 1800
+rate_hz = 1
+
+[vessel]
+lat_deg = 54.00
+lon_deg = 4.00
+speed_kn = 15
+
+[[waypoint]]
+lat_deg = 54.20
+lon_deg = 4.50
+speed_kn = 15
+
+[[waypoint]]
+lat_deg = 54.10
+lon_deg = 5.10
+speed_kn = 12
+
+[environment]
+current_speed_kn = 1.0
+current_set_deg = 120
+magnetic_variation_deg = 1.0
+
+[[event]]
+kind = "jamming"
+label = "Jamming"
+start_s = 240
+duration_s = 240
+ramp_s = 45
+recovery_s = 30
+cn0_drop_db = 38
+
+[[event]]
+kind = "drag-off"
+label = "Counterfeit takeover and drag-off"
+start_s = 500
+duration_s = 700
+ramp_s = 400
+recovery_s = 0
+final_offset_m = 1600
+relative_bearing_deg = 90
+counterfeit_cn0_dbhz = 45
+
+[[event]]
+kind = "time-spoof"
+label = "Time offset"
+start_s = 700
+duration_s = 500
+ramp_s = 100
+recovery_s = 0
+offset_s = 20
+counterfeit_cn0_dbhz = 45
+
+[[event]]
+kind = "replay-delay"
+label = "Replay delay"
+start_s = 1300
+duration_s = 360
+ramp_s = 60
+recovery_s = 60
+delay_s = 30
+affect_time = true

@@ -14,6 +14,11 @@ What each image is drawn from:
 * the hero, the campaign timeline, the L-band waterfall, the coverage map, the solar-system
   view and the LEO pass: the result.json of a run of the engine on a committed scenario,
   made by this script in a temporary directory (nothing is read from a previous run);
+* the 0.35 figures (trust-timeline, interference-map, training-track, evidence-pack): real runs
+  of the engine on the committed synthetic inputs in examples/ and scenarios/training/ (the
+  receiver-trust session, the interference-map sample days with their routes, a training
+  scenario's instructor log), and the pack's file list as docs/EVIDENCE-PACKS.md states it. Their
+  alt text is the SVG's own <desc>, and --check fails if the README or a doc carries a different one;
 * the four flowcharts: the engine's own facts (the scenario-kind count from `kshana kinds`,
   the matrix split from web/data/verification-matrix.json, the LEO chain's hand-off values
   from its run), laid out as vector diagrams.
@@ -34,11 +39,13 @@ from __future__ import annotations
 
 import argparse
 import base64
+import csv
 import hashlib
 import io
 import json
 import math
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -2191,6 +2198,567 @@ def research(t: dict) -> Svg:
 
 
 # --------------------------------------------------------------------------------------
+# 0.35 figures: trust timeline, interference map with route exposure, training track.
+# Drawn from committed synthetic inputs (examples/, scenarios/training/) and real runs of the
+# engine. Everything here is made-up data; nothing is a measurement, and no figure states how
+# any receiver or system performs against interference.
+# --------------------------------------------------------------------------------------
+
+BAND_KEYS = {"calibrating": "ink4", "nominal": "lime", "degraded": "amber", "untrusted": "coral"}
+STATE_LABELS = (("degraded", "Degraded or anomalous"), ("not_degraded", "Not degraded"),
+                ("unassessed", "Unassessed"), ("not_observed", "Not observed"))
+
+
+def sha256_file(rel: str) -> str:
+    return hashlib.sha256((ROOT / rel).read_bytes()).hexdigest()
+
+
+def hatch(s: Svg, color: str, bg: str, gap: float = 6.0) -> str:
+    """A diagonal hatch fill (the texture for 'seen, but no call'), as a pattern id."""
+    pid = s.uid("hat")
+    s.defs.append(f'<pattern id="{pid}" width="{f(gap)}" height="{f(gap)}" patternUnits="userSpaceOnUse" '
+                  f'patternTransform="rotate(45)"><rect width="{f(gap)}" height="{f(gap)}" fill="{bg}"/>'
+                  f'<path d="M0 {f(gap / 2)}H{f(gap)}" stroke="{color}" stroke-width="1.4"/></pattern>')
+    return pid
+
+
+def legend_item(s: Svg, t: dict, x, y, label: str, swatch) -> float:
+    swatch(x, y - 11)
+    return 22 + s.text(label, x + 22, y, 12, t["ink2"], "mono", 400)
+
+
+def time_axis(s: Svg, t: dict, X, y, t1: float, step: float, unit_div: float = 60.0, unit: str = "min") -> None:
+    sec = 0.0
+    while sec <= t1 + 1e-6:
+        s.text(f"{sec / unit_div:g}", X(sec), y, 10.5, t["ink3"], "mono", anchor="middle")
+        sec += step
+    s.text(f"time, {unit}", X(0) - 24, y, 10.5, t["ink3"], "mono", anchor="end")
+
+
+def advisory_block(s: Svg, t: dict, x, y, width, lines: list[tuple[str, str]], size=12.5) -> float:
+    """Caption lines: (kind, text) with kind 'warn' in coral, 'adv' and 'note' in ink."""
+    for kind, text in lines:
+        col = t["coral"] if kind == "warn" else (t["ink"] if kind == "adv" else t["ink2"])
+        wt = 500 if kind in ("warn", "adv") else 400
+        for ln in wrap(text, width, size, "sans", wt):
+            s.text(ln, x, y, size, col, "sans", wt)
+            y += size * 1.5
+        y += 4
+    return y
+
+
+# ---------- 1. Trust-score timeline ----------
+
+def load_trust(engine: "Engine") -> dict:
+    d = engine.work / "trust"
+    d.mkdir(exist_ok=True)
+    src = ROOT / "examples" / "maritime-trust"
+    for fn in ("session.toml", "tallinn-helsinki.nmea"):
+        shutil.copyfile(src / fn, d / fn)
+    subprocess.run([engine.exe, "receiver-trust", "session.toml"], cwd=d, capture_output=True, text=True, check=True)
+    res = json.loads((d / "session.result.json").read_text())
+    truth = [(float(r["t_s"]), float(r["true_lat_deg"]), float(r["true_lon_deg"]))
+             for r in csv.DictReader((src / "tallinn-helsinki.truth.csv").open())]
+    rep = []
+    for ln in (src / "tallinn-helsinki.nmea").read_text().splitlines():
+        p = ln.split(",")
+        if p[0].endswith("GGA") and p[2] and p[4]:
+            if p[6] != "1":
+                sys.exit("gen_readme_assets: the demo log no longer reports a valid fix throughout (GGA quality 1); the trust figure says it does")
+            la = float(p[2][:2]) + float(p[2][2:]) / 60
+            lo = float(p[4][:3]) + float(p[4][3:]) / 60
+            rep.append((-la if p[3] == "S" else la, -lo if p[5] == "W" else lo))
+    err = []
+    for (_, la0, lo0), (la1, lo1) in zip(truth, rep):
+        err.append(math.hypot((la1 - la0) * 111195.0, (lo1 - lo0) * 111195.0 * math.cos(math.radians(la0))))
+    return {"result": res, "err_m": err, "version": engine.version}
+
+
+def trust_timeline(t: dict, d: dict) -> Svg:
+    W, H = 1280, 800
+    res, err = d["result"], d["err_m"]
+    eps = res["epochs"]
+    T1 = eps[-1]["t_s"]
+    cal = res["baseline"]["calibration_epochs"]
+    nom, deg = res["score_model"]["nominal_min"], res["score_model"]["degraded_min"]
+    # the first time after which the reported position stays more than 30 m from the true one
+    onset = next(i for i in range(len(err)) if all(e > 30.0 for e in err[i:]))
+    desc = (f"Trust score over one synthetic passage, from a real run of engine v{d['version']} on "
+            f"examples/maritime-trust (a made-up NMEA log of a ferry on a Tallinn to Helsinki route, {len(eps)} epochs at 1 Hz). "
+            f"Three lanes share one time axis. Top: the distance between the position the receiver reports and the vessel's real position, "
+            f"which stays within a few metres until about {onset} s, when the log's scripted position drag-off pulls it away, "
+            f"while the receiver keeps reporting a valid fix. Middle: the trust score from 0 to 100, not computed during the first {cal} s of calibration, "
+            f"in the nominal band (at least {nom:g}) until the drag-off, then falling through the degraded band (at least {deg:g}) into the untrusted band. "
+            f"Bottom: the band of each epoch as a coloured ribbon with its name. The score is advisory. {res['advisory']} "
+            f"The log is made up to show the format and the monitors; it is not a measurement and says nothing about how any receiver would perform.")
+    s = Svg(W, H, "Trust score timeline on a synthetic passage", desc)
+    card(s, t)
+    eyebrow(s, t, 40, 50, "Receiver trust · one synthetic passage")
+    s.text("A valid fix, a falling trust score.", 40, 92, 32, t["ink"], "sans", 600, ls=-0.03)
+    s.text(f"{len(eps):,} epochs · 1 Hz · {T1 / 60:.0f} min · made-up log", W - 40, 50, 12.5, t["ink3"], "mono", anchor="end")
+    wx, wy, ww, wh = 40, 120, W - 80, 560
+    top = window(s, t, wx, wy, ww, wh, [("kshana", "b"), ("receiver-trust", "n"), ("·", "n"),
+                                        ("examples/maritime-trust/session.toml", "n")])
+    lx, lw = wx + 250, ww - 250 - 40
+
+    def X(tt):
+        return lx + tt / T1 * lw
+
+    l1y, l1h = top + 20, 130
+    l2y, l2h = l1y + l1h + 34, 210
+    l3y, l3h = l2y + l2h + 18, 24
+
+    # lane 1: reported minus true position
+    s.text("Reported minus true", wx + 20, l1y + 22, 14, t["ink"], "sans", 500)
+    s.text("position, m · truth file", wx + 20, l1y + 40, 11, t["ink3"], "mono")
+    emax = max(err) * 1.08
+    for v in nice_ticks(0, emax, 3):
+        y = l1y + l1h - v / emax * l1h
+        s.line(lx, y, lx + lw, y, line(t, 0, t["panel"]), 1)
+        s.text(f"{v:,.0f}", lx - 10, y + 4, 10.5, t["ink3"], "mono", anchor="end")
+    pts = [(X(i), l1y + l1h - min(e, emax) / emax * l1h) for i, e in enumerate(err)]
+    s.poly(pts, stroke=t["magenta"], sw=1.6)
+    # where the reported position has left the true one for good, across the lanes
+    s.line(X(onset), l1y, X(onset), l3y + l3h + 6, t["magenta"], 1, dash="2 3")
+    s.text("position error passes 30 m", X(onset) - 8, l1y + 16, 10.5, t["magenta"], "mono", 500, anchor="end")
+
+    # lane 2: the score and its bands
+    s.text("Trust score", wx + 20, l2y + 22, 14, t["ink"], "sans", 500)
+    s.text("0 to 100 · advisory", wx + 20, l2y + 40, 11, t["ink3"], "mono")
+
+    def Y2(v):
+        return l2y + l2h - v / 100.0 * l2h
+
+    for lo, hi, key in ((0, deg, "coral"), (deg, nom, "amber"), (nom, 100, "lime")):
+        s.rect(lx, Y2(hi), lw, Y2(lo) - Y2(hi), fill=soft(t, key, t["panel"], 0.13))
+    for v in (0, deg, nom, 100):
+        s.line(lx, Y2(v), lx + lw, Y2(v), line(t, 1, t["panel"]), 1)
+        s.text(f"{v:g}", lx - 10, Y2(v) + 4, 10.5, t["ink3"], "mono", anchor="end")
+    s.text(f"nominal ≥ {nom:g}", lx + lw - 8, Y2(nom) - 6, 10.5, t["lime"], "mono", 500, anchor="end")
+    s.text(f"degraded ≥ {deg:g}", lx + lw - 8, Y2(deg) - 6, 10.5, t["amber"], "mono", 500, anchor="end")
+    s.text(f"untrusted < {deg:g}", lx + lw - 8, Y2(deg) + 16, 10.5, t["coral"], "mono", 500, anchor="end")
+    # calibration, not scored: shaded over the lanes the baseline covers
+    for y0, h0 in ((l1y, l1h), (l2y, l2h)):
+        s.rect(X(0), y0, X(cal) - X(0), h0, fill=soft(t, "ink4", t["panel"], 0.30))
+    s.text("calibration", X(cal / 2), l2y + l2h / 2 - 4, 10.5, t["ink2"], "mono", 500, anchor="middle")
+    s.text("not scored", X(cal / 2), l2y + l2h / 2 + 11, 10.5, t["ink2"], "mono", 500, anchor="middle")
+    sc = [(X(e["t_s"]), Y2(e["score"]["score"])) for e in eps if e.get("score")]
+    s.poly(sc, stroke=t["ink"], sw=1.8)
+
+    # lane 3: the band of each epoch
+    s.text("Band", wx + 20, l3y + 17, 14, t["ink"], "sans", 500)
+    runs, cur = [], None
+    for e in eps:
+        b = e["score"]["band"] if e.get("score") else "calibrating"
+        if cur and cur[0] == b:
+            cur[2] = e["t_s"]
+        else:
+            cur = [b, e["t_s"], e["t_s"]]
+            runs.append(cur)
+    for i, (b, t0, t1) in enumerate(runs):
+        x0 = X(t0)
+        x1 = X(runs[i + 1][1]) if i + 1 < len(runs) else X(T1)
+        s.rect(x0, l3y, max(x1 - x0 - 1, 1), l3h, fill=soft(t, BAND_KEYS[b], t["panel"], 0.55 if b != "calibrating" else 0.3), r=3)
+        lab = b.capitalize()
+        if Face.get("mono", 500).width(lab.upper(), 10.5, 0.06) < x1 - x0 - 10:
+            s.text(lab, (x0 + x1) / 2, l3y + 16, 10.5, t["ink"], "mono", 500, anchor="middle", ls=0.06, upper=True)
+    ay = l3y + l3h + 22
+    time_axis(s, t, X, ay, T1, 300)
+    # legend
+    gy = wy + wh - 22
+    gx = lx
+    for lab, key in (("Calibrating", "ink4"), ("Nominal", "lime"), ("Degraded", "amber"), ("Untrusted", "coral")):
+        gx += legend_item(s, t, gx, gy, lab, lambda x, y, k=key: s.rect(x, y, 12, 12, fill=soft(t, k, t["panel"], 0.55), r=3)) + 22
+    gx += legend_item(s, t, gx, gy, "Reported minus true position", lambda x, y: s.line(x, y + 6, x + 14, y + 6, t["magenta"], 2)) + 22
+    gx += legend_item(s, t, gx, gy, "Trust score", lambda x, y: s.line(x, y + 6, x + 14, y + 6, t["ink"], 2))
+    # caption: the advisory statement, in the words the software writes
+    cy = wy + wh + 30
+    advisory_block(s, t, 40, cy, W - 80, [
+        ("adv", res["advisory"]),
+        ("note", "The log is made up to show the format and the monitors. It is not a measurement, and the figure says nothing about how "
+                 "any real receiver or attack would behave. The receiver reports a valid fix throughout; the score is what falls."),
+    ])
+    provenance(s, t, 40, H - 16, f"Engine v{d['version']} · examples/maritime-trust/session.toml + tallinn-helsinki.nmea · "
+               f"scenario hash {res['scenario_hash'][:12]} · MODELLED, advisory")
+    return s
+
+
+# ---------- 2. Interference map with route exposure ----------
+
+def load_imap(engine: "Engine") -> dict:
+    ex = ROOT / "examples" / "interference-map"
+    out = {}
+    for kind in ("adsb", "ais"):
+        mp = ex / "output" / f"{kind}-custom-2026-03-01.geojson"
+        m = json.loads(mp.read_text())
+        meta = m["kshana_interference_map"]
+        cell = meta["grid"]["cell_deg"]
+        cells = []
+        for ft in m["features"]:
+            p = ft["properties"]
+            cells.append({"i": p["cell_i"], "j": p["cell_j"], "status": p["status"], "props": p,
+                          "s": p["cell_i"] * cell - 90.0, "w": p["cell_j"] * cell - 180.0})
+        rp = ex / "input" / f"route-{kind}.geojson"
+        route = [(c[1], c[0]) for c in json.loads(rp.read_text())["geometry"]["coordinates"]]
+        r = subprocess.run([engine.exe, "route-exposure", "--route", str(rp), "--map", str(mp), "--json"],
+                           capture_output=True, text=True, check=True)
+        row = json.loads(r.stdout)["kshana_route_exposure"]["rows"][0]
+        out[kind] = {"version": engine.version, "meta": meta, "cell": cell, "cells": cells, "route": route, "row": row,
+                     "files": [str(mp.relative_to(ROOT)), str(rp.relative_to(ROOT))]}
+    return out
+
+
+def cell_state(status: str) -> str:
+    if status in ("degraded", "anomalous"):
+        return "degraded"
+    if status in ("not_degraded", "not_anomalous"):
+        return "not_degraded"
+    return "unassessed"
+
+
+def state_swatch(s: Svg, t: dict, state: str, hat: str):
+    def draw(x, y, w=14, h=14):
+        if state == "degraded":
+            s.rect(x, y, w, h, fill=soft(t, "coral", t["panel"], 0.6), stroke=t["coral"], sw=1, r=2)
+        elif state == "not_degraded":
+            s.rect(x, y, w, h, fill=soft(t, "lime", t["panel"], 0.3), stroke=t["lime"], sw=1, r=2)
+        elif state == "unassessed":
+            s.rect(x, y, w, h, fill=f"url(#{hat})", stroke=t["amber"], sw=1, r=2)
+        else:
+            s.rect(x, y, w, h, fill="none", stroke=t["ink4"], sw=1, r=2, extra='stroke-dasharray="3 3"')
+    return draw
+
+
+def imap_panel(s: Svg, t: dict, x, y, w, h, p: dict, hat: str, title: str) -> None:
+    meta, cell, cells, route, row = p["meta"], p["cell"], p["cells"], p["route"], p["row"]
+    top = window(s, t, x, y, w, h, [("kshana", "b"), ("interference-map", "n"), ("·", "n"), (title, "n")], tag="Synthetic")
+    core = [c for c in cells if c["s"] > 25.0]
+    lat0 = min(min(c["s"] for c in core), min(r[0] for r in route)) - 0.25
+    lat1 = max(max(c["s"] + cell for c in core), max(r[0] for r in route)) + 0.25
+    lon0 = min(min(c["w"] for c in core), min(r[1] for r in route)) - 0.25
+    lon1 = max(max(c["w"] + cell for c in core), max(r[1] for r in route)) + 0.25
+    k = math.cos(math.radians((lat0 + lat1) / 2))
+    mx, my, mw, mh = x + 24, top + 22, w - 48, 400
+    sc = min(mw / ((lon1 - lon0) * k), mh / (lat1 - lat0))
+    ox = mx + (mw - (lon1 - lon0) * k * sc) / 2
+    oy = my + (mh - (lat1 - lat0) * sc) / 2
+
+    def PX(lon):
+        return ox + (lon - lon0) * k * sc
+
+    def PY(lat):
+        return oy + (lat1 - lat) * sc
+
+    s.rect(PX(lon0), PY(lat1), PX(lon1) - PX(lon0), PY(lat0) - PY(lat1), fill=t["bg2"], r=6)
+    # the grid: every cell in frame, so an empty one reads as empty
+    i0, i1 = int(math.floor((lat0 + 90) / cell)), int(math.ceil((lat1 + 90) / cell))
+    j0, j1 = int(math.floor((lon0 + 180) / cell)), int(math.ceil((lon1 + 180) / cell))
+    have = {(c["i"], c["j"]): c for c in cells}
+    for i in range(i0, i1):
+        for j in range(j0, j1):
+            cs, cw = i * cell - 90.0, j * cell - 180.0
+            if cs < lat0 - 1e-9 or cs + cell > lat1 + 1e-9 or cw < lon0 - 1e-9 or cw + cell > lon1 + 1e-9:
+                continue
+            rx, ry, rw, rh = PX(cw), PY(cs + cell), cell * k * sc, cell * sc
+            c = have.get((i, j))
+            if c is None:
+                s.rect(rx, ry, rw, rh, fill="none", stroke=line(t, 1, t["bg2"]), sw=1, extra='stroke-dasharray="2 4"')
+                continue
+            st = cell_state(c["status"])
+            if st == "degraded":
+                s.rect(rx, ry, rw, rh, fill=soft(t, "coral", t["bg2"], 0.6), stroke=t["coral"], sw=1.2)
+            elif st == "not_degraded":
+                s.rect(rx, ry, rw, rh, fill=soft(t, "lime", t["bg2"], 0.3), stroke=t["lime"], sw=1)
+            else:
+                s.rect(rx, ry, rw, rh, fill=f"url(#{hat})", stroke=t["amber"], sw=1)
+            if st == "degraded":
+                det = c["props"].get("detectors")
+                lab = (det[0].replace("_", " ") if det else "degraded")
+                if Face.get("mono", 500).width(lab, 9) < rw - 4:
+                    s.text(lab, rx + rw / 2, ry + 13, 9, t["ink"], "mono", 500, anchor="middle")
+    # the route, over the cells
+    pts = [(PX(lo), PY(la)) for la, lo in route]
+    s.poly(pts, stroke=t["bg2"], sw=6)
+    s.poly(pts, stroke=t["ink"], sw=2.6)
+    s.circle(pts[0][0], pts[0][1], 5, fill=t["ink"], stroke=t["bg2"], sw=2)
+    s.circle(pts[-1][0], pts[-1][1], 5, fill=t["bg2"], stroke=t["ink"], sw=2.4)
+    s.text("start", pts[0][0] + 9, pts[0][1] - 8, 10.5, t["ink"], "mono", 500)
+    outside = sum(1 for c in cells if c["s"] <= 25.0)
+    if outside:
+        s.text(f"{outside} further published cells lie outside this frame", mx + 8, my + mh - 8, 10, t["ink3"], "mono")
+    # route exposure: the engine's own numbers, as a stacked bar
+    by = my + mh + 34
+    s.text(f"Route exposure · {row['route_km']:.0f} km · {row['date']}", x + 24, by - 12, 12.5, t["ink"], "mono", 500)
+    segs = [("degraded", row["share_degraded"]), ("not_degraded", row["share_not_degraded"]),
+            ("unassessed", row["share_unassessed"]), ("not_observed", row["share_not_observed"])]
+    bw = w - 48
+    bx = x + 24
+    for st, sh in segs:
+        if sh <= 0:
+            continue
+        sw_ = max(bw * sh - 2, 1)
+        if st == "degraded":
+            s.rect(bx, by, sw_, 16, fill=soft(t, "coral", t["panel"], 0.6), stroke=t["coral"], sw=1, r=2)
+        elif st == "not_degraded":
+            s.rect(bx, by, sw_, 16, fill=soft(t, "lime", t["panel"], 0.3), stroke=t["lime"], sw=1, r=2)
+        elif st == "unassessed":
+            s.rect(bx, by, sw_, 16, fill=f"url(#{hat})", stroke=t["amber"], sw=1, r=2)
+        else:
+            s.rect(bx, by, sw_, 16, fill="none", stroke=t["ink4"], sw=1, r=2, extra='stroke-dasharray="3 3"')
+        bx += bw * sh
+    names = {"degraded": "degraded", "not_degraded": "not degraded", "unassessed": "unassessed", "not_observed": "not observed"}
+    tx = x + 24
+    for st, sh in segs:
+        tx += s.text(f"{names[st]} {sh * 100:.1f}%", tx, by + 38, 11.5, t["ink2"], "mono", 400) + 18
+    # per-file licence and attribution, as the format requires
+    data = meta["data"]
+    s.text(fit_text(f"{data['licence']} · {data['attribution']}", w - 48, 10.5, "mono"), x + 24, y + h - 14, 10.5, t["ink3"], "mono")
+
+
+def interference_map(t: dict, d: dict) -> Svg:
+    W, H = 1280, 880
+    a, b = d["adsb"], d["ais"]
+    desc = ("Two synthetic interference-map days drawn from the committed samples in examples/interference-map/output, each with its own "
+            "synthetic route and the route-exposure shares the engine reports. Left, an ADS-B day: "
+            f"{sum(1 for c in a['cells'] if cell_state(c['status']) == 'degraded')} degraded cell, "
+            f"{sum(1 for c in a['cells'] if cell_state(c['status']) == 'not_degraded')} not degraded, "
+            f"{sum(1 for c in a['cells'] if cell_state(c['status']) == 'unassessed')} unassessed (hatched) and cells with no entry, drawn empty, which were not observed. "
+            f"The route is {a['row']['route_km']:.0f} km: {a['row']['share_degraded'] * 100:.1f}% of its length in degraded cells, "
+            f"{a['row']['share_not_degraded'] * 100:.1f}% not degraded, {a['row']['share_unassessed'] * 100:.1f}% unassessed and "
+            f"{a['row']['share_not_observed'] * 100:.1f}% not observed. Right, an AIS day: cells flagged by the circle and on-land detectors, not-anomalous cells and empty cells; "
+            f"the route is {b['row']['route_km']:.0f} km with {b['row']['share_degraded'] * 100:.1f}% in anomalous cells, {b['row']['share_not_degraded'] * 100:.1f}% not anomalous, "
+            f"{b['row']['share_unassessed'] * 100:.1f}% unassessed and {b['row']['share_not_observed'] * 100:.1f}% not observed. "
+            "ADS-B and AIS are separate layers, never combined. A flagged cell is not a finding of interference, and a cell with no colour was not observed, "
+            "which is not the same as clear. All data are made up, in the open mid-Atlantic, and not a measurement.")
+    s = Svg(W, H, "Interference map and route exposure, synthetic sample days", desc)
+    card(s, t)
+    eyebrow(s, t, 40, 50, "Interference map · synthetic sample days")
+    s.text("Where reports looked degraded, and how much of a route crosses it.", 40, 92, 30, t["ink"], "sans", 600, ls=-0.03)
+    hat = hatch(s, t["amber"], blend(t["amber"], t["bg2"], 0.14))
+    pw, ph = 600, 580
+    imap_panel(s, t, 40, 120, pw, ph, a, hat, "adsb · 2026-03-01")
+    imap_panel(s, t, W - 40 - pw, 120, pw, ph, b, hat, "ais · 2026-03-01")
+    gy = 120 + ph + 30
+    gx = 40
+    for st, lab in STATE_LABELS:
+        gx += legend_item(s, t, gx, gy, lab, state_swatch(s, t, st, hat)) + 26
+    gx += legend_item(s, t, gx, gy, "Route", lambda x, y: s.line(x, y + 7, x + 16, y + 7, t["ink"], 2.6))
+    advisory_block(s, t, 40, gy + 30, W - 80, [
+        ("adv", "A degraded or anomalous cell is a statement about reported accuracy fields or implausible positions, not a finding of interference. "
+                "A cell with no colour was not observed by enough aircraft or vessels, which is not the same as clear. ADS-B and AIS are separate layers and are never combined."),
+        ("note", "Synthetic data, made up in the open mid-Atlantic: nothing here is a real place, aircraft or vessel, and the figure says nothing about how any receiver performs. "
+                 "Route exposure is a past-day description, not a forecast."),
+    ])
+    provenance(s, t, 40, H - 16, f"Engine v{a['version']} · {a['meta']['method']['id']} · {b['meta']['method']['id']} · "
+               f"cell {a['cell']:g}° · route-exposure/v1")
+    return s
+
+
+# ---------- 3. Training NMEA: true against reported track ----------
+
+def load_training(engine: "Engine") -> dict:
+    d = engine.work / "training"
+    d.mkdir(exist_ok=True)
+    shutil.copyfile(ROOT / "scenarios" / "training" / "coastal-drag-off.toml", d / "coastal-drag-off.toml")
+    subprocess.run([engine.exe, "nmea-scenario", "coastal-drag-off.toml", "--out", "drag.nmea"], cwd=d, capture_output=True, text=True, check=True)
+    out = json.loads((d / "drag.instructor.json").read_text())
+    out["version"] = engine.version
+    return out
+
+
+def training_track(t: dict, d: dict, advisory: str) -> Svg:
+    W, H = 1280, 820
+    tr = d["track"]
+    T1 = tr[-1]["t_s"]
+    tl = {e["what"]: e["t_s"] for e in d["timeline"] if e["event"] == 1}
+    ev = d["events"][0]
+    desc = (f"Training stream from the scenario {d['scenario']} (engine v{d['version']}, seed {d['seed']}, {T1 / 60:.0f} minutes at one fix per "
+            f"{tr[1]['t_s'] - tr[0]['t_s']:.0f} s of the instructor log). A map shows the vessel's true track and the track the receiver reports: they "
+            f"agree until a scripted position drag-off begins at {tl.get('onset', 0):.0f} s, the reported track then walks away from the true one while the receiver keeps a valid fix, and "
+            f"it steps back when the event ends at {tl.get('recovered', 0):.0f} s. Beside it, the distance between the two tracks over time, and the mean carrier-to-noise density the receiver "
+            f"reports, which rises to one raised level while the event lasts. {d['warning']} {advisory} Positions, dates and tracks are invented.")
+    s = Svg(W, H, "Training NMEA: true track against reported track", desc)
+    card(s, t)
+    eyebrow(s, t, 40, 50, f"NMEA training · {d['scenario']}", color=t["coral"])
+    s.text("The true track, and the one the receiver reports.", 40, 92, 32, t["ink"], "sans", 600, ls=-0.03)
+    s.text(f"seed {d['seed']} · {T1 / 60:.0f} min · invented positions", W - 40, 50, 12.5, t["ink3"], "mono", anchor="end")
+    # the warning, first and unmissable
+    s.rect(40, 114, W - 80, 36, fill=soft(t, "coral", t["bg"], 0.16), stroke=t["coral"], sw=1, r=10)
+    s.text("TRAINING ONLY", 58, 137, 12.5, t["coral"], "mono", 500, ls=0.1)
+    s.text("Never feed this stream to a vessel's live navigation systems.", 190, 137, 14, t["ink"], "sans", 500)
+    wy, wh = 168, 530
+    # left: the map
+    lw_ = 560
+    top = window(s, t, 40, wy, lw_, wh, [("nmea-scenario", "b"), (d["scenario"], "n")], tag="Synthetic")
+    la = [r["true_lat_deg"] for r in tr] + [r["reported_lat_deg"] for r in tr if r["reported_lat_deg"] is not None]
+    lo = [r["true_lon_deg"] for r in tr] + [r["reported_lon_deg"] for r in tr if r["reported_lon_deg"] is not None]
+    lat0, lat1, lon0, lon1 = min(la), max(la), min(lo), max(lo)
+    k = math.cos(math.radians((lat0 + lat1) / 2))
+    mx, my, mw, mh = 40 + 24, top + 22, lw_ - 48, wh - 44 - 110
+    sc = min(mw / ((lon1 - lon0) * k), mh / (lat1 - lat0)) * 0.9
+    ox = mx + (mw - (lon1 - lon0) * k * sc) / 2
+    oy = my + (mh - (lat1 - lat0) * sc) / 2
+
+    def P(la_, lo_):
+        return (ox + (lo_ - lon0) * k * sc, oy + (lat1 - la_) * sc)
+
+    s.rect(mx, my, mw, mh, fill=t["bg2"], r=6)
+    true_pts = [P(r["true_lat_deg"], r["true_lon_deg"]) for r in tr]
+    rep = [r for r in tr if r["reported_lat_deg"] is not None]
+    rep_pts = [P(r["reported_lat_deg"], r["reported_lon_deg"]) for r in rep]
+    # displacement ticks while the event is active
+    for r in tr:
+        if r["active_events"] and r["reported_lat_deg"] is not None and int(r["t_s"]) % 60 == 0:
+            a_, b_ = P(r["true_lat_deg"], r["true_lon_deg"]), P(r["reported_lat_deg"], r["reported_lon_deg"])
+            s.line(a_[0], a_[1], b_[0], b_[1], soft(t, "coral", t["bg2"], 0.55), 1)
+    s.poly(true_pts, stroke=t["ink"], sw=2.2)
+    s.poly(rep_pts, stroke=t["coral"], sw=2, dash="6 4")
+    s.circle(true_pts[0][0], true_pts[0][1], 5, fill=t["ink"], stroke=t["bg2"], sw=2)
+    s.text("start", true_pts[0][0] + 9, true_pts[0][1] + 16, 10.5, t["ink"], "mono", 500)
+    s.circle(true_pts[-1][0], true_pts[-1][1], 5, fill=t["bg2"], stroke=t["ink"], sw=2.4)
+    for what, lab in (("onset", "drag-off begins"), ("recovered", "event ends")):
+        if what in tl:
+            r = min(tr, key=lambda q: abs(q["t_s"] - tl[what]))
+            p = P(r["true_lat_deg"], r["true_lon_deg"])
+            s.circle(p[0], p[1], 4, fill=t["coral"], stroke=t["bg2"], sw=2)
+            s.text(lab, p[0] - 10, p[1] + 5, 10.5, t["coral"], "mono", 500, anchor="end")
+    gy = wy + wh - 62
+    gx = 40 + 24
+    gx += legend_item(s, t, gx, gy, "True track", lambda x, y: s.line(x, y + 6, x + 18, y + 6, t["ink"], 2.2)) + 24
+    legend_item(s, t, gx, gy, "Reported by the receiver", lambda x, y: s.line(x, y + 6, x + 18, y + 6, t["coral"], 2, dash="6 4"))
+    if all(r["fix_valid"] for r in tr):
+        s.text("Fix valid throughout: the receiver does not flag the event.", 40 + 24, gy + 26, 11.5, t["ink3"], "mono")
+    # right: error and C/N0 lanes
+    rx, rw = 40 + lw_ + 24, W - 80 - lw_ - 24
+    top2 = window(s, t, rx, wy, rw, wh, [("instructor log", "b"), ("·", "n"), ("debrief view", "n")], tag="Synthetic")
+    px, pw = rx + 230, rw - 230 - 36
+
+    def X(tt):
+        return px + tt / T1 * pw
+
+    def lane(y0, h0, title, unit_, vals, lo_, hi_, col, ticks):
+        s.text(title, rx + 20, y0 + 20, 14, t["ink"], "sans", 500)
+        s.text(unit_, rx + 20, y0 + 38, 11, t["ink3"], "mono")
+        if "onset" in tl and "recovered" in tl:
+            s.rect(X(tl["onset"]), y0, X(tl["recovered"]) - X(tl["onset"]), h0, fill=soft(t, "coral", t["panel"], 0.10))
+        for v in ticks:
+            y = y0 + h0 - (v - lo_) / (hi_ - lo_) * h0
+            s.line(px, y, px + pw, y, line(t, 0, t["panel"]), 1)
+            s.text(f"{v:,.0f}", px - 10, y + 4, 10.5, t["ink3"], "mono", anchor="end")
+        pts_ = [(X(r["t_s"]), y0 + h0 - (v - lo_) / (hi_ - lo_) * h0) for r, v in zip(tr, vals) if v is not None]
+        s.poly(pts_, stroke=col, sw=1.9)
+
+    err = [r["position_error_m"] for r in tr]
+    cn = [r["mean_cn0_dbhz"] for r in tr]
+    l1y, l1h = top2 + 20, 170
+    lane(l1y, l1h, "Reported minus true", "position, m", err, 0, max(e for e in err if e is not None) * 1.08, t["coral"],
+         nice_ticks(0, max(e for e in err if e is not None), 3))
+    l2y, l2h = l1y + l1h + 36, 170
+    cmin, cmax = min(c for c in cn if c is not None) - 2, max(c for c in cn if c is not None) + 2
+    lane(l2y, l2h, "Mean C/N0 reported", "dB-Hz", cn, cmin, cmax, t["cyan"], nice_ticks(cmin, cmax, 3))
+    if "onset" in tl:
+        s.text("event active", (X(tl["onset"]) + X(tl["recovered"])) / 2, l1y + l1h - 10, 10.5, t["coral"], "mono", 500, anchor="middle")
+    time_axis(s, t, X, l2y + l2h + 22, T1, 300)
+    s.text(fit_text("The raised, uniform C/N0 is one clue the trainer note names; the rest are in the log.", rw - 40, 10.5, "mono"),
+           rx + 20, wy + wh - 20, 10.5, t["ink3"], "mono")
+    cy = wy + wh + 28
+    advisory_block(s, t, 40, cy, W - 80, [
+        ("warn", d["warning"]),
+        ("adv", advisory),
+        ("note", "Positions, dates and tracks are invented: the library carries no real vessel, operator or recording, and makes no statement "
+                 "about how any receiver or system would perform against interference."),
+    ])
+    provenance(s, t, 40, H - 16, f"Engine v{d['version']} · scenarios/training/{d['scenario']}.toml · seed {d['seed']} · schema {d['schema']}")
+    return s
+
+
+
+# ---------- 4. Evidence pack structure ----------
+
+PACK_FILES = (
+    ("log-slice.bin", "the raw log bytes for the window", "cyan"),
+    ("config.json", "the scenario as run: thresholds, baseline, hash", "cyan"),
+    ("epochs.json", "every epoch: statistics, alarms, trust state", "cyan"),
+    ("summary.html", "script-free summary and the limits of the record", "cyan"),
+    ("manifest.json", "engine version, window, SHA-256 of the log and of every file, hash chain", "lime"),
+    ("manifest.sig", "Ed25519 signature over manifest.json", "lime"),
+    ("timestamp.tsr", "optional RFC 3161 timestamp token", "ink4"),
+)
+
+
+def pack_files_in_doc() -> list[str]:
+    """The pack's file names as docs/EVIDENCE-PACKS.md lists them, so the figure cannot drift from the page."""
+    names, on = [], False
+    for ln in (ROOT / "docs" / "EVIDENCE-PACKS.md").read_text().splitlines():
+        if ln.startswith("## "):
+            on = ln.strip() == "## What is in a pack"
+        elif on and ln.startswith("| `"):
+            names.append(ln.split("`")[1])
+    return names
+
+
+def evidence_pack(t: dict, version: str) -> Svg:
+    names = pack_files_in_doc()
+    if names != [n for n, _, _ in PACK_FILES]:
+        sys.exit(f"gen_readme_assets: docs/EVIDENCE-PACKS.md lists {names}, the figure draws {[n for n, _, _ in PACK_FILES]}")
+    W, H = 1280, 800
+    desc = ("The structure of an evidence pack. A receiver log (NMEA, u-blox UBX, RINEX 3 or an Android log) and a time window go into "
+            "kshana receiver-trust evidence, which writes seven files: log-slice.bin, config.json, epochs.json, summary.html, manifest.json, "
+            "manifest.sig and an optional timestamp.tsr. The manifest records the SHA-256 of the whole log and of every file and a hash chain over the files; "
+            "the signature covers the manifest. kshana evidence verify checks the signature, every file's hash, the chain and that no unlisted file is present, "
+            "and exits 0 when verified, 1 when something failed and 3 when the signer was not pinned. A pack is a technical record, not a legal opinion.")
+    s = Svg(W, H, "Evidence pack structure", desc)
+    card(s, t)
+    eyebrow(s, t, 40, 50, "Evidence packs · what is in one")
+    s.text("A signed record, checkable by anyone.", 40, 92, 32, t["ink"], "sans", 600, ls=-0.03)
+    # input and engine
+    node(s, t, 40, 190, 230, 150, "Input", "Receiver log", ["NMEA · u-blox UBX", "RINEX 3 · Android", "", "a window: --from, --to"], t["cyan"])
+    node(s, t, 330, 190, 270, 150, "Make", "receiver-trust evidence", ["scenario as run", "epochs, alarms, trust state", "", "signed with your key"], t["magenta"], strong=True)
+    arrow(s, t, [(270, 265), (330, 265)], t["ink3"])
+    # the files
+    fx, fw, fh, gap = 700, 330, 62, 12
+    fy0 = 130
+    s.text("PACK", fx, fy0 - 10, 10.5, t["ink3"], "mono", 500, ls=0.12)
+    ys = []
+    for i, (n, d_, key) in enumerate(PACK_FILES):
+        y = fy0 + i * (fh + gap)
+        ys.append(y)
+        glass(s, t, fx, y, fw, fh, r=12, fill=soft(t, key, t["panel"], 0.07) if key != "ink4" else None)
+        s.rect(fx + 14, y + 16, 8, 8, fill=t[key], r=2)
+        s.text(n, fx + 32, y + 24, 13.5, t["ink"], "mono", 500)
+        for j, ln in enumerate(wrap(d_, fw - 32, 12, "sans")):
+            s.text(ln, fx + 32, y + 42 + j * 15, 12, t["ink3"], "sans")
+    mid = (ys[0] + ys[-1] + fh) / 2
+    bx = 650
+    s.line(bx, ys[0] + fh / 2, bx, ys[-1] + fh / 2, t["ink3"], 1.4)
+    for y in ys:
+        arrow(s, t, [(bx, y + fh / 2), (fx - 2, y + fh / 2)], t["ink3"], 1.2)
+    s.poly([(600, 265), (bx, 265)], stroke=t["ink3"], sw=1.4)
+    # verify
+    vx = 1090
+    node(s, t, vx, 150, 150, 300, "Check", "evidence verify", [], t["lime"], strong=True)
+    for i, ln in enumerate(("signature", "file hashes", "hash chain", "no extra file")):
+        s.text(ln, vx + 16, 222 + i * 19, 12, t["ink2"], "mono")
+    for i, ln in enumerate(("exit 0", "verified", "", "exit 1", "failed", "", "exit 3", "intact, signer", "not pinned")):
+        if ln:
+            s.text(ln, vx + 16, 318 + i * 15, 11, t["ink3"], "mono")
+    rx_ = fx + fw + 28
+    s.line(rx_, ys[0] + fh / 2, rx_, ys[-1] + fh / 2, t["ink3"], 1.4)
+    for y in ys:
+        s.line(fx + fw + 2, y + fh / 2, rx_, y + fh / 2, t["ink3"], 1.2)
+    arrow(s, t, [(rx_, 265), (vx - 2, 265)], t["ink3"])
+    # the limit, in the docs' words
+    cy = ys[-1] + fh + 44
+    s.rect(40, cy - 22, W - 80, 2, fill=line(t, 0))
+    advisory_block(s, t, 40, cy + 8, W - 80, [
+        ("adv", "A pack is a technical record, not a legal opinion."),
+        ("note", "It states what the Kshana engine computed from a stated receiver log under a stated configuration, and lets anyone check that nothing in it was changed "
+                 "afterwards. It does not say what caused an event, who was responsible, whether any obligation was met, or that the log shows what the receiver really received."),
+    ], size=13)
+    provenance(s, t, 40, H - 16, f"Engine v{version} · docs/EVIDENCE-PACKS.md · kshana receiver-trust evidence · kshana evidence verify")
+    return s
+
+# --------------------------------------------------------------------------------------
 # Driver
 # --------------------------------------------------------------------------------------
 
@@ -2216,7 +2784,7 @@ def build(engine: Engine) -> dict[str, bytes]:
     manifest: dict = {"generator": "tools/gen_readme_assets.py", "engine_version": version,
                       "scenario_kinds": n_kinds, "matrix": matrix["summary"], "assets": {}}
 
-    def put(name: str, svg: Svg | None, sources: list[str], png: Image.Image | None = None):
+    def put(name: str, svg: Svg | None, sources: list[str], png: Image.Image | None = None, files: tuple = ()):
         for t in THEMES:
             fn = f"{name}-{t['name']}.{'png' if png is not None else 'svg'}"
             if png is not None:
@@ -2233,6 +2801,8 @@ def build(engine: Engine) -> dict[str, bytes]:
                  "scenario_hash": runs[k].get("scenario_hash"), "seed": runs[k].get("seed")} if k in runs else {"source": k}
                 for k in sources],
         }
+        if files:
+            manifest["assets"][name]["input_files"] = {fn: sha256_file(fn) for fn in files}
 
     put("kshana-mark", None, ["tools/readme-src/kshana-mark-mask.png"], png=lambda t: mark_image(t))
     put("kshana-logo", lambda t: logo_lockup(t), ["tools/readme-src/kshana-mark-mask.png", "tools/readme-fonts/Unbounded-wght.ttf"])
@@ -2250,6 +2820,24 @@ def build(engine: Engine) -> dict[str, bytes]:
     put("architecture", lambda t: architecture(t, n_kinds, matrix["summary"], len(tools), version),
         ["kshana kinds --json", "web/data/verification-matrix.json", "mcp/kshana-mcp/src/server.rs", "docs/PRO.md"])
     put("research", lambda t: research(t), ["export.arxiv.org/api/query (titles, dates, categories, 2026-09-30)"])
+    # The 0.35 figures: committed synthetic inputs and real runs of this engine.
+    trust = load_trust(engine)
+    imap = load_imap(engine)
+    training = load_training(engine)
+    advisory = trust["result"]["advisory"]
+    put("trust-timeline", lambda t: trust_timeline(t, trust),
+        ["kshana receiver-trust examples/maritime-trust/session.toml"],
+        files=("examples/maritime-trust/session.toml", "examples/maritime-trust/tallinn-helsinki.nmea",
+               "examples/maritime-trust/tallinn-helsinki.truth.csv"))
+    put("interference-map", lambda t: interference_map(t, imap),
+        ["kshana route-exposure examples/interference-map (two sample days, two synthetic routes)"],
+        files=tuple(imap["adsb"]["files"] + imap["ais"]["files"]))
+    put("training-track", lambda t: training_track(t, training, advisory),
+        ["kshana nmea-scenario scenarios/training/coastal-drag-off.toml"],
+        files=("scenarios/training/coastal-drag-off.toml",))
+    # The page embeds this figure, so it is not hashed here; the file list it states is what is drawn.
+    put("evidence-pack", lambda t: evidence_pack(t, version),
+        ["docs/EVIDENCE-PACKS.md, section 'What is in a pack': " + ", ".join(pack_files_in_doc())])
     manifest["mcp_tools"] = tools
     # Kshana Studio screenshots: taken from the running Studio by tools/capture_studio_shots.mjs,
     # not drawn here. They are recorded (hash and the capture record in studio/SHOTS.json) so a
@@ -2274,6 +2862,32 @@ def build(engine: Engine) -> dict[str, bytes]:
     return out
 
 
+# Where each 0.35 figure is embedded. The alt text there must be the SVG's own <desc>, so what a
+# reader who cannot see the figure is told is what the figure shows, number for number.
+FIGURE_PAGES = {
+    "trust-timeline": ("README.md", "docs/MARITIME-TRUST.md", "docs/RECEIVER-TRUST.md"),
+    "interference-map": ("README.md", "docs/INTERFERENCE-MAP.md"),
+    "training-track": ("README.md", "docs/NMEA-TRAINING.md"),
+    "evidence-pack": ("README.md", "docs/EVIDENCE-PACKS.md"),
+}
+
+
+def svg_desc(svg: bytes) -> str:
+    m = re.search(r'<desc id="d">(.*?)</desc>', svg.decode(), re.S)
+    return m.group(1) if m else ""
+
+
+def check_alt_text(assets: dict[str, bytes]) -> list[tuple[str, str]]:
+    bad = []
+    for name, pages in FIGURE_PAGES.items():
+        want = f'alt="{svg_desc(assets[f"{name}-light.svg"])}"'
+        for page in pages:
+            path = ROOT / page
+            if path.exists() and f"{name}-light.svg" in path.read_text() and want not in path.read_text():
+                bad.append((page, name))
+    return bad
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     ap.add_argument("--kshana", help="the kshana binary (default: $KSHANA_BIN, target/release/kshana, PATH)")
@@ -2291,7 +2905,10 @@ def main() -> int:
             print(f"stale: {out / n}")
         for n in extra:
             print(f"not generated by this script: {out / n}")
-        return 1 if stale or extra else 0
+        bad_alt = check_alt_text(assets)
+        for page, name in bad_alt:
+            print(f"alt text of {name} in {page} is not the figure's own description")
+        return 1 if stale or extra or bad_alt else 0
     out.mkdir(parents=True, exist_ok=True)
     total = 0
     for n, b in sorted(assets.items()):

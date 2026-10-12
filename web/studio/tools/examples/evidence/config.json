@@ -1,0 +1,88 @@
+{
+  "advisory": "Advisory software, not type-approved navigation equipment (IEC 61108, IEC 61162): the operator remains responsible for the navigation of the vessel.",
+  "baseline": {
+    "agc_mean": null,
+    "agc_sd": null,
+    "calibration_epochs": 300,
+    "clock_bound_ns": null,
+    "cn0_median_dbhz": 46.0,
+    "jam_ind_median": null,
+    "tracked_median": 13.0
+  },
+  "honesty_label": "MEASURED log, MODELLED assessment: the observables are the receiver's own; the monitors and their thresholds are the engine's and the scenario's, and a stated prediction is compared with the log, not fitted to it",
+  "monitors_run": [
+    "cn0-drop",
+    "loss-of-lock",
+    "kinematic",
+    "heading-course",
+    "speed-log",
+    "sea-level",
+    "cn0-spread",
+    "cn0-rise",
+    "time-consistency"
+  ],
+  "scenario": {
+    "compare": {
+      "cn0_tol_db": 3.0,
+      "detect_tol_s": 10.0,
+      "horizon_s": 300.0
+    },
+    "events": [],
+    "kind": "receiver-trust",
+    "log": {
+      "base64": null,
+      "format": "nmea",
+      "nav": null,
+      "path": "tallinn-helsinki.nmea",
+      "text": null
+    },
+    "monitors": {
+      "agc_k_sigma": 5.0,
+      "calibration_s": 300.0,
+      "clock_monitor": true,
+      "cn0_drop_db": 6.0,
+      "cn0_min_sats": 4,
+      "jam_ind_threshold": 80.0,
+      "mask_deg": 10.0,
+      "platform": {
+        "antenna_height_m": 18.0,
+        "heading_sensor": true,
+        "kind": "vessel",
+        "max_accel_mps2": 0.2,
+        "max_speed_kn": 22.0,
+        "max_turn_rate_dps": 2.0
+      },
+      "position_jump_m": 50.0,
+      "raim_pfa": 0.00001,
+      "raim_sigma_m": 3.0,
+      "sats_lost": 4,
+      "score": {
+        "degraded_min": 55.0,
+        "evidence_hold_s": 10.0,
+        "full_ratio": 1.5,
+        "nominal_min": 90.0,
+        "onset_ratio": 0.5,
+        "weights": {
+          "agc": 25.0,
+          "clock": 60.0,
+          "cn0-drop": 30.0,
+          "cn0-rise": 30.0,
+          "cn0-spread": 30.0,
+          "heading-course": 40.0,
+          "jam-ind": 25.0,
+          "kinematic": 60.0,
+          "loss-of-lock": 25.0,
+          "osnma": 70.0,
+          "position-jump": 60.0,
+          "raim": 60.0,
+          "sea-level": 30.0,
+          "solve-failure": 40.0,
+          "speed-log": 40.0,
+          "time-consistency": 60.0
+        }
+      }
+    },
+    "name": "Synthetic Gulf of Finland passage with a position drag-off"
+  },
+  "scenario_hash": "ce82e60d3ab5ace53f77c44678613a78737a050377c4ca37ec7a261239eea332"
+}

@@ -541,6 +541,7 @@ fn site_visible_text(html: &str) -> String {
 fn the_mcp_readme_lists_exactly_the_tools_the_server_serves() {
     let server = include_str!("../mcp/kshana-mcp/src/server.rs");
     let iq = include_str!("../mcp/kshana-mcp/src/iq.rs");
+    let marine = include_str!("../mcp/kshana-mcp/src/marine.rs");
     let readme = include_str!("../mcp/kshana-mcp/README.md");
 
     // `iq.rs`'s tools are served only because `server.rs` merges `iq_tool_router` into the
@@ -554,11 +555,19 @@ fn the_mcp_readme_lists_exactly_the_tools_the_server_serves() {
         "mcp/kshana-mcp/src/server.rs no longer visibly merges iq_tool_router (from src/iq.rs) \
          into the router it serves, so this guard cannot count iq.rs's tools as served"
     );
+    // Likewise `marine.rs`'s tools (maritime trust, training NMEA, interference map).
+    assert!(
+        marine.contains("#[tool_router(router = marine_tool_router")
+            && collapsed.contains("Self::marine_tool_router()"),
+        "mcp/kshana-mcp/src/server.rs no longer visibly merges marine_tool_router (from \
+         src/marine.rs) into the router it serves, so this guard cannot count marine.rs's \
+         tools as served"
+    );
 
     // A tool is a `fn` carrying the `#[tool(...)]` attribute. The attribute spans several
     // lines (it holds the whole description), so take the first `fn` after each one.
     let mut served: Vec<&str> = Vec::new();
-    for source in [server, iq] {
+    for source in [server, iq, marine] {
         let mut in_attr = false;
         for line in source.lines() {
             let t = line.trim_start();
@@ -601,7 +610,7 @@ fn the_mcp_readme_lists_exactly_the_tools_the_server_serves() {
     assert!(
         undocumented.is_empty() && unserved.is_empty(),
         "mcp/kshana-mcp/README.md's Tools table is out of step with what \
-         mcp/kshana-mcp/src/server.rs and src/iq.rs serve. Served but undocumented: {undocumented:?}. \
+         mcp/kshana-mcp/src/server.rs, src/iq.rs and src/marine.rs serve. Served but undocumented: {undocumented:?}. \
          Documented but not served: {unserved:?}. Add or remove the table row; the README \
          is what an agent operator reads to know what the server can do."
     );

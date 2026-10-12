@@ -22,7 +22,9 @@ const sha = (buf) => createHash("sha256").update(buf).digest("hex");
 
 const manifest = JSON.parse(text("PORT-MANIFEST.json"));
 const ported = Object.keys(manifest.files);
-const isPage = (rel) => rel.endsWith(".html") && !rel.startsWith("assets/");
+// Sample data the Studio views read (including engine-written HTML such as an evidence pack's summary.html) is not a page.
+const SAMPLE_DIRS = ["studio/tools/examples/", "studio/tools/samples/", "studio/trust/demo/", "studio/trust/generic/", "studio/training/demo/", "studio/interference/demo/"];
+const isPage = (rel) => rel.endsWith(".html") && !rel.startsWith("assets/") && !SAMPLE_DIRS.some((d) => rel.startsWith(d));
 const NOT_FOUND = "404.html"; // served by GitHub Pages for a missing address; not a page of the site map
 // The pages at addresses that moved (web/tools/legacy-urls.json "paths": the Studio's old
 // /playground/) only forward; they are not pages of the site map.
@@ -30,7 +32,7 @@ const MOVED = Object.keys(JSON.parse(text("tools/legacy-urls.json")).redirects.p
 // The Studio's Advanced view (the full dashboard) is a second page of the Studio app: a view of
 // /studio/, noindex, so it is not a page of the site map either. Its <base href="../"> makes its
 // relative addresses resolve from the Studio's own folder.
-const VIEWS = ["studio/advanced/index.html"];
+const VIEWS = ["studio/advanced/index.html", "studio/trust/index.html", "studio/interference/index.html", "studio/training/index.html", "studio/tools/index.html"];
 const pages = ported.filter((rel) => isPage(rel) && rel !== NOT_FOUND && !MOVED.includes(rel) && !VIEWS.includes(rel));
 const indexed = pages;
 for (const rel of MOVED) {
@@ -117,13 +119,17 @@ const studioTomls = readdirSync(join(WEB, "studio/scenarios")).filter((f) => f.e
 assert.ok(studioTomls.length > 40, `the Studio bundles only ${studioTomls.length} scenarios`);
 // Every scenario file anywhere in the Studio is this checkout's scenario of the same name.
 const allStudioTomls = ported.filter((rel) => rel.startsWith("studio/") && rel.endsWith(".toml"));
+// (0.35.0: the session and example files the trust, interference and tools views read are data, not scenarios;
+// the training view's four files are the engine's nmea-scenario library in scenarios/training/.)
+const SAMPLE_TOML_DIRS = ["studio/trust/demo/", "studio/trust/generic/", "studio/interference/demo/", "studio/tools/examples/", "studio/tools/samples/"];
 for (const rel of allStudioTomls) {
+  if (SAMPLE_TOML_DIRS.some((d) => rel.startsWith(d))) continue;
   const f = rel.split("/").pop();
-  const repoCopy = join(REPO, "scenarios", f);
+  const repoCopy = rel.startsWith("studio/training/scenarios/") ? join(REPO, "scenarios", "training", f) : join(REPO, "scenarios", f);
   assert.ok(existsSync(repoCopy), `${rel} is not in scenarios/`);
   assert.ok(bytes(rel).equals(readFileSync(repoCopy)), `${rel} differs from scenarios/${f}: rerun the port`);
 }
-const studioScenarioNames = new Set(allStudioTomls.map((rel) => rel.split("/").pop()));
+const studioScenarioNames = new Set(allStudioTomls.filter((rel) => !SAMPLE_TOML_DIRS.some((d) => rel.startsWith(d)) && !rel.startsWith("studio/training/scenarios/")).map((rel) => rel.split("/").pop()));
 const bundle = JSON.parse(text("studio/scenarios/index.json"));
 assert.deepEqual(Object.keys(bundle).sort(), studioTomls, "studio/scenarios/index.json bundles exactly the scenario files beside it");
 for (const f of studioTomls) assert.equal(bundle[f], text(`studio/scenarios/${f}`), `index.json's ${f} is the file's text`);
@@ -148,7 +154,7 @@ let links = 0;
 let studioLinks = 0;
 for (const rel of [...pages, NOT_FOUND, ...MOVED, ...VIEWS]) {
   const dir = linkDir(rel, text(rel));
-  const html = text(rel).replace(/<script\b[\s\S]*?<\/script>/g, " ");
+  const html = text(rel).replace(/<script\b[\s\S]*?<\/script[^>]*>/gi, " ");
   for (const m of html.matchAll(/\s(?:href|src)="([^"]*)"/g)) {
     const raw = m[1].replace(/&amp;/g, "&");
     if (/^([a-z][a-z0-9+.-]*:|\/\/)/i.test(raw) || raw === "") continue; // external, mailto:, data:
@@ -253,7 +259,7 @@ for (const rel of ported) {
       }
     }
     for (const st of body.matchAll(/<style\b[^>]*>([\s\S]*?)<\/style>/gi)) for (const m of st[1].matchAll(CSS_REMOTE)) remote.push(`${rel}: inline style loads ${(m[1] || m[2]).slice(0, 80)}`);
-    for (const sc of body.matchAll(/<script\b(?![^>]*\bsrc=)(?![^>]*application\/(?:ld\+)?json)[^>]*>([\s\S]*?)<\/script>/gi)) for (const m of sc[1].matchAll(JS_REMOTE)) remote.push(`${rel}: inline script loads ${m[1].slice(0, 80)}`);
+    for (const sc of body.matchAll(/<script\b(?![^>]*\bsrc=)(?![^>]*application\/(?:ld\+)?json)[^>]*>([\s\S]*?)<\/script[^>]*>/gi)) for (const m of sc[1].matchAll(JS_REMOTE)) remote.push(`${rel}: inline script loads ${m[1].slice(0, 80)}`);
   } else if (rel.endsWith(".css")) {
     for (const m of body.matchAll(CSS_REMOTE)) remote.push(`${rel}: loads ${(m[1] || m[2]).slice(0, 80)}`);
   } else if (!rel.endsWith(".test.mjs")) {
@@ -320,7 +326,7 @@ assert.ok(nf.includes('<meta name="robots" content="noindex">'), "404.html is no
 assert.ok(!nf.includes("<base "), "404.html uses root-absolute addresses, not <base> (which would re-point its fragment links)");
 assert.ok(!sitemap.includes("404"), "404.html is not in the sitemap");
 assert.ok(!nf.includes("legacy-redirects.js") && !nf.includes('rel="canonical"'), "404.html neither redirects nor claims a canonical address");
-for (const m of nf.replace(/<script\b[\s\S]*?<\/script>/g, (sc) => (sc.includes(" src=") ? sc : " ")).matchAll(/\s(?:href|src)="([^"]*)"/g)) {
+for (const m of nf.replace(/<script\b[\s\S]*?<\/script[^>]*>/gi, (sc) => (sc.includes(" src=") ? sc : " ")).matchAll(/\s(?:href|src)="([^"]*)"/g)) {
   assert.ok(/^(\/|#|[a-z][a-z0-9+.-]*:)/i.test(m[1]), `404.html: relative address ${m[1]} would break below the site root`);
 }
 for (const to of ["/", "/docs/", "/studio/"]) assert.ok(nf.includes(`href="${to}"`), `404.html links to ${to}`);

@@ -42,6 +42,7 @@ removed. The port needs no network.
 import argparse
 import hashlib
 import html
+import html.parser
 import json
 import os
 import re
@@ -81,12 +82,14 @@ STUDIO_DATA = {
     "data/standards-matrix-map.json": "data/standards-matrix-map.json",
     "data/verification-matrix.json": "data/verification-matrix.json",
 }
-STUDIO_SKIP_NAMES = {"selfcheck.mjs", "PARITY.md", "PROGRESS.md"}
+STUDIO_SKIP_NAMES = {"selfcheck.mjs", "PARITY.md", "PROGRESS.md", "RERECORD.md"}
 # Folders of review material in a Studio folder (screenshots, gate scripts, their reports).
 STUDIO_SKIP_DIRS = {"REVIEW"}
 # The Studio's pages: the Simple view, and the Advanced view (the full dashboard), which has
 # <base href="../"> so it shares the Simple view's engine, worker, modules and data.
-STUDIO_PAGES = ("index.html", "advanced/index.html")
+# Since 0.35.0 it also has four views: the maritime trust view, the interference map, the training debrief and
+# the tools page (each with <base href="../">, noindex, and a demo/ or examples/ folder of synthetic data its test reads).
+STUDIO_PAGES = ("index.html", "advanced/index.html", "trust/index.html", "interference/index.html", "training/index.html", "tools/index.html")
 STUDIO_SKIP_RE = re.compile(r"^(tools_.*\.mjs|.*\.d\.ts|\..*)$")
 
 TEXT_EXT = (".html", ".css", ".js", ".mjs", ".json", ".txt", ".xml", ".svg", ".toml", ".md")
@@ -94,7 +97,10 @@ TEXT_EXT = (".html", ".css", ".js", ".mjs", ".json", ".txt", ".xml", ".svg", ".t
 DEV_PATH = re.compile(r"/Users/(?!you/)[A-Za-z0-9._-]+/|/home/[a-z][a-z0-9._-]*/(?:Code|code|src|work)/|~/Code/|kshana-wt-[a-z0-9-]+|kshana-site-next")
 # An engine report prints the command it was run with, scenario path included. A recorder
 # that ran the engine on a temporary copy leaves that machine's path in the report.
-REPORT_CMD = re.compile(r"(kshana )(?:/[^\s<>\"'&]+)*/([a-z0-9][a-z0-9-]*\.toml)")
+# One optional group with a single quantifier, so the match is linear in the text: an absolute path (any
+# directories, no whitespace, markup or quote characters) ending in a scenario file name. The earlier form
+# repeated a group whose pieces could themselves contain "/", which let a long path backtrack exponentially.
+REPORT_CMD = re.compile(r"(kshana )/(?:[^\s<>\"'&]*/)?([a-z0-9][a-z0-9-]*\.toml)")
 
 # The first bytes of a Git LFS pointer file. The site source keeps its binaries (the Studio's
 # WebAssembly package, its native recordings, images) in Git LFS; a checkout without
@@ -113,6 +119,16 @@ def note(msg):
 
 def fail(msg):
     errors.append(msg)
+
+
+def source_revision(folder):
+    """{"revision": <git HEAD of the checkout holding `folder`>, "dirty": <uncommitted changes under it>}, or None."""
+    import subprocess
+    try:
+        run = lambda *c: subprocess.run(["git", "-C", folder, *c], capture_output=True, text=True, check=True).stdout.strip()
+        return {"revision": run("rev-parse", "HEAD"), "dirty": bool(run("status", "--porcelain", "--", "."))}
+    except (OSError, subprocess.CalledProcessError):
+        return None
 
 
 def rb(path):
@@ -248,27 +264,79 @@ def localise(rel, text):
 # What makes a browser fetch from another host: a resource tag, a stylesheet url() or @import,
 # a module import, a fetch or a worker. A link a reader clicks (<a href>) is not one, and
 # neither is the canonical link or a social-card address (metadata a crawler reads).
-_TAG = re.compile(r"<(link|script|img|source|iframe|video|audio|embed|object|use|image|track|input)\b[^>]*>", re.I)
-_ATTR = re.compile(r'\b(?:href|src|srcset|data|poster|xlink:href)\s*=\s*"((?:https?:)?//[^"]*)"', re.I)
+_RESOURCE_TAGS = frozenset(("link", "script", "img", "source", "iframe", "video", "audio", "embed", "object", "use", "image", "track", "input"))
+_RESOURCE_ATTRS = ("href", "src", "srcset", "data", "poster", "xlink:href")
+_REMOTE_ADDRESS = re.compile(r"(?:https?:)?//", re.I)
 _CSS = re.compile(r"url\(\s*['\"]?((?:https?:)?//[^)'\"]+)|@import\s+(?:url\()?['\"]?((?:https?:)?//[^'\");]+)", re.I)
 _JS = re.compile(r"(?:\bfrom\s*|\bimport\s*\(\s*|\bfetch\s*\(\s*|\bWorker\s*\(\s*|\bimportScripts\s*\(\s*|\bEventSource\s*\(\s*|\bWebSocket\s*\(\s*)[\"'`]((?:https?:|wss?:)?//[^\"'`]+)", re.I)
-_IMPORTMAP = re.compile(r'<script type="importmap">([\s\S]*?)</script>', re.I)
+
+
+class _InlineBlocks(html.parser.HTMLParser):
+    """The text of every inline <style> and <script> element, with the script's attributes.
+
+    A parser, not a pattern: a closing tag may be `</script >` or carry attributes, a start tag may use
+    single quotes or any case, and none of that is easy to match with a regular expression. The parser
+    reads the page once, in linear time."""
+
+    def __init__(self):
+        super().__init__(convert_charrefs=False)
+        self.blocks = []          # (tag, attrs dict, text)
+        self.requests = []        # addresses on another host that a resource tag asks the browser for
+        self._open = None
+
+    def handle_starttag(self, tag, attrs):
+        values = {k: (v or "") for k, v in attrs}
+        if tag in _RESOURCE_TAGS and not (tag == "link" and values.get("rel", "").lower() == "canonical"):
+            self.requests += [values[a] for a in _RESOURCE_ATTRS if _REMOTE_ADDRESS.match(values.get(a, ""))]
+        if tag in ("style", "script"):
+            self._open = [tag, values, []]
+
+    def handle_startendtag(self, tag, attrs):
+        self.handle_starttag(tag, attrs)
+        if tag in ("style", "script"):
+            self.handle_endtag(tag)
+
+    def handle_data(self, data):
+        if self._open is not None:
+            self._open[2].append(data)
+
+    def handle_endtag(self, tag):
+        if self._open is not None and tag == self._open[0]:
+            self.blocks.append((self._open[0], self._open[1], "".join(self._open[2])))
+            self._open = None
+
+    def close(self):
+        super().close()
+        if self._open is not None:           # an unterminated element still counts, as a browser reads it
+            self.blocks.append((self._open[0], self._open[1], "".join(self._open[2])))
+            self._open = None
+
+
+def read_markup(text):
+    """(inline blocks, resource addresses) of a page, read once by the parser."""
+    parser = _InlineBlocks()
+    parser.feed(text)
+    parser.close()
+    return parser.blocks, parser.requests
+
+
+def inline_blocks(text):
+    return read_markup(text)[0]
 
 
 def third_party_requests(rel, text):
     """Addresses on another host that loading this file would make a browser request."""
     found = []
     if rel.endswith(".html"):
-        for tag in _TAG.finditer(text):
-            if re.search(r'\brel="canonical"', tag.group(0)):
-                continue
-            found += [m.group(1) for m in _ATTR.finditer(tag.group(0))]
-        for im in _IMPORTMAP.finditer(text):
-            found += re.findall(r'"((?:https?:)?//[^"]+)"', im.group(1))
-        for style in re.findall(r"<style\b[^>]*>([\s\S]*?)</style>", text, re.I):
-            found += [a or b for a, b in _CSS.findall(style)]
-        for script in re.findall(r"<script\b(?![^>]*\bsrc=)(?![^>]*application/(?:ld\+)?json)[^>]*>([\s\S]*?)</script>", text, re.I):
-            found += _JS.findall(script)
+        blocks, requests = read_markup(text)
+        found += requests
+        for tag, attrs, body in blocks:
+            if tag == "style":
+                found += [a or b for a, b in _CSS.findall(body)]
+            elif attrs.get("type", "").lower() == "importmap":
+                found += re.findall(r'"((?:https?:)?//[^"]+)"', body)
+            elif "src" not in attrs and attrs.get("type", "").lower() not in ("application/json", "application/ld+json"):
+                found += _JS.findall(body)
     elif rel.endswith(".css"):
         found += [a or b for a, b in _CSS.findall(text)]
     elif rel.endswith((".js", ".mjs")) and not rel.endswith(".test.mjs"):
@@ -321,9 +389,15 @@ def not_found_page(index_text, studio_name):
     return text
 
 
+# Sample data the Studio's views read (0.35.0): synthetic logs, session files and example outputs, among them
+# engine-written HTML (an evidence pack's summary.html). They are data, not pages of the site map.
+SAMPLE_DIRS = ("studio/tools/examples/", "studio/tools/samples/", "studio/trust/demo/", "studio/trust/generic/",
+               "studio/training/demo/", "studio/interference/demo/")
+
+
 def is_page(rel):
-    """A site page, as opposed to an engine report shipped as an asset (those stay byte-for-byte)."""
-    return rel.endswith(".html") and not rel.startswith("assets/")
+    """A site page, as opposed to an engine report shipped as an asset (those stay byte-for-byte) or Studio sample data."""
+    return rel.endswith(".html") and not rel.startswith("assets/") and not rel.startswith(SAMPLE_DIRS)
 
 
 def canonical(rel):
@@ -573,6 +647,17 @@ def collect_studio(studio, site, version, summ, out, skip):
                 data = rb(os.path.join(WEB, STUDIO_DATA[rel]))
                 if data != rb(src):
                     stale_data.append(rel)
+            elif fn.endswith(".toml") and rel.startswith(("trust/demo/", "trust/generic/", "interference/demo/", "tools/examples/", "tools/samples/")):
+                data = rb(src)  # a session or example file the view reads, not a scenario
+            elif fn.endswith(".toml") and rel.startswith("training/scenarios/"):
+                # the nmea-scenario library the training view offers: the engine's own files (scenarios/training/)
+                repo_copy = os.path.join(REPO, "scenarios", "training", fn)
+                if not os.path.isfile(repo_copy):
+                    fail(f"Studio training scenario {rel} is not in this checkout's scenarios/training/")
+                    continue
+                data = rb(repo_copy)
+                if data != rb(src):
+                    stale_toml.append(rel)
             elif fn.endswith(".toml"):
                 # A scenario the Studio carries is the engine's scenario of the same name.
                 repo_copy = os.path.join(REPO, "scenarios", fn)
@@ -725,6 +810,10 @@ def main():
                 "web/site.test.mjs checks the tree against it; do not edit a listed file by hand, rerun the port.",
         "version": version,
         "studio": json.loads(out[f"{STUDIO_DIR}/channels.json"])["studio"] if f"{STUDIO_DIR}/channels.json" in out else None,
+        # Which revisions of the site source and of the Studio source this port was made from (git, as found
+        # in the folders given; null outside a git checkout). Not compared by --check: committing the source
+        # afterwards moves them without changing a ported byte.
+        "sources": {"site": source_revision(a.site), "studio": source_revision(a.studio)},
         "files": {rel: sha(out[rel]) for rel in sorted(out)},
     }
     out[MANIFEST] = (json.dumps(manifest, ensure_ascii=False, indent=1) + "\n").encode("utf-8")
@@ -742,6 +831,12 @@ def main():
         old = json.load(open(mpath, encoding="utf-8")).get("files", {})
     stale = sorted(r for r in set(old) | set(RETIRED) if r not in out and os.path.isfile(os.path.join(WEB, r)))
     changed = sorted(r for r in out if not os.path.isfile(os.path.join(WEB, r)) or rb(os.path.join(WEB, r)) != out[r])
+    if a.check and MANIFEST in changed and os.path.isfile(mpath):
+        # the recorded source revisions are informational (see above): everything else in the manifest must match
+        _now, _then = json.loads(out[MANIFEST]), json.load(open(mpath, encoding="utf-8"))
+        _now.pop("sources", None), _then.pop("sources", None)
+        if _now == _then:
+            changed.remove(MANIFEST)
 
     if a.check:
         for r in changed:
