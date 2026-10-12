@@ -41,6 +41,7 @@ use serde::{Deserialize, Serialize};
 use super::{LogEpoch, ReportedDop, SatSky};
 use crate::orbit::dop;
 use crate::portable_math::PortableFloat;
+use crate::skyline::{Skyline, SkylineSummary};
 
 /// The `[geometry]` table.
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
@@ -80,12 +81,13 @@ pub struct GeometryCfg {
     pub reported_vs_derived_rel: f64,
     /// Elevation below which a lost satellite counts as lost to the sky, degrees. Default 15
     /// (design note, 4.3): when every satellite lost against the baseline was below it at its
-    /// last report, `loss-of-lock` is classed `geometry`. A skyline (0.36 item 1) will extend
-    /// this to satellites behind a stated obstruction.
+    /// last report, `loss-of-lock` is classed `geometry`. With a stated `[skyline]` a satellite
+    /// behind the stated obstruction at its last report counts as lost to the sky as well.
     pub low_elev_deg: f64,
     /// Largest azimuth gap between tracked satellites at or above which the reason
     /// `sky-blocked` is reported, degrees. Default 180: every tracked satellite in one half
-    /// of the horizon. Geometric, informational: it does not enter the ratio.
+    /// of the horizon. Geometric, informational: it does not enter the ratio. The fallback
+    /// rule: with a stated `[skyline]`, `sky-blocked` comes from the skyline instead.
     pub azimuth_gap_deg: f64,
     /// HDOP at or below which the geometry is labelled `good` (with `pdop_good` and
     /// `used_good`). Default 2: half of `hdop_max`. REPRESENTATIVE: the label only, never the
@@ -360,8 +362,9 @@ pub enum GeometryReason {
     HighPdop,
     /// HDOP above `hdop_max`.
     HighHdop,
-    /// The tracked satellites leave an azimuth gap of `azimuth_gap_deg` or more
-    /// (informational; not in the ratio).
+    /// With a stated skyline: at least one satellite the receiver lists is behind it and not
+    /// tracked. Without one (the fallback): the tracked satellites leave an azimuth gap of
+    /// `azimuth_gap_deg` or more. Informational; not in the ratio.
     SkyBlocked,
 }
 
@@ -395,8 +398,9 @@ pub struct EpochGeometry {
     pub pdop: Option<f64>,
     /// Vertical DOP, rounded to 0.001.
     pub vdop: Option<f64>,
-    /// Fraction of the sky open above a stated skyline; `null` until a skyline is configured
-    /// (0.36 item 1).
+    /// Fraction of the upper hemisphere's solid angle above the stated skyline (the
+    /// scenario's `[skyline]` section), rounded to 0.001; `null` without a stated skyline or
+    /// when the geometry is unknown.
     pub open_fraction: Option<f64>,
     /// Largest azimuth gap between tracked satellites, degrees, rounded to 0.1 (derived, four
     /// or more satellites).
@@ -424,6 +428,11 @@ pub struct EpochGeometry {
     /// the score deducts only for `poor`.
     #[serde(default)]
     pub label: GeometryLabel,
+    /// With a stated skyline only (absent otherwise): satellites the receiver lists above the
+    /// horizon, not tracked, and behind the stated skyline at their azimuth: lost to the sky.
+    /// One or more makes the reason `sky-blocked`.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub behind_skyline: Option<usize>,
 }
 
 impl EpochGeometry {
@@ -450,6 +459,7 @@ impl EpochGeometry {
             in_view: None,
             signal_loss: false,
             label: GeometryLabel::Unknown,
+            behind_skyline: None,
         }
     }
 
@@ -629,9 +639,14 @@ fn finish_status(mut g: EpochGeometry, cfg: &GeometryCfg) -> EpochGeometry {
     if g.hdop.is_some_and(|h| h > cfg.hdop_max) {
         reasons.push(GeometryReason::HighHdop);
     }
-    if g.max_azimuth_gap_deg
-        .is_some_and(|gap| gap >= cfg.azimuth_gap_deg)
-    {
+    // A stated skyline decides `sky-blocked`; without one, the azimuth gap (the fallback).
+    let blocked = match g.behind_skyline {
+        Some(m) => m > 0,
+        None => g
+            .max_azimuth_gap_deg
+            .is_some_and(|gap| gap >= cfg.azimuth_gap_deg),
+    };
+    if blocked {
         reasons.push(GeometryReason::SkyBlocked);
     }
     let from = match g.source {
@@ -681,10 +696,13 @@ fn finish_status(mut g: EpochGeometry, cfg: &GeometryCfg) -> EpochGeometry {
             parts.push(format!("HDOP {} above {}", fmt_dop(g.hdop), cfg.hdop_max));
         }
         if reasons.contains(&GeometryReason::SkyBlocked) {
-            parts.push(format!(
-                "every satellite in one half of the sky (gap {} deg)",
-                g.max_azimuth_gap_deg.unwrap_or(0.0)
-            ));
+            parts.push(match g.behind_skyline {
+                Some(m) => format!("{m} satellites behind the stated skyline"),
+                None => format!(
+                    "every satellite in one half of the sky (gap {} deg)",
+                    g.max_azimuth_gap_deg.unwrap_or(0.0)
+                ),
+            });
         }
         format!(
             "degraded by geometry: {} ({from}); not an inconsistency",
@@ -700,18 +718,35 @@ fn finish_status(mut g: EpochGeometry, cfg: &GeometryCfg) -> EpochGeometry {
     g
 }
 
-/// The derived geometry of one epoch's sky.
-fn from_sky(sky: &[SatSky], age_s: f64, cfg: &GeometryCfg) -> EpochGeometry {
+/// Whether a satellite at (`az_deg`, `el_deg`) is behind the stated skyline: below its cut
+/// at that azimuth (the skyline alone, no receiver mask). False without a skyline.
+fn behind(skyline: Option<&Skyline>, az_deg: f64, el_deg: f64) -> bool {
+    skyline.is_some_and(|k| !k.is_empty() && !k.visible(az_deg, el_deg, 0.0))
+}
+
+/// The derived geometry of one epoch's sky, under an optional stated skyline.
+fn from_sky(
+    sky: &[SatSky],
+    age_s: f64,
+    cfg: &GeometryCfg,
+    skyline: Option<&Skyline>,
+) -> EpochGeometry {
     let used: Vec<&SatSky> = sky
         .iter()
         .filter(|s| s.tracked && s.elev_deg >= 0.0)
         .collect();
     let n = used.len();
-    // Listed at or above low_elev_deg, tracked or not: the sky the receiver says it has.
+    // Listed at or above low_elev_deg, tracked or not: the sky the receiver says it has. With
+    // a stated skyline, a satellite behind it is not in that sky: it is lost to the sky.
     let listed: Vec<&SatSky> = sky
         .iter()
-        .filter(|s| s.elev_deg >= cfg.low_elev_deg)
+        .filter(|s| s.elev_deg >= cfg.low_elev_deg && !behind(skyline, s.azim_deg, s.elev_deg))
         .collect();
+    let behind_skyline = skyline.map(|_| {
+        sky.iter()
+            .filter(|s| !s.tracked && s.elev_deg >= 0.0 && behind(skyline, s.azim_deg, s.elev_deg))
+            .count()
+    });
     let untracked: Vec<f64> = listed
         .iter()
         .filter(|s| !s.tracked)
@@ -726,8 +761,11 @@ fn from_sky(sky: &[SatSky], age_s: f64, cfg: &GeometryCfg) -> EpochGeometry {
     let in_view_good = listed.len() >= cfg.min_used
         && in_view_dop.is_some_and(|d| d.pdop <= cfg.pdop_max && d.hdop <= cfg.hdop_max);
     // An obstruction on one side leaves its untracked satellites in one half of the horizon;
-    // a loss with nothing tracked, or spread round the sky, is the signal environment.
-    let spread = max_azimuth_gap_deg(&untracked).is_some_and(|g| g < cfg.azimuth_gap_deg);
+    // a loss with nothing tracked, or spread round the sky, is the signal environment. With a
+    // stated skyline the obstruction is known: a satellite in the open sky it leaves that is
+    // not tracked is the signal environment, wherever it is.
+    let spread = skyline.is_some()
+        || max_azimuth_gap_deg(&untracked).is_some_and(|g| g < cfg.azimuth_gap_deg);
     let signal_loss = !untracked.is_empty() && in_view_good && (n == 0 || spread);
     let d = dop_from_sky(
         &used
@@ -758,6 +796,7 @@ fn from_sky(sky: &[SatSky], age_s: f64, cfg: &GeometryCfg) -> EpochGeometry {
         in_view: Some(listed.len()),
         signal_loss,
         label: GeometryLabel::Unknown,
+        behind_skyline,
     }
 }
 
@@ -780,6 +819,7 @@ fn from_reported(rep: &ReportedDop, age_s: f64) -> EpochGeometry {
         in_view: None,
         signal_loss: false,
         label: GeometryLabel::Unknown,
+        behind_skyline: None,
     }
 }
 
@@ -805,17 +845,33 @@ pub struct GeometryTracker {
     sky: Option<(f64, Vec<SatSky>)>,
     reported: Option<(f64, ReportedDop)>,
     last_el: std::collections::BTreeMap<String, f64>,
+    /// The last azimuth reported for each satellite, degrees (read only with a skyline).
+    last_az: std::collections::BTreeMap<String, f64>,
+    /// The stated skyline and its open fraction (rounded), where the scenario states one.
+    skyline: Option<(Skyline, f64)>,
 }
 
 impl GeometryTracker {
     /// A tracker with thresholds `cfg`, holding sky positions for `hold_s` seconds.
     pub fn new(cfg: &GeometryCfg, hold_s: f64) -> Self {
+        Self::with_skyline(cfg, hold_s, None)
+    }
+
+    /// [`GeometryTracker::new`] under a stated skyline (the scenario's `[skyline]` section).
+    /// With `None` it is exactly [`GeometryTracker::new`]: the azimuth-gap rule decides
+    /// `sky-blocked` and `open_fraction` is `null`.
+    pub fn with_skyline(cfg: &GeometryCfg, hold_s: f64, skyline: Option<Skyline>) -> Self {
         Self {
             cfg: cfg.clone(),
             hold_s,
             sky: None,
             reported: None,
             last_el: Default::default(),
+            last_az: Default::default(),
+            skyline: skyline.map(|k| {
+                let f = round_to(k.open_fraction(), 1e-3);
+                (k, f)
+            }),
         }
     }
 
@@ -825,17 +881,30 @@ impl GeometryTracker {
     }
 
     /// Whether `loss-of-lock` is the sky's: every satellite in `lost` was below
-    /// `low_elev_deg` at its last report (false for an empty set or a satellite never placed).
+    /// `low_elev_deg` at its last report, or (with a stated skyline) behind the skyline at
+    /// its last reported azimuth and elevation (false for an empty set or a satellite never
+    /// placed).
     pub fn lost_to_the_sky<'a>(&self, lost: impl IntoIterator<Item = &'a str>) -> bool {
         let mut any = false;
+        let sk = self.skyline.as_ref().map(|(k, _)| k);
         for s in lost {
             any = true;
             match self.last_elevation(s) {
                 Some(el) if el < self.cfg.low_elev_deg => {}
+                Some(el)
+                    if self
+                        .last_az
+                        .get(s)
+                        .is_some_and(|az| behind(sk, *az, el)) => {}
                 _ => return false,
             }
         }
         any
+    }
+
+    /// Whether a stated skyline is in force.
+    pub fn has_skyline(&self) -> bool {
+        self.skyline.is_some()
     }
 
     /// The geometry of the next epoch.
@@ -843,9 +912,22 @@ impl GeometryTracker {
         if !e.sky.is_empty() {
             for s in &e.sky {
                 self.last_el.insert(s.sat.clone(), s.elev_deg);
+                if self.skyline.is_some() {
+                    self.last_az.insert(s.sat.clone(), s.azim_deg);
+                }
             }
             self.sky = Some((e.t_s, e.sky.clone()));
         }
+        let mut g = self.assess(e);
+        if let Some((_, f)) = &self.skyline {
+            if g.status != GeometryStatus::Unknown {
+                g.open_fraction = Some(*f);
+            }
+        }
+        g
+    }
+
+    fn assess(&mut self, e: &LogEpoch) -> EpochGeometry {
         if let Some(r) = e.reported_dop.filter(is_fix) {
             self.reported = Some((e.t_s, r));
         }
@@ -862,7 +944,7 @@ impl GeometryTracker {
             .filter(|h| h.is_finite() && *h > 0.0 && *h < NO_FIX_DOP);
         if let Some((t0, sky)) = &self.sky {
             if let Some(age) = fresh(*t0) {
-                let mut g = from_sky(sky, age, &self.cfg);
+                let mut g = from_sky(sky, age, &self.cfg, self.skyline.as_ref().map(|(k, _)| k));
                 g.reported_hdop = stated;
                 g.reported_derived_mismatch = match (g.hdop, stated) {
                     (Some(d), Some(s)) => {
@@ -903,6 +985,10 @@ pub struct GeometryModel {
     pub provenance: std::collections::BTreeMap<&'static str, &'static str>,
     /// The classes and the rules that assign them, in words.
     pub classes: &'static str,
+    /// The stated skyline (`[skyline]`): its source, open fraction above the skyline alone
+    /// and provenance. Absent without one.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub skyline: Option<SkylineSummary>,
 }
 
 /// The deduction classes and their rules, in words, for the record of a run.
@@ -915,6 +1001,18 @@ monitor when the stated HDOP disagrees with the derived one by more than \
 max(reported_vs_derived_tol, reported_vs_derived_rel x derived HDOP). A geometry class is a \
 statement about the sky, not a finding that no attack occurred.";
 
+/// [`CLASSES`] under a stated skyline: what the skyline adds to the rules.
+pub const CLASSES_WITH_SKYLINE: &str = "geometry: the geometry monitor (which deducts only when \
+the geometry is poor), and loss-of-lock when every satellite lost against the baseline was below \
+low_elev_deg or behind the stated skyline at its last report; environment: cn0-drop, cn0-spread, \
+cn0-rise, agc, jam-ind, loss-of-lock otherwise, and the geometry monitor during signal loss \
+(satellites in the open sky the stated skyline leaves, not tracked while their geometry is \
+good); inconsistency: every other monitor, and the geometry monitor when the stated HDOP \
+disagrees with the derived one by more than max(reported_vs_derived_tol, \
+reported_vs_derived_rel x derived HDOP). sky-blocked: a satellite listed behind the stated \
+skyline and not tracked. A geometry class is a statement about the sky, not a finding that no \
+attack occurred.";
+
 impl GeometryModel {
     /// The record of `cfg` held for `hold_s`, under a score whose degraded band starts at
     /// `degraded_min`.
@@ -926,7 +1024,23 @@ impl GeometryModel {
             floor_in_force: cfg.floor_in_force(degraded_min),
             provenance: PROVENANCE.iter().copied().collect(),
             classes: CLASSES,
+            skyline: None,
         }
+    }
+
+    /// The record under a stated skyline: its summary (open fraction above the skyline
+    /// alone, as each epoch's `open_fraction`) and the class rules it extends. `None` leaves
+    /// the record as [`GeometryModel::new`] makes it.
+    pub fn with_skyline(
+        mut self,
+        cfg: Option<&crate::skyline::SkylineCfg>,
+        sky: Option<&Skyline>,
+    ) -> Self {
+        if let Some(s) = SkylineSummary::of(cfg, sky, 0.0) {
+            self.skyline = Some(s);
+            self.classes = CLASSES_WITH_SKYLINE;
+        }
+        self
     }
 }
 

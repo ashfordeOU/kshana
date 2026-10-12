@@ -167,6 +167,8 @@ struct RawScenario {
     live: LiveCfg,
     #[serde(default)]
     geometry: GeometryCfg,
+    #[serde(default)]
+    skyline: Option<crate::skyline::SkylineCfg>,
 }
 
 impl From<RawScenario> for ReceiverTrustScenario {
@@ -177,6 +179,7 @@ impl From<RawScenario> for ReceiverTrustScenario {
         monitors.score = r.score;
         monitors.live = r.live;
         monitors.geometry = r.geometry;
+        monitors.skyline = r.skyline;
         Self {
             kind: r.kind,
             name: r.name,
@@ -637,6 +640,10 @@ pub fn run_receiver_trust_bytes(
             &scn.monitors.geometry,
             scn.monitors.score.evidence_hold_s,
             scn.monitors.score.degraded_min,
+        )
+        .with_skyline(
+            scn.monitors.skyline.as_ref(),
+            scn.monitors.stated_skyline()?.as_ref(),
         ),
         geometry_summary: {
             let mut g = GeometrySummary::default();
