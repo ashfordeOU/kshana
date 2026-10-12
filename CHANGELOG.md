@@ -31,6 +31,18 @@ breaking changes are called out explicitly.
   as prominently as a hit). Every figure is dominated by the four-satellite constellation's
   unpublished element set, which is ILLUSTRATIVE, and says so. `tests/prediction_frozen.rs` guards
   it; `docs/VALIDATION.md` gains a "Pre-registered predictions" section. No ledger row.
+- **Lunar reference-station extensions** (0.36; the station study's limitations 2 and 3 and the
+  sources' solution style), each opt-in on `lunar-station-coverage` and absent by default, so every
+  existing document, the frozen prediction included, is unchanged:
+  `[receiver]` (multipath `a + b exp(-el / el0)` at the user and the station, the station's
+  optionally Gauss-Markov over epochs, DLL code noise from C/N0, inter-channel biases; values
+  ILLUSTRATIVE on the Moon); `orbit_err_growth_m_per_s` (linear growth of the broadcast orbit error
+  over the correction latency, ILLUSTRATIVE); `[solution]` (height constraint, a three-satellite
+  minimum with it, a static-user window over epochs). Two addenda to the published-claims
+  comparison, each pre-registered alone before its run, sit beside the unedited recorded run: K5
+  with growth fails at every rate; with the sources' solution style K1 to K5 fail and K6 passes
+  (1 of 6), the R300 corrected p95 3-D error falling from 280.6 m to 2.11 m. MODELLED; three ledger
+  rows.
 - **Lunar terrain horizon masks** (0.36; the first limitation of the lunar reference-station
   study): an optional `[terrain]` section on `lunar-station-coverage` (the station and every user
   point) and `moonlight-service-volume` (every grid point) gives each site an azimuth-dependent
