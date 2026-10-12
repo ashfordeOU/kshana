@@ -152,7 +152,9 @@ pub const PROVENANCE: [(&str, &str); 9] = [
     (
         "weight",
         "15 points (score.weights.geometry): geometry alone moves the score from nominal \
-         (>= 90) into degraded and never to untrusted (< 55) (design note, 4.2)",
+         (>= 90) into degraded and never to untrusted (< 55) (design note, 4.2); the default is \
+         clamped to 100 - degraded_min when [score] raises degraded_min above 85, and a weight \
+         set explicitly above 100 - degraded_min is refused",
     ),
 ];
 
