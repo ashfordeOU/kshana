@@ -142,15 +142,16 @@ Earth low or not at all) and the full Helmert table:
 
 ## Sources
 
-Every source by title, identifier, URL, publisher, date, retrieval date (2026-10-12), SHA-256
-and licence, with notes on where the sources disagree:
-[`tests/fixtures/lunar_station/SOURCES.md`](../tests/fixtures/lunar_station/SOURCES.md). No
-source file is redistributed. In short:
+Each source by title, identifier and publisher, with its retrieval date and licence. URLs,
+SHA-256 hashes and notes on where the sources disagree are in the register,
+[`tests/fixtures/lunar_station/SOURCES.md`](../tests/fixtures/lunar_station/SOURCES.md). No source
+file is redistributed. Personal names are left out on purpose.
 
-- **S1** arXiv:2602.08432v3, a white paper describing the station.
-- **S2** ICG-IOAG Workshop on Cislunar PNT, February 2025: slides on the lunar local
-  differential PNT and selenodetic reference station.
-- **S3** UNOOSA ICG Joint Working Group Session on Lunar PNT, June 2024 (`LunarPNT_Jun24_01_04.pdf`).
-- **S4** 2nd ICG-IOAG Cislunar PNT Workshop, February 2026: "Moonlight Programme Development Status".
-- **S5** the same workshop: "Lunar Reference Time: ESA's Views".
-- **S6** LunaNet LSIS V1.0 and the in-tree `LUNAR_SIGMA_URE_M`, as recorded with `lunar_afs`.
+| id | title | identifier | publisher | retrieved | licence |
+|---|---|---|---|---|---|
+| S1 | white paper on a lunar reference station for positioning, timing and science, version 3 | arXiv:2602.08432v3 | arXiv (authors' white paper) | 2026-10-12 | arXiv non-exclusive licence to distribute 1.0 (grants arXiv only) |
+| S2 | "Lunar local Differential PNT and Selenodetic Reference Station" (27 slides) | ioag.org/meetings/cislunar, section 6, item 07 | ICG-IOAG Workshop on Cislunar PNT, February 2025; slides by the European Space Agency | 2026-10-12 | none stated; marked releasable to the public from slide 3 |
+| S3 | "Moonlight: LCNS, and Lunar Pathfinder" (28 slides) | unoosa.org, `LunarPNT_Jun24_01_04.pdf` | UNOOSA, ICG Joint Working Group Session on Lunar PNT, June 2024; slides by the European Space Agency | 2026-10-12 | none stated; marked releasable to the public |
+| S4 | "Moonlight Programme Development Status" (16 slides) | ioag.org/meetings/cislunar2026 | 2nd ICG-IOAG Cislunar PNT Workshop, February 2026; slides by the European Space Agency and Telespazio | 2026-10-12 | none stated; marked releasable to the public |
+| S5 | "Lunar Reference Time: ESA's Views" (9 slides) | ioag.org/meetings/cislunar2026 | Workshop on Cislunar PNT, February 2026; slides by the European Space Agency | 2026-10-12 | none stated; marked releasable to the public |
+| S6 | LunaNet Signal-In-Space Recommended Standard, Augmented Forward Signal (LSIS) V1.0, and the in-tree `LUNAR_SIGMA_URE_M` | `tests/fixtures/lunar_afs_*`; `src/lunar.rs` | as recorded with `lunar_afs` | already in the tree | as recorded there |
