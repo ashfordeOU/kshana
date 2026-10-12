@@ -306,4 +306,16 @@ fn solution_style_addendum_run() {
         ("K6", k6.is_some_and(|v| v <= 1.5)),
     ];
     println!("ADDENDUM6 ratio500/10={k6:?} bars={bars:?}");
+    // The recorded figures (ADDENDUM-LRS06.md, "Recorded run").
+    let close = |a: f64, b: f64| (a - b).abs() <= 1e-6 * b.abs();
+    assert!(close(p(&r300), 2.1103018834825096));
+    assert!(close(p(&r600), 2.175292336052316));
+    assert!(close(p(&lat600), 2.1123644082489603));
+    assert!(close(k6.unwrap(), 1.0379717628453942));
+    let passed: Vec<&str> = bars.iter().filter(|b| b.1).map(|b| b.0).collect();
+    assert_eq!(
+        passed,
+        ["K6"],
+        "the recorded addendum finding: only K6 passes"
+    );
 }
