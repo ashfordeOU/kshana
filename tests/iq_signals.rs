@@ -445,6 +445,56 @@ fn beidou_b1i_gold_code_structure_bds_sis_icd_b1i_3_0() {
     );
 }
 
+/// DS-GIQ-06b: every B1I primary code against an independent implementation, GNSS-SDR
+/// v0.0.19's `beidou_b1i_code_gen_int` (program output committed as
+/// `fixtures/iq_signals/beidou_b1i_gnss_sdr.txt`; provenance in `BEIDOU-B1I-PROVENANCE.md`).
+/// Bar pre-registered in `xval/beidou-b1i-gnss-sdr/PREREGISTRATION.md`: all 2046 chips of all
+/// 63 PRNs identical, GNSS-SDR `+1` read as logic 1, no inversion, shift or relabelling.
+///
+/// PIN-SCOPE:    all 2046 logic chips of `b1i_bits(prn, 2046)` and of `b1i(prn)`'s primary,
+///               PRN 1..63 (64-chip hex prefix plus SHA-256 of the full chip string).
+/// PIN-EXCLUDES: the NH20 secondary code, the GEO PRN list, carrier and chip-rate constants.
+#[test]
+fn beidou_b1i_matches_gnss_sdr_generator_for_all_63_prns() {
+    let rows: Vec<(u16, String, String)> =
+        include_str!("fixtures/iq_signals/beidou_b1i_gnss_sdr.txt")
+            .lines()
+            .filter(|l| !l.starts_with('#') && !l.trim().is_empty())
+            .map(|l| {
+                let f: Vec<&str> = l.split_whitespace().collect();
+                (f[0].parse().unwrap(), f[1].to_string(), f[2].to_string())
+            })
+            .collect();
+    assert_eq!(rows.len(), 63);
+    let mut misses = Vec::new();
+    for (prn, want_head, want_sha) in &rows {
+        let bits = beidou::b1i_bits(*prn, 2046).unwrap();
+        assert_eq!(bits_of(&beidou::b1i(*prn).unwrap()), bits, "PRN {prn}");
+        let ascii: String = bits
+            .iter()
+            .map(|&b| if b == 1 { '1' } else { '0' })
+            .collect();
+        let head = format!("{:016x}", u64::from_str_radix(&ascii[..64], 2).unwrap());
+        let sha: String = Sha256::digest(ascii.as_bytes())
+            .iter()
+            .map(|b| format!("{b:02x}"))
+            .collect();
+        if &head != want_head || &sha != want_sha {
+            misses.push(format!(
+                "PRN {prn}: prefix {head} vs {want_head}, sha {} vs {}",
+                &sha[..12],
+                &want_sha[..12]
+            ));
+        }
+    }
+    assert!(
+        misses.is_empty(),
+        "{} of 63 PRNs differ:\n{}",
+        misses.len(),
+        misses.join("\n")
+    );
+}
+
 // --- GLONASS L1OF -----------------------------------------------------------------------
 
 #[test]
