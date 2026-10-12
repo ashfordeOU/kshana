@@ -129,7 +129,8 @@ def receiver_trust_replay(session_toml: str, nmea: str | bytes) -> dict[str, Any
     ``geometry``, ``environment`` or ``inconsistency``), ``last_pksht`` and ``summary`` (counts by
     state, ``lowest_score``, ``final_score``, ``first_untrusted_t_s``, ``geometry``). ``geometry``
     is the satellite geometry (``good``, ``degraded`` with reasons, ``unknown`` without GSV or
-    GSA). Opens no socket and does not
+    GSA), with a ``label`` (``good``, ``fair``, ``poor``) always reported; the score deducts for
+    geometry only when it is ``poor``. Opens no socket and does not
     apply the gate (both are command-line only). Advisory software, not type-approved navigation equipment (IEC 61108, IEC 61162): the operator remains responsible for the navigation of the vessel. Raises ``ValueError``."""
 
 def assess_vessel_log(session_toml: str, log: str | bytes) -> dict[str, Any]:
