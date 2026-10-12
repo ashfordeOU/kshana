@@ -65,3 +65,37 @@ fn the_relation_scales_with_sigma() {
     .unwrap();
     assert!(r.all_pass, "{r:#?}");
 }
+
+#[test]
+fn the_check_can_fail_negative_controls() {
+    // A DOP wrong by 10 % (a variance ratio off by 1.21) falls outside every interval: the
+    // intervals are narrow enough to see an error far smaller than the 100 % a one-sided
+    // availability floor could not (docs/VERIFICATION-MATRIX.md, coverage row, 0.30 finding).
+    let r = run(&McConfig::default()).unwrap();
+    for g in &r.geometries {
+        for c in &g.checks {
+            let off = c.variance_ratio / 1.21;
+            assert!(
+                off < c.lo,
+                "{} {}: {off} not below {}",
+                g.name,
+                c.quantity,
+                c.lo
+            );
+        }
+    }
+    // Errors that grow at low elevation break the equal-variance model the unweighted Q
+    // assumes: the report fails, and on the open sky (satellites down to 15 deg) every
+    // quantity fails.
+    let r = run(&McConfig {
+        elevation_dependent_errors: true,
+        ..McConfig::default()
+    })
+    .unwrap();
+    assert!(!r.all_pass);
+    assert!(
+        r.geometries[0].checks.iter().all(|c| !c.pass),
+        "{:#?}",
+        r.geometries[0]
+    );
+}

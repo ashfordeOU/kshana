@@ -133,6 +133,10 @@ pub struct McConfig {
     /// Probability that the whole report fails a correct implementation (split evenly over
     /// the checks).
     pub alpha_total: f64,
+    /// Negative control: draw each satellite's error with standard deviation
+    /// `sigma_m / sin(elevation)` instead of `sigma_m`, which breaks the equal-variance model
+    /// the unweighted `Q` assumes. The checks must then fail; off by default.
+    pub elevation_dependent_errors: bool,
 }
 
 impl Default for McConfig {
@@ -142,6 +146,7 @@ impl Default for McConfig {
             sigma_m: crate::orbit::DEFAULT_UERE_M,
             seed: 0x0D0B_5EED,
             alpha_total: 1e-6,
+            elevation_dependent_errors: false,
         }
     }
 }
@@ -279,13 +284,24 @@ pub fn run(cfg: &McConfig) -> Result<McReport, String> {
                     .sqrt()
             })
             .collect();
+        let scale: Vec<f64> = g
+            .dirs
+            .iter()
+            .map(|(el, _)| {
+                if cfg.elevation_dependent_errors {
+                    1.0 / el.to_radians().sin().max(0.05)
+                } else {
+                    1.0
+                }
+            })
+            .collect();
         let measure = |eps: &[f64]| -> Vec<SppMeasurement> {
             sats.iter()
                 .zip(&ranges)
-                .zip(eps)
-                .map(|((s, r), e)| SppMeasurement {
+                .zip(eps.iter().zip(&scale))
+                .map(|((s, r), (e, k))| SppMeasurement {
                     sat_ecef: *s,
-                    pseudorange_m: r + clock_m + cfg.sigma_m * e,
+                    pseudorange_m: r + clock_m + cfg.sigma_m * k * e,
                     sat_clock_m: 0.0,
                     iono_m: 0.0,
                     tropo_m: 0.0,
