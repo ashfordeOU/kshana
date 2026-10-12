@@ -169,6 +169,20 @@ pub enum EarthFixedFrame {
     Cio,
 }
 
+/// Which spherical-harmonic evaluator a [`Geopotential`] calls.
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
+pub enum FieldEvaluator {
+    /// [`SphericalHarmonicField::acceleration`]: the classic spherical-partials form. Accurate
+    /// away from the poles to degree ~180; the evaluator the degree-70 Orekit tier validates. The
+    /// default.
+    #[default]
+    Classic,
+    /// [`SphericalHarmonicField::acceleration_hf`]: the Holmes–Featherstone modified forward-column
+    /// form, free of underflow and of the polar singularity to degree 2190. Use it above degree
+    /// ~180 or for orbits that pass close to the poles.
+    HolmesFeatherstone,
+}
+
 /// An opt-in tesseral Earth gravity field for [`ForceModel`]: a fully-normalized
 /// [`SphericalHarmonicField`] (shared, so cloning a model never copies a high-degree field), the
 /// [`EarthFixedFrame`] it is evaluated in, and the UT1 offset that sets the Earth's rotation.
@@ -181,6 +195,8 @@ pub struct Geopotential {
     /// `UT1 − TT` (s) used for the Earth rotation angle; `0` (the default) takes UT1 = TT, a
     /// fixed ~69 s (~0.3°) rotation offset that callers with real Earth orientation replace.
     pub ut1_minus_tt_s: f64,
+    /// The spherical-harmonic evaluator.
+    pub evaluator: FieldEvaluator,
 }
 
 impl Geopotential {
@@ -190,6 +206,7 @@ impl Geopotential {
             field: Arc::new(field),
             frame: EarthFixedFrame::Era,
             ut1_minus_tt_s: 0.0,
+            evaluator: FieldEvaluator::Classic,
         }
     }
 
@@ -201,6 +218,16 @@ impl Geopotential {
     /// Select the Earth-fixed frame (chainable).
     pub fn in_frame(mut self, frame: EarthFixedFrame) -> Self {
         self.frame = frame;
+        self
+    }
+
+    /// Select the spherical-harmonic evaluator (chainable). Choosing
+    /// [`FieldEvaluator::HolmesFeatherstone`] builds the field's recursion table once, here.
+    pub fn with_evaluator(mut self, evaluator: FieldEvaluator) -> Self {
+        if evaluator == FieldEvaluator::HolmesFeatherstone {
+            self.field.prepare_high_degree();
+        }
+        self.evaluator = evaluator;
         self
     }
 
@@ -227,7 +254,11 @@ impl Geopotential {
     /// the acceleration back.
     pub fn acceleration(&self, jd_tt: f64, r: Vec3) -> Vec3 {
         let m = self.inertial_to_earth_fixed(jd_tt);
-        let a_ef = self.field.acceleration(mat_vec(&m, r));
+        let r_ef = mat_vec(&m, r);
+        let a_ef = match self.evaluator {
+            FieldEvaluator::Classic => self.field.acceleration(r_ef),
+            FieldEvaluator::HolmesFeatherstone => self.field.acceleration_hf(r_ef),
+        };
         mat_vec(&transpose(&m), a_ef)
     }
 }
@@ -1559,6 +1590,21 @@ mod tests {
         for t in [0.0, 600.0, 7200.0] {
             assert_eq!(ours.accel_at(t, r), theirs.accel_rv(t, r, v), "t = {t}");
         }
+    }
+
+    #[test]
+    fn the_two_field_evaluators_agree_on_the_opt_in_path() {
+        // Holmes–Featherstone and the classic recursion evaluate the same field; away from the
+        // poles at degree 70 they must agree to rounding through the rotation plumbing too.
+        let classic = Geopotential::egm2008(70);
+        let hf = Geopotential::egm2008(70).with_evaluator(FieldEvaluator::HolmesFeatherstone);
+        let r = [6.9e6, 1.1e6, 1.4e6];
+        for jd in [2_451_545.0, 2_460_311.25] {
+            let (a, b) = (classic.acceleration(jd, r), hf.acceleration(jd, r));
+            let d = norm([a[0] - b[0], a[1] - b[1], a[2] - b[2]]);
+            assert!(d / norm(a) < 1e-13, "jd {jd}: rel {}", d / norm(a));
+        }
+        assert_eq!(Geopotential::egm2008(8).evaluator, FieldEvaluator::Classic);
     }
 
     #[test]
