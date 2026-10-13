@@ -39,7 +39,11 @@
 //!   1e-13 rad. Reported, not scored: the same differences through the single-`f64` path
 //!   (`cio::gcrs_to_itrs_matrix` on `day + frac`), expected to be off by up to ~3e-9 rad.
 //!
-//! VERDICT: not yet run.
+//! VERDICT (2026-10-13, first run): AGREES at every pre-registered bar. Over the 40 epochs:
+//! G worst 0 rad (bit-identical to `gmst82`); M worst element 2.7e-14; F worst 1.1e-14 rad.
+//! Reported: the single-`f64` path sees no rotation at all over +1 µs and +10 µs (off by
+//! 7.3e-11 and 7.3e-10 rad) and is off by 7.1e-10 rad over +50 µs. Pre-registration commit
+//! b10475ee.
 
 use kshana::cio::{gcrs_to_itrs_matrix, gcrs_to_itrs_matrix_jd2};
 use kshana::jd2::{gmst82, Jd2};

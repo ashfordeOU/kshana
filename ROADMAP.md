@@ -201,7 +201,7 @@ A validated, fully reproducible engine spanning the PNT (positioning, navigation
   **≤ 0.86 m on the ground, ≤ 3.6 m at GNSS orbit**, inside the <10 m target). The
   cross-check is a standalone, workspace-excluded crate so the MPL-2.0 (MPL: Mozilla Public License) / edition-2024
   `anise` dependency never touches the published `kshana` crate or any default CI gate.)*
-- Two-part Julian dates (the single-`f64` JD is ~50 µs near 2020). *(Delivered — `src/jd2.rs` `Jd2`, threaded through SGP4 (`Sgp4::propagate_at`), pass prediction, geometry and Walker designs and validated against SOFA (`tests/jd2_sofa_time_oracle.rs`); threading it through `orbit::Propagator`, the Cowell `ForceModel` epochs and the ephemeris scenario, and unifying it with `timescales::TwoPartJd`, remains.)*
+- Two-part Julian dates (the single-`f64` JD is ~50 µs near 2020). *(Delivered — `src/jd2.rs` `Jd2`, threaded through SGP4 (`Sgp4::propagate_at`), pass prediction, geometry and Walker designs and validated against SOFA (`tests/jd2_sofa_time_oracle.rs`); in 0.36 also through Earth rotation on the orbit path (`orbit::Propagator::position_in_frame_jd2`, the ephemeris scenario's opt-in `two_part_jd`), validated against ERFA (`tests/jd2_earth_rotation_erfa_oracle.rs`), with lossless conversions to and from `timescales::TwoPartJd`. Making it the default on the Earth-orbit paths remains.)*
 - Surface the loosely-/tightly-coupled GNSS/INS navigator across more scenario packs.
 - Golden numerics and calibration ensembles for the V&V suite; committed
   cross-platform golden hashes (reproducibility milestone). *(Delivered —

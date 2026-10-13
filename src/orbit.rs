@@ -398,6 +398,36 @@ impl Propagator {
         }
     }
 
+    /// As [`position_in_frame`](Self::position_in_frame) with two-part Terrestrial Time and
+    /// UT1 Julian dates. For [`Frame::Itrs`] the Earth rotation angle is taken from the two
+    /// parts ([`crate::cio::gcrs_to_itrs_matrix_jd2`]), so the Earth-fixed position keeps the
+    /// microsecond a single-`f64` date loses (about 3e-9 rad of rotation, 13 cm at GNSS orbit);
+    /// the precession-nutation uses `jd_tt.total()`, where that loss is below 1e-15 rad. TEME
+    /// and GCRS results equal [`position_in_frame`](Self::position_in_frame)'s at
+    /// `jd_tt.total()`.
+    pub fn position_in_frame_jd2(
+        &self,
+        t: f64,
+        frame: Frame,
+        jd_tt: crate::jd2::Jd2,
+        jd_ut1: crate::jd2::Jd2,
+        xp: f64,
+        yp: f64,
+    ) -> Vec3 {
+        let r_teme = self.position_eci(t);
+        match frame {
+            Frame::Teme => r_teme,
+            Frame::Gcrs => crate::nutation::teme_to_gcrs(r_teme, [0.0; 3], jd_tt.total()).0,
+            Frame::Itrs => {
+                let r_gcrs = crate::nutation::teme_to_gcrs(r_teme, [0.0; 3], jd_tt.total()).0;
+                crate::precession::mat_vec(
+                    &crate::cio::gcrs_to_itrs_matrix_jd2(jd_tt, jd_ut1, xp, yp),
+                    r_gcrs,
+                )
+            }
+        }
+    }
+
     /// Full inertial state (position m, velocity m/s) at time `t` (s) in the GCRS
     /// (≈ J2000) frame, via the validated TEME→GCRS reduction. `jd_tt` is the
     /// absolute Terrestrial Time Julian date at that instant.
@@ -413,6 +443,18 @@ impl Propagator {
     /// ephemeris's `Toe` plus `t` (the same date its Earth-fixed position is rotated
     /// into TEME with), an SP3 file's start plus `t`. `None` for a Keplerian orbit,
     /// whose `t = 0` is only what the scenario calls it.
+    pub fn own_jd2_utc(&self, t: f64) -> Option<crate::jd2::Jd2> {
+        match self {
+            // SGP4 carries a two-part epoch: keep it two-part.
+            Propagator::Sgp4(s) => Some(s.epoch_jd2().add_seconds(t)),
+            // The others date themselves with a single f64; split it, with no gain in
+            // resolution.
+            _ => self.own_jd_utc(t).map(crate::jd2::Jd2::new),
+        }
+    }
+
+    /// The absolute instant of time `t` (s) as [`own_jd2_utc`](Self::own_jd2_utc) does, as a
+    /// single-`f64` UTC Julian Date (see that method for what each propagator dates itself by).
     pub fn own_jd_utc(&self, t: f64) -> Option<f64> {
         match self {
             Propagator::Kepler(_) => None,
