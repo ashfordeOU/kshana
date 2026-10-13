@@ -11,6 +11,12 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **Maritime, rail and aviation GNSS/INS packs** (0.36, WP-09, RM-21): bundled scenarios
+  `gnss-ins-maritime`, `gnss-ins-rail` and `gnss-ins-aviation` on the trajectory library, and an
+  optional `[tight]` table for the `gnss-ins` kind that fuses pseudoranges from an SGP4 Walker
+  constellation (all satellites when nominal, the highest few when degraded). On the rail pack
+  tight coupling keeps the navigation-grade solution at 5.3 m through a cutting and tunnel,
+  against 12.9 m loosely coupled. Without `[tight]` the pack is unchanged (pinned). MODELLED.
 - **Carrier-phase tight coupling** (0.36, WP-09, RM-25 / FUT-17): `fusion::carrier_tc`, an
   error-state EKF with an explicit two-state receiver clock and float carrier ambiguities, driven
   by an SGP4 Walker constellation with Klobuchar and Saastamoinen corrections in the measurement
