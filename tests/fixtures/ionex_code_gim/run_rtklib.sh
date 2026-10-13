@@ -13,6 +13,10 @@ DIR="${1:?usage: run_rtklib.sh <dir>}"
 BIN="$DIR/rtklib_iontec"
 gcc -O2 -w -DTRACE=0 -I"$RTKLIB/src" "$HERE/rtklib_iontec_driver.c" "$RTKLIB/src/rtkcmn.c" "$RTKLIB/src/ionex.c" -lm -o "$BIN"
 gzip -dc "$DIR/reference_vtec.csv.gz" | awk -F, '$1=="T" { print $2","$3","$4 }' > "$DIR/queries.csv"
-"$BIN" "$DIR/map.18i" 1 < "$DIR/queries.csv" > "$DIR/rtklib_iontec_rotated.csv"
-"$BIN" "$DIR/map.18i" 0 < "$DIR/queries.csv" > "$DIR/rtklib_iontec_consecutive.csv"
+# RTKLIB reads the FULL map: its getindex() tests the sign of the grid's end latitude rather than
+# of the step, so a 30.0 -> 5.0 deg grid (both ends positive, descending) reads as empty. The crop
+# keeps the CODE bands verbatim, so at query points inside 5-30 deg N RTKLIB interpolates the
+# same nodes from the full file.
+"$BIN" "$DIR/CODG1330.18I" 1 < "$DIR/queries.csv" > "$DIR/rtklib_iontec_rotated.csv"
+"$BIN" "$DIR/CODG1330.18I" 0 < "$DIR/queries.csv" > "$DIR/rtklib_iontec_consecutive.csv"
 sha256sum "$DIR"/rtklib_iontec_*.csv
