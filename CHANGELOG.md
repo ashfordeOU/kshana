@@ -22,7 +22,11 @@ breaking changes are called out explicitly.
   error 3106 m, so the < 500 m bar is NOT MET, as predicted (degree 70 is too smooth), and
   the tenfold cut on the drift is MET (MODELLED). An optional `[map_error_mc]` reruns the
   benchmark over seeded, Gaussian-correlated map errors and reports the matched-error
-  distribution. Without either option the document is byte-identical to earlier releases.
+  distribution (bundled scenario `gravity-map-error-mc`). Exploratory and not
+  pre-registered: with a 2 mGal map error correlated over 0.2 deg (the size the matcher's own
+  sigma budgets), 1 of 20 realisations stays within 500 m (median 2.9 km, p95 14.7 km),
+  against 144 m with a perfect map. The synthetic benchmark's sub-500 m fix assumes the map is
+  exact. Without either option the document is byte-identical to earlier releases.
   `combined-altpnt` takes an optional `[magnetic_grid]` (`csv_path`, `column`) that reads the
   magnetic channel from an EMAG2v3-format CSV. EMAG2 is not vendored because its terms are
   not explicit: `tools/fetch_emag2_tile.py` fetches it with a pinned SHA-256 and crops a box.
