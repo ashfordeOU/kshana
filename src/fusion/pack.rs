@@ -439,6 +439,11 @@ pub struct GnssInsScenario {
     pub lon_deg: f64,
     #[serde(default = "default_alt")]
     pub alt_m: f64,
+    /// Optional motion profile from the trajectory library ([`super::trajectory`]). Absent,
+    /// the pack flies its historical drive, bit for bit; absent, it is also left out of the
+    /// serialised scenario, so the scenario hash is unchanged.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub trajectory: Option<super::trajectory::TrajectoryCfg>,
 }
 
 /// One IMU's fused run: spec, fused horizontal-error series, scored FoMs, and the
@@ -565,19 +570,15 @@ fn hypot_ne(a: Vec3, b: Vec3) -> f64 {
 /// reads this, so a trajectory handed to a laboratory simulator is the one the engine
 /// scored against.
 pub fn truth_trajectory(scn: &GnssInsScenario) -> Vec<(f64, NavState)> {
-    let origin = Geodetic {
-        lat_rad: scn.lat_deg.to_radians(),
-        lon_rad: scn.lon_deg.to_radians(),
-        alt_m: scn.alt_m,
-    };
-    let mut truth = NavState::new(Quaternion::identity(), [0.0; 3], origin);
+    let (initial, imu) = truth_source(scn);
+    let mut truth = initial;
     let dt = scn.time.step_s;
     let n = (scn.time.duration_s / dt).round() as usize;
     let mut out = Vec::with_capacity(n + 1);
     for i in 0..=n {
         let t = i as f64 * dt;
         if i > 0 {
-            let (gyro, accel_t) = true_imu(&truth, t);
+            let (gyro, accel_t) = imu(&truth, t, i);
             truth.step(gyro, accel_t, dt);
         }
         out.push((t, truth));
@@ -585,18 +586,42 @@ pub fn truth_trajectory(scn: &GnssInsScenario) -> Vec<(f64, NavState)> {
     out
 }
 
-fn run_one(scn: &GnssInsScenario, cfg: &ImuCfg, seed: u64) -> FusedRun {
+/// The true IMU of the scenario's motion at `(truth state, t, step index)`.
+type TruthImu = Box<dyn Fn(&NavState, f64, usize) -> (Vec3, Vec3)>;
+
+/// The initial truth state and the true IMU of the scenario's motion: the historical drive
+/// (`true_imu`, at rest and level at the scenario origin) when no `[trajectory]` is given,
+/// otherwise the trajectory library's profile. `validate` has already checked the profile.
+fn truth_source(scn: &GnssInsScenario) -> (NavState, TruthImu) {
     let origin = Geodetic {
         lat_rad: scn.lat_deg.to_radians(),
         lon_rad: scn.lon_deg.to_radians(),
         alt_m: scn.alt_m,
     };
-    let mut truth = NavState::new(Quaternion::identity(), [0.0; 3], origin);
-    let mut free = NavState::new(Quaternion::identity(), [0.0; 3], origin);
-    let mut nav = ClosedLoopInsGnss::new(
-        NavState::new(Quaternion::identity(), [0.0; 3], origin),
-        build_ekf(cfg.filter_prior.as_ref()),
-    );
+    match &scn.trajectory {
+        None => (
+            NavState::new(Quaternion::identity(), [0.0; 3], origin),
+            Box::new(|s: &NavState, t: f64, _i: usize| true_imu(s, t)),
+        ),
+        Some(cfg) => {
+            let dt = scn.time.step_s;
+            let n = (scn.time.duration_s / dt).round() as usize;
+            let tr = super::trajectory::Trajectory::new(cfg, origin, dt, n)
+                .expect("trajectory checked by GnssInsScenario::validate");
+            (
+                tr.initial(),
+                Box::new(move |s: &NavState, t: f64, i: usize| tr.imu(s, t, i)),
+            )
+        }
+    }
+}
+
+fn run_one(scn: &GnssInsScenario, cfg: &ImuCfg, seed: u64) -> FusedRun {
+    let (initial, imu) = truth_source(scn);
+    let origin = initial.p_llh;
+    let mut truth = initial;
+    let mut free = initial;
+    let mut nav = ClosedLoopInsGnss::new(initial, build_ekf(cfg.filter_prior.as_ref()));
 
     let dt = scn.time.step_s;
     let n = (scn.time.duration_s / dt).round() as usize;
@@ -624,7 +649,7 @@ fn run_one(scn: &GnssInsScenario, cfg: &ImuCfg, seed: u64) -> FusedRun {
     for i in 0..=n {
         let t = i as f64 * dt;
         if i > 0 {
-            let (gyro, accel_t) = true_imu(&truth, t);
+            let (gyro, accel_t) = imu(&truth, t, i);
             truth.step(gyro, accel_t, dt);
             // The sensor reports truth corrupted by its deterministic error chain:
             // the constant turn-on bias always, plus the systematic terms (scale,
@@ -687,6 +712,16 @@ fn run_one(scn: &GnssInsScenario, cfg: &ImuCfg, seed: u64) -> FusedRun {
 impl GnssInsScenario {
     /// Reject a filter prior that cannot seed a covariance.
     pub fn validate(&self) -> Result<(), String> {
+        if let Some(cfg) = &self.trajectory {
+            let dt = self.time.step_s;
+            let n = (self.time.duration_s / dt).round() as usize;
+            let origin = Geodetic {
+                lat_rad: self.lat_deg.to_radians(),
+                lon_rad: self.lon_deg.to_radians(),
+                alt_m: self.alt_m,
+            };
+            super::trajectory::Trajectory::new(cfg, origin, dt, n)?;
+        }
         for (slot, imu) in [
             ("imu_quantum", &self.imu_quantum),
             ("imu_classical", &self.imu_classical),
@@ -838,6 +873,7 @@ mod tests {
             lat_deg: 45.0,
             lon_deg: -57.3,
             alt_m: 50.0,
+            trajectory: None,
         }
     }
 

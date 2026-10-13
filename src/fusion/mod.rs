@@ -38,6 +38,7 @@ pub mod kfgins;
 pub mod pack;
 pub mod tightly_coupled;
 pub mod tightly_coupled17;
+pub mod trajectory;
 pub mod truth;
 pub mod ukf;
 
