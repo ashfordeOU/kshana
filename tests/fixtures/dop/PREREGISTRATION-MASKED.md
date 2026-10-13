@@ -32,3 +32,17 @@ ENU and clock variance against sigma^2 Q_ii (relative 5 %); RMS against sigma x 
 sqrt(N)); the fraction inside the 95 % horizontal ellipse (0.95 +- 0.0077). A failed check is
 recorded with its numbers, not tuned away. The row stays MODELLED (InternalConsistency) whatever the
 outcome: it checks the estimator against the closed form of the same model on masked skies.
+
+## Recorded run (2026-10-13)
+
+`tests/uere_dop_monte_carlo.rs::position_error_is_sigma_times_dop_on_masked_skies`, first run after
+03999c11:
+
+* M1 (`city-street`): 4 of 10 satellites above the skyline, (el, az) = (8, 0), (53, 180), (62, 216),
+  (70, 252); PDOP 16.63, HDOP 12.08, VDOP 11.43. All 13 checks pass; the largest variance error is
+  -0.99 % (clock), the largest RMS error -0.44 % (vertical), the ellipse fraction +0.00055 off 0.95.
+* M2 (`container-terminal`): 9 of 10 satellites above the skyline (the one at (8, 0) is behind the
+  stack); PDOP 2.52, HDOP 1.20, VDOP 2.22. All 13 checks pass; the largest variance error +1.22 %
+  (north), the ellipse fraction -0.00275 off 0.95.
+
+26 of 26 checks pass. MODELLED (InternalConsistency), as registered.
