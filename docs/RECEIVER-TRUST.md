@@ -107,11 +107,13 @@ and never alarm.
 three interference thresholds with values calibrated on the public JammerTest 2024 dataset (one u-blox
 ZED-F9P per scenario; Zenodo 15911589): `cn0_drop_db = 1.5`, `agc_k_sigma = 3.5`,
 `jam_ind_threshold = 29`. The calibration was pre-registered (`xval/jammertest-trust/PREREGISTRATION.md`)
-and its held-out false-alarm bar failed for the C/N0 monitor (0.023 against 0.02), so it is MODELLED;
+and the profile is MODELLED, fitted on one public campaign: its `cn0_drop_db` threshold **missed** the
+pre-registered held-out false-alarm bar (0.0231 against 0.02);
 the AGC and jamming-indicator bars and the union bar (false alarms 0.033, detection 0.81) passed
 (`xval/jammertest-trust/RESULTS.md`). It holds for that receiver type at that event, against scheduled
 attack slots, and was calibrated on the dataset's CSV logs (its UBX logs give more false alarms on two
-folders). Without the profile the defaults above apply and every output is unchanged.
+folders). A result run with the profile echoes the thresholds it applied and carries a `profile_note`
+saying all of this. Without the profile the defaults above apply and every output is unchanged.
 
 For a `vessel` platform the moving-platform monitors also run (thresholds in a top-level
 `[maritime]` table, every default documented in `src/receiver_trust/maritime.rs`); each
