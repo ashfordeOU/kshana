@@ -16,12 +16,18 @@
 //! **atmospheric drag** ([`drag_accel`], quadratic drag against the co-rotating atmosphere of
 //! [`atmospheric_density`], the Vallado piecewise-exponential model), and the post-Newtonian
 //! **Schwarzschild relativistic correction** ([`relativistic_accel`], the leading
-//! general-relativistic perigee-advance term).
+//! general-relativistic perigee-advance term), and the opt-in **Lense–Thirring** frame-dragging
+//! term ([`lense_thirring_accel`], IERS Conventions 2010 §10).
 //!
-//! Scope (honest): the gravity field is **zonal only** (no tesseral/sectoral EGM terms); the SRP
-//! shadow is the geometric dual-disk **conical umbra+penumbra** (no solar limb darkening or
-//! oblate-Earth shadow); and the drag density is the **static piecewise-exponential** model (no
-//! NRLMSISE-00 thermosphere); see `ROADMAP.md`.
+//! Scope (honest): the Earth gravity terms in this module are **zonal only**; the
+//! tesseral/sectoral EGM2008 field lives in [`crate::gravity_sh`] and enters the Cowell
+//! propagator as the opt-in [`crate::propagator::Geopotential`] (and is composed into
+//! [`crate::precise_od`]), while a full tesseral field for a non-Earth central body rides
+//! [`crate::body::Body::gravity`]. The SRP shadow is the geometric dual-disk **conical
+//! umbra+penumbra** by default (the WGS-84 oblate shadow and solar limb darkening are opt-in in
+//! [`crate::srp_shadow`]); and the default drag density is the **static piecewise-exponential**
+//! model; the NRLMSISE-00 thermosphere is an opt-in tier ([`DensityModel`],
+//! [`drag_accel_with_density`]) at constant F10.7/Ap; see `ROADMAP.md`.
 
 /// Earth gravitational parameter `μ = GM` (m³/s²), WGS-84 / EGM-96 value.
 pub const MU_EARTH: f64 = 3.986_004_418e14;
@@ -292,8 +298,8 @@ pub const SOLAR_RADIUS: f64 = 6.957e8;
 ///   altitude where the Earth appears smaller than the Sun);
 /// * otherwise → `1 −` (circle–circle lens overlap area)`/(π a²)` (penumbra).
 ///
-/// This is the geometric dual-disk model (Montenbruck & Gill §3.4.2); solar limb darkening and
-/// the oblate-Earth shadow remain follow-ons.
+/// This is the geometric dual-disk model (Montenbruck & Gill §3.4.2); the oblate-Earth shadow and
+/// solar limb darkening are opt-in refinements in [`crate::srp_shadow`].
 pub fn conical_shadow(r: Vec3, s: Vec3) -> f64 {
     let d = [s[0] - r[0], s[1] - r[1], s[2] - r[2]]; // satellite → Sun
     let d_sun = norm(d);
@@ -346,6 +352,26 @@ pub fn srp_accel(r: Vec3, s: Vec3, cr: f64, area_over_mass: f64) -> Vec3 {
 
 /// Earth's mean rotation rate ωₑ (rad/s) — the atmosphere is assumed to co-rotate rigidly with
 /// it, so the drag-relevant velocity is taken relative to `ωₑ ẑ × r`.
+/// [`srp_accel`] with a caller-supplied lit fraction `nu ∈ [0, 1]` instead of
+/// [`conical_shadow`]: the same cannonball arithmetic, for the opt-in shadow models of
+/// [`crate::srp_shadow::ShadowModel`]. [`srp_accel`] itself is unchanged.
+pub fn srp_accel_with_lit_fraction(
+    r: Vec3,
+    s: Vec3,
+    cr: f64,
+    area_over_mass: f64,
+    nu: f64,
+) -> Vec3 {
+    if nu == 0.0 {
+        return [0.0, 0.0, 0.0];
+    }
+    let d = [r[0] - s[0], r[1] - s[1], r[2] - s[2]];
+    let dn = norm(d);
+    let inv = 1.0 / dn;
+    let scale = nu * SRP_PRESSURE_AU * cr * area_over_mass * AU_M * AU_M * inv * inv * inv;
+    [scale * d[0], scale * d[1], scale * d[2]]
+}
+
 pub const EARTH_ROTATION_RATE: f64 = 7.292_115_146_7e-5;
 
 /// Atmospheric mass density `ρ` (kg/m³) at geometric altitude `altitude_m` (m above the
@@ -353,8 +379,8 @@ pub const EARTH_ROTATION_RATE: f64 = 7.292_115_146_7e-5;
 /// (Vallado, *Fundamentals of Astrodynamics and Applications*, Table 8-4, after CIRA-72). Within
 /// the band whose base altitude `h0` brackets `h`, `ρ = ρ0·exp(−(h − h0)/H)`. Below 0 km it
 /// clamps to the surface value; above the top band it continues that band's exponential (no hard
-/// cutoff). This is a **static, solar-activity-independent mean** — *not* NRLMSISE-00 (the
-/// thermospheric model with its < 5 % accuracy clause is a follow-on; see `ROADMAP.md`).
+/// cutoff). This is a **static, solar-activity-independent mean** — *not* NRLMSISE-00, which is
+/// the opt-in [`DensityModel::Nrlmsise00`] tier.
 pub fn atmospheric_density(altitude_m: f64) -> f64 {
     atmospheric_density_with::<Platform>(altitude_m)
 }
@@ -425,6 +451,79 @@ fn drag_accel_with<M: Maths>(r: Vec3, v: Vec3, cd_area_over_mass: f64) -> Vec3 {
     let rho = atmospheric_density_with::<M>(norm(r) - RE_EARTH);
     let w = EARTH_ROTATION_RATE;
     // v_rel = v − ωₑ ẑ × r.
+    let v_rel = [v[0] + w * r[1], v[1] - w * r[0], v[2]];
+    let coef = -0.5 * rho * cd_area_over_mass * norm(v_rel);
+    [coef * v_rel[0], coef * v_rel[1], coef * v_rel[2]]
+}
+
+/// The thermospheric density model behind the drag force: the opt-in tier of
+/// [`drag_accel_with_density`] and of the propagator's `ForceModel::drag_density`.
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+pub enum DensityModel {
+    /// The static piecewise-exponential [`atmospheric_density`] at the spherical altitude — the
+    /// default; [`drag_accel_with_density`] then *is* [`drag_accel`], bit for bit.
+    #[default]
+    Exponential,
+    /// NRLMSISE-00 ([`crate::nrlmsise00::density_kg_m3`], the `GTD7D` total mass density with
+    /// anomalous oxygen, every switch on, daily-Ap mode), held at constant space weather: the
+    /// 81-day mean F10.7 `f107a`, the previous-day F10.7 `f107` (sfu) and the daily `ap`.
+    Nrlmsise00 { f107a: f64, f107: f64, ap: f64 },
+}
+
+/// The drag mass density (kg/m³) of `model` at ECI position `r` (m) and TT Julian Date `jd_tt`.
+///
+/// For [`DensityModel::Nrlmsise00`] the position is rotated to the Earth-fixed frame by the Earth
+/// rotation angle ([`crate::cio::earth_rotation_angle`]) with UT1 taken equal to TT (the ~1 min
+/// offset moves the sub-satellite longitude by ~0.3°, far below the model's own error; polar
+/// motion and precession–nutation are likewise neglected, as in the tides code), converted to
+/// WGS-84 geodetic latitude, longitude and height ([`crate::frames::ecef_to_geodetic`]), and the
+/// day of year and UT seconds are taken from `jd_tt` the same way.
+pub fn density_at(model: &DensityModel, r: Vec3, jd_tt: f64) -> f64 {
+    match *model {
+        DensityModel::Exponential => atmospheric_density(norm(r) - RE_EARTH),
+        DensityModel::Nrlmsise00 { f107a, f107, ap } => {
+            let theta = crate::cio::earth_rotation_angle(jd_tt);
+            let (s, c) = theta.sin_cos();
+            let r_ecef = [c * r[0] + s * r[1], -s * r[0] + c * r[1], r[2]];
+            let g = crate::frames::ecef_to_geodetic(r_ecef);
+            let (doy, ut_s) = crate::nrlmsise00::doy_and_seconds(jd_tt);
+            let lon_deg = g.lon_rad.to_degrees();
+            // NRL convention: east longitude in [0, 360).
+            let lon_deg = if lon_deg < 0.0 {
+                lon_deg + 360.0
+            } else {
+                lon_deg
+            };
+            crate::nrlmsise00::density_kg_m3(
+                doy,
+                ut_s,
+                g.alt_m / 1000.0,
+                g.lat_rad.to_degrees(),
+                lon_deg,
+                f107a,
+                f107,
+                ap,
+            )
+        }
+    }
+}
+
+/// [`drag_accel`] with a selectable density tier, at TT Julian Date `jd_tt` (used only by the
+/// time-dependent tiers). With [`DensityModel::Exponential`] this returns [`drag_accel`] itself,
+/// so the default stays byte-identical; with [`DensityModel::Nrlmsise00`] the same quadratic
+/// drag against the co-rotating atmosphere uses the NRLMSISE-00 density of [`density_at`].
+pub fn drag_accel_with_density(
+    r: Vec3,
+    v: Vec3,
+    cd_area_over_mass: f64,
+    model: &DensityModel,
+    jd_tt: f64,
+) -> Vec3 {
+    if let DensityModel::Exponential = model {
+        return drag_accel(r, v, cd_area_over_mass);
+    }
+    let rho = density_at(model, r, jd_tt);
+    let w = EARTH_ROTATION_RATE;
     let v_rel = [v[0] + w * r[1], v[1] - w * r[0], v[2]];
     let coef = -0.5 * rho * cd_area_over_mass * norm(v_rel);
     [coef * v_rel[0], coef * v_rel[1], coef * v_rel[2]]
@@ -922,6 +1021,54 @@ mod tests {
             (50.0..=70.0).contains(&scale_km),
             "recovered LEO scale height {scale_km} km outside ~50–70 band"
         );
+    }
+
+    #[test]
+    fn exponential_density_tier_is_drag_accel_bit_for_bit() {
+        let r = [RE_EARTH + 400e3, 1.0e5, -2.0e5];
+        let v = [10.0, 7_600.0, 300.0];
+        for jd in [2_451_545.0, 2_460_000.25] {
+            let a = drag_accel_with_density(r, v, 0.02, &DensityModel::Exponential, jd);
+            let b = drag_accel(r, v, 0.02);
+            assert_eq!(a.map(f64::to_bits), b.map(f64::to_bits));
+        }
+        assert_eq!(DensityModel::default(), DensityModel::Exponential);
+    }
+
+    #[test]
+    fn nrlmsise00_density_tier_uses_the_earth_fixed_geodetic_point() {
+        // At jd with ERA = θ, a point on the ECI x-axis rotated by +θ about z sits on the
+        // Greenwich meridian: its NRLMSISE-00 density must be density_kg_m3 at lon 0 (lat 0,
+        // altitude = |r| − a on the equator).
+        let jd = 2_452_081.5 + 0.25; // 2001-06-21 06:00
+        let theta = crate::cio::earth_rotation_angle(jd);
+        let rad = crate::frames::WGS84_A + 400e3;
+        let r = [rad * theta.cos(), rad * theta.sin(), 0.0];
+        let model = DensityModel::Nrlmsise00 {
+            f107a: 150.0,
+            f107: 150.0,
+            ap: 15.0,
+        };
+        let rho = density_at(&model, r, jd);
+        let (doy, ut) = crate::nrlmsise00::doy_and_seconds(jd);
+        assert_eq!(doy, 172);
+        let want = crate::nrlmsise00::density_kg_m3(doy, ut, 400.0, 0.0, 0.0, 150.0, 150.0, 15.0);
+        assert!((rho / want - 1.0).abs() < 1e-9, "{rho} vs {want}");
+        // Order of magnitude of the 400 km thermosphere, and solar activity raises it.
+        assert!((1e-13..1e-10).contains(&rho), "{rho}");
+        let quiet = DensityModel::Nrlmsise00 {
+            f107a: 70.0,
+            f107: 70.0,
+            ap: 4.0,
+        };
+        assert!(density_at(&quiet, r, jd) < rho);
+        // The drag acceleration with this tier is the quadratic drag at that density.
+        let v = [-7_670.0 * theta.sin(), 7_670.0 * theta.cos(), 0.0];
+        let a = drag_accel_with_density(r, v, 0.02, &model, jd);
+        let w = EARTH_ROTATION_RATE;
+        let v_rel = [v[0] + w * r[1], v[1] - w * r[0], v[2]];
+        let expect = 0.5 * rho * 0.02 * norm(v_rel) * norm(v_rel);
+        assert!((norm(a) / expect - 1.0).abs() < 1e-12);
     }
 
     #[test]

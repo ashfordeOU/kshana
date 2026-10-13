@@ -290,6 +290,8 @@ pub struct PreciseForceModel {
     pub lense_thirring: bool,
     /// Include the solid/ocean/atmospheric tide perturbation.
     pub tides: bool,
+    /// Include the opt-in S1 atmospheric tide ([`crate::tides::s1_air_tide_acceleration`]).
+    pub air_tide_s1: bool,
     /// Optional empirical-acceleration tier (RTN constant + once-per-rev).
     pub empirical: Option<EmpiricalAccel>,
     /// Optional real IERS Earth-orientation series. When present the GCRS↔ITRS rotation uses
@@ -314,6 +316,7 @@ impl PreciseForceModel {
             relativity: false,
             lense_thirring: false,
             tides: false,
+            air_tide_s1: false,
             empirical: None,
             eop: None,
         }
@@ -361,6 +364,12 @@ impl PreciseForceModel {
     /// Add the tide perturbation.
     pub fn tides(mut self) -> Self {
         self.tides = true;
+        self
+    }
+
+    /// Add the opt-in S1 atmospheric tide.
+    pub fn air_tide_s1(mut self) -> Self {
+        self.air_tide_s1 = true;
         self
     }
 
@@ -438,6 +447,9 @@ impl PreciseForceModel {
         }
         if self.tides {
             add(tidal_acceleration(r, jd_tt));
+        }
+        if self.air_tide_s1 {
+            add(crate::tides::s1_air_tide_acceleration(r, jd_tt));
         }
         if let Some(emp) = self.empirical {
             add(empirical_accel(&emp, r, v));

@@ -607,17 +607,20 @@ fn static_samples(
 fn seeded_data_uses_each_signals_symbol_timing() {
     use crate::iq::signals::{beidou, galileo, glonass, gps};
     let dur = 0.1;
-    let cases: Vec<(crate::iq::signals::SignalCode, f64, bool)> = vec![
+    let mut cases: Vec<(crate::iq::signals::SignalCode, f64, bool)> = vec![
         (gps::l1ca(3).unwrap(), 0.02, false),
         (gps::l5_i5(3).unwrap(), 0.01, false),
         (gps::l2c_cm(3).unwrap(), 0.02, false),
-        (galileo::e1b(11).unwrap(), 0.004, false),
         (galileo::e5a_i(11).unwrap(), 0.02, false),
         (beidou::b1i(6).unwrap(), 0.02, false),
         (beidou::b1i(1).unwrap(), 0.002, false),
         (beidou::b1c_data(19).unwrap(), 0.01, false),
         (glonass::l1of(1).unwrap(), 0.02, true),
     ];
+    // Galileo E1 only when the user has supplied the ICD tables (they are not bundled).
+    if let Ok(c) = galileo::e1b(11) {
+        cases.push((c, 0.004, false));
+    }
     for (code, sym_s, meander) in cases {
         let name = code.name();
         let with = static_samples(code.clone(), NavData::Seeded { seed: 9 }, dur).unwrap();
@@ -683,13 +686,15 @@ fn seeded_data_uses_each_signals_symbol_timing() {
 fn data_is_refused_on_pilots_and_unmodelled_signals() {
     use crate::iq::signals::{beidou, galileo, gps};
     let seeded = NavData::Seeded { seed: 1 };
-    for code in [
+    let mut codes = vec![
         gps::l5_q5(3).unwrap(),
         gps::l2c_cl(3).unwrap(),
         gps::l2c(3).unwrap(),
-        galileo::e1c(11).unwrap(),
         galileo::e5a_q(11).unwrap(),
-    ] {
+    ];
+    // Galileo E1 only when the user has supplied the ICD tables (they are not bundled).
+    codes.extend(galileo::e1c(11));
+    for code in codes {
         let name = code.name();
         assert!(
             static_samples(code.clone(), seeded.clone(), 0.01).is_err(),
@@ -706,6 +711,8 @@ fn data_is_refused_on_pilots_and_unmodelled_signals() {
         eph: Box::new(eph()),
         conv: LnavConventions::default(),
     };
-    assert!(static_samples(galileo::e1b(11).unwrap(), lnav.clone(), 0.01).is_err());
+    if let Ok(e1b) = galileo::e1b(11) {
+        assert!(static_samples(e1b, lnav.clone(), 0.01).is_err());
+    }
     assert!(static_samples(gps::l1ca(3).unwrap(), lnav, 0.01).is_ok());
 }

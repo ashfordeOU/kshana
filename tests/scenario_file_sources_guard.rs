@@ -34,6 +34,11 @@ const NOT_A_SCENARIO_FILE_SOURCE: &[(&str, &str, &str)] = &[
         "output: where the report says the file it read came from",
     ),
     (
+        "src/lunar_terrain.rs",
+        "path",
+        "output: the DEM descriptor path echoed in the result (DemEcho)",
+    ),
+    (
         "src/receiver_trust/scenario.rs",
         "path",
         "[log] and [log.nav]: refused through FILE_SOURCE_TABLES",
