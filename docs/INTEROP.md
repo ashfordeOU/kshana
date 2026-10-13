@@ -399,6 +399,7 @@ stale.
 | `polar-arctic-leo-coverage.toml` | `leo-pvt` | no [6] | no [6] | no [6] | no [6] | no [2] |
 | `pvt-abmf.toml` | `pvt` | yes | yes | yes | no [3] | no [2] |
 | `quantum-anomaly-detect.toml` | `quantum-anomaly-detect` | no [1] | no [1] | no [1] | no [1] | no [2] |
+| `quantum-cai-coast.toml` | `inertial` | no [1] | no [1] | no [1] | no [1] | no [2] |
 | `quantum-gnss-free-nav.toml` | `quantum-gnss-free-nav` | no [1] | no [1] | no [1] | no [1] | no [2] |
 | `quantum-time-transfer.toml` | `quantum-time-transfer` | no [1] | no [1] | no [1] | no [1] | no [2] |
 | `quantum-trade.toml` | `quantum-trade` | no [1] | no [1] | no [1] | no [1] | no [2] |
