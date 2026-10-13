@@ -16,6 +16,482 @@
       }
     ]
   },
+  "documents": {
+    "kshana.labfit-iq/1": {
+      "audited_by": "tests/iq_labfit_campaign.rs (the_report_carries_its_inputs_censoring_validation_and_labels)",
+      "fields": {
+        "fit_units[].cn0_model.corr_q_delta": {
+          "definition": "correlation of the 10 log10 Q_eff and delta estimates (weighted Jacobian)",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "fit_units[].cn0_model.delta_db.boot_failed": {
+          "definition": "replicates that failed to fit",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "fit_units[].cn0_model.delta_db.boot_n": {
+          "definition": "replicates that fitted",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "fit_units[].cn0_model.delta_db.ci95[]": {
+          "definition": "percentile 95 % interval of delta",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dB"
+        },
+        "fit_units[].cn0_model.delta_db.estimate": {
+          "definition": "J/S offset delta at the stated Q",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dB"
+        },
+        "fit_units[].cn0_model.delta_eff_db.boot_failed": {
+          "definition": "replicates that failed to fit",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "fit_units[].cn0_model.delta_eff_db.boot_n": {
+          "definition": "replicates that fitted",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "fit_units[].cn0_model.delta_eff_db.ci95[]": {
+          "definition": "percentile 95 % interval of delta_eff",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dB"
+        },
+        "fit_units[].cn0_model.delta_eff_db.estimate": {
+          "definition": "identifiable J/S offset delta - 10 log10 Q_eff",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dB"
+        },
+        "fit_units[].cn0_model.q_eff.boot_failed": {
+          "definition": "replicates that failed to fit",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "fit_units[].cn0_model.q_eff.boot_n": {
+          "definition": "replicates that fitted",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "fit_units[].cn0_model.q_eff.ci95[]": {
+          "definition": "percentile 95 % interval of a fitted Q_eff",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "fit_units[].cn0_model.q_eff.estimate": {
+          "definition": "fitted Q_eff (only if separately identifiable)",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "fit_units[].cn0_model.q_eff.value": {
+          "definition": "the stated Q (stated, not fitted)",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "1"
+        },
+        "fit_units[].cn0_model.residual_rms_db": {
+          "definition": "weighted RMS of measured minus modelled C/N0",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dB"
+        },
+        "fit_units[].cn0_model.span_db": {
+          "definition": "uncensored J/S span",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dB"
+        },
+        "fit_units[].data.bins_censored": {
+          "definition": "C/N0 bins censored",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "fit_units[].data.bins_used": {
+          "definition": "C/N0 bins fitted",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "fit_units[].data.censored[].js_db": {
+          "definition": "stated J/S of a censored bin",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "dB"
+        },
+        "fit_units[].data.censored[].locked_fraction": {
+          "definition": "fraction of the bin's stated time the satellite was locked",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "fit_units[].data.censored[].sat": {
+          "definition": "satellite id of a censored bin",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "1"
+        },
+        "fit_units[].data.events": {
+          "definition": "satellite events in the unit",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "fit_units[].data.recordings": {
+          "definition": "recordings in the unit",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "fit_units[].data.satellites": {
+          "definition": "recording-satellite pairs in the unit",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "fit_units[].holdout.extrapolation.bins": {
+          "definition": "extrapolation bins held out",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "fit_units[].holdout.extrapolation.bins_pi90_coverage": {
+          "definition": "fraction of extrapolation bins inside their 90 % prediction interval",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "fit_units[].holdout.extrapolation.cn0_rms_db": {
+          "definition": "hold-out RMS C/N0 error, extrapolation bins",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dB"
+        },
+        "fit_units[].holdout.extrapolation.events[].n": {
+          "definition": "extrapolation events held out",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "fit_units[].holdout.extrapolation.events[].pi90_coverage": {
+          "definition": "fraction of extrapolation events inside their 90 % prediction interval",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "fit_units[].holdout.extrapolation.events[].rms_s": {
+          "definition": "hold-out RMS time-to-loss error, extrapolation events",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "fit_units[].holdout.interpolation.bins": {
+          "definition": "interpolation bins held out",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "fit_units[].holdout.interpolation.bins_pi90_coverage": {
+          "definition": "fraction of interpolation bins inside their 90 % prediction interval",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "fit_units[].holdout.interpolation.cn0_rms_db": {
+          "definition": "hold-out RMS C/N0 error, interpolation bins",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dB"
+        },
+        "fit_units[].holdout.interpolation.events[].n": {
+          "definition": "interpolation events held out",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "fit_units[].holdout.interpolation.events[].pi90_coverage": {
+          "definition": "fraction of interpolation events inside their 90 % prediction interval",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "fit_units[].holdout.interpolation.events[].rms_s": {
+          "definition": "hold-out RMS time-to-loss error, interpolation events",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "fit_units[].holdout.recordings[].bins": {
+          "definition": "held-out bins",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "fit_units[].holdout.recordings[].bins_in_pi90": {
+          "definition": "held-out bins inside their 90 % prediction interval",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "fit_units[].holdout.recordings[].bins_interpolation": {
+          "definition": "held-out interpolation bins",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "fit_units[].holdout.recordings[].cn0_rms_db": {
+          "definition": "RMS C/N0 error over the held-out bins",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dB"
+        },
+        "fit_units[].holdout.recordings[].distance": {
+          "definition": "scaled distance outside the training conditions (dB, dB-Hz and dB/s each per unit)",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "fit_units[].holdout.recordings[].events[].in_pi90": {
+          "definition": "events inside their 90 % prediction interval",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "fit_units[].holdout.recordings[].events[].n": {
+          "definition": "held-out events with an observed loss",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "fit_units[].holdout.recordings[].events[].n_interpolation": {
+          "definition": "of which interpolation",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "fit_units[].holdout.recordings[].events[].rms_s": {
+          "definition": "RMS time-to-loss error",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "fit_units[].lock_model[].n_events": {
+          "definition": "events compared",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "fit_units[].lock_model[].params[].boot_failed": {
+          "definition": "replicates that failed to fit",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "fit_units[].lock_model[].params[].boot_n": {
+          "definition": "replicates that fitted",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "fit_units[].lock_model[].params[].ci95[]": {
+          "definition": "percentile 95 % interval, in the parameter's unit",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "mixed - see note"
+        },
+        "fit_units[].lock_model[].params[].estimate": {
+          "definition": "fitted lock-model parameter: pll_bandwidth_hz in Hz, pullin_ratio 1, drop_cn0_dbhz dB-Hz, hysteresis_db dB, dwells s",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "mixed - see note"
+        },
+        "fit_units[].lock_model[].residual_rms_s": {
+          "definition": "RMS of the event-time residuals",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "fit_units[].threshold.direct.iqr[]": {
+          "definition": "25th and 75th percentiles of the J/S at loss",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dB"
+        },
+        "fit_units[].threshold.direct.median_js_db": {
+          "definition": "median stated J/S at loss of lock",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dB"
+        },
+        "fit_units[].threshold.direct.n": {
+          "definition": "events that lost lock",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "fit_units[].threshold.via_model[].drop_cn0_dbhz": {
+          "definition": "the lock model's drop C/N0",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dB-Hz"
+        },
+        "fit_units[].threshold.via_model[].median_at_lost_events_db": {
+          "definition": "median closed-form threshold J/S at each lost event's baseline",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "dB"
+        },
+        "fit_units[].threshold.via_model[].per_baseline[].baseline_cn0_dbhz": {
+          "definition": "baseline C/N0 the threshold is stated at",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dB-Hz"
+        },
+        "fit_units[].threshold.via_model[].per_baseline[].ci95[]": {
+          "definition": "percentile 95 % interval of the threshold J/S",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dB"
+        },
+        "fit_units[].threshold.via_model[].per_baseline[].js_db": {
+          "definition": "closed-form threshold J/S",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "dB"
+        },
+        "fit_units[].validation.bars[].value": {
+          "definition": "the measured value of the bar: cn0_rms_db in dB, pi90_coverage 1, loss_time_rms_s in s",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "mixed - see note"
+        },
+        "predictions[].condition[]": {
+          "definition": "baseline C/N0 (dB-Hz), peak J/S (dB), ramp rate (dB/s)",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "mixed - see note"
+        },
+        "predictions[].extrapolation_distance": {
+          "definition": "scaled distance outside the tested condition box",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "predictions[].js_db": {
+          "definition": "stated J/S of a C/N0 prediction",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "dB"
+        },
+        "predictions[].p_loss": {
+          "definition": "fraction of bootstrap replicates that predict a loss",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "predictions[].pi90[]": {
+          "definition": "90 % prediction interval, in the quantity's unit",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "mixed - see note"
+        },
+        "predictions[].unit": {
+          "definition": "index of the unit in fit_units",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "predictions[].value": {
+          "definition": "cn0_dbhz in dB-Hz; time_to_loss_s and reacq_time_s in s",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "mixed - see note"
+        },
+        "residuals[].fitted": {
+          "definition": "the fitted value, in the measured value's unit",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "mixed - see note"
+        },
+        "residuals[].js_db": {
+          "definition": "stated J/S of a bin",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "dB"
+        },
+        "residuals[].measured": {
+          "definition": "bin: measured C/N0 in dB-Hz; loss: time from onset in s; reacq: re-acquisition time in s",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "mixed - see note"
+        },
+        "residuals[].residual": {
+          "definition": "measured minus fitted, in the measured value's unit",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "mixed - see note"
+        },
+        "residuals[].sat": {
+          "definition": "satellite id",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "1"
+        },
+        "residuals[].unit": {
+          "definition": "index of the unit in fit_units",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "settings.bootstrap": {
+          "definition": "bootstrap replicates",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "count"
+        },
+        "settings.delta_bounds_db[]": {
+          "definition": "bounds of the J/S offset delta",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "dB"
+        },
+        "settings.min_recordings": {
+          "definition": "recordings a unit needs to be fitted",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "count"
+        },
+        "settings.q_bounds[]": {
+          "definition": "bounds of Q_eff when it is fitted",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "1"
+        },
+        "settings.seed": {
+          "definition": "seed of the cluster bootstrap and the residual draws",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "1"
+        }
+      },
+      "label": "MODELLED"
+    }
+  },
   "evidence_tiers": {
     "depends-on-input": "the provenance class is a disjunction, so the tier is one too",
     "illustrative": "an example value chosen to make the scenario runnable",
