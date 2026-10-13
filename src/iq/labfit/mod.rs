@@ -41,10 +41,13 @@
 //! seeded cluster bootstrap, hold-outs and `[validation]` bars are computed ([`iqfit`]).
 //! Its report is `kshana.labfit-iq/1` ([`iqreport`]). The receiver-log path is unchanged.
 
+#[cfg(not(target_arch = "wasm32"))]
 pub mod campaign;
 pub mod cn0;
 pub mod fit;
+#[cfg(not(target_arch = "wasm32"))]
 pub mod iqfit;
+#[cfg(not(target_arch = "wasm32"))]
 pub mod iqreport;
 pub mod model;
 pub mod observe;
@@ -138,7 +141,9 @@ pub fn run_scenario(sc: &LabFitScenario) -> Result<LabFitOutput, String> {
     })
 }
 
-/// The campaign-fit report in every output form.
+/// The campaign-fit report in every output form (native builds only: the campaign layer is not
+/// built for `wasm32`).
+#[cfg(not(target_arch = "wasm32"))]
 #[derive(Clone, Debug, PartialEq)]
 pub struct LabFitIqOutput {
     /// The structured report.
@@ -160,6 +165,8 @@ pub fn campaign_dir(sc: &LabFitScenario) -> Option<&str> {
 
 /// Run a campaign-fit scenario: load the campaign folder it names (a relative path is taken
 /// relative to the working directory; see [`resolve_paths`]), fit, and render every form.
+/// Native builds only.
+#[cfg(not(target_arch = "wasm32"))]
 pub fn run_campaign_scenario(sc: &LabFitScenario) -> Result<LabFitIqOutput, String> {
     let dir = campaign_dir(sc).ok_or("the scenario's [input] names no campaign")?;
     if !sc.runs.is_empty() {
@@ -181,8 +188,20 @@ pub fn run_campaign_scenario(sc: &LabFitScenario) -> Result<LabFitIqOutput, Stri
 pub fn run_toml_views(src: &str) -> Result<[String; 4], String> {
     let sc: LabFitScenario = toml::from_str(src).map_err(|e| format!("iq-labfit scenario: {e}"))?;
     if campaign_dir(&sc).is_some() {
-        let o = run_campaign_scenario(&sc)?;
-        Ok([o.json, o.residuals_csv, o.predictions_csv, o.markdown])
+        #[cfg(not(target_arch = "wasm32"))]
+        {
+            let o = run_campaign_scenario(&sc)?;
+            Ok([o.json, o.residuals_csv, o.predictions_csv, o.markdown])
+        }
+        #[cfg(target_arch = "wasm32")]
+        {
+            Err(
+                "[input] campaign: a fit from an IQ campaign folder needs the native build \
+                 (the campaign layer is not built for WebAssembly); the receiver-log path \
+                 ([[runs]]) works here"
+                    .into(),
+            )
+        }
     } else {
         let o = run_scenario(&sc)?;
         Ok([o.json, o.residuals_csv, o.predictions_csv, o.markdown])
