@@ -175,6 +175,11 @@ impl SpectralMonitor {
         )
     }
 
+    /// The kurtosis baseline `(mean, spread)` the z-score uses, once learned.
+    pub fn kurtosis_reference(&self) -> Option<(f64, f64)> {
+        self.reference.as_ref().map(|(_, _, k0, sd)| (*k0, *sd))
+    }
+
     /// Feed samples.
     pub fn push(&mut self, x: &[Cf64]) {
         for &s in x {

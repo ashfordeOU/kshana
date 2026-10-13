@@ -342,9 +342,31 @@ pub fn build(out_dir: &Path) -> Result<ReportSummary, String> {
         )
         .as_bytes(),
     )?;
+    let rocs = rocs(&cells);
+    let roc_path = out_dir.join("roc.json");
+    if rocs.is_empty() {
+        let _ = std::fs::remove_file(&roc_path);
+    } else {
+        let json = serde_json::json!({
+            "schema": ROC_SCHEMA,
+            "campaign": plan.name,
+            "label": MODELLED,
+            "statement": ROC_STATEMENT,
+            "digest": digest,
+            "kinds": rocs,
+        });
+        super::runner::write_atomic(
+            &roc_path,
+            format!(
+                "{}\n",
+                serde_json::to_string_pretty(&json).unwrap_or_default()
+            )
+            .as_bytes(),
+        )?;
+    }
     super::runner::write_atomic(
         &out_dir.join("report.html"),
-        html(&plan, &rows, &curves, cells.len(), digest.as_deref()).as_bytes(),
+        html(&plan, &rows, &curves, &rocs, cells.len(), digest.as_deref()).as_bytes(),
     )?;
     let dpath = out_dir.join("DIGEST");
     match &digest {
@@ -418,10 +440,139 @@ svg{max-width:100%;height:auto}svg text{fill:var(--ink2);font-size:11px}
 .sw.mod{background:none;border-top:2px dashed var(--ink2);height:0}
 "#;
 
+/// The schema of `roc.json`.
+pub const ROC_SCHEMA: &str = "kshana.campaign-roc/1";
+
+/// What the detection ROC is.
+const ROC_STATEMENT: &str = "MODELLED: window-level ROC of each monitor on the recordings given. \
+Each stated event window is a positive and each roc_window_s window outside the events a \
+negative; a window counts at a threshold when the monitor's test statistic reaches it in the \
+window. P_fa is per negative window, not per test.";
+
+/// The detection ROC of every alarm kind, pooled over the cells
+/// (`docs/design/DETECTION-ROC.md`); empty when no cell ran monitors.
+pub fn rocs(cells: &[CellResult]) -> Vec<super::detect::Roc> {
+    // Per kind: the positive and negative window maxima, and the configured threshold.
+    type Pooled = (Vec<f64>, Vec<f64>, Option<f64>);
+    let mut by: BTreeMap<String, Pooled> = BTreeMap::new();
+    for c in cells {
+        let Some(m) = &c.monitors else { continue };
+        for w in &m.windows {
+            let e = by.entry(w.kind.clone()).or_default();
+            if w.event_id.is_some() {
+                e.0.push(w.max);
+            } else {
+                e.1.push(w.max);
+            }
+            if e.2.is_none() {
+                e.2 = m
+                    .tests
+                    .iter()
+                    .find(|t| t.kind == w.kind)
+                    .map(|t| t.threshold);
+            }
+        }
+    }
+    by.into_iter()
+        .map(|(k, (p, n, t))| super::detect::roc(&k, &p, &n, t))
+        .collect()
+}
+
+/// The detection ROC section: one curve per kind and a table.
+fn roc_section(rocs: &[super::detect::Roc]) -> String {
+    let mut s = String::from("<h2>Detection ROC</h2>");
+    let _ = write!(
+        s,
+        "<p class=\"note\">Labelled <b>{MODELLED}</b>. Each stated event window is a positive and each window of the configured length outside the events a negative. A window counts at a threshold when the monitor's own test statistic reaches it in the window. P<sub>fa</sub> is per negative window, not per test. The same figures are in <code>roc.json</code>.</p>"
+    );
+    let (w, ht, ml, mr, mt, mb) = (420.0, 320.0, 48.0, 16.0, 12.0, 40.0);
+    let sx = |x: f64| ml + x * (w - ml - mr);
+    let sy = |y: f64| mt + (1.0 - y) * (ht - mt - mb);
+    let _ = write!(
+        s,
+        "<svg viewBox=\"0 0 {w} {ht}\" role=\"img\" aria-label=\"Detection ROC per monitor\">"
+    );
+    for i in 0..=5 {
+        let v = i as f64 / 5.0;
+        let _ = write!(
+            s,
+            "<line x1=\"{ml}\" x2=\"{:.1}\" y1=\"{:.1}\" y2=\"{:.1}\" stroke=\"var(--grid)\"/><text x=\"{:.1}\" y=\"{:.1}\" text-anchor=\"end\">{v:.1}</text><text x=\"{:.1}\" y=\"{:.1}\" text-anchor=\"middle\">{v:.1}</text>",
+            w - mr,
+            sy(v),
+            sy(v),
+            ml - 6.0,
+            sy(v) + 4.0,
+            sx(v),
+            ht - mb + 16.0
+        );
+    }
+    let _ = write!(
+        s,
+        "<line x1=\"{:.1}\" y1=\"{:.1}\" x2=\"{:.1}\" y2=\"{:.1}\" stroke=\"var(--ink2)\" stroke-dasharray=\"4 4\"/><text x=\"{:.1}\" y=\"{}\" text-anchor=\"middle\">P_fa (per negative window)</text><text x=\"12\" y=\"{:.1}\" text-anchor=\"middle\" transform=\"rotate(-90 12 {:.1})\">P_d</text>",
+        sx(0.0),
+        sy(0.0),
+        sx(1.0),
+        sy(1.0),
+        (ml + w - mr) / 2.0,
+        ht - 4.0,
+        (mt + ht - mb) / 2.0,
+        (mt + ht - mb) / 2.0
+    );
+    let mut legend = String::from("<div class=\"legend\">");
+    for (i, r) in rocs.iter().enumerate() {
+        if r.auc.is_none() {
+            continue;
+        }
+        let slot = i % SERIES_SLOTS + 1;
+        let d: String = r
+            .points
+            .iter()
+            .enumerate()
+            .map(|(j, p)| {
+                format!(
+                    "{}{:.1},{:.1}",
+                    if j == 0 { "M" } else { "L" },
+                    sx(p[0]),
+                    sy(p[1])
+                )
+            })
+            .collect();
+        let _ = write!(
+            s,
+            "<path d=\"{d}\" fill=\"none\" stroke=\"var(--s{slot})\" stroke-width=\"2\"/>"
+        );
+        let _ = write!(
+            legend,
+            "<span><i class=\"sw\" style=\"background:var(--s{slot})\"></i>{}</span>",
+            esc(&r.kind)
+        );
+    }
+    s.push_str("</svg>");
+    legend.push_str("</div>");
+    s.push_str(&legend);
+    s.push_str("<div class=\"wrap\"><table><thead><tr><th class=\"l\">Alarm kind</th><th>Positives</th><th>Negatives</th><th>AUC</th><th>Threshold</th><th>P<sub>d</sub> at it</th><th>P<sub>fa</sub> at it</th></tr></thead><tbody>");
+    for r in rocs {
+        let _ = write!(
+            s,
+            "<tr><td class=\"l\">{}</td><td>{}</td><td>{}</td><td>{}</td><td>{}</td><td>{}</td><td>{}</td></tr>",
+            esc(&r.kind),
+            r.positives,
+            r.negatives,
+            fmt(r.auc, 3),
+            fmt(r.threshold, 3),
+            fmt(r.at_threshold.map(|a| a[1]), 3),
+            fmt(r.at_threshold.map(|a| a[0]), 3)
+        );
+    }
+    s.push_str("</tbody></table></div>");
+    s
+}
+
 fn html(
     plan: &Plan,
     rows: &[Row],
     curves: &[Curve],
+    rocs: &[super::detect::Roc],
     present: usize,
     digest: Option<&str>,
 ) -> String {
@@ -498,6 +649,10 @@ fn html(
     }
     for ((rec, ev), cs) in &by_event {
         h.push_str(&chart(rec, ev, cs));
+    }
+
+    if !rocs.is_empty() {
+        h.push_str(&roc_section(rocs));
     }
 
     // Full scorecard.
