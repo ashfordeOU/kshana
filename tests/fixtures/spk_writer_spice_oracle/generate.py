@@ -275,7 +275,7 @@ def evaluate(sp, inp, f, path):
     res = []
     for k, s in enumerate(segs):
         descr = np.array(inv["segments"][k]["descr"])
-        frame = sp.frmnam(s["frame"])
+        frame = s["frame"]
         rows = []
         for et in s["eval"]:
             _, pvn, _ = sp.spkpvn(hd, descr, et)
@@ -293,6 +293,8 @@ def evaluate(sp, inp, f, path):
             chains.append(dict(target=targ, observer=obs, rows=rows))
     sp.dafcls(hd)
     sp.unload(str(path))
+    for seg in inv["segments"]:
+        del seg["descr"]  # the packed summary (integers as raw doubles, not JSON-safe)
     return dict(inventory=inv, pvn_geo=res, chains=chains)
 
 
@@ -329,7 +331,9 @@ def oracle(root: Path) -> None:
             centre = {"EARTH": 399, "MOON": 301}[t.split("=")[1].strip()]
         elif t and t[0].isdigit() and "T" in t.split()[0] and len(t.split()) == 7:
             v = t.split()
-            et = sp.str2et(f"{v[0]} {ts}")
+            # SPICE's ISO "T" form takes no time-system token; the same calendar epoch with a
+            # blank separator does (str2et "YYYY-MM-DD HH:MM:SS.sss UTC|TDB").
+            et = sp.str2et(f"{v[0].replace('T', ' ')} {ts}")
             oem.append(dict(label=v[0], time_system=ts, et=et, centre=centre,
                             state=[float(x) for x in v[1:]]))
     sp.furnsh(str(ks_oem))
@@ -338,7 +342,10 @@ def oracle(root: Path) -> None:
         geo, _ = sp.spkgeo(target, row["et"], "J2000", row["centre"])
         row["spice_state"] = [float(x) for x in geo]
     sp.unload(str(ks_oem))
-    out["oem"] = dict(kshana_sha256=sha256(ks_oem), inventory=inventory(sp, ks_oem), lines=oem)
+    inv = inventory(sp, ks_oem)
+    for seg in inv["segments"]:
+        del seg["descr"]
+    out["oem"] = dict(kshana_sha256=sha256(ks_oem), inventory=inv, lines=oem)
     (root / "outputs" / "spice.json").write_text(json.dumps(out) + "\n")
 
 
