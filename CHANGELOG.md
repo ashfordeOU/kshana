@@ -11,6 +11,11 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **Multi-satellite ARAIM fault hypotheses** (CAP-05a): the ADD v4.2 subset rule generalised beyond
+  pairs (`add_v42_subset_plan`, `add_v42_protection_levels_to_order`; order 2 is the existing
+  MAAST-checked path exactly) and an opt-in advanced RAIM over those hypotheses
+  (`araim_subset_raim`), which reports the subset of largest separation when a fault is detected.
+  Priors needing deeper subsets are refused, never truncated. MODELLED.
 - **Skyline in receiver trust** (FUT-01): a receiver-trust session may state a `[skyline]`; satellites
   behind it are lost to the sky (`sky-blocked`, `behind_skyline`, `open_fraction`) and their losses are
   classed `geometry`, never `environment`; without one, the azimuth-gap fallback and every output
