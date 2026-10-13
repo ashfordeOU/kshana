@@ -4,9 +4,9 @@
   "repo_blob_base": "https://github.com/AshfordeOU/kshana/blob/main/",
   "summary": {
     "validated": 135,
-    "modelled": 137,
+    "modelled": 138,
     "partner_owned": 4,
-    "total": 276
+    "total": 277
   },
   "rows": [
     {
@@ -6358,6 +6358,23 @@
         {
           "path": "src/evidence/tsa.rs",
           "url": "https://github.com/AshfordeOU/kshana/blob/main/src/evidence/tsa.rs"
+        }
+      ],
+      "test_links": [],
+      "fixture": null
+    },
+    {
+      "requirement": "Receiver-trust interference thresholds calibrated on the JammerTest 2024 dataset",
+      "capability": "receiver_trust::calibration::run_dataset: the pre-registered calibration of the C/N0-drop, AGC and jamming-indicator monitors on the public JammerTest 2024 dataset (Zenodo 15911589, GPL-3.0-or-later, fetched at run time, never vendored): per folder a 1 s timeline from mon_rf.csv and rinex.csv, the monitors run once, each post-calibration epoch labelled clean or jamming from the folder's attack_log (shifted from CEST to UTC, 60 s guard), every threshold swept over a fixed grid, the smallest threshold with pooled clean false-alarm probability at most 0.01 selected, and leave-one-folder-out held-out counts; a UBX reader cross-check. The selection ships only as the opt-in profile [monitors] profile = \"jammertest-2024-calibrated\" (cn0_drop_db 1.5, agc_k_sigma 3.5, jam_ind_threshold 29); the default rule and every output without it are unchanged",
+      "status": "MODELLED",
+      "oracle_kind": "ExternalDataset",
+      "oracle": "The dataset's published event logs (attack_log windows), as event truth, under the pre-registration xval/jammertest-trust/PREREGISTRATION.md (committed alone, 0fa012b, before the harness ran). First and only run (xval/jammertest-trust/RESULTS.md): 14 of 24 folders evaluable (7 with jamming), 3,502 clean and 9,560 jamming epochs. Held-out clean false-alarm probability: cn0_drop_db 0.0231 (81/3502) against a 0.02 bar, FAIL; agc_k_sigma 0.0003, pass; jam_ind_threshold 0.0094, pass; union of the three: false alarms 0.0328, detection 0.807 against 0.05 and 0.50, pass. By the registered rule the row is MODELLED (one bar failed). Narrow: one receiver type (u-blox ZED-F9P), one event, scheduled one-minute slots as truth (detection a lower bound; clean means outside the logged windows); calibrated on the CSV logs, and the UBX reader gives more false alarms on two folders. Maritime trust-score bands are not calibrated",
+      "module": "receiver_trust::calibration (run_dataset); receiver_trust::monitors (MonitorConfig::profile, JAMMERTEST_2024_CALIBRATED); realdata::jammertest; examples/jammertest_trust_calibration.rs",
+      "tests": "tests/receiver_trust_jammertest_calibration.rs::the_recorded_calibration_reproduces (ignored, data-gated by KSHANA_JAMMERTEST_DIR: the recorded selection, held-out counts, bar verdicts and verdict); receiver_trust::calibration::tests (time stamps, window pairing and the time-zone shift, labels, guard bands, exclusion, selection); receiver_trust::monitors::tests::threshold_profile_is_opt_in",
+      "module_links": [
+        {
+          "path": "src/receiver_trust/calibration.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/src/receiver_trust/calibration.rs"
         }
       ],
       "test_links": [],
