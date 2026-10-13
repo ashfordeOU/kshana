@@ -359,6 +359,11 @@ expected to agree. The tests cover:
 
 ## 6. As built: refinements of the proposal
 
+* **Monitors (0.36).** An optional `[monitors]` table runs the IQ monitors on every cell and
+  scores their alarms against the stated events: detections, time to detect, misses, false
+  alarms, and each test's closed-form false-alarm figure. Without the table nothing changes.
+  See `MONITORS-IN-CAMPAIGN.md`.
+
 * **Lock state.** Each work item runs its channels through the tracking session
   (`iq::track::TrackSession`) with each design's `LockConfig`, and its `EpochSink` feeds the scorer.
   An update counts as locked when the session's state is `LOCKED`. A `false-lock` event the

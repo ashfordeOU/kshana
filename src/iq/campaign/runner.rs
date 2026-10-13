@@ -23,6 +23,7 @@
 //! output that is not deterministic.
 
 use super::conditions::{resolve, TestConditions};
+use super::detect::{self, CellMonitors, KindSpan, MonitorsSpec};
 use super::hash::{canonical_hash, sha256_file, sha256_hex, CanonicalHash};
 use super::score::{SatScore, SatScorer, ScoreEpoch, ScoringConfig};
 use super::spec::{DataClass, FrontendSpec, LoadedCampaign};
@@ -31,6 +32,10 @@ use crate::iq::acq::{acquire, samples_needed, AcqConfig, AcqResult};
 use crate::iq::cli::{apply_chain, build_chain, build_code};
 use crate::iq::io::batch::{default_workers, run_batch_items};
 use crate::iq::io::inventory::open_recording;
+use crate::iq::monitor::power::PowerMonitor;
+use crate::iq::monitor::run::cn0_estimate_updates;
+use crate::iq::monitor::spectral::SpectralMonitor;
+use crate::iq::monitor::{EpochMonitors, MonitorEvent};
 use crate::iq::signals::SignalCode;
 use crate::iq::track::sink::{ChannelInfo, EpochHeader, EpochSink, EventsWriter};
 use crate::iq::track::{
@@ -159,6 +164,10 @@ pub struct CellResult {
     /// satellites, in test-condition order.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub epochs: Option<EpochFiles>,
+    /// The monitors' alarms and their scoring against the stated events, when the campaign
+    /// runs monitors.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub monitors: Option<CellMonitors>,
 }
 
 /// One planned cell.
@@ -214,6 +223,9 @@ pub struct Plan {
     pub scoring: ScoringConfig,
     /// Scoring-settings hash.
     pub scoring_hash: String,
+    /// The monitors, when the campaign runs them.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub monitors: Option<MonitorsSpec>,
     /// Every cell, in order (recording, chain, design).
     pub cells: Vec<PlannedCell>,
 }
@@ -421,6 +433,7 @@ pub fn plan(c: &LoadedCampaign, out_dir: &Path, workers: usize) -> Result<Plan, 
         run_hash,
         scoring: c.spec.scoring.clone(),
         scoring_hash,
+        monitors: c.spec.monitors,
         cells,
     })
 }
@@ -702,6 +715,10 @@ struct CellWriters {
 /// each cell's epoch writers when the campaign keeps epochs.
 struct ScoreSink<'a> {
     chans: Vec<Chan>,
+    /// Per session channel: its monitors (when the campaign runs them) and the times of its
+    /// first and last loop update.
+    mons: Vec<Option<EpochMonitors>>,
+    span: Vec<Option<(f64, f64)>>,
     cursors: Vec<Option<TruthCursor<'a>>>,
     /// Session channel → (cell within the item, channel within the cell).
     route: Vec<(usize, usize)>,
@@ -726,6 +743,11 @@ impl EpochSink for ScoreSink<'_> {
             // unlocked and a flag on it was never counted.
             false_lock_flag: false,
         };
+        if let Some(m) = self.mons[channel].as_mut() {
+            m.push_epoch(e);
+        }
+        let sp = &mut self.span[channel];
+        *sp = Some(sp.map_or((se.t_s, se.t_s), |(a, b)| (a.min(se.t_s), b.max(se.t_s))));
         let truth = self.cursors[channel].as_mut().map(|c| c.at(se.t_s));
         self.chans[channel].scorer.push(&se, truth);
         let (cell, local) = self.route[channel];
@@ -824,6 +846,11 @@ fn close_writers(
         events_path: rel(&w.dest.1),
         events_sha256: sha256_file(&w.dest.1)?,
     })
+}
+
+/// The label of a satellite's channel in monitor output: `<signal>:<id>`.
+fn channel_label(s: &Sat) -> String {
+    format!("{}:{}", s.signal, s.id)
 }
 
 /// Run one work item and write its cells; returns the samples processed.
@@ -953,7 +980,28 @@ fn run_item(
                 .and_then(|t| u32::try_from(s.id).ok().and_then(|id| truths[t].cursor(id)))
         })
         .collect();
+    let mons_spec = plan.monitors;
+    let mons: Vec<Option<EpochMonitors>> = chans
+        .iter()
+        .map(|ch| {
+            mons_spec.map(|m| {
+                let d = &c.designs[plan.cells[item.cells[ch.cell]].design];
+                let lc = d.loop_config_for(sats[ch.sat].code.period_s());
+                let mut st = m.epoch;
+                if st.cn0.stride == 0 {
+                    st.cn0.stride = cn0_estimate_updates(&lc);
+                }
+                EpochMonitors::new(&channel_label(&sats[ch.sat]), lc.spacing_chips, &st)
+            })
+        })
+        .collect();
+    let span = vec![None; chans.len()];
+    let mut power = mons_spec.and_then(|m| m.power.map(|p| PowerMonitor::new(spec.fs_hz, p)));
+    let mut spectral =
+        mons_spec.and_then(|m| m.spectral.map(|p| SpectralMonitor::new(spec.fs_hz, p)));
     let mut sink = ScoreSink {
+        mons,
+        span,
         chans,
         cursors,
         route,
@@ -978,6 +1026,12 @@ fn run_item(
             break;
         }
         apply_chain(&mut chain, &mut buf[..n]);
+        if let Some(p) = power.as_mut() {
+            p.push(&buf[..n]);
+        }
+        if let Some(p) = spectral.as_mut() {
+            p.push(&buf[..n]);
+        }
         if !sink.chans.is_empty() {
             session
                 .process(&buf[..n], &mut sink)
@@ -990,6 +1044,94 @@ fn run_item(
     let mut scores: Vec<Vec<Option<SatScore>>> =
         item.cells.iter().map(|_| vec![None; sats.len()]).collect();
     let end_s = done as f64 / spec.fs_hz;
+    // The monitors' blocks, per cell: the pre-correlation alarms are shared by the cells of
+    // the item (one recording through one chain); each channel's belong to its cell.
+    let mut cell_mons: Vec<Option<(CellMonitors, Vec<KindSpan>)>> = Vec::new();
+    if let Some(m) = mons_spec {
+        let mut alarms: Vec<MonitorEvent> = Vec::new();
+        let mut kinds: Vec<KindSpan> = Vec::new();
+        let pre = |kind: &str, from_s: f64| KindSpan {
+            kind: kind.into(),
+            channel: None,
+            sat: None,
+            from_s,
+            to_s: end_s,
+        };
+        if let (Some(p), Some(st)) = (&power, m.power) {
+            alarms.extend(p.events());
+            kinds.push(pre("power_rise", st.baseline_s));
+            kinds.push(pre("power_drop", st.baseline_s));
+        }
+        if let (Some(p), Some(st)) = (&spectral, m.spectral) {
+            alarms.extend(p.events());
+            for k in ["spectral_excess", "kurtosis", "pulses"] {
+                kinds.push(pre(k, st.baseline_s));
+            }
+        }
+        let tests = detect::pre_correlation_tests(
+            m.power
+                .as_ref()
+                .zip(power.as_ref())
+                .map(|(st, p)| (st, p.block_len())),
+            m.spectral
+                .as_ref()
+                .zip(spectral.as_ref())
+                .map(|(st, p)| (st, p.excess_threshold_db(), p.excess_pfa_closed_form())),
+        );
+        for _ in &item.cells {
+            cell_mons.push(Some((
+                CellMonitors {
+                    alarms: alarms.clone(),
+                    tests: tests.clone(),
+                    ..CellMonitors::default()
+                },
+                kinds.clone(),
+            )));
+        }
+        for (i, ch) in sink.chans.iter().enumerate() {
+            let (Some(em), Some((first, last))) = (&sink.mons[i], sink.span[i]) else {
+                continue;
+            };
+            let Some((cm, kinds)) = cell_mons[ch.cell].as_mut() else {
+                continue;
+            };
+            let label = channel_label(&sats[ch.sat]);
+            cm.alarms.extend(em.cn0.events());
+            cm.alarms.extend(em.sqm.events());
+            cm.tests
+                .extend(detect::channel_tests(&label, &m.epoch, em.cn0.reference()));
+            for (k, base) in [
+                ("cn0_drop", m.epoch.cn0.baseline_s),
+                ("cn0_rise", m.epoch.cn0.baseline_s),
+                ("sqm_delta", m.epoch.sqm.baseline_s),
+                ("sqm_ratio", m.epoch.sqm.baseline_s),
+            ] {
+                kinds.push(KindSpan {
+                    kind: k.into(),
+                    channel: Some(label.clone()),
+                    sat: Some(sats[ch.sat].id),
+                    from_s: first + base,
+                    to_s: last,
+                });
+            }
+        }
+    } else {
+        cell_mons = item.cells.iter().map(|_| None).collect();
+    }
+    let mut cell_mons: Vec<Option<CellMonitors>> = cell_mons
+        .into_iter()
+        .map(|o| {
+            o.map(|(mut cm, kinds)| {
+                cm.alarms
+                    .sort_by(|a, b| a.t_alarm_s.total_cmp(&b.t_alarm_s));
+                let grace = mons_spec.map_or(0.0, |m| m.detect_grace_s);
+                let (d, f) = detect::score(&cm.alarms, &kinds, tc, grace);
+                cm.detections = d;
+                cm.false_alarms = f;
+                cm
+            })
+        })
+        .collect();
     for ch in sink.chans {
         scores[ch.cell][ch.sat] = Some(ch.scorer.finish(end_s));
     }
@@ -1040,6 +1182,7 @@ fn run_item(
             samples_processed: done,
             satellites,
             epochs: epoch_files[k].take(),
+            monitors: cell_mons[k].take(),
         };
         write_atomic(
             &cell_path(out_dir, &cell.key),

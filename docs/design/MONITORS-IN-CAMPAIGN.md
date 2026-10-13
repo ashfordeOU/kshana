@@ -64,3 +64,28 @@ before any bar is run. A miss is recorded as NOT MET, never loosened.
 
 All four are MODELLED internal consistency: the monitors against their own closed forms on
 Kshana's own noise and signals. No real receiver is checked.
+
+## 4. Results (synthetic, 2026-10-13)
+
+The bars were run after §3 was committed (382ab2f4), in release, on 4 cores: about 5 minutes
+for both campaigns. One harness error came before any bar was evaluated: the loop design named
+`default` is a reserved name. It was renamed `plain`, with the same default settings. No bar,
+recipe or setting was changed after a result was seen.
+
+| bar | measured | verdict |
+|---|---|---|
+| M1 | 73 of 5900 blocks past ±0.0708 dB (0.0124), against the closed form 0.01 and its 99 % binomial interval [40, 80] | MET |
+| M2 | Fraction past `k = 2.5758`: delta 0.0160, ratio 0.0131, over 174 s of channel time each, against `2Q(k) = 0.01` within a factor of 2 | MET |
+| M3 | 18 of 18 satellite-events detected (`P_md = 0`: met). Median time to detect 1.001 s, against 2 × ARL1 × 1.000 s = 0.433 s | **NOT MET** |
+| M4 | 0 C/N0 false alarms; exposure / ARL0 is 5.9e-22, so the Poisson 99 % bound is 0 | MET |
+
+Why M3's timing clause is missed: the CUSUM takes one C/N0 estimate per estimator window
+(1 s for the default design). After a 6 dB step, Siegmund's `ARL1` is about 0.2 detector
+samples, so the registered bound of 2 × ARL1 samples is below one sample. No detection can come
+sooner than the first estimate whose window lies after the onset, about one window. A bound
+stated in samples would need the sample grid and the estimator's window delay added to be
+attainable. That would be a new pre-registration, not a change to this one.
+
+`m3_every_attenuation_is_detected_within_twice_the_arl1` stays strict, ignored with these
+values. M1, M2 and M4 run in the release CI job.
+

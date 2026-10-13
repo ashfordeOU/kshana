@@ -1264,6 +1264,15 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            requirement: "IQ monitors scored in lab-replay campaigns: detection, misses, false alarms and closed-form false-alarm figures",
+            capability: "iq::campaign::detect and the campaign runner: an optional [monitors] table runs the IQ monitors on every cell in the runner's single pass. The power and spectral monitors see the samples after each front-end chain; the C/N0, SQM and lock monitors see each tracked channel's loop updates. Each alarm is scored against the stated events: detected or missed per (event, alarm kind, channel), time to detect, and false alarms outside the events over their exposure. Each test's closed-form false-alarm figure is stated: power per block (exact Gamma tail), spectral excess per block (approximation), kurtosis (one-sided Gaussian), pulses (binomial ceiling), SQM per averaged update (2Q(k) = Q(1/2, k^2/2), new), and the C/N0 CUSUM's ARL0 (Siegmund). Without the table, cells, keys and digests are unchanged. No interference waveform is synthesised",
+            module: "iq::campaign (detect, runner, spec); iq::monitor (stats::gaussian_two_sided_pfa, sqm)",
+            tests: "tests/iq_campaign_monitors.rs: m1_power_test_false_alarm_rate_matches_the_closed_form (73 of 5900 blocks against the 99 % binomial interval [40, 80] of P_fa 0.01), m2_sqm_false_alarm_fraction_is_within_a_factor_of_2_of_2q_k (delta 0.0160, ratio 0.0131 against 0.01), m4_cn0_false_alarms_stay_within_the_poisson_bound_of_arl0 (0 against 0), the_monitors_table_parses_and_validates; m3_every_attenuation_is_detected_within_twice_the_arl1 (strict, ignored with the gap); iq::campaign::detect tests; iq::monitor::stats tests (gaussian_two_sided_tail_matches_known_values); tests/iq_campaign.rs (the pinned digests are unchanged without the table)",
+            oracle: "The monitors' own closed forms on Kshana's own GPS L1 C/A scenes (noise and legitimate signals; attenuation events of the satellites' own signals), against bars pre-registered in docs/design/MONITORS-IN-CAMPAIGN.md (382ab2f4). FINDING: M1, M2 and M4 met. M3 met on detection (18 of 18 attenuations, P_md 0) and NOT MET on its timing clause: the median time to detect is 1.001 s against 2 x ARL1 samples = 0.433 s. The CUSUM sees one estimate per 1 s window, so the sample-count bound is below one sample. Internal consistency only: no real receiver or recorded interference is checked",
+            oracle_kind: InternalConsistency,
+            status: Modelled,
+        },
+        VerificationItem {
             requirement: "GPS LNAV encoding decoded by an independent receiver library",
             capability: "Kshana's LNAV subframes 1-3 (gps_lnav::encode_subframes) for the 32 brdc0010.22n ephemerides fed to RTKLIB's decode_word and decode_frame: parity of every word, subframe decoding with consistent issue of data, and every decoded parameter against Kshana's integer and against the input value",
             module: "gps_lnav",

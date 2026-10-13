@@ -11,6 +11,17 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **IQ monitors in the lab-replay campaign** (PRO-31,
+  [`docs/design/MONITORS-IN-CAMPAIGN.md`](docs/design/MONITORS-IN-CAMPAIGN.md)). An optional
+  `[monitors]` table in a campaign file runs the IQ monitors in the runner's single pass: power
+  and spectral after each front-end chain, and C/N0, SQM and lock per tracked channel. Their
+  alarms are scored against the stated events: detected or missed, time to detect, and false
+  alarms per hour of exposure. Each test's closed-form false-alarm figure is stated, including
+  a new two-sided Gaussian figure for the SQM tests (`2Q(k)`). Without the table nothing
+  changes. On synthetic campaigns the power and SQM false-alarm bars and the C/N0 false-alarm
+  bar are met; 18 of 18 attenuations are detected, but the time-to-detect bound, below one
+  detector sample by construction, is not met and is recorded. MODELLED; ledger row "IQ
+  monitors scored in lab-replay campaigns".
 - **Lunar reference-station study** (0.36, prompted by published material on a planned lunar
   south-pole reference station; sources in [`docs/LUNAR-REFERENCE-STATION.md`](docs/LUNAR-REFERENCE-STATION.md)):
   the `lunar-station-coverage` kind, a Monte Carlo sweep of the lunar differential-PNT model over
