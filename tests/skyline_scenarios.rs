@@ -116,6 +116,9 @@ fn every_wired_scenario_is_byte_identical_to_the_0_36_portable_baseline() {
 /// The 0.35.0 release baseline is kept as the record of what 0.35.0 released: its rows are
 /// not compared with this build (STUDIO-15 moved the last bits of most of them; see
 /// `docs/revisions/STUDIO15-portable-math-rebaseline.md`), but the file itself must not move.
+// PIN-SCOPE:    the whole 0.35.0 baseline file `flat_hashes_0.35.0.txt`, byte for byte: it is the record
+//               of what the 0.35.0 release produced, not a comparison with this build
+// PIN-EXCLUDES: nothing in that file; the rows of the 0.36 portable baseline are a different file
 #[test]
 fn the_0_35_0_baseline_is_kept_unchanged_as_the_historical_record() {
     assert_eq!(
