@@ -12,7 +12,7 @@ use zeroize::Zeroizing;
 
 const USAGE: &str = "usage:
   kshana evidence keygen --out <keyfile>
-  kshana evidence verify <bundle-dir> --pubkey <hex|file> [--log <full-log>] [--require-timestamp]
+  kshana evidence verify <bundle-dir> --pubkey <hex|file> [--log <full-log>] [--require-timestamp] [--tsa-ca <anchors.pem>]
       [--allow-unpinned] [--json]      exit 0 verified, 1 failed, 3 intact but signer not pinned
   kshana evidence attach-timestamp <bundle-dir> <token.tsr> [--replace]
       (reads the RFC 3161 token and binds it to the manifest; it does NOT verify the timestamp
@@ -208,12 +208,25 @@ fn run_evidence_inner(args: &[String]) -> Result<i32, String> {
                 None => None,
                 Some(p) => Some(std::fs::read(&p).map_err(|e| format!("cannot read {p}: {e}"))?),
             };
+            let anchors = match flag_value(args, "--tsa-ca")? {
+                None => None,
+                Some(p) => {
+                    let text =
+                        std::fs::read_to_string(&p).map_err(|e| format!("cannot read {p}: {e}"))?;
+                    let certs = crate::evidence::tsa::pem_certificates(&text)?;
+                    if certs.is_empty() {
+                        return Err(format!("{p}: no PEM certificate found"));
+                    }
+                    Some(certs)
+                }
+            };
             let rep = verify_bundle(
                 &files,
                 &VerifyOptions {
                     expected_public_key: pin,
                     full_log: full.as_deref(),
                     require_timestamp: args.iter().any(|a| a == "--require-timestamp"),
+                    tsa_anchors: anchors.as_deref(),
                 },
             );
             let allow_unpinned = args.iter().any(|a| a == "--allow-unpinned");

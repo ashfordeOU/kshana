@@ -209,6 +209,36 @@ breaking changes are called out explicitly.
   the precise chain runs from an SP3 alone. VALIDATED against the IGS final 30 s clocks of
   2025-02-24 under pre-registered bars: 32 GPS satellites, mid-point RMS 0.121 ns (bar 0.15 ns),
   95th percentile 0.265 ns (bar 0.30 ns).
+- **RAIM beside the clock-holdover figures of merit** (CAP-05b): an opt-in `[integrity]` section on the
+  clock kind reports a separate `integrity_fom` block (snapshot RAIM on a preset sky from a stated site:
+  per-epoch verdict and protection levels, availability; unavailable while GNSS is denied, never
+  extrapolated). The holdover figures are unchanged; without the section the output is byte-identical.
+  MODELLED.
+- **Receiver-trust thresholds calibrated on JammerTest 2024** (CAP-13): a pre-registered calibration of
+  the C/N0-drop, AGC and jamming-indicator monitors on the public JammerTest 2024 dataset (fetched at run
+  time, never vendored; `examples/jammertest_trust_calibration.rs`), shipped only as the opt-in
+  `[monitors] profile = "jammertest-2024-calibrated"` (1.5 dB, 3.5 sigma, 29). Held-out: the AGC,
+  jamming-indicator and union bars pass; the C/N0 false-alarm bar fails (0.023 against 0.02), so the row is
+  MODELLED (`xval/jammertest-trust/RESULTS.md`). Defaults and outputs without the profile are unchanged.
+- **Multi-satellite ARAIM fault hypotheses** (CAP-05a): the ADD v4.2 subset rule generalised beyond
+  pairs (`add_v42_subset_plan`, `add_v42_protection_levels_to_order`; order 2 is the existing
+  MAAST-checked path exactly) and an opt-in advanced RAIM over those hypotheses
+  (`araim_subset_raim`), which reports the subset of largest separation when a fault is detected.
+  Priors needing deeper subsets are refused, never truncated. MODELLED.
+- **Skyline in receiver trust** (FUT-01): a receiver-trust session may state a `[skyline]`; satellites
+  behind it are lost to the sky (`sky-blocked`, `behind_skyline`, `open_fraction`) and their losses are
+  classed `geometry`, never `environment`; without one, the azimuth-gap fallback and every output
+  are as before. The crew-training generator gains a `natural-degradation` event (a blocked sky, not
+  interference) and the scenario `scenarios/training/fjord-natural-degradation.toml`. The UERE x DOP
+  Monte Carlo gains the design note's two masked-skyline geometries, pre-registered alone: all 26
+  checks pass.
+- **RFC 3161 timestamp verification** (CAP-14): `kshana::evidence::tsa::verify_token` checks a
+  timestamp token's signature (RSA PKCS#1 v1.5, RSA-PSS, ECDSA P-256 and P-384), its ESS
+  signing-certificate binding, the signer's timeStamping usage and its chain to a trusted anchor at
+  the token's genTime, offline; `kshana evidence verify --tsa-ca <anchors.pem>` applies it to a pack's
+  `timestamp.tsr` (opt-in; without it the report is unchanged). VALIDATED, narrowly: all 27
+  self-generated cases agree with OpenSSL 3.0.13 on the verdict and the genTime, under a comparison
+  pre-registered before the verifier was written. Revocation is not checked.
 - **Lunar reference-station study** (0.36, prompted by published material on a planned lunar
   south-pole reference station; sources in [`docs/LUNAR-REFERENCE-STATION.md`](docs/LUNAR-REFERENCE-STATION.md)):
   the `lunar-station-coverage` kind, a Monte Carlo sweep of the lunar differential-PNT model over

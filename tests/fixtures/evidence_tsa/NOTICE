@@ -1,0 +1,28 @@
+RFC 3161 timestamp-token fixtures (tests/fixtures/evidence_tsa)
+
+Origin: self-generated. Every key, certificate and token in this directory was made by
+gen.sh in this directory with OpenSSL 3.0.13 on 2026-10-12, for testing only. No real
+timestamp authority, certification authority or third-party data is involved. The
+certificate names ("Kshana Test Root RSA", "Kshana Test TSA P-256", ...) are invented.
+The private keys were created in a temporary directory and deleted; they are not here.
+
+Licence: the same as the repository (AGPL-3.0-only; see LICENSE and LICENSING.md).
+
+Contents
+  data.txt, other.txt     the message that was stamped, and a different one
+  certs/*.pem             test trust anchors and certificates (public certificates only)
+  tokens/*.tsr            TimeStampResp as written by `openssl ts -reply`
+  tokens/*.tst            bare TimeStampToken (CMS ContentInfo) written by `openssl cms -sign -cades`
+  cases.tsv               the comparison cases (token, data, trust anchors, untrusted certs)
+  openssl-verdicts.txt    the oracle's verdict per case, written by run_openssl.sh
+  gen.sh, run_openssl.sh  how the fixtures and the oracle verdicts were made
+
+Transforms: the *-sigflip, *-tstinfo-changed, *-intsigflip and *-ess-twin tokens are copies of
+good tokens with one byte changed or one embedded certificate replaced, as gen.sh describes.
+Regenerating with gen.sh produces different bytes (new keys and times); regenerate
+openssl-verdicts.txt with run_openssl.sh at the same time.
+
+Not vendored: tokens from any public timestamp authority. freetsa.org publishes no licence
+or terms of use for its tokens or certificates (checked at https://freetsa.org/index_en.php
+on 2026-10-12), so its token is fetched at test time by an ignored test instead
+(tests/evidence_tsa_openssl.rs, freetsa_token_agrees_with_openssl).

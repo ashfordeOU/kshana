@@ -643,6 +643,7 @@ mod tests {
                 drift: 0.0,
                 flicker_floor: 0.0,
             },
+            integrity: None,
         }
     }
 
