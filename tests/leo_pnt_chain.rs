@@ -7,8 +7,8 @@
 //! figure that depends on it. They also check the leo-pass signal-design wiring on its own
 //! and that a leo-pass export reproduces the engine's geometry.
 
-use kshana::portable_math::PortableFloat;
 use kshana::api::run_toml;
+use kshana::portable_math::PortableFloat;
 use serde_json::Value;
 
 const E2E: &str = include_str!("../scenarios/leo-pnt-end-to-end.toml");

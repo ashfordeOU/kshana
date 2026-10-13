@@ -34,8 +34,8 @@
 //! scenario either exports each format and passes its validator, or states why the format
 //! does not apply, in the table `docs/INTEROP.md` carries.
 
-use kshana::portable_math::PortableFloat;
 use kshana::interop::{self, scene, ExportError, Format};
+use kshana::portable_math::PortableFloat;
 use serde_json::Value;
 use std::path::{Path, PathBuf};
 

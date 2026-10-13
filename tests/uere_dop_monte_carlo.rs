@@ -15,8 +15,8 @@
 //! closed-form covariance of the same model. No external dataset checks it; σ_UERE is an
 //! input.
 
-use kshana::portable_math::PortableFloat;
 use kshana::dop_error_mc::{check, run_geometry, GeometryResult, McConfig};
+use kshana::portable_math::PortableFloat;
 
 const REF: &str = include_str!("fixtures/dop/dop_reference.csv");
 

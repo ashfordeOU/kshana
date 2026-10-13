@@ -11,7 +11,6 @@
 //! GPS L1 C/A, complex white Gaussian noise of unit power, optional 50 bit/s data); the
 //! full scene generator is a separate stream.
 
-use kshana::portable_math::PortableFloat;
 use kshana::acquisition::{fft_forward, pd_square_law, threshold_for_pfa};
 use kshana::iq::acq::{acquire, acquire_source, AcqConfig};
 use kshana::iq::track::cn0::{beaulieu_cn0_dbhz, nwpr_cn0_dbhz};
@@ -21,6 +20,7 @@ use kshana::iq::track::{
     replay, CarrierLoop, ChannelInit, EpochOutput, LoopConfig, LoopCore, TrackingBank,
 };
 use kshana::iq::{Cf64, SampleSpec, SpreadingCode, VecSource};
+use kshana::portable_math::PortableFloat;
 use kshana::sdr::CaCode;
 use rand::{Rng, SeedableRng};
 use rand_chacha::ChaCha8Rng;

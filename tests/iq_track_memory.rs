@@ -5,11 +5,11 @@
 //! must not see other tests' allocations. Reference: the in-memory path keeps one
 //! `EpochOutput` (about 200 bytes) per loop update; the streamed path keeps none.
 
-use kshana::portable_math::PortableFloat;
 use kshana::iq::cli::build_code;
 use kshana::iq::track::sink::{BinaryEpochWriter, CollectSink, EpochHeader, Fanout, Summary};
 use kshana::iq::track::{ChannelInit, LoopConfig, SessionChannel, TrackSession};
 use kshana::iq::{Cf64, IqError, IqSource, SampleSpec, SpreadingCode};
+use kshana::portable_math::PortableFloat;
 use std::alloc::{GlobalAlloc, Layout, System};
 use std::f64::consts::TAU;
 use std::sync::atomic::{AtomicUsize, Ordering};

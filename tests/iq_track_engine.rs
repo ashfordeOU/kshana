@@ -10,7 +10,6 @@
 //! hand-off produces must be detected at the ±1/(2T) alias and, with re-acquisition on,
 //! repaired to the injected Doppler; a signal gap must be declared lost and re-acquired.
 
-use kshana::portable_math::PortableFloat;
 use kshana::iq::cli::build_code;
 use kshana::iq::track::design::DesignFile;
 use kshana::iq::track::sink::{
@@ -19,6 +18,7 @@ use kshana::iq::track::sink::{
 };
 use kshana::iq::track::{replay, ChannelInit, LockState, LoopConfig, SessionChannel, TrackSession};
 use kshana::iq::{Cf64, IqError, IqSource, SampleSpec, SpreadingCode};
+use kshana::portable_math::PortableFloat;
 use std::f64::consts::TAU;
 use std::sync::Arc;
 

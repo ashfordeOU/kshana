@@ -21,9 +21,9 @@
 //!   swarm/SW_OPER_SP3ACOM_2_L47_2022001_3h.sp3   6cd84b78…acb733e
 //!   eop/finals2000A_2022001.txt                  6b781d36…cb2ed00f
 
-use kshana::portable_math::PortableFloat;
 use kshana::cio::itrs_to_gcrs;
 use kshana::eop::EopSeries;
+use kshana::portable_math::PortableFloat;
 use kshana::precise_od::{fit, EstimatedParams, FitConfig, Observation, PreciseForceModel};
 use kshana::sp3::parse_sp3;
 use kshana::timescales::{gps_to_tt, julian_date};

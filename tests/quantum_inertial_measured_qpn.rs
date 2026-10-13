@@ -79,8 +79,8 @@
 //! (1/(C·N)) or the quadrature sum in `DualCai::differential_phase_noise` (a plain
 //! sum) must turn the strict test red.
 
-use kshana::portable_math::PortableFloat;
 use kshana::inertial::quantum_imu::{effective_wavevector, CaiAccelerometer, DualCai};
+use kshana::portable_math::PortableFloat;
 
 const FIG14: &str = "tests/fixtures/quantum_inertial_measured_qpn/gauguet2009_fig14.csv";
 const JANVIER: &str = "tests/fixtures/quantum_inertial_measured_qpn/janvier2022_fig2b_qpn_line.csv";

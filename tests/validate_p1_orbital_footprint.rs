@@ -42,10 +42,10 @@
 //! `tests/fixtures/p1_footprint/` (`pattern_reference.csv`, `sweep_reference.csv`,
 //! `geometry_reference.csv`, `NOTICE`, `generate_footprint_reference.py`).
 
-use kshana::portable_math::PortableFloat;
 use kshana::antenna::{
     boresight_gain_dbi, capture_footprint, pattern_gain_dbi, FootprintParams, FootprintResult,
 };
+use kshana::portable_math::PortableFloat;
 
 const PATTERN_REF: &str = include_str!("fixtures/p1_footprint/pattern_reference.csv");
 const SWEEP_REF: &str = include_str!("fixtures/p1_footprint/sweep_reference.csv");

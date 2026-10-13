@@ -9,11 +9,11 @@
 //!   25 MS/s is at most 256 MB, input included (ignored test, release);
 //! * A3 the existing acquisition and tracking tests pass unchanged.
 
-use kshana::portable_math::PortableFloat;
 use kshana::iq::acq::{acquire, acquire_peak, AcqConfig};
 use kshana::iq::cli::build_code;
 use kshana::iq::track::design::Design;
 use kshana::iq::{Cf64, SampleSpec, SpreadingCode};
+use kshana::portable_math::PortableFloat;
 use std::f64::consts::TAU;
 
 /// `n` samples of `code` at `doppler` and code phase `phase0` chips plus unit-variance noise

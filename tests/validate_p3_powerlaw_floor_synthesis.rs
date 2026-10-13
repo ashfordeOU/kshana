@@ -31,8 +31,8 @@
 //! generator and the level formulas are the reference; the engine estimator is the thing under
 //! test. Everything is seeded and deterministic.
 
-use kshana::portable_math::PortableFloat;
 use kshana::allan::overlapping_adev;
+use kshana::portable_math::PortableFloat;
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
 use rand_distr::{Distribution, Normal};

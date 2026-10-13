@@ -15,13 +15,13 @@
 //!
 //! Every scene here is seeded, so every number is reproducible.
 
-use kshana::portable_math::PortableFloat;
 use kshana::frames::{geodetic_to_ecef, Geodetic};
 use kshana::iq::scene::{
     NavData, RangeProfile, ReceiverClock, Scene, SceneConfig, SceneSatellite, Trajectory,
     TruthRecord,
 };
 use kshana::iq::{Cf64, SampleSpec, VecSink, C_M_PER_S};
+use kshana::portable_math::PortableFloat;
 use kshana::pvt::{sagnac_rotate, solve_spp, SppMeasurement};
 use kshana::rinex::parse_nav;
 use kshana::sdr::{

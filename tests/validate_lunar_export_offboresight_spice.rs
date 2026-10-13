@@ -80,8 +80,8 @@
 //! rule, 0.920 against 1.02 lambda/D) are closed-form algebra on stated rules of thumb; no
 //! independent library or published worked value recomputes them here.
 
-use kshana::portable_math::PortableFloat;
 use kshana::lunar_service::{ExportAntennaCfg, LunarServiceScenario};
+use kshana::portable_math::PortableFloat;
 use std::collections::HashMap;
 
 const REFERENCE_A: &str = "tests/fixtures/lunar_export_offboresight_spice/flown_orbiters.csv";

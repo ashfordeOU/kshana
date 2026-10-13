@@ -46,10 +46,10 @@
 //! All three are deliberately stated as **order-of-magnitude** specs, not exact
 //! contract numbers, and are labelled as such.
 
-use kshana::portable_math::PortableFloat;
 use kshana::body::Body;
 use kshana::ephem_provider::EphemerisProvider;
 use kshana::forces::MU_SUN;
+use kshana::portable_math::PortableFloat;
 use kshana::radiometric::{
     delta_dor, dual_freq_plasma_calibration, one_way_doppler, one_way_range, shapiro_delay,
     solar_plasma_delay, two_way_doppler, two_way_range, Band,
