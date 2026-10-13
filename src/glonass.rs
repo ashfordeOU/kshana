@@ -13,9 +13,11 @@
 //! This module parses the RINEX 3 GLONASS (`R`) records into a
 //! [`GlonassEphemeris`] and propagates them in the PZ-90 Earth-fixed frame; the
 //! result is exposed to the rest of the engine as a [`crate::orbit::Propagator`].
-//! Scope: the broadcast (operational) ephemeris. The clock/frequency parameters
-//! are parsed but not yet applied; the frame is treated as ECEF-equivalent for the
-//! TEME rotation, consistent with the GMST-only frame model elsewhere.
+//! Scope: the broadcast (operational) ephemeris and its satellite clock
+//! ([`GlonassEphemeris::sv_clock_bias_s`], `−τn + γn·(t − tb)`). The frame is treated as
+//! ECEF-equivalent for the TEME rotation, consistent with the GMST-only frame model
+//! elsewhere. No PZ-90.11 → ITRF transformation is applied: since 2014 the broadcast frame is
+//! PZ-90.11, which agrees with ITRF2008 at the centimetre level (RTKLIB applies none either).
 
 use crate::rinex::{col, orbit_fields, parse_d, EpochUtc};
 use serde::Serialize;
@@ -131,6 +133,21 @@ impl GlonassEphemeris {
             [s[0] * 1000.0, s[1] * 1000.0, s[2] * 1000.0],
             [s[3] * 1000.0, s[4] * 1000.0, s[5] * 1000.0],
         )
+    }
+
+    /// The satellite clock bias (s) of the broadcast message, `−τn + γn·(t − tb)`
+    /// (GLONASS ICD, edition 5.1), at `t_sv_s` seconds from the reference epoch `tb` **as read
+    /// on the satellite clock**. The offset is first corrected for the clock bias itself by two
+    /// fixed-point iterations, the convention of RTKLIB `geph2clk`; with `|γn| ≲ 1e-11` the
+    /// iteration moves the result by well under a picosecond. The system time is
+    /// `t_sv − sv_clock_bias_s(t_sv)`. Units of the stored fields: `minus_tau_n` in s (the RINEX
+    /// `−τn`), `gamma_n` dimensionless.
+    pub fn sv_clock_bias_s(&self, t_sv_s: f64) -> f64 {
+        let mut t = t_sv_s;
+        for _ in 0..2 {
+            t -= self.minus_tau_n + self.gamma_n * t;
+        }
+        self.minus_tau_n + self.gamma_n * t
     }
 
     /// The PZ-90 Earth-fixed (ECEF) position (m) at `t_offset_s` seconds from the
