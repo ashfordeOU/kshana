@@ -298,9 +298,56 @@ pub fn itrf_to_teme(r_itrf: Vec3, jd_ut1: f64, xp_rad: f64, yp_rad: f64, jd_tt: 
     ecef_to_teme(itrf_to_pef(r_itrf, xp_rad, yp_rad, jd_tt), jd_ut1)
 }
 
+/// As [`teme_to_itrf`] with a two-part UT1 Julian date: the sidereal rotation is
+/// [`crate::jd2::gmst82`] on the two parts (the same IAU 1982 model as [`gstime`]), so the
+/// Earth-fixed position keeps the microsecond a single-`f64` date loses.
+pub fn teme_to_itrf_jd2(
+    r_teme: Vec3,
+    ut1: crate::jd2::Jd2,
+    xp_rad: f64,
+    yp_rad: f64,
+    jd_tt: f64,
+) -> Vec3 {
+    let (s, c) = crate::jd2::gmst82(ut1).sin_cos();
+    let pef = [
+        c * r_teme[0] + s * r_teme[1],
+        -s * r_teme[0] + c * r_teme[1],
+        r_teme[2],
+    ];
+    pef_to_itrf(pef, xp_rad, yp_rad, jd_tt)
+}
+
+/// Exact inverse of [`teme_to_itrf_jd2`].
+pub fn itrf_to_teme_jd2(
+    r_itrf: Vec3,
+    ut1: crate::jd2::Jd2,
+    xp_rad: f64,
+    yp_rad: f64,
+    jd_tt: f64,
+) -> Vec3 {
+    let pef = itrf_to_pef(r_itrf, xp_rad, yp_rad, jd_tt);
+    let (s, c) = crate::jd2::gmst82(ut1).sin_cos();
+    [c * pef[0] - s * pef[1], s * pef[0] + c * pef[1], pef[2]]
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn the_two_part_teme_to_itrf_round_trips_and_resolves_a_microsecond() {
+        let r = [7.0e6, -1.2e6, 3.3e6];
+        let ut1 = crate::jd2::Jd2::from_parts(2_461_326.0, 0.123_456_789);
+        let (xp, yp) = (arcsec(0.1), arcsec(0.3));
+        let e = teme_to_itrf_jd2(r, ut1, xp, yp, ut1.total());
+        let back = itrf_to_teme_jd2(e, ut1, xp, yp, ut1.total());
+        assert!(norm([back[0] - r[0], back[1] - r[1], back[2] - r[2]]) < 1e-8);
+        // One microsecond later the Earth-fixed position moves by |r_xy|·ω·1 µs ≈ 0.52 mm.
+        let e1 = teme_to_itrf_jd2(r, ut1.add_seconds(1e-6), xp, yp, ut1.total());
+        let moved = norm([e1[0] - e[0], e1[1] - e[1], e1[2] - e[2]]);
+        let want = (r[0] * r[0] + r[1] * r[1]).sqrt() * 7.292_115_146_7e-5 * 1e-6;
+        assert!((moved - want).abs() < 1e-3 * want, "{moved} vs {want}");
+    }
 
     fn norm(v: Vec3) -> f64 {
         (v[0] * v[0] + v[1] * v[1] + v[2] * v[2]).sqrt()

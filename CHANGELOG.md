@@ -11,6 +11,16 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **Two-part Julian dates through Earth rotation on the orbit path**: `jd2::gmst82`,
+  `cio::gcrs_to_itrs_matrix_jd2`, `frames::teme_to_itrf_jd2` / `itrf_to_teme_jd2`,
+  `orbit::Propagator::position_in_frame_jd2` and `own_jd2_utc`, `From` conversions between
+  `jd2::Jd2` and `timescales::TwoPartJd`, and an opt-in `two_part_jd = true` for the
+  `ephemeris` scenario (ECEF, ground track and station view; default off and unchanged, and the
+  key is left out of the scenario hash when off). New ledger row, VALIDATED against pyerfa
+  `gmst82`/`c2t06a` (pre-registered b10475ee; 40 dates: GMST bit-identical, matrix within
+  2.7e-14, rotation over 1 µs steps within 1.1e-14 rad, where the single-`f64` path misses
+  them). The Cowell force-model epoch stays single-`f64`; the reason is in its documentation.
+
 - **EOP prediction beyond the table** (`EopSeries::with_ls_ar_prediction`, `EopSeries::last_mjd`):
   an opt-in extension of an IERS Earth-orientation series by the LS+AR predictor issued at its
   last row, so the frame arguments of a later epoch follow the forecast instead of clamping to
