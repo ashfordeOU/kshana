@@ -40,9 +40,11 @@
 //! pseudorange, `z_i = ê_i · δp + ν_i` with the line-of-sight unit vector `ê_i`.
 //! Because each satellite contributes its own scalar measurement, the filter keeps
 //! correcting with **fewer than four satellites**, where a loosely-coupled PVT
-//! solution does not exist — see [`GnssInsEkf::update_tightly_coupled`]. (The
-//! pseudoranges are taken receiver-clock-corrected, i.e. single-differenced; an
-//! explicit receiver-clock state is a future extension.)
+//! solution does not exist — see [`GnssInsEkf::update_tightly_coupled`]. (This
+//! filter takes the pseudoranges receiver-clock-corrected, i.e. single-differenced;
+//! the tightly-coupled filters in [`crate::fusion::tightly_coupled`] and
+//! [`crate::fusion::tightly_coupled17`] carry an explicit receiver-clock bias and
+//! drift state instead.)
 //!
 //! No external linear-algebra dependency: the small dense matrices are handled
 //! by the helpers in this module.
