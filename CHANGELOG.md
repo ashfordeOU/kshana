@@ -11,6 +11,13 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **RFC 3161 timestamp verification** (CAP-14): `kshana::evidence::tsa::verify_token` checks a
+  timestamp token's signature (RSA PKCS#1 v1.5, RSA-PSS, ECDSA P-256 and P-384), its ESS
+  signing-certificate binding, the signer's timeStamping usage and its chain to a trusted anchor at
+  the token's genTime, offline; `kshana evidence verify --tsa-ca <anchors.pem>` applies it to a pack's
+  `timestamp.tsr` (opt-in; without it the report is unchanged). VALIDATED, narrowly: all 27
+  self-generated cases agree with OpenSSL 3.0.13 on the verdict and the genTime, under a comparison
+  pre-registered before the verifier was written. Revocation is not checked.
 - **Lunar reference-station study** (0.36, prompted by published material on a planned lunar
   south-pole reference station; sources in [`docs/LUNAR-REFERENCE-STATION.md`](docs/LUNAR-REFERENCE-STATION.md)):
   the `lunar-station-coverage` kind, a Monte Carlo sweep of the lunar differential-PNT model over

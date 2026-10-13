@@ -202,6 +202,7 @@ fn kshana_and_the_clean_room_verifier_agree_on_every_case() {
                 expected_public_key: pin,
                 full_log: full_log.as_deref(),
                 require_timestamp: opts["require_timestamp"].as_bool().unwrap_or(false),
+                tsa_anchors: None,
             },
         );
         let o = &reference["cases"][id];

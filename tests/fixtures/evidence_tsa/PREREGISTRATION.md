@@ -46,3 +46,18 @@ implementation, which also made the fixtures), only if B1 and B2 both pass. Othe
 every disagreement recorded here with its case and both verdicts. A miss is not tuned away: the
 verifier may be fixed only for a defect that is identified and described, and the fix and the rerun
 are recorded here.
+
+## Recorded run (2026-10-12)
+
+1. `run_openssl.sh` was re-run after this file was committed (30ad70b2), with OpenSSL 3.0.13. Its
+   output is byte-identical to the `openssl-verdicts.txt` of 5d505ada, so no new file was committed.
+2. The verifier, `src/evidence/tsa.rs` (`kshana::evidence::tsa::verify_token`), was then written and
+   compared by `tests/evidence_tsa_openssl.rs::every_case_agrees_with_openssl`, first run:
+   * B1 met: all 27 verdicts agree (10 PASS, 17 FAIL on both sides).
+   * B2 met: the genTime agrees to the second on all 27 cases.
+   * Reasons (not scored) also coincide on every case. Disclosure: the oracle's verdict file, with its
+     reasons, was in the repository while the verifier was written, and the verifier's reason wording
+     was chosen to follow OpenSSL's; the verdicts themselves come from the checks, not the file.
+
+Per the status rule above: VALIDATED, with the scope stated narrowly (these 27 self-generated cases,
+against OpenSSL, which also made the fixtures).

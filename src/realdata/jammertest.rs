@@ -306,7 +306,13 @@ mod tests {
                    2024-09-11 07:00:00,G08,1,2,3,22272672.58,,,,\n";
         let r = rinex_cn0_records(csv);
         assert_eq!(r.len(), 2);
-        assert_eq!((r[0].sat.as_str(), r[0].band, r[0].cn0_dbhz), ("G17", "L1", 42.0));
-        assert_eq!((r[1].sat.as_str(), r[1].band, r[1].cn0_dbhz), ("G17", "L2", 46.0));
+        assert_eq!(
+            (r[0].sat.as_str(), r[0].band, r[0].cn0_dbhz),
+            ("G17", "L1", 42.0)
+        );
+        assert_eq!(
+            (r[1].sat.as_str(), r[1].band, r[1].cn0_dbhz),
+            ("G17", "L2", 46.0)
+        );
     }
 }
