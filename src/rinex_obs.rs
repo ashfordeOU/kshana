@@ -11,12 +11,17 @@
 //! IGS station network distribute raw GNSS measurements in; ingesting it is what
 //! lets a real receiver log feed this engine rather than only synthetic geometry.
 //!
-//! The parser handles the RINEX 3.0x observation layout. RINEX 4.00 keeps the
-//! same epoch/observation record structure (its changes are to the *navigation*
-//! message), so a 4.00 observation file is expected to parse here unchanged — but
-//! no 4.00 artifact has been read through this code, so that is an expectation,
-//! not a validated claim. The RINEX 4 *navigation* layout is a different matter:
-//! [`crate::rinex::parse_nav`] rejects it outright rather than mis-walk it.
+//! The parser handles the RINEX 3.0x observation layout. RINEX 4.0x keeps the
+//! same epoch/observation record structure (its changes are to the header and to
+//! the *navigation* message), so a 4.0x observation file parses here: a slice of a
+//! real RINEX 4.00 MGEX observation file (`tests/rinex4_obs_mao0.rs`) and a
+//! synthetic 4.02 header carrying the new `DOI`, `LICENSE OF USE`,
+//! `STATION INFORMATION`, and `MERGED FILE` records are read in the tests. For a
+//! file declaring version 4 or later the header labels this reader acts on are
+//! matched in their label columns (61–80) only, so free text in the new
+//! descriptive records cannot be mistaken for a label; RINEX 2/3 headers are read
+//! exactly as before. The RINEX 4 *navigation* layout is read by
+//! [`crate::rinex::parse_nav`].
 //! It reads the header it needs —
 //! the version/type line, the per-system `SYS / # / OBS TYPES` lists (with
 //! continuation lines), the approximate receiver position, the sampling interval,
@@ -192,7 +197,7 @@ fn parse_sat_record(line: &str, codes: &[String]) -> SatObs {
     SatObs { sat, obs }
 }
 
-/// Parse a RINEX 3.0x observation file (4.00 expected, untested — see the module doc)
+/// Parse a RINEX 3.0x or 4.0x observation file (see the module doc)
 /// into a [`RinexObs`]. The header is
 /// read up to and including `END OF HEADER`, then each `>`-prefixed epoch header
 /// is followed by its declared number of one-line-per-satellite records. Header
@@ -216,10 +221,19 @@ pub fn parse_obs(text: &str) -> Result<RinexObs, String> {
     while i < lines.len() {
         let line = lines[i];
         i += 1;
+        // RINEX 4 adds free-text header records (DOI, LICENSE OF USE, STATION
+        // INFORMATION); from version 4 on a label is matched in its own columns.
+        let label = |name: &str| {
+            if version >= 4.0 {
+                col(line, 60, 80).trim_end() == name
+            } else {
+                line.contains(name)
+            }
+        };
         if line.contains("RINEX VERSION / TYPE") {
             version = parse_d(col(line, 0, 9)).unwrap_or(0.0);
             system = col(line, 40, 41).chars().next().unwrap_or(' ');
-        } else if line.contains("SYS / # / OBS TYPES") {
+        } else if label("SYS / # / OBS TYPES") {
             let sysc = col(line, 0, 1).chars().next().unwrap_or(' ');
             if sysc.is_ascii_alphabetic() {
                 let n = parse_i(col(line, 3, 6), "obs type count")? as usize;
@@ -242,15 +256,15 @@ pub fn parse_obs(text: &str) -> Result<RinexObs, String> {
                     }
                 }
             }
-        } else if line.contains("APPROX POSITION XYZ") {
+        } else if label("APPROX POSITION XYZ") {
             approx_xyz = Some([
                 parse_d(col(line, 0, 14))?,
                 parse_d(col(line, 14, 28))?,
                 parse_d(col(line, 28, 42))?,
             ]);
-        } else if line.contains("INTERVAL") {
+        } else if label("INTERVAL") {
             interval_s = parse_d(col(line, 0, 10)).ok();
-        } else if line.contains("TIME OF FIRST OBS") {
+        } else if label("TIME OF FIRST OBS") {
             time_of_first_obs = Some(EpochUtc {
                 year: parse_i(col(line, 0, 6), "year")? as i32,
                 month: parse_i(col(line, 6, 12), "month")? as u32,
@@ -552,6 +566,51 @@ mod tests {
         let g01 = &f.epochs[0].sats[0];
         assert!((g01.obs[0].unwrap().value - 23_629_347.915).abs() < 1e-3);
         assert!(g01.obs[1].is_none());
+    }
+
+    /// The sample as a RINEX 4.02 observation file. Synthetic: written from the
+    /// RINEX 4.02 specification (IGS/RTCM RINEX Working Group, 2024), whose
+    /// observation header adds the optional `DOI`, `LICENSE OF USE`, and
+    /// `STATION INFORMATION` records (free text in columns 1–60). `MERGED FILE`
+    /// is a navigation-header label; it is included to show that an unknown label
+    /// is skipped. The epoch and observation records are unchanged from 3.0x.
+    fn sample_v4() -> String {
+        let s = sample().replacen("     3.04", "     4.02", 1);
+        let extra = [
+            hdr(&[(0, "https://doi.org/10.0000/example-obs")], "DOI"),
+            hdr(&[(0, "CC BY 4.0")], "LICENSE OF USE"),
+            hdr(
+                &[(0, "https://example.org/sitelog INTERVAL 1 S")],
+                "STATION INFORMATION",
+            ),
+            hdr(&[(0, "     1")], "MERGED FILE"),
+        ]
+        .join("\n");
+        // After the INTERVAL record, so a substring match on the free text would
+        // overwrite the declared interval.
+        let end = hdr(&[], "END OF HEADER");
+        s.replacen(&end, &format!("{extra}\n{end}"), 1)
+    }
+
+    #[test]
+    fn parses_a_rinex_4_header_with_its_new_records() {
+        let text = sample_v4();
+        assert!(text.contains("LICENSE OF USE") && text.contains("     4.02"));
+        let f = parse_obs(&text).expect("a RINEX 4.02 observation file parses");
+        assert!((f.header.version - 4.02).abs() < 1e-9);
+        // The free text "INTERVAL" inside STATION INFORMATION is not a label.
+        assert_eq!(f.header.interval_s, Some(30.0));
+        let v3 = parse_obs(&sample()).unwrap();
+        assert_eq!(f.header.codes_for('G'), v3.header.codes_for('G'));
+        assert_eq!(f.header.approx_xyz, v3.header.approx_xyz);
+        assert_eq!(f.epochs.len(), v3.epochs.len());
+        for (a, b) in f.epochs.iter().zip(&v3.epochs) {
+            assert_eq!(a.time, b.time);
+            for (x, y) in a.sats.iter().zip(&b.sats) {
+                assert_eq!(x.sat, y.sat);
+                assert_eq!(x.obs, y.obs);
+            }
+        }
     }
 
     #[test]
