@@ -65,12 +65,14 @@ A validated, fully reproducible engine spanning the PNT (positioning, navigation
   Lambert outputs round-tripped against two-body truth and the porkchop minimum checked against the
   analytic Hohmann floor.
 - **Numerical propagator** — a Cowell propagator (`src/propagator.rs`) integrating a configurable
-  zonal-gravity force model with a choice of adaptive driver — RK4 (fourth-order Runge–Kutta) **step doubling** or the
+  zonal-gravity force model with a choice of adaptive driver — RK4 (fourth-order Runge–Kutta) **step doubling**, the
   **Dormand–Prince RK5(4)** embedded pair (`integrator::integrate_dopri` / `propagate_dopri`, a
-  cheaper 7-eval embedded error estimate) — pinned against analytic truth:
+  cheaper 7-eval embedded error estimate) or the **DOP853** 8(5,3) pair with dense output
+  (`integrate_dop853` / `propagate_dop853`, validated against SciPy's DOP853) — pinned against analytic truth:
   the unperturbed orbit matches the exact universal-variable Kepler solution to sub-metre over 24 h,
   energy/angular-momentum conserve to ~1e-9, and the J2 nodal regression reproduces the closed-form
-  secular rate; plus a convergence-guarded Kepler-equation solver. The force model spans the **full
+  secular rate; plus a convergence-guarded legacy Kepler solver and a robust Markley-starter solver
+  (`kepler::solve_kepler_markley`, validated against mpmath for 0 ≤ e ≤ 0.999999). The force model spans the **full
   Earth zonal field through degree 6** (`forces::zonal_accel`, the published EGM-96 (EGM: Earth Gravitational Model) `J2..J6`): the
   acceleration is the exact analytic gradient of the zonal disturbing potential, validated against its
   own numerically-differentiated potential, against the 666-vector-validated J2 closed form, and via
@@ -100,11 +102,13 @@ A validated, fully reproducible engine spanning the PNT (positioning, navigation
   the IERS (International Earth Rotation and Reference Systems Service) `β = γ = 1` form `a = (μ/c²r³)·{[4μ/r − v²]·r + 4(r·v)·v}`, the leading driver of the
   relativistic perigee advance — validated by its closed-form circular value `3μ²/(c²r³)·r̂`, its
   textbook `≈1.9·10⁻⁹` LEO ratio to two-body, and the conservative signature (it perturbs the orbit
-  but, unlike drag, holds the semi-major axis to under a metre/day). The NRLMSISE-00 (NRLMSISE: Naval Research Laboratory Mass Spectrometer and Incoherent Scatter Radar Extended atmosphere model) thermospheric density is
+  but, unlike drag, holds the semi-major axis to under a metre/day). The tesseral EGM2008 field to
+  degree/order 70 is an opt-in Cowell term (`propagator::Geopotential`), validated against Orekit 12.2
+  (worst 0.036 m over 24 h). The NRLMSISE-00 (NRLMSISE: Naval Research Laboratory Mass Spectrometer and Incoherent Scatter Radar Extended atmosphere model) thermospheric density is
   ported (bit-identical to the reference C port, within 1.9e-6 of pymsis) and opt-in as a drag-density
   tier (`forces::DensityModel`). The WGS-84 oblate-Earth SRP shadow is opt-in (`srp_shadow::ShadowModel`,
   within 7.4e-9 of Orekit 12.2's lighting ratio), with an optional solar limb-darkening variant (MODELLED).
-  High-degree tesseral gravity, the Lense–Thirring frame-dragging term, and external GMAT/Orekit
+  Gravity above degree 70 (MODELLED), the Lense–Thirring frame-dragging term, and external GMAT
   cross-validation remain follow-ons.
 - **Time systems** — IERS leap-second UTC/TAI/TT/UT1 (UTC: Coordinated Universal Time; TAI: International Atomic Time; TT: Terrestrial Time; UT1: Universal Time 1, Earth-rotation time), Julian-date API (application programming interface), IAU-2000 (IAU: International Astronomical Union)
   Earth Rotation Angle; GMST-based (GMST: Greenwich mean sidereal time) TEME↔ECEF (TEME: true equator, mean equinox; ECEF: Earth-centred, Earth-fixed) and WGS-84 (WGS: World Geodetic System) geodetic frames.
@@ -248,7 +252,7 @@ welcome collaboration: see [Support & professional services](README.md#support--
   against the co-rotating `forces::atmospheric_density` Vallado exponential model +
   `ForceModel::drag` + the new `ForceModel::accel_rv` / velocity-passing RHS), and the
   `propagator::propagate` wiring are delivered (`src/forces.rs`, `src/propagator.rs`); the
-  high-degree tesseral field remains — to complement the analytic
+  tesseral field above degree 70 (degree/order 70 ships as an opt-in term) remains — to complement the analytic
   SGP4/SDP4 path; NRLMSISE-00 is an opt-in drag-density tier. DE440 Sun and Moon for the third-body and
   SRP terms are an opt-in tier (`ForceModel::with_ephemeris` over a `KernelEphemeris`); its 24 h
   orbits agree with Orekit 12.2 to 0.017 m, but the pre-registered Sun/Moon position bar missed
@@ -256,8 +260,11 @@ welcome collaboration: see [Support & professional services](README.md#support--
 - Batch orbit determination is delivered: `src/orbit_determination.rs` recovers an
   orbital state from ground-station ranges via the Gauss–Newton corrector
   (`src/batch_ls.rs`) over the two-body + J2 force model, with a sequential
-  (unscented-filter) variant alongside the batch solver; range-rate/azimuth-elevation
-  measurements and an analytic J2 state-transition matrix remain.
+  (unscented-filter) variant alongside the batch solver. Range-rate and azimuth/elevation
+  measurements with an elevation mask run on a second batch path that uses a variational
+  state-transition matrix with analytic two-body + J2 partials (RK4-integrated, not a closed-form
+  STM), compared with Orekit 12.2 (`xval/od-measurements-orekit/`); light time, Earth rotation and
+  a sequential filter for these measurements remain.
 - Alternative (GNSS-denied) PNT: the map-matching measurement model
   (`src/mapmatch.rs`, `field_likelihood` / `map_match_likelihood`) closes the loop on the
   shipped particle filter for terrain-/gravity-referenced navigation. The real **SRTM (Shuttle Radar Topography Mission)

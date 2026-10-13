@@ -45,6 +45,56 @@ breaking changes are called out explicitly.
   off by default. MODELLED (coefficients re-checked against the published table; no external
   oracle for the force effect).
 
+- **Range-rate and azimuth/elevation batch orbit determination with an elevation mask
+  (RM-36, FUT-13).** `orbit_determination::determine_orbit_batch_tracking`, `simulate_tracking`,
+  `predict_tracking`, `propagate_with_stm` (variational STM with analytic two-body + J2 partials),
+  `is_visible`, `measurement_with_partials`; `batch_ls::gauss_newton_analytic`. The range-only
+  path is unchanged. Compared with Orekit 12.2 batch least squares over 8 pre-registered scenarios:
+  every bar met except the noiseless state agreement (≤ 1 cm), missed on 2 of 4 scenarios at 1.46
+  and 1.74 cm with kshana within 1e-8 m of truth; recorded, MODELLED.
+- **SP3 accuracy weighting (DS-PA-06).** `sp3::parse_sp3_accuracy` and
+  `Sp3Accuracy::position_sigma_m` map the header and per-record accuracy codes to observation
+  sigmas; an SP3-weighted Galileo fit variant (Tier-2 3D RMS 0.035 m against 0.070 m unweighted)
+  is added beside the unchanged recorded runs. MODELLED.
+- **Swarm-A full-arc dispatch job (DS-PA-08)** in `.github/workflows/agency-od-validation.yml`.
+- **Planetary gravity from PDS SHADR tables (CAP-30, CAP-31 part).** `SphericalHarmonicField::from_shadr`
+  (`src/gravity_pds.rs`) reads Mars GMM-3 (d/o 120) and GRAIL GL0660B (d/o 660);
+  `Body::with_gravity_field` attaches any loaded field (defaults unchanged). Degree-20 crops are
+  bundled (NASA PDS, public domain; `tests/fixtures/planetary_gravity/NOTICE.md`); the full files
+  are fetched by `xval/planetary-gravity-pyshtools/fetch_data.sh`. VALIDATED against pyshtools 4.14.1
+  (within 4e-15 of total gravity at d/o 120 over the whole sphere, 5e-14 at d/o 660 for |lat| ≤ 60°);
+  the body-frame wiring stays MODELLED (each field's native frame is not the IAU frame used).
+
+- **High-degree gravity to degree 2190 (RM-14, FUT-07).** `SphericalHarmonicField::acceleration_hf`
+  / `potential_hf` (Holmes–Featherstone modified forward column, no underflow, no polar
+  singularity), `prepare_high_degree`, a streaming ICGEM loader `from_gfc_file` / `from_gfc_reader`
+  (norm and max-degree checks, tide system recorded, time-variable terms rejected), and
+  `scripts/fetch_egm2008.sh` (full EGM2008, SHA-256 pinned, not bundled; tests gated on
+  `KSHANA_EGM2008_GFC`). `propagator::FieldEvaluator` selects it on the opt-in `Geopotential`.
+  Agrees with Orekit 12.2 to 7.3e-17 m/s² through degree 2190, and a 24 h 200×200 orbit agrees
+  to 0.13 m. MODELLED: pyshtools missed the pre-registered near-pole bar (traced to pyshtools)
+  and the orbit's degree-70 sensitivity control missed (0.73 m < 1 m); both are recorded in
+  `xval/`.
+
+- **DOP853 integrator (FUT-11).** `integrator::integrate_dop853`, `integrate_dop853_checked`,
+  `integrate_dop853_dense` (7th-order dense output), `dop853_step`, `dop853_initial_step`, with a
+  fail-closed step guard; `propagator::Integrator::Dop853`, `propagate_dop853`,
+  `propagate_dop853_checked`. The default driver is unchanged. VALIDATED against SciPy 1.18.1
+  `solve_ivp(method="DOP853")`: single steps within 5.6e-15, matching step sequences, end states
+  within 1.6e-12 (`xval/dop853-scipy/`).
+- **Robust Kepler solver (FUT-12).** New `kepler` module: `solve_kepler_markley` (Markley 1995
+  starter, cancellation-free residual) for all 0 ≤ e < 1, wrapped by
+  `propagator::solve_kepler_robust`. VALIDATED against 50-digit mpmath roots to 0.9 ε·|E| up to
+  e = 0.999999 (`xval/kepler-mpmath/`).
+
+- **Opt-in tesseral Earth gravity in the Cowell propagator (RM-09).** `propagator::ForceModel`
+  gains `geopotential: Option<Geopotential>` (`with_geopotential`, `with_egm2008(nmax)`). It
+  evaluates a `SphericalHarmonicField` (bundled EGM2008 to degree/order 70, or any ICGEM `.gfc`) in
+  an Earth-fixed frame reached by the Earth rotation angle (`EarthFixedFrame::Era`) or the CIO
+  GCRS-to-ITRS chain (`EarthFixedFrame::Cio`). Default `None`: no existing output changes.
+  VALIDATED against Orekit 12.2 Holmes–Featherstone over 24 h (6 cases, worst 0.036 m), with the
+  bars pre-registered in `xval/cowell-tesseral-orekit/PREREGISTRATION.md`.
+
 - **Lunar reference-station study** (0.36, prompted by published material on a planned lunar
   south-pole reference station; sources in [`docs/LUNAR-REFERENCE-STATION.md`](docs/LUNAR-REFERENCE-STATION.md)):
   the `lunar-station-coverage` kind, a Monte Carlo sweep of the lunar differential-PNT model over
@@ -221,6 +271,9 @@ breaking changes are called out explicitly.
   `ε = 90° − ψ`; the new `tides::s2_air_waves` reproduces model A2 of GFZ STR06/01 Table 5 for all
   21 waves (worst 0.0005 cm, 0.05°; VALIDATED). Only tide-enabled outputs move: the Galileo CI fit
   0.132 → 0.133 m, Swarm-A components by 1–2 mm (pre-registered in `xval/s2-air-tide-fix/`).
+
+- Docs only: `propagator::solve_kepler_checked`, `orbit::solve_kepler` and `ephem::solve_kepler`
+  are documented as legacy solvers, numerically unchanged, pointing to `kepler::solve_kepler_markley`.
 
 - README: the lunar suite row states each piece's evidence tier (it said all were MODELLED).
 - `realdata::clk::rinex_clock_series` returns `RinexClockSeries` (series, gridding log, time system,

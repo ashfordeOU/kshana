@@ -19,14 +19,17 @@
 //!
 //! ## Scope (honest)
 //!
-//! The spherical-harmonic synthesis is **correct geodesy at low degree** (validated below
+//! The spherical-harmonic synthesis here is **correct geodesy at low degree** (validated below
 //! against the closed-form normalised Legendre functions and a hand-derived single-term
-//! anomaly), but Kshana **does not bundle the full EGM2008 2190×2190 coefficient set** —
-//! the regional trend comes from a handful of well-known low-degree coefficients, and the
-//! distinctive *local* features that make gravity-map matching observable are supplied as
-//! synthetic mascons (Gaussian anomalies), the stand-in for the high-degree EGM content
-//! not shipped. Loading a real EGM2008/EIGEN coefficient file, a magnetic-anomaly map, and
-//! terrain-aided SLAM remain follow-ons; so does wiring the benchmark into the global
+//! anomaly). This benchmark's reference map is the low-degree trend from a handful of
+//! well-known coefficients plus synthetic mascons (Gaussian anomalies) standing in for the
+//! high-degree local features that make gravity-map matching observable. Kshana does not
+//! bundle the full EGM2008 2190×2190 set (252 MB), but it can now load it at run time
+//! ([`crate::gravity_sh::SphericalHarmonicField::from_gfc_file`], fetched by
+//! `scripts/fetch_egm2008.sh`) and evaluate it to degree 2190 at any latitude
+//! ([`crate::gravity_sh::SphericalHarmonicField::acceleration_hf`], checked against Orekit).
+//! Driving this benchmark's map from that field rather than from mascons, a magnetic-anomaly
+//! map, and terrain-aided SLAM remain follow-ons; so does wiring the benchmark into the global
 //! scenario-engine `kind=` dispatcher with an SVG drift chart. See `docs/CAPABILITY.md`.
 
 use crate::inertial::quantum_imu::CaiAccelerometer;
@@ -482,7 +485,8 @@ pub fn run_gravity_map_benchmark(cfg: &GravityMapBenchmarkCfg) -> GravityMapNavR
 /// The injected noise is the gravimeter's white **sensor** floor; the matching `σ` also
 /// budgets a map representation-error term ([`GravityMapBenchmarkCfg::map_sigma_mgal`]), but
 /// a full Monte-Carlo over map-error *realisations* — perturbing the stored map away from the
-/// truth field — and a real EGM2008/EIGEN coefficient map are follow-ons (see
+/// truth field — and a map built from the full EGM2008 field (loadable through
+/// [`crate::gravity_sh::SphericalHarmonicField::from_gfc_file`]) are follow-ons (see
 /// `docs/CAPABILITY.md`). The reference field here is the low-degree spherical-harmonic trend
 /// plus synthetic mascons validated in this module's unit tests.
 pub fn run_gps_denied_gravity_nav(cfg: &GravityMapBenchmarkCfg) -> GravityMapNavResult {
