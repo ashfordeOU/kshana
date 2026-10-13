@@ -311,9 +311,9 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             capability: "IONEX 1.0 reader (header, fixed-column I5 values, TEC and RMS maps, absolute epochs, missing values) with bilinear spatial interpolation, the format's nearest / consecutive / rotated-map time interpolation (eqs. 1-3) and thin-shell slant TEC",
             module: "ionex (parse_ionex, parse_ionex_file, IonexFile::vtec_at, IonexFile::slant_tec_at, interpolate_tec_in_time, TecGrid::vtec_at)",
             tests: "tests/ionex_code_gim_oracle.rs (committed synthetic IONEX map vs the formula reference: 20 075 nodes exact, interpolation max |Δ| 3.5e-13 TECU; data-gated on KSHANA_IONEX_CODE_GIM_DIR, the real CODE final GIM 2018-05-13 latitude crop fetched by fetch.sh with a pinned SHA-256: nodes exact, interpolation max |Δ| 3.6e-13 TECU over 15 795 samples, slant TEC 5.1e-13 TECU; data-gated RTKLIB v2.4.2-p13 iontec at 6885 query points, run 2026-10-13: max |Δ| 3.6e-13 TECU in both time modes, bar 1e-5 pre-registered); ionex::tests",
-            oracle: "The CODE GIM's printed values (exact at every node; the map is fetched at test time, not vendored, its licence being unconfirmed) and an independent Python stdlib re-implementation of the IONEX 1.0 interpolation formulas committed with the fixture (bars pre-registered e4d8b1f, 1e-9 TECU). A formula re-implementation in this repository is not third-party output, so the row stays MODELLED; the third-party RTKLIB comparison passed but runs only data-gated (the map is not vendored), and promotion on a data-gated check awaits an owner decision",
-            oracle_kind: ReferenceImpl,
-            status: Modelled,
+            oracle: "The CODE GIM's printed values (exact at every node; the map is fetched at test time, not vendored, its licence being unconfirmed) and an independent Python stdlib re-implementation of the IONEX 1.0 interpolation formulas committed with the fixture (bars pre-registered e4d8b1f, 1e-9 TECU). Third-party check (B6, pre-registered, first run): RTKLIB v2.4.2-p13 iontec (BSD-2-Clause, run as a separate tool) at 6885 query points agrees with IonexFile::vtec_at to 3.6e-13 TECU in both interpolation modes against a 1e-5 TECU bar. Data-gated: CODE GIM fetched at test time, SHA-pinned; RTKLIB reads the full file because its getindex rejects the lat crop. tests/fixtures/ionex_code_gim/fetch.sh fetches it and checks the SHA-256, the test fails on any other bytes, and run_rtklib.sh is the documented reproduce path (network access needed). Promoted to VALIDATED by the owner's decision on data-gated evidence (2026-10-13)",
+            oracle_kind: ExternalDataset,
+            status: Validated,
         },
         VerificationItem {
             requirement: "Hatch carrier smoothing of code on real RINEX observations",
@@ -362,7 +362,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
         },
         VerificationItem {
             requirement: "BeiDou GEO broadcast satellite position",
-            capability: "BDS-SIS-ICD-B1I v3.0 §5.2.4.12 geostationary-satellite position from a broadcast ephemeris (inertial-like frame, then Rz(Ω̇e·tk)·Rx(−5°)), opt-in through NavParseOptions::include_beidou_geo so the default reader still skips GEOs",
+            capability: "BDS-SIS-ICD-B1I v3.0 §5.2.4.12 geostationary-satellite position from a broadcast ephemeris (inertial-like frame, then Rz(Ω̇e·tk)·Rx(−5°)), opt-in through the include_beidou_geo field of NavParseOptions, so the default reader still skips GEOs",
             module: "rinex (RinexEphemeris::sv_position_ecef_bds_geo, NavParseOptions)",
             tests: "tests/bds_geo_broadcast_oracle.rs (real C01-C04 records: geostationary radius, longitudes 140.02/80.04/110.55/159.99 deg at the published slots, |latitude| 2.13 deg with the tilt vs 6.65 without; the pre-registered broadcast-vs-precise SP3 comparison is data-gated on KSHANA_BDS_GEO_SP3 and has not been run); rinex::tests",
             oracle: "Pre-registered (7aa264b, 110fef9) against an IGS MGEX precise orbit with the GEOs; no such product was reachable from the session that built it, so the comparison is pending and the row is MODELLED (checked against the published nominal GEO slots only)",
@@ -3732,6 +3732,13 @@ pub fn validated_oracle_basis() -> Vec<OracleBasisEntry> {
             basis: Library,
             oracle_test: "tests/cef_reference.rs",
             source: "pycef 1.11 (PyPI, MIT); the Logstash CEF codec (logstash-codec-cef 6.2.7 in Logstash 8.15.3)",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "IONEX global ionosphere map reader and interpolation on a real CODE GIM",
+            basis: Library,
+            oracle_test: "tests/ionex_code_gim_oracle.rs",
+            source: "RTKLIB v2.4.2-p13 iontec",
             flag: "",
         },
         OracleBasisEntry {
