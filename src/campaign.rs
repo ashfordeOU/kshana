@@ -67,6 +67,11 @@ use serde_json::{Map, Value};
 use sha2::{Digest, Sha256};
 use std::collections::BTreeMap;
 
+mod optimize;
+pub use optimize::{
+    EvalOut, ObjectiveCfg, ObjectiveOut, OptimizeCfg, OptimizeOut, ParamCfg, ParamOut,
+};
+
 /// The honesty label every campaign document carries.
 pub const LABEL: &str = "MODELLED composition of existing scenario kinds. Every number \
      is read from a real run of the named kind; the chaining (additive carry of a \
@@ -126,6 +131,9 @@ pub struct CampaignScenario {
     /// Several scenarios run under shared conditions.
     #[serde(default)]
     pub compose: Option<ComposeCfg>,
+    /// A bounded search for the best value of one metric.
+    #[serde(default)]
+    pub optimize: Option<OptimizeCfg>,
 }
 
 /// The mission timeline grid.
@@ -433,6 +441,9 @@ pub struct CampaignResult {
     /// The shared-conditions results; present when the campaign has `[compose]`.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub compose: Option<ComposeOut>,
+    /// The optimisation results; present when the campaign has `[optimize]`.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub optimize: Option<OptimizeOut>,
 }
 
 /// The reproducibility stamp.
@@ -2104,6 +2115,12 @@ pub fn run_campaign_detailed(src: &str) -> Result<CampaignRun, String> {
         Some(c) => Some(run_compose(c, &mut ledger).map_err(|e| format!("compose: {e}"))?),
         None => None,
     };
+    let optimize = match &cfg.optimize {
+        Some(o) => {
+            Some(optimize::run_optimize(o, &mut ledger).map_err(|e| format!("optimize: {e}"))?)
+        }
+        None => None,
+    };
     let mut digest = Sha256::new();
     for (_, json) in &ledger.runs {
         digest.update(sha256_hex(json).as_bytes());
@@ -2125,6 +2142,7 @@ pub fn run_campaign_detailed(src: &str) -> Result<CampaignRun, String> {
         sweep,
         monte_carlo,
         compose,
+        optimize,
     };
     Ok(CampaignRun {
         result,
@@ -2387,6 +2405,9 @@ pub fn units(r: &CampaignResult) -> Value {
             );
         }
     }
+    if let Some(o) = &r.optimize {
+        optimize::add_units(&mut b, o);
+    }
     Value::Object(b.0)
 }
 
@@ -2442,9 +2463,18 @@ pub fn summary(r: &CampaignResult) -> String {
     if let Some(c) = &r.compose {
         parts.push(format!("compose: {} members", c.members.len()));
     }
-    if r.timeline.is_none() && r.sweep.is_none() && r.monte_carlo.is_none() && r.compose.is_none() {
+    if let Some(o) = &r.optimize {
+        parts.push(optimize::summary_part(o));
+    }
+    if r.timeline.is_none()
+        && r.sweep.is_none()
+        && r.monte_carlo.is_none()
+        && r.compose.is_none()
+        && r.optimize.is_none()
+    {
         parts.push(
-            "no [[phases]], [sweep], [monte_carlo] or [compose] section: nothing composed".into(),
+            "no [[phases]], [sweep], [monte_carlo], [compose] or [optimize] section: nothing composed"
+                .into(),
         );
     }
     parts.push(format!(
