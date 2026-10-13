@@ -33,8 +33,19 @@
 //! receiver fit has been checked against an independent oracle. The bundled JammerTest
 //! 2024 fixtures carry pseudoranges but no C/N0, so a run built on them is reported as
 //! unusable rather than fitted.
+//!
+//! **From IQ campaigns.** A scenario whose `[input]` names `campaign = "<out-dir>"` fits a
+//! `kshana iq campaign` output folder instead (`docs/design/LABFIT-FROM-IQ.md`): the loader
+//! ([`campaign`]) groups the scored cells into fit units, the C/N0 model ([`cn0`]) is fitted
+//! to measured C/N0 against stated J/S, the lock models are coupled through it, and the
+//! seeded cluster bootstrap, hold-outs and `[validation]` bars are computed ([`iqfit`]).
+//! Its report is `kshana.labfit-iq/1` ([`iqreport`]). The receiver-log path is unchanged.
 
+pub mod campaign;
+pub mod cn0;
 pub mod fit;
+pub mod iqfit;
+pub mod iqreport;
 pub mod model;
 pub mod observe;
 pub mod optim;
@@ -96,8 +107,14 @@ pub fn load_runs(sc: &LabFitScenario) -> Result<Vec<LabRun>, String> {
         .collect()
 }
 
-/// Make every relative log path in `sc` relative to `base` (the scenario file's folder).
+/// Make every relative log path in `sc`, and a relative `[input] campaign` folder, relative to
+/// `base` (the scenario file's folder).
 pub fn resolve_paths(sc: &mut LabFitScenario, base: &std::path::Path) {
+    if let Some(c) = sc.input.as_mut().and_then(|i| i.campaign.as_mut()) {
+        if std::path::Path::new(c.as_str()).is_relative() {
+            *c = base.join(c.as_str()).to_string_lossy().into_owned();
+        }
+    }
     for r in &mut sc.runs {
         if let Some(p) = &r.log.source.path {
             let pb = std::path::Path::new(p);
@@ -119,6 +136,57 @@ pub fn run_scenario(sc: &LabFitScenario) -> Result<LabFitOutput, String> {
         markdown: report::to_markdown(&report),
         report,
     })
+}
+
+/// The campaign-fit report in every output form.
+#[derive(Clone, Debug, PartialEq)]
+pub struct LabFitIqOutput {
+    /// The structured report.
+    pub report: iqfit::LabFitIqReport,
+    /// [`iqreport::to_json`].
+    pub json: String,
+    /// [`iqreport::residuals_csv`].
+    pub residuals_csv: String,
+    /// [`iqreport::predictions_csv`].
+    pub predictions_csv: String,
+    /// [`iqreport::to_markdown`].
+    pub markdown: String,
+}
+
+/// The campaign folder a scenario names in `[input] campaign`, if any.
+pub fn campaign_dir(sc: &LabFitScenario) -> Option<&str> {
+    sc.input.as_ref().and_then(|i| i.campaign.as_deref())
+}
+
+/// Run a campaign-fit scenario: load the campaign folder it names (a relative path is taken
+/// relative to the working directory; see [`resolve_paths`]), fit, and render every form.
+pub fn run_campaign_scenario(sc: &LabFitScenario) -> Result<LabFitIqOutput, String> {
+    let dir = campaign_dir(sc).ok_or("the scenario's [input] names no campaign")?;
+    if !sc.runs.is_empty() {
+        return Err("[input] campaign and [[runs]] are exclusive: give one".into());
+    }
+    let data = campaign::load(std::path::Path::new(dir))?;
+    let report = iqfit::analyse(&data, sc)?;
+    Ok(LabFitIqOutput {
+        json: iqreport::to_json(&report),
+        residuals_csv: iqreport::residuals_csv(&report),
+        predictions_csv: iqreport::predictions_csv(&report),
+        markdown: iqreport::to_markdown(&report),
+        report,
+    })
+}
+
+/// The output of either path, as the surfaces return it: the JSON report and its CSV and
+/// Markdown views.
+pub fn run_toml_views(src: &str) -> Result<[String; 4], String> {
+    let sc: LabFitScenario = toml::from_str(src).map_err(|e| format!("iq-labfit scenario: {e}"))?;
+    if campaign_dir(&sc).is_some() {
+        let o = run_campaign_scenario(&sc)?;
+        Ok([o.json, o.residuals_csv, o.predictions_csv, o.markdown])
+    } else {
+        let o = run_scenario(&sc)?;
+        Ok([o.json, o.residuals_csv, o.predictions_csv, o.markdown])
+    }
 }
 
 /// Parse a TOML scenario and run it. Relative log paths are read relative to the

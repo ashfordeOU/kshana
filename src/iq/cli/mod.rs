@@ -65,6 +65,7 @@ pub(crate) const USAGE: &str = "usage: kshana iq scene   <out> --rate <hz> --dur
    or: kshana iq conditions <test-conditions.toml|json>
    or: kshana iq frontend <in> <out> [--bandpass lo,hi] [--notch] [--blank <thr>] [--excise] [--agc] [--bits <n>] [--out-format <fmt>]
    or: kshana iq monitor <recording> [--power] [--spectral] [--settings <toml|json>] [--baseline <s>] [--signal <name> --prn <list> [--spacing <chips>] [--pll-bw <hz>] [--fll-bw <hz>] [--dll-bw <hz>] [--coherent <N>] [--cn0-windows <M>] [--doppler-max <hz>]] [--max-seconds <s>] [--json <out>] [--csv <prefix>]
+ labfit scenarios: [[runs]] of receiver logs, or [input] campaign = \"<out-dir>\" naming a kshana iq campaign output folder (relative to the scenario file)
  loop designs: a kshana.loop-design/1 TOML file (docs/design/LOOP-DESIGN-TOML.md); explicit loop/acquisition flags override the selected design
  acquire/track/sweep also take the front-end flags [--bandpass lo,hi] [--notch] [--blank <thr>] [--excise] [--agc] [--bits <n>], applied before processing (to the acquisition and the tracking pass alike)
  scene channel knobs: [--iono-stec <tecu> | --iono-vtec <tecu> | --iono-klobuchar] [--tropo [--tropo-doy <n>]] [--s4 <v> [--scint-tau0 <s>]] [--sigma-phi <rad>] [--multipath-height <m> [--multipath-ground dry|wet|sea]] [--land-mobile] [--nlos]

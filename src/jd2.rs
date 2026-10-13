@@ -96,17 +96,34 @@ fn jdn_of_calendar(year: i32, month: u32, day: u32) -> i64 {
         - 32_075
 }
 
-/// TAI − UTC (s) in effect from 00:00 UTC of the day whose noon is Julian day number `jdn`
-/// (the integer leap-second table of [`crate::timescales`], from 1972-01-01).
+/// TAI − UTC (s) at 00:00 UTC of the day whose noon is Julian day number `jdn` (SOFA
+/// `iauDat`: the integer leap-second table from 1972-01-01, the drifting-rate expressions
+/// from 1960-01-01, 0 before; [`crate::timescales::tai_minus_utc_on_date`]).
 fn tai_minus_utc_on(jdn: i64) -> f64 {
-    let (y, m, d) = calendar_of_jdn(jdn);
-    crate::timescales::tai_minus_utc(crate::timescales::julian_date(y, m, d, 0, 0, 0.0))
+    tai_minus_utc_at(jdn, 0.0)
 }
 
-/// Length in seconds of the UTC day whose noon is Julian day number `jdn`: 86 400 s, plus
-/// the leap second inserted at its end (86 401 s) or minus one removed.
+/// TAI − UTC (s) at the fraction `fd` of the UTC day whose noon is Julian day number `jdn`.
+fn tai_minus_utc_at(jdn: i64, fd: f64) -> f64 {
+    let (y, m, d) = calendar_of_jdn(jdn);
+    crate::timescales::tai_minus_utc_on_date(y, m, d, fd)
+}
+
+/// The drift of TAI − UTC over the UTC day `jdn` (s/day), `dlod = 2·(ΔAT(12h) − ΔAT(0h))`:
+/// zero from 1972; before, the rate at which a UTC second differed from an SI second.
+fn utc_day_drift_s(jdn: i64) -> f64 {
+    let dat0 = tai_minus_utc_on(jdn);
+    2.0 * (tai_minus_utc_at(jdn, 0.5) - dat0)
+}
+
+/// Length in UTC seconds of the UTC day whose noon is Julian day number `jdn`: 86 400 s, plus
+/// the leap second inserted at its end (86 401 s) or minus one removed, or, before 1972, the
+/// fractional step at its end (SOFA `iauDtf2d`: `dleap = ΔAT(next 0h) − (2·ΔAT(12h) − ΔAT(0h))`,
+/// which takes the day's own drift out of the step).
 fn utc_day_length_s(jdn: i64) -> f64 {
-    SEC_PER_DAY + tai_minus_utc_on(jdn + 1) - tai_minus_utc_on(jdn)
+    let dat0 = tai_minus_utc_on(jdn);
+    let dat12 = tai_minus_utc_at(jdn, 0.5);
+    SEC_PER_DAY + (tai_minus_utc_on(jdn + 1) - (2.0 * dat12 - dat0))
 }
 
 /// The UTC day of a two-part quasi Julian date: its Julian day number and the fraction of
@@ -123,8 +140,9 @@ impl Jd2 {
     /// A UTC calendar date and time as a two-part UTC quasi Julian date, with the
     /// convention of SOFA (Standards of Fundamental Astronomy) `iauDtf2d` for days that end in
     /// a leap second: such a day is 86 401 s long, `23:59:60.x` is a valid time, and the
-    /// fraction of the day is counted in units of its own length. Scope: UTC from 1972-01-01
-    /// (the integer leap-second era); the earlier drifting-rate UTC is not modelled.
+    /// fraction of the day is counted in units of its own length. Scope: UTC from 1960-01-01:
+    /// before 1972 the day carries the fractional step of the drifting-rate era (SOFA
+    /// `iauDat`); before 1960, where UTC is undefined, TAI − UTC is taken as 0, as in SOFA.
     ///
     /// Errors on a month, day, hour or minute out of range, or a second outside `[0, 60)`
     /// (`[0, 61)` in the last minute of a day that ends in a leap second).
@@ -168,7 +186,14 @@ impl Jd2 {
 /// leap-second day is scaled by that day's 86 401 s length before TAI − UTC is added.
 pub fn utc_to_tai(utc: Jd2) -> Jd2 {
     let (jdn, fd) = utc_day_and_fraction(utc);
-    let elapsed = fd * utc_day_length_s(jdn);
+    let mut elapsed = fd * utc_day_length_s(jdn);
+    // Before 1972 a UTC second was not an SI second: scale by (86 400 + dlod)/86 400, as SOFA
+    // `iauUtctai` does. From 1972 dlod is zero and this is skipped, so the arithmetic is the
+    // integer-leap-second era's unchanged.
+    let dlod = utc_day_drift_s(jdn);
+    if dlod != 0.0 {
+        elapsed *= (SEC_PER_DAY + dlod) / SEC_PER_DAY;
+    }
     Jd2::from_parts(
         (jdn - 1) as f64,
         0.5 + (elapsed + tai_minus_utc_on(jdn)) / SEC_PER_DAY,
@@ -212,9 +237,68 @@ pub fn earth_rotation_angle(ut1: Jd2) -> f64 {
     std::f64::consts::TAU * turns.rem_euclid(1.0)
 }
 
+/// Greenwich mean sidereal time (rad, in `[0, 2π)`), the IAU 1982 model (the SGP4 / TEME
+/// convention of [`crate::sgp4::gstime`]) at a two-part UT1 Julian date, evaluated as SOFA
+/// `iauGmst82` does on the two parts: the polynomial in Julian centuries from J2000 plus the
+/// fraction of the day in seconds, so the sub-day part keeps the microsecond.
+pub fn gmst82(ut1: Jd2) -> f64 {
+    const A: f64 = 24_110.548_41 - SEC_PER_DAY / 2.0;
+    const B: f64 = 8_640_184.812_866;
+    const C: f64 = 0.093_104;
+    const D: f64 = -6.2e-6;
+    const DS2R: f64 = 7.272_205_216_643_04e-5; // 2π / 86 400, ERFA DS2R to f64
+    let (d1, d2) = if ut1.day < ut1.frac {
+        (ut1.day, ut1.frac)
+    } else {
+        (ut1.frac, ut1.day)
+    };
+    let t = (d1 + (d2 - crate::timescales::JD_J2000)) / 36_525.0;
+    let f = SEC_PER_DAY * ((d1 % 1.0) + (d2 % 1.0));
+    (DS2R * ((A + (B + (C + D * t) * t) * t) + f)).rem_euclid(std::f64::consts::TAU)
+}
+
+/// [`crate::timescales::TwoPartJd`] (fraction in `[−½, ½]`) to [`Jd2`] (fraction in `[0, 1)`):
+/// the same instant, renormalised. The sum is preserved to the rounding of one addition to the
+/// fraction (about 1e-11 s).
+impl From<crate::timescales::TwoPartJd> for Jd2 {
+    fn from(t: crate::timescales::TwoPartJd) -> Self {
+        Jd2::from_parts(t.day, t.frac)
+    }
+}
+
+/// [`Jd2`] to [`crate::timescales::TwoPartJd`]: the same instant, renormalised to that type's
+/// convention by its own constructor.
+impl From<Jd2> for crate::timescales::TwoPartJd {
+    fn from(j: Jd2) -> Self {
+        crate::timescales::TwoPartJd::new(j.day, j.frac)
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn gmst82_matches_the_single_f64_gstime_away_from_the_floor() {
+        // The same IAU 1982 model; the f64 form differs only by its date rounding.
+        for jd in [2_451_545.0, 2_455_000.25, 2_461_326.731] {
+            let a = gmst82(Jd2::new(jd));
+            let b = crate::sgp4::gstime(jd);
+            let d = (a - b + std::f64::consts::PI).rem_euclid(std::f64::consts::TAU)
+                - std::f64::consts::PI;
+            assert!(d.abs() < 1e-8, "{jd}: {d}");
+        }
+    }
+
+    #[test]
+    fn two_part_types_convert_without_moving_the_instant() {
+        let t = crate::timescales::TwoPartJd::new(2_461_326.0, -0.3);
+        let j: Jd2 = t.into();
+        assert_eq!(j.day, 2_461_325.0);
+        assert!(((j.day - t.day) + (j.frac - t.frac)).abs() * 86_400.0 < 1e-10);
+        let back: crate::timescales::TwoPartJd = j.into();
+        assert!(back.diff_seconds(t).abs() < 1e-10);
+    }
 
     #[test]
     fn round_trips_a_single_f64_date() {

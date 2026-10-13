@@ -59,6 +59,9 @@ form the campaign already draws as its MODELLED reference:
   calibration offset in dB (bounded to ±10 dB), shared by the unit, which absorbs a stated-power
   calibration error.
 
+*(Amended 2026-10-12, §13: `Q_eff` and `δ` are not separately identifiable; the fit estimates
+`δ_eff = δ − 10·log10 Q_eff` with `Q` stated, never fitted.)*
+
 The objective is weighted least squares on `measured_cn0_dbhz` in dB, each bin weighted by its
 `n`. A bin enters only when the satellite was locked for at least 90 % of the bin's epochs: C/N0
 is measured only while locked, so bins near loss of lock are biased high and are **censored**,
@@ -142,6 +145,11 @@ later; they are never loosened after a run.
 | b | coverage of the true parameters by their 95 % bootstrap intervals | in at least 90 % of 50 seeded synthetic campaigns |
 | c | leave-one-recording-out coverage of the 90 % prediction interval, interpolation bins and events | between 80 % and 98 % |
 | d | threshold J/S from the closed form (§3.2) against the direct `js_at_loss_db` estimate | within 1 dB |
+
+> **Amended 2026-10-12 (§13).** The table above is kept verbatim. The `Q_eff` clause of (a) and
+> the coverage of `Q` in (b) are unattainable by construction: `Q_eff` is not identifiable from
+> C/N0 data (§13.1). They are recorded as **NOT MET**, not removed. The identifiable parameter
+> `δ_eff` carries its own bars, pre-registered in §13.3; (c) and (d) are unchanged.
 
 ### 5.2 Hold-out procedure and the bars of a real study
 
@@ -273,3 +281,130 @@ validation, so it is **0.37** work, not 0.36. The parts, in build order:
 A defensible first cut (loader, C/N0 model, bootstrap, report, synthetic recovery for bar (a))
 is about two days. Bars (b) to (d) and the surfaces add about two more. Nothing here changes an
 existing output.
+
+## 13. Amendment 2026-10-12: identifiability
+
+Dated 2026-10-12, committed on its own before any fit was run on synthetic data. Found
+analytically while B7.1 was being built for 0.36. Before this commit, one diagnostic tracking run
+of a single synthetic recording compared its scored C/N0 bins with the imposed profile. No fit
+was run, and no bar was evaluated.
+
+### 13.1 Only `δ − 10·log10 Q_eff` is identifiable
+
+§3.1 calls `Q_eff` and `δ` "partly degenerate when a unit spans a narrow J/S range". They are
+fully degenerate at any span:
+
+    10^((J/S + δ)/10) / (Q_eff · R_c)  =  10^(J/S/10) · κ / R_c,     κ = 10^(δ/10) / Q_eff
+
+`(C/N0)_0` is held at each satellite's measured baseline, so the model depends on `κ` alone. Every
+pair `(Q, δ)` with the same `δ − 10·log10 Q` gives the same residuals. The §3.2 closed form
+depends on the same combination:
+`10·log10(Q·R_c·(1/C_thr − 1/C0)) − δ = 10·log10(R_c·(1/C_thr − 1/C0)) − (δ − 10·log10 Q)`.
+Under §8 a synthetic scene sees the J/S only as a C/N0 profile. A real campaign scored on C/N0
+is no different. So **`Q_eff` is not identifiable from C/N0 data without an independent
+measurement of the jammer and signal powers**. It is stated, never fitted.
+
+### 13.2 What §3.1 now fits
+
+* The fitted parameter is the identifiable offset **`δ_eff = δ − 10·log10 Q_eff`**: the J/S
+  offset referred to `Q = 1`. It is computed as `δ` fitted with `Q` held at its stated value,
+  minus `10·log10 Q_stated`. The report gives `δ_eff` with its interval. It also gives `δ` at
+  the stated `Q`.
+* `Q` is always reported **"stated, not fitted"**, with its source: the event's `q`, the type
+  table (`jamming::q_factor`), or, for a type the table does not cover (including `unknown`),
+  the most damaging stated value, the smallest `Q` in the table (CW, `Q = 1`). A wrong stated
+  `Q` moves `δ` by exactly `10·log10(Q_true/Q_stated)` and leaves `δ_eff` and every prediction
+  unchanged.
+* The correlation check stays as the guard. The fit reports the correlation of the
+  `10·log10 Q_eff` and `δ` estimates from the weighted Jacobian at the stated `Q`. It fits
+  both only if the span is at least 8 dB **and** that correlation is below 0.999 in magnitude,
+  which this model never satisfies.
+
+### 13.3 Pre-registered bars for `δ_eff` (2026-10-12)
+
+At least as strict as the bars they stand in for. (c) and (d) are unchanged.
+
+| # | quantity | bar |
+|---|---|---|
+| a′ | recovery of `δ_eff` on a synthetic campaign whose uncensored J/S span is at least 12 dB | `|δ̂_eff − δ_eff| ≤ 0.5 dB` |
+| b′ | coverage of the true `δ_eff` by its 95 % bootstrap interval | in at least 90 % (45) of 50 seeded synthetic campaigns |
+
+The original table in §5.1 is reported beside these, with the `Q_eff` clause of (a) and the `Q`
+coverage of (b) recorded as **NOT MET**, with this section as the reason.
+
+### 13.4 How (c) and (d) are read
+
+* **(c)** Leave-one-recording-out on the bar-(a′) campaign, interpolation items only. The 90 %
+  prediction intervals are evaluated in three groups: the C/N0 bins, and the time-to-loss events
+  under each of the two lock models. Each group's coverage must lie in [0.80, 0.98].
+* **(d)** On the bar-(a′) campaign: for each lock model, the median of the §3.2 closed form at
+  each lost event's own baseline lies within 1 dB of the median scored `js_at_loss_db`.
+
+### 13.5 Report field names
+
+The §6 list `units[]` is emitted as `fit_units[]`. Every Kshana result document carries a
+top-level `units` block: the unit, provenance class and definition of each numeric field, which
+the field-units contract (`field_schema`) audits. The report carries that block too, and the
+same table is listed in `docs/field-units-schema.json` under `documents`. Each unit's C/N0
+model also gives `delta_eff_db` (§13.2) beside `delta_db`.
+
+### 13.6 Results (synthetic, 2026-10-13)
+
+The bars were evaluated after §13.1 to §13.4 were committed (b7117bf). No bar, truth, recipe
+or estimator was changed after a result was seen.
+
+**The C/N0 estimator** of the synthetic campaigns is the campaign default, M2M4. The reason is
+the one diagnostic tracking run disclosed in §13: NWPR read no closer to the imposed profile
+(both read about 1 dB high below 38 dB-Hz). The choice was fixed in 5b13e3c2, pushed before the
+first bar evaluation. It was committed together with the fit code, not as an addendum on its
+own as was asked for. The campaigns are built in `tests/iq_labfit_campaign.rs`
+from Kshana's own GPS L1 C/A scenes, with the stated J/S imposed as a C/N0 profile (§8).
+
+**The bar-(a′) campaign** (`A_SEED`):
+* 6 recordings × 3 satellites (18 satellite events), baselines 42 to 48 dB-Hz;
+* linear J/S ramps from 0–5 dB to 45 dB at 2.8 to 3.7 dB/s, every satellite to loss of lock;
+* broadband events, so the true `Q` is the table's 2; the true `δ` is −2.828 dB, so the true
+  `δ_eff` is −2.838 dB;
+* scored with the campaign's default C/N0 estimator (M2M4); the uncensored span is 37 dB;
+* the fit used 1000 replicates with both lock models and the hold-outs: 1579 s in a release
+  build on 4 cores. The tracking took 137 to 192 s.
+
+| bar | measured | verdict |
+|---|---|---|
+| §5.1 (a), `Q_eff` clause | `Q` not identifiable (§13.1) | **NOT MET** |
+| §5.1 (a), `δ` clause (at the true `Q`) | error −1.097 dB | **FAIL** |
+| §5.1 (b), `Q` coverage | `Q` not identifiable | **NOT MET** |
+| a′ | `δ̂_eff` −3.935 dB (95 % interval −4.055 to −3.796) against −2.838: error −1.097 dB | **FAIL** |
+| b′ | the 95 % interval of `δ_eff` covers the truth in 0 of 50 campaigns (needs 45); the error is −1.189 ± 0.093 dB (−1.359 to −1.007), against a median interval width of 0.30 dB | **FAIL** |
+| (c) bins | PI90 coverage 0.891 over 558 interpolation bins | PASS |
+| (c) time to loss, tracking-loop | 0.900 over 10 interpolation events | PASS |
+| (c) time to loss, empirical | 0.900 over 10 interpolation events | PASS |
+| (d) tracking-loop and empirical | closed form 35.514 dB against the direct 37.714 dB over 18 losses: 2.200 dB | **FAIL** |
+
+The report's own `[validation]` table (the §5.2 example values) passes every bar: C/N0 hold-out
+RMS 0.459 dB, PI90 coverage 0.891, and loss-time hold-out RMS 0.356 s under each lock model. A
+fit reproduces byte for byte from the same campaign and seed.
+
+**Diagnostics, run after the bars** (`diagnose_bar_a_campaign`). They change no bar.
+
+* **(d).** The fitted drop dwell is 0.644 s, and the lost events ramp at a mean of 3.24 dB/s.
+  Their product is 2.09 dB, against the measured 2.20 dB gap. As pre-registered, (d) compares the
+  J/S where the modelled C/N0 crosses the drop threshold with the J/S at the declared loss, which
+  is a dwell later. Under a ramp the two differ by the dwell times the ramp rate.
+* **(a′).** Fitted only on bins whose measured C/N0 is at least 38 (40) dB-Hz, `δ_eff` is still
+  0.89 (0.92) dB low. So the error is not only the estimator's high reading at low C/N0, which the
+  diagnostic tracking run showed (+1 to +2.6 dB at 28 to 34 dB-Hz). The measured degradation is
+  0.5 to 1 dB smaller than the imposed one even at 39 to 43 dB-Hz. The leading hypothesis is
+  that the C/N0 estimator's averaging lags the stated-J/S time bins under a 3 dB/s ramp. It is
+  not tested here: testing it needs a stepped or slower campaign, which would be a new
+  pre-registration.
+
+**Bar (b′)** ran 50 seeded campaigns of 5 recordings each, with the C/N0 model only and 1000
+replicates per campaign: about 170 s per campaign in a release build on 4 cores, 2.4 h for the
+set. Every interval is about 0.3 dB wide and sits about 1.2 dB below the truth: the same
+systematic offset as (a′), not scatter. A CI subset of 2 campaigns
+(`bar_b_prime_ci_subset`) is pinned. The full set (`bar_b_prime_full_set_of_50_campaigns`) runs
+before release.
+
+The failing bar tests stay strict, and are ignored with these values (the repository's
+"strict, ignored with the gap" form). The ledger row states them.

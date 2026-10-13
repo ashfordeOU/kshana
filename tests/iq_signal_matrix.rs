@@ -119,6 +119,18 @@ use kshana::iq::track::{replay, ChannelInit, EpochOutput};
 use kshana::iq::{Cf64, SampleSpec, SpreadingCode, VecSink, VecSource, C_M_PER_S};
 use std::sync::Arc;
 
+/// The Galileo E1 memory-code tables are user-supplied (not bundled, by the ICD's terms);
+/// the E1 tests skip, with a message, when they are absent. Supply them with
+/// `KSHANA_GALILEO_E1B` / `KSHANA_GALILEO_E1C` or `scripts/fetch_galileo_e1_codes.sh`.
+fn e1_tables_supplied() -> bool {
+    let ok = kshana::iq::signals::galileo::e1b_table().is_ok()
+        && kshana::iq::signals::galileo::e1c_table().is_ok();
+    if !ok {
+        eprintln!("skipped: Galileo E1 tables not supplied (scripts/fetch_galileo_e1_codes.sh)");
+    }
+    ok
+}
+
 const CN0_DBHZ: f64 = 45.0;
 const DOPPLER_HZ: f64 = 1250.0;
 const SEED: u64 = 35;
@@ -523,11 +535,17 @@ fn gps_l2c() {
 /// 62.5 Hz pull-in.
 #[test]
 fn galileo_e1b() {
+    if !e1_tables_supplied() {
+        return;
+    }
     check(plain("galileo-e1b", galileo::e1b(3).unwrap(), 5e6, 1.5));
 }
 
 #[test]
 fn galileo_e1c() {
+    if !e1_tables_supplied() {
+        return;
+    }
     check(tiered("galileo-e1c", galileo::e1c(3).unwrap(), 5e6, 1.5));
 }
 
@@ -582,6 +600,9 @@ fn glonass_l1of() {
 /// the D8 false lock cannot occur).
 #[test]
 fn galileo_e1b_on_grid_doppler() {
+    if !e1_tables_supplied() {
+        return;
+    }
     let mut case = plain("galileo-e1b", galileo::e1b(3).unwrap(), 5e6, 1.5);
     case.doppler_hz = 4000.0 / 3.0; // 8 bins of 2/(3 · 4 ms)
     check(case);

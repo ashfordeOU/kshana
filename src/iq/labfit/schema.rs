@@ -97,7 +97,8 @@ pub struct Conditions {
     #[serde(default)]
     pub interp: Interp,
     /// Jammer type for the spectral-separation factor of a `j-over-s` level
-    /// ([`crate::jamming::q_factor`]); `broadband` when absent.
+    /// ([`crate::jamming::q_factor`]); `broadband` when absent (see [`Conditions::q`] for
+    /// why an unknown type is not taken as the most damaging one here).
     #[serde(default)]
     pub jammer_type: Option<String>,
     /// Platform carrier Doppler rate during the run (Hz/s); 0 for a static antenna.
@@ -139,6 +140,13 @@ impl Conditions {
     }
 
     /// The spectral-separation factor used for a `j-over-s` level.
+    ///
+    /// An unstated jammer type takes `broadband`, not the most damaging type (`cw`, the
+    /// smallest `Q`) that the campaign fit uses for an unknown type. In this receiver-log
+    /// path the choice cannot change a prediction: `Q` enters only as `J/S − 10·log10 Q`, a
+    /// constant the fitted level offset absorbs exactly, so it sets only the reference of the
+    /// reported offset (3.01 dB apart between the two). It is kept so that every existing
+    /// receiver-log fit reproduces byte for byte.
     pub fn q(&self) -> f64 {
         q_factor(self.jammer_type.as_deref().unwrap_or("broadband"), None)
     }
@@ -403,4 +411,74 @@ pub struct LabFitScenario {
     /// Conditions to predict for.
     #[serde(default)]
     pub predict: Vec<PredictCfg>,
+    /// Where the data comes from: absent (or without `campaign`) is the receiver-log path
+    /// of `runs`; `campaign = "<out-dir>"` fits a `kshana iq campaign` output folder
+    /// (`docs/design/LABFIT-FROM-IQ.md`).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub input: Option<InputCfg>,
+    /// Settings of the campaign fit; defaults when absent.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub campaign_fit: Option<CampaignFitCfg>,
+    /// The pre-registered hold-out bars of the campaign fit.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub validation: Option<ValidationCfg>,
+    /// `validation`: the campaign fit refuses to start without a `[validation]` table.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub mode: Option<String>,
+}
+
+/// The `[input]` table.
+#[derive(Clone, Debug, Default, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct InputCfg {
+    /// A `kshana iq campaign` output folder; relative to the scenario file's folder.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub campaign: Option<String>,
+}
+
+/// Settings of the campaign fit (`[campaign_fit]`).
+#[derive(Clone, Copy, Debug, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields, default)]
+pub struct CampaignFitCfg {
+    /// Seed of the cluster bootstrap and of the residual draws.
+    pub seed: u64,
+    /// Bootstrap replicates (recordings resampled with replacement).
+    pub bootstrap: usize,
+    /// Recordings a unit needs to be fitted; at least 5.
+    pub min_recordings: usize,
+    /// Bounds of `Q_eff`.
+    pub q_bounds: [f64; 2],
+    /// Bounds of the J/S calibration offset `δ` (dB).
+    pub delta_bounds_db: [f64; 2],
+    /// Fit the lock models (and their dwells and thresholds) as well as the C/N0 model.
+    pub lock_models: bool,
+}
+
+impl Default for CampaignFitCfg {
+    fn default() -> Self {
+        Self {
+            seed: 1,
+            bootstrap: 1000,
+            min_recordings: 5,
+            q_bounds: [0.1, 10.0],
+            delta_bounds_db: [-10.0, 10.0],
+            lock_models: true,
+        }
+    }
+}
+
+/// The pre-registered hold-out bars (`[validation]`), written before the campaign results are
+/// read. The report records the SHA-256 of this table.
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct ValidationCfg {
+    /// The stated registration date; the commit that adds the table is the record.
+    pub registered: String,
+    /// Hold-out RMS of the C/N0 prediction on interpolation bins (dB), at most.
+    pub cn0_rms_db_max: f64,
+    /// Fraction of held-out interpolation bins and events inside their 90 % prediction
+    /// interval, `[lower, upper]`.
+    pub pi90_coverage: [f64; 2],
+    /// Hold-out RMS of the time to loss on interpolation events (s), at most.
+    pub loss_time_rms_s_max: f64,
 }

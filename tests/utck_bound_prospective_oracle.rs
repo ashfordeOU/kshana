@@ -39,6 +39,17 @@
 //! reported, not scored.
 //!
 //! VERDICT: not yet run (awaiting Circular T 465 and later).
+//!
+//! STATUS (2026-10-12, recorded without running the score; nothing above is changed).
+//! Circular T 465 was published on 2026-10-12 (dated "2026 OCTOBER 12, 08h UTC", MJD
+//! 61279-61309; SHA-256 of `cirt.465` as fetched that day:
+//! a295e8825c9c283b48b82f5349c095977a949e14adad43b8a5318c5e06f98242). Counted with the
+//! laboratory split above, it holds about 285 test values (37 test laboratories), so the
+//! pre-registered 1000-value stopping rule needs about four issues: the earliest score is
+//! at about issue 468. The run also needs the per-laboratory files exactly as pinned: the
+//! BIPM files served on 2026-10-12 match the pins for only 26 of the 113 (BIPM rewrites
+//! them with each issue), so the archived 2026-09-30 copies are the input, not a fresh
+//! download. The test is unchanged and stays ignored until both are in hand.
 
 use kshana::realdata::clk::{parse_bipm_utclab, parse_circular_t_section1};
 use kshana::utck_bound::{fit_prior, LabSeries};
@@ -95,7 +106,7 @@ fn utclab() -> Option<Vec<(String, LabSeries)>> {
 }
 
 #[test]
-#[ignore = "pre-registered; not yet run (awaiting Circular T 465 and later)"]
+#[ignore = "pre-registered; not yet run (Circular T 465 is out; the 1000-value rule needs issues to about 468)"]
 fn pooled_ageing_bound_holds_on_prospective_circular_t_issues() {
     let labs = utclab().expect("BIPM utclab files absent");
     let prior_labs: Vec<&LabSeries> = labs
