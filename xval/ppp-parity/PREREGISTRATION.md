@@ -84,3 +84,44 @@ against the same R1 and R2 bars. Its result is recorded whatever it shows; no fu
 to this leg will be made. R3 (SPP) is not re-run: `rtklib_spp.conf` has the same antenna slot
 error, which affects the SPP solution by under 0.3 m and does not change that finding's
 conclusion; it is noted, not re-registered.
+
+## Amendment 4 (2026-10-13): the gLAB leg's command line, before any gLAB run
+
+gLAB 6.0.0 for Linux was downloaded with the user's approval. Its SHA-256,
+046ab9fd269eda066bb774fe74d24ca2d38d8b7d8e6d372d887364a3403921dd, equals the Linux 6.0.0 entry of
+https://server.gage.upc.edu/gLAB/src/checksums.txt. Its processing core `gLAB_linux` is under
+Apache-2.0 (`LICENSES/gLAB_License.txt` in the archive), and it is run as a separate program; no
+part of it is vendored.
+
+Before any data were processed, the command line in `run.sh` was checked against the tool's own
+documentation (`gLAB_linux -help` and `-messages`). It was written without the tool to hand and
+does not match 6.0.0:
+
+- `-filter:phase`, `-filter:nophase`, `-filter:static` and `-filter:kinematic` do not exist.
+  The 6.0.0 options are `-filter:meastype carrierphase|pseudorange` and
+  `-filter:nav static|kinematic`.
+- The OUTPUT message puts the second of day in field 4 and the X, Y, Z position in fields
+  12-14, not 6-8.
+
+The corrected command line follows. With precise orbits and clocks gLAB runs in its PPP mode, so
+both legs use it.
+
+- **Common:**
+  - inputs `-input:obs`, `-input:orb`, `-input:clk` and `-input:ant` as registered;
+  - `-pre:elevation 10 -pre:dec 30 -pre:availf G12`;
+  - receiver antenna PCO/PCV from the ANTEX file (`-model:recphasecenter ANTEX`) on the RINEX
+    header's ARP (`-model:arp RINEX`, 0.0710 m up);
+  - solid tides on (`-model:solidtides`);
+  - the gravitational path delay on (`-model:relpath`);
+  - satellite phase-centre variations off (`--model:satphasevar`), because Kshana does not model
+    them;
+  - `-print:none -print:output`.
+- **PPP (R1, R2):** `-filter:meastype carrierphase -filter:nav static -filter:trop`.
+- **SPP-like code solution (R3):** `-filter:meastype pseudorange -filter:nav kinematic
+  -filter:combtype dualfreq` (ionosphere-free code, no carrier phase).
+- **Columns:** CSV `sod,x,y,z` from OUTPUT fields 4, 12, 13, 14.
+
+Everything else is unchanged: gLAB's troposphere defaults in this mode (Niell mapping, estimated
+wet delay in PPP), Kshana's side, the bars R1-R3 and the non-vacuity bars. The outcome rule is
+unchanged: R1-R3 holding for gLAB meets RM-31's gLAB leg. The first run is recorded whatever it
+shows.
