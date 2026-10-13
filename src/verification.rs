@@ -316,6 +316,15 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            requirement: "Porkchop on the DE440 ephemeris",
+            capability: "maneuver::porkchop_kernel: the launch-date x arrival-date sweep of departure C3 (km²/s²) and arrival V-infinity (km/s) with the single-revolution prograde Lambert solver and the 0.5 deg collinearity guard, on the heliocentric J2000 states of any two NAIF bodies read from a JPL DE440 SPK by the crate's own reader. One revolution, prograde, no launch-vehicle or arrival constraints: a sweep, not a mission design",
+            module: "maneuver (porkchop_kernel, PorkchopGrid); ephem_provider (KernelEphemeris)",
+            tests: "tests/porkchop_de440_oracle.rs::de440_porkchop_matches_spice_and_pykep (Earth to the Mars barycentre, 16 departures 2026-09-01..2027-01-29 x 19 arrivals 2027-06-01..2028-02-26: 304 cells finite on both sides, worst C3 2.5e-14 and V-infinity 2.6e-14 relative against 1e-8, the same minimum-C3 cell, 9.1997 km²/s²)",
+            oracle: "NAIF SPICE Toolkit (CSPICE N0067 through spiceypy 8.3.0) heliocentric states on de440s.bsp and pykep 3.0.1 lambert_problem (ESA, the C++ kep3 core, MPL-2.0), an independent Lambert solver, run as a separate program that calls no Kshana code (tests/fixtures/porkchop_de440/, NOTICE.md); the engine reads a bit-for-bit de440s cut. Pre-registered 2d857fb1. A Library check of the sweep. Results: docs/design/evidence/cap20b-porkchop-de440/RESULTS.md",
+            oracle_kind: ExternalDataset,
+            status: Validated,
+        },
+        VerificationItem {
             requirement: "Multi-revolution Lambert transfer solver",
             capability: "Every solution of Lambert's problem with up to three complete revolutions (maneuver::lambert_multirev: the single-revolution solution, then the left and right branches of each revolution count, Izzo 2015), with the boundary velocities v1 and v2, for prograde and retrograde transfers, in canonical and heliocentric SI units, including transfers within 1 % of a revolution count's minimum time of flight and near-180 deg geometries. A two-body solver only (no perturbations)",
             module: "maneuver (lambert_multirev, LambertSolution, LambertBranch)",
@@ -2913,6 +2922,13 @@ pub fn validated_oracle_basis() -> Vec<OracleBasisEntry> {
             basis: Reference,
             oracle_test: "tests/icgem_gravity_reference.rs",
             source: "GRS80",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Porkchop on the DE440 ephemeris",
+            basis: Library,
+            oracle_test: "tests/porkchop_de440_oracle.rs::de440_porkchop_matches_spice_and_pykep",
+            source: "pykep 3.0.1 lambert_problem",
             flag: "",
         },
         OracleBasisEntry {
