@@ -132,6 +132,8 @@ fn record(text: &str, n: usize, m: usize) -> (f64, f64) {
     panic!("no record ({n}, {m})");
 }
 
+// The literals are the published text, digit for digit.
+#[allow(clippy::excessive_precision)]
 fn published_values_gmm3(text: &str, field: &SphericalHarmonicField) {
     // Header record: Re = 3.3960000000000000e+03 km, GM = 4.2828372854187757e+04 km³/s².
     assert_eq!(field.re, 3.396e3 * 1e3);
@@ -147,6 +149,7 @@ fn published_values_gmm3(text: &str, field: &SphericalHarmonicField) {
     assert_eq!(field.cbar(0, 0), Some(1.0));
 }
 
+#[allow(clippy::excessive_precision)]
 fn published_values_grail(text: &str, field: &SphericalHarmonicField) {
     // Header: Re = 0.1738E+04 km (label: "The reference radius = 1738.0 km"),
     // GM = 0.4902800305555400E+04 km³/s².
