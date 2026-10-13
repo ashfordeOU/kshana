@@ -20,9 +20,7 @@
 //!
 //! See `docs/ENTRY-EO-ASCENT.md` for the equations, inputs, outputs and scope.
 
-pub mod ascent;
 pub mod entry_heating;
-pub mod eo_radiometry;
 
 /// Classical fourth-order Runge–Kutta step of `y' = f(y)` (autonomous) with step `h`.
 pub(crate) fn rk4_step<const N: usize>(

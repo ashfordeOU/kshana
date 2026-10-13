@@ -71,3 +71,19 @@ If E1 and E2 hold, a ledger row "3-DoF ballistic entry peak deceleration against
 Stardust nominal" is VALIDATED against this published value (ExternalDataset), stated narrowly as
 peak deceleration on one case. The stagnation heating stays MODELLED in its own row whatever the
 result. If a bar misses, it is recorded as a FINDING and both rows stay MODELLED.
+
+## Result (first and only run, 2026-10-13)
+
+| Bar | Result | Verdict |
+|---|---|---|
+| E1 | peak deceleration 35.44 g against 33.4 g (ratio 1.061) | holds |
+| E2 | planet-relative entry speed 12.551 km/s against 12.6 km/s | holds |
+
+Recorded without a bar:
+
+- **Heat flux.** The peak stagnation convective heat flux is 746 W/cm² (Sutton–Graves). It is not
+  comparable with the published value of about 1200 W/cm² convective plus radiative.
+- **Heading sensitivity.** Heading 70 deg gives 35.49 g and heading 130 deg gives 35.71 g.
+
+Under the outcome rule, the peak-deceleration row is VALIDATED on this one published case. The
+heating stays MODELLED.

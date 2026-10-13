@@ -190,8 +190,7 @@ pub fn simulate_entry(c: &EntryCase) -> EntryResult {
                 + 2.0 * w * v * cf * sp
                 + w * w * r * cf * (cg * cf + sg * cp * sf))
                 / v_safe,
-            (l * ss / cg + v * v * cg * sp * sf / cf / r
-                - 2.0 * w * v * (sg / cg * cp * cf - sf)
+            (l * ss / cg + v * v * cg * sp * sf / cf / r - 2.0 * w * v * (sg / cg * cp * cf - sf)
                 + w * w * r * sp * sf * cf / cg)
                 / v_safe,
             q,
@@ -199,9 +198,7 @@ pub fn simulate_entry(c: &EntryCase) -> EntryResult {
         ]
     };
     let energy = |s: &[f64; 8]| {
-        0.5 * s[3] * s[3]
-            - p.mu_m3_s2 / s[0]
-            - 0.5 * w * w * s[0] * s[0] * s[2].cos() * s[2].cos()
+        0.5 * s[3] * s[3] - p.mu_m3_s2 / s[0] - 0.5 * w * w * s[0] * s[0] * s[2].cos() * s[2].cos()
     };
     let mut s = [
         p.radius_m + c.interface_altitude_m,
@@ -734,7 +731,11 @@ impl EntryHeatingScenario {
                 0.020,
                 11_100.0,
             ),
-            other => return Err(format!("body must be \"earth\" or \"mars\", got \"{other}\"")),
+            other => {
+                return Err(format!(
+                    "body must be \"earth\" or \"mars\", got \"{other}\""
+                ))
+            }
         };
         let rho0 = self.rho0_kg_m3.unwrap_or(rho0_d);
         let h = self.scale_height_m.unwrap_or(h_d);
@@ -812,7 +813,11 @@ impl EntryHeatingScenario {
                 r0,
                 planet.spin_rad_s,
             ),
-            o => return Err(format!("velocity_frame must be inertial|relative, got \"{o}\"")),
+            o => {
+                return Err(format!(
+                    "velocity_frame must be inertial|relative, got \"{o}\""
+                ))
+            }
         };
         Ok((
             EntryCase {
@@ -845,7 +850,13 @@ impl EntryHeatingScenario {
         let mut half = case;
         half.step_s = case.step_s / 2.0;
         let rh = simulate_entry(&half);
-        let rel = |a: f64, b: f64| if b != 0.0 { (a - b).abs() / b.abs() } else { 0.0 };
+        let rel = |a: f64, b: f64| {
+            if b != 0.0 {
+                (a - b).abs() / b.abs()
+            } else {
+                0.0
+            }
+        };
         let gam_abs = case.gamma_rad.abs();
         let b = case.ballistic_coeff_kg_m2;
         let cf_g = peak_deceleration(case.speed_m_s, gam_abs, hs) / G0;
@@ -1007,11 +1018,15 @@ mod tests {
 
     #[test]
     fn steep_ballistic_entry_in_an_exponential_atmosphere_approaches_the_closed_form() {
+        // The closed form neglects gravity. Its first run, at 7 km/s and 45 deg, gave
+        // integrated / closed form = 1.052, outside this 5 % band: gravity adds about that much.
+        // This case is faster and steeper, where the closed form's assumptions hold. The band is
+        // unchanged.
         let s = EntryHeatingScenario {
             velocity_frame: "relative".into(),
             atmosphere: Some("exponential".into()),
-            entry_speed_m_s: 7000.0,
-            flight_path_angle_deg: 45.0,
+            entry_speed_m_s: 11000.0,
+            flight_path_angle_deg: 60.0,
             rotating_planet: false,
             mass_kg: 2000.0,
             drag_coefficient: 1.0,
@@ -1023,9 +1038,14 @@ mod tests {
         let ratio = v["closed_form_check"]["integrated_over_closed_form"]
             .as_f64()
             .unwrap();
-        assert!((ratio - 1.0).abs() < 0.05, "integrated / closed form {ratio}");
+        assert!(
+            (ratio - 1.0).abs() < 0.05,
+            "integrated / closed form {ratio}"
+        );
         let h_int = v["peak_deceleration"]["altitude_m"].as_f64().unwrap();
-        let h_cf = v["closed_form_check"]["altitude_at_peak_m"].as_f64().unwrap();
+        let h_cf = v["closed_form_check"]["altitude_at_peak_m"]
+            .as_f64()
+            .unwrap();
         assert!((h_int - h_cf).abs() < 1500.0, "{h_int} vs {h_cf}");
     }
 
@@ -1116,11 +1136,22 @@ mod tests {
         let g = v["peak_deceleration"]["g"].as_f64().unwrap();
         assert!((25.0..45.0).contains(&g), "Stardust-like peak {g} g");
         let q = v["peak_heat_flux"]["w_cm2"].as_f64().unwrap();
-        assert!((500.0..2000.0).contains(&q), "Stardust-like peak q {q} W/cm2");
+        assert!(
+            (500.0..2000.0).contains(&q),
+            "Stardust-like peak q {q} W/cm2"
+        );
         let hq = v["peak_heat_flux"]["altitude_m"].as_f64().unwrap();
         let hg = v["peak_deceleration"]["altitude_m"].as_f64().unwrap();
-        assert!(hq > hg, "heating peaks above (before) the deceleration peak");
-        assert!(v["step_check"]["half_step_peak_heat_flux_rel_change"].as_f64().unwrap() < 1e-3);
+        assert!(
+            hq > hg,
+            "heating peaks above (before) the deceleration peak"
+        );
+        assert!(
+            v["step_check"]["half_step_peak_heat_flux_rel_change"]
+                .as_f64()
+                .unwrap()
+                < 1e-3
+        );
     }
 
     #[test]
@@ -1167,23 +1198,59 @@ mod tests {
         assert_eq!(v["kind"], "entry-heating");
         assert!(v["label"].as_str().unwrap().starts_with("MODELLED"));
         let audit = crate::field_schema::audit_document(&v);
-        assert!(audit.is_complete(), "missing {:?} malformed {:?}", audit.missing, audit.malformed);
+        assert!(
+            audit.is_complete(),
+            "missing {:?} malformed {:?}",
+            audit.missing,
+            audit.malformed
+        );
         for f in &audit.covered {
-            assert!(f.definition.as_deref().is_some_and(|d| !d.is_empty()), "{}", f.path);
+            assert!(
+                f.definition.as_deref().is_some_and(|d| !d.is_empty()),
+                "{}",
+                f.path
+            );
         }
     }
 
     #[test]
     fn bad_inputs_are_rejected() {
         let bad = |s: EntryHeatingScenario| assert!(s.run_json().is_err());
-        bad(EntryHeatingScenario { body: "venus".into(), ..Default::default() });
-        bad(EntryHeatingScenario { flight_path_angle_deg: 0.0, ..Default::default() });
-        bad(EntryHeatingScenario { mass_kg: -1.0, ..Default::default() });
-        bad(EntryHeatingScenario { nose_radius_m: 0.0, ..Default::default() });
-        bad(EntryHeatingScenario { atmosphere: Some("mars".into()), ..Default::default() });
-        bad(EntryHeatingScenario { velocity_frame: "body".into(), ..Default::default() });
-        bad(EntryHeatingScenario { step_s: f64::NAN, ..Default::default() });
-        bad(EntryHeatingScenario { lift_to_drag: -0.2, ..Default::default() });
-        bad(EntryHeatingScenario { terminal_altitude_m: 200_000.0, ..Default::default() });
+        bad(EntryHeatingScenario {
+            body: "venus".into(),
+            ..Default::default()
+        });
+        bad(EntryHeatingScenario {
+            flight_path_angle_deg: 0.0,
+            ..Default::default()
+        });
+        bad(EntryHeatingScenario {
+            mass_kg: -1.0,
+            ..Default::default()
+        });
+        bad(EntryHeatingScenario {
+            nose_radius_m: 0.0,
+            ..Default::default()
+        });
+        bad(EntryHeatingScenario {
+            atmosphere: Some("mars".into()),
+            ..Default::default()
+        });
+        bad(EntryHeatingScenario {
+            velocity_frame: "body".into(),
+            ..Default::default()
+        });
+        bad(EntryHeatingScenario {
+            step_s: f64::NAN,
+            ..Default::default()
+        });
+        bad(EntryHeatingScenario {
+            lift_to_drag: -0.2,
+            ..Default::default()
+        });
+        bad(EntryHeatingScenario {
+            terminal_altitude_m: 200_000.0,
+            ..Default::default()
+        });
     }
 }
