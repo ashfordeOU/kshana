@@ -208,6 +208,11 @@ jobs:
           set -eu
           df -h /
           sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /usr/local/.ghcup /opt/hostedtoolcache/CodeQL /usr/local/share/boost
+          # 2026-10-13, rc ee3c71de (run 38440084757): SIGBUS in ld again while linking the
+          # instrumented test binaries, so the disk ran out once more as test targets grew. This job
+          # uses only the Rust toolchain (installed under ~/.rustup by the next step) and the
+          # runner's own Node, so the whole hosted tool cache and the other preinstalled SDKs go too.
+          sudo rm -rf /opt/hostedtoolcache /usr/local/share/powershell /usr/share/swift /usr/local/julia* /opt/microsoft /opt/google /usr/lib/jvm /usr/local/share/chromium /opt/az /usr/share/miniconda
           sudo docker image prune --all --force >/dev/null 2>&1 || true
           df -h /
       - uses: dtolnay/rust-toolchain@e2a55d2ffb04f378e9626c28d38b36d230d1e12f # master; the toolchain is the `toolchain` input below
@@ -248,8 +253,15 @@ jobs:
         # it is not a comment — it comments out the REST OF THE COMMAND. That mistake
         # shipped once here, silently dropping --timeout and --fail-under and leaving
         # an unmatched apostrophe from the word "tarpaulin's". It parsed as valid YAML.
+        #
+        # RUSTFLAGS: tarpaulin forces -Cdebuginfo=2 on every test binary, and ~300 instrumented
+        # binaries with full DWARF are what fills the runner (see the disk step above). The linker
+        # compresses those debug sections (zlib, lld) at no cost to the measurement: LLVM
+        # source-based coverage reads its own __llvm_covmap/__llvm_covfun sections, not DWARF.
+        # Measured on a small binary: 4.4 MB -> 1.6 MB. No test is skipped or excluded.
         env:
           CARGO_PROFILE_DEV_OPT_LEVEL: "1"
+          RUSTFLAGS: "-Clink-arg=-Wl,--compress-debug-sections=zlib"
         run: >
           cargo tarpaulin --engine llvm --out Lcov --output-dir coverage
           --exclude-files 'src/*_data.rs'
@@ -257,6 +269,11 @@ jobs:
           --exclude-files 'tests/*'
           --exclude-files 'web/*'
           --timeout 3600 --fail-under 85
+      - name: Disk headroom after the coverage build
+        # Diagnostic only: records how close the instrumented build came to the runner's limit,
+        # so the next growth in test targets is visible before it becomes a SIGBUS.
+        if: always()
+        run: df -h / && du -sh target 2>/dev/null || true
       - name: Upload lcov report
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
