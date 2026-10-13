@@ -157,6 +157,58 @@ breaking changes are called out explicitly.
   file: clock difference 0 s, worst position 1.1 mm against a 1 cm bar). Library function; no
   scenario output changes. No PZ-90.11 → ITRF transformation is applied, and the module says so.
 
+- **RINEX 4 navigation reading** (0.36, WP-07, PRO-41): `rinex::parse_nav` reads RINEX
+  4.00-4.02 navigation files (`> EPH` GPS LNAV, Galileo I/NAV and F/NAV, BeiDou D1/D2, QZSS LNAV;
+  other records skipped to the next record header), and `parse_nav_with` takes options.
+  VALIDATED against the same day's IGS RINEX 3 merged file: every decoded field identical and 0 m
+  in position. RINEX 2/3 reading is unchanged.
+- **BeiDou GEO broadcast positions** (opt-in): `NavParseOptions::include_beidou_geo` and
+  `RinexEphemeris::sv_position_ecef_bds_geo` (BDS ICD, −5 deg tilt). `parse_nav` still skips GEOs.
+  MODELLED: the pre-registered comparison with a precise orbit is data-gated and not yet run.
+- **RINEX 4 observation files**: a real RINEX 4.00 MGEX observation file is read in tests
+  (MODELLED, format conformance).
+- **RTK with LAMBDA on real RINEX** (0.36, WP-07 ★): `rtk_real::run_rtk`, short-baseline double
+  differences of dual-frequency GPS code and phase with a float Kalman filter and LAMBDA integer
+  fixing (ratio test). VALIDATED on the IGS stations WTZR and WTZZ (1.4 m apart) against their
+  ITRF2020 baseline under pre-registered bars: fixed at every epoch after the first ten minutes,
+  baseline error median 4.5 mm and 95th percentile 5.5 mm.
+- **RTKLIB parity of the real-data PPP** (RM-31): `xval/ppp-parity/run.sh` and
+  `tests/ppp_parity_glab_rtklib.rs` with pre-registered bars. RTKLIB v2.4.2-p13 PPP on the same
+  WTZR inputs agrees with Kshana within 5 cm at every epoch of the last two hours (9.7 mm at the
+  end) on the third registration; the first two runs, recorded as findings, had the solid tide off
+  and the receiver antenna on RTKLIB's base slot. The single-point parity bar was missed (1.09 m
+  median against 0.5 m). The gLAB leg has not been run (data-gated).
+- **Navigation-message encoders beyond LNAV** (0.36, WP-07, PRO-40): `gnss_navmsg` encodes GPS
+  CNAV (message types 10, 11, 30; CRC-24Q; continuous rate-1/2 K=7 coding), Galileo I/NAV (word
+  types 1-5 in even/odd nominal pages; 30x8 interleaver; sync `0101100000`) and Galileo F/NAV (page
+  types 1-4; 61x8 interleaver; sync `101101110000`), with test decoders. MODELLED: round trips and
+  ICD known answers; a pre-registered check that broadcast Galileo ephemerides lie on the encoder's
+  LSB grid held (worst 3.6e-3 LSB) but missed its satellite-count bar (15 of 20), recorded. The
+  encoders are library functions; scene wiring is not part of this change.
+- **IONEX file reader** (0.36, WP-07): `ionex::parse_ionex_file` with `IonexFile`, `IonexHeader`,
+  `IonexEpoch`, `IonexFileMap` and `IonexTimeInterp`: a strict fixed-column IONEX 1.0 reader with
+  epochs counted from the first map's day, `9999` read as missing, RMS maps, and the format's
+  nearest, consecutive and rotated-map time interpolations; slant TEC at the header's shell
+  height. Checked on a committed synthetic map and, data-gated (fetched at test time with a
+  pinned SHA-256, not vendored), on a crop of a real CODE GIM: every node exact; interpolation
+  matches a formula reference to 4e-13 TECU. MODELLED; the RTKLIB comparison is data-gated.
+- **Hatch carrier smoothing** (0.36, WP-07): `hatch::HatchFilter` and
+  `pvt::assemble_epoch_precise_smoothed`, the divergence-free (ionosphere-free) form in the precise
+  single-point assembly. MODELLED with a recorded finding: on the IGS station WTZR it lowers the
+  median single-point error from 1.55 m to 1.12 m and the 95th percentile from 3.47 m to 3.21 m,
+  short of the pre-registered 40 % reduction (the remaining error is bias-like, not noise).
+- **Float PPP on real RINEX** (0.36, WP-07): `ppp_real::run_ppp`, a static float precise point
+  positioning filter on real dual-frequency GPS code and phase with IGS final products (antenna
+  offsets and variations, solid Earth tide, phase wind-up, Shapiro delay, estimated wet delay,
+  cycle-slip detection), with `parse_antex_receiver`. VALIDATED on the held-out IGS station WTZR
+  against its ITRF2020 coordinate under pre-registered bars: after 6 h the error is 1.5 mm
+  horizontal and 2.9 cm vertical, and every epoch of the last two hours is within 10 cm.
+- **SP3 precise-clock interpolation** (0.36, WP-07): `Sp3File::clock_s` and `clock_nodes`
+  interpolate the tabulated SP3 satellite clocks linearly between the two bracketing valid nodes
+  (bad-clock sentinel skipped), and `ClockRinex::from_sp3` feeds them to `PreciseProducts`, so
+  the precise chain runs from an SP3 alone. VALIDATED against the IGS final 30 s clocks of
+  2025-02-24 under pre-registered bars: 32 GPS satellites, mid-point RMS 0.121 ns (bar 0.15 ns),
+  95th percentile 0.265 ns (bar 0.30 ns).
 - **Lunar reference-station study** (0.36, prompted by published material on a planned lunar
   south-pole reference station; sources in [`docs/LUNAR-REFERENCE-STATION.md`](docs/LUNAR-REFERENCE-STATION.md)):
   the `lunar-station-coverage` kind, a Monte Carlo sweep of the lunar differential-PNT model over
@@ -351,6 +403,12 @@ breaking changes are called out explicitly.
 
 ### Changed
 
+- **RINEX 4 is no longer refused** (0.36, WP-07): a RINEX 4 navigation file used to be rejected
+  on purpose; it is now read (see Added). For observation files of version 4 and later, header
+  labels are matched in columns 61-80 only, so the new free-text records cannot pass for labels.
+- **`ionex::parse_ionex` reads real IONEX files** (0.36, WP-07): a full 16-value record fills
+  columns 61-80, which the reader took for a label, so it returned `None` on every real IONEX
+  file. It now reads a record whose label field is numeric as values. No shipped output used it.
 - **S2 atmospheric tide fix** (`tides::atmospheric_tide`). Ray (2001)'s S2 air-pressure
   harmonics are coefficients of unnormalised `P_nm` with cosine phase lags; they were used as fully
   normalised with the lag as the IERS sine lead. They now enter divided by `N_nm` with
