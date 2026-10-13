@@ -10,7 +10,11 @@
 //! are byte-identical as they stand. `tests/geometry_corpus_identity.rs` does the same for every
 //! committed vessel NMEA corpus, GPS-only open sky included.
 //!
-//! The pinned hashes were taken by running this file on the 0.35.0 release commit, checked out
+//! Re-based by STUDIO-15 (docs/revisions/STUDIO15-portable-math-rebaseline.md): the hashes that moved are
+//! now the "0.36 portable" ones (engine on portable maths); the 0.35.0 values they replaced are in
+//! `tests/fixtures/geometry_trust/pins_0.35.0.txt` (pinned by hash in `geometry_corpus_identity.rs`).
+//!
+//! The 0.35.0 hashes were taken by running this file on the 0.35.0 release commit, checked out
 //! at a different path from this one, where the removal is a no-op. The scenario hash covers the
 //! resolved (absolute) log path, so it is replaced by a placeholder in the result JSON and in the
 //! summary line: the pins hold for any checkout. JSON is compared through `serde_json::Value`
@@ -193,7 +197,7 @@ fn check(got: Vec<(String, String)>, want: &[(&str, &str)]) {
 }
 
 #[test]
-fn the_vessel_demo_outputs_are_those_of_0_35_0_apart_from_the_appended_keys() {
+fn the_vessel_demo_outputs_are_those_of_0_36_portable_apart_from_the_appended_keys() {
     // PIN-SCOPE:    every batch output of examples/maritime-trust, appended keys removed
     // PIN-EXCLUDES: the keys in APPENDED (new in 0.36), scenario_hash (path-dependent), key order
     check(
@@ -201,7 +205,7 @@ fn the_vessel_demo_outputs_are_those_of_0_35_0_apart_from_the_appended_keys() {
         &[
             (
                 "result.json (0.35 view)",
-                "c173f350ede11074e0a5200ecde004f21061e8094bad7168d96962bbc75cabfb",
+                "d1258960e86bd0745d68fc6440eae2e79f5ce98707e89f2bd3a0086c74e07d6e",
             ),
             (
                 "trust.csv",
@@ -232,7 +236,7 @@ fn the_vessel_demo_outputs_are_those_of_0_35_0_apart_from_the_appended_keys() {
 }
 
 #[test]
-fn the_static_example_outputs_are_those_of_0_35_0_apart_from_the_appended_keys() {
+fn the_static_example_outputs_are_those_of_0_36_portable_apart_from_the_appended_keys() {
     // PIN-SCOPE:    every batch output of examples/receiver-trust, appended keys removed
     // PIN-EXCLUDES: the keys in APPENDED (new in 0.36), scenario_hash (path-dependent), key order
     check(
@@ -271,7 +275,7 @@ fn the_static_example_outputs_are_those_of_0_35_0_apart_from_the_appended_keys()
 }
 
 #[test]
-fn the_replayed_stream_is_that_of_0_35_0_apart_from_the_appended_keys() {
+fn the_replayed_stream_is_that_of_0_36_portable_apart_from_the_appended_keys() {
     // PIN-SCOPE:    the excerpt document, every live JSON line and the last $PKSHT of the demo
     // PIN-EXCLUDES: the keys in APPENDED (new in 0.36), the schema string and key order
     check(
@@ -279,11 +283,11 @@ fn the_replayed_stream_is_that_of_0_35_0_apart_from_the_appended_keys() {
         &[
             (
                 "excerpt document (0.35 view)",
-                "204a54847c4919299f0d7de8b81c351aef0d9fb3ce9d795d9f6164a96a5479f8",
+                "69f9f15204dee9017b89674dc0d28bdbfefc496422f9b1c079aa18d8c670d888",
             ),
             (
                 "live JSON lines (0.35 view)",
-                "0573e84c9cfdf220bfd5f1a576864c2f057d09939e56066b174a8fb342849f57",
+                "a243ff3b1c327ca295122f2aa9a764bb00a06af2f2c6913158f0c1e96d99e0f7",
             ),
             (
                 "last $PKSHT",
