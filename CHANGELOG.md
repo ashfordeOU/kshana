@@ -11,6 +11,25 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **Detection ROC of the IQ monitors** (PRO-32,
+  [`docs/design/DETECTION-ROC.md`](docs/design/DETECTION-ROC.md)). A campaign with monitors
+  keeps each test statistic's maximum over stated-event windows (positive) and tiled windows
+  outside the events (negative, `roc_window_s`). The report pools them per alarm kind into an
+  ROC with its AUC and the operating point at the configured threshold, as `roc.json` and a
+  report section. On synthetic campaigns the chance-level check is met. The C/N0 AUC bar
+  (0.95) is not met (0.79), because the negative windows right after an event inherit the
+  CUSUM's decay from the detection; this is recorded. MODELLED.
+- **IQ monitors in the lab-replay campaign** (PRO-31,
+  [`docs/design/MONITORS-IN-CAMPAIGN.md`](docs/design/MONITORS-IN-CAMPAIGN.md)). An optional
+  `[monitors]` table in a campaign file runs the IQ monitors in the runner's single pass: power
+  and spectral after each front-end chain, and C/N0, SQM and lock per tracked channel. Their
+  alarms are scored against the stated events: detected or missed, time to detect, and false
+  alarms per hour of exposure. Each test's closed-form false-alarm figure is stated, including
+  a new two-sided Gaussian figure for the SQM tests (`2Q(k)`). Without the table nothing
+  changes. On synthetic campaigns the power and SQM false-alarm bars and the C/N0 false-alarm
+  bar are met; 18 of 18 attenuations are detected, but the time-to-detect bound, below one
+  detector sample by construction, is not met and is recorded. MODELLED; ledger row "IQ
+  monitors scored in lab-replay campaigns".
 - **Lab fit from IQ campaigns** (B7.1, [`docs/design/LABFIT-FROM-IQ.md`](docs/design/LABFIT-FROM-IQ.md)).
   A labfit scenario's `[input] campaign = "<out-dir>"` fits a `kshana iq campaign` output folder
   on the CLI (`kshana iq labfit`), in Python (`kshana.iq_labfit`) and in the MCP labfit tool
@@ -627,6 +646,21 @@ breaking changes are called out explicitly.
   than a silent fall-back to the flat mask. **Breaking** for Rust callers of these two functions.
 
 ### Fixed
+
+- **Campaign scorer: a real tracker false lock was never counted** (`iq::campaign`). The
+  tracker's false-lock check moves a channel from LOCKED to LOST as it fires. The scorer marked
+  the channel's next update instead, which was then unlocked and so never counted. A
+  `false-lock` event reported from LOCKED is now one episode at its time, in the run and in
+  every stated event containing it. One found during pull-in, or repeated by a channel already
+  LOST, is not a new episode. A new test drives a real false lock: a legitimate GPS L1 C/A
+  carrier stepping by 1/(2T) while locked (`tests/iq_campaign_false_lock.rs`).
+  - In the reference campaign of `tests/iq_campaign.rs`, only PRN 11 of ramp/agc-3bit changes
+    (false-lock episodes 0 → 1, 426 and 437 per locked hour).
+  - Its cell DIGESTs are re-pinned.
+  - The pre-registered scored-results pin stays live, and still reproduces exactly: in its hash
+    only those six fields, changed by this fix made after registration, are mapped back to
+    their pre-fix values. The fixed values are pinned on their own.
+  - No bar was changed, and no VALIDATED row, figure or web number moved.
 
 - `Jd2::from_parts` with a fractional day part dropped the fraction in the UTC, TAI, UT1 and
   Earth-rotation conversions (one hour of day part turned the Earth 15° wrong); the day part is

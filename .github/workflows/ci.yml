@@ -493,6 +493,25 @@ jobs:
   # faster-failing restatement scoped to the public crate.
   # ---------------------------------------------------------------------------
   # ---------------------------------------------------------------------------
+  # IQ monitors in the lab-replay campaign (docs/design/MONITORS-IN-CAMPAIGN.md): the
+  # synthetic campaigns are tracked from Kshana's own scenes and need a release build. The
+  # `check` job's debug `cargo test --all` skips these tests
+  # (cfg_attr(debug_assertions, ignore)), and this job runs them, with the detection ROC
+  # (docs/design/DETECTION-ROC.md). Measured: about 5 min for the monitors' campaigns and 6 for
+  # the ROC's. The bars recorded as FINDINGs (M3, R1) run with --ignored.
+  # ---------------------------------------------------------------------------
+  iq-campaign-monitors:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: dtolnay/rust-toolchain@e2a55d2ffb04f378e9626c28d38b36d230d1e12f # master; the toolchain is the `toolchain` input below
+        with:
+          toolchain: 1.93.0
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2
+      - name: IQ monitors in the campaign (release)
+        run: cargo test --release --test iq_campaign_monitors --test iq_campaign_roc -- --test-threads 1
+  # ---------------------------------------------------------------------------
   # Lab fit from IQ campaigns (docs/design/LABFIT-FROM-IQ.md, section 13): the synthetic
   # campaigns are tracked from Kshana's own scenes and need a release build. The `check`
   # job's debug `cargo test --all` skips these tests (cfg_attr(debug_assertions, ignore)),
