@@ -11,6 +11,18 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **Entry heating, EO radiometry and ascent losses** (0.36, WP-14, CAP-28): three new kinds.
+  - `entry-heating`: a 3-DoF point-mass entry over a rotating Earth or Mars with Sutton-Graves
+    stagnation-point heating.
+  - `eo-radiometry`: imager SNR, MTF at Nyquist, relative edge response and GIQE 4 NIIRS.
+  - `ascent-losses`: a multi-stage gravity-turn ascent with gravity, drag, steering and
+    back-pressure losses, checked by the exact ideal-dv-minus-losses identity.
+
+  The entry's peak deceleration was checked against the published Stardust nominal under a
+  pre-registered bar: 35.44 g against 33.4 g (+6.1 %, bar 10 %). That row is VALIDATED.
+  Heating, radiometry and ascent are MODELLED. Also new: `reentry::us76_pressure`, bundled
+  scenarios `entry-heating-stardust`, `eo-radiometry` and `ascent-losses`, and
+  `docs/ENTRY-EO-ASCENT.md`.
 - **Attitude control with reaction wheels: the `aocs` kind** (0.36, WP-14, CAP-21). An
   inertial-pointing slew of a rigid hub with three or more balanced reaction wheels under MRP
   feedback, with minimum-norm wheel torques clipped to each motor's limit (`aocs`). It can also

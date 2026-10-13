@@ -166,6 +166,33 @@ pub fn us76_density(altitude_m: f64) -> f64 {
     last.1
 }
 
+/// US Standard Atmosphere 1976 pressure (Pa) at geometric altitude `altitude_m`, from the
+/// standard's seven hydrostatic layers below 86 km (the same layers as [`us76_density`]).
+/// Above 86 km it returns 0. The standard's pressure there is below 0.4 Pa, and a caller
+/// using it for nozzle back-pressure loses less than that.
+pub fn us76_pressure(altitude_m: f64) -> f64 {
+    if altitude_m.is_nan() {
+        return f64::NAN;
+    }
+    if altitude_m >= US76_UPPER_START_M {
+        return 0.0;
+    }
+    let hp = US76_R0_M * altitude_m / (US76_R0_M + altitude_m);
+    let mut layer = US76_LAYERS[0];
+    for l in US76_LAYERS.iter() {
+        if hp >= l.0 {
+            layer = *l;
+        }
+    }
+    let (hb, tb, lapse, pb) = layer;
+    let t = tb + lapse * (hp - hb);
+    if lapse == 0.0 {
+        pb * (-G0 * (hp - hb) / (US76_R_AIR * tb)).exp()
+    } else {
+        pb * (tb / t).powf(G0 / (US76_R_AIR * lapse))
+    }
+}
+
 // ---------------------------------------------------------------------------
 // Planar point-mass ballistic entry
 // ---------------------------------------------------------------------------

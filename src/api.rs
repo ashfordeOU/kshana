@@ -678,6 +678,13 @@ pub enum ScenarioKind {
     AcmLink,
     /// Reaction-wheel attitude control under MRP feedback, optionally closed on an MEKF.
     Aocs,
+    /// 3-DoF point-mass atmospheric entry with stagnation-point convective heating.
+    EntryHeating,
+    /// Imager radiometry, MTF at Nyquist, relative edge response and GIQE 4 NIIRS.
+    EoRadiometry,
+    /// Gravity-turn ascent of a multi-stage vehicle with its gravity, drag, steering and
+    /// back-pressure losses.
+    AscentLosses,
 }
 
 impl ScenarioKind {
@@ -763,6 +770,9 @@ impl ScenarioKind {
             ScenarioKind::ContactSchedule => "contact-schedule",
             ScenarioKind::AcmLink => "acm-link",
             ScenarioKind::Aocs => "aocs",
+            ScenarioKind::EntryHeating => "entry-heating",
+            ScenarioKind::EoRadiometry => "eo-radiometry",
+            ScenarioKind::AscentLosses => "ascent-losses",
         }
     }
 
@@ -852,6 +862,9 @@ impl ScenarioKind {
             "contact-schedule" => ScenarioKind::ContactSchedule,
             "acm-link" => ScenarioKind::AcmLink,
             "aocs" => ScenarioKind::Aocs,
+            "entry-heating" => ScenarioKind::EntryHeating,
+            "eo-radiometry" => ScenarioKind::EoRadiometry,
+            "ascent-losses" => ScenarioKind::AscentLosses,
             // The clock pack, named explicitly. It had no arm of its own before, because
             // it was reached through the catch-all below — so removing that catch-all
             // orphaned the one kind the engine has always had. The round-trip test found
@@ -1059,6 +1072,9 @@ pub fn list_scenario_kinds() -> Vec<ScenarioMeta> {
         ScenarioMeta { name: "contact-schedule", description: "Ground-contact planning for several satellites over several stations: apparent access windows (SGP4, IAU 2006/2000A Earth-fixed frame, ITU-R P.834 refraction, light time), the DVB-S2 ACM data volume of each pass (ETSI EN 302 307-1 Table 13 thresholds) and a conflict-free schedule (one satellite per antenna with a turnaround, one station per satellite, priority-weighted delivery capped at each backlog) by a marginal-value greedy, a first-come baseline and an exact branch and bound on small sets, with the greedy's optimality gap. MODELLED.", required_fields: &[], optional_fields: &["epoch", "duration_hours", "step_s", "refraction", "light_time", "link", "satellites", "stations"] },
         ScenarioMeta { name: "acm-link", description: "One satellite over one station: each pass's slant range, elevation and Es/N0 along the pass, the DVB-S2 MODCOD chosen at each step (ETSI EN 302 307-1 Table 13 thresholds plus an implementation margin) and the data volume ACM moves against the constant-coding baseline that closes at the mask. MODELLED.", required_fields: &[], optional_fields: &["epoch", "duration_hours", "step_s", "refraction", "light_time", "link", "satellite", "station"] },
         ScenarioMeta { name: "aocs", description: "Spacecraft attitude control: an inertial-pointing slew of a rigid hub with three or more balanced reaction wheels under MRP feedback (L = -K sigma - P omega), minimum-norm wheel torques clipped to each motor's limit, RK4 with a zero-order hold; optionally closed on a multiplicative EKF from a simulated gyro (angle and rate random walk) and star tracker. Reports settling time, final and peak pointing error, peak wheel speed and torque, the saturated fraction, angular-momentum drift and, with the estimator, its attitude error and NEES. The true-state loop is VALIDATED against Basilisk 2.9.1; the estimator is MODELLED.", required_fields: &["hub_inertia_kg_m2", "k_nm", "p_nms", "wheels", "sigma0"], optional_fields: &["duration_s", "dt_s", "sample_s", "omega0_rad_s", "pointing_threshold_deg", "estimator"] },
+        ScenarioMeta { name: "entry-heating", description: "3-DoF point-mass atmospheric entry over a rotating spherical Earth or Mars (ballistic or lifting at constant bank), RK4, through US76, an exponential or the Mars atmosphere, with Sutton-Graves stagnation-point convective heating (NASA TR R-376): peak deceleration, heat flux and dynamic pressure, heat load, downrange, a rotating-frame energy check and the Allen-Eggers closed form beside it. Peak deceleration is checked against the published Stardust nominal; heating is MODELLED.", required_fields: &[], optional_fields: &["body", "atmosphere", "rho0_kg_m3", "scale_height_m", "entry_interface_altitude_m", "velocity_frame", "entry_speed_m_s", "flight_path_angle_deg", "heading_deg", "latitude_deg", "longitude_deg", "mass_kg", "drag_coefficient", "reference_area_m2", "nose_radius_m", "lift_to_drag", "bank_angle_deg", "rotating_planet", "step_s", "terminal_altitude_m", "max_time_s"] },
+        ScenarioMeta { name: "eo-radiometry", description: "Nadir imager radiometry and image quality: at-aperture radiance of a Lambertian scene, the camera equation, signal and shot/dark/read/quantisation noise and SNR; the system MTF at Nyquist (diffraction x detector x smear x jitter), the relative edge response from it, Q = lambda F/p and the GIQE version 4 NIIRS with no MTF compensation. MODELLED.", required_fields: &[], optional_fields: &["altitude_m", "focal_length_m", "aperture_m", "pixel_pitch_um", "wavelength_um", "bandwidth_um", "fill_factor", "smear_px", "jitter_px_rms", "reflectance", "solar_irradiance_w_m2_um", "sun_zenith_deg", "atmospheric_transmittance", "path_radiance_w_m2_sr_um", "optics_transmittance", "integration_s", "quantum_efficiency", "dark_current_e_s", "read_noise_e", "full_well_e", "adc_bits"] },
+        ScenarioMeta { name: "ascent-losses", description: "Planar gravity-turn ascent of a multi-stage vehicle over a non-rotating spherical Earth through the US Standard Atmosphere 1976 (vertical rise, pitch kick, thrust along velocity), integrating the gravity, drag, steering and back-pressure losses and checking ideal dv minus losses against the burnout speed; max-Q, peak acceleration and burnout state. MODELLED.", required_fields: &[], optional_fields: &["stages", "payload_kg", "drag_coefficient", "reference_area_m2", "kick_altitude_m", "kick_angle_deg", "kick_duration_s", "step_s"] },
     ]
 }
 
@@ -2748,6 +2764,42 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
         ScenarioKind::Aocs => {
             let scn: crate::aocs_kind::AocsScenario =
                 toml::from_str(src).map_err(|e| format!("invalid aocs scenario: {e}"))?;
+            let (json, summary) = scn.run_json()?;
+            let svg = minimal_svg(&summary);
+            Ok(RunOutput {
+                json,
+                svg,
+                summary,
+                csv: None,
+            })
+        }
+        ScenarioKind::EntryHeating => {
+            let scn: crate::entry_eo_ascent::entry_heating::EntryHeatingScenario =
+                toml::from_str(src).map_err(|e| format!("invalid entry-heating scenario: {e}"))?;
+            let (json, summary) = scn.run_json()?;
+            let svg = minimal_svg(&summary);
+            Ok(RunOutput {
+                json,
+                svg,
+                summary,
+                csv: None,
+            })
+        }
+        ScenarioKind::EoRadiometry => {
+            let scn: crate::entry_eo_ascent::eo_radiometry::EoRadiometryScenario =
+                toml::from_str(src).map_err(|e| format!("invalid eo-radiometry scenario: {e}"))?;
+            let (json, summary) = scn.run_json()?;
+            let svg = minimal_svg(&summary);
+            Ok(RunOutput {
+                json,
+                svg,
+                summary,
+                csv: None,
+            })
+        }
+        ScenarioKind::AscentLosses => {
+            let scn: crate::entry_eo_ascent::ascent::AscentScenario =
+                toml::from_str(src).map_err(|e| format!("invalid ascent-losses scenario: {e}"))?;
             let (json, summary) = scn.run_json()?;
             let svg = minimal_svg(&summary);
             Ok(RunOutput {

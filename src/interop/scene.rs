@@ -421,6 +421,12 @@ pub fn reason_for_kind(kind: ScenarioKind) -> Option<String> {
         | K::SlotTiming
         | K::Spectrum => no_position,
         K::LeoPass | K::LeoPntChain => return None,
+        K::EoRadiometry | K::AscentLosses => "the `eo-radiometry` and `ascent-losses` kinds \
+             compute budgets with no Earth position"
+            .to_string(),
+        K::EntryHeating => "not exported in this release: the `entry-heating` kind reports peak \
+             loads and heating, and keeps no time-tagged ground track"
+            .to_string(),
         K::Aocs => "the `aocs` kind simulates attitude about the centre of mass with no orbit \
              or ground position, so there is nothing to place on the Earth"
             .to_string(),

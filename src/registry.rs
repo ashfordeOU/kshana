@@ -119,6 +119,9 @@ const BUILTIN_KINDS: &[crate::api::ScenarioKind] = {
         ContactSchedule,
         AcmLink,
         Aocs,
+        EntryHeating,
+        EoRadiometry,
+        AscentLosses,
     ]
 };
 
@@ -256,6 +259,12 @@ pub mod ids {
     pub const ACM_LINK: ScenarioId = ScenarioId::from_static("acm-link");
     /// Reaction-wheel attitude control under MRP feedback, optionally closed on an MEKF.
     pub const AOCS: ScenarioId = ScenarioId::from_static("aocs");
+    /// 3-DoF atmospheric entry with stagnation-point convective heating.
+    pub const ENTRY_HEATING: ScenarioId = ScenarioId::from_static("entry-heating");
+    /// Imager radiometry, MTF and GIQE 4 NIIRS.
+    pub const EO_RADIOMETRY: ScenarioId = ScenarioId::from_static("eo-radiometry");
+    /// Gravity-turn ascent losses.
+    pub const ASCENT_LOSSES: ScenarioId = ScenarioId::from_static("ascent-losses");
 
     /// Every built-in scenario id, in the engine's canonical order.
     pub fn all() -> Vec<ScenarioId> {
