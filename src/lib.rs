@@ -82,6 +82,8 @@ pub mod bplane;
 /// The bundled reference scenarios, present only with the `bundled-scenarios` feature.
 #[cfg(feature = "bundled-scenarios")]
 pub mod bundled_scenarios;
+/// Calibration ensembles (CAP-10): single-seed checks re-run over many seeds.
+pub mod calibration_ensembles;
 pub mod campaign;
 pub mod ccsds_tdm;
 /// The optional Celeste IOD preset: compiled in only when `src/celeste_iod.rs` exists.
