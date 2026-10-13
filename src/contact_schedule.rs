@@ -398,6 +398,7 @@ pub fn ccm_modcod(
 
 /// Integrate ACM (and the CCM baseline) over one pass, sampling the apparent geometry at
 /// `link.acm_step_s` (midpoint rule on each sub-interval).
+#[allow(clippy::too_many_arguments)]
 pub fn pass_capacity(
     link: &LinkConfig,
     eirp_dbw: f64,
@@ -711,7 +712,7 @@ fn validate_station(s: &StationSpec) -> Result<(), String> {
             s.name
         ));
     }
-    if !(s.setup_s.is_finite() && s.setup_s >= 0.0) || !s.g_over_t_db.is_finite() {
+    if !(s.setup_s.is_finite() && s.setup_s >= 0.0 && s.g_over_t_db.is_finite()) {
         return Err(format!(
             "station '{}': setup_s >= 0 and g_over_t_db finite",
             s.name

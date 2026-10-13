@@ -11,11 +11,11 @@
     },
     "module-map.png": {
       "svg": "module-map.svg",
-      "svg_sha256": "2facf2ef1db11ab16328348a4553dc15d42df88afc02ebcd628e64fcd5594456"
+      "svg_sha256": "f65446e10d4989ae7e919d94cedcc184dfd1794c4817d66a14fd6f3f8f7dd0cd"
     },
     "system-overview.png": {
       "svg": "system-overview.svg",
-      "svg_sha256": "f2c4bda72eea63f068f0800fef53b9c32050b07b3a18bacd56dacdceb7e2f85a"
+      "svg_sha256": "cfeda7d650905c1f2c981a95b88e4adc9db996c78ba2d67bedeedb0d8a466480"
     },
     "validation-provenance.png": {
       "svg": "validation-provenance.svg",
