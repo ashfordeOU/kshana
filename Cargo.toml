@@ -43,6 +43,11 @@ exclude = [
     # crate fail to compile — which is exactly what happened to the v0.27.0 publish.
     "!/tests/fixtures/llr_geometry/de440_moon_pa.csv",
     "/tests/igs_real_data.rs",
+    # The LRO LOLA south-polar DEM crop (about 1 MB) is read at run time by path, by
+    # scenarios/lunar-station-coverage-terrain.toml (repository-only) and its test; nothing
+    # the library compiles embeds it.
+    "/data/lunar-dem",
+    "/tests/lunar_station_terrain.rs",
     # The interference-map sample outputs are documentation inputs for the Studio; the test
     # that pins them reads them from a checkout.
     "/examples/interference-map",

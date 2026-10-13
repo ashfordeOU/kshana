@@ -563,6 +563,9 @@ const SECONDS_PER_JULIAN_CENTURY: f64 = 36_525.0 * 86_400.0;
 
 /// Solve Kepler's equation `M = E − e·sin E` for `E` (radians) by Newton
 /// iteration from the page's starting guess `E₀ = M + e·sin M`.
+///
+/// Legacy solver, kept numerically unchanged because committed outputs depend on it; new code
+/// should use the shared robust solver [`crate::kepler::solve_kepler_markley`].
 pub fn solve_kepler(m_rad: f64, e: f64) -> f64 {
     let mut ecc_anom = m_rad + e * m_rad.sin();
     for _ in 0..50 {
