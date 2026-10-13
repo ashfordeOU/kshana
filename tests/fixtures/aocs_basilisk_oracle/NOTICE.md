@@ -21,4 +21,4 @@ The values are the output of a tool run on synthetic inputs; no part of the tool
 
 Generated 2026-10-13 with Python 3.12.3. The cases, the module set and the bars were registered
 in `xval/aocs-basilisk/PREREGISTRATION.md` (commit 27d6831a) before the fixture was generated
-and before any comparison.
+and before any comparison. First run: every bar held (worst σ 2.4e-14, ω 1.6e-15 rad/s, wheel speed 2.9e-11 rad/s, torque 1.2e-13 N m).
