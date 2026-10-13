@@ -421,6 +421,9 @@ pub fn reason_for_kind(kind: ScenarioKind) -> Option<String> {
         | K::SlotTiming
         | K::Spectrum => no_position,
         K::LeoPass | K::LeoPntChain => return None,
+        K::Aocs => "the `aocs` kind simulates attitude about the centre of mass with no orbit \
+             or ground position, so there is nothing to place on the Earth"
+            .to_string(),
         K::ContactSchedule | K::AcmLink => {
             "the `contact-schedule` and `acm-link` kinds plan downlink contacts and coding; \
              export a `passes` scenario for the same satellite and station to see the geometry"

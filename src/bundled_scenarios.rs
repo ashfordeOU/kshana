@@ -28,6 +28,8 @@ macro_rules! bundled {
 /// Every scenario file in `scenarios/` that runs on its own, in file-name order.
 pub const BUNDLED: &[(&str, &str)] = &[
     bundled!("acm-link"),
+    bundled!("aocs-slew"),
+    bundled!("aocs-slew-mekf"),
     bundled!("aperture-duty-cycle"),
     bundled!("araim-gps-galileo"),
     bundled!("araim-reference-check"),

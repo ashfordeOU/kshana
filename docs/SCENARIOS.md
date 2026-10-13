@@ -1,6 +1,6 @@
 # Scenario kinds
 
-The 78 built-in scenario kinds that `kshana::api::run_toml` dispatches over, each with its one-line description and its required / optional TOML (Tom's Obvious, Minimal Language) fields.
+The 79 built-in scenario kinds that `kshana::api::run_toml` dispatches over, each with its one-line description and its required / optional TOML (Tom's Obvious, Minimal Language) fields.
 
 This file is **generated** from `api::list_scenario_kinds()` — the single source of truth — by `cargo run --bin gen_validation_artifacts`; edit the source, not this file. Every binding (the Python package, the MCP (Model Context Protocol) server's `list_scenario_kinds` tool, and the WebAssembly (WASM) playground) exposes this same catalogue, so what is listed here is exactly what every surface can run. The descriptions are terse and do not always expand their abbreviations; every one is spelled out in [GLOSSARY.md](GLOSSARY.md).
 
@@ -86,6 +86,7 @@ Every scenario except `clock` must also set `kind = "<name>"` at the top level: 
 | 76 | [`leo-pnt-chain`](#leo-pnt-chain) | One LEO-PNT (positioning, navigation and timing from low Earth orbit) system end to end, for any constellation and signal: the leo-signal design named by signal_design (a public preset or an inline [signal] design) sets a [pass] band's centre, bandwidth, chip rate and EIRP split, the leo-pass link budget gives the tracked C/N0 and band-limited code jitter over the pass, a C/N0 line in sin(elevation) and the [navmsg] message's broadcast SISRE (fitted at the pass satellite's altitude) feed every LEO system of the [fusion] leo-pvt joint fix, and optionally the [ppp] leo-ppp cases; every hand-off is listed with its value and unit. MODELLED. |
 | 77 | [`contact-schedule`](#contact-schedule) | Ground-contact planning for several satellites over several stations: apparent access windows (SGP4, IAU 2006/2000A Earth-fixed frame, ITU-R P.834 refraction, light time), the DVB-S2 ACM data volume of each pass (ETSI EN 302 307-1 Table 13 thresholds) and a conflict-free schedule (one satellite per antenna with a turnaround, one station per satellite, priority-weighted delivery capped at each backlog) by a marginal-value greedy, a first-come baseline and an exact branch and bound on small sets, with the greedy's optimality gap. MODELLED. |
 | 78 | [`acm-link`](#acm-link) | One satellite over one station: each pass's slant range, elevation and Es/N0 along the pass, the DVB-S2 MODCOD chosen at each step (ETSI EN 302 307-1 Table 13 thresholds plus an implementation margin) and the data volume ACM moves against the constant-coding baseline that closes at the mask. MODELLED. |
+| 79 | [`aocs`](#aocs) | Spacecraft attitude control: an inertial-pointing slew of a rigid hub with three or more balanced reaction wheels under MRP feedback (L = -K sigma - P omega), minimum-norm wheel torques clipped to each motor's limit, RK4 with a zero-order hold; optionally closed on a multiplicative EKF from a simulated gyro (angle and rate random walk) and star tracker. Reports settling time, final and peak pointing error, peak wheel speed and torque, the saturated fraction, angular-momentum drift and, with the estimator, its attitude error and NEES. The true-state loop is VALIDATED against Basilisk 2.9.1; the estimator is MODELLED. |
 
 ## `clock`
 
@@ -632,4 +633,11 @@ One satellite over one station: each pass's slant range, elevation and Es/N0 alo
 
 - **Required fields:** *(none)*
 - **Optional fields:** `epoch`, `duration_hours`, `step_s`, `refraction`, `light_time`, `link`, `satellite`, `station`
+
+## `aocs`
+
+Spacecraft attitude control: an inertial-pointing slew of a rigid hub with three or more balanced reaction wheels under MRP feedback (L = -K sigma - P omega), minimum-norm wheel torques clipped to each motor's limit, RK4 with a zero-order hold; optionally closed on a multiplicative EKF from a simulated gyro (angle and rate random walk) and star tracker. Reports settling time, final and peak pointing error, peak wheel speed and torque, the saturated fraction, angular-momentum drift and, with the estimator, its attitude error and NEES. The true-state loop is VALIDATED against Basilisk 2.9.1; the estimator is MODELLED.
+
+- **Required fields:** `hub_inertia_kg_m2`, `k_nm`, `p_nms`, `wheels`, `sigma0`
+- **Optional fields:** `duration_s`, `dt_s`, `sample_s`, `omega0_rad_s`, `pointing_threshold_deg`, `estimator`
 

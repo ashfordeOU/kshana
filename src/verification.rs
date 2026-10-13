@@ -1463,6 +1463,24 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            requirement: "Closed-loop MRP feedback attitude control with reaction wheels",
+            capability: "Inertial-pointing attitude control of a rigid hub with three or more balanced reaction wheels: the MRP feedback law L_r = -K sigma_BR - P omega_BR (Schaub and Junkins), minimum-norm wheel motor torques G_s u = -L_r clipped to each wheel's limit, the coupled hub and wheel dynamics with the hub inertia carrying the wheels' spin inertia, quaternion kinematics, RK4 with a zero-order hold. Runnable as the `aocs` scenario kind (true-state loop).",
+            module: "aocs (AocsConfig, required_torque, motor_torques, rates, rk4_step, simulate, mrp_from_quaternion); aocs_kind (AocsScenario)",
+            tests: "tests/aocs_basilisk_oracle.rs (3 cases, 601 samples each: MRP worst 2.4e-14, bar 1e-9; body rate 1.6e-15 rad/s, bar 1e-9; wheel speed 2.9e-11 rad/s, bar 1e-6; applied motor torque 1.2e-13 N m, bar 1e-9; t = 0 torques within 1e-12 N m; saturation reached in both tools); aocs::tests (angular momentum conserved, minimum-norm mapping, MRP branch, convergence under saturation); aocs_kind::tests",
+            oracle: "Basilisk 2.9.1 (AVSLab, ISC; the bsk wheel run as a separate tool, never linked or vendored): spacecraft hub, reactionWheelStateEffector (BalancedWheels, torque limit on), simpleNav, inertial3D, attTrackingError, mrpFeedback (no integral term) and rwMotorTorque at dt = 0.1 s with its RK4, against Kshana's own implementation on three cases (three orthogonal wheels; a four-wheel pyramid; a saturating four-wheel case), bars pre-registered in xval/aocs-basilisk/PREREGISTRATION.md before the code and the run. All bars held on the first run. WHAT IS NOT: sensor noise in the loop, integral feedback, tracking guidance, wheel friction, jitter, speed limits and power, any real spacecraft's gains; the comparison checks the implementation of the law and the dynamics against an independent one, not a flight controller.",
+            oracle_kind: ExternalDataset,
+            status: Validated,
+        },
+        VerificationItem {
+            requirement: "Multiplicative EKF attitude estimation from a gyro and a star tracker",
+            capability: "The Lefferts-Markley-Shuster multiplicative EKF: body-frame attitude error and gyro bias states, propagation with the gyro rate less the bias estimate and Farrenkopf's discrete process noise (angle and rate random walk), star-tracker updates with the residual 2 vec(q^-1 q_st) in Joseph form, and the multiplicative reset; a Farrenkopf discrete gyro and star-tracker simulator. The `aocs` kind can close the control loop on its estimate.",
+            module: "aocs_mekf (Mekf, GyroSim, attitude_error, spd_solve6); aocs_kind (estimator)",
+            tests: "aocs_mekf::tests::mekf_is_consistent_over_monte_carlo_seeds (40 seeds, mean six-degree-of-freedom NEES over the second half within 4.5 to 7.5); aocs_mekf::tests::star_tracker_updates_bound_the_attitude_error; aocs_mekf::tests::attitude_error_is_the_body_frame_small_angle; aocs_kind::tests::estimator_loop_runs_and_reports_consistency",
+            oracle: "Internal consistency: the filter's normalised estimation error squared against truth simulated from the same sensor models over Monte Carlo seeds, and convergence of the attitude and bias estimates. WHAT IS NOT: no external estimator or flight data has been compared (Basilisk 2.9.1 has no MEKF module); the sensor models are the textbook ones, without misalignment, scale factor or star-tracker field-of-view effects.",
+            oracle_kind: InternalConsistency,
+            status: Modelled,
+        },
+        VerificationItem {
             requirement: "Wahba/TRIAD/QUEST attitude determination",
             capability: "Optimal three-axis attitude from weighted vector observations (star/sun/magnetometer directions): the deterministic two-vector TRIAD, Davenport's q-method (the exact Wahba-loss minimiser — the optimal quaternion is the largest-eigenvalue eigenvector of the 4×4 Davenport matrix K, solved by a symmetric Jacobi eigensolve), and QUEST (Newton/secant root of K's characteristic equation seeded at Σ weights, then Gibbs-vector quaternion recovery)",
             module: "wahba",
@@ -3382,6 +3400,13 @@ pub fn validated_oracle_basis() -> Vec<OracleBasisEntry> {
             basis: Library,
             oracle_test: "tests/lunar_service_geometry_oracle.rs::look_angles_match_anise_at_selenographic_sites",
             source: "ANISE 0.10.2",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Closed-loop MRP feedback attitude control with reaction wheels",
+            basis: Library,
+            oracle_test: "tests/aocs_basilisk_oracle.rs::a1_to_a4_the_closed_loop_matches_basilisk_at_every_sample",
+            source: "Basilisk 2.9.1",
             flag: "",
         },
         OracleBasisEntry {

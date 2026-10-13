@@ -146,6 +146,7 @@ const RUNNERS: &[(&str, &str)] = &[
     ("leo-pnt-chain", "scenarios/leo-pnt-end-to-end.toml"),
     ("contact-schedule", "scenarios/contact-schedule.toml"),
     ("acm-link", "scenarios/acm-link.toml"),
+    ("aocs", "scenarios/aocs-slew.toml"),
 ];
 
 /// The kinds whose reports do not yet describe every numeric field they emit, each with

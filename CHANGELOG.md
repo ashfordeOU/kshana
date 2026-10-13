@@ -11,6 +11,15 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **Attitude control with reaction wheels: the `aocs` kind** (0.36, WP-14, CAP-21). An
+  inertial-pointing slew of a rigid hub with three or more balanced reaction wheels under MRP
+  feedback, with minimum-norm wheel torques clipped to each motor's limit (`aocs`). It can also
+  close the loop on a multiplicative EKF from a simulated gyro and star tracker (`aocs_mekf`).
+  The true-state loop was compared with Basilisk 2.9.1 on three cases pre-registered before the
+  code existed (three orthogonal wheels, a four-wheel pyramid, a saturating case). Every MRP
+  component, body rate, wheel speed and motor torque agreed at every sample, worst 2.4e-14 in
+  sigma and 2.9e-11 rad/s in wheel speed. This row is VALIDATED; the MEKF is MODELLED (NEES
+  consistency). New bundled scenarios `aocs-slew` and `aocs-slew-mekf`, and `docs/AOCS.md`.
 - **Ground-contact scheduling and DVB-S2 ACM** (0.36, WP-14, CAP-22/23): two new scenario
   kinds. `acm-link` gives, for one satellite over one station, each pass's Es/N0 and the DVB-S2
   MODCOD chosen along it (ETSI EN 302 307-1 Table 13 thresholds plus a margin). It also gives

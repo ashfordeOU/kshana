@@ -106,6 +106,8 @@ fn the_fixture_holds_the_three_registered_cases() {
     assert_eq!(names, ["A", "B", "C"]);
     for c in &cs {
         c.cfg.validate().unwrap();
+        // PIN-SCOPE:    the registered sample count, 600 s at 1 s plus the start
+        // PIN-EXCLUDES: the sampled values, which the bars below check
         assert_eq!(c.rows.len(), 601, "case {}", c.name);
         assert_eq!(c.cfg.wheels.len(), if c.name == "A" { 3 } else { 4 });
     }
@@ -120,7 +122,13 @@ fn a0_commanded_torques_at_t0_match_basilisk() {
         let row = &c.rows[0];
         for i in 0..n {
             let b = row[7 + n + i];
-            assert!((u[i] - b).abs() <= A0_NM, "case {} wheel {i}: {} vs {}", c.name, u[i], b);
+            assert!(
+                (u[i] - b).abs() <= A0_NM,
+                "case {} wheel {i}: {} vs {}",
+                c.name,
+                u[i],
+                b
+            );
         }
     }
 }

@@ -118,6 +118,7 @@ const BUILTIN_KINDS: &[crate::api::ScenarioKind] = {
         LeoPntChain,
         ContactSchedule,
         AcmLink,
+        Aocs,
     ]
 };
 
@@ -253,6 +254,8 @@ pub mod ids {
     pub const CONTACT_SCHEDULE: ScenarioId = ScenarioId::from_static("contact-schedule");
     /// DVB-S2 ACM along one satellite's passes over one station.
     pub const ACM_LINK: ScenarioId = ScenarioId::from_static("acm-link");
+    /// Reaction-wheel attitude control under MRP feedback, optionally closed on an MEKF.
+    pub const AOCS: ScenarioId = ScenarioId::from_static("aocs");
 
     /// Every built-in scenario id, in the engine's canonical order.
     pub fn all() -> Vec<ScenarioId> {
