@@ -446,22 +446,7 @@ is not edited.
 
 **`tests/lunar_joint_od_numpy_oracle.rs`** (the VALIDATED "Lunar joint multi-technique OD + clock" row) was held and is now re-recorded after the owner's approval, with numpy pinned to 2.4.6, the script and the bar unchanged: all six networks pass; see [`STUDIO15-lunar-joint-od-oracle-rerecord.md`](STUDIO15-lunar-joint-od-oracle-rerecord.md) (old and new hashes of the fixtures, per-network margins).
 
-**Also left failing: the other two numpy-oracle tests** (both guard MODELLED rows). Their committed
-numpy fixtures are not numpy output compared with `==`; the exact comparison is the engine against the
-committed engine export, and the numpy tolerance comparisons run on the committed export. Checked with
-scratch copies, nothing committed:
-
-* `lunar_observability_numpy_oracle`: with the exact drift assertions bypassed, the engine on its new
-  inputs against the old numpy reference misses the CRLB bar (`rich_without_vlbi`: 4.8e-8 relative against
-  the test's bound). Restoring the pre-registered comparison needs `reference.json` re-run on the
-  re-exported inputs; that needs SciPy (the registered tool, numpy 2.3.5 and SciPy 1.18.1), which is not
-  installed here, so it was not done.
-* `lunar_station_numpy_oracle`: re-exporting `cases.json` and re-running numpy 2.5.3 (scratch) keeps
-  every tolerance and the recorded bound (worst range difference 3.7252903e-9 m, below the recorded
-  3.7252974e-9 m), but the recorded finding "15 of 20 cases above the 1e-9 m bar for the corrections"
-  becomes 20 of 20, and the exact equality with `RANGE_OBSERVED_M` fails. Those are pins of what was
-  observed, not bars, but updating them is a decision about a recorded finding, so it is held with the
-  others for the coordinator.
+**The other two numpy-oracle tests** (`lunar_observability_numpy_oracle`, `lunar_station_numpy_oracle`, MODELLED rows) were held and are now re-recorded after owner approval, with numpy/scipy at the registered versions and scripts and bars unchanged; the station test's recorded finding moves from 15 to 20 of 20 cases above 1e-9 m and `RANGE_OBSERVED_M` 3.7252974e-9 -> 3.7252903e-9 m. Old and new fixture hashes and per-case margins: [`STUDIO15-lunar-station-observability-oracles.md`](STUDIO15-lunar-station-observability-oracles.md).
 
 **Parity.** The final native-versus-wasm result is in the phase 2 report.
 

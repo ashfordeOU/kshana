@@ -17,7 +17,9 @@ const RANGE_TOL_M: f64 = 1e-9;
 /// What the first run observed for the corrections, and so for the corrected range errors:
 /// about two units in the last place of a 1e7 m satellite range (2^-29 m each). The
 /// pre-registered bar (RANGE_TOL_M) was missed; this is the recorded finding, not a new bar.
-const RANGE_OBSERVED_M: f64 = 3.725_297_403_889_272e-9;
+// STUDIO-15 (0.36 portable maths): was 3.725_297_403_889_272e-9 on the host's maths; the fixtures were
+// re-exported and numpy re-run (docs/revisions/STUDIO15-lunar-station-observability-oracles.md).
+const RANGE_OBSERVED_M: f64 = 3.725_290_298_461_914e-9;
 const POSITION_TOL_M: f64 = 1e-6;
 
 fn load(path: &str) -> Value {
@@ -106,9 +108,9 @@ fn the_arithmetic_matches_the_preregistered_numpy_recomputation() {
         }
     }
     println!("worst range difference {worst_range:e} m; worst position difference {worst_pos:e} m");
-    // The finding as recorded in PREREGISTRATION.md: 15 of 20 cases above the 1e-9 m bar for
+    // The finding as recorded in PREREGISTRATION.md: 20 of 20 cases above the 1e-9 m bar (15 of 20 before STUDIO-15) for
     // the corrections and the corrected range errors, none for the raw range errors.
-    assert_eq!(over_bar, [15, 0, 15], "the recorded N2/N3 finding moved");
+    assert_eq!(over_bar, [20, 0, 20], "the recorded N2/N3 finding moved");
     assert_eq!(worst_range, RANGE_OBSERVED_M);
 
     // N6: each point's percentile, exactly; and the run still reports what was exported.
