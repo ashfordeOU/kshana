@@ -311,7 +311,16 @@ frame-dragging term are now implemented and composed into the precise
 ephemeris-fitting force model (`src/precise_od.rs` — see below). The tesseral field is also an
 opt-in term of the Cowell `ForceModel` (`propagator::Geopotential`, default off), validated against
 Orekit 12.2 `HolmesFeatherstoneAttractionModel` to degree/order 70 (6 cases over 24 h, worst
-|Δr| 0.036 m; `tests/cowell_tesseral_orekit_oracle.rs`). The NRLMSISE-00 (NRLMSISE: Naval Research Laboratory Mass Spectrometer and Incoherent Scatter Radar Extended atmosphere model) thermospheric
+|Δr| 0.036 m; `tests/cowell_tesseral_orekit_oracle.rs`). Two field evaluators exist: the historical
+`acceleration` (spherical partials; valid to degree ~180 away from the poles; outputs pinned) and
+`acceleration_hf` (Holmes–Featherstone 2002 modified forward column, gradient without 1/cos φ; valid
+to degree 2190 at every latitude). EGM2008 to 2190 loads at run time (`from_gfc_file`,
+`scripts/fetch_egm2008.sh`, not bundled). `acceleration_hf` agrees with Orekit 12.2 to 7.3e-17 m/s²
+at eight points through degree 2190; it stays MODELLED because pyshtools missed the pre-registered
+near-pole bar (an mpmath check places the error in pyshtools; `xval/high-degree-gravity/`). A 24 h
+200×200 orbit agrees with Orekit to 0.13 m, but its pre-registered degree-70 sensitivity control
+missed (0.73 m < 1 m), so degrees 71–200 are characterised, not validated, in orbit
+(`xval/cowell-tesseral-200-orekit/`). The NRLMSISE-00 (NRLMSISE: Naval Research Laboratory Mass Spectrometer and Incoherent Scatter Radar Extended atmosphere model) thermospheric
 density (drag is the static Vallado model), solar limb darkening / the oblate-Earth
 shadow, DE-grade (DE: Development Ephemeris) ephemeris accuracy, an external cross-validation of the
 drag tier, and a GMAT (General Mission Analysis Tool) cross-check remain follow-ons.

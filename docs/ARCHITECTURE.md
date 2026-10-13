@@ -743,8 +743,9 @@ over 24 h) and of batch and sequential orbit determination, and the 17-state
 tightly-coupled navigator surfaced as the `hybrid-ukf` scenario kind.
 
 The remaining follow-ons are tracked in [CHANGELOG](../CHANGELOG.md) `[Unreleased]` and the
-per-capability roadmap in [CAPABILITY](CAPABILITY.md): a higher-degree (e.g. 200×200) EGM (Earth Gravitational Model)
-**tesseral** field and loader beyond the shipped degree/order-70 path, the NRLMSISE-00 (NRLMSISE: Naval Research Laboratory Mass Spectrometer and Incoherent Scatter Radar Extended atmosphere model)
+per-capability roadmap in [CAPABILITY](CAPABILITY.md): an external oracle value for the EGM (Earth Gravitational Model)
+high-degree evaluator exactly on the polar axis and a pyshtools-clean near-pole comparison (the evaluator
+to degree 2190 and its run-time `.gfc` loader ship, MODELLED; see `xval/high-degree-gravity/`), the NRLMSISE-00 (NRLMSISE: Naval Research Laboratory Mass Spectrometer and Incoherent Scatter Radar Extended atmosphere model)
 thermospheric density (the propagator's drag uses a static exponential density, and the
 `space-weather` kind's Jacchia-71 density is characterised against NRLMSISE-00 but not
 replaced by it), solar limb darkening / the oblate-Earth shadow, carrier-phase GNSS/INS
