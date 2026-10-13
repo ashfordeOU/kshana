@@ -7,6 +7,9 @@ cites on the released 0.31.0 tag, and keep the honest rule — a line reads
 fixed before the comparison; everything else is MODELLED and labelled so.
 Numbers below are the enforced test bars and the measured results on committed
 seeds, not marketing figures.
+Refreshed 2026-10-12 (docs truth pass, release/0.36.0-rc @ c9e37402): the ledger counts and
+the list of validated signal-layer rows below. The per-figure table has NOT been re-run for
+this refresh; re-confirm each figure against the test it cites on the release being sent.
 -->
 
 # Kshana — how the GNSS signal layer is checked
@@ -24,15 +27,25 @@ Every quantity below is in one of two states, and we always say which:
   forms and statistics, but have not checked against measured field data.
   Useful, clearly labelled, never dressed up as validated.
 
-Across the whole engine that ledger is **249 rows, 123 validated, 122 modelled,
-4 partner** — each row linked to its test, module and committed reference data at
-kshana.dev. The signal layer below adds no validated-matrix rows; its physical
-models are MODELLED, checked against closed forms and injected truth as shown.
+Across the whole engine that ledger is **274 rows, 134 validated, 136 modelled,
+4 partner** at the 0.36 release candidate (the live count is the generated header of
+`docs/VERIFICATION-MATRIX.md`) — each row linked to its test, module and committed
+reference data at kshana.dev. The signal layer's physical models (channel, loops,
+front end) are MODELLED, checked against closed forms and injected truth as shown.
 
-One piece is externally validated: the GPS L1 C/A spreading codes and the LNAV
-navigation-message bits (fields and parity) the scene generates are **bit-exact
-against gps-sdr-sim**, an independent open GPS signal simulator, in a
-pre-registered comparison (`tests/gps_l1ca_gpssdrsim_cross_generator.rs`).
+Two pieces are externally validated, each against gps-sdr-sim, an independent open
+GPS signal simulator, in a pre-registered comparison:
+
+- the GPS L1 C/A spreading codes and the LNAV navigation-message bits (fields and
+  parity) the scene generates are **bit-exact**
+  (`tests/gps_l1ca_gpssdrsim_cross_generator.rs`);
+- the scene generator's per-satellite truth for a broadcast-ephemeris scene (visible
+  set, pseudorange, code phase, Doppler, look angles) matches the channel state
+  gps-sdr-sim builds its own I/Q from: worst pseudorange 1.6e-3 m, code phase
+  5.5e-6 chip, Doppler 7.4e-5 Hz, identical visible set
+  (`tests/iq_gpssdrsim_cross_generator.rs`).
+
+Acquisition on independently generated I/Q is a ledger row too, MODELLED.
 
 ## The signal layer, mapped to what you asked about
 

@@ -33,3 +33,20 @@ Galileo OSNMA:
   property in that interface; users rely on the ICD's own authorisation (its Annex E).
   See the notice in docs/OSNMA.md. Kshana is not developed by, used by, approved by or
   endorsed by the European Union, the European Commission or EUSPA.
+
+Galileo E1 primary memory codes:
+  Not bundled since 0.36: the E1-B and E1-C primary memory codes (C7_E1B.txt,
+  C8_E1C.txt) are supplied by each user (scripts/fetch_galileo_e1_codes.sh), extracted
+  byte for byte from the attachments of the European GNSS
+  (Galileo) Open Service Signal-In-Space Interface Control Document, Issue 2.0,
+  January 2021 (OS SIS ICD Annex C.7 and C.8), (c) European Union 2021. Source:
+  https://www.gsc-europa.eu/sites/default/files/sites/all/files/Galileo_OS_SIS_ICD_v2.0.pdf
+  (SHA-256 ce97057a9e9d74cc41a6b986c6e9ef03ce420eda474787b4f8f0456b369a81c0); see
+  data/galileo-os-sis-icd/PROVENANCE.md. The ICD states that they are Technical Data
+  subject to the European Union's intellectual property rights, used under the EU's
+  "Authorisation Concerning the OS SIS ICD IPRs" (Annex G of Issue 2.0, Annex H of
+  Issue 2.1), a non-exclusive, royalty-free, non-transferable and non-licensable
+  covenant. They are NOT licensed under the AGPL-3.0 or the commercial licence, and
+  Kshana grants no rights in them. The ICD allows redistribution only for non-commercial
+  purposes, so the repository does not carry them; see LICENSING.md.
+  Kshana is not developed by, used by, approved by or endorsed by the European Union.
