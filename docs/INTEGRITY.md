@@ -178,3 +178,12 @@ holdover figures of merit are unchanged, and without the section the output is b
 MODELLED: a representative preset sky, synthetic residuals and stated limits. It needs
 `runs = 1`.
 
+
+## Data-gated: the EU-ARAIM technical-note Table A-3 comparison (CAP-05c)
+
+Not run. A pre-registered comparison of `araim_dual_raim` against the published Table A-3
+availability needs, under a licence that permits reproducing them: the reference GPS and Galileo
+almanacs the technical note used (with their epoch); the user grid and the time sampling; the
+integrity support message and requirement constants (σ_URA, σ_URE, b_nom, P_sat, P_const, the
+integrity and continuity budgets, HAL and VAL); and the Table A-3 values themselves. Until those
+inputs are available on such terms nothing is fetched or vendored, and the row stays MODELLED.
