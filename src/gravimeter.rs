@@ -27,10 +27,12 @@
 //! bundle the full EGM2008 2190×2190 set (252 MB), but it can now load it at run time
 //! ([`crate::gravity_sh::SphericalHarmonicField::from_gfc_file`], fetched by
 //! `scripts/fetch_egm2008.sh`) and evaluate it to degree 2190 at any latitude
-//! ([`crate::gravity_sh::SphericalHarmonicField::acceleration_hf`], checked against Orekit).
-//! Driving this benchmark's map from that field rather than from mascons, a magnetic-anomaly
-//! map, and terrain-aided SLAM remain follow-ons; so does wiring the benchmark into the global
-//! scenario-engine `kind=` dispatcher with an SVG drift chart. See `docs/CAPABILITY.md`.
+//! ([`crate::gravity_sh::SphericalHarmonicField::acceleration_hf`], checked against Orekit);
+//! that field does not feed this map. The benchmark runs as the `gravity-map` scenario kind
+//! with an SVG chart ([`crate::altpnt::terrain::gravity_nav_svg`]). A real EGM2008/EIGEN
+//! gravity-anomaly map here, a crustal magnetic-anomaly map (the magnetic channel is the
+//! IGRF-14 main field) and joint map estimation (full SLAM; sequential terrain-referenced
+//! navigation is in [`crate::altpnt::sequential`]) remain follow-ons. See `docs/CAPABILITY.md`.
 
 use crate::inertial::quantum_imu::CaiAccelerometer;
 use crate::mapmatch::{hierarchical_offset_search, map_match_likelihood};
