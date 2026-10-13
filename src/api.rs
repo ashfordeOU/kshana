@@ -670,6 +670,12 @@ pub enum ScenarioKind {
     /// One LEO-PNT system end to end: signal design, pass link budget, navigation
     /// message and fused MEO + LEO positioning, each stage's output handed to the next.
     LeoPntChain,
+    /// Ground-contact planning: access windows of several satellites over several stations,
+    /// DVB-S2 ACM data volume per pass and a conflict-free contact schedule.
+    ContactSchedule,
+    /// One satellite over one station: each pass's `Es/N0` range and the DVB-S2 ACM data
+    /// volume against the constant-coding baseline.
+    AcmLink,
 }
 
 impl ScenarioKind {
@@ -752,6 +758,8 @@ impl ScenarioKind {
             ScenarioKind::LeoPpp => "leo-ppp",
             ScenarioKind::NtnPositioning => "ntn-positioning",
             ScenarioKind::LeoPntChain => "leo-pnt-chain",
+            ScenarioKind::ContactSchedule => "contact-schedule",
+            ScenarioKind::AcmLink => "acm-link",
         }
     }
 
@@ -838,6 +846,8 @@ impl ScenarioKind {
             "leo-ppp" => ScenarioKind::LeoPpp,
             "ntn-positioning" => ScenarioKind::NtnPositioning,
             "leo-pnt-chain" => ScenarioKind::LeoPntChain,
+            "contact-schedule" => ScenarioKind::ContactSchedule,
+            "acm-link" => ScenarioKind::AcmLink,
             // The clock pack, named explicitly. It had no arm of its own before, because
             // it was reached through the catch-all below — so removing that catch-all
             // orphaned the one kind the engine has always had. The round-trip test found
@@ -1042,6 +1052,8 @@ pub fn list_scenario_kinds() -> Vec<ScenarioMeta> {
         ScenarioMeta { name: "leo-ppp", description: "Precise point positioning (PPP) convergence with GNSS only and with LEO augmentation: a float extended Kalman filter on ionosphere-free code and carrier phase with the static station coordinates, a white receiver clock, one inter-system bias per extra system, a random-walk zenith wet delay mapped by 1/sin(elevation) and a float ambiguity per satellite arc; the precise orbit-and-clock error is white and common to the code and phase of a satellite, so each satellite is one correlated two-row update in a Joseph-stabilised form. Measurements are simulated from the same model with seeded noise over several sites and seeds, and each case (GNSS only first, then each [[case]] of LEO systems, any constellation or preset) reports the median convergence time (the first epoch after which the horizontal and vertical errors stay below the thresholds, 10 cm by default), the fraction converged, the median error curves and the filter consistency (the run-averaged position NEES against the two-sided 95% chi-square band). Optionally beside the published Li et al. (2019, J. Geod. 93:749, doi 10.1007/s00190-018-1195-2) mid-latitude figures: 9.6 min for multi-GNSS shortened to 7.0, 3.2, 2.1 and 1.3 min with 60, 96, 192 and 288 LEO satellites. MODELLED: a consistency comparison of the trend, not a reproduction of that study's constellations, noise or stations; no ambiguity resolution, cycle slips, phase wind-up, tides or time-correlated product errors.", required_fields: &[], optional_fields: &["seed", "duration_s", "step_s", "runs", "criterion_horizontal_m", "criterion_vertical_m", "compare_li_2019", "noise", "site", "gnss", "case"] },
         ScenarioMeta { name: "ntn-positioning", description: "Positioning from a 5G non-terrestrial network (NTN) downlink in the mobile-satellite service (MSS) S band (3GPP band n256, downlink 2170 to 2200 MHz; default carrier 2172.5 MHz): the Cramér-Rao bound (CRB) on time of arrival, c / (2 pi beta sqrt(2 (C/N0) T)) with beta the root-mean-square (Gabor) bandwidth of the flat OFDM spectrum (B/sqrt(12)), and on the Doppler of a complex tone, sqrt(3 / (2 pi^2 (C/N0) T^3)), for each signal (default a 5 MHz New Radio channel with 4.5 MHz occupied and a 200 kHz narrowband channel with 180 kHz occupied); then, over any LEO constellation, downlink time-of-arrival fixes with an unknown receiver clock (seeded, with the bound plus a network synchronisation error as the sigma), their PDOP and formal 3D sigma, and a single-satellite Doppler fix over the longest pass with the height held. MODELLED: the bandwidth-to-bound step is the textbook closed form, checked against numerical integration of the flat and band-limited BPSK spectra (internal consistency, no published worked figure pinned), and the positioning accuracy is a bound on a multipath-free channel with a stated synchronisation error, not an achieved result.", required_fields: &[], optional_fields: &["seed", "carrier_hz", "signal", "integration_s", "doppler_integration_s", "cn0_dbhz", "sync_error_m", "user", "duration_s", "step_s", "system"] },
         ScenarioMeta { name: "leo-pnt-chain", description: "One LEO-PNT (positioning, navigation and timing from low Earth orbit) system end to end, for any constellation and signal: the leo-signal design named by signal_design (a public preset or an inline [signal] design) sets a [pass] band's centre, bandwidth, chip rate and EIRP split, the leo-pass link budget gives the tracked C/N0 and band-limited code jitter over the pass, a C/N0 line in sin(elevation) and the [navmsg] message's broadcast SISRE (fitted at the pass satellite's altitude) feed every LEO system of the [fusion] leo-pvt joint fix, and optionally the [ppp] leo-ppp cases; every hand-off is listed with its value and unit. MODELLED.", required_fields: &["signal_design", "pass", "fusion"], optional_fields: &["name", "description", "seed", "signal", "navmsg", "od_sisre_m", "ppp"] },
+        ScenarioMeta { name: "contact-schedule", description: "Ground-contact planning for several satellites over several stations: apparent access windows (SGP4, IAU 2006/2000A Earth-fixed frame, ITU-R P.834 refraction, light time), the DVB-S2 ACM data volume of each pass (ETSI EN 302 307-1 Table 13 thresholds) and a conflict-free schedule (one satellite per antenna with a turnaround, one station per satellite, priority-weighted delivery capped at each backlog) by a marginal-value greedy, a first-come baseline and an exact branch and bound on small sets, with the greedy's optimality gap. MODELLED.", required_fields: &[], optional_fields: &["epoch", "duration_hours", "step_s", "refraction", "light_time", "link", "satellites", "stations"] },
+        ScenarioMeta { name: "acm-link", description: "One satellite over one station: each pass's slant range, elevation and Es/N0 along the pass, the DVB-S2 MODCOD chosen at each step (ETSI EN 302 307-1 Table 13 thresholds plus an implementation margin) and the data volume ACM moves against the constant-coding baseline that closes at the mask. MODELLED.", required_fields: &[], optional_fields: &["epoch", "duration_hours", "step_s", "refraction", "light_time", "link", "satellite", "station"] },
     ]
 }
 
@@ -2697,6 +2709,30 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
             let scn: crate::leo_pnt_chain::LeoPntChainScenario =
                 toml::from_str(src).map_err(|e| format!("invalid leo-pnt-chain scenario: {e}"))?;
             let (json, summary, svg) = scn.run_output()?;
+            Ok(RunOutput {
+                json,
+                svg,
+                summary,
+                csv: None,
+            })
+        }
+        ScenarioKind::ContactSchedule => {
+            let scn: crate::contact_schedule::ContactScheduleScenario = toml::from_str(src)
+                .map_err(|e| format!("invalid contact-schedule scenario: {e}"))?;
+            let (json, summary) = scn.run_json()?;
+            let svg = minimal_svg(&summary);
+            Ok(RunOutput {
+                json,
+                svg,
+                summary,
+                csv: None,
+            })
+        }
+        ScenarioKind::AcmLink => {
+            let scn: crate::contact_schedule::AcmLinkScenario =
+                toml::from_str(src).map_err(|e| format!("invalid acm-link scenario: {e}"))?;
+            let (json, summary) = scn.run_json()?;
+            let svg = minimal_svg(&summary);
             Ok(RunOutput {
                 json,
                 svg,
