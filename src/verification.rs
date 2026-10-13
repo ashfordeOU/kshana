@@ -2042,6 +2042,15 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            requirement: "Greenhall and Riley exact equivalent degrees of freedom of the Allan, modified Allan and Hadamard variances",
+            capability: "allan::edf_greenhall (with the edf_greenhall_adev, _mdev and _hdev wrappers): the full algorithm of Greenhall and Riley, Proc. 35th PTTI (2003), Section 3 (Eqns 7 to 13 and the large-J coefficients of Tables 1 to 3), for difference orders 1 to 3, noise exponents +2 to -4 wherever alpha + 2d > 1, overlapping and non-overlapping, modified and unmodified estimators; NaN where it does not apply, including the unmodified white-PM case with ceil(M/S) <= d, whose closed form is not implemented. assurance::uncertainty::edf now shares the code and keeps its outputs bit for bit",
+            module: "allan (edf_greenhall, greenhall_edf_core); assurance::uncertainty (edf)",
+            tests: "tests/greenhall_edf_allantools.rs (bars_1_to_3_against_allantools; bar_4_wrappers_equal_the_core); tests/greenhall_edf_no_moved_output.rs (uncertainty_edf_is_bit_identical_to_the_base_commit); tests/uncertainty_edf_reference.rs",
+            oracle: "allantools 2024.6 ci.edf_greenhall, a third-party implementation of the published algorithm, run by scripts/gen_greenhall_edf_ref.py over the grid pre-registered in xval/greenhall-edf/PREREGISTRATION.md (committed alone, 0db0bb7a, before any comparison): at all 4 876 points where it returns a finite edf, kshana agrees within a relative 6.0e-13 (bar 1e-9); at its 46 NotImplementedError points kshana returns NaN; every case label occurs; the wrappers equal the core bit for bit; uncertainty::edf is bit-identical over 274 280 values (pinned as a SHA-256 before the refactor). At 32 points (alpha -4, d 3, unmodified, case 2.2) allantools fails in its Table 2 lookup, so they have no oracle value and are not counted. Stable32 was not run",
+            oracle_kind: ExternalDataset,
+            status: Validated,
+        },
+        VerificationItem {
             requirement: "Oscillator holdover presets from public datasheets",
             capability: "Four presets — OCXO (Microchip OX-208), rubidium (Microchip 8040C), caesium (Microchip 5071A high-performance tube) and CSAC (Microchip SA.45s) — each carrying its datasheet's Allan-deviation maxima, aging and temperature bound; a non-negative least-squares white + flicker + random-walk frequency-noise fit scaled to envelope every datasheet point, a flicker floor never below the longest-τ figure, linear aging and a sinusoidal temperature term, synthesised as a seeded holdover after a GNSS loss",
             module: "telecom_timing (PRESETS, fit_noise, with_flicker_floor, synthesize_holdover); models (ClockModel)",
@@ -3657,6 +3666,13 @@ pub fn validated_oracle_basis() -> Vec<OracleBasisEntry> {
             basis: Library,
             oracle_test: "tests/testbench_reference.rs",
             source: "pyproj 3.8.0 (PROJ 9.8.1)",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Greenhall and Riley exact equivalent degrees of freedom of the Allan, modified Allan and Hadamard variances",
+            basis: Library,
+            oracle_test: "tests/greenhall_edf_allantools.rs",
+            source: "allantools 2024.6",
             flag: "",
         },
     ]
