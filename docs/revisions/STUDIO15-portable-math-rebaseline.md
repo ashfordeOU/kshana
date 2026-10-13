@@ -360,9 +360,114 @@ listed here only so they are not mistaken for moves; they are not touched.
 | ledger/CHANGELOG/doc prose with moved numbers (section 4.2) | edited with this file's old -> new; the Studio recorded files that already hold the portable values are left as they are |
 | tests and benches that still call host maths | ported to `PortableFloat` so the pins are produced through the same functions |
 
-## 7. Phase 2 additions
+## 7. Phase 2: what was re-recorded (2026-10-13), old -> new
 
-(To be appended by the phase 2 commits: the re-recorded values and the sites edited.)
+The values below are the ones section 5 listed, re-recorded through each test's own generator
+path (a bless switch, an emit test, or the tool that wrote the file); the old value stays in the
+code comment or in a historical fixture beside the new one. Nothing else was re-recorded, and no
+bar, tolerance or threshold changed.
+
+**Merge.** `b482fb33` (STUDIO-06) is merged into the branch; the scenario numbers above were
+measured against it.
+
+**Tests ported.** `portable_math` is now `pub` and `#[doc(hidden)]`, and `PortableFloat` is `pub`
+(nothing else in the module), so the integration tests can use it. 57 test files that build engine
+inputs or pin engine outputs call it (`powf`, `sin`, `cos`, `ln`, `log10`, `hypot`, ... 263 call
+sites, including the scene generators of `iq_track_cn0`, `iq_campaign`, `iq_receiver` and `iq_io`).
+68 test files stay on host maths on purpose, because they recompute their expected values
+independently of the engine (Orekit, numpy, SOFA, astropy, ANISE, pre-registered or "reference"
+comparisons, chosen by file name) and each now carries a comment saying so; they are:
+`attitude_dynamics_reference.rs`, `batch_sequential_orbit_determination_reference.rs`, `body_orientation_spice_oracle.rs`, `bplane_gmat_oracle.rs`, `bplane_heliocentric_oracle.rs`, `cislunar_arc_recovery_reference.rs`, `classical_strapdown_ins_reference.rs`, `clock_library_device_cards_oracle.rs`, `clock_state_ext_igs_conditioned_oracle.rs`, `clock_state_ext_igs_fresh_oracle.rs`, `coverage_dop_full_oracle.rs`, `cw_dynamics_orekit_oracle.rs`, `deep_space_mars_radiometric_reference.rs`, `dop_reference.rs`, `earth_gnss_measured_montenbruck_oracle.rs`, `earth_orbit_path_sgp4_erfa_oracle.rs`, `fim_observability_reference.rs`, `frame_reference_vectors.rs`, `geolocation_crlb_published_oracle.rs`, `geolocation_reference.rs`, `gnss_free_quantum_navigation_reference.rs`, `gnss_ins_navego_dataset_oracle.rs`, `gps_lnav_rtklib_decode_oracle.rs`, `gps_lnav_rtklib_integer_oracle.rs`, `hetero_budget_utc_k_realised_overbound_oracle.rs`, `integrity_sbas_stanford_oracle.rs`, `joint_eop_error_bulletin_a_oracle.rs`, `joint_eop_error_iers_ar2019_oracle.rs`, `joint_pvt_dual_freq_itrf_rtklib_oracle.rs`, `joint_pvt_itrf_rtklib_oracle.rs`, `joint_pvt_precise_itrf_rtklib_oracle.rs`, `lambda_reference.rs`, `leo_link_reference.rs`, `leo_navmsg_full_claim_oracle.rs`, `leo_polar_coverage_full_claim_orekit_oracle.rs`, `leo_polar_coverage_on_path_orekit_oracle.rs`, `leo_signal_reference.rs`, `lunar_afs_decodability_pocketsdr_4bit_oracle.rs`, `lunar_afs_decodability_pocketsdr_v3_oracle.rs`, `lunar_afs_frame_coding_oracle.rs`, `lunar_afs_waveform_lans_afs_sim_oracle.rs`, `lunar_frame_campaign_mpmath_oracle.rs`, `lunar_frame_campaign_srif_mpmath_oracle.rs`, `lunar_llr_geometry_range_oracle.rs`, `lunar_pa_orientation_spice_oracle.rs`, `lunar_perturbed_scipy_reference.rs`, `lunar_rate_frame_coupling_oracle.rs`, `lunar_rate_frame_coupling_preregistered.rs`, `lunar_service_geometry_oracle.rs`, `lunar_service_volume_orekit_oracle.rs`, `lunar_station_coverage_reference.rs`, `lunar_vlbi_campaign_spice_oracle.rs`, `maritime_trust_reference.rs`, `nav_signal_betz_hein_published_oracle.rs`, `operational_eop_ls_ar_bulletin_a_oracle.rs`, `pass_predictor_apparent_orekit_oracle.rs`, `pass_predictor_on_path_orekit_oracle.rs`, `powerlaw_oadev_reference.rs`, `quantum_inertial_dead_reckoning_reference.rs`, `quantum_vs_classical_pnt_trade_reference.rs`, `skyline_orekit_oracle.rs`, `solar_system_horizons_reference.rs`, `solar_system_light_time_solver_preregistered.rs`, `solar_system_standish_earth_icrf_preregistered.rs`, `solar_system_standish_preregistered.rs`, `testbench_reference.rs`, `time_transfer_error_budgeting_reference.rs`, `wahba_reference.rs`. `examples/` (fixture generators that call the engine) are not ported. There is no
+`benches/` directory.
+
+**Byte-identity guards, re-based to the named baseline "0.36 portable".**
+
+* `tests/skyline_scenarios.rs`: `every_wired_scenario_is_byte_identical_to_the_0_36_portable_baseline`
+  compares against the new `tests/fixtures/skyline/flat_hashes_0.36-portable.txt` (written by
+  `KSHANA_BLESS_SKYLINE_PORTABLE=1`, same 42 rows). 38 of the 42 rows differ from the 0.35.0 file:
+  `araim-gps-galileo`, the four `campaign-*` wired scenarios, `gnss-sim-raim`, `integrity-raim`,
+  `jamming-demo`, the `leo-*` scenarios (`leo-doppler-positioning`, `leo-focus-*` x4, `leo-indoor-uhf`,
+  `leo-iot-energy`, `leo-pass-*` x3, `leo-resilience-*` x3, `leo-timing-utc`, `leo-vertical-*` x6),
+  `maritime-strait-jamming`, `meo-leo-fused-pvt`, the six `orbit-*` scenarios, `polar-arctic-leo-coverage`
+  and `starlink-sop-doppler-positioning`. The 0.35.0 file is kept unchanged as the historical record and
+  pinned by its SHA-256 (`7bca2caf...143a`) in
+  `the_0_35_0_baseline_is_kept_unchanged_as_the_historical_record`. The old `Q_TABLE_CHANGED` list (7
+  files the 0.36 jammer-Q table changes) is gone with the 0.35.0 comparison: the Q-table change is inside
+  both the 0.35.0-to-0.36 and the portable difference, and `xval/jammer-q/RESULTS.md` still lists its
+  values.
+* `tests/geometry_corpus_identity.rs` and `tests/geometry_trust_no_change.rs`: the tests are renamed
+  `..._as_in_0_36_portable` / `..._those_of_0_36_portable_apart_from_the_appended_keys`, and the 25
+  pinned hashes that moved hold the 0.36 portable values (20 corpus pins and the two split pins of
+  `geometry_corpus_identity`, three in `geometry_trust_no_change`; the others did not move, for example the
+  static example and the 0.36 telemetry of the vessel demo). Each old 0.35.0 hash is in
+  `tests/fixtures/geometry_trust/pins_0.35.0.txt` (file, test, name, old hash), pinned by hash in
+  `geometry_corpus_identity::the_0_35_0_pins_are_kept_unchanged_as_the_historical_record`.
+
+**Other pins.**
+
+| pin | old | new |
+|---|---|---|
+| `tests/fixtures/iq_short_golden.json` (`KSHANA_BLESS=1`) | statistic 228.0571179761247, 219.57711226323198 | 228.05711797612463, 219.5771122632321 (wasm equals it exactly) |
+| `tests/iq_campaign.rs` `DIGEST_M2M4` | `89c76e01c178ff26a6e48aa046a60ba2a0e54ec821ccc3050590a128628d5d09` | `70962ffb7a6ae4401da15070e234fcc56396886f72eb8c9ff85078b3f4fc1147` |
+| `tests/iq_campaign.rs` `DIGEST_NWPR` | `796961479aa9a4553b610422d6827dad9aa1c1a1dc45eb49e283900fd8abf9db` | unchanged (checked once the first was found) |
+| `tests/iq_track_cn0.rs` `NWPR_BASELINE_CHECKSUM` | `0x05b3caf744da2a2d` | `0x1e19e42071eec6ad` (the scene generator of the test is on portable maths too, so this differs from the engine-only value `0x6e986732295f2025` of section 5.1) |
+| `src/cislunar_observability.rs` whole-document JSON FNV | `0xe24922aa5af88194` | `0x27182e1931db4e20` |
+| same, document without its `units` block | `0x2207bc7206062c80` | `0x2d739cd81d4b369c` |
+| same, summary, SVG, SVG without paint | `0x7030ab727e57edbc`, `0xf0924c32d8119a18`, `0x1c8982ef1fd0462f` | unchanged (only the JSON moves) |
+| `tests/registry_golden.rs` `cislunar-observability` canonical FNV | `0x2cb02851850e09c1` | `0x274d1075bfa4b6f8` |
+| `tests/cislunar_arc_recovery_reference.rs` canonical fingerprint | 9_459_780_657_697_663_305 | 14_410_212_428_669_190_182 |
+| `paper/crossover/inertial.json` | eight `vibration_psd` = 0.0008655334580025007, `engine_version` 0.20.0 | 0.0008655334580025004 (2.5e-16 relative), `engine_version` 0.35.0; regenerated with `crossover_study`; `clock.json` and the rendered figures untouched |
+
+The cislunar-observability hashes carry the erratum for the released document: the document moved
+only in round-off-floor quantities (section 5.1); the dated erratum is in
+`paper/kshana-technical-report.md`, section "Erratum, 13 October 2026".
+
+**Frozen prediction.** `docs/predictions/lunar-reference-station.{{region,points}}.result.json` and their
+hashes are untouched. The portable re-runs are stored beside them as
+`...{{region,points}}.portable-0.36.json` (SHA-256 `98f47ded...cb3`, `766c2c7a...d330`).
+`tests/prediction_frozen.rs` now has two tests: the frozen bytes have not moved (the guard keeps its
+meaning), and the portable re-run is byte-identical on every platform and within a relative 1e-6 of the
+frozen result. `docs/predictions/lunar-reference-station.md` gains a labelled section; its frozen table
+is not edited.
+
+**Published prose with a moved number (old -> new).**
+
+* `docs/SOLAR-SYSTEM.md` (Europa column and text): availability with the Earth range 0.719 -> 0.713
+  (twice), RMS fix error with the Earth range 86.147 -> 86.499 m; the paragraph about the platform that
+  flipped one epoch (0.725 / 85.800 m on macOS arm64) now says the epoch resolves one way everywhere.
+* `src/verification.rs`, ledger row "Lunar joint multi-technique OD + clock" (and its generated copies
+  `docs/VERIFICATION-MATRIX.md` and `web/data/verification-matrix.json`): 0.36 revision appended:
+  station error 3.541350 -> 3.536885 m with VLBI, 2183.558 -> 2184.021 m without, no-VLBI iterations
+  2 -> 5. The generated files were produced by `cargo run --bin gen_validation_artifacts`; that
+  generator also rewrote the `fixture` link of the geometry-trust row in the web ledger JSON because
+  `tests/fixtures/geometry_trust/` now exists. No other file under `web/` was touched.
+* `CHANGELOG.md`: an entry under Unreleased/Changed lists all of the above. The 0.30 and 0.35 entries
+  that quote the old numbers are history and are not edited.
+
+**Held: `tests/lunar_joint_od_numpy_oracle.rs`** (the VALIDATED "Lunar joint multi-technique OD +
+clock" row) is **left failing, unchanged**: no fixture re-exported, numpy not re-run, no `#[ignore]`,
+tolerance not edited. The owner is deciding. If approved it is redone with numpy pinned to 2.4.6, the
+version the pre-registration names (the dry run in section 5.4 used 2.5.3 and held the unchanged bar
+with the margins given there).
+
+**Also left failing: the other two numpy-oracle tests** (both guard MODELLED rows). Their committed
+numpy fixtures are not numpy output compared with `==`; the exact comparison is the engine against the
+committed engine export, and the numpy tolerance comparisons run on the committed export. Checked with
+scratch copies, nothing committed:
+
+* `lunar_observability_numpy_oracle`: with the exact drift assertions bypassed, the engine on its new
+  inputs against the old numpy reference misses the CRLB bar (`rich_without_vlbi`: 4.8e-8 relative against
+  the test's bound). Restoring the pre-registered comparison needs `reference.json` re-run on the
+  re-exported inputs; that needs SciPy (the registered tool, numpy 2.3.5 and SciPy 1.18.1), which is not
+  installed here, so it was not done.
+* `lunar_station_numpy_oracle`: re-exporting `cases.json` and re-running numpy 2.5.3 (scratch) keeps
+  every tolerance and the recorded bound (worst range difference 3.7252903e-9 m, below the recorded
+  3.7252974e-9 m), but the recorded finding "15 of 20 cases above the 1e-9 m bar for the corrections"
+  becomes 20 of 20, and the exact equality with `RANGE_OBSERVED_M` fails. Those are pins of what was
+  observed, not bars, but updating them is a decision about a recorded finding, so it is held with the
+  others for the coordinator.
+
+**Parity.** The final native-versus-wasm result is in the phase 2 report.
 
 ## 8. Findings the owner should read before approving the re-recording
 
