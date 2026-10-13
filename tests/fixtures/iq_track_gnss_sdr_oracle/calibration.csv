@@ -1,0 +1,2 @@
+# receiver,carrier_rms_deg,code_rms_chips,mean_P_over_X,carrier_offset_rad,code_offset_chips
+gnss-sdr,43.131395,0.0008324,0.900157,1.570706,0.0204575
