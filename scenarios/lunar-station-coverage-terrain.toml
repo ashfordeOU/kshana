@@ -1,0 +1,70 @@
+# Lunar reference-station coverage with terrain: the bundled lunar-station-coverage scenario
+# with a per-site horizon ray-marched over a real lunar digital elevation model at the
+# station and at every user point, in place of the flat elevation mask alone.
+#
+# Terrain: [terrain] below. Each site's horizon is ray-marched (src/lunar_terrain.rs) over
+# the vendored LRO LOLA south-polar DEM crop, data/lunar-dem/ (public domain; NOTICE.md
+# there gives the source URL, SHA-256, crop and resample steps), at 1200 m per pixel, with
+# the Moon's radius and curvature, from a 2 m mast, every 1 deg of azimuth out to 150 km. A
+# satellite counts at a site when it clears both the flat mask_deg and the horizon at its
+# azimuth. A stated profile can be added with station_horizon or user_horizon (rows
+# [azimuth_deg, elevation_deg], labelled with a source); with both, the cut is their maximum.
+#
+# HONESTY: MODELLED. Under the stated assumptions below the model gives these figures. Not
+# a statement about the performance of any real system; no TRL or heritage claim. The
+# horizon is line of sight over a 1.2 km grid: relief below a pixel is smoothed away, a ray
+# leaving the crop ends there, and there is no diffraction or terrain multipath. Site
+# positions used for ranging stay on the mean lunar sphere; the DEM sets the horizon only.
+# The station site (89 S, 0 E) and the constellation are ILLUSTRATIVE, as in
+# lunar-station-coverage.toml; the terrain is the measured DEM, resampled.
+#
+# This scenario reads the DEM from the repository (data/lunar-dem/), so it is not bundled
+# in the binary: run `kshana scenarios/lunar-station-coverage-terrain.toml` from a checkout.
+kind = "lunar-station-coverage"
+
+# Constellation. ILLUSTRATIVE: the in-tree LCNS-class Keplerian set (an elliptical orbit
+# favouring the south pole), the same as lunar-differential-pnt's.
+n_sats = 8             # ILLUSTRATIVE
+sma_km = 9737.4        # ILLUSTRATIVE (about 8000 km above the mean lunar radius)
+eccentricity = 0.6     # ILLUSTRATIVE
+inc_deg = 57.7         # ILLUSTRATIVE
+argp_deg = 90.0        # ILLUSTRATIVE (apolune over the southern hemisphere)
+mask_deg = 5.0         # ILLUSTRATIVE (the moonlight-service-volume default)
+
+# Station: a known site near the south pole.
+station_lat_deg = -89.0    # ILLUSTRATIVE (a south-polar site; not a published location)
+station_lon_deg = 0.0      # ILLUSTRATIVE
+station_height_m = 0.0     # ILLUSTRATIVE (on the mean lunar sphere)
+survey_sigma_m = 0.30      # ILLUSTRATIVE (the in-tree lunar frame-realisation allocation, itself MODELLED)
+
+# Error model: common-mode orbit and clock errors, as in lunar-differential-pnt. The
+# line-of-sight SISE this gives is sqrt(orbit_err_m^2 / 3 + clock_err_m^2) = 65 m.
+orbit_err_m = 100.0        # ILLUSTRATIVE
+clock_err_m = 30.0         # ILLUSTRATIVE
+noise_m = 0.0              # ILLUSTRATIVE (no receiver noise)
+latency_s = 10.0           # ILLUSTRATIVE (no published correction latency)
+quantization_bits = 8      # ILLUSTRATIVE (no published correction message)
+
+# User grid and time.
+grid_lat_max_deg = -80.0   # the region: 80 deg S to the pole
+grid_lat_step_deg = 2.0    # rings every 2 degrees (coarser than the flat scenario, to keep the DEM ray march light), plus the pole
+t_start_s = 0.0
+t_span_s = 86400.0         # one day
+t_step_s = 600.0           # every 10 min
+n_trials = 100             # Monte Carlo trials per epoch (fewer than the flat scenario, for run time)
+
+# Thresholds, stated before the run and never fitted.
+accuracy_threshold_m = 1.0 # coverage: the percentile 3-D error at most this
+percentile = 95.0
+alert_limit_m = 10.0       # ILLUSTRATIVE: no public alert limit exists
+residual_sigma_m = 5.0     # ILLUSTRATIVE (lunar-differential-pnt's default)
+p_hmi = 1e-4
+seed = 42
+
+# Terrain horizon masks (src/lunar_terrain.rs). Source: LRO LOLA LDEM_75S_240M (PDS data set
+# LRO-L-LOLA-4-GDR-V1.0), cropped and 5 x 5 block-mean resampled to 1200 m; data/lunar-dem/NOTICE.md.
+[terrain]
+dem_path = "data/lunar-dem/lola_ldem_75s_1200m_crop.toml"
+antenna_height_m = 2.0     # ILLUSTRATIVE (a mast on a lander deck)
+azimuth_step_deg = 1.0
+max_range_km = 150.0       # ILLUSTRATIVE (rays end here or at the crop edge, about 420 km from the pole)

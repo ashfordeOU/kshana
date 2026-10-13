@@ -95,6 +95,45 @@ breaking changes are called out explicitly.
   VALIDATED against Orekit 12.2 Holmes–Featherstone over 24 h (6 cases, worst 0.036 m), with the
   bars pre-registered in `xval/cowell-tesseral-orekit/PREREGISTRATION.md`.
 
+- **Two-part Julian dates through Earth rotation on the orbit path**: `jd2::gmst82`,
+  `cio::gcrs_to_itrs_matrix_jd2`, `frames::teme_to_itrf_jd2` / `itrf_to_teme_jd2`,
+  `orbit::Propagator::position_in_frame_jd2` and `own_jd2_utc`, `From` conversions between
+  `jd2::Jd2` and `timescales::TwoPartJd`, and an opt-in `two_part_jd = true` for the
+  `ephemeris` scenario (ECEF, ground track and station view; default off and unchanged, and the
+  key is left out of the scenario hash when off). New ledger row, VALIDATED against pyerfa
+  `gmst82`/`c2t06a` (pre-registered b10475ee; 40 dates: GMST bit-identical, matrix within
+  2.7e-14, rotation over 1 µs steps within 1.1e-14 rad, where the single-`f64` path misses
+  them). The Cowell force-model epoch stays single-`f64`; the reason is in its documentation.
+
+- **EOP prediction beyond the table** (`EopSeries::with_ls_ar_prediction`, `EopSeries::last_mjd`):
+  an opt-in extension of an IERS Earth-orientation series by the LS+AR predictor issued at its
+  last row, so the frame arguments of a later epoch follow the forecast instead of clamping to
+  the last row. In-table answers are bit-identical (tested); the series still clamps unless
+  this is called. The forecast's accuracy remains the existing LS+AR finding against
+  Bulletin A (MODELLED).
+
+- **Celestial-pole offsets dX, dY on the CIO chain** (`cio::gcrs_to_cirs_matrix_with_offsets`),
+  and direct ERFA vector checks of `precession_matrix`, `teme_to_gcrs_matrix` and the new
+  function. New ledger row, VALIDATED against pyerfa (pre-registered 979c1e39; 40 epochs
+  1950–2100: precession and CIO bit-identical, TEME→GCRS within 1.1e-10 rad, the predicted
+  effect of the two-term equation-of-the-equinoxes series). Existing functions are unchanged.
+
+- **Pre-1972 UTC on the two-part time path** (`timescales::tai_minus_utc_on_date`, and
+  `Jd2::from_utc_calendar`, `jd2::utc_to_tai` and `jd2::tai_to_utc` from 1960-01-01): the
+  drifting-rate ("rubber-second") era, with SOFA's drift table, fractional end-of-day steps, and
+  the UTC-to-SI scaling of the day fraction. New ledger row, VALIDATED against pyerfa
+  `dtf2d`/`utctai`/`taiutc` (pre-registered 23c40661; 117 instants 1960–1971, worst 2.9e-11 s
+  against a 1 µs bar). Every 1972+ result is bit-identical (checksum pinned before the change).
+  Before 1960 TAI − UTC is 0, as in SOFA. The single-`f64` `timescales::tai_minus_utc` is unchanged.
+
+- **GLONASS broadcast satellite clock** (`GlonassEphemeris::sv_clock_bias_s`): `−τn + γn·(t − tb)`
+  from the RINEX record, at a time read on the satellite clock (two fixed-point iterations, the
+  RTKLIB convention). The parsed `−τn` and `γn` were previously unused. New ledger row
+  "GLONASS broadcast satellite clock and broadcast-orbit propagation", VALIDATED against RTKLIB
+  2.4.2-p13 `geph2clk`/`geph2pos` (pre-registered e099c42a; 292 cases on a real 2013 broadcast
+  file: clock difference 0 s, worst position 1.1 mm against a 1 cm bar). Library function; no
+  scenario output changes. No PZ-90.11 → ITRF transformation is applied, and the module says so.
+
 - **Lunar reference-station study** (0.36, prompted by published material on a planned lunar
   south-pole reference station; sources in [`docs/LUNAR-REFERENCE-STATION.md`](docs/LUNAR-REFERENCE-STATION.md)):
   the `lunar-station-coverage` kind, a Monte Carlo sweep of the lunar differential-PNT model over
@@ -115,6 +154,30 @@ breaking changes are called out explicitly.
   as prominently as a hit). Every figure is dominated by the four-satellite constellation's
   unpublished element set, which is ILLUSTRATIVE, and says so. `tests/prediction_frozen.rs` guards
   it; `docs/VALIDATION.md` gains a "Pre-registered predictions" section. No ledger row.
+- **Lunar reference-station extensions** (0.36; the station study's limitations 2 and 3 and the
+  sources' solution style), each opt-in on `lunar-station-coverage` and absent by default, so every
+  existing document, the frozen prediction included, is unchanged:
+  `[receiver]` (multipath `a + b exp(-el / el0)` at the user and the station, the station's
+  optionally Gauss-Markov over epochs, DLL code noise from C/N0, inter-channel biases; values
+  ILLUSTRATIVE on the Moon); `orbit_err_growth_m_per_s` (linear growth of the broadcast orbit error
+  over the correction latency, ILLUSTRATIVE); `[solution]` (height constraint, a three-satellite
+  minimum with it, a static-user window over epochs). Two addenda to the published-claims
+  comparison, each pre-registered alone before its run, sit beside the unedited recorded run: K5
+  with growth fails at every rate; with the sources' solution style K1 to K5 fail and K6 passes
+  (1 of 6), the R300 corrected p95 3-D error falling from 280.6 m to 2.11 m. MODELLED; three ledger
+  rows.
+- **Lunar terrain horizon masks** (0.36; the first limitation of the lunar reference-station
+  study): an optional `[terrain]` section on `lunar-station-coverage` (the station and every user
+  point) and `moonlight-service-volume` (every grid point) gives each site an azimuth-dependent
+  horizon in the 0.36 skyline table format, from a stated profile labelled with its source
+  (`station_horizon`, `user_horizon`) and/or a ray march over a polar DEM (`dem_path`) along great
+  circles of the lunar sphere with exact curvature. Vendors a 0.98 MB crop of the public-domain
+  LRO LOLA `LDEM_75S_240M` south-polar DEM, 5 x 5 block-mean resampled to 1200 m
+  (`data/lunar-dem/`, with its NOTICE, SHA-256 and `scripts/make_lola_south_polar_crop.py`), and
+  the repository-only scenario `scenarios/lunar-station-coverage-terrain.toml`. Checked against
+  closed-form horizons (bare sphere, crater in a plateau, rasterised cone); MODELLED, ledger row
+  "Lunar terrain horizon masks from a stated profile or a polar DEM". Without the section every
+  document, units block included, is byte-identical.
 - **Geometry-aware trust** (0.36 geometry design note, section 4). Every `receiver-trust` epoch,
   static or vessel, batch or live, carries its satellite geometry: `good`, `degraded` (reasons
   `few-satellites`, `high-pdop`, `high-hdop`, and informational `sky-blocked`) or `unknown` where
@@ -275,59 +338,40 @@ breaking changes are called out explicitly.
 - Docs only: `propagator::solve_kepler_checked`, `orbit::solve_kepler` and `ephem::solve_kepler`
   are documented as legacy solvers, numerically unchanged, pointing to `kepler::solve_kepler_markley`.
 
-- README: the lunar suite row states each piece's evidence tier (it said all were MODELLED).
-- `realdata::clk::rinex_clock_series` returns `RinexClockSeries` (series, gridding log, time system,
-  whether it was declared, record type) instead of a `(PhaseSeries, GriddingLog)` tuple. It now
-  falls back from satellite (`AS`) records to receiver/station (`AR`) records of the requested name.
-- No score changes unless the geometry is poor; the label is always reported. With good or fair
-  geometry (a GPS-only open sky of 8 satellites included) or unknown geometry (the monitor does not
-  run) every score is as in 0.35: `tests/geometry_trust_no_change.rs` holds both example sessions'
-  outputs and `tests/geometry_corpus_identity.rs` every committed vessel NMEA corpus (also as
-  GPS-only open sky) and the crew-training scenarios to the 0.35.0 bytes once the appended keys are
-  removed; in the two training scenarios whose jamming makes the geometry poor, the poor epochs
-  differ by the geometry deduction alone. A log with poor geometry loses up to 15 points it did not
-  lose in 0.35. Intended changes otherwise, all additions: the keys above in the result JSON and
-  evidence packs (`score_model.weights` is unchanged); the live
-  JSON-lines schema goes from 1.2 to 1.3 (`geometry` appended, `class` in each deduction); the
-  excerpt summary gains `geometry`; telemetry gains geometry series, fields and the `class` label
-  only for inputs that carry them, so a 0.35 stream or result renders byte for byte as before.
-  `geometry` is the 17th monitor name; it is listed last in `monitors_run` when it decided (a
-  vessel whose log gives the geometry; a 0.35 list keeps its order and the summary's monitor count
-  goes up by one) and has no `[score.weights]` entry (setting one is refused: its deduction is set in `[geometry]`).
-- `tests/fixtures/dop/NOTICE` named gnss_lib_py's licence Apache-2.0; the 1.0.4 release is MIT.
-- The NMEA reader now reads GSA (a short GSA is ignored, not counted as skipped) and keeps GSV
-  elevations and azimuths, including for satellites listed without a signal; the UBX reader keeps
-  NAV-SAT elevation and azimuth. C/N0 is read exactly as before.
-- **Result change: broadband and swept jammers now use Q = 2.** The anti-jam equation uses the
-  textbook spread-spectrum adjustment Q for these jammers, where it used 1. Q = 2 is white noise
-  over the main lobe with the in-band signal power normalised; it is pinned in the tests to the
-  closed form from `navsignal`.
-  - **Unchanged:** CW and narrowband jammers (Q = 1), an unrecognised jammer type (Q = 1, the
-    most damaging value), and `q_override`.
-  - **Effect:** where a broadband or swept jammer acts, effective C/N0 rises by up to 3.0103 dB,
-    derived J/S thresholds rise by 3.0103 dB, and free-space denial radii shrink by 0.7071.
-  - **Changed bundled scenarios:** 12 of 144 change, all as pre-registered
-    (`xval/jammer-q/PREREGISTRATION.md`, results in `xval/jammer-q/RESULTS.md`):
-    - `jamming-demo`: C/N0 +3.01 dB;
-    - `jamming-harbour-approach-skyline`: `min_tracking` 6 → 7;
-    - `lunar-jamming`: satellites lost 26 → 0, loss-of-lock standoff median 27.4 → 19.4 km;
-    - `tracking-loop`: loop-dynamics denial radius 75.2 → 53.2 km;
-    - and the campaigns and spectrum cross-checks that contain these.
-  - **Affected consumers:** the `jamming`, `lunar-jamming`, `tracking-loop` and
-    `impairment-eval` kinds, the spectrum kinds' `jamming_kind_cross_check`, the IQ campaign's
-    MODELLED reference curve and the labfit default Q, and interop scene export.
-- JetBrains plugin: no deprecated or scheduled-for-removal platform API. The five choice dialogs use
-  a small `DialogWrapper` with a drop-down in place of the deprecated `Messages.showChooseDialog`;
-  single-file choosers use the `FileChooserDescriptor` constructor in place of the deprecated
-  `FileChooserDescriptorFactory.createSingleFileDescriptor()`; the animation opens with
-  `BrowserUtil.browse(Path)` in place of `browse(File)`, which the 2026.3 platform schedules for
-  removal. Since-build stays 243. The IntelliJ Plugin Verifier reports Compatible with no
-  deprecated or scheduled-for-removal usage against 2024.3 (IC-243.21565.193), 2025.2
-  (IC-252.23892.409), 2026.2.3 (IU-262.10968.63) and 2026.3 EAP (IU-263.6259.32); `verifyPlugin`
-  checks 2024.3 by default and any list given in `KSHANA_VERIFY_IDES`.
-- `gnss_sim::run_gnss_sim` and `jamming::run_jamming` return `Result`: an invalid `[skyline]`
-  section is an error when called directly, as it already was through `api::run_toml`, rather
-  than a silent fall-back to the flat mask. **Breaking** for Rust callers of these two functions.
+- **D9 round 3 (`utck_bound`) status.** BIPM Circular T 465 came out on 2026-10-12. The
+  pre-registered prospective score is still not run: issue 465 holds about 285 test values,
+  and the stopping rule needs 1000, so about issues 465–468. The run also needs the archived
+  2026-09-30 per-laboratory files, because BIPM has since rewritten 87 of the 113. The ledger
+  row and the test header say so; the test, its bars and its split are unchanged.
+
+- **Docs truth pass (0.36).** Roadmap, capability rows, design-doc status lines and module
+  comments brought in line with the code; no output changes. Items already built but still
+  listed as open are now marked done: the ITU-T mask checks, the 24 h holdover scenario and
+  clock-log ingest (telecom timing), the first-minute quickstarts, Lense–Thirring and the
+  Orekit propagator cross-check, the ITRF-precise GCRS chain, golden and cross-platform
+  hashes, provenance, multi-fault ARAIM (ADD v4.2), single-satellite FDE, the CRPA library,
+  the CAI fringe-ambiguity limit, streets-of-coverage sizing and the 3-D orbit view,
+  rigid-body attitude dynamics, the OMM writer and NAIF kernel reader, DE440 lunar
+  libration, the run-meaning sentence in the playground, `PositioningFom`, the 17-state
+  tightly-coupled navigator and the gravity-map kind. The rows also state precisely what
+  is still open (for example two-part JD in `orbit::Propagator`, the `src/ionex.rs` reader
+  against a real product, and multi-satellite exclusion in `raim`). The missing
+  `docs/design/evidence/cn0-m2m4/RESULTS.md` is written from a fresh run of its tests (M1–M4
+  pass), and the partner-facing IQ validation draft has current ledger counts.
+- **Galileo E1 memory codes are no longer bundled.** `data/galileo-os-sis-icd/C7_E1B.txt` and
+  `C8_E1C.txt` (ICD Annex C.7/C.8) are removed from the repository and packages. The ICD's
+  terms (quoted in `LICENSING.md`) let a user store the codes with the source acknowledged and
+  use them in a product, but allow redistribution only for non-commercial purposes, and Kshana
+  is also offered under a commercial licence. `galileo::e1b_table` / `e1c_table` now return a
+  `Result` and read the user's own copy from `KSHANA_GALILEO_E1B` / `KSHANA_GALILEO_E1C`, or, in
+  a source checkout, from `data/galileo-os-sis-icd/`, where the new
+  `scripts/fetch_galileo_e1_codes.sh` extracts them from the ICD PDF (hash-checked).
+  `galileo::E1B_TABLE_TEXT` / `E1C_TABLE_TEXT` are removed. Without the tables, the Galileo E1
+  signals (`galileo-e1b`, `galileo-e1c`) return an error that says how to supply them, and the
+  E1 tests skip with a message. With the tables in place, every E1 output is unchanged. No
+  scenario, golden or spectrum output uses the code tables. The E5a Annex C.3/C.4 test fixtures
+  (the LFSR oracle in `tests/iq_signals.rs`) are handled the same way: fetched by the same
+  script, git-ignored, and the test skips without them.
 
 ### Fixed
 

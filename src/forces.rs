@@ -16,11 +16,14 @@
 //! **atmospheric drag** ([`drag_accel`], quadratic drag against the co-rotating atmosphere of
 //! [`atmospheric_density`], the Vallado piecewise-exponential model), and the post-Newtonian
 //! **Schwarzschild relativistic correction** ([`relativistic_accel`], the leading
-//! general-relativistic perigee-advance term).
+//! general-relativistic perigee-advance term), and the opt-in **Lense–Thirring** frame-dragging
+//! term ([`lense_thirring_accel`], IERS Conventions 2010 §10).
 //!
-//! Scope (honest): the gravity field in this module is **zonal only**; the tesseral/sectoral
-//! EGM2008 field lives in [`crate::gravity_sh`] and enters the Cowell propagator as the opt-in
-//! [`crate::propagator::Geopotential`]. The SRP shadow is the geometric dual-disk **conical
+//! Scope (honest): the Earth gravity terms in this module are **zonal only**; the
+//! tesseral/sectoral EGM2008 field lives in [`crate::gravity_sh`] and enters the Cowell
+//! propagator as the opt-in [`crate::propagator::Geopotential`] (and is composed into
+//! [`crate::precise_od`]), while a full tesseral field for a non-Earth central body rides
+//! [`crate::body::Body::gravity`]. The SRP shadow is the geometric dual-disk **conical
 //! umbra+penumbra** by default (the WGS-84 oblate shadow and solar limb darkening are opt-in in
 //! [`crate::srp_shadow`]); and the default drag density is the **static piecewise-exponential**
 //! model; the NRLMSISE-00 thermosphere is an opt-in tier ([`DensityModel`],

@@ -69,6 +69,47 @@ same time.
   dependency tree permissive (Apache-2.0 / MIT / BSD / ISC / …) precisely so the
   commercial edition can be offered cleanly — a copyleft dependency would taint it.
   See [`deny.toml`](deny.toml).
+- **Galileo E1 primary memory codes** (`C7_E1B.txt`, `C8_E1C.txt`; **not bundled since 0.36**:
+  each user supplies their own copy, `scripts/fetch_galileo_e1_codes.sh` or
+  `KSHANA_GALILEO_E1B` / `KSHANA_GALILEO_E1C`, read by `src/iq/signals/galileo.rs`). These are the E1-B and E1-C primary codes of
+  Annex C.7 and C.8 of the Galileo Open Service Signal-In-Space Interface Control Document
+  (OS SIS ICD), Issue 2.0, January 2021, © European Union 2021, extracted unmodified from the
+  PDF's attachments (source URL, SHA-256 and a cross-check against Issue 1.3 are in
+  [`data/galileo-os-sis-icd/PROVENANCE.md`](data/galileo-os-sis-icd/PROVENANCE.md)). They are
+  **not** covered by the AGPL-3.0 or the commercial licence, and neither licence grants
+  anything over them. What the ICD itself says, quoted from Issue 2.0:
+  - Terms of Use §3: "The information contained in the OS SIS ICD, including its Annexes, is
+    subject to intellectual property rights". "The OS SIS ICD may only be partly or wholly
+    reproduced and/or transmitted to a third party in accordance with the herein described
+    permitted use and under the following conditions: the present “Terms of Use and
+    Disclaimers”, as well as the terms of Annex G, are accepted, reproduced and transmitted
+    entirely and unmodified together with the reproduced and/or transmitted information; the
+    copyright notice “© European Union 2021” is not removed from any page." And: "The use of
+    the information contained in the OS SIS ICD, including the spreading codes which are
+    subject to IPR, is authorised under the terms and conditions stated in Annex G."
+  - Annex G (Issue 2.0; Annex H in Issue 2.1, same wording) defines "Technical Data of the OS
+    SIS ICD" to include the "E1 and E5 Memory Codes", and grants a covenant not to assert that
+    is "non-exclusive and royalty-free" and "non-transferable and non-licensable". Its §G.3
+    list, which it calls exhaustive, covers: "a) the use of the Technical Data of the OS SIS
+    ICD, including their integration and incorporation into any Products"; "b) the storage of
+    the Technical Data of the OS SIS ICD, provided the source is acknowledged"; "c) the
+    reproduction of the OS SIS ICD, in whole or in part, its distribution and its publication
+    for non-commercial not-for-profit purposes and scale without amending the document or
+    adding any element"; and "d) providing links to the EU website where the document is
+    published". "Products" means software, devices and value-added services "making use of the
+    OS Signal". It also says: "The Authorised Person shall not state or imply in any
+    promotional material or elsewhere that the Products were developed by, are used by or for
+    or have been approved or endorsed by the EU".
+
+  **Decision (0.36): not redistributed.** No explicit open licence is stated. Use inside a
+  software product (G.3 a) and storage with the source acknowledged (G.3 b) are covered on the
+  ICD's own terms, but redistribution (G.3 c) only for non-commercial, not-for-profit purposes
+  and with the Terms and Annex G reproduced unmodified alongside. Because Kshana is also offered
+  under a commercial licence, the files were removed from the repository and its packages; the
+  engine reads the user's own copy at run time, and without it the Galileo E1 signals return an
+  error that says how to supply them. Each
+  user relies on the EU's Authorisation directly; Kshana cannot pass it on. Kshana is not
+  developed by, used by, approved by or endorsed by the European Union.
 - **Trademarks.** "Kshana" and its marks are trademarks of Ashforde OÜ. Neither
   licence grants rights to the name or marks; forks and derivative distributions
   must use a different name. See [`NOTICE`](NOTICE).

@@ -1,10 +1,15 @@
 # Galileo E1-B / E1-C primary memory codes: provenance
 
-These two files are the Galileo E1 primary codes exactly as the European Union publishes
-them in Annex C of the Galileo Open Service Signal-In-Space Interface Control Document.
-They were extracted byte for byte from the PDF's embedded attachments (`pdfdetach
--saveall`); nothing was retyped or edited. The library embeds them with `include_str!`
-(`src/iq/signals/galileo.rs`).
+**Not bundled (since 0.36).** The two files below are the Galileo E1 primary codes exactly as
+the European Union publishes them in Annex C of the Galileo Open Service Signal-In-Space
+Interface Control Document. The ICD's terms allow redistributing them only for non-commercial
+purposes (see "Terms" below and `LICENSING.md`), so the repository no longer carries them:
+each user stores their own copy, extracted byte for byte from the PDF's embedded attachments
+(`pdfdetach -saveall`) by `scripts/fetch_galileo_e1_codes.sh` into this directory (git-ignored),
+or anywhere, named by `KSHANA_GALILEO_E1B` / `KSHANA_GALILEO_E1C`. The library reads them at
+run time (`src/iq/signals/galileo.rs`, `e1b_table` / `e1c_table`); without them the Galileo E1
+signals return an error that says how to supply them, and the E1 tests skip. Earlier releases
+(up to 0.35) embedded them with `include_str!`.
 
 | File | ICD section | Codes | Length |
 |---|---|---|---|
@@ -49,7 +54,7 @@ The same attachments in **Issue 1.3 (December 2016)**,
 `C7_E1B.txt` is byte-identical (same SHA-256); `C8_E1C.txt` differs only by one trailing
 empty line (identical code lines). Two issues five years apart publish the same codes.
 
-## Terms: these files are not under the repository's licence
+## Terms: these files are not under the repository's licence, and are not redistributed
 
 The E1 memory codes are "Technical Data of the OS SIS ICD", which the ICD states are
 subject to intellectual-property rights of the European Union. They are **not** covered by
@@ -61,7 +66,12 @@ incorporation into software products that make use of the OS Signal, and (H.3 b)
 storage provided the source is acknowledged. The source is acknowledged above. The
 Authorisation is non-transferable and non-licensable, so each user of this repository
 relies on it directly; read the ICD's "Terms of Use and Disclaimers" and Annex H before
-redistributing these files. Nothing here states or implies that Kshana is developed,
+redistributing these files. Redistribution ("the reproduction of the OS SIS ICD, in whole or
+in part, its distribution and its publication") is covered only "for non-commercial
+not-for-profit purposes" (Issue 2.0 Annex G, G.3 c; the same in Issue 2.1 Annex H), and only
+with the ICD's Terms of Use and Annex reproduced unmodified alongside (Terms of Use §3);
+because Kshana is also offered under a commercial licence, the repository does not carry
+them. Nothing here states or implies that Kshana is developed,
 used, approved or endorsed by the EU (H.3).
 
 This note records how the files are used; it is not legal advice, and the repository owner

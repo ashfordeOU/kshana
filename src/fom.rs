@@ -89,9 +89,11 @@ pub struct FoMScores {
 /// These are deliberately distinct from the timing-domain `FoMScores` and from
 /// the inertial pack's single-axis `pos_rms_m`: CEP/SEP/2DRMS are properties of a
 /// 2-D/3-D error distribution, and HPL is a protection level from a real
-/// multi-measurement integrity monitor — none of which the current 1-DOF models
-/// produce. This struct exists so the planned capability has an honest, named
-/// home rather than a position number masquerading as accuracy.
+/// multi-measurement integrity monitor — none of which the 1-DOF models produce.
+/// It is built from a position covariance by
+/// [`PositioningFom::from_position_covariance`] (and [`positioning_performance`]),
+/// checked in `tests/positioning_fom_reference.rs`; not every positioning kind emits
+/// it yet.
 #[derive(Clone, Debug, Serialize)]
 pub struct PositioningFom {
     /// Circular Error Probable (50%) — horizontal. Metres.
