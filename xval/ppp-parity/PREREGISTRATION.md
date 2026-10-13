@@ -125,3 +125,22 @@ Everything else is unchanged: gLAB's troposphere defaults in this mode (Niell ma
 wet delay in PPP), Kshana's side, the bars R1-R3 and the non-vacuity bars. The outcome rule is
 unchanged: R1-R3 holding for gLAB meets RM-31's gLAB leg. The first run is recorded whatever it
 shows.
+
+## gLAB leg: first registered run (2026-10-13, amendment 4 command line)
+
+| Bar | Result | Verdict |
+|---|---|---|
+| R1 | 240 of 240 epochs of 04:00-05:59:30 within 0.05 m (100 %) | holds |
+| R2 | 0.0050 m at the last common epoch | holds |
+| R3 | SPP median 1.187 m over 713 epochs | **misses** |
+| Non-vacuity | 240 PPP and 713 SPP common epochs | holds |
+
+FINDING (R3). The diagnosis below was written after the run. gLAB's and RTKLIB's own SPP solutions
+differ from each other by 0.852 m (median over 713 epochs), and each is 1.6 to 1.8 m (median)
+from gLAB's converged PPP position. Epoch-by-epoch ionosphere-free code solutions are
+noise-limited at that level, so the 0.50 m bar was tighter than two reference tools agree with
+each other. The bar is not loosened, and no further R3 registration is made.
+
+Outcome by the registered rule: the gLAB leg is not met as a whole, because R3 failed. Kshana's
+float PPP agrees with gLAB's to the registered bars on the first run. That is the PPP parity
+result, which also holds with RTKLIB on amendment 3.

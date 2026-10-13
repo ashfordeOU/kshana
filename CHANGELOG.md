@@ -11,6 +11,13 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **PPP parity with gLAB** (0.36, WP-07, RM-31): gLAB 6.0.0 was run on the same WTZR inputs
+  as a separate tool (Apache-2.0 core; download checksum verified against the published list),
+  with the command line of a procedural amendment committed before the run. On its first
+  registered run, Kshana's float PPP and gLAB's agree within 0.05 m at 240 of 240 epochs and to
+  5.0 mm at the last. The SPP bar was missed (median 1.187 m against 0.50 m) and is recorded as a
+  finding: gLAB's and RTKLIB's own SPP solutions differ from each other by 0.852 m. The
+  registered rule therefore leaves both tools' legs not met as a whole, while PPP parity holds.
 - **RINEX 4 navigation reading** (0.36, WP-07, PRO-41): `rinex::parse_nav` reads RINEX
   4.00-4.02 navigation files (`> EPH` GPS LNAV, Galileo I/NAV and F/NAV, BeiDou D1/D2, QZSS LNAV;
   other records skipped to the next record header), and `parse_nav_with` takes options.
