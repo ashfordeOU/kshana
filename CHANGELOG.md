@@ -11,6 +11,15 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **Scintillation model against measured data** (PRO-34): the IQ channel's Cornell
+  scintillation model was compared with measured 50 Hz GPS L1 intensity and phase from an
+  equatorial scintillation night (Zenodo record 16941224, INGV, Malindi, CC BY 4.0), under bars
+  pre-registered at b6ccb499. Met: the intensity distribution and the phase scintillation tied
+  to S4. Not met: the model fades 2.4 times as often below −10 dB and 3.5 times as long
+  (finding F1). The registered processing reads the model's wrapped phase (finding F2); the
+  phase result holds with it unwrapped. `scripts/fetch_scint_malindi.sh` fetches the data.
+  The row stays MODELLED: "IQ ionospheric scintillation channel (Cornell model) against
+  measured 50 Hz GPS L1 scintillation".
 - **Corrected LuGRE sample reader** (MR-09): `realdata::lugre::parse_iqs_sdrx` reads a
   LuGRE IQ batch with I in the high nibble and the mid-rise levels `2v + 1`
   (`SdrLayout::mid_rise`), which remove the −½ mean the bare two's-complement integers carry

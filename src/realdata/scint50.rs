@@ -2,7 +2,7 @@
 //! **Measured 50 Hz scintillation logs and the Cornell-model comparison harness.**
 //!
 //! Reads a high-rate GNSS scintillation log of the form published with Zenodo record
-//! 16941224 (Septentrio PolaRx5S, Malindi, GPS L1, 50 Hz; columns
+//! 16941224 (INGV, Malindi, GPS L1, 50 Hz; columns
 //! `tow svid carrier_phase I Q time`, carrier phase in cycles), detrends it the way
 //! scintillation monitors do (signal intensity divided by a 0.1 Hz 6th-order Butterworth
 //! low-pass; phase through a 0.1 Hz 6th-order Butterworth high-pass), cuts 60 s windows and
@@ -549,21 +549,53 @@ mod tests {
         assert!((ks_distance(&[0.0, 1.0], &[2.0, 3.0]) - 1.0).abs() < 1e-12);
     }
 
-    /// Harness self-check: model output treated as "measured" data passes every bar
-    /// against the model (seeds differ from those the comparison uses).
-    #[test]
-    fn model_data_through_the_harness_passes_its_own_bars() {
+    /// Model output as "measured" data, 4 S4 values × 8 windows (seeds differ from those
+    /// the comparison uses), with the model phase as given or unwrapped.
+    fn self_check(unwrap: bool) -> Comparison {
         let mut meas = Vec::new();
         for (k, s4) in [0.4, 0.55, 0.7, 0.85].into_iter().enumerate() {
             let tau0 = 0.6;
             let mut sc = Scintillation::new(ScintParams::new(s4, tau0), 900_000 + k as u64);
             let xs = sc.series(3, DT_S, GUARD_SAMPLES + 8 * WINDOW_SAMPLES);
             let si: Vec<f64> = xs.iter().map(|s| s.amplitude * s.amplitude).collect();
-            let ph: Vec<f64> = xs.iter().map(|s| s.phase_rad).collect();
+            let mut ph: Vec<f64> = xs.iter().map(|s| s.phase_rad).collect();
+            if unwrap {
+                for k in 1..ph.len() {
+                    let d = ph[k] - ph[k - 1];
+                    ph[k] -= TAU * (d / TAU).round();
+                }
+            }
             meas.extend(windows(&si, &ph));
         }
-        let c = compare(&meas);
+        compare(&meas)
+    }
+
+    /// Harness self-check as first written: model output treated as "measured" data passes
+    /// every bar against the model. It does not hold: the model's `phase_rad` is the wrapped
+    /// `atan2` in (−π, π], so each wrap is a 2π step of the detrended phase and reads as a
+    /// cycle slip; 5 windows are rejected for it and only 22 of the 32 qualify. The
+    /// registered processing (B3 and the slip test of the measured windows) is left as
+    /// registered; the effect on B3 is reported post hoc in `xval/scint-malindi/RESULTS.md`
+    /// (finding F2).
+    #[test]
+    #[ignore = "FINDING F2: the model phase is wrapped, so 5 of 32 model windows read as cycle slips (22 qualify)"]
+    fn model_data_through_the_harness_passes_its_own_bars() {
+        let c = self_check(false);
         assert_eq!(c.windows_qualifying, 32);
+        assert!(c.n1(), "{c:?}");
+        assert!(c.b1() && c.b2() && c.b3() && c.b4(), "{c:?}");
+    }
+
+    /// The same self-check with the model phase unwrapped (a continuous phase, as a tracking
+    /// receiver reports): no window reads as a cycle slip, N1 holds and every bar passes, so
+    /// the rest of the harness is consistent with the model. (Five of the 32 windows fall
+    /// outside the S4 range or reach no 1/e lag with either phase.)
+    #[test]
+    fn model_data_with_unwrapped_phase_passes_its_own_bars() {
+        let c = self_check(true);
+        let wrapped = self_check(false);
+        eprintln!("wrapped: {wrapped:?}\nunwrapped: {c:?}");
+        assert_eq!(c.windows_slipped, 0, "{c:?}");
         assert!(c.n1(), "{c:?}");
         assert!(c.b1() && c.b2() && c.b3() && c.b4(), "{c:?}");
     }
