@@ -27,6 +27,7 @@
 use crate::server::KshanaServer;
 use kshana::iq::cli::{CommandError, build_code, execute, signal_names};
 use kshana::iq::io::inventory::{RawSidecar, inventory_entry, open_recording};
+use kshana::iq::labfit::{LabFitScenario, campaign_dir, run_campaign_scenario};
 use kshana::iq::{SampleSpec, SpreadingCode};
 use rmcp::handler::server::wrapper::Parameters;
 use rmcp::model::{CallToolResult, ContentBlock};
@@ -242,6 +243,24 @@ impl IqConfig {
                 "{} lies outside the IQ work directory",
                 path.display()
             )));
+        }
+        Ok(canon)
+    }
+
+    /// Resolve the campaign output folder a labfit scenario's `[input] campaign` names: an
+    /// existing folder, relative to the work directory, that lies inside it.
+    fn campaign_folder(&self, rel: &str) -> Result<PathBuf, McpError> {
+        let root = self.root()?;
+        let joined = join(root, rel)?;
+        let canon = self.contained(&joined).map_err(|e| {
+            bad(format!(
+                "[input] campaign `{rel}`: {}; the campaign folder must be an existing folder \
+                 inside the IQ work directory",
+                e.message
+            ))
+        })?;
+        if !canon.is_dir() {
+            return Err(bad(format!("[input] campaign `{rel}` is not a folder")));
         }
         Ok(canon)
     }
@@ -1026,8 +1045,10 @@ pub struct IqConditionsRequest {
 /// Fit the tracking-loop loss-of-lock model to lab runs given inline.
 #[derive(Debug, serde::Deserialize, schemars::JsonSchema)]
 pub struct IqLabfitRequest {
-    /// An `iq-labfit` scenario TOML with its logs inline: each run's `log` gives `text` or
-    /// `base64` (a `path` is refused). At most 4 MiB in all.
+    /// An `iq-labfit` scenario TOML, at most 4 MiB. Either its runs carry their logs inline
+    /// (each run's `log` gives `text` or `base64`; a `path` is refused), or its `[input]`
+    /// names `campaign = "<out-dir>"`: a `kshana iq campaign` output folder, relative to the
+    /// IQ work directory, which must lie inside it.
     pub toml: String,
 }
 
@@ -1954,13 +1975,35 @@ impl KshanaServer {
     }
 
     #[tool(
-        description = "Fit the tracking-loop loss-of-lock model to lab runs (`kshana iq labfit`): an `iq-labfit` scenario TOML names one or more runs, each a receiver log plus its stated test conditions; the engine loads each log, fits the loop and empirical models, bootstraps the uncertainty and computes the hold-out error. Everything is inline: each run's `log` gives `text` or `base64` (a `path` is refused) and the tool reads and writes no file, so it does not need the IQ work directory. Replies with the parsed `report`, the residuals and predictions as CSV text and a Markdown summary. Input is capped at 4 MiB. The fit describes the lab runs given; it is not a prediction for other receivers or conditions beyond what the report states. Evidence tier: MODELLED."
+        description = "Fit the tracking-loop loss-of-lock model to lab runs (`kshana iq labfit`): an `iq-labfit` scenario TOML names one or more runs, each a receiver log plus its stated test conditions; the engine loads each log, fits the loop and empirical models, bootstraps the uncertainty and computes the hold-out error. Everything is inline: each run's `log` gives `text` or `base64` (a `path` is refused) and the tool reads and writes no file, so it does not need the IQ work directory. Alternatively the scenario's `[input]` names `campaign = \"<out-dir>\"`, a finished `kshana iq campaign` output folder: the tool then fits the C/N0 and lock models to its scored cells (a `kshana.labfit-iq/1` report; Q is stated, never fitted, and the identifiable J/S offset is fitted; with `mode = \"validation\"` a `[validation]` table is required). That folder is resolved relative to the IQ work directory and must lie inside it (anything outside is refused); it is read, nothing is written. Replies with the parsed `report`, the residuals and predictions as CSV text and a Markdown summary. Input is capped at 4 MiB. The fit describes the lab runs given; it is not a prediction for other receivers or conditions beyond what the report states. Evidence tier: MODELLED."
     )]
     fn iq_labfit(
         &self,
         Parameters(r): Parameters<IqLabfitRequest>,
     ) -> Result<CallToolResult, McpError> {
-        let v = kshana::surface::iq_labfit_inline(&r.toml, 4 * 1024 * 1024)
+        const CAP: usize = 4 * 1024 * 1024;
+        // A scenario naming `[input] campaign` takes the campaign path; anything else (an
+        // unparsable or oversized scenario included) keeps the inline-log path as it was.
+        let campaign = (r.toml.len() <= CAP)
+            .then(|| toml::from_str::<LabFitScenario>(&r.toml).ok())
+            .flatten()
+            .and_then(|sc| campaign_dir(&sc).map(str::to_owned).map(|d| (sc, d)));
+        if let Some((mut sc, dir)) = campaign {
+            let canon = self.iq.campaign_folder(&dir)?;
+            if let Some(input) = sc.input.as_mut() {
+                input.campaign = Some(canon.to_string_lossy().into_owned());
+            }
+            let out = run_campaign_scenario(&sc).map_err(|e| bad(format!("labfit failed: {e}")))?;
+            let report: serde_json::Value =
+                serde_json::from_str(&out.json).map_err(|e| bad(e.to_string()))?;
+            return reply(serde_json::json!({
+                "report": report,
+                "residuals_csv": out.residuals_csv,
+                "predictions_csv": out.predictions_csv,
+                "markdown": out.markdown,
+            }));
+        }
+        let v = kshana::surface::iq_labfit_inline(&r.toml, CAP)
             .map_err(|e| bad(format!("labfit failed: {e}")))?;
         reply(v)
     }

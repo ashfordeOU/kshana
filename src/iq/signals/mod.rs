@@ -31,8 +31,9 @@
 //!   end state, for CM (all 63 PRNs) and CL (IS-GPS-200N Tables 3-IIa/3-IIb).
 //! * Galileo E5a: the LFSR output equals the printed first 24 chips (Tables 16/17) and the
 //!   complete Annex C hexadecimal code, for all 50 codes of each component.
-//! * Galileo E1: the memory codes are the ICD's own Annex C tables, committed with their
-//!   provenance and hash (`data/galileo-os-sis-icd/`).
+//! * Galileo E1: the memory codes are the ICD's own Annex C tables, supplied by the user
+//!   (not bundled, by the ICD's terms) and checked against the provenance hashes in
+//!   `data/galileo-os-sis-icd/PROVENANCE.md` when present.
 //! * GPS L1C: the Weil construction with the expansion-sequence insertion reproduces the
 //!   printed initial and final 24 chips of every L1CP and L1CD code, and the L1CO S1
 //!   generator the printed final 11 bits, PRN 1..=63 (IS-GPS-800J Tables 3.2-2, 3.2-3);
