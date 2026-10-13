@@ -27,13 +27,13 @@
 //!
 //! Every transition is an event ([`LockEvent`]) with its reason.
 
-use crate::portable_math::PortableFloat;
 use super::channel::{Channel, ChannelInit, EpochOutput};
 use super::design::{AcquisitionDesign, Design, LockConfig};
 use super::sink::EpochSink;
 use super::LoopConfig;
 use crate::iq::acq::{acquire, samples_needed, AcqConfig};
 use crate::iq::{Cf64, IqError, IqSource, SampleSpec};
+use crate::portable_math::PortableFloat;
 use serde::{Deserialize, Serialize};
 
 /// Samples read from a source per chunk.

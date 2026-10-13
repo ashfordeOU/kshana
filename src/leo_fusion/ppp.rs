@@ -46,14 +46,14 @@
 //! variations, phase wind-up, tides, time-correlated product errors, cycle slips and
 //! ambiguity resolution to integers (this is float PPP).
 
-use crate::portable_math::PortableFloat;
 use super::geom::{median, norm, sub, EarthOrbit, Site};
 use super::system::SystemCfg;
 use crate::field_schema::{FieldUnit, ProvenanceClass::*};
 use crate::palette::chart::{BLUE, CORAL, CYAN, INK_2, INK_3, LIME, MAGENTA, MUTED};
+use crate::portable_distr::{Distribution, Normal};
+use crate::portable_math::PortableFloat;
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
-use crate::portable_distr::{Distribution, Normal};
 use serde::{Deserialize, Serialize};
 
 /// A system as the PPP filter sees it.

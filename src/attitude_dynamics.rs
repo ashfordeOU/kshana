@@ -378,8 +378,8 @@ pub fn symmetric_top_body_rate(i_transverse: f64, i_axial: f64, omega_axial: f64
 
 #[cfg(test)]
 mod tests {
-    use crate::portable_math::PortableFloat;
     use super::*;
+    use crate::portable_math::PortableFloat;
     use std::f64::consts::PI;
 
     fn close(a: f64, b: f64, tol: f64) -> bool {

@@ -22,8 +22,8 @@
 //! for the user and the satellites, which is internally consistent for line-of-sight
 //! geometry without the full TEME→ECEF reduction (polar motion, nutation).
 
-use crate::portable_math::PortableFloat;
 use crate::jd2::Jd2;
+use crate::portable_math::PortableFloat;
 use crate::precession::{mat_vec, matmul, rz, Mat3};
 use std::f64::consts::PI;
 
@@ -1754,7 +1754,8 @@ mod tests {
                 0.0,
                 0.0,
             );
-            let d = ((r[0] - q[0]).ppowi(2) + (r[1] - q[1]).ppowi(2) + (r[2] - q[2]).ppowi(2)).sqrt();
+            let d =
+                ((r[0] - q[0]).ppowi(2) + (r[1] - q[1]).ppowi(2) + (r[2] - q[2]).ppowi(2)).sqrt();
             assert!(d < 0.01, "t = {t}: {d} m");
         }
     }

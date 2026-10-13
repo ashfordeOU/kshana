@@ -714,9 +714,9 @@ mod tests {
 
     #[test]
     fn parity_raim_false_alert_and_missed_detection_are_characterized() {
+        use crate::portable_distr::{Distribution, Normal};
         use rand::SeedableRng;
         use rand_chacha::ChaCha8Rng;
-        use crate::portable_distr::{Distribution, Normal};
 
         let g = geometry8();
         let sigma = 5.0;
@@ -879,8 +879,8 @@ mod tests {
     /// A seeded clock: white phase noise `sx` (s), white FM `a` (ADEV at 1 s), a constant
     /// frequency drift `d` (1/s^2), sampled every second.
     fn synthetic_clock(n: usize, sx: f64, a: f64, d: f64, seed: u64) -> Vec<f64> {
-        use rand::SeedableRng;
         use crate::portable_distr::{Distribution, Normal};
+        use rand::SeedableRng;
         let mut rng = rand_chacha::ChaCha8Rng::seed_from_u64(seed);
         let g = Normal::new(0.0, 1.0).unwrap();
         let mut x = 0.0;

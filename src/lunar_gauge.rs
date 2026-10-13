@@ -27,8 +27,8 @@
 //! the observation-row builders are carried as **equivalent-range metres**
 //! to make all 9 partials O(1) for the Fisher preconditioner.
 
-use crate::portable_math::PortableFloat;
 use crate::lunar_llr_geometry::Vec3;
+use crate::portable_math::PortableFloat;
 
 /// Number of parameters in the coupled datum vector `θ`.
 pub const N_GAUGE: usize = 9;

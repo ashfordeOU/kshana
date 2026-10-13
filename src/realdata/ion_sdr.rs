@@ -661,8 +661,8 @@ pub fn to_mid_rise(samples: &mut [Cf64]) {
 
 #[cfg(test)]
 mod tests {
-    use crate::portable_math::PortableFloat;
     use super::*;
+    use crate::portable_math::PortableFloat;
 
     /// The shape of a LuGRE `.sdrx` file: settings as child elements, a header and footer,
     /// the band referenced by id, one byte per complex sample.

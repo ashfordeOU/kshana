@@ -40,9 +40,9 @@
 //! stated Gaussian noise model, but the spoofer is an idealised position push and no
 //! detection figure here is compared with a measured attack.
 
-use crate::portable_math::PortableFloat;
 use super::geometry::{range_rate_and_accel, Kinematics, Vec3};
 use super::C_M_S;
+use crate::portable_math::PortableFloat;
 use crate::raim::{chi2_quantile, noncentral_chi2_cdf, normal_cdf, normal_quantile};
 
 fn sub(a: Vec3, b: Vec3) -> Vec3 {
@@ -507,7 +507,11 @@ mod tests {
                 c[i * n + j] = 25.0 * dot(ch[i].gradient, ch[j].gradient)
                     + 0.04 * dot(ch[i].los, ch[j].los)
                     + 0.0025
-                    + if i == j { ch[i].sigma_m_s.ppowi(2) } else { 0.0 };
+                    + if i == j {
+                        ch[i].sigma_m_s.ppowi(2)
+                    } else {
+                        0.0
+                    };
             }
         }
         let r: Vec<f64> = ch.iter().map(|x| x.residual_m_s).collect();

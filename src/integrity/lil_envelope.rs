@@ -11,8 +11,8 @@
 //! (both stay Modelled), and it is component-specific (Hartman-Wintner for the
 //! white-FM/BM leg; Chung-type for the integrated-BM τ³/τ⁵ legs).
 
-use crate::portable_math::PortableFloat;
 use crate::integrity::kir::k_running_max;
+use crate::portable_math::PortableFloat;
 
 /// Hartman-Wintner a.s. envelope `√(2 D t ln ln t)` for the white-FM/Brownian
 /// phase leg (s). Returns 0 for `t ≤ e` (where `ln ln t ≤ 0`).

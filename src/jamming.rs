@@ -31,9 +31,9 @@
 //! acquisition (vs. tracking) threshold hysteresis — those are noted in
 //! `docs/CAPABILITY.md` as out of scope.
 
-use crate::portable_math::PortableFloat;
 use crate::frames::{geodetic_to_ecef, look_angles, teme_to_ecef, Geodetic, Vec3};
 use crate::palette::chart::{AXIS, BG, FAULT, FONT_SANS, MUTED, OK, TEXT};
+use crate::portable_math::PortableFloat;
 use crate::scenario::{GnssState, TimeCfg};
 use crate::walker::{walker_epoch_jd, WalkerSgp4};
 use serde::{Deserialize, Serialize};

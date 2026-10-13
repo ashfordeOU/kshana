@@ -70,9 +70,9 @@ pub const PRESET: SystemPreset = SystemPreset {
 
 #[cfg(test)]
 mod tests {
-    use crate::portable_math::PortableFloat;
     use super::super::{fspl_db, slant_range_m};
     use super::*;
+    use crate::portable_math::PortableFloat;
 
     #[test]
     fn the_eirp_reproduces_three_hundred_times_the_gps_minimum_at_ten_degrees() {

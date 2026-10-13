@@ -26,11 +26,11 @@
 //! Iridium timing receivers (under 40 ns from UTC(NIST) with a miniature atomic clock) is a
 //! comparison, not a reproduction of that test.
 
+use crate::portable_distr::{Distribution, Normal};
 use crate::portable_math::PortableFloat;
 use crate::slot_timing::ClockNoise;
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
-use crate::portable_distr::{Distribution, Normal};
 use serde::{Deserialize, Serialize};
 
 /// Seconds in a GPS-style week.

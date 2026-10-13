@@ -26,10 +26,10 @@
 //! with the rest of the crate); the ~ms UT1−TT distinction and sub-µas frame-rate
 //! terms are the caller's to supply.
 
-use crate::portable_math::PortableFloat;
 use crate::cio_s06_data::{S06Term, S06_0, S06_1, S06_2, S06_3, S06_4, SP06};
 use crate::frames::polar_motion_matrix;
 use crate::nutation::nutation_iau2000a;
+use crate::portable_math::PortableFloat;
 use crate::precession::{
     fw_angles, fw_matrix, julian_centuries_tt, matmul, ry, rz, transpose, FwAngles, Mat3, Vec3,
 };

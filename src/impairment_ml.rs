@@ -16,8 +16,8 @@
 //! AUC over model-derived labels on synthetic data; it carries **no** field /
 //! raw-IQ performance claim. See [`crate::verification`] for the honesty invariant.
 
-use crate::portable_math::PortableFloat;
 use crate::impairment_eval::{CaseObservables, ImpairmentDetector, LabeledCase};
+use crate::portable_math::PortableFloat;
 
 /// Numerically safe logistic sigmoid `1 / (1 + e^{−z})`.
 fn sigmoid(z: f64) -> f64 {
@@ -259,9 +259,9 @@ impl Mlp {
         lr: f64,
         seed: u64,
     ) -> (Self, Vec<f64>) {
+        use crate::portable_distr::{Distribution, Normal};
         use rand::SeedableRng;
         use rand_chacha::ChaCha8Rng;
-        use crate::portable_distr::{Distribution, Normal};
 
         let h = hidden.max(1);
         let std = Standardizer::fit(train);
@@ -423,9 +423,9 @@ mod tests {
     /// linear model cannot separate it; a one-hidden-layer MLP can.
     fn xor_toy(seed: u64, per_corner: usize) -> Vec<LabeledCase> {
         use crate::impairment_eval::{CaseParams, ImpairmentClass};
+        use crate::portable_distr::{Distribution, Normal};
         use rand::SeedableRng;
         use rand_chacha::ChaCha8Rng;
-        use crate::portable_distr::{Distribution, Normal};
         let mut rng = ChaCha8Rng::seed_from_u64(seed);
         let jit = Normal::new(0.0_f64, 0.25).unwrap();
         // (cn0_high, agc_high, impaired?)

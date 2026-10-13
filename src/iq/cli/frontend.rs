@@ -297,11 +297,11 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
 
 #[cfg(test)]
 mod tests {
-    use crate::portable_math::PortableFloat;
     use super::*;
     use crate::iq::simrng::SimRng;
-    use rand::Rng;
     use crate::portable_distr::StandardNormal;
+    use crate::portable_math::PortableFloat;
+    use rand::Rng;
     use std::f64::consts::TAU;
 
     fn mean_power(xs: &[Cf64]) -> f64 {

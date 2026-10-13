@@ -11,9 +11,9 @@
 
 use crate::portable_distr_tables as tab;
 use crate::portable_math::PortableFloat;
+pub(crate) use rand::distributions::Distribution;
 use rand::distributions::Open01;
 use rand::Rng;
-pub(crate) use rand::distributions::Distribution;
 use std::fmt;
 
 /// The error of a constructor given a parameter the distribution does not accept.
@@ -105,7 +105,14 @@ impl Distribution<f64> for StandardNormal {
                 tab::ZIG_NORM_R - x
             }
         }
-        ziggurat(rng, true, &tab::ZIG_NORM_X, &tab::ZIG_NORM_F, pdf, zero_case)
+        ziggurat(
+            rng,
+            true,
+            &tab::ZIG_NORM_X,
+            &tab::ZIG_NORM_F,
+            pdf,
+            zero_case,
+        )
     }
 }
 

@@ -449,8 +449,8 @@ pub fn best_design(
 mod tests {
     use super::*;
     use crate::batch_ls::gauss_newton;
-    use rand::SeedableRng;
     use crate::portable_distr::{Distribution, Normal};
+    use rand::SeedableRng;
 
     // ---- symmetric eigensolver against closed-form spectra -----------------------
 

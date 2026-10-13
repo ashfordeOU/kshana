@@ -47,8 +47,8 @@
 //! without an `epoch` they are propagated to the newest set's own epoch and the sky is again
 //! representative. Every result says which in `sky_source` and `sky_statement`.
 
-use crate::portable_math::PortableFloat;
 use crate::frames::{geodetic_to_ecef, look_angles, Geodetic};
+use crate::portable_math::PortableFloat;
 use crate::skyline::{Skyline, SkylineCfg};
 use serde::{Deserialize, Serialize};
 
@@ -1008,8 +1008,8 @@ pub struct SkyMonteCarlo {
 /// `seed` (so the same request, seed and `n` give the same cloud). `n` is capped at
 /// [`MAX_MC_SAMPLES`].
 pub fn sky_monte_carlo(req: &SkyRequest, seed: u64, n: usize) -> Result<SkyMonteCarlo, String> {
-    use rand::SeedableRng;
     use crate::portable_distr::{Distribution, Normal};
+    use rand::SeedableRng;
     if n == 0 || n > MAX_MC_SAMPLES {
         return Err(format!("sky: n must be in 1..={MAX_MC_SAMPLES}, got {n}"));
     }

@@ -25,8 +25,8 @@
 //! load through [`crate::gravity_sh::SphericalHarmonicField::from_gfc`] and can be attached via
 //! [`Body::gravity`]).
 
-use crate::portable_math::PortableFloat;
 use crate::gravity_sh::SphericalHarmonicField;
+use crate::portable_math::PortableFloat;
 
 /// Degrees → radians, for the IAU pole/prime-meridian constants below (which are published in
 /// degrees and degrees-per-day).

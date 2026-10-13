@@ -159,8 +159,8 @@ pub fn x_clock_ns(clock: LunarClock, tau: f64) -> f64 {
 
 #[cfg(test)]
 mod tests {
-    use crate::portable_math::PortableFloat;
     use super::*;
+    use crate::portable_math::PortableFloat;
 
     // log-log slope of a curve f(τ) between two τ points.
     fn slope(f: impl Fn(f64) -> f64, t1: f64, t2: f64) -> f64 {

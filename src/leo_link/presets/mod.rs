@@ -18,8 +18,8 @@
 //! The ATOMIC "zero-clock" polynomial broadcast-ephemeris model is a navigation-message preset
 //! and belongs with the navigation-message code, not here.
 
-use crate::portable_math::PortableFloat;
 use super::antenna::{Polarisation, SatPattern};
+use crate::portable_math::PortableFloat;
 
 pub mod centispace;
 pub mod generic;

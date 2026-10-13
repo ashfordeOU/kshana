@@ -78,10 +78,10 @@ use crate::detection::chi2_inv_cdf;
 use crate::inertial::quantum_imu::CaiAccelerometer;
 use crate::inertial::{AccelCfg, ImuKind};
 use crate::palette::chart::{AXIS, BG, CORAL, CYAN, FONT_SANS, INK_2, LIME, MUTED, TEXT};
+use crate::portable_distr::{Distribution, Normal};
 use crate::scenario::{GnssState, GnssTimeline, TimeCfg};
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
-use crate::portable_distr::{Distribution, Normal};
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 

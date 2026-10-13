@@ -160,12 +160,12 @@ pub fn determine_orbit_sequential(
 
 #[cfg(test)]
 mod tests {
-    use crate::portable_math::PortableFloat;
     use super::*;
     use crate::forces::MU_EARTH;
+    use crate::portable_distr::{Distribution, Normal};
+    use crate::portable_math::PortableFloat;
     use rand::SeedableRng;
     use rand_chacha::ChaCha8Rng;
-    use crate::portable_distr::{Distribution, Normal};
 
     // Three ground stations spread around the Earth (ECEF, on the equatorial surface and a tilt).
     fn stations() -> Vec<Station> {

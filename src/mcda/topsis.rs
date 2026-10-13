@@ -23,8 +23,8 @@
 //! are right — garbage criteria in, garbage decision out — which is why the
 //! [`super::sensitivity`] robustness tools remain the module's real product.
 
-use crate::portable_math::PortableFloat;
 use super::Objective;
+use crate::portable_math::PortableFloat;
 
 /// The outcome of a [`topsis`] run.
 #[derive(Clone, Debug, PartialEq, serde::Serialize)]

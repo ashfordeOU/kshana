@@ -48,10 +48,10 @@
 //! scenario epoch; the relative phase between two different systems is not a snapshot of
 //! any real date.
 
-use crate::portable_math::PortableFloat;
 use crate::body::Body;
 use crate::chart::esc;
 use crate::palette::chart::{BG, MUTED, PANEL};
+use crate::portable_math::PortableFloat;
 use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};
 use std::f64::consts::{PI, TAU};
@@ -2399,7 +2399,8 @@ mod tests {
         let dir = |el: f64, az: f64| -> Vec3 {
             let (el, az) = (el * DEG, az * DEG);
             std::array::from_fn(|i| {
-                user[i] + 2e7 * (el.pcos() * (az.psin() * e[i] + az.pcos() * n[i]) + el.psin() * u[i])
+                user[i]
+                    + 2e7 * (el.pcos() * (az.psin() * e[i] + az.pcos() * n[i]) + el.psin() * u[i])
             })
         };
         let geo = [

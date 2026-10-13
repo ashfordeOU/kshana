@@ -21,8 +21,8 @@
 //!   offline. Any siting result over the fixture is illustrative until a real tile is
 //!   loaded.
 
-use crate::portable_math::PortableFloat;
 use crate::lunar::{mcmf_to_selenographic, R_MOON_M};
+use crate::portable_math::PortableFloat;
 
 type Vec3 = [f64; 3];
 

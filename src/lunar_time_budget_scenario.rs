@@ -20,11 +20,11 @@
 //! measurements — the contribution is the reproducible clock-vs-frame crossover, not a
 //! certified per-term number. Nothing here is certified for operational timekeeping.
 
-use crate::portable_math::PortableFloat;
 use crate::clock_specs::{x_clock_ns, LunarClock};
 use crate::lunar_time_budget::{
     clock_crossover_table, default_tau_grid, lunar_time_budget, BudgetParams,
 };
+use crate::portable_math::PortableFloat;
 use serde::Deserialize;
 
 /// The honesty label carried on the result document.

@@ -31,8 +31,8 @@
 //! IAU model and a numerically-integrated Mars orientation, well below the gravity-field accuracy
 //! at this degree. TDB is approximated by TT (sub-2-ms agreement, a sub-µas orientation error).
 
-use crate::portable_math::PortableFloat;
 use crate::body::Body;
+use crate::portable_math::PortableFloat;
 use crate::precession::{mat_vec, transpose, Mat3};
 
 type Vec3 = [f64; 3];

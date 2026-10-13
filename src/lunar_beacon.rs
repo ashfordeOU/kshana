@@ -602,8 +602,8 @@ fn xml_escape(s: &str) -> String {
 
 #[cfg(test)]
 mod tests {
-    use crate::portable_math::PortableFloat;
     use super::*;
+    use crate::portable_math::PortableFloat;
 
     /// Build an MCMF position from selenographic latitude/longitude (deg) and antenna
     /// height (m) above the mean sphere. Right-handed, +Z at the north pole.
@@ -633,8 +633,8 @@ mod tests {
         let az = az_deg.to_radians();
         let ang = dist_m / R_MOON_M;
         let lat2 = (lat.psin() * ang.pcos() + lat.pcos() * ang.psin() * az.pcos()).pasin();
-        let lon2 =
-            lon + (az.psin() * ang.psin() * lat.pcos()).patan2(ang.pcos() - lat.psin() * lat2.psin());
+        let lon2 = lon
+            + (az.psin() * ang.psin() * lat.pcos()).patan2(ang.pcos() - lat.psin() * lat2.psin());
         let r = R_MOON_M + height_m;
         [
             r * lat2.pcos() * lon2.pcos(),

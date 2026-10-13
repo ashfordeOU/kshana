@@ -106,7 +106,6 @@
 //! coordinates and the schedule are inputs, not a flown campaign. No TRL, flight heritage or
 //! agency endorsement is claimed.
 
-use crate::portable_math::PortableFloat;
 use crate::ephem_provider::{KernelEphemeris, LunisolarSource};
 use crate::fim::{crlb, design_metrics, information_matrix};
 use crate::frames::Geodetic;
@@ -116,6 +115,7 @@ use crate::lunar_vlbi::{
     beacon_inertial_position, delay_partials_beacon, delay_partials_station1,
     delay_partials_station2, station_inertial_position, vlbi_delay_s,
 };
+use crate::portable_math::PortableFloat;
 use crate::precession::{mat_vec, transpose, Mat3, Vec3};
 use serde::Deserialize;
 

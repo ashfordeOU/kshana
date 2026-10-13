@@ -8,9 +8,9 @@
 //! Bootstrap routines are seeded (`ChaCha8Rng`) so a reported interval is
 //! reproducible from `(inputs, seed)`.
 
-use crate::portable_math::PortableFloat;
 use crate::impairment_eval::auc;
 use crate::portable_math::uniform_index;
+use crate::portable_math::PortableFloat;
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
 

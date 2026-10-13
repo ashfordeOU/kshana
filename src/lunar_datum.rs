@@ -6,8 +6,8 @@
 //! Provides the analytic 3×7 point-Jacobian used by multi-technique partial
 //! matrices and the Fisher-information identifiability decomposition.
 
-use crate::portable_math::PortableFloat;
 pub use crate::lunar_llr_geometry::Vec3;
+use crate::portable_math::PortableFloat;
 
 /// Seven-parameter Helmert similarity datum.
 ///

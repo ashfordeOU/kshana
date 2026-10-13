@@ -27,8 +27,8 @@
 //! The SQM score is `|(|E| − |L|)/(|E| + |L|)|` (symmetric peak ⇒ 0; distortion ⇒
 //! larger), already rising with impairment, so it is [`Orient::Raw`].
 
-use crate::portable_math::PortableFloat;
 use super::{Observation, Orient};
+use crate::portable_math::PortableFloat;
 use crate::spoof_monitors::SqmMonitor;
 
 /// Extract `sqm` observations from correlator-dump CSV text. Each row's Early and Late

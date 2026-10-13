@@ -93,7 +93,6 @@
 //! No TRL, flight heritage or agency endorsement is claimed, and this is not a geodetic
 //! product.
 
-use crate::portable_math::PortableFloat;
 use crate::ephem_provider::{KernelEphemeris, LunisolarSource};
 use crate::fim::{crlb, information_matrix};
 use crate::jd2::Jd2;
@@ -101,6 +100,7 @@ use crate::lunar::Selenographic;
 use crate::lunar_frame_campaign::{
     helmert_design, solve_datum, solve_datum_information, HELMERT_PARAMETERS, N_HELMERT,
 };
+use crate::portable_math::PortableFloat;
 use crate::precession::{mat_vec, transpose, Mat3, Vec3};
 use crate::realdata::llr_crd::{read_crd_dir, LlrNormalPoint};
 use serde::Deserialize;
@@ -1201,7 +1201,8 @@ impl LunarLlrDatumScenario {
         let site_sigma = |m: &[[f64; 3]; 3]| -> serde_json::Value {
             let mm: Vec<Vec<f64>> = m.iter().map(|r| r.to_vec()).collect();
             let c = crlb(&mm, self.rel_tol());
-            let s3 = (c.crlb_std[0].ppowi(2) + c.crlb_std[1].ppowi(2) + c.crlb_std[2].ppowi(2)).sqrt();
+            let s3 =
+                (c.crlb_std[0].ppowi(2) + c.crlb_std[1].ppowi(2) + c.crlb_std[2].ppowi(2)).sqrt();
             number_or_null(c.defect == 0, s3)
         };
 

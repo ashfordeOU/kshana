@@ -36,12 +36,12 @@
 //! Determinism: each satellite has its own SplitMix64 stream seeded from the model seed and the
 //! satellite number.
 
-use crate::portable_math::PortableFloat;
 use super::{sat_seed, ChannelEffect, LineOfSight};
 use crate::iq::simrng::SimRng;
 use crate::iq::{ChannelSnapshot, PathState};
-use rand::Rng;
 use crate::portable_distr::StandardNormal;
+use crate::portable_math::PortableFloat;
+use rand::Rng;
 use std::collections::BTreeMap;
 use std::f64::consts::PI;
 

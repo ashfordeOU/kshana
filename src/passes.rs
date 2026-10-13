@@ -25,10 +25,10 @@
 //! solved to a microsecond and the culmination by a bounded maximisation, not at the sample
 //! step. Both corrections can be switched off.
 
-use crate::portable_math::PortableFloat;
 use crate::frames::{geodetic_to_ecef, look_angles, teme_to_ecef, AzElRange, Geodetic};
 use crate::jd2::Jd2;
 use crate::orbit::{Propagator, R_EARTH_EQUATORIAL_M};
+use crate::portable_math::PortableFloat;
 use crate::precession::{mat_vec, matmul, rz, Mat3};
 use crate::sgp4::{Eop, MeanElementSet, SgpOrbit};
 use serde::Deserialize;

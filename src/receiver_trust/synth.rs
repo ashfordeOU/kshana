@@ -15,8 +15,8 @@
 //! is made up to exercise the monitors and to illustrate the format; it is not a
 //! measurement.
 
-use crate::portable_math::PortableFloat;
 use super::maritime::en_offset_m;
+use crate::portable_math::PortableFloat;
 
 const WGS84_A: f64 = 6_378_137.0;
 const WGS84_E2: f64 = 0.006_694_379_990_14;

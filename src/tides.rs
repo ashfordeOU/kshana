@@ -17,7 +17,6 @@
 //! tide, the K1 worked example (bit-for-bit), and the FES2004 / Ray source coefficients — see
 //! `tests/fixtures/tides/IERS-CH6-REFERENCE.md`.
 
-use crate::portable_math::PortableFloat;
 use crate::cio::earth_rotation_angle;
 use crate::egm2008_data::{EGM2008_GM, EGM2008_RE};
 use crate::ephem::{moon_position, sun_position};
@@ -25,6 +24,7 @@ use crate::fes2004_data::FES2004;
 use crate::forces::{MU_MOON, MU_SUN};
 use crate::gravity_sh::SphericalHarmonicField;
 use crate::nutation::delaunay_args;
+use crate::portable_math::PortableFloat;
 use std::collections::BTreeMap;
 
 type Vec3 = [f64; 3];

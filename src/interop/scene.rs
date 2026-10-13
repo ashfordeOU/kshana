@@ -7,11 +7,11 @@
 //! Earth it returns [`ExportError::NotApplicable`] with the reason, taken from
 //! [`reason_for_kind`].
 
-use crate::portable_math::PortableFloat;
 use super::{round_dp, ExportError, UtcEpoch};
 use crate::api::ScenarioKind;
 use crate::frames::{ecef_to_geodetic, geodetic_to_ecef, teme_to_ecef, Geodetic, Vec3};
 use crate::orbit::Propagator;
+use crate::portable_math::PortableFloat;
 
 /// What a moving object is.
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]

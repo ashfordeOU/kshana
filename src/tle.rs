@@ -17,8 +17,8 @@
 //! its line 1 becomes SGP4, a bare line 2 stays Keplerian, and the two may be
 //! mixed. [`parse_set`] keeps the legacy all-Keplerian behaviour.
 
-use crate::portable_math::PortableFloat;
 use crate::orbit::{Orbit, MU_EARTH};
+use crate::portable_math::PortableFloat;
 use crate::sgp4::{GravConst, Sgp4};
 
 /// Seconds per day, for converting mean motion (rev/day) to rad/s.
@@ -665,8 +665,9 @@ mod tests {
 
         let r72 = by_model(GravModel::Wgs72);
         let r84 = by_model(GravModel::Wgs84);
-        let d = ((r72[0] - r84[0]).ppowi(2) + (r72[1] - r84[1]).ppowi(2) + (r72[2] - r84[2]).ppowi(2))
-            .sqrt();
+        let d =
+            ((r72[0] - r84[0]).ppowi(2) + (r72[1] - r84[1]).ppowi(2) + (r72[2] - r84[2]).ppowi(2))
+                .sqrt();
         // Distinct Earth constants give a measurably different propagated state
         // (metre-level over this arc), well above floating-point noise.
         assert!(d > 0.005, "WGS-72 and WGS-84 should differ, got {d} km");

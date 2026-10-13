@@ -257,7 +257,9 @@ mod tests {
         // catches both an identity bug (θ≈0) and an un-cancelled obliquity (θ≈23°).
         let m = precession_matrix(JD_J2000 + DAYS_PER_CENTURY);
         let trace = m[0][0] + m[1][1] + m[2][2];
-        let theta_deg = (((trace - 1.0) / 2.0).clamp(-1.0, 1.0)).pacos().to_degrees();
+        let theta_deg = (((trace - 1.0) / 2.0).clamp(-1.0, 1.0))
+            .pacos()
+            .to_degrees();
         assert!(
             (1.2..1.6).contains(&theta_deg),
             "1-century precession θ = {theta_deg}°"

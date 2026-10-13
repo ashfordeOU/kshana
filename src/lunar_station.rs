@@ -44,7 +44,6 @@
 //! seeded exactly as `lunar-differential-pnt` seeds its single draw, which is what lets one
 //! point, one epoch and one trial reduce to that kind.
 
-use crate::portable_math::PortableFloat;
 use crate::lunar::{selenographic_to_mcmf, Selenographic, R_MOON_M};
 use crate::lunar_dpnt::{
     corrected_user_range_errors, correction_ageing_clock_range_sigma_m,
@@ -57,9 +56,10 @@ use crate::lunar_service::{
     south_polar_ring_grid, visible_sat_positions, LunarConstellation, LunarSat, PositionsMcmf,
 };
 use crate::palette::chart::{AMBER, AXIS, BG, CORAL, CYAN, FONT_SANS, INK, INK_2, INK_3, LIME};
+use crate::portable_distr::{Distribution, Normal};
+use crate::portable_math::PortableFloat;
 use rand::{Rng, SeedableRng};
 use rand_chacha::ChaCha8Rng;
-use crate::portable_distr::{Distribution, Normal};
 use serde::{Deserialize, Serialize};
 
 type Vec3 = [f64; 3];

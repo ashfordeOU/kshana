@@ -18,8 +18,8 @@
 //! - P. G. Savage, "Strapdown Inertial Navigation Integration Algorithm
 //!   Design Part 1," *J. Guidance, Control, and Dynamics* 21(1), 1998.
 
-use crate::portable_math::PortableFloat;
 use crate::frames::Vec3;
+use crate::portable_math::PortableFloat;
 
 #[inline]
 fn cross(a: Vec3, b: Vec3) -> Vec3 {

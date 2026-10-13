@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 //! Stochastic clock and error models — the noise processes a scenario samples to
 //! drive a run.
+use crate::portable_distr::{Distribution, Normal};
 use crate::portable_math::PortableFloat;
 use crate::types::{ModelSpec, Seconds};
 use rand::RngCore;
-use crate::portable_distr::{Distribution, Normal};
 
 /// Coerce a per-step random-walk standard deviation into a value
 /// `rand_distr::Normal::new` is guaranteed to accept. `Normal::new` (0.4) rejects only a

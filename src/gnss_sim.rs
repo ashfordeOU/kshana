@@ -26,12 +26,12 @@
 
 use crate::frames::{geodetic_to_ecef, look_angles, teme_to_ecef, Geodetic, Vec3};
 use crate::palette::chart::{AXIS, BG, CORAL, CYAN, FONT_SANS, INK_2, MAGENTA};
+use crate::portable_distr::{Distribution, Normal};
 use crate::portable_math::{Maths, Portable, PortableFloat};
 use crate::scenario::TimeCfg;
 use crate::walker::{walker_epoch_jd, WalkerSgp4};
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
-use crate::portable_distr::{Distribution, Normal};
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 use std::f64::consts::PI;

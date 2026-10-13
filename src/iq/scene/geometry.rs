@@ -8,9 +8,9 @@
 //! from the true instant the receiver clock read zero. The receiver clock offset is
 //! `b(T) = bias + drift * T`, so `t = T + b(T)`.
 
-use crate::portable_math::PortableFloat;
 use crate::frames::{ecef_to_geodetic, look_angles};
 use crate::iq::C_M_PER_S;
+use crate::portable_math::PortableFloat;
 use crate::pvt::sagnac_rotate;
 use crate::rinex::RinexEphemeris;
 

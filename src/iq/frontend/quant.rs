@@ -20,8 +20,8 @@
 //! the optimum step are 1.96 dB for one bit (`10·log10(π/2)`), 0.55 dB for two bits
 //! (threshold ≈ 1.0σ) and 0.17 dB for three bits.
 
-use crate::portable_math::PortableFloat;
 use super::{Cf64, Stage};
+use crate::portable_math::PortableFloat;
 
 /// A uniform mid-rise quantiser of `bits` bits per component with step `step`.
 #[derive(Clone, Copy, Debug, PartialEq)]

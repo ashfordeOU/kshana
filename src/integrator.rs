@@ -87,7 +87,11 @@ where
     }
     err = (err / y.len() as f64).sqrt();
     // Step controller: grow when err < 1, shrink when err > 1.
-    let factor = if err > 0.0 { 0.9 * err.ppowf(-0.2) } else { 5.0 };
+    let factor = if err > 0.0 {
+        0.9 * err.ppowf(-0.2)
+    } else {
+        5.0
+    };
     let h_next = (h * factor.clamp(0.2, 5.0)).clamp(tol.h_min, tol.h_max);
     (two_half, err, h_next)
 }
@@ -234,7 +238,11 @@ where
         err += r * r;
     }
     err = (err / n as f64).sqrt();
-    let factor = if err > 0.0 { 0.9 * err.ppowf(-0.2) } else { 5.0 };
+    let factor = if err > 0.0 {
+        0.9 * err.ppowf(-0.2)
+    } else {
+        5.0
+    };
     let h_next = (h * factor.clamp(0.2, 5.0)).clamp(tol.h_min, tol.h_max);
     (y_next, err, h_next)
 }

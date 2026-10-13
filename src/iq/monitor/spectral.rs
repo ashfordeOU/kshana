@@ -28,9 +28,9 @@
 //!   event's `peak` and `threshold` are `−ln` of the tail and of `pulse_pfa`.
 //!   `pulse_fraction` is the fraction of samples over the threshold.
 
-use crate::portable_math::PortableFloat;
 use super::{stats, Baseline, MonitorEvent, MonitorReport, Series, Side, SpanDetector, Spectrum};
 use crate::iq::Cf64;
+use crate::portable_math::PortableFloat;
 use serde::{Deserialize, Serialize};
 
 /// Settings of [`SpectralMonitor`].

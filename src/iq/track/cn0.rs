@@ -20,8 +20,8 @@
 //!   index modulo the bit length; the bit edge is declared when the leading bin has at
 //!   least `min_votes` votes and at least `ratio` times the runner-up.
 
-use crate::portable_math::PortableFloat;
 use super::super::Cf64;
+use crate::portable_math::PortableFloat;
 
 /// The NWPR power ratio `NBP/WBP` of one window of prompts (`1` for pure noise on
 /// average, `K` for a noiseless window). `None` for an empty or zero-power window.

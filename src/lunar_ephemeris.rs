@@ -75,9 +75,9 @@
 //! note says what it is. It is a bounded, stated approximation — not a correction, and
 //! not something quietly absorbed.
 
-use crate::portable_math::PortableFloat;
 use crate::lunar::{mci_to_mcmf, MOON_GM_M3_S2};
 use crate::lunar_service::{LunarSat, PositionsMcmf};
+use crate::portable_math::PortableFloat;
 use serde::Serialize;
 use sha2::{Digest, Sha256};
 

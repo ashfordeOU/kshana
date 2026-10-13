@@ -148,9 +148,9 @@ impl SkyModel {
 
 #[cfg(test)]
 mod tests {
-    use crate::portable_math::PortableFloat;
     use super::*;
     use crate::frames::{look_angles, Geodetic};
+    use crate::portable_math::PortableFloat;
 
     #[test]
     fn a_northern_sea_sees_a_plausible_sky() {

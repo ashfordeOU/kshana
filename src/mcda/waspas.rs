@@ -20,8 +20,8 @@
 //! every value method it validates nothing about the inputs — see
 //! [`super::sensitivity`].
 
-use crate::portable_math::PortableFloat;
 use super::Objective;
+use crate::portable_math::PortableFloat;
 
 /// The outcome of a [`waspas`] run.
 #[derive(Clone, Debug, PartialEq, serde::Serialize)]

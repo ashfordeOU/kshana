@@ -35,11 +35,11 @@
 //! can see, the quantity Leclère, Marathe and Reid tabulate for Pulsar and GPS (arXiv
 //! 2509.19551, Table 1).
 
-use crate::portable_math::PortableFloat;
 use super::{C_M_S, J2_EARTH, MU_EARTH, OMEGA_EARTH, RE_EARTH};
 use crate::constellation::Elements;
 use crate::frames::{geodetic_to_ecef, look_angles, teme_to_ecef, Geodetic};
 use crate::leo_fusion::geom::{add, cross, dot, norm, scale, sub};
+use crate::portable_math::PortableFloat;
 use std::f64::consts::{PI, TAU};
 
 /// A 3-vector (m, m/s or m/s²).
