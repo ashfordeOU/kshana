@@ -316,6 +316,15 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            requirement: "Multi-revolution Lambert transfer solver",
+            capability: "Every solution of Lambert's problem with up to three complete revolutions (maneuver::lambert_multirev: the single-revolution solution, then the left and right branches of each revolution count, Izzo 2015), with the boundary velocities v1 and v2, for prograde and retrograde transfers, in canonical and heliocentric SI units, including transfers within 1 % of a revolution count's minimum time of flight and near-180 deg geometries. A two-body solver only (no perturbations)",
+            module: "maneuver (lambert_multirev, LambertSolution, LambertBranch)",
+            tests: "tests/lambert_multirev_oracle.rs::multirev_lambert_matches_pykep_on_the_preregistered_cases (382 cases: 300 random 3-D, 18 near 180 deg, 24 near the minimum time of M = 1..3, 40 heliocentric; 1058 solutions; counts and branch order equal; velocities within 1e-8 relative, worst 1.6e-13; within 1 % of the minimum time within 1e-6, worst 7.5e-15; a Kepler-landing internal guard lands every solution within 4.2e-12 of |r2| except one pinned finding on an e = 0.994 arc, a limitation of kepler_universal, not of the solver)",
+            oracle: "pykep 3.0.1 lambert_problem (ESA, the C++ kep3 core, MPL-2.0), an independent library, run as a separate program by scripts/gen_lambert_multirev_ref.py; only its numerical output is committed. Pre-registered a75de851 (case set, bars, outcome rule) before any comparison; the reference was regenerated independently and is byte-identical. Results: docs/design/evidence/lambert-multirev/RESULTS.md",
+            oracle_kind: ExternalDataset,
+            status: Validated,
+        },
+        VerificationItem {
             requirement: "Lambert two-body transfer solver",
             capability: "Izzo-2015 single-revolution Lambert solver (r1, r2, time-of-flight → boundary velocities) across LEO→GEO→heliocentric transfers, prograde and retrograde",
             module: "maneuver (lambert)",
@@ -2832,6 +2841,13 @@ pub fn validated_oracle_basis() -> Vec<OracleBasisEntry> {
             basis: Reference,
             oracle_test: "tests/icgem_gravity_reference.rs",
             source: "GRS80",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Multi-revolution Lambert transfer solver",
+            basis: Library,
+            oracle_test: "tests/lambert_multirev_oracle.rs::multirev_lambert_matches_pykep_on_the_preregistered_cases",
+            source: "pykep 3.0.1 lambert_problem (ESA, the C++ kep3 core, MPL-2.0)",
             flag: "",
         },
         OracleBasisEntry {

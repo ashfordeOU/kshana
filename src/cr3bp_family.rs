@@ -486,17 +486,16 @@ pub fn correct_member(
             return finish(&x, mu, planar, e.t_half, norm(&e.f), &set.flow);
         }
         // Remove the held column; square system.
-        let mut a: Vec<Vec<f64>> = e
-            .df
-            .iter()
-            .map(|row| {
-                row.iter()
-                    .enumerate()
-                    .filter(|(j, _)| *j != held_idx)
-                    .map(|(_, v)| *v)
-                    .collect()
-            })
-            .collect();
+        let mut a: Vec<Vec<f64>> =
+            e.df.iter()
+                .map(|row| {
+                    row.iter()
+                        .enumerate()
+                        .filter(|(j, _)| *j != held_idx)
+                        .map(|(_, v)| *v)
+                        .collect()
+                })
+                .collect();
         let mut b: Vec<f64> = e.f.iter().map(|v| -v).collect();
         let dx = solve(&mut a, &mut b)?;
         let mut k = 0;
@@ -765,7 +764,7 @@ fn balance(a: &mut [[f64; 6]; 6]) {
 fn elmhes(a: &mut [[f64; 6]; 6]) {
     let n = 6;
     for m in 1..n - 1 {
-        let mut x = 0.0;
+        let mut x: f64 = 0.0;
         let mut i = m;
         for j in m..n {
             if a[j][m - 1].abs() > x.abs() {
@@ -1024,7 +1023,10 @@ mod tests {
         }
         let a = matmul6(&matmul6(&p, &m), &pinv);
         let e = eigenvalues6(&a);
-        assert!((e[0].0 - 5.0).abs() < 1e-10 && e[0].1.abs() < 1e-10, "{e:?}");
+        assert!(
+            (e[0].0 - 5.0).abs() < 1e-10 && e[0].1.abs() < 1e-10,
+            "{e:?}"
+        );
         assert!((e[5].0 - 0.2).abs() < 1e-10, "{e:?}");
         let rot: Vec<_> = e
             .iter()
@@ -1074,7 +1076,10 @@ mod tests {
         // trivial pair sits at 1.
         let e = m.eigenvalues;
         let prod_max_min = e[0].0.hypot(e[0].1) * e[5].0.hypot(e[5].1);
-        assert!((prod_max_min - 1.0).abs() < 1e-6, "λmax·λmin = {prod_max_min}");
+        assert!(
+            (prod_max_min - 1.0).abs() < 1e-6,
+            "λmax·λmin = {prod_max_min}"
+        );
         let near_one = e
             .iter()
             .filter(|(re, im)| (re - 1.0).abs() < 1e-4 && im.abs() < 1e-4)
@@ -1135,6 +1140,10 @@ mod tests {
         let m = correct_member(&guess, mu, Hold::X0, true, &CorrectorSettings::default()).unwrap();
         assert!((m.period - seed.period).abs() < 1e-6);
         // DROs are linearly stable: ν = 1 to numerical precision.
-        assert!((m.stability_index - 1.0).abs() < 1e-6, "ν = {}", m.stability_index);
+        assert!(
+            (m.stability_index - 1.0).abs() < 1e-6,
+            "ν = {}",
+            m.stability_index
+        );
     }
 }
