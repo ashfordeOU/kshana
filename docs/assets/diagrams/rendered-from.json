@@ -11,15 +11,15 @@
     },
     "module-map.png": {
       "svg": "module-map.svg",
-      "svg_sha256": "f65446e10d4989ae7e919d94cedcc184dfd1794c4817d66a14fd6f3f8f7dd0cd"
+      "svg_sha256": "55144670bbd28af0b94a26982bc8bd9fea71c40f0283f68b4e56ec66c334f7cd"
     },
     "system-overview.png": {
       "svg": "system-overview.svg",
-      "svg_sha256": "cfeda7d650905c1f2c981a95b88e4adc9db996c78ba2d67bedeedb0d8a466480"
+      "svg_sha256": "96eded6fab68ebf2798d3befe41721c196427d92b409127c9c9fc05ed8aace09"
     },
     "validation-provenance.png": {
       "svg": "validation-provenance.svg",
-      "svg_sha256": "7504e15c0525ac3addf3810eeb2093bc9aca740a8d04bb66cba2cf51f0ba420f"
+      "svg_sha256": "32a048af4eec810b463e67f99ba48dfdef4e63e6064bd76669197717e41d74b0"
     }
   }
 }

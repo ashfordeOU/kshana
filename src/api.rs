@@ -676,6 +676,8 @@ pub enum ScenarioKind {
     /// One satellite over one station: each pass's `Es/N0` range and the DVB-S2 ACM data
     /// volume against the constant-coding baseline.
     AcmLink,
+    /// Reaction-wheel attitude control under MRP feedback, optionally closed on an MEKF.
+    Aocs,
 }
 
 impl ScenarioKind {
@@ -760,6 +762,7 @@ impl ScenarioKind {
             ScenarioKind::LeoPntChain => "leo-pnt-chain",
             ScenarioKind::ContactSchedule => "contact-schedule",
             ScenarioKind::AcmLink => "acm-link",
+            ScenarioKind::Aocs => "aocs",
         }
     }
 
@@ -848,6 +851,7 @@ impl ScenarioKind {
             "leo-pnt-chain" => ScenarioKind::LeoPntChain,
             "contact-schedule" => ScenarioKind::ContactSchedule,
             "acm-link" => ScenarioKind::AcmLink,
+            "aocs" => ScenarioKind::Aocs,
             // The clock pack, named explicitly. It had no arm of its own before, because
             // it was reached through the catch-all below — so removing that catch-all
             // orphaned the one kind the engine has always had. The round-trip test found
@@ -1054,6 +1058,7 @@ pub fn list_scenario_kinds() -> Vec<ScenarioMeta> {
         ScenarioMeta { name: "leo-pnt-chain", description: "One LEO-PNT (positioning, navigation and timing from low Earth orbit) system end to end, for any constellation and signal: the leo-signal design named by signal_design (a public preset or an inline [signal] design) sets a [pass] band's centre, bandwidth, chip rate and EIRP split, the leo-pass link budget gives the tracked C/N0 and band-limited code jitter over the pass, a C/N0 line in sin(elevation) and the [navmsg] message's broadcast SISRE (fitted at the pass satellite's altitude) feed every LEO system of the [fusion] leo-pvt joint fix, and optionally the [ppp] leo-ppp cases; every hand-off is listed with its value and unit. MODELLED.", required_fields: &["signal_design", "pass", "fusion"], optional_fields: &["name", "description", "seed", "signal", "navmsg", "od_sisre_m", "ppp"] },
         ScenarioMeta { name: "contact-schedule", description: "Ground-contact planning for several satellites over several stations: apparent access windows (SGP4, IAU 2006/2000A Earth-fixed frame, ITU-R P.834 refraction, light time), the DVB-S2 ACM data volume of each pass (ETSI EN 302 307-1 Table 13 thresholds) and a conflict-free schedule (one satellite per antenna with a turnaround, one station per satellite, priority-weighted delivery capped at each backlog) by a marginal-value greedy, a first-come baseline and an exact branch and bound on small sets, with the greedy's optimality gap. MODELLED.", required_fields: &[], optional_fields: &["epoch", "duration_hours", "step_s", "refraction", "light_time", "link", "satellites", "stations"] },
         ScenarioMeta { name: "acm-link", description: "One satellite over one station: each pass's slant range, elevation and Es/N0 along the pass, the DVB-S2 MODCOD chosen at each step (ETSI EN 302 307-1 Table 13 thresholds plus an implementation margin) and the data volume ACM moves against the constant-coding baseline that closes at the mask. MODELLED.", required_fields: &[], optional_fields: &["epoch", "duration_hours", "step_s", "refraction", "light_time", "link", "satellite", "station"] },
+        ScenarioMeta { name: "aocs", description: "Spacecraft attitude control: an inertial-pointing slew of a rigid hub with three or more balanced reaction wheels under MRP feedback (L = -K sigma - P omega), minimum-norm wheel torques clipped to each motor's limit, RK4 with a zero-order hold; optionally closed on a multiplicative EKF from a simulated gyro (angle and rate random walk) and star tracker. Reports settling time, final and peak pointing error, peak wheel speed and torque, the saturated fraction, angular-momentum drift and, with the estimator, its attitude error and NEES. The true-state loop is VALIDATED against Basilisk 2.9.1; the estimator is MODELLED.", required_fields: &["hub_inertia_kg_m2", "k_nm", "p_nms", "wheels", "sigma0"], optional_fields: &["duration_s", "dt_s", "sample_s", "omega0_rad_s", "pointing_threshold_deg", "estimator"] },
     ]
 }
 
@@ -2731,6 +2736,18 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
         ScenarioKind::AcmLink => {
             let scn: crate::contact_schedule::AcmLinkScenario =
                 toml::from_str(src).map_err(|e| format!("invalid acm-link scenario: {e}"))?;
+            let (json, summary) = scn.run_json()?;
+            let svg = minimal_svg(&summary);
+            Ok(RunOutput {
+                json,
+                svg,
+                summary,
+                csv: None,
+            })
+        }
+        ScenarioKind::Aocs => {
+            let scn: crate::aocs_kind::AocsScenario =
+                toml::from_str(src).map_err(|e| format!("invalid aocs scenario: {e}"))?;
             let (json, summary) = scn.run_json()?;
             let svg = minimal_svg(&summary);
             Ok(RunOutput {

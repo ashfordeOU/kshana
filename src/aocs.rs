@@ -39,6 +39,9 @@
 //! What is not modelled: wheel friction, jitter, speed limits and power, sensor noise in the
 //! loop, integral feedback, and tracking guidance.
 
+// Dense 3x3 and 6x6 matrix arithmetic reads clearest with index loops.
+#![allow(clippy::needless_range_loop)]
+
 use crate::attitude_dynamics::Inertia;
 use crate::frames::Vec3;
 use crate::inertial::attitude::Quaternion;
@@ -158,7 +161,7 @@ impl AocsConfig {
         }
         for (i, w) in self.wheels.iter().enumerate() {
             let n = dot(w.gs, w.gs).sqrt();
-            if !((n - 1.0).abs() < 1e-9) {
+            if (n - 1.0).abs().is_nan() || (n - 1.0).abs() >= 1e-9 {
                 return Err(format!("wheel {i}: spin axis must be a unit vector"));
             }
             if !(w.js.is_finite() && w.js > 0.0 && w.u_max.is_finite() && w.u_max > 0.0) {

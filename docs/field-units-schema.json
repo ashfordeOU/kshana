@@ -1,11 +1,11 @@
 {
   "coverage": {
     "described_fields_without_definition": 239,
-    "fields_described": 2739,
-    "fields_total": 2741,
+    "fields_described": 2763,
+    "fields_total": 2765,
     "fields_without_units": 2,
-    "kinds_complete": 77,
-    "kinds_total": 78,
+    "kinds_complete": 78,
+    "kinds_total": 79,
     "kinds_uncovered": 1,
     "uncovered_kind_ceiling": 1,
     "uncovered_kinds": [
@@ -238,6 +238,168 @@
       "fields_without_units": [],
       "label": "MODELLED — DVB-S2 adaptive coding and modulation over the passes of one satellite at one station: clear-sky Es/N0 along each apparent pass, the most efficient MODCOD clearing its ETSI EN 302 307-1 Table 13 threshold plus a margin, against the constant-coding MODCOD that closes at the mask; no rain fade or pointing loss along the pass",
       "source": "scenarios/acm-link.toml"
+    },
+    "aocs": {
+      "complete": true,
+      "fields": {
+        "dt_s": {
+          "definition": "control and integration step",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "s"
+        },
+        "duration_s": {
+          "definition": "run length",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "s"
+        },
+        "final_pointing_error_deg": {
+          "definition": "true pointing error (rotation angle from the target) at the end",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "deg"
+        },
+        "inertia_kg_m2[][]": {
+          "declared_as": "inertia_kg_m2",
+          "definition": "hub inertia plus each wheel's spin inertia along its axis, as the dynamics use it",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "kg m^2"
+        },
+        "k_nm": {
+          "definition": "proportional MRP gain",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "N m"
+        },
+        "max_pointing_error_deg": {
+          "definition": "largest true pointing error over the run",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "deg"
+        },
+        "momentum_drift_nms": {
+          "definition": "largest change of the total inertial angular momentum from its start; zero external torque, so this measures the integration",
+          "evidence_tier": "validated",
+          "provenance": "internal-consistency",
+          "unit": "N m s"
+        },
+        "p_nms": {
+          "definition": "rate gain",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "N m s"
+        },
+        "pointing_threshold_deg": {
+          "definition": "pointing error the settling time is measured against",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "deg"
+        },
+        "sample_s": {
+          "definition": "output sample interval",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "s"
+        },
+        "series.omega_rad_s[][]": {
+          "declared_as": "series.omega_rad_s",
+          "definition": "true body rate at each sample",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "rad/s"
+        },
+        "series.pointing_error_deg[]": {
+          "declared_as": "series.pointing_error_deg",
+          "definition": "true pointing error at each sample",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "deg"
+        },
+        "series.sigma[][]": {
+          "declared_as": "series.sigma",
+          "definition": "true MRP set sigma_BN at each sample (|sigma| <= 1)",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "series.t_s[]": {
+          "declared_as": "series.t_s",
+          "definition": "sample times",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "series.wheel_speed_rpm[][]": {
+          "declared_as": "series.wheel_speed_rpm",
+          "definition": "wheel speeds at each sample",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "rpm"
+        },
+        "series.wheel_torque_nm[][]": {
+          "declared_as": "series.wheel_torque_nm",
+          "definition": "motor torques applied over the step starting at each sample",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "N m"
+        },
+        "settle_time_s": {
+          "definition": "first sample after which the true pointing error stays below the threshold (null if it never does)",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "wheels[].axis[]": {
+          "declared_as": "wheels[].axis",
+          "definition": "unit spin axis in body axes",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "wheels[].js_kg_m2": {
+          "definition": "spin inertia",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "kg m^2"
+        },
+        "wheels[].peak_speed_rpm": {
+          "definition": "largest absolute wheel speed over the run",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "rpm"
+        },
+        "wheels[].peak_torque_nm": {
+          "definition": "largest absolute applied motor torque over the run",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "N m"
+        },
+        "wheels[].saturated_fraction": {
+          "definition": "fraction of steps with this wheel at its torque limit",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "wheels[].speed0_rpm": {
+          "definition": "initial speed relative to the body",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "rpm"
+        },
+        "wheels[].u_max_nm": {
+          "definition": "motor torque limit",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "N m"
+        }
+      },
+      "fields_described": 24,
+      "fields_total": 24,
+      "fields_without_units": [],
+      "label": "VALIDATED control law and wheel dynamics (against Basilisk 2.9.1 on the true-state loop); this run's inputs are the scenario's own — reaction-wheel attitude control under MRP feedback, inertial pointing, no sensor noise, no friction",
+      "source": "scenarios/aocs-slew.toml"
     },
     "aperture-duty-cycle": {
       "complete": true,
