@@ -80,3 +80,24 @@ simulated truth.
 - Wheel friction, jitter, wheel-speed limits and power.
 - Any real spacecraft's gains.
 - Any guidance law other than inertial pointing.
+
+## Results (first and only run, 2026-10-13; code and fixture at 05b1cdaa)
+
+All bars hold on all three cases.
+
+| Case | σ (A1, bar 1e-9) | ω (A2, bar 1e-9 rad/s) | Ω (A3, bar 1e-6 rad/s) | u (A4, bar 1e-9 N m) |
+|---|---|---|---|---|
+| A | 2.2e-14 | 1.6e-15 | 2.9e-11 | 1.2e-13 |
+| B | 2.4e-14 | 1.6e-15 | 1.8e-11 | 4.0e-14 |
+| C | 4.6e-15 | 2.4e-16 | 1.6e-12 | 1.3e-14 |
+
+- A0: the commanded torques at t = 0 agree to within 1e-12 N m.
+- A5: case C holds a wheel at ±u_max within the first 10 s in both tools.
+
+The agreement is at round-off level. Both tools integrate the same equations with RK4 at the
+same step, and Kshana's quaternion kinematics and Basilisk's MRP kinematics agree to that level
+at these rates. The ledger row is VALIDATED (Library basis).
+
+One earlier unit test, unrelated to the bars (the internal convergence check in
+`aocs::tests`), failed on its first run because its 600 s horizon was too short for the
+saturated slew. Its horizon was raised to 3000 s. It is an internal check, not a registered bar.
