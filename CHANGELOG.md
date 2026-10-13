@@ -11,6 +11,13 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **Corrected LuGRE sample reader** (MR-09): `realdata::lugre::parse_iqs_sdrx` reads a
+  LuGRE IQ batch with I in the high nibble and the mid-rise levels `2v + 1`
+  (`SdrLayout::mid_rise`), which remove the −½ mean the bare two's-complement integers carry
+  on I and Q. `run_acq.py --corrected` gives GNSS-SDR the same reading. The generic ION reader
+  and every existing output are unchanged: 149 scenario results and a study are byte-identical
+  before and after, and the pinned LuGRE findings read as registered
+  (`xval/lugre-reader/RESULTS.md`). No ledger row changes.
 - **Opt-in BOC(1,1) tracking** (CAP-07 (a)): `LoopConfig::boc` rescales the DLL
   discriminators for the sine BOC(1,1) main peak and adds a bump-jump monitor (very-early and
   very-late correlators at ±0.5 chip, up/down counters, `N = 8`) that moves the code NCO off a
