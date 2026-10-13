@@ -20,6 +20,12 @@ Third-party data:
   doi 10.5281/zenodo.16411687, licensed under CC BY 4.0. Kshana's fixtures are
   derived extracts; no sample file is redistributed (see docs/LUGRE-DATA.md).
 
+  Contains Galileo satellite metadata (box-wing panel areas, optical properties and
+  satellite masses in src/srp_boxwing.rs) from the European GNSS Service Centre,
+  https://www.gsc-europa.eu/support-to-developers/galileo-satellite-metadata,
+  (c) EU 2011-2026, reproduced with acknowledgement under the GSC copyright notice;
+  accessed 2026-10-13. These values are not licensed under the AGPL.
+
 Galileo OSNMA:
   The OSNMA receiver-side verifier (src/osnma, docs/OSNMA.md) implements the
   algorithms of the Galileo OSNMA Signal-in-Space ICD and Receiver Guidelines, (c)
