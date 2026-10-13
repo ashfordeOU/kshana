@@ -50,6 +50,7 @@ pub const BUNDLED: &[(&str, &str)] = &[
     bundled!("ephemeris"),
     bundled!("europa-surface-pnt"),
     bundled!("fusion-pnt"),
+    bundled!("fusion-pnt-coupled"),
     bundled!("gnss-ins"),
     bundled!("gnss-ins-aviation"),
     bundled!("gnss-ins-maritime"),
