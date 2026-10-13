@@ -11,6 +11,26 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **Range-rate and azimuth/elevation batch orbit determination with an elevation mask
+  (RM-36, FUT-13).** `orbit_determination::determine_orbit_batch_tracking`, `simulate_tracking`,
+  `predict_tracking`, `propagate_with_stm` (variational STM with analytic two-body + J2 partials),
+  `is_visible`, `measurement_with_partials`; `batch_ls::gauss_newton_analytic`. The range-only
+  path is unchanged. Compared with Orekit 12.2 batch least squares over 8 pre-registered scenarios:
+  every bar met except the noiseless state agreement (≤ 1 cm), missed on 2 of 4 scenarios at 1.46
+  and 1.74 cm with kshana within 1e-8 m of truth; recorded, MODELLED.
+- **SP3 accuracy weighting (DS-PA-06).** `sp3::parse_sp3_accuracy` and
+  `Sp3Accuracy::position_sigma_m` map the header and per-record accuracy codes to observation
+  sigmas; an SP3-weighted Galileo fit variant (Tier-2 3D RMS 0.035 m against 0.070 m unweighted)
+  is added beside the unchanged recorded runs. MODELLED.
+- **Swarm-A full-arc dispatch job (DS-PA-08)** in `.github/workflows/agency-od-validation.yml`.
+- **Planetary gravity from PDS SHADR tables (CAP-30, CAP-31 part).** `SphericalHarmonicField::from_shadr`
+  (`src/gravity_pds.rs`) reads Mars GMM-3 (d/o 120) and GRAIL GL0660B (d/o 660);
+  `Body::with_gravity_field` attaches any loaded field (defaults unchanged). Degree-20 crops are
+  bundled (NASA PDS, public domain; `tests/fixtures/planetary_gravity/NOTICE.md`); the full files
+  are fetched by `xval/planetary-gravity-pyshtools/fetch_data.sh`. VALIDATED against pyshtools 4.14.1
+  (within 4e-15 of total gravity at d/o 120 over the whole sphere, 5e-14 at d/o 660 for |lat| ≤ 60°);
+  the body-frame wiring stays MODELLED (each field's native frame is not the IAU frame used).
+
 - **High-degree gravity to degree 2190 (RM-14, FUT-07).** `SphericalHarmonicField::acceleration_hf`
   / `potential_hf` (Holmes–Featherstone modified forward column, no underflow, no polar
   singularity), `prepare_high_degree`, a streaming ICGEM loader `from_gfc_file` / `from_gfc_reader`

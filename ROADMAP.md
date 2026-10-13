@@ -254,8 +254,11 @@ welcome collaboration: see [Support & professional services](README.md#support--
 - Batch orbit determination is delivered: `src/orbit_determination.rs` recovers an
   orbital state from ground-station ranges via the Gauss–Newton corrector
   (`src/batch_ls.rs`) over the two-body + J2 force model, with a sequential
-  (unscented-filter) variant alongside the batch solver; range-rate/azimuth-elevation
-  measurements and an analytic J2 state-transition matrix remain.
+  (unscented-filter) variant alongside the batch solver. Range-rate and azimuth/elevation
+  measurements with an elevation mask run on a second batch path that uses a variational
+  state-transition matrix with analytic two-body + J2 partials (RK4-integrated, not a closed-form
+  STM), compared with Orekit 12.2 (`xval/od-measurements-orekit/`); light time, Earth rotation and
+  a sequential filter for these measurements remain.
 - Alternative (GNSS-denied) PNT: the map-matching measurement model
   (`src/mapmatch.rs`, `field_likelihood` / `map_match_likelihood`) closes the loop on the
   shipped particle filter for terrain-/gravity-referenced navigation. The real **SRTM (Shuttle Radar Topography Mission)
