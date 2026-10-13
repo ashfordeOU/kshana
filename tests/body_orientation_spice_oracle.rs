@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
+// Host maths on purpose: this test recomputes its expected values independently of the engine's
+// portable maths (STUDIO-15), so the engine is checked against a second implementation.
 //! Library comparison for the computed orientation of the solar-system bodies
 //! (`body::Body::iau_rotation_et`) against the NAIF SPICE Toolkit.
 //!

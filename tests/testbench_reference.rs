@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
+// Host maths on purpose: this test recomputes its expected values independently of the engine's
+// portable maths (STUDIO-15), so the engine is checked against a second implementation.
 //! Independent check of the test-bench export (`kshana bench-export`): its Earth-fixed,
 //! geodetic and local-velocity columns, its attitude columns and its NMEA output, against
 //! implementations that share no code or authors with kshana.

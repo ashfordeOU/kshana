@@ -33,6 +33,7 @@
 //! workers, must give byte-identical cells and the same digest as one uninterrupted run on
 //! four workers.
 
+use kshana::portable_math::PortableFloat;
 use kshana::iq::campaign::runner::{cell_key, CellKeyInputs};
 use kshana::iq::campaign::score::reference_q;
 use kshana::iq::campaign::spec::DataClass;
@@ -115,7 +116,7 @@ fn scene(
         paths: match cn0(id, t) {
             None => Vec::new(),
             Some(c) => vec![PathState {
-                amplitude: 10f64.powf((c - NOMINAL) / 20.0),
+                amplitude: 10f64.ppowf((c - NOMINAL) / 20.0),
                 ..direct_path()
             }],
         },

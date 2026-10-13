@@ -15,6 +15,7 @@
 //!
 //! Every scene here is seeded, so every number is reproducible.
 
+use kshana::portable_math::PortableFloat;
 use kshana::frames::{geodetic_to_ecef, Geodetic};
 use kshana::iq::scene::{
     NavData, RangeProfile, ReceiverClock, Scene, SceneConfig, SceneSatellite, Trajectory,
@@ -171,7 +172,7 @@ fn acquire_and_track_recover_each_injected_code_phase_and_doppler() {
             let mut unwrapped: Vec<f64> = Vec::with_capacity(n_blocks);
             for b in 0..n_blocks {
                 let p = corr_block(&iq, &code, b, phase, fd_est, 1.0).prompt;
-                let mut v = 2.0 * p.im.atan2(p.re);
+                let mut v = 2.0 * p.im.patan2(p.re);
                 if let Some(&last) = unwrapped.last() {
                     while v - last > std::f64::consts::PI {
                         v -= TAU;
@@ -188,7 +189,7 @@ fn acquire_and_track_recover_each_injected_code_phase_and_doppler() {
             let (mut sxy, mut sxx) = (0.0, 0.0);
             for (i, y) in unwrapped.iter().enumerate() {
                 sxy += (i as f64 - mx) * (y - my);
-                sxx += (i as f64 - mx).powi(2);
+                sxx += (i as f64 - mx).ppowi(2);
             }
             fd_est += sxy / sxx / 2.0 / TAU / 1e-3;
         }
@@ -222,7 +223,7 @@ fn acquire_and_track_recover_each_injected_code_phase_and_doppler() {
         let imbalance = (e_sum - l_sum).abs() / (e_sum + l_sum);
         assert!(imbalance < 0.15, "PRN {prn}: E/L imbalance {imbalance}");
         // Prompt amplitude is the injected one: A·N with A² = C/N0 / fs (unit noise power).
-        let want = (10f64.powf(cn0 / 10.0) / FS).sqrt() * SPE as f64;
+        let want = (10f64.ppowf(cn0 / 10.0) / FS).sqrt() * SPE as f64;
         let mean_i = late.iter().map(|d| d.prompt.re.abs()).sum::<f64>() / late.len() as f64;
         assert!(
             (mean_i / want - 1.0).abs() < 0.15,
@@ -286,7 +287,7 @@ fn correlation_power_matches_the_injected_cn0() {
         }
         let n = SPE as f64;
         let snr = (sum / n_blocks as f64 - n) / n;
-        let est = 10.0 * (snr / 1e-3).log10();
+        let est = 10.0 * (snr / 1e-3).plog10();
         eprintln!("C/N0 {cn0}: estimated {est:.3} dB-Hz");
         assert!(
             (est - cn0).abs() < tol_db,
@@ -382,9 +383,9 @@ fn broadcast_scene_pseudoranges_solve_back_to_the_receiver() {
         fix = Some(f);
     }
     let fix = fix.unwrap();
-    let err = ((fix.ecef[0] - rx[0]).powi(2)
-        + (fix.ecef[1] - rx[1]).powi(2)
-        + (fix.ecef[2] - rx[2]).powi(2))
+    let err = ((fix.ecef[0] - rx[0]).ppowi(2)
+        + (fix.ecef[1] - rx[1]).ppowi(2)
+        + (fix.ecef[2] - rx[2]).ppowi(2))
     .sqrt();
     eprintln!(
         "{} visible, SPP error {err:.2e} m, clock {:.2e} m",

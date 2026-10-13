@@ -20,6 +20,7 @@
 //! is either a closed-form Keplerian quantity or a published Mars constant already shipped in
 //! [`kshana::body`].
 
+use kshana::portable_math::PortableFloat;
 use kshana::body::{Body, MARS_ZONALS_J2_J4};
 use kshana::gravity_sh::SphericalHarmonicField;
 use kshana::integrator::Tolerance;
@@ -74,7 +75,7 @@ fn mars_pure_j2_pole_aligned() -> Body {
 fn mars_j2_raan_rate(a: f64, e: f64, i_rad: f64, mu: f64, re: f64, j2: f64) -> f64 {
     let n = (mu / (a * a * a)).sqrt();
     let p = a * (1.0 - e * e);
-    -1.5 * n * j2 * (re / p).powi(2) * i_rad.cos()
+    -1.5 * n * j2 * (re / p).ppowi(2) * i_rad.pcos()
 }
 
 /// A tight tolerance for the analytic-truth two-body checks.
@@ -101,7 +102,7 @@ fn mars_lmo_circular_orbit_closes_after_one_period() {
     let alt = 400e3;
     let r_orbit = mars.re + alt;
     let vc = (mars.mu / r_orbit).sqrt(); // circular speed about Mars
-    let period = std::f64::consts::TAU * (r_orbit.powi(3) / mars.mu).sqrt(); // 2π√(a³/μ)
+    let period = std::f64::consts::TAU * (r_orbit.ppowi(3) / mars.mu).sqrt(); // 2π√(a³/μ)
 
     // Equatorial circular state: r along +x, v along +y at the circular speed.
     let r0 = [r_orbit, 0.0, 0.0];
@@ -152,7 +153,7 @@ fn mars_orbit_conserves_two_body_energy() {
     let alt = 400e3;
     let r_orbit = mars.re + alt;
     let vc = (mars.mu / r_orbit).sqrt();
-    let period = std::f64::consts::TAU * (r_orbit.powi(3) / mars.mu).sqrt();
+    let period = std::f64::consts::TAU * (r_orbit.ppowi(3) / mars.mu).sqrt();
     let r0 = [r_orbit, 0.0, 0.0];
     let v0 = [0.0, vc, 0.0];
 
@@ -203,7 +204,7 @@ fn mars_j2_nodal_regression_matches_the_analytic_rate() {
     let inc = 60.0_f64.to_radians();
     let v = (mu / a).sqrt();
     let r0 = [a, 0.0, 0.0];
-    let v0 = [0.0, v * inc.cos(), v * inc.sin()];
+    let v0 = [0.0, v * inc.pcos(), v * inc.psin()];
 
     // Propagate ~ one Mars day (≈ 88 642 s); several orbits, enough secular drift to fit cleanly.
     let arc = 88_642.0;
@@ -264,7 +265,7 @@ fn sun_central_mars_like_orbit_has_the_mars_year_period() {
     let v0 = [0.0, v_peri, 0.0];
 
     // The analytic Keplerian period for this a about the Sun.
-    let period_analytic = std::f64::consts::TAU * (a.powi(3) / sun.mu).sqrt();
+    let period_analytic = std::f64::consts::TAU * (a.ppowi(3) / sun.mu).sqrt();
     let period_days = period_analytic / 86_400.0;
     // It is the Mars sidereal year, 686.98 days, to better than a day (the a/μ☉ are the standard
     // published values; the residual is their rounding, not a propagation error).

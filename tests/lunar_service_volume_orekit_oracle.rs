@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
+// Host maths on purpose: this test recomputes its expected values independently of the engine's
+// portable maths (STUDIO-15), so the engine is checked against a second implementation.
 //! Library comparison for the lunar service volume on the LNCSS constellations of navi.613,
 //! propagated in the Earth orbital-plane (OP) frame under a perturbed force model, against
 //! Orekit computing the same scenario on identical ephemeris and grid. Also the re-run, with

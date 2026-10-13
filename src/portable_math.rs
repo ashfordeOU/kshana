@@ -217,7 +217,7 @@ pub(crate) fn standard_normal<R: rand::RngCore + ?Sized>(rng: &mut R) -> f64 {
 
 /// Platform-independent counterparts of the inherent `f64` transcendentals. Each method
 /// is the inherent one's name with a `p` in front.
-pub(crate) trait PortableFloat: Sized {
+pub trait PortableFloat: Sized {
     /// Sine.
     fn psin(self) -> f64;
     /// Cosine.

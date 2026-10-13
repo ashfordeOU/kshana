@@ -9,6 +9,7 @@
 //!   25 MS/s is at most 256 MB, input included (ignored test, release);
 //! * A3 the existing acquisition and tracking tests pass unchanged.
 
+use kshana::portable_math::PortableFloat;
 use kshana::iq::acq::{acquire, acquire_peak, AcqConfig};
 use kshana::iq::cli::build_code;
 use kshana::iq::track::design::Design;
@@ -40,10 +41,10 @@ fn scene(
             let c = code.value_at(phase0 + rate * t) * amp;
             let ph = TAU * doppler * t;
             let (a, b, d, e) = (u(), u(), u(), u());
-            let (r1, r2) = ((-2.0 * a.ln()).sqrt(), (-2.0 * d.ln()).sqrt());
+            let (r1, r2) = ((-2.0 * a.pln()).sqrt(), (-2.0 * d.pln()).sqrt());
             Cf64::new(
-                s * r1 * (TAU * b).cos() + c * ph.cos(),
-                s * r2 * (TAU * e).cos() + c * ph.sin(),
+                s * r1 * (TAU * b).pcos() + c * ph.pcos(),
+                s * r2 * (TAU * e).pcos() + c * ph.psin(),
             )
         })
         .collect()

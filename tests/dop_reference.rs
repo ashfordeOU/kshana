@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
+// Host maths on purpose: this test recomputes its expected values independently of the engine's
+// portable maths (STUDIO-15), so the engine is checked against a second implementation.
 //! Externally validate Kshana's dilution-of-precision engine (`orbit::dop`)
 //! against an **independent third-party authority**: gnss_lib_py 1.0.4 (the
 //! Stanford NAV Lab GNSS library; open source, peer-reviewed in JOSS 2023).

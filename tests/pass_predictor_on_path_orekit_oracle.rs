@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
+// Host maths on purpose: this test recomputes its expected values independently of the engine's
+// portable maths (STUDIO-15), so the engine is checked against a second implementation.
 //! Apparent ground-station pass prediction with ITU-R P.834-9 refraction and light time: leg 3
 //! of the three-leg oracle, the geometry on the validated path. Package D8.
 //!

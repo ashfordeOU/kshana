@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
+// Host maths on purpose: this test recomputes its expected values independently of the engine's
+// portable maths (STUDIO-15), so the engine is checked against a second implementation.
 //! Oracle test for the DE440 lunar principal-axis orientation provider
 //! (`lunar_orientation::de440_moon_pa`), against the NAIF SPICE Toolkit evaluating the
 //! JPL binary PCK directly.

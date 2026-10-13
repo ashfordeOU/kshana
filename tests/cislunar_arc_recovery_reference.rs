@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
+// Host maths on purpose: this test recomputes its expected values independently of the engine's
+// portable maths (STUDIO-15), so the engine is checked against a second implementation.
 //! Independent-estimator corroboration of the cislunar arc-length observability threshold.
 //!
 //! `cislunar-observability` reports an arc length at which a single range-only
