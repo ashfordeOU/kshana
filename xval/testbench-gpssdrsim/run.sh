@@ -19,9 +19,11 @@ SCENARIOS="automotive-urban-canyon gnss-ins small-uas-jammed-nav gnss-ins-mariti
 for s in $SCENARIOS; do
   "$KSHANA" bench-export "$ROOT/scenarios/$s.toml" --out "$WORK/$s" >/dev/null 2>"$WORK/$s.stderr"
   tail -n +2 "$WORK/$s.motion.csv" > "$WORK/$s.ecef.csv"
+  tail -n +2 "$WORK/$s.motion.csv" | cut -d, -f1-4 > "$WORK/$s.ecef4.csv"
   tail -n +2 "$WORK/$s.motion.csv" | cut -d, -f1,8,9,10 > "$WORK/$s.llh.csv"
   "$WORK/driver" nmea "$WORK/$s.nmea" > "$WORK/$s.out.nmea"
   "$WORK/driver" ecef "$WORK/$s.ecef.csv" > "$WORK/$s.out.ecef"
+  "$WORK/driver" ecef "$WORK/$s.ecef4.csv" > "$WORK/$s.out.ecef4"
   "$WORK/driver" llh "$WORK/$s.llh.csv" > "$WORK/$s.out.llh"
   "$WORK/driver" ecef "$WORK/$s.motion.csv" > "$WORK/$s.out.asis"
 done
