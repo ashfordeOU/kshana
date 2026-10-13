@@ -131,7 +131,23 @@ pub struct MonitorConfig {
     /// azimuth-gap rule decides and every output is as before.
     #[serde(skip_deserializing, skip_serializing_if = "Option::is_none")]
     pub skyline: Option<crate::skyline::SkylineCfg>,
+    /// An opt-in threshold profile. `jammertest-2024-calibrated` replaces `cn0_drop_db`,
+    /// `agc_k_sigma` and `jam_ind_threshold` with [`JAMMERTEST_2024_CALIBRATED`] (whatever the
+    /// section states for those three); absent (the default), the stated or default thresholds.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub profile: Option<String>,
 }
+
+/// The `jammertest-2024-calibrated` thresholds `(cn0_drop_db, agc_k_sigma, jam_ind_threshold)`:
+/// the pre-registered selection (smallest grid value with pooled clean-epoch false-alarm
+/// probability at most 0.01) on the evaluable folders of the JammerTest 2024 dataset (Zenodo
+/// 15911589; one u-blox ZED-F9P per folder), `xval/jammertest-trust/RESULTS.md`. The run is
+/// MODELLED: the held-out false-alarm bar failed for `cn0_drop_db` (0.0231 against 0.02). Narrow:
+/// this receiver type at this event, against scheduled-slot truth.
+pub const JAMMERTEST_2024_CALIBRATED: (f64, f64, f64) = (1.5, 3.5, 29.0);
+
+/// The profile names [`MonitorConfig::profile`] accepts.
+pub const THRESHOLD_PROFILES: &[&str] = &["jammertest-2024-calibrated"];
 
 impl Default for MonitorConfig {
     fn default() -> Self {
@@ -153,11 +169,31 @@ impl Default for MonitorConfig {
             live: LiveCfg::default(),
             geometry: GeometryCfg::default(),
             skyline: None,
+            profile: None,
         }
     }
 }
 
 impl MonitorConfig {
+    /// This configuration with its threshold profile applied (a copy only when one is set).
+    pub fn with_profile(&self) -> Result<std::borrow::Cow<'_, Self>, String> {
+        match self.profile.as_deref() {
+            None => Ok(std::borrow::Cow::Borrowed(self)),
+            Some("jammertest-2024-calibrated") => {
+                let (c, a, j) = JAMMERTEST_2024_CALIBRATED;
+                let mut out = self.clone();
+                out.cn0_drop_db = c;
+                out.agc_k_sigma = a;
+                out.jam_ind_threshold = j;
+                Ok(std::borrow::Cow::Owned(out))
+            }
+            Some(other) => Err(format!(
+                "monitor config: unknown profile \"{other}\"; known: {}",
+                THRESHOLD_PROFILES.join(", ")
+            )),
+        }
+    }
+
     /// The stated skyline built from `[skyline]` (`None` without one); an error for a section
     /// that does not describe one.
     pub fn stated_skyline(&self) -> Result<Option<crate::skyline::Skyline>, String> {
@@ -727,6 +763,8 @@ pub fn run_monitors(
     engine: Option<EngineFixInput<'_>>,
     cfg: &MonitorConfig,
 ) -> Result<TrustResult, String> {
+    let resolved = cfg.with_profile()?;
+    let cfg: &MonitorConfig = &resolved;
     cfg.validate()?;
     if tl.epochs.iter().any(|e| !e.t_s.is_finite()) {
         return Err("receiver timeline has a non-finite epoch time".into());
@@ -1218,6 +1256,34 @@ fn alarm_runs(
 
 #[cfg(test)]
 mod tests {
+
+    /// The opt-in profile replaces the three calibrated thresholds and nothing else; absent, the
+    /// configuration is used as it is; an unknown name is refused.
+    #[test]
+    fn threshold_profile_is_opt_in() {
+        let base = MonitorConfig::default();
+        assert!(matches!(
+            base.with_profile().unwrap(),
+            std::borrow::Cow::Borrowed(_)
+        ));
+        let p = MonitorConfig {
+            profile: Some("jammertest-2024-calibrated".into()),
+            ..MonitorConfig::default()
+        };
+        let r = p.with_profile().unwrap();
+        assert_eq!(
+            (r.cn0_drop_db, r.agc_k_sigma, r.jam_ind_threshold),
+            JAMMERTEST_2024_CALIBRATED
+        );
+        assert_eq!(r.calibration_s, base.calibration_s);
+        assert_eq!(r.sats_lost, base.sats_lost);
+        let bad = MonitorConfig {
+            profile: Some("nope".into()),
+            ..MonitorConfig::default()
+        };
+        assert!(bad.with_profile().is_err());
+    }
+
     use super::super::SatCn0;
     use super::*;
 

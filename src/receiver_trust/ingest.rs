@@ -187,7 +187,7 @@ fn epochs_from(map: BTreeMap<i64, Acc>, first: i64) -> Vec<LogEpoch> {
 }
 
 /// A [`Timeline`] from epochs: the start label and the observables actually present.
-fn timeline_from(epochs: Vec<LogEpoch>, skipped: usize) -> Timeline {
+pub(crate) fn timeline_from(epochs: Vec<LogEpoch>, skipped: usize) -> Timeline {
     let mut observables = Vec::new();
     if epochs.iter().any(|e| !e.cn0.is_empty()) {
         observables.push("cn0".to_string());

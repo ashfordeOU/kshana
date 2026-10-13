@@ -11,6 +11,12 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **Receiver-trust thresholds calibrated on JammerTest 2024** (CAP-13): a pre-registered calibration of
+  the C/N0-drop, AGC and jamming-indicator monitors on the public JammerTest 2024 dataset (fetched at run
+  time, never vendored; `examples/jammertest_trust_calibration.rs`), shipped only as the opt-in
+  `[monitors] profile = "jammertest-2024-calibrated"` (1.5 dB, 3.5 sigma, 29). Held-out: the AGC,
+  jamming-indicator and union bars pass; the C/N0 false-alarm bar fails (0.023 against 0.02), so the row is
+  MODELLED (`xval/jammertest-trust/RESULTS.md`). Defaults and outputs without the profile are unchanged.
 - **Multi-satellite ARAIM fault hypotheses** (CAP-05a): the ADD v4.2 subset rule generalised beyond
   pairs (`add_v42_subset_plan`, `add_v42_protection_levels_to_order`; order 2 is the existing
   MAAST-checked path exactly) and an opt-in advanced RAIM over those hypotheses
