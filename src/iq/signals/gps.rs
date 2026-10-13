@@ -5,7 +5,7 @@
 //! for L1C; IS-GPS-705J (01-AUG-2022) for L5. Validation status is on each constructor.
 
 use super::beidou::legendre;
-use super::tables::{L1coRow, L1cRow, L1C_D, L1C_O, L1C_P, L2C_STATES, L5_PHASES};
+use super::tables::{L1cRow, L1coRow, L1C_D, L1C_O, L1C_P, L2C_STATES, L5_PHASES};
 use super::{bipolar, Modulation, SignalCode, SignalError};
 use crate::iq::DataModulation;
 use crate::sdr::CaCode;
@@ -444,7 +444,10 @@ mod tests {
         assert!((p.period_s() - 18.0).abs() < 1e-9);
         assert_eq!(d.modulation(), Modulation::SineBoc { n: 1 });
         assert_eq!(p.modulation(), Modulation::Tmboc);
-        assert_eq!(d.data_modulation(), DataModulation::Symbols { symbol_s: 0.01 });
+        assert_eq!(
+            d.data_modulation(),
+            DataModulation::Symbols { symbol_s: 0.01 }
+        );
         assert_eq!(p.data_modulation(), DataModulation::Pilot);
         assert_eq!(p.carrier_hz(), L1_HZ);
         // The overlay holds one bit per 10 ms primary period.
@@ -459,7 +462,9 @@ mod tests {
         // IS-GPS-800J §3.3: BOC(6,1) at t = 0, 4, 6, 29, 33, 37, 39, 62, ..., 10197, 10201,
         // 10203, 10226 of each code period; BOC(1,1) elsewhere. MODELLED from the text.
         let p = l1c_p(9).unwrap();
-        let listed = [0usize, 4, 6, 29, 33, 37, 39, 62, 10_197, 10_201, 10_203, 10_226];
+        let listed = [
+            0usize, 4, 6, 29, 33, 37, 39, 62, 10_197, 10_201, 10_203, 10_226,
+        ];
         let boc61: Vec<usize> = (0..L1C_CODE_LEN)
             .filter(|&t| super::super::tmboc_is_boc61(t))
             .collect();

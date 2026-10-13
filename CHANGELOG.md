@@ -11,6 +11,16 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **Opt-in BOC(1,1) tracking** (CAP-07 (a)): `LoopConfig::boc` rescales the DLL
+  discriminators for the sine BOC(1,1) main peak and adds a bump-jump monitor (very-early and
+  very-late correlators at ±0.5 chip, up/down counters, `N = 8`) that moves the code NCO off a
+  side peak; `Channel::bump_jumps` lists the jumps. Off by default, and every existing output
+  is unchanged. Checked against bars pre-registered at 6b68f6cc on a synthetic BeiDou B1C
+  signal: a side-peak start that stays 0.55 chip off without the option is pulled onto the
+  main peak by one jump at 0.08 s with it, and no false jump was seen from the main peak. One
+  bar was not met: the unit-test grid for the scaling reaches outside the discriminators'
+  linear range (finding F1 in `docs/design/evidence/boc-bump-jump/RESULTS.md`). MODELLED;
+  ledger row "BOC(1,1) tracking: DLL scaling and bump-jump ambiguity resolution (opt-in)".
 - **Lunar reference-station study** (0.36, prompted by published material on a planned lunar
   south-pole reference station; sources in [`docs/LUNAR-REFERENCE-STATION.md`](docs/LUNAR-REFERENCE-STATION.md)):
   the `lunar-station-coverage` kind, a Monte Carlo sweep of the lunar differential-PNT model over
