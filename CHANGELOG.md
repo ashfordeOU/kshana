@@ -11,6 +11,14 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **Pre-1972 UTC on the two-part time path** (`timescales::tai_minus_utc_on_date`, and
+  `Jd2::from_utc_calendar`, `jd2::utc_to_tai` and `jd2::tai_to_utc` from 1960-01-01): the
+  drifting-rate ("rubber-second") era, with SOFA's drift table, fractional end-of-day steps, and
+  the UTC-to-SI scaling of the day fraction. New ledger row, VALIDATED against pyerfa
+  `dtf2d`/`utctai`/`taiutc` (pre-registered 23c40661; 117 instants 1960–1971, worst 2.9e-11 s
+  against a 1 µs bar). Every 1972+ result is bit-identical (checksum pinned before the change).
+  Before 1960 TAI − UTC is 0, as in SOFA. The single-`f64` `timescales::tai_minus_utc` is unchanged.
+
 - **GLONASS broadcast satellite clock** (`GlonassEphemeris::sv_clock_bias_s`): `−τn + γn·(t − tb)`
   from the RINEX record, at a time read on the satellite clock (two fixed-point iterations, the
   RTKLIB convention). The parsed `−τn` and `γn` were previously unused. New ledger row
