@@ -600,3 +600,42 @@ pub fn skyplot_svg(request_json: &str) -> Result<String, JsValue> {
     crate::surface::skyplot_svg(request_json, crate::surface::MAX_INPUT_BYTES)
         .map_err(|e| JsValue::from_str(&e))
 }
+
+/// The signal names `iq_run_short` accepts: a JSON array.
+#[wasm_bindgen]
+pub fn iq_signals() -> String {
+    crate::iq::short::signals_json().to_string()
+}
+
+/// A short synthetic scene, acquired and tracked in memory: `ids` are the PRNs (GLONASS L1OF:
+/// the frequency channel), `dopplers_hz` one value for all or one each, `cn0_dbhz` NaN for the
+/// elevation default. Bounded to 0.25 s, 1 000 000 samples and 8 satellites. Returns JSON
+/// `{fs_hz, samples, acquisition, tracking}`; the same request gives the same answer as the
+/// native build.
+#[wasm_bindgen]
+pub fn iq_run_short(
+    fs_hz: f64,
+    duration_s: f64,
+    signal: &str,
+    ids: Vec<f64>,
+    dopplers_hz: Vec<f64>,
+    cn0_dbhz: f64,
+    seed: u32,
+) -> Result<String, JsValue> {
+    let req = crate::iq::short::ShortRequest {
+        fs_hz,
+        duration_s,
+        signal: signal.to_string(),
+        ids: ids.iter().map(|&v| v as i64).collect(),
+        dopplers: dopplers_hz,
+        cn0_dbhz: if cn0_dbhz.is_nan() {
+            None
+        } else {
+            Some(cn0_dbhz)
+        },
+        seed: u64::from(seed),
+    };
+    crate::iq::short::run_short(&req)
+        .map(|v| v.to_string())
+        .map_err(|e| JsValue::from_str(&e))
+}
