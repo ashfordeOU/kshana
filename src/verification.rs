@@ -263,7 +263,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
         },
         VerificationItem {
             requirement: "Oblate-Earth SRP shadow (opt-in)",
-            capability: "SRP lit fraction with the WGS-84 ellipsoid as the occulting body (apparent Earth radius from the ellipsoid limb towards the Sun, dual-disk lens formula; srp_shadow::oblate_conical_shadow), opt-in on the Cowell force model through ForceModel::srp_shadow (default: the spherical conical shadow, unchanged)",
+            capability: "SRP lit fraction with the WGS-84 ellipsoid as the occulting body (apparent Earth radius from the ellipsoid limb towards the Sun, dual-disk lens formula; srp_shadow::oblate_conical_shadow), opt-in on the Cowell force model through propagator::ForceModel::srp_shadow (default: the spherical conical shadow, unchanged)",
             module: "srp_shadow, forces (srp_accel_with_lit_fraction), propagator",
             tests: "tests/srp_oblate_shadow_orekit_oracle.rs (2400 geometries across the shadow edge, 884 in penumbra, LEO to GEO, Sun declination 0 and +-23.44 deg, 8 azimuths: worst |dnu| 7.41e-9 for WGS-84 and 2.24e-9 for the spherical baseline; Orekit's WGS-84 and spherical ratios differ by up to 0.98, so the set discriminates oblateness); srp_shadow and propagator unit tests",
             oracle: "Orekit 12.2 (Apache-2.0) SolarRadiationPressure.getLightingRatio with a WGS-84 and a spherical OneAxisEllipsoid occulting body, run as a separate program with the Sun fixed at the same inertial position. Bars pre-registered in xval/srp-oblate-shadow-orekit/PREREGISTRATION.md (6d6d269c): 1e-6 on both, and a > 1e-2 oblate-vs-sphere spread; all met. The ellipsoid axis is the inertial z axis on both sides (no precession-nutation)",
@@ -272,9 +272,9 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
         },
         VerificationItem {
             requirement: "Solar limb-darkened SRP shadow (opt-in)",
-            capability: "SRP lit fraction as the un-occulted fraction of the limb-darkened solar flux (Eddington-approximation law I(mu)/I(1) = 2/5 + 3/5 mu, Gauss-Legendre quadrature) over a spherical or WGS-84 Earth (srp_shadow::limb_darkened_shadow, ShadowModel::OblateEarthLimbDarkened)",
+            capability: "SRP lit fraction as the un-occulted fraction of the limb-darkened solar flux (Eddington-approximation law I(mu)/I(1) = 2/5 + 3/5 mu, Gauss-Legendre quadrature) over a spherical or WGS-84 Earth (srp_shadow::limb_darkened_shadow, the ShadowModel variant OblateEarthLimbDarkened)",
             module: "srp_shadow",
-            tests: "srp_shadow unit tests (the annular closed form, the uniform law reproducing the conical shadow, full sun and umbra limits)",
+            tests: "srp_shadow::tests (the annular closed form, the uniform law reproducing the conical shadow, full sun and umbra limits)",
             oracle: "None external: Orekit 12.2 has no limb-darkened lighting ratio. Checked against closed forms of the same law only",
             oracle_kind: InternalConsistency,
             status: Modelled,
@@ -290,7 +290,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
         },
         VerificationItem {
             requirement: "NRLMSISE-00 drag-density tier (opt-in)",
-            capability: "forces::DensityModel (Exponential default, Nrlmsise00 { f107a, f107, ap }) and ForceModel::drag_density: quadratic drag against the co-rotating atmosphere with the NRLMSISE-00 density at the WGS-84 geodetic point (Earth rotation angle with UT1 = TT, local solar time UT + lon/15), constant space weather per model; default off and bit-identical",
+            capability: "forces::DensityModel (Exponential default, Nrlmsise00 { f107a, f107, ap }) and propagator::ForceModel::drag_density: quadratic drag against the co-rotating atmosphere with the NRLMSISE-00 density at the WGS-84 geodetic point (Earth rotation angle with UT1 = TT, local solar time UT + lon/15), constant space weather per model; default off and bit-identical",
             module: "forces (density_at, drag_accel_with_density), propagator",
             tests: "tests/drag_tier_orekit_oracle.rs (4 cases x 25 hourly states over 24 h, circular 51.6 deg, 400 km at low/moderate/high activity and 300 km: worst |dr| 0.0303 m and |dv| 3.36e-5 m/s against 3.3 to 141.8 km of drag displacement, worst error/bar 0.003; the exponential-density control misses by 119.1 m); forces and propagator unit tests (default bit-identical; the tier evaluates the port at the Earth-fixed geodetic point)",
             oracle: "Orekit 12.2 (Apache-2.0) NumericalPropagator/DormandPrince853 with DragForce over Orekit's own NRLMSISE00 implementation, run as a separate program with the same Earth-rotation-angle frame, WGS-84 shape, local-solar-time convention (a mean Sun) and TT as UT; the convention setup was checked oracle against oracle (Orekit vs pymsis, 5.2e-5 in density). Bars pre-registered in xval/drag-tier-orekit/PREREGISTRATION.md (21647478): 0.5 m + 1e-3 of the drag displacement, and two > 100 m sensitivity checks; all met. Not covered: the model's accuracy against measured density, time-varying space weather, a GMAT leg",
@@ -344,7 +344,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
         },
         VerificationItem {
             requirement: "DOP853 integrator",
-            capability: "Hairer DOP853 8(5,3) explicit Runge-Kutta with the combined 5th/3rd-order error estimator, the SciPy/Hairer step controller, automatic initial step, a fail-closed step guard and 7th-order dense output; selectable as Integrator::Dop853 / propagate_dop853",
+            capability: "Hairer DOP853 8(5,3) explicit Runge-Kutta with the combined 5th/3rd-order error estimator, the SciPy/Hairer step controller, automatic initial step, a fail-closed step guard and 7th-order dense output; selectable as the propagator Integrator variant Dop853 / propagator::propagate_dop853",
             module: "integrator, propagator",
             tests: "tests/dop853_scipy_oracle.rs (8 single steps: state within 5.55e-15 relative, FSAL derivative 3.46e-15, dense output 1.99e-14, accept/reject decisions identical; 3 full runs at rtol = atol = 1e-12 (LEO 58000 s, e = 0.7 over 5 periods, Arenstorf over one period): initial step identical, accepted steps 502/501, 390/390, 298/298 and evaluations 6025/6013, 5497/5497, 4285/4285 against SciPy, end states within 2.95e-13 relative (two-body) and 1.58e-12 (Arenstorf), dense output within 9.5e-13; accuracy against the exact mpmath Kepler solution equal to SciPy's (LEO 8.44e-5 m, Arenstorf periodicity 1.475e-9)); integrator and propagator unit tests (24 h two-body against exact Kepler under 0.1 m)",
             oracle: "SciPy 1.18.1 (BSD-3-Clause) solve_ivp(method=DOP853) and its single-step, error-norm, dense-output and initial-step routines, an independent implementation; exact two-body states from mpmath 1.3.0 at 40 digits. Bars pre-registered in xval/dop853-scipy/PREREGISTRATION.md (ae1b25e) before the first comparison; all met (xval/dop853-scipy/RESULTS.md). SciPy's first step is given to both solvers in the full runs; the initial-step routine is compared separately. Not covered: RKF7(8), stiffness detection, event location",
@@ -380,7 +380,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
         },
         VerificationItem {
             requirement: "Planetary gravity fields from PDS SHADR tables",
-            capability: "Read PDS SHADR spherical-harmonic tables (SphericalHarmonicField::from_shadr: unit conversion, C00 = 1 supplied, completeness and normalisation checks) and evaluate the body-fixed gravity of Mars GMM-3 (d/o 120) and the GRAIL lunar field GL0660B (d/o 660)",
+            capability: "Read PDS SHADR spherical-harmonic tables (from_shadr, on SphericalHarmonicField in src/gravity_pds.rs: unit conversion, C00 = 1 supplied, completeness and normalisation checks) and evaluate the body-fixed gravity of Mars GMM-3 (d/o 120) and the GRAIL lunar field GL0660B (d/o 660)",
             module: "gravity_pds, gravity_sh",
             tests: "tests/planetary_gravity_pds.rs (degree-20 crops always run: worst |dg|/|g| 9.7e-16, perturbation-relative 3.4e-11; GMM-3 d/o 120 over the whole sphere 3.7e-15 / 6.3e-12 and GL0660B d/o 660 at |lat| <= 60 deg 5.0e-14 / 1.0e-10, data-gated; headers and selected coefficients equal to the published PDS products, record counts 7380 and 218790); gravity_pds unit tests",
             oracle: "pyshtools 4.14.1 (BSD-3-Clause) reading the same PDS files and evaluating point gravity, run as a separate program, and the published PDS product headers and labels. Bars pre-registered in xval/planetary-gravity-pyshtools/PREREGISTRATION.md (32c5b50); all met (RESULTS.md). Data: NASA PDS Geosciences Node, public domain; degree-20 crops bundled with NOTICE, full files fetched at test time",
@@ -389,7 +389,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
         },
         VerificationItem {
             requirement: "Attach a published gravity field to a body",
-            capability: "Body::with_gravity_field: attach any loaded spherical-harmonic field (for example GMM-3 or GL0660B) to a Body so the propagator evaluates it body-fixed; opt-in, default bodies unchanged",
+            capability: "with_gravity_field (on Body, in src/gravity_pds.rs): attach any loaded spherical-harmonic field (for example GMM-3 or GL0660B) to a Body so the propagator evaluates it body-fixed; opt-in, default bodies unchanged",
             module: "gravity_pds, body, propagator, mars_frame",
             tests: "tests/planetary_gravity_pds.rs::a_shadr_field_attached_to_a_body_drives_the_propagator; gravity_pds::tests::with_gravity_field_is_opt_in",
             oracle: "Internal consistency only. Each published field is defined in its producer's body-fixed frame (GMM-3 in the Konopliv et al. 2006 Mars frame, GL0660B in the DE421 lunar principal-axis frame), while the field is evaluated in the IAU frame; the offset is not modelled",
