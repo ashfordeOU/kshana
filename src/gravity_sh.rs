@@ -31,7 +31,7 @@
 //! ([`crate::cio`]) before calling and rotates the acceleration back.
 
 use crate::egm2008_data::{EGM2008_COEFFS, EGM2008_GM, EGM2008_NMAX, EGM2008_RE};
-use crate::portable_math::{PortableFloat, Maths, Platform, Portable};
+use crate::portable_math::{Maths, Portable, PortableFloat};
 
 type Vec3 = [f64; 3];
 
@@ -241,7 +241,7 @@ impl SphericalHarmonicField {
     /// Gravitational acceleration `∇U` (m/s², Earth-fixed) — the **total** field, central term
     /// included, so a point-mass field returns `−μr/|r|³`.
     pub fn acceleration(&self, r: Vec3) -> Vec3 {
-        self.acceleration_with::<Platform>(r)
+        self.acceleration_with::<Portable>(r)
     }
 
     /// [`Self::acceleration`] evaluated with the platform-independent mathematics library

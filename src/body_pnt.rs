@@ -841,7 +841,7 @@ pub fn to_svg(r: &BodyPntReport) -> String {
         .flat_map(|e| [e.formal_sigma_relays_m, e.formal_sigma_with_earth_m])
         .flatten()
         .filter(|v| *v > 0.0)
-        .map(f64::log10)
+        .map(|v| v.plog10())
         .collect();
     let lo = logs
         .iter()

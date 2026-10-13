@@ -38,7 +38,6 @@
 //! order is fixed, so a result is a function of the inputs alone. These helpers belong with
 //! `portable_math` and can move there once the open work on that module has folded.
 
-use crate::portable_math::PortableFloat;
 /// Veltkamp's splitting constant for binary64, `2^27 + 1`.
 const SPLITTER: f64 = 134_217_729.0;
 
@@ -426,6 +425,7 @@ pub fn datum_from_sqrt_information(
 #[cfg(test)]
 #[allow(clippy::needless_range_loop)] // index loops mirror the matrix formulas they check
 mod tests {
+    use crate::portable_math::PortableFloat;
     use super::*;
 
     /// A deterministic pseudo-random stream (a 64-bit linear congruential generator) in
