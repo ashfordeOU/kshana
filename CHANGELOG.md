@@ -11,6 +11,21 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **Alt-PNT maps: real gravity field, map-error Monte Carlo, full-resolution SRTM** (0.36,
+  WP-10). The `gravity-map` kind takes an optional `[reference]`: a gravity anomaly
+  synthesised from the bundled EGM2008 coefficients (or an ICGEM `.gfc` file via
+  `gfc_path`, native builds only). That synthesis matches the ICGEM Calculation Service to
+  about 1e-8 mGal over 794 nodes in two regions, against pre-registered bars of 0.005 mGal
+  RMS and 0.02 mGal max (VALIDATED; ledger row "Gravity-anomaly synthesis from a
+  spherical-harmonic model"). The new bundled scenario `gps-denied-gravity-nav-egm2008` runs
+  the 60-minute benchmark on that real degree-70 field. Pre-registered outcome: matched
+  error 3106 m, so the < 500 m bar is NOT MET, as predicted (degree 70 is too smooth), and
+  the tenfold cut on the drift is MET (MODELLED). An optional `[map_error_mc]` reruns the
+  benchmark over seeded, Gaussian-correlated map errors and reports the matched-error
+  distribution. Without either option the document is byte-identical to earlier releases.
+  The real-SRTM tests now run in CI on two committed full-resolution crops; all
+  pre-registered bars are met, with the nearest node equal to GDAL 3.8.4 at 8 of 8 points
+  (`xval/srtm-ungate/`).
 - **Lunar reference-station study** (0.36, prompted by published material on a planned lunar
   south-pole reference station; sources in [`docs/LUNAR-REFERENCE-STATION.md`](docs/LUNAR-REFERENCE-STATION.md)):
   the `lunar-station-coverage` kind, a Monte Carlo sweep of the lunar differential-PNT model over
