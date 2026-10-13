@@ -11,6 +11,16 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **Porkchop on the DE440 ephemeris** (CAP-20b): `maneuver::porkchop_kernel` sweeps C3 and
+  arrival V∞ on heliocentric states from a DE440 SPK. New row, VALIDATED against SPICE states
+  + pykep 3.0.1 (pre-registered 2d857fb1; Earth to Mars 2026-2028, 304 cells, worst 2.6e-14,
+  the same minimum-C3 cell).
+- **Lunar OD: optional k2 solid tide and selenocentric relativity** (DS-LRO-11), off by
+  default (`LunarForceModel::lunar_tide`, `::relativity`); a `KSHANA_LRO_DEGREE` switch for
+  the ANISE cross-validation (DS-LRO-04); a 24 h LRO arc fixture and an information-only
+  long-arc fit (DS-LRO-09). Information runs are recorded in
+  `docs/design/evidence/ds-lro-09-11-longer-arc/RESULTS.md`; no published number changes.
+
 - **CR3BP 9:2 NRHO against CAPSTONE** (CAP-29d): new MODELLED row measuring the engine's
   circular-restricted NRHO against CAPSTONE's flown orbit (JPL Horizons, March 2023;
   pre-registered 4e868170): period 1.07 %, apolune 0.05 %, perilune 4.1 % from CAPSTONE's means,
@@ -428,6 +438,12 @@ breaking changes are called out explicitly.
   script, git-ignored, and the test skips without them.
 
 ### Fixed
+
+- **lunar-frame-campaign: a beacon with no observation is now reported** (found by MR-05). The
+  report gains `unobserved_beacons` and `warning` only when some beacon has no observation, and
+  then the observed beacons' sigmas come from their own information instead of all being null.
+  The datum is unchanged, and no default, bundled or published output moves
+  (`docs/revisions/BEACON-unobserved-cell-changes.md`).
 
 - **Lunar principal-axis frame** (`lunar_frame::icrf_to_moon_pa`, used by `lunar_od` and the LRO
   fit): the DE421 mean-Earth to principal-axis offset of `moon_080317.tf` was applied in the
