@@ -64,4 +64,26 @@ run here; no Stable32 agreement is claimed beyond what allantools itself documen
 
 ## Results
 
-(Filled in after the run, in a later commit.)
+First and only run, 2026-10-13: `scripts/gen_greenhall_edf_ref.py` with allantools 2024.06 wrote
+`tests/fixtures/greenhall_edf/reference.json` (4 954 grid points), and
+`tests/greenhall_edf_allantools.rs` and `tests/greenhall_edf_no_moved_output.rs` compared it.
+
+1. **Value: met.** At all 4 876 points where allantools returns a finite edf, kshana's is finite
+   and agrees within a relative 6.0e-13 (bar 1e-9).
+2. **Gaps: met.** At the 46 points where allantools raises `NotImplementedError` (case 4, unmodified
+   white PM with `ceil(M/S) <= d`), kshana returns NaN.
+3. **Coverage: met.** Every label (1.1, 1.2, 1.3, 2.1a, 2.1b, 2.2, 2.3, 3.1, 3.2, 3.3, 4.2 and
+   `not_implemented`) occurs.
+4. **Wrappers: met,** bit for bit at every grid point.
+5. **No moved output: met.** `uncertainty::edf` over the 274 280-value grid is bit-identical.
+   Deviation from the wording: the dump is pinned as its SHA-256
+   (5b2de183db76bf26920a51ae8b7dc55818471e930aee4a5e46597de6a6bb8ad9, committed alone in
+   a2b0b8dc before the refactor, from `uncertainty.rs` unchanged since c9e3740), not as the
+   5 MB file. `tests/uncertainty_edf_reference.rs` passes unchanged.
+
+Not foreseen by the grid's wording: at 32 points (alpha = -4, d = 3, unmodified, J > Jmax with
+r >= d + 1, case 2.2) allantools fails with an `AssertionError` in its Table 2 lookup, so there is
+no oracle value there. kshana uses the paper's Table 2 entry for that cell (a0 = 1.302,
+a1 = 0.535). These points are counted separately and not as passes.
+
+By the ledger rule above, bars 1 to 4 hold: the row is VALIDATED against allantools.

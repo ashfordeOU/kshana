@@ -11,6 +11,13 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **Greenhall exact equivalent degrees of freedom** (CAP-03): `allan::edf_greenhall`, the full
+  Greenhall and Riley (2003) algorithm (difference orders 1 to 3, noise exponents +2 to -4,
+  overlapping and non-overlapping, modified and unmodified, with the large-J tables), with ADEV,
+  MDEV and HDEV wrappers. VALIDATED under a pre-registered comparison with allantools 2024.6:
+  4 876 grid points within 6.0e-13 relative; allantools fails at 32 further points, which are
+  recorded without an oracle value. The confidence intervals of `assurance::uncertainty` are
+  unchanged bit for bit.
 - **Cold-atom interferometer error terms** (RM-26/27/28): Raman laser-phase noise (with the
   retro-reflection delay term), the wavefront-curvature bias of a thermal cloud (pure defocus,
   with a detection radius) and fringe-ambiguity resolution (classical-aided and two
