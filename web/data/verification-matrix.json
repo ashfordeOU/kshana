@@ -1790,7 +1790,7 @@
       "oracle_kind": "InternalConsistency",
       "oracle": "IGRF-14 coefficients; first-principles matched-filter CRLB. The real-field gravity benchmark's field is externally checked (row 'Gravity-anomaly synthesis from a spherical-harmonic model'), but its navigation outcome has no external oracle",
       "module": "altpnt, mapmatch, gravimeter, igrf",
-      "tests": "tests/alternative_complementary_pnt_reference.rs (map-matching CRLB; IGRF-14 field); mapmatch::tests; gravimeter::tests; igrf::tests; tests/gravity_map_real_field.rs (the 60-min GPS-denied benchmark on the real EGM2008 degree-70 field, pre-registered in xval/icgem-egm2008/: matched 3106 m, so the < 500 m bar is NOT MET and asserted as missed, and the tenfold cut on the 70.6 km drift is MET; plus the seeded map-error Monte Carlo); altpnt::terrain::tests::emag2_format_grid_reproduces_the_synthetic_magnetic_channel and tests/emag2_real_grid.rs (data-gated EMAG2v3 reader on a real crop; no navigation outcome claimed on it)",
+      "tests": "tests/alternative_complementary_pnt_reference.rs (map-matching CRLB; IGRF-14 field); mapmatch::tests; gravimeter::tests; igrf::tests; tests/gravity_map_real_field.rs (the 60-min GPS-denied benchmark on the real EGM2008 degree-70 field, pre-registered in xval/icgem-egm2008/: matched 3106 m, so the < 500 m bar is NOT MET and asserted as missed, and the tenfold cut on the 70.6 km drift is MET; plus the seeded map-error Monte Carlo); altpnt::terrain::tests::emag2_format_grid_reproduces_the_synthetic_magnetic_channel and tests/emag2_real_grid.rs (data-gated EMAG2v3 reader on a real crop; no navigation outcome claimed on it); tests/terrain_slam_rbpf.rs (joint map estimation, a FastSLAM-style RBPF, against known-map SITAN on a 15 m correlated map error over 20 seeds, pre-registered in xval/terrain-slam-rbpf/: 1.5% mean gain and better in 10 of 20, so the 10% and 12-of-20 bars are NOT MET and asserted as missed; no harm on a perfect map, MET)",
       "module_links": [
         {
           "path": "src/altpnt/mod.rs",
@@ -1821,6 +1821,10 @@
         {
           "path": "tests/emag2_real_grid.rs",
           "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/emag2_real_grid.rs"
+        },
+        {
+          "path": "tests/terrain_slam_rbpf.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/terrain_slam_rbpf.rs"
         }
       ],
       "fixture": {
