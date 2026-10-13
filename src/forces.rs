@@ -18,9 +18,11 @@
 //! **Schwarzschild relativistic correction** ([`relativistic_accel`], the leading
 //! general-relativistic perigee-advance term).
 //!
-//! Scope (honest): the gravity field is **zonal only** (no tesseral/sectoral EGM terms); the SRP
-//! shadow is the geometric dual-disk **conical umbra+penumbra** by default (the WGS-84 oblate
-//! shadow and solar limb darkening are opt-in in [`crate::srp_shadow`]); and the default drag density is the **static piecewise-exponential**
+//! Scope (honest): the gravity field in this module is **zonal only**; the tesseral/sectoral
+//! EGM2008 field lives in [`crate::gravity_sh`] and enters the Cowell propagator as the opt-in
+//! [`crate::propagator::Geopotential`]. The SRP shadow is the geometric dual-disk **conical
+//! umbra+penumbra** by default (the WGS-84 oblate shadow and solar limb darkening are opt-in in
+//! [`crate::srp_shadow`]); and the default drag density is the **static piecewise-exponential**
 //! model; the NRLMSISE-00 thermosphere is an opt-in tier ([`DensityModel`],
 //! [`drag_accel_with_density`]) at constant F10.7/Ap; see `ROADMAP.md`.
 
