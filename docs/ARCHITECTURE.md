@@ -320,7 +320,7 @@ the quantum demonstrator are modelled, illustrative, public-source, and carry no
 
 ```mermaid
 flowchart TD
-    api["api.rs — run_toml / run_scenario · 76 kinds"]
+    api["api.rs — run_toml / run_scenario · 78 kinds"]
 
     subgraph gnss["Integrity & GNSS measurement"]
       raim["raim — RAIM/ARAIM · HPL/VPL (kernel vs SciPy)"]
@@ -517,7 +517,7 @@ to the host. One dispatch, no drift.
 
 ```mermaid
 flowchart TD
-    F["api::run_toml(src) · run_scenario(src)"] --> K{"ScenarioKind::classify<br/>typed · exhaustive · 76 kinds<br/>(absent kind → clock; unknown kind → InvalidInput)"}
+    F["api::run_toml(src) · run_scenario(src)"] --> K{"ScenarioKind::classify<br/>typed · exhaustive · 78 kinds<br/>(absent kind → clock; unknown kind → InvalidInput)"}
     K --> G1["Timing<br/>clock · timetransfer · quantum-time-transfer · telecom-timing · slot-timing"]
     K --> G2["Inertial & fusion<br/>inertial · hybrid · hybrid-ukf · fusion · gnss-ins · quantum-gnss-free-nav · ins-trn-coast · hybrid-optical-rf"]
     K --> G3["Orbit, geometry & positioning<br/>orbit · ephemeris · constellation-design · gnss-sim · pvt"]
