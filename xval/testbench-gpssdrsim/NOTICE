@@ -1,0 +1,8 @@
+gps-sdr-sim — https://github.com/osqzss/gps-sdr-sim
+Commit 28ca29a6719475195e3aabd5930c4ed02d67190f (2025-01-07)
+MIT License (copyright holder as stated in its LICENSE file).
+
+Used as a separate dev-only oracle tool: fetch.sh clones it outside git's tracking and run.sh
+compiles its gpssim.c (main renamed) with driver.c, which calls only its motion-file readers and
+llh2xyz. No part of it is vendored in this repository, and no signal-generation function is
+called.

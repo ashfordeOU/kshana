@@ -44,7 +44,7 @@
 //! filter takes the pseudoranges receiver-clock-corrected, i.e. single-differenced;
 //! the tightly-coupled filters in [`crate::fusion::tightly_coupled`] and
 //! [`crate::fusion::tightly_coupled17`] carry an explicit receiver-clock bias and
-//! drift state instead.)
+//! drift state instead, and [`crate::fusion::carrier_tc`] adds carrier phase.)
 //!
 //! No external linear-algebra dependency: the small dense matrices are handled
 //! by the helpers in this module.
@@ -582,6 +582,75 @@ impl GnssInsEkf {
         self.p = p;
 
         Ok(self.x)
+    }
+
+    /// Construct with a diagonal initial covariance from per-state 1-σ values, in the
+    /// state order `[δp(3) δv(3) ψ(3) b_a(3) b_g(3)]`. [`new`](Self::new) is the
+    /// isotropic special case; this form takes per-axis priors such as a yaw
+    /// uncertainty larger than the tilt uncertainty.
+    pub fn with_initial_sigmas(sigmas: [f64; N], noise: EkfNoise) -> Self {
+        let mut p = Mat::zeros(N, N);
+        for (i, s) in sigmas.iter().enumerate() {
+            p.set(i, i, s * s);
+        }
+        Self {
+            x: [0.0; N],
+            p,
+            noise,
+        }
+    }
+
+    /// Position-only measurement update of a GNSS antenna fix offset from the IMU by a
+    /// lever arm.
+    ///
+    /// `innovation` is the predicted antenna position minus the GNSS fix, in the local
+    /// NED frame at the current INS position (m): `(p̂_IMU + Ĉ_b^n l_b) − p_GNSS`.
+    /// `lever_n` is the lever arm resolved in NED with the current attitude,
+    /// `Ĉ_b^n l_b` (m). `sigma_ned` is the fix's per-axis 1-σ accuracy (m).
+    ///
+    /// With this filter's attitude-error convention (the computed DCM is
+    /// `(I + [ψ×]) C_b^n`), the predicted antenna position carries
+    /// `δp + ψ × (C_b^n l_b) = δp − [(C_b^n l_b)×] ψ`, so the measurement row is
+    /// `H = [I₃ 0 −[(C_b^n l_b)×] 0 0]`. A zero lever arm reduces it to a plain
+    /// position update. Joseph-form covariance update. Returns the updated error
+    /// state, or `None` (state and covariance untouched) when the innovation
+    /// covariance is singular.
+    #[allow(clippy::needless_range_loop)]
+    pub fn update_position_lever_arm(
+        &mut self,
+        innovation: Vec3,
+        lever_n: Vec3,
+        sigma_ned: Vec3,
+    ) -> Option<[f64; N]> {
+        let mut h = Mat::zeros(3, N);
+        for k in 0..3 {
+            h.set(k, k, 1.0);
+        }
+        h.set_block3(0, 6, neg3(skew(lever_n)));
+        let hx = h.mul_vec(&self.x);
+        let nu: Vec<f64> = (0..3).map(|i| innovation[i] - hx[i]).collect();
+        let mut r = Mat::zeros(3, 3);
+        for k in 0..3 {
+            r.set(k, k, sigma_ned[k] * sigma_ned[k]);
+        }
+        let ht = h.transpose();
+        let pht = self.p.mul(&ht); // N×3
+        let s = h.mul(&pht).add(&r);
+        let s_inv = s.inverse()?;
+        let k_gain = pht.mul(&s_inv); // N×3
+        let dk = k_gain.mul_vec(&nu);
+        for (xi, &dki) in self.x.iter_mut().zip(dk.iter()) {
+            *xi += dki;
+        }
+        let kh = k_gain.mul(&h);
+        let i_kh = Mat::identity(N).sub(&kh);
+        let mut p = i_kh
+            .mul(&self.p)
+            .mul(&i_kh.transpose())
+            .add(&k_gain.mul(&r).mul(&k_gain.transpose()));
+        p.symmetrize();
+        self.p = p;
+        Some(self.x)
     }
 }
 

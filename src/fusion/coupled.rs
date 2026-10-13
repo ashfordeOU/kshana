@@ -25,9 +25,10 @@
 //! non-zero `P[position, phase]` block the decoupled filters cannot represent.
 //!
 //! The covariance update is in Joseph stabilised form (as in [`crate::kalman`]).
-//! The 3-D extension (a 6-state position block + clock → the 8-state filter) reuses
-//! the same construction with a 3-vector line-of-sight `g`; the fusion pack remains
-//! 1-DOF, so this filter is 4-state.
+//! The 3-D extension, [`CoupledPnt3d`] (a 6-state position block + clock: 8 states), uses the
+//! same construction with a 3-vector line of sight; [`CoupledPntBiasFilter`] augments the 1-DOF
+//! filter with a constant accelerometer bias; the `fusion` pack runs the bias variant on
+//! pseudoranges when its scenario carries a `[coupled]` table.
 
 /// Speed of light (m/s) — converts a clock phase error (s) to a range error (m).
 pub const C_M_PER_S: f64 = 299_792_458.0;
@@ -178,6 +179,307 @@ impl CoupledPntFilter {
     /// Clock-phase 1-σ uncertainty (s).
     pub fn phase_sigma(&self) -> f64 {
         self.p[2][2].max(0.0).sqrt()
+    }
+}
+
+// --- augmented constant-bias variant ----------------------------------------------
+
+pub use super::dense::Innovation;
+use super::dense::{self, Mat};
+
+/// Process-noise intensities of [`CoupledPntBiasFilter`].
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct CoupledBiasNoise {
+    /// White-acceleration PSD driving velocity random walk ((m/s²)²/Hz = m²/s³).
+    pub q_va: f64,
+    /// Accelerometer-bias random-walk PSD ((m/s²)²/s). `0` makes the bias a pure
+    /// random constant (the "constant bias" model).
+    pub q_ba: f64,
+    /// White-FM clock PSD (s²/s).
+    pub q_wf: f64,
+    /// Random-walk-FM clock PSD (1/s).
+    pub q_rw: f64,
+}
+
+/// The coupled 1-DOF PNT filter **augmented with a constant accelerometer-bias state**.
+///
+/// State (5): `x = [position (m), velocity (m/s), clock phase (s), clock frequency (1/s),
+/// accelerometer bias b_a (m/s²)]`.
+///
+/// Continuous model: `ṗ = v`, `v̇ = b_a + w_a` (`w_a` white, PSD `q_va`),
+/// `ḃ_a = w_b` (PSD `q_ba`; `q_ba = 0` is the random-constant bias), and the clock
+/// block `φ̇ = f + w_φ` (PSD `q_wf`), `ḟ = w_f` (PSD `q_rw`), as in
+/// [`CoupledPntFilter`]. Discretised exactly over `dt`:
+///
+/// ```text
+///   F_pos = [[1, dt, dt²/2], [0, 1, dt], [0, 0, 1]]           (rows/cols pos, vel, b_a)
+///   Q_pos = q_va·[[dt³/3, dt²/2, 0], [dt²/2, dt, 0], [0, 0, 0]]
+///         + q_ba·[[dt⁵/20, dt⁴/8, dt³/6], [dt⁴/8, dt³/3, dt²/2], [dt³/6, dt²/2, dt]]
+///   F_clk = [[1, dt], [0, 1]],  Q_clk = [[q_wf·dt + q_rw·dt³/3, q_rw·dt²/2],
+///                                       [q_rw·dt²/2,            q_rw·dt   ]]
+/// ```
+///
+/// Measurements are the same pseudoranges `ρ = g·position + c·phase + noise`
+/// (`H = [g, 0, c, 0, 0]`); the bias is observed only through the position history
+/// it bends. A constant **pseudorange** bias common to every range is deliberately not
+/// a state: its observation column would be identical to the clock-phase column
+/// `c`, so it is unobservable from the clock and is absorbed by it.
+///
+/// This is a separate type: [`CoupledPntFilter`] is unchanged.
+#[derive(Clone, Debug)]
+pub struct CoupledPntBiasFilter {
+    x: [f64; 5],
+    p: Mat<5>,
+    noise: CoupledBiasNoise,
+}
+
+impl CoupledPntBiasFilter {
+    /// Index of the accelerometer-bias state.
+    pub const BIAS: usize = 4;
+
+    /// New filter at the zero state with initial covariance
+    /// `diag(pos_var, vel_var, phase_var, freq_var, bias_var)` (`p0_diag`).
+    pub fn new(noise: CoupledBiasNoise, p0_diag: [f64; 5]) -> Self {
+        let mut p = [[0.0; 5]; 5];
+        for (i, v) in p0_diag.iter().enumerate() {
+            p[i][i] = *v;
+        }
+        Self {
+            x: [0.0; 5],
+            p,
+            noise,
+        }
+    }
+
+    /// The state-transition matrix over `dt`, state order as [`Self::state`].
+    pub fn transition(dt: f64) -> [[f64; 5]; 5] {
+        let mut f = [[0.0; 5]; 5];
+        for (i, row) in f.iter_mut().enumerate() {
+            row[i] = 1.0;
+        }
+        f[0][1] = dt;
+        f[0][4] = dt * dt / 2.0;
+        f[1][4] = dt;
+        f[2][3] = dt;
+        f
+    }
+
+    /// The discrete process-noise covariance over `dt` (the `Q` stated on the type).
+    #[allow(clippy::needless_range_loop)]
+    pub fn process_noise(&self, dt: f64) -> [[f64; 5]; 5] {
+        let CoupledBiasNoise {
+            q_va,
+            q_ba,
+            q_wf,
+            q_rw,
+        } = self.noise;
+        let (dt2, dt3) = (dt * dt, dt * dt * dt);
+        let (dt4, dt5) = (dt3 * dt, dt3 * dt2);
+        let mut q = [[0.0; 5]; 5];
+        q[0][0] = q_va * dt3 / 3.0 + q_ba * dt5 / 20.0;
+        q[0][1] = q_va * dt2 / 2.0 + q_ba * dt4 / 8.0;
+        q[1][1] = q_va * dt + q_ba * dt3 / 3.0;
+        q[0][4] = q_ba * dt3 / 6.0;
+        q[1][4] = q_ba * dt2 / 2.0;
+        q[4][4] = q_ba * dt;
+        q[2][2] = q_wf * dt + q_rw * dt3 / 3.0;
+        q[2][3] = q_rw * dt2 / 2.0;
+        q[3][3] = q_rw * dt;
+        for i in 0..5 {
+            for j in 0..i {
+                q[i][j] = q[j][i];
+            }
+        }
+        q
+    }
+
+    /// Time update over `dt` (no-op for `dt <= 0`).
+    pub fn predict(&mut self, dt: f64) {
+        if dt <= 0.0 {
+            return;
+        }
+        let f = Self::transition(dt);
+        let q = self.process_noise(dt);
+        dense::propagate(&mut self.x, &mut self.p, &f, &q);
+    }
+
+    /// Pseudorange update `ρ = g·position + c·phase + noise` (`r` in m²). `g = 0` is a
+    /// clock-only (time-transfer) fix. Returns the innovation for NIS monitoring.
+    pub fn update_pseudorange(&mut self, rho: f64, g: f64, c: f64, r: f64) -> Option<Innovation> {
+        dense::joseph_update(&mut self.x, &mut self.p, &[g, 0.0, c, 0.0, 0.0], rho, r)
+    }
+
+    /// The full state `[pos, vel, phase, freq, b_a]`.
+    pub fn state(&self) -> [f64; 5] {
+        self.x
+    }
+    /// The full 5×5 covariance.
+    pub fn covariance(&self) -> [[f64; 5]; 5] {
+        self.p
+    }
+    /// Estimated position (m).
+    pub fn pos_est(&self) -> f64 {
+        self.x[0]
+    }
+    /// Estimated clock phase error (s).
+    pub fn phase_est(&self) -> f64 {
+        self.x[2]
+    }
+    /// Estimated accelerometer bias (m/s²).
+    pub fn accel_bias_est(&self) -> f64 {
+        self.x[Self::BIAS]
+    }
+    /// Accelerometer-bias 1-σ (m/s²).
+    pub fn accel_bias_sigma(&self) -> f64 {
+        self.p[Self::BIAS][Self::BIAS].max(0.0).sqrt()
+    }
+    /// Position↔clock-phase cross-covariance `P[pos, phase]` (m·s).
+    pub fn pos_phase_cov(&self) -> f64 {
+        self.p[0][2]
+    }
+    /// Position 1-σ (m).
+    pub fn pos_sigma(&self) -> f64 {
+        self.p[0][0].max(0.0).sqrt()
+    }
+    /// Clock-phase 1-σ (s).
+    pub fn phase_sigma(&self) -> f64 {
+        self.p[2][2].max(0.0).sqrt()
+    }
+    /// NEES `eᵀP⁻¹e` of the estimate against a truth state (χ²(5) when consistent).
+    pub fn nees(&self, truth: &[f64; 5]) -> Option<f64> {
+        let mut e = [0.0; 5];
+        for (ei, (t, x)) in e.iter_mut().zip(truth.iter().zip(self.x.iter())) {
+            *ei = t - x;
+        }
+        dense::nees(&e, &self.p)
+    }
+}
+
+// --- 3-D 8-state variant -------------------------------------------------------------
+
+/// The coupled PNT filter in three dimensions: the 8-state
+/// `x = [p_x, p_y, p_z (m), v_x, v_y, v_z (m/s), clock phase (s), clock frequency (1/s)]`.
+///
+/// Each axis is a constant-velocity block driven by white acceleration of PSD `q_va`, and the
+/// clock is the two-state model of [`CoupledPntFilter`]; the blocks share no process noise.
+/// A pseudorange `ρ = uᵀp + c·phase + noise` along the unit line of sight `u` (from the
+/// satellite to the user) has the row `H = [uᵀ, 0, 0, 0, c, 0]`, which couples the position and
+/// clock blocks exactly as the 1-DOF filter's `[g, 0, c, 0]` does; with four or more
+/// independent directions both blocks are observable from pseudoranges alone, and a clock-only
+/// fix (`u = 0`) sharpens the position through the cross-covariance.
+#[derive(Clone, Debug)]
+pub struct CoupledPnt3d {
+    x: [f64; 8],
+    p: Mat<8>,
+    q_va: f64,
+    q_wf: f64,
+    q_rw: f64,
+}
+
+impl CoupledPnt3d {
+    /// New filter at the zero state, process PSDs `q_va` (per axis), `q_wf`, `q_rw`, and
+    /// initial covariance `diag(pos_var ×3, vel_var ×3, phase_var, freq_var)`.
+    pub fn new(
+        q_va: f64,
+        q_wf: f64,
+        q_rw: f64,
+        pos_var: f64,
+        vel_var: f64,
+        phase_var: f64,
+        freq_var: f64,
+    ) -> Self {
+        let mut p = [[0.0; 8]; 8];
+        for i in 0..3 {
+            p[i][i] = pos_var;
+            p[3 + i][3 + i] = vel_var;
+        }
+        p[6][6] = phase_var;
+        p[7][7] = freq_var;
+        Self {
+            x: [0.0; 8],
+            p,
+            q_va,
+            q_wf,
+            q_rw,
+        }
+    }
+
+    /// The state-transition matrix over `dt`.
+    pub fn transition(dt: f64) -> [[f64; 8]; 8] {
+        let mut f = [[0.0; 8]; 8];
+        for (i, row) in f.iter_mut().enumerate() {
+            row[i] = 1.0;
+        }
+        for i in 0..3 {
+            f[i][3 + i] = dt;
+        }
+        f[6][7] = dt;
+        f
+    }
+
+    /// The discrete process noise over `dt` (exact for the constant-velocity and clock models).
+    pub fn process_noise(&self, dt: f64) -> [[f64; 8]; 8] {
+        let (dt2, dt3) = (dt * dt, dt * dt * dt);
+        let mut q = [[0.0; 8]; 8];
+        for i in 0..3 {
+            q[i][i] = self.q_va * dt3 / 3.0;
+            q[i][3 + i] = self.q_va * dt2 / 2.0;
+            q[3 + i][i] = self.q_va * dt2 / 2.0;
+            q[3 + i][3 + i] = self.q_va * dt;
+        }
+        q[6][6] = self.q_wf * dt + self.q_rw * dt3 / 3.0;
+        q[6][7] = self.q_rw * dt2 / 2.0;
+        q[7][6] = q[6][7];
+        q[7][7] = self.q_rw * dt;
+        q
+    }
+
+    /// Time update over `dt` (no-op for `dt <= 0`).
+    pub fn predict(&mut self, dt: f64) {
+        if dt <= 0.0 {
+            return;
+        }
+        let f = Self::transition(dt);
+        let q = self.process_noise(dt);
+        dense::propagate(&mut self.x, &mut self.p, &f, &q);
+    }
+
+    /// Pseudorange update `ρ = uᵀp + c·phase + noise` (`r` in m²); `u = 0` is a clock-only
+    /// fix. Returns the innovation for NIS monitoring.
+    pub fn update_pseudorange(
+        &mut self,
+        rho: f64,
+        u: [f64; 3],
+        c: f64,
+        r: f64,
+    ) -> Option<Innovation> {
+        let h = [u[0], u[1], u[2], 0.0, 0.0, 0.0, c, 0.0];
+        dense::joseph_update(&mut self.x, &mut self.p, &h, rho, r)
+    }
+
+    /// The full state.
+    pub fn state(&self) -> [f64; 8] {
+        self.x
+    }
+    /// The full 8×8 covariance.
+    pub fn covariance(&self) -> [[f64; 8]; 8] {
+        self.p
+    }
+    /// 3-D position 1-σ, `sqrt(tr P_pp)` (m).
+    pub fn pos_sigma_3d(&self) -> f64 {
+        (self.p[0][0] + self.p[1][1] + self.p[2][2]).max(0.0).sqrt()
+    }
+    /// Clock-phase 1-σ (s).
+    pub fn phase_sigma(&self) -> f64 {
+        self.p[6][6].max(0.0).sqrt()
+    }
+    /// NEES `eᵀP⁻¹e` against a truth state (χ²(8) when consistent).
+    pub fn nees(&self, truth: &[f64; 8]) -> Option<f64> {
+        let mut e = [0.0; 8];
+        for (ei, (t, x)) in e.iter_mut().zip(truth.iter().zip(self.x.iter())) {
+            *ei = t - x;
+        }
+        dense::nees(&e, &self.p)
     }
 }
 
