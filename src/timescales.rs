@@ -192,7 +192,7 @@ const PRE_1972_DRIFT: &[(i32, u32, f64, f64, f64)] = &[
 /// the value the two-part time path ([`crate::jd2`]) uses.
 pub fn tai_minus_utc_on_date(year: i32, month: u32, day: u32, fd: f64) -> f64 {
     let m = 12 * year as i64 + month as i64;
-    if m >= 12 * 1972 + 1 {
+    if m > 12 * 1972 {
         return tai_minus_utc(julian_date(year, month, day, 0, 0, 0.0));
     }
     let Some(&(_, _, delat, mjd_ref, rate)) = PRE_1972_DRIFT

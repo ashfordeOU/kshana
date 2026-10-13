@@ -246,7 +246,7 @@ pub fn gmst82(ut1: Jd2) -> f64 {
     const B: f64 = 8_640_184.812_866;
     const C: f64 = 0.093_104;
     const D: f64 = -6.2e-6;
-    const DS2R: f64 = 7.272_205_216_643_039_903_848_712e-5; // seconds of time to radians: 2π / 86 400
+    const DS2R: f64 = 7.272_205_216_643_04e-5; // 2π / 86 400, ERFA DS2R to f64
     let (d1, d2) = if ut1.day < ut1.frac {
         (ut1.day, ut1.frac)
     } else {
