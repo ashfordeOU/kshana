@@ -33,7 +33,7 @@
 //! correction** (the cannonball SRP model with a conical umbra+penumbra eclipse, quadratic drag
 //! against the Vallado piecewise-exponential atmosphere, and the Schwarzschild perigee-advance
 //! term). The full high-degree EGM tesseral field (a 200×200 gravity model and its coefficient
-//! loader), solar limb darkening, the Lense–Thirring frame-dragging term — and the cross-validation of a 200×200 EGM
+//! loader), the Lense–Thirring frame-dragging term — and the cross-validation of a 200×200 EGM
 //! 24-hour orbit against an external high-precision propagator (GMAT/Orekit) — remain follow-ons
 //! (see `ROADMAP.md`). By default the third-body/SRP ephemerides are the [`crate::ephem`]
 //! *low-precision* analytical series (~0.005° Sun, ~0.3° Moon); the drag density defaults to the
@@ -114,6 +114,10 @@ pub struct ForceModel {
     pub cr: f64,
     /// SRP cross-section-to-mass ratio `A/m` (m²/kg). Used only when [`srp`](Self::srp) is `true`.
     pub area_over_mass: f64,
+    /// The SRP eclipse model (opt-in refinements of the default spherical conical shadow:
+    /// the WGS-84 oblate shadow, optionally with solar limb darkening). The default leaves the
+    /// historical [`crate::forces::srp_accel`] path bit-for-bit unchanged.
+    pub srp_shadow: crate::srp_shadow::ShadowModel,
     /// Include atmospheric drag ([`crate::forces::drag_accel`], quadratic drag against the
     /// co-rotating atmosphere of [`crate::forces::atmospheric_density`]). Unlike the other terms
     /// this is **velocity-dependent**, so it is applied in [`accel_rv`](Self::accel_rv)/the RHS,
@@ -260,6 +264,12 @@ impl ForceModel {
         self.srp = true;
         self.cr = cr;
         self.area_over_mass = area_over_mass;
+        self
+    }
+
+    /// Select the SRP eclipse model (chainable; default the spherical conical shadow).
+    pub fn srp_shadow(mut self, model: crate::srp_shadow::ShadowModel) -> Self {
+        self.srp_shadow = model;
         self
     }
 
@@ -451,7 +461,18 @@ impl ForceModel {
                 let sun = sun.expect(
                     "`sun` is Some whenever `self.sun || self.srp`, and `self.srp` holds here",
                 );
-                let p = srp_accel(r, sun, self.cr, self.area_over_mass);
+                let p = match self.srp_shadow {
+                    crate::srp_shadow::ShadowModel::ConicalSphere => {
+                        srp_accel(r, sun, self.cr, self.area_over_mass)
+                    }
+                    m => crate::forces::srp_accel_with_lit_fraction(
+                        r,
+                        sun,
+                        self.cr,
+                        self.area_over_mass,
+                        m.lit_fraction(r, sun),
+                    ),
+                };
                 a = [a[0] + p[0], a[1] + p[1], a[2] + p[2]];
             }
         }
@@ -1582,6 +1603,32 @@ mod tests {
         assert_eq!(fallbacks(), 2, "the count is shared with the clone");
         assert_eq!(m.accel_at(86_400.0, r), plain.accel_at(86_400.0, r));
         assert_eq!(fallbacks(), 4);
+    }
+
+    #[test]
+    fn the_srp_shadow_model_is_opt_in_and_scales_the_srp_term() {
+        use crate::srp_shadow::ShadowModel;
+        let epoch = 2_451_545.0;
+        let base = ForceModel::two_body()
+            .third_body(false, false, epoch)
+            .solar_radiation(1.5, 0.02);
+        assert_eq!(base.srp_shadow, ShadowModel::ConicalSphere);
+        let sun = sun_position(julian_centuries_tt(epoch));
+        // A point in full sun and one deep in the umbra: every model gives 1 and 0 there.
+        let lit = [
+            sun[0] * 7.0e6 / norm(sun),
+            sun[1] * 7.0e6 / norm(sun),
+            sun[2] * 7.0e6 / norm(sun),
+        ];
+        let dark = [-lit[0], -lit[1], -lit[2]];
+        for m in [
+            ShadowModel::OblateEarth,
+            ShadowModel::OblateEarthLimbDarkened,
+        ] {
+            let opt = base.clone().srp_shadow(m);
+            assert_eq!(opt.accel_at(0.0, lit), base.accel_at(0.0, lit));
+            assert_eq!(opt.accel_at(0.0, dark), base.accel_at(0.0, dark));
+        }
     }
 
     #[test]

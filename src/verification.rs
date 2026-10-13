@@ -262,6 +262,24 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            requirement: "Oblate-Earth SRP shadow (opt-in)",
+            capability: "SRP lit fraction with the WGS-84 ellipsoid as the occulting body (apparent Earth radius from the ellipsoid limb towards the Sun, dual-disk lens formula; srp_shadow::oblate_conical_shadow), opt-in on the Cowell force model through ForceModel::srp_shadow (default: the spherical conical shadow, unchanged)",
+            module: "srp_shadow, forces (srp_accel_with_lit_fraction), propagator",
+            tests: "tests/srp_oblate_shadow_orekit_oracle.rs (2400 geometries across the shadow edge, 884 in penumbra, LEO to GEO, Sun declination 0 and +-23.44 deg, 8 azimuths: worst |dnu| 7.41e-9 for WGS-84 and 2.24e-9 for the spherical baseline; Orekit's WGS-84 and spherical ratios differ by up to 0.98, so the set discriminates oblateness); srp_shadow and propagator unit tests",
+            oracle: "Orekit 12.2 (Apache-2.0) SolarRadiationPressure.getLightingRatio with a WGS-84 and a spherical OneAxisEllipsoid occulting body, run as a separate program with the Sun fixed at the same inertial position. Bars pre-registered in xval/srp-oblate-shadow-orekit/PREREGISTRATION.md (6d6d269c): 1e-6 on both, and a > 1e-2 oblate-vs-sphere spread; all met. The ellipsoid axis is the inertial z axis on both sides (no precession-nutation)",
+            oracle_kind: ExternalDataset,
+            status: Validated,
+        },
+        VerificationItem {
+            requirement: "Solar limb-darkened SRP shadow (opt-in)",
+            capability: "SRP lit fraction as the un-occulted fraction of the limb-darkened solar flux (Eddington-approximation law I(mu)/I(1) = 2/5 + 3/5 mu, Gauss-Legendre quadrature) over a spherical or WGS-84 Earth (srp_shadow::limb_darkened_shadow, ShadowModel::OblateEarthLimbDarkened)",
+            module: "srp_shadow",
+            tests: "srp_shadow unit tests (the annular closed form, the uniform law reproducing the conical shadow, full sun and umbra limits)",
+            oracle: "None external: Orekit 12.2 has no limb-darkened lighting ratio. Checked against closed forms of the same law only",
+            oracle_kind: InternalConsistency,
+            status: Modelled,
+        },
+        VerificationItem {
             requirement: "NRLMSISE-00 thermospheric density",
             capability: "A port of the NRLMSISE-00 empirical thermosphere (gtd7 and gtd7d: species densities, total mass density with anomalous oxygen, temperatures; the 24 switches; daily-Ap and 3-hourly ap-array modes) from the public-domain C version of the NRL Fortran",
             module: "nrlmsise00",
@@ -2849,6 +2867,13 @@ pub fn validated_oracle_basis() -> Vec<OracleBasisEntry> {
             basis: Library,
             oracle_test: "tests/nrlmsise00_reference.rs",
             source: "pymsis 0.13.0",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Oblate-Earth SRP shadow (opt-in)",
+            basis: Library,
+            oracle_test: "tests/srp_oblate_shadow_orekit_oracle.rs",
+            source: "Orekit 12.2",
             flag: "",
         },
         OracleBasisEntry {
