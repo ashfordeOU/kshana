@@ -221,8 +221,9 @@ breaking changes are called out explicitly.
   named "0.36 portable" baseline with the 0.35.0 values kept as the historical record; the frozen lunar
   reference-station prediction is untouched and its portable re-run is stored beside it
   (`docs/predictions/*.portable-0.36.json`). `tests/lunar_joint_od_numpy_oracle.rs` (the validated lunar
-  joint OD row) fails until its fixtures are re-exported and its numpy comparison re-run: that is held
-  pending an owner decision.
+  joint OD row): fixtures re-exported and the numpy comparison re-run with numpy 2.4.6, the registered
+  version, script and bar unchanged; all six networks pass
+  ([`docs/revisions/STUDIO15-lunar-joint-od-oracle-rerecord.md`](docs/revisions/STUDIO15-lunar-joint-od-oracle-rerecord.md)).
 - README: the lunar suite row states each piece's evidence tier (it said all were MODELLED).
 - `realdata::clk::rinex_clock_series` returns `RinexClockSeries` (series, gridding log, time system,
   whether it was declared, record type) instead of a `(PhaseSeries, GriddingLog)` tuple. It now
