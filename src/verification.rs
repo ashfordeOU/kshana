@@ -271,6 +271,15 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            requirement: "High-degree spherical-harmonic gravity (EGM2008 to 2190)",
+            capability: "Underflow-safe, pole-safe evaluation of a fully-normalized field to degree 2190 (SphericalHarmonicField::acceleration_hf / potential_hf, Holmes-Featherstone 2002 modified forward column with the gradient free of 1/cos phi), a streaming ICGEM .gfc loader (from_gfc_file / from_gfc_reader; the full EGM2008 is fetched at run time, not bundled), and the Holmes-Featherstone evaluator selectable on the opt-in Cowell Geopotential",
+            module: "gravity_sh, propagator (FieldEvaluator)",
+            tests: "tests/gravity_sh_high_degree.rs (Orekit at 8 off-axis points: max |da| 2.2e-17 m/s^2 at N = 70, always run; 3.5e-17, 3.9e-17 and 7.3e-17 m/s^2 at N = 200, 360, 2190, data-gated on KSHANA_EGM2008_GFC); tests/cowell_tesseral_200_orekit_oracle.rs (24 h 200x200 orbit, data-gated: worst |dr| 0.1317 m, |dv| 1.45e-4 m/s; degree-70 control 0.726 m); gravity_sh unit tests (agreement with the classic evaluator to 1e-13 at degree 70, finite difference and pole continuity on a degree-2190 field, an underflowing degree-2190 term against an extended-exponent calculation)",
+            oracle: "Orekit 12.2 (Apache-2.0) HolmesFeatherstoneAttractionModel and pyshtools 4.14.1 (BSD-3-Clause) MakeGravGridPoint, run as separate programs; bars pre-registered in xval/high-degree-gravity/PREREGISTRATION.md (276c869f) and xval/cowell-tesseral-200-orekit/PREREGISTRATION.md (0aa312a6). Orekit agrees everywhere it is defined, but pyshtools misses its pre-registered bar at the two near-pole points (up to 7.3e-10 m/s^2; a 50-digit mpmath check puts the error in pyshtools), there is no oracle value exactly on the polar axis, and the 24 h orbit's pre-registered degree-70 sensitivity control missed (0.726 m against > 1 m). Each miss is recorded, not tuned away, so the row stays MODELLED",
+            oracle_kind: ExternalDataset,
+            status: Modelled,
+        },
+        VerificationItem {
             requirement: "DOP853 integrator",
             capability: "Hairer DOP853 8(5,3) explicit Runge-Kutta with the combined 5th/3rd-order error estimator, the SciPy/Hairer step controller, automatic initial step, a fail-closed step guard and 7th-order dense output; selectable as Integrator::Dop853 / propagate_dop853",
             module: "integrator, propagator",

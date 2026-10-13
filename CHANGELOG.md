@@ -11,6 +11,17 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **High-degree gravity to degree 2190 (RM-14, FUT-07).** `SphericalHarmonicField::acceleration_hf`
+  / `potential_hf` (Holmes–Featherstone modified forward column, no underflow, no polar
+  singularity), `prepare_high_degree`, a streaming ICGEM loader `from_gfc_file` / `from_gfc_reader`
+  (norm and max-degree checks, tide system recorded, time-variable terms rejected), and
+  `scripts/fetch_egm2008.sh` (full EGM2008, SHA-256 pinned, not bundled; tests gated on
+  `KSHANA_EGM2008_GFC`). `propagator::FieldEvaluator` selects it on the opt-in `Geopotential`.
+  Agrees with Orekit 12.2 to 7.3e-17 m/s² through degree 2190, and a 24 h 200×200 orbit agrees
+  to 0.13 m. MODELLED: pyshtools missed the pre-registered near-pole bar (traced to pyshtools)
+  and the orbit's degree-70 sensitivity control missed (0.73 m < 1 m); both are recorded in
+  `xval/`.
+
 - **DOP853 integrator (FUT-11).** `integrator::integrate_dop853`, `integrate_dop853_checked`,
   `integrate_dop853_dense` (7th-order dense output), `dop853_step`, `dop853_initial_step`, with a
   fail-closed step guard; `propagator::Integrator::Dop853`, `propagate_dop853`,
