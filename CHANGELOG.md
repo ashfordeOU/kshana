@@ -11,6 +11,12 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **Float PPP on real RINEX** (0.36, WP-07): `ppp_real::run_ppp`, a static float precise point
+  positioning filter on real dual-frequency GPS code and phase with IGS final products (antenna
+  offsets and variations, solid Earth tide, phase wind-up, Shapiro delay, estimated wet delay,
+  cycle-slip detection), with `parse_antex_receiver`. VALIDATED on the held-out IGS station WTZR
+  against its ITRF2020 coordinate under pre-registered bars: after 6 h the error is 1.5 mm
+  horizontal and 2.9 cm vertical, and every epoch of the last two hours is within 10 cm.
 - **SP3 precise-clock interpolation** (0.36, WP-07): `Sp3File::clock_s` and `clock_nodes`
   interpolate the tabulated SP3 satellite clocks linearly between the two bracketing valid nodes
   (bad-clock sentinel skipped), and `ClockRinex::from_sp3` feeds them to `PreciseProducts`, so
