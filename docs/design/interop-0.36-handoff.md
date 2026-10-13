@@ -31,3 +31,7 @@ session limit. Nothing here has been compared against an oracle yet; no ledger r
   packet error control and segmentation" (VALIDATED, ExternalDataset; OracleBasisEntry Library,
   source "ccsdspy 2.0.1", test tests/space_packet_ext_oracle.rs), inserted after the
   "CCSDS Space Packet (133.0) TM/TC framing" row.
+- SPK writer types 9/13, reader and OEM export (RM-30): every leg of 5059fd2 MET, kernels
+  byte-identical to SPICE's; `src/spk_writer.rs`, `tests/spk_writer_spice_oracle.rs`,
+  `xval/spk-writer-spice/RESULTS.md`. Pending ledger row: "SPICE SPK export (types 9 and 13)"
+  (VALIDATED, Library basis, source "CSPICE N0067", test tests/spk_writer_spice_oracle.rs).
