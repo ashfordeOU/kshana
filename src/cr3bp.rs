@@ -29,9 +29,11 @@
 //! NRHO (the Gateway orbit).
 //!
 //! Honest scope: this is the *circular* restricted problem (the Moon's orbit is
-//! taken circular and the Sun is neglected). The eccentric/ephemeris (DE) model
-//! and the de-normalised transform of a corrected orbit into the selenocentric
-//! MCI/MCMF frames of [`crate::lunar`] are follow-ons (see `ROADMAP.md`).
+//! taken circular and the Sun is neglected). [`to_moon_centred_icrf`] maps a rotating
+//! state to Moon-centred ICRF on the instantaneous (DE440) Earth–Moon line, and
+//! [`crate::lunar::try_mci_to_mcmf_de440`] carries the position on to the lunar body-fixed
+//! frame. That maps states; an eccentric/ephemeris-model correction of the orbit itself
+//! is a follow-on (see `ROADMAP.md`).
 //!
 //! **References.** The synodic-frame equations of motion, the Jacobi integral and
 //! the Lagrange equilibria are the classical results of Szebehely, *Theory of
@@ -419,12 +421,169 @@ pub fn differential_correct_halo(
     None
 }
 
+/// The instantaneous Earth–Moon rotating frame at an epoch, from the geocentric Moon state
+/// `[r_m, v_m, a_m]` (m, m/s, m/s², ICRF): the rotation `C` (columns: the rotating axes in ICRF,
+/// `x` along `r_m`, `z` along `r_m × v_m`), the length unit `l = |r_m|`, the rate
+/// `ω = |r_m × v_m| / l²`, `l̇ = r_m·v_m / l`, and the frame's out-of-plane angular rate about
+/// `x`, `Ω_x = l (a_m·e_z) / |r_m × v_m|`.
+fn earth_moon_frame(moon_geo: &[[f64; 3]; 3]) -> ([[f64; 3]; 3], f64, f64, f64, f64) {
+    let (r, v, a) = (moon_geo[0], moon_geo[1], moon_geo[2]);
+    let dot = |a: [f64; 3], b: [f64; 3]| a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+    let cross = |a: [f64; 3], b: [f64; 3]| {
+        [
+            a[1] * b[2] - a[2] * b[1],
+            a[2] * b[0] - a[0] * b[2],
+            a[0] * b[1] - a[1] * b[0],
+        ]
+    };
+    let l = dot(r, r).sqrt();
+    let h = cross(r, v);
+    let hn = dot(h, h).sqrt();
+    let ex = [r[0] / l, r[1] / l, r[2] / l];
+    let ez = [h[0] / hn, h[1] / hn, h[2] / hn];
+    let ey = cross(ez, ex);
+    let c = [
+        [ex[0], ey[0], ez[0]],
+        [ex[1], ey[1], ez[1]],
+        [ex[2], ey[2], ez[2]],
+    ];
+    (c, l, hn / (l * l), dot(r, v) / l, l * dot(a, ez) / hn)
+}
+
+/// Map a nondimensional CR3BP rotating state (barycentre origin, Moon at `(1 − μ, 0, 0)`) to a
+/// **Moon-centred ICRF** (MCI) position and velocity (m, m/s) on the instantaneous Earth–Moon
+/// line given by the geocentric Moon state `moon_geo` = `[r_m, v_m, a_m]` (m, m/s, m/s², ICRF).
+///
+/// The map is the "pulsating" one: the length unit is the instantaneous Earth–Moon distance
+/// `l`, the time unit `1/ω` with `ω` the instantaneous orbital rate, and with
+/// `ρ = (x − (1 − μ), y, z)`: `r = l C ρ`, `v = C (l̇ ρ + l ω v_nd + l Ω × ρ)`, where
+/// `Ω = (Ω_x, 0, ω)` is the frame's angular velocity in rotating axes (`Ω_x` from the Moon's
+/// out-of-plane acceleration, about 1e-8 rad/s; pass `a_m = 0` for the in-plane approximation,
+/// which is off by 0.1 to 1 m/s at cislunar distances). The axes are
+/// those of a SPICE two-vector frame (primary +X along the Moon's geocentric position,
+/// secondary +Y along its velocity), against which it is checked in
+/// `tests/cr3bp_to_mci_spice_oracle.rs`. It maps states; it does not make a CR3BP orbit an
+/// ephemeris-model orbit.
+pub fn to_moon_centred_icrf(
+    s: &Cr3bpState,
+    mu: f64,
+    moon_geo: &[[f64; 3]; 3],
+) -> ([f64; 3], [f64; 3]) {
+    let (c, l, w, ldot, ox) = earth_moon_frame(moon_geo);
+    let rho = [s.r[0] - (1.0 - mu), s.r[1], s.r[2]];
+    // Ω × ρ with Ω = (Ω_x, 0, ω): (−ω ρ_y, ω ρ_x − Ω_x ρ_z, Ω_x ρ_y)
+    let vr = [
+        ldot * rho[0] + l * w * s.v[0] - l * w * rho[1],
+        ldot * rho[1] + l * w * s.v[1] + l * (w * rho[0] - ox * rho[2]),
+        ldot * rho[2] + l * w * s.v[2] + l * ox * rho[1],
+    ];
+    let mv = |m: &[[f64; 3]; 3], x: [f64; 3]| {
+        [
+            m[0][0] * x[0] + m[0][1] * x[1] + m[0][2] * x[2],
+            m[1][0] * x[0] + m[1][1] * x[1] + m[1][2] * x[2],
+            m[2][0] * x[0] + m[2][1] * x[1] + m[2][2] * x[2],
+        ]
+    };
+    let rd = mv(&c, [l * rho[0], l * rho[1], l * rho[2]]);
+    (rd, mv(&c, vr))
+}
+
+/// Inverse of [`to_moon_centred_icrf`]: a Moon-centred ICRF state (m, m/s) back to the
+/// nondimensional rotating state on the same instantaneous Earth–Moon line.
+pub fn from_moon_centred_icrf(
+    r: [f64; 3],
+    v: [f64; 3],
+    mu: f64,
+    moon_geo: &[[f64; 3]; 3],
+) -> Cr3bpState {
+    let (c, l, w, ldot, ox) = earth_moon_frame(moon_geo);
+    let mtv = |m: &[[f64; 3]; 3], x: [f64; 3]| {
+        [
+            m[0][0] * x[0] + m[1][0] * x[1] + m[2][0] * x[2],
+            m[0][1] * x[0] + m[1][1] * x[1] + m[2][1] * x[2],
+            m[0][2] * x[0] + m[1][2] * x[1] + m[2][2] * x[2],
+        ]
+    };
+    let rr = mtv(&c, r);
+    let vr = mtv(&c, v);
+    let rho = [rr[0] / l, rr[1] / l, rr[2] / l];
+    let k = l * w;
+    Cr3bpState {
+        r: [rho[0] + (1.0 - mu), rho[1], rho[2]],
+        v: [
+            (vr[0] - ldot * rho[0] + l * w * rho[1]) / k,
+            (vr[1] - ldot * rho[1] - l * (w * rho[0] - ox * rho[2])) / k,
+            (vr[2] - ldot * rho[2] - l * ox * rho[1]) / k,
+        ],
+    }
+}
+
+/// [`to_moon_centred_icrf`] on the DE440 Earth–Moon line: the geocentric Moon state is read
+/// from a JPL SPK (`kernel`, which must hold the Moon and the Earth) at the TDB Julian date
+/// `jd_tdb`.
+///
+/// # Errors
+/// When the kernel does not cover the epoch or lacks a body.
+pub fn to_moon_centred_icrf_de440(
+    s: &Cr3bpState,
+    mu: f64,
+    kernel: &crate::ephem_provider::KernelEphemeris,
+    jd_tdb: f64,
+) -> Result<([f64; 3], [f64; 3]), String> {
+    use crate::ephem_provider::naif_code::{EARTH, MOON};
+    let st = kernel.state(MOON, EARTH, crate::jd2::Jd2::new(jd_tdb))?;
+    Ok(to_moon_centred_icrf(s, mu, &st))
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
 
     fn norm(v: [f64; 3]) -> f64 {
         (v[0] * v[0] + v[1] * v[1] + v[2] * v[2]).sqrt()
+    }
+
+    #[test]
+    fn moon_centred_map_round_trips_and_sends_the_moon_to_the_origin() {
+        let moon = [
+            [3.6e8, 1.2e8, 4.0e7],
+            [-300.0, 950.0, 80.0],
+            [-2.4e-3, -8.0e-4, 3.0e-5],
+        ];
+        let mu = EARTH_MOON_MU;
+        let s = Cr3bpState {
+            r: [1.1, 0.03, -0.2],
+            v: [0.01, -0.2, 0.05],
+        };
+        let (r, v) = to_moon_centred_icrf(&s, mu, &moon);
+        let back = from_moon_centred_icrf(r, v, mu, &moon);
+        for k in 0..3 {
+            assert!((back.r[k] - s.r[k]).abs() < 1e-12);
+            assert!((back.v[k] - s.v[k]).abs() < 1e-12);
+        }
+        // The Moon point maps to the origin; the Earth point to minus the geocentric Moon, with
+        // minus its velocity (the barycentre is not the origin here, the Moon is).
+        let (rm, vm) = to_moon_centred_icrf(
+            &Cr3bpState {
+                r: [1.0 - mu, 0.0, 0.0],
+                v: [0.0; 3],
+            },
+            mu,
+            &moon,
+        );
+        assert!(rm.iter().all(|x| x.abs() < 1e-6) && vm.iter().all(|x| x.abs() < 1e-12));
+        let (re, ve) = to_moon_centred_icrf(
+            &Cr3bpState {
+                r: [-mu, 0.0, 0.0],
+                v: [0.0; 3],
+            },
+            mu,
+            &moon,
+        );
+        for k in 0..3 {
+            assert!((re[k] + moon[0][k]).abs() < 1e-6 * 3.6e8);
+            assert!((ve[k] + moon[1][k]).abs() < 1e-9 * 1e3);
+        }
     }
 
     #[test]

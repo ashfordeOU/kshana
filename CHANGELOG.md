@@ -11,6 +11,12 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **CR3BP rotating states to Moon-centred ICRF** (RM-34, FUT-06): `cr3bp::to_moon_centred_icrf`
+  / `from_moon_centred_icrf` / `to_moon_centred_icrf_de440` map a nondimensional Earth-Moon
+  rotating state onto the instantaneous DE440 Earth-Moon line, including the frame's
+  out-of-plane rate. New row, VALIDATED against a SPICE two-vector frame (pre-registered
+  2313eb1b, amended before any run d5ef79b3; 72 cases, worst 1.8e-7 m and 1.2e-9 m/s).
+
 - **CR3BP family members against the JPL Three-Body Periodic Orbits API: NOT MET** (RM-35,
   pre-registered a9074f65). `cr3bp_family` (halo, NRHO and DRO correction, monodromy stability
   index, pseudo-arclength continuation) matches 54 of 58 API members on every bar (state,
