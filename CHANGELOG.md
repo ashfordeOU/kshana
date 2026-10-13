@@ -11,6 +11,13 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **Coupled PNT filter in the fusion pack** (0.36, WP-09, FUT-16): the `fusion` kind takes an
+  optional `[coupled]` table that runs one stacked filter on pseudoranges with an accelerometer
+  bias state (`fusion::coupled::CoupledPntBiasFilter`), and `fusion::coupled::CoupledPnt3d` is
+  the 3-D 8-state version. New bundled scenario `fusion-pnt-coupled`: with biased
+  accelerometers the coupled mode holds the quantum suite's position to 18.7 m (95th percentile)
+  with full integrity, where the decoupled filters reach 430 m. Without the table both `fusion`
+  and `hybrid` are unchanged (pinned); `hybrid` refuses the table. MODELLED.
 - **Maritime, rail and aviation GNSS/INS packs** (0.36, WP-09, RM-21): bundled scenarios
   `gnss-ins-maritime`, `gnss-ins-rail` and `gnss-ins-aviation` on the trajectory library, and an
   optional `[tight]` table for the `gnss-ins` kind that fuses pseudoranges from an SGP4 Walker

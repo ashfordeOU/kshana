@@ -985,7 +985,7 @@ pub fn list_scenario_kinds() -> Vec<ScenarioMeta> {
         ScenarioMeta { name: "quantum-gnss-free-nav", description: "MODELLED GNSS-free quantum navigation: during a GNSS outage, a quantum (cold-atom interferometer) inertial budget vs a classical navigation-grade INS — position-error growth over the coast, holdover to a position threshold, and the quantum-vs-classical trade as honest TradeEvidence with representativeness. Honest observability note: with no external fix the accelerometer bias is unobservable so the error grows; the quantum sensor slows but does not close that gap. Illustrative public-source device params; models the class, no TRL/flight/certification.", required_fields: &[], optional_fields: &["outage_s", "threshold_m", "quantum_bias_m_s2", "classical_bias_m_s2"] },
         ScenarioMeta { name: "quantum-time-transfer", description: "MODELLED trusted-quantum-timing chain: an end-to-end quantum (optical-lattice clock + entanglement/single-photon link) vs classical (CSAC + RF two-way) time-transfer budget, a reused timing protection level + a delay/replay-attack security FoM (1-P_md), a clock-anomaly detection probability + CUSUM latency, and the quantum-vs-classical trade as honest TradeEvidence with a representativeness + gaps-to-flight record. Illustrative public-source device/link params; models the class, no TRL/flight/certification claimed.", required_fields: &[], optional_fields: &["integration_s", "dissemination_interval_s", "link_loss_db", "classical_link_sigma_s", "monitor_pfa", "attack_delay_s", "clock_fault_sigma"] },
         ScenarioMeta { name: "hybrid", description: "Hybrid PNT capstone: clock + IMU + time-transfer aiding.", required_fields: &["seed", "timing_spec_ns", "position_spec_m", "time", "gnss", "resync", "clock_quantum", "clock_classical", "accel_quantum", "accel_classical"], optional_fields: &[] },
-        ScenarioMeta { name: "fusion", description: "Joint Kalman sensor-fusion PNT over the same hybrid inputs.", required_fields: &["seed", "timing_spec_ns", "position_spec_m", "time", "gnss", "resync", "clock_quantum", "clock_classical", "accel_quantum", "accel_classical"], optional_fields: &[] },
+        ScenarioMeta { name: "fusion", description: "Joint Kalman sensor-fusion PNT over the same hybrid inputs.", required_fields: &["seed", "timing_spec_ns", "position_spec_m", "time", "gnss", "resync", "clock_quantum", "clock_classical", "accel_quantum", "accel_classical"], optional_fields: &["coupled"] },
         ScenarioMeta { name: "hybrid-ukf", description: "17-state hybrid quantum+classical tightly-coupled GNSS/INS UKF (MODELLED): 15 INS error states + CAI-derived accel-bias correction + a 2-state (phase+frequency) clock from the q-parameter clock engine, driven by the bracketed CAI error model. The figure of merit is filter self-consistency (NEES + innovation-whiteness vs χ² bounds) — a self-consistency statement, NOT a real-world accuracy guarantee. Simulation only; no TRL>3, no flight heritage, no external validation.", required_fields: &["seed", "time", "gnss", "accel", "clock"], optional_fields: &["residual_accel_bias_m_s2", "speed_m_s", "sigma_pr_m", "sigma_rr_mps", "consistency_seeds", "q_factor", "r_factor"] },
         ScenarioMeta { name: "gnss-ins", description: "Loosely- and tightly-coupled GNSS/INS error-state EKF.", required_fields: &["seed", "threshold_m", "time", "gnss", "imu_quantum", "imu_classical"], optional_fields: &["fix_interval_s", "sigma_pos_m", "sigma_vel_mps", "lat_deg", "lon_deg", "alt_m", "trajectory", "tight"] },
         ScenarioMeta { name: "gnss-sim", description: "Measurement-domain pseudorange simulation (Klobuchar iono, Saastamoinen/Niell tropo) + RAIM.", required_fields: &["seed", "time", "receiver", "constellation"], optional_fields: &["iono", "tropo", "mask_deg", "noise_sigma_m", "multipath_m", "sat_clock_rms_m", "uere_m", "p_fa", "p_md", "alert_limit_h_m", "alert_limit_v_m", "skyline"] },
@@ -1866,6 +1866,9 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
             let scn: crate::hybrid::HybridScenario =
                 toml::from_str(src).map_err(|e| format!("invalid hybrid scenario: {e}"))?;
             scn.time.validate()?;
+            if scn.coupled.is_some() {
+                return Err("[coupled] applies to the fusion kind only".into());
+            }
             let r = crate::hybrid::run_hybrid(&scn);
             let summary = format!(
                 "scenario {} | quantum PNT-holdover {:.0}s (t {:.0}s/p {:.0}s) integrity {} security {} | classical PNT-holdover {:.0}s (t {:.0}s/p {:.0}s) integrity {} security {}",
@@ -1889,6 +1892,9 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
             let scn: crate::hybrid::HybridScenario =
                 toml::from_str(src).map_err(|e| format!("invalid fusion scenario: {e}"))?;
             scn.time.validate()?;
+            if let Some(cc) = &scn.coupled {
+                cc.validate()?;
+            }
             let r = crate::fusion::run_fusion(&scn);
             let summary = format!(
                 "scenario {} | fused | quantum PNT-holdover {:.0}s (t {:.0}s/p {:.0}s) integrity {} security {} | classical PNT-holdover {:.0}s (t {:.0}s/p {:.0}s) integrity {} security {}",
