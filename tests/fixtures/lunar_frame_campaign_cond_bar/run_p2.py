@@ -52,7 +52,12 @@ def one(inp):
     a = np.array(inp["helmert_design"])
     n_b = a.shape[0] // 3
     rel_tol = inp["rel_tol"]
-    p2 = g.campaign_summary(jac, w, n_sc, n_b, a, rel_tol)
+    try:
+        p2 = g.campaign_summary(jac, w, n_sc, n_b, a, rel_tol)
+        p2 = {key: p2[key] for key in KEEP}
+    except np.linalg.LinAlgError as e:
+        # The unchanged oracle cannot evaluate this scenario; recorded, never substituted.
+        p2 = {"error": "LinAlgError: %s" % e}
     f = jac.T @ (w[:, None] * jac)
     t_mat = np.zeros((n_sc + 3 * n_b, n_sc + 7))
     t_mat[:n_sc, :n_sc] = np.eye(n_sc)
@@ -67,7 +72,7 @@ def one(inp):
         "kappa_TtFT": k_tft,
         "kappa": k,
         "t": max(1e-12, S * k * U),
-        "p2": {key: p2[key] for key in KEEP},
+        "p2": p2,
     }
 
 

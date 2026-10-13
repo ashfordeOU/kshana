@@ -14,7 +14,9 @@ Fixture of `tests/lunar_frame_campaign_cond_bar_oracle.rs`; pre-registration
   `../lunar_vlbi_campaign_spice_oracle/gen_reference.py` unmodified and runs it on the engine's
   committed Jacobians of all eight scenarios, with the condition ingredient of the bar from
   `numpy.linalg.eigvalsh`. No SPICE call. Calls no Kshana code.
-- `reference.json`: the output of `run_p2.py` (NumPy and SciPy versions inside), added with the
-  result.
+- `reference.json`: the output of `run_p2.py`, run once on 2026-10-13 (NumPy 2.5.4, SciPy
+  1.18.1, spiceypy 8.3.0 only imported), SHA-256 `b0a7eec6c54d36926dea27a7cfe6281b91333a58e85eb5d09eb747ba602a53f3`. The unchanged oracle raised
+  `LinAlgError` on `stations_estimated_fresh`; the wrapper records that as an `error` entry and
+  substitutes nothing.
 - Tools: NumPy and SciPy (BSD-3-Clause), spiceypy only imported by the unmodified module
   (MIT), run as separate programs; nothing is linked into kshana.
