@@ -314,8 +314,11 @@ within 1.9e-6 relative of pymsis, the 17 published test cases reproduced; `tests
 and is an opt-in drag-density tier (`forces::DensityModel`, `ForceModel::drag_density`; the default
 stays the static Vallado model). This validates the port, not the model's accuracy against measured
 density. DE440 (DE: Development Ephemeris) Sun and Moon are an opt-in ephemeris tier
-(`ForceModel::with_ephemeris`). Solar limb darkening / the oblate-Earth shadow, an external
-cross-validation of the drag tier, and a GMAT (General Mission Analysis Tool) cross-check remain follow-ons.
+(`ForceModel::with_ephemeris`). The WGS-84 oblate-Earth SRP shadow is opt-in
+(`ForceModel::srp_shadow`), agreeing with Orekit 12.2's lighting ratio within 7.4e-9 over 2400
+geometries (`tests/srp_oblate_shadow_orekit_oracle.rs`); its limb-darkened variant has no external
+oracle (MODELLED). An external cross-validation of the drag tier and a GMAT (General Mission Analysis
+Tool) cross-check remain follow-ons.
 
 ## Tides on the geopotential (`src/tides.rs`)
 

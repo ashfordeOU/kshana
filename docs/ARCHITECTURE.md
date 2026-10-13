@@ -747,7 +747,7 @@ per-capability roadmap in [CAPABILITY](CAPABILITY.md): a higher-degree (e.g. 200
 **tesseral** field and loader beyond the shipped degree/order-70 path, a time-varying space-weather
 driver for the opt-in NRLMSISE-00 (NRLMSISE: Naval Research Laboratory Mass Spectrometer and Incoherent Scatter Radar Extended atmosphere model) drag-density tier (the default drag density is the static exponential
 model, and the `space-weather` kind's Jacchia-71 density is characterised against NRLMSISE-00 but not
-replaced by it), solar limb darkening / the oblate-Earth shadow, carrier-phase GNSS/INS
+replaced by it), an external check of the opt-in solar limb-darkening shadow, carrier-phase GNSS/INS
 tight coupling, and a real EGM2008/EIGEN (EIGEN: European Improved Gravity model of the
 Earth by New techniques) gravity map for the alt-PNT matcher.
 

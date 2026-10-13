@@ -11,6 +11,13 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **Oblate-Earth SRP shadow and solar limb darkening (FUT-09, RM-11).** New `srp_shadow` module:
+  `oblate_conical_shadow` (WGS-84 occulting ellipsoid), `limb_darkened_shadow` (Eddington law), and
+  `ShadowModel`, selected with `ForceModel::srp_shadow` (default: the existing spherical conical
+  shadow, unchanged); `forces::srp_accel_with_lit_fraction`. The oblate shadow agrees with Orekit
+  12.2's lighting ratio within 7.4e-9 over 2400 geometries (VALIDATED,
+  `xval/srp-oblate-shadow-orekit/`); limb darkening has no external oracle (MODELLED).
+
 - **NRLMSISE-00 thermosphere (FUT-08, RM-10, DS-PA-13).** `nrlmsise00`: a port of `gtd7` and
   `gtd7d` (switches, daily-Ap and 3-hourly ap-array modes) from the public-domain C version of the
   NRL Fortran. It is bit-identical to that C port and within 1.9e-6 relative of pymsis 0.13.0

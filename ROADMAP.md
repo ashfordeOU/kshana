@@ -102,8 +102,10 @@ A validated, fully reproducible engine spanning the PNT (positioning, navigation
   textbook `≈1.9·10⁻⁹` LEO ratio to two-body, and the conservative signature (it perturbs the orbit
   but, unlike drag, holds the semi-major axis to under a metre/day). The NRLMSISE-00 (NRLMSISE: Naval Research Laboratory Mass Spectrometer and Incoherent Scatter Radar Extended atmosphere model) thermospheric density is
   ported (bit-identical to the reference C port, within 1.9e-6 of pymsis) and opt-in as a drag-density
-  tier (`forces::DensityModel`). High-degree tesseral gravity, solar limb darkening / the oblate-Earth
-  shadow, the Lense–Thirring frame-dragging term, and external GMAT/Orekit cross-validation remain follow-ons.
+  tier (`forces::DensityModel`). The WGS-84 oblate-Earth SRP shadow is opt-in (`srp_shadow::ShadowModel`,
+  within 7.4e-9 of Orekit 12.2's lighting ratio), with an optional solar limb-darkening variant (MODELLED).
+  High-degree tesseral gravity, the Lense–Thirring frame-dragging term, and external GMAT/Orekit
+  cross-validation remain follow-ons.
 - **Time systems** — IERS leap-second UTC/TAI/TT/UT1 (UTC: Coordinated Universal Time; TAI: International Atomic Time; TT: Terrestrial Time; UT1: Universal Time 1, Earth-rotation time), Julian-date API (application programming interface), IAU-2000 (IAU: International Astronomical Union)
   Earth Rotation Angle; GMST-based (GMST: Greenwich mean sidereal time) TEME↔ECEF (TEME: true equator, mean equinox; ECEF: Earth-centred, Earth-fixed) and WGS-84 (WGS: World Geodetic System) geodetic frames.
 - **Inertial** — three-axis strapdown INS (quaternion attitude, NED (north-east-down) mechanization,
@@ -246,7 +248,7 @@ welcome collaboration: see [Support & professional services](README.md#support--
   against the co-rotating `forces::atmospheric_density` Vallado exponential model +
   `ForceModel::drag` + the new `ForceModel::accel_rv` / velocity-passing RHS), and the
   `propagator::propagate` wiring are delivered (`src/forces.rs`, `src/propagator.rs`); the
-  high-degree tesseral field and solar limb darkening remain — to complement the analytic
+  high-degree tesseral field remains — to complement the analytic
   SGP4/SDP4 path; NRLMSISE-00 is an opt-in drag-density tier. DE440 Sun and Moon for the third-body and
   SRP terms are an opt-in tier (`ForceModel::with_ephemeris` over a `KernelEphemeris`); its 24 h
   orbits agree with Orekit 12.2 to 0.017 m, but the pre-registered Sun/Moon position bar missed

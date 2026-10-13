@@ -485,6 +485,33 @@ pub fn shadow_angles(r: Vec3, s: Vec3, earth: OccultingShape) -> Option<(f64, f6
     }
 }
 
+/// The SRP eclipse model a force model uses: the historical spherical conical shadow (the
+/// default), the WGS-84 oblate shadow, or the oblate shadow with solar limb darkening.
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+pub enum ShadowModel {
+    /// [`crate::forces::conical_shadow`]: a spherical Earth, a uniformly bright Sun. The default.
+    #[default]
+    ConicalSphere,
+    /// [`oblate_conical_shadow`] with the ellipsoid axis along the inertial z axis.
+    OblateEarth,
+    /// [`limb_darkened_shadow`] over the WGS-84 ellipsoid (axis along inertial z), Eddington law.
+    OblateEarthLimbDarkened,
+}
+
+impl ShadowModel {
+    /// The lit fraction `ν ∈ [0, 1]` of a satellite at `r` with the Sun at `s` (geocentric
+    /// inertial metres).
+    pub fn lit_fraction(&self, r: Vec3, s: Vec3) -> f64 {
+        match self {
+            ShadowModel::ConicalSphere => crate::forces::conical_shadow(r, s),
+            ShadowModel::OblateEarth => oblate_conical_shadow(r, s, None),
+            ShadowModel::OblateEarthLimbDarkened => {
+                limb_darkened_shadow(r, s, OccultingShape::Wgs84 { rot: None })
+            }
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
