@@ -11,6 +11,12 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **Cold-atom interferometer error terms** (RM-26/27/28): Raman laser-phase noise (with the
+  retro-reflection delay term), the wavefront-curvature bias of a thermal cloud (pure defocus,
+  with a detection radius) and fringe-ambiguity resolution (classical-aided and two
+  interrogation times), as library functions in `src/inertial/cai_error_terms.rs`, each closed
+  form checked against quadrature or Monte Carlo. MODELLED; not yet reachable from a scenario
+  kind ([`docs/QUANTUM-MODELS.md`](docs/QUANTUM-MODELS.md)).
 - **Clock-log formats** (RM-03): `src/clock_log.rs` reads RINEX clock files, TimeLab-style
   ASCII phase or frequency logs and TAPR TICC counter logs into one normalised phase series
   (tau0 stated or found, gaps counted, a gap policy). Opt-in: a telecom-timing series can name
