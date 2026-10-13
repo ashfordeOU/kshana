@@ -29,8 +29,8 @@ breaking changes are called out explicitly.
   is stated, never fitted, and the fitted parameter is `delta_eff = delta - 10 log10 Q` (design
   amendment 2026-10-12). An unknown jammer type takes the most damaging stated `Q` (cw, 1). On
   synthetic campaigns from Kshana's own scenes, the hold-out coverage bar (c) passes. The
-  `delta_eff` recovery bar (a') and the closed-form threshold bar (d) fail, and are recorded with
-  their values. MODELLED; ledger row "Calibration of the open receiver's C/N0 and lock models to
+  `delta_eff` bars (a') and (b') (0 of 50 campaigns covered) and the closed-form threshold bar
+  (d) are not met: they are recorded with their values. MODELLED; ledger row "Calibration of the open receiver's C/N0 and lock models to
   IQ campaign results, with stated prediction error". The receiver-log labfit path and its
   outputs are unchanged.
 - **Lunar reference-station study** (0.36, prompted by published material on a planned lunar

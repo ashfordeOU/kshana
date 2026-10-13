@@ -479,10 +479,10 @@ jobs:
   # Lab fit from IQ campaigns (docs/design/LABFIT-FROM-IQ.md, section 13): the synthetic
   # campaigns are tracked from Kshana's own scenes and need a release build. The `check`
   # job's debug `cargo test --all` skips these tests (cfg_attr(debug_assertions, ignore)),
-  # and this job runs them: hold-out coverage (c), the report, bootstrap reproducibility,
-  # and the 2-campaign CI subset of bar (b'). Measured cost: tracking about 3 min, the
-  # 1000-replicate fit with hold-outs about 26 min, the subset about 6 min. The 50-campaign
-  # full set of (b') and the bars recorded as FINDINGs run before release with --ignored.
+  # and this job runs them: hold-out coverage (c), the report and bootstrap reproducibility.
+  # Measured cost: tracking about 3 min, the 1000-replicate fit with hold-outs about 26 min.
+  # The bars recorded as FINDINGs (a', d, and the 2-campaign subset of b') and the
+  # 50-campaign full set of (b') run before release with --ignored.
   # ---------------------------------------------------------------------------
   labfit-iq:
     runs-on: ubuntu-latest
