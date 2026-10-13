@@ -38,6 +38,12 @@
 //! `docs/design/evidence/cr3bp-families/PREREGISTRATION.md` and run by
 //! `tests/cr3bp_families_jpl_oracle.rs`.
 //!
+//! **Status (0.36): not validated; hidden from the documented API.** On the pre-registered 58
+//! members, 54 meet every bar (state, period and Jacobi within 1e-10 of the API everywhere), but
+//! one L1 halo stability index is 9.5e-2 off and three small DROs close to only 1.5e-8 to
+//! 3.3e-8 against a 1e-8 bar, so no ledger row claims this module. The continuation routines
+//! are checked only internally.
+//!
 //! **References.** Howell, *Three-dimensional periodic halo orbits* (1984), for the
 //! symmetric single-shooting scheme; Keller (1977) / Doedel et al. for pseudo-arclength
 //! continuation; Wilkinson & Reinsch, *Handbook for Automatic Computation* vol. II (1971),

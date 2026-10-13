@@ -11,6 +11,13 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **CR3BP family members against the JPL Three-Body Periodic Orbits API: NOT MET** (RM-35,
+  pre-registered a9074f65). `cr3bp_family` (halo, NRHO and DRO correction, monodromy stability
+  index, pseudo-arclength continuation) matches 54 of 58 API members on every bar (state,
+  period and Jacobi within 1e-10 everywhere). One L1 halo stability index (9.5e-2) and three
+  small-DRO closures (1.5e-8 to 3.3e-8 against 1e-8) miss, so the module is `#[doc(hidden)]`
+  and no row claims it. Results: `docs/design/evidence/cr3bp-families/RESULTS.md`.
+
 - **Opt-in DE440 lunar orientation and environment** (FUT-05, DS-LRO-08; defaults unchanged):
   `lunar_frame::try_icrf_to_moon_pa_de440`, `lunar::try_mci_to_mcmf_de440` /
   `try_mcmf_to_mci_de440` (epoch-anchored, DE440 principal axes) and
