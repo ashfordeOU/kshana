@@ -32,9 +32,10 @@
 //! as well as position, neglecting the ~7e-12 rad/s precession-nutation frame
 //! rotation (a < 1e-4 m/s error at orbital speeds). The nutation series match the
 //! SOFA/ERFA `nut00a`/`nut00b` vectors, and the composed GCRS→ITRS reduction is
-//! cross-checked against ANISE in `xval/anise-frames`; a direct ERFA vector check of
-//! [`teme_to_gcrs`] is not yet in the suite, and the celestial-pole offsets dX/dY are
-//! neglected.
+//! cross-checked against ANISE in `xval/anise-frames`; [`teme_to_gcrs_matrix`] is checked
+//! directly against ERFA at 40 epochs 1950–2100 (`tests/frames_erfa_vector_oracle.rs`, worst
+//! 1.1e-10 rad, the two-term equation-of-the-equinoxes truncation). The celestial-pole offsets
+//! dX/dY are applied only on the CIO path ([`crate::cio::gcrs_to_cirs_matrix_with_offsets`]).
 
 use crate::precession::{
     fw_angles, mat_vec, matmul, precession_matrix, rx, rz, transpose, Mat3, Vec3,
