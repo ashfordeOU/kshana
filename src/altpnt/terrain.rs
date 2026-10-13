@@ -1422,8 +1422,13 @@ mod tests {
                 csv.push_str(&format!("{j},{i},{lon},{lat},{v},{v},19,5.0\n"));
             }
         }
-        let path =
-            std::env::temp_dir().join(format!("kshana-emag2-synthetic-{}.csv", std::process::id()));
+        // Unique per call: library tests run as threads of one process.
+        static CALL: std::sync::atomic::AtomicU64 = std::sync::atomic::AtomicU64::new(0);
+        let call = CALL.fetch_add(1, std::sync::atomic::Ordering::Relaxed);
+        let path = std::env::temp_dir().join(format!(
+            "kshana-emag2-synthetic-{}-{call}.csv",
+            std::process::id()
+        ));
         std::fs::write(&path, csv).expect("temp grid written");
 
         let mut gcfg = cfg.clone();
