@@ -31,7 +31,7 @@ fn read(dir: &str, name: &str) -> String {
 
 const DIR: &str = "gnss_wettzell_2025055";
 /// The WTZR header position, used only to reject a mis-converted oracle file.
-const NEAR: [f64; 3] = [4_075_580.8863, 931_853.5784, 4_801_567.9707];
+const NEAR: [f64; 3] = [4_075_580.886_3, 931_853.578_4, 4_801_567.970_7];
 
 fn products() -> PreciseProducts {
     let sp3 = parse_sp3(&read("sp3_clock_igs_oracle", "igs_2025055_G.sp3")).unwrap();
