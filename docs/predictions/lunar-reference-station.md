@@ -117,3 +117,24 @@ Not a claim about any real system, its performance or its design; not a validati
 not endorsed or reviewed by any agency. Omitted from the model: terrain and horizon masking at the
 pole, multipath, receiver hardware, and the growth of the ephemeris error over the correction
 latency beyond the line-of-sight re-projection.
+
+## Portable-maths re-run (0.36), added 2026-10-13
+
+Nothing above is changed: the frozen TOMLs, the frozen results and their hashes are the record of
+the pre-registration. They were produced by the 0.35 engine on the host's maths library, and the
+0.36 engine (STUDIO-15, [`docs/revisions/STUDIO15-portable-math-rebaseline.md`](../revisions/STUDIO15-portable-math-rebaseline.md))
+computes with portable maths, so it no longer reproduces those bytes. The frozen result files are
+therefore historical: `tests/prediction_frozen.rs` checks that they have not moved, by SHA-256.
+
+The same frozen inputs run on the 0.36 engine are stored beside them, labelled:
+
+| Item | Value |
+|---|---|
+| Region re-run | [`lunar-reference-station.region.portable-0.36.json`](lunar-reference-station.region.portable-0.36.json), SHA-256 `98f47ded34f8f9606f812a4f8f87c15abe31789cbbc17025f04cf77e4e8e3cb1` |
+| Points re-run | [`lunar-reference-station.points.portable-0.36.json`](lunar-reference-station.points.portable-0.36.json), SHA-256 `766c2c7abc492a1ec7edea36ac74f93217e4b45fdb9dc1c18735a5de45aad330` |
+| Agreement with the frozen results | same shape, every number within a relative 1e-6 (largest 2.3e-7 region, 4.3e-8 points) |
+
+The re-runs are byte-identical on native and `wasm32`, and `tests/prediction_frozen.rs` pins both
+the hashes and the agreement. Every figure printed above is unchanged at the precision printed,
+and no bar, threshold or prediction is changed: the 1 m at p95 coverage threshold gives 0.0 %
+before and after.
