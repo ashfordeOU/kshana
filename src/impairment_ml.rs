@@ -261,7 +261,7 @@ impl Mlp {
     ) -> (Self, Vec<f64>) {
         use rand::SeedableRng;
         use rand_chacha::ChaCha8Rng;
-        use rand_distr::{Distribution, Normal};
+        use crate::portable_distr::{Distribution, Normal};
 
         let h = hidden.max(1);
         let std = Standardizer::fit(train);
@@ -425,7 +425,7 @@ mod tests {
         use crate::impairment_eval::{CaseParams, ImpairmentClass};
         use rand::SeedableRng;
         use rand_chacha::ChaCha8Rng;
-        use rand_distr::{Distribution, Normal};
+        use crate::portable_distr::{Distribution, Normal};
         let mut rng = ChaCha8Rng::seed_from_u64(seed);
         let jit = Normal::new(0.0_f64, 0.25).unwrap();
         // (cn0_high, agc_high, impaired?)

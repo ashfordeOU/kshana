@@ -33,7 +33,7 @@ use crate::detection::chi2_inv_cdf;
 use crate::kalman::KalmanClock;
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
-use rand_distr::{Distribution, Normal};
+use crate::portable_distr::{Distribution, Normal};
 use serde::Serialize;
 
 /// Filter-consistency health summary, surfaced in the result JSON.

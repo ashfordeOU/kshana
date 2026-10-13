@@ -41,7 +41,7 @@ use crate::jamming::{effective_cn0_dbhz, q_factor};
 use crate::spoof_monitors::{early_late_ideal, AgcMonitor, SqmMonitor};
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
-use rand_distr::{Distribution, Normal};
+use crate::portable_distr::{Distribution, Normal};
 
 /// The C/A chip rate (chips/s) used as the despreading rate for the jamming model.
 const CA_CHIP_RATE_HZ: f64 = 1.023e6;

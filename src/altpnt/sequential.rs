@@ -33,7 +33,7 @@ use crate::palette::chart::{BG, CORAL, FONT_SANS, LIME, MUTED, TEXT};
 use crate::particle_filter::ParticleFilter;
 use rand::{RngCore, SeedableRng};
 use rand_chacha::ChaCha8Rng;
-use rand_distr::{Distribution, Normal};
+use crate::portable_distr::{Distribution, Normal};
 use serde::{Deserialize, Serialize};
 
 fn default_n_particles() -> usize {

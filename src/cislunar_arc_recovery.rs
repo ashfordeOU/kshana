@@ -77,7 +77,7 @@ use crate::intersat_range::{intersat_range_rate_spatial, intersat_range_spatial,
 use crate::palette::chart::{AMBER, AXIS, BG, FONT_SANS, INK_2, INK_4, MAGENTA, MUTED};
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
-use rand_distr::{Distribution, Normal};
+use crate::portable_distr::{Distribution, Normal};
 use serde::Deserialize;
 
 /// Planar CR3BP state dimension `[x, y, ẋ, ẏ]`.

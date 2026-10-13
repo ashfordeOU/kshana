@@ -1009,7 +1009,7 @@ pub struct SkyMonteCarlo {
 /// [`MAX_MC_SAMPLES`].
 pub fn sky_monte_carlo(req: &SkyRequest, seed: u64, n: usize) -> Result<SkyMonteCarlo, String> {
     use rand::SeedableRng;
-    use rand_distr::{Distribution, Normal};
+    use crate::portable_distr::{Distribution, Normal};
     if n == 0 || n > MAX_MC_SAMPLES {
         return Err(format!("sky: n must be in 1..={MAX_MC_SAMPLES}, got {n}"));
     }

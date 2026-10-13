@@ -605,7 +605,7 @@ mod tests {
     use super::*;
     use rand::SeedableRng;
     use rand_chacha::ChaCha8Rng;
-    use rand_distr::{Distribution, Normal};
+    use crate::portable_distr::{Distribution, Normal};
 
     /// White FM of level `a1` at 1 s plus random-walk FM `q_rw` plus a drift `d` (1/s), 1 s grid.
     fn clock(n: usize, a1: f64, q_rw: f64, d: f64, seed: u64) -> PhaseSeries {

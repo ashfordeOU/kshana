@@ -36,7 +36,7 @@
 use crate::portable_math::PortableFloat;
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
-use rand_distr::{Distribution, Normal};
+use crate::portable_distr::{Distribution, Normal};
 use std::f64::consts::SQRT_2;
 
 /// Error function via Abramowitz & Stegun 7.1.26 (max abs error 1.5e-7).

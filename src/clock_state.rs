@@ -842,7 +842,7 @@ mod tests {
     use crate::allan::overlapping_adev;
     use rand::SeedableRng;
     use rand_chacha::ChaCha8Rng;
-    use rand_distr::{Distribution, Normal};
+    use crate::portable_distr::{Distribution, Normal};
 
     #[test]
     fn van_loan_q_3state_matches_analytic() {

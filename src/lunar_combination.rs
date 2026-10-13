@@ -66,7 +66,7 @@ use crate::lunar_vlbi::{beacon_inertial_position, geometric_delay_s, station_ine
 use crate::palette::chart::{AXIS, BG, CORAL, FONT_SANS, INK_2, LIME};
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
-use rand_distr::{Distribution, Normal};
+use crate::portable_distr::{Distribution, Normal};
 
 /// Speed of light (m/s).
 const C: f64 = crate::timegeo::C_M_PER_S;

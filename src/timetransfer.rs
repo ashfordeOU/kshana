@@ -7,7 +7,7 @@ use crate::palette::chart::{AMBER, AXIS, BG, CORAL, CYAN, FONT_SANS, INK_2};
 use crate::types::{ModelSpec, Seconds};
 use rand::{RngCore, SeedableRng};
 use rand_chacha::ChaCha8Rng;
-use rand_distr::{Distribution, Normal};
+use crate::portable_distr::{Distribution, Normal};
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 
@@ -589,7 +589,7 @@ mod tests {
     #[test]
     fn two_way_white_noise_beats_one_way_by_sqrt_two() {
         // Two independent one-way measurements average to 1/sqrt(2) of one.
-        use rand_distr::Normal;
+        use crate::portable_distr::Normal;
         let sigma_ow = 1e-12;
         let nrm = Normal::new(0.0, sigma_ow).unwrap();
         let mut rng = ChaCha8Rng::seed_from_u64(42);

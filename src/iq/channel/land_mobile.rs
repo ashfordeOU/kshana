@@ -41,7 +41,7 @@ use super::{sat_seed, ChannelEffect, LineOfSight};
 use crate::iq::simrng::SimRng;
 use crate::iq::{ChannelSnapshot, PathState};
 use rand::Rng;
-use rand_distr::StandardNormal;
+use crate::portable_distr::StandardNormal;
 use std::collections::BTreeMap;
 use std::f64::consts::PI;
 

@@ -50,7 +50,7 @@
 use crate::portable_math::PortableFloat;
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
-use rand_distr::{Distribution, StandardNormal};
+use crate::portable_distr::{Distribution, StandardNormal};
 use serde::Serialize;
 
 use crate::frames::{geodetic_to_ecef, Geodetic};

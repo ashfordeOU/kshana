@@ -44,7 +44,7 @@ use crate::resilience::stats::{dirichlet_weights, percentile_ci};
 use rand::Rng;
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
-use rand_distr::StandardNormal;
+use crate::portable_distr::StandardNormal;
 use serde::Deserialize;
 
 /// The honesty label carried on every result document.

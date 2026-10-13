@@ -40,7 +40,7 @@ use crate::mapmatch::{field_likelihood, hierarchical_offset_search};
 use crate::palette::chart::{BG, BLUE, FONT_SANS, TEXT};
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
-use rand_distr::{Distribution, Normal};
+use crate::portable_distr::{Distribution, Normal};
 use serde::{Deserialize, Serialize};
 
 /// The SRTM void / no-data sentinel: cells with no measured elevation are coded -32768.

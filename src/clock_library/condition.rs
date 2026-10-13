@@ -306,7 +306,7 @@ mod tests {
     use super::*;
     use rand::SeedableRng;
     use rand_chacha::ChaCha8Rng;
-    use rand_distr::{Distribution, Normal};
+    use crate::portable_distr::{Distribution, Normal};
 
     fn white_fm(n: usize, sigma: f64, seed: u64) -> Vec<f64> {
         let mut rng = ChaCha8Rng::seed_from_u64(seed);

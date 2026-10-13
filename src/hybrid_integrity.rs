@@ -3734,7 +3734,7 @@ mod tests {
             for _ in 0..n {
                 let mut stat = 0.0_f64;
                 for axis in 0..dof {
-                    let z: f64 = rng.sample(rand_distr::StandardNormal);
+                    let z: f64 = rng.sample(crate::portable_distr::StandardNormal);
                     // The fault sits on one axis; the rest are fault-free.
                     let t = if axis == 0 { z + shift } else { z };
                     stat += t * t;

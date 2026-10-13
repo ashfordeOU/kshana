@@ -42,7 +42,7 @@ use crate::field_schema::{FieldUnit, ProvenanceClass::*};
 use crate::palette::chart::{BLUE, CYAN, MUTED};
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
-use rand_distr::{Distribution, Normal};
+use crate::portable_distr::{Distribution, Normal};
 use serde::{Deserialize, Serialize};
 use std::f64::consts::PI;
 

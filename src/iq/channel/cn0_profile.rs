@@ -73,7 +73,7 @@ use crate::iq::scene::{SatView, SceneChannel, TruthRecord, TruthSink};
 use crate::iq::{ChannelSnapshot, IqError};
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
-use rand_distr::{Distribution, StandardNormal};
+use crate::portable_distr::{Distribution, StandardNormal};
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 

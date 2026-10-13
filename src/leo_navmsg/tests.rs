@@ -692,7 +692,7 @@ fn the_scan_for_host_mathematics_sees_what_it_is_meant_to() {
     let bad = "let a = x.sin();\nlet b = (y / z).atan2(w);\nlet c = f64::exp(q);\n\
                let g = field.acceleration(r);\nlet d = crate::forces::zonal_accel(r, jn);\n\
                let e = crate::frames::gmst(t);\n// a comment may say x.cos() freely\n\
-               use rand_distr::{Distribution, Normal};\n";
+               use crate::portable_distr::{Distribution, Normal};\n";
     let found = platform_calls(bad);
     assert_eq!(found.len(), 7, "{found:?}");
     // The preset's registration is exempt from the path review only behind its gate.

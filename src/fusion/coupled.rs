@@ -230,7 +230,7 @@ mod tests {
     use crate::detection::chi2_inv_cdf;
     use rand::SeedableRng;
     use rand_chacha::ChaCha8Rng;
-    use rand_distr::{Distribution, Normal};
+    use crate::portable_distr::{Distribution, Normal};
 
     // A representative 1-DOF tuning: a slowly-walking platform and a CSAC-class clock.
     const Q_VA: f64 = 1e-4; // (m/s)²/s velocity random walk
