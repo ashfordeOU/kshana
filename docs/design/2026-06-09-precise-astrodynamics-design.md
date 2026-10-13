@@ -31,7 +31,7 @@ P4 has six steps. This design covers what code + public data can deliver and pre
 ## 3. Non-goals (YAGNI)
 
 - Operational-grade orbit products competitive with IGS/ESA (we validate the *engine*, not produce official orbits).
-- Box-wing / ECOM2 SRP models (cannonball + estimated `C_R` + empirical accelerations is the credible minimum; box-wing is a future enhancement, and if cannonball can't hit the bar that is an honest reported finding).
+- Box-wing / ECOM2 SRP models (cannonball + estimated `C_R` + empirical accelerations is the credible minimum; box-wing is a future enhancement, and if cannonball can't hit the bar that is an honest reported finding). *(0.36: built as an opt-in, `src/srp_boxwing.rs`, `PreciseForceModel::srp_boxwing` and `ForceModel::srp_boxwing`, default off; the model evaluation agrees with Orekit 12.2, `xval/srp-boxwing-orekit/`. No Galileo orbit-determination run with it has been recorded yet.)*
 - Pole tides, relativistic time-transfer in the measurement model, higher-order ionospheric terms.
 - A general-purpose estimation framework — the estimator is scoped to position-observation batch LS for this validation.
 

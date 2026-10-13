@@ -4,9 +4,11 @@
 // under the GSC copyright notice (gsc-europa.eu/terms-of-use#copyright), accessed 2026-10-13.
 // They are not covered by the AGPL; see NOTICE.
 //! **Non-cannonball solar radiation pressure: a box-wing flat-plate model and the ECOM2
-//! empirical model, with estimation partials.** Opt-in: nothing here is wired into
-//! [`crate::forces`] or [`crate::precise_od`]; the cannonball [`crate::forces::srp_accel`] is
-//! unchanged.
+//! empirical model, with estimation partials.** Opt-in: the box-wing is wired into
+//! [`crate::propagator::ForceModel::srp_boxwing`] and
+//! [`crate::precise_od::PreciseForceModel::srp_boxwing`] (both `None` by default, so the
+//! cannonball [`crate::forces::srp_accel`] path is unchanged unless a model is set); ECOM2 is
+//! not wired into either force model.
 //!
 //! # Conventions (stated once, used everywhere in this module)
 //!
@@ -68,11 +70,14 @@
 //!
 //! # Evidence
 //!
-//! The flat-plate sum and the ECOM2 acceleration are to be compared against Orekit 12.2
-//! (`BoxAndSolarArraySpacecraft`, `ECOM2`) under a pre-registration in
-//! `xval/srp-boxwing-orekit/`; until that comparison is recorded, this module is internally
-//! checked only (closed-form limits and finite-difference partials). The Galileo box-wing tables are published data
-//! (GSC, © EU 2011-2026), transcribed, not oracle-checked beyond transcription. The synthetic
+//! The flat-plate sum, its radiation-factor and per-panel partials, [`gnss_yaw_steering`] and
+//! the ECOM2 acceleration and partials agree with Orekit 12.2 (`BoxAndSolarArraySpacecraft`,
+//! `SolarRadiationPressure`, `GenericGNSS`, `ECOM2`) to about 1e-15 relative (per-panel partials
+//! 4e-13 against Orekit central differences), under the pre-registration in
+//! `xval/srp-boxwing-orekit/` (`tests/srp_boxwing_orekit_oracle.rs`): VALIDATED as model
+//! evaluations. The Galileo box-wing tables are published data (GSC, © EU 2011-2026),
+//! transcribed, not oracle-checked beyond transcription; whether a box-wing is adequate for real
+//! Galileo orbits is not shown, so the SRP prediction stays MODELLED. The synthetic
 //! ECOM2-on-box-wing fit is MODELLED (internal consistency only).
 
 use crate::ephem::AU_M;
@@ -449,6 +454,16 @@ pub fn boxwing_accel_scaled(
     }
     let f_eci = mat_vec(&attitude_body_to_eci, f);
     scale3(nu * scale / bw.mass_kg, f_eci)
+}
+
+/// Box-wing SRP in nominal yaw steering, the form the force models use:
+/// [`boxwing_accel_scaled`] with the attitude [`gnss_yaw_steering`]`(r, v, s)`, scale factor
+/// `scale` and eclipse factor `nu`.
+pub fn boxwing_srp_accel(r: Vec3, v: Vec3, s: Vec3, bw: &BoxWing, scale: f64, nu: f64) -> Vec3 {
+    if nu == 0.0 || scale == 0.0 {
+        return [0.0, 0.0, 0.0];
+    }
+    boxwing_accel_scaled(r, s, gnss_yaw_steering(r, v, s), bw, scale, nu)
 }
 
 /// Analytic partials of [`boxwing_accel_scaled`].
