@@ -15,6 +15,18 @@ use kshana::iq::track::design::Design;
 use kshana::iq::{Cf64, SampleSpec, SpreadingCode};
 use std::f64::consts::TAU;
 
+/// The Galileo E1 memory-code tables are user-supplied (not bundled, by the ICD's terms);
+/// the E1 tests skip, with a message, when they are absent. Supply them with
+/// `KSHANA_GALILEO_E1B` / `KSHANA_GALILEO_E1C` or `scripts/fetch_galileo_e1_codes.sh`.
+fn e1_tables_supplied() -> bool {
+    let ok = kshana::iq::signals::galileo::e1b_table().is_ok()
+        && kshana::iq::signals::galileo::e1c_table().is_ok();
+    if !ok {
+        eprintln!("skipped: Galileo E1 tables not supplied (scripts/fetch_galileo_e1_codes.sh)");
+    }
+    ok
+}
+
 /// `n` samples of `code` at `doppler` and code phase `phase0` chips plus unit-variance noise
 /// at the given amplitude `amp` (xorshift + Box-Muller, seeded).
 fn scene(
@@ -91,6 +103,9 @@ fn a1_gps_l1ca() {
 
 #[test]
 fn a1_galileo_e1b() {
+    if !e1_tables_supplied() {
+        return;
+    }
     same_as_the_grid_path("galileo-e1b", 11, 4.092e6, 0.15);
 }
 

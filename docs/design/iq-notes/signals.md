@@ -67,7 +67,7 @@ PDFs above (no hand edits); each table states its ICD issue and table number.
 | E5a first 24 chips | Galileo ICD Tables 16 / 17 | codes 1-50, I and Q | VALIDATED |
 | E5a complete code | Galileo ICD Annex C.3 / C.4 attachments (fixtures) | all 10230 chips, codes 1-50, I and Q | VALIDATED |
 | E5a / E1-C secondary codes | Galileo ICD Tables 20/21, §3.5.1 binary example of CS25 | CS20, CS25, CS100_1..100 | VALIDATED |
-| E1-B / E1-C memory codes | the ICD's own Annex C.7 / C.8 tables (committed, hashed); Issue 1.3 identical | codes 1-50 | VALIDATED (by provenance) |
+| E1-B / E1-C memory codes | the ICD's own Annex C.7 / C.8 tables (user-supplied since 0.36, hash-checked); Issue 1.3 identical | codes 1-50 | VALIDATED (by provenance) |
 | CBOC power split | Galileo ICD Eq. 11: α² = 10/11, β² = 1/11, measured from the waveform | E1-B and E1-C | VALIDATED (closed form) |
 | B1C Weil codes first and last 24 chips | BDS-SIS-ICD-B1C-1.0 Tables 5-2, 5-3, 5-4 | PRN 1-63 data, pilot and pilot secondary (378 values) | VALIDATED |
 | Legendre two-level autocorrelation | closed form for prime N ≡ 3 mod 4 | N = 3607 all lags, N = 10243 sample lags | VALIDATED |
@@ -86,9 +86,10 @@ PDFs above (no hand edits); each table states its ICD issue and table number.
   parts) and B1I, and GLONASS L1OF (FDMA channels -7..+6), all through `SpreadingCode`
   with fractional code phase and subcarrier. Each is checked against its ICD: L5 and L2C
   register states for every PRN, E5a against the complete Annex C codes, B1C against the
-  first and last 24 chips of all 189 codes. The Galileo E1 memory codes ship under
-  `data/galileo-os-sis-icd/` with provenance and are used under the EU's Annex H
-  authorisation, not the repository licence.
+  first and last 24 chips of all 189 codes. The Galileo E1 memory codes are not
+  bundled (since 0.36): the user supplies the ICD's Annex C tables
+  (`scripts/fetch_galileo_e1_codes.sh`, `KSHANA_GALILEO_E1B` / `_E1C`), used under the EU's
+  authorisation, not the repository licence; see `data/galileo-os-sis-icd/PROVENANCE.md`.
 - Acquisition and tracking mix each code down from `SampleSpec::baseband_hz(carrier)`,
   `if_hz + (carrier − center_hz)`, so every GLONASS L1OF channel of one recording is
   searched and tracked on its own FDMA carrier (all channels share one ranging code). The
@@ -129,5 +130,5 @@ One section "GNSS spreading codes (iq::signals)" carrying the verification table
   codes; on I5 and B1I they ride on the data symbols.
 - E5b, E6, B2a, B3I, L1C, GLONASS L2OF / CDMA signals are not implemented.
 - GPS L1 C/A is limited to PRN 1-32 by `crate::sdr::CaCode`.
-- Licensing: the E1 code files are EU technical data, used under ICD Annex H. The repository
-  owner should confirm this sits with the dual-licensing model before a release.
+- Licensing: the E1 code files are EU technical data. The ICD allows redistribution only for
+  non-commercial purposes, so since 0.36 they are user-supplied, not bundled (`LICENSING.md`).

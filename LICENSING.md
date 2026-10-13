@@ -69,8 +69,9 @@ same time.
   dependency tree permissive (Apache-2.0 / MIT / BSD / ISC / …) precisely so the
   commercial edition can be offered cleanly — a copyleft dependency would taint it.
   See [`deny.toml`](deny.toml).
-- **Galileo E1 primary memory codes** (`data/galileo-os-sis-icd/C7_E1B.txt`, `C8_E1C.txt`,
-  embedded by `src/iq/signals/galileo.rs`). These are the E1-B and E1-C primary codes of
+- **Galileo E1 primary memory codes** (`C7_E1B.txt`, `C8_E1C.txt`; **not bundled since 0.36**:
+  each user supplies their own copy, `scripts/fetch_galileo_e1_codes.sh` or
+  `KSHANA_GALILEO_E1B` / `KSHANA_GALILEO_E1C`, read by `src/iq/signals/galileo.rs`). These are the E1-B and E1-C primary codes of
   Annex C.7 and C.8 of the Galileo Open Service Signal-In-Space Interface Control Document
   (OS SIS ICD), Issue 2.0, January 2021, © European Union 2021, extracted unmodified from the
   PDF's attachments (source URL, SHA-256 and a cross-check against Issue 1.3 are in
@@ -100,13 +101,13 @@ same time.
     promotional material or elsewhere that the Products were developed by, are used by or for
     or have been approved or endorsed by the EU".
 
-  **Status: under review, not cleared.** No explicit open licence is stated. Use inside a
+  **Decision (0.36): not redistributed.** No explicit open licence is stated. Use inside a
   software product (G.3 a) and storage with the source acknowledged (G.3 b) are covered on the
-  ICD's own terms. Redistributing the files in this repository and its packages is reproduction
-  of part of the ICD: G.3 c covers that only for non-commercial, not-for-profit purposes, and
-  the Terms of Use ask that the Terms and Annex G travel unmodified with the reproduced
-  information, which this repository does not yet do. Whether that fits the commercial edition
-  of the dual licence needs the repository owner's (and, if needed, counsel's) decision. Each
+  ICD's own terms, but redistribution (G.3 c) only for non-commercial, not-for-profit purposes
+  and with the Terms and Annex G reproduced unmodified alongside. Because Kshana is also offered
+  under a commercial licence, the files were removed from the repository and its packages; the
+  engine reads the user's own copy at run time, and without it the Galileo E1 signals return an
+  error that says how to supply them. Each
   user relies on the EU's Authorisation directly; Kshana cannot pass it on. Kshana is not
   developed by, used by, approved by or endorsed by the European Union.
 - **Trademarks.** "Kshana" and its marks are trademarks of Ashforde OÜ. Neither
