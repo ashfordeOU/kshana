@@ -27,7 +27,9 @@ breaking changes are called out explicitly.
 - **Opt-in NRLMSISE-00 drag-density tier.** `forces::DensityModel::{Exponential,
   Nrlmsise00 { f107a, f107, ap }}`, `forces::drag_accel_with_density`, `density_at`, and
   `propagator::ForceModel::drag_density`. The static exponential model stays the default, bit for
-  bit. Space weather is constant per model. MODELLED.
+  bit. Space weather is constant per model. VALIDATED at orbit level against Orekit 12.2's own
+  NRLMSISE-00 drag over 24 h (worst 0.03 m against up to 142 km of drag displacement;
+  `xval/drag-tier-orekit/`).
 
 - **Opt-in DE440 Sun and Moon in the Cowell propagator (RM-33, FUT-10).**
   `propagator::ForceModel::with_ephemeris` takes any `EphemerisProvider` (e.g. a DE440
