@@ -75,57 +75,87 @@ fn every_named_row_exists_and_no_tier_is_written() {
     }
 }
 
+/// One kind's checks; `Err` names the first failure.
+fn check_kind(k: &str, src: &str) -> Result<(), String> {
+    let tiered = run_toml(src).map_err(|e| format!("{k}: {e}"))?;
+    let plain = run_toml_untiered(src).map_err(|e| format!("{k}: {e}"))?;
+    let stripped = without_figure_tiers(&tiered.json);
+    let excluded = FROZEN_PREDICTION_KINDS.contains(&k)
+        || KINDS_EXCLUDED_FROM_FIGURE_TIERS
+            .iter()
+            .any(|(n, _)| *n == k);
+    if excluded {
+        if stripped.is_some() || tiered.json != plain.json {
+            return Err(format!("{k} must not carry figure_tiers"));
+        }
+        return Ok(());
+    }
+    let stripped = stripped.ok_or_else(|| format!("{k}: no trailing figure_tiers"))?;
+    if KINDS_WITH_INLINE_TIERS.contains(&k) {
+        return if tiered.json == plain.json {
+            Ok(())
+        } else {
+            Err(format!("{k}: the inline block is the kind's own"))
+        };
+    }
+    if stripped != plain.json {
+        return Err(format!(
+            "{k}: stripping does not give the untiered document"
+        ));
+    }
+    let doc: Value = serde_json::from_str(&tiered.json).map_err(|e| format!("{k}: {e}"))?;
+    let block = &doc["figure_tiers"];
+    let listed = block["figures"].as_array().map_or(0, Vec::len)
+        + block
+            .get("untiered")
+            .and_then(Value::as_array)
+            .map_or(0, Vec::len);
+    let table = kind_figures(k).ok_or_else(|| format!("{k}: no table entry"))?;
+    for (path, _) in table {
+        let mut node = &doc;
+        for seg in path.split('.') {
+            node = node.get(seg).unwrap_or(&Value::Null);
+        }
+        if node.is_null() {
+            return Err(format!("{k}: {path} does not resolve in its reference run"));
+        }
+    }
+    if listed != table.len() {
+        return Err(format!(
+            "{k}: {listed} figures listed, {} in the table",
+            table.len()
+        ));
+    }
+    Ok(())
+}
+
 #[test]
 fn every_kind_tiers_its_reference_run_and_strips_back_exactly() {
     let refs = reference_scenarios();
-    for meta in list_scenario_kinds() {
-        let k = meta.name;
-        let Some(src) = refs.get(k) else {
-            panic!("{k} has no reference scenario under scenarios/");
-        };
-        let tiered = run_toml(src).unwrap_or_else(|e| panic!("{k}: {e}"));
-        let plain = run_toml_untiered(src).unwrap();
-        let stripped = without_figure_tiers(&tiered.json);
-        if FROZEN_PREDICTION_KINDS.contains(&k)
-            || KINDS_EXCLUDED_FROM_FIGURE_TIERS
-                .iter()
-                .any(|(n, _)| *n == k)
-        {
-            assert!(stripped.is_none(), "{k} must not carry figure_tiers");
-            assert_eq!(tiered.json, plain.json, "{k}");
-            continue;
-        }
-        let stripped = stripped.unwrap_or_else(|| panic!("{k}: no trailing figure_tiers"));
-        if KINDS_WITH_INLINE_TIERS.contains(&k) {
-            assert_eq!(
-                tiered.json, plain.json,
-                "{k}: the inline block is the kind's own"
-            );
-            continue;
-        }
-        assert_eq!(
-            stripped, plain.json,
-            "{k}: stripping does not give the untiered document"
+    let kinds: Vec<&'static str> = list_scenario_kinds().iter().map(|m| m.name).collect();
+    for k in &kinds {
+        assert!(
+            refs.contains_key(*k),
+            "{k} has no reference scenario under scenarios/"
         );
-        let doc: Value = serde_json::from_str(&tiered.json).unwrap();
-        let block = &doc["figure_tiers"];
-        let listed = block["figures"].as_array().unwrap().len()
-            + block
-                .get("untiered")
-                .and_then(Value::as_array)
-                .map_or(0, Vec::len);
-        for (path, _) in kind_figures(k).unwrap() {
-            let mut node = &doc;
-            for seg in path.split('.') {
-                node = node.get(seg).unwrap_or(&Value::Null);
-            }
-            assert!(
-                !node.is_null(),
-                "{k}: {path} does not resolve in its reference run"
-            );
-        }
-        assert_eq!(listed, kind_figures(k).unwrap().len(), "{k}");
     }
+    // Every kind runs twice (tiered and untiered); spread the kinds over the cores.
+    let threads = std::thread::available_parallelism().map_or(4, |n| n.get());
+    let next = std::sync::atomic::AtomicUsize::new(0);
+    let failures = std::sync::Mutex::new(Vec::new());
+    std::thread::scope(|scope| {
+        for _ in 0..threads {
+            scope.spawn(|| loop {
+                let i = next.fetch_add(1, std::sync::atomic::Ordering::Relaxed);
+                let Some(k) = kinds.get(i) else { break };
+                if let Err(e) = check_kind(k, &refs[*k]) {
+                    failures.lock().unwrap().push(e);
+                }
+            });
+        }
+    });
+    let failures = failures.into_inner().unwrap();
+    assert!(failures.is_empty(), "{}", failures.join("\n"));
 }
 
 #[test]
