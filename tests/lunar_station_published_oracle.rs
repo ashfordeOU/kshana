@@ -238,3 +238,84 @@ fn recorded_finding_one_of_six_bars_passes() {
     // satellites in view on the ILLUSTRATIVE elements.
     assert!(r300.availability < 0.10 && r600.availability < 0.10);
 }
+
+/// The K5 addendum with ephemeris-error growth (LRS-03), pre-registered alone in
+/// tests/fixtures/lunar_station_published/ADDENDUM-LRS03.md (59d88248) before this run. The
+/// recorded comparison above is not edited. Ignored: the full LAT600 grid, three times.
+#[test]
+#[ignore]
+fn k5_growth_addendum_run() {
+    // The recorded figures (ADDENDUM-LRS03.md, "Recorded run").
+    for (name, rate, recorded) in [
+        ("LAT600-g0001", 0.001, 369.778866),
+        ("LAT600-g001", 0.01, 2315.253479),
+        ("LAT600-g01", 0.1, 22796.634114),
+    ] {
+        let r = run(&format!(
+            "latency_s = 600.0\norbit_err_growth_m_per_s = {rate}"
+        ));
+        let p = r.region.corrected_p_3d_m.expect("a corrected figure");
+        println!(
+            "ADDENDUM {name} rate={rate} corrected_p_3d_m={p:.6} change_from_recorded={:.6} K5_pass={}",
+            p - 292.95967178610704,
+            p <= 1.5
+        );
+        assert!(
+            (p - recorded).abs() <= 1e-6 * recorded,
+            "{name}: the addendum figure moved"
+        );
+        assert!(p > 1.5, "{name}: K5 as recorded (fail)");
+    }
+}
+
+/// The addendum with the sources' solution style (LRS-06), pre-registered alone in
+/// tests/fixtures/lunar_station_published/ADDENDUM-LRS06.md (001ca100) before this run. The
+/// recorded comparison above is not edited. Ignored: three full grids.
+#[test]
+#[ignore]
+fn solution_style_addendum_run() {
+    const SOL: &str = "\n[solution]\nheight_aided = true\nheight_sigma_m = 1.0\nmin_satellites = 3\nwindow_epochs = 6";
+    let r300 = run(SOL);
+    let r600 = run(&format!("grid_lat_max_deg = -70.0{SOL}"));
+    let lat600 = run(&format!("latency_s = 600.0{SOL}"));
+    for (name, r) in [
+        ("R300-sol", &r300),
+        ("R600-sol", &r600),
+        ("LAT600-sol", &lat600),
+    ] {
+        let g = &r.region;
+        println!(
+            "ADDENDUM6 {name} availability={:.6} coverage_fraction={:.6} corrected_p_3d_m={:?} corrected_p_h_m={:?}",
+            g.availability, g.coverage_fraction, g.corrected_p_3d_m, g.corrected_p_h_m
+        );
+    }
+    let a = nearest(&r600, 10.0);
+    let b = nearest(&r600, 500.0);
+    println!("ADDENDUM6 nearest10={a:?} nearest500={b:?}");
+    let p = |r: &LunarStationCoverageReport| r.region.corrected_p_3d_m.unwrap_or(f64::INFINITY);
+    let k6 = match (a.3, b.3) {
+        (Some(x), Some(y)) => Some(y / x),
+        _ => None,
+    };
+    let bars = [
+        ("K1", r300.region.coverage_fraction >= 0.95),
+        ("K2", r600.region.coverage_fraction >= 0.95),
+        ("K3", p(&r300) <= 1.5),
+        ("K4", p(&r300) <= 0.15),
+        ("K5", p(&lat600) <= 1.5),
+        ("K6", k6.is_some_and(|v| v <= 1.5)),
+    ];
+    println!("ADDENDUM6 ratio500/10={k6:?} bars={bars:?}");
+    // The recorded figures (ADDENDUM-LRS06.md, "Recorded run").
+    let close = |a: f64, b: f64| (a - b).abs() <= 1e-6 * b.abs();
+    assert!(close(p(&r300), 2.1103018834825096));
+    assert!(close(p(&r600), 2.175292336052316));
+    assert!(close(p(&lat600), 2.1123644082489603));
+    assert!(close(k6.unwrap(), 1.0379717628453942));
+    let passed: Vec<&str> = bars.iter().filter(|b| b.1).map(|b| b.0).collect();
+    assert_eq!(
+        passed,
+        ["K6"],
+        "the recorded addendum finding: only K6 passes"
+    );
+}

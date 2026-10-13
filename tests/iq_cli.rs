@@ -13,6 +13,18 @@ use kshana::iq::cli::run;
 use kshana::iq::scene::truth_from_csv;
 use std::path::PathBuf;
 
+/// The Galileo E1 memory-code tables are user-supplied (not bundled, by the ICD's terms);
+/// the E1 tests skip, with a message, when they are absent. Supply them with
+/// `KSHANA_GALILEO_E1B` / `KSHANA_GALILEO_E1C` or `scripts/fetch_galileo_e1_codes.sh`.
+fn e1_tables_supplied() -> bool {
+    let ok = kshana::iq::signals::galileo::e1b_table().is_ok()
+        && kshana::iq::signals::galileo::e1c_table().is_ok();
+    if !ok {
+        eprintln!("skipped: Galileo E1 tables not supplied (scripts/fetch_galileo_e1_codes.sh)");
+    }
+    ok
+}
+
 /// A fresh scratch folder for one test.
 fn scratch(name: &str) -> PathBuf {
     use std::sync::atomic::{AtomicU64, Ordering};
@@ -496,9 +508,11 @@ fn scene_data_is_refused_on_a_pilot() {
             "--data",
         ]))
     };
-    assert_eq!(scene("galileo-e1c"), 2);
     assert_eq!(scene("gps-l2c"), 2);
-    assert_eq!(scene("galileo-e1b"), 0);
+    if e1_tables_supplied() {
+        assert_eq!(scene("galileo-e1c"), 2);
+        assert_eq!(scene("galileo-e1b"), 0);
+    }
 }
 
 /// `track` and `sweep` apply the front-end flags: running either with `--notch --bits 2`
@@ -679,7 +693,11 @@ fn auto_handoff_coherent_length_per_signal_family() {
     all.sort_unstable();
     assert_eq!(named, all, "pin the auto hand-off length of every signal");
     for &(signal, periods) in expected {
-        let code = build_code(signal, 1).unwrap();
+        // Galileo E1 only when the user has supplied the ICD tables (they are not bundled).
+        let Ok(code) = build_code(signal, 1) else {
+            assert!(signal.starts_with("galileo-e1"), "{signal} failed to build");
+            continue;
+        };
         let t = code.period_s();
         let n = auto_coherent_periods(t);
         assert_eq!(n, periods, "{signal}: full period {t} s");

@@ -1,0 +1,12 @@
+# Descriptor of the vendored LOLA south-polar DEM crop (read by kshana::lunar_terrain::PolarDem::load).
+# Provenance, licence, crop and resample steps: NOTICE.md in this directory.
+image = "lola_ldem_75s_1200m_crop.img"
+image_sha256 = "639eb45c21e3df38cffbcf8048da4f3a92aa150b9aea534e10712be0dad4edab"
+projection = "south-polar-stereographic"
+sample_type = "int16-le"
+lines = 700
+samples = 700
+map_scale_m = 1200.0
+reference_radius_m = 1737400.0
+scaling_factor = 0.5
+source = "LRO LOLA gridded polar shape map LDEM_75S_240M (PDS LRO-L-LOLA-4-GDR-V1.0, public domain), central 3500 x 3500 pixels, 5 x 5 block mean to 1200 m/pixel; see data/lunar-dem/NOTICE.md"
