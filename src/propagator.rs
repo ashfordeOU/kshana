@@ -24,28 +24,45 @@
 //!
 //! It also exposes [`solve_kepler_checked`], a Newton solver for Kepler's equation that
 //! **returns `Err` instead of a wrong answer** when it fails to converge within a bounded
-//! iteration count (e.g. the near-perigee high-eccentricity `e = 0.999` case).
+//! iteration count (e.g. the near-perigee high-eccentricity `e = 0.999` case), and
+//! [`solve_kepler_robust`], the shared Markley-starter solver of [`crate::kepler`] that converges
+//! for every `0 ≤ e < 1`.
+//!
+//! Three adaptive drivers are selectable ([`Integrator`]): RK4 step doubling (the default,
+//! [`propagate`]), Dormand–Prince RK5(4) ([`propagate_dopri`]) and Hairer's DOP853
+//! ([`propagate_dop853`]).
 //!
 //! ## Scope (honest)
 //!
 //! The force model spans **two-body + the J2..J6 zonal field + the epoch-driven Sun/Moon third
 //! body + solar-radiation pressure + atmospheric drag + the post-Newtonian relativistic
 //! correction** (the cannonball SRP model with a conical umbra+penumbra eclipse, quadratic drag
-//! against the Vallado piecewise-exponential atmosphere, and the Schwarzschild perigee-advance
-//! term). The full high-degree EGM tesseral field (a 200×200 gravity model and its coefficient
-//! loader), the Lense–Thirring frame-dragging term — and the cross-validation of a 200×200 EGM
-//! 24-hour orbit against an external high-precision propagator (GMAT/Orekit) — remain follow-ons
-//! (see `ROADMAP.md`). By default the third-body/SRP ephemerides are the [`crate::ephem`]
-//! *low-precision* analytical series (~0.005° Sun, ~0.3° Moon); the drag density defaults to the
-//! static exponential model, with NRLMSISE-00 opt-in via [`ForceModel::drag_density`]; the opt-in
-//! ephemeris tier
-//! ([`ForceModel::with_ephemeris`]) reads them from any [`EphemerisProvider`], e.g. a DE440 SPK
-//! kernel through [`crate::ephem_provider::KernelEphemeris`]. The drag density is the static
-//! exponential model. What is delivered is the integrator + the
-//! two-body/J2/zonal/third-body/SRP/drag/relativity force model + the analytic-truth validation
-//! harness and the convergence-guarded Kepler solver.
+//! against the Vallado piecewise-exponential atmosphere, the Schwarzschild perigee-advance term
+//! and the opt-in Lense–Thirring frame-dragging term). A full tesseral field is used for a
+//! central body that carries one ([`Body::gravity`], e.g. Mars); the Earth default has none. The
+//! conservative tiers (two-body → J2–J6 → Sun/Moon → SRP) are VALIDATED against Orekit 12.2
+//! (`tests/numerical_cowell_propagator_reference.rs`, worst 0.08 m over 24 h). A full
+//! **tesseral** Earth geopotential (the bundled EGM2008 field to degree/order 70, or any ICGEM
+//! `.gfc` model through [`crate::gravity_sh::SphericalHarmonicField::from_gfc`]) is available as
+//! an **opt-in** [`Geopotential`] ([`ForceModel::with_geopotential`],
+//! [`ForceModel::with_egm2008`]); the default stays the zonal path, so every existing output is
+//! unchanged. The field is evaluated in the Earth-fixed frame reached either by the Earth rotation
+//! angle alone ([`EarthFixedFrame::Era`], the integration frame then being the
+//! celestial-intermediate frame) or by the full CIO-based GCRS→ITRS chain with nominal Earth
+//! orientation ([`EarthFixedFrame::Cio`]). The WGS-84 oblate-Earth shadow and solar limb
+//! darkening are opt-in through [`ForceModel::srp_shadow`]; a GMAT cross-check remains a
+//! follow-on (see `ROADMAP.md`). By default the third-body/SRP ephemerides are the
+//! [`crate::ephem`] *low-precision* analytical series (~0.005° Sun, ~0.3° Moon); the opt-in
+//! ephemeris tier ([`ForceModel::with_ephemeris`]) reads them from any [`EphemerisProvider`], e.g.
+//! a DE440 SPK kernel through [`crate::ephem_provider::KernelEphemeris`]. The drag density
+//! defaults to the static exponential model, with NRLMSISE-00 opt-in via
+//! [`ForceModel::drag_density`]. What is delivered is the integrator + the
+//! two-body/J2/zonal/tesseral/third-body/SRP/drag/relativity force model + the analytic-truth
+//! validation harness, the three adaptive drivers (step doubling, Dormand–Prince 5(4), DOP853) and
+//! the convergence-guarded and robust Kepler solvers.
 
 use crate::body::Body;
+use crate::cio::{earth_rotation_angle, gcrs_to_itrs_matrix};
 use crate::ephem::{moon_position, sun_position};
 use crate::ephem_provider::{tt_to_tdb_jd2, EphemerisProvider};
 use crate::forces::{
@@ -53,9 +70,12 @@ use crate::forces::{
     third_body_accel, two_body_accel_body, zonal_accel, DensityModel, EARTH_ZONALS_J2_J6, MU_EARTH,
     MU_MOON, MU_SUN,
 };
-use crate::integrator::{integrate, integrate_dopri, rk4_step, Tolerance};
+use crate::gravity_sh::SphericalHarmonicField;
+use crate::integrator::{
+    integrate, integrate_dop853_checked, integrate_dopri, rk4_step, Dop853Error, Tolerance,
+};
 use crate::jd2::Jd2;
-use crate::precession::julian_centuries_tt;
+use crate::precession::{julian_centuries_tt, mat_vec, transpose, Mat3};
 use crate::sgp4::Sgp4;
 use crate::timescales::SECONDS_PER_DAY;
 use std::sync::atomic::{AtomicUsize, Ordering};
@@ -105,6 +125,16 @@ pub struct ForceModel {
     /// actually advance along their orbits during the integration — this is what makes the
     /// third-body force *time-varying* rather than frozen at the start. Ignored when
     /// [`sun`](Self::sun), [`moon`](Self::moon) and [`srp`](Self::srp) are all `false`.
+    ///
+    /// A single `f64`, not a [`crate::jd2::Jd2`], on purpose: by default the Sun and Moon here
+    /// come from the low-precision analytic series (~0.005° Sun, ~0.3° Moon), whose error is
+    /// about a million times what a 40 µs epoch rounding moves them (the Moon travels about 4 cm
+    /// in 40 µs), and the default Earth field is zonal (rotation-independent). The opt-in
+    /// [`ephemeris`](Self::ephemeris) and [`geopotential`](Self::geopotential) tiers start from
+    /// this same `f64` epoch, so they inherit its rounding (about 2 cm of Earth rotation at the
+    /// equator in 40 µs). A two-part epoch matters
+    /// where Earth rotation enters: [`crate::orbit::Propagator::position_in_frame_jd2`],
+    /// [`crate::cio::gcrs_to_itrs_matrix_jd2`] and the ephemeris scenario's `two_part_jd`.
     pub epoch_jd_tt: f64,
     /// Include solar-radiation pressure ([`crate::forces::srp_accel`], cannonball model with the
     /// cylindrical-shadow eclipse), using the same epoch-driven [`crate::ephem::sun_position`].
@@ -155,6 +185,11 @@ pub struct ForceModel {
     /// [`DensityModel::Nrlmsise00`] (with [`drag_density`](Self::drag_density)) for the
     /// NRLMSISE-00 thermosphere at fixed F10.7/Ap, sampled at `epoch_jd_tt + t/86400`.
     pub drag_density: DensityModel,
+    /// Optional **tesseral Earth geopotential** (opt-in; `None` by default). When `Some`, its
+    /// spherical-harmonic field is the whole central gravity: it supersedes the two-body,
+    /// [`j2`](Self::j2), [`zonals`](Self::zonals) and [`Body::gravity`] paths (the field carries
+    /// its own `GM` and `C̄₀₀`). `None` leaves every historical output bit-for-bit unchanged.
+    pub geopotential: Option<Geopotential>,
 }
 
 /// A shared [`EphemerisProvider`] for the propagator's opt-in ephemeris tier
@@ -216,6 +251,117 @@ impl ForceEphemeris {
                 fallback()
             }
         }
+    }
+}
+
+/// The Earth-fixed frame an opt-in [`Geopotential`] is evaluated in, i.e. how the propagator's
+/// inertial position is rotated into the frame the `C̄_nm, S̄_nm` coefficients are defined in.
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
+pub enum EarthFixedFrame {
+    /// A rotation about the inertial z axis by the Earth rotation angle
+    /// ([`crate::cio::earth_rotation_angle`], IAU 2000) at UT1 = TT + `ut1_minus_tt_s`. The
+    /// inertial integration frame is then the celestial intermediate frame of date with its
+    /// precession–nutation frozen, which is the propagator's plain-ECI convention. The default.
+    #[default]
+    Era,
+    /// The full CIO-based GCRS→ITRS rotation ([`crate::cio::gcrs_to_itrs_matrix`], SOFA
+    /// `c2tcio`: IAU 2006/2000A precession–nutation, Earth rotation angle) with nominal Earth
+    /// orientation (UT1 = TT + `ut1_minus_tt_s`, no polar motion). The inertial integration frame
+    /// is then the GCRS, as in [`crate::precise_od`].
+    Cio,
+}
+
+/// Which spherical-harmonic evaluator a [`Geopotential`] calls.
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
+pub enum FieldEvaluator {
+    /// [`SphericalHarmonicField::acceleration`]: the classic spherical-partials form. Accurate
+    /// away from the poles to degree ~180; the evaluator the degree-70 Orekit tier validates. The
+    /// default.
+    #[default]
+    Classic,
+    /// [`SphericalHarmonicField::acceleration_hf`]: the Holmes–Featherstone modified forward-column
+    /// form, free of underflow and of the polar singularity to degree 2190. Use it above degree
+    /// ~180 or for orbits that pass close to the poles.
+    HolmesFeatherstone,
+}
+
+/// An opt-in tesseral Earth gravity field for [`ForceModel`]: a fully-normalized
+/// [`SphericalHarmonicField`] (shared, so cloning a model never copies a high-degree field), the
+/// [`EarthFixedFrame`] it is evaluated in, and the UT1 offset that sets the Earth's rotation.
+#[derive(Clone, Debug)]
+pub struct Geopotential {
+    /// The spherical-harmonic field (Earth-fixed, central term included).
+    pub field: Arc<SphericalHarmonicField>,
+    /// The Earth-fixed frame the field is evaluated in.
+    pub frame: EarthFixedFrame,
+    /// `UT1 − TT` (s) used for the Earth rotation angle; `0` (the default) takes UT1 = TT, a
+    /// fixed ~69 s (~0.3°) rotation offset that callers with real Earth orientation replace.
+    pub ut1_minus_tt_s: f64,
+    /// The spherical-harmonic evaluator.
+    pub evaluator: FieldEvaluator,
+}
+
+impl Geopotential {
+    /// A geopotential over `field`, evaluated in the [`EarthFixedFrame::Era`] frame with UT1 = TT.
+    pub fn new(field: SphericalHarmonicField) -> Self {
+        Self {
+            field: Arc::new(field),
+            frame: EarthFixedFrame::Era,
+            ut1_minus_tt_s: 0.0,
+            evaluator: FieldEvaluator::Classic,
+        }
+    }
+
+    /// The bundled EGM2008 field truncated to degree/order `nmax` (clamped to the shipped 70).
+    pub fn egm2008(nmax: usize) -> Self {
+        Self::new(SphericalHarmonicField::egm2008_truncated(nmax))
+    }
+
+    /// Select the Earth-fixed frame (chainable).
+    pub fn in_frame(mut self, frame: EarthFixedFrame) -> Self {
+        self.frame = frame;
+        self
+    }
+
+    /// Select the spherical-harmonic evaluator (chainable). Choosing
+    /// [`FieldEvaluator::HolmesFeatherstone`] builds the field's recursion table once, here.
+    pub fn with_evaluator(mut self, evaluator: FieldEvaluator) -> Self {
+        if evaluator == FieldEvaluator::HolmesFeatherstone {
+            self.field.prepare_high_degree();
+        }
+        self.evaluator = evaluator;
+        self
+    }
+
+    /// Set `UT1 − TT` in seconds (chainable).
+    pub fn with_ut1_minus_tt(mut self, ut1_minus_tt_s: f64) -> Self {
+        self.ut1_minus_tt_s = ut1_minus_tt_s;
+        self
+    }
+
+    /// The inertial→Earth-fixed rotation matrix at TT epoch `jd_tt`.
+    pub fn inertial_to_earth_fixed(&self, jd_tt: f64) -> Mat3 {
+        let jd_ut1 = jd_tt + self.ut1_minus_tt_s / SECONDS_PER_DAY;
+        match self.frame {
+            EarthFixedFrame::Era => {
+                let (s, c) = earth_rotation_angle(jd_ut1).sin_cos();
+                [[c, s, 0.0], [-s, c, 0.0], [0.0, 0.0, 1.0]]
+            }
+            EarthFixedFrame::Cio => gcrs_to_itrs_matrix(jd_tt, jd_ut1, 0.0, 0.0),
+        }
+    }
+
+    /// The central gravitational acceleration (m/s², inertial) at inertial position `r` (m) and
+    /// TT epoch `jd_tt`: rotate `r` into the Earth-fixed frame, evaluate the field there, rotate
+    /// the acceleration back.
+    pub fn acceleration(&self, jd_tt: f64, r: Vec3) -> Vec3 {
+        let m = self.inertial_to_earth_fixed(jd_tt);
+        let r_ef = mat_vec(&m, r);
+        let a_ef = match self.evaluator {
+            FieldEvaluator::Classic => self.field.acceleration(r_ef),
+            FieldEvaluator::HolmesFeatherstone => self.field.acceleration_hf(r_ef),
+        };
+        mat_vec(&transpose(&m), a_ef)
     }
 }
 
@@ -383,6 +529,20 @@ impl ForceModel {
         }
     }
 
+    /// Use the opt-in tesseral Earth [`Geopotential`] as the central gravity (it supersedes the
+    /// two-body/J2/zonal/[`Body::gravity`] paths). Composable with every other term, e.g.
+    /// `ForceModel::two_body().with_geopotential(Geopotential::egm2008(70)).third_body(true, true, epoch)`.
+    pub fn with_geopotential(mut self, geopotential: Geopotential) -> Self {
+        self.geopotential = Some(geopotential);
+        self
+    }
+
+    /// Shorthand for [`with_geopotential`](Self::with_geopotential) over the bundled EGM2008
+    /// field to degree/order `nmax` (≤ 70) in the [`EarthFixedFrame::Era`] frame with UT1 = TT.
+    pub fn with_egm2008(self, nmax: usize) -> Self {
+        self.with_geopotential(Geopotential::egm2008(nmax))
+    }
+
     /// The time-independent **central** gravity (m/s², ECI) at position `r` (m): two-body plus
     /// the configured J2/zonal field, but *not* the third-body terms (which depend on time
     /// through the ephemeris — see [`accel_at`](Self::accel_at)). For a model without Sun/Moon
@@ -408,6 +568,11 @@ impl ForceModel {
     /// TDB ≈ TT is used for the body orientation (sub-2-ms agreement ⇒ a sub-µas orientation
     /// error, far below the gravity-field accuracy at this degree).
     fn central_accel_at(&self, jd_tt: f64, r: Vec3) -> Vec3 {
+        // The opt-in tesseral Earth geopotential is the whole central field when present. It is
+        // `None` by default, so this branch never runs for a historical configuration.
+        if let Some(gp) = &self.geopotential {
+            return gp.acceleration(jd_tt, r);
+        }
         if let Some(field) = &self.body.gravity {
             // Rotate the inertial position into the body-fixed frame, evaluate the Mars-fixed
             // field, rotate the acceleration back to inertial (mirrors `crate::lunar_od`).
@@ -582,6 +747,42 @@ pub fn propagate_dopri(
     )
 }
 
+/// Numerically propagate `(r0, v0)` by `t_end` seconds (either sign) under `model` with the
+/// adaptive **DOP853** driver ([`crate::integrator::integrate_dop853_checked`]), the first step
+/// chosen automatically. Returns the final `(r, v)`, or the reason the run stopped short (the
+/// error carries the last accepted state). A non-finite input is an error.
+pub fn propagate_dop853_checked(
+    r0: Vec3,
+    v0: Vec3,
+    t_end: f64,
+    model: &ForceModel,
+    tol: &Tolerance,
+) -> Result<(Vec3, Vec3), Dop853Error> {
+    let f = model.rhs();
+    let y0 = vec![r0[0], r0[1], r0[2], v0[0], v0[1], v0[2]];
+    let run = integrate_dop853_checked(&f, 0.0, &y0, t_end, 0.0, tol)?;
+    Ok((
+        [run.y[0], run.y[1], run.y[2]],
+        [run.y[3], run.y[4], run.y[5]],
+    ))
+}
+
+/// [`propagate_dop853_checked`] as a plain `(r, v)`, with the existing propagators' contract for
+/// a non-finite input (returned unchanged, NaN in → NaN out) and a **NaN state** when the
+/// integration stops short of `t_end` (fail closed: never a state at the wrong epoch).
+pub fn propagate_dop853(
+    r0: Vec3,
+    v0: Vec3,
+    t_end: f64,
+    model: &ForceModel,
+    tol: &Tolerance,
+) -> (Vec3, Vec3) {
+    if !state_is_finite(r0, v0, t_end) {
+        return (r0, v0);
+    }
+    propagate_dop853_checked(r0, v0, t_end, model, tol).unwrap_or(([f64::NAN; 3], [f64::NAN; 3]))
+}
+
 /// An inertial (TEME/ECI) state returned by a [`Propagator`], in **SI units** — position in
 /// metres, velocity in metres per second. This is the common currency of the trait, so the
 /// analytic SGP4 (which works in km, km/s) and the numerical propagator (which works in m, m/s)
@@ -633,6 +834,10 @@ pub enum Integrator {
     /// The Dormand–Prince RK5(4) embedded pair ([`propagate_dopri`]) — same result, fewer
     /// function evaluations per step.
     DormandPrince,
+    /// Hairer's DOP853 8(5,3) pair ([`propagate_dop853`]) with automatic initial step: the
+    /// highest-order option, cheapest at tight tolerances. A run that cannot meet the tolerance
+    /// returns a NaN state (fail closed) rather than a short-of-epoch one.
+    Dop853,
 }
 
 /// A first-class numerical propagator: the [`ForceModel`] integrated from an initial inertial
@@ -693,6 +898,9 @@ impl Propagator for NumericalPropagator {
             }
             Integrator::DormandPrince => {
                 propagate_dopri(self.r0, self.v0, t_seconds, &self.model, &self.tol)
+            }
+            Integrator::Dop853 => {
+                propagate_dop853(self.r0, self.v0, t_seconds, &self.model, &self.tol)
             }
         };
         Ok(StateVector { r, v })
@@ -824,8 +1032,9 @@ pub struct KeplerNonConvergence {
 /// simple so the guard is meaningful: a near-perigee high-eccentricity case (`e = 0.999`)
 /// where `f'(E) = 1 − e·cos E` collapses toward zero overshoots and fails to converge in a
 /// bounded budget — exactly the case a silent fixed-iteration solver would return garbage
-/// for. (A robust universal starter such as Markley's is a follow-on; this routine's job is
-/// the convergence *guard*.)
+/// for. (This routine's job is the convergence *guard*.) This is a **legacy** solver kept numerically unchanged because
+/// committed outputs depend on it; the robust solver, valid for all `0 ≤ e < 1`, is
+/// [`solve_kepler_robust`] (Markley 1995 starter, [`crate::kepler`]).
 pub fn solve_kepler_checked(
     mean_anomaly: f64,
     e: f64,
@@ -852,6 +1061,25 @@ pub fn solve_kepler_checked(
             residual: final_residual,
             iters: max_iter,
         })
+    }
+}
+
+/// Solve Kepler's equation `M = E − e·sin E` for `E` (rad) with the shared robust solver
+/// ([`crate::kepler::solve_kepler_markley`]: Markley's 1995 cubic starter and fifth-order
+/// correction, then Newton polishing to a few ulps), valid for every finite `M` and `0 ≤ e < 1`,
+/// including the near-perigee `e = 0.999` case where [`solve_kepler_checked`] reports
+/// non-convergence. Returns `Err` on invalid input (`e ∉ [0, 1)`, non-finite values; reported
+/// with `iters = 0` and an infinite residual) or non-convergence.
+pub fn solve_kepler_robust(mean_anomaly: f64, e: f64) -> Result<f64, KeplerNonConvergence> {
+    match crate::kepler::solve_kepler_markley(mean_anomaly, e) {
+        Ok(sol) => Ok(sol.ecc_anomaly),
+        Err(crate::kepler::KeplerError::InvalidInput) => Err(KeplerNonConvergence {
+            residual: f64::INFINITY,
+            iters: 0,
+        }),
+        Err(crate::kepler::KeplerError::NonConvergence { residual, iters }) => {
+            Err(KeplerNonConvergence { residual, iters })
+        }
     }
 }
 
@@ -1657,5 +1885,181 @@ mod tests {
             format!("{e}").contains('6'),
             "Display should name the code: {e}"
         );
+    }
+    // ── opt-in tesseral geopotential (RM-09) ────────────────────────────────────────────────
+
+    #[test]
+    fn the_default_model_carries_no_geopotential() {
+        // Additivity: every constructor leaves the opt-in field off, so the historical central
+        // gravity path (and every golden built on it) is untouched.
+        for m in [
+            ForceModel::two_body(),
+            ForceModel::with_j2(),
+            ForceModel::with_zonals_j2_j6(),
+            ForceModel::default().third_body(true, true, 2_451_545.0),
+        ] {
+            assert!(m.geopotential.is_none());
+        }
+    }
+
+    #[test]
+    fn a_zonal_geopotential_reproduces_the_zonal_path_in_every_frame_rotation() {
+        // A field holding only C̄00 = 1 and the J2..J6 zonals is axially symmetric, so rotating
+        // into the Earth-fixed frame about z and back must reproduce the independently coded
+        // two-body + zonal_accel path, whatever the Earth rotation angle. This ties the rotation
+        // plumbing to code that never touches it.
+        let mut f = SphericalHarmonicField::zeros(MU_EARTH, crate::forces::RE_EARTH, 6);
+        f.set(0, 0, 1.0, 0.0);
+        for (i, &j) in EARTH_ZONALS_J2_J6.iter().enumerate() {
+            let n = i + 2;
+            f.set(n, 0, -j / ((2 * n + 1) as f64).sqrt(), 0.0);
+        }
+        let tess = ForceModel::two_body().with_geopotential(Geopotential::new(f));
+        let zonal = ForceModel::with_zonals_j2_j6();
+        let r = [6.9e6, 1.1e6, 1.4e6];
+        for t in [0.0, 1234.5, 40_000.0] {
+            let a = tess.accel_at(t, r);
+            let b = zonal.accel_at(t, r);
+            let d = norm([a[0] - b[0], a[1] - b[1], a[2] - b[2]]);
+            assert!(d / norm(b) < 1e-12, "t={t}: rel {}", d / norm(b));
+        }
+    }
+
+    #[test]
+    fn the_cio_frame_matches_the_precise_od_geopotential_bit_for_bit() {
+        // In the CIO frame with UT1 = TT the opt-in path evaluates exactly the rotation and field
+        // the precise orbit-determination force model uses, so the two must agree to the bit.
+        use crate::precise_od::{ForceModel as _, PreciseForceModel};
+        let epoch = 2_459_580.5;
+        let ours = ForceModel::two_body()
+            .with_geopotential(Geopotential::egm2008(30).in_frame(EarthFixedFrame::Cio))
+            .third_body(false, false, epoch);
+        let theirs = PreciseForceModel::egm2008(30, epoch);
+        let (r, v) = ([6.9e6, 1.1e6, 1.4e6], [-1.0e3, 7.0e3, 1.5e3]);
+        for t in [0.0, 600.0, 7200.0] {
+            assert_eq!(ours.accel_at(t, r), theirs.accel_rv(t, r, v), "t = {t}");
+        }
+    }
+
+    #[test]
+    fn the_two_field_evaluators_agree_on_the_opt_in_path() {
+        // Holmes–Featherstone and the classic recursion evaluate the same field; away from the
+        // poles at degree 70 they must agree to rounding through the rotation plumbing too.
+        let classic = Geopotential::egm2008(70);
+        let hf = Geopotential::egm2008(70).with_evaluator(FieldEvaluator::HolmesFeatherstone);
+        let r = [6.9e6, 1.1e6, 1.4e6];
+        for jd in [2_451_545.0, 2_460_311.25] {
+            let (a, b) = (classic.acceleration(jd, r), hf.acceleration(jd, r));
+            let d = norm([a[0] - b[0], a[1] - b[1], a[2] - b[2]]);
+            assert!(d / norm(a) < 1e-13, "jd {jd}: rel {}", d / norm(a));
+        }
+        assert_eq!(Geopotential::egm2008(8).evaluator, FieldEvaluator::Classic);
+    }
+
+    #[test]
+    fn the_tesseral_orbit_conserves_the_jacobi_integral() {
+        // A gravity field rotating uniformly about z conserves the Jacobi integral
+        // J = ½|v|² − U(r) − ω·(r × v)_z in the inertial frame. The Earth rotation angle advances
+        // at the constant IAU 2000 rate, so a 6 h EGM2008 20×20 propagation must hold J to the
+        // integrator tolerance; a sign or frame error in the rotation breaks it at once.
+        let epoch = 2_451_545.0;
+        let gp = Geopotential::egm2008(20);
+        let field = gp.field.clone();
+        let model = ForceModel::two_body()
+            .with_geopotential(gp.clone())
+            .third_body(false, false, epoch);
+        let omega = std::f64::consts::TAU * 1.002_737_811_911_354_5 / SECONDS_PER_DAY;
+        let jacobi = |t: f64, r: Vec3, v: Vec3| {
+            let m = gp.inertial_to_earth_fixed(epoch + t / SECONDS_PER_DAY);
+            let u = field.potential(mat_vec(&m, r));
+            0.5 * dot(v, v) - u - omega * (r[0] * v[1] - r[1] * v[0])
+        };
+        let (r0, v0) = leo_state();
+        let tol = Tolerance {
+            rtol: 1e-12,
+            atol: 1e-9,
+            ..Tolerance::default()
+        };
+        let t_end = 6.0 * 3600.0;
+        let (r1, v1) = propagate_dopri(r0, v0, t_end, &model, &tol);
+        let (j0, j1) = (jacobi(0.0, r0, v0), jacobi(t_end, r1, v1));
+        let rel = ((j1 - j0) / j0).abs();
+        assert!(rel < 1e-9, "Jacobi drift {rel:e} (J0 = {j0}, J1 = {j1})");
+        // And the tesseral field genuinely moved the orbit away from the J2..J6 zonal one.
+        let (rz, _) = propagate_dopri(r0, v0, t_end, &ForceModel::with_zonals_j2_j6(), &tol);
+        let sep = norm([r1[0] - rz[0], r1[1] - rz[1], r1[2] - rz[2]]);
+        assert!(sep > 10.0, "tesseral vs zonal separation only {sep} m");
+    }
+
+    #[test]
+    fn dop853_propagation_matches_exact_kepler_over_24h() {
+        let (r0, v0) = leo_state();
+        let day = 86_400.0;
+        let tol = Tolerance {
+            rtol: 1e-12,
+            atol: 1e-9,
+            ..Tolerance::default()
+        };
+        let (r_num, v_num) = propagate_dop853(r0, v0, day, &ForceModel::two_body(), &tol);
+        let (r_exact, v_exact) = kepler_universal(r0, v0, day, MU_EARTH);
+        let err = norm([
+            r_num[0] - r_exact[0],
+            r_num[1] - r_exact[1],
+            r_num[2] - r_exact[2],
+        ]);
+        let verr = norm([
+            v_num[0] - v_exact[0],
+            v_num[1] - v_exact[1],
+            v_num[2] - v_exact[2],
+        ]);
+        assert!(err < 0.1, "DOP853 24h two-body residual {err} m");
+        assert!(verr < 1e-4, "DOP853 24h velocity residual {verr} m/s");
+        // Backward propagation returns to the start.
+        let (rb, _) = propagate_dop853(r_num, v_num, -day, &ForceModel::two_body(), &tol);
+        let back = norm([rb[0] - r0[0], rb[1] - r0[1], rb[2] - r0[2]]);
+        assert!(back < 0.2, "round trip {back} m");
+    }
+
+    #[test]
+    fn numerical_propagator_dop853_selection_agrees_and_default_is_unchanged() {
+        let (r0, v0) = leo_state();
+        let tol = Tolerance {
+            rtol: 1e-12,
+            atol: 1e-9,
+            ..Tolerance::default()
+        };
+        let base = NumericalPropagator::two_body(r0, v0).with_tolerance(tol);
+        assert_eq!(base.integrator, Integrator::StepDoubling);
+        let a = base.state_at(5_400.0).unwrap();
+        let b = base
+            .clone()
+            .with_integrator(Integrator::Dop853)
+            .state_at(5_400.0)
+            .unwrap();
+        let d = norm([a.r[0] - b.r[0], a.r[1] - b.r[1], a.r[2] - b.r[2]]);
+        assert!(d < 0.1, "DOP853 vs step doubling {d} m");
+        // Non-finite input: returned unchanged, as for the other drivers.
+        let (rn, _) = propagate_dop853(
+            [f64::NAN, 0.0, 0.0],
+            v0,
+            60.0,
+            &ForceModel::two_body(),
+            &tol,
+        );
+        assert!(rn[0].is_nan());
+        assert!(
+            propagate_dop853_checked(r0, v0, f64::INFINITY, &ForceModel::two_body(), &tol).is_err()
+        );
+    }
+
+    #[test]
+    fn solve_kepler_robust_converges_where_the_checked_solver_fails() {
+        // The legacy guard's failing case converges with the shared Markley solver.
+        let ea = solve_kepler_robust(0.3, 0.999).expect("robust solver converges");
+        assert!((ea - 0.999 * ea.sin() - 0.3).abs() < 1e-15);
+        // Agrees with the legacy solver where that one converges.
+        let legacy = solve_kepler_checked(1.0, 0.3, 30).unwrap();
+        assert!((solve_kepler_robust(1.0, 0.3).unwrap() - legacy).abs() < 1e-14);
+        assert!(solve_kepler_robust(1.0, 1.0).is_err());
     }
 }
