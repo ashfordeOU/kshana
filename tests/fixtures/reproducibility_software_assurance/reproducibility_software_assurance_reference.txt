@@ -4,15 +4,15 @@
 # Lines are KEY value. See generator docstring for the honest scope.
 bom_format CycloneDX
 spec_version 1.5
-component_count 105
+component_count 107
 spdx_enum_size 613
-raw_schema_errors 95
+raw_schema_errors 97
 normalized_schema_errors 0
-compound_count 95
+compound_count 97
 atomic_id_count 10
 atomic_ids_invalid_count 0
 atomic_ids_all_valid_spdx 1
-sbom_sha256 5a1cef561fe670fb05e8f8d3fcb9ea8a3e7350ecfa7c88d156870c81524ddd38
+sbom_sha256 5d10c31ed7ebf49862488e6f56d51c506ff05af8d2ff548dedd92f0464753744
 atomic_id VALID AGPL-3.0-only
 atomic_id VALID BSD-3-Clause
 atomic_id VALID MIT
