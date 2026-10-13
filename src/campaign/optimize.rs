@@ -736,6 +736,7 @@ mod tests {
             stop: 50000.0,
             steps: 41,
             scale: "log".into(),
+            unit: None,
         }
         .values();
         for (i, v) in sweep.iter().enumerate() {

@@ -1769,6 +1769,7 @@ fn run_sweep(cfg: &SweepCfg, seed: u64, ledger: &mut Ledger) -> Result<SweepOut,
                 stop: a.stop,
                 steps: a.steps,
                 scale: a.scale.clone(),
+                unit: None,
             }
             .values()
         })
