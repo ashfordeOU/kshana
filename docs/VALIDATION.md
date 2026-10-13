@@ -317,8 +317,10 @@ density. DE440 (DE: Development Ephemeris) Sun and Moon are an opt-in ephemeris 
 (`ForceModel::with_ephemeris`). The WGS-84 oblate-Earth SRP shadow is opt-in
 (`ForceModel::srp_shadow`), agreeing with Orekit 12.2's lighting ratio within 7.4e-9 over 2400
 geometries (`tests/srp_oblate_shadow_orekit_oracle.rs`); its limb-darkened variant has no external
-oracle (MODELLED). An external cross-validation of the drag tier and a GMAT (General Mission Analysis
-Tool) cross-check remain follow-ons.
+oracle (MODELLED). The NRLMSISE-00 drag tier agrees with Orekit 12.2's own NRLMSISE-00 drag over
+24 h to 0.03 m against up to 142 km of drag displacement (`tests/drag_tier_orekit_oracle.rs`,
+VALIDATED under the shared conventions). A GMAT (General Mission Analysis Tool) cross-check remains a
+follow-on.
 
 ## Tides on the geopotential (`src/tides.rs`)
 
