@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-License-Identifier: AGPL-3.0-only
-"""Builds codg1330_crop.18i (a latitude crop of the CODE GIM for 2018-05-13) - stdlib only.
+"""Builds map.18i (a latitude crop of the CODE GIM for 2018-05-13) - stdlib only.
 
 Commands (run 2026-10-12):
 
@@ -8,7 +8,7 @@ Commands (run 2026-10-12):
     sha256sum CODG1330.18I.Z   # 6f2ef96d339ff0e6fa9ef42f337d9a7ab6ee5c3cc5c8cf94c21080c77ca235c1
     gzip -dc CODG1330.18I.Z > CODG1330.18I
     sha256sum CODG1330.18I     # 95a0ea0d046f20e4fbded109295ae76cfa7fe2f75004883b1baef47c5d3151c4
-    python3 -I make_fixture.py CODG1330.18I > codg1330_crop.18i
+    python3 -I make_fixture.py CODG1330.18I > map.18i   (fetch.sh does all of this outside the repository)
 
 Transform: header records verbatim except `LAT1 / LAT2 / DLAT` (rewritten for the crop) and
 three `COMMENT` records added after `PGM / RUN BY / DATE`; in every TEC and RMS map only the
