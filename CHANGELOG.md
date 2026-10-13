@@ -11,6 +11,13 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **EOP prediction beyond the table** (`EopSeries::with_ls_ar_prediction`, `EopSeries::last_mjd`):
+  an opt-in extension of an IERS Earth-orientation series by the LS+AR predictor issued at its
+  last row, so the frame arguments of a later epoch follow the forecast instead of clamping to
+  the last row. In-table answers are bit-identical (tested); the series still clamps unless
+  this is called. The forecast's accuracy remains the existing LS+AR finding against
+  Bulletin A (MODELLED).
+
 - **Celestial-pole offsets dX, dY on the CIO chain** (`cio::gcrs_to_cirs_matrix_with_offsets`),
   and direct ERFA vector checks of `precession_matrix`, `teme_to_gcrs_matrix` and the new
   function. New ledger row, VALIDATED against pyerfa (pre-registered 979c1e39; 40 epochs
