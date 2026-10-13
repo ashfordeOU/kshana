@@ -246,6 +246,88 @@ fn service_volume_dem_points_outside_the_crop_keep_the_flat_mask() {
     );
 }
 
+/// The per-satellite export site is masked by the terrain like a grid point: with a
+/// `terrain` section every export row gains `clears_terrain` (visible and at or above the
+/// site's horizon at its azimuth), the report gains the site's horizon echo, and the CSV
+/// gains the column. Without a `terrain` section the export is unchanged.
+#[test]
+fn the_export_site_is_masked_by_the_terrain() {
+    let site = "export_site_lat_deg = -89.0\nexport_site_lon_deg = 0.0\n";
+    let src = format!("{site}{SV}");
+    let flat = run_sv(&src);
+    let rows = flat["per_sat_geometry"].as_array().expect("export rows");
+    assert!(rows.iter().all(|r| r.get("clears_terrain").is_none()));
+    assert!(flat.get("export_site_terrain").is_none());
+
+    // A uniform 20 deg wall at every azimuth.
+    let walled_src = format!(
+        "{src}\n[terrain]\nuser_horizon = {{ source = \"ILLUSTRATIVE\", table = [[0.0, 20.0], [180.0, 20.0]] }}\n"
+    );
+    let walled = run_sv(&walled_src);
+    let rows = walled["per_sat_geometry"].as_array().unwrap();
+    let (mut visible, mut cleared) = (0, 0);
+    for r in rows {
+        let el = r["el_deg"].as_f64().unwrap();
+        let vis = r["visible"].as_bool().unwrap();
+        let clears = r["clears_terrain"]
+            .as_bool()
+            .expect("clears_terrain present");
+        assert_eq!(clears, vis && el >= 20.0, "{r}");
+        visible += vis as usize;
+        cleared += clears as usize;
+    }
+    assert!(
+        cleared < visible,
+        "the wall must hide some visible satellites ({cleared} of {visible})"
+    );
+    // The geometry itself does not move.
+    let strip = |v: &Value| -> Vec<Value> {
+        v["per_sat_geometry"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .map(|r| {
+                let mut r = r.clone();
+                r.as_object_mut().unwrap().remove("clears_terrain");
+                r
+            })
+            .collect()
+    };
+    assert_eq!(strip(&walled), strip(&flat));
+    let e = &walled["export_site_terrain"];
+    assert_eq!(e["horizon_max_deg"], 20.0);
+    assert_eq!(e["sources"][0], "ILLUSTRATIVE");
+
+    // The runtime CSV carries the column only with terrain.
+    let out = kshana::api::run_toml(&walled_src).unwrap();
+    let csv = out.csv.expect("export csv");
+    assert!(
+        csv.lines().any(|l| l.ends_with(",clears_terrain")),
+        "{}",
+        &csv[..400]
+    );
+    let plain = kshana::api::run_toml(&src).unwrap().csv.unwrap();
+    assert!(!plain.contains("clears_terrain"));
+    // Every numeric field the export-site terrain echo adds has a unit. (The export rows'
+    // own fields, `per_sat_geometry[].*`, have no units-block entries with or without
+    // terrain; that pre-existing gap is not this change's.)
+    let audit = kshana::field_schema::audit_document(&serde_json::from_str(&out.json).unwrap());
+    let missing: Vec<&String> = audit
+        .missing
+        .iter()
+        .filter(|p| !p.starts_with("per_sat_geometry[]"))
+        .collect();
+    assert!(missing.is_empty(), "{missing:?}");
+    let plain_audit = kshana::field_schema::audit_document(
+        &serde_json::from_str(&kshana::api::run_toml(&src).unwrap().json).unwrap(),
+    );
+    assert_eq!(
+        plain_audit.missing.len(),
+        audit.missing.len(),
+        "terrain adds no field without a unit"
+    );
+}
+
 // ── units ─────────────────────────────────────────────────────────────────────
 
 fn audit(src: &str) -> kshana::field_schema::DocumentAudit {
@@ -313,7 +395,10 @@ fn the_horizon_matches_the_preregistered_numpy_ray_cast() {
     };
     let (mut worst_h, mut worst_el, mut n) = (0.0_f64, 0.0_f64, 0usize);
     for s in r["sites"].as_array().unwrap() {
-        let (lat, lon) = (s["lat_deg"].as_f64().unwrap(), s["lon_deg"].as_f64().unwrap());
+        let (lat, lon) = (
+            s["lat_deg"].as_f64().unwrap(),
+            s["lon_deg"].as_f64().unwrap(),
+        );
         let h = horizon_profile(&dem, up_of(lat, lon), &p).expect("horizon");
         worst_h = worst_h.max((h.site_height_m - s["site_height_m"].as_f64().unwrap()).abs());
         assert_eq!(

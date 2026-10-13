@@ -673,6 +673,33 @@ impl LunarTerrainCfg {
         Ok(SiteMask { skyline: sky, echo })
     }
 
+    /// One site's mask under `user_horizon` and the DEM, built exactly as a grid point's
+    /// is in [`Self::resolve_grid`] (outside the DEM it keeps the flat mask), with its
+    /// whole-degree profile: for a single named site such as the service volume's
+    /// per-satellite export site.
+    pub fn resolve_site(
+        &self,
+        lat_deg: f64,
+        lon_deg: f64,
+        mask_deg: f64,
+    ) -> Result<SiteMask, String> {
+        self.validate()?;
+        let loaded = match &self.dem_path {
+            Some(p) => Some(PolarDem::load(p)?),
+            None => None,
+        };
+        let grid = loaded.as_ref().map(|(d, _)| d);
+        self.site(
+            self.user_horizon.as_ref(),
+            grid,
+            lat_deg,
+            lon_deg,
+            mask_deg,
+            true,
+            true,
+        )
+    }
+
     /// Resolve the masks: read the DEM (if any) and build the station's and every user
     /// point's skyline. `users` are `(lat_deg, lon_deg)`.
     pub fn resolve(
@@ -927,6 +954,20 @@ pub const STATION_TERRAIN_UNITS: &[crate::field_schema::FieldUnit] = &{
         fu!("terrain.user_horizon_max_deg_mean", "deg", Computed, "area-weighted mean over the points of the highest horizon"),
         fu!("terrain.user_horizon_max_deg_max", "deg", Computed, "highest horizon over every point"),
         fu!("terrain.user_sky_open_fraction_mean", "1", Computed, "area-weighted mean over the points of the open-sky share"),
+    ]
+};
+
+/// The units the `moonlight-service-volume` document adds when it has both a `terrain`
+/// section and a per-satellite export site.
+pub const EXPORT_SITE_TERRAIN_UNITS: &[crate::field_schema::FieldUnit] = &{
+    use crate::field_schema::ProvenanceClass::*;
+    [
+        fu!("export_site_terrain.dem_site_height_m", "m", Measured, "terrain height at the export site from the DEM (LOLA heights, resampled), above the reference sphere"),
+        fu!("export_site_terrain.dem_rays_truncated", "count", Computed, "DEM rays from the export site that left the grid before max_range_km"),
+        fu!("export_site_terrain.horizon_max_deg", "deg", Computed, "highest horizon at the export site over the whole-degree profile"),
+        fu!("export_site_terrain.horizon_max_az_deg", "deg", Computed, "azimuth of that highest horizon, clockwise from local north"),
+        fu!("export_site_terrain.sky_open_fraction", "1", Computed, "share of the upper hemisphere's solid angle above max(elev_mask_deg, horizon) at the export site"),
+        fu!("export_site_terrain.profile_deg[]", "deg", Computed, "the export site's horizon at every whole degree of azimuth from local north"),
     ]
 };
 
