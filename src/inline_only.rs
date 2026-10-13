@@ -35,8 +35,9 @@ pub const FILE_SOURCE_KEYS_BY_KIND: &[(&str, &[&str])] = &[(
 /// with a message that names no path and carries no operating-system error text.
 pub const FILE_READING_KINDS: &[&str] = &["lunar-llr-datum"];
 
-/// Tables whose `path` key names a receiver log or its navigation file.
-const FILE_SOURCE_TABLES: &[&str] = &["log", "nav"];
+/// Tables whose `path` key names a receiver log or its navigation file, or a measured clock log
+/// (`[clock_log]`, read from the file on native builds; its `text` carries the log inline).
+const FILE_SOURCE_TABLES: &[&str] = &["log", "nav", "clock_log"];
 
 /// Refuse a scenario that names a file or folder, and one over `max_bytes`. A text that is not
 /// valid TOML passes: the engine refuses it with its own message.
@@ -124,6 +125,14 @@ mod tests {
         );
         assert!(refused("[log.nav]\npath = \"x\"").contains("path"));
         assert!(refused(
+            "kind = \"telecom-timing\"\n[clock_log]\nformat = \"ticc\"\npath = \"x.txt\""
+        )
+        .contains("path"));
+        assert!(
+            refused("kind = \"clock\"\n[clock_log]\nformat = \"timelab\"\npath = \"x\"")
+                .contains("path")
+        );
+        assert!(refused(
             "kind = \"campaign\"\n[[phases]]\n[phases.scenario]\nplanetary_kernel_path = \"k\""
         )
         .contains("planetary_kernel_path"));
@@ -160,6 +169,11 @@ mod tests {
         .unwrap();
         reject_file_sources(
             "kind = \"campaign\"\n[[metrics]]\nname = \"a\"\npath = \"quantum.fom.x\"",
+            MAX,
+        )
+        .unwrap();
+        reject_file_sources(
+            "kind = \"telecom-timing\"\n[clock_log]\nformat = \"ticc\"\ntext = \"inline\"",
             MAX,
         )
         .unwrap();
