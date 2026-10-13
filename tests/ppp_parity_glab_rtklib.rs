@@ -23,6 +23,15 @@
 //! antenna offset and weights differently): RTKLIB's own SPP is 1.62 m (median) from ITRF2020,
 //! Kshana's 1.55 m (01-06 h, tests/hatch_wettzell_oracle.rs). A corrected configuration is a NEW registration (amendment 2) with this
 //! result disclosed; this one stands as recorded. gLAB leg: not run.
+//!
+//! Amendment 2 (3d01186, tide on): R1 0 %, R2 0.232 m, a FINDING: RTKLIB then sat +0.19 to
+//! +0.20 m up with the horizontal near zero, because the registered configuration put the
+//! receiver antenna on RTKLIB's base slot (`ant2-*`); the tide diagnosis above was incomplete.
+//! Amendment 3 (6e89494, the last registration: tide on, antenna on the rover slot): R1 240 of
+//! 240 epochs within 0.05 m (100 %), R2 0.0097 m at the last epoch: Kshana's float PPP and
+//! RTKLIB's agree to the registered bars once RTKLIB is configured as the registration intended.
+//! Outcome by the registered rule: the RTKLIB leg is NOT met as a whole, because R3 (SPP,
+//! 1.085 m against 0.50 m) failed and is not re-registered; PPP parity holds on amendment 3.
 
 use kshana::gnss_sim::Meteo;
 use kshana::ppp_real::{parse_antex_receiver, run_ppp, PppConfig};
@@ -221,6 +230,16 @@ fn rtklib_finding_is_pinned() {
 #[ignore = "FINDING: amendment 2 R1 0 %, R2 0.232 m; the RTKLIB config set the receiver antenna on the base slot"]
 fn rtklib_ppp_with_the_solid_tide_amendment_2() {
     let o = compare_tool(&oracle_dir(), "rtklib", "rtklib_ppp_tide.csv")
+        .expect("committed RTKLIB outputs");
+    assert!(o.r1_n >= 200, "non-vacuity");
+    assert!(o.r1_frac >= 0.95, "R1");
+    assert!(o.r2 <= 0.03, "R2");
+}
+
+/// Amendment 3 (6e89494), the final RTKLIB PPP registration: tide on, rover antenna on slot 1.
+#[test]
+fn rtklib_ppp_amendment_3() {
+    let o = compare_tool(&oracle_dir(), "rtklib", "rtklib_ppp_tide_ant.csv")
         .expect("committed RTKLIB outputs");
     assert!(o.r1_n >= 200, "non-vacuity");
     assert!(o.r1_frac >= 0.95, "R1");
