@@ -209,6 +209,442 @@ pub fn figure_tiers(
     block
 }
 
+/// Kinds whose result document carries a frozen pre-registered prediction
+/// (`tests/prediction_frozen.rs` reproduces it byte for byte). They get no
+/// `figure_tiers` block until a new dated prediction replaces the frozen one.
+pub const FROZEN_PREDICTION_KINDS: &[&str] = &["lunar-station-coverage"];
+
+/// Kinds that build their own `figure_tiers` block inside their run.
+pub const KINDS_WITH_INLINE_TIERS: &[&str] = &["clock", "orbit", "hybrid", "fusion"];
+
+/// Kinds that get no `figure_tiers` block, each with the reason: no scalar headline
+/// figure, or a compact (not pretty-printed) result document, which the byte-exact append
+/// cannot extend without re-printing the whole document.
+pub const KINDS_EXCLUDED_FROM_FIGURE_TIERS: &[(&str, &str)] = &[
+    ("lunar-attack-surface", "its result document is compact JSON; appending the block byte-exactly would need the whole document re-printed"),
+    ("leo-ppp", "its result carries the convergence times and NEES as arrays; no scalar headline figure"),
+    ("solar-system", "its positions and light times are arrays; the only scalars are the epoch and the body count"),
+    ("sweep", "its results are arrays of member runs; the members carry their own tiers"),
+    ("sweep-nd", "its results are arrays of member metrics; the members carry their own tiers"),
+];
+
+/// The headline figures of every other built-in kind: `(path, requirement)` pairs, the
+/// path dotted into the result document and the requirement the verification-matrix row
+/// that owns the figure (empty: no row owns it, and the figure is listed as untiered).
+/// The tier is read from the row, never written here. `None` for a kind not in the table.
+pub fn kind_figures(kind: &str) -> Option<&'static [(&'static str, &'static str)]> {
+    Some(match kind {
+        "aperture-duty-cycle" => &[
+            ("navigation_duty", "Aperture navigation-versus-communications duty cycle"),
+            ("communications_duty", "Aperture navigation-versus-communications duty cycle"),
+            ("idle_duty", "Aperture navigation-versus-communications duty cycle"),
+            ("contention_s", "Aperture navigation-versus-communications duty cycle"),
+        ],
+        "araim-reference-check" => &[
+            ("worst_acceptance_error_m", "ARAIM MHSS protection levels against published reference vectors"),
+        ],
+        "attitude-budget" => &[
+            ("gravity_gradient_torque_max_nm", "3-DOF attitude & pointing error budget (AOCS)"),
+            ("total_pointing_error_arcsec", ""),
+        ],
+        "body-pnt" => &[
+            ("fom.availability_relays", "Positioning around any solar-system body with a local constellation and a deep-space link from Earth"),
+            ("fom.availability_with_earth", "Positioning around any solar-system body with a local constellation and a deep-space link from Earth"),
+            ("fom.rms_error_relays_m", "Positioning around any solar-system body with a local constellation and a deep-space link from Earth"),
+            ("fom.rms_error_with_earth_m", "Positioning around any solar-system body with a local constellation and a deep-space link from Earth"),
+        ],
+        "campaign" => &[
+            ("timeline.duration_s", ""),
+            ("reproducibility.runs_total", ""),
+        ],
+        "cislunar-arc-recovery" => &[
+            ("claim_under_test.estimator_noise_free_boundary_hours", "Independent-estimator corroboration of the cislunar arc-length threshold"),
+            ("claim_under_test.estimator_estimability_boundary_hours", "Independent-estimator corroboration of the cislunar arc-length threshold"),
+            ("claim_under_test.rank_ratio_estimator_over_gramian", "Independent-estimator corroboration of the cislunar arc-length threshold"),
+            ("claim_under_test.estimability_ratio_estimator_over_gramian", "Independent-estimator corroboration of the cislunar arc-length threshold"),
+        ],
+        "cislunar-observability" => &[
+            ("gramian_spectrum.rank", "Spatial, noisy, multi-family cislunar arc-length observability"),
+            ("gramian_spectrum.condition", "Spatial, noisy, multi-family cislunar arc-length observability"),
+            ("gdop.range_rate.gdop", "Spatial, noisy, multi-family cislunar arc-length observability"),
+            ("srif_cross_validation.full_rank_transition_epoch", "Spatial, noisy, multi-family cislunar arc-length observability"),
+        ],
+        "combined-altpnt" => &[
+            ("combined_m", "Alternative / complementary PNT"),
+            ("gravity_only_m", "Alternative / complementary PNT"),
+            ("magnetic_only_m", "Alternative / complementary PNT"),
+            ("terrain_only_m", "Alternative / complementary PNT"),
+        ],
+        "conflict-resilience" => &[
+            ("resilience_ratio.closed_form_independent", ""),
+            ("resilience_ratio.monte_carlo_independent", ""),
+            ("correlation_sweep.min_ratio_over_grid", ""),
+            ("prior_sensitivity.nominal_ratio", ""),
+        ],
+        "constellation-design" => &[
+            ("global.availability_pct", "Coverage and dilution-of-precision maps for arbitrary multi-constellation designs at scale, around any central body"),
+            ("global.worst_site_availability_pct", "Coverage and dilution-of-precision maps for arbitrary multi-constellation designs at scale, around any central body"),
+            ("global.pdop.median", "Coverage and dilution-of-precision maps for arbitrary multi-constellation designs at scale, around any central body"),
+            ("global.mean_visible", "Coverage and dilution-of-precision maps for arbitrary multi-constellation designs at scale, around any central body"),
+        ],
+        "earth-gnss-lunar" => &[
+            ("sweep.fix_availability", "Earth-GNSS at lunar distance"),
+            ("sweep.signal_availability", "Earth-GNSS at lunar distance"),
+            ("sweep.best_cn0_dbhz", "Earth-GNSS at lunar distance"),
+            ("earth_limb_half_angle_deg", "Earth-GNSS at lunar distance"),
+        ],
+        "eo-coverage" => &[
+            ("swath_width_km", "EO payload footprint & coverage geometry"),
+            ("nadir_gsd_m", "EO payload footprint & coverage geometry"),
+            ("max_access_ground_range_km", "EO payload footprint & coverage geometry"),
+            ("equatorial_ground_track_spacing_km", "EO payload footprint & coverage geometry"),
+        ],
+        "ephemeris" => &[
+            ("alt_min_km", ""),
+            ("alt_max_km", ""),
+            ("max_elevation_deg", ""),
+            ("peak_doppler_hz", ""),
+        ],
+        "gnss-ins" => &[
+            ("quantum.fused_outage_rms_m", ""),
+            ("classical.fused_outage_rms_m", ""),
+            ("quantum.fom.availability", ""),
+            ("classical.fom.availability", ""),
+        ],
+        "gnss-sim" => &[
+            ("fom.raim_availability", ""),
+            ("fom.mean_hpl_m", ""),
+            ("fom.mean_vpl_m", ""),
+            ("fom.mean_iono_m", ""),
+        ],
+        "gravity-map" => &[
+            ("map_matched_error_m", "Alternative / complementary PNT"),
+            ("free_inertial_drift_m", ""),
+        ],
+        "hybrid-optical-rf" => &[
+            ("cross_modality_raim.hpl_m", ""),
+            ("cross_modality_raim.vpl_m", ""),
+            ("cross_modality_raim.tpl_s", ""),
+            ("joint_fom.availability", ""),
+        ],
+        "hybrid-ukf" => &[
+            ("consistency.nis_mean", ""),
+            ("consistency.nees_mean", ""),
+            ("coast.aided_pos_rms_m", ""),
+            ("coast.coast_end_pos_rms_m", ""),
+        ],
+        "impairment-eval" => &[
+            ("distribution_shift.auc_in", "AI/ML RF-impairment detection evaluation (13494)"),
+            ("distribution_shift.auc_out", "AI/ML RF-impairment detection evaluation (13494)"),
+            ("distribution_shift.optimism_gap", "AI/ML RF-impairment detection evaluation (13494)"),
+            ("operating_point.pd", "AI/ML RF-impairment detection evaluation (13494)"),
+        ],
+        "inertial" => &[
+            ("quantum.fom.holdover_s", "Quantum inertial dead-reckoning resilience"),
+            ("classical.fom.holdover_s", "Quantum inertial dead-reckoning resilience"),
+            ("quantum.fom.pos_p95_m", "Quantum inertial dead-reckoning resilience"),
+            ("classical.fom.pos_p95_m", "Quantum inertial dead-reckoning resilience"),
+        ],
+        "ins-trn-coast" => &[
+            ("trn.peak_error_m", "INS/TRN coasting error growth & threshold crossings"),
+        ],
+        "integrity" => &[
+            ("samples_available", ""),
+        ],
+        "jamming" => &[
+            ("fom.availability_under_jamming", "GNSS-denied jamming resilience"),
+            ("fom.mean_js_db", "GNSS-denied jamming resilience"),
+            ("fom.min_tracking", "GNSS-denied jamming resilience"),
+        ],
+        "launch-window" => &[
+            ("launch_azimuth_deg.ascending", "Launch-window & ascent geometry (mission analysis)"),
+            ("circular_velocity_m_s", "Launch-window & ascent geometry (mission analysis)"),
+            ("site_rotation_speed_m_s", "Launch-window & ascent geometry (mission analysis)"),
+            ("daily_opportunities", "Launch-window & ascent geometry (mission analysis)"),
+        ],
+        "leo-navmsg" => &[
+            ("encode_decode.sisre_exact_rms_m", ""),
+            ("encode_decode.sisre_quantised_rms_m", "Documented binary encoding of the LEO navigation message with a quantisation-error budget"),
+            ("encode_decode.quantised_max_pos_m", "Documented binary encoding of the LEO navigation message with a quantisation-error budget"),
+            ("encode_decode.rinex_round_trip_max_pos_m", "RINEX-4-style and CSV exports of LEO navigation messages"),
+        ],
+        "leo-pass" => &[
+            ("comparison.leo_peak_cn0_dbhz", "A LEO-PNT pass and its per-band link budget against the MEO GNSS satellites in view"),
+            ("comparison.gnss_median_cn0_dbhz", "A LEO-PNT pass and its per-band link budget against the MEO GNSS satellites in view"),
+            ("comparison.leo_peak_above_gnss_median_db", "A LEO-PNT pass and its per-band link budget against the MEO GNSS satellites in view"),
+            ("comparison.leo_seconds_above_gnss_max", "A LEO-PNT pass and its per-band link budget against the MEO GNSS satellites in view"),
+        ],
+        "leo-pnt-chain" => &[
+            ("pass.peak_tracked_cn0_dbhz", "One LEO-PNT system end to end: signal design, pass link budget, navigation message and fused positioning, each stage's output handed to the next"),
+            ("navmsg.representation_sisre_rms_m", "One LEO-PNT system end to end: signal design, pass link budget, navigation message and fused positioning, each stage's output handed to the next"),
+            ("fusion.gnss.rms_error_3d_m", "One LEO-PNT system end to end: signal design, pass link budget, navigation message and fused positioning, each stage's output handed to the next"),
+            ("fusion.fused.rms_error_3d_m", "One LEO-PNT system end to end: signal design, pass link budget, navigation message and fused positioning, each stage's output handed to the next"),
+        ],
+        "leo-pvt" => &[
+            ("joint.fused.availability", "Joint GNSS and LEO pseudorange positioning with inter-system biases and per-signal error models"),
+            ("joint.fused.median_pdop", "Joint GNSS and LEO pseudorange positioning with inter-system biases and per-signal error models"),
+            ("joint.gnss.rms_error_3d_m", "Joint GNSS and LEO pseudorange positioning with inter-system biases and per-signal error models"),
+            ("joint.fused.rms_error_3d_m", "Joint GNSS and LEO pseudorange positioning with inter-system biases and per-signal error models"),
+        ],
+        "leo-signal" => &[
+            ("receiver.noise_density_dbw_per_hz", "Low Earth orbit positioning, navigation and timing signal designs: code tracking, acquisition, GNSS compatibility and a band trade for any system"),
+        ],
+        "link-budget" => &[
+            ("free_space_loss_db", "One-way link budget (comms / link design)"),
+            ("cn0_dbhz", "One-way link budget (comms / link design)"),
+            ("eb_n0_db", "One-way link budget (comms / link design)"),
+            ("margin_db", "One-way link budget (comms / link design)"),
+        ],
+        "lunar-beacon" => &[
+            ("beacon_pdop_improvement", "Lunar surface-beacon DOP augmentation"),
+            ("constellation_pdop_improvement", "Lunar surface-beacon DOP augmentation"),
+        ],
+        "lunar-differential-pnt" => &[
+            ("user_error_uncorrected_m", "Lunar differential PNT"),
+            ("user_error_corrected_m", "Lunar differential PNT"),
+            ("reduction_factor", "Lunar differential PNT"),
+            ("protection_level_m", "Lunar differential PNT"),
+        ],
+        "lunar-frame-campaign" => &[
+            ("datum_accuracy.rotation_sigma_norm_rad", "Lunar frame datum from an observing campaign"),
+            ("datum_accuracy.scale_sigma_ppb", "Lunar frame datum from an observing campaign"),
+            ("comparison.injected_transform_scenario.translation_error_norm_m", "Lunar frame datum from an observing campaign"),
+            ("comparison.ratio_injected_over_campaign_translation", "Lunar frame datum from an observing campaign"),
+        ],
+        "lunar-frame-realisation" => &[
+            ("trans_err_norm_m", "Lunar reference-frame realisation"),
+            ("rot_err_norm_rad", "Lunar reference-frame realisation"),
+            ("scale_err_ppb", "Lunar reference-frame realisation"),
+            ("rms_residual_m", "Lunar reference-frame realisation"),
+        ],
+        "lunar-integrity" => &[
+            ("samples_available", ""),
+            ("min_hpl_m", ""),
+            ("max_hpl_m", ""),
+        ],
+        "lunar-interop-export" => &[
+            ("oem_line_count", "Lunar interoperability export"),
+            ("kif_bytes", "Lunar interoperability export"),
+            ("conformance.data_lines", "Lunar interoperability export"),
+        ],
+        "lunar-jamming" => &[
+            ("fom.availability_under_jamming", "Lunar surface-navigation RF jamming (per-satellite J/S)"),
+            ("fom.availability_nominal", "Lunar surface-navigation RF jamming (per-satellite J/S)"),
+            ("denial_contour.loss_of_lock.standoff_median_km", "Lunar denial contour with an uncertainty band from the measured C/N₀ spread"),
+        ],
+        "lunar-joint-od-clock" => &[
+            ("with_vlbi.station_pos_err_m", ""),
+            ("without_vlbi.station_pos_err_m", ""),
+            ("with_vlbi.sat_pos_rms_m", ""),
+            ("observability.station_pos_crlb_m", "Lunar absolute-station observability (datum defect)"),
+        ],
+        "lunar-llr-datum" => &[
+            ("datum_accuracy.translation_sigma_norm_m", "Lunar frame datum from a REAL observing campaign"),
+            ("helmert.rank", "Lunar frame datum from a REAL observing campaign"),
+            ("helmert.condition_number", "Lunar frame datum from a REAL observing campaign"),
+            ("residuals.rms_m", "Lunar frame datum from a REAL observing campaign"),
+        ],
+        "lunar-time-budget" => &[
+            ("crossover_tau_s", "Per-clock-class lunar time crossover table"),
+            ("crossover_x_s", "Per-clock-class lunar time crossover table"),
+            ("frame_term_s", ""),
+            ("time_lab.ltc_realisation_ns", "Lunar station time laboratory: miniRAFS holdover against LTC"),
+        ],
+        "lunar-time-offset" => &[
+            ("secular_rate_us_per_day", ""),
+            ("self_potential_us_per_day", ""),
+            ("kinetic_us_per_day", ""),
+            ("offset_at_horizon_us", ""),
+        ],
+        "lunar-vlbi" => &[
+            ("delay_s", "Lunar geodetic VLBI"),
+            ("delay_rate_s_per_s", "Lunar geodetic VLBI"),
+            ("near_field_correction_us", "Lunar geodetic VLBI"),
+        ],
+        "lunar-vlbi-fim" => &[
+            ("headline.computed_per_coordinate_sigma_m", "Lunar-VLBI station-coordinate covariance from a tracking schedule"),
+            ("headline.ratio_computed_over_equipartition", "Lunar-VLBI station-coordinate covariance from a tracking schedule"),
+            ("fim.rank", "Lunar-VLBI station-coordinate covariance from a tracking schedule"),
+            ("fim.condition_number", "Lunar-VLBI station-coordinate covariance from a tracking schedule"),
+        ],
+        "mars-pnt" => &[
+            ("fom.converged_pos_rms_m", ""),
+            ("fom.converged_pos_sigma_m", ""),
+            ("fom.final_clock_freq_sigma", ""),
+            ("fom.mean_relays_in_view", ""),
+        ],
+        "moonlight-service-volume" => &[
+            ("coverage_pct", "Lunar navigation service volume"),
+            ("pdop_mean", "Lunar navigation service volume"),
+            ("hpl_max_m", ""),
+            ("pl_availability_pct", "Lunar navigation service volume"),
+        ],
+        "ntn-positioning" => &[
+            ("doppler_pass.horizontal_error_m", ""),
+        ],
+        "oem-interop" => &[
+            ("round_trip_max_pos_error_km", ""),
+            ("round_trip_max_vel_error_km_s", ""),
+        ],
+        "passes" => &[
+            ("pass_count", "Apparent ground-station pass prediction with refraction and light time"),
+            ("total_access_s", "Apparent ground-station pass prediction with refraction and light time"),
+            ("best_max_elevation_deg", "Apparent ground-station pass prediction with refraction and light time"),
+        ],
+        "pvt" => &[
+            ("fom.rms_3d_m", ""),
+            ("fom.max_3d_m", ""),
+            ("fom.mean_pdop", ""),
+            ("fom.epochs_solved", ""),
+        ],
+        "quantum-anomaly-detect" => &[
+            ("quantum_auc", "Fault/anomaly detection for quantum PNT systems"),
+            ("classical_auc", "Fault/anomaly detection for quantum PNT systems"),
+            ("quantum_min_detectable", "Fault/anomaly detection for quantum PNT systems"),
+            ("classical_min_detectable", "Fault/anomaly detection for quantum PNT systems"),
+        ],
+        "quantum-gnss-free-nav" => &[
+            ("quantum_pos_err_m", "GNSS-free quantum navigation"),
+            ("classical_pos_err_m", "GNSS-free quantum navigation"),
+            ("quantum_holdover_s", "GNSS-free quantum navigation"),
+            ("classical_holdover_s", "GNSS-free quantum navigation"),
+        ],
+        "quantum-time-transfer" => &[
+            ("quantum_chain_sigma_s", "Trusted quantum timing (time transfer + secure dissemination + anomaly)"),
+            ("classical_chain_sigma_s", "Trusted quantum timing (time transfer + secure dissemination + anomaly)"),
+            ("protection_level_ns", "Trusted quantum timing (time transfer + secure dissemination + anomaly)"),
+            ("security_pd", "Trusted quantum timing (time transfer + secure dissemination + anomaly)"),
+        ],
+        "quantum-trade" => &[
+            ("trade.candidate.timing_holdover_s", "Quantum-vs-classical PNT trade & GNSS-denied resilience (13503)"),
+            ("trade.timing_benefit_x", "Quantum-vs-classical PNT trade & GNSS-denied resilience (13503)"),
+            ("trade.candidate.inertial_holdover_s", "Quantum-vs-classical PNT trade & GNSS-denied resilience (13503)"),
+            ("trade.inertial_benefit_x", "Quantum-vs-classical PNT trade & GNSS-denied resilience (13503)"),
+        ],
+        "realtime-frame-eop" => &[
+            ("realtime_frame_error_budget.eop_term_m", ""),
+            ("realtime_frame_error_budget.delta_ut1_ms", ""),
+            ("realtime_frame_error_budget.frame_realization_floor_m", ""),
+            ("operational_predictor_model.published_bulletin_a_agreement.ut1_rms_s", "Operational-style Earth-orientation prediction error, measured predicted-versus-final"),
+        ],
+        "reentry" => &[
+            ("peak_deceleration_g", "Ballistic re-entry corridor (Allen–Eggers)"),
+            ("altitude_at_peak_g_m", "Ballistic re-entry corridor (Allen–Eggers)"),
+            ("velocity_at_peak_g_m_s", "Ballistic re-entry corridor (Allen–Eggers)"),
+            ("velocity_at_peak_heating_m_s", "Ballistic re-entry corridor (Allen–Eggers)"),
+        ],
+        "slot-timing" => &[
+            ("result.breach_after_sync_s", "Seconds until a free-running clock leaves a time-indexed slot's guard, and the fix cadence that keeps it inside"),
+            ("result.remaining_s", "Seconds until a free-running clock leaves a time-indexed slot's guard, and the fix cadence that keeps it inside"),
+            ("result.resync_interval_s", "Seconds until a free-running clock leaves a time-indexed slot's guard, and the fix cadence that keeps it inside"),
+            ("result.fixes_per_day", "Seconds until a free-running clock leaves a time-indexed slot's guard, and the fix cadence that keeps it inside"),
+        ],
+        "space-packet" => &[
+            ("total_stream_octets", "CCSDS Space Packet (133.0) TM/TC framing"),
+            ("first_packet.data_length_field", "CCSDS Space Packet (133.0) TM/TC framing"),
+        ],
+        "space-weather" => &[
+            ("exospheric_temperature_k", "Space-weather environment & activity-driven thermospheric density"),
+            ("ap", "Space-weather environment & activity-driven thermospheric density"),
+        ],
+        "spectrum" => &[
+            ("waterfall.noise_floor_dbw_per_hz", "L-band spectrum waterfall with per-band J/S and effective C/N0 under a scripted jammer timeline"),
+            ("waterfall.peak_dbw_per_hz", "L-band spectrum waterfall with per-band J/S and effective C/N0 under a scripted jammer timeline"),
+        ],
+        "spoof" => &[
+            ("quantum.security_fom", "Spoofing detection"),
+            ("classical.security_fom", "Spoofing detection"),
+            ("quantum.detect_time_s", "Spoofing detection"),
+            ("classical.detect_time_s", "Spoofing detection"),
+        ],
+        "spoof-detect" => &[
+            ("decision.fused.score", "Spoofing detection"),
+            ("decision.raim.statistic", "Spoofing detection"),
+        ],
+        "telecom-timing" => &[
+            ("time_error.max_abs_te_ns", "Oscillator holdover presets from public datasheets"),
+            ("holdover_envelope.time_to_exceed_s", "ITU-T telecom synchronisation masks with PASS/FAIL and margin"),
+            ("holdover_envelope.min_margin_ns", "ITU-T telecom synchronisation masks with PASS/FAIL and margin"),
+        ],
+        "terrain-nav" => &[
+            ("matched_error_m", "Alternative / complementary PNT"),
+            ("free_inertial_drift_m", ""),
+        ],
+        "terrain-slam" => &[
+            ("matched_rms_m", "Alternative / complementary PNT"),
+            ("matched_final_m", "Alternative / complementary PNT"),
+            ("free_inertial_rms_m", ""),
+        ],
+        "timetransfer" => &[
+            ("quantum.fom.sync_rms_ps", "Time-transfer error budgeting"),
+            ("classical.fom.sync_rms_ps", "Time-transfer error budgeting"),
+            ("quantum.fom.range_rms_mm", "Time-transfer error budgeting"),
+            ("classical.fom.range_rms_mm", "Time-transfer error budgeting"),
+        ],
+        "tracking-loop" => &[
+            ("lock_history.declared_loss_of_lock_s", "Tracking-loop loss of lock and spoof pull-in under interference"),
+            ("denial.denial_radius_loop_dynamics_km", "Tracking-loop loss of lock and spoof pull-in under interference"),
+            ("spoof_pull_in.max_code_slew_chips_per_s", "Tracking-loop loss of lock and spoof pull-in under interference"),
+            ("spoof_pull_in.max_doppler_rate_hz_per_s", "Tracking-loop loss of lock and spoof pull-in under interference"),
+        ],
+        _ => return None,
+    })
+}
+
+/// The `figure_tiers` block for a kind in [`kind_figures`], built from its result
+/// document `doc`: each listed figure that is present and not null, with the tier read
+/// from its owning row, and the figures no row owns under `untiered`. `None` for a kind
+/// outside the table, a frozen-prediction kind, or a document with no listed figure.
+pub fn kind_figure_tiers(kind: &str, doc: &serde_json::Value) -> Option<serde_json::Value> {
+    use serde_json::{json, Value};
+    if FROZEN_PREDICTION_KINDS.contains(&kind) {
+        return None;
+    }
+    let table = kind_figures(kind)?;
+    let matrix = verification_matrix();
+    let mut figures = Vec::new();
+    let mut untiered = Vec::new();
+    for (path, requirement) in table {
+        let mut node = doc;
+        for seg in path.split('.') {
+            node = node.get(seg).unwrap_or(&Value::Null);
+        }
+        if node.is_null() {
+            continue;
+        }
+        match matrix.iter().find(|it| it.requirement == *requirement) {
+            Some(row) if !requirement.is_empty() => {
+                let tier = match row.status {
+                    VerificationStatus::Validated => ValidationTier::Validated,
+                    _ => ValidationTier::Modelled,
+                };
+                figures.push(json!({
+                    "path": path,
+                    "tier": tier.tag(),
+                    "requirement": requirement,
+                    "applicable": true,
+                }));
+            }
+            _ => untiered.push(json!({ "path": path, "reason": NO_OWNING_ROW })),
+        }
+    }
+    if figures.is_empty() && untiered.is_empty() {
+        return None;
+    }
+    let mut block = json!({
+        "source": "src/verification.rs (the verification matrix), read through src/fom_label.rs",
+        "legend": "VALIDATED: checked against an independent external oracle. MODELLED: \
+                   first-principles or published-formula model, internally tested, with no \
+                   external oracle to a stated tolerance. applicable=false: the figure is \
+                   emitted for continuity but does not answer a question this scenario asks",
+        "figures": figures,
+    });
+    if !untiered.is_empty() {
+        block["untiered"] = Value::Array(untiered);
+    }
+    Some(block)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

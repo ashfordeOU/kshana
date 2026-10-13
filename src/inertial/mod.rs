@@ -3,6 +3,7 @@
 //! models (classical and cold-atom) a GNSS-denied coast dead-reckons on.
 use crate::palette::chart::{AMBER, AXIS, BG, CORAL, CYAN, FONT_SANS, INK_2};
 pub mod attitude;
+pub mod cai_error_terms;
 pub mod cai_params;
 /// INS/TRN coasting error model: position error against coast duration, and the coast
 /// durations at which it crosses stated position thresholds.

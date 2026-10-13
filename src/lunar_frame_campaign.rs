@@ -2213,7 +2213,10 @@ mod tests {
                 14_926.000_030_141_684,
             ),
         ] {
-            let out = crate::api::run_toml(src).expect("the injected-transform scenario still runs");
+            // Without the per-kind `figure_tiers` block (RM-04), which, like `units`, is
+            // appended after the run and is not this scenario's own emission.
+            let out = crate::api::run_toml_untiered(src)
+                .expect("the injected-transform scenario still runs");
             // Strip the top-level `units` block before hashing. That block is appended to
             // EVERY scenario document by the global unit/provenance schema, so leaving it in
             // would make this pin fail whenever a unit is documented anywhere — turning an R1

@@ -2,7 +2,8 @@
 
 This page lists every limit the `telecom-timing` scenario kind checks, where each one
 comes from, and what was left out. The code is `src/telecom_timing.rs`. The reference
-scenario is `scenarios/telecom-prtc-holdover-24h.toml`, and the ingestion example is
+scenario is `scenarios/telecom-prtc-holdover-24h.toml`, the frequency-synchronisation one is
+`scenarios/telecom-synce-eec.toml`, and the ingestion example is
 `scenarios/telecom-tie-ingest.toml`.
 
 **Abbreviations.** ITU-T is the International Telecommunication Union Telecommunication
@@ -163,6 +164,37 @@ All three are deployment case 1 and apply after a first-order 0.1 Hz low-pass fi
 Table 7-3 leaves τ = 400 s itself without a limit (one row ends "< 400", the next starts
 "400 <"). The kind reports no limit there rather than choosing one. Reference point A
 (clause 7.1) takes its limits from G.8272, so the PRTC masks above cover it.
+
+### Frequency synchronisation: G.811, G.812, G.8262 and G.8262.1 wander generation (0.36)
+
+Seven masks, each the constant-temperature (within ±1 K) MTIE and TDEV wander-generation
+limit, defined through the equivalent 10 Hz first-order low-pass measurement filter the
+clauses state. That filter acts before sampling, so the kind takes the record as already
+measured through it and applies nothing. The PRC mask is for an autonomous clock (G.810
+Figure 2a independent clock configuration); the others are locked-mode limits for a clock
+synchronised to a wander-free reference. The reference scenario is
+`scenarios/telecom-synce-eec.toml`: a free-running OCXO against the three EEC masks, which
+overstates the oscillator's contribution at observation intervals long against any loop's
+time constant.
+
+| Mask id | MTIE (ns) | TDEV (ns) | Source |
+|---|---|---|---|
+| `g811-prc` | 0.275 τ + 25 (0.1 < τ ≤ 1 000); 0.01 τ + 290 (τ > 1 000) | 3 (0.1 < τ ≤ 100); 0.03 τ (100 < τ ≤ 1 000); 30 (1 000 < τ < 10 000) | G.811 (09/1997) clause 6.1 |
+| `g812-type-i` | 24 (0.1 < τ ≤ 9); 8 τ^0.5 (9 < τ ≤ 400); 160 (400 < τ ≤ 10 000) | 3 (0.1 < τ ≤ 25); 0.12 τ (25 < τ ≤ 100); 12 (100 < τ ≤ 10 000) | G.812 (06/2004) Tables 3 and 6 |
+| `g812-type-ii`, `g812-type-iii` | 40 (0.1 < τ ≤ 1); 40 τ^0.4 (1 < τ ≤ 10); 100 (τ > 10) | 3.2 τ^−0.5 (0.1 < τ ≤ 2.5); 2 (2.5 < τ ≤ 40); 0.32 τ^0.5 (40 < τ ≤ 1 000); 10 (τ > 1 000) | G.812 (06/2004) Tables 4 and 7 |
+| `g8262-eec-option-1` | 40 (0.1 < τ ≤ 1); 40 τ^0.1 (1 < τ ≤ 100); 25.25 τ^0.2 (100 < τ ≤ 1 000) | 3.2 (0.1 < τ ≤ 25); 0.64 τ^0.5 (25 < τ ≤ 100); 6.4 (100 < τ ≤ 1 000) | G.8262 (10/2024) Tables 1 and 3 |
+| `g8262-eec-option-2` | 20 (0.1 < τ ≤ 1); 20 τ^0.48 (1 < τ ≤ 10); 60 (10 < τ ≤ 1 000) | as G.812 Table 7, closed at 10 000 s | G.8262 (10/2024) Tables 4 and 5 |
+| `g8262-1-eeec` | 10 τ^0.155 (0.1 ≤ τ ≤ 1); 10 τ^0.1 (1 < τ ≤ 100); 6.3 τ^0.2 (100 < τ ≤ 1 000) | 0.64 (0.1 ≤ τ ≤ 25); 0.128 τ^0.5 (25 < τ ≤ 100); 1.28 (100 < τ ≤ 1 000) | G.8262.1 (11/2025) Tables 1 and 3 |
+
+Every row was checked against the text downloaded from itu.int on 2026-10-13: G.8262
+(10/2024), G.8262.1 (11/2025), G.812 (06/2004) and G.811 (09/1997). G.812 (06/2004) is
+listed as superseded by a pre-published 08/2026 edition, and G.811 has an Amd. 1
+(04/2016); neither could be downloaded, so if they change any figure above, this page and
+the code do not reflect it. Where printed coefficients make a breakpoint discontinuous
+(for example 40 · 10^0.4 = 100.48 ns against the 100 ns plateau of G.812 Table 4), the
+tables are kept as printed and the unit tests bound the step. Not implemented: the
+variable-temperature allowances (G.812 Table 5, G.8262 Table 2, G.8262.1 Table 2), holdover
+and transient requirements, jitter, and the G.811 frequency accuracy of clause 5.
 
 ### Budgets (time to exceed)
 

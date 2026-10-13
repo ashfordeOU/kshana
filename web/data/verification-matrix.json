@@ -5759,6 +5759,92 @@
       }
     },
     {
+      "requirement": "ITU-T frequency-synchronisation wander-generation masks (G.811, G.812, G.8262, G.8262.1)",
+      "capability": "Seven constant-temperature MTIE and TDEV wander-generation masks for the `telecom-timing` kind: G.811 (09/1997) PRC (autonomous), G.812 (06/2004) Types I, II and III, G.8262 (10/2024) EEC Options 1 and 2 and G.8262.1 (11/2025) eEEC (locked mode), including the power-law pieces the tables write (`8 τ^0.5` and the like), each interval open or closed as printed, measured through the 10 Hz filter the clauses state (taken as applied before sampling); the reference scenario scenarios/telecom-synce-eec.toml sets a free-running OCXO against the three EEC masks. Not implemented: the variable-temperature allowances, holdover, transients, jitter and the G.811 frequency accuracy",
+      "status": "MODELLED",
+      "oracle_kind": "InternalConsistency",
+      "oracle": "Transcription of the named Recommendations (downloaded from itu.int on 2026-10-13), every row re-read against the text, with the breakpoint continuity the printed coefficients imply bounded in the tests (for example 40 · 10^0.4 = 100.48 ns against the 100 ns plateau of G.812 Table 4). A standards transcription with internal consistency checks, not a conformance test and not an external validation. G.812 (06/2004) is listed as superseded by a pre-published 08/2026 edition and G.811 has an Amd. 1 (04/2016); neither could be read, so neither is checked. The free-running OCXO scenario overstates the oscillator's contribution at observation intervals long against a loop's time constant; it says nothing about any equipment clock",
+      "module": "telecom_timing (MASKS, Segment::tau_exponent, MeasurementFilter::LowPass10HzAtSource, MaskCondition::Autonomous)",
+      "tests": "telecom_timing::tests (g811_prc_masks_follow_clause_6_1; g812_masks_follow_tables_3_4_6_and_7; g8262_masks_follow_tables_1_3_4_and_5; g8262_1_eeec_masks_follow_tables_1_and_3; a_linear_piece_is_evaluated_without_powf; wander_masks_pass_a_quiet_white_fm_flicker_series; wander_masks_fail_the_same_series_scaled_up)",
+      "module_links": [
+        {
+          "path": "src/telecom_timing.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/src/telecom_timing.rs"
+        }
+      ],
+      "test_links": [],
+      "fixture": null
+    },
+    {
+      "requirement": "Clock-log formats (RINEX clock, TimeLab ASCII, TAPR TICC) read to a normalised phase series",
+      "capability": "clock_log::read_input: one parser layer that turns a RINEX clock file (AS/AR records of one named clock, versions 2 and 3.00 to 3.04), a TimeLab-style ASCII phase or frequency log, or a TAPR TICC timestamp or interval log into a uniform phase grid, with tau0 stated, from a header, or the median spacing, every gap, off-grid reading and duplicate counted, and a refuse, longest-run or linear gap policy; wired opt-in into the telecom-timing series (`[series.clock_log]`, adding a `clock_log` block) and the clock kind (`[clock_log]`, adding a `measured` block with ADEV, TDEV and MTIE, the table's SHA-256 and the phase SHA-256; runs = 1). Without the table both kinds are byte-identical",
+      "status": "MODELLED",
+      "oracle_kind": "InternalConsistency",
+      "oracle": "Pre-registered in tests/fixtures/clock_log/PREREGISTRATION.md (committed alone, 159334f2, before the fixture existed); recorded in RESULTS.md. Three seeded synthetic logs, one per format (a TICC gap of three epochs, a RINEX second clock to ignore), read back by an independent reader written from docs/CLOCK-LOG-FORMATS.md by the same author: grid, gap and fill counts equal and the largest phase difference 0 s (bar 1e-13 s). allantools 2024.6 oadev, tdev and mtie on that phase agree within a relative 2.5e-14 (bar 1e-10) at every averaging factor it evaluates; it does not evaluate MTIE over the whole record, which the engine reports, so that one point per log has no oracle value and the bar as worded is not met there. MODELLED: synthetic logs, and the reader oracle shares the author; real TimeLab, TICC and RINEX clock files from instruments were not compared",
+      "module": "clock_log (read_input, MeasuredPhaseReport, MEASURED_UNITS, TELECOM_LOG_UNITS); telecom_timing (SeriesInput::clock_log); api (clock kind [clock_log])",
+      "tests": "clock_log::tests (hand-written logs per format: headers, separators, units, frequency integration, TICC channels and modes, gaps and policies, refusals); tests/clock_log_allantools.rs (the pre-registered comparison: b1_each_log_reads_to_the_reference_phase; b2_adev_tdev_and_mtie_agree_with_allantools; b3_a_telecom_series_read_from_a_log_equals_the_same_samples; b3_the_clock_kind_measured_block_is_opt_in)",
+      "module_links": [
+        {
+          "path": "src/clock_log.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/src/clock_log.rs"
+        }
+      ],
+      "test_links": [
+        {
+          "path": "tests/clock_log_allantools.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/clock_log_allantools.rs"
+        }
+      ],
+      "fixture": null
+    },
+    {
+      "requirement": "Cold-atom interferometer error terms: Raman laser-phase noise, wavefront-curvature bias and fringe-ambiguity resolution",
+      "capability": "inertial::cai_error_terms (library functions, not yet reachable from a scenario kind): the Raman-phase weighting function of a square-pulse three-pulse interferometer (Cheinet et al. 2008, Eq. 8) with the white-phase closed form (pi/2)^2 S_phi0/tau_R and a numeric route for any spectrum; the laser frequency noise the retro-reflection delay does not cancel (Le Gouet et al. 2007, Eqs. 9 to 11); the pure-defocus wavefront bias sigma_v^2/R of a thermal cloud and its reduction by a detection radius; the wrong-fringe-index probability erfc(pi/(sqrt(2) s)) for a classical-accelerometer aid and for two interrogation times, and its inverse",
+      "status": "MODELLED",
+      "oracle_kind": "InternalConsistency",
+      "oracle": "Each closed form against an independent numerical route in the tests (frequency-domain quadrature of the exact transfer function and delay filter, a Monte Carlo over atoms for the wavefront bias, a Monte Carlo over shots for the fringe index) and its limiting cases. One published worked value: Cheinet et al. 2008 (arXiv:physics/0510197, Sec. IV) state that at tau_R = 20 us a white Raman phase noise below -111 dB rad^2/Hz is needed for 1 mrad per shot; the white term alone gives 0.99 mrad (the paper derives the level with its Eq. 17, flicker plus white). Internal consistency and one worked value, not an external validation; higher-order aberrations and any specific laser's noise are not modelled",
+      "module": "inertial::cai_error_terms",
+      "tests": "inertial::cai_error_terms::tests (raman_transfer_short_pulse_limit_matches_the_acceleration_transfer_function; white_raman_phase_closed_form_matches_quadrature; short_pulse_band_limited_closed_form_matches_quadrature; cheinet_2008_white_phase_noise_requirement_is_reproduced; delay_term_closed_form_matches_exact_filter_quadrature; defocus_phase_is_position_independent_and_tilt_cancels; curvature_bias_monte_carlo_matches_closed_form; curvature_bias_limiting_cases; classical_aided_resolution_monte_carlo_matches_closed_form; multi_t_resolution_monte_carlo_matches_closed_form; ambiguity_limits_and_inverse)",
+      "module_links": [
+        {
+          "path": "src/inertial/cai_error_terms.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/src/inertial/cai_error_terms.rs"
+        }
+      ],
+      "test_links": [],
+      "fixture": null
+    },
+    {
+      "requirement": "Greenhall and Riley exact equivalent degrees of freedom of the Allan, modified Allan and Hadamard variances",
+      "capability": "allan::edf_greenhall (with the edf_greenhall_adev, _mdev and _hdev wrappers): the full algorithm of Greenhall and Riley, Proc. 35th PTTI (2003), Section 3 (Eqns 7 to 13 and the large-J coefficients of Tables 1 to 3), for difference orders 1 to 3, noise exponents +2 to -4 wherever alpha + 2d > 1, overlapping and non-overlapping, modified and unmodified estimators; NaN where it does not apply, including the unmodified white-PM case with ceil(M/S) <= d, whose closed form is not implemented. assurance::uncertainty::edf now shares the code and keeps its outputs bit for bit",
+      "status": "VALIDATED",
+      "oracle_kind": "ExternalDataset",
+      "oracle": "allantools 2024.6 ci.edf_greenhall, a third-party implementation of the published algorithm, run by scripts/gen_greenhall_edf_ref.py over the grid pre-registered in xval/greenhall-edf/PREREGISTRATION.md (committed alone, 0db0bb7a, before any comparison): at all 4 876 points where it returns a finite edf, kshana agrees within a relative 6.0e-13 (bar 1e-9); at its 46 NotImplementedError points kshana returns NaN; every case label occurs; the wrappers equal the core bit for bit; uncertainty::edf is bit-identical over 274 280 values (pinned as a SHA-256 before the refactor). At 32 points (alpha -4, d 3, unmodified, case 2.2) allantools fails in its Table 2 lookup, so they have no oracle value and are not counted. Stable32 was not run",
+      "module": "allan (edf_greenhall, greenhall_edf_core); assurance::uncertainty (edf)",
+      "tests": "tests/greenhall_edf_allantools.rs (bars_1_to_3_against_allantools; bar_4_wrappers_equal_the_core); tests/greenhall_edf_no_moved_output.rs (uncertainty_edf_is_bit_identical_to_the_base_commit); tests/uncertainty_edf_reference.rs",
+      "module_links": [
+        {
+          "path": "src/allan.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/src/allan.rs"
+        }
+      ],
+      "test_links": [
+        {
+          "path": "tests/greenhall_edf_allantools.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/greenhall_edf_allantools.rs"
+        },
+        {
+          "path": "tests/greenhall_edf_no_moved_output.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/greenhall_edf_no_moved_output.rs"
+        },
+        {
+          "path": "tests/uncertainty_edf_reference.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/uncertainty_edf_reference.rs"
+        }
+      ],
+      "fixture": null
+    },
+    {
       "requirement": "Oscillator holdover presets from public datasheets",
       "capability": "Four presets — OCXO (Microchip OX-208), rubidium (Microchip 8040C), caesium (Microchip 5071A high-performance tube) and CSAC (Microchip SA.45s) — each carrying its datasheet's Allan-deviation maxima, aging and temperature bound; a non-negative least-squares white + flicker + random-walk frequency-noise fit scaled to envelope every datasheet point, a flicker floor never below the longest-τ figure, linear aging and a sinusoidal temperature term, synthesised as a seeded holdover after a GNSS loss",
       "status": "MODELLED",
