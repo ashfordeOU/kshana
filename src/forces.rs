@@ -430,6 +430,79 @@ fn drag_accel_with<M: Maths>(r: Vec3, v: Vec3, cd_area_over_mass: f64) -> Vec3 {
     [coef * v_rel[0], coef * v_rel[1], coef * v_rel[2]]
 }
 
+/// The thermospheric density model behind the drag force: the opt-in tier of
+/// [`drag_accel_with_density`] and of the propagator's `ForceModel::drag_density`.
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+pub enum DensityModel {
+    /// The static piecewise-exponential [`atmospheric_density`] at the spherical altitude — the
+    /// default; [`drag_accel_with_density`] then *is* [`drag_accel`], bit for bit.
+    #[default]
+    Exponential,
+    /// NRLMSISE-00 ([`crate::nrlmsise00::density_kg_m3`], the `GTD7D` total mass density with
+    /// anomalous oxygen, every switch on, daily-Ap mode), held at constant space weather: the
+    /// 81-day mean F10.7 `f107a`, the previous-day F10.7 `f107` (sfu) and the daily `ap`.
+    Nrlmsise00 { f107a: f64, f107: f64, ap: f64 },
+}
+
+/// The drag mass density (kg/m³) of `model` at ECI position `r` (m) and TT Julian Date `jd_tt`.
+///
+/// For [`DensityModel::Nrlmsise00`] the position is rotated to the Earth-fixed frame by the Earth
+/// rotation angle ([`crate::cio::earth_rotation_angle`]) with UT1 taken equal to TT (the ~1 min
+/// offset moves the sub-satellite longitude by ~0.3°, far below the model's own error; polar
+/// motion and precession–nutation are likewise neglected, as in the tides code), converted to
+/// WGS-84 geodetic latitude, longitude and height ([`crate::frames::ecef_to_geodetic`]), and the
+/// day of year and UT seconds are taken from `jd_tt` the same way.
+pub fn density_at(model: &DensityModel, r: Vec3, jd_tt: f64) -> f64 {
+    match *model {
+        DensityModel::Exponential => atmospheric_density(norm(r) - RE_EARTH),
+        DensityModel::Nrlmsise00 { f107a, f107, ap } => {
+            let theta = crate::cio::earth_rotation_angle(jd_tt);
+            let (s, c) = theta.sin_cos();
+            let r_ecef = [c * r[0] + s * r[1], -s * r[0] + c * r[1], r[2]];
+            let g = crate::frames::ecef_to_geodetic(r_ecef);
+            let (doy, ut_s) = crate::nrlmsise00::doy_and_seconds(jd_tt);
+            let lon_deg = g.lon_rad.to_degrees();
+            // NRL convention: east longitude in [0, 360).
+            let lon_deg = if lon_deg < 0.0 {
+                lon_deg + 360.0
+            } else {
+                lon_deg
+            };
+            crate::nrlmsise00::density_kg_m3(
+                doy,
+                ut_s,
+                g.alt_m / 1000.0,
+                g.lat_rad.to_degrees(),
+                lon_deg,
+                f107a,
+                f107,
+                ap,
+            )
+        }
+    }
+}
+
+/// [`drag_accel`] with a selectable density tier, at TT Julian Date `jd_tt` (used only by the
+/// time-dependent tiers). With [`DensityModel::Exponential`] this returns [`drag_accel`] itself,
+/// so the default stays byte-identical; with [`DensityModel::Nrlmsise00`] the same quadratic
+/// drag against the co-rotating atmosphere uses the NRLMSISE-00 density of [`density_at`].
+pub fn drag_accel_with_density(
+    r: Vec3,
+    v: Vec3,
+    cd_area_over_mass: f64,
+    model: &DensityModel,
+    jd_tt: f64,
+) -> Vec3 {
+    if let DensityModel::Exponential = model {
+        return drag_accel(r, v, cd_area_over_mass);
+    }
+    let rho = density_at(model, r, jd_tt);
+    let w = EARTH_ROTATION_RATE;
+    let v_rel = [v[0] + w * r[1], v[1] - w * r[0], v[2]];
+    let coef = -0.5 * rho * cd_area_over_mass * norm(v_rel);
+    [coef * v_rel[0], coef * v_rel[1], coef * v_rel[2]]
+}
+
 /// Post-Newtonian (Schwarzschild) relativistic correction to the central-body
 /// acceleration (m/s², ECI) — the dominant general-relativistic perturbation on a
 /// near-Earth orbit, the leading driver of the relativistic perigee advance. With the
@@ -922,6 +995,54 @@ mod tests {
             (50.0..=70.0).contains(&scale_km),
             "recovered LEO scale height {scale_km} km outside ~50–70 band"
         );
+    }
+
+    #[test]
+    fn exponential_density_tier_is_drag_accel_bit_for_bit() {
+        let r = [RE_EARTH + 400e3, 1.0e5, -2.0e5];
+        let v = [10.0, 7_600.0, 300.0];
+        for jd in [2_451_545.0, 2_460_000.25] {
+            let a = drag_accel_with_density(r, v, 0.02, &DensityModel::Exponential, jd);
+            let b = drag_accel(r, v, 0.02);
+            assert_eq!(a.map(f64::to_bits), b.map(f64::to_bits));
+        }
+        assert_eq!(DensityModel::default(), DensityModel::Exponential);
+    }
+
+    #[test]
+    fn nrlmsise00_density_tier_uses_the_earth_fixed_geodetic_point() {
+        // At jd with ERA = θ, a point on the ECI x-axis rotated by +θ about z sits on the
+        // Greenwich meridian: its NRLMSISE-00 density must be density_kg_m3 at lon 0 (lat 0,
+        // altitude = |r| − a on the equator).
+        let jd = 2_452_081.5 + 0.25; // 2001-06-21 06:00
+        let theta = crate::cio::earth_rotation_angle(jd);
+        let rad = crate::frames::WGS84_A + 400e3;
+        let r = [rad * theta.cos(), rad * theta.sin(), 0.0];
+        let model = DensityModel::Nrlmsise00 {
+            f107a: 150.0,
+            f107: 150.0,
+            ap: 15.0,
+        };
+        let rho = density_at(&model, r, jd);
+        let (doy, ut) = crate::nrlmsise00::doy_and_seconds(jd);
+        assert_eq!(doy, 172);
+        let want = crate::nrlmsise00::density_kg_m3(doy, ut, 400.0, 0.0, 0.0, 150.0, 150.0, 15.0);
+        assert!((rho / want - 1.0).abs() < 1e-9, "{rho} vs {want}");
+        // Order of magnitude of the 400 km thermosphere, and solar activity raises it.
+        assert!((1e-13..1e-10).contains(&rho), "{rho}");
+        let quiet = DensityModel::Nrlmsise00 {
+            f107a: 70.0,
+            f107: 70.0,
+            ap: 4.0,
+        };
+        assert!(density_at(&quiet, r, jd) < rho);
+        // The drag acceleration with this tier is the quadratic drag at that density.
+        let v = [-7_670.0 * theta.sin(), 7_670.0 * theta.cos(), 0.0];
+        let a = drag_accel_with_density(r, v, 0.02, &model, jd);
+        let w = EARTH_ROTATION_RATE;
+        let v_rel = [v[0] + w * r[1], v[1] - w * r[0], v[2]];
+        let expect = 0.5 * rho * 0.02 * norm(v_rel) * norm(v_rel);
+        assert!((norm(a) / expect - 1.0).abs() < 1e-12);
     }
 
     #[test]
