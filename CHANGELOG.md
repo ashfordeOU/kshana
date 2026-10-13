@@ -31,6 +31,14 @@ breaking changes are called out explicitly.
   magnetic channel from an EMAG2v3-format CSV. EMAG2 is not vendored because its terms are
   not explicit: `tools/fetch_emag2_tile.py` fetches it with a pinned SHA-256 and crops a box.
   No navigation outcome is claimed on the real EMAG2 grid.
+  Joint map estimation (terrain SLAM, RM-18): `altpnt::sequential::run_sequential_trn_on_map`
+  flies the sequential terrain navigator over a stored map that differs from the truth, either
+  trusting it or estimating a per-cell map correction with a FastSLAM-style Rao-Blackwellised
+  filter. Pre-registered against known-map SITAN on a 15 m correlated map error over 20 seeds:
+  a 1.5 % mean gain, better in 10 of 20, so both improvement bars are NOT MET (10 % and 12 of
+  20), with no harm on a perfect map (MET). A single pass without revisits does not let the
+  map be learned (`xval/terrain-slam-rbpf/`, MODELLED). `terrain-slam` documents are
+  byte-identical.
   The real-SRTM tests now run in CI on two committed full-resolution crops; all
   pre-registered bars are met, with the nearest node equal to GDAL 3.8.4 at 8 of 8 points
   (`xval/srtm-ungate/`).
