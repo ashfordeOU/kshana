@@ -79,6 +79,16 @@ breaking changes are called out explicitly.
   a75de851; 382 cases, 1058 solutions, worst velocity difference 1.6e-13 against 1e-8). The
   internal Kepler-landing guard found one limitation of `maneuver::kepler_universal` on an
   e = 0.994 arc; it is recorded in `docs/design/evidence/lambert-multirev/RESULTS.md`.
+
+- **Box-wing and ECOM2 solar radiation pressure (DS-PA-14), opt-in.** `srp_boxwing`: a
+  flat-plate box-wing model with the Galileo FOC/IOV tables from the GSC satellite metadata, in
+  nominal GNSS yaw steering, with radiation-factor and per-panel partials, and the ECOM2
+  empirical model with its partials. Selected with `ForceModel::box_wing_srp` /
+  `PreciseForceModel::box_wing_srp` (fields `srp_boxwing`, default `None`: the cannonball path
+  and every golden are unchanged); with a box-wing set, `cr` is its radiation factor. Compared
+  against Orekit 12.2 under a pre-registration (`xval/srp-boxwing-orekit/`): every bar met, about
+  1e-15 relative; VALIDATED as a model evaluation, the Galileo SRP prediction stays MODELLED.
+
 - **Oblate-Earth SRP shadow and solar limb darkening (FUT-09, RM-11).** New `srp_shadow` module:
   `oblate_conical_shadow` (WGS-84 occulting ellipsoid), `limb_darkened_shadow` (Eddington law), and
   `ShadowModel`, selected with `ForceModel::srp_shadow` (default: the existing spherical conical
