@@ -446,6 +446,81 @@ pub struct GnssInsScenario {
     /// serialised scenario, so the scenario hash is unchanged.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub trajectory: Option<super::trajectory::TrajectoryCfg>,
+    /// Optional tight coupling (`[tight]`): fuse satellite pseudoranges instead of position and
+    /// velocity fixes. Absent, the pack is loosely coupled as before and the scenario hash is
+    /// unchanged.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub tight: Option<TightCfg>,
+}
+
+/// Tight coupling for the `gnss-ins` pack: at each fix epoch the closed-loop navigator fuses
+/// the receiver-clock-corrected pseudoranges of the satellites in view
+/// ([`ClosedLoopInsGnss::fuse_tightly_coupled`]) instead of a position/velocity fix. Satellites
+/// come from an SGP4 Walker constellation; ranges are formed in the pack's local tangent plane,
+/// identically for truth and filter. With GNSS `nominal` every satellite above the mask is
+/// used; with `degraded` only the `degraded_max_sats` highest (where a loosely-coupled
+/// receiver has no fix at all); with `denied` none.
+#[derive(Clone, Debug, Deserialize, Serialize, PartialEq)]
+#[serde(default, deny_unknown_fields)]
+pub struct TightCfg {
+    /// SGP4 Walker constellation (default GPS-like 55 deg, 24/6/1 at 20 200 km).
+    pub constellation: crate::walker::WalkerSgp4,
+    /// Elevation mask (deg).
+    pub mask_deg: f64,
+    /// Pseudorange 1-sigma (m).
+    pub sigma_range_m: f64,
+    /// Satellites still tracked while GNSS is `degraded`.
+    pub degraded_max_sats: usize,
+}
+
+impl Default for TightCfg {
+    fn default() -> Self {
+        Self {
+            constellation: crate::walker::WalkerSgp4 {
+                altitude_km: 20_200.0,
+                inclination_deg: 55.0,
+                planes: 6,
+                sats_per_plane: 4,
+                phasing_f: 1.0,
+            },
+            mask_deg: 10.0,
+            sigma_range_m: 1.0,
+            degraded_max_sats: 2,
+        }
+    }
+}
+
+/// The satellites a tightly-coupled receiver at `truth` uses at run time `t`: their positions
+/// in the local NED tangent plane at `origin` (m), highest first, above the mask.
+fn tight_sats(
+    tc: &TightCfg,
+    con: &super::carrier_tc::Constellation,
+    origin: Geodetic,
+    truth: &NavState,
+    t: f64,
+) -> Vec<Vec3> {
+    let o = crate::frames::geodetic_to_ecef(origin);
+    let (sl, cl) = origin.lat_rad.sin_cos();
+    let (so, co) = origin.lon_rad.sin_cos();
+    let to_ned = |r: Vec3| {
+        let d = [r[0] - o[0], r[1] - o[1], r[2] - o[2]];
+        [
+            -sl * co * d[0] - sl * so * d[1] + cl * d[2],
+            -so * d[0] + co * d[1],
+            -cl * co * d[0] - cl * so * d[1] - sl * d[2],
+        ]
+    };
+    let user = project(origin, truth.p_llh);
+    let mut v: Vec<(f64, Vec3)> = (0..con.len())
+        .filter_map(|i| {
+            let s = to_ned(con.sat_ecef(i, t));
+            let d = [s[0] - user[0], s[1] - user[1], s[2] - user[2]];
+            let el = (-d[2] / (d[0] * d[0] + d[1] * d[1] + d[2] * d[2]).sqrt()).asin();
+            (el.to_degrees() >= tc.mask_deg).then_some((el, s))
+        })
+        .collect();
+    v.sort_by(|a, b| b.0.total_cmp(&a.0));
+    v.into_iter().map(|(_, s)| s).collect()
 }
 
 /// One IMU's fused run: spec, fused horizontal-error series, scored FoMs, and the
@@ -644,6 +719,17 @@ fn run_one(scn: &GnssInsScenario, cfg: &ImuCfg, seed: u64) -> FusedRun {
         .expect("finite_sigma returns a finite, strictly-positive std_dev, which Normal::new always accepts");
 
     let error_model = cfg.build_error_model();
+    // Tight coupling only: the constellation and the pseudorange noise (unused otherwise, so
+    // the loosely-coupled random stream is unchanged).
+    let tight_con = scn
+        .tight
+        .as_ref()
+        .map(|tc| super::carrier_tc::Constellation::new(&tc.constellation, 0.0));
+    let nr = Normal::new(
+        0.0,
+        finite_sigma(scn.tight.as_ref().map_or(1.0, |tc| tc.sigma_range_m)),
+    )
+    .expect("finite_sigma returns a finite, strictly-positive std_dev, which Normal::new always accepts");
     let mut series = Vec::with_capacity(n + 1);
     let mut last_fix = f64::NEG_INFINITY;
     let (mut fused_sq, mut free_sq, mut out_n) = (0.0, 0.0, 0.0);
@@ -662,7 +748,31 @@ fn run_one(scn: &GnssInsScenario, cfg: &ImuCfg, seed: u64) -> FusedRun {
             free.step(gyro_m, accel_m, dt);
         }
         let gnss = scn.gnss.state_at(t);
-        if gnss == GnssState::Nominal && t - last_fix >= scn.fix_interval_s - 0.5 * dt {
+        if let (Some(tc), Some(con)) = (&scn.tight, &tight_con) {
+            let n_use = match gnss {
+                GnssState::Nominal => usize::MAX,
+                GnssState::Degraded => tc.degraded_max_sats,
+                GnssState::Denied => 0,
+            };
+            if n_use > 0 && t - last_fix >= scn.fix_interval_s - 0.5 * dt {
+                let sats: Vec<Vec3> = tight_sats(tc, con, origin, &truth, t)
+                    .into_iter()
+                    .take(n_use)
+                    .collect();
+                if !sats.is_empty() {
+                    let tp = project(origin, truth.p_llh);
+                    let ranges: Vec<f64> = sats
+                        .iter()
+                        .map(|s| {
+                            let d = [s[0] - tp[0], s[1] - tp[1], s[2] - tp[2]];
+                            (d[0] * d[0] + d[1] * d[1] + d[2] * d[2]).sqrt() + nr.sample(&mut rng)
+                        })
+                        .collect();
+                    let _ = nav.fuse_tightly_coupled(&sats, &ranges, tc.sigma_range_m);
+                }
+                last_fix = t;
+            }
+        } else if gnss == GnssState::Nominal && t - last_fix >= scn.fix_interval_s - 0.5 * dt {
             let tp = project(origin, truth.p_llh);
             let gp = [
                 tp[0] + np.sample(&mut rng),
@@ -714,6 +824,20 @@ fn run_one(scn: &GnssInsScenario, cfg: &ImuCfg, seed: u64) -> FusedRun {
 impl GnssInsScenario {
     /// Reject a filter prior that cannot seed a covariance.
     pub fn validate(&self) -> Result<(), String> {
+        if let Some(tc) = &self.tight {
+            if !(tc.sigma_range_m.is_finite() && tc.sigma_range_m > 0.0) {
+                return Err(format!(
+                    "tight.sigma_range_m must be finite and > 0, got {}",
+                    tc.sigma_range_m
+                ));
+            }
+            if !(tc.mask_deg.is_finite() && (-90.0..90.0).contains(&tc.mask_deg)) {
+                return Err(format!(
+                    "tight.mask_deg must be in [-90, 90), got {}",
+                    tc.mask_deg
+                ));
+            }
+        }
         if let Some(cfg) = &self.trajectory {
             let dt = self.time.step_s;
             let n = (self.time.duration_s / dt).round() as usize;
@@ -876,6 +1000,7 @@ mod tests {
             lon_deg: -57.3,
             alt_m: 50.0,
             trajectory: None,
+            tight: None,
         }
     }
 

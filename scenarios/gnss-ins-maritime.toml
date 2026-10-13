@@ -1,0 +1,60 @@
+# Maritime GNSS/INS: a vessel at 8 m/s (about 15.5 knots) weaving through full circles at
+# 1 deg/s, then a five-minute GNSS outage, on the same closed-loop 15-state GNSS/INS filter as
+# `gnss-ins.toml`. The motion comes from the trajectory library (`[trajectory]`,
+# profile `figure8`): slow, steady turning, the regime of a ship rather than a car.
+#
+# Illustrative sensors (assumed values, not a product's datasheet): a navigation-grade unit
+# (fibre-optic-gyro class, residual gyro bias 0.01 deg/h) against a tactical-grade unit
+# (residual gyro bias 1 deg/h). Constant biases: the filter learns them while GNSS is up, so
+# the coast is a best case for each sensor. Each sensor's filter prior matches its grade.
+#
+# MODELLED: synthetic motion and sensors; the figure of merit is the fused solution's
+# horizontal error against the scenario's own truth.
+kind = "gnss-ins"
+seed = 11
+threshold_m = 50.0
+fix_interval_s = 1.0
+sigma_pos_m = 2.0
+sigma_vel_mps = 0.1
+lat_deg = 54.0
+lon_deg = 10.0
+alt_m = 0.0
+
+[time]
+step_s = 0.1
+duration_s = 1200.0
+
+[gnss]
+windows = [
+  { t0 = 0.0,   t1 = 900.0,  state = "nominal" },
+  { t0 = 900.0, t1 = 1200.0, state = "denied" },
+]
+
+[trajectory]
+profile = "figure8"
+speed_mps = 8.0
+accel_mps2 = 0.2
+turn_rate_dps = 1.0
+
+[imu_quantum]
+id = "navigation-grade-imu"
+provenance = "Illustrative navigation-grade unit (assumed): residual accel bias 50 micro-g, gyro bias 0.01 deg/h"
+accel_bias = [4.9e-4, -4.9e-4, 0.0]
+gyro_bias = [0.0, 0.0, 4.85e-8]
+
+# Filter prior matched to the sensor grade (the pack's default prior suits a tactical unit;
+# for a navigation-grade unit its bias-estimation noise over a short aided arc would exceed
+# the sensor's true bias).
+[imu_quantum.filter_prior]
+sigma_accel_bias = 1.0e-3
+sigma_gyro_bias = 1.0e-7
+
+[imu_classical]
+id = "tactical-grade-imu"
+provenance = "Illustrative tactical-grade unit (assumed): residual accel bias 1 mg, gyro bias 1 deg/h"
+accel_bias = [9.8e-3, -9.8e-3, 0.0]
+gyro_bias = [0.0, 0.0, 4.85e-6]
+
+[imu_classical.filter_prior]
+sigma_accel_bias = 2.0e-2
+sigma_gyro_bias = 1.0e-5

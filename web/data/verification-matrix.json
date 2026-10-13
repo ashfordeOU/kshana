@@ -4,9 +4,9 @@
   "repo_blob_base": "https://github.com/AshfordeOU/kshana/blob/main/",
   "summary": {
     "validated": 134,
-    "modelled": 138,
+    "modelled": 139,
     "partner_owned": 4,
-    "total": 276
+    "total": 277
   },
   "rows": [
     {
@@ -467,6 +467,32 @@
         {
           "path": "tests/fusion_carrier_tc.rs",
           "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/fusion_carrier_tc.rs"
+        }
+      ],
+      "fixture": null
+    },
+    {
+      "requirement": "GNSS/INS maritime, rail and aviation packs with a tight-coupling option",
+      "capability": "Three gnss-ins scenarios on the trajectory library (a vessel weaving at 8 m/s with a five-minute outage; a train through a two-satellite cutting and a tunnel; an aircraft whose outage covers a 25-degree banked turn) and the pack's optional [tight] table: pseudoranges from an SGP4 Walker constellation fused by the closed-loop navigator, every satellite above the mask when nominal and the highest few when degraded",
+      "status": "MODELLED",
+      "oracle_kind": "InternalConsistency",
+      "oracle": "Internal: each pack's figures of merit against its own truth and a loose/tight comparison on identical inputs. MODELLED; the audit's NaveGo comparison has not been run",
+      "module": "fusion::pack (TightCfg, [tight]), scenarios gnss-ins-maritime / gnss-ins-rail / gnss-ins-aviation",
+      "tests": "tests/gnss_ins_packs.rs (each pack: fused below free INS over the outage for both sensors; rail: tight 5.3 m vs loose 12.9 m navigation-grade and 15.6 m vs 18.8 m tactical over the outage, availability 0.97 vs 0.95; tight table validated); tests/gnss_ins_legacy_trajectory_pin.rs (the loosely-coupled default bit-identical)",
+      "module_links": [
+        {
+          "path": "src/fusion/pack.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/src/fusion/pack.rs"
+        }
+      ],
+      "test_links": [
+        {
+          "path": "tests/gnss_ins_packs.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/gnss_ins_packs.rs"
+        },
+        {
+          "path": "tests/gnss_ins_legacy_trajectory_pin.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/gnss_ins_legacy_trajectory_pin.rs"
         }
       ],
       "fixture": null
