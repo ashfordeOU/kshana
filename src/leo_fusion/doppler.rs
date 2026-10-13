@@ -556,7 +556,7 @@ mod tests {
     use crate::leo_fusion::geom::{Site, DEG};
     use rand::SeedableRng;
     use rand_chacha::ChaCha8Rng;
-    use rand_distr::{Distribution, Normal};
+    use crate::portable_distr::{Distribution, Normal};
 
     fn orbit() -> EarthOrbit {
         EarthOrbit::circular(1080e3, 53.0 * DEG, 0.0, 0.0)

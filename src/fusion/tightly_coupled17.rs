@@ -224,7 +224,7 @@ mod tests {
     use crate::inertial::quantum_imu::CaiAccelerometer;
     use rand::SeedableRng;
     use rand_chacha::ChaCha8Rng;
-    use rand_distr::{Distribution, Normal};
+    use crate::portable_distr::{Distribution, Normal};
 
     // A surface user near the equator; gravity points toward Earth centre (−x).
     const G: f64 = 9.81;

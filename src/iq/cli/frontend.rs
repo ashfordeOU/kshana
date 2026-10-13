@@ -301,7 +301,7 @@ mod tests {
     use super::*;
     use crate::iq::simrng::SimRng;
     use rand::Rng;
-    use rand_distr::StandardNormal;
+    use crate::portable_distr::StandardNormal;
     use std::f64::consts::TAU;
 
     fn mean_power(xs: &[Cf64]) -> f64 {

@@ -81,7 +81,7 @@ use crate::palette::chart::{AXIS, BG, CORAL, CYAN, FONT_SANS, INK_2, LIME, MUTED
 use crate::scenario::{GnssState, GnssTimeline, TimeCfg};
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
-use rand_distr::{Distribution, Normal};
+use crate::portable_distr::{Distribution, Normal};
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 

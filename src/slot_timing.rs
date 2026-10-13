@@ -1329,7 +1329,7 @@ mod tests {
     use crate::telecom_timing::PRESETS;
     use rand::SeedableRng;
     use rand_chacha::ChaCha8Rng;
-    use rand_distr::{Distribution, Normal};
+    use crate::portable_distr::{Distribution, Normal};
 
     fn cond(guard_s: f64) -> SlotConditions {
         SlotConditions {

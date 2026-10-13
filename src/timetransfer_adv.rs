@@ -31,7 +31,7 @@ use crate::timegeo::{sagnac_correction, C_M_PER_S, OMEGA_EARTH};
 use crate::types::Seconds;
 use rand::{RngCore, SeedableRng};
 use rand_chacha::ChaCha8Rng;
-use rand_distr::{Distribution, Normal};
+use crate::portable_distr::{Distribution, Normal};
 use std::f64::consts::PI;
 
 type Vec3 = [f64; 3];

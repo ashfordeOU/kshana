@@ -29,7 +29,7 @@ use super::timing::{self, TimeTransferStats, UtcParams};
 use crate::palette::chart::{BLUE, CORAL, CYAN, INK_3, LIME, MAGENTA, MUTED};
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
-use rand_distr::{Distribution, Normal};
+use crate::portable_distr::{Distribution, Normal};
 use serde::{Deserialize, Serialize};
 
 /// The user.

@@ -184,7 +184,7 @@ mod tests {
     use super::*;
     use rand::SeedableRng;
     use rand_chacha::ChaCha8Rng;
-    use rand_distr::{Distribution, Normal};
+    use crate::portable_distr::{Distribution, Normal};
 
     // A GPS-like satellite geometry at MEO radius, well spread for good DOP.
     fn constellation() -> Vec<Sat> {

@@ -99,7 +99,7 @@ use crate::sbas::{sbas_protection_level, SbasErrorModel, SbasMode, SbasProtectio
 use crate::timegeo::C_M_PER_S;
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
-use rand_distr::{Distribution, Normal};
+use crate::portable_distr::{Distribution, Normal};
 use serde::{Deserialize, Serialize};
 
 type Vec3 = [f64; 3];

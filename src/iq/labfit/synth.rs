@@ -10,7 +10,7 @@
 
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
-use rand_distr::{Distribution, Normal};
+use crate::portable_distr::{Distribution, Normal};
 
 use super::model::{lock_params, simulate_sat, ModelKind};
 use super::schema::{Conditions, LoopFixedCfg};

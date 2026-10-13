@@ -46,7 +46,7 @@ use crate::palette::chart::{AMBER, AXIS, BG, CORAL, CYAN, FONT_SANS, INK_2, INK_
 use crate::scenario::TimeCfg;
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
-use rand_distr::{Distribution, Normal};
+use crate::portable_distr::{Distribution, Normal};
 use serde::{Deserialize, Serialize};
 
 /// Upper bound on the number of doublings used to bracket a monotone quantile.

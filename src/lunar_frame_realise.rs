@@ -44,7 +44,7 @@ use crate::palette::chart::{BG, FONT_SANS, INK_2, LIME};
 use crate::precession::{mat_vec, matmul, rx, ry, rz, transpose, Mat3};
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
-use rand_distr::{Distribution, Normal};
+use crate::portable_distr::{Distribution, Normal};
 
 type Vec3 = [f64; 3];
 

@@ -43,7 +43,7 @@ use crate::palette::chart::{BLUE, CYAN, MUTED};
 use crate::solar_system::{link, parse_table, resolve_epoch, EpochOut, LinkOut};
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
-use rand_distr::{Distribution, Normal};
+use crate::portable_distr::{Distribution, Normal};
 use serde::{Deserialize, Serialize};
 
 type Vec3 = [f64; 3];

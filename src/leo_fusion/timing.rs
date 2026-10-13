@@ -30,7 +30,7 @@ use crate::portable_math::PortableFloat;
 use crate::slot_timing::ClockNoise;
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
-use rand_distr::{Distribution, Normal};
+use crate::portable_distr::{Distribution, Normal};
 use serde::{Deserialize, Serialize};
 
 /// Seconds in a GPS-style week.
