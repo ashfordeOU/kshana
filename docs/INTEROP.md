@@ -301,6 +301,7 @@ stale.
 | `gnss-sim-raim.toml` | `gnss-sim` | yes | yes | yes | yes | no [2] |
 | `gps-denied-gravity-nav-egm2008.toml` | `gravity-map` | yes | yes | yes | no [3] | no [2] |
 | `gps-denied-gravity-nav.toml` | `gravity-map` | yes | yes | yes | no [3] | no [2] |
+| `gravity-map-error-mc.toml` | `gravity-map` | yes | yes | yes | no [3] | no [2] |
 | `gravity-map-nav.toml` | `gravity-map` | yes | yes | yes | no [3] | no [2] |
 | `hybrid-optical-rf.toml` | `hybrid-optical-rf` | no [1] | no [1] | no [1] | no [1] | no [2] |
 | `hybrid-pnt.toml` | `hybrid` | no [1] | no [1] | no [1] | no [1] | no [2] |

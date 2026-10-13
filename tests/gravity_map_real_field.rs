@@ -89,3 +89,21 @@ fn bad_reference_configs_are_refused() {
         .unwrap_err()
         .contains("gfc_path"));
 }
+
+/// The bundled map-error Monte Carlo scenario (RM-15). Exploratory, not a pre-registered
+/// comparison: the first run gave 5% of 20 realisations within 500 m (p95 14.7 km) for a
+/// 2 mGal, 0.2 deg-correlated map error, against 144 m with a perfect map. The test pins
+/// that the benchmark's sub-500 m fix does NOT survive a map error of the size its own
+/// matching sigma budgets, so the fragility stays visible.
+#[test]
+fn bundled_map_error_mc_shows_the_perfect_map_headline_is_fragile() {
+    let d = run(include_str!("../scenarios/gravity-map-error-mc.toml"));
+    assert!(d["map_matched_error_m"].as_f64().unwrap() < 500.0);
+    let mc = &d["map_error_mc"];
+    assert_eq!(mc["realisations"].as_u64(), Some(20));
+    let within = mc["fraction_within_target"].as_f64().unwrap();
+    assert!(
+        within < 0.5,
+        "recorded 0.05 within 500 m; now {within} (update the CHANGELOG and this test)"
+    );
+}
