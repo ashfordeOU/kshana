@@ -5,6 +5,7 @@
 //! class of source kinds at once. This module quantifies the gap between the
 //! source count and the genuinely independent failure domains.
 
+use crate::portable_math::PortableFloat;
 use crate::resilience::arch::{PntArchitecture, SourceKind};
 use std::collections::{BTreeMap, BTreeSet};
 
@@ -21,7 +22,7 @@ pub fn effective_diversity(arch: &PntArchitecture) -> f64 {
     if total <= 0.0 {
         return 0.0;
     }
-    let sum_sq: f64 = group_q.values().map(|q| (q / total).powi(2)).sum();
+    let sum_sq: f64 = group_q.values().map(|q| (q / total).ppowi(2)).sum();
     if sum_sq <= 0.0 {
         0.0
     } else {

@@ -68,6 +68,7 @@
 //! No clock, file or network is read, and no output carries a generation time: the same
 //! scenario and epoch give the same bytes on every platform.
 
+use crate::portable_math::PortableFloat;
 use super::{round_dp, ExportError, ExportFile, UtcEpoch};
 use crate::frames::{ecef_to_geodetic, geodetic_to_ecef, Geodetic, Vec3};
 use crate::scenario::GnssState;
@@ -192,8 +193,8 @@ pub fn default_epoch() -> UtcEpoch {
 
 /// Rotate a north-east-down vector into the Earth-fixed axes at a geodetic position.
 fn ned_to_ecef(lat_rad: f64, lon_rad: f64, v: Vec3) -> Vec3 {
-    let (sl, cl) = lat_rad.sin_cos();
-    let (so, co) = lon_rad.sin_cos();
+    let (sl, cl) = lat_rad.psin_cos();
+    let (so, co) = lon_rad.psin_cos();
     let n = [-sl * co, -sl * so, cl];
     let e = [-so, co, 0.0];
     let d = [-cl * co, -cl * so, -sl];
@@ -207,9 +208,9 @@ fn ned_to_ecef(lat_rad: f64, lon_rad: f64, v: Vec3) -> Vec3 {
 /// Heading, pitch and roll (degrees) from a body-to-NED rotation matrix, yaw-pitch-roll
 /// (3-2-1). Heading is in [0, 360).
 fn euler_deg(c: &[[f64; 3]; 3]) -> (f64, f64, f64) {
-    let yaw = c[1][0].atan2(c[0][0]).to_degrees();
-    let pitch = (-c[2][0]).clamp(-1.0, 1.0).asin().to_degrees();
-    let roll = c[2][1].atan2(c[2][2]).to_degrees();
+    let yaw = c[1][0].patan2(c[0][0]).to_degrees();
+    let pitch = (-c[2][0]).clamp(-1.0, 1.0).pasin().to_degrees();
+    let roll = c[2][1].patan2(c[2][2]).to_degrees();
     (yaw.rem_euclid(360.0), pitch, roll)
 }
 
@@ -579,16 +580,16 @@ pub fn write_nmea(t: &Trajectory) -> String {
             round_dp(m.h_m, 3)
         )));
         // Ground velocity from the NED components: re-derive from the Earth-fixed vector.
-        let (sl, cl) = m.lat_deg.to_radians().sin_cos();
-        let (so, co) = m.lon_deg.to_radians().sin_cos();
+        let (sl, cl) = m.lat_deg.to_radians().psin_cos();
+        let (so, co) = m.lon_deg.to_radians().psin_cos();
         let v = m.v_ecef_m_s;
         let vn = -sl * co * v[0] - sl * so * v[1] + cl * v[2];
         let ve = -so * v[0] + co * v[1];
-        let speed = vn.hypot(ve);
+        let speed = vn.phypot(ve);
         let course = if speed >= COURSE_MIN_SPEED_M_S {
             format!(
                 "{:.3}",
-                round_dp(ve.atan2(vn).to_degrees().rem_euclid(360.0), 3)
+                round_dp(ve.patan2(vn).to_degrees().rem_euclid(360.0), 3)
             )
         } else {
             String::new()

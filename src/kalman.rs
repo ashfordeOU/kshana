@@ -203,6 +203,7 @@ impl KalmanClock {
 
 #[cfg(test)]
 mod tests {
+    use crate::portable_math::PortableFloat;
     use super::*;
 
     #[test]
@@ -218,7 +219,7 @@ mod tests {
         for _ in 0..n {
             kf.predict(dt);
         }
-        let expected_phase_var = q_wf * t + q_rw * t.powi(3) / 3.0;
+        let expected_phase_var = q_wf * t + q_rw * t.ppowi(3) / 3.0;
         let rel = (kf.phase_var() - expected_phase_var).abs() / expected_phase_var;
         assert!(
             rel < 1e-9,
@@ -239,7 +240,7 @@ mod tests {
         for _ in 0..n {
             kf.predict(dt);
         }
-        let expected = q_rw * t.powi(3) / 3.0;
+        let expected = q_rw * t.ppowi(3) / 3.0;
         let rel = (kf.phase_var() - expected).abs() / expected;
         assert!(
             rel < 1e-9,
@@ -290,7 +291,7 @@ mod tests {
         let mut kf = KalmanClock::new(1e-30, 1e-34, r).with_initial_cov(1e-18, 1e-24);
         for i in 0..500 {
             kf.predict(1.0);
-            kf.update(1e-13 * (i as f64).sin());
+            kf.update(1e-13 * (i as f64).psin());
             assert!(
                 kf.is_psd(),
                 "covariance lost PSD-ness at step {i}: P={:?}",

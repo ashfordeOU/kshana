@@ -47,6 +47,7 @@
 //! the textbook error model. It does not show that real ranging errors are Gaussian,
 //! independent or of equal variance, nor what σ_UERE is for any receiver: σ is an input.
 
+use crate::portable_math::PortableFloat;
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
 use rand_distr::{Distribution, StandardNormal};
@@ -228,7 +229,7 @@ fn sat_positions(user: [f64; 3], dirs: &[(f64, f64)]) -> Option<Vec<[f64; 3]>> {
         dirs.iter()
             .map(|&(el, az)| {
                 let (el, az) = (el.to_radians(), az.to_radians());
-                let (de, dn, du) = (el.cos() * az.sin(), el.cos() * az.cos(), el.sin());
+                let (de, dn, du) = (el.pcos() * az.psin(), el.pcos() * az.pcos(), el.psin());
                 [
                     user[0] + RHO * (de * e[0] + dn * n[0] + du * u[0]),
                     user[1] + RHO * (de * e[1] + dn * n[1] + du * u[1]),
@@ -282,7 +283,7 @@ pub fn run(cfg: &McConfig) -> Result<McReport, String> {
         let ranges: Vec<f64> = sats
             .iter()
             .map(|s| {
-                ((s[0] - user[0]).powi(2) + (s[1] - user[1]).powi(2) + (s[2] - user[2]).powi(2))
+                ((s[0] - user[0]).ppowi(2) + (s[1] - user[1]).ppowi(2) + (s[2] - user[2]).ppowi(2))
                     .sqrt()
             })
             .collect();
@@ -291,7 +292,7 @@ pub fn run(cfg: &McConfig) -> Result<McReport, String> {
             .iter()
             .map(|(el, _)| {
                 if cfg.elevation_dependent_errors {
-                    1.0 / el.to_radians().sin().max(0.05)
+                    1.0 / el.to_radians().psin().max(0.05)
                 } else {
                     1.0
                 }
@@ -330,10 +331,10 @@ pub fn run(cfg: &McConfig) -> Result<McReport, String> {
                 fix.ecef[1] - user[1],
                 fix.ecef[2] - user[2],
             ];
-            sums.e += dot(dx, east).powi(2);
-            sums.n += dot(dx, north).powi(2);
-            sums.u += dot(dx, up).powi(2);
-            sums.t += (fix.clock_bias_m - clock_m).powi(2);
+            sums.e += dot(dx, east).ppowi(2);
+            sums.n += dot(dx, north).ppowi(2);
+            sums.u += dot(dx, up).ppowi(2);
+            sums.t += (fix.clock_bias_m - clock_m).ppowi(2);
         }
         let s2 = cfg.sigma_m * cfg.sigma_m;
         let mk = |quantity: &'static str, dop: f64, sum: f64, one_axis: bool| {
@@ -391,7 +392,7 @@ mod tests {
         let n = 20_000.0_f64;
         let p = 2.5e-8;
         let z = normal_quantile(p);
-        let wh = n * (1.0 - 2.0 / (9.0 * n) + z * (2.0 / (9.0 * n)).sqrt()).powi(3);
+        let wh = n * (1.0 - 2.0 / (9.0 * n) + z * (2.0 / (9.0 * n)).sqrt()).ppowi(3);
         let q = chi2_quantile(p, n);
         assert!(((q - wh) / wh).abs() < 1e-4, "{q} vs {wh}");
     }

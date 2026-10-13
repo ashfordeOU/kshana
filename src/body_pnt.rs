@@ -34,6 +34,7 @@
 //! in [`crate::body`]; IAU = International Astronomical Union), and the Earth-to-body geometry
 //! inherits the ephemeris labels of the `solar-system` kind.
 
+use crate::portable_math::PortableFloat;
 use crate::body::Body;
 use crate::ephem_provider::{AnalyticSolarSystem, EphemerisProvider};
 use crate::mars_frame::bodyfixed_to_inertial;
@@ -290,8 +291,8 @@ impl EqOrbit {
         let n = (body.mu / (a * a * a)).sqrt();
         let j2 = body.zonals.first().copied().unwrap_or(0.0);
         let p = a * (1.0 - e * e);
-        let k = j2 * (body.re / p).powi(2);
-        let ci = inc.cos();
+        let k = j2 * (body.re / p).ppowi(2);
+        let ci = inc.pcos();
         Self {
             a,
             e,
@@ -310,12 +311,12 @@ impl EqOrbit {
     fn position(&self, t: f64) -> Vec3 {
         let m = self.m0 + self.m_dot * t;
         let ecc_anom = crate::ephem::solve_kepler(m, self.e);
-        let (se, ce) = ecc_anom.sin_cos();
+        let (se, ce) = ecc_anom.psin_cos();
         let x = self.a * (ce - self.e);
         let y = self.a * (1.0 - self.e * self.e).sqrt() * se;
-        let (sw, cw) = (self.argp0 + self.argp_dot * t).sin_cos();
-        let (so, co) = (self.raan0 + self.raan_dot * t).sin_cos();
-        let (si, ci) = self.inc.sin_cos();
+        let (sw, cw) = (self.argp0 + self.argp_dot * t).psin_cos();
+        let (so, co) = (self.raan0 + self.raan_dot * t).psin_cos();
+        let (si, ci) = self.inc.psin_cos();
         [
             (cw * co - sw * so * ci) * x + (-sw * co - cw * so * ci) * y,
             (cw * so + sw * co * ci) * x + (-sw * so + cw * co * ci) * y,
@@ -475,9 +476,9 @@ impl BodyPntScenario {
         let lon = user_cfg.lon_deg.unwrap_or(0.0) * DEG;
         let r_surface = radius + user_cfg.height_m.unwrap_or(0.0);
         let user_bf = [
-            r_surface * lat.cos() * lon.cos(),
-            r_surface * lat.cos() * lon.sin(),
-            r_surface * lat.sin(),
+            r_surface * lat.pcos() * lon.pcos(),
+            r_surface * lat.pcos() * lon.psin(),
+            r_surface * lat.psin(),
         ];
 
         let c = self.constellation.clone().unwrap_or_default();
@@ -557,7 +558,7 @@ impl BodyPntScenario {
                 if surface {
                     let d = sub(target, user);
                     let sin_el = dot(d, up) / norm(d);
-                    return sin_el >= mask.sin();
+                    return sin_el >= mask.psin();
                 }
                 true
             };
@@ -854,7 +855,7 @@ pub fn to_svg(r: &BodyPntReport) -> String {
         .fold(f64::MIN, f64::max)
         .max(lo + 1.0)
         .ceil();
-    let y = |v: f64| top2 + ph2 - ph2 * (v.log10() - lo) / (hi - lo);
+    let y = |v: f64| top2 + ph2 - ph2 * (v.plog10() - lo) / (hi - lo);
     for (sel, colour) in [(0, BLUE), (1, CYAN)] {
         let pts: Vec<String> = r
             .epochs

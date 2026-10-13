@@ -33,6 +33,7 @@
 //! rotation (a < 1e-4 m/s error at orbital speeds). An ANISE/SPICE numerical
 //! cross-check to the < 10 m level is a follow-on (see `ROADMAP.md`).
 
+use crate::portable_math::PortableFloat;
 use crate::precession::{
     fw_angles, mat_vec, matmul, precession_matrix, rx, rz, transpose, Mat3, Vec3,
 };
@@ -185,7 +186,7 @@ pub fn nutation_iau2000b(jd_tt: f64) -> Nutation {
             + f64::from(nd) * d
             + f64::from(nom) * om)
             % std::f64::consts::TAU;
-        let (sarg, carg) = arg.sin_cos();
+        let (sarg, carg) = arg.psin_cos();
         dp += (ps + pst * t) * sarg + pc * carg;
         de += (ec + ect * t) * carg + es * sarg;
     }
@@ -257,7 +258,7 @@ pub fn nutation_iau2000a(jd_tt: f64) -> Nutation {
             + f64::from(nd) * d
             + f64::from(nom) * om)
             % tau;
-        let (sarg, carg) = arg.sin_cos();
+        let (sarg, carg) = arg.psin_cos();
         dp += (ps + pst * t) * sarg + pc * carg;
         de += (ec + ect * t) * carg + es * sarg;
     }
@@ -301,7 +302,7 @@ pub fn nutation_iau2000a(jd_tt: f64) -> Nutation {
             + f64::from(nne) * alne
             + f64::from(npa) * apa)
             % tau;
-        let (sarg, carg) = arg.sin_cos();
+        let (sarg, carg) = arg.psin_cos();
         dp += sp * sarg + cp * carg;
         de += se * sarg + ce * carg;
     }
@@ -349,9 +350,9 @@ pub fn equation_of_equinoxes(jd_tt: f64) -> f64 {
     let eps = mean_obliquity(jd_tt);
     let om = delaunay_args(jd_tt)[4];
     // Δψ·cos(ε̄) plus the two leading IAU 1994 complementary terms.
-    n.dpsi * eps.cos()
-        + 0.002_640_96 * ARCSEC_TO_RAD * om.sin()
-        + 0.000_063_52 * ARCSEC_TO_RAD * (2.0 * om).sin()
+    n.dpsi * eps.pcos()
+        + 0.002_640_96 * ARCSEC_TO_RAD * om.psin()
+        + 0.000_063_52 * ARCSEC_TO_RAD * (2.0 * om).psin()
 }
 
 /// The composite TEME→GCRS rotation matrix at TT epoch `jd_tt`:
@@ -492,7 +493,7 @@ mod tests {
         // The net rotation is the nutation magnitude — tens of arc seconds, never the
         // ~23° obliquity (which would mean ε was not cancelled). cos θ = (tr − 1)/2.
         let trace = n[0][0] + n[1][1] + n[2][2];
-        let theta = (((trace - 1.0) / 2.0).clamp(-1.0, 1.0)).acos();
+        let theta = (((trace - 1.0) / 2.0).clamp(-1.0, 1.0)).pacos();
         let theta_arcsec = theta / ARCSEC_TO_RAD;
         assert!(
             (1.0..60.0).contains(&theta_arcsec),
@@ -552,7 +553,7 @@ mod tests {
         let ra = mat_vec(&na, r);
         let rb = mat_vec(&nb, r);
         let sep =
-            ((ra[0] - rb[0]).powi(2) + (ra[1] - rb[1]).powi(2) + (ra[2] - rb[2]).powi(2)).sqrt();
+            ((ra[0] - rb[0]).ppowi(2) + (ra[1] - rb[1]).ppowi(2) + (ra[2] - rb[2]).ppowi(2)).sqrt();
         // 1 mas at GEO ≈ 0.2 m; the 2000A/2000B gap is a fraction of a mas → < 1 m.
         assert!(sep > 1e-4 && sep < 1.0, "2000A−2000B separation = {sep} m");
     }
@@ -563,7 +564,7 @@ mod tests {
         // dominant term to within those few-mas terms, and be non-trivial.
         let ee = equation_of_equinoxes(JD_TT_REF);
         let n = nutation_iau2000b(JD_TT_REF);
-        let dominant = n.dpsi * mean_obliquity(JD_TT_REF).cos();
+        let dominant = n.dpsi * mean_obliquity(JD_TT_REF).pcos();
         assert!(ee.abs() > 1e-6, "EE should be ~arcsec scale, got {ee}");
         assert!(
             (ee - dominant).abs() < 2e-8,
@@ -596,9 +597,9 @@ mod tests {
         let (rg, _) = teme_to_gcrs(r, [0.0; 3], JD_TT_REF);
         // Precession-only: treat the input as MOD and undo precession to GCRS.
         let prec_only = crate::precession::mod_to_gcrs(r, JD_TT_REF);
-        let diff = ((rg[0] - prec_only[0]).powi(2)
-            + (rg[1] - prec_only[1]).powi(2)
-            + (rg[2] - prec_only[2]).powi(2))
+        let diff = ((rg[0] - prec_only[0]).ppowi(2)
+            + (rg[1] - prec_only[1]).ppowi(2)
+            + (rg[2] - prec_only[2]).ppowi(2))
         .sqrt();
         assert!(
             (5.0..5000.0).contains(&diff),

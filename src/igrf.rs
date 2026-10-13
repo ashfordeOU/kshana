@@ -21,6 +21,7 @@
 //! known **geomagnetic pole** (~80.7°N) and dipole strength, and the global field
 //! lies in the physical 22–67 µT band with the correct hemisphere sign.
 
+use crate::portable_math::PortableFloat;
 use crate::igrf_data::{IGRF_EPOCH, IGRF_G, IGRF_GDOT, IGRF_H, IGRF_HDOT, IGRF_NMAX};
 
 /// IGRF geomagnetic reference radius (km).
@@ -58,7 +59,7 @@ type Mat = [[f64; 14]; 14];
 /// plus the Schmidt conversion factor (the formulation used by the IAGA IGRF
 /// synthesis). `theta` is the geocentric colatitude (radians).
 fn legendre_schmidt(theta: f64) -> (Mat, Mat) {
-    let (s, c) = theta.sin_cos();
+    let (s, c) = theta.psin_cos();
     let n_max = IGRF_NMAX;
     let mut p = [[0.0_f64; 14]; 14];
     let mut dp = [[0.0_f64; 14]; 14];
@@ -120,12 +121,12 @@ fn coeffs_at(year: f64) -> (Mat, Mat) {
 fn field_geocentric(r_km: f64, theta: f64, phi: f64, g: &Mat, h: &Mat) -> (f64, f64, f64) {
     let (p, dp) = legendre_schmidt(theta);
     let ar = EARTH_RADIUS_KM / r_km;
-    let sin_theta = theta.sin();
+    let sin_theta = theta.psin();
     let (mut br, mut bt, mut bp) = (0.0, 0.0, 0.0);
     for n in 1..=IGRF_NMAX {
-        let arn = ar.powi(n as i32 + 2);
+        let arn = ar.ppowi(n as i32 + 2);
         for m in 0..=n {
-            let (sm, cm) = ((m as f64) * phi).sin_cos();
+            let (sm, cm) = ((m as f64) * phi).psin_cos();
             let gh = g[n][m] * cm + h[n][m] * sm;
             let dgh = -g[n][m] * sm + h[n][m] * cm;
             br += arn * ((n + 1) as f64) * gh * p[n][m];
@@ -144,9 +145,9 @@ fn scalar_potential(r_km: f64, theta: f64, phi: f64, g: &Mat, h: &Mat) -> f64 {
     let ar = EARTH_RADIUS_KM / r_km;
     let mut v = 0.0;
     for n in 1..=IGRF_NMAX {
-        let arn = ar.powi(n as i32 + 1);
+        let arn = ar.ppowi(n as i32 + 1);
         for m in 0..=n {
-            let (sm, cm) = ((m as f64) * phi).sin_cos();
+            let (sm, cm) = ((m as f64) * phi).psin_cos();
             v += arn * (g[n][m] * cm + h[n][m] * sm) * p[n][m];
         }
     }
@@ -161,7 +162,7 @@ pub fn magnetic_field(lat_deg: f64, lon_deg: f64, alt_km: f64, year: f64) -> Mag
     let (g, h) = coeffs_at(year);
     let lat = lat_deg * DEG;
     let phi = lon_deg * DEG;
-    let (slat, clat) = lat.sin_cos();
+    let (slat, clat) = lat.psin_cos();
 
     // Geodetic → geocentric (radius r_km, and the cd/sd rotation between the
     // geodetic and geocentric verticals), following the IAGA `shval3` reduction.
@@ -174,7 +175,7 @@ pub fn magnetic_field(lat_deg: f64, lon_deg: f64, alt_km: f64, year: f64) -> Mag
     let sd = (WGS84_A2 - WGS84_B2) / rho * slat * clat / r_km;
     let slat_gc = slat * cd - clat * sd; // sin(geocentric latitude)
     let clat_gc = clat * cd + slat * sd; // cos(geocentric latitude)
-    let theta = clat_gc.atan2(slat_gc); // geocentric colatitude
+    let theta = clat_gc.patan2(slat_gc); // geocentric colatitude
 
     let (br, bt, bp) = field_geocentric(r_km, theta, phi, &g, &h);
     // Geocentric north/east/down.
@@ -193,8 +194,8 @@ pub fn magnetic_field(lat_deg: f64, lon_deg: f64, alt_km: f64, year: f64) -> Mag
         down_nt: z,
         horizontal_nt,
         total_nt,
-        declination_deg: y.atan2(x) / DEG,
-        inclination_deg: z.atan2(horizontal_nt) / DEG,
+        declination_deg: y.patan2(x) / DEG,
+        inclination_deg: z.patan2(horizontal_nt) / DEG,
     }
 }
 
@@ -205,10 +206,10 @@ pub fn geomagnetic_north_pole(year: f64) -> (f64, f64) {
     let (g, h) = coeffs_at(year);
     let (g10, g11, h11) = (g[1][0], g[1][1], h[1][1]);
     // Dipole axis colatitude from the north geographic axis.
-    let colat = (g11 * g11 + h11 * h11).sqrt().atan2(-g10) / DEG;
+    let colat = (g11 * g11 + h11 * h11).sqrt().patan2(-g10) / DEG;
     // atan2(h11, g11) is the azimuth of the dipole moment's horizontal projection
     // (the southern geomagnetic pole); the northern pole is the antipode in lon.
-    let mut lon = h11.atan2(g11) / DEG - 180.0;
+    let mut lon = h11.patan2(g11) / DEG - 180.0;
     if lon < -180.0 {
         lon += 360.0;
     }
@@ -309,9 +310,9 @@ mod tests {
         use std::f64::consts::FRAC_PI_2;
         for &(theta, phi) in &[(0.6, 0.3), (1.2, 2.0), (2.5, -1.1), (FRAC_PI_2, 0.0)] {
             let (br, bt, bp) = field_geocentric(r, theta, phi, &g, &h);
-            let ar3 = (EARTH_RADIUS_KM / r).powi(3);
-            let (st, ct) = theta.sin_cos();
-            let (sp, cp) = phi.sin_cos();
+            let ar3 = (EARTH_RADIUS_KM / r).ppowi(3);
+            let (st, ct) = theta.psin_cos();
+            let (sp, cp) = phi.psin_cos();
             let tang = g[1][1] * cp + h[1][1] * sp;
             // Exact tilted-dipole field (the analytic −∇V of the degree-1 potential).
             let br_cf = 2.0 * ar3 * (g[1][0] * ct + tang * st);
@@ -348,7 +349,7 @@ mod tests {
         let dvdp = (v(r, theta, phi + da) - v(r, theta, phi - da)) / (2.0 * da);
         let br_fd = -dvdr;
         let bt_fd = -dvdt / r;
-        let bp_fd = -dvdp / (r * theta.sin());
+        let bp_fd = -dvdp / (r * theta.psin());
         assert!((br - br_fd).abs() < 1e-4, "B_r: {br} vs FD {br_fd}");
         assert!((bt - bt_fd).abs() < 1e-4, "B_θ: {bt} vs FD {bt_fd}");
         assert!((bp - bp_fd).abs() < 1e-4, "B_φ: {bp} vs FD {bp_fd}");

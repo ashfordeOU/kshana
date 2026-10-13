@@ -20,6 +20,7 @@
 //!   index modulo the bit length; the bit edge is declared when the leading bin has at
 //!   least `min_votes` votes and at least `ratio` times the runner-up.
 
+use crate::portable_math::PortableFloat;
 use super::super::Cf64;
 
 /// The NWPR power ratio `NBP/WBP` of one window of prompts (`1` for pure noise on
@@ -40,7 +41,7 @@ pub fn nwpr_cn0_from_ratio(mu: f64, k: usize, t_s: f64) -> Option<f64> {
     if !(mu > 1.0 && mu < k && t_s > 0.0) {
         return None;
     }
-    Some(10.0 * ((mu - 1.0) / ((k - mu) * t_s)).log10())
+    Some(10.0 * ((mu - 1.0) / ((k - mu) * t_s)).plog10())
 }
 
 /// NWPR C/N0 (dB-Hz) from `prompts` (each of integration `t_s`) split into consecutive
@@ -76,7 +77,7 @@ pub fn beaulieu_cn0_from_term(mean_term: f64, t_s: f64) -> Option<f64> {
     if !(mean_term > 0.0 && t_s > 0.0) {
         return None;
     }
-    Some(10.0 * (1.0 / (mean_term * t_s)).log10())
+    Some(10.0 * (1.0 / (mean_term * t_s)).plog10())
 }
 
 /// Beaulieu C/N0 (dB-Hz) from consecutive phase-locked `prompts` of integration `t_s`.

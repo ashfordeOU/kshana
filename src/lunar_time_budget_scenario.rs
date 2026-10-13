@@ -20,6 +20,7 @@
 //! measurements — the contribution is the reproducible clock-vs-frame crossover, not a
 //! certified per-term number. Nothing here is certified for operational timekeeping.
 
+use crate::portable_math::PortableFloat;
 use crate::clock_specs::{x_clock_ns, LunarClock};
 use crate::lunar_time_budget::{
     clock_crossover_table, default_tau_grid, lunar_time_budget, BudgetParams,
@@ -171,10 +172,10 @@ impl LunarTimeBudgetScenario {
         if ppd == 0 {
             return Err("points_per_decade must be ≥ 1".to_string());
         }
-        let decades = (hi / lo).log10();
+        let decades = (hi / lo).plog10();
         let n = (decades * ppd as f64).round() as i64 + 1;
         Ok((0..n)
-            .map(|k| lo * 10f64.powf(k as f64 / ppd as f64))
+            .map(|k| lo * 10f64.ppowf(k as f64 / ppd as f64))
             .collect())
     }
 

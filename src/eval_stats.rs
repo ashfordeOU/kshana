@@ -8,6 +8,7 @@
 //! Bootstrap routines are seeded (`ChaCha8Rng`) so a reported interval is
 //! reproducible from `(inputs, seed)`.
 
+use crate::portable_math::PortableFloat;
 use crate::impairment_eval::auc;
 use crate::portable_math::uniform_index;
 use rand::SeedableRng;
@@ -113,7 +114,7 @@ fn sample_var(v: &[f64]) -> f64 {
         return 0.0;
     }
     let mean = v.iter().sum::<f64>() / n as f64;
-    v.iter().map(|x| (x - mean).powi(2)).sum::<f64>() / (n as f64 - 1.0)
+    v.iter().map(|x| (x - mean).ppowi(2)).sum::<f64>() / (n as f64 - 1.0)
 }
 
 /// DeLong variance of a single AUC: `Var = S10/m + S01/n`. `NaN` if either class

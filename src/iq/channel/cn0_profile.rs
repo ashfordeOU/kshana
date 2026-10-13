@@ -67,6 +67,7 @@
 //! by seeded simulation, and a profiled scene's tracked C/N0 against the profile, in
 //! `tests/iq_cn0_profile.rs`.
 
+use crate::portable_math::PortableFloat;
 use super::sat_seed;
 use crate::iq::scene::{SatView, SceneChannel, TruthRecord, TruthSink};
 use crate::iq::{ChannelSnapshot, IqError};
@@ -280,7 +281,7 @@ impl Cn0Profile {
 
     /// The amplitude factor `10^{offset/20}` of satellite `sat` at `t_s`.
     pub fn amplitude(&mut self, sat: u32, t_s: f64) -> f64 {
-        10f64.powf(self.offset_db(sat, t_s) / 20.0)
+        10f64.ppowf(self.offset_db(sat, t_s) / 20.0)
     }
 }
 
@@ -309,7 +310,7 @@ fn fade_db(
     seed: u64,
 ) -> f64 {
     let dt = tau / FADE_STEPS_PER_TAU;
-    let rho = (-dt / tau).exp();
+    let rho = (-dt / tau).pexp();
     let innov = (1.0 - rho * rho).sqrt();
     let half = std::f64::consts::FRAC_1_SQRT_2;
     let st = fades.entry((seg, sat)).or_insert_with(|| {
@@ -337,7 +338,7 @@ fn fade_db(
     let sigma = (1.0 / (1.0 + k)).sqrt();
     let re = mu + sigma * st.z.0;
     let im = sigma * st.z.1;
-    10.0 * (re * re + im * im).max(1e-30).log10()
+    10.0 * (re * re + im * im).max(1e-30).plog10()
 }
 
 /// A scene channel applying a [`Cn0Profile`] on top of an optional inner channel: every
@@ -436,7 +437,7 @@ db = [0.0, -3.0, 1.0]
         assert!((p.offset_db(5, 0.5) - (-1.5)).abs() < 1e-12);
         assert!((p.offset_db(5, 2.0) - (-6.0 - 1.0)).abs() < 1e-12);
         assert!((p.offset_db(5, 7.0) - (-6.0 + 1.0)).abs() < 1e-12);
-        assert!((p.amplitude(1, 2.0) - 10f64.powf(-6.0 / 20.0)).abs() < 1e-15);
+        assert!((p.amplitude(1, 2.0) - 10f64.ppowf(-6.0 / 20.0)).abs() < 1e-15);
     }
 
     #[test]

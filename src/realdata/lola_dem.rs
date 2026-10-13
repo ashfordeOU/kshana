@@ -21,6 +21,7 @@
 //!   offline. Any siting result over the fixture is illustrative until a real tile is
 //!   loaded.
 
+use crate::portable_math::PortableFloat;
 use crate::lunar::{mcmf_to_selenographic, R_MOON_M};
 
 type Vec3 = [f64; 3];
@@ -178,13 +179,13 @@ impl DemTile {
                 // Colatitude (deg from the pole) drives a rim at ~5 deg and a basin inside.
                 let colat = 90.0 + lat; // 0 at the pole, 10 at -80
                                         // Rim: a Gaussian ridge centred at colat 5 deg, ~2500 m high.
-                let rim = 2500.0 * (-((colat - 5.0).powi(2)) / (2.0 * 1.5_f64.powi(2))).exp();
+                let rim = 2500.0 * (-((colat - 5.0).ppowi(2)) / (2.0 * 1.5_f64.ppowi(2))).pexp();
                 // Basin: a broad depression near the pole, down to ~-1200 m.
-                let basin = -1200.0 * (-(colat.powi(2)) / (2.0 * 3.0_f64.powi(2))).exp();
+                let basin = -1200.0 * (-(colat.ppowi(2)) / (2.0 * 3.0_f64.ppowi(2))).pexp();
                 // A longitudinal massif (a peak) at lon ~ 60 deg to break the symmetry.
                 let massif = 1800.0
-                    * (-((lon - 60.0).powi(2)) / (2.0 * 20.0_f64.powi(2))).exp()
-                    * (-((colat - 6.0).powi(2)) / (2.0 * 2.0_f64.powi(2))).exp();
+                    * (-((lon - 60.0).ppowi(2)) / (2.0 * 20.0_f64.ppowi(2))).pexp()
+                    * (-((colat - 6.0).ppowi(2)) / (2.0 * 2.0_f64.ppowi(2))).pexp();
                 heights_m.push(rim + basin + massif);
             }
         }
@@ -234,9 +235,9 @@ mod tests {
         let lon = lon_deg.to_radians();
         let r = R_MOON_M + height_m;
         [
-            r * lat.cos() * lon.cos(),
-            r * lat.cos() * lon.sin(),
-            r * lat.sin(),
+            r * lat.pcos() * lon.pcos(),
+            r * lat.pcos() * lon.psin(),
+            r * lat.psin(),
         ]
     }
 

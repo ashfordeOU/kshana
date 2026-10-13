@@ -38,6 +38,7 @@
 //! is implied. The ICRF orientation tie is a deliberately simple composition (documented on
 //! [`icrf_orientation_tie`]) reporting the realised small rotation about the ICRF axes.
 
+use crate::portable_math::PortableFloat;
 use crate::batch_ls::gauss_newton;
 use crate::palette::chart::{BG, FONT_SANS, INK_2, LIME};
 use crate::precession::{mat_vec, matmul, rx, ry, rz, transpose, Mat3};
@@ -491,9 +492,9 @@ impl LunarFrameRealiseScenario {
         ];
         let scale_err_ppb = rec.scale_ppb - injected.scale_ppb;
         let trans_err_norm_m =
-            (trans_err_m[0].powi(2) + trans_err_m[1].powi(2) + trans_err_m[2].powi(2)).sqrt();
+            (trans_err_m[0].ppowi(2) + trans_err_m[1].ppowi(2) + trans_err_m[2].ppowi(2)).sqrt();
         let rot_err_norm_rad =
-            (rot_err_rad[0].powi(2) + rot_err_rad[1].powi(2) + rot_err_rad[2].powi(2)).sqrt();
+            (rot_err_rad[0].ppowi(2) + rot_err_rad[1].ppowi(2) + rot_err_rad[2].ppowi(2)).sqrt();
 
         // ICRF orientation tie of the realised rotation.
         let jd_utc = crate::timescales::julian_date(
@@ -933,8 +934,8 @@ mod tests {
             crate::timescales::utc_to_tt(crate::timescales::julian_date(2024, 1, 1, 0, 0, 0.0));
         let theta = [3.0 * URAD, -2.0 * URAD, 5.0 * URAD];
         let tie = icrf_orientation_tie(jd, theta);
-        let in_mag = (theta[0].powi(2) + theta[1].powi(2) + theta[2].powi(2)).sqrt();
-        let tie_mag = (tie[0].powi(2) + tie[1].powi(2) + tie[2].powi(2)).sqrt();
+        let in_mag = (theta[0].ppowi(2) + theta[1].ppowi(2) + theta[2].ppowi(2)).sqrt();
+        let tie_mag = (tie[0].ppowi(2) + tie[1].ppowi(2) + tie[2].ppowi(2)).sqrt();
         assert!(
             (in_mag - tie_mag).abs() / in_mag < 1e-6,
             "rotation magnitude not preserved: in {in_mag} tie {tie_mag}"

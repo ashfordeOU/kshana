@@ -483,6 +483,7 @@ pub fn write(rec: &Recording, full_scale: f64) -> Result<(String, Vec<u8>, usize
 
 #[cfg(test)]
 mod tests {
+    use crate::portable_math::PortableFloat;
     use super::*;
 
     /// Extension fields are declared, merged under their namespace, refused outside it, and
@@ -518,7 +519,7 @@ mod tests {
         (0..n)
             .map(|k| {
                 let x = k as f64 / n as f64;
-                Cf64::new((7.0 * x).sin() * 0.9, (3.0 * x).cos() * 0.8)
+                Cf64::new((7.0 * x).psin() * 0.9, (3.0 * x).pcos() * 0.8)
             })
             .collect()
     }

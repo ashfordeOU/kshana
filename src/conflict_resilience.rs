@@ -36,6 +36,7 @@
 //!   properties of that Modelled parameterisation, not certified figures. Not a certified
 //!   navigation-availability product.
 
+use crate::portable_math::PortableFloat;
 use crate::conflict_threat_params::{conflict_baseline, VectorProfile, THREAT_VECTORS};
 use crate::mcda::sensitivity::{tornado, TornadoBar};
 use crate::palette::chart::{AMBER, BLUE, CORAL, CYAN, GRID, INK_4, MUTED};
@@ -706,7 +707,7 @@ fn inv_norm_cdf(p: f64) -> f64 {
     let plow = 0.02425;
     let phigh = 1.0 - plow;
     if p < plow {
-        let q = (-2.0 * p.ln()).sqrt();
+        let q = (-2.0 * p.pln()).sqrt();
         (((((C[0] * q + C[1]) * q + C[2]) * q + C[3]) * q + C[4]) * q + C[5])
             / ((((D[0] * q + D[1]) * q + D[2]) * q + D[3]) * q + 1.0)
     } else if p <= phigh {
@@ -715,7 +716,7 @@ fn inv_norm_cdf(p: f64) -> f64 {
         (((((A[0] * r + A[1]) * r + A[2]) * r + A[3]) * r + A[4]) * r + A[5]) * q
             / (((((B[0] * r + B[1]) * r + B[2]) * r + B[3]) * r + B[4]) * r + 1.0)
     } else {
-        let q = (-2.0 * (1.0 - p).ln()).sqrt();
+        let q = (-2.0 * (1.0 - p).pln()).sqrt();
         -(((((C[0] * q + C[1]) * q + C[2]) * q + C[3]) * q + C[4]) * q + C[5])
             / ((((D[0] * q + D[1]) * q + D[2]) * q + D[3]) * q + 1.0)
     }

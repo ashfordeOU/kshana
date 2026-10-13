@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 //! Inertial navigation: strapdown INS mechanization and the accelerometer error
 //! models (classical and cold-atom) a GNSS-denied coast dead-reckons on.
+use crate::portable_math::PortableFloat;
 use crate::palette::chart::{AMBER, AXIS, BG, CORAL, CYAN, FONT_SANS, INK_2};
 pub mod attitude;
 pub mod cai_params;
@@ -828,7 +829,7 @@ fn bootstrap_ci95_mean(xs: &[f64], b: usize, seed: u64) -> (f64, f64) {
 pub(crate) fn metric_stat(values: &[f64], boot_seed: u64) -> MetricStat {
     let n = values.len().max(1) as f64;
     let mean = values.iter().sum::<f64>() / n;
-    let var = values.iter().map(|v| (v - mean).powi(2)).sum::<f64>() / n;
+    let var = values.iter().map(|v| (v - mean).ppowi(2)).sum::<f64>() / n;
     let mut sorted = values.to_vec();
     sorted.sort_by(|a, b| a.total_cmp(b));
     let (ci_lo, ci_hi) = bootstrap_ci95_mean(values, 2000, boot_seed);
@@ -1183,7 +1184,7 @@ mod tests {
             sumsq += a.pos() * a.pos();
         }
         let sd = (sumsq / seeds.len() as f64).sqrt();
-        let expected = (s_a * t_total.powi(3) / 3.0).sqrt();
+        let expected = (s_a * t_total.ppowi(3) / 3.0).sqrt();
         let rel = (sd - expected).abs() / expected;
         assert!(rel < 0.2, "VRW pos sd={sd} expected={expected} rel={rel}");
     }

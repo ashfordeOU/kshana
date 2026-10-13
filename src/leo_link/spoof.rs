@@ -40,6 +40,7 @@
 //! stated Gaussian noise model, but the spoofer is an idealised position push and no
 //! detection figure here is compared with a measured attack.
 
+use crate::portable_math::PortableFloat;
 use super::geometry::{range_rate_and_accel, Kinematics, Vec3};
 use super::C_M_S;
 use crate::raim::{chi2_quantile, noncentral_chi2_cdf, normal_cdf, normal_quantile};
@@ -55,7 +56,7 @@ fn dot(a: Vec3, b: Vec3) -> f64 {
 /// bandwidth `bn_hz` and predetection time `t_s` (Kaplan & Hegarty 2006, section 5.6.2,
 /// `F = 1`).
 pub fn fll_frequency_jitter_hz(cn0_dbhz: f64, bn_hz: f64, t_s: f64) -> f64 {
-    let cn0 = 10f64.powf(cn0_dbhz / 10.0);
+    let cn0 = 10f64.ppowf(cn0_dbhz / 10.0);
     (4.0 * bn_hz / cn0 * (1.0 + 1.0 / (t_s * cn0))).sqrt() / (std::f64::consts::TAU * t_s)
 }
 
@@ -402,7 +403,7 @@ mod tests {
         };
         let t = doppler_consistency(&ch, &prior, 1e-3).unwrap();
         let mean = r.iter().sum::<f64>() / 4.0;
-        let want: f64 = r.iter().map(|x| (x - mean).powi(2)).sum::<f64>() / (s * s);
+        let want: f64 = r.iter().map(|x| (x - mean).ppowi(2)).sum::<f64>() / (s * s);
         assert!(
             (t.noncentrality - want).abs() < 1e-9,
             "{} vs {want}",
@@ -483,12 +484,12 @@ mod tests {
         let ch: Vec<DopplerChannel> = (0..5)
             .map(|i| {
                 let x = i as f64;
-                let u = [0.3 * x.cos(), 0.4 * x.sin(), 0.8];
+                let u = [0.3 * x.pcos(), 0.4 * x.psin(), 0.8];
                 let nu = (u[0] * u[0] + u[1] * u[1] + u[2] * u[2]).sqrt();
                 DopplerChannel {
                     residual_m_s: 0.02 * (x - 1.7),
                     sigma_m_s: 0.01 + 0.002 * x,
-                    gradient: [1e-3 * (x - 2.0), 2e-3 * x.sin(), -1e-3],
+                    gradient: [1e-3 * (x - 2.0), 2e-3 * x.psin(), -1e-3],
                     los: [u[0] / nu, u[1] / nu, u[2] / nu],
                 }
             })
@@ -506,7 +507,7 @@ mod tests {
                 c[i * n + j] = 25.0 * dot(ch[i].gradient, ch[j].gradient)
                     + 0.04 * dot(ch[i].los, ch[j].los)
                     + 0.0025
-                    + if i == j { ch[i].sigma_m_s.powi(2) } else { 0.0 };
+                    + if i == j { ch[i].sigma_m_s.ppowi(2) } else { 0.0 };
             }
         }
         let r: Vec<f64> = ch.iter().map(|x| x.residual_m_s).collect();

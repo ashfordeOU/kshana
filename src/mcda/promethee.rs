@@ -22,6 +22,7 @@
 //! tolerance." Preference-function shape and thresholds are modelling choices the
 //! analyst must justify; see [`super::sensitivity`] for the robustness caveat.
 
+use crate::portable_math::PortableFloat;
 use super::Objective;
 
 /// A PROMETHEE generalised-criterion preference function `P(d)` mapping a
@@ -89,7 +90,7 @@ impl PreferenceFunction {
                 if sigma <= 0.0 {
                     1.0
                 } else {
-                    1.0 - (-(d * d) / (2.0 * sigma * sigma)).exp()
+                    1.0 - (-(d * d) / (2.0 * sigma * sigma)).pexp()
                 }
             }
         }

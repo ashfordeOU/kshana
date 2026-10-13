@@ -25,6 +25,7 @@
 //! solved to a microsecond and the culmination by a bounded maximisation, not at the sample
 //! step. Both corrections can be switched off.
 
+use crate::portable_math::PortableFloat;
 use crate::frames::{geodetic_to_ecef, look_angles, teme_to_ecef, AzElRange, Geodetic};
 use crate::jd2::Jd2;
 use crate::orbit::{Propagator, R_EARTH_EQUATORIAL_M};
@@ -175,9 +176,9 @@ pub fn p834_tau_s_deg(h_km: f64, theta0_deg: f64) -> f64 {
 /// just grazes the Earth, with the Recommendation's reference atmosphere
 /// `n(x) = 1 + 0.000315 exp(−0.1361 x)` and Earth radius 6 370 km.
 pub fn p834_theta_m_deg(h_km: f64) -> f64 {
-    let n = |x: f64| 1.0 + 0.000_315 * (-0.1361 * x).exp();
+    let n = |x: f64| 1.0 + 0.000_315 * (-0.1361 * x).pexp();
     let r = 6_370.0;
-    -((r / (r + h_km)) * (n(0.0) / n(h_km))).acos().to_degrees()
+    -((r / (r + h_km)) * (n(0.0) / n(h_km))).pacos().to_degrees()
 }
 
 /// Apparent elevation (deg) of a satellite at free-space elevation `theta0_deg` seen from a
@@ -742,7 +743,7 @@ impl PassesScenario {
         let a_er = (R_EARTH_EQUATORIAL_M + self.altitude_km * 1000.0) / 1000.0 / g.radiusearthkm;
         MeanElementSet {
             epoch_utc,
-            no_kozai: g.xke / a_er.powf(1.5),
+            no_kozai: g.xke / a_er.ppowf(1.5),
             ecco: 0.0,
             inclo: self.inclination_deg.to_radians(),
             nodeo: self.raan_deg.to_radians().rem_euclid(std::f64::consts::TAU),
@@ -928,7 +929,7 @@ mod tests {
         );
         let period = 2.0
             * std::f64::consts::PI
-            * ((R_EARTH_EQUATORIAL_M + 550_000.0).powi(3) / crate::orbit::MU_EARTH).sqrt();
+            * ((R_EARTH_EQUATORIAL_M + 550_000.0).ppowi(3) / crate::orbit::MU_EARTH).sqrt();
         for p in &passes {
             assert!(
                 p.max_elevation_deg >= 10.0,

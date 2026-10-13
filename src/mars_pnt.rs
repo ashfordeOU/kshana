@@ -30,6 +30,7 @@
 //! number is derived from the shipped Mars dynamics and a published Mars constant; nothing is
 //! invented.
 
+use crate::portable_math::PortableFloat;
 use crate::body::Body;
 use crate::chart::y_axis;
 use crate::deepspace_od::{
@@ -230,7 +231,7 @@ pub struct MarconiConstellation {
 /// gravitational parameter `μ` and sidereal spin rate `ω`. A relay there hangs over a fixed
 /// longitude, the MARCONI broadcast workhorse geometry (≈ 20 400 km radius / ≈ 17 000 km altitude).
 pub fn areostationary_radius(body: &Body) -> f64 {
-    (body.mu / (body.rotation_rate * body.rotation_rate)).cbrt()
+    (body.mu / (body.rotation_rate * body.rotation_rate)).pcbrt()
 }
 
 impl MarconiConstellation {
@@ -307,8 +308,8 @@ impl MarconiConstellation {
 /// self-consistent circular orbit for a relay.
 fn circular_state(body: &Body, r: f64, lon: f64, inc: f64) -> (Vec3, Vec3) {
     let vc = (body.mu / r).sqrt();
-    let (sl, cl) = lon.sin_cos();
-    let (si, ci) = inc.sin_cos();
+    let (sl, cl) = lon.psin_cos();
+    let (si, ci) = inc.psin_cos();
     // Position: at the ascending node, on the line of nodes (in the equatorial plane).
     let r0 = [r * cl, r * sl, 0.0];
     // Velocity: along the in-plane direction perpendicular to r, tilted by the inclination about
@@ -491,7 +492,7 @@ impl MarsScenario {
                 let r = body.re + 400.0e3;
                 let vc = (body.mu / r).sqrt();
                 let inc = 60.0_f64.to_radians();
-                ([r, 0.0, 0.0], [0.0, vc * inc.cos(), vc * inc.sin()])
+                ([r, 0.0, 0.0], [0.0, vc * inc.pcos(), vc * inc.psin()])
             }
             UserKind::Transfer => {
                 // A high, eccentric capture-class arc: perigee ~500 km altitude, apogee ~6 Mars
@@ -502,7 +503,7 @@ impl MarsScenario {
                 let a = 0.5 * (rp + ra);
                 let vp = (body.mu * (2.0 / rp - 1.0 / a)).sqrt();
                 let inc = 30.0_f64.to_radians();
-                ([rp, 0.0, 0.0], [0.0, vp * inc.cos(), vp * inc.sin()])
+                ([rp, 0.0, 0.0], [0.0, vp * inc.pcos(), vp * inc.psin()])
             }
             UserKind::Surface => {
                 // On the equator at the prime meridian, co-rotating with Mars. The body-fixed point
@@ -546,7 +547,7 @@ fn gaussian_noise(seed: u64, amp: f64) -> impl FnMut() -> f64 {
     move || {
         let u1 = next_u();
         let u2 = next_u();
-        amp * (-2.0 * u1.ln()).sqrt() * (std::f64::consts::TAU * u2).cos()
+        amp * (-2.0 * u1.pln()).sqrt() * (std::f64::consts::TAU * u2).pcos()
     }
 }
 

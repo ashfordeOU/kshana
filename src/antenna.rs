@@ -30,6 +30,7 @@
 //!   nadir whose extent follows from altitude and pattern, and that at a modest EIRP the
 //!   limb is **not** captured — refuting the whole-hemisphere claim.
 
+use crate::portable_math::PortableFloat;
 use crate::jamming::{j_over_s_db, C_M_PER_S};
 use crate::lunar::R_MOON_M;
 use crate::sweep::SweepAxis;
@@ -83,7 +84,7 @@ pub fn bessel_j1(x: f64) -> f64 {
                 + t * (0.000_056_50
                     + t * (-0.006_378_79
                         + t * (0.000_743_48 + t * (0.000_798_24 + t * (-0.000_291_66))))));
-        let mag = f1 * theta1.cos() / ax.sqrt();
+        let mag = f1 * theta1.pcos() / ax.sqrt();
         // Restore the sign: 9.4.6 is stated for x > 0; J₁ is odd.
         if x < 0.0 {
             -mag
@@ -102,8 +103,8 @@ pub fn bessel_j1(x: f64) -> f64 {
 /// `G₀ = 10·log₁₀( η·(π·D/λ)² )`, `λ = c/f`. Closed-form aperture theory.
 pub fn boresight_gain_dbi(diameter_m: f64, freq_hz: f64, efficiency: f64) -> f64 {
     let lambda = C_M_PER_S / freq_hz;
-    let g_lin = efficiency * (PI * diameter_m / lambda).powi(2);
-    10.0 * g_lin.log10()
+    let g_lin = efficiency * (PI * diameter_m / lambda).ppowi(2);
+    10.0 * g_lin.plog10()
 }
 
 /// Aperture pattern gain (dBi) at off-boresight angle `theta_rad` for a uniformly
@@ -113,13 +114,13 @@ pub fn boresight_gain_dbi(diameter_m: f64, freq_hz: f64, efficiency: f64) -> f64
 pub fn pattern_gain_dbi(diameter_m: f64, freq_hz: f64, efficiency: f64, theta_rad: f64) -> f64 {
     let g0 = boresight_gain_dbi(diameter_m, freq_hz, efficiency);
     let lambda = C_M_PER_S / freq_hz;
-    let x = PI * diameter_m / lambda * theta_rad.sin();
+    let x = PI * diameter_m / lambda * theta_rad.psin();
     let factor = if x.abs() < 1e-12 {
         1.0
     } else {
         2.0 * bessel_j1(x) / x
     };
-    g0 + 10.0 * (factor * factor).max(1e-30).log10()
+    g0 + 10.0 * (factor * factor).max(1e-30).plog10()
 }
 
 /// Beamwidth coefficient `k` of a uniform circular aperture in
@@ -147,7 +148,7 @@ pub fn first_null_angle_rad(diameter_m: f64, freq_hz: f64) -> Option<f64> {
     if s > 1.0 {
         None
     } else {
-        Some(s.asin())
+        Some(s.pasin())
     }
 }
 
@@ -187,7 +188,7 @@ pub const SYMMETRIC_GAIN_BEAMWIDTH_CONST_DEG2: f64 = 31_000.0;
 /// beam it describes is a cone with a hard edge. Use [`pattern_gain_dbi`] for the real
 /// thing; use this only to *quantify* the difference.
 pub fn symmetric_beamwidth_rad(gain_dbi: f64) -> f64 {
-    let g_lin = 10.0_f64.powf(gain_dbi / 10.0);
+    let g_lin = 10.0_f64.ppowf(gain_dbi / 10.0);
     (SYMMETRIC_GAIN_BEAMWIDTH_CONST_DEG2 / g_lin)
         .sqrt()
         .to_radians()
@@ -311,7 +312,7 @@ pub struct FootprintResult {
 /// point where the line of sight from altitude `altitude_m` grazes the sphere:
 /// `γ_max = acos(R/(R+h))` (identical to `lunar::horizon_ground_range_m(R, h)/R`).
 pub fn limb_central_angle_rad(altitude_m: f64) -> f64 {
-    (R_MOON_M / (R_MOON_M + altitude_m)).acos()
+    (R_MOON_M / (R_MOON_M + altitude_m)).pacos()
 }
 
 /// Geometry + link at one surface point of central angle `gamma`, returned together with
@@ -324,7 +325,7 @@ pub fn limb_central_angle_rad(altitude_m: f64) -> f64 {
 fn footprint_point_at(p: &FootprintParams, gamma: f64) -> (FootprintPoint, f64) {
     let r = R_MOON_M;
     let tx_z = r + p.altitude_m;
-    let (sg, cg) = gamma.sin_cos();
+    let (sg, cg) = gamma.psin_cos();
     // Surface point and Tx→point vector.
     let sx = r * sg;
     let sz = r * cg;
@@ -333,7 +334,7 @@ fn footprint_point_at(p: &FootprintParams, gamma: f64) -> (FootprintPoint, f64) 
     let slant = (dx * dx + dz * dz).sqrt();
     // Off-boresight angle: boresight is -z (toward nadir). cos θ = ((R+h) - R cos γ)/slant.
     let cos_theta = ((tx_z - r * cg) / slant).clamp(-1.0, 1.0);
-    let theta = cos_theta.acos();
+    let theta = cos_theta.pacos();
 
     let gain = pattern_gain_dbi(p.diameter_m, p.freq_hz, p.efficiency, theta);
     // Victim modelled isotropic (0 dBi both directions); the AFS level already folds
@@ -561,7 +562,7 @@ pub struct FootprintSweepResult {
 /// bisection on a `log` axis halves the ratio rather than the difference.
 fn axis_midpoint(a: f64, b: f64, log: bool) -> f64 {
     if log {
-        ((a.ln() + b.ln()) * 0.5).exp()
+        ((a.pln() + b.pln()) * 0.5).pexp()
     } else {
         (a + b) * 0.5
     }
@@ -863,10 +864,10 @@ impl GainPattern2D {
                 let mean = self
                     .gain_db
                     .iter()
-                    .map(|r| 10f64.powf(r[k] / 10.0))
+                    .map(|r| 10f64.ppowf(r[k] / 10.0))
                     .sum::<f64>()
                     / self.gain_db.len() as f64;
-                (th, 10.0 * mean.log10())
+                (th, 10.0 * mean.plog10())
             })
             .collect()
     }
@@ -912,7 +913,7 @@ mod tests {
     #[test]
     fn boresight_gain_closed_form() {
         let lambda = C_M_PER_S / 2.4e9;
-        let expect = 10.0 * (0.6 * (PI * 1.0 / lambda).powi(2)).log10();
+        let expect = 10.0 * (0.6 * (PI * 1.0 / lambda).ppowi(2)).plog10();
         let got = boresight_gain_dbi(1.0, 2.4e9, 0.6);
         assert!((got - expect).abs() < 1e-9);
         assert!((got - 25.79).abs() < 0.05, "G0 = {got} dBi");
@@ -984,7 +985,7 @@ mod tests {
             }
         }
         let theta_half = 0.5 * (lo + hi);
-        let x_half = PI * d / lambda * theta_half.sin();
+        let x_half = PI * d / lambda * theta_half.psin();
         assert!(
             (x_half - 1.616_34).abs() < 2e-4,
             "half-power crossing at x = {x_half}, published Airy value is 1.61634"
@@ -992,7 +993,7 @@ mod tests {
         // …and therefore the exact full half-power width is 1.02899·λ/D. The coefficient
         // lives in `sin θ` (that is where `x` is defined), so it is read back the same way;
         // the angle itself runs 0.07 % wider at this aperture because `θ > sin θ`.
-        let exact_coeff = 2.0 * theta_half.sin() / (lambda / d);
+        let exact_coeff = 2.0 * theta_half.psin() / (lambda / d);
         assert!(
             (exact_coeff - 1.028_99).abs() < 2e-4,
             "exact HPBW coefficient {exact_coeff}, published 1.02899"
@@ -1079,7 +1080,7 @@ mod tests {
     fn the_half_power_beam_test_brackets_the_true_crossing() {
         let (d, f, eff) = (1.0, 2.4e9, DEFAULT_APERTURE_EFFICIENCY);
         // Exact crossing: `sin θ = ½·1.028994·λ/D` (the coefficient is defined in sin θ).
-        let theta_c = (0.5 * 1.028_994 * (C_M_PER_S / f) / d).asin();
+        let theta_c = (0.5 * 1.028_994 * (C_M_PER_S / f) / d).pasin();
         assert!(within_half_power_beam(d, f, eff, theta_c * 0.999));
         assert!(!within_half_power_beam(d, f, eff, theta_c * 1.001));
         assert!(within_half_power_beam(d, f, eff, 0.0));
@@ -1098,12 +1099,12 @@ mod tests {
     // the limb — refuting the P1 "whole visible hemisphere at fixed margin" assertion.
     #[test]
     fn footprint_captures_cap_not_hemisphere() {
-        let p_tx = 10.0 * (40.0_f64).log10(); // 40 W -> 16.0206 dBW
+        let p_tx = 10.0 * (40.0_f64).plog10(); // 40 W -> 16.0206 dBW
         let params = FootprintParams::new(100_000.0, p_tx, 1.0, 2.4e9, 400);
         let res = capture_footprint(&params);
 
         // Horizon central angle = acos(R/(R+h)); off-nadir to limb = asin(R/(R+h)).
-        let expect_gamma = (R_MOON_M / (R_MOON_M + 100_000.0)).acos();
+        let expect_gamma = (R_MOON_M / (R_MOON_M + 100_000.0)).pacos();
         assert!((res.horizon_central_angle_rad - expect_gamma).abs() < 1e-6);
 
         // Nadir point: on boresight, strongly captured.
@@ -1152,7 +1153,7 @@ mod tests {
 
     /// The P1 baseline operating point: 100 km, 1 m dish, 2.4 GHz, 40 W, 400-point sweep.
     fn baseline_params() -> FootprintParams {
-        FootprintParams::new(100_000.0, 10.0 * (40.0_f64).log10(), 1.0, 2.4e9, 400)
+        FootprintParams::new(100_000.0, 10.0 * (40.0_f64).plog10(), 1.0, 2.4e9, 400)
     }
 
     fn axis(parameter: &str, start: f64, stop: f64, steps: usize, scale: &str) -> SweepAxis {
@@ -1519,9 +1520,9 @@ mod tests {
         assert!(
             (avg[0].1
                 - 10.0
-                    * ((10f64.powf(1.0) + 10f64.powf(1.2) + 10f64.powf(1.4) + 10f64.powf(1.6))
+                    * ((10f64.ppowf(1.0) + 10f64.ppowf(1.2) + 10f64.ppowf(1.4) + 10f64.ppowf(1.6))
                         / 4.0)
-                        .log10())
+                        .plog10())
             .abs()
                 < 1e-12
         );

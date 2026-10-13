@@ -36,6 +36,7 @@
 //! checks the closed-form `Φ` against an independent numeric integration of the same
 //! ODEs and against the analytic invariants above.
 
+use crate::portable_math::PortableFloat;
 /// A 6-element relative state `[x, y, z, ẋ, ẏ, ż]` (m, m, m, m/s, m/s, m/s).
 pub type State6 = [f64; 6];
 
@@ -60,8 +61,8 @@ pub fn bounded_along_track_rate(n: f64, x0: f64) -> f64 {
 /// At `t = 0` this is the identity. `Φ` is built from the four 3×3 blocks
 /// `[[Φ_rr, Φ_rv], [Φ_vr, Φ_vv]]` of the closed-form solution.
 pub fn stm(n: f64, t: f64) -> Mat6 {
-    let s = (n * t).sin();
-    let c = (n * t).cos();
+    let s = (n * t).psin();
+    let c = (n * t).pcos();
     let nt = n * t;
     let mut phi = [[0.0f64; 6]; 6];
 
@@ -134,7 +135,7 @@ pub fn propagate(n: f64, t: f64, s0: &State6) -> State6 {
 /// leave a residual of third order in the separation against the full nonlinear equations.
 pub fn second_order_correction(n: f64, r0: f64, t: f64, s0: &State6) -> State6 {
     let tau = n * t;
-    let (s, c) = tau.sin_cos();
+    let (s, c) = tau.psin_cos();
     let (t, t2, s2, c2) = (tau, tau * tau, s * s, c * c);
     // Positions in metres, velocities divided by n (metres per radian of chief motion).
     let (x, y, z) = (s0[0], s0[1], s0[2]);
@@ -271,8 +272,8 @@ mod tests {
         let s0 = [12.0, -3.0, 50.0, 0.1, -0.04, 0.7];
         let t = 1234.0;
         let got = propagate(n, t, &s0);
-        let z_expected = s0[2] * (n * t).cos() + s0[5] / n * (n * t).sin();
-        let vz_expected = -n * s0[2] * (n * t).sin() + s0[5] * (n * t).cos();
+        let z_expected = s0[2] * (n * t).pcos() + s0[5] / n * (n * t).psin();
+        let vz_expected = -n * s0[2] * (n * t).psin() + s0[5] * (n * t).pcos();
         assert!(
             approx(got[2], z_expected, 1e-9),
             "z {} vs {z_expected}",
@@ -289,7 +290,7 @@ mod tests {
     fn exact_rate(n: f64, r0: f64, s: &State6) -> State6 {
         let mu = n * n * r0 * r0 * r0;
         let (x, y, z, vx, vy, vz) = (s[0], s[1], s[2], s[3], s[4], s[5]);
-        let rr = ((r0 + x).powi(2) + y * y + z * z).sqrt();
+        let rr = ((r0 + x).ppowi(2) + y * y + z * z).sqrt();
         let k = mu / (rr * rr * rr);
         [
             vx,

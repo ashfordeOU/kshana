@@ -34,6 +34,7 @@ pub mod iir;
 pub mod notch;
 pub mod quant;
 
+use crate::portable_math::PortableFloat;
 use super::Cf64;
 
 /// A streaming signal-processing stage over complex baseband samples.
@@ -100,5 +101,5 @@ pub(crate) fn norm_sqr(z: Cf64) -> f64 {
 /// `exp(jθ)`.
 #[inline]
 pub(crate) fn cis(theta: f64) -> Cf64 {
-    Cf64::new(theta.cos(), theta.sin())
+    Cf64::new(theta.pcos(), theta.psin())
 }

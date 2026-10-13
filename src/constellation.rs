@@ -48,6 +48,7 @@
 //! scenario epoch; the relative phase between two different systems is not a snapshot of
 //! any real date.
 
+use crate::portable_math::PortableFloat;
 use crate::body::Body;
 use crate::chart::esc;
 use crate::palette::chart::{BG, MUTED, PANEL};
@@ -95,15 +96,15 @@ struct Sat {
 
 impl Sat {
     fn new(el: Elements, body: &Body, j2: bool, cons: usize) -> Self {
-        let n = (body.mu / el.a_m.powi(3)).sqrt();
+        let n = (body.mu / el.a_m.ppowi(3)).sqrt();
         let (mut raan_dot, mut argp_dot) = (0.0, 0.0);
         if j2 {
             if let Some(&j2c) = body.zonals.first() {
                 // Vallado's secular J2 rates, the same expressions as orbit::Orbit::with_j2,
                 // taken with this body's J2 and reference radius.
                 let p = el.a_m * (1.0 - el.e * el.e);
-                let f = n * j2c * (body.re / p).powi(2);
-                let ci = el.i_rad.cos();
+                let f = n * j2c * (body.re / p).ppowi(2);
+                let ci = el.i_rad.pcos();
                 raan_dot = -1.5 * f * ci;
                 argp_dot = 0.75 * f * (5.0 * ci * ci - 1.0);
             }
@@ -123,17 +124,17 @@ impl Sat {
         let el = &self.el;
         let m = el.m0_rad + self.n * t;
         let ea = crate::orbit::solve_kepler(m, el.e);
-        let r = el.a_m * (1.0 - el.e * ea.cos());
+        let r = el.a_m * (1.0 - el.e * ea.pcos());
         let nu = if el.e == 0.0 {
             ea
         } else {
-            2.0 * ((1.0 + el.e).sqrt() * (ea * 0.5).sin())
-                .atan2((1.0 - el.e).sqrt() * (ea * 0.5).cos())
+            2.0 * ((1.0 + el.e).sqrt() * (ea * 0.5).psin())
+                .patan2((1.0 - el.e).sqrt() * (ea * 0.5).pcos())
         };
-        let (su, cu) = (el.argp_rad + self.argp_dot * t + nu).sin_cos();
-        let (si, ci) = el.i_rad.sin_cos();
+        let (su, cu) = (el.argp_rad + self.argp_dot * t + nu).psin_cos();
+        let (si, ci) = el.i_rad.psin_cos();
         // Node longitude in the body-fixed frame: inertial node minus the body's rotation.
-        let (so, co) = (el.raan_rad + self.raan_dot * t - omega * t).sin_cos();
+        let (so, co) = (el.raan_rad + self.raan_dot * t - omega * t).psin_cos();
         let (x, y, z) = (r * cu, r * su * ci, r * su * si);
         [x * co - y * so, x * so + y * co, z]
     }
@@ -928,7 +929,7 @@ fn walker_shell_json(w: &WalkerSpec, body: &Body) -> Value {
         "raan_spacing_deg": w.raan_spacing_rad() / DEG,
         "in_plane_spacing_deg": w.in_plane_spacing_rad() / DEG,
         "phase_offset_deg": w.phase_offset_rad() / DEG,
-        "period_min": TAU * (w.a_m.powi(3) / body.mu).sqrt() / 60.0,
+        "period_min": TAU * (w.a_m.ppowi(3) / body.mu).sqrt() / 60.0,
     })
 }
 
@@ -1064,8 +1065,8 @@ impl NormalAccum {
 
 /// Local east, north and up unit vectors at geocentric latitude `lat` and longitude `lon`.
 fn enu(lat: f64, lon: f64) -> (Vec3, Vec3, Vec3) {
-    let (sl, cl) = lat.sin_cos();
-    let (so, co) = lon.sin_cos();
+    let (sl, cl) = lat.psin_cos();
+    let (so, co) = lon.psin_cos();
     (
         [-so, co, 0.0],
         [-sl * co, -sl * so, cl],
@@ -1080,8 +1081,8 @@ pub fn dop_at(user: Vec3, sats: &[(Vec3, usize)]) -> Option<DopValues> {
     if r == 0.0 {
         return None;
     }
-    let lat = (user[2] / r).asin();
-    let lon = user[1].atan2(user[0]);
+    let lat = (user[2] / r).pasin();
+    let lon = user[1].patan2(user[0]);
     let (e, n, u) = enu(lat, lon);
     let mut acc = NormalAccum::new();
     let mut first = None;
@@ -1132,7 +1133,7 @@ impl Hist {
         if b < HIST_BINS {
             self.w[b] += w;
         } else {
-            let k = ((x / HIST_LOG_BASE).ln() / HIST_LOG_STEP.ln_1p()) as usize;
+            let k = ((x / HIST_LOG_BASE).pln() / HIST_LOG_STEP.pln_1p()) as usize;
             self.over[k.min(HIST_LOG_BINS - 1)] += w;
         }
         self.total_w += w;
@@ -1156,7 +1157,7 @@ impl Hist {
         for (k, &w) in self.over.iter().enumerate() {
             cum += w;
             if cum >= target && w > 0.0 {
-                let edge = HIST_LOG_BASE * (1.0 + HIST_LOG_STEP).powi(k as i32 + 1);
+                let edge = HIST_LOG_BASE * (1.0 + HIST_LOG_STEP).ppowi(k as i32 + 1);
                 return Some(round4(edge.min(self.max)));
             }
         }
@@ -1342,7 +1343,7 @@ pub fn coverage(
     let (nla, nlo, ne) = (lats.len(), lons.len(), times.len());
     let re = body.re;
     let eps = spec.mask_deg * DEG;
-    let (se, ce) = eps.sin_cos();
+    let (se, ce) = eps.psin_cos();
 
     // Per-point geometry, computed once.
     let mut basis = Vec::with_capacity(nla * nlo);
@@ -1351,7 +1352,7 @@ pub fn coverage(
             basis.push(enu(la * DEG, lo * DEG));
         }
     }
-    let weights: Vec<f64> = lats.iter().map(|la| (la * DEG).cos().max(0.0)).collect();
+    let weights: Vec<f64> = lats.iter().map(|la| (la * DEG).pcos().max(0.0)).collect();
 
     let cells = nla * nlo;
     let mut sum_vis = vec![0.0_f64; cells];
@@ -1392,12 +1393,12 @@ pub fn coverage(
             let r = norm(p);
             pos[k] = p;
             unit[k] = [p[0] / r, p[1] / r, p[2] / r];
-            sat_lat[k] = unit[k][2].clamp(-1.0, 1.0).asin();
+            sat_lat[k] = unit[k][2].clamp(-1.0, 1.0).pasin();
             let x = re * ce / r;
             if x < 1.0 {
-                let lam = x.acos() - eps;
+                let lam = x.pacos() - eps;
                 if lam > 0.0 {
-                    cos_lam[k] = lam.cos();
+                    cos_lam[k] = lam.pcos();
                     lam_max = lam_max.max(lam);
                 } else {
                     cos_lam[k] = 2.0;
@@ -1571,8 +1572,8 @@ fn ground_track(el: Elements, body: &Body, j2: bool, times: &[f64]) -> (Vec<f64>
     for &t in times {
         let p = s.position_fixed(t, body.rotation_rate);
         let r = norm(p);
-        la.push(round3((p[2] / r).asin() / DEG));
-        lo.push(round3(p[1].atan2(p[0]) / DEG));
+        la.push(round3((p[2] / r).pasin() / DEG));
+        lo.push(round3(p[1].patan2(p[0]) / DEG));
     }
     (la, lo)
 }
@@ -2256,7 +2257,7 @@ mod tests {
         assert!((icd[8].1.raan_rad / DEG - (251.25 + 120.0 - 360.0)).abs() < 1e-9);
         // The ICD's draconian period is 11 h 15 min 44 s = 40 544 s; the two-body period at
         // 19 100 km altitude is within 0.2 % of it (the difference is the J2 effect).
-        let t = TAU * ((6_378_136.0_f64 + 19_100_000.0).powi(3) / earth().mu).sqrt();
+        let t = TAU * ((6_378_136.0_f64 + 19_100_000.0).ppowi(3) / earth().mu).sqrt();
         assert!((t - 40_544.0).abs() / 40_544.0 < 2e-3, "period {t}");
     }
 
@@ -2292,7 +2293,7 @@ mod tests {
             let dt = (TAU - el.m0_rad) / (sat.n + sat.argp_dot);
             let p = sat.position_fixed(dt, body.rotation_rate);
             assert!(p[2].abs() < 1.0, "{slot}: not at the node ({} m)", p[2]);
-            let lon = p[1].atan2(p[0]) / DEG;
+            let lon = p[1].patan2(p[0]) / DEG;
             // A GPS satellite completes two orbits per sidereal day, so it crosses the
             // equator northbound at two longitudes 180 deg apart; the table states the
             // crossing modulo 180 deg (every published value lies in [0, 180)).
@@ -2353,7 +2354,7 @@ mod tests {
         for k in 0..3 {
             let az = (40.0 + 120.0 * k as f64) * DEG;
             let d: Vec3 = std::array::from_fn(|i| {
-                th.cos() * (az.sin() * e[i] + az.cos() * n[i]) + th.sin() * u[i]
+                th.pcos() * (az.psin() * e[i] + az.pcos() * n[i]) + th.psin() * u[i]
             });
             sats.push((
                 [
@@ -2367,8 +2368,8 @@ mod tests {
         let d = dop_at(user, &sats).unwrap();
         let (s, c2) = (0.5_f64, 0.75_f64);
         let hdop = (4.0 / (3.0 * c2)).sqrt();
-        let vdop = (4.0 / (3.0 * (1.0 - s).powi(2))).sqrt();
-        let tdop = ((1.0 + 3.0 * s * s) / (3.0 * (1.0 - s).powi(2))).sqrt();
+        let vdop = (4.0 / (3.0 * (1.0 - s).ppowi(2))).sqrt();
+        let tdop = ((1.0 + 3.0 * s * s) / (3.0 * (1.0 - s).ppowi(2))).sqrt();
         let pdop = (hdop * hdop + vdop * vdop).sqrt();
         let gdop = (pdop * pdop + tdop * tdop).sqrt();
         for (got, want, name) in [
@@ -2398,7 +2399,7 @@ mod tests {
         let dir = |el: f64, az: f64| -> Vec3 {
             let (el, az) = (el * DEG, az * DEG);
             std::array::from_fn(|i| {
-                user[i] + 2e7 * (el.cos() * (az.sin() * e[i] + az.cos() * n[i]) + el.sin() * u[i])
+                user[i] + 2e7 * (el.pcos() * (az.psin() * e[i] + az.pcos() * n[i]) + el.psin() * u[i])
             })
         };
         let geo = [
@@ -2707,7 +2708,7 @@ name = "none"
             let s = Sat::new(sl[24 + k].1, &body, false, 0);
             for t in [0.0, 21_600.0, 43_200.0] {
                 let p = s.position_fixed(t, body.rotation_rate);
-                let l = p[1].atan2(p[0]) / DEG;
+                let l = p[1].patan2(p[0]) / DEG;
                 assert!((l - lon).abs() < 0.05, "GEO {k} at {l} vs {lon}");
             }
         }
@@ -2715,7 +2716,7 @@ name = "none"
             let s = Sat::new(sl[27 + k].1, &body, false, 0);
             let dt = ((TAU - s.el.m0_rad).rem_euclid(TAU)) / s.n;
             let p = s.position_fixed(dt, body.rotation_rate);
-            let l = p[1].atan2(p[0]) / DEG;
+            let l = p[1].patan2(p[0]) / DEG;
             assert!((l - 118.0).abs() < 0.1, "IGSO {k} crosses at {l}");
         }
     }

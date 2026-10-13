@@ -44,6 +44,7 @@
 //! seeded exactly as `lunar-differential-pnt` seeds its single draw, which is what lets one
 //! point, one epoch and one trial reduce to that kind.
 
+use crate::portable_math::PortableFloat;
 use crate::lunar::{selenographic_to_mcmf, Selenographic, R_MOON_M};
 use crate::lunar_dpnt::{
     corrected_user_range_errors, correction_ageing_clock_range_sigma_m,
@@ -611,23 +612,23 @@ fn sees(observer: Vec3, sat: Vec3, mask_rad: f64) -> bool {
 fn distance_bearing(lat1: f64, lon1: f64, lat2: f64, lon2: f64) -> (f64, f64) {
     let (p1, p2) = (lat1.to_radians(), lat2.to_radians());
     let dl = (lon2 - lon1).to_radians();
-    let a = ((p2 - p1) / 2.0).sin().powi(2) + p1.cos() * p2.cos() * (dl / 2.0).sin().powi(2);
-    let c = 2.0 * a.sqrt().min(1.0).asin();
+    let a = ((p2 - p1) / 2.0).psin().ppowi(2) + p1.pcos() * p2.pcos() * (dl / 2.0).psin().ppowi(2);
+    let c = 2.0 * a.sqrt().min(1.0).pasin();
     let d_km = R_MOON_M * c / 1000.0;
     if d_km < 1e-9 {
         return (0.0, 0.0);
     }
-    let y = dl.sin() * p2.cos();
-    let x = p1.cos() * p2.sin() - p1.sin() * p2.cos() * dl.cos();
-    (d_km, y.atan2(x).to_degrees().rem_euclid(360.0))
+    let y = dl.psin() * p2.pcos();
+    let x = p1.pcos() * p2.psin() - p1.psin() * p2.pcos() * dl.pcos();
+    (d_km, y.patan2(x).to_degrees().rem_euclid(360.0))
 }
 
 /// The point reached from (`lat`, `lon`) along `bearing_deg` after `d_km` (deg, deg).
 fn destination(lat: f64, lon: f64, bearing_deg: f64, d_km: f64) -> (f64, f64) {
     let (p1, l1, b) = (lat.to_radians(), lon.to_radians(), bearing_deg.to_radians());
     let c = d_km * 1000.0 / R_MOON_M;
-    let p2 = (p1.sin() * c.cos() + p1.cos() * c.sin() * b.cos()).asin();
-    let l2 = l1 + (b.sin() * c.sin() * p1.cos()).atan2(c.cos() - p1.sin() * p2.sin());
+    let p2 = (p1.psin() * c.pcos() + p1.pcos() * c.psin() * b.pcos()).pasin();
+    let l2 = l1 + (b.psin() * c.psin() * p1.pcos()).patan2(c.pcos() - p1.psin() * p2.psin());
     (p2.to_degrees(), l2.to_degrees())
 }
 
@@ -1473,7 +1474,7 @@ pub fn lunar_station_coverage_svg(r: &LunarStationCoverageReport) -> String {
     // Stereographic radius from the south pole, normalised to the outermost point.
     let stereo = |lat: f64| {
         (std::f64::consts::FRAC_PI_4 + lat.to_radians() / 2.0)
-            .tan()
+            .ptan()
             .abs()
     };
     let r_max = r
@@ -1485,7 +1486,7 @@ pub fn lunar_station_coverage_svg(r: &LunarStationCoverageReport) -> String {
     let xy = |lat: f64, lon: f64| {
         let q = stereo(lat) / r_max * rad;
         let l = lon.to_radians();
-        (cx + q * l.sin(), cy - q * l.cos())
+        (cx + q * l.psin(), cy - q * l.pcos())
     };
     let mut svg = format!(
         "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w:.0}\" height=\"{h:.0}\" font-family=\"{FONT_SANS}\" font-size=\"12\" fill=\"{INK_2}\">\

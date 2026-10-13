@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 //! Tests of the `leo-navmsg` kind: fitter, user algorithm, trade, continuity, encodings.
 
+use crate::portable_math::PortableFloat;
 use super::elements::*;
 use super::fit::*;
 use super::sisre::*;
@@ -201,14 +202,14 @@ fn every_model_round_trips_through_the_binary_frame() {
             m.services.klobuchar.unwrap(),
             back.services.klobuchar.unwrap(),
         );
-        assert!((ks.alpha[0] - kb.alpha[0]).abs() <= 0.5 * 2f64.powi(-30));
-        assert!((ks.beta[3] - kb.beta[3]).abs() <= 0.5 * 2f64.powi(16));
+        assert!((ks.alpha[0] - kb.alpha[0]).abs() <= 0.5 * 2f64.ppowi(-30));
+        assert!((ks.beta[3] - kb.beta[3]).abs() <= 0.5 * 2f64.ppowi(16));
         let (ns, nb) = (m.services.nequick.unwrap(), back.services.nequick.unwrap());
         assert!(
-            (ns.ai0 - nb.ai0).abs() <= 0.125 && (ns.ai2 - nb.ai2).abs() <= 0.5 * 2f64.powi(-15)
+            (ns.ai0 - nb.ai0).abs() <= 0.125 && (ns.ai2 - nb.ai2).abs() <= 0.5 * 2f64.ppowi(-15)
         );
         let (us, ub) = (m.services.utc.unwrap(), back.services.utc.unwrap());
-        assert!((us.a0 - ub.a0).abs() <= 0.5 * 2f64.powi(-30));
+        assert!((us.a0 - ub.a0).abs() <= 0.5 * 2f64.ppowi(-30));
         assert_eq!(
             (us.dt_ls, us.wn_ot, us.wn_lsf, us.dn),
             (ub.dt_ls, ub.wn_ot, ub.wn_lsf, ub.dn)
@@ -439,7 +440,7 @@ fn worst_case_jump_bounds_every_line_of_sight() {
         for j in 0..72 {
             let th = eta * i as f64 / 40.0;
             let ph = std::f64::consts::TAU * j as f64 / 72.0;
-            let e = [th.cos(), th.sin() * ph.cos(), th.sin() * ph.sin()];
+            let e = [th.pcos(), th.psin() * ph.pcos(), th.psin() * ph.psin()];
             best = best.max((dot(e, d) - 0.003).abs());
         }
     }

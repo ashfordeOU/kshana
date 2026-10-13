@@ -16,6 +16,7 @@
 //! `exp(j2π f/f_s)`, placing the zero on the tone; `r` sets the notch width (closer to 1 is
 //! narrower). The estimated frequency is `arg(z₀)·f_s/2π`.
 
+use crate::portable_math::PortableFloat;
 use super::{conj, norm_sqr, Cf64, Stage};
 
 /// An LMS-adapted complex notch (see the module documentation).
@@ -50,7 +51,7 @@ impl AdaptiveNotch {
     }
     /// Frequency of the zero, `arg(z₀)·f_s/2π` (Hz), in `(−f_s/2, f_s/2]`.
     pub fn frequency_hz(&self, fs_hz: f64) -> f64 {
-        self.z0.im.atan2(self.z0.re) * fs_hz / (2.0 * std::f64::consts::PI)
+        self.z0.im.patan2(self.z0.re) * fs_hz / (2.0 * std::f64::consts::PI)
     }
     /// Magnitude response `|H(f)|` of the notch with its current zero at `f_hz`.
     pub fn gain_at(&self, f_hz: f64, fs_hz: f64) -> f64 {

@@ -24,6 +24,7 @@
 //! C/N0, divided by `√avg_epochs`. (The delta test also sees the code loop's tracking
 //! error, which the closed form leaves out; the measured spread covers it.)
 
+use crate::portable_math::PortableFloat;
 use super::{stats, Baseline, MonitorEvent, MonitorReport, Series, Side, SpanDetector};
 use crate::iq::Cf64;
 use serde::{Deserialize, Serialize};
@@ -214,7 +215,7 @@ impl SqmMonitor {
         }
         let t0 = *self.t0.get_or_insert(t_s);
         let in_baseline = t_s - t0 < self.settings.baseline_s;
-        let cn0t = cn0_dbhz.map(|c| 10f64.powf(c / 10.0) * t_coh_s);
+        let cn0t = cn0_dbhz.map(|c| 10f64.ppowf(c / 10.0) * t_coh_s);
         let ip = prompt.re;
         let st = self.settings;
         let label = self.label.clone();

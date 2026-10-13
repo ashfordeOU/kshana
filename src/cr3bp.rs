@@ -39,6 +39,7 @@
 //! differential correction of periodic halo/NRHO orbits follows Koon, Lo, Marsden &
 //! Ross, *Dynamical Systems, the Three-Body Problem and Space Mission Design* (2011).
 
+use crate::portable_math::PortableFloat;
 /// Earth–Moon mass ratio `μ = m_moon/(m_earth + m_moon)` (DE405-consistent).
 pub const EARTH_MOON_MU: f64 = 0.012_150_585_609_624;
 
@@ -57,8 +58,8 @@ pub struct Cr3bpState {
 pub fn cr3bp_accel(r: [f64; 3], v: [f64; 3], mu: f64) -> [f64; 3] {
     let [x, y, z] = r;
     let om = 1.0 - mu;
-    let r1c = ((x + mu).powi(2) + y * y + z * z).powf(1.5);
-    let r2c = ((x - om).powi(2) + y * y + z * z).powf(1.5);
+    let r1c = ((x + mu).ppowi(2) + y * y + z * z).ppowf(1.5);
+    let r2c = ((x - om).ppowi(2) + y * y + z * z).ppowf(1.5);
     [
         2.0 * v[1] + x - om * (x + mu) / r1c - mu * (x - om) / r2c,
         -2.0 * v[0] + y - om * y / r1c - mu * y / r2c,
@@ -70,10 +71,10 @@ pub fn cr3bp_accel(r: [f64; 3], v: [f64; 3], mu: f64) -> [f64; 3] {
 pub fn jacobi_constant(s: &Cr3bpState, mu: f64) -> f64 {
     let [x, y, z] = s.r;
     let om = 1.0 - mu;
-    let r1 = ((x + mu).powi(2) + y * y + z * z).sqrt();
-    let r2 = ((x - om).powi(2) + y * y + z * z).sqrt();
+    let r1 = ((x + mu).ppowi(2) + y * y + z * z).sqrt();
+    let r2 = ((x - om).ppowi(2) + y * y + z * z).sqrt();
     let u = 0.5 * (x * x + y * y) + om / r1 + mu / r2;
-    let v2 = s.v[0].powi(2) + s.v[1].powi(2) + s.v[2].powi(2);
+    let v2 = s.v[0].ppowi(2) + s.v[1].ppowi(2) + s.v[2].ppowi(2);
     2.0 * u - v2
 }
 
@@ -130,7 +131,7 @@ pub fn lagrange_points(mu: f64) -> [[f64; 3]; 5] {
     let g = |x: f64| {
         let r1 = (x + mu).abs();
         let r2 = (x - om).abs();
-        x - om * (x + mu) / r1.powi(3) - mu * (x - om) / r2.powi(3)
+        x - om * (x + mu) / r1.ppowi(3) - mu * (x - om) / r2.ppowi(3)
     };
     let bisect = |lo: f64, hi: f64| -> f64 {
         let (mut a, mut b) = (lo, hi);
@@ -185,8 +186,8 @@ pub fn cr3bp_jacobian(r: [f64; 3], mu: f64) -> [[f64; 6]; 6] {
     let dx2 = x - 1.0 + mu;
     let r1 = (dx1 * dx1 + y * y + z * z).sqrt();
     let r2 = (dx2 * dx2 + y * y + z * z).sqrt();
-    let (r1_3, r2_3) = (r1.powi(3), r2.powi(3));
-    let (r1_5, r2_5) = (r1.powi(5), r2.powi(5));
+    let (r1_3, r2_3) = (r1.ppowi(3), r2.ppowi(3));
+    let (r1_5, r2_5) = (r1.ppowi(5), r2.ppowi(5));
     // Second derivatives of the pseudo-potential Ω = ½(x²+y²) + a/r1 + b/r2.
     let oxx = 1.0 - a / r1_3 - b / r2_3 + 3.0 * a * dx1 * dx1 / r1_5 + 3.0 * b * dx2 * dx2 / r2_5;
     let oyy = 1.0 - a / r1_3 - b / r2_3 + 3.0 * a * y * y / r1_5 + 3.0 * b * y * y / r2_5;
@@ -391,7 +392,7 @@ pub fn differential_correct_halo(
         };
         let (sc, phi, t_h) = propagate_to_crossing(&s0, mu, 0.1, 7.0)?;
         let (vxf, vyf, vzf) = (sc.v[0], sc.v[1], sc.v[2]);
-        if vxf.hypot(vzf) < tol {
+        if vxf.phypot(vzf) < tol {
             return Some(PeriodicOrbit {
                 ic: s0,
                 period: 2.0 * t_h,

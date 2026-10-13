@@ -41,6 +41,7 @@
 //! an illustrative geometry. Sources (public, for the system class only): ESA Moonlight
 //! / LCNS public material; NASA/ESA LunaNet Interoperability Specification (LNIS).
 
+use crate::portable_math::PortableFloat;
 use crate::lunar::{
     mci_to_mcmf, selenographic_to_mcmf, Selenographic, LUNAR_SIGMA_URE_M, MOON_GM_M3_S2, R_MOON_M,
 };
@@ -86,27 +87,27 @@ impl LunarSat {
     /// 3-1-3 (RAAN, inclination, argument-of-perilune) sequence — the same convention as
     /// [`crate::lunar::relay_position_mci`], generalised to non-zero eccentricity.
     pub fn position_mci(&self, t_s: f64) -> Vec3 {
-        let n = (MOON_GM_M3_S2 / self.sma_m.powi(3)).sqrt();
+        let n = (MOON_GM_M3_S2 / self.sma_m.ppowi(3)).sqrt();
         let e = self.eccentricity;
         let m = self.mean_anom_deg.to_radians() + n * t_s;
         // Kepler's equation M = E − e sin E by Newton-Raphson (exact for e = 0).
         let mut ea = m;
         if e != 0.0 {
             for _ in 0..40 {
-                let d = (ea - e * ea.sin() - m) / (1.0 - e * ea.cos());
+                let d = (ea - e * ea.psin() - m) / (1.0 - e * ea.pcos());
                 ea -= d;
                 if d.abs() < 1e-13 {
                     break;
                 }
             }
         }
-        let r = self.sma_m * (1.0 - e * ea.cos());
+        let r = self.sma_m * (1.0 - e * ea.pcos());
         let nu =
-            2.0 * ((1.0 + e).sqrt() * (ea * 0.5).sin()).atan2((1.0 - e).sqrt() * (ea * 0.5).cos());
+            2.0 * ((1.0 + e).sqrt() * (ea * 0.5).psin()).patan2((1.0 - e).sqrt() * (ea * 0.5).pcos());
         let u = self.argp_deg.to_radians() + nu;
-        let (su, cu) = u.sin_cos();
-        let (si, ci) = self.inc_deg.to_radians().sin_cos();
-        let (sraan, craan) = self.raan_deg.to_radians().sin_cos();
+        let (su, cu) = u.psin_cos();
+        let (si, ci) = self.inc_deg.to_radians().psin_cos();
+        let (sraan, craan) = self.raan_deg.to_radians().psin_cos();
         [
             r * (craan * cu - sraan * ci * su),
             r * (sraan * cu + craan * ci * su),
@@ -232,8 +233,8 @@ pub fn south_polar_ring_grid(outer_lat_deg: f64, step_deg: f64) -> Vec<PolarGrid
             break;
         }
         let lat = lat_deg.to_radians();
-        let n = ((360.0 * lat.cos()).round() as usize).max(1);
-        let band_sr = 2.0 * std::f64::consts::PI * ((lat + half).sin() - (lat - half).sin());
+        let n = ((360.0 * lat.pcos()).round() as usize).max(1);
+        let band_sr = 2.0 * std::f64::consts::PI * ((lat + half).psin() - (lat - half).psin());
         for k in 0..n {
             let lon_deg = 360.0 * k as f64 / n as f64;
             pts.push(PolarGridPoint {
@@ -257,7 +258,7 @@ pub fn south_polar_ring_grid(outer_lat_deg: f64, step_deg: f64) -> Vec<PolarGrid
             lon_rad: 0.0,
             alt_m: 0.0,
         }),
-        area_sr: 2.0 * std::f64::consts::PI * (1.0 - half.cos()),
+        area_sr: 2.0 * std::f64::consts::PI * (1.0 - half.pcos()),
     });
     pts
 }
@@ -280,7 +281,7 @@ pub fn south_polar_ring_grid(outer_lat_deg: f64, step_deg: f64) -> Vec<PolarGrid
 /// that want positions use [`visible_sat_positions`].
 pub fn visible_sats(user_mcmf: Vec3, sats_mcmf: &[Vec3], elev_mask_rad: f64) -> Vec<Vec3> {
     let up = unit_or_zero(user_mcmf);
-    let sin_mask = elev_mask_rad.sin();
+    let sin_mask = elev_mask_rad.psin();
     let mut out = Vec::new();
     for &s in sats_mcmf {
         let d = [
@@ -306,7 +307,7 @@ pub fn visible_sats(user_mcmf: Vec3, sats_mcmf: &[Vec3], elev_mask_rad: f64) -> 
 /// ARAIM calls (both of which take full positions and recompute the LOS internally).
 pub fn visible_sat_positions(user_mcmf: Vec3, sats_mcmf: &[Vec3], elev_mask_rad: f64) -> Vec<Vec3> {
     let up = unit_or_zero(user_mcmf);
-    let sin_mask = elev_mask_rad.sin();
+    let sin_mask = elev_mask_rad.psin();
     sats_mcmf
         .iter()
         .copied()
@@ -376,9 +377,9 @@ pub fn topocentric(user_mcmf: Vec3, sat_mcmf: Vec3) -> (f64, f64, f64) {
     }
     let e = unit_or_zero(d);
     let sin_el = dot(e, up).clamp(-1.0, 1.0);
-    let el_deg = sin_el.asin().to_degrees();
+    let el_deg = sin_el.pasin().to_degrees();
     let az_deg = {
-        let a = dot(e, east).atan2(dot(e, north)).to_degrees();
+        let a = dot(e, east).patan2(dot(e, north)).to_degrees();
         if a < 0.0 {
             a + 360.0
         } else {
@@ -416,7 +417,7 @@ pub fn nadir_off_boresight_rad(sat_mcmf: Vec3, user_mcmf: Vec3) -> f64 {
     if dot(boresight, boresight) == 0.0 || dot(los, los) == 0.0 {
         return 0.0;
     }
-    dot(boresight, los).clamp(-1.0, 1.0).acos()
+    dot(boresight, los).clamp(-1.0, 1.0).pacos()
 }
 
 /// One per-satellite geometry sample at one epoch for one site.
@@ -2700,7 +2701,7 @@ mod tests {
         let mut old = Vec::new();
         for lat in 80..90 {
             let lat_deg = -(lat as f64);
-            let n = (360.0 * lat_deg.to_radians().cos()).round() as usize;
+            let n = (360.0 * lat_deg.to_radians().pcos()).round() as usize;
             for k in 0..n {
                 old.push(selenographic_to_mcmf(Selenographic {
                     lat_rad: lat_deg.to_radians(),
@@ -2724,7 +2725,7 @@ mod tests {
             .iter()
             .map(|p| p.area_sr)
             .sum();
-        let cap = 2.0 * std::f64::consts::PI * (1.0 - (10.5_f64).to_radians().cos());
+        let cap = 2.0 * std::f64::consts::PI * (1.0 - (10.5_f64).to_radians().pcos());
         assert!((total - cap).abs() < 1e-12, "{total} vs {cap}");
         assert!(south_polar_ring_grid(-80.0, 0.0).is_empty());
     }
@@ -2739,7 +2740,7 @@ mod tests {
             serde_json::from_str(r#"{"diameter_m": 1.0}"#).expect("diameter-only config");
         assert_eq!(cfg.carrier_hz, 2_492.028e6);
         assert_eq!(cfg.carrier_hz, LSIS_AFS_CARRIER_HZ);
-        let delta_fspl_db = 20.0 * (cfg.carrier_hz / 2.4e9).log10();
+        let delta_fspl_db = 20.0 * (cfg.carrier_hz / 2.4e9).plog10();
         assert!((delta_fspl_db - 0.3268).abs() < 1e-4, "{delta_fspl_db}");
     }
 
@@ -2958,7 +2959,7 @@ mod tests {
         let peri = a * (1.0 - e);
         let apo = a * (1.0 + e);
         // Sample one full period and check the radius stays within [peri, apo].
-        let n = (MOON_GM_M3_S2 / a.powi(3)).sqrt();
+        let n = (MOON_GM_M3_S2 / a.ppowi(3)).sqrt();
         let period = std::f64::consts::TAU / n;
         let mut rmin = f64::INFINITY;
         let mut rmax = 0.0_f64;
@@ -3294,10 +3295,10 @@ mod tests {
 
         // Interior points against the closed form.
         for i in 1..=20 {
-            let gamma = (R_MOON_M / r).acos() * (i as f64) / 20.0;
-            let user = [R_MOON_M * gamma.sin(), 0.0, R_MOON_M * gamma.cos()];
+            let gamma = (R_MOON_M / r).pacos() * (i as f64) / 20.0;
+            let user = [R_MOON_M * gamma.psin(), 0.0, R_MOON_M * gamma.pcos()];
             let got = nadir_off_boresight_rad(sat, user);
-            let want = (R_MOON_M * gamma.sin()).atan2(r - R_MOON_M * gamma.cos());
+            let want = (R_MOON_M * gamma.psin()).patan2(r - R_MOON_M * gamma.pcos());
             assert!(
                 (got - want).abs() < 1e-12,
                 "gamma = {gamma}: got {got} rad, closed form {want} rad"
@@ -3306,13 +3307,13 @@ mod tests {
 
         // The limb sits at exactly asin(R/r) — the largest off-nadir angle that can
         // reach the body at all.
-        let gamma_limb = (R_MOON_M / r).acos();
+        let gamma_limb = (R_MOON_M / r).pacos();
         let limb = [
-            R_MOON_M * gamma_limb.sin(),
+            R_MOON_M * gamma_limb.psin(),
             0.0,
-            R_MOON_M * gamma_limb.cos(),
+            R_MOON_M * gamma_limb.pcos(),
         ];
-        assert!((nadir_off_boresight_rad(sat, limb) - (R_MOON_M / r).asin()).abs() < 1e-12);
+        assert!((nadir_off_boresight_rad(sat, limb) - (R_MOON_M / r).pasin()).abs() < 1e-12);
 
         // Degenerate inputs stay finite rather than poisoning a sweep with a NaN.
         assert_eq!(

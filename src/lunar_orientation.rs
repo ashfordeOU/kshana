@@ -34,6 +34,7 @@
 //! - Generation script: `scripts/gen_de440_moon_pa.py` (committed for reproducibility).
 //! - Fixture SHA-256: c289f9742220f5a49a9e7f57aec3f61a6836f31c7b4f586b54b3a8fda480736b
 
+use crate::portable_math::PortableFloat;
 use crate::lunar_llr_geometry::Vec3;
 
 /// Compile-time embedded DE440 MOON_PA orientation fixture.
@@ -258,7 +259,7 @@ fn rot_log(r: &[[f64; 3]; 3]) -> [f64; 3] {
     let w = [r[2][1] - r[1][2], r[0][2] - r[2][0], r[1][0] - r[0][1]];
     let s = 0.5 * (w[0] * w[0] + w[1] * w[1] + w[2] * w[2]).sqrt();
     let c = 0.5 * (r[0][0] + r[1][1] + r[2][2] - 1.0);
-    let theta = s.atan2(c);
+    let theta = s.patan2(c);
     // theta / (2 sin theta), with its small-angle limit.
     let k = if s < 1e-12 { 0.5 } else { 0.5 * theta / s };
     [k * w[0], k * w[1], k * w[2]]
@@ -272,7 +273,7 @@ fn rot_exp(v: [f64; 3], f: f64) -> [[f64; 3]; 3] {
         return [[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]];
     }
     let (x, y, z) = (v[0] / theta, v[1] / theta, v[2] / theta);
-    let (s, c) = theta.sin_cos();
+    let (s, c) = theta.psin_cos();
     let t = 1.0 - c;
     [
         [c + x * x * t, x * y * t - z * s, x * z * t + y * s],
@@ -448,8 +449,8 @@ mod tests {
             ];
 
             // Sub-Earth spherical coordinates in the body frame (degrees).
-            let lon = body[1].atan2(body[0]).to_degrees();
-            let lat = body[2].clamp(-1.0, 1.0).asin().to_degrees();
+            let lon = body[1].patan2(body[0]).to_degrees();
+            let lat = body[2].clamp(-1.0, 1.0).pasin().to_degrees();
 
             if lon < lon_min {
                 lon_min = lon;

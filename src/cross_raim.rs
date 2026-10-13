@@ -52,6 +52,7 @@
 //! * Blanch et al., *Baseline Advanced RAIM User Algorithm* — the solution-separation
 //!   protection-level form generalised here to the two-modality case.
 
+use crate::portable_math::PortableFloat;
 use crate::raim::{chi2_quantile, normal_quantile};
 use serde::Serialize;
 
@@ -90,8 +91,8 @@ pub struct CrossAxis {
 /// `(x̂, σ_fused)`. Non-positive input σ are floored to a tiny positive value so the fusion
 /// stays finite.
 pub fn inverse_variance_fuse(y1: f64, s1: f64, y2: f64, s2: f64) -> (f64, f64) {
-    let w1 = 1.0 / s1.max(f64::MIN_POSITIVE).powi(2);
-    let w2 = 1.0 / s2.max(f64::MIN_POSITIVE).powi(2);
+    let w1 = 1.0 / s1.max(f64::MIN_POSITIVE).ppowi(2);
+    let w2 = 1.0 / s2.max(f64::MIN_POSITIVE).ppowi(2);
     let xhat = (y1 * w1 + y2 * w2) / (w1 + w2);
     let sigma = (1.0 / (w1 + w2)).sqrt();
     (xhat, sigma)
@@ -106,7 +107,7 @@ pub fn separation_statistic_axis(
     opt_sigma: f64,
 ) -> f64 {
     let delta = rf_value - opt_value;
-    let var = rf_sigma.powi(2) + opt_sigma.powi(2);
+    let var = rf_sigma.ppowi(2) + opt_sigma.ppowi(2);
     delta * delta / var.max(f64::MIN_POSITIVE)
 }
 
@@ -117,10 +118,10 @@ pub fn axis_protection_level(rf_sigma: f64, opt_sigma: f64, p_fa: f64, p_md: f64
     let k_fa = normal_quantile(1.0 - p_fa / 2.0);
     let k_md = normal_quantile(1.0 - p_md);
     let (_, sigma_f) = inverse_variance_fuse(0.0, rf_sigma, 0.0, opt_sigma);
-    let sigma_sum = (rf_sigma.powi(2) + opt_sigma.powi(2)).sqrt();
+    let sigma_sum = (rf_sigma.ppowi(2) + opt_sigma.ppowi(2)).sqrt();
     let sf2 = sigma_f * sigma_f;
-    let w_rf = sf2 / rf_sigma.max(f64::MIN_POSITIVE).powi(2);
-    let w_opt = sf2 / opt_sigma.max(f64::MIN_POSITIVE).powi(2);
+    let w_rf = sf2 / rf_sigma.max(f64::MIN_POSITIVE).ppowi(2);
+    let w_opt = sf2 / opt_sigma.max(f64::MIN_POSITIVE).ppowi(2);
     k_fa * sigma_sum * w_rf.max(w_opt) + k_md * sigma_f
 }
 
@@ -357,9 +358,9 @@ mod tests {
             .iter()
             .map(|&(el, az)| {
                 let (el, az) = (el.to_radians(), az.to_radians());
-                let de = el.cos() * az.sin();
-                let dn = el.cos() * az.cos();
-                let du = el.sin();
+                let de = el.pcos() * az.psin();
+                let dn = el.pcos() * az.pcos();
+                let du = el.psin();
                 [
                     user[0] + range * (de * east[0] + dn * north[0] + du * up[0]),
                     user[1] + range * (de * east[1] + dn * north[1] + du * up[1]),
@@ -493,7 +494,7 @@ mod tests {
         // √λ = K_fa + K_md: a bias shifting the statistic mean to that point is detected with
         // probability 1 − P_md. Verify the missed-detection probability at √λ = K_fa + K_md is
         // P_md through the non-central χ² CDF directly (the regularized-incomplete-gamma path).
-        let lambda_ident = (k_fa + k_md).powi(2);
+        let lambda_ident = (k_fa + k_md).ppowi(2);
         let p_md_from_ncx2 = noncentral_chi2_cdf(t2, 1.0, lambda_ident);
         assert!(
             (p_md_from_ncx2 - p_md).abs() < 5e-4,

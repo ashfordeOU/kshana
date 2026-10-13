@@ -106,6 +106,7 @@
 //! coordinates and the schedule are inputs, not a flown campaign. No TRL, flight heritage or
 //! agency endorsement is claimed.
 
+use crate::portable_math::PortableFloat;
 use crate::ephem_provider::{KernelEphemeris, LunisolarSource};
 use crate::fim::{crlb, design_metrics, information_matrix};
 use crate::frames::Geodetic;
@@ -997,17 +998,17 @@ impl LunarVlbiFimScenario {
         let los_last = unit(mat_vec(&last.gcrs_to_itrs, last.beacon_inertial));
         let los_sweep_deg = dot(los_first, los_last)
             .clamp(-1.0, 1.0)
-            .acos()
+            .pacos()
             .to_degrees();
         let mut los_max_sweep_deg: f64 = 0.0;
         for a in &geoms {
             let ua = unit(mat_vec(&a.gcrs_to_itrs, a.beacon_inertial));
-            let c = dot(los_first, ua).clamp(-1.0, 1.0).acos().to_degrees();
+            let c = dot(los_first, ua).clamp(-1.0, 1.0).pacos().to_degrees();
             los_max_sweep_deg = los_max_sweep_deg.max(c);
         }
         let beacon_declination_deg = {
             let u = unit(geoms[0].beacon_inertial);
-            u[2].clamp(-1.0, 1.0).asin().to_degrees()
+            u[2].clamp(-1.0, 1.0).pasin().to_degrees()
         };
 
         // --- Per-epoch rows. ---

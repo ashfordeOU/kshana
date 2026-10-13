@@ -378,6 +378,7 @@ pub fn symmetric_top_body_rate(i_transverse: f64, i_axial: f64, omega_axial: f64
 
 #[cfg(test)]
 mod tests {
+    use crate::portable_math::PortableFloat;
     use super::*;
     use std::f64::consts::PI;
 
@@ -488,8 +489,8 @@ mod tests {
         let s = propagate(&inertia, &s0, [0.0; 3], dt, steps);
 
         let angle_expected = lambda * (steps as f64 * dt);
-        let wx = w_perp0 * angle_expected.cos();
-        let wy = w_perp0 * angle_expected.sin();
+        let wx = w_perp0 * angle_expected.pcos();
+        let wy = w_perp0 * angle_expected.psin();
         assert!(close(s.omega[0], wx, 1e-6), "wx {} vs {}", s.omega[0], wx);
         assert!(close(s.omega[1], wy, 1e-6), "wy {} vs {}", s.omega[1], wy);
         assert!(close(s.omega[2], w_axial, 1e-9), "w_axial drifted");

@@ -46,6 +46,7 @@
 //! - D. A. Vallado, *Fundamentals of Astrodynamics and Applications*, 4th ed., §12
 //!   (interplanetary trajectories, gravity assist, the Tisserand criterion).
 
+use crate::portable_math::PortableFloat;
 use crate::frames::Vec3;
 
 fn dot(a: Vec3, b: Vec3) -> f64 {
@@ -94,7 +95,7 @@ pub fn flyby_eccentricity(mu: f64, v_inf: f64, r_p: f64) -> f64 {
 /// operation downstream — so the precondition is checked in debug builds.
 pub fn turn_angle(e: f64) -> f64 {
     debug_assert!(e >= 1.0, "turn_angle needs a hyperbolic eccentricity");
-    2.0 * (1.0 / e).asin()
+    2.0 * (1.0 / e).pasin()
 }
 
 /// Impact parameter (B-plane aim radius) `|B| = |a|·√(e²−1)` (m).
@@ -111,7 +112,7 @@ pub fn impact_parameter(mu: f64, v_inf: f64, r_p: f64) -> f64 {
 /// deflect the incoming `v∞` into the outgoing `v∞` across a flyby.
 pub fn deflect(v: Vec3, delta: f64, axis: Vec3) -> Vec3 {
     let k = unit(axis);
-    let (s, c) = (delta.sin(), delta.cos());
+    let (s, c) = (delta.psin(), delta.pcos());
     let kv = dot(k, v);
     // v·cosδ + (k×v)·sinδ + k·(k·v)·(1−cosδ)
     let kxv = cross(k, v);
@@ -150,7 +151,7 @@ pub fn elements_aei(r: Vec3, v: Vec3, mu: f64) -> (f64, f64, f64) {
     let a = 1.0 / (2.0 / rm - v2 / mu);
     let h = cross(r, v);
     let hm = norm(h);
-    let i = (h[2] / hm).acos();
+    let i = (h[2] / hm).pacos();
     // eccentricity vector e = ((v²−μ/r)·r − (r·v)·v)/μ
     let rv = dot(r, v);
     let e_vec = [
@@ -165,7 +166,7 @@ pub fn elements_aei(r: Vec3, v: Vec3, mu: f64) -> (f64, f64, f64) {
 /// `T_P = a_P/a + 2·√((a/a_P)(1−e²))·cos i`. Conserved across a patched-conic flyby
 /// because it is a function of the (invariant) `v∞` alone.
 pub fn tisserand(a_sc: f64, e_sc: f64, i_sc: f64, a_planet: f64) -> f64 {
-    a_planet / a_sc + 2.0 * (a_sc / a_planet * (1.0 - e_sc * e_sc)).sqrt() * i_sc.cos()
+    a_planet / a_sc + 2.0 * (a_sc / a_planet * (1.0 - e_sc * e_sc)).sqrt() * i_sc.pcos()
 }
 
 /// The B-plane description of a hyperbolic body-centred state, from [`flyby_from_state`].
@@ -286,8 +287,8 @@ mod tests {
         assert!(approx(f.e, e, 1e-12));
         assert!(approx(f.turn_angle, turn_angle(e), 1e-12));
         assert!(approx(f.b_mag, impact_parameter(MU, v_inf, r_p), 1e-3));
-        assert!(approx(f.b_dot_t.hypot(f.b_dot_r), f.b_mag, 1e-3));
-        let ang = dot(f.s_in, f.s_out).clamp(-1.0, 1.0).acos();
+        assert!(approx(f.b_dot_t.phypot(f.b_dot_r), f.b_mag, 1e-3));
+        let ang = dot(f.s_in, f.s_out).clamp(-1.0, 1.0).pacos();
         assert!(approx(ang, f.turn_angle, 1e-9));
         // The outgoing asymptote is the incoming one reflected through the apse line.
         let e_hat = [1.0, 0.0, 0.0];
@@ -310,7 +311,7 @@ mod tests {
         assert!(e > 1.0, "flyby must be hyperbolic, e={e}");
         // turn angle identity sin(δ/2) = 1/e.
         let delta = turn_angle(e);
-        assert!(approx((delta / 2.0).sin(), 1.0 / e, 1e-12));
+        assert!(approx((delta / 2.0).psin(), 1.0 / e, 1e-12));
         // impact parameter: two closed forms agree.
         let b1 = impact_parameter(MU, v_inf, r_p);
         let b2 = r_p * ((e + 1.0) / (e - 1.0)).sqrt();
@@ -341,7 +342,7 @@ mod tests {
         let delta = 0.7;
         let v_out = deflect(v_in, delta, normal);
         assert!(approx(norm(v_out), norm(v_in), 1e-6), "speed not preserved");
-        let ang = (dot(v_in, v_out) / (norm(v_in) * norm(v_out))).acos();
+        let ang = (dot(v_in, v_out) / (norm(v_in) * norm(v_out))).pacos();
         assert!(approx(ang, delta, 1e-9), "rotation angle {ang} vs {delta}");
     }
 
@@ -354,9 +355,9 @@ mod tests {
             let v_out = deflect(v_in, delta, normal);
             let dv = norm(assist_delta_v(v_in, v_out));
             assert!(
-                approx(dv, 2.0 * v_inf * (delta / 2.0).sin(), 1e-6),
+                approx(dv, 2.0 * v_inf * (delta / 2.0).psin(), 1e-6),
                 "Δv {dv} vs {}",
-                2.0 * v_inf * (delta / 2.0).sin()
+                2.0 * v_inf * (delta / 2.0).psin()
             );
             assert!(dv <= 2.0 * v_inf + 1e-6, "Δv exceeds the head-on limit");
         }
@@ -419,7 +420,7 @@ mod tests {
             "Tisserand not conserved: {t0} vs {t1}"
         );
         // And the v∞ link: T_P = 3 − (v∞/v_circ)².
-        let t_from_vinf = 3.0 - (v_inf_mag / v_circ).powi(2);
+        let t_from_vinf = 3.0 - (v_inf_mag / v_circ).ppowi(2);
         assert!(
             approx(t0, t_from_vinf, 1e-9),
             "T_P {t0} vs 3−(v∞/v_c)² {t_from_vinf}"

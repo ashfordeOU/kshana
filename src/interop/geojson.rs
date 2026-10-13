@@ -28,6 +28,7 @@
 //! other route is refused with the largest deviation named, rather than bent into a
 //! line the user did not draw.
 
+use crate::portable_math::PortableFloat;
 use super::round_dp;
 use super::scene::Scene;
 use serde_json::{json, Value};
@@ -272,8 +273,8 @@ pub fn route_to_track(
     if p.len() > 2 {
         let mut worst = (0usize, 0.0f64);
         for (i, q) in p.iter().enumerate() {
-            let e = ((q[0] - (first[0] + dlat * i as f64)).powi(2)
-                + (q[1] - (first[1] + dlon * i as f64)).powi(2))
+            let e = ((q[0] - (first[0] + dlat * i as f64)).ppowi(2)
+                + (q[1] - (first[1] + dlon * i as f64)).ppowi(2))
             .sqrt();
             if e > worst.1 {
                 worst = (i, e);
