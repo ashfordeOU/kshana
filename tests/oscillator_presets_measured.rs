@@ -74,8 +74,8 @@
 //! Mutation, to be shown: dividing every fitted noise level by 4 in `holdover_model`
 //! (the model's ADEV halved) must turn at least one strict test red.
 
-use kshana::portable_math::PortableFloat;
 use kshana::allan::overlapping_adev;
+use kshana::portable_math::PortableFloat;
 use kshana::telecom_timing::{holdover_model, synthesize_holdover, HoldoverInput, HoldoverModel};
 
 const FIXTURES: &str = "tests/fixtures/oscillator_presets_measured";

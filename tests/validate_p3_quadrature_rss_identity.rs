@@ -23,9 +23,9 @@
 //! Reference: the Euclidean (2-)norm identity `‖v‖₂ = √(Σ vᵢ²)`, computed here by the
 //! stable pairwise `hypot` fold (cf. `numpy.linalg.norm`, LAPACK `dnrm2`).
 
-use kshana::portable_math::PortableFloat;
 use kshana::clock_specs::{x_clock_s, LunarClock};
 use kshana::lunar_time_budget::{default_tau_grid, lunar_time_budget, BudgetParams};
+use kshana::portable_math::PortableFloat;
 
 /// Independent RSS via the stable pairwise-`hypot` fold (the `numpy.linalg.norm` /
 /// LAPACK `dnrm2` algorithm) — never forms Σx² explicitly, so it is a genuinely different

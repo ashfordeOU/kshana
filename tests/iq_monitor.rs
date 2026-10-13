@@ -26,7 +26,6 @@
 //! The tracked IQ is generated here (point-sampled C/A at 2.048 MHz with complex white
 //! noise of unit power per sample), in chunks, so no test holds the whole recording.
 
-use kshana::portable_math::PortableFloat;
 use kshana::iq::monitor::cn0::{Cn0Monitor, Cn0Settings};
 use kshana::iq::monitor::lock::LockMonitor;
 use kshana::iq::monitor::power::{PowerMonitor, PowerSettings};
@@ -36,6 +35,7 @@ use kshana::iq::monitor::{stats, EpochMonitorSettings, EpochMonitors, MonitorRep
 use kshana::iq::track::cn0::phase_lock_indicator;
 use kshana::iq::track::{ChannelInit, EpochOutput, LoopConfig, TrackingBank};
 use kshana::iq::{Cf64, SampleSpec, SpreadingCode};
+use kshana::portable_math::PortableFloat;
 use kshana::sdr::CaCode;
 use rand::{Rng, SeedableRng};
 use rand_chacha::ChaCha8Rng;

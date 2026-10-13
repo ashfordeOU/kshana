@@ -2,9 +2,9 @@
 //! **Test-bench export: every file written is read back and compared within the stated
 //! tolerances.** Synthetic scenarios only; nothing here reads the network.
 
-use kshana::portable_math::PortableFloat;
 use kshana::interop::testbench::*;
 use kshana::interop::{ExportError, UtcEpoch};
+use kshana::portable_math::PortableFloat;
 use std::path::PathBuf;
 
 fn scenario(name: &str) -> String {

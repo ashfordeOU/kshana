@@ -28,7 +28,6 @@
 //! invented — every truth quantity is propagated by the shipped Mars dynamics and every reference
 //! constant is a published Mars value already in [`kshana::body`].
 
-use kshana::portable_math::PortableFloat;
 use kshana::body::Body;
 use kshana::deepspace_od::{
     range_observable, range_rate_observable, RadiometricKind, RadiometricMeas, RadiometricStep,
@@ -37,6 +36,7 @@ use kshana::deepspace_od::{
 use kshana::integrator::Tolerance;
 use kshana::mars_atmos::{mars_drag_accel, MARS_RE};
 use kshana::mars_frame::{iau_mars_rotation, inertial_to_bodyfixed};
+use kshana::portable_math::PortableFloat;
 use kshana::precession::{mat_vec, transpose};
 use kshana::precise_od::{empirical_accel, propagate, EmpiricalAccel, ForceModel};
 

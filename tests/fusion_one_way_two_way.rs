@@ -28,7 +28,6 @@
 //! absolute fidelity of the Mars force model. No observation value or reference number is invented:
 //! every truth quantity is propagated by the shipped Mars dynamics / the injected clock model.
 
-use kshana::portable_math::PortableFloat;
 use kshana::body::Body;
 use kshana::clock_state::ClockClass;
 use kshana::deepspace_od::{
@@ -38,6 +37,7 @@ use kshana::deepspace_od::{
 use kshana::integrator::Tolerance;
 use kshana::mars_atmos::MARS_RE;
 use kshana::mars_frame::{iau_mars_rotation, inertial_to_bodyfixed};
+use kshana::portable_math::PortableFloat;
 use kshana::precession::{mat_vec, transpose};
 use kshana::precise_od::{empirical_accel, propagate, EmpiricalAccel, ForceModel};
 use kshana::timegeo::C_M_PER_S;

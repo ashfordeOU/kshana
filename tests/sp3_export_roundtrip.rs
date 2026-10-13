@@ -8,8 +8,8 @@
 //! position records at millimetre resolution, the real agreement is far tighter
 //! than the 10 m TLE-grade tolerance the milestone asks for — so we assert both.
 
-use kshana::portable_math::PortableFloat;
 use kshana::frames::teme_to_ecef;
+use kshana::portable_math::PortableFloat;
 use kshana::rinex::EpochUtc;
 use kshana::sp3::{parse_sp3, Sp3File};
 use kshana::timescales::julian_date;

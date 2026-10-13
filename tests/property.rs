@@ -8,10 +8,10 @@
 //! panic, a preserved norm, an exact round-trip, a non-negative statistic. A
 //! failure prints the seed-derived input so it can be reproduced.
 
-use kshana::portable_math::PortableFloat;
 use kshana::api::run_toml;
 use kshana::frames::{ecef_to_geodetic, geodetic_to_ecef, teme_to_ecef, Geodetic};
 use kshana::kalman::KalmanClock;
+use kshana::portable_math::PortableFloat;
 use kshana::scenario::TimeCfg;
 use kshana::tle::{
     parse_propagators, parse_propagators_opts, tle_checksum, verify_checksum, ParseOpts,

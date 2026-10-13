@@ -11,8 +11,8 @@
 //!   equals the stated C/N0 plus the profile, and the C/N0 a tracking loop estimates on the
 //!   scene follows a 6 dB step within the estimator's spread.
 
-use kshana::portable_math::PortableFloat;
 use kshana::iq::channel::cn0_profile::{rice_k_for_s4, Cn0Profile, Cn0Segment, Cn0Shape};
+use kshana::portable_math::PortableFloat;
 use std::path::PathBuf;
 
 fn scratch(name: &str) -> PathBuf {

@@ -28,10 +28,10 @@
 //! * G4  the `.bin` epoch file reads back end to end with strictly increasing epoch indices
 //!   and a last sample index within two code periods of the recording's length.
 
-use kshana::portable_math::PortableFloat;
 use kshana::iq::cli::{build_code, run};
 use kshana::iq::track::sink::BinaryEpochReader;
 use kshana::iq::{Cf64, SpreadingCode};
+use kshana::portable_math::PortableFloat;
 use std::alloc::{GlobalAlloc, Layout, System};
 use std::f64::consts::TAU;
 use std::io::{BufReader, BufWriter, Write};

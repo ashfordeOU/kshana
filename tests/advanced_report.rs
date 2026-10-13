@@ -24,8 +24,8 @@
 //! The command-line reproduction (the recorded command re-run in a fresh directory
 //! gives a byte-identical result document) is `tests/advanced_report_cli.rs`.
 
-use kshana::portable_math::PortableFloat;
 use kshana::advanced_report::{build, sha256_hex, Invocation, Report};
+use kshana::portable_math::PortableFloat;
 use serde_json::Value;
 use std::fs;
 

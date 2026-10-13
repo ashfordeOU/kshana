@@ -21,9 +21,9 @@
 //! d/o-12 is sub-centimetre) and an 8-hour arc to stay fast; the full d/o-70, full-day
 //! online fetch is the `workflow_dispatch` job.
 
-use kshana::portable_math::PortableFloat;
 use kshana::cio::itrs_to_gcrs;
 use kshana::eop::EopSeries;
+use kshana::portable_math::PortableFloat;
 use kshana::precise_od::{fit, EstimatedParams, FitConfig, Observation, PreciseForceModel};
 use kshana::sp3::parse_sp3;
 use kshana::timescales::{gps_to_tt, julian_date};

@@ -16,8 +16,8 @@
 #[path = "support/fixture_pin.rs"]
 mod fixture_pin;
 
-use kshana::portable_math::PortableFloat;
 use fixture_pin::{check_json, check_rows_scaled, max_abs, NEAR_BIT};
+use kshana::portable_math::PortableFloat;
 use serde_json::Value;
 
 /// The size of the host difference simulated in (1), as a fraction of the row scale.

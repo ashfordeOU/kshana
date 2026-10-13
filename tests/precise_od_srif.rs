@@ -6,8 +6,8 @@
 //! so the checks are agreement to a small fraction of the recovery scale and the same recovery
 //! criteria the default fit is held to in `tests/precise_od_synth.rs`.
 
-use kshana::portable_math::PortableFloat;
 use kshana::integrator::Tolerance;
+use kshana::portable_math::PortableFloat;
 use kshana::precise_od::{
     fit, fit_srif, propagate, EmpiricalAccel, EstimatedParams, FitConfig, Observation,
     PreciseForceModel,

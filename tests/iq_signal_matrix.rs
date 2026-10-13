@@ -109,7 +109,6 @@
 //! * `gps_l2c` (T5) and `beidou_b1c` stay ignored findings with the causes in their `ignore`
 //!   texts (D10: an estimator limit under PLL jitter, and BOC band-limiting at 5 MS/s).
 
-use kshana::portable_math::PortableFloat;
 use kshana::iq::acq::{acquire, auto_coherent_periods, default_step_hz, AcqConfig};
 use kshana::iq::scene::{
     NavData, RangeProfile, SatGeometry, Scene, SceneConfig, SceneSatellite, TruthRecord,
@@ -118,6 +117,7 @@ use kshana::iq::signals::{beidou, galileo, glonass, gps, Modulation, SignalCode}
 use kshana::iq::track::design::Design;
 use kshana::iq::track::{replay, ChannelInit, EpochOutput};
 use kshana::iq::{Cf64, SampleSpec, SpreadingCode, VecSink, VecSource, C_M_PER_S};
+use kshana::portable_math::PortableFloat;
 use std::sync::Arc;
 
 const CN0_DBHZ: f64 = 45.0;

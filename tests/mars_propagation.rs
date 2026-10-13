@@ -20,10 +20,10 @@
 //! is either a closed-form Keplerian quantity or a published Mars constant already shipped in
 //! [`kshana::body`].
 
-use kshana::portable_math::PortableFloat;
 use kshana::body::{Body, MARS_ZONALS_J2_J4};
 use kshana::gravity_sh::SphericalHarmonicField;
 use kshana::integrator::Tolerance;
+use kshana::portable_math::PortableFloat;
 use kshana::propagator::{nodal_history, propagate, raan_rad, secular_slope, ForceModel};
 
 type Vec3 = [f64; 3];

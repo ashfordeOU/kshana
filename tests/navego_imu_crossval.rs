@@ -18,8 +18,8 @@
 //! those coefficients — i.e. `ADEV(1 s) = σ_white · √dt`. Agreement confirms our
 //! Allan pipeline and NaveGo's noise-coefficient definitions are consistent.
 
-use kshana::portable_math::PortableFloat;
 use kshana::allan::overlapping_adev;
+use kshana::portable_math::PortableFloat;
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
 use rand_distr::{Distribution, Normal};

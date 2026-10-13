@@ -4,7 +4,6 @@
 //! against one-shot processing. Inputs are generic test signals (tones, seeded Gaussian
 //! noise, hand-built threshold vectors), not models of any device.
 
-use kshana::portable_math::PortableFloat;
 use kshana::iq::frontend::agc::Agc;
 use kshana::iq::frontend::blank::PulseBlanker;
 use kshana::iq::frontend::fdaf::FreqExcision;
@@ -14,6 +13,7 @@ use kshana::iq::frontend::notch::AdaptiveNotch;
 use kshana::iq::frontend::quant::{correlation_loss_db, optimum_step_sigma, Quantiser};
 use kshana::iq::frontend::{Chain, Stage};
 use kshana::iq::Cf64;
+use kshana::portable_math::PortableFloat;
 use rand::{Rng, SeedableRng};
 use rand_chacha::ChaCha8Rng;
 use rand_distr::{Distribution, StandardNormal};

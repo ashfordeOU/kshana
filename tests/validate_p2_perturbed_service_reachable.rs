@@ -15,12 +15,12 @@
 //! the resulting perturbed-geometry DOP magnitude stays honestly Modelled (a representative
 //! twin, not a DE440-ephemeris product).
 
-use kshana::portable_math::PortableFloat;
 use kshana::api::run_toml;
 use kshana::lunar_perturbed::{
     default_tolerance, elements_to_state, LunarPerturbations, PerturbedConstellation,
 };
 use kshana::lunar_service::{LunarConstellation, LunarSat};
+use kshana::portable_math::PortableFloat;
 
 /// A small, fast perturbed service-volume TOML (few sats / epochs / grid points so the per-epoch
 /// numerical propagation stays cheap).

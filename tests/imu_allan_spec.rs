@@ -33,9 +33,9 @@
 //! Pattern follows `tests/navego_imu_crossval.rs`, generalised to five IMUs and to
 //! the bias-instability plateau. Hermetic and synthetic — no dataset download.
 
-use kshana::portable_math::PortableFloat;
 use kshana::allan::overlapping_adev;
 use kshana::inertial::{AccelModel, G_M_PER_S2};
+use kshana::portable_math::PortableFloat;
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
 use rand_distr::{Distribution, Normal};
