@@ -163,7 +163,7 @@ deep-space link adds.
 `raan_deg` is the right ascension of the ascending node in the body's equatorial frame and
 `u0_deg` the argument of latitude at the epoch.
 
-The two bundled scenarios, as they run with kshana 0.35.0:
+The two bundled scenarios, as they run with kshana 0.36 (portable maths, the same on every platform):
 
 | | `scenarios/mars-orbit-pnt.toml` | `scenarios/europa-surface-pnt.toml` |
 |---|---|---|
@@ -172,16 +172,20 @@ The two bundled scenarios, as they run with kshana 0.35.0:
 | Span | one sol, 296 epochs | 306 822 s, 171 epochs |
 | Earth light time, one-way / round trip | 338.3 s / 676.6 s | 2182.9 s / 4365.8 s |
 | Earth in view | 0.811 of epochs | 0.439 |
-| Availability, relays only / with the Earth range | 1.000 / 1.000 | 0.480 / 0.719 |
+| Availability, relays only / with the Earth range | 1.000 / 1.000 | 0.480 / 0.713 |
 | Median PDOP | 1.375 | 5.360 |
-| RMS fix error, relays only / with the Earth range | 1.883 m / 1.629 m | 112.742 m / 86.147 m |
+| RMS fix error, relays only / with the Earth range | 1.883 m / 1.629 m | 112.742 m / 86.499 m |
 | Median formal sigma, relays only / with the Earth range | 1.375 m / 1.304 m | 5.360 m / 4.239 m |
 
-(RMS: root mean square.) The Europa column is the Linux x86-64 build, the platform the release
-is built and tested on. On macOS arm64 one epoch sits on the availability edge and flips, so the
-same scenario prints 0.725 and 85.800 m for the two "with the Earth range" figures.
+(RMS: root mean square.) One Europa epoch (t = 16 200 s) sits on the availability edge, where the
+last bit of a computed radius decides whether its Earth-range fix is made. Before 0.36 the host's
+maths library decided it, so the same scenario printed 0.719 and 86.147 m on Linux x86-64 and 0.725 and
+85.800 m on macOS arm64 for the two "with the Earth range" figures. Since 0.36 every transcendental
+is computed by the portable maths library, the epoch resolves one way on every platform (native and
+WebAssembly give the same bytes), and the figures are 0.713 and 86.499 m
+([`docs/revisions/STUDIO15-portable-math-rebaseline.md`](revisions/STUDIO15-portable-math-rebaseline.md)).
 Around Europa the Earth range lifts availability from 0.480 to
-0.719 of epochs. Where the Earth never clears the limb the link adds nothing: a lander at
+0.713 of epochs. Where the Earth never clears the limb the link adds nothing: a lander at
 89.5 deg S on the Moon under a 12-satellite, 5000 km relay shell has the Earth in view at 0
 of 145 epochs, and its errors are the same with and without the link.
 
