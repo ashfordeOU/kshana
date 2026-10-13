@@ -75,3 +75,38 @@ numbers, pinned by the test, and the row stays MODELLED for the affected reader.
 The physics of the scenario's truth trajectory (the driving profile and its integration); signal
 generation, or whether gps-sdr-sim's output is correct; any other simulator's reader; any
 receiver's performance.
+
+## Run 1 (2026-10-13, `run.sh`, summary in `tests/fixtures/testbench/gpssdrsim.json` at the commit that adds this section)
+
+| Bar | Result | Verdict |
+|---|---|---|
+| B1 | N on all 8 scenarios (3000 of 12001, 9001 and 4001 on maritime, rail and aviation: the simulator's cap) | holds |
+| B2 | worst 1.21 mm (automotive-urban-canyon) | holds |
+| B3 | 3000 on every `gnss-ins` scenario, 122 on the two 61-sample stationary ones | **misses** |
+| B4 | 6.4e6 m | **misses** |
+| B5 | N on all 8 | holds |
+| B6 | worst 0.145 mm (gnss-ins-aviation) | holds |
+| B7 | worst 2.3e-13 s | holds |
+
+FINDING (B3, B4): gps-sdr-sim reads each line into a 100-character buffer (`MAX_CHAR` in
+`gpssim.h`), and a motion CSV row is about 161 characters long. `fgets` therefore returns each row
+in two pieces, and the second piece is read as a separate `time,x,y,z` sample. The header-removed
+CSV as registered is not readable by `-u`. This is a property of the recipe and that reader, not
+an error in the export's numbers, but the registered recipe failed and stays failed.
+
+Recorded without a bar: the CSV as written, header included, gives a first sample of NaN (the
+header line matches no number, and `readUserMotion` keeps the uninitialised values), and then the
+same row splitting.
+
+## Amendment 1 (committed before it was run)
+
+The ECEF reader is given the first four columns only: `tail -n +2 | cut -d, -f1-4`
+(`time_s,x_m,y_m,z_m`, about 50 characters per row). The bars are unchanged:
+
+| Id | Quantity | Bar |
+|---|---|---|
+| B3a | samples read by `readUserMotion` (amended recipe) | exactly N |
+| B4a | max 3-D difference, `readUserMotion` vs CSV | ≤ 1 µm |
+
+Run 1's B3 and B4 misses remain the result for the registered recipe and are pinned by the test.
+The documentation will give the amended recipe and say why the full row cannot be used.
