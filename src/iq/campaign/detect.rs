@@ -34,6 +34,10 @@ fn d_grace() -> f64 {
     1.0
 }
 
+fn d_roc_window() -> f64 {
+    5.0
+}
+
 /// The `[monitors]` table of a campaign file.
 #[derive(Clone, Copy, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
@@ -50,6 +54,10 @@ pub struct MonitorsSpec {
     /// Time after an event's end in which an alarm still counts as its detection (s).
     #[serde(default = "d_grace")]
     pub detect_grace_s: f64,
+    /// Length of the negative windows of the detection ROC (s,
+    /// `docs/design/DETECTION-ROC.md`).
+    #[serde(default = "d_roc_window")]
+    pub roc_window_s: f64,
 }
 
 impl MonitorsSpec {
@@ -57,6 +65,9 @@ impl MonitorsSpec {
     pub fn validate(&self) -> Result<(), String> {
         if !(self.detect_grace_s.is_finite() && self.detect_grace_s >= 0.0) {
             return Err("monitors.detect_grace_s must be >= 0".into());
+        }
+        if !(self.roc_window_s.is_finite() && self.roc_window_s > 0.0) {
+            return Err("monitors.roc_window_s must be positive".into());
         }
         Ok(())
     }
@@ -132,6 +143,154 @@ pub struct CellMonitors {
     pub detections: Vec<Detection>,
     /// Per alarm kind and channel.
     pub false_alarms: Vec<FalseAlarms>,
+    /// The maximum of each test statistic over the positive (stated event) and negative
+    /// (tiled, outside the events) windows of the detection ROC.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub windows: Vec<WindowStat>,
+}
+
+/// The maximum of one test statistic over one ROC window.
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+pub struct WindowStat {
+    /// The alarm kind whose statistic this is.
+    pub kind: String,
+    /// The channel of a per-channel kind.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub channel: Option<String>,
+    /// The stated event of a positive window; `None` for a negative one.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub event_id: Option<String>,
+    /// Window start (s).
+    pub t0_s: f64,
+    /// Window end (s).
+    pub t1_s: f64,
+    /// The largest statistic in the window.
+    pub max: f64,
+}
+
+/// The windows of one kind's statistic `series` (`(t_s, value)` in time order): one per
+/// stated event that can affect it, and consecutive `window_s` windows over the rest of
+/// `[k.from_s, k.to_s]` (a trailing piece shorter than half a window is dropped). A window
+/// with no value is left out.
+pub fn windows(
+    k: &KindSpan,
+    series: &[(f64, f64)],
+    tc: &TestConditions,
+    grace_s: f64,
+    window_s: f64,
+) -> Vec<WindowStat> {
+    let max_in = |a: f64, b: f64| {
+        series
+            .iter()
+            .filter(|(t, v)| *t >= a && *t <= b && v.is_finite())
+            .map(|(_, v)| *v)
+            .fold(None, |m: Option<f64>, v| Some(m.map_or(v, |m| m.max(v))))
+    };
+    let mut out = Vec::new();
+    let mut ev_windows = Vec::new();
+    for e in &tc.events {
+        if k.sat.is_some_and(|s| !e.affects.includes(s)) {
+            continue;
+        }
+        let (a, b) = (e.onset_s, e.offset_s + grace_s);
+        ev_windows.push((a, b));
+        if let Some(m) = max_in(a, b) {
+            out.push(WindowStat {
+                kind: k.kind.clone(),
+                channel: k.channel.clone(),
+                event_id: Some(e.id.clone()),
+                t0_s: a,
+                t1_s: b,
+                max: m,
+            });
+        }
+    }
+    // The free gaps of [from, to] outside the event windows, tiled.
+    ev_windows.sort_by(|p, q| p.0.total_cmp(&q.0));
+    let mut gaps = Vec::new();
+    let mut cur = k.from_s;
+    for (a, b) in ev_windows {
+        if a > cur {
+            gaps.push((cur, a.min(k.to_s)));
+        }
+        cur = cur.max(b);
+    }
+    if cur < k.to_s {
+        gaps.push((cur, k.to_s));
+    }
+    for (a, b) in gaps {
+        let mut t = a;
+        while b - t >= 0.5 * window_s {
+            let e = (t + window_s).min(b);
+            if let Some(m) = max_in(t, e) {
+                out.push(WindowStat {
+                    kind: k.kind.clone(),
+                    channel: k.channel.clone(),
+                    event_id: None,
+                    t0_s: t,
+                    t1_s: e,
+                    max: m,
+                });
+            }
+            t += window_s;
+        }
+    }
+    out
+}
+
+/// An empirical ROC of one alarm kind.
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+pub struct Roc {
+    /// The alarm kind.
+    pub kind: String,
+    /// Positive windows.
+    pub positives: usize,
+    /// Negative windows.
+    pub negatives: usize,
+    /// `[P_fa, P_d]` points from `[0, 0]` to `[1, 1]`, one per distinct statistic value.
+    pub points: Vec<[f64; 2]>,
+    /// Area under the curve (trapezoidal; ties count half).
+    pub auc: Option<f64>,
+    /// The configured threshold, when the cells state one.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub threshold: Option<f64>,
+    /// `[P_fa, P_d]` at the configured threshold.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub at_threshold: Option<[f64; 2]>,
+}
+
+/// The ROC of positives `pos` against negatives `neg`, with the operating point at `thr`.
+pub fn roc(kind: &str, pos: &[f64], neg: &[f64], thr: Option<f64>) -> Roc {
+    let (np, nn) = (pos.len(), neg.len());
+    let mut levels: Vec<f64> = pos.iter().chain(neg).copied().collect();
+    levels.sort_by(|a, b| b.total_cmp(a));
+    levels.dedup();
+    let at = |t: f64| {
+        [
+            neg.iter().filter(|v| **v >= t).count() as f64 / nn.max(1) as f64,
+            pos.iter().filter(|v| **v >= t).count() as f64 / np.max(1) as f64,
+        ]
+    };
+    let mut points = vec![[0.0, 0.0]];
+    points.extend(levels.iter().map(|&t| at(t)));
+    if points.last() != Some(&[1.0, 1.0]) {
+        points.push([1.0, 1.0]);
+    }
+    let auc = (np > 0 && nn > 0).then(|| {
+        points
+            .windows(2)
+            .map(|w| (w[1][0] - w[0][0]) * 0.5 * (w[1][1] + w[0][1]))
+            .sum()
+    });
+    Roc {
+        kind: kind.into(),
+        positives: np,
+        negatives: nn,
+        points,
+        auc,
+        threshold: thr,
+        at_threshold: thr.filter(|_| np > 0 && nn > 0).map(at),
+    }
 }
 
 /// An alarm kind a cell can raise, with the span of time over which its false alarms count.
@@ -413,5 +572,41 @@ affects = [3]
         assert!((f[0].exposure_s - 20.0).abs() < 1e-12);
         assert!((f[1].exposure_s - 27.0).abs() < 1e-12);
         assert!((f[2].exposure_s - 22.0).abs() < 1e-12);
+    }
+
+    #[test]
+    fn the_roc_of_separated_and_of_identical_samples() {
+        let r = roc("k", &[5.0, 6.0, 7.0], &[1.0, 2.0, 3.0], Some(4.0));
+        assert_eq!(r.auc, Some(1.0));
+        assert_eq!(r.at_threshold, Some([0.0, 1.0]));
+        let r = roc("k", &[1.0, 2.0], &[1.0, 2.0], None);
+        assert!((r.auc.unwrap() - 0.5).abs() < 1e-12);
+    }
+
+    #[test]
+    fn windows_tile_the_time_outside_the_events() {
+        let k = KindSpan {
+            kind: "cn0_drop".into(),
+            channel: Some("gps-l1ca:3".into()),
+            sat: Some(3),
+            from_s: 3.0,
+            to_s: 30.0,
+        };
+        let series: Vec<(f64, f64)> = (0..300).map(|i| (i as f64 * 0.1, i as f64)).collect();
+        let w = windows(&k, &series, &tc(), 1.0, 5.0);
+        let pos: Vec<&WindowStat> = w.iter().filter(|x| x.event_id.is_some()).collect();
+        assert_eq!(pos.len(), 1);
+        assert_eq!((pos[0].t0_s, pos[0].t1_s), (10.0, 17.0));
+        // [3, 10): one 5 s window and a 2 s remainder (dropped, under half a window);
+        // [17, 30): 5 + 5 + 3 s windows (the last kept, over half a window).
+        let neg: Vec<(f64, f64)> = w
+            .iter()
+            .filter(|x| x.event_id.is_none())
+            .map(|x| (x.t0_s, x.t1_s))
+            .collect();
+        assert_eq!(
+            neg,
+            vec![(3.0, 8.0), (17.0, 22.0), (22.0, 27.0), (27.0, 30.0)]
+        );
     }
 }

@@ -11,6 +11,14 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **Detection ROC of the IQ monitors** (PRO-32,
+  [`docs/design/DETECTION-ROC.md`](docs/design/DETECTION-ROC.md)). A campaign with monitors
+  keeps each test statistic's maximum over stated-event windows (positive) and tiled windows
+  outside the events (negative, `roc_window_s`). The report pools them per alarm kind into an
+  ROC with its AUC and the operating point at the configured threshold, as `roc.json` and a
+  report section. On synthetic campaigns the chance-level check is met. The C/N0 AUC bar
+  (0.95) is not met (0.79), because the negative windows right after an event inherit the
+  CUSUM's decay from the detection; this is recorded. MODELLED.
 - **IQ monitors in the lab-replay campaign** (PRO-31,
   [`docs/design/MONITORS-IN-CAMPAIGN.md`](docs/design/MONITORS-IN-CAMPAIGN.md)). An optional
   `[monitors]` table in a campaign file runs the IQ monitors in the runner's single pass: power
