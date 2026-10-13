@@ -253,7 +253,7 @@ impl DMat {
                     piv = r;
                 }
             }
-            if !(best > 1e-300) {
+            if best.is_nan() || best <= 1e-300 {
                 return None;
             }
             if piv != col {

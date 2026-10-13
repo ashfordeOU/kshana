@@ -83,9 +83,9 @@ impl CoupledCfg {
                 self.sigma_pr_m
             ));
         }
-        if !(self.q_ba.is_finite() && self.q_ba >= 0.0)
-            || !(self.bias_var.is_finite() && self.bias_var > 0.0)
-        {
+        let q_ok = self.q_ba.is_finite() && self.q_ba >= 0.0;
+        let var_ok = self.bias_var.is_finite() && self.bias_var > 0.0;
+        if !q_ok || !var_ok {
             return Err("coupled.q_ba must be >= 0 and coupled.bias_var > 0".into());
         }
         let mut g = self.geometry.clone();
