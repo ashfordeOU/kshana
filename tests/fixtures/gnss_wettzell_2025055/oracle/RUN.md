@@ -8,3 +8,6 @@ b03ed39be4c8aba3c3f54d7e2c16fd23c8d67a110d9f58129c97303446ad4457  tests/fixtures
 RTKLIB v2.4.2-p13 71db0ffa
 452a561513e8b2183c0dd705240725e943aa79cead9d472266192a041f2bea6c  tests/fixtures/gnss_wettzell_2025055/oracle/rtklib_ppp.csv
 60cc57d45295e72195dd1ae2663c8a8302f4e1a2cfe6a602d991d65f82247131  tests/fixtures/gnss_wettzell_2025055/oracle/rtklib_spp.csv
+17b30f8980935e4618c391a5551ab11d0e58ad9a3374df1a696f5c9b32d8d68d  rtklib_ppp_tide.conf
+d1898728abb57745a2889ac9c89fb723d00598bd5cc795afb2e6cdbf705d2cc7  tests/fixtures/gnss_wettzell_2025055/oracle/rtklib_ppp_tide.csv
+amendment 2: rtklib_ppp_tide.conf run Tue Oct 13 14:39:45 UTC 2026
