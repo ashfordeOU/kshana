@@ -243,7 +243,7 @@ mod tests {
     use crate::inertial::mechanization::{normal_gravity, OMEGA_IE};
     use rand::SeedableRng;
     use rand_chacha::ChaCha8Rng;
-    use rand_distr::{Distribution, Normal};
+    use crate::portable_distr::{Distribution, Normal};
     use std::f64::consts::PI;
 
     const LAT0: f64 = PI / 4.0;

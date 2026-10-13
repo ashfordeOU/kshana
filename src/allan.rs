@@ -1049,7 +1049,7 @@ mod tests {
 
     use rand::SeedableRng;
     use rand_chacha::ChaCha8Rng;
-    use rand_distr::{Distribution, Normal};
+    use crate::portable_distr::{Distribution, Normal};
 
     /// Classic *non-overlapping* Allan deviation, coded independently of
     /// `overlapping_adev`: average the fractional frequency over disjoint blocks

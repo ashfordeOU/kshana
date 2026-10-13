@@ -333,7 +333,7 @@ mod tests {
     use super::*;
     use rand::SeedableRng;
     use rand_chacha::ChaCha8Rng;
-    use rand_distr::{Distribution, Normal};
+    use crate::portable_distr::{Distribution, Normal};
 
     /// A user on the equator at the prime meridian: local up is +x, east +y, north +z.
     fn user() -> Vec3 {

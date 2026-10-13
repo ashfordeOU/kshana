@@ -238,6 +238,8 @@ pub mod permalink;
 // modules whose output is discrete (an encoded frame) and must not depend on the host.
 pub mod interference_map;
 pub mod nmea_synth;
+mod portable_distr;
+mod portable_distr_tables;
 mod portable_math;
 pub mod powerlaw;
 pub mod precession;

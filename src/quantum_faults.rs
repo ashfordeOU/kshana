@@ -24,7 +24,7 @@ use crate::representativeness::{Gap, Representativeness};
 use crate::verification::VerificationStatus;
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
-use rand_distr::{Distribution, Normal};
+use crate::portable_distr::{Distribution, Normal};
 
 /// A labelled quantum-PNT fault class.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, serde::Serialize)]

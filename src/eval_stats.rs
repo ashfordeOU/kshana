@@ -286,7 +286,7 @@ pub fn ridge_predict(coeffs: &[f64], x: &[f64]) -> f64 {
 mod tests {
     use super::*;
     use crate::detection::normal_cdf;
-    use rand_distr::{Distribution, Normal};
+    use crate::portable_distr::{Distribution, Normal};
 
     #[test]
     fn bootstrap_ci_brackets_a_known_mean() {

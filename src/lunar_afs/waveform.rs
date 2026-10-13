@@ -257,8 +257,8 @@ impl Generator {
         }
         if let Some(rng) = self.noise.as_mut() {
             for o in out.iter_mut() {
-                o.re += rng.sample::<f64, _>(rand_distr::StandardNormal);
-                o.im += rng.sample::<f64, _>(rand_distr::StandardNormal);
+                o.re += rng.sample::<f64, _>(crate::portable_distr::StandardNormal);
+                o.im += rng.sample::<f64, _>(crate::portable_distr::StandardNormal);
             }
         }
         self.next_sample += n as u64;

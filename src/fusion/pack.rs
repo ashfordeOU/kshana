@@ -49,7 +49,7 @@ use crate::scenario::{GnssState, GnssTimeline, TimeCfg};
 use crate::types::ModelSpec;
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
-use rand_distr::{Distribution, Normal};
+use crate::portable_distr::{Distribution, Normal};
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 

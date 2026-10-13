@@ -836,7 +836,7 @@ pub fn synthesise_iq(
     seed: u64,
 ) -> Result<Vec<Cf64>, String> {
     use rand::SeedableRng;
-    use rand_distr::{Distribution, StandardNormal};
+    use crate::portable_distr::{Distribution, StandardNormal};
     if !n.is_power_of_two() || n < 16 {
         return Err(format!("iq: n = {n} must be a power of two, at least 16"));
     }
@@ -2779,7 +2779,7 @@ mod tests {
     #[test]
     fn welch_reads_white_noise_as_variance_over_fs_and_keeps_a_tone_s_power() {
         use rand::SeedableRng;
-        use rand_distr::{Distribution, StandardNormal};
+        use crate::portable_distr::{Distribution, StandardNormal};
         let mut rng = rand_chacha::ChaCha8Rng::seed_from_u64(3);
         let fs = 1.0e6;
         let n = 1 << 16;

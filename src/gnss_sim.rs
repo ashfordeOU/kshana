@@ -31,7 +31,7 @@ use crate::scenario::TimeCfg;
 use crate::walker::{walker_epoch_jd, WalkerSgp4};
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
-use rand_distr::{Distribution, Normal};
+use crate::portable_distr::{Distribution, Normal};
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 use std::f64::consts::PI;

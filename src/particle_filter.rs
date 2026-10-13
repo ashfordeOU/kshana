@@ -17,7 +17,7 @@
 //! from [`crate::ionex`].
 
 use rand::RngCore;
-use rand_distr::{Distribution, Normal};
+use crate::portable_distr::{Distribution, Normal};
 
 /// Normalise weights to sum 1. If every weight is zero (total particle collapse), reset
 /// to a uniform distribution rather than divide by zero.

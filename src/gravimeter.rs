@@ -35,7 +35,7 @@ use crate::mapmatch::{hierarchical_offset_search, map_match_likelihood};
 use crate::particle_filter::ParticleFilter;
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
-use rand_distr::{Distribution, Normal};
+use crate::portable_distr::{Distribution, Normal};
 use serde::Deserialize;
 
 /// Earth gravitational parameter `GM` (m³/s², WGS-84/EGM).
