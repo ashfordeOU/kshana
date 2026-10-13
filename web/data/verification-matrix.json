@@ -4,9 +4,9 @@
   "repo_blob_base": "https://github.com/AshfordeOU/kshana/blob/main/",
   "summary": {
     "validated": 134,
-    "modelled": 138,
+    "modelled": 139,
     "partner_owned": 4,
-    "total": 276
+    "total": 277
   },
   "rows": [
     {
@@ -4920,6 +4920,23 @@
           "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/clock_log_allantools.rs"
         }
       ],
+      "fixture": null
+    },
+    {
+      "requirement": "Cold-atom interferometer error terms: Raman laser-phase noise, wavefront-curvature bias and fringe-ambiguity resolution",
+      "capability": "inertial::cai_error_terms (library functions, not yet reachable from a scenario kind): the Raman-phase weighting function of a square-pulse three-pulse interferometer (Cheinet et al. 2008, Eq. 8) with the white-phase closed form (pi/2)^2 S_phi0/tau_R and a numeric route for any spectrum; the laser frequency noise the retro-reflection delay does not cancel (Le Gouet et al. 2007, Eqs. 9 to 11); the pure-defocus wavefront bias sigma_v^2/R of a thermal cloud and its reduction by a detection radius; the wrong-fringe-index probability erfc(pi/(sqrt(2) s)) for a classical-accelerometer aid and for two interrogation times, and its inverse",
+      "status": "MODELLED",
+      "oracle_kind": "InternalConsistency",
+      "oracle": "Each closed form against an independent numerical route in the tests (frequency-domain quadrature of the exact transfer function and delay filter, a Monte Carlo over atoms for the wavefront bias, a Monte Carlo over shots for the fringe index) and its limiting cases. One published worked value: Cheinet et al. 2008 (arXiv:physics/0510197, Sec. IV) state that at tau_R = 20 us a white Raman phase noise below -111 dB rad^2/Hz is needed for 1 mrad per shot; the white term alone gives 0.99 mrad (the paper derives the level with its Eq. 17, flicker plus white). Internal consistency and one worked value, not an external validation; higher-order aberrations and any specific laser's noise are not modelled",
+      "module": "inertial::cai_error_terms",
+      "tests": "inertial::cai_error_terms::tests (raman_transfer_short_pulse_limit_matches_the_acceleration_transfer_function; white_raman_phase_closed_form_matches_quadrature; short_pulse_band_limited_closed_form_matches_quadrature; cheinet_2008_white_phase_noise_requirement_is_reproduced; delay_term_closed_form_matches_exact_filter_quadrature; defocus_phase_is_position_independent_and_tilt_cancels; curvature_bias_monte_carlo_matches_closed_form; curvature_bias_limiting_cases; classical_aided_resolution_monte_carlo_matches_closed_form; multi_t_resolution_monte_carlo_matches_closed_form; ambiguity_limits_and_inverse)",
+      "module_links": [
+        {
+          "path": "src/inertial/cai_error_terms.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/src/inertial/cai_error_terms.rs"
+        }
+      ],
+      "test_links": [],
       "fixture": null
     },
     {
