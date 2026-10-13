@@ -52,3 +52,21 @@ At every case, engine (`to_moon_centred_icrf_de440` on the same `de440s.bsp`) ag
 Earth-Moon line" is VALIDATED as a Library check of the transform against SPICE. It is not a
 claim that a CR3BP orbit matches a real trajectory; that is CAP-29d, a separate measurement.
 Either fails: a finding with its numbers, and no row. No bar is moved.
+
+## Amendment (2026-10-13, committed alone, before any code ran against the oracle and before the oracle generator existed)
+
+While the generator was being written, it became clear that the map above uses only the
+in-plane rate `w e_z` as the frame's angular velocity. The axes it defines are those of the
+two-vector frame, which also turns about `x` as the Moon's orbit normal moves:
+`Omega = (Omega_x, 0, w)` in rotating axes, with `Omega_x = l (a_m . e_z) / |r_m x v_m|` and
+`a_m` the Moon's geocentric acceleration. The x part follows from
+`d(e_z)/dt = (r_m x a_m)_perp / |h|`. `Omega_x` is about 1e-8 rad/s (mostly the solar
+perturbation), which is 0.1 to 1 m/s at cislunar distances, far above the 1e-6 m/s bar, so
+the map as written could not meet bar 2. This is a design error found before any run, not a
+result. The map is amended to
+
+    v = C (ldot rho + l w v_nd + l (-w rho_y, w rho_x - Omega_x rho_z, Omega_x rho_y)),
+
+with `moon_geo` carrying the Moon's geocentric acceleration (`KernelEphemeris::state` returns
+it). Without an acceleration the in-plane form is the documented approximation. The oracle,
+cases and bars are unchanged.
