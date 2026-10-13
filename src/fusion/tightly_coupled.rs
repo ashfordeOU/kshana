@@ -19,8 +19,8 @@
 //! Scope (honest): this is the position/velocity/clock tightly-coupled core and its
 //! outage-validation scenario. The full inertial state (attitude error and accelerometer and
 //! gyro biases plus the clock) is the 17-state [`crate::fusion::tightly_coupled17`] navigator.
-//! Driving the satellite geometry from a live SGP4 constellation with broadcast iono/tropo
-//! corrections in the loop, and carrier phase, are follow-ons (see `ROADMAP.md`).
+//! The carrier-phase version with float ambiguities, SGP4 Walker geometry and broadcast
+//! iono/tropo corrections in the loop is [`crate::fusion::carrier_tc`].
 
 use crate::forces::gravity_accel;
 use crate::fusion::ukf::Ukf;

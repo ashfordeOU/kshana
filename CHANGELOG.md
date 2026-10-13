@@ -279,6 +279,52 @@ breaking changes are called out explicitly.
   EEC masks: it fails at 1 000 s, where a loop must do the work). Every row was re-read against
   the itu.int text; G.812 (06/2004) is superseded by a pre-published 08/2026 edition that could
   not be read. MODELLED (a transcription); existing masks and outputs are unchanged.
+- **Filter-prior guidance for the `gnss-ins` kind** (0.36, WP-09, RM-21 finding): the pack's
+  default filter prior suits a tactical-grade IMU. With a navigation-grade IMU, the default can
+  make the fused coast worse than free INS: 52 m against 11 m on a 70 m/s aircraft profile.
+  Set `[imu_*.filter_prior]` to match the sensor's grade, as the new maritime, rail and
+  aviation packs do. No bundled scenario pairs a navigation-grade IMU with the default prior:
+  every one that uses the default has residual accelerometer biases of at least 0.015 m/s².
+  Documentation only; no output changes.
+- **Test-bench export checked with a simulator's own readers** (0.36, WP-09, CAP-16): the
+  `kshana bench-export` motion files of 8 bundled scenarios were read back by gps-sdr-sim's
+  NMEA, latitude/longitude/height and Earth-fixed motion readers (MIT, commit 28ca29a6, used as
+  a separate tool through `xval/testbench-gpssdrsim/`; no signal function is called). They
+  return the exported trajectory to 1.2 mm, 0.15 mm and exactly. FINDING: that simulator's
+  Earth-fixed reader cannot take the full-width CSV, because its 100-character line buffer
+  splits each row. `docs/TEST-BENCH.md` now gives the column cuts to use and the simulator's
+  300 s cap. VALIDATED (new ledger row); the export's bytes are unchanged.
+- **GNSS/INS on the KF-GINS dataset** (0.36, WP-09, FUT-17): `fusion::kfgins` loaders and runner
+  and the lever-arm measurement model in the closed-loop EKF. On the KF-GINS demo dataset
+  (fetched at test time, not vendored) Kshana's horizontal RMS against the reference trajectory is
+  1.09 cm against KF-GINS's own 1.11 cm, and every pre-registered bar held. MODELLED pending an
+  owner decision on data-gated evidence.
+- **Coupled PNT filter in the fusion pack** (0.36, WP-09, FUT-16): the `fusion` kind takes an
+  optional `[coupled]` table that runs one stacked filter on pseudoranges with an accelerometer
+  bias state (`fusion::coupled::CoupledPntBiasFilter`), and `fusion::coupled::CoupledPnt3d` is
+  the 3-D 8-state version. New bundled scenario `fusion-pnt-coupled`: with biased
+  accelerometers the coupled mode holds the quantum suite's position to 18.7 m (95th percentile)
+  with full integrity, where the decoupled filters reach 430 m. Without the table both `fusion`
+  and `hybrid` are unchanged (pinned); `hybrid` refuses the table. MODELLED.
+- **Maritime, rail and aviation GNSS/INS packs** (0.36, WP-09, RM-21): bundled scenarios
+  `gnss-ins-maritime`, `gnss-ins-rail` and `gnss-ins-aviation` on the trajectory library, and an
+  optional `[tight]` table for the `gnss-ins` kind that fuses pseudoranges from an SGP4 Walker
+  constellation (all satellites when nominal, the highest few when degraded). On the rail pack
+  tight coupling keeps the navigation-grade solution at 5.3 m through a cutting and tunnel,
+  against 12.9 m loosely coupled. Without `[tight]` the pack is unchanged (pinned). MODELLED.
+- **Carrier-phase tight coupling** (0.36, WP-09, RM-25 / FUT-17): `fusion::carrier_tc`, an
+  error-state EKF with an explicit two-state receiver clock and float carrier ambiguities, driven
+  by an SGP4 Walker constellation with Klobuchar and Saastamoinen corrections in the measurement
+  loop, time-differenced-carrier slip detection and ambiguity re-initialisation, and a code-only
+  run on the same measurements for comparison. MODELLED: on a figure-8 drive the carrier solution
+  is 2.5 cm against 47 cm code-only, and NIS/NEES are consistent over seeds.
+- **GNSS/INS trajectory library** (0.36, WP-09, RM-24): the `gnss-ins` kind takes an optional
+  `[trajectory]` table with `profile = "straight" | "figure8" | "stop_go" | "aircraft" | "uas" |
+  "csv"`. The profiles command Euler rates and along-track acceleration from the truth state and
+  derive the true IMU from rigid-body kinematics (coordinated turns, climbs, Coriolis); `csv`
+  imports a truth trajectory (`t, lat, lon, alt, vn, ve, vd, roll, pitch, yaw`) and solves the IMU
+  that reproduces it. Without the table the pack flies its historical drive, bit for bit (pinned).
+  MODELLED.
 - **Lunar reference-station study** (0.36, prompted by published material on a planned lunar
   south-pole reference station; sources in [`docs/LUNAR-REFERENCE-STATION.md`](docs/LUNAR-REFERENCE-STATION.md)):
   the `lunar-station-coverage` kind, a Monte Carlo sweep of the lunar differential-PNT model over
@@ -473,6 +519,9 @@ breaking changes are called out explicitly.
 
 ### Changed
 
+- Module docs of `fusion::ukf`, `fusion::tightly_coupled` and `fusion::gnss_ins_ekf` no longer
+  call the 17-state UKF navigator, the full-INS tight coupling and the explicit clock state
+  future work; they point to `hybrid_ukf`, `tightly_coupled17` and `carrier_tc`.
 - **RINEX 4 is no longer refused** (0.36, WP-07): a RINEX 4 navigation file used to be rejected
   on purpose; it is now read (see Added). For observation files of version 4 and later, header
   labels are matched in columns 61-80 only, so the new free-text records cannot pass for labels.
