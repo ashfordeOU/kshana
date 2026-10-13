@@ -211,3 +211,18 @@ fn rtklib_finding_is_pinned() {
     assert!((o.r2 - 0.1462).abs() < 5e-4, "{}", o.r2);
     assert!((o.r3_median - 1.085).abs() < 5e-4, "{}", o.r3_median);
 }
+
+/// Amendment 2 (3d01186): RTKLIB PPP with the solid tide on, against the unchanged R1 and R2.
+/// Missed on its run (R1 0 %, R2 0.232 m): RTKLIB then sits +0.19 to +0.20 m up from ITRF2020
+/// with the horizontal near zero, because the registered configuration put the receiver antenna
+/// options on the base slot (`ant2-*`), so RTKLIB applied neither WTZR's antenna height nor the
+/// receiver phase-centre offsets. Recorded; see amendment 3.
+#[test]
+#[ignore = "FINDING: amendment 2 R1 0 %, R2 0.232 m; the RTKLIB config set the receiver antenna on the base slot"]
+fn rtklib_ppp_with_the_solid_tide_amendment_2() {
+    let o = compare_tool(&oracle_dir(), "rtklib", "rtklib_ppp_tide.csv")
+        .expect("committed RTKLIB outputs");
+    assert!(o.r1_n >= 200, "non-vacuity");
+    assert!(o.r1_frac >= 0.95, "R1");
+    assert!(o.r2 <= 0.03, "R2");
+}
