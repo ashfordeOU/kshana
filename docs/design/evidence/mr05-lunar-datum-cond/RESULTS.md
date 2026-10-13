@@ -74,5 +74,6 @@ The oracle code is unchanged. The test counts the scenario as a failed check.
   made.
 
 Pinned: `finding_step0_fresh_beacon_information_falls_back` and
-`finding_p2_condition_scaled_bar_not_met_on_the_estimated_scenarios`. The strict tests are
-ignored with the finding.
+`finding_p2_condition_scaled_bar_not_met_on_the_estimated_scenarios`. They assert the recorded
+misses at their values (ranks exactly; gaps within 1 %; the oracle's LinAlgError), and the bars
+are unchanged in the code. There are no ignored strict tests.
