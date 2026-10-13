@@ -1046,10 +1046,19 @@ fn run_item(
     let end_s = done as f64 / spec.fs_hz;
     // The monitors' blocks, per cell: the pre-correlation alarms are shared by the cells of
     // the item (one recording through one chain); each channel's belong to its cell.
-    let mut cell_mons: Vec<Option<(CellMonitors, Vec<KindSpan>)>> = Vec::new();
+    type Stat = Vec<(f64, f64)>;
+    // Per cell: its monitors block, its alarm kinds, and each kind's statistic series.
+    type Assembly = (CellMonitors, Vec<KindSpan>, Vec<Stat>);
+    let mut cell_mons: Vec<Option<Assembly>> = Vec::new();
     if let Some(m) = mons_spec {
         let mut alarms: Vec<MonitorEvent> = Vec::new();
         let mut kinds: Vec<KindSpan> = Vec::new();
+        let mut stats: Vec<Stat> = Vec::new();
+        let series = |r: &crate::iq::monitor::MonitorReport, name: &str| -> Stat {
+            r.series_named(name, None)
+                .map(|s| s.t_s.iter().copied().zip(s.value.iter().copied()).collect())
+                .unwrap_or_default()
+        };
         let pre = |kind: &str, from_s: f64| KindSpan {
             kind: kind.into(),
             channel: None,
@@ -1059,14 +1068,34 @@ fn run_item(
         };
         if let (Some(p), Some(st)) = (&power, m.power) {
             alarms.extend(p.events());
+            // The departure from the baseline (dB), as the test sees it.
+            let r = p.report();
+            let base = p.reference_db().unwrap_or(f64::NAN);
+            let dep: Stat = series(&r, "power_db")
+                .into_iter()
+                .map(|(t, v)| (t, v - base))
+                .collect();
             kinds.push(pre("power_rise", st.baseline_s));
+            stats.push(dep.clone());
             kinds.push(pre("power_drop", st.baseline_s));
+            stats.push(dep.into_iter().map(|(t, v)| (t, -v)).collect());
         }
         if let (Some(p), Some(st)) = (&spectral, m.spectral) {
             alarms.extend(p.events());
-            for k in ["spectral_excess", "kurtosis", "pulses"] {
-                kinds.push(pre(k, st.baseline_s));
-            }
+            let r = p.report();
+            kinds.push(pre("spectral_excess", st.baseline_s));
+            stats.push(series(&r, "psd_excess_db"));
+            kinds.push(pre("kurtosis", st.baseline_s));
+            stats.push(match p.kurtosis_reference() {
+                Some((k0, sd)) => series(&r, "kurtosis")
+                    .into_iter()
+                    .map(|(t, v)| (t, (v - k0) / sd.max(1e-12)))
+                    .collect(),
+                None => Vec::new(),
+            });
+            // The pulse test's statistic is not kept as a series: no ROC for it.
+            kinds.push(pre("pulses", st.baseline_s));
+            stats.push(Vec::new());
         }
         let tests = detect::pre_correlation_tests(
             m.power
@@ -1086,13 +1115,14 @@ fn run_item(
                     ..CellMonitors::default()
                 },
                 kinds.clone(),
+                stats.clone(),
             )));
         }
         for (i, ch) in sink.chans.iter().enumerate() {
             let (Some(em), Some((first, last))) = (&sink.mons[i], sink.span[i]) else {
                 continue;
             };
-            let Some((cm, kinds)) = cell_mons[ch.cell].as_mut() else {
+            let Some((cm, kinds, stats)) = cell_mons[ch.cell].as_mut() else {
                 continue;
             };
             let label = channel_label(&sats[ch.sat]);
@@ -1100,12 +1130,50 @@ fn run_item(
             cm.alarms.extend(em.sqm.events());
             cm.tests
                 .extend(detect::channel_tests(&label, &m.epoch, em.cn0.reference()));
-            for (k, base) in [
+            let cr = em.cn0.report();
+            let sr = em.sqm.report();
+            let ch_series = |r: &crate::iq::monitor::MonitorReport, name: &str| -> Stat {
+                r.series_named(name, Some(&label))
+                    .map(|s| s.t_s.iter().copied().zip(s.value.iter().copied()).collect())
+                    .unwrap_or_default()
+            };
+            // The SQM tests' |z|: the metric averaged over `avg_epochs`, against its baseline.
+            let sqm_z = |name: &str, reference: Option<(f64, f64)>| -> Stat {
+                let Some((mu, sd)) = reference else {
+                    return Vec::new();
+                };
+                let raw = ch_series(&sr, name);
+                let n = m.epoch.sqm.avg_epochs.max(1);
+                let mut out = Vec::new();
+                let mut sum = 0.0;
+                for (i, (t, v)) in raw.iter().enumerate() {
+                    sum += v;
+                    if i >= n {
+                        sum -= raw[i - n].1;
+                    }
+                    if i + 1 >= n {
+                        out.push((*t, ((sum / n as f64 - mu) / sd.max(1e-12)).abs()));
+                    }
+                }
+                out
+            };
+            let [dref, rref] = em.sqm.references();
+            let ch_stats = [
+                ch_series(&cr, "cn0_cusum_drop"),
+                ch_series(&cr, "cn0_cusum_rise"),
+                sqm_z("sqm_delta", dref),
+                sqm_z("sqm_ratio", rref),
+            ];
+            for ((k, base), st) in [
                 ("cn0_drop", m.epoch.cn0.baseline_s),
                 ("cn0_rise", m.epoch.cn0.baseline_s),
                 ("sqm_delta", m.epoch.sqm.baseline_s),
                 ("sqm_ratio", m.epoch.sqm.baseline_s),
-            ] {
+            ]
+            .into_iter()
+            .zip(ch_stats)
+            {
+                stats.push(st);
                 kinds.push(KindSpan {
                     kind: k.into(),
                     channel: Some(label.clone()),
@@ -1121,13 +1189,19 @@ fn run_item(
     let mut cell_mons: Vec<Option<CellMonitors>> = cell_mons
         .into_iter()
         .map(|o| {
-            o.map(|(mut cm, kinds)| {
+            o.map(|(mut cm, kinds, stats)| {
                 cm.alarms
                     .sort_by(|a, b| a.t_alarm_s.total_cmp(&b.t_alarm_s));
-                let grace = mons_spec.map_or(0.0, |m| m.detect_grace_s);
+                let (grace, win) =
+                    mons_spec.map_or((0.0, 5.0), |m| (m.detect_grace_s, m.roc_window_s));
                 let (d, f) = detect::score(&cm.alarms, &kinds, tc, grace);
                 cm.detections = d;
                 cm.false_alarms = f;
+                cm.windows = kinds
+                    .iter()
+                    .zip(&stats)
+                    .flat_map(|(k, st)| detect::windows(k, st, tc, grace, win))
+                    .collect();
                 cm
             })
         })

@@ -1273,6 +1273,15 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            requirement: "Detection ROC of the IQ monitors from a scored lab-replay campaign",
+            capability: "iq::campaign::detect (windows, roc) and report::rocs: each cell of a campaign with monitors keeps, per alarm kind and channel, the maximum of the monitor's own test statistic over each stated event window (positive) and over tiled roc_window_s windows outside the events (negative). The statistics are the block-power departure, the PSD excess, the kurtosis z, the SQM |z| of the averaged metric, and the C/N0 CUSUM. The report pools them by kind into an empirical window-level ROC with its AUC and the operating point at the configured threshold, written as roc.json (kshana.campaign-roc/1) and a Detection ROC section of report.html. A campaign without monitors writes neither",
+            module: "iq::campaign (detect, report, runner); iq::monitor::spectral (kurtosis_reference)",
+            tests: "tests/iq_campaign_roc.rs: r2_with_nothing_to_detect_the_roc_sits_at_chance (AUC cn0_drop 0.500, sqm_delta 0.566, power_drop 0.639 on stated events that attenuate nothing); r1_the_cn0_drop_roc_separates_6_db_attenuations (strict, ignored with the gap); iq::campaign::detect tests (the_roc_of_separated_and_of_identical_samples, windows_tile_the_time_outside_the_events)",
+            oracle: "Synthetic campaigns from Kshana's own GPS L1 C/A scenes (attenuations of the satellites' own signals), against bars pre-registered in docs/design/DETECTION-ROC.md (b47e358d). FINDING: R2 met (chance level with nothing to detect). R1 NOT MET: cn0_drop AUC 0.7855 against 0.95, because every negative window after an event inherits the CUSUM's decay from the detection (all 18 post-event negatives reach 81 or more; all 18 pre-event ones stay at 0). Internal consistency only: no real receiver or recorded interference is checked",
+            oracle_kind: InternalConsistency,
+            status: Modelled,
+        },
+        VerificationItem {
             requirement: "GPS LNAV encoding decoded by an independent receiver library",
             capability: "Kshana's LNAV subframes 1-3 (gps_lnav::encode_subframes) for the 32 brdc0010.22n ephemerides fed to RTKLIB's decode_word and decode_frame: parity of every word, subframe decoding with consistent issue of data, and every decoded parameter against Kshana's integer and against the input value",
             module: "gps_lnav",
