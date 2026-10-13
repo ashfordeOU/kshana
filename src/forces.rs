@@ -19,8 +19,8 @@
 //! general-relativistic perigee-advance term).
 //!
 //! Scope (honest): the gravity field is **zonal only** (no tesseral/sectoral EGM terms); the SRP
-//! shadow is the geometric dual-disk **conical umbra+penumbra** (no solar limb darkening or
-//! oblate-Earth shadow); and the default drag density is the **static piecewise-exponential**
+//! shadow is the geometric dual-disk **conical umbra+penumbra** by default (the WGS-84 oblate
+//! shadow and solar limb darkening are opt-in in [`crate::srp_shadow`]); and the default drag density is the **static piecewise-exponential**
 //! model; the NRLMSISE-00 thermosphere is an opt-in tier ([`DensityModel`],
 //! [`drag_accel_with_density`]) at constant F10.7/Ap; see `ROADMAP.md`.
 
@@ -293,8 +293,8 @@ pub const SOLAR_RADIUS: f64 = 6.957e8;
 ///   altitude where the Earth appears smaller than the Sun);
 /// * otherwise → `1 −` (circle–circle lens overlap area)`/(π a²)` (penumbra).
 ///
-/// This is the geometric dual-disk model (Montenbruck & Gill §3.4.2); solar limb darkening and
-/// the oblate-Earth shadow remain follow-ons.
+/// This is the geometric dual-disk model (Montenbruck & Gill §3.4.2); the oblate-Earth shadow and
+/// solar limb darkening are opt-in refinements in [`crate::srp_shadow`].
 pub fn conical_shadow(r: Vec3, s: Vec3) -> f64 {
     let d = [s[0] - r[0], s[1] - r[1], s[2] - r[2]]; // satellite → Sun
     let d_sun = norm(d);
@@ -347,6 +347,26 @@ pub fn srp_accel(r: Vec3, s: Vec3, cr: f64, area_over_mass: f64) -> Vec3 {
 
 /// Earth's mean rotation rate ωₑ (rad/s) — the atmosphere is assumed to co-rotate rigidly with
 /// it, so the drag-relevant velocity is taken relative to `ωₑ ẑ × r`.
+/// [`srp_accel`] with a caller-supplied lit fraction `nu ∈ [0, 1]` instead of
+/// [`conical_shadow`]: the same cannonball arithmetic, for the opt-in shadow models of
+/// [`crate::srp_shadow::ShadowModel`]. [`srp_accel`] itself is unchanged.
+pub fn srp_accel_with_lit_fraction(
+    r: Vec3,
+    s: Vec3,
+    cr: f64,
+    area_over_mass: f64,
+    nu: f64,
+) -> Vec3 {
+    if nu == 0.0 {
+        return [0.0, 0.0, 0.0];
+    }
+    let d = [r[0] - s[0], r[1] - s[1], r[2] - s[2]];
+    let dn = norm(d);
+    let inv = 1.0 / dn;
+    let scale = nu * SRP_PRESSURE_AU * cr * area_over_mass * AU_M * AU_M * inv * inv * inv;
+    [scale * d[0], scale * d[1], scale * d[2]]
+}
+
 pub const EARTH_ROTATION_RATE: f64 = 7.292_115_146_7e-5;
 
 /// Atmospheric mass density `ρ` (kg/m³) at geometric altitude `altitude_m` (m above the
