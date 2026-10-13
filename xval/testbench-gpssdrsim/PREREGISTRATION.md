@@ -110,3 +110,10 @@ The ECEF reader is given the first four columns only: `tail -n +2 | cut -d, -f1-
 
 Run 1's B3 and B4 misses remain the result for the registered recipe and are pinned by the test.
 The documentation will give the amended recipe and say why the full row cannot be used.
+
+## Amendment 1 result (2026-10-13)
+
+B3a: N samples read on all 8 scenarios. B4a: 0 m on all 8 (the same decimal text). With B1, B2,
+B5, B6 and B7 from run 1 (unchanged on this run), every bar for the NMEA, LLH and amended ECEF
+recipes holds: the ledger row is VALIDATED. The run-1 B3/B4 FINDING stays recorded and pinned
+(`tests/testbench_gpssdrsim_oracle.rs`).
