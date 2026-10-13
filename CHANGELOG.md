@@ -11,6 +11,10 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **`solar-system` on a JPL kernel** (CAP-31): `planetary_kernel_path` takes each body the SPK
+  holds (with de440s: Mercury, Venus, the Earth, the Moon) from the kernel, label `KERNEL`, and
+  adds a `kernel` block only when set. New row, VALIDATED against SPICE (pre-registered
+  f8e946ea; worst 3.3e-5 m, 1.0e-11 m/s). The default report is unchanged.
 - **Porkchop on the DE440 ephemeris** (CAP-20b): `maneuver::porkchop_kernel` sweeps C3 and
   arrival V∞ on heliocentric states from a DE440 SPK. New row, VALIDATED against SPICE states
   + pykep 3.0.1 (pre-registered 2d857fb1; Earth to Mars 2026-2028, 304 cells, worst 2.6e-14,

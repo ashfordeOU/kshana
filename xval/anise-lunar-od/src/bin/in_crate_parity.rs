@@ -85,7 +85,8 @@ fn fits<E: LunarEnvironment>(env: E) -> (f64, f64, bool, f64, bool) {
 }
 
 fn main() {
-    let (spk, bpc) = kernel::resolve_all().expect("set KSHANA_ANISE_DE440S and KSHANA_ANISE_MOON_PA");
+    let (spk, bpc) =
+        kernel::resolve_all().expect("set KSHANA_ANISE_DE440S and KSHANA_ANISE_MOON_PA");
     let anise = AniseLunarEnvironment::load(spk.to_str().unwrap(), bpc.to_str().unwrap())
         .expect("ANISE environment loads");
     let in_crate = De440LunarEnvironment::new(KernelEphemeris::open(&spk).expect("SPK opens"));
@@ -99,13 +100,18 @@ fn main() {
         let k = in_crate.try_icrf_to_moon_pa(jd).expect("in-crate rotation");
         w_rot = w_rot.max(angle(&a, &k));
         let (sa, ma) = anise.try_geocentric_sun_moon(jd).expect("ANISE ephemeris");
-        let (sk, mk) = in_crate.try_geocentric_sun_moon(jd).expect("in-crate ephemeris");
+        let (sk, mk) = in_crate
+            .try_geocentric_sun_moon(jd)
+            .expect("in-crate ephemeris");
         w_moon = w_moon.max(dist(ma, mk));
         w_sun = w_sun.max(dist(sa, sk));
     }
     let ok = |v: f64, bar: f64| if v <= bar { "holds" } else { "OUTSIDE" };
     println!("epochs {}", obs.len());
-    println!("1 orientation worst {w_rot:.3e} rad (bar 2.0e-6) {}", ok(w_rot, 2.0e-6));
+    println!(
+        "1 orientation worst {w_rot:.3e} rad (bar 2.0e-6) {}",
+        ok(w_rot, 2.0e-6)
+    );
     println!("2 Moon worst {w_moon:.3e} m (bar 0.1) {}", ok(w_moon, 0.1));
     println!("2 Sun  worst {w_sun:.3e} m (bar 2) {}", ok(w_sun, 2.0));
 
@@ -119,12 +125,13 @@ fn main() {
         "3 in-crate raw {:.3} m  dynamic {:.3} m (conv {})  reduced {:.3} m (conv {})",
         fk.0, fk.1, fk.2, fk.3, fk.4
     );
-    let (dr, dd, drd) = ((fa.0 - fk.0).abs(), (fa.1 - fk.1).abs(), (fa.3 - fk.3).abs());
+    let (dr, dd, drd) = (
+        (fa.0 - fk.0).abs(),
+        (fa.1 - fk.1).abs(),
+        (fa.3 - fk.3).abs(),
+    );
     println!("3 |delta| raw {dr:.4} m {}", ok(dr, 0.10));
     println!("3 |delta| dynamic {dd:.4} m {}", ok(dd, 0.10));
     println!("3 |delta| reduced {drd:.4} m {}", ok(drd, 0.10));
-    println!(
-        "3 all converged: {}",
-        fa.2 && fa.4 && fk.2 && fk.4
-    );
+    println!("3 all converged: {}", fa.2 && fa.4 && fk.2 && fk.4);
 }
