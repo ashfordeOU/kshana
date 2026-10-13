@@ -11,6 +11,29 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **Campaign optimiser** (CAP-32): the `campaign` kind's new, optional `[optimize]` section
+  searches one to three scenario keys inside stated bounds for the best value of one metric:
+  minimise, maximise, or hit a target. It searches exhaustively on a grid, or with a
+  deterministic bounded Nelder–Mead simplex. Every evaluation is a real run of the named kind
+  and is listed in the result's `trace`. Example: `scenarios/campaign-optimize-link-budget.toml`.
+  The bars were pre-registered (`docs/design/evidence/cap32-optimize/`):
+  * the Rosenbrock function is met (f* = 1.7e-20);
+  * a closed-form 1-D target solve is met (6e-15 relative);
+  * the grid is bit-equal to an independent brute force;
+  * the simplex does at least as well as a 41 × 41 grid in 177 runs.
+
+  Round 1's 1-D bar is recorded NOT MET, because the pre-registered box excluded the
+  solution. MODELLED; ledger row "Bounded optimisation of one metric over campaign
+  parameters". Additive: campaigns without the section are unchanged.
+- **Built-in kinds through the `Scenario` trait** (FUT-27, in progress): the `BuiltinKind` trait
+  (`api::BuiltinKind`, with a per-figure tier hook and `append_figure_tiers`), and the first
+  kinds moved onto it (`inertial`, `spoof`, `passes`, `link-budget`, `jamming`). The output is
+  unchanged: a whole-catalogue manifest of every output's SHA-256 is identical before and after
+  (`tests/scenario_output_manifest.rs`).
+- **Playground no-fetch check** (RM-07): `tests/playground_no_fetch.rs` checks three things:
+  * every Studio library scenario is in the browser bundle;
+  * the bundle is byte-identical to `scenarios/`;
+  * every browser scenario runs from an empty working directory.
 - **Lunar reference-station study** (0.36, prompted by published material on a planned lunar
   south-pole reference station; sources in [`docs/LUNAR-REFERENCE-STATION.md`](docs/LUNAR-REFERENCE-STATION.md)):
   the `lunar-station-coverage` kind, a Monte Carlo sweep of the lunar differential-PNT model over

@@ -114,7 +114,9 @@ fn the_bundle_is_the_files_beside_it_and_matches_scenarios() {
 fn every_browser_scenario_runs_from_an_empty_directory() {
     let b = bundle();
     let not_in_browser: BTreeSet<String> = catalog_block("NOT_IN_BROWSER").into_iter().collect();
-    let empty = std::env::temp_dir().join(format!("kshana-rm07-{}", std::process::id()));
+    static UNIQUE: std::sync::atomic::AtomicU64 = std::sync::atomic::AtomicU64::new(0);
+    let n = UNIQUE.fetch_add(1, std::sync::atomic::Ordering::Relaxed);
+    let empty = std::env::temp_dir().join(format!("kshana-rm07-{}-{n}", std::process::id()));
     std::fs::create_dir_all(&empty).unwrap();
     std::env::set_current_dir(&empty).unwrap();
     let mut failures = Vec::new();

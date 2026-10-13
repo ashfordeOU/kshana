@@ -26,6 +26,11 @@ const NOT_A_SCENARIO_FILE_SOURCE: &[(&str, &str, &str)] = &[
         "path",
         "a path into the run's result JSON (`quantum.fom.x`), not a file",
     ),
+    (
+        "src/campaign/optimize.rs",
+        "path",
+        "the objective's path into the run's result JSON, not a file",
+    ),
     ("src/field_schema.rs", "path", "a path into the result JSON"),
     ("src/ccsds_tdm.rs", "path", "a path into the result JSON"),
     (

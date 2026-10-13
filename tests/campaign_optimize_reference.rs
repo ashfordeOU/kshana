@@ -82,7 +82,7 @@ STEPS
 
 // P2: the 1-D target solve against the closed form.
 #[test]
-fn p2_target_range_matches_the_closed_form() {
+fn p2_round1_not_met_the_box_excludes_the_closed_form() {
     let r0 = 2000.0;
     let m0 = margin(r0, 1.0e6);
     let r_star = r0 * 10f64.powf((m0 - 3.0) / 20.0);
@@ -113,8 +113,16 @@ scale = "log"
     let evals = o["evals"].as_u64().unwrap();
     let rel = (r - r_star).abs() / r_star;
     eprintln!("P2: r = {r} km, r* = {r_star} km, rel = {rel:e}, {evals} evals");
-    assert!(evals <= 300, "P2 budget: {evals}");
-    assert!(rel <= 1e-6, "P2 NOT MET: rel {rel:e}");
+    // Recorded NOT MET (RESULTS.md, Round 1): the pre-registered box excludes r*, so
+    // the optimiser stops at the bound nearer the target. This pins that recorded
+    // outcome; the bar itself (rel <= 1e-6) is not moved. P2' (Round 2) is the
+    // interior solve.
+    assert!(
+        r_star > 100000.0,
+        "the recorded miss assumed r* outside the box"
+    );
+    assert!(rel > 1e-6);
+    assert!((r - 100000.0).abs() / 100000.0 <= 1e-9, "r = {r}");
 }
 
 // P3: grid method bit-equal to an independent brute force; Nelder–Mead at least as good.
@@ -259,4 +267,100 @@ fn malformed_sections_are_refused_with_a_reason() {
         let e = kshana::api::run_toml(&src).unwrap_err();
         assert!(e.contains(want), "{e}");
     }
+}
+
+// P2' (Round 2): the interior 1-D target solve.
+#[test]
+fn p2_prime_interior_target_range_matches_the_closed_form() {
+    let r0 = 2000.0;
+    let r_star = r0 * 10f64.powf((margin(r0, 1.0e6) - 3.0) / 20.0);
+    let doc = run(&campaign(
+        r#"[optimize]
+method = "nelder-mead"
+max_evals = 300
+ftol = 1e-14
+xtol = 1e-12
+
+[optimize.objective]
+name = "margin"
+path = "margin_db"
+goal = "target"
+target = 3.0
+
+[[optimize.params]]
+name = "range"
+key = "range_km"
+unit = "km"
+lo = 1.0e5
+hi = 1.0e9
+scale = "log"
+"#,
+    ));
+    let o = &doc["optimize"];
+    let r = o["best_coords"]["range"].as_f64().unwrap();
+    let evals = o["evals"].as_u64().unwrap();
+    let rel = (r - r_star).abs() / r_star;
+    eprintln!("P2': r = {r} km, r* = {r_star} km, rel = {rel:e}, {evals} evals");
+    assert!(evals <= 300, "P2' budget: {evals}");
+    assert!(rel <= 1e-6, "P2' NOT MET: rel {rel:e}");
+}
+
+// P3' (Round 2): the 2-D target whose 3 dB contour crosses the box.
+#[test]
+fn p3_prime_contour_target_grid_and_nelder_mead() {
+    let ranges = log_axis(1.0e6, 1.0e9, 41);
+    let rates = log_axis(1000.0, 1.0e8, 41);
+    let mut s_grid = f64::INFINITY;
+    let mut at = (0.0, 0.0);
+    for &r in &ranges {
+        for &b in &rates {
+            let s = (margin(r, b) - 3.0).abs();
+            if s < s_grid {
+                s_grid = s;
+                at = (r, b);
+            }
+        }
+    }
+    let params = P3_PARAMS.replace("lo = 500.0\nhi = 50000.0", "lo = 1.0e6\nhi = 1.0e9");
+    assert!(params.contains("lo = 1.0e6"));
+    let objective = r#"
+[optimize.objective]
+name = "margin"
+path = "margin_db"
+goal = "target"
+target = 3.0
+"#;
+    let grid = run(&campaign(&format!(
+        "[optimize]\nmethod = \"grid\"\n{objective}\n{}",
+        params.replace("STEPS", "steps = 41")
+    )));
+    let g = &grid["optimize"];
+    let gs = g["best_score"].as_f64().unwrap();
+    eprintln!("P3'a: brute force {s_grid:e} at {at:?}; grid method {gs:e}");
+    assert_eq!(gs.to_bits(), s_grid.to_bits(), "P3'a NOT MET");
+    assert_eq!(
+        g["best_coords"]["range"].as_f64().unwrap().to_bits(),
+        at.0.to_bits()
+    );
+    assert_eq!(
+        g["best_coords"]["rate"].as_f64().unwrap().to_bits(),
+        at.1.to_bits()
+    );
+
+    let nm = run(&campaign(&format!(
+        "[optimize]\nmethod = \"nelder-mead\"\nmax_evals = 400\n{objective}\n{}",
+        params.replace("STEPS", "")
+    )));
+    let n = &nm["optimize"];
+    let ns = n["best_score"].as_f64().unwrap();
+    let evals = n["evals"].as_u64().unwrap();
+    eprintln!(
+        "P3'b: nelder-mead {ns:e} in {evals} evals ({})",
+        n["stop_reason"]
+    );
+    assert!(evals <= 400, "P3'b budget: {evals}");
+    assert!(
+        ns <= s_grid && ns <= 1e-6,
+        "P3'b NOT MET: {ns:e} (grid {s_grid:e})"
+    );
 }

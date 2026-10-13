@@ -2199,6 +2199,15 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             oracle_kind: InternalConsistency,
             status: Modelled,
         },
+        VerificationItem {
+            requirement: "Bounded optimisation of one metric over campaign parameters",
+            capability: "The `campaign` kind's optimize section (CAP-32): one to three dotted scenario keys bounded to [lo, hi] on a lin or log scale, one metric read by result path, goal minimize, maximize or target; method grid (the sweep's axis values) or a deterministic Nelder-Mead simplex in normalised coordinates with box projection and the standard coefficients; a missing or non-finite metric scores worst and stays in the trace; with runs > 1 the metric is the mean over common seeds; every evaluation is a real run of the named kind, listed in trace and counted in the reproducibility digest",
+            module: "campaign::optimize (run_optimize, nelder_mead)",
+            tests: "tests/campaign_optimize_reference.rs (pre-registered fbe6c8b3 and, after a round-1 protocol miss, 441f31bc: p2_prime_interior_target_range_matches_the_closed_form — 1-D target solve within 6.1e-15 of r* = r0 10^((m(r0) - 3)/20) in 96 evaluations; p3_prime_contour_target_grid_and_nelder_mead and p3_grid_matches_brute_force_and_nelder_mead_does_at_least_as_well — the grid method's best bit-equal to an independent 41 x 41 brute-force loop over run_toml, Nelder-Mead at least as good in 177 and 161 evaluations; p4_nelder_mead_reaches_the_corner_maximum; p5_the_document_is_byte_stable_and_counts_agree; p2_round1_not_met_the_box_excludes_the_closed_form, which pins the recorded round-1 miss); campaign::optimize::tests (nelder_mead_meets_the_preregistered_rosenbrock_bar: f* = 1.7e-20 in 234 evaluations; a_non_finite_score_is_never_the_best; the_grid_mapping_is_the_sweeps)",
+            oracle: "Internal only: the exact -20 log10(range) closed form of the link equation, an independent brute-force grid over the same kind, and the Rosenbrock function. Round 1's 1-D bar is NOT MET (the pre-registered box excluded the 3 dB solution; the optimiser stopped at the bound), recorded in docs/design/evidence/cap32-optimize/RESULTS.md and not re-scored. The optimum is local to the box and the start; no global-optimum claim",
+            oracle_kind: InternalConsistency,
+            status: Modelled,
+        },
         // ── LEO-PNT signal designs and the multi-band spectrum ──────────────────
         VerificationItem {
             requirement: "Band-limited closed forms for any ranging signal: power in band and early-late code-tracking jitter against published values, with the Gabor bandwidth and offset spectral separation cross-checked",
