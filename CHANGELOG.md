@@ -11,6 +11,13 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **Frequency-synchronisation wander masks** (RM-01): the `telecom-timing` kind gains seven
+  constant-temperature MTIE and TDEV wander-generation masks, ITU-T G.811 PRC, G.812 Types I to
+  III, G.8262 EEC Options 1 and 2 and G.8262.1 eEEC, with the power-law pieces the tables write,
+  and the reference scenario `scenarios/telecom-synce-eec.toml` (a free-running OCXO against the
+  EEC masks: it fails at 1 000 s, where a loop must do the work). Every row was re-read against
+  the itu.int text; G.812 (06/2004) is superseded by a pre-published 08/2026 edition that could
+  not be read. MODELLED (a transcription); existing masks and outputs are unchanged.
 - **Lunar reference-station study** (0.36, prompted by published material on a planned lunar
   south-pole reference station; sources in [`docs/LUNAR-REFERENCE-STATION.md`](docs/LUNAR-REFERENCE-STATION.md)):
   the `lunar-station-coverage` kind, a Monte Carlo sweep of the lunar differential-PNT model over

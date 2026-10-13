@@ -258,8 +258,9 @@ const G8272: &str = "ITU-T G.8272/Y.1367 (07/2025)";
 const G8272_1: &str = "ITU-T G.8272.1/Y.1367.1 (2024) Amd. 1 (07/2025)";
 const G8273_2: &str = "ITU-T G.8273.2/Y.1368.2 (2023) Amd. 2 (11/2025)";
 const G8271_1: &str = "ITU-T G.8271.1/Y.1366.1 (2022) Amd. 3 (05/2025)";
-const G811: &str = "ITU-T G.811 (09/1997) Amd. 1 (04/2016)";
-const G812: &str = "ITU-T G.812 (06/2004)";
+const G811: &str = "ITU-T G.811 (09/1997)";
+const G812: &str =
+    "ITU-T G.812 (06/2004), superseded by the pre-published 08/2026 edition (not checked)";
 const G8262: &str = "ITU-T G.8262 (10/2024)";
 const G8262_1: &str = "ITU-T G.8262.1 (11/2025)";
 
@@ -342,14 +343,14 @@ const POINT_C_ACCESS_MTIE: &[Segment] = &[
 // 10 Hz first-order low-pass filter the clause states; the variable-temperature
 // allowances are not implemented.
 //
-// ITU-T G.811 (09/1997) Amd. 1 (04/2016) clause 6.1 (Figure 1), PRC, independent clock
-// configuration: 0.275e-3·τ + 0.025 µs for 0.1 < τ ≤ 1 000 s, 1e-5·τ + 0.29 µs above.
-// Amd. 1 reprints clause 6.1 unchanged.
+// ITU-T G.811 (09/1997) clause 6.1 (Figure 1), PRC, independent clock configuration:
+// 0.275e-3·τ + 0.025 µs for 0.1 < τ ≤ 1 000 s, 1e-5·τ + 0.29 µs above. Checked against
+// the 09/1997 text; Amd. 1 (04/2016) was not available to check.
 const G811_PRC_MTIE: &[Segment] = &[
     seg(0.1, false, 1000.0, true, 0.275, 25.0),
     seg(1000.0, false, INF, false, 0.01, 290.0),
 ];
-// ITU-T G.811 (09/1997) Amd. 1 (04/2016) clause 6.1 (Figure 2): the last interval is
+// ITU-T G.811 (09/1997) clause 6.1 (Figure 2): the last interval is
 // written 1 000 < τ < 10 000, open at 10 000 s.
 const G811_PRC_TDEV: &[Segment] = &[
     seg(0.1, false, 100.0, true, 0.0, 3.0),
@@ -2952,12 +2953,12 @@ mod tests {
 
     #[test]
     fn g8262_masks_follow_tables_1_3_4_and_5() {
-        // Table 1 (Option 1): 40 ns, 40·τ^0.1, 25.25·τ^0.2. 40·100^0.1 = 63.10 against
+        // Table 1 (Option 1): 40 ns, 40·τ^0.1, 25.25·τ^0.2. 40·100^0.1 = 63.40 against
         // 25.25·100^0.2 = 63.42 ns: continuous to the coefficients' rounding.
         at(G8262_OPT1_MTIE, 1.0, 40.0, 1e-12);
         continuous(G8262_OPT1_MTIE, 1.0, 1e-9);
-        at(G8262_OPT1_MTIE, 100.0, 63.0957, 1e-4);
-        continuous(G8262_OPT1_MTIE, 100.0, 0.35);
+        at(G8262_OPT1_MTIE, 100.0, 63.3957, 1e-4);
+        continuous(G8262_OPT1_MTIE, 100.0, 0.03);
         at(G8262_OPT1_MTIE, 1000.0, 100.52, 1e-2);
         assert_eq!(limit_at(G8262_OPT1_MTIE, 1000.5), None);
         // Table 3 (Option 1): 3.2 ns, 0.64·τ^0.5, 6.4 ns; exact at 25 s and 100 s.
@@ -2968,7 +2969,7 @@ mod tests {
         // Table 4 (Option 2): 20 ns, 20·τ^0.48, 60 ns. 20·10^0.48 = 60.40 ns.
         at(G8262_OPT2_MTIE, 1.0, 20.0, 1e-12);
         continuous(G8262_OPT2_MTIE, 1.0, 1e-9);
-        at(G8262_OPT2_MTIE, 10.0, 60.398, 1e-3);
+        at(G8262_OPT2_MTIE, 10.0, 60.399, 1e-3);
         continuous(G8262_OPT2_MTIE, 10.0, 0.41);
         // Table 5 (Option 2) is G.812 Table 7 closed at 10 000 s.
         at(G8262_OPT2_TDEV, 1.0, 3.2, 1e-12);
@@ -3035,11 +3036,7 @@ mod tests {
     }
 
     fn series_run(masks: &[&str], te: &[f64]) -> TelecomRun {
-        let samples: Vec<[f64; 2]> = te
-            .iter()
-            .enumerate()
-            .map(|(k, &v)| [k as f64, v])
-            .collect();
+        let samples: Vec<[f64; 2]> = te.iter().enumerate().map(|(k, &v)| [k as f64, v]).collect();
         TelecomTimingScenario {
             kind: "telecom-timing".into(),
             seed: 1,

@@ -2015,6 +2015,15 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            requirement: "ITU-T frequency-synchronisation wander-generation masks (G.811, G.812, G.8262, G.8262.1)",
+            capability: "Seven constant-temperature MTIE and TDEV wander-generation masks for the `telecom-timing` kind: G.811 (09/1997) PRC (autonomous), G.812 (06/2004) Types I, II and III, G.8262 (10/2024) EEC Options 1 and 2 and G.8262.1 (11/2025) eEEC (locked mode), including the power-law pieces the tables write (`8 τ^0.5` and the like), each interval open or closed as printed, measured through the 10 Hz filter the clauses state (taken as applied before sampling); the reference scenario scenarios/telecom-synce-eec.toml sets a free-running OCXO against the three EEC masks. Not implemented: the variable-temperature allowances, holdover, transients, jitter and the G.811 frequency accuracy",
+            module: "telecom_timing (MASKS, Segment::tau_exponent, MeasurementFilter::LowPass10HzAtSource, MaskCondition::Autonomous)",
+            tests: "telecom_timing::tests (g811_prc_masks_follow_clause_6_1; g812_masks_follow_tables_3_4_6_and_7; g8262_masks_follow_tables_1_3_4_and_5; g8262_1_eeec_masks_follow_tables_1_and_3; a_linear_piece_is_evaluated_without_powf; wander_masks_pass_a_quiet_white_fm_flicker_series; wander_masks_fail_the_same_series_scaled_up)",
+            oracle: "Transcription of the named Recommendations (downloaded from itu.int on 2026-10-13), every row re-read against the text, with the breakpoint continuity the printed coefficients imply bounded in the tests (for example 40 · 10^0.4 = 100.48 ns against the 100 ns plateau of G.812 Table 4). A standards transcription with internal consistency checks, not a conformance test and not an external validation. G.812 (06/2004) is listed as superseded by a pre-published 08/2026 edition and G.811 has an Amd. 1 (04/2016); neither could be read, so neither is checked. The free-running OCXO scenario overstates the oscillator's contribution at observation intervals long against a loop's time constant; it says nothing about any equipment clock",
+            oracle_kind: InternalConsistency,
+            status: Modelled,
+        },
+        VerificationItem {
             requirement: "Oscillator holdover presets from public datasheets",
             capability: "Four presets — OCXO (Microchip OX-208), rubidium (Microchip 8040C), caesium (Microchip 5071A high-performance tube) and CSAC (Microchip SA.45s) — each carrying its datasheet's Allan-deviation maxima, aging and temperature bound; a non-negative least-squares white + flicker + random-walk frequency-noise fit scaled to envelope every datasheet point, a flicker floor never below the longest-τ figure, linear aging and a sinusoidal temperature term, synthesised as a seeded holdover after a GNSS loss",
             module: "telecom_timing (PRESETS, fit_noise, with_flicker_floor, synthesize_holdover); models (ClockModel)",
