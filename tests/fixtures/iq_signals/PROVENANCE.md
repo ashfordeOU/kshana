@@ -13,5 +13,7 @@ byte for byte from the embedded attachments of Issue 2.0 (January 2021),
 
 They are the independent oracle for the E5a LFSR generator in `src/iq/signals/galileo.rs`:
 `tests/iq_signals.rs` compares all 10230 chips of all 50 codes of each component. They are
-test-only (the crate generates E5a codes by LFSR and does not ship these files). The same
-EU terms as in `data/galileo-os-sis-icd/PROVENANCE.md` apply.
+test-only (the crate generates E5a codes by LFSR). **Not committed since 0.36**: the same EU
+terms as in `data/galileo-os-sis-icd/PROVENANCE.md` apply (redistribution only for
+non-commercial purposes), so `scripts/fetch_galileo_e1_codes.sh` extracts them here from the
+ICD PDF (git-ignored) and the test skips, with a message, when they are absent.

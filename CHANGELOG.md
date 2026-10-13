@@ -206,7 +206,9 @@ breaking changes are called out explicitly.
   `galileo::E1B_TABLE_TEXT` / `E1C_TABLE_TEXT` are removed. Without the tables, the Galileo E1
   signals (`galileo-e1b`, `galileo-e1c`) return an error that says how to supply them, and the
   E1 tests skip with a message. With the tables in place, every E1 output is unchanged. No
-  scenario, golden or spectrum output uses the code tables.
+  scenario, golden or spectrum output uses the code tables. The E5a Annex C.3/C.4 test fixtures
+  (the LFSR oracle in `tests/iq_signals.rs`) are handled the same way: fetched by the same
+  script, git-ignored, and the test skips without them.
 
 ### Fixed
 
