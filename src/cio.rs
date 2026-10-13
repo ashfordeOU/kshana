@@ -156,6 +156,16 @@ pub fn gcrs_to_cirs_matrix(jd_tt: f64) -> Mat3 {
     celestial_to_intermediate(x, y, s)
 }
 
+/// The GCRS→CIRS rotation matrix at TT epoch `jd_tt` with the IERS celestial-pole offsets
+/// `dx_rad`, `dy_rad` (the published dX, dY of the Earth-orientation series, radians) added to
+/// the model CIP coordinates before the rotation is built, with `s` from the model `(X, Y)`: the
+/// SOFA cookbook convention (`eraXys06a`, then `X += dX`, `Y += dY`, then `eraC2ixys`). With
+/// both offsets zero this is [`gcrs_to_cirs_matrix`] exactly.
+pub fn gcrs_to_cirs_matrix_with_offsets(jd_tt: f64, dx_rad: f64, dy_rad: f64) -> Mat3 {
+    let (x, y, s) = xys_2006a(jd_tt);
+    celestial_to_intermediate(x + dx_rad, y + dy_rad, s)
+}
+
 /// Normalize an angle into `[0, 2π)` (SOFA `eraAnp`).
 fn anp(a: f64) -> f64 {
     let w = a % TAU;
@@ -179,6 +189,24 @@ pub fn earth_rotation_angle(jd_ut1: f64) -> f64 {
 pub fn gcrs_to_itrs_matrix(jd_tt: f64, jd_ut1: f64, xp_rad: f64, yp_rad: f64) -> Mat3 {
     let rc2i = gcrs_to_cirs_matrix(jd_tt);
     let era = earth_rotation_angle(jd_ut1);
+    let pom = polar_motion_matrix(xp_rad, yp_rad, jd_tt);
+    matmul(&pom, &matmul(&rz(era), &rc2i))
+}
+
+/// As [`gcrs_to_itrs_matrix`] with two-part TT and UT1 Julian dates: the Earth rotation angle
+/// is taken from the two parts ([`crate::jd2::earth_rotation_angle`]), so it keeps the
+/// microsecond a single-`f64` date loses (about 3e-9 rad of rotation near 2020); the slowly
+/// varying precession-nutation and the TIO locator use `tt.total()`, where a 50 µs date error
+/// is below 1e-15 rad.
+pub fn gcrs_to_itrs_matrix_jd2(
+    tt: crate::jd2::Jd2,
+    ut1: crate::jd2::Jd2,
+    xp_rad: f64,
+    yp_rad: f64,
+) -> Mat3 {
+    let jd_tt = tt.total();
+    let rc2i = gcrs_to_cirs_matrix(jd_tt);
+    let era = crate::jd2::earth_rotation_angle(ut1);
     let pom = polar_motion_matrix(xp_rad, yp_rad, jd_tt);
     matmul(&pom, &matmul(&rz(era), &rc2i))
 }

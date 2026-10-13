@@ -508,19 +508,20 @@ mod tests {
     fn the_default_step_leaves_a_residual_inside_the_fll_pull_in() {
         use crate::iq::signals::{beidou, galileo, glonass, gps};
         use crate::iq::SpreadingCode;
-        let codes = [
+        let mut codes = vec![
             gps::l1ca(3).unwrap(),
             gps::l5_i5(3).unwrap(),
             gps::l5_q5(3).unwrap(),
             gps::l2c_cm(3).unwrap(),
-            galileo::e1b(3).unwrap(),
-            galileo::e1c(3).unwrap(),
             galileo::e5a_i(3).unwrap(),
             galileo::e5a_q(3).unwrap(),
             beidou::b1i(6).unwrap(),
             beidou::b1c_data(19).unwrap(),
             glonass::l1of(1).unwrap(),
         ];
+        // Galileo E1 only when the user has supplied the ICD tables (they are not bundled).
+        codes.extend(galileo::e1b(3));
+        codes.extend(galileo::e1c(3));
         let mut worst: f64 = 0.0;
         for code in &codes {
             for rx in [code.clone(), code.primary_only()] {

@@ -115,3 +115,9 @@ packaging/mcp/pypi/build/
 packaging/mcp/pypi/dist/
 packaging/mcp/pypi/*.egg-info/
 packaging/mcp/pypi/src/*.egg-info/
+
+# Galileo E1 memory codes: user-supplied, never committed (ICD terms; see LICENSING.md).
+data/galileo-os-sis-icd/C7_E1B.txt
+data/galileo-os-sis-icd/C8_E1C.txt
+tests/fixtures/iq_signals/C3_E5aI.txt
+tests/fixtures/iq_signals/C4_E5aQ.txt
