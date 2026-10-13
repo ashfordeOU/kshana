@@ -31,10 +31,10 @@
 //! states. The GRAIL gravity fields (GRGM*) are strictly in the **principal-axis (PA)** frame, so
 //! [`icrf_to_moon_pa`] composes the analytic ME orientation with the fixed DE421 ME→PA offset
 //! (`moon_080317.tf`); that is the rotation lunar OD uses to evaluate the field. The remaining
-//! limit is that the *analytic* IAU libration series is itself an approximation (tens of arc-
-//! seconds) of the JPL DE numerically-integrated lunar libration (`MOON_PA` from a binary PCK),
-//! the higher-fidelity follow-on — the dominant residual in `tests/agency_lro.rs`, alongside the
-//! low-precision built-in ephemeris.
+//! limit is that the *analytic* IAU libration series is itself an approximation (about 6″ to 8″
+//! over 2014 to 2028) of the JPL DE numerically-integrated lunar libration (`MOON_PA` from a
+//! binary PCK); [`try_icrf_to_moon_pa_de440`] is the opt-in DE440 form (embedded series, 2014 to
+//! 2030).
 
 use crate::precession::{transpose, Mat3};
 
@@ -167,28 +167,32 @@ pub fn icrf_to_iau_moon(jd_tdb: f64) -> Mat3 {
     matmul(&matmul(&rz(w), &rx(half_pi - dec)), &rz(half_pi + ra))
 }
 
-/// The fixed DE421 rotation from the lunar **principal-axis (PA)** frame to the **mean-Earth
-/// (ME)** frame, `r_ME = R · r_PA`: the 1-2-3 Euler sequence (67.92″, 78.56″, 0.30″) about axes
-/// (3, 2, 1), transcribed from the NAIF frame kernel `moon_080317.tf` (`MOON_ME_DE421` relative
-/// to `MOON_PA_DE421`, `TKFRAME_31007`). SPICE `AXES = (3,2,1)` builds the matrix innermost-first,
-/// so `R = R_x(0.30″)·R_y(78.56″)·R_z(67.92″)` in the frame-rotation elementaries above.
-fn me_from_pa() -> Mat3 {
-    let a = (67.92_f64 / 3600.0).to_radians(); // about +z (axis 3), applied first
+/// The fixed DE421 rotation from the lunar **mean-Earth (ME)** frame to the **principal-axis
+/// (PA)** frame, `r_PA = R · r_ME`, transcribed from the NAIF frame kernel `moon_080317.tf`
+/// (`MOON_ME_DE421`, `TKFRAME_31007`, ANGLES 67.92″, 78.56″, 0.30″ about AXES 3, 2, 1, relative
+/// to `MOON_PA_DE421`). SPICE's Frames Required Reading defines the matrix that converts vectors
+/// from the TK frame (ME) to the RELATIVE frame (PA) as `[angle_1]_axis_1 [angle_2]_axis_2
+/// [angle_3]_axis_3`, so `R = R_z(67.92″)·R_y(78.56″)·R_x(0.30″)` in the frame-rotation
+/// elementaries above (which equal SPICE's). Checked against SPICE `pxform('MOON_ME', 'MOON_PA')`
+/// in `tests/lunar_me_pa_offset_spice_oracle.rs`. Until 0.36 the code built `R_x·R_y·R_z`, read
+/// it as PA→ME and applied its transpose, which put the analytic PA frame about 208″ from PA
+/// (`docs/design/evidence/fut05b-me-pa-offset-sign/`).
+fn pa_from_me() -> Mat3 {
+    let a = (67.92_f64 / 3600.0).to_radians(); // about +z (axis 3)
     let b = (78.56_f64 / 3600.0).to_radians(); // about +y (axis 2)
-    let c = (0.30_f64 / 3600.0).to_radians(); // about +x (axis 1), applied last
-    matmul(&matmul(&rx(c), &ry(b)), &rz(a))
+    let c = (0.30_f64 / 3600.0).to_radians(); // about +x (axis 1)
+    matmul(&matmul(&rz(a), &ry(b)), &rx(c))
 }
 
 /// The rotation from inertial ICRF/J2000 to the lunar **principal-axis (PA / DE421)** frame at
 /// `jd_tdb` — the frame the GRAIL GRGM gravity fields are defined in. The IAU mean-Earth
 /// orientation ([`icrf_to_iau_moon`]) composed with the fixed DE421 ME→PA offset
-/// ([`me_from_pa`] transposed): `r_PA = (ME→PA) · (ICRF→ME) · r_icrf`. Use this — not the bare
+/// ([`pa_from_me`]): `r_PA = (ME→PA) · (ICRF→ME) · r_icrf`. Use this — not the bare
 /// ME orientation — to evaluate a PA-frame lunar field, so the C₂₂ bulge sits at the right
-/// selenographic longitude (the ~arc-minute ME↔PA offset is otherwise a ~10 m along-track error
-/// over a few-revolution lunar arc).
+/// selenographic longitude. Against DE440 PA it is about 6″ to 8″ off over 2014 to 2028 (the
+/// analytic IAU 2015 series); [`try_icrf_to_moon_pa_de440`] is the opt-in DE-grade form.
 pub fn icrf_to_moon_pa(jd_tdb: f64) -> Mat3 {
-    let pa_from_me = transpose(&me_from_pa());
-    matmul(&pa_from_me, &icrf_to_iau_moon(jd_tdb))
+    matmul(&pa_from_me(), &icrf_to_iau_moon(jd_tdb))
 }
 
 /// The rotation from inertial ICRF/J2000 to the lunar **DE440 principal-axis** frame

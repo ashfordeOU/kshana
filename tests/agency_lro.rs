@@ -14,13 +14,14 @@
 //! the arc through the same precise Gauss–Newton estimator the Earth datasets use, and
 //! reports the honest post-fit RMS, dynamic and reduced-dynamic.
 //!
-//! Honesty note: unlike Galileo (0.13 m) and Swarm-A (0.10 m), the LRO fit lands at **~6.6 m**
-//! reduced-dynamic (1+2-per-rev empirical) / ~12.6 m dynamic — *above* the < 5 m bar, and not for
+//! Honesty note: unlike Galileo (0.13 m) and Swarm-A (0.10 m), the LRO fit lands at **~6.67 m**
+//! reduced-dynamic (1+2-per-rev empirical) / ~12.05 m dynamic — *above* the < 5 m bar, and not for
 //! want of estimator quality (identical at d/o 100/150 and `atol` 1e-6/1e-9). A DE-grade
 //! cross-validation (`xval/anise-lunar-od`: DE440 lunar PA orientation + DE440 ephemeris via ANISE)
-//! found the analytic orientation/ephemeris limits the *dynamic* fit (12.6 → 12.0 m with DE-grade)
-//! but **not** the *reduced-dynamic* one (6.65 → 6.67 m, unchanged) — the empirical tier already
-//! absorbs it. The operational ~6.6 m floor is therefore an empirical-tier-irreducible residual,
+//! gave 12.0 m dynamic and 6.67 m reduced-dynamic. Since the 0.36 fix of the DE421 ME→PA offset
+//! (it was applied in the wrong direction, about 208″ off; before the fix this test measured
+//! 12.6 m and 6.65 m) the analytic stack gives 12.05 m and 6.67 m: it matches DE-grade on both
+//! tiers. The operational ~6.67 m floor is therefore an empirical-tier-irreducible residual,
 //! most consistent with LRO's unmodelled non-gravitational dynamics over the short arc, and the
 //! lean analytic stack here already matches DE-grade for the reduced-dynamic orbit. Published as-is.
 //!
@@ -201,11 +202,11 @@ fn lro_lunar_orbit_fit_against_horizons_truth() {
     );
     assert!(rep.converged, "dynamic fit did not converge");
     assert!(rep.rms_3d < raw, "fit did not improve on the raw overlap");
-    // Honest bound (measured ≈ 12.6 m): the dynamic residual is dominated by the analytic lunar
-    // orientation + low-precision (Montenbruck–Gill) ephemeris fidelity, above the < 5 m bar.
+    // Honest bound (measured ≈ 12.05 m since the 0.36 ME→PA fix, 12.6 m before; DE-grade inputs
+    // give 12.0 m), above the < 5 m bar.
     assert!(
         rep.rms_3d < 25.0,
-        "LRO dynamic 3D RMS {:.3} m off the expected ~12.6 m",
+        "LRO dynamic 3D RMS {:.3} m off the expected ~12.05 m",
         rep.rms_3d
     );
 
@@ -243,7 +244,7 @@ fn lro_lunar_orbit_fit_against_horizons_truth() {
         rep2.rms_3d,
         rep.rms_3d
     );
-    // Honest bound (measured ≈ 6.6 m with the 1+2-per-rev empirical tier): the empirical terms
+    // Honest bound (measured ≈ 6.67 m with the 1+2-per-rev empirical tier): the empirical terms
     // absorb the along-track mismodelling to a roughly isotropic floor, ABOVE the < 5 m bar Galileo
     // and Swarm-A meet. The DE-grade cross-validation (`xval/anise-lunar-od`) proved this floor is
     // NOT the analytic orientation/ephemeris (DE440 kernels leave it at 6.67 m) but an
@@ -251,7 +252,7 @@ fn lro_lunar_orbit_fit_against_horizons_truth() {
     // dynamics over the short arc. No field degree, frame upgrade, or empirical tier crosses it.
     assert!(
         rep2.rms_3d < 12.0,
-        "LRO reduced-dynamic 3D RMS {:.3} m off the expected ~6.6 m",
+        "LRO reduced-dynamic 3D RMS {:.3} m off the expected ~6.67 m",
         rep2.rms_3d
     );
 }

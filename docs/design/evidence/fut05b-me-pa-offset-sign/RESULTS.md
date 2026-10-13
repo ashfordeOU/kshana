@@ -26,3 +26,23 @@ RELATIVE = PA, angles 67.92", 78.56", 0.30", axes 3, 2, 1) that is
 rotations equal to the frame rotations `rz`, `ry`, `rx` of `lunar_frame.rs`. The shipped code
 built `Rx(c) Ry(b) Rz(a)`, read it as PA->ME and applied its transpose: both the direction and
 the order were wrong. The fix is re-registered in `REREGISTRATION.md`.
+
+## Run 2 (2026-10-13, under `REREGISTRATION.md`, be33382e): both bars hold
+
+| Quantity | Result | Bar |
+|---|---|---|
+| PA<-ME factor vs SPICE at 2000-01-01 / 2022-01-01 / 2030-01-01 | 1.99e-16 / 1.98e-16 / 2.56e-16 rad | 1e-12 rad |
+| `icrf_to_moon_pa` vs DE440 PA, 2014-12 / 2022-01 / 2025-12 / 2028-09 | 8.30" / 7.21" / 5.93" / 7.58" | 30" |
+
+The change is committed with the strict test un-ignored.
+
+## Outputs that moved (recorded, bars not moved)
+
+`tests/agency_lro.rs` (GRGM660PRIM d/o 100, 241 epochs): raw overlap 53.8 -> 39.9 m, dynamic
+12.6 -> 12.049 m (RTN 2.909, 10.107, 5.881 m), reduced-dynamic 6.65 -> 6.668 m (RTN 3.413,
+4.577, 3.444 m). Both bars (25 m, 12 m) hold. The ANISE DE-grade cross-validation gave 12.0 and
+6.67 m, so the analytic and DE-grade fits now agree on both tiers. Its earlier dynamic-tier
+"improvement" (12.6 -> 12.0 m) was this error, not the DE-grade inputs. `tests/mars_lmo_od.rs`
+and the lunar_frame, lunar and lunar_od unit tests pass unchanged. Updated:
+`docs/AGENCY-ORBIT-VALIDATION.md`, `docs/VALIDATION.md`, the README LRO line (6.6 -> 6.67 m),
+`CHANGELOG.md`. Not updated: `paper/` (a dated technical report of an earlier version).
