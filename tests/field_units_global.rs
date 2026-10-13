@@ -147,6 +147,9 @@ const RUNNERS: &[(&str, &str)] = &[
     ("contact-schedule", "scenarios/contact-schedule.toml"),
     ("acm-link", "scenarios/acm-link.toml"),
     ("aocs", "scenarios/aocs-slew.toml"),
+    ("entry-heating", "scenarios/entry-heating-stardust.toml"),
+    ("eo-radiometry", "scenarios/eo-radiometry.toml"),
+    ("ascent-losses", "scenarios/ascent-losses.toml"),
 ];
 
 /// The kinds whose reports do not yet describe every numeric field they emit, each with

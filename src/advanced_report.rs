@@ -152,6 +152,9 @@ pub const KIND_CAPABILITIES: &[(&str, &[&str])] = &[
     ("contact-schedule", &["Multi-satellite, multi-station ground-contact scheduling with conflict resolution", "DVB-S2 adaptive coding and modulation along a LEO downlink pass", "Apparent ground-station pass prediction with refraction and light time"]),
     ("acm-link", &["DVB-S2 adaptive coding and modulation along a LEO downlink pass", "Apparent ground-station pass prediction with refraction and light time"]),
     ("aocs", &["Closed-loop MRP feedback attitude control with reaction wheels", "Multiplicative EKF attitude estimation from a gyro and a star tracker"]),
+    ("entry-heating", &["3-DoF ballistic entry peak deceleration against the published Stardust nominal", "Stagnation-point convective entry heating (Sutton-Graves) on a 3-DoF entry"]),
+    ("eo-radiometry", &["Electro-optical imager radiometry, MTF, relative edge response and GIQE 4 NIIRS"]),
+    ("ascent-losses", &["Launch ascent gravity, drag, steering and back-pressure losses"]),
 ];
 
 /// Rows a kind exercises only on one input path, as (kind, matrix `requirement`, scenario
