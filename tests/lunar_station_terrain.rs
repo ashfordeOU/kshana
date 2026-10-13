@@ -330,12 +330,10 @@ fn crop_as_tile(label: &str) -> std::path::PathBuf {
     let (dem, _) = PolarDem::load(DEM).expect("loads");
     let tile =
         kshana::lunar_terrain::rasterise_tile(&dem, (-90.0, -83.0), (-180.0, 180.0), 701, 721);
-    let nanos = std::time::SystemTime::now()
-        .duration_since(std::time::UNIX_EPOCH)
-        .unwrap()
-        .as_nanos();
+    static SEQ: std::sync::atomic::AtomicU64 = std::sync::atomic::AtomicU64::new(0);
+    let seq = SEQ.fetch_add(1, std::sync::atomic::Ordering::Relaxed);
     let path = std::env::temp_dir().join(format!(
-        "kshana-dem-tile-{label}-{}-{nanos}.txt",
+        "kshana-dem-tile-{label}-{}-{seq}.txt",
         std::process::id()
     ));
     std::fs::write(&path, tile.to_text()).unwrap();
@@ -364,6 +362,8 @@ fn a_lat_lon_dem_tile_gives_the_station_the_crop_horizon() {
             .collect()
     };
     let (a, b) = (prof(&polar), prof(&by_tile));
+    // PIN-SCOPE:    the station profile's length (one value per whole degree)
+    // PIN-EXCLUDES: the profile's values, compared to the crop's below
     assert_eq!(a.len(), 360);
     let worst = a
         .iter()
