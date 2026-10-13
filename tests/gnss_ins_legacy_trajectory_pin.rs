@@ -6,8 +6,8 @@
 //! the `gnss-ins` scenario. When the table is absent the pack must take exactly the code
 //! path it took before, with the same floating-point operations in the same order. This
 //! file pins, for each bundled scenario of the kind, a SHA-256 of the pack's result JSON
-//! and of the test-bench truth trajectory, taken on the base commit `4ac362d` (branch
-//! `feat/fusion-ins-0.36`) BEFORE the library existed, and checks the current tree
+//! and of the test-bench truth trajectory, taken on `a7c4cf8` (branch `feat/fusion-ins-0.36`, the rc merged; `src/fusion/pack.rs`
+//! identical to the rc) BEFORE the library existed, and checks the current tree
 //! reproduces them bit for bit.
 //!
 //! PIN-SCOPE:    `serde_json::to_string(&run_gnss_ins(scn))` with `engine_version` and
@@ -53,9 +53,21 @@ fn truth_hash(scn: &GnssInsScenario) -> String {
 }
 
 const PINS: &[(&str, &str, &str)] = &[
-    ("gnss-ins", "RESULT", "TRUTH"),
-    ("automotive-urban-canyon", "RESULT", "TRUTH"),
-    ("small-uas-jammed-nav", "RESULT", "TRUTH"),
+    (
+        "gnss-ins",
+        "acb9347aa45fcba3705f7b4733fe7260e125011b96e4d82b605bd88190d62486",
+        "1e23d78ec10e51cd1ca086fae6e69bbfc7e3b93b6288e16a7dbaf07176433338",
+    ),
+    (
+        "automotive-urban-canyon",
+        "9c7fd428de14f726e0f5ef4a2bc715c41921434c5aac158ec27a95c6f9f5944a",
+        "72d7afc17386fb6087172a8bb00d7265633e4a4bcc03c986178a2ff72dbe5660",
+    ),
+    (
+        "small-uas-jammed-nav",
+        "c8330bc99f298d7febe3cb2879509180f42c99db26a86f039f2fe6afccc0c6ae",
+        "78d1ca1ff77f186203cd74c84ee33618746155d3eb3ac08b08af1cde66debf2d",
+    ),
 ];
 
 #[test]
@@ -63,7 +75,6 @@ fn bundled_gnss_ins_scenarios_are_bit_identical_to_the_base_commit() {
     let mut bad = Vec::new();
     for (name, want_result, want_truth) in PINS {
         let scn = load(name);
-        //ASSERT_NONE
         let (r, t) = (result_hash(&scn), truth_hash(&scn));
         println!("{name}: result {r} truth {t}");
         if r != *want_result || t != *want_truth {
