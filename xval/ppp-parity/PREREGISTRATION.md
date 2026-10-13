@@ -55,3 +55,17 @@ SHA-256 in that directory's NOTICE.md). Positions and clocks used by the solutio
 final products. Kshana's side, the criteria R1-R3 and the non-vacuity bars are unchanged. gLAB
 could not be fetched in the session that ran RTKLIB (its download was refused by the session's
 permission system), so the gLAB leg stays pending and data-gated.
+
+## Amendment 2 (2026-10-13): a new registration for the RTKLIB PPP leg, written after the first run was seen
+
+DISCLOSED: the first registered RTKLIB run (outputs 96dd27a) missed R1 and R2, and the diagnosis
+written after it (tests/ppp_parity_glab_rtklib.rs) traced most of the difference to the
+registered configuration, which left RTKLIB's solid Earth tide correction off while Kshana
+applies it. That run stands as recorded. This amendment registers ONE further RTKLIB PPP run with
+`rtklib_ppp_tide.conf`, identical to `rtklib_ppp.conf` except `pos1-tidecorr = on`, written to
+`oracle/rtklib_ppp_tide.csv`, against the SAME bars R1 (3-D difference at most 0.05 m at no fewer
+than 95 % of the common epochs of 04:00-05:59:30) and R2 (at most 0.03 m at the last common
+epoch), not loosened. The SPP leg (R3) is not re-run: its configuration had no such omission and
+its finding stands. Nothing on Kshana's side changes. Outcome rule unchanged: if R1, R2 and the
+recorded R3 all held, RM-31's RTKLIB leg would be met; R3 already failed, so the leg as a whole
+stays a finding whatever this run shows, and this run documents the PPP parity alone.
