@@ -219,6 +219,8 @@ pub mod monitor_network;
 pub mod naif_kernel;
 pub mod navsignal;
 pub mod nma_budget;
+pub mod nrlmsise00;
+mod nrlmsise00_data;
 pub mod nutation;
 mod nutation_iau2000a_data;
 pub mod observability_gramian;
