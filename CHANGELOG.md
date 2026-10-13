@@ -201,6 +201,28 @@ breaking changes are called out explicitly.
 
 ### Changed
 
+- **Portable maths everywhere** (0.36, STUDIO-15): every `f64` transcendental in the library, and the
+  `rand_distr` normal, gamma and exponential samplers, now compute through the pure-Rust `libm`
+  (`portable_math::PortableFloat`, `portable_distr`), so a native build and the WebAssembly build return
+  byte-identical result JSON for all 141 bundled scenarios and for the short IQ run. The cost is that the
+  last bits of results computed with the host's maths library moved: 98 of the 141 bundled scenarios
+  changed, 43 did not; 5 changed by more than 1e-3 in their largest field, and the rest by less. Every
+  moved value is listed old -> new in
+  [`docs/revisions/STUDIO15-portable-math-rebaseline.md`](docs/revisions/STUDIO15-portable-math-rebaseline.md)
+  (with a CSV of all 136,127 moved numbers); no bar, tolerance or threshold changed. Published numbers
+  that changed: `europa-surface-pnt` availability with the Earth range 0.719 -> 0.713 and RMS error
+  86.147 -> 86.499 m (one epoch on the availability edge now resolves the same way everywhere; it
+  printed 0.725 / 85.800 m on macOS arm64); `lunar-joint-od-clock` station error 3.541350 -> 3.536885 m
+  with VLBI and 2183.558 -> 2184.021 m without; `paper/crossover/inertial.json`, eight `vibration_psd`
+  values by 3 units in the last place (erratum in the technical report); the released
+  `cislunar-observability` document in round-off-floor quantities (eight values beyond six significant
+  figures, up to 6.8e-5 relative; no rank or threshold moved). The pinned hashes of the byte-identity
+  guards (`skyline_scenarios`, `geometry_corpus_identity`, `geometry_trust_no_change`) are re-based to a
+  named "0.36 portable" baseline with the 0.35.0 values kept as the historical record; the frozen lunar
+  reference-station prediction is untouched and its portable re-run is stored beside it
+  (`docs/predictions/*.portable-0.36.json`). `tests/lunar_joint_od_numpy_oracle.rs` (the validated lunar
+  joint OD row) fails until its fixtures are re-exported and its numpy comparison re-run: that is held
+  pending an owner decision.
 - README: the lunar suite row states each piece's evidence tier (it said all were MODELLED).
 - `realdata::clk::rinex_clock_series` returns `RinexClockSeries` (series, gridding log, time system,
   whether it was declared, record type) instead of a `(PhaseSeries, GriddingLog)` tuple. It now
