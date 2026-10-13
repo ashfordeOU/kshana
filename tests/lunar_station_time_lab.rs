@@ -24,9 +24,17 @@ fn run(src: &str) -> Value {
     serde_json::from_str(&run_toml(src).expect("runs").json).expect("json")
 }
 
+/// The document without RM-04's trailing `figure_tiers` block, which lists the time lab's
+/// own figures too: additivity is about the scenario document, the block is pinned apart.
+fn run_untiered(src: &str) -> Value {
+    let json = run_toml(src).expect("runs").json;
+    let json = kshana::api::without_figure_tiers(&json).unwrap_or(json);
+    serde_json::from_str(&json).expect("json")
+}
+
 #[test]
 fn the_block_is_additive() {
-    let base = run("kind = \"lunar-time-budget\"\n");
+    let base = run_untiered("kind = \"lunar-time-budget\"\n");
     assert!(base.get("time_lab").is_none());
     assert!(base["units"]
         .as_object()
@@ -34,7 +42,8 @@ fn the_block_is_additive() {
         .keys()
         .all(|k| !k.starts_with("time_lab")));
 
-    let mut with = run("kind = \"lunar-time-budget\"\n[time_lab]\nclock = \"mini-rafs\"\n");
+    let mut with =
+        run_untiered("kind = \"lunar-time-budget\"\n[time_lab]\nclock = \"mini-rafs\"\n");
     assert!(with.get("time_lab").is_some());
     with.as_object_mut().unwrap().remove("time_lab");
     with["units"]
