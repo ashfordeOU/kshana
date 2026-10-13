@@ -542,6 +542,9 @@ pub struct TerrainReport {
     /// The DEM read, if any.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub dem: Option<crate::lunar_terrain::DemEcho>,
+    /// The latitude/longitude DEM tile read, if any.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub dem_tile: Option<crate::lunar_terrain::DemTileEcho>,
     /// The reference station's horizon.
     pub station: crate::lunar_terrain::SiteHorizonEcho,
     /// The user points' horizon sources (as for the station).
@@ -1364,6 +1367,7 @@ impl LunarStationCoverageScenario {
             TerrainReport {
                 label: "MODELLED",
                 dem: r.dem.clone(),
+                dem_tile: r.dem_tile.clone(),
                 station: r.station.echo.clone(),
                 user_sources: r
                     .users

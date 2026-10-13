@@ -1712,6 +1712,12 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
                         .iter()
                         .chain(crate::lunar_terrain::GRID_TERRAIN_UNITS)
                         .chain(export)
+                        .chain(
+                            match report.terrain.as_ref().and_then(|t| t.dem_tile.as_ref()) {
+                                Some(_) => crate::lunar_terrain::DEM_TILE_UNITS,
+                                None => &[],
+                            },
+                        )
                         .copied()
                         .collect();
                     json_of_with_units(&report, &units)?
@@ -1773,9 +1779,15 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
             }
             Ok(RunOutput {
                 json: if report.terrain.is_some() {
+                    let tile: &[crate::field_schema::FieldUnit] =
+                        match report.terrain.as_ref().and_then(|t| t.dem_tile.as_ref()) {
+                            Some(_) => crate::lunar_terrain::DEM_TILE_UNITS,
+                            None => &[],
+                        };
                     let units: Vec<crate::field_schema::FieldUnit> = crate::lunar_station::UNITS
                         .iter()
                         .chain(crate::lunar_terrain::STATION_TERRAIN_UNITS)
+                        .chain(tile)
                         .copied()
                         .collect();
                     json_of_with_units(&report, &units)?
