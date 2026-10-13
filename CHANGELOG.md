@@ -11,6 +11,17 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **GLONASS, BeiDou and Galileo E6 bands in the spectrum model** (CAP-12, signals): new band
+  names `glonass-l1of` and `glonass-l2of` (any FDMA channel as `glonass-l1of-k<K>`,
+  K = −7 to 6), `beidou-b1i`, `beidou-b1c`, `beidou-b2a`, `beidou-b3i` and `galileo-e6`. Each
+  carries its ICD carrier, modulation and minimum received power. They are opt-in by name: the
+  default band set and every existing output are unchanged.
+  - Checked against bars pre-registered at 5806f28b: the ICD values, nulls, the B1C composite
+    and the C/N0 path are met.
+  - Two bars were not met. The unit-area bar was unattainable as written (F1). The IQ layer's
+    B1I and B1C waveforms match the model only band-averaged, because of their codes' uneven
+    line spectra (F2).
+  - MODELLED; ledger row "Spectrum model: GLONASS, BeiDou and Galileo E6 bands (opt-in)".
 - **Cell-averaging CFAR option in IQ acquisition** (PRO-37): `iq::acq::ca_cfar` and
   `ca_cfar_cells` decide on an acquisition grid by comparing each cell with the mean of
   reference cells in its Doppler row. The threshold comes from the closed-form CA-CFAR

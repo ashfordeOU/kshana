@@ -2665,6 +2665,15 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             oracle_kind: InternalConsistency,
             status: Modelled,
         },
+        VerificationItem {
+            requirement: "Spectrum model: GLONASS, BeiDou and Galileo E6 bands (opt-in)",
+            capability: "spectrum::default_band resolves, by name only (MORE_BAND_NAMES), GLONASS L1OF and L2OF on every FDMA channel K = -7 to 6 (BPSK, 0.511 Mchip/s), BeiDou B1I (BPSK(2)), B1C (MBOC(6,1,1/11)), B2a and B3I (BPSK(10)) and Galileo E6 (BPSK(5)), with the carriers and minimum received powers of their interface control documents; the default band set and every existing output are unchanged.",
+            module: "spectrum (default_band, MORE_BAND_NAMES, GLONASS_CHANNELS)",
+            tests: "tests/spectrum_more_bands.rs (s1_new_bands_carry_their_icd_values, s2_nulls_and_b1c_parts, s4_cn0_paths_agree_on_the_new_bands; s2_closed_form_densities ignored as finding F1, pinned by finding_s2_areas_are_the_closed_form_in_band_fraction; s3_iq_layer_waveforms_match_the_model_spectrum ignored as finding F2, pinned by finding_s3_per_bin_errors_follow_the_code_line_spectrum; posthoc_s3_band_averaged_shape, reported only)",
+            oracle: "Published interface control documents and closed forms, under bars pre-registered at 5806f28b (docs/design/evidence/spectrum-bands/): GLONASS ICD Edition 5.1, BDS-SIS-ICD B1I 3.0, B1C 1.0, B2a 1.0 and B3I 1.0, Galileo OS SIS ICD Issue 2.1. MET: every carrier, chip rate and received power as transcribed (28 GLONASS channels), BPSK first nulls at the chip rate, the B1C composite equal to MBOC(6,1,1/11) as its ICD's power table gives, the C/N0 path identity, and byte-identical spectrum scenarios. NOT MET: the unit-area bar, which was unattainable as written (finding F1; the areas equal the closed-form in-band fraction), and the per-bin agreement of the IQ layer's B1I and B1C waveforms with the model envelope (1.26 and 1.56 dB against 0.5 dB, finding F2; GLONASS 0.07 dB), because Gold and Weil codes have uneven line spectra; band-averaged the main lobes agree within 0.25 dB. WHAT IS NOT CHECKED: recorded IQ, other signals, intra-system interference.",
+            oracle_kind: InternalConsistency,
+            status: Modelled,
+        },
     ]
 }
 
