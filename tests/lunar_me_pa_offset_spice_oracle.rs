@@ -14,7 +14,8 @@
 //!
 //! ## Result
 //!
-//! First run, 2026-10-13, on the shipped code: **NOT MET**. The PA<-ME factor is 207.70" (1.007e-3
+//! Run 2 (under the re-registration be33382e): offset 2.6e-16 rad from SPICE, PA 5.93" to 8.30"
+//! from DE440: both bars hold. First run, 2026-10-13, on the shipped code: **NOT MET**. The PA<-ME factor is 207.70" (1.007e-3
 //! rad) from SPICE at all three epochs, twice the 103.9" offset, and `icrf_to_moon_pa` is 208.8"
 //! to 211.2" from DE440 PA. The pre-registered change (the transpose dropped) brought the factor to
 //! 1.254e-7 rad (0.026") from SPICE, still outside the 1e-12 bar, and the end-to-end gap to
@@ -102,7 +103,6 @@ fn de440_gaps() -> Vec<(f64, f64)> {
 }
 
 #[test]
-#[ignore = "finding 2026-10-13: the shipped PA<-ME offset is 207.7\" from SPICE (applied in the wrong direction); fix re-registered"]
 fn me_to_pa_offset_matches_spice_and_the_pa_orientation_tracks_de440() {
     let off = offset_gaps();
     let de = de440_gaps();

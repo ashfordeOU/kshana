@@ -49,7 +49,7 @@ type Mat3 = [[f64; 3]; 3];
 ///
 /// The built-in [`AnalyticLunarEnvironment`] uses Kshana's analytic IAU 2015 libration
 /// ([`crate::lunar_frame::icrf_to_moon_pa`]) and the Montenbruck–Gill ephemeris ([`crate::ephem`]),
-/// which sit ~tens of arc-seconds / ~0.3° from the JPL Development Ephemeris values. An
+/// which sit about 6″ to 8″ / ~0.3° from the JPL Development Ephemeris values. An
 /// *out-of-crate* provider can instead read DE-grade orientation and ephemeris from NAIF kernels
 /// (the `xval/anise-lunar-od` cross-validation crate), swapping **only** these inputs through this
 /// seam while every other dynamical term and the precise estimator stay identical. That
