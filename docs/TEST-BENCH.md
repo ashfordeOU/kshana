@@ -86,6 +86,27 @@ manual. Check which of the formats above yours reads, and its stated requirement
 
 No vendor scripting interface is written by Kshana.
 
+#### Checked with one open-source simulator's readers
+
+The motion readers of gps-sdr-sim (MIT, commit 28ca29a6) were given the exports of 8 bundled
+scenarios. Each reader returned the exported trajectory (`tests/testbench_gpssdrsim_oracle.rs`,
+pre-registered in `xval/testbench-gpssdrsim/PREREGISTRATION.md`):
+
+| gps-sdr-sim option | Give it | Worst difference from the CSV |
+|---|---|---|
+| `-g` (NMEA GGA) | `run1.nmea` as written | 1.2 mm |
+| `-x` (time, latitude, longitude, height) | `tail -n +2 run1.motion.csv \| cut -d, -f1,8,9,10` | 0.15 mm |
+| `-u` (time, x, y, z) | `tail -n +2 run1.motion.csv \| cut -d, -f1-4` | exact |
+
+- Do not give `-u` the full motion CSV. Its reader holds 100 characters per line, and a CSV row
+  is about 160 characters, so each row is read as two samples. The header line is read as one
+  more sample with no numbers in it.
+- gps-sdr-sim holds at most 3000 samples, 300 s at its fixed 10 Hz, and ignores the time
+  column. The `gnss-ins` exports step at exactly 0.1 s. Longer scenarios, such as the
+  20-minute `gnss-ins-maritime`, are read to their first 300 s only.
+- This checks that the files are read as written. It does not check the scenario's physics
+  or anything the simulator transmits.
+
 ## 2. State what you will score before the run
 
 The events file gives the intervals the scenario defines. Copy `run1.events.toml` into a

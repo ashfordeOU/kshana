@@ -295,7 +295,11 @@ stale.
 | `eo-coverage.toml` | `eo-coverage` | no [1] | no [1] | no [1] | no [1] | no [2] |
 | `ephemeris.toml` | `ephemeris` | yes | yes | yes | yes | no [2] |
 | `europa-surface-pnt.toml` | `body-pnt` | no [7] | no [7] | no [7] | no [7] | no [2] |
+| `fusion-pnt-coupled.toml` | `fusion` | no [1] | no [1] | no [1] | no [1] | no [2] |
 | `fusion-pnt.toml` | `fusion` | no [1] | no [1] | no [1] | no [1] | no [2] |
+| `gnss-ins-aviation.toml` | `gnss-ins` | yes | yes | yes | no [3] | no [2] |
+| `gnss-ins-maritime.toml` | `gnss-ins` | yes | yes | yes | no [3] | no [2] |
+| `gnss-ins-rail.toml` | `gnss-ins` | yes | yes | yes | no [3] | no [2] |
 | `gnss-ins.toml` | `gnss-ins` | yes | yes | yes | no [3] | no [2] |
 | `gnss-sim-container-terminal-skyline.toml` | `gnss-sim` | yes | yes | yes | yes | no [2] |
 | `gnss-sim-raim.toml` | `gnss-sim` | yes | yes | yes | yes | no [2] |

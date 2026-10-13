@@ -223,7 +223,7 @@ Hybrid PNT capstone: clock + IMU + time-transfer aiding.
 Joint Kalman sensor-fusion PNT over the same hybrid inputs.
 
 - **Required fields:** `seed`, `timing_spec_ns`, `position_spec_m`, `time`, `gnss`, `resync`, `clock_quantum`, `clock_classical`, `accel_quantum`, `accel_classical`
-- **Optional fields:** *(none)*
+- **Optional fields:** `coupled`
 
 ## `hybrid-ukf`
 
@@ -237,7 +237,7 @@ Joint Kalman sensor-fusion PNT over the same hybrid inputs.
 Loosely- and tightly-coupled GNSS/INS error-state EKF.
 
 - **Required fields:** `seed`, `threshold_m`, `time`, `gnss`, `imu_quantum`, `imu_classical`
-- **Optional fields:** `fix_interval_s`, `sigma_pos_m`, `sigma_vel_mps`, `lat_deg`, `lon_deg`, `alt_m`
+- **Optional fields:** `fix_interval_s`, `sigma_pos_m`, `sigma_vel_mps`, `lat_deg`, `lon_deg`, `alt_m`, `trajectory`, `tight`
 
 ## `gnss-sim`
 
