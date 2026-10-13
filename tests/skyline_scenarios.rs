@@ -60,8 +60,12 @@ fn every_wired_scenario_is_byte_identical_to_the_0_35_0_release() {
             let src = read(&format!("scenarios/{name}"));
             match (run_toml(&src), parts[1]) {
                 (Ok(o), _) => {
+                    // 0.35.0 predates RM-04's trailing `figure_tiers` block, pinned on its own;
+                    // strip it as registry_golden and cross_platform_golden do.
+                    let untiered = kshana::api::without_figure_tiers(&o.json);
+                    let doc = untiered.as_deref().unwrap_or(&o.json);
                     for (what, got, want) in [
-                        ("json", h(&o.json), parts[1]),
+                        ("json", h(doc), parts[1]),
                         ("svg", h(&o.svg), parts[2]),
                         ("summary", h(&o.summary), parts[3]),
                     ] {
