@@ -9,16 +9,22 @@
 //! is the sum of:
 //!
 //! 1. **Lunar gravity** — a fully-normalized spherical-harmonic field ([`crate::gravity_sh`],
-//!    the GRAIL GRGM660PRIM coefficients) evaluated in the Moon body-fixed frame: rotate the
-//!    inertial position into the lunar **ME** frame with [`crate::lunar_frame::icrf_to_iau_moon`],
-//!    evaluate, rotate the acceleration back. (GRGM is strictly principal-axis; the ME↔PA offset
-//!    is the documented arc-minute residual of `lunar_frame`.)
+//!    the GRAIL GRGM660PRIM coefficients) evaluated in the Moon body-fixed **principal-axis**
+//!    frame (the GRGM field's frame) given by the [`LunarEnvironment`]: the analytic
+//!    [`crate::lunar_frame::icrf_to_moon_pa`] by default, the DE440 PA series opt-in.
 //! 2. **Earth third body** — the dominant lunar-orbit perturbation (~3·10⁻⁵ m/s² at ~98 km),
 //!    Earth relative to the Moon = −(geocentric Moon position) from [`crate::ephem`].
 //! 3. **Sun third body** — small (~10⁻⁷ m/s²), Sun relative to the Moon.
 //! 4. **SRP** (optional) — cannonball with `C_R`/`A·m⁻¹`; off by default for LRO (the panel area
 //!    is unknown and the ~10⁻⁷ m/s² signal is below the empirical-tier floor for a short arc).
-//! 5. **Empirical accelerations** (optional) — the same RTN constant + once-per-rev tier the
+//! 5. **Lunar solid tide** (optional, [`LunarForceModel::lunar_tide`]) — the degree-2 elastic
+//!    tide the Earth and the Sun raise on the Moon, with a caller-supplied Love number `k2`
+//!    referenced to the field's radius (point-mass perturbers, no frequency dependence, no
+//!    phase lag); about 7·10⁻⁷ m/s² at ~100 km altitude below the Earth.
+//! 6. **Relativity** (optional, [`LunarForceModel::relativity`]) — the selenocentric
+//!    Schwarzschild term of the IERS Conventions (2010) eq. 10.12 with β = γ = 1, about
+//!    10⁻¹⁰ m/s² at LRO; Lense–Thirring and de Sitter terms are not modelled.
+//! 7. **Empirical accelerations** (optional) — the same RTN constant + once-per-rev tier the
 //!    Earth model uses; frame-agnostic, so it absorbs un-modelled lunar dynamics (the truncated
 //!    high-degree field, the ME↔PA offset, the analytic-ephemeris frame slop) in the
 //!    reduced-dynamic fit.
@@ -196,6 +202,11 @@ pub struct LunarForceModel<E: LunarEnvironment = AnalyticLunarEnvironment> {
     pub area_over_mass: f64,
     /// Optional empirical-acceleration tier (RTN constant + once-per-rev).
     pub empirical: Option<EmpiricalAccel>,
+    /// Lunar Love number `k2` of the optional solid tide raised by the Earth and the Sun
+    /// (referenced to `field.re`); `None` (the default) leaves the tide out.
+    pub tide_k2: Option<f64>,
+    /// Include the selenocentric Schwarzschild relativistic term (off by default).
+    pub relativity: bool,
     /// The frame-input provider (lunar orientation + Sun/Moon ephemeris). Defaults to the
     /// kernel-free analytic [`AnalyticLunarEnvironment`]; an out-of-crate DE-grade provider
     /// plugs in here via [`LunarForceModel::with_env`].
@@ -224,6 +235,8 @@ impl<E: LunarEnvironment> LunarForceModel<E> {
             cr: 1.0,
             area_over_mass: 0.0,
             empirical: None,
+            tide_k2: None,
+            relativity: false,
             env,
         }
     }
@@ -235,6 +248,46 @@ impl<E: LunarEnvironment> LunarForceModel<E> {
         self.area_over_mass = area_over_mass;
         self
     }
+
+    /// Enable the degree-2 solid tide the Earth and the Sun raise on the Moon, with Love number
+    /// `k2` referenced to the field's reference radius (for example 0.02405, the GRAIL value of
+    /// Konopliv et al. 2013, JGR Planets 118, referenced to 1738 km). Off by default.
+    pub fn lunar_tide(mut self, k2: f64) -> Self {
+        self.tide_k2 = Some(k2);
+        self
+    }
+
+    /// Enable the selenocentric Schwarzschild term. Off by default.
+    pub fn relativity(mut self) -> Self {
+        self.relativity = true;
+        self
+    }
+}
+
+/// The acceleration (m/s²) of a satellite at `r` (central-body centred) from the degree-2 elastic
+/// tide a point mass `mu_j` at `rj` raises on a central body of reference radius `re` and Love
+/// number `k2`: from `ΔU = k2 μ_j R⁵ (3 cos²ψ − 1) / (2 r_j³ r³)`,
+/// `a = k2 μ_j R⁵ / (2 r_j³ r⁴) · [(3 − 15 cos²ψ) r̂ + 6 cos ψ r̂_j]`.
+pub fn degree2_tide_accel(r: Vec3, rj: Vec3, mu_j: f64, k2: f64, re: f64) -> Vec3 {
+    let n = |x: Vec3| (x[0] * x[0] + x[1] * x[1] + x[2] * x[2]).sqrt();
+    let (rn, rjn) = (n(r), n(rj));
+    let u = [r[0] / rn, r[1] / rn, r[2] / rn];
+    let uj = [rj[0] / rjn, rj[1] / rjn, rj[2] / rjn];
+    let c = u[0] * uj[0] + u[1] * uj[1] + u[2] * uj[2];
+    let k = k2 * mu_j * re.powi(5) / (2.0 * rjn.powi(3) * rn.powi(4));
+    std::array::from_fn(|i| k * ((3.0 - 15.0 * c * c) * u[i] + 6.0 * c * uj[i]))
+}
+
+/// The Schwarzschild relativistic acceleration (m/s²) about a central body of gravitational
+/// parameter `mu` (IERS Conventions 2010 eq. 10.12, β = γ = 1):
+/// `a = μ / (c² r³) [(4 μ / r − v²) r + 4 (r·v) v]`.
+pub fn schwarzschild_accel(r: Vec3, v: Vec3, mu: f64) -> Vec3 {
+    let c2 = crate::timegeo::C_M_PER_S * crate::timegeo::C_M_PER_S;
+    let rn = (r[0] * r[0] + r[1] * r[1] + r[2] * r[2]).sqrt();
+    let v2 = v[0] * v[0] + v[1] * v[1] + v[2] * v[2];
+    let rv = r[0] * v[0] + r[1] * v[1] + r[2] * v[2];
+    let k = mu / (c2 * rn.powi(3));
+    std::array::from_fn(|i| k * ((4.0 * mu / rn - v2) * r[i] + 4.0 * rv * v[i]))
 }
 
 impl<E: LunarEnvironment> ForceModel for LunarForceModel<E> {
@@ -254,8 +307,30 @@ impl<E: LunarEnvironment> ForceModel for LunarForceModel<E> {
         };
 
         let need_sun = self.sun || self.srp;
-        if self.earth || need_sun {
+        if self.earth || need_sun || self.tide_k2.is_some() {
             let (sun_geo, moon_geo) = self.env.geocentric_sun_moon(jd);
+            if let Some(k2) = self.tide_k2 {
+                let earth_wrt_moon = [-moon_geo[0], -moon_geo[1], -moon_geo[2]];
+                let sun_wrt_moon = [
+                    sun_geo[0] - moon_geo[0],
+                    sun_geo[1] - moon_geo[1],
+                    sun_geo[2] - moon_geo[2],
+                ];
+                add(degree2_tide_accel(
+                    r,
+                    earth_wrt_moon,
+                    MU_EARTH,
+                    k2,
+                    self.field.re,
+                ));
+                add(degree2_tide_accel(
+                    r,
+                    sun_wrt_moon,
+                    MU_SUN,
+                    k2,
+                    self.field.re,
+                ));
+            }
             if self.earth {
                 // Earth relative to the Moon = −(geocentric Moon).
                 let earth_wrt_moon = [-moon_geo[0], -moon_geo[1], -moon_geo[2]];
@@ -277,6 +352,9 @@ impl<E: LunarEnvironment> ForceModel for LunarForceModel<E> {
             }
         }
 
+        if self.relativity {
+            add(schwarzschild_accel(r, v, self.field.gm));
+        }
         if let Some(emp) = self.empirical {
             add(empirical_accel(&emp, r, v));
         }
@@ -324,6 +402,58 @@ mod tests {
                                           // A roughly circular speed ~1.6 km/s perpendicular-ish to r (direction need not be exact).
         let v = [-0.55e3, 0.40e3, 1.50e3];
         (r, v)
+    }
+
+    #[test]
+    fn degree2_tide_is_the_gradient_of_its_potential_and_lunar_sized() {
+        // ΔU = k2 μ_j R⁵ (3 cos²ψ − 1) / (2 r_j³ r³); the acceleration must be its gradient.
+        let (k2, re, mu_e): (f64, f64, f64) = (0.02405, 1_738_000.0, MU_EARTH);
+        let rj = [-3.2e8, 1.9e8, 5.0e7];
+        let pot = |r: Vec3| {
+            let n = |x: Vec3| (x[0] * x[0] + x[1] * x[1] + x[2] * x[2]).sqrt();
+            let c = (r[0] * rj[0] + r[1] * rj[1] + r[2] * rj[2]) / (n(r) * n(rj));
+            k2 * mu_e * re.powi(5) * (3.0 * c * c - 1.0) / (2.0 * n(rj).powi(3) * n(r).powi(3))
+        };
+        let r = [1.2e6, -0.9e6, 1.0e6];
+        let a = degree2_tide_accel(r, rj, mu_e, k2, re);
+        let h = 1.0;
+        for k in 0..3 {
+            let (mut rp, mut rm) = (r, r);
+            rp[k] += h;
+            rm[k] -= h;
+            let g = (pot(rp) - pot(rm)) / (2.0 * h);
+            assert!(
+                (a[k] - g).abs() <= 1e-6 * g.abs().max(1e-15),
+                "{k}: {} vs {g}",
+                a[k]
+            );
+        }
+        // About 100 km above the Moon, below the Earth: k2 times the Earth's tidal acceleration at
+        // the surface, 2 μ_E R / r_E³ ≈ 2.4e-5 m/s², so about 7e-7 m/s².
+        let rl = [-1_838_000.0, 0.0, 0.0];
+        let earth = [-3.844e8, 0.0, 0.0];
+        let an = degree2_tide_accel(rl, earth, mu_e, k2, re);
+        let m = (an[0] * an[0] + an[1] * an[1] + an[2] * an[2]).sqrt();
+        assert!((5e-7..1e-6).contains(&m), "tide {m:e} m/s²");
+    }
+
+    #[test]
+    fn schwarzschild_term_matches_its_circular_orbit_closed_form() {
+        // Circular orbit: v² = μ/r, r·v = 0, so a = 3 μ² / (c² r³) outward.
+        let mu: f64 = 4.902_800_118e12;
+        let r: f64 = 1_838_000.0;
+        let v = (mu / r).sqrt();
+        let a = schwarzschild_accel([r, 0.0, 0.0], [0.0, v, 0.0], mu);
+        let c = crate::timegeo::C_M_PER_S;
+        let want = 3.0 * mu * mu / (c * c * r.powi(3));
+        assert!((a[0] - want).abs() <= 1e-12 * want && a[1].abs() < 1e-25 && a[2] == 0.0);
+        assert!((1e-10..2e-10).contains(&want), "{want:e}");
+    }
+
+    #[test]
+    fn the_tide_and_relativity_are_off_by_default() {
+        let m = LunarForceModel::new(synthetic_moon_field(), 2_459_580.5);
+        assert!(m.tide_k2.is_none() && !m.relativity);
     }
 
     #[test]

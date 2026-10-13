@@ -479,3 +479,135 @@ fn lro_fit_with_the_opt_in_de440_environment() {
     assert!(rep.converged && rep2.converged);
     assert!(rep.rms_3d < 25.0 && rep2.rms_3d < 12.0);
 }
+
+/// Information only (DS-LRO-11): the same dynamic and reduced-dynamic fits with the optional
+/// lunar solid tide (k2 = 0.02405, Konopliv et al. 2013) and the selenocentric Schwarzschild term
+/// switched on. No bar beyond the analytic test's; prints the change. Ignored for run time
+/// (about 400 s); `KSHANA_LRO_DEGREE` overrides the degree.
+#[test]
+#[ignore = "information only, about 400 s: the LRO fit with the lunar k2 tide and relativity"]
+fn lro_fit_with_lunar_tide_and_relativity() {
+    let degree: usize = std::env::var("KSHANA_LRO_DEGREE")
+        .ok()
+        .and_then(|s| s.parse().ok())
+        .unwrap_or(FIT_DEGREE);
+    let (epoch, obs, v0) = lro_observations(LRO, usize::MAX);
+    let field = SphericalHarmonicField::from_gfc(GRGM, degree).expect("GRGM field loads");
+    let tmpl = LunarForceModel::new(field, epoch)
+        .lunar_tide(0.02405)
+        .relativity();
+    let tol = Tolerance {
+        rtol: 1e-10,
+        atol: 1e-6,
+        ..Default::default()
+    };
+    let initial = || EstimatedParams {
+        r0: obs[0].pos,
+        v0,
+        cr: None,
+        empirical: None,
+    };
+    let cfg = FitConfig {
+        estimate_cr: false,
+        outlier_sigma: 5.0,
+        max_iter: 25,
+        tol,
+        ..Default::default()
+    };
+    let rep = fit(&tmpl, initial(), &obs, &cfg).expect("dynamic fit");
+    let cfg2 = FitConfig {
+        estimate_cr: false,
+        estimate_empirical: true,
+        estimate_empirical_2cpr: true,
+        empirical_sigma: 1e-7,
+        outlier_sigma: 5.0,
+        max_iter: 25,
+        tol,
+    };
+    let rep2 = fit(&tmpl, initial(), &obs, &cfg2).expect("reduced-dynamic fit");
+    eprintln!(
+        "LRO d/o {degree} + lunar k2 tide + relativity: dynamic {:.3} m, reduced-dynamic {:.3} m",
+        rep.rms_3d, rep2.rms_3d
+    );
+    assert!(rep.converged && rep2.converged);
+    assert!(rep.rms_3d < 25.0 && rep2.rms_3d < 12.0);
+}
+
+/// Information only (DS-LRO-09): the same dynamic and reduced-dynamic fits over a 24 h arc
+/// (`fixtures/agency/lro/LRO_2022001_Moon_ICRF_24h_horizons.txt`, the raw JPL Horizons response,
+/// 1 441 epochs; `KSHANA_LRO_ARC` may point at another Horizons vector response in the same
+/// format). Protocol: `docs/design/evidence/ds-lro-09-11-longer-arc/PROTOCOL.md`. Ignored for
+/// run time; it runs in the manual `lro-de440-opt-in` CI job.
+#[test]
+#[ignore = "information only, long: the LRO fit over a 24 h arc"]
+fn lro_fit_over_a_longer_arc() {
+    let path = std::env::var("KSHANA_LRO_ARC").unwrap_or_else(|_| {
+        concat!(
+            env!("CARGO_MANIFEST_DIR"),
+            "/tests/fixtures/agency/lro/LRO_2022001_Moon_ICRF_24h_horizons.txt"
+        )
+        .to_string()
+    });
+    let raw = std::fs::read_to_string(&path).expect("the Horizons response reads");
+    let a = raw.find("$$SOE").expect("SOE") + 5;
+    let b = raw.find("$$EOE").expect("EOE");
+    // JDTDB, calendar date, X, Y, Z, VX, VY, VZ -> the 4 h fixture's JDTDB,X,Y,Z,VX,VY,VZ
+    let csv: String = raw[a..b]
+        .lines()
+        .filter(|l| !l.trim().is_empty())
+        .map(|l| {
+            let f: Vec<&str> = l.split(',').map(str::trim).collect();
+            format!(
+                "{},{},{},{},{},{},{}\n",
+                f[0], f[2], f[3], f[4], f[5], f[6], f[7]
+            )
+        })
+        .collect();
+    let (epoch, obs, v0) = lro_observations(&csv, usize::MAX);
+    let field = SphericalHarmonicField::from_gfc(GRGM, FIT_DEGREE).expect("GRGM field loads");
+    let tmpl = LunarForceModel::new(field, epoch);
+    let tol = Tolerance {
+        rtol: 1e-10,
+        atol: 1e-6,
+        ..Default::default()
+    };
+    let initial = || EstimatedParams {
+        r0: obs[0].pos,
+        v0,
+        cr: None,
+        empirical: None,
+    };
+    let cfg = FitConfig {
+        estimate_cr: false,
+        outlier_sigma: 5.0,
+        max_iter: 25,
+        tol,
+        ..Default::default()
+    };
+    let rep = fit(&tmpl, initial(), &obs, &cfg).expect("dynamic fit");
+    let cfg2 = FitConfig {
+        estimate_cr: false,
+        estimate_empirical: true,
+        estimate_empirical_2cpr: true,
+        empirical_sigma: 1e-7,
+        outlier_sigma: 5.0,
+        max_iter: 25,
+        tol,
+    };
+    let rep2 = fit(&tmpl, initial(), &obs, &cfg2).expect("reduced-dynamic fit");
+    eprintln!(
+        "LRO {} epochs: dynamic {:.3} m (RTN {:.3} {:.3} {:.3}, converged {}), reduced-dynamic \
+         {:.3} m (RTN {:.3} {:.3} {:.3}, converged {})",
+        obs.len(),
+        rep.rms_3d,
+        rep.rms_rtn[0],
+        rep.rms_rtn[1],
+        rep.rms_rtn[2],
+        rep.converged,
+        rep2.rms_3d,
+        rep2.rms_rtn[0],
+        rep2.rms_rtn[1],
+        rep2.rms_rtn[2],
+        rep2.converged
+    );
+}
