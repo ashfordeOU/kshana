@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 //! Instrumentation of the 1e-9 pseudo-inverse fallback of `lunar-frame-campaign`, on the six
-//! scenarios of `tests/lunar_vlbi_campaign_spice_oracle.rs`.
+//! scenarios of `tests/lunar_vlbi_campaign_spice_oracle.rs` and the two fresh scenarios of
+//! `docs/design/evidence/mr05-lunar-datum-cond/PREREGISTRATION.md` (its step 0).
 //!
 //! ## Why
 //!
@@ -38,8 +39,40 @@
 //! a pseudo-inverse truncation; it is rounding in the explicit spectral inverse of the
 //! ill-conditioned joint problem (as the 50-digit oracle,
 //! `tests/lunar_frame_campaign_mpmath_oracle.rs`, separately found).
+//!
+//! ## Result on the fresh date D = 2026-12-01 (2026-10-13): a finding
+//!
+//! D is the first day on or after 2026-12-01 the pre-registered engine-only probe accepts
+//! (`examples/mr05_fresh_date_probe.rs`: 45 observations, Helmert defect 0, station block full
+//! rank). On it the south-pole beacon (-89.67 deg) has no observation, so its three columns of
+//! the beacon information are exactly zero and `crlb` falls back to the pseudo-inverse there:
+//! `stations_estimated_fresh` beacon information S rank 8 of 12 (a fourth direction falls under
+//! the threshold once the stations are marginalised) and `stations_fixed_fresh` rank 9 of 12,
+//! and in both the independence-discarded covariance rank 9 of 12. The Helmert matrix stays full
+//! rank (7.6e-9 and 1.7e-6 of its largest eigenvalue), because the three observed beacons span
+//! the datum, so the datum sigmas are not a pseudo-inverse; but step 0 requires no fallback
+//! anywhere upstream on a full-rank scenario, so it is NOT MET. The strict test is ignored and
+//! `finding_step0_fresh_beacon_information_falls_back` pins exactly these four matrices.
 
 use kshana::fim::{crlb, information_matrix};
+
+/// Recorded on the first run (2026-10-13): (scenario, matrix, dimension, rank).
+const STEP0_FINDING: &[(&str, &str, usize, usize)] = &[
+    ("stations_estimated_fresh", "beacon information S", 12, 8),
+    (
+        "stations_estimated_fresh",
+        "independence-discarded covariance",
+        12,
+        9,
+    ),
+    ("stations_fixed_fresh", "beacon information S", 12, 9),
+    (
+        "stations_fixed_fresh",
+        "independence-discarded covariance",
+        12,
+        9,
+    ),
+];
 use kshana::lunar_frame_campaign::{
     campaign_jacobian_row, helmert_design, BeaconInput, LunarFrameCampaignScenario,
 };
@@ -47,7 +80,8 @@ use kshana::lunar_frame_campaign::{
 type J = serde_json::Value;
 type Mat = Vec<Vec<f64>>;
 
-/// The six scenarios of `tests/lunar_vlbi_campaign_spice_oracle.rs`, by the same names.
+/// The six scenarios of `tests/lunar_vlbi_campaign_spice_oracle.rs`, by the same names, and the
+/// two fresh scenarios of the MR-05 pre-registration on its date D = 2026-12-01.
 fn scenarios() -> Vec<(&'static str, LunarFrameCampaignScenario)> {
     let b = |n: &str, alt: f64| BeaconInput {
         name: Some(n.to_string()),
@@ -56,6 +90,13 @@ fn scenarios() -> Vec<(&'static str, LunarFrameCampaignScenario)> {
         alt_m: Some(alt),
     };
     let d = LunarFrameCampaignScenario::default;
+    // The fresh date D of the MR-05 pre-registration, chosen by examples/mr05_fresh_date_probe.rs.
+    let fresh = || LunarFrameCampaignScenario {
+        epoch_year: Some(2026),
+        epoch_month: Some(12),
+        epoch_day: Some(1),
+        ..d()
+    };
     vec![
         ("default", d()),
         (
@@ -91,6 +132,20 @@ fn scenarios() -> Vec<(&'static str, LunarFrameCampaignScenario)> {
             LunarFrameCampaignScenario {
                 beacons: Some(vec![b("a", 0.0), b("b", 1000.0), b("c", 2000.0)]),
                 ..d()
+            },
+        ),
+        (
+            "stations_estimated_fresh",
+            LunarFrameCampaignScenario {
+                station_datum: Some("estimated-anchor-first".to_string()),
+                ..fresh()
+            },
+        ),
+        (
+            "stations_fixed_fresh",
+            LunarFrameCampaignScenario {
+                station_datum: Some("fixed".to_string()),
+                ..fresh()
             },
         ),
     ]
@@ -216,8 +271,9 @@ fn engine_sigma(v: &J) -> Option<Vec<f64>> {
     Some(s)
 }
 
-#[test]
-fn the_pseudo_inverse_fallback_does_not_trigger_upstream_of_a_stated_defect() {
+/// Every scenario's probes, after checking that the rebuilt pipeline is the engine's.
+fn probe_all() -> Vec<(&'static str, f64, Vec<Probe>)> {
+    let mut all = Vec::new();
     for (name, sc) in scenarios() {
         let (json, _) = sc.run_json().expect("scenario runs");
         let v: J = serde_json::from_str(&json).expect("json");
@@ -225,7 +281,7 @@ fn the_pseudo_inverse_fallback_does_not_trigger_upstream_of_a_stated_defect() {
         let (probes, sigma) = pipeline(&sc, &v);
         for (label, n, rank, ratio) in &probes {
             eprintln!(
-                "{name:<20} {label:<34} n {n:>2} rank {rank:>2} min/max eigenvalue {ratio:.3e} \
+                "{name:<24} {label:<34} n {n:>2} rank {rank:>2} min/max eigenvalue {ratio:.3e} \
                  (threshold {rel_tol:.0e}){}",
                 if rank < n { "  PSEUDO-INVERSE" } else { "" }
             );
@@ -244,24 +300,51 @@ fn the_pseudo_inverse_fallback_does_not_trigger_upstream_of_a_stated_defect() {
             }
             None => assert!(defective, "{name}: the engine published null datum sigmas"),
         }
-        for (label, n, rank, ratio) in &probes {
-            if defective && *label == "Helmert information H" {
-                assert_eq!(n - rank, 2, "{name}: the collinear design's defect");
-                continue;
-            }
-            assert_eq!(
-                rank, n,
-                "{name}: {label} fell back to the pseudo-inverse (min/max {ratio:.3e})"
-            );
-            assert!(
-                *ratio > 2.0 * rel_tol,
-                "{name}: {label} within a factor 2 of the threshold (min/max {ratio:.3e})"
-            );
-        }
         assert_eq!(
             v["station_datum"]["station_block_full_rank"].as_bool(),
             Some(true),
             "{name}: engine flag"
         );
+        all.push((name, rel_tol, probes));
     }
+    all
+}
+
+/// The probes that break the pre-registered step-0 requirement: a pseudo-inverse anywhere but
+/// the Helmert matrix of `collinear_beacons` (whose defect must be 2), or a kept eigenvalue
+/// within a factor 2 of `rel_tol`.
+fn step0_breaches(
+    all: &[(&'static str, f64, Vec<Probe>)],
+) -> Vec<(&'static str, &'static str, usize, usize)> {
+    let mut out = Vec::new();
+    for (name, rel_tol, probes) in all {
+        for &(label, n, rank, ratio) in probes {
+            if *name == "collinear_beacons" && label == "Helmert information H" {
+                assert_eq!(n - rank, 2, "{name}: the collinear design's defect");
+                continue;
+            }
+            if rank != n || ratio <= 2.0 * rel_tol {
+                out.push((*name, label, n, rank));
+            }
+        }
+    }
+    out
+}
+
+/// The pre-registered step 0, strict. Ignored: on the fresh date the fallback triggers upstream
+/// of the Helmert matrix (the finding below).
+#[test]
+#[ignore = "MR-05 step 0 finding: both fresh scenarios fall back to the pseudo-inverse on the beacon information; see the finding test"]
+fn the_pseudo_inverse_fallback_does_not_trigger_upstream_of_a_stated_defect() {
+    let breaches = step0_breaches(&probe_all());
+    assert!(breaches.is_empty(), "step 0 breached: {breaches:?}");
+}
+
+/// The step-0 finding, pinned: the six original scenarios meet the requirement, and on the fresh
+/// date D = 2026-12-01 exactly the recorded matrices fall back to the pseudo-inverse (the
+/// south-pole beacon has no observation that day). Fails if the set changes either way.
+#[test]
+fn finding_step0_fresh_beacon_information_falls_back() {
+    let breaches = step0_breaches(&probe_all());
+    assert_eq!(breaches, STEP0_FINDING, "the step-0 finding changed");
 }
