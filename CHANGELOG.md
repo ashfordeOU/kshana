@@ -11,6 +11,16 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **Ground-contact scheduling and DVB-S2 ACM** (0.36, WP-14, CAP-22/23): two new scenario
+  kinds. `acm-link` gives, for one satellite over one station, each pass's Es/N0 and the DVB-S2
+  MODCOD chosen along it (ETSI EN 302 307-1 Table 13 thresholds plus a margin). It also gives
+  the data volume ACM moves against the constant-coding baseline. `contact-schedule` does the
+  same for several satellites over several stations and builds a conflict-free contact plan
+  (antenna turnaround, one station per satellite, priority-weighted delivery capped at each
+  backlog). It reports a marginal-value greedy plan, a first-come baseline and the exact optimum
+  on small sets, with the greedy's optimality gap. Access windows come from the VALIDATED
+  apparent pass predictor. New bundled scenarios `acm-link` and `contact-schedule` (illustrative
+  inputs) and `docs/CONTACT-SCHEDULING.md`. MODELLED (two new ledger rows).
 - **Lunar reference-station study** (0.36, prompted by published material on a planned lunar
   south-pole reference station; sources in [`docs/LUNAR-REFERENCE-STATION.md`](docs/LUNAR-REFERENCE-STATION.md)):
   the `lunar-station-coverage` kind, a Monte Carlo sweep of the lunar differential-PNT model over

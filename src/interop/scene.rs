@@ -421,6 +421,11 @@ pub fn reason_for_kind(kind: ScenarioKind) -> Option<String> {
         | K::SlotTiming
         | K::Spectrum => no_position,
         K::LeoPass | K::LeoPntChain => return None,
+        K::ContactSchedule | K::AcmLink => {
+            "the `contact-schedule` and `acm-link` kinds plan downlink contacts and coding; \
+             export a `passes` scenario for the same satellite and station to see the geometry"
+            .to_string()
+        }
         K::LeoSignal => "the `leo-signal` kind analyses signal designs (spectra, tracking, \
              acquisition, compatibility) with no satellite or user position; export the \
              `leo-pass` or `leo-pnt-chain` scenario that flies the design"

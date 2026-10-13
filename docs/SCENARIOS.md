@@ -1,6 +1,6 @@
 # Scenario kinds
 
-The 76 built-in scenario kinds that `kshana::api::run_toml` dispatches over, each with its one-line description and its required / optional TOML (Tom's Obvious, Minimal Language) fields.
+The 78 built-in scenario kinds that `kshana::api::run_toml` dispatches over, each with its one-line description and its required / optional TOML (Tom's Obvious, Minimal Language) fields.
 
 This file is **generated** from `api::list_scenario_kinds()` — the single source of truth — by `cargo run --bin gen_validation_artifacts`; edit the source, not this file. Every binding (the Python package, the MCP (Model Context Protocol) server's `list_scenario_kinds` tool, and the WebAssembly (WASM) playground) exposes this same catalogue, so what is listed here is exactly what every surface can run. The descriptions are terse and do not always expand their abbreviations; every one is spelled out in [GLOSSARY.md](GLOSSARY.md).
 
@@ -84,6 +84,8 @@ Every scenario except `clock` must also set `kind = "<name>"` at the top level: 
 | 74 | [`leo-ppp`](#leo-ppp) | Precise point positioning (PPP) convergence with GNSS only and with LEO augmentation: a float extended Kalman filter on ionosphere-free code and carrier phase with the static station coordinates, a white receiver clock, one inter-system bias per extra system, a random-walk zenith wet delay mapped by 1/sin(elevation) and a float ambiguity per satellite arc; the precise orbit-and-clock error is white and common to the code and phase of a satellite, so each satellite is one correlated two-row update in a Joseph-stabilised form. Measurements are simulated from the same model with seeded noise over several sites and seeds, and each case (GNSS only first, then each [[case]] of LEO systems, any constellation or preset) reports the median convergence time (the first epoch after which the horizontal and vertical errors stay below the thresholds, 10 cm by default), the fraction converged, the median error curves and the filter consistency (the run-averaged position NEES against the two-sided 95% chi-square band). Optionally beside the published Li et al. (2019, J. Geod. 93:749, doi 10.1007/s00190-018-1195-2) mid-latitude figures: 9.6 min for multi-GNSS shortened to 7.0, 3.2, 2.1 and 1.3 min with 60, 96, 192 and 288 LEO satellites. MODELLED: a consistency comparison of the trend, not a reproduction of that study's constellations, noise or stations; no ambiguity resolution, cycle slips, phase wind-up, tides or time-correlated product errors. |
 | 75 | [`ntn-positioning`](#ntn-positioning) | Positioning from a 5G non-terrestrial network (NTN) downlink in the mobile-satellite service (MSS) S band (3GPP band n256, downlink 2170 to 2200 MHz; default carrier 2172.5 MHz): the Cramér-Rao bound (CRB) on time of arrival, c / (2 pi beta sqrt(2 (C/N0) T)) with beta the root-mean-square (Gabor) bandwidth of the flat OFDM spectrum (B/sqrt(12)), and on the Doppler of a complex tone, sqrt(3 / (2 pi^2 (C/N0) T^3)), for each signal (default a 5 MHz New Radio channel with 4.5 MHz occupied and a 200 kHz narrowband channel with 180 kHz occupied); then, over any LEO constellation, downlink time-of-arrival fixes with an unknown receiver clock (seeded, with the bound plus a network synchronisation error as the sigma), their PDOP and formal 3D sigma, and a single-satellite Doppler fix over the longest pass with the height held. MODELLED: the bandwidth-to-bound step is the textbook closed form, checked against numerical integration of the flat and band-limited BPSK spectra (internal consistency, no published worked figure pinned), and the positioning accuracy is a bound on a multipath-free channel with a stated synchronisation error, not an achieved result. |
 | 76 | [`leo-pnt-chain`](#leo-pnt-chain) | One LEO-PNT (positioning, navigation and timing from low Earth orbit) system end to end, for any constellation and signal: the leo-signal design named by signal_design (a public preset or an inline [signal] design) sets a [pass] band's centre, bandwidth, chip rate and EIRP split, the leo-pass link budget gives the tracked C/N0 and band-limited code jitter over the pass, a C/N0 line in sin(elevation) and the [navmsg] message's broadcast SISRE (fitted at the pass satellite's altitude) feed every LEO system of the [fusion] leo-pvt joint fix, and optionally the [ppp] leo-ppp cases; every hand-off is listed with its value and unit. MODELLED. |
+| 77 | [`contact-schedule`](#contact-schedule) | Ground-contact planning for several satellites over several stations: apparent access windows (SGP4, IAU 2006/2000A Earth-fixed frame, ITU-R P.834 refraction, light time), the DVB-S2 ACM data volume of each pass (ETSI EN 302 307-1 Table 13 thresholds) and a conflict-free schedule (one satellite per antenna with a turnaround, one station per satellite, priority-weighted delivery capped at each backlog) by a marginal-value greedy, a first-come baseline and an exact branch and bound on small sets, with the greedy's optimality gap. MODELLED. |
+| 78 | [`acm-link`](#acm-link) | One satellite over one station: each pass's slant range, elevation and Es/N0 along the pass, the DVB-S2 MODCOD chosen at each step (ETSI EN 302 307-1 Table 13 thresholds plus an implementation margin) and the data volume ACM moves against the constant-coding baseline that closes at the mask. MODELLED. |
 
 ## `clock`
 
@@ -616,4 +618,18 @@ One LEO-PNT (positioning, navigation and timing from low Earth orbit) system end
 
 - **Required fields:** `signal_design`, `pass`, `fusion`
 - **Optional fields:** `name`, `description`, `seed`, `signal`, `navmsg`, `od_sisre_m`, `ppp`
+
+## `contact-schedule`
+
+Ground-contact planning for several satellites over several stations: apparent access windows (SGP4, IAU 2006/2000A Earth-fixed frame, ITU-R P.834 refraction, light time), the DVB-S2 ACM data volume of each pass (ETSI EN 302 307-1 Table 13 thresholds) and a conflict-free schedule (one satellite per antenna with a turnaround, one station per satellite, priority-weighted delivery capped at each backlog) by a marginal-value greedy, a first-come baseline and an exact branch and bound on small sets, with the greedy's optimality gap. MODELLED.
+
+- **Required fields:** *(none)*
+- **Optional fields:** `epoch`, `duration_hours`, `step_s`, `refraction`, `light_time`, `link`, `satellites`, `stations`
+
+## `acm-link`
+
+One satellite over one station: each pass's slant range, elevation and Es/N0 along the pass, the DVB-S2 MODCOD chosen at each step (ETSI EN 302 307-1 Table 13 thresholds plus an implementation margin) and the data volume ACM moves against the constant-coding baseline that closes at the mask. MODELLED.
+
+- **Required fields:** *(none)*
+- **Optional fields:** `epoch`, `duration_hours`, `step_s`, `refraction`, `light_time`, `link`, `satellite`, `station`
 

@@ -116,6 +116,8 @@ const BUILTIN_KINDS: &[crate::api::ScenarioKind] = {
         LeoPpp,
         NtnPositioning,
         LeoPntChain,
+        ContactSchedule,
+        AcmLink,
     ]
 };
 
@@ -247,6 +249,10 @@ pub mod ids {
     pub const NTN_POSITIONING: ScenarioId = ScenarioId::from_static("ntn-positioning");
     /// One LEO-PNT system end to end: signal, pass, navigation message and fused fix.
     pub const LEO_PNT_CHAIN: ScenarioId = ScenarioId::from_static("leo-pnt-chain");
+    /// Multi-satellite, multi-station contact scheduling with DVB-S2 ACM pass capacity.
+    pub const CONTACT_SCHEDULE: ScenarioId = ScenarioId::from_static("contact-schedule");
+    /// DVB-S2 ACM along one satellite's passes over one station.
+    pub const ACM_LINK: ScenarioId = ScenarioId::from_static("acm-link");
 
     /// Every built-in scenario id, in the engine's canonical order.
     pub fn all() -> Vec<ScenarioId> {

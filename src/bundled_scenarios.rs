@@ -27,6 +27,7 @@ macro_rules! bundled {
 
 /// Every scenario file in `scenarios/` that runs on its own, in file-name order.
 pub const BUNDLED: &[(&str, &str)] = &[
+    bundled!("acm-link"),
     bundled!("aperture-duty-cycle"),
     bundled!("araim-gps-galileo"),
     bundled!("araim-reference-check"),
@@ -45,6 +46,7 @@ pub const BUNDLED: &[(&str, &str)] = &[
     bundled!("combined-altpnt"),
     bundled!("conflict-resilience"),
     bundled!("constellation-multi-gnss-coverage"),
+    bundled!("contact-schedule"),
     bundled!("earth-gnss-lunar"),
     bundled!("eo-coverage"),
     bundled!("ephemeris"),
