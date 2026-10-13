@@ -91,6 +91,27 @@ pub struct SolarSystemScenario {
     /// Extra links, each received at the epoch.
     #[serde(default)]
     pub links: Option<Vec<LinkCfg>>,
+    /// Optional JPL SPK (for example `de440s.bsp`). When given, each body whose own NAIF code the
+    /// kernel holds takes its heliocentric state from it (label `KERNEL`), and a link whose two
+    /// ends are both in the kernel is computed on it; barycentres are never substituted for a
+    /// planet, and every other body stays analytic. The report then carries a `kernel` block.
+    #[serde(default)]
+    pub planetary_kernel_path: Option<String>,
+}
+
+/// What the optional `planetary_kernel_path` supplied (present only when it is set).
+#[derive(Clone, Debug, Serialize)]
+pub struct KernelOut {
+    /// The SPK path as given.
+    pub path: String,
+    /// The SPK's SHA-256.
+    pub sha256: String,
+    /// The heliocentric origin (the Sun, NAIF 10).
+    pub origin: String,
+    /// The bodies whose position and velocity came from the kernel.
+    pub bodies: Vec<String>,
+    /// The links (`from -> to`) computed on the kernel.
+    pub links: Vec<String>,
 }
 
 /// The epoch the scenario runs at.
@@ -215,6 +236,9 @@ pub struct SolarSystemReport {
     pub bodies: Vec<BodyOut>,
     /// The extra links requested in the scenario, each received at the epoch.
     pub links: Vec<LinkOut>,
+    /// What the optional kernel supplied; absent (not serialised) without one.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub kernel: Option<KernelOut>,
 }
 
 /// Parse an ISO 8601 UTC epoch `YYYY-MM-DDTHH:MM:SS[.s][Z]` to a TDB Julian date. UTC before
@@ -404,6 +428,30 @@ impl SolarSystemScenario {
             format!("epoch JD {jd} TDB is outside 3000 BC to 3000 AD, the Standish tables' range")
         })?;
         let t = (jd - 2_451_545.0) / 36_525.0;
+        let kernel = match &self.planetary_kernel_path {
+            Some(p) => Some(crate::ephem_provider::KernelEphemeris::open(
+                std::path::Path::new(p),
+            )?),
+            None => None,
+        };
+        // The kernel heliocentric state of a body, when the kernel holds the body's own code.
+        let kstate = |name: &str| -> Option<(Vec3, Vec3)> {
+            let k = kernel.as_ref()?;
+            let code = crate::ephem_provider::KernelEphemeris::naif_code_of(name)?;
+            if code == crate::ephem_provider::naif_code::SUN {
+                return None;
+            }
+            let st = k
+                .state(
+                    code,
+                    crate::ephem_provider::naif_code::SUN,
+                    crate::jd2::Jd2::new(jd),
+                )
+                .ok()?;
+            Some((st[0], st[1]))
+        };
+        let mut kernel_bodies: Vec<String> = Vec::new();
+        let mut kernel_links: Vec<String> = Vec::new();
         let n_track = self.track_points.unwrap_or(DEFAULT_TRACK_POINTS);
         if !(8..=2000).contains(&n_track) {
             return Err(format!("track_points must be 8 to 2000; got {n_track}"));
@@ -434,13 +482,22 @@ impl SolarSystemScenario {
         for fct in selected {
             let body = fct.body();
             let name = fct.name;
-            let (pos, vel) = eph.heliocentric_state(name, jd).ok_or_else(|| {
-                format!("no position for {name} at JD {jd} TDB (Pluto is 1800 AD to 2050 AD only)")
-            })?;
+            let from_kernel = kstate(name);
+            let (pos, vel) = match from_kernel {
+                Some(s) => {
+                    kernel_bodies.push(name.to_string());
+                    s
+                }
+                None => eph.heliocentric_state(name, jd).ok_or_else(|| {
+                    format!(
+                        "no position for {name} at JD {jd} TDB (Pluto is 1800 AD to 2050 AD only)"
+                    )
+                })?,
+            };
             let parent_pos = match fct.parent {
-                Some(p) => eph
-                    .heliocentric_state(p, jd)
+                Some(p) => kstate(p)
                     .map(|s| s.0)
+                    .or_else(|| eph.heliocentric_state(p, jd).map(|s| s.0))
                     .unwrap_or([0.0; 3]),
                 None => [0.0; 3],
             };
@@ -499,15 +556,35 @@ impl SolarSystemScenario {
             let observer_link = if name == observer.name {
                 None
             } else {
-                Some(link(&eph, &body, &observer, jd)?)
+                match (
+                    &kernel,
+                    from_kernel.is_some() && kstate(observer.name).is_some(),
+                ) {
+                    (Some(k), true) => {
+                        kernel_links.push(format!("{name} -> {}", observer.name));
+                        Some(link_on(k, &Body::sun(), &body, &observer, jd)?)
+                    }
+                    _ => Some(link(&eph, &body, &observer, jd)?),
+                }
             };
             bodies.push(BodyOut {
                 name: name.to_string(),
                 naif_id: fct.naif_id,
                 class: fct.class,
                 parent: fct.parent.map(str::to_string),
-                label: position_label(name, planet_table).to_string(),
-                method: eph.method(name, jd),
+                label: if from_kernel.is_some() {
+                    "KERNEL".to_string()
+                } else {
+                    position_label(name, planet_table).to_string()
+                },
+                method: match (&kernel, from_kernel.is_some()) {
+                    (Some(k), true) => format!(
+                        "JPL SPK {} (SHA-256 {}), heliocentric state read by the engine's own reader",
+                        k.source(),
+                        k.kernel_sha256()
+                    ),
+                    _ => eph.method(name, jd),
+                },
                 gm_m3_s2: body.mu,
                 radius_equatorial_m: fct.radius_equatorial_m,
                 radius_mean_m: fct.radius_mean_m,
@@ -542,7 +619,16 @@ impl SolarSystemScenario {
                     from.name
                 ));
             }
-            links.push(link(&eph, &from, &to, jd)?);
+            match (
+                &kernel,
+                kstate(from.name).is_some() && kstate(to.name).is_some(),
+            ) {
+                (Some(k), true) => {
+                    kernel_links.push(format!("{} -> {}", from.name, to.name));
+                    links.push(link_on(k, &Body::sun(), &from, &to, jd)?);
+                }
+                _ => links.push(link(&eph, &from, &to, jd)?),
+            }
         }
 
         Ok(SolarSystemReport {
@@ -559,6 +645,13 @@ impl SolarSystemScenario {
             n_bodies: bodies.len(),
             bodies,
             links,
+            kernel: kernel.as_ref().map(|k| KernelOut {
+                path: self.planetary_kernel_path.clone().unwrap_or_default(),
+                sha256: k.kernel_sha256().to_string(),
+                origin: "Sun".to_string(),
+                bodies: kernel_bodies,
+                links: kernel_links,
+            }),
         })
     }
 }
