@@ -347,3 +347,51 @@ top-level `units` block: the unit, provenance class and definition of each numer
 the field-units contract (`field_schema`) audits. The report carries that block too, and the
 same table is listed in `docs/field-units-schema.json` under `documents`. Each unit's C/N0
 model also gives `delta_eff_db` (§13.2) beside `delta_db`.
+
+### 13.6 Results (synthetic, 2026-10-13)
+
+The bars were evaluated after §13.1 to §13.4 were committed (b7117bf). No bar, truth or recipe
+was changed after a result was seen. The campaigns are built in `tests/iq_labfit_campaign.rs`
+from Kshana's own GPS L1 C/A scenes, with the stated J/S imposed as a C/N0 profile (§8).
+
+**The bar-(a′) campaign** (`A_SEED`):
+* 6 recordings × 3 satellites (18 satellite events), baselines 42 to 48 dB-Hz;
+* linear J/S ramps from 0–5 dB to 45 dB at 2.8 to 3.7 dB/s, every satellite to loss of lock;
+* broadband events, so the true `Q` is the table's 2; the true `δ` is −2.828 dB, so the true
+  `δ_eff` is −2.838 dB;
+* scored with the campaign's default C/N0 estimator (M2M4); the uncensored span is 37 dB;
+* the fit used 1000 replicates with both lock models and the hold-outs: 1579 s in a release
+  build on 4 cores. The tracking took 137 to 192 s.
+
+| bar | measured | verdict |
+|---|---|---|
+| §5.1 (a), `Q_eff` clause | `Q` not identifiable (§13.1) | **NOT MET** |
+| §5.1 (a), `δ` clause (at the true `Q`) | error −1.097 dB | **FAIL** |
+| §5.1 (b), `Q` coverage | `Q` not identifiable | **NOT MET** |
+| a′ | `δ̂_eff` −3.935 dB (95 % interval −4.055 to −3.796) against −2.838: error −1.097 dB | **FAIL** |
+| b′ | full set of 50 campaigns: running; result to follow | pending |
+| (c) bins | PI90 coverage 0.891 over 558 interpolation bins | PASS |
+| (c) time to loss, tracking-loop | 0.900 over 10 interpolation events | PASS |
+| (c) time to loss, empirical | 0.900 over 10 interpolation events | PASS |
+| (d) tracking-loop and empirical | closed form 35.514 dB against the direct 37.714 dB over 18 losses: 2.200 dB | **FAIL** |
+
+The report's own `[validation]` table (the §5.2 example values) passes every bar: C/N0 hold-out
+RMS 0.459 dB, PI90 coverage 0.891, and loss-time hold-out RMS 0.356 s under each lock model. A
+fit reproduces byte for byte from the same campaign and seed.
+
+**Diagnostics, run after the bars** (`diagnose_bar_a_campaign`). They change no bar.
+
+* **(d).** The fitted drop dwell is 0.644 s, and the lost events ramp at a mean of 3.24 dB/s.
+  Their product is 2.09 dB, against the measured 2.20 dB gap. As pre-registered, (d) compares the
+  J/S where the modelled C/N0 crosses the drop threshold with the J/S at the declared loss, which
+  is a dwell later. Under a ramp the two differ by the dwell times the ramp rate.
+* **(a′).** Fitted only on bins whose measured C/N0 is at least 38 (40) dB-Hz, `δ_eff` is still
+  0.89 (0.92) dB low. So the error is not only the estimator's high reading at low C/N0, which the
+  diagnostic tracking run showed (+1 to +2.6 dB at 28 to 34 dB-Hz). The measured degradation is
+  0.5 to 1 dB smaller than the imposed one even at 39 to 43 dB-Hz. The leading hypothesis is
+  that the C/N0 estimator's averaging lags the stated-J/S time bins under a 3 dB/s ramp. It is
+  not tested here: testing it needs a stepped or slower campaign, which would be a new
+  pre-registration.
+
+The failing bar tests stay strict, and are ignored with these values (the repository's
+"strict, ignored with the gap" form). The ledger row states them.

@@ -743,13 +743,26 @@ fn sse_parts(kind: ModelKind, th: &[f64; 4], ps: &[Prepared], sc: &LabFitScenari
     (l, r)
 }
 
+/// Nelder-Mead settings: the full fits run to tight tolerances; a warm-started refit (a
+/// bootstrap replicate, starting at the full fit) stops at 1e-4 in each parameter's own unit
+/// or after 200 evaluations per stage, far below the spread the replicates measure.
 fn nm_opts(sc: &LabFitScenario, warm: bool) -> NmOptions {
-    NmOptions {
-        max_evals: if warm { 400 } else { sc.fit.max_evals.max(50) },
-        ftol: 1e-10,
-        xtol: 1e-8,
-        initial_step: 0.1,
-        max_restarts: if warm { 1 } else { 3 },
+    if warm {
+        NmOptions {
+            max_evals: 200,
+            ftol: 1e-8,
+            xtol: 1e-4,
+            initial_step: 0.1,
+            max_restarts: 0,
+        }
+    } else {
+        NmOptions {
+            max_evals: sc.fit.max_evals.max(50),
+            ftol: 1e-10,
+            xtol: 1e-8,
+            initial_step: 0.1,
+            max_restarts: 3,
+        }
     }
 }
 

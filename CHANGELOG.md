@@ -11,6 +11,28 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **Lab fit from IQ campaigns** (B7.1, [`docs/design/LABFIT-FROM-IQ.md`](docs/design/LABFIT-FROM-IQ.md)).
+  A labfit scenario's `[input] campaign = "<out-dir>"` fits a `kshana iq campaign` output folder
+  on the CLI (`kshana iq labfit`), in Python (`kshana.iq_labfit`) and in the MCP labfit tool
+  (folders inside its work directory only). It fits one unit per signal, loop design, front-end
+  chain and jammer type:
+  - the C/N0 model against stated J/S, with censoring;
+  - the tracking threshold, directly and in closed form;
+  - the tracking-loop and empirical lock models, coupled through the C/N0 model, with their
+    dwells;
+  - a seeded cluster bootstrap over recordings, 90 % prediction intervals, and
+    leave-one-recording-out hold-outs;
+  - a pre-registered `[validation]` table, hashed, with PASS/FAIL per bar.
+
+  The report is `kshana.labfit-iq/1` as JSON, CSV and Markdown, with a units block.
+  **`Q_eff` is not identifiable from C/N0 data** without an independent power measurement. It
+  is stated, never fitted, and the fitted parameter is `delta_eff = delta - 10 log10 Q` (design
+  amendment 2026-10-12). An unknown jammer type takes the most damaging stated `Q` (cw, 1). On
+  synthetic campaigns from Kshana's own scenes, the hold-out coverage bar (c) passes. The
+  `delta_eff` recovery bar (a') and the closed-form threshold bar (d) fail, and are recorded with
+  their values. MODELLED; ledger row "Calibration of the open receiver's C/N0 and lock models to
+  IQ campaign results, with stated prediction error". The receiver-log labfit path and its
+  outputs are unchanged.
 - **Lunar reference-station study** (0.36, prompted by published material on a planned lunar
   south-pole reference station; sources in [`docs/LUNAR-REFERENCE-STATION.md`](docs/LUNAR-REFERENCE-STATION.md)):
   the `lunar-station-coverage` kind, a Monte Carlo sweep of the lunar differential-PNT model over
