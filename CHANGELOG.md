@@ -11,6 +11,17 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **NRLMSISE-00 thermosphere (FUT-08, RM-10, DS-PA-13).** `nrlmsise00`: a port of `gtd7` and
+  `gtd7d` (switches, daily-Ap and 3-hourly ap-array modes) from the public-domain C version of the
+  NRL Fortran. It is bit-identical to that C port and within 1.9e-6 relative of pymsis 0.13.0
+  (NRL Fortran, single precision) on a 720-point grid, and it reproduces the 17 published test
+  cases (VALIDATED; `xval/nrlmsise00-pymsis/`). This validates the port, not the model's accuracy
+  against measured density.
+- **Opt-in NRLMSISE-00 drag-density tier.** `forces::DensityModel::{Exponential,
+  Nrlmsise00 { f107a, f107, ap }}`, `forces::drag_accel_with_density`, `density_at`, and
+  `propagator::ForceModel::drag_density`. The static exponential model stays the default, bit for
+  bit. Space weather is constant per model. MODELLED.
+
 - **Opt-in DE440 Sun and Moon in the Cowell propagator (RM-33, FUT-10).**
   `propagator::ForceModel::with_ephemeris` takes any `EphemerisProvider` (e.g. a DE440
   `KernelEphemeris`) for the third-body and SRP terms; it refuses a provider that cannot serve the
