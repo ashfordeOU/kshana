@@ -413,6 +413,7 @@ stale.
 | `sweep-clock-stability.toml` | `sweep` | no [14] | no [14] | no [14] | no [14] | no [2] |
 | `sweep-nd-inertial.toml` | `sweep-nd` | no [14] | no [14] | no [14] | no [14] | no [2] |
 | `telecom-prtc-holdover-24h.toml` | `telecom-timing` | no [1] | no [1] | no [1] | no [1] | no [2] |
+| `telecom-synce-eec.toml` | `telecom-timing` | no [1] | no [1] | no [1] | no [1] | no [2] |
 | `telecom-tie-ingest.toml` | `telecom-timing` | no [1] | no [1] | no [1] | no [1] | no [2] |
 | `terrain-nav.toml` | `terrain-nav` | yes | yes | yes | no [3] | no [2] |
 | `terrain-slam.toml` | `terrain-slam` | yes | yes | yes | no [3] | no [2] |

@@ -239,6 +239,46 @@ breaking changes are called out explicitly.
   `timestamp.tsr` (opt-in; without it the report is unchanged). VALIDATED, narrowly: all 27
   self-generated cases agree with OpenSSL 3.0.13 on the verdict and the genTime, under a comparison
   pre-registered before the verifier was written. Revocation is not checked.
+- **Per-figure verification tiers for every kind** (RM-04): every scenario kind's result now
+  ends with a `figure_tiers` block naming its headline figures, the verification-matrix row
+  that owns each one and the tier read from that row (figures no row owns are listed as
+  untiered). The block is appended after the run and strips back to the previous document
+  byte for byte (`api::without_figure_tiers`). `lunar-station-coverage` has no `figure_tiers`
+  until a new dated prediction replaces its frozen one; `leo-ppp`, `solar-system`, `sweep` and
+  `sweep-nd` have no scalar headline figure, and `lunar-attack-surface` writes compact JSON. Campaign members keep their untiered documents.
+- **Quantum preset `quantum-cai-coast`** (CAP-08c): a bundled inertial scenario in which a
+  cold-atom interferometer accelerometer, specified by its interferometer physics
+  (`[accel_quantum.cai]` with a stated platform vibration level), coasts against a
+  navigation-grade quartz accelerometer through a 110-minute GNSS outage. MODELLED.
+- **Greenhall exact equivalent degrees of freedom** (CAP-03): `allan::edf_greenhall`, the full
+  Greenhall and Riley (2003) algorithm (difference orders 1 to 3, noise exponents +2 to -4,
+  overlapping and non-overlapping, modified and unmodified, with the large-J tables), with ADEV,
+  MDEV and HDEV wrappers. VALIDATED under a pre-registered comparison with allantools 2024.6:
+  4 876 grid points within 6.0e-13 relative; allantools fails at 32 further points, which are
+  recorded without an oracle value. The confidence intervals of `assurance::uncertainty` are
+  unchanged bit for bit.
+- **Cold-atom interferometer error terms** (RM-26/27/28): Raman laser-phase noise (with the
+  retro-reflection delay term), the wavefront-curvature bias of a thermal cloud (pure defocus,
+  with a detection radius) and fringe-ambiguity resolution (classical-aided and two
+  interrogation times), as library functions in `src/inertial/cai_error_terms.rs`, each closed
+  form checked against quadrature or Monte Carlo. MODELLED; not yet reachable from a scenario
+  kind ([`docs/QUANTUM-MODELS.md`](docs/QUANTUM-MODELS.md)).
+- **Clock-log formats** (RM-03): `src/clock_log.rs` reads RINEX clock files, TimeLab-style
+  ASCII phase or frequency logs and TAPR TICC counter logs into one normalised phase series
+  (tau0 stated or found, gaps counted, a gap policy). Opt-in: a telecom-timing series can name
+  a log (`[series.clock_log]`), and a clock scenario's `[clock_log]` table adds a `measured`
+  block (ADEV, TDEV, MTIE). Without the table both kinds are byte-identical
+  ([`docs/CLOCK-LOG-FORMATS.md`](docs/CLOCK-LOG-FORMATS.md)). A pre-registered comparison on three
+  synthetic logs met its phase and wiring bars; the estimators agree with allantools within
+  2.5e-14 wherever it evaluates, and it does not evaluate the whole-record MTIE point
+  (recorded). MODELLED.
+- **Frequency-synchronisation wander masks** (RM-01): the `telecom-timing` kind gains seven
+  constant-temperature MTIE and TDEV wander-generation masks, ITU-T G.811 PRC, G.812 Types I to
+  III, G.8262 EEC Options 1 and 2 and G.8262.1 eEEC, with the power-law pieces the tables write,
+  and the reference scenario `scenarios/telecom-synce-eec.toml` (a free-running OCXO against the
+  EEC masks: it fails at 1 000 s, where a loop must do the work). Every row was re-read against
+  the itu.int text; G.812 (06/2004) is superseded by a pre-published 08/2026 edition that could
+  not be read. MODELLED (a transcription); existing masks and outputs are unchanged.
 - **Lunar reference-station study** (0.36, prompted by published material on a planned lunar
   south-pole reference station; sources in [`docs/LUNAR-REFERENCE-STATION.md`](docs/LUNAR-REFERENCE-STATION.md)):
   the `lunar-station-coverage` kind, a Monte Carlo sweep of the lunar differential-PNT model over
