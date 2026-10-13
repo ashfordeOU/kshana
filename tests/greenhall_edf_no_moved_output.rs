@@ -9,6 +9,9 @@ use kshana::assurance::uncertainty::{edf, NoiseType, VarType};
 use sha2::{Digest, Sha256};
 
 /// SHA-256 of the dump at the base commit.
+// PIN-SCOPE:    the f64 bits of assurance::uncertainty::edf over the pre-registered grid
+//               (every noise type and variance type), in grid order
+// PIN-EXCLUDES: nothing else: no other function or output is covered
 const BASE_DUMP_SHA256: &str = "5b2de183db76bf26920a51ae8b7dc55818471e930aee4a5e46597de6a6bb8ad9";
 
 fn dump_sha256() -> (String, usize) {
