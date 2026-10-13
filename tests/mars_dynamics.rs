@@ -7,6 +7,7 @@
 //! equality — not "approximately equal", `==`. The reproducibility goldens
 //! (`cross_platform_golden`, `golden`) are the end-to-end version of the same invariant.
 
+use kshana::portable_math::PortableFloat;
 use kshana::body::Body;
 use kshana::forces::{
     two_body_accel, two_body_accel_body, zonal_accel, zonal_accel_body, EARTH_ZONALS_J2_J6,
@@ -166,7 +167,7 @@ fn forcemodel_with_body_retargets_to_mars() {
         &ForceModel::two_body().with_body(Body::mars()),
         &tol,
     );
-    let sep = ((re[0] - rm[0]).powi(2) + (re[1] - rm[1]).powi(2) + (re[2] - rm[2]).powi(2)).sqrt();
+    let sep = ((re[0] - rm[0]).ppowi(2) + (re[1] - rm[1]).ppowi(2) + (re[2] - rm[2]).ppowi(2)).sqrt();
     assert!(
         sep > 1.0,
         "Mars vs Earth two-body arcs must diverge, sep {sep} m"
@@ -244,9 +245,9 @@ fn mars_sh_gravity_differs_from_point_mass() {
     );
 
     let pert =
-        ((a_sh[0] - a_tb[0]).powi(2) + (a_sh[1] - a_tb[1]).powi(2) + (a_sh[2] - a_tb[2]).powi(2))
+        ((a_sh[0] - a_tb[0]).ppowi(2) + (a_sh[1] - a_tb[1]).ppowi(2) + (a_sh[2] - a_tb[2]).ppowi(2))
             .sqrt();
-    let central = (a_tb[0].powi(2) + a_tb[1].powi(2) + a_tb[2].powi(2)).sqrt();
+    let central = (a_tb[0].ppowi(2) + a_tb[1].ppowi(2) + a_tb[2].ppowi(2)).sqrt();
     let rel = pert / central;
     // The Mars oblateness (J2 ≈ 1.96e-3) plus the (smaller) tesserals: a real, J2-scale
     // perturbation — bounded well below the central term but far above numerical noise.
@@ -280,7 +281,7 @@ fn mars_sh_is_body_fixed() {
     let a0 = model0.accel_at(0.0, r);
     let a1 = model0.accel_at(quarter_mars_day, r);
 
-    let d = ((a0[0] - a1[0]).powi(2) + (a0[1] - a1[1]).powi(2) + (a0[2] - a1[2]).powi(2)).sqrt();
+    let d = ((a0[0] - a1[0]).ppowi(2) + (a0[1] - a1[1]).ppowi(2) + (a0[2] - a1[2]).ppowi(2)).sqrt();
     // The tesseral signal is ~1e-5 m/s² at this radius; a quarter-turn reorientation must move the
     // acceleration by a real, well-above-noise amount. (If the rotation were not applied, d ≈ 0.)
     assert!(

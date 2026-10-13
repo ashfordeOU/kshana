@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
+// Host maths on purpose: this test recomputes its expected values independently of the engine's
+// portable maths (STUDIO-15), so the engine is checked against a second implementation.
 //! Oracle test for the matrix row "GNSS/INS sensor fusion", scoped to the loosely
 //! coupled filter: Kshana's closed-loop 15-state error-state EKF
 //! (`fusion::closed_loop::ClosedLoopInsGnss` around `fusion::gnss_ins_ekf::GnssInsEkf`)

@@ -2,6 +2,7 @@
 //! **Test-bench export: every file written is read back and compared within the stated
 //! tolerances.** Synthetic scenarios only; nothing here reads the network.
 
+use kshana::portable_math::PortableFloat;
 use kshana::interop::testbench::*;
 use kshana::interop::{ExportError, UtcEpoch};
 use std::path::PathBuf;
@@ -28,7 +29,7 @@ fn gnss_ins_trajectory_moves_turns_and_has_one_outage_event() {
     let last = t.samples.last().unwrap();
     let first = &t.samples[0];
     let d: f64 = (0..3)
-        .map(|i| (last.ecef_m[i] - first.ecef_m[i]).powi(2))
+        .map(|i| (last.ecef_m[i] - first.ecef_m[i]).ppowi(2))
         .sum::<f64>()
         .sqrt();
     assert!(d > 100.0, "the vehicle moved {d} m");
@@ -100,21 +101,21 @@ fn nmea_round_trips_within_tolerance_and_has_valid_checksums() {
         assert!((m.t_s - f.t_s).abs() < 1e-3, "{} vs {}", m.t_s, f.t_s);
         let dlat = (m.lat_deg - f.lat_deg).to_radians() * 6_378_137.0;
         let dlon =
-            (m.lon_deg - f.lon_deg).to_radians() * 6_378_137.0 * m.lat_deg.to_radians().cos();
-        assert!(dlat.hypot(dlon) <= NMEA_HORIZONTAL_TOL_M, "{dlat} {dlon}");
+            (m.lon_deg - f.lon_deg).to_radians() * 6_378_137.0 * m.lat_deg.to_radians().pcos();
+        assert!(dlat.phypot(dlon) <= NMEA_HORIZONTAL_TOL_M, "{dlat} {dlon}");
         assert!((m.h_m - f.h_m).abs() <= NMEA_HEIGHT_TOL_M);
         // NMEA speed is over the ground: the horizontal part of the velocity.
         let v = m.v_ecef_m_s;
-        let (sl, cl) = m.lat_deg.to_radians().sin_cos();
-        let (so, co) = m.lon_deg.to_radians().sin_cos();
+        let (sl, cl) = m.lat_deg.to_radians().psin_cos();
+        let (so, co) = m.lon_deg.to_radians().psin_cos();
         let vn = -sl * co * v[0] - sl * so * v[1] + cl * v[2];
         let ve = -so * v[0] + co * v[1];
-        let speed_kn = vn.hypot(ve) * 3600.0 / 1852.0;
+        let speed_kn = vn.phypot(ve) * 3600.0 / 1852.0;
         assert!((speed_kn - f.speed_kn).abs() <= NMEA_SPEED_TOL_KN + 1e-6);
         // Course over ground is the direction of the velocity vector; below the writer's
         // minimum speed there is none.
-        if vn.hypot(ve) >= 0.05 {
-            let want = ve.atan2(vn).to_degrees().rem_euclid(360.0);
+        if vn.phypot(ve) >= 0.05 {
+            let want = ve.patan2(vn).to_degrees().rem_euclid(360.0);
             let got = f.course_deg.expect("a moving sample carries a course");
             let d = (want - got + 180.0).rem_euclid(360.0) - 180.0;
             assert!(d.abs() <= NMEA_COURSE_TOL_DEG + 1e-9, "{want} vs {got}");
@@ -130,14 +131,14 @@ fn gnss_ins_heading_is_the_body_yaw_not_the_course_and_the_files_say_so() {
     let mut worst = 0.0f64;
     for m in &t.samples {
         let v = m.v_ecef_m_s;
-        let (sl, cl) = m.lat_deg.to_radians().sin_cos();
-        let (so, co) = m.lon_deg.to_radians().sin_cos();
+        let (sl, cl) = m.lat_deg.to_radians().psin_cos();
+        let (so, co) = m.lon_deg.to_radians().psin_cos();
         let vn = -sl * co * v[0] - sl * so * v[1] + cl * v[2];
         let ve = -so * v[0] + co * v[1];
-        if vn.hypot(ve) < 0.5 {
+        if vn.phypot(ve) < 0.5 {
             continue;
         }
-        let course = ve.atan2(vn).to_degrees().rem_euclid(360.0);
+        let course = ve.patan2(vn).to_degrees().rem_euclid(360.0);
         let d = ((m.heading_deg - course + 180.0).rem_euclid(360.0) - 180.0).abs();
         worst = worst.max(d);
     }

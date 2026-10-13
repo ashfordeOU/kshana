@@ -9,6 +9,7 @@
 //! `sha2` crate over the whole file read at once; and the crate's raw-IF loader
 //! (`realdata::iqif::load_iq`) as the one-shot decoder for `ci16_le`.
 
+use kshana::portable_math::PortableFloat;
 use kshana::iq::io::format::{BitOrder, Components, Encoding, Endian, Justify, TwoBitCode};
 use kshana::iq::io::inventory::{scan_dir, InventoryOptions, RecordingKind};
 use kshana::iq::io::report::{results_to_csv, results_to_json};
@@ -209,7 +210,7 @@ fn two_bit_packing_matches_hand_built_vectors() {
 fn tone_amplitude(x: &[Cf64], f_hz: f64, fs: f64) -> f64 {
     let (mut re, mut im) = (0.0, 0.0);
     for (k, s) in x.iter().enumerate() {
-        let (sn, cs) = (-2.0 * std::f64::consts::PI * f_hz * k as f64 / fs).sin_cos();
+        let (sn, cs) = (-2.0 * std::f64::consts::PI * f_hz * k as f64 / fs).psin_cos();
         re += s.re * cs - s.im * sn;
         im += s.re * sn + s.im * cs;
     }
@@ -228,7 +229,7 @@ fn real_if_to_complex_recovers_a_tone_at_the_right_baseband_frequency() {
         .map(|k| {
             let t = k as f64 / fs;
             Cf64::new(
-                (2.0 * std::f64::consts::PI * (f_if + delta) * t + 0.3).cos(),
+                (2.0 * std::f64::consts::PI * (f_if + delta) * t + 0.3).pcos(),
                 0.0,
             )
         })
@@ -263,9 +264,9 @@ fn real_if_to_complex_recovers_a_tone_at_the_right_baseband_frequency() {
         let image = tone_amplitude(seg, -sign * delta, 2.0e6);
         assert!((want - 0.5).abs() < 1e-3, "tone amplitude {want}");
         assert!(
-            20.0 * (image / want).log10() < -70.0,
+            20.0 * (image / want).plog10() < -70.0,
             "image only {:.1} dB down",
-            20.0 * (image / want).log10()
+            20.0 * (image / want).plog10()
         );
     }
 }
@@ -274,7 +275,7 @@ fn complex_tone(f_hz: f64, fs: f64, n: usize) -> Vec<Cf64> {
     (0..n)
         .map(|k| {
             let p = 2.0 * std::f64::consts::PI * f_hz * k as f64 / fs;
-            Cf64::new(p.cos(), p.sin())
+            Cf64::new(p.pcos(), p.psin())
         })
         .collect()
 }
@@ -304,9 +305,9 @@ fn resampler_response_passes_the_band_and_rejects_images_and_aliases() {
     for f in [-200e3, -700e3] {
         let image = tone_amplitude(seg, f, 1.5e6);
         assert!(
-            20.0 * image.log10() < -75.0,
+            20.0 * image.plog10() < -75.0,
             "image at {f} Hz: {:.1} dB",
-            20.0 * image.log10()
+            20.0 * image.plog10()
         );
     }
 
@@ -326,9 +327,9 @@ fn resampler_response_passes_the_band_and_rejects_images_and_aliases() {
     let alias = tone_amplitude(seg, 200e3, 1e6);
     assert!((pass - 1.0).abs() < 1e-3, "pass-band gain {pass}");
     assert!(
-        20.0 * alias.log10() < -75.0,
+        20.0 * alias.plog10() < -75.0,
         "alias {:.1} dB",
-        20.0 * alias.log10()
+        20.0 * alias.plog10()
     );
 
     // DC gain is exactly the prototype's unit gain once the transient has passed.

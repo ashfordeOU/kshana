@@ -15,6 +15,7 @@
 //! the resulting perturbed-geometry DOP magnitude stays honestly Modelled (a representative
 //! twin, not a DE440-ephemeris product).
 
+use kshana::portable_math::PortableFloat;
 use kshana::api::run_toml;
 use kshana::lunar_perturbed::{
     default_tolerance, elements_to_state, LunarPerturbations, PerturbedConstellation,
@@ -129,7 +130,7 @@ fn perturbed_geometry_is_materially_different_from_keplerian() {
         .iter()
         .zip(&pp)
         .map(|(a, b)| {
-            ((a[0] - b[0]).powi(2) + (a[1] - b[1]).powi(2) + (a[2] - b[2]).powi(2)).sqrt()
+            ((a[0] - b[0]).ppowi(2) + (a[1] - b[1]).ppowi(2) + (a[2] - b[2]).ppowi(2)).sqrt()
         })
         .fold(0.0_f64, f64::max);
     assert!(

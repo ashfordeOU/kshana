@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
+// Host maths on purpose: this test recomputes its expected values independently of the engine's
+// portable maths (STUDIO-15), so the engine is checked against a second implementation.
 //! Pre-registered comparison, amendment: the Earth split from the Earth-Moon barycentre and the
 //! rotation to the ICRF, the two parts of the Standish planet-position row that
 //! `tests/solar_system_standish_preregistered.rs` does not reach.

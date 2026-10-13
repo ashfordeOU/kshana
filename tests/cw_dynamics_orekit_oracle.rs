@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
+// Host maths on purpose: this test recomputes its expected values independently of the engine's
+// portable maths (STUDIO-15), so the engine is checked against a second implementation.
 //! Clohessy-Wiltshire relative motion against nonlinear two-body motion from Orekit 12.2.
 //!
 //! ORACLE (Library): Orekit 12.2 (Apache-2.0) NumericalPropagator, DormandPrince853, Newtonian

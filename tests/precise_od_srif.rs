@@ -6,6 +6,7 @@
 //! so the checks are agreement to a small fraction of the recovery scale and the same recovery
 //! criteria the default fit is held to in `tests/precise_od_synth.rs`.
 
+use kshana::portable_math::PortableFloat;
 use kshana::integrator::Tolerance;
 use kshana::precise_od::{
     fit, fit_srif, propagate, EmpiricalAccel, EstimatedParams, FitConfig, Observation,
@@ -25,7 +26,7 @@ impl Lcg {
     fn gauss(&mut self) -> f64 {
         let u1 = self.next_u().max(1e-12);
         let u2 = self.next_u();
-        (-2.0 * u1.ln()).sqrt() * (std::f64::consts::TAU * u2).cos()
+        (-2.0 * u1.pln()).sqrt() * (std::f64::consts::TAU * u2).pcos()
     }
 }
 
@@ -34,7 +35,7 @@ fn circular_leo() -> ([f64; 3], [f64; 3]) {
     let a = 7.0e6;
     let vc = (mu / a).sqrt();
     let inc = 51.6_f64.to_radians();
-    ([a, 0.0, 0.0], [0.0, vc * inc.cos(), vc * inc.sin()])
+    ([a, 0.0, 0.0], [0.0, vc * inc.pcos(), vc * inc.psin()])
 }
 
 fn tol() -> Tolerance {
@@ -78,7 +79,7 @@ fn track(
 }
 
 fn dist(a: [f64; 3], b: [f64; 3]) -> f64 {
-    ((a[0] - b[0]).powi(2) + (a[1] - b[1]).powi(2) + (a[2] - b[2]).powi(2)).sqrt()
+    ((a[0] - b[0]).ppowi(2) + (a[1] - b[1]).ppowi(2) + (a[2] - b[2]).ppowi(2)).sqrt()
 }
 
 #[test]

@@ -23,6 +23,7 @@
 //! The point is to pin the detector to a recognised public reference and to be exact about what
 //! "validated" means — not to claim raw-signal fidelity the architecture cannot support.
 
+use kshana::portable_math::PortableFloat;
 use kshana::spoof_monitors::{combine_power_dbm, CombinedSpoofDetector, SpoofEpoch};
 
 /// The push class of a spoofing scenario, which determines the RAIM-layer response.
@@ -74,7 +75,7 @@ fn geometry8() -> Vec<[f64; 4]> {
         .iter()
         .map(|&(az, el): &(f64, f64)| {
             let (a, e) = (az.to_radians(), el.to_radians());
-            [e.cos() * a.sin(), e.cos() * a.cos(), e.sin(), 1.0]
+            [e.pcos() * a.psin(), e.pcos() * a.pcos(), e.psin(), 1.0]
         })
         .collect()
 }

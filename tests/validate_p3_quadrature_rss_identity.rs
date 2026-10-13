@@ -23,6 +23,7 @@
 //! Reference: the Euclidean (2-)norm identity `‖v‖₂ = √(Σ vᵢ²)`, computed here by the
 //! stable pairwise `hypot` fold (cf. `numpy.linalg.norm`, LAPACK `dnrm2`).
 
+use kshana::portable_math::PortableFloat;
 use kshana::clock_specs::{x_clock_s, LunarClock};
 use kshana::lunar_time_budget::{default_tau_grid, lunar_time_budget, BudgetParams};
 
@@ -30,7 +31,7 @@ use kshana::lunar_time_budget::{default_tau_grid, lunar_time_budget, BudgetParam
 /// LAPACK `dnrm2` algorithm) — never forms Σx² explicitly, so it is a genuinely different
 /// computation from the engine's sum-of-squares-then-sqrt.
 fn rss_hypot(xs: &[f64]) -> f64 {
-    xs.iter().fold(0.0f64, |acc, &x| acc.hypot(x))
+    xs.iter().fold(0.0f64, |acc, &x| acc.phypot(x))
 }
 
 fn rel_diff(got: f64, want: f64) -> f64 {

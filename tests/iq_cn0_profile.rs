@@ -11,6 +11,7 @@
 //!   equals the stated C/N0 plus the profile, and the C/N0 a tracking loop estimates on the
 //!   scene follows a 6 dB step within the estimator's spread.
 
+use kshana::portable_math::PortableFloat;
 use kshana::iq::channel::cn0_profile::{rice_k_for_s4, Cn0Profile, Cn0Segment, Cn0Shape};
 use std::path::PathBuf;
 
@@ -61,7 +62,7 @@ fn fade_matches_rice_closed_forms() {
         let dt = tau / 20.0;
         let n = 4000 * 20;
         let inten: Vec<f64> = (0..n)
-            .map(|k| 10f64.powf(p.offset_db(7, k as f64 * dt) / 10.0))
+            .map(|k| 10f64.ppowf(p.offset_db(7, k as f64 * dt) / 10.0))
             .collect();
         let m = mean(&inten);
         let var = inten.iter().map(|v| (v - m) * (v - m)).sum::<f64>() / n as f64;

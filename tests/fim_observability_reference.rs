@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
+// Host maths on purpose: this test recomputes its expected values independently of the engine's
+// portable maths (STUDIO-15), so the engine is checked against a second implementation.
 //! Externally validate Kshana's Fisher-information / Cramér–Rao engine
 //! ([`kshana::fim`]) against an **independent third-party authority**: NumPy
 //! 2.4.1 (`numpy.linalg.eigh` / `numpy.linalg.inv`; BSD-3-Clause, LAPACK-backed).

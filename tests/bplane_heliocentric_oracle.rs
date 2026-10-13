@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
+// Host maths on purpose: this test recomputes its expected values independently of the engine's
+// portable maths (STUDIO-15), so the engine is checked against a second implementation.
 //! External oracles for the heliocentric half of the verification row "B-plane targeting &
 //! patched-conic gravity assist": the heliocentric velocity change of the assist
 //! (`bplane::assist_delta_v`), the heliocentric osculating elements (`bplane::elements_aei`)

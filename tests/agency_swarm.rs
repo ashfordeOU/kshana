@@ -21,6 +21,7 @@
 //!   swarm/SW_OPER_SP3ACOM_2_L47_2022001_3h.sp3   6cd84b78…acb733e
 //!   eop/finals2000A_2022001.txt                  6b781d36…cb2ed00f
 
+use kshana::portable_math::PortableFloat;
 use kshana::cio::itrs_to_gcrs;
 use kshana::eop::EopSeries;
 use kshana::precise_od::{fit, EstimatedParams, FitConfig, Observation, PreciseForceModel};
@@ -99,7 +100,7 @@ fn raw_overlap_rms(
     let sumsq: f64 = obs
         .iter()
         .zip(&pred)
-        .map(|(o, r)| (0..3).map(|k| (r[k] - o.pos[k]).powi(2)).sum::<f64>())
+        .map(|(o, r)| (0..3).map(|k| (r[k] - o.pos[k]).ppowi(2)).sum::<f64>())
         .sum();
     (sumsq / obs.len() as f64).sqrt()
 }

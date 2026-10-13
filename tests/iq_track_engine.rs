@@ -10,6 +10,7 @@
 //! hand-off produces must be detected at the ±1/(2T) alias and, with re-acquisition on,
 //! repaired to the injected Doppler; a signal gap must be declared lost and re-acquired.
 
+use kshana::portable_math::PortableFloat;
 use kshana::iq::cli::build_code;
 use kshana::iq::track::design::DesignFile;
 use kshana::iq::track::sink::{
@@ -59,7 +60,7 @@ impl Synth {
         let rate = code.chip_rate_hz() * (1.0 + doppler / code.carrier_hz());
         Self {
             fs,
-            amp: (10f64.powf(cn0_dbhz / 10.0) / fs).sqrt(),
+            amp: (10f64.ppowf(cn0_dbhz / 10.0) / fs).sqrt(),
             code,
             doppler,
             rate,
@@ -82,7 +83,7 @@ impl Synth {
                 / (1u64 << 53) as f64
         };
         let (a, b) = (u(), u());
-        (-2.0 * a.ln()).sqrt() * (TAU * b).cos()
+        (-2.0 * a.pln()).sqrt() * (TAU * b).pcos()
     }
     /// The truth hand-off: code phase at sample 0 and the Doppler.
     fn init(&self, doppler: f64) -> ChannelInit {
@@ -125,7 +126,7 @@ impl IqSource for Synth {
                     }
                 }
                 let ph = TAU * self.doppler * t;
-                v = v + Cf64::new(ph.cos(), ph.sin()) * (self.amp * c);
+                v = v + Cf64::new(ph.pcos(), ph.psin()) * (self.amp * c);
             }
             *out = v;
             self.n += 1;
@@ -366,7 +367,7 @@ fn a_signal_gap_is_lost_then_reacquired() {
 /// (Kaplan & Hegarty, infinite bandwidth): `(σ_D, σ_ε)` in chips.
 fn dll_theory(cn0_dbhz: f64) -> (f64, f64) {
     let (t, d, bn) = (1e-3, 0.5, 2.0);
-    let c = 10f64.powf(cn0_dbhz / 10.0);
+    let c = 10f64.ppowf(cn0_dbhz / 10.0);
     let var_e = bn * d / (2.0 * c) * (1.0 + 2.0 / ((2.0 - d) * t * c));
     ((var_e / (2.0 * bn * t)).sqrt(), var_e.sqrt())
 }
@@ -402,7 +403,7 @@ fn dll_measured(fs: f64, cn0_dbhz: f64) -> (f64, f64) {
 fn std_dev(xs: &[f64]) -> f64 {
     let n = xs.len() as f64;
     let m = xs.iter().sum::<f64>() / n;
-    (xs.iter().map(|x| (x - m).powi(2)).sum::<f64>() / (n - 1.0)).sqrt()
+    (xs.iter().map(|x| (x - m).ppowi(2)).sum::<f64>() / (n - 1.0)).sqrt()
 }
 
 /// The full survey of the pre-registration (3 sample rates × 3 C/N0). Slow in a debug

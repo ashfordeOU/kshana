@@ -3,6 +3,7 @@
 //! pre-registered in `docs/design/evidence/cn0-m2m4/PREREGISTRATION.md` (commit 3cd91504).
 //! All four bars run in the normal suite (about 90 s in a debug build, under 10 s in release).
 
+use kshana::portable_math::PortableFloat;
 use kshana::iq::cli::build_code;
 use kshana::iq::signals::SignalCode;
 use kshana::iq::track::sink::CollectSink;
@@ -31,7 +32,7 @@ impl Synth {
         let rate = code.chip_rate_hz() * (1.0 + doppler / code.carrier_hz());
         Self {
             fs,
-            amp: (10f64.powf(cn0_dbhz / 10.0) / fs).sqrt(),
+            amp: (10f64.ppowf(cn0_dbhz / 10.0) / fs).sqrt(),
             code,
             doppler,
             rate,
@@ -50,7 +51,7 @@ impl Synth {
                 / (1u64 << 53) as f64
         };
         let (a, b) = (u(), u());
-        (-2.0 * a.ln()).sqrt() * (TAU * b).cos()
+        (-2.0 * a.pln()).sqrt() * (TAU * b).pcos()
     }
     fn init(&self, doppler: f64) -> ChannelInit {
         ChannelInit {
@@ -78,7 +79,7 @@ impl IqSource for Synth {
             let c = self.code.value_at(self.phase0 + self.rate * t);
             let ph = TAU * self.doppler * t;
             let v = Cf64::new(s * self.gauss(), s * self.gauss());
-            *out = v + Cf64::new(ph.cos(), ph.sin()) * (self.amp * c);
+            *out = v + Cf64::new(ph.pcos(), ph.psin()) * (self.amp * c);
             self.n += 1;
         }
         Ok(k)

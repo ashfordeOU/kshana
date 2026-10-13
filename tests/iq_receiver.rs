@@ -11,6 +11,7 @@
 //! GPS L1 C/A, complex white Gaussian noise of unit power, optional 50 bit/s data); the
 //! full scene generator is a separate stream.
 
+use kshana::portable_math::PortableFloat;
 use kshana::acquisition::{fft_forward, pd_square_law, threshold_for_pfa};
 use kshana::iq::acq::{acquire, acquire_source, AcqConfig};
 use kshana::iq::track::cn0::{beaulieu_cn0_dbhz, nwpr_cn0_dbhz};
@@ -99,7 +100,7 @@ impl Truth {
 fn synth(prn: u8, truth: &Truth, n: usize, seed: u64) -> (Vec<Cf64>, Vec<f64>) {
     let code = CaCode::new(prn).expect("prn");
     let mut rng = ChaCha8Rng::seed_from_u64(seed);
-    let a = (10f64.powf(truth.cn0_dbhz / 10.0) / FS).sqrt();
+    let a = (10f64.ppowf(truth.cn0_dbhz / 10.0) / FS).sqrt();
     let nb = truth.bit_index(n as f64) + 2;
     let bits: Vec<f64> = (0..nb)
         .map(|_| if rng.gen::<bool>() { 1.0 } else { -1.0 })
@@ -117,8 +118,8 @@ fn synth(prn: u8, truth: &Truth, n: usize, seed: u64) -> (Vec<Cf64>, Vec<f64>) {
             let ph = TAU * truth.doppler_hz * x / FS + truth.carrier_phase0;
             let c = a * code.bipolar[chip] * d;
             Cf64::new(
-                c * ph.cos() + s * gauss(&mut rng),
-                c * ph.sin() + s * gauss(&mut rng),
+                c * ph.pcos() + s * gauss(&mut rng),
+                c * ph.psin() + s * gauss(&mut rng),
             )
         })
         .collect();
@@ -168,9 +169,9 @@ fn fft_matches_a_direct_dft_to_1e_9() {
             let mut acc = Cf64::default();
             for (j, v) in x.iter().enumerate() {
                 let ang = -TAU * ((j * k) % n) as f64 / n as f64;
-                acc = acc + *v * Cf64::new(ang.cos(), ang.sin());
+                acc = acc + *v * Cf64::new(ang.pcos(), ang.psin());
             }
-            let err = (f.re - acc.re).hypot(f.im - acc.im);
+            let err = (f.re - acc.re).phypot(f.im - acc.im);
             assert!(err < 1e-9, "n={n} k={k} err={err:e}");
         }
     }
@@ -277,7 +278,7 @@ fn empirical_pd_agrees_with_the_marcum_q_detector() {
     let m = 2;
     let cn0 = 36.0;
     let gamma = threshold_for_pfa(1e-3, m as f64);
-    let rho = 10f64.powf(cn0 / 10.0) * 1e-3;
+    let rho = 10f64.ppowf(cn0 / 10.0) * 1e-3;
     let pd = pd_square_law(gamma, m as f64, rho);
     let predicted = kshana::iq::acq::predicted_pd(&single_bin(m), 1e-3, cn0, 1e-3);
     assert!((pd - predicted).abs() < 1e-12);
@@ -355,7 +356,7 @@ fn loop_bandwidth_from_coefficients_matches_the_design() {
                     let b = kshana::iq::track::filter::second_order_noise_bandwidth(w, zeta);
                     assert!((b - bn).abs() / bn < 1e-3, "closed form {b} vs {bn}");
                 }
-                _ => assert!((k3.cbrt() - w0).abs() < 1e-9),
+                _ => assert!((k3.pcbrt() - w0).abs() < 1e-9),
             }
             let got = impulse_bandwidth(f, t);
             let rel = (got - bn).abs() / bn;
@@ -385,7 +386,7 @@ fn run_carrier_loop(
     let t = 1e-3;
     let mut core = LoopCore::new(cfg, CHIP, L1, 0.0).expect("core");
     let mut rng = ChaCha8Rng::seed_from_u64(seed);
-    let a = cn0_dbhz.map_or(1.0, |c| (2.0 * 10f64.powf(c / 10.0) * t).sqrt());
+    let a = cn0_dbhz.map_or(1.0, |c| (2.0 * 10f64.ppowf(c / 10.0) * t).sqrt());
     let mut phi = 0.0;
     let mut d = 1.0;
     let n = (secs / t) as usize;
@@ -397,7 +398,7 @@ fn run_carrier_loop(
         let f = core.doppler_hz();
         let t0 = k as f64 * t;
         let err = theta_mean(t0, t) - (phi + PI * f * t);
-        let mut p = Cf64::new(err.cos(), err.sin()) * (a * d);
+        let mut p = Cf64::new(err.pcos(), err.psin()) * (a * d);
         if cn0_dbhz.is_some() {
             p = p + Cf64::new(gauss(&mut rng), gauss(&mut rng));
         }
@@ -435,7 +436,7 @@ fn pll_jitter_matches_the_thermal_noise_closed_form() {
             .iter()
             .map(|&x| wrap_half_pi(x))
             .collect();
-        let c = 10f64.powf(cn0 / 10.0);
+        let c = 10f64.ppowf(cn0 / 10.0);
         let want = (10.0 / c * (1.0 + 1.0 / (2.0 * 1e-3 * c))).sqrt();
         let got = std_dev(&e);
         assert!(
@@ -525,7 +526,7 @@ fn fll_assist_pulls_in_a_large_frequency_error() {
         let t = 1e-3;
         let f = core.doppler_hz();
         let err = theta(k as f64 * t, t) - (phi + PI * f * t);
-        let p = Cf64::new(err.cos(), err.sin());
+        let p = Cf64::new(err.pcos(), err.psin());
         core.update(p, p, p, t);
         phi += TAU * f * t;
     }
@@ -545,7 +546,7 @@ fn fll_assist_pulls_in_a_large_frequency_error() {
 #[test]
 fn dll_jitter_matches_the_thermal_noise_closed_form() {
     let (t, d, bn, cn0) = (1e-3, 0.5, 1.0, 45.0);
-    let c = 10f64.powf(cn0 / 10.0);
+    let c = 10f64.ppowf(cn0 / 10.0);
     let a = (2.0 * c * t).sqrt();
     // Cholesky factor of the E/P/L noise covariance.
     let r = [
@@ -623,7 +624,7 @@ fn dll_jitter_matches_the_thermal_noise_closed_form() {
 fn cn0_estimators_are_unbiased_at_35_and_45_dbhz() {
     for (cn0, seed) in [(35.0, 61u64), (45.0, 62)] {
         let t = 1e-3;
-        let a = (2.0 * 10f64.powf(cn0 / 10.0) * t).sqrt();
+        let a = (2.0 * 10f64.ppowf(cn0 / 10.0) * t).sqrt();
         let mut rng = ChaCha8Rng::seed_from_u64(seed);
         let (mut nw, mut be) = (Vec::new(), Vec::new());
         for _ in 0..30 {

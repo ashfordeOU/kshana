@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
+// Host maths on purpose: this test recomputes its expected values independently of the engine's
+// portable maths (STUDIO-15), so the engine is checked against a second implementation.
 //! Ground-station pass prediction on the validated propagation and frame path, with
 //! tropospheric refraction (ITU-R P.834-9, International Telecommunication Union
 //! Radiocommunication Sector Recommendation P.834) and light time. New row, package D8.
