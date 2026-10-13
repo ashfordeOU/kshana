@@ -43,3 +43,15 @@ Pending: the run needs gLAB and RTKLIB built or installed as separate programs. 
 `tests/ppp_parity_glab_rtklib.rs` reads the CSV files when they exist (or the directory named by
 `KSHANA_PPP_PARITY_DIR`) and otherwise prints that the comparison was not run and passes; it never
 claims parity without the files.
+
+## Amendment 1 (2026-10-13, committed before any oracle run; bars unchanged)
+
+RTKLIB's `rnx2rtkp` refuses to run without a broadcast navigation file even in precise mode: its
+`satposs` forms the transmit time from a broadcast clock before switching to the precise orbit
+and clock (the same behaviour the repository's earlier precise-product RTKLIB test disclosed).
+`run.sh` therefore also passes `tests/fixtures/gnss_wettzell_2025055/brdc_2025055_G_0008.rnx`,
+the GPS records 00:00-08:00 of the IGS daily merged broadcast file of 2025-02-24 (source and
+SHA-256 in that directory's NOTICE.md). Positions and clocks used by the solution remain the IGS
+final products. Kshana's side, the criteria R1-R3 and the non-vacuity bars are unchanged. gLAB
+could not be fetched in the session that ran RTKLIB (its download was refused by the session's
+permission system), so the gLAB leg stays pending and data-gated.
