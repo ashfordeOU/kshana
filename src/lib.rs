@@ -142,6 +142,7 @@ pub mod gnss_sim;
 pub mod gps_lnav;
 pub mod gravimeter;
 pub mod gravity_sh;
+pub mod hatch;
 pub mod gse_sim;
 pub mod handoff;
 pub mod holdover;
