@@ -2,19 +2,20 @@
 
 ## Files
 
-- `codg1330_crop.18i` (315 118 bytes, SHA-256
-  44dcdbd425323f168e7e26aed8e33d9599bab0f4549c4d651ec72f13746d90f1): a latitude crop of the
-  CODE final global ionosphere map for 2018-05-13 (day 133). Built by `make_fixture.py` (Python
-  standard library; its docstring has the commands). Transform: every header record verbatim
-  except `LAT1 / LAT2 / DLAT` (now `30.0 5.0 -2.5`) and three added `COMMENT` records stating the
-  crop; in every one of the 25 TEC maps and 25 RMS maps only the 11 latitude bands 30.0 to 5.0
-  deg are kept (all 73 longitudes -180 to 180), band and value records verbatim. Still a valid
-  IONEX 1.0 file. The header's peak-TEC comment refers to the global maps.
-- `reference_vtec.csv.gz` (gzip, mtime 0, reproducible byte for byte): output of
-  `python3 -I reference_interp.py codg1330_crop.18i reference_vtec.csv.gz`, the formula
-  reference (an independent Python re-implementation of the IONEX 1.0 interpolation formulas;
-  not third-party output). Row formats are in the script's docstring.
+- `synthetic/map.18i`: a synthetic IONEX 1.0 file written by `gen_synthetic.py` (pure arithmetic,
+  no third-party data) with the structure of the CODE GIM crop the test was designed on.
+- `synthetic/reference_vtec.csv.gz` (gzip, mtime 0, reproducible): output of
+  `python3 -I reference_interp.py synthetic/map.18i synthetic/reference_vtec.csv.gz`.
+- `fetch.sh`, `make_fixture.py`, `reference_interp.py`: fetch the real map at test time (pinned
+  SHA-256 below), cut the latitude crop and compute its formula reference OUTSIDE the
+  repository; `KSHANA_IONEX_CODE_GIM_DIR` points the test at them.
 - `PREREGISTRATION.md`: the bars, committed alone (e4d8b1f) before any comparison.
+
+The real map is NOT vendored (changed 2026-10-13): its licence could not be confirmed from a
+primary source (see Terms), and the repository's rule is not to vendor data whose licence is
+unclear. The crop first committed in 0901cca was removed; the crop `fetch.sh` rebuilds is
+byte-identical to it (SHA-256 44dcdbd425323f168e7e26aed8e33d9599bab0f4549c4d651ec72f13746d90f1;
+its reference 1726acaf589d747a96b69af8bdb860639107d5fa0d970407a2fbadbd6240da6b).
 
 ## Source
 

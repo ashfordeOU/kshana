@@ -30,8 +30,9 @@ breaking changes are called out explicitly.
   `IonexEpoch`, `IonexFileMap` and `IonexTimeInterp`: a strict fixed-column IONEX 1.0 reader with
   epochs counted from the first map's day, `9999` read as missing, RMS maps, and the format's
   nearest, consecutive and rotated-map time interpolations; slant TEC at the header's shell
-  height. Exercised on a crop of a real CODE GIM (every node exact; interpolation matches a
-  formula reference to 4e-13 TECU). MODELLED; the RTKLIB comparison is data-gated.
+  height. Checked on a committed synthetic map and, data-gated (fetched at test time with a
+  pinned SHA-256, not vendored), on a crop of a real CODE GIM: every node exact; interpolation
+  matches a formula reference to 4e-13 TECU. MODELLED; the RTKLIB comparison is data-gated.
 - **Hatch carrier smoothing** (0.36, WP-07): `hatch::HatchFilter` and
   `pvt::assemble_epoch_precise_smoothed`, the divergence-free (ionosphere-free) form in the precise
   single-point assembly. MODELLED with a recorded finding: on the IGS station WTZR it lowers the
