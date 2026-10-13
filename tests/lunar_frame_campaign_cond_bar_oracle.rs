@@ -26,7 +26,15 @@
 //!
 //! ## Result
 //!
-//! RESULT_PLACEHOLDER
+//! First run 2026-10-13 (NumPy 2.5.4, SciPy 1.18.1): **NOT MET**, a finding; the row stays
+//! MODELLED. Six of eight scenarios hold every check (default, arc_16h, arc_48h, delay_sigma_3x,
+//! collinear_beacons, stations_fixed_fresh; worst gap 0.13 of its bar, the arc_16h weakest direction at the arccos resolution). `stations_estimated`
+//! (t = 5.9e-7, kappa 5.3e8) fails 8 checks: datum sigmas up to 6.8e-6, translation norm
+//! 3.6e-6, condition 9.1e-6, independence-discarded norm 3.5e-6. On `stations_estimated_fresh`
+//! the unchanged oracle raises (NumPy `inv` of a singular independence-discarded covariance: the
+//! south-pole beacon has no observation on D), so it cannot be evaluated. The strict test is
+//! ignored; `finding_p2_condition_scaled_bar_not_met_on_the_estimated_scenarios` pins exactly
+//! these nine failed checks. Results: docs/design/evidence/mr05-lunar-datum-cond/RESULTS.md.
 
 #[path = "support/fixture_pin.rs"]
 mod fixture_pin;
@@ -157,6 +165,11 @@ fn checks() -> Vec<Check> {
         let acc = &v["datum_accuracy"];
         let mut push = |q: &str, gap: f64, bar: f64| out.push((name, q.to_string(), gap, bar));
         let eq = |a: bool| if a { 0.0 } else { 1.0 };
+        if let Some(e) = p["error"].as_str() {
+            // The unchanged oracle could not evaluate the scenario: no check can pass.
+            push(&format!("oracle evaluates the scenario ({e})"), 1.0, 0.0);
+            continue;
+        }
         push(
             "Helmert rank equal",
             eq(u(&helm["rank"]) == u(&p["rank"])),
@@ -276,9 +289,43 @@ fn fresh_inputs_are_the_engines() {
     }
 }
 
-/// The pre-registered P2 comparison on all eight scenarios.
+/// The pre-registered P2 comparison on all eight scenarios, strict. Ignored: NOT MET (the
+/// finding below).
 #[test]
+#[ignore = "MR-05 finding: stations_estimated outside the condition-scaled bar; stations_estimated_fresh not evaluable by the unchanged oracle"]
 fn lunar_frame_campaign_matches_numpy_at_the_condition_scaled_bar() {
     let bad: Vec<Check> = checks().into_iter().filter(|c| c.2 > c.3).collect();
     assert!(bad.is_empty(), "outside the bar: {bad:#?}");
+}
+
+/// The checks outside the bar on the first run (2026-10-13), by scenario and quantity.
+const FINDING: &[(&str, &str)] = &[
+    ("stations_estimated", "datum sigma 1"),
+    ("stations_estimated", "datum sigma 2"),
+    ("stations_estimated", "datum sigma 3"),
+    ("stations_estimated", "datum sigma 4"),
+    ("stations_estimated", "datum sigma 5"),
+    ("stations_estimated", "translation sigma norm"),
+    ("stations_estimated", "Helmert condition"),
+    (
+        "stations_estimated",
+        "independence-discarded translation norm",
+    ),
+    (
+        "stations_estimated_fresh",
+        "oracle evaluates the scenario (LinAlgError: Singular matrix)",
+    ),
+];
+
+/// The finding, pinned: exactly the recorded checks fall outside the bar (it fails if any of
+/// them comes inside, so the row is re-examined, or if another one goes outside).
+#[test]
+fn finding_p2_condition_scaled_bar_not_met_on_the_estimated_scenarios() {
+    let bad: Vec<(&str, String)> = checks()
+        .into_iter()
+        .filter(|c| c.2 > c.3)
+        .map(|c| (c.0, c.1))
+        .collect();
+    let want: Vec<(&str, String)> = FINDING.iter().map(|(a, b)| (*a, b.to_string())).collect();
+    assert_eq!(bad, want, "the P2 finding changed");
 }
