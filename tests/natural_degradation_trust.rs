@@ -18,7 +18,9 @@ use kshana::nmea_synth::config::TrainingScenario;
 use kshana::nmea_synth::gen::generate;
 use kshana::receiver_trust::geometry::GeometryReason;
 use kshana::receiver_trust::monitors::{EpochTrust, Monitor};
-use kshana::receiver_trust::scenario::{run_receiver_trust, ReceiverTrustResult, ReceiverTrustScenario};
+use kshana::receiver_trust::scenario::{
+    run_receiver_trust, ReceiverTrustResult, ReceiverTrustScenario,
+};
 use kshana::receiver_trust::score::DeductionClass;
 
 const ROOT: &str = env!("CARGO_MANIFEST_DIR");
@@ -48,7 +50,12 @@ fn run(log: &str, extra: &str) -> ReceiverTrustResult {
 fn classes(e: &EpochTrust) -> Vec<(Monitor, DeductionClass)> {
     e.score
         .as_ref()
-        .map(|s| s.deductions.iter().filter_map(|d| d.class.map(|c| (d.monitor, c))).collect())
+        .map(|s| {
+            s.deductions
+                .iter()
+                .filter_map(|d| d.class.map(|c| (d.monitor, c)))
+                .collect()
+        })
         .unwrap_or_default()
 }
 
