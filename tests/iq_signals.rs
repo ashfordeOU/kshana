@@ -13,6 +13,18 @@ use kshana::iq::signals::{
 use kshana::iq::SpreadingCode;
 use sha2::{Digest, Sha256};
 
+/// The Galileo E1 memory-code tables are user-supplied (not bundled, by the ICD's terms);
+/// the E1 tests skip, with a message, when they are absent. Supply them with
+/// `KSHANA_GALILEO_E1B` / `KSHANA_GALILEO_E1C` or `scripts/fetch_galileo_e1_codes.sh`.
+fn e1_tables_supplied() -> bool {
+    let ok = kshana::iq::signals::galileo::e1b_table().is_ok()
+        && kshana::iq::signals::galileo::e1c_table().is_ok();
+    if !ok {
+        eprintln!("skipped: Galileo E1 tables not supplied (scripts/fetch_galileo_e1_codes.sh)");
+    }
+    ok
+}
+
 fn bits_of(code: &SignalCode) -> Vec<u8> {
     code.primary_bits()
 }
@@ -160,28 +172,44 @@ fn sha256_hex_crlf_normalised(text: &str) -> String {
 }
 
 #[test]
-fn galileo_e1_tables_are_the_committed_icd_annex_c_files() {
+fn galileo_e1_tables_are_the_icd_annex_c_files() {
+    if !e1_tables_supplied() {
+        return;
+    }
     // data/galileo-os-sis-icd/PROVENANCE.md: SHA-256 of the Annex C attachments with
-    // (the two assertions below.)
-    // PIN-SCOPE:    the SHA-256 of the committed Galileo E1-B and E1-C code tables,
+    // carriage returns removed (robust to a CRLF conversion). The tables are the user's own
+    // copy (not bundled, by the ICD's terms), read from the same place the engine reads them.
+    // PIN-SCOPE:    the SHA-256 of the user-supplied Galileo E1-B and E1-C code tables,
     //               binding them to the bytes extracted from the ICD PDF attachments.
     // PIN-EXCLUDES: nothing — the whole table files, deliberately.
-    // carriage returns removed (robust to a CRLF-converting checkout).
+    let read = |env: &str, file: &str| {
+        let path = std::env::var_os(env)
+            .map(std::path::PathBuf::from)
+            .unwrap_or_else(|| {
+                std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+                    .join("data/galileo-os-sis-icd")
+                    .join(file)
+            });
+        std::fs::read_to_string(path).expect("table supplied")
+    };
     assert_eq!(
-        sha256_hex_crlf_normalised(galileo::E1B_TABLE_TEXT),
+        sha256_hex_crlf_normalised(&read(galileo::E1B_TABLE_ENV, "C7_E1B.txt")),
         "31573a17c451e319a69c30fe6dcdfd949ebda8e3e77c96665981ff5b866ed247"
     );
     assert_eq!(
-        sha256_hex_crlf_normalised(galileo::E1C_TABLE_TEXT),
+        sha256_hex_crlf_normalised(&read(galileo::E1C_TABLE_ENV, "C8_E1C.txt")),
         "37a0f71b49af0c03b8530e2376bcf244b0ef0e76027026f23aebf9611ca4a4a6"
     );
     for t in [galileo::e1b_table(), galileo::e1c_table()] {
-        assert_eq!(t.numbers(), (1..=50).collect::<Vec<u16>>());
+        assert_eq!(t.unwrap().numbers(), (1..=50).collect::<Vec<u16>>());
     }
 }
 
 #[test]
 fn galileo_e1_first_chips_match_icd_annex_c_hex() {
+    if !e1_tables_supplied() {
+        return;
+    }
     // Galileo OS SIS ICD Annex C.7 / C.8: leading hex symbols of the printed codes.
     let b = [
         (1u16, 0xF5D7_1013u32),
@@ -211,6 +239,9 @@ fn galileo_e1_first_chips_match_icd_annex_c_hex() {
 
 #[test]
 fn galileo_cboc_power_split_is_10_11_to_1_11_from_the_waveform() {
+    if !e1_tables_supplied() {
+        return;
+    }
     // Galileo OS SIS ICD Eq. 11: α = √(10/11), β = √(1/11). Project the generated
     // waveform onto the BOC(1,1) and BOC(6,1) subcarriers; with 120 samples per chip
     // (a multiple of 12) the projections are exact.
@@ -256,6 +287,9 @@ fn galileo_cboc_power_split_is_10_11_to_1_11_from_the_waveform() {
 
 #[test]
 fn galileo_e1c_secondary_cs25_flips_primary_periods() {
+    if !e1_tables_supplied() {
+        return;
+    }
     // ICD Table 20: CS25_1 = 380AD90 -> chip 2 (0-based) is 1.
     let code = galileo::e1c(3).unwrap();
     let cs = hex_to_bits(galileo::CS25, 25).unwrap();
@@ -488,6 +522,9 @@ fn glonass_l1of_fdma_carriers_match_icd_table_3_1() {
 
 #[test]
 fn value_at_wraps_and_handles_fractional_phase_for_every_signal() {
+    if !e1_tables_supplied() {
+        return;
+    }
     let codes: Vec<SignalCode> = vec![
         gps::l1ca(3).unwrap(),
         gps::l5_q5(3).unwrap(),
@@ -513,6 +550,9 @@ fn value_at_wraps_and_handles_fractional_phase_for_every_signal() {
 
 #[test]
 fn generation_is_deterministic() {
+    if !e1_tables_supplied() {
+        return;
+    }
     assert_eq!(gps::l5_i5(30).unwrap(), gps::l5_i5(30).unwrap());
     assert_eq!(galileo::e1c(30).unwrap(), galileo::e1c(30).unwrap());
     assert_eq!(
