@@ -307,6 +307,15 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            requirement: "GNSS/INS maritime, rail and aviation packs with a tight-coupling option",
+            capability: "Three gnss-ins scenarios on the trajectory library (a vessel weaving at 8 m/s with a five-minute outage; a train through a two-satellite cutting and a tunnel; an aircraft whose outage covers a 25-degree banked turn) and the pack's optional [tight] table: pseudoranges from an SGP4 Walker constellation fused by the closed-loop navigator, every satellite above the mask when nominal and the highest few when degraded",
+            module: "fusion::pack (TightCfg, [tight]), scenarios gnss-ins-maritime / gnss-ins-rail / gnss-ins-aviation",
+            tests: "tests/gnss_ins_packs.rs (each pack: fused below free INS over the outage for both sensors; rail: tight 5.3 m vs loose 12.9 m navigation-grade and 15.6 m vs 18.8 m tactical over the outage, availability 0.97 vs 0.95; tight table validated); tests/gnss_ins_legacy_trajectory_pin.rs (the loosely-coupled default bit-identical)",
+            oracle: "Internal: each pack's figures of merit against its own truth and a loose/tight comparison on identical inputs. MODELLED; the audit's NaveGo comparison has not been run",
+            oracle_kind: InternalConsistency,
+            status: Modelled,
+        },
+        VerificationItem {
             requirement: "GNSS/INS trajectory library and CSV truth import",
             capability: "Selectable motion profiles for the gnss-ins pack (straight, figure-8, urban stop-and-go, aircraft climb and coordinated turn, survey drone), defined by Euler-rate and along-track-acceleration commands closed on the truth state with the kinematic IMU (centripetal, gravity and Coriolis terms), and imported CSV truth turned into the IMU that reproduces it; the historical drive unchanged when no profile is given",
             module: "fusion::trajectory (TrajectoryCfg, Trajectory, kinematic_imu, parse_truth_csv), fusion::pack ([trajectory])",
