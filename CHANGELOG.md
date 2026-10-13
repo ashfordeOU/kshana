@@ -11,6 +11,15 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **Two VALIDATED rows for IQ-layer codes** (DS-GIQ-06b, PRO-39).
+  - **BeiDou B1I.** All 63 B1I primary codes match GNSS-SDR v0.0.19's independent generator chip
+    for chip (bar pre-registered at 911106d1). Only that program's output is committed: the B1I
+    PRN codes the public ICD defines, as a prefix and a hash.
+  - **GPS L1C.** All 126 L1CP/L1CD codes and 63 L1CO overlays match the check columns
+    IS-GPS-800J prints, and the computed Legendre sequence matches its Table 6.2-1 (bars
+    pre-registered at fe372e26).
+  - Rows: "BeiDou B1I primary ranging codes against an independent generator" and "GPS L1C ranging
+    and overlay codes against the IS-GPS-800J printed check columns".
 - **GLONASS, BeiDou and Galileo E6 bands in the spectrum model** (CAP-12, signals): new band
   names `glonass-l1of` and `glonass-l2of` (any FDMA channel as `glonass-l1of-k<K>`,
   K = −7 to 6), `beidou-b1i`, `beidou-b1c`, `beidou-b2a`, `beidou-b3i` and `galileo-e6`. Each
