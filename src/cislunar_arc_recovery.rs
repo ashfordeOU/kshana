@@ -67,6 +67,7 @@
 //! * **Modelled.** The constellation design, the epoch grid, the single tracked link, the
 //!   displacement magnitude, and the two stated bounds.
 
+use crate::portable_math::PortableFloat;
 use crate::batch_ls::gauss_newton;
 use crate::cislunar_observability::CislunarObservabilityScenario;
 use crate::cr3bp::{
@@ -181,7 +182,7 @@ pub fn cartesian_to_polar(s: &[f64], mu: f64) -> Option<Vec<f64>> {
     if r <= 0.0 || !r.is_finite() {
         return None;
     }
-    let theta = eta.atan2(xi);
+    let theta = eta.patan2(xi);
     let r_dot = (xi * vx + eta * vy) / r;
     let theta_dot = (xi * vy - eta * vx) / (r * r);
     Some(if s.len() == N_PLANAR {
@@ -200,7 +201,7 @@ pub fn polar_to_cartesian(q: &[f64], mu: f64) -> Option<Vec<f64>> {
         N_SPATIAL => (q[0], q[1], q[2], q[3], q[4], q[5]),
         _ => return None,
     };
-    let (c, s) = (theta.cos(), theta.sin());
+    let (c, s) = (theta.pcos(), theta.psin());
     let x = r * c + (1.0 - mu);
     let y = r * s;
     let vx = r_dot * c - r * theta_dot * s;
@@ -680,12 +681,12 @@ impl CislunarArcRecoveryScenario {
                     Some(r) => match to_cartesian_estimate(&r.x, coordinates, mu) {
                         Some(est) => {
                             let dp = (0..n_pos)
-                                .map(|j| (est[j] - truth_cart[j]).powi(2))
+                                .map(|j| (est[j] - truth_cart[j]).ppowi(2))
                                 .sum::<f64>()
                                 .sqrt()
                                 * km_per_nd;
                             let dv = (n_pos..state_dim)
-                                .map(|j| (est[j] - truth_cart[j]).powi(2))
+                                .map(|j| (est[j] - truth_cart[j]).ppowi(2))
                                 .sum::<f64>()
                                 .sqrt()
                                 * vel_scale;
@@ -1271,11 +1272,11 @@ fn svg(c: &Computed) -> String {
             .map(|&(_, v)| v)
             .fold(f64::NEG_INFINITY, f64::max)
             .max(bound);
-        let (l0, l1) = (lo.log10() - 0.2, hi.log10() + 0.2);
+        let (l0, l1) = (lo.plog10() - 0.2, hi.plog10() + 0.2);
         let span = (l1 - l0).max(1e-9);
         let tmax = vals.last().map(|&(t, _)| t).unwrap_or(1.0).max(1e-9);
         let xof = |t: f64| px + (t / tmax) * pw;
-        let yof = |v: f64| axis_y - ((v.log10() - l0) / span) * ph;
+        let yof = |v: f64| axis_y - ((v.plog10() - l0) / span) * ph;
         // bound line
         let by = yof(bound);
         s.push_str(&format!(

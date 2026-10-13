@@ -20,6 +20,7 @@
 //! `R_e·ω⊕·T` ([`ground_track_spacing_equator`]) is kept for callers that supply their own
 //! period.
 
+use crate::portable_math::PortableFloat;
 use crate::forces::{j2_secular_rates, EARTH_ROTATION_RATE, J2};
 use crate::orbit::{MU_EARTH, R_EARTH_EQUATORIAL_M};
 use serde::Deserialize;
@@ -27,7 +28,7 @@ use serde::Deserialize;
 /// Earth angular radius `ρ` (rad) seen from a spacecraft at geometric
 /// `altitude_m`: `asin(R_e/(R_e+h))`.
 pub fn earth_angular_radius(altitude_m: f64) -> f64 {
-    (R_EARTH_EQUATORIAL_M / (R_EARTH_EQUATORIAL_M + altitude_m)).asin()
+    (R_EARTH_EQUATORIAL_M / (R_EARTH_EQUATORIAL_M + altitude_m)).pasin()
 }
 
 /// Target elevation angle `ε` (rad) for a sensor nadir angle `eta_rad` at
@@ -35,7 +36,7 @@ pub fn earth_angular_radius(altitude_m: f64) -> f64 {
 /// angular radius (the line of sight misses the Earth).
 pub fn elevation_from_nadir_angle(eta_rad: f64, altitude_m: f64) -> Result<f64, String> {
     let rho = earth_angular_radius(altitude_m);
-    let c = eta_rad.sin() / rho.sin();
+    let c = eta_rad.psin() / rho.psin();
     if !(0.0..=1.0).contains(&c) {
         return Err(format!(
             "nadir angle {:.2}° exceeds the Earth angular radius {:.2}° (misses Earth)",
@@ -43,7 +44,7 @@ pub fn elevation_from_nadir_angle(eta_rad: f64, altitude_m: f64) -> Result<f64, 
             rho.to_degrees()
         ));
     }
-    Ok(c.acos())
+    Ok(c.pacos())
 }
 
 /// Earth-central angle `λ` (rad) subtended from sub-satellite point to the target
@@ -117,14 +118,14 @@ pub fn sun_synchronous_inclination(altitude_m: f64) -> Result<f64, String> {
     let a = R_EARTH_EQUATORIAL_M + altitude_m;
     let n = (MU_EARTH / (a * a * a)).sqrt();
     let sun_rate = std::f64::consts::TAU / (365.242_189_7 * 86_400.0);
-    let c = -sun_rate / (1.5 * n * J2 * (R_EARTH_EQUATORIAL_M / a).powi(2));
+    let c = -sun_rate / (1.5 * n * J2 * (R_EARTH_EQUATORIAL_M / a).ppowi(2));
     if !(-1.0..=1.0).contains(&c) {
         return Err(format!(
             "no sun-synchronous inclination at {:.0} km",
             altitude_m / 1000.0
         ));
     }
-    Ok(c.acos())
+    Ok(c.pacos())
 }
 
 fn eo_default_alt() -> f64 {

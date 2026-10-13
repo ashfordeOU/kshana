@@ -7,6 +7,7 @@
 //! design trade needs. The base scenario is run once per sample value; everything
 //! is deterministic.
 
+use crate::portable_math::PortableFloat;
 use crate::fom::FoMScores;
 use crate::palette::chart::{AMBER, AXIS, BG, BLUE, CYAN, FONT_SANS, INK_2, LIME, MAGENTA};
 use crate::scenario::Scenario;
@@ -42,7 +43,7 @@ impl SweepScenario {
             .map(|i| {
                 let f = i as f64 / (n - 1) as f64;
                 if self.scale == "log" {
-                    (self.start.ln() + (self.stop.ln() - self.start.ln()) * f).exp()
+                    (self.start.pln() + (self.stop.pln() - self.start.pln()) * f).pexp()
                 } else {
                     self.start + (self.stop - self.start) * f
                 }
@@ -335,7 +336,7 @@ impl SweepAxis {
             .map(|i| {
                 let f = i as f64 / (n - 1) as f64;
                 if self.scale == "log" {
-                    (self.start.ln() + (self.stop.ln() - self.start.ln()) * f).exp()
+                    (self.start.pln() + (self.stop.pln() - self.start.pln()) * f).pexp()
                 } else {
                     self.start + (self.stop - self.start) * f
                 }
@@ -539,7 +540,7 @@ impl GenericAxis {
             .map(|i| {
                 let f = i as f64 / (n - 1) as f64;
                 if self.scale == "log" {
-                    (self.start.ln() + (self.stop.ln() - self.start.ln()) * f).exp()
+                    (self.start.pln() + (self.stop.pln() - self.start.pln()) * f).pexp()
                 } else {
                     self.start + (self.stop - self.start) * f
                 }

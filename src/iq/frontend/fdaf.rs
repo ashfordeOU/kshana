@@ -15,6 +15,7 @@
 //! The output is the input delayed by `N − 1` samples ([`FreqExcision::delay`]); the first
 //! `N − 1` outputs are zeros.
 
+use crate::portable_math::PortableFloat;
 use super::{norm_sqr, Cf64, Stage};
 use crate::spectrum::fft_in_place;
 use std::collections::VecDeque;
@@ -45,13 +46,13 @@ impl FreqExcision {
         );
         assert!(0.0 < pfa && pfa < 1.0, "pfa must be in (0, 1)");
         let window = (0..n)
-            .map(|k| (std::f64::consts::PI * k as f64 / n as f64).sin())
+            .map(|k| (std::f64::consts::PI * k as f64 / n as f64).psin())
             .collect();
         let h = n / 2;
         Self {
             n,
             window,
-            threshold: -pfa.ln(),
+            threshold: -pfa.pln(),
             hist: std::iter::repeat_n(Cf64::default(), n).collect(),
             since: 0,
             ola: vec![Cf64::default(); n],

@@ -9,6 +9,7 @@
 //! dilution-of-precision sweep over the design grid (planes × satellites ×
 //! inclination) and coverage-fraction / revisit-time figures of merit.
 
+use crate::portable_math::PortableFloat;
 use crate::frames::{geodetic_to_ecef, is_visible, Geodetic};
 use crate::jd2::Jd2;
 use crate::orbit::{dop, Propagator};
@@ -54,7 +55,7 @@ impl WalkerSgp4 {
     pub fn mean_motion_kozai_rad_min(&self) -> f64 {
         let g = wgs72();
         let a_er = (g.radiusearthkm + self.altitude_km) / g.radiusearthkm;
-        g.xke / a_er.powf(1.5)
+        g.xke / a_er.ppowf(1.5)
     }
 
     /// Build the constellation as SGP4 propagators from circular mean elements
@@ -281,11 +282,11 @@ pub fn coverage_half_angle_rad(altitude_km: f64, min_elev_deg: f64) -> Option<f6
     let re = wgs72().radiusearthkm;
     let r = re + altitude_km;
     let eps = min_elev_deg.to_radians();
-    let x = (re / r) * eps.cos();
+    let x = (re / r) * eps.pcos();
     if !(-1.0..=1.0).contains(&x) {
         return None;
     }
-    Some(x.acos() - eps)
+    Some(x.pacos() - eps)
 }
 
 /// Street-of-coverage **half-width** `c` (rad) for `sats_per_plane` satellites
@@ -304,15 +305,15 @@ pub fn street_half_width_rad(lambda_rad: f64, sats_per_plane: usize) -> Option<f
         return None;
     }
     let half_spacing = std::f64::consts::PI / sats_per_plane as f64;
-    let denom = half_spacing.cos();
+    let denom = half_spacing.pcos();
     if denom == 0.0 {
         return None;
     }
-    let cos_c = lambda_rad.cos() / denom;
+    let cos_c = lambda_rad.pcos() / denom;
     if !(-1.0..=1.0).contains(&cos_c) {
         return None; // λ < π/s: no continuous street.
     }
-    Some(cos_c.acos())
+    Some(cos_c.pacos())
 }
 
 // ── Constellation-design optimiser ───────────────────────────────────────────────
@@ -687,7 +688,7 @@ mod tests {
             let v = p.velocity_eci(0.0);
             let hx = r[1] * v[2] - r[2] * v[1];
             let hy = r[2] * v[0] - r[0] * v[2];
-            hx.atan2(-hy).rem_euclid(TAU).to_degrees()
+            hx.patan2(-hy).rem_euclid(TAU).to_degrees()
         };
         let raans: Vec<f64> = sats.iter().map(raan_deg).collect();
         for (k, &om) in raans.iter().enumerate() {
@@ -1018,12 +1019,12 @@ mod tests {
     }
 
     fn rot_z(v: [f64; 3], a: f64) -> [f64; 3] {
-        let (sn, cs) = a.sin_cos();
+        let (sn, cs) = a.psin_cos();
         [v[0] * cs - v[1] * sn, v[0] * sn + v[1] * cs, v[2]]
     }
 
     fn dist(a: [f64; 3], b: [f64; 3]) -> f64 {
-        ((a[0] - b[0]).powi(2) + (a[1] - b[1]).powi(2) + (a[2] - b[2]).powi(2)).sqrt()
+        ((a[0] - b[0]).ppowi(2) + (a[1] - b[1]).ppowi(2) + (a[2] - b[2]).ppowi(2)).sqrt()
     }
 
     #[test]
@@ -1087,7 +1088,7 @@ mod tests {
             let dot = a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
             let na = (a[0] * a[0] + a[1] * a[1] + a[2] * a[2]).sqrt();
             let nb = (b[0] * b[0] + b[1] * b[1] + b[2] * b[2]).sqrt();
-            (dot / (na * nb)).clamp(-1.0, 1.0).acos().to_degrees()
+            (dot / (na * nb)).clamp(-1.0, 1.0).pacos().to_degrees()
         };
         let nsamp = 1440usize; // 24 h at 60 s
         for i in 0..3 {

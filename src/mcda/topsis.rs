@@ -23,6 +23,7 @@
 //! are right — garbage criteria in, garbage decision out — which is why the
 //! [`super::sensitivity`] robustness tools remain the module's real product.
 
+use crate::portable_math::PortableFloat;
 use super::Objective;
 
 /// The outcome of a [`topsis`] run.
@@ -140,8 +141,8 @@ pub fn topsis(
         let mut dp = 0.0;
         let mut dm = 0.0;
         for j in 0..n {
-            dp += (row[j] - pis[j]).powi(2);
-            dm += (row[j] - nis[j]).powi(2);
+            dp += (row[j] - pis[j]).ppowi(2);
+            dm += (row[j] - nis[j]).ppowi(2);
         }
         let dp = dp.sqrt();
         let dm = dm.sqrt();

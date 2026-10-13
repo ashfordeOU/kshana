@@ -5,6 +5,7 @@
 //! bundle it. A position counts as on land only when it lies more than a buffer inland,
 //! because a 1:10 million coastline is only accurate to the order of a kilometre.
 
+use crate::portable_math::PortableFloat;
 use std::collections::HashMap;
 
 use serde_json::Value;
@@ -123,7 +124,7 @@ fn push_poly(coords: &Value, out: &mut Vec<Polygon>) {
 
 /// Distance in metres from a point to a segment, on a local equirectangular plane.
 fn seg_dist_m(lon: f64, lat: f64, a: (f64, f64), b: (f64, f64)) -> f64 {
-    let k = lat.to_radians().cos();
+    let k = lat.to_radians().pcos();
     let m = EARTH_RADIUS_M * std::f64::consts::PI / 180.0;
     let (px, py) = (0.0, 0.0);
     let (ax, ay) = ((a.0 - lon) * k * m, (a.1 - lat) * m);
@@ -187,7 +188,7 @@ impl LandMask {
 
     fn deg_margin(&self, lat: f64) -> (f64, f64) {
         let dlat = self.buffer_m / EARTH_RADIUS_M * 180.0 / std::f64::consts::PI;
-        (dlat / lat.to_radians().cos().abs().max(0.05), dlat)
+        (dlat / lat.to_radians().pcos().abs().max(0.05), dlat)
     }
 
     /// True when the point is inside a land polygon and at least the buffer distance from
@@ -324,8 +325,8 @@ mod tests {
         let ring: Vec<(f64, f64)> = (0..=n)
             .map(|k| {
                 let th = std::f64::consts::TAU * (k % n) as f64 / n as f64;
-                let r = 2.0 + 0.4 * (37.0 * th).sin() + 0.1 * (301.0 * th).sin();
-                (10.0 + r * th.cos(), 50.0 + r * th.sin())
+                let r = 2.0 + 0.4 * (37.0 * th).psin() + 0.1 * (301.0 * th).psin();
+                (10.0 + r * th.pcos(), 50.0 + r * th.psin())
             })
             .collect();
         let hole = vec![

@@ -254,6 +254,7 @@ fn solve3(mut a: [[f64; 3]; 3], mut b: [f64; 3]) -> Option<[f64; 3]> {
 
 #[cfg(test)]
 mod tests {
+    use crate::portable_math::PortableFloat;
     use super::*;
 
     #[test]
@@ -299,7 +300,7 @@ mod tests {
 
     #[test]
     fn a_gap_removes_exactly_the_terms_that_touch_it() {
-        let mut x: Vec<f64> = (0..50).map(|i| (i as f64).sin()).collect();
+        let mut x: Vec<f64> = (0..50).map(|i| (i as f64).psin()).collect();
         x[20] = f64::NAN;
         let (_, c1) = gappy_oavar(&x, 1.0, 1).unwrap();
         assert_eq!(c1, 48 - 3);

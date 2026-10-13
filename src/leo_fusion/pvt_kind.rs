@@ -19,6 +19,7 @@
 //!
 //! Every mode is MODELLED; see [`super`] for the algorithms and their tests.
 
+use crate::portable_math::PortableFloat;
 use super::doppler::{self, DopplerOptions, RangeRateObs};
 use super::geom::{add, dot, median, norm, rms, scale, sub, EarthOrbit, Site, DEG};
 use super::joint_pvt::{self, PseudorangeObs, SystemClock};
@@ -441,7 +442,7 @@ fn default_systems() -> Vec<SystemCfg> {
 
 fn horiz(e: [f64; 3], site: &Site) -> f64 {
     let (ee, nn, _) = site.enu();
-    (dot(e, ee).powi(2) + dot(e, nn).powi(2)).sqrt()
+    (dot(e, ee).ppowi(2) + dot(e, nn).ppowi(2)).sqrt()
 }
 
 impl LeoPvtScenario {
@@ -675,7 +676,7 @@ impl LeoPvtScenario {
                     horizontal_error_m: f.as_ref().map(|f| horiz(sub(f.position, r0), site)),
                     sigma_horizontal_m: f
                         .as_ref()
-                        .map(|f| f.sigma_enu_m[0].hypot(f.sigma_enu_m[1])),
+                        .map(|f| f.sigma_enu_m[0].phypot(f.sigma_enu_m[1])),
                 }
             })
             .collect();
@@ -1222,12 +1223,12 @@ fn svg(r: &LeoPvtReport) -> String {
         let x1 = if x1 > x0 { x1 } else { x0 + 1.0 };
         let lo = pts
             .iter()
-            .map(|p| p.1.log10())
+            .map(|p| p.1.plog10())
             .fold(f64::MAX, f64::min)
             .floor();
         let hi = pts
             .iter()
-            .map(|p| p.1.log10())
+            .map(|p| p.1.plog10())
             .fold(f64::MIN, f64::max)
             .ceil()
             .max(lo + 1.0);
@@ -1239,7 +1240,7 @@ fn svg(r: &LeoPvtReport) -> String {
                     format!(
                         "{:.1},{:.1}",
                         ml + pw * (p.0 - x0) / (x1 - x0),
-                        top + ph - ph * (p.1.log10() - lo) / (hi - lo)
+                        top + ph - ph * (p.1.plog10() - lo) / (hi - lo)
                     )
                 })
                 .collect();

@@ -58,6 +58,7 @@
 //! whose geometry can never reach full rank is reported as having **no** threshold rather
 //! than an extrapolated one.
 
+use crate::portable_math::PortableFloat;
 use crate::cislunar_srif::{full_rank_transition, srif_cross_validation, SrifArcPoint};
 use crate::cr3bp::{
     differential_correct_halo, jacobi_constant, propagate_cr3bp, Cr3bpState, EARTH_MOON_DIST_KM,
@@ -270,12 +271,12 @@ fn sweep_orbit(ic: &Cr3bpState, mu: f64, period: f64, samples: usize) -> (f64, f
         min_d = min_d.min(moon_distance(&st, mu));
         max_z = max_z.max(st.r[2].abs());
     }
-    let resid = ((st.r[0] - ic.r[0]).powi(2)
-        + (st.r[1] - ic.r[1]).powi(2)
-        + (st.r[2] - ic.r[2]).powi(2)
-        + (st.v[0] - ic.v[0]).powi(2)
-        + (st.v[1] - ic.v[1]).powi(2)
-        + (st.v[2] - ic.v[2]).powi(2))
+    let resid = ((st.r[0] - ic.r[0]).ppowi(2)
+        + (st.r[1] - ic.r[1]).ppowi(2)
+        + (st.r[2] - ic.r[2]).ppowi(2)
+        + (st.v[0] - ic.v[0]).ppowi(2)
+        + (st.v[1] - ic.v[1]).ppowi(2)
+        + (st.v[2] - ic.v[2]).ppowi(2))
     .sqrt();
     (min_d * EARTH_MOON_DIST_KM, max_z, resid)
 }
@@ -1480,7 +1481,7 @@ fn svg(c: &Computed) -> String {
         .spectrum
         .eigenvalues
         .iter()
-        .map(|&l| if l > 0.0 { l.log10() } else { -30.0 })
+        .map(|&l| if l > 0.0 { l.plog10() } else { -30.0 })
         .collect();
     let lmin = logs.iter().cloned().fold(f64::INFINITY, f64::min);
     let lmax = logs.iter().cloned().fold(f64::NEG_INFINITY, f64::max);
@@ -2365,7 +2366,7 @@ mod tests {
                     .map(|x| x.as_f64().unwrap())
                     .collect();
                 assert_eq!(r.len(), 2);
-                let norm = r[0].hypot(r[1]);
+                let norm = r[0].phypot(r[1]);
                 if i == 2 || i == 5 {
                     assert!(
                         (norm - 1.0).abs() < 1e-12,

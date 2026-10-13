@@ -90,6 +90,7 @@
 //! `baseline_curve`, `protection_level_m`, everything — are bit-for-bit what they were
 //! before the budget existed, and a test pins exactly that.
 
+use crate::portable_math::PortableFloat;
 use crate::clock_specs::{x_clock_s, LunarClock};
 use crate::lunar::{lunar_look_angle, selenographic_to_mcmf, Selenographic, R_MOON_M};
 use crate::lunar_service::{LunarConstellation, LunarSat, PositionsMcmf};
@@ -640,7 +641,7 @@ pub fn correction_quantization_step_m(full_scale_m: f64, bits: u32) -> f64 {
         return 0.0;
     }
     let bits = bits.min(MAX_QUANTIZATION_BITS);
-    2.0 * full_scale_m / 2.0_f64.powi(bits as i32)
+    2.0 * full_scale_m / 2.0_f64.ppowi(bits as i32)
 }
 
 /// The 1-σ (m) of a uniform quantizer of step `step_m`: `step/√12`, the square root of
@@ -2236,7 +2237,7 @@ mod tests {
             );
             assert_eq!(
                 s.to_bits(),
-                (2.0 * full_scale / 2.0_f64.powi(bits as i32)).to_bits(),
+                (2.0 * full_scale / 2.0_f64.ppowi(bits as i32)).to_bits(),
                 "step must be 2·full_scale·2^(−bits)"
             );
             // Uniform-quantizer variance: step²/12.

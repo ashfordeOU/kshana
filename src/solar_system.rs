@@ -33,6 +33,7 @@
 //! with pinned bars, but no published bound exists to validate them against. Each row
 //! carries its own label and method string.
 
+use crate::portable_math::PortableFloat;
 use crate::body::{Body, BodyFacts, SOLAR_SYSTEM};
 use crate::ephem::{
     icrf_to_ecliptic, satellite_state, standish_elements, standish_nominal_error, Planet,
@@ -382,7 +383,7 @@ pub fn link_on<E: EphemerisProvider>(
             sub(rx, sun_rx),
             crate::forces::MU_SUN,
         ),
-        sun_separation_deg: cos_sep.clamp(-1.0, 1.0).acos().to_degrees(),
+        sun_separation_deg: cos_sep.clamp(-1.0, 1.0).pacos().to_degrees(),
     })
 }
 
@@ -448,8 +449,8 @@ impl SolarSystemScenario {
             let r = norm(pos);
             let (lon, lat) = if r > 0.0 {
                 (
-                    ecl[1].atan2(ecl[0]).to_degrees().rem_euclid(360.0),
-                    (ecl[2] / r).asin().to_degrees(),
+                    ecl[1].patan2(ecl[0]).to_degrees().rem_euclid(360.0),
+                    (ecl[2] / r).pasin().to_degrees(),
                 )
             } else {
                 (0.0, 0.0)

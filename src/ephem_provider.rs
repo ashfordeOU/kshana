@@ -473,6 +473,7 @@ fn neg(v: Vec3) -> Vec3 {
 
 #[cfg(test)]
 mod tests {
+    use crate::portable_math::PortableFloat;
     use super::*;
     use crate::ephem::{moon_position, sun_position};
 
@@ -730,7 +731,7 @@ mod tests {
         let n = |v: Vec3| (v[0] * v[0] + v[1] * v[1] + v[2] * v[2]).sqrt();
         let ang = (dot / (n(kern) * n(ana)))
             .clamp(-1.0, 1.0)
-            .acos()
+            .pacos()
             .to_degrees();
         assert!(ang < 0.3, "{ang} deg");
     }

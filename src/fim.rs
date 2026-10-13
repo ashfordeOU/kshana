@@ -28,6 +28,7 @@
 //! Statistical Signal Processing: Estimation Theory*, 1993) and against the empirical
 //! covariance an efficient estimator achieves in Monte-Carlo.
 
+use crate::portable_math::PortableFloat;
 /// A dense matrix as rows of columns (matching the rest of the crate).
 type Mat = Vec<Vec<f64>>;
 
@@ -343,7 +344,7 @@ pub fn design_metrics(info: &[Vec<f64>], rel_tol: f64) -> DesignMetrics {
     for &lam in &e.values {
         if lam > thr && lam > 0.0 {
             rank += 1;
-            log_d += lam.ln();
+            log_d += lam.pln();
             a_obs += 1.0 / lam;
             if lam < lmin_obs {
                 lmin_obs = lam;
@@ -612,8 +613,8 @@ mod tests {
             sbb += r.x[1] * r.x[1];
         }
         let nt = trials as f64;
-        let var_a = saa / nt - (sa / nt).powi(2);
-        let var_b = sbb / nt - (sb / nt).powi(2);
+        let var_a = saa / nt - (sa / nt).ppowi(2);
+        let var_b = sbb / nt - (sb / nt).ppowi(2);
         // Empirical variances should match the CRLB to within Monte-Carlo error (~5%).
         assert!(
             (var_a / cov[0][0] - 1.0).abs() < 0.1,
@@ -650,7 +651,7 @@ mod tests {
         );
         // The null vector is proportional to (1,1,1).
         let v = &c.null_space;
-        let nrm = (v[0][0].powi(2) + v[1][0].powi(2) + v[2][0].powi(2)).sqrt();
+        let nrm = (v[0][0].ppowi(2) + v[1][0].ppowi(2) + v[2][0].ppowi(2)).sqrt();
         let comp = (1.0_f64 / 3.0).sqrt();
         for (r, vr) in v.iter().enumerate() {
             assert!(
@@ -708,7 +709,7 @@ mod tests {
         assert_eq!((b.rank, b.defect), (a.rank, a.defect));
         assert_eq!(b.defect, 1);
         assert!(b.covariance.is_none());
-        let n2 = (b.null_space[0][0].powi(2) + b.null_space[1][0].powi(2)).sqrt();
+        let n2 = (b.null_space[0][0].ppowi(2) + b.null_space[1][0].ppowi(2)).sqrt();
         assert!((n2 - 1.0).abs() < 1e-12, "null space is the common offset");
         for i in 0..3 {
             for j in 0..3 {
@@ -764,7 +765,7 @@ mod tests {
         let d = design_metrics(&m, 1e-9);
         assert!((d.t_opt - 13.0).abs() < 1e-12);
         assert!((d.e_opt - 1.0).abs() < 1e-12);
-        assert!((d.log_d_opt - 32.0_f64.ln()).abs() < 1e-12);
+        assert!((d.log_d_opt - 32.0_f64.pln()).abs() < 1e-12);
         assert!((d.a_opt - 1.375).abs() < 1e-12);
         assert!((d.condition - 8.0).abs() < 1e-12);
         assert_eq!(d.defect, 0);

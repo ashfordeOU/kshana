@@ -38,6 +38,7 @@
 //! order is fixed, so a result is a function of the inputs alone. These helpers belong with
 //! `portable_math` and can move there once the open work on that module has folded.
 
+use crate::portable_math::PortableFloat;
 /// Veltkamp's splitting constant for binary64, `2^27 + 1`.
 const SPLITTER: f64 = 134_217_729.0;
 
@@ -456,8 +457,8 @@ mod tests {
     fn the_dekker_product_is_error_free_and_equals_the_fused_multiply_add_residual() {
         let mut g = stream(7);
         for _ in 0..20_000 {
-            let a = g() * 10f64.powi((g() * 30.0) as i32);
-            let b = g() * 10f64.powi((g() * 30.0) as i32);
+            let a = g() * 10f64.ppowi((g() * 30.0) as i32);
+            let b = g() * 10f64.ppowi((g() * 30.0) as i32);
             let (p, e) = two_prod(a, b);
             assert_eq!(p, a * b);
             // The exact residual of a correctly rounded product, by a fused multiply-add.

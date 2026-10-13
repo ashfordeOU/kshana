@@ -31,6 +31,7 @@
 //! acquisition (vs. tracking) threshold hysteresis — those are noted in
 //! `docs/CAPABILITY.md` as out of scope.
 
+use crate::portable_math::PortableFloat;
 use crate::frames::{geodetic_to_ecef, look_angles, teme_to_ecef, Geodetic, Vec3};
 use crate::palette::chart::{AXIS, BG, FAULT, FONT_SANS, MUTED, OK, TEXT};
 use crate::scenario::{GnssState, TimeCfg};
@@ -88,7 +89,7 @@ fn default_jammer_type() -> String {
 /// `20·log₁₀(d) + 20·log₁₀(f) + 20·log₁₀(4π/c)`.
 pub fn free_space_path_loss_db(d_m: f64, f_hz: f64) -> f64 {
     let d = d_m.max(1e-3);
-    20.0 * d.log10() + 20.0 * f_hz.log10() + 20.0 * (4.0 * PI / C_M_PER_S).log10()
+    20.0 * d.plog10() + 20.0 * f_hz.plog10() + 20.0 * (4.0 * PI / C_M_PER_S).plog10()
 }
 
 /// Jammer-to-signal ratio (dB) at the receiver antenna output: the received
@@ -143,7 +144,7 @@ pub fn required_tx_power_dbw(
 /// Thermal noise power spectral density (dBW/Hz) at temperature `temp_k`:
 /// `10·log₁₀(k·T)`.
 pub fn noise_density_dbw_per_hz(temp_k: f64) -> f64 {
-    10.0 * (BOLTZMANN_J_PER_K * temp_k).log10()
+    10.0 * (BOLTZMANN_J_PER_K * temp_k).plog10()
 }
 
 /// Nominal (un-jammed) carrier-to-noise-density ratio (dB-Hz) for a received
@@ -156,10 +157,10 @@ pub fn nominal_cn0_dbhz(signal_power_dbw: f64, antenna_gain_db: f64, temp_k: f64
 /// rate `chip_rate_hz` with spectral-separation coefficient `q` — the standard
 /// anti-jam equation `(C/N₀)_eff = [1/(C/N₀) + (J/S)/(Q·Rc)]⁻¹`.
 pub fn effective_cn0_dbhz(cn0_nominal_dbhz: f64, js_db: f64, q: f64, chip_rate_hz: f64) -> f64 {
-    let cn0_lin = 10f64.powf(cn0_nominal_dbhz / 10.0);
-    let js_lin = 10f64.powf(js_db / 10.0);
+    let cn0_lin = 10f64.ppowf(cn0_nominal_dbhz / 10.0);
+    let js_lin = 10f64.ppowf(js_db / 10.0);
     let denom = 1.0 / cn0_lin + js_lin / (q.max(1e-9) * chip_rate_hz);
-    -10.0 * denom.log10()
+    -10.0 * denom.plog10()
 }
 
 /// Spread-spectrum adjustment `Q` of a continuous-wave (CW) or narrowband jammer on the
@@ -600,7 +601,7 @@ pub fn run_jamming_sky(
 }
 
 fn dist(a: Vec3, b: Vec3) -> f64 {
-    ((a[0] - b[0]).powi(2) + (a[1] - b[1]).powi(2) + (a[2] - b[2]).powi(2)).sqrt()
+    ((a[0] - b[0]).ppowi(2) + (a[1] - b[1]).ppowi(2) + (a[2] - b[2]).ppowi(2)).sqrt()
 }
 
 /// Map a tracking-satellite count to a GNSS solution state (≥4 ⇒ a full fix).
@@ -706,7 +707,7 @@ mod tests {
         let tone = effective_cn0_dbhz(45.0, 100.0, Q_CW, CA_CHIP_RATE_HZ);
         let wide = effective_cn0_dbhz(45.0, 100.0, Q_BROADBAND, CA_CHIP_RATE_HZ);
         assert!(
-            (wide - tone - 10.0 * 2f64.log10()).abs() < 1e-6,
+            (wide - tone - 10.0 * 2f64.plog10()).abs() < 1e-6,
             "{}",
             wide - tone
         );
@@ -934,7 +935,7 @@ mod tests {
         let p_sig_iso = -143.6; // −140.6 dBW P_rx with the +3 dBi user gain removed
         let g_user = 3.0;
         let g_tx = 6.0;
-        let watts = |dbw: f64| 10f64.powf(dbw / 10.0);
+        let watts = |dbw: f64| 10f64.ppowf(dbw / 10.0);
         let spoof = |d: f64| {
             watts(required_tx_power_dbw(
                 3.0, g_tx, g_user, d, f, p_sig_iso, g_user,

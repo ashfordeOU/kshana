@@ -17,6 +17,7 @@
 //! tide, the K1 worked example (bit-for-bit), and the FES2004 / Ray source coefficients — see
 //! `tests/fixtures/tides/IERS-CH6-REFERENCE.md`.
 
+use crate::portable_math::PortableFloat;
 use crate::cio::earth_rotation_angle;
 use crate::egm2008_data::{EGM2008_GM, EGM2008_RE};
 use crate::ephem::{moon_position, sun_position};
@@ -110,7 +111,7 @@ pub fn step2_constituent(
 ) -> (f64, f64) {
     let amp = a_m * h_f;
     let (tr, ti) = (amp * dk_re, amp * dk_im); // A_m·δk_f·H_f (complex)
-    let (s, c) = theta_f.sin_cos();
+    let (s, c) = theta_f.psin_cos();
     // (tr + i·ti)·e^(iθ) = pr + i·pi
     let pr = tr * c - ti * s;
     let pi = tr * s + ti * c;
@@ -144,7 +145,7 @@ pub fn solid_earth_tide_step1(jd_tt: f64) -> Vec<StokesDelta> {
         .map(|&(p, mu)| {
             let r = (p[0] * p[0] + p[1] * p[1] + p[2] * p[2]).sqrt();
             let sinphi = p[2] / r;
-            let lambda = p[1].atan2(p[0]) - theta_g;
+            let lambda = p[1].patan2(p[0]) - theta_g;
             (sinphi, lambda, r, mu)
         })
         .collect();
@@ -157,10 +158,10 @@ pub fn solid_earth_tide_step1(jd_tt: f64) -> Vec<StokesDelta> {
             let mut sum_sin = 0.0;
             for &(sinphi, lambda, r, mu) in &geo {
                 let g =
-                    (mu / EGM2008_GM) * (EGM2008_RE / r).powi((n + 1) as i32) * pbar(n, m, sinphi);
+                    (mu / EGM2008_GM) * (EGM2008_RE / r).ppowi((n + 1) as i32) * pbar(n, m, sinphi);
                 let ml = m as f64 * lambda;
-                sum_cos += g * ml.cos();
-                sum_sin += g * ml.sin();
+                sum_cos += g * ml.pcos();
+                sum_sin += g * ml.psin();
             }
             let f = 1.0 / (2.0 * n as f64 + 1.0);
             // (kr + i·ki)·(cos − i·sin): ΔC̄ = f·(kr·Σcos + ki·Σsin), ΔS̄ = f·(kr·Σsin − ki·Σcos).
@@ -207,7 +208,7 @@ pub fn ocean_tide(jd_tt: f64) -> Vec<StokesDelta> {
     let mut acc: BTreeMap<(usize, usize), (f64, f64)> = BTreeMap::new();
     for &(mult, n, m, cp, sp, cm, sm) in FES2004 {
         let theta = doodson_phase(&mult, &args);
-        let (sin_t, cos_t) = theta.sin_cos();
+        let (sin_t, cos_t) = theta.psin_cos();
         let dc = ((cp + cm) * cos_t + (sp + sm) * sin_t) * 1e-11;
         let ds = ((cm - cp) * sin_t + (sp - sm) * cos_t) * 1e-11;
         let e = acc.entry((n as usize, m as usize)).or_insert((0.0, 0.0));
@@ -268,13 +269,13 @@ pub fn atmospheric_tide(jd_tt: f64) -> Vec<StokesDelta> {
     const GE: f64 = 9.806_65; // m s⁻²
     const UBAR_TO_PA: f64 = 0.1; // 1 microbar = 0.1 Pa
     let args = doodson_args(jd_tt);
-    let (sin_t, cos_t) = doodson_phase(&S2_DOODSON, &args).sin_cos();
+    let (sin_t, cos_t) = doodson_phase(&S2_DOODSON, &args).psin_cos();
     let mut out = Vec::new();
     for &(n8, m8, dp, psp, dm, psm) in S2_AIR {
         let (n, m) = (n8 as usize, m8 as usize);
         // amplitude/phase → cos/sin prograde & retrograde coefficients (Eq. 6.20), microbars
-        let (cp, sp) = (dp * psp.to_radians().sin(), dp * psp.to_radians().cos());
-        let (cm, sm) = (dm * psm.to_radians().sin(), dm * psm.to_radians().cos());
+        let (cp, sp) = (dp * psp.to_radians().psin(), dp * psp.to_radians().pcos());
+        let (cm, sm) = (dm * psm.to_radians().psin(), dm * psm.to_radians().pcos());
         // pressure → geopotential surface-load factor (Eq. 6.21 with σ = Δp/g), microbar → Pa
         let fac = (4.0 * std::f64::consts::PI * G / (GE * GE))
             * ((1.0 + load_love(n)) / (2.0 * n as f64 + 1.0))
@@ -289,13 +290,13 @@ pub fn atmospheric_tide(jd_tt: f64) -> Vec<StokesDelta> {
 /// Rotate an ECI vector into the Earth-fixed frame by the Greenwich sidereal angle `θ_g`
 /// (z-axis rotation). The inverse is [`rot_ecef_to_eci`].
 fn rot_eci_to_ecef(theta_g: f64, v: Vec3) -> Vec3 {
-    let (s, c) = theta_g.sin_cos();
+    let (s, c) = theta_g.psin_cos();
     [c * v[0] + s * v[1], -s * v[0] + c * v[1], v[2]]
 }
 
 /// Rotate an Earth-fixed vector back to ECI (transpose of [`rot_eci_to_ecef`]).
 fn rot_ecef_to_eci(theta_g: f64, v: Vec3) -> Vec3 {
-    let (s, c) = theta_g.sin_cos();
+    let (s, c) = theta_g.psin_cos();
     [c * v[0] - s * v[1], s * v[0] + c * v[1], v[2]]
 }
 

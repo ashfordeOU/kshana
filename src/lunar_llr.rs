@@ -93,6 +93,7 @@
 //! No TRL, flight heritage or agency endorsement is claimed, and this is not a geodetic
 //! product.
 
+use crate::portable_math::PortableFloat;
 use crate::ephem_provider::{KernelEphemeris, LunisolarSource};
 use crate::fim::{crlb, information_matrix};
 use crate::jd2::Jd2;
@@ -808,7 +809,7 @@ impl LunarLlrDatumScenario {
                     let d = u.station_direction_mer;
                     (dir[0] * d[0] + dir[1] * d[1] + dir[2] * d[2])
                         .clamp(-1.0, 1.0)
-                        .acos()
+                        .pacos()
                         .to_degrees()
                 })
                 .fold(0.0_f64, f64::max);
@@ -819,7 +820,7 @@ impl LunarLlrDatumScenario {
                 let d = u.station_direction_mer;
                 let ang = (dir[0] * d[0] + dir[1] * d[1] + dir[2] * d[2])
                     .clamp(-1.0, 1.0)
-                    .acos();
+                    .pacos();
                 wsum += u.weight;
                 wang2 += u.weight * ang * ang;
             }
@@ -894,7 +895,7 @@ impl LunarLlrDatumScenario {
                 "unit": unit,
                 "sigma": number_or_null(datum.full_rank, datum.sigma[k]),
                 "constrained_fraction": datum.constrained_fraction[k],
-                "weakest_direction_share": datum.weakest_direction[k].powi(2),
+                "weakest_direction_share": datum.weakest_direction[k].ppowi(2),
             }));
         }
         let unobservable: Vec<serde_json::Value> = (0..datum.defect)
@@ -1200,7 +1201,7 @@ impl LunarLlrDatumScenario {
         let site_sigma = |m: &[[f64; 3]; 3]| -> serde_json::Value {
             let mm: Vec<Vec<f64>> = m.iter().map(|r| r.to_vec()).collect();
             let c = crlb(&mm, self.rel_tol());
-            let s3 = (c.crlb_std[0].powi(2) + c.crlb_std[1].powi(2) + c.crlb_std[2].powi(2)).sqrt();
+            let s3 = (c.crlb_std[0].ppowi(2) + c.crlb_std[1].ppowi(2) + c.crlb_std[2].ppowi(2)).sqrt();
             number_or_null(c.defect == 0, s3)
         };
 
@@ -1381,7 +1382,7 @@ fn tilt(g: Vec3, angle_rad: f64) -> Vec3 {
     }
     let k = unit3(k);
     let kg = cross(k, g);
-    let (s, c) = angle_rad.sin_cos();
+    let (s, c) = angle_rad.psin_cos();
     [
         g[0] * c + kg[0] * s,
         g[1] * c + kg[1] * s,
@@ -1664,7 +1665,7 @@ mod tests {
             .as_array()
             .unwrap();
         assert_eq!(dirn.len(), 7);
-        let n2: f64 = dirn.iter().map(|x| x.as_f64().unwrap().powi(2)).sum();
+        let n2: f64 = dirn.iter().map(|x| x.as_f64().unwrap().ppowi(2)).sum();
         assert!(
             (n2 - 1.0).abs() < 1e-9,
             "weakest direction is a unit vector"

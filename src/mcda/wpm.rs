@@ -19,6 +19,7 @@
 //! WPM requires strictly positive data (it takes logs/reciprocals) and, like WSM,
 //! validates nothing about the inputs — see [`super::sensitivity`].
 
+use crate::portable_math::PortableFloat;
 use super::Objective;
 
 /// The outcome of a [`wpm`] run.
@@ -98,7 +99,7 @@ pub fn wpm(matrix: &[Vec<f64>], weights: &[f64], types: &[Objective]) -> Result<
 
     let scores: Vec<f64> = norm
         .iter()
-        .map(|row| (0..n).map(|j| row[j].powf(weights[j])).product::<f64>())
+        .map(|row| (0..n).map(|j| row[j].ppowf(weights[j])).product::<f64>())
         .collect();
 
     let ranking = super::topsis::rank_desc(&scores);

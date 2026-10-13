@@ -52,6 +52,7 @@
 //!   numbers. Horizons longer than the shipped daily fixture spans (h > 4 days) are
 //!   reported only when the supplied series reaches them.
 
+use crate::portable_math::PortableFloat;
 use crate::eop::{
     parse_all_predicted, parse_bulletin_b_pm, parse_bulletin_b_ut1, parse_measured, EopRecord,
 };
@@ -951,7 +952,7 @@ impl OperationalFit {
         let mut y = self.coefficients[0] + self.coefficients[1] * (t / self.window_days);
         for (k, p) in self.periods_days.iter().enumerate() {
             let w = std::f64::consts::TAU * t / p;
-            y += self.coefficients[2 + 2 * k] * w.cos() + self.coefficients[3 + 2 * k] * w.sin();
+            y += self.coefficients[2 + 2 * k] * w.pcos() + self.coefficients[3 + 2 * k] * w.psin();
         }
         y + self.anchor_residual
     }
@@ -1069,8 +1070,8 @@ pub fn fit_operational(
         let mut r = vec![1.0, t / cfg.window_days];
         for p in &periods {
             let w = std::f64::consts::TAU * t / p;
-            r.push(w.cos());
-            r.push(w.sin());
+            r.push(w.pcos());
+            r.push(w.psin());
         }
         r
     };
@@ -2245,7 +2246,7 @@ mod tests {
         let r0 = mat_vec(&m0, r);
         let r1 = mat_vec(&m1, r);
         let disp =
-            ((r1[0] - r0[0]).powi(2) + (r1[1] - r0[1]).powi(2) + (r1[2] - r0[2]).powi(2)).sqrt();
+            ((r1[0] - r0[0]).ppowi(2) + (r1[1] - r0[1]).ppowi(2) + (r1[2] - r0[2]).ppowi(2)).sqrt();
         let closed = frame_position_error_at_moon(0.0, dxp, 0.0);
         // Both are D_EM·Δx_p to first order; agree to < 0.5 % (second-order sin term).
         assert!(
@@ -2528,7 +2529,7 @@ mod tests {
         let r0 = mat_vec(&m0, r);
         let r1 = mat_vec(&m1, r);
         let disp =
-            ((r1[0] - r0[0]).powi(2) + (r1[1] - r0[1]).powi(2) + (r1[2] - r0[2]).powi(2)).sqrt();
+            ((r1[0] - r0[0]).ppowi(2) + (r1[1] - r0[1]).ppowi(2) + (r1[2] - r0[2]).ppowi(2)).sqrt();
         let closed = polar_motion_position_error(dxp, 0.0);
         assert!(
             (disp - closed).abs() / closed < 5e-3,
@@ -2988,9 +2989,9 @@ mod tests {
             let t = mjd - issue;
             let a = std::f64::consts::TAU * t / ANNUAL_PERIOD_DAYS;
             let s = std::f64::consts::TAU * t / SEMIANNUAL_PERIOD_DAYS;
-            -0.25 + 3.5e-4 * t + 0.031 * a.cos() - 0.017 * a.sin()
-                + 0.009 * s.cos()
-                + 0.004 * s.sin()
+            -0.25 + 3.5e-4 * t + 0.031 * a.pcos() - 0.017 * a.psin()
+                + 0.009 * s.pcos()
+                + 0.004 * s.psin()
         };
         let samples: Vec<(f64, f64)> = (0..=400)
             .map(|i| {
@@ -3296,7 +3297,7 @@ mod tests {
                     &row.pm_persistence,
                 ),
             ] {
-                let expect = (u.rms_position_m.powi(2) + p.rms_position_m.powi(2)).sqrt();
+                let expect = (u.rms_position_m.ppowi(2) + p.rms_position_m.ppowi(2)).sqrt();
                 assert!(
                     (c.rms_position_m - expect).abs() <= 1e-9 * expect.max(1.0),
                     "combined {} != {expect}",

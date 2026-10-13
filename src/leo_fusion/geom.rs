@@ -13,6 +13,7 @@
 //! including the node and perigee drift and the Earth's rotation, so a Doppler computed from
 //! it is consistent with the positions to machine precision.
 
+use crate::portable_math::PortableFloat;
 use crate::constellation::{ConstellationCfg, Elements};
 use std::f64::consts::PI;
 
@@ -85,12 +86,12 @@ pub struct EarthOrbit {
 impl EarthOrbit {
     /// Orbit from classical elements, with (`j2 = true`) or without the secular J2 drift.
     pub fn from_elements(el: &Elements, j2: bool) -> Self {
-        let n = (GM_EARTH / el.a_m.powi(3)).sqrt();
+        let n = (GM_EARTH / el.a_m.ppowi(3)).sqrt();
         let (mut raan_dot, mut argp_dot) = (0.0, 0.0);
         if j2 {
             let p = el.a_m * (1.0 - el.e * el.e);
-            let f = n * J2_EARTH * (RE_EARTH / p).powi(2);
-            let ci = el.i_rad.cos();
+            let f = n * J2_EARTH * (RE_EARTH / p).ppowi(2);
+            let ci = el.i_rad.pcos();
             raan_dot = -1.5 * f * ci;
             argp_dot = 0.75 * f * (5.0 * ci * ci - 1.0);
         }
@@ -132,7 +133,7 @@ impl EarthOrbit {
     pub fn state(&self, t: f64) -> (Vec3, Vec3) {
         let m = self.m0 + self.n * t;
         let ea = kepler(m, self.e);
-        let (se, ce) = ea.sin_cos();
+        let (se, ce) = ea.psin_cos();
         let e = self.e;
         let b = (1.0 - e * e).sqrt();
         // Perifocal position and velocity.
@@ -141,9 +142,9 @@ impl EarthOrbit {
         let (vxp, vyp) = (-self.a * se * edot, self.a * b * ce * edot);
         let argp = self.argp0 + self.argp_dot * t;
         let raan = self.raan0 + self.raan_dot * t;
-        let (sw, cw) = argp.sin_cos();
-        let (so, co) = raan.sin_cos();
-        let (si, ci) = self.inc.sin_cos();
+        let (sw, cw) = argp.psin_cos();
+        let (so, co) = raan.psin_cos();
+        let (si, ci) = self.inc.psin_cos();
         // Columns of the perifocal-to-inertial rotation.
         let p = [cw * co - sw * so * ci, cw * so + sw * co * ci, sw * si];
         let q = [-sw * co - cw * so * ci, -sw * so + cw * co * ci, cw * si];
@@ -160,7 +161,7 @@ impl EarthOrbit {
         );
         // Inertial to Earth-fixed: rotate by −ω t and remove the frame rotation.
         let th = OMEGA_EARTH * t;
-        let (st, ct) = th.sin_cos();
+        let (st, ct) = th.psin_cos();
         let rot = |v: Vec3| [ct * v[0] + st * v[1], -st * v[0] + ct * v[1], v[2]];
         let v_rel = sub(v_i, scale(cross([0.0, 0.0, 1.0], r_i), OMEGA_EARTH));
         (rot(r_i), rot(v_rel))
@@ -174,8 +175,8 @@ pub fn kepler(m: f64, e: f64) -> f64 {
     }
     let mut ea = if e < 0.8 { m } else { PI };
     for _ in 0..30 {
-        let f = ea - e * ea.sin() - m;
-        let d = f / (1.0 - e * ea.cos());
+        let f = ea - e * ea.psin() - m;
+        let d = f / (1.0 - e * ea.pcos());
         ea -= d;
         if d.abs() < 1e-14 {
             break;
@@ -213,8 +214,8 @@ impl Site {
 
 /// Unit east, north and up vectors at geodetic latitude and longitude (rad).
 pub fn enu_at(lat: f64, lon: f64) -> (Vec3, Vec3, Vec3) {
-    let (sl, cl) = lat.sin_cos();
-    let (so, co) = lon.sin_cos();
+    let (sl, cl) = lat.psin_cos();
+    let (so, co) = lon.psin_cos();
     (
         [-so, co, 0.0],
         [-sl * co, -sl * so, cl],
@@ -248,7 +249,7 @@ pub fn azimuth_deg(user: Vec3, up: Vec3, sat: Vec3) -> f64 {
 /// Elevation (rad) of `sat` above the plane normal to `up` at `user` (both ECEF).
 pub fn elevation(user: Vec3, up: Vec3, sat: Vec3) -> f64 {
     let d = sub(sat, user);
-    (dot(d, up) / norm(d)).clamp(-1.0, 1.0).asin()
+    (dot(d, up) / norm(d)).clamp(-1.0, 1.0).pasin()
 }
 
 /// Build the orbits of a constellation configuration around the Earth.
@@ -392,7 +393,7 @@ mod tests {
     #[test]
     fn a_circular_orbit_keeps_its_radius_and_period() {
         let o = EarthOrbit::circular(550e3, 53.0 * DEG, 0.0, 0.0);
-        let want = 2.0 * PI * ((RE_EARTH + 550e3).powi(3) / GM_EARTH).sqrt();
+        let want = 2.0 * PI * ((RE_EARTH + 550e3).ppowi(3) / GM_EARTH).sqrt();
         assert!((o.period_s() - want).abs() < 1e-9 * want);
         for t in [0.0, 1000.0, 5000.0] {
             assert!((norm(o.state(t).0) - (RE_EARTH + 550e3)).abs() < 1e-6);

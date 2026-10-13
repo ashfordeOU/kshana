@@ -661,6 +661,7 @@ pub fn to_mid_rise(samples: &mut [Cf64]) {
 
 #[cfg(test)]
 mod tests {
+    use crate::portable_math::PortableFloat;
     use super::*;
 
     /// The shape of a LuGRE `.sdrx` file: settings as child elements, a header and footer,
@@ -804,7 +805,7 @@ mod tests {
             let chip = (t * CA_CHIP_RATE_HZ).floor() as usize % 1023;
             let ph = core::f64::consts::TAU * 2_000.0 * t;
             let a = 5.0 * code.bipolar[chip];
-            bytes.push((q(a * ph.cos()) << 4) | q(a * ph.sin()));
+            bytes.push((q(a * ph.pcos()) << 4) | q(a * ph.psin()));
         }
         bytes.push(0xCC);
         let mut l = parse_sdrx(META).unwrap();

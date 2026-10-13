@@ -28,6 +28,7 @@
 //! edit. `tests/workshop_preset_isolation.rs` checks which files may name it.
 
 mod atomic_zero_clock;
+use crate::portable_math::PortableFloat;
 #[cfg(kshana_celeste)]
 use crate::celeste_iod::fusion as celeste_iod;
 mod centispace;
@@ -183,7 +184,7 @@ pub fn by_id(id: &str) -> Result<&'static LeoPreset, String> {
 
 /// Thermal noise density `k T` for a system noise temperature (dBW/Hz).
 pub fn noise_density_dbw_hz(t_sys_k: f64) -> f64 {
-    10.0 * (1.380_649e-23 * t_sys_k).log10()
+    10.0 * (1.380_649e-23 * t_sys_k).plog10()
 }
 
 /// The C/N0 range of a signal (dB-Hz), low and high: stated directly when the source does,

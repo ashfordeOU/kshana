@@ -36,6 +36,7 @@
 //! Determinism: each satellite has its own SplitMix64 stream seeded from the model seed and the
 //! satellite number.
 
+use crate::portable_math::PortableFloat;
 use super::{sat_seed, ChannelEffect, LineOfSight};
 use crate::iq::simrng::SimRng;
 use crate::iq::{ChannelSnapshot, PathState};
@@ -185,17 +186,17 @@ fn draw_amplitudes(p: &LandMobileParams, st: &mut SatState) {
             };
             let g: f64 = st.rng.sample(StandardNormal);
             (
-                10f64.powf((loo.mean_db + loo.std_db * g) / 20.0),
+                10f64.ppowf((loo.mean_db + loo.std_db * g) / 20.0),
                 loo.multipath_db,
             )
         }
         LmsState::Blocked => (0.0, p.blocked_multipath_db),
     };
-    let s = (10f64.powf(mp_db / 10.0) / 2.0).sqrt();
+    let s = (10f64.ppowf(mp_db / 10.0) / 2.0).sqrt();
     let x: f64 = st.rng.sample(StandardNormal);
     let y: f64 = st.rng.sample(StandardNormal);
     st.direct_amp = direct;
-    st.diffuse_amp = s * x.hypot(y);
+    st.diffuse_amp = s * x.phypot(y);
     st.diffuse_phase = st.rng.gen_range(-PI..PI);
 }
 
@@ -367,7 +368,7 @@ mod tests {
         let (mut s1, mut s2, mut mp) = (0.0, 0.0, 0.0);
         for k in 0..n {
             let st = lm.advance(sat, k as f64 * p.step_s).clone();
-            let db = 20.0 * st.direct_amp.log10();
+            let db = 20.0 * st.direct_amp.plog10();
             s1 += db;
             s2 += db * db;
             mp += st.diffuse_amp * st.diffuse_amp;
@@ -377,7 +378,7 @@ mod tests {
         let sd = (s2 / nf - mean * mean).sqrt();
         assert!((mean - p.los.mean_db).abs() < 0.01, "{mean}");
         assert!((sd - p.los.std_db).abs() < 0.01, "{sd}");
-        let mp_db = 10.0 * (mp / nf).log10();
+        let mp_db = 10.0 * (mp / nf).plog10();
         assert!((mp_db - p.los.multipath_db).abs() < 0.1, "{mp_db}");
     }
 

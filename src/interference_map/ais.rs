@@ -7,6 +7,7 @@
 //! at least a minimum share of the vessels observed in the cell. See
 //! `docs/INTERFERENCE-MAP.md` for the thresholds and the false-positive causes.
 
+use crate::portable_math::PortableFloat;
 use std::collections::{BTreeMap, HashMap, HashSet};
 
 use serde_json::{json, Map, Value};
@@ -488,23 +489,23 @@ fn circle_fit(p: &AisParams, w: &[Rep]) -> Option<(f64, f64)> {
     let lat0 = w.iter().map(|r| r.lat).sum::<f64>() / n;
     let lon0 = w.iter().map(|r| r.lon).sum::<f64>() / n;
     let m_per_deg = EARTH_RADIUS_M * std::f64::consts::PI / 180.0;
-    let k = lat0.to_radians().cos();
+    let k = lat0.to_radians().pcos();
     let xy: Vec<(f64, f64)> = w
         .iter()
         .map(|r| ((r.lon - lon0) * k * m_per_deg, (r.lat - lat0) * m_per_deg))
         .collect();
-    let radii: Vec<f64> = xy.iter().map(|&(x, y)| x.hypot(y)).collect();
+    let radii: Vec<f64> = xy.iter().map(|&(x, y)| x.phypot(y)).collect();
     let mean_r = radii.iter().sum::<f64>() / n;
     if !(p.circle_min_radius_m..=p.circle_max_radius_m).contains(&mean_r) {
         return None;
     }
-    let sd = (radii.iter().map(|r| (r - mean_r).powi(2)).sum::<f64>() / n).sqrt();
+    let sd = (radii.iter().map(|r| (r - mean_r).ppowi(2)).sum::<f64>() / n).sqrt();
     if sd / mean_r > p.circle_max_cv {
         return None;
     }
     let (mut net, mut abs_sum, mut max_step) = (0.0_f64, 0.0_f64, 0.0_f64);
     for q in xy.windows(2) {
-        let (a0, a1) = (q[0].1.atan2(q[0].0), q[1].1.atan2(q[1].0));
+        let (a0, a1) = (q[0].1.patan2(q[0].0), q[1].1.patan2(q[1].0));
         let mut d = a1 - a0;
         while d > std::f64::consts::PI {
             d -= 2.0 * std::f64::consts::PI;
@@ -626,8 +627,8 @@ mod tests {
         for v in 0..5 {
             for k in 0..24u32 {
                 let th = (k as f64) * 20.0_f64.to_radians();
-                let lat = 60.2 + 2000.0 * th.sin() / 111_195.0;
-                let lon = 24.2 + 2000.0 * th.cos() / (111_195.0 * 60.2_f64.to_radians().cos());
+                let lat = 60.2 + 2000.0 * th.psin() / 111_195.0;
+                let lon = 24.2 + 2000.0 * th.pcos() / (111_195.0 * 60.2_f64.to_radians().pcos());
                 csv.push_str(&format!("{},circ{v},{lat},{lon},9\n", ts(40_000 + k * 60)));
             }
         }
@@ -655,8 +656,8 @@ mod tests {
         for v in 0..5 {
             for k in 0..24u32 {
                 let th = (k as f64) * 20.0_f64.to_radians();
-                let lat = 60.2 + 0.01 * v as f64 + 300.0 * th.sin() / 111_195.0;
-                let lon = 24.2 + 300.0 * th.cos() / (111_195.0 * 60.2_f64.to_radians().cos());
+                let lat = 60.2 + 0.01 * v as f64 + 300.0 * th.psin() / 111_195.0;
+                let lon = 24.2 + 300.0 * th.pcos() / (111_195.0 * 60.2_f64.to_radians().pcos());
                 csv.push_str(&format!("{},anc{v},{lat},{lon},0.2\n", ts(40_000 + k * 60)));
             }
         }

@@ -26,6 +26,7 @@
 //! with the rest of the crate); the ~ms UT1−TT distinction and sub-µas frame-rate
 //! terms are the caller's to supply.
 
+use crate::portable_math::PortableFloat;
 use crate::cio_s06_data::{S06Term, S06_0, S06_1, S06_2, S06_3, S06_4, SP06};
 use crate::frames::polar_motion_matrix;
 use crate::nutation::nutation_iau2000a;
@@ -92,7 +93,7 @@ fn s_block(table: &[S06Term], fa: &[f64; 8]) -> f64 {
             .zip(fa.iter())
             .map(|(&m, &f)| f64::from(m) * f)
             .sum();
-        acc += s * a.sin() + c * a.cos();
+        acc += s * a.psin() + c * a.pcos();
     }
     acc
 }
@@ -145,8 +146,8 @@ pub fn xys_2006a(jd_tt: f64) -> (f64, f64, f64) {
 /// `E = atan2(Y, X)`, `d = atan(√(r²/(1−r²)))`, `r² = X²+Y²`.
 pub fn celestial_to_intermediate(x: f64, y: f64, s: f64) -> Mat3 {
     let r2 = x * x + y * y;
-    let e = if r2 > 0.0 { y.atan2(x) } else { 0.0 };
-    let d = (r2 / (1.0 - r2)).sqrt().atan();
+    let e = if r2 > 0.0 { y.patan2(x) } else { 0.0 };
+    let d = (r2 / (1.0 - r2)).sqrt().patan();
     matmul(&rz(-(e + s)), &matmul(&ry(d), &rz(e)))
 }
 
@@ -293,7 +294,7 @@ mod tests {
         // The net rotation is the CIP offset from the GCRS pole — tens of mas,
         // i.e. an arcminute-ish angle, never the ~23° obliquity.
         let trace = c[0][0] + c[1][1] + c[2][2];
-        let theta = (((trace - 1.0) / 2.0).clamp(-1.0, 1.0)).acos();
+        let theta = (((trace - 1.0) / 2.0).clamp(-1.0, 1.0)).pacos();
         assert!(theta < 1e-3, "GCRS→CIRS angle = {theta} rad (want < ~1e-3)");
     }
 
@@ -333,9 +334,9 @@ mod tests {
         let (r_teme, _) = crate::nutation::gcrs_to_teme(r_gcrs, [0.0; 3], jd_tt);
         let r_itrf_equinox = crate::frames::teme_to_itrf(r_teme, jd_ut1, 0.0, 0.0, jd_tt);
         let r_itrs_cio = gcrs_to_itrs(r_gcrs, jd_tt, jd_ut1, 0.0, 0.0);
-        let sep = ((r_itrf_equinox[0] - r_itrs_cio[0]).powi(2)
-            + (r_itrf_equinox[1] - r_itrs_cio[1]).powi(2)
-            + (r_itrf_equinox[2] - r_itrs_cio[2]).powi(2))
+        let sep = ((r_itrf_equinox[0] - r_itrs_cio[0]).ppowi(2)
+            + (r_itrf_equinox[1] - r_itrs_cio[1]).ppowi(2)
+            + (r_itrf_equinox[2] - r_itrs_cio[2]).ppowi(2))
         .sqrt();
         // A 1 m bound: twenty times the convention gap, and two orders of magnitude
         // below what a nutation-matrix sign slip produces.

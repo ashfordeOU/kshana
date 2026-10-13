@@ -16,6 +16,7 @@
 //! the spec before being detected — exactly the condition the Security score
 //! summarises.
 
+use crate::portable_math::PortableFloat;
 use crate::detection::{analytic_pmd, detection_boundary, monte_carlo_pfa_pmd};
 use crate::palette::chart::{AMBER, AXIS, BG, CORAL, CYAN, FONT_SANS, INK_2, INK_3, MUTED};
 use crate::run::PHASE_MEAS_VAR_S2;
@@ -50,7 +51,7 @@ impl SpoofShape {
             SpoofShape::Meaconing {
                 delay_ns,
                 oscillation_hz,
-            } => delay_ns * (1.0 + (TAU * oscillation_hz * tau).sin()),
+            } => delay_ns * (1.0 + (TAU * oscillation_hz * tau).psin()),
             SpoofShape::Replay { capture_offset_s } => capture_offset_s * 1e9,
         }
     }

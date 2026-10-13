@@ -17,6 +17,7 @@
 //! its line 1 becomes SGP4, a bare line 2 stays Keplerian, and the two may be
 //! mixed. [`parse_set`] keeps the legacy all-Keplerian behaviour.
 
+use crate::portable_math::PortableFloat;
 use crate::orbit::{Orbit, MU_EARTH};
 use crate::sgp4::{GravConst, Sgp4};
 
@@ -305,7 +306,7 @@ fn parse_decimal_exp(sign: &str, mant: &str, exp: &str, what: &str) -> Result<f6
         .trim()
         .parse()
         .map_err(|_| format!("invalid {what} exponent in TLE: {exp:?}"))?;
-    Ok(v * 10f64.powi(e))
+    Ok(v * 10f64.ppowi(e))
 }
 
 /// Parse the orbital elements from a TLE line 2 into an [`Orbit`]. The line must
@@ -336,7 +337,7 @@ pub fn parse_line2(line2: &str) -> Result<Orbit, String> {
     check_elements(inclination_deg, ecc, mean_motion_rev_day)?;
     // a = (mu / n^2)^(1/3) with n in rad/s.
     let n = mean_motion_rev_day * std::f64::consts::TAU / SECONDS_PER_DAY;
-    let a = (MU_EARTH / (n * n)).cbrt();
+    let a = (MU_EARTH / (n * n)).pcbrt();
 
     Ok(Orbit::keplerian(
         a,
@@ -664,7 +665,7 @@ mod tests {
 
         let r72 = by_model(GravModel::Wgs72);
         let r84 = by_model(GravModel::Wgs84);
-        let d = ((r72[0] - r84[0]).powi(2) + (r72[1] - r84[1]).powi(2) + (r72[2] - r84[2]).powi(2))
+        let d = ((r72[0] - r84[0]).ppowi(2) + (r72[1] - r84[1]).ppowi(2) + (r72[2] - r84[2]).ppowi(2))
             .sqrt();
         // Distinct Earth constants give a measurably different propagated state
         // (metre-level over this arc), well above floating-point noise.
@@ -678,7 +679,7 @@ mod tests {
         let p1 = p.position_eci(600.0);
         assert!(p0.iter().all(|c| c.is_finite()) && p1.iter().all(|c| c.is_finite()));
         // The satellite has moved over ten minutes.
-        let moved = (0..3).map(|k| (p1[k] - p0[k]).powi(2)).sum::<f64>().sqrt();
+        let moved = (0..3).map(|k| (p1[k] - p0[k]).ppowi(2)).sum::<f64>().sqrt();
         assert!(moved > 1.0e5, "moved only {moved} m");
         // Radius is a sane LEO/MEO magnitude (this object is ~7000 km).
         let r0 = p0.iter().map(|c| c * c).sum::<f64>().sqrt();

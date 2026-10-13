@@ -347,7 +347,7 @@ fn result_from_peak(
 
     let n_cells = (spc * bins.len()) as f64;
     // Per-cell false-alarm probability 1 − (1 − P_fa)^(1/N), formed without cancellation.
-    let pfa_cell = -((-cfg.pfa).ln_1p() / n_cells).exp_m1();
+    let pfa_cell = -((-cfg.pfa).pln_1p() / n_cells).pexp_m1();
     let threshold = threshold_for_pfa(pfa_cell, cfg.noncoherent as f64);
     let len = code.len_chips() as f64;
     let code_phase_chips = (-(tb as f64) * chips_per_sample).rem_euclid(len);
@@ -481,7 +481,7 @@ pub fn acquire_source(
 /// `ρ = (C/N0)·N·T_code` and `M` non-coherent blocks. No straddle or bit-edge loss.
 pub fn predicted_pd(cfg: &AcqConfig, period_s: f64, cn0_dbhz: f64, pfa_cell: f64) -> f64 {
     let m = cfg.noncoherent as f64;
-    let rho = 10f64.powf(cn0_dbhz / 10.0) * cfg.coherent_periods as f64 * period_s;
+    let rho = 10f64.ppowf(cn0_dbhz / 10.0) * cfg.coherent_periods as f64 * period_s;
     pd_square_law(threshold_for_pfa(pfa_cell, m), m, rho)
 }
 

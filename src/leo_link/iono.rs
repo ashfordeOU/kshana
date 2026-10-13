@@ -23,6 +23,7 @@
 //!   GPS/GNSS: Principles and Applications*, 3rd ed., the code-tracking thermal-noise
 //!   expression for an infinite front-end bandwidth).
 
+use crate::portable_math::PortableFloat;
 use super::C_M_S;
 
 /// First-order ionospheric constant (m³/s²): `I = K·STEC/f²`.
@@ -51,7 +52,7 @@ pub fn stec_from_klobuchar(
 /// Single-layer mapping function at elevation `el_rad` for a shell at `shell_m` above a sphere
 /// of radius `re_m`: `1/√(1 − (re·cos el/(re + h))²)`.
 pub fn single_layer_mapping(el_rad: f64, re_m: f64, shell_m: f64) -> f64 {
-    let x = re_m * el_rad.cos() / (re_m + shell_m);
+    let x = re_m * el_rad.pcos() / (re_m + shell_m);
     1.0 / (1.0 - x * x).max(1e-9).sqrt()
 }
 
@@ -64,7 +65,7 @@ fn erfc(x: f64) -> f64 {
 /// at `peak_m` and scale height `scale_m`.
 pub fn fraction_below(h_m: f64, peak_m: f64, scale_m: f64) -> f64 {
     let z = (h_m - peak_m) / scale_m.max(1.0);
-    let x = 0.5 * (-z).exp();
+    let x = 0.5 * (-z).pexp();
     erfc(x.sqrt()).clamp(0.0, 1.0)
 }
 
@@ -109,7 +110,7 @@ pub fn dll_code_noise_m(
     d_chips: f64,
     t_s: f64,
 ) -> f64 {
-    let cn0 = 10f64.powf(cn0_dbhz / 10.0);
+    let cn0 = 10f64.ppowf(cn0_dbhz / 10.0);
     let var_chips = bl_hz * d_chips / (2.0 * cn0) * (1.0 + 2.0 / (t_s * cn0 * (2.0 - d_chips)));
     var_chips.sqrt() * C_M_S / chip_rate_hz
 }

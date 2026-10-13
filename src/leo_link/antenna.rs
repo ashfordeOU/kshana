@@ -19,6 +19,7 @@
 //! **Label: MODELLED.** The pattern shapes are textbook idealisations; no satellite's measured
 //! pattern is reproduced.
 
+use crate::portable_math::PortableFloat;
 /// Transmit pattern of a nadir-pointing satellite antenna.
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum SatPattern {
@@ -45,15 +46,15 @@ pub enum SatPattern {
 /// Slant range (m) from a satellite at radius `rs` to the Earth's surface (radius `re`) along a
 /// ray at nadir angle `eta` (rad), or `None` past the limb.
 pub fn slant_range_at_nadir_angle(rs: f64, re: f64, eta: f64) -> Option<f64> {
-    let s = eta.sin();
+    let s = eta.psin();
     let disc = re * re - rs * rs * s * s;
-    (disc >= 0.0).then(|| rs * eta.cos() - disc.sqrt())
+    (disc >= 0.0).then(|| rs * eta.pcos() - disc.sqrt())
 }
 
 /// Nadir angle (rad) of the ray that reaches the surface at elevation `el` (rad):
 /// `sin η = (re/rs)·cos el`.
 pub fn nadir_angle_for_elevation(rs: f64, re: f64, el: f64) -> f64 {
-    ((re / rs) * el.cos()).clamp(-1.0, 1.0).asin()
+    ((re / rs) * el.pcos()).clamp(-1.0, 1.0).pasin()
 }
 
 impl SatPattern {
@@ -65,7 +66,7 @@ impl SatPattern {
             SatPattern::Flat => 0.0,
             SatPattern::Gaussian { hpbw_deg, floor_db } => {
                 // −3·(η/(θ₃/2))² = −12·(η/θ₃)²: −3 dB at half the full beamwidth.
-                (-12.0 * (eta.to_degrees() / hpbw_deg.max(1e-6)).powi(2)).max(floor_db)
+                (-12.0 * (eta.to_degrees() / hpbw_deg.max(1e-6)).ppowi(2)).max(floor_db)
             }
             SatPattern::Isoflux {
                 edge_elevation_deg,
@@ -75,7 +76,7 @@ impl SatPattern {
                 let rho_e = slant_range_at_nadir_angle(rs_m, re_m, eta_e).unwrap_or(rs_m - re_m);
                 if eta <= eta_e {
                     let rho = slant_range_at_nadir_angle(rs_m, re_m, eta).unwrap_or(rho_e);
-                    20.0 * (rho / rho_e).log10()
+                    20.0 * (rho / rho_e).plog10()
                 } else {
                     let x = (eta - eta_e).to_degrees() / rolloff_deg.max(1e-6);
                     (-12.0 * x * x).max(-40.0)
@@ -142,11 +143,11 @@ impl UserAntenna {
                 exponent,
                 min_gain_dbi,
             } => {
-                let s = el_deg.to_radians().sin();
+                let s = el_deg.to_radians().psin();
                 if s <= 0.0 {
                     return min_gain_dbi;
                 }
-                (zenith_gain_dbi + 10.0 * exponent * s.log10()).max(min_gain_dbi)
+                (zenith_gain_dbi + 10.0 * exponent * s.plog10()).max(min_gain_dbi)
             }
         }
     }
@@ -198,7 +199,7 @@ impl Polarisation {
 /// Signed axial ratio (linear, magnitude at least 1): positive for right-hand, negative for
 /// left-hand, a large number for linear.
 fn signed_axial_ratio(p: Polarisation, ar_db: f64) -> f64 {
-    let r = 10f64.powf(ar_db.abs() / 20.0).max(1.0);
+    let r = 10f64.ppowf(ar_db.abs() / 20.0).max(1.0);
     match p {
         Polarisation::Rhcp => r,
         Polarisation::Lhcp => -r,
@@ -223,7 +224,7 @@ pub fn polarisation_loss_factor(
     let (a1, b1) = (1.0 / (1.0 + r1 * r1), r1 * r1 / (1.0 + r1 * r1));
     let (a2, b2) = (1.0 / (1.0 + r2 * r2), r2 * r2 / (1.0 + r2 * r2));
     let cross = 4.0 * r1 * r2 * a1 * a2;
-    let diff = (a1 - b1) * (a2 - b2) * (2.0 * delta_rad).cos();
+    let diff = (a1 - b1) * (a2 - b2) * (2.0 * delta_rad).pcos();
     (0.5 + 0.5 * (cross + diff)).clamp(0.0, 1.0)
 }
 
@@ -236,7 +237,7 @@ pub fn polarisation_loss_db(
     rx_ar_db: f64,
 ) -> f64 {
     let plf = polarisation_loss_factor(tx, tx_ar_db, rx, rx_ar_db, std::f64::consts::FRAC_PI_4);
-    (-10.0 * plf.max(1e-4).log10()).max(0.0)
+    (-10.0 * plf.max(1e-4).plog10()).max(0.0)
 }
 
 #[cfg(test)]
@@ -257,8 +258,8 @@ mod tests {
         for k in 0..20 {
             let eta = eta_e * k as f64 / 20.0;
             let rho = slant_range_at_nadir_angle(rs, RE, eta).unwrap();
-            let flux = p.relative_gain_db(eta, rs, RE) - 20.0 * rho.log10();
-            assert!((flux + 20.0 * rho_e.log10()).abs() < 1e-9);
+            let flux = p.relative_gain_db(eta, rs, RE) - 20.0 * rho.plog10();
+            assert!((flux + 20.0 * rho_e.plog10()).abs() < 1e-9);
         }
         assert!(p.relative_gain_db(eta_e + 0.05, rs, RE) < 0.0);
     }

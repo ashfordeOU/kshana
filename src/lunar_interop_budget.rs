@@ -745,6 +745,7 @@ pub fn interop_budget(splits: &[ProvenanceSplit], convention: FrameConvention) -
 
 #[cfg(test)]
 mod tests {
+    use crate::portable_math::PortableFloat;
     use super::*;
 
     // A deterministic Earth–Moon-like point cloud swept over an orbit (rotating radius vector).
@@ -753,7 +754,7 @@ mod tests {
             .map(|k| {
                 let a = (k as f64) * 0.11; // rotates the vector around the orbit
                 let r = 3.84e8;
-                [r * a.cos(), r * a.sin(), 0.20 * r * (0.5 * a).sin()]
+                [r * a.pcos(), r * a.psin(), 0.20 * r * (0.5 * a).psin()]
             })
             .collect()
     }
@@ -805,7 +806,7 @@ mod tests {
         (0..n)
             .map(|k| {
                 let a = (k as f64) * 0.11;
-                [r * a.cos(), r * a.sin(), 0.20 * r * (0.5 * a).sin()]
+                [r * a.pcos(), r * a.psin(), 0.20 * r * (0.5 * a).psin()]
             })
             .collect()
     }
@@ -866,7 +867,7 @@ mod tests {
 
         // irreducible_m ≈ |known_excess| * lever_arm to 1e-6 relative.
         let excess_norm =
-            (known_excess[0].powi(2) + known_excess[1].powi(2) + known_excess[2].powi(2)).sqrt();
+            (known_excess[0].ppowi(2) + known_excess[1].ppowi(2) + known_excess[2].ppowi(2)).sqrt();
         let expected_irr = excess_norm * lever;
         assert!(
             (split.irreducible_m - expected_irr).abs() / expected_irr < 1e-6,

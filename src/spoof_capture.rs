@@ -46,6 +46,7 @@
 //! No real raw-IF spoofing fixture (TEXBAT/OAKBAT) ships in-tree, so the oracle is the
 //! closed-form pull-in behaviour above rather than a recorded capture.
 
+use crate::portable_math::PortableFloat;
 use crate::sdr::{
     correlate, synth_if, Acquisition, CaCode, Cf64, CorrParams, CorrelatorDump, TrackConfig,
     CA_CHIP_RATE_HZ, CA_CODE_LEN,
@@ -250,7 +251,7 @@ fn track_traced(
             0.0
         };
         let pll = if loop_corr.prompt.re != 0.0 {
-            (loop_corr.prompt.im / loop_corr.prompt.re).atan()
+            (loop_corr.prompt.im / loop_corr.prompt.re).patan()
         } else {
             0.0
         };
@@ -297,7 +298,7 @@ fn build_composite(
         cfg.noise_std,
         cfg.seed,
     );
-    let spoof_amp = 10f64.powf(power_advantage_db / 20.0);
+    let spoof_amp = 10f64.ppowf(power_advantage_db / 20.0);
     let spoofer = synth_if(
         code,
         cfg.fs_hz,

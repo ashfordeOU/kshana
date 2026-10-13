@@ -27,6 +27,7 @@
 //! The SQM score is `|(|E| − |L|)/(|E| + |L|)|` (symmetric peak ⇒ 0; distortion ⇒
 //! larger), already rising with impairment, so it is [`Orient::Raw`].
 
+use crate::portable_math::PortableFloat;
 use super::{Observation, Orient};
 use crate::spoof_monitors::SqmMonitor;
 
@@ -58,8 +59,8 @@ pub fn observations(text: &str) -> Vec<Observation> {
         else {
             continue;
         };
-        let e_mag = e_i.hypot(e_q);
-        let l_mag = l_i.hypot(l_q);
+        let e_mag = e_i.phypot(e_q);
+        let l_mag = l_i.phypot(l_q);
         let imbalance = monitor.el_metric(e_mag, l_mag).abs();
         out.push(Observation::new("sqm", imbalance, Orient::Raw));
     }

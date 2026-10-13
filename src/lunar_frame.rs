@@ -36,6 +36,7 @@
 //! the higher-fidelity follow-on — the dominant residual in `tests/agency_lro.rs`, alongside the
 //! low-precision built-in ephemeris.
 
+use crate::portable_math::PortableFloat;
 use crate::precession::{transpose, Mat3};
 
 /// Julian Date of the J2000.0 epoch (TT).
@@ -106,8 +107,8 @@ pub fn lunar_pole_ra_dec(jd_tdb: f64) -> (f64, f64) {
     let mut ra = 269.9949 + 0.0031 * t;
     let mut dec = 66.5392 + 0.0130 * t;
     for i in 0..13 {
-        ra += RA_AMP[i] * e[i].sin();
-        dec += DEC_AMP[i] * e[i].cos();
+        ra += RA_AMP[i] * e[i].psin();
+        dec += DEC_AMP[i] * e[i].pcos();
     }
     (ra.to_radians(), dec.to_radians())
 }
@@ -119,7 +120,7 @@ pub fn lunar_prime_meridian(jd_tdb: f64) -> f64 {
     let e = libration_args(t);
     let mut w = 38.3213 + 13.176_358_15 * d - 1.4e-12 * d * d;
     for i in 0..13 {
-        w += PM_AMP[i] * e[i].sin();
+        w += PM_AMP[i] * e[i].psin();
     }
     w.to_radians()
 }
@@ -127,19 +128,19 @@ pub fn lunar_prime_meridian(jd_tdb: f64) -> f64 {
 /// Frame rotation about +z by `theta` (rotates the coordinate axes; `crate::lunar::rot3`
 /// convention).
 fn rz(theta: f64) -> Mat3 {
-    let (s, c) = theta.sin_cos();
+    let (s, c) = theta.psin_cos();
     [[c, s, 0.0], [-s, c, 0.0], [0.0, 0.0, 1.0]]
 }
 
 /// Frame rotation about +x by `theta`.
 fn rx(theta: f64) -> Mat3 {
-    let (s, c) = theta.sin_cos();
+    let (s, c) = theta.psin_cos();
     [[1.0, 0.0, 0.0], [0.0, c, s], [0.0, -s, c]]
 }
 
 /// Frame rotation about +y by `theta`.
 fn ry(theta: f64) -> Mat3 {
-    let (s, c) = theta.sin_cos();
+    let (s, c) = theta.psin_cos();
     [[c, 0.0, -s], [0.0, 1.0, 0.0], [s, 0.0, c]]
 }
 
@@ -245,7 +246,7 @@ mod tests {
         let (ra, dec) = lunar_pole_ra_dec(jd);
         let m = icrf_to_iau_moon(jd);
         let pole = [m[2][0], m[2][1], m[2][2]];
-        let want = [dec.cos() * ra.cos(), dec.cos() * ra.sin(), dec.sin()];
+        let want = [dec.pcos() * ra.pcos(), dec.pcos() * ra.psin(), dec.psin()];
         for k in 0..3 {
             assert!(
                 (pole[k] - want[k]).abs() < 1e-12,
@@ -295,8 +296,8 @@ mod tests {
             let m = icrf_to_iau_moon(jd);
             let bf = mat_vec(&m, earth_dir);
             let bf = [bf[0] / norm(bf), bf[1] / norm(bf), bf[2] / norm(bf)];
-            let lon = bf[1].atan2(bf[0]).to_degrees(); // selenographic longitude of sub-Earth pt
-            let lat = bf[2].asin().to_degrees();
+            let lon = bf[1].patan2(bf[0]).to_degrees(); // selenographic longitude of sub-Earth pt
+            let lat = bf[2].pasin().to_degrees();
             assert!(
                 lon.abs() < 10.0,
                 "day {day}: sub-Earth longitude {lon}° off near side (libration ≤ ~8°)"
@@ -366,7 +367,7 @@ mod tests {
         let mt = transpose(&m);
         let pole_icrf = mat_vec(&mt, [0.0, 0.0, 1.0]);
         let (ra, dec) = lunar_pole_ra_dec(jd);
-        let want = [dec.cos() * ra.cos(), dec.cos() * ra.sin(), dec.sin()];
+        let want = [dec.pcos() * ra.pcos(), dec.pcos() * ra.psin(), dec.psin()];
         for k in 0..3 {
             assert!((pole_icrf[k] - want[k]).abs() < 1e-12, "pole[{k}]");
         }

@@ -51,6 +51,7 @@
 //! or antenna pattern acts on the jammer. Intra-system (multiple-access) interference
 //! between satellites of the same band is not included.
 
+use crate::portable_math::PortableFloat;
 use crate::chart::esc;
 use crate::jamming::{
     effective_cn0_dbhz, free_space_path_loss_db, j_over_s_db, lock_status, q_factor,
@@ -607,7 +608,7 @@ pub fn effective_cn0_multi_dbhz(cn0_nominal_dbhz: f64, terms: &[(f64, f64)]) -> 
     for &(js_db, kappa) in terms {
         denom += db_to_lin(js_db) * kappa;
     }
-    -10.0 * denom.log10()
+    -10.0 * denom.plog10()
 }
 
 /// System noise temperature (K): `T_ant + T₀(F − 1)`.
@@ -617,15 +618,15 @@ pub fn system_temp_k(antenna_temp_k: f64, noise_figure_db: f64) -> f64 {
 
 /// Thermal noise density (dBW/Hz) `10·log₁₀(k·T)`.
 pub fn noise_density_dbw_per_hz(temp_k: f64) -> f64 {
-    10.0 * (BOLTZMANN_J_PER_K * temp_k).log10()
+    10.0 * (BOLTZMANN_J_PER_K * temp_k).plog10()
 }
 
 fn db_to_lin(db: f64) -> f64 {
-    10f64.powf(db / 10.0)
+    10f64.ppowf(db / 10.0)
 }
 
 fn lin_to_db(x: f64) -> f64 {
-    10.0 * x.max(1e-300).log10()
+    10.0 * x.max(1e-300).plog10()
 }
 
 fn overlap(a0: f64, a1: f64, b0: f64, b1: f64) -> f64 {
@@ -721,7 +722,7 @@ pub fn fft_in_place(buf: &mut [Cf64], inverse: bool) {
     let mut len = 2;
     while len <= n {
         let ang = sign * 2.0 * PI / len as f64;
-        let (wr, wi) = (ang.cos(), ang.sin());
+        let (wr, wi) = (ang.pcos(), ang.psin());
         for start in (0..n).step_by(len) {
             let (mut cr, mut ci) = (1.0f64, 0.0f64);
             for k in 0..len / 2 {
@@ -780,7 +781,7 @@ pub fn welch_psd(x: &[Cf64], fs_hz: f64, nfft: usize, overlap: f64) -> Result<We
     let ov = overlap.clamp(0.0, 0.95);
     let step = ((nfft as f64) * (1.0 - ov)).round().max(1.0) as usize;
     let w: Vec<f64> = (0..nfft)
-        .map(|n| 0.5 - 0.5 * (2.0 * PI * n as f64 / nfft as f64).cos())
+        .map(|n| 0.5 - 0.5 * (2.0 * PI * n as f64 / nfft as f64).pcos())
         .collect();
     let s1: f64 = w.iter().sum();
     let s2: f64 = w.iter().map(|v| v * v).sum();
@@ -879,7 +880,7 @@ pub fn synthesise_iq(
                     let ph0 = 2.0 * PI * rand::Rng::gen::<f64>(&mut rng);
                     for (k, s) in x.iter_mut().enumerate() {
                         let ph = ph0 + 2.0 * PI * fo * k as f64 / fs_hz;
-                        *s = *s + Cf64::new(a * ph.cos(), a * ph.sin());
+                        *s = *s + Cf64::new(a * ph.pcos(), a * ph.psin());
                     }
                 }
             }
@@ -892,7 +893,7 @@ pub fn synthesise_iq(
                     let tau = t_off + k as f64 / fs_hz;
                     let fi = lo + bw * (tau / tp).rem_euclid(1.0);
                     if fi.abs() < fs_hz / 2.0 {
-                        *s = *s + Cf64::new(a * phase.cos(), a * phase.sin());
+                        *s = *s + Cf64::new(a * phase.pcos(), a * phase.psin());
                     }
                     phase += 2.0 * PI * fi / fs_hz;
                 }
@@ -2552,8 +2553,8 @@ mod tests {
         // Closed-form maximum: solve tan y = 2y independently by Newton.
         let mut y = 1.2f64;
         for _ in 0..50 {
-            let f = y.tan() - 2.0 * y;
-            let d = 1.0 / y.cos().powi(2) - 2.0;
+            let f = y.ptan() - 2.0 * y;
+            let d = 1.0 / y.pcos().ppowi(2) - 2.0;
             y -= f / d;
         }
         let f_star = 2.0 * y * RC / PI;
@@ -2686,7 +2687,7 @@ mod tests {
     fn noise_floor_is_kt0f() {
         // T_ant = T0 ⇒ T_sys = T0·F; kT0 = −203.98 dBW/Hz, +2 dB of noise figure.
         let t = system_temp_k(290.0, 2.0);
-        assert!((t - 290.0 * 10f64.powf(0.2)).abs() < 1e-9);
+        assert!((t - 290.0 * 10f64.ppowf(0.2)).abs() < 1e-9);
         assert!((noise_density_dbw_per_hz(290.0) + 203.975).abs() < 0.01);
         assert!(
             (noise_density_dbw_per_hz(t) - (noise_density_dbw_per_hz(290.0) + 2.0)).abs() < 1e-9
@@ -2756,7 +2757,7 @@ mod tests {
     fn fft_matches_a_direct_dft() {
         let n = 64;
         let x: Vec<Cf64> = (0..n)
-            .map(|k| Cf64::new((0.3 * k as f64).sin(), (0.11 * (k * k) as f64).cos()))
+            .map(|k| Cf64::new((0.3 * k as f64).psin(), (0.11 * (k * k) as f64).pcos()))
             .collect();
         let mut y = x.clone();
         fft_in_place(&mut y, false);
@@ -2764,8 +2765,8 @@ mod tests {
             let (mut re, mut im) = (0.0, 0.0);
             for (t, xt) in x.iter().enumerate() {
                 let a = -2.0 * PI * (k * t) as f64 / n as f64;
-                re += xt.re * a.cos() - xt.im * a.sin();
-                im += xt.re * a.sin() + xt.im * a.cos();
+                re += xt.re * a.pcos() - xt.im * a.psin();
+                im += xt.re * a.psin() + xt.im * a.pcos();
             }
             assert!((yk.re - re).abs() < 1e-9 && (yk.im - im).abs() < 1e-9);
         }
@@ -2790,7 +2791,7 @@ mod tests {
                 let g1: f64 = StandardNormal.sample(&mut rng);
                 let g2: f64 = StandardNormal.sample(&mut rng);
                 let ph = 2.0 * PI * f_t * k as f64 / fs;
-                Cf64::new(g1 + tone_a * ph.cos(), g2 + tone_a * ph.sin())
+                Cf64::new(g1 + tone_a * ph.pcos(), g2 + tone_a * ph.psin())
             })
             .collect();
         let w = welch_psd(&x, fs, 1024, 0.5).unwrap();

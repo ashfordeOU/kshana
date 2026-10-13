@@ -85,6 +85,7 @@
 //! (1966) and F. M. Gardner, *Phaselock Techniques* (3rd ed.), ch. 9 (mean time between
 //! cycle slips); Abramowitz & Stegun §9.8 (the `I₀` polynomial approximations).
 
+use crate::portable_math::PortableFloat;
 use crate::jamming::{
     effective_cn0_dbhz, j_over_s_db, nominal_cn0_dbhz, q_factor, CA_CHIP_RATE_HZ, C_M_PER_S, L1_HZ,
 };
@@ -123,7 +124,7 @@ pub const MAX_AXIS_LEN: usize = 64;
 
 #[inline]
 fn lin(db: f64) -> f64 {
-    10f64.powf(db / 10.0)
+    10f64.ppowf(db / 10.0)
 }
 
 // --- thermal jitter ------------------------------------------------------------------
@@ -287,7 +288,7 @@ pub fn bessel_i0(x: f64) -> f64 {
                 + t * (3.089_942_4
                     + t * (1.206_749_2 + t * (0.265_973_2 + t * (0.036_076_8 + t * 0.004_581_3)))))
     } else {
-        (ln_bessel_i0(ax)).exp()
+        (ln_bessel_i0(ax)).pexp()
     }
 }
 
@@ -298,7 +299,7 @@ pub fn bessel_i0(x: f64) -> f64 {
 pub fn ln_bessel_i0(x: f64) -> f64 {
     let ax = x.abs();
     if ax <= 3.75 {
-        bessel_i0(ax).ln()
+        bessel_i0(ax).pln()
     } else {
         let t = 3.75 / ax;
         let poly = 0.398_942_28
@@ -308,7 +309,7 @@ pub fn ln_bessel_i0(x: f64) -> f64 {
                         + t * (0.009_162_81
                             + t * (-0.020_577_06
                                 + t * (0.026_355_37 + t * (-0.016_476_33 + t * 0.003_923_77)))))));
-        ax - 0.5 * ax.ln() + poly.ln()
+        ax - 0.5 * ax.pln() + poly.pln()
     }
 }
 
@@ -328,8 +329,8 @@ pub fn log10_mean_time_to_cycle_slip_s(cn0_dbhz: f64, bn_hz: f64, t_s: f64) -> f
     let sigma = pll_thermal_jitter_rad(cn0_dbhz, bn_hz, t_s);
     let rho = 0.25 / (sigma * sigma).max(f64::MIN_POSITIVE);
     let ln10 = std::f64::consts::LN_10;
-    2.0 * std::f64::consts::PI.log10() + rho.log10() + 2.0 * ln_bessel_i0(rho) / ln10
-        - (2.0 * bn_hz.max(f64::MIN_POSITIVE)).log10()
+    2.0 * std::f64::consts::PI.plog10() + rho.plog10() + 2.0 * ln_bessel_i0(rho) / ln10
+        - (2.0 * bn_hz.max(f64::MIN_POSITIVE)).plog10()
 }
 
 // --- the hysteretic lock detector -------------------------------------------------------
@@ -1191,8 +1192,8 @@ impl TrackingLoopScenario {
 
         // --- hysteresis bounds ---------------------------------------------------------
         let r = cfg.pullin_bandwidth_ratio.max(1.0);
-        let hyst_lo = 5.0 * r.log10();
-        let hyst_hi = 10.0 * r.log10();
+        let hyst_lo = 5.0 * r.plog10();
+        let hyst_hi = 10.0 * r.plog10();
 
         // --- lock history ---------------------------------------------------------------
         let (history, history_status) = match (th.drop_cn0_dbhz, th.relock_cn0_dbhz) {
@@ -1555,7 +1556,7 @@ mod tests {
         // The log form agrees with the direct form where the direct form is representable,
         // and stays finite far beyond where it is not.
         for x in [1.0_f64, 4.0, 10.0, 50.0, 200.0] {
-            let rel = ((ln_bessel_i0(x) - bessel_i0(x).ln()) / bessel_i0(x).ln()).abs();
+            let rel = ((ln_bessel_i0(x) - bessel_i0(x).pln()) / bessel_i0(x).pln()).abs();
             assert!(rel < 1.0e-6, "ln I0({x}) disagrees: rel {rel:.3e}");
         }
         assert!(ln_bessel_i0(5000.0).is_finite());
@@ -1573,7 +1574,7 @@ mod tests {
     /// at `cn0_dbhz`. `synth_if` adds `noise * (U(-1,1) + U(-1,1))`, so the per-component
     /// variance is `noise^2 * 2/3`; and `C/N0 = A^2 * fs / (2 * sigma^2)`.
     fn noise_for_cn0(cn0_dbhz: f64, fs: f64) -> f64 {
-        let cn0 = 10f64.powf(cn0_dbhz / 10.0);
+        let cn0 = 10f64.ppowf(cn0_dbhz / 10.0);
         let sigma2 = fs / (2.0 * cn0);
         (sigma2 / (2.0 / 3.0)).sqrt()
     }
@@ -1639,7 +1640,7 @@ mod tests {
                         corr_spacing_chips: 0.5,
                     };
                     let c = correlate(&iq[s..en], &code, &p);
-                    all.push((c.prompt.im / c.prompt.re).atan());
+                    all.push((c.prompt.im / c.prompt.re).patan());
                 }
             }
             std_of(&all)
@@ -1656,7 +1657,7 @@ mod tests {
             // Where the squaring loss is resolvable, the form that carries it must fit
             // several times better than the form that drops it.
             if cn0_db <= 40.0 {
-                let no_loss = (1.0 / (2.0 * 10f64.powf(cn0_db / 10.0) * t)).sqrt();
+                let no_loss = (1.0 / (2.0 * 10f64.ppowf(cn0_db / 10.0) * t)).sqrt();
                 let rel_no_loss = ((measured - no_loss) / no_loss).abs();
                 assert!(
                     rel_no_loss > 3.0 * rel,
@@ -1717,7 +1718,7 @@ mod tests {
                     corr_spacing_chips: 0.5,
                 };
                 let c = correlate(&iq[s..en], &code, &p);
-                let disc = (c.prompt.im / c.prompt.re).atan();
+                let disc = (c.prompt.im / c.prompt.re).patan();
                 ph = (ph + g * disc).rem_euclid(std::f64::consts::TAU);
                 let w = if ph > std::f64::consts::PI {
                     ph - std::f64::consts::TAU
@@ -1884,7 +1885,7 @@ mod tests {
                     };
                     let th = cfg.thresholds(0.0, 0.0);
                     let h = th.hysteresis_db.expect("a hysteresis width");
-                    let (lo, hi) = (5.0 * r.log10(), 10.0 * r.log10());
+                    let (lo, hi) = (5.0 * r.plog10(), 10.0 * r.plog10());
                     assert!(
                         h > lo - 1e-9 && h < hi + 1e-9,
                         "ratio {r}, B {b}, T {t}: hysteresis {h:.4} dB outside [{lo:.4}, {hi:.4}]"
@@ -1976,10 +1977,10 @@ mod tests {
         // The phase-locked-loop form (rho instead of rho/4) is far longer there.
         let sigma = pll_thermal_jitter_rad(at_threshold, b, t);
         let rho = 1.0 / (sigma * sigma);
-        let pll_form = 2.0 * std::f64::consts::PI.log10()
-            + rho.log10()
+        let pll_form = 2.0 * std::f64::consts::PI.plog10()
+            + rho.plog10()
             + 2.0 * ln_bessel_i0(rho) / std::f64::consts::LN_10
-            - (2.0 * b).log10();
+            - (2.0 * b).plog10();
         assert!(pll_form - l > 5.0, "{pll_form} vs {l}");
         let quarter = log10_mean_time_to_cycle_slip_s(20.0, b, t);
         assert!(

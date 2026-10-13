@@ -35,6 +35,7 @@
 //! (`srif_covariance_is_spd`). The module is additive — it does not touch the forces, the
 //! propagator, or any golden, so Earth results stay byte-identical.
 
+use crate::portable_math::PortableFloat;
 use crate::integrator::Tolerance;
 use crate::precise_od::{EmpiricalAccel, ForceModel, Observation};
 
@@ -632,7 +633,7 @@ impl<F: ForceModel> ReducedDynamicOd<F> {
         }
         // Gauss–Markov decay block (3×3).
         let decay = if self.cfg.emp_correlation_time > 0.0 {
-            (-dt / self.cfg.emp_correlation_time).exp()
+            (-dt / self.cfg.emp_correlation_time).pexp()
         } else {
             0.0
         };
@@ -702,7 +703,7 @@ impl<F: ForceModel> ReducedDynamicOd<F> {
                 // Advance the reference state nonlinearly through the same segment.
                 let (rf, vf) = self.propagate_segment(r, v, emp, dt);
                 let decay = if self.cfg.emp_correlation_time > 0.0 {
-                    (-dt / self.cfg.emp_correlation_time).exp()
+                    (-dt / self.cfg.emp_correlation_time).pexp()
                 } else {
                     0.0
                 };
@@ -1011,7 +1012,7 @@ impl<F: ForceModel> ReducedDynamicOd<F> {
                 srif.time_update(&phi, &q)?;
                 let (rf, vf) = self.propagate_segment(r, v, emp, dt);
                 let decay = if self.cfg.emp_correlation_time > 0.0 {
-                    (-dt / self.cfg.emp_correlation_time).exp()
+                    (-dt / self.cfg.emp_correlation_time).pexp()
                 } else {
                     0.0
                 };
@@ -1423,7 +1424,7 @@ impl<F: ForceModel> FusionOd<F> {
                 // Advance the orbit reference nonlinearly through the segment (as D2.2 does).
                 let (rf, vf) = self.orbit.propagate_segment(r, v, emp, dt);
                 let decay = if base.emp_correlation_time > 0.0 {
-                    (-dt / base.emp_correlation_time).exp()
+                    (-dt / base.emp_correlation_time).pexp()
                 } else {
                     0.0
                 };
@@ -1486,7 +1487,7 @@ impl<F: ForceModel> FusionOd<F> {
     fn process_noise_std(&self, dt: f64, emp_q_rate: f64) -> [f64; N_FUSED] {
         let q_emp = emp_q_rate * dt.sqrt();
         // Exact van-Loan diagonal process-noise *variances* for the clock states over dt.
-        let (dt3, dt5) = (dt.powi(3), dt.powi(5));
+        let (dt3, dt5) = (dt.ppowi(3), dt.ppowi(5));
         let (qwf, qrw, qd) = (self.cfg.clk_q_wf, self.cfg.clk_q_rw, self.cfg.clk_q_drift);
         let q_phase_var = qwf * dt + qrw * dt3 / 3.0 + qd * dt5 / 20.0;
         let q_freq_var = qrw * dt + qd * dt3 / 3.0;
@@ -1635,7 +1636,7 @@ mod tests {
             [1.0, -1.0, 0.5, -0.5],
         ];
         for (k, row) in rows.iter().cycle().take(18).enumerate() {
-            srif.measurement_update(row, 0.3 * (k as f64 + 1.0).sin() + 1.0, 0.5);
+            srif.measurement_update(row, 0.3 * (k as f64 + 1.0).psin() + 1.0, 0.5);
             if k % 3 == 2 {
                 srif.time_update(&stm, &q)
                     .expect("well-conditioned test STM inverts");

@@ -40,6 +40,7 @@
 //! Both are checked against the third-party `allantools` package on a committed
 //! holdover series in `tests/telecom_timing_reference.rs`.
 
+use crate::portable_math::PortableFloat;
 use crate::field_schema::FieldUnit;
 use crate::models::{ClockModel, ErrorModel};
 use crate::palette::chart::{AMBER, BLUE, GRID, INK_3, MUTED};
@@ -972,7 +973,7 @@ pub fn tdev_curve_ns(te_ns: &[f64], dt_s: f64) -> Vec<CurvePoint> {
 /// at the first sample. An approximation of the test equipment's filter, not a copy of
 /// any instrument's implementation.
 pub fn low_pass_0p1hz(x: &[f64], dt_s: f64) -> Vec<f64> {
-    let alpha = 1.0 - (-2.0 * std::f64::consts::PI * 0.1 * dt_s).exp();
+    let alpha = 1.0 - (-2.0 * std::f64::consts::PI * 0.1 * dt_s).pexp();
     let mut out = Vec::with_capacity(x.len());
     let mut y = match x.first() {
         Some(&v) => v,
@@ -1191,7 +1192,7 @@ pub fn with_flicker_floor(fit: NoiseFit, points: &[(f64, f64)]) -> NoiseFit {
 /// `∫ k·A·sin(2πt/P) dt = k·A·P/(2π)·(1 − cos(2πτ/P))`.
 pub fn temperature_phase_s(coeff_per_k: f64, amp_k: f64, period_s: f64, tau_s: f64) -> f64 {
     let w = 2.0 * std::f64::consts::PI / period_s;
-    coeff_per_k * amp_k / w * (1.0 - (w * tau_s).cos())
+    coeff_per_k * amp_k / w * (1.0 - (w * tau_s).pcos())
 }
 
 /// Synthesise the time-error record of a GNSS loss followed by free-running holdover.
@@ -2133,21 +2134,21 @@ pub fn to_svg(r: &TelecomRun) -> String {
             .iter()
             .fold((f64::INFINITY, 0.0_f64), |(a, b), &v| (a.min(v), b.max(v)));
         let (ylo, yhi) = (
-            vlo.log10().floor(),
-            vhi.log10().ceil().max(vlo.log10().floor() + 1.0),
+            vlo.plog10().floor(),
+            vhi.plog10().ceil().max(vlo.plog10().floor() + 1.0),
         );
         let (tlo, thi) = (
-            taus[0].log10().floor(),
+            taus[0].plog10().floor(),
             taus[taus.len() - 1]
-                .log10()
+                .plog10()
                 .ceil()
-                .max(taus[0].log10().floor() + 1.0),
+                .max(taus[0].plog10().floor() + 1.0),
         );
-        let px = |t: f64| rx + rw * (t.log10() - tlo) / (thi - tlo);
-        let py = |v: f64| top + ph - ph * (v.max(10f64.powf(ylo)).log10() - ylo) / (yhi - ylo);
+        let px = |t: f64| rx + rw * (t.plog10() - tlo) / (thi - tlo);
+        let py = |v: f64| top + ph - ph * (v.max(10f64.ppowf(ylo)).plog10() - ylo) / (yhi - ylo);
         let mut d = ylo as i32;
         while d <= yhi as i32 {
-            let y = py(10f64.powi(d));
+            let y = py(10f64.ppowi(d));
             s.push_str(&format!(
                 "<line x1=\"{rx:.0}\" y1=\"{y:.1}\" x2=\"{:.0}\" y2=\"{y:.1}\" stroke=\"{GRID}\"/>\
                  <text x=\"{:.0}\" y=\"{:.1}\" text-anchor=\"end\" fill=\"{MUTED}\" font-size=\"11\">1e{d}</text>",
@@ -2159,7 +2160,7 @@ pub fn to_svg(r: &TelecomRun) -> String {
         }
         let mut e = tlo as i32;
         while e <= thi as i32 {
-            let x = px(10f64.powi(e));
+            let x = px(10f64.ppowi(e));
             s.push_str(&format!(
                 "<text x=\"{x:.1}\" y=\"{:.0}\" text-anchor=\"middle\" fill=\"{MUTED}\" font-size=\"11\">1e{e} s</text>",
                 top + ph + 16.0
@@ -2697,7 +2698,7 @@ mod tests {
         };
         let rec = synthesize_holdover(&h, &model, 1).unwrap();
         let d = model.aging_per_day / 86_400.0;
-        let want = 0.5 * d * 86_400.0f64.powi(2) * 1e9;
+        let want = 0.5 * d * 86_400.0f64.ppowi(2) * 1e9;
         let got = *rec.te_ns.last().unwrap();
         assert!((got / want - 1.0).abs() < 1e-3, "{got} vs {want}");
     }
@@ -2724,7 +2725,7 @@ mod tests {
     #[test]
     fn ingested_series_is_checked_and_non_uniform_sampling_is_refused() {
         let pairs: Vec<String> = (0..200)
-            .map(|k| format!("[{k}.0, {:.3}]", 0.2 * ((k as f64) * 0.1).sin()))
+            .map(|k| format!("[{k}.0, {:.3}]", 0.2 * ((k as f64) * 0.1).psin()))
             .collect();
         let src = format!(
             "kind = \"telecom-timing\"\nmasks = [\"prtc-b\", \"t-bc-class-c\"]\n[series]\nsamples = [{}]\n",

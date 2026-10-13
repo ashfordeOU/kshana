@@ -32,6 +32,7 @@
 //!   triangle, early and late at `±d/2`, whose noise correlates as `1 − |Δτ|` (in chips):
 //!   `√(d/(C/N0·T))` and `√((1 − d/2)(d/2)/(2·C/N0·T))`.
 
+use crate::portable_math::PortableFloat;
 /// Natural log of the gamma function (Lanczos, g = 7, nine terms; relative error < 1e-15
 /// for x > 0.5).
 pub fn ln_gamma(x: f64) -> f64 {
@@ -48,7 +49,7 @@ pub fn ln_gamma(x: f64) -> f64 {
     ];
     if x < 0.5 {
         let pi = std::f64::consts::PI;
-        return (pi / (pi * x).sin()).ln() - ln_gamma(1.0 - x);
+        return (pi / (pi * x).psin()).pln() - ln_gamma(1.0 - x);
     }
     let x = x - 1.0;
     let mut a = G[0];
@@ -56,7 +57,7 @@ pub fn ln_gamma(x: f64) -> f64 {
     for (i, &c) in G.iter().enumerate().skip(1) {
         a += c / (x + i as f64);
     }
-    0.5 * (2.0 * std::f64::consts::PI).ln() + (x + 0.5) * t.ln() - t + a.ln()
+    0.5 * (2.0 * std::f64::consts::PI).pln() + (x + 0.5) * t.pln() - t + a.pln()
 }
 
 /// Regularised lower incomplete gamma `P(s, x)`, with its complement
@@ -67,7 +68,7 @@ pub fn gamma_pq(s: f64, x: f64) -> (f64, f64) {
     if x <= 0.0 {
         return (0.0, 1.0);
     }
-    let lead = (-x + s * x.ln() - ln_gamma(s)).exp();
+    let lead = (-x + s * x.pln() - ln_gamma(s)).pexp();
     if x < s + 1.0 {
         let mut ap = s;
         let mut sum = 1.0 / s;
@@ -116,8 +117,8 @@ pub fn gamma_pq(s: f64, x: f64) -> (f64, f64) {
 /// power by more than `threshold_db` either way.
 pub fn power_block_pfa(n: usize, threshold_db: f64) -> f64 {
     let n = n as f64;
-    let hi = 10f64.powf(threshold_db / 10.0);
-    let lo = 10f64.powf(-threshold_db / 10.0);
+    let hi = 10f64.ppowf(threshold_db / 10.0);
+    let lo = 10f64.ppowf(-threshold_db / 10.0);
     gamma_pq(n, n * hi).1 + gamma_pq(n, n * lo).0
 }
 
@@ -129,7 +130,7 @@ pub fn complex_kurtosis_sd(n: usize) -> f64 {
 
 /// `P(|x|² > t·σ²)` for circular complex Gaussian `x` of power `σ²`: `e^{−t}`.
 pub fn pulse_pfa(t: f64) -> f64 {
-    (-t).exp()
+    (-t).pexp()
 }
 
 /// Exact upper tail `P(X >= c)` of `X ~ Binomial(n, p)`: the pulse count in a block of `n`
@@ -147,10 +148,10 @@ pub fn binomial_upper_tail(n: u64, p: f64, c: u64) -> f64 {
     }
     let (nf, cf) = (n as f64, c as f64);
     let ln_pmf = ln_gamma(nf + 1.0) - ln_gamma(cf + 1.0) - ln_gamma(nf - cf + 1.0)
-        + cf * p.ln()
-        + (nf - cf) * (-p).ln_1p();
+        + cf * p.pln()
+        + (nf - cf) * (-p).pln_1p();
     let ratio = p / (1.0 - p);
-    let mut term = ln_pmf.exp();
+    let mut term = ln_pmf.pexp();
     let mut sum = term;
     let mut k = c;
     while k < n {
@@ -174,7 +175,7 @@ pub fn cusum_arl(k: f64, h: f64, mu: f64) -> f64 {
     if delta.abs() < 1e-12 {
         return b * b;
     }
-    ((-2.0 * delta * b).exp() + 2.0 * delta * b - 1.0) / (2.0 * delta * delta)
+    ((-2.0 * delta * b).pexp() + 2.0 * delta * b - 1.0) / (2.0 * delta * delta)
 }
 
 /// The in-control average run length (samples to a false alarm): [`cusum_arl`] with
@@ -189,14 +190,14 @@ pub fn pli_mean(gamma: f64) -> f64 {
     if gamma < 1e-9 {
         return gamma / 2.0;
     }
-    1.0 - (1.0 - (-gamma).exp()) / gamma
+    1.0 - (1.0 - (-gamma).pexp()) / gamma
 }
 
 /// Welch's equivalent number of independent segments for `segments` periodic-Hann
 /// segments of `nfft` points stepped by `step` points.
 pub fn welch_equivalent_segments(nfft: usize, step: usize, segments: usize) -> f64 {
     let w: Vec<f64> = (0..nfft)
-        .map(|n| 0.5 - 0.5 * (std::f64::consts::TAU * n as f64 / nfft as f64).cos())
+        .map(|n| 0.5 - 0.5 * (std::f64::consts::TAU * n as f64 / nfft as f64).pcos())
         .collect();
     let s2: f64 = w.iter().map(|v| v * v).sum();
     let k = segments.max(1) as f64;
@@ -216,8 +217,8 @@ pub fn welch_equivalent_segments(nfft: usize, step: usize, segments: usize) -> f
 /// segments, see [`welch_equivalent_segments`]) of white noise exceeds its mean by more
 /// than `threshold_db`, treating the bins as independent.
 pub fn welch_max_excess_pfa(k_eff: f64, bins: usize, threshold_db: f64) -> f64 {
-    let q = gamma_pq(k_eff, k_eff * 10f64.powf(threshold_db / 10.0)).1;
-    1.0 - (1.0 - q).powi(bins as i32)
+    let q = gamma_pq(k_eff, k_eff * 10f64.ppowf(threshold_db / 10.0)).1;
+    1.0 - (1.0 - q).ppowi(bins as i32)
 }
 
 /// The excess threshold (dB) at which [`welch_max_excess_pfa`] equals `pfa` (bisection).
@@ -260,17 +261,17 @@ mod tests {
     #[test]
     fn gamma_matches_known_values() {
         // P(1, x) = 1 − e^{−x}; P(s, s) → 1/2 for large s; ln Γ(5) = ln 24.
-        assert!((gamma_pq(1.0, 2.0).0 - (1.0 - (-2.0f64).exp())).abs() < 1e-14);
-        assert!((gamma_pq(1.0, 0.3).1 - (-0.3f64).exp()).abs() < 1e-14);
-        assert!((ln_gamma(5.0) - 24f64.ln()).abs() < 1e-13);
-        assert!((ln_gamma(0.5) - std::f64::consts::PI.sqrt().ln()).abs() < 1e-13);
+        assert!((gamma_pq(1.0, 2.0).0 - (1.0 - (-2.0f64).pexp())).abs() < 1e-14);
+        assert!((gamma_pq(1.0, 0.3).1 - (-0.3f64).pexp()).abs() < 1e-14);
+        assert!((ln_gamma(5.0) - 24f64.pln()).abs() < 1e-13);
+        assert!((ln_gamma(0.5) - std::f64::consts::PI.sqrt().pln()).abs() < 1e-13);
         let (p, q) = gamma_pq(20_000.0, 20_000.0);
         assert!(
             (p - 0.5).abs() < 0.01 && (p + q - 1.0).abs() < 1e-12,
             "{p} {q}"
         );
         // Q(3, 7) = e^{−7}(1 + 7 + 24.5).
-        let q37 = (-7.0f64).exp() * (1.0 + 7.0 + 24.5);
+        let q37 = (-7.0f64).pexp() * (1.0 + 7.0 + 24.5);
         assert!((gamma_pq(3.0, 7.0).1 - q37).abs() < 1e-14);
     }
 
@@ -282,7 +283,7 @@ mod tests {
         assert_eq!(binomial_upper_tail(10, 0.5, 11), 0.0);
         // P(X >= 1) = 1 - (1 - p)^n, in a regime where the tail is small.
         let (n, p): (u64, f64) = (4096, 6.1e-6);
-        let want = -(n as f64 * (-p).ln_1p()).exp_m1();
+        let want = -(n as f64 * (-p).pln_1p()).pexp_m1();
         assert!((binomial_upper_tail(n, p, 1) / want - 1.0).abs() < 1e-9);
         // A count of 1 at mean 0.025 is ordinary (tail 0.025), 3 is not (about 3e-6).
         assert!(binomial_upper_tail(n, p, 1) > 0.02);

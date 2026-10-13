@@ -18,6 +18,7 @@
 //! (see `ROADMAP.md`); the hierarchical orbit force model that turns this into a propagator lives
 //! in [`crate::forces`] / [`crate::propagator`].
 
+use crate::portable_math::PortableFloat;
 /// One classical fourth-order Runge–Kutta step of size `h` from `(t, y)` for the
 /// system `y' = f(t, y)`. The state is any fixed-length vector.
 pub fn rk4_step<F>(f: &F, t: f64, y: &[f64], h: f64) -> Vec<f64>
@@ -86,7 +87,7 @@ where
     }
     err = (err / y.len() as f64).sqrt();
     // Step controller: grow when err < 1, shrink when err > 1.
-    let factor = if err > 0.0 { 0.9 * err.powf(-0.2) } else { 5.0 };
+    let factor = if err > 0.0 { 0.9 * err.ppowf(-0.2) } else { 5.0 };
     let h_next = (h * factor.clamp(0.2, 5.0)).clamp(tol.h_min, tol.h_max);
     (two_half, err, h_next)
 }
@@ -233,7 +234,7 @@ where
         err += r * r;
     }
     err = (err / n as f64).sqrt();
-    let factor = if err > 0.0 { 0.9 * err.powf(-0.2) } else { 5.0 };
+    let factor = if err > 0.0 { 0.9 * err.ppowf(-0.2) } else { 5.0 };
     let h_next = (h * factor.clamp(0.2, 5.0)).clamp(tol.h_min, tol.h_max);
     (y_next, err, h_next)
 }
@@ -469,7 +470,7 @@ mod tests {
         // Both must actually be accurate (this isn't cheaper-by-being-wrong).
         for sol in [&sd, &dp] {
             assert!(
-                (sol.y[0] - 10.0_f64.exp()).abs() / 10.0_f64.exp() < 1e-7,
+                (sol.y[0] - 10.0_f64.pexp()).abs() / 10.0_f64.pexp() < 1e-7,
                 "y(10) = {} vs e¹⁰",
                 sol.y[0]
             );

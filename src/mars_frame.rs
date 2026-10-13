@@ -31,6 +31,7 @@
 //! IAU model and a numerically-integrated Mars orientation, well below the gravity-field accuracy
 //! at this degree. TDB is approximated by TT (sub-2-ms agreement, a sub-µas orientation error).
 
+use crate::portable_math::PortableFloat;
 use crate::body::Body;
 use crate::precession::{mat_vec, transpose, Mat3};
 
@@ -43,13 +44,13 @@ const JD_J2000: f64 = 2_451_545.0;
 /// Frame rotation about +z by `theta` (rotates the coordinate axes; the
 /// [`crate::lunar_frame`]/`crate::lunar::rot3` convention).
 fn rz(theta: f64) -> Mat3 {
-    let (s, c) = theta.sin_cos();
+    let (s, c) = theta.psin_cos();
     [[c, s, 0.0], [-s, c, 0.0], [0.0, 0.0, 1.0]]
 }
 
 /// Frame rotation about +x by `theta`.
 fn rx(theta: f64) -> Mat3 {
-    let (s, c) = theta.sin_cos();
+    let (s, c) = theta.psin_cos();
     [[1.0, 0.0, 0.0], [0.0, c, s], [0.0, -s, c]]
 }
 
@@ -171,7 +172,7 @@ mod tests {
     fn pole_row_matches_ra_dec_and_is_constant() {
         let body = Body::mars();
         let (ra, dec) = (body.pole_ra0, body.pole_dec0);
-        let want = [dec.cos() * ra.cos(), dec.cos() * ra.sin(), dec.sin()];
+        let want = [dec.pcos() * ra.pcos(), dec.pcos() * ra.psin(), dec.psin()];
         for &jd in &[JD_J2000, 2_459_580.5, JD_J2000 + 1000.0] {
             let m = iau_mars_rotation(&body, jd);
             let pole = [m[2][0], m[2][1], m[2][2]];
@@ -211,7 +212,7 @@ mod tests {
         );
         // The trace of a rotation by angle θ about any axis is 1 + 2cos θ.
         let trace = spin[0][0] + spin[1][1] + spin[2][2];
-        let theta = ((trace - 1.0) / 2.0).acos().to_degrees();
+        let theta = ((trace - 1.0) / 2.0).pacos().to_degrees();
         // 350.892° is equivalent to a −9.108° rotation; acos gives the unsigned 9.108°.
         let expected = (360.0 - 350.891_982_26_f64).abs();
         assert!(
