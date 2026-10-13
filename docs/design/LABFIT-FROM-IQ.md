@@ -350,8 +350,14 @@ model also gives `delta_eff_db` (§13.2) beside `delta_db`.
 
 ### 13.6 Results (synthetic, 2026-10-13)
 
-The bars were evaluated after §13.1 to §13.4 were committed (b7117bf). No bar, truth or recipe
-was changed after a result was seen. The campaigns are built in `tests/iq_labfit_campaign.rs`
+The bars were evaluated after §13.1 to §13.4 were committed (b7117bf). No bar, truth, recipe
+or estimator was changed after a result was seen.
+
+**The C/N0 estimator** of the synthetic campaigns is the campaign default, M2M4. The reason is
+the one diagnostic tracking run disclosed in §13: NWPR read no closer to the imposed profile
+(both read about 1 dB high below 38 dB-Hz). The choice was fixed in 5b13e3c2, pushed before the
+first bar evaluation. It was committed together with the fit code, not as an addendum on its
+own as was asked for. The campaigns are built in `tests/iq_labfit_campaign.rs`
 from Kshana's own GPS L1 C/A scenes, with the stated J/S imposed as a C/N0 profile (§8).
 
 **The bar-(a′) campaign** (`A_SEED`):
@@ -369,7 +375,7 @@ from Kshana's own GPS L1 C/A scenes, with the stated J/S imposed as a C/N0 profi
 | §5.1 (a), `δ` clause (at the true `Q`) | error −1.097 dB | **FAIL** |
 | §5.1 (b), `Q` coverage | `Q` not identifiable | **NOT MET** |
 | a′ | `δ̂_eff` −3.935 dB (95 % interval −4.055 to −3.796) against −2.838: error −1.097 dB | **FAIL** |
-| b′ | full set of 50 campaigns: running; result to follow | pending |
+| b′ | the 95 % interval of `δ_eff` covers the truth in 0 of 50 campaigns (needs 45); the error is −1.189 ± 0.093 dB (−1.359 to −1.007), against a median interval width of 0.30 dB | **FAIL** |
 | (c) bins | PI90 coverage 0.891 over 558 interpolation bins | PASS |
 | (c) time to loss, tracking-loop | 0.900 over 10 interpolation events | PASS |
 | (c) time to loss, empirical | 0.900 over 10 interpolation events | PASS |
@@ -392,6 +398,13 @@ fit reproduces byte for byte from the same campaign and seed.
   that the C/N0 estimator's averaging lags the stated-J/S time bins under a 3 dB/s ramp. It is
   not tested here: testing it needs a stepped or slower campaign, which would be a new
   pre-registration.
+
+**Bar (b′)** ran 50 seeded campaigns of 5 recordings each, with the C/N0 model only and 1000
+replicates per campaign: about 170 s per campaign in a release build on 4 cores, 2.4 h for the
+set. Every interval is about 0.3 dB wide and sits about 1.2 dB below the truth: the same
+systematic offset as (a′), not scatter. A CI subset of 2 campaigns
+(`bar_b_prime_ci_subset`) is pinned. The full set (`bar_b_prime_full_set_of_50_campaigns`) runs
+before release.
 
 The failing bar tests stay strict, and are ignored with these values (the repository's
 "strict, ignored with the gap" form). The ledger row states them.
