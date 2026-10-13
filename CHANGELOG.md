@@ -11,6 +11,13 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **Lunar frame campaign datum, condition-scaled NumPy bar: NOT MET** (pre-registered b887eb05;
+  stays MODELLED). Step 0 rules out the pseudo-inverse fallback as the cause of the 0.30
+  stations-estimated gap; NumPy agrees within the bar on six of eight scenarios, but
+  stations_estimated misses it (6.8e-6 against 5.9e-7), and on the fresh date 2026-12-01 an
+  unobserved south-pole beacon makes the beacon information rank-deficient, which the
+  unchanged oracle cannot evaluate. Results: `docs/design/evidence/mr05-lunar-datum-cond/RESULTS.md`.
+
 - **Lunar frame datum from a real observing campaign (analytic Moon) VALIDATED** on fresh 2025
   EDC normal points (pre-registered 31f5283 before any was fetched): the unchanged SPICE and
   NumPy oracle agrees on bookkeeping, ranks and zero coupling, and within 1.11e-3 on sigmas
