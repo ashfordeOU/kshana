@@ -9,13 +9,14 @@
 //! bias-precession rotation matrix built from them (the same construction as SOFA's
 //! `iauPfw06` + `iauFw2m`).
 //!
-//! Scope (honest): this is **precession only**. The IAU 2000A nutation (the 678-term
-//! MHB2000 lunisolar+planetary series for `Δψ`, `Δε`), the full TEME→GCRS chain, and a
-//! SOFA/ANISE numerical cross-check to the µas/<10 m level are follow-ons (see
-//! `ROADMAP.md`). The angle polynomials here are transcribed from the IAU 2006
-//! definition and validated against closed-form anchors (the J2000 mean obliquity, the
-//! published constant terms, and the ~1.40°/century general precession), not yet against
-//! SOFA at arbitrary epochs.
+//! Scope (honest): this module is **precession only**. The IAU 2000A/2000B nutation series
+//! and the TEME→GCRS chain are in [`crate::nutation`], the CIO-based (X, Y, s) chain is in
+//! [`crate::cio`], and the composed frame reduction is cross-checked against SOFA vectors and
+//! ANISE (see `docs/CAPABILITY.md`). The angle polynomials here are transcribed from the IAU
+//! 2006 definition and validated against closed-form anchors (the J2000 mean obliquity, the
+//! published constant terms, and the ~1.40°/century general precession), and
+//! [`precession_matrix`] matches ERFA `pmat06` bit for bit at 40 epochs 1950–2100
+//! (`tests/frames_erfa_vector_oracle.rs`).
 
 use crate::timescales::JD_J2000;
 
