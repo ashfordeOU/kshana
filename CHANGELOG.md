@@ -26,9 +26,12 @@ breaking changes are called out explicitly.
   fixing (ratio test). VALIDATED on the IGS stations WTZR and WTZZ (1.4 m apart) against their
   ITRF2020 baseline under pre-registered bars: fixed at every epoch after the first ten minutes,
   baseline error median 4.5 mm and 95th percentile 5.5 mm.
-- **gLAB / RTKLIB parity harness** (RM-31): `xval/ppp-parity/run.sh` and
-  `tests/ppp_parity_glab_rtklib.rs`, pre-registered bars for PPP and single-point parity on WTZR.
-  Data-gated: the comparison runs once the oracle outputs are produced; it has not been run.
+- **RTKLIB parity of the real-data PPP** (RM-31): `xval/ppp-parity/run.sh` and
+  `tests/ppp_parity_glab_rtklib.rs` with pre-registered bars. RTKLIB v2.4.2-p13 PPP on the same
+  WTZR inputs agrees with Kshana within 5 cm at every epoch of the last two hours (9.7 mm at the
+  end) on the third registration; the first two runs, recorded as findings, had the solid tide off
+  and the receiver antenna on RTKLIB's base slot. The single-point parity bar was missed (1.09 m
+  median against 0.5 m). The gLAB leg has not been run (data-gated).
 - **Navigation-message encoders beyond LNAV** (0.36, WP-07, PRO-40): `gnss_navmsg` encodes GPS
   CNAV (message types 10, 11, 30; CRC-24Q; continuous rate-1/2 K=7 coding), Galileo I/NAV (word
   types 1-5 in even/odd nominal pages; 30x8 interleaver; sync `0101100000`) and Galileo F/NAV (page
