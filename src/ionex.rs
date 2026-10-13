@@ -9,9 +9,12 @@
 //!
 //! It also parses the IONEX file format into its sequence of TEC maps, interpolates the
 //! vertical TEC between successive maps in time, and maps the vertical delay onto a slant ray
-//! through the thin-shell obliquity factor. Scope (honest): strict I5 fixed-column value
-//! packing and multi-day epoch arithmetic beyond seconds-of-day are refinements (see
-//! `ROADMAP.md`).
+//! through the thin-shell obliquity factor. [`parse_ionex`] keeps seconds-of-day epochs (a
+//! daily file's closing 24:00 map reads as 0 s); [`parse_ionex_file`] reads the header, the
+//! values by their strict I5 columns (`9999` as NaN), the TEC and RMS maps with epochs counted
+//! from the first map's day, and offers the format's three time interpolations, including the
+//! recommended rotated-map one. Exercised on a real CODE global ionosphere map in
+//! `tests/ionex_code_gim_oracle.rs`. Height-dependent (3-D) maps are not supported.
 
 /// GPS L1 carrier frequency (Hz).
 pub const GPS_L1_HZ: f64 = 1_575.42e6;
@@ -206,10 +209,28 @@ pub fn parse_ionex(text: &str) -> Option<Vec<IonexMap>> {
                     vals.push(t * scale);
                 }
             }
+            // A full value record (16 I5 fields) fills columns 1-80, so its column-61
+            // "label" holds the last four values. Read such a record whole. Only a record
+            // whose label field is entirely numeric qualifies, so a textual label stays
+            // ignored as before.
+            lab if in_map && in_band && is_numeric_label(lab) => {
+                for t in line
+                    .split_whitespace()
+                    .filter_map(|t| t.parse::<f64>().ok())
+                {
+                    vals.push(t * scale);
+                }
+            }
             _ => {}
         }
     }
     Some(maps)
+}
+
+/// True when every whitespace-separated token of a record's label field parses as a number:
+/// the tail of a full IONEX value record rather than a label.
+fn is_numeric_label(label: &str) -> bool {
+    !label.is_empty() && label.split_whitespace().all(|t| t.parse::<f64>().is_ok())
 }
 
 /// Build a positive-step [`TecGrid`] from the file-order (north-to-south) value rows, reversing
@@ -286,6 +307,413 @@ pub fn obliquity_factor(zenith_deg: f64, iono_height_km: f64) -> f64 {
 /// Slant TEC (TECU) along a ray: the vertical TEC scaled by the [`obliquity_factor`].
 pub fn slant_tec(vtec_tecu: f64, zenith_deg: f64, iono_height_km: f64) -> f64 {
     vtec_tecu * obliquity_factor(zenith_deg, iono_height_km)
+}
+
+// ── Full IONEX file reader: header, absolute map epochs, strict I5 values, time modes ─────
+
+/// A civil epoch as printed in an IONEX record (`EPOCH OF FIRST MAP`, `EPOCH OF CURRENT MAP`).
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct IonexEpoch {
+    /// Year (four digits; a two-digit year is not accepted).
+    pub year: i32,
+    /// Month 1-12.
+    pub month: u32,
+    /// Day of month.
+    pub day: u32,
+    /// Hour (24 is allowed by the arithmetic, IONEX writes the next day's 0 instead).
+    pub hour: u32,
+    /// Minute.
+    pub minute: u32,
+    /// Second.
+    pub second: f64,
+}
+
+impl IonexEpoch {
+    /// Days since 1970-01-01 of the civil date (proleptic Gregorian).
+    fn days_from_epoch(&self) -> i64 {
+        let (y, m, d) = (self.year as i64, self.month as i64, self.day as i64);
+        let y = if m <= 2 { y - 1 } else { y };
+        let era = y.div_euclid(400);
+        let yoe = y - era * 400;
+        let mp = (m + 9) % 12;
+        let doy = (153 * mp + 2) / 5 + d - 1;
+        let doe = yoe * 365 + yoe / 4 - yoe / 100 + doy;
+        era * 146_097 + doe - 719_468
+    }
+
+    /// Seconds from 00:00:00 of `reference`'s civil day to this epoch (same time scale).
+    pub fn seconds_since_day_of(&self, reference: &IonexEpoch) -> f64 {
+        let days = self.days_from_epoch() - reference.days_from_epoch();
+        days as f64 * 86_400.0 + self.hour as f64 * 3600.0 + self.minute as f64 * 60.0 + self.second
+    }
+}
+
+/// The IONEX header records [`parse_ionex_file`] reads.
+#[derive(Clone, Debug)]
+pub struct IonexHeader {
+    /// `IONEX VERSION / TYPE` version number.
+    pub version: f64,
+    /// `EPOCH OF FIRST MAP`.
+    pub first_epoch: IonexEpoch,
+    /// `EPOCH OF LAST MAP`.
+    pub last_epoch: IonexEpoch,
+    /// `INTERVAL` (s); 0 when the file declares a variable interval.
+    pub interval_s: f64,
+    /// `# OF MAPS IN FILE`.
+    pub n_maps: usize,
+    /// `MAPPING FUNCTION` (e.g. `NONE`, `COSZ`, `QFAC`).
+    pub mapping_function: String,
+    /// `BASE RADIUS` (km).
+    pub base_radius_km: f64,
+    /// `HGT1 / HGT2 / DHGT` (km).
+    pub hgt_km: [f64; 3],
+    /// `LAT1 / LAT2 / DLAT` (deg).
+    pub lat_deg: [f64; 3],
+    /// `LON1 / LON2 / DLON` (deg).
+    pub lon_deg: [f64; 3],
+    /// Default `EXPONENT` (a map may override it with its own `EXPONENT` record).
+    pub exponent: i32,
+}
+
+/// One map of an IONEX file read by [`parse_ionex_file`].
+#[derive(Clone, Debug)]
+pub struct IonexFileMap {
+    /// 1-based map index from `START OF TEC MAP` / `START OF RMS MAP`.
+    pub index: usize,
+    /// `EPOCH OF CURRENT MAP`.
+    pub epoch: IonexEpoch,
+    /// Seconds from 00:00:00 of the first map's civil day (the 24:00 map of a daily file
+    /// reads 86400, not 0).
+    pub t_s: f64,
+    /// The exponent the map's values were scaled with.
+    pub exponent: i32,
+    /// The grid (TECU), stored south-to-north with positive steps as [`TecGrid`] requires.
+    /// A printed `9999` (no value) is stored as NaN.
+    pub grid: TecGrid,
+    /// Number of nodes printed as `9999`.
+    pub missing: usize,
+}
+
+/// Time interpolation between IONEX maps, after the IONEX 1.0 format description
+/// (Schaer, Gurtner and Feltens, 1998, section "Interpolation").
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum IonexTimeInterp {
+    /// The map nearest in time (equation 1).
+    Nearest,
+    /// Linear between the two consecutive maps (equation 2); the same arithmetic as
+    /// [`interpolate_tec_in_time`].
+    Consecutive,
+    /// Linear between the two consecutive maps, each read at the longitude rotated by the
+    /// Earth's rotation since its epoch, `λ'ᵢ = λ + 360°·(t − Tᵢ)/86400 s` (equation 3, the
+    /// format's recommendation).
+    RotatedConsecutive,
+}
+
+/// A parsed IONEX file: the header, the TEC maps and the RMS maps.
+#[derive(Clone, Debug)]
+pub struct IonexFile {
+    /// Header records.
+    pub header: IonexHeader,
+    /// TEC maps in file order.
+    pub tec_maps: Vec<IonexFileMap>,
+    /// RMS maps in file order (empty when the file has none).
+    pub rms_maps: Vec<IonexFileMap>,
+}
+
+/// Fixed-column field `[a, b)` of a record, empty when the record is shorter.
+fn col(line: &str, a: usize, b: usize) -> &str {
+    let b = b.min(line.len());
+    if a >= b {
+        ""
+    } else {
+        line.get(a..b).unwrap_or("")
+    }
+}
+
+fn need<T>(o: Option<T>, what: &str) -> Result<T, String> {
+    o.ok_or_else(|| format!("missing {what}"))
+}
+
+fn f64_field(line: &str, a: usize, b: usize, what: &str) -> Result<f64, String> {
+    col(line, a, b)
+        .trim()
+        .parse()
+        .map_err(|_| format!("{what}: bad number in {:?}", col(line, a, b)))
+}
+
+fn epoch_record(line: &str, what: &str) -> Result<IonexEpoch, String> {
+    let f = |k: usize| f64_field(line, 6 * k, 6 * k + 6, what);
+    let year = f(0)? as i32;
+    if year < 1000 {
+        return Err(format!("{what}: two-digit year {year}"));
+    }
+    Ok(IonexEpoch {
+        year,
+        month: f(1)? as u32,
+        day: f(2)? as u32,
+        hour: f(3)? as u32,
+        minute: f(4)? as u32,
+        second: f(5)?,
+    })
+}
+
+/// Parse an IONEX 1.0 file strictly by its fixed columns: header records (`EPOCH OF FIRST /
+/// LAST MAP`, `INTERVAL`, `# OF MAPS IN FILE`, `MAPPING FUNCTION`, `BASE RADIUS`, `HGT1 / HGT2
+/// / DHGT`, `LAT1 / LAT2 / DLAT`, `LON1 / LON2 / DLON`, `EXPONENT`), then every TEC and RMS
+/// map with its epoch as seconds from the first map's civil day, a per-map `EXPONENT` override,
+/// the band records checked against the header grid, and the values read as 16 `I5` fields per
+/// record (so adjacent fields such as `  123-9999` are split correctly; `9999` becomes NaN).
+/// Height-dependent (3-D) maps (`DHGT ≠ 0`) are refused. The header's map count is checked.
+///
+/// Additive to [`parse_ionex`], which keeps its seconds-of-day epochs.
+pub fn parse_ionex_file(text: &str) -> Result<IonexFile, String> {
+    let mut lines = text.lines();
+    let mut version = None;
+    let mut first = None;
+    let mut last = None;
+    let mut interval = None;
+    let mut n_maps = None;
+    let mut mapping = String::new();
+    let mut base_radius = None;
+    let mut hgt = None;
+    let mut lat = None;
+    let mut lon = None;
+    let mut exponent = -1;
+    let mut header_done = false;
+    for line in lines.by_ref() {
+        let three = |what: &str| -> Result<[f64; 3], String> {
+            Ok([
+                f64_field(line, 2, 8, what)?,
+                f64_field(line, 8, 14, what)?,
+                f64_field(line, 14, 20, what)?,
+            ])
+        };
+        match ionex_label(line) {
+            "IONEX VERSION / TYPE" => version = Some(f64_field(line, 0, 8, "version")?),
+            "EPOCH OF FIRST MAP" => first = Some(epoch_record(line, "EPOCH OF FIRST MAP")?),
+            "EPOCH OF LAST MAP" => last = Some(epoch_record(line, "EPOCH OF LAST MAP")?),
+            "INTERVAL" => interval = Some(f64_field(line, 0, 6, "INTERVAL")?),
+            "# OF MAPS IN FILE" => n_maps = Some(f64_field(line, 0, 6, "# OF MAPS")? as usize),
+            "MAPPING FUNCTION" => mapping = col(line, 0, 60).trim().to_string(),
+            "BASE RADIUS" => base_radius = Some(f64_field(line, 0, 8, "BASE RADIUS")?),
+            "HGT1 / HGT2 / DHGT" => hgt = Some(three("HGT1 / HGT2 / DHGT")?),
+            "LAT1 / LAT2 / DLAT" => lat = Some(three("LAT1 / LAT2 / DLAT")?),
+            "LON1 / LON2 / DLON" => lon = Some(three("LON1 / LON2 / DLON")?),
+            "EXPONENT" => exponent = f64_field(line, 0, 6, "EXPONENT")? as i32,
+            "END OF HEADER" => {
+                header_done = true;
+                break;
+            }
+            _ => {}
+        }
+    }
+    if !header_done {
+        return Err("no END OF HEADER".into());
+    }
+    let header = IonexHeader {
+        version: need(version, "IONEX VERSION / TYPE")?,
+        first_epoch: need(first, "EPOCH OF FIRST MAP")?,
+        last_epoch: need(last, "EPOCH OF LAST MAP")?,
+        interval_s: interval.unwrap_or(0.0),
+        n_maps: need(n_maps, "# OF MAPS IN FILE")?,
+        mapping_function: mapping,
+        base_radius_km: need(base_radius, "BASE RADIUS")?,
+        hgt_km: need(hgt, "HGT1 / HGT2 / DHGT")?,
+        lat_deg: need(lat, "LAT1 / LAT2 / DLAT")?,
+        lon_deg: need(lon, "LON1 / LON2 / DLON")?,
+        exponent,
+    };
+    let [lat1, lat2, dlat] = header.lat_deg;
+    let [lon1, lon2, dlon] = header.lon_deg;
+    if header.hgt_km[2] != 0.0 {
+        return Err("height-dependent (3-D) IONEX maps are not supported".into());
+    }
+    if dlat == 0.0 || dlon == 0.0 {
+        return Err("zero grid step".into());
+    }
+    let n_lat = ((lat2 - lat1) / dlat).round() as i64 + 1;
+    let n_lon = ((lon2 - lon1) / dlon).round() as i64 + 1;
+    if n_lat < 2 || n_lon < 2 {
+        return Err("grid needs at least 2 x 2 nodes".into());
+    }
+    let (n_lat, n_lon) = (n_lat as usize, n_lon as usize);
+    let n_rec = n_lon.div_ceil(16);
+
+    let mut tec_maps = Vec::new();
+    let mut rms_maps = Vec::new();
+    let mut lines = lines.peekable();
+    while let Some(line) = lines.next() {
+        let (is_tec, end_label) = match ionex_label(line) {
+            "START OF TEC MAP" => (true, "END OF TEC MAP"),
+            "START OF RMS MAP" => (false, "END OF RMS MAP"),
+            _ => continue,
+        };
+        let index = f64_field(line, 0, 6, "map index")? as usize;
+        let mut epoch = None;
+        let mut map_exp = header.exponent;
+        let mut vals: Vec<f64> = Vec::with_capacity(n_lat * n_lon);
+        let mut missing = 0usize;
+        let mut band = 0usize;
+        loop {
+            let rec = lines
+                .next()
+                .ok_or_else(|| format!("map {index}: no {end_label}"))?;
+            match ionex_label(rec) {
+                "EPOCH OF CURRENT MAP" => epoch = Some(epoch_record(rec, "EPOCH OF CURRENT MAP")?),
+                "EXPONENT" => map_exp = f64_field(rec, 0, 6, "EXPONENT")? as i32,
+                "LAT/LON1/LON2/DLON/H" => {
+                    let band_lat = f64_field(rec, 2, 8, "band latitude")?;
+                    let want = lat1 + band as f64 * dlat;
+                    if (band_lat - want).abs() > 1e-6 {
+                        return Err(format!(
+                            "map {index}: band {band} latitude {band_lat}, header grid {want}"
+                        ));
+                    }
+                    let b_lon1 = f64_field(rec, 8, 14, "band LON1")?;
+                    let b_lon2 = f64_field(rec, 14, 20, "band LON2")?;
+                    let b_dlon = f64_field(rec, 20, 26, "band DLON")?;
+                    if (b_lon1 - lon1).abs() > 1e-6
+                        || (b_lon2 - lon2).abs() > 1e-6
+                        || (b_dlon - dlon).abs() > 1e-6
+                    {
+                        return Err(format!("map {index}: band {band} longitudes differ"));
+                    }
+                    let scale = 10f64.powi(map_exp);
+                    for r in 0..n_rec {
+                        let vrec = lines
+                            .next()
+                            .ok_or_else(|| format!("map {index}: band {band} truncated"))?;
+                        let n = (n_lon - 16 * r).min(16);
+                        for k in 0..n {
+                            let v = f64_field(vrec, 5 * k, 5 * k + 5, "I5 value")?;
+                            if v == 9999.0 {
+                                missing += 1;
+                                vals.push(f64::NAN);
+                            } else {
+                                vals.push(v * scale);
+                            }
+                        }
+                    }
+                    band += 1;
+                }
+                l if l == end_label => break,
+                _ => {}
+            }
+        }
+        if band != n_lat || vals.len() != n_lat * n_lon {
+            return Err(format!(
+                "map {index}: {band} bands, header grid has {n_lat}"
+            ));
+        }
+        let epoch = epoch.ok_or_else(|| format!("map {index}: no EPOCH OF CURRENT MAP"))?;
+        let t_s = epoch.seconds_since_day_of(&header.first_epoch);
+        let grid = build_grid(lat1, lat2, dlat, lon1, dlon, n_lat, n_lon, &vals);
+        let map = IonexFileMap {
+            index,
+            epoch,
+            t_s,
+            exponent: map_exp,
+            grid,
+            missing,
+        };
+        if is_tec {
+            tec_maps.push(map);
+        } else {
+            rms_maps.push(map);
+        }
+    }
+    if tec_maps.len() != header.n_maps {
+        return Err(format!(
+            "{} TEC maps, header # OF MAPS IN FILE {}",
+            tec_maps.len(),
+            header.n_maps
+        ));
+    }
+    if tec_maps.windows(2).any(|w| w[1].t_s <= w[0].t_s) {
+        return Err("TEC map epochs not increasing".into());
+    }
+    Ok(IonexFile {
+        header,
+        tec_maps,
+        rms_maps,
+    })
+}
+
+impl IonexFile {
+    /// Whether the grid spans the full 360° of longitude (so a rotated longitude wraps).
+    fn is_global_in_longitude(&self) -> bool {
+        let [lon1, lon2, _] = self.header.lon_deg;
+        ((lon2 - lon1).abs() - 360.0).abs() < 1e-9
+    }
+
+    /// Wrap a longitude into `[LON1, LON1 + 360)` on a global grid; unchanged otherwise
+    /// (the bilinear step then clamps to the grid edge).
+    fn wrap_lon(&self, lon_deg: f64) -> f64 {
+        if !self.is_global_in_longitude() {
+            return lon_deg;
+        }
+        let lo = self.header.lon_deg[0].min(self.header.lon_deg[1]);
+        lo + (lon_deg - lo).rem_euclid(360.0)
+    }
+
+    /// Vertical TEC (TECU) at `t_s` (seconds from 00:00 of the first map's day), geocentric
+    /// latitude and longitude (deg), interpolated bilinearly in space ([`TecGrid::vtec_at`],
+    /// the format's 4-point formula) and in time by `mode`. `None` outside the span of the
+    /// maps (no extrapolation in time) or with fewer than two maps for the linear modes.
+    pub fn vtec_at(
+        &self,
+        t_s: f64,
+        lat_deg: f64,
+        lon_deg: f64,
+        mode: IonexTimeInterp,
+    ) -> Option<f64> {
+        let maps = &self.tec_maps;
+        let first = maps.first()?;
+        let last = maps.last()?;
+        if !(t_s >= first.t_s && t_s <= last.t_s) {
+            return None;
+        }
+        if mode == IonexTimeInterp::Nearest {
+            let m = maps
+                .iter()
+                .min_by(|a, b| (a.t_s - t_s).abs().total_cmp(&(b.t_s - t_s).abs()))?;
+            return Some(m.grid.vtec_at(lat_deg, self.wrap_lon(lon_deg)));
+        }
+        if maps.len() < 2 {
+            return None;
+        }
+        let mut i = 0;
+        while i + 2 < maps.len() && maps[i + 1].t_s <= t_s {
+            i += 1;
+        }
+        let (a, b) = (&maps[i], &maps[i + 1]);
+        let (la, lb) = match mode {
+            IonexTimeInterp::RotatedConsecutive => (
+                self.wrap_lon(lon_deg + 360.0 * (t_s - a.t_s) / 86_400.0),
+                self.wrap_lon(lon_deg + 360.0 * (t_s - b.t_s) / 86_400.0),
+            ),
+            _ => (self.wrap_lon(lon_deg), self.wrap_lon(lon_deg)),
+        };
+        let ea = a.grid.vtec_at(lat_deg, la);
+        let eb = b.grid.vtec_at(lat_deg, lb);
+        let span = b.t_s - a.t_s;
+        Some((b.t_s - t_s) / span * ea + (t_s - a.t_s) / span * eb)
+    }
+
+    /// Slant TEC (TECU) along a ray at `zenith_deg` through the pierce point: [`Self::vtec_at`]
+    /// times the thin-shell [`obliquity_factor`] at the header's shell height `HGT1`
+    /// (Earth radius [`IONO_SHELL_RE_KM`]).
+    pub fn slant_tec_at(
+        &self,
+        t_s: f64,
+        lat_deg: f64,
+        lon_deg: f64,
+        zenith_deg: f64,
+        mode: IonexTimeInterp,
+    ) -> Option<f64> {
+        let v = self.vtec_at(t_s, lat_deg, lon_deg, mode)?;
+        Some(slant_tec(v, zenith_deg, self.header.hgt_km[0]))
+    }
 }
 
 #[cfg(test)]
@@ -440,6 +868,114 @@ mod tests {
         // Clamped before the first / after the last epoch.
         let before = interpolate_tec_in_time(&a, &b, 0.0, 7200.0, -100.0).unwrap();
         assert!((before.vtec_at(10.0, 10.0) - 11.0).abs() < 1e-12);
+    }
+
+    // A strict IONEX with full 80-column value records: 2 bands x 19 longitudes (two value
+    // records per band), EXPONENT -1, two maps on consecutive days' 23:00 / 24:00.
+    fn strict_ionex(second_row: &str) -> String {
+        let row = |a: i32| -> String {
+            let v: Vec<String> = (0..19).map(|k| format!("{:5}", a + k)).collect();
+            format!("{}\n{}", v[..16].concat(), v[16..].concat())
+        };
+        let band = |lat: &str| {
+            rec(
+                &format!("  {lat}-180.0 180.0  20.0 450.0"),
+                "LAT/LON1/LON2/DLON/H",
+            )
+        };
+        let mut l = vec![
+            rec(
+                "     1.0            IONOSPHERE MAPS     GPS",
+                "IONEX VERSION / TYPE",
+            ),
+            rec("  2018     5    13    23     0     0", "EPOCH OF FIRST MAP"),
+            rec("  2018     5    14     0     0     0", "EPOCH OF LAST MAP"),
+            rec("  3600", "INTERVAL"),
+            rec("     2", "# OF MAPS IN FILE"),
+            rec("  NONE", "MAPPING FUNCTION"),
+            rec("  6371.0", "BASE RADIUS"),
+            rec("   450.0 450.0   0.0", "HGT1 / HGT2 / DHGT"),
+            rec("    10.0   0.0 -10.0", "LAT1 / LAT2 / DLAT"),
+            rec("  -180.0 180.0  20.0", "LON1 / LON2 / DLON"),
+            rec("    -1", "EXPONENT"),
+            rec("", "END OF HEADER"),
+        ];
+        for (k, ep) in [
+            (1, "  2018     5    13    23     0     0"),
+            (2, "  2018     5    14     0     0     0"),
+        ] {
+            l.push(rec(&format!("{k:6}"), "START OF TEC MAP"));
+            l.push(rec(ep, "EPOCH OF CURRENT MAP"));
+            l.push(band("  10.0"));
+            l.push(row(100 * k));
+            l.push(band("   0.0"));
+            l.push(if k == 2 {
+                second_row.to_string()
+            } else {
+                row(200)
+            });
+            l.push(rec(&format!("{k:6}"), "END OF TEC MAP"));
+        }
+        l.join("\n")
+    }
+
+    #[test]
+    fn parse_ionex_file_reads_full_records_absolute_epochs_and_missing_values() {
+        // Map 2's southern band: an I5 9999 (missing) and a negative value packed against it.
+        let mut v: Vec<String> = (0..19).map(|k| format!("{:5}", 300 + k)).collect();
+        v[3] = " 9999".into();
+        v[4] = "-1234".into();
+        let second = format!("{}\n{}", v[..16].concat(), v[16..].concat());
+        let f = parse_ionex_file(&strict_ionex(&second)).expect("valid");
+        assert_eq!(f.tec_maps.len(), 2);
+        assert_eq!(f.tec_maps[0].t_s, 23.0 * 3600.0);
+        assert_eq!(f.tec_maps[1].t_s, 86_400.0); // not 0: the next civil day
+        let g = &f.tec_maps[1].grid;
+        assert_eq!((g.n_lat, g.n_lon), (2, 19));
+        assert!((g.node(1, 18) - 21.8).abs() < 1e-12); // northern band, last of the second record
+        assert!(g.node(0, 3).is_nan());
+        assert!((g.node(0, 4) + 123.4).abs() < 1e-12);
+        assert_eq!(f.tec_maps[1].missing, 1);
+        // The legacy reader also reads full 80-column records now (it used to drop them).
+        let legacy = parse_ionex(&strict_ionex(&second.replace(" 9999-1234", "  303  304")));
+        let legacy = legacy.expect("full records parse");
+        assert_eq!(legacy[1].epoch_sod, 0.0); // seconds of day, unchanged
+        assert!((legacy[0].grid.node(1, 18) - 11.8).abs() < 1e-12);
+        // Header failures are reported, not panics.
+        let three_d = strict_ionex(&second).replace("   450.0 450.0   0.0", "   450.0 650.0 100.0");
+        assert!(parse_ionex_file(&three_d).unwrap_err().contains("3-D"));
+        let yy =
+            strict_ionex(&second).replace("  2018     5    13    23", "    18     5    13    23");
+        assert!(parse_ionex_file(&yy).unwrap_err().contains("two-digit"));
+    }
+
+    #[test]
+    fn rotated_time_interpolation_wraps_the_longitude() {
+        let f = parse_ionex_file(&strict_ionex(&format!(
+            "{}\n{}",
+            (0..16)
+                .map(|k| format!("{:5}", 300 + k))
+                .collect::<String>(),
+            "  316  317  318"
+        )))
+        .unwrap();
+        let t = 23.5 * 3600.0;
+        // Map 1 is read 7.5 deg east, map 2 7.5 deg west; -180 + -7.5 wraps to 172.5.
+        let a = f.tec_maps[0].grid.vtec_at(0.0, -172.5);
+        let b = f.tec_maps[1].grid.vtec_at(0.0, 172.5);
+        let v = f
+            .vtec_at(t, 0.0, -180.0, IonexTimeInterp::RotatedConsecutive)
+            .unwrap();
+        assert!(
+            (v - 0.5 * (a + b)).abs() < 1e-12,
+            "{v} vs {}",
+            0.5 * (a + b)
+        );
+        let c = f
+            .vtec_at(t, 0.0, -180.0, IonexTimeInterp::Consecutive)
+            .unwrap();
+        let mid = 0.5 * (f.tec_maps[0].grid.node(0, 0) + f.tec_maps[1].grid.node(0, 0));
+        assert!((c - mid).abs() < 1e-12);
     }
 
     #[test]
