@@ -321,10 +321,19 @@ fn galileo_e5a_lfsr_matches_icd_first_24_chips_tables_16_17() {
 
 #[test]
 fn galileo_e5a_lfsr_matches_complete_icd_annex_c3_c4_codes() {
-    // The complete hexadecimal codes of ICD Annex C.3 (E5a-I) and C.4 (E5a-Q), committed
-    // as fixtures from the ICD's electronic attachments.
-    let ai = annex(include_str!("fixtures/iq_signals/C3_E5aI.txt"));
-    let aq = annex(include_str!("fixtures/iq_signals/C4_E5aQ.txt"));
+    // The complete hexadecimal codes of ICD Annex C.3 (E5a-I) and C.4 (E5a-Q), extracted
+    // from the ICD's electronic attachments by scripts/fetch_galileo_e1_codes.sh into
+    // tests/fixtures/iq_signals/ (git-ignored: the ICD's terms allow redistribution only for
+    // non-commercial purposes). The test skips, with a message, when they are absent.
+    let dir = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("tests/fixtures/iq_signals");
+    let (Ok(ti), Ok(tq)) = (
+        std::fs::read_to_string(dir.join("C3_E5aI.txt")),
+        std::fs::read_to_string(dir.join("C4_E5aQ.txt")),
+    ) else {
+        eprintln!("skipped: ICD Annex C.3/C.4 not fetched (scripts/fetch_galileo_e1_codes.sh)");
+        return;
+    };
+    let (ai, aq) = (annex(&ti), annex(&tq));
     assert_eq!((ai.len(), aq.len()), (50, 50));
     for prn in 1..=50u16 {
         let want_i = hex_to_bits(&ai[prn as usize - 1], 10_230).unwrap();
