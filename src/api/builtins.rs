@@ -1,12 +1,15 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 //! Built-in kinds run through the [`Scenario`] trait (FUT-27).
 //!
-//! Each built-in kind is migrating out of the inline `match` in
+//! Every built-in kind but two has moved out of the inline `match` in
 //! [`super::run_builtin_kind`] and onto its own scenario type: the type implements
 //! [`Scenario`] (the run itself, the body that used to sit in the match arm, moved
 //! verbatim) and [`BuiltinKind`] (which kind it answers to, how it parses, and the
-//! optional per-figure tier block). The match arm then shrinks to one line,
-//! `run_builtin::<T>(src)`. The migration is behaviour-preserving: every output stays
+//! optional per-figure tier block). The match arm is one line, `run_builtin::<T>(src)`.
+//! The two exceptions: `campaign`, whose result hash is taken over the scenario's exact
+//! source text, which a parsed value no longer carries, so it stays in the match; and
+//! `fusion`, which parses the same type as `hybrid` (a type answers to one kind), so it
+//! keeps its own driver, [`run_fusion_kind`], over the moved body. The migration is behaviour-preserving: every output stays
 //! byte-identical, guarded by the registry and cross-platform goldens and by the
 //! whole-catalogue output manifest (`tests/scenario_output_manifest.rs`).
 //!
@@ -624,7 +627,7 @@ impl BuiltinKind for crate::lunar_interop::LunarInteropScenario {
 }
 
 fn run_time_transfer(scn: &crate::timetransfer::TimeTransferScenario) -> Result<RunOutput, String> {
-    let r = crate::timetransfer::run_timetransfer(&scn);
+    let r = crate::timetransfer::run_timetransfer(scn);
     let summary = format!(
         "scenario {} | optical sync_rms {:.2}ps range_rms {:.3}mm adev(1s) {:.2e} | RF sync_rms {:.1}ps range_rms {:.1}mm adev(1s) {:.2e}",
         &r.scenario_hash[..12],
@@ -762,7 +765,7 @@ impl BuiltinKind for crate::quantum_faults::QuantumAnomalyScenario {
 
 fn run_hybrid(scn: &crate::hybrid::HybridScenario) -> Result<RunOutput, String> {
     scn.time.validate()?;
-    let r = crate::hybrid::run_hybrid(&scn);
+    let r = crate::hybrid::run_hybrid(scn);
     let summary = format!(
         "scenario {} | quantum PNT-holdover {:.0}s (t {:.0}s/p {:.0}s) integrity {} security {} | classical PNT-holdover {:.0}s (t {:.0}s/p {:.0}s) integrity {} security {}",
         &r.scenario_hash[..12],
@@ -797,7 +800,7 @@ impl BuiltinKind for crate::hybrid::HybridScenario {
 
 fn run_fusion(scn: &crate::hybrid::HybridScenario) -> Result<RunOutput, String> {
     scn.time.validate()?;
-    let r = crate::fusion::run_fusion(&scn);
+    let r = crate::fusion::run_fusion(scn);
     let summary = format!(
         "scenario {} | fused | quantum PNT-holdover {:.0}s (t {:.0}s/p {:.0}s) integrity {} security {} | classical PNT-holdover {:.0}s (t {:.0}s/p {:.0}s) integrity {} security {}",
         &r.scenario_hash[..12],
@@ -827,7 +830,7 @@ pub(crate) fn run_fusion_kind(src: &str) -> Result<RunOutput, String> {
 
 fn run_hybrid_ukf(scn: &crate::fusion::hybrid_ukf::HybridUkfScenario) -> Result<RunOutput, String> {
     scn.time.validate()?;
-    let r = crate::fusion::hybrid_ukf::run_hybrid_ukf(&scn);
+    let r = crate::fusion::hybrid_ukf::run_hybrid_ukf(scn);
     let c = &r.consistency;
     let summary = format!(
         "scenario {} | hybrid-ukf (17-state, MODELLED) | sensor {} (q_va {:.2e}) | clock q_wf {:.2e} q_rw {:.2e} | NIS {:.2}/{} in [{:.2},{:.2}] | NEES {:.2}/{} in [{:.2},{:.2}] | {} | aided {:.1}m -> coast {:.1}m over {:.0}s | self-consistency, not accuracy",
@@ -864,7 +867,7 @@ impl BuiltinKind for crate::fusion::hybrid_ukf::HybridUkfScenario {
 fn run_gnss_ins(scn: &crate::fusion::pack::GnssInsScenario) -> Result<RunOutput, String> {
     scn.time.validate()?;
     scn.validate()?;
-    let r = crate::fusion::pack::run_gnss_ins(&scn);
+    let r = crate::fusion::pack::run_gnss_ins(scn);
     let summary = format!(
         "scenario {} | gnss-ins | quantum outage-RMS fused {:.1}m vs free {:.1}m (hold {:.0}s, avail {:.2}) | classical fused {:.1}m vs free {:.1}m (hold {:.0}s, avail {:.2})",
         &r.scenario_hash[..12],
@@ -896,7 +899,7 @@ fn run_gnss_sim(scn: &crate::gnss_sim::GnssSimScenario) -> Result<RunOutput, Str
     scn.time.validate()?;
     let (alert_h, alert_v) = (scn.alert_limit_h_m, scn.alert_limit_v_m);
     let sky = scn.sky()?;
-    let r = crate::gnss_sim::run_gnss_sim_sky(&scn, sky.as_ref());
+    let r = crate::gnss_sim::run_gnss_sim_sky(scn, sky.as_ref());
     let summary = format!(
         "scenario {} | gnss-sim | mean iono {:.1}m tropo {:.1}m | RAIM avail {:.2} mean HPL {:.1}m VPL {:.1}m fault-rate {:.3}",
         &r.scenario_hash[..12],
@@ -939,7 +942,7 @@ impl BuiltinKind for crate::gnss_sim::GnssSimScenario {
 }
 
 fn run_spoof_detect(scn: &crate::spoof_detect::SpoofDetectScenario) -> Result<RunOutput, String> {
-    let r = crate::spoof_detect::run_spoof_detect(&scn);
+    let r = crate::spoof_detect::run_spoof_detect(scn);
     let summary = format!(
         "scenario {} | spoof-detect | {} SVs, +{:.1} dB{} | {:?} push | fused score {:.2} (thr {:.2}) | {}",
         &r.scenario_hash[..12],
@@ -974,7 +977,7 @@ impl BuiltinKind for crate::spoof_detect::SpoofDetectScenario {
 
 fn run_sweep(scn: &crate::sweep::SweepScenario) -> Result<RunOutput, String> {
     scn.base.time.validate()?;
-    let r = crate::sweep::run_sweep(&scn)?;
+    let r = crate::sweep::run_sweep(scn)?;
     let (first, last) = (r.points.first(), r.points.last());
     let summary = format!(
         "sweep {} over {} ({:.2e}..{:.2e}, {} pts, {} scale) | quantum {:.3}->{:.3} | classical {:.3}->{:.3}",
@@ -1006,7 +1009,7 @@ impl BuiltinKind for crate::sweep::SweepScenario {
 
 fn run_orbit(scn: &crate::orbit::OrbitClockScenario) -> Result<RunOutput, String> {
     scn.time.validate()?;
-    let r = crate::run::run_orbit_clock(&scn)?;
+    let r = crate::run::run_orbit_clock(scn)?;
     let sats = scn.all_satellites()?;
     let (user, sky) = scn.user_and_sky_for(&sats)?;
     let geometry = crate::orbit::summarize_dop_at(
@@ -1074,7 +1077,7 @@ impl BuiltinKind for crate::orbit::OrbitClockScenario {
 }
 
 fn run_ephemeris(scn: &crate::ephemeris::EphemerisScenario) -> Result<RunOutput, String> {
-    let r = crate::ephemeris::run_ephemeris(&scn).map_err(|e| format!("ephemeris: {e}"))?;
+    let r = crate::ephemeris::run_ephemeris(scn).map_err(|e| format!("ephemeris: {e}"))?;
     let pass = match (r.max_elevation_deg, r.peak_doppler_hz) {
         (Some(el), Some(d)) => {
             format!(" | max el {el:.1}° peak Doppler {:.1} kHz", d / 1000.0)
@@ -1115,7 +1118,7 @@ impl BuiltinKind for crate::ephemeris::EphemerisScenario {
 }
 
 fn run_pvt(scn: &crate::pvt::PvtScenario) -> Result<RunOutput, String> {
-    let r = crate::pvt::run_pvt(&scn)?;
+    let r = crate::pvt::run_pvt(scn)?;
     let summary = crate::pvt::summary(&r);
     Ok(RunOutput {
         json: json_of_with_units(&r, crate::pvt::UNITS)?,
@@ -1139,7 +1142,7 @@ impl BuiltinKind for crate::pvt::PvtScenario {
 }
 
 fn run_mars_pnt(scn: &crate::mars_pnt::MarsScenario) -> Result<RunOutput, String> {
-    let r = crate::mars_pnt::run_mars_pnt(&scn)?;
+    let r = crate::mars_pnt::run_mars_pnt(scn)?;
     let summary = crate::mars_pnt::summary(&r);
     Ok(RunOutput {
         json: json_of_with_units(&r, crate::mars_pnt::UNITS)?,
@@ -2130,6 +2133,238 @@ impl BuiltinKind for crate::lunar_jamming::LunarJammingScenario {
     const KIND: ScenarioKind = ScenarioKind::LunarJamming;
     fn parse(src: &str) -> Result<Self, String> {
         parse_toml(src, "lunar-jamming")
+    }
+}
+
+// ---- bulk migration (FUT-27): each arm body moved verbatim ----
+
+fn run_sweep_nd(scn: &crate::sweep::GenericSweepScenario) -> Result<RunOutput, String> {
+    let r = crate::sweep::run_generic_sweep(scn)?;
+    let summary = format!(
+        "generic sweep of `{}` over [{}] | {} nodes (shape {:?}) | metrics [{}]",
+        r.kind,
+        r.keys.join(", "),
+        r.points.len(),
+        r.shape,
+        r.metrics.join(", "),
+    );
+    Ok(RunOutput {
+        json: json_of_with_units(&r, crate::sweep::GENERIC_UNITS)?,
+        svg: crate::sweep::generic_to_svg(&r),
+        summary,
+        csv: None,
+    })
+}
+
+impl Scenario for crate::sweep::GenericSweepScenario {
+    fn run(&self) -> Result<RunOutput, KshanaError> {
+        run_sweep_nd(self).map_err(KshanaError::from)
+    }
+}
+
+impl BuiltinKind for crate::sweep::GenericSweepScenario {
+    const KIND: ScenarioKind = ScenarioKind::SweepNd;
+    fn parse(src: &str) -> Result<Self, String> {
+        parse_toml(src, "generic sweep")
+    }
+}
+
+fn run_gravity_map(cfg: &crate::gravimeter::GravityMapBenchmarkCfg) -> Result<RunOutput, String> {
+    let r = crate::gravimeter::run_gps_denied_gravity_nav(cfg);
+    let summary = format!(
+        "gravity-map | free-inertial drift {:.0} m | gravity-matched {:.0} m | matching sigma {:.3e} mGal",
+        r.free_inertial_drift_m, r.map_matched_error_m, r.measurement_sigma_mgal,
+    );
+    #[derive(serde::Serialize)]
+    struct GravityMapOut {
+        free_inertial_drift_m: f64,
+        map_matched_error_m: f64,
+        measurement_sigma_mgal: f64,
+    }
+    let out = GravityMapOut {
+        free_inertial_drift_m: r.free_inertial_drift_m,
+        map_matched_error_m: r.map_matched_error_m,
+        measurement_sigma_mgal: r.measurement_sigma_mgal,
+    };
+    Ok(RunOutput {
+        json: json_of_with_units(&out, crate::gravimeter::UNITS)?,
+        svg: crate::altpnt::terrain::gravity_nav_svg(
+            r.free_inertial_drift_m,
+            r.map_matched_error_m,
+        ),
+        summary,
+        csv: None,
+    })
+}
+
+impl Scenario for crate::gravimeter::GravityMapBenchmarkCfg {
+    fn run(&self) -> Result<RunOutput, KshanaError> {
+        run_gravity_map(self).map_err(KshanaError::from)
+    }
+}
+
+impl BuiltinKind for crate::gravimeter::GravityMapBenchmarkCfg {
+    const KIND: ScenarioKind = ScenarioKind::GravityMap;
+    fn parse(src: &str) -> Result<Self, String> {
+        parse_toml(src, "gravity-map")
+    }
+}
+
+fn run_terrain(cfg: &crate::altpnt::terrain::TerrainNavCfg) -> Result<RunOutput, String> {
+    let r = crate::altpnt::terrain::run_terrain_nav(cfg);
+    let summary = format!(
+        "terrain-nav | free-inertial drift {:.0} m | terrain-matched {:.0} m ({:.0}x cut) | matching sigma {:.1} m",
+        r.free_inertial_drift_m,
+        r.matched_error_m,
+        if r.matched_error_m > 0.0 { r.free_inertial_drift_m / r.matched_error_m } else { 0.0 },
+        r.measurement_sigma_m,
+    );
+    Ok(RunOutput {
+        json: json_of_with_units(&r, crate::altpnt::terrain::TERRAIN_NAV_UNITS)?,
+        svg: crate::altpnt::terrain::terrain_nav_svg(&r),
+        summary,
+        csv: None,
+    })
+}
+
+impl Scenario for crate::altpnt::terrain::TerrainNavCfg {
+    fn run(&self) -> Result<RunOutput, KshanaError> {
+        run_terrain(self).map_err(KshanaError::from)
+    }
+}
+
+impl BuiltinKind for crate::altpnt::terrain::TerrainNavCfg {
+    const KIND: ScenarioKind = ScenarioKind::Terrain;
+    fn parse(src: &str) -> Result<Self, String> {
+        parse_toml(src, "terrain-nav")
+    }
+}
+
+fn run_terrain_slam(
+    cfg: &crate::altpnt::sequential::SequentialTrnCfg,
+) -> Result<RunOutput, String> {
+    let r = crate::altpnt::sequential::run_sequential_trn(cfg);
+    let summary = format!(
+        "terrain-slam | {} waypoints | free-inertial RMS {:.0} m (final {:.0} m) | terrain-matched RMS {:.0} m (final {:.0} m, {:.0}x cut) | mean ESS {:.0}/{} | matching sigma {:.1} m",
+        r.waypoints,
+        r.free_inertial_rms_m,
+        r.free_inertial_final_m,
+        r.matched_rms_m,
+        r.matched_final_m,
+        if r.matched_rms_m > 0.0 { r.free_inertial_rms_m / r.matched_rms_m } else { 0.0 },
+        r.mean_ess,
+        cfg.n_particles.max(1),
+        r.measurement_sigma_m,
+    );
+    Ok(RunOutput {
+        json: json_of_with_units(&r, crate::altpnt::sequential::UNITS)?,
+        svg: crate::altpnt::sequential::sequential_trn_svg(&r),
+        summary,
+        csv: None,
+    })
+}
+
+impl Scenario for crate::altpnt::sequential::SequentialTrnCfg {
+    fn run(&self) -> Result<RunOutput, KshanaError> {
+        run_terrain_slam(self).map_err(KshanaError::from)
+    }
+}
+
+impl BuiltinKind for crate::altpnt::sequential::SequentialTrnCfg {
+    const KIND: ScenarioKind = ScenarioKind::TerrainSlam;
+    fn parse(src: &str) -> Result<Self, String> {
+        parse_toml(src, "terrain-slam")
+    }
+}
+
+fn run_combined_alt_pnt(
+    cfg: &crate::altpnt::terrain::CombinedAltPntCfg,
+) -> Result<RunOutput, String> {
+    let r = crate::altpnt::terrain::run_combined_altpnt(cfg);
+    let summary = format!(
+        "combined-altpnt | free-inertial drift {:.0} m | gravity {:.0} m magnetic {:.0} m terrain {:.0} m | FUSED {:.0} m",
+        r.free_inertial_drift_m,
+        r.gravity_only_m,
+        r.magnetic_only_m,
+        r.terrain_only_m,
+        r.combined_m,
+    );
+    Ok(RunOutput {
+        json: json_of_with_units(&r, crate::altpnt::terrain::COMBINED_ALTPNT_UNITS)?,
+        svg: crate::altpnt::terrain::combined_altpnt_svg(&r),
+        summary,
+        csv: None,
+    })
+}
+
+impl Scenario for crate::altpnt::terrain::CombinedAltPntCfg {
+    fn run(&self) -> Result<RunOutput, KshanaError> {
+        run_combined_alt_pnt(self).map_err(KshanaError::from)
+    }
+}
+
+impl BuiltinKind for crate::altpnt::terrain::CombinedAltPntCfg {
+    const KIND: ScenarioKind = ScenarioKind::CombinedAltPnt;
+    fn parse(src: &str) -> Result<Self, String> {
+        parse_toml(src, "combined-altpnt")
+    }
+}
+
+fn run_clock(scn: &crate::scenario::Scenario) -> Result<RunOutput, String> {
+    scn.time.validate()?;
+    if scn.runs > 1 {
+        // Monte Carlo ensemble: report confidence bands instead of one run.
+        let r = crate::ensemble::run_ensemble(scn);
+        let q = &r.quantum;
+        let c = &r.classical;
+        let summary = format!(
+            "scenario {} | {} runs | quantum holdover {:.0}s [{:.0}-{:.0}] p95 {}ns security {} | classical holdover {:.0}s [{:.0}-{:.0}] p95 {}ns security {}",
+            &r.scenario_hash[..12], r.runs,
+            q.holdover_s.mean, q.holdover_s.p05, q.holdover_s.p95, ns1(q.timing_p95_ns.mean), SECURITY_NA,
+            c.holdover_s.mean, c.holdover_s.p05, c.holdover_s.p95, ns1(c.timing_p95_ns.mean), SECURITY_NA,
+        );
+        return Ok(RunOutput {
+            json: json_of_with_units_and_tiers(
+                &r,
+                crate::ensemble::UNITS,
+                &["quantum", "classical"],
+                crate::fom_label::CLOCK_FOM_FIELDS,
+            )?,
+            svg: crate::ensemble::to_svg(&r),
+            summary,
+            csv: None,
+        });
+    }
+    let r = crate::run::run(scn);
+    let summary = format!(
+        "scenario {} | quantum holdover {:.0}s p95 {}ns integrity {} security {} | classical holdover {:.0}s p95 {}ns integrity {} security {}",
+        &r.scenario_hash[..12],
+        r.quantum.fom.holdover_s, ns1(r.quantum.fom.timing_p95_ns), integ(r.quantum.fom.integrity), SECURITY_NA,
+        r.classical.fom.holdover_s, ns1(r.classical.fom.timing_p95_ns), integ(r.classical.fom.integrity), SECURITY_NA,
+    );
+    Ok(RunOutput {
+        json: json_of_with_units_and_tiers(
+            &r,
+            crate::report::UNITS,
+            &["quantum.fom", "classical.fom"],
+            crate::fom_label::CLOCK_FOM_FIELDS,
+        )?,
+        svg: crate::report::to_svg(&r),
+        summary,
+        csv: None,
+    })
+}
+
+impl Scenario for crate::scenario::Scenario {
+    fn run(&self) -> Result<RunOutput, KshanaError> {
+        run_clock(self).map_err(KshanaError::from)
+    }
+}
+
+impl BuiltinKind for crate::scenario::Scenario {
+    const KIND: ScenarioKind = ScenarioKind::Clock;
+    fn parse(src: &str) -> Result<Self, String> {
+        toml::from_str(src).map_err(|e| format!("invalid scenario: {e}"))
     }
 }
 
