@@ -1109,6 +1109,139 @@ pub fn kind_modules_json() -> String {
     serde_json::Value::Object(o).to_string()
 }
 
+/// Which fields of a scenario answer its question, best first, for the kinds where that has been
+/// decided: the inputs a front end should put in front of the user before all the others. Each
+/// entry is a dotted path through the scenario file; `[]` stands for any element of an array of
+/// tables (`jammers[].eirp_dbw`). A kind absent here has no stated order and a front end ranks
+/// its fields itself.
+///
+/// This is display metadata only. The engine never reads it, so no scenario file needs it and no
+/// result depends on it. `tests/field_importance.rs` fails if a kind here is not dispatchable, a
+/// path is listed twice, or a path is found in none of the bundled scenarios of its kind.
+pub const HEADLINE_FIELDS: &[(&str, &[&str])] = &[
+    (
+        "spectrum",
+        &[
+            "receiver.tracking_threshold_dbhz",
+            "receiver.noise_figure_db",
+            "jammers[].eirp_dbw",
+            "jammers[].received_power_dbw",
+            "jammers[].range_m",
+            "jammers[].bandwidth_mhz",
+            "duration_s",
+        ],
+    ),
+    ("solar-system", &["track_points"]),
+    (
+        "body-pnt",
+        &[
+            "constellation.planes",
+            "constellation.sats_per_plane",
+            "constellation.altitude_km",
+            "constellation.inclination_deg",
+            "constellation.sigma_range_m",
+            "earth_link.sigma_range_m",
+        ],
+    ),
+    (
+        "constellation-design",
+        &[
+            "mask_deg",
+            "pdop_threshold",
+            "grid_step_deg",
+            "constellation[].shell[].altitude_km",
+            "constellation[].shell[].inclination_deg",
+        ],
+    ),
+    (
+        "campaign",
+        &[
+            "monte_carlo.runs",
+            "sweep.axes[].start",
+            "sweep.axes[].stop",
+            "sweep.axes[].steps",
+            "compose.shared[].value",
+            "timeline.step_s",
+            "phases[].duration_s",
+        ],
+    ),
+    (
+        "leo-signal",
+        &[
+            "receiver.reference_cn0_dbhz",
+            "receiver.loop_bandwidth_hz",
+            "trade.slant_tec_tecu",
+            "trade.slant_range_km",
+            "acquisition.altitude_km",
+        ],
+    ),
+    (
+        "leo-pass",
+        &[
+            "user.mask_deg",
+            "satellite[].max_elevation_deg",
+            "user.lat_deg",
+            "spoofer.offset_m",
+            "spoofer.onset_s",
+            "iot.active_power_mw",
+        ],
+    ),
+    (
+        "leo-navmsg",
+        &[
+            "orbit.altitude_km",
+            "orbit.inclination_deg",
+            "message.fit_interval_s",
+            "message.update_period_s",
+            "orbit.gravity_degree",
+        ],
+    ),
+    (
+        "leo-pvt",
+        &[
+            "user.lat_deg",
+            "system[].sisre_m",
+            "system[].mask_deg",
+            "system[].sigma_doppler_hz",
+            "joint.max_leo_sweep",
+            "duration_s",
+        ],
+    ),
+    ("leo-ppp", &["duration_s", "runs", "gnss[].mask_deg"]),
+    (
+        "ntn-positioning",
+        &[
+            "signal[].bandwidth_hz",
+            "integration_s",
+            "sync_error_m",
+            "system[].mask_deg",
+        ],
+    ),
+    (
+        "leo-pnt-chain",
+        &[
+            "od_sisre_m",
+            "pass.satellite[].altitude_km",
+            "pass.satellite[].max_elevation_deg",
+            "pass.satellite[].band[].eirp_dbw",
+            "navmsg.message.fit_interval_s",
+        ],
+    ),
+];
+
+/// [`HEADLINE_FIELDS`] as JSON: `{kind: {"headline": [path, ...]}}`, in table order. The object
+/// per kind leaves room for further tiers without changing the shape.
+pub fn field_importance_json() -> String {
+    let mut o = serde_json::Map::new();
+    for (kind, paths) in HEADLINE_FIELDS {
+        o.insert(
+            (*kind).to_string(),
+            serde_json::json!({ "headline": paths }),
+        );
+    }
+    serde_json::Value::Object(o).to_string()
+}
+
 /// Render the built-in scenario-kind catalogue as a standalone Markdown reference
 /// (`docs/SCENARIOS.md`): every dispatchable kind with its one-line description and
 /// its required / optional TOML fields.
