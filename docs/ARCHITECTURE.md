@@ -744,9 +744,9 @@ tightly-coupled navigator surfaced as the `hybrid-ukf` scenario kind.
 
 The remaining follow-ons are tracked in [CHANGELOG](../CHANGELOG.md) `[Unreleased]` and the
 per-capability roadmap in [CAPABILITY](CAPABILITY.md): a higher-degree (e.g. 200×200) EGM (Earth Gravitational Model)
-**tesseral** field and loader beyond the shipped degree/order-70 path, the NRLMSISE-00 (NRLMSISE: Naval Research Laboratory Mass Spectrometer and Incoherent Scatter Radar Extended atmosphere model)
-thermospheric density (the propagator's drag uses a static exponential density, and the
-`space-weather` kind's Jacchia-71 density is characterised against NRLMSISE-00 but not
+**tesseral** field and loader beyond the shipped degree/order-70 path, a time-varying space-weather
+driver for the opt-in NRLMSISE-00 (NRLMSISE: Naval Research Laboratory Mass Spectrometer and Incoherent Scatter Radar Extended atmosphere model) drag-density tier (the default drag density is the static exponential
+model, and the `space-weather` kind's Jacchia-71 density is characterised against NRLMSISE-00 but not
 replaced by it), solar limb darkening / the oblate-Earth shadow, carrier-phase GNSS/INS
 tight coupling, and a real EGM2008/EIGEN (EIGEN: European Improved Gravity model of the
 Earth by New techniques) gravity map for the alt-PNT matcher.

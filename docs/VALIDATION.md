@@ -309,9 +309,13 @@ high-degree EGM2008 **tesseral** field (`src/gravity_sh.rs`, degree/order 70), t
 solid/ocean/atmospheric **tides** (`src/tides.rs`), and the **Lense–Thirring**
 frame-dragging term are now implemented and composed into the precise
 ephemeris-fitting force model (`src/precise_od.rs` — see below). The NRLMSISE-00 (NRLMSISE: Naval Research Laboratory Mass Spectrometer and Incoherent Scatter Radar Extended atmosphere model) thermospheric
-density (drag is the static Vallado model), solar limb darkening / the oblate-Earth
-shadow, DE-grade (DE: Development Ephemeris) ephemeris accuracy, an external cross-validation of the
-drag tier, and a GMAT (General Mission Analysis Tool) cross-check remain follow-ons.
+density is ported (`src/nrlmsise00.rs`: bit-identical to the public-domain C port on 720 points,
+within 1.9e-6 relative of pymsis, the 17 published test cases reproduced; `tests/nrlmsise00_reference.rs`)
+and is an opt-in drag-density tier (`forces::DensityModel`, `ForceModel::drag_density`; the default
+stays the static Vallado model). This validates the port, not the model's accuracy against measured
+density. DE440 (DE: Development Ephemeris) Sun and Moon are an opt-in ephemeris tier
+(`ForceModel::with_ephemeris`). Solar limb darkening / the oblate-Earth shadow, an external
+cross-validation of the drag tier, and a GMAT (General Mission Analysis Tool) cross-check remain follow-ons.
 
 ## Tides on the geopotential (`src/tides.rs`)
 
