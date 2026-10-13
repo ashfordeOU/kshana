@@ -69,7 +69,9 @@ pub struct ScoreEpoch {
     pub dll_chips: f64,
     /// Carrier Doppler of the NCO (Hz).
     pub doppler_hz: f64,
-    /// Whether the tracker's own false-lock detector fired on this update.
+    /// Whether a false-lock detector fired on this (locked) update. The campaign runner leaves
+    /// it false and scores the tracker's own check through [`SatScorer::tracker_false_lock`],
+    /// because that check moves the channel to LOST before any later update.
     pub false_lock_flag: bool,
 }
 
@@ -739,6 +741,20 @@ impl SatScorer {
         }
     }
 
+    /// A false lock the tracker's own check reported at `t_s` while the channel was declared
+    /// locked: one episode of the run and of every stated event that contains `t_s`. The
+    /// check moves the channel to LOST at once, so the episode cannot be seen on a locked
+    /// update; the campaign runner calls this from the tracker's `false-lock` event.
+    pub fn tracker_false_lock(&mut self, t_s: f64) {
+        self.fl_episodes += 1;
+        self.fl_in_episode = true;
+        for a in &mut self.events {
+            if a.ev.contains(t_s) {
+                a.false_locks += 1;
+            }
+        }
+    }
+
     /// Update the false-lock state; returns whether a new episode began on this update.
     fn false_lock_update(&mut self, e: &ScoreEpoch, truth: Option<f64>) -> bool {
         let thr = self
@@ -1082,6 +1098,25 @@ points = [[20.0, 30.0], [30.0, 40.0]]
         }
         let r = s.finish(60.0);
         assert_eq!(r.whole_run.false_lock_episodes, 3);
+        assert!(r.whole_run.false_lock_per_hour.unwrap() > 0.0);
+    }
+
+    #[test]
+    fn a_tracker_false_lock_counts_in_the_run_and_in_the_event_that_contains_it() {
+        let cfg = ScoringConfig::default();
+        let mut s = SatScorer::new(&tc(), "gps-l1ca", 5, 1.023e6, &cfg);
+        // Locked to 30 s; the tracker reports a false lock at 30 s (inside event e1, 20-40 s)
+        // and moves the channel to LOST, so every later update is unlocked.
+        for i in 0..60_000 {
+            let t = i as f64 * 1e-3;
+            if (t - 30.0).abs() < 1e-9 {
+                s.tracker_false_lock(t);
+            }
+            s.push(&ep(t, t < 30.0, 45.0), Some(0.0));
+        }
+        let r = s.finish(60.0);
+        assert_eq!(r.whole_run.false_lock_episodes, 1);
+        assert_eq!(r.events[0].false_lock_episodes, 1);
         assert!(r.whole_run.false_lock_per_hour.unwrap() > 0.0);
     }
 
