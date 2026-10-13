@@ -5265,7 +5265,7 @@
       "oracle_kind": "InternalConsistency",
       "oracle": "The closed form of the phase random walk under white frequency noise, variance q_wf tau (NIST Technical Note 1337), for the statistics machinery, and byte equality with the stand-alone runs for the seeding. It checks the ensemble arithmetic on the engine's own clock model, not an external dataset",
       "module": "campaign (run_sweep, run_monte_carlo, ensemble); sweep (GenericAxis, coords_of, set_dotted_value); inertial (metric_stat)",
-      "tests": "tests/campaign_composition_reference.rs (a_fixed_seed_ensemble_is_byte_stable_and_each_realisation_is_the_standalone_run; the_ensemble_mean_and_spread_match_the_white_fm_closed_form — 200 seeds of a white-frequency-noise clock coasting tau = 3010 s: the true mean 0 inside the reported interval, the interval half-width within 25% of 1.96 sigma/sqrt(n), and the sample variance inside the two-sided 99% chi-square interval of sigma = sqrt(q_wf tau) = 16.459 ns; a_one_node_sweep_and_a_one_member_composition_read_the_standalone_number)",
+      "tests": "tests/campaign_composition_reference.rs (a_fixed_seed_ensemble_is_byte_stable_and_each_realisation_is_the_standalone_run; the_ensemble_mean_and_spread_match_the_white_fm_closed_form — 200 seeds of a white-frequency-noise clock coasting tau = 3010 s: the true mean 0 inside the reported interval, the interval half-width within 25% of 1.96 sigma/sqrt(n), and the sample variance inside the two-sided 99% chi-square interval of sigma = sqrt(q_wf tau) = 16.459 ns; calibration ensemble (CAP-10, pre-registered ea451cb5, docs/CALIBRATION-ENSEMBLES.md, tests/calibration_ensembles.rs): over 200 independent ensembles the interval covers the true mean on 192 (inside the Binomial(200, 0.95) 99 % region [181, 197]) and the chi-square check passes on 196, while the single-seed percentile tolerance (p05 and p95 within 0.3 sigma) passes on only 183 of 200, NOT MET against the pre-registered 190, a seed-fragile check recorded rather than loosened; a_one_node_sweep_and_a_one_member_composition_read_the_standalone_number)",
       "module_links": [
         {
           "path": "src/campaign.rs",
@@ -5276,6 +5276,10 @@
         {
           "path": "tests/campaign_composition_reference.rs",
           "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/campaign_composition_reference.rs"
+        },
+        {
+          "path": "tests/calibration_ensembles.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/calibration_ensembles.rs"
         }
       ],
       "fixture": null
