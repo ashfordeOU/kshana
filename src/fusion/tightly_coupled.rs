@@ -17,10 +17,10 @@
 //! range-rate `ρ̇ = (p − sᵢ)·(v − ṡᵢ)/|p − sᵢ| + d`.
 //!
 //! Scope (honest): this is the position/velocity/clock tightly-coupled core and its
-//! outage-validation scenario. Folding it into the full 15-state INS error state (attitude and
-//! IMU biases of [`crate::fusion::gnss_ins_ekf`]) and driving the satellite geometry from a live
-//! SGP4 constellation with broadcast iono/tropo corrections in the loop are follow-ons (see
-//! `ROADMAP.md`).
+//! outage-validation scenario. The full inertial state (attitude error and accelerometer and
+//! gyro biases plus the clock) is the 17-state [`crate::fusion::tightly_coupled17`] navigator.
+//! Driving the satellite geometry from a live SGP4 constellation with broadcast iono/tropo
+//! corrections in the loop, and carrier phase, are follow-ons (see `ROADMAP.md`).
 
 use crate::forces::gravity_accel;
 use crate::fusion::ukf::Ukf;

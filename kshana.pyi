@@ -704,4 +704,7 @@ def iq_labfit(toml: str) -> dict[str, Any]:
 
     Returns a dict with the parsed ``report``, the ``residuals_csv`` and
     ``predictions_csv`` tables and the ``markdown``. Relative log paths resolve against the
-    working directory. Raises ``ValueError`` on an invalid scenario or unreadable log."""
+    working directory. A scenario whose ``[input]`` names ``campaign = "<out-dir>"`` fits
+    that ``kshana iq campaign`` output folder instead (a relative folder resolves against
+    the working directory) and returns the same keys, with a ``kshana.labfit-iq/1`` report.
+    Raises ``ValueError`` on an invalid scenario, unreadable log or unusable campaign."""
