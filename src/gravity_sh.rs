@@ -541,7 +541,6 @@ impl SphericalHarmonicField {
     }
 }
 
-
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -730,7 +729,9 @@ gfc    0     0  1.0000000000000000E+00  0.0000000000000000E+00
         }
         let lons = [0.0, 1.0, -2.0];
         for lat_deg in [-60.0_f64, 0.0, 12.5, 36.2] {
-            for g in f.gravity_anomaly_sa_parallel_mgal(&ell, true, lat_deg.to_radians(), 0.0, &lons) {
+            for g in
+                f.gravity_anomaly_sa_parallel_mgal(&ell, true, lat_deg.to_radians(), 0.0, &lons)
+            {
                 assert!(g.abs() < 1e-9, "anomaly {g} mGal at {lat_deg}");
             }
         }
@@ -752,7 +753,11 @@ gfc    0     0  1.0000000000000000E+00  0.0000000000000000E+00
         let lons = [0.0, 0.3];
         let g = f.gravity_anomaly_sa_parallel_mgal(&ell, true, 0.0, 0.0, &lons);
         for (k, lam) in lons.iter().enumerate() {
-            let want = ell.gm / (ell.a * ell.a) * 1.0e-6 * (15.0_f64.sqrt() / 2.0) * (2.0 * lam).cos() * 1e5;
+            let want = ell.gm / (ell.a * ell.a)
+                * 1.0e-6
+                * (15.0_f64.sqrt() / 2.0)
+                * (2.0 * lam).cos()
+                * 1e5;
             assert!((g[k] - want).abs() < 1e-9, "{} vs {want}", g[k]);
         }
     }
