@@ -64,6 +64,8 @@ const RATIO_TOL: f64 = 1.2;
 const B6_ABLATION_FACTOR: f64 = 2.0;
 
 /// SHA-256 of the demo files at KF-GINS commit 8291a93e (also checked by fetch.sh).
+// PIN-SCOPE:    the exact bytes of the four KF-GINS demo files the data-gated comparison reads.
+// PIN-EXCLUDES: any other KF-GINS commit or dataset; nothing in the repository is pinned here.
 const SHA256: &[(&str, &str)] = &[
     (
         "GNSS-RTK.txt",
@@ -251,6 +253,8 @@ fn synthetic_text_round_trips_through_the_loaders() {
     let i = parse_imu(&imu).unwrap();
     let g = parse_gnss(&gnss).unwrap();
     let n = parse_nav(&nav).unwrap();
+    // PIN-SCOPE:    the record counts the loaders read from the synthetic 3 s dataset above.
+    // PIN-EXCLUDES: the real KF-GINS files (their counts are checked in the gated test).
     assert_eq!(i.len(), 601);
     assert_eq!(n.len(), 601);
     assert_eq!(g.len(), 3);

@@ -298,6 +298,15 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            requirement: "GNSS/INS trajectory library and CSV truth import",
+            capability: "Selectable motion profiles for the gnss-ins pack (straight, figure-8, urban stop-and-go, aircraft climb and coordinated turn, survey drone), defined by Euler-rate and along-track-acceleration commands closed on the truth state with the kinematic IMU (centripetal, gravity and Coriolis terms), and imported CSV truth turned into the IMU that reproduces it; the historical drive unchanged when no profile is given",
+            module: "fusion::trajectory (TrajectoryCfg, Trajectory, kinematic_imu, parse_truth_csv), fusion::pack ([trajectory])",
+            tests: "fusion::trajectory::tests (coordinated turn has no side force and load factor 1/cos φ; CSV import reproduces a flown profile to 1e-3 m/s and 1 m); tests/gnss_ins_trajectory_library.rs (every profile runs and fusion beats free INS over the outage; each flies its named motion; heading observability: yaw sigma after 240 s 1.27 deg cruising straight vs 0.039 deg figure-8 and 0.062 deg stop-and-go); tests/gnss_ins_legacy_trajectory_pin.rs (legacy result and truth hashes bit-identical)",
+            oracle: "Internal: rigid-body kinematics identities, the CSV round trip and the filter's own covariance. MODELLED (no real drive log is compared)",
+            oracle_kind: InternalConsistency,
+            status: Modelled,
+        },
+        VerificationItem {
             requirement: "Strapdown INS mechanization",
             capability: "Quaternion-attitude, WGS-84 NED strapdown inertial mechanization (coning/sculling-compensated) propagating a navigation state from (Δθ, Δv) increments",
             module: "inertial::mechanization, inertial::attitude, inertial::imu_errors",
