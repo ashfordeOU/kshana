@@ -101,6 +101,8 @@ pub mod conflict_resilience;
 pub mod conflict_threat_params;
 pub mod constellation;
 pub mod cr3bp;
+/// Not validated (finding, 0.36): see the module's Status section. Hidden from the documented API.
+#[doc(hidden)]
 pub mod cr3bp_family;
 pub mod cross_raim;
 pub mod cross_sensor_integrity;
