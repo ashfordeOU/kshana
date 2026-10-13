@@ -2647,6 +2647,15 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             oracle_kind: InternalConsistency,
             status: Modelled,
         },
+        VerificationItem {
+            requirement: "IQ ionospheric scintillation channel (Cornell model) against measured 50 Hz GPS L1 scintillation",
+            capability: "iq::channel::scint, the Cornell scintillation model (Rice intensity, second-order Butterworth spectrum, phase arg z) driven at a measured window's S4 and intensity decorrelation time, compared on what it generates beyond those two inputs; realdata::scint50 reads the measured log, detrends it and runs the comparison.",
+            module: "iq::channel::scint (Scintillation, ScintParams); realdata::scint50 (parse_log, segments, measured_windows, model_windows, compare)",
+            tests: "tests/iq_scint_malindi_measured.rs (cornell_model_matches_measured_malindi_scintillation, ignored as finding F1; finding_model_fades_are_deeper_and_longer_than_measured; posthoc_b3_with_the_model_phase_unwrapped, reported only; data-gated, fetched by scripts/fetch_scint_malindi.sh); realdata::scint50 unit tests (the harness self-check, finding F2)",
+            oracle: "Measured data under bars pre-registered at b6ccb499 (xval/scint-malindi/): Zenodo record 16941224 (INGV, Malindi, 18 March 2023, GPS PRN 26, 50 Hz intensity and carrier phase, CC BY 4.0, SHA-256 checked). 22 qualifying 60 s windows (N1 met). MET: the intensity distribution (Kolmogorov-Smirnov D 0.0415, bar 0.05) and the phase scintillation tied to S4 (median measured/model sigma-phi 0.779, bar 2/3 to 3/2). NOT MET (finding F1): the model's deep-fade fraction is 2.38 times the measured (bar 0.5 to 2) and its mean fade 3.51 times as long (bar 2/3 to 3/2). Finding F2: the registered processing reads the model's wrapped phase, which a self-check exposed; B3 repeated post hoc with the phase unwrapped gives 0.804. WHAT IS NOT CHECKED: other nights, stations, latitudes or signals; receiver noise in the model. The row stays MODELLED.",
+            oracle_kind: ExternalDataset,
+            status: Modelled,
+        },
     ]
 }
 
