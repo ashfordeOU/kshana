@@ -46,8 +46,9 @@ use crate::body::Body;
 use crate::ephem::{moon_position, sun_position};
 use crate::ephem_provider::{tt_to_tdb_jd2, EphemerisProvider};
 use crate::forces::{
-    drag_accel, j2_accel, lense_thirring_accel, relativistic_accel, srp_accel, third_body_accel,
-    two_body_accel_body, zonal_accel, EARTH_ZONALS_J2_J6, MU_EARTH, MU_MOON, MU_SUN,
+    drag_accel_with_density, j2_accel, lense_thirring_accel, relativistic_accel, srp_accel,
+    third_body_accel, two_body_accel_body, zonal_accel, DensityModel, EARTH_ZONALS_J2_J6, MU_EARTH,
+    MU_MOON, MU_SUN,
 };
 use crate::integrator::{integrate, integrate_dopri, rk4_step, Tolerance};
 use crate::jd2::Jd2;
@@ -142,6 +143,11 @@ pub struct ForceModel {
     /// at the TDB epoch of each right-hand-side evaluation. Set it with
     /// [`with_ephemeris`](Self::with_ephemeris).
     pub ephemeris: Option<ForceEphemeris>,
+    /// Opt-in **drag-density tier** used when [`drag`](Self::drag) is on. The default,
+    /// [`DensityModel::Exponential`], is the static piecewise-exponential model, bit for bit; set
+    /// [`DensityModel::Nrlmsise00`] (with [`drag_density`](Self::drag_density)) for the
+    /// NRLMSISE-00 thermosphere at fixed F10.7/Ap, sampled at `epoch_jd_tt + t/86400`.
+    pub drag_density: DensityModel,
 }
 
 /// A shared [`EphemerisProvider`] for the propagator's opt-in ephemeris tier
@@ -261,6 +267,16 @@ impl ForceModel {
     pub fn drag(mut self, cd_area_over_mass: f64) -> Self {
         self.drag = true;
         self.cd_area_over_mass = cd_area_over_mass;
+        self
+    }
+
+    /// Select the drag-density tier (chainable after [`drag`](Self::drag)), e.g.
+    /// `ForceModel::two_body().third_body(false, false, epoch).drag(0.02)
+    /// .drag_density(DensityModel::Nrlmsise00 { f107a: 150.0, f107: 150.0, ap: 15.0 })`. The
+    /// NRLMSISE-00 tier is time dependent, so set the epoch (via [`third_body`](Self::third_body)
+    /// or [`epoch_jd_tt`](Self::epoch_jd_tt)).
+    pub fn drag_density(mut self, model: DensityModel) -> Self {
+        self.drag_density = model;
         self
     }
 
@@ -454,7 +470,13 @@ impl ForceModel {
     pub fn accel_rv(&self, t: f64, r: Vec3, v: Vec3) -> Vec3 {
         let mut a = self.accel_at(t, r);
         if self.drag {
-            let d = drag_accel(r, v, self.cd_area_over_mass);
+            let d = drag_accel_with_density(
+                r,
+                v,
+                self.cd_area_over_mass,
+                &self.drag_density,
+                self.epoch_jd_tt + t / SECONDS_PER_DAY,
+            );
             a = [a[0] + d[0], a[1] + d[1], a[2] + d[2]];
         }
         if self.relativity {
@@ -1164,6 +1186,58 @@ mod tests {
             (1.8..=2.2).contains(&ratio),
             "SRP displacement should scale ~linearly with A/m, ratio {ratio}"
         );
+    }
+
+    #[test]
+    fn nrlmsise00_drag_tier_is_opt_in_and_decays_the_orbit() {
+        // The default tier is the exponential model; selecting NRLMSISE-00 changes the drag
+        // (and only when drag is on), still dissipates, and solar activity speeds the decay.
+        assert_eq!(
+            ForceModel::default().drag_density,
+            DensityModel::Exponential
+        );
+        let alt = 400e3;
+        let r0 = [crate::forces::RE_EARTH + alt, 0.0, 0.0];
+        let vc = (MU_EARTH / (crate::forces::RE_EARTH + alt)).sqrt();
+        let inc = 51.6_f64.to_radians();
+        let v0 = [0.0, vc * inc.cos(), vc * inc.sin()];
+        let epoch = 2_452_081.5; // 2001-06-21 00:00 TT
+        let tol = Tolerance {
+            rtol: 1e-12,
+            atol: 1e-9,
+            ..Tolerance::default()
+        };
+        let base = ForceModel::two_body().third_body(false, false, epoch);
+        let msis = |f: f64, ap: f64| {
+            base.clone()
+                .drag(0.02)
+                .drag_density(DensityModel::Nrlmsise00 {
+                    f107a: f,
+                    f107: f,
+                    ap,
+                })
+        };
+        // Without drag the tier is inert.
+        let no_drag = base.clone().drag_density(DensityModel::Nrlmsise00 {
+            f107a: 150.0,
+            f107: 150.0,
+            ap: 15.0,
+        });
+        let span = 6.0 * 3600.0;
+        let (rb, vb) = propagate(r0, v0, span, &base, &tol);
+        let (rn, vn) = propagate(r0, v0, span, &no_drag, &tol);
+        assert_eq!((rb, vb), (rn, vn));
+        let e0 = specific_energy(r0, v0);
+        let (r_exp, v_exp) = propagate(r0, v0, span, &base.clone().drag(0.02), &tol);
+        let (r_lo, v_lo) = propagate(r0, v0, span, &msis(70.0, 4.0), &tol);
+        let (r_hi, v_hi) = propagate(r0, v0, span, &msis(230.0, 80.0), &tol);
+        let (e_exp, e_lo, e_hi) = (
+            specific_energy(r_exp, v_exp),
+            specific_energy(r_lo, v_lo),
+            specific_energy(r_hi, v_hi),
+        );
+        assert!(e_lo < e0 && e_hi < e_lo, "{e0} {e_lo} {e_hi}");
+        assert_ne!(e_exp, e_lo);
     }
 
     #[test]
