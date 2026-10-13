@@ -94,7 +94,11 @@ impl LunarEnvironment for AnalyticLunarEnvironment {
 /// DE440 series, 2014 to 2030) and, when a kernel is given, the geocentric Sun and Moon are read
 /// from a JPL DE440 SPK through the crate's own reader ([`KernelEphemeris`]). Without a kernel the
 /// Sun and Moon stay the analytic series of [`AnalyticLunarEnvironment`]. The in-crate counterpart
-/// of the ANISE provider of `xval/anise-lunar-od`, checked against it in that crate.
+/// of the ANISE provider of `xval/anise-lunar-od`: against it (2026-10-13, 241 LRO epochs) the
+/// orientation agrees within 3.5e-7 rad and the LRO fits within 1 mm, but the geocentric Sun and
+/// Moon differ by up to 30.7 m and 1.1 m (a common ~1 ms time offset on the ANISE side; the crate's
+/// reader agrees with SPICE to 2 mm), so this provider is not a validated row
+/// (`docs/design/evidence/fut05-de440-lunar-env/RESULTS.md`).
 ///
 /// The [`LunarEnvironment`] methods cannot return an error, so they panic outside the orientation
 /// span or the kernel's coverage: call [`De440LunarEnvironment::check_covers`] on the arc first.
