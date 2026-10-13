@@ -29,6 +29,7 @@
 //! `[pos, vel, phase, freq]` state whose pseudorange update couples the blocks, so a
 //! clock-only fix also sharpens the position (validated in that module).
 
+pub mod carrier_tc;
 pub mod closed_loop;
 pub mod coupled;
 mod dense;
