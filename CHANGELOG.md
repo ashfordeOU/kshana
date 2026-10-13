@@ -11,6 +11,13 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **Headline fields from the engine** (0.36, STUDIO-06): `kshana::api::HEADLINE_FIELDS`,
+  `field_importance_json()` and the WebAssembly `field_importance()` state, for twelve kinds, which
+  fields of a scenario answer its question, best first, as dotted paths (`jammers[].eirp_dbw`). The
+  Studio reads them ahead of its own ranking. Display metadata only: the engine never reads it, no
+  scenario file needs it, no result depends on it. `tests/field_importance.rs` fails if a kind is not
+  dispatchable or a path is found in none of the kind's bundled scenarios (it caught two paths that
+  the Studio's flattened ids had spelled without the array brackets).
 - **Kind-to-module table from the engine** (0.36, STUDIO-05): `kshana::api::KIND_MODULES`,
   `kind_modules_json()` and the WebAssembly `kind_modules()` give, for each scenario kind whose
   verification-matrix rows name another module than its own, the module names. The Studio's

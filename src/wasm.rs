@@ -80,6 +80,14 @@ pub fn kind_modules() -> String {
     crate::api::kind_modules_json()
 }
 
+/// Which fields of a scenario answer its question, best first, for the kinds where that is stated:
+/// a JSON object, kind to `{"headline": [dotted path, ...]}`. Display metadata for a front end; the
+/// engine never reads it. A kind that is absent has no stated order.
+#[wasm_bindgen]
+pub fn field_importance() -> String {
+    crate::api::field_importance_json()
+}
+
 /// Run a scenario; on failure return the structured error *kind* tag
 /// (`invalid_input`, `unsupported`, …) so the caller can branch on the failure
 /// category rather than parse the message. Returns an empty string on success.
