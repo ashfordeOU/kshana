@@ -340,12 +340,12 @@ impl Kf {
         if v * v > gate * gate * s {
             return false;
         }
-        for k in 0..n {
-            self.x[k] += ph[k] * v / s;
+        for (x, &phk) in self.x.iter_mut().zip(&ph) {
+            *x += phk * v / s;
         }
-        for i in 0..n {
-            for j in 0..n {
-                self.p[i][j] -= ph[i] * ph[j] / s;
+        for (row, &phi) in self.p.iter_mut().zip(&ph) {
+            for (pij, &phj) in row.iter_mut().zip(&ph) {
+                *pij -= phi * phj / s;
             }
         }
         true
