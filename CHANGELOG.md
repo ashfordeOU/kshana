@@ -52,7 +52,9 @@ breaking changes are called out explicitly.
   nearest, consecutive and rotated-map time interpolations; slant TEC at the header's shell
   height. Checked on a committed synthetic map and, data-gated (fetched at test time with a
   pinned SHA-256, not vendored), on a crop of a real CODE GIM: every node exact; interpolation
-  matches a formula reference to 4e-13 TECU. MODELLED; the RTKLIB comparison is data-gated.
+  matches a formula reference to 4e-13 TECU. RTKLIB's `iontec` agrees to 3.6e-13 TECU at 6885
+  points (pre-registered B6). VALIDATED on data-gated evidence (owner decision, 2026-10-13): the
+  test fails on any map other than the SHA-pinned one.
 - **Hatch carrier smoothing** (0.36, WP-07): `hatch::HatchFilter` and
   `pvt::assemble_epoch_precise_smoothed`, the divergence-free (ionosphere-free) form in the precise
   single-point assembly. MODELLED with a recorded finding: on the IGS station WTZR it lowers the
