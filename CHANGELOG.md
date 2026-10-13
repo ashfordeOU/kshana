@@ -265,6 +265,18 @@ breaking changes are called out explicitly.
 
 ### Fixed
 
+- **Lunar principal-axis frame** (`lunar_frame::icrf_to_moon_pa`, used by `lunar_od` and the LRO
+  fit): the DE421 mean-Earth to principal-axis offset of `moon_080317.tf` was applied in the
+  wrong direction and with the wrong Euler order, so the analytic PA frame sat about 208″ from
+  PA instead of on it. It is now transcribed as SPICE's Frames Required Reading defines it and
+  agrees with SPICE `pxform('MOON_ME','MOON_PA')` to 2.6e-16 rad; the analytic PA frame is 6″ to
+  8″ from DE440 PA (pre-registered e1ead19b, re-registered be33382e after the first proposed
+  change missed the 1e-12 bar; `docs/design/evidence/fut05b-me-pa-offset-sign/`). Published
+  numbers that move: the LRO fit (`tests/agency_lro.rs`) raw overlap 53.8 → 39.9 m, dynamic
+  12.6 → 12.05 m, reduced-dynamic 6.65 → 6.67 m (bars unchanged). The analytic stack now matches
+  the ANISE DE-grade cross-validation (12.0 / 6.67 m) on both tiers; the earlier dynamic-tier
+  gap was this error.
+
 - `Jd2::from_parts` with a fractional day part dropped the fraction in the UTC, TAI, UT1 and
   Earth-rotation conversions (one hour of day part turned the Earth 15° wrong); the day part is
   now normalised to an integer. No engine caller was affected: every one passes an integer day,
