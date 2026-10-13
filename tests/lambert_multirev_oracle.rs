@@ -69,6 +69,9 @@ fn mag(a: [f64; 3]) -> f64 {
 #[test]
 fn multirev_lambert_matches_pykep_on_the_preregistered_cases() {
     let rows = rows();
+    // PIN-SCOPE:    the pre-registered case set (382 cases) and pykep's solution count (1058)
+    //               in the committed reference
+    // PIN-EXCLUDES: every velocity, which is compared against its bar below
     assert_eq!(rows.len(), 1058, "fixture row count");
     let mut cases: Vec<&str> = rows.iter().map(|r| r.case.as_str()).collect();
     cases.dedup();
@@ -77,6 +80,7 @@ fn multirev_lambert_matches_pykep_on_the_preregistered_cases() {
     let (mut worst, mut worst_edge) = (0.0_f64, 0.0_f64);
     let mut worst_case = String::new();
     let mut worst_kepler = 0.0_f64;
+    let mut kepler_misses: Vec<String> = Vec::new();
     let mut checked = 0usize;
     for case in &cases {
         let rs: Vec<&Row> = rows.iter().filter(|r| r.case == *case).collect();
@@ -114,7 +118,12 @@ fn multirev_lambert_matches_pykep_on_the_preregistered_cases() {
             // Internal consistency guard (not evidence): the arc lands on r2.
             if r.revs >= 1 {
                 let (r_end, _) = kepler_universal(r0.r1, s.v1, r0.tof, r0.mu);
-                worst_kepler = worst_kepler.max(dist(r_end, r0.r2) / mag(r0.r2));
+                let miss = dist(r_end, r0.r2) / mag(r0.r2);
+                if miss < 1e-6 {
+                    worst_kepler = worst_kepler.max(miss);
+                } else {
+                    kepler_misses.push(format!("{case} M={} {:?}", r.revs, r.branch));
+                }
             }
             checked += 1;
         }
@@ -125,5 +134,14 @@ fn multirev_lambert_matches_pykep_on_the_preregistered_cases() {
          worst Kepler landing miss {worst_kepler:.3e} of |r2|",
         cases.len()
     );
-    assert!(worst_kepler < 1e-6, "Kepler landing guard {worst_kepler:e}");
+    // Finding (2026-10-13, first run), recorded in docs/design/evidence/lambert-multirev/RESULTS.md:
+    // on A208 M=1 right (e = 0.994, perigee at 0.008 of |r1|, 1.18 periods) the solver's v1
+    // agrees with pykep to 1e-13, but `kepler_universal` misses r2 by 2.0e4 |r2| over that arc,
+    // a limitation of the guard's propagator, not of the Lambert solution. Pinned, so any new
+    // miss turns this red.
+    assert_eq!(
+        kepler_misses,
+        vec!["A208 M=1 Some(Right)".to_string()],
+        "Kepler landing guard misses"
+    );
 }
