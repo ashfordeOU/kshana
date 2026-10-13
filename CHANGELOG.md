@@ -11,6 +11,13 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **Lunar frame datum from a real observing campaign (analytic Moon) VALIDATED** on fresh 2025
+  EDC normal points (pre-registered 31f5283 before any was fetched): the unchanged SPICE and
+  NumPy oracle agrees on bookkeeping, ranks and zero coupling, and within 1.11e-3 on sigmas
+  (bar 1e-2), 8.95e-4 on the condition and 1.79e-3 on the across/along ratios (bar 2e-2). A
+  Library check of the covariance computation only; the bars do not discriminate Moon models.
+  Results: `docs/design/evidence/mr06-llr-analytic-fresh/RESULTS.md`.
+
 - **IAU body orientation and GM of the fourteen added solar-system bodies** split out of the
   "Physical constants of every solar-system body" row into a VALIDATED row (pre-registered
   154bc54): `Body::iau_rotation_et` agrees with SPICE `pxform` on pck00011 within 1e-9 rad on

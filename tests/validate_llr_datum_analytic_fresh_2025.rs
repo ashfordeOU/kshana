@@ -25,9 +25,15 @@
 //!   covariance computation on measured schedules and weights, not an LLR accuracy and not a
 //!   test of the Moon model); any fails, a finding.
 //!
-//! ## Result (2026-10-12, first run after the pre-registration commit; not tuned)
+//! ## Result (2026-10-13, first run after the pre-registration commit; not tuned)
 //!
-//! RESULT_PLACEHOLDER
+//! Sufficient on the first quarter (2025-04..06): 209 parsed, 151 used, 58 skipped for an
+//! uncatalogued station, Helmert rank 7 on both sides; SPICE's own O-C RMS 10.79 m (< 100 m).
+//! Bookkeeping, ranks and per-array counts equal, coupling exactly 0 on both sides. Every banded
+//! quantity holds: sigmas and norms worst 1.11e-3 (tz; bar 1e-2), condition 8.95e-4 (bar 2e-2),
+//! across/along ratios worst 1.79e-3 (luna17; bar 2e-2). Information only: the analytic-path
+//! residual RMS is 222 km; on the kernel Moon the same slice is within 1.97e-4 of every
+//! quantity (residual 27 m). Results: docs/design/evidence/mr06-llr-analytic-fresh/RESULTS.md.
 
 use kshana::api::run_toml;
 use serde_json::Value;
