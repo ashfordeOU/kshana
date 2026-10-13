@@ -354,15 +354,28 @@ expected to agree. The tests cover:
 * a Doppler-truth false-lock case, scored by tracking correctly against a truth sidecar shifted by
   300 Hz, beyond the 1/(4T) = 250 Hz threshold (§6 explains why a hand-off seeded at a ±1/(2T)
   alias is not used);
+* a real tracker false lock (`tests/iq_campaign_false_lock.rs`, 0.36). A legitimate GPS L1 C/A
+  carrier steps by +1/(2T) while the channel is locked, so the channel sits on the Costas alias.
+  The tracker's check must report `false-lock` from `LOCKED`, and the scorer must count it as
+  one episode in the run and in the stated event;
 * a performance check: cells/s and samples/s logged, with a loose budget, and the GB-scale case
   `#[ignore]`d.
 
 ## 6. As built: refinements of the proposal
 
+* **Monitors (0.36).** An optional `[monitors]` table runs the IQ monitors on every cell and
+  scores their alarms against the stated events: detections, time to detect, misses, false
+  alarms, and each test's closed-form false-alarm figure. Without the table nothing changes.
+  See `MONITORS-IN-CAMPAIGN.md`.
+
 * **Lock state.** Each work item runs its channels through the tracking session
   (`iq::track::TrackSession`) with each design's `LockConfig`, and its `EpochSink` feeds the scorer.
-  An update counts as locked when the session's state is `LOCKED`. A `false-lock` event marks
-  that channel's next update as a tracker-flagged false lock. Each cell records
+  An update counts as locked when the session's state is `LOCKED`. A `false-lock` event the
+  session reports from `LOCKED` is one false-lock episode at the event's time, in the run and in
+  every stated event that contains it. (Until 0.36 it marked the channel's next update instead;
+  the check had already moved the channel to `LOST`, so that update was unlocked and the episode
+  was never counted. A `false-lock` reported during pull-in, or again by a channel already
+  `LOST`, is not a new episode.) Each cell records
   `lock_source = "track-session"`. The session's own rules (`LOOP-DESIGN-TOML.md` §3 and
   `iq::track::lock`) therefore decide what counts as a loss, including `loss_dwell_s`, the
   false-lock check, `recovered` relocks, and re-acquisition and retirement when a design enables
@@ -428,8 +441,11 @@ expected to agree. The tests cover:
   (`tests/iq_campaign.rs`, `m2m4_changes_only_the_cn0_derived_fields`), and an NWPR run reproduces
   the results from before M2M4 existed (`nwpr_reproduces_the_pre_m2m4_results_exactly`).
 * A hand-off at the ±1/(2T) Costas alias never declares code lock: the coherent sum of the NWPR
-  estimator cancels there. The false-lock test therefore scores a correct track against a
-  shifted truth sidecar. That checks the scoring path, not the tracker's false-lock behaviour.
+  estimator cancels there. The truth-sidecar test therefore scores a correct track against a
+  shifted truth sidecar, which checks the scoring path only. The tracker's own false-lock
+  behaviour is exercised since 0.36 by stepping a locked channel's carrier onto the alias
+  (`tests/iq_campaign_false_lock.rs`). The check then fires from `LOCKED` 63 ms after the step.
+  That test also found the scorer bug in §6: such a false lock had never been counted.
 * At exactly 2 samples per chip (2.046 MHz for GPS L1 C/A), the code discriminator's standard
   deviation sits near 0.2 chip at every C/N0. Commensurate sampling turns the S-curve into a step
   (`docs/design/evidence/dll-jitter/RESULTS.md`). The synthetic campaign therefore samples at

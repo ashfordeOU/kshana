@@ -27,10 +27,21 @@
 //!   by an *estimated* baseline. On 750 blocks of 31 segments at 2.5 dB the measured rate
 //!   came out 1.3 times the formula (`tests/iq_monitor.rs`), so read it as an order of
 //!   magnitude for the false-alarm rate, not an exact figure.
+//! * [`gaussian_two_sided_pfa`] — `P(|z| > k) = 2Q(k)` for a standard Gaussian `z`, as the
+//!   regularised upper incomplete gamma `Q(½, k²/2)`: the closed-form false-alarm
+//!   probability of one averaged SQM test value at `k` spreads.
 //! * [`sqm_delta_sd`], [`sqm_ratio_sd`] — first-order noise standard deviations of the delta
 //!   `(I_E − I_L)/I_P` and ratio `(I_E + I_L)/(2 I_P)` tests for an ideal BPSK correlation
 //!   triangle, early and late at `±d/2`, whose noise correlates as `1 − |Δτ|` (in chips):
 //!   `√(d/(C/N0·T))` and `√((1 − d/2)(d/2)/(2·C/N0·T))`.
+
+/// `P(|z| > k)` for a standard Gaussian `z`: `2Q(k) = Q(½, k²/2)`.
+pub fn gaussian_two_sided_pfa(k: f64) -> f64 {
+    if !k.is_finite() || k <= 0.0 {
+        return if k.is_finite() { 1.0 } else { 0.0 };
+    }
+    gamma_pq(0.5, 0.5 * k * k).1
+}
 
 /// Natural log of the gamma function (Lanczos, g = 7, nine terms; relative error < 1e-15
 /// for x > 0.5).
@@ -255,6 +266,16 @@ pub fn sqm_pair_sd(x: f64, cn0_t: f64) -> f64 {
 
 #[cfg(test)]
 mod tests {
+
+    #[test]
+    fn gaussian_two_sided_tail_matches_known_values() {
+        // 2Q(1.959964) = 0.05, 2Q(2.575829) = 0.01, 2Q(0) = 1.
+        assert!((gaussian_two_sided_pfa(1.959_964) - 0.05).abs() < 1e-6);
+        assert!((gaussian_two_sided_pfa(2.575_829) - 0.01).abs() < 1e-6);
+        assert_eq!(gaussian_two_sided_pfa(0.0), 1.0);
+        assert!((gaussian_two_sided_pfa(6.0) - 1.973_175e-9).abs() < 1e-14);
+    }
+
     use super::*;
 
     #[test]
