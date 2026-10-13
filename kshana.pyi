@@ -5,11 +5,136 @@ Kshana is an open hybrid quantum/classical PNT performance simulator. The Python
 surface runs a TOML scenario string and returns the result document; see
 docs/PYTHON_API.md for a quickstart.
 """
-from typing import Any, Optional, final
+from typing import Any, Literal, Optional, TypedDict, final, type_check_only
 
 # Only the array accessors of RunOutput use NumPy, imported when they are called; the
 # package itself does not depend on it.
 from numpy.typing import NDArray
+
+# Typed vocabulary (CAP-34). These names exist for type checkers only: the extension
+# does not export them, so they are not in `__all__`. tests/typed_api_sync.rs keeps
+# the closed lists equal to the engine's (`api::list_scenario_kinds`,
+# `KshanaError::kind_tag`, `field_schema::ProvenanceClass::ALL`), and the same lists
+# are in the TypeScript declarations (src/wasm_types.d.ts).
+
+ScenarioKind = Literal[
+    "clock",
+    "inertial",
+    "orbit",
+    "ephemeris",
+    "integrity",
+    "lunar-integrity",
+    "lunar-time-offset",
+    "lunar-vlbi",
+    "lunar-joint-od-clock",
+    "lunar-frame-realisation",
+    "moonlight-service-volume",
+    "lunar-differential-pnt",
+    "lunar-station-coverage",
+    "lunar-interop-export",
+    "timetransfer",
+    "quantum-anomaly-detect",
+    "quantum-gnss-free-nav",
+    "quantum-time-transfer",
+    "hybrid",
+    "fusion",
+    "hybrid-ukf",
+    "gnss-ins",
+    "gnss-sim",
+    "jamming",
+    "spoof",
+    "spoof-detect",
+    "sweep",
+    "sweep-nd",
+    "gravity-map",
+    "terrain-nav",
+    "terrain-slam",
+    "combined-altpnt",
+    "pvt",
+    "mars-pnt",
+    "impairment-eval",
+    "quantum-trade",
+    "space-weather",
+    "oem-interop",
+    "launch-window",
+    "reentry",
+    "eo-coverage",
+    "space-packet",
+    "attitude-budget",
+    "passes",
+    "link-budget",
+    "lunar-time-budget",
+    "hybrid-optical-rf",
+    "cislunar-observability",
+    "conflict-resilience",
+    "lunar-attack-surface",
+    "realtime-frame-eop",
+    "aperture-duty-cycle",
+    "lunar-jamming",
+    "ins-trn-coast",
+    "lunar-vlbi-fim",
+    "tracking-loop",
+    "araim-reference-check",
+    "lunar-frame-campaign",
+    "lunar-llr-datum",
+    "lunar-beacon",
+    "earth-gnss-lunar",
+    "cislunar-arc-recovery",
+    "telecom-timing",
+    "slot-timing",
+    "spectrum",
+    "solar-system",
+    "body-pnt",
+    "constellation-design",
+    "campaign",
+    "leo-signal",
+    "leo-pass",
+    "leo-navmsg",
+    "leo-pvt",
+    "leo-ppp",
+    "ntn-positioning",
+    "leo-pnt-chain",
+]
+"""Every built-in scenario kind, the value of a scenario's top-level ``kind``."""
+
+ErrorKind = Literal["invalid_input", "non_convergence", "unsupported", "io_error"]
+"""The failure category :func:`error_kind` returns."""
+
+ProvenanceClass = Literal[
+    "input",
+    "modelled-input",
+    "computed",
+    "closed-form",
+    "spec",
+    "published",
+    "constant",
+    "modelled",
+    "internal-consistency",
+    "measured",
+    "measured-or-input",
+    "derived",
+]
+"""Where an emitted number came from (docs/SCHEMA.md)."""
+
+@type_check_only
+class KindMeta(TypedDict):
+    """One entry of :func:`scenario_kinds`."""
+
+    name: ScenarioKind
+    description: str
+    required_fields: list[str]
+    optional_fields: list[str]
+
+@type_check_only
+class _FieldUnitBase(TypedDict):
+    unit: str
+    provenance: ProvenanceClass
+
+@type_check_only
+class FieldUnit(_FieldUnitBase, total=False):
+    """One entry of a result document's ``units`` block."""
+
+    note: str
 
 # Mirrors the runtime `__all__` pyo3 generates for the module, so a checker's
 # view of `from kshana import *` matches what the extension actually exports.
@@ -295,7 +420,7 @@ def osnma_verify(
     public_keys: list[str] | None = None,
     reference_time: int | None = None,
     max_time_error: int | None = None,
-) -> dict:
+) -> dict[str, Any]:
     """Check Galileo OSNMA authentication of I/NAV pages held in memory, with the verifier
     ``kshana osnma verify`` runs; returns the dict its ``--json`` prints. Advisory: this is
     analysis and monitoring output and not type-approved navigation equipment. The authentication
@@ -390,7 +515,7 @@ def skyplot_svg(request: str | dict[str, Any]) -> str:
     """The skyplot of ``request`` (as for ``sky_geometry``) as static SVG text. Raises
     ``ValueError``."""
 
-def scenario_kinds() -> list[dict[str, Any]]:
+def scenario_kinds() -> list[KindMeta]:
     """The available scenario kinds and their metadata (name, description, required
     and optional fields). A required entry is usually one key; ``a|b`` means at
     least one of them and ``a+b`` means all of them together (e.g.
@@ -409,7 +534,7 @@ def list_kinds() -> str:
     do not break. For a Python list of dictionaries call :func:`scenario_kinds`,
     or ``json.loads(list_kinds())``."""
 
-def error_kind(toml: str) -> Optional[str]:
+def error_kind(toml: str) -> Optional[ErrorKind]:
     """Run a scenario; on failure return the structured error *kind* tag
     (``invalid_input``/``non_convergence``/``unsupported``/``io_error``) instead of
     raising. Returns ``None`` on success."""

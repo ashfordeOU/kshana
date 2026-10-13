@@ -339,12 +339,15 @@ jobs:
       # kshana.pyi is hand-written, and nothing compared it to the extension it describes:
       # `csv` and `write_csv` shipped on RunOutput without a stub. stubtest imports the
       # INSTALLED wheel (it runs outside the checkout for that reason) and fails on a
-      # missing, extra or re-signatured attribute. The one allowlist entry is the compiled
-      # submodule itself, which has no stub of its own by design.
+      # missing, extra or re-signatured attribute. The allowlist names the compiled
+      # submodule itself, which has no stub of its own by design, and the three
+      # type-only Literal aliases of the typed vocabulary (CAP-34), which exist for type
+      # checkers and are not exported at runtime. (The TypedDicts are marked
+      # @type_check_only, which stubtest honours without an entry.)
       - name: Check the type stub against the built extension
         run: |
           pip install mypy
-          printf 'kshana\\.kshana\n' > "$RUNNER_TEMP/stubtest-allow.txt"
+          printf 'kshana\\.kshana\nkshana\\.ScenarioKind\nkshana\\.ErrorKind\nkshana\\.ProvenanceClass\n' > "$RUNNER_TEMP/stubtest-allow.txt"
           cd "$RUNNER_TEMP" && python -m mypy.stubtest kshana --allowlist "$RUNNER_TEMP/stubtest-allow.txt"
   test-wasm-bindings:
     runs-on: ubuntu-latest

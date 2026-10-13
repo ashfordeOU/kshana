@@ -11,6 +11,14 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **Typed Python and TypeScript APIs** (CAP-34): `kshana.pyi` types the closed
+  vocabularies (`ScenarioKind`, every kind name; `ErrorKind`; `ProvenanceClass`) and the
+  `KindMeta` and `FieldUnit` dictionaries; `scenario_kinds()` and `error_kind()` return
+  them. The WebAssembly package adds `run_typed` (one run as a typed `RunOutput` object
+  with the parsed document as `data`) and `scenario_kinds` (the parsed `KindMeta[]`), and
+  its `kshana.d.ts` carries the same vocabulary; `error_kind` is typed `ErrorKind | ""`.
+  `tests/typed_api_sync.rs` keeps both lists equal to the engine's.
+
 - **Units for every `sweep-nd` column** (FUT-28): a `sweep-nd` result now carries
   `key_units` and `metric_units`, the unit of each swept key and each recorded metric, read
   from the swept pack's own units table. An axis may declare `unit` for a key the pack

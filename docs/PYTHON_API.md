@@ -293,6 +293,24 @@ integrates coherently. From 0.33.0 it defaults to `None`, meaning auto: about 4 
 channel starts close enough for the frequency loop to pull in; `acq_coherent=1` keeps
 the 0.32 one-period search.
 
+### Types
+
+`kshana.pyi` types the closed vocabularies for checkers (mypy, pyright): `ScenarioKind`
+(every kind name, a `Literal`), `ErrorKind` (the four tags `error_kind` returns),
+`ProvenanceClass`, and the `TypedDict`s `KindMeta` (what `scenario_kinds()` returns a
+list of) and `FieldUnit` (an entry of a result's `units` block). They exist for type
+checkers only and are not importable at runtime; `tests/typed_api_sync.rs` keeps them
+equal to the engine's lists.
+
+```python
+from typing import TYPE_CHECKING
+import kshana
+if TYPE_CHECKING:
+    from kshana import ScenarioKind
+
+names: "list[ScenarioKind]" = [k["name"] for k in kshana.scenario_kinds()]
+```
+
 ### `RunOutput`
 
 | Member | Type | Notes |
