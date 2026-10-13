@@ -15,8 +15,8 @@ import sys
 NUM = re.compile(r"[-+]?\d+\.\d+E[-+]\d+")
 DECL = re.compile(r"double\s+(\w+)((?:\[\d+\])+)\s*=\s*\{(.*?)\};", re.S)
 
-# The tables used by the model, with their C shape. ptm is declared [50] with 10 values.
-WANT = ["pt", "pd", "ps", "pdl", "ptm", "pdm", "ptl", "pma", "sam", "pavgm"]
+# The tables the model uses, with their C shape (sam is unused by the C code and omitted). ptm is declared [50] with 10 values.
+WANT = ["pt", "pd", "ps", "pdl", "ptm", "pdm", "ptl", "pma", "pavgm"]
 
 
 def main():
