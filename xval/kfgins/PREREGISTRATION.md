@@ -60,3 +60,21 @@ the solution; north/east/down error with WGS-84 radii at the reference point; ho
   cannot be VALIDATED).
 - B6 The same run with the lever arm switched off has a horizontal RMS at least twice the
   compensated run's.
+
+## Results (first and only run, 2026-10-13)
+
+KF-GINS C++ at 8291a93e built and run by `run_kfgins.sh` (its `KF_GINS_Navresult.nav`, SHA-256
+4980c0539f342c2bf54ea631437d0e11adbea2555eff1cd86f6ef82fa7ddd7c7); Kshana by
+`tests/fusion_kfgins_dataset_oracle.rs` with `KSHANA_KFGINS_DIR`. 672 924 IMU epochs, 3362 GNSS
+fixes fused, 3361 whole-second truth epochs. All six bars hold.
+
+| | Horizontal RMS | Vertical RMS | Max horizontal |
+|---|---|---|---|
+| Kshana, lever arm compensated | 0.0109 m | 0.0090 m | 0.0320 m |
+| Kshana, lever arm off | 0.3286 m | 0.1814 m | 0.4279 m |
+| KF-GINS C++ | 0.0111 m | 0.0083 m | 0.0318 m |
+
+B1 0.0109 <= 0.10; B2 0.0090 <= 0.15; B3 0.0320 <= 0.50; B4 ratio 0.976 <= 1.2; B5 ratio
+1.082 <= 1.2; B6 compensated/uncompensated 0.033 <= 0.5. The evidence is data-gated (the dataset
+is not vendored); whether a row may be VALIDATED on data-gated evidence awaits the owner's
+decision, and until then the ledger row is MODELLED with these numbers.

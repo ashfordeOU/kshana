@@ -11,6 +11,11 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **GNSS/INS on the KF-GINS dataset** (0.36, WP-09, FUT-17): `fusion::kfgins` loaders and runner
+  and the lever-arm measurement model in the closed-loop EKF. On the KF-GINS demo dataset
+  (fetched at test time, not vendored) Kshana's horizontal RMS against the reference trajectory is
+  1.09 cm against KF-GINS's own 1.11 cm, and every pre-registered bar held. MODELLED pending an
+  owner decision on data-gated evidence.
 - **Coupled PNT filter in the fusion pack** (0.36, WP-09, FUT-16): the `fusion` kind takes an
   optional `[coupled]` table that runs one stacked filter on pseudoranges with an accelerometer
   bias state (`fusion::coupled::CoupledPntBiasFilter`), and `fusion::coupled::CoupledPnt3d` is
