@@ -17,8 +17,8 @@
 //! alias into the pass band. The response is checked by tone tests (MODELLED filter,
 //! verified against the closed-form behaviour of a sinusoid through a linear filter).
 
-use crate::portable_math::PortableFloat;
 use crate::iq::{Cf64, IqError, IqSource, SampleSpec};
+use crate::portable_math::PortableFloat;
 
 /// Low-pass design targets for [`PolyphaseResampler`].
 #[derive(Clone, Copy, Debug, PartialEq)]

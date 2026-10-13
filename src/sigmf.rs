@@ -483,8 +483,8 @@ pub fn write(rec: &Recording, full_scale: f64) -> Result<(String, Vec<u8>, usize
 
 #[cfg(test)]
 mod tests {
-    use crate::portable_math::PortableFloat;
     use super::*;
+    use crate::portable_math::PortableFloat;
 
     /// Extension fields are declared, merged under their namespace, refused outside it, and
     /// read back; the core fields still parse.

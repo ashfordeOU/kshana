@@ -369,7 +369,8 @@ fn tof_eq_p2(x: f64, y: f64, tof: f64, dt: f64, ll: f64) -> f64 {
     (3.0 * tof + 5.0 * x * dt + 2.0 * (1.0 - ll * ll) * ll * ll * ll / (y * y * y)) / (1.0 - x * x)
 }
 fn tof_eq_p3(x: f64, y: f64, _tof: f64, dt: f64, ddt: f64, ll: f64) -> f64 {
-    (7.0 * x * ddt + 8.0 * dt - 6.0 * (1.0 - ll * ll) * ll.ppowi(5) * x / y.ppowi(5)) / (1.0 - x * x)
+    (7.0 * x * ddt + 8.0 * dt - 6.0 * (1.0 - ll * ll) * ll.ppowi(5) * x / y.ppowi(5))
+        / (1.0 - x * x)
 }
 
 /// Householder (cubic-order) iteration for the single-rev root `x` of `tof(x) = T`.

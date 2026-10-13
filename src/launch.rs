@@ -12,9 +12,9 @@
 //! analyst to fold in). No ascent trajectory, drag-loss, or steering model — this
 //! is pre-Phase-A geometry, not a trajectory optimiser.
 
-use crate::portable_math::PortableFloat;
 use crate::forces::EARTH_ROTATION_RATE;
 use crate::orbit::{MU_EARTH, R_EARTH_EQUATORIAL_M};
+use crate::portable_math::PortableFloat;
 use serde::Deserialize;
 
 /// Circular orbital speed (m/s) at geometric `altitude_m` above the equatorial

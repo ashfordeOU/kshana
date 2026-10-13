@@ -8,9 +8,9 @@
 //! the log is to be compared with. Every tolerance is part of the scenario, so it is
 //! stated before the run and hashed into the result with the log's own SHA-256.
 
-use crate::portable_math::PortableFloat;
 use crate::chart::esc;
 use crate::palette::chart::{AMBER, BG, BLUE, CORAL, FONT_SANS, INK, LIME, MUTED, RULE, TITLE};
+use crate::portable_math::PortableFloat;
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 

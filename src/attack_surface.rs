@@ -33,7 +33,6 @@
 //! MODELLED sub-results (the representative geometry / power inputs) are flagged as such in
 //! the emitted JSON.
 
-use crate::portable_math::PortableFloat;
 use crate::antenna::{
     capture_footprint, capture_footprint_sweep, FootprintParams, FootprintSweepResult,
 };
@@ -42,6 +41,7 @@ use crate::linkbudget::{deficit_sensitivity_band, received_signal_power_dbw};
 use crate::lunar::{horizon_los_distance_m, surface_los_max_m, R_MOON_M};
 use crate::nma_budget::{budget as nma_budget, NmaConfig};
 use crate::palette::chart::{BG, FONT_MONO, FONT_SANS, TITLE};
+use crate::portable_math::PortableFloat;
 use crate::spoof_capture::{run_capture, CaptureConfig};
 use crate::sweep::SweepAxis;
 use serde::{Deserialize, Serialize};

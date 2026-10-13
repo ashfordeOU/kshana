@@ -28,9 +28,9 @@
 //! edit. `tests/workshop_preset_isolation.rs` checks which files may name it.
 
 mod atomic_zero_clock;
-use crate::portable_math::PortableFloat;
 #[cfg(kshana_celeste)]
 use crate::celeste_iod::fusion as celeste_iod;
+use crate::portable_math::PortableFloat;
 mod centispace;
 mod generic_cband;
 mod iridium_stl;

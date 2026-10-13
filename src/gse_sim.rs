@@ -49,7 +49,6 @@
 //! The module is **additive**: it builds on the published D0–D3 surfaces and touches no force,
 //! propagator, or golden, so Earth results stay byte-identical.
 
-use crate::portable_math::PortableFloat;
 use crate::body::Body;
 use crate::deepspace_od::{
     range_observable, range_rate_observable, FusedMeas, FusionConfig, FusionOd, MeasWay,
@@ -58,6 +57,7 @@ use crate::deepspace_od::{
 use crate::integrator::Tolerance;
 use crate::linkbudget::{default_params, link_budget, Profile};
 use crate::mars_pnt::{MarconiConstellation, MarsForceModel};
+use crate::portable_math::PortableFloat;
 use crate::precise_od::propagate;
 use crate::radiometric::{Band, ObsKind, ObsWay, RadiometricObs};
 use crate::timescales::TwoPartJd;

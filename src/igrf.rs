@@ -21,8 +21,8 @@
 //! known **geomagnetic pole** (~80.7°N) and dipole strength, and the global field
 //! lies in the physical 22–67 µT band with the correct hemisphere sign.
 
-use crate::portable_math::PortableFloat;
 use crate::igrf_data::{IGRF_EPOCH, IGRF_G, IGRF_GDOT, IGRF_H, IGRF_HDOT, IGRF_NMAX};
+use crate::portable_math::PortableFloat;
 
 /// IGRF geomagnetic reference radius (km).
 const EARTH_RADIUS_KM: f64 = 6371.2;

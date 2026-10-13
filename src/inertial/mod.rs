@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 //! Inertial navigation: strapdown INS mechanization and the accelerometer error
 //! models (classical and cold-atom) a GNSS-denied coast dead-reckons on.
-use crate::portable_math::PortableFloat;
 use crate::palette::chart::{AMBER, AXIS, BG, CORAL, CYAN, FONT_SANS, INK_2};
+use crate::portable_math::PortableFloat;
 pub mod attitude;
 pub mod cai_params;
 /// INS/TRN coasting error model: position error against coast duration, and the coast
@@ -12,11 +12,11 @@ pub mod imu_errors;
 pub mod mechanization;
 pub mod quantum_imu;
 
+use crate::portable_distr::{Distribution, Normal};
 use crate::scenario::{GnssState, GnssTimeline, TimeCfg};
 use crate::types::{ModelSpec, Seconds};
 use rand::{RngCore, SeedableRng};
 use rand_chacha::ChaCha8Rng;
-use crate::portable_distr::{Distribution, Normal};
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 

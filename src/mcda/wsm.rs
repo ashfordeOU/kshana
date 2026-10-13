@@ -14,8 +14,8 @@
 //! `tests/mcda_wsm_reference.rs`), and a single benefit/cost criterion reproduces a
 //! plain descending/ascending sort exactly (the back-compatibility golden below).
 
-use crate::portable_math::PortableFloat;
 use super::Objective;
+use crate::portable_math::PortableFloat;
 use std::collections::BTreeMap;
 
 /// Whether higher or lower raw values of a criterion are preferred.

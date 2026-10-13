@@ -27,10 +27,10 @@
 //! realise σ·DOP under the textbook model; it does not show that any receiver's error follows
 //! that model, and σ_UERE is an input.
 
+use crate::portable_distr::{Distribution, StandardNormal};
 use crate::portable_math::PortableFloat;
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
-use crate::portable_distr::{Distribution, StandardNormal};
 use serde::Serialize;
 
 use crate::orbit::{dop, dop_cofactor, enu_basis, Dop};
@@ -256,7 +256,8 @@ pub fn run_geometry(
     let ranges: Vec<f64> = sats
         .iter()
         .map(|s| {
-            ((s[0] - user[0]).ppowi(2) + (s[1] - user[1]).ppowi(2) + (s[2] - user[2]).ppowi(2)).sqrt()
+            ((s[0] - user[0]).ppowi(2) + (s[1] - user[1]).ppowi(2) + (s[2] - user[2]).ppowi(2))
+                .sqrt()
         })
         .collect();
     let scale: Vec<f64> = dirs

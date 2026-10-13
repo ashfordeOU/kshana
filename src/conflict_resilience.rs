@@ -36,15 +36,15 @@
 //!   properties of that Modelled parameterisation, not certified figures. Not a certified
 //!   navigation-availability product.
 
-use crate::portable_math::PortableFloat;
 use crate::conflict_threat_params::{conflict_baseline, VectorProfile, THREAT_VECTORS};
 use crate::mcda::sensitivity::{tornado, TornadoBar};
 use crate::palette::chart::{AMBER, BLUE, CORAL, CYAN, GRID, INK_4, MUTED};
+use crate::portable_distr::StandardNormal;
+use crate::portable_math::PortableFloat;
 use crate::resilience::stats::{dirichlet_weights, percentile_ci};
 use rand::Rng;
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
-use crate::portable_distr::StandardNormal;
 use serde::Deserialize;
 
 /// The honesty label carried on every result document.

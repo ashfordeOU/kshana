@@ -85,10 +85,10 @@
 //! (1966) and F. M. Gardner, *Phaselock Techniques* (3rd ed.), ch. 9 (mean time between
 //! cycle slips); Abramowitz & Stegun §9.8 (the `I₀` polynomial approximations).
 
-use crate::portable_math::PortableFloat;
 use crate::jamming::{
     effective_cn0_dbhz, j_over_s_db, nominal_cn0_dbhz, q_factor, CA_CHIP_RATE_HZ, C_M_PER_S, L1_HZ,
 };
+use crate::portable_math::PortableFloat;
 use serde::{Deserialize, Serialize};
 
 // --- constants -----------------------------------------------------------------------

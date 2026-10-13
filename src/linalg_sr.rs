@@ -425,8 +425,8 @@ pub fn datum_from_sqrt_information(
 #[cfg(test)]
 #[allow(clippy::needless_range_loop)] // index loops mirror the matrix formulas they check
 mod tests {
-    use crate::portable_math::PortableFloat;
     use super::*;
+    use crate::portable_math::PortableFloat;
 
     /// A deterministic pseudo-random stream (a 64-bit linear congruential generator) in
     /// `[-1, 1)`, so the tests need no random-number crate state.

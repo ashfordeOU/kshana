@@ -67,7 +67,6 @@
 //!   (G17) are representative inputs — they set the numbers, not the formulas. Not a
 //!   certified availability/integrity product.
 
-use crate::portable_math::PortableFloat;
 use crate::cross_raim::{run_cross_raim, AxisRole, CrossAxis, CrossRaimResult};
 use crate::handoff::{optical_rf_handoff, rf_optical_handoff, HandoffOutcome, HandoffState};
 use crate::jamming::{
@@ -86,6 +85,7 @@ use crate::optical_linkbudget::{
 use crate::palette::chart::{
     AMBER, AXIS, BG, BLUE, CYAN, FONT_SANS, GRID, INK_2, LIME, MAGENTA, MUTED, TITLE,
 };
+use crate::portable_math::PortableFloat;
 use crate::radiometric::Band;
 use crate::raim::{chi2_cdf, noncentral_chi2_cdf, normal_quantile, pbias};
 use crate::timegeo::C_M_PER_S;

@@ -28,8 +28,8 @@
 //! the broadcast integer even when the decimal text it passed through carried a last-digit
 //! error; truncation would not.
 
-use crate::portable_math::PortableFloat;
 use crate::portable_math::powi;
+use crate::portable_math::PortableFloat;
 
 /// The value of pi IS-GPS-200 specifies for semicircle conversions. Deliberately not
 /// `std::f64::consts::PI`: the specification fixes these fourteen digits.

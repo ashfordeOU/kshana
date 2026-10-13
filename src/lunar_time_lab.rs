@@ -40,10 +40,10 @@
 //! and the height sigma are stated allocations, so every output here is **MODELLED** and says
 //! nothing about any real station clock.
 
-use crate::portable_math::PortableFloat;
 use crate::clock_library::card::DeviceCard;
 use crate::clock_specs::{sigma_y, x_clock_s, LunarClock};
 use crate::lunar_time_budget::BudgetParams;
+use crate::portable_math::PortableFloat;
 use serde::Deserialize;
 
 /// Default constant steer residual (ns). ILLUSTRATIVE: no public figure is used.

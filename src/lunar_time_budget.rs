@@ -32,8 +32,8 @@
 //! defaults, caller-overridable), not measurements — the contribution here is the
 //! reproducible crossover analysis, not a certified per-term number.
 
-use crate::portable_math::PortableFloat;
 use crate::clock_specs::{sigma_y, x_clock_s, LunarClock, ONE_DAY_S};
+use crate::portable_math::PortableFloat;
 use serde::Serialize;
 
 /// Speed of light (m/s) — for the frame-realisation light-time term `δr/c`.

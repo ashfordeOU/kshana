@@ -31,7 +31,6 @@
 //! multipath, the network is assumed synchronised to the stated range error, and the
 //! constellation, C/N0 envelope and integration time are inputs.
 
-use crate::portable_math::PortableFloat;
 use super::doppler::{self, DopplerOptions, RangeRateObs};
 use super::geom::{median, norm, rms, sub, Site};
 use super::joint_pvt::{self, PseudorangeObs, SystemClock};
@@ -40,9 +39,10 @@ use super::C_LIGHT;
 use crate::chart::esc;
 use crate::field_schema::{FieldUnit, ProvenanceClass::*};
 use crate::palette::chart::{BLUE, CYAN, MUTED};
+use crate::portable_distr::{Distribution, Normal};
+use crate::portable_math::PortableFloat;
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
-use crate::portable_distr::{Distribution, Normal};
 use serde::{Deserialize, Serialize};
 use std::f64::consts::PI;
 

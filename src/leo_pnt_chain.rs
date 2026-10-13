@@ -38,7 +38,6 @@
 //! SISRE is the message's representation error only, with no orbit determination or
 //! prediction error.
 
-use crate::portable_math::PortableFloat;
 use crate::leo_fusion::ppp::PppScenario;
 use crate::leo_fusion::pvt_kind::{LeoPvtReport, LeoPvtScenario};
 use crate::leo_fusion::system::DllCfg;
@@ -46,6 +45,7 @@ use crate::leo_navmsg::LeoNavmsgScenario;
 use crate::leo_pass::{LeoPassReport, LeoPassScenario};
 use crate::leo_signal::{LeoSignalScenario, SignalDesign};
 use crate::palette::chart::{BLUE, CYAN};
+use crate::portable_math::PortableFloat;
 use serde::Deserialize;
 use serde_json::{json, Value};
 

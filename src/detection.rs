@@ -33,10 +33,10 @@
 //! closed-form operating characteristics follow Kay, *Fundamentals of Statistical
 //! Signal Processing, Vol. II: Detection Theory* (1998), §3 and §5.
 
+use crate::portable_distr::{Distribution, Normal};
 use crate::portable_math::PortableFloat;
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
-use crate::portable_distr::{Distribution, Normal};
 use std::f64::consts::SQRT_2;
 
 /// Error function via Abramowitz & Stegun 7.1.26 (max abs error 1.5e-7).

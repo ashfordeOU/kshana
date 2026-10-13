@@ -35,8 +35,8 @@
 //! (`srif_covariance_is_spd`). The module is additive — it does not touch the forces, the
 //! propagator, or any golden, so Earth results stay byte-identical.
 
-use crate::portable_math::PortableFloat;
 use crate::integrator::Tolerance;
+use crate::portable_math::PortableFloat;
 use crate::precise_od::{EmpiricalAccel, ForceModel, Observation};
 
 type Vec3 = [f64; 3];

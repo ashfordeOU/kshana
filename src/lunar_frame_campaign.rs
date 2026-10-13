@@ -86,12 +86,12 @@
 //! predicted session result, and it is not a geodetic product. No TRL, flight heritage or agency
 //! endorsement is claimed.
 
-use crate::portable_math::PortableFloat;
 use crate::fim::{crlb, design_metrics, information_matrix};
 use crate::frames::Geodetic;
 use crate::lunar::Selenographic;
 use crate::lunar_vlbi::{delay_partials_beacon, delay_partials_station1, delay_partials_station2};
 use crate::lunar_vlbi_fim::{epoch_geometry, EpochGeometry, StationInput, DEFAULT_STATIONS};
+use crate::portable_math::PortableFloat;
 use crate::precession::{mat_vec, Vec3};
 use serde::Deserialize;
 

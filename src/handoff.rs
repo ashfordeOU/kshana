@@ -272,9 +272,9 @@ pub fn rf_optical_handoff(
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::portable_distr::{Distribution, Normal};
     use rand::SeedableRng;
     use rand_chacha::ChaCha8Rng;
-    use crate::portable_distr::{Distribution, Normal};
 
     /// The handoff carries the mean bit-for-bit (the PROVEN no-jump guarantee) while
     /// inflating the covariance; a zero inflation reproduces the state exactly. Oracle: the

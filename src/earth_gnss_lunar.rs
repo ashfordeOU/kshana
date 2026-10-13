@@ -62,11 +62,11 @@
 //! ephemeris lookup. The quantity under test here is the link and the beam geometry; the
 //! engine models the lunar ephemeris elsewhere and nothing is gained by coupling them.
 
-use crate::portable_math::PortableFloat;
 use crate::antenna::{boresight_gain_dbi, pattern_gain_dbi, GainPattern2D};
 use crate::jamming::{free_space_path_loss_db, nominal_cn0_dbhz, L1_HZ};
 use crate::orbit::{dop, Dop, R_EARTH_EQUATORIAL_M};
 use crate::palette::chart::{AMBER, BG, CORAL, FONT_SANS, INK_2, INK_4, MUTED, RULE, TITLE};
+use crate::portable_math::PortableFloat;
 use crate::walker::WalkerSgp4;
 use serde::{Deserialize, Serialize};
 

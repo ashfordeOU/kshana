@@ -28,9 +28,9 @@
 //! other route is refused with the largest deviation named, rather than bent into a
 //! line the user did not draw.
 
-use crate::portable_math::PortableFloat;
 use super::round_dp;
 use super::scene::Scene;
+use crate::portable_math::PortableFloat;
 use serde_json::{json, Value};
 
 fn units_moving() -> Value {

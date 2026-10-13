@@ -19,9 +19,9 @@
 //! to the quantiser step, which is the same as scaling the quantiser threshold to the
 //! input level; [`Agc::for_quantiser`] picks the loss-minimising target.
 
-use crate::portable_math::PortableFloat;
 use super::quant::{optimum_step_sigma, Quantiser};
 use super::{norm_sqr, Cf64, Stage};
+use crate::portable_math::PortableFloat;
 
 /// Euler-Mascheroni constant `γ`.
 const EULER_GAMMA: f64 = 0.577_215_664_901_532_9;

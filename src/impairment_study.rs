@@ -15,7 +15,6 @@
 //! a sim-to-field claim; a positive gap demonstrates the phenomenon and the
 //! predictor's signal, never a field-detection result. See [`crate::verification`].
 
-use crate::portable_math::PortableFloat;
 use crate::eval_stats::{bootstrap_ci, ridge_fit, ridge_predict, spearman};
 use crate::impairment_eval::{
     auc, generate_corpus, stratified_split, threshold_for_pfa, AgcDetector, CorpusConfig,
@@ -23,6 +22,7 @@ use crate::impairment_eval::{
     ParityDetector, SqmDetector,
 };
 use crate::impairment_ml::{LogisticRegression, Mlp};
+use crate::portable_math::PortableFloat;
 
 /// Per-class AUC: one impairment `class`'s cases (positives) versus the corpus's
 /// `Nominal` cases (negatives), scored by `det`. This isolates a single
@@ -303,7 +303,8 @@ pub fn run_grid(cfg: &GridConfig) -> GridResult {
                 let k = gaps.len().max(1) as f64;
                 let mean = gaps.iter().sum::<f64>() / k;
                 let var = if gaps.len() > 1 {
-                    gaps.iter().map(|g| (g - mean).ppowi(2)).sum::<f64>() / (gaps.len() as f64 - 1.0)
+                    gaps.iter().map(|g| (g - mean).ppowi(2)).sum::<f64>()
+                        / (gaps.len() as f64 - 1.0)
                 } else {
                     0.0
                 };

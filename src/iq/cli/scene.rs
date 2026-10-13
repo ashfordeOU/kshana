@@ -9,8 +9,8 @@
 //! alongside as CSV or JSON Lines, so a software receiver's acquisition and tracking output
 //! can be scored against exactly what went in.
 
-use crate::portable_math::PortableFloat;
 pub(crate) use crate::iq::scene::synthetic::{build_scene, SceneParams};
+use crate::portable_math::PortableFloat;
 
 use super::{Args, Fail};
 use crate::frames::{geodetic_to_ecef, Geodetic};

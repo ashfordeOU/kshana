@@ -527,7 +527,11 @@ impl RinexEphemeris {
         let omega_k = self.omega0 + (self.omega_dot - omega_e) * tk - omega_e * self.toe;
         let (so, co) = (omega_k.psin(), omega_k.pcos());
         let ci = i.pcos();
-        [xp * co - yp * ci * so, xp * so + yp * ci * co, yp * i.psin()]
+        [
+            xp * co - yp * ci * so,
+            xp * so + yp * ci * co,
+            yp * i.psin(),
+        ]
     }
 
     /// The UT1 Julian Date of time-of-week `t_tow_s` in this ephemeris's week.
@@ -734,8 +738,8 @@ G01 2023 01 01 00 00 00 4.567890123456D-04 1.136868377216D-12 0.000000000000D+00
         let dt = 1.0;
         let a = eph.sv_position_ecef(eph.toe);
         let b = eph.sv_position_ecef(eph.toe + dt);
-        let v =
-            (((b[0] - a[0]).ppowi(2) + (b[1] - a[1]).ppowi(2) + (b[2] - a[2]).ppowi(2)).sqrt()) / dt;
+        let v = (((b[0] - a[0]).ppowi(2) + (b[1] - a[1]).ppowi(2) + (b[2] - a[2]).ppowi(2)).sqrt())
+            / dt;
         assert!((3.0e3..4.5e3).contains(&v), "ECEF speed {v:.1} m/s");
     }
 

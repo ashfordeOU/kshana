@@ -123,9 +123,9 @@ impl ChannelEffect for Ionosphere {
 
 #[cfg(test)]
 mod tests {
-    use crate::portable_math::PortableFloat;
     use super::super::{test_geom, ChannelModel, Composite};
     use super::*;
+    use crate::portable_math::PortableFloat;
 
     const L5_HZ: f64 = 1_176_450_000.0;
 

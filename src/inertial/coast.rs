@@ -106,9 +106,9 @@
 //! representative figures for each IMU grade, not a datasheet for a specific part, and
 //! the TRN fix residual is a documented input, not a measurement.
 
-use crate::portable_math::PortableFloat;
 use crate::inertial::imu_errors::ImuErrorModel;
 use crate::inertial::G_M_PER_S2;
+use crate::portable_math::PortableFloat;
 use crate::quantum_trade::PositionDrift;
 use serde::Deserialize;
 

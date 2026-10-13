@@ -15,8 +15,8 @@
 //! Validate a 1e-7 quantile, so the tail scaling is a stated overbound
 //! assumption, not a Validated claim.
 
-use crate::portable_math::PortableFloat;
 use crate::integrity::tpl_scalar::TimeSource;
+use crate::portable_math::PortableFloat;
 use crate::raim::normal_quantile;
 
 /// Opaque identifier of a named UTC(k) laboratory realization. Sources sharing

@@ -31,9 +31,9 @@
 use crate::clock_state::{ClockModelExt, ClockStateExt, FlickerFmBank};
 use crate::detection::chi2_inv_cdf;
 use crate::kalman::KalmanClock;
+use crate::portable_distr::{Distribution, Normal};
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
-use crate::portable_distr::{Distribution, Normal};
 use serde::Serialize;
 
 /// Filter-consistency health summary, surfaced in the result JSON.

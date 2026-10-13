@@ -7,9 +7,9 @@
 //! design trade needs. The base scenario is run once per sample value; everything
 //! is deterministic.
 
-use crate::portable_math::PortableFloat;
 use crate::fom::FoMScores;
 use crate::palette::chart::{AMBER, AXIS, BG, BLUE, CYAN, FONT_SANS, INK_2, LIME, MAGENTA};
+use crate::portable_math::PortableFloat;
 use crate::scenario::Scenario;
 use serde::{Deserialize, Serialize};
 

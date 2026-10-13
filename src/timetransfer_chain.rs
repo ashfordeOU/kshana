@@ -24,10 +24,10 @@
 //! and the chain composes published-coefficient device models with closed-form
 //! budgets. It models the *class* of system; no TRL/flight/certification is claimed.
 
-use crate::portable_math::PortableFloat;
 use crate::detection::{analytic_pd, detection_boundary};
 use crate::holdover::{coast_phase_sigma, QuantumClockClass};
 use crate::palette::chart::{BG, CORAL, FONT_SANS, LIME, TEXT};
+use crate::portable_math::PortableFloat;
 use crate::qtrade::{TradeEvidence, TradeFom, TradeFrame};
 use crate::quantum_devices::EntanglementTimeLink;
 use crate::representativeness::{Gap, Representativeness};

@@ -758,9 +758,9 @@ pub fn parse_covariance_block(text: &str) -> Result<Covariance6, String> {
 
 #[cfg(test)]
 mod tests {
-    use crate::portable_math::PortableFloat;
     use super::*;
     use crate::orbit::{Orbit, Propagator};
+    use crate::portable_math::PortableFloat;
 
     fn start_epoch() -> EpochUtc {
         EpochUtc {
@@ -1010,7 +1010,8 @@ mod tests {
         assert!((s0.vel_km_s[2] - 2.534).abs() < 1e-9);
         // Row-0 is the Vallado example: ~7411 km radius, ~7.9 km/s speed.
         let r = (s0.pos_km[0].ppowi(2) + s0.pos_km[1].ppowi(2) + s0.pos_km[2].ppowi(2)).sqrt();
-        let v = (s0.vel_km_s[0].ppowi(2) + s0.vel_km_s[1].ppowi(2) + s0.vel_km_s[2].ppowi(2)).sqrt();
+        let v =
+            (s0.vel_km_s[0].ppowi(2) + s0.vel_km_s[1].ppowi(2) + s0.vel_km_s[2].ppowi(2)).sqrt();
         assert!((7000.0..7800.0).contains(&r), "radius {r:.1} km");
         assert!((7.0..8.5).contains(&v), "speed {v:.3} km/s");
     }

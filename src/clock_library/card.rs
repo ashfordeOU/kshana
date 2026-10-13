@@ -31,10 +31,10 @@
 //! times, and compares the card's prediction with it. The card passes when every ratio
 //! `predicted / measured` lies within `[1/bar, bar]`.
 
-use crate::portable_math::PortableFloat;
 use super::condition::{condition, ConditioningLog};
 use super::series::{gappy_oavar, gappy_ohvar, remove_quadratic, PhaseSeries};
 use crate::allan::{edf_overlapping_adev, lag1_noise_id, Lag1DataType, PowerLawNoise};
+use crate::portable_math::PortableFloat;
 use serde::Serialize;
 use std::f64::consts::{LN_2, PI};
 
@@ -603,9 +603,9 @@ pub fn pooled_hadamard_noise(records: &[PhaseSeries]) -> Option<PooledHadamard> 
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::portable_distr::{Distribution, Normal};
     use rand::SeedableRng;
     use rand_chacha::ChaCha8Rng;
-    use crate::portable_distr::{Distribution, Normal};
 
     /// White FM of level `a1` at 1 s plus random-walk FM `q_rw` plus a drift `d` (1/s), 1 s grid.
     fn clock(n: usize, a1: f64, q_rw: f64, d: f64, seed: u64) -> PhaseSeries {

@@ -90,16 +90,16 @@
 //! `baseline_curve`, `protection_level_m`, everything — are bit-for-bit what they were
 //! before the budget existed, and a test pins exactly that.
 
-use crate::portable_math::PortableFloat;
 use crate::clock_specs::{x_clock_s, LunarClock};
 use crate::lunar::{lunar_look_angle, selenographic_to_mcmf, Selenographic, R_MOON_M};
 use crate::lunar_service::{LunarConstellation, LunarSat, PositionsMcmf};
 use crate::palette::chart::{AXIS, BG, CORAL, CYAN, FONT_SANS, INK_2};
+use crate::portable_distr::{Distribution, Normal};
+use crate::portable_math::PortableFloat;
 use crate::sbas::{sbas_protection_level, SbasErrorModel, SbasMode, SbasProtectionLevel, SbasSat};
 use crate::timegeo::C_M_PER_S;
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
-use crate::portable_distr::{Distribution, Normal};
 use serde::{Deserialize, Serialize};
 
 type Vec3 = [f64; 3];

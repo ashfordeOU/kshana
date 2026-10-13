@@ -15,8 +15,8 @@
 //! The output is the input delayed by `N − 1` samples ([`FreqExcision::delay`]); the first
 //! `N − 1` outputs are zeros.
 
-use crate::portable_math::PortableFloat;
 use super::{norm_sqr, Cf64, Stage};
+use crate::portable_math::PortableFloat;
 use crate::spectrum::fft_in_place;
 use std::collections::VecDeque;
 

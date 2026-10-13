@@ -15,9 +15,9 @@
 //! `tests/cti_holdover_coverage_reference.rs`); the short-τ (≤ 30 d) regime and
 //! the composition itself remain Modelled.
 
-use crate::portable_math::PortableFloat;
 use crate::holdover::coast_phase_variance;
 use crate::integrity::kir::k_running_max;
+use crate::portable_math::PortableFloat;
 
 /// Holdover noise + seed parameters for one disciplined oscillator.
 #[derive(Clone, Copy, Debug)]

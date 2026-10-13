@@ -30,7 +30,6 @@
 //! number is derived from the shipped Mars dynamics and a published Mars constant; nothing is
 //! invented.
 
-use crate::portable_math::PortableFloat;
 use crate::body::Body;
 use crate::chart::y_axis;
 use crate::deepspace_od::{
@@ -41,6 +40,7 @@ use crate::integrator::Tolerance;
 use crate::mars_atmos::{mars_drag_accel, MARS_RE};
 use crate::mars_frame::{bodyfixed_to_inertial, iau_mars_rotation, inertial_to_bodyfixed};
 use crate::palette::chart::{AMBER, AXIS, BG, CYAN, FONT_SANS, INK_2};
+use crate::portable_math::PortableFloat;
 use crate::precession::{mat_vec, transpose};
 use crate::precise_od::{empirical_accel, propagate, EmpiricalAccel, ForceModel};
 use crate::timescales::SECONDS_PER_DAY;

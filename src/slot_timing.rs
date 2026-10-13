@@ -83,8 +83,8 @@
 //! Analysis*, NIST SP 1065 (2008); C. Zucca and P. Tavella, *The clock model and its
 //! relationship with the Allan and related variances*, IEEE Trans. UFFC 52(2), 2005.
 
-use crate::portable_math::PortableFloat;
 use crate::palette::chart::{BG, BLUE, CORAL, FONT_MONO, TEXT};
+use crate::portable_math::PortableFloat;
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 
@@ -1326,10 +1326,10 @@ pub const UNITS: &[FieldUnit] = {
 mod tests {
     use super::*;
     use crate::holdover::holdover_seconds;
+    use crate::portable_distr::{Distribution, Normal};
     use crate::telecom_timing::PRESETS;
     use rand::SeedableRng;
     use rand_chacha::ChaCha8Rng;
-    use crate::portable_distr::{Distribution, Normal};
 
     fn cond(guard_s: f64) -> SlotConditions {
         SlotConditions {

@@ -23,8 +23,8 @@
 //!   GPS/GNSS: Principles and Applications*, 3rd ed., the code-tracking thermal-noise
 //!   expression for an infinite front-end bandwidth).
 
-use crate::portable_math::PortableFloat;
 use super::C_M_S;
+use crate::portable_math::PortableFloat;
 
 /// First-order ionospheric constant (m³/s²): `I = K·STEC/f²`.
 pub const K_IONO: f64 = 40.3;

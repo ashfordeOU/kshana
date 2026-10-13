@@ -329,11 +329,11 @@ pub fn sin_elevation(user: Vec3, sat: Vec3) -> f64 {
 
 #[cfg(test)]
 mod tests {
-    use crate::portable_math::PortableFloat;
     use super::*;
+    use crate::portable_distr::{Distribution, Normal};
+    use crate::portable_math::PortableFloat;
     use rand::SeedableRng;
     use rand_chacha::ChaCha8Rng;
-    use crate::portable_distr::{Distribution, Normal};
 
     /// A user on the equator at the prime meridian: local up is +x, east +y, north +z.
     fn user() -> Vec3 {

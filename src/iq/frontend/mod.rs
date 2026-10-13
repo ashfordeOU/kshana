@@ -34,8 +34,8 @@ pub mod iir;
 pub mod notch;
 pub mod quant;
 
-use crate::portable_math::PortableFloat;
 use super::Cf64;
+use crate::portable_math::PortableFloat;
 
 /// A streaming signal-processing stage over complex baseband samples.
 ///

@@ -241,8 +241,8 @@ impl ImuErrorModel {
 
 #[cfg(test)]
 mod tests {
-    use crate::portable_math::PortableFloat;
     use super::*;
+    use crate::portable_math::PortableFloat;
 
     fn vclose(a: Vec3, b: Vec3, tol: f64) -> bool {
         (0..3).all(|i| (a[i] - b[i]).abs() <= tol)

@@ -16,8 +16,8 @@
 //! whose magnitude is `1/√(1 + (tan(ω/2)/tan(ω₀/2))⁴)`; the tests check the coefficients
 //! against that closed form. The coefficients are real and filter I and Q independently.
 
-use crate::portable_math::PortableFloat;
 use super::{Cf64, Stage};
+use crate::portable_math::PortableFloat;
 use std::f64::consts::PI;
 
 /// One second-order section `H(z) = (b₀ + b₁z⁻¹ + b₂z⁻²)/(1 + a₁z⁻¹ + a₂z⁻²)`, run in

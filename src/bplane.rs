@@ -46,8 +46,8 @@
 //! - D. A. Vallado, *Fundamentals of Astrodynamics and Applications*, 4th ed., §12
 //!   (interplanetary trajectories, gravity assist, the Tisserand criterion).
 
-use crate::portable_math::PortableFloat;
 use crate::frames::Vec3;
+use crate::portable_math::PortableFloat;
 
 fn dot(a: Vec3, b: Vec3) -> f64 {
     a[0] * b[0] + a[1] * b[1] + a[2] * b[2]

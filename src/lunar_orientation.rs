@@ -34,8 +34,8 @@
 //! - Generation script: `scripts/gen_de440_moon_pa.py` (committed for reproducibility).
 //! - Fixture SHA-256: c289f9742220f5a49a9e7f57aec3f61a6836f31c7b4f586b54b3a8fda480736b
 
-use crate::portable_math::PortableFloat;
 use crate::lunar_llr_geometry::Vec3;
+use crate::portable_math::PortableFloat;
 
 /// Compile-time embedded DE440 MOON_PA orientation fixture.
 ///

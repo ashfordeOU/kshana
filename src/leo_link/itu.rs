@@ -194,7 +194,8 @@ pub fn p618_rain_attenuation_db(path: &RainPath, p_percent: f64) -> f64 {
     let v = 1.0
         / (1.0
             + s.sqrt()
-                * (31.0 * (1.0 - (-(el_deg / (1.0 + chi))).pexp()) * (lr * gamma).sqrt() / (f * f)
+                * (31.0 * (1.0 - (-(el_deg / (1.0 + chi))).pexp()) * (lr * gamma).sqrt()
+                    / (f * f)
                     - 0.45));
     // Steps 8 and 9: effective path length and A0.01, equations (6) and (7).
     let a001 = gamma * lr * v;

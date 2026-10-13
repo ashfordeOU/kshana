@@ -714,9 +714,10 @@ mod tests {
         assert_eq!(r.len(), 5, "five near-side LLR reflectors");
         // PA body coordinates lie on a ~1737.4 km sphere to within topography (a few km).
         for refl in &r {
-            let radius =
-                (refl.pa_body_m[0].ppowi(2) + refl.pa_body_m[1].ppowi(2) + refl.pa_body_m[2].ppowi(2))
-                    .sqrt();
+            let radius = (refl.pa_body_m[0].ppowi(2)
+                + refl.pa_body_m[1].ppowi(2)
+                + refl.pa_body_m[2].ppowi(2))
+            .sqrt();
             assert!(
                 (radius - 1_737_400.0).abs() < 10_000.0,
                 "{} radius {radius}",

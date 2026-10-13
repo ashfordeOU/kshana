@@ -23,8 +23,8 @@
 //! in opposite directions, so the winner depends on the operating point — exactly
 //! what the map exposes.
 
-use crate::portable_math::PortableFloat;
 use crate::inertial::{AccelCfg, CaiCfg, InertialScenario, MetricStat};
+use crate::portable_math::PortableFloat;
 use crate::scenario::{GnssState, GnssTimeline, GnssWindow, TimeCfg};
 use serde::Serialize;
 

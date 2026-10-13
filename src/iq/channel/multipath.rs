@@ -31,9 +31,9 @@
 //! measurement. Limits: one flat specular reflector, no surface roughness, no
 //! diffraction, no antenna pattern beyond a scalar gain.
 
-use crate::portable_math::PortableFloat;
 use super::{ChannelEffect, LineOfSight};
 use crate::iq::{ChannelSnapshot, PathState, C_M_PER_S};
+use crate::portable_math::PortableFloat;
 use std::collections::BTreeMap;
 use std::f64::consts::PI;
 

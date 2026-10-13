@@ -13,8 +13,8 @@
 //! including the node and perigee drift and the Earth's rotation, so a Doppler computed from
 //! it is consistent with the positions to machine precision.
 
-use crate::portable_math::PortableFloat;
 use crate::constellation::{ConstellationCfg, Elements};
+use crate::portable_math::PortableFloat;
 use std::f64::consts::PI;
 
 /// A 3-vector (m or m/s).

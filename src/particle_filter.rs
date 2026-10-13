@@ -16,8 +16,8 @@
 //! navigators in [`crate::altpnt::terrain`] — all reusing the bilinear grid sampler pattern
 //! from [`crate::ionex`].
 
-use rand::RngCore;
 use crate::portable_distr::{Distribution, Normal};
+use rand::RngCore;
 
 /// Normalise weights to sum 1. If every weight is zero (total particle collapse), reset
 /// to a uniform distribution rather than divide by zero.
@@ -166,8 +166,8 @@ impl ParticleFilter {
 
 #[cfg(test)]
 mod tests {
-    use crate::portable_math::PortableFloat;
     use super::*;
+    use crate::portable_math::PortableFloat;
     use rand::SeedableRng;
     use rand_chacha::ChaCha8Rng;
 

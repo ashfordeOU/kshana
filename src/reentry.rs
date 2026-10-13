@@ -28,8 +28,8 @@
 //! Aerodynamic Heating of Ballistic Missiles Entering the Earth's Atmosphere at
 //! High Supersonic Speeds*, NACA Report 1381 (1958).
 
-use crate::portable_math::PortableFloat;
 use crate::orbit::R_EARTH_EQUATORIAL_M;
+use crate::portable_math::PortableFloat;
 use serde::Deserialize;
 
 /// Earth sea-level density (kg/m³) used as the exponential-atmosphere reference.
@@ -44,7 +44,8 @@ pub const G0: f64 = 9.806_65;
 /// height `scale_height_m`: `V_e²·sin|γ| / (2·e·H)`. Independent of the ballistic
 /// coefficient.
 pub fn peak_deceleration(v_entry_m_s: f64, gamma_rad: f64, scale_height_m: f64) -> f64 {
-    v_entry_m_s * v_entry_m_s * gamma_rad.abs().psin() / (2.0 * std::f64::consts::E * scale_height_m)
+    v_entry_m_s * v_entry_m_s * gamma_rad.abs().psin()
+        / (2.0 * std::f64::consts::E * scale_height_m)
 }
 
 /// Velocity (m/s) at which peak deceleration occurs: `V_e·e^(−1/2)` (≈0.607·V_e).

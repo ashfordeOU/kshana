@@ -19,9 +19,9 @@
 //! behaviour reported in quantum clock-synchronisation experiments. All models are
 //! MODELLED (parameterised from published coefficients), labelled, and gap-stated.
 
-use crate::portable_math::PortableFloat;
 use crate::clock_state::ClockClass;
 use crate::holdover::QuantumClockClass;
+use crate::portable_math::PortableFloat;
 use crate::representativeness::{Gap, Representativeness};
 
 /// A device's headline spec plus its honesty record.

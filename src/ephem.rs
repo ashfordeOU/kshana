@@ -52,7 +52,8 @@ pub fn sun_position(t_tt_jc: f64) -> Vec3 {
     // Solar mean anomaly (deg → rad).
     let m = (357.5256 + 35999.049 * t) * deg;
     // Geocentric ecliptic longitude (the 6892″ and 72″ terms are the equation of centre).
-    let lambda = (282.94) * deg + m + (6892.0 * m.psin() + 72.0 * (2.0 * m).psin()) * (deg / 3600.0);
+    let lambda =
+        (282.94) * deg + m + (6892.0 * m.psin() + 72.0 * (2.0 * m).psin()) * (deg / 3600.0);
     // Geocentric distance (m): 1 AU modulated by the Earth's orbital eccentricity.
     let r = (149.619 - 2.499 * m.pcos() - 0.021 * (2.0 * m).pcos()) * 1e9;
     // Ecliptic → equatorial rotation about the x-axis by the obliquity.

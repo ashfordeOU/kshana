@@ -32,9 +32,9 @@
 //! * Montenbruck & Gill, *Satellite Orbits*, §11 (observation modelling, light-time iteration).
 //! * IERS Conventions (2010), §11 — the gravitational (Shapiro) delay.
 
-use crate::portable_math::PortableFloat;
 use crate::body::Body;
 use crate::ephem_provider::EphemerisProvider;
+use crate::portable_math::PortableFloat;
 use crate::timegeo::C_M_PER_S;
 use crate::timescales::TwoPartJd;
 

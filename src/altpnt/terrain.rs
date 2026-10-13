@@ -32,15 +32,15 @@
 //! elevations are geoid-referenced (EGM96); TRN matches *relief*, not absolute height, so the
 //! vertical datum is irrelevant to the match.
 
-use crate::portable_math::PortableFloat;
 use crate::gravimeter::{GravityAnomalyModel, Mascon, M_PER_DEG};
 use crate::igrf::magnetic_field;
 use crate::ionex::cell;
 use crate::mapmatch::{field_likelihood, hierarchical_offset_search};
 use crate::palette::chart::{BG, BLUE, FONT_SANS, TEXT};
+use crate::portable_distr::{Distribution, Normal};
+use crate::portable_math::PortableFloat;
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
-use crate::portable_distr::{Distribution, Normal};
 use serde::{Deserialize, Serialize};
 
 /// The SRTM void / no-data sentinel: cells with no measured elevation are coded -32768.

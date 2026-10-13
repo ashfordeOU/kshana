@@ -4,9 +4,9 @@
 //! family already in the tree) and deterministic; every routine has a
 //! hand-derived oracle test.
 
+use crate::portable_distr::{Distribution, Gamma};
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
-use crate::portable_distr::{Distribution, Gamma};
 
 /// Sample a weight vector on the probability simplex from a Dirichlet(`alpha`)
 /// distribution, deterministically from `seed`. The result has the same length

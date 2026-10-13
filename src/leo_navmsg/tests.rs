@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 //! Tests of the `leo-navmsg` kind: fitter, user algorithm, trade, continuity, encodings.
 
-use crate::portable_math::PortableFloat;
 use super::elements::*;
 use super::fit::*;
 use super::sisre::*;
 use super::truth::*;
 use super::*;
+use crate::portable_math::PortableFloat;
 
 fn orbit(gravity: usize, alt_km: f64, drag: f64, dur: f64) -> TruthOrbit {
     TruthOrbit::propagate(&OrbitConfig {

@@ -37,7 +37,6 @@
 //! procedures, the P.2109 building entry loss, the first-order ionospheric scaling and the
 //! static-user Doppler envelope against the Pulsar paper's Table 1.
 
-use crate::portable_math::PortableFloat;
 use crate::constellation::{ConstellationCfg, Elements};
 use crate::frames::Geodetic;
 use crate::leo_link::antenna::{polarisation_loss_db, Polarisation, SatPattern, UserAntenna};
@@ -59,6 +58,7 @@ use crate::leo_link::{cn0_dbhz, fspl_db, iono, system_noise_temperature_k, RE_EA
 use crate::palette::chart::{
     AMBER, AXIS, BLUE, CORAL, CYAN, GRID, INK_2, INK_3, INK_4, LIME, MAGENTA, MUTED,
 };
+use crate::portable_math::PortableFloat;
 use serde::{Deserialize, Serialize};
 
 /// Mean Earth radius for the pattern geometry and the Doppler envelope (m), the value the

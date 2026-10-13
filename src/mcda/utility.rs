@@ -16,8 +16,8 @@
 //! the linear limit `u(t) = t` as `ρ → 0`. Closed-form and property/known-value
 //! tested — honestly *Modelled*.
 
-use crate::portable_math::PortableFloat;
 use super::wsm::Direction;
+use crate::portable_math::PortableFloat;
 
 /// Risk attitude shorthand, mapping to a default exponential risk coefficient `ρ`.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
