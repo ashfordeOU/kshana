@@ -143,6 +143,7 @@ pub const BUNDLED: &[(&str, &str)] = &[
     bundled!("polar-arctic-leo-coverage"),
     bundled!("pvt-abmf"),
     bundled!("quantum-anomaly-detect"),
+    bundled!("quantum-cai-coast"),
     bundled!("quantum-gnss-free-nav"),
     bundled!("quantum-time-transfer"),
     bundled!("quantum-trade"),

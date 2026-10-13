@@ -5,8 +5,9 @@
 //! sequence of situations, and a design study is a family of them. The `campaign`
 //! kind composes the existing kinds without re-implementing any of them: every
 //! member is an ordinary scenario table carrying its own `kind`, dispatched through
-//! [`crate::api::run_toml`] exactly as the command-line interface would run it, and
-//! the campaign only reads numbers back out of the result documents.
+//! [`crate::api::run_toml_untiered`], which runs it as the command-line interface would
+//! but without the per-kind `figure_tiers` block, so a member's embedded document keeps
+//! its bytes. The campaign only reads numbers back out of the result documents.
 //!
 //! Four sections, any combination of which may appear in one campaign:
 //!
@@ -930,7 +931,7 @@ impl Ledger {
             return Err(format!("{label}: a campaign cannot contain a campaign"));
         }
         let src = toml::to_string(scn).map_err(|e| format!("{label}: serialise: {e}"))?;
-        let out = crate::api::run_toml(&src).map_err(|e| format!("{label}: {e}"))?;
+        let out = crate::api::run_toml_untiered(&src).map_err(|e| format!("{label}: {e}"))?;
         let doc: Value = serde_json::from_str(&out.json)
             .map_err(|e| format!("{label}: result did not parse: {e}"))?;
         let input = serde_json::to_value(scn).map_err(|e| format!("{label}: {e}"))?;
