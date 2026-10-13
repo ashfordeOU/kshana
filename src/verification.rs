@@ -3047,6 +3047,13 @@ pub fn validated_oracle_basis() -> Vec<OracleBasisEntry> {
             flag: "",
         },
         OracleBasisEntry {
+            requirement: "Gravity-anomaly synthesis from a spherical-harmonic model",
+            basis: Library,
+            oracle_test: "tests/icgem_gravity_anomaly_oracle.rs::egm2008_n70_matches_cited_icgem_values",
+            source: "ICGEM Calculation Service (GFZ Potsdam)",
+            flag: "",
+        },
+        OracleBasisEntry {
             requirement: "CCSDS OEM interoperability (GMAT/Orekit/STK ephemeris import)",
             basis: Library,
             oracle_test: "tests/ccsds_oem_interop_reference.rs",
