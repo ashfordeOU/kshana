@@ -703,7 +703,6 @@ struct CellWriters {
 struct ScoreSink<'a> {
     chans: Vec<Chan>,
     cursors: Vec<Option<TruthCursor<'a>>>,
-    false_lock: Vec<bool>,
     /// Session channel → (cell within the item, channel within the cell).
     route: Vec<(usize, usize)>,
     writers: Vec<Option<CellWriters>>,
@@ -722,7 +721,10 @@ impl EpochSink for ScoreSink<'_> {
             pll_rad: e.disc.pll_rad,
             dll_chips: e.disc.dll_chips,
             doppler_hz: e.doppler_hz,
-            false_lock_flag: std::mem::take(&mut self.false_lock[channel]),
+            // A tracker false lock is scored from its event (`event` below), not by flagging
+            // an update: the check moves the channel to LOST, so every later update is
+            // unlocked and a flag on it was never counted.
+            false_lock_flag: false,
         };
         let truth = self.cursors[channel].as_mut().map(|c| c.at(se.t_s));
         self.chans[channel].scorer.push(&se, truth);
@@ -735,9 +737,12 @@ impl EpochSink for ScoreSink<'_> {
 
     fn event(&mut self, ev: &LockEvent) -> Result<(), IqError> {
         let ch = ev.channel as usize;
-        if ev.reason == "false-lock" {
-            if let Some(f) = self.false_lock.get_mut(ch) {
-                *f = true;
+        // A false lock the tracker's check found while the channel was declared LOCKED is one
+        // episode at the event's time. One found during pull-in was never declared locked, and
+        // the repeated firings of a channel already LOST are not new episodes.
+        if ev.reason == "false-lock" && ev.from == LockState::Locked {
+            if let Some(c) = self.chans.get_mut(ch) {
+                c.scorer.tracker_false_lock(ev.code_epoch_s);
             }
         }
         if let Some(&(cell, local)) = self.route.get(ch) {
@@ -949,7 +954,6 @@ fn run_item(
         })
         .collect();
     let mut sink = ScoreSink {
-        false_lock: vec![false; chans.len()],
         chans,
         cursors,
         route,
