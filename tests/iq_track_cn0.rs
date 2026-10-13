@@ -3,7 +3,6 @@
 //! pre-registered in `docs/design/evidence/cn0-m2m4/PREREGISTRATION.md` (commit 3cd91504).
 //! All four bars run in the normal suite (about 90 s in a debug build, under 10 s in release).
 
-use kshana::portable_math::PortableFloat;
 use kshana::iq::cli::build_code;
 use kshana::iq::signals::SignalCode;
 use kshana::iq::track::sink::CollectSink;
@@ -11,6 +10,7 @@ use kshana::iq::track::{
     CarrierLoop, ChannelInit, EpochOutput, LoopConfig, SessionChannel, TrackSession,
 };
 use kshana::iq::{Cf64, IqError, IqSource, SampleSpec, SpreadingCode};
+use kshana::portable_math::PortableFloat;
 use std::f64::consts::TAU;
 use std::sync::Arc;
 
@@ -138,7 +138,10 @@ fn l1ca_45() -> Vec<EpochOutput> {
 //               epochs of that one run on the unmodified channel
 // PIN-EXCLUDES: every other output and every other scene
 const NWPR_BASELINE_EPOCHS: usize = 5999;
-const NWPR_BASELINE_CHECKSUM: u64 = 0x05b3caf744da2a2d;
+// 0.36 portable re-pin (STUDIO-15, docs/revisions/STUDIO15-portable-math-rebaseline.md): the
+// scene generator of this file and the engine both run on portable maths now. Host-maths value
+// at 0.35.0: 0x05b3caf744da2a2d.
+const NWPR_BASELINE_CHECKSUM: u64 = 0x1e19e42071eec6ad;
 
 /// M2 and M3 (6 s of a 2.5 MS/s stream through the default design).
 #[test]

@@ -1988,7 +1988,7 @@ mod tests {
         h
     }
 
-    /// Re-emit the three additivity pins below — run with
+    /// Re-emit the five additivity pins below — run with
     /// `--ignored --nocapture` after a deliberate change to the released document.
     #[test]
     #[ignore]
@@ -1999,6 +1999,16 @@ mod tests {
         println!("json    = 0x{:016x}", fnv1a64(&j));
         println!("summary = 0x{:016x}", fnv1a64(&s));
         println!("svg     = 0x{:016x}", fnv1a64(&g));
+        let mut stripped: Value = serde_json::from_str(&j).unwrap();
+        stripped.as_object_mut().unwrap().remove("units");
+        println!(
+            "json_without_units = 0x{:016x}",
+            fnv1a64(&serde_json::to_string_pretty(&stripped).unwrap())
+        );
+        println!(
+            "svg_without_paint  = 0x{:016x}",
+            fnv1a64(&crate::test_support::without_paint(&g))
+        );
     }
 
     /// **R1 additivity pin.** With every extension field at its default the scenario emits
@@ -2025,7 +2035,9 @@ mod tests {
         // The whole document, units block included.
         assert_eq!(
             fnv1a64(&json),
-            0xe249_22aa_5af8_8194,
+            // STUDIO-15 (0.36 portable maths): was 0xe249_22aa_5af8_8194 on the host's maths; see
+            // docs/revisions/STUDIO15-portable-math-rebaseline.md (erratum for the released document).
+            0x2718_2e19_31db_4e20,
             "released result-JSON byte drift"
         );
         // ...and the SAME document with `units` stripped back off, against the hash that
@@ -2033,7 +2045,9 @@ mod tests {
         // honest across the addition: a re-baselined hash alone cannot tell a new key from
         // a changed value, and this one can. If a released number moves, this fails even
         // though the hash above was updated in the same commit.
-        const RELEASED_JSON_WITHOUT_UNITS_FNV: u64 = 0x2207_bc72_0606_2c80;
+        // STUDIO-15: was 0x2207_bc72_0606_2c80 (host maths); the released values moved in the last
+        // digits of round-off-floor quantities, see the revisions record.
+        const RELEASED_JSON_WITHOUT_UNITS_FNV: u64 = 0x2d73_9cd8_1d4b_369c;
         let mut stripped: Value = serde_json::from_str(&json).unwrap();
         assert!(
             stripped
