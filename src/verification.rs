@@ -298,6 +298,15 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            requirement: "Float precise point positioning on real RINEX observations",
+            capability: "Static float PPP extended Kalman filter on real dual-frequency GPS code and carrier phase with IGS final orbits and clocks: ionosphere-free combination, satellite and receiver antenna offsets (receiver variations), solid Earth tide, phase wind-up, Shapiro delay, estimated zenith wet delay, per-arc float ambiguities with geometry-free / Melbourne-Wübbena slip detection",
+            module: "ppp_real (run_ppp, parse_antex_receiver, solid_tide_ecef, phase_windup)",
+            tests: "tests/ppp_real_wettzell_oracle.rs (IGS station WTZR, 2025-02-24 00-06 h, 30 s, held out from development: last-epoch horizontal 1.5 mm, up −2.9 cm; 04-06 h 240/240 epochs within 0.10 m 3-D, p95 6.7 cm; code-only p95 1.70 m; data-gated ZTD RMS 1.7 cm vs EUREF); ppp_real::tests",
+            oracle: "Published ITRF2020 coordinate of WTZR (IGN ITRF2020_GNSS.SSC, solution 3, propagated with its velocity) — bars pre-registered in tests/fixtures/gnss_wettzell_2025055/PREREGISTRATION_PPP.md before the filter was written; development on the co-located station WTZZ only. Not modelled: ocean loading, satellite PCV, integer ambiguity resolution",
+            oracle_kind: ExternalDataset,
+            status: Validated,
+        },
+        VerificationItem {
             requirement: "SP3 precise-clock interpolation",
             capability: "Satellite clock offset between the tabulated SP3 clock nodes by linear interpolation over the two bracketing valid nodes (the RTKLIB pephclk scheme; bad-clock sentinel skipped), and the same nodes fed to the precise-product chain as RINEX-clock-equivalent records",
             module: "sp3 (Sp3File::clock_s, clock_nodes), precise_products (ClockRinex::from_sp3)",
@@ -2827,6 +2836,13 @@ pub fn validated_oracle_basis() -> Vec<OracleBasisEntry> {
             basis: Library,
             oracle_test: "tests/sp3_interp_reference.rs",
             source: "RTKLIB peph2pos",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Float precise point positioning on real RINEX observations",
+            basis: Reference,
+            oracle_test: "tests/ppp_real_wettzell_oracle.rs",
+            source: "Published ITRF2020 coordinate of WTZR",
             flag: "",
         },
         OracleBasisEntry {
