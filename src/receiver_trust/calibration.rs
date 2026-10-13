@@ -522,7 +522,13 @@ fn label_timeline(
         );
     }
     let trust = run_monitors(tl, None, &cfg).map_err(|e| format!("run_monitors: {e}"))?;
-    Ok(samples_from(&trust, t0, cfg.calibration_s, windows, jamming))
+    Ok(samples_from(
+        &trust,
+        t0,
+        cfg.calibration_s,
+        windows,
+        jamming,
+    ))
 }
 
 /// Read one folder (CSV pipeline).
@@ -715,7 +721,10 @@ pub fn run_dataset(root: &Path, with_ubx: bool) -> Result<CalibrationReport, Str
     let folders: Vec<Folder> = dirs.iter().map(|d| read_folder(root, d)).collect();
     let ev: Vec<&Folder> = folders.iter().filter(|f| f.excluded.is_none()).collect();
     let all = pooled(&ev);
-    let n_jamming_folders = ev.iter().filter(|f| f.jamming && f.epochs.jamming > 0).count();
+    let n_jamming_folders = ev
+        .iter()
+        .filter(|f| f.jamming && f.epochs.jamming > 0)
+        .count();
 
     let mut stats = Vec::new();
     let mut calibrated = default_thresholds();
@@ -852,7 +861,8 @@ pub fn run_dataset(root: &Path, with_ubx: bool) -> Result<CalibrationReport, Str
     ]);
     Ok(CalibrationReport {
         schema: "kshana-receiver-trust-jammertest-calibration/1",
-        dataset: "GNSS Dataset Under Jamming, Spoofing, and Meaconing Conditions (JammerTest 2024), \
+        dataset:
+            "GNSS Dataset Under Jamming, Spoofing, and Meaconing Conditions (JammerTest 2024), \
                   Zenodo record 15911589, doi:10.5281/zenodo.15910563, GPL-3.0-or-later",
         method,
         union_default: union_counts(&all, &default_thresholds()),
@@ -887,10 +897,7 @@ mod tests {
         let a = utc_seconds("2024-09-10 13:57:53.600000").unwrap();
         let b = utc_seconds("2024-09-10T13:57:53.600Z").unwrap();
         assert!((a - b).abs() < 1e-9);
-        assert_eq!(
-            utc_seconds("1970-01-02T00:00:01Z").unwrap(),
-            86_401.0
-        );
+        assert_eq!(utc_seconds("1970-01-02T00:00:01Z").unwrap(), 86_401.0);
         assert!(utc_seconds("GPS week 2331 TOW 1.000 s").is_none());
     }
 
@@ -942,7 +949,9 @@ mod tests {
         assert_eq!(auc(&v, Stat::Agc), Some(1.0));
         let r = roc(&v, Stat::Cn0Drop);
         assert_eq!(r.len(), 60);
-        assert!(r.windows(2).all(|p| p[1].pfa <= p[0].pfa && p[1].pd <= p[0].pd));
+        assert!(r
+            .windows(2)
+            .all(|p| p[1].pfa <= p[0].pfa && p[1].pd <= p[0].pd));
     }
 
     #[test]
