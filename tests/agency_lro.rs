@@ -416,3 +416,64 @@ fn lro_two_body_overlap_shows_perturbation_signal() {
     );
     assert!(max_d.is_finite());
 }
+
+/// The opt-in in-crate DE-grade environment (`lunar_od::De440LunarEnvironment`: the embedded
+/// DE440 lunar PA orientation and the geocentric Sun and Moon read from a committed de440s cut by
+/// the crate's own SPK reader) on the same arc and configuration. Information only: the numbers
+/// are printed, and the comparison against the ANISE environment is
+/// `xval/anise-lunar-od/src/bin/in_crate_parity.rs`
+/// (`docs/design/evidence/fut05-de440-lunar-env/`). The bars are the analytic test's.
+#[test]
+#[ignore = "information only, about 200 s: the opt-in DE440 environment on the LRO arc (11.959 m / 6.665 m on 2026-10-13)"]
+fn lro_fit_with_the_opt_in_de440_environment() {
+    use kshana::ephem_provider::KernelEphemeris;
+    use kshana::lunar_od::De440LunarEnvironment;
+    let (epoch, obs, v0) = lro_observations(LRO, usize::MAX);
+    let kernel = KernelEphemeris::open(std::path::Path::new(concat!(
+        env!("CARGO_MANIFEST_DIR"),
+        "/tests/fixtures/lunar_od_de440/de440s_2021-12-31_2022-01-02.bsp"
+    )))
+    .expect("the committed de440s cut opens");
+    let env = De440LunarEnvironment::new(kernel);
+    let end = epoch + obs.last().expect("observations").t / 86_400.0;
+    env.check_covers(epoch, end)
+        .expect("the cut and the orientation cover the arc");
+    let field = SphericalHarmonicField::from_gfc(GRGM, FIT_DEGREE).expect("GRGM field loads");
+    let tmpl = LunarForceModel::with_env(field, epoch, env);
+    let tol = Tolerance {
+        rtol: 1e-10,
+        atol: 1e-6,
+        ..Default::default()
+    };
+    let initial = || EstimatedParams {
+        r0: obs[0].pos,
+        v0,
+        cr: None,
+        empirical: None,
+    };
+    let cfg = FitConfig {
+        estimate_cr: false,
+        outlier_sigma: 5.0,
+        max_iter: 25,
+        tol,
+        ..Default::default()
+    };
+    let rep = fit(&tmpl, initial(), &obs, &cfg).expect("dynamic fit");
+    let cfg2 = FitConfig {
+        estimate_cr: false,
+        estimate_empirical: true,
+        estimate_empirical_2cpr: true,
+        empirical_sigma: 1e-7,
+        outlier_sigma: 5.0,
+        max_iter: 25,
+        tol,
+    };
+    let rep2 = fit(&tmpl, initial(), &obs, &cfg2).expect("reduced-dynamic fit");
+    eprintln!(
+        "LRO with De440LunarEnvironment (in-crate DE440 PA + de440s cut): dynamic {:.3} m, \
+         reduced-dynamic {:.3} m",
+        rep.rms_3d, rep2.rms_3d
+    );
+    assert!(rep.converged && rep2.converged);
+    assert!(rep.rms_3d < 25.0 && rep2.rms_3d < 12.0);
+}

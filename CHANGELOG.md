@@ -11,6 +11,15 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **Opt-in DE440 lunar orientation and environment** (FUT-05, DS-LRO-08; defaults unchanged):
+  `lunar_frame::try_icrf_to_moon_pa_de440`, `lunar::try_mci_to_mcmf_de440` /
+  `try_mcmf_to_mci_de440` (epoch-anchored, DE440 principal axes) and
+  `lunar_od::De440LunarEnvironment` (embedded DE440 PA orientation plus the geocentric Sun and
+  Moon from a user-supplied DE440 SPK). Against ANISE (pre-registered ea537710): orientation
+  within 3.5e-7 rad and LRO fits within 1 mm, but the ephemeris leg missed its bar (Sun 30.7 m,
+  Moon 1.1 m, a ~1 ms time offset on the ANISE side), so it is not a validated row. Results:
+  `docs/design/evidence/fut05-de440-lunar-env/RESULTS.md`.
+
 - **Lunar frame campaign datum, condition-scaled NumPy bar: NOT MET** (pre-registered b887eb05;
   stays MODELLED). Step 0 rules out the pseudo-inverse fallback as the cause of the 0.30
   stations-estimated gap; NumPy agrees within the bar on six of eight scenarios, but
