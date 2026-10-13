@@ -444,11 +444,7 @@ is not edited.
 * `CHANGELOG.md`: an entry under Unreleased/Changed lists all of the above. The 0.30 and 0.35 entries
   that quote the old numbers are history and are not edited.
 
-**Held: `tests/lunar_joint_od_numpy_oracle.rs`** (the VALIDATED "Lunar joint multi-technique OD +
-clock" row) is **left failing, unchanged**: no fixture re-exported, numpy not re-run, no `#[ignore]`,
-tolerance not edited. The owner is deciding. If approved it is redone with numpy pinned to 2.4.6, the
-version the pre-registration names (the dry run in section 5.4 used 2.5.3 and held the unchanged bar
-with the margins given there).
+**`tests/lunar_joint_od_numpy_oracle.rs`** (the VALIDATED "Lunar joint multi-technique OD + clock" row) was held and is now re-recorded after the owner's approval, with numpy pinned to 2.4.6, the script and the bar unchanged: all six networks pass; see [`STUDIO15-lunar-joint-od-oracle-rerecord.md`](STUDIO15-lunar-joint-od-oracle-rerecord.md) (old and new hashes of the fixtures, per-network margins).
 
 **Also left failing: the other two numpy-oracle tests** (both guard MODELLED rows). Their committed
 numpy fixtures are not numpy output compared with `==`; the exact comparison is the engine against the
