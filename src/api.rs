@@ -1476,7 +1476,18 @@ pub fn run_scenario(src: &str) -> Result<RunOutput, KshanaError> {
 /// the existing bindings (see [`run_scenario`] for the structured-error variant).
 /// Every chart is stamped with a provenance footer so saved images stand alone.
 pub fn run_toml(src: &str) -> Result<RunOutput, String> {
-    let mut out = run_toml_inner(src)?;
+    let mut out = run_toml_inner(src, true)?;
+    let hash = extract_scenario_hash(&out.json).unwrap_or_else(|| src_fingerprint(src));
+    out.svg = with_provenance(out.svg, &hash);
+    Ok(out)
+}
+
+/// [`run_toml`] without the per-kind `figure_tiers` block that [`run_toml_inner`]
+/// appends (RM-04): for a run whose document is embedded in another kind's result (a
+/// campaign member), so the outer document keeps its bytes. A kind that builds its own
+/// block inside its run keeps it.
+pub fn run_toml_untiered(src: &str) -> Result<RunOutput, String> {
+    let mut out = run_toml_inner(src, false)?;
     let hash = extract_scenario_hash(&out.json).unwrap_or_else(|| src_fingerprint(src));
     out.svg = with_provenance(out.svg, &hash);
     Ok(out)
@@ -1487,12 +1498,59 @@ pub fn run_toml(src: &str) -> Result<RunOutput, String> {
 /// [`crate::registry::PackRegistry`] of built-ins. The error mapping is identical to
 /// the historical inline dispatch (the registry wraps the built-in's `String` error
 /// in `InvalidInput`, whose `Display` passes it through unchanged).
-fn run_toml_inner(src: &str) -> Result<RunOutput, String> {
+///
+/// With `tiers`, a kind in [`crate::fom_label::kind_figures`] then gets its
+/// `figure_tiers` block appended as the document's last key (RM-04), unless the document
+/// already carries one. Frozen-prediction kinds
+/// ([`crate::fom_label::FROZEN_PREDICTION_KINDS`]) get none.
+fn run_toml_inner(src: &str, tiers: bool) -> Result<RunOutput, String> {
     let kind = ScenarioKind::classify(src).map_err(|e| e.to_string())?;
-    crate::registry::PackRegistry::with_builtins()
+    let mut out = crate::registry::PackRegistry::with_builtins()
         .build(&kind.to_id(), src)?
         .run()
-        .map_err(|e| e.to_string())
+        .map_err(|e| e.to_string())?;
+    if tiers
+        && crate::fom_label::kind_figures(kind.as_str()).is_some()
+        && without_figure_tiers(&out.json).is_none()
+    {
+        if let Ok(doc) = serde_json::from_str::<serde_json::Value>(&out.json) {
+            if let Some(block) = crate::fom_label::kind_figure_tiers(kind.as_str(), &doc) {
+                out.json = append_figure_tiers(&out.json, &block)?;
+            }
+        }
+    }
+    Ok(out)
+}
+
+/// `json` with `block` appended as its last key, `figure_tiers`, byte for byte as the
+/// `Documented` wrapper would have serialised it: two-space pretty printing, the block
+/// nested one level in. Fails on a document that is not a pretty-printed JSON object or
+/// that already carries the block.
+///
+/// The same function as the FUT-27 seam's (`api::builtins::append_figure_tiers` on
+/// feat/platform-vv-0.36); whichever branch merges second keeps one copy.
+pub fn append_figure_tiers(json: &str, block: &serde_json::Value) -> Result<String, String> {
+    if without_figure_tiers(json).is_some() {
+        return Err(format!(
+            "the result document already carries `{FIGURE_TIERS_KEY}`"
+        ));
+    }
+    let body = json.trim_end();
+    let head = body.strip_suffix("\n}").ok_or_else(|| {
+        "figure_tiers: the result document is not a pretty JSON object".to_string()
+    })?;
+    let pretty = serde_json::to_string_pretty(block)
+        .map_err(|e| format!("failed to serialise figure_tiers: {e}"))?;
+    let nested = pretty.replace('\n', "\n  ");
+    let mut out = String::with_capacity(json.len() + nested.len() + 32);
+    out.push_str(head);
+    out.push_str(",\n  \"");
+    out.push_str(FIGURE_TIERS_KEY);
+    out.push_str("\": ");
+    out.push_str(&nested);
+    out.push_str("\n}");
+    out.push_str(&json[body.len()..]);
+    Ok(out)
 }
 
 /// The built-in dispatch table, keyed on an already-resolved [`ScenarioKind`]. This

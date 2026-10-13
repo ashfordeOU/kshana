@@ -11,6 +11,17 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **Per-figure verification tiers for every kind** (RM-04): every scenario kind's result now
+  ends with a `figure_tiers` block naming its headline figures, the verification-matrix row
+  that owns each one and the tier read from that row (figures no row owns are listed as
+  untiered). The block is appended after the run and strips back to the previous document
+  byte for byte (`api::without_figure_tiers`). `lunar-station-coverage` has no `figure_tiers`
+  until a new dated prediction replaces its frozen one; `leo-ppp`, `solar-system`, `sweep` and
+  `sweep-nd` have no scalar headline figure. Campaign members keep their untiered documents.
+- **Quantum preset `quantum-cai-coast`** (CAP-08c): a bundled inertial scenario in which a
+  cold-atom interferometer accelerometer, specified by its interferometer physics
+  (`[accel_quantum.cai]` with a stated platform vibration level), coasts against a
+  navigation-grade quartz accelerometer through a 110-minute GNSS outage. MODELLED.
 - **Greenhall exact equivalent degrees of freedom** (CAP-03): `allan::edf_greenhall`, the full
   Greenhall and Riley (2003) algorithm (difference orders 1 to 3, noise exponents +2 to -4,
   overlapping and non-overlapping, modified and unmodified, with the large-J tables), with ADEV,
