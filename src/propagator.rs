@@ -37,16 +37,21 @@
 //! The force model spans **two-body + the J2..J6 zonal field + the epoch-driven Sun/Moon third
 //! body + solar-radiation pressure + atmospheric drag + the post-Newtonian relativistic
 //! correction** (the cannonball SRP model with a conical umbra+penumbra eclipse, quadratic drag
-//! against the Vallado piecewise-exponential atmosphere, and the Schwarzschild perigee-advance
-//! term). A full **tesseral** Earth geopotential (the bundled EGM2008 field to degree/order 70,
-//! or any ICGEM `.gfc` model through [`crate::gravity_sh::SphericalHarmonicField::from_gfc`]) is
-//! available as an **opt-in** [`Geopotential`] ([`ForceModel::with_geopotential`],
+//! against the Vallado piecewise-exponential atmosphere, the Schwarzschild perigee-advance term
+//! and the opt-in Lense–Thirring frame-dragging term). A full tesseral field is used for a
+//! central body that carries one ([`Body::gravity`], e.g. Mars); the Earth default has none. The
+//! conservative tiers (two-body → J2–J6 → Sun/Moon → SRP) are VALIDATED against Orekit 12.2
+//! (`tests/numerical_cowell_propagator_reference.rs`, worst 0.08 m over 24 h). A full
+//! **tesseral** Earth geopotential (the bundled EGM2008 field to degree/order 70, or any ICGEM
+//! `.gfc` model through [`crate::gravity_sh::SphericalHarmonicField::from_gfc`]) is available as
+//! an **opt-in** [`Geopotential`] ([`ForceModel::with_geopotential`],
 //! [`ForceModel::with_egm2008`]); the default stays the zonal path, so every existing output is
 //! unchanged. The field is evaluated in the Earth-fixed frame reached either by the Earth rotation
 //! angle alone ([`EarthFixedFrame::Era`], the integration frame then being the
 //! celestial-intermediate frame) or by the full CIO-based GCRS→ITRS chain with nominal Earth
 //! orientation ([`EarthFixedFrame::Cio`]). The WGS-84 oblate-Earth shadow and solar limb
-//! darkening are opt-in through [`ForceModel::srp_shadow`] (see `ROADMAP.md`). By default the third-body/SRP ephemerides are the
+//! darkening are opt-in through [`ForceModel::srp_shadow`]; a GMAT cross-check remains a
+//! follow-on (see `ROADMAP.md`). By default the third-body/SRP ephemerides are the
 //! [`crate::ephem`] *low-precision* analytical series (~0.005° Sun, ~0.3° Moon); the opt-in
 //! ephemeris tier ([`ForceModel::with_ephemeris`]) reads them from any [`EphemerisProvider`], e.g.
 //! a DE440 SPK kernel through [`crate::ephem_provider::KernelEphemeris`]. The drag density
@@ -120,6 +125,16 @@ pub struct ForceModel {
     /// actually advance along their orbits during the integration — this is what makes the
     /// third-body force *time-varying* rather than frozen at the start. Ignored when
     /// [`sun`](Self::sun), [`moon`](Self::moon) and [`srp`](Self::srp) are all `false`.
+    ///
+    /// A single `f64`, not a [`crate::jd2::Jd2`], on purpose: by default the Sun and Moon here
+    /// come from the low-precision analytic series (~0.005° Sun, ~0.3° Moon), whose error is
+    /// about a million times what a 40 µs epoch rounding moves them (the Moon travels about 4 cm
+    /// in 40 µs), and the default Earth field is zonal (rotation-independent). The opt-in
+    /// [`ephemeris`](Self::ephemeris) and [`geopotential`](Self::geopotential) tiers start from
+    /// this same `f64` epoch, so they inherit its rounding (about 2 cm of Earth rotation at the
+    /// equator in 40 µs). A two-part epoch matters
+    /// where Earth rotation enters: [`crate::orbit::Propagator::position_in_frame_jd2`],
+    /// [`crate::cio::gcrs_to_itrs_matrix_jd2`] and the ephemeris scenario's `two_part_jd`.
     pub epoch_jd_tt: f64,
     /// Include solar-radiation pressure ([`crate::forces::srp_accel`], cannonball model with the
     /// cylindrical-shadow eclipse), using the same epoch-driven [`crate::ephem::sun_position`].
