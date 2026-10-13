@@ -119,9 +119,11 @@ satellite from the point can make the epoch available.
    crop is 1200 m per pixel, so relief below about a kilometre is smoothed away and block means
    lower sharp peaks; a ray that leaves the crop (about 420 km from the pole) ends there; there is
    no diffraction, terrain multipath or partial obstruction; site positions for ranging stay on the
-   mean sphere at the stated heights (the DEM sets the horizon only); the per-satellite export site
-   of `moonlight-service-volume` is not masked; the horizon is not validated against an external
-   figure.
+   mean sphere at the stated heights (the DEM sets the horizon only); the horizon is not validated
+   against an external figure. The per-satellite export site of `moonlight-service-volume` is
+   masked like a grid point: with a `terrain` section each export row carries `clears_terrain`
+   and the report the site's horizon (`export_site_terrain`); the antenna in-beam tallies still
+   count every link that clears the flat mask.
 2. Multipath and receiver hardware are not modelled.
 3. The growth of the ephemeris error over the correction latency is modelled only as the
    line-of-sight re-projection of a frozen error.

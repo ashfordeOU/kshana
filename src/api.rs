@@ -1702,9 +1702,16 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
             let csv = report.per_sat_geometry_csv();
             Ok(RunOutput {
                 json: if report.terrain.is_some() {
+                    let export: &[crate::field_schema::FieldUnit] =
+                        if report.export_site_terrain.is_some() {
+                            crate::lunar_terrain::EXPORT_SITE_TERRAIN_UNITS
+                        } else {
+                            &[]
+                        };
                     let units: Vec<crate::field_schema::FieldUnit> = crate::lunar_service::UNITS
                         .iter()
                         .chain(crate::lunar_terrain::GRID_TERRAIN_UNITS)
+                        .chain(export)
                         .copied()
                         .collect();
                     json_of_with_units(&report, &units)?
