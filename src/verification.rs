@@ -262,6 +262,15 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            requirement: "S1 atmospheric tide (opt-in)",
+            capability: "The diurnal S1 air-pressure tide as a geopotential perturbation: Biancale and Bode (2006) model N1, degrees 2 to 6, through the IERS 2010 Eq. 6.21 load formula (tides::atmospheric_tide_s1, s1_air_tide_acceleration), opt-in on the Cowell and precise force models (air_tide_s1, default off)",
+            module: "tides, propagator, precise_od",
+            tests: "tides::tests (the S1 term is diurnal, turns 90 deg in a quarter day, and has the load-factor amplitude of each row; physical magnitude at LEO); propagator::tests::the_s1_air_tide_flag_adds_exactly_the_s1_acceleration",
+            oracle: "None external for the geopotential effect. The 24 coefficients are transcribed from GFZ STR06/01 Table 1 model N1 and were re-checked row by row against the report (SHA-256 890865ae); degrees 0, 1, 7 and 8 are not used. Ray and Ponte (2003) print no spherical-harmonic table, so no second source was compared",
+            oracle_kind: InternalConsistency,
+            status: Modelled,
+        },
+        VerificationItem {
             requirement: "S2 atmospheric tide coefficients in the IERS convention",
             capability: "Ray (2001) S2 air-pressure harmonics (n <= 4, prograde and retrograde) converted to the fully-normalised, sine-lead form of IERS 2010 Eqs. 6.20-6.21 (amplitude divided by N_nm, epsilon = 90 deg - psi) and applied as the S2 term of tides::atmospheric_tide",
             module: "tides (s2_air_waves, atmospheric_tide)",

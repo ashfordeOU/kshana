@@ -592,16 +592,19 @@ mod tests {
         let a = atmospheric_tide_s1(jd);
         let b = atmospheric_tide_s1(jd + 0.25);
         let c = atmospheric_tide_s1(jd + 1.0);
-        // only degrees 2..=6 kept: 24 rows minus 2 of degree 0/1 order 0, 1 of (1,1), 4 of degree ≥ 7
-        assert_eq!(a.len(), 24 - 3 - 4);
+        // only degrees 2..=6 kept: 24 rows minus (0,0), (1,0), (1,1) and the 3 of degree ≥ 7
+        // ((7,4), (7,5), (8,5))
+        assert_eq!(a.len(), 24 - 3 - 3);
         assert!(a.iter().all(|d| (2..=S1_AIR_MAX_DEGREE).contains(&d.n)));
         for ((x, y), z) in a.iter().zip(&b).zip(&c) {
             let amp = |d: &StokesDelta| d.dc.hypot(d.ds);
             assert!((amp(x) - amp(y)).abs() < 1e-24 && (amp(x) - amp(z)).abs() < 1e-24);
             // one solar day later the phase is back (to the slow drift of p_s and h)
             assert!((x.dc - z.dc).abs() < 1e-3 * amp(x), "{x:?} vs {z:?}");
-            // a quarter day later it has turned by 90°: dc ↔ ds
-            assert!((x.dc - y.ds).abs() < 1e-2 * amp(x), "{x:?} vs {y:?}");
+            // a quarter day later it has turned by 90°: with dc = A·sin(θ+ε), ds = A·cos(θ+ε),
+            // the new dc is the old ds and the new ds is minus the old dc
+            assert!((y.dc - x.ds).abs() < 1e-2 * amp(x), "{x:?} vs {y:?}");
+            assert!((y.ds + x.dc).abs() < 1e-2 * amp(x), "{x:?} vs {y:?}");
             let row = S1_AIR_N1
                 .iter()
                 .find(|r| r.0 as usize == x.n && r.1 as usize == x.m)
