@@ -58,24 +58,40 @@ fn profiles_fly_the_motion_they_name() {
     // straight: due north, no east motion.
     let s = tr("straight", 240.0);
     let last = s.last().unwrap().1;
-    assert!(last.v_ned[0] > 14.9 && last.v_ned[1].abs() < 1e-3, "{:?}", last.v_ned);
+    assert!(
+        last.v_ned[0] > 14.9 && last.v_ned[1].abs() < 1e-3,
+        "{:?}",
+        last.v_ned
+    );
     // figure8: heading swings both ways.
-    let f8: Vec<f64> = tr("figure8", 240.0).iter().map(|(_, n)| quat_to_euler(&n.q).2).collect();
+    let f8: Vec<f64> = tr("figure8", 240.0)
+        .iter()
+        .map(|(_, n)| quat_to_euler(&n.q).2)
+        .collect();
     assert!(f8.iter().any(|&y| y > 1.5) && f8.iter().any(|&y| y < -1.5));
     // stop_go: the vehicle stops (speed near zero after it has moved).
     let sg = tr("stop_go", 300.0);
-    let speeds: Vec<f64> = sg.iter().map(|(_, n)| n.v_ned[0].hypot(n.v_ned[1])).collect();
+    let speeds: Vec<f64> = sg
+        .iter()
+        .map(|(_, n)| n.v_ned[0].hypot(n.v_ned[1]))
+        .collect();
     let moved = speeds.iter().position(|&v| v > 11.0).unwrap();
     assert!(speeds[moved..].iter().any(|&v| v < 0.05));
     // aircraft: climbs and banks.
     let ac = tr("aircraft", 300.0);
     assert!(ac.iter().any(|(_, n)| n.p_llh.alt_m > 300.0));
-    assert!(ac.iter().any(|(_, n)| quat_to_euler(&n.q).0.to_degrees() > 20.0));
+    assert!(ac
+        .iter()
+        .any(|(_, n)| quat_to_euler(&n.q).0.to_degrees() > 20.0));
     // uas: altitude goes up and comes back down.
     let ua = tr("uas", 300.0);
     let alts: Vec<f64> = ua.iter().map(|(_, n)| n.p_llh.alt_m).collect();
-    let max = alts.iter().cloned().fold(f64::MIN, f64::max);
-    assert!(max > 55.0 && *alts.last().unwrap() < max - 5.0, "{max}");
+    // Climbs above 55 m on a leg and later comes back below it on another.
+    let up = alts.iter().position(|&a| a > 55.0).expect("climbs");
+    assert!(
+        alts[up..].iter().any(|&a| a < 52.0),
+        "does not come back down"
+    );
 }
 
 /// Yaw observability: with position and velocity fixes only, heading error is observable
@@ -142,7 +158,9 @@ fn imu_between(
         row(0.0, a),
         row(dt, b)
     );
-    let tr = kshana::fusion::trajectory::Trajectory::new(&TrajectoryCfg::Csv { csv }, a.p_llh, dt, 1).unwrap();
+    let tr =
+        kshana::fusion::trajectory::Trajectory::new(&TrajectoryCfg::Csv { csv }, a.p_llh, dt, 1)
+            .unwrap();
     tr.imu(a, dt, 1)
 }
 

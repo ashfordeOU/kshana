@@ -30,8 +30,10 @@
 //! Each sensor may set its own filter prior (`[imu_*.filter_prior]`); without one the
 //! pack keeps its historical tactical-grade prior.
 //!
-//! Honest scope: loosely-coupled, single deterministic driving trajectory (a
-//! forward-acceleration and yaw square wave that gives the filter observability),
+//! Honest scope: loosely-coupled; by default a single deterministic driving trajectory (a
+//! forward-acceleration and yaw square wave that gives the filter observability), or a
+//! profile of the trajectory library ([`super::trajectory`], the optional `[trajectory]`
+//! table);
 //! flat-Earth tangent-plane INS↔GNSS comparison. Per-bias calibration is not
 //! claimed; the delivered quantity is the bounded, corrected state and its outage
 //! coast.

@@ -4,9 +4,9 @@
   "repo_blob_base": "https://github.com/AshfordeOU/kshana/blob/main/",
   "summary": {
     "validated": 134,
-    "modelled": 136,
+    "modelled": 137,
     "partner_owned": 4,
-    "total": 274
+    "total": 275
   },
   "rows": [
     {
@@ -444,6 +444,36 @@
         "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/fixtures/sp3_interp",
         "notice_url": "https://github.com/AshfordeOU/kshana/blob/main/tests/fixtures/sp3_interp/NOTICE"
       }
+    },
+    {
+      "requirement": "GNSS/INS trajectory library and CSV truth import",
+      "capability": "Selectable motion profiles for the gnss-ins pack (straight, figure-8, urban stop-and-go, aircraft climb and coordinated turn, survey drone), defined by Euler-rate and along-track-acceleration commands closed on the truth state with the kinematic IMU (centripetal, gravity and Coriolis terms), and imported CSV truth turned into the IMU that reproduces it; the historical drive unchanged when no profile is given",
+      "status": "MODELLED",
+      "oracle_kind": "InternalConsistency",
+      "oracle": "Internal: rigid-body kinematics identities, the CSV round trip and the filter's own covariance. MODELLED (no real drive log is compared)",
+      "module": "fusion::trajectory (TrajectoryCfg, Trajectory, kinematic_imu, parse_truth_csv), fusion::pack ([trajectory])",
+      "tests": "fusion::trajectory::tests (coordinated turn has no side force and load factor 1/cos φ; CSV import reproduces a flown profile to 1e-3 m/s and 1 m); tests/gnss_ins_trajectory_library.rs (every profile runs and fusion beats free INS over the outage; each flies its named motion; heading observability: yaw sigma after 240 s 1.27 deg cruising straight vs 0.039 deg figure-8 and 0.062 deg stop-and-go); tests/gnss_ins_legacy_trajectory_pin.rs (legacy result and truth hashes bit-identical)",
+      "module_links": [
+        {
+          "path": "src/fusion/trajectory.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/src/fusion/trajectory.rs"
+        },
+        {
+          "path": "src/fusion/pack.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/src/fusion/pack.rs"
+        }
+      ],
+      "test_links": [
+        {
+          "path": "tests/gnss_ins_trajectory_library.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/gnss_ins_trajectory_library.rs"
+        },
+        {
+          "path": "tests/gnss_ins_legacy_trajectory_pin.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/gnss_ins_legacy_trajectory_pin.rs"
+        }
+      ],
+      "fixture": null
     },
     {
       "requirement": "Strapdown INS mechanization",

@@ -11,10 +11,12 @@
 //! - body rate relative to the navigation frame (Groves 2013, eq. 2.58, inverted):
 //!   `ω_nb = [φ̇ − ψ̇ sin θ, θ̇ cos φ + ψ̇ sin φ cos θ, −θ̇ sin φ + ψ̇ cos φ cos θ]`,
 //!   and the gyro reads `ω_ib = C_bn ω_in + ω_nb` (Earth rate and transport rate added);
-//! - specific force `f = [a, V ω_nb,z, −V ω_nb,y] − C_bn g_n`: the centripetal
-//!   acceleration of a body moving at speed `V` along its x axis while turning, less gravity.
-//!   A level turn at bank `φ` with `ψ̇ = g tan φ / V` then has `f = [a, 0, −g / cos φ]`, the
-//!   coordinated-turn load factor, and a level vehicle reduces to the pack's historical
+//! - specific force `f = [a, V ω_nb,z, −V ω_nb,y] − C_bn g_n + C_bn ((2 ω_ie + ω_en) × v)`: the
+//!   centripetal acceleration of a body moving at speed `V` along its x axis while turning,
+//!   less gravity, plus the Coriolis and transport-rate term the mechanization removes (so the
+//!   vehicle follows its commanded path on the rotating Earth). A level turn at bank `φ` with
+//!   `ψ̇ = g tan φ / V` then has `f = [a, 0, −g / cos φ]` (plus the Coriolis term), the
+//!   coordinated-turn load factor, and a level vehicle at rest gets the pack's historical
 //!   `[a, 0, −g]`.
 //!
 //! The commands close on the truth attitude and speed (proportional laws with rate limits),
@@ -310,12 +312,33 @@ pub fn kinematic_imu(s: &NavState, a: f64, (dphi, dtheta, dpsi): (f64, f64, f64)
     let speed = v_b[0];
     let g = normal_gravity(s.p_llh.lat_rad, s.p_llh.alt_m);
     let g_b = s.q.conjugate().rotate([0.0, 0.0, g]);
+    let c_b = coriolis_b(s);
     let f = [
-        a - g_b[0],
-        speed * w_nb[2] - g_b[1],
-        -speed * w_nb[1] - g_b[2],
+        a - g_b[0] + c_b[0],
+        speed * w_nb[2] - g_b[1] + c_b[1],
+        -speed * w_nb[1] - g_b[2] + c_b[2],
     ];
     (gyro, f)
+}
+
+/// The Coriolis and transport-rate acceleration `(2 ω_ie + ω_en) × v` in body axes: the
+/// mechanization subtracts it from the velocity rate, so a vehicle that is to follow its
+/// commanded kinematics must sense it (about 1.5 mm/s² at 15 m/s at mid latitudes).
+pub fn coriolis_b(s: &NavState) -> Vec3 {
+    let ie = s.omega_ie_n();
+    let en = s.omega_en_n();
+    let w = [
+        2.0 * ie[0] + en[0],
+        2.0 * ie[1] + en[1],
+        2.0 * ie[2] + en[2],
+    ];
+    let v = s.v_ned;
+    let c = [
+        w[1] * v[2] - w[2] * v[1],
+        w[2] * v[0] - w[0] * v[2],
+        w[0] * v[1] - w[1] * v[0],
+    ];
+    s.q.conjugate().rotate(c)
 }
 
 /// Speed along the body x axis (m/s).
@@ -601,7 +624,7 @@ mod tests {
 
     #[test]
     fn a_level_vehicle_gets_the_historical_specific_force() {
-        let s = NavState::new(Quaternion::identity(), [5.0, 0.0, 0.0], origin());
+        let s = NavState::new(Quaternion::identity(), [0.0, 0.0, 0.0], origin());
         let (_, f) = kinematic_imu(&s, 1.5, (0.0, 0.0, 0.0));
         let g = normal_gravity(s.p_llh.lat_rad, s.p_llh.alt_m);
         assert!((f[0] - 1.5).abs() < 1e-12 && f[1].abs() < 1e-12 && (f[2] + g).abs() < 1e-12);
@@ -613,8 +636,9 @@ mod tests {
         let s = NavState::new(euler_to_quat(bank, 0.0, 0.0), [70.0, 0.0, 0.0], origin());
         let g = normal_gravity(s.p_llh.lat_rad, s.p_llh.alt_m);
         let (_, f) = kinematic_imu(&s, 0.0, (0.0, 0.0, g * bank.tan() / 70.0));
-        assert!(f[1].abs() < 1e-9, "{f:?}");
-        assert!((f[2] + g / bank.cos()).abs() < 1e-9, "{f:?}");
+        let c = coriolis_b(&s);
+        assert!((f[1] - c[1]).abs() < 1e-9, "{f:?}");
+        assert!((f[2] - c[2] + g / bank.cos()).abs() < 1e-9, "{f:?}");
     }
 
     #[test]
