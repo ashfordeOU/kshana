@@ -10,6 +10,19 @@
 //! any oracle run. Per tool: R1 PPP 3-D difference ≤ 0.05 m at ≥ 95 % of the common epochs of
 //! 04:00-05:59:30; R2 PPP last common epoch ≤ 0.03 m; R3 SPP median 3-D difference ≤ 0.50 m;
 //! non-vacuity 200 PPP and 600 SPP common epochs.
+//!
+//! RESULT, RTKLIB leg, first registered run (2026-10-13; RTKLIB v2.4.2-p13 outputs committed in
+//! 96dd27a after amendment 1, 71b7f63), recorded as a FINDING; bars unchanged. R1 does not hold:
+//! 0 of 240 epochs of 04:00-05:59:30 within 0.05 m. R2 does not hold: 0.146 m at the last epoch.
+//! R3 does not hold: SPP median difference 1.085 m over 719 epochs. Diagnosis after the run: the
+//! RTKLIB PPP solution is itself 0.131 m (median, 04-06 h) from the ITRF2020 coordinate, with
+//! +0.108 m up at the last epoch, against Kshana's 0.029 m up: the registered configuration
+//! `rtklib_ppp.conf` never set `pos1-tidecorr`, so RTKLIB ran without the solid Earth tide that
+//! Kshana applies (the up component of the tide at Wettzell is of that size). The SPP difference
+//! is the two tools' independent metre-level code errors (RTKLIB single mode applies no satellite
+//! antenna offset and weights differently): RTKLIB's own SPP is 1.62 m (median) from ITRF2020,
+//! Kshana's 1.55 m (01-06 h, tests/hatch_wettzell_oracle.rs). A corrected configuration is a NEW registration (amendment 2) with this
+//! result disclosed; this one stands as recorded. gLAB leg: not run.
 
 use kshana::gnss_sim::Meteo;
 use kshana::ppp_real::{parse_antex_receiver, run_ppp, PppConfig};
@@ -137,41 +150,64 @@ fn compare(ks_ppp: &Track, ks_spp: &Track, tool_ppp: &Track, tool_spp: &Track) -
     }
 }
 
-#[test]
-fn ppp_and_spp_parity_with_glab_and_rtklib_when_their_outputs_are_present() {
-    let dir = std::env::var("KSHANA_PPP_PARITY_DIR")
+fn oracle_dir() -> PathBuf {
+    std::env::var("KSHANA_PPP_PARITY_DIR")
         .map(PathBuf::from)
-        .unwrap_or_else(|_| fixtures().join(DIR).join("oracle"));
-    let mut ran = false;
-    let mut ks: Option<(Track, Track)> = None;
-    for tool in ["glab", "rtklib"] {
-        let (Some(tp), Some(ts)) = (
-            load(&dir, &format!("{tool}_ppp.csv")),
-            load(&dir, &format!("{tool}_spp.csv")),
-        ) else {
-            eprintln!("{tool}: oracle output not present in {}; parity NOT run (run xval/ppp-parity/run.sh)", dir.display());
-            continue;
-        };
-        let (kp, kspp) = ks.get_or_insert_with(|| {
-            let obs = parse_obs(&read(DIR, "wtzr_2025055_0006_G.rnx")).unwrap();
-            (kshana_ppp(&obs), kshana_spp(&obs))
-        });
-        let o = compare(kp, kspp, &tp, &ts);
-        eprintln!(
-            "{tool}: R1 {:.1} % of {} epochs within 0.05 m; R2 last {:.4} m; R3 median {:.3} m over {} epochs",
-            100.0 * o.r1_frac,
-            o.r1_n,
-            o.r2,
-            o.r3_median,
-            o.r3_n
-        );
-        assert!(o.r1_n >= 200 && o.r3_n >= 600, "{tool}: non-vacuity");
-        assert!(o.r1_frac >= 0.95, "{tool}: R1");
-        assert!(o.r2 <= 0.03, "{tool}: R2");
-        assert!(o.r3_median <= 0.50, "{tool}: R3");
-        ran = true;
+        .unwrap_or_else(|_| fixtures().join(DIR).join("oracle"))
+}
+
+/// The comparison against `tool`'s outputs (`{tool}_ppp.csv`, `{tool}_spp.csv` in `dir`), or
+/// `None` when they are absent.
+fn compare_tool(dir: &std::path::Path, tool: &str, ppp_file: &str) -> Option<Outcome> {
+    let tp = load(dir, ppp_file)?;
+    let ts = load(dir, &format!("{tool}_spp.csv"))?;
+    let obs = parse_obs(&read(DIR, "wtzr_2025055_0006_G.rnx")).unwrap();
+    let o = compare(&kshana_ppp(&obs), &kshana_spp(&obs), &tp, &ts);
+    eprintln!(
+        "{tool} ({ppp_file}): R1 {:.1} % of {} epochs within 0.05 m; R2 last {:.4} m; R3 median {:.3} m over {} epochs",
+        100.0 * o.r1_frac,
+        o.r1_n,
+        o.r2,
+        o.r3_median,
+        o.r3_n
+    );
+    Some(o)
+}
+
+fn assert_bars(tool: &str, o: &Outcome) {
+    assert!(o.r1_n >= 200 && o.r3_n >= 600, "{tool}: non-vacuity");
+    assert!(o.r1_frac >= 0.95, "{tool}: R1");
+    assert!(o.r2 <= 0.03, "{tool}: R2");
+    assert!(o.r3_median <= 0.50, "{tool}: R3");
+}
+
+/// The gLAB leg: data-gated (gLAB could not be fetched where RTKLIB was run).
+#[test]
+fn glab_parity_when_its_outputs_are_present() {
+    match compare_tool(&oracle_dir(), "glab", "glab_ppp.csv") {
+        Some(o) => assert_bars("glab", &o),
+        None => eprintln!("glab: oracle output not present; parity NOT run (run xval/ppp-parity/run.sh with GLAB)"),
     }
-    if !ran {
-        eprintln!("RM-31 parity: no oracle output present; nothing compared, nothing claimed");
-    }
+}
+
+/// The RTKLIB leg as registered (1061480, amendment 1 71b7f63): missed on its first run.
+#[test]
+#[ignore = "FINDING: RTKLIB leg R1 0 %, R2 0.146 m, R3 1.085 m against the registered bars; see the module header"]
+fn rtklib_parity_as_registered() {
+    let o =
+        compare_tool(&oracle_dir(), "rtklib", "rtklib_ppp.csv").expect("committed RTKLIB outputs");
+    assert_bars("rtklib", &o);
+}
+
+// PIN-SCOPE:    the recorded RTKLIB finding: the R1 fraction, the R2 last-epoch difference and the
+//               R3 SPP median of the first registered run, on the committed RTKLIB outputs.
+// PIN-EXCLUDES: the registered bars (kept in the ignored test) and the gLAB leg.
+#[test]
+fn rtklib_finding_is_pinned() {
+    let o =
+        compare_tool(&oracle_dir(), "rtklib", "rtklib_ppp.csv").expect("committed RTKLIB outputs");
+    assert_eq!((o.r1_n, o.r3_n), (240, 719));
+    assert_eq!(o.r1_frac, 0.0);
+    assert!((o.r2 - 0.1462).abs() < 5e-4, "{}", o.r2);
+    assert!((o.r3_median - 1.085).abs() < 5e-4, "{}", o.r3_median);
 }
