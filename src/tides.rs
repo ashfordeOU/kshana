@@ -255,14 +255,66 @@ fn load_love(n: usize) -> f64 {
     }
 }
 
+/// Full normalisation factor `N_nm = √((2 − δ_m0)(2n + 1)(n − m)!/(n + m)!)` relating an
+/// unnormalised Legendre coefficient to its fully-normalised counterpart (`C̄ = C / N`).
+fn full_norm(n: usize, m: usize) -> f64 {
+    let fact = |k: usize| (1..=k).fold(1.0_f64, |a, i| a * i as f64);
+    let dm = if m == 0 { 1.0 } else { 2.0 };
+    (dm * (2 * n + 1) as f64 * fact(n - m) / fact(n + m)).sqrt()
+}
+
+/// One Ray (2001) S2 wave in the IERS form used by [`atmospheric_tide`]: degree `n`, order `m`,
+/// `prograde` (else retrograde), the fully-normalised pressure amplitude (µbar) and the sine-lead
+/// phase `ε` (degrees, IERS Eq. 6.20).
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct S2AirWave {
+    /// Degree.
+    pub n: usize,
+    /// Order.
+    pub m: usize,
+    /// `true` for the prograde wave, `false` for the retrograde one.
+    pub prograde: bool,
+    /// Fully-normalised pressure amplitude (µbar): Ray's unnormalised `D` divided by `N_nm`.
+    pub amplitude_ubar: f64,
+    /// Sine-lead phase `ε = 90° − ψ` (degrees), from Ray's cosine phase lag `ψ`.
+    pub epsilon_deg: f64,
+}
+
+/// Ray (2001)'s S2 air-tide waves converted to the IERS convention: amplitudes divided by the full
+/// normalisation `N_nm` (Ray expands in unnormalised `P_nm`) and phases `ε = 90° − ψ` (Ray gives
+/// the Greenwich lag of a cosine; IERS Eq. 6.20 takes the lead of a sine). This reproduces model A2
+/// of Biancale & Bode (2006), GFZ STR06/01, Table 5, which is Ray's model in fully-normalised,
+/// sine-lead form. Waves with zero amplitude (no retrograde wave at `m = 0`) are omitted.
+pub fn s2_air_waves() -> Vec<S2AirWave> {
+    let mut out = Vec::new();
+    for &(n8, m8, dp, psp, dm, psm) in S2_AIR {
+        let (n, m) = (n8 as usize, m8 as usize);
+        let nf = full_norm(n, m);
+        for (prograde, d, psi) in [(true, dp, psp), (false, dm, psm)] {
+            if d != 0.0 {
+                out.push(S2AirWave {
+                    n,
+                    m,
+                    prograde,
+                    amplitude_ubar: d / nf,
+                    epsilon_deg: (90.0 - psi).rem_euclid(360.0),
+                });
+            }
+        }
+    }
+    out
+}
+
 /// Atmospheric **S2 thermal tide** on the geopotential: the Ray (2001) S2 air-tide pressure
 /// harmonics converted to normalized Stokes coefficients via the standard surface-load formula
 /// (IERS Eq. 6.21 with the atmospheric surface density `σ = Δp/g`):
 /// `ΔC̄_nm = (4πG/g²)·((1+k′_n)/(2n+1))·Δp̄_nm`, with the amplitude/phase → cos/sin conversion of
 /// Eq. 6.20 and the prograde/retrograde combination of Eq. 6.15. The S2 constituent carries
-/// Doodson number 273.555. This is the dominant atmospheric tidal component; it is validated by
-/// the source-coefficient integrity and by magnitude (no published geopotential-coefficient
-/// oracle exists for the air tide, unlike the solid and ocean tides).
+/// Doodson number 273.555. Ray's amplitudes are coefficients of the unnormalised `P_nm` and his
+/// phases are cosine lags, so each wave enters as [`s2_air_waves`] gives it (amplitude `/N_nm`,
+/// `ε = 90° − ψ`); that form is checked wave by wave against the published fully-normalised model
+/// A2 of GFZ STR06/01 Table 5 (`tests/s2_air_tide_gfz_table5.rs`). Before 0.36 the raw `D` and `ψ`
+/// were used directly (see `xval/s2-air-tide-fix/`).
 pub fn atmospheric_tide(jd_tt: f64) -> Vec<StokesDelta> {
     const G: f64 = 6.674e-11; // m³ kg⁻¹ s⁻²
     const GE: f64 = 9.806_65; // m s⁻²
@@ -272,9 +324,17 @@ pub fn atmospheric_tide(jd_tt: f64) -> Vec<StokesDelta> {
     let mut out = Vec::new();
     for &(n8, m8, dp, psp, dm, psm) in S2_AIR {
         let (n, m) = (n8 as usize, m8 as usize);
-        // amplitude/phase → cos/sin prograde & retrograde coefficients (Eq. 6.20), microbars
-        let (cp, sp) = (dp * psp.to_radians().sin(), dp * psp.to_radians().cos());
-        let (cm, sm) = (dm * psm.to_radians().sin(), dm * psm.to_radians().cos());
+        let nf = full_norm(n, m);
+        // Eq. 6.20 with the normalised amplitude D/N and the sine lead ε = 90° − ψ:
+        // C̄ = (D/N)·sin ε = (D/N)·cos ψ,  S̄ = (D/N)·cos ε = (D/N)·sin ψ  (microbars).
+        let (cp, sp) = (
+            dp / nf * psp.to_radians().cos(),
+            dp / nf * psp.to_radians().sin(),
+        );
+        let (cm, sm) = (
+            dm / nf * psm.to_radians().cos(),
+            dm / nf * psm.to_radians().sin(),
+        );
         // pressure → geopotential surface-load factor (Eq. 6.21 with σ = Δp/g), microbar → Pa
         let fac = (4.0 * std::f64::consts::PI * G / (GE * GE))
             * ((1.0 + load_love(n)) / (2.0 * n as f64 + 1.0))
