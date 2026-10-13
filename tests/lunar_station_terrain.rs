@@ -328,6 +328,98 @@ fn the_export_site_is_masked_by_the_terrain() {
     );
 }
 
+// ── a latitude/longitude DEM tile (realdata::lola_dem) ───────────────────────
+
+/// The vendored polar crop resampled onto a realdata::lola_dem latitude/longitude tile
+/// (90 to 83 deg S every 0.01 deg, all longitudes every 0.5 deg; the user points reach 84 S), written to a unique
+/// temporary file.
+fn crop_as_tile(label: &str) -> std::path::PathBuf {
+    let (dem, _) = PolarDem::load(DEM).expect("loads");
+    let tile =
+        kshana::lunar_terrain::rasterise_tile(&dem, (-90.0, -83.0), (-180.0, 180.0), 701, 721);
+    let nanos = std::time::SystemTime::now()
+        .duration_since(std::time::UNIX_EPOCH)
+        .unwrap()
+        .as_nanos();
+    let path = std::env::temp_dir().join(format!(
+        "kshana-dem-tile-{label}-{}-{nanos}.txt",
+        std::process::id()
+    ));
+    std::fs::write(&path, tile.to_text()).unwrap();
+    path
+}
+
+/// `dem_tile_path` wires realdata::lola_dem into the horizon ray march: the station's
+/// horizon from a tile resampled from the vendored crop agrees with the crop's own to
+/// 0.5 deg at every whole degree (the bound was fixed before the first run: two bilinear
+/// resamplings of a 1.2 km grid), the report echoes the tile with its units, and the two
+/// DEM inputs are refused together.
+#[test]
+fn a_lat_lon_dem_tile_gives_the_station_the_crop_horizon() {
+    let tile = crop_as_tile("station");
+    let tile_s = tile.to_str().unwrap();
+    let base = format!("{SMALL}\n[terrain]\nmax_range_km = 60.0\n");
+    let polar = run(&format!("{base}dem_path = \"{DEM}\"\n"));
+    let by_tile_src = format!("{base}dem_tile_path = \"{tile_s}\"\n");
+    let by_tile = run(&by_tile_src);
+    let prof = |v: &Value| -> Vec<f64> {
+        v["terrain"]["station"]["profile_deg"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .map(|x| x.as_f64().unwrap())
+            .collect()
+    };
+    let (a, b) = (prof(&polar), prof(&by_tile));
+    assert_eq!(a.len(), 360);
+    let worst = a
+        .iter()
+        .zip(&b)
+        .map(|(x, y)| (x - y).abs())
+        .fold(0.0_f64, f64::max);
+    eprintln!("station horizon, tile vs crop: worst {worst:.3} deg");
+    assert!(worst <= 0.5, "worst |tile - crop| = {worst} deg");
+
+    let t = &by_tile["terrain"];
+    assert!(t.get("dem").is_none());
+    assert_eq!(t["dem_tile"]["n_lat"], 701);
+    assert_eq!(t["dem_tile"]["sha256"].as_str().unwrap().len(), 64);
+    assert!(t["station"]["sources"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .any(|s| s == "dem"));
+    let out = kshana::api::run_toml(&by_tile_src).unwrap();
+    let doc: Value = serde_json::from_str(&out.json).unwrap();
+    assert!(kshana::field_schema::audit_document(&doc)
+        .missing
+        .is_empty());
+    assert!(doc["units"].get("terrain.dem_tile.pixel_m").is_some());
+    let polar_doc: Value = serde_json::from_str(
+        &kshana::api::run_toml(&format!("{base}dem_path = \"{DEM}\"\n"))
+            .unwrap()
+            .json,
+    )
+    .unwrap();
+    assert!(polar_doc["units"].get("terrain.dem_tile.pixel_m").is_none());
+
+    let both = format!("{base}dem_path = \"{DEM}\"\ndem_tile_path = \"{tile_s}\"\n");
+    let s: LunarStationCoverageScenario = toml::from_str(&both).unwrap();
+    assert!(s.run().unwrap_err().contains("not both"));
+
+    // The service volume reads the same tile at its grid points.
+    let sv = run_sv(&format!(
+        "{SV}\n[terrain]\nmax_range_km = 30.0\ndem_tile_path = \"{tile_s}\"\n"
+    ));
+    assert_eq!(sv["terrain"]["dem_tile"]["n_lon"], 721);
+    assert!(sv["terrain"]["user_sources"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .any(|s| s == "dem"));
+    let _ = std::fs::remove_file(&tile);
+}
+
 // ── units ─────────────────────────────────────────────────────────────────────
 
 fn audit(src: &str) -> kshana::field_schema::DocumentAudit {

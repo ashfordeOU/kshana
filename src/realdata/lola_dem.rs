@@ -20,6 +20,11 @@
 //!   when one is supplied; the fixture stands in for it so the pipeline is exercisable
 //!   offline. Any siting result over the fixture is illustrative until a real tile is
 //!   loaded.
+//!
+//! A tile also drives the lunar horizon masks: [`DemTile`] is a
+//! [`crate::lunar_terrain::HeightField`], read with `[terrain] dem_tile_path` by the
+//! `lunar-station-coverage` and `moonlight-service-volume` kinds
+//! ([`crate::lunar_terrain::load_dem_tile`]).
 
 use crate::lunar::{mcmf_to_selenographic, R_MOON_M};
 

@@ -11,6 +11,12 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **Latitude/longitude DEM tiles for the lunar horizon**: `[terrain] dem_tile_path` reads a
+  `realdata::lola_dem` text tile (heights above the mean sphere on a latitude/longitude grid) in
+  place of the polar stereographic `dem_path`, for both `lunar-station-coverage` and
+  `moonlight-service-volume`; the report echoes the tile (`terrain.dem_tile`, with its SHA-256).
+  `realdata::lola_dem` is now wired into the horizon ray march. A tile resampled from the vendored
+  crop gives the station the crop's horizon to 0.22 deg. MODELLED.
 - **Terrain at the service-volume export site**: with a `terrain` section, each row of the
   `moonlight-service-volume` per-satellite geometry export carries `clears_terrain` (the satellite
   clears the flat mask and the export site's horizon at its azimuth), the report carries the site's
