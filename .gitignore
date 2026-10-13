@@ -115,3 +115,6 @@ packaging/mcp/pypi/build/
 packaging/mcp/pypi/dist/
 packaging/mcp/pypi/*.egg-info/
 packaging/mcp/pypi/src/*.egg-info/
+
+# Space Packet extension oracle driver (spacepackets-rs): build dir only; source + Cargo.lock are committed.
+/xval/space-packet-ext/oracle-rs/target
