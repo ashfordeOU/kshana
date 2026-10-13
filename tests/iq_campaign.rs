@@ -33,7 +33,6 @@
 //! workers, must give byte-identical cells and the same digest as one uninterrupted run on
 //! four workers.
 
-use kshana::portable_math::PortableFloat;
 use kshana::iq::campaign::runner::{cell_key, CellKeyInputs};
 use kshana::iq::campaign::score::reference_q;
 use kshana::iq::campaign::spec::DataClass;
@@ -49,6 +48,7 @@ use kshana::iq::scene::{
 use kshana::iq::track::design::DesignFile;
 use kshana::iq::{ChannelSnapshot, PathState, SampleSpec};
 use kshana::jamming::effective_cn0_dbhz;
+use kshana::portable_math::PortableFloat;
 use std::collections::BTreeMap;
 use std::path::{Path, PathBuf};
 use std::sync::OnceLock;
@@ -819,7 +819,10 @@ fn nwpr_out() -> &'static PathBuf {
 // Re-pinned for the 0.36 Q table (broadband 1 -> 2, xval/jammer-q/): the cells differ only
 // in the MODELLED reference (`modelled_cn0_dbhz`, `modelled_degradation_db`, `modelled.q`);
 // the scored results are unchanged (`PRE_M2M4_SCORED`). Before: eae86091215c0ba6...
-const DIGEST_M2M4: &str = "89c76e01c178ff26a6e48aa046a60ba2a0e54ec821ccc3050590a128628d5d09";
+// 0.36 portable re-pin (STUDIO-15, docs/revisions/STUDIO15-portable-math-rebaseline.md); the host-maths
+// value at 0.35.0 was 89c76e01c178ff26a6e48aa046a60ba2a0e54ec821ccc3050590a128628d5d09. DIGEST_NWPR
+// does not move.
+const DIGEST_M2M4: &str = "70962ffb7a6ae4401da15070e234fcc56396886f72eb8c9ff85078b3f4fc1147";
 const DIGEST_NWPR: &str = "796961479aa9a4553b610422d6827dad9aa1c1a1dc45eb49e283900fd8abf9db";
 
 #[test]

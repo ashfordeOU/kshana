@@ -478,7 +478,10 @@ fn the_released_observability_document_is_unchanged() {
 ///               key cannot move it. Its PRESENCE is still required, by the key-set
 ///               assertion above. Nothing else — a cross-cutting change that appends any
 ///               OTHER block to every scenario IS in scope here.
-const RELEASED_OBSERVABILITY_CANONICAL_FNV: u64 = 9_459_780_657_697_663_305;
+// STUDIO-15 (0.36 portable maths): was 9_459_780_657_697_663_305 on the host's maths. Eight values
+// of the document moved by more than the six digits this pin keeps (round-off-floor singular
+// values and residuals; no rank or threshold moved): docs/revisions/STUDIO15-portable-math-rebaseline.md.
+const RELEASED_OBSERVABILITY_CANONICAL_FNV: u64 = 14_410_212_428_669_190_182;
 
 /// FNV-1a 64-bit — a tiny, dependency-free byte-identity fingerprint (the same one the
 /// registry golden guard uses).
