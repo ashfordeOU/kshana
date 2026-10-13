@@ -1372,6 +1372,11 @@ pub struct SeriesInput {
     /// Locked-mode duration before `holdover_start_s` (days), for the envelope.
     #[serde(default = "d_locked_days")]
     pub locked_duration_days: f64,
+    /// A measured clock log read through [`crate::clock_log`] (RINEX clock, TimeLab ASCII
+    /// or TAPR TICC); its phase, in ns, is the time-error series. Give this, `samples` or
+    /// `csv_path`, not more than one. Absent: the scenario and the report are unchanged.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub clock_log: Option<crate::clock_log::ClockLogInput>,
 }
 
 /// The `telecom-timing` scenario.
@@ -1995,6 +2000,8 @@ pub struct TelecomRun {
     pub holdover_start_s: Option<f64>,
     /// The oscillator model of a synthetic holdover; `None` for an ingested series.
     pub model: Option<HoldoverModel>,
+    /// How a series given as a clock log was read; `None` otherwise.
+    pub clock_log: Option<crate::clock_log::NormalisedPhase>,
 }
 
 /// SHA-256 of the time-error series, as little-endian IEEE-754 bytes.
@@ -2043,6 +2050,7 @@ impl TelecomTimingScenario {
         {
             return Err("every budget max_abs_te_ns must be finite and positive".into());
         }
+        let mut clock_log = None;
         let (record, start, locked_days, model) = if mode == "synthetic-holdover" {
             let h = self.holdover.clone().unwrap_or_default();
             let model = holdover_model(&h)?;
@@ -2055,12 +2063,28 @@ impl TelecomTimingScenario {
             )
         } else {
             let s = self.series.clone().unwrap_or_default();
-            let pairs = match (&s.csv_path, s.samples.is_empty()) {
-                (Some(_), false) => {
+            let pairs = match (&s.csv_path, s.samples.is_empty(), &s.clock_log) {
+                (_, _, Some(_)) if s.csv_path.is_some() || !s.samples.is_empty() => {
+                    return Err(
+                        "give one of series.samples, series.csv_path or series.clock_log".into(),
+                    )
+                }
+                (None, true, Some(c)) => {
+                    let log = crate::clock_log::read_input(c)?;
+                    let pairs = log
+                        .time_s
+                        .iter()
+                        .zip(&log.phase_s)
+                        .map(|(&t, &x)| [t, x * 1e9])
+                        .collect();
+                    clock_log = Some(log);
+                    pairs
+                }
+                (Some(_), false, _) => {
                     return Err("give either series.samples or series.csv_path, not both".into())
                 }
-                (Some(p), true) => read_csv(p)?,
-                (None, _) => s.samples.clone(),
+                (Some(p), true, _) => read_csv(p)?,
+                (None, _, _) => s.samples.clone(),
             };
             let rec = record_from_pairs(&pairs)?;
             (rec, s.holdover_start_s, s.locked_duration_days, None)
@@ -2085,6 +2109,7 @@ impl TelecomTimingScenario {
             budgets,
             holdover_start_s: start,
             model,
+            clock_log,
         })
     }
 
@@ -2189,7 +2214,7 @@ impl TelecomTimingScenario {
             }
             _ => serde_json::Value::Null,
         };
-        let doc = serde_json::json!({
+        let mut doc = serde_json::json!({
             "kind": "telecom-timing",
             "label": "MODELLED — time error, MTIE and TDEV checked against transcribed \
                       ITU-T masks. The estimators are validated against allantools; the \
@@ -2223,6 +2248,17 @@ impl TelecomTimingScenario {
             "not_implemented": NOT_IMPLEMENTED,
             "units": crate::field_schema::units_block(UNITS),
         });
+        // A series read from a clock log adds its `clock_log` block and the block's units;
+        // every other report keeps its bytes.
+        if let Some(log) = &r.clock_log {
+            let units: Vec<_> = UNITS
+                .iter()
+                .chain(crate::clock_log::TELECOM_LOG_UNITS)
+                .copied()
+                .collect();
+            doc["clock_log"] = serde_json::to_value(log).map_err(|e| e.to_string())?;
+            doc["units"] = crate::field_schema::units_block(&units);
+        }
         serde_json::to_string_pretty(&doc).map_err(|e| e.to_string())
     }
 }
