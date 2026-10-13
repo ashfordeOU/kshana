@@ -1,0 +1,1081 @@
+{
+  "kind": "lunar-station-coverage",
+  "label": "MODELLED",
+  "inputs_echo": {
+    "n_sats": 4,
+    "sma_km": 9737.4,
+    "eccentricity": 0.6,
+    "inc_deg": 57.7,
+    "argp_deg": 90.0,
+    "ephemeris_path": null,
+    "mask_deg": 5.0,
+    "station_lat_deg": -89.4765,
+    "station_lon_deg": -138.135,
+    "station_height_m": 0.0,
+    "survey_sigma_m": 0.3,
+    "orbit_err_m": 100.0,
+    "clock_err_m": 30.0,
+    "sise_sigma_m": 5.1,
+    "sise_orbit_variance_fraction": 0.5,
+    "noise_m": 0.3,
+    "latency_s": 1.0,
+    "quantization_bits": 8,
+    "grid_lat_max_deg": -80.0,
+    "grid_lat_step_deg": 1.0,
+    "points": [
+      {
+        "lat_deg": -89.4765,
+        "lon_deg": -138.135
+      },
+      {
+        "lat_deg": -87.82760568915961,
+        "lon_deg": -138.135
+      },
+      {
+        "lat_deg": -86.17871137831915,
+        "lon_deg": -138.135
+      },
+      {
+        "lat_deg": -82.88092275663841,
+        "lon_deg": -138.135
+      },
+      {
+        "lat_deg": -88.2700205099091,
+        "lon_deg": -65.74409522453827
+      },
+      {
+        "lat_deg": -86.66096430920632,
+        "lon_deg": -57.145102931531966
+      },
+      {
+        "lat_deg": -83.38377148034724,
+        "lon_deg": -52.653088119630866
+      },
+      {
+        "lat_deg": -88.87460568915958,
+        "lon_deg": 41.86500000000001
+      },
+      {
+        "lat_deg": -87.22571137831902,
+        "lon_deg": 41.86500000000001
+      },
+      {
+        "lat_deg": -83.92792275663837,
+        "lon_deg": 41.86500000000001
+      },
+      {
+        "lat_deg": -88.2700205099091,
+        "lon_deg": 149.4740952245383
+      },
+      {
+        "lat_deg": -86.66096430920632,
+        "lon_deg": 140.875102931532
+      },
+      {
+        "lat_deg": -83.38377148034724,
+        "lon_deg": 136.38308811963088
+      },
+      {
+        "lat_deg": -80.0,
+        "lon_deg": -138.135
+      },
+      {
+        "lat_deg": -80.0,
+        "lon_deg": -48.13499999999999
+      },
+      {
+        "lat_deg": -80.0,
+        "lon_deg": 41.86500000000001
+      },
+      {
+        "lat_deg": -80.0,
+        "lon_deg": 131.865
+      }
+    ],
+    "t_start_s": 0.0,
+    "t_span_s": 86400.0,
+    "t_step_s": 600.0,
+    "n_trials": 200,
+    "accuracy_threshold_m": 1.0,
+    "percentile": 95.0,
+    "alert_limit_m": 10.0,
+    "residual_sigma_m": 5.0,
+    "p_hmi": 0.0001,
+    "seed": 42
+  },
+  "error_model": {
+    "source": "sise_sigma_m split",
+    "orbit_err_m": 6.246198844097103,
+    "clock_err_m": 3.6062445840513924,
+    "los_sise_sigma_m": 5.1
+  },
+  "n_sats": 4,
+  "n_grid_points": 17,
+  "n_epochs": 144,
+  "n_trials": 200,
+  "percentile": 95.0,
+  "moon_radius_m": 1737400.0,
+  "region": {
+    "availability": 0.0923202614379085,
+    "coverage_fraction": 0.0,
+    "corrected_p_3d_m": 295.35993320045736,
+    "corrected_p_h_m": 142.59873462368853,
+    "corrected_p_v_m": 258.1846140264377,
+    "uncorrected_p_3d_m": 4032.3691279745144,
+    "improvement_factor": 13.652390438610345,
+    "hpl_max_m": 180466.93148258617,
+    "vpl_max_m": 300215.9794325307,
+    "hpl_below_alert_fraction": 0.0,
+    "worst_point": {
+      "lat_deg": -86.66096430920632,
+      "lon_deg": -57.145102931531966,
+      "corrected_p_3d_m": 1543.851572456474
+    }
+  },
+  "coverage_radius_km": [
+    {
+      "azimuth_deg": 0.0,
+      "radius_km": 0.0,
+      "limited_by_grid": false,
+      "n_points": 4
+    },
+    {
+      "azimuth_deg": 30.0,
+      "radius_km": null,
+      "limited_by_grid": false,
+      "n_points": 0
+    },
+    {
+      "azimuth_deg": 60.0,
+      "radius_km": null,
+      "limited_by_grid": false,
+      "n_points": 0
+    },
+    {
+      "azimuth_deg": 90.0,
+      "radius_km": 0.0,
+      "limited_by_grid": false,
+      "n_points": 4
+    },
+    {
+      "azimuth_deg": 120.0,
+      "radius_km": null,
+      "limited_by_grid": false,
+      "n_points": 0
+    },
+    {
+      "azimuth_deg": 150.0,
+      "radius_km": null,
+      "limited_by_grid": false,
+      "n_points": 0
+    },
+    {
+      "azimuth_deg": 180.0,
+      "radius_km": 0.0,
+      "limited_by_grid": false,
+      "n_points": 4
+    },
+    {
+      "azimuth_deg": 210.0,
+      "radius_km": null,
+      "limited_by_grid": false,
+      "n_points": 0
+    },
+    {
+      "azimuth_deg": 240.0,
+      "radius_km": null,
+      "limited_by_grid": false,
+      "n_points": 0
+    },
+    {
+      "azimuth_deg": 270.0,
+      "radius_km": 0.0,
+      "limited_by_grid": false,
+      "n_points": 4
+    },
+    {
+      "azimuth_deg": 300.0,
+      "radius_km": null,
+      "limited_by_grid": false,
+      "n_points": 0
+    },
+    {
+      "azimuth_deg": 330.0,
+      "radius_km": null,
+      "limited_by_grid": false,
+      "n_points": 0
+    }
+  ],
+  "points": [
+    {
+      "lat_deg": -89.4765,
+      "lon_deg": -138.135,
+      "distance_km": 0.0,
+      "azimuth_deg": 0.0,
+      "area_weight": 1.0,
+      "availability": 0.125,
+      "coverage_fraction": 0.0,
+      "corrected_p_3d_m": 110.33586059805504,
+      "corrected_p_h_m": 52.318232386669195,
+      "corrected_p_v_m": 97.2268810289981,
+      "uncorrected_p_3d_m": 1535.805499215373,
+      "hpl_median_m": 306.419635071518,
+      "hpl_max_m": 8700.523547619116,
+      "vpl_max_m": 14538.550680389622,
+      "hpl_below_alert_fraction": 0.0,
+      "unavailable": {
+        "user_lt4": 126,
+        "station_missing_sat": 0
+      }
+    },
+    {
+      "lat_deg": -87.82760568915961,
+      "lon_deg": -138.135,
+      "distance_km": 49.99999999999976,
+      "azimuth_deg": 0.0,
+      "area_weight": 1.0,
+      "availability": 0.1111111111111111,
+      "coverage_fraction": 0.0,
+      "corrected_p_3d_m": 141.76008411388835,
+      "corrected_p_h_m": 67.14436297516342,
+      "corrected_p_v_m": 125.14905665939042,
+      "uncorrected_p_3d_m": 1810.459448870559,
+      "hpl_median_m": 310.44977172869005,
+      "hpl_max_m": 8058.22099394767,
+      "vpl_max_m": 14526.219910809881,
+      "hpl_below_alert_fraction": 0.0,
+      "unavailable": {
+        "user_lt4": 127,
+        "station_missing_sat": 1
+      }
+    },
+    {
+      "lat_deg": -86.17871137831915,
+      "lon_deg": -138.135,
+      "distance_km": 100.00000000000144,
+      "azimuth_deg": 0.0,
+      "area_weight": 1.0,
+      "availability": 0.10416666666666667,
+      "coverage_fraction": 0.0,
+      "corrected_p_3d_m": 177.89533259151818,
+      "corrected_p_h_m": 78.4732972042059,
+      "corrected_p_v_m": 157.88140890664707,
+      "uncorrected_p_3d_m": 2069.866066193066,
+      "hpl_median_m": 310.6201472509116,
+      "hpl_max_m": 7427.016104229565,
+      "vpl_max_m": 14499.14777731416,
+      "hpl_below_alert_fraction": 0.0,
+      "unavailable": {
+        "user_lt4": 126,
+        "station_missing_sat": 3
+      }
+    },
+    {
+      "lat_deg": -82.88092275663841,
+      "lon_deg": -138.135,
+      "distance_km": 199.99999999999943,
+      "azimuth_deg": 0.0,
+      "area_weight": 1.0,
+      "availability": 0.0763888888888889,
+      "coverage_fraction": 0.0,
+      "corrected_p_3d_m": 283.46453523553834,
+      "corrected_p_h_m": 122.90537329494674,
+      "corrected_p_v_m": 252.94471648587273,
+      "uncorrected_p_3d_m": 3359.6524171601304,
+      "hpl_median_m": 254.1106984630337,
+      "hpl_max_m": 9750.762421603973,
+      "vpl_max_m": 15207.465327795908,
+      "hpl_below_alert_fraction": 0.0,
+      "unavailable": {
+        "user_lt4": 127,
+        "station_missing_sat": 6
+      }
+    },
+    {
+      "lat_deg": -88.2700205099091,
+      "lon_deg": -65.74409522453827,
+      "distance_km": 49.999999999999794,
+      "azimuth_deg": 89.99999999999903,
+      "area_weight": 1.0,
+      "availability": 0.1111111111111111,
+      "coverage_fraction": 0.0,
+      "corrected_p_3d_m": 208.53117316428228,
+      "corrected_p_h_m": 99.4084420889363,
+      "corrected_p_v_m": 180.11746892819264,
+      "uncorrected_p_3d_m": 2276.522616769481,
+      "hpl_median_m": 324.84999529598036,
+      "hpl_max_m": 16593.16776979634,
+      "vpl_max_m": 27726.094749422802,
+      "hpl_below_alert_fraction": 0.0,
+      "unavailable": {
+        "user_lt4": 126,
+        "station_missing_sat": 2
+      }
+    },
+    {
+      "lat_deg": -86.66096430920632,
+      "lon_deg": -57.145102931531966,
+      "distance_km": 100.00000000000017,
+      "azimuth_deg": 89.99999999999011,
+      "area_weight": 1.0,
+      "availability": 0.10416666666666667,
+      "coverage_fraction": 0.0,
+      "corrected_p_3d_m": 1543.851572456474,
+      "corrected_p_h_m": 726.7770847863964,
+      "corrected_p_v_m": 1362.0839712504398,
+      "uncorrected_p_3d_m": 26651.60087869869,
+      "hpl_median_m": 334.99806947642816,
+      "hpl_max_m": 180466.93148258617,
+      "vpl_max_m": 300215.9794325307,
+      "hpl_below_alert_fraction": 0.0,
+      "unavailable": {
+        "user_lt4": 127,
+        "station_missing_sat": 2
+      }
+    },
+    {
+      "lat_deg": -83.38377148034724,
+      "lon_deg": -52.653088119630866,
+      "distance_km": 200.00000000000006,
+      "azimuth_deg": 90.00000000000087,
+      "area_weight": 1.0,
+      "availability": 0.08333333333333333,
+      "coverage_fraction": 0.0,
+      "corrected_p_3d_m": 181.44943954381523,
+      "corrected_p_h_m": 93.85014896333341,
+      "corrected_p_v_m": 154.81032878149787,
+      "uncorrected_p_3d_m": 2341.315137556967,
+      "hpl_median_m": 336.2439979736595,
+      "hpl_max_m": 9828.295283350015,
+      "vpl_max_m": 15999.964134124688,
+      "hpl_below_alert_fraction": 0.0,
+      "unavailable": {
+        "user_lt4": 126,
+        "station_missing_sat": 6
+      }
+    },
+    {
+      "lat_deg": -88.87460568915958,
+      "lon_deg": 41.86500000000001,
+      "distance_km": 50.000000000000355,
+      "azimuth_deg": 180.0,
+      "area_weight": 1.0,
+      "availability": 0.10416666666666667,
+      "coverage_fraction": 0.0,
+      "corrected_p_3d_m": 129.0554907406338,
+      "corrected_p_h_m": 63.03597714037514,
+      "corrected_p_v_m": 112.11013119530665,
+      "uncorrected_p_3d_m": 1678.3554002280162,
+      "hpl_median_m": 357.3482555422047,
+      "hpl_max_m": 9353.659068547164,
+      "vpl_max_m": 14535.555882545383,
+      "hpl_below_alert_fraction": 0.0,
+      "unavailable": {
+        "user_lt4": 127,
+        "station_missing_sat": 2
+      }
+    },
+    {
+      "lat_deg": -87.22571137831902,
+      "lon_deg": 41.86500000000001,
+      "distance_km": 100.00000000000514,
+      "azimuth_deg": 180.0,
+      "area_weight": 1.0,
+      "availability": 0.09722222222222222,
+      "coverage_fraction": 0.0,
+      "corrected_p_3d_m": 140.2186532378046,
+      "corrected_p_h_m": 70.63203826753939,
+      "corrected_p_v_m": 121.93540463347622,
+      "uncorrected_p_3d_m": 1756.847806337145,
+      "hpl_median_m": 370.31171001667883,
+      "hpl_max_m": 10017.334952965428,
+      "vpl_max_m": 14516.652327463791,
+      "hpl_below_alert_fraction": 0.0,
+      "unavailable": {
+        "user_lt4": 127,
+        "station_missing_sat": 3
+      }
+    },
+    {
+      "lat_deg": -83.92792275663837,
+      "lon_deg": 41.86500000000001,
+      "distance_km": 200.00000000000037,
+      "azimuth_deg": 180.0,
+      "area_weight": 1.0,
+      "availability": 0.08333333333333333,
+      "coverage_fraction": 0.0,
+      "corrected_p_3d_m": 162.1833810131005,
+      "corrected_p_h_m": 93.07631745800956,
+      "corrected_p_v_m": 135.9977921870911,
+      "uncorrected_p_3d_m": 2158.240433508391,
+      "hpl_median_m": 357.61062655659464,
+      "hpl_max_m": 11374.997589125574,
+      "vpl_max_m": 14428.79882810454,
+      "hpl_below_alert_fraction": 0.0,
+      "unavailable": {
+        "user_lt4": 127,
+        "station_missing_sat": 5
+      }
+    },
+    {
+      "lat_deg": -88.2700205099091,
+      "lon_deg": 149.4740952245383,
+      "distance_km": 49.999999999999794,
+      "azimuth_deg": 270.00000000000097,
+      "area_weight": 1.0,
+      "availability": 0.11805555555555555,
+      "coverage_fraction": 0.0,
+      "corrected_p_3d_m": 111.09982606392207,
+      "corrected_p_h_m": 51.628476640004685,
+      "corrected_p_v_m": 98.92091023340129,
+      "uncorrected_p_3d_m": 1372.3150927439985,
+      "hpl_median_m": 310.3799127254215,
+      "hpl_max_m": 5918.727809936984,
+      "vpl_max_m": 9847.220722484051,
+      "hpl_below_alert_fraction": 0.0,
+      "unavailable": {
+        "user_lt4": 126,
+        "station_missing_sat": 1
+      }
+    },
+    {
+      "lat_deg": -86.66096430920632,
+      "lon_deg": 140.875102931532,
+      "distance_km": 100.00000000000017,
+      "azimuth_deg": 270.0000000000099,
+      "area_weight": 1.0,
+      "availability": 0.09722222222222222,
+      "coverage_fraction": 0.0,
+      "corrected_p_3d_m": 107.21593953132052,
+      "corrected_p_h_m": 49.86629618178394,
+      "corrected_p_v_m": 94.28956959191763,
+      "uncorrected_p_3d_m": 1393.6175637075937,
+      "hpl_median_m": 337.84297888622774,
+      "hpl_max_m": 4509.437629011992,
+      "vpl_max_m": 7437.819701907383,
+      "hpl_below_alert_fraction": 0.0,
+      "unavailable": {
+        "user_lt4": 126,
+        "station_missing_sat": 4
+      }
+    },
+    {
+      "lat_deg": -83.38377148034724,
+      "lon_deg": 136.38308811963088,
+      "distance_km": 200.00000000000006,
+      "azimuth_deg": 269.99999999999915,
+      "area_weight": 1.0,
+      "availability": 0.0763888888888889,
+      "coverage_fraction": 0.0,
+      "corrected_p_3d_m": 124.871166482871,
+      "corrected_p_h_m": 56.654901364753364,
+      "corrected_p_v_m": 114.23270802879865,
+      "uncorrected_p_3d_m": 1428.3023517075037,
+      "hpl_median_m": 308.5083768025338,
+      "hpl_max_m": 3107.9963241984588,
+      "vpl_max_m": 5454.177413435205,
+      "hpl_below_alert_fraction": 0.0,
+      "unavailable": {
+        "user_lt4": 129,
+        "station_missing_sat": 4
+      }
+    },
+    {
+      "lat_deg": -80.0,
+      "lon_deg": -138.135,
+      "distance_km": 287.35923029445286,
+      "azimuth_deg": 0.0,
+      "area_weight": 1.0,
+      "availability": 0.0763888888888889,
+      "coverage_fraction": 0.0,
+      "corrected_p_3d_m": 1287.7165639035584,
+      "corrected_p_h_m": 655.4721670931065,
+      "corrected_p_v_m": 1108.4088535868352,
+      "uncorrected_p_3d_m": 14859.280586685576,
+      "hpl_median_m": 217.49518926055748,
+      "hpl_max_m": 80251.97016110805,
+      "vpl_max_m": 120496.020975227,
+      "hpl_below_alert_fraction": 0.0,
+      "unavailable": {
+        "user_lt4": 126,
+        "station_missing_sat": 7
+      }
+    },
+    {
+      "lat_deg": -80.0,
+      "lon_deg": -48.13499999999999,
+      "distance_km": 303.6445071651089,
+      "azimuth_deg": 92.96622188970413,
+      "area_weight": 1.0,
+      "availability": 0.06944444444444445,
+      "coverage_fraction": 0.0,
+      "corrected_p_3d_m": 97.53018679624351,
+      "corrected_p_h_m": 48.03945707896471,
+      "corrected_p_v_m": 84.85671991068914,
+      "uncorrected_p_3d_m": 1291.2283406823383,
+      "hpl_median_m": 322.3261683300766,
+      "hpl_max_m": 4956.105123149665,
+      "vpl_max_m": 7599.122580174919,
+      "hpl_below_alert_fraction": 0.0,
+      "unavailable": {
+        "user_lt4": 125,
+        "station_missing_sat": 9
+      }
+    },
+    {
+      "lat_deg": -80.0,
+      "lon_deg": 41.86500000000001,
+      "distance_km": 319.10777818853705,
+      "azimuth_deg": 180.0,
+      "area_weight": 1.0,
+      "availability": 0.0625,
+      "coverage_fraction": 0.0,
+      "corrected_p_3d_m": 77.34338895648543,
+      "corrected_p_h_m": 35.44163820893077,
+      "corrected_p_v_m": 67.83221213056842,
+      "uncorrected_p_3d_m": 938.2466764718192,
+      "hpl_median_m": 311.25361974459656,
+      "hpl_max_m": 2363.4131691490916,
+      "vpl_max_m": 3407.8380325167345,
+      "hpl_below_alert_fraction": 0.0,
+      "unavailable": {
+        "user_lt4": 126,
+        "station_missing_sat": 9
+      }
+    },
+    {
+      "lat_deg": -80.0,
+      "lon_deg": 131.865,
+      "distance_km": 303.6445071651089,
+      "azimuth_deg": 267.0337781102959,
+      "area_weight": 1.0,
+      "availability": 0.06944444444444445,
+      "coverage_fraction": 0.0,
+      "corrected_p_3d_m": 136.59626997826322,
+      "corrected_p_h_m": 59.454277469585385,
+      "corrected_p_v_m": 120.34030491031773,
+      "uncorrected_p_3d_m": 1628.6188590300892,
+      "hpl_median_m": 280.67905963372334,
+      "hpl_max_m": 4532.8538908263345,
+      "vpl_max_m": 6667.933218729792,
+      "hpl_below_alert_fraction": 0.0,
+      "unavailable": {
+        "user_lt4": 126,
+        "station_missing_sat": 8
+      }
+    }
+  ],
+  "budget_at_station_and_at_edge": {
+    "epoch_s": 0.0,
+    "station": null,
+    "worst_point": null
+  },
+  "note": "MODELLED. Under the stated assumptions (constellation, signal-in-space error, station survey accuracy, correction latency and link quantization, each input labelled in the scenario with its public source or as ILLUSTRATIVE), the model gives these figures. Not a statement about the performance of any real system; not affiliated with or endorsed by any agency; no TRL or heritage claim. Omitted: terrain and horizon masking at the pole, multipath, receiver hardware, growth of the ephemeris error over the correction latency beyond the line-of-sight re-projection.",
+  "units": {
+    "budget_at_station_and_at_edge.*.ageing_clock_time_error_s": {
+      "note": "sigma_y(tau) tau of the ageing clock's power law",
+      "provenance": "spec",
+      "unit": "s"
+    },
+    "budget_at_station_and_at_edge.*.ageing_orbit_rate_m_per_s": {
+      "note": "RMS orbit-ageing range-error growth rate from the propagator",
+      "provenance": "computed",
+      "unit": "m/s"
+    },
+    "budget_at_station_and_at_edge.*.latency_clock_position_sigma_m": {
+      "note": "position-domain 1-sigma of clock ageing",
+      "provenance": "computed",
+      "unit": "m"
+    },
+    "budget_at_station_and_at_edge.*.latency_clock_range_sigma_m": {
+      "note": "range-domain 1-sigma of clock ageing",
+      "provenance": "spec",
+      "unit": "m"
+    },
+    "budget_at_station_and_at_edge.*.latency_curve[][]": {
+      "note": "latency_s against total_position_sigma_m",
+      "provenance": "computed",
+      "unit": "(s, m)"
+    },
+    "budget_at_station_and_at_edge.*.latency_orbit_position_sigma_m": {
+      "note": "position-domain 1-sigma of orbit ageing",
+      "provenance": "computed",
+      "unit": "m"
+    },
+    "budget_at_station_and_at_edge.*.latency_orbit_range_sigma_m": {
+      "note": "range-domain 1-sigma, RMS over satellites, of orbit ageing",
+      "provenance": "computed",
+      "unit": "m"
+    },
+    "budget_at_station_and_at_edge.*.latency_position_sigma_m": {
+      "note": "position-domain 1-sigma of the latency term",
+      "provenance": "computed",
+      "unit": "m"
+    },
+    "budget_at_station_and_at_edge.*.latency_range_sigma_m": {
+      "note": "range-domain 1-sigma of the whole latency term",
+      "provenance": "computed",
+      "unit": "m"
+    },
+    "budget_at_station_and_at_edge.*.latency_s": {
+      "note": "age of a correction when applied",
+      "provenance": "input",
+      "unit": "s"
+    },
+    "budget_at_station_and_at_edge.*.pdop": {
+      "note": "user PDOP over the satellites in view at the budget epoch",
+      "provenance": "computed",
+      "unit": "1"
+    },
+    "budget_at_station_and_at_edge.*.protection_level_with_link_m": {
+      "note": "DO-229E HPL at the augmented sigma",
+      "provenance": "computed",
+      "unit": "m"
+    },
+    "budget_at_station_and_at_edge.*.quantization_bits": {
+      "note": "bits per transmitted correction",
+      "provenance": "input",
+      "unit": "bit"
+    },
+    "budget_at_station_and_at_edge.*.quantization_full_scale_m": {
+      "note": "half-range orbit_err_m + clock_err_m",
+      "provenance": "closed-form",
+      "unit": "m"
+    },
+    "budget_at_station_and_at_edge.*.quantization_position_sigma_m": {
+      "note": "position-domain 1-sigma of quantization",
+      "provenance": "computed",
+      "unit": "m"
+    },
+    "budget_at_station_and_at_edge.*.quantization_range_sigma_m": {
+      "note": "step / sqrt(12)",
+      "provenance": "closed-form",
+      "unit": "m"
+    },
+    "budget_at_station_and_at_edge.*.quantization_step_m": {
+      "note": "2 full_scale / 2^bits",
+      "provenance": "closed-form",
+      "unit": "m"
+    },
+    "budget_at_station_and_at_edge.*.residual_sigma_m": {
+      "note": "the differential residual 1-sigma",
+      "provenance": "input",
+      "unit": "m"
+    },
+    "budget_at_station_and_at_edge.*.survey_position_sigma_m": {
+      "note": "position-domain 1-sigma of the survey term",
+      "provenance": "computed",
+      "unit": "m"
+    },
+    "budget_at_station_and_at_edge.*.survey_range_sigma_m": {
+      "note": "per-satellite 1-sigma of the survey term; correlated across satellites",
+      "provenance": "closed-form",
+      "unit": "m"
+    },
+    "budget_at_station_and_at_edge.*.survey_sigma_m": {
+      "note": "station 3-D coordinate 1-sigma",
+      "provenance": "input",
+      "unit": "m"
+    },
+    "budget_at_station_and_at_edge.*.survey_sigma_per_axis_m": {
+      "note": "survey_sigma_m / sqrt(3)",
+      "provenance": "closed-form",
+      "unit": "m"
+    },
+    "budget_at_station_and_at_edge.*.survey_transfer": {
+      "note": "3-D position error per metre of per-axis station error, RSS over the three axes (ratio)",
+      "provenance": "computed",
+      "unit": "1"
+    },
+    "budget_at_station_and_at_edge.*.total_position_sigma_m": {
+      "note": "RSS of the three position-domain terms",
+      "provenance": "computed",
+      "unit": "m"
+    },
+    "budget_at_station_and_at_edge.*.total_range_sigma_m": {
+      "note": "RSS of the three range-domain terms",
+      "provenance": "computed",
+      "unit": "m"
+    },
+    "budget_at_station_and_at_edge.*.total_with_residual_range_sigma_m": {
+      "note": "sqrt(residual_sigma_m^2 + total_range_sigma_m^2)",
+      "provenance": "computed",
+      "unit": "m"
+    },
+    "budget_at_station_and_at_edge.*.vpl_with_link_m": {
+      "note": "DO-229E VPL at the augmented sigma",
+      "provenance": "computed",
+      "unit": "m"
+    },
+    "budget_at_station_and_at_edge.epoch_s": {
+      "note": "the representative epoch of the budget: t_start_s",
+      "provenance": "input",
+      "unit": "s"
+    },
+    "coverage_radius_km[].azimuth_deg": {
+      "note": "centre of a 30-degree azimuth sector from the station",
+      "provenance": "computed",
+      "unit": "deg"
+    },
+    "coverage_radius_km[].n_points": {
+      "note": "points in the sector",
+      "provenance": "computed",
+      "unit": "count"
+    },
+    "coverage_radius_km[].radius_km": {
+      "note": "distance walked outward from the station before the first point of the sector below 95 % coverage",
+      "provenance": "computed",
+      "unit": "km"
+    },
+    "error_model.clock_err_m": {
+      "note": "clock-error magnitude injected per satellite, after any SISE split",
+      "provenance": "computed",
+      "unit": "m"
+    },
+    "error_model.los_sise_sigma_m": {
+      "note": "sqrt(orbit_err_m^2 / 3 + clock_err_m^2), the line-of-sight SISE 1-sigma",
+      "provenance": "closed-form",
+      "unit": "m"
+    },
+    "error_model.orbit_err_m": {
+      "note": "orbit-error magnitude injected per satellite, after any SISE split",
+      "provenance": "computed",
+      "unit": "m"
+    },
+    "inputs_echo.accuracy_threshold_m": {
+      "note": "coverage threshold on the percentile 3-D error, stated before the run",
+      "provenance": "input",
+      "unit": "m"
+    },
+    "inputs_echo.alert_limit_m": {
+      "note": "horizontal alert limit; ILLUSTRATIVE, no public value exists",
+      "provenance": "input",
+      "unit": "m"
+    },
+    "inputs_echo.argp_deg": {
+      "note": "argument of perilune of the illustrative constellation",
+      "provenance": "input",
+      "unit": "deg"
+    },
+    "inputs_echo.clock_err_m": {
+      "note": "common-mode clock-error magnitude per satellite (ignored with sise_sigma_m)",
+      "provenance": "input",
+      "unit": "m"
+    },
+    "inputs_echo.eccentricity": {
+      "note": "eccentricity of the illustrative constellation",
+      "provenance": "input",
+      "unit": "1"
+    },
+    "inputs_echo.grid_lat_max_deg": {
+      "note": "outer latitude of the ring grid",
+      "provenance": "input",
+      "unit": "deg"
+    },
+    "inputs_echo.grid_lat_step_deg": {
+      "note": "ring spacing of the grid",
+      "provenance": "input",
+      "unit": "deg"
+    },
+    "inputs_echo.inc_deg": {
+      "note": "inclination of the illustrative constellation",
+      "provenance": "input",
+      "unit": "deg"
+    },
+    "inputs_echo.latency_s": {
+      "note": "age of a correction when applied",
+      "provenance": "input",
+      "unit": "s"
+    },
+    "inputs_echo.mask_deg": {
+      "note": "elevation mask at the user and at the station",
+      "provenance": "input",
+      "unit": "deg"
+    },
+    "inputs_echo.n_sats": {
+      "note": "satellites in the illustrative constellation (ignored with ephemeris_path)",
+      "provenance": "input",
+      "unit": "count"
+    },
+    "inputs_echo.n_trials": {
+      "note": "Monte Carlo trials per epoch",
+      "provenance": "input",
+      "unit": "count"
+    },
+    "inputs_echo.noise_m": {
+      "note": "per-receiver measurement-noise 1-sigma at the user and at the station",
+      "provenance": "input",
+      "unit": "m"
+    },
+    "inputs_echo.orbit_err_m": {
+      "note": "common-mode orbit-error magnitude per satellite (ignored with sise_sigma_m)",
+      "provenance": "input",
+      "unit": "m"
+    },
+    "inputs_echo.p_hmi": {
+      "note": "integrity-risk budget, a probability (interface parity; DO-229E K-factors are fixed)",
+      "provenance": "input",
+      "unit": "1"
+    },
+    "inputs_echo.percentile": {
+      "note": "the percentile reported, in percent (0 to 100)",
+      "provenance": "input",
+      "unit": "1"
+    },
+    "inputs_echo.points[].lat_deg": {
+      "note": "latitude of a listed user point",
+      "provenance": "input",
+      "unit": "deg"
+    },
+    "inputs_echo.points[].lon_deg": {
+      "note": "longitude of a listed user point",
+      "provenance": "input",
+      "unit": "deg"
+    },
+    "inputs_echo.quantization_bits": {
+      "note": "bits per transmitted correction; 0 disables quantization",
+      "provenance": "input",
+      "unit": "bit"
+    },
+    "inputs_echo.residual_sigma_m": {
+      "note": "differential residual 1-sigma the protection levels scale with",
+      "provenance": "input",
+      "unit": "m"
+    },
+    "inputs_echo.seed": {
+      "note": "seed of every draw (an integer label)",
+      "provenance": "input",
+      "unit": "1"
+    },
+    "inputs_echo.sise_orbit_variance_fraction": {
+      "note": "orbit share of the SISE variance (fraction)",
+      "provenance": "input",
+      "unit": "1"
+    },
+    "inputs_echo.sise_sigma_m": {
+      "note": "line-of-sight signal-in-space error 1-sigma, split into orbit and clock magnitudes",
+      "provenance": "input",
+      "unit": "m"
+    },
+    "inputs_echo.sma_km": {
+      "note": "semi-major axis of the illustrative constellation",
+      "provenance": "input",
+      "unit": "km"
+    },
+    "inputs_echo.station_height_m": {
+      "note": "station height above the mean lunar sphere",
+      "provenance": "input",
+      "unit": "m"
+    },
+    "inputs_echo.station_lat_deg": {
+      "note": "station selenographic latitude",
+      "provenance": "input",
+      "unit": "deg"
+    },
+    "inputs_echo.station_lon_deg": {
+      "note": "station selenographic longitude",
+      "provenance": "input",
+      "unit": "deg"
+    },
+    "inputs_echo.survey_sigma_m": {
+      "note": "station 3-D coordinate 1-sigma, isotropic, drawn once per trial",
+      "provenance": "input",
+      "unit": "m"
+    },
+    "inputs_echo.t_span_s": {
+      "note": "span of the epochs",
+      "provenance": "input",
+      "unit": "s"
+    },
+    "inputs_echo.t_start_s": {
+      "note": "first epoch, seconds past the MCI/MCMF-aligned epoch",
+      "provenance": "input",
+      "unit": "s"
+    },
+    "inputs_echo.t_step_s": {
+      "note": "epoch spacing",
+      "provenance": "input",
+      "unit": "s"
+    },
+    "moon_radius_m": {
+      "note": "the mean lunar radius the great-circle distances use",
+      "provenance": "constant",
+      "unit": "m"
+    },
+    "n_epochs": {
+      "note": "epochs swept",
+      "provenance": "computed",
+      "unit": "count"
+    },
+    "n_grid_points": {
+      "note": "user points swept",
+      "provenance": "computed",
+      "unit": "count"
+    },
+    "n_sats": {
+      "note": "satellites in the constellation the run used",
+      "provenance": "computed",
+      "unit": "count"
+    },
+    "n_trials": {
+      "note": "Monte Carlo trials per epoch",
+      "provenance": "input",
+      "unit": "count"
+    },
+    "percentile": {
+      "note": "the percentile reported, in percent (0 to 100)",
+      "provenance": "input",
+      "unit": "1"
+    },
+    "points[].area_weight": {
+      "note": "weight of the point in the region means: its grid cell's solid angle, or 1 for a listed point",
+      "provenance": "computed",
+      "unit": "sr"
+    },
+    "points[].availability": {
+      "note": "share of epochs not marked unavailable",
+      "provenance": "computed",
+      "unit": "1"
+    },
+    "points[].azimuth_deg": {
+      "note": "initial bearing from the station, clockwise from north",
+      "provenance": "computed",
+      "unit": "deg"
+    },
+    "points[].corrected_p_3d_m": {
+      "note": "percentile of the corrected 3-D error over the available (epoch, trial) samples",
+      "provenance": "computed",
+      "unit": "m"
+    },
+    "points[].corrected_p_h_m": {
+      "note": "the same, horizontal",
+      "provenance": "computed",
+      "unit": "m"
+    },
+    "points[].corrected_p_v_m": {
+      "note": "the same, vertical",
+      "provenance": "computed",
+      "unit": "m"
+    },
+    "points[].coverage_fraction": {
+      "note": "share of all epochs whose percentile over the trials of the corrected 3-D error is at most accuracy_threshold_m",
+      "provenance": "computed",
+      "unit": "1"
+    },
+    "points[].distance_km": {
+      "note": "great-circle distance from the station on the mean lunar sphere",
+      "provenance": "computed",
+      "unit": "km"
+    },
+    "points[].hpl_below_alert_fraction": {
+      "note": "share of all epochs with an HPL below alert_limit_m",
+      "provenance": "computed",
+      "unit": "1"
+    },
+    "points[].hpl_max_m": {
+      "note": "largest DO-229E HPL",
+      "provenance": "computed",
+      "unit": "m"
+    },
+    "points[].hpl_median_m": {
+      "note": "median DO-229E HPL over the epochs with one",
+      "provenance": "computed",
+      "unit": "m"
+    },
+    "points[].lat_deg": {
+      "note": "user point latitude",
+      "provenance": "computed",
+      "unit": "deg"
+    },
+    "points[].lon_deg": {
+      "note": "user point longitude",
+      "provenance": "computed",
+      "unit": "deg"
+    },
+    "points[].unavailable.station_missing_sat": {
+      "note": "epochs where a satellite the point uses is below the mask at the station",
+      "provenance": "computed",
+      "unit": "count"
+    },
+    "points[].unavailable.user_lt4": {
+      "note": "epochs with fewer than four satellites above the mask at the point",
+      "provenance": "computed",
+      "unit": "count"
+    },
+    "points[].uncorrected_p_3d_m": {
+      "note": "percentile of the uncorrected 3-D error",
+      "provenance": "computed",
+      "unit": "m"
+    },
+    "points[].vpl_max_m": {
+      "note": "largest DO-229E VPL",
+      "provenance": "computed",
+      "unit": "m"
+    },
+    "region.availability": {
+      "note": "area-weighted mean over the points of the share of epochs available",
+      "provenance": "computed",
+      "unit": "1"
+    },
+    "region.corrected_p_3d_m": {
+      "note": "area-weighted mean over the points with samples of each point's percentile corrected 3-D error",
+      "provenance": "computed",
+      "unit": "m"
+    },
+    "region.corrected_p_h_m": {
+      "note": "the same, horizontal",
+      "provenance": "computed",
+      "unit": "m"
+    },
+    "region.corrected_p_v_m": {
+      "note": "the same, vertical",
+      "provenance": "computed",
+      "unit": "m"
+    },
+    "region.coverage_fraction": {
+      "note": "area-weighted mean over the points of the share of epochs whose percentile 3-D error is at most accuracy_threshold_m",
+      "provenance": "computed",
+      "unit": "1"
+    },
+    "region.hpl_below_alert_fraction": {
+      "note": "area-weighted mean of the share of epochs with an HPL below alert_limit_m",
+      "provenance": "computed",
+      "unit": "1"
+    },
+    "region.hpl_max_m": {
+      "note": "largest DO-229E HPL over every point and epoch",
+      "provenance": "computed",
+      "unit": "m"
+    },
+    "region.improvement_factor": {
+      "note": "region uncorrected_p_3d_m / corrected_p_3d_m (ratio)",
+      "provenance": "computed",
+      "unit": "1"
+    },
+    "region.uncorrected_p_3d_m": {
+      "note": "the same, uncorrected 3-D",
+      "provenance": "computed",
+      "unit": "m"
+    },
+    "region.vpl_max_m": {
+      "note": "largest DO-229E VPL over every point and epoch",
+      "provenance": "computed",
+      "unit": "m"
+    },
+    "region.worst_point.corrected_p_3d_m": {
+      "note": "its percentile corrected 3-D error",
+      "provenance": "computed",
+      "unit": "m"
+    },
+    "region.worst_point.lat_deg": {
+      "note": "latitude of the point with the largest percentile corrected 3-D error",
+      "provenance": "computed",
+      "unit": "deg"
+    },
+    "region.worst_point.lon_deg": {
+      "note": "longitude of that point",
+      "provenance": "computed",
+      "unit": "deg"
+    }
+  }
+}
