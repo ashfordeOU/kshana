@@ -613,6 +613,7 @@ impl GnssInsEkf {
     /// position update. Joseph-form covariance update. Returns the updated error
     /// state, or `None` (state and covariance untouched) when the innovation
     /// covariance is singular.
+    #[allow(clippy::needless_range_loop)]
     pub fn update_position_lever_arm(
         &mut self,
         innovation: Vec3,

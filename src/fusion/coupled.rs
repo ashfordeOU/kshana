@@ -264,6 +264,7 @@ impl CoupledPntBiasFilter {
     }
 
     /// The discrete process-noise covariance over `dt` (the `Q` stated on the type).
+    #[allow(clippy::needless_range_loop)]
     pub fn process_noise(&self, dt: f64) -> [[f64; 5]; 5] {
         let CoupledBiasNoise {
             q_va,
