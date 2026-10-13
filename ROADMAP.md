@@ -245,8 +245,11 @@ welcome collaboration: see [Support & professional services](README.md#support--
   against the co-rotating `forces::atmospheric_density` Vallado exponential model +
   `ForceModel::drag` + the new `ForceModel::accel_rv` / velocity-passing RHS), and the
   `propagator::propagate` wiring are delivered (`src/forces.rs`, `src/propagator.rs`); the
-  high-degree tesseral field, the NRLMSISE-00 thermospheric density, solar limb darkening, and
-  DE-grade ephemeris accuracy remain — to complement the analytic SGP4/SDP4 path.
+  high-degree tesseral field, the NRLMSISE-00 thermospheric density and solar limb darkening
+  remain — to complement the analytic SGP4/SDP4 path. DE440 Sun and Moon for the third-body and
+  SRP terms are an opt-in tier (`ForceModel::with_ephemeris` over a `KernelEphemeris`); its 24 h
+  orbits agree with Orekit 12.2 to 0.017 m, but the pre-registered Sun/Moon position bar missed
+  (`xval/propagator-de440-orekit/`).
 - Batch orbit determination is delivered: `src/orbit_determination.rs` recovers an
   orbital state from ground-station ranges via the Gauss–Newton corrector
   (`src/batch_ls.rs`) over the two-body + J2 force model, with a sequential
