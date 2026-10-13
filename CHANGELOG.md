@@ -11,6 +11,13 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **NumPy arrays from `RunOutput`** (FUT-26): the Python `RunOutput` gains `array(path)`,
+  `columns(path)` and `series()`, which return `numpy.ndarray`s for a numeric list, the
+  numeric columns of a list of records, or every record series in the document. Each array
+  equals `numpy.asarray` of the same values from `data()` (dtype and bits). NumPy is
+  imported only when one of them is called and stays out of the runtime requirements.
+  Typed in `kshana.pyi` and checked by stubtest.
+
 - **Campaign optimiser** (CAP-32): the `campaign` kind's new, optional `[optimize]` section
   searches one to three scenario keys inside stated bounds for the best value of one metric:
   minimise, maximise, or hit a target. It searches exhaustively on a grid, or with a
