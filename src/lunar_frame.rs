@@ -191,6 +191,24 @@ pub fn icrf_to_moon_pa(jd_tdb: f64) -> Mat3 {
     matmul(&pa_from_me, &icrf_to_iau_moon(jd_tdb))
 }
 
+/// The rotation from inertial ICRF/J2000 to the lunar **DE440 principal-axis** frame
+
+/// (`MOON_PA_DE440`) at `jd_tdb`, `r_PA = R · r_icrf`: the transpose of
+/// [`crate::lunar_orientation::try_de440_moon_pa`], the embedded daily DE440 series (checked
+/// against SPICE to 1.7e-6 rad). The opt-in DE-grade counterpart of [`icrf_to_moon_pa`], which
+/// stays the analytic default. The epoch is read as TT (TDB − TT is at most 1.7 ms, about 5e-9 rad
+/// of lunar rotation).
+///
+/// # Errors
+/// Outside the series span (2014-01-01 to 2030-12-31) it returns the span error; it never clamps
+/// to an end row and never falls back to the analytic orientation.
+pub fn try_icrf_to_moon_pa_de440(
+    jd_tdb: f64,
+) -> Result<Mat3, crate::lunar_orientation::OrientationSpanError> {
+    let t_jc = (jd_tdb - 2_451_545.0) / 36_525.0;
+    crate::lunar_orientation::try_de440_moon_pa(t_jc).map(|r| transpose(&r))
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -211,6 +229,23 @@ mod tests {
     /// (sub-second time error ⇒ sub-µas orientation error).
     fn jd_2022_001() -> f64 {
         2_459_580.5 // 2022-01-01 00:00 TT
+    }
+
+    #[test]
+    fn de440_pa_is_the_transpose_of_the_embedded_series_and_refuses_outside_it() {
+        // 2022-01-01 00:00 TDB: inside the 2014-2030 span. The in-crate DE440 rotation is exactly
+        // the transpose of lunar_orientation's body-to-inertial matrix at the same epoch.
+        let jd = 2_459_580.5;
+        let m = try_icrf_to_moon_pa_de440(jd).expect("inside the span");
+        let r = crate::lunar_orientation::de440_moon_pa((jd - 2_451_545.0) / 36_525.0);
+        for i in 0..3 {
+            for j in 0..3 {
+                assert_eq!(m[i][j], r[j][i]);
+            }
+        }
+        // Outside the span: an error, never a clamp or a silent fallback.
+        assert!(try_icrf_to_moon_pa_de440(2_451_545.0).is_err());
+        assert!(try_icrf_to_moon_pa_de440(2_470_000.5).is_err());
     }
 
     #[test]

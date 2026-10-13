@@ -89,6 +89,88 @@ impl LunarEnvironment for AnalyticLunarEnvironment {
     }
 }
 
+/// The opt-in DE-grade frame-input provider, in the crate: the lunar orientation is the DE440
+/// principal-axis frame ([`crate::lunar_frame::try_icrf_to_moon_pa_de440`], the embedded daily
+/// DE440 series, 2014 to 2030) and, when a kernel is given, the geocentric Sun and Moon are read
+/// from a JPL DE440 SPK through the crate's own reader ([`KernelEphemeris`]). Without a kernel the
+/// Sun and Moon stay the analytic series of [`AnalyticLunarEnvironment`]. The in-crate counterpart
+/// of the ANISE provider of `xval/anise-lunar-od`, checked against it in that crate.
+///
+/// The [`LunarEnvironment`] methods cannot return an error, so they panic outside the orientation
+/// span or the kernel's coverage: call [`De440LunarEnvironment::check_covers`] on the arc first.
+///
+/// [`KernelEphemeris`]: crate::ephem_provider::KernelEphemeris
+#[derive(Clone, Debug)]
+pub struct De440LunarEnvironment {
+    kernel: Option<std::sync::Arc<crate::ephem_provider::KernelEphemeris>>,
+}
+
+impl De440LunarEnvironment {
+    /// DE440 orientation and the Sun and Moon from `kernel` (a DE440 SPK holding the Sun, the
+    /// Earth-Moon barycentre, the Earth and the Moon over the arc).
+    pub fn new(kernel: crate::ephem_provider::KernelEphemeris) -> Self {
+        Self {
+            kernel: Some(std::sync::Arc::new(kernel)),
+        }
+    }
+
+    /// DE440 orientation only; the Sun and Moon stay analytic.
+    pub fn orientation_only() -> Self {
+        Self { kernel: None }
+    }
+
+    /// The SPK's SHA-256, when a kernel is used.
+    pub fn kernel_sha256(&self) -> Option<&str> {
+        self.kernel.as_deref().map(|k| k.kernel_sha256())
+    }
+
+    /// The fallible orientation: ICRF → DE440 principal axes at `jd_tdb`.
+    ///
+    /// # Errors
+    /// Outside the embedded orientation span.
+    pub fn try_icrf_to_moon_pa(&self, jd_tdb: f64) -> Result<Mat3, String> {
+        crate::lunar_frame::try_icrf_to_moon_pa_de440(jd_tdb).map_err(|e| e.to_string())
+    }
+
+    /// The fallible geocentric `(sun, moon)` (m, ICRF/J2000) at `jd_tdb`.
+    ///
+    /// # Errors
+    /// When the kernel does not cover the epoch or lacks a body.
+    pub fn try_geocentric_sun_moon(&self, jd_tdb: f64) -> Result<(Vec3, Vec3), String> {
+        match &self.kernel {
+            Some(k) => {
+                let t = crate::jd2::Jd2::new(jd_tdb);
+                Ok((k.sun_geocentric(t)?, k.moon_geocentric(t)?))
+            }
+            None => Ok(AnalyticLunarEnvironment.geocentric_sun_moon(jd_tdb)),
+        }
+    }
+
+    /// Check that both inputs are available at the start and the end of an arc.
+    ///
+    /// # Errors
+    /// The first input that is not, with the epoch.
+    pub fn check_covers(&self, jd_tdb_start: f64, jd_tdb_end: f64) -> Result<(), String> {
+        for jd in [jd_tdb_start, jd_tdb_end] {
+            self.try_icrf_to_moon_pa(jd)?;
+            self.try_geocentric_sun_moon(jd)?;
+        }
+        Ok(())
+    }
+}
+
+impl LunarEnvironment for De440LunarEnvironment {
+    fn icrf_to_moon_pa(&self, jd_tdb: f64) -> Mat3 {
+        self.try_icrf_to_moon_pa(jd_tdb)
+            .unwrap_or_else(|e| panic!("De440LunarEnvironment orientation: {e}"))
+    }
+
+    fn geocentric_sun_moon(&self, jd_tdb: f64) -> (Vec3, Vec3) {
+        self.try_geocentric_sun_moon(jd_tdb)
+            .unwrap_or_else(|e| panic!("De440LunarEnvironment ephemeris: {e}"))
+    }
+}
+
 /// A Moon-centred force model: a lunar spherical-harmonic gravity field evaluated in the body-fixed
 /// frame, plus the configured third bodies, optional SRP, and the optional empirical tier. Generic
 /// over the [`LunarEnvironment`] frame-input provider, defaulting to the analytic one.
