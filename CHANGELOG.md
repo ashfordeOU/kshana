@@ -23,6 +23,10 @@ breaking changes are called out explicitly.
   the tenfold cut on the drift is MET (MODELLED). An optional `[map_error_mc]` reruns the
   benchmark over seeded, Gaussian-correlated map errors and reports the matched-error
   distribution. Without either option the document is byte-identical to earlier releases.
+  `combined-altpnt` takes an optional `[magnetic_grid]` (`csv_path`, `column`) that reads the
+  magnetic channel from an EMAG2v3-format CSV. EMAG2 is not vendored because its terms are
+  not explicit: `tools/fetch_emag2_tile.py` fetches it with a pinned SHA-256 and crops a box.
+  No navigation outcome is claimed on the real EMAG2 grid.
   The real-SRTM tests now run in CI on two committed full-resolution crops; all
   pre-registered bars are met, with the nearest node equal to GDAL 3.8.4 at 8 of 8 points
   (`xval/srtm-ungate/`).

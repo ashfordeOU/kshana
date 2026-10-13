@@ -9,11 +9,14 @@ so nothing from it is committed: this helper downloads the zip at test time into
 line (never extracting the whole file), and writes a small cropped CSV next to it.
 
     CSV columns (EMAG2_readme.txt): i, j, LON, LAT, SeaLevel nT, UpCont nT (4 km), Code, Error
+    LON runs 0..360 deg east (cell centres at odd multiples of 1/60 deg); lines end in CRLF.
     Void cells: SeaLevel/UpCont 99999, Code 999, Error -999. Ambiguous edges: Code 888, Error -888.
 
 The cropped file starts with a `#` comment block (source URL, zip SHA-256, member
 name, box, row count); every data line after it is byte-identical to the source
-line, with columns unchanged.
+line, with columns unchanged. The box may be given in -180..180 or 0..360 longitudes; the
+rows keep EMAG2's 0..360 east longitudes, so a scenario reading the crop must give its
+track in 0..360 east too (a box may not cross the 0/360 meridian).
 
 Usage:
     python3 tools/fetch_emag2_tile.py <south> <north> <west> <east> [--zip PATH] [--out PATH]
@@ -33,7 +36,7 @@ import zipfile
 URL = "https://www.ngdc.noaa.gov/geomag/data/EMAG2/EMAG2_V3_20170530.zip"
 ZIP_NAME = "EMAG2_V3_20170530.zip"
 # SHA-256 of the zip as served by NCEI (Last-Modified 2017-06-27, 1167583749 bytes).
-ZIP_SHA256 = "@@SHA256@@"
+ZIP_SHA256 = "502958066dec31d1d24b9d1b95d58e5ff630af14b02ba180b0a27321c39208c5"
 OUT_DIR = "tools/emag2"
 CHUNK = 1 << 20
 
@@ -67,6 +70,11 @@ def main() -> int:
     if not (a.south <= a.north and a.west <= a.east):
         print("need south <= north and west <= east", file=sys.stderr)
         return 2
+    # EMAG2 longitudes are 0..360 east: compare in that convention.
+    west, east = a.west % 360.0, a.east % 360.0
+    if a.east - a.west >= 360.0 or west > east:
+        print("the box may not cross the 0/360 meridian", file=sys.stderr)
+        return 2
 
     os.makedirs(os.path.dirname(a.zip_path) or ".", exist_ok=True)
     if not os.path.exists(a.zip_path):
@@ -91,7 +99,7 @@ def main() -> int:
                     lat = float(cols[3])
                 except (IndexError, ValueError):
                     continue  # header or malformed line
-                if a.south <= lat <= a.north and a.west <= lon <= a.east:
+                if a.south <= lat <= a.north and west <= lon % 360.0 <= east:
                     rows.append(line)
 
     box = f"{a.south}_{a.north}_{a.west}_{a.east}"
@@ -102,7 +110,7 @@ def main() -> int:
         f"# source: {URL}",
         f"# zip sha256: {zip_sha}",
         f"# member: {member}",
-        f"# box: lat {a.south}..{a.north}, lon {a.west}..{a.east} (inclusive)",
+        f"# box: lat {a.south}..{a.north}, lon {west}..{east} east (inclusive)",
         f"# rows: {len(rows)}",
         "# columns unchanged, rows verbatim: i,j,LON,LAT,SeaLevel(nT),UpCont(nT, 4 km),Code,Error",
         "# void: 99999 nT / Code 999 / Error -999; ambiguous: Code 888 / Error -888",

@@ -618,12 +618,36 @@ pub struct CombinedAltPntCfg {
     pub magnetic_mascons: Vec<Mascon>,
     /// Magnetic-channel matching 1σ (nT).
     pub magnetic_sigma_nt: f64,
+    /// Optional **real crustal magnetic-anomaly grid** (RM-16): an EMAG2v3-format CSV crop.
+    /// When present it replaces the IGRF-minus-regional-mean plus `magnetic_mascons` field
+    /// (which must then be empty). EMAG2 is not bundled (its redistribution terms are not
+    /// explicit): fetch a crop with `tools/fetch_emag2_tile.py`. Native builds only.
+    #[serde(default)]
+    pub magnetic_grid: Option<MagneticGridCfg>,
 
     // ---- Terrain channel ----
     /// Synthetic-DEM seed.
     pub dem_seed: u64,
     /// Terrain-channel matching 1σ (m).
     pub terrain_sigma_m: f64,
+}
+
+/// The EMAG2v3-format magnetic-anomaly grid of a combined alt-PNT run.
+#[derive(Clone, Debug, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct MagneticGridCfg {
+    /// The EMAG2v3 CSV (or a crop of it written by `tools/fetch_emag2_tile.py`).
+    pub csv_path: String,
+    /// `"upcont"` (column 6, upward-continued to 4 km; default) or `"sealevel"` (column 5,
+    /// reduced to sea level). The sea-level column is void over land: every node of a
+    /// Death Valley crop (35.5..37.5 N, 242..244 E) carries 99999 there, while the 4 km
+    /// column is complete.
+    #[serde(default = "default_emag2_column")]
+    pub column: String,
+}
+
+fn default_emag2_column() -> String {
+    "upcont".into()
 }
 
 /// Unit and provenance class for every numeric field the `combined-altpnt` report emits.
@@ -728,6 +752,63 @@ fn magnetic_anomaly_field(
 /// Returns the unaided drift, each single-channel residual, and the fused residual — all in
 /// metres, all checked against the **independently injected** drift (non-circular).
 pub fn run_combined_altpnt(cfg: &CombinedAltPntCfg) -> CombinedAltPntResult {
+    // Magnetic reference field: regional mean evaluated at the track centre so the anomaly
+    // is the high-frequency part (the crustal mascons dominate the matchable signal).
+    let ref_lat = mid_lat(cfg.start_lat_deg, cfg.step_lat_deg, cfg.waypoints);
+    let ref_lon = cfg.start_lon_deg + cfg.step_lon_deg * (cfg.waypoints as f64 - 1.0) / 2.0;
+    let regional_mean_nt =
+        magnetic_field(ref_lat, ref_lon, cfg.igrf_alt_km, cfg.igrf_year).total_nt;
+    let bfield = magnetic_anomaly_field(
+        &cfg.magnetic_mascons,
+        cfg.igrf_year,
+        cfg.igrf_alt_km,
+        regional_mean_nt,
+    );
+    combined_core(cfg, &bfield)
+}
+
+/// Run a `combined-altpnt` scenario: [`run_combined_altpnt`], or, when `magnetic_grid` is
+/// set, the same navigator with the magnetic channel read from the EMAG2v3 grid.
+pub fn run_combined_altpnt_scenario(
+    cfg: &CombinedAltPntCfg,
+) -> Result<CombinedAltPntResult, String> {
+    let Some(g) = &cfg.magnetic_grid else {
+        return Ok(run_combined_altpnt(cfg));
+    };
+    if !cfg.magnetic_mascons.is_empty() {
+        return Err(
+            "combined-altpnt: `magnetic_grid` replaces the synthetic magnetic field, \
+                    so `magnetic_mascons` must be empty when it is set"
+                .into(),
+        );
+    }
+    let column = match g.column.as_str() {
+        "sealevel" => crate::altpnt::maps::Emag2Column::SeaLevel,
+        "upcont" => crate::altpnt::maps::Emag2Column::UpCont,
+        other => {
+            return Err(format!(
+                "combined-altpnt: unknown magnetic_grid column `{other}` (use \"sealevel\" or \"upcont\")"
+            ))
+        }
+    };
+    let text = std::fs::read_to_string(&g.csv_path).map_err(|e| {
+        format!(
+            "combined-altpnt: cannot read magnetic_grid csv_path {}: {e}",
+            g.csv_path
+        )
+    })?;
+    let grid = crate::altpnt::maps::GeoGrid::from_emag2_csv(&text, column)?;
+    let field = grid.sampler_deg();
+    let r = combined_core(cfg, &field);
+    Ok(r)
+}
+
+/// The combined navigator with the magnetic anomaly field given (nT); the gravity and
+/// terrain fields come from `cfg`.
+fn combined_core(
+    cfg: &CombinedAltPntCfg,
+    bfield: &dyn Fn(f64, f64) -> f64,
+) -> CombinedAltPntResult {
     // Gravity reference field.
     let mut gmodel = GravityAnomalyModel::new(cfg.nmax);
     for c in &cfg.coeffs {
@@ -742,18 +823,7 @@ pub fn run_combined_altpnt(cfg: &CombinedAltPntCfg) -> CombinedAltPntResult {
     let dem = DemGrid::synthetic_fixture(cfg.dem_seed);
     let tfield = dem.sampler_deg();
 
-    // Magnetic reference field: regional mean evaluated at the track centre so the anomaly
-    // is the high-frequency part (the crustal mascons dominate the matchable signal).
     let ref_lat = mid_lat(cfg.start_lat_deg, cfg.step_lat_deg, cfg.waypoints);
-    let ref_lon = cfg.start_lon_deg + cfg.step_lon_deg * (cfg.waypoints as f64 - 1.0) / 2.0;
-    let regional_mean_nt =
-        magnetic_field(ref_lat, ref_lon, cfg.igrf_alt_km, cfg.igrf_year).total_nt;
-    let bfield = magnetic_anomaly_field(
-        &cfg.magnetic_mascons,
-        cfg.igrf_year,
-        cfg.igrf_alt_km,
-        regional_mean_nt,
-    );
 
     // True track.
     let truth: Vec<(f64, f64)> = (0..cfg.waypoints)
@@ -811,7 +881,7 @@ pub fn run_combined_altpnt(cfg: &CombinedAltPntCfg) -> CombinedAltPntResult {
         };
 
     let weigh_g = |d: &[f64]| channel_like(d, &gfield, &meas_g, cfg.gravity_sigma_mgal);
-    let weigh_b = |d: &[f64]| channel_like(d, &bfield, &meas_b, cfg.magnetic_sigma_nt);
+    let weigh_b = |d: &[f64]| channel_like(d, bfield, &meas_b, cfg.magnetic_sigma_nt);
     let weigh_t = |d: &[f64]| channel_like(d, &tfield, &meas_t, cfg.terrain_sigma_m);
     // Joint = product of the three channels (information adds).
     let weigh_joint = |d: &[f64]| weigh_g(d) * weigh_b(d) * weigh_t(d);
@@ -1203,6 +1273,7 @@ mod tests {
                 },
             ],
             magnetic_sigma_nt: 30.0,
+            magnetic_grid: None,
             dem_seed: 1,
             terrain_sigma_m: 40.0,
         }
@@ -1319,4 +1390,87 @@ mod tests {
     // published crate (which excludes `/tests/fixtures`) never depends on the fixture, exactly
     // like the `tests/sgp4_crate_comparison.rs` head-to-head. The self-contained synthetic
     // fixture above covers the same parser/sampler paths for CI.
+
+    /// RM-16: the magnetic channel read from an EMAG2v3-format grid. The grid is written at
+    /// test time in EMAG2's CSV layout from the very synthetic field `run_combined_altpnt`
+    /// uses, so the grid run must reproduce the synthetic run: gravity and terrain bit for
+    /// bit (untouched), magnetic and fused within one final search cell. The lattice is
+    /// 0.005 deg, a tenth of the magnetic mascons' 0.045-0.05 deg width, so bilinear error is
+    /// far below the 30 nT matching sigma. (EMAG2's own 2' = 0.033 deg spacing undersamples
+    /// these synthetic mascons and moves the weak magnetic-only fix by about 500 m, which is
+    /// an interpolation effect, not a reader one.)
+    #[test]
+    fn emag2_format_grid_reproduces_the_synthetic_magnetic_channel() {
+        let cfg: CombinedAltPntCfg =
+            toml::from_str(include_str!("../../scenarios/combined-altpnt.toml"))
+                .expect("combined-altpnt scenario parses");
+        let synthetic = run_combined_altpnt(&cfg);
+
+        let ref_lat = mid_lat(cfg.start_lat_deg, cfg.step_lat_deg, cfg.waypoints);
+        let ref_lon = cfg.start_lon_deg + cfg.step_lon_deg * (cfg.waypoints as f64 - 1.0) / 2.0;
+        let mean = magnetic_field(ref_lat, ref_lon, cfg.igrf_alt_km, cfg.igrf_year).total_nt;
+        let field =
+            magnetic_anomaly_field(&cfg.magnetic_mascons, cfg.igrf_year, cfg.igrf_alt_km, mean);
+        // 11.5..13.9 N, 18.5..21.0 E covers every candidate the search samples (truth
+        // plus drift, minus the search offsets of up to 0.8 deg plus one coarse step).
+        let step = 0.005;
+        let mut csv = String::from("# synthetic EMAG2v3-layout grid (not EMAG2 data)\n");
+        for i in 0..=480 {
+            for j in 0..=500 {
+                let (lat, lon) = (11.5 + i as f64 * step, 18.5 + j as f64 * step);
+                let v = field(lat, lon);
+                csv.push_str(&format!("{j},{i},{lon},{lat},{v},{v},19,5.0\n"));
+            }
+        }
+        let path =
+            std::env::temp_dir().join(format!("kshana-emag2-synthetic-{}.csv", std::process::id()));
+        std::fs::write(&path, csv).expect("temp grid written");
+
+        let mut gcfg = cfg.clone();
+        gcfg.magnetic_mascons.clear();
+        gcfg.magnetic_grid = Some(MagneticGridCfg {
+            csv_path: path.to_string_lossy().into_owned(),
+            column: "sealevel".into(),
+        });
+        let r = run_combined_altpnt_scenario(&gcfg);
+        let _ = std::fs::remove_file(&path);
+        let r = r.expect("grid run");
+
+        assert_eq!(
+            r.gravity_only_m.to_bits(),
+            synthetic.gravity_only_m.to_bits()
+        );
+        assert_eq!(
+            r.terrain_only_m.to_bits(),
+            synthetic.terrain_only_m.to_bits()
+        );
+        let cell_m = cfg.search_step_deg / cfg.refine_factor.powi(2) * M_PER_DEG;
+        assert!(
+            (r.magnetic_only_m - synthetic.magnetic_only_m).abs() <= cell_m,
+            "magnetic {} m vs synthetic {} m",
+            r.magnetic_only_m,
+            synthetic.magnetic_only_m
+        );
+        assert!(
+            (r.combined_m - synthetic.combined_m).abs() <= cell_m,
+            "fused {} m vs synthetic {} m",
+            r.combined_m,
+            synthetic.combined_m
+        );
+
+        // Mascons alongside a grid, an unknown column and a missing file are refused.
+        let mut both = gcfg.clone();
+        both.magnetic_mascons = cfg.magnetic_mascons.clone();
+        assert!(run_combined_altpnt_scenario(&both)
+            .unwrap_err()
+            .contains("must be empty"));
+        let mut col = gcfg.clone();
+        col.magnetic_grid.as_mut().unwrap().column = "total".into();
+        assert!(run_combined_altpnt_scenario(&col)
+            .unwrap_err()
+            .contains("unknown magnetic_grid column"));
+        assert!(run_combined_altpnt_scenario(&gcfg)
+            .unwrap_err()
+            .contains("cannot read"));
+    }
 }
