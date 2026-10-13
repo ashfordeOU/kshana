@@ -823,7 +823,7 @@ in the official MCP registry as `io.github.ashfordeOU/kshana-mcp`.
 | Tool | What it does |
 |---|---|
 | `run_scenario` | Run a scenario from a TOML (Tom's Obvious, Minimal Language) definition |
-| `list_scenario_kinds` | The 76 built-in scenario kinds with descriptions + required/optional fields — so the agent can construct a valid scenario |
+| `list_scenario_kinds` | The 78 built-in scenario kinds with descriptions + required/optional fields — so the agent can construct a valid scenario |
 | `validate_scenario` | Pre-flight check: parse the TOML and detect its kind, without running |
 | `list_example_scenarios` | The bundled reference scenarios as JSON |
 | `get_example_scenario` | The TOML text of one bundled reference scenario, byte for byte the file under `scenarios/` |
@@ -1489,7 +1489,7 @@ paper-clock). **MODELLED** — the headline figure is *reference-dependent* (Ear
 vs lunar selenoid, averaging window), which is why a band, not a single certified
 number, is reported (`scenarios/lunar-time-offset.toml`).
 
-See `scenarios/` for at least one worked example of every kind (78 kinds, 149 scenario
+See `scenarios/` for at least one worked example of every kind (78 kinds, 151 scenario
 `.toml` files + 1 suite manifest — several kinds ship more than one example). Not every
 kind has a file named after it: `lunar-integrity` → `scenarios/lunanet-araim.toml` and
 `gravity-map` → `scenarios/gps-denied-gravity-nav.toml` are two of several such.
