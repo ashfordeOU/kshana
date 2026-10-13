@@ -41,8 +41,9 @@
 //! Because each satellite contributes its own scalar measurement, the filter keeps
 //! correcting with **fewer than four satellites**, where a loosely-coupled PVT
 //! solution does not exist — see [`GnssInsEkf::update_tightly_coupled`]. (The
-//! pseudoranges are taken receiver-clock-corrected, i.e. single-differenced; an
-//! explicit receiver-clock state is a future extension.)
+//! pseudoranges are taken receiver-clock-corrected, i.e. single-differenced. The
+//! explicit receiver-clock state lives in [`super::tightly_coupled17`] and, with carrier
+//! phase, in [`super::carrier_tc`].)
 //!
 //! No external linear-algebra dependency: the small dense matrices are handled
 //! by the helpers in this module.

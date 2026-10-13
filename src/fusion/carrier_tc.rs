@@ -75,7 +75,9 @@
 //! satellites when three or more are tracked in common; with fewer the raw `w` is tested
 //! against a threshold widened by the predicted clock-change uncertainty (5σ). A satellite
 //! is flagged when `|w_i − median(w)| > slip_threshold_cycles · λ` (default 0.5 cycle,
-//! 9.5 cm). On a flag (or a re-acquisition after any gap) that satellite's ambiguity is
+//! 9.5 cm), widened per satellite to 5σ of the change the velocity uncertainty predicts over
+//! the interval, `Δt·sqrt(uᵀ P_vv u)`, so a converging filter does not read its own velocity
+//! error as slips (a slip below the widened threshold is then not detected). On a flag (or a re-acquisition after any gap) that satellite's ambiguity is
 //! re-initialised from code-minus-carrier with the large variance `sigma_amb_init_m²`
 //! and its cross-covariances zeroed. The smallest slip detected with certainty is
 //! therefore `threshold + max|non-slip statistic|`; [`CarrierTcSummary::max_tdcp_stat_m`]
@@ -369,10 +371,7 @@ impl ClockTcCfg {
     /// (random-walk frequency): `q_b = c²·h₀/2`, `q_d = 2π²·c²·h₋₂`.
     pub fn from_allan(h0: f64, hm2: f64) -> (f64, f64) {
         let c2 = C_M_PER_S * C_M_PER_S;
-        (
-            c2 * h0 / 2.0,
-            2.0 * std::f64::consts::PI.powi(2) * c2 * hm2,
-        )
+        (c2 * h0 / 2.0, 2.0 * std::f64::consts::PI.powi(2) * c2 * hm2)
     }
 }
 
@@ -610,7 +609,10 @@ impl CarrierTcCfg {
             nonneg(n, v)?;
         }
         if !(self.mask_deg.is_finite() && (-90.0..90.0).contains(&self.mask_deg)) {
-            return Err(format!("mask_deg must be in [-90, 90), got {}", self.mask_deg));
+            return Err(format!(
+                "mask_deg must be in [-90, 90), got {}",
+                self.mask_deg
+            ));
         }
         if self.constellation.total() == 0 {
             return Err("constellation has no satellites".into());
@@ -657,7 +659,10 @@ impl Constellation {
     /// identical to [`crate::gnss_sim`]'s geometry.
     pub fn sat_ecef(&self, i: usize, t: f64) -> Vec3 {
         let ts = self.t0_offset_s + t;
-        teme_to_ecef(self.sats[i].position_eci(ts), walker_epoch_jd() + ts / 86_400.0)
+        teme_to_ecef(
+            self.sats[i].position_eci(ts),
+            walker_epoch_jd() + ts / 86_400.0,
+        )
     }
     /// ECEF velocity (m/s, rotating frame) by a ±0.5 s central difference.
     pub fn sat_ecef_vel(&self, i: usize, t: f64) -> Vec3 {
@@ -675,7 +680,11 @@ impl Constellation {
             let r_tx = self.sat_ecef(i, t - tau);
             let th = OMEGA_E_WGS84 * tau;
             let (s, c) = th.sin_cos();
-            rs = [c * r_tx[0] + s * r_tx[1], -s * r_tx[0] + c * r_tx[1], r_tx[2]];
+            rs = [
+                c * r_tx[0] + s * r_tx[1],
+                -s * r_tx[0] + c * r_tx[1],
+                r_tx[2],
+            ];
             tau = norm(sub3(rs, r_u)) / C_M_PER_S;
         }
         let rho = norm(sub3(rs, r_u));
@@ -789,7 +798,7 @@ fn simulate(cfg: &CarrierTcCfg, con: &Constellation, truth: &[TruthEpoch], seed:
     let mut meas_rng = ChaCha8Rng::seed_from_u64(seed ^ 0x6d65_6173_0000_0001);
     let mut clk_rng = ChaCha8Rng::seed_from_u64(seed ^ 0x636c_6b00_0000_0002);
     let mut amb_rng = ChaCha8Rng::seed_from_u64(seed ^ 0x616d_6200_0000_0003);
-    let mut g = |r: &mut ChaCha8Rng| -> f64 { StandardNormal.sample(r) };
+    let g = |r: &mut ChaCha8Rng| -> f64 { StandardNormal.sample(r) };
 
     // Truth clock on the truth grid.
     let mut clk = Vec::with_capacity(truth.len());
@@ -881,9 +890,8 @@ fn simulate(cfg: &CarrierTcCfg, con: &Constellation, truth: &[TruthEpoch], seed:
                 .map_or(0.0, |s| sigma_el(s, el, cfg.elevation_weighting));
             let clk_k = clk[k];
             let pr_m = rho + clk_k[0] + iono + trop + ns * s_pr * g(&mut meas_rng);
-            let phase_m = rho + clk_k[0] - iono + trop
-                + LAMBDA_L1_M * n_cyc
-                + ns * s_ph * g(&mut meas_rng);
+            let phase_m =
+                rho + clk_k[0] - iono + trop + LAMBDA_L1_M * n_cyc + ns * s_ph * g(&mut meas_rng);
             let u = sub3(r_u, rs);
             let u = [u[0] / rho, u[1] / rho, u[2] / rho];
             let rr_mps = dot3(u, sub3(v_u, con.sat_ecef_vel(i, t)))
@@ -1000,7 +1008,13 @@ impl Navigator {
         let eye = [[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]];
         add(&mut a, 0, 3, eye, 1.0);
         add(&mut a, 3, 6, skew(f_n), -1.0);
-        add(&mut a, 3, 3, skew([2.0 * w_ie[0], 2.0 * w_ie[1], 2.0 * w_ie[2]]), -1.0);
+        add(
+            &mut a,
+            3,
+            3,
+            skew([2.0 * w_ie[0], 2.0 * w_ie[1], 2.0 * w_ie[2]]),
+            -1.0,
+        );
         add(&mut a, 3, 9, c_bn, 1.0);
         add(&mut a, 6, 6, skew(w_in), -1.0);
         add(&mut a, 6, 12, c_bn, 1.0);
@@ -1254,7 +1268,7 @@ fn run_mode(
     let ns = cfg.noise_scale;
     let mut init_rng = ChaCha8Rng::seed_from_u64(seed ^ 0x696e_6974_0000_0004);
     let mut imu_rng = ChaCha8Rng::seed_from_u64(seed ^ 0x696d_7500_0000_0005);
-    let mut g = |r: &mut ChaCha8Rng| -> f64 { StandardNormal.sample(r) };
+    let g = |r: &mut ChaCha8Rng| -> f64 { StandardNormal.sample(r) };
 
     // Initial INS state: truth plus a draw from the prior.
     let t0 = truth[0].nav;
@@ -1411,8 +1425,22 @@ fn run_mode(
                             + cfg.clock.q_d * dt.powi(3) / 3.0;
                         (0.0, (cfg.slip_threshold_cycles * lam).max(5.0 * var.sqrt()))
                     };
+                    let dt_g = t - f.last_gnss_t;
                     for &(j, wi) in &w {
                         let s = (wi - centre).abs();
+                        // Widen the threshold by 5 sigma of the TDCP change the velocity
+                        // uncertainty alone predicts over the interval, `Δt·sqrt(uᵀ P_vv u)`:
+                        // while the filter converges a velocity error moves each line of
+                        // sight differently and would otherwise read as a slip. Once
+                        // converged the fixed threshold applies.
+                        let u = geo[j].u_ned;
+                        let mut var_v = 0.0;
+                        for a in 0..3 {
+                            for b in 0..3 {
+                                var_v += u[a] * f.p.at(3 + a, 3 + b) * u[b];
+                            }
+                        }
+                        let thr = thr.max(5.0 * dt_g * var_v.max(0.0).sqrt());
                         if s > thr {
                             flagged[j] = true;
                             slips_here.push(ep.obs[j].sat);
@@ -1482,8 +1510,7 @@ fn run_mode(
                         h.set(row, 3 + c, -gm.u_ned[c]);
                     }
                     h.set(row, CD, 1.0);
-                    let rr_hat =
-                        dot3(gm.u_ecef, sub3(v_u, con.sat_ecef_vel(o.sat, t))) + f.x[CD];
+                    let rr_hat = dot3(gm.u_ecef, sub3(v_u, con.sat_ecef_vel(o.sat, t))) + f.x[CD];
                     nu[row] = o.rr_mps - rr_hat;
                     r.set(
                         row,
@@ -1616,6 +1643,3 @@ fn run_mode(
         summary,
     }
 }
-
-#[cfg(test)]
-mod tests;

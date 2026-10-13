@@ -15,9 +15,9 @@
 //! precision), for any sigma-point spread.
 //!
 //! Scope (honest): this is the estimator engine and its linear-algebra core (Cholesky
-//! sigma-point spread, scaled-UT weights, predict/update). Wiring it into a 17-state
-//! tightly-coupled GNSS/INS navigator with a pseudorange/Doppler measurement model and
-//! an outage-validation scenario is a follow-on (see `ROADMAP.md`).
+//! sigma-point spread, scaled-UT weights, predict/update). The 17-state tightly-coupled
+//! GNSS/INS navigator built on it, with a pseudorange/Doppler measurement model and an
+//! outage-validation scenario, is [`super::hybrid_ukf`] (the `hybrid-ukf` kind).
 
 /// A dense matrix as rows of columns.
 type Mat = Vec<Vec<f64>>;
