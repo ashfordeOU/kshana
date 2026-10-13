@@ -838,6 +838,11 @@ pub struct MeasuredPhaseReport {
     pub log: NormalisedPhase,
     /// SHA-256 of the normalised phase samples (little-endian IEEE-754).
     pub phase_sha256: String,
+    /// SHA-256 of the scenario's `[clock_log]` table as parsed (its canonical JSON), set
+    /// when the block comes from a scenario: the run's `scenario_hash` does not cover the
+    /// table, so this and `phase_sha256` identify the log.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub input_sha256: Option<String>,
     /// Overlapping Allan deviation at octave averaging factors ([`crate::allan::overlapping_adev_curve`]).
     pub adev: Vec<crate::allan::AdevPoint>,
     /// Time deviation at octave averaging factors while `n > 3m` ([`crate::allan::time_deviation`]).
@@ -881,11 +886,24 @@ impl MeasuredPhaseReport {
         MeasuredPhaseReport {
             label: MEASURED_LABEL,
             phase_sha256: log.phase_sha256(),
+            input_sha256: None,
             log,
             adev,
             tdev,
             mtie,
         }
+    }
+}
+
+impl MeasuredPhaseReport {
+    /// Read the log a scenario's `[clock_log]` table names and report its stability, with
+    /// the table's own hash.
+    pub fn from_input(inp: &ClockLogInput) -> Result<MeasuredPhaseReport, String> {
+        use sha2::{Digest, Sha256};
+        let canonical = serde_json::to_string(inp).map_err(|e| e.to_string())?;
+        let mut r = MeasuredPhaseReport::from_phase(read_input(inp)?);
+        r.input_sha256 = Some(hex::encode(Sha256::digest(canonical.as_bytes())));
+        Ok(r)
     }
 }
 

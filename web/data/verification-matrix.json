@@ -4,9 +4,9 @@
   "repo_blob_base": "https://github.com/AshfordeOU/kshana/blob/main/",
   "summary": {
     "validated": 134,
-    "modelled": 137,
+    "modelled": 138,
     "partner_owned": 4,
-    "total": 275
+    "total": 276
   },
   "rows": [
     {
@@ -4898,6 +4898,28 @@
         }
       ],
       "test_links": [],
+      "fixture": null
+    },
+    {
+      "requirement": "Clock-log formats (RINEX clock, TimeLab ASCII, TAPR TICC) read to a normalised phase series",
+      "capability": "clock_log::read_input: one parser layer that turns a RINEX clock file (AS/AR records of one named clock, versions 2 and 3.00 to 3.04), a TimeLab-style ASCII phase or frequency log, or a TAPR TICC timestamp or interval log into a uniform phase grid, with tau0 stated, from a header, or the median spacing, every gap, off-grid reading and duplicate counted, and a refuse, longest-run or linear gap policy; wired opt-in into the telecom-timing series (`[series.clock_log]`, adding a `clock_log` block) and the clock kind (`[clock_log]`, adding a `measured` block with ADEV, TDEV and MTIE, the table's SHA-256 and the phase SHA-256; runs = 1). Without the table both kinds are byte-identical",
+      "status": "MODELLED",
+      "oracle_kind": "InternalConsistency",
+      "oracle": "Pre-registered in tests/fixtures/clock_log/PREREGISTRATION.md (committed alone, 159334f2, before the fixture existed); recorded in RESULTS.md. Three seeded synthetic logs, one per format (a TICC gap of three epochs, a RINEX second clock to ignore), read back by an independent reader written from docs/CLOCK-LOG-FORMATS.md by the same author: grid, gap and fill counts equal and the largest phase difference 0 s (bar 1e-13 s). allantools 2024.6 oadev, tdev and mtie on that phase agree within a relative 2.5e-14 (bar 1e-10) at every averaging factor it evaluates; it does not evaluate MTIE over the whole record, which the engine reports, so that one point per log has no oracle value and the bar as worded is not met there. MODELLED: synthetic logs, and the reader oracle shares the author; real TimeLab, TICC and RINEX clock files from instruments were not compared",
+      "module": "clock_log (read_input, MeasuredPhaseReport, MEASURED_UNITS, TELECOM_LOG_UNITS); telecom_timing (SeriesInput::clock_log); api (clock kind [clock_log])",
+      "tests": "clock_log::tests (hand-written logs per format: headers, separators, units, frequency integration, TICC channels and modes, gaps and policies, refusals); tests/clock_log_allantools.rs (the pre-registered comparison: b1_each_log_reads_to_the_reference_phase; b2_adev_tdev_and_mtie_agree_with_allantools; b3_a_telecom_series_read_from_a_log_equals_the_same_samples; b3_the_clock_kind_measured_block_is_opt_in)",
+      "module_links": [
+        {
+          "path": "src/clock_log.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/src/clock_log.rs"
+        }
+      ],
+      "test_links": [
+        {
+          "path": "tests/clock_log_allantools.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/clock_log_allantools.rs"
+        }
+      ],
       "fixture": null
     },
     {

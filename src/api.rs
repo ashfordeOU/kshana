@@ -440,6 +440,35 @@ fn json_of_with_units_and_tiers<T: serde::Serialize>(
     })
 }
 
+/// The clock kind's optional `[clock_log]` table: a measured phase log read through
+/// [`crate::clock_log`]. Read beside [`crate::scenario::Scenario`], which does not carry
+/// it, so a scenario without the table parses and hashes exactly as before.
+#[derive(serde::Deserialize)]
+struct ClockLogTable {
+    #[serde(default)]
+    clock_log: Option<crate::clock_log::ClockLogInput>,
+}
+
+/// The `measured` block of a clock run, when the scenario names a clock log.
+fn clock_log_measured(src: &str) -> Result<Option<crate::clock_log::MeasuredPhaseReport>, String> {
+    let t: ClockLogTable = toml::from_str(src).map_err(|e| format!("invalid scenario: {e}"))?;
+    t.clock_log
+        .as_ref()
+        .map(|c| {
+            crate::clock_log::MeasuredPhaseReport::from_input(c)
+                .map_err(|e| format!("clock_log: {e}"))
+        })
+        .transpose()
+}
+
+/// A clock run with its `measured` block appended after the run's own keys.
+#[derive(serde::Serialize)]
+struct WithMeasured<'a, T: serde::Serialize> {
+    #[serde(flatten)]
+    run: &'a T,
+    measured: &'a crate::clock_log::MeasuredPhaseReport,
+}
+
 /// A minimal one-line SVG banner for scenario kinds whose primary artifact is the
 /// JSON report (the rich table lives in the JSON, not a bespoke chart).
 fn minimal_svg(summary: &str) -> String {
@@ -2782,6 +2811,9 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
                 toml::from_str(src).map_err(|e| format!("invalid scenario: {e}"))?;
             scn.time.validate()?;
             if scn.runs > 1 {
+                if clock_log_measured(src)?.is_some() {
+                    return Err("[clock_log] needs runs = 1: a measured log is one record".into());
+                }
                 // Monte Carlo ensemble: report confidence bands instead of one run.
                 let r = crate::ensemble::run_ensemble(&scn);
                 let q = &r.quantum;
@@ -2804,6 +2836,7 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
                     csv: None,
                 });
             }
+            let measured = clock_log_measured(src)?;
             let r = crate::run::run(&scn);
             let summary = format!(
                 "scenario {} | quantum holdover {:.0}s p95 {}ns integrity {} security {} | classical holdover {:.0}s p95 {}ns integrity {} security {}",
@@ -2811,13 +2844,32 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
                 r.quantum.fom.holdover_s, ns1(r.quantum.fom.timing_p95_ns), integ(r.quantum.fom.integrity), SECURITY_NA,
                 r.classical.fom.holdover_s, ns1(r.classical.fom.timing_p95_ns), integ(r.classical.fom.integrity), SECURITY_NA,
             );
-            Ok(RunOutput {
-                json: json_of_with_units_and_tiers(
+            let json = match &measured {
+                None => json_of_with_units_and_tiers(
                     &r,
                     crate::report::UNITS,
                     &["quantum.fom", "classical.fom"],
                     crate::fom_label::CLOCK_FOM_FIELDS,
                 )?,
+                Some(m) => {
+                    let units: Vec<_> = crate::report::UNITS
+                        .iter()
+                        .chain(crate::clock_log::MEASURED_UNITS)
+                        .copied()
+                        .collect();
+                    json_of_with_units_and_tiers(
+                        &WithMeasured {
+                            run: &r,
+                            measured: m,
+                        },
+                        &units,
+                        &["quantum.fom", "classical.fom"],
+                        crate::fom_label::CLOCK_FOM_FIELDS,
+                    )?
+                }
+            };
+            Ok(RunOutput {
+                json,
                 svg: crate::report::to_svg(&r),
                 summary,
                 csv: None,

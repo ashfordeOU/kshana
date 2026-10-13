@@ -11,6 +11,15 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **Clock-log formats** (RM-03): `src/clock_log.rs` reads RINEX clock files, TimeLab-style
+  ASCII phase or frequency logs and TAPR TICC counter logs into one normalised phase series
+  (tau0 stated or found, gaps counted, a gap policy). Opt-in: a telecom-timing series can name
+  a log (`[series.clock_log]`), and a clock scenario's `[clock_log]` table adds a `measured`
+  block (ADEV, TDEV, MTIE). Without the table both kinds are byte-identical
+  ([`docs/CLOCK-LOG-FORMATS.md`](docs/CLOCK-LOG-FORMATS.md)). A pre-registered comparison on three
+  synthetic logs met its phase and wiring bars; the estimators agree with allantools within
+  2.5e-14 wherever it evaluates, and it does not evaluate the whole-record MTIE point
+  (recorded). MODELLED.
 - **Frequency-synchronisation wander masks** (RM-01): the `telecom-timing` kind gains seven
   constant-temperature MTIE and TDEV wander-generation masks, ITU-T G.811 PRC, G.812 Types I to
   III, G.8262 EEC Options 1 and 2 and G.8262.1 eEEC, with the power-law pieces the tables write,
