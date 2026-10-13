@@ -361,8 +361,12 @@ expected to agree. The tests cover:
 
 * **Lock state.** Each work item runs its channels through the tracking session
   (`iq::track::TrackSession`) with each design's `LockConfig`, and its `EpochSink` feeds the scorer.
-  An update counts as locked when the session's state is `LOCKED`. A `false-lock` event marks
-  that channel's next update as a tracker-flagged false lock. Each cell records
+  An update counts as locked when the session's state is `LOCKED`. A `false-lock` event the
+  session reports from `LOCKED` is one false-lock episode at the event's time, in the run and in
+  every stated event that contains it. (Until 0.36 it marked the channel's next update instead;
+  the check had already moved the channel to `LOST`, so that update was unlocked and the episode
+  was never counted. A `false-lock` reported during pull-in, or again by a channel already
+  `LOST`, is not a new episode.) Each cell records
   `lock_source = "track-session"`. The session's own rules (`LOOP-DESIGN-TOML.md` §3 and
   `iq::track::lock`) therefore decide what counts as a loss, including `loss_dwell_s`, the
   false-lock check, `recovered` relocks, and re-acquisition and retirement when a design enables
