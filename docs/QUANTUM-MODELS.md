@@ -56,14 +56,37 @@ remaining systematics are still coefficient-level or unmodelled:
   `2·v⊥·Ω` cross-coupling) and the **AC-Stark (AC: alternating-current) / light-shift** systematic
   (`ac_stark_phase`, which cancels under a symmetric two-photon detuning) *are now
   modelled and unit-tested* in `src/inertial/quantum_imu.rs`;
-- still **not** modelled: **laser-phase noise**, **wavefront aberration**, unwrapping a
-  fringe reading beyond ±`a_max`, and clock-side first-principles physics;
+- three further CAI error terms *are now modelled* as library functions in
+  `src/inertial/cai_error_terms.rs` (0.36; MODELLED; not yet reachable from a scenario
+  kind):
+  - **Raman laser-phase noise**: the sensitivity-function weighting of Cheinet et al.
+    (2008), Eq. 8, with the white-phase closed form `σ_Φ² = (π/2)²·S_φ⁰/τ_R` (Eq. 18 at one
+    cycle) and a numeric route for any phase-noise spectrum, plus the laser frequency noise
+    that the retro-reflection delay `t_d = 2L/c` does not cancel (Le Gouët et al. 2007,
+    Eqs. 9 to 11);
+  - **wavefront curvature** (pure defocus only): the bias `δg = σ_v²/R` of a thermal cloud
+    on a beam of curvature radius `R`, and its reduction when only atoms inside a
+    detection radius are counted (after Louchet-Chauvet et al. 2011 and Schkolnik et al.
+    2015); higher-order aberrations are not modelled;
+  - **fringe-ambiguity resolution**: the probability of a wrong fringe index,
+    `erfc(π/(√2·s))`, for a classical-accelerometer aid (Lautier et al. 2014) and for two
+    interrogation times (after Bonnin et al. 2018), with the inverse that gives the
+    largest classical noise for a stated failure probability.
+
+  Each closed form is checked against an independent numerical route (frequency-domain
+  quadrature, or a Monte Carlo over atoms or shots) and its limiting cases. The one
+  published number reproduced is Cheinet et al.'s white-phase-noise level: −111 dB·rad²/Hz
+  at `τ_R` = 20 µs gives about 1 mrad per shot (0.99 mrad; the paper derives that level
+  with its Eq. 17, flicker plus white). None of this is a measurement of any instrument;
+- still **not** modelled: higher-order wavefront aberrations, the phase noise of a
+  specific laser system, and clock-side first-principles physics;
 - the quantum-versus-classical `inertial` pack is single-axis; the three-axis strapdown
   path runs only in `gnss-ins` and `hybrid-ukf` (see the IMU, inertial measurement unit,
   note in the README and [`VALIDATION.md`](VALIDATION.md)).
 
-Completing the quantum-physics layer (laser-phase noise, wavefront aberration and
-clock-side first-principles physics) is the remaining P2 work in
+Completing the quantum-physics layer (reaching the CAI error terms from a scenario kind,
+higher-order wavefront aberrations and clock-side first-principles physics) is the
+remaining P2 work in
 [`ROADMAP.md`](../ROADMAP.md).
 
 ## Ground-lab vs. flight-qualified figures

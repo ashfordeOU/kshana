@@ -553,9 +553,10 @@ mod tests {
 
     #[test]
     fn cheinet_2008_white_phase_noise_requirement_is_reproduced() {
-        // Cheinet et al. 2008 (IEEE TIM 57, 1141; arXiv:physics/0510197 Sec. IV, Eq. 18,
-        // p. 11): with τ_R = 20 µs a white Raman phase noise of −111 dB·rad²/Hz is the level
-        // for an interferometric phase fluctuation of 1 mrad per shot.
+        // Cheinet et al. 2008 (IEEE TIM 57, 1141; arXiv:physics/0510197 Sec. IV, p. 11):
+        // with τ_R = 20 µs the white Raman phase noise must be below −111 dB·rad²/Hz for
+        // 1 mrad per shot. The paper derives the level with its Eq. 17 (flicker plus
+        // white); the white part alone through Eq. 18 at one cycle gives 0.99 mrad.
         let s0 = 10f64.powf(-111.0 / 10.0);
         let sigma = raman_phase_variance_white(s0, 20e-6).sqrt();
         assert!((sigma - 1e-3).abs() / 1e-3 < 0.02, "σ_Φ = {sigma:.4e} rad");
