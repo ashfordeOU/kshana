@@ -282,6 +282,7 @@ pub mod spoof;
 pub mod spoof_capture;
 pub mod spoof_detect;
 pub mod spoof_monitors;
+pub mod srp_shadow;
 pub mod study;
 pub mod suite;
 pub mod surface;
