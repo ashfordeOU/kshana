@@ -298,6 +298,13 @@ impl ClosedLoopInsGnss {
     pub fn position_cov_trace(&self) -> f64 {
         self.ekf.position_cov_trace()
     }
+
+    /// The diagonal of the filter's error covariance, in the order
+    /// `[δp(3), δv(3), ψ(3), b_a(3), b_g(3)]`: what the filter has (and has not) learned,
+    /// for observability checks of a trajectory.
+    pub fn covariance_diagonal(&self) -> [f64; 15] {
+        self.ekf.covariance_diagonal()
+    }
 }
 
 #[cfg(test)]
