@@ -7,6 +7,10 @@ docs/PYTHON_API.md for a quickstart.
 """
 from typing import Any, Optional, final
 
+# Only the array accessors of RunOutput use NumPy, imported when they are called; the
+# package itself does not depend on it.
+from numpy.typing import NDArray
+
 # Mirrors the runtime `__all__` pyo3 generates for the module, so a checker's
 # view of `from kshana import *` matches what the extension actually exports.
 __all__ = [
@@ -94,7 +98,21 @@ class RunOutput:
         for every other kind. Same bytes the CLI writes as ``<scenario>.table.csv``."""
     def data(self) -> dict[str, Any]:
         """The result document parsed into a dict (figures of merit, time series,
-        provenance, ...). Wrap numeric lists with ``numpy.asarray(...)`` for arrays."""
+        provenance, ...). For NumPy arrays use :meth:`array`, :meth:`columns` or
+        :meth:`series`."""
+    def array(self, path: str) -> NDArray[Any]:
+        """The numeric array at ``path`` (dotted, ``"a.b.0"``, or a JSON Pointer,
+        ``"/a/b/0"``) as an ndarray: 1-D for a list of numbers, 2-D for equal-length
+        numeric lists. Equal to ``numpy.asarray`` of the same list from :meth:`data`.
+        Imports NumPy on call (``ImportError`` without it); ``KeyError`` for a missing
+        path, ``ValueError`` when the value is not a numeric array."""
+    def columns(self, path: str) -> dict[str, NDArray[Any]]:
+        """The list of records at ``path`` as column name -> ndarray, for every field
+        that is a number in every record. Each column equals ``numpy.asarray`` of the
+        same values from :meth:`data`. Errors as :meth:`array`."""
+    def series(self) -> dict[str, dict[str, NDArray[Any]]]:
+        """Every non-empty list of records with a numeric field, keyed by dotted path,
+        each as :meth:`columns`."""
     def write_csv(self, path: str) -> int:
         """Write :attr:`csv` to ``path``; returns the bytes written, or 0 when this
         scenario kind emits no table — in which case no file is created."""
