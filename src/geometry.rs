@@ -47,6 +47,7 @@
 //! without an `epoch` they are propagated to the newest set's own epoch and the sky is again
 //! representative. Every result says which in `sky_source` and `sky_statement`.
 
+use crate::portable_math::PortableFloat;
 use crate::frames::{geodetic_to_ecef, look_angles, Geodetic};
 use crate::skyline::{Skyline, SkylineCfg};
 use serde::{Deserialize, Serialize};
@@ -328,7 +329,7 @@ pub struct SkyGeometry {
 /// The chi-square two-degree-of-freedom scale `sqrt(-2 ln(1 - p))` of a 2-D Gaussian ellipse
 /// holding probability `p`.
 pub fn ellipse_scale(p: f64) -> f64 {
-    (-2.0 * (1.0 - p).ln()).sqrt()
+    (-2.0 * (1.0 - p).pln()).sqrt()
 }
 
 /// The error ellipse of a horizontal cofactor block `[[q_ee, q_en], [q_en, q_nn]]`.
@@ -344,7 +345,7 @@ pub fn ellipse(
     let l1 = (mean + half).max(0.0);
     let l2 = (mean - half).max(0.0);
     let k = ellipse_scale(confidence);
-    let mut orient = (0.5 * (2.0 * q_en).atan2(q_nn - q_ee)).to_degrees();
+    let mut orient = (0.5 * (2.0 * q_en).patan2(q_nn - q_ee)).to_degrees();
     if orient < 0.0 {
         orient += 180.0;
     }
@@ -373,7 +374,7 @@ pub fn ellipse(
 /// Unit line of sight in ENU for an azimuth and elevation (deg).
 pub fn los_enu(az_deg: f64, el_deg: f64) -> Vec3 {
     let (az, el) = (az_deg.to_radians(), el_deg.to_radians());
-    [el.cos() * az.sin(), el.cos() * az.cos(), el.sin()]
+    [el.pcos() * az.psin(), el.pcos() * az.pcos(), el.psin()]
 }
 
 fn site_geodetic(s: &Site) -> Result<Geodetic, String> {
@@ -920,7 +921,7 @@ pub fn sky_geometry(req: &SkyRequest) -> Result<SkyGeometry, String> {
                 .iter()
                 .map(|r| r.iter().map(|v| v * sigma * sigma).collect())
                 .collect();
-            let one_sigma = 1.0 - (-0.5f64).exp();
+            let one_sigma = 1.0 - (-0.5f64).pexp();
             (
                 Some(d),
                 Some(cov),
@@ -1139,7 +1140,7 @@ pub fn skyplot_svg(req: &SkyRequest) -> Result<String, String> {
     let xy = |az: f64, el: f64| -> (f64, f64) {
         let rr = r * (90.0 - el.clamp(0.0, 90.0)) / 90.0;
         let a = az.to_radians();
-        (cx + rr * a.sin(), cy - rr * a.cos())
+        (cx + rr * a.psin(), cy - rr * a.pcos())
     };
     let mut out = format!(
         "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w}\" height=\"{h}\" viewBox=\"0 0 {w} {h}\" \
@@ -1172,7 +1173,7 @@ pub fn skyplot_svg(req: &SkyRequest) -> Result<String, String> {
     }
     for (az, lab) in [(0.0_f64, "N"), (90.0, "E"), (180.0, "S"), (270.0, "W")] {
         let a = az.to_radians();
-        let (x, y) = (cx + 1.07 * r * a.sin(), cy - 1.07 * r * a.cos());
+        let (x, y) = (cx + 1.07 * r * a.psin(), cy - 1.07 * r * a.pcos());
         out.push_str(&format!(
             "<text x=\"{x:.2}\" y=\"{:.2}\" text-anchor=\"middle\" fill=\"{MUTED}\">{lab}</text>",
             y + 4.0
@@ -1336,7 +1337,7 @@ mod tests {
     #[test]
     fn ellipse_of_an_analytic_two_by_two_case() {
         // Q_h = [[3, 1], [1, 3]]: eigenvalues 4 and 2, major axis along azimuth 45 deg.
-        let p = 1.0 - (-0.5f64).exp();
+        let p = 1.0 - (-0.5f64).pexp();
         let e = ellipse(3.0, 1.0, 3.0, 2.0, p);
         assert!(close(e.scale_k, 1.0, 1e-12));
         assert!(close(e.semi_major_m, 4.0, 1e-12));
@@ -1508,8 +1509,8 @@ mod tests {
         };
         let geo = site_geodetic(&site).unwrap();
         let r0 = geodetic_to_ecef(geo);
-        let (sl, cl) = geo.lat_rad.sin_cos();
-        let (so, co) = geo.lon_rad.sin_cos();
+        let (sl, cl) = geo.lat_rad.psin_cos();
+        let (so, co) = geo.lon_rad.psin_cos();
         let to_ecef = |l: Vec3| -> Vec3 {
             let e = [-so, co, 0.0];
             let n = [-sl * co, -sl * so, cl];
@@ -1569,7 +1570,7 @@ mod tests {
         assert_eq!(p.table.len(), 360);
         assert!(close(
             p.table[90],
-            (28.5f64 / 10.0).atan().to_degrees(),
+            (28.5f64 / 10.0).patan().to_degrees(),
             1e-12
         ));
         assert_eq!(skyline_presets().len(), 4);

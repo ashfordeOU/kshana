@@ -47,6 +47,7 @@
 //! geometries with their provenance stated in [`PRESETS`]; none is a survey of a real place.
 //! Azimuth is degrees clockwise from true north in the site's local east-north-up frame.
 
+use crate::portable_math::PortableFloat;
 use serde::{Deserialize, Serialize};
 
 /// Mean Earth radius (m) the curvature drop is scaled from ([`crate::orbit::R_EARTH_M`]).
@@ -82,7 +83,7 @@ pub fn wrap_deg(az: f64) -> f64 {
 /// Azimuth (degrees clockwise from north, in `[0, 360)`) of a direction whose east and north
 /// components are `east` and `north`.
 pub fn azimuth_from_en(east: f64, north: f64) -> f64 {
-    wrap_deg(east.atan2(north).to_degrees())
+    wrap_deg(east.patan2(north).to_degrees())
 }
 
 /// A street canyon: two straight parallel walls along a street azimuth.
@@ -107,7 +108,7 @@ impl Canyon {
     /// documentation).
     pub fn cut_deg(&self, az_deg: f64) -> f64 {
         let theta = (az_deg - self.street_az_deg).to_radians();
-        let s = theta.sin();
+        let s = theta.psin();
         let h = if s > 0.0 {
             self.height_right_m
         } else if s < 0.0 {
@@ -122,11 +123,11 @@ impl Canyon {
         let half = 0.5 * self.width_m;
         if let Some(l) = self.length_m {
             // Along-street distance to the wall plane: d |cos θ| = (w/2) |cos θ| / |sin θ|.
-            if half * theta.cos().abs() > 0.5 * l * s.abs() {
+            if half * theta.pcos().abs() > 0.5 * l * s.abs() {
                 return 0.0;
             }
         }
-        (dh * s.abs()).atan2(half).to_degrees()
+        (dh * s.abs()).patan2(half).to_degrees()
     }
 }
 
@@ -176,7 +177,7 @@ impl TerrainPoint {
         let r_eff = EFFECTIVE_RADIUS_FACTOR * EARTH_RADIUS_M;
         let drop = self.distance_m * self.distance_m / (2.0 * r_eff);
         (self.height_m - drop)
-            .atan2(self.distance_m)
+            .patan2(self.distance_m)
             .to_degrees()
             .max(0.0)
     }
@@ -313,7 +314,7 @@ impl Skyline {
         let sum: f64 = (0..n)
             .map(|i| {
                 let az = (i as f64 + 0.5) * 360.0 / n as f64;
-                1.0 - self.effective_cut_deg(az, mask_deg).to_radians().sin()
+                1.0 - self.effective_cut_deg(az, mask_deg).to_radians().psin()
             })
             .sum();
         sum / n as f64
@@ -623,7 +624,7 @@ fn fjord() -> Skyline {
             let az = a as f64;
             TerrainPoint {
                 az,
-                distance_m: FJORD_WALL_DISTANCE_M / az.to_radians().sin().abs(),
+                distance_m: FJORD_WALL_DISTANCE_M / az.to_radians().psin().abs(),
                 height_m: FJORD_WALL_HEIGHT_M,
             }
         })
@@ -951,7 +952,7 @@ mod tests {
         assert!(close(c.cut_deg(90.0), 45.0, 1e-12));
         assert!(close(c.cut_deg(270.0), 63.434_948_822_922, 1e-9));
         // 30 deg off the axis on the right: atan(10 sin 30 / 10) = atan(0.5).
-        assert!(close(c.cut_deg(30.0), 0.5f64.atan().to_degrees(), 1e-12));
+        assert!(close(c.cut_deg(30.0), 0.5f64.patan().to_degrees(), 1e-12));
         assert_eq!(c.cut_deg(0.0), 0.0);
         assert!(c.cut_deg(180.0).abs() < 1e-9);
         // A canyon 40 m long: 30 deg off the axis the wall plane is 10 cos30/sin30 = 17.3 m
@@ -984,7 +985,7 @@ mod tests {
         assert!(close(drop, 0.132_436_038_298_540_28, 1e-12));
         assert!(close(
             p.elevation_deg(),
-            ((600.0 - drop) / 1500.0).atan().to_degrees(),
+            ((600.0 - drop) / 1500.0).patan().to_degrees(),
             1e-12
         ));
         // Far enough away the drop takes the whole height: the point cuts nothing.
@@ -1049,7 +1050,7 @@ mod tests {
         let c = preset("city-street").unwrap().skyline();
         assert!(close(
             c.cut_deg(90.0),
-            (28.5f64 / 10.0).atan().to_degrees(),
+            (28.5f64 / 10.0).patan().to_degrees(),
             1e-12
         ));
         assert_eq!(c.cut_deg(0.0), 0.0);
@@ -1062,7 +1063,7 @@ mod tests {
         let drop = 1500.0f64 * 1500.0 / (2.0 * 4.0 / 3.0 * 6_371_000.0);
         assert!(close(
             f.cut_deg(90.0),
-            ((600.0 - drop) / 1500.0).atan().to_degrees(),
+            ((600.0 - drop) / 1500.0).patan().to_degrees(),
             1e-12
         ));
         assert!(close(f.cut_deg(90.0), 21.8, 0.05));

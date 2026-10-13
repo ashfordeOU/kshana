@@ -22,6 +22,7 @@
 //! for the user and the satellites, which is internally consistent for line-of-sight
 //! geometry without the full TEME→ECEF reduction (polar motion, nutation).
 
+use crate::portable_math::PortableFloat;
 use crate::jd2::Jd2;
 use crate::precession::{mat_vec, matmul, rz, Mat3};
 use std::f64::consts::PI;
@@ -119,8 +120,8 @@ fn kepler_short_period(u: f64, axnl: f64, aynl: f64) -> Option<(f64, f64)> {
     let mut sineo1 = 0.0;
     let mut coseo1 = 0.0;
     while tem5.abs() >= 1.0e-12 && ktr <= 10 {
-        sineo1 = eo1.sin();
-        coseo1 = eo1.cos();
+        sineo1 = eo1.psin();
+        coseo1 = eo1.pcos();
         tem5 = 1.0 - coseo1 * axnl - sineo1 * aynl;
         tem5 = (u - aynl * coseo1 + axnl * sineo1 - eo1) / tem5;
         if tem5.abs() >= 0.95 {
@@ -402,19 +403,19 @@ impl Sgp4 {
         let eccsq = self.ecco * self.ecco;
         let omeosq = 1.0 - eccsq;
         let rteosq = omeosq.sqrt();
-        let cosio = self.inclo.cos();
+        let cosio = self.inclo.pcos();
         let cosio2 = cosio * cosio;
 
         // Un-Kozai the mean motion.
-        let ak = (xke / self.no_unkozai).powf(X2O3);
+        let ak = (xke / self.no_unkozai).ppowf(X2O3);
         let d1 = 0.75 * j2 * (3.0 * cosio2 - 1.0) / (rteosq * omeosq);
         let mut del = d1 / (ak * ak);
         let adel = ak * (1.0 - del * del - del * (1.0 / 3.0 + 134.0 * del * del / 81.0));
         del = d1 / (adel * adel);
         self.no_unkozai /= 1.0 + del;
 
-        let ao = (xke / self.no_unkozai).powf(X2O3);
-        let sinio = self.inclo.sin();
+        let ao = (xke / self.no_unkozai).ppowf(X2O3);
+        let sinio = self.inclo.psin();
         let po = ao * omeosq;
         let con42 = 1.0 - 5.0 * cosio2;
         self.con41 = -con42 - cosio2 - cosio2;
@@ -471,8 +472,8 @@ impl Sgp4 {
             let etasq = self.eta * self.eta;
             let eeta = self.ecco * self.eta;
             let psisq = (1.0 - etasq).abs();
-            let coef = qzms24 * tsi.powi(4);
-            let coef1 = coef / psisq.powf(3.5);
+            let coef = qzms24 * tsi.ppowi(4);
+            let coef1 = coef / psisq.ppowf(3.5);
             let cc2 = coef1
                 * self.no_unkozai
                 * (ao * (1.0 + 1.5 * etasq + eeta * (4.0 + etasq))
@@ -494,7 +495,7 @@ impl Sgp4 {
                             + 0.75
                                 * self.x1mth2
                                 * (2.0 * etasq - eeta * (1.0 + etasq))
-                                * (2.0 * self.argpo).cos()));
+                                * (2.0 * self.argpo).pcos()));
             self.cc5 = 2.0 * coef1 * ao * omeosq * (1.0 + 2.75 * (etasq + eeta) + eeta * etasq);
             let cosio4 = cosio2 * cosio2;
             let temp1 = 1.5 * j2 * pinvsq * self.no_unkozai;
@@ -511,7 +512,7 @@ impl Sgp4 {
                 + (0.5 * temp2 * (4.0 - 19.0 * cosio2) + 2.0 * temp3 * (3.0 - 7.0 * cosio2))
                     * cosio;
             let xpidot = self.argpdot + self.nodedot;
-            self.omgcof = self.bstar * cc3 * self.argpo.cos();
+            self.omgcof = self.bstar * cc3 * self.argpo.pcos();
             self.xmcof = 0.0;
             if self.ecco > 1.0e-4 {
                 self.xmcof = -X2O3 * coef * self.bstar / eeta;
@@ -524,9 +525,9 @@ impl Sgp4 {
                 self.xlcof = -0.25 * j3oj2 * sinio * (3.0 + 5.0 * cosio) / TEMP4;
             }
             self.aycof = -0.5 * j3oj2 * sinio;
-            let delmotemp = 1.0 + self.eta * self.mo.cos();
+            let delmotemp = 1.0 + self.eta * self.mo.pcos();
             self.delmo = delmotemp * delmotemp * delmotemp;
-            self.sinmao = self.mo.sin();
+            self.sinmao = self.mo.psin();
             self.x7thm1 = 7.0 * cosio2 - 1.0;
 
             // ---- deep-space initialisation ----
@@ -625,7 +626,7 @@ impl Sgp4 {
 
         if !self.isimp {
             let delomg = self.omgcof * tsince;
-            let delmtemp = 1.0 + self.eta * xmdf.cos();
+            let delmtemp = 1.0 + self.eta * xmdf.pcos();
             let delm = self.xmcof * (delmtemp * delmtemp * delmtemp - self.delmo);
             let temp = delomg + delm;
             mm = xmdf + temp;
@@ -633,7 +634,7 @@ impl Sgp4 {
             let t3 = t2 * tsince;
             let t4 = t3 * tsince;
             tempa = tempa - self.d2 * t2 - self.d3 * t3 - self.d4 * t4;
-            tempe += self.bstar * self.cc5 * (mm.sin() - self.sinmao);
+            tempe += self.bstar * self.cc5 * (mm.psin() - self.sinmao);
             templ += self.t3cof * t3 + t4 * (self.t4cof + tsince * self.t5cof);
         }
 
@@ -655,8 +656,8 @@ impl Sgp4 {
         if nm <= 0.0 {
             return Err(2);
         }
-        let am = (xke / nm).powf(X2O3) * tempa * tempa;
-        nm = xke / am.powf(1.5);
+        let am = (xke / nm).ppowf(X2O3) * tempa * tempa;
+        nm = xke / am.ppowf(1.5);
         em -= tempe;
 
         if !(-0.001..1.0).contains(&em) {
@@ -672,8 +673,8 @@ impl Sgp4 {
         let xlm = xlm % TWO_PI;
         mm = fmod2pi(xlm - argpm - nodem);
 
-        let sinim = inclm.sin();
-        let cosim = inclm.cos();
+        let sinim = inclm.psin();
+        let cosim = inclm.pcos();
 
         // ---- add lunar-solar periodics ----
         let mut ep = em;
@@ -711,8 +712,8 @@ impl Sgp4 {
         }
 
         if self.deep {
-            sinip = xincp.sin();
-            cosip = xincp.cos();
+            sinip = xincp.psin();
+            cosip = xincp.pcos();
             aycof = -0.5 * self.grav.j3oj2 * sinip;
             if (cosip + 1.0).abs() > 1.5e-12 {
                 xlcof = -0.25 * self.grav.j3oj2 * sinip * (3.0 + 5.0 * cosip) / (1.0 + cosip);
@@ -721,9 +722,9 @@ impl Sgp4 {
             }
         }
 
-        let axnl = ep * argpp.cos();
+        let axnl = ep * argpp.pcos();
         let mut temp = 1.0 / (am * (1.0 - ep * ep));
-        let aynl = ep * argpp.sin() + temp * aycof;
+        let aynl = ep * argpp.psin() + temp * aycof;
         let xl = mp + argpp + nodep + temp * xlcof * axnl;
 
         // ---- solve Kepler's equation ----
@@ -751,7 +752,7 @@ impl Sgp4 {
         temp = esine / (1.0 + betal);
         let sinu = am / rl * (sineo1 - aynl - axnl * temp);
         let cosu = am / rl * (coseo1 - axnl + aynl * temp);
-        let su = sinu.atan2(cosu);
+        let su = sinu.patan2(cosu);
         let sin2u = (cosu + cosu) * sinu;
         let cos2u = 1.0 - 2.0 * sinu * sinu;
         temp = 1.0 / pl;
@@ -773,9 +774,9 @@ impl Sgp4 {
         let rvdot = rvdotl + nm * temp1 * (x1mth2 * cos2u + 1.5 * con41) / xke;
 
         // ---- orientation vectors ----
-        let (sinsu, cossu) = su.sin_cos();
-        let (snod, cnod) = xnode.sin_cos();
-        let (sini, cosi) = xinc.sin_cos();
+        let (sinsu, cossu) = su.psin_cos();
+        let (snod, cnod) = xnode.psin_cos();
+        let (sini, cosi) = xinc.psin_cos();
         let xmx = -snod * cosi;
         let xmy = cnod * cosi;
         let ux = xmx * sinsu + cnod * cossu;
@@ -822,10 +823,10 @@ impl Sgp4 {
         if init {
             zm = self.zmos;
         }
-        let mut zf = zm + 2.0 * zes * zm.sin();
-        let mut sinzf = zf.sin();
+        let mut zf = zm + 2.0 * zes * zm.psin();
+        let mut sinzf = zf.psin();
         let mut f2 = 0.5 * sinzf * sinzf - 0.25;
-        let mut f3 = -0.5 * sinzf * zf.cos();
+        let mut f3 = -0.5 * sinzf * zf.pcos();
         let ses = self.se2 * f2 + self.se3 * f3;
         let sis = self.si2 * f2 + self.si3 * f3;
         let sls = self.sl2 * f2 + self.sl3 * f3 + self.sl4 * sinzf;
@@ -835,10 +836,10 @@ impl Sgp4 {
         if init {
             zm = self.zmol;
         }
-        zf = zm + 2.0 * zel * zm.sin();
-        sinzf = zf.sin();
+        zf = zm + 2.0 * zel * zm.psin();
+        sinzf = zf.psin();
         f2 = 0.5 * sinzf * sinzf - 0.25;
-        f3 = -0.5 * sinzf * zf.cos();
+        f3 = -0.5 * sinzf * zf.pcos();
         let sel = self.ee2 * f2 + self.e3 * f3;
         let sil = self.xi2 * f2 + self.xi3 * f3;
         let sll = self.xl2 * f2 + self.xl3 * f3 + self.xl4 * sinzf;
@@ -858,8 +859,8 @@ impl Sgp4 {
             ph -= self.pho;
             inclp += pinc;
             ep += pe;
-            let sinip = inclp.sin();
-            let cosip = inclp.cos();
+            let sinip = inclp.psin();
+            let cosip = inclp.pcos();
 
             if inclp >= 0.2 {
                 ph /= sinip;
@@ -869,8 +870,8 @@ impl Sgp4 {
                 mp += pl;
             } else {
                 // Lyddane modification near zero inclination.
-                let sinop = nodep.sin();
-                let cosop = nodep.cos();
+                let sinop = nodep.psin();
+                let cosop = nodep.pcos();
                 let mut alfdp = sinip * sinop;
                 let mut betdp = sinip * cosop;
                 let dalf = ph * cosop + pinc * cosip * sinop;
@@ -883,7 +884,7 @@ impl Sgp4 {
                 }
                 let xls = mp + argpp + pl + pgh + (cosip - pinc * sinip) * nodep;
                 let xnoh = nodep;
-                nodep = alfdp.atan2(betdp);
+                nodep = alfdp.patan2(betdp);
                 if nodep < 0.0 && self.afspc {
                     nodep += TWO_PI;
                 }
@@ -953,41 +954,41 @@ impl Sgp4 {
             while iterating {
                 if self.irez != 2 {
                     // Near-synchronous (one-day) resonance.
-                    xndt = self.del1 * (xli - fasx2).sin()
-                        + self.del2 * (2.0 * (xli - fasx4)).sin()
-                        + self.del3 * (3.0 * (xli - fasx6)).sin();
+                    xndt = self.del1 * (xli - fasx2).psin()
+                        + self.del2 * (2.0 * (xli - fasx4)).psin()
+                        + self.del3 * (3.0 * (xli - fasx6)).psin();
                     xldot = xni + self.xfact;
-                    xnddt = self.del1 * (xli - fasx2).cos()
-                        + 2.0 * self.del2 * (2.0 * (xli - fasx4)).cos()
-                        + 3.0 * self.del3 * (3.0 * (xli - fasx6)).cos();
+                    xnddt = self.del1 * (xli - fasx2).pcos()
+                        + 2.0 * self.del2 * (2.0 * (xli - fasx4)).pcos()
+                        + 3.0 * self.del3 * (3.0 * (xli - fasx6)).pcos();
                     xnddt *= xldot;
                 } else {
                     // Near-half-day resonance.
                     let xomi = self.argpo + self.argpdot * atime;
                     let x2omi = xomi + xomi;
                     let x2li = xli + xli;
-                    xndt = self.d2201 * (x2omi + xli - g22).sin()
-                        + self.d2211 * (xli - g22).sin()
-                        + self.d3210 * (xomi + xli - g32).sin()
-                        + self.d3222 * (-xomi + xli - g32).sin()
-                        + self.d4410 * (x2omi + x2li - g44).sin()
-                        + self.d4422 * (x2li - g44).sin()
-                        + self.d5220 * (xomi + xli - g52).sin()
-                        + self.d5232 * (-xomi + xli - g52).sin()
-                        + self.d5421 * (xomi + x2li - g54).sin()
-                        + self.d5433 * (-xomi + x2li - g54).sin();
+                    xndt = self.d2201 * (x2omi + xli - g22).psin()
+                        + self.d2211 * (xli - g22).psin()
+                        + self.d3210 * (xomi + xli - g32).psin()
+                        + self.d3222 * (-xomi + xli - g32).psin()
+                        + self.d4410 * (x2omi + x2li - g44).psin()
+                        + self.d4422 * (x2li - g44).psin()
+                        + self.d5220 * (xomi + xli - g52).psin()
+                        + self.d5232 * (-xomi + xli - g52).psin()
+                        + self.d5421 * (xomi + x2li - g54).psin()
+                        + self.d5433 * (-xomi + x2li - g54).psin();
                     xldot = xni + self.xfact;
-                    xnddt = self.d2201 * (x2omi + xli - g22).cos()
-                        + self.d2211 * (xli - g22).cos()
-                        + self.d3210 * (xomi + xli - g32).cos()
-                        + self.d3222 * (-xomi + xli - g32).cos()
-                        + self.d5220 * (xomi + xli - g52).cos()
-                        + self.d5232 * (-xomi + xli - g52).cos()
+                    xnddt = self.d2201 * (x2omi + xli - g22).pcos()
+                        + self.d2211 * (xli - g22).pcos()
+                        + self.d3210 * (xomi + xli - g32).pcos()
+                        + self.d3222 * (-xomi + xli - g32).pcos()
+                        + self.d5220 * (xomi + xli - g52).pcos()
+                        + self.d5232 * (-xomi + xli - g52).pcos()
                         + 2.0
-                            * (self.d4410 * (x2omi + x2li - g44).cos()
-                                + self.d4422 * (x2li - g44).cos()
-                                + self.d5421 * (xomi + x2li - g54).cos()
-                                + self.d5433 * (-xomi + x2li - g54).cos());
+                            * (self.d4410 * (x2omi + x2li - g44).pcos()
+                                + self.d4422 * (x2li - g44).pcos()
+                                + self.d5421 * (xomi + x2li - g54).pcos()
+                                + self.d5433 * (-xomi + x2li - g54).pcos());
                     xnddt *= xldot;
                 }
 
@@ -1066,12 +1067,12 @@ impl Sgp4 {
 
         let nm = self.no_unkozai;
         let em = self.ecco;
-        let snodm = self.nodeo.sin();
-        let cnodm = self.nodeo.cos();
-        let sinomm = self.argpo.sin();
-        let cosomm = self.argpo.cos();
-        let sinim = self.inclo.sin();
-        let cosim = self.inclo.cos();
+        let snodm = self.nodeo.psin();
+        let cnodm = self.nodeo.pcos();
+        let sinomm = self.argpo.psin();
+        let cosomm = self.argpo.pcos();
+        let sinim = self.inclo.psin();
+        let cosim = self.inclo.pcos();
         let emsq = em * em;
         let betasq = 1.0 - emsq;
         let rtemsq = betasq.sqrt();
@@ -1083,8 +1084,8 @@ impl Sgp4 {
         self.pho = 0.0;
         let day = epoch + 18_261.5 + tc / 1440.0;
         let xnodce = (4.523_602_0 - 9.242_202_9e-4 * day) % TWO_PI;
-        let stem = xnodce.sin();
-        let ctem = xnodce.cos();
+        let stem = xnodce.psin();
+        let ctem = xnodce.pcos();
         let zcosil = 0.913_751_640_f64 - 0.035_680_96 * ctem;
         let zsinil = (1.0 - zcosil * zcosil).sqrt();
         let zsinhl = 0.089_683_511 * stem / zsinil;
@@ -1092,10 +1093,10 @@ impl Sgp4 {
         let gam = 5.835_151_4 + 0.001_944_368_0 * day;
         let mut zx = 0.397_854_16 * stem / zsinil;
         let zy = zcoshl * ctem + 0.917_448_67 * zsinhl * stem;
-        zx = zx.atan2(zy);
+        zx = zx.patan2(zy);
         zx = gam + zx - xnodce;
-        let zcosgl = zx.cos();
-        let zsingl = zx.sin();
+        let zcosgl = zx.pcos();
+        let zsingl = zx.psin();
 
         let mut zcosg = zcosgs;
         let mut zsing = zsings;
@@ -1330,7 +1331,7 @@ impl Sgp4 {
         let theta = (self.gsto + tc * rptim) % TWO_PI;
 
         if self.irez != 0 {
-            let aonv = (nm / self.grav.xke).powf(X2O3);
+            let aonv = (nm / self.grav.xke).ppowf(X2O3);
 
             if self.irez == 2 {
                 // 12 h geopotential resonance. The g-coefficients use the
@@ -1493,7 +1494,7 @@ impl MeanElementSet {
         let a_er = el.a_m / 1000.0 / g.radiusearthkm;
         Self {
             epoch_utc,
-            no_kozai: g.xke / a_er.powf(1.5),
+            no_kozai: g.xke / a_er.ppowf(1.5),
             ecco: el.e,
             inclo: el.inc_rad,
             nodeo: (el.node_lon_rad + gstime(epoch_utc.total())).rem_euclid(TWO_PI),
@@ -1680,7 +1681,7 @@ mod tests {
         assert!((g.j2 - 0.001_082_629_989_05).abs() < 1e-15);
         assert!((g.j3 - -0.000_002_532_153_06).abs() < 1e-18);
         assert!((g.j4 - -0.000_001_610_987_61).abs() < 1e-18);
-        let xke = 60.0 / (6378.137_f64.powi(3) / 398_600.5).sqrt();
+        let xke = 60.0 / (6378.137_f64.ppowi(3) / 398_600.5).sqrt();
         assert!((g.xke - xke).abs() < 1e-12);
         assert!((g.j3oj2 - g.j3 / g.j2).abs() < 1e-15);
         // The two models are genuinely distinct (different equatorial radius).
@@ -1753,7 +1754,7 @@ mod tests {
                 0.0,
                 0.0,
             );
-            let d = ((r[0] - q[0]).powi(2) + (r[1] - q[1]).powi(2) + (r[2] - q[2]).powi(2)).sqrt();
+            let d = ((r[0] - q[0]).ppowi(2) + (r[1] - q[1]).ppowi(2) + (r[2] - q[2]).ppowi(2)).sqrt();
             assert!(d < 0.01, "t = {t}: {d} m");
         }
     }
@@ -1776,12 +1777,12 @@ mod tests {
         let (r, v) = SgpOrbit::from_earth_fixed(&el, epoch)
             .itrs_state(epoch)
             .unwrap();
-        let lon = r[1].atan2(r[0]).to_degrees();
+        let lon = r[1].patan2(r[0]).to_degrees();
         assert!((lon - 40.0).abs() < 0.05, "node longitude {lon}");
         // Earth-fixed velocity of a polar orbit at the node: northward, westward drift of the
         // ground (omega x r) of about 0.5 km/s.
         assert!(v[2] > 7_000.0);
-        let east = [-lon.to_radians().sin(), lon.to_radians().cos(), 0.0];
+        let east = [-lon.to_radians().psin(), lon.to_radians().pcos(), 0.0];
         let ve = v[0] * east[0] + v[1] * east[1];
         assert!(
             (ve + EARTH_ROTATION_ANGLE_RATE * 7_000_000.0).abs() < 60.0,

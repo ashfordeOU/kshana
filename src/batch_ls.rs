@@ -20,6 +20,7 @@
 //! (2004), §4; the underlying Gauss–Newton / weighted-least-squares numerics follow
 //! Björck, *Numerical Methods for Least Squares Problems* (1996).
 
+use crate::portable_math::PortableFloat;
 use crate::fusion::ukf::inverse;
 
 /// The outcome of a batch least-squares solve.
@@ -121,7 +122,7 @@ where
     let rms = (z
         .iter()
         .zip(&hx)
-        .map(|(&zi, &hi)| (zi - hi).powi(2))
+        .map(|(&zi, &hi)| (zi - hi).ppowi(2))
         .sum::<f64>()
         / m as f64)
         .sqrt();
@@ -185,7 +186,7 @@ where
     let rms = (z
         .iter()
         .zip(&hx)
-        .map(|(&zi, &hi)| (zi - hi).powi(2))
+        .map(|(&zi, &hi)| (zi - hi).ppowi(2))
         .sum::<f64>()
         / m as f64)
         .sqrt();
@@ -279,11 +280,11 @@ mod tests {
     fn nonlinear_exponential_fit_converges() {
         // Fit y = a·exp(b·t); recover a=1.5, b=0.5 from noise-free samples.
         let ts = [0.0f64, 0.5, 1.0, 1.5, 2.0, 2.5];
-        let z: Vec<f64> = ts.iter().map(|&t| 1.5 * (0.5 * t).exp()).collect();
+        let z: Vec<f64> = ts.iter().map(|&t| 1.5 * (0.5 * t).pexp()).collect();
         let w = vec![1.0; ts.len()];
         let model = move |x: &[f64]| {
             ts.iter()
-                .map(|&t| x[0] * (x[1] * t).exp())
+                .map(|&t| x[0] * (x[1] * t).pexp())
                 .collect::<Vec<_>>()
         };
         let r = gauss_newton(model, &z, &w, &[1.0, 1.0], 50, 1e-12).expect("solves");
@@ -305,7 +306,7 @@ mod tests {
         ];
         let truth = [350.0, -120.0, 640.0];
         let range = |s: &[f64; 3], p: &[f64]| {
-            ((p[0] - s[0]).powi(2) + (p[1] - s[1]).powi(2) + (p[2] - s[2]).powi(2)).sqrt()
+            ((p[0] - s[0]).ppowi(2) + (p[1] - s[1]).ppowi(2) + (p[2] - s[2]).ppowi(2)).sqrt()
         };
         let z: Vec<f64> = stations.iter().map(|s| range(s, &truth)).collect();
         let w = vec![1.0; stations.len()];
@@ -321,11 +322,11 @@ mod tests {
     #[allow(clippy::needless_range_loop)] // the 2x2 product mirrors its formula
     fn the_srif_corrector_matches_the_normal_equation_corrector_and_returns_its_covariance() {
         let ts = [0.0f64, 0.5, 1.0, 1.5, 2.0, 2.5];
-        let z: Vec<f64> = ts.iter().map(|&t| 1.5 * (0.5 * t).exp()).collect();
+        let z: Vec<f64> = ts.iter().map(|&t| 1.5 * (0.5 * t).pexp()).collect();
         let w = vec![1.0, 2.0, 1.0, 0.5, 1.0, 3.0];
         let model = move |x: &[f64]| {
             ts.iter()
-                .map(|&t| x[0] * (x[1] * t).exp())
+                .map(|&t| x[0] * (x[1] * t).pexp())
                 .collect::<Vec<_>>()
         };
         let a = gauss_newton(model, &z, &w, &[1.0, 1.0], 50, 1e-12).expect("solves");

@@ -8,6 +8,7 @@
 //! from the true instant the receiver clock read zero. The receiver clock offset is
 //! `b(T) = bias + drift * T`, so `t = T + b(T)`.
 
+use crate::portable_math::PortableFloat;
 use crate::frames::{ecef_to_geodetic, look_angles};
 use crate::iq::C_M_PER_S;
 use crate::pvt::sagnac_rotate;
@@ -299,7 +300,7 @@ impl Default for ElevationCn0 {
 impl ElevationCn0 {
     /// C/N0 (dB-Hz) at `elevation_deg`.
     pub fn cn0_dbhz(&self, elevation_deg: f64) -> f64 {
-        let s = elevation_deg.clamp(0.0, 90.0).to_radians().sin();
+        let s = elevation_deg.clamp(0.0, 90.0).to_radians().psin();
         self.horizon_dbhz + (self.zenith_dbhz - self.horizon_dbhz) * s
     }
 }

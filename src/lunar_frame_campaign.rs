@@ -86,6 +86,7 @@
 //! predicted session result, and it is not a geodetic product. No TRL, flight heritage or agency
 //! endorsement is claimed.
 
+use crate::portable_math::PortableFloat;
 use crate::fim::{crlb, design_metrics, information_matrix};
 use crate::frames::Geodetic;
 use crate::lunar::Selenographic;
@@ -851,7 +852,7 @@ pub fn solve_datum_information(h: &[Vec<f64>], rel_tol: f64) -> DatumSolution {
     }
     let constrained_fraction: Vec<f64> = (0..N_HELMERT)
         .map(|k| {
-            let leak: f64 = (0..c.defect).map(|j| c.null_space[k][j].powi(2)).sum();
+            let leak: f64 = (0..c.defect).map(|j| c.null_space[k][j].ppowi(2)).sum();
             (1.0 - leak).clamp(0.0, 1.0)
         })
         .collect();
@@ -873,13 +874,13 @@ impl DatumSolution {
     /// The translation sigma norm (m) — the headline datum accuracy, the root-sum-square of the
     /// three translation standard deviations.
     pub fn translation_sigma_norm_m(&self) -> f64 {
-        (self.sigma[0].powi(2) + self.sigma[1].powi(2) + self.sigma[2].powi(2)).sqrt()
+        (self.sigma[0].ppowi(2) + self.sigma[1].ppowi(2) + self.sigma[2].ppowi(2)).sqrt()
     }
 
     /// The rotation sigma norm (rad), root-sum-square over the three small-angle standard
     /// deviations.
     pub fn rotation_sigma_norm_rad(&self) -> f64 {
-        (self.sigma[3].powi(2) + self.sigma[4].powi(2) + self.sigma[5].powi(2)).sqrt() * URAD
+        (self.sigma[3].ppowi(2) + self.sigma[4].ppowi(2) + self.sigma[5].ppowi(2)).sqrt() * URAD
     }
 
     /// The scale standard deviation in parts-per-billion.
@@ -1107,7 +1108,7 @@ impl LunarFrameCampaignScenario {
                 let u = unit_mcmf_to_earth(g);
                 let d = (u0[0] * u[0] + u0[1] * u[1] + u0[2] * u[2])
                     .clamp(-1.0, 1.0)
-                    .acos()
+                    .pacos()
                     .to_degrees();
                 worst = worst.max(d);
                 for k in 0..3 {
@@ -1184,7 +1185,7 @@ impl LunarFrameCampaignScenario {
                     "unit": unit,
                     "sigma": number_or_null(datum.full_rank, datum.sigma[k]),
                     "constrained_fraction": datum.constrained_fraction[k],
-                    "weakest_direction_share": datum.weakest_direction[k].powi(2),
+                    "weakest_direction_share": datum.weakest_direction[k].ppowi(2),
                     "constrained": constrained,
                     "status": if datum.full_rank {
                         "constrained by the campaign"

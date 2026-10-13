@@ -21,6 +21,7 @@
 //!   Starlink as a signal of opportunity, CentiSpace, Celeste IOD) and the MEO GNSS comparison
 //!   signals.
 
+use crate::portable_math::PortableFloat;
 pub mod antenna;
 pub mod energy;
 pub mod geometry;
@@ -55,14 +56,14 @@ pub fn fspl_db(range_m: f64, f_hz: f64) -> f64 {
 /// temperature `t_mr_k` (ITU-R P.618-14 § 3: `T_mr·(1 − 10^(−A/10))`), plus the cosmic
 /// background of 2.7 K attenuated by the same path.
 pub fn system_noise_temperature_k(t_floor_k: f64, atm_db: f64, t_mr_k: f64, nf_db: f64) -> f64 {
-    let tr = 10f64.powf(-atm_db.max(0.0) / 10.0);
-    t_floor_k + 2.7 * tr + t_mr_k * (1.0 - tr) + 290.0 * (10f64.powf(nf_db / 10.0) - 1.0)
+    let tr = 10f64.ppowf(-atm_db.max(0.0) / 10.0);
+    t_floor_k + 2.7 * tr + t_mr_k * (1.0 - tr) + 290.0 * (10f64.ppowf(nf_db / 10.0) - 1.0)
 }
 
 /// Carrier-to-noise density (dB-Hz) from received power `c_dbw`, system temperature `tsys_k`
 /// and implementation loss `impl_db`: `C − 10·log10(k·T) − L`.
 pub fn cn0_dbhz(c_dbw: f64, tsys_k: f64, impl_db: f64) -> f64 {
-    c_dbw - (BOLTZMANN_DB + 10.0 * tsys_k.log10()) - impl_db
+    c_dbw - (BOLTZMANN_DB + 10.0 * tsys_k.plog10()) - impl_db
 }
 
 #[cfg(test)]
@@ -74,7 +75,7 @@ mod tests {
         // 2 dB noise figure is 169.6 K; a 100 K floor and a clear sky give about 272 K.
         let t = system_noise_temperature_k(100.0, 0.03, 275.0, 2.0);
         assert!(
-            (t - (100.0 + 2.7 * 10f64.powf(-0.003) + 275.0 * (1.0 - 10f64.powf(-0.003)) + 169.62))
+            (t - (100.0 + 2.7 * 10f64.ppowf(-0.003) + 275.0 * (1.0 - 10f64.ppowf(-0.003)) + 169.62))
                 .abs()
                 < 0.1
         );

@@ -34,6 +34,7 @@
 //! over Validated primitives, calibrated but not itself externally validated, and it
 //! carries no integrity-risk-per-hour budget; we do not call it "certified".
 
+use crate::portable_math::PortableFloat;
 use crate::holdover::coast_phase_sigma;
 use crate::security::min_detectable_offset_ns;
 use serde::Serialize;
@@ -84,7 +85,7 @@ pub struct TplBand {
 
 /// Compute the TPL band by scaling `q_rw` and `q_drift` down and up by `decades`.
 pub fn tpl_band(inp: &TplInputs, decades: f64) -> TplBand {
-    let scale = 10.0_f64.powf(decades);
+    let scale = 10.0_f64.ppowf(decades);
     let lo = timing_protection_level_ns(&TplInputs {
         q_rw: inp.q_rw / scale,
         q_drift: inp.q_drift / scale,
@@ -318,7 +319,7 @@ mod tests {
             q_wf,
             q_rw,
             q_drift,
-            r: (22.1e-9_f64).powi(2),
+            r: (22.1e-9_f64).ppowi(2),
             tau: 1.0,
             samples: 1.0,
             k: 5.0,

@@ -44,6 +44,7 @@
 //! satellite number, so the same seed gives bit-identical output whatever order satellites
 //! are queried in.
 
+use crate::portable_math::PortableFloat;
 use super::{sat_seed, ChannelEffect, LineOfSight};
 use crate::iq::simrng::SimRng;
 use crate::iq::ChannelSnapshot;
@@ -111,8 +112,8 @@ struct Bw2 {
 /// noise covariance `I − ΦΦᵀ`.
 fn transition(omega_n: f64, dt: f64) -> ([[f64; 2]; 2], [[f64; 2]; 2]) {
     let x = omega_n * dt / SQRT_2;
-    let e = (-x).exp();
-    let (s, c) = x.sin_cos();
+    let e = (-x).pexp();
+    let (s, c) = x.psin_cos();
     let phi = [
         [e * (c + s), e * SQRT_2 * s],
         [-e * SQRT_2 * s, e * (c - s)],
@@ -204,8 +205,8 @@ impl Scintillation {
         let zr = (1.0 - pd).sqrt() + sigma * st.re.u[0];
         let zi = sigma * st.im.u[0];
         ScintSample {
-            amplitude: zr.hypot(zi),
-            phase_rad: zi.atan2(zr) + p.extra_phase_sigma_rad * st.ph.u[0],
+            amplitude: zr.phypot(zi),
+            phase_rad: zi.patan2(zr) + p.extra_phase_sigma_rad * st.ph.u[0],
         }
     }
 
@@ -242,16 +243,16 @@ mod tests {
 
     fn s4_of(xs: &[ScintSample]) -> f64 {
         let n = xs.len() as f64;
-        let m1 = xs.iter().map(|s| s.amplitude.powi(2)).sum::<f64>() / n;
-        let m2 = xs.iter().map(|s| s.amplitude.powi(4)).sum::<f64>() / n;
+        let m1 = xs.iter().map(|s| s.amplitude.ppowi(2)).sum::<f64>() / n;
+        let m2 = xs.iter().map(|s| s.amplitude.ppowi(4)).sum::<f64>() / n;
         (m2 - m1 * m1).sqrt() / m1
     }
 
     #[test]
     fn butterworth_constant_solves_the_closed_form_autocorrelation() {
         let x = BUTTERWORTH_1_OVER_E_X;
-        let r = (-x).exp() * (x.cos() + x.sin());
-        assert!((r - (-1f64).exp()).abs() < 1e-14);
+        let r = (-x).pexp() * (x.pcos() + x.psin());
+        assert!((r - (-1f64).pexp()).abs() < 1e-14);
     }
 
     #[test]
@@ -274,7 +275,7 @@ mod tests {
             let xs = sc.series(5, tau0 / 4.0, 400_000);
             let got = s4_of(&xs);
             assert!((got - s4).abs() / s4 < 0.04, "S4 target {s4}, got {got}");
-            let mean_i = xs.iter().map(|s| s.amplitude.powi(2)).sum::<f64>() / xs.len() as f64;
+            let mean_i = xs.iter().map(|s| s.amplitude.ppowi(2)).sum::<f64>() / xs.len() as f64;
             assert!((mean_i - 1.0).abs() < 0.02, "{mean_i}");
         }
     }
@@ -291,7 +292,7 @@ mod tests {
             .series(9, dt, 600_000)
             .iter()
             .map(|s| {
-                let (si, co) = s.phase_rad.sin_cos();
+                let (si, co) = s.phase_rad.psin_cos();
                 (s.amplitude * co - zhat, s.amplitude * si)
             })
             .collect();
@@ -303,7 +304,7 @@ mod tests {
                 / (n - lag) as f64
         };
         let r0 = r(0);
-        let target = (-1f64).exp();
+        let target = (-1f64).pexp();
         let mut prev = 1.0;
         let mut lag_s = f64::NAN;
         for lag in 1..200 {
@@ -357,7 +358,7 @@ mod tests {
         let xs = sc.series(1, 0.05, 200_000);
         let n = xs.len() as f64;
         let m = xs.iter().map(|s| s.phase_rad).sum::<f64>() / n;
-        let sd = (xs.iter().map(|s| (s.phase_rad - m).powi(2)).sum::<f64>() / n).sqrt();
+        let sd = (xs.iter().map(|s| (s.phase_rad - m).ppowi(2)).sum::<f64>() / n).sqrt();
         assert!((sd - 0.3).abs() / 0.3 < 0.04, "{sd}");
         assert!(xs.iter().all(|s| (s.amplitude - 1.0).abs() < 1e-12));
     }

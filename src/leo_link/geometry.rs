@@ -35,6 +35,7 @@
 //! can see, the quantity Leclère, Marathe and Reid tabulate for Pulsar and GPS (arXiv
 //! 2509.19551, Table 1).
 
+use crate::portable_math::PortableFloat;
 use super::{C_M_S, J2_EARTH, MU_EARTH, OMEGA_EARTH, RE_EARTH};
 use crate::constellation::Elements;
 use crate::frames::{geodetic_to_ecef, look_angles, teme_to_ecef, Geodetic};
@@ -46,13 +47,13 @@ pub type Vec3 = [f64; 3];
 
 /// Turn an ECI0 vector into ECEF at `t` seconds after the epoch.
 pub fn eci0_to_ecef(v: Vec3, t: f64) -> Vec3 {
-    let (s, c) = (OMEGA_EARTH * t).sin_cos();
+    let (s, c) = (OMEGA_EARTH * t).psin_cos();
     [c * v[0] + s * v[1], -s * v[0] + c * v[1], v[2]]
 }
 
 /// Turn an ECEF vector into ECI0 at `t` seconds after the epoch.
 pub fn ecef_to_eci0(v: Vec3, t: f64) -> Vec3 {
-    let (s, c) = (OMEGA_EARTH * t).sin_cos();
+    let (s, c) = (OMEGA_EARTH * t).psin_cos();
     [c * v[0] - s * v[1], s * v[0] + c * v[1], v[2]]
 }
 
@@ -71,10 +72,10 @@ pub struct Kinematics {
 /// Earth-centred frame whose z axis is the pole.
 pub fn gravity_accel(r: Vec3, with_j2: bool) -> Vec3 {
     let rn = norm(r);
-    let mut a = scale(r, -MU_EARTH / rn.powi(3));
+    let mut a = scale(r, -MU_EARTH / rn.ppowi(3));
     if with_j2 {
-        let z2 = (r[2] / rn).powi(2);
-        let k = -1.5 * J2_EARTH * MU_EARTH * RE_EARTH * RE_EARTH / rn.powi(5);
+        let z2 = (r[2] / rn).ppowi(2);
+        let k = -1.5 * J2_EARTH * MU_EARTH * RE_EARTH * RE_EARTH / rn.ppowi(5);
         a[0] += k * r[0] * (1.0 - 5.0 * z2);
         a[1] += k * r[1] * (1.0 - 5.0 * z2);
         a[2] += k * r[2] * (3.0 - 5.0 * z2);
@@ -113,12 +114,12 @@ pub enum SatMotion {
 impl SatMotion {
     /// A Keplerian satellite from an element set (constellation-design convention).
     pub fn kepler(el: Elements, j2: bool) -> Self {
-        let n = (MU_EARTH / el.a_m.powi(3)).sqrt();
+        let n = (MU_EARTH / el.a_m.ppowi(3)).sqrt();
         let (mut raan_dot, mut argp_dot) = (0.0, 0.0);
         if j2 {
             let p = el.a_m * (1.0 - el.e * el.e);
-            let f = n * J2_EARTH * (RE_EARTH / p).powi(2);
-            let ci = el.i_rad.cos();
+            let f = n * J2_EARTH * (RE_EARTH / p).ppowi(2);
+            let ci = el.i_rad.pcos();
             raan_dot = -1.5 * f * ci;
             argp_dot = 0.75 * f * (5.0 * ci * ci - 1.0);
         }
@@ -163,7 +164,7 @@ impl SatMotion {
             } => {
                 let m = el.m0_rad + n * t;
                 let ea = crate::ephem::solve_kepler(m, el.e);
-                let (se, ce) = ea.sin_cos();
+                let (se, ce) = ea.psin_cos();
                 let e = el.e;
                 let b = (1.0 - e * e).sqrt();
                 // Perifocal position and its time derivative along the Keplerian ellipse.
@@ -174,9 +175,9 @@ impl SatMotion {
                 let vy = el.a_m * b * ce * edot;
                 let w = el.argp_rad + argp_dot * t;
                 let o = el.raan_rad + raan_dot * t;
-                let (sw, cw) = w.sin_cos();
-                let (so, co) = o.sin_cos();
-                let (si, ci) = el.i_rad.sin_cos();
+                let (sw, cw) = w.psin_cos();
+                let (so, co) = o.psin_cos();
+                let (si, ci) = el.i_rad.psin_cos();
                 let p = [cw * co - sw * so * ci, cw * so + sw * co * ci, sw * si];
                 let q = [-sw * co - cw * so * ci, -sw * so + cw * co * ci, cw * si];
                 let r = add(scale(p, x), scale(q, y));
@@ -252,18 +253,18 @@ impl UserMotion {
     /// closed-form range rate for a moving user too. The acceleration is the Earth-rotation
     /// part only.
     pub fn state(&self, t: f64) -> UserState {
-        let (sh, ch) = self.heading_rad.sin_cos();
+        let (sh, ch) = self.heading_rad.psin_cos();
         let h = self.start.alt_m;
         let e2 = crate::frames::wgs84_e2();
         // Meridian (M) and prime-vertical (N) radii of curvature of the WGS-84 ellipsoid.
         let radii = |lat: f64| {
-            let w = 1.0 - e2 * lat.sin().powi(2);
+            let w = 1.0 - e2 * lat.psin().ppowi(2);
             let n = crate::frames::WGS84_A / w.sqrt();
             (n * (1.0 - e2) / w, n)
         };
         let (m0, n0) = radii(self.start.lat_rad);
         let lat_rate = self.speed_m_s * ch / (m0 + h);
-        let lon_rate = self.speed_m_s * sh / ((n0 + h) * self.start.lat_rad.cos().max(1e-6));
+        let lon_rate = self.speed_m_s * sh / ((n0 + h) * self.start.lat_rad.pcos().max(1e-6));
         let lat = self.start.lat_rad + lat_rate * t;
         let lon = self.start.lon_rad + lon_rate * t;
         let geo = Geodetic {
@@ -272,8 +273,8 @@ impl UserMotion {
             alt_m: h,
         };
         let r_ecef = geodetic_to_ecef(geo);
-        let (sl, cl) = lat.sin_cos();
-        let (so, co) = lon.sin_cos();
+        let (sl, cl) = lat.psin_cos();
+        let (so, co) = lon.psin_cos();
         let east = [-so, co, 0.0];
         let north = [-sl * co, -sl * so, cl];
         let (m, n) = radii(lat);
@@ -341,7 +342,7 @@ pub fn link_geometry(sat: &Kinematics, user: &UserState, t: f64) -> LinkGeometry
         range_m: rho,
         range_rate_m_s: rdot,
         range_accel_m_s2: rddot,
-        nadir_angle_rad: c.clamp(-1.0, 1.0).acos(),
+        nadir_angle_rad: c.clamp(-1.0, 1.0).pacos(),
         sat_radius_m: norm(sat.r),
     }
 }
@@ -385,16 +386,16 @@ pub fn numerical_check(
 /// `cos i = −Ω̇_ss / (1.5·n·J2·(Re/a)²)`. `None` above the altitude where no inclination works.
 pub fn sun_synchronous_inclination_rad(alt_m: f64) -> Option<f64> {
     let a = RE_EARTH + alt_m;
-    let n = (MU_EARTH / a.powi(3)).sqrt();
+    let n = (MU_EARTH / a.ppowi(3)).sqrt();
     let omega_ss = TAU / (365.242_19 * 86_400.0);
-    let c = -omega_ss / (1.5 * n * J2_EARTH * (RE_EARTH / a).powi(2));
-    (c.abs() <= 1.0).then(|| c.acos())
+    let c = -omega_ss / (1.5 * n * J2_EARTH * (RE_EARTH / a).ppowi(2));
+    (c.abs() <= 1.0).then(|| c.pacos())
 }
 
 /// Geocentric latitude and longitude (rad) of an ECEF position.
 fn geocentric_lat_lon(r: Vec3) -> (f64, f64) {
     let p = (r[0] * r[0] + r[1] * r[1]).sqrt();
-    (r[2].atan2(p), r[1].atan2(r[0]))
+    (r[2].patan2(p), r[1].patan2(r[0]))
 }
 
 /// Direction of a designed pass over the user.
@@ -474,7 +475,7 @@ pub fn design_pass(user: &UserMotion, req: &PassRequest) -> Result<(Elements, f6
     let inc = req.inclination_rad;
     let u_state = user.state(req.tca_s);
     let (phi, lam_user) = geocentric_lat_lon(u_state.r_ecef);
-    let s = phi.sin() / inc.sin();
+    let s = phi.psin() / inc.psin();
     if s.abs() > 1.0 {
         return Err(format!(
             "an orbit inclined {:.2} deg never passes over latitude {:.2} deg",
@@ -483,8 +484,8 @@ pub fn design_pass(user: &UserMotion, req: &PassRequest) -> Result<(Elements, f6
         ));
     }
     let u_star = match req.direction {
-        PassDirection::Ascending => s.asin(),
-        PassDirection::Descending => PI - s.asin(),
+        PassDirection::Ascending => s.pasin(),
+        PassDirection::Descending => PI - s.pasin(),
     };
     let probe = SatMotion::kepler(
         Elements {
@@ -508,7 +509,7 @@ pub fn design_pass(user: &UserMotion, req: &PassRequest) -> Result<(Elements, f6
     };
     let build = |delta: f64| -> Elements {
         let node_star = lam_user + delta + OMEGA_EARTH * req.tca_s
-            - (inc.cos() * u_star.sin()).atan2(u_star.cos());
+            - (inc.pcos() * u_star.psin()).patan2(u_star.pcos());
         Elements {
             a_m: a,
             e: 0.0,
@@ -578,18 +579,18 @@ pub struct DopplerEnvelope {
 pub fn max_static_user_range_rate(alt_m: f64, inc_rad: f64, re_m: f64) -> DopplerEnvelope {
     let rs = re_m + alt_m;
     let vs = (MU_EARTH / rs).sqrt();
-    let lam0 = (re_m / rs).acos();
-    let (si, ci) = inc_rad.sin_cos();
+    let lam0 = (re_m / rs).pacos();
+    let (si, ci) = inc_rad.psin_cos();
     let w = [0.0, 0.0, OMEGA_EARTH];
     let rr = |u: f64, az: f64| -> f64 {
-        let (su, cu) = u.sin_cos();
+        let (su, cu) = u.psin_cos();
         let s = [rs * cu, rs * su * ci, rs * su * si];
         let v = [-vs * su, vs * cu * ci, vs * cu * si];
         let sh = scale(s, 1.0 / rs);
         let e1 = scale(v, 1.0 / vs);
         let e2 = cross(sh, e1);
-        let d = add(scale(e1, az.cos()), scale(e2, az.sin()));
-        let user = scale(add(scale(sh, lam0.cos()), scale(d, lam0.sin())), re_m);
+        let d = add(scale(e1, az.pcos()), scale(e2, az.psin()));
+        let user = scale(add(scale(sh, lam0.pcos()), scale(d, lam0.psin())), re_m);
         let vu = cross(w, user);
         let los = sub(s, user);
         (dot(los, sub(v, vu)) / norm(los)).abs()
@@ -621,7 +622,7 @@ pub fn max_static_user_range_rate(alt_m: f64, inc_rad: f64, re_m: f64) -> Dopple
     let mut max_ecef = 0.0_f64;
     for i in 0..3600 {
         let u = (i as f64 * 0.1).to_radians();
-        let (su, cu) = u.sin_cos();
+        let (su, cu) = u.psin_cos();
         let s = [rs * cu, rs * su * ci, rs * su * si];
         let v = [-vs * su, vs * cu * ci, vs * cu * si];
         max_ecef = max_ecef.max(norm(sub(v, cross(w, s))));

@@ -75,6 +75,7 @@
 //! note says what it is. It is a bounded, stated approximation — not a correction, and
 //! not something quietly absorbed.
 
+use crate::portable_math::PortableFloat;
 use crate::lunar::{mci_to_mcmf, MOON_GM_M3_S2};
 use crate::lunar_service::{LunarSat, PositionsMcmf};
 use serde::Serialize;
@@ -158,8 +159,8 @@ impl StateFrame {
 /// source actually printed instead of a converted number nobody can check against the page.
 pub fn true_to_mean_anomaly_deg(true_anom_deg: f64, e: f64) -> f64 {
     let nu = true_anom_deg.to_radians();
-    let ea = 2.0 * (((1.0 - e) / (1.0 + e)).sqrt() * (nu * 0.5).tan()).atan();
-    (ea - e * ea.sin()).to_degrees()
+    let ea = 2.0 * (((1.0 - e) / (1.0 + e)).sqrt() * (nu * 0.5).ptan()).patan();
+    (ea - e * ea.psin()).to_degrees()
 }
 
 /// One satellite's tabulated track: strictly increasing epochs (seconds past the file
@@ -604,13 +605,13 @@ pub fn published_frame_tie_angle_deg(jd_tdb: f64) -> f64 {
         rm[0] * v[1] - rm[1] * v[0],
     ];
     let (ra, dec) = crate::lunar_frame::lunar_pole_ra_dec(jd_tdb);
-    let pole = [dec.cos() * ra.cos(), dec.cos() * ra.sin(), dec.sin()];
+    let pole = [dec.pcos() * ra.pcos(), dec.pcos() * ra.psin(), dec.psin()];
     let nn = (n[0] * n[0] + n[1] * n[1] + n[2] * n[2]).sqrt();
     if nn == 0.0 {
         return 0.0;
     }
     let c = ((n[0] * pole[0] + n[1] * pole[1] + n[2] * pole[2]) / nn).clamp(-1.0, 1.0);
-    c.acos().to_degrees()
+    c.pacos().to_degrees()
 }
 
 // ---------------------------------------------------------------------------
@@ -912,7 +913,7 @@ sat,sma_km,ecc,inc_deg,raan_deg,argp_deg,true_anom_deg
         assert_eq!(icrf.elements()[0].mean_anom_deg, 0.0);
         let a = icrf.positions_mcmf(3600.0)[0];
         let b = mci.positions_mcmf(3600.0)[0];
-        let sep = ((a[0] - b[0]).powi(2) + (a[1] - b[1]).powi(2) + (a[2] - b[2]).powi(2)).sqrt();
+        let sep = ((a[0] - b[0]).ppowi(2) + (a[1] - b[1]).ppowi(2) + (a[2] - b[2]).ppowi(2)).sqrt();
         assert!(
             sep > 1.0e6,
             "the ICRF reduction is indistinguishable from the mean-rotation one ({sep} m apart)"
@@ -943,11 +944,11 @@ sat,sma_km,ecc,inc_deg,raan_deg,argp_deg,true_anom_deg
                 // Solve M = E - e sin E forward, then E back to the true anomaly.
                 let mut ea = m;
                 for _ in 0..80 {
-                    ea -= (ea - e * ea.sin() - m) / (1.0 - e * ea.cos());
+                    ea -= (ea - e * ea.psin() - m) / (1.0 - e * ea.pcos());
                 }
                 let back = 2.0
-                    * ((1.0 + e).sqrt() * (ea * 0.5).sin())
-                        .atan2((1.0 - e).sqrt() * (ea * 0.5).cos());
+                    * ((1.0 + e).sqrt() * (ea * 0.5).psin())
+                        .patan2((1.0 - e).sqrt() * (ea * 0.5).pcos());
                 assert!(
                     (back.to_degrees() - nu).abs() < 1e-8,
                     "e={e}, nu={nu}: round-trip gave {}",

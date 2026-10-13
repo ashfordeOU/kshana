@@ -45,6 +45,7 @@
 //! gravity-model and initial-tilt coupling. Deterministic: closed forms only, no
 //! wall-clock, no RNG.
 
+use crate::portable_math::PortableFloat;
 use crate::detection::{detection_boundary, normal_inv_cdf};
 use crate::tpl::TplInputs;
 use serde::Serialize;
@@ -101,7 +102,7 @@ impl CrossSensorNoise {
     pub fn imu_coast_sigma_m(&self, coast_s: f64) -> f64 {
         let t = coast_s.max(0.0);
         let bias_term = 0.5 * self.accel_bias * t * t;
-        let vrw_var = self.vrw * self.vrw * t.powi(3) / 3.0;
+        let vrw_var = self.vrw * self.vrw * t.ppowi(3) / 3.0;
         (bias_term * bias_term + vrw_var).sqrt()
     }
 

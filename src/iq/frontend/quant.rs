@@ -20,6 +20,7 @@
 //! the optimum step are 1.96 dB for one bit (`10·log10(π/2)`), 0.55 dB for two bits
 //! (threshold ≈ 1.0σ) and 0.17 dB for three bits.
 
+use crate::portable_math::PortableFloat;
 use super::{Cf64, Stage};
 
 /// A uniform mid-rise quantiser of `bits` bits per component with step `step`.
@@ -78,7 +79,7 @@ impl Stage for Quantiser {
 }
 
 fn phi(t: f64) -> f64 {
-    (-0.5 * t * t).exp() / (2.0 * std::f64::consts::PI).sqrt()
+    (-0.5 * t * t).pexp() / (2.0 * std::f64::consts::PI).sqrt()
 }
 
 /// Upper tail of the standard normal, `P(N > t)`.
@@ -110,7 +111,7 @@ pub fn correlation_loss_db(bits: u32, step_sigma: f64) -> f64 {
         let level = (k as f64 + 0.5) * t;
         power += 2.0 * level * level * (lo - hi);
     }
-    -10.0 * (slope * slope / power).log10()
+    -10.0 * (slope * slope / power).plog10()
 }
 
 /// The step (in units of the noise `σ`) that minimises [`correlation_loss_db`] for `bits`,
@@ -123,9 +124,9 @@ pub fn optimum_step_sigma(bits: u32) -> (f64, f64) {
     // The loss is unimodal in the step; search the log of the step, upper bound 4σ/(L−1)
     // so the outer threshold stays inside the noise distribution.
     let l = (1u64 << (bits - 1)) as f64;
-    let (mut a, mut b) = ((1e-4f64).ln(), (4.0 / (l - 1.0)).ln());
+    let (mut a, mut b) = ((1e-4f64).pln(), (4.0 / (l - 1.0)).pln());
     let g = 0.5 * (5f64.sqrt() - 1.0);
-    let f = |x: f64| correlation_loss_db(bits, x.exp());
+    let f = |x: f64| correlation_loss_db(bits, x.pexp());
     let (mut c, mut d) = (b - g * (b - a), a + g * (b - a));
     let (mut fc, mut fd) = (f(c), f(d));
     for _ in 0..200 {
@@ -144,5 +145,5 @@ pub fn optimum_step_sigma(bits: u32) -> (f64, f64) {
         }
     }
     let x = 0.5 * (a + b);
-    (x.exp(), f(x))
+    (x.pexp(), f(x))
 }

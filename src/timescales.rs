@@ -34,6 +34,7 @@
 //! 1972 value there. UT1−UTC (DUT1) is an observed quantity supplied by the
 //! caller (IERS Bulletin A/B); it is not predicted here.
 
+use crate::portable_math::PortableFloat;
 /// Julian Date of the J2000.0 epoch (2000-01-01 12:00:00 TT).
 pub const JD_J2000: f64 = 2_451_545.0;
 /// Offset between Julian Date and Modified Julian Date: `MJD = JD - 2400000.5`.
@@ -346,7 +347,7 @@ pub fn tdb_minus_tt(jd_tt: f64) -> f64 {
     // Earth's mean anomaly, degrees → radians.
     let g_deg = 357.53 + 0.985_600_28 * (jd_tt - JD_J2000);
     let g = g_deg.to_radians();
-    0.001_657 * g.sin() + 0.000_022 * (2.0 * g).sin()
+    0.001_657 * g.psin() + 0.000_022 * (2.0 * g).psin()
 }
 
 /// JD(TDB) from JD(TT): `TDB = TT + (TDB − TT)`, with the difference from

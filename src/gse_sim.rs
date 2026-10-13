@@ -49,6 +49,7 @@
 //! The module is **additive**: it builds on the published D0–D3 surfaces and touches no force,
 //! propagator, or golden, so Earth results stay byte-identical.
 
+use crate::portable_math::PortableFloat;
 use crate::body::Body;
 use crate::deepspace_od::{
     range_observable, range_rate_observable, FusedMeas, FusionConfig, FusionOd, MeasWay,
@@ -84,7 +85,7 @@ fn gaussian_noise(seed: u64, amp: f64) -> impl FnMut() -> f64 {
     move || {
         let u1 = next_u();
         let u2 = next_u();
-        amp * (-2.0 * u1.ln()).sqrt() * (std::f64::consts::TAU * u2).cos()
+        amp * (-2.0 * u1.pln()).sqrt() * (std::f64::consts::TAU * u2).pcos()
     }
 }
 
@@ -123,7 +124,7 @@ pub fn range_sigma_from_cn0(cn0_dbhz: f64, chip_rate_hz: f64, integ_s: f64) -> f
     if !cn0_dbhz.is_finite() || chip_rate_hz <= 0.0 || integ_s <= 0.0 {
         return 1.0e9; // a broken-link floor: enormous but finite, never NaN
     }
-    let cn0_lin = 10.0_f64.powf(cn0_dbhz / 10.0);
+    let cn0_lin = 10.0_f64.ppowf(cn0_dbhz / 10.0);
     let resolution = crate::timegeo::C_M_PER_S / (4.0 * std::f64::consts::PI * chip_rate_hz);
     resolution / (2.0 * cn0_lin * integ_s).sqrt()
 }
@@ -147,7 +148,7 @@ pub fn doppler_sigma_from_cn0(cn0_dbhz: f64, carrier_hz: f64, integ_s: f64) -> f
     if !cn0_dbhz.is_finite() || carrier_hz <= 0.0 || integ_s <= 0.0 {
         return 1.0e6; // broken-link floor (m/s)
     }
-    let cn0_lin = 10.0_f64.powf(cn0_dbhz / 10.0);
+    let cn0_lin = 10.0_f64.ppowf(cn0_dbhz / 10.0);
     let phase_to_vel =
         crate::timegeo::C_M_PER_S / (2.0 * std::f64::consts::PI * carrier_hz * integ_s);
     phase_to_vel / (2.0 * cn0_lin * integ_s).sqrt()
@@ -415,8 +416,8 @@ pub fn iq_samples(cfg: &IqConfig, seed: u64) -> Vec<IqSample> {
     for k in 0..cfg.n_samples {
         let t = k as f64 * dt;
         // Total instantaneous phase: carrier+Doppler ramp plus the ranging-tone phase modulation.
-        let phase = tau * f * t + cfg.mod_index_rad * (tau * cfg.ranging_tone_hz * t).sin();
-        let (s, c) = phase.sin_cos();
+        let phase = tau * f * t + cfg.mod_index_rad * (tau * cfg.ranging_tone_hz * t).psin();
+        let (s, c) = phase.psin_cos();
         let (ni, nq) = if cfg.noise_sigma > 0.0 {
             (rng(), rng())
         } else {
@@ -447,7 +448,7 @@ pub fn instantaneous_frequency_hz(samples: &[IqSample], sample_rate_hz: f64) -> 
         // b · conj(a) = (b.i + j b.q)(a.i − j a.q): real = i·i+q·q, imag = q·i − i·q.
         let re = b.i * a.i + b.q * a.q;
         let im = b.q * a.i - b.i * a.q;
-        let dphi = im.atan2(re); // wrapped to (−π, π]
+        let dphi = im.patan2(re); // wrapped to (−π, π]
         out.push(dphi / (tau * dt));
     }
     out
@@ -543,7 +544,7 @@ impl Default for GseScenario {
         let inc = 60.0_f64.to_radians();
         Self {
             user_r0: [r, 0.0, 0.0],
-            user_v0: [0.0, vc * inc.cos(), vc * inc.sin()],
+            user_v0: [0.0, vc * inc.pcos(), vc * inc.psin()],
             band: Band::X,
             profile: Profile::Orbital,
             clock_class: crate::clock_state::ClockClass::Uso,
@@ -914,7 +915,7 @@ mod tests {
         let r = body.re + 400.0e3;
         let vc = (body.mu / r).sqrt();
         let inc = 60.0_f64.to_radians();
-        let (r0, v0) = ([r, 0.0, 0.0], [0.0, vc * inc.cos(), vc * inc.sin()]);
+        let (r0, v0) = ([r, 0.0, 0.0], [0.0, vc * inc.pcos(), vc * inc.psin()]);
 
         // Truth arc.
         let fm = MarsForceModel::gmm3(4, epoch_jd);
@@ -1017,7 +1018,7 @@ mod tests {
                 .position(|&tt| (tt - st.t).abs() <= 0.5 * step_s)
                 .unwrap_or(0);
             let tr = truth[tidx.min(truth.len() - 1)].0;
-            ss += norm([st.r[0] - tr[0], st.r[1] - tr[1], st.r[2] - tr[2]]).powi(2);
+            ss += norm([st.r[0] - tr[0], st.r[1] - tr[1], st.r[2] - tr[2]]).ppowi(2);
             cnt += 1;
         }
         let rms = (ss / cnt.max(1) as f64).sqrt();
@@ -1098,7 +1099,7 @@ mod tests {
         );
         // The real witness: a non-trivial frequency variation about the carrier (the tone wobble),
         // whose scale is ≈ the peak FM deviation m·f_r ≈ 1 kHz — std-dev clearly non-zero.
-        let var: f64 = freqs.iter().map(|f| (f - mean).powi(2)).sum::<f64>() / freqs.len() as f64;
+        let var: f64 = freqs.iter().map(|f| (f - mean).ppowi(2)).sum::<f64>() / freqs.len() as f64;
         assert!(
             var.sqrt() > 100.0,
             "ranging tone must produce a frequency wobble: std {} Hz",

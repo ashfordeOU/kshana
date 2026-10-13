@@ -77,6 +77,7 @@
 //! This is a reproduction of a published reference algorithm's worked example. It
 //! is not a certification, an airworthiness artefact, or an approval of any kind.
 
+use crate::portable_math::PortableFloat;
 use crate::raim::{araim_integrity_risk, araim_protection_level, normal_quantile, AraimMode};
 use serde::Deserialize;
 
@@ -362,7 +363,7 @@ fn n_fault_max(sum_p_event: f64, p_thres: f64) -> usize {
     for r in 1..=20usize {
         // (r+1)! P_THRES, the upper edge of the band in which φ = r.
         factorial *= (r + 1) as f64;
-        let edge = (factorial * p_thres).powf(1.0 / (r + 1) as f64);
+        let edge = (factorial * p_thres).ppowf(1.0 / (r + 1) as f64);
         if sum_p_event <= edge {
             return r;
         }
@@ -567,7 +568,7 @@ pub fn araim_reference_protection_levels(case: &ReferenceCase) -> Result<Referen
         sigma_up_m: s0.sigma[2],
         bias_up_m: bias0[2],
         vpl_m: vpl,
-        hpl_m: hpl_e.hypot(hpl_n),
+        hpl_m: hpl_e.phypot(hpl_n),
         hpl_east_m: hpl_e,
         hpl_north_m: hpl_n,
         emt_m: emt,
@@ -1131,7 +1132,7 @@ fn p_not_monitored_beyond(p: &[f64], r: usize) -> f64 {
         _ => {
             let s: f64 = p.iter().sum();
             let fact: f64 = (1..=r).map(|k| k as f64).product();
-            s.powi(r as i32) / fact
+            s.ppowi(r as i32) / fact
         }
     }
 }
@@ -1424,7 +1425,7 @@ pub fn add_v42_protection_levels(case: &AddV42Case) -> Result<AddV42Result, Stri
         .fold(0.0_f64, f64::max);
     Ok(AddV42Result {
         vpl_m: vpl,
-        hpl_m: hpl_e.hypot(hpl_n),
+        hpl_m: hpl_e.phypot(hpl_n),
         hpl_east_m: hpl_e,
         hpl_north_m: hpl_n,
         emt_m: emt,
@@ -1461,13 +1462,13 @@ pub fn add_v42_protection_levels_ecef(
         return Err("one constellation index per satellite".to_string());
     }
     let g = crate::frames::ecef_to_geodetic(user);
-    let (sl, cl) = g.lat_rad.sin_cos();
-    let (so, co) = g.lon_rad.sin_cos();
+    let (sl, cl) = g.lat_rad.psin_cos();
+    let (so, co) = g.lon_rad.psin_cos();
     let east = [-so, co, 0.0];
     let north = [-sl * co, -sl * so, cl];
     let up = [cl * co, cl * so, sl];
     let dot = |a: [f64; 3], b: [f64; 3]| a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
-    let sin_mask = mask_deg.to_radians().sin();
+    let sin_mask = mask_deg.to_radians().psin();
     let mut rows: Vec<(usize, ReferenceSatellite)> = Vec::new();
     for (i, (&s, &c)) in sats.iter().zip(constellation).enumerate() {
         let ism = isms
@@ -1530,7 +1531,7 @@ mod tests {
         // every satellite, in BOTH documents. This is an arithmetic identity the two
         // transcribed diagonals must satisfy — a transcription typo in any of the 40
         // numbers breaks it.
-        let gap = 0.75f64.powi(2) - 0.50f64.powi(2);
+        let gap = 0.75f64.ppowi(2) - 0.50f64.ppowi(2);
         for v in published_vectors() {
             for (i, s) in v.case.satellites.iter().enumerate() {
                 assert!(

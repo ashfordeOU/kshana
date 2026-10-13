@@ -15,6 +15,7 @@
 //! Validate a 1e-7 quantile, so the tail scaling is a stated overbound
 //! assumption, not a Validated claim.
 
+use crate::portable_math::PortableFloat;
 use crate::integrity::tpl_scalar::TimeSource;
 use crate::raim::normal_quantile;
 
@@ -222,7 +223,7 @@ fn inv_normal(p: f64) -> f64 {
     ];
     let plow = 0.02425;
     let x = if p < plow {
-        let q = (-2.0 * p.ln()).sqrt();
+        let q = (-2.0 * p.pln()).sqrt();
         (((((C[0] * q + C[1]) * q + C[2]) * q + C[3]) * q + C[4]) * q + C[5])
             / ((((D[0] * q + D[1]) * q + D[2]) * q + D[3]) * q + 1.0)
     } else if p <= 1.0 - plow {
@@ -231,13 +232,13 @@ fn inv_normal(p: f64) -> f64 {
         (((((A[0] * r + A[1]) * r + A[2]) * r + A[3]) * r + A[4]) * r + A[5]) * q
             / (((((B[0] * r + B[1]) * r + B[2]) * r + B[3]) * r + B[4]) * r + 1.0)
     } else {
-        let q = (-2.0 * (1.0 - p).ln()).sqrt();
+        let q = (-2.0 * (1.0 - p).pln()).sqrt();
         -(((((C[0] * q + C[1]) * q + C[2]) * q + C[3]) * q + C[4]) * q + C[5])
             / ((((D[0] * q + D[1]) * q + D[2]) * q + D[3]) * q + 1.0)
     };
     // One Halley refinement.
     let e = crate::raim::normal_cdf(x) - p;
-    let u = e * (2.0 * std::f64::consts::PI).sqrt() * (x * x / 2.0).exp();
+    let u = e * (2.0 * std::f64::consts::PI).sqrt() * (x * x / 2.0).pexp();
     x - u / (1.0 + x * u / 2.0)
 }
 
@@ -285,8 +286,8 @@ pub fn paired_overbound(samples: &[f64], tail: f64) -> Option<PairedOverbound> {
     let b = |s: f64| eval(s).bound(tail);
     let span = (x[n - 1] - x[0]).max(f64::MIN_POSITIVE);
     let mut grid: Vec<f64> = vec![0.0];
-    let (lo, hi) = ((span * 1e-4).ln(), (span * 10.0).ln());
-    grid.extend((0..120).map(|j| (lo + (hi - lo) * j as f64 / 119.0).exp()));
+    let (lo, hi) = ((span * 1e-4).pln(), (span * 10.0).pln());
+    grid.extend((0..120).map(|j| (lo + (hi - lo) * j as f64 / 119.0).pexp()));
     let (mut jbest, mut bbest) = (0usize, f64::INFINITY);
     for (j, &s) in grid.iter().enumerate() {
         let v = b(s);

@@ -16,14 +16,15 @@
 //! AUC over model-derived labels on synthetic data; it carries **no** field /
 //! raw-IQ performance claim. See [`crate::verification`] for the honesty invariant.
 
+use crate::portable_math::PortableFloat;
 use crate::impairment_eval::{CaseObservables, ImpairmentDetector, LabeledCase};
 
 /// Numerically safe logistic sigmoid `1 / (1 + e^{−z})`.
 fn sigmoid(z: f64) -> f64 {
     if z >= 0.0 {
-        1.0 / (1.0 + (-z).exp())
+        1.0 / (1.0 + (-z).pexp())
     } else {
-        let e = z.exp();
+        let e = z.pexp();
         e / (1.0 + e)
     }
 }
@@ -79,7 +80,7 @@ impl Standardizer {
         for c in train {
             let f = features(&c.obs);
             for k in 0..5 {
-                var[k] += (f[k] - mean[k]).powi(2);
+                var[k] += (f[k] - mean[k]).ppowi(2);
             }
         }
         let mut std = [0.0; 5];
@@ -183,7 +184,7 @@ impl LogisticRegression {
                 }
                 gb += e;
                 let pc = p.clamp(1e-12, 1.0 - 1e-12);
-                loss += -(y * pc.ln() + (1.0 - y) * (1.0 - pc).ln());
+                loss += -(y * pc.pln() + (1.0 - y) * (1.0 - pc).pln());
             }
             trace.push(loss / n);
             for k in 0..5 {
@@ -300,7 +301,7 @@ impl Mlp {
             let mut loss = 0.0;
             for (x, &y) in xs.iter().zip(ys.iter()) {
                 let p = sigmoid(mlp_logit(&w1, &b1, &w2, b2, x)).clamp(1e-12, 1.0 - 1e-12);
-                loss += -(y * p.ln() + (1.0 - y) * (1.0 - p).ln());
+                loss += -(y * p.pln() + (1.0 - y) * (1.0 - p).pln());
             }
             trace.push(loss / n.max(1) as f64);
 
@@ -539,7 +540,7 @@ mod tests {
             .collect();
         for k in 0..5 {
             let m = z.iter().map(|r| r[k]).sum::<f64>() / z.len() as f64;
-            let v = z.iter().map(|r| (r[k] - m).powi(2)).sum::<f64>() / z.len() as f64;
+            let v = z.iter().map(|r| (r[k] - m).ppowi(2)).sum::<f64>() / z.len() as f64;
             assert!(m.abs() < 1e-9, "feature {k} train mean {m} should be ~0");
             assert!(
                 (v - 1.0).abs() < 1e-6,

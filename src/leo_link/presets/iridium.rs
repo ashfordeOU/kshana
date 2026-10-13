@@ -70,6 +70,7 @@ pub const PRESET: SystemPreset = SystemPreset {
 
 #[cfg(test)]
 mod tests {
+    use crate::portable_math::PortableFloat;
     use super::super::{fspl_db, slant_range_m};
     use super::*;
 
@@ -77,11 +78,11 @@ mod tests {
     fn the_eirp_reproduces_three_hundred_times_the_gps_minimum_at_ten_degrees() {
         // 300 times -158.5 dBW is -133.73 dBW, rounded to -133.7 dBW in the derivation.
         let p10 = -133.7;
-        assert!((p10 - (-158.5 + 10.0 * 300f64.log10())).abs() < 0.05);
+        assert!((p10 - (-158.5 + 10.0 * 300f64.plog10())).abs() < 0.05);
         let rho = slant_range_m(781e3, 10.0);
         assert!((STL_EIRP_DBW - fspl_db(rho, 1621e6) - p10).abs() < 1e-5);
         // The zenith power sits within 0.6 dB of 2400 times the GPS minimum.
-        let p_top = -158.5 + 10.0 * 2400f64.log10();
+        let p_top = -158.5 + 10.0 * 2400f64.plog10();
         assert!((STL_EIRP_DBW - fspl_db(781e3, 1621e6) - p_top).abs() < 0.6);
     }
 }

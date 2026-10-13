@@ -32,6 +32,7 @@
 //! (TEXBAT IQ / licensed Spirent) needs an SDR front-end / external dataset and remains a
 //! documented follow-on (see `ROADMAP.md`).
 
+use crate::portable_math::PortableFloat;
 use serde::Serialize;
 
 /// Combine per-source received powers (dBm) incoherently: `10·log10(Σ 10^(pᵢ/10))`.
@@ -40,8 +41,8 @@ pub fn combine_power_dbm(powers_dbm: &[f64]) -> f64 {
     if powers_dbm.is_empty() {
         return f64::NEG_INFINITY;
     }
-    let linear: f64 = powers_dbm.iter().map(|p| 10.0_f64.powf(p / 10.0)).sum();
-    10.0 * linear.log10()
+    let linear: f64 = powers_dbm.iter().map(|p| 10.0_f64.ppowf(p / 10.0)).sum();
+    10.0 * linear.plog10()
 }
 
 /// An AGC received-power anomaly monitor.
@@ -591,7 +592,7 @@ mod tests {
         assert!((two - (-126.9897)).abs() < 1e-3, "two = {two}");
         let eight = combine_power_dbm(&[-130.0; 8]);
         assert!(
-            (eight - (-130.0 + 10.0 * 8.0_f64.log10())).abs() < 1e-9,
+            (eight - (-130.0 + 10.0 * 8.0_f64.plog10())).abs() < 1e-9,
             "eight = {eight}"
         );
         // No signal at all is −∞.
@@ -658,7 +659,7 @@ mod tests {
             .iter()
             .map(|&(az, el): &(f64, f64)| {
                 let (a, e) = (az.to_radians(), el.to_radians());
-                [e.cos() * a.sin(), e.cos() * a.cos(), e.sin(), 1.0]
+                [e.pcos() * a.psin(), e.pcos() * a.pcos(), e.psin(), 1.0]
             })
             .collect()
     }

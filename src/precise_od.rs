@@ -28,6 +28,7 @@
 //! real-agency-dataset fits (Galileo MEO, Swarm-A LEO, LRO lunar) layer real EOP and SP3/SPK
 //! truth on top of this engine in the validation harnesses.
 
+use crate::portable_math::PortableFloat;
 use crate::cio::gcrs_to_itrs_matrix;
 use crate::eop::EopSeries;
 use crate::ephem::{moon_position, sun_position};
@@ -182,7 +183,7 @@ fn arg_of_latitude(r: Vec3, v: Vec3) -> f64 {
         unit(node)
     };
     let q_hat = cross(n_hat, p_hat); // 90° ahead, in the direction of motion
-    dot(r, q_hat).atan2(dot(r, p_hat))
+    dot(r, q_hat).patan2(dot(r, p_hat))
 }
 
 /// The empirical RTN acceleration (m/s², ECI) for `emp` at state `(r, v)`: each axis amplitude
@@ -195,8 +196,8 @@ fn arg_of_latitude(r: Vec3, v: Vec3) -> f64 {
 pub fn empirical_accel(emp: &EmpiricalAccel, r: Vec3, v: Vec3) -> Vec3 {
     let ric = ric_from_state(r, v); // rows = R̂, T̂, N̂ in ECI
     let u = arg_of_latitude(r, v);
-    let (cu, su) = (u.cos(), u.sin());
-    let (c2u, s2u) = ((2.0 * u).cos(), (2.0 * u).sin());
+    let (cu, su) = (u.pcos(), u.psin());
+    let (c2u, s2u) = ((2.0 * u).pcos(), (2.0 * u).psin());
     let comp = |c: [f64; 3], c2: [f64; 2]| c[0] + c[1] * cu + c[2] * su + c2[0] * c2u + c2[1] * s2u;
     let rtn = [
         comp(emp.radial, emp.radial_2cpr),
@@ -973,7 +974,7 @@ fn fit_with<F: ForceModel>(
                     .enumerate()
                     .map(|(i, (s, _))| {
                         let o = obs[i].pos;
-                        ((o[0] - s[0]).powi(2) + (o[1] - s[1]).powi(2) + (o[2] - s[2]).powi(2))
+                        ((o[0] - s[0]).ppowi(2) + (o[1] - s[1]).ppowi(2) + (o[2] - s[2]).ppowi(2))
                             .sqrt()
                     })
                     .collect();

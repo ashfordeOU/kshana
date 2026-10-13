@@ -23,6 +23,7 @@
 //! in opposite directions, so the winner depends on the operating point — exactly
 //! what the map exposes.
 
+use crate::portable_math::PortableFloat;
 use crate::inertial::{AccelCfg, CaiCfg, InertialScenario, MetricStat};
 use crate::scenario::{GnssState, GnssTimeline, GnssWindow, TimeCfg};
 use serde::Serialize;
@@ -249,7 +250,7 @@ impl InertialCrossover {
         // Log-spaced 1 → 3000 µg/√Hz (isolated bench → moving vehicle), 9 points.
         let vibration_psds = (0..9)
             .map(|i| {
-                let u = 10f64.powf((i as f64) / 8.0 * (3000f64).log10());
+                let u = 10f64.ppowf((i as f64) / 8.0 * (3000f64).plog10());
                 psd_from_ug(u)
             })
             .collect();
@@ -327,9 +328,9 @@ pub fn breakeven_psd(row: &[(f64, f64)]) -> f64 {
         let (p1, a1) = w[1];
         if a0 >= 1.0 && a1 < 1.0 {
             // Interpolate in log10(psd) against advantage for the unity crossing.
-            let (l0, l1) = (p0.max(1e-300).log10(), p1.max(1e-300).log10());
+            let (l0, l1) = (p0.max(1e-300).plog10(), p1.max(1e-300).plog10());
             let frac = (a0 - 1.0) / (a0 - a1); // a0 ≥ 1 > a1 ⇒ frac ∈ [0, 1]
-            return 10f64.powf(l0 + frac * (l1 - l0));
+            return 10f64.ppowf(l0 + frac * (l1 - l0));
         }
     }
     f64::NAN
@@ -623,7 +624,7 @@ mod tests {
         // psd=1e-6 (a=0.5). frac = (2-1)/(2-0.5)=0.667 in log10 from -7 to -6.
         let row = [(1e-9, 4.0), (1e-7, 2.0), (1e-6, 0.5), (1e-5, 0.2)];
         let be = breakeven_psd(&row);
-        let expect = 10f64.powf(-7.0 + (2.0 - 1.0) / (2.0 - 0.5) * (-6.0 - -7.0));
+        let expect = 10f64.ppowf(-7.0 + (2.0 - 1.0) / (2.0 - 0.5) * (-6.0 - -7.0));
         assert!(
             (be - expect).abs() / expect < 1e-9,
             "be={be} expect={expect}"

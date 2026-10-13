@@ -26,6 +26,7 @@
 //! inputs of a design study, and the time-to-first-fix model ignores bit-edge ambiguity,
 //! re-acquisition after a failed dwell and the probability of missed detection.
 
+use crate::portable_math::PortableFloat;
 use serde::Serialize;
 
 /// Receiver power budget and search architecture.
@@ -102,12 +103,12 @@ pub struct DutyPoint {
 pub fn fix_budget(sig: &IotSignal, rx: &IotReceiver, cold: bool) -> FixBudget {
     let rate = sig.doppler_rate_hz_s.abs().max(1e-9);
     let t = rx.max_coherent_s.min((0.5 / rate).sqrt()).max(1e-4);
-    let snr_coh = 10f64.powf(sig.cn0_dbhz / 10.0) * t;
-    let snr_req = 10f64.powf(rx.detection_snr_db / 10.0);
+    let snr_coh = 10f64.ppowf(sig.cn0_dbhz / 10.0) * t;
+    let snr_req = 10f64.ppowf(rx.detection_snr_db / 10.0);
     let n_nc = if snr_coh >= snr_req {
         1
     } else {
-        ((snr_req / snr_coh).powi(2)).ceil().min(1e9) as u64
+        ((snr_req / snr_coh).ppowi(2)).ceil().min(1e9) as u64
     };
     let dwell = n_nc as f64 * t;
     let bins = (4.0 * sig.doppler_uncertainty_hz * t).ceil().max(1.0) as u64;

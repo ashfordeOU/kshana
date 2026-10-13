@@ -20,6 +20,7 @@
 //! every value method it validates nothing about the inputs — see
 //! [`super::sensitivity`].
 
+use crate::portable_math::PortableFloat;
 use super::Objective;
 
 /// The outcome of a [`waspas`] run.
@@ -121,7 +122,7 @@ pub fn waspas(
         .collect();
     let q_prod: Vec<f64> = norm
         .iter()
-        .map(|row| (0..n).map(|j| row[j].powf(weights[j])).product::<f64>())
+        .map(|row| (0..n).map(|j| row[j].ppowf(weights[j])).product::<f64>())
         .collect();
     let scores: Vec<f64> = (0..m)
         .map(|i| lambda * q_sum[i] + (1.0 - lambda) * q_prod[i])

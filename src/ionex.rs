@@ -13,6 +13,7 @@
 //! packing and multi-day epoch arithmetic beyond seconds-of-day are refinements (see
 //! `ROADMAP.md`).
 
+use crate::portable_math::PortableFloat;
 /// GPS L1 carrier frequency (Hz).
 pub const GPS_L1_HZ: f64 = 1_575.42e6;
 /// GPS L2 carrier frequency (Hz).
@@ -170,7 +171,7 @@ pub fn parse_ionex(text: &str) -> Option<Vec<IonexMap>> {
         return None;
     }
     let (n_lat, n_lon) = (n_lat as usize, n_lon as usize);
-    let scale = 10f64.powi(exponent);
+    let scale = 10f64.ppowi(exponent);
 
     let mut maps = Vec::new();
     let mut in_map = false;
@@ -279,8 +280,8 @@ pub const IONO_SHELL_RE_KM: f64 = 6371.0;
 pub fn obliquity_factor(zenith_deg: f64, iono_height_km: f64) -> f64 {
     let z = zenith_deg.to_radians();
     let ratio = IONO_SHELL_RE_KM / (IONO_SHELL_RE_KM + iono_height_km);
-    let sin_zp = (ratio * z.sin()).clamp(-1.0, 1.0);
-    1.0 / sin_zp.asin().cos()
+    let sin_zp = (ratio * z.psin()).clamp(-1.0, 1.0);
+    1.0 / sin_zp.pasin().pcos()
 }
 
 /// Slant TEC (TECU) along a ray: the vertical TEC scaled by the [`obliquity_factor`].
@@ -317,7 +318,7 @@ mod tests {
         let l1 = vtec_to_delay_m(1.0, GPS_L1_HZ);
         assert!((l1 - 0.162_37).abs() < 1e-4, "L1 delay = {l1} m");
         let l2 = vtec_to_delay_m(1.0, GPS_L2_HZ);
-        assert!((l2 / l1 - (GPS_L1_HZ / GPS_L2_HZ).powi(2)).abs() < 1e-9);
+        assert!((l2 / l1 - (GPS_L1_HZ / GPS_L2_HZ).ppowi(2)).abs() < 1e-9);
         assert!(l2 > l1, "L2 delay {l2} should exceed L1 {l1}");
         // Linear in TEC.
         assert!((vtec_to_delay_m(10.0, GPS_L1_HZ) - 10.0 * l1).abs() < 1e-12);

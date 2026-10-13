@@ -9,6 +9,7 @@
 //! alongside as CSV or JSON Lines, so a software receiver's acquisition and tracking output
 //! can be scored against exactly what went in.
 
+use crate::portable_math::PortableFloat;
 pub(crate) use crate::iq::scene::synthetic::{build_scene, SceneParams};
 
 use super::{Args, Fail};
@@ -427,7 +428,7 @@ pub(crate) fn expected_rms_per_component(scene: &Scene) -> f64 {
         .iter()
         .map(|s| {
             let cn0 = s.cn0_dbhz.unwrap_or(cfg.cn0_model.zenith_dbhz);
-            10f64.powf(cn0 / 10.0) * n0
+            10f64.ppowf(cn0 / 10.0) * n0
         })
         .sum();
     ((noise + signals) * gain2 / 2.0).sqrt()

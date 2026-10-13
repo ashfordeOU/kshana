@@ -27,6 +27,7 @@
 //!
 //! Every transition is an event ([`LockEvent`]) with its reason.
 
+use crate::portable_math::PortableFloat;
 use super::channel::{Channel, ChannelInit, EpochOutput};
 use super::design::{AcquisitionDesign, Design, LockConfig};
 use super::sink::EpochSink;
@@ -719,7 +720,7 @@ impl Managed {
                     .into_iter()
                     .map(|i| (i, row_max(&grid.grid[i])))
                     .fold((0, 0.0), |a, b| if b.1 > a.1 { b } else { a });
-                let ratio_db = 10.0 * (alias / tracked.max(f64::MIN_POSITIVE)).log10();
+                let ratio_db = 10.0 * (alias / tracked.max(f64::MIN_POSITIVE)).plog10();
                 let margin = self.setup.lock.false_lock_margin_db;
                 if ratio_db > margin {
                     let alias_doppler = center + if alias_idx == 0 { -alias_hz } else { alias_hz };

@@ -33,6 +33,7 @@
 //! MODELLED sub-results (the representative geometry / power inputs) are flagged as such in
 //! the emitted JSON.
 
+use crate::portable_math::PortableFloat;
 use crate::antenna::{
     capture_footprint, capture_footprint_sweep, FootprintParams, FootprintSweepResult,
 };
@@ -457,7 +458,7 @@ fn d_transmitter_altitude_m() -> f64 {
 }
 fn d_transmitter_power_dbw() -> f64 {
     // 40 W = 16.0206 dBW.
-    10.0 * 40.0_f64.log10()
+    10.0 * 40.0_f64.plog10()
 }
 fn d_antenna_diameter_m() -> f64 {
     1.0
@@ -746,7 +747,7 @@ impl LunarAttackSurfaceScenario {
                     standoff_m: d,
                     spoof_tx_power_dbw: spoof,
                     jam_tx_power_dbw: jam,
-                    spoof_tx_power_w: 10.0_f64.powf(spoof / 10.0),
+                    spoof_tx_power_w: 10.0_f64.ppowf(spoof / 10.0),
                 }
             })
             .collect();

@@ -29,6 +29,7 @@
 //! holdover to a tight threshold is governed by that **assumption**, and
 //! [`TradeResult::floor_caveat`] / [`Provenance`] carry that on the artifact.
 
+use crate::portable_math::PortableFloat;
 use crate::clock_state::ClockClass;
 use crate::holdover::{holdover_seconds, phase_to_range_m, QuantumClockClass};
 use crate::inertial::quantum_imu::QuantumNavBudget;
@@ -308,7 +309,7 @@ impl PositionDrift for ClassicalInsBudget {
     fn drift_m(&self, t: f64) -> f64 {
         let b = 0.5 * self.bias_m_s2 * t * t;
         let sf = 0.5 * (self.scale_factor_ppm * 1e-6) * self.ref_accel_m_s2 * t * t;
-        let vrw2 = self.vrw_psd * t.max(0.0).powi(3) / 3.0;
+        let vrw2 = self.vrw_psd * t.max(0.0).ppowi(3) / 3.0;
         (b * b + sf * sf + vrw2).sqrt()
     }
 }

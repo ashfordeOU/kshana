@@ -37,6 +37,7 @@
 //! procedures, the P.2109 building entry loss, the first-order ionospheric scaling and the
 //! static-user Doppler envelope against the Pulsar paper's Table 1.
 
+use crate::portable_math::PortableFloat;
 use crate::constellation::{ConstellationCfg, Elements};
 use crate::frames::Geodetic;
 use crate::leo_link::antenna::{polarisation_loss_db, Polarisation, SatPattern, UserAntenna};
@@ -1197,7 +1198,7 @@ fn design_out(d: &crate::leo_signal::SignalDesign, eirp_dbw: f64) -> SignalDesig
                 role: c.role.as_str().to_string(),
                 modulation: c.shape.label(),
                 share: c.share,
-                eirp_dbw: eirp_dbw + 10.0 * c.share.max(1e-300).log10(),
+                eirp_dbw: eirp_dbw + 10.0 * c.share.max(1e-300).plog10(),
             })
             .collect(),
         dll_spacing_chips: DLL_SPACING_CHIPS,
@@ -1989,7 +1990,7 @@ impl LeoPassScenario {
                 bands,
                 circular,
                 altitude_m: r0 - RE_EARTH,
-                inclination_deg: (hvec[2] / hn).acos().to_degrees(),
+                inclination_deg: (hvec[2] / hn).pacos().to_degrees(),
             });
         }
         for c in &self.leo_constellation {
@@ -2465,7 +2466,7 @@ impl LeoPassScenario {
         }
 
         let n_epochs = out.first().map_or(0, |s| s.series.len());
-        let (sa, ca) = az.to_radians().sin_cos();
+        let (sa, ca) = az.to_radians().psin_cos();
         let w = [0.0, 0.0, crate::leo_link::OMEGA_EARTH];
         let mut series = Vec::with_capacity(n_epochs);
         // Band pairs per satellite, with the previous epoch's model-corrected combination.
@@ -2531,8 +2532,8 @@ impl LeoPassScenario {
             } else {
                 (0.0, 0.0)
             };
-            let (sl, cl) = us.geo.lat_rad.sin_cos();
-            let (so, co) = us.geo.lon_rad.sin_cos();
+            let (sl, cl) = us.geo.lat_rad.psin_cos();
+            let (so, co) = us.geo.lon_rad.psin_cos();
             let h = [-sl * co * ca - so * sa, -sl * so * ca + co * sa, cl * ca];
             let d = [h[0] * off, h[1] * off, h[2] * off];
             let dd = [h[0] * offdot, h[1] * offdot, h[2] * offdot];
@@ -2832,7 +2833,7 @@ impl LeoPassScenario {
                 any_visible |= in_view;
                 let cn0 = in_view.then(|| {
                     let p_iso =
-                        (band.min_power_dbw + 20.0 * (rho_ref / geo.range_m).log10() + excess)
+                        (band.min_power_dbw + 20.0 * (rho_ref / geo.range_m).plog10() + excess)
                             .min(band.max_power_dbw);
                     let f_ghz = band.centre_hz / 1e9;
                     let gas = if env.gas {
@@ -3654,7 +3655,7 @@ mod tests {
         let e = s.series.iter().find(|e| e.visible).unwrap();
         let (f0, f1) = (s.bands[0].frequency_hz, s.bands[1].frequency_hz);
         let ratio = e.bands[0].iono_delay_m / e.bands[1].iono_delay_m;
-        assert!((ratio - (f1 / f0).powi(2)).abs() < 1e-9 * ratio);
+        assert!((ratio - (f1 / f0).ppowi(2)).abs() < 1e-9 * ratio);
         assert!(!r.iono_free.is_empty());
     }
 

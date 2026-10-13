@@ -83,6 +83,7 @@
 //! Analysis*, NIST SP 1065 (2008); C. Zucca and P. Tavella, *The clock model and its
 //! relationship with the Allan and related variances*, IEEE Trans. UFFC 52(2), 2005.
 
+use crate::portable_math::PortableFloat;
 use crate::palette::chart::{BG, BLUE, CORAL, FONT_MONO, TEXT};
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
@@ -283,7 +284,7 @@ impl ClockNoise {
             + self.q_wf / tau_s
             + self.flicker
             + self.q_rw * tau_s / 3.0
-            + self.q_rr * tau_s.powi(3) / 20.0
+            + self.q_rr * tau_s.ppowi(3) / 20.0
     }
 
     /// The model Allan deviation `σ_y(τ)`.
@@ -575,11 +576,11 @@ pub fn terms_at(noise: &ClockNoise, c: &SlotConditions, t: f64) -> Vec<Term> {
         },
         Term {
             term: "random-walk frequency noise",
-            time_error_ns: k * (noise.q_rw * t.powi(3) / 3.0).sqrt() * ns,
+            time_error_ns: k * (noise.q_rw * t.ppowi(3) / 3.0).sqrt() * ns,
         },
         Term {
             term: "random-run frequency noise",
-            time_error_ns: k * (noise.q_rr * t.powi(5) / 20.0).sqrt() * ns,
+            time_error_ns: k * (noise.q_rr * t.ppowi(5) / 20.0).sqrt() * ns,
         },
         Term {
             term: "residual frequency offset",
@@ -1383,14 +1384,14 @@ mod tests {
         c.k_sigma = 3.0;
         c.fix_sigma_s = 4e-9;
         let t = breach_after_sync_s(&n, &c);
-        let exact = ((30e-9f64 / 3.0).powi(2) - (4e-9f64).powi(2)) / 4e-22;
+        let exact = ((30e-9f64 / 3.0).ppowi(2) - (4e-9f64).ppowi(2)) / 4e-22;
         assert!(rel(t, exact) < 1e-9, "{t} vs {exact}");
     }
 
     // Flicker floor alone: k·√h_F·t = g ⇒ t = g/(k√h_F).
     #[test]
     fn flicker_floor_alone_is_linear_in_time() {
-        let h_f = (1e-12f64).powi(2);
+        let h_f = (1e-12f64).ppowi(2);
         let n = explicit(0.0, h_f, 0.0, 0.0);
         let mut c = cond(10e-9);
         c.k_sigma = 2.0;

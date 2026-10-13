@@ -51,6 +51,7 @@
 //! The estimator is fully deterministic — no random sampling — so a given sequence of
 //! `predict`/`update` calls is bit-for-bit reproducible.
 
+use crate::portable_math::PortableFloat;
 /// Three-state (phase, frequency, frequency-drift) Kalman clock estimator.
 ///
 /// State `x = [phase (s), fractional frequency (1/s), drift (1/s^2)]`, covariance `P` (3×3),
@@ -458,9 +459,9 @@ impl FlickerFmBank {
     /// A bank from `t_min` to `t_max` (s) with `per_decade` processes per decade.
     pub fn log_spaced(h_minus1: f64, t_min: f64, t_max: f64, per_decade: usize) -> Self {
         let per = per_decade.max(1) as f64;
-        let decades = (t_max / t_min).log10();
+        let decades = (t_max / t_min).plog10();
         let n = (decades * per).round() as usize + 1;
-        let taus = (0..n).map(|k| t_min * 10f64.powf(k as f64 / per)).collect();
+        let taus = (0..n).map(|k| t_min * 10f64.ppowf(k as f64 / per)).collect();
         Self {
             h_minus1,
             taus,
@@ -572,8 +573,8 @@ impl ClockModelExt {
                 let a = 1.0 / t;
                 let qk = 2.0 * s2 / t;
                 let ad = a * dt;
-                let e1 = -(-ad).exp_m1();
-                let e2 = -(-2.0 * ad).exp_m1();
+                let e1 = -(-ad).pexp_m1();
+                let e2 = -(-2.0 * ad).pexp_m1();
                 f[k * n + k] = 1.0 - e1;
                 f[k] = t * e1;
                 let (qxx, qxz) = if ad < 1e-3 {
@@ -597,7 +598,7 @@ impl ClockModelExt {
         let h0 = 3 + nf;
         for (j, &w) in self.harmonics.iter().enumerate() {
             let k = h0 + 2 * j;
-            let (s, c) = (w * dt).sin_cos();
+            let (s, c) = (w * dt).psin_cos();
             f[k * n + k] = c;
             f[k * n + k + 1] = -s;
             f[(k + 1) * n + k] = s;
@@ -854,7 +855,7 @@ mod tests {
         kf.predict(dt);
         let p = kf.covariance();
 
-        let (dt2, dt3, dt4, dt5) = (dt * dt, dt.powi(3), dt.powi(4), dt.powi(5));
+        let (dt2, dt3, dt4, dt5) = (dt * dt, dt.ppowi(3), dt.ppowi(4), dt.ppowi(5));
         let q00 = q_wf * dt + q_rw * dt3 / 3.0 + q_drift * dt5 / 20.0;
         let q01 = q_rw * dt2 / 2.0 + q_drift * dt4 / 8.0;
         let q02 = q_drift * dt3 / 6.0;
@@ -887,7 +888,7 @@ mod tests {
         let mut kf = ClockState3::new(q_wf, q_rw, 0.0);
         kf.predict(dt);
         let p = kf.covariance();
-        let (dt2, dt3) = (dt * dt, dt.powi(3));
+        let (dt2, dt3) = (dt * dt, dt.ppowi(3));
         assert!((p[0][0] - (q_wf * dt + q_rw * dt3 / 3.0)).abs() / p[0][0] < 1e-12);
         assert!((p[0][1] - q_rw * dt2 / 2.0).abs() / p[0][1].abs() < 1e-12);
         assert!((p[1][1] - q_rw * dt).abs() / p[1][1] < 1e-12);
@@ -910,7 +911,7 @@ mod tests {
         for _ in 0..n {
             kf.predict(dt);
         }
-        let expected = q_wf * t + q_rw * t.powi(3) / 3.0 + q_drift * t.powi(5) / 20.0;
+        let expected = q_wf * t + q_rw * t.ppowi(3) / 3.0 + q_drift * t.ppowi(5) / 20.0;
         let rel = (kf.covariance()[0][0] - expected).abs() / expected;
         assert!(
             rel < 1e-9,
@@ -985,7 +986,7 @@ mod tests {
         // (b) Run the estimator on noisy phase measurements of the truth and accumulate the
         //     normalised phase-error consistency. The estimator is given the SAME PSDs that
         //     generated the truth, so it is correctly tuned and must be consistent.
-        let r = (5.0e-13_f64).powi(2); // 0.5 ps phase measurement noise variance
+        let r = (5.0e-13_f64).ppowi(2); // 0.5 ps phase measurement noise variance
         let meas = Normal::new(0.0, r.sqrt()).unwrap();
         let mut kf = ClockState3::new(q_wf, q_rw, 0.0).with_initial_cov(1e-20, 1e-24, 1e-30);
         let mut inside = 0usize;
@@ -1021,7 +1022,7 @@ mod tests {
         let mut kf = ClockState3::new(q_wf, q_rw, q_drift).with_initial_cov(1e-18, 1e-24, 1e-30);
         for i in 0..500 {
             kf.predict(1.0);
-            kf.update_phase(1e-13 * (i as f64).sin(), r);
+            kf.update_phase(1e-13 * (i as f64).psin(), r);
             assert!(
                 kf.is_psd(),
                 "covariance lost PSD-ness at step {i}: P = {:?}",
@@ -1128,7 +1129,7 @@ mod tests {
             let dt = if k % 7 == 0 { 600.0 } else { 300.0 };
             e.predict(dt);
             c.predict(dt);
-            let z = 1e-9 * (k as f64 * 0.37).sin();
+            let z = 1e-9 * (k as f64 * 0.37).psin();
             e.update_phase(z, 1e-22);
             c.update_phase(z, 1e-22);
         }

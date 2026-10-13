@@ -14,6 +14,7 @@
 //! `tests/mcda_wsm_reference.rs`), and a single benefit/cost criterion reproduces a
 //! plain descending/ascending sort exactly (the back-compatibility golden below).
 
+use crate::portable_math::PortableFloat;
 use super::Objective;
 use std::collections::BTreeMap;
 
@@ -219,7 +220,7 @@ fn preference(vf: ValueFn, dir: Direction, x: f64, lo: f64, hi: f64) -> f64 {
             midpoint,
             steepness,
         } => {
-            let s = 1.0 / (1.0 + (-steepness * (x - midpoint)).exp());
+            let s = 1.0 / (1.0 + (-steepness * (x - midpoint)).pexp());
             match dir {
                 Direction::Benefit => s,
                 Direction::Cost => 1.0 - s,

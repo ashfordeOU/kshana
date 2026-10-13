@@ -14,6 +14,7 @@
 //!
 //! Every value can be given inline; a preset only fills what the scenario leaves out.
 
+use crate::portable_math::PortableFloat;
 use super::geom::{build_orbits, EarthOrbit, DEG};
 use super::joint_pvt::{code_sigma_dll_m, SystemClock};
 use crate::constellation::{ConstellationCfg, SatelliteCfg, ShellCfg, WalkerPattern};
@@ -189,8 +190,8 @@ impl System {
 
     /// C/N0 at elevation `el` (rad), linear in `sin(el)` from the mask to the zenith.
     pub fn cn0_at(&self, el: f64) -> f64 {
-        let s0 = self.mask_rad.sin();
-        let f = ((el.sin() - s0) / (1.0 - s0).max(1e-9)).clamp(0.0, 1.0);
+        let s0 = self.mask_rad.psin();
+        let f = ((el.psin() - s0) / (1.0 - s0).max(1e-9)).clamp(0.0, 1.0);
         self.cn0_dbhz[0] + (self.cn0_dbhz[1] - self.cn0_dbhz[0]) * f
     }
 

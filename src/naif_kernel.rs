@@ -42,6 +42,7 @@
 // Index loops read more plainly than iterator chains in the 3x3 matrix and record code here.
 #![allow(clippy::needless_range_loop)]
 
+use crate::portable_math::PortableFloat;
 use crate::precession::Vec3;
 
 /// A 3x3 matrix, row-major.
@@ -507,7 +508,7 @@ impl PckKernel {
 
 /// Frame rotation about x: `[[1,0,0],[0,c,s],[0,−s,c]]`.
 pub fn rot_x(a: f64) -> Mat3 {
-    let (s, c) = a.sin_cos();
+    let (s, c) = a.psin_cos();
     [[1.0, 0.0, 0.0], [0.0, c, s], [0.0, -s, c]]
 }
 
@@ -545,9 +546,9 @@ pub fn mat_vec(a: &Mat3, v: Vec3) -> Vec3 {
 /// `R = R_z(w) · R_x(δ) · R_z(φ)` for angles `(φ, δ, w)`, and `dR/dt` from the angle rates.
 pub fn euler_313_with_rate(ang: Vec3, rate: Vec3) -> (Mat3, Mat3) {
     let (phi, delta, w) = (ang[0], ang[1], ang[2]);
-    let (sp, cp) = phi.sin_cos();
-    let (sd, cd) = delta.sin_cos();
-    let (sw, cw) = w.sin_cos();
+    let (sp, cp) = phi.psin_cos();
+    let (sd, cd) = delta.psin_cos();
+    let (sw, cw) = w.psin_cos();
     let rz = |s: f64, c: f64| [[c, s, 0.0], [-s, c, 0.0], [0.0, 0.0, 1.0]];
     let drz = |s: f64, c: f64| [[-s, c, 0.0], [-c, -s, 0.0], [0.0, 0.0, 0.0]];
     let rx = [[1.0, 0.0, 0.0], [0.0, cd, sd], [0.0, -sd, cd]];
@@ -588,8 +589,8 @@ pub fn naif_et_from_utc(jd_utc_day: f64, utc_seconds_of_day: f64) -> (f64, f64) 
     let mut lo = DELTA_T_A;
     for _ in 0..8 {
         let m = DELTET_M0 + DELTET_M1 * (hi + lo);
-        let e = m + DELTET_EB * m.sin();
-        lo = DELTA_T_A + DELTET_K * e.sin();
+        let e = m + DELTET_EB * m.psin();
+        lo = DELTA_T_A + DELTET_K * e.psin();
     }
     (hi, lo)
 }

@@ -159,11 +159,12 @@ pub fn x_clock_ns(clock: LunarClock, tau: f64) -> f64 {
 
 #[cfg(test)]
 mod tests {
+    use crate::portable_math::PortableFloat;
     use super::*;
 
     // log-log slope of a curve f(τ) between two τ points.
     fn slope(f: impl Fn(f64) -> f64, t1: f64, t2: f64) -> f64 {
-        (f(t2).ln() - f(t1).ln()) / (t2.ln() - t1.ln())
+        (f(t2).pln() - f(t1).pln()) / (t2.pln() - t1.pln())
     }
 
     #[test]
@@ -245,7 +246,7 @@ mod tests {
             let p = clock.powerlaw();
             let mut prev = 0.0;
             for k in 0..8 {
-                let t = 10f64.powi(k);
+                let t = 10f64.ppowi(k);
                 let x = x_clock_s(&p, t);
                 assert!(x > prev, "{}: x not increasing at τ={t}", clock.name());
                 prev = x;
