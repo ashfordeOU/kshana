@@ -179,6 +179,12 @@ fn normalize_volatile(json: &str) -> String {
 const TIERED: &[&str] = &[
     "scenarios/clock-holdover.toml",
     "scenarios/orbit-multignss.toml",
+    // RM-04: the per-kind block appended after the run.
+    "scenarios/jamming-demo.toml",
+    "scenarios/lunar-time-offset.toml",
+    "scenarios/hybrid-optical-rf.toml",
+    "scenarios/cislunar-observability.toml",
+    "scenarios/conflict-resilience.toml",
 ];
 
 fn check(g: &Golden) {

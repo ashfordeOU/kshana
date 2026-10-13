@@ -6,7 +6,8 @@
 //! the untiered document byte for byte; and a frozen-prediction kind gets no block.
 use kshana::api::{list_scenario_kinds, run_toml, run_toml_untiered, without_figure_tiers};
 use kshana::fom_label::{
-    kind_figures, FROZEN_PREDICTION_KINDS, KINDS_WITHOUT_HEADLINE_FIGURE, KINDS_WITH_INLINE_TIERS,
+    kind_figures, FROZEN_PREDICTION_KINDS, KINDS_EXCLUDED_FROM_FIGURE_TIERS,
+    KINDS_WITH_INLINE_TIERS,
 };
 use kshana::verification::verification_matrix;
 use serde_json::Value;
@@ -38,7 +39,9 @@ fn every_kind_is_tiered_or_excluded_with_a_reason() {
             kind_figures(k).is_some(),
             KINDS_WITH_INLINE_TIERS.contains(&k),
             FROZEN_PREDICTION_KINDS.contains(&k),
-            KINDS_WITHOUT_HEADLINE_FIGURE.iter().any(|(n, _)| *n == k),
+            KINDS_EXCLUDED_FROM_FIGURE_TIERS
+                .iter()
+                .any(|(n, _)| *n == k),
         ];
         assert_eq!(
             places.iter().filter(|b| **b).count(),
@@ -50,7 +53,7 @@ fn every_kind_is_tiered_or_excluded_with_a_reason() {
             places[3]
         );
     }
-    for (k, why) in KINDS_WITHOUT_HEADLINE_FIGURE {
+    for (k, why) in KINDS_EXCLUDED_FROM_FIGURE_TIERS {
         assert!(!why.is_empty(), "{k} is excluded without a reason");
     }
 }
@@ -84,7 +87,9 @@ fn every_kind_tiers_its_reference_run_and_strips_back_exactly() {
         let plain = run_toml_untiered(src).unwrap();
         let stripped = without_figure_tiers(&tiered.json);
         if FROZEN_PREDICTION_KINDS.contains(&k)
-            || KINDS_WITHOUT_HEADLINE_FIGURE.iter().any(|(n, _)| *n == k)
+            || KINDS_EXCLUDED_FROM_FIGURE_TIERS
+                .iter()
+                .any(|(n, _)| *n == k)
         {
             assert!(stripped.is_none(), "{k} must not carry figure_tiers");
             assert_eq!(tiered.json, plain.json, "{k}");

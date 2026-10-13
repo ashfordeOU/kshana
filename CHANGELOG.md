@@ -17,7 +17,7 @@ breaking changes are called out explicitly.
   untiered). The block is appended after the run and strips back to the previous document
   byte for byte (`api::without_figure_tiers`). `lunar-station-coverage` has no `figure_tiers`
   until a new dated prediction replaces its frozen one; `leo-ppp`, `solar-system`, `sweep` and
-  `sweep-nd` have no scalar headline figure. Campaign members keep their untiered documents.
+  `sweep-nd` have no scalar headline figure, and `lunar-attack-surface` writes compact JSON. Campaign members keep their untiered documents.
 - **Quantum preset `quantum-cai-coast`** (CAP-08c): a bundled inertial scenario in which a
   cold-atom interferometer accelerometer, specified by its interferometer physics
   (`[accel_quantum.cai]` with a stated platform vibration level), coasts against a
