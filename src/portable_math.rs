@@ -109,6 +109,7 @@ pub(crate) trait Maths {
 
 /// The host's own mathematics library: what every routine in the crate used before this
 /// module existed, kept so that their published numbers do not move.
+#[allow(dead_code)]
 pub(crate) struct Platform;
 
 impl Maths for Platform {
@@ -260,6 +261,7 @@ pub(crate) trait PortableFloat: Sized {
     /// `ln(1 + self)`, accurate near zero.
     fn pln_1p(self) -> f64;
     /// Logarithm of `self` to the base `base`, as `ln(self) / ln(base)`.
+    #[allow(dead_code)]
     fn plog(self, base: f64) -> f64;
 }
 
