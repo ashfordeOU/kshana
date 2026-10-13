@@ -11,6 +11,12 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **Opt-in S1 atmospheric tide (DS-PA-03).** `tides::atmospheric_tide_s1` and
+  `s1_air_tide_acceleration` (Biancale & Bode 2006, GFZ STR06/01 Table 1 model N1, degrees 2–6),
+  enabled with `air_tide_s1()` on `propagator::ForceModel` and `precise_od::PreciseForceModel`;
+  off by default. MODELLED (coefficients re-checked against the published table; no external
+  oracle for the force effect).
+
 - **Lunar reference-station study** (0.36, prompted by published material on a planned lunar
   south-pole reference station; sources in [`docs/LUNAR-REFERENCE-STATION.md`](docs/LUNAR-REFERENCE-STATION.md)):
   the `lunar-station-coverage` kind, a Monte Carlo sweep of the lunar differential-PNT model over

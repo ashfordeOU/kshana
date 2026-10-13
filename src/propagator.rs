@@ -131,6 +131,10 @@ pub struct ForceModel {
     /// `epoch_jd_tt + t/86400`), so set the epoch via [`third_body`](Self::third_body). The
     /// permanent tide is removed so it does not double-count a zero-tide static field.
     pub tides: bool,
+    /// Include the opt-in **S1 (diurnal) atmospheric tide** ([`crate::tides::s1_air_tide_acceleration`],
+    /// Biancale & Bode 2006 model N1, degrees 2–6). Epoch-driven like [`tides`](Self::tides) and
+    /// independent of it; off by default, so no existing output moves.
+    pub air_tide_s1: bool,
     /// Opt-in **ephemeris tier** for the Sun and Moon positions that feed the third-body and SRP
     /// terms. `None` (the default) keeps the [`crate::ephem`] low-precision analytic series, bit for
     /// bit. `Some` reads the positions from an [`crate::ephem_provider::EphemerisProvider`] — a
@@ -284,6 +288,13 @@ impl ForceModel {
         self
     }
 
+    /// Enable the opt-in S1 atmospheric tide (chainable); set the epoch via
+    /// [`third_body`](Self::third_body).
+    pub fn air_tide_s1(mut self) -> Self {
+        self.air_tide_s1 = true;
+        self
+    }
+
     /// Set the central body the gravity is taken about (default [`Body::earth`]). The two-body
     /// term uses `body.mu`, and a full tesseral [`Body::gravity`] field, when present, supersedes
     /// the J2/zonal path. Composable with any configuration, e.g.
@@ -427,6 +438,10 @@ impl ForceModel {
         }
         if self.tides {
             let p = crate::tides::tidal_acceleration(r, jd_tt);
+            a = [a[0] + p[0], a[1] + p[1], a[2] + p[2]];
+        }
+        if self.air_tide_s1 {
+            let p = crate::tides::s1_air_tide_acceleration(r, jd_tt);
             a = [a[0] + p[0], a[1] + p[1], a[2] + p[2]];
         }
         a
@@ -1430,6 +1445,24 @@ mod tests {
             .state_at(100.0)
             .unwrap();
         assert!(s.r[0].is_nan());
+    }
+
+    #[test]
+    fn the_s1_air_tide_flag_adds_exactly_the_s1_acceleration() {
+        // Opt-in and additive: off by default, and when on the force changes by exactly the S1
+        // term at the advanced epoch.
+        let epoch = 2_455_197.5;
+        let base = ForceModel::with_j2().third_body(false, false, epoch);
+        assert!(!base.air_tide_s1);
+        let with = base.clone().air_tide_s1();
+        let r = [7.0e6, 1.0e6, 2.0e6];
+        let t = 3_600.0;
+        let (a0, a1) = (base.accel_at(t, r), with.accel_at(t, r));
+        let s1 = crate::tides::s1_air_tide_acceleration(r, epoch + t / SECONDS_PER_DAY);
+        for i in 0..3 {
+            assert_eq!(a1[i], a0[i] + s1[i]);
+        }
+        assert!(norm(s1) > 0.0);
     }
 
     #[test]
