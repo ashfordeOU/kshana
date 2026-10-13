@@ -91,8 +91,6 @@ const RUNNERS: &[(&str, &str)] = &[
         "tests/fixtures/lunar_station/gate.toml",
     ),
     ("lunar-beacon", "scenarios/lunar-beacon.toml"),
-    ("contact-schedule", "scenarios/contact-schedule.toml"),
-    ("acm-link", "scenarios/acm-link.toml"),
     ("earth-gnss-lunar", "scenarios/earth-gnss-lunar.toml"),
     ("lunar-interop-export", ""),
     ("gravity-map", "scenarios/gravity-map-nav.toml"),
@@ -146,6 +144,8 @@ const RUNNERS: &[(&str, &str)] = &[
     ("leo-ppp", ""),
     ("ntn-positioning", "scenarios/ntn-5g-positioning.toml"),
     ("leo-pnt-chain", "scenarios/leo-pnt-end-to-end.toml"),
+    ("contact-schedule", "scenarios/contact-schedule.toml"),
+    ("acm-link", "scenarios/acm-link.toml"),
 ];
 
 /// The kinds whose reports do not yet describe every numeric field they emit, each with
