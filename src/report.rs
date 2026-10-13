@@ -299,6 +299,10 @@ pub struct RunResult {
     /// part of [`hash_scenario`], which hashes only the scenario *inputs*.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub meta: Option<StudyMeta>,
+    /// RAIM beside the holdover figures of merit, from the scenario's `[integrity]` section
+    /// ([`crate::clock_integrity`]); absent without it.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub integrity_fom: Option<crate::clock_integrity::IntegrityFom>,
 }
 
 /// Turn a free-text study name into a filesystem-friendly base name: lower-cased,
@@ -489,6 +493,7 @@ mod tests {
                 drift: 0.0,
                 flicker_floor: 0.0,
             },
+            integrity: None,
         }
     }
 
@@ -577,6 +582,7 @@ mod svg_tests {
             classical: run_of("csac", &[0.0, 15.0, 40.0]),
             eci_track: None,
             meta: None,
+            integrity_fom: None,
         };
         let svg = to_svg(&r);
         assert!(svg.starts_with("<svg"));

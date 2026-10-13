@@ -168,6 +168,7 @@ pub fn run_orbit_clock(scn: &crate::orbit::OrbitClockScenario) -> Result<RunResu
         gnss: timeline,
         clock_quantum: scn.clock_quantum.clone(),
         clock_classical: scn.clock_classical.clone(),
+        integrity: None,
     };
     let mut result = run(&inner);
     // Emit the propagated user track (km) so the playground can draw the 3D orbit.
@@ -196,6 +197,7 @@ pub fn run(scn: &Scenario) -> RunResult {
         ),
         eci_track: None,
         meta: None,
+        integrity_fom: None,
     }
 }
 
@@ -285,6 +287,7 @@ mod tests {
                 drift: 0.0,
                 flicker_floor: 0.0,
             },
+            integrity: None,
         }
     }
 
