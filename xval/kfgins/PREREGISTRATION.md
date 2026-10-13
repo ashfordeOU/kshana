@@ -76,5 +76,38 @@ fixes fused, 3361 whole-second truth epochs. All six bars hold.
 
 B1 0.0109 <= 0.10; B2 0.0090 <= 0.15; B3 0.0320 <= 0.50; B4 ratio 0.976 <= 1.2; B5 ratio
 1.082 <= 1.2; B6 compensated/uncompensated 0.033 <= 0.5. The evidence is data-gated (the dataset
-is not vendored); whether a row may be VALIDATED on data-gated evidence awaits the owner's
-decision, and until then the ledger row is MODELLED with these numbers.
+is not vendored).
+
+### No earlier run (checked 2026-10-13)
+
+KF-GINS was not run on this dataset, and Kshana was not compared with it, before the
+registration commit 5b6601b:
+
+- The git history holds no KF-GINS output and no comparison result before 5b6601b. The only
+  earlier KF-GINS commit is the previous worker's 4848eb0: loaders, EKF methods and a draft test,
+  with no result.
+- That worker's hand-off states that no comparison was run, that no gates were run, and that the
+  fetch script was not yet written.
+- In this worker's session, KF-GINS was first cloned and built after 5b6601b was committed. The
+  only earlier mentions of `KF_GINS_Navresult.nav` are in the text of the bars.
+
+### Status: VALIDATED (data-gated)
+
+The owner decided on 2026-10-13 that a pre-registered check which passed against an external
+oracle may be VALIDATED on data-gated evidence when three conditions hold:
+
+- The data are fetched with their SHA-256 pinned, and the test fails on a mismatch. The test's
+  `SHA256` table asserts every file.
+- A documented reproduce path runs the check with network access. That path is below.
+- The ledger row states the data-gating.
+
+All three hold.
+
+### Reproduce (needs network access)
+
+```sh
+xval/kfgins/fetch.sh "$DIR"            # downloads the demo dataset, checks each SHA-256
+git clone https://github.com/i2Nav-WHU/KF-GINS "$KFGINS" && git -C "$KFGINS" checkout 8291a93e
+KFGINS="$KFGINS" xval/kfgins/run_kfgins.sh "$DIR"   # builds it, writes KF_GINS_Navresult.nav into $DIR
+KSHANA_KFGINS_DIR="$DIR" cargo test --release --test fusion_kfgins_dataset_oracle -- --nocapture
+```

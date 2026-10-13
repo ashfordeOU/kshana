@@ -1,0 +1,7 @@
+KF-GINS — https://github.com/i2Nav-WHU/KF-GINS
+Commit 8291a93e. Source code licensed under GPL-3.0 (per its README).
+
+Used only as an external oracle, never vendored or linked. run_kfgins.sh clones and builds it
+outside git's tracking and runs it as a separate program. The demo dataset in its `dataset/`
+directory states no licence, so it is not vendored either: fetch.sh downloads it at test time
+and checks the SHA-256 values listed in PREREGISTRATION.md. No KF-GINS output is committed.
