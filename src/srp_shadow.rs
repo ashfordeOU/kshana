@@ -508,7 +508,9 @@ mod tests {
         let sep = |phi: f64| {
             let r = pos(phi);
             let d = sub(s, r);
-            (dot(d, scale(r, -1.0)) / (norm(d) * norm(r))).clamp(-1.0, 1.0).acos()
+            (dot(d, scale(r, -1.0)) / (norm(d) * norm(r)))
+                .clamp(-1.0, 1.0)
+                .acos()
         };
         let (mut lo, mut hi) = (0.0, PI);
         for _ in 0..200 {
@@ -525,7 +527,9 @@ mod tests {
     fn penumbra_cs(rn: f64, k: usize) -> Vec<f64> {
         let a = (SOLAR_RADIUS / AU_M).asin();
         let b = (RE_EARTH / rn).asin();
-        (0..=k).map(|i| (b - a) + 2.0 * a * i as f64 / k as f64).collect()
+        (0..=k)
+            .map(|i| (b - a) + 2.0 * a * i as f64 / k as f64)
+            .collect()
     }
 
     const ALTS: [f64; 4] = [400e3, 700e3, 20_200e3, 35_786e3];
@@ -598,7 +602,8 @@ mod tests {
             let v2 = oblate_conical_shadow(mat_vec(&rot, r), mat_vec(&rot, s), None);
             assert!((v1 - v2).abs() < 1e-7, "{v1} {v2}"); // lens noise floor at LEO
             let b1 = ellipsoid_limb_angle(r, s, Some(rot), WGS84_A, WGS84_F);
-            let b2 = ellipsoid_limb_angle(mat_vec(&rot, r), mat_vec(&rot, s), None, WGS84_A, WGS84_F);
+            let b2 =
+                ellipsoid_limb_angle(mat_vec(&rot, r), mat_vec(&rot, s), None, WGS84_A, WGS84_F);
             assert!((b1 - b2).abs() < 1e-15);
         }
     }
@@ -693,7 +698,12 @@ mod tests {
             let mut worst_conical: f64 = 0.0;
             for c in penumbra_cs(rn, 200) {
                 let (r, s) = place(rn, X, Z, c);
-                let u = limb_darkened_shadow_with(r, s, OccultingShape::Sphere, &LimbDarkeningLaw::UNIFORM);
+                let u = limb_darkened_shadow_with(
+                    r,
+                    s,
+                    OccultingShape::Sphere,
+                    &LimbDarkeningLaw::UNIFORM,
+                );
                 worst_conical = worst_conical.max((u - conical_shadow(r, s)).abs());
                 let (a, b, cc) = shadow_angles(r, s, OccultingShape::Sphere).expect("angles");
                 if cc > b - a && cc < a + b {
@@ -735,8 +745,15 @@ mod tests {
                 }
             }
             assert!(worst[2] <= 1e-12, "alt {alt}: {worst:?}");
-            assert!(worst[0] >= worst[1] && worst[1] >= worst[2], "alt {alt}: {worst:?}");
-            let d = limb_darkened_shadow(place(rn, X, Z, penumbra_cs(rn, 4)[2]).0, [AU_M, 0.0, 0.0], OccultingShape::Sphere);
+            assert!(
+                worst[0] >= worst[1] && worst[1] >= worst[2],
+                "alt {alt}: {worst:?}"
+            );
+            let d = limb_darkened_shadow(
+                place(rn, X, Z, penumbra_cs(rn, 4)[2]).0,
+                [AU_M, 0.0, 0.0],
+                OccultingShape::Sphere,
+            );
             assert!(d > 0.0 && d < 1.0);
         }
     }
@@ -766,8 +783,16 @@ mod tests {
                     assert!(v < u, "late penumbra: ld {v} vs uniform {u}");
                 }
             }
-            let first = limb_darkened_shadow(place(rn, X, Z, cs[0]).0, [AU_M, 0.0, 0.0], OccultingShape::Sphere);
-            let last = limb_darkened_shadow(place(rn, X, Z, cs[200]).0, [AU_M, 0.0, 0.0], OccultingShape::Sphere);
+            let first = limb_darkened_shadow(
+                place(rn, X, Z, cs[0]).0,
+                [AU_M, 0.0, 0.0],
+                OccultingShape::Sphere,
+            );
+            let last = limb_darkened_shadow(
+                place(rn, X, Z, cs[200]).0,
+                [AU_M, 0.0, 0.0],
+                OccultingShape::Sphere,
+            );
             assert!(first <= 1e-9 && last >= 1.0 - 1e-9, "{first} {last}");
         }
         let s = [AU_M, 0.0, 0.0];
@@ -789,7 +814,12 @@ mod tests {
         // ∫₀^β (0.4 + 0.6√(1−ρ²)) 2ρ dρ = 0.4β² + 0.4(1 − (1−β²)^{3/2})
         let occ = 0.4 * beta * beta + 0.4 * (1.0 - (1.0 - beta * beta).powf(1.5));
         let expect = 1.0 - occ / 0.8;
-        let v = limb_darkened_shadow(r, s, OccultingShape::Sphere);
+        let v = limb_darkened_shadow_with(r, s, OccultingShape::Sphere, &law);
+        assert_eq!(
+            v,
+            limb_darkened_shadow(r, s, OccultingShape::Sphere),
+            "Eddington is the default"
+        );
         assert!((v - expect).abs() < 1e-12, "{v} vs {expect}");
         let u = limb_darkened_shadow_with(r, s, OccultingShape::Sphere, &LimbDarkeningLaw::UNIFORM);
         assert!((u - conical_shadow(r, s)).abs() < 1e-12);
