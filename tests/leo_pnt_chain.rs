@@ -7,6 +7,7 @@
 //! figure that depends on it. They also check the leo-pass signal-design wiring on its own
 //! and that a leo-pass export reproduces the engine's geometry.
 
+use kshana::portable_math::PortableFloat;
 use kshana::api::run_toml;
 use serde_json::Value;
 
@@ -62,7 +63,7 @@ fn the_handed_on_values_are_the_stage_outputs() {
     );
     let cn0 = leo["cn0_dbhz"].as_array().unwrap();
     assert!((cn0[1].as_f64().unwrap() - (a + b)).abs() < 1e-9);
-    assert!((cn0[0].as_f64().unwrap() - (a + b * 10f64.to_radians().sin())).abs() < 1e-9);
+    assert!((cn0[0].as_f64().unwrap() - (a + b * 10f64.to_radians().psin())).abs() < 1e-9);
     // The pass stage is the stand-alone leo-pass kind on the [pass] table.
     let t: toml::Value = toml::from_str(E2E).unwrap();
     let mut pass = t["pass"].clone();
@@ -169,9 +170,9 @@ enabled = false
         .as_array()
         .unwrap()
         .iter()
-        .map(|c| 10f64.powf(c["eirp_dbw"].as_f64().unwrap() / 10.0))
+        .map(|c| 10f64.ppowf(c["eirp_dbw"].as_f64().unwrap() / 10.0))
         .sum();
-    assert!((10.0 * total.log10() - 15.0).abs() < 1e-9);
+    assert!((10.0 * total.plog10() - 15.0).abs() < 1e-9);
     // Each epoch's tracked C/N0 and jitter are the leo-signal formula at the band C/N0.
     let i = design.tracked_index().unwrap();
     let eta = design.in_band_fraction();
@@ -241,7 +242,7 @@ fn the_pass_export_reproduces_the_engine_range() {
     let mut worst: f64 = 0.0;
     for (k, e) in series.iter().enumerate() {
         let (u, s) = (ecef(&user[k]), ecef(&sat[k]));
-        let r = ((s[0] - u[0]).powi(2) + (s[1] - u[1]).powi(2) + (s[2] - u[2]).powi(2)).sqrt();
+        let r = ((s[0] - u[0]).ppowi(2) + (s[1] - u[1]).ppowi(2) + (s[2] - u[2]).ppowi(2)).sqrt();
         worst = worst.max((r - e["range_m"].as_f64().unwrap()).abs());
     }
     // Coordinates are written to 1e-9 deg and 0.1 mm: a few millimetres at most.

@@ -3,6 +3,7 @@
 //! effect chain evaluated on two carriers stays consistent, and reflections added after the
 //! atmosphere inherit it.
 
+use kshana::portable_math::PortableFloat;
 use kshana::gnss_sim::{KlobucharCoeffs, Meteo};
 use kshana::iq::channel::iono::{IonoSource, Ionosphere};
 use kshana::iq::channel::multipath::{excess_path_m, Ground, GroundReflector};
@@ -50,7 +51,7 @@ fn dual_frequency_chain_is_consistent_with_a_first_order_ionosphere() {
     let i1 = (code(&s1) - carrier(&s1, L1)) / 2.0;
     let i5 = (code(&s5) - carrier(&s5, L5)) / 2.0;
     assert!(i1 > 0.0);
-    assert!((i5 / i1 - (L1 / L5).powi(2)).abs() < 1e-6, "{}", i5 / i1);
+    assert!((i5 / i1 - (L1 / L5).ppowi(2)).abs() < 1e-6, "{}", i5 / i1);
     // The non-dispersive part (range + troposphere) is the same on both carriers.
     assert!(((code(&s1) - i1) - (code(&s5) - i5)).abs() < 1e-6);
 }

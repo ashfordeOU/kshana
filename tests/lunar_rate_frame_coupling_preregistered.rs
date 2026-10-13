@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
+// Host maths on purpose: this test recomputes its expected values independently of the engine's
+// portable maths (STUDIO-15), so the engine is checked against a second implementation.
 //! Pre-registered comparison (round 2, second pre-registration) of all three entries of the
 //! lunar rate-frame coupling `lunar_gauge::rate_frame_jacobian_with`, with every input traced to
 //! a publication or an independent oracle.

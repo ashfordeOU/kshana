@@ -19,6 +19,7 @@
 //! still fails each pin.
 #![allow(dead_code)]
 
+use kshana::portable_math::PortableFloat;
 use serde_json::Value;
 
 /// The near-bit tolerance: 1e-12 of the scale, about 4500 units in the last place. The largest
@@ -88,14 +89,14 @@ pub fn check_azimuths(now: &[f64], fixture: &[f64], k: f64, what: &str) -> Resul
         if !(0.0..std::f64::consts::TAU).contains(&a) {
             return Err(format!("{what}[{i}]: {a:e} is outside [0, 2π)"));
         }
-        let (sa, sb) = (a.sin(), b.sin());
+        let (sa, sb) = (a.psin(), b.psin());
         if !within(sa, sb, k) {
             return Err(format!(
                 "{what}[{i}]: sin az {sa:e} vs fixture {sb:e}, |Δ| {:e} > {k:e}",
                 (sa - sb).abs()
             ));
         }
-        let (ca, cb) = (a.cos(), b.cos());
+        let (ca, cb) = (a.pcos(), b.pcos());
         if cb.abs() > BRANCH_COS_MIN && ca.signum() != cb.signum() {
             return Err(format!(
                 "{what}[{i}]: cos az {ca:e} has the opposite sign to the fixture's {cb:e} (branch)"

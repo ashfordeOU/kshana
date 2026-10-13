@@ -8,6 +8,7 @@
 //! position records at millimetre resolution, the real agreement is far tighter
 //! than the 10 m TLE-grade tolerance the milestone asks for — so we assert both.
 
+use kshana::portable_math::PortableFloat;
 use kshana::frames::teme_to_ecef;
 use kshana::rinex::EpochUtc;
 use kshana::sp3::{parse_sp3, Sp3File};
@@ -65,9 +66,9 @@ fn sp3_export_round_trips_real_gps_within_tolerance() {
             let got = parsed
                 .position_of(&ids[i], idx)
                 .expect("satellite present at this epoch");
-            let d = ((got[0] - truth[0]).powi(2)
-                + (got[1] - truth[1]).powi(2)
-                + (got[2] - truth[2]).powi(2))
+            let d = ((got[0] - truth[0]).ppowi(2)
+                + (got[1] - truth[1]).ppowi(2)
+                + (got[2] - truth[2]).ppowi(2))
             .sqrt();
             worst = worst.max(d);
         }

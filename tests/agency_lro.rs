@@ -28,6 +28,7 @@
 //!   lro/LRO_2022001_Moon_ICRF_4h.csv    574e3518…d100f0
 //!   lro/GRGM660PRIM_to150.gfc           0ff04184…f029977ae
 
+use kshana::portable_math::PortableFloat;
 use kshana::gravity_sh::SphericalHarmonicField;
 use kshana::integrator::{integrate_dopri, Tolerance};
 use kshana::lunar::{MOON_GM_M3_S2, R_MOON_M};
@@ -104,7 +105,7 @@ fn lro_truth_geometry_is_sane() {
     for w in s.windows(2) {
         let (a, b) = (w[0].pos, w[1].pos);
         let dot = (0..3).map(|k| a[k] * b[k]).sum::<f64>() / (norm(a) * norm(b));
-        swept += dot.clamp(-1.0, 1.0).acos();
+        swept += dot.clamp(-1.0, 1.0).pacos();
     }
     assert!(
         swept > 2.0 * std::f64::consts::PI,
@@ -148,7 +149,7 @@ fn raw_overlap_rms(
     let sumsq: f64 = obs
         .iter()
         .zip(&pred)
-        .map(|(o, r)| (0..3).map(|k| (r[k] - o.pos[k]).powi(2)).sum::<f64>())
+        .map(|(o, r)| (0..3).map(|k| (r[k] - o.pos[k]).ppowi(2)).sum::<f64>())
         .sum();
     (sumsq / obs.len() as f64).sqrt()
 }
@@ -343,9 +344,9 @@ fn grgm_lunar_field_loads_and_is_physically_lunar() {
     let a = f.acceleration(r);
     let rn = norm(r);
     let tb = [
-        -f.gm * r[0] / rn.powi(3),
-        -f.gm * r[1] / rn.powi(3),
-        -f.gm * r[2] / rn.powi(3),
+        -f.gm * r[0] / rn.ppowi(3),
+        -f.gm * r[1] / rn.ppowi(3),
+        -f.gm * r[2] / rn.ppowi(3),
     ];
     let pert = norm([a[0] - tb[0], a[1] - tb[1], a[2] - tb[2]]);
     let rel = pert / norm(tb);
@@ -391,7 +392,7 @@ fn lro_two_body_overlap_shows_perturbation_signal() {
         y = sol.y;
         t_prev = t;
         let d =
-            ((y[0] - st.pos[0]).powi(2) + (y[1] - st.pos[1]).powi(2) + (y[2] - st.pos[2]).powi(2))
+            ((y[0] - st.pos[0]).ppowi(2) + (y[1] - st.pos[1]).ppowi(2) + (y[2] - st.pos[2]).ppowi(2))
                 .sqrt();
         sumsq += d * d;
         max_d = max_d.max(d);

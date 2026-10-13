@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
+// Host maths on purpose: this test recomputes its expected values independently of the engine's
+// portable maths (STUDIO-15), so the engine is checked against a second implementation.
 //! Extended-precision oracle (policy P2, an independent numerical library) for the datum
 //! covariance of the row "Lunar frame datum from an observing campaign" with the Earth stations
 //! estimated.

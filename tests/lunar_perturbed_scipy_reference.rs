@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
+// Host maths on purpose: this test recomputes its expected values independently of the engine's
+// portable maths (STUDIO-15), so the engine is checked against a second implementation.
 //! Externally validate kshana's perturbed lunar-orbit propagation
 //! ([`kshana::lunar_perturbed`], paper P2, gap G8) against an **independent third-party
 //! integrator**: SciPy's DOP853 (`scipy.integrate.solve_ivp`, BSD-3-Clause).

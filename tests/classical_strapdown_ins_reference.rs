@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
+// Host maths on purpose: this test recomputes its expected values independently of the engine's
+// portable maths (STUDIO-15), so the engine is checked against a second implementation.
 //! Externally validate kshana's classical strapdown INS mechanization against an
 //! **independent, published INS toolbox**: NaveGo (R. Gonzalez, J. Giribet,
 //! H. Patino et al., `github.com/rodralez/NaveGo`, v1.4 commit 550d906, LGPL-3),

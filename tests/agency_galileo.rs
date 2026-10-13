@@ -21,6 +21,7 @@
 //! d/o-12 is sub-centimetre) and an 8-hour arc to stay fast; the full d/o-70, full-day
 //! online fetch is the `workflow_dispatch` job.
 
+use kshana::portable_math::PortableFloat;
 use kshana::cio::itrs_to_gcrs;
 use kshana::eop::EopSeries;
 use kshana::precise_od::{fit, EstimatedParams, FitConfig, Observation, PreciseForceModel};
@@ -92,7 +93,7 @@ fn raw_overlap_rms(
     let sumsq: f64 = obs
         .iter()
         .zip(&pred)
-        .map(|(o, r)| (0..3).map(|k| (r[k] - o.pos[k]).powi(2)).sum::<f64>())
+        .map(|(o, r)| (0..3).map(|k| (r[k] - o.pos[k]).ppowi(2)).sum::<f64>())
         .sum();
     (sumsq / obs.len() as f64).sqrt()
 }

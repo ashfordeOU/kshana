@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
+// Host maths on purpose: this test recomputes its expected values independently of the engine's
+// portable maths (STUDIO-15), so the engine is checked against a second implementation.
 //! **External-oracle cross-check for the IEEE-1139 power-law PSD -> Allan conversion.**
 //!
 //! Kshana's [`kshana::powerlaw::allan_deviation`] is checked against **allantools**

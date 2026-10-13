@@ -16,6 +16,7 @@
 #[path = "support/fixture_pin.rs"]
 mod fixture_pin;
 
+use kshana::portable_math::PortableFloat;
 use fixture_pin::{check_json, check_rows_scaled, max_abs, NEAR_BIT};
 use serde_json::Value;
 
@@ -238,7 +239,7 @@ fn launch_azimuth_pin_on_every_committed_row() {
         let noisy = [fed[0] + 4.0 * f64::EPSILON, fed[1] - 4.0 * f64::EPSILON];
         check_azimuths(&noisy, &fed, NEAR_BIT, "row").expect("host-sized noise");
         let swapped = [fed[1], fed[0]];
-        let branches_differ = fed[0].cos().abs() > BRANCH_COS_MIN;
+        let branches_differ = fed[0].pcos().abs() > BRANCH_COS_MIN;
         if branches_differ {
             swap_checked += 1;
             assert!(
@@ -246,8 +247,8 @@ fn launch_azimuth_pin_on_every_committed_row() {
                 "swapped asc/desc accepted: {line}"
             );
             // sin is shared by az and pi - az, so only the branch check can reject this.
-            assert!((swapped[0].sin() - fed[0].sin()).abs() < 1e-12);
-            if fed[0].cos().abs() > 1e-5 {
+            assert!((swapped[0].psin() - fed[0].psin()).abs() < 1e-12);
+            if fed[0].pcos().abs() > 1e-5 {
                 // 1e-6 rad moves sin az by cos az * 1e-6, above the 1e-12 bar from |cos az| = 1e-5.
                 let changed = [fed[0] + 1e-6, fed[1]];
                 assert!(

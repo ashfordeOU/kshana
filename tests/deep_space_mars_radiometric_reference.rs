@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
+// Host maths on purpose: this test recomputes its expected values independently of the engine's
+// portable maths (STUDIO-15), so the engine is checked against a second implementation.
 //! D0.7 — Deep-space radiometric **light-time** reference test, gating kshana's
 //! [`kshana::radiometric::light_time_solution`] against a committed **ANISE/SPICE DE440** oracle.
 //!

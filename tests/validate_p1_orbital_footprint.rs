@@ -42,6 +42,7 @@
 //! `tests/fixtures/p1_footprint/` (`pattern_reference.csv`, `sweep_reference.csv`,
 //! `geometry_reference.csv`, `NOTICE`, `generate_footprint_reference.py`).
 
+use kshana::portable_math::PortableFloat;
 use kshana::antenna::{
     boresight_gain_dbi, capture_footprint, pattern_gain_dbi, FootprintParams, FootprintResult,
 };
@@ -58,7 +59,7 @@ const H_M: f64 = 100_000.0;
 const N_GRID: usize = 400;
 
 fn p_tx_dbw() -> f64 {
-    10.0 * (40.0_f64).log10() // 40 W -> 16.0206 dBW
+    10.0 * (40.0_f64).plog10() // 40 W -> 16.0206 dBW
 }
 
 /// Skip '#'-comment and blank lines.

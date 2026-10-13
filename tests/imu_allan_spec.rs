@@ -33,6 +33,7 @@
 //! Pattern follows `tests/navego_imu_crossval.rs`, generalised to five IMUs and to
 //! the bias-instability plateau. Hermetic and synthetic — no dataset download.
 
+use kshana::portable_math::PortableFloat;
 use kshana::allan::overlapping_adev;
 use kshana::inertial::{AccelModel, G_M_PER_S2};
 use rand::SeedableRng;
@@ -174,8 +175,8 @@ fn gyro_white_branch_slope_is_minus_half() {
         .iter()
         .map(|&m| {
             (
-                (m as f64 * dt).log10(),
-                overlapping_adev(&phase, dt, m).log10(),
+                (m as f64 * dt).plog10(),
+                overlapping_adev(&phase, dt, m).plog10(),
             )
         })
         .collect();

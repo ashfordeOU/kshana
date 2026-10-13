@@ -7,6 +7,7 @@
 //! To rewrite a golden excerpt after an intended change, run with `KSHANA_BLESS_GOLDEN=1`
 //! and review the diff.
 
+use kshana::portable_math::PortableFloat;
 use kshana::nmea_synth::config::{TrainingScenario, KN_MPS};
 use kshana::nmea_synth::gen::{generate, Generated};
 use kshana::nmea_synth::stream::{self, Pace, Sink, TcpServer, UdpSink, WriterSink};
@@ -393,7 +394,7 @@ fn relative_bearing_is_latched_at_onset_and_logged() {
             r.reported_lat_deg.unwrap().to_radians(),
             r.reported_lon_deg.unwrap().to_radians(),
         );
-        de.atan2(dn).to_degrees().rem_euclid(360.0)
+        de.patan2(dn).to_degrees().rem_euclid(360.0)
     };
     for t in [900.0, 1000.0, 1100.0, 1190.0] {
         assert!(

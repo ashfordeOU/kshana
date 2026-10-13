@@ -10,6 +10,7 @@
 
 #![allow(dead_code)]
 
+use kshana::portable_math::PortableFloat;
 use kshana::allan::overlapping_adev;
 use kshana::gnss_sim::{Meteo, C_M_PER_S};
 use kshana::orbit::los_unit;
@@ -249,7 +250,7 @@ pub fn run_onset(o: &Onset) -> OnsetResult {
     let r = if ts.len() > 2 {
         ts.iter()
             .zip(&ys)
-            .map(|(t, y)| (y - (a + b * (t - t0))).powi(2))
+            .map(|(t, y)| (y - (a + b * (t - t0))).ppowi(2))
             .sum::<f64>()
             / (ts.len() as f64 - 2.0)
     } else {

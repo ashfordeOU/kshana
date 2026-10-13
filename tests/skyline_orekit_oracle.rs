@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
+// Host maths on purpose: this test recomputes its expected values independently of the engine's
+// portable maths (STUDIO-15), so the engine is checked against a second implementation.
 //! Azimuth-dependent skyline masks against Orekit 12.2 and gnss_lib_py 1.0.4, as pre-registered
 //! in `xval/orekit-skyline/PREREGISTRATION.md` (the inputs, the quantities (a) to (f), the
 //! tolerances and the decision rule were committed in e4b9d912, before either oracle was run).

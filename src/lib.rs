@@ -240,7 +240,8 @@ pub mod interference_map;
 pub mod nmea_synth;
 mod portable_distr;
 mod portable_distr_tables;
-mod portable_math;
+#[doc(hidden)]
+pub mod portable_math;
 pub mod powerlaw;
 pub mod precession;
 pub mod precise_od;

@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
+// Host maths on purpose: this test recomputes its expected values independently of the engine's
+// portable maths (STUDIO-15), so the engine is checked against a second implementation.
 //! Externally validate the 13503 quantum-vs-classical PNT trade engine's
 //! measured-ADEV ingestion kernel — `quantum_trade::qparams_from_adev_curve` —
 //! against an **independent third-party authority**: scipy's
