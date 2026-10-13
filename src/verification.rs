@@ -2656,6 +2656,15 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             oracle_kind: ExternalDataset,
             status: Modelled,
         },
+        VerificationItem {
+            requirement: "Cell-averaging CFAR option in IQ acquisition",
+            capability: "iq::acq::ca_cfar and ca_cfar_cells (opt-in): a cell of an acquisition grid is compared with the mean of reference cells of its Doppler row (guard and stride lags, wrapping round the period), at a factor alpha set from the closed-form CA-CFAR false-alarm probability for M non-coherent blocks (ca_cfar_pfa, ca_cfar_alpha). The sample-power detector stays the default and every existing output is unchanged.",
+            module: "iq::acq (CfarConfig, ca_cfar, ca_cfar_cells, ca_cfar_pfa, ca_cfar_alpha)",
+            tests: "tests/iq_acq_cfar.rs (c1_closed_form_matches_monte_carlo_of_the_exact_model, c2_false_alarm_rate_on_gaussian_noise, c3_false_alarm_rate_on_two_bit_noise, c5_decisions_do_not_depend_on_the_input_scale; c4_noise_free_two_bit_signal ignored as finding F1, pinned by finding_noise_free_sidelobes_exceed_the_cfar_rate); iq::acq unit test ca_cfar_closed_form_reduces_to_the_textbook_case_and_inverts",
+            oracle: "Closed form, under bars pre-registered at 3724aefa (docs/design/evidence/acq-cfar/). The CA-CFAR false-alarm probability for Gamma(M) cells, against Monte Carlo of the exact model: 18 of 18 cases within 3 binomial sigma. On every cell of iq::acq searches (GPS L1 C/A, 2.5 MS/s, 210 000 cells each) at a design 1 %: 0.977 % and 0.969 % on Gaussian noise and 1.006 % and 0.999 % on 2-bit quantised noise (M = 1 and 4; bar plus or minus 20 %); decisions unchanged when the input is scaled. NOT MET (finding F1): on a noise-free 2-bit signal the detection and its cell are right, but 1.28 % of the off-peak cells of the peak's row (bar 1 %) exceed the threshold, at the code's deterministic correlation sidelobes. WHAT IS NOT CHECKED: other CFAR variants, two-dimensional windows, band-limited front ends, field data.",
+            oracle_kind: InternalConsistency,
+            status: Modelled,
+        },
     ]
 }
 

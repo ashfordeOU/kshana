@@ -11,6 +11,18 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **Cell-averaging CFAR option in IQ acquisition** (PRO-37): `iq::acq::ca_cfar` and
+  `ca_cfar_cells` decide on an acquisition grid by comparing each cell with the mean of
+  reference cells in its Doppler row. The threshold comes from the closed-form CA-CFAR
+  false-alarm probability for `M` non-coherent blocks (`ca_cfar_pfa`, `ca_cfar_alpha`), so the
+  decision does not depend on the sample-power normalisation. It is opt-in; the default
+  detector and every existing output are unchanged.
+  - Checked against bars pre-registered at 3724aefa: the closed form against Monte Carlo
+    (18 of 18 cases), and a 1 % design rate measured at 0.97–1.01 % on Gaussian and 2-bit
+    quantised noise.
+  - One bar was not met: on a noise-free 2-bit signal, 1.28 % of the off-peak cells exceed the
+    threshold, at the code's correlation sidelobes (finding F1).
+  - MODELLED; ledger row "Cell-averaging CFAR option in IQ acquisition".
 - **Scintillation model against measured data** (PRO-34): the IQ channel's Cornell
   scintillation model was compared with measured 50 Hz GPS L1 intensity and phase from an
   equatorial scintillation night (Zenodo record 16941224, INGV, Malindi, CC BY 4.0), under bars
