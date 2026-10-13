@@ -44,6 +44,16 @@ const NOT_A_SCENARIO_FILE_SOURCE: &[(&str, &str, &str)] = &[
         "[log] and [log.nav]: refused through FILE_SOURCE_TABLES",
     ),
     (
+        "src/clock_log.rs",
+        "path",
+        "[clock_log]: refused through FILE_SOURCE_TABLES (its `text` carries the log inline)",
+    ),
+    (
+        "src/receiver_trust/calibration.rs",
+        "path",
+        "output: a dataset folder named in the calibration report (Serialize only)",
+    ),
+    (
         "src/advanced_report.rs",
         "path",
         "report structure: result paths and output file names",
@@ -162,6 +172,16 @@ fn every_file_like_scenario_field_is_refused_or_explained() {
         assert!(
             seen_listed.contains(*k),
             "FILE_SOURCE_KEYS lists `{k}`, which no scenario type defines"
+        );
+    }
+    // The table-scoped `path`s explained above are refused through the public check.
+    for t in [
+        "kind = \"receiver-trust\"\n[log]\nformat = \"nmea\"\npath = \"x\"",
+        "kind = \"telecom-timing\"\n[clock_log]\nformat = \"ticc\"\npath = \"x\"",
+    ] {
+        assert!(
+            reject_file_sources(t, usize::MAX).is_err(),
+            "not refused: {t}"
         );
     }
 }
