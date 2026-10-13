@@ -21,3 +21,13 @@ session limit. Nothing here has been compared against an oracle yet; no ledger r
 ## Notes for the next worker
 - Orekit 13.1.8 toolchain: `bash xval/d8-orekit13/setup.sh`. Python oracles: `pip install spiceypy ccsdspy prometheus_client spacepackets`.
 - Hot files untouched: src/verification.rs, CHANGELOG.md, README*, generated artifacts.
+
+## W46 progress
+- Sweep-nd partial reverted (a0db7358): FUT-28 was finished on feat/platform-vv-0.36 (8c3705e2).
+- Space Packet extension (FUT-23): bars 1-5 of 003ef3e all MET; `tests/space_packet_ext_oracle.rs`,
+  `xval/space-packet-ext/RESULTS.md`.
+- Ledger rows are held back and added once, with the count sites, at the end of WP-08 (one
+  count bump instead of one per item). Pending rows: "CCSDS Space Packet secondary header,
+  packet error control and segmentation" (VALIDATED, ExternalDataset; OracleBasisEntry Library,
+  source "ccsdspy 2.0.1", test tests/space_packet_ext_oracle.rs), inserted after the
+  "CCSDS Space Packet (133.0) TM/TC framing" row.
