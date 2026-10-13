@@ -237,9 +237,68 @@ pub fn earth_rotation_angle(ut1: Jd2) -> f64 {
     std::f64::consts::TAU * turns.rem_euclid(1.0)
 }
 
+/// Greenwich mean sidereal time (rad, in `[0, 2π)`), the IAU 1982 model (the SGP4 / TEME
+/// convention of [`crate::sgp4::gstime`]) at a two-part UT1 Julian date, evaluated as SOFA
+/// `iauGmst82` does on the two parts: the polynomial in Julian centuries from J2000 plus the
+/// fraction of the day in seconds, so the sub-day part keeps the microsecond.
+pub fn gmst82(ut1: Jd2) -> f64 {
+    const A: f64 = 24_110.548_41 - SEC_PER_DAY / 2.0;
+    const B: f64 = 8_640_184.812_866;
+    const C: f64 = 0.093_104;
+    const D: f64 = -6.2e-6;
+    const DS2R: f64 = 7.272_205_216_643_039_903_848_712e-5; // seconds of time to radians: 2π / 86 400
+    let (d1, d2) = if ut1.day < ut1.frac {
+        (ut1.day, ut1.frac)
+    } else {
+        (ut1.frac, ut1.day)
+    };
+    let t = (d1 + (d2 - crate::timescales::JD_J2000)) / 36_525.0;
+    let f = SEC_PER_DAY * ((d1 % 1.0) + (d2 % 1.0));
+    (DS2R * ((A + (B + (C + D * t) * t) * t) + f)).rem_euclid(std::f64::consts::TAU)
+}
+
+/// [`crate::timescales::TwoPartJd`] (fraction in `[−½, ½]`) to [`Jd2`] (fraction in `[0, 1)`):
+/// the same instant, renormalised. The sum is preserved to the rounding of one addition to the
+/// fraction (about 1e-11 s).
+impl From<crate::timescales::TwoPartJd> for Jd2 {
+    fn from(t: crate::timescales::TwoPartJd) -> Self {
+        Jd2::from_parts(t.day, t.frac)
+    }
+}
+
+/// [`Jd2`] to [`crate::timescales::TwoPartJd`]: the same instant, renormalised to that type's
+/// convention by its own constructor.
+impl From<Jd2> for crate::timescales::TwoPartJd {
+    fn from(j: Jd2) -> Self {
+        crate::timescales::TwoPartJd::new(j.day, j.frac)
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn gmst82_matches_the_single_f64_gstime_away_from_the_floor() {
+        // The same IAU 1982 model; the f64 form differs only by its date rounding.
+        for jd in [2_451_545.0, 2_455_000.25, 2_461_326.731] {
+            let a = gmst82(Jd2::new(jd));
+            let b = crate::sgp4::gstime(jd);
+            let d = (a - b + std::f64::consts::PI).rem_euclid(std::f64::consts::TAU)
+                - std::f64::consts::PI;
+            assert!(d.abs() < 1e-8, "{jd}: {d}");
+        }
+    }
+
+    #[test]
+    fn two_part_types_convert_without_moving_the_instant() {
+        let t = crate::timescales::TwoPartJd::new(2_461_326.0, -0.3);
+        let j: Jd2 = t.into();
+        assert_eq!(j.day, 2_461_325.0);
+        assert!(((j.day - t.day) + (j.frac - t.frac)).abs() * 86_400.0 < 1e-10);
+        let back: crate::timescales::TwoPartJd = j.into();
+        assert!(back.diff_seconds(t).abs() < 1e-10);
+    }
 
     #[test]
     fn round_trips_a_single_f64_date() {

@@ -100,6 +100,13 @@ pub struct ForceModel {
     /// actually advance along their orbits during the integration — this is what makes the
     /// third-body force *time-varying* rather than frozen at the start. Ignored when
     /// [`sun`](Self::sun), [`moon`](Self::moon) and [`srp`](Self::srp) are all `false`.
+    ///
+    /// A single `f64`, not a [`crate::jd2::Jd2`], on purpose: the Sun and Moon here come from
+    /// the low-precision analytic series (~0.005° Sun, ~0.3° Moon), whose error is about a
+    /// million times what a 40 µs epoch rounding moves them (the Moon travels about 4 cm in
+    /// 40 µs), and the Earth field is zonal (rotation-independent). A two-part epoch matters
+    /// where Earth rotation enters: [`crate::orbit::Propagator::position_in_frame_jd2`],
+    /// [`crate::cio::gcrs_to_itrs_matrix_jd2`] and the ephemeris scenario's `two_part_jd`.
     pub epoch_jd_tt: f64,
     /// Include solar-radiation pressure ([`crate::forces::srp_accel`], cannonball model with the
     /// cylindrical-shadow eclipse), using the same epoch-driven [`crate::ephem::sun_position`].

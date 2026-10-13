@@ -193,6 +193,24 @@ pub fn gcrs_to_itrs_matrix(jd_tt: f64, jd_ut1: f64, xp_rad: f64, yp_rad: f64) ->
     matmul(&pom, &matmul(&rz(era), &rc2i))
 }
 
+/// As [`gcrs_to_itrs_matrix`] with two-part TT and UT1 Julian dates: the Earth rotation angle
+/// is taken from the two parts ([`crate::jd2::earth_rotation_angle`]), so it keeps the
+/// microsecond a single-`f64` date loses (about 3e-9 rad of rotation near 2020); the slowly
+/// varying precession-nutation and the TIO locator use `tt.total()`, where a 50 µs date error
+/// is below 1e-15 rad.
+pub fn gcrs_to_itrs_matrix_jd2(
+    tt: crate::jd2::Jd2,
+    ut1: crate::jd2::Jd2,
+    xp_rad: f64,
+    yp_rad: f64,
+) -> Mat3 {
+    let jd_tt = tt.total();
+    let rc2i = gcrs_to_cirs_matrix(jd_tt);
+    let era = crate::jd2::earth_rotation_angle(ut1);
+    let pom = polar_motion_matrix(xp_rad, yp_rad, jd_tt);
+    matmul(&pom, &matmul(&rz(era), &rc2i))
+}
+
 /// Rotate a GCRS position into the ITRS (Earth-fixed) frame via the CIO chain.
 pub fn gcrs_to_itrs(r_gcrs: Vec3, jd_tt: f64, jd_ut1: f64, xp_rad: f64, yp_rad: f64) -> Vec3 {
     crate::precession::mat_vec(&gcrs_to_itrs_matrix(jd_tt, jd_ut1, xp_rad, yp_rad), r_gcrs)
