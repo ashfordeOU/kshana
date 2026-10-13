@@ -10,13 +10,14 @@ FX="$HERE/../../tests/fixtures/gnss_wettzell_2025055"
 OUT="$FX/oracle"; mkdir -p "$OUT"
 OBS="$FX/wtzr_2025055_0006_G.rnx"; SP3="$FX/../sp3_clock_igs_oracle/igs_2025055_G.sp3"
 CLK="$FX/igs_2025055_G_05m_0006.clk"; ATX="$FX/igs20_2025055_G_LEIAR25.atx"
-{ echo "# Oracle run record"; date -u; sha256sum "$OBS" "$SP3" "$CLK" "$ATX"; } > "$OUT/RUN.md"
+NAV="$FX/brdc_2025055_G_0008.rnx"   # RTKLIB needs it for transmit times (Amendment 1)
+{ echo "# Oracle run record"; date -u; sha256sum "$OBS" "$NAV" "$SP3" "$CLK" "$ATX"; } > "$OUT/RUN.md"
 if [ -n "${RTKLIB:-}" ]; then
   [ "$(git -C "$RTKLIB" rev-parse HEAD)" = 71db0ffa0d9735697c6adfd06fdf766d0e5ce807 ] || { echo "RTKLIB is not v2.4.2-p13"; exit 1; }
   BIN="$RTKLIB/app/rnx2rtkp/gcc/rnx2rtkp"
   cd "$HERE"
   for m in ppp spp; do
-    "$BIN" -k "rtklib_$m.conf" -o "$OUT/rtklib_$m.pos" "$OBS" "$SP3" "$CLK"
+    "$BIN" -k "rtklib_$m.conf" -o "$OUT/rtklib_$m.pos" "$OBS" "$NAV" "$SP3" "$CLK"
     # .pos xyz rows: "yyyy/mm/dd hh:mm:ss.sss x y z Q ns ..."
     awk '!/^%/ { split($2,t,":"); printf "%.3f,%s,%s,%s\n", t[1]*3600+t[2]*60+t[3], $3, $4, $5 }' \
       "$OUT/rtklib_$m.pos" > "$OUT/rtklib_$m.csv"
