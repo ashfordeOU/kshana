@@ -47,11 +47,11 @@
 //! `computeChecksum` were not read. Kshana's encoder rounds to nearest; it was written from
 //! IS-GPS-200 and committed (gps_lnav) before any of gps-sdr-sim was read.
 
-use kshana::portable_math::PortableFloat;
 use kshana::gps_lnav::{
     decode_fields, encode_subframes, field_values, parity, source_data, LnavConventions,
     LnavEphemeris, FIELDS,
 };
+use kshana::portable_math::PortableFloat;
 use kshana::sdr::CaCode;
 use serde_json::Value;
 

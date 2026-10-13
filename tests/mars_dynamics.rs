@@ -7,11 +7,11 @@
 //! equality — not "approximately equal", `==`. The reproducibility goldens
 //! (`cross_platform_golden`, `golden`) are the end-to-end version of the same invariant.
 
-use kshana::portable_math::PortableFloat;
 use kshana::body::Body;
 use kshana::forces::{
     two_body_accel, two_body_accel_body, zonal_accel, zonal_accel_body, EARTH_ZONALS_J2_J6,
 };
+use kshana::portable_math::PortableFloat;
 
 /// Ten fixed inertial positions (m) spanning LEO → GEO and several geometries (equatorial,
 /// polar, inclined, off-axis), the sample set the byte-identical assertions sweep over.
@@ -167,7 +167,8 @@ fn forcemodel_with_body_retargets_to_mars() {
         &ForceModel::two_body().with_body(Body::mars()),
         &tol,
     );
-    let sep = ((re[0] - rm[0]).ppowi(2) + (re[1] - rm[1]).ppowi(2) + (re[2] - rm[2]).ppowi(2)).sqrt();
+    let sep =
+        ((re[0] - rm[0]).ppowi(2) + (re[1] - rm[1]).ppowi(2) + (re[2] - rm[2]).ppowi(2)).sqrt();
     assert!(
         sep > 1.0,
         "Mars vs Earth two-body arcs must diverge, sep {sep} m"
@@ -244,9 +245,10 @@ fn mars_sh_gravity_differs_from_point_mass() {
         "SH accel must be finite: {a_sh:?}"
     );
 
-    let pert =
-        ((a_sh[0] - a_tb[0]).ppowi(2) + (a_sh[1] - a_tb[1]).ppowi(2) + (a_sh[2] - a_tb[2]).ppowi(2))
-            .sqrt();
+    let pert = ((a_sh[0] - a_tb[0]).ppowi(2)
+        + (a_sh[1] - a_tb[1]).ppowi(2)
+        + (a_sh[2] - a_tb[2]).ppowi(2))
+    .sqrt();
     let central = (a_tb[0].ppowi(2) + a_tb[1].ppowi(2) + a_tb[2].ppowi(2)).sqrt();
     let rel = pert / central;
     // The Mars oblateness (J2 ≈ 1.96e-3) plus the (smaller) tesserals: a real, J2-scale

@@ -3,7 +3,6 @@
 //! effect chain evaluated on two carriers stays consistent, and reflections added after the
 //! atmosphere inherit it.
 
-use kshana::portable_math::PortableFloat;
 use kshana::gnss_sim::{KlobucharCoeffs, Meteo};
 use kshana::iq::channel::iono::{IonoSource, Ionosphere};
 use kshana::iq::channel::multipath::{excess_path_m, Ground, GroundReflector};
@@ -11,6 +10,7 @@ use kshana::iq::channel::scint::{ScintParams, Scintillation};
 use kshana::iq::channel::tropo::Troposphere;
 use kshana::iq::channel::{ChannelModel, Composite, LineOfSight};
 use kshana::iq::C_M_PER_S;
+use kshana::portable_math::PortableFloat;
 use std::f64::consts::PI;
 
 const L1: f64 = 1_575_420_000.0;

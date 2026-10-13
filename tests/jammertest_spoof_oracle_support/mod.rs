@@ -10,10 +10,10 @@
 
 #![allow(dead_code)]
 
-use kshana::portable_math::PortableFloat;
 use kshana::allan::overlapping_adev;
 use kshana::gnss_sim::{Meteo, C_M_PER_S};
 use kshana::orbit::los_unit;
+use kshana::portable_math::PortableFloat;
 use kshana::pvt::{assemble_epoch, solve_spp, AtmosModel};
 use kshana::rinex::parse_nav;
 use kshana::rinex_obs::parse_obs;

@@ -19,10 +19,10 @@
 //! they fetch a ~25 MB SRTM tile via `tools/fetch_srtm_tile.py` and check it against published
 //! geodetic spot-heights / GDAL — run them manually, they are not part of CI.
 
-use kshana::portable_math::PortableFloat;
 use kshana::altpnt::terrain::{
     run_combined_altpnt, run_terrain_nav, CombinedAltPntCfg, DemGrid, TerrainNavCfg, SRTM_VOID,
 };
+use kshana::portable_math::PortableFloat;
 
 const M_PER_DEG: f64 = 111_319.490_793_27;
 

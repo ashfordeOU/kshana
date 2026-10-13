@@ -32,8 +32,8 @@
 //! two agree with each other to within 5x. That is what makes "the residual is the
 //! ephemeris" a checked statement rather than an excuse.
 
-use kshana::portable_math::PortableFloat;
 use kshana::api::run_toml;
+use kshana::portable_math::PortableFloat;
 use serde_json::Value;
 use std::path::Path;
 

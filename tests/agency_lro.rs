@@ -28,11 +28,11 @@
 //!   lro/LRO_2022001_Moon_ICRF_4h.csv    574e3518…d100f0
 //!   lro/GRGM660PRIM_to150.gfc           0ff04184…f029977ae
 
-use kshana::portable_math::PortableFloat;
 use kshana::gravity_sh::SphericalHarmonicField;
 use kshana::integrator::{integrate_dopri, Tolerance};
 use kshana::lunar::{MOON_GM_M3_S2, R_MOON_M};
 use kshana::lunar_od::LunarForceModel;
+use kshana::portable_math::PortableFloat;
 use kshana::precise_od::{fit, EstimatedParams, FitConfig, Observation};
 
 const LRO: &str = include_str!("fixtures/agency/lro/LRO_2022001_Moon_ICRF_4h.csv");
@@ -391,9 +391,10 @@ fn lro_two_body_overlap_shows_perturbation_signal() {
         let sol = integrate_dopri(&f, t_prev, &y, t, (t - t_prev).min(10.0), &tol);
         y = sol.y;
         t_prev = t;
-        let d =
-            ((y[0] - st.pos[0]).ppowi(2) + (y[1] - st.pos[1]).ppowi(2) + (y[2] - st.pos[2]).ppowi(2))
-                .sqrt();
+        let d = ((y[0] - st.pos[0]).ppowi(2)
+            + (y[1] - st.pos[1]).ppowi(2)
+            + (y[2] - st.pos[2]).ppowi(2))
+        .sqrt();
         sumsq += d * d;
         max_d = max_d.max(d);
     }

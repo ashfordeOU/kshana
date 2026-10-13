@@ -11,11 +11,11 @@
 //! S4 CSV, JSON and binary carry the same cells and the binary form reads back exactly.
 //! The signal is noise-free, so the sweep is deterministic and has no seeds.
 
-use kshana::portable_math::PortableFloat;
 use kshana::iq::acq::{acquire, AcqConfig};
 use kshana::iq::acq_surface::{Surface, SurfaceFormat, FINE_STEPS_PER_BIN};
 use kshana::iq::cli::build_code;
 use kshana::iq::{Cf64, SampleSpec, SpreadingCode};
+use kshana::portable_math::PortableFloat;
 use std::f64::consts::TAU;
 
 const FS: f64 = 2.046e6;

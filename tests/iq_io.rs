@@ -9,7 +9,6 @@
 //! `sha2` crate over the whole file read at once; and the crate's raw-IF loader
 //! (`realdata::iqif::load_iq`) as the one-shot decoder for `ci16_le`.
 
-use kshana::portable_math::PortableFloat;
 use kshana::iq::io::format::{BitOrder, Components, Encoding, Endian, Justify, TwoBitCode};
 use kshana::iq::io::inventory::{scan_dir, InventoryOptions, RecordingKind};
 use kshana::iq::io::report::{results_to_csv, results_to_json};
@@ -20,6 +19,7 @@ use kshana::iq::io::{
     ResampledSource, SampleFormat,
 };
 use kshana::iq::{Cf64, IqSink, IqSource, SampleSpec, VecSink, VecSource};
+use kshana::portable_math::PortableFloat;
 use rand::{Rng, SeedableRng};
 use rand_chacha::ChaCha8Rng;
 use std::path::PathBuf;

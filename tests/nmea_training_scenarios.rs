@@ -7,11 +7,11 @@
 //! To rewrite a golden excerpt after an intended change, run with `KSHANA_BLESS_GOLDEN=1`
 //! and review the diff.
 
-use kshana::portable_math::PortableFloat;
 use kshana::nmea_synth::config::{TrainingScenario, KN_MPS};
 use kshana::nmea_synth::gen::{generate, Generated};
 use kshana::nmea_synth::stream::{self, Pace, Sink, TcpServer, UdpSink, WriterSink};
 use kshana::nmea_synth::track;
+use kshana::portable_math::PortableFloat;
 use kshana::receiver_trust::ingest::read_nmea;
 use std::io::Read;
 use std::net::{TcpStream, UdpSocket};
