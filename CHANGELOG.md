@@ -11,6 +11,13 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **GNSS/INS trajectory library** (0.36, WP-09, RM-24): the `gnss-ins` kind takes an optional
+  `[trajectory]` table with `profile = "straight" | "figure8" | "stop_go" | "aircraft" | "uas" |
+  "csv"`. The profiles command Euler rates and along-track acceleration from the truth state and
+  derive the true IMU from rigid-body kinematics (coordinated turns, climbs, Coriolis); `csv`
+  imports a truth trajectory (`t, lat, lon, alt, vn, ve, vd, roll, pitch, yaw`) and solves the IMU
+  that reproduces it. Without the table the pack flies its historical drive, bit for bit (pinned).
+  MODELLED.
 - **Lunar reference-station study** (0.36, prompted by published material on a planned lunar
   south-pole reference station; sources in [`docs/LUNAR-REFERENCE-STATION.md`](docs/LUNAR-REFERENCE-STATION.md)):
   the `lunar-station-coverage` kind, a Monte Carlo sweep of the lunar differential-PNT model over
