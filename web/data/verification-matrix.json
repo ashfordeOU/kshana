@@ -4,9 +4,9 @@
   "repo_blob_base": "https://github.com/AshfordeOU/kshana/blob/main/",
   "summary": {
     "validated": 134,
-    "modelled": 140,
+    "modelled": 141,
     "partner_owned": 4,
-    "total": 278
+    "total": 279
   },
   "rows": [
     {
@@ -527,6 +527,36 @@
         {
           "path": "tests/fusion_coupled_pack.rs",
           "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/fusion_coupled_pack.rs"
+        }
+      ],
+      "fixture": null
+    },
+    {
+      "requirement": "Loosely coupled GNSS/INS EKF with lever arm on the KF-GINS dataset",
+      "capability": "The closed-loop 15-state error-state EKF driven by IMU increments with GNSS antenna positions fused through the lever-arm model H = [I 0 −[(C_b^n l_b)×] 0 0], configured from a KF-GINS YAML file (initial state and sigmas, ARW/VRW, Gauss-Markov biases)",
+      "status": "MODELLED",
+      "oracle_kind": "ExternalDataset",
+      "oracle": "The dataset's published reference trajectory and the KF-GINS C++ program (GPL-3.0, commit 8291a93e, run as a separate tool); bars pre-registered in xval/kfgins/PREREGISTRATION.md. All bars held, but the evidence is data-gated (the dataset carries no licence and is not vendored), so the row is MODELLED pending an owner decision on data-gated promotion",
+      "module": "fusion::kfgins (run, loaders, score), fusion::closed_loop (propagate_increments, fuse_position_lever_arm), fusion::gnss_ins_ekf (update_position_lever_arm)",
+      "tests": "tests/fusion_kfgins_dataset_oracle.rs (synthetic loaders and spinning-platform lever-arm tests always; data-gated on KSHANA_KFGINS_DIR, run 2026-10-13 on the KF-GINS demo dataset: horizontal / vertical RMS 0.0109 / 0.0090 m against the reference trajectory vs KF-GINS C++ 0.0111 / 0.0083 m, all six pre-registered bars held; lever arm off 0.329 m)",
+      "module_links": [
+        {
+          "path": "src/fusion/kfgins.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/src/fusion/kfgins.rs"
+        },
+        {
+          "path": "src/fusion/closed_loop.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/src/fusion/closed_loop.rs"
+        },
+        {
+          "path": "src/fusion/gnss_ins_ekf.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/src/fusion/gnss_ins_ekf.rs"
+        }
+      ],
+      "test_links": [
+        {
+          "path": "tests/fusion_kfgins_dataset_oracle.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/fusion_kfgins_dataset_oracle.rs"
         }
       ],
       "fixture": null
