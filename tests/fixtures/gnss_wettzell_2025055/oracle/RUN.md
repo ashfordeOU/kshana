@@ -11,3 +11,6 @@ RTKLIB v2.4.2-p13 71db0ffa
 17b30f8980935e4618c391a5551ab11d0e58ad9a3374df1a696f5c9b32d8d68d  rtklib_ppp_tide.conf
 d1898728abb57745a2889ac9c89fb723d00598bd5cc795afb2e6cdbf705d2cc7  tests/fixtures/gnss_wettzell_2025055/oracle/rtklib_ppp_tide.csv
 amendment 2: rtklib_ppp_tide.conf run Tue Oct 13 14:39:45 UTC 2026
+856aa7724a873cd17e1f017055e302c61f27f27348a3cac1189a7fd4f6cf07a9  rtklib_ppp_tide_ant.conf
+3dbf60ddaff6c7d1dbb4c5a4448fa2d1c624e4170d40f15a8fcf17f6a63cef59  tests/fixtures/gnss_wettzell_2025055/oracle/rtklib_ppp_tide_ant.csv
+amendment 3: rtklib_ppp_tide_ant.conf run Tue Oct 13 14:40:48 UTC 2026
