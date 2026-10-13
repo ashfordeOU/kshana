@@ -913,6 +913,340 @@ pub fn lag1_noise_id(
     }
 }
 
+// ---------------------------------------------------------------------------
+// Greenhall & Riley exact equivalent degrees of freedom: C. A. Greenhall and W. J.
+// Riley, "Uncertainty of stability variances based on finite differences", Proc. 35th
+// PTTI (2003), pp. 267-280, Section 3 (Eqns 7 to 13, Tables 1 to 3), summarised in NIST
+// SP 1065 (2008) §5.3. Moved here from `assurance::uncertainty`, whose direct-sum port
+// it extends with the large-J asymptotic branches and the non-overlapping estimators.
+// ---------------------------------------------------------------------------
+
+/// Exact equivalent degrees of freedom of a stability-variance estimator (Greenhall and
+/// Riley 2003, full version): noise exponent `alpha` (+2 white PM to −4), difference
+/// order `d` (1, 2 or 3; 2 for Allan, 3 for Hadamard), averaging factor `m`, `n` phase
+/// samples, `overlapping` (stride `S = m`) or not (`S = 1`), and the `modified` filter
+/// (`F = 1`) or not (`F = m`).
+///
+/// `f64::NAN` where the algorithm does not apply: `alpha + 2d <= 1`, `alpha` or `d` out of
+/// range, `m = 0`, too few data (`n < L = m/F + m·d`), and the unmodified white-PM case
+/// with `ceil(M/S) <= d`, whose closed form (Section 3.6.4) is not implemented.
+pub fn edf_greenhall(
+    alpha: i32,
+    d: i32,
+    m: usize,
+    n: usize,
+    overlapping: bool,
+    modified: bool,
+) -> f64 {
+    if !(-4..=2).contains(&alpha) || !(1..=3).contains(&d) || m == 0 {
+        return f64::NAN;
+    }
+    let f = if modified { 1.0 } else { m as f64 };
+    if (n as f64) < m as f64 / f + m as f64 * d as f64 {
+        return f64::NAN;
+    }
+    greenhall_edf_core(alpha, d, m, n, overlapping, modified, false)
+}
+
+/// [`edf_greenhall`] for the Allan variance (`d = 2`, unmodified filter).
+pub fn edf_greenhall_adev(alpha: i32, m: usize, n: usize, overlapping: bool) -> f64 {
+    edf_greenhall(alpha, 2, m, n, overlapping, false)
+}
+
+/// [`edf_greenhall`] for the modified Allan variance (`d = 2`, modified filter).
+pub fn edf_greenhall_mdev(alpha: i32, m: usize, n: usize, overlapping: bool) -> f64 {
+    edf_greenhall(alpha, 2, m, n, overlapping, true)
+}
+
+/// [`edf_greenhall`] for the Hadamard variance (`d = 3`, unmodified filter).
+pub fn edf_greenhall_hdev(alpha: i32, m: usize, n: usize, overlapping: bool) -> f64 {
+    edf_greenhall(alpha, 3, m, n, overlapping, false)
+}
+
+/// Table 1 of Greenhall and Riley 2003: `(a0, a1)` for modified variances.
+fn greenhall_table1(alpha: i32, d: i32) -> Option<(f64, f64)> {
+    Some(match (alpha, d) {
+        (2, 1) => (2.0 / 3.0, 1.0 / 3.0),
+        (2, 2) => (7.0 / 9.0, 1.0 / 2.0),
+        (2, 3) => (22.0 / 25.0, 2.0 / 3.0),
+        (1, 1) => (0.840, 0.345),
+        (1, 2) => (0.997, 0.616),
+        (1, 3) => (1.141, 0.843),
+        (0, 1) => (1.079, 0.368),
+        (0, 2) => (1.033, 0.607),
+        (0, 3) => (1.184, 0.848),
+        (-1, 2) => (1.048, 0.534),
+        (-1, 3) => (1.180, 0.816),
+        (-2, 2) => (1.302, 0.535),
+        (-2, 3) => (1.175, 0.777),
+        (-3, 3) => (1.194, 0.703),
+        (-4, 3) => (1.489, 0.702),
+        _ => return None,
+    })
+}
+
+/// Table 2 of Greenhall and Riley 2003: `(a0, a1)` for unmodified variances.
+fn greenhall_table2(alpha: i32, d: i32) -> Option<(f64, f64)> {
+    Some(match (alpha, d) {
+        (2, 1) => (3.0 / 2.0, 1.0 / 2.0),
+        (2, 2) => (35.0 / 18.0, 1.0),
+        (2, 3) => (231.0 / 100.0, 3.0 / 2.0),
+        (1, 1) => (78.6, 25.2),
+        (1, 2) => (790.0, 410.0),
+        (1, 3) => (9950.0, 6520.0),
+        (0, 1) => (2.0 / 3.0, 1.0 / 6.0),
+        (0, 2) => (2.0 / 3.0, 1.0 / 3.0),
+        (0, 3) => (7.0 / 9.0, 1.0 / 2.0),
+        (-1, 2) => (0.852, 0.375),
+        (-1, 3) => (0.997, 0.617),
+        (-2, 2) => (1.079, 0.368),
+        (-2, 3) => (1.033, 0.607),
+        (-3, 3) => (1.053, 0.553),
+        (-4, 3) => (1.302, 0.535),
+        _ => return None,
+    })
+}
+
+/// Table 3 of Greenhall and Riley 2003: `(b0, b1)` of the logarithmic denominator for
+/// unmodified variances with flicker PM (`alpha = 1`).
+fn greenhall_table3(d: i32) -> Option<(f64, f64)> {
+    Some(match d {
+        1 => (6.0, 4.0),
+        2 => (15.23, 12.0),
+        3 => (47.8, 40.0),
+        _ => return None,
+    })
+}
+
+/// The Greenhall and Riley case selection (Section 3.6). With `direct_only` the large-J
+/// asymptotic branches give `f64::NAN` and no input guard beyond `alpha + 2d > 1` is
+/// applied: exactly the private port `assurance::uncertainty` has always used, whose
+/// outputs it keeps bit for bit. The direct-sum arithmetic is the same in both modes.
+pub(crate) fn greenhall_edf_core(
+    alpha: i32,
+    d: i32,
+    m: usize,
+    n: usize,
+    overlapping: bool,
+    modified: bool,
+    direct_only: bool,
+) -> f64 {
+    if alpha + 2 * d <= 1 {
+        return f64::NAN;
+    }
+    let f: f64 = if modified { 1.0 } else { m as f64 };
+    let s: f64 = if overlapping { m as f64 } else { 1.0 };
+    let mm = m as f64;
+    let dd = d as f64;
+    let nn = n as f64;
+
+    // L, M, J, r  (Eqns 11 and 12).
+    let l = mm / f + mm * dd;
+    let big_m = 1.0 + (s * (nn - l) / mm).floor();
+    let j = big_m.min((dd + 1.0) * s);
+    let r = big_m / s;
+    const J_MAX: f64 = 100.0;
+
+    if modified {
+        // Case 1: modified variances, all alpha. F = 1.
+        if j <= J_MAX {
+            let sz0 = greenhall_sz(0.0, 1.0, alpha, d);
+            let inv = (1.0 / (sz0 * sz0 * big_m)) * greenhall_basic_sum(j, big_m, s, 1.0, alpha, d);
+            return 1.0 / inv;
+        }
+        if direct_only {
+            return f64::NAN;
+        }
+        if r >= dd + 1.0 {
+            let Some((a0, a1)) = greenhall_table1(alpha, d) else {
+                return f64::NAN;
+            };
+            return 1.0 / ((1.0 / r) * (a0 - a1 / r));
+        }
+        let mp = J_MAX / r;
+        let sz0 = greenhall_sz(0.0, 1.0, alpha, d);
+        let inv =
+            (1.0 / (sz0 * sz0 * J_MAX)) * greenhall_basic_sum(J_MAX, J_MAX, mp, 1.0, alpha, d);
+        return 1.0 / inv;
+    }
+
+    // Unmodified variances.
+    if alpha <= 0 {
+        // Case 2: unmodified, alpha <= 0. F = m.
+        if j <= J_MAX {
+            // variant (a): m*(d+1) <= J_MAX so m_prime = m (finite); else inf.
+            let m_prime = if mm * (dd + 1.0) <= J_MAX {
+                mm
+            } else {
+                f64::INFINITY
+            };
+            let sz0 = greenhall_sz(0.0, m_prime, alpha, d);
+            let inv =
+                (1.0 / (sz0 * sz0 * big_m)) * greenhall_basic_sum(j, big_m, s, m_prime, alpha, d);
+            return 1.0 / inv;
+        }
+        if direct_only {
+            return f64::NAN;
+        }
+        if r >= dd + 1.0 {
+            let Some((a0, a1)) = greenhall_table2(alpha, d) else {
+                return f64::NAN;
+            };
+            return 1.0 / ((1.0 / r) * (a0 - a1 / r));
+        }
+        let mp = J_MAX / r;
+        let sz0 = greenhall_sz(0.0, f64::INFINITY, alpha, d);
+        let inv = (1.0 / (sz0 * sz0 * J_MAX))
+            * greenhall_basic_sum(J_MAX, J_MAX, mp, f64::INFINITY, alpha, d);
+        return 1.0 / inv;
+    }
+
+    if alpha == 1 {
+        // Case 3: unmodified, alpha = 1. F = m.
+        if j <= J_MAX {
+            let sz0 = greenhall_sz(0.0, mm, 1, d);
+            let inv = (1.0 / (sz0 * sz0 * big_m)) * greenhall_basic_sum(j, big_m, s, mm, 1, d);
+            return 1.0 / inv;
+        }
+        if direct_only {
+            return f64::NAN;
+        }
+        let (Some((a0, a1)), Some((b0, b1))) = (greenhall_table2(1, d), greenhall_table3(d)) else {
+            return f64::NAN;
+        };
+        let den = b0 + b1 * mm.ln();
+        if r >= dd + 1.0 {
+            return 1.0 / ((1.0 / (den * den * r)) * (a0 - a1 / r));
+        }
+        let mp = J_MAX / r;
+        let inv = (1.0 / (den * den * J_MAX)) * greenhall_basic_sum(J_MAX, J_MAX, mp, mp, 1, d);
+        return 1.0 / inv;
+    }
+
+    if alpha == 2 {
+        // Case 4: unmodified, alpha = 2. Closed form (Section 3.6.4).
+        let k = r.ceil();
+        if k <= dd {
+            // The K <= d closed form of the paper is not implemented.
+            return f64::NAN;
+        }
+        let a0 = binom(4 * d, 2 * d) / (binom(2 * d, d) * binom(2 * d, d));
+        let a1 = dd / 2.0;
+        let inv = (1.0 / big_m) * (a0 - a1 / r);
+        return 1.0 / inv;
+    }
+
+    f64::NAN
+}
+
+/// Greenhall basis weight `sw(t, alpha)` (Eqn 7 of Greenhall 2004).
+fn greenhall_sw(t: f64, alpha: i32) -> f64 {
+    match alpha {
+        2 => -t.abs(),
+        1 => {
+            if t == 0.0 {
+                0.0
+            } else {
+                t * t * t.abs().ln()
+            }
+        }
+        0 => (t * t * t).abs(),
+        -1 => {
+            if t == 0.0 {
+                0.0
+            } else {
+                t.powi(4) * t.abs().ln()
+            }
+        }
+        -2 => (t.powi(5)).abs(),
+        -3 => {
+            if t == 0.0 {
+                0.0
+            } else {
+                t.powi(6) * t.abs().ln()
+            }
+        }
+        -4 => (t.powi(7)).abs(),
+        _ => f64::NAN,
+    }
+}
+
+/// Filtered kernel `sx(t, F, alpha)` (Eqn 8). `F = inf` degenerates to the
+/// `alpha + 2` white kernel.
+fn greenhall_sx(t: f64, f: f64, alpha: i32) -> f64 {
+    if f.is_infinite() {
+        return greenhall_sw(t, alpha + 2);
+    }
+    let a = 2.0 * greenhall_sw(t, alpha);
+    let b = greenhall_sw(t - 1.0 / f, alpha);
+    let c = greenhall_sw(t + 1.0 / f, alpha);
+    f * f * (a - b - c)
+}
+
+/// dth finite difference `sz(t, F, alpha, d)` (Eqn 9), for `d in {1, 2, 3}`.
+fn greenhall_sz(t: f64, f: f64, alpha: i32, d: i32) -> f64 {
+    match d {
+        1 => {
+            let a = 2.0 * greenhall_sx(t, f, alpha);
+            let b = greenhall_sx(t - 1.0, f, alpha);
+            let c = greenhall_sx(t + 1.0, f, alpha);
+            a - b - c
+        }
+        2 => {
+            let a = 6.0 * greenhall_sx(t, f, alpha);
+            let b = 4.0 * greenhall_sx(t - 1.0, f, alpha);
+            let c = 4.0 * greenhall_sx(t + 1.0, f, alpha);
+            let dd = greenhall_sx(t - 2.0, f, alpha);
+            let e = greenhall_sx(t + 2.0, f, alpha);
+            a - b - c + dd + e
+        }
+        3 => {
+            let a = 20.0 * greenhall_sx(t, f, alpha);
+            let b = 15.0 * greenhall_sx(t - 1.0, f, alpha);
+            let c = 15.0 * greenhall_sx(t + 1.0, f, alpha);
+            let dd = 6.0 * greenhall_sx(t - 2.0, f, alpha);
+            let e = 6.0 * greenhall_sx(t + 2.0, f, alpha);
+            let g = greenhall_sx(t - 3.0, f, alpha);
+            let h = greenhall_sx(t + 3.0, f, alpha);
+            a - b - c + dd + e - g - h
+        }
+        _ => f64::NAN,
+    }
+}
+
+/// BasicSum (Eqn 10 of Greenhall 2004).
+fn greenhall_basic_sum(j: f64, big_m: f64, s: f64, f: f64, alpha: i32, d: i32) -> f64 {
+    let first = {
+        let z = greenhall_sz(0.0, f, alpha, d);
+        z * z
+    };
+    let second = {
+        let z = greenhall_sz(j / s, f, alpha, d);
+        (1.0 - j / big_m) * z * z
+    };
+    let mut third = 0.0;
+    // j runs 1 .. int(J) - 1 inclusive (Python range(1, int(J))).
+    let j_int = j as i64;
+    for jj in 1..j_int {
+        let z = greenhall_sz(jj as f64 / s, f, alpha, d);
+        third += 2.0 * (1.0 - jj as f64 / big_m) * z * z;
+    }
+    first + second + third
+}
+
+/// Binomial coefficient `C(n, k)` as an exact-ish `f64` (small `n` here).
+fn binom(n: i32, k: i32) -> f64 {
+    if k < 0 || k > n {
+        return 0.0;
+    }
+    let k = k.min(n - k);
+    let mut acc = 1.0_f64;
+    for i in 0..k {
+        acc = acc * (n - i) as f64 / (i + 1) as f64;
+    }
+    acc
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
