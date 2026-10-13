@@ -891,11 +891,7 @@ impl GeometryTracker {
             any = true;
             match self.last_elevation(s) {
                 Some(el) if el < self.cfg.low_elev_deg => {}
-                Some(el)
-                    if self
-                        .last_az
-                        .get(s)
-                        .is_some_and(|az| behind(sk, *az, el)) => {}
+                Some(el) if self.last_az.get(s).is_some_and(|az| behind(sk, *az, el)) => {}
                 _ => return false,
             }
         }

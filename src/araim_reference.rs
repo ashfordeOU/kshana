@@ -1264,7 +1264,9 @@ pub fn add_v42_subset_plan(
         return Err("a satellite names an undeclared constellation".into());
     }
     if max_order < 2 {
-        return Err("the ADD v4.2 subset rule always enumerates pairs; max_order must be >= 2".into());
+        return Err(
+            "the ADD v4.2 subset rule always enumerates pairs; max_order must be >= 2".into(),
+        );
     }
     // Events: one per satellite, then one per constellation that has satellites.
     let present: Vec<usize> = (0..constellations)
@@ -1596,8 +1598,15 @@ pub fn add_v42_protection_levels_ecef(
     fc_thres: f64,
     mask_deg: f64,
 ) -> Result<(AddV42Result, Vec<usize>), String> {
-    let (case, used) =
-        add_v42_case_from_ecef(user, sats, constellation, isms, constants, fc_thres, mask_deg)?;
+    let (case, used) = add_v42_case_from_ecef(
+        user,
+        sats,
+        constellation,
+        isms,
+        constants,
+        fc_thres,
+        mask_deg,
+    )?;
     Ok((add_v42_protection_levels(&case)?, used))
 }
 
@@ -1620,8 +1629,15 @@ pub fn add_v42_protection_levels_ecef_to_order(
     mask_deg: f64,
     max_order: usize,
 ) -> Result<(AddV42Result, Vec<usize>), String> {
-    let (case, used) =
-        add_v42_case_from_ecef(user, sats, constellation, isms, constants, fc_thres, mask_deg)?;
+    let (case, used) = add_v42_case_from_ecef(
+        user,
+        sats,
+        constellation,
+        isms,
+        constants,
+        fc_thres,
+        mask_deg,
+    )?;
     Ok((add_v42_protection_levels_to_order(&case, max_order)?, used))
 }
 

@@ -1056,6 +1056,7 @@ pub fn evidence_verify(
             expected_public_key: expected,
             full_log,
             require_timestamp,
+            tsa_anchors: None,
         },
     );
     let fp = r.signer_fingerprint.clone().unwrap_or_default();
