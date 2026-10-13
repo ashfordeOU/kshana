@@ -223,6 +223,125 @@ def inputs(root: Path) -> None:
     (root / "oem_input.oem").write_text(oem_text)
 
 
+FILES = ["F1", "F2", "F3", "F4"]
+
+
+def file_segments(inp, f):
+    if f == "F4":
+        return [s for s in inp["segments"] if s["file"] == "F3"][:25]
+    return [s for s in inp["segments"] if s["file"] == f]
+
+
+def spice_write(sp, inp, f, path):
+    meta = inp["files"][f]
+    if path.exists():
+        path.unlink()
+    h = sp.spkopn(str(path), meta["ifname"], meta["ncomch"])
+    if meta["comments"]:
+        sp.dafac(h, meta["comments"])
+    for s in file_segments(inp, f):
+        n = len(s["epochs"])
+        args = (h, s["target"], s["centre"], s["frame"], s["start"], s["end"], s["name"],
+                s["degree"], n, s["states"], s["epochs"])
+        (sp.spkw09 if s["type"] == 9 else sp.spkw13)(*args)
+    sp.spkcls(h)
+
+
+def inventory(sp, path):
+    h = sp.dafopr(str(path))
+    sp.dafbfs(h)
+    out = []
+    while sp.daffna():
+        summ = sp.dafgs(5)
+        dc, ic = sp.dafus(summ, 2, 6)
+        out.append(dict(doubles=[float(x) for x in dc], ints=[int(x) for x in ic],
+                        name=sp.dafgn(), descr=[float(x) for x in summ]))
+    sp.dafcls(h)
+    bodies = sorted(int(b) for b in sp.spkobj(str(path)))
+    cov = {}
+    for b in bodies:
+        c = sp.spkcov(str(path), b)
+        cov[str(b)] = [float(c[i]) for i in range(sp.card(c))]
+    return dict(segments=out, bodies=bodies, coverage=cov)
+
+
+def evaluate(sp, inp, f, path):
+    """spkpvn on each segment and spkgeo body-level, at the pre-registered epochs."""
+    import numpy as np
+    inv = inventory(sp, path)
+    sp.furnsh(str(path))
+    hd = sp.dafopr(str(path))
+    segs = file_segments(inp, f)
+    res = []
+    for k, s in enumerate(segs):
+        descr = np.array(inv["segments"][k]["descr"])
+        frame = sp.frmnam(s["frame"])
+        rows = []
+        for et in s["eval"]:
+            _, pvn, _ = sp.spkpvn(hd, descr, et)
+            geo, _ = sp.spkgeo(s["target"], et, frame, s["centre"])
+            rows.append([et] + [float(x) for x in pvn] + [float(x) for x in geo])
+        res.append(rows)
+    chains = []
+    if f == "F1":
+        s3 = segs[2]
+        for targ, obs in [(-1003, 399), (399, -1003), (-1001, -1003)]:
+            rows = []
+            for et in s3["eval"]:
+                geo, _ = sp.spkgeo(targ, et, "J2000", obs)
+                rows.append([et] + [float(x) for x in geo])
+            chains.append(dict(target=targ, observer=obs, rows=rows))
+    sp.dafcls(hd)
+    sp.unload(str(path))
+    return dict(inventory=inv, pvn_geo=res, chains=chains)
+
+
+def sha256(path):
+    import hashlib
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def oracle(root: Path) -> None:
+    import os
+    import spiceypy as sp
+    inp = json.loads((root / "inputs.json").read_text())
+    lsk = os.environ.get("NAIF_LSK", str(root / ".." / "naif" / "naif0012.tls"))
+    sp.furnsh(lsk)
+    (root / "spice").mkdir(exist_ok=True)
+    (root / "outputs").mkdir(exist_ok=True)
+    out = dict(toolkit=sp.tkvrsn("TOOLKIT"), spiceypy=sp.__version__,
+               lsk_sha256=sha256(Path(lsk)), files={})
+    for f in FILES:
+        sp_path = root / "spice" / f"{f}.bsp"
+        spice_write(sp, inp, f, sp_path)
+        ks_path = root / "kshana" / f"{f}.bsp"
+        out["files"][f] = dict(kshana_sha256=sha256(ks_path), spice_sha256=sha256(sp_path),
+                               kshana=evaluate(sp, inp, f, ks_path),
+                               spice=evaluate(sp, inp, f, sp_path))
+    # OEM export: str2et of every line, and SPICE on the Kshana export at those ETs.
+    ks_oem = root / "kshana" / "oem_export.bsp"
+    lines, ts, oem = [], None, []
+    for raw in (root / "oem_input.oem").read_text().splitlines():
+        t = raw.strip()
+        if t.startswith("TIME_SYSTEM"):
+            ts = t.split("=")[1].strip()
+        elif t.startswith("CENTER_NAME"):
+            centre = {"EARTH": 399, "MOON": 301}[t.split("=")[1].strip()]
+        elif t and t[0].isdigit() and "T" in t.split()[0] and len(t.split()) == 7:
+            v = t.split()
+            et = sp.str2et(f"{v[0]} {ts}")
+            oem.append(dict(label=v[0], time_system=ts, et=et, centre=centre,
+                            state=[float(x) for x in v[1:]]))
+    sp.furnsh(str(ks_oem))
+    for row in oem:
+        target = -1201 if row["centre"] == 399 else -1202
+        geo, _ = sp.spkgeo(target, row["et"], "J2000", row["centre"])
+        row["spice_state"] = [float(x) for x in geo]
+    sp.unload(str(ks_oem))
+    out["oem"] = dict(kshana_sha256=sha256(ks_oem), inventory=inventory(sp, ks_oem), lines=oem)
+    (root / "outputs" / "spice.json").write_text(json.dumps(out) + "\n")
+
+
 if __name__ == "__main__":
     cmd, root = sys.argv[1], Path(sys.argv[2])
-    {"inputs": inputs}[cmd](root)
+    {"inputs": inputs, "oracle": oracle}[cmd](root)
