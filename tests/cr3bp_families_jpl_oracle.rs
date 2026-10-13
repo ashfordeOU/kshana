@@ -19,8 +19,8 @@
 //! pre-registration says). 54 meet every bar; state, period and Jacobi agree to at most
 //! 9.8e-11, 1.7e-12 and 1.5e-12 everywhere. Misses: L1 northern halo #4222, stability index 2.085
 //! against 2.305 (9.5e-2 relative; bar 1e-2), and DRO #0, #579 and #1158, closure 3.3e-8, 2.3e-8
-//! and 1.5e-8 (bar 1e-8; the smallest DROs, close to the Moon). The strict test is ignored and
-//! `finding_four_members_miss_a_bar` pins exactly these four. The module is `#[doc(hidden)]` and
+//! and 1.5e-8 (bar 1e-8; the smallest DROs, close to the Moon). `finding_four_members_miss_a_bar` asserts exactly
+//! these four misses at their recorded values (2 %). The module is `#[doc(hidden)]` and
 //! no ledger row claims it. Results: docs/design/evidence/cr3bp-families/RESULTS.md.
 
 use kshana::cr3bp::Cr3bpState;
@@ -122,28 +122,39 @@ fn run() -> (Vec<Miss>, usize) {
     (misses, checked)
 }
 
-#[test]
-#[ignore = "finding 2026-10-13: 4 of 58 members miss a bar (one stability index, three DRO closures); see the finding test"]
-fn family_members_match_the_jpl_three_body_periodic_orbits_api() {
-    let (misses, checked) = run();
-    println!("{checked} members checked, {} bar misses", misses.len());
-    assert!(misses.is_empty(), "outside the bar: {misses:#?}");
-}
-
-/// The finding, pinned: exactly these four (family, member, quantity) miss their bar.
+/// The finding, pinned, with the bars of the pre-registration unchanged (they live in `run`):
+/// exactly these four (family, member, quantity) miss, each by its recorded amount within 2 %
+/// relative, so the test fails if the result moves either way. All other members meet every bar.
 #[test]
 fn finding_four_members_miss_a_bar() {
+    const RECORDED: [(&str, usize, &str, f64); 4] = [
+        (
+            "L1 northern halo",
+            4222,
+            "stability index (relative)",
+            9.547032e-2,
+        ),
+        ("DRO", 0, "closure", 3.335240e-8),
+        ("DRO", 579, "closure", 2.268366e-8),
+        ("DRO", 1158, "closure", 1.465687e-8),
+    ];
     let (misses, checked) = run();
     assert_eq!(checked, 58);
-    let got: Vec<(&str, usize, &str)> = misses.iter().map(|m| (m.0, m.1, m.2)).collect();
     assert_eq!(
-        got,
-        vec![
-            ("L1 northern halo", 4222, "stability index (relative)"),
-            ("DRO", 0, "closure"),
-            ("DRO", 579, "closure"),
-            ("DRO", 1158, "closure"),
-        ],
-        "the finding changed"
+        misses.len(),
+        RECORDED.len(),
+        "the finding changed: {misses:#?}"
     );
+    for (m, r) in misses.iter().zip(RECORDED) {
+        assert_eq!((m.0, m.1, m.2), (r.0, r.1, r.2), "the finding changed");
+        assert!(
+            (m.3 - r.3).abs() <= 0.02 * r.3,
+            "{} #{} {}: {:.6e} moved from the recorded {:.6e}",
+            m.0,
+            m.1,
+            m.2,
+            m.3,
+            r.3
+        );
+    }
 }

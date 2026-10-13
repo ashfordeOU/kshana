@@ -423,6 +423,8 @@ fn lro_two_body_overlap_shows_perturbation_signal() {
 /// are printed, and the comparison against the ANISE environment is
 /// `xval/anise-lunar-od/src/bin/in_crate_parity.rs`
 /// (`docs/design/evidence/fut05-de440-lunar-env/`). The bars are the analytic test's.
+/// Ignored in the gating CI for its run time; it runs in the manual `lro-de440-opt-in` job of
+/// `.github/workflows/agency-od-validation.yml`.
 #[test]
 #[ignore = "information only, about 200 s: the opt-in DE440 environment on the LRO arc (11.959 m / 6.665 m on 2026-10-13)"]
 fn lro_fit_with_the_opt_in_de440_environment() {

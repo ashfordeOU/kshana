@@ -51,8 +51,9 @@
 //! and in both the independence-discarded covariance rank 9 of 12. The Helmert matrix stays full
 //! rank (7.6e-9 and 1.7e-6 of its largest eigenvalue), because the three observed beacons span
 //! the datum, so the datum sigmas are not a pseudo-inverse; but step 0 requires no fallback
-//! anywhere upstream on a full-rank scenario, so it is NOT MET. The strict test is ignored and
-//! `finding_step0_fresh_beacon_information_falls_back` pins exactly these four matrices.
+//! anywhere upstream on a full-rank scenario, so it is NOT MET. `finding_step0_fresh_beacon_information_falls_back` asserts
+//! exactly these four matrices with their recorded ranks (the requirement itself is coded in
+//! `step0_breaches`, unchanged).
 
 use kshana::fim::{crlb, information_matrix};
 
@@ -329,15 +330,6 @@ fn step0_breaches(
         }
     }
     out
-}
-
-/// The pre-registered step 0, strict. Ignored: on the fresh date the fallback triggers upstream
-/// of the Helmert matrix (the finding below).
-#[test]
-#[ignore = "MR-05 step 0 finding: both fresh scenarios fall back to the pseudo-inverse on the beacon information; see the finding test"]
-fn the_pseudo_inverse_fallback_does_not_trigger_upstream_of_a_stated_defect() {
-    let breaches = step0_breaches(&probe_all());
-    assert!(breaches.is_empty(), "step 0 breached: {breaches:?}");
 }
 
 /// The step-0 finding, pinned: the six original scenarios meet the requirement, and on the fresh
