@@ -141,10 +141,20 @@ pub struct MonitorConfig {
 /// The `jammertest-2024-calibrated` thresholds `(cn0_drop_db, agc_k_sigma, jam_ind_threshold)`:
 /// the pre-registered selection (smallest grid value with pooled clean-epoch false-alarm
 /// probability at most 0.01) on the evaluable folders of the JammerTest 2024 dataset (Zenodo
-/// 15911589; one u-blox ZED-F9P per folder), `xval/jammertest-trust/RESULTS.md`. The run is
-/// MODELLED: the held-out false-alarm bar failed for `cn0_drop_db` (0.0231 against 0.02). Narrow:
-/// this receiver type at this event, against scheduled-slot truth.
+/// 15911589; one u-blox ZED-F9P per folder), `xval/jammertest-trust/RESULTS.md`. MODELLED, fitted
+/// on one public campaign: the `cn0_drop_db` threshold MISSED the pre-registered held-out
+/// false-alarm bar (0.0231 against 0.02); the other two and the union passed. Narrow: this
+/// receiver type at this event, against scheduled-slot truth.
 pub const JAMMERTEST_2024_CALIBRATED: (f64, f64, f64) = (1.5, 3.5, 29.0);
+
+/// The note a result carries when it was run with the `jammertest-2024-calibrated` profile.
+pub const PROFILE_NOTE: &str = "Thresholds from the opt-in profile jammertest-2024-calibrated \
+     (cn0_drop_db 1.5, agc_k_sigma 3.5, jam_ind_threshold 29): MODELLED, fitted on one public \
+     campaign (JammerTest 2024, one u-blox ZED-F9P per scenario, scheduled attack slots as \
+     truth). Its cn0_drop_db threshold MISSED the pre-registered held-out false-alarm bar \
+     (0.0231 against 0.02); the agc, jamming-indicator and union bars passed \
+     (xval/jammertest-trust/RESULTS.md). It may not carry over to another receiver, site or \
+     log format.";
 
 /// The profile names [`MonitorConfig::profile`] accepts.
 pub const THRESHOLD_PROFILES: &[&str] = &["jammertest-2024-calibrated"];
