@@ -2890,6 +2890,24 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             oracle_kind: InternalConsistency,
             status: Modelled,
         },
+        VerificationItem {
+            requirement: "BeiDou B1I primary ranging codes against an independent generator",
+            capability: "iq::signals::beidou::b1i_bits and b1i: the BDS-SIS-ICD-B1I-3.0 Gold codes truncated to 2046 chips, PRN 1 to 63, as the IQ layer generates, acquires and tracks them.",
+            module: "iq::signals::beidou (b1i_bits, b1i)",
+            tests: "tests/iq_signals.rs::beidou_b1i_matches_gnss_sdr_generator_for_all_63_prns",
+            oracle: "GNSS-SDR v0.0.19 (tag v0.0.19, commit 1ddd4562), an independent open-source implementation of the same ICD: its beidou_b1i_code_gen_int, compiled standalone, generated all 63 codes. Only its program output is committed: tests/fixtures/iq_signals/beidou_b1i_gnss_sdr.txt, a 64-chip prefix and the SHA-256 of each 2046-chip code. That output is the BeiDou B1I PRN codes the public BDS-SIS-ICD-B1I-3.0 defines; no GNSS-SDR source or binary is in the repository. Bar pre-registered at 911106d1 (xval/beidou-b1i-gnss-sdr/): all 2046 chips of all 63 PRNs identical, no inversion, shift or relabelling. Result: 63 of 63 identical; the fixture was regenerated from a fresh v0.0.19 checkout (source file SHA-256 as recorded) and is byte-identical. WHAT IS NOT CHECKED: the NH20 secondary code, the GEO PRN list, the carrier and chip rate.",
+            oracle_kind: ExternalDataset,
+            status: Validated,
+        },
+        VerificationItem {
+            requirement: "GPS L1C ranging and overlay codes against the IS-GPS-800J printed check columns",
+            capability: "iq::signals::gps::l1c_p_bits, l1c_d_bits and l1c_o_bits: the L1CP and L1CD Weil ranging codes (computed Legendre sequence, Weil index, expansion sequence inserted before chip p) and the L1CO S1 overlay codes, PRN 1 to 63.",
+            module: "iq::signals::gps (l1c_weil, l1c_ranging_bits, l1c_p_bits, l1c_d_bits, l1co_s1_run, l1c_o_bits); iq::signals::tables",
+            tests: "tests/iq_signals_gps_l1c.rs (c1_l1cp_and_l1cd_initial_and_final_24_chips_match_is_gps_800j_table_3_2_2, c2_l1co_initial_and_final_11_bits_match_is_gps_800j_table_3_2_3, c3_legendre_sequence_matches_is_gps_800j_table_6_2_1, the_column_check_rejects_relabelled_inverted_and_shifted_codes)",
+            oracle: "IS-GPS-800J (01-AUG-2022, distribution statement A), the check columns it prints beside the generator parameters: Table 3.2-2 initial and final 24 chips of every L1CP and L1CD code, Table 3.2-3 initial and final 11 bits of every L1CO code, Table 6.2-1 the length-10223 Legendre sequence; transcribed by scripts/extract_is_gps_800_tables.py from the PDF (SHA-256 c4aad710...). Bars pre-registered at fe372e26 (docs/design/evidence/l1c-codes/): 252 of 252 columns, 63 of 63 overlays and 10 223 of 10 223 Legendre bits identical; the extraction --check passes; a negative control fails relabelled, inverted and shifted codes. WHAT IS NOT CHECKED: the generator parameters themselves (they come from the same tables), the chips between the printed columns, the TMBOC subcarrier pattern and the L1CO S2 codes.",
+            oracle_kind: ExternalDataset,
+            status: Validated,
+        },
     ]
 }
 
@@ -3966,6 +3984,20 @@ pub fn validated_oracle_basis() -> Vec<OracleBasisEntry> {
             basis: Library,
             oracle_test: "tests/testbench_reference.rs",
             source: "pyproj 3.8.0 (PROJ 9.8.1)",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "BeiDou B1I primary ranging codes against an independent generator",
+            basis: Library,
+            oracle_test: "tests/iq_signals.rs::beidou_b1i_matches_gnss_sdr_generator_for_all_63_prns",
+            source: "GNSS-SDR v0.0.19 (tag v0.0.19, commit 1ddd4562)",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "GPS L1C ranging and overlay codes against the IS-GPS-800J printed check columns",
+            basis: Reference,
+            oracle_test: "tests/iq_signals_gps_l1c.rs",
+            source: "IS-GPS-800J (01-AUG-2022, distribution statement A)",
             flag: "",
         },
     ]
