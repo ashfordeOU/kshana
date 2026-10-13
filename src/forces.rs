@@ -20,8 +20,9 @@
 //!
 //! Scope (honest): the gravity field is **zonal only** (no tesseral/sectoral EGM terms); the SRP
 //! shadow is the geometric dual-disk **conical umbra+penumbra** (no solar limb darkening or
-//! oblate-Earth shadow); and the drag density is the **static piecewise-exponential** model (no
-//! NRLMSISE-00 thermosphere); see `ROADMAP.md`.
+//! oblate-Earth shadow); and the default drag density is the **static piecewise-exponential**
+//! model; the NRLMSISE-00 thermosphere is an opt-in tier ([`DensityModel`],
+//! [`drag_accel_with_density`]) at constant F10.7/Ap; see `ROADMAP.md`.
 
 /// Earth gravitational parameter `μ = GM` (m³/s²), WGS-84 / EGM-96 value.
 pub const MU_EARTH: f64 = 3.986_004_418e14;
@@ -353,8 +354,8 @@ pub const EARTH_ROTATION_RATE: f64 = 7.292_115_146_7e-5;
 /// (Vallado, *Fundamentals of Astrodynamics and Applications*, Table 8-4, after CIRA-72). Within
 /// the band whose base altitude `h0` brackets `h`, `ρ = ρ0·exp(−(h − h0)/H)`. Below 0 km it
 /// clamps to the surface value; above the top band it continues that band's exponential (no hard
-/// cutoff). This is a **static, solar-activity-independent mean** — *not* NRLMSISE-00 (the
-/// thermospheric model with its < 5 % accuracy clause is a follow-on; see `ROADMAP.md`).
+/// cutoff). This is a **static, solar-activity-independent mean** — *not* NRLMSISE-00, which is
+/// the opt-in [`DensityModel::Nrlmsise00`] tier.
 pub fn atmospheric_density(altitude_m: f64) -> f64 {
     atmospheric_density_with::<Platform>(altitude_m)
 }

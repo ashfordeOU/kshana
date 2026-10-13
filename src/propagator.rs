@@ -33,11 +33,12 @@
 //! correction** (the cannonball SRP model with a conical umbra+penumbra eclipse, quadratic drag
 //! against the Vallado piecewise-exponential atmosphere, and the Schwarzschild perigee-advance
 //! term). The full high-degree EGM tesseral field (a 200×200 gravity model and its coefficient
-//! loader), the NRLMSISE-00 thermospheric density (the < 5 % drag-density clause), solar limb
-//! darkening, the Lense–Thirring frame-dragging term — and the cross-validation of a 200×200 EGM
+//! loader), solar limb darkening, the Lense–Thirring frame-dragging term — and the cross-validation of a 200×200 EGM
 //! 24-hour orbit against an external high-precision propagator (GMAT/Orekit) — remain follow-ons
 //! (see `ROADMAP.md`). By default the third-body/SRP ephemerides are the [`crate::ephem`]
-//! *low-precision* analytical series (~0.005° Sun, ~0.3° Moon); the opt-in ephemeris tier
+//! *low-precision* analytical series (~0.005° Sun, ~0.3° Moon); the drag density defaults to the
+//! static exponential model, with NRLMSISE-00 opt-in via [`ForceModel::drag_density`]; the opt-in
+//! ephemeris tier
 //! ([`ForceModel::with_ephemeris`]) reads them from any [`EphemerisProvider`], e.g. a DE440 SPK
 //! kernel through [`crate::ephem_provider::KernelEphemeris`]. The drag density is the static
 //! exponential model. What is delivered is the integrator + the
