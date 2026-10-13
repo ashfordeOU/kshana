@@ -241,6 +241,26 @@ pub(crate) trait PortableFloat: Sized {
     fn ppowi(self, n: i32) -> f64;
     /// `sqrt(self² + y²)` without intermediate overflow.
     fn phypot(self, y: f64) -> f64;
+    /// Tangent.
+    fn ptan(self) -> f64;
+    /// Natural logarithm.
+    fn pln(self) -> f64;
+    /// Arctangent.
+    fn patan(self) -> f64;
+    /// Cube root.
+    fn pcbrt(self) -> f64;
+    /// Hyperbolic sine.
+    fn psinh(self) -> f64;
+    /// Hyperbolic cosine.
+    fn pcosh(self) -> f64;
+    /// Inverse hyperbolic sine.
+    fn pasinh(self) -> f64;
+    /// `exp(self) - 1`, accurate near zero.
+    fn pexp_m1(self) -> f64;
+    /// `ln(1 + self)`, accurate near zero.
+    fn pln_1p(self) -> f64;
+    /// Logarithm of `self` to the base `base`, as `ln(self) / ln(base)`.
+    fn plog(self, base: f64) -> f64;
 }
 
 impl PortableFloat for f64 {
@@ -291,6 +311,46 @@ impl PortableFloat for f64 {
     #[inline]
     fn phypot(self, y: f64) -> f64 {
         libm::hypot(self, y)
+    }
+    #[inline]
+    fn ptan(self) -> f64 {
+        libm::tan(self)
+    }
+    #[inline]
+    fn pln(self) -> f64 {
+        libm::log(self)
+    }
+    #[inline]
+    fn patan(self) -> f64 {
+        libm::atan(self)
+    }
+    #[inline]
+    fn pcbrt(self) -> f64 {
+        libm::cbrt(self)
+    }
+    #[inline]
+    fn psinh(self) -> f64 {
+        libm::sinh(self)
+    }
+    #[inline]
+    fn pcosh(self) -> f64 {
+        libm::cosh(self)
+    }
+    #[inline]
+    fn pasinh(self) -> f64 {
+        libm::asinh(self)
+    }
+    #[inline]
+    fn pexp_m1(self) -> f64 {
+        libm::expm1(self)
+    }
+    #[inline]
+    fn pln_1p(self) -> f64 {
+        libm::log1p(self)
+    }
+    #[inline]
+    fn plog(self, base: f64) -> f64 {
+        libm::log(self) / libm::log(base)
     }
 }
 
