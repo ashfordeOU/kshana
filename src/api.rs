@@ -1396,8 +1396,8 @@ pub trait ExternalPack: Scenario {
 }
 
 // A built-in pack implemented through the `Scenario` trait, as the worked example
-// the dispatcher and any external pack follow. The other migrated built-ins, and their
-// `BuiltinKind` impls (this one's included), live in `api/builtins.rs` (FUT-27).
+// the dispatcher and any external pack follow. Every other built-in's impl, and every
+// `BuiltinKind` impl (this one's included), lives in `api/builtins.rs` (FUT-27).
 impl Scenario for crate::jamming::JammingScenario {
     fn run(&self) -> Result<RunOutput, KshanaError> {
         self.time.validate()?;
@@ -1527,117 +1527,22 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
             builtins::run_builtin::<crate::spoof_detect::SpoofDetectScenario>(src)
         }
         ScenarioKind::Sweep => builtins::run_builtin::<crate::sweep::SweepScenario>(src),
-        ScenarioKind::SweepNd => {
-            let scn: crate::sweep::GenericSweepScenario =
-                toml::from_str(src).map_err(|e| format!("invalid generic sweep scenario: {e}"))?;
-            let r = crate::sweep::run_generic_sweep(&scn)?;
-            let summary = format!(
-                "generic sweep of `{}` over [{}] | {} nodes (shape {:?}) | metrics [{}]",
-                r.kind,
-                r.keys.join(", "),
-                r.points.len(),
-                r.shape,
-                r.metrics.join(", "),
-            );
-            Ok(RunOutput {
-                json: json_of_with_units(&r, crate::sweep::GENERIC_UNITS)?,
-                svg: crate::sweep::generic_to_svg(&r),
-                summary,
-                csv: None,
-            })
-        }
+        ScenarioKind::SweepNd => builtins::run_builtin::<crate::sweep::GenericSweepScenario>(src),
         ScenarioKind::Orbit => builtins::run_builtin::<crate::orbit::OrbitClockScenario>(src),
         ScenarioKind::Ephemeris => {
             builtins::run_builtin::<crate::ephemeris::EphemerisScenario>(src)
         }
         ScenarioKind::GravityMap => {
-            let cfg: crate::gravimeter::GravityMapBenchmarkCfg =
-                toml::from_str(src).map_err(|e| format!("invalid gravity-map scenario: {e}"))?;
-            let r = crate::gravimeter::run_gps_denied_gravity_nav(&cfg);
-            let summary = format!(
-                "gravity-map | free-inertial drift {:.0} m | gravity-matched {:.0} m | matching sigma {:.3e} mGal",
-                r.free_inertial_drift_m, r.map_matched_error_m, r.measurement_sigma_mgal,
-            );
-            #[derive(serde::Serialize)]
-            struct GravityMapOut {
-                free_inertial_drift_m: f64,
-                map_matched_error_m: f64,
-                measurement_sigma_mgal: f64,
-            }
-            let out = GravityMapOut {
-                free_inertial_drift_m: r.free_inertial_drift_m,
-                map_matched_error_m: r.map_matched_error_m,
-                measurement_sigma_mgal: r.measurement_sigma_mgal,
-            };
-            Ok(RunOutput {
-                json: json_of_with_units(&out, crate::gravimeter::UNITS)?,
-                svg: crate::altpnt::terrain::gravity_nav_svg(
-                    r.free_inertial_drift_m,
-                    r.map_matched_error_m,
-                ),
-                summary,
-                csv: None,
-            })
+            builtins::run_builtin::<crate::gravimeter::GravityMapBenchmarkCfg>(src)
         }
         ScenarioKind::Terrain => {
-            let cfg: crate::altpnt::terrain::TerrainNavCfg =
-                toml::from_str(src).map_err(|e| format!("invalid terrain-nav scenario: {e}"))?;
-            let r = crate::altpnt::terrain::run_terrain_nav(&cfg);
-            let summary = format!(
-                "terrain-nav | free-inertial drift {:.0} m | terrain-matched {:.0} m ({:.0}x cut) | matching sigma {:.1} m",
-                r.free_inertial_drift_m,
-                r.matched_error_m,
-                if r.matched_error_m > 0.0 { r.free_inertial_drift_m / r.matched_error_m } else { 0.0 },
-                r.measurement_sigma_m,
-            );
-            Ok(RunOutput {
-                json: json_of_with_units(&r, crate::altpnt::terrain::TERRAIN_NAV_UNITS)?,
-                svg: crate::altpnt::terrain::terrain_nav_svg(&r),
-                summary,
-                csv: None,
-            })
+            builtins::run_builtin::<crate::altpnt::terrain::TerrainNavCfg>(src)
         }
         ScenarioKind::TerrainSlam => {
-            let cfg: crate::altpnt::sequential::SequentialTrnCfg =
-                toml::from_str(src).map_err(|e| format!("invalid terrain-slam scenario: {e}"))?;
-            let r = crate::altpnt::sequential::run_sequential_trn(&cfg);
-            let summary = format!(
-                "terrain-slam | {} waypoints | free-inertial RMS {:.0} m (final {:.0} m) | terrain-matched RMS {:.0} m (final {:.0} m, {:.0}x cut) | mean ESS {:.0}/{} | matching sigma {:.1} m",
-                r.waypoints,
-                r.free_inertial_rms_m,
-                r.free_inertial_final_m,
-                r.matched_rms_m,
-                r.matched_final_m,
-                if r.matched_rms_m > 0.0 { r.free_inertial_rms_m / r.matched_rms_m } else { 0.0 },
-                r.mean_ess,
-                cfg.n_particles.max(1),
-                r.measurement_sigma_m,
-            );
-            Ok(RunOutput {
-                json: json_of_with_units(&r, crate::altpnt::sequential::UNITS)?,
-                svg: crate::altpnt::sequential::sequential_trn_svg(&r),
-                summary,
-                csv: None,
-            })
+            builtins::run_builtin::<crate::altpnt::sequential::SequentialTrnCfg>(src)
         }
         ScenarioKind::CombinedAltPnt => {
-            let cfg: crate::altpnt::terrain::CombinedAltPntCfg = toml::from_str(src)
-                .map_err(|e| format!("invalid combined-altpnt scenario: {e}"))?;
-            let r = crate::altpnt::terrain::run_combined_altpnt(&cfg);
-            let summary = format!(
-                "combined-altpnt | free-inertial drift {:.0} m | gravity {:.0} m magnetic {:.0} m terrain {:.0} m | FUSED {:.0} m",
-                r.free_inertial_drift_m,
-                r.gravity_only_m,
-                r.magnetic_only_m,
-                r.terrain_only_m,
-                r.combined_m,
-            );
-            Ok(RunOutput {
-                json: json_of_with_units(&r, crate::altpnt::terrain::COMBINED_ALTPNT_UNITS)?,
-                svg: crate::altpnt::terrain::combined_altpnt_svg(&r),
-                summary,
-                csv: None,
-            })
+            builtins::run_builtin::<crate::altpnt::terrain::CombinedAltPntCfg>(src)
         }
         ScenarioKind::Pvt => builtins::run_builtin::<crate::pvt::PvtScenario>(src),
         ScenarioKind::MarsPnt => builtins::run_builtin::<crate::mars_pnt::MarsScenario>(src),
@@ -1759,52 +1664,7 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
         ScenarioKind::LunarJamming => {
             builtins::run_builtin::<crate::lunar_jamming::LunarJammingScenario>(src)
         }
-        ScenarioKind::Clock => {
-            let scn: crate::scenario::Scenario =
-                toml::from_str(src).map_err(|e| format!("invalid scenario: {e}"))?;
-            scn.time.validate()?;
-            if scn.runs > 1 {
-                // Monte Carlo ensemble: report confidence bands instead of one run.
-                let r = crate::ensemble::run_ensemble(&scn);
-                let q = &r.quantum;
-                let c = &r.classical;
-                let summary = format!(
-                    "scenario {} | {} runs | quantum holdover {:.0}s [{:.0}-{:.0}] p95 {}ns security {} | classical holdover {:.0}s [{:.0}-{:.0}] p95 {}ns security {}",
-                    &r.scenario_hash[..12], r.runs,
-                    q.holdover_s.mean, q.holdover_s.p05, q.holdover_s.p95, ns1(q.timing_p95_ns.mean), SECURITY_NA,
-                    c.holdover_s.mean, c.holdover_s.p05, c.holdover_s.p95, ns1(c.timing_p95_ns.mean), SECURITY_NA,
-                );
-                return Ok(RunOutput {
-                    json: json_of_with_units_and_tiers(
-                        &r,
-                        crate::ensemble::UNITS,
-                        &["quantum", "classical"],
-                        crate::fom_label::CLOCK_FOM_FIELDS,
-                    )?,
-                    svg: crate::ensemble::to_svg(&r),
-                    summary,
-                    csv: None,
-                });
-            }
-            let r = crate::run::run(&scn);
-            let summary = format!(
-                "scenario {} | quantum holdover {:.0}s p95 {}ns integrity {} security {} | classical holdover {:.0}s p95 {}ns integrity {} security {}",
-                &r.scenario_hash[..12],
-                r.quantum.fom.holdover_s, ns1(r.quantum.fom.timing_p95_ns), integ(r.quantum.fom.integrity), SECURITY_NA,
-                r.classical.fom.holdover_s, ns1(r.classical.fom.timing_p95_ns), integ(r.classical.fom.integrity), SECURITY_NA,
-            );
-            Ok(RunOutput {
-                json: json_of_with_units_and_tiers(
-                    &r,
-                    crate::report::UNITS,
-                    &["quantum.fom", "classical.fom"],
-                    crate::fom_label::CLOCK_FOM_FIELDS,
-                )?,
-                svg: crate::report::to_svg(&r),
-                summary,
-                csv: None,
-            })
-        }
+        ScenarioKind::Clock => builtins::run_builtin::<crate::scenario::Scenario>(src),
     }
 }
 
