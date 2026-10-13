@@ -745,8 +745,8 @@ pub fn interop_budget(splits: &[ProvenanceSplit], convention: FrameConvention) -
 
 #[cfg(test)]
 mod tests {
-    use crate::portable_math::PortableFloat;
     use super::*;
+    use crate::portable_math::PortableFloat;
 
     // A deterministic Earth–Moon-like point cloud swept over an orbit (rotating radius vector).
     fn cloud(n: usize) -> Vec<Vec3> {

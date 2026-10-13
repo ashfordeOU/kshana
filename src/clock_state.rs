@@ -461,7 +461,9 @@ impl FlickerFmBank {
         let per = per_decade.max(1) as f64;
         let decades = (t_max / t_min).plog10();
         let n = (decades * per).round() as usize + 1;
-        let taus = (0..n).map(|k| t_min * 10f64.ppowf(k as f64 / per)).collect();
+        let taus = (0..n)
+            .map(|k| t_min * 10f64.ppowf(k as f64 / per))
+            .collect();
         Self {
             h_minus1,
             taus,
@@ -840,9 +842,9 @@ impl ClockStateExt {
 mod tests {
     use super::*;
     use crate::allan::overlapping_adev;
+    use crate::portable_distr::{Distribution, Normal};
     use rand::SeedableRng;
     use rand_chacha::ChaCha8Rng;
-    use crate::portable_distr::{Distribution, Normal};
 
     #[test]
     fn van_loan_q_3state_matches_analytic() {

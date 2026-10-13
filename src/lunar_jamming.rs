@@ -100,7 +100,6 @@
 //! qualified terminal's design-control table. Deterministic: pure geometry and closed-form
 //! radiometry, no random state.
 
-use crate::portable_math::PortableFloat;
 use crate::jamming::{
     effective_cn0_dbhz, free_space_path_loss_db, j_over_s_db, lock_status,
     noise_density_dbw_per_hz, nominal_cn0_dbhz, q_factor, rx_antenna_gain_db, C_M_PER_S,
@@ -108,6 +107,7 @@ use crate::jamming::{
 use crate::lunar::{selenographic_to_mcmf, Selenographic, R_MOON_M};
 use crate::lunar_service::{topocentric, LunarConstellation, LunarSat};
 use crate::palette::chart::{AMBER, AXIS, BG, CORAL, FONT_SANS, INK_2, LIME, MUTED};
+use crate::portable_math::PortableFloat;
 use serde::{Deserialize, Serialize};
 
 // ---------------------------------------------------------------------------

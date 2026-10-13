@@ -303,7 +303,7 @@ pub fn conical_shadow(r: Vec3, s: Vec3) -> f64 {
     }
     let a = (SOLAR_RADIUS / d_sun).clamp(-1.0, 1.0).pasin(); // Sun apparent radius
     let b = (RE_EARTH / r_n).clamp(-1.0, 1.0).pasin(); // Earth apparent radius
-                                                      // Apparent separation c = angle between sat→Sun (d) and sat→Earth-centre (−r).
+                                                       // Apparent separation c = angle between sat→Sun (d) and sat→Earth-centre (−r).
     let dot = d[0] * (-r[0]) + d[1] * (-r[1]) + d[2] * (-r[2]);
     let c = (dot / (d_sun * r_n)).clamp(-1.0, 1.0).pacos();
     if c >= a + b {

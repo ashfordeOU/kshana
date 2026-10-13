@@ -20,9 +20,9 @@
 //! `R_e·ω⊕·T` ([`ground_track_spacing_equator`]) is kept for callers that supply their own
 //! period.
 
-use crate::portable_math::PortableFloat;
 use crate::forces::{j2_secular_rates, EARTH_ROTATION_RATE, J2};
 use crate::orbit::{MU_EARTH, R_EARTH_EQUATORIAL_M};
+use crate::portable_math::PortableFloat;
 use serde::Deserialize;
 
 /// Earth angular radius `ρ` (rad) seen from a spacecraft at geometric

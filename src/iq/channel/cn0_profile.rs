@@ -67,13 +67,13 @@
 //! by seeded simulation, and a profiled scene's tracked C/N0 against the profile, in
 //! `tests/iq_cn0_profile.rs`.
 
-use crate::portable_math::PortableFloat;
 use super::sat_seed;
 use crate::iq::scene::{SatView, SceneChannel, TruthRecord, TruthSink};
 use crate::iq::{ChannelSnapshot, IqError};
+use crate::portable_distr::{Distribution, StandardNormal};
+use crate::portable_math::PortableFloat;
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
-use crate::portable_distr::{Distribution, StandardNormal};
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 

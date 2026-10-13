@@ -20,8 +20,8 @@
 //! (2004), §4; the underlying Gauss–Newton / weighted-least-squares numerics follow
 //! Björck, *Numerical Methods for Least Squares Problems* (1996).
 
-use crate::portable_math::PortableFloat;
 use crate::fusion::ukf::inverse;
+use crate::portable_math::PortableFloat;
 
 /// The outcome of a batch least-squares solve.
 #[derive(Clone, Debug)]

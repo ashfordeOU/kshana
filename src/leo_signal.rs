@@ -61,7 +61,6 @@
 //! ionospheric delay is first order for a slant total electron content (TEC) the caller
 //! supplies (a LEO satellite sees only the part of the ionosphere below it).
 
-use crate::portable_math::PortableFloat;
 use crate::navsignal::{
     bpsk_gabor_bandwidth_closed_form_hz, bpsk_power_in_band_closed_form, dll_jitter_bandlimited_s,
     dll_jitter_small_spacing_limit_s, panels_for, parse_modulation, simpson, EarlyLate, Modulation,
@@ -70,6 +69,7 @@ use crate::navsignal::{
 use crate::palette::chart::{
     AMBER, AXIS, BLUE, CORAL, CYAN, GRID, INK_2, INK_3, LIME, MAGENTA, MUTED,
 };
+use crate::portable_math::PortableFloat;
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 use std::f64::consts::PI;

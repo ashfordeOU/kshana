@@ -51,7 +51,6 @@
 //! or antenna pattern acts on the jammer. Intra-system (multiple-access) interference
 //! between satellites of the same band is not included.
 
-use crate::portable_math::PortableFloat;
 use crate::chart::esc;
 use crate::jamming::{
     effective_cn0_dbhz, free_space_path_loss_db, j_over_s_db, lock_status, q_factor,
@@ -59,6 +58,7 @@ use crate::jamming::{
 };
 use crate::navsignal::{q_from_ssc, simpson, spectral_separation_coeff_offset, Modulation, F0_HZ};
 use crate::palette::chart::{AMBER, AXIS, CORAL, INK_2, LIME, MUTED, TEXT};
+use crate::portable_math::PortableFloat;
 use crate::sdr::Cf64;
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
@@ -835,8 +835,8 @@ pub fn synthesise_iq(
     t_s: f64,
     seed: u64,
 ) -> Result<Vec<Cf64>, String> {
-    use rand::SeedableRng;
     use crate::portable_distr::{Distribution, StandardNormal};
+    use rand::SeedableRng;
     if !n.is_power_of_two() || n < 16 {
         return Err(format!("iq: n = {n} must be a power of two, at least 16"));
     }
@@ -2778,8 +2778,8 @@ mod tests {
 
     #[test]
     fn welch_reads_white_noise_as_variance_over_fs_and_keeps_a_tone_s_power() {
-        use rand::SeedableRng;
         use crate::portable_distr::{Distribution, StandardNormal};
+        use rand::SeedableRng;
         let mut rng = rand_chacha::ChaCha8Rng::seed_from_u64(3);
         let fs = 1.0e6;
         let n = 1 << 16;

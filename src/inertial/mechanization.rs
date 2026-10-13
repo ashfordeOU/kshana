@@ -26,9 +26,9 @@
 //! Integrated Navigation Systems*, 2nd ed., §2.4 (gravity), §5.4 (NED
 //! mechanization); NIMA TR8350.2 (WGS-84 gravity formula).
 
-use crate::portable_math::PortableFloat;
 use super::attitude::{coning_increment, Quaternion};
 use crate::frames::{wgs84_e2, Geodetic, Vec3, WGS84_A, WGS84_F};
+use crate::portable_math::PortableFloat;
 
 /// WGS-84 Earth rotation rate (rad/s).
 pub const OMEGA_IE: f64 = 7.292_115e-5;

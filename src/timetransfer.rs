@@ -4,10 +4,10 @@
 use crate::allan::overlapping_adev;
 use crate::models::{ClockModel, ErrorModel};
 use crate::palette::chart::{AMBER, AXIS, BG, CORAL, CYAN, FONT_SANS, INK_2};
+use crate::portable_distr::{Distribution, Normal};
 use crate::types::{ModelSpec, Seconds};
 use rand::{RngCore, SeedableRng};
 use rand_chacha::ChaCha8Rng;
-use crate::portable_distr::{Distribution, Normal};
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 

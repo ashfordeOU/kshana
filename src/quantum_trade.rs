@@ -29,10 +29,10 @@
 //! holdover to a tight threshold is governed by that **assumption**, and
 //! [`TradeResult::floor_caveat`] / [`Provenance`] carry that on the artifact.
 
-use crate::portable_math::PortableFloat;
 use crate::clock_state::ClockClass;
 use crate::holdover::{holdover_seconds, phase_to_range_m, QuantumClockClass};
 use crate::inertial::quantum_imu::QuantumNavBudget;
+use crate::portable_math::PortableFloat;
 use crate::types::Seconds;
 
 /// The three holdover noise PSD coefficients (consumed by [`holdover_seconds`]).

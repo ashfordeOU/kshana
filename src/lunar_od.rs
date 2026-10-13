@@ -215,9 +215,9 @@ impl<E: LunarEnvironment> ForceModel for LunarForceModel<E> {
 
 #[cfg(test)]
 mod tests {
-    use crate::portable_math::PortableFloat;
     use super::*;
     use crate::lunar::{MOON_GM_M3_S2, R_MOON_M};
+    use crate::portable_math::PortableFloat;
 
     fn norm(v: Vec3) -> f64 {
         (v[0] * v[0] + v[1] * v[1] + v[2] * v[2]).sqrt()

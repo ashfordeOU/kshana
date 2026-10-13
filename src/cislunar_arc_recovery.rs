@@ -67,7 +67,6 @@
 //! * **Modelled.** The constellation design, the epoch grid, the single tracked link, the
 //!   displacement magnitude, and the two stated bounds.
 
-use crate::portable_math::PortableFloat;
 use crate::batch_ls::gauss_newton;
 use crate::cislunar_observability::CislunarObservabilityScenario;
 use crate::cr3bp::{
@@ -75,9 +74,10 @@ use crate::cr3bp::{
 };
 use crate::intersat_range::{intersat_range_rate_spatial, intersat_range_spatial, SpatialState};
 use crate::palette::chart::{AMBER, AXIS, BG, FONT_SANS, INK_2, INK_4, MAGENTA, MUTED};
+use crate::portable_distr::{Distribution, Normal};
+use crate::portable_math::PortableFloat;
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
-use crate::portable_distr::{Distribution, Normal};
 use serde::Deserialize;
 
 /// Planar CR3BP state dimension `[x, y, ẋ, ẏ]`.

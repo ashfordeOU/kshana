@@ -14,8 +14,8 @@
 //! I/Q at 25 Msps; many SDR captures (HackRF, bladeRF) are 8-bit. Pick the matching
 //! [`IqFormat`]; the absolute scale is irrelevant to correlation.
 
-use crate::portable_math::PortableFloat;
 use super::{Observation, Orient};
+use crate::portable_math::PortableFloat;
 use crate::sdr::{self, CaCode, Cf64, CorrelatorDump, TrackConfig};
 
 /// Interleaved I/Q sample quantisation of a raw IF file.

@@ -28,7 +28,6 @@
 //! real-agency-dataset fits (Galileo MEO, Swarm-A LEO, LRO lunar) layer real EOP and SP3/SPK
 //! truth on top of this engine in the validation harnesses.
 
-use crate::portable_math::PortableFloat;
 use crate::cio::gcrs_to_itrs_matrix;
 use crate::eop::EopSeries;
 use crate::ephem::{moon_position, sun_position};
@@ -39,6 +38,7 @@ use crate::forces::{
 use crate::fusion::ukf::inverse;
 use crate::gravity_sh::SphericalHarmonicField;
 use crate::integrator::{integrate_dopri, Tolerance};
+use crate::portable_math::PortableFloat;
 use crate::precession::{julian_centuries_tt, mat_vec, transpose, Mat3};
 use crate::tides::tidal_acceleration;
 use crate::timescales::SECONDS_PER_DAY;

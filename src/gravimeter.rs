@@ -29,13 +29,13 @@
 //! terrain-aided SLAM remain follow-ons; so does wiring the benchmark into the global
 //! scenario-engine `kind=` dispatcher with an SVG drift chart. See `docs/CAPABILITY.md`.
 
-use crate::portable_math::PortableFloat;
 use crate::inertial::quantum_imu::CaiAccelerometer;
 use crate::mapmatch::{hierarchical_offset_search, map_match_likelihood};
 use crate::particle_filter::ParticleFilter;
+use crate::portable_distr::{Distribution, Normal};
+use crate::portable_math::PortableFloat;
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
-use crate::portable_distr::{Distribution, Normal};
 use serde::Deserialize;
 
 /// Earth gravitational parameter `GM` (m³/s², WGS-84/EGM).

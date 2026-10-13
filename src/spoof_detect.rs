@@ -13,8 +13,8 @@
 //! as `tests/spoof_texbat_validation.rs`), not raw IQ — kshana is a simulator, not an SDR
 //! receiver.
 
-use crate::portable_math::PortableFloat;
 use crate::palette::chart::{BG, CORAL, FONT_SANS, INK_3, LIME, MUTED, TITLE};
+use crate::portable_math::PortableFloat;
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 

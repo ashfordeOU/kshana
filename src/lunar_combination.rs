@@ -58,15 +58,15 @@
 //! come from [`crate::lunar_vlbi::station_inertial_position`]. Because truth and prediction take
 //! the identical path, the closed loop is exact up to the injected noise.
 
-use crate::portable_math::PortableFloat;
 use crate::batch_ls::{gauss_newton, gauss_newton_qr, LsqResult};
 use crate::fusion::ukf::inverse;
 use crate::lunar::mcmf_to_selenographic;
 use crate::lunar_vlbi::{beacon_inertial_position, geometric_delay_s, station_inertial_position};
 use crate::palette::chart::{AXIS, BG, CORAL, FONT_SANS, INK_2, LIME};
+use crate::portable_distr::{Distribution, Normal};
+use crate::portable_math::PortableFloat;
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
-use crate::portable_distr::{Distribution, Normal};
 
 /// Speed of light (m/s).
 const C: f64 = crate::timegeo::C_M_PER_S;

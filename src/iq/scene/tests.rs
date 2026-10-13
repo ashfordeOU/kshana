@@ -3,10 +3,10 @@
 //! C/N0 against the closed-form coherent SNR, broadcast geometry through SPP) are in
 //! `tests/iq_scene_receiver.rs`.
 
-use crate::portable_math::PortableFloat;
 use super::*;
 use crate::gps_lnav::{decode_fields, encode_word, field_values, source_data, LnavEphemeris};
 use crate::iq::{Cf64, VecSink};
+use crate::portable_math::PortableFloat;
 use crate::sdr::{CaCode, L1_HZ};
 
 const FS: f64 = 2.5e6;

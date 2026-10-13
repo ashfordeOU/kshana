@@ -47,8 +47,8 @@
 //! No external linear-algebra dependency: the small dense matrices are handled
 //! by the helpers in this module.
 
-use crate::portable_math::PortableFloat;
 use crate::frames::Vec3;
+use crate::portable_math::PortableFloat;
 
 const N: usize = 15; // error-state dimension
 

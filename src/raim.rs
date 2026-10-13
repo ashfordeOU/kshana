@@ -39,14 +39,14 @@
 //! ADD v4.2 ARAIM path lives in `araim_reference`. Together these provide
 //! the genuine HPL/VPL an integrity claim rests on — not a self-consistency FoM.
 
-use crate::portable_math::PortableFloat;
 use crate::frames::Vec3;
 use crate::orbit::{enu_basis, invert4, los_unit, ConstellationCfg, Orbit, OrbitCfg, Propagator};
 use crate::palette::chart::{AMBER, AXIS, BG, CORAL, CYAN, FONT_SANS, INK_2, INK_4, LIME, MAGENTA};
+use crate::portable_distr::{Distribution, Normal};
+use crate::portable_math::PortableFloat;
 use crate::scenario::TimeCfg;
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
-use crate::portable_distr::{Distribution, Normal};
 use serde::{Deserialize, Serialize};
 
 /// Upper bound on the number of doublings used to bracket a monotone quantile.

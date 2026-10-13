@@ -40,13 +40,13 @@
 //! Both are checked against the third-party `allantools` package on a committed
 //! holdover series in `tests/telecom_timing_reference.rs`.
 
-use crate::portable_math::PortableFloat;
 use crate::field_schema::FieldUnit;
 use crate::models::{ClockModel, ErrorModel};
 use crate::palette::chart::{AMBER, BLUE, GRID, INK_3, MUTED};
+use crate::portable_distr::{Distribution, Normal};
+use crate::portable_math::PortableFloat;
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
-use crate::portable_distr::{Distribution, Normal};
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 

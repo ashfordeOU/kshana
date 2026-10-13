@@ -8,9 +8,9 @@
 //! Synthetic runs are test inputs: a fit that recovers their parameters shows the fit
 //! inverts the model, not that the model describes a receiver.
 
+use crate::portable_distr::{Distribution, Normal};
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
-use crate::portable_distr::{Distribution, Normal};
 
 use super::model::{lock_params, simulate_sat, ModelKind};
 use super::schema::{Conditions, LoopFixedCfg};

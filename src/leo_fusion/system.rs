@@ -14,10 +14,10 @@
 //!
 //! Every value can be given inline; a preset only fills what the scenario leaves out.
 
-use crate::portable_math::PortableFloat;
 use super::geom::{build_orbits, EarthOrbit, DEG};
 use super::joint_pvt::{code_sigma_dll_m, SystemClock};
 use crate::constellation::{ConstellationCfg, SatelliteCfg, ShellCfg, WalkerPattern};
+use crate::portable_math::PortableFloat;
 use serde::{Deserialize, Serialize};
 
 /// One `[[system]]` table.

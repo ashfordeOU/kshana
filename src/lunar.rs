@@ -17,8 +17,8 @@
 //! in [`crate::cr3bp`]); the LANS signal-in-space error budget, the physical libration /
 //! precessing lunar pole (DE421/SPICE), and wiring real NRHO relays in are follow-ons.
 
-use crate::portable_math::PortableFloat;
 use crate::palette::chart::{AXIS, BG, CORAL, CYAN, FONT_SANS, INK_2};
+use crate::portable_math::PortableFloat;
 use crate::raim::{araim_raim, AraimResult, FaultPriors, IntegrityBudget};
 use serde::{Deserialize, Serialize};
 use std::f64::consts::{FRAC_PI_2, TAU};

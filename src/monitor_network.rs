@@ -64,10 +64,10 @@
 //!
 //! Deterministic: no wall-clock, no RNG.
 
-use crate::portable_math::PortableFloat;
 use crate::detection::{analytic_pd, detection_boundary};
 use crate::lunar::{selenographic_to_mcmf, Selenographic};
 use crate::lunar_service::visible_sat_positions;
+use crate::portable_math::PortableFloat;
 use crate::spoof_monitors::{combine_power_dbm, AgcMonitor};
 
 /// Great-circle (surface arc) radius, in metres, of the surface disk an object at height

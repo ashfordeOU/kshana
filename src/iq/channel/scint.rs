@@ -44,12 +44,12 @@
 //! satellite number, so the same seed gives bit-identical output whatever order satellites
 //! are queried in.
 
-use crate::portable_math::PortableFloat;
 use super::{sat_seed, ChannelEffect, LineOfSight};
 use crate::iq::simrng::SimRng;
 use crate::iq::ChannelSnapshot;
-use rand::Rng;
 use crate::portable_distr::StandardNormal;
+use crate::portable_math::PortableFloat;
+use rand::Rng;
 use std::collections::BTreeMap;
 use std::f64::consts::SQRT_2;
 

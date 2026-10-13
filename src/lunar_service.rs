@@ -41,12 +41,12 @@
 //! an illustrative geometry. Sources (public, for the system class only): ESA Moonlight
 //! / LCNS public material; NASA/ESA LunaNet Interoperability Specification (LNIS).
 
-use crate::portable_math::PortableFloat;
 use crate::lunar::{
     mci_to_mcmf, selenographic_to_mcmf, Selenographic, LUNAR_SIGMA_URE_M, MOON_GM_M3_S2, R_MOON_M,
 };
 use crate::orbit::Dop;
 use crate::palette::chart::{AXIS, BG, CORAL, CYAN, FONT_SANS, INK_2};
+use crate::portable_math::PortableFloat;
 use crate::raim::IntegrityBudget;
 use serde::{Deserialize, Serialize};
 
@@ -102,8 +102,8 @@ impl LunarSat {
             }
         }
         let r = self.sma_m * (1.0 - e * ea.pcos());
-        let nu =
-            2.0 * ((1.0 + e).sqrt() * (ea * 0.5).psin()).patan2((1.0 - e).sqrt() * (ea * 0.5).pcos());
+        let nu = 2.0
+            * ((1.0 + e).sqrt() * (ea * 0.5).psin()).patan2((1.0 - e).sqrt() * (ea * 0.5).pcos());
         let u = self.argp_deg.to_radians() + nu;
         let (su, cu) = u.psin_cos();
         let (si, ci) = self.inc_deg.to_radians().psin_cos();

@@ -20,10 +20,10 @@
 //! What is modelled here is conformance to the standard, not a channel: no propagation, no
 //! dynamics beyond a constant Doppler, no receiver front end.
 
-use crate::portable_math::PortableFloat;
 use super::codes::{chip_level, LsisCodes, NodeChips, NodeCodes, I_PRIMARY_LEN, Q_PRIMARY_LEN};
 use super::frame::{FrameCoder, FrameData, FRAME_SYMBOLS, SB2_DATA_BITS, SB34_DATA_BITS};
 use super::{CARRIER_HZ, I_CHIP_RATE_HZ, LSIS_VERSION, Q_CHIP_RATE_HZ};
+use crate::portable_math::PortableFloat;
 use crate::sdr::Cf64;
 use rand::{Rng, SeedableRng};
 use rand_chacha::ChaCha8Rng;

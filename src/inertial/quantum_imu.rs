@@ -671,7 +671,8 @@ mod budget_tests {
         let q0 = budget.cai.q_va();
         let a: f64 = 2.0 / 200.0; // 2/τ_s
         let analytic = q0
-            * ((a * t).pexp() * 2.0 / a.ppowi(3) - (t * t / a + 2.0 * t / (a * a) + 2.0 / a.ppowi(3)));
+            * ((a * t).pexp() * 2.0 / a.ppowi(3)
+                - (t * t / a + 2.0 * t / (a * a) + 2.0 / a.ppowi(3)));
         let numeric = budget.vrw_position_variance(t);
         let rel = (numeric - analytic).abs() / analytic;
         assert!(

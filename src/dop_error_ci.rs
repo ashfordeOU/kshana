@@ -47,10 +47,10 @@
 //! the textbook error model. It does not show that real ranging errors are Gaussian,
 //! independent or of equal variance, nor what σ_UERE is for any receiver: σ is an input.
 
+use crate::portable_distr::{Distribution, StandardNormal};
 use crate::portable_math::PortableFloat;
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
-use crate::portable_distr::{Distribution, StandardNormal};
 use serde::Serialize;
 
 use crate::frames::{geodetic_to_ecef, Geodetic};

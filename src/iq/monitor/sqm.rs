@@ -24,9 +24,9 @@
 //! C/N0, divided by `√avg_epochs`. (The delta test also sees the code loop's tracking
 //! error, which the closed form leaves out; the measured spread covers it.)
 
-use crate::portable_math::PortableFloat;
 use super::{stats, Baseline, MonitorEvent, MonitorReport, Series, Side, SpanDetector};
 use crate::iq::Cf64;
+use crate::portable_math::PortableFloat;
 use serde::{Deserialize, Serialize};
 use std::collections::VecDeque;
 

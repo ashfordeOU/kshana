@@ -58,7 +58,6 @@
 //! whose geometry can never reach full rank is reported as having **no** threshold rather
 //! than an extrapolated one.
 
-use crate::portable_math::PortableFloat;
 use crate::cislunar_srif::{full_rank_transition, srif_cross_validation, SrifArcPoint};
 use crate::cr3bp::{
     differential_correct_halo, jacobi_constant, propagate_cr3bp, Cr3bpState, EARTH_MOON_DIST_KM,
@@ -75,6 +74,7 @@ use crate::observability_gramian::{
     N_SPATIAL,
 };
 use crate::palette::chart::{AMBER, BLUE, CYAN, GRID, MUTED, TITLE};
+use crate::portable_math::PortableFloat;
 use serde::Deserialize;
 use std::sync::{Mutex, OnceLock};
 

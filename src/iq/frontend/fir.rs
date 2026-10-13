@@ -18,8 +18,8 @@
 //! bandwidth shifted to the band centre, which gives complex taps passing only the stated
 //! band (positive or negative frequencies).
 
-use crate::portable_math::PortableFloat;
 use super::{Cf64, Stage};
+use crate::portable_math::PortableFloat;
 use std::f64::consts::PI;
 
 /// Modified Bessel function of the first kind, order zero, by its power series

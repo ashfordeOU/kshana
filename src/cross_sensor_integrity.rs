@@ -45,8 +45,8 @@
 //! gravity-model and initial-tilt coupling. Deterministic: closed forms only, no
 //! wall-clock, no RNG.
 
-use crate::portable_math::PortableFloat;
 use crate::detection::{detection_boundary, normal_inv_cdf};
+use crate::portable_math::PortableFloat;
 use crate::tpl::TplInputs;
 use serde::Serialize;
 

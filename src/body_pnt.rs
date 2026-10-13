@@ -34,16 +34,16 @@
 //! in [`crate::body`]; IAU = International Astronomical Union), and the Earth-to-body geometry
 //! inherits the ephemeris labels of the `solar-system` kind.
 
-use crate::portable_math::PortableFloat;
 use crate::body::Body;
 use crate::ephem_provider::{AnalyticSolarSystem, EphemerisProvider};
 use crate::mars_frame::bodyfixed_to_inertial;
 use crate::mars_pnt::chord_clears_sphere;
 use crate::palette::chart::{BLUE, CYAN, MUTED};
+use crate::portable_distr::{Distribution, Normal};
+use crate::portable_math::PortableFloat;
 use crate::solar_system::{link, parse_table, resolve_epoch, EpochOut, LinkOut};
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
-use crate::portable_distr::{Distribution, Normal};
 use serde::{Deserialize, Serialize};
 
 type Vec3 = [f64; 3];

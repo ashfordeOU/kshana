@@ -23,12 +23,12 @@
 //! centimetre PPP/RTK use RTKLIB or gLAB. What it provides is the genuine
 //! standards-format positioning path: real observations in, a real position out.
 
-use crate::portable_math::PortableFloat;
 use crate::chart::y_axis;
 use crate::frames::{ecef_to_geodetic, look_angles, Geodetic, Vec3};
 use crate::gnss_sim::{klobuchar_delay_m, tropo_delay_m, KlobucharCoeffs, Meteo, C_M_PER_S};
 use crate::orbit::{invert4, los_unit};
 use crate::palette::chart::{AXIS, BG, CYAN, FONT_SANS, INK_2};
+use crate::portable_math::PortableFloat;
 use crate::rinex::{parse_nav, RinexEphemeris};
 use crate::rinex_obs::{parse_obs, RinexObs};
 use serde::{Deserialize, Serialize};

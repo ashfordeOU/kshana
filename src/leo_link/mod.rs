@@ -75,7 +75,10 @@ mod tests {
         // 2 dB noise figure is 169.6 K; a 100 K floor and a clear sky give about 272 K.
         let t = system_noise_temperature_k(100.0, 0.03, 275.0, 2.0);
         assert!(
-            (t - (100.0 + 2.7 * 10f64.ppowf(-0.003) + 275.0 * (1.0 - 10f64.ppowf(-0.003)) + 169.62))
+            (t - (100.0
+                + 2.7 * 10f64.ppowf(-0.003)
+                + 275.0 * (1.0 - 10f64.ppowf(-0.003))
+                + 169.62))
                 .abs()
                 < 0.1
         );

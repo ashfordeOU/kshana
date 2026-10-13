@@ -52,11 +52,11 @@
 //!   numbers. Horizons longer than the shipped daily fixture spans (h > 4 days) are
 //!   reported only when the supplied series reaches them.
 
-use crate::portable_math::PortableFloat;
 use crate::eop::{
     parse_all_predicted, parse_bulletin_b_pm, parse_bulletin_b_ut1, parse_measured, EopRecord,
 };
 use crate::palette::chart::{AMBER, AXIS, BG, CORAL, CYAN, FONT_SANS, INK_2, LIME, MUTED, TITLE};
+use crate::portable_math::PortableFloat;
 use crate::timescales::{ERA_TURNS_PER_UT1_DAY, SECONDS_PER_DAY};
 
 /// Speed of light in vacuum, m/s (defining constant).

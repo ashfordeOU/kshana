@@ -33,7 +33,6 @@
 //! with pinned bars, but no published bound exists to validate them against. Each row
 //! carries its own label and method string.
 
-use crate::portable_math::PortableFloat;
 use crate::body::{Body, BodyFacts, SOLAR_SYSTEM};
 use crate::ephem::{
     icrf_to_ecliptic, satellite_state, standish_elements, standish_nominal_error, Planet,
@@ -41,6 +40,7 @@ use crate::ephem::{
 };
 use crate::ephem_provider::{AnalyticSolarSystem, EphemerisProvider};
 use crate::palette::chart::{AMBER, AXIS, CYAN, LIME, MUTED};
+use crate::portable_math::PortableFloat;
 use crate::radiometric::{light_time_solution, shapiro_delay, two_way_range};
 use crate::timescales::TwoPartJd;
 use serde::{Deserialize, Serialize};

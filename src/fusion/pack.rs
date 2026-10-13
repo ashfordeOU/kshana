@@ -36,7 +36,6 @@
 //! claimed; the delivered quantity is the bounded, corrected state and its outage
 //! coast.
 
-use crate::portable_math::PortableFloat;
 use super::closed_loop::ClosedLoopInsGnss;
 use super::gnss_ins_ekf::{EkfNoise, GnssInsEkf};
 use crate::frames::{Geodetic, Vec3};
@@ -45,11 +44,12 @@ use crate::inertial::imu_errors::ImuErrorModel;
 use crate::inertial::mechanization::{normal_gravity, radii_of_curvature, NavState};
 use crate::inertial::{score_position, PosSample, PositionFoM};
 use crate::palette::chart::{AMBER, AXIS, BG, CORAL, CYAN, FONT_SANS, INK_2};
+use crate::portable_distr::{Distribution, Normal};
+use crate::portable_math::PortableFloat;
 use crate::scenario::{GnssState, GnssTimeline, TimeCfg};
 use crate::types::ModelSpec;
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
-use crate::portable_distr::{Distribution, Normal};
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 

@@ -31,9 +31,9 @@ use super::terrain::{deg_offset_to_m, Altimeter, DemGrid};
 use crate::mapmatch::field_likelihood;
 use crate::palette::chart::{BG, CORAL, FONT_SANS, LIME, MUTED, TEXT};
 use crate::particle_filter::ParticleFilter;
+use crate::portable_distr::{Distribution, Normal};
 use rand::{RngCore, SeedableRng};
 use rand_chacha::ChaCha8Rng;
-use crate::portable_distr::{Distribution, Normal};
 use serde::{Deserialize, Serialize};
 
 fn default_n_particles() -> usize {

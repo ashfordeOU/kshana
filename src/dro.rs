@@ -31,9 +31,9 @@
 //! * **Modelled.** *Which* DROs (the chosen perilune amplitudes and phases of a
 //!   constellation) is a scenario design choice, not a certified optimum.
 
-use crate::portable_math::PortableFloat;
 use crate::cr3bp::{cr3bp_accel, propagate_cr3bp, Cr3bpState, EARTH_MOON_DIST_KM, EARTH_MOON_MU};
 use crate::observability_gramian::planar_state_stm;
+use crate::portable_math::PortableFloat;
 
 /// A planar CR3BP state `[x, y, ẋ, ẏ]` (rotating frame, normalised Earth–Moon units).
 pub type Planar = [f64; 4];

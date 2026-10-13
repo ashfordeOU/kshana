@@ -16,8 +16,8 @@
 //! `exp(j2π f/f_s)`, placing the zero on the tone; `r` sets the notch width (closer to 1 is
 //! narrower). The estimated frequency is `arg(z₀)·f_s/2π`.
 
-use crate::portable_math::PortableFloat;
 use super::{conj, norm_sqr, Cf64, Stage};
+use crate::portable_math::PortableFloat;
 
 /// An LMS-adapted complex notch (see the module documentation).
 #[derive(Clone, Copy, Debug, PartialEq)]

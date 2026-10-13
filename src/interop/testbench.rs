@@ -68,9 +68,9 @@
 //! No clock, file or network is read, and no output carries a generation time: the same
 //! scenario and epoch give the same bytes on every platform.
 
-use crate::portable_math::PortableFloat;
 use super::{round_dp, ExportError, ExportFile, UtcEpoch};
 use crate::frames::{ecef_to_geodetic, geodetic_to_ecef, Geodetic, Vec3};
+use crate::portable_math::PortableFloat;
 use crate::scenario::GnssState;
 
 /// The UTC instant of `t = 0` when the caller names none: a fixed, documented date, so

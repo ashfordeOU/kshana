@@ -988,9 +988,9 @@ pub fn provider_mismatch_split(
 
 #[cfg(test)]
 mod tests {
-    use crate::portable_math::PortableFloat;
     use super::*;
     use crate::lunar_gauge::{classify_null_space, IDX_RATE, IDX_SCALE};
+    use crate::portable_math::PortableFloat;
 
     /// 2024-01-01 TT (JD 2460310.5), inside the DE440 fixture window.
     const T0: f64 = (2_460_310.5 - 2_451_545.0) / 36_525.0;

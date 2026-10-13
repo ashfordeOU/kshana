@@ -30,9 +30,9 @@
 //!   nadir whose extent follows from altitude and pattern, and that at a modest EIRP the
 //!   limb is **not** captured — refuting the whole-hemisphere claim.
 
-use crate::portable_math::PortableFloat;
 use crate::jamming::{j_over_s_db, C_M_PER_S};
 use crate::lunar::R_MOON_M;
+use crate::portable_math::PortableFloat;
 use crate::sweep::SweepAxis;
 use serde::Serialize;
 use std::f64::consts::PI;
@@ -1520,7 +1520,10 @@ mod tests {
         assert!(
             (avg[0].1
                 - 10.0
-                    * ((10f64.ppowf(1.0) + 10f64.ppowf(1.2) + 10f64.ppowf(1.4) + 10f64.ppowf(1.6))
+                    * ((10f64.ppowf(1.0)
+                        + 10f64.ppowf(1.2)
+                        + 10f64.ppowf(1.4)
+                        + 10f64.ppowf(1.6))
                         / 4.0)
                         .plog10())
             .abs()

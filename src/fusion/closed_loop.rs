@@ -50,11 +50,11 @@
 //! biases) is essential to stability: the tilt and accelerometer bias are a
 //! coupled pair, so correcting one without the other drives the filter unstable.
 
-use crate::portable_math::PortableFloat;
 use super::gnss_ins_ekf::{GnssInsEkf, GnssMeasurement};
 use crate::frames::{Geodetic, Vec3};
 use crate::inertial::attitude::Quaternion;
 use crate::inertial::mechanization::{radii_of_curvature, NavState};
+use crate::portable_math::PortableFloat;
 
 /// A closed-loop loosely-coupled GNSS/INS navigator.
 pub struct ClosedLoopInsGnss {
@@ -241,9 +241,9 @@ mod tests {
     use crate::fusion::gnss_ins_ekf::EkfNoise;
     use crate::inertial::attitude::Quaternion;
     use crate::inertial::mechanization::{normal_gravity, OMEGA_IE};
+    use crate::portable_distr::{Distribution, Normal};
     use rand::SeedableRng;
     use rand_chacha::ChaCha8Rng;
-    use crate::portable_distr::{Distribution, Normal};
     use std::f64::consts::PI;
 
     const LAT0: f64 = PI / 4.0;

@@ -36,8 +36,8 @@
 //! a stated level, the ephemeris is perfect unless an ephemeris range-rate error is added by
 //! the caller, and the ionosphere, troposphere and oscillator acceleration are not modelled.
 
-use crate::portable_math::PortableFloat;
 use super::geom::{cross, dot, inverse, norm, normal_equations, scale, sub, EarthOrbit, Mat, Vec3};
+use crate::portable_math::PortableFloat;
 use serde::Serialize;
 
 /// One range-rate measurement.
@@ -554,9 +554,9 @@ pub fn closest_approach(
 mod tests {
     use super::*;
     use crate::leo_fusion::geom::{Site, DEG};
+    use crate::portable_distr::{Distribution, Normal};
     use rand::SeedableRng;
     use rand_chacha::ChaCha8Rng;
-    use crate::portable_distr::{Distribution, Normal};
 
     fn orbit() -> EarthOrbit {
         EarthOrbit::circular(1080e3, 53.0 * DEG, 0.0, 0.0)

@@ -551,8 +551,8 @@ pub fn solve_tdoa_fdoa_cov(
 
 #[cfg(test)]
 mod tests {
-    use crate::portable_math::PortableFloat;
     use super::*;
+    use crate::portable_math::PortableFloat;
 
     #[test]
     fn tdoa_forward_then_inverse_recovers_a_known_emitter() {

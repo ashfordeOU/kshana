@@ -38,13 +38,13 @@
 //! is implied. The ICRF orientation tie is a deliberately simple composition (documented on
 //! [`icrf_orientation_tie`]) reporting the realised small rotation about the ICRF axes.
 
-use crate::portable_math::PortableFloat;
 use crate::batch_ls::gauss_newton;
 use crate::palette::chart::{BG, FONT_SANS, INK_2, LIME};
+use crate::portable_distr::{Distribution, Normal};
+use crate::portable_math::PortableFloat;
 use crate::precession::{mat_vec, matmul, rx, ry, rz, transpose, Mat3};
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
-use crate::portable_distr::{Distribution, Normal};
 
 type Vec3 = [f64; 3];
 

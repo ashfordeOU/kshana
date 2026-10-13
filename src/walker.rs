@@ -9,10 +9,10 @@
 //! dilution-of-precision sweep over the design grid (planes × satellites ×
 //! inclination) and coverage-fraction / revisit-time figures of merit.
 
-use crate::portable_math::PortableFloat;
 use crate::frames::{geodetic_to_ecef, is_visible, Geodetic};
 use crate::jd2::Jd2;
 use crate::orbit::{dop, Propagator};
+use crate::portable_math::PortableFloat;
 use crate::sgp4::{wgs72, Sgp4};
 use serde::{Deserialize, Serialize};
 use std::f64::consts::TAU;

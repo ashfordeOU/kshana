@@ -203,8 +203,8 @@ impl KalmanClock {
 
 #[cfg(test)]
 mod tests {
-    use crate::portable_math::PortableFloat;
     use super::*;
+    use crate::portable_math::PortableFloat;
 
     #[test]
     fn coasting_covariance_matches_analytic_holdover() {

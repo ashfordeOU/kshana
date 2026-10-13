@@ -25,13 +25,13 @@
 //! iono-free cancellation, the `h_α` basis) and synthetic truth, not imported reference
 //! products. A real BIPM Circular-T / IGS SP3 ingest is a follow-on (see `ROADMAP.md`).
 
-use crate::portable_math::PortableFloat;
 use crate::allan::{overlapping_adev, time_deviation, PowerLawNoise};
+use crate::portable_distr::{Distribution, Normal};
+use crate::portable_math::PortableFloat;
 use crate::timegeo::{sagnac_correction, C_M_PER_S, OMEGA_EARTH};
 use crate::types::Seconds;
 use rand::{RngCore, SeedableRng};
 use rand_chacha::ChaCha8Rng;
-use crate::portable_distr::{Distribution, Normal};
 use std::f64::consts::PI;
 
 type Vec3 = [f64; 3];
@@ -286,7 +286,7 @@ fn avar_basis(tau: f64, f_h: f64) -> [f64; 5] {
         3.0 * f_h / (fourpi2 * tau * tau), // WPM
         (1.038 + 3.0 * (2.0 * PI * f_h * tau).pln()) / (fourpi2 * tau * tau), // FPM
         1.0 / (2.0 * tau),                 // WFM
-        2.0 * (2.0_f64).pln(),              // FFM
+        2.0 * (2.0_f64).pln(),             // FFM
         2.0 * PI * PI * tau / 3.0,         // RWFM
     ]
 }

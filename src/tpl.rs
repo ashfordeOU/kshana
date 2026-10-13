@@ -34,8 +34,8 @@
 //! over Validated primitives, calibrated but not itself externally validated, and it
 //! carries no integrity-risk-per-hour budget; we do not call it "certified".
 
-use crate::portable_math::PortableFloat;
 use crate::holdover::coast_phase_sigma;
+use crate::portable_math::PortableFloat;
 use crate::security::min_detectable_offset_ns;
 use serde::Serialize;
 

@@ -180,11 +180,11 @@ impl TightlyCoupled {
 
 #[cfg(test)]
 mod tests {
-    use crate::portable_math::PortableFloat;
     use super::*;
+    use crate::portable_distr::{Distribution, Normal};
+    use crate::portable_math::PortableFloat;
     use rand::SeedableRng;
     use rand_chacha::ChaCha8Rng;
-    use crate::portable_distr::{Distribution, Normal};
 
     // A GPS-like satellite geometry at MEO radius, well spread for good DOP.
     fn constellation() -> Vec<Sat> {

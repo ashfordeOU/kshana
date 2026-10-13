@@ -42,7 +42,6 @@
 //! two-body/J2/zonal/third-body/SRP/drag/relativity force model + the analytic-truth validation
 //! harness and the convergence-guarded Kepler solver.
 
-use crate::portable_math::PortableFloat;
 use crate::body::Body;
 use crate::ephem::{moon_position, sun_position};
 use crate::forces::{
@@ -50,6 +49,7 @@ use crate::forces::{
     two_body_accel_body, zonal_accel, EARTH_ZONALS_J2_J6, MU_EARTH, MU_MOON, MU_SUN,
 };
 use crate::integrator::{integrate, integrate_dopri, rk4_step, Tolerance};
+use crate::portable_math::PortableFloat;
 use crate::precession::julian_centuries_tt;
 use crate::sgp4::Sgp4;
 use crate::timescales::SECONDS_PER_DAY;

@@ -19,7 +19,6 @@
 //!
 //! Every mode is MODELLED; see [`super`] for the algorithms and their tests.
 
-use crate::portable_math::PortableFloat;
 use super::doppler::{self, DopplerOptions, RangeRateObs};
 use super::geom::{add, dot, median, norm, rms, scale, sub, EarthOrbit, Site, DEG};
 use super::joint_pvt::{self, PseudorangeObs, SystemClock};
@@ -27,9 +26,10 @@ use super::polar::{self, PolarRow};
 use super::system::{build_all, in_view, DllCfg, System, SystemCfg};
 use super::timing::{self, TimeTransferStats, UtcParams};
 use crate::palette::chart::{BLUE, CORAL, CYAN, INK_3, LIME, MAGENTA, MUTED};
+use crate::portable_distr::{Distribution, Normal};
+use crate::portable_math::PortableFloat;
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
-use crate::portable_distr::{Distribution, Normal};
 use serde::{Deserialize, Serialize};
 
 /// The user.

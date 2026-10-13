@@ -86,12 +86,12 @@
 //! formal `1738.0 km` differs by `0.03 %`, negligible for a sensitivity band and self-consistent
 //! with the rest of Kshana's lunar stack).
 
-use crate::portable_math::PortableFloat;
 use crate::body::MOON_ZONALS_J2_J3;
 use crate::ephem::{moon_position, sun_position};
 use crate::forces::{third_body_accel, MU_EARTH, MU_SUN};
 use crate::integrator::{integrate, rk4_step, Tolerance};
 use crate::lunar::{mci_to_mcmf, mcmf_to_mci, MOON_GM_M3_S2, R_MOON_M};
+use crate::portable_math::PortableFloat;
 use crate::timescales::SECONDS_PER_DAY;
 
 type Vec3 = [f64; 3];
@@ -234,7 +234,8 @@ pub fn elements_to_state(
         }
     }
     let r = a * (1.0 - e * ea.pcos());
-    let nu = 2.0 * ((1.0 + e).sqrt() * (ea * 0.5).psin()).patan2((1.0 - e).sqrt() * (ea * 0.5).pcos());
+    let nu =
+        2.0 * ((1.0 + e).sqrt() * (ea * 0.5).psin()).patan2((1.0 - e).sqrt() * (ea * 0.5).pcos());
     let p = a * (1.0 - e * e);
     let (snu, cnu) = nu.psin_cos();
     // Perifocal (x̂ toward perilune) position and velocity.
@@ -858,7 +859,8 @@ pub fn elements_in_frame_to_state(
             break;
         }
     }
-    let nu = 2.0 * ((1.0 + e).sqrt() * (ea * 0.5).psin()).patan2((1.0 - e).sqrt() * (ea * 0.5).pcos());
+    let nu =
+        2.0 * ((1.0 + e).sqrt() * (ea * 0.5).psin()).patan2((1.0 - e).sqrt() * (ea * 0.5).pcos());
     let p = sma_m * (1.0 - e * e);
     let r = p / (1.0 + e * nu.pcos());
     let (snu, cnu) = nu.psin_cos();

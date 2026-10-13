@@ -19,8 +19,8 @@
 //! WPM requires strictly positive data (it takes logs/reciprocals) and, like WSM,
 //! validates nothing about the inputs — see [`super::sensitivity`].
 
-use crate::portable_math::PortableFloat;
 use super::Objective;
+use crate::portable_math::PortableFloat;
 
 /// The outcome of a [`wpm`] run.
 #[derive(Clone, Debug, PartialEq, serde::Serialize)]

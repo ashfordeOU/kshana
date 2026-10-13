@@ -473,9 +473,9 @@ fn neg(v: Vec3) -> Vec3 {
 
 #[cfg(test)]
 mod tests {
-    use crate::portable_math::PortableFloat;
     use super::*;
     use crate::ephem::{moon_position, sun_position};
+    use crate::portable_math::PortableFloat;
 
     /// A fixed probe epoch (Julian Date, TDB) inside the analytic series' good span: 2022-001.5.
     const PROBE_JD: f64 = 2_459_580.5;

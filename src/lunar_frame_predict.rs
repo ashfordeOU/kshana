@@ -228,8 +228,8 @@ pub fn representative_report() -> FramePredictError {
 
 #[cfg(test)]
 mod tests {
-    use crate::portable_math::PortableFloat;
     use super::*;
+    use crate::portable_math::PortableFloat;
 
     /// ORACLE: exact light-time closed form `t = Δr / c`. Published P3 magnitudes
     /// 15 m → 50.035 ns and 0.27 m → 0.901 ns, reproduced to < 0.01 ns. With

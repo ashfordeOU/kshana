@@ -12,9 +12,9 @@
 //! On white Gaussian noise the per-block false-alarm probability of that test is
 //! [`super::stats::power_block_pfa`]; the report notes it for the block length used.
 
-use crate::portable_math::PortableFloat;
 use super::{stats, Baseline, MonitorEvent, MonitorReport, Series, Side, SpanDetector};
 use crate::iq::Cf64;
+use crate::portable_math::PortableFloat;
 use serde::{Deserialize, Serialize};
 
 /// Settings of [`PowerMonitor`].

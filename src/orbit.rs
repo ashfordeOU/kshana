@@ -193,8 +193,8 @@ impl Orbit {
         let ea = solve_kepler(m, e);
         let r = self.radius_m * (1.0 - e * ea.pcos());
         // True anomaly from the eccentric anomaly.
-        let nu =
-            2.0 * ((1.0 + e).sqrt() * (ea * 0.5).psin()).patan2((1.0 - e).sqrt() * (ea * 0.5).pcos());
+        let nu = 2.0
+            * ((1.0 + e).sqrt() * (ea * 0.5).psin()).patan2((1.0 - e).sqrt() * (ea * 0.5).pcos());
         let (su, cu) = (argp + nu).psin_cos();
         let (so, co) = raan.psin_cos();
         let (x, y, z) = (r * cu, r * su * ci, r * su * si);
