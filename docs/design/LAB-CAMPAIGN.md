@@ -354,6 +354,10 @@ expected to agree. The tests cover:
 * a Doppler-truth false-lock case, scored by tracking correctly against a truth sidecar shifted by
   300 Hz, beyond the 1/(4T) = 250 Hz threshold (§6 explains why a hand-off seeded at a ±1/(2T)
   alias is not used);
+* a real tracker false lock (`tests/iq_campaign_false_lock.rs`, 0.36). A legitimate GPS L1 C/A
+  carrier steps by +1/(2T) while the channel is locked, so the channel sits on the Costas alias.
+  The tracker's check must report `false-lock` from `LOCKED`, and the scorer must count it as
+  one episode in the run and in the stated event;
 * a performance check: cells/s and samples/s logged, with a loose budget, and the GB-scale case
   `#[ignore]`d.
 
@@ -437,8 +441,11 @@ expected to agree. The tests cover:
   (`tests/iq_campaign.rs`, `m2m4_changes_only_the_cn0_derived_fields`), and an NWPR run reproduces
   the results from before M2M4 existed (`nwpr_reproduces_the_pre_m2m4_results_exactly`).
 * A hand-off at the ±1/(2T) Costas alias never declares code lock: the coherent sum of the NWPR
-  estimator cancels there. The false-lock test therefore scores a correct track against a
-  shifted truth sidecar. That checks the scoring path, not the tracker's false-lock behaviour.
+  estimator cancels there. The truth-sidecar test therefore scores a correct track against a
+  shifted truth sidecar, which checks the scoring path only. The tracker's own false-lock
+  behaviour is exercised since 0.36 by stepping a locked channel's carrier onto the alias
+  (`tests/iq_campaign_false_lock.rs`). The check then fires from `LOCKED` 63 ms after the step.
+  That test also found the scorer bug in §6: such a false lock had never been counted.
 * At exactly 2 samples per chip (2.046 MHz for GPS L1 C/A), the code discriminator's standard
   deviation sits near 0.2 chip at every C/N0. Commensurate sampling turns the S-curve into a step
   (`docs/design/evidence/dll-jitter/RESULTS.md`). The synthetic campaign therefore samples at
