@@ -287,6 +287,37 @@ impl Trajectory {
     }
 }
 
+/// Fly `cfg` from `origin` on a grid of `n` steps of `dt`, as the truth record of a
+/// GNSS/INS run: the state at each step and the true IMU that carried it there.
+pub fn truth_epochs(
+    cfg: &TrajectoryCfg,
+    origin: Geodetic,
+    dt: f64,
+    n: usize,
+) -> Result<Vec<super::truth::TruthEpoch>, String> {
+    let tr = Trajectory::new(cfg, origin, dt, n)?;
+    let mut s = tr.initial();
+    let mut out = Vec::with_capacity(n + 1);
+    out.push(super::truth::TruthEpoch {
+        t: 0.0,
+        nav: s,
+        gyro: [0.0; 3],
+        accel: [0.0; 3],
+    });
+    for i in 1..=n {
+        let t = i as f64 * dt;
+        let (gyro, accel) = tr.imu(&s, t, i);
+        s.step(gyro, accel, dt);
+        out.push(super::truth::TruthEpoch {
+            t,
+            nav: s,
+            gyro,
+            accel,
+        });
+    }
+    Ok(out)
+}
+
 /// The IMU of a body moving along its x axis with along-track acceleration `a` and Euler
 /// rates `(φ̇, θ̇, ψ̇)`, at the truth state `s`.
 pub fn kinematic_imu(s: &NavState, a: f64, (dphi, dtheta, dpsi): (f64, f64, f64)) -> (Vec3, Vec3) {
