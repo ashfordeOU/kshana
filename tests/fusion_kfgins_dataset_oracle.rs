@@ -6,8 +6,8 @@
 //! dataset's published reference trajectory and against the KF-GINS C++ program's own
 //! output on the same data.
 //!
-//! # Pre-registration (fixed 2026-10-12, before the first comparison; also in
-//! `xval/kfgins/PREREGISTRATION.md`)
+//! # Pre-registration (`xval/kfgins/PREREGISTRATION.md`, committed on its own in 5b6601b before
+//! the first comparison; the bars below first appeared in the WIP commit 4848eb0, disclosed there)
 //!
 //! * **Oracles.** (a) Data: the reference trajectory `truth.nav` shipped with the
 //!   KF-GINS demo dataset (i2Nav group, GNSS Research Center, Wuhan University;
@@ -41,8 +41,11 @@
 //!
 //! # Results
 //!
-//! Recorded after the run, in `xval/kfgins/PREREGISTRATION.md` ("Results") and
-//! `docs/KF-GINS.md`.
+//! First and only run 2026-10-13 (`xval/kfgins/PREREGISTRATION.md`, "Results"): all six bars
+//! hold. Kshana horizontal / vertical RMS 0.0109 / 0.0090 m, max horizontal 0.0320 m; KF-GINS
+//! 0.0111 / 0.0083 m; ratios 0.976 and 1.082; with the lever arm off Kshana's horizontal RMS is
+//! 0.3286 m (ratio 0.033). Data-gated: the row stays MODELLED pending the owner's decision on
+//! data-gated evidence.
 //!
 //! The synthetic tests below run always: the KF-GINS text formats are written and read
 //! back, and a platform spinning in place with a 0.58 m horizontal / 1.0 m vertical

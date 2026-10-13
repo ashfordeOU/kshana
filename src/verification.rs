@@ -325,6 +325,15 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            requirement: "Loosely coupled GNSS/INS EKF with lever arm on the KF-GINS dataset",
+            capability: "The closed-loop 15-state error-state EKF driven by IMU increments with GNSS antenna positions fused through the lever-arm model H = [I 0 −[(C_b^n l_b)×] 0 0], configured from a KF-GINS YAML file (initial state and sigmas, ARW/VRW, Gauss-Markov biases)",
+            module: "fusion::kfgins (run, loaders, score), fusion::closed_loop (propagate_increments, fuse_position_lever_arm), fusion::gnss_ins_ekf (update_position_lever_arm)",
+            tests: "tests/fusion_kfgins_dataset_oracle.rs (synthetic loaders and spinning-platform lever-arm tests always; data-gated on KSHANA_KFGINS_DIR, run 2026-10-13 on the KF-GINS demo dataset: horizontal / vertical RMS 0.0109 / 0.0090 m against the reference trajectory vs KF-GINS C++ 0.0111 / 0.0083 m, all six pre-registered bars held; lever arm off 0.329 m)",
+            oracle: "The dataset's published reference trajectory and the KF-GINS C++ program (GPL-3.0, commit 8291a93e, run as a separate tool); bars pre-registered in xval/kfgins/PREREGISTRATION.md. All bars held, but the evidence is data-gated (the dataset carries no licence and is not vendored), so the row is MODELLED pending an owner decision on data-gated promotion",
+            oracle_kind: ExternalDataset,
+            status: Modelled,
+        },
+        VerificationItem {
             requirement: "GNSS/INS trajectory library and CSV truth import",
             capability: "Selectable motion profiles for the gnss-ins pack (straight, figure-8, urban stop-and-go, aircraft climb and coordinated turn, survey drone), defined by Euler-rate and along-track-acceleration commands closed on the truth state with the kinematic IMU (centripetal, gravity and Coriolis terms), and imported CSV truth turned into the IMU that reproduces it; the historical drive unchanged when no profile is given",
             module: "fusion::trajectory (TrajectoryCfg, Trajectory, kinematic_imu, parse_truth_csv), fusion::pack ([trajectory])",
