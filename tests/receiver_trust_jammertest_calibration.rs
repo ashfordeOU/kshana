@@ -63,3 +63,40 @@ fn the_recorded_calibration_reproduces() {
     );
     assert!(r.verdict.starts_with("MODELLED"));
 }
+
+/// A session run with the opt-in profile echoes the thresholds it applied and carries the
+/// profile note (MODELLED, the C/N0 bar missed); without it neither appears.
+#[test]
+fn the_profile_is_echoed_with_its_note() {
+    use kshana::receiver_trust::monitors::PROFILE_NOTE;
+    use kshana::receiver_trust::scenario::{run_receiver_trust, ReceiverTrustScenario};
+    let root = env!("CARGO_MANIFEST_DIR");
+    let text =
+        std::fs::read_to_string(format!("{root}/examples/maritime-trust/session.toml")).unwrap();
+    let load = |t: &str| -> ReceiverTrustScenario {
+        let mut s: ReceiverTrustScenario = toml::from_str(t).unwrap();
+        if let Some(p) = s.log.source.path.as_mut() {
+            *p = format!("{root}/examples/maritime-trust/{p}");
+        }
+        s
+    };
+    let plain = run_receiver_trust(&load(&text)).unwrap();
+    assert!(plain.profile_note.is_none());
+    assert_eq!(plain.monitor_config.cn0_drop_db, 6.0);
+    let with = text.replace(
+        "[monitors]\n",
+        "[monitors]\nprofile = \"jammertest-2024-calibrated\"\n",
+    );
+    let r = run_receiver_trust(&load(&with)).unwrap();
+    assert_eq!(r.profile_note, Some(PROFILE_NOTE));
+    assert!(PROFILE_NOTE.contains("MISSED") && PROFILE_NOTE.contains("0.0231"));
+    let (c, a, j) = JAMMERTEST_2024_CALIBRATED;
+    assert_eq!(
+        (
+            r.monitor_config.cn0_drop_db,
+            r.monitor_config.agc_k_sigma,
+            r.monitor_config.jam_ind_threshold
+        ),
+        (c, a, j)
+    );
+}
