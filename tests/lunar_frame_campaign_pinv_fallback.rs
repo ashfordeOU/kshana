@@ -193,7 +193,12 @@ fn pipeline(sc: &LunarFrameCampaignScenario, v: &J) -> (Vec<Probe>, Vec<f64>) {
             }
         }
     }
-    let _ = inverse("independence-discarded covariance", &cov_ind, rel_tol, &mut probes);
+    let _ = inverse(
+        "independence-discarded covariance",
+        &cov_ind,
+        rel_tol,
+        &mut probes,
+    );
     (probes, sigma)
 }
 

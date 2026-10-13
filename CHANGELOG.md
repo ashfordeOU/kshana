@@ -11,6 +11,12 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **Multi-revolution Lambert** (`maneuver::lambert_multirev`): every solution with up to three
+  revolutions, both branches. New ledger row, VALIDATED against pykep 3.0.1 (pre-registered
+  a75de851; 382 cases, 1058 solutions, worst velocity difference 1.6e-13 against 1e-8). The
+  internal Kepler-landing guard found one limitation of `maneuver::kepler_universal` on an
+  e = 0.994 arc; it is recorded in `docs/design/evidence/lambert-multirev/RESULTS.md`.
+
 - **Lunar reference-station study** (0.36, prompted by published material on a planned lunar
   south-pole reference station; sources in [`docs/LUNAR-REFERENCE-STATION.md`](docs/LUNAR-REFERENCE-STATION.md)):
   the `lunar-station-coverage` kind, a Monte Carlo sweep of the lunar differential-PNT model over
