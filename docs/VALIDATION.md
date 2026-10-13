@@ -360,9 +360,14 @@ Earth–Mars C3 cross-check has not been run).
 | Sequential (unscented-filter) OD | `validated` | `determine_orbit_sequential` recursively recovers the state to within tens of metres on the same dynamics and range model. |
 | Batch and sequential OD vs an independent estimator | `validated` | `tests/batch_sequential_orbit_determination_reference.rs`: 8 scenarios (6 noiseless LEO/MEO/eccentric with 3–4 stations, 2 at σ = 5 m) against Orekit 12.2's batch least-squares and Kalman estimators on a matched force model; worst batch 1e-3 m / 1e-6 m/s, sequential 0.9 m. |
 
-Honest scope: range-rate/Doppler and angle measurements and station-visibility masking
-are follow-ons for the range-only teaching estimator (the full-force ephemeris-fitting engine
-below carries the variational state-transition matrix).
+| Range-rate / az-el batch OD with an elevation mask | `modelled` (external comparison, one pre-registered bar missed) | `tests/od_tracking_measurements_reference.rs`: 8 scenarios against Orekit 12.2 batch least squares with custom instantaneous geometric measurements; visible sets identical, measurement values within 5.8e-8 m / 6.3e-10 m/s / 1.4e-13 rad, state-transition matrix within 1.2e-14, noisy states within 1.74 cm and per-type RMS within 2.7e-4; the pre-registered noiseless ≤ 1 cm state bar is missed on 2 of 4 scenarios (1.46 and 1.74 cm; Orekit's own estimate sits that far from its simulated truth, kshana's within 1e-8 m). See `xval/od-measurements-orekit/RESULTS.md`. |
+
+Honest scope: the teaching OD uses fixed inertial stations, a spherical-Earth topocentric frame,
+and instantaneous geometric measurements (no light time, aberration, refraction or Earth
+rotation); the range-rate/angle path's state-transition matrix is variational (RK4-integrated with
+analytic two-body + J2 partials), not closed-form; there is no sequential filter for range-rate or
+angles. The range-only path keeps its finite-difference Jacobian. (The full-force
+ephemeris-fitting engine below carries its own variational state-transition matrix.)
 
 ## Force-model validation by ephemeris fitting (`src/precise_od.rs`)
 
