@@ -18,11 +18,12 @@ use std::path::PathBuf;
 use std::time::Duration;
 
 /// (name, epochs pinned in the golden excerpt)
-const SCENARIOS: [(&str, &[usize]); 4] = [
+const SCENARIOS: [(&str, &[usize]); 5] = [
     ("open-sea-jamming", &[0, 330, 500]),
     ("coastal-drag-off", &[0, 600]),
     ("port-approach-time-spoof", &[0, 700]),
     ("combined-event", &[0, 400, 900, 1500]),
+    ("fjord-natural-degradation", &[0, 600]),
 ];
 
 fn root() -> PathBuf {

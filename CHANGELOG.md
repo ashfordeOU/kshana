@@ -11,6 +11,13 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **Skyline in receiver trust** (FUT-01): a receiver-trust session may state a `[skyline]`; satellites
+  behind it are lost to the sky (`sky-blocked`, `behind_skyline`, `open_fraction`) and their losses are
+  classed `geometry`, never `environment`; without one, the azimuth-gap fallback and every output
+  are as before. The crew-training generator gains a `natural-degradation` event (a blocked sky, not
+  interference) and the scenario `scenarios/training/fjord-natural-degradation.toml`. The UERE x DOP
+  Monte Carlo gains the design note's two masked-skyline geometries, pre-registered alone: all 26
+  checks pass.
 - **RFC 3161 timestamp verification** (CAP-14): `kshana::evidence::tsa::verify_token` checks a
   timestamp token's signature (RSA PKCS#1 v1.5, RSA-PSS, ECDSA P-256 and P-384), its ESS
   signing-certificate binding, the signer's timeStamping usage and its chain to a trusted anchor at
