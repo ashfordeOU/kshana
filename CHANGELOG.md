@@ -11,6 +11,14 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **Units for every `sweep-nd` column** (FUT-28): a `sweep-nd` result now carries
+  `key_units` and `metric_units`, the unit of each swept key and each recorded metric, read
+  from the swept pack's own units table. An axis may declare `unit` for a key the pack
+  does not echo; a declared unit that contradicts the pack's is refused, and a unit that
+  neither gives is `null`, never guessed. `points[].coords[]` and `points[].metrics[]` are
+  described, so every one of the 76 kinds is now fully covered by the field-units gate
+  (uncovered-kind ceiling 1 -> 0).
+
 - **NumPy arrays from `RunOutput`** (FUT-26): the Python `RunOutput` gains `array(path)`,
   `columns(path)` and `series()`, which return `numpy.ndarray`s for a numeric list, the
   numeric columns of a list of records, or every record series in the document. Each array
