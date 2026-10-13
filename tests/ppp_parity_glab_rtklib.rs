@@ -3,8 +3,7 @@
 //! same real WTZR inputs (RM-31). DATA-GATED: the oracle outputs are produced by
 //! `xval/ppp-parity/run.sh` (gLAB and RTKLIB run as separate programs) into
 //! `tests/fixtures/gnss_wettzell_2025055/oracle/` or the directory named by
-//! `KSHANA_PPP_PARITY_DIR`. When they are absent the test says so and passes without claiming
-//! parity.
+//! `KSHANA_PPP_PARITY_DIR`. Both tools' outputs from the registered runs are committed there.
 //!
 //! PRE-REGISTRATION: `xval/ppp-parity/PREREGISTRATION.md` (1061480), committed on its own before
 //! any oracle run. Per tool: R1 PPP 3-D difference ≤ 0.05 m at ≥ 95 % of the common epochs of
@@ -32,6 +31,17 @@
 //! RTKLIB's agree to the registered bars once RTKLIB is configured as the registration intended.
 //! Outcome by the registered rule: the RTKLIB leg is NOT met as a whole, because R3 (SPP,
 //! 1.085 m against 0.50 m) failed and is not re-registered; PPP parity holds on amendment 3.
+//!
+//! RESULT, gLAB leg, first registered run (2026-10-13; gLAB 6.0.0 Linux, SHA-256 046ab9fd…21dd,
+//! Apache-2.0 core, with the command line of amendment 4, 15a887a4, committed before the run).
+//! R1 holds: 240 of 240 epochs of 04:00-05:59:30 within 0.05 m. R2 holds: 0.0050 m at the last
+//! epoch. R3 does not hold: SPP median 1.187 m over 713 epochs against the 0.50 m bar, a
+//! FINDING. Diagnosis after the run: the two reference tools' own SPP solutions differ from each
+//! other by 0.852 m (median, 713 epochs). Epoch-by-epoch ionosphere-free code solutions are
+//! noise-limited at that level (each oracle's SPP is 1.6 to 1.8 m, median, from its converged
+//! PPP position), so the registered R3 bar was set tighter than tool-to-tool agreement allows.
+//! The bar is not loosened. Outcome by the registered rule: the gLAB leg is NOT met as a whole,
+//! because R3 failed; PPP parity with gLAB holds on the first run.
 
 use kshana::gnss_sim::Meteo;
 use kshana::ppp_real::{parse_antex_receiver, run_ppp, PppConfig};
@@ -190,13 +200,33 @@ fn assert_bars(tool: &str, o: &Outcome) {
     assert!(o.r3_median <= 0.50, "{tool}: R3");
 }
 
-/// The gLAB leg: data-gated (gLAB could not be fetched where RTKLIB was run).
+/// The gLAB leg as registered (1061480, command line of amendment 4, 15a887a4): R1 and R2 held
+/// on its first run, R3 missed.
 #[test]
-fn glab_parity_when_its_outputs_are_present() {
-    match compare_tool(&oracle_dir(), "glab", "glab_ppp.csv") {
-        Some(o) => assert_bars("glab", &o),
-        None => eprintln!("glab: oracle output not present; parity NOT run (run xval/ppp-parity/run.sh with GLAB)"),
-    }
+#[ignore = "FINDING: gLAB leg R3 SPP median 1.187 m against 0.50 m (R1 100 %, R2 0.0050 m held); see the module header"]
+fn glab_parity_as_registered() {
+    let o = compare_tool(&oracle_dir(), "glab", "glab_ppp.csv").expect("committed gLAB outputs");
+    assert_bars("glab", &o);
+}
+
+/// The gLAB PPP bars R1 and R2, which held on the first registered run.
+#[test]
+fn glab_ppp_r1_r2_hold() {
+    let o = compare_tool(&oracle_dir(), "glab", "glab_ppp.csv").expect("committed gLAB outputs");
+    assert!(o.r1_n >= 200, "non-vacuity");
+    assert!(o.r1_frac >= 0.95, "R1");
+    assert!(o.r2 <= 0.03, "R2");
+}
+
+// PIN-SCOPE:    the recorded gLAB R3 finding and the epoch counts of the first registered run, on
+//               the committed gLAB outputs.
+// PIN-EXCLUDES: the registered bars (kept in the ignored test) and the RTKLIB leg.
+#[test]
+fn glab_finding_is_pinned() {
+    let o = compare_tool(&oracle_dir(), "glab", "glab_ppp.csv").expect("committed gLAB outputs");
+    assert_eq!((o.r1_n, o.r3_n), (240, 713));
+    assert!((o.r2 - 0.0050).abs() < 5e-4, "{}", o.r2);
+    assert!((o.r3_median - 1.187).abs() < 5e-4, "{}", o.r3_median);
 }
 
 /// The RTKLIB leg as registered (1061480, amendment 1 71b7f63): missed on its first run.
