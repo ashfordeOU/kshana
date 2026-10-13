@@ -217,8 +217,11 @@ pub const FROZEN_PREDICTION_KINDS: &[&str] = &["lunar-station-coverage"];
 /// Kinds that build their own `figure_tiers` block inside their run.
 pub const KINDS_WITH_INLINE_TIERS: &[&str] = &["clock", "orbit", "hybrid", "fusion"];
 
-/// Kinds with no scalar headline figure to tier, each with the reason.
-pub const KINDS_WITHOUT_HEADLINE_FIGURE: &[(&str, &str)] = &[
+/// Kinds that get no `figure_tiers` block, each with the reason: no scalar headline
+/// figure, or a compact (not pretty-printed) result document, which the byte-exact append
+/// cannot extend without re-printing the whole document.
+pub const KINDS_EXCLUDED_FROM_FIGURE_TIERS: &[(&str, &str)] = &[
+    ("lunar-attack-surface", "its result document is compact JSON; appending the block byte-exactly would need the whole document re-printed"),
     ("leo-ppp", "its result carries the convergence times and NEES as arrays; no scalar headline figure"),
     ("solar-system", "its positions and light times are arrays; the only scalars are the epoch and the body count"),
     ("sweep", "its results are arrays of member runs; the members carry their own tiers"),
@@ -391,12 +394,6 @@ pub fn kind_figures(kind: &str) -> Option<&'static [(&'static str, &'static str)
             ("cn0_dbhz", "One-way link budget (comms / link design)"),
             ("eb_n0_db", "One-way link budget (comms / link design)"),
             ("margin_db", "One-way link budget (comms / link design)"),
-        ],
-        "lunar-attack-surface" => &[
-            ("afs_received_dbw", ""),
-            ("deficit_db", ""),
-            ("surface_transmitter_reach_m", ""),
-            ("footprint_sweep.limb_threshold.best_limb_shortfall_db", "Capture footprint against altitude and beamwidth"),
         ],
         "lunar-beacon" => &[
             ("beacon_pdop_improvement", "Lunar surface-beacon DOP augmentation"),
