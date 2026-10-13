@@ -35,8 +35,17 @@
 //! existing `parse_ionex` returned `None` on every real IONEX file, because a full 16-value
 //! record fills columns 61-80 and was read as a label and skipped; it now reads such records.
 //!
-//! Data: `codg1330_crop.18i`, a latitude crop (30.0 to 5.0 deg, all longitudes, all 25 TEC and
-//! RMS maps) of CODE's `CODG1330.18I` for 2018-05-13; NOTICE.md gives source, SHA-256, terms.
+//! Data (changed 2026-10-13 on the owner's rule, nothing re-tuned): the CODE GIM is NOT vendored,
+//! because no licence for it could be confirmed from a primary source. `fetch.sh <dir>` fetches
+//! `CODG1330.18I.Z` (CDDIS, else the AIUB archive), checks its pinned SHA-256, and writes the
+//! latitude crop `map.18i` and its formula reference `reference_vtec.csv.gz` to `<dir>`; B1-B5 run
+//! on it when `KSHANA_IONEX_CODE_GIM_DIR=<dir>`. The rebuilt files are byte-identical to the slice
+//! of the first run (SHA-256 44dcdbd4… and 1726acaf…), and the re-run reproduces the numbers above.
+//! Without the variable, B1-B5 run on `synthetic/map.18i`, a committed IONEX file with the same
+//! structure and an invented TEC field (`gen_synthetic.py`), against the same formula reference:
+//! B2 20075 nodes exact; B3 max |Delta| 1.4e-14 / 3.5e-13 / 3.5e-13 / 3.5e-13 TECU; B4 slant TEC
+//! 5.1e-13 TECU, L1 delay 5.3e-14 m; B5 0.496 and 1.667 TECU. The synthetic check exercises the
+//! formulas only; the real-data checks are the gated ones.
 //! A full decompressed GIM can be checked structurally with `KSHANA_IONEX_FULL_PATH`.
 
 use kshana::ionex::{
@@ -44,7 +53,7 @@ use kshana::ionex::{
     IonexTimeInterp, GPS_L1_HZ,
 };
 use std::io::Read;
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 
 const B3_TECU: f64 = 1e-9;
 const B4_STEC_TECU: f64 = 1e-9;
@@ -52,21 +61,40 @@ const B4_DELAY_M: f64 = 1e-10;
 const B5_MIN_TECU: f64 = 0.1;
 const B6_TECU: f64 = 1e-5;
 
-fn fixture_dir() -> PathBuf {
-    PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("tests/fixtures/ionex_code_gim")
+/// The data sets the structural and formula checks run on: the committed synthetic map always,
+/// and the real CODE GIM crop when `KSHANA_IONEX_CODE_GIM_DIR` names the directory
+/// `tests/fixtures/ionex_code_gim/fetch.sh` wrote (the map is not vendored; see NOTICE.md).
+fn datasets() -> Vec<(&'static str, PathBuf)> {
+    let mut v = vec![(
+        "synthetic",
+        PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("tests/fixtures/ionex_code_gim/synthetic"),
+    )];
+    match std::env::var("KSHANA_IONEX_CODE_GIM_DIR") {
+        Ok(d) => v.push(("CODE GIM", PathBuf::from(d))),
+        Err(_) => eprintln!(
+            "SKIP CODE GIM: KSHANA_IONEX_CODE_GIM_DIR unset (run tests/fixtures/ionex_code_gim/fetch.sh <dir>)"
+        ),
+    }
+    v
 }
 
-fn ionex_text() -> String {
-    std::fs::read_to_string(fixture_dir().join("codg1330_crop.18i")).expect("fixture")
+fn code_gim_dir() -> Option<PathBuf> {
+    std::env::var("KSHANA_IONEX_CODE_GIM_DIR")
+        .ok()
+        .map(PathBuf::from)
 }
 
-fn ionex() -> IonexFile {
-    parse_ionex_file(&ionex_text()).expect("the CODE GIM slice parses")
+fn ionex_text(dir: &Path) -> String {
+    std::fs::read_to_string(dir.join("map.18i")).expect("map.18i")
+}
+
+fn ionex(dir: &Path) -> IonexFile {
+    parse_ionex_file(&ionex_text(dir)).expect("the map parses")
 }
 
 /// Rows of the formula reference, split on commas.
-fn reference_rows() -> Vec<Vec<String>> {
-    let f = std::fs::File::open(fixture_dir().join("reference_vtec.csv.gz")).expect("reference");
+fn reference_rows(dir: &Path) -> Vec<Vec<String>> {
+    let f = std::fs::File::open(dir.join("reference_vtec.csv.gz")).expect("reference");
     let mut s = String::new();
     flate2::read::GzDecoder::new(f)
         .read_to_string(&mut s)
@@ -121,9 +149,8 @@ fn printed_tec_integers(text: &str, n_lon: usize) -> Vec<Vec<(f64, Vec<i64>)>> {
     maps
 }
 
-#[test]
-fn b1_structure_matches_the_header() {
-    let f = ionex();
+fn b1_structure_matches_the_header_on(dir: &Path) {
+    let f = ionex(dir);
     let h = &f.header;
     assert_eq!(h.n_maps, 25);
     assert_eq!(f.tec_maps.len(), 25, "TEC maps");
@@ -145,7 +172,7 @@ fn b1_structure_matches_the_header() {
     assert_eq!(last.t_s, h.last_epoch.seconds_since_day_of(&h.first_epoch));
     assert_eq!(last.t_s, 86_400.0);
     // Band latitudes on the header grid: checked by the parser (it refuses otherwise) and here.
-    let printed = printed_tec_integers(&ionex_text(), 73);
+    let printed = printed_tec_integers(&ionex_text(dir), 73);
     for m in &printed {
         let lats: Vec<f64> = m.iter().map(|b| b.0).collect();
         let want: Vec<f64> = (0..11).map(|i| 30.0 - 2.5 * i as f64).collect();
@@ -153,16 +180,15 @@ fn b1_structure_matches_the_header() {
     }
 }
 
-#[test]
-fn b2_every_node_is_the_printed_integer_times_ten_to_the_exponent() {
-    let text = ionex_text();
-    let f = ionex();
+fn b2_every_node_is_the_printed_integer_times_ten_to_the_exponent_on(dir: &Path) {
+    let text = ionex_text(dir);
+    let f = ionex(dir);
     let legacy = parse_ionex(&text).expect("the existing reader parses a real CODE GIM");
     assert_eq!(legacy.len(), 25);
     let printed = printed_tec_integers(&text, 73);
     assert_eq!(printed.len(), 25);
     let scale = 10f64.powi(-1);
-    let refsums: Vec<(i64, usize)> = reference_rows()
+    let refsums: Vec<(i64, usize)> = reference_rows(dir)
         .into_iter()
         .filter(|r| r[0] == "N")
         .map(|r| (r[3].parse().unwrap(), r[4].parse().unwrap()))
@@ -190,11 +216,10 @@ fn b2_every_node_is_the_printed_integer_times_ten_to_the_exponent() {
     println!("B2: {nodes} nodes exact (0 TECU) for parse_ionex_file and parse_ionex");
 }
 
-#[test]
-fn b3_b4_b5_interpolation_matches_the_formula_reference() {
-    let f = ionex();
-    let legacy = parse_ionex(&ionex_text()).unwrap();
-    let rows = reference_rows();
+fn b3_b4_b5_interpolation_matches_the_formula_reference_on(dir: &Path) {
+    let f = ionex(dir);
+    let legacy = parse_ionex(&ionex_text(dir)).unwrap();
+    let rows = reference_rows(dir);
     let (mut ds, mut d2, mut d3, mut d2l, mut dst, mut ddl) = (0f64, 0f64, 0f64, 0f64, 0f64, 0f64);
     let (mut sep2, mut sepf, mut kshana_vs_flip) = (0f64, 0f64, 0f64);
     let (mut ns, mut nt) = (0, 0);
@@ -253,20 +278,18 @@ fn b3_b4_b5_interpolation_matches_the_formula_reference() {
     assert!(sep2 > B5_MIN_TECU && sepf > B5_MIN_TECU && kshana_vs_flip > B3_TECU);
 }
 
-#[test]
-fn existing_parse_ionex_reads_the_24h_map_as_second_zero() {
+fn existing_parse_ionex_reads_the_24h_map_as_second_zero_on(dir: &Path) {
     // Known before the run (PREREGISTRATION.md), a recorded limitation not changed here:
     // `parse_ionex` keeps seconds of day, so a daily file's closing 24:00 map reads as 0 s.
     // PIN-SCOPE: the epoch `parse_ionex` reports for map 25 (2018-05-14 00:00:00) of the slice.
     // PIN-EXCLUDES: node values (B2) and `parse_ionex_file`, which reads 86400 s.
-    let legacy = parse_ionex(&ionex_text()).unwrap();
+    let legacy = parse_ionex(&ionex_text(dir)).unwrap();
     assert_eq!(legacy[24].epoch_sod, 0.0);
     assert_eq!(legacy[23].epoch_sod, 82_800.0);
 }
 
-#[test]
-fn time_queries_outside_the_maps_are_refused_and_nearest_picks_the_closest_map() {
-    let f = ionex();
+fn time_queries_outside_the_maps_are_refused_and_nearest_picks_the_closest_map_on(dir: &Path) {
+    let f = ionex(dir);
     assert!(f
         .vtec_at(-1.0, 16.0, -61.0, IonexTimeInterp::Consecutive)
         .is_none());
@@ -284,7 +307,7 @@ fn b6_rtklib_iontec_output_data_gated() {
     let Ok(path) = std::env::var("KSHANA_IONEX_RTKLIB_CSV") else {
         eprintln!(
             "SKIP: KSHANA_IONEX_RTKLIB_CSV unset (CSV with header time,lat,lon,vtec from RTKLIB \
-             iontec/interptec on tests/fixtures/ionex_code_gim/codg1330_crop.18i; time in s \
+             iontec/interptec on the map.18i that fetch.sh writes; time in s \
              since 2018-05-13 00:00:00 UT)"
         );
         return;
@@ -294,7 +317,9 @@ fn b6_rtklib_iontec_output_data_gated() {
         _ => IonexTimeInterp::RotatedConsecutive,
     };
     let text = std::fs::read_to_string(&path).expect("RTKLIB CSV");
-    let f = ionex();
+    let dir =
+        code_gim_dir().expect("B6 compares on the CODE GIM: set KSHANA_IONEX_CODE_GIM_DIR too");
+    let f = ionex(&dir);
     let mut lines = text.lines();
     let head: Vec<String> = lines
         .next()
@@ -353,4 +378,46 @@ fn full_gim_file_structure_data_gated() {
         g.n_lat,
         g.n_lon
     );
+}
+
+#[test]
+fn b1_structure_matches_the_header() {
+    for (name, dir) in datasets() {
+        eprintln!("b1_structure_matches_the_header: {name}");
+        b1_structure_matches_the_header_on(&dir);
+    }
+}
+
+#[test]
+fn b2_every_node_is_the_printed_integer_times_ten_to_the_exponent() {
+    for (name, dir) in datasets() {
+        eprintln!("b2_every_node_is_the_printed_integer_times_ten_to_the_exponent: {name}");
+        b2_every_node_is_the_printed_integer_times_ten_to_the_exponent_on(&dir);
+    }
+}
+
+#[test]
+fn b3_b4_b5_interpolation_matches_the_formula_reference() {
+    for (name, dir) in datasets() {
+        eprintln!("b3_b4_b5_interpolation_matches_the_formula_reference: {name}");
+        b3_b4_b5_interpolation_matches_the_formula_reference_on(&dir);
+    }
+}
+
+#[test]
+fn existing_parse_ionex_reads_the_24h_map_as_second_zero() {
+    for (name, dir) in datasets() {
+        eprintln!("existing_parse_ionex_reads_the_24h_map_as_second_zero: {name}");
+        existing_parse_ionex_reads_the_24h_map_as_second_zero_on(&dir);
+    }
+}
+
+#[test]
+fn time_queries_outside_the_maps_are_refused_and_nearest_picks_the_closest_map() {
+    for (name, dir) in datasets() {
+        eprintln!(
+            "time_queries_outside_the_maps_are_refused_and_nearest_picks_the_closest_map: {name}"
+        );
+        time_queries_outside_the_maps_are_refused_and_nearest_picks_the_closest_map_on(&dir);
+    }
 }
