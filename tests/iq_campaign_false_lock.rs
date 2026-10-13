@@ -29,8 +29,11 @@ const STEP_HZ: f64 = 500.0;
 const STEP_T: f64 = 4.0;
 
 fn scratch(name: &str) -> PathBuf {
+    use std::sync::atomic::{AtomicU64, Ordering};
+    static SEQ: AtomicU64 = AtomicU64::new(0);
+    let uniq = SEQ.fetch_add(1, Ordering::Relaxed);
     let d = std::env::temp_dir().join(format!(
-        "kshana-iq-false-lock-{}-{name}",
+        "kshana-iq-false-lock-{}-{uniq}-{name}",
         std::process::id()
     ));
     let _ = std::fs::remove_dir_all(&d);

@@ -237,6 +237,21 @@ breaking changes are called out explicitly.
 
 ### Fixed
 
+- **Campaign scorer: a real tracker false lock was never counted** (`iq::campaign`). The
+  tracker's false-lock check moves a channel from LOCKED to LOST as it fires. The scorer marked
+  the channel's next update instead, which was then unlocked and so never counted. A
+  `false-lock` event reported from LOCKED is now one episode at its time, in the run and in
+  every stated event containing it. One found during pull-in, or repeated by a channel already
+  LOST, is not a new episode. A new test drives a real false lock: a legitimate GPS L1 C/A
+  carrier stepping by 1/(2T) while locked (`tests/iq_campaign_false_lock.rs`).
+  - In the reference campaign of `tests/iq_campaign.rs`, only PRN 11 of ramp/agc-3bit changes
+    (false-lock episodes 0 → 1, 426 and 437 per locked hour).
+  - Its cell DIGESTs are re-pinned.
+  - The pre-registered scored-results pin stays live, and still reproduces exactly: in its hash
+    only those six fields, changed by this fix made after registration, are mapped back to
+    their pre-fix values. The fixed values are pinned on their own.
+  - No bar was changed, and no VALIDATED row, figure or web number moved.
+
 - `Jd2::from_parts` with a fractional day part dropped the fraction in the UTC, TAI, UT1 and
   Earth-rotation conversions (one hour of day part turned the Earth 15° wrong); the day part is
   now normalised to an integer. No engine caller was affected: every one passes an integer day,
