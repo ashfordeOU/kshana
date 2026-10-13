@@ -117,6 +117,36 @@ pub fn mcmf_to_mci(r_mcmf: Vec3, seconds: f64) -> Vec3 {
     rot3(r_mcmf, -lunar_rotation_angle(seconds))
 }
 
+/// Epoch-anchored MCI → MCMF through the DE440 lunar orientation: the MCI axes are ICRF/J2000 and
+/// the MCMF axes the DE440 principal-axis frame (`MOON_PA_DE440`), at the TDB Julian date
+/// `jd_tdb` ([`crate::lunar_frame::try_icrf_to_moon_pa_de440`]). Opt-in: [`mci_to_mcmf`], a
+/// uniform rotation about a fixed axis from an arbitrary zero, stays the default.
+///
+/// # Errors
+/// Outside the embedded series span (2014-01-01 to 2030-12-31).
+pub fn try_mci_to_mcmf_de440(
+    r_mci: Vec3,
+    jd_tdb: f64,
+) -> Result<Vec3, crate::lunar_orientation::OrientationSpanError> {
+    let m = crate::lunar_frame::try_icrf_to_moon_pa_de440(jd_tdb)?;
+    Ok(crate::precession::mat_vec(&m, r_mci))
+}
+
+/// Inverse of [`try_mci_to_mcmf_de440`]: DE440 principal-axis MCMF → ICRF-axis MCI.
+///
+/// # Errors
+/// Outside the embedded series span (2014-01-01 to 2030-12-31).
+pub fn try_mcmf_to_mci_de440(
+    r_mcmf: Vec3,
+    jd_tdb: f64,
+) -> Result<Vec3, crate::lunar_orientation::OrientationSpanError> {
+    let m = crate::lunar_frame::try_icrf_to_moon_pa_de440(jd_tdb)?;
+    Ok(crate::precession::mat_vec(
+        &crate::precession::transpose(&m),
+        r_mcmf,
+    ))
+}
+
 /// A selenographic position: lunar latitude and longitude (radians) and height
 /// above the mean lunar sphere (metres). The Moon is treated as a sphere of radius
 /// [`R_MOON_M`] (its flattening is ~0.0012, well below this fidelity).
@@ -957,6 +987,20 @@ mod tests {
     }
 
     // --- WE4 LunaNet LANS geometry oracles ---------------------------------
+
+    #[test]
+    fn de440_mci_mcmf_round_trips_and_preserves_length() {
+        let r = [1.2e6, -8.0e5, 3.3e5];
+        let jd = 2_459_580.5;
+        let b = try_mci_to_mcmf_de440(r, jd).expect("inside the span");
+        let back = try_mcmf_to_mci_de440(b, jd).expect("inside the span");
+        let n = |v: [f64; 3]| (v[0] * v[0] + v[1] * v[1] + v[2] * v[2]).sqrt();
+        assert!((n(b) - n(r)).abs() < 1e-8);
+        for k in 0..3 {
+            assert!((back[k] - r[k]).abs() < 1e-8);
+        }
+        assert!(try_mci_to_mcmf_de440(r, 2_451_545.0).is_err());
+    }
 
     #[test]
     fn moon_radius_matches_iau() {
