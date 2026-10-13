@@ -327,12 +327,11 @@ fn finish(g: Gridded, gaps: GapPolicy) -> Result<NormalisedPhase, String> {
     let s = &g.series;
     let n_grid = s.len();
     let n_missing = s.x.iter().filter(|v| !v.is_finite()).count();
-    let n_gaps = s
-        .x
-        .iter()
-        .enumerate()
-        .filter(|(i, v)| !v.is_finite() && (*i == 0 || s.x[i - 1].is_finite()))
-        .count();
+    let n_gaps =
+        s.x.iter()
+            .enumerate()
+            .filter(|(i, v)| !v.is_finite() && (*i == 0 || s.x[i - 1].is_finite()))
+            .count();
     let (kept, n_interpolated) = match gaps {
         _ if n_missing == 0 => (s.clone(), 0),
         GapPolicy::Refuse => {
@@ -405,32 +404,41 @@ fn finish(g: Gridded, gaps: GapPolicy) -> Result<NormalisedPhase, String> {
 // RINEX clock
 // ─────────────────────────────────────────────────────────────────────────────
 
-fn parse_rinex(text: &str, inp: &ClockLogInput, gaps: GapPolicy) -> Result<NormalisedPhase, String> {
+fn parse_rinex(
+    text: &str,
+    inp: &ClockLogInput,
+    gaps: GapPolicy,
+) -> Result<NormalisedPhase, String> {
     use crate::precise_products::parse_clock_rinex_records;
-    if !text.lines().any(|l| l.get(60..).map(str::trim_end) == Some("END OF HEADER")) {
+    if !text
+        .lines()
+        .any(|l| l.get(60..).map(str::trim_end) == Some("END OF HEADER"))
+    {
         return Err("not a RINEX clock file: no END OF HEADER record".into());
     }
     let as_recs = parse_clock_rinex_records(text, "AS")?;
     let ar_recs = parse_clock_rinex_records(text, "AR")?;
-    let id = match &inp.clock {
-        Some(c) => c.clone(),
-        None => {
-            let mut names: Vec<&String> = as_recs.sats.keys().chain(ar_recs.sats.keys()).collect();
-            names.sort();
-            names.dedup();
-            match names.as_slice() {
-                [one] => (*one).clone(),
-                [] => return Err("the RINEX clock file has no AS or AR records".into()),
-                many => {
-                    return Err(format!(
+    let id =
+        match &inp.clock {
+            Some(c) => c.clone(),
+            None => {
+                let mut names: Vec<&String> =
+                    as_recs.sats.keys().chain(ar_recs.sats.keys()).collect();
+                names.sort();
+                names.dedup();
+                match names.as_slice() {
+                    [one] => (*one).clone(),
+                    [] => return Err("the RINEX clock file has no AS or AR records".into()),
+                    many => {
+                        return Err(format!(
                         "the RINEX clock file holds {} clocks; name one with clock = \"...\" ({})",
                         many.len(),
                         many.iter().map(|s| s.as_str()).collect::<Vec<_>>().join(", ")
                     ))
+                    }
                 }
             }
-        }
-    };
+        };
     let epochs: Vec<f64> = match as_recs.sats.get(&id).or_else(|| ar_recs.sats.get(&id)) {
         Some(v) => v.iter().map(|p| p.0).collect(),
         None => return Err(format!("no AS or AR records for clock {id:?}")),
@@ -493,7 +501,11 @@ fn split_fields(l: &str) -> Vec<&str> {
         .collect()
 }
 
-fn parse_timelab(text: &str, inp: &ClockLogInput, gaps: GapPolicy) -> Result<NormalisedPhase, String> {
+fn parse_timelab(
+    text: &str,
+    inp: &ClockLogInput,
+    gaps: GapPolicy,
+) -> Result<NormalisedPhase, String> {
     let (mut h_tau0, mut h_units, mut h_data, mut h_time) = (None, None, None, None);
     let mut rows: Vec<Vec<f64>> = Vec::new();
     let mut header_seen = false;
@@ -516,7 +528,10 @@ fn parse_timelab(text: &str, inp: &ClockLogInput, gaps: GapPolicy) -> Result<Nor
             continue;
         }
         let f = split_fields(l);
-        let nums: Result<Vec<f64>, _> = f.iter().map(|s| s.replace(['D', 'd'], "E").parse::<f64>()).collect();
+        let nums: Result<Vec<f64>, _> = f
+            .iter()
+            .map(|s| s.replace(['D', 'd'], "E").parse::<f64>())
+            .collect();
         match nums {
             Ok(v) if (1..=2).contains(&v.len()) => {
                 if let Some(first) = rows.first() {
@@ -545,10 +560,20 @@ fn parse_timelab(text: &str, inp: &ClockLogInput, gaps: GapPolicy) -> Result<Nor
     if rows.is_empty() {
         return Err("the timelab log has no readings".into());
     }
-    let data = match inp.data.as_deref().or(h_data.as_deref()).unwrap_or("phase").trim() {
+    let data = match inp
+        .data
+        .as_deref()
+        .or(h_data.as_deref())
+        .unwrap_or("phase")
+        .trim()
+    {
         "phase" => "phase",
         "frequency" => "frequency",
-        other => return Err(format!("unknown data {other:?}; expected phase or frequency")),
+        other => {
+            return Err(format!(
+                "unknown data {other:?}; expected phase or frequency"
+            ))
+        }
     };
     let header_tau0 = match &h_tau0 {
         Some(v) => Some(
@@ -562,10 +587,13 @@ fn parse_timelab(text: &str, inp: &ClockLogInput, gaps: GapPolicy) -> Result<Nor
     };
     let two = rows[0].len() == 2;
     let (unit_in, scale) = if data == "frequency" {
-        if inp.units.is_some() || h_units.is_some() {
-            if !matches!(inp.units.as_deref().or(h_units.as_deref()).map(str::trim), Some("1")) {
-                return Err("frequency data is fractional frequency; its units can only be 1".into());
-            }
+        if (inp.units.is_some() || h_units.is_some())
+            && !matches!(
+                inp.units.as_deref().or(h_units.as_deref()).map(str::trim),
+                Some("1")
+            )
+        {
+            return Err("frequency data is fractional frequency; its units can only be 1".into());
         }
         ("1", 1.0)
     } else {
@@ -600,7 +628,10 @@ fn parse_timelab(text: &str, inp: &ClockLogInput, gaps: GapPolicy) -> Result<Nor
             (Some(t), _) => (t, "input"),
             (None, Some(t)) => (t, "header"),
             (None, None) => {
-                return Err("a single-column timelab log needs tau0: a `# tau0 = <s>` header or tau0_s".into())
+                return Err(
+                    "a single-column timelab log needs tau0: a `# tau0 = <s>` header or tau0_s"
+                        .into(),
+                )
             }
         };
         let v: Vec<f64> = rows.iter().map(|r| r[0]).collect();
@@ -615,11 +646,18 @@ fn parse_timelab(text: &str, inp: &ClockLogInput, gaps: GapPolicy) -> Result<Nor
         } else {
             v.iter().map(|p| p / scale).collect()
         };
-        samples = x.iter().enumerate().map(|(i, p)| (i as f64 * tau0, *p)).collect();
+        samples = x
+            .iter()
+            .enumerate()
+            .map(|(i, p)| (i as f64 * tau0, *p))
+            .collect();
     }
     let (series, log) = PhaseSeries::from_samples(&samples, tau0);
     if log.non_finite > 0 {
-        return Err(format!("the timelab log has {} non-finite reading(s)", log.non_finite));
+        return Err(format!(
+            "the timelab log has {} non-finite reading(s)",
+            log.non_finite
+        ));
     }
     Gridded {
         format: ClockLogFormat::TimeLab,
@@ -651,7 +689,11 @@ fn parse_ticc(text: &str, inp: &ClockLogInput, gaps: GapPolicy) -> Result<Normal
         }
         let f: Vec<&str> = l.split_whitespace().collect();
         let parsed = match f.as_slice() {
-            [v, label] => v.parse::<f64>().ok().filter(|x| x.is_finite()).map(|x| (x, *label)),
+            [v, label] => v
+                .parse::<f64>()
+                .ok()
+                .filter(|x| x.is_finite())
+                .map(|x| (x, *label)),
             _ => None,
         };
         let Some((v, label)) = parsed else {
@@ -673,7 +715,9 @@ fn parse_ticc(text: &str, inp: &ClockLogInput, gaps: GapPolicy) -> Result<Normal
         Some(c) => c.clone(),
         None => match labels.as_slice() {
             [one] => one.to_string(),
-            [] => return Err("the TICC log has no `<seconds> chA|chB|chC|TI(...)` readings".into()),
+            [] => {
+                return Err("the TICC log has no `<seconds> chA|chB|chC|TI(...)` readings".into())
+            }
             many => {
                 return Err(format!(
                     "the TICC log holds channels {}; name one with channel = \"...\"",
@@ -686,12 +730,17 @@ fn parse_ticc(text: &str, inp: &ClockLogInput, gaps: GapPolicy) -> Result<Normal
         .iter()
         .find(|(k, _)| *k == channel)
         .map(|(_, v)| v.clone())
-        .ok_or_else(|| format!("no readings on channel {channel:?} (found {})", labels.join(", ")))?;
+        .ok_or_else(|| {
+            format!(
+                "no readings on channel {channel:?} (found {})",
+                labels.join(", ")
+            )
+        })?;
     let interval = channel.starts_with("TI");
     let (series, tau0_source) = if interval {
-        let tau0 = inp.tau0_s.ok_or(
-            "TICC interval-mode lines carry no time; give tau0_s (the event period)",
-        )?;
+        let tau0 = inp
+            .tau0_s
+            .ok_or("TICC interval-mode lines carry no time; give tau0_s (the event period)")?;
         (
             PhaseSeries {
                 t0: 0.0,
@@ -909,8 +958,14 @@ mod tests {
     pub(crate) fn rinex_header() -> String {
         let h = |c: &str, l: &str| format!("{c:<60}{l}\n");
         [
-            h("     3.04           C                   G", "RINEX VERSION / TYPE"),
-            h("kshana test                             20261012 000000 UTC", "PGM / RUN BY / DATE"),
+            h(
+                "     3.04           C                   G",
+                "RINEX VERSION / TYPE",
+            ),
+            h(
+                "kshana test                             20261012 000000 UTC",
+                "PGM / RUN BY / DATE",
+            ),
             h("GPS", "TIME SYSTEM ID"),
             h("     2    AR    AS", "# / TYPES OF DATA"),
             h("", "END OF HEADER"),
@@ -956,9 +1011,15 @@ AS G08       2026 10 12 00 01 30.000000  1    5.000000300000E-04
         assert!(e.contains("1 missing epoch(s) in 1 gap(s)"), "{e}");
         i.gaps = Some("linear".into());
         let p = run(&i, rinex).unwrap();
-        assert_eq!((p.n_grid, p.n_missing, p.n_interpolated, p.n_used), (6, 1, 1, 6));
+        assert_eq!(
+            (p.n_grid, p.n_missing, p.n_interpolated, p.n_used),
+            (6, 1, 1, 6)
+        );
         assert!((p.phase_s[4] - 8e-9).abs() < 1e-21);
-        assert!((p.phase_s[1] - 2e-9).abs() < 1e-21, "continuation line skipped");
+        assert!(
+            (p.phase_s[1] - 2e-9).abs() < 1e-21,
+            "continuation line skipped"
+        );
         i.gaps = Some("longest".into());
         assert_eq!(run(&i, rinex).unwrap().n_used, 4);
     }
@@ -979,7 +1040,9 @@ AS G08       2026 10 12 00 01 30.000000  1    5.000000300000E-04
         i.tau0_s = Some(2.0);
         assert_eq!(run(&i, t).unwrap().tau0_s, 2.0);
         // No tau0 anywhere: refused.
-        assert!(run(&inp("timelab"), "1\n2\n3\n").unwrap_err().contains("needs tau0"));
+        assert!(run(&inp("timelab"), "1\n2\n3\n")
+            .unwrap_err()
+            .contains("needs tau0"));
     }
 
     #[test]
@@ -1062,7 +1125,9 @@ TICC startup menu text
         let mut i = inp("timelab");
         i.clock = Some("G08".into());
         assert!(run(&i, "1\n").is_err());
-        assert!(run(&inp("csv"), "1\n").unwrap_err().contains("unknown clock-log format"));
+        assert!(run(&inp("csv"), "1\n")
+            .unwrap_err()
+            .contains("unknown clock-log format"));
         let mut i = inp("timelab");
         i.text = Some("1".into());
         i.path = Some("x".into());
@@ -1071,14 +1136,19 @@ TICC startup menu text
 
     #[test]
     fn measured_report_curves_have_units() {
-        let x: Vec<String> = (0..64).map(|i| format!("{}", ((i * 37) % 11) as f64 * 1e-9)).collect();
+        let x: Vec<String> = (0..64)
+            .map(|i| format!("{}", ((i * 37) % 11) as f64 * 1e-9))
+            .collect();
         let t = format!("# tau0 = 1\n{}\n", x.join("\n"));
         let r = MeasuredPhaseReport::from_phase(run(&inp("timelab"), &t).unwrap());
         assert!(!r.adev.is_empty() && !r.tdev.is_empty() && !r.mtie.is_empty());
         assert_eq!(r.mtie[0].mtie_s, crate::allan::mtie(&r.log.phase_s, 1));
         let doc = serde_json::json!({ "measured": r });
         for p in crate::field_schema::numeric_leaf_paths(&doc) {
-            assert!(MEASURED_UNITS.iter().any(|u| u.path == p), "no unit for {p}");
+            assert!(
+                MEASURED_UNITS.iter().any(|u| u.path == p),
+                "no unit for {p}"
+            );
         }
     }
 }
