@@ -1379,7 +1379,7 @@
       "oracle_kind": "InternalConsistency",
       "oracle": "Internal consistency against a closed form: under the linear Gaussian model the least-squares covariance is sigma^2 (H^T H)^-1 (Kaplan and Hegarty (eds.), Understanding GPS: Principles and Applications, 2nd ed., Artech House, 2006, ch. 7). Method and tolerances of the 0.36 geometry design note, section 5.2, fixed in a pre-registration commit before the first run: each variance within 5 % (5 standard errors of a sample variance at N = 20,000), each RMS within 2.5 %, the east-north correlation within 0.035 (5/sqrt(N)), each mean within 5 standard errors, the 95 % ellipse fraction within 0.95 +/- 0.0077 (5 binomial standard errors); negative controls (PDOP doubled; errors growing as 1/sin(elevation) against the unweighted Q) must fail. HOW IT COMPOSES: Q is the covariance factor of the orbit::dop kernel, VALIDATED against gnss_lib_py 1.0.4 on these same 8 geometries in tests/dop_reference.rs (row 'GNSS geometry / dilution of precision'); this row adds the step from those factors to metres through the engine's solver and does not borrow that row's status. WHY MODELLED: no external dataset is involved; agreement shows the estimator and noise realise sigma x DOP under the textbook model, not that any receiver's error equals UERE x DOP, and sigma_UERE is an input",
       "module": "dop_error_mc (run_geometry, check, TOLERANCES); dop_error_ci (run, GEOMETRIES); pvt (solve_spp); orbit (dop, dop_cofactor)",
-      "tests": "tests/uere_dop_monte_carlo.rs (position_error_is_sigma_times_dop_on_the_gnss_lib_py_geometries: all 104 checks pass on the first run after pre-registration e50c88d2, worst variance 3.2 %, RMS 1.6 %, correlation 0.012, mean 2.2 standard errors, ellipse fraction 0.0039; negative_control_a_doubled_pdop_fails_every_geometry; negative_control_elevation_dependent_errors_fail_the_low_elevation_geometries: both controls fail as required); tests/position_error_dop_ci.rs (a first, separate check on four hand-chosen skies (open, clustered, canyon, half-sky; sigma 1 m, seed 0x0D0B5EED) with chi-square confidence intervals at 1e-6 total over 20 checks: ratios 0.987 to 1.009, the solver's own PDOP/GDOP equal to the kernel's to 2.5e-12, and negative controls for a 10 % DOP error and 1/sin(elevation) errors; run before the pre-registration, so it is reported, not pre-registered); dop_error_mc::tests; dop_error_ci::tests",
+      "tests": "tests/uere_dop_monte_carlo.rs (position_error_is_sigma_times_dop_on_the_gnss_lib_py_geometries: all 104 checks pass on the first run after pre-registration e50c88d2, worst variance 3.2 %, RMS 1.6 %, correlation 0.012, mean 2.2 standard errors, ellipse fraction 0.0039; negative_control_a_doubled_pdop_fails_every_geometry; negative_control_elevation_dependent_errors_fail_the_low_elevation_geometries: both controls fail as required; position_error_is_sigma_times_dop_on_masked_skies: the design note's two masked-skyline geometries, the 10sat-mixed sky under the city-street (4 satellites, PDOP 16.6) and container-terminal (9 satellites, PDOP 2.5) presets, all 26 checks pass on the first run after pre-registration 03999c11, tests/fixtures/dop/PREREGISTRATION-MASKED.md); tests/position_error_dop_ci.rs (a first, separate check on four hand-chosen skies (open, clustered, canyon, half-sky; sigma 1 m, seed 0x0D0B5EED) with chi-square confidence intervals at 1e-6 total over 20 checks: ratios 0.987 to 1.009, the solver's own PDOP/GDOP equal to the kernel's to 2.5e-12, and negative controls for a 10 % DOP error and 1/sin(elevation) errors; run before the pre-registration, so it is reported, not pre-registered); dop_error_mc::tests; dop_error_ci::tests",
       "module_links": [
         {
           "path": "src/dop_error_mc.rs",
@@ -1405,7 +1405,7 @@
       "oracle_kind": "InternalConsistency",
       "oracle": "Internal consistency: the classification is checked against the rules it states and against hand-derived ratios on synthetic edits of the committed demo log, and the no-change pins hold the 0.35.0 outputs: no score changes unless the geometry is poor; the label is always reported. WHY MODELLED: the thresholds are chosen, not fitted (provenance in each run's geometry_model; the IEC 61108-1 and GPS SPS figures as cited, to be checked against the standards' text), and there is no external labelled dataset of natural geometry degradation against attacks to validate the classification against. The derived DOP reuses the orbit::dop kernel, VALIDATED against gnss_lib_py, whose status this row does not borrow. A class of geometry is a statement about the sky, not a finding that no attack occurred",
       "module": "receiver_trust (geometry: GeometryTracker, geometry_ratio, sky_ratio, geometry_points, GeometryLabel; score: DeductionClass, score_with; monitors; live); telemetry (sample, prometheus, syslog, otlp)",
-      "tests": "receiver_trust::geometry::tests (hand-derived ratios at the thresholds, the threshold edges, the ramp and cap, the floor, the label edges, [geometry] overrides, the DOP on the validated kernel, held and expired skies, unknown not guessed, signal loss, the poor-geometry tolerance, no-fix sentinels); tests/geometry_trust.rs (a fair masked sky labelled and not scored, a poor masked sky, a low-elevation loss, a power drop, a forged HDOP, total signal loss, a drag-off during poor geometry, unknown geometry, session overrides, the live schema); tests/geometry_trust_no_change.rs (both example sessions byte-identical to 0.35.0 once the appended keys are removed); tests/geometry_corpus_identity.rs (every committed vessel NMEA corpus, also as GPS-only open sky, and the crew-training scenarios: byte-identical to 0.35.0 except poor epochs, which differ by the geometry deduction alone)",
+      "tests": "tests/natural_degradation_trust.rs (a_stated_skyline_reads_the_fjord_as_geometry: on the synthetic fjord passage of scenarios/training/fjord-natural-degradation.toml the same 624 epochs are deducted with and without the stated [skyline]; with it sky-blocked is reported on 680 epochs (0 without: the azimuth-gap fallback sees nothing in a two-sided fjord), open_fraction is 0.758, and the environment-class epochs fall from 78 to 33, the rest being losses of satellites the stated skyline leaves in the open; outside the event the skyline changes no score); receiver_trust::geometry::tests (hand-derived ratios at the thresholds, the threshold edges, the ramp and cap, the floor, the label edges, [geometry] overrides, the DOP on the validated kernel, held and expired skies, unknown not guessed, signal loss, the poor-geometry tolerance, no-fix sentinels); tests/geometry_trust.rs (a fair masked sky labelled and not scored, a poor masked sky, a low-elevation loss, a power drop, a forged HDOP, total signal loss, a drag-off during poor geometry, unknown geometry, session overrides, the live schema); tests/geometry_trust_no_change.rs (both example sessions byte-identical to 0.35.0 once the appended keys are removed); tests/geometry_corpus_identity.rs (every committed vessel NMEA corpus, also as GPS-only open sky, and the crew-training scenarios: byte-identical to 0.35.0 except poor epochs, which differ by the geometry deduction alone)",
       "module_links": [
         {
           "path": "src/receiver_trust/mod.rs",
@@ -1413,6 +1413,10 @@
         }
       ],
       "test_links": [
+        {
+          "path": "tests/natural_degradation_trust.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/natural_degradation_trust.rs"
+        },
         {
           "path": "tests/geometry_trust.rs",
           "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/geometry_trust.rs"
@@ -4785,6 +4789,62 @@
       "fixture": null
     },
     {
+      "requirement": "ARAIM with simultaneous multi-satellite fault hypotheses",
+      "capability": "araim_reference::add_v42_subset_plan: the ADD v4.2 subset-determination rule (P_THRES, FC_THRES, monitored subsets fewest-removed first) generalised from pairs to simultaneous combinations of up to max_order satellite and constellation events, with the exact prior P_no fault prod q_e; add_v42_protection_levels_to_order runs the ADD v4.2 protection-level path on it (order 2 is the existing path exactly). raim::araim_subset_raim (opt-in): advanced RAIM over that hypothesis set, each monitored subset one (p_fault, T, b, sigma) mode in the integrity-risk sum, unobservable subsets moved to the unmonitored risk, the budget scaled by the ADD allocation of the unmonitored risk, and the subset of largest normalised separation reported when a fault is detected. Priors needing deeper subsets than max_order are refused, never truncated",
+      "status": "MODELLED",
+      "oracle_kind": "InternalConsistency",
+      "oracle": "Internal consistency (InternalConsistency): the order-2 reduction to the MAAST-checked ADD v4.2 path, independent re-derivation of the priors, and a constructed two-satellite fault. No MAAST or RTKLIB run beyond pairs has been made, so the deeper hypothesis sets and the subset RAIM's protection levels are not externally checked. araim_subset_raim shares araim_dual_raim's simplifications (one sigma for integrity and accuracy, one clock, the plain normal tail): it is not ADD-conformant",
+      "module": "araim_reference (add_v42_subset_plan, add_v42_protection_levels_to_order); raim (araim_subset_raim, SubsetRule)",
+      "tests": "tests/raim_multi_sv_subsets.rs (deeper_orders_change_nothing_when_pairs_suffice; triples_are_refused_at_order_two_and_planned_deeper: N_fault,max >= 3, the unmonitored risk within P_THRES, a subset removing three or more satellites monitored, and more than ten monitored priors re-derived independently as P_no fault q^k to 1e-12; a_two_satellite_fault_is_found_as_a_pair: no alarm fault-free, and a 30 m bias on two satellites detected with the pair as the subset of largest normalised separation); tests/araim_reference_vectors.rs and tests/integrity_araim_stanford_oracle.rs unchanged (the order-2 path is the MAAST-checked one)",
+      "module_links": [
+        {
+          "path": "src/araim_reference.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/src/araim_reference.rs"
+        }
+      ],
+      "test_links": [
+        {
+          "path": "tests/raim_multi_sv_subsets.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/raim_multi_sv_subsets.rs"
+        },
+        {
+          "path": "tests/araim_reference_vectors.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/araim_reference_vectors.rs"
+        },
+        {
+          "path": "tests/integrity_araim_stanford_oracle.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/integrity_araim_stanford_oracle.rs"
+        }
+      ],
+      "fixture": {
+        "path": "tests/fixtures/integrity_araim_stanford_oracle",
+        "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/fixtures/integrity_araim_stanford_oracle",
+        "notice_url": "https://github.com/AshfordeOU/kshana/blob/main/tests/fixtures/integrity_araim_stanford_oracle/NOTICE.md"
+      }
+    },
+    {
+      "requirement": "RAIM beside the clock-holdover figures of merit",
+      "capability": "The optional [integrity] section of the clock kind (clock_integrity::run): from a stated site and constellation presets (geometry::sky_geometry), at every integrity epoch while the GNSS timeline is not denied, snapshot RAIM (raim::snapshot_raim: parity chi-square test, slope protection levels) on the satellites above the mask with seeded Gaussian residuals of the stated sigma and an optional stated bias; a separate integrity_fom block with per-epoch verdicts, protection levels, and availability. Denied epochs are reported unavailable, never extrapolated; the holdover figures of merit are unchanged and, without the section, the output is byte-identical",
+      "status": "MODELLED",
+      "oracle_kind": "InternalConsistency",
+      "oracle": "Internal consistency (InternalConsistency): the protection levels are those of snapshot_raim, which is validated against RTKLIB in its own row, recomputed on the same geometry; fault-free and injected-fault behaviour. The sky is a representative preset geometry (not a dated almanac), the residuals are synthetic and sigma, the alert limits and the probabilities are stated inputs; nothing here is a statement about a real receiver's availability",
+      "module": "clock_integrity (run, sky_at, IntegrityCfg); scenario (Scenario::integrity); report (RunResult::integrity_fom); api (clock dispatch)",
+      "tests": "tests/clock_integrity.rs (the_block_is_separate_and_absent_by_default: holdover figures unchanged, 111 denied epochs unavailable with no protection level, refused with runs > 1; protection_levels_are_the_snapshot_raims_on_the_same_sky: every sampled epoch's HPL and VPL equal a zero-residual snapshot_raim on the same preset sky exactly, and the fault-free run raises no alarm; a_stated_bias_is_detected_while_it_lasts: a 60 m bias alarms on exactly the 10 epochs it covers; every_integrity_field_has_a_unit); clock_integrity::tests; the clock goldens unchanged",
+      "module_links": [
+        {
+          "path": "src/clock_integrity.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/src/clock_integrity.rs"
+        }
+      ],
+      "test_links": [
+        {
+          "path": "tests/clock_integrity.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/clock_integrity.rs"
+        }
+      ],
+      "fixture": null
+    },
+    {
       "requirement": "Spatial, noisy, multi-family cislunar arc-length observability",
       "capability": "The cislunar arc-length observability threshold in the SPATIAL six-state CR3BP rather than the planar four-state, across DRO, L2 halo and L2 near-rectilinear halo families, with measurement noise entering the Gramian and TWO criteria reported because there is no single honest one: the published rank criterion, which is provably invariant to a homoscedastic measurement sigma (whitening multiplies the observability matrix by a scalar, leaving the relative singular-value spectrum and hence rank, defect and condition unchanged), and an estimability criterion — the first arc at which the formal 1σ position uncertainty of the chief's initial state falls below a stated bound — which is the one that does move with noise. Each threshold carries the epoch-grid bracket it sits in; an unreached criterion is null with a reason. Planar mode remains the default and out-of-plane families are refused there rather than flattened into a state that cannot represent them",
       "status": "MODELLED",
@@ -7102,7 +7162,7 @@
       "capability": "A signed, hash-chained evidence pack of a GNSS trust event: SHA-256 over every file and a chain over the manifest, an Ed25519 signature over the exact manifest bytes, and a verifier that names every failure (a changed, removed, renamed, swapped or added file, a reordered or edited manifest, a manifest re-hashed without the key, a re-signed pack, a wrong pinned key, and a timestamp token that is stripped, replaced, junk or over another document).",
       "status": "VALIDATED",
       "oracle_kind": "ExternalDataset",
-      "oracle": "WHAT IS EXTERNALLY CHECKED, stated narrowly: (1) the Ed25519 functions the pack uses to sign and to verify strictly (evidence::bundle::sign_detached, evidence::verify::verify_detached) reproduce the public keys and signatures of RFC 8032 section 7.1 test vectors 1, 2, 3 and 1024 byte for byte, accept them, and reject every flipped bit of vector 1 and every seventh bit of the others and a non-canonical S+L signature; the vectors are parsed from the RFC text and reproduced by two independent implementations (cryptography/OpenSSL and PyNaCl/libsodium) in scripts/gen_ed25519_rfc8032_ref.py. (2) evidence::bundle::sha256_hex, the hash behind every pack hash and the chain, reproduces the FIPS 180-4 SHA-256 examples (abc; the 448-bit message; one million a), the empty message and hashlib digests of a 0 to 130 byte ladder across the padding boundaries, exactly. (3) A verifier written in Python from docs/EVIDENCE-PACKS.md alone (scripts/evidence_verify_cleanroom.py: hashlib and cryptography; its author read no Rust code) agrees with the Rust verifier on 71 synthetic intact and tampered packs, exactly, on the verdict, the set of failures with file names, the signature verdict, and the chain head recomputed from the files and the one the manifest records. First run 64 of 71 agreed; the disagreements were one specification ambiguity (checking a pinned key against an unreadable manifest), one oracle interface deviation and one incompletely built case; the specification sentence was clarified, the oracle re-implemented from the text and the case completed, with no tolerance or expectation changed (recorded in commit d54e14c6). WHAT IS NOT: the clean-room verifier is an independent implementation by a different author, not a third-party authority, and it shares the specification's choices, so it corroborates this implementation of the rules, not the rules; the vectors validate the primitives, not the pack format's design. The RFC 3161 token is read for its message imprint only: the timestamp authority's signature and chain of trust are verified neither by Kshana nor by the oracle, and the test tokens are synthetic and unsigned. The tamper cases are synthetic. Nothing here is a legal opinion on, or an attestation of, any pack.",
+      "oracle": "WHAT IS EXTERNALLY CHECKED, stated narrowly: (1) the Ed25519 functions the pack uses to sign and to verify strictly (evidence::bundle::sign_detached, evidence::verify::verify_detached) reproduce the public keys and signatures of RFC 8032 section 7.1 test vectors 1, 2, 3 and 1024 byte for byte, accept them, and reject every flipped bit of vector 1 and every seventh bit of the others and a non-canonical S+L signature; the vectors are parsed from the RFC text and reproduced by two independent implementations (cryptography/OpenSSL and PyNaCl/libsodium) in scripts/gen_ed25519_rfc8032_ref.py. (2) evidence::bundle::sha256_hex, the hash behind every pack hash and the chain, reproduces the FIPS 180-4 SHA-256 examples (abc; the 448-bit message; one million a), the empty message and hashlib digests of a 0 to 130 byte ladder across the padding boundaries, exactly. (3) A verifier written in Python from docs/EVIDENCE-PACKS.md alone (scripts/evidence_verify_cleanroom.py: hashlib and cryptography; its author read no Rust code) agrees with the Rust verifier on 71 synthetic intact and tampered packs, exactly, on the verdict, the set of failures with file names, the signature verdict, and the chain head recomputed from the files and the one the manifest records. First run 64 of 71 agreed; the disagreements were one specification ambiguity (checking a pinned key against an unreadable manifest), one oracle interface deviation and one incompletely built case; the specification sentence was clarified, the oracle re-implemented from the text and the case completed, with no tolerance or expectation changed (recorded in commit d54e14c6). WHAT IS NOT: the clean-room verifier is an independent implementation by a different author, not a third-party authority, and it shares the specification's choices, so it corroborates this implementation of the rules, not the rules; the vectors validate the primitives, not the pack format's design. In this row the RFC 3161 token is read for its message imprint only and the test tokens are synthetic and unsigned; the authority's signature and chain are verified, opt-in (`kshana evidence verify --tsa-ca`), by the separate row 'RFC 3161 timestamp-token signature and chain verification'. The tamper cases are synthetic. Nothing here is a legal opinion on, or an attestation of, any pack.",
       "module": "evidence (bundle: create_bundle, sign_detached, chain_link, sha256_hex; verify: verify_bundle, verify_detached; tsr; assemble; cli)",
       "tests": "tests/evidence_crypto_reference.rs (RFC 8032 section 7.1 vectors 1, 2, 3 and 1024; FIPS 180-4 SHA-256 examples; exact); tests/evidence_pack_reference.rs::kshana_and_the_clean_room_verifier_agree_on_every_case (71 cases); tests/evidence_pack.rs (tamper tests)",
       "module_links": [
@@ -7121,6 +7181,40 @@
           "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/evidence_pack.rs"
         }
       ],
+      "fixture": null
+    },
+    {
+      "requirement": "RFC 3161 timestamp-token signature and chain verification",
+      "capability": "kshana::evidence::tsa::verify_token, and opt-in `kshana evidence verify --tsa-ca <anchors.pem>` for a pack's timestamp.tsr: an RFC 3161 TimeStampResp or bare TimeStampToken (CMS SignedData over a TSTInfo) checked offline against trusted anchors the way `openssl ts -verify` checks it: the signed attributes' content type and message digest over the TSTInfo; the signature over the signed attributes (RSA PKCS#1 v1.5, RSASSA-PSS, ECDSA P-256 and P-384; RSA public operations on crypto-bigint); the ESS signing-certificate v1 (SHA-1) or v2 hash naming the signer certificate, found among the token's and the caller's untrusted certificates; the signer's critical, sole timeStamping extended key usage; the chain to a trusted self-issued anchor with each certificate's signature, CA status and key usage, and every certificate valid at the token's genTime; and the message imprint against the data. Not checked: revocation (CRL, OCSP), name and policy constraints, the nonce",
+      "status": "VALIDATED",
+      "oracle_kind": "ExternalDataset",
+      "oracle": "OpenSSL 3.0.13 (`openssl ts -verify -attime genTime`, and `openssl cms -verify -cades -purpose timestampsign` plus the TSTInfo imprint for RSA-PSS tokens), run by tests/fixtures/evidence_tsa/run_openssl.sh on the 27 cases of cases.tsv: RSA PKCS#1 v1.5 with SHA-256 and SHA-512 and ESS v1 and v2, an ECDSA P-384 root over a P-256 intermediate and P-256 and P-384 TSAs, RSA-PSS, a token without the signer certificate with and without it supplied, CAdES-signed tokens, a flipped signature byte (three algorithms), a changed TSTInfo (two), a flipped intermediate signature, an ESS twin certificate, wrong anchors (four), an expired TSA certificate, a non-critical and a wrong extended key usage, and wrong data (three). Pre-registered in tests/fixtures/evidence_tsa/PREREGISTRATION.md (committed alone, 30ad70b2, before the verifier existed; the OpenSSL verdicts re-run afterwards, byte-identical). First run: all 27 verdicts agree (B1) and every genTime agrees to the second (B2). Scope, stated narrowly: self-generated test certificates and tokens, made by the same OpenSSL that judges them; OpenSSL is an independent implementation, not a timestamp authority; no public authority's token is vendored (freetsa.org states no licence). Nothing here attests any real timestamp",
+      "module": "evidence::tsa (verify_token, pem_certificates); evidence::verify (VerifyOptions::tsa_anchors, Failure::TimestampAuthorityInvalid); evidence::cli (--tsa-ca)",
+      "tests": "tests/evidence_tsa_openssl.rs::every_case_agrees_with_openssl (the pre-registered comparison); evidence::tsa::tests (civil dates and times, base64, the RSA public operation); evidence::verify::tests::anchors_make_the_authority_checked (an unsigned token fails with anchors; without them the report is unchanged)",
+      "module_links": [
+        {
+          "path": "src/evidence/tsa.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/src/evidence/tsa.rs"
+        }
+      ],
+      "test_links": [],
+      "fixture": null
+    },
+    {
+      "requirement": "Receiver-trust interference thresholds calibrated on the JammerTest 2024 dataset",
+      "capability": "receiver_trust::calibration::run_dataset: the pre-registered calibration of the C/N0-drop, AGC and jamming-indicator monitors on the public JammerTest 2024 dataset (Zenodo 15911589, GPL-3.0-or-later, fetched at run time, never vendored): per folder a 1 s timeline from mon_rf.csv and rinex.csv, the monitors run once, each post-calibration epoch labelled clean or jamming from the folder's attack_log (shifted from CEST to UTC, 60 s guard), every threshold swept over a fixed grid, the smallest threshold with pooled clean false-alarm probability at most 0.01 selected, and leave-one-folder-out held-out counts; a UBX reader cross-check. The selection ships only as the opt-in profile [monitors] profile = \"jammertest-2024-calibrated\" (cn0_drop_db 1.5, agc_k_sigma 3.5, jam_ind_threshold 29); the default rule and every output without it are unchanged",
+      "status": "MODELLED",
+      "oracle_kind": "ExternalDataset",
+      "oracle": "The dataset's published event logs (attack_log windows), as event truth, under the pre-registration xval/jammertest-trust/PREREGISTRATION.md (committed alone, 0fa012b, before the harness ran). First and only run (xval/jammertest-trust/RESULTS.md): 14 of 24 folders evaluable (7 with jamming), 3,502 clean and 9,560 jamming epochs. Held-out clean false-alarm probability: cn0_drop_db 0.0231 (81/3502) against a 0.02 bar, FAIL; agc_k_sigma 0.0003, pass; jam_ind_threshold 0.0094, pass; union of the three: false alarms 0.0328, detection 0.807 against 0.05 and 0.50, pass. By the registered rule the row is MODELLED (one bar failed). Narrow: one receiver type (u-blox ZED-F9P), one event, scheduled one-minute slots as truth (detection a lower bound; clean means outside the logged windows); calibrated on the CSV logs, and the UBX reader gives more false alarms on two folders. Maritime trust-score bands are not calibrated",
+      "module": "receiver_trust::calibration (run_dataset); receiver_trust::monitors (MonitorConfig::profile, JAMMERTEST_2024_CALIBRATED); realdata::jammertest; examples/jammertest_trust_calibration.rs",
+      "tests": "tests/receiver_trust_jammertest_calibration.rs::the_recorded_calibration_reproduces (ignored, data-gated by KSHANA_JAMMERTEST_DIR: the recorded selection, held-out counts, bar verdicts and verdict); receiver_trust::calibration::tests (time stamps, window pairing and the time-zone shift, labels, guard bands, exclusion, selection); receiver_trust::monitors::tests::threshold_profile_is_opt_in",
+      "module_links": [
+        {
+          "path": "src/receiver_trust/calibration.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/src/receiver_trust/calibration.rs"
+        }
+      ],
+      "test_links": [],
       "fixture": null
     },
     {

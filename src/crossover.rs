@@ -447,6 +447,7 @@ impl ClockHoldover {
             // `classical` slot is a copy (ignored) so one run yields its curve.
             clock_quantum: cfg(clock),
             clock_classical: cfg(clock),
+            integrity: None,
         }
     }
 

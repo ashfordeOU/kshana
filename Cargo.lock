@@ -418,6 +418,7 @@ version = "0.35.0"
 dependencies = [
  "aes",
  "cmac",
+ "crypto-bigint",
  "ed25519-dalek",
  "flate2",
  "getrandom",
@@ -425,6 +426,7 @@ dependencies = [
  "hmac",
  "libm",
  "p256",
+ "p384",
  "p521",
  "pyo3",
  "rand",
@@ -433,6 +435,7 @@ dependencies = [
  "serde",
  "serde_json",
  "sgp4",
+ "sha1",
  "sha2",
  "sha3",
  "toml",
@@ -489,6 +492,18 @@ name = "p256"
 version = "0.13.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c9863ad85fa8f4460f9c48cb909d38a0d689dba1f6f6988a5e3e0d31071bcd4b"
+dependencies = [
+ "ecdsa",
+ "elliptic-curve",
+ "primeorder",
+ "sha2",
+]
+
+[[package]]
+name = "p384"
+version = "0.13.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "fe42f1670a52a47d448f14b6a5c61dd78fce51856e68edaa38f7ae3a46b8d6b6"
 dependencies = [
  "ecdsa",
  "elliptic-curve",
@@ -769,6 +784,17 @@ dependencies = [
  "chrono",
  "serde",
  "serde_json",
+]
+
+[[package]]
+name = "sha1"
+version = "0.10.7"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a978451301f4db1d02937a4ab3ccce137717b81826e79b7d49ffe3244a13c3b8"
+dependencies = [
+ "cfg-if",
+ "cpufeatures",
+ "digest",
 ]
 
 [[package]]

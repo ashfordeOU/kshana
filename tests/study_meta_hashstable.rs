@@ -53,6 +53,7 @@ fn demo_scenario() -> Scenario {
             drift: 0.0,
             flicker_floor: 0.0,
         },
+        integrity: None,
     }
 }
 
@@ -94,6 +95,7 @@ fn result_with_meta(meta: Option<StudyMeta>) -> RunResult {
         classical: run_of("csac"),
         eci_track: None,
         meta,
+        integrity_fom: None,
     }
 }
 

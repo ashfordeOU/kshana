@@ -187,7 +187,7 @@ fn epochs_from(map: BTreeMap<i64, Acc>, first: i64) -> Vec<LogEpoch> {
 }
 
 /// A [`Timeline`] from epochs: the start label and the observables actually present.
-fn timeline_from(epochs: Vec<LogEpoch>, skipped: usize) -> Timeline {
+pub(crate) fn timeline_from(epochs: Vec<LogEpoch>, skipped: usize) -> Timeline {
     let mut observables = Vec::new();
     if epochs.iter().any(|e| !e.cn0.is_empty()) {
         observables.push("cn0".to_string());
@@ -223,7 +223,7 @@ fn sat_id(letter: char, n: u32) -> String {
 
 /// Days since 1970-01-01 of a proleptic Gregorian date (the standard civil-from-days
 /// inverse; valid for any year, so no table or library is needed).
-fn days_from_civil(y: i64, m: i64, d: i64) -> i64 {
+pub(crate) fn days_from_civil(y: i64, m: i64, d: i64) -> i64 {
     let y = if m <= 2 { y - 1 } else { y };
     let era = y.div_euclid(400);
     let yoe = y - era * 400;
