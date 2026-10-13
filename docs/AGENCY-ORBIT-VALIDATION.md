@@ -55,9 +55,9 @@ A residual is reported only when all of the following hold (design
 |-----|-----|-----|-------|---------|---------------|-------|-------|
 | CI fixture, Tier 1 (force + `C_R`) | 8 h | 12 | 97 | **0.133 m** | 0.105, 0.067, 0.047 m | 1.174 | raw overlap 78.7 km |
 | CI fixture, Tier 2 (+ empirical CPR) | 8 h | 12 | 97 | **0.070 m** | 0.048, 0.044, 0.027 m | — | halves the residual |
-| Full-arc dispatch, Tier 1 | 24 h | 12 | 289 | **0.611 m** | 0.276, 0.381, 0.390 m | 1.244 | `workflow_dispatch` |
+| Full-arc dispatch, Tier 1 (pre-fix†) | 24 h | 12 | 289 | **0.611 m** | 0.276, 0.381, 0.390 m | 1.244 | `workflow_dispatch` |
 
-The CI-fixture numbers above were re-recorded in 0.36 after the S2 air-tide fix (`xval/s2-air-tide-fix/`): Galileo Tier 1 moved 0.132 → 0.133 m (C_R 1.1744 → 1.1743), Swarm-A N components by 1–2 mm; the full-arc dispatch figures were not re-run.
+The CI-fixture numbers above were re-recorded in 0.36 after the S2 air-tide fix (`xval/s2-air-tide-fix/`): Galileo Tier 1 moved 0.132 → 0.133 m (C_R 1.1744 → 1.1743), Swarm-A N components by 1–2 mm; the full-arc dispatch figures were not re-run. † **Pre-fix:** the full-arc dispatch figure was recorded before the 0.36 S2 air-tide fix and has not been re-run on the fixed code (the full-day products are fetched by the dispatch workflow, not available in the session that made the fix). On the CI fixtures the fix moved the Galileo 3-D RMS by under 1 mm and the Swarm-A components by 1–2 mm, so a change of the same order is expected; the next `workflow_dispatch` run re-records it.
 
 The MEO field is gravity-converged by degree 8 (the 8 h Tier-1 result is identical at d/o
 8, 10, and 12 to the millimetre), so the CI fixture's d/o-12 truncation is negligible; the
