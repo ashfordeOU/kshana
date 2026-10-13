@@ -11,6 +11,13 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **Filter-prior guidance for the `gnss-ins` kind** (0.36, WP-09, RM-21 finding): the pack's
+  default filter prior suits a tactical-grade IMU. With a navigation-grade IMU, the default can
+  make the fused coast worse than free INS: 52 m against 11 m on a 70 m/s aircraft profile.
+  Set `[imu_*.filter_prior]` to match the sensor's grade, as the new maritime, rail and
+  aviation packs do. No bundled scenario pairs a navigation-grade IMU with the default prior:
+  every one that uses the default has residual accelerometer biases of at least 0.015 m/s².
+  Documentation only; no output changes.
 - **Test-bench export checked with a simulator's own readers** (0.36, WP-09, CAP-16): the
   `kshana bench-export` motion files of 8 bundled scenarios were read back by gps-sdr-sim's
   NMEA, latitude/longitude/height and Earth-fixed motion readers (MIT, commit 28ca29a6, used as

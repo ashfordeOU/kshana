@@ -29,6 +29,8 @@
 //!
 //! Each sensor may set its own filter prior (`[imu_*.filter_prior]`); without one the
 //! pack keeps its historical tactical-grade prior.
+//! Set one matched to the sensor's grade: with the default, a navigation-grade unit's
+//! fused coast can be worse than free INS (see [`ImuCfg::filter_prior`]).
 //!
 //! Honest scope: loosely-coupled; by default a single deterministic driving trajectory (a
 //! forward-acceleration and yaw square wave that gives the filter observability), or a
@@ -108,6 +110,13 @@ pub struct ImuCfg {
     /// A consumer-grade sensor whose residual bias sits many sigma outside that prior
     /// needs its own, or the filter never learns the bias and the coast is a
     /// tuning artefact rather than a property of the sensor.
+    ///
+    /// The mismatch also hurts the other way. On a navigation-grade unit (residual
+    /// accelerometer bias about 50 micro-g), the default tactical prior lets the filter's
+    /// bias estimate wander far beyond the sensor's true bias over a short aided arc. The
+    /// fused coast can then be worse than free INS: 52 m against 11 m on a 70 m/s
+    /// aircraft profile. Set a prior matched to the sensor's grade, as the bundled
+    /// `gnss-ins-aviation`, `-maritime` and `-rail` packs do.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub filter_prior: Option<FilterPriorCfg>,
 }
