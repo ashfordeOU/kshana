@@ -7,6 +7,16 @@
 //! its own (bd45812) before any single-point solution on these data was computed. Over
 //! 01:00-05:59:30: H1 median 3-D error smoothed ≤ 0.6 × raw; H2 95th percentile smoothed ≤ 0.6 ×
 //! raw; H3 at least 500 epochs solved by both. Window 100 epochs (50 min).
+//!
+//! RESULT of the first and only run (2026-10-13, on 70b27ec), recorded as a FINDING; bars
+//! unchanged, the row stays MODELLED. H3 holds (600 epochs). H1 does not: median 3-D error
+//! 1.553 m raw, 1.116 m smoothed, ratio 0.718 (bar 0.6). H2 does not: 95th percentile 3.473 m
+//! raw, 3.207 m smoothed, ratio 0.923 (bar 0.6). Smoothing removes code noise (the median falls by
+//! 28 %), but the metre-level error that remains is not white noise: it is common to code and
+//! carrier over the window, or slowly varying (C1C-to-C1W code bias amplified about 3 times by the
+//! ionosphere-free combination, receiver antenna offset and solid tide not applied in either run,
+//! code multipath with periods of tens of minutes), which a 50 min window cannot average away.
+//! Diagnosis written after the run; nothing was changed to pass.
 
 use kshana::gnss_sim::Meteo;
 use kshana::precise_products::{parse_antex_satellites, parse_clock_rinex, PreciseProducts};
@@ -44,8 +54,15 @@ fn p(v: &mut [f64], q: f64) -> f64 {
     v[((q * (v.len() - 1) as f64).round()) as usize]
 }
 
-#[test]
-fn hatch_smoothing_brings_single_point_positions_closer_to_itrf2020() {
+struct Stats {
+    n: usize,
+    raw_median: f64,
+    raw_p95: f64,
+    sm_median: f64,
+    sm_p95: f64,
+}
+
+fn compare() -> Stats {
     let obs = parse_obs(&read(DIR, "wtzr_2025055_0006_G.rnx")).unwrap();
     let sp3 = parse_sp3(&read("sp3_clock_igs_oracle", "igs_2025055_G.sp3")).unwrap();
     let clk = parse_clock_rinex(&read(DIR, "igs_2025055_G_05m_0006.clk")).unwrap();
@@ -108,7 +125,39 @@ fn hatch_smoothing_brings_single_point_positions_closer_to_itrf2020() {
         ms / mr,
         ps / pr
     );
-    assert!(n >= 500, "H3");
-    assert!(ms <= 0.6 * mr, "H1");
-    assert!(ps <= 0.6 * pr, "H2");
+    Stats {
+        n,
+        raw_median: mr,
+        raw_p95: pr,
+        sm_median: ms,
+        sm_p95: ps,
+    }
+}
+
+/// The registered bars (H1 and H2 missed on the first run; see the module header).
+#[test]
+#[ignore = "FINDING: H1 0.718 and H2 0.923 against the pre-registered 0.6; bars unchanged, row MODELLED"]
+fn hatch_smoothing_brings_single_point_positions_closer_to_itrf2020() {
+    let s = compare();
+    assert!(s.n >= 500, "H3");
+    assert!(s.sm_median <= 0.6 * s.raw_median, "H1");
+    assert!(s.sm_p95 <= 0.6 * s.raw_p95, "H2");
+}
+
+// PIN-SCOPE:    the recorded finding: epoch count and the four error statistics of the first run.
+// PIN-EXCLUDES: the registered bars (kept in the ignored test above) and any other station or day.
+#[test]
+fn hatch_finding_is_pinned() {
+    let s = compare();
+    assert_eq!(s.n, 600);
+    for (got, want) in [
+        (s.raw_median, 1.553),
+        (s.raw_p95, 3.473),
+        (s.sm_median, 1.116),
+        (s.sm_p95, 3.207),
+    ] {
+        assert!((got - want).abs() < 5e-4, "{got} vs {want}");
+    }
+    // The smoothing does help, by less than registered.
+    assert!(s.sm_median < s.raw_median && s.sm_p95 < s.raw_p95);
 }

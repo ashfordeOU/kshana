@@ -11,6 +11,24 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **Navigation-message encoders beyond LNAV** (0.36, WP-07, PRO-40): `gnss_navmsg` encodes GPS
+  CNAV (message types 10, 11, 30; CRC-24Q; continuous rate-1/2 K=7 coding), Galileo I/NAV (word
+  types 1-5 in even/odd nominal pages; 30x8 interleaver; sync `0101100000`) and Galileo F/NAV (page
+  types 1-4; 61x8 interleaver; sync `101101110000`), with test decoders. MODELLED: round trips and
+  ICD known answers; a pre-registered check that broadcast Galileo ephemerides lie on the encoder's
+  LSB grid held (worst 3.6e-3 LSB) but missed its satellite-count bar (15 of 20), recorded. The
+  encoders are library functions; scene wiring is not part of this change.
+- **IONEX file reader** (0.36, WP-07): `ionex::parse_ionex_file` with `IonexFile`, `IonexHeader`,
+  `IonexEpoch`, `IonexFileMap` and `IonexTimeInterp`: a strict fixed-column IONEX 1.0 reader with
+  epochs counted from the first map's day, `9999` read as missing, RMS maps, and the format's
+  nearest, consecutive and rotated-map time interpolations; slant TEC at the header's shell
+  height. Exercised on a crop of a real CODE GIM (every node exact; interpolation matches a
+  formula reference to 4e-13 TECU). MODELLED; the RTKLIB comparison is data-gated.
+- **Hatch carrier smoothing** (0.36, WP-07): `hatch::HatchFilter` and
+  `pvt::assemble_epoch_precise_smoothed`, the divergence-free (ionosphere-free) form in the precise
+  single-point assembly. MODELLED with a recorded finding: on the IGS station WTZR it lowers the
+  median single-point error from 1.55 m to 1.12 m and the 95th percentile from 3.47 m to 3.21 m,
+  short of the pre-registered 40 % reduction (the remaining error is bias-like, not noise).
 - **Float PPP on real RINEX** (0.36, WP-07): `ppp_real::run_ppp`, a static float precise point
   positioning filter on real dual-frequency GPS code and phase with IGS final products (antenna
   offsets and variations, solid Earth tide, phase wind-up, Shapiro delay, estimated wet delay,
@@ -193,6 +211,9 @@ breaking changes are called out explicitly.
 
 ### Changed
 
+- **`ionex::parse_ionex` reads real IONEX files** (0.36, WP-07): a full 16-value record fills
+  columns 61-80, which the reader took for a label, so it returned `None` on every real IONEX
+  file. It now reads a record whose label field is numeric as values. No shipped output used it.
 - README: the lunar suite row states each piece's evidence tier (it said all were MODELLED).
 - `realdata::clk::rinex_clock_series` returns `RinexClockSeries` (series, gridding log, time system,
   whether it was declared, record type) instead of a `(PhaseSeries, GriddingLog)` tuple. It now
