@@ -11,6 +11,11 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **RAIM beside the clock-holdover figures of merit** (CAP-05b): an opt-in `[integrity]` section on the
+  clock kind reports a separate `integrity_fom` block (snapshot RAIM on a preset sky from a stated site:
+  per-epoch verdict and protection levels, availability; unavailable while GNSS is denied, never
+  extrapolated). The holdover figures are unchanged; without the section the output is byte-identical.
+  MODELLED.
 - **Receiver-trust thresholds calibrated on JammerTest 2024** (CAP-13): a pre-registered calibration of
   the C/N0-drop, AGC and jamming-indicator monitors on the public JammerTest 2024 dataset (fetched at run
   time, never vendored; `examples/jammertest_trust_calibration.rs`), shipped only as the opt-in

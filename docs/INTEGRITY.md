@@ -162,3 +162,19 @@ this is certification evidence.
 - [`VALIDATION.md`](VALIDATION.md) — which quantities are reference-validated vs.
   self-consistency checks.
 - `src/security.rs` — the spoof-detectability bound derivation.
+
+## RAIM beside the clock-holdover figures of merit (0.36, opt-in)
+
+A clock scenario may carry an `[integrity]` section (`src/clock_integrity.rs`): a site
+(`lat_deg`, `lon_deg`, `height_m`), constellation presets (`systems`, default `gps-baseline`),
+a mask, a range-residual sigma, the false-alarm and missed-detection probabilities, the
+horizontal and vertical alert limits, an epoch spacing and an optional stated bias on one
+satellite. The run then reports a separate `integrity_fom` block: per epoch the satellites in
+view, the snapshot RAIM protection levels and a verdict (`available`, `alarm`,
+`unavailable-pl-above-al`, `unavailable-too-few-satellites`, `unavailable-gnss-denied`), and
+the counts and availability over the run. While the timeline says GNSS is denied, RAIM is
+unavailable and nothing is extrapolated; a degraded window is evaluated as nominal. The
+holdover figures of merit are unchanged, and without the section the output is byte-identical.
+MODELLED: a representative preset sky, synthetic residuals and stated limits. It needs
+`runs = 1`.
+

@@ -966,7 +966,7 @@ fn nearest_kind(probe: &str) -> Option<&'static str> {
 /// rule in both directions.
 pub fn list_scenario_kinds() -> Vec<ScenarioMeta> {
     vec![
-        ScenarioMeta { name: "clock", description: "Clock holdover vs spec; optional Monte-Carlo ensemble (runs > 1).", required_fields: &["seed", "threshold_ns", "time", "gnss", "clock_quantum", "clock_classical"], optional_fields: &["runs"] },
+        ScenarioMeta { name: "clock", description: "Clock holdover vs spec; optional Monte-Carlo ensemble (runs > 1).", required_fields: &["seed", "threshold_ns", "time", "gnss", "clock_quantum", "clock_classical"], optional_fields: &["runs", "integrity"] },
         ScenarioMeta { name: "inertial", description: "1-DOF inertial dead-reckoning during a GNSS outage.", required_fields: &["seed", "threshold_m", "time", "gnss", "accel_quantum", "accel_classical"], optional_fields: &["runs"] },
         ScenarioMeta { name: "orbit", description: "GNSS availability + DOP from an orbital constellation (Walker / TLE / RINEX).", required_fields: &["seed", "threshold_ns", "mask_deg", "time", "user|user_site", "constellation", "clock_quantum", "clock_classical"], optional_fields: &["sigma_uere_m", "constellations", "epoch", "export_sp3", "export_omm", "export_oem", "skyline"] },
         ScenarioMeta { name: "ephemeris", description: "Ephemeris & ground track: propagate one satellite (TLE→SGP4 or analytic orbit) and emit its TEME/GCRS state (position + velocity), ITRF/ECEF position, WGS-84 sub-satellite lat/lon/alt, and per-step station az/el/range + range-rate (Doppler). The satellite comes from a `tle` or from an analytic `orbit` with its `epoch` (a `tle` wins when both are given); with a `tle`, an `epoch` overrides the TLE's own epoch as t = 0.", required_fields: &["tle|orbit+epoch"], optional_fields: &["step_s", "duration_s", "station", "dut1_s", "xp_arcsec", "yp_arcsec", "carrier_hz", "eop_finals2000a"] },
@@ -2781,6 +2781,12 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
             let scn: crate::scenario::Scenario =
                 toml::from_str(src).map_err(|e| format!("invalid scenario: {e}"))?;
             scn.time.validate()?;
+            if scn.integrity.is_some() && scn.runs > 1 {
+                return Err(
+                    "[integrity] reports one run's RAIM beside its holdover figures; it needs runs = 1"
+                        .into(),
+                );
+            }
             if scn.runs > 1 {
                 // Monte Carlo ensemble: report confidence bands instead of one run.
                 let r = crate::ensemble::run_ensemble(&scn);
@@ -2804,17 +2810,34 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
                     csv: None,
                 });
             }
-            let r = crate::run::run(&scn);
-            let summary = format!(
+            let mut r = crate::run::run(&scn);
+            if let Some(cfg) = &scn.integrity {
+                r.integrity_fom = Some(crate::clock_integrity::run(&scn, cfg)?);
+            }
+            let mut summary = format!(
                 "scenario {} | quantum holdover {:.0}s p95 {}ns integrity {} security {} | classical holdover {:.0}s p95 {}ns integrity {} security {}",
                 &r.scenario_hash[..12],
                 r.quantum.fom.holdover_s, ns1(r.quantum.fom.timing_p95_ns), integ(r.quantum.fom.integrity), SECURITY_NA,
                 r.classical.fom.holdover_s, ns1(r.classical.fom.timing_p95_ns), integ(r.classical.fom.integrity), SECURITY_NA,
             );
+            let units: Vec<crate::field_schema::FieldUnit> = match &r.integrity_fom {
+                None => crate::report::UNITS.to_vec(),
+                Some(f) => {
+                    summary.push_str(&format!(
+                        " | RAIM available {} of {} epochs ({} denied, {} alarms; MODELLED)",
+                        f.n_available, f.n_epochs, f.n_denied, f.n_alarm
+                    ));
+                    crate::report::UNITS
+                        .iter()
+                        .chain(crate::clock_integrity::UNITS)
+                        .copied()
+                        .collect()
+                }
+            };
             Ok(RunOutput {
                 json: json_of_with_units_and_tiers(
                     &r,
-                    crate::report::UNITS,
+                    &units,
                     &["quantum.fom", "classical.fom"],
                     crate::fom_label::CLOCK_FOM_FIELDS,
                 )?,
