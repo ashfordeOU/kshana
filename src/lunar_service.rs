@@ -467,6 +467,11 @@ pub struct GeometrySample {
     /// `in_beam_pattern`.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub in_beam_symmetric: Option<bool>,
+    /// Whether the satellite also clears the export site's terrain horizon
+    /// ([`crate::lunar_terrain::clears_horizon`]): `visible` and above the horizon at its
+    /// azimuth. Present only when the scenario has a `terrain` section.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub clears_terrain: Option<bool>,
 }
 
 /// Dilution of precision at a lunar surface user from the visible satellites — a thin
@@ -1656,6 +1661,10 @@ pub struct LunarServiceReport {
     /// a `terrain` section.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub terrain: Option<crate::lunar_terrain::GridTerrainEcho>,
+    /// The export site's terrain horizon; `None`, and absent from the JSON, unless the
+    /// scenario has both a `terrain` section and an export site.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub export_site_terrain: Option<crate::lunar_terrain::SiteHorizonEcho>,
 }
 
 impl LunarServiceReport {
@@ -1684,6 +1693,7 @@ impl LunarServiceReport {
     pub fn per_sat_geometry_csv(&self) -> Option<String> {
         let rows = self.per_sat_geometry.as_ref()?;
         let with_antenna = self.antenna_pattern.is_some();
+        let with_terrain = rows.iter().any(|r| r.clears_terrain.is_some());
 
         let mut s = String::new();
         s.push_str(&format!(
@@ -1713,14 +1723,26 @@ impl LunarServiceReport {
             },
         ));
 
+        if with_terrain {
+            s.push_str(
+                "# clears_terrain: the satellite clears the flat mask and the export site's \
+                 terrain horizon at its azimuth (present because the scenario has a terrain \
+                 section).\n",
+            );
+        }
         if with_antenna {
             s.push_str(
                 "t_s,sat,az_deg,el_deg,range_km,visible,off_boresight_deg,\
-                 pattern_gain_dbi,in_beam_pattern,in_beam_symmetric\n",
+                 pattern_gain_dbi,in_beam_pattern,in_beam_symmetric",
             );
         } else {
-            s.push_str("t_s,sat,az_deg,el_deg,range_km,visible\n");
+            s.push_str("t_s,sat,az_deg,el_deg,range_km,visible");
         }
+        s.push_str(if with_terrain {
+            ",clears_terrain\n"
+        } else {
+            "\n"
+        });
 
         // An Option that is None where the header promised a column would be a silent
         // hole, so it is written as the empty field and the header explains the case.
@@ -1745,6 +1767,9 @@ impl LunarServiceReport {
                     b(r.in_beam_pattern),
                     b(r.in_beam_symmetric),
                 ));
+            }
+            if with_terrain {
+                s.push_str(&format!(",{}", b(r.clears_terrain)));
             }
             s.push('\n');
         }
@@ -2188,8 +2213,31 @@ impl LunarServiceScenario {
             None => None,
         };
         let masks = terrain.as_ref().map(|t| t.masks.as_slice());
+        // The export site gets its own mask, built as a grid point's is.
+        let export_mask = match (
+            &self.terrain,
+            self.export_site_lat_deg,
+            self.export_site_lon_deg,
+        ) {
+            (Some(t), Some(lat), Some(lon)) => Some(
+                t.resolve_site(lat, lon, self.elev_mask_deg)
+                    .map_err(|e| format!("moonlight-service-volume: export site: {e}"))?,
+            ),
+            _ => None,
+        };
         let mut report = self.try_run_masked(masks)?;
         report.terrain = terrain.map(|t| t.echo);
+        if let Some(m) = export_mask {
+            // A row clears the terrain when it clears the flat mask and its elevation is at
+            // or above the horizon at its azimuth: the test `clears_horizon` applies, on
+            // the azimuth and elevation the row already carries (the same topocentric
+            // frame). The antenna tallies stay over flat-mask-visible links.
+            for row in report.per_sat_geometry.iter_mut().flatten() {
+                row.clears_terrain =
+                    Some(row.visible && row.el_deg >= m.skyline.cut_deg(row.az_deg));
+            }
+            report.export_site_terrain = Some(m.echo);
+        }
         Ok(report)
     }
 
@@ -2552,6 +2600,7 @@ impl LunarServiceScenario {
                                 pattern_gain_dbi: None,
                                 in_beam_pattern: None,
                                 in_beam_symmetric: None,
+                                clears_terrain: None,
                             };
                             if let Some((a, _g0, sym_half)) = ant {
                                 let theta = nadir_off_boresight_rad(sp, user);
@@ -2679,6 +2728,7 @@ impl LunarServiceScenario {
             ephemeris: None,
             ephemeris_comparison: None,
             terrain: None,
+            export_site_terrain: None,
         };
         (report, SweepExtras::new(hpl_all))
     }

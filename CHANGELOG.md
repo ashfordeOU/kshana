@@ -11,6 +11,11 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **Terrain at the service-volume export site**: with a `terrain` section, each row of the
+  `moonlight-service-volume` per-satellite geometry export carries `clears_terrain` (the satellite
+  clears the flat mask and the export site's horizon at its azimuth), the report carries the site's
+  horizon (`export_site_terrain`), and the runtime CSV gains the column. Without terrain the export
+  is unchanged. MODELLED.
 - **Lunar reference-station study** (0.36, prompted by published material on a planned lunar
   south-pole reference station; sources in [`docs/LUNAR-REFERENCE-STATION.md`](docs/LUNAR-REFERENCE-STATION.md)):
   the `lunar-station-coverage` kind, a Monte Carlo sweep of the lunar differential-PNT model over
