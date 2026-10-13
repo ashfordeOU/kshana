@@ -11,6 +11,16 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **RINEX 4 navigation reading** (0.36, WP-07, PRO-41): `rinex::parse_nav` reads RINEX
+  4.00-4.02 navigation files (`> EPH` GPS LNAV, Galileo I/NAV and F/NAV, BeiDou D1/D2, QZSS LNAV;
+  other records skipped to the next record header), and `parse_nav_with` takes options.
+  VALIDATED against the same day's IGS RINEX 3 merged file: every decoded field identical and 0 m
+  in position. RINEX 2/3 reading is unchanged.
+- **BeiDou GEO broadcast positions** (opt-in): `NavParseOptions::include_beidou_geo` and
+  `RinexEphemeris::sv_position_ecef_bds_geo` (BDS ICD, −5 deg tilt). `parse_nav` still skips GEOs.
+  MODELLED: the pre-registered comparison with a precise orbit is data-gated and not yet run.
+- **RINEX 4 observation files**: a real RINEX 4.00 MGEX observation file is read in tests
+  (MODELLED, format conformance).
 - **RTK with LAMBDA on real RINEX** (0.36, WP-07 ★): `rtk_real::run_rtk`, short-baseline double
   differences of dual-frequency GPS code and phase with a float Kalman filter and LAMBDA integer
   fixing (ratio test). VALIDATED on the IGS stations WTZR and WTZZ (1.4 m apart) against their
@@ -220,6 +230,9 @@ breaking changes are called out explicitly.
 
 ### Changed
 
+- **RINEX 4 is no longer refused** (0.36, WP-07): a RINEX 4 navigation file used to be rejected
+  on purpose; it is now read (see Added). For observation files of version 4 and later, header
+  labels are matched in columns 61-80 only, so the new free-text records cannot pass for labels.
 - **`ionex::parse_ionex` reads real IONEX files** (0.36, WP-07): a full 16-value record fills
   columns 61-80, which the reader took for a label, so it returned `None` on every real IONEX
   file. It now reads a record whose label field is numeric as values. No shipped output used it.
