@@ -69,3 +69,18 @@ epoch), not loosened. The SPP leg (R3) is not re-run: its configuration had no s
 its finding stands. Nothing on Kshana's side changes. Outcome rule unchanged: if R1, R2 and the
 recorded R3 all held, RM-31's RTKLIB leg would be met; R3 already failed, so the leg as a whole
 stays a finding whatever this run shows, and this run documents the PPP parity alone.
+
+## Amendment 3 (2026-10-13): the last registration for the RTKLIB PPP leg
+
+DISCLOSED: the amendment 2 run (tide on) also missed R1 and R2 (0 %, 0.232 m): RTKLIB's
+solution then sat +0.19 to +0.20 m up from ITRF2020 with its horizontal error near zero. The
+cause, found after that run: `rtklib_ppp.conf` (and so `rtklib_ppp_tide.conf`) put the receiver
+antenna type and height on RTKLIB's BASE slot (`ant2-anttype`, `ant2-antdelu`), whereas the rover
+of `rnx2rtkp` is slot 1, so RTKLIB applied neither WTZR's 0.0710 m antenna height nor the
+LEIAR25.R3 LEIT phase-centre offsets. Both earlier runs stand as recorded. This amendment
+registers one further and FINAL RTKLIB PPP run with `rtklib_ppp_tide_ant.conf` (tide on; `ant1-anttype
+= *` from the RINEX header and `ant1-antdelu = 0.0710`), output `oracle/rtklib_ppp_tide_ant.csv`,
+against the same R1 and R2 bars. Its result is recorded whatever it shows; no further amendment
+to this leg will be made. R3 (SPP) is not re-run: `rtklib_spp.conf` has the same antenna slot
+error, which affects the SPP solution by under 0.3 m and does not change that finding's
+conclusion; it is noted, not re-registered.
