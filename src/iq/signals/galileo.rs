@@ -279,7 +279,10 @@ mod tests {
 
     #[test]
     fn user_table_file_loads_from_a_path() {
-        let dir = std::env::temp_dir().join(format!("kshana-e1-{}", std::process::id()));
+        use std::sync::atomic::{AtomicU64, Ordering};
+        static SEQ: AtomicU64 = AtomicU64::new(0);
+        let uniq = SEQ.fetch_add(1, Ordering::Relaxed);
+        let dir = std::env::temp_dir().join(format!("kshana-e1-{}-{uniq}", std::process::id()));
         std::fs::create_dir_all(&dir).unwrap();
         let path = dir.join("user_e1b.txt");
         std::fs::write(&path, "E1B__Code_No_07;A5\r\n").unwrap();

@@ -552,9 +552,9 @@ senderId: 0 messageType: RAW rxTime: 1421026678.65449 measures: [ svid: 36 prRaw
         assert_eq!(got.iter().map(|s| s.im).sum::<f64>(), 0.0);
         // 0x7F: I in the high nibble, 7 -> 15; Q in the low nibble, -1 -> -1.
         assert_eq!((got[0x7F].re, got[0x7F].im), (15.0, -1.0));
-        assert!(
-            parse_iqs_sdrx(&SDRX.replace("<encoding>TC</encoding>", "<encoding>OB</encoding>"))
-                .is_err()
-        );
+        assert!(parse_iqs_sdrx(
+            &SDRX.replace("<encoding>TC</encoding>", "<encoding>OB</encoding>")
+        )
+        .is_err());
     }
 }
