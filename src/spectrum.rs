@@ -17,8 +17,11 @@
 //!   MBOC(6,1,1/11), or plain BOC(1,1)), GPS L2 civil (L2C, BPSK(1) composite of the
 //!   time-multiplexed CM and CL codes), GPS L5 and Galileo E5a (BPSK(10)). The unit-area
 //!   densities are [`crate::navsignal::Modulation::psd`]; this module places them at their
-//!   carriers with a received power. No other signal is claimed: GLONASS, BeiDou and
-//!   Galileo E6 are not modelled.
+//!   carriers with a received power. Opt-in by name ([`MORE_BAND_NAMES`], not in the default
+//!   set): GLONASS L1OF and L2OF on any FDMA channel (BPSK, 0.511 Mchip/s), BeiDou B1I
+//!   (BPSK(2)), B1C (MBOC(6,1,1/11)), B2a and B3I (BPSK(10)), and Galileo E6 (BPSK(5)),
+//!   from their interface control documents (`docs/design/evidence/spectrum-bands/`).
+//!   No other signal is claimed.
 //! * **Jammers** ([`Waveform`]): a continuous-wave (CW) tone, flat narrowband noise, a
 //!   linear sawtooth chirp (swept jammer) and broadband noise whose spectrum matches a
 //!   band's own modulation. Each has a centre, a bandwidth where it applies, a received
@@ -127,7 +130,87 @@ pub fn default_band(name: &str) -> Option<Band> {
         "gps-l2c" => (1227.60, Modulation::BpskR { n: 1.0 }, -160.0, 2.046),
         "gps-l5" => (1176.45, Modulation::BpskR { n: 10.0 }, -157.9, 20.46),
         "galileo-e5a" => (1176.45, Modulation::BpskR { n: 10.0 }, -155.0, 20.46),
-        _ => return None,
+        other => return more_band(other),
+    };
+    Some(Band {
+        name: name.to_string(),
+        centre_hz: centre_mhz * 1e6,
+        modulation,
+        signal_power_dbw: p,
+        rx_bandwidth_hz: bw_mhz * 1e6,
+        design: None,
+    })
+}
+
+/// The bands a scenario can name beyond [`BAND_NAMES`]. They are opt-in: a scenario that names
+/// no band still gets exactly [`BAND_NAMES`]. GLONASS channels other than `K = 0` are named
+/// `glonass-l1of-k<K>` / `glonass-l2of-k<K>` with `K` in −7 ..= +6 ([`GLONASS_CHANNELS`]).
+pub const MORE_BAND_NAMES: &[&str] = &[
+    "glonass-l1of",
+    "glonass-l2of",
+    "beidou-b1i",
+    "beidou-b1c",
+    "beidou-b2a",
+    "beidou-b3i",
+    "galileo-e6",
+];
+
+/// GLONASS FDMA frequency channels `K` of the post-2005 plan (GLONASS ICD Edition 5.1,
+/// §3.3.1.1).
+pub const GLONASS_CHANNELS: std::ops::RangeInclusive<i32> = -7..=6;
+
+/// GLONASS FDMA spreading: 0.511 Mchip/s BPSK, as a [`Modulation::BpskR`] multiple of 1.023 MHz.
+const GLONASS_CHIP_N: f64 = 0.511 / 1.023;
+
+/// The opt-in bands of [`MORE_BAND_NAMES`] (and the GLONASS channel names). Sources:
+/// - GLONASS ICD Edition 5.1 (2008): carriers `1602 + K·0.5625` MHz (L1) and
+///   `1246 + K·0.4375` MHz (L2), §3.3.1.1 and Table 3.1; 0.511 Mchip/s; not less than −161 dBW
+///   (L1) and −167 dBW (L2, GLONASS-M) at a 3 dBi linearly polarised antenna, §3.3.1.6.
+/// - BDS-SIS-ICD-B1I-3.0 (2019) §4.2.5 and BDS-SIS-ICD-B3I-1.0 (2018) §4.2.5: −163 dBW; B1I at
+///   1561.098 MHz, 2.046 Mchip/s; B3I at 1268.52 MHz, 10.23 Mchip/s.
+/// - BDS-SIS-ICD-B1C-1.0 (2017) Tables 4-1 and 4-4: −159 dBW (MEO, data and pilot); sine
+///   BOC(1,1) 1/4 + 29/44 and sine BOC(6,1) 1/11 of the power, so the composite is
+///   MBOC(6,1,1/11).
+/// - BDS-SIS-ICD-B2a-1.0 (2017) Table 4-4: −156 dBW (MEO, data and pilot); 10.23 Mchip/s at
+///   1176.45 MHz.
+/// - Galileo OS SIS ICD Issue 2.1 (2023) §2.3.2 and Table 12: E6 at 1278.75 MHz, 5.115 Mchip/s
+///   B and C components, −155.25 dBW total.
+///
+/// The front-end bands are modelling choices as for [`default_band`]: the null-to-null main
+/// lobe for BPSK and ±7.161 MHz for MBOC.
+fn more_band(name: &str) -> Option<Band> {
+    let glonass = |rest: &str, f0: f64, df: f64, p: f64| -> Option<(f64, Modulation, f64, f64)> {
+        let k = match rest {
+            "" => 0,
+            r => {
+                let k: i32 = r.strip_prefix("-k")?.parse().ok()?;
+                if !GLONASS_CHANNELS.contains(&k) {
+                    return None;
+                }
+                k
+            }
+        };
+        Some((
+            f0 + k as f64 * df,
+            Modulation::BpskR { n: GLONASS_CHIP_N },
+            p,
+            1.022,
+        ))
+    };
+    let (centre_mhz, modulation, p, bw_mhz) = if let Some(rest) = name.strip_prefix("glonass-l1of")
+    {
+        glonass(rest, 1602.0, 0.5625, -161.0)?
+    } else if let Some(rest) = name.strip_prefix("glonass-l2of") {
+        glonass(rest, 1246.0, 0.4375, -167.0)?
+    } else {
+        match name {
+            "beidou-b1i" => (1561.098, Modulation::BpskR { n: 2.0 }, -163.0, 4.092),
+            "beidou-b1c" => (1575.42, Modulation::Mboc { p: 1.0 / 11.0 }, -159.0, 14.322),
+            "beidou-b2a" => (1176.45, Modulation::BpskR { n: 10.0 }, -156.0, 20.46),
+            "beidou-b3i" => (1268.52, Modulation::BpskR { n: 10.0 }, -163.0, 20.46),
+            "galileo-e6" => (1278.75, Modulation::BpskR { n: 5.0 }, -155.25, 10.23),
+            _ => return None,
+        }
     };
     Some(Band {
         name: name.to_string(),
@@ -1243,9 +1326,10 @@ impl SpectrumScenario {
             }
             let mut b = default_band(&c.name).ok_or_else(|| {
                 format!(
-                    "unknown band {:?}: the spectrum model has {}; any other band takes                      `signal = \"<preset signal>\"` or `centre_mhz` with `modulation` and                      `signal_power_dbw`",
+                    "unknown band {:?}: the spectrum model has {} and, by name, {} (GLONASS                      channels as glonass-l1of-k<K>, K = -7 to 6); any other band takes                      `signal = \"<preset signal>\"` or `centre_mhz` with `modulation` and                      `signal_power_dbw`",
                     c.name,
-                    BAND_NAMES.join(", ")
+                    BAND_NAMES.join(", "),
+                    MORE_BAND_NAMES.join(", ")
                 )
             })?;
             if let Some(p) = c.signal_power_dbw {
