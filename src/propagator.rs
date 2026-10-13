@@ -36,9 +36,11 @@
 //! loader), the NRLMSISE-00 thermospheric density (the < 5 % drag-density clause), solar limb
 //! darkening, the Lense–Thirring frame-dragging term — and the cross-validation of a 200×200 EGM
 //! 24-hour orbit against an external high-precision propagator (GMAT/Orekit) — remain follow-ons
-//! (see `ROADMAP.md`). The third-body/SRP ephemerides are the [`crate::ephem`] *low-precision*
-//! analytical series (~0.005° Sun, ~0.3° Moon), not DE/SPK-kernel accuracy, and the drag density
-//! is the static exponential model. What is delivered is the integrator + the
+//! (see `ROADMAP.md`). By default the third-body/SRP ephemerides are the [`crate::ephem`]
+//! *low-precision* analytical series (~0.005° Sun, ~0.3° Moon); the opt-in ephemeris tier
+//! ([`ForceModel::with_ephemeris`]) reads them from any [`EphemerisProvider`], e.g. a DE440 SPK
+//! kernel through [`crate::ephem_provider::KernelEphemeris`]. The drag density is the static
+//! exponential model. What is delivered is the integrator + the
 //! two-body/J2/zonal/third-body/SRP/drag/relativity force model + the analytic-truth validation
 //! harness and the convergence-guarded Kepler solver.
 
@@ -1445,6 +1447,66 @@ mod tests {
             .state_at(100.0)
             .unwrap();
         assert!(s.r[0].is_nan());
+    }
+
+    /// A provider that serves the analytic Sun and Moon until a cutoff TDB date, then nothing.
+    #[derive(Debug)]
+    struct CutoffProvider {
+        until_jd_tdb: f64,
+    }
+
+    impl EphemerisProvider for CutoffProvider {
+        fn relative_position(&self, target: &Body, _center: &Body, jd_tdb: f64) -> Option<Vec3> {
+            if jd_tdb > self.until_jd_tdb {
+                return None;
+            }
+            let tjc = julian_centuries_tt(jd_tdb);
+            match target.name {
+                "Sun" => Some(sun_position(tjc)),
+                "Moon" => Some(moon_position(tjc)),
+                _ => None,
+            }
+        }
+    }
+
+    #[test]
+    fn with_ephemeris_refuses_a_provider_without_the_sun_or_moon_at_the_epoch() {
+        let epoch = 2_460_000.5;
+        let p = Arc::new(CutoffProvider {
+            until_jd_tdb: epoch - 1.0,
+        });
+        let err = ForceModel::two_body()
+            .third_body(true, true, epoch)
+            .with_ephemeris(p)
+            .unwrap_err();
+        assert!(err.contains("Sun"), "{err}");
+    }
+
+    #[test]
+    fn the_ephemeris_tier_falls_back_and_counts_when_the_provider_runs_out() {
+        // Inside the provider's span the tier matches the analytic series it serves to rounding
+        // of the TT→TDB shift; beyond it every evaluation falls back to the analytic series and is
+        // counted, and clones share the count.
+        let epoch = 2_460_000.5;
+        let p = Arc::new(CutoffProvider {
+            until_jd_tdb: epoch + 0.5,
+        });
+        let m = ForceModel::two_body()
+            .third_body(true, true, epoch)
+            .with_ephemeris(p)
+            .expect("provider covers the epoch");
+        let plain = ForceModel::two_body().third_body(true, true, epoch);
+        let r = [7.0e6, 1.0e6, 2.0e6];
+        let fallbacks = || m.ephemeris.as_ref().unwrap().fallbacks();
+        let (a, b) = (m.accel_at(3_600.0, r), plain.accel_at(3_600.0, r));
+        let d = norm([a[0] - b[0], a[1] - b[1], a[2] - b[2]]);
+        assert!(d < 1e-12, "inside the span: {d}");
+        assert_eq!(fallbacks(), 0);
+        let clone = m.clone();
+        let _ = clone.accel_at(86_400.0, r); // beyond the span: Sun and Moon both fall back
+        assert_eq!(fallbacks(), 2, "the count is shared with the clone");
+        assert_eq!(m.accel_at(86_400.0, r), plain.accel_at(86_400.0, r));
+        assert_eq!(fallbacks(), 4);
     }
 
     #[test]

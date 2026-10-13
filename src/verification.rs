@@ -262,6 +262,15 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            requirement: "DE440 Sun and Moon in the Cowell force model (opt-in)",
+            capability: "Opt-in ephemeris tier for the third-body and SRP terms of the numerical Cowell ForceModel: the geocentric Sun and Moon from any EphemerisProvider (a DE440 SPK kernel through KernelEphemeris) at TDB = TT + (TDB - TT), refusing a provider that cannot serve the epoch and counting any fallback to the analytic series; default off",
+            module: "propagator (ForceModel::with_ephemeris, ForceEphemeris), ephem_provider",
+            tests: "tests/propagator_de440_orekit_oracle.rs (5 cases x 25 hourly states over 24 h, LEO, GEO and HEO, third body and third body + SRP: worst |dr| 0.0170 m, |dv| 1.84e-5 m/s; analytic-series control misses by 9.96 m; Sun 6.39 m and Moon 0.244 m from Orekit's DE440 positions, a recorded miss); propagator unit tests (provider refusal, fallback counting shared across clones)",
+            oracle: "Orekit 12.2 (Apache-2.0) NumericalPropagator/DormandPrince853 with ThirdBodyAttraction and SolarRadiationPressure on Orekit's own DE440 reader (orekit-data lnxp1990.440), run as a separate program; kshana reads a bit-for-bit, SPICE-checked cut of NAIF de440s.bsp. Bars pre-registered in xval/propagator-de440-orekit/PREREGISTRATION.md (22a5a01d). The orbit bar (0.5 m) and the sensitivity control are met, but the Sun/Moon position bar (3 m / 0.2 m) missed at 6.39 m / 0.244 m. SPICE reading the same kernel at its exact TDB misses Orekit by the same amount (6.25 m / 0.240 m), so the gap lies between NAIF's de440s path and Orekit's DE440 reader or time scale; cause not isolated. Recorded and pinned, so the row stays MODELLED",
+            oracle_kind: ExternalDataset,
+            status: Modelled,
+        },
+        VerificationItem {
             requirement: "S1 atmospheric tide (opt-in)",
             capability: "The diurnal S1 air-pressure tide as a geopotential perturbation: Biancale and Bode (2006) model N1, degrees 2 to 6, through the IERS 2010 Eq. 6.21 load formula (tides::atmospheric_tide_s1, s1_air_tide_acceleration), opt-in on the Cowell and precise force models (air_tide_s1, default off)",
             module: "tides, propagator, precise_od",

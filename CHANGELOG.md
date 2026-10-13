@@ -11,6 +11,14 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **Opt-in DE440 Sun and Moon in the Cowell propagator (RM-33, FUT-10).**
+  `propagator::ForceModel::with_ephemeris` takes any `EphemerisProvider` (e.g. a DE440
+  `KernelEphemeris`) for the third-body and SRP terms; it refuses a provider that cannot serve the
+  epoch, counts fallbacks to the analytic series, and is off by default.
+  `EphemerisProvider::relative_position_jd2` keeps two-part precision. Against Orekit 12.2 on its
+  own DE440 reader, 24 h orbits agree to 0.017 m; the pre-registered Sun/Moon position bar missed
+  (6.4 m / 0.24 m; SPICE shows the same gap), so MODELLED (`xval/propagator-de440-orekit/`).
+
 - **Opt-in S1 atmospheric tide (DS-PA-03).** `tides::atmospheric_tide_s1` and
   `s1_air_tide_acceleration` (Biancale & Bode 2006, GFZ STR06/01 Table 1 model N1, degrees 2–6),
   enabled with `air_tide_s1()` on `propagator::ForceModel` and `precise_od::PreciseForceModel`;
