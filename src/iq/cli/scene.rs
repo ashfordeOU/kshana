@@ -18,10 +18,10 @@ use crate::iq::io::inventory::{write_sidecar, RawSidecar};
 use crate::iq::io::stream::create_raw;
 use crate::iq::io::{Encoding, SampleFormat};
 use crate::iq::scene::{
-    CsvTruthWriter, JsonLinesTruthWriter, NavData, NoiseConfig, RangeProfile, ReceiverClock,
-    SatGeometry, Scene, SceneConfig, SceneSatellite, Trajectory, TruthSink, T0_K,
+    CsvTruthWriter, JsonLinesTruthWriter, NoiseConfig, ReceiverClock, Scene, SceneConfig,
+    SceneSatellite, Trajectory, TruthSink, T0_K,
 };
-use crate::iq::{IqError, SampleSpec, SpreadingCode};
+use crate::iq::{IqError, SampleSpec};
 use crate::rinex::parse_nav;
 use std::fs::File;
 use std::io::BufWriter;

@@ -11,6 +11,14 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **Short IQ run in the browser build** (0.36): `iq_signals()` and `iq_run_short(fs_hz, duration_s,
+  signal, ids, dopplers_hz, cn0_dbhz, seed)` in the WebAssembly module build a synthetic scene,
+  acquire each satellite and track the acquired ones, all in memory, bounded to 0.25 s, 1 000 000
+  samples and 8 satellites. The scene builder and the signal lookup by name moved out of the native-only
+  `iq::cli` (to `iq::scene::synthetic` and `iq::signals::by_name`) so both builds share them; the
+  command line's output is unchanged. The native test and `web/smoke.mjs` compare the same request
+  against one golden (`tests/fixtures/iq_short_golden.json`): exact natively, within 1e-9 relative in the
+  browser build, where the math library differs in the last digit of a float.
 - **Lunar reference-station study** (0.36, prompted by published material on a planned lunar
   south-pole reference station; sources in [`docs/LUNAR-REFERENCE-STATION.md`](docs/LUNAR-REFERENCE-STATION.md)):
   the `lunar-station-coverage` kind, a Monte Carlo sweep of the lunar differential-PNT model over
