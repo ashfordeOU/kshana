@@ -240,65 +240,20 @@ breaking changes are called out explicitly.
   against a real product, and multi-satellite exclusion in `raim`). The missing
   `docs/design/evidence/cn0-m2m4/RESULTS.md` is written from a fresh run of its tests (M1–M4
   pass), and the partner-facing IQ validation draft has current ledger counts.
-- **Galileo E1 memory codes: licence status stated.** `NOTICE` and `LICENSING.md` now record
-  the source, version and hash of the vendored E1-B/E1-C code files and quote the ICD's own
-  terms of use and IPR authorisation. The status is "under review": the ICD's covenant covers
-  use in products and storage with the source acknowledged, but redistribution only for
-  non-commercial purposes and with the ICD's terms reproduced alongside.
-
-- README: the lunar suite row states each piece's evidence tier (it said all were MODELLED).
-- `realdata::clk::rinex_clock_series` returns `RinexClockSeries` (series, gridding log, time system,
-  whether it was declared, record type) instead of a `(PhaseSeries, GriddingLog)` tuple. It now
-  falls back from satellite (`AS`) records to receiver/station (`AR`) records of the requested name.
-- No score changes unless the geometry is poor; the label is always reported. With good or fair
-  geometry (a GPS-only open sky of 8 satellites included) or unknown geometry (the monitor does not
-  run) every score is as in 0.35: `tests/geometry_trust_no_change.rs` holds both example sessions'
-  outputs and `tests/geometry_corpus_identity.rs` every committed vessel NMEA corpus (also as
-  GPS-only open sky) and the crew-training scenarios to the 0.35.0 bytes once the appended keys are
-  removed; in the two training scenarios whose jamming makes the geometry poor, the poor epochs
-  differ by the geometry deduction alone. A log with poor geometry loses up to 15 points it did not
-  lose in 0.35. Intended changes otherwise, all additions: the keys above in the result JSON and
-  evidence packs (`score_model.weights` is unchanged); the live
-  JSON-lines schema goes from 1.2 to 1.3 (`geometry` appended, `class` in each deduction); the
-  excerpt summary gains `geometry`; telemetry gains geometry series, fields and the `class` label
-  only for inputs that carry them, so a 0.35 stream or result renders byte for byte as before.
-  `geometry` is the 17th monitor name; it is listed last in `monitors_run` when it decided (a
-  vessel whose log gives the geometry; a 0.35 list keeps its order and the summary's monitor count
-  goes up by one) and has no `[score.weights]` entry (setting one is refused: its deduction is set in `[geometry]`).
-- `tests/fixtures/dop/NOTICE` named gnss_lib_py's licence Apache-2.0; the 1.0.4 release is MIT.
-- The NMEA reader now reads GSA (a short GSA is ignored, not counted as skipped) and keeps GSV
-  elevations and azimuths, including for satellites listed without a signal; the UBX reader keeps
-  NAV-SAT elevation and azimuth. C/N0 is read exactly as before.
-- **Result change: broadband and swept jammers now use Q = 2.** The anti-jam equation uses the
-  textbook spread-spectrum adjustment Q for these jammers, where it used 1. Q = 2 is white noise
-  over the main lobe with the in-band signal power normalised; it is pinned in the tests to the
-  closed form from `navsignal`.
-  - **Unchanged:** CW and narrowband jammers (Q = 1), an unrecognised jammer type (Q = 1, the
-    most damaging value), and `q_override`.
-  - **Effect:** where a broadband or swept jammer acts, effective C/N0 rises by up to 3.0103 dB,
-    derived J/S thresholds rise by 3.0103 dB, and free-space denial radii shrink by 0.7071.
-  - **Changed bundled scenarios:** 12 of 144 change, all as pre-registered
-    (`xval/jammer-q/PREREGISTRATION.md`, results in `xval/jammer-q/RESULTS.md`):
-    - `jamming-demo`: C/N0 +3.01 dB;
-    - `jamming-harbour-approach-skyline`: `min_tracking` 6 → 7;
-    - `lunar-jamming`: satellites lost 26 → 0, loss-of-lock standoff median 27.4 → 19.4 km;
-    - `tracking-loop`: loop-dynamics denial radius 75.2 → 53.2 km;
-    - and the campaigns and spectrum cross-checks that contain these.
-  - **Affected consumers:** the `jamming`, `lunar-jamming`, `tracking-loop` and
-    `impairment-eval` kinds, the spectrum kinds' `jamming_kind_cross_check`, the IQ campaign's
-    MODELLED reference curve and the labfit default Q, and interop scene export.
-- JetBrains plugin: no deprecated or scheduled-for-removal platform API. The five choice dialogs use
-  a small `DialogWrapper` with a drop-down in place of the deprecated `Messages.showChooseDialog`;
-  single-file choosers use the `FileChooserDescriptor` constructor in place of the deprecated
-  `FileChooserDescriptorFactory.createSingleFileDescriptor()`; the animation opens with
-  `BrowserUtil.browse(Path)` in place of `browse(File)`, which the 2026.3 platform schedules for
-  removal. Since-build stays 243. The IntelliJ Plugin Verifier reports Compatible with no
-  deprecated or scheduled-for-removal usage against 2024.3 (IC-243.21565.193), 2025.2
-  (IC-252.23892.409), 2026.2.3 (IU-262.10968.63) and 2026.3 EAP (IU-263.6259.32); `verifyPlugin`
-  checks 2024.3 by default and any list given in `KSHANA_VERIFY_IDES`.
-- `gnss_sim::run_gnss_sim` and `jamming::run_jamming` return `Result`: an invalid `[skyline]`
-  section is an error when called directly, as it already was through `api::run_toml`, rather
-  than a silent fall-back to the flat mask. **Breaking** for Rust callers of these two functions.
+- **Galileo E1 memory codes are no longer bundled.** `data/galileo-os-sis-icd/C7_E1B.txt` and
+  `C8_E1C.txt` (ICD Annex C.7/C.8) are removed from the repository and packages. The ICD's
+  terms (quoted in `LICENSING.md`) let a user store the codes with the source acknowledged and
+  use them in a product, but allow redistribution only for non-commercial purposes, and Kshana
+  is also offered under a commercial licence. `galileo::e1b_table` / `e1c_table` now return a
+  `Result` and read the user's own copy from `KSHANA_GALILEO_E1B` / `KSHANA_GALILEO_E1C`, or, in
+  a source checkout, from `data/galileo-os-sis-icd/`, where the new
+  `scripts/fetch_galileo_e1_codes.sh` extracts them from the ICD PDF (hash-checked).
+  `galileo::E1B_TABLE_TEXT` / `E1C_TABLE_TEXT` are removed. Without the tables, the Galileo E1
+  signals (`galileo-e1b`, `galileo-e1c`) return an error that says how to supply them, and the
+  E1 tests skip with a message. With the tables in place, every E1 output is unchanged. No
+  scenario, golden or spectrum output uses the code tables. The E5a Annex C.3/C.4 test fixtures
+  (the LFSR oracle in `tests/iq_signals.rs`) are handled the same way: fetched by the same
+  script, git-ignored, and the test skips without them.
 
 ### Fixed
 
