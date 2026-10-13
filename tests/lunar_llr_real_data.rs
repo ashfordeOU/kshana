@@ -536,7 +536,9 @@ fn the_pre_existing_lunar_frame_packs_are_bit_for_bit_unchanged() {
         ),
     ] {
         let out = run_toml(&format!("kind = \"{kind}\"\n")).expect("runs");
-        let doc = format!("{}{}", out.json, out.summary);
+        // The pins predate RM-04's trailing `figure_tiers` block, which is pinned on its own.
+        let json = kshana::api::without_figure_tiers(&out.json).unwrap_or(out.json);
+        let doc = format!("{}{}", json, out.summary);
 
         // Portable layer: the document's shape exactly, its value count exactly, and its
         // magnitude as a backstop. Digits are stripped from the skeleton, so a last-ulp
@@ -584,7 +586,9 @@ fn zzz_emit_pack_skeletons() {
         "lunar-vlbi-fim",
     ] {
         let out = run_toml(&format!("kind = \"{kind}\"\n")).expect("runs");
-        let doc = format!("{}{}", out.json, out.summary);
+        // Untiered, as the guard above compares it.
+        let json = kshana::api::without_figure_tiers(&out.json).unwrap_or(out.json);
+        let doc = format!("{}{}", json, out.summary);
         let (skel, vals) = support::numeric_values(&doc);
         let big = vals.iter().filter(|v| v.abs() >= 1e12).count();
         let small: f64 = vals
