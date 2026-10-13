@@ -4,9 +4,9 @@
   "repo_blob_base": "https://github.com/AshfordeOU/kshana/blob/main/",
   "summary": {
     "validated": 135,
-    "modelled": 137,
+    "modelled": 138,
     "partner_owned": 4,
-    "total": 276
+    "total": 277
   },
   "rows": [
     {
@@ -335,6 +335,36 @@
         "path": "tests/fixtures/numerical_cowell_propagator",
         "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/fixtures/numerical_cowell_propagator",
         "notice_url": null
+      }
+    },
+    {
+      "requirement": "DE440 Sun and Moon in the Cowell force model (opt-in)",
+      "capability": "Opt-in ephemeris tier for the third-body and SRP terms of the numerical Cowell ForceModel: the geocentric Sun and Moon from any EphemerisProvider (a DE440 SPK kernel through KernelEphemeris) at TDB = TT + (TDB - TT), refusing a provider that cannot serve the epoch and counting any fallback to the analytic series; default off",
+      "status": "MODELLED",
+      "oracle_kind": "ExternalDataset",
+      "oracle": "Orekit 12.2 (Apache-2.0) NumericalPropagator/DormandPrince853 with ThirdBodyAttraction and SolarRadiationPressure on Orekit's own DE440 reader (orekit-data lnxp1990.440), run as a separate program; kshana reads a bit-for-bit, SPICE-checked cut of NAIF de440s.bsp. Bars pre-registered in xval/propagator-de440-orekit/PREREGISTRATION.md (22a5a01d). The orbit bar (0.5 m) and the sensitivity control are met, but the Sun/Moon position bar (3 m / 0.2 m) missed at 6.39 m / 0.244 m. SPICE reading the same kernel at its exact TDB misses Orekit by the same amount (6.25 m / 0.240 m), so the gap lies between NAIF's de440s path and Orekit's DE440 reader or time scale; cause not isolated. Recorded and pinned, so the row stays MODELLED",
+      "module": "propagator (ForceModel::with_ephemeris, ForceEphemeris), ephem_provider",
+      "tests": "tests/propagator_de440_orekit_oracle.rs (5 cases x 25 hourly states over 24 h, LEO, GEO and HEO, third body and third body + SRP: worst |dr| 0.0170 m, |dv| 1.84e-5 m/s; analytic-series control misses by 9.96 m; Sun 6.39 m and Moon 0.244 m from Orekit's DE440 positions, a recorded miss); propagator unit tests (provider refusal, fallback counting shared across clones)",
+      "module_links": [
+        {
+          "path": "src/propagator.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/src/propagator.rs"
+        },
+        {
+          "path": "src/ephem_provider.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/src/ephem_provider.rs"
+        }
+      ],
+      "test_links": [
+        {
+          "path": "tests/propagator_de440_orekit_oracle.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/propagator_de440_orekit_oracle.rs"
+        }
+      ],
+      "fixture": {
+        "path": "tests/fixtures/propagator_de440_orekit_oracle",
+        "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/fixtures/propagator_de440_orekit_oracle",
+        "notice_url": "https://github.com/AshfordeOU/kshana/blob/main/tests/fixtures/propagator_de440_orekit_oracle/NOTICE.md"
       }
     },
     {
