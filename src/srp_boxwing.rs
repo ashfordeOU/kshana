@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
-// STATUS (0.36, W33 handoff): UNREVIEWED DRAFT, not registered in lib.rs, never compiled in this
-// tree. Box-wing / ECOM2 SRP (DS-PA-14, a starred item). See the handoff in the commit message of
-// the commit that added this header, on feat/forces-atmosphere-0.36.
+// Third-party data: the Galileo box-wing tables below (areas, optical properties, masses) are
+// from the GSC Galileo satellite metadata, (c) EU 2011-2026, reproduced with acknowledgement
+// under the GSC copyright notice (gsc-europa.eu/terms-of-use#copyright), accessed 2026-10-13.
+// They are not covered by the AGPL; see NOTICE.
 //! **Non-cannonball solar radiation pressure: a box-wing flat-plate model and the ECOM2
 //! empirical model, with estimation partials.** Opt-in: nothing here is wired into
 //! [`crate::forces`] or [`crate::precise_od`]; the cannonball [`crate::forces::srp_accel`] is
@@ -67,9 +68,10 @@
 //!
 //! # Evidence
 //!
-//! The flat-plate sum and the ECOM2 acceleration and parameter partials are compared against
-//! Orekit 12.2 (`tests/srp_boxwing_orekit_oracle.rs`, pre-registered in
-//! `xval/srp_boxwing/PREREGISTRATION.md`). The Galileo box-wing tables are published data
+//! The flat-plate sum and the ECOM2 acceleration are to be compared against Orekit 12.2
+//! (`BoxAndSolarArraySpacecraft`, `ECOM2`) under a pre-registration in
+//! `xval/srp-boxwing-orekit/`; until that comparison is recorded, this module is internally
+//! checked only (closed-form limits and finite-difference partials). The Galileo box-wing tables are published data
 //! (GSC, © EU 2011-2026), transcribed, not oracle-checked beyond transcription. The synthetic
 //! ECOM2-on-box-wing fit is MODELLED (internal consistency only).
 
@@ -159,7 +161,13 @@ pub struct Panel {
 
 impl Panel {
     /// A body-fixed single-sided plate.
-    pub fn fixed(area_m2: f64, normal_body: Vec3, absorption: f64, specular: f64, diffuse: f64) -> Self {
+    pub fn fixed(
+        area_m2: f64,
+        normal_body: Vec3,
+        absorption: f64,
+        specular: f64,
+        diffuse: f64,
+    ) -> Self {
         Panel {
             area_m2,
             normal_body,
@@ -170,7 +178,13 @@ impl Panel {
         }
     }
     /// A sun-pointing plate rotating about `axis_body`.
-    pub fn sun_pointing(area_m2: f64, axis_body: Vec3, absorption: f64, specular: f64, diffuse: f64) -> Self {
+    pub fn sun_pointing(
+        area_m2: f64,
+        axis_body: Vec3,
+        absorption: f64,
+        specular: f64,
+        diffuse: f64,
+    ) -> Self {
         Panel {
             area_m2,
             normal_body: [0.0, 0.0, 0.0],
@@ -251,7 +265,13 @@ const IOV_KAPTON_HN: (f64, f64, f64) = (0.90, 0.10, 0.00);
 /// A fixed panel given in the Galileo **mechanical** frame, mapped to the IGS frame
 /// (180° about Z: x → −x, y → −y).
 fn mech_fixed(area: f64, normal_mech: Vec3, m: (f64, f64, f64)) -> Panel {
-    Panel::fixed(area, [-normal_mech[0], -normal_mech[1], normal_mech[2]], m.0, m.1, m.2)
+    Panel::fixed(
+        area,
+        [-normal_mech[0], -normal_mech[1], normal_mech[2]],
+        m.0,
+        m.1,
+        m.2,
+    )
 }
 fn wing(area: f64, m: (f64, f64, f64)) -> Panel {
     Panel::sun_pointing(area, [0.0, 1.0, 0.0], m.0, m.1, m.2)
@@ -343,14 +363,20 @@ impl BoxWing {
             if !(p.area_m2 >= 0.0 && p.area_m2.is_finite()) {
                 return Err(format!("panel {i}: area must be >= 0"));
             }
-            for (name, c) in [("absorption", p.absorption), ("specular", p.specular), ("diffuse", p.diffuse)] {
+            for (name, c) in [
+                ("absorption", p.absorption),
+                ("specular", p.specular),
+                ("diffuse", p.diffuse),
+            ] {
                 if !(0.0..=1.0).contains(&c) {
                     return Err(format!("panel {i}: {name} = {c} outside [0, 1]"));
                 }
             }
             let sum = p.absorption + p.specular + p.diffuse;
             if (sum - 1.0).abs() > 1e-9 {
-                return Err(format!("panel {i}: absorption + specular + diffuse = {sum} != 1"));
+                return Err(format!(
+                    "panel {i}: absorption + specular + diffuse = {sum} != 1"
+                ));
             }
             let dir = match p.kind {
                 PanelKind::Fixed => p.normal_body,
@@ -386,6 +412,7 @@ pub fn gnss_yaw_steering(r: Vec3, v: Vec3, s: Vec3) -> Mat3 {
 fn pressure_and_sun_dir(r: Vec3, s: Vec3) -> (f64, Vec3) {
     let d = sub3(s, r);
     let dn = norm(d);
+    debug_assert!(dn > 0.0, "satellite at the Sun's position");
     let q = AU_M / dn;
     (SRP_PRESSURE_AU * q * q, scale3(1.0 / dn, d))
 }
@@ -429,7 +456,8 @@ pub fn boxwing_accel_scaled(
 pub struct BoxWingPartials {
     /// `∂a/∂k` (the acceleration at `k = 1`).
     pub d_scale: Vec3,
-    /// `∂a/∂ρ_i` per panel, with `α_i = 1 − ρ_i − δ_i` eliminated (Orekit's parameterisation).
+    /// `∂a/∂ρ_i` per panel, with `α_i = 1 − ρ_i − δ_i` eliminated. (Orekit 12.2 exposes only the
+    /// global radiation factor, so only [`d_scale`](Self::d_scale) has a direct Orekit counterpart.)
     pub d_specular: Vec<Vec3>,
     /// `∂a/∂δ_i` per panel, with `α_i = 1 − ρ_i − δ_i` eliminated.
     pub d_diffuse: Vec<Vec3>,
@@ -504,10 +532,13 @@ pub struct Ecom2 {
 
 impl Ecom2 {
     /// Parameter names in partials order.
-    pub const NAMES: [&'static str; 9] = ["D0", "Y0", "B0", "D2c", "D2s", "D4c", "D4s", "B1c", "B1s"];
+    pub const NAMES: [&'static str; 9] =
+        ["D0", "Y0", "B0", "D2c", "D2s", "D4c", "D4s", "B1c", "B1s"];
     /// As an array in partials order.
     pub fn to_array(&self) -> [f64; 9] {
-        [self.d0, self.y0, self.b0, self.d2c, self.d2s, self.d4c, self.d4s, self.b1c, self.b1s]
+        [
+            self.d0, self.y0, self.b0, self.d2c, self.d2s, self.d4c, self.d4s, self.b1c, self.b1s,
+        ]
     }
     /// From an array in partials order.
     pub fn from_array(a: [f64; 9]) -> Self {
@@ -539,13 +570,14 @@ pub struct DybFrame {
 }
 
 /// DYB frame and `Δu` (module doc). Degenerate cases: Sun colinear with `r` →
-/// `e_Y = unit(r × v)`; Sun along the orbit normal → `Δu` measured from `unit(h × r̂)`-free
-/// fallback `x_o = r̂` (so `Δu = 0`).
+/// `e_Y = unit(v × r)`, the same fallback as [`gnss_yaw_steering`]'s body `+Y`
+/// (`unit(Z × v)` with `Z = −r̂`), so `e_Y` stays the solar-array axis there too; Sun along the
+/// orbit normal (no projection of the Sun into the orbital plane) → `Δu = 0`.
 pub fn dyb_frame(r: Vec3, v: Vec3, s: Vec3) -> DybFrame {
     let e_d = unit(sub3(s, r));
     let mut ey = cross(e_d, r);
     if norm(ey) < 1e-12 * norm(r) {
-        ey = cross(r, v);
+        ey = cross(v, r);
     }
     let e_y = unit(ey);
     let e_b = cross(e_d, e_y);
@@ -558,7 +590,12 @@ pub fn dyb_frame(r: Vec3, v: Vec3, s: Vec3) -> DybFrame {
         let xo = unit(cross(yo, h));
         dot(r, yo).atan2(dot(r, xo))
     };
-    DybFrame { e_d, e_y, e_b, delta_u }
+    DybFrame {
+        e_d,
+        e_y,
+        e_b,
+        delta_u,
+    }
 }
 
 /// ECOM2 partials `∂a/∂p_k` (exact: the model is linear), order of [`Ecom2::NAMES`].
@@ -655,11 +692,16 @@ pub fn ecom2_fit(samples: &[Ecom2Sample]) -> Result<(Ecom2, f64), String> {
         ss += dot(res, res);
         cnt += 3;
     }
-    let rms = if cnt > 0 { (ss / cnt as f64).sqrt() } else { 0.0 };
+    let rms = if cnt > 0 {
+        (ss / cnt as f64).sqrt()
+    } else {
+        0.0
+    };
     Ok((p, rms))
 }
 
 /// Cholesky solve of a 9×9 symmetric positive-definite system.
+#[allow(clippy::needless_range_loop)] // the textbook index form of the factorisation
 fn solve_spd9(a: [[f64; 9]; 9], b: [f64; 9]) -> Result<[f64; 9], String> {
     let mut l = [[0.0f64; 9]; 9];
     let tr: f64 = (0..9).map(|i| a[i][i]).sum();
@@ -737,7 +779,10 @@ mod tests {
         let a_face = 2.0;
         let faces = [PX, MX, PY, MY, PZ, MZ];
         let bw = BoxWing {
-            panels: faces.iter().map(|&n| Panel::fixed(a_face, n, 1.0, 0.0, 0.0)).collect(),
+            panels: faces
+                .iter()
+                .map(|&n| Panel::fixed(a_face, n, 1.0, 0.0, 0.0))
+                .collect(),
             mass_kg: 500.0,
         };
         let att = [[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]];
@@ -761,8 +806,16 @@ mod tests {
             panels: vec![Panel::fixed(1.0, sh, 0.0, 0.0, 1.0)],
             mass_kg: 1.0,
         };
-        assert!(approx_rel(boxwing_accel(r, s, att, &spec, 1.0), scale3(-2.0 * p, sh), 1e-14));
-        assert!(approx_rel(boxwing_accel(r, s, att, &diff, 1.0), scale3(-p * 5.0 / 3.0, sh), 1e-14));
+        assert!(approx_rel(
+            boxwing_accel(r, s, att, &spec, 1.0),
+            scale3(-2.0 * p, sh),
+            1e-14
+        ));
+        assert!(approx_rel(
+            boxwing_accel(r, s, att, &diff, 1.0),
+            scale3(-p * 5.0 / 3.0, sh),
+            1e-14
+        ));
         // Back-lit fixed plate: no force.
         let back = BoxWing {
             panels: vec![Panel::fixed(1.0, scale3(-1.0, sh), 0.0, 1.0, 0.0)],
@@ -857,7 +910,9 @@ mod tests {
     #[test]
     fn ecom2_linearity_and_finite_difference_partials() {
         let (r, v, s) = sample_state();
-        let p = Ecom2::from_array([-1.0e-7, 1e-10, 3e-10, 2e-9, -1e-9, 5e-10, 4e-10, -2e-9, 1e-9]);
+        let p = Ecom2::from_array([
+            -1.0e-7, 1e-10, 3e-10, 2e-9, -1e-9, 5e-10, 4e-10, -2e-9, 1e-9,
+        ]);
         let nu = 0.8;
         let parts = ecom2_partials(r, v, s, nu);
         let a0 = ecom2_accel(r, v, s, &p, nu);
@@ -883,7 +938,11 @@ mod tests {
                     ecom2_accel(r, v, s, &Ecom2::from_array(pm), nu),
                 ),
             );
-            assert!(norm(sub3(fd, parts[k])) < 1e-6, "{k}: {fd:?} vs {:?}", parts[k]);
+            assert!(
+                norm(sub3(fd, parts[k])) < 1e-6,
+                "{k}: {fd:?} vs {:?}",
+                parts[k]
+            );
         }
     }
 
@@ -923,9 +982,16 @@ mod tests {
                         boxwing_accel_scaled(r, s, att, &dn, k, nu),
                     ),
                 );
-                let an = if which == 0 { pd.d_specular[i] } else { pd.d_diffuse[i] };
+                let an = if which == 0 {
+                    pd.d_specular[i]
+                } else {
+                    pd.d_diffuse[i]
+                };
                 let scale = norm(an).max(1e-12);
-                assert!(norm(sub3(fd, an)) <= 1e-8 * scale.max(norm(a1)), "panel {i} kind {which}");
+                assert!(
+                    norm(sub3(fd, an)) <= 1e-8 * scale.max(norm(a1)),
+                    "panel {i} kind {which}"
+                );
                 if norm(an) > 0.0 {
                     lit += 1;
                 }
@@ -937,13 +1003,19 @@ mod tests {
     #[test]
     fn ecom2_fit_recovers_known_parameters() {
         let s = [AU_M * 0.8, AU_M * 0.5, AU_M * 0.2];
-        let truth = Ecom2::from_array([-1.0e-7, 1e-10, 3e-10, 2e-9, -1e-9, 5e-10, 4e-10, -2e-9, 1e-9]);
+        let truth = Ecom2::from_array([
+            -1.0e-7, 1e-10, 3e-10, 2e-9, -1e-9, 5e-10, 4e-10, -2e-9, 1e-9,
+        ]);
         let mut samples = Vec::new();
         let (a, inc) = (2.96e7f64, 56f64.to_radians());
         let n = (crate::forces::MU_EARTH / a.powi(3)).sqrt();
         for k in 0..200 {
             let th = n * (k as f64) * 300.0;
-            let r = [a * th.cos(), a * th.sin() * inc.cos(), a * th.sin() * inc.sin()];
+            let r = [
+                a * th.cos(),
+                a * th.sin() * inc.cos(),
+                a * th.sin() * inc.sin(),
+            ];
             let v = [
                 -a * n * th.sin(),
                 a * n * th.cos() * inc.cos(),
@@ -962,5 +1034,25 @@ mod tests {
             assert!((x - y).abs() < 1e-18, "{x} vs {y}");
         }
         assert!(rms < 1e-20);
+    }
+
+    // With the Sun colinear with r both frames fall back, and to the same axis: the DYB
+    // e_Y stays the yaw-steered body +Y (the solar-array axis).
+    #[test]
+    fn colinear_fallbacks_agree_on_the_array_axis() {
+        let r = [7.0e6, 0.0, 0.0];
+        let v = [0.0, 7.5e3, 1.0e3];
+        let s = [1.5e11, 0.0, 0.0];
+        let att = gnss_yaw_steering(r, v, s);
+        let y_body = [att[0][1], att[1][1], att[2][1]];
+        let f = dyb_frame(r, v, s);
+        for k in 0..3 {
+            assert!(
+                (f.e_y[k] - y_body[k]).abs() < 1e-12,
+                "{:?} vs {:?}",
+                f.e_y,
+                y_body
+            );
+        }
     }
 }
