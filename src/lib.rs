@@ -278,6 +278,7 @@ pub mod sp3;
 pub mod space_packet;
 pub mod space_weather;
 pub mod spectrum;
+pub mod spk_writer;
 pub mod spoof;
 pub mod spoof_capture;
 pub mod spoof_detect;

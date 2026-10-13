@@ -137,6 +137,14 @@ impl DafFile {
         })
     }
 
+    /// The doubles at 1-based word addresses `first..=last` (a segment's data).
+    pub fn words(&self, first: usize, last: usize) -> Result<Vec<f64>, String> {
+        if first == 0 || last < first {
+            return Err(format!("bad DAF address range {first}..={last}"));
+        }
+        (first..=last).map(|a| self.word(a)).collect()
+    }
+
     /// The 4-byte integer at byte offset `off`.
     fn int_at_byte(&self, off: usize) -> i32 {
         let b: [u8; 4] = self.bytes[off..off + 4].try_into().expect("4 bytes");
