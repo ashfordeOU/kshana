@@ -67,6 +67,7 @@ pub mod allan;
 pub mod altpnt;
 pub mod animation;
 pub mod antenna;
+pub mod aocs;
 pub mod aperture_duty;
 pub mod api;
 pub mod araim_reference;
