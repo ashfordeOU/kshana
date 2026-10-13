@@ -17,9 +17,12 @@
 //! …followed by a data field of 1..=65536 octets.
 //!
 //! HONEST SCOPE: exact, deterministic CCSDS-133.0 *framing* — the primary-header
-//! bit layout and a round-trippable encode/decode. It is not a CCSDS conformance
-//! certification, and carries no secondary-header / CRC / segmentation logic beyond
-//! the flags (those are out-of-scope follow-ons).
+//! bit layout and a round-trippable encode/decode — plus, additively, a secondary
+//! header carrying a CCSDS 301.0-B-4 CUC or CDS time code and ancillary octets, a
+//! packet error control CRC (CRC-16/IBM-3740, the PUS convention: CCSDS 133.0-B itself
+//! defines none) and the conventional segmentation of a user data unit over the
+//! sequence flags, with a reassembler. It is not a CCSDS conformance certification;
+//! the time codes are bit-packings with no time-scale or leap-second semantics.
 
 use serde::Deserialize;
 
@@ -203,7 +206,11 @@ impl CucFormat {
         let epoch = match (p >> 4) & 0b111 {
             0b001 => CucEpoch::Ccsds1958,
             0b010 => CucEpoch::Agency,
-            id => return Err(format!("P-field {p:#04X}: time code id {id:03b} is not CUC")),
+            id => {
+                return Err(format!(
+                    "P-field {p:#04X}: time code id {id:03b} is not CUC"
+                ))
+            }
         };
         CucFormat::new(epoch, ((p >> 2) & 0b11) + 1, p & 0b11)
     }
@@ -440,10 +447,7 @@ impl TimeCode {
                     ));
                 }
                 if t.ms_of_day > 86_400_999 {
-                    return Err(format!(
-                        "CDS ms of day {} above 86 400 999",
-                        t.ms_of_day
-                    ));
+                    return Err(format!("CDS ms of day {} above 86 400 999", t.ms_of_day));
                 }
                 let max_sub = match f.submillis {
                     CdsSubmillis::None => 0,
@@ -1274,5 +1278,113 @@ mod tests {
         assert_eq!(v["total_stream_octets"], (6 + 16) * 3);
         assert!(v["label"].as_str().unwrap().contains("CCSDS 133.0"));
         assert!(!j1.contains("VALIDATED"));
+    }
+
+    fn cuc_code(c: u8, f: u8, coarse: u32, fine: u32) -> TimeCode {
+        TimeCode {
+            format: TimeCodeFormat::Cuc(CucFormat::new(CucEpoch::Ccsds1958, c, f).unwrap()),
+            value: TimeValue::Cuc(CucTime { coarse, fine }),
+        }
+    }
+
+    #[test]
+    fn crc_check_value_and_pec_round_trip() {
+        assert_eq!(crc16_ccitt_false(b"123456789"), 0x29B1);
+        assert_eq!(crc16_ccitt_false(b""), 0xFFFF);
+        let fmt = PacketFormat {
+            secondary_header: None,
+            pec: true,
+        };
+        let mut p = encode_packet_with(&fmt, false, 5, SequenceFlags::Unsegmented, 9, None, b"abc")
+            .unwrap();
+        assert!(pec_ok(&p));
+        assert_eq!(decode_packet_with(&p, &fmt).unwrap().user_data, b"abc");
+        p[7] ^= 0x40;
+        assert!(!pec_ok(&p));
+        assert!(decode_packet_with(&p, &fmt).unwrap_err().contains("PEC"));
+    }
+
+    #[test]
+    fn time_code_p_fields_and_round_trips() {
+        // CUC, 1958 epoch, 4 coarse + 2 fine octets: 0 | 001 | 11 | 10 = 0x1E.
+        let c = cuc_code(4, 2, 0x0102_0304, 0x0506);
+        assert_eq!(c.encode(true).unwrap(), [0x1E, 1, 2, 3, 4, 5, 6]);
+        assert_eq!(c.encode(false).unwrap(), [1, 2, 3, 4, 5, 6]);
+        assert_eq!(
+            TimeCode::decode(&c.encode(true).unwrap(), None).unwrap(),
+            (c, 7)
+        );
+        // CDS, 1958, 16-bit days, microseconds: 0 | 100 | 0 | 0 | 01 = 0x41.
+        let d = TimeCode {
+            format: TimeCodeFormat::Cds(CdsFormat {
+                epoch: CdsEpoch::Ccsds1958,
+                days: CdsDaySegment::Bits16,
+                submillis: CdsSubmillis::Microseconds,
+            }),
+            value: TimeValue::Cds(CdsTime {
+                days: 0x0102,
+                ms_of_day: 0x0304_0506,
+                submillis: 999,
+            }),
+        };
+        let e = d.encode(true).unwrap();
+        assert_eq!(e, [0x41, 1, 2, 3, 4, 5, 6, 0x03, 0xE7]);
+        assert_eq!(TimeCode::decode(&e, None).unwrap(), (d, 9));
+        assert_eq!(TimeCode::decode(&e[1..], Some(d.format)).unwrap(), (d, 8));
+        assert!(cuc_code(1, 0, 256, 0).encode(true).is_err());
+        assert!(CucFormat::new(CucEpoch::Agency, 5, 0).is_err());
+        assert!(TimeCodeFormat::from_p_field(0x9E).is_err());
+        assert!(TimeCodeFormat::from_p_field(0x43).is_err());
+    }
+
+    #[test]
+    fn segmentation_round_trips_wraps_and_rejects_anomalies() {
+        let fmt = PacketFormat {
+            secondary_header: Some(SecondaryHeaderFormat {
+                time_code: Some(TimeCodeLayout::ImplicitPField(cuc_code(4, 0, 0, 0).format)),
+                ancillary_octets: 1,
+            }),
+            pec: true,
+        };
+        let sh = SecondaryHeader {
+            time_code: Some(cuc_code(4, 0, 77, 0)),
+            ancillary: vec![0xAA],
+        };
+        let seg = Segmenter {
+            format: fmt,
+            is_telecommand: false,
+            apid: 42,
+            max_user_octets: 10,
+        };
+        let unit: Vec<u8> = (0..35).collect();
+        let pk = seg.segment(16382, Some(&sh), &unit).unwrap();
+        let counts: Vec<u16> = pk
+            .iter()
+            .map(|p| decode_packet(p).unwrap().0.sequence_count)
+            .collect();
+        assert_eq!(counts, [16382, 16383, 0, 1]);
+        assert_eq!(reassemble(&fmt, &pk).unwrap(), vec![unit.clone()]);
+        let one = seg.segment(3, Some(&sh), &unit[..10]).unwrap();
+        assert_eq!(
+            decode_packet(&one[0]).unwrap().0.sequence_flags,
+            SequenceFlags::Unsegmented
+        );
+        let mut gap = pk.clone();
+        gap.remove(1);
+        assert!(reassemble(&fmt, &gap).unwrap_err().contains("gap"));
+        let mut rep = pk.clone();
+        rep.insert(1, pk[0].clone());
+        assert!(reassemble(&fmt, &rep).unwrap_err().contains("repeated"));
+        assert!(reassemble(&fmt, &pk[1..])
+            .unwrap_err()
+            .contains("no unit open"));
+        assert!(reassemble(&fmt, &pk[..3])
+            .unwrap_err()
+            .contains("still open"));
+        let other = Segmenter { apid: 43, ..seg }
+            .segment(0, Some(&sh), &unit)
+            .unwrap();
+        let mixed = vec![pk[0].clone(), other[1].clone()];
+        assert!(reassemble(&fmt, &mixed).unwrap_err().contains("APID"));
     }
 }
