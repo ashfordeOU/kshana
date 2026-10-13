@@ -46,6 +46,17 @@
 //! B2 20075 nodes exact; B3 max |Delta| 1.4e-14 / 3.5e-13 / 3.5e-13 / 3.5e-13 TECU; B4 slant TEC
 //! 5.1e-13 TECU, L1 delay 5.3e-14 m; B5 0.496 and 1.667 TECU. The synthetic check exercises the
 //! formulas only; the real-data checks are the gated ones.
+//!
+//! B6 RESULT (first and only run, 2026-10-13; RTKLIB v2.4.2-p13 built from 71db0ffa after the
+//! owner allowed it; driver `rtklib_iontec_driver.c` and `run_rtklib.sh`, committed 98866b4
+//! before the run): RTKLIB `iontec` at the 6885 equation-2/3 query points, zenith, compared with
+//! `IonexFile::vtec_at`: max |Delta| 3.553e-13 TECU in the rotated-map mode (RTKLIB opt 1) and
+//! 3.517e-13 TECU in the consecutive mode (opt 0), against the 1e-5 TECU bar. Disclosed
+//! procedure: RTKLIB reads the full `CODG1330.18I`, not the crop, because its `getindex` refuses a
+//! latitude grid whose end latitude is positive while the step is negative (30.0 -> 5.0); the
+//! crop's bands are the full file's bands verbatim, so the interpolated nodes are the same. The
+//! RTKLIB output is derived from the map and is not committed (the map's licence is unconfirmed);
+//! `run_rtklib.sh` rebuilds it.
 //! A full decompressed GIM can be checked structurally with `KSHANA_IONEX_FULL_PATH`.
 
 use kshana::ionex::{
