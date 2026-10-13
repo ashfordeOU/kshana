@@ -148,6 +148,13 @@ pub struct ForceModel {
     /// the WGS-84 oblate shadow, optionally with solar limb darkening). The default leaves the
     /// historical [`crate::forces::srp_accel`] path bit-for-bit unchanged.
     pub srp_shadow: crate::srp_shadow::ShadowModel,
+    /// Opt-in box-wing SRP ([`crate::srp_boxwing`]): when `Some` (and [`srp`](Self::srp) is
+    /// `true`), it **replaces** the cannonball term with the flat-plate model in nominal GNSS yaw
+    /// steering, scaled by [`cr`](Self::cr) as the radiation factor `k` (1 nominal),
+    /// [`area_over_mass`](Self::area_over_mass) unused, eclipse from
+    /// [`srp_shadow`](Self::srp_shadow). The attitude uses the velocity, so the term enters via
+    /// [`accel_rv`](Self::accel_rv), like drag. `None` (the default) leaves every path unchanged.
+    pub srp_boxwing: Option<crate::srp_boxwing::BoxWing>,
     /// Include atmospheric drag ([`crate::forces::drag_accel`], quadratic drag against the
     /// co-rotating atmosphere of [`crate::forces::atmospheric_density`]). Unlike the other terms
     /// this is **velocity-dependent**, so it is applied in [`accel_rv`](Self::accel_rv)/the RHS,
@@ -413,6 +420,15 @@ impl ForceModel {
         self
     }
 
+    /// Use box-wing SRP (see [`srp_boxwing`](Self::srp_boxwing)) for `bw` with radiation factor
+    /// `scale` (1 nominal): sets `srp = true`, `cr = scale` and replaces the cannonball term.
+    pub fn box_wing_srp(mut self, bw: crate::srp_boxwing::BoxWing, scale: f64) -> Self {
+        self.srp = true;
+        self.cr = scale;
+        self.srp_boxwing = Some(bw);
+        self
+    }
+
     /// Select the SRP eclipse model (chainable; default the spherical conical shadow).
     pub fn srp_shadow(mut self, model: crate::srp_shadow::ShadowModel) -> Self {
         self.srp_shadow = model;
@@ -622,7 +638,8 @@ impl ForceModel {
                 let p = third_body_accel(r, moon, MU_MOON);
                 a = [a[0] + p[0], a[1] + p[1], a[2] + p[2]];
             }
-            if self.srp {
+            // With a box-wing set, SRP is the velocity-dependent box-wing term of `accel_rv`.
+            if self.srp && self.srp_boxwing.is_none() {
                 let sun = sun.expect(
                     "`sun` is Some whenever `self.sun || self.srp`, and `self.srp` holds here",
                 );
@@ -658,6 +675,14 @@ impl ForceModel {
     /// integrator RHS evaluates. With drag disabled it is identical to `accel_at(t, r)`.
     pub fn accel_rv(&self, t: f64, r: Vec3, v: Vec3) -> Vec3 {
         let mut a = self.accel_at(t, r);
+        if let (true, Some(bw)) = (self.srp, &self.srp_boxwing) {
+            let jd_tt = self.epoch_jd_tt + t / SECONDS_PER_DAY;
+            let (sun, _) = self.perturbers(t, julian_centuries_tt(jd_tt), true, false);
+            let sun = sun.expect("`perturbers` returns the Sun when asked for it");
+            let nu = self.srp_shadow.lit_fraction(r, sun);
+            let p = crate::srp_boxwing::boxwing_srp_accel(r, v, sun, bw, self.cr, nu);
+            a = [a[0] + p[0], a[1] + p[1], a[2] + p[2]];
+        }
         if self.drag {
             let d = drag_accel_with_density(
                 r,
@@ -1831,6 +1856,48 @@ mod tests {
         assert_eq!(fallbacks(), 2, "the count is shared with the clone");
         assert_eq!(m.accel_at(86_400.0, r), plain.accel_at(86_400.0, r));
         assert_eq!(fallbacks(), 4);
+    }
+
+    #[test]
+    fn box_wing_srp_is_opt_in_and_replaces_the_cannonball() {
+        use crate::srp_boxwing::{boxwing_srp_accel, BoxWing};
+        let epoch = 2_460_000.5;
+        let cannon = ForceModel::two_body()
+            .third_body(false, false, epoch)
+            .solar_radiation(1.3, 0.01);
+        assert!(cannon.srp_boxwing.is_none(), "box-wing is off by default");
+        let none = ForceModel::two_body().third_body(false, false, epoch);
+        let bw = cannon.clone().box_wing_srp(BoxWing::galileo_foc(), 0.9);
+        assert!(bw.srp && bw.cr == 0.9);
+        let sun = sun_position(julian_centuries_tt(epoch + 600.0 / SECONDS_PER_DAY));
+        // A Galileo-like state in full sun.
+        let u = [sun[0] / norm(sun), sun[1] / norm(sun), sun[2] / norm(sun)];
+        let r = [2.96e7 * u[1], -2.96e7 * u[0], 0.0];
+        let v = [0.0, 0.0, 3_670.0];
+        // accel_at carries no SRP once a box-wing is set; accel_rv adds exactly the box-wing.
+        assert_eq!(bw.accel_at(600.0, r), none.accel_at(600.0, r));
+        let (a, b) = (bw.accel_rv(600.0, r, v), none.accel_rv(600.0, r, v));
+        let want = boxwing_srp_accel(
+            r,
+            v,
+            sun,
+            &BoxWing::galileo_foc(),
+            0.9,
+            crate::forces::conical_shadow(r, sun),
+        );
+        for k in 0..3 {
+            assert!((a[k] - b[k] - want[k]).abs() <= 1e-15, "axis {k}");
+        }
+        assert!(
+            norm(want) > 1e-8,
+            "a lit Galileo box-wing gives ~1e-7 m/s^2"
+        );
+        // Without a box-wing the cannonball term is unchanged.
+        let c = cannon.accel_rv(600.0, r, v);
+        let cn = srp_accel(r, sun, 1.3, 0.01);
+        for k in 0..3 {
+            assert_eq!(c[k], b[k] + cn[k]);
+        }
     }
 
     #[test]
