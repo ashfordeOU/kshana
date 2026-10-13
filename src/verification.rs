@@ -3668,6 +3668,13 @@ pub fn validated_oracle_basis() -> Vec<OracleBasisEntry> {
             source: "pyproj 3.8.0 (PROJ 9.8.1)",
             flag: "",
         },
+        OracleBasisEntry {
+            requirement: "RFC 3161 timestamp-token signature and chain verification",
+            basis: Library,
+            oracle_test: "tests/evidence_tsa_openssl.rs",
+            source: "OpenSSL 3.0.13",
+            flag: "",
+        },
     ]
 }
 
