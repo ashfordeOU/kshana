@@ -308,24 +308,17 @@ fn the_export_site_is_masked_by_the_terrain() {
     );
     let plain = kshana::api::run_toml(&src).unwrap().csv.unwrap();
     assert!(!plain.contains("clears_terrain"));
-    // Every numeric field the export-site terrain echo adds has a unit. (The export rows'
-    // own fields, `per_sat_geometry[].*`, have no units-block entries with or without
-    // terrain; that pre-existing gap is not this change's.)
-    let audit = kshana::field_schema::audit_document(&serde_json::from_str(&out.json).unwrap());
-    let missing: Vec<&String> = audit
-        .missing
-        .iter()
-        .filter(|p| !p.starts_with("per_sat_geometry[]"))
-        .collect();
-    assert!(missing.is_empty(), "{missing:?}");
-    let plain_audit = kshana::field_schema::audit_document(
-        &serde_json::from_str(&kshana::api::run_toml(&src).unwrap().json).unwrap(),
-    );
-    assert_eq!(
-        plain_audit.missing.len(),
-        audit.missing.len(),
-        "terrain adds no field without a unit"
-    );
+    // Every numeric field has a unit, the export rows' own included, with and without
+    // terrain.
+    for doc_src in [&walled_src, &src] {
+        let json = kshana::api::run_toml(doc_src).unwrap().json;
+        let audit = kshana::field_schema::audit_document(&serde_json::from_str(&json).unwrap());
+        assert!(audit.missing.is_empty(), "{:?}", audit.missing);
+        assert!(audit.malformed.is_empty());
+    }
+    // A document without an export site carries none of the export-row units.
+    let no_export: Value = serde_json::from_str(&kshana::api::run_toml(SV).unwrap().json).unwrap();
+    assert!(no_export["units"].get("per_sat_geometry[].t_s").is_none());
 }
 
 // ── a latitude/longitude DEM tile (realdata::lola_dem) ───────────────────────

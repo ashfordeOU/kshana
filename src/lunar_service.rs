@@ -429,6 +429,21 @@ pub fn nadir_off_boresight_rad(sat_mcmf: Vec3, user_mcmf: Vec3) -> f64 {
     dot(boresight, los).clamp(-1.0, 1.0).acos()
 }
 
+/// Units of the per-satellite geometry export rows, added to a document's units block
+/// only when it carries `per_sat_geometry` (an export site is configured).
+pub const PER_SAT_GEOMETRY_UNITS: &[crate::field_schema::FieldUnit] = &{
+    use crate::field_schema::{FieldUnit, ProvenanceClass::*};
+    [
+        FieldUnit { path: "per_sat_geometry[].t_s", unit: "s", provenance: Computed, definition: "seconds from the scenario epoch" },
+        FieldUnit { path: "per_sat_geometry[].sat", unit: "index", provenance: Computed, definition: "satellite index within the constellation" },
+        FieldUnit { path: "per_sat_geometry[].az_deg", unit: "deg", provenance: Computed, definition: "azimuth of the satellite from the export site, clockwise from local north" },
+        FieldUnit { path: "per_sat_geometry[].el_deg", unit: "deg", provenance: Computed, definition: "elevation of the satellite above the export site's local horizon plane" },
+        FieldUnit { path: "per_sat_geometry[].range_km", unit: "km", provenance: Computed, definition: "slant range from the export site to the satellite" },
+        FieldUnit { path: "per_sat_geometry[].off_boresight_deg", unit: "deg", provenance: Computed, definition: "off-boresight angle at the satellite toward the export site (with export_antenna)" },
+        FieldUnit { path: "per_sat_geometry[].pattern_gain_dbi", unit: "dBi", provenance: Computed, definition: "transmit-antenna gain toward the export site from the aperture pattern (with export_antenna)" },
+    ]
+};
+
 /// One per-satellite geometry sample at one epoch for one site.
 #[derive(Clone, Debug, Serialize)]
 pub struct GeometrySample {
