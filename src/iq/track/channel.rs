@@ -2,11 +2,11 @@
 //! One tracking channel: correlators, NCOs and the per-channel bookkeeping around
 //! [`LoopCore`].
 
+use super::boc::{BumpJump, BumpJumpEvent};
 use super::cn0::{
     beaulieu_cn0_from_term, beaulieu_term, nwpr_cn0_from_ratio, nwpr_power_ratio,
     phase_lock_indicator, BitSync,
 };
-use super::boc::{BumpJump, BumpJumpEvent};
 use super::{Discriminators, FllAssist, LoopConfig, LoopCore};
 use crate::acquisition::m2m4_cn0_from_moments;
 use crate::iq::acq::AcqResult;
@@ -218,9 +218,10 @@ impl Channel {
                 ));
             }
         }
-        let bump = cfg
-            .boc
-            .and_then(|b| b.bump_jump.map(|j| (BumpJump::new(j), b.kind.half_period_chips())));
+        let bump = cfg.boc.and_then(|b| {
+            b.bump_jump
+                .map(|j| (BumpJump::new(j), b.kind.half_period_chips()))
+        });
         let mut taps = cfg.extra_taps_chips.clone();
         if let Some((_, h)) = bump {
             taps.extend([h, -h]);

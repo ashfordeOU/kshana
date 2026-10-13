@@ -803,8 +803,9 @@ mod tests {
         assert_eq!(decode(&l, &bytes, 0, 4).unwrap(), want);
         assert_eq!((want[0].re, want[0].im, want[3].re), (15.0, -15.0, -15.0));
         // Offset binary is already symmetric: the field does nothing.
-        let mut ob = parse_sdrx(&META.replace("<encoding>TC</encoding>", "<encoding>OB</encoding>"))
-            .unwrap();
+        let mut ob =
+            parse_sdrx(&META.replace("<encoding>TC</encoding>", "<encoding>OB</encoding>"))
+                .unwrap();
         let plain = decode(&ob, &bytes, 0, 4).unwrap();
         ob.mid_rise = true;
         assert_eq!(decode(&ob, &bytes, 0, 4).unwrap(), plain);

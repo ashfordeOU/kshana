@@ -11,6 +11,11 @@
 //! by `scripts/extract_is_gps_800_tables.py`, which also checks (`--check`) that the block
 //! here is byte-identical to what it extracts; the source URL, PDF SHA-256, retrieval date
 //! and distribution statement are in the block's header comment.
+//!
+//! PIN-SCOPE:    no hash or byte pin: the long digit strings are the ICD's printed octal
+//!               Legendre sequence (IS-GPS-800J Table 6.2-1), data the generator reads, checked
+//!               against the ICD text by the extraction script's `--check`.
+//! PIN-EXCLUDES: nothing; the tables are transcribed data, not fingerprints of an output.
 
 /// One row of IS-GPS-705J Table 3-Ia / 3-Ib / 6-I (L5 code phase assignments).
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]

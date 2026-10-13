@@ -997,6 +997,8 @@ impl Design {
                 min_votes: r.bit_sync.min_votes,
                 ratio: r.bit_sync.ratio,
             },
+            // BOC tracking is not a design-file option yet.
+            boc: None,
         }
     }
 
