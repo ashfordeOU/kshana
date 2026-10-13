@@ -11,6 +11,12 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **Celestial-pole offsets dX, dY on the CIO chain** (`cio::gcrs_to_cirs_matrix_with_offsets`),
+  and direct ERFA vector checks of `precession_matrix`, `teme_to_gcrs_matrix` and the new
+  function. New ledger row, VALIDATED against pyerfa (pre-registered 979c1e39; 40 epochs
+  1950–2100: precession and CIO bit-identical, TEME→GCRS within 1.1e-10 rad, the predicted
+  effect of the two-term equation-of-the-equinoxes series). Existing functions are unchanged.
+
 - **Pre-1972 UTC on the two-part time path** (`timescales::tai_minus_utc_on_date`, and
   `Jd2::from_utc_calendar`, `jd2::utc_to_tai` and `jd2::tai_to_utc` from 1960-01-01): the
   drifting-rate ("rubber-second") era, with SOFA's drift table, fractional end-of-day steps, and

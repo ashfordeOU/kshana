@@ -14,8 +14,9 @@
 //! [`crate::cio`], and the composed frame reduction is cross-checked against SOFA vectors and
 //! ANISE (see `docs/CAPABILITY.md`). The angle polynomials here are transcribed from the IAU
 //! 2006 definition and validated against closed-form anchors (the J2000 mean obliquity, the
-//! published constant terms, and the ~1.40°/century general precession); a direct ERFA
-//! vector check of [`precession_matrix`] at arbitrary epochs is not yet in the suite.
+//! published constant terms, and the ~1.40°/century general precession), and
+//! [`precession_matrix`] matches ERFA `pmat06` bit for bit at 40 epochs 1950–2100
+//! (`tests/frames_erfa_vector_oracle.rs`).
 
 use crate::timescales::JD_J2000;
 

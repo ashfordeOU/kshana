@@ -35,7 +35,10 @@
 //! - **V4** (additivity) with dX = dY = 0 the new function is bit-identical to
 //!   `cio::gcrs_to_cirs_matrix` at every epoch; no existing function changes.
 //!
-//! VERDICT: not yet run.
+//! VERDICT (2026-10-13, first run): AGREES at every pre-registered bar. Over the 40 epochs:
+//! V1 worst element difference 0 (bit-identical to `pmat06`); V2 worst angle 1.10e-10 rad, the
+//! two-term equation-of-the-equinoxes truncation as predicted (≈ 3 mm at GNSS orbit); V3 worst
+//! element difference 0; V4 holds. Pre-registration commit 979c1e39.
 
 use kshana::cio::{gcrs_to_cirs_matrix, gcrs_to_cirs_matrix_with_offsets};
 use kshana::nutation::teme_to_gcrs_matrix;
