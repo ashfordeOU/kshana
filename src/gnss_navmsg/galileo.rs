@@ -124,7 +124,7 @@ pub struct GalTimeConversion {
 /// SISA table: 1 cm steps below 0.5 m, 2 cm to 1 m, 4 cm to 2 m, 16 cm to 6 m; 255, "no
 /// accuracy prediction available", for a negative or larger value).
 pub fn sisa_index(m: f64) -> u32 {
-    let idx = if !(m >= 0.0) || m > 6.0 + 1e-9 {
+    let idx = if !(0.0..=6.0 + 1e-9).contains(&m) {
         255.0
     } else if m < 0.495 {
         (m / 0.01).round()
