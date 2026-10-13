@@ -451,6 +451,15 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            requirement: "CR3BP rotating states mapped to Moon-centred ICRF on the DE440 Earth-Moon line",
+            capability: "cr3bp::to_moon_centred_icrf maps a nondimensional Earth-Moon CR3BP rotating state to a Moon-centred ICRF position and velocity on the instantaneous Earth-Moon line (length unit the Earth-Moon distance, time unit the inverse orbital rate, the frame's full angular velocity including its out-of-plane rate from the Moon's acceleration), with the inverse from_moon_centred_icrf, and cr3bp::to_moon_centred_icrf_de440 reads the geocentric Moon state from a DE440 SPK. It maps states; it does not make a CR3BP orbit an ephemeris-model orbit",
+            module: "cr3bp (to_moon_centred_icrf, from_moon_centred_icrf, to_moon_centred_icrf_de440)",
+            tests: "tests/cr3bp_to_mci_spice_oracle.rs::cr3bp_to_mci_matches_a_spice_two_vector_frame (72 cases: 12 epochs in January 2025 x the L1 and L2 points, two L2 southern halo and one DRO initial state of the JPL Three-Body Periodic Orbits API and a generic state; worst position 1.8e-7 m against 1 mm, velocity 1.2e-9 m/s against 1e-6 m/s; inverse 2.7e-15); cr3bp::tests::moon_centred_map_round_trips_and_sends_the_moon_to_the_origin",
+            oracle: "NAIF SPICE Toolkit (CSPICE N0067 through spiceypy 8.3.0) sxform of a two-vector dynamic frame (primary +X along the Moon's position wrt the Earth, secondary +Y along its velocity, de440s), applied to the dimensional rotating state built from SPICE's own Moon state, by a separate program that calls no Kshana code (tests/fixtures/cr3bp_to_mci_spice/, NOTICE.md). Pre-registered 2313eb1b, amended before any run in d5ef79b3 to include the frame's out-of-plane angular velocity (without it the velocity would be up to 8e-2 m/s off). A Library check of the transform only. Results: docs/design/evidence/rm34-cr3bp-to-mci/RESULTS.md",
+            oracle_kind: ExternalDataset,
+            status: Validated,
+        },
+        VerificationItem {
             requirement: "Multi-revolution Lambert transfer solver",
             capability: "Every solution of Lambert's problem with up to three complete revolutions (maneuver::lambert_multirev: the single-revolution solution, then the left and right branches of each revolution count, Izzo 2015), with the boundary velocities v1 and v2, for prograde and retrograde transfers, in canonical and heliocentric SI units, including transfers within 1 % of a revolution count's minimum time of flight and near-180 deg geometries. A two-body solver only (no perturbations)",
             module: "maneuver (lambert_multirev, LambertSolution, LambertBranch)",
@@ -3113,6 +3122,13 @@ pub fn validated_oracle_basis() -> Vec<OracleBasisEntry> {
             basis: Reference,
             oracle_test: "tests/icgem_gravity_reference.rs",
             source: "GRS80",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "CR3BP rotating states mapped to Moon-centred ICRF on the DE440 Earth-Moon line",
+            basis: Library,
+            oracle_test: "tests/cr3bp_to_mci_spice_oracle.rs::cr3bp_to_mci_matches_a_spice_two_vector_frame",
+            source: "NAIF SPICE Toolkit (CSPICE N0067 through spiceypy 8.3.0)",
             flag: "",
         },
         OracleBasisEntry {
