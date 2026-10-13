@@ -25,4 +25,5 @@ misses are the smallest, fastest orbits near the Moon, and the adaptive flow's d
 tolerances limit closure there. Neither is fixed here. Any change to the corrector or its
 tolerances needs its own pre-registration.
 
-Pinned: `finding_four_members_miss_a_bar` (exactly these four); the strict test is ignored.
+Pinned: `finding_four_members_miss_a_bar` asserts exactly these four misses at their recorded
+values (within 2 %), with the bars unchanged in the code.

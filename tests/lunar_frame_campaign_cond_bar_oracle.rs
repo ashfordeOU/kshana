@@ -32,9 +32,8 @@
 //! (t = 5.9e-7, kappa 5.3e8) fails 8 checks: datum sigmas up to 6.8e-6, translation norm
 //! 3.6e-6, condition 9.1e-6, independence-discarded norm 3.5e-6. On `stations_estimated_fresh`
 //! the unchanged oracle raises (NumPy `inv` of a singular independence-discarded covariance: the
-//! south-pole beacon has no observation on D), so it cannot be evaluated. The strict test is
-//! ignored; `finding_p2_condition_scaled_bar_not_met_on_the_estimated_scenarios` pins exactly
-//! these nine failed checks. Results: docs/design/evidence/mr05-lunar-datum-cond/RESULTS.md.
+//! south-pole beacon has no observation on D), so it cannot be evaluated. `finding_p2_condition_scaled_bar_not_met_on_the_estimated_scenarios` asserts
+//! these nine failed checks at their recorded gaps (1 %) and the oracle's LinAlgError. Results: docs/design/evidence/mr05-lunar-datum-cond/RESULTS.md.
 
 #[path = "support/fixture_pin.rs"]
 mod fixture_pin;
@@ -289,43 +288,53 @@ fn fresh_inputs_are_the_engines() {
     }
 }
 
-/// The pre-registered P2 comparison on all eight scenarios, strict. Ignored: NOT MET (the
-/// finding below).
-#[test]
-#[ignore = "MR-05 finding: stations_estimated outside the condition-scaled bar; stations_estimated_fresh not evaluable by the unchanged oracle"]
-fn lunar_frame_campaign_matches_numpy_at_the_condition_scaled_bar() {
-    let bad: Vec<Check> = checks().into_iter().filter(|c| c.2 > c.3).collect();
-    assert!(bad.is_empty(), "outside the bar: {bad:#?}");
-}
-
-/// The checks outside the bar on the first run (2026-10-13), by scenario and quantity.
-const FINDING: &[(&str, &str)] = &[
-    ("stations_estimated", "datum sigma 1"),
-    ("stations_estimated", "datum sigma 2"),
-    ("stations_estimated", "datum sigma 3"),
-    ("stations_estimated", "datum sigma 4"),
-    ("stations_estimated", "datum sigma 5"),
-    ("stations_estimated", "translation sigma norm"),
-    ("stations_estimated", "Helmert condition"),
+/// The checks outside the bar on the first run (2026-10-13): scenario, quantity and the gap
+/// recorded then (the bar is the pre-registered one, computed in `checks`).
+const FINDING: &[(&str, &str, f64)] = &[
+    ("stations_estimated", "datum sigma 1", 6.798e-6),
+    ("stations_estimated", "datum sigma 2", 6.555e-6),
+    ("stations_estimated", "datum sigma 3", 2.967e-6),
+    ("stations_estimated", "datum sigma 4", 5.524e-6),
+    ("stations_estimated", "datum sigma 5", 6.563e-6),
+    ("stations_estimated", "translation sigma norm", 3.591e-6),
+    ("stations_estimated", "Helmert condition", 9.102e-6),
     (
         "stations_estimated",
         "independence-discarded translation norm",
+        3.504e-6,
     ),
     (
         "stations_estimated_fresh",
         "oracle evaluates the scenario (LinAlgError: Singular matrix)",
+        1.0,
     ),
 ];
 
-/// The finding, pinned: exactly the recorded checks fall outside the bar (it fails if any of
-/// them comes inside, so the row is re-examined, or if another one goes outside).
+/// The finding, pinned with its values: exactly the recorded checks fall outside the bar, each
+/// gap within 1 % of its recorded value, and the unchanged oracle raised `LinAlgError` on
+/// `stations_estimated_fresh`. Fails if the result moves either way.
 #[test]
 fn finding_p2_condition_scaled_bar_not_met_on_the_estimated_scenarios() {
-    let bad: Vec<(&str, String)> = checks()
-        .into_iter()
-        .filter(|c| c.2 > c.3)
-        .map(|c| (c.0, c.1))
-        .collect();
-    let want: Vec<(&str, String)> = FINDING.iter().map(|(a, b)| (*a, b.to_string())).collect();
-    assert_eq!(bad, want, "the P2 finding changed");
+    let bad: Vec<Check> = checks().into_iter().filter(|c| c.2 > c.3).collect();
+    assert_eq!(bad.len(), FINDING.len(), "the P2 finding changed: {bad:#?}");
+    for (c, (name, q, gap)) in bad.iter().zip(FINDING) {
+        assert_eq!((c.0, c.1.as_str()), (*name, *q), "the P2 finding changed");
+        assert!(
+            (c.2 - gap).abs() <= 0.01 * gap,
+            "{name} {q}: gap {:.4e} moved from the recorded {gap:.4e}",
+            c.2
+        );
+    }
+    let reference = fixture("lunar_frame_campaign_cond_bar/reference.json");
+    let fresh = reference["scenarios"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .find(|s| s["name"] == "stations_estimated_fresh")
+        .expect("scenario");
+    assert_eq!(
+        fresh["p2"]["error"].as_str(),
+        Some("LinAlgError: Singular matrix"),
+        "the unchanged oracle raised on stations_estimated_fresh"
+    );
 }
