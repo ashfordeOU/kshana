@@ -11,6 +11,12 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **Carrier-phase tight coupling** (0.36, WP-09, RM-25 / FUT-17): `fusion::carrier_tc`, an
+  error-state EKF with an explicit two-state receiver clock and float carrier ambiguities, driven
+  by an SGP4 Walker constellation with Klobuchar and Saastamoinen corrections in the measurement
+  loop, time-differenced-carrier slip detection and ambiguity re-initialisation, and a code-only
+  run on the same measurements for comparison. MODELLED: on a figure-8 drive the carrier solution
+  is 2.5 cm against 47 cm code-only, and NIS/NEES are consistent over seeds.
 - **GNSS/INS trajectory library** (0.36, WP-09, RM-24): the `gnss-ins` kind takes an optional
   `[trajectory]` table with `profile = "straight" | "figure8" | "stop_go" | "aircraft" | "uas" |
   "csv"`. The profiles command Euler rates and along-track acceleration from the truth state and
@@ -188,6 +194,9 @@ breaking changes are called out explicitly.
 
 ### Changed
 
+- Module docs of `fusion::ukf`, `fusion::tightly_coupled` and `fusion::gnss_ins_ekf` no longer
+  call the 17-state UKF navigator, the full-INS tight coupling and the explicit clock state
+  future work; they point to `hybrid_ukf`, `tightly_coupled17` and `carrier_tc`.
 - README: the lunar suite row states each piece's evidence tier (it said all were MODELLED).
 - `realdata::clk::rinex_clock_series` returns `RinexClockSeries` (series, gridding log, time system,
   whether it was declared, record type) instead of a `(PhaseSeries, GriddingLog)` tuple. It now

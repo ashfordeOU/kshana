@@ -4,9 +4,9 @@
   "repo_blob_base": "https://github.com/AshfordeOU/kshana/blob/main/",
   "summary": {
     "validated": 134,
-    "modelled": 137,
+    "modelled": 138,
     "partner_owned": 4,
-    "total": 275
+    "total": 276
   },
   "rows": [
     {
@@ -444,6 +444,32 @@
         "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/fixtures/sp3_interp",
         "notice_url": "https://github.com/AshfordeOU/kshana/blob/main/tests/fixtures/sp3_interp/NOTICE"
       }
+    },
+    {
+      "requirement": "Carrier-phase tightly coupled GNSS/INS with float ambiguities",
+      "capability": "Error-state EKF over 15 INS states, a two-state receiver clock and one float carrier ambiguity per tracked satellite; pseudorange, carrier phase and optional range rate from an SGP4 Walker constellation (light-time and Sagnac), Klobuchar and Saastamoinen/Niell corrections applied in the loop at the filter's own position; time-differenced-carrier slip detection with a per-satellite threshold widened by the velocity uncertainty; ambiguity re-initialisation on slips and re-acquisition",
+      "status": "MODELLED",
+      "oracle_kind": "InternalConsistency",
+      "oracle": "Internal consistency: the measurements are synthesised from the models the filter uses (χ² NEES/NIS over seeds, a noise-free convergence, slip injection). MODELLED; no real receiver data or third-party filter is compared",
+      "module": "fusion::carrier_tc (run_carrier_tc, CarrierTcCfg), fusion::trajectory (truth_epochs)",
+      "tests": "tests/fusion_carrier_tc.rs (figure-8 drive: steady 3-D RMS 0.025 m carrier vs 0.470 m code on identical measurements; 12 seeds mean NIS/dof 1.00 and steady NEES/dof 0.92; a 1-cycle slip detected at its epoch with no false alarms and the solution intact; switching the broadcast corrections off raises the code error from 0.51 m to 19.6 m (iono) and 8.0 m (tropo); noise-free run converges to 0.3 mm)",
+      "module_links": [
+        {
+          "path": "src/fusion/carrier_tc.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/src/fusion/carrier_tc.rs"
+        },
+        {
+          "path": "src/fusion/trajectory.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/src/fusion/trajectory.rs"
+        }
+      ],
+      "test_links": [
+        {
+          "path": "tests/fusion_carrier_tc.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/fusion_carrier_tc.rs"
+        }
+      ],
+      "fixture": null
     },
     {
       "requirement": "GNSS/INS trajectory library and CSV truth import",

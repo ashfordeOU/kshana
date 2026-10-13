@@ -298,6 +298,15 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            requirement: "Carrier-phase tightly coupled GNSS/INS with float ambiguities",
+            capability: "Error-state EKF over 15 INS states, a two-state receiver clock and one float carrier ambiguity per tracked satellite; pseudorange, carrier phase and optional range rate from an SGP4 Walker constellation (light-time and Sagnac), Klobuchar and Saastamoinen/Niell corrections applied in the loop at the filter's own position; time-differenced-carrier slip detection with a per-satellite threshold widened by the velocity uncertainty; ambiguity re-initialisation on slips and re-acquisition",
+            module: "fusion::carrier_tc (run_carrier_tc, CarrierTcCfg), fusion::trajectory (truth_epochs)",
+            tests: "tests/fusion_carrier_tc.rs (figure-8 drive: steady 3-D RMS 0.025 m carrier vs 0.470 m code on identical measurements; 12 seeds mean NIS/dof 1.00 and steady NEES/dof 0.92; a 1-cycle slip detected at its epoch with no false alarms and the solution intact; switching the broadcast corrections off raises the code error from 0.51 m to 19.6 m (iono) and 8.0 m (tropo); noise-free run converges to 0.3 mm)",
+            oracle: "Internal consistency: the measurements are synthesised from the models the filter uses (χ² NEES/NIS over seeds, a noise-free convergence, slip injection). MODELLED; no real receiver data or third-party filter is compared",
+            oracle_kind: InternalConsistency,
+            status: Modelled,
+        },
+        VerificationItem {
             requirement: "GNSS/INS trajectory library and CSV truth import",
             capability: "Selectable motion profiles for the gnss-ins pack (straight, figure-8, urban stop-and-go, aircraft climb and coordinated turn, survey drone), defined by Euler-rate and along-track-acceleration commands closed on the truth state with the kinematic IMU (centripetal, gravity and Coriolis terms), and imported CSV truth turned into the IMU that reproduces it; the historical drive unchanged when no profile is given",
             module: "fusion::trajectory (TrajectoryCfg, Trajectory, kinematic_imu, parse_truth_csv), fusion::pack ([trajectory])",
