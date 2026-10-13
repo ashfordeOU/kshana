@@ -144,6 +144,7 @@ fn geometry(prod: &PreciseProducts, sat: &str, t_rx: f64, p: f64, rx: Vec3) -> O
     Some((r, [-d[0] / r, -d[1] / r, -d[2] / r]))
 }
 
+#[allow(clippy::needless_range_loop)]
 /// Run the RTK filter for the rover `rover` against the base `base` whose antenna reference point
 /// is `base_arp` (ECEF, m); `b0` is the a-priori baseline (m), given with a 10 m sigma.
 pub fn run_rtk(
@@ -244,9 +245,9 @@ pub fn run_rtk(
         if sds.len() < 4 {
             continue;
         }
-        let ref_i = (0..sds.len())
-            .max_by(|&a, &b| sds[a].el.total_cmp(&sds[b].el))
-            .unwrap();
+        let Some(ref_i) = (0..sds.len()).max_by(|&a, &b| sds[a].el.total_cmp(&sds[b].el)) else {
+            continue;
+        };
         let w = |el: f64| 1.0 + 1.0 / el.sin();
         let n = x.len();
         let others: Vec<usize> = (0..sds.len()).filter(|&i| i != ref_i).collect();
@@ -382,6 +383,7 @@ fn add_state(x: &mut Vec<f64>, p: &mut Vec<Vec<f64>>, value: f64, var: f64) -> u
     n
 }
 
+#[allow(clippy::needless_range_loop)]
 fn reset(x: &mut [f64], p: &mut [Vec<f64>], k: usize, value: f64, var: f64) {
     x[k] = value;
     for i in 0..x.len() {
@@ -391,6 +393,7 @@ fn reset(x: &mut [f64], p: &mut [Vec<f64>], k: usize, value: f64, var: f64) {
     p[k][k] = var;
 }
 
+#[allow(clippy::needless_range_loop)]
 /// Batch Kalman update `x += K v`, `P = (I − K H) P`, `K = P Hᵀ (H P Hᵀ + R)⁻¹`.
 fn kalman_update(x: &mut [f64], p: &mut [Vec<f64>], h: &[Vec<f64>], v: &[f64], r: &[Vec<f64>]) {
     let n = x.len();
@@ -437,6 +440,7 @@ fn kalman_update(x: &mut [f64], p: &mut [Vec<f64>], h: &[Vec<f64>], v: &[f64], r
     }
 }
 
+#[allow(clippy::needless_range_loop)]
 /// Inverse of a small square matrix by Gauss-Jordan elimination with partial pivoting.
 fn invert(a: &[Vec<f64>]) -> Option<Vec<Vec<f64>>> {
     let n = a.len();
@@ -491,6 +495,7 @@ mod tests {
     use super::*;
 
     #[test]
+    #[allow(clippy::needless_range_loop)]
     fn invert_recovers_the_identity() {
         let a = vec![
             vec![4.0, 1.0, 0.5],

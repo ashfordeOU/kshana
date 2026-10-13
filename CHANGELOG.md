@@ -11,6 +11,14 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **RTK with LAMBDA on real RINEX** (0.36, WP-07 ★): `rtk_real::run_rtk`, short-baseline double
+  differences of dual-frequency GPS code and phase with a float Kalman filter and LAMBDA integer
+  fixing (ratio test). VALIDATED on the IGS stations WTZR and WTZZ (1.4 m apart) against their
+  ITRF2020 baseline under pre-registered bars: fixed at every epoch after the first ten minutes,
+  baseline error median 4.5 mm and 95th percentile 5.5 mm.
+- **gLAB / RTKLIB parity harness** (RM-31): `xval/ppp-parity/run.sh` and
+  `tests/ppp_parity_glab_rtklib.rs`, pre-registered bars for PPP and single-point parity on WTZR.
+  Data-gated: the comparison runs once the oracle outputs are produced; it has not been run.
 - **Navigation-message encoders beyond LNAV** (0.36, WP-07, PRO-40): `gnss_navmsg` encodes GPS
   CNAV (message types 10, 11, 30; CRC-24Q; continuous rate-1/2 K=7 coding), Galileo I/NAV (word
   types 1-5 in even/odd nominal pages; 30x8 interleaver; sync `0101100000`) and Galileo F/NAV (page

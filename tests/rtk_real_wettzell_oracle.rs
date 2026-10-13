@@ -7,6 +7,11 @@
 //! (ratio ≥ 3) at ≥ 90 % of epochs from 00:10; K2 fixed-baseline error median ≤ 0.010 m and
 //! p95 ≤ 0.020 m; K3 float baseline at the last epoch ≤ 0.05 m; D over 00:00-00:09:30 the fixed
 //! median error at most half the float median at the same epochs; non-vacuity 300 epochs.
+//!
+//! RESULT of the first and only run (2026-10-13, on 8867d66), all bars held: 359 epochs, 0 slips;
+//! accepted fixes at 100 % of the epochs from 00:10 (359 fixes in all); fixed-baseline error
+//! median 0.0045 m, 95th percentile 0.0055 m; float baseline at the last epoch 0.0041 m; in the
+//! first 10 minutes 19 fixes with median error 0.0026 m against 0.1298 m for the float solution.
 
 use kshana::precise_products::{parse_antex_satellites, parse_clock_rinex, PreciseProducts};
 use kshana::rinex_obs::parse_obs;
@@ -26,8 +31,8 @@ fn read(dir: &str, name: &str) -> String {
 const DIR: &str = "gnss_wettzell_2025055";
 
 /// ITRF2020 solution 3 of WTZR and WTZZ (2015.0 positions; both carry the same velocity).
-const WTZR: [f64; 3] = [4_075_580.3902, 931_853.9684, 4_801_568.2294];
-const WTZZ: [f64; 3] = [4_075_579.2710, 931_853.2834, 4_801_569.1390];
+const WTZR: [f64; 3] = [4_075_580.390_2, 931_853.968_4, 4_801_568.229_4];
+const WTZZ: [f64; 3] = [4_075_579.271_0, 931_853.283_4, 4_801_569.139_0];
 const VEL: [f64; 3] = [-0.01593, 0.01721, 0.01006];
 const DT_YEARS: f64 = 10.0 + (54.0 + 3.0 / 24.0) / 365.0;
 
