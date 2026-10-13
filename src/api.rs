@@ -1056,6 +1056,59 @@ pub fn list_scenario_kinds_json() -> String {
         .expect("ScenarioMeta is all-static-string data; JSON serialisation is infallible")
 }
 
+/// For each scenario kind whose verification-matrix rows name a module other than the kind's own
+/// name (the kind with hyphens as underscores, or as written), the module names its rows use.
+///
+/// The Studio's capability map joins a scenario's kinds to the matrix rows through this table;
+/// it used to keep its own hand-written copy. `tests/kind_modules.rs` fails if a kind here is not
+/// a dispatchable kind or a module here appears in no matrix row, so the table cannot name
+/// something that is not there. A kind absent from the table matches its own name only.
+pub const KIND_MODULES: &[(&str, &[&str])] = &[
+    ("gnss-ins", &["fusion"]),
+    ("hybrid-ukf", &["fusion"]),
+    ("hybrid", &["fusion", "holdover"]),
+    ("conflict-resilience", &["resilience"]),
+    ("terrain-nav", &["altpnt"]),
+    ("terrain-slam", &["altpnt"]),
+    ("gravity-map", &["gravity_sh", "altpnt"]),
+    ("combined-altpnt", &["altpnt"]),
+    ("quantum-gnss-free-nav", &["quantum_nav_od"]),
+    ("quantum-time-transfer", &["timetransfer_chain"]),
+    ("moonlight-service-volume", &["lunar_service"]),
+    ("lunar-integrity", &["lunar_service"]),
+    ("lunar-attack-surface", &["lunar_service", "antenna"]),
+    ("lunar-time-offset", &["lunar_time"]),
+    ("lunar-differential-pnt", &["lunar_dpnt"]),
+    ("lunar-joint-od-clock", &["lunar_combination"]),
+    ("lunar-interop-export", &["lunar_interop"]),
+    ("quantum-anomaly-detect", &["quantum_faults"]),
+    ("pvt", &["rinex"]),
+    ("ephemeris", &["sgp4"]),
+    ("inertial", &["inertial"]),
+    ("constellation-design", &["constellation"]),
+    ("integrity", &["raim", "sbas"]),
+    ("araim-reference-check", &["araim_reference"]),
+    ("launch-window", &["launch"]),
+    ("eo-coverage", &["eo_payload"]),
+    ("link-budget", &["linkbudget"]),
+    ("aperture-duty-cycle", &["aperture_duty"]),
+    ("oem-interop", &["oem"]),
+    ("telecom-timing", &["telecom_timing"]),
+    ("slot-timing", &["slot_timing"]),
+    ("solar-system", &["solar_system", "ephem"]),
+    ("body-pnt", &["body_pnt"]),
+    ("mars-pnt", &["mars_pnt", "body_pnt"]),
+];
+
+/// [`KIND_MODULES`] as a JSON object, kind to array of module names, in table order.
+pub fn kind_modules_json() -> String {
+    let mut o = serde_json::Map::new();
+    for (kind, modules) in KIND_MODULES {
+        o.insert((*kind).to_string(), serde_json::json!(modules));
+    }
+    serde_json::Value::Object(o).to_string()
+}
+
 /// Render the built-in scenario-kind catalogue as a standalone Markdown reference
 /// (`docs/SCENARIOS.md`): every dispatchable kind with its one-line description and
 /// its required / optional TOML fields.

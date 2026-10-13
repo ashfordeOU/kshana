@@ -3,7 +3,7 @@
 //!
 //! The WebAssembly build exposes it (`iq_run_short`), and it is plain Rust so a native test
 //! can run the same request and compare the answers. It builds the scene with
-//! [`crate::iq::scene::synthetic`], searches each requested code with [`acquire_peak`], and
+//! `crate::iq::scene::synthetic`, searches each requested code with [`acquire_peak`], and
 //! tracks the acquired codes with the built-in loop design. Nothing is read from or written
 //! to a file, and the sizes are capped so a browser tab cannot be asked for more than a
 //! fraction of a second of a few satellites.
