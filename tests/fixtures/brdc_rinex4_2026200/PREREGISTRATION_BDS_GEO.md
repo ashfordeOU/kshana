@@ -31,9 +31,9 @@ mass; the offset is ~1 m for the BDS GEOs and is inside the bars.
 ## Bars (from the broadcast-orbit accuracy literature, chosen before any result)
 
 Published BDS GEO broadcast-orbit errors are metre-level radially with
-along-track errors of several metres (Montenbruck, Steigenberger, Hauschild,
-"Broadcast versus precise ephemerides: a multi-GNSS perspective", GPS Solutions
-19 (2015) 321–333; BDS Open Service Performance Standard, CSNO, 2021).
+along-track errors of several metres ("Broadcast versus precise ephemerides: a
+multi-GNSS perspective", GPS Solutions 19 (2015) 321–333; BDS Open Service
+Performance Standard, CSNO, 2021).
 
 - G1: median 3-D error over all compared (PRN, epoch) pairs < 5 m.
 - G2: maximum 3-D error < 20 m.
