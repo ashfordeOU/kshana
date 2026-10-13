@@ -14,3 +14,22 @@ Licence: NAIF generic kernels and SPICE outputs are public NASA/JPL data. Regene
 
     source ~/Code/kshana-oracles/env.sh
     $ORACLE_PY tests/fixtures/body_orientation_spice_oracle/generate_body_orientation_spice_oracle.py
+
+## `fresh/`
+
+`fresh/spice_orientation.csv` and `fresh/spice_constants.csv` hold the same quantities at the 41
+fresh epochs fixed in `docs/design/evidence/mr08-body-orientation/PREREGISTRATION.md`
+(`et_k = (k - 20) x 61 000 003.25 s + 1 000 000.125 s`, k = 0..40). They were computed by
+`generate_body_orientation_spice_oracle_fresh.py` (which imports the generator above unmodified
+and changes only the epoch grid and the output directory) with CSPICE N0067 through spiceypy
+8.3.0, from the same two kernels (same URLs and SHA-256 values as above), and committed on
+2026-10-12 after the pre-registration. Regenerated independently on 2026-10-13 from kernels
+downloaded again from NAIF: byte-identical.
+
+| File | SHA-256 |
+|---|---|
+| `fresh/spice_orientation.csv` | 116a318fb7ed691f4a980a786791f4d681514982f37aa9c845a7e5d7dc45a4dd |
+| `fresh/spice_constants.csv` | e76a23e01ba691ad8b63af8e87a8bc0d9a48b65ee2ecec7e72fc72a1f36a7731 |
+
+    source "$KSHANA_ORACLES/env.sh"
+    $ORACLE_PY tests/fixtures/body_orientation_spice_oracle/generate_body_orientation_spice_oracle_fresh.py

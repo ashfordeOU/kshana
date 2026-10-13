@@ -11,6 +11,14 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **IAU body orientation and GM of the fourteen added solar-system bodies** split out of the
+  "Physical constants of every solar-system body" row into a VALIDATED row (pre-registered
+  154bc54): `Body::iau_rotation_et` agrees with SPICE `pxform` on pck00011 within 1e-9 rad on
+  574 matrices at the original epochs and on 574 at 41 fresh epochs never compared before (worst
+  Phobos 1.38e-10 rad), and `Body::mu` equals gm_de440 for all fourteen bodies. The rest of the
+  original row (J2, mean radius, the report) stays MODELLED. Results:
+  `docs/design/evidence/mr08-body-orientation/RESULTS.md`.
+
 - **Multi-revolution Lambert** (`maneuver::lambert_multirev`): every solution with up to three
   revolutions, both branches. New ledger row, VALIDATED against pykep 3.0.1 (pre-registered
   a75de851; 382 cases, 1058 solutions, worst velocity difference 1.6e-13 against 1e-8). The
