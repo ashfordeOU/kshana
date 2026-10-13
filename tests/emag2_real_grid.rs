@@ -13,6 +13,8 @@ use kshana::altpnt::maps::{Emag2Column, GeoGrid};
 use sha2::{Digest, Sha256};
 
 const CROP: &str = "tools/emag2/EMAG2_V3_20170530_35.5_37.5_-118.0_-116.0.csv";
+// PIN-SCOPE:    the bytes of the cropped EMAG2v3 CSV written by tools/fetch_emag2_tile.py
+// PIN-EXCLUDES: the 1.17 GB source zip (its SHA-256 is pinned in the tool), and everything in this repo
 const CROP_SHA256: &str = "8e29107f810f359395fdf87f4d1f9515824587f1aaf47e9aaddaf44077c8fa0b";
 
 #[test]

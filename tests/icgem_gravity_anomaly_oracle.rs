@@ -18,6 +18,8 @@ use kshana::gravity_sh::{SphericalHarmonicField, WGS84_ELLIPSOID};
 use sha2::{Digest, Sha256};
 
 /// (region tag, nodes, SHA-256 of the GDF body) as first fetched on 2026-10-13.
+// PIN-SCOPE:    the numeric body (rows after `end_of_head`) of each fetched ICGEM grid file
+// PIN-EXCLUDES: the GDF header (job metadata and generating date), and everything in this repo
 const GRIDS: &[(&str, usize, &str)] = &[
     (
         "chad",
