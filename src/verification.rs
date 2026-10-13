@@ -262,6 +262,15 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            requirement: "S2 atmospheric tide coefficients in the IERS convention",
+            capability: "Ray (2001) S2 air-pressure harmonics (n <= 4, prograde and retrograde) converted to the fully-normalised, sine-lead form of IERS 2010 Eqs. 6.20-6.21 (amplitude divided by N_nm, epsilon = 90 deg - psi) and applied as the S2 term of tides::atmospheric_tide",
+            module: "tides (s2_air_waves, atmospheric_tide)",
+            tests: "tests/s2_air_tide_gfz_table5.rs (21 of 21 waves agree with the published model A2: worst 0.00050 cm, 0.050 deg against bars of 0.0006 cm, 0.1 deg); tests/tides_iers.rs (S2 amplitude band)",
+            oracle: "Biancale and Bode, GFZ Scientific Technical Report STR06/01 (2006), Table 5, model A2: Ray (2001) published in fully-normalised harmonics with sine-lead phases, an independent rendering of the same model. Pre-registered in xval/s2-air-tide-fix/PREREGISTRATION.md (5e31c37a) with the fix it validates. Covers the coefficient conversion only; the air tide's geopotential effect has no external oracle",
+            oracle_kind: ExternalDataset,
+            status: Validated,
+        },
+        VerificationItem {
             requirement: "Batch & sequential orbit determination",
             capability: "Recover an epoch state [r,v] from ground-station ranges via a Gauss–Newton batch differential corrector and a sequential filter, over a two-body+J2 force model",
             module: "orbit_determination, precise_od (batch_ls::gauss_newton, fusion::ukf)",
@@ -2790,6 +2799,13 @@ pub fn validated_oracle_basis() -> Vec<OracleBasisEntry> {
             basis: Library,
             oracle_test: "tests/numerical_cowell_propagator_reference.rs",
             source: "Orekit 12.2",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "S2 atmospheric tide coefficients in the IERS convention",
+            basis: Reference,
+            oracle_test: "tests/s2_air_tide_gfz_table5.rs",
+            source: "Biancale and Bode, GFZ Scientific Technical Report STR06/01 (2006), Table 5, model A2",
             flag: "",
         },
         OracleBasisEntry {

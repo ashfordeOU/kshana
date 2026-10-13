@@ -181,6 +181,13 @@ breaking changes are called out explicitly.
 
 ### Changed
 
+- **S2 atmospheric tide fix** (`tides::atmospheric_tide`). Ray (2001)'s S2 air-pressure
+  harmonics are coefficients of unnormalised `P_nm` with cosine phase lags; they were used as fully
+  normalised with the lag as the IERS sine lead. They now enter divided by `N_nm` with
+  `ε = 90° − ψ`; the new `tides::s2_air_waves` reproduces model A2 of GFZ STR06/01 Table 5 for all
+  21 waves (worst 0.0005 cm, 0.05°; VALIDATED). Only tide-enabled outputs move: the Galileo CI fit
+  0.132 → 0.133 m, Swarm-A components by 1–2 mm (pre-registered in `xval/s2-air-tide-fix/`).
+
 - README: the lunar suite row states each piece's evidence tier (it said all were MODELLED).
 - `realdata::clk::rinex_clock_series` returns `RinexClockSeries` (series, gridding log, time system,
   whether it was declared, record type) instead of a `(PhaseSeries, GriddingLog)` tuple. It now
