@@ -72,6 +72,14 @@ pub fn list_kinds() -> String {
     crate::api::list_scenario_kinds_json()
 }
 
+/// The modules a scenario kind's verification-matrix rows name where they differ from the kind's
+/// own name: a JSON object, kind to array of module names. The Studio's capability map joins a
+/// scenario to its matrix rows through it.
+#[wasm_bindgen]
+pub fn kind_modules() -> String {
+    crate::api::kind_modules_json()
+}
+
 /// Run a scenario; on failure return the structured error *kind* tag
 /// (`invalid_input`, `unsupported`, …) so the caller can branch on the failure
 /// category rather than parse the message. Returns an empty string on success.

@@ -11,6 +11,11 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **Kind-to-module table from the engine** (0.36, STUDIO-05): `kshana::api::KIND_MODULES`,
+  `kind_modules_json()` and the WebAssembly `kind_modules()` give, for each scenario kind whose
+  verification-matrix rows name another module than its own, the module names. The Studio's
+  capability map used its own hand-written copy; `tests/kind_modules.rs` fails if a kind in the table
+  is not dispatchable or a module appears in no matrix row. No output changed.
 - **Short IQ run in the browser build** (0.36): `iq_signals()` and `iq_run_short(fs_hz, duration_s,
   signal, ids, dopplers_hz, cn0_dbhz, seed)` in the WebAssembly module build a synthetic scene,
   acquire each satellite and track the acquired ones, all in memory, bounded to 0.25 s, 1 000 000
