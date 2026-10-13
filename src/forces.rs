@@ -46,7 +46,7 @@ pub const J6: f64 = 5.4068e-7;
 pub const EARTH_ZONALS_J2_J6: [f64; 5] = [J2, J3, J4, J5, J6];
 
 use crate::ephem::AU_M;
-use crate::portable_math::{PortableFloat, Maths, Platform, Portable};
+use crate::portable_math::{Maths, Portable, PortableFloat};
 
 type Vec3 = [f64; 3];
 
@@ -183,7 +183,7 @@ fn zonal_accel_with<M: Maths>(r: Vec3, mu: f64, re: f64, jn: &[f64]) -> Vec3 {
 /// [`zonal_potential`]; with `jn = [J2]` it reduces to [`j2_accel`] to machine precision.
 /// Delegates to [`zonal_accel_with`] with the Earth [`MU_EARTH`]/[`RE_EARTH`] literals.
 pub fn zonal_accel(r: Vec3, jn: &[f64]) -> Vec3 {
-    zonal_accel_with::<Platform>(r, MU_EARTH, RE_EARTH, jn)
+    zonal_accel_with::<Portable>(r, MU_EARTH, RE_EARTH, jn)
 }
 
 /// [`zonal_accel`] evaluated with the platform-independent mathematics library
@@ -197,7 +197,7 @@ pub(crate) fn zonal_accel_portable(r: Vec3, jn: &[f64]) -> Vec3 {
 /// `b.zonals`). With `b = Body::earth()` this equals [`zonal_accel`] called with
 /// [`EARTH_ZONALS_J2_J6`] bit-for-bit, so the Earth path stays byte-identical.
 pub fn zonal_accel_body(r: Vec3, b: &crate::body::Body) -> Vec3 {
-    zonal_accel_with::<Platform>(r, b.mu, b.re, b.zonals)
+    zonal_accel_with::<Portable>(r, b.mu, b.re, b.zonals)
 }
 
 /// Sun gravitational parameter `GM☉` (m³/s²), IAU/DE value.
@@ -356,7 +356,7 @@ pub const EARTH_ROTATION_RATE: f64 = 7.292_115_146_7e-5;
 /// cutoff). This is a **static, solar-activity-independent mean** — *not* NRLMSISE-00 (the
 /// thermospheric model with its < 5 % accuracy clause is a follow-on; see `ROADMAP.md`).
 pub fn atmospheric_density(altitude_m: f64) -> f64 {
-    atmospheric_density_with::<Platform>(altitude_m)
+    atmospheric_density_with::<Portable>(altitude_m)
 }
 
 /// [`atmospheric_density`], written once for both mathematics libraries
@@ -410,7 +410,7 @@ fn atmospheric_density_with<M: Maths>(altitude_m: f64) -> f64 {
 /// (m²/kg) and `ρ` is [`atmospheric_density`] at the spherical altitude `|r| − Rₑ`. This force is
 /// **dissipative** — it always removes orbital energy, the signature the propagator validates.
 pub fn drag_accel(r: Vec3, v: Vec3, cd_area_over_mass: f64) -> Vec3 {
-    drag_accel_with::<Platform>(r, v, cd_area_over_mass)
+    drag_accel_with::<Portable>(r, v, cd_area_over_mass)
 }
 
 /// [`drag_accel`] evaluated with the platform-independent mathematics library
@@ -509,7 +509,7 @@ pub struct SecularRates {
 
 /// Compute the J2 secular rates for the given orbit.
 pub fn j2_secular_rates(a: f64, e: f64, i_rad: f64) -> SecularRates {
-    j2_secular_rates_with::<Platform>(a, e, i_rad)
+    j2_secular_rates_with::<Portable>(a, e, i_rad)
 }
 
 /// [`j2_secular_rates`] evaluated with the platform-independent mathematics library

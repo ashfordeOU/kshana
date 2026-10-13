@@ -26,7 +26,7 @@
 
 use crate::frames::{geodetic_to_ecef, look_angles, teme_to_ecef, Geodetic, Vec3};
 use crate::palette::chart::{AXIS, BG, CORAL, CYAN, FONT_SANS, INK_2, MAGENTA};
-use crate::portable_math::{PortableFloat, Maths, Platform, Portable};
+use crate::portable_math::{Maths, Portable, PortableFloat};
 use crate::scenario::TimeCfg;
 use crate::walker::{walker_epoch_jd, WalkerSgp4};
 use rand::SeedableRng;
@@ -76,7 +76,7 @@ pub fn klobuchar_delay_m(
     az_rad: f64,
     gps_sod: f64,
 ) -> f64 {
-    klobuchar_delay_m_with::<Platform>(coeffs, lat_rad, lon_rad, el_rad, az_rad, gps_sod)
+    klobuchar_delay_m_with::<Portable>(coeffs, lat_rad, lon_rad, el_rad, az_rad, gps_sod)
 }
 
 /// [`klobuchar_delay_m`] evaluated with the platform-independent mathematics library
