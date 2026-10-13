@@ -13,6 +13,8 @@
 //! * [`runner`]: plans the cells, skips those already done (content-hash keys), runs the
 //!   rest in parallel and writes one result per cell.
 //! * [`report`]: scorecards (CSV/JSON), the self-contained HTML report and the digest.
+//! * [`detect`]: the `[monitors]` table and the scoring of the IQ monitors' alarms against the
+//!   stated events (time to detect, misses, false alarms, closed-form false-alarm figures).
 //! * [`truth`]: truth Doppler from a synthetic scene's sidecar, for the false-lock check.
 //! * [`hash`]: the canonical-JSON and file hashes that stamp every result.
 //!
@@ -20,6 +22,7 @@
 //! transmits or models an interference waveform. It reads recordings and scores them.
 
 pub mod conditions;
+pub mod detect;
 pub mod hash;
 pub mod report;
 pub mod runner;

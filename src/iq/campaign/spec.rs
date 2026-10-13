@@ -232,6 +232,10 @@ pub struct CampaignSpec {
     /// Scoring settings and pass/fail bars.
     #[serde(default)]
     pub scoring: ScoringConfig,
+    /// The IQ monitors run per cell and scored against the stated events
+    /// (`docs/design/MONITORS-IN-CAMPAIGN.md`); absent = none, and nothing else changes.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub monitors: Option<super::detect::MonitorsSpec>,
 }
 
 impl CampaignSpec {
@@ -264,6 +268,9 @@ impl CampaignSpec {
             }
         }
         s.scoring.validate()?;
+        if let Some(m) = &s.monitors {
+            m.validate()?;
+        }
         Ok(s)
     }
 
@@ -278,10 +285,19 @@ impl CampaignSpec {
 
     /// The hash of the settings that change results (not the worker count).
     pub fn run_hash(&self) -> CanonicalHash {
-        canonical_hash(&serde_json::json!({
+        let mut v = serde_json::json!({
             "max_seconds": self.run.max_seconds,
             "epochs": self.run.epochs,
-        }))
+        });
+        // The monitors change results only when present; without them the hash, and so
+        // every cell key, is what it was before monitors existed.
+        if let (Some(m), Some(o)) = (&self.monitors, v.as_object_mut()) {
+            o.insert(
+                "monitors".into(),
+                serde_json::to_value(m).unwrap_or_default(),
+            );
+        }
+        canonical_hash(&v)
     }
 
     /// The hash of the scorer settings (bars excluded: they are applied in the report).

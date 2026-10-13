@@ -183,6 +183,12 @@ impl SqmMonitor {
         }
     }
 
+    /// The closed-form false-alarm probability of one averaged test value at the configured
+    /// `k_sigma`, for Gaussian noise: `2Q(k)` ([`stats::gaussian_two_sided_pfa`]).
+    pub fn pfa_closed_form(&self) -> f64 {
+        stats::gaussian_two_sided_pfa(self.settings.k_sigma)
+    }
+
     /// The early-late spacing (chips).
     pub fn spacing_chips(&self) -> f64 {
         self.spacing
