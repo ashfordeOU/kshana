@@ -334,6 +334,15 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            requirement: "Test-bench export read by a simulator's motion-file readers (gps-sdr-sim)",
+            capability: "The bench-export motion files given to an open-source GNSS simulator's own readers come back as the exported trajectory: the NMEA GGA file (-g), the time/latitude/longitude/height cut of the motion CSV (-x) and its time/x/y/z cut (-u), on 6 gnss-ins scenarios (including the maritime, rail and aviation packs, read to the simulator's 3000-sample cap) and 2 stationary ones. Motion only; no signal is written or generated.",
+            module: "interop::testbench (write_motion_csv, write_nmea, export)",
+            tests: "tests/testbench_gpssdrsim_oracle.rs (6 tests: oracle and scenarios, export bytes pinned, NMEA and LLH readers, four-column ECEF cut, run-1 FINDING on the full-width CSV, 10 Hz row grid)",
+            oracle: "WHAT IS EXTERNALLY CHECKED, stated narrowly: gps-sdr-sim (MIT, commit 28ca29a6) readNmeaGGA, readUserMotion and readUserMotionLLH with its own WGS 84 llh2xyz, called through xval/testbench-gpssdrsim/driver.c (no signal function called), against the motion CSV's Earth-fixed columns row by row, with bars pre-registered in xval/testbench-gpssdrsim/PREREGISTRATION.md before any run: every sample read on all 8 scenarios; NMEA worst 1.21 mm (bar 1 cm); LLH cut worst 0.145 mm (bar 1 mm); four-column Earth-fixed cut exact (bar 1 um, amendment 1); gnss-ins rows on the simulator's 10 Hz grid to 2.3e-13 s. FINDING (run 1, pinned): the header-removed full-width CSV is not readable by -u, because the reader's 100-character line buffer splits each 161-character row into two samples; docs/TEST-BENCH.md gives the four-column cut. WHAT IS NOT: the physics of the scenario's truth trajectory; gps-sdr-sim's signal output; any other simulator's reader; any receiver.",
+            oracle_kind: ExternalDataset,
+            status: Validated,
+        },
+        VerificationItem {
             requirement: "GNSS/INS trajectory library and CSV truth import",
             capability: "Selectable motion profiles for the gnss-ins pack (straight, figure-8, urban stop-and-go, aircraft climb and coordinated turn, survey drone), defined by Euler-rate and along-track-acceleration commands closed on the truth state with the kinematic IMU (centripetal, gravity and Coriolis terms), and imported CSV truth turned into the IMU that reproduces it; the historical drive unchanged when no profile is given",
             module: "fusion::trajectory (TrajectoryCfg, Trajectory, kinematic_imu, parse_truth_csv), fusion::pack ([trajectory])",
@@ -3675,6 +3684,13 @@ pub fn validated_oracle_basis() -> Vec<OracleBasisEntry> {
             basis: Library,
             oracle_test: "tests/testbench_reference.rs",
             source: "pyproj 3.8.0 (PROJ 9.8.1)",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Test-bench export read by a simulator's motion-file readers (gps-sdr-sim)",
+            basis: Library,
+            oracle_test: "tests/testbench_gpssdrsim_oracle.rs",
+            source: "gps-sdr-sim (MIT, commit 28ca29a6)",
             flag: "",
         },
     ]

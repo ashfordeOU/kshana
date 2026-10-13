@@ -11,6 +11,14 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **Test-bench export checked with a simulator's own readers** (0.36, WP-09, CAP-16): the
+  `kshana bench-export` motion files of 8 bundled scenarios were read back by gps-sdr-sim's
+  NMEA, latitude/longitude/height and Earth-fixed motion readers (MIT, commit 28ca29a6, used as
+  a separate tool through `xval/testbench-gpssdrsim/`; no signal function is called). They
+  return the exported trajectory to 1.2 mm, 0.15 mm and exactly. FINDING: that simulator's
+  Earth-fixed reader cannot take the full-width CSV, because its 100-character line buffer
+  splits each row. `docs/TEST-BENCH.md` now gives the column cuts to use and the simulator's
+  300 s cap. VALIDATED (new ledger row); the export's bytes are unchanged.
 - **GNSS/INS on the KF-GINS dataset** (0.36, WP-09, FUT-17): `fusion::kfgins` loaders and runner
   and the lever-arm measurement model in the closed-loop EKF. On the KF-GINS demo dataset
   (fetched at test time, not vendored) Kshana's horizontal RMS against the reference trajectory is

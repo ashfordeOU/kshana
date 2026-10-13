@@ -15,7 +15,9 @@ def read_out(path):
 
 
 def max_diff(got, ref):
-    return max((math.dist(g, r) for g, r in zip(got, ref)), default=0.0)
+    # JSON has no NaN: a reader that returned a non-number reports null.
+    d = max((math.dist(g, r) for g, r in zip(got, ref)), default=0.0)
+    return None if math.isnan(d) else d
 
 
 out = {"generated_by": "xval/testbench-gpssdrsim/run.sh", "oracle": "gps-sdr-sim",
@@ -30,7 +32,7 @@ for s in scenarios:
     rec = {"samples_in_export": len(ref), "n_expected": n_expected,
            "csv_sha256": hashlib.sha256(open(csv_path, "rb").read()).hexdigest(),
            "nmea_sha256": hashlib.sha256(open(nmea_path, "rb").read()).hexdigest()}
-    for key in ("nmea", "ecef", "llh"):
+    for key in ("nmea", "ecef", "ecef4", "llh"):
         n, got = read_out(f"{work}/{s}.out.{key}")
         rec[f"{key}_count"] = n
         rec[f"{key}_max_diff_m"] = max_diff(got, ref)
@@ -40,7 +42,7 @@ for s in scenarios:
     # Informational: the CSV as written, header line included.
     n, got = read_out(f"{work}/{s}.out.asis")
     rec["as_written_count"] = n
-    rec["as_written_first_sample"] = list(got[0]) if got else None
+    rec["as_written_first_sample_is_nan"] = bool(got) and any(map(math.isnan, got[0]))
     rec["as_written_rest_max_diff_m"] = max_diff(got[1:], ref)
     with open(f"{work}/{s}.stderr") as f:
         rec["export_stderr"] = f.read().strip()
