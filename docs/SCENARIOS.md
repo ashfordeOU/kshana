@@ -90,7 +90,7 @@ Every scenario except `clock` must also set `kind = "<name>"` at the top level: 
 Clock holdover vs spec; optional Monte-Carlo ensemble (runs > 1).
 
 - **Required fields:** `seed`, `threshold_ns`, `time`, `gnss`, `clock_quantum`, `clock_classical`
-- **Optional fields:** `runs`
+- **Optional fields:** `runs`, `integrity`
 
 ## `inertial`
 

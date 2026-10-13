@@ -111,6 +111,11 @@ pub struct Scenario {
     pub gnss: GnssTimeline,
     pub clock_quantum: ClockCfg,
     pub clock_classical: ClockCfg,
+    /// Optional RAIM beside the holdover figures of merit ([`crate::clock_integrity`]): a
+    /// separate `integrity_fom` block. Absent (the default), the output and the scenario hash
+    /// are byte-identical.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub integrity: Option<crate::clock_integrity::IntegrityCfg>,
 }
 
 #[cfg(test)]

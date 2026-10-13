@@ -190,6 +190,7 @@ field's meaning or unit, bumps the number (`/2`).
 | `coastal-drag-off.toml` | a valid, healthy-looking fix drags 1.4 km towards the shore; uniform raised C/N0 |
 | `port-approach-time-spoof.toml` | position correct, UTC drifts 45 s ahead during a slow port approach |
 | `combined-event.toml` | jamming, then counterfeit takeover with drag-off and time offset, then a replay delay |
+| `fjord-natural-degradation.toml` | a blocked sky, not interference: the walls of a fjord (the REPRESENTATIVE `fjord` skyline preset) hide the satellites to the east and west, then the channel opens again (event `natural-degradation`, with a `skyline` table) |
 
 Positions, dates and tracks are invented; the library carries no real vessel, operator or
 recording. It makes no statement about how any receiver or system would perform against
