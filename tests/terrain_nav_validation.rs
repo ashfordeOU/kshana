@@ -213,7 +213,10 @@ fn gdal_cross_check() {
     for &(tile, lon, lat, gdal) in GDAL_NEAREST {
         let dem = if tile == "N36W119" { &w } else { &b };
         let ours = dem.nearest_node_at(lat, lon);
-        assert_eq!(ours, gdal, "{tile} at ({lat}, {lon}): ours {ours} m, GDAL {gdal} m");
+        assert_eq!(
+            ours, gdal,
+            "{tile} at ({lat}, {lon}): ours {ours} m, GDAL {gdal} m"
+        );
     }
 }
 
@@ -233,14 +236,24 @@ fn gdal_cross_check_live_full_tiles() {
         };
         let dem = DemGrid::from_srtm_hgt(&bytes, 3601, ll_lat, ll_lon).expect("parses");
         let out = std::process::Command::new("gdallocationinfo")
-            .args(["-valonly", "-wgs84", &path, &lon.to_string(), &lat.to_string()])
+            .args([
+                "-valonly",
+                "-wgs84",
+                &path,
+                &lon.to_string(),
+                &lat.to_string(),
+            ])
             .output()
             .expect("gdallocationinfo on PATH");
         let gdal: f64 = String::from_utf8_lossy(&out.stdout)
             .trim()
             .parse()
             .expect("GDAL printed a value");
-        assert_eq!(dem.nearest_node_at(lat, lon), gdal, "{tile} at ({lat}, {lon})");
+        assert_eq!(
+            dem.nearest_node_at(lat, lon),
+            gdal,
+            "{tile} at ({lat}, {lon})"
+        );
     }
 }
 

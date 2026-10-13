@@ -24,9 +24,11 @@
 //! spec; the bilinear sample is the closed-form interpolation validated by an exact midpoint
 //! oracle; the matcher's recovery is validated against an **independently injected** drift
 //! (the ground truth, never the DEM's own value — non-circular by construction). What Kshana
-//! does **not** bundle is a 25 MB real SRTM tile (a tiny committed fixture exercises the
-//! parser, and `#[ignore]`-gated tests fetch a real tile via `tools/fetch_srtm_tile.py` and
-//! check it against published geodetic spot-heights). The magnetic channel uses the smooth
+//! does **not** bundle is a full 25 MB SRTM tile: a tiny committed fixture exercises the
+//! parser, and two committed verbatim 1-arc-second crops ([`DemGrid::from_hgt_window`]) are
+//! checked in CI against published geodetic spot-heights and node-for-node against GDAL's
+//! SRTMHGT reader (`xval/srtm-ungate/`); only the live GDAL re-run on full tiles fetched via
+//! `tools/fetch_srtm_tile.py` stays `#[ignore]`-gated. The magnetic channel uses the smooth
 //! IGRF main field plus **synthetic crustal-anomaly mascons** — the real high-frequency
 //! crustal magnetic-anomaly map is a follow-on (see `docs/CAPABILITY.md`). Datum note: SRTM
 //! elevations are geoid-referenced (EGM96); TRN matches *relief*, not absolute height, so the

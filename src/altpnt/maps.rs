@@ -138,10 +138,18 @@ impl GeoGrid {
         let v01 = self.node(i0, j0 + 1);
         let v10 = self.node(i0 + 1, j0);
         let v11 = self.node(i0 + 1, j0 + 1);
-        (1.0 - fi) * (1.0 - fj) * v00
-            + (1.0 - fi) * fj * v01
-            + fi * (1.0 - fj) * v10
-            + fi * fj * v11
+        // A corner with zero weight does not contribute, so a node next to a void samples
+        // its own value instead of NaN (0 * NaN is NaN).
+        [
+            ((1.0 - fi) * (1.0 - fj), v00),
+            ((1.0 - fi) * fj, v01),
+            (fi * (1.0 - fj), v10),
+            (fi * fj, v11),
+        ]
+        .iter()
+        .filter(|(w, _)| *w != 0.0)
+        .map(|(w, v)| w * v)
+        .sum()
     }
 
     /// A `Fn(lat_deg, lon_deg) -> value` adapter for the map-match likelihood.
@@ -156,7 +164,12 @@ impl GeoGrid {
 
     /// Mean and population standard deviation of the non-void nodes, `(0, 0)` if all void.
     pub fn mean_std(&self) -> (f64, f64) {
-        let vals: Vec<f64> = self.values.iter().copied().filter(|v| !v.is_nan()).collect();
+        let vals: Vec<f64> = self
+            .values
+            .iter()
+            .copied()
+            .filter(|v| !v.is_nan())
+            .collect();
         if vals.is_empty() {
             return (0.0, 0.0);
         }
@@ -207,7 +220,13 @@ impl GeoGrid {
         let mut values = Vec::with_capacity(n_lat * n_lon);
         for i in 0..n_lat {
             let lat = (south + i as f64 * step_deg).to_radians();
-            values.extend(field.gravity_anomaly_sa_parallel_mgal(ell, zero_degree, lat, 0.0, &lons));
+            values.extend(field.gravity_anomaly_sa_parallel_mgal(
+                ell,
+                zero_degree,
+                lat,
+                0.0,
+                &lons,
+            ));
         }
         Ok(Self {
             lat0_deg: south,
@@ -300,7 +319,13 @@ impl GeoGrid {
 }
 
 /// Node counts `(n_lat, n_lon)` of a `step`-spaced box, at least 2 each.
-fn box_shape(south: f64, north: f64, west: f64, east: f64, step: f64) -> Result<(usize, usize), String> {
+fn box_shape(
+    south: f64,
+    north: f64,
+    west: f64,
+    east: f64,
+    step: f64,
+) -> Result<(usize, usize), String> {
     if !(step.is_finite() && step > 0.0) {
         return Err(format!("grid step must be finite and positive, got {step}"));
     }
@@ -331,7 +356,9 @@ fn distinct_sorted(it: impl Iterator<Item = f64>) -> Vec<f64> {
 /// The common spacing of sorted axis values, refusing an irregular axis.
 fn regular_step(axis: &[f64], what: &str) -> Result<f64, String> {
     if axis.len() < 2 {
-        return Err(format!("EMAG2: the {what} axis needs at least 2 distinct values"));
+        return Err(format!(
+            "EMAG2: the {what} axis needs at least 2 distinct values"
+        ));
     }
     let step = (axis[axis.len() - 1] - axis[0]) / (axis.len() - 1) as f64;
     for w in axis.windows(2) {
@@ -368,7 +395,9 @@ pub fn correlated_error_field(
     seed: u64,
 ) -> Result<GeoGrid, String> {
     if !(sigma.is_finite() && sigma >= 0.0) {
-        return Err(format!("error sigma must be finite and non-negative, got {sigma}"));
+        return Err(format!(
+            "error sigma must be finite and non-negative, got {sigma}"
+        ));
     }
     if !(corr_len_deg.is_finite() && corr_len_deg > 0.0) {
         return Err(format!(
@@ -506,14 +535,17 @@ mod tests {
 
     #[test]
     fn error_field_has_the_configured_sigma_and_correlation() {
-        // A 6 x 6 deg box at 0.02 deg with L = 0.1 deg holds ~ 3600 correlation areas, so
-        // the sample moments sit close to the model's.
+        // A 6 x 6 deg box at 0.02 deg with L = 0.1 deg. For a Gaussian correlation the
+        // sample mean of a box of area A >> L^2 has variance sigma^2 * 2 pi L^2 / A, i.e.
+        // A / (2 pi L^2) ~ 573 independent areas and a standard error of ~ 0.125 here, so
+        // the mean is held to three standard errors (computed, not tuned).
         let (s, n, w, e, step) = (0.0, 6.0, 0.0, 6.0, 0.02);
         let sigma = 3.0;
         let l = 0.1;
         let g = correlated_error_field(s, n, w, e, step, sigma, l, 7).unwrap();
         let (mean, sd) = g.mean_std();
-        assert!(mean.abs() < 0.1, "mean {mean}");
+        let mean_se = sigma * (2.0 * std::f64::consts::PI * l * l / ((n - s) * (e - w))).sqrt();
+        assert!(mean.abs() < 3.0 * mean_se, "mean {mean} vs 3 x {mean_se}");
         assert!((sd - sigma).abs() / sigma < 0.05, "sd {sd} vs {sigma}");
         // Lag-L correlation along latitude should be exp(-1/2) = 0.607 for a Gaussian ρ.
         let lag = (l / step).round() as usize;

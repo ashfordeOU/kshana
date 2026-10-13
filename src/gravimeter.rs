@@ -736,9 +736,11 @@ fn reference_grid(
 ) -> Result<crate::altpnt::maps::GeoGrid, String> {
     use crate::gravity_sh::{SphericalHarmonicField, GRS80_ELLIPSOID, WGS84_ELLIPSOID};
     if !cfg.coeffs.is_empty() || !cfg.mascons.is_empty() {
-        return Err("gravity-map: `reference` replaces the synthetic field, so `coeffs` and \
+        return Err(
+            "gravity-map: `reference` replaces the synthetic field, so `coeffs` and \
                     `mascons` must be empty when it is set"
-            .into());
+                .into(),
+        );
     }
     let field = match r.model.as_str() {
         "egm2008" => SphericalHarmonicField::egm2008_truncated(r.nmax),
@@ -1044,6 +1046,24 @@ mod tests {
     fn gps_denied_cfg() -> GravityMapBenchmarkCfg {
         toml::from_str(include_str!("../scenarios/gps-denied-gravity-nav.toml"))
             .expect("60-min GPS-denied scenario parses")
+    }
+
+    #[test]
+    fn scenario_runner_without_options_is_bit_identical_to_the_benchmark() {
+        // `run_gravity_map_scenario` with neither `reference` nor `map_error_mc` must give
+        // exactly the numbers of `run_gps_denied_gravity_nav`, bit for bit.
+        let cfg = gps_denied_cfg();
+        let a = run_gps_denied_gravity_nav(&cfg);
+        let b = run_gravity_map_scenario(&cfg).expect("runs");
+        assert!(b.reference.is_none() && b.map_error_mc.is_none());
+        let bits = |r: &GravityMapNavResult| {
+            [
+                r.free_inertial_drift_m.to_bits(),
+                r.map_matched_error_m.to_bits(),
+                r.measurement_sigma_mgal.to_bits(),
+            ]
+        };
+        assert_eq!(bits(&a), bits(&b.nav));
     }
 
     #[test]
