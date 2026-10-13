@@ -2,12 +2,14 @@
 //! The skyline in every scenario it is wired into, and the proof that a scenario without a
 //! `[skyline]` section is unchanged.
 //!
-//! 1. **Byte identity against the 0.35.0 release.** `tests/fixtures/skyline/flat_hashes_0.35.0.txt`
-//!    holds the SHA-256 of the JSON, SVG and summary of every shipped scenario that runs one of
-//!    the wired kinds (orbit, integrity, gnss-sim, jamming, leo-pvt, leo-pass, campaigns that
-//!    compose them), and of the NMEA text of every training scenario, computed by the frozen
-//!    0.35.0 release commit (35c1558d) before any skyline code existed. This build must
-//!    reproduce every one of them byte for byte.
+//! 1. **Byte identity against the "0.36 portable" baseline.**
+//!    `tests/fixtures/skyline/flat_hashes_0.36-portable.txt` holds the SHA-256 of the JSON, SVG
+//!    and summary of every shipped scenario that runs one of the wired kinds (orbit, integrity,
+//!    gnss-sim, jamming, leo-pvt, leo-pass, campaigns that compose them), and of the NMEA text of
+//!    every training scenario, on the portable maths of STUDIO-15. This build must reproduce
+//!    every one of them byte for byte. The original baseline, `flat_hashes_0.35.0.txt`, was
+//!    computed by the frozen 0.35.0 release commit (35c1558d) before any skyline code existed;
+//!    it is kept as the historical record and pinned by hash (STUDIO-15 moved most of its rows).
 //! 2. **An empty skyline is the old mask.** An empty `[skyline]` section describes no
 //!    obstruction; the run must equal the run without the section in every field, the only
 //!    differences being the added `skyline` block, the per-sample `masked_by_skyline` counts
@@ -23,7 +25,11 @@ use serde_json::Value;
 use sha2::{Digest, Sha256};
 use std::path::Path;
 
-const BASELINE: &str = include_str!("fixtures/skyline/flat_hashes_0.35.0.txt");
+/// The 0.36 portable baseline (STUDIO-15): the engine on portable maths, byte-identical on
+/// native and wasm32.
+const BASELINE: &str = include_str!("fixtures/skyline/flat_hashes_0.36-portable.txt");
+/// The 0.35.0 release rows, kept as the historical record.
+const HISTORICAL_0_35_0: &str = include_str!("fixtures/skyline/flat_hashes_0.35.0.txt");
 
 fn h(s: &str) -> String {
     hex::encode(Sha256::digest(s.as_bytes()))
@@ -42,84 +48,82 @@ fn json(src: &str) -> Value {
     serde_json::from_str(&o.json).expect("result is JSON")
 }
 
+/// The hashes of one scenario run: JSON, SVG and summary, or the NMEA text of a training
+/// scenario, or the error text of a scenario that is refused.
+fn row_hashes(name: &str) -> Vec<String> {
+    if let Some(t) = name.strip_prefix("training/") {
+        let src = read(&format!("scenarios/training/{t}"));
+        let scn = kshana::nmea_synth::config::TrainingScenario::parse(&src).unwrap();
+        let g = kshana::nmea_synth::gen::generate(&scn).unwrap();
+        return vec![h(&g.nmea_text())];
+    }
+    let src = read(&format!("scenarios/{name}"));
+    match run_toml(&src) {
+        Ok(o) => vec![h(&o.json), h(&o.svg), h(&o.summary)],
+        Err(e) => vec!["ERR".to_string(), h(&e)],
+    }
+}
+
+/// Writes the 0.36 portable baseline (the same rows as the 0.35.0 file) when
+/// `KSHANA_BLESS_SKYLINE_PORTABLE=1`; otherwise does nothing.
 #[test]
-fn every_wired_scenario_is_byte_identical_to_the_0_35_0_release() {
+fn write_the_portable_baseline_on_request() {
+    if std::env::var_os("KSHANA_BLESS_SKYLINE_PORTABLE").is_none() {
+        return;
+    }
+    let mut out = String::new();
+    for line in HISTORICAL_0_35_0.lines().filter(|l| !l.trim().is_empty()) {
+        let name = line.split_whitespace().next().unwrap();
+        out.push_str(name);
+        for x in row_hashes(name) {
+            out.push(' ');
+            out.push_str(&x);
+        }
+        out.push('\n');
+    }
+    std::fs::write(
+        root().join("tests/fixtures/skyline/flat_hashes_0.36-portable.txt"),
+        out,
+    )
+    .unwrap();
+}
+
+#[test]
+fn every_wired_scenario_is_byte_identical_to_the_0_36_portable_baseline() {
     let mut checked = 0;
     let mut problems = Vec::new();
     for line in BASELINE.lines().filter(|l| !l.trim().is_empty()) {
         let parts: Vec<&str> = line.split_whitespace().collect();
         let name = parts[0];
-        if let Some(t) = name.strip_prefix("training/") {
-            let src = read(&format!("scenarios/training/{t}"));
-            let scn = kshana::nmea_synth::config::TrainingScenario::parse(&src).unwrap();
-            let g = kshana::nmea_synth::gen::generate(&scn).unwrap();
-            if h(&g.nmea_text()) != parts[1] {
-                problems.push(format!("{name}: NMEA text changed"));
-            }
-        } else {
-            let src = read(&format!("scenarios/{name}"));
-            match (run_toml(&src), parts[1]) {
-                (Ok(o), _) => {
-                    for (what, got, want) in [
-                        ("json", h(&o.json), parts[1]),
-                        ("svg", h(&o.svg), parts[2]),
-                        ("summary", h(&o.summary), parts[3]),
-                    ] {
-                        if got != want {
-                            problems.push(format!("{name}: {what} changed"));
-                        }
-                    }
-                }
-                (Err(e), "ERR") => {
-                    if h(&e) != parts[2] {
-                        problems.push(format!("{name}: error text changed"));
-                    }
-                }
-                (Err(e), _) => problems.push(format!("{name}: now fails: {e}")),
-            }
+        let got = row_hashes(name);
+        if got
+            .iter()
+            .map(String::as_str)
+            .ne(parts[1..].iter().copied())
+        {
+            problems.push(format!("{name}: changed"));
         }
         checked += 1;
     }
     assert!(checked >= 40, "only {checked} baseline rows read");
-    // The 0.36 jammer-type Q table (broadband and swept 1 -> 2, pre-registered in
-    // xval/jammer-q/) changes these files by design; xval/jammer-q/RESULTS.md lists every
-    // value that moved. Their skyline neutrality stays checked by
-    // an_empty_skyline_section_is_the_scalar_mask_in_every_wired_kind. Every listed file
-    // must still differ (the list cannot go stale) and nothing else may.
-    let changed_by_q: std::collections::BTreeSet<&str> = Q_TABLE_CHANGED.iter().copied().collect();
-    let differing: std::collections::BTreeSet<&str> = problems
-        .iter()
-        .filter_map(|p| p.split(':').next())
-        .collect();
-    let unexpected: Vec<&String> = problems
-        .iter()
-        .filter(|p| !changed_by_q.contains(p.split(':').next().unwrap_or("")))
-        .collect();
     assert!(
-        unexpected.is_empty(),
-        "{}",
-        unexpected
-            .iter()
-            .map(|s| s.as_str())
-            .collect::<Vec<_>>()
-            .join("\n")
-    );
-    assert_eq!(
-        differing, changed_by_q,
-        "the files the 0.36 Q table changes are no longer exactly these"
+        problems.is_empty(),
+        "differs from the 0.36 portable baseline:\n{}",
+        problems.join("\n")
     );
 }
 
-/// The skyline-wired files whose outputs the 0.36 Q table changes (xval/jammer-q/RESULTS.md).
-const Q_TABLE_CHANGED: [&str; 7] = [
-    "campaign-jam-spoof-holdover-integrity.toml",
-    "campaign-shared-jammer-sea-road.toml",
-    "campaign-spectrum-holdover-integrity.toml",
-    "campaign-sweep-jammer-power.toml",
-    "jamming-demo.toml",
-    "leo-vertical-rail-maritime.toml",
-    "maritime-strait-jamming.toml",
-];
+/// The 0.35.0 release baseline is kept as the record of what 0.35.0 released: its rows are
+/// not compared with this build (STUDIO-15 moved the last bits of most of them; see
+/// `docs/revisions/STUDIO15-portable-math-rebaseline.md`), but the file itself must not move.
+#[test]
+fn the_0_35_0_baseline_is_kept_unchanged_as_the_historical_record() {
+    assert_eq!(
+        h(HISTORICAL_0_35_0),
+        "7bca2caff94c71c5efb37f5b1ab1a6288a961d5ee07e889ac00db3ffbf70143a",
+        "tests/fixtures/skyline/flat_hashes_0.35.0.txt is the frozen 0.35.0 record"
+    )
+}
 
 /// Remove what an empty `[skyline]` section adds: the `skyline` block, every
 /// `masked_by_skyline` / `epochs_masked_by_skyline` count and their `units` entries.
