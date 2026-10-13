@@ -121,7 +121,8 @@ pub fn raman_phase_transfer_function(omega_rad_s: f64, pulse_sep_t: f64, tau_r_s
     };
     let a = w * (pulse_sep_t + 2.0 * tau_r_s) / 2.0;
     // ω·G(ω) with the 1/ω of the bracket multiplied through, so ω → 0 is regular.
-    let h = 4.0 * om * a.sin() * (w * a.cos() + om * (w * pulse_sep_t / 2.0).sin()) / (w * w - om * om);
+    let h =
+        4.0 * om * a.sin() * (w * a.cos() + om * (w * pulse_sep_t / 2.0).sin()) / (w * w - om * om);
     h.abs()
 }
 
@@ -191,7 +192,11 @@ pub fn delay_filter(f_hz: f64, delay_s: f64) -> f64 {
 /// (Hz²/Hz) through the retro-reflection delay `delay_s` (s), in the `f·t_d ≪ 1` limit:
 /// `σ_Φ² = (2π·t_d)²·S_ν⁰·π²/(4τ_R)` (Le Gouët et al. 2007, Eq. 11, with `S_ν` per hertz).
 /// For a white-frequency-noise laser of Lorentzian full width `Δν`, `S_ν⁰ = Δν/π`.
-pub fn delay_frequency_noise_variance_white(s_nu0_hz2_per_hz: f64, delay_s: f64, tau_r_s: f64) -> f64 {
+pub fn delay_frequency_noise_variance_white(
+    s_nu0_hz2_per_hz: f64,
+    delay_s: f64,
+    tau_r_s: f64,
+) -> f64 {
     if tau_r_s <= 0.0 {
         return 0.0;
     }
@@ -318,8 +323,12 @@ pub fn curvature_bias_with_detection(
     if radius_m == 0.0 || !radius_m.is_finite() {
         return 0.0;
     }
-    detected_transverse_v2(sigma_v2, cloud_radius_m, detection_radius_m, detection_time_s)
-        / (2.0 * radius_m)
+    detected_transverse_v2(
+        sigma_v2,
+        cloud_radius_m,
+        detection_radius_m,
+        detection_time_s,
+    ) / (2.0 * radius_m)
 }
 
 /// Equivalent curvature radius (m) of a Zernike defocus term `Z₂⁰` (Noll normalisation,
@@ -385,7 +394,10 @@ pub fn wavefront_bias_monte_carlo(
         return (0.0, 0.0);
     }
     let scale = k_eff * cloud.pulse_sep_t * cloud.pulse_sep_t;
-    (sum / kept as f64 / scale, kept as f64 / n_atoms.max(1) as f64)
+    (
+        sum / kept as f64 / scale,
+        kept as f64 / n_atoms.max(1) as f64,
+    )
 }
 
 // ---------------------------------------------------------------------------------------
@@ -493,8 +505,8 @@ pub fn resolve_multi_t(
 mod tests {
     use super::*;
     use crate::inertial::quantum_imu::{
-        accel_transfer_function, effective_wavevector, mach_zehnder_phase,
-        max_unambiguous_accel, wrap_phase, RB87_D2_WAVELENGTH_M,
+        accel_transfer_function, effective_wavevector, mach_zehnder_phase, max_unambiguous_accel,
+        wrap_phase, RB87_D2_WAVELENGTH_M,
     };
     use rand::{Rng, SeedableRng};
     use rand_chacha::ChaCha8Rng;
@@ -511,9 +523,16 @@ mod tests {
             let hp = raman_phase_transfer_function(w, t, 0.0);
             let ha = accel_transfer_function(w, t);
             assert!((hp - w * w * ha).abs() < 1e-9 * hp.max(1e-12), "f={f}");
-            // A 1 µs pulse is indistinguishable from the short-pulse limit at these f.
-            let finite = raman_phase_transfer_function(w, t, 1e-6);
-            assert!((finite - hp).abs() < 1e-3 * hp.max(1e-6) + 1e-9, "f={f}: {finite} vs {hp}");
+            // A 1 µs pulse departs from the short-pulse limit at first order in ω·τ_R: the
+            // argument of sin²(ωT/2) moves by about ω·τ_R, a relative change near
+            // 2·ω·τ_R·|cot(ωT/2)| (3.3e-4 at 3 Hz, close to a zero; 1.7e-3 at 120 Hz).
+            let tau_r = 1e-6;
+            let finite = raman_phase_transfer_function(w, t, tau_r);
+            let cot = 1.0 / (w * t / 2.0).tan();
+            assert!(
+                (finite - hp).abs() < 4.0 * w * tau_r * (1.0 + cot.abs()) * hp + 1e-9,
+                "f={f}: {finite} vs {hp}"
+            );
         }
         // Zeros at f_k = k/(T+2τ_R) (Cheinet et al. 2008, Sec. III).
         let tau = 20e-6;
@@ -535,7 +554,10 @@ mod tests {
         let tail = s0 * om * om / (2.0 * PI * PI * f_hi);
         let closed = raman_phase_variance_white(s0, tau);
         let rel = ((numeric + tail) - closed).abs() / closed;
-        assert!(rel < 2e-3, "quadrature {numeric:.4e}+{tail:.2e} vs closed {closed:.4e}");
+        assert!(
+            rel < 2e-3,
+            "quadrature {numeric:.4e}+{tail:.2e} vs closed {closed:.4e}"
+        );
         // T does not enter the white-noise result (Cheinet et al. 2008, Eq. 18).
         let numeric2 = raman_phase_variance_numeric(2e-3, tau, &|_| s0, f_hi, 2_000_000);
         assert!(((numeric2 + tail) - closed).abs() / closed < 2e-3);
@@ -546,7 +568,10 @@ mod tests {
         let (t, s0, fc) = (1e-3, 1e-12, 10_000.0);
         let numeric = raman_phase_variance_numeric(t, 0.0, &|_| s0, fc, 200_000);
         let closed = short_pulse_white_band_variance(s0, t, fc);
-        assert!((numeric - closed).abs() / closed < 1e-6, "{numeric} vs {closed}");
+        assert!(
+            (numeric - closed).abs() / closed < 1e-6,
+            "{numeric} vs {closed}"
+        );
         // Leading term 6·S₀·f_c: divergent in f_c, hence the need for the pulse duration.
         assert!((closed / (6.0 * s0 * fc) - 1.0).abs() < 1e-2);
     }
@@ -606,7 +631,10 @@ mod tests {
         let expect = k * (v[0] * v[0] + v[1] * v[1]) * 0.26 * 0.26 / (2.0 * r);
         for r0 in [[0.0, 0.0], [0.003, -0.002], [-0.01, 0.004]] {
             let dphi = wavefront_phase_shift(&phase, r0, v, 0.13, 0.26);
-            assert!((dphi - expect).abs() < 1e-9 * expect.abs(), "{dphi} vs {expect}");
+            assert!(
+                (dphi - expect).abs() < 1e-9 * expect.abs(),
+                "{dphi} vs {expect}"
+            );
         }
         // A tilt (linear phase) cancels exactly in φ₁ − 2φ₂ + φ₃.
         let tilt = |x: f64, y: f64| 3.0e4 * x - 1.0e4 * y;
@@ -623,15 +651,24 @@ mod tests {
         let (mc, frac) = wavefront_bias_monte_carlo(&phase, k, &c_all, 200_000, 7);
         let closed = curvature_bias_accel(c_all.sigma_v2, r);
         assert_eq!(frac, 1.0);
-        assert!((mc - closed).abs() / closed < 0.01, "MC {mc:.4e} vs σ_v²/R {closed:.4e}");
+        assert!(
+            (mc - closed).abs() / closed < 0.01,
+            "MC {mc:.4e} vs σ_v²/R {closed:.4e}"
+        );
         // A 5 mm detection disc selects slow atoms; the closed form tracks the MC.
         let c_det = cloud(3e-6, 3e-3, 5e-3);
         let (mc_d, frac_d) = wavefront_bias_monte_carlo(&phase, k, &c_det, 400_000, 11);
         let closed_d =
             curvature_bias_with_detection(c_det.sigma_v2, 3e-3, 5e-3, c_det.detection_time_s, r);
         assert!(frac_d > 0.01 && frac_d < 0.9, "detected fraction {frac_d}");
-        assert!(closed_d < closed, "detection selection must reduce the bias");
-        assert!((mc_d - closed_d).abs() / closed_d < 0.02, "MC {mc_d:.4e} vs {closed_d:.4e}");
+        assert!(
+            closed_d < closed,
+            "detection selection must reduce the bias"
+        );
+        assert!(
+            (mc_d - closed_d).abs() / closed_d < 0.02,
+            "MC {mc_d:.4e} vs {closed_d:.4e}"
+        );
     }
 
     #[test]
@@ -651,9 +688,15 @@ mod tests {
             curvature_bias_with_detection(sv2, 3e-3, f64::INFINITY, t_det, 1000.0),
             b
         );
-        // A huge initial cloud removes the velocity selection (ρ → 0).
+        // A huge initial cloud removes the velocity selection (ρ → 0): the bias departs
+        // from σ_v²/R by at most ρ² = σ_v²t²/(σ_r² + σ_v²t²), here 1.2e-6.
         let big = curvature_bias_with_detection(sv2, 10.0, 5e-3, t_det, 1000.0);
-        assert!((big / b - 1.0).abs() < 1e-6);
+        let rho2 = sv2 * t_det * t_det / (100.0 + sv2 * t_det * t_det);
+        assert!(
+            (big / b - 1.0).abs() <= rho2,
+            "{} vs ρ² {rho2}",
+            big / b - 1.0
+        );
         // A point cloud seen through a vanishing disc counts only v ≈ 0 atoms.
         let tiny = curvature_bias_with_detection(sv2, 0.0, 1e-9, t_det, 1000.0);
         assert!(tiny.abs() < 1e-9 * b);
@@ -694,7 +737,10 @@ mod tests {
         }
         let mc = wrong as f64 / n as f64;
         let sd = (p * (1.0 - p) / n as f64).sqrt();
-        assert!((mc - p).abs() < 4.0 * sd, "MC {mc:.4} vs closed {p:.4} (±{sd:.4})");
+        assert!(
+            (mc - p).abs() < 4.0 * sd,
+            "MC {mc:.4} vs closed {p:.4} (±{sd:.4})"
+        );
     }
 
     #[test]
@@ -723,7 +769,10 @@ mod tests {
         }
         let mc = wrong as f64 / n as f64;
         let sd = (p * (1.0 - p) / n as f64).sqrt();
-        assert!((mc - p).abs() < 4.0 * sd + 1e-3, "MC {mc:.4} vs closed {p:.4}");
+        assert!(
+            (mc - p).abs() < 4.0 * sd + 1e-3,
+            "MC {mc:.4} vs closed {p:.4}"
+        );
         // Range extension: the long-T range is 25× smaller, the short-T one sets the range.
         assert!((a_max1 / a_max2 - 25.0).abs() < 1e-9);
     }
