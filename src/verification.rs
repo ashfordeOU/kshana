@@ -451,6 +451,15 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            requirement: "Earth-Moon CR3BP 9:2 NRHO against the orbit CAPSTONE flew",
+            capability: "The circular-restricted 9:2 L2 southern near-rectilinear halo orbit that cr3bp::differential_correct_halo corrects (the Gateway and CAPSTONE orbit family), compared for its mean geometry (period, perilune radius, apolune radius) with the orbit CAPSTONE actually flew. A measurement of how well the CR3BP member describes the real orbit; a CR3BP orbit is not an ephemeris-model orbit and is not compared epoch by epoch",
+            module: "cr3bp (differential_correct_halo, PeriodicOrbit)",
+            tests: "tests/capstone_nrho_horizons.rs::cr3bp_nrho_matches_capstone_mean_geometry (CAPSTONE March 2023, 4 perilunes and 5 apolunes: period 6.5004 d vs 6.5699 d (1.07 %, bar 3 %), apolune 71 182 vs 71 215 km (0.05 %, bar 5 %), perilune 3 385 vs 3 245 km (4.1 %, bar 20 %)); cr3bp::tests::reproduces_l2_southern_nrho_92_regime",
+            oracle: "Measured against the JPL Horizons reconstructed CAPSTONE ephemeris (NAIF -1176, CAPSTONE_merged, Moon-centred ICRF, 2023-03-01..31 at 10 min), committed byte for byte (tests/fixtures/capstone_horizons/, NOTICE.md), pre-registered 4e868170 before it was fetched, as a measurement with bars on the mean geometry. Not a validation: the CR3BP omits the Sun, the Moon's eccentricity and the station keeping CAPSTONE performed, so the bars describe how representative the model orbit is, not an accuracy. Results: docs/design/evidence/cap29d-capstone-nrho/RESULTS.md",
+            oracle_kind: ExternalDataset,
+            status: Modelled,
+        },
+        VerificationItem {
             requirement: "CR3BP rotating states mapped to Moon-centred ICRF on the DE440 Earth-Moon line",
             capability: "cr3bp::to_moon_centred_icrf maps a nondimensional Earth-Moon CR3BP rotating state to a Moon-centred ICRF position and velocity on the instantaneous Earth-Moon line (length unit the Earth-Moon distance, time unit the inverse orbital rate, the frame's full angular velocity including its out-of-plane rate from the Moon's acceleration), with the inverse from_moon_centred_icrf, and cr3bp::to_moon_centred_icrf_de440 reads the geocentric Moon state from a DE440 SPK. It maps states; it does not make a CR3BP orbit an ephemeris-model orbit",
             module: "cr3bp (to_moon_centred_icrf, from_moon_centred_icrf, to_moon_centred_icrf_de440)",

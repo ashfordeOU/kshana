@@ -11,6 +11,11 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **CR3BP 9:2 NRHO against CAPSTONE** (CAP-29d): new MODELLED row measuring the engine's
+  circular-restricted NRHO against CAPSTONE's flown orbit (JPL Horizons, March 2023;
+  pre-registered 4e868170): period 1.07 %, apolune 0.05 %, perilune 4.1 % from CAPSTONE's means,
+  inside the registered 3 / 5 / 20 % bars. A measurement, not a validation.
+
 - **CR3BP rotating states to Moon-centred ICRF** (RM-34, FUT-06): `cr3bp::to_moon_centred_icrf`
   / `from_moon_centred_icrf` / `to_moon_centred_icrf_de440` map a nondimensional Earth-Moon
   rotating state onto the instantaneous DE440 Earth-Moon line, including the frame's
