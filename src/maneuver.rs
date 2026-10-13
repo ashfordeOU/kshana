@@ -842,6 +842,66 @@ pub fn porkchop(
     }
 }
 
+/// The porkchop sweep of [`porkchop`] on a JPL planetary ephemeris: the departure and arrival
+/// states are the heliocentric J2000 states of the NAIF bodies `dep_body` and `arr_body` (for
+/// example 399 for the Earth and 4 for the Mars barycentre) read from `kernel` (a DE440 SPK) at
+/// the TDB Julian dates `dep_jd_tdb` and `arr_jd_tdb`, with heliocentric parameter `mu_sun`.
+/// Same single-revolution prograde Lambert, the same 0.5° collinearity guard, C3 in km²/s² and
+/// arrival V∞ in km/s; the epoch axes of the grid are seconds from the first departure date.
+/// Checked against SPICE states and pykep's Lambert in `tests/porkchop_de440_oracle.rs`.
+///
+/// # Errors
+/// When the kernel does not cover an epoch or lacks a body.
+pub fn porkchop_kernel(
+    kernel: &crate::ephem_provider::KernelEphemeris,
+    dep_body: i32,
+    arr_body: i32,
+    dep_jd_tdb: &[f64],
+    arr_jd_tdb: &[f64],
+    mu_sun: f64,
+) -> Result<PorkchopGrid, String> {
+    use crate::ephem_provider::naif_code::SUN;
+    let st = |b: i32, jd: f64| kernel.state(b, SUN, crate::jd2::Jd2::new(jd));
+    let dep: Vec<_> = dep_jd_tdb
+        .iter()
+        .map(|&j| st(dep_body, j))
+        .collect::<Result<_, _>>()?;
+    let arr: Vec<_> = arr_jd_tdb
+        .iter()
+        .map(|&j| st(arr_body, j))
+        .collect::<Result<_, _>>()?;
+    let t0 = dep_jd_tdb.first().copied().unwrap_or(0.0);
+    let collinear_guard = (0.5_f64).to_radians();
+    let mut c3 = vec![vec![f64::NAN; arr_jd_tdb.len()]; dep_jd_tdb.len()];
+    let mut vinf = vec![vec![f64::NAN; arr_jd_tdb.len()]; dep_jd_tdb.len()];
+    for (i, &jd) in dep_jd_tdb.iter().enumerate() {
+        for (j, &ja) in arr_jd_tdb.iter().enumerate() {
+            let tof = (ja - jd) * 86_400.0;
+            if tof <= 0.0 {
+                continue;
+            }
+            let (r1, r2) = (dep[i][0], arr[j][0]);
+            let cosang = (dot(r1, r2) / (norm(r1) * norm(r2))).clamp(-1.0, 1.0);
+            let ang = cosang.acos();
+            if ang < collinear_guard || (PI - ang) < collinear_guard {
+                continue;
+            }
+            if let Ok((v1, v2)) = lambert(r1, r2, tof, mu_sun, true) {
+                let vd = sub(v1, dep[i][1]);
+                let va = sub(v2, arr[j][1]);
+                c3[i][j] = dot(vd, vd) / 1.0e6;
+                vinf[i][j] = norm(va) / 1000.0;
+            }
+        }
+    }
+    Ok(PorkchopGrid {
+        dep_epochs_s: dep_jd_tdb.iter().map(|j| (j - t0) * 86_400.0).collect(),
+        arr_epochs_s: arr_jd_tdb.iter().map(|j| (j - t0) * 86_400.0).collect(),
+        c3_km2s2: c3,
+        vinf_arr_kms: vinf,
+    })
+}
+
 /// Closed-form departure C3 (m²/s²) of the Hohmann transfer between two coplanar circular
 /// orbits `r1 → r2` about `mu`: `C3 = (v_transfer,peri − v_circ,1)²`. This is the global
 /// minimum-energy departure for circular-to-circular transfer — the porkchop floor.
