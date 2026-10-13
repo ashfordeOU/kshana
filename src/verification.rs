@@ -262,6 +262,24 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            requirement: "NRLMSISE-00 thermospheric density",
+            capability: "A port of the NRLMSISE-00 empirical thermosphere (gtd7 and gtd7d: species densities, total mass density with anomalous oxygen, temperatures; the 24 switches; daily-Ap and 3-hourly ap-array modes) from the public-domain C version of the NRL Fortran",
+            module: "nrlmsise00",
+            tests: "tests/nrlmsise00_reference.rs (720 grid points, 90 to 1000 km, 4 latitudes, 2 local times, 3 days, low/moderate/high activity: density within 1.866e-6 relative and temperature within 1.97e-4 K of pymsis; bit-identical to the C port; the 17 published C test cases, 187 values within 0.496 units of the 7th significant figure); nrlmsise00 unit tests",
+            oracle: "pymsis 0.13.0 (MIT) version=0, which runs the NRL Fortran GTD7D in single precision, and the NRLMSISE-00 C port (release 20190709, public domain) compiled as a separate program, plus the C distribution's 17 published test outputs. Bars pre-registered in xval/nrlmsise00-pymsis/PREREGISTRATION.md (e90ae26a) before the port existed; all met (RESULTS.md). Validates the port, not the model's accuracy against measured density",
+            oracle_kind: ExternalDataset,
+            status: Validated,
+        },
+        VerificationItem {
+            requirement: "NRLMSISE-00 drag-density tier (opt-in)",
+            capability: "forces::DensityModel (Exponential default, Nrlmsise00 { f107a, f107, ap }) and ForceModel::drag_density: quadratic drag against the co-rotating atmosphere with the NRLMSISE-00 density at the WGS-84 geodetic point (Earth rotation angle with UT1 = TT), constant space weather per model; default off and bit-identical",
+            module: "forces (density_at, drag_accel_with_density), propagator",
+            tests: "forces::tests::exponential_density_tier_is_drag_accel_bit_for_bit; forces::tests::nrlmsise00_density_tier_uses_the_earth_fixed_geodetic_point; propagator::tests::nrlmsise00_drag_tier_is_opt_in_and_decays_the_orbit",
+            oracle: "Internal consistency only: the default path is bit-identical to the historical drag, the tier evaluates the validated port at the Earth-fixed geodetic point, and higher activity decays the orbit faster. No external drag-tier orbit cross-check yet; no time-varying F10.7/Ap input; UT1 = TT and no polar motion or precession-nutation for the geodetic point",
+            oracle_kind: InternalConsistency,
+            status: Modelled,
+        },
+        VerificationItem {
             requirement: "DE440 Sun and Moon in the Cowell force model (opt-in)",
             capability: "Opt-in ephemeris tier for the third-body and SRP terms of the numerical Cowell ForceModel: the geocentric Sun and Moon from any EphemerisProvider (a DE440 SPK kernel through KernelEphemeris) at TDB = TT + (TDB - TT), refusing a provider that cannot serve the epoch and counting any fallback to the analytic series; default off",
             module: "propagator (ForceModel::with_ephemeris, ForceEphemeris), ephem_provider",
@@ -2824,6 +2842,13 @@ pub fn validated_oracle_basis() -> Vec<OracleBasisEntry> {
             basis: Reference,
             oracle_test: "tests/s2_air_tide_gfz_table5.rs",
             source: "Biancale and Bode, GFZ Scientific Technical Report STR06/01 (2006), Table 5, model A2",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "NRLMSISE-00 thermospheric density",
+            basis: Library,
+            oracle_test: "tests/nrlmsise00_reference.rs",
+            source: "pymsis 0.13.0",
             flag: "",
         },
         OracleBasisEntry {
