@@ -10,6 +10,44 @@
 
 use wasm_bindgen::prelude::*;
 
+// The typed vocabulary (`ScenarioKind`, `ErrorKind`, `KindMeta`, `FieldUnit`,
+// `ResultDocument`, ...) appended to the generated `kshana.d.ts` (CAP-34).
+#[wasm_bindgen(typescript_custom_section)]
+const TYPED_API: &'static str = include_str!("wasm_types.d.ts");
+
+#[wasm_bindgen]
+extern "C" {
+    #[wasm_bindgen(js_namespace = JSON, js_name = parse)]
+    fn json_parse(text: &str) -> JsValue;
+}
+
+/// Run a scenario once and return every output as one typed object (`RunOutput` in the
+/// declarations): `json`, `svg`, `summary`, `csv` (`null` for a kind that emits no
+/// table) and `data`, the result document already parsed. A plain object, not a class,
+/// so there is nothing to free. Throws a JS error if the scenario is invalid.
+#[wasm_bindgen(unchecked_return_type = "RunOutput")]
+pub fn run_typed(toml: &str) -> Result<JsValue, JsValue> {
+    let o = crate::api::run_toml(toml).map_err(|e| JsValue::from_str(&e))?;
+    let quoted = |s: &str| serde_json::Value::from(s).to_string();
+    // `o.json` is already a JSON document, so it is spliced in as `data` rather than
+    // parsed and re-serialised here.
+    Ok(json_parse(&format!(
+        "{{\"json\":{},\"svg\":{},\"summary\":{},\"csv\":{},\"data\":{}}}",
+        quoted(&o.json),
+        quoted(&o.svg),
+        quoted(&o.summary),
+        o.csv.as_deref().map_or_else(|| "null".to_string(), quoted),
+        o.json,
+    )))
+}
+
+/// The available scenario kinds and their metadata, already parsed: the typed form of
+/// [`list_kinds`], which keeps its JSON-string return for existing callers.
+#[wasm_bindgen(unchecked_return_type = "KindMeta[]")]
+pub fn scenario_kinds() -> JsValue {
+    json_parse(&crate::api::list_scenario_kinds_json())
+}
+
 /// Run a scenario given as a TOML string; returns the result document as a JSON
 /// string. Throws a JS error if the scenario is invalid.
 #[wasm_bindgen]
@@ -49,7 +87,8 @@ pub fn table_csv(toml: &str) -> Result<Option<String>, JsValue> {
 
 /// Run a scenario ONCE and return every output of that run as a JSON object string:
 /// `{"json": <result document string>, "svg": <chart>, "summary": <one line>,
-/// "csv": <table or null>}`. `run`, `chart_svg`, `summary` and `table_csv` each execute
+/// "csv": <table or null>}` (the `RunAllOutput` type). `run_typed` returns the same
+/// outputs, plus the parsed document, as an object. `run`, `chart_svg`, `summary` and `table_csv` each execute
 /// the scenario from scratch, so a page that wants all four paid for four full engine
 /// runs — about 12 s instead of 3 s for the heaviest kind in a browser. Throws a JS
 /// error if the scenario is invalid.
@@ -75,7 +114,7 @@ pub fn list_kinds() -> String {
 /// Run a scenario; on failure return the structured error *kind* tag
 /// (`invalid_input`, `unsupported`, …) so the caller can branch on the failure
 /// category rather than parse the message. Returns an empty string on success.
-#[wasm_bindgen]
+#[wasm_bindgen(unchecked_return_type = "ErrorKind | \"\"")]
 pub fn error_kind(toml: &str) -> String {
     crate::api::run_scenario(toml)
         .err()
