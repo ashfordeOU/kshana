@@ -2270,7 +2270,7 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
         ScenarioKind::CombinedAltPnt => {
             let cfg: crate::altpnt::terrain::CombinedAltPntCfg = toml::from_str(src)
                 .map_err(|e| format!("invalid combined-altpnt scenario: {e}"))?;
-            let r = crate::altpnt::terrain::run_combined_altpnt(&cfg);
+            let r = crate::altpnt::terrain::run_combined_altpnt_scenario(&cfg)?;
             let summary = format!(
                 "combined-altpnt | free-inertial drift {:.0} m | gravity {:.0} m magnetic {:.0} m terrain {:.0} m | FUSED {:.0} m",
                 r.free_inertial_drift_m,
