@@ -429,6 +429,104 @@ pub const UNITS: &[crate::field_schema::FieldUnit] = {
     ]
 };
 
+/// Units of the optional reference-field fields of a `gravity-map` document, appended to
+/// [`UNITS`] only when a `reference` is configured (the fields are flattened into the root).
+pub const REFERENCE_UNITS: &[crate::field_schema::FieldUnit] = {
+    use crate::field_schema::{FieldUnit, ProvenanceClass::*};
+    &[
+        FieldUnit {
+            path: "reference_nmax",
+            unit: "count",
+            provenance: Input,
+            definition: "maximum spherical-harmonic degree of the reference field used",
+        },
+        FieldUnit {
+            path: "reference_grid_step_deg",
+            unit: "deg",
+            provenance: Input,
+            definition: "node spacing of the regional anomaly grid the matcher samples \
+                         bilinearly",
+        },
+        FieldUnit {
+            path: "reference_anomaly_mean_mgal",
+            unit: "mGal",
+            provenance: Computed,
+            definition: "mean of the synthesised gravity anomaly over the run's sampling box",
+        },
+        FieldUnit {
+            path: "reference_anomaly_std_mgal",
+            unit: "mGal",
+            provenance: Computed,
+            definition: "population standard deviation of the synthesised gravity anomaly \
+                         over the run's sampling box: the matchable signal",
+        },
+    ]
+};
+
+/// Units of the optional `map_error_mc` block of a `gravity-map` document, appended to
+/// [`UNITS`] only when the map-error Monte Carlo is configured.
+pub const MAP_ERROR_MC_UNITS: &[crate::field_schema::FieldUnit] = {
+    use crate::field_schema::{FieldUnit, ProvenanceClass::*};
+    &[
+        FieldUnit {
+            path: "map_error_mc.realisations",
+            unit: "count",
+            provenance: Input,
+            definition: "number of seeded map-error realisations run",
+        },
+        FieldUnit {
+            path: "map_error_mc.sigma_mgal",
+            unit: "mGal",
+            provenance: ModelledInput,
+            definition: "1 sigma of the correlated map error added to the stored map",
+        },
+        FieldUnit {
+            path: "map_error_mc.correlation_length_deg",
+            unit: "deg",
+            provenance: ModelledInput,
+            definition: "correlation length L of the Gaussian map-error correlation \
+                         exp(-r^2/(2 L^2)), in degrees of arc",
+        },
+        FieldUnit {
+            path: "map_error_mc.target_m",
+            unit: "m",
+            provenance: Input,
+            definition: "matched-error target the success fraction is counted against",
+        },
+        FieldUnit {
+            path: "map_error_mc.matched_error_mean_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "mean matched position error over the realisations",
+        },
+        FieldUnit {
+            path: "map_error_mc.matched_error_p50_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "median matched position error (nearest rank)",
+        },
+        FieldUnit {
+            path: "map_error_mc.matched_error_p95_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "95th-percentile matched position error (nearest rank)",
+        },
+        FieldUnit {
+            path: "map_error_mc.matched_error_max_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "largest matched position error over the realisations",
+        },
+        FieldUnit {
+            path: "map_error_mc.fraction_within_target",
+            unit: "1",
+            provenance: Computed,
+            definition: "fraction of realisations whose matched error is at or under \
+                         target_m",
+        },
+    ]
+};
+
 /// Result of the gravity-map-matching benchmark.
 #[derive(Clone, Copy, Debug)]
 pub struct GravityMapNavResult {
