@@ -1,6 +1,9 @@
 # GNSS IQ layer: plan and build rules
 
-Status: in progress. Contract module: `src/iq/mod.rs`.
+Status: implemented. All seven streams below shipped in 0.31.0 (scene, channel, acquisition
+and tracking, front end, large-dataset IO, signals, labfit), with the CLI, Python and MCP
+surfaces: the CLI and Python in 0.32.0 and the MCP tools in 0.33.0 (see `CHANGELOG.md`). Not built: a WebAssembly surface for the IQ
+layer. The plan text below is kept as written. Contract module: `src/iq/mod.rs`.
 
 ## Goal
 

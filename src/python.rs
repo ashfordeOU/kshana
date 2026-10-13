@@ -1128,17 +1128,21 @@ fn iq_inventory<'py>(
 /// Fit the tracking-loop loss-of-lock model to a receiver-trust timeline described by an
 /// `iq-labfit` TOML scenario. Returns a dict with the parsed `report`, the `residuals_csv`
 /// and `predictions_csv` tables and the `markdown`. Relative log paths are resolved against
-/// the working directory. Raises `ValueError` on an invalid scenario or unreadable log.
+/// the working directory. A scenario whose `[input]` names `campaign = "<out-dir>"` fits
+/// that `kshana iq campaign` output folder instead (a relative folder is resolved against
+/// the working directory) and returns the same keys, with a `kshana.labfit-iq/1` report.
+/// Raises `ValueError` on an invalid scenario, unreadable log or unusable campaign.
 #[pyfunction]
 fn iq_labfit<'py>(py: Python<'py>, toml: &str) -> PyResult<Bound<'py, PyAny>> {
-    let out = crate::iq::labfit::run_toml(toml).map_err(PyValueError::new_err)?;
+    let [json, residuals_csv, predictions_csv, markdown] =
+        crate::iq::labfit::run_toml_views(toml).map_err(PyValueError::new_err)?;
     let report: serde_json::Value =
-        serde_json::from_str(&out.json).map_err(|e| PyValueError::new_err(e.to_string()))?;
+        serde_json::from_str(&json).map_err(|e| PyValueError::new_err(e.to_string()))?;
     let v = serde_json::json!({
         "report": report,
-        "residuals_csv": out.residuals_csv,
-        "predictions_csv": out.predictions_csv,
-        "markdown": out.markdown,
+        "residuals_csv": residuals_csv,
+        "predictions_csv": predictions_csv,
+        "markdown": markdown,
     });
     json_to_py(py, &v)
 }
