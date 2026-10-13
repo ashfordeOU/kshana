@@ -1,4 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
+// STATUS (0.36, W33 handoff): UNREVIEWED DRAFT, not registered in lib.rs, never compiled in this
+// tree. Box-wing / ECOM2 SRP (DS-PA-14, a starred item). See the handoff in the commit message of
+// the commit that added this header, on feat/forces-atmosphere-0.36.
 //! **Non-cannonball solar radiation pressure: a box-wing flat-plate model and the ECOM2
 //! empirical model, with estimation partials.** Opt-in: nothing here is wired into
 //! [`crate::forces`] or [`crate::precise_od`]; the cannonball [`crate::forces::srp_accel`] is
