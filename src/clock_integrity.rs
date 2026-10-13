@@ -226,7 +226,7 @@ fn basis(site: &Site) -> (Vec3, Vec3, Vec3) {
 /// of sight at a nominal 20,000 km (RAIM uses only the lines of sight).
 pub fn sky_at(cfg: &IntegrityCfg, user: Vec3, t: f64) -> Result<Vec<(String, Vec3)>, String> {
     let req = SkyRequest {
-        site: Some(cfg.site.clone()),
+        site: Some(cfg.site),
         time_s: Some(t),
         systems: Some(cfg.systems.iter().cloned().map(SystemSpec::Name).collect()),
         mask_deg: Some(cfg.mask_deg),
