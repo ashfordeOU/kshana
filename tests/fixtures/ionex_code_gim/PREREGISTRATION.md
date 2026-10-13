@@ -72,3 +72,22 @@ B6 RTKLIB, data-gated on `KSHANA_IONEX_RTKLIB_CSV` (header row; columns `time,la
 Known before the run, not a bar: the existing `parse_ionex` stores epochs as seconds of day,
 so the 25th map (2018-05-14 00:00:00) reads as 0 s; it is recorded, not fixed (that would
 change an existing output).
+
+## Status after B6: VALIDATED (data-gated), 2026-10-13
+
+B6 passed on its first run (RTKLIB `iontec`, 3.6e-13 TECU against 1e-5 TECU). The owner decided on
+2026-10-13 that a pre-registered check which passed against an external oracle may be VALIDATED on
+data-gated evidence when three conditions hold. All three hold here:
+
+- **Pinned data.** `fetch.sh` fetches the CODE GIM at test time and checks its SHA-256. The test
+  also asserts the SHA-256 of the crop and of its reference, and fails on any other bytes.
+- **Reproduce path.** It is documented and needs network access:
+
+  ```sh
+  tests/fixtures/ionex_code_gim/fetch.sh "$DIR"
+  KSHANA_IONEX_CODE_GIM_DIR="$DIR" cargo test --release --test ionex_code_gim_oracle   # B1-B5
+  RTKLIB=<RTKLIB clone at 71db0ffa> bash tests/fixtures/ionex_code_gim/run_rtklib.sh "$DIR"   # B6, see its header
+  ```
+
+- **Data-gating stated.** The ledger row says: "data-gated: CODE GIM fetched at test time,
+  SHA-pinned; RTKLIB reads the full file because its getindex rejects the lat crop".
