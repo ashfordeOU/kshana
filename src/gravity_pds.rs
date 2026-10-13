@@ -242,6 +242,7 @@ mod tests {
     const ROWS2: &str = "    1,    0, 0.0E+00, 0.0E+00, 0.0E+00, 0.0E+00\r\n    1,    1, 0.0E+00, 0.0E+00, 0.0E+00, 0.0E+00\r\n    2,    0,-0.9088083466222001E-04, 0.0E+00, 0.1E-10, 0.0E+00\r\n    2,    1, 0.1D-09, 0.2D-08, 0.0E+00, 0.0E+00\r\n    2,    2, 0.3467379822995000E-04,-0.2489004351630000E-09, 0.0E+00, 0.0E+00   \r\n";
 
     #[test]
+    #[allow(clippy::excessive_precision)] // literals as published
     fn header_and_units() {
         let h = ShadrHeader::parse(HDR).unwrap();
         assert_eq!(h.degree, 2);
