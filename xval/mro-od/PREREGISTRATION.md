@@ -150,3 +150,12 @@ Checked and left unchanged:
   is.
 - The estimator, exercised on pass D only (6 h, initial guess offset as registered): post-fit
   20 mHz RMS, position against `mro_psp5` 213 m RMS and 309 m maximum. Not scored.
+
+## Amendment A2 (after a scored attempt that produced no result)
+
+The first scored attempt (after A1) stopped with an error before any residual or metric was
+formed: a point's uplink interval was not covered by its station's ramp table, so no prediction
+exists for it. No B1-B5 value was computed or seen. Added selection rule, independent of any
+trajectory: a 60-s point is kept only when its station's ramp table covers the interval from
+900 s before the count start to the count end (the round-trip light time is about 770 s). The
+numbers of points before and after the rule are reported with the result. Nothing else changes.

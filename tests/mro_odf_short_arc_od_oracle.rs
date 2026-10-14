@@ -176,7 +176,19 @@ fn short_arc_od_on_the_scored_passes_against_the_reconstruction() {
         id: -74,
     };
     let (from, to) = (utc(304, 23, 0), utc(305, 12, 45));
-    let points = compress_two_way(&odf, from, to, 60);
+    let all = compress_two_way(&odf, from, to, 60);
+    // Amendment A2: a point is kept only when its station's ramp table covers the 900 s
+    // before the count through its end (the uplink must be known; the round trip is ~770 s).
+    let points: Vec<DopplerPoint> = all
+        .iter()
+        .filter(|p| {
+            model.ramps[&p.station]
+                .integral_minus_ref(p.t3s, -900.0, p.tc)
+                .is_some()
+        })
+        .copied()
+        .collect();
+    println!("60-s points {}, with ramp coverage {}", all.len(), points.len());
     let min_el = 15f64.to_radians();
 
     // B1: prediction from the reconstruction, elevation cut, then the outlier rule.
