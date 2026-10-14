@@ -37,7 +37,10 @@ fn horizons() -> Vec<(f64, f64)> {
 
 /// Local extrema of the distance, refined by a parabola through the three samples:
 /// (minima, maxima) as (JD, km).
-fn extrema(s: &[(f64, f64)]) -> (Vec<(f64, f64)>, Vec<(f64, f64)>) {
+/// `(time, value)` samples.
+type Samples = Vec<(f64, f64)>;
+
+fn extrema(s: &[(f64, f64)]) -> (Samples, Samples) {
     let (mut mins, mut maxs) = (Vec::new(), Vec::new());
     for i in 1..s.len() - 1 {
         let (y0, y1, y2) = (s[i - 1].1, s[i].1, s[i + 1].1);

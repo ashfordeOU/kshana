@@ -48,6 +48,9 @@
 //! symmetric single-shooting scheme; Keller (1977) / Doedel et al. for pseudo-arclength
 //! continuation; Wilkinson & Reinsch, *Handbook for Automatic Computation* vol. II (1971),
 //! for the Hessenberg-QR eigenvalue algorithm.
+// The eigen-solver and matrix helpers below are index-based ports of the textbook
+// algorithms; iterator rewrites would obscure the correspondence.
+#![allow(clippy::needless_range_loop)]
 
 use crate::cr3bp::{cr3bp_accel, cr3bp_jacobian, jacobi_constant, Cr3bpState};
 
@@ -923,7 +926,7 @@ fn hqr(a: &mut [[f64; 6]; 6]) -> Option<[(f64, f64); 6]> {
             // Double QR step on rows l..nn and columns m..nn.
             let lu = l as usize;
             let mut k = mu;
-            while k + 1 <= nnu {
+            while k < nnu {
                 if k != mu {
                     p = a[k][k - 1];
                     q = a[k + 1][k - 1];
