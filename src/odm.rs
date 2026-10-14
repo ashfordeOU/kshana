@@ -298,7 +298,7 @@ impl Block {
 }
 
 /// Items of `s` in the order of `keys` (user blocks keep their own order).
-fn ordered<'a>(block: Block, omm: bool, s: &'a Section) -> Vec<(&'a str, &'a str)> {
+fn ordered(block: Block, omm: bool, s: &Section) -> Vec<(&str, &str)> {
     if block == Block::User {
         return s
             .items
