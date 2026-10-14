@@ -1,2 +1,5 @@
+# PIN-SCOPE: convention calibration of make_fixture.py (60 dB-Hz recording)
+# PIN-EXCLUDES: everything else
 # receiver,carrier_rms_deg,code_rms_chips,mean_P_over_X,carrier_offset_rad,code_offset_chips
-gnss-sdr,43.131395,0.0008324,0.900157,1.570706,0.0204575
+gnss-sdr,0.220385,0.0006996,0.999988,-0.000148,0.0000698
+kshana,0.218382,0.0007034,1.000000,-0.000128,0.0000701
