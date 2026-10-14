@@ -11,6 +11,15 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **Mars ramped 2-way Doppler model and orbit determination** (0.36, WP-14, CAP-30 part,
+  stage 2): `mars_od` predicts DSN ramped X-band 2-way Doppler from ODF ramp tables (light
+  time, Shapiro, troposphere, station time, DSN stations via the CIO chain and IERS EOP) and
+  fits a Mars orbiter (GMM-3, third bodies, SRP, drag). `naif_kernel` reads SPK type 1 (checked
+  against CSPICE) and `gravity_sh::from_shadr` reads PDS SHADR fields. Pre-registered against
+  the MRO navigation reconstruction on real MRO passes (data-gated, `scripts/fetch_mro_od.sh`,
+  monthly CI): the predicted Doppler matches the observations to 12.5 mHz (bar 30 mHz, met);
+  the registered orbit fit failed on the scored arc and produced no orbit (finding pinned).
+  The row stays MODELLED.
 - **DSN Orbit Data File reader** (0.36, WP-14, CAP-30 part): `odf::parse_odf` reads TRK-2-18
   ODFs. On a real Mars Reconnaissance Orbiter ODF (NASA PDS, vendored), the reader matches the
   PDS label's record count, group positions, stations and times, and all its data types are

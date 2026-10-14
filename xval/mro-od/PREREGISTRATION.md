@@ -159,3 +159,23 @@ exists for it. No B1-B5 value was computed or seen. Added selection rule, indepe
 trajectory: a 60-s point is kept only when its station's ramp table covers the interval from
 900 s before the count start to the count end (the round-trip light time is about 770 s). The
 numbers of points before and after the rule are reported with the result. Nothing else changes.
+
+## Result (registered run, 2026-10-14, amendments A1 and A2 in force)
+
+Scored arc: 459 60-s points, 447 with ramp coverage (A2), all 447 above 15° elevation.
+
+| Bar | Result | Verdict |
+|---|---|---|
+| B1 | 0.01253 Hz RMS against the reconstruction, 32 of 447 points edited | MET |
+| B2 | no orbit: the registered Gauss-Newton fit stopped with a normal matrix that is not positive definite | **NOT MET** |
+| B3 | no orbit | **NOT MET** |
+| B4 | no orbit | **NOT MET** |
+| B5 | no orbit | **NOT MET** |
+
+FINDING. The measurement model reproduces the real ramped 2-way Doppler from the MRO navigation
+reconstruction to 12.5 mHz (about 0.22 mm/s) on passes it was not developed on. The
+registered orbit determination, which converged on the development pass, failed on the 13.75 h
+scored arc before producing an orbit. The cause is not diagnosed here; it is not drag being
+negligible (the density model is non-zero at MRO's altitudes). Both outcomes are pinned in
+`tests/mro_odf_short_arc_od_oracle.rs`. Under the outcome rule the row stays MODELLED. A fixed
+estimator needs its own registration before it is run on these passes.
