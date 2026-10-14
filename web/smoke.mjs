@@ -2,7 +2,7 @@
 // Headless smoke test for the WebAssembly bindings: load the wasm-pack (--target
 // web) module in Node, run a clock scenario, and assert the JSON parses and the
 // version is non-empty. Run in CI by the `test-wasm-bindings` job after a build.
-import init, { run, chart_svg, version, nmea_training, receiver_trust_replay, assess_vessel_log, interference_map, route_exposure, bench_export, compliance_report, compliance_mapping, list_examples, get_example, export_formats, export_scenario, import_route, animate_scenario, export_sp3, trust_telemetry, osnma_verify } from "./pkg/kshana.js";
+import init, { run, chart_svg, version, nmea_training, receiver_trust_replay, assess_vessel_log, interference_map, route_exposure, bench_export, compliance_report, compliance_mapping, list_examples, get_example, export_formats, export_scenario, import_route, animate_scenario, export_sp3, trust_telemetry, osnma_verify, iq_signals, iq_run_short } from "./pkg/kshana.js";
 import { readFile } from "node:fs/promises";
 
 const SCENARIO = `
@@ -294,6 +294,34 @@ try { osnma_verify(btoa(osnmaCsv), "", 1000, "", [], undefined, 10); } catch (_)
 if (osnma.input.pages !== 3 || osnma.freshness_enforced !== false ||
     !osnma.advisory.includes("not type-approved navigation equipment") || !osnmaBad) {
   console.error("wasm osnma_verify() produced unexpected output");
+  process.exit(1);
+}
+
+// The short IQ run: the wasm build must give exactly the JSON the native test pins in the
+// same golden (tests/iq_short.rs, matches_the_golden_the_wasm_smoke_test_also_checks).
+if (!JSON.parse(iq_signals()).includes("gps-l1ca")) {
+  console.error("wasm iq_signals() does not list gps-l1ca");
+  process.exit(1);
+}
+const iqGolden = (await readFile(new URL("tests/fixtures/iq_short_golden.json", rootDir), "utf8")).trimEnd();
+const iqWasm = iq_run_short(2.046e6, 0.1, "gps-l1ca", new Float64Array([3, 11]), new Float64Array([1200, -800]), 45, 7);
+// Exact for every integer, string and flag; numbers within 1e-9 relative, because the wasm and
+// native math libraries differ in the last digit or two of a float (the first run showed it:
+// a statistic of 228.05711797612463 against 228.0571179761247).
+const iqSame = (a, b) =>
+  typeof a === "number" && typeof b === "number"
+    ? Math.abs(a - b) <= 1e-9 * Math.max(1, Math.abs(a), Math.abs(b))
+    : a && b && typeof a === "object" && typeof b === "object"
+      ? Object.keys(a).length === Object.keys(b).length && Object.keys(a).every((k) => iqSame(a[k], b[k]))
+      : a === b;
+if (!iqSame(JSON.parse(iqWasm), JSON.parse(iqGolden))) {
+  console.error("wasm iq_run_short() differs from the native golden beyond rounding");
+  process.exit(1);
+}
+let iqTooBig = false;
+try { iq_run_short(2.046e6, 5, "gps-l1ca", new Float64Array([3]), new Float64Array([0]), NaN, 1); } catch (_) { iqTooBig = true; }
+if (!iqTooBig) {
+  console.error("wasm iq_run_short() accepted a scene over the size cap");
   process.exit(1);
 }
 

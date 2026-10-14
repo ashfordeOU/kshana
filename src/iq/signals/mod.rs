@@ -53,6 +53,7 @@
 //! (E5 AltBOC, the full E1 or B1C complex envelope) and signal power levels.
 
 pub mod beidou;
+pub mod by_name;
 pub mod galileo;
 pub mod glonass;
 pub mod gps;

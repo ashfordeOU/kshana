@@ -58,6 +58,7 @@
 mod code;
 mod geometry;
 mod nav;
+pub(crate) mod synthetic;
 mod truth;
 
 #[cfg(test)]
