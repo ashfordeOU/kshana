@@ -548,6 +548,11 @@ breaking changes are called out explicitly.
 
 ### Fixed
 
+- **The MCP server refuses `[terrain] dem_hgt`** (CAP-06b follow-up). The jamming kind's terrain
+  tile path is now in `inline_only::FILE_SOURCE_KEYS`. An inline surface refuses a scenario that
+  names one, with a message that carries neither the path nor an operating-system error. The
+  file-source guard test now also flags fields ending in `_hgt`.
+
 - `Jd2::from_parts` with a fractional day part dropped the fraction in the UTC, TAI, UT1 and
   Earth-rotation conversions (one hour of day part turned the Earth 15° wrong); the day part is
   now normalised to an integer. No engine caller was affected: every one passes an integer day,

@@ -13,6 +13,7 @@ pub const FILE_SOURCE_KEYS: &[&str] = &[
     "csv_path",
     "data_dir",
     "data_path",
+    "dem_hgt",
     "dem_path",
     "earth_orientation_kernel_path",
     "ephemeris_path",
