@@ -41,6 +41,7 @@ pub mod io;
 pub mod labfit;
 pub mod monitor;
 pub mod scene;
+pub mod short;
 pub mod signals;
 pub(crate) mod simrng;
 pub mod track;

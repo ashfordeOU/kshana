@@ -1,14 +1,15 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 //! Build a [`SignalCode`] from a short signal name and a PRN (or GLONASS frequency
-//! channel), shared by the `iq scene`, `iq acquire`, `iq track` and `iq sweep` commands
-//! and the Python bindings. The names are the lower-case, hyphenated forms a receiver
-//! engineer types on the command line; each maps to one constructor in
-//! [`crate::iq::signals`].
+//! channel), shared by the `iq scene`, `iq acquire`, `iq track` and `iq sweep` commands,
+//! the Python bindings and the short in-memory runs of [`crate::iq::short`] (which the
+//! WebAssembly build exposes, so this lives outside the native-only `iq::cli`). The names
+//! are the lower-case, hyphenated forms a receiver engineer types on the command line; each
+//! maps to one constructor in [`crate::iq::signals`].
 
-use crate::iq::signals::{beidou, galileo, glonass, gps, SignalCode};
+use super::{beidou, galileo, glonass, gps, SignalCode};
 
 /// Every signal name [`build_code`] accepts, in the order they are listed in help text.
-pub(crate) const SIGNAL_NAMES: &[&str] = &[
+pub const SIGNAL_NAMES: &[&str] = &[
     "gps-l1ca",
     "gps-l5i",
     "gps-l5q",

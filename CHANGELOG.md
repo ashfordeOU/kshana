@@ -459,6 +459,26 @@ breaking changes are called out explicitly.
   clears the flat mask and the export site's horizon at its azimuth), the report carries the site's
   horizon (`export_site_terrain`), and the runtime CSV gains the column. Without terrain the export
   is unchanged. MODELLED.
+- **Headline fields from the engine** (0.36, STUDIO-06): `kshana::api::HEADLINE_FIELDS`,
+  `field_importance_json()` and the WebAssembly `field_importance()` state, for twelve kinds, which
+  fields of a scenario answer its question, best first, as dotted paths (`jammers[].eirp_dbw`). The
+  Studio reads them ahead of its own ranking. Display metadata only: the engine never reads it, no
+  scenario file needs it, no result depends on it. `tests/field_importance.rs` fails if a kind is not
+  dispatchable or a path is found in none of the kind's bundled scenarios (it caught two paths that
+  the Studio's flattened ids had spelled without the array brackets).
+- **Kind-to-module table from the engine** (0.36, STUDIO-05): `kshana::api::KIND_MODULES`,
+  `kind_modules_json()` and the WebAssembly `kind_modules()` give, for each scenario kind whose
+  verification-matrix rows name another module than its own, the module names. The Studio's
+  capability map used its own hand-written copy; `tests/kind_modules.rs` fails if a kind in the table
+  is not dispatchable or a module appears in no matrix row. No output changed.
+- **Short IQ run in the browser build** (0.36): `iq_signals()` and `iq_run_short(fs_hz, duration_s,
+  signal, ids, dopplers_hz, cn0_dbhz, seed)` in the WebAssembly module build a synthetic scene,
+  acquire each satellite and track the acquired ones, all in memory, bounded to 0.25 s, 1 000 000
+  samples and 8 satellites. The scene builder and the signal lookup by name moved out of the native-only
+  `iq::cli` (to `iq::scene::synthetic` and `iq::signals::by_name`) so both builds share them; the
+  command line's output is unchanged. The native test and `web/smoke.mjs` compare the same request
+  against one golden (`tests/fixtures/iq_short_golden.json`): exact natively, within 1e-9 relative in the
+  browser build, where the math library differs in the last digit of a float.
 - **Lunar reference-station study** (0.36, prompted by published material on a planned lunar
   south-pole reference station; sources in [`docs/LUNAR-REFERENCE-STATION.md`](docs/LUNAR-REFERENCE-STATION.md)):
   the `lunar-station-coverage` kind, a Monte Carlo sweep of the lunar differential-PNT model over

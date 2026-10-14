@@ -1085,6 +1085,192 @@ pub fn list_scenario_kinds_json() -> String {
         .expect("ScenarioMeta is all-static-string data; JSON serialisation is infallible")
 }
 
+/// For each scenario kind whose verification-matrix rows name a module other than the kind's own
+/// name (the kind with hyphens as underscores, or as written), the module names its rows use.
+///
+/// The Studio's capability map joins a scenario's kinds to the matrix rows through this table;
+/// it used to keep its own hand-written copy. `tests/kind_modules.rs` fails if a kind here is not
+/// a dispatchable kind or a module here appears in no matrix row, so the table cannot name
+/// something that is not there. A kind absent from the table matches its own name only.
+pub const KIND_MODULES: &[(&str, &[&str])] = &[
+    ("gnss-ins", &["fusion"]),
+    ("hybrid-ukf", &["fusion"]),
+    ("hybrid", &["fusion", "holdover"]),
+    ("conflict-resilience", &["resilience"]),
+    ("terrain-nav", &["altpnt"]),
+    ("terrain-slam", &["altpnt"]),
+    ("gravity-map", &["gravity_sh", "altpnt"]),
+    ("combined-altpnt", &["altpnt"]),
+    ("quantum-gnss-free-nav", &["quantum_nav_od"]),
+    ("quantum-time-transfer", &["timetransfer_chain"]),
+    ("moonlight-service-volume", &["lunar_service"]),
+    ("lunar-integrity", &["lunar_service"]),
+    ("lunar-attack-surface", &["lunar_service", "antenna"]),
+    ("lunar-time-offset", &["lunar_time"]),
+    ("lunar-differential-pnt", &["lunar_dpnt"]),
+    ("lunar-joint-od-clock", &["lunar_combination"]),
+    ("lunar-interop-export", &["lunar_interop"]),
+    ("quantum-anomaly-detect", &["quantum_faults"]),
+    ("pvt", &["rinex"]),
+    ("ephemeris", &["sgp4"]),
+    ("inertial", &["inertial"]),
+    ("constellation-design", &["constellation"]),
+    ("integrity", &["raim", "sbas"]),
+    ("araim-reference-check", &["araim_reference"]),
+    ("launch-window", &["launch"]),
+    ("eo-coverage", &["eo_payload"]),
+    ("link-budget", &["linkbudget"]),
+    ("aperture-duty-cycle", &["aperture_duty"]),
+    ("oem-interop", &["oem"]),
+    ("telecom-timing", &["telecom_timing"]),
+    ("slot-timing", &["slot_timing"]),
+    ("solar-system", &["solar_system", "ephem"]),
+    ("body-pnt", &["body_pnt"]),
+    ("mars-pnt", &["mars_pnt", "body_pnt"]),
+];
+
+/// [`KIND_MODULES`] as a JSON object, kind to array of module names, in table order.
+pub fn kind_modules_json() -> String {
+    let mut o = serde_json::Map::new();
+    for (kind, modules) in KIND_MODULES {
+        o.insert((*kind).to_string(), serde_json::json!(modules));
+    }
+    serde_json::Value::Object(o).to_string()
+}
+
+/// Which fields of a scenario answer its question, best first, for the kinds where that has been
+/// decided: the inputs a front end should put in front of the user before all the others. Each
+/// entry is a dotted path through the scenario file; `[]` stands for any element of an array of
+/// tables (`jammers[].eirp_dbw`). A kind absent here has no stated order and a front end ranks
+/// its fields itself.
+///
+/// This is display metadata only. The engine never reads it, so no scenario file needs it and no
+/// result depends on it. `tests/field_importance.rs` fails if a kind here is not dispatchable, a
+/// path is listed twice, or a path is found in none of the bundled scenarios of its kind.
+pub const HEADLINE_FIELDS: &[(&str, &[&str])] = &[
+    (
+        "spectrum",
+        &[
+            "receiver.tracking_threshold_dbhz",
+            "receiver.noise_figure_db",
+            "jammers[].eirp_dbw",
+            "jammers[].received_power_dbw",
+            "jammers[].range_m",
+            "jammers[].bandwidth_mhz",
+            "duration_s",
+        ],
+    ),
+    ("solar-system", &["track_points"]),
+    (
+        "body-pnt",
+        &[
+            "constellation.planes",
+            "constellation.sats_per_plane",
+            "constellation.altitude_km",
+            "constellation.inclination_deg",
+            "constellation.sigma_range_m",
+            "earth_link.sigma_range_m",
+        ],
+    ),
+    (
+        "constellation-design",
+        &[
+            "mask_deg",
+            "pdop_threshold",
+            "grid_step_deg",
+            "constellation[].shell[].altitude_km",
+            "constellation[].shell[].inclination_deg",
+        ],
+    ),
+    (
+        "campaign",
+        &[
+            "monte_carlo.runs",
+            "sweep.axes[].start",
+            "sweep.axes[].stop",
+            "sweep.axes[].steps",
+            "compose.shared[].value",
+            "timeline.step_s",
+            "phases[].duration_s",
+        ],
+    ),
+    (
+        "leo-signal",
+        &[
+            "receiver.reference_cn0_dbhz",
+            "receiver.loop_bandwidth_hz",
+            "trade.slant_tec_tecu",
+            "trade.slant_range_km",
+            "acquisition.altitude_km",
+        ],
+    ),
+    (
+        "leo-pass",
+        &[
+            "user.mask_deg",
+            "satellite[].max_elevation_deg",
+            "user.lat_deg",
+            "spoofer.offset_m",
+            "spoofer.onset_s",
+            "iot.active_power_mw",
+        ],
+    ),
+    (
+        "leo-navmsg",
+        &[
+            "orbit.altitude_km",
+            "orbit.inclination_deg",
+            "message.fit_interval_s",
+            "message.update_period_s",
+            "orbit.gravity_degree",
+        ],
+    ),
+    (
+        "leo-pvt",
+        &[
+            "user.lat_deg",
+            "system[].sisre_m",
+            "system[].mask_deg",
+            "system[].sigma_doppler_hz",
+            "joint.max_leo_sweep",
+            "duration_s",
+        ],
+    ),
+    ("leo-ppp", &["duration_s", "runs", "gnss[].mask_deg"]),
+    (
+        "ntn-positioning",
+        &[
+            "signal[].bandwidth_hz",
+            "integration_s",
+            "sync_error_m",
+            "system[].mask_deg",
+        ],
+    ),
+    (
+        "leo-pnt-chain",
+        &[
+            "od_sisre_m",
+            "pass.satellite[].altitude_km",
+            "pass.satellite[].max_elevation_deg",
+            "pass.satellite[].band[].eirp_dbw",
+            "navmsg.message.fit_interval_s",
+        ],
+    ),
+];
+
+/// [`HEADLINE_FIELDS`] as JSON: `{kind: {"headline": [path, ...]}}`, in table order. The object
+/// per kind leaves room for further tiers without changing the shape.
+pub fn field_importance_json() -> String {
+    let mut o = serde_json::Map::new();
+    for (kind, paths) in HEADLINE_FIELDS {
+        o.insert(
+            (*kind).to_string(),
+            serde_json::json!({ "headline": paths }),
+        );
+    }
+    serde_json::Value::Object(o).to_string()
+}
+
 /// Render the built-in scenario-kind catalogue as a standalone Markdown reference
 /// (`docs/SCENARIOS.md`): every dispatchable kind with its one-line description and
 /// its required / optional TOML fields.
