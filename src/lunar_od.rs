@@ -24,7 +24,12 @@
 //! 6. **Relativity** (optional, [`LunarForceModel::relativity`]) — the selenocentric
 //!    Schwarzschild term of the IERS Conventions (2010) eq. 10.12 with β = γ = 1, about
 //!    10⁻¹⁰ m/s² at LRO; Lense–Thirring and de Sitter terms are not modelled.
-//! 7. **Empirical accelerations** (optional) — the same RTN constant + once-per-rev tier the
+//! 7. **Macro-model** (optional, [`LunarForceModel::macro_model`], DS-LRO-10) — flat-plate
+//!    direct solar radiation with the Moon's shadow plus lunar albedo and thermal IR
+//!    ([`LunarMacroModel`]); replaces the cannonball term. Pre-registered against the LRO arc it
+//!    did NOT meet its bars (`docs/design/evidence/ds-lro-10-macro-model/RESULTS.md`): it leaves
+//!    the reduced-dynamic floor unchanged, so it is opt-in with nothing claimed for it.
+//! 8. **Empirical accelerations** (optional) — the same RTN constant + once-per-rev tier the
 //!    Earth model uses; frame-agnostic, so it absorbs un-modelled lunar dynamics (the truncated
 //!    high-degree field, the ME↔PA offset, the analytic-ephemeris frame slop) in the
 //!    reduced-dynamic fit.
@@ -34,12 +39,14 @@
 //! The Sun/Moon directions come from the built-in mean-equator-of-date analytic ephemeris
 //! ([`crate::ephem`], ~0.3° from ICRF at 2022 from un-modelled precession); the Earth third-body
 //! direction therefore carries a near-static sub-arcminute bias, absorbed by the empirical
-//! constant terms. The SRP shadow reuses the Earth-radius conical model — negligible at the Moon
-//! and unused with SRP off. These are the documented residuals the reduced-dynamic tier carries;
-//! the headline lunar residuals are reported in `tests/agency_lro.rs`.
+//! constant terms. The SRP terms use the Moon's conical shadow (Earth eclipses are not
+//! modelled). These are the documented residuals the reduced-dynamic tier carries; the headline
+//! lunar residuals are reported in `tests/agency_lro.rs`.
 
 use crate::ephem::{moon_position, sun_position};
-use crate::forces::{srp_accel, third_body_accel, MU_EARTH, MU_SUN};
+use crate::forces::{
+    conical_shadow_body, srp_accel_with_lit_fraction, third_body_accel, MU_EARTH, MU_SUN,
+};
 use crate::gravity_sh::SphericalHarmonicField;
 use crate::lunar_frame::icrf_to_moon_pa;
 use crate::precession::{julian_centuries_tt, mat_vec, mod_to_gcrs, transpose};
@@ -207,6 +214,11 @@ pub struct LunarForceModel<E: LunarEnvironment = AnalyticLunarEnvironment> {
     pub tide_k2: Option<f64>,
     /// Include the selenocentric Schwarzschild relativistic term (off by default).
     pub relativity: bool,
+    /// Optional spacecraft macro-model for the non-gravitational forces (DS-LRO-10): direct
+    /// solar radiation on flat plates (and lunar albedo / thermal IR when the model enables it).
+    /// While set it replaces the cannonball `srp` term and `cr` is its radiation factor. `None`
+    /// (the default) leaves every output unchanged.
+    pub macro_model: Option<LunarMacroModel>,
     /// The frame-input provider (lunar orientation + Sun/Moon ephemeris). Defaults to the
     /// kernel-free analytic [`AnalyticLunarEnvironment`]; an out-of-crate DE-grade provider
     /// plugs in here via [`LunarForceModel::with_env`].
@@ -237,6 +249,7 @@ impl<E: LunarEnvironment> LunarForceModel<E> {
             empirical: None,
             tide_k2: None,
             relativity: false,
+            macro_model: None,
             env,
         }
     }
@@ -260,6 +273,15 @@ impl<E: LunarEnvironment> LunarForceModel<E> {
     /// Enable the selenocentric Schwarzschild term. Off by default.
     pub fn relativity(mut self) -> Self {
         self.relativity = true;
+        self
+    }
+
+    /// Enable the flat-plate macro-model `mm` (DS-LRO-10) with radiation factor `cr` (1
+    /// nominal; estimable through the estimator's `C_R`). Replaces the cannonball SRP term.
+    pub fn macro_model(mut self, mm: LunarMacroModel, cr: f64) -> Self {
+        self.macro_model = Some(mm);
+        self.srp = false;
+        self.cr = cr;
         self
     }
 }
@@ -290,6 +312,214 @@ pub fn schwarzschild_accel(r: Vec3, v: Vec3, mu: f64) -> Vec3 {
     std::array::from_fn(|i| k * ((4.0 * mu / rn - v2) * r[i] + 4.0 * rv * v[i]))
 }
 
+/// A fully Sun-tracking flat plate (a two-axis-gimballed solar array): its normal is the
+/// satellite-to-Sun direction, so it is lit face-on by the Sun.
+#[derive(Clone, Debug, PartialEq)]
+pub struct SunTrackingPlate {
+    /// Area (m²).
+    pub area_m2: f64,
+    /// Absorption coefficient `α`.
+    pub absorption: f64,
+    /// Specular reflection coefficient `ρ`.
+    pub specular: f64,
+    /// Diffuse reflection coefficient `δ` (`α + ρ + δ = 1`).
+    pub diffuse: f64,
+}
+
+/// Lunar surface radiation for the macro-model's albedo and thermal-IR terms: a Lambertian
+/// sphere whose exitance is taken at the sub-satellite point (no surface integration) and seen
+/// with the view factor `(R/r)²`. Reflected sunlight `A·S·max(cos ψ, 0)` and thermal emission
+/// `ε σ T⁴` with `T = max(T_ss · cos^¼ ψ, T_night)` on the day side and `T_night` at night, `ψ`
+/// the solar zenith angle at the sub-satellite point and `S` the solar flux at the Moon.
+#[derive(Clone, Debug, PartialEq)]
+pub struct LunarSurfaceRadiation {
+    /// Bond albedo `A`.
+    pub albedo: f64,
+    /// Infrared emissivity `ε`.
+    pub emissivity: f64,
+    /// Subsolar surface temperature `T_ss` (K).
+    pub t_subsolar_k: f64,
+    /// Night-side surface temperature `T_night` (K).
+    pub t_night_k: f64,
+}
+
+/// An opt-in spacecraft macro-model for the lunar force model (DS-LRO-10).
+///
+/// * **Attitude** (a stated approximation, not the flown attitude history): nadir-pointed bus
+///   with fixed yaw, body `+Z = −r̂` (toward the Moon's centre), `−Y = ±ĥ` the orbit normal on
+///   the Sun's side of the orbit plane, `+X = Y × Z`. This follows LRO's published layout (a
+///   single solar array on the `−Y` side, nadir `+Z`, a 180° yaw turn every six months so that
+///   the array side faces the Sun; "Orbit determination of the Lunar Reconnaissance Orbiter:
+///   Status after seven years", Planetary and Space Science 162, 2018,
+///   doi:10.1016/j.pss.2017.10.004, section 2.2); slews and the parked-array mode are not
+///   modelled.
+/// * **Direct solar radiation** on the body-fixed plates of `bus`
+///   ([`crate::srp_boxwing::boxwing_accel_scaled`], Vallado eq. 8-44) and on the Sun-tracking
+///   `array`, with the conical shadow of the Moon (radius [`crate::lunar::R_MOON_M`]). Earth
+///   eclipses, self-shadowing and spacecraft thermal re-radiation are not modelled.
+/// * **Lunar albedo and thermal IR** (only when `surface` is set): the same plate laws with the
+///   source along `−r̂` and the [`LunarSurfaceRadiation`] irradiance; the array, whose normal is
+///   `ŝ`, takes it on whichever face sees the Moon, with the same optical coefficients.
+///
+/// The whole acceleration is multiplied by the force model's radiation factor `cr`.
+#[derive(Clone, Debug, PartialEq)]
+pub struct LunarMacroModel {
+    /// Body-fixed plates (in the attitude frame above) and the spacecraft mass.
+    pub bus: crate::srp_boxwing::BoxWing,
+    /// The Sun-tracking solar array, if any.
+    pub array: Option<SunTrackingPlate>,
+    /// Lunar albedo and thermal IR; `None` leaves them out.
+    pub surface: Option<LunarSurfaceRadiation>,
+}
+
+impl LunarMacroModel {
+    /// A **labelled generic approximation** of LRO (DS-LRO-10), built only from published facts:
+    /// a 10.7 m² two-axis Sun-tracking solar array (NASA PDS LRO instrument-host catalogue) on a
+    /// spacecraft of 1060 kg (an upper estimate from "Orbit determination of the Lunar
+    /// Reconnaissance Orbiter: Status after seven years", Planetary and Space Science 162, 2018,
+    /// doi:10.1016/j.pss.2017.10.004, section 2.2), with lunar albedo 0.11 and equatorial
+    /// surface temperatures 390 K / 95 K (NASA NSSDCA Moon fact sheet). Assumed, not sourced: a
+    /// black array (α = 1) and emissivity 1. The bus has **no plates**: the published LRO plate
+    /// table was not available, and no plate value is invented. Sources and SHA-256 sums:
+    /// `docs/design/evidence/ds-lro-10-macro-model/PREREGISTRATION.md`.
+    pub fn lro_generic(surface: bool) -> Self {
+        Self {
+            bus: crate::srp_boxwing::BoxWing {
+                panels: vec![],
+                mass_kg: 1060.0,
+            },
+            array: Some(SunTrackingPlate {
+                area_m2: 10.7,
+                absorption: 1.0,
+                specular: 0.0,
+                diffuse: 0.0,
+            }),
+            surface: surface.then_some(LunarSurfaceRadiation {
+                albedo: 0.11,
+                emissivity: 1.0,
+                t_subsolar_k: 390.0,
+                t_night_k: 95.0,
+            }),
+        }
+    }
+
+    /// Body-to-inertial attitude matrix (columns are the body axes) for Moon-centred `r`, `v` and
+    /// Sun position `s`.
+    pub fn attitude(r: Vec3, v: Vec3, s: Vec3) -> Mat3 {
+        let n = |x: Vec3| (x[0] * x[0] + x[1] * x[1] + x[2] * x[2]).sqrt();
+        let u = |x: Vec3| {
+            let k = n(x);
+            [x[0] / k, x[1] / k, x[2] / k]
+        };
+        let cr = |a: Vec3, b: Vec3| {
+            [
+                a[1] * b[2] - a[2] * b[1],
+                a[2] * b[0] - a[0] * b[2],
+                a[0] * b[1] - a[1] * b[0],
+            ]
+        };
+        let z = u([-r[0], -r[1], -r[2]]);
+        let h = u(cr(r, v));
+        let sd = [s[0] - r[0], s[1] - r[1], s[2] - r[2]];
+        // −Y on the Sun's side of the orbit plane.
+        let sign = if h[0] * sd[0] + h[1] * sd[1] + h[2] * sd[2] >= 0.0 {
+            -1.0
+        } else {
+            1.0
+        };
+        let y = [sign * h[0], sign * h[1], sign * h[2]];
+        let x = cr(y, z);
+        [[x[0], y[0], z[0]], [x[1], y[1], z[1]], [x[2], y[2], z[2]]]
+    }
+
+    /// The macro-model acceleration (m/s², Moon-centred inertial) at `r`, `v` with the Sun at
+    /// Moon-centred `s`, scaled by the radiation factor `cr`.
+    pub fn accel(&self, r: Vec3, v: Vec3, s: Vec3, cr: f64) -> Vec3 {
+        use crate::ephem::AU_M;
+        use crate::forces::SRP_PRESSURE_AU;
+        use crate::srp_boxwing::boxwing_accel_scaled;
+        let n = |x: Vec3| (x[0] * x[0] + x[1] * x[1] + x[2] * x[2]).sqrt();
+        let att = Self::attitude(r, v, s);
+        let mut a = [0.0; 3];
+        let mut add = |p: Vec3| {
+            a = [a[0] + p[0], a[1] + p[1], a[2] + p[2]];
+        };
+        let nu = conical_shadow_body(r, s, crate::lunar::R_MOON_M);
+        let sd = [s[0] - r[0], s[1] - r[1], s[2] - r[2]];
+        let d = n(sd);
+        let sh = [sd[0] / d, sd[1] / d, sd[2] / d];
+        let q = AU_M / d;
+        let p_sun = SRP_PRESSURE_AU * q * q; // N/m² at the satellite
+        if nu > 0.0 {
+            add(boxwing_accel_scaled(r, s, att, &self.bus, cr, nu));
+            if let Some(ar) = &self.array {
+                add(plate_accel(ar, sh, sh, nu * cr * p_sun / self.bus.mass_kg));
+            }
+        }
+        if let Some(sr) = &self.surface {
+            let rn = n(r);
+            let rh = [r[0] / rn, r[1] / rn, r[2] / rn];
+            // Solar zenith angle at the sub-satellite point (Sun direction from the Moon centre).
+            let sn = n(s);
+            let cos_psi = (rh[0] * s[0] + rh[1] * s[1] + rh[2] * s[2]) / sn;
+            let flux_sun = SRP_PRESSURE_AU * AU_M * AU_M / (sn * sn); // S/c at the Moon (N/m²)
+            let view = (crate::lunar::R_MOON_M / rn).powi(2);
+            let p_albedo = sr.albedo * flux_sun * cos_psi.max(0.0);
+            let t = if cos_psi > 0.0 {
+                (sr.t_subsolar_k * cos_psi.powf(0.25)).max(sr.t_night_k)
+            } else {
+                sr.t_night_k
+            };
+            let p_ir = sr.emissivity * STEFAN_BOLTZMANN * t.powi(4) / crate::timegeo::C_M_PER_S;
+            let p_surf = (p_albedo + p_ir) * view; // N/m² at the satellite, source along −r̂
+            if p_surf > 0.0 {
+                // A pseudo-Sun one AU from the satellite along −r̂ carries the pressure
+                // `SRP_PRESSURE_AU`, so the plate sum is rescaled to `p_surf`.
+                let src = [
+                    r[0] - AU_M * rh[0],
+                    r[1] - AU_M * rh[1],
+                    r[2] - AU_M * rh[2],
+                ];
+                add(boxwing_accel_scaled(
+                    r,
+                    src,
+                    att,
+                    &self.bus,
+                    cr * p_surf / SRP_PRESSURE_AU,
+                    1.0,
+                ));
+                if let Some(ar) = &self.array {
+                    let u = [-rh[0], -rh[1], -rh[2]];
+                    let c = u[0] * sh[0] + u[1] * sh[1] + u[2] * sh[2];
+                    let nrm = if c >= 0.0 {
+                        sh
+                    } else {
+                        [-sh[0], -sh[1], -sh[2]]
+                    };
+                    add(plate_accel(ar, u, nrm, cr * p_surf / self.bus.mass_kg));
+                }
+            }
+        }
+        a
+    }
+}
+
+/// Stefan–Boltzmann constant (W m⁻² K⁻⁴), CODATA 2018 (exact in the 2019 SI).
+const STEFAN_BOLTZMANN: f64 = 5.670_374_419e-8;
+
+/// Acceleration per unit `k = pressure/mass` (so the result is `k ·` force-per-pressure) of the
+/// flat plate `pl` with unit normal `n` lit from unit direction `u` (plate to source):
+/// `−k·A·cos θ·[(α + δ) u + 2 (ρ cos θ + δ/3) n]`, zero when `cos θ = n·u ≤ 0`.
+fn plate_accel(pl: &SunTrackingPlate, u: Vec3, n: Vec3, k: f64) -> Vec3 {
+    let c = u[0] * n[0] + u[1] * n[1] + u[2] * n[2];
+    if c <= 0.0 {
+        return [0.0; 3];
+    }
+    let ks = -k * pl.area_m2 * c * (pl.absorption + pl.diffuse);
+    let kn = -k * pl.area_m2 * c * 2.0 * (pl.specular * c + pl.diffuse / 3.0);
+    std::array::from_fn(|i| ks * u[i] + kn * n[i])
+}
+
 impl<E: LunarEnvironment> ForceModel for LunarForceModel<E> {
     fn accel_rv(&self, t: f64, r: Vec3, v: Vec3) -> Vec3 {
         let jd = self.epoch_jd_tdb + t / SECONDS_PER_DAY;
@@ -306,7 +536,7 @@ impl<E: LunarEnvironment> ForceModel for LunarForceModel<E> {
             a = [a[0] + p[0], a[1] + p[1], a[2] + p[2]];
         };
 
-        let need_sun = self.sun || self.srp;
+        let need_sun = self.sun || self.srp || self.macro_model.is_some();
         if self.earth || need_sun || self.tide_k2.is_some() {
             let (sun_geo, moon_geo) = self.env.geocentric_sun_moon(jd);
             if let Some(k2) = self.tide_k2 {
@@ -347,7 +577,19 @@ impl<E: LunarEnvironment> ForceModel for LunarForceModel<E> {
                     add(third_body_accel(r, sun_wrt_moon, MU_SUN));
                 }
                 if self.srp {
-                    add(srp_accel(r, sun_wrt_moon, self.cr, self.area_over_mass));
+                    // The Moon occults the Sun (the conical shadow of a sphere of radius
+                    // R_MOON_M about the origin of these Moon-centred vectors).
+                    let nu = conical_shadow_body(r, sun_wrt_moon, crate::lunar::R_MOON_M);
+                    add(srp_accel_with_lit_fraction(
+                        r,
+                        sun_wrt_moon,
+                        self.cr,
+                        self.area_over_mass,
+                        nu,
+                    ));
+                }
+                if let Some(mm) = &self.macro_model {
+                    add(mm.accel(r, v, sun_wrt_moon, self.cr));
                 }
             }
         }
@@ -593,5 +835,152 @@ mod tests {
             "custom orientation provider changed the body-fixed gravity accel by {d} m/s² \
              (0 would mean the LunarEnvironment seam is not consumed by accel_rv)"
         );
+    }
+
+    fn sun_far() -> Vec3 {
+        // A Moon-centred Sun about 1 AU away, off every axis.
+        [1.2e11, -8.0e10, -3.0e10]
+    }
+
+    fn bare_bus(mass: f64) -> crate::srp_boxwing::BoxWing {
+        crate::srp_boxwing::BoxWing {
+            panels: vec![],
+            mass_kg: mass,
+        }
+    }
+
+    #[test]
+    fn moon_conical_shadow_is_the_earth_one_with_the_moon_radius() {
+        let s = sun_far();
+        let rn = 1.80e6;
+        let sh = norm(s);
+        let behind = [-s[0] / sh * rn, -s[1] / sh * rn, -s[2] / sh * rn];
+        assert_eq!(conical_shadow_body(behind, s, R_MOON_M), 0.0);
+        let sunward = [s[0] / sh * rn, s[1] / sh * rn, s[2] / sh * rn];
+        assert_eq!(conical_shadow_body(sunward, s, R_MOON_M), 1.0);
+        let r = [7.0e6, 1.0e6, -2.0e6];
+        assert_eq!(
+            crate::forces::conical_shadow(r, s).to_bits(),
+            conical_shadow_body(r, s, crate::forces::RE_EARTH).to_bits()
+        );
+    }
+
+    #[test]
+    fn macro_attitude_is_nadir_fixed_yaw_and_orthonormal() {
+        let (r, v) = lro_state();
+        let s = sun_far();
+        let m = LunarMacroModel::attitude(r, v, s);
+        let col = |j: usize| [m[0][j], m[1][j], m[2][j]];
+        let (x, y, z) = (col(0), col(1), col(2));
+        let dot = |a: Vec3, b: Vec3| a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+        for (a, b) in [(x, y), (y, z), (z, x)] {
+            assert!(dot(a, b).abs() < 1e-14);
+        }
+        for a in [x, y, z] {
+            assert!((norm(a) - 1.0).abs() < 1e-14);
+        }
+        let rn = norm(r);
+        assert!((dot(z, r) / rn + 1.0).abs() < 1e-14, "+Z is nadir");
+        assert!(dot(y, v).abs() < 1e-9 * norm(v), "+Y is the orbit normal");
+        assert!(
+            dot(y, [s[0] - r[0], s[1] - r[1], s[2] - r[2]]) <= 0.0,
+            "−Y on the Sun side"
+        );
+    }
+
+    #[test]
+    fn sun_tracking_array_alone_is_a_cannonball() {
+        // A face-on plate: F = −P A (1 + ρ + 2δ/3) ŝ, i.e. a cannonball with that C_R.
+        let (rho, delta) = (0.2, 0.3);
+        let mm = LunarMacroModel {
+            bus: bare_bus(1000.0),
+            array: Some(SunTrackingPlate {
+                area_m2: 10.0,
+                absorption: 1.0 - rho - delta,
+                specular: rho,
+                diffuse: delta,
+            }),
+            surface: None,
+        };
+        let s = sun_far();
+        let sh = norm(s);
+        let r = [s[0] / sh * 1.8e6, s[1] / sh * 1.8e6, s[2] / sh * 1.8e6]; // sunlit
+        let v = [-1.0e3, 1.0e3, 0.5e3];
+        let a = mm.accel(r, v, s, 1.25);
+        let want = srp_accel_with_lit_fraction(
+            r,
+            s,
+            1.25 * (1.0 + rho + 2.0 * delta / 3.0),
+            10.0 / 1000.0,
+            1.0,
+        );
+        for k in 0..3 {
+            assert!(
+                (a[k] - want[k]).abs() < 1e-14 * norm(want),
+                "{a:?} vs {want:?}"
+            );
+        }
+        // In the Moon's umbra the direct term vanishes.
+        let behind = [-r[0], -r[1], -r[2]];
+        assert_eq!(mm.accel(behind, v, s, 1.25), [0.0; 3]);
+    }
+
+    #[test]
+    fn surface_radiation_on_a_nadir_plate_matches_the_closed_form() {
+        // A black nadir-facing plate (+Z body) over the subsolar point: the albedo + IR pressure
+        // (A S + ε σ T_ss⁴)/c (R/r)² pushes it radially outward.
+        use crate::srp_boxwing::Panel;
+        let bus = crate::srp_boxwing::BoxWing {
+            panels: vec![Panel::fixed(2.0, [0.0, 0.0, 1.0], 1.0, 0.0, 0.0)],
+            mass_kg: 500.0,
+        };
+        let sr = LunarSurfaceRadiation {
+            albedo: 0.12,
+            emissivity: 0.95,
+            t_subsolar_k: 390.0,
+            t_night_k: 95.0,
+        };
+        let mm = LunarMacroModel {
+            bus,
+            array: None,
+            surface: Some(sr.clone()),
+        };
+        let s = sun_far();
+        let sn = norm(s);
+        let rn = 1.80e6;
+        let r = [s[0] / sn * rn, s[1] / sn * rn, s[2] / sn * rn];
+        let v = [s[1], -s[0], 0.0];
+        let v = [v[0] / norm(v) * 1.6e3, v[1] / norm(v) * 1.6e3, 0.0];
+        let a = mm.accel(r, v, s, 1.0);
+        let c = crate::timegeo::C_M_PER_S;
+        let flux = crate::forces::SRP_PRESSURE_AU * (crate::ephem::AU_M / sn).powi(2);
+        let p = (sr.albedo * flux + sr.emissivity * STEFAN_BOLTZMANN * 390f64.powi(4) / c)
+            * (R_MOON_M / rn).powi(2);
+        let want = p * 2.0 / 500.0; // the nadir plate faces the Moon, away from the Sun
+        let radial = (a[0] * r[0] + a[1] * r[1] + a[2] * r[2]) / rn;
+        assert!((radial - want).abs() < 1e-12 * want, "{radial} vs {want}");
+        // On the night side only the IR of T_night remains.
+        let rn_night = [-r[0], -r[1], -r[2]];
+        let a_n = mm.accel(rn_night, v, s, 1.0);
+        let want_n =
+            sr.emissivity * STEFAN_BOLTZMANN * 95f64.powi(4) / c * (R_MOON_M / rn).powi(2) * 2.0
+                / 500.0;
+        assert!((norm(a_n) - want_n).abs() < 1e-12 * want_n);
+    }
+
+    #[test]
+    fn macro_model_is_opt_in_and_replaces_cannonball_srp() {
+        let m = LunarForceModel::new(synthetic_moon_field(), 2_459_580.5);
+        assert!(m.macro_model.is_none());
+        let mm = LunarMacroModel {
+            bus: bare_bus(1000.0),
+            array: None,
+            surface: None,
+        };
+        let m2 = m.clone().solar_radiation(1.3, 0.01).macro_model(mm, 1.1);
+        assert!(!m2.srp && m2.macro_model.is_some() && m2.cr == 1.1);
+        // An empty macro-model adds nothing: the result equals the default model's.
+        let (r, v) = lro_state();
+        assert_eq!(m.accel_rv(0.0, r, v), m2.accel_rv(0.0, r, v));
     }
 }

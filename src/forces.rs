@@ -301,6 +301,13 @@ pub const SOLAR_RADIUS: f64 = 6.957e8;
 /// This is the geometric dual-disk model (Montenbruck & Gill §3.4.2); the oblate-Earth shadow and
 /// solar limb darkening are opt-in refinements in [`crate::srp_shadow`].
 pub fn conical_shadow(r: Vec3, s: Vec3) -> f64 {
+    conical_shadow_body(r, s, RE_EARTH)
+}
+
+/// [`conical_shadow`] for an occulting sphere of radius `body_radius_m` centred at the origin of
+/// `r` and `s` (for example the Moon, with Moon-centred vectors). `conical_shadow(r, s)` is
+/// exactly `conical_shadow_body(r, s, RE_EARTH)`.
+pub fn conical_shadow_body(r: Vec3, s: Vec3, body_radius_m: f64) -> f64 {
     let d = [s[0] - r[0], s[1] - r[1], s[2] - r[2]]; // satellite → Sun
     let d_sun = norm(d);
     let r_n = norm(r);
@@ -308,8 +315,8 @@ pub fn conical_shadow(r: Vec3, s: Vec3) -> f64 {
         return 1.0;
     }
     let a = (SOLAR_RADIUS / d_sun).clamp(-1.0, 1.0).asin(); // Sun apparent radius
-    let b = (RE_EARTH / r_n).clamp(-1.0, 1.0).asin(); // Earth apparent radius
-                                                      // Apparent separation c = angle between sat→Sun (d) and sat→Earth-centre (−r).
+    let b = (body_radius_m / r_n).clamp(-1.0, 1.0).asin(); // occulting body's apparent radius
+                                                           // Apparent separation c = angle between sat→Sun (d) and sat→Earth-centre (−r).
     let dot = d[0] * (-r[0]) + d[1] * (-r[1]) + d[2] * (-r[2]);
     let c = (dot / (d_sun * r_n)).clamp(-1.0, 1.0).acos();
     if c >= a + b {
