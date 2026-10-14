@@ -9,6 +9,9 @@
 //! records (`spice/`) and evaluate both (`outputs/spice.json`). Legs W1 (inventory), W2 (SPICE on
 //! Kshana's files vs Kshana's reader), B1/B2 (bytes vs SPICE's files) and R1 (Kshana's reader on
 //! SPICE's files).
+//!
+//! First run (2026-10-14): every bar met. Kshana's G1-G3 are byte-identical to SPICE's, and
+//! 48 876 state components agree bit for bit in W2 and in R1 (`xval/spk-3-21-spice/RESULTS.md`).
 
 use kshana::spk_writer::{InterpolatedSpk, SpkFile, SpkSegment, SpkType};
 use serde_json::Value;

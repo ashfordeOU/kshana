@@ -29,6 +29,11 @@ breaking changes are called out explicitly.
   - **SPICE SPK export** (`src/spk_writer.rs`): SPK types 9 and 13 writer and reader and OEM to
     SPK export; against CSPICE N0067 the kernels are byte-identical to SPICE's and evaluate
     bit-identically. Row "SPICE SPK export (types 9 and 13)".
+  - **SPICE SPK types 3 and 21** (`src/spk_writer.rs`): type 3 (Chebyshev) and type 21
+    (extended difference lines) segments written from given records and evaluated as SPICE
+    does; against CSPICE N0067 the kernels are byte-identical to SPICE's and every evaluation
+    agrees bit for bit both ways. Row "SPICE SPK types 3 and 21 (Chebyshev, extended
+    difference lines)".
   - **Space Packet extensions** (`src/space_packet.rs`): secondary header with CUC/CDS time codes,
     packet error control, segmentation and stream checks, against ccsdspy 2.0.1, spacepackets-rs
     0.18.0, spacepackets-py 0.32.0 and CPython `crc_hqx`, zero mismatches. Row "CCSDS Space
