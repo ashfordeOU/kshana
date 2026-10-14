@@ -1656,7 +1656,8 @@ impl Scenario for crate::jamming::JammingScenario {
     fn run(&self) -> Result<RunOutput, KshanaError> {
         self.time.validate()?;
         let sky = self.sky().map_err(KshanaError::InvalidInput)?;
-        let r = crate::jamming::run_jamming_sky(self, sky.as_ref());
+        let r = crate::jamming::run_jamming_sky(self, sky.as_ref())
+            .map_err(KshanaError::InvalidInput)?;
         let summary = format!(
             "scenario {} | jamming {} | availability under jamming {:.2} (nominal {:.2}) | min tracking {} | mean J/S {}",
             &r.scenario_hash[..12],
@@ -1671,13 +1672,13 @@ impl Scenario for crate::jamming::JammingScenario {
             sky.as_ref(),
             self.mask_deg,
         ) {
-            None => json_of_with_units(&r, crate::jamming::UNITS),
+            None => json_of_with_units(&r, &crate::jamming::units(self)),
             Some(skyline) => json_of_with_units(
                 &crate::skyline::WithSkyline {
                     report: &r,
                     skyline,
                 },
-                &crate::skyline::with_units(true, &[crate::jamming::UNITS]),
+                &crate::skyline::with_units(true, &[&crate::jamming::units(self)]),
             ),
         }
         .map_err(KshanaError::InvalidInput)?;
