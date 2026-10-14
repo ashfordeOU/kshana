@@ -11,6 +11,12 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **PPP time solution against the IGS station clock** (0.36, FUT-19): the receiver clock of the
+  float PPP filter on WTZR agrees with the IGS final combined clock for the station to 0.075 ns
+  (standard deviation) with a constant offset of −0.66 ns over the converged two hours. The bars
+  were pre-registered in `xval/ppp-time/`. VALIDATED (new ledger row). New fixture
+  `igs_2025055_WTZR_05m_0006.clk`, the station-clock records of the IGS final clock file already
+  used for the satellite clocks.
 - **PPP parity with gLAB** (0.36, WP-07, RM-31): gLAB 6.0.0 was run on the same WTZR inputs
   as a separate tool (Apache-2.0 core; download checksum verified against the published list),
   with the command line of a procedural amendment committed before the run. On its first

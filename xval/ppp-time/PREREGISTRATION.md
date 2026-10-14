@@ -54,3 +54,20 @@ time. If a bar misses, it is recorded as a FINDING and the row is MODELLED.
 ## What this does not check
 
 UTC(k) traceability, Circular T, calibrated absolute receiver delays, and other stations or days.
+
+## Result (first and only comparison run, 2026-10-14)
+
+| Bar | Result | Verdict |
+|---|---|---|
+| T1 | std 0.075 ns over 04:00-05:55 | holds |
+| T2 | mean −0.659 ns | holds |
+| N | 24 common epochs | holds |
+
+Recorded without a bar: over the whole 00:00-05:55, including convergence, the mean is −0.892 ns
+and the std is 0.623 ns over 71 epochs.
+
+Disclosed procedure: the first attempt stopped before any comparison. The fixture as first
+committed (661ad138) lacked the clock file's `END OF HEADER` line, dropped by the extraction
+script, so the parser read no records. The fixture was rebuilt from the same checksummed source
+file with that line kept. Its records are byte-identical, and its new SHA-256 is in the fixture
+NOTICE. The ledger row is VALIDATED.
