@@ -57,5 +57,6 @@ macro-model stays opt-in with nothing claimed for it.
 
 The local attempt was cut off by a container restart after about 40 minutes. The manual
 `lro-de440-opt-in` job was dispatched once on this branch
-(https://github.com/ashfordeOU/kshana/actions/runs/38491862009, head e82047e2); its number is
-recorded in `docs/design/evidence/ds-lro-09-11-longer-arc/RESULTS.md` once the job reports.
+(https://github.com/ashfordeOU/kshana/actions/runs/38491862009, head e82047e2, default model):
+dynamic 7.845 m (converged), reduced-dynamic 7.121 m (not converged in 25 iterations). Recorded
+in `docs/design/evidence/ds-lro-09-11-longer-arc/RESULTS.md`; it changes no bar here.
