@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<apm id="CCSDS_APM_VERS" version="2.0">
+  <header>
+    <CREATION_DATE>2026-10-13T00:00:00.000</CREATION_DATE>
+    <ORIGINATOR>KSHANA XVAL</ORIGINATOR>
+  </header>
+
+  <body>
+    <segment>
+      <metadata>
+        <OBJECT_NAME>XVAL SAT</OBJECT_NAME>
+        <OBJECT_ID>2026-999A</OBJECT_ID>
+        <CENTER_NAME>EARTH</CENTER_NAME>
+        <TIME_SYSTEM>UTC</TIME_SYSTEM>
+      </metadata>
+      <data>
+        <EPOCH>2026-03-01T12:00:00.500</EPOCH>
+        <quaternionState>
+          <REF_FRAME_A>EME2000</REF_FRAME_A>
+          <REF_FRAME_B>SC_BODY_1</REF_FRAME_B>
+          <quaternion>
+            <Q1>-0.9822483168459725</Q1>
+            <Q2>-0.16449650915526653</Q2>
+            <Q3>-0.0028742946617861353</Q3>
+            <QC>0.09011593066257742</QC>
+          </quaternion>
+        </quaternionState>
+        <spin>
+          <REF_FRAME_A>EME2000</REF_FRAME_A>
+          <REF_FRAME_B>SC_BODY_1</REF_FRAME_B>
+          <SPIN_ALPHA units="deg">-44.95191036378111</SPIN_ALPHA>
+          <SPIN_DELTA units="deg">-62.35152903954381</SPIN_DELTA>
+          <SPIN_ANGLE units="deg">-32.67568555890924</SPIN_ANGLE>
+          <SPIN_ANGLE_VEL units="deg/s">28.49883815476544</SPIN_ANGLE_VEL>
+          <MOMENTUM_ALPHA units="deg">-104.07386726765483</MOMENTUM_ALPHA>
+          <MOMENTUM_DELTA units="deg">84.02472853884018</MOMENTUM_DELTA>
+          <NUTATION_VEL units="deg/s">3.1858754678460763</NUTATION_VEL>
+        </spin>
+        <inertia>
+          <INERTIA_REF_FRAME>SC_BODY_1</INERTIA_REF_FRAME>
+          <IXX units="kg*m**2">1378.72055221678</IXX>
+          <IYY units="kg*m**2">666.2434248860765</IYY>
+          <IZZ units="kg*m**2">1951.1236908450976</IZZ>
+          <IXY units="kg*m**2">-46.34961705126195</IXY>
+          <IXZ units="kg*m**2">20.14502217939294</IXZ>
+          <IYZ units="kg*m**2">-19.239706333800623</IYZ>
+        </inertia>
+      </data>
+    </segment>
+  </body>
+</apm>

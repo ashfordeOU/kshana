@@ -62,6 +62,7 @@
 //! [`docs/EQUATIONS.md`]: https://github.com/AshfordeOU/kshana/blob/main/docs/EQUATIONS.md
 
 pub mod acquisition;
+pub mod adm;
 pub mod advanced_report;
 pub mod allan;
 pub mod altpnt;
@@ -232,12 +233,14 @@ pub mod models;
 pub mod monitor_network;
 pub mod naif_kernel;
 pub mod navsignal;
+pub mod ndm_xml;
 pub mod nma_budget;
 pub mod nrlmsise00;
 mod nrlmsise00_data;
 pub mod nutation;
 mod nutation_iau2000a_data;
 pub mod observability_gramian;
+pub mod odm;
 pub mod oem;
 pub mod omm;
 pub mod optical_availability;
@@ -296,6 +299,7 @@ pub mod sp3;
 pub mod space_packet;
 pub mod space_weather;
 pub mod spectrum;
+pub mod spk_writer;
 pub mod spoof;
 pub mod spoof_capture;
 pub mod spoof_detect;

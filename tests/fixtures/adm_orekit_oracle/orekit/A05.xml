@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aem id="CCSDS_AEM_VERS" version="2.0">
+  <header>
+    <CREATION_DATE>2026-10-13T00:00:00.000</CREATION_DATE>
+    <ORIGINATOR>KSHANA XVAL</ORIGINATOR>
+  </header>
+
+  <body>
+    <segment>
+      <metadata>
+        <OBJECT_NAME>XVAL SAT</OBJECT_NAME>
+        <OBJECT_ID>2026-999A</OBJECT_ID>
+        <CENTER_NAME>EARTH</CENTER_NAME>
+        <REF_FRAME_A>GCRF</REF_FRAME_A>
+        <REF_FRAME_B>SC_BODY_1</REF_FRAME_B>
+        <TIME_SYSTEM>TDB</TIME_SYSTEM>
+        <START_TIME>2026-03-01T00:01:00.000</START_TIME>
+        <STOP_TIME>2026-03-01T00:01:40.000</STOP_TIME>
+        <ATTITUDE_TYPE>EULER_ANGLE</ATTITUDE_TYPE>
+        <EULER_ROT_SEQ>ZYX</EULER_ROT_SEQ>
+      </metadata>
+      <data>
+        <attitudeState>
+          <eulerAngle>
+            <EPOCH>2026-03-01T00:01:00.000</EPOCH>
+            <ANGLE_1 units="deg">-92.222638666839</ANGLE_1>
+            <ANGLE_2 units="deg">48.400161190568554</ANGLE_2>
+            <ANGLE_3 units="deg">165.37125733401018</ANGLE_3>
+          </eulerAngle>
+        </attitudeState>
+        <attitudeState>
+          <eulerAngle>
+            <EPOCH>2026-03-01T00:01:10.000</EPOCH>
+            <ANGLE_1 units="deg">31.057821422016133</ANGLE_1>
+            <ANGLE_2 units="deg">-71.02872704947745</ANGLE_2>
+            <ANGLE_3 units="deg">62.913441932756825</ANGLE_3>
+          </eulerAngle>
+        </attitudeState>
+        <attitudeState>
+          <eulerAngle>
+            <EPOCH>2026-03-01T00:01:20.000</EPOCH>
+            <ANGLE_1 units="deg">-134.45425211319974</ANGLE_1>
+            <ANGLE_2 units="deg">61.38402751644995</ANGLE_2>
+            <ANGLE_3 units="deg">111.8934096272325</ANGLE_3>
+          </eulerAngle>
+        </attitudeState>
+        <attitudeState>
+          <eulerAngle>
+            <EPOCH>2026-03-01T00:01:30.000</EPOCH>
+            <ANGLE_1 units="deg">62.56754733745198</ANGLE_1>
+            <ANGLE_2 units="deg">-82.04936826521968</ANGLE_2>
+            <ANGLE_3 units="deg">47.85751726012945</ANGLE_3>
+          </eulerAngle>
+        </attitudeState>
+        <attitudeState>
+          <eulerAngle>
+            <EPOCH>2026-03-01T00:01:40.000</EPOCH>
+            <ANGLE_1 units="deg">162.66515945393493</ANGLE_1>
+            <ANGLE_2 units="deg">82.39105878618618</ANGLE_2>
+            <ANGLE_3 units="deg">77.138860223408</ANGLE_3>
+          </eulerAngle>
+        </attitudeState>
+      </data>
+    </segment>
+  </body>
+</aem>

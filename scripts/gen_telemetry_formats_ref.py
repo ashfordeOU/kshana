@@ -22,8 +22,9 @@ respective formats as the official libraries read them, and that the metric name
 text, labels (including awkward label values) and numeric values the libraries read are those
 the registry holds. NOT checked: that the names suit any dashboard, that the metrics are
 semantically right for operations, or any behaviour of a real collector or server (the HTTP
-transport is not exercised here). ``promtool check metrics`` was not available offline and was
-not run.
+transport is not exercised here). For the schema-1.3 corpus, ``xval/telemetry-1.3/run.sh`` also
+runs ``promtool check metrics`` and the OpenTelemetry Collector (``--collector`` reads the
+Collector's file-exporter record with the same parser).
 
 PINNED ORACLES
 --------------
@@ -31,7 +32,7 @@ Python 3.13, prometheus_client==0.26.0, opentelemetry-proto==1.45.1, protobuf==7
 
 Usage::
 
-    python3 scripts/gen_telemetry_formats_ref.py
+    python3 scripts/gen_telemetry_formats_ref.py [corpus] [--collector]
 """
 import json
 import os
@@ -42,7 +43,10 @@ from opentelemetry.proto.collector.metrics.v1.metrics_service_pb2 import ExportM
 from prometheus_client.parser import text_string_to_metric_families
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-FIX = os.path.join(HERE, "..", "tests", "fixtures", "telemetry_oracle")
+# The corpus directory under tests/fixtures: telemetry_oracle (schema 1.2, the default) or
+# telemetry_oracle_13 (schema 1.3, xval/telemetry-1.3/PREREGISTRATION.md).
+CORPUS = sys.argv[1] if len(sys.argv) > 1 and not sys.argv[1].startswith("--") else "telemetry_oracle"
+FIX = os.path.join(HERE, "..", "tests", "fixtures", CORPUS)
 
 
 def prometheus():
@@ -72,8 +76,8 @@ def attrs(kvs):
     return out
 
 
-def otlp():
-    text = open(os.path.join(FIX, "otlp.json"), encoding="utf-8").read()
+def otlp(name="otlp.json"):
+    text = open(os.path.join(FIX, name), encoding="utf-8").read()
     msg = ExportMetricsServiceRequest()
     json_format.Parse(text, msg, ignore_unknown_fields=False)  # raises on any unknown field
     assert len(msg.resource_metrics) == 1 and len(msg.resource_metrics[0].scope_metrics) == 1
@@ -105,11 +109,17 @@ def otlp():
 
 
 def main():
-    for name, doc in [("prometheus_reference.json", prometheus()), ("otlp_reference.json", otlp())]:
+    if "--collector" in sys.argv:
+        # The OpenTelemetry Collector's file-exporter record of the request (one JSON line),
+        # read with the same strict parser and normalisation as otlp.json.
+        docs = [("collector_reference.json", otlp("collector_export.json"))]
+    else:
+        docs = [("prometheus_reference.json", prometheus()), ("otlp_reference.json", otlp())]
+    for name, doc in docs:
         with open(os.path.join(FIX, name), "w", encoding="utf-8") as f:
             json.dump(doc, f, indent=1, sort_keys=True, ensure_ascii=False)
             f.write("\n")
-    print("wrote prometheus_reference.json and otlp_reference.json")
+    print("wrote " + ", ".join(n for n, _ in docs) + " in " + CORPUS)
 
 
 if __name__ == "__main__":
