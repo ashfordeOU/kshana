@@ -753,6 +753,14 @@ breaking changes are called out explicitly.
     exactly by prometheus_client and the OTLP proto, accepted by promtool 3.5.0 `check metrics`
     with no lint problem, and passed unchanged through the OpenTelemetry Collector contrib
     0.135.0 (data-gated: tools fetched with pinned SHA-256, outputs committed).
+- **Mars orbit determination, run 2** (0.36, WP-14, CAP-30): `mars_od::fit_damped` scales the
+  normal matrix by its diagonal and damps the step (Levenberg-Marquardt), after the registered
+  Gauss-Newton fit failed on a matrix whose raw diagonal spans eight orders of magnitude.
+  Registered separately (`xval/mro-od/PREREGISTRATION-RUN2.md`, same arc, bars and editing). On
+  the scored MRO passes the orbit is within 0.36 km RMS (0.53 km maximum) of the MRO navigation
+  reconstruction, bars met. The post-fit Doppler is 48.6 mHz against the 30 mHz bar, not met
+  (finding pinned). A scoring-only amendment, R2-A1, is disclosed in `docs/revisions`. The row
+  stays MODELLED.
 - **Mars ramped 2-way Doppler model and orbit determination** (0.36, WP-14, CAP-30 part,
   stage 2): `mars_od` predicts DSN ramped X-band 2-way Doppler from ODF ramp tables (light
   time, Shapiro, troposphere, station time, DSN stations via the CIO chain and IERS EOP) and
