@@ -2005,6 +2005,184 @@ impl BuiltinKind for crate::leo_pnt_chain::LeoPntChainScenario {
     }
 }
 
+fn run_contact_schedule(
+    scn: &crate::contact_schedule::ContactScheduleScenario,
+) -> Result<RunOutput, String> {
+    let (json, summary) = scn.run_json()?;
+    let svg = minimal_svg(&summary);
+    Ok(RunOutput {
+        json,
+        svg,
+        summary,
+        csv: None,
+    })
+}
+
+impl Scenario for crate::contact_schedule::ContactScheduleScenario {
+    fn run(&self) -> Result<RunOutput, KshanaError> {
+        run_contact_schedule(self).map_err(KshanaError::from)
+    }
+}
+
+impl BuiltinKind for crate::contact_schedule::ContactScheduleScenario {
+    const KIND: ScenarioKind = ScenarioKind::ContactSchedule;
+    fn parse(src: &str) -> Result<Self, String> {
+        parse_toml(src, "contact-schedule")
+    }
+}
+
+fn run_acm_link(scn: &crate::contact_schedule::AcmLinkScenario) -> Result<RunOutput, String> {
+    let (json, summary) = scn.run_json()?;
+    let svg = minimal_svg(&summary);
+    Ok(RunOutput {
+        json,
+        svg,
+        summary,
+        csv: None,
+    })
+}
+
+impl Scenario for crate::contact_schedule::AcmLinkScenario {
+    fn run(&self) -> Result<RunOutput, KshanaError> {
+        run_acm_link(self).map_err(KshanaError::from)
+    }
+}
+
+impl BuiltinKind for crate::contact_schedule::AcmLinkScenario {
+    const KIND: ScenarioKind = ScenarioKind::AcmLink;
+    fn parse(src: &str) -> Result<Self, String> {
+        parse_toml(src, "acm-link")
+    }
+}
+
+fn run_aocs(scn: &crate::aocs_kind::AocsScenario) -> Result<RunOutput, String> {
+    let (json, summary) = scn.run_json()?;
+    let svg = minimal_svg(&summary);
+    Ok(RunOutput {
+        json,
+        svg,
+        summary,
+        csv: None,
+    })
+}
+
+impl Scenario for crate::aocs_kind::AocsScenario {
+    fn run(&self) -> Result<RunOutput, KshanaError> {
+        run_aocs(self).map_err(KshanaError::from)
+    }
+}
+
+impl BuiltinKind for crate::aocs_kind::AocsScenario {
+    const KIND: ScenarioKind = ScenarioKind::Aocs;
+    fn parse(src: &str) -> Result<Self, String> {
+        parse_toml(src, "aocs")
+    }
+}
+
+fn run_entry_heating(
+    scn: &crate::entry_eo_ascent::entry_heating::EntryHeatingScenario,
+) -> Result<RunOutput, String> {
+    let (json, summary) = scn.run_json()?;
+    let svg = minimal_svg(&summary);
+    Ok(RunOutput {
+        json,
+        svg,
+        summary,
+        csv: None,
+    })
+}
+
+impl Scenario for crate::entry_eo_ascent::entry_heating::EntryHeatingScenario {
+    fn run(&self) -> Result<RunOutput, KshanaError> {
+        run_entry_heating(self).map_err(KshanaError::from)
+    }
+}
+
+impl BuiltinKind for crate::entry_eo_ascent::entry_heating::EntryHeatingScenario {
+    const KIND: ScenarioKind = ScenarioKind::EntryHeating;
+    fn parse(src: &str) -> Result<Self, String> {
+        parse_toml(src, "entry-heating")
+    }
+}
+
+fn run_eo_radiometry(
+    scn: &crate::entry_eo_ascent::eo_radiometry::EoRadiometryScenario,
+) -> Result<RunOutput, String> {
+    let (json, summary) = scn.run_json()?;
+    let svg = minimal_svg(&summary);
+    Ok(RunOutput {
+        json,
+        svg,
+        summary,
+        csv: None,
+    })
+}
+
+impl Scenario for crate::entry_eo_ascent::eo_radiometry::EoRadiometryScenario {
+    fn run(&self) -> Result<RunOutput, KshanaError> {
+        run_eo_radiometry(self).map_err(KshanaError::from)
+    }
+}
+
+impl BuiltinKind for crate::entry_eo_ascent::eo_radiometry::EoRadiometryScenario {
+    const KIND: ScenarioKind = ScenarioKind::EoRadiometry;
+    fn parse(src: &str) -> Result<Self, String> {
+        parse_toml(src, "eo-radiometry")
+    }
+}
+
+fn run_ascent_losses(
+    scn: &crate::entry_eo_ascent::ascent::AscentScenario,
+) -> Result<RunOutput, String> {
+    let (json, summary) = scn.run_json()?;
+    let svg = minimal_svg(&summary);
+    Ok(RunOutput {
+        json,
+        svg,
+        summary,
+        csv: None,
+    })
+}
+
+impl Scenario for crate::entry_eo_ascent::ascent::AscentScenario {
+    fn run(&self) -> Result<RunOutput, KshanaError> {
+        run_ascent_losses(self).map_err(KshanaError::from)
+    }
+}
+
+impl BuiltinKind for crate::entry_eo_ascent::ascent::AscentScenario {
+    const KIND: ScenarioKind = ScenarioKind::AscentLosses;
+    fn parse(src: &str) -> Result<Self, String> {
+        parse_toml(src, "ascent-losses")
+    }
+}
+
+fn run_time_transfer_budget(
+    scn: &crate::time_transfer_budget::TimeTransferBudgetScenario,
+) -> Result<RunOutput, String> {
+    let (json, summary) = scn.run_json()?;
+    let svg = minimal_svg(&summary);
+    Ok(RunOutput {
+        json,
+        svg,
+        summary,
+        csv: None,
+    })
+}
+
+impl Scenario for crate::time_transfer_budget::TimeTransferBudgetScenario {
+    fn run(&self) -> Result<RunOutput, KshanaError> {
+        run_time_transfer_budget(self).map_err(KshanaError::from)
+    }
+}
+
+impl BuiltinKind for crate::time_transfer_budget::TimeTransferBudgetScenario {
+    const KIND: ScenarioKind = ScenarioKind::TimeTransferBudget;
+    fn parse(src: &str) -> Result<Self, String> {
+        parse_toml(src, "time-transfer-budget")
+    }
+}
+
 fn run_leo_navmsg(scn: &crate::leo_navmsg::LeoNavmsgScenario) -> Result<RunOutput, String> {
     let (json, summary, svg, csv) = scn.run_all()?;
     Ok(RunOutput {
