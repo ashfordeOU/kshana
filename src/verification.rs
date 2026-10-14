@@ -334,6 +334,15 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            requirement: "PPP receiver-clock time solution against the IGS final station clock",
+            capability: "The receiver clock estimated by the static float PPP filter on real dual-frequency GPS code and phase with IGS final orbits and clocks: a time transfer from the receiver to IGS time, the PPP iono-free time solution.",
+            module: "ppp_real (run_ppp, PppEpoch::clock_m)",
+            tests: "tests/ppp_time_igs_station_clock.rs (WTZR 2025-02-24, 04:00-05:55, 24 epochs: Kshana minus IGS std 0.075 ns, bar 0.20; mean -0.659 ns, bar 5.0)",
+            oracle: "The IGS final combined clock for station WTZR (AR records of IGS0OPSFIN_20250550000_01D_05M_CLK, SHA-256 d19f3d45...993d, a combination of several analysis centres' network solutions; IGS products, free use with attribution); bars pre-registered in xval/ppp-time/PREREGISTRATION.md before any comparison; all held on the first run. WHAT IS NOT: one station and one two-hour converged window; IGS time, not UTC(k); the constant offset includes receiver code biases and is bounded, not calibrated; no Circular T traceability.",
+            oracle_kind: ExternalDataset,
+            status: Validated,
+        },
+        VerificationItem {
             requirement: "Float precise point positioning on real RINEX observations",
             capability: "Static float PPP extended Kalman filter on real dual-frequency GPS code and carrier phase with IGS final orbits and clocks: ionosphere-free combination, satellite and receiver antenna offsets (receiver variations), solid Earth tide, phase wind-up, Shapiro delay, estimated zenith wet delay, per-arc float ambiguities with geometry-free / Melbourne-Wübbena slip detection",
             module: "ppp_real (run_ppp, parse_antex_receiver, solid_tide_ecef, phase_windup)",
@@ -3739,6 +3748,13 @@ pub fn validated_oracle_basis() -> Vec<OracleBasisEntry> {
             basis: Library,
             oracle_test: "tests/ionex_code_gim_oracle.rs",
             source: "RTKLIB v2.4.2-p13 iontec",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "PPP receiver-clock time solution against the IGS final station clock",
+            basis: Library,
+            oracle_test: "tests/ppp_time_igs_station_clock.rs",
+            source: "The IGS final combined clock for station WTZR",
             flag: "",
         },
         OracleBasisEntry {

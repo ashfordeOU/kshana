@@ -9,7 +9,7 @@ real-data PPP, carrier-smoothing and RTK tests of WP-07. Pre-registrations: `PRE
 | `wtzz_2025055_0003_G.rnx` | IGS station WTZZ (Wettzell, about 1.4 m from WTZR), 2025-02-24 00:00-03:00, same cut | 07869a3046523993f1e56cffe98b1cb03f8a22fc015296a1444141db0ef4c0cf |
 | `igs_2025055_G_05m_0006.clk` | header and GPS satellite records 00:00-06:05 of the IGS final 5 min clocks | 153ec16bf017d83dd93dcdf28e9c8558c7689dc611555ac7c93b861c22059a3f |
 | `igs20_2025055_G_LEIAR25.atx` | header, the GPS satellite antennas valid on the day, and the LEIAR25.R3 LEIT receiver antenna of `igs20.atx` | 38606d7e1efb8686f3195c168284f455875928336b155018def3f261a11c1cf5 |
-| `igs_2025055_WTZR_05m_0006.clk` | header and `AR WTZR` station-clock records 00:00-06:05 of the IGS final 5 min clocks (same source file as the satellite clocks; xval/ppp-time) | b8dcc568399bca153186ff91ac9a635f377c94d3f9899729175d0b3214dcbf1c |
+| `igs_2025055_WTZR_05m_0006.clk` | header and `AR WTZR` station-clock records 00:00-06:05 of the IGS final 5 min clocks (same source file as the satellite clocks; xval/ppp-time) | 6f396478dd4fbf363f1572b24e7c9182d2e8cf009cbe5165b53ea3085e06f6e1 |
 | `brdc_2025055_G_0008.rnx` | header and GPS records 00:00-08:00 of the IGS daily merged broadcast file of 2025-02-24 (for RTKLIB's transmit-time computation, xval/ppp-parity Amendment 1) | 6f021bd319084c3beca7fdf290a00ce4d9fb2e6462e3af2103d6f0b64115479c |
 | `itrf2020_wtzr_wtzz.ssc` | the WTZR and WTZZ rows of `ITRF2020_GNSS.SSC.txt` | b821c636f0e353a6a6f424dc457d801b9fc003f086c13da9679e91ec88aa89de |
 
