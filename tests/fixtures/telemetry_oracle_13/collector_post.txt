@@ -1,0 +1,3 @@
+tool=otelcol-contrib 0.135.0 otlp(http) -> file
+status=200
+response={"partialSuccess":{}}
