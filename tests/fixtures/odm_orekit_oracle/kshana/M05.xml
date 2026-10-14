@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<omm id="CCSDS_OMM_VERS" version="3.0">
+  <header>
+    <COMMENT>Kshana ODM cross-validation case M05 header comment 1</COMMENT>
+    <COMMENT>Kshana ODM cross-validation case M05 header comment 2</COMMENT>
+    <CLASSIFICATION>unclassified test data</CLASSIFICATION>
+    <CREATION_DATE>2026-10-14T00:00:00</CREATION_DATE>
+    <ORIGINATOR>KSHANA XVAL</ORIGINATOR>
+    <MESSAGE_ID>M05-0001</MESSAGE_ID>
+  </header>
+  <body>
+    <segment>
+      <metadata>
+        <COMMENT>metadata comment</COMMENT>
+        <OBJECT_NAME>XVAL SAT</OBJECT_NAME>
+        <OBJECT_ID>2026-999A</OBJECT_ID>
+        <CENTER_NAME>EARTH</CENTER_NAME>
+        <REF_FRAME>TEME</REF_FRAME>
+        <TIME_SYSTEM>UTC</TIME_SYSTEM>
+        <MEAN_ELEMENT_THEORY>SGP4</MEAN_ELEMENT_THEORY>
+      </metadata>
+      <data>
+        <meanElements>
+          <COMMENT>mean elements comment</COMMENT>
+          <EPOCH>2026-03-05T00:00:00</EPOCH>
+          <MEAN_MOTION>7.7425719495097285</MEAN_MOTION>
+          <ECCENTRICITY>0.189117202131107</ECCENTRICITY>
+          <INCLINATION>16.085264880762875</INCLINATION>
+          <RA_OF_ASC_NODE>344.48584987122126</RA_OF_ASC_NODE>
+          <ARG_OF_PERICENTER>82.92616730223229</ARG_OF_PERICENTER>
+          <MEAN_ANOMALY>113.27430064994877</MEAN_ANOMALY>
+        </meanElements>
+        <tleParameters>
+          <COMMENT>tle comment</COMMENT>
+          <EPHEMERIS_TYPE>0</EPHEMERIS_TYPE>
+          <CLASSIFICATION_TYPE>U</CLASSIFICATION_TYPE>
+          <NORAD_CAT_ID>99001</NORAD_CAT_ID>
+          <ELEMENT_SET_NO>999</ELEMENT_SET_NO>
+          <REV_AT_EPOCH>12345</REV_AT_EPOCH>
+          <BSTAR>0.0006661371095065675</BSTAR>
+          <MEAN_MOTION_DOT>2.1177662540377162e-5</MEAN_MOTION_DOT>
+          <MEAN_MOTION_DDOT>-4.847082118914959e-10</MEAN_MOTION_DDOT>
+        </tleParameters>
+        <userDefinedParameters>
+          <COMMENT>user comment</COMMENT>
+          <USER_DEFINED parameter="SOURCE">synthetic</USER_DEFINED>
+          <USER_DEFINED parameter="FIT_SPAN">3 days</USER_DEFINED>
+        </userDefinedParameters>
+      </data>
+    </segment>
+  </body>
+</omm>
