@@ -902,6 +902,211 @@ pub fn porkchop_kernel(
     })
 }
 
+/// What [`optimise_transfer_kernel`] minimises.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum TransferObjective {
+    /// Departure C3 `|v1 − v_dep|²` (km²/s²).
+    MinC3,
+    /// Arrival hyperbolic excess speed `|v2 − v_arr|` (km/s).
+    MinArrivalVinf,
+}
+
+/// Transfer type: the heliocentric transfer angle below (Type I) or above (Type II) 180°,
+/// measured in the prograde sense about the frame's +Z axis (the convention of the prograde
+/// Lambert solver), so Type I means `(r1 × r2)_z > 0`.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum TransferType {
+    /// Transfer angle below 180°.
+    I,
+    /// Transfer angle above 180°.
+    II,
+}
+
+/// The optimum found by [`optimise_transfer_kernel`].
+#[derive(Clone, Copy, Debug)]
+pub struct TransferOptimum {
+    /// Departure epoch (JD, TDB).
+    pub dep_jd_tdb: f64,
+    /// Arrival epoch (JD, TDB).
+    pub arr_jd_tdb: f64,
+    /// Departure C3 (km²/s²).
+    pub c3_km2s2: f64,
+    /// Arrival hyperbolic excess speed (km/s).
+    pub vinf_arr_kms: f64,
+    /// Prograde transfer angle (deg, 0..360).
+    pub transfer_angle_deg: f64,
+    /// Nelder-Mead iterations used.
+    pub iterations: usize,
+}
+
+/// One ballistic two-impulse transfer between the states of two NAIF bodies on the kernel:
+/// `(C3 km²/s², arrival V∞ km/s, prograde transfer angle deg)`, or `None` for a non-positive
+/// time of flight, a geometry within the 0.5° collinearity guard, the other transfer type, or a
+/// Lambert failure.
+#[allow(clippy::too_many_arguments)]
+fn transfer_eval(
+    kernel: &crate::ephem_provider::KernelEphemeris,
+    dep_body: i32,
+    arr_body: i32,
+    dep_jd: f64,
+    arr_jd: f64,
+    ttype: TransferType,
+    mu_sun: f64,
+) -> Option<(f64, f64, f64)> {
+    use crate::ephem_provider::naif_code::SUN;
+    let tof = (arr_jd - dep_jd) * 86_400.0;
+    if tof.is_nan() || tof <= 0.0 {
+        return None;
+    }
+    let d = kernel
+        .state(dep_body, SUN, crate::jd2::Jd2::new(dep_jd))
+        .ok()?;
+    let a = kernel
+        .state(arr_body, SUN, crate::jd2::Jd2::new(arr_jd))
+        .ok()?;
+    let (r1, r2) = (d[0], a[0]);
+    let cosang = (dot(r1, r2) / (norm(r1) * norm(r2))).clamp(-1.0, 1.0);
+    let ang = cosang.acos();
+    let guard = (0.5_f64).to_radians();
+    if ang < guard || (PI - ang) < guard {
+        return None;
+    }
+    let short = cross(r1, r2)[2] > 0.0;
+    if short != (ttype == TransferType::I) {
+        return None;
+    }
+    let theta = if short { ang } else { 2.0 * PI - ang };
+    let (v1, v2) = lambert(r1, r2, tof, mu_sun, true).ok()?;
+    let vd = sub(v1, d[1]);
+    let va = sub(v2, a[1]);
+    Some((dot(vd, vd) / 1.0e6, norm(va) / 1000.0, theta.to_degrees()))
+}
+
+/// The departure and arrival dates of a single-revolution ballistic two-impulse transfer that
+/// minimise `objective` within one transfer type, as a continuous optimum (CAP-20c): a grid
+/// over both windows at `grid_step_days`, then 2-D Nelder-Mead on (departure, arrival) in days
+/// from the best cell (initial steps 1 day; stop when the simplex spans < 1e-7 day and the
+/// objective spread is < 1e-13 relative, or after 4000 iterations). Candidates of the other
+/// type, with a non-positive time of flight, within the collinearity guard or where Lambert
+/// fails score +infinity. States come from the DE440 SPK as in [`porkchop_kernel`].
+///
+/// A date optimiser for one ballistic leg, not a mission design: no launch-vehicle, parking
+/// orbit, deep-space manoeuvre or multi-revolution options.
+#[allow(clippy::too_many_arguments)]
+pub fn optimise_transfer_kernel(
+    kernel: &crate::ephem_provider::KernelEphemeris,
+    dep_body: i32,
+    arr_body: i32,
+    dep_window_jd_tdb: (f64, f64),
+    arr_window_jd_tdb: (f64, f64),
+    objective: TransferObjective,
+    ttype: TransferType,
+    mu_sun: f64,
+    grid_step_days: f64,
+) -> Result<TransferOptimum, String> {
+    if !(grid_step_days.is_finite() && grid_step_days > 0.0) {
+        return Err(format!(
+            "grid_step_days must be positive, got {grid_step_days}"
+        ));
+    }
+    let (d0, d1) = dep_window_jd_tdb;
+    let (a0, a1) = arr_window_jd_tdb;
+    if !(d1 >= d0 && a1 >= a0) {
+        return Err("each window must run forward (start <= end)".into());
+    }
+    let pick = |e: (f64, f64, f64)| match objective {
+        TransferObjective::MinC3 => e.0,
+        TransferObjective::MinArrivalVinf => e.1,
+    };
+    let f = |x: [f64; 2]| -> f64 {
+        transfer_eval(kernel, dep_body, arr_body, x[0], x[1], ttype, mu_sun)
+            .map(pick)
+            .unwrap_or(f64::INFINITY)
+    };
+    // Grid.
+    let steps = |lo: f64, hi: f64| ((hi - lo) / grid_step_days + 1e-9).floor() as usize + 1;
+    let mut best = ([f64::NAN; 2], f64::INFINITY);
+    for i in 0..steps(d0, d1) {
+        let dj = d0 + i as f64 * grid_step_days;
+        for j in 0..steps(a0, a1) {
+            let aj = a0 + j as f64 * grid_step_days;
+            let v = f([dj, aj]);
+            if v < best.1 {
+                best = ([dj, aj], v);
+            }
+        }
+    }
+    if !best.1.is_finite() {
+        return Err("no transfer of the requested type in the windows".into());
+    }
+    // Nelder-Mead (reflection 1, expansion 2, contraction 0.5, shrink 0.5).
+    let x0 = best.0;
+    let mut simplex = [
+        (x0, best.1),
+        ([x0[0] + 1.0, x0[1]], f([x0[0] + 1.0, x0[1]])),
+        ([x0[0], x0[1] + 1.0], f([x0[0], x0[1] + 1.0])),
+    ];
+    let mut iterations = 0;
+    while iterations < 4000 {
+        simplex.sort_by(|p, q| p.1.total_cmp(&q.1));
+        let (b, w) = (simplex[0], simplex[2]);
+        let span = simplex[1..]
+            .iter()
+            .map(|p| (p.0[0] - b.0[0]).abs().max((p.0[1] - b.0[1]).abs()))
+            .fold(0.0, f64::max);
+        let fspread = (w.1 - b.1).abs();
+        if span < 1e-7 && fspread <= 1e-13 * b.1.abs().max(1e-300) {
+            break;
+        }
+        iterations += 1;
+        let c = [
+            0.5 * (simplex[0].0[0] + simplex[1].0[0]),
+            0.5 * (simplex[0].0[1] + simplex[1].0[1]),
+        ];
+        let at = |t: f64| [c[0] + t * (w.0[0] - c[0]), c[1] + t * (w.0[1] - c[1])];
+        let xr = at(-1.0);
+        let fr = f(xr);
+        if fr < simplex[0].1 {
+            let xe = at(-2.0);
+            let fe = f(xe);
+            simplex[2] = if fe < fr { (xe, fe) } else { (xr, fr) };
+        } else if fr < simplex[1].1 {
+            simplex[2] = (xr, fr);
+        } else {
+            let (xc, fc) = if fr < w.1 {
+                let x = at(-0.5);
+                (x, f(x))
+            } else {
+                let x = at(0.5);
+                (x, f(x))
+            };
+            if fc < fr.min(w.1) {
+                simplex[2] = (xc, fc);
+            } else {
+                for p in simplex.iter_mut().skip(1) {
+                    let x = [
+                        b.0[0] + 0.5 * (p.0[0] - b.0[0]),
+                        b.0[1] + 0.5 * (p.0[1] - b.0[1]),
+                    ];
+                    *p = (x, f(x));
+                }
+            }
+        }
+    }
+    simplex.sort_by(|p, q| p.1.total_cmp(&q.1));
+    let x = simplex[0].0;
+    let (c3, vinf, theta) = transfer_eval(kernel, dep_body, arr_body, x[0], x[1], ttype, mu_sun)
+        .ok_or("the optimum left the feasible region")?;
+    Ok(TransferOptimum {
+        dep_jd_tdb: x[0],
+        arr_jd_tdb: x[1],
+        c3_km2s2: c3,
+        vinf_arr_kms: vinf,
+        transfer_angle_deg: theta,
+        iterations,
+    })
+}
+
 /// Closed-form departure C3 (m²/s²) of the Hohmann transfer between two coplanar circular
 /// orbits `r1 → r2` about `mu`: `C3 = (v_transfer,peri − v_circ,1)²`. This is the global
 /// minimum-energy departure for circular-to-circular transfer — the porkchop floor.

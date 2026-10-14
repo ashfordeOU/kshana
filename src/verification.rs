@@ -325,6 +325,15 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            requirement: "Impulsive transfer optimiser on the DE440 ephemeris",
+            capability: "maneuver::optimise_transfer_kernel: the departure and arrival dates of a single-revolution ballistic two-impulse transfer that minimise departure C3 or arrival V-infinity within Type I or Type II, as a continuous optimum (a 2-day grid over both windows, then 2-D Nelder-Mead), on heliocentric states from the DE440 SPK. A date optimiser for one leg, not a mission design: no launch-vehicle, parking-orbit, deep-space-manoeuvre or multi-revolution options",
+            module: "maneuver (optimise_transfer_kernel, TransferObjective, TransferType, TransferOptimum); ephem_provider (KernelEphemeris)",
+            tests: "tests/transfer_optimiser_oracle.rs::transfer_optimiser_matches_spice_pykep_scipy (Earth to the Mars barycentre, departures 2026-09-15..2027-01-15 x arrivals 2027-05-01..2028-03-01, Type I/II x min C3 / min V-infinity: worst objective 8.7e-13 relative, dates within 1e-5 day, other quantity within 2.5e-7 relative, against pre-registered bars of 1e-7, 0.01 day and 1e-4; docs/design/evidence/cap20cd-transfer-optimiser/); tests/transfer_optimiser_oracle.rs::transfer_optimiser_against_the_published_2026_handbook (secondary published reference NASA/TM-2010-216764 Table 2: Type II min C3 9.182 vs 9.144 and Type II min V-infinity 2.564 vs 2.565 MET; Type I min C3 10.535 vs 11.11, -5.18 %, NOT MET and asserted as missed, the library oracle agreeing with Kshana)",
+            oracle: "An independent optimiser: NAIF SPICE Toolkit (CSPICE N0067 through spiceypy 8.3.0) heliocentric states on the same de440s cut, pykep 3.0.1 lambert_problem (ESA, MPL-2.0) and SciPy 1.18.1 Nelder-Mead, calling no Kshana code. The NASA Earth-to-Mars handbook (MIDAS, ephemeris unstated, 2-day date grid) is a secondary published reference and does not set the status",
+            oracle_kind: ExternalDataset,
+            status: Validated,
+        },
+        VerificationItem {
             requirement: "Multi-revolution Lambert transfer solver",
             capability: "Every solution of Lambert's problem with up to three complete revolutions (maneuver::lambert_multirev: the single-revolution solution, then the left and right branches of each revolution count, Izzo 2015), with the boundary velocities v1 and v2, for prograde and retrograde transfers, in canonical and heliocentric SI units, including transfers within 1 % of a revolution count's minimum time of flight and near-180 deg geometries. A two-body solver only (no perturbations)",
             module: "maneuver (lambert_multirev, LambertSolution, LambertBranch)",
@@ -2922,6 +2931,13 @@ pub fn validated_oracle_basis() -> Vec<OracleBasisEntry> {
             basis: Reference,
             oracle_test: "tests/icgem_gravity_reference.rs",
             source: "GRS80",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Impulsive transfer optimiser on the DE440 ephemeris",
+            basis: Library,
+            oracle_test: "tests/transfer_optimiser_oracle.rs::transfer_optimiser_matches_spice_pykep_scipy",
+            source: "pykep 3.0.1 lambert_problem (ESA, MPL-2.0) and SciPy 1.18.1 Nelder-Mead",
             flag: "",
         },
         OracleBasisEntry {
