@@ -219,7 +219,7 @@ impl SpkSegment {
         if self.degree > 27 {
             return Err(format!("type 3 degree {} outside 0..=27", self.degree));
         }
-        if !(self.intlen > 0.0) {
+        if self.intlen.is_nan() || self.intlen <= 0.0 {
             return Err(format!(
                 "type 3 interval length {} is not positive",
                 self.intlen
@@ -1278,6 +1278,81 @@ mod tests {
         assert_eq!(bytes.len() % 1024, 1000);
         let k = InterpolatedSpk::from_bytes(bytes).unwrap();
         assert_eq!(k.segments.len(), 25);
+    }
+
+    #[test]
+    fn type3_and_type21_round_trip_and_select_records() {
+        // type 3, degree 1: x = c0 + c1 s on each record, s in [-1, 1]
+        let rec = |c0: f64| {
+            let mut r = Vec::new();
+            for k in 0..6 {
+                r.extend([c0 + k as f64, 2.0]);
+            }
+            r
+        };
+        let t3 = SpkSegment {
+            target: -7,
+            centre: 399,
+            frame: 1,
+            kind: SpkType::Chebyshev3,
+            degree: 1,
+            start: 100.0,
+            end: 400.0,
+            name: "T3".into(),
+            epochs: vec![],
+            states: vec![],
+            records: vec![rec(10.0), rec(20.0), rec(30.0)],
+            init: 100.0,
+            intlen: 100.0,
+        };
+        // type 21, MAXDIM 15: KQMAX1 = 2 makes the line a straight line refpos + delta refvel
+        let line = |tl: f64, x: f64| {
+            let mut l = vec![0.0; 71];
+            l[0] = tl;
+            for g in &mut l[1..16] {
+                *g = 60.0;
+            }
+            l[16..22].copy_from_slice(&[x, 1.0, 0.0, 0.0, 0.0, 0.0]);
+            l[67] = 2.0;
+            l[68..71].copy_from_slice(&[1.0, 1.0, 1.0]);
+            l
+        };
+        let t21 = SpkSegment {
+            target: -8,
+            centre: 399,
+            frame: 1,
+            kind: SpkType::DiffLines21,
+            degree: 0,
+            start: 0.0,
+            end: 200.0,
+            name: "T21".into(),
+            epochs: vec![100.0, 200.0],
+            states: vec![],
+            records: vec![line(100.0, 5.0), line(200.0, 50.0)],
+            init: 0.0,
+            intlen: 0.0,
+        };
+        let f = SpkFile {
+            ifname: "T".into(),
+            ncomch: 0,
+            comments: vec![],
+            segments: vec![t3, t21],
+        };
+        let spk = InterpolatedSpk::from_bytes(f.to_bytes().unwrap()).unwrap();
+        let s3 = &spk.segments[0];
+        assert_eq!(s3.eval(150.0).unwrap()[0], 10.0); // record 1, s = 0
+        assert_eq!(s3.eval(200.0).unwrap()[0], 18.0); // record 2 starts here, s = -1
+        assert_eq!(s3.eval(400.0).unwrap()[0], 32.0); // past the last record: the last one
+        let s21 = &spk.segments[1];
+        assert_eq!(s21.eval(100.0).unwrap()[0], 5.0); // the line ending at 100 s covers it
+        assert_eq!(s21.eval(150.0).unwrap()[0], 0.0); // 50 + (150 - 200) * 1
+        let mut bad = f.segments[1].clone();
+        bad.records[0][1] = 0.0;
+        bad.records[0][67] = 3.0;
+        assert!(
+            bad.validate().is_err(),
+            "a zero step inside KQMAX1 - 2 is refused"
+        );
     }
 
     #[test]

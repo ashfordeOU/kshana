@@ -81,3 +81,8 @@ a venv with spiceypy 8.3.0, ccsdspy 2.0.1, spacepackets 0.32.0; NAIF `naif0012.t
   site, not available here); they were already stale on the base (263 rows, 75 kinds), so
   `matrix_total_no_stale_count_doc_sync` and two `scenario_count_doc_sync` tests fail there as
   before. The Studio screenshot alt text in README.md (line 136) still describes 134 of 274.
+- SPK types 3 and 21 (stretch, coordinator request): pre-registration e1cf80d8 (its SHA-1 seeds
+  the records); code, records, Kshana kernels and test 46ca504e; SPICE run: every bar met,
+  kernels byte-identical to SPICE's, 48 876 components bit-identical both ways
+  (`xval/spk-3-21-spice/RESULTS.md`). New VALIDATED row; matrix 279 rows, 139 VALIDATED; count
+  sites regenerated with the same tools as above.
