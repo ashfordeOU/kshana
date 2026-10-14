@@ -1392,6 +1392,8 @@ gfc    0     0  1.0000000000000000E+00  0.0000000000000000E+00
     }
 
     #[test]
+    // The literals are the GMM-3 values exactly as the PDS table prints them.
+    #[allow(clippy::excessive_precision)]
     fn shadr_table_parses_header_units_and_rows() {
         let text = " 3.3960000000000000e+03, 4.2828372854187757e+04, 1.62e-05,  3,  3,    1, 0.0, 0.0\n    2,    0, -8.7450547081842009e-04, 0.0, 1e-12, 0.0\n    2,    1, 0.0, 0.0, 0.0, 0.0\n    2,    2, -8.4585018503931014e-05, 4.8930574157029010e-05, 1e-12, 1e-12\n    3,    1, 3.9e-06, 2.5e-05, 0.0, 0.0\n";
         let f = SphericalHarmonicField::from_shadr(text, 2).unwrap();
