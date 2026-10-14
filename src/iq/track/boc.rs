@@ -240,38 +240,50 @@ mod tests {
         }
     }
 
-    /// Pre-registered bar B4, unit-test part, as written. It is NOT MET: the grid includes
-    /// points outside the discriminators' linear range (`|ε| ≥ d/2`, and the dot product's
-    /// `1/|P|²` normalisation with `P = 1 − 3|ε|`), where the scaled outputs miss `ε` by up to
-    /// 48 % (EMLP, d = 0.5, ε = 0.08), 32 % (dot product) and 30 % (envelope, d = 0.1,
-    /// ε = 0.08). Recorded in `docs/design/evidence/boc-bump-jump/RESULTS.md`.
+    /// Pre-registered bar B4, unit-test part: all three scaled discriminators within 10 % of `ε`
+    /// on the ideal peak for `d ∈ {0.1, 0.2, 0.5}`, `ε ∈ {−0.05, 0.02, 0.08}`, `|ε| + d/2 < 1/3`.
+    /// It is NOT MET (finding F1): the grid includes points outside the discriminators' linear
+    /// range (`|ε| ≥ d/2`, and the dot product's `1/|P|²` normalisation with `P = 1 − 3|ε|`).
+    /// This test keeps the bar as registered and asserts the recorded relative errors (to
+    /// 2e-3), and so exactly the recorded misses, so it fails if the result moves. Recorded in
+    /// `docs/design/evidence/boc-bump-jump/RESULTS.md`.
     #[test]
-    #[ignore = "FINDING: pre-registered B4 unit-test bar NOT MET (grid exceeds the linear range)"]
-    fn boc11_scaled_discriminators_are_unit_slope_on_the_main_peak() {
-        let k = BocKind::SineBoc11;
-        for d in [0.1, 0.2, 0.5] {
-            for eps in [-0.05_f64, 0.02, 0.08] {
-                if eps.abs() + d / 2.0 >= 1.0 / 3.0 {
-                    continue;
-                }
-                let rot = Cf64::new(0.6, -0.8);
-                let e = rot * k.autocorrelation(eps - d / 2.0);
-                let p = rot * k.autocorrelation(eps);
-                let l = rot * k.autocorrelation(eps + d / 2.0);
-                for dll in [
-                    DllDiscriminator::EarlyMinusLatePower,
-                    DllDiscriminator::DotProduct,
-                    DllDiscriminator::EarlyMinusLateEnvelope,
-                ] {
-                    let got = dll.discriminate(e, p, l, d) * boc11_dll_scale(dll, d);
-                    let tol = 0.1 * eps.abs() + 1e-12;
-                    assert!(
-                        (got - eps).abs() <= tol,
-                        "{dll:?} d={d} eps={eps} got={got}"
-                    );
+    fn b4_unit_grid_misses_are_the_recorded_ones() {
+        // (d, ε, relative error of [EMLP, dot product, envelope]) as recorded.
+        const RECORDED: [(f64, f64, [f64; 3]); 9] = [
+            (0.1, -0.05, [-0.0302, 0.1765, 0.0]),
+            (0.1, 0.02, [-0.0050, 0.0638, 0.0]),
+            (0.1, 0.08, [-0.3272, -0.1776, -0.30099]),
+            (0.2, -0.05, [-0.0439, 0.1765, 0.0]),
+            (0.2, 0.02, [-0.0073, 0.0638, 0.0]),
+            (0.2, 0.08, [-0.1052, 0.3158, 0.0]),
+            (0.5, -0.05, [-0.2647, 0.1765, 0.0]),
+            (0.5, 0.02, [-0.0545, 0.0638, 0.0]),
+            (0.5, 0.08, [-0.4796, 0.3158, 0.0]),
+        ];
+        let mut misses = 0;
+        for (d, eps, want) in RECORDED {
+            assert!(
+                eps.abs() + d / 2.0 < 1.0 / 3.0,
+                "grid point inside the registered range"
+            );
+            for (dll, w) in ALL.into_iter().zip(want) {
+                let rel = scaled(dll, d, eps) / eps - 1.0;
+                assert!(
+                    (rel - w).abs() < 2e-3,
+                    "{dll:?} d={d} eps={eps}: {rel:.4} vs {w}"
+                );
+                // The registered bar, unchanged: within 10 % of ε.
+                if rel.abs() > 0.1 {
+                    misses += 1;
                 }
             }
         }
+        // 11 of the 27 discriminator-grid points miss the 10 % bar, as recorded.
+        assert_eq!(
+            misses, 11,
+            "the B4 unit-test bar is recorded NOT MET with 11 misses"
+        );
     }
 
     #[test]

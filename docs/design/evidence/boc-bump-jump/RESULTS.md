@@ -5,7 +5,7 @@ were not changed after the runs. Reproduce with
 
 ```
 cargo test --release --test iq_boc_bump_jump -- --nocapture
-cargo test --lib iq::track::boc -- --include-ignored
+cargo test --lib iq::track::boc
 ```
 
 Signal: BeiDou B1C data, PRN 19, seeded 10 ms symbols, 5 MS/s complex, Doppler +1250 Hz,
@@ -100,8 +100,9 @@ side of the peak (the EMLP and envelope rows at `d = 0.1, ε = 0.08`); EMLP is a
 squares and bends away from linear as `ε` grows; and the dot product divides by `|P|²` with
 `P = 1 − 3|ε|` on the BOC peak, so it reads `ε/(1 − 3|ε|)`-like values. The same
 nonlinearities exist for the BPSK normalisations; they are larger here only because the BOC
-peak is three times as steep. The bar is not changed: the strict test is kept as written,
-`#[ignore = "FINDING …"]`, in `src/iq/track/boc.rs`. The loop behaviour the bar was meant to
+peak is three times as steep. The bar is not changed: `b4_unit_grid_misses_are_the_recorded_ones` in
+`src/iq/track/boc.rs` keeps it as written and asserts the recorded relative errors (to 2e-3)
+and the 11 recorded misses, so CI fails if the result moves. The loop behaviour the bar was meant to
 protect is covered by B2 and B3, which run inside the linear range.
 
 ## B5: correlator level
