@@ -162,10 +162,13 @@ fn area_50(b: &Band) -> f64 {
         * h
 }
 
-/// S2 as registered: unit area, BPSK first nulls at the chip rate, and B1C equal to Galileo E1.
+/// S2 as registered (unit area within 1e-3 over ±50 chip rates, BPSK first nulls at the chip
+/// rate, B1C equal to Galileo E1), asserted as recorded (finding F1, run 2026-10-13): the area
+/// part misses for every new band, because a unit-area density carries power outside ±50 chip
+/// rates (0.997974 for BPSK, 0.990083 for MBOC); the other parts are met. The areas are
+/// pinned by `finding_s2_areas_are_the_closed_form_in_band_fraction`.
 #[test]
-#[ignore = "FINDING F1 (run 2026-10-13): the area part of S2 cannot be met as written. A unit-area density carries power outside +-50 chip rates (a BPSK sinc^2 keeps 2.03e-3 of it there), so its area over that span is 0.997974 for every BPSK band and 0.990083 for B1C (MBOC), against the 1e-3 bar. The null and B1C = E1 parts are met (s2_nulls_and_b1c_parts); the BPSK areas equal the closed-form in-band fraction (finding_s2_areas_are_the_closed_form_in_band_fraction)"]
-fn s2_closed_form_densities() {
+fn s2_closed_form_densities_verdict_is_the_recorded_one() {
     let mut fails = Vec::new();
     for name in MORE_BAND_NAMES {
         let b = default_band(name).unwrap();
@@ -192,7 +195,9 @@ fn s2_closed_form_densities() {
             fails.push(format!("B1C vs E1 at {f} Hz: {a} vs {b}"));
         }
     }
-    assert!(fails.is_empty(), "S2 missed: {fails:?}");
+    // Exactly the area part misses, once for each of the seven new bands.
+    assert_eq!(fails.len(), MORE_BAND_NAMES.len(), "{fails:?}");
+    assert!(fails.iter().all(|f| f.contains(": area ")), "{fails:?}");
 }
 
 /// The S2 parts that were met: BPSK first nulls at the chip rate, and B1C equal to Galileo E1.
@@ -383,11 +388,12 @@ fn posthoc_s3_band_averaged_shape() {
     }
 }
 
-/// S3 as registered: the IQ layer's GLONASS L1OF, BeiDou B1I and B1C data waveforms have the
-/// model's shape.
+/// S3 as registered (mean per-bin |Δ| ≤ 0.5 dB for the IQ layer's GLONASS L1OF, BeiDou B1I and
+/// B1C data waveforms against the model), asserted as recorded (finding F2, run 2026-10-13):
+/// GLONASS met; B1I and B1C NOT MET, because Gold and Weil codes have uneven spectral-line
+/// powers. The numbers are pinned by `finding_s3_per_bin_errors_follow_the_code_line_spectrum`.
 #[test]
-#[ignore = "FINDING F2 (run 2026-10-13): GLONASS L1OF met (0.074 dB); BeiDou B1I 1.260 dB and B1C data 1.560 dB miss the 0.5 dB bar. Averaged over quarter-chip-rate bands the B1I shape is within +-0.25 dB of the model across the main lobe and B1C within +-0.1 dB up to 1.75 R_c: the per-bin error is the Gold and Weil codes' uneven spectral-line powers (per-bin sd 1.49 and 0.52 dB; the GLONASS m-sequence has equal lines, 0.09 dB), plus, for B1C, bins next to the BOC(1,1) null at 2 R_c (+5.8 dB over 1.75-2 R_c). Pinned by finding_s3_per_bin_errors_follow_the_code_line_spectrum"]
-fn s3_iq_layer_waveforms_match_the_model_spectrum() {
+fn s3_iq_layer_verdict_is_the_recorded_one() {
     let mut fails = Vec::new();
     for (name, err) in s3_errors() {
         eprintln!("S3 {name}: mean |Δ| {err:.3} dB");
@@ -395,7 +401,14 @@ fn s3_iq_layer_waveforms_match_the_model_spectrum() {
             fails.push(format!("{name}: {err:.3} dB"));
         }
     }
-    assert!(fails.is_empty(), "S3 missed: {fails:?}");
+    assert_eq!(
+        fails
+            .iter()
+            .map(|f| f.split(':').next().unwrap())
+            .collect::<Vec<_>>(),
+        ["beidou-b1i", "beidou-b1c data (BOC(1,1))"],
+        "the registered S3 verdict moved"
+    );
 }
 
 /// S4: for each new band, CW and matched jammers at J/S 30 dB give the same C/N0 by the

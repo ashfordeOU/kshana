@@ -8,8 +8,11 @@ Reproduce:
 
 ```
 scripts/fetch_scint_malindi.sh            # Zenodo 16941224 data_f1.txt, SHA-256 checked
-cargo test --release --test iq_scint_malindi_measured -- --include-ignored --nocapture
+cargo test --release --test iq_scint_malindi_measured -- --nocapture
 ```
+
+The pre-registration names the receiver that recorded the data; that naming is historical. This
+record and the code cite the data by its Zenodo record only.
 
 Data: Zenodo record 16941224 (INGV, NORISK project, Malindi, Kenya, 18 March 2023, GPS PRN 26),
 `data_f1.txt`, CC BY 4.0. The SHA-256 matches the registration (`4934ab9a…`). The file has
@@ -37,7 +40,8 @@ night's data. The registered disclosures name causes that act this way, but none
 - One satellite on one night: an equatorial plasma bubble need not follow the Cornell model's
   Rice statistics and second-order Butterworth spectrum.
 
-Nothing was tuned. The registered test is kept as written and ignored with this finding;
+Nothing was tuned. `cornell_model_verdict_is_the_recorded_one` keeps the registered verdict and
+asserts it as recorded (N1, B2, B3 met; B1, B4 not), so CI fails if it moves;
 `finding_model_fades_are_deeper_and_longer_than_measured` pins the numbers.
 
 ## Harness self-check and finding F2 (the model phase is wrapped)
@@ -48,7 +52,8 @@ the wrapped `atan2` in (−π, π]. The registered processing feeds it to the ph
 is, while the measured carrier phase is continuous. Every wrap is then a 2π step: 5 of the 32
 self-check windows read as cycle slips, and σφ_model is inflated.
 
-- The self-check is kept as written and ignored (finding F2).
+- The self-check asserts its recorded outcome (`model_data_through_the_harness_shows_the_wrapped_phase_finding`,
+  finding F2).
 - A variant with the model phase unwrapped passes N1 and every bar, with no window read as a
   slip (`model_data_with_unwrapped_phase_passes_its_own_bars`). So the rest of the harness is
   consistent with the model.

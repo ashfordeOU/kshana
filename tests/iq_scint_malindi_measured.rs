@@ -76,28 +76,32 @@ fn run() -> Option<Comparison> {
     Some(c)
 }
 
-/// The pre-registered verdict: N1 and B1 to B4 all pass.
+/// The pre-registered verdict (N1 and B1 to B4 must all pass for VALIDATED), kept as
+/// registered and asserted as recorded (finding F1, run 2026-10-13): N1, B2 and B3 met; B1
+/// (the model has 2.38 times the measured deep-fade fraction) and B4 (its mean fade lasts 3.51
+/// times as long) NOT MET. The test fails if the verdict moves; the numbers are pinned by
+/// `finding_model_fades_are_deeper_and_longer_than_measured`.
 #[test]
-#[ignore = "FINDING F1 (run 2026-10-13 on 14a14a83 plus this test): N1 met (22 qualifying windows, 669 samples below -10 dB, 76 fades); B2 met (KS D 0.0415) and B3 met (median sigma-phi ratio 0.779); B1 MISSED, the model has 2.38 times the measured deep-fade fraction (0.0241 vs 0.0101), and B4 MISSED, its mean fade lasts 3.51 times as long (0.618 s vs 0.176 s). Pinned by finding_model_fades_are_deeper_and_longer_than_measured"]
-fn cornell_model_matches_measured_malindi_scintillation() {
+fn cornell_model_verdict_is_the_recorded_one() {
     let Some(c) = run() else { return };
-    let mut fails = Vec::new();
-    if !c.n1() {
-        fails.push("N1 (vacuous)".to_string());
-    }
-    if !c.b1() {
-        fails.push(format!("B1 ratio {:.3}", c.b1_ratio()));
-    }
-    if !c.b2() {
-        fails.push(format!("B2 D {:.4}", c.ks_d));
-    }
-    if !c.b3() {
-        fails.push(format!("B3 median {:.3}", c.sigma_phi_ratio_median));
-    }
-    if !c.b4() {
-        fails.push(format!("B4 ratio {:.3}", c.b4_ratio()));
-    }
-    assert!(fails.is_empty(), "missed: {fails:?}");
+    let verdict = [
+        ("N1", c.n1()),
+        ("B1", c.b1()),
+        ("B2", c.b2()),
+        ("B3", c.b3()),
+        ("B4", c.b4()),
+    ];
+    assert_eq!(
+        verdict,
+        [
+            ("N1", true),
+            ("B1", false),
+            ("B2", true),
+            ("B3", true),
+            ("B4", false)
+        ],
+        "the registered verdict moved"
+    );
 }
 
 /// Pins finding F1 so that a change to the model, the harness or the data shows up.

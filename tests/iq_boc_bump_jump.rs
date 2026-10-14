@@ -6,7 +6,7 @@
 //! BOC(1,1), seeded 10 ms data symbols, 5 MS/s complex, Doppler +1250 Hz, thermal noise) for
 //! B1 to B4, and a correlator-level model with the exact BOC(1,1) noise covariance for B5.
 //! No external receiver's output is compared. A bar that is missed is a finding: it is kept
-//! as written in a test marked `#[ignore = "FINDING …"]` and recorded in `RESULTS.md`.
+//! as registered in a test that asserts the recorded miss, and recorded in `RESULTS.md`.
 
 use kshana::iq::scene::{
     NavData, NoiseConfig, RangeProfile, SatGeometry, Scene, SceneConfig, SceneSatellite,

@@ -570,20 +570,16 @@ mod tests {
         compare(&meas)
     }
 
-    /// Harness self-check as first written: model output treated as "measured" data passes
-    /// every bar against the model. It does not hold: the model's `phase_rad` is the wrapped
-    /// `atan2` in (−π, π], so each wrap is a 2π step of the detrended phase and reads as a
-    /// cycle slip; 5 windows are rejected for it and only 22 of the 32 qualify. The
-    /// registered processing (B3 and the slip test of the measured windows) is left as
-    /// registered; the effect on B3 is reported post hoc in `xval/scint-malindi/RESULTS.md`
-    /// (finding F2).
+    /// Harness self-check as first written: model output treated as "measured" data should
+    /// pass every bar against the model. It does not (finding F2): the model's `phase_rad` is
+    /// the wrapped `atan2` in (−π, π], so each wrap is a 2π step of the detrended phase and
+    /// reads as a cycle slip. The registered processing is left as registered; this test
+    /// asserts the recorded outcome (5 windows rejected as slips, 22 of 32 qualifying), and the
+    /// effect on B3 is reported post hoc in `xval/scint-malindi/RESULTS.md`.
     #[test]
-    #[ignore = "FINDING F2: the model phase is wrapped, so 5 of 32 model windows read as cycle slips (22 qualify)"]
-    fn model_data_through_the_harness_passes_its_own_bars() {
+    fn model_data_through_the_harness_shows_the_wrapped_phase_finding() {
         let c = self_check(false);
-        assert_eq!(c.windows_qualifying, 32);
-        assert!(c.n1(), "{c:?}");
-        assert!(c.b1() && c.b2() && c.b3() && c.b4(), "{c:?}");
+        assert_eq!((c.windows_slipped, c.windows_qualifying), (5, 22), "{c:?}");
     }
 
     /// The same self-check with the model phase unwrapped (a continuous phase, as a tracking

@@ -3,7 +3,7 @@
 Pre-registration: `PREREGISTRATION.md` (committed at `5806f28b`, before the code existed). The
 bars were not changed.
 
-Reproduce with `cargo test --release --test spectrum_more_bands -- --include-ignored --nocapture`.
+Reproduce with `cargo test --release --test spectrum_more_bands -- --nocapture`.
 
 The S3 sample rate and length (16 MS/s, 30 ms) were fixed before the first run, within the
 registered limits, and are stated in the test header.
@@ -34,7 +34,8 @@ registration's bar was wrong, not the densities.
 
 Post hoc, the measured BPSK areas equal the closed-form in-band fraction
 `navsignal::bpsk_power_in_band_closed_form` to 1e-6
-(`finding_s2_areas_are_the_closed_form_in_band_fraction`). The strict test is kept and ignored.
+(`finding_s2_areas_are_the_closed_form_in_band_fraction`). `s2_closed_form_densities_verdict_is_the_recorded_one` keeps the bar
+as registered and asserts the recorded verdict (exactly the area part misses, for each band).
 
 ## Finding F2: per-bin errors follow the codes' line spectra
 
@@ -67,7 +68,8 @@ So:
 - B1I's first sidelobe reads up to 1.3 dB above the envelope;
 - the B1C excess is confined to the null region.
 
-The strict test is kept and ignored; `finding_s3_per_bin_errors_follow_the_code_line_spectrum`
+`s3_iq_layer_verdict_is_the_recorded_one` keeps the bar as registered and asserts the recorded
+verdict; `finding_s3_per_bin_errors_follow_the_code_line_spectrum`
 pins the numbers.
 
 ## Observation outside this item
