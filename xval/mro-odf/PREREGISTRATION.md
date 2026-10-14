@@ -50,3 +50,20 @@ If R1-R6 hold, the ledger row "TRK-2-18 Orbit Data File reader" is VALIDATED aga
 label (ExternalDataset), stated narrowly as structure, time tags and stations. The decoded
 observable values are not checked by these bars. They are checked by the stage 2 orbit
 determination. If a bar misses, it is recorded as a FINDING and the row is MODELLED.
+
+## Result (first run, 2026-10-14)
+
+| Bar | Result | Verdict |
+|---|---|---|
+| R1 | 53 088 records | holds |
+| R2 | all seven group headers at the label's records (1, 3, 5, 51 991, 52 313, 52 722, 52 967) | holds |
+| R3 | every table matches except the end-of-file data table: label 120, file 121 | **misses** |
+| R4 | receiving stations {14, 43, 63} | holds |
+| R5 | first and last time tags within 1 s of the label's START_TIME and STOP_TIME | holds |
+| R6 | all data types known (1-way Doppler 8 612, 2-way 40 814, 3-way 2 544, sequential range 15); every Doppler record has a reference frequency | holds |
+
+FINDING (R3). The label's end-of-file data table starts at record 52 968 with 120 rows, so it
+ends at record 53 087, one record before the label's own FILE_RECORDS (53 088). The file holds
+121 records after the end-of-file header. This is an inconsistency inside the label, not a
+reader error, but the registered bar is exact and missed. Under the outcome rule the row is
+MODELLED, with this finding recorded and pinned in `tests/mro_odf_reader_label_oracle.rs`.

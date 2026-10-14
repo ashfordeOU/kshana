@@ -4,9 +4,9 @@
   "scenario_kinds": 83,
   "matrix": {
     "validated": 136,
-    "modelled": 143,
+    "modelled": 144,
     "partner_owned": 4,
-    "total": 283
+    "total": 284
   },
   "assets": {
     "kshana-mark": {

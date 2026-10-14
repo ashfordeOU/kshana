@@ -1508,6 +1508,15 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            requirement: "TRK-2-18 Orbit Data File reader",
+            capability: "A reader for DSN Orbit Data Files (TRK-2-18): the 36-byte record groups (file label, identifier, orbit data, per-station ramps, clock offsets, summary, end of file), and in each orbit-data record the time tag since 1950, downlink and uplink delays, observable, stations, data type, bands, validity, channel, spacecraft, the 46-bit reference frequency and the compression time; ramp start and end times, rates and start frequencies.",
+            module: "odf (parse_odf, Odf, OdfObservation, OdfRamp, seconds_1950)",
+            tests: "tests/mro_odf_reader_label_oracle.rs (a real MRO ODF, 2007-304/305, against its PDS label: record count, group positions, stations, start and stop times and data types hold; the end-of-file table's row count misses by one, a label inconsistency, pinned as a finding); odf::tests (hand-built record round trip, 1950 epoch)",
+            oracle: "The PDS3 label that the DSN navigation data-conditioning process produced with the file (NASA PDS Geosciences Node, MRO-M-RSS-1-MAGR-V1.0), checked against bars pre-registered in xval/mro-odf/PREREGISTRATION.md before the reader existed. MODELLED because one registered bar (the end-of-file table's rows, 121 in the file against 120 in the label) missed; the label is internally inconsistent there. WHAT IS NOT: the decoded observable values are not checked against an external decoder; orbit determination on these data is not done.",
+            oracle_kind: ExternalDataset,
+            status: Modelled,
+        },
+        VerificationItem {
             requirement: "Closed-loop MRP feedback attitude control with reaction wheels",
             capability: "Inertial-pointing attitude control of a rigid hub with three or more balanced reaction wheels: the MRP feedback law L_r = -K sigma_BR - P omega_BR (Schaub and Junkins), minimum-norm wheel motor torques G_s u = -L_r clipped to each wheel's limit, the coupled hub and wheel dynamics with the hub inertia carrying the wheels' spin inertia, quaternion kinematics, RK4 with a zero-order hold. Runnable as the `aocs` scenario kind (true-state loop).",
             module: "aocs (AocsConfig, required_torque, motor_torques, rates, rk4_step, simulate, mrp_from_quaternion); aocs_kind (AocsScenario)",
