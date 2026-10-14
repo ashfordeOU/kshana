@@ -66,6 +66,7 @@ No ledger row's status changes.
 | `docs/SPECTRUM.md`, band table | E1 −157.0, E5a −155.0 dBW | −157.25, −155.25 dBW (Issue 2.1, Table 12) |
 | `docs/CAMPAIGNS.md`, `campaign-spectrum-holdover-integrity` phases | E1 44.98 / 4.69 / back to 44.98 dB-Hz | 44.73 / 4.44 / 44.73 dB-Hz |
 | `docs/LEO-SIGNAL.md`, multi-band table, `galileo-e5a` | 46.98, 38.76 dB-Hz from 30 s | 46.73, 38.51 dB-Hz |
+| `docs/assets/readme/lband-waterfall-{light,dark}.svg` (README figure, regenerated with the CAP-06a commit by `tools/gen_readme_assets.py`) | caption: Galileo E1 minimum 4.7, E5a 47.0 dB-Hz; the E1 and E5a waterfall rows | 4.4, 46.7 dB-Hz; the two rows 0.25 dB lower |
 
 Rows tracking, first-loss times and every other column of these tables are unchanged.
 

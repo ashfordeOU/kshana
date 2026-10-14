@@ -26,10 +26,11 @@
 //! Honest scope: this is a **link-budget** interference model. It captures the
 //! geometry (free-space path loss, per-satellite receive-antenna gain vs.
 //! elevation) and the despreading processing gain, which is what determines
-//! denial range. It does **not** model multipath, terrain shadowing of the
-//! jammer, near/far AGC effects, adaptive nulling antennas, or the receiver's
-//! acquisition (vs. tracking) threshold hysteresis — those are noted in
-//! `docs/CAPABILITY.md` as out of scope.
+//! denial range. An optional `[crpa]` section adds an adaptive (null-steering or MVDR)
+//! antenna array per channel ([`CrpaCfg`]). It does **not** model multipath, terrain
+//! shadowing of the jammer, near/far AGC effects, or the receiver's acquisition (vs.
+//! tracking) threshold hysteresis — those are noted in `docs/CAPABILITY.md` as out of
+//! scope.
 
 use crate::frames::{geodetic_to_ecef, look_angles, teme_to_ecef, Geodetic, Vec3};
 use crate::palette::chart::{AXIS, BG, FAULT, FONT_SANS, MUTED, OK, TEXT};
@@ -300,6 +301,96 @@ pub struct JammingScenario {
     /// jammer would otherwise compete with. Absent, the mask is the flat `mask_deg`.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub skyline: Option<crate::skyline::SkylineCfg>,
+    /// Optional controlled-reception-pattern antenna ([`CrpaCfg`]): each channel beamforms
+    /// toward its satellite with [`crate::crpa`] weights. Absent, the receiver is the single
+    /// element of the original model and every output is unchanged.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub crpa: Option<CrpaCfg>,
+}
+
+/// A controlled-reception-pattern antenna for the `jamming` kind (CAP-06 (a); pre-registered in
+/// `docs/design/evidence/crpa-jamming/`). Each tracking channel forms its own beam, distortionless
+/// toward its satellite (`wᴴ a_sv = 1`): the output noise scales by `‖w‖²` and the jammer by
+/// `|wᴴ a_j|²`, so the nominal C/N0 shifts by `−10·log10 ‖w‖²` and the J/S by
+/// `10·log10 |wᴴ a_j|²` before the anti-jam equation. MODELLED: narrowband, far field, identical
+/// elements with the single-element pattern [`rx_antenna_gain_db`], one jammer, no coupling or
+/// channel mismatch.
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(deny_unknown_fields)]
+pub struct CrpaCfg {
+    /// Element positions in the receiver's local east-north-up frame (m).
+    pub elements_enu_m: Vec<Vec3>,
+    /// `null-steering` (an exact null toward the jammer, [`crate::crpa::null_steering_weights`])
+    /// or `mvdr` ([`crate::crpa::mvdr_weights`] on `σ²I + P_j a_j a_jᴴ`). Where a null cannot
+    /// be placed (more constraints than elements, or the jammer along the satellite's
+    /// direction) the beam is the conventional `a_sv/N`.
+    pub weighting: String,
+    /// Front-end bandwidth (MHz) for the MVDR noise power `kTB`; default twice the chip rate.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub bandwidth_mhz: Option<f64>,
+}
+
+impl CrpaCfg {
+    fn check(&self) -> Result<(), String> {
+        if self.elements_enu_m.is_empty() {
+            return Err("crpa.elements_enu_m must list at least one element".into());
+        }
+        if self.elements_enu_m.iter().flatten().any(|v| !v.is_finite()) {
+            return Err("crpa.elements_enu_m must be finite".into());
+        }
+        if !["null-steering", "mvdr"].contains(&self.weighting.as_str()) {
+            return Err(format!(
+                "crpa.weighting {:?}: expected \"null-steering\" or \"mvdr\"",
+                self.weighting
+            ));
+        }
+        if let Some(b) = self.bandwidth_mhz {
+            if !(b.is_finite() && b > 0.0) {
+                return Err(format!("crpa.bandwidth_mhz must be positive (got {b})"));
+            }
+        }
+        Ok(())
+    }
+}
+
+/// The local east-north-up unit vector of an azimuth (from north, clockwise) and elevation.
+fn enu_unit(az_rad: f64, el_rad: f64) -> Vec3 {
+    [
+        az_rad.sin() * el_rad.cos(),
+        az_rad.cos() * el_rad.cos(),
+        el_rad.sin(),
+    ]
+}
+
+/// The weights of one channel's beam toward `sv` with the jammer at `jam` (unit ENU vectors).
+fn crpa_weights(
+    c: &CrpaCfg,
+    lambda: f64,
+    sv: Vec3,
+    jam: Option<(Vec3, f64)>,
+) -> Vec<crate::crpa::C> {
+    use crate::crpa;
+    let pos = &c.elements_enu_m;
+    let a_sv = crpa::steering(pos, sv, lambda);
+    let conventional = || {
+        let n = pos.len() as f64;
+        a_sv.iter()
+            .map(|x| crpa::C {
+                re: x.re / n,
+                im: x.im / n,
+            })
+            .collect::<Vec<_>>()
+    };
+    let w = match (c.weighting.as_str(), jam) {
+        ("null-steering", Some((dir, _))) => crpa::null_steering_weights(pos, lambda, sv, &[dir]),
+        ("mvdr", Some((dir, jnr))) => {
+            let a_j = crpa::steering(pos, dir, lambda);
+            let r = crpa::covariance(pos.len(), 1.0, &[jnr], &[a_j]);
+            crpa::mvdr_weights(&r, &a_sv)
+        }
+        _ => None,
+    };
+    w.unwrap_or_else(conventional)
 }
 
 impl JammingScenario {
@@ -319,6 +410,19 @@ pub struct SatLink {
     pub cn0_nominal_dbhz: f64,
     pub cn0_effective_dbhz: f64,
     pub status: String,
+    /// The channel's beam with a `[crpa]` section (absent without one).
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub crpa: Option<SatCrpa>,
+}
+
+/// One channel's CRPA beam: how it scales the noise and the jammer (dB).
+#[derive(Clone, Debug, Serialize)]
+pub struct SatCrpa {
+    /// `−10·log10 ‖w‖²`: the array's gain against the noise for this beam (`wᴴ a_sv = 1`).
+    pub array_noise_gain_db: f64,
+    /// `10·log10 |wᴴ a_j|²`: the beam's gain toward the jammer; very negative at a null and
+    /// negative infinity (null) without a jammer.
+    pub jammer_gain_db: f64,
 }
 
 /// One epoch: the visible set, how many stayed **tracking** (effective C/N₀ at or
@@ -448,6 +552,39 @@ pub const UNITS: &[crate::field_schema::FieldUnit] = {
     ]
 };
 
+/// The units of the per-link `crpa` block, added to [`UNITS`] only for a run with a `[crpa]`
+/// section, so a run without one emits the same units table as before the section existed.
+/// With the section, `cn0_effective_dbhz` is the C/N0 at the output of the satellite's beam.
+pub const CRPA_UNITS: &[crate::field_schema::FieldUnit] = {
+    use crate::field_schema::{FieldUnit, ProvenanceClass::*};
+    &[
+        FieldUnit {
+            path: "epochs[].sats[].crpa.array_noise_gain_db",
+            unit: "dB",
+            provenance: Computed,
+            definition: "the beam's gain against thermal noise, -10 log10 of the squared norm \
+                         of its weights (unit gain toward the satellite); the link's \
+                         cn0_effective_dbhz is then at the output of this beam",
+        },
+        FieldUnit {
+            path: "epochs[].sats[].crpa.jammer_gain_db",
+            unit: "dB",
+            provenance: Computed,
+            definition: "the beam's power gain toward the jammer, 10 log10 |w^H a_j|^2; very \
+                         negative at a null, negative infinity (null) with no jammer",
+        },
+    ]
+};
+
+/// The units table of a jamming run: [`UNITS`], plus [`CRPA_UNITS`] with a `[crpa]` section.
+pub fn units(s: &JammingScenario) -> Vec<crate::field_schema::FieldUnit> {
+    let mut v = UNITS.to_vec();
+    if s.crpa.is_some() {
+        v.extend_from_slice(CRPA_UNITS);
+    }
+    v
+}
+
 /// A jamming run result.
 #[derive(Clone, Debug, Serialize)]
 pub struct JammingResult {
@@ -474,6 +611,9 @@ fn hash_scenario(scn: &JammingScenario) -> String {
 /// An invalid `skyline` section is an error here as in [`crate::api::run_toml`] (never a
 /// silent fall-back to the flat mask). [`run_jamming_sky`] takes the skyline explicitly.
 pub fn run_jamming(scn: &JammingScenario) -> Result<JammingResult, String> {
+    if let Some(c) = &scn.crpa {
+        c.check()?;
+    }
     let sky = scn.sky()?;
     Ok(run_jamming_sky(scn, sky.as_ref()))
 }
@@ -499,6 +639,30 @@ pub fn run_jamming_sky(
         let el = look_angles(station, j.position_ecef_m).el_rad;
         (j, d, rx_antenna_gain_db(el))
     });
+    // With a CRPA: the jammer's look direction and its jammer-to-noise ratio per element
+    // over the front-end bandwidth (for the MVDR covariance).
+    let lambda = C_M_PER_S / scn.freq_hz;
+    let crpa_jammer = match (&scn.crpa, &jammer_geom) {
+        (Some(c), Some((j, d, rx_gain_jammer))) => {
+            let look = look_angles(station, j.position_ecef_m);
+            let jam_dbw = j_over_s_db(
+                j.power_dbw,
+                j.gain_dbi,
+                *rx_gain_jammer,
+                *d,
+                scn.freq_hz,
+                0.0,
+                0.0,
+            );
+            let b_hz = c.bandwidth_mhz.map_or(2.0 * scn.chip_rate_hz, |b| b * 1e6);
+            let noise_dbw = noise_density_dbw_per_hz(scn.temp_k) + 10.0 * b_hz.log10();
+            Some((
+                enu_unit(look.az_rad, look.el_rad),
+                10f64.powf((jam_dbw - noise_dbw) / 10.0),
+            ))
+        }
+        _ => None,
+    };
 
     let dt = scn.time.step_s;
     let n = (scn.time.duration_s / dt).round() as usize;
@@ -525,6 +689,20 @@ pub fn run_jamming_sky(
             let look = look_angles(station, sat_ecef);
             let gain = rx_antenna_gain_db(look.el_rad);
             let cn0_nom = nominal_cn0_dbhz(scn.signal_power_dbw, gain, scn.temp_k);
+            // The channel's beam: (noise gain, jammer gain) in dB, with a CRPA.
+            let beam = scn.crpa.as_ref().map(|c| {
+                let sv = enu_unit(look.az_rad, look.el_rad);
+                let w = crpa_weights(c, lambda, sv, crpa_jammer);
+                let norm2: f64 = w.iter().map(|x| x.re * x.re + x.im * x.im).sum();
+                let jam_gain = crpa_jammer.map_or(f64::NEG_INFINITY, |(dir, _)| {
+                    let g = crate::crpa::array_response(&w, &c.elements_enu_m, dir, lambda);
+                    10.0 * (g.re * g.re + g.im * g.im).log10()
+                });
+                SatCrpa {
+                    array_noise_gain_db: -10.0 * norm2.log10(),
+                    jammer_gain_db: jam_gain,
+                }
+            });
             let (js_db, cn0_eff) = match &jammer_geom {
                 Some((j, d, rx_gain_jammer)) => {
                     let js = j_over_s_db(
@@ -539,9 +717,21 @@ pub fn run_jamming_sky(
                     let q = q_factor(&j.jammer_type, j.q_override);
                     js_sum += js;
                     js_count += 1;
-                    (js, effective_cn0_dbhz(cn0_nom, js, q, scn.chip_rate_hz))
+                    let cn0_eff = match &beam {
+                        Some(b) => effective_cn0_dbhz(
+                            cn0_nom + b.array_noise_gain_db,
+                            js + b.jammer_gain_db,
+                            q,
+                            scn.chip_rate_hz,
+                        ),
+                        None => effective_cn0_dbhz(cn0_nom, js, q, scn.chip_rate_hz),
+                    };
+                    (js, cn0_eff)
                 }
-                None => (f64::NEG_INFINITY, cn0_nom),
+                None => (
+                    f64::NEG_INFINITY,
+                    cn0_nom + beam.as_ref().map_or(0.0, |b| b.array_noise_gain_db),
+                ),
             };
             let status = lock_status(cn0_eff, scn.tracking_threshold_dbhz, scn.degraded_margin_db);
             links.push(SatLink {
@@ -551,6 +741,7 @@ pub fn run_jamming_sky(
                 cn0_nominal_dbhz: cn0_nom,
                 cn0_effective_dbhz: cn0_eff,
                 status: status.label().into(),
+                crpa: beam,
             });
         }
         let visible = links.len();
@@ -806,6 +997,7 @@ mod tests {
             freq_hz: L1_HZ,
             chip_rate_hz: CA_CHIP_RATE_HZ,
             skyline: None,
+            crpa: None,
         }
     }
 
