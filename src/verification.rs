@@ -2926,6 +2926,15 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             oracle_kind: ReferenceImpl,
             status: Modelled,
         },
+        VerificationItem {
+            requirement: "Terrain shadowing of the jammer in the jamming kind against an independent numpy recomputation on a real SRTM tile",
+            capability: "The jamming kind's optional [terrain] section: the great-circle terrain profile between jammer and receiver on an SRTM .hgt tile with a k-factor Earth bulge, the dominant knife edge (largest Fresnel-Kirchhoff nu) and the single knife-edge loss of ITU-R P.526-15 section 4.1, subtracted from the jammer's received power.",
+            module: "jamming_terrain (TerrainCfg, jammer_terrain, knife_edge_loss_db); jamming (run_jamming_sky)",
+            tests: "tests/jamming_terrain.rs (b1_terrain_units_only_with_the_section, b2_every_placement_matches_the_independent_numpy_recomputation, b3_the_loss_never_rises_as_the_jammer_rises, b4_the_loss_reaches_every_js_and_nothing_else, b5_the_knife_edge_function_matches_the_reference_expression), against xval/jamming-terrain/expected.json from xval/jamming-terrain/oracle.py",
+            oracle: "An independent numpy recomputation (xval/jamming-terrain/oracle.py, no shared code: its own .hgt read, bilinear interpolation, WGS 84 round trip, profile, bulge, nu and J(nu)) of ten jammer placements around a receiver at Badwater Basin on the committed real SRTM tile tests/fixtures/terrain/N36W117_sub6.hgt. Bars and placements pre-registered at 92cd2bfd. All MET: additivity (all 150 scenario results byte-identical without the section); every placement's profile points and obstacle equal and nu and loss within 1.6e-10 (bar 1e-9); the loss never rises as the jammer rises from 2 to 4902 m; the loss lowers every J/S by exactly itself and nothing else; J(nu) within 1e-12 dB of the oracle's. Findings: placements across the Black and Funeral Mountains lose 44 to 48 dB; two valley-floor placements lose 8 and 15 dB from the Earth bulge alone at 2 m antenna heights, the single knife-edge model's grazing case. WHAT IS NOT CHECKED: any measured propagation, multiple-edge diffraction, ground reflection, clutter, the DEM's own error. A recomputation of the same model, not an external oracle; the row stays MODELLED.",
+            oracle_kind: ReferenceImpl,
+            status: Modelled,
+        },
     ]
 }
 

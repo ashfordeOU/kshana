@@ -27,10 +27,11 @@
 //! geometry (free-space path loss, per-satellite receive-antenna gain vs.
 //! elevation) and the despreading processing gain, which is what determines
 //! denial range. An optional `[crpa]` section adds an adaptive (null-steering or MVDR)
-//! antenna array per channel ([`CrpaCfg`]). It does **not** model multipath, terrain
-//! shadowing of the jammer, near/far AGC effects, or the receiver's acquisition (vs.
-//! tracking) threshold hysteresis — those are noted in `docs/CAPABILITY.md` as out of
-//! scope.
+//! antenna array per channel ([`CrpaCfg`]). An optional `[terrain]` section adds the single
+//! knife-edge diffraction loss of the jammer's path over an SRTM tile
+//! ([`crate::jamming_terrain`]). It does **not** model multipath, multiple-edge diffraction,
+//! near/far AGC effects, or the receiver's acquisition (vs. tracking) threshold
+//! hysteresis — those are noted in `docs/CAPABILITY.md` as out of scope.
 
 use crate::frames::{geodetic_to_ecef, look_angles, teme_to_ecef, Geodetic, Vec3};
 use crate::palette::chart::{AXIS, BG, FAULT, FONT_SANS, MUTED, OK, TEXT};
@@ -306,6 +307,11 @@ pub struct JammingScenario {
     /// element of the original model and every output is unchanged.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub crpa: Option<CrpaCfg>,
+    /// Optional terrain shadowing of the jammer (CAP-06 (b)): the single knife-edge loss at
+    /// the dominant obstacle of the profile on an SRTM tile ([`crate::jamming_terrain`]).
+    /// Absent, every output is unchanged.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub terrain: Option<crate::jamming_terrain::TerrainCfg>,
 }
 
 /// A controlled-reception-pattern antenna for the `jamming` kind (CAP-06 (a); pre-registered in
@@ -576,11 +582,15 @@ pub const CRPA_UNITS: &[crate::field_schema::FieldUnit] = {
     ]
 };
 
-/// The units table of a jamming run: [`UNITS`], plus [`CRPA_UNITS`] with a `[crpa]` section.
+/// The units table of a jamming run: [`UNITS`], plus [`CRPA_UNITS`] with a `[crpa]` section and
+/// [`crate::jamming_terrain::UNITS`] with a `[terrain]` section.
 pub fn units(s: &JammingScenario) -> Vec<crate::field_schema::FieldUnit> {
     let mut v = UNITS.to_vec();
     if s.crpa.is_some() {
         v.extend_from_slice(CRPA_UNITS);
+    }
+    if s.terrain.is_some() {
+        v.extend_from_slice(crate::jamming_terrain::UNITS);
     }
     v
 }
@@ -593,6 +603,9 @@ pub struct JammingResult {
     pub scenario_hash: String,
     pub seed: u64,
     pub jammer_present: bool,
+    /// The jammer's terrain shadowing, present only with a `[terrain]` section.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub jammer_terrain: Option<crate::jamming_terrain::JammerTerrain>,
     pub fom: JammingFoM,
     pub epochs: Vec<JammingEpoch>,
 }
@@ -630,6 +643,23 @@ pub fn run_jamming_sky(
         alt_m: scn.receiver.alt_m,
     };
     let station_ecef = geodetic_to_ecef(station);
+    let lambda = C_M_PER_S / scn.freq_hz;
+    // With terrain: the knife-edge loss on the jammer's path, one number for the static pair.
+    let jammer_terrain = match (&scn.terrain, &scn.jammer) {
+        (None, _) => None,
+        (Some(_), None) => return Err("terrain: the section needs a [jammer]".into()),
+        (Some(t), Some(j)) => {
+            t.check()?;
+            let dem = t.load()?;
+            let jam = crate::frames::ecef_to_geodetic(j.position_ecef_m);
+            Some(crate::jamming_terrain::jammer_terrain(
+                t, &dem, &jam, &station, lambda,
+            )?)
+        }
+    };
+    let terrain_loss_db = jammer_terrain
+        .as_ref()
+        .map_or(0.0, |t| t.diffraction_loss_db);
     let sats = scn.constellation.satellites();
 
     // The jammer is static, so its geometry (range and the receiver-antenna gain
@@ -642,7 +672,6 @@ pub fn run_jamming_sky(
     });
     // With a CRPA: the jammer's look direction and its jammer-to-noise ratio per element
     // over the front-end bandwidth (for the MVDR covariance).
-    let lambda = C_M_PER_S / scn.freq_hz;
     let crpa_jammer = match (&scn.crpa, &jammer_geom) {
         (Some(c), Some((j, d, rx_gain_jammer))) => {
             let look = look_angles(station, j.position_ecef_m);
@@ -654,7 +683,7 @@ pub fn run_jamming_sky(
                 scn.freq_hz,
                 0.0,
                 0.0,
-            );
+            ) - terrain_loss_db;
             let b_hz = c.bandwidth_mhz.map_or(2.0 * scn.chip_rate_hz, |b| b * 1e6);
             let noise_dbw = noise_density_dbw_per_hz(scn.temp_k) + 10.0 * b_hz.log10();
             Some((
@@ -714,7 +743,7 @@ pub fn run_jamming_sky(
                         scn.freq_hz,
                         scn.signal_power_dbw,
                         gain,
-                    );
+                    ) - terrain_loss_db;
                     let q = q_factor(&j.jammer_type, j.q_override);
                     js_sum += js;
                     js_count += 1;
@@ -773,6 +802,7 @@ pub fn run_jamming_sky(
         scenario_hash: hash_scenario(scn),
         seed: scn.seed,
         jammer_present: scn.jammer.is_some(),
+        jammer_terrain,
         fom: JammingFoM {
             availability_under_jamming: avail_jam as f64 / denom,
             availability_nominal: avail_nom as f64 / denom,
@@ -999,6 +1029,7 @@ mod tests {
             chip_rate_hz: CA_CHIP_RATE_HZ,
             skyline: None,
             crpa: None,
+            terrain: None,
         }
     }
 

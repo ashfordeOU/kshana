@@ -11,6 +11,26 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **Terrain shadowing of the jammer in the jamming kind** (CAP-06b): an optional `[terrain]`
+  section in a `jamming` scenario with a jammer. Fields:
+  - `dem_hgt`: an SRTM `.hgt` tile, relative to the working directory;
+  - `samples_per_side`, `ll_lat_deg` and `ll_lon_deg` (deg): the tile's size and corner;
+  - `geoid_undulation_m` (m, default 0), `k_factor` (default 4/3) and `profile_step_m` (m,
+    default 30).
+
+  The engine samples the great-circle terrain profile between jammer and receiver and finds the
+  dominant knife edge. The jammer's received power, and so every J/S, is lowered by the single
+  knife-edge loss of ITU-R P.526-15 §4.1.
+  - The result gains a `jammer_terrain` block: `nu_max` (1), `diffraction_loss_db` (dB),
+    `obstacle_distance_m` (m), `obstacle_terrain_m` (m), `path_length_m` (m) and
+    `profile_points` (count).
+  - Without the section every output is byte-identical.
+  - Checked against bars and ten placements pre-registered at 92cd2bfd, on the committed real
+    SRTM tile of Death Valley, against an independent numpy recomputation. All met: worst
+    difference 1.6e-10 on `ν` and on the loss (bar 1e-9), the loss monotone in jammer height, and
+    the loss reaching J/S exactly.
+  - MODELLED; ledger row "Terrain shadowing of the jammer in the jamming kind against an
+    independent numpy recomputation on a real SRTM tile".
 - **CRPA antenna gains in the jamming kind** (CAP-06a): an optional `[crpa]` section in a
   `jamming` scenario. Fields: `elements_enu_m` (element positions in local east-north-up, m),
   `weighting` (`"null-steering"` or `"mvdr"`), and `bandwidth_mhz` (MVDR noise bandwidth, MHz,
