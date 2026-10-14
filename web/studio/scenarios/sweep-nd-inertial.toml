@@ -10,6 +10,11 @@
 # This example sweeps the inertial dead-reckoning pack over the GNSS-outage alert
 # threshold and the classical accelerometer bias, recording the holdover and the
 # drift RMS for the classical sensor at every node.
+#
+# The result states the unit of every axis and metric (`key_units`, `metric_units`),
+# read from the swept pack's own units table. The inertial pack echoes `threshold_m`
+# with a unit but reports the accelerometer bias under another path, so that axis
+# declares its unit itself; a declared unit that disagrees with the pack's is an error.
 kind = "sweep-nd"
 metrics = ["classical.fom.holdover_s", "classical.fom.pos_rms_m"]
 
@@ -25,6 +30,7 @@ start = 1.0e-3
 stop = 3.0e-3
 steps = 3
 scale = "log"
+unit = "m/s^2"
 
 [base]
 kind = "inertial"
