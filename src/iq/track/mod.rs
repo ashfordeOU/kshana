@@ -42,6 +42,7 @@
 //! triangle, and there is no vector tracking, multipath-mitigating correlator or
 //! navigation-message decoding beyond bit signs.
 
+pub mod boc;
 pub mod cn0;
 pub mod design;
 pub mod discrim;
@@ -53,6 +54,7 @@ pub mod lock;
 pub mod sink;
 
 pub use bank::{replay, ReplayResult, TrackingBank};
+pub use boc::{BocKind, BocTracking, BumpJump, BumpJumpConfig, BumpJumpEvent};
 pub use channel::{Channel, ChannelInit, EpochOutput, MAX_EXTRA_TAPS, MAX_TAP_OFFSET_CHIPS};
 pub use lock::{LockEvent, LockState, SessionChannel, TrackSession};
 
@@ -225,6 +227,16 @@ pub struct LoopConfig {
     pub cn0_window_periods: usize,
     /// Bit synchroniser settings.
     pub bit_sync: BitSyncConfig,
+    /// Opt-in BOC tracking ([`boc`]): the BOC(1,1) DLL scaling and, optionally, bump-jump
+    /// ambiguity resolution on two extra very-early/very-late correlators. `None` (the
+    /// default) is the plain BPSK-normalised channel.
+    pub boc: Option<BocTracking>,
+    /// Opt-in cap on the FLL pull-in of [`FllAssist::PullIn`] (s): once the FLL path has been
+    /// on this long without handing over, it hands over to the PLL whatever the PLI, and until
+    /// the PLI next reaches the gate's `off_pli` it comes back only after the PLI has held
+    /// below `on_pli` for this long (not the gate's dwell). `None` (the default) leaves the
+    /// PLI-only hand-over (`docs/design/evidence/fll-handover-floor/`).
+    pub fll_pull_in_max_s: Option<f64>,
 }
 
 impl Default for LoopConfig {
@@ -256,6 +268,8 @@ impl Default for LoopConfig {
             cn0_windows: 50,
             cn0_window_periods: 20,
             bit_sync: BitSyncConfig::default(),
+            boc: None,
+            fll_pull_in_max_s: None,
         }
     }
 }
@@ -309,6 +323,9 @@ impl LoopCore {
         if !(chip_rate_hz > 0.0 && carrier_hz > 0.0) {
             return Err("chip rate and carrier frequency must be positive".into());
         }
+        if let Some(b) = &cfg.boc {
+            b.validate(cfg.spacing_chips)?;
+        }
         let mut s = Self {
             cfg: cfg.clone(),
             carrier: cfg.carrier.filter()?,
@@ -352,7 +369,14 @@ impl LoopCore {
         };
         let w = self.carrier.update(pll_rad, fe, t_s);
         self.doppler_hz = self.init_doppler_hz + w / TAU;
-        let dll_chips = self.cfg.dll.discriminate(e, p, l, self.cfg.spacing_chips);
+        let mut dll_chips = self.cfg.dll.discriminate(e, p, l, self.cfg.spacing_chips);
+        if let Some(b) = &self.cfg.boc {
+            match b.kind {
+                BocKind::SineBoc11 => {
+                    dll_chips *= boc::boc11_dll_scale(self.cfg.dll, self.cfg.spacing_chips)
+                }
+            }
+        }
         let corr = self.code.update(dll_chips, 0.0, t_s);
         self.code_rate_hz = self.base_code_rate() + corr;
         self.prev_prompt = Some(p);

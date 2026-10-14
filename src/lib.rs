@@ -178,6 +178,8 @@ pub mod intersat_range;
 pub mod ionex;
 pub mod iq;
 pub mod jamming;
+pub mod jamming_rx;
+pub mod jamming_terrain;
 pub mod jd2;
 pub mod kalman;
 pub mod kepler;
