@@ -62,6 +62,7 @@
 //! [`docs/EQUATIONS.md`]: https://github.com/AshfordeOU/kshana/blob/main/docs/EQUATIONS.md
 
 pub mod acquisition;
+pub mod adm;
 pub mod advanced_report;
 pub mod allan;
 pub mod altpnt;
@@ -218,6 +219,7 @@ pub mod models;
 pub mod monitor_network;
 pub mod naif_kernel;
 pub mod navsignal;
+pub mod ndm_xml;
 pub mod nma_budget;
 pub mod nutation;
 mod nutation_iau2000a_data;

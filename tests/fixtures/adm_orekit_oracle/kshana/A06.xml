@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aem id="CCSDS_AEM_VERS" version="2.0">
+  <header>
+    <CREATION_DATE>2026-10-13T00:00:00.000</CREATION_DATE>
+    <ORIGINATOR>KSHANA XVAL</ORIGINATOR>
+  </header>
+  <body>
+    <segment>
+      <metadata>
+        <OBJECT_NAME>XVAL SAT</OBJECT_NAME>
+        <OBJECT_ID>2026-999A</OBJECT_ID>
+        <CENTER_NAME>EARTH</CENTER_NAME>
+        <REF_FRAME_A>LVLH</REF_FRAME_A>
+        <REF_FRAME_B>SC_BODY_1</REF_FRAME_B>
+        <TIME_SYSTEM>UTC</TIME_SYSTEM>
+        <START_TIME>2026-03-01T00:01:00.000</START_TIME>
+        <STOP_TIME>2026-03-01T00:01:40.000</STOP_TIME>
+        <ATTITUDE_TYPE>EULER_ANGLE</ATTITUDE_TYPE>
+        <EULER_ROT_SEQ>ZXZ</EULER_ROT_SEQ>
+      </metadata>
+      <data>
+        <attitudeState>
+          <eulerAngle>
+            <EPOCH>2026-03-01T00:01:00.000</EPOCH>
+            <ANGLE_1>-87.7620298063026</ANGLE_1>
+            <ANGLE_2>163.34698874937033</ANGLE_2>
+            <ANGLE_3>-17.522694545081094</ANGLE_3>
+          </eulerAngle>
+        </attitudeState>
+        <attitudeState>
+          <eulerAngle>
+            <EPOCH>2026-03-01T00:01:10.000</EPOCH>
+            <ANGLE_1>-140.04598982796935</ANGLE_1>
+            <ANGLE_2>139.77063480800376</ANGLE_2>
+            <ANGLE_3>173.5409582738257</ANGLE_3>
+          </eulerAngle>
+        </attitudeState>
+        <attitudeState>
+          <eulerAngle>
+            <EPOCH>2026-03-01T00:01:20.000</EPOCH>
+            <ANGLE_1>-2.5436918049898054</ANGLE_1>
+            <ANGLE_2>63.23761932883766</ANGLE_2>
+            <ANGLE_3>-117.4790384681275</ANGLE_3>
+          </eulerAngle>
+        </attitudeState>
+        <attitudeState>
+          <eulerAngle>
+            <EPOCH>2026-03-01T00:01:30.000</EPOCH>
+            <ANGLE_1>-128.7625152844749</ANGLE_1>
+            <ANGLE_2>85.27775843869705</ANGLE_2>
+            <ANGLE_3>-109.49224048593103</ANGLE_3>
+          </eulerAngle>
+        </attitudeState>
+        <attitudeState>
+          <eulerAngle>
+            <EPOCH>2026-03-01T00:01:40.000</EPOCH>
+            <ANGLE_1>-15.557949203792077</ANGLE_1>
+            <ANGLE_2>24.605037493695768</ANGLE_2>
+            <ANGLE_3>-39.7213074725222</ANGLE_3>
+          </eulerAngle>
+        </attitudeState>
+      </data>
+    </segment>
+  </body>
+</aem>
