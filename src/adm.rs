@@ -255,15 +255,15 @@ pub struct AemMessage {
 }
 
 /// Format a number in shortest round-trip form.
-fn num(x: f64) -> String {
+pub(crate) fn num(x: f64) -> String {
     format!("{x:?}")
 }
 
-fn kv(out: &mut String, k: &str, v: &str) {
+pub(crate) fn kv(out: &mut String, k: &str, v: &str) {
     out.push_str(&format!("{k:<20} = {v}\n"));
 }
 
-fn comments(out: &mut String, c: &[String]) {
+pub(crate) fn comments(out: &mut String, c: &[String]) {
     for l in c {
         out.push_str(&format!("COMMENT {l}\n"));
     }
@@ -675,7 +675,7 @@ fn xml_num(parent: &Element, key: &str) -> Result<f64, String> {
 }
 
 /// Accept `<ndm>` wrapping a single message of the given kind, or the message itself.
-fn unwrap_ndm<'a>(root: &'a Element, kind: &str) -> Result<&'a Element, String> {
+pub(crate) fn unwrap_ndm<'a>(root: &'a Element, kind: &str) -> Result<&'a Element, String> {
     if root.name == kind {
         Ok(root)
     } else if root.name == "ndm" {
@@ -686,7 +686,7 @@ fn unwrap_ndm<'a>(root: &'a Element, kind: &str) -> Result<&'a Element, String> 
     }
 }
 
-fn write_header_kvn(o: &mut String, h: &AdmHeader) {
+pub(crate) fn write_header_kvn(o: &mut String, h: &AdmHeader) {
     comments(o, &h.comments);
     if let Some(c) = &h.classification {
         kv(o, "CLASSIFICATION", c);
@@ -698,7 +698,7 @@ fn write_header_kvn(o: &mut String, h: &AdmHeader) {
     }
 }
 
-fn write_header_xml(w: &mut ndm_xml::Writer, h: &AdmHeader) {
+pub(crate) fn write_header_xml(w: &mut ndm_xml::Writer, h: &AdmHeader) {
     w.open("header", &[]);
     for c in &h.comments {
         w.leaf("COMMENT", c);
@@ -714,7 +714,7 @@ fn write_header_xml(w: &mut ndm_xml::Writer, h: &AdmHeader) {
     w.close("header");
 }
 
-fn read_header_xml(root: &Element) -> Result<AdmHeader, String> {
+pub(crate) fn read_header_xml(root: &Element) -> Result<AdmHeader, String> {
     let version = root
         .attr("version")
         .ok_or("message without a version attribute")?
@@ -741,7 +741,7 @@ fn read_header_xml(root: &Element) -> Result<AdmHeader, String> {
 
 /// One logical KVN line.
 #[derive(Clone, Debug, PartialEq)]
-enum KvnLine {
+pub(crate) enum KvnLine {
     Comment(String),
     Kv(String, String),
     Bare(String),
@@ -749,7 +749,7 @@ enum KvnLine {
 
 /// Split KVN text into logical lines: `COMMENT text`, `KEY = value` (units in square brackets
 /// removed) and bare lines (block markers and data lines). Blank lines are dropped.
-fn kvn_lines(text: &str) -> std::iter::Peekable<std::vec::IntoIter<KvnLine>> {
+pub(crate) fn kvn_lines(text: &str) -> std::iter::Peekable<std::vec::IntoIter<KvnLine>> {
     let mut v = Vec::new();
     for raw in text.lines() {
         let l = raw.trim();
@@ -778,11 +778,14 @@ fn kvn_lines(text: &str) -> std::iter::Peekable<std::vec::IntoIter<KvnLine>> {
     v.into_iter().peekable()
 }
 
-type Lines = std::iter::Peekable<std::vec::IntoIter<KvnLine>>;
+pub(crate) type Lines = std::iter::Peekable<std::vec::IntoIter<KvnLine>>;
 
 /// Read `<VERS_KEY> = v`, then header comments and keys up to the first line that is not a
 /// header key (left unread).
-fn read_header_kvn(lines: &mut Lines, vers_key: &str) -> Result<(String, AdmHeader), String> {
+pub(crate) fn read_header_kvn(
+    lines: &mut Lines,
+    vers_key: &str,
+) -> Result<(String, AdmHeader), String> {
     let version = match lines.next() {
         Some(KvnLine::Kv(k, v)) if k == vers_key => v,
         other => return Err(format!("expected {vers_key}, found {other:?}")),

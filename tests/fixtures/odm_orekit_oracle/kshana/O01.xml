@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<opm id="CCSDS_OPM_VERS" version="3.0">
+  <header>
+    <COMMENT>Kshana ODM cross-validation case O01 header comment 1</COMMENT>
+    <COMMENT>Kshana ODM cross-validation case O01 header comment 2</COMMENT>
+    <CLASSIFICATION>unclassified test data</CLASSIFICATION>
+    <CREATION_DATE>2026-10-14T00:00:00</CREATION_DATE>
+    <ORIGINATOR>KSHANA XVAL</ORIGINATOR>
+    <MESSAGE_ID>O01-0001</MESSAGE_ID>
+  </header>
+  <body>
+    <segment>
+      <metadata>
+        <OBJECT_NAME>XVAL SAT</OBJECT_NAME>
+        <OBJECT_ID>2026-999A</OBJECT_ID>
+        <CENTER_NAME>EARTH</CENTER_NAME>
+        <REF_FRAME>EME2000</REF_FRAME>
+        <TIME_SYSTEM>UTC</TIME_SYSTEM>
+      </metadata>
+      <data>
+        <stateVector>
+          <COMMENT>state vector only</COMMENT>
+          <EPOCH>2026-03-01T12:00:00.250</EPOCH>
+          <X>6069.936856147934</X>
+          <Y>4516.723968749721</Y>
+          <Z>-1418.745437162656</Z>
+          <X_DOT>1.7677624472917541</X_DOT>
+          <Y_DOT>-1.4144113258225954</Y_DOT>
+          <Z_DOT>3.5805069181876426</Z_DOT>
+        </stateVector>
+      </data>
+    </segment>
+  </body>
+</opm>

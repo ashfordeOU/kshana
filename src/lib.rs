@@ -224,6 +224,7 @@ pub mod nma_budget;
 pub mod nutation;
 mod nutation_iau2000a_data;
 pub mod observability_gramian;
+pub mod odm;
 pub mod oem;
 pub mod omm;
 pub mod optical_availability;

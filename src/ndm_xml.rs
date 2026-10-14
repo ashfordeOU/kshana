@@ -254,6 +254,17 @@ impl Writer {
             .push_str(&format!("<{name}>{}</{name}>\n", escape(text)));
     }
 
+    /// `<name attrs>text</name>`.
+    pub fn open_leaf(&mut self, name: &str, attrs: &[(&str, &str)], text: &str) {
+        self.indent();
+        self.out.push('<');
+        self.out.push_str(name);
+        for (k, v) in attrs {
+            self.out.push_str(&format!(" {k}=\"{}\"", escape(v)));
+        }
+        self.out.push_str(&format!(">{}</{name}>\n", escape(text)));
+    }
+
     /// The document.
     pub fn finish(self) -> String {
         self.out
