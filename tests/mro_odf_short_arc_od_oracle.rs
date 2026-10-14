@@ -21,6 +21,11 @@
 //! - B3: 3-D position difference, estimate − reconstruction, RMS ≤ 1.0 km (60 s sampling);
 //! - B4: its maximum ≤ 2.5 km;
 //! - B5: points removed by the outlier rule ≤ 5 %.
+//!
+//! RESULT of the registered run (amendments A1 and A2 in force; 447 of 459 60-s points have
+//! ramp coverage): B1 MET, 0.01253 Hz (32 of 447 points edited). B2-B5 NOT MET: the registered
+//! fit stopped with a normal matrix that is not positive definite and produced no orbit. Both
+//! are pinned below; the row stays MODELLED.
 
 use kshana::mars_od::*;
 use kshana::naif_kernel::SpkKernel;
@@ -188,7 +193,13 @@ fn short_arc_od_on_the_scored_passes_against_the_reconstruction() {
         })
         .copied()
         .collect();
-    println!("60-s points {}, with ramp coverage {}", all.len(), points.len());
+    println!(
+        "60-s points {}, with ramp coverage {}",
+        all.len(),
+        points.len()
+    );
+    // Recorded on the registered run (amendment A2 in force).
+    assert_eq!((all.len(), points.len()), (459, 447));
     let min_el = 15f64.to_radians();
 
     // B1: prediction from the reconstruction, elevation cut, then the outlier rule.
@@ -206,6 +217,17 @@ fn short_arc_od_on_the_scored_passes_against_the_reconstruction() {
         .map(|(r, _)| *r)
         .collect();
     let b1 = rms(&kept);
+    println!(
+        "B1 {b1:.5} Hz ({} points after elevation, {} kept)",
+        r1.len(),
+        kept.len()
+    );
+    // B1 MET on the registered run: 0.01253 Hz against the 0.030 Hz bar.
+    assert!(b1 <= 0.030, "B1 {b1}");
+    assert!(
+        (b1 - 0.01253).abs() < 5e-4,
+        "B1 moved from the recorded 0.01253 Hz: {b1}"
+    );
 
     // B2-B5: the fit.
     let eph = Ephemeris::new(kernel(&dir, "de440s.bsp"));
@@ -230,7 +252,7 @@ fn short_arc_od_on_the_scored_passes_against_the_reconstruction() {
         s[1][1] + 1.0,
         s[1][2] + 1.0,
     ];
-    let fit = fit(
+    let fit_result = fit(
         &model,
         &dynamics,
         &points,
@@ -246,8 +268,18 @@ fn short_arc_od_on_the_scored_passes_against_the_reconstruction() {
             step_s: 5.0,
             max_iter: 15,
         },
-    )
-    .expect("fit");
+    );
+    // FINDING, B2-B5 NOT MET on the registered run: the registered Gauss-Newton fit stopped
+    // with a normal matrix that is not positive definite, so it produced no orbit. This
+    // asserts the recorded miss; a change that makes the fit succeed must be registered anew.
+    let fit = match fit_result {
+        Ok(f) => f,
+        Err(e) => {
+            println!("fit failed: {e}");
+            assert!(e.contains("not positive definite"), "{e}");
+            return;
+        }
+    };
     let b2 = rms(&fit.residuals_hz);
     let mut d = Vec::new();
     let end = et_of_utc(to).total();
@@ -280,6 +312,7 @@ fn short_arc_od_on_the_scored_passes_against_the_reconstruction() {
         b5_frac: b5,
     };
     check(&got);
+    panic!("the registered fit failed on the recorded run but now succeeds: register it anew");
 }
 
 fn check(got: &Outcome) {
