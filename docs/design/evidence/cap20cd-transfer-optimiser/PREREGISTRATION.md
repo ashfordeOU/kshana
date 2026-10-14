@@ -51,7 +51,7 @@ It writes the optimum per case.
 
 ## Reference B (published, plainly secondary)
 
-NASA/TM-2010-216764 (Burke, Falck and McGuire, *Interplanetary Mission Design Handbook:
+NASA/TM-2010-216764 (*Interplanetary Mission Design Handbook:
 Earth-to-Mars Mission Opportunities 2026 to 2045*, NASA Glenn, October 2010; NTRS 20100037210,
 PDF SHA-256 e90b9692110ad00de14f76aa9c59a265d40e8aae240eb72d9b0747baaa4fd39c), Table 2,
 "Earth to Mars, 2026 Opportunity, Energy Minima". The values were computed with MIDAS:
