@@ -1,0 +1,20 @@
+CCSDS_OPM_VERS       = 3.0
+COMMENT Kshana ODM cross-validation case O01 header comment 1
+COMMENT Kshana ODM cross-validation case O01 header comment 2
+CLASSIFICATION       = unclassified test data
+CREATION_DATE        = 2026-10-14T00:00:00
+ORIGINATOR           = KSHANA XVAL
+MESSAGE_ID           = O01-0001
+OBJECT_NAME          = XVAL SAT
+OBJECT_ID            = 2026-999A
+CENTER_NAME          = EARTH
+REF_FRAME            = EME2000
+TIME_SYSTEM          = UTC
+COMMENT state vector only
+EPOCH                = 2026-03-01T12:00:00.250
+X                    = 6069.936856147934
+Y                    = 4516.723968749721
+Z                    = -1418.745437162656
+X_DOT                = 1.7677624472917541
+Y_DOT                = -1.4144113258225954
+Z_DOT                = 3.5805069181876426
