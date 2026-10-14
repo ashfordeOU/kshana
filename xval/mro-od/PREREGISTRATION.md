@@ -110,3 +110,43 @@ against the MRO navigation team reconstruction (ExternalDataset), with data-gate
 inputs are fetched at test time with pinned SHA-256s, and a monthly CI job runs the test with
 `KSHANA_REQUIRE_REALDATA=1`. If any bar misses, the miss is recorded here with its numbers as a
 FINDING, pinned by a test asserting the recorded values, and the row stays MODELLED.
+
+## Amendment A1 (before the scored run)
+
+Committed on its own after development on pass D and before any prediction or fit on the scored
+arc (passes S1 and S2). Every number below comes from pass D. The bars B1-B5, the scored arc, the
+editing rule and the estimated parameters are unchanged.
+
+Found and settled on pass D:
+
+1. **Observable convention.** With the reference taken as the ramp at the receive time, the
+   residual against the reconstruction was exactly `M2·(f_ref − f_T(t3))` (hundreds of kHz). The
+   ODF ramped 2-way observable is the record's constant reference frequency times M2 minus the
+   mean received frequency: `F = M2·f_ref − (M2/Tc)·∫_{t1s}^{t1e} f_T dt`. A 60-s block now also
+   requires one reference frequency across its 60 records.
+2. **Bug fixed: station plate velocities.** The `DSS-nn_DXYZ` values of the station kernel's
+   comment block are in m/yr, not km/yr; read as km/yr they moved DSS 43 by 250 m and left a
+   drift of about −0.12 Hz/h. Found by checking the round-trip light time against CSPICE (station
+   SPK, high-precision Earth PCK, DE414, `mro_psp5`); after the fix the two agree to within
+   about 3 ns per 10 min in rate (≈ 0.04 Hz), the remainder being the Shapiro and station-time
+   terms SPICE does not apply.
+3. **Station time.** The topocentric TDB−TT term `v⊕·r_stn/c²` is added, and the round trip
+   used in the ramp integrals is in station (UTC) seconds.
+4. **Antenna phase centre.** The remaining residual on pass D was orbit-periodic, 62 mHz RMS.
+   Least squares on pass D against phase-centre offsets in the orbit frame gave a radial offset
+   of +1.51 ± 0.02 m (zenith side, where MRO carries its high-gain antenna); the along-track and
+   normal components were not determined. The model now places the phase centre a fixed
+   **1.5 m** along the Mars-to-spacecraft direction from the trajectory point, in both B1 and the
+   fit. Pass D against the reconstruction: 8.9 mHz RMS, 4 of 178 points edited.
+5. **Convergence.** The fit stops when the position update is below 1 m, or after 15
+   iterations.
+
+Checked and left unchanged:
+
+- The `mro_psp5` comments say it was produced with DE414. DE414 − DE440 for the Mars barycentre
+  relative to the Earth over the arc is 44 m and 0.002 mm/s, far below the bars; DE440s stays.
+- `mro_psp5` has a segment boundary at 2007-11-01T10:08:54 UTC, inside pass S2; its comments
+  list the position discontinuity there as 0.008 in SPK units (km), about 8 m. It is left as
+  is.
+- The estimator, exercised on pass D only (6 h, initial guess offset as registered): post-fit
+  20 mHz RMS, position against `mro_psp5` 213 m RMS and 309 m maximum. Not scored.
