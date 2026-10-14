@@ -1788,15 +1788,39 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
             // byte-unchanged and no empty file is written.
             let csv = report.per_sat_geometry_csv();
             Ok(RunOutput {
-                json: if report.terrain.is_some() {
+                json: {
+                    let export: &[crate::field_schema::FieldUnit] =
+                        if report.export_site_terrain.is_some() {
+                            crate::lunar_terrain::EXPORT_SITE_TERRAIN_UNITS
+                        } else {
+                            &[]
+                        };
+                    let tile: &[crate::field_schema::FieldUnit] =
+                        match report.terrain.as_ref().and_then(|t| t.dem_tile.as_ref()) {
+                            Some(_) => crate::lunar_terrain::DEM_TILE_UNITS,
+                            None => &[],
+                        };
+                    let terrain: &[crate::field_schema::FieldUnit] = if report.terrain.is_some() {
+                        crate::lunar_terrain::GRID_TERRAIN_UNITS
+                    } else {
+                        &[]
+                    };
+                    // The export rows' units only when the document carries them.
+                    let geometry: &[crate::field_schema::FieldUnit] =
+                        if report.per_sat_geometry.is_some() {
+                            crate::lunar_service::PER_SAT_GEOMETRY_UNITS
+                        } else {
+                            &[]
+                        };
                     let units: Vec<crate::field_schema::FieldUnit> = crate::lunar_service::UNITS
                         .iter()
-                        .chain(crate::lunar_terrain::GRID_TERRAIN_UNITS)
+                        .chain(terrain)
+                        .chain(export)
+                        .chain(tile)
+                        .chain(geometry)
                         .copied()
                         .collect();
                     json_of_with_units(&report, &units)?
-                } else {
-                    json_of_with_units(&report, crate::lunar_service::UNITS)?
                 },
                 svg: crate::lunar_service::lunar_service_svg(&report),
                 summary,
