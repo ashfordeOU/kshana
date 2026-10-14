@@ -742,6 +742,166 @@ pub fn grs80_normal_field() -> SphericalHarmonicField {
     f
 }
 
+// ── Gravity anomaly in spherical approximation (ICGEM functional `gravity_anomaly_sa`) ──
+// The map-matching signal for gravity-aided navigation, defined as in Barthelmes,
+// "Definition of functionals of the geopotential and their calculation from spherical
+// harmonic models", GFZ Scientific Technical Report STR09/02 (revised 2013), so it can be
+// compared one for one with a grid from the ICGEM calculation service.
+
+/// A level (normal-gravity) ellipsoid by its four defining constants.
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct LevelEllipsoid {
+    /// Geocentric gravitational constant `GM` (m³/s²).
+    pub gm: f64,
+    /// Semi-major axis `a` (m).
+    pub a: f64,
+    /// Flattening `f`.
+    pub f: f64,
+    /// Angular velocity `ω` (rad/s).
+    pub omega: f64,
+}
+
+/// WGS 84 (NIMA TR8350.2): `GM = 3.986004418e14`, `a = 6378137`, `1/f = 298.257223563`,
+/// `ω = 7.292115e-5`.
+pub const WGS84_ELLIPSOID: LevelEllipsoid = LevelEllipsoid {
+    gm: 3.986_004_418e14,
+    a: 6_378_137.0,
+    f: 1.0 / 298.257_223_563,
+    omega: 7.292_115e-5,
+};
+
+/// GRS80 (Moritz 1980), the same constants as [`GRS80_GM`], [`GRS80_A`], [`GRS80_F`],
+/// [`GRS80_OMEGA`].
+pub const GRS80_ELLIPSOID: LevelEllipsoid = LevelEllipsoid {
+    gm: GRS80_GM,
+    a: GRS80_A,
+    f: GRS80_F,
+    omega: GRS80_OMEGA,
+};
+
+impl LevelEllipsoid {
+    /// First eccentricity squared `e² = f(2 − f)`.
+    pub fn e2(&self) -> f64 {
+        self.f * (2.0 - self.f)
+    }
+
+    /// The unnormalised zonal harmonics `J₂ₙ` of the ellipsoid's normal potential, `n =
+    /// 1..=n_max`, in closed form (Heiskanen and Moritz 1967, eqs. 2-92 and 2-92'; Moritz
+    /// 1980): `J₂ = (e²/3)(1 − (2/15)·m·e′/q₀)` with `m = ω²a²b/GM`, `q₀ = ½[(1 + 3/e′²)
+    /// arctan e′ − 3/e′]`, and `J₂ₙ = (−1)ⁿ⁺¹ 3e²ⁿ (1 − n + 5n J₂/e²) / ((2n+1)(2n+3))`.
+    pub fn even_zonals(&self, n_max: usize) -> Vec<f64> {
+        let e2 = self.e2();
+        let b = self.a * (1.0 - self.f);
+        let ep = (self.a * self.a - b * b).sqrt() / b; // second eccentricity e'
+        let m = self.omega * self.omega * self.a * self.a * b / self.gm;
+        let q0 = 0.5 * ((1.0 + 3.0 / (ep * ep)) * ep.atan() - 3.0 / ep);
+        let j2 = e2 / 3.0 * (1.0 - 2.0 / 15.0 * m * ep / q0);
+        (1..=n_max)
+            .map(|n| {
+                let nf = n as f64;
+                let sign = if n % 2 == 1 { 1.0 } else { -1.0 };
+                sign * 3.0 * e2.powi(n as i32) * (1.0 - nf + 5.0 * nf * j2 / e2)
+                    / ((2.0 * nf + 1.0) * (2.0 * nf + 3.0))
+            })
+            .collect()
+    }
+
+    /// Earth-fixed Cartesian coordinates (m) of the point at geodetic latitude `phi`,
+    /// longitude `lon` (rad) and ellipsoidal height `h` (m).
+    pub fn point(&self, phi: f64, lon: f64, h: f64) -> Vec3 {
+        let e2 = self.e2();
+        let (s, c) = phi.sin_cos();
+        let n = self.a / (1.0 - e2 * s * s).sqrt();
+        let (sl, cl) = lon.sin_cos();
+        [(n + h) * c * cl, (n + h) * c * sl, (n * (1.0 - e2) + h) * s]
+    }
+}
+
+impl SphericalHarmonicField {
+    /// The **gravity anomaly in spherical approximation** (mGal) along one parallel: at
+    /// geodetic latitude `geodetic_lat` (rad), ellipsoidal height `h` (m) and each longitude
+    /// of `lons` (rad), relative to the normal field of `ell`.
+    ///
+    /// Barthelmes (STR09/02, 2013), the ICGEM functional `gravity_anomaly_sa`:
+    /// `Δg_sa = (GM/r²) Σₙ (R/r)ⁿ (n − 1) Σₘ P̄ₙₘ(sin φ)(ΔC̄ₙₘ cos mλ + S̄ₙₘ sin mλ)`, with
+    /// `(r, φ, λ)` the spherical coordinates of the point and `ΔC̄ₙ₀ = C̄ₙ₀ − (GM_ell/GM)
+    /// (a/R)ⁿ C̄ₙ₀^ell` the model's zonal minus the ellipsoid's normal zonal rescaled to the
+    /// model's `GM` and `R` (`C̄₂ₖ,₀^ell = −J₂ₖ/√(4k+1)`, from [`LevelEllipsoid::even_zonals`]
+    /// to degree 20, below which the normal terms fall under 1e-20). The degree-0 term
+    /// `ΔC̄₀₀ = 1 − GM_ell/GM` is kept when `zero_degree` is set (ICGEM's "zero degree term"
+    /// box) and dropped otherwise. Degree 1 is zero in a geocentric model.
+    ///
+    /// The Legendre functions and the radial factors depend only on latitude, so they are
+    /// computed once per parallel and reduced to per-order coefficients `Aₘ, Bₘ`; each
+    /// longitude then costs one `O(nmax)` Fourier sum.
+    #[allow(clippy::needless_range_loop)]
+    pub fn gravity_anomaly_sa_parallel_mgal(
+        &self,
+        ell: &LevelEllipsoid,
+        zero_degree: bool,
+        geodetic_lat: f64,
+        h: f64,
+        lons: &[f64],
+    ) -> Vec<f64> {
+        let p0 = ell.point(geodetic_lat, 0.0, h);
+        let rxy = (p0[0] * p0[0] + p0[1] * p0[1]).sqrt();
+        let r = (rxy * rxy + p0[2] * p0[2]).sqrt();
+        let (t, u) = (p0[2] / r, rxy / r);
+        let (p, _) = self.legendre(t, u);
+        let nmax = self.nmax;
+        // Normal zonals rescaled to this model's GM and R.
+        let jz = ell.even_zonals(10);
+        let gm_ratio = ell.gm / self.gm;
+        let normal_c = |n: usize| -> f64 {
+            if n == 0 {
+                return gm_ratio;
+            }
+            if n % 2 == 1 || n / 2 > jz.len() {
+                return 0.0;
+            }
+            let cbar = -jz[n / 2 - 1] / ((2 * n + 1) as f64).sqrt();
+            gm_ratio * (ell.a / self.re).powi(n as i32) * cbar
+        };
+        let mut a_m = vec![0.0; nmax + 1];
+        let mut b_m = vec![0.0; nmax + 1];
+        let ror = self.re / r;
+        let mut rpow = 1.0; // (R/r)^n
+        for n in 0..=nmax {
+            let scale = self.gm / (r * r) * rpow * (n as f64 - 1.0);
+            rpow *= ror;
+            if n == 1 {
+                continue;
+            }
+            for m in 0..=n {
+                let mut dc = self.c[n][m];
+                if m == 0 {
+                    dc = if n == 0 {
+                        if zero_degree {
+                            1.0 - gm_ratio
+                        } else {
+                            0.0
+                        }
+                    } else {
+                        dc - normal_c(n)
+                    };
+                }
+                a_m[m] += scale * p[n][m] * dc;
+                b_m[m] += scale * p[n][m] * self.s[n][m];
+            }
+        }
+        lons.iter()
+            .map(|&lam| {
+                let mut g = 0.0;
+                for m in 0..=nmax {
+                    let (sl, cl) = (m as f64 * lam).sin_cos();
+                    g += a_m[m] * cl + b_m[m] * sl;
+                }
+                g * 1.0e5
+            })
+            .collect()
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -1169,5 +1329,65 @@ gfc    0     0  1.0000000000000000E+00  0.0000000000000000E+00
         let f = SphericalHarmonicField::from_gfc_reader(ok.as_bytes(), 10).unwrap();
         assert_eq!(f.cbar(0, 0), Some(1.0));
         assert!(SphericalHarmonicField::from_gfc_file("/nonexistent/egm.gfc", 2).is_err());
+    }
+
+    #[test]
+    fn level_ellipsoid_zonals_match_the_published_grs80_values() {
+        // Moritz (1980), Geodetic Reference System 1980: J2 = 108263e-8 (defining),
+        // J4 = -0.00000237091222, J6 = 0.00000000608347, J8 = -0.00000000001427.
+        let j = GRS80_ELLIPSOID.even_zonals(4);
+        assert!((j[0] - 1.082_63e-3).abs() < 5e-12, "J2 {}", j[0]);
+        assert!((j[1] + 2.370_912_22e-6).abs() < 5e-15, "J4 {}", j[1]);
+        assert!((j[2] - 6.083_47e-9).abs() < 5e-14, "J6 {}", j[2]);
+        assert!((j[3] + 1.427e-11).abs() < 5e-14, "J8 {}", j[3]);
+        // WGS 84 C̄20 = -J2/√5 = -4.84166774985e-4 (NIMA TR8350.2 Table 3.1, rounded there).
+        let c20 = -WGS84_ELLIPSOID.even_zonals(1)[0] / 5.0_f64.sqrt();
+        assert!((c20 + 4.841_667_749_85e-4).abs() < 1e-12, "C20 {c20}");
+    }
+
+    #[test]
+    fn anomaly_sa_of_the_normal_field_itself_is_zero() {
+        // A model that IS the ellipsoid's normal field has no anomaly anywhere.
+        let ell = WGS84_ELLIPSOID;
+        let j = ell.even_zonals(10);
+        let mut f = SphericalHarmonicField::zeros(ell.gm, ell.a, 20);
+        f.set(0, 0, 1.0, 0.0);
+        for (k, jn) in j.iter().enumerate() {
+            let n = 2 * (k + 1);
+            f.set(n, 0, -jn / ((2 * n + 1) as f64).sqrt(), 0.0);
+        }
+        let lons = [0.0, 1.0, -2.0];
+        for lat_deg in [-60.0_f64, 0.0, 12.5, 36.2] {
+            for g in
+                f.gravity_anomaly_sa_parallel_mgal(&ell, true, lat_deg.to_radians(), 0.0, &lons)
+            {
+                assert!(g.abs() < 1e-9, "anomaly {g} mGal at {lat_deg}");
+            }
+        }
+    }
+
+    #[test]
+    fn anomaly_sa_single_tesseral_term_matches_its_closed_form() {
+        // Only C̄22 = 1e-6 on top of the normal field, at the equator (r = a, φ = 0):
+        //   Δg = (GM/a²)·(2−1)·C̄22·P̄22(0)·cos 2λ = (GM/a²)·1e-6·(√15/2)·cos 2λ.
+        let ell = WGS84_ELLIPSOID;
+        let j = ell.even_zonals(10);
+        let mut f = SphericalHarmonicField::zeros(ell.gm, ell.a, 20);
+        f.set(0, 0, 1.0, 0.0);
+        for (k, jn) in j.iter().enumerate() {
+            let n = 2 * (k + 1);
+            f.set(n, 0, -jn / ((2 * n + 1) as f64).sqrt(), 0.0);
+        }
+        f.set(2, 2, 1.0e-6, 0.0);
+        let lons = [0.0, 0.3];
+        let g = f.gravity_anomaly_sa_parallel_mgal(&ell, true, 0.0, 0.0, &lons);
+        for (k, lam) in lons.iter().enumerate() {
+            let want = ell.gm / (ell.a * ell.a)
+                * 1.0e-6
+                * (15.0_f64.sqrt() / 2.0)
+                * (2.0 * lam).cos()
+                * 1e5;
+            assert!((g[k] - want).abs() < 1e-9, "{} vs {want}", g[k]);
+        }
     }
 }

@@ -1,0 +1,89 @@
+# Map-error Monte Carlo on the 60-minute GPS-denied gravity-map benchmark (WP-10, RM-15).
+#
+# Every parameter is `gps-denied-gravity-nav.toml`'s, unchanged. The `[map_error_mc]` block
+# then reruns the benchmark over seeded realisations of a Gaussian-correlated error added to
+# the STORED map (the gravimeter still measures the true field): realisation k uses map-error
+# seed `seed + k` and gravimeter-noise seed `noise_seed + k`. The document adds a
+# `map_error_mc` block with the distribution of the matched error (mean, median, 95th
+# percentile, max, and the fraction within `target_m`). The single-run fields are the
+# benchmark's own, with no map error. MODELLED: the error statistics are an assumption, not
+# a survey's.
+
+# Dispatched by the scenario engine as `kind = "gravity-map"` (also consumed directly by
+# `run_gps_denied_gravity_nav` in the unit tests, which ignore this field).
+kind = "gravity-map"
+
+# Maximum spherical-harmonic degree/order of the reference field.
+nmax = 3
+
+# Track flown GPS-denied: 90 waypoints, 40 s gravimeter averaging each ⇒ 3600 s = 60 min.
+# An oblique leg keeps the scalar gravimeter sequence observable in both north and east.
+start_lat_deg = 10.0
+start_lon_deg = 20.0
+step_lat_deg = 0.06
+step_lon_deg = 0.045
+waypoints = 90
+
+# True constant INS position drift accumulated over the one-hour outage (≈ 70 km at ~13° lat,
+# i.e. far past the 10 km the matched solution must beat).
+drift_lat_deg = 0.5
+drift_lon_deg = -0.4
+
+# Cold-atom gravimeter: 1e-7 m/s²/√Hz ASD (≈10 µGal/√Hz), 40 s averaging ⇒ σ ≈ 1.6e-3 mGal.
+gravimeter_asd = 1.0e-7
+averaging_time_s = 40.0
+
+# Map/representation error (mGal): combined with the sensor white noise into the matching σ.
+map_sigma_mgal = 2.0
+
+# Hierarchical offset search: ±0.8° at 0.08° to start, then three coarse-to-fine stages each
+# shrinking the window and step 8× ⇒ final offset resolution 0.08° / 8² ≈ 140 m.
+search_half_deg = 0.8
+search_step_deg = 0.08
+refine_stages = 3
+refine_factor = 8.0
+noise_seed = 1
+
+# Low-degree anomalous, fully-normalised coefficients (the always-on regional trend).
+[[coeffs]]
+n = 2
+m = 0
+cbar = 6.0e-6
+sbar = 0.0
+
+[[coeffs]]
+n = 3
+m = 1
+cbar = 3.0e-6
+sbar = 2.0e-6
+
+# Localized Gaussian anomalies (mascons) the track crosses — the distinctive high-degree
+# features that make the constant drift observable.
+[[mascons]]
+lat_deg = 11.0
+lon_deg = 20.8
+amp_mgal = 45.0
+sigma_deg = 0.30
+
+[[mascons]]
+lat_deg = 12.4
+lon_deg = 21.9
+amp_mgal = -38.0
+sigma_deg = 0.28
+
+[[mascons]]
+lat_deg = 13.8
+lon_deg = 23.0
+amp_mgal = 50.0
+sigma_deg = 0.32
+
+# 20 map-error realisations: 2 mGal 1-sigma (the matcher's own map_sigma_mgal budget), with
+# a correlation length of 0.2 deg (about 22 km, the scale of the mascons it corrupts), on a
+# 0.02 deg error lattice (a tenth of that length).
+[map_error_mc]
+realisations = 20
+sigma_mgal = 2.0
+correlation_length_deg = 0.2
+grid_step_deg = 0.02
+seed = 1
+target_m = 500.0
