@@ -4,9 +4,9 @@
   "repo_blob_base": "https://github.com/AshfordeOU/kshana/blob/main/",
   "summary": {
     "validated": 148,
-    "modelled": 156,
+    "modelled": 157,
     "partner_owned": 4,
-    "total": 308
+    "total": 309
   },
   "rows": [
     {
@@ -7195,6 +7195,28 @@
         {
           "path": "tests/jamming_acq_agc.rs",
           "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/jamming_acq_agc.rs"
+        }
+      ],
+      "fixture": null
+    },
+    {
+      "requirement": "Capped FLL pull-in below the default design's FLL-to-PLL hand-over floor (opt-in)",
+      "capability": "iq::track's opt-in carrier.fll_pull_in_max_s (the fll_pull_in_max_s field of iq::track::LoopConfig): under fll_assist = pull-in, the FLL hands over to the PLL after a fixed pull-in time whatever the PLI, with a matching return dwell until the PLI first reaches fll_off_pli.",
+      "status": "MODELLED",
+      "oracle_kind": "InternalConsistency",
+      "oracle": "Internal consistency against injected truth: a synthetic data-free GPS L1 C/A source (PRN 13, 1500 Hz, 4.1 MHz, 8 s, ten noise seeds) whose carrier phase is known, under bars pre-registered at 58789af0 (docs/design/evidence/fll-handover-floor/). MET: the control (the uncapped default never hands over in 9 of 10 seeds at 33 dB-Hz); additivity (default hash and the existing tracking tests unchanged); pull-in of a 100 Hz-off hand-off at 45 dB-Hz. NOT MET: with a 1.0 s cap, hand-over and hold in every run (16 of 20 at 33 dB-Hz, 8 of 20 at 31 dB-Hz; the rest cycle between forced hand-overs and the FLL's return) and phase jitter within 25 % of the PLL alone (10.8 against 6.1 degrees at 33 dB-Hz). WHAT IS NOT CHECKED: data bits, other signals and sample rates, field recordings. The default is unchanged; the row stays MODELLED.",
+      "module": "iq::track (LoopConfig, FllGate, design); iq::track::channel (the FLL gate)",
+      "tests": "tests/iq_fll_handover_floor.rs (registered_bars_give_the_recorded_verdict, d1_the_key_is_part_of_the_hash_only_when_set, d4_the_capped_design_pulls_in_a_100_hz_handoff_error), on tests/fixtures/fll_handover_floor/results.csv",
+      "module_links": [
+        {
+          "path": "src/iq/track/mod.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/src/iq/track/mod.rs"
+        }
+      ],
+      "test_links": [
+        {
+          "path": "tests/iq_fll_handover_floor.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/iq_fll_handover_floor.rs"
         }
       ],
       "fixture": null

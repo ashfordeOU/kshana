@@ -176,6 +176,11 @@ pub struct Channel {
     window_len: usize,
     pli: f64,
     fll_gate_since: Option<f64>,
+    /// When the FLL path was last seen switched on (for `fll_pull_in_max_s`).
+    fll_on_since: Option<f64>,
+    /// The last hand-over was forced by `fll_pull_in_max_s` and the PLI has not reached
+    /// `off_pli` since.
+    fll_forced_off: bool,
     nwpr: VecDeque<f64>,
     beaulieu: VecDeque<f64>,
     prev_window_sum: Option<Cf64>,
@@ -289,6 +294,8 @@ impl Channel {
             window_len,
             pli: 0.0,
             fll_gate_since: None,
+            fll_on_since: None,
+            fll_forced_off: false,
             nwpr: VecDeque::new(),
             beaulieu: VecDeque::new(),
             prev_window_sum: None,
@@ -485,7 +492,9 @@ impl Channel {
 
     /// The FLL/PLL hand-over of [`FllAssist::PullIn`] on an FLL-assisted PLL: switch the
     /// FLL path off once the smoothed PLI has held at or above `off_pli` for the dwell, back
-    /// on once it has held below `on_pli` for the dwell.
+    /// on once it has held below `on_pli` for the dwell. With `fll_pull_in_max_s`, also
+    /// switch it off once it has been on that long, and after such a forced hand-over hold
+    /// the return for that long instead of the dwell until the PLI reaches `off_pli`.
     fn fll_gate_step(&mut self) {
         let gate = match self.core.config().fll_assist {
             FllAssist::PullIn(g) => g,
@@ -496,6 +505,24 @@ impl Channel {
         }
         let now = self.sample_index as f64 / self.fs;
         let on = self.core.fll_enabled();
+        let cap = self.core.config().fll_pull_in_max_s;
+        if let Some(max) = cap {
+            if on {
+                let since = *self.fll_on_since.get_or_insert(now);
+                if now - since >= max {
+                    self.core.set_fll_enabled(false);
+                    self.fll_on_since = None;
+                    self.fll_forced_off = true;
+                    self.fll_gate_since = None;
+                    return;
+                }
+            } else {
+                self.fll_on_since = None;
+                if self.pli >= gate.off_pli {
+                    self.fll_forced_off = false;
+                }
+            }
+        }
         let wants_change = if on {
             self.pli >= gate.off_pli
         } else {
@@ -506,9 +533,14 @@ impl Channel {
             return;
         }
         let since = *self.fll_gate_since.get_or_insert(now);
-        if now - since >= gate.dwell_s {
+        let dwell = match cap {
+            Some(max) if !on && self.fll_forced_off => max,
+            _ => gate.dwell_s,
+        };
+        if now - since >= dwell {
             self.core.set_fll_enabled(!on);
             self.fll_gate_since = None;
+            self.fll_on_since = (!on).then_some(now);
         }
     }
 

@@ -17,7 +17,7 @@ are asserted by tests that pin the recorded verdict.
 | CAP-06a | CRPA antenna gains in the jamming kind | 08d83b4d | 8ed3ec8e, 48a75761 | A3 on the MVDR jammer gain not met (float64 cancellation); MODELLED |
 | CAP-06b | terrain shadowing of the jammer | 92cd2bfd | e69e1fd6 | all met; MODELLED |
 | CAP-06c | acquisition hysteresis and the front-end quantiser | 70c72fcc, supplement 37793290 | 6b29e8d8 | H3 uninformative on the registered runs (not met), met on the supplement; MODELLED |
-| DS-LOOP-05 | the FLL→PLL hand-over floor of the default design | (next) | | |
+| DS-LOOP-05 | the FLL→PLL hand-over floor of the default design (opt-in cap) | 58789af0 | (this commit) | control met; D2 and D3 not met (16 of 20 runs hold at 33 dB-Hz); MODELLED |
 
 ## PRO-38 (vector tracking): not done separately
 

@@ -241,6 +241,7 @@ struct RawCarrier {
     fll_off_pli: Option<f64>,
     fll_on_pli: Option<f64>,
     fll_gate_dwell_s: Option<f64>,
+    fll_pull_in_max_s: Option<f64>,
     bn_t_max: Option<f64>,
 }
 
@@ -314,6 +315,10 @@ struct Carrier {
     fll_off_pli: Option<f64>,
     fll_on_pli: Option<f64>,
     fll_gate_dwell_s: Option<f64>,
+    /// Opt-in cap on the FLL pull-in (s); omitted from the canonical form when unset, so a
+    /// design that does not set it keeps its hash.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    fll_pull_in_max_s: Option<f64>,
     /// Largest `Bn · T` the PLL and FLL bandwidths may have when the loop update time
     /// exceeds [`BN_CLAMP_ABOVE_T_S`]; 0 disables. Omitted from the canonical form at its
     /// default, so a design that does not set it keeps its hash.
@@ -457,6 +462,7 @@ impl Resolved {
                 fll_off_pli: assisted.then_some(gate.off_pli),
                 fll_on_pli: assisted.then_some(gate.on_pli),
                 fll_gate_dwell_s: assisted.then_some(gate.dwell_s),
+                fll_pull_in_max_s: None,
                 bn_t_max: BN_T_MAX_DEFAULT,
             },
             code: Code {
@@ -529,6 +535,8 @@ impl Resolved {
                 self.carrier.fll_gate_dwell_s = assisted
                     .then(|| self.carrier.fll_gate_dwell_s.or(base.fll_gate_dwell_s))
                     .flatten();
+                self.carrier.fll_pull_in_max_s =
+                    assisted.then_some(self.carrier.fll_pull_in_max_s).flatten();
             }
         }
         let has_pll = self.carrier.kind != "fll";
@@ -544,6 +552,11 @@ impl Resolved {
             (
                 "fll_gate_dwell_s",
                 c.fll_gate_dwell_s.is_some(),
+                has_pll && has_fll,
+            ),
+            (
+                "fll_pull_in_max_s",
+                c.fll_pull_in_max_s.is_some(),
                 has_pll && has_fll,
             ),
         ] {
@@ -581,6 +594,7 @@ impl Resolved {
         set_some(&mut self.carrier.fll_off_pli, c.fll_off_pli);
         set_some(&mut self.carrier.fll_on_pli, c.fll_on_pli);
         set_some(&mut self.carrier.fll_gate_dwell_s, c.fll_gate_dwell_s);
+        set_some(&mut self.carrier.fll_pull_in_max_s, c.fll_pull_in_max_s);
         if let Some(v) = c.bn_t_max {
             if !(v.is_finite() && v >= 0.0) {
                 return Err(at(format!(
@@ -677,6 +691,18 @@ impl Resolved {
                 return Err(format!(
                     "carrier.fll_gate_dwell_s must be zero or positive (got {t})"
                 ));
+            }
+        }
+        if let Some(t) = self.carrier.fll_pull_in_max_s {
+            if !(t.is_finite() && t > 0.0) {
+                return Err(format!(
+                    "carrier.fll_pull_in_max_s must be positive (got {t})"
+                ));
+            }
+            if self.carrier.fll_assist.as_deref() == Some("always") {
+                return Err(
+                    "carrier.fll_pull_in_max_s applies only to fll_assist = \"pull-in\"".into(),
+                );
             }
         }
         if let (Some(o), Some(b)) = (self.carrier.pll_order, self.carrier.pll_bw_hz) {
@@ -999,6 +1025,7 @@ impl Design {
             },
             // BOC tracking is not a design-file option yet.
             boc: None,
+            fll_pull_in_max_s: c.fll_pull_in_max_s,
         }
     }
 

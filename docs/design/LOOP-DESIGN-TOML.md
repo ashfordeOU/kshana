@@ -44,6 +44,8 @@ fll_assist = "pull-in"                   # "pull-in" | "always"   (fll-assisted-
 fll_off_pli = 0.8                        # pull-in: FLL hands over once the smoothed PLI
 fll_on_pli = 0.6                         #   held >= off for the dwell; back once < on
 fll_gate_dwell_s = 0.1                   #   for the dwell (on < off: hysteresis)
+# fll_pull_in_max_s = 1.0                # optional (pull-in only): force the hand-over after
+                                         #   this long; unset by default and out of the hash
 bn_t_max = 0.1                           # Bn·T limit when T > 4 ms (0 = off); omitted from the
                                          #   hash at this default (see Rules)
 
@@ -143,7 +145,9 @@ pfa = 1e-3
     the FLL to the PLL below about 35 dB-Hz: at 35 dB-Hz the hand-over comes 1.9–2.6 s into
     the track, and at 33 dB-Hz the FLL keeps the phase lock indicator below `fll_off_pli`, so
     pull-in never completes. Treat about 35 dB-Hz as the pull-in floor. Evidence:
-    `docs/design/evidence/carrier-lock/`.
+    `docs/design/evidence/carrier-lock/`; measured again at 33 dB-Hz (9 of 10 seeds never hand
+    over) in `docs/design/evidence/fll-handover-floor/`, where the opt-in
+    `fll_pull_in_max_s` helps in most runs but not reliably.
   * *Commensurate sampling.* At a sample rate that is a multiple of half the chip rate the
     code discriminator is a staircase, and at exactly 0 Hz code Doppler and 4 samples/chip the
     code never crosses the ±0.21-chip dead zone, so a code-phase bias of up to about 0.2 chip
@@ -276,6 +280,18 @@ has held below `fll_on_pli` for the dwell. With `"always"` the FLL path feeds ev
 Left on, a 10 Hz FLL path injects enough frequency noise to break phase lock below about
 38 dB-Hz. The evidence is in `docs/design/evidence/carrier-lock/`. The epoch output's
 `fll_active` (Rust `EpochOutput`) says which applied.
+
+**Capped pull-in** (`fll_pull_in_max_s`, optional, `"pull-in"` only). Once the FLL path has
+been on this long without handing over, it hands over whatever the PLI. Until the PLI next
+reaches `fll_off_pli`, the FLL comes back only after the PLI has held below `fll_on_pli` for
+this long instead of the dwell. The key is unset by default and omitted from the hash then.
+Measured at 1.0 s (`docs/design/evidence/fll-handover-floor/`):
+- At 33 dB-Hz it holds lock in 16 of 20 runs, where the uncapped default never hands over in
+  9 of 10.
+- At 31 dB-Hz it holds lock in 8 of 20, and at 29 dB-Hz in none.
+- The other runs cycle between a forced hand-over and the FLL's return.
+
+So it lowers the floor in most runs but not reliably, and its pre-registered bars were not met.
 
 With `reacquire` off (the built-in default) the state machine only observes. The loops run
 bit for bit as without it (tested), and a `LOST` channel returns to `LOCKED`
