@@ -1034,7 +1034,7 @@ pub fn fit(
         }
         traj = integ(&x)?;
         let dpos = (dx[0] * dx[0] + dx[1] * dx[1] + dx[2] * dx[2]).sqrt();
-        if dpos < 0.1 {
+        if dpos < 1.0 {
             break;
         }
     }
