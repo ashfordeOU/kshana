@@ -3628,6 +3628,9 @@ pub fn validated_oracle_basis() -> Vec<OracleBasisEntry> {
             basis: Library,
             oracle_test: "tests/solar_system_kernel_oracle.rs::kernel_backed_solar_system_matches_spice",
             source: "NAIF SPICE Toolkit (CSPICE N0067 through spiceypy 8.3.0)",
+            flag: "",
+        },
+        OracleBasisEntry {
             requirement: "Impulsive transfer optimiser on the DE440 ephemeris",
             basis: Library,
             oracle_test: "tests/transfer_optimiser_oracle.rs::transfer_optimiser_matches_spice_pykep_scipy",
