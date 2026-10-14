@@ -910,7 +910,8 @@ pub fn gnss_victim(name: &str) -> Option<GnssVictim> {
             centre_hz: 1207.14e6,
             spectrum: VictimSpectrum::Mod(Modulation::BpskR { n: 10.0 }),
             rx_bandwidth_hz: 20.46e6,
-            received_power_dbw: -155.0,
+            // Galileo OS SIS ICD Issue 2.1 (2023), Table 12: E5b total I+Q, 50/50 sharing.
+            received_power_dbw: -155.25,
             source: "Galileo OS SIS ICD",
         }),
         "galileo-e5-altboc" => Some(GnssVictim {
@@ -918,7 +919,9 @@ pub fn gnss_victim(name: &str) -> Option<GnssVictim> {
             centre_hz: 1191.795e6,
             spectrum: VictimSpectrum::AltBoc,
             rx_bandwidth_hz: 51.15e6,
-            received_power_dbw: -152.0,
+            // The ICD (Issue 2.1, Table 12) gives no full-band E5 row: this is the power sum of
+            // its E5a and E5b totals, −155.25 dBW each (10·log10(2) above either, −152.24 dBW).
+            received_power_dbw: -152.24,
             source: "Galileo OS SIS ICD (E5a plus E5b minimum powers)",
         }),
         _ => None,
