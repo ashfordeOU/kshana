@@ -135,6 +135,21 @@ console.log(summary(toml));                     // the one-line result string
 const svg = chart_svg(toml);                    // the same chart the command-line interface (CLI) writes
 ```
 
+TypeScript sees typed results: `run_typed(toml)` returns a `RunOutput` (`json`, `svg`,
+`summary`, `csv: string | null`, `data: ResultDocument`), `scenario_kinds()` a `KindMeta[]`
+whose `name` is the `ScenarioKind` union of every kind, and `error_kind()` an `ErrorKind`
+(or `""` on success). Each result document's own fields vary by kind; `ResultDocument`
+types the shared envelope (`schema_version`, `engine_version`, and the `units` block of
+`FieldUnit`s).
+
+```ts
+import { run_typed, scenario_kinds, type ScenarioKind } from "kshana";
+
+const out = run_typed(toml);
+const units = out.data.units;                                // Record<string, FieldUnit>
+const kinds: ScenarioKind[] = scenario_kinds().map((k) => k.name);
+```
+
 ```js
 import { list_examples, get_example, export_scenario, animate_scenario } from "kshana";
 
@@ -149,8 +164,9 @@ document as a JSON string), `summary`, `chart_svg`, `table_csv` (the scenario's 
 (comma-separated values) table as a string, or `undefined` for kinds that publish no table; it throws on an
 invalid scenario), `run_all` (one engine run returning `{json, svg, summary, csv}` as a
 JSON string — use it when you want more than one output, since every other call runs
-the scenario afresh), `version`, `list_kinds` /
-`error_kind` (introspection), `encode_permalink` / `decode_permalink` — the
+the scenario afresh), `run_typed` (the same outputs as one typed object, with the
+document already parsed as `data`), `version`, `list_kinds` / `scenario_kinds` /
+`error_kind` (introspection; `scenario_kinds` returns the parsed list), `encode_permalink` / `decode_permalink` — the
 shareable-link (URL, uniform resource locator) codec [Kshana Studio](https://kshana.dev) uses to round-trip a whole
 scenario through the address-bar fragment — and `export_sp3` / `export_omm` /
 `export_oem`, the SP3-c (revision c of the Standard Product 3 format) and CCSDS

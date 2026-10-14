@@ -277,6 +277,7 @@ stale.
 | `automotive-urban-canyon.toml` | `gnss-ins` | yes | yes | yes | no [3] | no [2] |
 | `campaign-jam-spoof-holdover-integrity.toml` | `campaign` | yes | yes | yes | yes | no [4] |
 | `campaign-monte-carlo-clock-holdover.toml` | `campaign` | no [4] | no [4] | no [4] | no [4] | no [4] |
+| `campaign-optimize-link-budget.toml` | `campaign` | no [4] | no [4] | no [4] | no [4] | no [4] |
 | `campaign-shared-jammer-sea-road.toml` | `campaign` | yes | yes | yes | yes | no [4] |
 | `campaign-spectrum-holdover-integrity.toml` | `campaign` | yes | yes | yes | yes | no [4] |
 | `campaign-sweep-jammer-power.toml` | `campaign` | yes | yes | yes | yes | no [4] |
