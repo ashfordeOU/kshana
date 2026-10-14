@@ -10,7 +10,10 @@
 //! [`crate::mapmatch`], and the [`crate::particle_filter`] estimator engine. [`sequential`]
 //! runs that same measurement model recursively (SITAN as a running particle filter) so a
 //! *time-varying* INS drift is tracked epoch by epoch, where [`terrain`]'s batch search only
-//! recovers a single constant offset.
+//! recovers a single constant offset. [`maps`] holds the real reference grids (EMAG2v3
+//! magnetic anomaly, a spherical-harmonic gravity-anomaly grid) and the correlated
+//! map-error field the map-error Monte Carlo draws from.
 
+pub mod maps;
 pub mod sequential;
 pub mod terrain;

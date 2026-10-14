@@ -121,3 +121,9 @@ data/galileo-os-sis-icd/C7_E1B.txt
 data/galileo-os-sis-icd/C8_E1C.txt
 tests/fixtures/iq_signals/C3_E5aI.txt
 tests/fixtures/iq_signals/C4_E5aQ.txt
+
+# EMAG2v3 grid fetched at test time by tools/fetch_emag2_tile.py (licence not explicit; never vendored)
+/tools/emag2/
+
+# ICGEM grids fetched at test time by tools/fetch_icgem_grid.sh (no explicit licence; never vendored)
+/tools/icgem/
