@@ -422,6 +422,7 @@ stale.
 | `telecom-tie-ingest.toml` | `telecom-timing` | no [4] | no [4] | no [4] | no [4] | no [2] |
 | `terrain-nav.toml` | `terrain-nav` | yes | yes | yes | no [6] | no [2] |
 | `terrain-slam.toml` | `terrain-slam` | yes | yes | yes | no [6] | no [2] |
+| `time-transfer-budget.toml` | `time-transfer-budget` | no [19] | no [19] | no [19] | no [19] | no [2] |
 | `timetransfer.toml` | `timetransfer` | no [4] | no [4] | no [4] | no [4] | no [2] |
 | `tracking-loop.toml` | `tracking-loop` | no [4] | no [4] | no [4] | no [4] | no [2] |
 | `xona-pulsar-end-to-end.toml` | `leo-pnt-chain` | yes | yes | yes | yes | no [2] |
@@ -448,4 +449,5 @@ Why a format does not apply:
 16. this spectrum scenario has no [iq] block, so no samples are synthesised to record
 17. not exported in this release: `oem-interop` reads and writes a CCSDS (Consultative Committee for Space Data Systems) Orbit Ephemeris Message, which is itself the ephemeris interchange file
 18. the scenario sweeps another scenario over a grid; export the swept scenario on its own
+19. the `time-transfer-budget` kind computes a link budget and stabilities, with no time-tagged geometry to place
 <!-- interop-table:end -->

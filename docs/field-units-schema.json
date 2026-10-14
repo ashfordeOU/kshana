@@ -1,11 +1,11 @@
 {
   "coverage": {
     "described_fields_without_definition": 239,
-    "fields_described": 2885,
-    "fields_total": 2887,
+    "fields_described": 2904,
+    "fields_total": 2906,
     "fields_without_units": 2,
-    "kinds_complete": 81,
-    "kinds_total": 82,
+    "kinds_complete": 82,
+    "kinds_total": 83,
     "kinds_uncovered": 1,
     "uncovered_kind_ceiling": 1,
     "uncovered_kinds": [
@@ -17884,6 +17884,130 @@
       "fields_without_units": [],
       "label": null,
       "source": "scenarios/terrain-slam.toml"
+    },
+    "time-transfer-budget": {
+      "complete": true,
+      "fields": {
+        "budget[].u_ns": {
+          "definition": "standard uncertainty of the budget line",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "ns"
+        },
+        "combined_uncertainty_ns": {
+          "definition": "quadrature sum of the budget lines",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "ns"
+        },
+        "inputs.averaging_s": {
+          "definition": "averaging time of the type A term",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "s"
+        },
+        "inputs.diurnal_amplitude_ns": {
+          "definition": "diurnal non-reciprocity amplitude",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "ns"
+        },
+        "inputs.flicker_noise_ns": {
+          "definition": "flicker phase-noise scale",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "ns"
+        },
+        "inputs.reciprocity_bias_ns": {
+          "definition": "constant reciprocity residual",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "ns"
+        },
+        "inputs.span_days": {
+          "definition": "simulated span",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "d"
+        },
+        "inputs.step_s": {
+          "definition": "measurement interval",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "s"
+        },
+        "inputs.true_offset_ns": {
+          "definition": "the offset the forward model carries",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "ns"
+        },
+        "inputs.white_noise_ns": {
+          "definition": "white phase noise per measurement",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "ns"
+        },
+        "simulated.mean_offset_ns": {
+          "definition": "mean of the simulated two-way series",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "ns"
+        },
+        "simulated.tdev[].tau_s": {
+          "definition": "averaging time",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "simulated.tdev[].tdev_ns": {
+          "definition": "time deviation of the simulated series",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "ns"
+        },
+        "terms_ns.half_counter_difference": {
+          "definition": "half the difference of the two counter readings",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "ns"
+        },
+        "terms_ns.ionosphere": {
+          "definition": "-1/2 of the up/down ionospheric asymmetry difference, 40.3 TEC (1/f_up^2 - 1/f_down^2)/c per station",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "ns"
+        },
+        "terms_ns.offset": {
+          "definition": "T_A - T_B solved from the two-way equation",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "ns"
+        },
+        "terms_ns.sagnac": {
+          "definition": "-1/2 of the Sagnac difference of the two paths",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "ns"
+        },
+        "terms_ns.station_delays": {
+          "definition": "-1/2 of the (TX - RX) difference between the stations",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "ns"
+        },
+        "terms_ns.transponder": {
+          "definition": "-1/2 of the transponder delay difference",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "ns"
+        }
+      },
+      "fields_described": 19,
+      "fields_total": 19,
+      "fields_without_units": [],
+      "label": "MODELLED — TWSTFT two-way equation (station delays, Ku-band ionosphere, transponder, Sagnac) solved from stated delays, a quadrature uncertainty budget with the simulated link's TDEV as the type A term, a simulated link with flicker phase noise and diurnal non-reciprocity, and the stability of any real UTC-UTC(k) or station-clock series supplied; not compared with a real TWSTFT link",
+      "source": "scenarios/time-transfer-budget.toml"
     },
     "timetransfer": {
       "complete": true,

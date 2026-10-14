@@ -1,6 +1,6 @@
 # Scenario kinds
 
-The 82 built-in scenario kinds that `kshana::api::run_toml` dispatches over, each with its one-line description and its required / optional TOML (Tom's Obvious, Minimal Language) fields.
+The 83 built-in scenario kinds that `kshana::api::run_toml` dispatches over, each with its one-line description and its required / optional TOML (Tom's Obvious, Minimal Language) fields.
 
 This file is **generated** from `api::list_scenario_kinds()` — the single source of truth — by `cargo run --bin gen_validation_artifacts`; edit the source, not this file. Every binding (the Python package, the MCP (Model Context Protocol) server's `list_scenario_kinds` tool, and the WebAssembly (WASM) playground) exposes this same catalogue, so what is listed here is exactly what every surface can run. The descriptions are terse and do not always expand their abbreviations; every one is spelled out in [GLOSSARY.md](GLOSSARY.md).
 
@@ -90,6 +90,7 @@ Every scenario except `clock` must also set `kind = "<name>"` at the top level: 
 | 80 | [`entry-heating`](#entry-heating) | 3-DoF point-mass atmospheric entry over a rotating spherical Earth or Mars (ballistic or lifting at constant bank), RK4, through US76, an exponential or the Mars atmosphere, with Sutton-Graves stagnation-point convective heating (NASA TR R-376): peak deceleration, heat flux and dynamic pressure, heat load, downrange, a rotating-frame energy check and the Allen-Eggers closed form beside it. Peak deceleration is checked against the published Stardust nominal; heating is MODELLED. |
 | 81 | [`eo-radiometry`](#eo-radiometry) | Nadir imager radiometry and image quality: at-aperture radiance of a Lambertian scene, the camera equation, signal and shot/dark/read/quantisation noise and SNR; the system MTF at Nyquist (diffraction x detector x smear x jitter), the relative edge response from it, Q = lambda F/p and the GIQE version 4 NIIRS with no MTF compensation. MODELLED. |
 | 82 | [`ascent-losses`](#ascent-losses) | Planar gravity-turn ascent of a multi-stage vehicle over a non-rotating spherical Earth through the US Standard Atmosphere 1976 (vertical rise, pitch kick, thrust along velocity), integrating the gravity, drag, steering and back-pressure losses and checking ideal dv minus losses against the burnout speed; max-Q, peak acceleration and burnout state. MODELLED. |
+| 83 | [`time-transfer-budget`](#time-transfer-budget) | Two-way satellite time and frequency transfer between two stations through a geostationary relay: the two-way equation solved for T_A - T_B with every non-reciprocal term (station equipment delays, Ku-band ionosphere, transponder, Sagnac), a quadrature uncertainty budget whose type A term is the simulated link's TDEV at the averaging time, a simulated link with white and flicker phase noise and a diurnal non-reciprocity, and the stability (rate, residual RMS, TDEV, ADEV) of any supplied BIPM Circular T Section 1 series, MJD,ns CSV or IGS RINEX station-clock records. MODELLED. |
 
 ## `clock`
 
@@ -664,4 +665,11 @@ Planar gravity-turn ascent of a multi-stage vehicle over a non-rotating spherica
 
 - **Required fields:** *(none)*
 - **Optional fields:** `stages`, `payload_kg`, `drag_coefficient`, `reference_area_m2`, `kick_altitude_m`, `kick_angle_deg`, `kick_duration_s`, `step_s`
+
+## `time-transfer-budget`
+
+Two-way satellite time and frequency transfer between two stations through a geostationary relay: the two-way equation solved for T_A - T_B with every non-reciprocal term (station equipment delays, Ku-band ionosphere, transponder, Sagnac), a quadrature uncertainty budget whose type A term is the simulated link's TDEV at the averaging time, a simulated link with white and flicker phase noise and a diurnal non-reciprocity, and the stability (rate, residual RMS, TDEV, ADEV) of any supplied BIPM Circular T Section 1 series, MJD,ns CSV or IGS RINEX station-clock records. MODELLED.
+
+- **Required fields:** `station_a`, `station_b`, `satellite_lon_deg`, `transponder_ab_ns`, `transponder_ba_ns`, `white_noise_ns`, `uncertainty`
+- **Optional fields:** `uplink_ghz`, `downlink_ghz`, `true_offset_ns`, `flicker_noise_ns`, `diurnal_amplitude_ns`, `reciprocity_bias_ns`, `step_s`, `span_days`, `averaging_s`, `seed`, `series`
 
