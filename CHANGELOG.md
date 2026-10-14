@@ -176,6 +176,19 @@ breaking changes are called out explicitly.
   file: clock difference 0 s, worst position 1.1 mm against a 1 cm bar). Library function; no
   scenario output changes. No PZ-90.11 → ITRF transformation is applied, and the module says so.
 
+- **PPP time solution against the IGS station clock** (0.36, FUT-19): the receiver clock of the
+  float PPP filter on WTZR agrees with the IGS final combined clock for the station to 0.075 ns
+  (standard deviation) with a constant offset of −0.66 ns over the converged two hours. The bars
+  were pre-registered in `xval/ppp-time/`. VALIDATED (new ledger row). New fixture
+  `igs_2025055_WTZR_05m_0006.clk`, the station-clock records of the IGS final clock file already
+  used for the satellite clocks.
+- **PPP parity with gLAB** (0.36, WP-07, RM-31): gLAB 6.0.0 was run on the same WTZR inputs
+  as a separate tool (Apache-2.0 core; download checksum verified against the published list),
+  with the command line of a procedural amendment committed before the run. On its first
+  registered run, Kshana's float PPP and gLAB's agree within 0.05 m at 240 of 240 epochs and to
+  5.0 mm at the last. The SPP bar was missed (median 1.187 m against 0.50 m) and is recorded as a
+  finding: gLAB's and RTKLIB's own SPP solutions differ from each other by 0.852 m. The
+  registered rule therefore leaves both tools' legs not met as a whole, while PPP parity holds.
 - **RINEX 4 navigation reading** (0.36, WP-07, PRO-41): `rinex::parse_nav` reads RINEX
   4.00-4.02 navigation files (`> EPH` GPS LNAV, Galileo I/NAV and F/NAV, BeiDou D1/D2, QZSS LNAV;
   other records skipped to the next record header), and `parse_nav_with` takes options.
@@ -210,7 +223,9 @@ breaking changes are called out explicitly.
   nearest, consecutive and rotated-map time interpolations; slant TEC at the header's shell
   height. Checked on a committed synthetic map and, data-gated (fetched at test time with a
   pinned SHA-256, not vendored), on a crop of a real CODE GIM: every node exact; interpolation
-  matches a formula reference to 4e-13 TECU. MODELLED; the RTKLIB comparison is data-gated.
+  matches a formula reference to 4e-13 TECU. RTKLIB's `iontec` agrees to 3.6e-13 TECU at 6885
+  points (pre-registered B6). VALIDATED on data-gated evidence (owner decision, 2026-10-13): the
+  test fails on any map other than the SHA-pinned one.
 - **Hatch carrier smoothing** (0.36, WP-07): `hatch::HatchFilter` and
   `pvt::assemble_epoch_precise_smoothed`, the divergence-free (ionosphere-free) form in the precise
   single-point assembly. MODELLED with a recorded finding: on the IGS station WTZR it lowers the
