@@ -637,6 +637,9 @@ pub struct TerrainReport {
     /// The DEM read, if any.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub dem: Option<crate::lunar_terrain::DemEcho>,
+    /// The latitude/longitude DEM tile read, if any.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub dem_tile: Option<crate::lunar_terrain::DemTileEcho>,
     /// The reference station's horizon.
     pub station: crate::lunar_terrain::SiteHorizonEcho,
     /// The user points' horizon sources (as for the station).
@@ -1671,6 +1674,7 @@ impl LunarStationCoverageScenario {
             TerrainReport {
                 label: "MODELLED",
                 dem: r.dem.clone(),
+                dem_tile: r.dem_tile.clone(),
                 station: r.station.echo.clone(),
                 user_sources: r
                     .users
@@ -1815,8 +1819,11 @@ fn coverage_radius(points: &[PointFigures]) -> Vec<AzimuthRadius> {
 /// switched on (so a run with none carries exactly [`UNITS`]).
 pub fn units_for(r: &LunarStationCoverageReport) -> Vec<crate::field_schema::FieldUnit> {
     let mut u: Vec<crate::field_schema::FieldUnit> = UNITS.to_vec();
-    if r.terrain.is_some() {
+    if let Some(t) = r.terrain.as_ref() {
         u.extend_from_slice(crate::lunar_terrain::STATION_TERRAIN_UNITS);
+        if t.dem_tile.is_some() {
+            u.extend_from_slice(crate::lunar_terrain::DEM_TILE_UNITS);
+        }
     }
     if r.inputs_echo.orbit_err_growth_m_per_s.is_some() {
         u.push(crate::field_schema::FieldUnit {

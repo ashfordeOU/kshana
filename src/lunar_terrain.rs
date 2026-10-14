@@ -286,6 +286,150 @@ impl HeightField for PolarDem {
     }
 }
 
+/// A latitude/longitude height grid read through [`crate::realdata::lola_dem`]: heights
+/// above the mean lunar sphere ([`crate::lunar::R_MOON_M`]), bilinear in latitude and
+/// longitude ([`crate::realdata::lola_dem::DemTile::height_at`]); `None` outside the tile's
+/// latitude and longitude extent (longitude taken in `[lon_min, lon_min + 360)`).
+impl HeightField for crate::realdata::lola_dem::DemTile {
+    fn reference_radius_m(&self) -> f64 {
+        crate::lunar::R_MOON_M
+    }
+    fn height_m(&self, dir: Vec3) -> Option<f64> {
+        let r = (dir[0] * dir[0] + dir[1] * dir[1] + dir[2] * dir[2]).sqrt();
+        if r.is_nan() || r <= 0.0 || self.heights_m.is_empty() {
+            return None;
+        }
+        let lat = (dir[2] / r).clamp(-1.0, 1.0).asin().to_degrees();
+        let lon = dir[1].atan2(dir[0]).to_degrees();
+        let lon = self.lon_min_deg + (lon - self.lon_min_deg).rem_euclid(360.0);
+        let inside = lat >= self.lat_min_deg
+            && lat <= self.lat_max_deg
+            && lon >= self.lon_min_deg
+            && lon <= self.lon_max_deg;
+        inside.then(|| self.height_at(lat, lon))
+    }
+}
+
+/// A DEM the horizon ray march samples, with the pixel size that sets the default range
+/// step (half a pixel).
+pub trait DemGrid: HeightField {
+    /// Representative pixel size (m).
+    fn pixel_m(&self) -> f64;
+    /// The grid as a plain height field.
+    fn as_height_field(&self) -> &dyn HeightField;
+}
+
+impl DemGrid for PolarDem {
+    fn pixel_m(&self) -> f64 {
+        self.map_scale_m
+    }
+    fn as_height_field(&self) -> &dyn HeightField {
+        self
+    }
+}
+
+impl DemGrid for crate::realdata::lola_dem::DemTile {
+    /// The latitude spacing as an arc on the mean sphere (the longitude spacing narrows
+    /// toward the pole, so the latitude spacing is the coarser of the two there).
+    fn pixel_m(&self) -> f64 {
+        let n = self.n_lat.max(2) - 1;
+        crate::lunar::R_MOON_M * ((self.lat_max_deg - self.lat_min_deg) / n as f64).to_radians()
+    }
+    fn as_height_field(&self) -> &dyn HeightField {
+        self
+    }
+}
+
+/// A latitude/longitude DEM tile as echoed in a result.
+#[derive(Clone, Debug, Serialize, PartialEq)]
+pub struct DemTileEcho {
+    /// The tile path as given.
+    pub path: String,
+    /// SHA-256 of the tile text read.
+    pub sha256: String,
+    /// The format read.
+    pub format: &'static str,
+    /// Southern edge (deg).
+    pub lat_min_deg: f64,
+    /// Northern edge (deg).
+    pub lat_max_deg: f64,
+    /// Western edge (deg).
+    pub lon_min_deg: f64,
+    /// Eastern edge (deg).
+    pub lon_max_deg: f64,
+    /// Latitude rows.
+    pub n_lat: usize,
+    /// Longitude columns.
+    pub n_lon: usize,
+    /// The latitude spacing as an arc (m).
+    pub pixel_m: f64,
+}
+
+/// Read a latitude/longitude DEM tile in the [`crate::realdata::lola_dem::DemTile::parse`]
+/// text format, with its provenance.
+pub fn load_dem_tile(
+    path: &str,
+) -> Result<(crate::realdata::lola_dem::DemTile, DemTileEcho), String> {
+    let text =
+        std::fs::read_to_string(path).map_err(|e| format!("dem_tile: cannot read {path}: {e}"))?;
+    let tile = crate::realdata::lola_dem::DemTile::parse(&text)
+        .map_err(|e| format!("dem_tile: {path}: {e}"))?;
+    let extent_ok = tile.lat_min_deg < tile.lat_max_deg
+        && tile.lon_min_deg < tile.lon_max_deg
+        && tile.lat_min_deg >= -90.0
+        && tile.lat_max_deg <= 90.0
+        && tile.lon_max_deg - tile.lon_min_deg <= 360.0;
+    if tile.n_lat < 2
+        || tile.n_lon < 2
+        || !extent_ok
+        || tile.heights_m.iter().any(|h| !h.is_finite())
+    {
+        return Err(format!(
+            "dem_tile: {path}: needs at least 2 x 2 points, an increasing extent inside [-90, 90] deg and 360 deg of longitude, and finite heights"
+        ));
+    }
+    let echo = DemTileEcho {
+        path: path.to_string(),
+        sha256: hex(&Sha256::digest(text.as_bytes())),
+        format: "realdata::lola_dem text tile (lat/lon grid, heights above the mean sphere)",
+        lat_min_deg: tile.lat_min_deg,
+        lat_max_deg: tile.lat_max_deg,
+        lon_min_deg: tile.lon_min_deg,
+        lon_max_deg: tile.lon_max_deg,
+        n_lat: tile.n_lat,
+        n_lon: tile.n_lon,
+        pixel_m: tile.pixel_m(),
+    };
+    Ok((tile, echo))
+}
+
+/// A DEM read for a run: the polar stereographic grid or a latitude/longitude tile.
+enum LoadedDem {
+    Polar(PolarDem, DemEcho),
+    Tile(crate::realdata::lola_dem::DemTile, DemTileEcho),
+}
+
+impl LoadedDem {
+    fn grid(&self) -> &dyn DemGrid {
+        match self {
+            LoadedDem::Polar(d, _) => d,
+            LoadedDem::Tile(t, _) => t,
+        }
+    }
+    fn polar_echo(&self) -> Option<DemEcho> {
+        match self {
+            LoadedDem::Polar(_, e) => Some(e.clone()),
+            LoadedDem::Tile(..) => None,
+        }
+    }
+    fn tile_echo(&self) -> Option<DemTileEcho> {
+        match self {
+            LoadedDem::Tile(_, e) => Some(e.clone()),
+            LoadedDem::Polar(..) => None,
+        }
+    }
+}
+
 fn hex(b: &[u8]) -> String {
     b.iter().map(|x| format!("{x:02x}")).collect()
 }
@@ -505,6 +649,10 @@ pub struct LunarTerrainCfg {
     /// A DEM descriptor ([`DemDescriptor`]); every site gets a ray-marched horizon from it.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub dem_path: Option<String>,
+    /// A latitude/longitude DEM tile in the [`crate::realdata::lola_dem`] text format, in
+    /// place of `dem_path` (not both): every site gets a ray-marched horizon from it.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub dem_tile_path: Option<String>,
     /// Antenna height above the terrain for the DEM horizon (m).
     #[serde(default = "d_antenna_height_m")]
     pub antenna_height_m: f64,
@@ -563,8 +711,10 @@ pub struct SiteMask {
 /// The masks of a station and its user points.
 #[derive(Clone, Debug)]
 pub struct ResolvedTerrain {
-    /// The DEM read, if any.
+    /// The polar DEM read, if any.
     pub dem: Option<DemEcho>,
+    /// The latitude/longitude DEM tile read, if any.
+    pub dem_tile: Option<DemTileEcho>,
     /// The reference station's mask.
     pub station: SiteMask,
     /// Each user point's mask, in the order given.
@@ -583,12 +733,18 @@ pub fn up_of(lat_deg: f64, lon_deg: f64) -> Vec3 {
 impl LunarTerrainCfg {
     /// Check the section on its own (the DEM is read by [`Self::resolve`]).
     pub fn validate(&self) -> Result<(), String> {
-        if self.dem_path.is_none() && self.station_horizon.is_none() && self.user_horizon.is_none()
+        if self.dem_path.is_none()
+            && self.dem_tile_path.is_none()
+            && self.station_horizon.is_none()
+            && self.user_horizon.is_none()
         {
             return Err(
-                "terrain: give dem_path, station_horizon or user_horizon (or omit [terrain])"
+                "terrain: give dem_path, dem_tile_path, station_horizon or user_horizon (or omit [terrain])"
                     .into(),
             );
+        }
+        if self.dem_path.is_some() && self.dem_tile_path.is_some() {
+            return Err("terrain: give dem_path or dem_tile_path, not both".into());
         }
         if let Some(s) = &self.station_horizon {
             s.skyline()?;
@@ -607,11 +763,11 @@ impl LunarTerrainCfg {
         Ok(())
     }
 
-    fn params(&self, dem: &PolarDem) -> HorizonParams {
+    fn params(&self, dem: &dyn DemGrid) -> HorizonParams {
         HorizonParams {
             antenna_height_m: self.antenna_height_m,
             azimuth_step_deg: self.azimuth_step_deg,
-            range_step_m: self.range_step_m.unwrap_or(0.5 * dem.map_scale_m),
+            range_step_m: self.range_step_m.unwrap_or(0.5 * dem.pixel_m()),
             max_range_m: self.max_range_km * 1000.0,
         }
     }
@@ -620,7 +776,7 @@ impl LunarTerrainCfg {
     fn site(
         &self,
         stated: Option<&StatedHorizon>,
-        dem: Option<&PolarDem>,
+        dem: Option<&dyn DemGrid>,
         lat_deg: f64,
         lon_deg: f64,
         mask_deg: f64,
@@ -642,8 +798,12 @@ impl LunarTerrainCfg {
             inside || !allow_outside
         });
         if let Some(dem) = dem {
-            let h = horizon_profile(dem, up_of(lat_deg, lon_deg), &self.params(dem))
-                .map_err(|e| format!("{e} (site {lat_deg} deg, {lon_deg} deg)"))?;
+            let h = horizon_profile(
+                dem.as_height_field(),
+                up_of(lat_deg, lon_deg),
+                &self.params(dem),
+            )
+            .map_err(|e| format!("{e} (site {lat_deg} deg, {lon_deg} deg)"))?;
             let cfg = SkylineCfg {
                 table: Some(h.table_rows()),
                 ..SkylineCfg::default()
@@ -673,6 +833,30 @@ impl LunarTerrainCfg {
         Ok(SiteMask { skyline: sky, echo })
     }
 
+    /// One site's mask under `user_horizon` and the DEM, built exactly as a grid point's
+    /// is in [`Self::resolve_grid`] (outside the DEM it keeps the flat mask), with its
+    /// whole-degree profile: for a single named site such as the service volume's
+    /// per-satellite export site.
+    pub fn resolve_site(
+        &self,
+        lat_deg: f64,
+        lon_deg: f64,
+        mask_deg: f64,
+    ) -> Result<SiteMask, String> {
+        self.validate()?;
+        let loaded = self.load_dem()?;
+        let grid = loaded.as_ref().map(LoadedDem::grid);
+        self.site(
+            self.user_horizon.as_ref(),
+            grid,
+            lat_deg,
+            lon_deg,
+            mask_deg,
+            true,
+            true,
+        )
+    }
+
     /// Resolve the masks: read the DEM (if any) and build the station's and every user
     /// point's skyline. `users` are `(lat_deg, lon_deg)`.
     pub fn resolve(
@@ -682,16 +866,32 @@ impl LunarTerrainCfg {
         mask_deg: f64,
     ) -> Result<ResolvedTerrain, String> {
         self.validate()?;
-        let loaded = match &self.dem_path {
-            Some(p) => Some(PolarDem::load(p)?),
-            None => None,
-        };
-        self.resolve_with(
-            loaded.as_ref().map(|(d, e)| (d, e.clone())),
+        let loaded = self.load_dem()?;
+        let mut r = self.resolve_inner(
+            loaded.as_ref().map(LoadedDem::grid),
             station,
             users,
             mask_deg,
-        )
+        )?;
+        r.dem = loaded.as_ref().and_then(LoadedDem::polar_echo);
+        r.dem_tile = loaded.as_ref().and_then(LoadedDem::tile_echo);
+        Ok(r)
+    }
+
+    /// The DEM the section names, read: `dem_path` (polar stereographic) or `dem_tile_path`
+    /// (latitude/longitude tile).
+    fn load_dem(&self) -> Result<Option<LoadedDem>, String> {
+        Ok(match (&self.dem_path, &self.dem_tile_path) {
+            (Some(p), _) => {
+                let (d, e) = PolarDem::load(p)?;
+                Some(LoadedDem::Polar(d, e))
+            }
+            (None, Some(p)) => {
+                let (t, e) = load_dem_tile(p)?;
+                Some(LoadedDem::Tile(t, e))
+            }
+            (None, None) => None,
+        })
     }
 
     /// [`Self::resolve`] with the DEM already in hand (or none).
@@ -702,7 +902,19 @@ impl LunarTerrainCfg {
         users: &[(f64, f64)],
         mask_deg: f64,
     ) -> Result<ResolvedTerrain, String> {
-        let grid = dem.as_ref().map(|(d, _)| *d);
+        let grid = dem.as_ref().map(|(d, _)| *d as &dyn DemGrid);
+        let mut r = self.resolve_inner(grid, station, users, mask_deg)?;
+        r.dem = dem.map(|(_, e)| e);
+        Ok(r)
+    }
+
+    fn resolve_inner(
+        &self,
+        grid: Option<&dyn DemGrid>,
+        station: (f64, f64),
+        users: &[(f64, f64)],
+        mask_deg: f64,
+    ) -> Result<ResolvedTerrain, String> {
         let st = self.site(
             self.station_horizon.as_ref(),
             grid,
@@ -727,7 +939,8 @@ impl LunarTerrainCfg {
             })
             .collect::<Result<Vec<_>, _>>()?;
         Ok(ResolvedTerrain {
-            dem: dem.map(|(_, e)| e),
+            dem: None,
+            dem_tile: None,
             station: st,
             users: us,
         })
@@ -745,11 +958,8 @@ impl LunarTerrainCfg {
                 "terrain: station_horizon has no station in this kind; use user_horizon".into(),
             );
         }
-        let loaded = match &self.dem_path {
-            Some(p) => Some(PolarDem::load(p)?),
-            None => None,
-        };
-        let grid = loaded.as_ref().map(|(d, _)| d);
+        let loaded = self.load_dem()?;
+        let grid = loaded.as_ref().map(LoadedDem::grid);
         let sites = users
             .iter()
             .map(|&(la, lo)| {
@@ -767,15 +977,21 @@ impl LunarTerrainCfg {
         let n = sites.len().max(1) as f64;
         let echo = GridTerrainEcho {
             label: "MODELLED",
-            dem: loaded.map(|(_, e)| e),
+            dem: loaded.as_ref().and_then(LoadedDem::polar_echo),
+            dem_tile: loaded.as_ref().and_then(LoadedDem::tile_echo),
             user_sources: self
                 .user_horizon
                 .iter()
                 .map(|h| h.source.clone())
-                .chain(self.dem_path.iter().map(|_| "dem".to_string()))
+                .chain(
+                    self.dem_path
+                        .iter()
+                        .chain(&self.dem_tile_path)
+                        .map(|_| "dem".to_string()),
+                )
                 .collect(),
             n_points: sites.len(),
-            n_points_outside_dem: if self.dem_path.is_some() {
+            n_points_outside_dem: if loaded.is_some() {
                 sites
                     .iter()
                     .filter(|s| s.echo.sources.iter().any(|x| x == OUTSIDE_DEM))
@@ -815,6 +1031,9 @@ pub struct GridTerrainEcho {
     /// The DEM read, if any.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub dem: Option<DemEcho>,
+    /// The latitude/longitude DEM tile read, if any.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub dem_tile: Option<DemTileEcho>,
     /// The horizon sources applied at every point.
     pub user_sources: Vec<String>,
     /// Grid points.
@@ -927,6 +1146,35 @@ pub const STATION_TERRAIN_UNITS: &[crate::field_schema::FieldUnit] = &{
         fu!("terrain.user_horizon_max_deg_mean", "deg", Computed, "area-weighted mean over the points of the highest horizon"),
         fu!("terrain.user_horizon_max_deg_max", "deg", Computed, "highest horizon over every point"),
         fu!("terrain.user_sky_open_fraction_mean", "1", Computed, "area-weighted mean over the points of the open-sky share"),
+    ]
+};
+
+/// The units a terrain document adds when it reads a latitude/longitude DEM tile
+/// (`terrain.dem_tile`, in both kinds).
+pub const DEM_TILE_UNITS: &[crate::field_schema::FieldUnit] = &{
+    use crate::field_schema::ProvenanceClass::*;
+    [
+        fu!("terrain.dem_tile.lat_min_deg", "deg", Input, "southern edge of the DEM tile"),
+        fu!("terrain.dem_tile.lat_max_deg", "deg", Input, "northern edge of the DEM tile"),
+        fu!("terrain.dem_tile.lon_min_deg", "deg", Input, "western edge of the DEM tile"),
+        fu!("terrain.dem_tile.lon_max_deg", "deg", Input, "eastern edge of the DEM tile"),
+        fu!("terrain.dem_tile.n_lat", "count", Input, "latitude rows of the DEM tile"),
+        fu!("terrain.dem_tile.n_lon", "count", Input, "longitude columns of the DEM tile"),
+        fu!("terrain.dem_tile.pixel_m", "m", Computed, "the tile's latitude spacing as an arc on the mean sphere; half of it is the default ray step"),
+    ]
+};
+
+/// The units the `moonlight-service-volume` document adds when it has both a `terrain`
+/// section and a per-satellite export site.
+pub const EXPORT_SITE_TERRAIN_UNITS: &[crate::field_schema::FieldUnit] = &{
+    use crate::field_schema::ProvenanceClass::*;
+    [
+        fu!("export_site_terrain.dem_site_height_m", "m", Measured, "terrain height at the export site from the DEM (LOLA heights, resampled), above the reference sphere"),
+        fu!("export_site_terrain.dem_rays_truncated", "count", Computed, "DEM rays from the export site that left the grid before max_range_km"),
+        fu!("export_site_terrain.horizon_max_deg", "deg", Computed, "highest horizon at the export site over the whole-degree profile"),
+        fu!("export_site_terrain.horizon_max_az_deg", "deg", Computed, "azimuth of that highest horizon, clockwise from local north"),
+        fu!("export_site_terrain.sky_open_fraction", "1", Computed, "share of the upper hemisphere's solid angle above max(elev_mask_deg, horizon) at the export site"),
+        fu!("export_site_terrain.profile_deg[]", "deg", Computed, "the export site's horizon at every whole degree of azimuth from local north"),
     ]
 };
 
@@ -1049,6 +1297,35 @@ impl HeightField for Cone {
     fn height_m(&self, dir: Vec3) -> Option<f64> {
         let s = dot(dir, self.centre).clamp(-1.0, 1.0).acos() * self.radius_m;
         Some((self.peak_m * (1.0 - s / self.base_arc_m)).max(0.0))
+    }
+}
+
+/// Sample a height field onto an `n_lat × n_lon` latitude/longitude grid over the given
+/// extent, in the [`crate::realdata::lola_dem::DemTile`] layout (for testing the tile path
+/// against the field it was made from). A point outside the field reads as height 0.
+pub fn rasterise_tile(
+    field: &dyn HeightField,
+    lat: (f64, f64),
+    lon: (f64, f64),
+    n_lat: usize,
+    n_lon: usize,
+) -> crate::realdata::lola_dem::DemTile {
+    let mut heights_m = Vec::with_capacity(n_lat * n_lon);
+    for i in 0..n_lat {
+        let la = lat.0 + (lat.1 - lat.0) * i as f64 / (n_lat - 1) as f64;
+        for j in 0..n_lon {
+            let lo = lon.0 + (lon.1 - lon.0) * j as f64 / (n_lon - 1) as f64;
+            heights_m.push(field.height_m(up_of(la, lo)).unwrap_or(0.0));
+        }
+    }
+    crate::realdata::lola_dem::DemTile {
+        lat_min_deg: lat.0,
+        lat_max_deg: lat.1,
+        lon_min_deg: lon.0,
+        lon_max_deg: lon.1,
+        n_lat,
+        n_lon,
+        heights_m,
     }
 }
 
@@ -1220,6 +1497,59 @@ mod tests {
             .cloned()
             .fold((0.0, -90.0), |m, v| if v.1 > m.1 { v } else { m });
         assert!(top.1 > 5.0, "the cone should stand above 5 deg: {top:?}");
+    }
+
+    #[test]
+    fn a_cone_on_a_lat_lon_tile_matches_the_analytic_cone() {
+        // The same cone as the polar-grid test, at 60 deg S, sampled onto a
+        // realdata::lola_dem tile with 0.005 deg spacing (about 150 m in latitude).
+        let cone = Cone {
+            radius_m: R_MOON_M,
+            centre: up_of(-60.0, 30.0),
+            peak_m: 3000.0,
+            base_arc_m: 15_000.0,
+        };
+        // Wide enough that every 30 km ray from the site stays inside it.
+        let tile = rasterise_tile(&cone, (-61.5, -59.0), (26.0, 34.0), 501, 1601);
+        let site = up_of(-60.4, 30.0); // about 12 km from the peak, outside the base
+        let p = HorizonParams {
+            antenna_height_m: 2.0,
+            azimuth_step_deg: 5.0,
+            range_step_m: 50.0,
+            max_range_m: 30_000.0,
+        };
+        let a = horizon_profile(&cone, site, &p).unwrap();
+        let g = horizon_profile(&tile, site, &p).unwrap();
+        let worst = a
+            .profile
+            .iter()
+            .zip(&g.profile)
+            .map(|(x, y)| (x.1 - y.1).abs())
+            .fold(0.0_f64, f64::max);
+        // A 150 m pixel blunts the apex by at most about 30 m of height over >= 12 km.
+        assert!(worst < 0.25, "worst |tile - analytic| = {worst} deg");
+        assert_eq!(g.rays_truncated, 0, "every ray stays inside the tile");
+        assert!((tile.pixel_m() - R_MOON_M * 0.005_f64.to_radians()).abs() < 1e-9);
+    }
+
+    #[test]
+    fn a_lat_lon_tile_is_none_outside_and_wraps_longitude() {
+        use crate::realdata::lola_dem::DemTile;
+        let tile = DemTile {
+            lat_min_deg: -10.0,
+            lat_max_deg: 10.0,
+            lon_min_deg: 170.0,
+            lon_max_deg: 190.0,
+            n_lat: 2,
+            n_lon: 2,
+            heights_m: vec![100.0; 4],
+        };
+        assert_eq!(tile.height_m(up_of(0.0, 180.0)), Some(100.0));
+        // -175 deg is 185 deg in the tile's [170, 530) window.
+        assert_eq!(tile.height_m(up_of(0.0, -175.0)), Some(100.0));
+        assert_eq!(tile.height_m(up_of(0.0, 160.0)), None);
+        assert_eq!(tile.height_m(up_of(20.0, 180.0)), None);
+        assert_eq!(tile.reference_radius_m(), R_MOON_M);
     }
 
     #[test]
