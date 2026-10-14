@@ -41,6 +41,16 @@ jobs:
           # Full history so the repository-hygiene guard scans every commit message,
           # not just the shallow tip (default fetch-depth 1 silently blinds the scan).
           fetch-depth: 0
+      - name: Free runner disk space
+        # 2026-10-14, integ/batch1-0.36 199d8db0 (run 38493902211): the runner hit "No space left on
+        # device" inside `cargo test --all` as the test targets grew; the same cause as the coverage
+        # job's step below. Remove preinstalled SDKs this job never uses; no gate changes.
+        run: |
+          set -eu
+          df -h /
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /usr/local/.ghcup /opt/hostedtoolcache/CodeQL /usr/local/share/boost
+          sudo docker image prune --all --force >/dev/null 2>&1 || true
+          df -h /
       # Pinned to the exact version in rust-toolchain.toml for a reproducible build.
       - uses: dtolnay/rust-toolchain@e2a55d2ffb04f378e9626c28d38b36d230d1e12f # master; the toolchain is the `toolchain` input below
         with:
