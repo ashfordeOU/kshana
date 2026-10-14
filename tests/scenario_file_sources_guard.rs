@@ -96,7 +96,8 @@ fn file_like_field(line: &str) -> Option<&str> {
     ]
     .iter()
     .any(|t| ty.starts_with(t));
-    let looks = ["path", "dir", "file", "files", "kernel", "csv_path"]
+    // `hgt`: an SRTM elevation tile (`[terrain] dem_hgt` of the jamming kind).
+    let looks = ["path", "dir", "file", "files", "kernel", "csv_path", "hgt"]
         .iter()
         .any(|s| name == *s || name.ends_with(&format!("_{s}")));
     (stringy && looks).then_some(name)
@@ -190,5 +191,27 @@ fn every_scenario_in_the_repository_that_an_agent_may_run_is_inline_only_or_list
     assert!(
         refused.is_empty(),
         "bundled scenarios an agent can fetch name a file, so the MCP server would refuse to run them: {refused:?}"
+    );
+}
+
+#[test]
+fn a_jamming_terrain_tile_is_refused_without_naming_the_path() {
+    let text = format!(
+        "{}\n[terrain]\ndem_hgt = \"/definitely/not/a/tile.hgt\"\nsamples_per_side = 601\n\
+         ll_lat_deg = 36.0\nll_lon_deg = -117.0\n",
+        include_str!("../scenarios/jamming-demo.toml")
+    );
+    let e = reject_file_sources(&text, usize::MAX).unwrap_err();
+    assert!(
+        e.contains("`dem_hgt`") && e.contains("inline content only"),
+        "{e}"
+    );
+    assert!(
+        !e.contains("/definitely"),
+        "the refusal names the path: {e}"
+    );
+    assert!(
+        !e.to_lowercase().contains("no such file"),
+        "OS error text: {e}"
     );
 }
