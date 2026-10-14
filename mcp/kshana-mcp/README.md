@@ -35,7 +35,7 @@ figures of merit with their provenance and their VALIDATED or MODELLED label.
 | Tool | What it does |
 |------|--------------|
 | `run_scenario` | Run a scenario from a TOML (Tom's Obvious, Minimal Language) definition; returns the summary + full result JSON (JavaScript Object Notation: figures of merit, curves). Optional `include_chart` returns the chart as SVG (Scalable Vector Graphics). |
-| `list_scenario_kinds` | The 79 built-in scenario kinds with descriptions + required/optional fields — so the agent can construct a valid scenario. |
+| `list_scenario_kinds` | The 82 built-in scenario kinds with descriptions + required/optional fields — so the agent can construct a valid scenario. |
 | `validate_scenario` | Pre-flight check: parse the TOML and detect its kind, without running. |
 | `list_example_scenarios` | The bundled reference scenarios as JSON: each `name`, its `kind` and one sentence on what it shows. Optional `kind` filter. Every example runs as it stands, so this is the quickest way to a valid TOML for a kind. |
 | `get_example_scenario` | The TOML text of one bundled reference scenario, byte for byte the file under `scenarios/`. |
