@@ -611,18 +611,19 @@ fn hash_scenario(scn: &JammingScenario) -> String {
 /// An invalid `skyline` section is an error here as in [`crate::api::run_toml`] (never a
 /// silent fall-back to the flat mask). [`run_jamming_sky`] takes the skyline explicitly.
 pub fn run_jamming(scn: &JammingScenario) -> Result<JammingResult, String> {
-    if let Some(c) = &scn.crpa {
-        c.check()?;
-    }
     let sky = scn.sky()?;
-    Ok(run_jamming_sky(scn, sky.as_ref()))
+    run_jamming_sky(scn, sky.as_ref())
 }
 
-/// Run a jamming scenario with an explicit visibility mask.
+/// Run a jamming scenario with an explicit visibility mask. An invalid `[crpa]` section is an
+/// error.
 pub fn run_jamming_sky(
     scn: &JammingScenario,
     sky: Option<&crate::skyline::Skyline>,
-) -> JammingResult {
+) -> Result<JammingResult, String> {
+    if let Some(c) = &scn.crpa {
+        c.check()?;
+    }
     let station = Geodetic {
         lat_rad: scn.receiver.lat_deg.to_radians(),
         lon_rad: scn.receiver.lon_deg.to_radians(),
@@ -766,7 +767,7 @@ pub fn run_jamming_sky(
     }
 
     let denom = (n + 1) as f64;
-    JammingResult {
+    Ok(JammingResult {
         schema_version: crate::interchange::SCHEMA_VERSION.into(),
         engine_version: env!("CARGO_PKG_VERSION").into(),
         scenario_hash: hash_scenario(scn),
@@ -787,7 +788,7 @@ pub fn run_jamming_sky(
             },
         },
         epochs,
-    }
+    })
 }
 
 fn dist(a: Vec3, b: Vec3) -> f64 {
