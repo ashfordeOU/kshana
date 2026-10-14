@@ -423,18 +423,31 @@ fn short_arc_od_run2_damped_fit_on_the_scored_passes() {
         println!("{l:?}");
     }
     let b2 = rms(&fit.residuals_hz);
-    let mut d = Vec::new();
+    let b5 = fit.n_outliers as f64 / fit.n_after_elevation as f64;
+    println!("run 2: B2 {b2:.5} Hz, B5 {b5:.4}");
+    // Amendment R2-A1: B3/B4 sample the estimate propagated over the whole scored arc (the
+    // fit's own span ends 600 s after the last point's count start).
     let end = et_of_utc(to).total();
+    let estimate = DenseTrajectory::integrate(
+        &dynamics,
+        &fit.params,
+        fit.state,
+        epoch,
+        epoch,
+        end + 60.0,
+        5.0,
+    )
+    .expect("propagate the estimate");
+    let mut d = Vec::new();
     let mut t = epoch;
     while t <= end {
-        let a = fit.trajectory.state(t).expect("estimate");
+        let a = estimate.state(t).expect("estimate");
         let b = mro.state(-74, 4, t, 0.0).expect("truth")[0];
         d.push(((a[0] - b[0]).powi(2) + (a[1] - b[1]).powi(2) + (a[2] - b[2]).powi(2)).sqrt());
         t += 60.0;
     }
     let b3 = rms(&d) / 1e3;
     let b4 = d.iter().cloned().fold(0.0, f64::max) / 1e3;
-    let b5 = fit.n_outliers as f64 / fit.n_after_elevation as f64;
     println!(
         "run 2: {} after elevation, {} outliers, {} iterations, params {:?}",
         fit.n_after_elevation, fit.n_outliers, fit.iterations, fit.params
