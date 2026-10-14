@@ -196,7 +196,6 @@ pub fn icrf_to_moon_pa(jd_tdb: f64) -> Mat3 {
 }
 
 /// The rotation from inertial ICRF/J2000 to the lunar **DE440 principal-axis** frame
-
 /// (`MOON_PA_DE440`) at `jd_tdb`, `r_PA = R · r_icrf`: the transpose of
 /// [`crate::lunar_orientation::try_de440_moon_pa`], the embedded daily DE440 series (checked
 /// against SPICE to 1.7e-6 rad). The opt-in DE-grade counterpart of [`icrf_to_moon_pa`], which

@@ -106,7 +106,11 @@ fn run() -> (Vec<Miss>, usize) {
                 m.closure, m.stability_index
             );
             let mut bar = |q: &'static str, v: f64, b: f64| {
-                if !(v <= b) {
+                // A NaN counts as a miss.
+                if !matches!(
+                    v.partial_cmp(&b),
+                    Some(std::cmp::Ordering::Less | std::cmp::Ordering::Equal)
+                ) {
                     misses.push((fam, i, q, v, b));
                 }
             };
