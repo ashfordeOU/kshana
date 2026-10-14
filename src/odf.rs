@@ -276,14 +276,8 @@ mod tests {
         // Build one orbit-data record by hand from the TRK-2-18 layout.
         let t = 1_825_000_000u32;
         let w1 = (512u32 << 22) | 1234; // 512 ms, downlink delay 1234 ns
-        let w4 = (2u32 << 29)
-            | (63 << 22)
-            | (14 << 15)
-            | (0 << 13)
-            | (12 << 7)
-            | (2 << 5)
-            | (2 << 3)
-            | (2 << 1);
+        let w4 =
+            (2u32 << 29) | (63 << 22) | (14 << 15) | (12 << 7) | (2 << 5) | (2 << 3) | (2 << 1);
         let ref_mhz: u64 = 7_183_000_000_123; // 7.183 GHz + 0.123 Hz in mHz
         let hp = (ref_mhz >> 24) as u32; // 22 bits
         let lp = (ref_mhz & 0xFF_FFFF) as u32;
