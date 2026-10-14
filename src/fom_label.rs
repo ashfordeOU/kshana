@@ -234,6 +234,17 @@ pub const KINDS_EXCLUDED_FROM_FIGURE_TIERS: &[(&str, &str)] = &[
 /// The tier is read from the row, never written here. `None` for a kind not in the table.
 pub fn kind_figures(kind: &str) -> Option<&'static [(&'static str, &'static str)]> {
     Some(match kind {
+        "acm-link" => &[
+            ("acm_volume_mbit", "DVB-S2 adaptive coding and modulation along a LEO downlink pass"),
+            ("ccm_volume_mbit", "DVB-S2 adaptive coding and modulation along a LEO downlink pass"),
+            ("acm_gain", "DVB-S2 adaptive coding and modulation along a LEO downlink pass"),
+        ],
+        "aocs" => &[
+            ("settle_time_s", ""),
+            ("final_pointing_error_deg", ""),
+            ("estimator.rms_attitude_error_arcsec", "Multiplicative EKF attitude estimation from a gyro and a star tracker"),
+            ("estimator.mean_nees", "Multiplicative EKF attitude estimation from a gyro and a star tracker"),
+        ],
         "aperture-duty-cycle" => &[
             ("navigation_duty", "Aperture navigation-versus-communications duty cycle"),
             ("communications_duty", "Aperture navigation-versus-communications duty cycle"),
@@ -242,6 +253,11 @@ pub fn kind_figures(kind: &str) -> Option<&'static [(&'static str, &'static str)
         ],
         "araim-reference-check" => &[
             ("worst_acceptance_error_m", "ARAIM MHSS protection levels against published reference vectors"),
+        ],
+        "ascent-losses" => &[
+            ("losses_m_s.total", "Launch ascent gravity, drag, steering and back-pressure losses"),
+            ("losses_m_s.gravity", "Launch ascent gravity, drag, steering and back-pressure losses"),
+            ("max_q_pa", "Launch ascent gravity, drag, steering and back-pressure losses"),
         ],
         "attitude-budget" => &[
             ("gravity_gradient_torque_max_nm", "3-DOF attitude & pointing error budget (AOCS)"),
@@ -287,17 +303,34 @@ pub fn kind_figures(kind: &str) -> Option<&'static [(&'static str, &'static str)
             ("global.pdop.median", "Coverage and dilution-of-precision maps for arbitrary multi-constellation designs at scale, around any central body"),
             ("global.mean_visible", "Coverage and dilution-of-precision maps for arbitrary multi-constellation designs at scale, around any central body"),
         ],
+        "contact-schedule" => &[
+            ("plans.greedy.delivered_mbit", "Multi-satellite, multi-station ground-contact scheduling with conflict resolution"),
+            ("plans.chronological.delivered_mbit", "Multi-satellite, multi-station ground-contact scheduling with conflict resolution"),
+            ("conflicting_pairs", "Multi-satellite, multi-station ground-contact scheduling with conflict resolution"),
+        ],
         "earth-gnss-lunar" => &[
             ("sweep.fix_availability", "Earth-GNSS at lunar distance"),
             ("sweep.signal_availability", "Earth-GNSS at lunar distance"),
             ("sweep.best_cn0_dbhz", "Earth-GNSS at lunar distance"),
             ("earth_limb_half_angle_deg", "Earth-GNSS at lunar distance"),
         ],
+        "entry-heating" => &[
+            ("peak_deceleration.g", "3-DoF ballistic entry peak deceleration against the published Stardust nominal"),
+            ("relative_entry.speed_m_s", "3-DoF ballistic entry peak deceleration against the published Stardust nominal"),
+            ("peak_heat_flux.w_cm2", "Stagnation-point convective entry heating (Sutton-Graves) on a 3-DoF entry"),
+            ("heat_load_j_cm2", "Stagnation-point convective entry heating (Sutton-Graves) on a 3-DoF entry"),
+        ],
         "eo-coverage" => &[
             ("swath_width_km", "EO payload footprint & coverage geometry"),
             ("nadir_gsd_m", "EO payload footprint & coverage geometry"),
             ("max_access_ground_range_km", "EO payload footprint & coverage geometry"),
             ("equatorial_ground_track_spacing_km", "EO payload footprint & coverage geometry"),
+        ],
+        "eo-radiometry" => &[
+            ("snr", "Electro-optical imager radiometry, MTF, relative edge response and GIQE 4 NIIRS"),
+            ("mtf_nyquist.system", "Electro-optical imager radiometry, MTF, relative edge response and GIQE 4 NIIRS"),
+            ("rer", "Electro-optical imager radiometry, MTF, relative edge response and GIQE 4 NIIRS"),
+            ("niirs_giqe4", "Electro-optical imager radiometry, MTF, relative edge response and GIQE 4 NIIRS"),
         ],
         "ephemeris" => &[
             ("alt_min_km", ""),
@@ -574,6 +607,10 @@ pub fn kind_figures(kind: &str) -> Option<&'static [(&'static str, &'static str)
             ("matched_rms_m", "Alternative / complementary PNT"),
             ("matched_final_m", "Alternative / complementary PNT"),
             ("free_inertial_rms_m", ""),
+        ],
+        "time-transfer-budget" => &[
+            ("terms_ns.offset", "TWSTFT two-way equation, uncertainty budget and link stability with flicker and diurnal non-reciprocity"),
+            ("combined_uncertainty_ns", "TWSTFT two-way equation, uncertainty budget and link stability with flicker and diurnal non-reciprocity"),
         ],
         "timetransfer" => &[
             ("quantum.fom.sync_rms_ps", "Time-transfer error budgeting"),
