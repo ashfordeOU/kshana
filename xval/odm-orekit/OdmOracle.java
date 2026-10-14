@@ -17,7 +17,10 @@
 //
 // Harness accommodation, as in the ADM driver: the oracle data directory holds
 // only tai-utc.dat; a stub Earth (GCRF axes, EIGEN-5C mu, no ephemeris) is
-// registered so that CENTER_NAME = EARTH resolves by name.
+// registered so that CENTER_NAME = EARTH resolves by name. Orekit's OCM parser also builds
+// ICRF as the default trajectory frame before reading TRAJ_REF_FRAME, which needs the solar
+// system barycenter; a stub barycenter (same stub, no ephemeris) is registered for that. No
+// value compared here goes through either stub: any call needing an ephemeris throws.
 
 import java.io.File;
 import java.io.IOException;
@@ -311,6 +314,10 @@ public class OdmOracle {
         user(o, data.getUserDefinedBlock());
     }
 
+    private static <T> List<T> orEmpty(final List<T> l) {
+        return l == null ? new ArrayList<>() : l;
+    }
+
     private static String join(final List<?> l) {
         if (l == null || l.isEmpty()) {
             return null;
@@ -354,7 +361,7 @@ public class OdmOracle {
         o.d("START_TIME", md.getStartTime());
         o.d("STOP_TIME", md.getStopTime());
         final OcmData data = ocm.getData();
-        for (final TrajectoryStateHistory h : data.getTrajectoryBlocks()) {
+        for (final TrajectoryStateHistory h : orEmpty(data.getTrajectoryBlocks())) {
             final TrajectoryStateHistoryMetadata tm = h.getMetadata();
             o.block("traj", tm.getComments());
             o.s("TRAJ_ID", tm.getTrajID());
@@ -388,7 +395,7 @@ public class OdmOracle {
             o.x("SRP_CONST_AREA", ph.getSrpConstantArea(), Units.M2);
             o.x("SOLAR_RAD_COEFF", ph.getSrpCoefficient(), Unit.ONE);
         }
-        for (final OrbitCovarianceHistory h : data.getCovarianceBlocks()) {
+        for (final OrbitCovarianceHistory h : orEmpty(data.getCovarianceBlocks())) {
             final OrbitCovarianceHistoryMetadata cm = h.getMetadata();
             o.block("cov", cm.getComments());
             o.s("COV_ID", cm.getCovID());
@@ -407,7 +414,7 @@ public class OdmOracle {
                 o.s("line", sb.toString());
             }
         }
-        for (final OrbitManeuverHistory h : data.getManeuverBlocks()) {
+        for (final OrbitManeuverHistory h : orEmpty(data.getManeuverBlocks())) {
             final OrbitManeuverHistoryMetadata mm = h.getMetadata();
             o.block("man", mm.getComments());
             o.s("MAN_ID", mm.getManID());
@@ -525,6 +532,9 @@ public class OdmOracle {
                     p.print(block.toString(StandardCharsets.UTF_8));
                 } catch (Exception e) {
                     System.err.println("FINDING: " + n + ": Orekit cannot parse: " + oneLine(e));
+                    if (System.getenv("ODM_TRACE") != null) {
+                        e.printStackTrace();
+                    }
                     p.println("parse_error=" + oneLine(e));
                 }
                 if (message != null) {
@@ -558,19 +568,23 @@ public class OdmOracle {
         Files.write(dump, bytes.toByteArray(), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
     }
 
-    /** Earth without ephemeris, so that CENTER_NAME = EARTH resolves without JPL files. */
-    private static final class StubEarth implements CelestialBody {
+    /** A body without ephemeris, so that names resolve without JPL files. */
+    private static final class StubBody implements CelestialBody {
+        private final String name;
+        StubBody(final String name) {
+            this.name = name;
+        }
         @Override
         public Frame getInertiallyOrientedFrame() {
             return DataContext.getDefault().getFrames().getGCRF();
         }
         @Override
         public Frame getBodyOrientedFrame() {
-            throw new UnsupportedOperationException("stub Earth has no body-oriented frame");
+            throw new UnsupportedOperationException("stub " + name + " has no body-oriented frame");
         }
         @Override
         public String getName() {
-            return CelestialBodyFactory.EARTH;
+            return name;
         }
         @Override
         public double getGM() {
@@ -579,11 +593,11 @@ public class OdmOracle {
         @Override
         public <T extends CalculusFieldElement<T>> FieldVector3D<T> getPosition(final FieldAbsoluteDate<T> date,
                                                                                 final Frame frame) {
-            throw new UnsupportedOperationException("stub Earth has no ephemeris");
+            throw new UnsupportedOperationException("stub " + name + " has no ephemeris");
         }
         @Override
         public TimeStampedPVCoordinates getPVCoordinates(final AbsoluteDate date, final Frame frame) {
-            throw new UnsupportedOperationException("stub Earth has no ephemeris");
+            throw new UnsupportedOperationException("stub " + name + " has no ephemeris");
         }
     }
 
@@ -599,7 +613,9 @@ public class OdmOracle {
         }
         DataContext.getDefault().getDataProvidersManager().addProvider(new DirectoryCrawler(new File(dataDir)));
         ((LazyLoadedCelestialBodies) DataContext.getDefault().getCelestialBodies())
-            .addCelestialBodyLoader(CelestialBodyFactory.EARTH, name -> new StubEarth());
+            .addCelestialBodyLoader(CelestialBodyFactory.EARTH, StubBody::new);
+        ((LazyLoadedCelestialBodies) DataContext.getDefault().getCelestialBodies())
+            .addCelestialBodyLoader(CelestialBodyFactory.SOLAR_SYSTEM_BARYCENTER, StubBody::new);
         run(Path.of(args[0]), Path.of(args[1]), Path.of(args[2]));
     }
 
