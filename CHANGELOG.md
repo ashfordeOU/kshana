@@ -52,6 +52,94 @@ breaking changes are called out explicitly.
   (d) are not met: they are recorded with their values. MODELLED; ledger row "Calibration of the open receiver's C/N0 and lock models to
   IQ campaign results, with stated prediction error". The receiver-log labfit path and its
   outputs are unchanged.
+- **`solar-system` on a JPL kernel** (CAP-31): `planetary_kernel_path` takes each body the SPK
+  holds (with de440s: Mercury, Venus, the Earth, the Moon) from the kernel, label `KERNEL`, and
+  adds a `kernel` block only when set. New row, VALIDATED against SPICE (pre-registered
+  f8e946ea; worst 3.3e-5 m, 1.0e-11 m/s). The default report is unchanged.
+- **Porkchop on the DE440 ephemeris** (CAP-20b): `maneuver::porkchop_kernel` sweeps C3 and
+  arrival V∞ on heliocentric states from a DE440 SPK. New row, VALIDATED against SPICE states
+  + pykep 3.0.1 (pre-registered 2d857fb1; Earth to Mars 2026-2028, 304 cells, worst 2.6e-14,
+  the same minimum-C3 cell).
+- **LRO non-gravitational macro-model: NOT MET** (DS-LRO-10, pre-registered e82047e2).
+  `lunar_od::LunarMacroModel` (opt-in via `LunarForceModel::macro_model`): flat-plate direct
+  solar radiation with the Moon's shadow, a Sun-tracking array, and lunar albedo and thermal
+  IR; `LunarMacroModel::lro_generic` is a labelled generic LRO approximation from published
+  facts (no bus plates: the plate table could not be obtained). On the 4 h LRO arc it leaves
+  the reduced-dynamic RMS at 6.668 m and the dynamic at 11.94 m, with an implausible radiation
+  factor (about +21 / −22), so all three bars are missed. The finding is pinned by a test, and
+  no default output changes (`docs/design/evidence/ds-lro-10-macro-model/RESULTS.md`). The opt-in
+  lunar cannonball SRP now uses the Moon's conical shadow instead of the Earth's
+  (`forces::conical_shadow_body`).
+
+- **Lunar OD: optional k2 solid tide and selenocentric relativity** (DS-LRO-11), off by
+  default (`LunarForceModel::lunar_tide`, `::relativity`); a `KSHANA_LRO_DEGREE` switch for
+  the ANISE cross-validation (DS-LRO-04); a 24 h LRO arc fixture and an information-only
+  long-arc fit (DS-LRO-09). Information runs are recorded in
+  `docs/design/evidence/ds-lro-09-11-longer-arc/RESULTS.md`; no published number changes.
+
+- **CR3BP 9:2 NRHO against CAPSTONE** (CAP-29d): new MODELLED row measuring the engine's
+  circular-restricted NRHO against CAPSTONE's flown orbit (JPL Horizons, March 2023;
+  pre-registered 4e868170): period 1.07 %, apolune 0.05 %, perilune 4.1 % from CAPSTONE's means,
+  inside the registered 3 / 5 / 20 % bars. A measurement, not a validation.
+
+- **CR3BP rotating states to Moon-centred ICRF** (RM-34, FUT-06): `cr3bp::to_moon_centred_icrf`
+  / `from_moon_centred_icrf` / `to_moon_centred_icrf_de440` map a nondimensional Earth-Moon
+  rotating state onto the instantaneous DE440 Earth-Moon line, including the frame's
+  out-of-plane rate. New row, VALIDATED against a SPICE two-vector frame (pre-registered
+  2313eb1b, amended before any run d5ef79b3; 72 cases, worst 1.8e-7 m and 1.2e-9 m/s).
+
+- **CR3BP family members against the JPL Three-Body Periodic Orbits API: NOT MET** (RM-35,
+  pre-registered a9074f65). `cr3bp_family` (halo, NRHO and DRO correction, monodromy stability
+  index, pseudo-arclength continuation) matches 54 of 58 API members on every bar (state,
+  period and Jacobi within 1e-10 everywhere). One L1 halo stability index (9.5e-2) and three
+  small-DRO closures (1.5e-8 to 3.3e-8 against 1e-8) miss, so the module is `#[doc(hidden)]`
+  and no row claims it. Results: `docs/design/evidence/cr3bp-families/RESULTS.md`.
+
+- **Opt-in DE440 lunar orientation and environment** (FUT-05, DS-LRO-08; defaults unchanged):
+  `lunar_frame::try_icrf_to_moon_pa_de440`, `lunar::try_mci_to_mcmf_de440` /
+  `try_mcmf_to_mci_de440` (epoch-anchored, DE440 principal axes) and
+  `lunar_od::De440LunarEnvironment` (embedded DE440 PA orientation plus the geocentric Sun and
+  Moon from a user-supplied DE440 SPK). Against ANISE (pre-registered ea537710): orientation
+  within 3.5e-7 rad and LRO fits within 1 mm, but the ephemeris leg missed its bar (Sun 30.7 m,
+  Moon 1.1 m, a ~1 ms time offset on the ANISE side), so it is not a validated row. Results:
+  `docs/design/evidence/fut05-de440-lunar-env/RESULTS.md`.
+
+- **Lunar frame campaign datum, condition-scaled NumPy bar: NOT MET** (pre-registered b887eb05;
+  stays MODELLED). Step 0 rules out the pseudo-inverse fallback as the cause of the 0.30
+  stations-estimated gap; NumPy agrees within the bar on six of eight scenarios, but
+  stations_estimated misses it (6.8e-6 against 5.9e-7), and on the fresh date 2026-12-01 an
+  unobserved south-pole beacon makes the beacon information rank-deficient, which the
+  unchanged oracle cannot evaluate. Results: `docs/design/evidence/mr05-lunar-datum-cond/RESULTS.md`.
+
+- **Lunar frame datum from a real observing campaign (analytic Moon) VALIDATED** on fresh 2025
+  EDC normal points (pre-registered 31f5283 before any was fetched): the unchanged SPICE and
+  NumPy oracle agrees on bookkeeping, ranks and zero coupling, and within 1.11e-3 on sigmas
+  (bar 1e-2), 8.95e-4 on the condition and 1.79e-3 on the across/along ratios (bar 2e-2). A
+  Library check of the covariance computation only; the bars do not discriminate Moon models.
+  Results: `docs/design/evidence/mr06-llr-analytic-fresh/RESULTS.md`.
+
+- **IAU body orientation and GM of the fourteen added solar-system bodies** split out of the
+  "Physical constants of every solar-system body" row into a VALIDATED row (pre-registered
+  154bc54): `Body::iau_rotation_et` agrees with SPICE `pxform` on pck00011 within 1e-9 rad on
+  574 matrices at the original epochs and on 574 at 41 fresh epochs never compared before (worst
+  Phobos 1.38e-10 rad), and `Body::mu` equals gm_de440 for all fourteen bodies. The rest of the
+  original row (J2, mean radius, the report) stays MODELLED. Results:
+  `docs/design/evidence/mr08-body-orientation/RESULTS.md`.
+
+- **Multi-revolution Lambert** (`maneuver::lambert_multirev`): every solution with up to three
+  revolutions, both branches. New ledger row, VALIDATED against pykep 3.0.1 (pre-registered
+  a75de851; 382 cases, 1058 solutions, worst velocity difference 1.6e-13 against 1e-8). The
+  internal Kepler-landing guard found one limitation of `maneuver::kepler_universal` on an
+  e = 0.994 arc; it is recorded in `docs/design/evidence/lambert-multirev/RESULTS.md`.
+
+- **Box-wing and ECOM2 solar radiation pressure (DS-PA-14), opt-in.** `srp_boxwing`: a
+  flat-plate box-wing model with the Galileo FOC/IOV tables from the GSC satellite metadata, in
+  nominal GNSS yaw steering, with radiation-factor and per-panel partials, and the ECOM2
+  empirical model with its partials. Selected with `ForceModel::box_wing_srp` /
+  `PreciseForceModel::box_wing_srp` (fields `srp_boxwing`, default `None`: the cannonball path
+  and every golden are unchanged); with a box-wing set, `cr` is its radiation factor. Compared
+  against Orekit 12.2 under a pre-registration (`xval/srp-boxwing-orekit/`): every bar met, about
+  1e-15 relative; VALIDATED as a model evaluation, the Galileo SRP prediction stays MODELLED.
 
 - **Oblate-Earth SRP shadow and solar limb darkening (FUT-09, RM-11).** New `srp_shadow` module:
   `oblate_conical_shadow` (WGS-84 occulting ellipsoid), `limb_darkened_shadow` (Eddington law), and
@@ -677,6 +765,23 @@ breaking changes are called out explicitly.
     only those six fields, changed by this fix made after registration, are mapped back to
     their pre-fix values. The fixed values are pinned on their own.
   - No bar was changed, and no VALIDATED row, figure or web number moved.
+- **lunar-frame-campaign: a beacon with no observation is now reported** (found by MR-05). The
+  report gains `unobserved_beacons` and `warning` only when some beacon has no observation, and
+  then the observed beacons' sigmas come from their own information instead of all being null.
+  The datum is unchanged, and no default, bundled or published output moves
+  (`docs/revisions/BEACON-unobserved-cell-changes.md`).
+
+- **Lunar principal-axis frame** (`lunar_frame::icrf_to_moon_pa`, used by `lunar_od` and the LRO
+  fit): the DE421 mean-Earth to principal-axis offset of `moon_080317.tf` was applied in the
+  wrong direction and with the wrong Euler order, so the analytic PA frame sat about 208″ from
+  PA instead of on it. It is now transcribed as SPICE's Frames Required Reading defines it and
+  agrees with SPICE `pxform('MOON_ME','MOON_PA')` to 2.6e-16 rad; the analytic PA frame is 6″ to
+  8″ from DE440 PA (pre-registered e1ead19b, re-registered be33382e after the first proposed
+  change missed the 1e-12 bar; `docs/design/evidence/fut05b-me-pa-offset-sign/`). Published
+  numbers that move: the LRO fit (`tests/agency_lro.rs`) raw overlap 53.8 → 39.9 m, dynamic
+  12.6 → 12.05 m, reduced-dynamic 6.65 → 6.67 m (bars unchanged). The analytic stack now matches
+  the ANISE DE-grade cross-validation (12.0 / 6.67 m) on both tiers; the earlier dynamic-tier
+  gap was this error.
 
 - `Jd2::from_parts` with a fractional day part dropped the fraction in the UTC, TAI, UT1 and
   Earth-rotation conversions (one hour of day part turned the Earth 15° wrong); the day part is

@@ -100,6 +100,14 @@ is tied to the exact bytes below by SHA-256.
   SPK/SPICE reader dependency — the same definitive reconstructed orbit, in a usable frame.
 - **SHA-256:** `574e35180b0961a411f0b33de65719af6665386a9b89ffcdf7326bd478d100f0`
 
+### `lro/LRO_2022001_Moon_ICRF_24h_horizons.txt`
+- The raw JPL Horizons API response for the same target and query as the 4 h slice above, over
+  2022-01-01 00:00..2022-01-02 00:00 TDB at 1-minute steps (1 441 states), retrieved 2026-10-13
+  after the protocol `docs/design/evidence/ds-lro-09-11-longer-arc/PROTOCOL.md` (8fcb15ca), committed
+  byte for byte (request in `lro/LRO_2022001_Moon_ICRF_24h_horizons.url`). SHA-256
+  `0dfc059a583181999c98f868e77d556c0d367ad04baf9ec0d8889fea85213c66`. Its first 241 states equal
+  the 4 h slice. Used only by the information-only `lro_fit_over_a_longer_arc`.
+
 ### `lro/GRGM660PRIM_to150.gfc`
 - **Product:** `GRGM660PRIM` — the NASA GSFC GRAIL primary-mission lunar gravity field
   (degree/order 660, fully-normalized spherical harmonics; reference radius 1738.0 km;

@@ -70,3 +70,19 @@ jobs:
         run: curl -fSL "https://datacenter.iers.org/data/9/finals2000A.all" -o finals2000A.all
       - name: Run the full-arc reduced-dynamic fit (release build; asserts < 5 m)
         run: cargo test --release --test agency_swarm swarm_full_arc_dispatch -- --ignored --nocapture
+  lro-de440-opt-in:
+    # The opt-in in-crate DE440 lunar environment on the LRO arc (about 200 s; ignored in the
+    # gating CI). Offline: the de440s cut it reads is committed (tests/fixtures/lunar_od_de440/).
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      # The pinned channel, like every other workflow (scripts/check-toolchain.sh enforces it).
+      - uses: dtolnay/rust-toolchain@e2a55d2ffb04f378e9626c28d38b36d230d1e12f # master; the toolchain is the `toolchain` input below
+        with:
+          toolchain: 1.93.0
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2
+      - name: Run the opt-in DE440 LRO fit (release build; asserts the analytic test's bars)
+        run: cargo test --release --test agency_lro lro_fit_with_the_opt_in_de440_environment -- --ignored --nocapture
+      - name: Information runs (lunar k2 tide and relativity; 24 h arc)
+        run: cargo test --release --test agency_lro -- --ignored --nocapture lro_fit_with_lunar_tide_and_relativity lro_fit_over_a_longer_arc
