@@ -14,6 +14,7 @@ pub const FILE_SOURCE_KEYS: &[&str] = &[
     "data_dir",
     "data_path",
     "dem_path",
+    "dem_tile_path",
     "earth_orientation_kernel_path",
     "ephemeris_path",
     "meta_path",
