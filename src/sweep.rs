@@ -134,22 +134,41 @@ pub fn units(parameter: &str, metric: &str) -> Vec<crate::field_schema::FieldUni
     out
 }
 
-/// Unit and provenance class for the fields of an N-D sweep whose unit is not data.
+/// Unit and provenance class for the fields of an N-D sweep.
 ///
-/// Only `shape[]`. The other two columns are genuinely open: `points[].coords[]` carries
-/// one value per caller-chosen dotted scenario key and `points[].metrics[]` one per
-/// caller-chosen dotted result path, so their units are whatever those paths are measured
-/// in — resolvable only against the swept pack's own units table, which this pack does
-/// not consult.
+/// `shape[]` has one unit. `points[].coords[]` and `points[].metrics[]` hold one value per
+/// caller-chosen key or result path, so each column mixes units; the unit of every
+/// position is resolved from the swept pack's own units table and emitted beside the
+/// grid as `key_units[]` and `metric_units[]` (FUT-28).
 pub const GENERIC_UNITS: &[crate::field_schema::FieldUnit] = {
     use crate::field_schema::{FieldUnit, ProvenanceClass::*};
-    &[FieldUnit {
-        path: "shape[]",
-        unit: "count",
-        provenance: Computed,
-        definition: "grid points along each axis, in `axes` order; the product is the \
-                     number of nodes in `points`",
-    }]
+    &[
+        FieldUnit {
+            path: "shape[]",
+            unit: "count",
+            provenance: Computed,
+            definition: "grid points along each axis, in `axes` order; the product is the \
+                         number of nodes in `points`",
+        },
+        FieldUnit {
+            path: "points[].coords[]",
+            unit: "mixed - see note",
+            provenance: Input,
+            definition: "the swept value of each axis at this node, in `keys` order; the \
+                         unit of position i is `key_units[i]` (the swept pack's own units \
+                         entry for that key, else the axis's declared `unit`, else null: \
+                         not published)",
+        },
+        FieldUnit {
+            path: "points[].metrics[]",
+            unit: "mixed - see note",
+            provenance: Computed,
+            definition: "each recorded metric at this node, in `metrics` order, computed by \
+                         the swept pack; the unit of position i is `metric_units[i]` (the \
+                         swept pack's own units entry for that result path, or null when it \
+                         publishes none)",
+        },
+    ]
 };
 
 /// Apply a swept parameter value to a clone of the base scenario.
@@ -529,6 +548,11 @@ pub struct GenericAxis {
     pub steps: usize,
     #[serde(default = "default_scale")]
     pub scale: String,
+    /// The unit of `key`, declared by the caller, for a swept pack whose result does
+    /// not echo `key` with a units entry at the same path (FUT-28). When the pack does
+    /// publish one, the two must agree or the sweep fails. Optional; `sweep-nd` only.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub unit: Option<String>,
 }
 
 impl GenericAxis {
@@ -580,6 +604,13 @@ pub struct GenericNdSweepResult {
     pub metrics: Vec<String>,
     pub shape: Vec<usize>,
     pub points: Vec<GenericNdPoint>,
+    /// The unit of each axis's coordinate (aligned with `keys`): the swept pack's own
+    /// units entry for that key when its result publishes one, else the axis's declared
+    /// `unit`, else `null` — stated, never guessed.
+    pub key_units: Vec<Option<String>>,
+    /// The unit of each metric (aligned with `metrics`), from the swept pack's own units
+    /// entry for that result path; `null` when the pack publishes none.
+    pub metric_units: Vec<Option<String>>,
 }
 
 /// Set a dotted key of a TOML table to a float. Errors if any path segment is
@@ -666,7 +697,7 @@ fn eval_node(
     shape: &[usize],
     metrics: &[String],
     flat: usize,
-) -> Result<GenericNdPoint, String> {
+) -> Result<(GenericNdPoint, Option<serde_json::Value>), String> {
     let coords = coords_of(flat, axis_values, shape);
     let mut node = base.clone();
     for (a, &v) in axes.iter().zip(&coords) {
@@ -680,10 +711,70 @@ fn eval_node(
         .iter()
         .map(|m| get_dotted_json(&j, m))
         .collect::<Result<Vec<_>, _>>()?;
-    Ok(GenericNdPoint {
-        coords,
-        metrics: ms,
-    })
+    // The swept pack's units block, kept from the first node only: it describes the
+    // pack's columns, not the node's values.
+    let units = if flat == 0 {
+        j.get("units").cloned()
+    } else {
+        None
+    };
+    Ok((
+        GenericNdPoint {
+            coords,
+            metrics: ms,
+        },
+        units,
+    ))
+}
+
+/// Split evaluated nodes into the points and the first node's units block.
+fn split_units(
+    nodes: Vec<(GenericNdPoint, Option<serde_json::Value>)>,
+) -> (Vec<GenericNdPoint>, Option<serde_json::Value>) {
+    let mut units = None;
+    let points = nodes
+        .into_iter()
+        .map(|(p, u)| {
+            if u.is_some() {
+                units = u;
+            }
+            p
+        })
+        .collect();
+    (points, units)
+}
+
+/// The unit string the swept pack's units block gives `path`, if any.
+fn pack_unit(units: Option<&serde_json::Value>, path: &str) -> Option<String> {
+    let map = units?.as_object()?;
+    let (_, entry) = crate::field_schema::lookup(map, path)?;
+    entry
+        .get("unit")
+        .and_then(|u| u.as_str())
+        .filter(|u| !u.is_empty())
+        .map(str::to_string)
+}
+
+/// Resolve the unit of every axis and metric (see [`GenericNdSweepResult::key_units`]).
+#[allow(clippy::type_complexity)]
+fn resolve_units(
+    axes: &[GenericAxis],
+    metrics: &[String],
+    units: Option<&serde_json::Value>,
+) -> Result<(Vec<Option<String>>, Vec<Option<String>>), String> {
+    let key_units = axes
+        .iter()
+        .map(|a| match (pack_unit(units, &a.key), &a.unit) {
+            (Some(p), Some(d)) if p != *d => Err(format!(
+                "sweep axis `{}`: declared unit `{d}` but the swept pack publishes `{p}`",
+                a.key
+            )),
+            (Some(p), _) => Ok(Some(p)),
+            (None, d) => Ok(d.clone()),
+        })
+        .collect::<Result<Vec<_>, _>>()?;
+    let metric_units = metrics.iter().map(|m| pack_unit(units, m)).collect();
+    Ok((key_units, metric_units))
 }
 
 /// Evaluate every grid node, in parallel across OS threads on native targets.
@@ -695,7 +786,7 @@ fn eval_grid(
     shape: &[usize],
     metrics: &[String],
     total: usize,
-) -> Result<Vec<GenericNdPoint>, String> {
+) -> Result<Vec<(GenericNdPoint, Option<serde_json::Value>)>, String> {
     let nthreads = std::thread::available_parallelism()
         .map(|n| n.get())
         .unwrap_or(1)
@@ -706,31 +797,34 @@ fn eval_grid(
             .collect();
     }
     let chunk = total.div_ceil(nthreads);
-    let chunk_results: Vec<Result<Vec<(usize, GenericNdPoint)>, String>> =
-        std::thread::scope(|scope| {
-            let handles: Vec<_> = (0..nthreads)
-                .map(|t| {
-                    scope.spawn(move || {
-                        let lo = t * chunk;
-                        let hi = ((t + 1) * chunk).min(total);
-                        let mut out = Vec::with_capacity(hi.saturating_sub(lo));
-                        for f in lo..hi {
-                            out.push((f, eval_node(base, axes, axis_values, shape, metrics, f)?));
-                        }
-                        Ok(out)
-                    })
+    #[allow(clippy::type_complexity)]
+    let chunk_results: Vec<
+        Result<Vec<(usize, (GenericNdPoint, Option<serde_json::Value>))>, String>,
+    > = std::thread::scope(|scope| {
+        let handles: Vec<_> = (0..nthreads)
+            .map(|t| {
+                scope.spawn(move || {
+                    let lo = t * chunk;
+                    let hi = ((t + 1) * chunk).min(total);
+                    let mut out = Vec::with_capacity(hi.saturating_sub(lo));
+                    for f in lo..hi {
+                        out.push((f, eval_node(base, axes, axis_values, shape, metrics, f)?));
+                    }
+                    Ok(out)
                 })
-                .collect();
-            handles
-                .into_iter()
-                .map(|h| {
-                    h.join()
-                        .unwrap_or_else(|_| Err("sweep worker thread panicked".into()))
-                })
-                .collect()
-        });
+            })
+            .collect();
+        handles
+            .into_iter()
+            .map(|h| {
+                h.join()
+                    .unwrap_or_else(|_| Err("sweep worker thread panicked".into()))
+            })
+            .collect()
+    });
     // Place every node at its exact flat index — order is scheduling-independent.
-    let mut slots: Vec<Option<GenericNdPoint>> = (0..total).map(|_| None).collect();
+    let mut slots: Vec<Option<(GenericNdPoint, Option<serde_json::Value>)>> =
+        (0..total).map(|_| None).collect();
     for chunk in chunk_results {
         for (f, p) in chunk? {
             slots[f] = Some(p);
@@ -756,7 +850,7 @@ fn eval_grid(
     shape: &[usize],
     metrics: &[String],
     total: usize,
-) -> Result<Vec<GenericNdPoint>, String> {
+) -> Result<Vec<(GenericNdPoint, Option<serde_json::Value>)>, String> {
     (0..total)
         .map(|f| eval_node(base, axes, axis_values, shape, metrics, f))
         .collect()
@@ -788,14 +882,15 @@ pub fn run_generic_sweep(scn: &GenericSweepScenario) -> Result<GenericNdSweepRes
     let axis_values: Vec<Vec<f64>> = scn.axes.iter().map(|a| a.values()).collect();
     let shape: Vec<usize> = axis_values.iter().map(|v| v.len()).collect();
     let total: usize = shape.iter().product();
-    let points = eval_grid(
+    let (points, units) = split_units(eval_grid(
         &scn.base,
         &scn.axes,
         &axis_values,
         &shape,
         &scn.metrics,
         total,
-    )?;
+    )?);
+    let (key_units, metric_units) = resolve_units(&scn.axes, &scn.metrics, units.as_ref())?;
     Ok(GenericNdSweepResult {
         schema_version: crate::interchange::SCHEMA_VERSION.into(),
         engine_version: env!("CARGO_PKG_VERSION").into(),
@@ -804,6 +899,8 @@ pub fn run_generic_sweep(scn: &GenericSweepScenario) -> Result<GenericNdSweepRes
         metrics: scn.metrics.clone(),
         shape,
         points,
+        key_units,
+        metric_units,
     })
 }
 
@@ -1218,6 +1315,7 @@ mod tests {
             stop,
             steps,
             scale: "lin".into(),
+            unit: None,
         }
     }
 
@@ -1363,5 +1461,66 @@ q_va = 3.8416e-8
         assert_eq!(j["shape"][0], 3);
         assert!(out.summary.contains("generic sweep"));
         assert!(out.svg.contains("<svg"));
+    }
+
+    // --- FUT-28: units of the caller-keyed columns ---
+
+    #[test]
+    fn axis_and_metric_units_come_from_the_swept_pack() {
+        let mut bias = gaxis("accel_classical.bias", 1e-3, 3e-3, 2);
+        bias.unit = Some("m/s^2".into());
+        let scn = GenericSweepScenario {
+            base: imu_base(),
+            axes: vec![gaxis("threshold_m", 100.0, 200.0, 2), bias],
+            metrics: vec![
+                "classical.fom.holdover_s".into(),
+                "classical.fom.pos_rms_m".into(),
+            ],
+        };
+        let r = run_generic_sweep(&scn).unwrap();
+        // threshold_m: the pack's own entry; the bias: the declared unit (the pack
+        // reports it under classical.spec.params.bias, not the swept key's path).
+        assert_eq!(r.key_units, vec![Some("m".into()), Some("m/s^2".into())]);
+        assert_eq!(r.metric_units, vec![Some("s".into()), Some("m".into())]);
+    }
+
+    #[test]
+    fn an_unresolved_axis_unit_is_null_not_guessed() {
+        let scn = GenericSweepScenario {
+            base: imu_base(),
+            axes: vec![gaxis("accel_classical.bias", 1e-3, 3e-3, 2)],
+            metrics: vec!["classical.fom.holdover_s".into()],
+        };
+        let r = run_generic_sweep(&scn).unwrap();
+        assert_eq!(r.key_units, vec![None]);
+        let j = serde_json::to_value(&r).unwrap();
+        assert!(j["key_units"][0].is_null());
+    }
+
+    #[test]
+    fn a_declared_unit_that_contradicts_the_pack_is_refused() {
+        let mut thr = gaxis("threshold_m", 100.0, 200.0, 2);
+        thr.unit = Some("km".into());
+        let scn = GenericSweepScenario {
+            base: imu_base(),
+            axes: vec![thr],
+            metrics: vec!["classical.fom.holdover_s".into()],
+        };
+        let e = run_generic_sweep(&scn).unwrap_err();
+        assert!(
+            e.contains("declared unit `km`") && e.contains("publishes `m`"),
+            "{e}"
+        );
+        // Agreeing with the pack is fine.
+        let mut ok = gaxis("threshold_m", 100.0, 200.0, 2);
+        ok.unit = Some("m".into());
+        let scn = GenericSweepScenario {
+            axes: vec![ok],
+            ..scn
+        };
+        assert_eq!(
+            run_generic_sweep(&scn).unwrap().key_units,
+            vec![Some("m".into())]
+        );
     }
 }

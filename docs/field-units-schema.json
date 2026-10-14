@@ -1,20 +1,14 @@
 {
   "coverage": {
     "described_fields_without_definition": 239,
-    "fields_described": 2664,
+    "fields_described": 2666,
     "fields_total": 2666,
-    "fields_without_units": 2,
-    "kinds_complete": 75,
+    "fields_without_units": 0,
+    "kinds_complete": 76,
     "kinds_total": 76,
-    "kinds_uncovered": 1,
-    "uncovered_kind_ceiling": 1,
-    "uncovered_kinds": [
-      {
-        "fields_without_units": 2,
-        "kind": "sweep-nd",
-        "reason": "two of its three columns have no unit that is not itself data: `points[].coords[]` carries one value per caller-chosen dotted scenario key and `points[].metrics[]` one per caller-chosen dotted result path, so each is a column of mixed units. Resolving them means looking each path up in the SWEPT pack's own units table, which this pack does not consult. Its third column, `shape[]`, is described — 2 fields"
-      }
-    ]
+    "kinds_uncovered": 0,
+    "uncovered_kind_ceiling": 0,
+    "uncovered_kinds": []
   },
   "documents": {
     "kshana.labfit-iq/1": {
@@ -16553,8 +16547,20 @@
       "source": "scenarios/sweep-clock-stability.toml"
     },
     "sweep-nd": {
-      "complete": false,
+      "complete": true,
       "fields": {
+        "points[].coords[]": {
+          "definition": "the swept value of each axis at this node, in `keys` order; the unit of position i is `key_units[i]` (the swept pack's own units entry for that key, else the axis's declared `unit`, else null: not published)",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "mixed - see note"
+        },
+        "points[].metrics[]": {
+          "definition": "each recorded metric at this node, in `metrics` order, computed by the swept pack; the unit of position i is `metric_units[i]` (the swept pack's own units entry for that result path, or null when it publishes none)",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "mixed - see note"
+        },
         "shape[]": {
           "definition": "grid points along each axis, in `axes` order; the product is the number of nodes in `points`",
           "evidence_tier": "inherits-scenario-label",
@@ -16562,12 +16568,9 @@
           "unit": "count"
         }
       },
-      "fields_described": 1,
+      "fields_described": 3,
       "fields_total": 3,
-      "fields_without_units": [
-        "points[].coords[]",
-        "points[].metrics[]"
-      ],
+      "fields_without_units": [],
       "label": null,
       "source": "scenarios/sweep-nd-inertial.toml"
     },

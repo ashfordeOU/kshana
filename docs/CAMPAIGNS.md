@@ -145,6 +145,35 @@ the Gulf of Finland (about 30 km away) and a car on a Helsinki coast road (about
 the ship loses every satellite (mean jammer-to-signal ratio 39.0 dB) while the car keeps
 at least four (34.6 dB).
 
+## `[optimize]`: the best value of one metric
+
+One to three dotted scenario keys, each bounded to `[lo, hi]` on a `lin` or `log` scale, are
+searched for the best value of one metric (`goal = "minimize"`, `"maximize"`, or `"target"`,
+which minimises the distance from `target`).
+
+There are two methods:
+* `method = "grid"` runs every node of a `steps`-per-key grid, on the sweep's axis values.
+* `method = "nelder-mead"` (the default) runs a deterministic Nelder–Mead simplex in
+  coordinates normalised to [0, 1] per key. Trial points are projected onto the box. The
+  section takes `max_evals`, an initial `step`, and the stopping tolerances `ftol` and
+  `xtol`.
+
+A run whose metric is absent or non-finite scores worst, and it is kept in the trace. With
+`runs > 1`, the metric is the mean over the same seeds at every evaluation. The result gives
+`best_coords`, `best_metric`, `best_score`, `evals`, `stop_reason`, and every evaluation in
+`trace`.
+
+`scenarios/campaign-optimize-link-budget.toml` searches range and data rate for a 3 dB link
+margin. The optimum is local to the box and the start. It is MODELLED, never a global claim.
+
+The protocol and its pre-registered bars are in `docs/design/evidence/cap32-optimize/`. The
+test is `tests/campaign_optimize_reference.rs`. The results:
+* a 1-D target solve agrees with the closed form to 6e-15;
+* the grid method agrees bit for bit with an independent brute-force loop;
+* the simplex does at least as well as the 41 × 41 grid, in about a tenth of its runs.
+
+Round 1's 1-D bar is recorded NOT MET: the pre-registered box excluded the solution.
+
 ## Reproducibility
 
 Every campaign result carries `scenario_hash`, the SHA-256 (Secure Hash Algorithm 2,
