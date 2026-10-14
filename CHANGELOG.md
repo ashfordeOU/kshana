@@ -42,6 +42,16 @@ breaking changes are called out explicitly.
   on small sets, with the greedy's optimality gap. Access windows come from the VALIDATED
   apparent pass predictor. New bundled scenarios `acm-link` and `contact-schedule` (illustrative
   inputs) and `docs/CONTACT-SCHEDULING.md`. MODELLED (two new ledger rows).
+- **Starlink Doppler positioning against a published experiment** (0.36, WP-14, CAP-11 part,
+  MODELLED). This is a pre-registered proxy comparison of the `leo-pvt` Doppler mode with the
+  `starlink-sop` preset against the data-set-3 percentiles of "Unveiling Starlink for PNT"
+  (NAVIGATION 72(1), 2025, doi:10.33012/navi.685). The model used 3 satellites (a 47 deg mask
+  chosen by a fixed rule), no height aid and a 30 Hz Doppler sigma, over 200 seeds. Its
+  90th-percentile 3-D error is 92.2 m at 20 s and 870 m at 8 s, against the published 2 m and
+  10 m, so both factor-of-two bars are NOT MET. The model is pessimistic, not optimistic as
+  predicted: three fixed satellites give far less geometric diversity than the experiment's
+  63 satellites over 10 minutes with channel switching every 15 s. Both misses are asserted
+  (`tests/starlink_doppler_published_proxy.rs`).
 - **Impulsive transfer optimiser on DE440** (0.36, WP-14, CAP-20c/d): `maneuver::optimise_transfer_kernel`
   finds the departure and arrival dates of a single-revolution ballistic two-impulse transfer that
   minimise departure C3 or arrival V-infinity within Type I or Type II. It searches a 2-day grid,
