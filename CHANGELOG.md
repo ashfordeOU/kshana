@@ -19,6 +19,17 @@ breaking changes are called out explicitly.
   arrival V∞ on heliocentric states from a DE440 SPK. New row, VALIDATED against SPICE states
   + pykep 3.0.1 (pre-registered 2d857fb1; Earth to Mars 2026-2028, 304 cells, worst 2.6e-14,
   the same minimum-C3 cell).
+- **LRO non-gravitational macro-model: NOT MET** (DS-LRO-10, pre-registered e82047e2).
+  `lunar_od::LunarMacroModel` (opt-in via `LunarForceModel::macro_model`): flat-plate direct
+  solar radiation with the Moon's shadow, a Sun-tracking array, and lunar albedo and thermal
+  IR; `LunarMacroModel::lro_generic` is a labelled generic LRO approximation from published
+  facts (no bus plates: the plate table could not be obtained). On the 4 h LRO arc it leaves
+  the reduced-dynamic RMS at 6.668 m and the dynamic at 11.94 m, with an implausible radiation
+  factor (about +21 / −22), so all three bars are missed. The finding is pinned by a test, and
+  no default output changes (`docs/design/evidence/ds-lro-10-macro-model/RESULTS.md`). The opt-in
+  lunar cannonball SRP now uses the Moon's conical shadow instead of the Earth's
+  (`forces::conical_shadow_body`).
+
 - **Lunar OD: optional k2 solid tide and selenocentric relativity** (DS-LRO-11), off by
   default (`LunarForceModel::lunar_tide`, `::relativity`); a `KSHANA_LRO_DEGREE` switch for
   the ANISE cross-validation (DS-LRO-04); a 24 h LRO arc fixture and an information-only
