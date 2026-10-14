@@ -11,6 +11,23 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **CRPA antenna gains in the jamming kind** (CAP-06a): an optional `[crpa]` section in a
+  `jamming` scenario. Fields: `elements_enu_m` (element positions in local east-north-up, m),
+  `weighting` (`"null-steering"` or `"mvdr"`), and `bandwidth_mhz` (MVDR noise bandwidth, MHz,
+  default twice the chip rate).
+  - Each channel forms a distortionless beam toward its satellite. The link's noise is scaled by
+    `‖w‖²` and the jammer by `|wᴴa_j|²` before the existing anti-jam C/N0 equation.
+  - Each link gains a `crpa` block: `array_noise_gain_db` (dB) and `jammer_gain_db` (dB).
+  - Without the section every output is byte-identical.
+  - Checked against bars pre-registered at 08d83b4d. Met: additivity (after a fix: the first
+    build added the new units to every jamming run's units table); one element is no array;
+    noise gain and effective C/N0 against an independent numpy recomputation within 1e-9 dB;
+    MVDR tends to the null at high JNR.
+  - Not met: the MVDR jammer gain on 202 of 456 links (worst 1.7e-6 dB). The residuals of −100
+    to −188 dB are below float64's resolution at that bar, and numpy disagrees with itself
+    by the same order.
+  - MODELLED; ledger row "CRPA antenna gains in the jamming kind against an independent numpy
+    recomputation".
 - **IQ tracking engine against GNSS-SDR 0.0.19** (PRO-33): `kshana iq track` and GNSS-SDR track
   the same independent numpy recordings of GPS L1 C/A at 30 to 45 dB-Hz.
   - Bars pre-registered at 48edd4a5. The registered calibration failed on a wrong GNSS-SDR
