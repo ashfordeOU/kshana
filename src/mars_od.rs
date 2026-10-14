@@ -838,6 +838,25 @@ pub struct FitResult {
     pub iterations: usize,
     /// The final trajectory.
     pub trajectory: DenseTrajectory,
+    /// Per-iteration record (filled by [`fit_damped`] only).
+    pub log: Vec<FitIteration>,
+}
+
+/// One Jacobian evaluation of [`fit_damped`].
+#[derive(Clone, Debug)]
+pub struct FitIteration {
+    /// Points kept by the outlier rule at the start of the iteration.
+    pub n_kept: usize,
+    /// RMS of the kept residuals at the start of the iteration (Hz).
+    pub rms_hz: f64,
+    /// Smallest and largest eigenvalue of the column-scaled normal matrix.
+    pub scaled_eig: (f64, f64),
+    /// Damping of the accepted step.
+    pub lambda: f64,
+    /// Trial steps rejected before the accepted one.
+    pub rejected: usize,
+    /// Norm of the accepted position update (m).
+    pub dpos_m: f64,
 }
 
 /// RMS of a slice.
@@ -900,6 +919,49 @@ pub fn residuals(
                 .map(|(f, el)| (p.observed_hz - f, el))
         })
         .collect()
+}
+
+/// Eigenvalues (ascending) of a small symmetric matrix by cyclic Jacobi rotations.
+pub fn sym_eigenvalues(a: &[Vec<f64>]) -> Vec<f64> {
+    let n = a.len();
+    let mut m = a.to_vec();
+    for _ in 0..100 {
+        let off: f64 = (0..n)
+            .flat_map(|i| (0..n).filter(move |&j| j != i).map(move |j| (i, j)))
+            .map(|(i, j)| m[i][j] * m[i][j])
+            .sum();
+        if off < 1e-30 {
+            break;
+        }
+        for p in 0..n {
+            for q in p + 1..n {
+                if m[p][q] == 0.0 {
+                    continue;
+                }
+                let theta = (m[q][q] - m[p][p]) / (2.0 * m[p][q]);
+                let t = if theta == 0.0 {
+                    1.0
+                } else {
+                    theta.signum() / (theta.abs() + (theta * theta + 1.0).sqrt())
+                };
+                let c = 1.0 / (t * t + 1.0).sqrt();
+                let s = t * c;
+                for row in m.iter_mut() {
+                    let (kp, kq) = (row[p], row[q]);
+                    row[p] = c * kp - s * kq;
+                    row[q] = s * kp + c * kq;
+                }
+                for k in 0..n {
+                    let (pk, qk) = (m[p][k], m[q][k]);
+                    m[p][k] = c * pk - s * qk;
+                    m[q][k] = s * pk + c * qk;
+                }
+            }
+        }
+    }
+    let mut ev: Vec<f64> = (0..n).map(|i| m[i][i]).collect();
+    ev.sort_by(f64::total_cmp);
+    ev
 }
 
 /// Solve the symmetric positive-definite system `a·x = b` by Cholesky.
@@ -1057,6 +1119,196 @@ pub fn fit(
         n_after_elevation,
         iterations,
         trajectory: traj,
+        log: Vec::new(),
+    })
+}
+
+/// Levenberg-Marquardt batch fit (CAP-30 run 2): the parameters, partials, elevation cut and
+/// outlier rule of [`fit`], with two numerical changes. The normal matrix is scaled by its
+/// diagonal before it is solved (the raw diagonal spans about eight orders of magnitude), and a
+/// damping `λ` is added to the scaled diagonal. A trial step is accepted only when it lowers the
+/// sum of squared residuals over the points the outlier rule kept at the start of the
+/// iteration; then `λ` is divided by 10, otherwise it is multiplied by 10 and the step retried
+/// (at most 10 times). `max_iter` bounds the Jacobian evaluations. The fit stops when an
+/// accepted position update is below 1 m, or when no trial step lowers the cost.
+pub fn fit_damped(
+    model: &DopplerModel,
+    dynamics: &MarsDynamics,
+    points: &[DopplerPoint],
+    epoch: f64,
+    guess: [f64; 6],
+    guess_params: ForceParams,
+    settings: &FitSettings,
+) -> Result<FitResult, String> {
+    let et_first = et_of_utc(points.first().ok_or("no points")?.t3s).total() - 2_000.0;
+    let et_last = et_of_utc(points.last().ok_or("no points")?.t3s).total() + 600.0;
+    let (t_begin, t_end) = (et_first.min(epoch), et_last.max(epoch));
+    let integ = |x: &[f64; 8]| -> Result<DenseTrajectory, String> {
+        let fp = ForceParams {
+            srp_cr_a_over_m: x[6],
+            drag_scale: x[7],
+        };
+        DenseTrajectory::integrate(
+            dynamics,
+            &fp,
+            [x[0], x[1], x[2], x[3], x[4], x[5]],
+            epoch,
+            t_begin,
+            t_end,
+            settings.step_s,
+        )
+    };
+    let mut x = [
+        guess[0],
+        guess[1],
+        guess[2],
+        guess[3],
+        guess[4],
+        guess[5],
+        guess_params.srp_cr_a_over_m,
+        guess_params.drag_scale,
+    ];
+    let steps = [10.0, 10.0, 10.0, 0.01, 0.01, 0.01, 0.005, 0.05];
+    let traj0 = integ(&x)?;
+    let r0 = residuals(model, &traj0, points)?;
+    let pts: Vec<DopplerPoint> = points
+        .iter()
+        .zip(&r0)
+        .filter(|(_, (_, el))| *el >= settings.min_elevation_rad)
+        .map(|(p, _)| *p)
+        .collect();
+    let n_after_elevation = pts.len();
+    let cost = |res: &[f64], keep: &[bool]| -> f64 {
+        res.iter()
+            .zip(keep)
+            .filter(|(_, k)| **k)
+            .map(|(r, _)| r * r)
+            .sum()
+    };
+    let mut iterations = 0;
+    let mut traj = traj0;
+    let mut res: Vec<f64> = residuals(model, &traj, &pts)?.iter().map(|r| r.0).collect();
+    let mut lambda = 1e-3;
+    let mut log = Vec::new();
+    for it in 0..settings.max_iter {
+        iterations = it + 1;
+        let keep = mad_mask(&res, settings.outlier_k);
+        let c0 = cost(&res, &keep);
+        let mut cols: Vec<Vec<f64>> = Vec::with_capacity(8);
+        for j in 0..8 {
+            let mut xp = x;
+            xp[j] += steps[j];
+            let tp = integ(&xp)?;
+            let rp: Vec<f64> = residuals(model, &tp, &pts)?.iter().map(|r| r.0).collect();
+            cols.push(
+                res.iter()
+                    .zip(&rp)
+                    .map(|(a, b)| (a - b) / steps[j])
+                    .collect(),
+            );
+        }
+        let mut n = vec![vec![0.0; 8]; 8];
+        let mut b = [0.0; 8];
+        for (i, r) in res.iter().enumerate() {
+            if !keep[i] {
+                continue;
+            }
+            for p in 0..8 {
+                b[p] += cols[p][i] * r;
+                for q in 0..8 {
+                    n[p][q] += cols[p][i] * cols[q][i];
+                }
+            }
+        }
+        let d: Vec<f64> = (0..8).map(|p| n[p][p].sqrt()).collect();
+        if d.iter().any(|v| v.is_nan() || *v <= 0.0) {
+            return Err("a parameter has no partial on the kept points".into());
+        }
+        let ns: Vec<Vec<f64>> = (0..8)
+            .map(|p| (0..8).map(|q| n[p][q] / (d[p] * d[q])).collect())
+            .collect();
+        let bs: Vec<f64> = (0..8).map(|p| b[p] / d[p]).collect();
+        let ev = sym_eigenvalues(&ns);
+        let kept_rms = (c0 / keep.iter().filter(|k| **k).count() as f64).sqrt();
+        let mut accepted = None;
+        let mut rejected = 0;
+        for _ in 0..10 {
+            let mut a = ns.clone();
+            for (p, row) in a.iter_mut().enumerate() {
+                row[p] += lambda;
+            }
+            let trial = cholesky_solve(&a, &bs).ok().and_then(|y| {
+                let mut xt = x;
+                for j in 0..8 {
+                    xt[j] += y[j] / d[j];
+                }
+                let tt = integ(&xt).ok()?;
+                let rt: Vec<f64> = residuals(model, &tt, &pts)
+                    .ok()?
+                    .iter()
+                    .map(|r| r.0)
+                    .collect();
+                (cost(&rt, &keep) < c0).then_some((xt, tt, rt))
+            });
+            match trial {
+                Some(t) => {
+                    accepted = Some(t);
+                    break;
+                }
+                None => {
+                    rejected += 1;
+                    lambda *= 10.0;
+                }
+            }
+        }
+        let Some((xt, tt, rt)) = accepted else {
+            log.push(FitIteration {
+                n_kept: keep.iter().filter(|k| **k).count(),
+                rms_hz: kept_rms,
+                scaled_eig: (ev[0], ev[7]),
+                lambda,
+                rejected,
+                dpos_m: 0.0,
+            });
+            break;
+        };
+        let dpos =
+            ((xt[0] - x[0]).powi(2) + (xt[1] - x[1]).powi(2) + (xt[2] - x[2]).powi(2)).sqrt();
+        log.push(FitIteration {
+            n_kept: keep.iter().filter(|k| **k).count(),
+            rms_hz: kept_rms,
+            scaled_eig: (ev[0], ev[7]),
+            lambda,
+            rejected,
+            dpos_m: dpos,
+        });
+        lambda = (lambda / 10.0).max(1e-12);
+        x = xt;
+        traj = tt;
+        res = rt;
+        if dpos < 1.0 {
+            break;
+        }
+    }
+    let keep = mad_mask(&res, settings.outlier_k);
+    let kept: Vec<f64> = res
+        .iter()
+        .zip(&keep)
+        .filter(|(_, &k)| k)
+        .map(|(r, _)| *r)
+        .collect();
+    Ok(FitResult {
+        state: [x[0], x[1], x[2], x[3], x[4], x[5]],
+        params: ForceParams {
+            srp_cr_a_over_m: x[6],
+            drag_scale: x[7],
+        },
+        n_outliers: keep.iter().filter(|k| !**k).count(),
+        residuals_hz: kept,
+        n_after_elevation,
+        iterations,
+        trajectory: traj,
+        log,
     })
 }
 
@@ -1118,6 +1370,19 @@ mod tests {
         let et = et_of_utc(t);
         let days = (2_454_405.5 - 2_451_545.0) * 86_400.0;
         assert!((et.total() - (days + 33.0 + 32.184)).abs() < 2e-3);
+    }
+
+    #[test]
+    fn sym_eigenvalues_of_a_known_matrix() {
+        let a = vec![
+            vec![2.0, 1.0, 0.0],
+            vec![1.0, 2.0, 0.0],
+            vec![0.0, 0.0, 5.0],
+        ];
+        let e = sym_eigenvalues(&a);
+        for (got, want) in e.iter().zip([1.0, 3.0, 5.0]) {
+            assert!((got - want).abs() < 1e-12, "{e:?}");
+        }
     }
 
     #[test]

@@ -26,6 +26,10 @@
 //! ramp coverage): B1 MET, 0.01253 Hz (32 of 447 points edited). B2-B5 NOT MET: the registered
 //! fit stopped with a normal matrix that is not positive definite and produced no orbit. Both
 //! are pinned below; the row stays MODELLED.
+//!
+//! RUN 2 (`xval/mro-od/PREREGISTRATION-RUN2.md`, damped estimator `fit_damped`, amendment
+//! R2-A1): B1 MET 0.01253 Hz; B2 NOT MET 0.04856 Hz; B3 MET 0.362 km; B4 MET 0.527 km; B5 MET
+//! 2.9 %. Pinned below next to run 1; the row stays MODELLED.
 
 use kshana::mars_od::*;
 use kshana::naif_kernel::SpkKernel;
@@ -334,4 +338,157 @@ fn check(got: &Outcome) {
             if v <= bar { "MET" } else { "NOT MET" }
         );
     }
+}
+
+/// CAP-30 run 2 (`xval/mro-od/PREREGISTRATION-RUN2.md`, committed alone before this run): the
+/// same scored arc, data, model, editing and bars, fitted with the damped estimator
+/// `fit_damped`. Run 1's verdict above stays recorded.
+#[test]
+fn short_arc_od_run2_damped_fit_on_the_scored_passes() {
+    let Some(dir) = data_dir() else { return };
+    let odf = parse_odf(
+        &std::fs::read(repo(
+            "tests/fixtures/mro_odf/mromagr2007_304_1424xmmmv1.odf",
+        ))
+        .expect("ODF"),
+    )
+    .expect("parse");
+    let model = model(&dir, &odf);
+    let mro = kernel(&dir, "mro_psp5.bsp");
+    let truth = SpkTrajectory {
+        kernel: &mro,
+        id: -74,
+    };
+    let (from, to) = (utc(304, 23, 0), utc(305, 12, 45));
+    let all = compress_two_way(&odf, from, to, 60);
+    let points: Vec<DopplerPoint> = all
+        .iter()
+        .filter(|p| {
+            model.ramps[&p.station]
+                .integral_minus_ref(p.t3s, -900.0, p.tc)
+                .is_some()
+        })
+        .copied()
+        .collect();
+    assert_eq!((all.len(), points.len()), (459, 447));
+    let min_el = 15f64.to_radians();
+    let r1: Vec<f64> = residuals(&model, &truth, &points)
+        .expect("predict")
+        .into_iter()
+        .filter(|(_, el)| *el >= min_el)
+        .map(|(r, _)| r)
+        .collect();
+    let keep = mad_mask(&r1, 5.0);
+    let kept: Vec<f64> = r1
+        .iter()
+        .zip(&keep)
+        .filter(|(_, k)| **k)
+        .map(|(r, _)| *r)
+        .collect();
+    let b1 = rms(&kept);
+
+    let eph = Ephemeris::new(kernel(&dir, "de440s.bsp"));
+    let field = kshana::gravity_sh::SphericalHarmonicField::from_shadr(
+        &std::fs::read_to_string(dir.join("gmm3_120_sha.tab")).expect("GMM-3"),
+        80,
+    )
+    .expect("SHADR");
+    let dynamics = MarsDynamics {
+        field,
+        mars: kshana::body::Body::mars(),
+        eph: &eph,
+        cd_area_over_mass: 0.073,
+    };
+    let epoch = et_of_utc(from).total();
+    let s = mro.state(-74, 4, epoch, 0.0).expect("state");
+    let guess = [
+        s[0][0] + 1e3,
+        s[0][1] + 1e3,
+        s[0][2] + 1e3,
+        s[1][0] + 1.0,
+        s[1][1] + 1.0,
+        s[1][2] + 1.0,
+    ];
+    let fit = fit_damped(
+        &model,
+        &dynamics,
+        &points,
+        epoch,
+        guess,
+        ForceParams {
+            srp_cr_a_over_m: 0.043,
+            drag_scale: 1.0,
+        },
+        &FitSettings {
+            min_elevation_rad: min_el,
+            outlier_k: 5.0,
+            step_s: 5.0,
+            max_iter: 15,
+        },
+    )
+    .expect("run 2 fit");
+    for l in &fit.log {
+        println!("{l:?}");
+    }
+    let b2 = rms(&fit.residuals_hz);
+    let b5 = fit.n_outliers as f64 / fit.n_after_elevation as f64;
+    println!("run 2: B2 {b2:.5} Hz, B5 {b5:.4}");
+    // Amendment R2-A1: B3/B4 sample the estimate propagated over the whole scored arc (the
+    // fit's own span ends 600 s after the last point's count start).
+    let end = et_of_utc(to).total();
+    let estimate = DenseTrajectory::integrate(
+        &dynamics,
+        &fit.params,
+        fit.state,
+        epoch,
+        epoch,
+        end + 60.0,
+        5.0,
+    )
+    .expect("propagate the estimate");
+    let mut d = Vec::new();
+    let mut t = epoch;
+    while t <= end {
+        let a = estimate.state(t).expect("estimate");
+        let b = mro.state(-74, 4, t, 0.0).expect("truth")[0];
+        d.push(((a[0] - b[0]).powi(2) + (a[1] - b[1]).powi(2) + (a[2] - b[2]).powi(2)).sqrt());
+        t += 60.0;
+    }
+    let b3 = rms(&d) / 1e3;
+    let b4 = d.iter().cloned().fold(0.0, f64::max) / 1e3;
+    println!(
+        "run 2: {} after elevation, {} outliers, {} iterations, params {:?}",
+        fit.n_after_elevation, fit.n_outliers, fit.iterations, fit.params
+    );
+    println!("B1 {b1:.5} Hz  B2 {b2:.5} Hz  B3 {b3:.4} km  B4 {b4:.4} km  B5 {b5:.4}");
+    check(&Outcome {
+        b1_hz: b1,
+        b2_hz: b2,
+        b3_km: b3,
+        b4_km: b4,
+        b5_frac: b5,
+    });
+    // Recorded on the registered run 2 (R2-A1 in force), 12 Jacobian evaluations:
+    // B1 MET 0.01253 Hz; B2 NOT MET 0.04856 Hz; B3 MET 0.3617 km; B4 MET 0.5270 km;
+    // B5 MET 13 of 447 (0.0291). FINDING: the damped fit reaches the reconstruction to
+    // 0.36 km RMS, but its post-fit Doppler misses the 0.030 Hz bar. The row stays MODELLED.
+    assert_eq!(fit.iterations, 12, "run 2 iterations moved");
+    assert_eq!((fit.n_after_elevation, fit.n_outliers), (447, 13));
+    assert!(
+        b2 > 0.030,
+        "B2 now meets its bar ({b2}): the recorded NOT MET moved"
+    );
+    assert!(
+        (b2 - 0.04856).abs() < 5e-4,
+        "B2 moved from 0.04856 Hz: {b2}"
+    );
+    assert!(
+        b3 <= 1.0 && (b3 - 0.3617).abs() < 0.02,
+        "B3 moved from 0.3617 km: {b3}"
+    );
+    assert!(
+        b4 <= 2.5 && (b4 - 0.5270).abs() < 0.03,
+        "B4 moved from 0.5270 km: {b4}"
+    );
+    assert!(b5 <= 0.05, "B5 {b5}");
 }
