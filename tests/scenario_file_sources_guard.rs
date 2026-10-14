@@ -39,6 +39,12 @@ const NOT_A_SCENARIO_FILE_SOURCE: &[(&str, &str, &str)] = &[
         "output: the DEM descriptor path echoed in the result (DemEcho)",
     ),
     (
+        "src/solar_system.rs",
+        "path",
+        "output: the SPK path echoed in the result (KernelOut, Serialize only); the input \
+         planetary_kernel_path is in FILE_SOURCE_KEYS",
+    ),
+    (
         "src/receiver_trust/scenario.rs",
         "path",
         "[log] and [log.nav]: refused through FILE_SOURCE_TABLES",
