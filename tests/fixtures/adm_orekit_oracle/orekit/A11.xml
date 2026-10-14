@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aem id="CCSDS_AEM_VERS" version="2.0">
+  <header>
+    <CREATION_DATE>2026-10-13T00:00:00.000</CREATION_DATE>
+    <ORIGINATOR>KSHANA XVAL</ORIGINATOR>
+  </header>
+
+  <body>
+    <segment>
+      <metadata>
+        <OBJECT_NAME>XVAL SAT</OBJECT_NAME>
+        <OBJECT_ID>2026-999A</OBJECT_ID>
+        <CENTER_NAME>EARTH</CENTER_NAME>
+        <REF_FRAME_A>EME2000</REF_FRAME_A>
+        <REF_FRAME_B>SC_BODY_1</REF_FRAME_B>
+        <TIME_SYSTEM>UTC</TIME_SYSTEM>
+        <START_TIME>2026-03-01T00:01:00.000</START_TIME>
+        <STOP_TIME>2026-03-01T00:01:40.000</STOP_TIME>
+        <ATTITUDE_TYPE>SPIN/NUTATION_MOM</ATTITUDE_TYPE>
+      </metadata>
+      <data>
+        <attitudeState>
+          <spinNutationMom>
+            <EPOCH>2026-03-01T00:01:00.000</EPOCH>
+            <SPIN_ALPHA units="deg">-62.339868361373135</SPIN_ALPHA>
+            <SPIN_DELTA units="deg">34.577997944732836</SPIN_DELTA>
+            <SPIN_ANGLE units="deg">-83.286115359984</SPIN_ANGLE>
+            <SPIN_ANGLE_VEL units="deg/s">19.49194178799821</SPIN_ANGLE_VEL>
+            <MOMENTUM_ALPHA units="deg">-10.234178732188033</MOMENTUM_ALPHA>
+            <MOMENTUM_DELTA units="deg">-52.673137146560414</MOMENTUM_DELTA>
+            <NUTATION_VEL units="deg/s">0.25359543628874026</NUTATION_VEL>
+          </spinNutationMom>
+        </attitudeState>
+        <attitudeState>
+          <spinNutationMom>
+            <EPOCH>2026-03-01T00:01:10.000</EPOCH>
+            <SPIN_ALPHA units="deg">155.65039332792682</SPIN_ALPHA>
+            <SPIN_DELTA units="deg">-1.6192545199129855</SPIN_DELTA>
+            <SPIN_ANGLE units="deg">-98.28586932609096</SPIN_ANGLE>
+            <SPIN_ANGLE_VEL units="deg/s">25.295849719858545</SPIN_ANGLE_VEL>
+            <MOMENTUM_ALPHA units="deg">-5.330590536637696</MOMENTUM_ALPHA>
+            <MOMENTUM_DELTA units="deg">63.86346458609852</MOMENTUM_DELTA>
+            <NUTATION_VEL units="deg/s">2.72784300959585</NUTATION_VEL>
+          </spinNutationMom>
+        </attitudeState>
+        <attitudeState>
+          <spinNutationMom>
+            <EPOCH>2026-03-01T00:01:20.000</EPOCH>
+            <SPIN_ALPHA units="deg">153.79339623642028</SPIN_ALPHA>
+            <SPIN_DELTA units="deg">17.667824418356698</SPIN_DELTA>
+            <SPIN_ANGLE units="deg">159.27145897732686</SPIN_ANGLE>
+            <SPIN_ANGLE_VEL units="deg/s">19.91588789451172</SPIN_ANGLE_VEL>
+            <MOMENTUM_ALPHA units="deg">82.74726923075195</MOMENTUM_ALPHA>
+            <MOMENTUM_DELTA units="deg">6.9743899214962095</MOMENTUM_DELTA>
+            <NUTATION_VEL units="deg/s">2.4912434059701845</NUTATION_VEL>
+          </spinNutationMom>
+        </attitudeState>
+        <attitudeState>
+          <spinNutationMom>
+            <EPOCH>2026-03-01T00:01:30.000</EPOCH>
+            <SPIN_ALPHA units="deg">-1.8765504774491295</SPIN_ALPHA>
+            <SPIN_DELTA units="deg">-31.763554889317213</SPIN_DELTA>
+            <SPIN_ANGLE units="deg">-154.61277139053024</SPIN_ANGLE>
+            <SPIN_ANGLE_VEL units="deg/s">9.906644415291677</SPIN_ANGLE_VEL>
+            <MOMENTUM_ALPHA units="deg">-33.54636794430077</MOMENTUM_ALPHA>
+            <MOMENTUM_DELTA units="deg">-32.85526004236097</MOMENTUM_DELTA>
+            <NUTATION_VEL units="deg/s">4.53894738511721</NUTATION_VEL>
+          </spinNutationMom>
+        </attitudeState>
+        <attitudeState>
+          <spinNutationMom>
+            <EPOCH>2026-03-01T00:01:40.000</EPOCH>
+            <SPIN_ALPHA units="deg">119.61174303600205</SPIN_ALPHA>
+            <SPIN_DELTA units="deg">4.531662819520772</SPIN_DELTA>
+            <SPIN_ANGLE units="deg">-142.6928561119651</SPIN_ANGLE>
+            <SPIN_ANGLE_VEL units="deg/s">26.01469967592347</SPIN_ANGLE_VEL>
+            <MOMENTUM_ALPHA units="deg">-78.30685771457075</MOMENTUM_ALPHA>
+            <MOMENTUM_DELTA units="deg">55.565454247079394</MOMENTUM_DELTA>
+            <NUTATION_VEL units="deg/s">4.368479149662889</NUTATION_VEL>
+          </spinNutationMom>
+        </attitudeState>
+      </data>
+    </segment>
+  </body>
+</aem>

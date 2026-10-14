@@ -7,6 +7,24 @@
 //! cases through Orekit's objects (`orekit/`) and dumps what Orekit parses from Kshana's files
 //! (`outputs/orekit_reads_kshana.txt`). Regenerate the Kshana side with `KSHANA_XVAL_WRITE=1`;
 //! otherwise the committed files must equal what Kshana writes now.
+//!
+//! Result of the first run (2026-10-14): every bar of L1 (33 Kshana files read by Orekit), L2
+//! (31 Orekit files read by Kshana) and L3 (135 record rotations) holds; worst 0.054 of a bar.
+//!
+//! Findings and convention gaps (recorded whether or not a bar fails):
+//! * Orekit 13.1.8's APM writer refuses P02, whose first maneuver has no `MAN_DELTA_MASS`
+//!   ("missing mandatory key MAN_DELTA_MASS"); 504.0-B-2 makes the keyword optional and
+//!   Orekit's parser accepts it. P02 therefore has no Orekit-written file and leg L2 does not
+//!   cover APM maneuvers (pinned in `OREKIT_WRITE_REFUSED`).
+//! * Orekit's AEM parser keeps `ANGVEL_FRAME` as a string but does not set which frame the
+//!   rates are expressed in, so for A04 (rates in EME2000, frame A) its internal angular rate
+//!   is taken as body rates. The raw values and the rotation compared here are unaffected.
+//! * 504.0-B-1 to 504.0-B-2: `QUATERNION_TYPE` and `ATTITUDE_DIR` are gone (scalar last, A to
+//!   B always), `RATE_FRAME` became `ANGVEL_FRAME`, numeric rotation sequences became letters,
+//!   and the `*/RATE` types were replaced by `*/DERIVATIVE` and `*/ANGVEL`. Kshana keeps the
+//!   version-1.0 keywords for version-1.0 messages only.
+//! * Harness: the oracle data holds only `tai-utc.dat`; the driver registers a stub Earth so
+//!   Orekit can resolve `CENTER_NAME = EARTH` by name (no attitude path uses it).
 
 use std::fmt::Write as _;
 use std::path::{Path, PathBuf};
