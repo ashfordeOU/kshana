@@ -4,9 +4,9 @@
   "repo_blob_base": "https://github.com/AshfordeOU/kshana/blob/main/",
   "summary": {
     "validated": 148,
-    "modelled": 155,
+    "modelled": 156,
     "partner_owned": 4,
-    "total": 307
+    "total": 308
   },
   "rows": [
     {
@@ -7173,6 +7173,28 @@
         {
           "path": "tests/jamming_terrain.rs",
           "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/jamming_terrain.rs"
+        }
+      ],
+      "fixture": null
+    },
+    {
+      "requirement": "Acquisition hysteresis and the front-end quantiser in the jamming kind against independent recomputations",
+      "capability": "The jamming kind's optional [acquisition] section (a satellite is acquired at or above an acquisition threshold after a re-acquisition delay and held while at or above the tracking threshold) and [front_end] section (the AGC reading 10 log10(1 + J/N) and the ADC's Gaussian-input quantiser loss taken off every link, flagged as not valid for non-Gaussian jammers).",
+      "status": "MODELLED",
+      "oracle_kind": "ReferenceImpl",
+      "oracle": "An independent Python recomputation of every acquisition flag (xval/jamming-acq-agc/hysteresis.py) from the engine's per-epoch effective C/N0, an independent numpy Monte Carlo of the quantiser loss (xval/jamming-acq-agc/quantiser_mc.py, its own optimum-step search, 2^22 samples), and the IQ layer's AGC loop. Bars pre-registered at 70c72fcc, with a supplementary run set at 37793290. MET: additivity (all 150 scenario results byte-identical without the sections); every flag equal on the supplementary runs (1824 links, 732 of them showing the hysteresis); monotone in the threshold; the quantiser loss within 0.0007 dB of the Monte Carlo at 1 to 4 bits (bar 0.02 dB); the AGC reading within 0.012 dB of the AGC loop (bar 0.05 dB). NOT MET: the registered hysteresis runs (jamming-demo at 10 to 30 dBW) were uninformative, with every link lost, and their H2 and H4 are met only trivially. Finding: with a CW jammer a 1-bit ADC loses about 5 dB more than the Gaussian figure the engine applies, and flags as not valid. WHAT IS NOT CHECKED: the acquisition search itself, AGC dynamics in time, any receiver hardware. Recomputations of the same model, not an external oracle; the row stays MODELLED.",
+      "module": "jamming_rx (AcquisitionCfg, AcqState, FrontEndCfg, front_end); jamming (run_jamming_sky); iq::frontend::quant (optimum_step_sigma)",
+      "tests": "tests/jamming_acq_agc.rs (h1_g1_units_only_with_their_section, h2_no_hysteresis_is_no_hysteresis, h2s_no_hysteresis_is_no_hysteresis_on_the_supplementary_runs, h3_flags_match_the_independent_recomputation, h3s_flags_match_the_independent_recomputation_on_the_supplementary_runs, h4_monotone_in_the_acquisition_threshold, h4s_monotone_in_the_acquisition_threshold_on_the_supplementary_runs, g2_quantiser_loss_matches_the_independent_monte_carlo, g3_agc_reading_matches_the_iq_layer_agc_loop), against xval/jamming-acq-agc/expected_hysteresis.json, expected_hysteresis_s1.json and expected_quantiser.json",
+      "module_links": [
+        {
+          "path": "src/jamming_rx.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/src/jamming_rx.rs"
+        }
+      ],
+      "test_links": [
+        {
+          "path": "tests/jamming_acq_agc.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/jamming_acq_agc.rs"
         }
       ],
       "fixture": null
