@@ -500,6 +500,12 @@ breaking changes are called out explicitly.
   - Every moved value (1766, old → new) is listed in
     `docs/revisions/CAP12-galileo-icd21-power-changes.md` and its CSV, with the doc tables
     that moved. No ledger row changes status.
+  - Second part, the same day: the LEO-signal victims `galileo-e5b` (−155.0 → −155.25 dBW,
+    Table 12 E5b) and `galileo-e5-altboc` (−152.0 → −152.24 dBW). The ICD has no full-band E5
+    row, so the AltBOC value is the power sum of the Table 12 E5a and E5b totals, built as the
+    old value was. Three LEO signal-design results move (64 values: these received powers and
+    the LEO-to-GNSS C/N0 degradation on the two victims), listed in the same revision (§5) and
+    CSV. Nothing else moves.
 
 - **S2 atmospheric tide fix** (`tides::atmospheric_tide`). Ray (2001)'s S2 air-pressure
   harmonics are coefficients of unnormalised `P_nm` with cosine phase lags; they were used as fully
