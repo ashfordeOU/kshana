@@ -11,6 +11,30 @@
 //!
 //! The legacy `OmmFile::to_omm_kvn` output of the M04 element set is in `legacy/` and its Orekit
 //! dump in `outputs/orekit_reads_legacy.txt` (recorded, outside the verdict).
+//!
+//! Result of the first run (2026-10-14): 27 of the 30 Kshana files parse in Orekit and every
+//! value of those is inside its bar except the TDB relative epochs below (904 values, worst
+//! 0.021 of a bar); Kshana parses all 25 Orekit-written files, inside every bar except the same
+//! TDB epochs (858 values, worst 0.020 of a bar). Findings, pinned in `L1_FINDINGS` and
+//! `L2_FINDINGS`:
+//! * Orekit 13.1.8 refuses an OMM TLE block without `ELEMENT_SET_NO` (M04, version 2.0 from
+//!   `OmmFile`, which does not carry it); 502.0-B-3 and the NDM/XML schema make it optional.
+//! * Orekit's XML parser refuses `COMMENT` inside `<userDefinedParameters>` (M05.xml, O06.xml);
+//!   the NDM/XML 4.0.0 schema allows it and both files validate. The KVN forms parse.
+//! * Orekit's OMM writer refuses a TLE block that carries `BTERM` instead of `BSTAR` (M02,
+//!   SGP4-XP, `EPHEMERIS_TYPE = 4`): "missing mandatory key BSTAR". Its parser reads M02.
+//! * OCM relative epochs under `TIME_SYSTEM = TDB` (C05): Orekit adds the offset as elapsed SI
+//!   seconds on its continuous time line, so the TDB calendar epoch it resolves differs from
+//!   `EPOCH_TZERO` + offset read on the TDB calendar by about 1.9e-10 s/s (6e-9 to 1e-7 s
+//!   here), outside the 1e-9 s epoch bar; the same holds for the offsets Orekit writes. With
+//!   UTC, TAI and TT (C01 to C04) relative and absolute epochs agree within the bar. Kshana
+//!   keeps epoch tokens as written and does not resolve them.
+//! * Legacy writer: `OmmFile::to_omm_kvn` wraps the metadata in `META_START`/`META_STOP`,
+//!   which the OMM KVN does not define; Orekit stops at it ("TIME_SYSTEM has not been
+//!   initialized"). The new `OmmMessage::from_omm_file(..).to_kvn()` is the conformant path.
+//! * Harness: Orekit's OCM parser builds ICRF as the default trajectory frame, which needs the
+//!   solar system barycenter; the driver registers a stub barycenter and a stub Earth (no
+//!   ephemeris; nothing compared uses either).
 
 use kshana::odm::{OcmBlock, OcmMessage, OdmHeader, OmmMessage, OpmMessage, Section, COV_TERMS};
 use std::path::{Path, PathBuf};
@@ -949,6 +973,7 @@ fn line_epoch(tok: &str, tzero: (i64, f64)) -> (i64, f64) {
 /// Worst fraction of a bar used, and failures.
 #[derive(Default)]
 struct Tally {
+    tzero: Option<(i64, f64)>,
     worst: f64,
     n: usize,
     fails: Vec<String>,
@@ -958,11 +983,14 @@ impl Tally {
     fn value(&mut self, what: &str, key: &str, want: &str, got: &str) {
         self.n += 1;
         if EPOCH_KEYS.contains(&key) {
-            let d = epoch_diff(epoch(got), epoch(want)).abs();
-            self.worst = self.worst.max(d / 1e-9);
+            // the NDM epoch type also admits seconds relative to EPOCH_TZERO (OCM)
+            let tz = self.tzero.unwrap_or((0, 0.0));
+            let d = epoch_diff(line_epoch(got, tz), line_epoch(want, tz)).abs();
             if d > 1e-9 {
                 self.fails
                     .push(format!("{what} {key}: {got} vs {want} ({d:e} s)"));
+            } else {
+                self.worst = self.worst.max(d / 1e-9);
             }
             return;
         }
@@ -979,12 +1007,11 @@ impl Tally {
     fn real(&mut self, what: &str, key: &str, want: f64, got: f64) {
         let bar = 1e-14 * want.abs().max(got.abs());
         let d = (got - want).abs();
-        if bar > 0.0 {
-            self.worst = self.worst.max(d / bar);
-        }
         if d > bar {
             self.fails
                 .push(format!("{what} {key}: {got:e} vs {want:e} (diff {d:e})"));
+        } else if bar > 0.0 {
+            self.worst = self.worst.max(d / bar);
         }
     }
 }
@@ -1003,6 +1030,7 @@ fn compare(want: &Canon, got: &Canon, what: &str, t: &mut Tally) {
         .find(|b| b.name == "meta")
         .and_then(|b| b.items.iter().find(|(k, _)| k == "EPOCH_TZERO"))
         .map(|(_, v)| epoch(v));
+    t.tzero = tzero;
     let mut seen: Vec<&str> = Vec::new();
     for wb in &want.blocks {
         let idx = seen.iter().filter(|n| **n == wb.name).count();
@@ -1042,10 +1070,11 @@ fn compare(want: &Canon, got: &Canon, what: &str, t: &mut Tally) {
             let tz = tzero.unwrap_or((0, 0.0));
             t.n += 1;
             let d = epoch_diff(line_epoch(&gl[0], tz), line_epoch(&wl[0], tz)).abs();
-            t.worst = t.worst.max(d / 1e-9);
             if d > 1e-9 {
                 t.fails
                     .push(format!("{lw} epoch: {} vs {} ({d:e} s)", gl[0], wl[0]));
+            } else {
+                t.worst = t.worst.max(d / 1e-9);
             }
             for (j, (a, b)) in wl[1..].iter().zip(&gl[1..]).enumerate() {
                 t.real(
@@ -1059,9 +1088,32 @@ fn compare(want: &Canon, got: &Canon, what: &str, t: &mut Tally) {
     }
 }
 
-/// Findings pinned after the first run (case file, what), each asserted to recur.
-const L1_FINDINGS: &[(&str, &str)] = &[];
-const L2_FINDINGS: &[(&str, &str)] = &[];
+/// Findings of the first run (2026-10-14), pinned as (file, text of the failure); each must
+/// recur, and no other failure is accepted. See the module documentation.
+const L1_FINDINGS: &[(&str, &str)] = &[
+    // Orekit requires ELEMENT_SET_NO in the TLE block (optional in 502.0-B-3 and the schema)
+    ("M04.kvn", "ELEMENT_SET_NO has not been initialized"),
+    // Orekit's XML parser refuses COMMENT in <userDefinedParameters> (the schema allows it)
+    ("M05.xml", "unexpected keyword"),
+    ("O06.xml", "unexpected keyword"),
+    // TDB: Orekit adds relative OCM epochs as elapsed SI seconds, not TDB-calendar seconds
+    ("C05.kvn", "epoch:"),
+    ("C05.xml", "epoch:"),
+];
+const L2_FINDINGS: &[(&str, &str)] = &[
+    // no Orekit-written file where Orekit could not parse Kshana's (L1 findings above)
+    ("M04.kvn", "no Orekit-written file"),
+    ("M05.xml", "no Orekit-written file"),
+    ("O06.xml", "no Orekit-written file"),
+    // Orekit's OMM writer requires BSTAR even when the TLE block carries BTERM (SGP4-XP)
+    ("M02.kvn", "missing mandatory key BSTAR"),
+    ("M02.xml", "missing mandatory key BSTAR"),
+    // the same TDB relative-epoch convention, now in what Orekit writes
+    ("C05.kvn", "epoch:"),
+    ("C05.xml", "epoch:"),
+    ("C05.kvn", "STOP_TIME:"),
+    ("C05.xml", "STOP_TIME:"),
+];
 
 fn kshana_parse(case: &Case, text: &str) -> Result<Canon, String> {
     Ok(match case.msg {
@@ -1152,4 +1204,16 @@ fn l2_kshana_reads_every_orekit_message() {
         t.n, t.worst
     );
     check_findings(&t.fails, L2_FINDINGS, "L2");
+}
+
+/// Recorded, outside the verdict: Orekit's reading of the legacy `OmmFile::to_omm_kvn` output.
+/// That writer puts `META_START`/`META_STOP` around the metadata, which the OMM KVN of
+/// 502.0-B-2/B-3 does not define; Orekit stops at it. Pinned so a change is noticed.
+#[test]
+fn legacy_omm_kvn_is_refused_by_orekit() {
+    let dump = read_dump(&dir().join("outputs/orekit_reads_legacy.txt"));
+    assert_eq!(dump.len(), 1);
+    let e = dump[0].parse_error.as_deref().unwrap_or("");
+    assert!(e.contains("TIME_SYSTEM has not been initialized"), "{e}");
+    assert!(iss().to_omm_kvn().contains("META_START\n"));
 }
