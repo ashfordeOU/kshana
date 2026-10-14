@@ -470,12 +470,12 @@ fn run_lunar_service(
     let csv = report.per_sat_geometry_csv();
     Ok(RunOutput {
         json: {
-            let export: &[crate::field_schema::FieldUnit] =
-                if report.export_site_terrain.is_some() {
-                    crate::lunar_terrain::EXPORT_SITE_TERRAIN_UNITS
-                } else {
-                    &[]
-                };
+            let export: &[crate::field_schema::FieldUnit] = if report.export_site_terrain.is_some()
+            {
+                crate::lunar_terrain::EXPORT_SITE_TERRAIN_UNITS
+            } else {
+                &[]
+            };
             let tile: &[crate::field_schema::FieldUnit] =
                 match report.terrain.as_ref().and_then(|t| t.dem_tile.as_ref()) {
                     Some(_) => crate::lunar_terrain::DEM_TILE_UNITS,
@@ -487,12 +487,11 @@ fn run_lunar_service(
                 &[]
             };
             // The export rows' units only when the document carries them.
-            let geometry: &[crate::field_schema::FieldUnit] =
-                if report.per_sat_geometry.is_some() {
-                    crate::lunar_service::PER_SAT_GEOMETRY_UNITS
-                } else {
-                    &[]
-                };
+            let geometry: &[crate::field_schema::FieldUnit] = if report.per_sat_geometry.is_some() {
+                crate::lunar_service::PER_SAT_GEOMETRY_UNITS
+            } else {
+                &[]
+            };
             let units: Vec<crate::field_schema::FieldUnit> = crate::lunar_service::UNITS
                 .iter()
                 .chain(terrain)
