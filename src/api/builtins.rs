@@ -2191,24 +2191,55 @@ impl BuiltinKind for crate::sweep::GenericSweepScenario {
 }
 
 fn run_gravity_map(cfg: &crate::gravimeter::GravityMapBenchmarkCfg) -> Result<RunOutput, String> {
-    let r = crate::gravimeter::run_gps_denied_gravity_nav(cfg);
-    let summary = format!(
+    let run = crate::gravimeter::run_gravity_map_scenario(cfg)?;
+    let r = run.nav;
+    let mut summary = format!(
         "gravity-map | free-inertial drift {:.0} m | gravity-matched {:.0} m | matching sigma {:.3e} mGal",
         r.free_inertial_drift_m, r.map_matched_error_m, r.measurement_sigma_mgal,
     );
+    if let Some(rf) = &run.reference {
+        summary.push_str(&format!(
+            " | reference degree {} anomaly std {:.1} mGal",
+            rf.reference_nmax, rf.reference_anomaly_std_mgal
+        ));
+    }
+    if let Some(mc) = &run.map_error_mc {
+        summary.push_str(&format!(
+            " | map-error MC x{} p95 {:.0} m, {:.0}% within {:.0} m",
+            mc.realisations,
+            mc.matched_error_p95_m,
+            100.0 * mc.fraction_within_target,
+            mc.target_m
+        ));
+    }
+    // The optional blocks are absent unless configured, so a scenario without
+    // them emits the document of earlier releases byte for byte.
     #[derive(serde::Serialize)]
     struct GravityMapOut {
         free_inertial_drift_m: f64,
         map_matched_error_m: f64,
         measurement_sigma_mgal: f64,
+        #[serde(flatten)]
+        reference: Option<crate::gravimeter::ReferenceFieldSummary>,
+        #[serde(skip_serializing_if = "Option::is_none")]
+        map_error_mc: Option<crate::gravimeter::MapErrorMcSummary>,
     }
     let out = GravityMapOut {
         free_inertial_drift_m: r.free_inertial_drift_m,
         map_matched_error_m: r.map_matched_error_m,
         measurement_sigma_mgal: r.measurement_sigma_mgal,
+        reference: run.reference,
+        map_error_mc: run.map_error_mc,
     };
+    let mut units = crate::gravimeter::UNITS.to_vec();
+    if run.reference.is_some() {
+        units.extend_from_slice(crate::gravimeter::REFERENCE_UNITS);
+    }
+    if run.map_error_mc.is_some() {
+        units.extend_from_slice(crate::gravimeter::MAP_ERROR_MC_UNITS);
+    }
     Ok(RunOutput {
-        json: json_of_with_units(&out, crate::gravimeter::UNITS)?,
+        json: json_of_with_units(&out, &units)?,
         svg: crate::altpnt::terrain::gravity_nav_svg(
             r.free_inertial_drift_m,
             r.map_matched_error_m,
@@ -2301,7 +2332,7 @@ impl BuiltinKind for crate::altpnt::sequential::SequentialTrnCfg {
 fn run_combined_alt_pnt(
     cfg: &crate::altpnt::terrain::CombinedAltPntCfg,
 ) -> Result<RunOutput, String> {
-    let r = crate::altpnt::terrain::run_combined_altpnt(cfg);
+    let r = crate::altpnt::terrain::run_combined_altpnt_scenario(cfg)?;
     let summary = format!(
         "combined-altpnt | free-inertial drift {:.0} m | gravity {:.0} m magnetic {:.0} m terrain {:.0} m | FUSED {:.0} m",
         r.free_inertial_drift_m,

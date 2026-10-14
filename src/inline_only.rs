@@ -17,6 +17,7 @@ pub const FILE_SOURCE_KEYS: &[&str] = &[
     "dem_tile_path",
     "earth_orientation_kernel_path",
     "ephemeris_path",
+    "gfc_path",
     "meta_path",
     "moon_orientation_kernel_path",
     "normal_points_dir",

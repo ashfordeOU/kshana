@@ -286,7 +286,7 @@ Generic N-D sweep over any pack via dotted TOML keys / JSON metric paths.
 GPS-denied gravity-map-matching navigation: a cold-atom gravimeter recovers a constant INS drift from the gravity-anomaly sequence it flies through.
 
 - **Required fields:** `nmax`, `start_lat_deg`, `start_lon_deg`, `step_lat_deg`, `step_lon_deg`, `waypoints`, `drift_lat_deg`, `drift_lon_deg`, `gravimeter_asd`, `averaging_time_s`, `map_sigma_mgal`, `search_half_deg`, `search_step_deg`
-- **Optional fields:** `coeffs`, `mascons`, `refine_stages`, `refine_factor`, `noise_seed`
+- **Optional fields:** `coeffs`, `mascons`, `refine_stages`, `refine_factor`, `noise_seed`, `reference`, `map_error_mc`
 
 ## `terrain-nav`
 
@@ -307,7 +307,7 @@ GPS-denied sequential (recursive) terrain-referenced navigation: a particle filt
 GPS-denied combined gravity + magnetic + terrain navigator: three scalar field channels fused per waypoint for a sharper (lower-CRLB) drift fix than any single field.
 
 - **Required fields:** `start_lat_deg`, `start_lon_deg`, `step_lat_deg`, `step_lon_deg`, `waypoints`, `drift_lat_deg`, `drift_lon_deg`, `search_half_deg`, `search_step_deg`, `nmax`, `gravity_sigma_mgal`, `igrf_year`, `magnetic_sigma_nt`, `dem_seed`, `terrain_sigma_m`
-- **Optional fields:** `coeffs`, `mascons`, `magnetic_mascons`, `igrf_alt_km`, `refine_stages`, `refine_factor`, `noise_seed`
+- **Optional fields:** `coeffs`, `mascons`, `magnetic_mascons`, `igrf_alt_km`, `refine_stages`, `refine_factor`, `noise_seed`, `magnetic_grid`
 
 ## `pvt`
 
