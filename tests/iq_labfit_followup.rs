@@ -648,19 +648,31 @@ fn settled_bias_s(out: &Path) -> Vec<(f64, usize, f64)> {
     let recs = stepped_recipe(S_SEED, RECORDINGS);
     let truth = truth_of(S_SEED);
     let mut bands: std::collections::BTreeMap<i64, Vec<f64>> = Default::default();
-    let dir = out.join("epochs");
+    // Each cell names its recording, its epoch file and its satellites in channel order.
+    let mut cells: Vec<(String, PathBuf, Vec<u8>)> = Vec::new();
+    for e in std::fs::read_dir(out.join("cells")).unwrap() {
+        let v: serde_json::Value =
+            serde_json::from_str(&std::fs::read_to_string(e.unwrap().path()).unwrap()).unwrap();
+        let sats = v["satellites"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .map(|s| s["id"].as_u64().unwrap() as u8)
+            .collect();
+        cells.push((
+            v["recording"]["id"].as_str().unwrap().to_string(),
+            out.join(v["epochs"]["path"].as_str().unwrap()),
+            sats,
+        ));
+    }
     let mut files = 0;
     for r in &recs {
-        let path = std::fs::read_dir(&dir)
-            .unwrap()
-            .map(|e| e.unwrap().path())
-            .find(|p| {
-                let n = p.file_name().unwrap().to_string_lossy().into_owned();
-                n.ends_with(".csv") && n.contains(&format!("{}-", r.id))
-            })
+        let (_, path, chan_sats) = cells
+            .iter()
+            .find(|c| c.0 == r.id)
             .unwrap_or_else(|| panic!("epochs of {}", r.id));
         files += 1;
-        let text = std::fs::read_to_string(&path).unwrap();
+        let text = std::fs::read_to_string(path).unwrap();
         let mut lines = text.lines();
         let head: Vec<&str> = lines.next().unwrap().split(',').collect();
         let col = |n: &str| head.iter().position(|h| *h == n).unwrap();
@@ -670,12 +682,18 @@ fn settled_bias_s(out: &Path) -> Vec<(f64, usize, f64)> {
             col("cn0_m2m4_dbhz"),
             col("state"),
         );
+        let mut pre: Vec<Vec<f64>> = vec![Vec::new(); chan_sats.len()];
         for l in lines {
             let f: Vec<&str> = l.split(',').collect();
             if f[st] != "LOCKED" {
                 continue;
             }
             let t: f64 = f[ts].parse().unwrap();
+            if (1.0..r.onset_s).contains(&t) {
+                if let Ok(m) = f[cn0].parse::<f64>() {
+                    pre[f[ch].parse::<usize>().unwrap()].push(m);
+                }
+            }
             if t < r.onset_s || t >= r.offset_s() {
                 continue;
             }
@@ -691,12 +709,20 @@ fn settled_bias_s(out: &Path) -> Vec<(f64, usize, f64)> {
             if !m.is_finite() {
                 continue;
             }
-            let c0 = r.sats[f[ch].parse::<usize>().unwrap()].2;
+            let prn = chan_sats[f[ch].parse::<usize>().unwrap()];
+            let c0 = r.sats.iter().find(|s| s.0 == prn).unwrap().2;
             let imposed = effective_cn0_dbhz(c0, r.js(t) + truth.delta_db, truth.q, RC);
             bands
                 .entry((imposed / 3.0).floor() as i64)
                 .or_default()
                 .push(m - imposed);
+        }
+        // The channel order is the cell's satellite order: each channel's pre-onset C/N0
+        // reads its own satellite's baseline.
+        for (k, v) in pre.iter_mut().enumerate() {
+            let c0 = r.sats.iter().find(|s| s.0 == chan_sats[k]).unwrap().2;
+            let m = median(v).expect("pre-onset epochs");
+            assert!((m - c0).abs() < 1.5, "{} channel {k}: {m} vs {c0}", r.id);
         }
     }
     assert_eq!(files, recs.len());
@@ -707,6 +733,20 @@ fn settled_bias_s(out: &Path) -> Vec<(f64, usize, f64)> {
 }
 
 // --- the bars -----------------------------------------------------------------------------------
+//
+// Run 2026-10-14 (RESULTS.md beside the registration). Each test asserts the recorded verdict,
+// MET or NOT MET, and the recorded values within RECORDED_TOL_DB.
+
+/// How far a re-run may move a recorded value (dB) before the record is stale.
+const RECORDED_TOL_DB: f64 = 0.05;
+
+fn near(got: Option<f64>, recorded: f64, what: &str) {
+    let g = got.unwrap_or_else(|| panic!("{what}: no value"));
+    assert!(
+        (g - recorded).abs() <= RECORDED_TOL_DB,
+        "{what}: {g:.4} against the recorded {recorded:.4}"
+    );
+}
 
 #[test]
 #[cfg_attr(
@@ -720,7 +760,9 @@ fn s1_delta_eff_on_the_stepped_campaign() {
         "S1 {line} (bar 0.5 dB, span >= 12 dB): {}",
         if met { "MET" } else { "NOT MET" }
     ));
+    // Recorded: MET, error +0.1849 dB over a 34.0 dB span.
     assert!(met, "S1: error {err:+.4} dB, span {span:.1} dB");
+    near(Some(err), 0.1849, "S1 delta_eff error");
 }
 
 #[test]
@@ -739,7 +781,24 @@ fn s2_d_as_written_on_the_stepped_campaign() {
             if ok { "MET" } else { "NOT MET" }
         ));
     }
-    assert!(met, "S2: {rows:?}");
+    // Recorded: NOT MET. The tracking-loop model is within the bar (33.817 against 34.265 dB),
+    // the empirical model is not (27.848 dB, 6.42 dB low); 18 losses.
+    assert!(!met, "S2 is recorded NOT MET: {rows:?}");
+    let row = |m: &str| rows.iter().find(|r| r.0 == m).unwrap().clone();
+    let (_, tl, direct, n) = row("tracking-loop");
+    let (_, em, _, _) = row("empirical");
+    assert_eq!(n, 18);
+    near(Some(direct), 34.265, "S2 direct median");
+    near(tl, 33.817, "S2 tracking-loop closed form");
+    near(em, 27.848, "S2 empirical closed form");
+    assert!(
+        (tl.unwrap() - direct).abs() <= 1.0,
+        "tracking-loop is recorded MET"
+    );
+    assert!(
+        (em.unwrap() - direct).abs() > 1.0,
+        "empirical is recorded NOT MET"
+    );
 }
 
 #[test]
@@ -759,7 +818,15 @@ fn r1_dwell_corrected_d_on_the_fresh_ramp_campaign() {
             if ok { "MET" } else { "NOT MET" }
         ));
     }
+    // Recorded: MET for both models, 18 losses, direct median 36.112 dB.
     assert!(met, "R1: {rows:?}");
+    let row = |m: &str| rows.iter().find(|r| r.0 == m).unwrap().clone();
+    let (_, tl, _, direct, n, _) = row("tracking-loop");
+    let (_, em, _, _, _, _) = row("empirical");
+    assert_eq!(n, 18);
+    near(Some(direct), 36.112, "R1 direct median");
+    near(tl, 35.565, "R1 tracking-loop corrected closed form");
+    near(em, 35.363, "R1 empirical corrected closed form");
 }
 
 /// Replications, not bars: (a') and (d) as written on campaign R. They assert nothing.
