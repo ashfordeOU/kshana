@@ -505,7 +505,7 @@ ionosphere_ns = 0.02
         let v: serde_json::Value = serde_json::from_str(&j).unwrap();
         assert!((v["terms_ns"]["offset"].as_f64().unwrap() - 12.5).abs() < 1e-6);
         let uc = v["combined_uncertainty_ns"].as_f64().unwrap();
-        assert!(uc >= 1.0 && uc < 1.5, "{uc}");
+        assert!((1.0..1.5).contains(&uc), "{uc}");
         assert!(s.contains("MODELLED"));
         let (j2, _) = scn.run_json().unwrap();
         assert_eq!(j, j2);
@@ -513,7 +513,12 @@ ionosphere_ns = 0.02
 
     #[test]
     fn real_series_are_read_from_circular_t_and_csv() {
-        let dir = std::env::temp_dir().join(format!("kshana-ttb-{}", std::process::id()));
+        static N: std::sync::atomic::AtomicU64 = std::sync::atomic::AtomicU64::new(0);
+        let dir = std::env::temp_dir().join(format!(
+            "kshana-ttb-{}-{}",
+            std::process::id(),
+            N.fetch_add(1, std::sync::atomic::Ordering::Relaxed)
+        ));
         std::fs::create_dir_all(&dir).unwrap();
         let csv = dir.join("utck.csv");
         let rows: String = (0..20)
