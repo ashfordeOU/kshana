@@ -33,6 +33,10 @@ use sha2::{Digest, Sha256};
 use std::collections::BTreeMap;
 use std::path::{Path, PathBuf};
 
+// PIN-SCOPE:    the SHA-256 of each fetched input file (the MRO NAV kernel, de440s, the DSN
+//               station file, the GMM-3 table and its label) and of the IERS EOP rows, so the
+//               development pass reads exactly the files the pre-registration names
+// PIN-EXCLUDES: every output of the fit; no result is pinned by hash
 const PINS: [(&str, &str); 5] = [
     (
         "mro_psp5.bsp",
