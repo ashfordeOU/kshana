@@ -28,10 +28,10 @@ name).
 | Band | Carrier | Modulation | Default received power | Default receiver bandwidth |
 |---|---|---|---|---|
 | `gps-l1ca` | 1575.42 MHz | binary phase-shift keying, BPSK(1) | −158.5 dBW (IS-GPS-200) | 2.046 MHz |
-| `galileo-e1` | 1575.42 MHz | multiplexed binary offset carrier, MBOC(6,1,1/11), or binary offset carrier BOC(1,1) | −157.0 dBW (Galileo OS SIS ICD) | 14.322 MHz |
+| `galileo-e1` | 1575.42 MHz | multiplexed binary offset carrier, MBOC(6,1,1/11), or binary offset carrier BOC(1,1) | −157.25 dBW (Galileo OS SIS ICD Issue 2.1, Table 12) | 14.322 MHz |
 | `gps-l2c` | 1227.60 MHz | BPSK(1) (CM and CL codes time-multiplexed) | −160.0 dBW (IS-GPS-200) | 2.046 MHz |
 | `gps-l5` | 1176.45 MHz | BPSK(10) | −157.9 dBW (IS-GPS-705) | 20.46 MHz |
-| `galileo-e5a` | 1176.45 MHz | BPSK(10) | −155.0 dBW (Galileo OS SIS ICD) | 20.46 MHz |
+| `galileo-e5a` | 1176.45 MHz | BPSK(10) | −155.25 dBW (Galileo OS SIS ICD Issue 2.1, Table 12) | 20.46 MHz |
 
 GPS (Global Positioning System) L1 C/A is the coarse/acquisition code; L2C is the L2
 civil signal; IS-GPS-200 and IS-GPS-705 are the GPS interface specifications; Galileo OS
@@ -126,10 +126,10 @@ What the run computes:
 | Band | Nominal C/N₀ | Minimum C/N₀ | First loss | Rows tracking |
 |---|---|---|---|---|
 | gps-l1ca | 43.48 dB-Hz | 3.23 dB-Hz | 10 s | 17 % |
-| galileo-e1 | 44.98 dB-Hz | 4.69 dB-Hz | 10 s | 50 % |
+| galileo-e1 | 44.73 dB-Hz | 4.44 dB-Hz | 10 s | 50 % |
 | gps-l2c | 41.98 dB-Hz | 36.86 dB-Hz | never | 100 % |
 | gps-l5 | 44.08 dB-Hz | 44.08 dB-Hz | never | 100 % |
-| galileo-e5a | 46.98 dB-Hz | 46.98 dB-Hz | never | 100 % |
+| galileo-e5a | 46.73 dB-Hz | 46.73 dB-Hz | never | 100 % |
 
 The CW tone is why the two L1 signals part company at 40 s. It lands on the peak of the
 C/A spectrum and holds C/A at 17.98 dB-Hz, below the 25 dB-Hz threshold. It lands in the
@@ -163,7 +163,7 @@ nominal value sits below the total received power by the tracked share):
 |---|---|---|---|---|---|
 | generic-uhf | representative, BPSK(5), −150 dBW | 465 MHz | 49.41 dB-Hz | 34.38 dB-Hz | 100 % |
 | gps-l1ca | specification minimum | 1575.42 MHz | 43.48 dB-Hz | 3.38 dB-Hz | 33 % |
-| galileo-e5a | specification minimum | 1176.45 MHz | 46.98 dB-Hz | 38.76 dB-Hz | 100 % |
+| galileo-e5a | specification minimum | 1176.45 MHz | 46.73 dB-Hz | 38.51 dB-Hz | 100 % |
 | xona-x5 | published design, −144.9 dBW | 1190.51625 MHz | 54.51 dB-Hz | 46.29 dB-Hz | 100 % |
 | generic-s | representative, BPSK(5), −150 dBW | 2492.028 MHz | 49.23 dB-Hz | 41.69 dB-Hz | 100 % |
 | generic-c-band-leo | representative, BPSK(10), −152 dBW | 5020 MHz | 47.41 dB-Hz | 40.35 dB-Hz | 100 % |

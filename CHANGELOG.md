@@ -30,6 +30,160 @@ breaking changes are called out explicitly.
   bar are met; 18 of 18 attenuations are detected, but the time-to-detect bound, below one
   detector sample by construction, is not met and is recorded. MODELLED; ledger row "IQ
   monitors scored in lab-replay campaigns".
+- **Lab fit from IQ campaigns, follow-up** (`tests/iq_labfit_followup.rs`, CI job
+  `labfit-iq-followup`). It tests the two hypotheses §13.6 of `docs/design/LABFIT-FROM-IQ.md` left
+  open, against bars pre-registered in 1e532f84. It adds two synthetic campaigns: S, with a
+  stepped J/S (seed 2026_1014), and R, a fresh ramp (seed 2026_1015). Results are in
+  `docs/design/evidence/labfit-followup/RESULTS.md`.
+  - S1 met: with each J/S level held, `δ_eff` is recovered within +0.185 dB. The ramp campaigns'
+    −1.1 dB error is estimator lag.
+  - S2 not met, pinned by a test asserting the miss: (d) as written on the stepped campaign
+    holds for the tracking-loop model (0.45 dB) but not for the empirical one (6.42 dB).
+  - R1 met: on the fresh ramp campaign, (d) with the fitted drop dwell times each event's ramp
+    rate added is within 1 dB for both models.
+  - The (a′) and (d) misses replicate on R.
+  - A campaign may now state its J/S as a `step` profile in the test harness.
+  - No §13 verdict changes, and the ledger row stays MODELLED.
+
+- **Capped FLL pull-in, opt-in** (DS-LOOP-05): a new loop-design key `[design.carrier]
+  fll_pull_in_max_s` (s), Rust `LoopConfig::fll_pull_in_max_s`. Under `fll_assist = "pull-in"`
+  it forces the FLL-to-PLL hand-over after that long, whatever the PLI. Unset by default, and
+  then out of the design hash; the default design and its hash are unchanged.
+  - Checked against bars pre-registered at 58789af0, on injected truth. The control is met: the
+    default never hands over in 9 of 10 seeds at 33 dB-Hz.
+  - Not met: with a 1.0 s cap, 16 of 20 runs hold lock at 33 dB-Hz and 8 of 20 at 31 dB-Hz; the
+    others cycle between forced hand-overs and the FLL's return. Phase jitter is 1.8× the PLL
+    alone at 33 dB-Hz.
+  - The ~35 dB-Hz pull-in floor stays the default's documented limit.
+  - MODELLED; ledger row "Capped FLL pull-in below the default design's FLL-to-PLL hand-over
+    floor (opt-in)".
+- **Acquisition hysteresis and the front-end quantiser in the jamming kind** (CAP-06c): two
+  optional sections for a `jamming` scenario.
+  - `[acquisition]`: `acquisition_threshold_dbhz` (dB-Hz, at or above the tracking threshold)
+    and `reacquisition_delay_s` (s, default 0). A satellite is acquired at or above the
+    acquisition threshold, once it has been unacquired for the delay. It is held while at or
+    above the tracking threshold. Outputs: `epochs[].sats[].acquired` (true/false),
+    `epochs[].acquired` (count) and `fom.availability_acquired` (1).
+  - `[front_end]`: `adc_bits` (1 to 16) and `bandwidth_mhz` (MHz, default twice the chip
+    rate). Outputs a `front_end` block: `agc_gain_reduction_db` (dB, `10·log10(1 + J/N)`),
+    `quantiser_loss_db` (dB, taken off every link's effective C/N0) and `loss_model`. The loss
+    is the Gaussian-input one, flagged as not valid for CW, narrowband and swept jammers.
+  - Without the sections every output is byte-identical.
+  - Checked against bars pre-registered at 70c72fcc. The quantiser loss is within 0.0007 dB of
+    an independent Monte Carlo, and the AGC reading within 0.012 dB of the IQ layer's AGC loop.
+  - The registered hysteresis runs were uninformative (every link lost), so that bar is NOT
+    MET. A supplementary run set registered at 37793290 meets it: every flag equals an
+    independent recomputation, and 732 of 1824 links show the hysteresis.
+  - Finding: with a CW jammer a 1-bit ADC loses about 5 dB more than the Gaussian figure.
+  - MODELLED; ledger row "Acquisition hysteresis and the front-end quantiser in the jamming
+    kind against independent recomputations".
+- **Terrain shadowing of the jammer in the jamming kind** (CAP-06b): an optional `[terrain]`
+  section in a `jamming` scenario with a jammer. Fields:
+  - `dem_hgt`: an SRTM `.hgt` tile, relative to the working directory;
+  - `samples_per_side`, `ll_lat_deg` and `ll_lon_deg` (deg): the tile's size and corner;
+  - `geoid_undulation_m` (m, default 0), `k_factor` (default 4/3) and `profile_step_m` (m,
+    default 30).
+
+  The engine samples the great-circle terrain profile between jammer and receiver and finds the
+  dominant knife edge. The jammer's received power, and so every J/S, is lowered by the single
+  knife-edge loss of ITU-R P.526-15 §4.1.
+  - The result gains a `jammer_terrain` block: `nu_max` (1), `diffraction_loss_db` (dB),
+    `obstacle_distance_m` (m), `obstacle_terrain_m` (m), `path_length_m` (m) and
+    `profile_points` (count).
+  - Without the section every output is byte-identical.
+  - Checked against bars and ten placements pre-registered at 92cd2bfd, on the committed real
+    SRTM tile of Death Valley, against an independent numpy recomputation. All met: worst
+    difference 1.6e-10 on `ν` and on the loss (bar 1e-9), the loss monotone in jammer height, and
+    the loss reaching J/S exactly.
+  - MODELLED; ledger row "Terrain shadowing of the jammer in the jamming kind against an
+    independent numpy recomputation on a real SRTM tile".
+- **CRPA antenna gains in the jamming kind** (CAP-06a): an optional `[crpa]` section in a
+  `jamming` scenario. Fields: `elements_enu_m` (element positions in local east-north-up, m),
+  `weighting` (`"null-steering"` or `"mvdr"`), and `bandwidth_mhz` (MVDR noise bandwidth, MHz,
+  default twice the chip rate).
+  - Each channel forms a distortionless beam toward its satellite. The link's noise is scaled by
+    `‖w‖²` and the jammer by `|wᴴa_j|²` before the existing anti-jam C/N0 equation.
+  - Each link gains a `crpa` block: `array_noise_gain_db` (dB) and `jammer_gain_db` (dB).
+  - Without the section every output is byte-identical.
+  - An invalid section (an empty element list, an unknown weighting, a non-positive bandwidth) is
+    an error, through `kshana` and `api::run_toml` as well as `jamming::run_jamming`.
+  - Checked against bars pre-registered at 08d83b4d. Met: additivity (after a fix: the first
+    build added the new units to every jamming run's units table); one element is no array;
+    noise gain and effective C/N0 against an independent numpy recomputation within 1e-9 dB;
+    MVDR tends to the null at high JNR.
+  - Not met: the MVDR jammer gain on 202 of 456 links (worst 1.7e-6 dB). The residuals of −100
+    to −188 dB are below float64's resolution at that bar, and numpy disagrees with itself
+    by the same order.
+  - MODELLED; ledger row "CRPA antenna gains in the jamming kind against an independent numpy
+    recomputation".
+- **IQ tracking engine against GNSS-SDR 0.0.19** (PRO-33): `kshana iq track` and GNSS-SDR track
+  the same independent numpy recordings of GPS L1 C/A at 30 to 45 dB-Hz.
+  - Bars pre-registered at 48edd4a5. The registered calibration failed on a wrong GNSS-SDR
+    hand-off (F3), so Amendment 1 (1e4288c4) adds a pull-in-only FLL to both receivers, committed
+    before any test recording.
+  - Met: carrier and code jitter and Doppler agree within 5 % at every C/N0.
+  - Not met: the engine's NWPR C/N0 reads 2.3–7.1 dB below GNSS-SDR's SNV (F4, a known
+    estimator limit; M2M4 is within 0.06 dB of truth); the lock indicators differ by definition
+    (F5); one 30 dB-Hz slip disagreement (F6).
+  - MODELLED; ledger row "IQ tracking engine against GNSS-SDR 0.0.19 on independent recordings".
+- **Two VALIDATED rows for IQ-layer codes** (DS-GIQ-06b, PRO-39).
+  - **BeiDou B1I.** All 63 B1I primary codes match GNSS-SDR v0.0.19's independent generator chip
+    for chip (bar pre-registered at 911106d1). Only that program's output is committed: the B1I
+    PRN codes the public ICD defines, as a prefix and a hash.
+  - **GPS L1C.** All 126 L1CP/L1CD codes and 63 L1CO overlays match the check columns
+    IS-GPS-800J prints, and the computed Legendre sequence matches its Table 6.2-1 (bars
+    pre-registered at fe372e26).
+  - Rows: "BeiDou B1I primary ranging codes against an independent generator" and "GPS L1C ranging
+    and overlay codes against the IS-GPS-800J printed check columns".
+- **GLONASS, BeiDou and Galileo E6 bands in the spectrum model** (CAP-12, signals): new band
+  names `glonass-l1of` and `glonass-l2of` (any FDMA channel as `glonass-l1of-k<K>`,
+  K = −7 to 6), `beidou-b1i`, `beidou-b1c`, `beidou-b2a`, `beidou-b3i` and `galileo-e6`. Each
+  carries its ICD carrier, modulation and minimum received power. They are opt-in by name: the
+  default band set and every existing output are unchanged.
+  - Checked against bars pre-registered at 5806f28b: the ICD values, nulls, the B1C composite
+    and the C/N0 path are met.
+  - Two bars were not met. The unit-area bar was unattainable as written (F1). The IQ layer's
+    B1I and B1C waveforms match the model only band-averaged, because of their codes' uneven
+    line spectra (F2).
+  - MODELLED; ledger row "Spectrum model: GLONASS, BeiDou and Galileo E6 bands (opt-in)".
+- **Cell-averaging CFAR option in IQ acquisition** (PRO-37): `iq::acq::ca_cfar` and
+  `ca_cfar_cells` decide on an acquisition grid by comparing each cell with the mean of
+  reference cells in its Doppler row. The threshold comes from the closed-form CA-CFAR
+  false-alarm probability for `M` non-coherent blocks (`ca_cfar_pfa`, `ca_cfar_alpha`), so the
+  decision does not depend on the sample-power normalisation. It is opt-in; the default
+  detector and every existing output are unchanged.
+  - Checked against bars pre-registered at 3724aefa: the closed form against Monte Carlo
+    (18 of 18 cases), and a 1 % design rate measured at 0.97–1.01 % on Gaussian and 2-bit
+    quantised noise.
+  - One bar was not met: on a noise-free 2-bit signal, 1.28 % of the off-peak cells exceed the
+    threshold, at the code's correlation sidelobes (finding F1).
+  - MODELLED; ledger row "Cell-averaging CFAR option in IQ acquisition".
+- **Scintillation model against measured data** (PRO-34): the IQ channel's Cornell
+  scintillation model was compared with measured 50 Hz GPS L1 intensity and phase from an
+  equatorial scintillation night (Zenodo record 16941224, INGV, Malindi, CC BY 4.0), under bars
+  pre-registered at b6ccb499. Met: the intensity distribution and the phase scintillation tied
+  to S4. Not met: the model fades 2.4 times as often below −10 dB and 3.5 times as long
+  (finding F1). The registered processing reads the model's wrapped phase (finding F2); the
+  phase result holds with it unwrapped. `scripts/fetch_scint_malindi.sh` fetches the data.
+  The row stays MODELLED: "IQ ionospheric scintillation channel (Cornell model) against
+  measured 50 Hz GPS L1 scintillation".
+- **Corrected LuGRE sample reader** (MR-09): `realdata::lugre::parse_iqs_sdrx` reads a
+  LuGRE IQ batch with I in the high nibble and the mid-rise levels `2v + 1`
+  (`SdrLayout::mid_rise`), which remove the −½ mean the bare two's-complement integers carry
+  on I and Q. `run_acq.py --corrected` gives GNSS-SDR the same reading. The generic ION reader
+  and every existing output are unchanged: 149 scenario results and a study are byte-identical
+  before and after, and the pinned LuGRE findings read as registered
+  (`xval/lugre-reader/RESULTS.md`). No ledger row changes.
+- **Opt-in BOC(1,1) tracking** (CAP-07 (a)): `LoopConfig::boc` rescales the DLL
+  discriminators for the sine BOC(1,1) main peak and adds a bump-jump monitor (very-early and
+  very-late correlators at ±0.5 chip, up/down counters, `N = 8`) that moves the code NCO off a
+  side peak; `Channel::bump_jumps` lists the jumps. Off by default, and every existing output
+  is unchanged. Checked against bars pre-registered at 6b68f6cc on a synthetic BeiDou B1C
+  signal: a side-peak start that stays 0.55 chip off without the option is pulled onto the
+  main peak by one jump at 0.08 s with it, and no false jump was seen from the main peak. One
+  bar was not met: the unit-test grid for the scaling reaches outside the discriminators'
+  linear range (finding F1 in `docs/design/evidence/boc-bump-jump/RESULTS.md`). MODELLED;
+  ledger row "BOC(1,1) tracking: DLL scaling and bump-jump ambiguity resolution (opt-in)".
 - **Lab fit from IQ campaigns** (B7.1, [`docs/design/LABFIT-FROM-IQ.md`](docs/design/LABFIT-FROM-IQ.md)).
   A labfit scenario's `[input] campaign = "<out-dir>"` fits a `kshana iq campaign` output folder
   on the CLI (`kshana iq labfit`), in Python (`kshana.iq_labfit`) and in the MCP labfit tool
@@ -883,6 +1037,23 @@ breaking changes are called out explicitly.
 - **`ionex::parse_ionex` reads real IONEX files** (0.36, WP-07): a full 16-value record fills
   columns 61-80, which the reader took for a label, so it returned `None` on every real IONEX
   file. It now reads a record whose label field is numeric as values. No shipped output used it.
+- **Galileo E1 and E5a received powers to OS SIS ICD Issue 2.1** (revision, 2026-10-14). The
+  `galileo-e1` and `galileo-e5a` spectrum bands, and the LEO-signal GNSS victims that take
+  their power from them, now use the minimum received powers of Table 12 of the Galileo OS SIS
+  ICD Issue 2.1: −157.25 dBW (was −157.0) and −155.25 dBW (was −155.0).
+  - Nine scenario results move: the spectrum examples, the spectrum campaign, three
+    LEO-resilience verticals and three LEO signal designs. Effective C/N0 moves −0.25 dB and J/S
+    +0.25 dB on these bands.
+  - Every moved value (1766, old → new) is listed in
+    `docs/revisions/CAP12-galileo-icd21-power-changes.md` and its CSV, with the doc tables
+    that moved. No ledger row changes status.
+  - Second part, the same day: the LEO-signal victims `galileo-e5b` (−155.0 → −155.25 dBW,
+    Table 12 E5b) and `galileo-e5-altboc` (−152.0 → −152.24 dBW). The ICD has no full-band E5
+    row, so the AltBOC value is the power sum of the Table 12 E5a and E5b totals, built as the
+    old value was. Three LEO signal-design results move (64 values: these received powers and
+    the LEO-to-GNSS C/N0 degradation on the two victims), listed in the same revision (§5) and
+    CSV. Nothing else moves.
+
 - **S2 atmospheric tide fix** (`tides::atmospheric_tide`). Ray (2001)'s S2 air-pressure
   harmonics are coefficients of unnormalised `P_nm` with cosine phase lags; they were used as fully
   normalised with the lag as the IERS sine lead. They now enter divided by `N_nm` with
@@ -1014,6 +1185,10 @@ breaking changes are called out explicitly.
   12.6 → 12.05 m, reduced-dynamic 6.65 → 6.67 m (bars unchanged). The analytic stack now matches
   the ANISE DE-grade cross-validation (12.0 / 6.67 m) on both tiers; the earlier dynamic-tier
   gap was this error.
+- **The MCP server refuses `[terrain] dem_hgt`** (CAP-06b follow-up). The jamming kind's terrain
+  tile path is now in `inline_only::FILE_SOURCE_KEYS`. An inline surface refuses a scenario that
+  names one, with a message that carries neither the path nor an operating-system error. The
+  file-source guard test now also flags fields ending in `_hgt`.
 
 - `Jd2::from_parts` with a fractional day part dropped the fraction in the UTC, TAI, UT1 and
   Earth-rotation conversions (one hour of day part turned the Earth 15° wrong); the day part is
