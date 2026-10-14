@@ -27,10 +27,15 @@ pub const FILE_SOURCE_KEYS: &[&str] = &[
 ];
 
 /// Fields that name a file only for one scenario kind (elsewhere they carry the body inline).
-pub const FILE_SOURCE_KEYS_BY_KIND: &[(&str, &[&str])] = &[(
-    "realtime-frame-eop",
-    &["eop_finals2000a", "eop_finals2000a_later"],
-)];
+pub const FILE_SOURCE_KEYS_BY_KIND: &[(&str, &[&str])] = &[
+    (
+        "realtime-frame-eop",
+        &["eop_finals2000a", "eop_finals2000a_later"],
+    ),
+    // `[[series]] paths`: the Circular T, MJD,ns CSV or RINEX clock files whose stability the
+    // kind reports.
+    ("time-transfer-budget", &["paths"]),
+];
 
 /// Scenario kinds that read their data from files on the host even when the scenario names none
 /// (they fall back to a default data directory). They are refused outright on an inline surface,
@@ -126,6 +131,10 @@ mod tests {
                 .contains("path")
         );
         assert!(refused("[log.nav]\npath = \"x\"").contains("path"));
+        assert!(refused(
+            "kind = \"time-transfer-budget\"\n[[series]]\nformat = \"mjd-csv\"\npaths = [\"x.csv\"]"
+        )
+        .contains("paths"));
         assert!(refused(
             "kind = \"telecom-timing\"\n[clock_log]\nformat = \"ticc\"\npath = \"x.txt\""
         )
