@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aem id="CCSDS_AEM_VERS" version="2.0">
+  <header>
+    <CREATION_DATE>2026-10-13T00:00:00.000</CREATION_DATE>
+    <ORIGINATOR>KSHANA XVAL</ORIGINATOR>
+  </header>
+
+  <body>
+    <segment>
+      <metadata>
+        <OBJECT_NAME>XVAL SAT</OBJECT_NAME>
+        <OBJECT_ID>2026-999A</OBJECT_ID>
+        <CENTER_NAME>EARTH</CENTER_NAME>
+        <REF_FRAME_A>SC_BODY_1</REF_FRAME_A>
+        <REF_FRAME_B>EME2000</REF_FRAME_B>
+        <TIME_SYSTEM>TAI</TIME_SYSTEM>
+        <START_TIME>2026-03-01T00:01:00.000</START_TIME>
+        <STOP_TIME>2026-03-01T00:01:40.000</STOP_TIME>
+        <ATTITUDE_TYPE>QUATERNION/DERIVATIVE</ATTITUDE_TYPE>
+      </metadata>
+      <data>
+        <attitudeState>
+          <quaternionDerivative>
+            <EPOCH>2026-03-01T00:01:00.000</EPOCH>
+            <quaternion>
+              <Q1>-0.3550612713940865</Q1>
+              <Q2>-0.549190763442287</Q2>
+              <Q3>-0.5516910900440594</Q3>
+              <QC>0.5176465397080237</QC>
+            </quaternion>
+            <quaternionDot>
+              <Q1_DOT units="1/s">0.002799615696311005</Q1_DOT>
+              <Q2_DOT units="1/s">-1.7332320055712543E-4</Q2_DOT>
+              <Q3_DOT units="1/s">-0.0022545891539990253</Q3_DOT>
+              <QC_DOT units="1/s">-6.664569620324858E-4</QC_DOT>
+            </quaternionDot>
+          </quaternionDerivative>
+        </attitudeState>
+        <attitudeState>
+          <quaternionDerivative>
+            <EPOCH>2026-03-01T00:01:10.000</EPOCH>
+            <quaternion>
+              <Q1>-0.3223278510438312</Q1>
+              <Q2>0.8724986167197981</Q2>
+              <Q3>0.10242674756774932</Q3>
+              <QC>0.35264668103669644</QC>
+            </quaternion>
+            <quaternionDot>
+              <Q1_DOT units="1/s">-4.8034888150252957E-4</Q1_DOT>
+              <Q2_DOT units="1/s">0.0012823958907378136</Q2_DOT>
+              <Q3_DOT units="1/s">-3.7898615002795934E-4</Q3_DOT>
+              <QC_DOT units="1/s">-0.0035018056631952905</QC_DOT>
+            </quaternionDot>
+          </quaternionDerivative>
+        </attitudeState>
+        <attitudeState>
+          <quaternionDerivative>
+            <EPOCH>2026-03-01T00:01:20.000</EPOCH>
+            <quaternion>
+              <Q1>0.5308592419768247</Q1>
+              <Q2>-0.49010763304686683</Q2>
+              <Q3>0.02227823560762895</Q3>
+              <QC>0.6910040907658941</QC>
+            </quaternion>
+            <quaternionDot>
+              <Q1_DOT units="1/s">0.0019328353947350664</Q1_DOT>
+              <Q2_DOT units="1/s">-0.0015597919076615562</Q2_DOT>
+              <Q3_DOT units="1/s">-3.77416895284933E-4</Q3_DOT>
+              <QC_DOT units="1/s">-0.0025790314322654355</QC_DOT>
+            </quaternionDot>
+          </quaternionDerivative>
+        </attitudeState>
+        <attitudeState>
+          <quaternionDerivative>
+            <EPOCH>2026-03-01T00:01:30.000</EPOCH>
+            <quaternion>
+              <Q1>0.3131342396484985</Q1>
+              <Q2>-0.3405044743774024</Q2>
+              <Q3>-0.05097055456156763</Q3>
+              <QC>0.8851020582149904</QC>
+            </quaternion>
+            <quaternionDot>
+              <Q1_DOT units="1/s">0.003868218547348376</Q1_DOT>
+              <Q2_DOT units="1/s">0.0016545513221494525</Q2_DOT>
+              <Q3_DOT units="1/s">-2.7818969397524644E-4</Q3_DOT>
+              <QC_DOT units="1/s">-7.480143359395881E-4</QC_DOT>
+            </quaternionDot>
+          </quaternionDerivative>
+        </attitudeState>
+        <attitudeState>
+          <quaternionDerivative>
+            <EPOCH>2026-03-01T00:01:40.000</EPOCH>
+            <quaternion>
+              <Q1>-0.3013088891712634</Q1>
+              <Q2>0.7644850377426445</Q2>
+              <Q3>0.1841396006095641</Q3>
+              <QC>0.539321970497547</QC>
+            </quaternion>
+            <quaternionDot>
+              <Q1_DOT units="1/s">5.822074002287764E-4</Q1_DOT>
+              <Q2_DOT units="1/s">8.750777279382748E-4</Q2_DOT>
+              <Q3_DOT units="1/s">3.112871730010805E-4</Q3_DOT>
+              <QC_DOT units="1/s">-0.001021430408339396</QC_DOT>
+            </quaternionDot>
+          </quaternionDerivative>
+        </attitudeState>
+      </data>
+    </segment>
+  </body>
+</aem>
