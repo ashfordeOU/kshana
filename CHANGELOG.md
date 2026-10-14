@@ -42,6 +42,17 @@ breaking changes are called out explicitly.
   on small sets, with the greedy's optimality gap. Access windows come from the VALIDATED
   apparent pass predictor. New bundled scenarios `acm-link` and `contact-schedule` (illustrative
   inputs) and `docs/CONTACT-SCHEDULING.md`. MODELLED (two new ledger rows).
+- **Impulsive transfer optimiser on DE440** (0.36, WP-14, CAP-20c/d): `maneuver::optimise_transfer_kernel`
+  finds the departure and arrival dates of a single-revolution ballistic two-impulse transfer that
+  minimise departure C3 or arrival V-infinity within Type I or Type II. It searches a 2-day grid,
+  then refines with 2-D Nelder-Mead, on heliocentric states from the DE440 kernel; it builds on
+  `porkchop_kernel`. The comparison was pre-registered (bf0439e8) against an independent SPICE +
+  pykep 3.0.1 + SciPy 1.18.1 optimiser on the 2026 Earth-to-Mars opportunity: all four
+  optimisations agree to 8.7e-13 relative, with dates within 1e-5 day (VALIDATED, new ledger row).
+  As a secondary published reference, NASA/TM-2010-216764 (the 2026-2045 Earth-to-Mars handbook)
+  is matched for the Type II minimum C3 (9.182 vs 9.144) and the Type II minimum arrival V-infinity
+  (2.564 vs 2.565). Its Type I minimum C3 is not matched: 10.535 vs 11.11 (-5.18 %), where the
+  library oracle agrees with Kshana. That miss is recorded and asserted.
 - **Multi-revolution Lambert** (`maneuver::lambert_multirev`): every solution with up to three
   revolutions, both branches. New ledger row, VALIDATED against pykep 3.0.1 (pre-registered
   a75de851; 382 cases, 1058 solutions, worst velocity difference 1.6e-13 against 1e-8). The
