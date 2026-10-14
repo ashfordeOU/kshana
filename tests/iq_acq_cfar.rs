@@ -209,25 +209,30 @@ fn c4_run() -> (bool, f64, f64, usize, usize, f64) {
     )
 }
 
-/// C4: a noise-free 2-bit GPS L1 C/A signal.
+/// C4: a noise-free 2-bit GPS L1 C/A signal. The bar is kept as registered and its verdict is
+/// asserted as recorded (finding F1, run 2026-10-13): detection, Doppler bin (+1000 Hz, one of
+/// the two bins nearest +1250) and code phase met; the off-peak rate NOT MET (32 of 2495 cells,
+/// 1.28 %, against 1 %), at the C/A code's deterministic correlation sidelobes. The numbers are
+/// pinned by `finding_noise_free_sidelobes_exceed_the_cfar_rate`.
 #[test]
-#[ignore = "FINDING F1 (run 2026-10-13): detection, Doppler bin (+1000 Hz, one of the two bins nearest +1250) and code phase (0.103 chip, bar 0.409) met; NOT MET: 32 of 2495 off-peak cells of the peak's row (1.28 %, bar 1 %) exceed the CFAR threshold. They sit in short runs at fixed lags (±357, ±408, ±914, ±1099 samples): the C/A code's deterministic correlation sidelobes, which a noise-free input leaves standing against a floor of other sidelobes, not the exponential cells the closed form assumes. Pinned by finding_noise_free_sidelobes_exceed_the_cfar_rate"]
-fn c4_noise_free_two_bit_signal() {
+fn c4_noise_free_two_bit_signal_verdict_is_the_recorded_one() {
     let (detected, doppler_hz, dphase, above, tested, chips_per_sample) = c4_run();
-    let mut fails = Vec::new();
-    if !detected {
-        fails.push("not detected".to_string());
-    }
-    if (doppler_hz - 1250.0).abs() > 250.0 + 1e-9 {
-        fails.push(format!("bin {doppler_hz} Hz"));
-    }
-    if dphase > chips_per_sample {
-        fails.push(format!("code phase error {dphase:.3} chip"));
-    }
-    if above as f64 > 1e-2 * tested as f64 {
-        fails.push(format!("{above} of {tested} off-peak cells above"));
-    }
-    assert!(fails.is_empty(), "C4 missed: {fails:?}");
+    let verdict = [
+        ("detected", detected),
+        ("bin", (doppler_hz - 1250.0).abs() <= 250.0 + 1e-9),
+        ("code phase", dphase <= chips_per_sample),
+        ("off-peak rate", above as f64 <= 1e-2 * tested as f64),
+    ];
+    assert_eq!(
+        verdict,
+        [
+            ("detected", true),
+            ("bin", true),
+            ("code phase", true),
+            ("off-peak rate", false)
+        ],
+        "the registered C4 verdict moved"
+    );
 }
 
 /// Pins finding F1.

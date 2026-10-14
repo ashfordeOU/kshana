@@ -3,7 +3,7 @@
 Pre-registration: `PREREGISTRATION.md` (committed at `3724aefa`, before the code existed). The
 bars were not changed.
 
-Reproduce with `cargo test --release --test iq_acq_cfar -- --include-ignored --nocapture`.
+Reproduce with `cargo test --release --test iq_acq_cfar -- --nocapture`.
 
 Two choices the pre-registration left open were fixed before the first run and are stated in
 the test header:
@@ -72,7 +72,8 @@ noise-dominated cells (C2, C3), not for a noise-free signal's sidelobe structure
 For context, reported and not graded: the σ²-normalised detector's statistic is 3102.4 against
 its threshold of 35.6, with 4 cells of that row above it.
 
-Nothing was tuned. The registered C4 test is kept and ignored with this finding;
+Nothing was tuned. `c4_noise_free_two_bit_signal_verdict_is_the_recorded_one` keeps the registered
+C4 bar and asserts its recorded verdict;
 `finding_noise_free_sidelobes_exceed_the_cfar_rate` pins the numbers.
 
 ## Not covered
