@@ -270,127 +270,134 @@ stale.
 <!-- interop-table:start -->
 | Scenario | Kind | CZML | KML | GeoJSON | STK `.e` | SigMF |
 |---|---|---|---|---|---|---|
-| `aperture-duty-cycle.toml` | `aperture-duty-cycle` | no [1] | no [1] | no [1] | no [1] | no [2] |
+| `acm-link.toml` | `acm-link` | no [1] | no [1] | no [1] | no [1] | no [2] |
+| `aocs-slew-mekf.toml` | `aocs` | no [3] | no [3] | no [3] | no [3] | no [2] |
+| `aocs-slew.toml` | `aocs` | no [3] | no [3] | no [3] | no [3] | no [2] |
+| `aperture-duty-cycle.toml` | `aperture-duty-cycle` | no [4] | no [4] | no [4] | no [4] | no [2] |
 | `araim-gps-galileo.toml` | `integrity` | yes | yes | yes | yes | no [2] |
-| `araim-reference-check.toml` | `araim-reference-check` | no [1] | no [1] | no [1] | no [1] | no [2] |
-| `attitude-budget.toml` | `attitude-budget` | no [1] | no [1] | no [1] | no [1] | no [2] |
-| `automotive-urban-canyon.toml` | `gnss-ins` | yes | yes | yes | no [3] | no [2] |
-| `campaign-jam-spoof-holdover-integrity.toml` | `campaign` | yes | yes | yes | yes | no [4] |
-| `campaign-monte-carlo-clock-holdover.toml` | `campaign` | no [4] | no [4] | no [4] | no [4] | no [4] |
-| `campaign-optimize-link-budget.toml` | `campaign` | no [4] | no [4] | no [4] | no [4] | no [4] |
-| `campaign-shared-jammer-sea-road.toml` | `campaign` | yes | yes | yes | yes | no [4] |
-| `campaign-spectrum-holdover-integrity.toml` | `campaign` | yes | yes | yes | yes | no [4] |
-| `campaign-sweep-jammer-power.toml` | `campaign` | yes | yes | yes | yes | no [4] |
-| `celeste-iod-classical-pilot-signals.toml` | `leo-signal` | no [5] | no [5] | no [5] | no [5] | no [2] |
+| `araim-reference-check.toml` | `araim-reference-check` | no [4] | no [4] | no [4] | no [4] | no [2] |
+| `ascent-losses.toml` | `ascent-losses` | no [5] | no [5] | no [5] | no [5] | no [2] |
+| `attitude-budget.toml` | `attitude-budget` | no [4] | no [4] | no [4] | no [4] | no [2] |
+| `automotive-urban-canyon.toml` | `gnss-ins` | yes | yes | yes | no [6] | no [2] |
+| `campaign-jam-spoof-holdover-integrity.toml` | `campaign` | yes | yes | yes | yes | no [7] |
+| `campaign-monte-carlo-clock-holdover.toml` | `campaign` | no [7] | no [7] | no [7] | no [7] | no [7] |
+| `campaign-optimize-link-budget.toml` | `campaign` | no [7] | no [7] | no [7] | no [7] | no [7] |
+| `campaign-shared-jammer-sea-road.toml` | `campaign` | yes | yes | yes | yes | no [7] |
+| `campaign-spectrum-holdover-integrity.toml` | `campaign` | yes | yes | yes | yes | no [7] |
+| `campaign-sweep-jammer-power.toml` | `campaign` | yes | yes | yes | yes | no [7] |
+| `celeste-iod-classical-pilot-signals.toml` | `leo-signal` | no [8] | no [8] | no [8] | no [8] | no [2] |
 | `celeste-iod-end-to-end.toml` | `leo-pnt-chain` | yes | yes | yes | yes | no [2] |
-| `celeste-iod-fused-pvt.toml` | `leo-pvt` | no [6] | no [6] | no [6] | no [6] | no [2] |
-| `cislunar-arc-recovery.toml` | `cislunar-arc-recovery` | no [7] | no [7] | no [7] | no [7] | no [2] |
-| `cislunar-observability.toml` | `cislunar-observability` | no [7] | no [7] | no [7] | no [7] | no [2] |
-| `clock-ensemble.toml` | `clock` | no [1] | no [1] | no [1] | no [1] | no [2] |
-| `clock-holdover-labsr.toml` | `clock` | no [1] | no [1] | no [1] | no [1] | no [2] |
-| `clock-holdover.toml` | `clock` | no [1] | no [1] | no [1] | no [1] | no [2] |
-| `combined-altpnt.toml` | `combined-altpnt` | yes | yes | yes | no [3] | no [2] |
-| `conflict-resilience.toml` | `conflict-resilience` | no [1] | no [1] | no [1] | no [1] | no [2] |
-| `constellation-multi-gnss-coverage.toml` | `constellation-design` | no [8] | no [8] | no [8] | no [8] | no [2] |
-| `earth-gnss-lunar.toml` | `earth-gnss-lunar` | no [9] | no [9] | no [9] | no [9] | no [2] |
-| `eo-coverage.toml` | `eo-coverage` | no [1] | no [1] | no [1] | no [1] | no [2] |
+| `celeste-iod-fused-pvt.toml` | `leo-pvt` | no [9] | no [9] | no [9] | no [9] | no [2] |
+| `cislunar-arc-recovery.toml` | `cislunar-arc-recovery` | no [10] | no [10] | no [10] | no [10] | no [2] |
+| `cislunar-observability.toml` | `cislunar-observability` | no [10] | no [10] | no [10] | no [10] | no [2] |
+| `clock-ensemble.toml` | `clock` | no [4] | no [4] | no [4] | no [4] | no [2] |
+| `clock-holdover-labsr.toml` | `clock` | no [4] | no [4] | no [4] | no [4] | no [2] |
+| `clock-holdover.toml` | `clock` | no [4] | no [4] | no [4] | no [4] | no [2] |
+| `combined-altpnt.toml` | `combined-altpnt` | yes | yes | yes | no [6] | no [2] |
+| `conflict-resilience.toml` | `conflict-resilience` | no [4] | no [4] | no [4] | no [4] | no [2] |
+| `constellation-multi-gnss-coverage.toml` | `constellation-design` | no [11] | no [11] | no [11] | no [11] | no [2] |
+| `contact-schedule.toml` | `contact-schedule` | no [1] | no [1] | no [1] | no [1] | no [2] |
+| `earth-gnss-lunar.toml` | `earth-gnss-lunar` | no [12] | no [12] | no [12] | no [12] | no [2] |
+| `entry-heating-stardust.toml` | `entry-heating` | no [13] | no [13] | no [13] | no [13] | no [2] |
+| `eo-coverage.toml` | `eo-coverage` | no [4] | no [4] | no [4] | no [4] | no [2] |
+| `eo-radiometry.toml` | `eo-radiometry` | no [5] | no [5] | no [5] | no [5] | no [2] |
 | `ephemeris.toml` | `ephemeris` | yes | yes | yes | yes | no [2] |
-| `europa-surface-pnt.toml` | `body-pnt` | no [7] | no [7] | no [7] | no [7] | no [2] |
-| `fusion-pnt-coupled.toml` | `fusion` | no [1] | no [1] | no [1] | no [1] | no [2] |
-| `fusion-pnt.toml` | `fusion` | no [1] | no [1] | no [1] | no [1] | no [2] |
-| `gnss-ins-aviation.toml` | `gnss-ins` | yes | yes | yes | no [3] | no [2] |
-| `gnss-ins-maritime.toml` | `gnss-ins` | yes | yes | yes | no [3] | no [2] |
-| `gnss-ins-rail.toml` | `gnss-ins` | yes | yes | yes | no [3] | no [2] |
-| `gnss-ins.toml` | `gnss-ins` | yes | yes | yes | no [3] | no [2] |
+| `europa-surface-pnt.toml` | `body-pnt` | no [10] | no [10] | no [10] | no [10] | no [2] |
+| `fusion-pnt-coupled.toml` | `fusion` | no [4] | no [4] | no [4] | no [4] | no [2] |
+| `fusion-pnt.toml` | `fusion` | no [4] | no [4] | no [4] | no [4] | no [2] |
+| `gnss-ins-aviation.toml` | `gnss-ins` | yes | yes | yes | no [6] | no [2] |
+| `gnss-ins-maritime.toml` | `gnss-ins` | yes | yes | yes | no [6] | no [2] |
+| `gnss-ins-rail.toml` | `gnss-ins` | yes | yes | yes | no [6] | no [2] |
+| `gnss-ins.toml` | `gnss-ins` | yes | yes | yes | no [6] | no [2] |
 | `gnss-sim-container-terminal-skyline.toml` | `gnss-sim` | yes | yes | yes | yes | no [2] |
 | `gnss-sim-raim.toml` | `gnss-sim` | yes | yes | yes | yes | no [2] |
-| `gps-denied-gravity-nav-egm2008.toml` | `gravity-map` | yes | yes | yes | no [3] | no [2] |
-| `gps-denied-gravity-nav.toml` | `gravity-map` | yes | yes | yes | no [3] | no [2] |
-| `gravity-map-error-mc.toml` | `gravity-map` | yes | yes | yes | no [3] | no [2] |
-| `gravity-map-nav.toml` | `gravity-map` | yes | yes | yes | no [3] | no [2] |
-| `hybrid-optical-rf.toml` | `hybrid-optical-rf` | no [1] | no [1] | no [1] | no [1] | no [2] |
-| `hybrid-pnt.toml` | `hybrid` | no [1] | no [1] | no [1] | no [1] | no [2] |
-| `hybrid-ukf.toml` | `hybrid-ukf` | no [1] | no [1] | no [1] | no [1] | no [2] |
-| `impairment-eval.toml` | `impairment-eval` | no [1] | no [1] | no [1] | no [1] | no [2] |
-| `imu-deadreckoning.toml` | `inertial` | no [1] | no [1] | no [1] | no [1] | no [2] |
-| `ins-trn-coast.toml` | `ins-trn-coast` | no [1] | no [1] | no [1] | no [1] | no [2] |
+| `gps-denied-gravity-nav-egm2008.toml` | `gravity-map` | yes | yes | yes | no [6] | no [2] |
+| `gps-denied-gravity-nav.toml` | `gravity-map` | yes | yes | yes | no [6] | no [2] |
+| `gravity-map-error-mc.toml` | `gravity-map` | yes | yes | yes | no [6] | no [2] |
+| `gravity-map-nav.toml` | `gravity-map` | yes | yes | yes | no [6] | no [2] |
+| `hybrid-optical-rf.toml` | `hybrid-optical-rf` | no [4] | no [4] | no [4] | no [4] | no [2] |
+| `hybrid-pnt.toml` | `hybrid` | no [4] | no [4] | no [4] | no [4] | no [2] |
+| `hybrid-ukf.toml` | `hybrid-ukf` | no [4] | no [4] | no [4] | no [4] | no [2] |
+| `impairment-eval.toml` | `impairment-eval` | no [4] | no [4] | no [4] | no [4] | no [2] |
+| `imu-deadreckoning.toml` | `inertial` | no [4] | no [4] | no [4] | no [4] | no [2] |
+| `ins-trn-coast.toml` | `ins-trn-coast` | no [4] | no [4] | no [4] | no [4] | no [2] |
 | `integrity-harbour-approach.toml` | `integrity` | yes | yes | yes | yes | no [2] |
 | `integrity-raim.toml` | `integrity` | yes | yes | yes | yes | no [2] |
 | `jamming-demo.toml` | `jamming` | yes | yes | yes | yes | no [2] |
 | `jamming-harbour-approach-skyline.toml` | `jamming` | yes | yes | yes | yes | no [2] |
-| `l-band-waterfall-jamming.toml` | `spectrum` | no [1] | no [1] | no [1] | no [1] | yes |
-| `launch-window.toml` | `launch-window` | no [10] | no [10] | no [10] | no [10] | no [2] |
-| `leo-band-trade.toml` | `leo-signal` | no [5] | no [5] | no [5] | no [5] | no [2] |
-| `leo-doppler-positioning.toml` | `leo-pvt` | no [6] | no [6] | no [6] | no [6] | no [2] |
-| `leo-focus-data-services.toml` | `campaign` | no [4] | no [4] | no [4] | no [4] | no [4] |
-| `leo-focus-fused-pnt-sisre.toml` | `campaign` | no [4] | no [4] | no [4] | no [4] | no [4] |
-| `leo-focus-indoor-uhf.toml` | `campaign` | yes | yes | yes | yes | no [4] |
-| `leo-focus-iot-eirp.toml` | `campaign` | yes | yes | yes | yes | no [4] |
-| `leo-focus-ntn-bandwidth.toml` | `campaign` | no [4] | no [4] | no [4] | no [4] | no [4] |
-| `leo-focus-ppp-altitude.toml` | `campaign` | no [4] | no [4] | no [4] | no [4] | no [4] |
+| `l-band-waterfall-jamming.toml` | `spectrum` | no [4] | no [4] | no [4] | no [4] | yes |
+| `launch-window.toml` | `launch-window` | no [14] | no [14] | no [14] | no [14] | no [2] |
+| `leo-band-trade.toml` | `leo-signal` | no [8] | no [8] | no [8] | no [8] | no [2] |
+| `leo-doppler-positioning.toml` | `leo-pvt` | no [9] | no [9] | no [9] | no [9] | no [2] |
+| `leo-focus-data-services.toml` | `campaign` | no [7] | no [7] | no [7] | no [7] | no [7] |
+| `leo-focus-fused-pnt-sisre.toml` | `campaign` | no [7] | no [7] | no [7] | no [7] | no [7] |
+| `leo-focus-indoor-uhf.toml` | `campaign` | yes | yes | yes | yes | no [7] |
+| `leo-focus-iot-eirp.toml` | `campaign` | yes | yes | yes | yes | no [7] |
+| `leo-focus-ntn-bandwidth.toml` | `campaign` | no [7] | no [7] | no [7] | no [7] | no [7] |
+| `leo-focus-ppp-altitude.toml` | `campaign` | no [7] | no [7] | no [7] | no [7] | no [7] |
 | `leo-focus-science-iono-sounding.toml` | `leo-pass` | yes | yes | yes | yes | no [2] |
 | `leo-indoor-uhf.toml` | `leo-pass` | yes | yes | yes | yes | no [2] |
 | `leo-iot-energy.toml` | `leo-pass` | yes | yes | yes | yes | no [2] |
-| `leo-navmsg-celeste-iod.toml` | `leo-navmsg` | no [11] | no [11] | no [11] | no [11] | no [2] |
-| `leo-navmsg-encode-decode.toml` | `leo-navmsg` | no [11] | no [11] | no [11] | no [11] | no [2] |
-| `leo-navmsg-fit-interval-trade.toml` | `leo-navmsg` | no [11] | no [11] | no [11] | no [11] | no [2] |
-| `leo-navmsg-midpass-update.toml` | `leo-navmsg` | no [11] | no [11] | no [11] | no [11] | no [2] |
-| `leo-navmsg-model-comparison.toml` | `leo-navmsg` | no [11] | no [11] | no [11] | no [11] | no [2] |
+| `leo-navmsg-celeste-iod.toml` | `leo-navmsg` | no [15] | no [15] | no [15] | no [15] | no [2] |
+| `leo-navmsg-encode-decode.toml` | `leo-navmsg` | no [15] | no [15] | no [15] | no [15] | no [2] |
+| `leo-navmsg-fit-interval-trade.toml` | `leo-navmsg` | no [15] | no [15] | no [15] | no [15] | no [2] |
+| `leo-navmsg-midpass-update.toml` | `leo-navmsg` | no [15] | no [15] | no [15] | no [15] | no [2] |
+| `leo-navmsg-model-comparison.toml` | `leo-navmsg` | no [15] | no [15] | no [15] | no [15] | no [2] |
 | `leo-pass-celeste-iod-multiband.toml` | `leo-pass` | yes | yes | yes | yes | no [2] |
 | `leo-pass-iridium.toml` | `leo-pass` | yes | yes | yes | yes | no [2] |
 | `leo-pass-vs-gnss-cn0.toml` | `leo-pass` | yes | yes | yes | yes | no [2] |
 | `leo-pass-xona-pulsar.toml` | `leo-pass` | yes | yes | yes | yes | no [2] |
 | `leo-pnt-end-to-end.toml` | `leo-pnt-chain` | yes | yes | yes | yes | no [2] |
-| `leo-pnt-mega-shell.toml` | `constellation-design` | no [8] | no [8] | no [8] | no [8] | no [2] |
-| `leo-ppp-convergence.toml` | `leo-ppp` | no [6] | no [6] | no [6] | no [6] | no [2] |
-| `leo-pvt-fjord-skyline.toml` | `leo-pvt` | no [6] | no [6] | no [6] | no [6] | no [2] |
-| `leo-resilience-gnss-jammed-leo-carries.toml` | `campaign` | yes | yes | yes | yes | no [4] |
-| `leo-resilience-js-margin.toml` | `spectrum` | no [1] | no [1] | no [1] | no [1] | no [12] |
-| `leo-resilience-multiband-diversity.toml` | `campaign` | no [4] | no [4] | no [4] | no [4] | no [4] |
+| `leo-pnt-mega-shell.toml` | `constellation-design` | no [11] | no [11] | no [11] | no [11] | no [2] |
+| `leo-ppp-convergence.toml` | `leo-ppp` | no [9] | no [9] | no [9] | no [9] | no [2] |
+| `leo-pvt-fjord-skyline.toml` | `leo-pvt` | no [9] | no [9] | no [9] | no [9] | no [2] |
+| `leo-resilience-gnss-jammed-leo-carries.toml` | `campaign` | yes | yes | yes | yes | no [7] |
+| `leo-resilience-js-margin.toml` | `spectrum` | no [4] | no [4] | no [4] | no [4] | no [16] |
+| `leo-resilience-multiband-diversity.toml` | `campaign` | no [7] | no [7] | no [7] | no [7] | no [7] |
 | `leo-resilience-spoof-doppler.toml` | `leo-pass` | yes | yes | yes | yes | no [2] |
-| `leo-resilience-spoof-monitors.toml` | `campaign` | yes | yes | yes | yes | no [4] |
-| `leo-timing-utc.toml` | `leo-pvt` | no [6] | no [6] | no [6] | no [6] | no [2] |
-| `leo-vertical-5g-network-timing.toml` | `campaign` | yes | yes | yes | yes | no [4] |
-| `leo-vertical-asset-tracking-iot.toml` | `campaign` | yes | yes | yes | yes | no [4] |
-| `leo-vertical-autonomous-vehicle-skyline.toml` | `campaign` | yes | yes | yes | yes | no [4] |
-| `leo-vertical-autonomous-vehicle.toml` | `campaign` | yes | yes | yes | yes | no [4] |
-| `leo-vertical-critical-infrastructure-timing.toml` | `campaign` | yes | yes | yes | yes | no [4] |
-| `leo-vertical-polar-arctic.toml` | `campaign` | yes | yes | yes | yes | no [4] |
-| `leo-vertical-rail-maritime.toml` | `campaign` | yes | yes | yes | yes | no [4] |
-| `link-budget.toml` | `link-budget` | no [1] | no [1] | no [1] | no [1] | no [2] |
-| `lunanet-araim.toml` | `lunar-integrity` | no [7] | no [7] | no [7] | no [7] | no [2] |
-| `lunar-attack-surface.toml` | `lunar-attack-surface` | no [7] | no [7] | no [7] | no [7] | no [2] |
-| `lunar-beacon.toml` | `lunar-beacon` | no [7] | no [7] | no [7] | no [7] | no [2] |
-| `lunar-differential-pnt.toml` | `lunar-differential-pnt` | no [7] | no [7] | no [7] | no [7] | no [2] |
-| `lunar-frame-campaign.toml` | `lunar-frame-campaign` | no [7] | no [7] | no [7] | no [7] | no [2] |
-| `lunar-frame-realisation.toml` | `lunar-frame-realisation` | no [7] | no [7] | no [7] | no [7] | no [2] |
-| `lunar-interop-export.toml` | `lunar-interop-export` | no [7] | no [7] | no [7] | no [7] | no [2] |
-| `lunar-jamming.toml` | `lunar-jamming` | no [7] | no [7] | no [7] | no [7] | no [2] |
-| `lunar-joint-od-clock.toml` | `lunar-joint-od-clock` | no [7] | no [7] | no [7] | no [7] | no [2] |
-| `lunar-llr-datum.toml` | `lunar-llr-datum` | no [7] | no [7] | no [7] | no [7] | no [2] |
-| `lunar-relay-constellation.toml` | `constellation-design` | no [8] | no [8] | no [8] | no [8] | no [2] |
-| `lunar-station-coverage-public-sources.toml` | `lunar-station-coverage` | no [7] | no [7] | no [7] | no [7] | no [2] |
-| `lunar-station-coverage-terrain.toml` | `lunar-station-coverage` | no [7] | no [7] | no [7] | no [7] | no [2] |
-| `lunar-station-coverage.toml` | `lunar-station-coverage` | no [7] | no [7] | no [7] | no [7] | no [2] |
-| `lunar-station-geodesy-baseline.toml` | `lunar-llr-datum` | no [7] | no [7] | no [7] | no [7] | no [2] |
-| `lunar-station-geodesy-with-station.toml` | `lunar-llr-datum` | no [7] | no [7] | no [7] | no [7] | no [2] |
-| `lunar-station-time-lab.toml` | `lunar-time-budget` | no [7] | no [7] | no [7] | no [7] | no [2] |
-| `lunar-time-budget.toml` | `lunar-time-budget` | no [7] | no [7] | no [7] | no [7] | no [2] |
-| `lunar-time-offset.toml` | `lunar-time-offset` | no [7] | no [7] | no [7] | no [7] | no [2] |
-| `lunar-vlbi-fim.toml` | `lunar-vlbi-fim` | no [7] | no [7] | no [7] | no [7] | no [2] |
-| `lunar-vlbi.toml` | `lunar-vlbi` | no [7] | no [7] | no [7] | no [7] | no [2] |
-| `maritime-port-approach-coast.toml` | `ins-trn-coast` | no [1] | no [1] | no [1] | no [1] | no [2] |
-| `maritime-spoof-position-push.toml` | `spoof-detect` | no [1] | no [1] | no [1] | no [1] | no [2] |
+| `leo-resilience-spoof-monitors.toml` | `campaign` | yes | yes | yes | yes | no [7] |
+| `leo-timing-utc.toml` | `leo-pvt` | no [9] | no [9] | no [9] | no [9] | no [2] |
+| `leo-vertical-5g-network-timing.toml` | `campaign` | yes | yes | yes | yes | no [7] |
+| `leo-vertical-asset-tracking-iot.toml` | `campaign` | yes | yes | yes | yes | no [7] |
+| `leo-vertical-autonomous-vehicle-skyline.toml` | `campaign` | yes | yes | yes | yes | no [7] |
+| `leo-vertical-autonomous-vehicle.toml` | `campaign` | yes | yes | yes | yes | no [7] |
+| `leo-vertical-critical-infrastructure-timing.toml` | `campaign` | yes | yes | yes | yes | no [7] |
+| `leo-vertical-polar-arctic.toml` | `campaign` | yes | yes | yes | yes | no [7] |
+| `leo-vertical-rail-maritime.toml` | `campaign` | yes | yes | yes | yes | no [7] |
+| `link-budget.toml` | `link-budget` | no [4] | no [4] | no [4] | no [4] | no [2] |
+| `lunanet-araim.toml` | `lunar-integrity` | no [10] | no [10] | no [10] | no [10] | no [2] |
+| `lunar-attack-surface.toml` | `lunar-attack-surface` | no [10] | no [10] | no [10] | no [10] | no [2] |
+| `lunar-beacon.toml` | `lunar-beacon` | no [10] | no [10] | no [10] | no [10] | no [2] |
+| `lunar-differential-pnt.toml` | `lunar-differential-pnt` | no [10] | no [10] | no [10] | no [10] | no [2] |
+| `lunar-frame-campaign.toml` | `lunar-frame-campaign` | no [10] | no [10] | no [10] | no [10] | no [2] |
+| `lunar-frame-realisation.toml` | `lunar-frame-realisation` | no [10] | no [10] | no [10] | no [10] | no [2] |
+| `lunar-interop-export.toml` | `lunar-interop-export` | no [10] | no [10] | no [10] | no [10] | no [2] |
+| `lunar-jamming.toml` | `lunar-jamming` | no [10] | no [10] | no [10] | no [10] | no [2] |
+| `lunar-joint-od-clock.toml` | `lunar-joint-od-clock` | no [10] | no [10] | no [10] | no [10] | no [2] |
+| `lunar-llr-datum.toml` | `lunar-llr-datum` | no [10] | no [10] | no [10] | no [10] | no [2] |
+| `lunar-relay-constellation.toml` | `constellation-design` | no [11] | no [11] | no [11] | no [11] | no [2] |
+| `lunar-station-coverage-public-sources.toml` | `lunar-station-coverage` | no [10] | no [10] | no [10] | no [10] | no [2] |
+| `lunar-station-coverage-terrain.toml` | `lunar-station-coverage` | no [10] | no [10] | no [10] | no [10] | no [2] |
+| `lunar-station-coverage.toml` | `lunar-station-coverage` | no [10] | no [10] | no [10] | no [10] | no [2] |
+| `lunar-station-geodesy-baseline.toml` | `lunar-llr-datum` | no [10] | no [10] | no [10] | no [10] | no [2] |
+| `lunar-station-geodesy-with-station.toml` | `lunar-llr-datum` | no [10] | no [10] | no [10] | no [10] | no [2] |
+| `lunar-station-time-lab.toml` | `lunar-time-budget` | no [10] | no [10] | no [10] | no [10] | no [2] |
+| `lunar-time-budget.toml` | `lunar-time-budget` | no [10] | no [10] | no [10] | no [10] | no [2] |
+| `lunar-time-offset.toml` | `lunar-time-offset` | no [10] | no [10] | no [10] | no [10] | no [2] |
+| `lunar-vlbi-fim.toml` | `lunar-vlbi-fim` | no [10] | no [10] | no [10] | no [10] | no [2] |
+| `lunar-vlbi.toml` | `lunar-vlbi` | no [10] | no [10] | no [10] | no [10] | no [2] |
+| `maritime-port-approach-coast.toml` | `ins-trn-coast` | no [4] | no [4] | no [4] | no [4] | no [2] |
+| `maritime-spoof-position-push.toml` | `spoof-detect` | no [4] | no [4] | no [4] | no [4] | no [2] |
 | `maritime-strait-jamming.toml` | `jamming` | yes | yes | yes | yes | no [2] |
-| `mars-orbit-pnt.toml` | `body-pnt` | no [7] | no [7] | no [7] | no [7] | no [2] |
-| `mars-pnt-lmo.toml` | `mars-pnt` | no [7] | no [7] | no [7] | no [7] | no [2] |
-| `mars-pnt-surface.toml` | `mars-pnt` | no [7] | no [7] | no [7] | no [7] | no [2] |
-| `mars-pnt-transfer.toml` | `mars-pnt` | no [7] | no [7] | no [7] | no [7] | no [2] |
-| `meo-leo-fused-pvt.toml` | `leo-pvt` | no [6] | no [6] | no [6] | no [6] | no [2] |
-| `moonlight-service-volume.toml` | `moonlight-service-volume` | no [7] | no [7] | no [7] | no [7] | no [2] |
-| `multi-band-jamming-waterfall.toml` | `spectrum` | no [1] | no [1] | no [1] | no [1] | no [12] |
-| `ntn-5g-positioning.toml` | `ntn-positioning` | no [6] | no [6] | no [6] | no [6] | no [2] |
-| `oem-interop.toml` | `oem-interop` | no [13] | no [13] | no [13] | no [13] | no [2] |
+| `mars-orbit-pnt.toml` | `body-pnt` | no [10] | no [10] | no [10] | no [10] | no [2] |
+| `mars-pnt-lmo.toml` | `mars-pnt` | no [10] | no [10] | no [10] | no [10] | no [2] |
+| `mars-pnt-surface.toml` | `mars-pnt` | no [10] | no [10] | no [10] | no [10] | no [2] |
+| `mars-pnt-transfer.toml` | `mars-pnt` | no [10] | no [10] | no [10] | no [10] | no [2] |
+| `meo-leo-fused-pvt.toml` | `leo-pvt` | no [9] | no [9] | no [9] | no [9] | no [2] |
+| `moonlight-service-volume.toml` | `moonlight-service-volume` | no [10] | no [10] | no [10] | no [10] | no [2] |
+| `multi-band-jamming-waterfall.toml` | `spectrum` | no [4] | no [4] | no [4] | no [4] | no [16] |
+| `ntn-5g-positioning.toml` | `ntn-positioning` | no [9] | no [9] | no [9] | no [9] | no [2] |
+| `oem-interop.toml` | `oem-interop` | no [17] | no [17] | no [17] | no [17] | no [2] |
 | `orbit-gnss-challenged.toml` | `orbit` | yes | yes | yes | yes | no [2] |
 | `orbit-molniya.toml` | `orbit` | yes | yes | yes | yes | no [2] |
 | `orbit-multignss.toml` | `orbit` | yes | yes | yes | yes | no [2] |
@@ -399,52 +406,58 @@ stale.
 | `orbit-sgp4-gps.toml` | `orbit` | yes | yes | yes | yes | no [2] |
 | `orbit-urban-canyon-skyline.toml` | `orbit` | yes | yes | yes | yes | no [2] |
 | `passes.toml` | `passes` | yes | yes | yes | yes | no [2] |
-| `polar-arctic-leo-coverage.toml` | `leo-pvt` | no [6] | no [6] | no [6] | no [6] | no [2] |
-| `pvt-abmf.toml` | `pvt` | yes | yes | yes | no [3] | no [2] |
-| `quantum-anomaly-detect.toml` | `quantum-anomaly-detect` | no [1] | no [1] | no [1] | no [1] | no [2] |
-| `quantum-cai-coast.toml` | `inertial` | no [1] | no [1] | no [1] | no [1] | no [2] |
-| `quantum-gnss-free-nav.toml` | `quantum-gnss-free-nav` | no [1] | no [1] | no [1] | no [1] | no [2] |
-| `quantum-time-transfer.toml` | `quantum-time-transfer` | no [1] | no [1] | no [1] | no [1] | no [2] |
-| `quantum-trade.toml` | `quantum-trade` | no [1] | no [1] | no [1] | no [1] | no [2] |
-| `rail-tunnel-coast.toml` | `ins-trn-coast` | no [1] | no [1] | no [1] | no [1] | no [2] |
-| `realtime-frame-eop.toml` | `realtime-frame-eop` | no [1] | no [1] | no [1] | no [1] | no [2] |
-| `reentry.toml` | `reentry` | no [1] | no [1] | no [1] | no [1] | no [2] |
-| `slot-timing-ocxo-leo.toml` | `slot-timing` | no [1] | no [1] | no [1] | no [1] | no [2] |
-| `small-uas-jammed-nav.toml` | `gnss-ins` | yes | yes | yes | no [3] | no [2] |
-| `solar-system-tour.toml` | `solar-system` | no [7] | no [7] | no [7] | no [7] | no [2] |
-| `space-packet.toml` | `space-packet` | no [1] | no [1] | no [1] | no [1] | no [2] |
-| `space-weather.toml` | `space-weather` | no [1] | no [1] | no [1] | no [1] | no [2] |
-| `spoof-attack.toml` | `spoof` | no [1] | no [1] | no [1] | no [1] | no [2] |
-| `spoof-detect.toml` | `spoof-detect` | no [1] | no [1] | no [1] | no [1] | no [2] |
-| `spoof-meaconing.toml` | `spoof` | no [1] | no [1] | no [1] | no [1] | no [2] |
-| `starlink-sop-doppler-positioning.toml` | `leo-pvt` | no [6] | no [6] | no [6] | no [6] | no [2] |
-| `sweep-clock-stability.toml` | `sweep` | no [14] | no [14] | no [14] | no [14] | no [2] |
-| `sweep-nd-inertial.toml` | `sweep-nd` | no [14] | no [14] | no [14] | no [14] | no [2] |
-| `telecom-prtc-holdover-24h.toml` | `telecom-timing` | no [1] | no [1] | no [1] | no [1] | no [2] |
-| `telecom-synce-eec.toml` | `telecom-timing` | no [1] | no [1] | no [1] | no [1] | no [2] |
-| `telecom-tie-ingest.toml` | `telecom-timing` | no [1] | no [1] | no [1] | no [1] | no [2] |
-| `terrain-nav.toml` | `terrain-nav` | yes | yes | yes | no [3] | no [2] |
-| `terrain-slam.toml` | `terrain-slam` | yes | yes | yes | no [3] | no [2] |
-| `timetransfer.toml` | `timetransfer` | no [1] | no [1] | no [1] | no [1] | no [2] |
-| `tracking-loop.toml` | `tracking-loop` | no [1] | no [1] | no [1] | no [1] | no [2] |
+| `polar-arctic-leo-coverage.toml` | `leo-pvt` | no [9] | no [9] | no [9] | no [9] | no [2] |
+| `pvt-abmf.toml` | `pvt` | yes | yes | yes | no [6] | no [2] |
+| `quantum-anomaly-detect.toml` | `quantum-anomaly-detect` | no [4] | no [4] | no [4] | no [4] | no [2] |
+| `quantum-cai-coast.toml` | `inertial` | no [4] | no [4] | no [4] | no [4] | no [2] |
+| `quantum-gnss-free-nav.toml` | `quantum-gnss-free-nav` | no [4] | no [4] | no [4] | no [4] | no [2] |
+| `quantum-time-transfer.toml` | `quantum-time-transfer` | no [4] | no [4] | no [4] | no [4] | no [2] |
+| `quantum-trade.toml` | `quantum-trade` | no [4] | no [4] | no [4] | no [4] | no [2] |
+| `rail-tunnel-coast.toml` | `ins-trn-coast` | no [4] | no [4] | no [4] | no [4] | no [2] |
+| `realtime-frame-eop.toml` | `realtime-frame-eop` | no [4] | no [4] | no [4] | no [4] | no [2] |
+| `reentry.toml` | `reentry` | no [4] | no [4] | no [4] | no [4] | no [2] |
+| `slot-timing-ocxo-leo.toml` | `slot-timing` | no [4] | no [4] | no [4] | no [4] | no [2] |
+| `small-uas-jammed-nav.toml` | `gnss-ins` | yes | yes | yes | no [6] | no [2] |
+| `solar-system-tour.toml` | `solar-system` | no [10] | no [10] | no [10] | no [10] | no [2] |
+| `space-packet.toml` | `space-packet` | no [4] | no [4] | no [4] | no [4] | no [2] |
+| `space-weather.toml` | `space-weather` | no [4] | no [4] | no [4] | no [4] | no [2] |
+| `spoof-attack.toml` | `spoof` | no [4] | no [4] | no [4] | no [4] | no [2] |
+| `spoof-detect.toml` | `spoof-detect` | no [4] | no [4] | no [4] | no [4] | no [2] |
+| `spoof-meaconing.toml` | `spoof` | no [4] | no [4] | no [4] | no [4] | no [2] |
+| `starlink-sop-doppler-positioning.toml` | `leo-pvt` | no [9] | no [9] | no [9] | no [9] | no [2] |
+| `sweep-clock-stability.toml` | `sweep` | no [18] | no [18] | no [18] | no [18] | no [2] |
+| `sweep-nd-inertial.toml` | `sweep-nd` | no [18] | no [18] | no [18] | no [18] | no [2] |
+| `telecom-prtc-holdover-24h.toml` | `telecom-timing` | no [4] | no [4] | no [4] | no [4] | no [2] |
+| `telecom-synce-eec.toml` | `telecom-timing` | no [4] | no [4] | no [4] | no [4] | no [2] |
+| `telecom-tie-ingest.toml` | `telecom-timing` | no [4] | no [4] | no [4] | no [4] | no [2] |
+| `terrain-nav.toml` | `terrain-nav` | yes | yes | yes | no [6] | no [2] |
+| `terrain-slam.toml` | `terrain-slam` | yes | yes | yes | no [6] | no [2] |
+| `time-transfer-budget.toml` | `time-transfer-budget` | no [19] | no [19] | no [19] | no [19] | no [2] |
+| `timetransfer.toml` | `timetransfer` | no [4] | no [4] | no [4] | no [4] | no [2] |
+| `tracking-loop.toml` | `tracking-loop` | no [4] | no [4] | no [4] | no [4] | no [2] |
 | `xona-pulsar-end-to-end.toml` | `leo-pnt-chain` | yes | yes | yes | yes | no [2] |
-| `xona-pulsar-signals.toml` | `leo-signal` | no [5] | no [5] | no [5] | no [5] | no [2] |
+| `xona-pulsar-signals.toml` | `leo-signal` | no [8] | no [8] | no [8] | no [8] | no [2] |
 
 Why a format does not apply:
 
-1. the scenario input carries no horizontal position (no latitude and longitude, no Earth-centred coordinates, no orbital elements beyond at most an altitude), so there is nothing to place on the Earth
+1. the `contact-schedule` and `acm-link` kinds plan downlink contacts and coding; export a `passes` scenario for the same satellite and station to see the geometry
 2. SigMF holds complex baseband samples, which only the `spectrum` kind synthesises
-3. an STK ephemeris describes a vehicle's position and velocity against time; this scene has only fixed points or untimed tracks (a fixed point is an STK Facility, not an ephemeris)
-4. no member scenario of the campaign has anything this format describes; export a member on its own to see its reason
-5. the `leo-signal` kind analyses signal designs (spectra, tracking, acquisition, compatibility) with no satellite or user position; export the `leo-pass` or `leo-pnt-chain` scenario that flies the design
-6. not exported in this release: the fused positioning kinds place their satellites in an Earth-fixed frame relative to an epoch they never name, so a time-tagged export would have to invent the calendar date (export the `leo-pass` or `leo-pnt-chain` scenario instead)
-7. the kind's geometry is centred on the Moon, Mars or another solar-system body; CZML, KML and GeoJSON describe positions on or about the Earth, and this release writes STK ephemerides with CentralBody Earth only
-8. not exported in this release: `constellation-design` places its satellites in a body-fixed frame relative to an epoch it never names, so a time-tagged export would have to invent the calendar date
-9. not exported in this release: the Earth Global Navigation Satellite System (GNSS) constellation of `earth-gnss-lunar` is seen from a receiver at lunar distance, whose trajectory the kind does not expose as a time series
-10. the `launch-window` scenario gives the launch site's latitude but no
+3. the `aocs` kind simulates attitude about the centre of mass with no orbit or ground position, so there is nothing to place on the Earth
+4. the scenario input carries no horizontal position (no latitude and longitude, no Earth-centred coordinates, no orbital elements beyond at most an altitude), so there is nothing to place on the Earth
+5. the `eo-radiometry` and `ascent-losses` kinds compute budgets with no Earth position
+6. an STK ephemeris describes a vehicle's position and velocity against time; this scene has only fixed points or untimed tracks (a fixed point is an STK Facility, not an ephemeris)
+7. no member scenario of the campaign has anything this format describes; export a member on its own to see its reason
+8. the `leo-signal` kind analyses signal designs (spectra, tracking, acquisition, compatibility) with no satellite or user position; export the `leo-pass` or `leo-pnt-chain` scenario that flies the design
+9. not exported in this release: the fused positioning kinds place their satellites in an Earth-fixed frame relative to an epoch they never name, so a time-tagged export would have to invent the calendar date (export the `leo-pass` or `leo-pnt-chain` scenario instead)
+10. the kind's geometry is centred on the Moon, Mars or another solar-system body; CZML, KML and GeoJSON describe positions on or about the Earth, and this release writes STK ephemerides with CentralBody Earth only
+11. not exported in this release: `constellation-design` places its satellites in a body-fixed frame relative to an epoch it never names, so a time-tagged export would have to invent the calendar date
+12. not exported in this release: the Earth Global Navigation Satellite System (GNSS) constellation of `earth-gnss-lunar` is seen from a receiver at lunar distance, whose trajectory the kind does not expose as a time series
+13. not exported in this release: the `entry-heating` kind reports peak loads and heating, and keeps no time-tagged ground track
+14. the `launch-window` scenario gives the launch site's latitude but no
              longitude, so the site cannot be placed
-11. not exported in this release: the `leo-navmsg` truth orbit is a fitting reference whose Earth rotation angle at the epoch is an input (`theta0_deg`, default 0), not derived from the calendar date, so its Earth-fixed positions are not tied to a date
-12. this spectrum scenario has no [iq] block, so no samples are synthesised to record
-13. not exported in this release: `oem-interop` reads and writes a CCSDS (Consultative Committee for Space Data Systems) Orbit Ephemeris Message, which is itself the ephemeris interchange file
-14. the scenario sweeps another scenario over a grid; export the swept scenario on its own
+15. not exported in this release: the `leo-navmsg` truth orbit is a fitting reference whose Earth rotation angle at the epoch is an input (`theta0_deg`, default 0), not derived from the calendar date, so its Earth-fixed positions are not tied to a date
+16. this spectrum scenario has no [iq] block, so no samples are synthesised to record
+17. not exported in this release: `oem-interop` reads and writes a CCSDS (Consultative Committee for Space Data Systems) Orbit Ephemeris Message, which is itself the ephemeris interchange file
+18. the scenario sweeps another scenario over a grid; export the swept scenario on its own
+19. the `time-transfer-budget` kind computes a link budget and stabilities, with no time-tagged geometry to place
 <!-- interop-table:end -->
