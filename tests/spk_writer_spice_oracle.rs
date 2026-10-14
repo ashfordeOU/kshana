@@ -255,6 +255,9 @@ fn state_bar(s: &SpkSegment, t: f64) -> [f64; 6] {
                     out[c + 3] = out[c + 3].max(16.0 * k * U * (bv + sv));
                 }
             }
+            SpkType::Chebyshev3 | SpkType::DiffLines21 => {
+                unreachable!("this oracle's cases are types 9 and 13")
+            }
         }
     }
     out
