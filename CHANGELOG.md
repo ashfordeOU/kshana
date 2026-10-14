@@ -19,6 +19,8 @@ breaking changes are called out explicitly.
     `‖w‖²` and the jammer by `|wᴴa_j|²` before the existing anti-jam C/N0 equation.
   - Each link gains a `crpa` block: `array_noise_gain_db` (dB) and `jammer_gain_db` (dB).
   - Without the section every output is byte-identical.
+  - An invalid section (an empty element list, an unknown weighting, a non-positive bandwidth) is
+    an error, through `kshana` and `api::run_toml` as well as `jamming::run_jamming`.
   - Checked against bars pre-registered at 08d83b4d. Met: additivity (after a fix: the first
     build added the new units to every jamming run's units table); one element is no array;
     noise gain and effective C/N0 against an independent numpy recomputation within 1e-9 dB;

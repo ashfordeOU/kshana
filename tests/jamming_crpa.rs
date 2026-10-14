@@ -260,3 +260,19 @@ fn a1_crpa_units_only_with_the_section() {
         assert_eq!(with[p]["unit"], "dB", "{p} with the section");
     }
 }
+
+/// An invalid `[crpa]` section is an error through the public API too, not a silent
+/// conventional beam.
+#[test]
+fn an_invalid_crpa_section_is_an_error_through_the_api() {
+    for bad in [
+        crpa(SQUARE, "conventional"),
+        crpa("[]", "mvdr"),
+        format!("{}bandwidth_mhz = 0.0\n", crpa(SQUARE, "mvdr")),
+    ] {
+        let err = kshana::api::run_toml(&format!("{DEMO}\n{bad}"))
+            .err()
+            .unwrap_or_else(|| panic!("accepted: {bad}"));
+        assert!(err.contains("crpa"), "{err}");
+    }
+}
