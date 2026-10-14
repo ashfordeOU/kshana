@@ -5997,7 +5997,7 @@
       "oracle_kind": "InternalConsistency",
       "oracle": "Internal consistency: noise-free recovery, the kinematic identity rho_ddot = (|v|^2 - rho_dot^2 + d.a)/rho differentiated numerically, zero Doppler at closest approach, the mirror solution of a single pass, and seeded errors against the formal covariance. The Starlink figure of Kozhaya, Saroufim and Kassas (NAVIGATION 72(1), 2025: about 2 m in 20 s with three satellites) is a comparison only: the modelled receiver, with a perfect ephemeris and every error in a 30 Hz Doppler sigma, is several times less accurate over the same window, and the paper's receiver and measurement rate are not reproduced",
       "module": "leo_fusion::doppler (solve, formal_covariance, single_pass_geometry, offset_site, closest_approach); leo_fusion::pvt_kind (run_doppler)",
-      "tests": "leo_fusion::doppler::tests (range_acceleration_obeys_the_kinematic_identity_and_vanishes_doppler_at_closest_approach; noise_free_multi_satellite_doppler_recovers_the_user: to 1 mm and the drift to 1e-6 m/s; a_single_pass_has_a_mirror_solution_across_the_ground_track; the_cross_track_error_grows_as_the_pass_goes_overhead; velocity_states_are_recovered_for_a_moving_user); leo_fusion::pvt_kind::tests (doppler_positioning_improves_with_the_window_and_is_deterministic: the weighted residual RMS in [0.8, 1.2] and the error under four formal sigmas); tests/leo_fusion_scenarios.rs (leo_doppler_positioning_forms_a_fix_and_the_cross_track_error_explodes_overhead; starlink_doppler_only_mode_runs_without_ranging)",
+      "tests": "leo_fusion::doppler::tests (range_acceleration_obeys_the_kinematic_identity_and_vanishes_doppler_at_closest_approach; noise_free_multi_satellite_doppler_recovers_the_user: to 1 mm and the drift to 1e-6 m/s; a_single_pass_has_a_mirror_solution_across_the_ground_track; the_cross_track_error_grows_as_the_pass_goes_overhead; velocity_states_are_recovered_for_a_moving_user); leo_fusion::pvt_kind::tests (doppler_positioning_improves_with_the_window_and_is_deterministic: the weighted residual RMS in [0.8, 1.2] and the error under four formal sigmas); tests/leo_fusion_scenarios.rs (leo_doppler_positioning_forms_a_fix_and_the_cross_track_error_explodes_overhead; starlink_doppler_only_mode_runs_without_ranging); tests/starlink_doppler_published_proxy.rs (a pre-registered proxy against the published data-set-3 percentiles of \"Unveiling Starlink for PNT\", doi:10.33012/navi.685: with 3 satellites (47 deg mask), no height aid and 30 Hz, the p90 3-D error is 92.2 m at 20 s and 870 m at 8 s against the published 2 m and 10 m, so both factor-of-two bars are NOT MET, on the high side, and asserted as missed; docs/design/evidence/cap11-starlink-doppler-proxy/)",
       "module_links": [
         {
           "path": "src/leo_fusion/doppler.rs",
@@ -6008,6 +6008,10 @@
         {
           "path": "tests/leo_fusion_scenarios.rs",
           "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/leo_fusion_scenarios.rs"
+        },
+        {
+          "path": "tests/starlink_doppler_published_proxy.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/starlink_doppler_published_proxy.rs"
         }
       ],
       "fixture": null
