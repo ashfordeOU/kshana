@@ -17,7 +17,7 @@
 
 <p align="center">
   <a href="https://github.com/AshfordeOU/kshana/releases"><img src="https://img.shields.io/badge/release-v0.35.0-066A86?style=flat-square&labelColor=0A1226" alt="Release v0.35.0"></a>
-  <a href="https://github.com/AshfordeOU/kshana/blob/main/docs/VERIFICATION-MATRIX.md"><img src="https://img.shields.io/badge/validated-173%20external%20oracles-377D0C?style=flat-square&labelColor=0A1226" alt="173 of 350 capabilities validated against independent external oracles"></a>
+  <a href="https://github.com/AshfordeOU/kshana/blob/main/docs/VERIFICATION-MATRIX.md"><img src="https://img.shields.io/badge/validated-175%20external%20oracles-377D0C?style=flat-square&labelColor=0A1226" alt="175 of 361 capabilities validated against independent external oracles"></a>
   <a href="https://github.com/AshfordeOU/kshana/blob/main/docs/COVERAGE.md"><img src="https://img.shields.io/badge/coverage-~95%25-377D0C?style=flat-square&labelColor=0A1226" alt="About 95% line coverage, gated at 85% in continuous integration"></a>
   <a href="https://github.com/AshfordeOU/kshana/blob/main/LICENSE"><img src="https://img.shields.io/badge/licence-AGPL--3.0--only-3F4B67?style=flat-square&labelColor=0A1226" alt="Licence: AGPL-3.0-only, or a commercial licence"></a>
   <a href="https://doi.org/10.5281/zenodo.20528627"><img src="https://img.shields.io/badge/DOI-10.5281%2Fzenodo.20528627-7E4B00?style=flat-square&labelColor=0A1226" alt="DOI 10.5281/zenodo.20528627"></a>
@@ -40,7 +40,7 @@ engine in your browser, compiled to WebAssembly, and uploads nothing.
 
 ## Evidence
 
-**173 of 350** capabilities validated against independent external oracles; 173 honestly labelled Modelled, 4 partner-owned.
+**175 of 361** capabilities validated against independent external oracles; 182 honestly labelled Modelled, 4 partner-owned.
 Each capability carries one label in a machine-checked ledger: VALIDATED (an independent
 external oracle agrees: real data, an independent implementation or published reference
 vectors), MODELLED (internally consistent, and said out loud) or PARTNER (a hardware partner
@@ -51,7 +51,7 @@ Cowell force model to 0.08 m against Orekit 12.2.
 <p align="center">
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/AshfordeOU/kshana/main/docs/assets/readme/flow-verification-dark.svg">
-  <img src="https://raw.githubusercontent.com/AshfordeOU/kshana/main/docs/assets/readme/flow-verification-light.svg" alt="How a capability earns its label: capability, oracle, test, ledger label. The verification status across all 350 capabilities: 173 Validated, 173 Modelled, 4 Partner-owned" width="100%">
+  <img src="https://raw.githubusercontent.com/AshfordeOU/kshana/main/docs/assets/readme/flow-verification-light.svg" alt="How a capability earns its label. Each row of the verification matrix names a capability, the oracle it is checked against, the test that runs the check in continuous integration, and the label that follows. A row may be VALIDATED only with an independent external oracle; otherwise it is MODELLED, or PARTNER when a hardware partner owns it. Example: SGP4/SDP4, Cowell 6-DOF + perturbations, batch/sequential OD, oracle AIAA 2006-6753 SGP4 verification vectors, test tests/sgp4_verification.rs, label VALIDATED. Live counts: 175 VALIDATED, 182 MODELLED, 4 PARTNER of 361 rows." width="100%">
 </picture>
 </p>
 
@@ -193,7 +193,7 @@ The engine has 75 scenario kinds; `kshana kinds` lists them with their fields.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/AshfordeOU/kshana/main/docs/assets/readme/architecture-dark.svg">
-  <img src="https://raw.githubusercontent.com/AshfordeOU/kshana/main/docs/assets/readme/architecture-light.svg" alt="One open engine at the centre, kshana 0.35.0, with a typed dispatch over 75 kinds; around it the command line, the Rust library, Python, WebAssembly and Kshana Studio, the MCP server, the Docker image and the JetBrains plugin; below it Kshana Pro, a proprietary overlay that depends on the open engine and never forks it" width="100%">
+  <img src="https://raw.githubusercontent.com/AshfordeOU/kshana/main/docs/assets/readme/architecture-light.svg" alt="Kshana's architecture: one open engine at the centre, kshana 0.35.0 under the AGPL-3.0, with api::run_toml, a typed dispatch over 83 kinds, and the verification ledger of 361 capabilities (175 VALIDATED, 182 MODELLED, 4 PARTNER). Around it, every surface runs the same engine: Command line (cargo install kshana); Rust library (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); MCP server (cargo install kshana-mcp); Docker image (ghcr.io/ashfordeou/kshana-mcp); JetBrains plugin (Marketplace: &quot;Kshana&quot;). Below it, Kshana Pro, a proprietary overlay that depends on the open engine as a library and never forks it, and adds no physical model." width="100%">
 </picture>
 
 The same scenario file gives the same bytes on every surface. MCP is the Model Context
