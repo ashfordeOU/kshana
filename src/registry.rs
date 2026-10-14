@@ -116,6 +116,13 @@ const BUILTIN_KINDS: &[crate::api::ScenarioKind] = {
         LeoPpp,
         NtnPositioning,
         LeoPntChain,
+        ContactSchedule,
+        AcmLink,
+        Aocs,
+        EntryHeating,
+        EoRadiometry,
+        AscentLosses,
+        TimeTransferBudget,
     ]
 };
 
@@ -247,6 +254,20 @@ pub mod ids {
     pub const NTN_POSITIONING: ScenarioId = ScenarioId::from_static("ntn-positioning");
     /// One LEO-PNT system end to end: signal, pass, navigation message and fused fix.
     pub const LEO_PNT_CHAIN: ScenarioId = ScenarioId::from_static("leo-pnt-chain");
+    /// Multi-satellite, multi-station contact scheduling with DVB-S2 ACM pass capacity.
+    pub const CONTACT_SCHEDULE: ScenarioId = ScenarioId::from_static("contact-schedule");
+    /// DVB-S2 ACM along one satellite's passes over one station.
+    pub const ACM_LINK: ScenarioId = ScenarioId::from_static("acm-link");
+    /// Reaction-wheel attitude control under MRP feedback, optionally closed on an MEKF.
+    pub const AOCS: ScenarioId = ScenarioId::from_static("aocs");
+    /// 3-DoF atmospheric entry with stagnation-point convective heating.
+    pub const ENTRY_HEATING: ScenarioId = ScenarioId::from_static("entry-heating");
+    /// Imager radiometry, MTF and GIQE 4 NIIRS.
+    pub const EO_RADIOMETRY: ScenarioId = ScenarioId::from_static("eo-radiometry");
+    /// Gravity-turn ascent losses.
+    pub const ASCENT_LOSSES: ScenarioId = ScenarioId::from_static("ascent-losses");
+    /// TWSTFT two-way equation, budget and stability.
+    pub const TIME_TRANSFER_BUDGET: ScenarioId = ScenarioId::from_static("time-transfer-budget");
 
     /// Every built-in scenario id, in the engine's canonical order.
     pub fn all() -> Vec<ScenarioId> {

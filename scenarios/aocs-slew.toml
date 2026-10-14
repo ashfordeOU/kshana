@@ -1,0 +1,42 @@
+# Reaction-wheel attitude slew under MRP feedback, closed on the true state.
+#
+# A rigid hub with four balanced reaction wheels in a pyramid (54.7356 deg from body z, at
+# azimuths 45, 135, 225 and 315 deg) slews from sigma_BN = [0.1, 0.2, -0.3] (about 82 deg) to
+# inertial pointing. The law is L = -K sigma - P omega; the wheel torques are the minimum-norm
+# solution clipped to 0.2 N m. This is the configuration of case B of the Basilisk 2.9.1
+# comparison (tests/aocs_basilisk_oracle.rs), so the control law and wheel dynamics on this
+# loop are VALIDATED. The gains, inertia and wheels are ILLUSTRATIVE, not any spacecraft's.
+kind = "aocs"
+duration_s = 600.0
+dt_s = 0.1
+sample_s = 1.0
+hub_inertia_kg_m2 = [[900.0, 0.0, 0.0], [0.0, 800.0, 0.0], [0.0, 0.0, 600.0]]
+k_nm = 3.5
+p_nms = 30.0
+sigma0 = [0.1, 0.2, -0.3]
+omega0_rad_s = [0.001, -0.01, 0.03]
+pointing_threshold_deg = 0.1
+
+[[wheels]]
+axis = [0.5773502, 0.5773502, 0.5773504]   # 54.7356 deg from z, azimuth 45 deg
+js_kg_m2 = 0.08
+u_max_nm = 0.2
+speed0_rpm = 100.0
+
+[[wheels]]
+axis = [-0.5773502, 0.5773502, 0.5773504]  # azimuth 135 deg
+js_kg_m2 = 0.08
+u_max_nm = 0.2
+speed0_rpm = -200.0
+
+[[wheels]]
+axis = [-0.5773502, -0.5773502, 0.5773504] # azimuth 225 deg
+js_kg_m2 = 0.08
+u_max_nm = 0.2
+speed0_rpm = 300.0
+
+[[wheels]]
+axis = [0.5773502, -0.5773502, 0.5773504]  # azimuth 315 deg
+js_kg_m2 = 0.08
+u_max_nm = 0.2
+speed0_rpm = -400.0

@@ -14,8 +14,9 @@
 //!   instant difference their range-corrected pseudoranges; the satellite-clock error (and
 //!   other common-mode errors) cancels exactly, leaving the inter-station clock offset.
 //!
-//! Both are exact closed forms. Scope (honest): a full TWSTFT transponder/hardware-delay
-//! budget and a PPP ionosphere-free time-transfer solution are follow-ons (see `ROADMAP.md`).
+//! Both are exact closed forms. The full TWSTFT transponder and hardware-delay equation and its
+//! uncertainty budget are in [`crate::twstft_budget`], and the PPP ionosphere-free time
+//! solution is checked against the IGS final station clock where `ppp_real` is present.
 
 /// Earth rotation rate (rad/s), IERS.
 pub const OMEGA_EARTH: f64 = 7.292_115_9e-5;

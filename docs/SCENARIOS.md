@@ -1,6 +1,6 @@
 # Scenario kinds
 
-The 76 built-in scenario kinds that `kshana::api::run_toml` dispatches over, each with its one-line description and its required / optional TOML (Tom's Obvious, Minimal Language) fields.
+The 83 built-in scenario kinds that `kshana::api::run_toml` dispatches over, each with its one-line description and its required / optional TOML (Tom's Obvious, Minimal Language) fields.
 
 This file is **generated** from `api::list_scenario_kinds()` — the single source of truth — by `cargo run --bin gen_validation_artifacts`; edit the source, not this file. Every binding (the Python package, the MCP (Model Context Protocol) server's `list_scenario_kinds` tool, and the WebAssembly (WASM) playground) exposes this same catalogue, so what is listed here is exactly what every surface can run. The descriptions are terse and do not always expand their abbreviations; every one is spelled out in [GLOSSARY.md](GLOSSARY.md).
 
@@ -84,6 +84,13 @@ Every scenario except `clock` must also set `kind = "<name>"` at the top level: 
 | 74 | [`leo-ppp`](#leo-ppp) | Precise point positioning (PPP) convergence with GNSS only and with LEO augmentation: a float extended Kalman filter on ionosphere-free code and carrier phase with the static station coordinates, a white receiver clock, one inter-system bias per extra system, a random-walk zenith wet delay mapped by 1/sin(elevation) and a float ambiguity per satellite arc; the precise orbit-and-clock error is white and common to the code and phase of a satellite, so each satellite is one correlated two-row update in a Joseph-stabilised form. Measurements are simulated from the same model with seeded noise over several sites and seeds, and each case (GNSS only first, then each [[case]] of LEO systems, any constellation or preset) reports the median convergence time (the first epoch after which the horizontal and vertical errors stay below the thresholds, 10 cm by default), the fraction converged, the median error curves and the filter consistency (the run-averaged position NEES against the two-sided 95% chi-square band). Optionally beside the published Li et al. (2019, J. Geod. 93:749, doi 10.1007/s00190-018-1195-2) mid-latitude figures: 9.6 min for multi-GNSS shortened to 7.0, 3.2, 2.1 and 1.3 min with 60, 96, 192 and 288 LEO satellites. MODELLED: a consistency comparison of the trend, not a reproduction of that study's constellations, noise or stations; no ambiguity resolution, cycle slips, phase wind-up, tides or time-correlated product errors. |
 | 75 | [`ntn-positioning`](#ntn-positioning) | Positioning from a 5G non-terrestrial network (NTN) downlink in the mobile-satellite service (MSS) S band (3GPP band n256, downlink 2170 to 2200 MHz; default carrier 2172.5 MHz): the Cramér-Rao bound (CRB) on time of arrival, c / (2 pi beta sqrt(2 (C/N0) T)) with beta the root-mean-square (Gabor) bandwidth of the flat OFDM spectrum (B/sqrt(12)), and on the Doppler of a complex tone, sqrt(3 / (2 pi^2 (C/N0) T^3)), for each signal (default a 5 MHz New Radio channel with 4.5 MHz occupied and a 200 kHz narrowband channel with 180 kHz occupied); then, over any LEO constellation, downlink time-of-arrival fixes with an unknown receiver clock (seeded, with the bound plus a network synchronisation error as the sigma), their PDOP and formal 3D sigma, and a single-satellite Doppler fix over the longest pass with the height held. MODELLED: the bandwidth-to-bound step is the textbook closed form, checked against numerical integration of the flat and band-limited BPSK spectra (internal consistency, no published worked figure pinned), and the positioning accuracy is a bound on a multipath-free channel with a stated synchronisation error, not an achieved result. |
 | 76 | [`leo-pnt-chain`](#leo-pnt-chain) | One LEO-PNT (positioning, navigation and timing from low Earth orbit) system end to end, for any constellation and signal: the leo-signal design named by signal_design (a public preset or an inline [signal] design) sets a [pass] band's centre, bandwidth, chip rate and EIRP split, the leo-pass link budget gives the tracked C/N0 and band-limited code jitter over the pass, a C/N0 line in sin(elevation) and the [navmsg] message's broadcast SISRE (fitted at the pass satellite's altitude) feed every LEO system of the [fusion] leo-pvt joint fix, and optionally the [ppp] leo-ppp cases; every hand-off is listed with its value and unit. MODELLED. |
+| 77 | [`contact-schedule`](#contact-schedule) | Ground-contact planning for several satellites over several stations: apparent access windows (SGP4, IAU 2006/2000A Earth-fixed frame, ITU-R P.834 refraction, light time), the DVB-S2 ACM data volume of each pass (ETSI EN 302 307-1 Table 13 thresholds) and a conflict-free schedule (one satellite per antenna with a turnaround, one station per satellite, priority-weighted delivery capped at each backlog) by a marginal-value greedy, a first-come baseline and an exact branch and bound on small sets, with the greedy's optimality gap. MODELLED. |
+| 78 | [`acm-link`](#acm-link) | One satellite over one station: each pass's slant range, elevation and Es/N0 along the pass, the DVB-S2 MODCOD chosen at each step (ETSI EN 302 307-1 Table 13 thresholds plus an implementation margin) and the data volume ACM moves against the constant-coding baseline that closes at the mask. MODELLED. |
+| 79 | [`aocs`](#aocs) | Spacecraft attitude control: an inertial-pointing slew of a rigid hub with three or more balanced reaction wheels under MRP feedback (L = -K sigma - P omega), minimum-norm wheel torques clipped to each motor's limit, RK4 with a zero-order hold; optionally closed on a multiplicative EKF from a simulated gyro (angle and rate random walk) and star tracker. Reports settling time, final and peak pointing error, peak wheel speed and torque, the saturated fraction, angular-momentum drift and, with the estimator, its attitude error and NEES. The true-state loop is VALIDATED against Basilisk 2.9.1; the estimator is MODELLED. |
+| 80 | [`entry-heating`](#entry-heating) | 3-DoF point-mass atmospheric entry over a rotating spherical Earth or Mars (ballistic or lifting at constant bank), RK4, through US76, an exponential or the Mars atmosphere, with Sutton-Graves stagnation-point convective heating (NASA TR R-376): peak deceleration, heat flux and dynamic pressure, heat load, downrange, a rotating-frame energy check and the Allen-Eggers closed form beside it. Peak deceleration is checked against the published Stardust nominal; heating is MODELLED. |
+| 81 | [`eo-radiometry`](#eo-radiometry) | Nadir imager radiometry and image quality: at-aperture radiance of a Lambertian scene, the camera equation, signal and shot/dark/read/quantisation noise and SNR; the system MTF at Nyquist (diffraction x detector x smear x jitter), the relative edge response from it, Q = lambda F/p and the GIQE version 4 NIIRS with no MTF compensation. MODELLED. |
+| 82 | [`ascent-losses`](#ascent-losses) | Planar gravity-turn ascent of a multi-stage vehicle over a non-rotating spherical Earth through the US Standard Atmosphere 1976 (vertical rise, pitch kick, thrust along velocity), integrating the gravity, drag, steering and back-pressure losses and checking ideal dv minus losses against the burnout speed; max-Q, peak acceleration and burnout state. MODELLED. |
+| 83 | [`time-transfer-budget`](#time-transfer-budget) | Two-way satellite time and frequency transfer between two stations through a geostationary relay: the two-way equation solved for T_A - T_B with every non-reciprocal term (station equipment delays, Ku-band ionosphere, transponder, Sagnac), a quadrature uncertainty budget whose type A term is the simulated link's TDEV at the averaging time, a simulated link with white and flicker phase noise and a diurnal non-reciprocity, and the stability (rate, residual RMS, TDEV, ADEV) of any supplied BIPM Circular T Section 1 series, MJD,ns CSV or IGS RINEX station-clock records. MODELLED. |
 
 ## `clock`
 
@@ -616,4 +623,53 @@ One LEO-PNT (positioning, navigation and timing from low Earth orbit) system end
 
 - **Required fields:** `signal_design`, `pass`, `fusion`
 - **Optional fields:** `name`, `description`, `seed`, `signal`, `navmsg`, `od_sisre_m`, `ppp`
+
+## `contact-schedule`
+
+Ground-contact planning for several satellites over several stations: apparent access windows (SGP4, IAU 2006/2000A Earth-fixed frame, ITU-R P.834 refraction, light time), the DVB-S2 ACM data volume of each pass (ETSI EN 302 307-1 Table 13 thresholds) and a conflict-free schedule (one satellite per antenna with a turnaround, one station per satellite, priority-weighted delivery capped at each backlog) by a marginal-value greedy, a first-come baseline and an exact branch and bound on small sets, with the greedy's optimality gap. MODELLED.
+
+- **Required fields:** *(none)*
+- **Optional fields:** `epoch`, `duration_hours`, `step_s`, `refraction`, `light_time`, `link`, `satellites`, `stations`
+
+## `acm-link`
+
+One satellite over one station: each pass's slant range, elevation and Es/N0 along the pass, the DVB-S2 MODCOD chosen at each step (ETSI EN 302 307-1 Table 13 thresholds plus an implementation margin) and the data volume ACM moves against the constant-coding baseline that closes at the mask. MODELLED.
+
+- **Required fields:** *(none)*
+- **Optional fields:** `epoch`, `duration_hours`, `step_s`, `refraction`, `light_time`, `link`, `satellite`, `station`
+
+## `aocs`
+
+Spacecraft attitude control: an inertial-pointing slew of a rigid hub with three or more balanced reaction wheels under MRP feedback (L = -K sigma - P omega), minimum-norm wheel torques clipped to each motor's limit, RK4 with a zero-order hold; optionally closed on a multiplicative EKF from a simulated gyro (angle and rate random walk) and star tracker. Reports settling time, final and peak pointing error, peak wheel speed and torque, the saturated fraction, angular-momentum drift and, with the estimator, its attitude error and NEES. The true-state loop is VALIDATED against Basilisk 2.9.1; the estimator is MODELLED.
+
+- **Required fields:** `hub_inertia_kg_m2`, `k_nm`, `p_nms`, `wheels`, `sigma0`
+- **Optional fields:** `duration_s`, `dt_s`, `sample_s`, `omega0_rad_s`, `pointing_threshold_deg`, `estimator`
+
+## `entry-heating`
+
+3-DoF point-mass atmospheric entry over a rotating spherical Earth or Mars (ballistic or lifting at constant bank), RK4, through US76, an exponential or the Mars atmosphere, with Sutton-Graves stagnation-point convective heating (NASA TR R-376): peak deceleration, heat flux and dynamic pressure, heat load, downrange, a rotating-frame energy check and the Allen-Eggers closed form beside it. Peak deceleration is checked against the published Stardust nominal; heating is MODELLED.
+
+- **Required fields:** *(none)*
+- **Optional fields:** `body`, `atmosphere`, `rho0_kg_m3`, `scale_height_m`, `entry_interface_altitude_m`, `velocity_frame`, `entry_speed_m_s`, `flight_path_angle_deg`, `heading_deg`, `latitude_deg`, `longitude_deg`, `mass_kg`, `drag_coefficient`, `reference_area_m2`, `nose_radius_m`, `lift_to_drag`, `bank_angle_deg`, `rotating_planet`, `step_s`, `terminal_altitude_m`, `max_time_s`
+
+## `eo-radiometry`
+
+Nadir imager radiometry and image quality: at-aperture radiance of a Lambertian scene, the camera equation, signal and shot/dark/read/quantisation noise and SNR; the system MTF at Nyquist (diffraction x detector x smear x jitter), the relative edge response from it, Q = lambda F/p and the GIQE version 4 NIIRS with no MTF compensation. MODELLED.
+
+- **Required fields:** *(none)*
+- **Optional fields:** `altitude_m`, `focal_length_m`, `aperture_m`, `pixel_pitch_um`, `wavelength_um`, `bandwidth_um`, `fill_factor`, `smear_px`, `jitter_px_rms`, `reflectance`, `solar_irradiance_w_m2_um`, `sun_zenith_deg`, `atmospheric_transmittance`, `path_radiance_w_m2_sr_um`, `optics_transmittance`, `integration_s`, `quantum_efficiency`, `dark_current_e_s`, `read_noise_e`, `full_well_e`, `adc_bits`
+
+## `ascent-losses`
+
+Planar gravity-turn ascent of a multi-stage vehicle over a non-rotating spherical Earth through the US Standard Atmosphere 1976 (vertical rise, pitch kick, thrust along velocity), integrating the gravity, drag, steering and back-pressure losses and checking ideal dv minus losses against the burnout speed; max-Q, peak acceleration and burnout state. MODELLED.
+
+- **Required fields:** *(none)*
+- **Optional fields:** `stages`, `payload_kg`, `drag_coefficient`, `reference_area_m2`, `kick_altitude_m`, `kick_angle_deg`, `kick_duration_s`, `step_s`
+
+## `time-transfer-budget`
+
+Two-way satellite time and frequency transfer between two stations through a geostationary relay: the two-way equation solved for T_A - T_B with every non-reciprocal term (station equipment delays, Ku-band ionosphere, transponder, Sagnac), a quadrature uncertainty budget whose type A term is the simulated link's TDEV at the averaging time, a simulated link with white and flicker phase noise and a diurnal non-reciprocity, and the stability (rate, residual RMS, TDEV, ADEV) of any supplied BIPM Circular T Section 1 series, MJD,ns CSV or IGS RINEX station-clock records. MODELLED.
+
+- **Required fields:** `station_a`, `station_b`, `satellite_lon_deg`, `transponder_ab_ns`, `transponder_ba_ns`, `white_noise_ns`, `uncertainty`
+- **Optional fields:** `uplink_ghz`, `downlink_ghz`, `true_offset_ns`, `flicker_noise_ns`, `diurnal_amplitude_ns`, `reciprocity_bias_ns`, `step_s`, `span_days`, `averaging_s`, `seed`, `series`
 
