@@ -11,6 +11,16 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **IQ tracking engine against GNSS-SDR 0.0.19** (PRO-33): `kshana iq track` and GNSS-SDR track
+  the same independent numpy recordings of GPS L1 C/A at 30 to 45 dB-Hz.
+  - Bars pre-registered at 48edd4a5. The registered calibration failed on a wrong GNSS-SDR
+    hand-off (F3), so Amendment 1 (1e4288c4) adds a pull-in-only FLL to both receivers, committed
+    before any test recording.
+  - Met: carrier and code jitter and Doppler agree within 5 % at every C/N0.
+  - Not met: the engine's NWPR C/N0 reads 2.3–7.1 dB below GNSS-SDR's SNV (F4, a known
+    estimator limit; M2M4 is within 0.06 dB of truth); the lock indicators differ by definition
+    (F5); one 30 dB-Hz slip disagreement (F6).
+  - MODELLED; ledger row "IQ tracking engine against GNSS-SDR 0.0.19 on independent recordings".
 - **Two VALIDATED rows for IQ-layer codes** (DS-GIQ-06b, PRO-39).
   - **BeiDou B1I.** All 63 B1I primary codes match GNSS-SDR v0.0.19's independent generator chip
     for chip (bar pre-registered at 911106d1). Only that program's output is committed: the B1I

@@ -2908,6 +2908,15 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             oracle_kind: ExternalDataset,
             status: Validated,
         },
+        VerificationItem {
+            requirement: "IQ tracking engine against GNSS-SDR 0.0.19 on independent recordings",
+            capability: "The full IQ-layer tracking engine (iq::track through kshana iq track: acquisition hand-off, correlators, NCOs, second-order 15 Hz Costas PLL, first-order 2 Hz carrier-aided EML-envelope DLL, lock indicator and C/N0 estimators) on GPS L1 C/A at 30 to 45 dB-Hz.",
+            module: "iq::track (Channel, LoopCore, design); iq::cli::track",
+            tests: "tests/iq_track_gnss_sdr_oracle.rs (calibration_passes_for_both_receivers, registered_bars_give_the_recorded_verdict, recorded_numbers_are_pinned), on numbers derived by tests/fixtures/iq_track_gnss_sdr_oracle/make_fixture.py",
+            oracle: "GNSS-SDR 0.0.19 (GPL-3.0-or-later, the Ubuntu 24.04 package, run as a separate program; only derived numbers committed) tracking the same numpy recordings (independent of the engine), both measured against the analytic truth. Bars pre-registered at 48edd4a5, amended before any test recording at 1e4288c4 (a 10 Hz FLL during pull-in only in both receivers, after the registered calibration failed on a wrong GNSS-SDR hand-off, finding F3). MET at 30, 35, 40 and 45 dB-Hz: carrier jitter within 4.3 %, code jitter within 4.6 % and Doppler mean and spread of GNSS-SDR's. NOT MET: the engine's NWPR C/N0 reads 2.3 to 7.1 dB below GNSS-SDR's SNV (finding F4, the known NWPR limit; its M2M4 is within 0.06 dB of truth); the phase lock indicators differ by definition (F5); at 30 dB-Hz GNSS-SDR slipped twice and the engine not (F6). GNSS-SDR's own hand-off locked to a wrong frequency in 3 of 30 calibration runs. WHAT IS NOT CHECKED: other signals, data-bit wipe-off, re-acquisition, field recordings. The row stays MODELLED.",
+            oracle_kind: ExternalDataset,
+            status: Modelled,
+        },
     ]
 }
 
