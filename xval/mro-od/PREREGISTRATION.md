@@ -179,3 +179,9 @@ scored arc before producing an orbit. The cause is not diagnosed here; it is not
 negligible (the density model is non-zero at MRO's altitudes). Both outcomes are pinned in
 `tests/mro_odf_short_arc_od_oracle.rs`. Under the outcome rule the row stays MODELLED. A fixed
 estimator needs its own registration before it is run on these passes.
+
+## Run 2 (separately registered)
+
+A run with a damped estimator was registered on its own in `PREREGISTRATION-RUN2.md`, with the
+same arc, editing and bars, and with a scoring amendment R2-A1. Result: B1, B3, B4 and B5 met;
+B2 not met (48.6 mHz post-fit). The run-1 result above is unchanged.
