@@ -29,9 +29,11 @@
 //! denial range. An optional `[crpa]` section adds an adaptive (null-steering or MVDR)
 //! antenna array per channel ([`CrpaCfg`]). An optional `[terrain]` section adds the single
 //! knife-edge diffraction loss of the jammer's path over an SRTM tile
-//! ([`crate::jamming_terrain`]). It does **not** model multipath, multiple-edge diffraction,
-//! near/far AGC effects, or the receiver's acquisition (vs. tracking) threshold
-//! hysteresis — those are noted in `docs/CAPABILITY.md` as out of scope.
+//! ([`crate::jamming_terrain`]). Optional `[acquisition]` and `[front_end]` sections add
+//! acquisition-versus-tracking hysteresis and the AGC reading with the ADC's quantiser loss
+//! ([`crate::jamming_rx`]). It does **not** model multipath, multiple-edge diffraction, AGC
+//! dynamics in time, or the acquisition search itself — those are noted in
+//! `docs/CAPABILITY.md` as out of scope.
 
 use crate::frames::{geodetic_to_ecef, look_angles, teme_to_ecef, Geodetic, Vec3};
 use crate::palette::chart::{AXIS, BG, FAULT, FONT_SANS, MUTED, OK, TEXT};
@@ -312,6 +314,12 @@ pub struct JammingScenario {
     /// Absent, every output is unchanged.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub terrain: Option<crate::jamming_terrain::TerrainCfg>,
+    /// Optional acquisition-versus-tracking hysteresis (CAP-06 (c), [`crate::jamming_rx`]).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub acquisition: Option<crate::jamming_rx::AcquisitionCfg>,
+    /// Optional AGC reading and ADC quantiser loss (CAP-06 (c), [`crate::jamming_rx`]).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub front_end: Option<crate::jamming_rx::FrontEndCfg>,
 }
 
 /// A controlled-reception-pattern antenna for the `jamming` kind (CAP-06 (a); pre-registered in
@@ -419,6 +427,9 @@ pub struct SatLink {
     /// The channel's beam with a `[crpa]` section (absent without one).
     #[serde(skip_serializing_if = "Option::is_none")]
     pub crpa: Option<SatCrpa>,
+    /// Acquired under the `[acquisition]` hysteresis (absent without the section).
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub acquired: Option<bool>,
 }
 
 /// One channel's CRPA beam: how it scales the noise and the jammer (dB).
@@ -446,6 +457,9 @@ pub struct JammingEpoch {
     /// a `[skyline]` section.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub masked_by_skyline: Option<usize>,
+    /// Satellites acquired under the `[acquisition]` hysteresis (absent without the section).
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub acquired: Option<usize>,
 }
 
 /// Figures of merit for a jamming run.
@@ -461,6 +475,10 @@ pub struct JammingFoM {
     pub min_tracking: usize,
     /// Mean J/S over all visible-satellite samples (dB); `NaN` with no jammer.
     pub mean_js_db: f64,
+    /// Fraction of epochs with ≥ 4 satellites acquired under the `[acquisition]` hysteresis
+    /// (absent without the section).
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub availability_acquired: Option<f64>,
 }
 
 /// Unit and provenance class for every numeric field the `jamming` report emits.
@@ -582,8 +600,8 @@ pub const CRPA_UNITS: &[crate::field_schema::FieldUnit] = {
     ]
 };
 
-/// The units table of a jamming run: [`UNITS`], plus [`CRPA_UNITS`] with a `[crpa]` section and
-/// [`crate::jamming_terrain::UNITS`] with a `[terrain]` section.
+/// The units table of a jamming run: [`UNITS`], plus the units of each optional section the
+/// scenario has (`[crpa]`, `[terrain]`, `[acquisition]`, `[front_end]`).
 pub fn units(s: &JammingScenario) -> Vec<crate::field_schema::FieldUnit> {
     let mut v = UNITS.to_vec();
     if s.crpa.is_some() {
@@ -591,6 +609,12 @@ pub fn units(s: &JammingScenario) -> Vec<crate::field_schema::FieldUnit> {
     }
     if s.terrain.is_some() {
         v.extend_from_slice(crate::jamming_terrain::UNITS);
+    }
+    if s.acquisition.is_some() {
+        v.extend_from_slice(crate::jamming_rx::ACQUISITION_UNITS);
+    }
+    if s.front_end.is_some() {
+        v.extend_from_slice(crate::jamming_rx::FRONT_END_UNITS);
     }
     v
 }
@@ -606,6 +630,9 @@ pub struct JammingResult {
     /// The jammer's terrain shadowing, present only with a `[terrain]` section.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub jammer_terrain: Option<crate::jamming_terrain::JammerTerrain>,
+    /// The AGC reading and the quantiser loss, present only with a `[front_end]` section.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub front_end: Option<crate::jamming_rx::FrontEnd>,
     pub fom: JammingFoM,
     pub epochs: Vec<JammingEpoch>,
 }
@@ -660,6 +687,37 @@ pub fn run_jamming_sky(
     let terrain_loss_db = jammer_terrain
         .as_ref()
         .map_or(0.0, |t| t.diffraction_loss_db);
+    if let Some(a) = &scn.acquisition {
+        a.check(scn.tracking_threshold_dbhz)?;
+    }
+    // With a front end: the AGC reading from the jammer's received power, and the quantiser
+    // loss taken off every link.
+    let front_end = match &scn.front_end {
+        None => None,
+        Some(f) => {
+            f.check()?;
+            let jammer = scn.jammer.as_ref().map(|j| {
+                let el = look_angles(station, j.position_ecef_m).el_rad;
+                let j_dbw = j_over_s_db(
+                    j.power_dbw,
+                    j.gain_dbi,
+                    rx_antenna_gain_db(el),
+                    dist(station_ecef, j.position_ecef_m),
+                    scn.freq_hz,
+                    0.0,
+                    0.0,
+                ) - terrain_loss_db;
+                (j_dbw, j.jammer_type.as_str())
+            });
+            Some(crate::jamming_rx::front_end(
+                f,
+                jammer,
+                noise_density_dbw_per_hz(scn.temp_k),
+                scn.chip_rate_hz,
+            ))
+        }
+    };
+    let quantiser_loss_db = front_end.as_ref().map_or(0.0, |f| f.quantiser_loss_db);
     let sats = scn.constellation.satellites();
 
     // The jammer is static, so its geometry (range and the receiver-antenna gain
@@ -700,6 +758,8 @@ pub fn run_jamming_sky(
     let mut epochs = Vec::with_capacity(n + 1);
     let (mut avail_jam, mut avail_nom, mut min_tracking) = (0usize, 0usize, usize::MAX);
     let (mut js_sum, mut js_count) = (0.0f64, 0usize);
+    let mut acq_states = vec![crate::jamming_rx::AcqState::default(); sats.len()];
+    let mut avail_acq = 0usize;
 
     for i in 0..=n {
         let t = i as f64 * dt;
@@ -714,6 +774,7 @@ pub fn run_jamming_sky(
                 masked_by_skyline += 1;
             }
             if !in_view {
+                acq_states[prn].not_visible(t);
                 continue;
             }
             let look = look_angles(station, sat_ecef);
@@ -763,6 +824,15 @@ pub fn run_jamming_sky(
                     cn0_nom + beam.as_ref().map_or(0.0, |b| b.array_noise_gain_db),
                 ),
             };
+            let cn0_eff = if front_end.is_some() {
+                cn0_eff - quantiser_loss_db
+            } else {
+                cn0_eff
+            };
+            let acquired = scn
+                .acquisition
+                .as_ref()
+                .map(|a| acq_states[prn].visible(a, scn.tracking_threshold_dbhz, t, cn0_eff));
             let status = lock_status(cn0_eff, scn.tracking_threshold_dbhz, scn.degraded_margin_db);
             links.push(SatLink {
                 prn,
@@ -772,6 +842,7 @@ pub fn run_jamming_sky(
                 cn0_effective_dbhz: cn0_eff,
                 status: status.label().into(),
                 crpa: beam,
+                acquired,
             });
         }
         let visible = links.len();
@@ -785,6 +856,13 @@ pub fn run_jamming_sky(
             avail_jam += 1;
         }
         min_tracking = min_tracking.min(tracking);
+        let acquired = scn
+            .acquisition
+            .as_ref()
+            .map(|_| links.iter().filter(|l| l.acquired == Some(true)).count());
+        if acquired.is_some_and(|a| a >= 4) {
+            avail_acq += 1;
+        }
         epochs.push(JammingEpoch {
             t,
             visible,
@@ -792,6 +870,7 @@ pub fn run_jamming_sky(
             gnss_state: gnss_state_of(tracking),
             sats: links,
             masked_by_skyline: sky.map(|_| masked_by_skyline),
+            acquired,
         });
     }
 
@@ -803,6 +882,7 @@ pub fn run_jamming_sky(
         seed: scn.seed,
         jammer_present: scn.jammer.is_some(),
         jammer_terrain,
+        front_end,
         fom: JammingFoM {
             availability_under_jamming: avail_jam as f64 / denom,
             availability_nominal: avail_nom as f64 / denom,
@@ -816,6 +896,7 @@ pub fn run_jamming_sky(
             } else {
                 f64::NAN
             },
+            availability_acquired: scn.acquisition.as_ref().map(|_| avail_acq as f64 / denom),
         },
         epochs,
     })
@@ -1030,6 +1111,8 @@ mod tests {
             skyline: None,
             crpa: None,
             terrain: None,
+            acquisition: None,
+            front_end: None,
         }
     }
 
