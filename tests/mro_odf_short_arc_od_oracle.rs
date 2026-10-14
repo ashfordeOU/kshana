@@ -26,6 +26,10 @@
 //! ramp coverage): B1 MET, 0.01253 Hz (32 of 447 points edited). B2-B5 NOT MET: the registered
 //! fit stopped with a normal matrix that is not positive definite and produced no orbit. Both
 //! are pinned below; the row stays MODELLED.
+//!
+//! RUN 2 (`xval/mro-od/PREREGISTRATION-RUN2.md`, damped estimator `fit_damped`, amendment
+//! R2-A1): B1 MET 0.01253 Hz; B2 NOT MET 0.04856 Hz; B3 MET 0.362 km; B4 MET 0.527 km; B5 MET
+//! 2.9 %. Pinned below next to run 1; the row stays MODELLED.
 
 use kshana::mars_od::*;
 use kshana::naif_kernel::SpkKernel;
@@ -460,4 +464,27 @@ fn short_arc_od_run2_damped_fit_on_the_scored_passes() {
         b4_km: b4,
         b5_frac: b5,
     });
+    // Recorded on the registered run 2 (R2-A1 in force), 12 Jacobian evaluations:
+    // B1 MET 0.01253 Hz; B2 NOT MET 0.04856 Hz; B3 MET 0.3617 km; B4 MET 0.5270 km;
+    // B5 MET 13 of 447 (0.0291). FINDING: the damped fit reaches the reconstruction to
+    // 0.36 km RMS, but its post-fit Doppler misses the 0.030 Hz bar. The row stays MODELLED.
+    assert_eq!(fit.iterations, 12, "run 2 iterations moved");
+    assert_eq!((fit.n_after_elevation, fit.n_outliers), (447, 13));
+    assert!(
+        b2 > 0.030,
+        "B2 now meets its bar ({b2}): the recorded NOT MET moved"
+    );
+    assert!(
+        (b2 - 0.04856).abs() < 5e-4,
+        "B2 moved from 0.04856 Hz: {b2}"
+    );
+    assert!(
+        b3 <= 1.0 && (b3 - 0.3617).abs() < 0.02,
+        "B3 moved from 0.3617 km: {b3}"
+    );
+    assert!(
+        b4 <= 2.5 && (b4 - 0.5270).abs() < 0.03,
+        "B4 moved from 0.5270 km: {b4}"
+    );
+    assert!(b5 <= 0.05, "B5 {b5}");
 }

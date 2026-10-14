@@ -1208,7 +1208,7 @@ pub fn fit_damped(
             );
         }
         let mut n = vec![vec![0.0; 8]; 8];
-        let mut b = vec![0.0; 8];
+        let mut b = [0.0; 8];
         for (i, r) in res.iter().enumerate() {
             if !keep[i] {
                 continue;
@@ -1221,7 +1221,7 @@ pub fn fit_damped(
             }
         }
         let d: Vec<f64> = (0..8).map(|p| n[p][p].sqrt()).collect();
-        if d.iter().any(|v| !(*v > 0.0)) {
+        if d.iter().any(|v| v.is_nan() || *v <= 0.0) {
             return Err("a parameter has no partial on the kept points".into());
         }
         let ns: Vec<Vec<f64>> = (0..8)
