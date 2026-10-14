@@ -1,0 +1,27 @@
+# Nadir imager radiometry and image quality for an ILLUSTRATIVE small Earth-observation camera
+# (no operator's design): 0.40 m aperture, 3.6 m focal length (F/9), 5.5 um pixels, from
+# 500 km. The run gives the signal-to-noise budget of a 15 % reflectance scene, the system MTF
+# at Nyquist, the relative edge response and the GIQE version 4 NIIRS. MODELLED: the NIIRS is
+# an empirical regression evaluated on modelled inputs, not a rated image.
+kind = "eo-radiometry"
+altitude_m = 500000.0
+focal_length_m = 3.6
+aperture_m = 0.40
+pixel_pitch_um = 5.5
+wavelength_um = 0.65
+bandwidth_um = 0.2
+fill_factor = 1.0
+smear_px = 0.2
+jitter_px_rms = 0.1
+reflectance = 0.15
+solar_irradiance_w_m2_um = 1550.0
+sun_zenith_deg = 40.0
+atmospheric_transmittance = 0.7
+path_radiance_w_m2_sr_um = 0.0
+optics_transmittance = 0.8
+integration_s = 0.0005
+quantum_efficiency = 0.6
+dark_current_e_s = 50.0
+read_noise_e = 20.0
+full_well_e = 30000.0
+adc_bits = 12

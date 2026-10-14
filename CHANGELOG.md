@@ -599,6 +599,65 @@ breaking changes are called out explicitly.
     exactly by prometheus_client and the OTLP proto, accepted by promtool 3.5.0 `check metrics`
     with no lint problem, and passed unchanged through the OpenTelemetry Collector contrib
     0.135.0 (data-gated: tools fetched with pinned SHA-256, outputs committed).
+- **Mars ramped 2-way Doppler model and orbit determination** (0.36, WP-14, CAP-30 part,
+  stage 2): `mars_od` predicts DSN ramped X-band 2-way Doppler from ODF ramp tables (light
+  time, Shapiro, troposphere, station time, DSN stations via the CIO chain and IERS EOP) and
+  fits a Mars orbiter (GMM-3, third bodies, SRP, drag). `naif_kernel` reads SPK type 1 (checked
+  against CSPICE) and `gravity_sh::from_shadr` reads PDS SHADR fields. Pre-registered against
+  the MRO navigation reconstruction on real MRO passes (data-gated, `scripts/fetch_mro_od.sh`,
+  monthly CI): the predicted Doppler matches the observations to 12.5 mHz (bar 30 mHz, met);
+  the registered orbit fit failed on the scored arc and produced no orbit (finding pinned).
+  The row stays MODELLED.
+- **DSN Orbit Data File reader** (0.36, WP-14, CAP-30 part): `odf::parse_odf` reads TRK-2-18
+  ODFs. On a real Mars Reconnaissance Orbiter ODF (NASA PDS, vendored), the reader matches the
+  PDS label's record count, group positions, stations and times, and all its data types are
+  known. The label's end-of-file table is one row short of the file, a label inconsistency
+  recorded as a finding. MODELLED. Orbit determination on these data is not yet done.
+- **TWSTFT budget and time-transfer stability: the `time-transfer-budget` kind** (0.36, WP-14,
+  FUT-19).
+  - **Two-way equation:** `twstft_budget` solves it for T_A − T_B with station equipment
+    delays, the Ku-band ionospheric up/down asymmetry, the transponder delay difference and the
+    Sagnac terms, and recovers the forward model to 1e-15 s.
+  - **Uncertainty budget:** combined in quadrature, with the link TDEV as the type A term.
+  - **Link noise:** the two-way series gains a flicker phase-noise floor, a diurnal
+    non-reciprocity and a constant reciprocity residual. The white-jitter `timetransfer` pack is
+    unchanged.
+  - **Real series:** the stability of supplied BIPM Circular T, `MJD,ns` CSV or IGS station-clock
+    series.
+
+  MODELLED. New bundled scenario `time-transfer-budget`. The PPP time solution is VALIDATED
+  separately against the IGS station clock on the GNSS real-data branch.
+- **Entry heating, EO radiometry and ascent losses** (0.36, WP-14, CAP-28): three new kinds.
+  - `entry-heating`: a 3-DoF point-mass entry over a rotating Earth or Mars with Sutton-Graves
+    stagnation-point heating.
+  - `eo-radiometry`: imager SNR, MTF at Nyquist, relative edge response and GIQE 4 NIIRS.
+  - `ascent-losses`: a multi-stage gravity-turn ascent with gravity, drag, steering and
+    back-pressure losses, checked by the exact ideal-dv-minus-losses identity.
+
+  The entry's peak deceleration was checked against the published Stardust nominal under a
+  pre-registered bar: 35.44 g against 33.4 g (+6.1 %, bar 10 %). That row is VALIDATED.
+  Heating, radiometry and ascent are MODELLED. Also new: `reentry::us76_pressure`, bundled
+  scenarios `entry-heating-stardust`, `eo-radiometry` and `ascent-losses`, and
+  `docs/ENTRY-EO-ASCENT.md`.
+- **Attitude control with reaction wheels: the `aocs` kind** (0.36, WP-14, CAP-21). An
+  inertial-pointing slew of a rigid hub with three or more balanced reaction wheels under MRP
+  feedback, with minimum-norm wheel torques clipped to each motor's limit (`aocs`). It can also
+  close the loop on a multiplicative EKF from a simulated gyro and star tracker (`aocs_mekf`).
+  The true-state loop was compared with Basilisk 2.9.1 on three cases pre-registered before the
+  code existed (three orthogonal wheels, a four-wheel pyramid, a saturating case). Every MRP
+  component, body rate, wheel speed and motor torque agreed at every sample, worst 2.4e-14 in
+  sigma and 2.9e-11 rad/s in wheel speed. This row is VALIDATED; the MEKF is MODELLED (NEES
+  consistency). New bundled scenarios `aocs-slew` and `aocs-slew-mekf`, and `docs/AOCS.md`.
+- **Ground-contact scheduling and DVB-S2 ACM** (0.36, WP-14, CAP-22/23): two new scenario
+  kinds. `acm-link` gives, for one satellite over one station, each pass's Es/N0 and the DVB-S2
+  MODCOD chosen along it (ETSI EN 302 307-1 Table 13 thresholds plus a margin). It also gives
+  the data volume ACM moves against the constant-coding baseline. `contact-schedule` does the
+  same for several satellites over several stations and builds a conflict-free contact plan
+  (antenna turnaround, one station per satellite, priority-weighted delivery capped at each
+  backlog). It reports a marginal-value greedy plan, a first-come baseline and the exact optimum
+  on small sets, with the greedy's optimality gap. Access windows come from the VALIDATED
+  apparent pass predictor. New bundled scenarios `acm-link` and `contact-schedule` (illustrative
+  inputs) and `docs/CONTACT-SCHEDULING.md`. MODELLED (two new ledger rows).
 - **Lunar reference-station study** (0.36, prompted by published material on a planned lunar
   south-pole reference station; sources in [`docs/LUNAR-REFERENCE-STATION.md`](docs/LUNAR-REFERENCE-STATION.md)):
   the `lunar-station-coverage` kind, a Monte Carlo sweep of the lunar differential-PNT model over
