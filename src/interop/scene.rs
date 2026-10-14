@@ -421,6 +421,9 @@ pub fn reason_for_kind(kind: ScenarioKind) -> Option<String> {
         | K::SlotTiming
         | K::Spectrum => no_position,
         K::LeoPass | K::LeoPntChain => return None,
+        K::TimeTransferBudget => "the `time-transfer-budget` kind computes a link budget and \
+             stabilities, with no time-tagged geometry to place"
+            .to_string(),
         K::EoRadiometry | K::AscentLosses => "the `eo-radiometry` and `ascent-losses` kinds \
              compute budgets with no Earth position"
             .to_string(),

@@ -685,6 +685,9 @@ pub enum ScenarioKind {
     /// Gravity-turn ascent of a multi-stage vehicle with its gravity, drag, steering and
     /// back-pressure losses.
     AscentLosses,
+    /// TWSTFT two-way equation, uncertainty budget and link stability, plus the stability of
+    /// supplied UTC − UTC(k) and station-clock series.
+    TimeTransferBudget,
 }
 
 impl ScenarioKind {
@@ -773,6 +776,7 @@ impl ScenarioKind {
             ScenarioKind::EntryHeating => "entry-heating",
             ScenarioKind::EoRadiometry => "eo-radiometry",
             ScenarioKind::AscentLosses => "ascent-losses",
+            ScenarioKind::TimeTransferBudget => "time-transfer-budget",
         }
     }
 
@@ -865,6 +869,7 @@ impl ScenarioKind {
             "entry-heating" => ScenarioKind::EntryHeating,
             "eo-radiometry" => ScenarioKind::EoRadiometry,
             "ascent-losses" => ScenarioKind::AscentLosses,
+            "time-transfer-budget" => ScenarioKind::TimeTransferBudget,
             // The clock pack, named explicitly. It had no arm of its own before, because
             // it was reached through the catch-all below — so removing that catch-all
             // orphaned the one kind the engine has always had. The round-trip test found
@@ -1075,6 +1080,7 @@ pub fn list_scenario_kinds() -> Vec<ScenarioMeta> {
         ScenarioMeta { name: "entry-heating", description: "3-DoF point-mass atmospheric entry over a rotating spherical Earth or Mars (ballistic or lifting at constant bank), RK4, through US76, an exponential or the Mars atmosphere, with Sutton-Graves stagnation-point convective heating (NASA TR R-376): peak deceleration, heat flux and dynamic pressure, heat load, downrange, a rotating-frame energy check and the Allen-Eggers closed form beside it. Peak deceleration is checked against the published Stardust nominal; heating is MODELLED.", required_fields: &[], optional_fields: &["body", "atmosphere", "rho0_kg_m3", "scale_height_m", "entry_interface_altitude_m", "velocity_frame", "entry_speed_m_s", "flight_path_angle_deg", "heading_deg", "latitude_deg", "longitude_deg", "mass_kg", "drag_coefficient", "reference_area_m2", "nose_radius_m", "lift_to_drag", "bank_angle_deg", "rotating_planet", "step_s", "terminal_altitude_m", "max_time_s"] },
         ScenarioMeta { name: "eo-radiometry", description: "Nadir imager radiometry and image quality: at-aperture radiance of a Lambertian scene, the camera equation, signal and shot/dark/read/quantisation noise and SNR; the system MTF at Nyquist (diffraction x detector x smear x jitter), the relative edge response from it, Q = lambda F/p and the GIQE version 4 NIIRS with no MTF compensation. MODELLED.", required_fields: &[], optional_fields: &["altitude_m", "focal_length_m", "aperture_m", "pixel_pitch_um", "wavelength_um", "bandwidth_um", "fill_factor", "smear_px", "jitter_px_rms", "reflectance", "solar_irradiance_w_m2_um", "sun_zenith_deg", "atmospheric_transmittance", "path_radiance_w_m2_sr_um", "optics_transmittance", "integration_s", "quantum_efficiency", "dark_current_e_s", "read_noise_e", "full_well_e", "adc_bits"] },
         ScenarioMeta { name: "ascent-losses", description: "Planar gravity-turn ascent of a multi-stage vehicle over a non-rotating spherical Earth through the US Standard Atmosphere 1976 (vertical rise, pitch kick, thrust along velocity), integrating the gravity, drag, steering and back-pressure losses and checking ideal dv minus losses against the burnout speed; max-Q, peak acceleration and burnout state. MODELLED.", required_fields: &[], optional_fields: &["stages", "payload_kg", "drag_coefficient", "reference_area_m2", "kick_altitude_m", "kick_angle_deg", "kick_duration_s", "step_s"] },
+        ScenarioMeta { name: "time-transfer-budget", description: "Two-way satellite time and frequency transfer between two stations through a geostationary relay: the two-way equation solved for T_A - T_B with every non-reciprocal term (station equipment delays, Ku-band ionosphere, transponder, Sagnac), a quadrature uncertainty budget whose type A term is the simulated link's TDEV at the averaging time, a simulated link with white and flicker phase noise and a diurnal non-reciprocity, and the stability (rate, residual RMS, TDEV, ADEV) of any supplied BIPM Circular T Section 1 series, MJD,ns CSV or IGS RINEX station-clock records. MODELLED.", required_fields: &["station_a", "station_b", "satellite_lon_deg", "transponder_ab_ns", "transponder_ba_ns", "white_noise_ns", "uncertainty"], optional_fields: &["uplink_ghz", "downlink_ghz", "true_offset_ns", "flicker_noise_ns", "diurnal_amplitude_ns", "reciprocity_bias_ns", "step_s", "span_days", "averaging_s", "seed", "series"] },
     ]
 }
 
@@ -2800,6 +2806,18 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
         ScenarioKind::AscentLosses => {
             let scn: crate::entry_eo_ascent::ascent::AscentScenario =
                 toml::from_str(src).map_err(|e| format!("invalid ascent-losses scenario: {e}"))?;
+            let (json, summary) = scn.run_json()?;
+            let svg = minimal_svg(&summary);
+            Ok(RunOutput {
+                json,
+                svg,
+                summary,
+                csv: None,
+            })
+        }
+        ScenarioKind::TimeTransferBudget => {
+            let scn: crate::time_transfer_budget::TimeTransferBudgetScenario = toml::from_str(src)
+                .map_err(|e| format!("invalid time-transfer-budget scenario: {e}"))?;
             let (json, summary) = scn.run_json()?;
             let svg = minimal_svg(&summary);
             Ok(RunOutput {

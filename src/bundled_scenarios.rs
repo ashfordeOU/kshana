@@ -171,6 +171,7 @@ pub const BUNDLED: &[(&str, &str)] = &[
     bundled!("telecom-tie-ingest"),
     bundled!("terrain-nav"),
     bundled!("terrain-slam"),
+    bundled!("time-transfer-budget"),
     bundled!("timetransfer"),
     bundled!("tracking-loop"),
     bundled!("xona-pulsar-end-to-end"),

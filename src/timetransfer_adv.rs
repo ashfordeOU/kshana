@@ -23,7 +23,9 @@
 //!
 //! Everything here is self-contained: the validation targets are closed forms (Sagnac,
 //! iono-free cancellation, the `h_α` basis) and synthetic truth, not imported reference
-//! products. A real BIPM Circular-T / IGS SP3 ingest is a follow-on (see `ROADMAP.md`).
+//! products. The stability of real Circular T `UTC − UTC(k)` and IGS station-clock series, and a
+//! TWSTFT link with flicker and diurnal non-reciprocity, are in [`crate::twstft_budget`] and the
+//! `time-transfer-budget` kind.
 
 use crate::allan::{overlapping_adev, time_deviation, PowerLawNoise};
 use crate::timegeo::{sagnac_correction, C_M_PER_S, OMEGA_EARTH};
