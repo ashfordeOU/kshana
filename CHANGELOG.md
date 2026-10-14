@@ -11,6 +11,11 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **DSN Orbit Data File reader** (0.36, WP-14, CAP-30 part): `odf::parse_odf` reads TRK-2-18
+  ODFs. On a real Mars Reconnaissance Orbiter ODF (NASA PDS, vendored), the reader matches the
+  PDS label's record count, group positions, stations and times, and all its data types are
+  known. The label's end-of-file table is one row short of the file, a label inconsistency
+  recorded as a finding. MODELLED. Orbit determination on these data is not yet done.
 - **TWSTFT budget and time-transfer stability: the `time-transfer-budget` kind** (0.36, WP-14,
   FUT-19).
   - **Two-way equation:** `twstft_budget` solves it for T_A − T_B with station equipment
