@@ -101,9 +101,9 @@ table. The jammers are the ones in `scenarios/l-band-waterfall-jamming.toml`.
 
 | Phase | Runs | What the timeline shows |
 |---|---|---|
-| onset, ended at 10 s by `end_at` | `clock`, `spectrum` (chirp from 10 s), `integrity` | L1 C/A 43.48 and E1 44.98 dB-Hz; the phase ends at the spectrum run's own first loss of L1 C/A (`timeline.bands[0].first_loss_t_s`); protection level 21.6 m against 50 m |
-| holdover, 600 s | `clock` (denied, carries the onset error, 0 ns here), `spectrum` (chirp on) | L1 C/A 3.38 and E1 4.69 dB-Hz, both below the 25 dB-Hz floor; time error -0.07 to 5.06 ns against the 50 ns guard; alarm up |
-| galileo-fallback, 300 s | `clock` (re-synchronised), `spectrum` (CW tone on the L1 carrier), `integrity` on a Galileo-like Walker 24/3/1 | L1 C/A held at 17.98 dB-Hz, E1 back to 44.98 dB-Hz; protection level 6.1 to 17.7 m; alarm quiet |
+| onset, ended at 10 s by `end_at` | `clock`, `spectrum` (chirp from 10 s), `integrity` | L1 C/A 43.48 and E1 44.73 dB-Hz; the phase ends at the spectrum run's own first loss of L1 C/A (`timeline.bands[0].first_loss_t_s`); protection level 21.6 m against 50 m |
+| holdover, 600 s | `clock` (denied, carries the onset error, 0 ns here), `spectrum` (chirp on) | L1 C/A 3.38 and E1 4.44 dB-Hz, both below the 25 dB-Hz floor; time error -0.07 to 5.06 ns against the 50 ns guard; alarm up |
+| galileo-fallback, 300 s | `clock` (re-synchronised), `spectrum` (CW tone on the L1 carrier), `integrity` on a Galileo-like Walker 24/3/1 | L1 C/A held at 17.98 dB-Hz, E1 back to 44.73 dB-Hz; protection level 6.1 to 17.7 m; alarm quiet |
 
 E1 recovering under the CW tone rests on the spectrum kind's continuous-spectrum
 treatment: the tone sits in the null of the MBOC spectrum and couples nothing. A real tone
