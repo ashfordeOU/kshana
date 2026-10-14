@@ -27,9 +27,13 @@ macro_rules! bundled {
 
 /// Every scenario file in `scenarios/` that runs on its own, in file-name order.
 pub const BUNDLED: &[(&str, &str)] = &[
+    bundled!("acm-link"),
+    bundled!("aocs-slew"),
+    bundled!("aocs-slew-mekf"),
     bundled!("aperture-duty-cycle"),
     bundled!("araim-gps-galileo"),
     bundled!("araim-reference-check"),
+    bundled!("ascent-losses"),
     bundled!("attitude-budget"),
     bundled!("automotive-urban-canyon"),
     bundled!("campaign-jam-spoof-holdover-integrity"),
@@ -46,8 +50,11 @@ pub const BUNDLED: &[(&str, &str)] = &[
     bundled!("combined-altpnt"),
     bundled!("conflict-resilience"),
     bundled!("constellation-multi-gnss-coverage"),
+    bundled!("contact-schedule"),
     bundled!("earth-gnss-lunar"),
+    bundled!("entry-heating-stardust"),
     bundled!("eo-coverage"),
+    bundled!("eo-radiometry"),
     bundled!("ephemeris"),
     bundled!("europa-surface-pnt"),
     bundled!("fusion-pnt"),
@@ -173,6 +180,7 @@ pub const BUNDLED: &[(&str, &str)] = &[
     bundled!("telecom-tie-ingest"),
     bundled!("terrain-nav"),
     bundled!("terrain-slam"),
+    bundled!("time-transfer-budget"),
     bundled!("timetransfer"),
     bundled!("tracking-loop"),
     bundled!("xona-pulsar-end-to-end"),

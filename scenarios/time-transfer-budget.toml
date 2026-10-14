@@ -1,0 +1,48 @@
+# Two-way satellite time and frequency transfer (TWSTFT) between two ILLUSTRATIVE stations, one
+# in central Europe and one in eastern North America, through a geostationary relay at 10 deg W.
+# The run solves the two-way equation for T_A - T_B from the stated equipment, transponder,
+# ionospheric (Ku band, 14/11 GHz) and Sagnac terms. It forms an uncertainty budget whose
+# statistical term is the TDEV, at one day, of a simulated link with white and flicker phase
+# noise and a diurnal non-reciprocity. The delays and uncertainties are illustrative, not any
+# laboratory's calibration. MODELLED. A real UTC-UTC(k) or station-clock series can be added
+# under [[series]] (format circular-t, mjd-csv or rinex-clock) to report its stability.
+kind = "time-transfer-budget"
+satellite_lon_deg = -10.0
+transponder_ab_ns = 812.0
+transponder_ba_ns = 809.5
+uplink_ghz = 14.0
+downlink_ghz = 11.0
+true_offset_ns = 12.5
+white_noise_ns = 0.3
+flicker_noise_ns = 0.05
+diurnal_amplitude_ns = 0.2
+reciprocity_bias_ns = 0.0
+step_s = 300.0
+span_days = 30.0
+averaging_s = 86400.0
+seed = 2026
+
+[station_a]
+name = "europe"
+lat_deg = 50.0
+lon_deg = 10.0
+height_m = 100.0
+tx_delay_ns = 412.3
+rx_delay_ns = 398.7
+slant_tec_tecu = 30.0
+
+[station_b]
+name = "north-america"
+lat_deg = 39.0
+lon_deg = -77.0
+height_m = 50.0
+tx_delay_ns = 501.9
+rx_delay_ns = 455.2
+slant_tec_tecu = 20.0
+
+[uncertainty]
+station_calibration_ns = 1.0
+equipment_instability_ns = 0.3
+transponder_ns = 0.3
+ionosphere_ns = 0.02
+sagnac_ns = 0.01

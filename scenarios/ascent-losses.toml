@@ -1,0 +1,27 @@
+# Gravity-turn ascent losses of an ILLUSTRATIVE two-stage kerosene/oxygen launcher (no real
+# vehicle): vertical rise to 1 km, a 3 deg pitch kick for 10 s, then thrust along the
+# velocity. The run integrates the gravity, drag, steering and back-pressure losses and checks
+# that ideal dv minus the losses equals the burnout speed. MODELLED: planar, non-rotating
+# Earth, constant C_D, no coast, no guidance beyond the kick.
+kind = "ascent-losses"
+payload_kg = 10000.0
+drag_coefficient = 0.3
+reference_area_m2 = 10.5
+kick_altitude_m = 1000.0
+kick_angle_deg = 3.0
+kick_duration_s = 10.0
+step_s = 0.1
+
+[[stages]]
+dry_mass_kg = 25000.0
+propellant_kg = 400000.0
+thrust_vac_n = 7600000.0
+isp_vac_s = 311.0
+exit_area_m2 = 6.0
+
+[[stages]]
+dry_mass_kg = 4000.0
+propellant_kg = 100000.0
+thrust_vac_n = 980000.0
+isp_vac_s = 348.0
+exit_area_m2 = 0.0
