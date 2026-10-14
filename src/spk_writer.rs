@@ -1,7 +1,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 //! A pure-Rust writer and reader for NAIF SPICE Spacecraft and Planet Kernel (SPK) segments of
 //! type 9 (Lagrange interpolation, unequal time steps) and type 13 (Hermite interpolation,
-//! unequal time steps), and an export of CCSDS Orbit Ephemeris Messages to such kernels.
+//! unequal time steps), and an export of CCSDS Orbit Ephemeris Messages to such kernels; and,
+//! from given records, segments of type 3 (Chebyshev polynomials for position and velocity over
+//! fixed intervals) and type 21 (extended modified difference arrays, the "difference lines" of
+//! JPL integrators). Kshana does not fit Chebyshev coefficients or produce difference lines; it
+//! writes and evaluates the records it is given.
 //!
 //! Written from the public NAIF "DAF Required Reading" and "SPK Required Reading" documents and
 //! the algorithm descriptions of the SPICE Toolkit; no SPICE code is linked or copied. The
@@ -23,7 +27,11 @@
 //!   at once by an empty one placed after the data;
 //! * each segment: the N states (x, y, z, vx, vy, vz; km, km/s), the N epochs (TDB seconds past
 //!   J2000), the epoch directory (every 100th epoch), then the degree (type 9) or the window
-//!   size minus one (type 13, window `(degree + 1) / 2`), then N.
+//!   size minus one (type 13, window `(degree + 1) / 2`), then N;
+//! * a type 3 segment: N records of `MID, RADIUS` and the `degree + 1` Chebyshev coefficients of
+//!   x, y, z, vx, vy, vz, then `INIT, INTLEN, RSIZE, N`;
+//! * a type 21 segment: N difference lines of `4 MAXDIM + 11` words, the N line end epochs, a
+//!   directory of every 100th epoch (`N / 100` entries), then `MAXDIM, N`.
 //!
 //! Character records are written as 1000 characters, so their last 24 bytes are zero here, and
 //! the file ends at the last byte written (after a name record it is not a whole record).
@@ -46,6 +54,10 @@ pub enum SpkType {
     Lagrange9,
     /// Type 13: Hermite, unequal steps; position and velocity interpolated together.
     Hermite13,
+    /// Type 3: Chebyshev polynomials for position and velocity, fixed-length intervals.
+    Chebyshev3,
+    /// Type 21: extended modified difference arrays (difference lines).
+    DiffLines21,
 }
 
 impl SpkType {
@@ -54,6 +66,8 @@ impl SpkType {
         match self {
             SpkType::Lagrange9 => 9,
             SpkType::Hermite13 => 13,
+            SpkType::Chebyshev3 => 3,
+            SpkType::DiffLines21 => 21,
         }
     }
 }
@@ -69,7 +83,7 @@ pub fn frame_code(name: &str) -> Result<i32, String> {
     }
 }
 
-/// One type 9 or type 13 segment.
+/// One SPK segment of type 9, 13, 3 or 21.
 #[derive(Clone, Debug, PartialEq)]
 pub struct SpkSegment {
     /// NAIF id of the target body.
@@ -80,7 +94,7 @@ pub struct SpkSegment {
     pub frame: i32,
     /// Interpolation type.
     pub kind: SpkType,
-    /// Polynomial degree, 1..=27 (odd for type 13).
+    /// Polynomial degree, 1..=27 (odd for type 13); 0..=27 for type 3; unused for type 21.
     pub degree: usize,
     /// Descriptor start, TDB seconds past J2000.
     pub start: f64,
@@ -88,11 +102,23 @@ pub struct SpkSegment {
     pub end: f64,
     /// Segment name: printable ASCII, at most 40 characters.
     pub name: String,
-    /// Epochs, strictly increasing, covering `[start, end]`.
+    /// Types 9 and 13: the node epochs, strictly increasing, covering `[start, end]`. Type 21:
+    /// the end epoch of each difference line, strictly increasing, the last at or after `end`.
+    /// Type 3: empty.
     pub epochs: Vec<f64>,
-    /// States at the epochs: km and km/s.
+    /// Types 9 and 13: states at the epochs, km and km/s. Empty for types 3 and 21.
     pub states: Vec<[f64; 6]>,
+    /// Type 3: per record, the `degree + 1` coefficients of x, y, z, vx, vy, vz in turn.
+    /// Type 21: the difference lines, each `4 MAXDIM + 11` words. Empty for types 9 and 13.
+    pub records: Vec<Vec<f64>>,
+    /// Type 3: start of the first record interval (TDB seconds past J2000); 0 otherwise.
+    pub init: f64,
+    /// Type 3: length of every record interval, seconds; 0 otherwise.
+    pub intlen: f64,
 }
+
+/// SPICE's largest type 21 difference-table dimension (`MAXTRM`).
+const MAXTRM: usize = 25;
 
 impl SpkSegment {
     /// The interpolation window size.
@@ -100,6 +126,7 @@ impl SpkSegment {
         match self.kind {
             SpkType::Lagrange9 => self.degree + 1,
             SpkType::Hermite13 => self.degree.div_ceil(2),
+            SpkType::Chebyshev3 | SpkType::DiffLines21 => 1,
         }
     }
 
@@ -114,6 +141,17 @@ impl SpkSegment {
             return Err(format!(
                 "segment name has non-printing characters: {name:?}"
             ));
+        }
+        if self.target == 0 || self.target == self.centre {
+            return Err(format!(
+                "bad target {} for centre {}",
+                self.target, self.centre
+            ));
+        }
+        match self.kind {
+            SpkType::Chebyshev3 => return self.validate_type3(),
+            SpkType::DiffLines21 => return self.validate_type21(),
+            _ => {}
         }
         if !(1..=27).contains(&self.degree) {
             return Err(format!("degree {} outside 1..=27", self.degree));
@@ -140,17 +178,19 @@ impl SpkSegment {
         if self.epochs[0] > self.start || self.epochs[n - 1] < self.end {
             return Err("the epochs do not cover the descriptor interval".into());
         }
-        if self.target == 0 || self.target == self.centre {
-            return Err(format!(
-                "bad target {} for centre {}",
-                self.target, self.centre
-            ));
+        if !self.records.is_empty() {
+            return Err("a type 9 or 13 segment carries states, not records".into());
         }
         Ok(())
     }
 
     /// The segment's data words, in file order.
     pub fn data_words(&self) -> Vec<f64> {
+        match self.kind {
+            SpkType::Chebyshev3 => return self.type3_words(),
+            SpkType::DiffLines21 => return self.type21_words(),
+            _ => {}
+        }
         let n = self.epochs.len();
         let ndir = (n - 1) / 100;
         let mut w = Vec::with_capacity(7 * n + ndir + 2);
@@ -162,9 +202,131 @@ impl SpkSegment {
             w.push(self.epochs[100 * k - 1]);
         }
         w.push(match self.kind {
-            SpkType::Lagrange9 => self.degree as f64,
             SpkType::Hermite13 => (self.window() - 1) as f64,
+            _ => self.degree as f64,
         });
+        w.push(n as f64);
+        w
+    }
+
+    /// `spkw03`'s checks: degree 0..=27, a positive interval, records of `6 (degree + 1)`
+    /// coefficients, and a descriptor inside the records' span within `1e-13` relative.
+    fn validate_type3(&self) -> Result<(), String> {
+        let n = self.records.len();
+        if n == 0 {
+            return Err("a type 3 segment needs at least one record".into());
+        }
+        if self.degree > 27 {
+            return Err(format!("type 3 degree {} outside 0..=27", self.degree));
+        }
+        if !(self.intlen > 0.0) {
+            return Err(format!(
+                "type 3 interval length {} is not positive",
+                self.intlen
+            ));
+        }
+        let ncof = 6 * (self.degree + 1);
+        if let Some(i) = self.records.iter().position(|r| r.len() != ncof) {
+            return Err(format!(
+                "type 3 record {i} has {} coefficients, expected {ncof}",
+                self.records[i].len()
+            ));
+        }
+        if self.start > self.end {
+            return Err("descriptor start is after its end".into());
+        }
+        let tol = self.start.abs().max(self.end.abs()) * 1e-13;
+        if self.start < self.init - tol {
+            return Err("descriptor starts before the first record".into());
+        }
+        let ltime = self.init + n as f64 * self.intlen;
+        if self.end > ltime + tol {
+            return Err("descriptor ends after the last record".into());
+        }
+        if !self.epochs.is_empty() || !self.states.is_empty() {
+            return Err("a type 3 segment carries records, not epochs or states".into());
+        }
+        Ok(())
+    }
+
+    fn type3_words(&self) -> Vec<f64> {
+        let n = self.records.len();
+        let ninrec = 6 * (self.degree + 1);
+        let mut w = Vec::with_capacity(n * (ninrec + 2) + 4);
+        for (i, r) in self.records.iter().enumerate() {
+            // The order of spkw03: MID = BTIME + RADIUS + (I - 1) INTLEN.
+            let radius = self.intlen / 2.0;
+            let mid = self.init + radius + i as f64 * self.intlen;
+            w.push(mid);
+            w.push(radius);
+            w.extend_from_slice(r);
+        }
+        w.push(self.init);
+        w.push(self.intlen);
+        w.push((ninrec + 2) as f64);
+        w.push(n as f64);
+        w
+    }
+
+    /// `spkw21`'s checks: equal lines of `4 MAXDIM + 11` words with `15 <= MAXDIM <= 25`, one
+    /// end epoch per line, strictly increasing, the last at or after the descriptor end, and no
+    /// zero step among the first `KQMAX1 - 2` step sizes of a line.
+    fn validate_type21(&self) -> Result<(), String> {
+        let n = self.records.len();
+        if n == 0 {
+            return Err("a type 21 segment needs at least one difference line".into());
+        }
+        let dlsize = self.records[0].len();
+        if !(71..=4 * MAXTRM + 11).contains(&dlsize) || (dlsize - 11) % 4 != 0 {
+            return Err(format!(
+                "difference line size {dlsize} is not 4 MAXDIM + 11 with MAXDIM in 15..=25"
+            ));
+        }
+        if self.records.iter().any(|r| r.len() != dlsize) {
+            return Err("difference lines of different sizes".into());
+        }
+        if self.epochs.len() != n {
+            return Err(format!(
+                "{} epochs for {n} difference lines",
+                self.epochs.len()
+            ));
+        }
+        if self.start > self.end {
+            return Err("descriptor start is after its end".into());
+        }
+        if self.epochs.windows(2).any(|w| w[1] <= w[0]) {
+            return Err("difference line epochs are not strictly increasing".into());
+        }
+        if self.epochs[n - 1] < self.end {
+            return Err("the last difference line ends before the descriptor".into());
+        }
+        let maxdim = (dlsize - 11) / 4;
+        for (i, r) in self.records.iter().enumerate() {
+            let kqmax1 = r[4 * maxdim + 7].round() as i64;
+            for j in 1..(kqmax1 - 1).max(1) as usize {
+                if r.get(j).copied() == Some(0.0) {
+                    return Err(format!("zero step size {j} in difference line {i}"));
+                }
+            }
+        }
+        if !self.states.is_empty() {
+            return Err("a type 21 segment carries difference lines, not states".into());
+        }
+        Ok(())
+    }
+
+    fn type21_words(&self) -> Vec<f64> {
+        let n = self.records.len();
+        let dlsize = self.records[0].len();
+        let mut w = Vec::with_capacity(n * (dlsize + 1) + n / 100 + 2);
+        for r in &self.records {
+            w.extend_from_slice(r);
+        }
+        w.extend_from_slice(&self.epochs);
+        for k in 1..=n / 100 {
+            w.push(self.epochs[100 * k - 1]);
+        }
+        w.push(((dlsize - 11) / 4) as f64);
         w.push(n as f64);
         w
     }
@@ -384,7 +546,7 @@ pub struct ReadSegment {
     pub centre: i32,
     /// Frame code.
     pub frame: i32,
-    /// Type (9 or 13).
+    /// Type (9, 13, 3 or 21).
     pub kind: SpkType,
     /// Descriptor start.
     pub start: f64,
@@ -397,6 +559,121 @@ pub struct ReadSegment {
     window: usize,
     epochs: Vec<f64>,
     states: Vec<[f64; 6]>,
+    /// Type 3 records (`MID, RADIUS`, coefficients) or type 21 difference lines.
+    records: Vec<Vec<f64>>,
+    init: f64,
+    intlen: f64,
+    maxdim: usize,
+}
+
+/// Evaluate a Chebyshev expansion at `x` in the order of the SPICE routine `chbval`
+/// (`x2s` = midpoint, radius).
+fn chbval(cp: &[f64], x2s: [f64; 2], x: f64) -> f64 {
+    let s = (x - x2s[0]) / x2s[1];
+    let s2 = s * 2.0;
+    let mut w = [0.0f64; 3];
+    let mut j = cp.len();
+    while j > 1 {
+        w[2] = w[1];
+        w[1] = w[0];
+        w[0] = cp[j - 1] + (s2 * w[1] - w[2]);
+        j -= 1;
+    }
+    s * w[0] - w[1] + cp[0]
+}
+
+/// The SPICE routine `lstltd`: the number of leading entries of the sorted `a` below `x`,
+/// found by its bisection.
+fn lstltd(x: f64, a: &[f64]) -> usize {
+    let n = a.len();
+    if n == 0 || x <= a[0] {
+        return 0;
+    }
+    if a[n - 1] < x {
+        return n;
+    }
+    let (mut begin, mut end, mut items) = (1usize, n, n);
+    while items > 2 {
+        let middle = begin + items / 2;
+        if a[middle - 1] < x {
+            begin = middle;
+        } else {
+            end = middle;
+        }
+        items = end - begin + 1;
+    }
+    begin
+}
+
+/// Evaluate one type 21 difference line (`MAXDIM` words of step sizes etc.) at `et`, in the
+/// order of the SPICE routine `spke21`.
+fn spke21(et: f64, maxdim: usize, line: &[f64]) -> Result<[f64; 6], String> {
+    let tl = line[0];
+    let g = &line[1..1 + maxdim];
+    let refpos = [line[maxdim + 1], line[maxdim + 3], line[maxdim + 5]];
+    let refvel = [line[maxdim + 2], line[maxdim + 4], line[maxdim + 6]];
+    let dt = |i: usize, j: usize| line[maxdim + 7 + i * maxdim + (j - 1)];
+    let kqmax1 = line[4 * maxdim + 7] as i64;
+    let kq = [
+        line[4 * maxdim + 8] as i64,
+        line[4 * maxdim + 9] as i64,
+        line[4 * maxdim + 10] as i64,
+    ];
+    if kqmax1 < 2 || kqmax1 as usize > maxdim + 2 || kq.iter().any(|&k| k < 0 || k >= kqmax1) {
+        return Err(format!(
+            "difference line orders {kqmax1} {kq:?} out of range"
+        ));
+    }
+    let kqmax1 = kqmax1 as usize;
+    let mut fc = [0.0f64; MAXTRM];
+    fc[0] = 1.0;
+    let mut wc = [0.0f64; MAXTRM - 1];
+    let mut w = [0.0f64; MAXTRM + 2];
+    let delta = et - tl;
+    let mut tp = delta;
+    let mq2 = kqmax1 - 2;
+    let mut ks = kqmax1 - 1;
+    for j in 1..=mq2 {
+        if g[j - 1] == 0.0 {
+            return Err(format!("zero step size at index {j}"));
+        }
+        fc[j] = tp / g[j - 1];
+        wc[j - 1] = delta / g[j - 1];
+        tp = delta + g[j - 1];
+    }
+    for j in 1..=kqmax1 {
+        w[j - 1] = 1.0 / j as f64;
+    }
+    let mut jx = 0usize;
+    let mut ks1 = ks as i64 - 1;
+    while ks >= 2 {
+        jx += 1;
+        for j in 1..=jx {
+            w[j + ks - 1] = fc[j] * w[(j as i64 + ks1 - 1) as usize] - wc[j - 1] * w[j + ks - 1];
+        }
+        ks = ks1 as usize;
+        ks1 -= 1;
+    }
+    let mut state = [0.0f64; 6];
+    for i in 0..3 {
+        let mut sum = 0.0;
+        for j in (1..=kq[i] as usize).rev() {
+            sum += dt(i, j) * w[j + ks - 1];
+        }
+        state[i] = refpos[i] + delta * (refvel[i] + delta * sum);
+    }
+    for j in 1..=jx {
+        w[j + ks - 1] = fc[j] * w[(j as i64 + ks1 - 1) as usize] - wc[j - 1] * w[j + ks - 1];
+    }
+    ks -= 1;
+    for i in 0..3 {
+        let mut sum = 0.0;
+        for j in (1..=kq[i] as usize).rev() {
+            sum += dt(i, j) * w[j + ks - 1];
+        }
+        state[i + 3] = refvel[i] + delta * sum;
+    }
+    Ok(state)
 }
 
 /// Interpolate with Neville's algorithm in the order of the SPICE routine `lgrint`.
@@ -496,6 +773,13 @@ impl ReadSegment {
                 self.start, self.end
             ));
         }
+        match self.kind {
+            SpkType::Chebyshev3 => return Ok(self.eval_type3(et)),
+            SpkType::DiffLines21 => {
+                return spke21(et, self.maxdim, &self.records[self.record21(et)])
+            }
+            _ => {}
+        }
         let f = self.window_start(et);
         let x = &self.epochs[f..f + self.window];
         let st = &self.states[f..f + self.window];
@@ -515,12 +799,47 @@ impl ReadSegment {
                     out[c + 3] = v;
                 }
             }
+            SpkType::Chebyshev3 | SpkType::DiffLines21 => unreachable!("handled above"),
         }
         Ok(out)
     }
+
+    /// Type 3: the record `spkr03` selects (`(ET - INIT) / INTLEN`, truncated, plus one, at
+    /// most N) evaluated with `chbval` for each component.
+    fn eval_type3(&self, et: f64) -> [f64; 6] {
+        let nrec = self.records.len() as i64;
+        let recno = (((et - self.init) / self.intlen) as i64 + 1).clamp(1, nrec) as usize;
+        let r = &self.records[recno - 1];
+        let ncof = (r.len() - 2) / 6;
+        let mut out = [0.0; 6];
+        for (c, o) in out.iter_mut().enumerate() {
+            *o = chbval(&r[2 + c * ncof..2 + (c + 1) * ncof], [r[0], r[1]], et);
+        }
+        out
+    }
+
+    /// Type 21: the 0-based line `spkr21` selects: the first whose end epoch is at or after
+    /// `ET`, searched through the epoch directory in groups of 100.
+    fn record21(&self, et: f64) -> usize {
+        let e = &self.epochs;
+        let n = e.len();
+        let recno = if n <= 100 {
+            lstltd(et, e) + 1
+        } else {
+            let ndir = n / 100;
+            match (1..=ndir).find(|&i| e[100 * i - 1] >= et) {
+                Some(i) => (i - 1) * 100 + lstltd(et, &e[(i - 1) * 100..i * 100]) + 1,
+                None => {
+                    let r = n % 100;
+                    ndir * 100 + lstltd(et, &e[n - r..n]) + 1
+                }
+            }
+        };
+        recno.min(n) - 1
+    }
 }
 
-/// The type 9 and 13 segments of an SPK, in file order (other types are skipped).
+/// The type 9, 13, 3 and 21 segments of an SPK, in file order (other types are skipped).
 #[derive(Clone, Debug)]
 pub struct InterpolatedSpk {
     /// The segments.
@@ -542,11 +861,68 @@ impl InterpolatedSpk {
             let kind = match s.ints[3] {
                 9 => SpkType::Lagrange9,
                 13 => SpkType::Hermite13,
+                3 => SpkType::Chebyshev3,
+                21 => SpkType::DiffLines21,
                 _ => continue,
             };
             let (first, last) = (s.ints[4] as usize, s.ints[5] as usize);
             let w = daf.words(first, last)?;
             let nw = w.len();
+            let mut seg = ReadSegment {
+                target: s.ints[0],
+                centre: s.ints[1],
+                frame: s.ints[2],
+                kind,
+                start: s.doubles[0],
+                end: s.doubles[1],
+                addresses: (first, last),
+                name: s.name.clone(),
+                window: 1,
+                epochs: vec![],
+                states: vec![],
+                records: vec![],
+                init: 0.0,
+                intlen: 0.0,
+                maxdim: 0,
+            };
+            if kind == SpkType::Chebyshev3 {
+                if nw < 4 {
+                    return Err(format!("type 3 segment {:?} too short", s.name));
+                }
+                let (rsize, n) = (w[nw - 2].round() as usize, w[nw - 1].round() as usize);
+                if n == 0 || rsize < 8 || (rsize - 2) % 6 != 0 || n * rsize + 4 != nw {
+                    return Err(format!(
+                        "type 3 segment {:?}: {nw} words for N = {n}, RSIZE = {rsize}",
+                        s.name
+                    ));
+                }
+                seg.init = w[nw - 4];
+                seg.intlen = w[nw - 3];
+                seg.records = w[..n * rsize].chunks(rsize).map(<[f64]>::to_vec).collect();
+                segments.push(seg);
+                continue;
+            }
+            if kind == SpkType::DiffLines21 {
+                if nw < 2 {
+                    return Err(format!("type 21 segment {:?} too short", s.name));
+                }
+                let (maxdim, n) = (w[nw - 2].round() as usize, w[nw - 1].round() as usize);
+                let dlsize = 4 * maxdim + 11;
+                if n == 0 || maxdim > MAXTRM || n * dlsize + n + n / 100 + 2 != nw {
+                    return Err(format!(
+                        "type 21 segment {:?}: {nw} words for N = {n}, MAXDIM = {maxdim}",
+                        s.name
+                    ));
+                }
+                seg.maxdim = maxdim;
+                seg.records = w[..n * dlsize]
+                    .chunks(dlsize)
+                    .map(<[f64]>::to_vec)
+                    .collect();
+                seg.epochs = w[n * dlsize..n * dlsize + n].to_vec();
+                segments.push(seg);
+                continue;
+            }
             if nw < 9 {
                 return Err(format!("segment {:?} too short", s.name));
             }
@@ -559,19 +935,10 @@ impl InterpolatedSpk {
             let states = (0..n)
                 .map(|i| w[6 * i..6 * i + 6].try_into().expect("6 words"))
                 .collect();
-            segments.push(ReadSegment {
-                target: s.ints[0],
-                centre: s.ints[1],
-                frame: s.ints[2],
-                kind,
-                start: s.doubles[0],
-                end: s.doubles[1],
-                addresses: (first, last),
-                name: s.name.clone(),
-                window: d + 1,
-                epochs: w[6 * n..7 * n].to_vec(),
-                states,
-            });
+            seg.window = d + 1;
+            seg.epochs = w[6 * n..7 * n].to_vec();
+            seg.states = states;
+            segments.push(seg);
         }
         Ok(Self { segments })
     }
@@ -770,6 +1137,9 @@ pub fn oem_to_spk_segments(
                 name: get("OBJECT_NAME")?.chars().take(40).collect(),
                 epochs: vec![],
                 states: vec![],
+                records: vec![],
+                init: 0.0,
+                intlen: 0.0,
             });
             idx += 1;
             continue;
@@ -833,6 +1203,9 @@ mod tests {
             name: "TEST".into(),
             epochs,
             states,
+            records: vec![],
+            init: 0.0,
+            intlen: 0.0,
         }
     }
 

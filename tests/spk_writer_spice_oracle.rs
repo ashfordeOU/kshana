@@ -82,6 +82,9 @@ fn inputs() -> (Value, Vec<(String, Inp)>) {
                     .iter()
                     .map(|r| fv(r).try_into().unwrap())
                     .collect(),
+                records: vec![],
+                init: 0.0,
+                intlen: 0.0,
             };
             (
                 s["file"].as_str().unwrap().to_string(),
