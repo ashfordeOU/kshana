@@ -82,7 +82,14 @@ export type ScenarioKind =
   | "leo-pvt"
   | "leo-ppp"
   | "ntn-positioning"
-  | "leo-pnt-chain";
+  | "leo-pnt-chain"
+  | "contact-schedule"
+  | "acm-link"
+  | "aocs"
+  | "entry-heating"
+  | "eo-radiometry"
+  | "ascent-losses"
+  | "time-transfer-budget";
 
 /** The failure category `error_kind` returns (`""` on success). */
 export type ErrorKind = "invalid_input" | "non_convergence" | "unsupported" | "io_error";
