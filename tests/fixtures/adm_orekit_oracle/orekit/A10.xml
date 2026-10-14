@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aem id="CCSDS_AEM_VERS" version="2.0">
+  <header>
+    <CREATION_DATE>2026-10-13T00:00:00.000</CREATION_DATE>
+    <ORIGINATOR>KSHANA XVAL</ORIGINATOR>
+  </header>
+
+  <body>
+    <segment>
+      <metadata>
+        <OBJECT_NAME>XVAL SAT</OBJECT_NAME>
+        <OBJECT_ID>2026-999A</OBJECT_ID>
+        <CENTER_NAME>EARTH</CENTER_NAME>
+        <REF_FRAME_A>EME2000</REF_FRAME_A>
+        <REF_FRAME_B>SC_BODY_1</REF_FRAME_B>
+        <TIME_SYSTEM>UTC</TIME_SYSTEM>
+        <START_TIME>2026-03-01T00:01:00.000</START_TIME>
+        <STOP_TIME>2026-03-01T00:01:40.000</STOP_TIME>
+        <ATTITUDE_TYPE>SPIN/NUTATION</ATTITUDE_TYPE>
+      </metadata>
+      <data>
+        <attitudeState>
+          <spinNutation>
+            <EPOCH>2026-03-01T00:01:00.000</EPOCH>
+            <SPIN_ALPHA units="deg">25.288385942295413</SPIN_ALPHA>
+            <SPIN_DELTA units="deg">-83.50322526617626</SPIN_DELTA>
+            <SPIN_ANGLE units="deg">-6.85131318469047</SPIN_ANGLE>
+            <SPIN_ANGLE_VEL units="deg/s">24.898592905411192</SPIN_ANGLE_VEL>
+            <NUTATION units="deg">2.3070931425818366</NUTATION>
+            <NUTATION_PER units="s">1429.3487087353903</NUTATION_PER>
+            <NUTATION_PHASE units="deg">-246.23918175633457</NUTATION_PHASE>
+          </spinNutation>
+        </attitudeState>
+        <attitudeState>
+          <spinNutation>
+            <EPOCH>2026-03-01T00:01:10.000</EPOCH>
+            <SPIN_ALPHA units="deg">73.76403517695081</SPIN_ALPHA>
+            <SPIN_DELTA units="deg">27.57640141078103</SPIN_DELTA>
+            <SPIN_ANGLE units="deg">-37.052161254143925</SPIN_ANGLE>
+            <SPIN_ANGLE_VEL units="deg/s">27.93666864777191</SPIN_ANGLE_VEL>
+            <NUTATION units="deg">7.777623414080709</NUTATION>
+            <NUTATION_PER units="s">1805.0361247417545</NUTATION_PER>
+            <NUTATION_PHASE units="deg">64.26418715128068</NUTATION_PHASE>
+          </spinNutation>
+        </attitudeState>
+        <attitudeState>
+          <spinNutation>
+            <EPOCH>2026-03-01T00:01:20.000</EPOCH>
+            <SPIN_ALPHA units="deg">-146.02007837895107</SPIN_ALPHA>
+            <SPIN_DELTA units="deg">30.779780225137802</SPIN_DELTA>
+            <SPIN_ANGLE units="deg">54.08201679868689</SPIN_ANGLE>
+            <SPIN_ANGLE_VEL units="deg/s">18.628060895182784</SPIN_ANGLE_VEL>
+            <NUTATION units="deg">12.516952827389105</NUTATION>
+            <NUTATION_PER units="s">761.5882307299747</NUTATION_PER>
+            <NUTATION_PHASE units="deg">63.12696533750591</NUTATION_PHASE>
+          </spinNutation>
+        </attitudeState>
+        <attitudeState>
+          <spinNutation>
+            <EPOCH>2026-03-01T00:01:30.000</EPOCH>
+            <SPIN_ALPHA units="deg">-153.90274271815983</SPIN_ALPHA>
+            <SPIN_DELTA units="deg">-62.123354709293906</SPIN_DELTA>
+            <SPIN_ANGLE units="deg">69.31833335203335</SPIN_ANGLE>
+            <SPIN_ANGLE_VEL units="deg/s">16.888701552614915</SPIN_ANGLE_VEL>
+            <NUTATION units="deg">8.549094307645156</NUTATION>
+            <NUTATION_PER units="s">1108.2760946007122</NUTATION_PER>
+            <NUTATION_PHASE units="deg">-173.67966771014358</NUTATION_PHASE>
+          </spinNutation>
+        </attitudeState>
+        <attitudeState>
+          <spinNutation>
+            <EPOCH>2026-03-01T00:01:40.000</EPOCH>
+            <SPIN_ALPHA units="deg">61.87815057554791</SPIN_ALPHA>
+            <SPIN_DELTA units="deg">70.9014844101566</SPIN_DELTA>
+            <SPIN_ANGLE units="deg">-106.23572284954489</SPIN_ANGLE>
+            <SPIN_ANGLE_VEL units="deg/s">15.786576719663339</SPIN_ANGLE_VEL>
+            <NUTATION units="deg">16.55588036682676</NUTATION>
+            <NUTATION_PER units="s">831.5347563065137</NUTATION_PER>
+            <NUTATION_PHASE units="deg">-235.17607737544677</NUTATION_PHASE>
+          </spinNutation>
+        </attitudeState>
+      </data>
+    </segment>
+  </body>
+</aem>

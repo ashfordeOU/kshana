@@ -1,0 +1,21 @@
+CCSDS_APM_VERS    = 2.0
+COMMENT             Kshana ADM cross-validation case P01
+COMMENT             synthetic values
+CREATION_DATE     = 2026-10-13T00:00:00.000
+ORIGINATOR        = KSHANA XVAL
+MESSAGE_ID        = P01-0001
+
+OBJECT_NAME       = XVAL SAT
+OBJECT_ID         = 2026-999A
+CENTER_NAME       = EARTH
+TIME_SYSTEM       = UTC
+COMMENT             quaternion only
+EPOCH             = 2026-03-01T12:00:00.500
+QUAT_START
+REF_FRAME_A       = EME2000
+REF_FRAME_B       = SC_BODY_1
+Q1                = 0.41970062737652647
+Q2                = 0.16831802111451816
+Q3                = -0.7828432984121407
+QC                = 0.42740706273883994
+QUAT_STOP
