@@ -153,24 +153,20 @@ const RUNNERS: &[(&str, &str)] = &[
 /// should ever be made: the gate fails if a listed kind turns out to be fully covered, so
 /// an entry cannot be left here to pad the budget, and it fails if the list grows past
 /// [`UNCOVERED_KIND_CEILING`]. There is no wildcard — every uncovered kind is named.
-const UNCOVERED_KINDS: &[(&str, &str)] = &[(
-    "sweep-nd",
-    "two of its three columns have no unit that is not itself data: \
-         `points[].coords[]` carries one value per caller-chosen dotted scenario key and \
-         `points[].metrics[]` one per caller-chosen dotted result path, so each is a \
-         column of mixed units. Resolving them means looking each path up in the SWEPT \
-         pack's own units table, which this pack does not consult. Its third column, \
-         `shape[]`, is described — 2 fields",
-)];
+const UNCOVERED_KINDS: &[(&str, &str)] = &[];
 
 /// The pinned size of [`UNCOVERED_KINDS`]. Lower it whenever a kind is finished; never
 /// raise it.
+///
+/// Was 1. `sweep-nd` came off the list with FUT-28: its two caller-keyed columns are
+/// described as `mixed - see note`, and the unit of every position is resolved from the
+/// swept pack's own units table into `key_units[]` and `metric_units[]`.
 ///
 /// Was 2. `cislunar-observability` came off the list when its released document gained a
 /// units block: the pin that had blocked it now proves the addition is additive (strip
 /// `units` back off and the document still hashes to the value frozen before it existed)
 /// instead of forbidding it outright.
-const UNCOVERED_KIND_CEILING: usize = 1;
+const UNCOVERED_KIND_CEILING: usize = 0;
 
 /// The pinned number of covered fields whose units entry carries no definition. The
 /// entries that predate this gate largely have none; new entries must. Lower it as the

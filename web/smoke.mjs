@@ -2,7 +2,7 @@
 // Headless smoke test for the WebAssembly bindings: load the wasm-pack (--target
 // web) module in Node, run a clock scenario, and assert the JSON parses and the
 // version is non-empty. Run in CI by the `test-wasm-bindings` job after a build.
-import init, { run, chart_svg, version, nmea_training, receiver_trust_replay, assess_vessel_log, interference_map, route_exposure, bench_export, compliance_report, compliance_mapping, list_examples, get_example, export_formats, export_scenario, import_route, animate_scenario, export_sp3, trust_telemetry, osnma_verify, iq_signals, iq_run_short } from "./pkg/kshana.js";
+import init, { run, run_typed, scenario_kinds, error_kind, list_kinds, chart_svg, version, nmea_training, receiver_trust_replay, assess_vessel_log, interference_map, route_exposure, bench_export, compliance_report, compliance_mapping, list_examples, get_example, export_formats, export_scenario, import_route, animate_scenario, export_sp3, trust_telemetry, osnma_verify, iq_signals, iq_run_short } from "./pkg/kshana.js";
 import { readFile } from "node:fs/promises";
 
 const SCENARIO = `
@@ -322,6 +322,24 @@ let iqTooBig = false;
 try { iq_run_short(2.046e6, 5, "gps-l1ca", new Float64Array([3]), new Float64Array([0]), NaN, 1); } catch (_) { iqTooBig = true; }
 if (!iqTooBig) {
   console.error("wasm iq_run_short() accepted a scene over the size cap");
+  process.exit(1);
+}
+
+// Typed API (CAP-34): run_typed gives the same bytes as run, data is the parsed
+// document, scenario_kinds() is list_kinds() already parsed, error_kind() a tag.
+const typed = run_typed(SCENARIO);
+const typedData = typed.data;
+if (typed.json !== out || typed.csv !== null || JSON.stringify(typedData) !== JSON.stringify(result) || !typed.svg.includes("<svg") ||
+    !typed.summary || typedData.schema_version !== result.schema_version ||
+    typedData.quantum.adev_curve.length !== result.quantum.adev_curve.length) {
+  console.error("wasm run_typed() disagrees with run()");
+  process.exit(1);
+}
+const kinds = scenario_kinds();
+if (JSON.stringify(kinds) !== JSON.stringify(JSON.parse(list_kinds())) ||
+    !kinds.some((k) => k.name === "sweep-nd") || error_kind(SCENARIO) !== "" ||
+    error_kind('kind = "no-such-kind"') !== "invalid_input") {
+  console.error("wasm scenario_kinds()/error_kind() produced unexpected output");
   process.exit(1);
 }
 

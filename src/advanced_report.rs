@@ -13,7 +13,7 @@
 //! | Executive summary | the run's one-line summary, the result's own honesty `label`, the kind catalogue |
 //! | Inputs | the scenario file, flattened; each unit from the result's `units` block (the field-units schema), else the field-name suffix, else stated as not stated |
 //! | Results | every scalar of the result document, a summary of every numeric column, the run's chart |
-//! | Aggregation | a campaign's sweep nodes, Monte Carlo percentiles, chain phases or composed members; a `sweep` or `sweep-nd` grid |
+//! | Aggregation | a campaign's sweep nodes, Monte Carlo percentiles, chain phases, composed members or an optimiser's trace and best; a `sweep` or `sweep-nd` grid |
 //! | Events timeline | timed windows in the scenario (`t0`/`t1`, `on_s`/`off_s`, …), `events` arrays in the result, a campaign's phases |
 //! | Verification labels | the verification matrix ([`crate::verification::verification_matrix`]), through [`KIND_CAPABILITIES`] |
 //! | Not modelled | `not_modelled` / `not_implemented` / `honesty` blocks in the result, the kind catalogue's MODELLED clauses, the scenario's own comments, and the matrix's reason each MODELLED row stays modelled |
@@ -269,6 +269,9 @@ pub const CAMPAIGN_CHAIN_REQUIREMENT: &str =
 /// The matrix row of a campaign `sweep` or `monte_carlo`.
 pub const CAMPAIGN_SWEEP_REQUIREMENT: &str =
     "Parameter sweeps and seeded Monte Carlo ensembles over any scenario kind";
+/// The matrix row of a campaign `optimize`.
+pub const CAMPAIGN_OPTIMIZE_REQUIREMENT: &str =
+    "Bounded optimisation of one metric over campaign parameters";
 /// The matrix row of a campaign `compose`.
 pub const CAMPAIGN_COMPOSE_REQUIREMENT: &str =
     "Several scenarios under shared conditions, with a combined summary";
@@ -643,7 +646,7 @@ pub struct Distribution {
 /// The aggregation section of a campaign or sweep.
 #[derive(Clone, Debug, Serialize)]
 pub struct Aggregation {
-    /// `chain`, `sweep`, `monte-carlo` or `compose`.
+    /// `chain`, `sweep`, `monte-carlo`, `compose` or `optimize`.
     pub mode: String,
     #[serde(skip_serializing_if = "Option::is_none")]
     /// The scenario kind every member run executes (a campaign's `scenario_kind`, or the
@@ -1622,6 +1625,9 @@ fn build_capabilities(
         if doc.get("compose").is_some() {
             add(CAMPAIGN_COMPOSE_REQUIREMENT, "campaign");
         }
+        if doc.get("optimize").is_some() {
+            add(CAMPAIGN_OPTIMIZE_REQUIREMENT, "campaign");
+        }
     }
     let rows = used
         .into_iter()
@@ -2272,6 +2278,94 @@ fn build_aggregation(kind: &str, doc: &Value) -> Option<Aggregation> {
                 vec![String::new(); 8],
                 comb_rows,
             ));
+        } else if let Some(op) = doc.get("optimize") {
+            agg.mode = "optimize".to_string();
+            agg.member_kind = Some(str_of(op, "scenario_kind"));
+            let order: Vec<String> = op
+                .get("param_order")
+                .and_then(Value::as_array)
+                .map(|a| {
+                    a.iter()
+                        .filter_map(|x| x.as_str().map(str::to_string))
+                        .collect()
+                })
+                .unwrap_or_default();
+            let unit_of = |p: &str| {
+                op.get("params")
+                    .and_then(|x| x.get(p))
+                    .map(|x| str_of(x, "unit"))
+                    .unwrap_or_default()
+            };
+            let metric_unit = op
+                .get("objective")
+                .map(|o| str_of(o, "unit"))
+                .unwrap_or_default();
+            let mut columns = vec!["evaluation".to_string()];
+            let mut units = vec![String::new()];
+            for p in &order {
+                columns.push(p.clone());
+                units.push(unit_of(p));
+            }
+            columns.push(str_of(op, "objective_name"));
+            units.push(metric_unit.clone());
+            let rows: Vec<Vec<Value>> = op
+                .get("trace")
+                .and_then(Value::as_array)
+                .map(|t| {
+                    t.iter()
+                        .enumerate()
+                        .map(|(i, e)| {
+                            let mut r = vec![Value::from(i as u64)];
+                            for p in &order {
+                                r.push(
+                                    e.get("coords")
+                                        .and_then(|c| c.get(p))
+                                        .cloned()
+                                        .unwrap_or(Value::Null),
+                                );
+                            }
+                            r.push(e.get("metric").cloned().unwrap_or(Value::Null));
+                            r
+                        })
+                        .collect()
+                })
+                .unwrap_or_default();
+            let mut best = vec![
+                Value::String(str_of(op, "method")),
+                Value::String(
+                    op.get("objective")
+                        .map(|o| str_of(o, "goal"))
+                        .unwrap_or_default(),
+                ),
+                op.get("evals").cloned().unwrap_or(Value::Null),
+                Value::String(str_of(op, "stop_reason")),
+            ];
+            let mut best_cols: Vec<String> = ["method", "goal", "evaluations", "stopped by"]
+                .iter()
+                .map(|s| s.to_string())
+                .collect();
+            let mut best_units = vec![String::new(); 4];
+            for p in &order {
+                best.push(
+                    op.get("best_coords")
+                        .and_then(|c| c.get(p))
+                        .cloned()
+                        .unwrap_or(Value::Null),
+                );
+                best_cols.push(p.clone());
+                best_units.push(unit_of(p));
+            }
+            best.push(op.get("best_metric").cloned().unwrap_or(Value::Null));
+            best_cols.push(str_of(op, "objective_name"));
+            best_units.push(metric_unit);
+            agg.tables.push(table_from_rows(
+                "Optimiser best (a local optimum over the stated bounds)",
+                best_cols,
+                best_units,
+                vec![best],
+            ));
+            agg.tables
+                .push(table_from_rows("Optimiser trace", columns, units, rows));
         } else {
             return None;
         }
