@@ -32,6 +32,12 @@ const NOT_A_SCENARIO_FILE_SOURCE: &[(&str, &str, &str)] = &[
         "the objective's path into the run's result JSON, not a file",
     ),
     ("src/field_schema.rs", "path", "a path into the result JSON"),
+    (
+        "src/adm.rs",
+        "attitude_dir",
+        "the CCSDS ADM ATTITUDE_DIR keyword (A2B or B2A) of a parsed message, not a file; \
+         no scenario kind reads it",
+    ),
     ("src/ccsds_tdm.rs", "path", "a path into the result JSON"),
     (
         "src/lunar_ephemeris.rs",
