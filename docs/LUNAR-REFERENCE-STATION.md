@@ -89,7 +89,13 @@ given:
   `max_range_km` (default 150 km) or the grid edge. The repository vendors a crop of the
   public-domain LRO LOLA polar product `LDEM_75S_240M`, 5 × 5 block-mean resampled to 1200 m and
   about ±420 km from the pole (`data/lunar-dem/NOTICE.md`: source URL, SHA-256, licence, crop and
-  resample steps).
+  resample steps);
+* or, in place of `dem_path`, a latitude/longitude DEM tile (`dem_tile_path`) in the
+  `realdata::lola_dem` text format (a header `lat_min lat_max lon_min lon_max n_lat n_lon`, then
+  the heights in metres above the mean sphere, row-major), ray-marched the same way, with the
+  latitude spacing setting the default step. The report echoes the tile's path, SHA-256 and
+  extent (`terrain.dem_tile`). A tile resampled from the vendored crop gives the station the
+  crop's own horizon to 0.22° (`tests/lunar_station_terrain.rs`). No tile is vendored.
 
 The same masks apply to the `moonlight-service-volume` grid (`terrain`, `user_horizon` and
 `dem_path`; a grid point outside the DEM keeps the flat mask and is counted). Without the section
@@ -119,9 +125,11 @@ satellite from the point can make the epoch available.
    crop is 1200 m per pixel, so relief below about a kilometre is smoothed away and block means
    lower sharp peaks; a ray that leaves the crop (about 420 km from the pole) ends there; there is
    no diffraction, terrain multipath or partial obstruction; site positions for ranging stay on the
-   mean sphere at the stated heights (the DEM sets the horizon only); the per-satellite export site
-   of `moonlight-service-volume` is not masked; the horizon is not validated against an external
-   figure.
+   mean sphere at the stated heights (the DEM sets the horizon only); the horizon is not validated
+   against an external figure. The per-satellite export site of `moonlight-service-volume` is
+   masked like a grid point: with a `terrain` section each export row carries `clears_terrain`
+   and the report the site's horizon (`export_site_terrain`); the antenna in-beam tallies still
+   count every link that clears the flat mask.
 2. **Multipath and receiver hardware: addressed in 0.36 as an opt-in, with limits.** A `[receiver]`
    section (`src/lunar_receiver.rs`) adds elevation-dependent multipath `a + b exp(-el / el0)` at the
    user and the station (the DO-229 functional form; on the Moon every value is ILLUSTRATIVE), the

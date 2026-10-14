@@ -252,6 +252,173 @@ fn service_volume_dem_points_outside_the_crop_keep_the_flat_mask() {
     );
 }
 
+/// The per-satellite export site is masked by the terrain like a grid point: with a
+/// `terrain` section every export row gains `clears_terrain` (visible and at or above the
+/// site's horizon at its azimuth), the report gains the site's horizon echo, and the CSV
+/// gains the column. Without a `terrain` section the export is unchanged.
+#[test]
+fn the_export_site_is_masked_by_the_terrain() {
+    let site = "export_site_lat_deg = -89.0\nexport_site_lon_deg = 0.0\n";
+    let src = format!("{site}{SV}");
+    let flat = run_sv(&src);
+    let rows = flat["per_sat_geometry"].as_array().expect("export rows");
+    assert!(rows.iter().all(|r| r.get("clears_terrain").is_none()));
+    assert!(flat.get("export_site_terrain").is_none());
+
+    // A uniform 20 deg wall at every azimuth.
+    let walled_src = format!(
+        "{src}\n[terrain]\nuser_horizon = {{ source = \"ILLUSTRATIVE\", table = [[0.0, 20.0], [180.0, 20.0]] }}\n"
+    );
+    let walled = run_sv(&walled_src);
+    let rows = walled["per_sat_geometry"].as_array().unwrap();
+    let (mut visible, mut cleared) = (0, 0);
+    for r in rows {
+        let el = r["el_deg"].as_f64().unwrap();
+        let vis = r["visible"].as_bool().unwrap();
+        let clears = r["clears_terrain"]
+            .as_bool()
+            .expect("clears_terrain present");
+        assert_eq!(clears, vis && el >= 20.0, "{r}");
+        visible += vis as usize;
+        cleared += clears as usize;
+    }
+    assert!(
+        cleared < visible,
+        "the wall must hide some visible satellites ({cleared} of {visible})"
+    );
+    // The geometry itself does not move.
+    let strip = |v: &Value| -> Vec<Value> {
+        v["per_sat_geometry"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .map(|r| {
+                let mut r = r.clone();
+                r.as_object_mut().unwrap().remove("clears_terrain");
+                r
+            })
+            .collect()
+    };
+    assert_eq!(strip(&walled), strip(&flat));
+    let e = &walled["export_site_terrain"];
+    assert_eq!(e["horizon_max_deg"], 20.0);
+    assert_eq!(e["sources"][0], "ILLUSTRATIVE");
+
+    // The runtime CSV carries the column only with terrain.
+    let out = kshana::api::run_toml(&walled_src).unwrap();
+    let csv = out.csv.expect("export csv");
+    assert!(
+        csv.lines().any(|l| l.ends_with(",clears_terrain")),
+        "{}",
+        &csv[..400]
+    );
+    let plain = kshana::api::run_toml(&src).unwrap().csv.unwrap();
+    assert!(!plain.contains("clears_terrain"));
+    // Every numeric field has a unit, the export rows' own included, with and without
+    // terrain.
+    for doc_src in [&walled_src, &src] {
+        let json = kshana::api::run_toml(doc_src).unwrap().json;
+        let audit = kshana::field_schema::audit_document(&serde_json::from_str(&json).unwrap());
+        assert!(audit.missing.is_empty(), "{:?}", audit.missing);
+        assert!(audit.malformed.is_empty());
+    }
+    // A document without an export site carries none of the export-row units.
+    let no_export: Value = serde_json::from_str(&kshana::api::run_toml(SV).unwrap().json).unwrap();
+    assert!(no_export["units"].get("per_sat_geometry[].t_s").is_none());
+}
+
+// ── a latitude/longitude DEM tile (realdata::lola_dem) ───────────────────────
+
+/// The vendored polar crop resampled onto a realdata::lola_dem latitude/longitude tile
+/// (90 to 83 deg S every 0.01 deg, all longitudes every 0.5 deg; the user points reach 84 S), written to a unique
+/// temporary file.
+fn crop_as_tile(label: &str) -> std::path::PathBuf {
+    let (dem, _) = PolarDem::load(DEM).expect("loads");
+    let tile =
+        kshana::lunar_terrain::rasterise_tile(&dem, (-90.0, -83.0), (-180.0, 180.0), 701, 721);
+    static SEQ: std::sync::atomic::AtomicU64 = std::sync::atomic::AtomicU64::new(0);
+    let seq = SEQ.fetch_add(1, std::sync::atomic::Ordering::Relaxed);
+    let path = std::env::temp_dir().join(format!(
+        "kshana-dem-tile-{label}-{}-{seq}.txt",
+        std::process::id()
+    ));
+    std::fs::write(&path, tile.to_text()).unwrap();
+    path
+}
+
+/// `dem_tile_path` wires realdata::lola_dem into the horizon ray march: the station's
+/// horizon from a tile resampled from the vendored crop agrees with the crop's own to
+/// 0.5 deg at every whole degree (the bound was fixed before the first run: two bilinear
+/// resamplings of a 1.2 km grid), the report echoes the tile with its units, and the two
+/// DEM inputs are refused together.
+#[test]
+fn a_lat_lon_dem_tile_gives_the_station_the_crop_horizon() {
+    let tile = crop_as_tile("station");
+    let tile_s = tile.to_str().unwrap();
+    let base = format!("{SMALL}\n[terrain]\nmax_range_km = 60.0\n");
+    let polar = run(&format!("{base}dem_path = \"{DEM}\"\n"));
+    let by_tile_src = format!("{base}dem_tile_path = \"{tile_s}\"\n");
+    let by_tile = run(&by_tile_src);
+    let prof = |v: &Value| -> Vec<f64> {
+        v["terrain"]["station"]["profile_deg"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .map(|x| x.as_f64().unwrap())
+            .collect()
+    };
+    let (a, b) = (prof(&polar), prof(&by_tile));
+    // PIN-SCOPE:    the station profile's length (one value per whole degree)
+    // PIN-EXCLUDES: the profile's values, compared to the crop's below
+    assert_eq!(a.len(), 360);
+    let worst = a
+        .iter()
+        .zip(&b)
+        .map(|(x, y)| (x - y).abs())
+        .fold(0.0_f64, f64::max);
+    eprintln!("station horizon, tile vs crop: worst {worst:.3} deg");
+    assert!(worst <= 0.5, "worst |tile - crop| = {worst} deg");
+
+    let t = &by_tile["terrain"];
+    assert!(t.get("dem").is_none());
+    assert_eq!(t["dem_tile"]["n_lat"], 701);
+    assert_eq!(t["dem_tile"]["sha256"].as_str().unwrap().len(), 64);
+    assert!(t["station"]["sources"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .any(|s| s == "dem"));
+    let out = kshana::api::run_toml(&by_tile_src).unwrap();
+    let doc: Value = serde_json::from_str(&out.json).unwrap();
+    assert!(kshana::field_schema::audit_document(&doc)
+        .missing
+        .is_empty());
+    assert!(doc["units"].get("terrain.dem_tile.pixel_m").is_some());
+    let polar_doc: Value = serde_json::from_str(
+        &kshana::api::run_toml(&format!("{base}dem_path = \"{DEM}\"\n"))
+            .unwrap()
+            .json,
+    )
+    .unwrap();
+    assert!(polar_doc["units"].get("terrain.dem_tile.pixel_m").is_none());
+
+    let both = format!("{base}dem_path = \"{DEM}\"\ndem_tile_path = \"{tile_s}\"\n");
+    let s: LunarStationCoverageScenario = toml::from_str(&both).unwrap();
+    assert!(s.run().unwrap_err().contains("not both"));
+
+    // The service volume reads the same tile at its grid points.
+    let sv = run_sv(&format!(
+        "{SV}\n[terrain]\nmax_range_km = 30.0\ndem_tile_path = \"{tile_s}\"\n"
+    ));
+    assert_eq!(sv["terrain"]["dem_tile"]["n_lon"], 721);
+    assert!(sv["terrain"]["user_sources"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .any(|s| s == "dem"));
+    let _ = std::fs::remove_file(&tile);
+}
+
 // ── units ─────────────────────────────────────────────────────────────────────
 
 fn audit(src: &str) -> kshana::field_schema::DocumentAudit {
