@@ -119,17 +119,19 @@ pub const BAND_NAMES: &[&str] = &["gps-l1ca", "galileo-e1", "gps-l2c", "gps-l5",
 ///
 /// Sources of the received-power figures (minimum user-received power, 0 dBic antenna):
 /// IS-GPS-200 (L1 C/A −158.5 dBW, L2C −160.0 dBW), IS-GPS-705 (L5, each of I5 and Q5,
-/// −157.9 dBW), Galileo Open Service Signal-in-Space Interface Control Document (E1 −157.0
-/// dBW, E5a −155.0 dBW, each the total of data and pilot). The bandwidths are modelling
+/// −157.9 dBW), Galileo Open Service Signal-in-Space Interface Control Document Issue 2.1
+/// (2023), Table 12 (E1 −157.25 dBW, E5a −155.25 dBW, each the total of data and pilot; until
+/// 2026-10-14 the earlier issue's −157.0 and −155.0, see
+/// `docs/revisions/CAP12-galileo-icd21-power-changes.md`). The bandwidths are modelling
 /// choices: the null-to-null main lobe for the BPSK signals and ±7.161 MHz for MBOC so
 /// the BOC(6,1) lobes at about ±6.1 MHz are inside.
 pub fn default_band(name: &str) -> Option<Band> {
     let (centre_mhz, modulation, p, bw_mhz) = match name {
         "gps-l1ca" => (1575.42, Modulation::BpskR { n: 1.0 }, -158.5, 2.046),
-        "galileo-e1" => (1575.42, Modulation::Mboc { p: 1.0 / 11.0 }, -157.0, 14.322),
+        "galileo-e1" => (1575.42, Modulation::Mboc { p: 1.0 / 11.0 }, -157.25, 14.322),
         "gps-l2c" => (1227.60, Modulation::BpskR { n: 1.0 }, -160.0, 2.046),
         "gps-l5" => (1176.45, Modulation::BpskR { n: 10.0 }, -157.9, 20.46),
-        "galileo-e5a" => (1176.45, Modulation::BpskR { n: 10.0 }, -155.0, 20.46),
+        "galileo-e5a" => (1176.45, Modulation::BpskR { n: 10.0 }, -155.25, 20.46),
         other => return more_band(other),
     };
     Some(Band {

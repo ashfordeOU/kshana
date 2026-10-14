@@ -419,6 +419,17 @@ breaking changes are called out explicitly.
 
 ### Changed
 
+- **Galileo E1 and E5a received powers to OS SIS ICD Issue 2.1** (revision, 2026-10-14). The
+  `galileo-e1` and `galileo-e5a` spectrum bands, and the LEO-signal GNSS victims that take
+  their power from them, now use the minimum received powers of Table 12 of the Galileo OS SIS
+  ICD Issue 2.1: −157.25 dBW (was −157.0) and −155.25 dBW (was −155.0).
+  - Nine scenario results move: the spectrum examples, the spectrum campaign, three
+    LEO-resilience verticals and three LEO signal designs. Effective C/N0 moves −0.25 dB and J/S
+    +0.25 dB on these bands.
+  - Every moved value (1766, old → new) is listed in
+    `docs/revisions/CAP12-galileo-icd21-power-changes.md` and its CSV, with the doc tables
+    that moved. No ledger row changes status.
+
 - **S2 atmospheric tide fix** (`tides::atmospheric_tide`). Ray (2001)'s S2 air-pressure
   harmonics are coefficients of unnormalised `P_nm` with cosine phase lags; they were used as fully
   normalised with the lag as the IERS sine lead. They now enter divided by `N_nm` with

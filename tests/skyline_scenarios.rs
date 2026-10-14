@@ -86,7 +86,13 @@ fn every_wired_scenario_is_byte_identical_to_the_0_35_0_release() {
     // value that moved. Their skyline neutrality stays checked by
     // an_empty_skyline_section_is_the_scalar_mask_in_every_wired_kind. Every listed file
     // must still differ (the list cannot go stale) and nothing else may.
-    let changed_by_q: std::collections::BTreeSet<&str> = Q_TABLE_CHANGED.iter().copied().collect();
+    // The Galileo OS SIS ICD 2.1 power revision (docs/revisions/CAP12-galileo-icd21-power-changes.md)
+    // changes the E1 and E5a received powers by -0.25 dB; it is handled the same way.
+    let changed_by_q: std::collections::BTreeSet<&str> = Q_TABLE_CHANGED
+        .iter()
+        .chain(GALILEO_ICD21_CHANGED.iter())
+        .copied()
+        .collect();
     let differing: std::collections::BTreeSet<&str> = problems
         .iter()
         .filter_map(|p| p.split(':').next())
@@ -106,7 +112,7 @@ fn every_wired_scenario_is_byte_identical_to_the_0_35_0_release() {
     );
     assert_eq!(
         differing, changed_by_q,
-        "the files the 0.36 Q table changes are no longer exactly these"
+        "the files the 0.36 Q table and the Galileo ICD 2.1 revision change are no longer exactly these"
     );
 }
 
@@ -120,6 +126,11 @@ const Q_TABLE_CHANGED: [&str; 7] = [
     "leo-vertical-rail-maritime.toml",
     "maritime-strait-jamming.toml",
 ];
+
+/// The skyline-wired files whose outputs the Galileo OS SIS ICD 2.1 power revision changes and
+/// the Q table does not (docs/revisions/CAP12-galileo-icd21-power-changes.md lists every value).
+/// `campaign-spectrum-holdover-integrity.toml` also moves with it and is already listed above.
+const GALILEO_ICD21_CHANGED: [&str; 1] = ["leo-resilience-gnss-jammed-leo-carries.toml"];
 
 /// Remove what an empty `[skyline]` section adds: the `skyline` block, every
 /// `masked_by_skyline` / `epochs_masked_by_skyline` count and their `units` entries.
