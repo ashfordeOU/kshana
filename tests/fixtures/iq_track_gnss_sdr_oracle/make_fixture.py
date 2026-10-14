@@ -16,6 +16,7 @@ GNSS-SDR dumps and the engine epoch files are deleted after use (unless --keep).
 Usage:
   KSHANA_BIN=<path to a release kshana> python3 make_fixture.py <work dir> [--keep]
   python3 make_fixture.py <work dir> --recordings-only   # regenerate the recordings only
+  python3 make_fixture.py <work dir> --robustness 30     # Amendment 1: 30 GNSS-SDR runs on the calibration recording
 Writes results.csv, calibration.csv and engine_epochs.sha256 next to this script.
 """
 import csv
@@ -45,10 +46,14 @@ name = "gnss-sdr-matched"
 coherent_periods = 1
 spacing_chips = 0.5
 [design.carrier]
-kind = "pll"
+kind = "fll-assisted-pll"
 pll_order = 2
 pll_bw_hz = 15.0
 pll_discriminator = "costas-atan"
+fll_order = 1
+fll_bw_hz = 10.0
+fll_assist = "pull-in"
+fll_on_pli = -0.99
 [design.code]
 order = 1
 bw_hz = 2.0
@@ -145,7 +150,7 @@ def measure_gnss_sdr(d, binfile):
                   rate[sel])
     return {"P": P[sel], "X": X, "code": code[sel], "t": s[sel] / ifgen.FS,
             "doppler": d["carrier_doppler_hz"][sel], "cn0": d["CN0_SNV_dB_Hz"][sel],
-            "pli": d["carrier_lock_test"][sel]}
+            "pli": d["carrier_lock_test"][sel], "start_doppler": float(d["carrier_doppler_hz"][0])}
 
 
 def measure_engine(e, binfile):
@@ -161,7 +166,22 @@ def measure_engine(e, binfile):
     return {"P": P[sel], "X": X, "code": code[sel], "t": s[sel] / ifgen.FS,
             "doppler": e["doppler_hz"][sel], "cn0": e["cn0_nwpr_dbhz"][sel], "pli": e["pli"][sel],
             "m2m4": e["cn0_m2m4_dbhz"][sel], "beaulieu": e["cn0_beaulieu_dbhz"][sel],
-            "locked": e["locked"][sel]}
+            "locked": e["locked"][sel], "start_doppler": float(e["doppler_hz"][0]),
+            "fll_reengage": fll_reengage_condition(e["pli"][sel], s[sel] / ifgen.FS)}
+
+
+def fll_reengage_condition(pli, t):
+    """Amendment 1: whether the engine's FLL gate condition (smoothed PLI below fll_on_pli =
+    -0.99 for at least 0.1 s) held anywhere in the statistics window."""
+    run_start = None
+    for v, tt in zip(pli, t):
+        if v < -0.99:
+            run_start = tt if run_start is None else run_start
+            if tt - run_start >= 0.1:
+                return 1
+        else:
+            run_start = None
+    return 0
 
 
 def carrier_error(m, off=0.0):
@@ -201,19 +221,37 @@ def stats(m, off):
     for k in ("m2m4", "beaulieu"):
         out["cn0_%s_mean_dbhz" % k] = float(np.nanmean(m[k])) if k in m else float("nan")
     out["locked_fraction"] = float(np.mean(m["locked"])) if "locked" in m else float("nan")
+    out["start_doppler_hz"] = m["start_doppler"]
+    out["engine_fll_reengage_condition"] = m.get("fll_reengage", -1)
     return out
 
 
 RESULT_COLS = ["recording", "cn0_dbhz", "receiver", "sigma_pll_deg", "sigma_dll_chips",
                "doppler_mean_hz", "doppler_std_hz", "cn0_mean_dbhz", "pli_mean", "slips",
                "max_code_err_chips", "last_s_doppler_err_hz", "lock_held", "epochs", "pp_ratio",
-               "cn0_m2m4_mean_dbhz", "cn0_beaulieu_mean_dbhz", "locked_fraction"]
+               "cn0_m2m4_mean_dbhz", "cn0_beaulieu_mean_dbhz", "locked_fraction",
+               "start_doppler_hz", "engine_fll_reengage_condition"]
 
 
 def main():
     work = sys.argv[1]
     keep = "--keep" in sys.argv
     os.makedirs(work, exist_ok=True)
+    if "--robustness" in sys.argv:
+        # Amendment 1: GNSS-SDR run N times on the calibration recording; wrong locks counted.
+        n = int(sys.argv[sys.argv.index("--robustness") + 1])
+        f = write_recording(work, "cal", RECORDINGS[0][1], RECORDINGS[0][2], SEED0)
+        wrong = []
+        for k in range(n):
+            m = measure_gnss_sdr(run_gnss_sdr(work, "cal", f), f)
+            err = float(np.mean(m["doppler"]) - TRUE_DOPPLER)
+            print("robustness run %d: mean Doppler error from 6 s %+.2f Hz" % (k, err), flush=True)
+            if abs(err) > 5.0:
+                wrong.append(k)
+        print("robustness: %d wrong locks in %d GNSS-SDR runs: %s" % (len(wrong), n, wrong), flush=True)
+        if not keep:
+            os.remove(f)
+        return
     if "--recordings-only" in sys.argv:
         with open(os.path.join(work, "design.toml"), "w") as f:
             f.write(DESIGN)
