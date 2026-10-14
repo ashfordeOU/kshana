@@ -118,8 +118,15 @@ Earth datasets use (the `precise_od::ForceModel` trait).
 
 | Run | Arc | d/o | n_obs | 3-D RMS | RTN (R, T, N) | Notes |
 |-----|-----|-----|-------|---------|---------------|-------|
-| CI fixture, dynamic (state only)        | 4 h | 100 | 241 | **12.6 m** | 3.07, 10.19, 6.81 m | raw overlap 53.8 m |
-| CI fixture, reduced-dynamic (+empirical 1+2/rev) | 4 h | 100 | 241 | **6.6 m**  | 3.49, 4.56, 3.35 m  | 1- and 2-per-rev empirical absorb the along-track |
+| CI fixture, dynamic (state only)        | 4 h | 100 | 241 | **12.05 m** | 2.91, 10.11, 5.88 m | raw overlap 39.9 m |
+| CI fixture, reduced-dynamic (+empirical 1+2/rev) | 4 h | 100 | 241 | **6.67 m**  | 3.41, 4.58, 3.44 m  | 1- and 2-per-rev empirical absorb the along-track |
+
+0.36 correction: until 0.36 the DE421 ME→PA offset was applied in the wrong direction (and with the
+wrong Euler order), which put the analytic PA frame about 208″ from PA instead of on it. It is now
+transcribed as SPICE defines it (checked against `pxform('MOON_ME','MOON_PA')` to 2.6e-16 rad,
+`tests/lunar_me_pa_offset_spice_oracle.rs`; `docs/design/evidence/fut05b-me-pa-offset-sign/`).
+The figures above are after the fix; before it they were 53.8 m raw, **12.6 m** dynamic
+(3.07, 10.19, 6.81 m) and **6.65 m** reduced-dynamic (3.49, 4.56, 3.35 m).
 
 These residuals are **above** the 5 m bar Galileo (0.13 m) and Swarm-A (0.10 m) clear, and are
 reported honestly.
@@ -141,6 +148,11 @@ read through ANISE (Attitude, Navigation, Instrument, Spacecraft, Ephemeris — 
 | dynamic | 12.6 m | **12.0 m** |
 | **reduced-dynamic (1+2/rev)** | **6.65 m** | **6.67 m** |
 
+**0.36 note: most of the dynamic-tier gain below was the offset error, not the DE-grade inputs.**
+With the ME→PA offset corrected, the analytic stack gives 39.9 m raw, 12.05 m dynamic and 6.67 m
+reduced-dynamic, against the DE-grade 41.5, 12.0 and 6.67 m: the analytic and DE-grade fits now
+agree on every tier. The 0.30 reading of the table below follows, kept as it was written.
+
 **The hypothesis is only half right, and the headline claim needed correcting.** DE-grade
 orientation and ephemeris *do* improve the raw overlap (53.8 → 41.5 m) and the **dynamic** fit
 (12.6 → 12.0 m) — so the analytic orientation/ephemeris error is real and does limit those tiers.
@@ -159,8 +171,9 @@ multi-arc fit), not better frames.
 ## Honesty contract
 
 - The < 5 m "green" bar is met for **Galileo MEO** (0.13 m dynamic) and **Swarm-A LEO**
-  (2.69 m dynamic / 0.10 m reduced-dynamic). **LRO lunar is published as-is at 12.6 m dynamic /
-  6.6 m reduced-dynamic (1+2-per-rev empirical) — above the bar.** A DE-grade cross-validation
+  (2.69 m dynamic / 0.10 m reduced-dynamic). **LRO lunar is published as-is at 12.05 m dynamic /
+  6.67 m reduced-dynamic (1+2-per-rev empirical) — above the bar** (0.36, after the ME→PA offset
+  fix; 12.6 / 6.65 m before it). A DE-grade cross-validation
   (above) **tested and corrected** the limiting-factor claim: the reduced-dynamic floor is **not**
   the analytic orientation/ephemeris (DE440 kernels leave it unchanged at 6.67 m), so it is not
   closed by better frames but by modelling the LRO non-gravitational dynamics — the honest, updated
@@ -171,4 +184,4 @@ multi-arc fit), not better frames.
   same separation holds for the MEO empirical/pure-force tiers.
 - Every residual carries its commit hash, dataset reference, and fixture checksum above.
 - **Datasets validated against real agency truth: 3 of 3** (Galileo MEO, Swarm-A LEO, LRO lunar).
-  **Meeting the < 5 m bar: 2 of 3** (Galileo ✓, Swarm-A ✓; LRO at 6.6 m, honestly above it).
+  **Meeting the < 5 m bar: 2 of 3** (Galileo ✓, Swarm-A ✓; LRO at 6.67 m, honestly above it).

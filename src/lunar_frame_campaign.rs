@@ -1123,19 +1123,56 @@ impl LunarFrameCampaignScenario {
             (worst, mean)
         };
 
+        // A beacon no observation reaches carries no information: its three columns of the beacon
+        // information are exactly zero, so the full beacon covariance is rank-deficient and every
+        // beacon sigma would be null. Only in that case, the observed beacons' sigmas come from the
+        // information restricted to their columns (exact, since the dropped block is zero), and the
+        // report names the unobserved beacons. With every beacon observed nothing here changes.
+        let obs_count: Vec<usize> = (0..beacons.len())
+            .map(|b| {
+                sched
+                    .observations
+                    .iter()
+                    .filter(|ob| ob.beacon == b)
+                    .count()
+            })
+            .collect();
+        let unobserved: Vec<usize> = (0..beacons.len()).filter(|&b| obs_count[b] == 0).collect();
+        let observed_std: Option<Vec<f64>> = if unobserved.is_empty() || cov_b_full_rank {
+            None
+        } else {
+            let cols: Vec<usize> = (0..beacons.len())
+                .filter(|b| obs_count[*b] > 0)
+                .flat_map(|b| 3 * b..3 * b + 3)
+                .collect();
+            let sub: Vec<Vec<f64>> = cols
+                .iter()
+                .map(|&i| cols.iter().map(|&j| info_b[i][j]).collect())
+                .collect();
+            let c = crlb(&sub, rel_tol);
+            c.covariance.map(|_| {
+                let mut std = vec![f64::NAN; n_beacon_columns];
+                for (k, &i) in cols.iter().enumerate() {
+                    std[i] = c.crlb_std[k];
+                }
+                std
+            })
+        };
         let beacon_rows: Vec<serde_json::Value> = beacons
             .iter()
             .enumerate()
             .map(|(b, (name, provenance, sel))| {
                 let o = 3 * b;
-                let n = sched
-                    .observations
-                    .iter()
-                    .filter(|ob| ob.beacon == b)
-                    .count();
-                let sx = beacon_crlb.crlb_std[o];
-                let sy = beacon_crlb.crlb_std[o + 1];
-                let sz = beacon_crlb.crlb_std[o + 2];
+                let n = obs_count[b];
+                let (ok, sx, sy, sz) = match &observed_std {
+                    Some(std) if n > 0 => (true, std[o], std[o + 1], std[o + 2]),
+                    _ => (
+                        cov_b_full_rank,
+                        beacon_crlb.crlb_std[o],
+                        beacon_crlb.crlb_std[o + 1],
+                        beacon_crlb.crlb_std[o + 2],
+                    ),
+                };
                 serde_json::json!({
                     "name": name,
                     "coordinate_provenance": provenance,
@@ -1144,13 +1181,10 @@ impl LunarFrameCampaignScenario {
                     "alt_m": sel.alt_m,
                     "observations": n,
                     "epochs_with_no_station_above_its_horizon": sched.earth_below_beacon_horizon[b],
-                    "sigma_x_m": number_or_null(cov_b_full_rank, sx),
-                    "sigma_y_m": number_or_null(cov_b_full_rank, sy),
-                    "sigma_z_m": number_or_null(cov_b_full_rank, sz),
-                    "sigma_3d_m": number_or_null(
-                        cov_b_full_rank,
-                        (sx * sx + sy * sy + sz * sz).sqrt(),
-                    ),
+                    "sigma_x_m": number_or_null(ok, sx),
+                    "sigma_y_m": number_or_null(ok, sy),
+                    "sigma_z_m": number_or_null(ok, sz),
+                    "sigma_3d_m": number_or_null(ok, (sx * sx + sy * sy + sz * sz).sqrt()),
                 })
             })
             .collect();
@@ -1438,6 +1472,19 @@ impl LunarFrameCampaignScenario {
             // Emitted only when the solver is chosen, so the default report is unchanged.
             json["helmert"]["solver"] = serde_json::Value::from("srif");
             json["helmert"]["solver_effective"] = serde_json::Value::from(solver_effective);
+        }
+        if !unobserved.is_empty() {
+            // Emitted only when a beacon has no observation, so every other report is unchanged.
+            let names: Vec<&str> = unobserved.iter().map(|&b| beacons[b].0.as_str()).collect();
+            json["unobserved_beacons"] = serde_json::json!(names);
+            json["warning"] = serde_json::Value::from(format!(
+                "{} of {} beacons have no observation in this schedule ({}); they carry no \
+                 information, their sigmas are null, and the datum is realised from the observed \
+                 beacons only",
+                names.len(),
+                beacons.len(),
+                names.join(", ")
+            ));
         }
         Ok(Computed { json, summary })
     }

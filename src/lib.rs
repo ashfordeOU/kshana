@@ -103,6 +103,9 @@ pub mod conflict_resilience;
 pub mod conflict_threat_params;
 pub mod constellation;
 pub mod cr3bp;
+/// Not validated (finding, 0.36): see the module's Status section. Hidden from the documented API.
+#[doc(hidden)]
+pub mod cr3bp_family;
 pub mod cross_raim;
 pub mod cross_sensor_integrity;
 pub mod crossover;
@@ -295,6 +298,8 @@ pub mod spoof;
 pub mod spoof_capture;
 pub mod spoof_detect;
 pub mod spoof_monitors;
+/// Box-wing flat-plate and ECOM2 solar radiation pressure (opt-in; DS-PA-14).
+pub mod srp_boxwing;
 pub mod srp_shadow;
 pub mod study;
 pub mod suite;

@@ -59,17 +59,22 @@ const ADDED: [&str; 14] = [
 
 const TOL_RAD: f64 = 1.0e-9;
 
-fn fixture() -> String {
-    let p = concat!(
-        env!("CARGO_MANIFEST_DIR"),
-        "/tests/fixtures/body_orientation_spice_oracle/spice_orientation.csv"
+/// The original 41-epoch fixture.
+const ORIGINAL: &str = "spice_orientation.csv";
+/// The fresh 41-epoch fixture of docs/design/evidence/mr08-body-orientation/PREREGISTRATION.md.
+const FRESH: &str = "fresh/spice_orientation.csv";
+
+fn fixture(name: &str) -> String {
+    let p = format!(
+        "{}/tests/fixtures/body_orientation_spice_oracle/{name}",
+        env!("CARGO_MANIFEST_DIR")
     );
-    std::fs::read_to_string(p).unwrap_or_else(|e| panic!("read {p}: {e}"))
+    std::fs::read_to_string(&p).unwrap_or_else(|e| panic!("read {p}: {e}"))
 }
 
 /// (body, et, SPICE matrix) rows of the fixture.
-fn rows() -> Vec<(String, f64, [[f64; 3]; 3])> {
-    fixture()
+fn rows(name: &str) -> Vec<(String, f64, [[f64; 3]; 3])> {
+    fixture(name)
         .lines()
         .filter(|l| !l.starts_with('#') && !l.trim().is_empty())
         .map(|l| {
@@ -102,9 +107,9 @@ fn angle(a: &[[f64; 3]; 3], b: &[[f64; 3]; 3]) -> f64 {
 }
 
 /// Per body: (largest angle, epochs within tolerance, epochs).
-fn compare() -> Vec<(String, f64, usize, usize)> {
+fn compare(fixture_name: &str) -> Vec<(String, f64, usize, usize)> {
     let mut out: Vec<(String, f64, usize, usize)> = Vec::new();
-    for (name, et, m_s) in rows() {
+    for (name, et, m_s) in rows(fixture_name) {
         let b = Body::by_name(&name).unwrap_or_else(|| panic!("{name} is not a Kshana body"));
         let m_k = b.iau_rotation_et(et);
         let a = angle(&m_k, &m_s);
@@ -132,7 +137,18 @@ fn compare() -> Vec<(String, f64, usize, usize)> {
 /// The pre-registered comparison: every matrix of the fourteen added bodies within 1e-9 rad.
 #[test]
 fn orientation_matches_spice_pxform_for_the_fourteen_added_bodies() {
-    let res = compare();
+    assert_verdict(&compare(ORIGINAL));
+}
+
+/// The fresh-epoch comparison of docs/design/evidence/mr08-body-orientation/PREREGISTRATION.md
+/// (pre-registered 154bc54, the fixture generated after it): 41 epochs never compared before,
+/// the same bodies, metric and 1e-9 rad bar.
+#[test]
+fn orientation_matches_spice_pxform_at_fresh_epochs() {
+    assert_verdict(&compare(FRESH));
+}
+
+fn assert_verdict(res: &[(String, f64, usize, usize)]) {
     let verdict: Vec<_> = res
         .iter()
         .filter(|r| ADDED.contains(&r.0.as_str()))
