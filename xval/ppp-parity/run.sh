@@ -11,7 +11,7 @@ OUT="$FX/oracle"; mkdir -p "$OUT"
 OBS="$FX/wtzr_2025055_0006_G.rnx"; SP3="$FX/../sp3_clock_igs_oracle/igs_2025055_G.sp3"
 CLK="$FX/igs_2025055_G_05m_0006.clk"; ATX="$FX/igs20_2025055_G_LEIAR25.atx"
 NAV="$FX/brdc_2025055_G_0008.rnx"   # RTKLIB needs it for transmit times (Amendment 1)
-{ echo "# Oracle run record"; date -u; sha256sum "$OBS" "$NAV" "$SP3" "$CLK" "$ATX"; } > "$OUT/RUN.md"
+{ echo; echo "# Oracle run record"; date -u; sha256sum "$OBS" "$NAV" "$SP3" "$CLK" "$ATX"; } >> "$OUT/RUN.md"
 if [ -n "${RTKLIB:-}" ]; then
   [ "$(git -C "$RTKLIB" rev-parse HEAD)" = 71db0ffa0d9735697c6adfd06fdf766d0e5ce807 ] || { echo "RTKLIB is not v2.4.2-p13"; exit 1; }
   BIN="$RTKLIB/app/rnx2rtkp/gcc/rnx2rtkp"
@@ -25,17 +25,17 @@ if [ -n "${RTKLIB:-}" ]; then
   echo "RTKLIB v2.4.2-p13 71db0ffa" >> "$OUT/RUN.md"
 fi
 if [ -n "${GLAB:-}" ]; then
+  # Amendment 4: gLAB 6.0.0 options and OUTPUT columns from `gLAB_linux -help` / `-messages`.
   COMMON=(-input:obs "$OBS" -input:orb "$SP3" -input:clk "$CLK" -input:ant "$ATX"
-          -pre:elevation 10 -pre:dec 30 -model:recphasecenter ANTEX -pre:availf G12
-          -print:none -print:output)
-  "$GLAB" "${COMMON[@]}" -filter:trop -filter:phase -filter:static > "$OUT/glab_ppp.out"
-  "$GLAB" "${COMMON[@]}" -filter:nophase -filter:kinematic > "$OUT/glab_spp.out"
-  # gLAB OUTPUT messages: field 4 is the second of day and fields 6-8 the estimated X, Y, Z
-  # (gLAB -messages, "OUTPUT"). The parity test rejects a file whose positions are not within
-  # 100 m of the station, which catches a column mismatch.
+          -pre:elevation 10 -pre:dec 30 -pre:availf G12
+          -model:recphasecenter ANTEX -model:arp RINEX -model:solidtides -model:relpath
+          --model:satphasevar -print:none -print:output)
+  "$GLAB" "${COMMON[@]}" -filter:meastype carrierphase -filter:nav static -filter:trop > "$OUT/glab_ppp.out"
+  "$GLAB" "${COMMON[@]}" -filter:meastype pseudorange -filter:nav kinematic -filter:combtype dualfreq > "$OUT/glab_spp.out"
+  # OUTPUT message: field 4 second of day, fields 12-14 the estimated X, Y, Z (m).
   for m in ppp spp; do
-    awk '$1=="OUTPUT" { printf "%s,%s,%s,%s\n", $4, $6, $7, $8 }' "$OUT/glab_$m.out" > "$OUT/glab_$m.csv"
+    awk '$1=="OUTPUT" { printf "%s,%s,%s,%s\n", $4, $12, $13, $14 }' "$OUT/glab_$m.out" > "$OUT/glab_$m.csv"
   done
-  "$GLAB" -v >> "$OUT/RUN.md" 2>&1 || true
+  { echo "gLAB 6.0.0 Linux sha256 046ab9fd269eda066bb774fe74d24ca2d38d8b7d8e6d372d887364a3403921dd"; "$GLAB" -v 2>&1 | head -1; } >> "$OUT/RUN.md" || true
 fi
 sha256sum "$OUT"/*.csv >> "$OUT/RUN.md" 2>/dev/null || true
