@@ -88,3 +88,18 @@ The scored arc is fitted once with `fit_damped`. No setting above is changed aft
 - If any bar misses, the miss is recorded below with its numbers as a FINDING, pinned by a test
   asserting the recorded values, and the row stays MODELLED.
 - Either way, run 1's NOT MET verdict and its pin stay.
+
+## Amendment R2-A1 (after the scored run, which errored while scoring B3/B4)
+
+The single scored run of `fit_damped` (harness 18036b5e, settings as registered) converged:
+11 Jacobian evaluations, last accepted position update 0.11 m, and 434 of the 447 points
+kept on the last iteration at 0.04856 Hz RMS. The harness then stopped before printing B2-B5:
+sampling the estimate for B3/B4 up to 2007-305T12:45:00 UTC reached past the fit's integrated
+span, which ends 600 s after the last point's count start. Only that iteration log was seen.
+It already shows B2 above its 0.030 Hz bar.
+
+Fix to the scoring harness only: B3/B4 sample a trajectory propagated from the estimated
+state and force parameters over the whole scored arc, with the same dynamics and step. Nothing
+in the estimator, data, editing or bars changes. The fit is deterministic, so it is executed
+again unchanged to produce the numbers, and its iteration log must reproduce the one above.
+That re-execution is not a second attempt: its numbers are recorded whatever they are.
