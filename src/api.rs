@@ -1414,13 +1414,13 @@ impl Scenario for crate::jamming::JammingScenario {
             sky.as_ref(),
             self.mask_deg,
         ) {
-            None => json_of_with_units(&r, crate::jamming::UNITS),
+            None => json_of_with_units(&r, &crate::jamming::units(self)),
             Some(skyline) => json_of_with_units(
                 &crate::skyline::WithSkyline {
                     report: &r,
                     skyline,
                 },
-                &crate::skyline::with_units(true, &[crate::jamming::UNITS]),
+                &crate::skyline::with_units(true, &[&crate::jamming::units(self)]),
             ),
         }
         .map_err(KshanaError::InvalidInput)?;
