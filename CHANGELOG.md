@@ -11,6 +11,26 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **Acquisition hysteresis and the front-end quantiser in the jamming kind** (CAP-06c): two
+  optional sections for a `jamming` scenario.
+  - `[acquisition]`: `acquisition_threshold_dbhz` (dB-Hz, at or above the tracking threshold)
+    and `reacquisition_delay_s` (s, default 0). A satellite is acquired at or above the
+    acquisition threshold, once it has been unacquired for the delay. It is held while at or
+    above the tracking threshold. Outputs: `epochs[].sats[].acquired` (true/false),
+    `epochs[].acquired` (count) and `fom.availability_acquired` (1).
+  - `[front_end]`: `adc_bits` (1 to 16) and `bandwidth_mhz` (MHz, default twice the chip
+    rate). Outputs a `front_end` block: `agc_gain_reduction_db` (dB, `10·log10(1 + J/N)`),
+    `quantiser_loss_db` (dB, taken off every link's effective C/N0) and `loss_model`. The loss
+    is the Gaussian-input one, flagged as not valid for CW, narrowband and swept jammers.
+  - Without the sections every output is byte-identical.
+  - Checked against bars pre-registered at 70c72fcc. The quantiser loss is within 0.0007 dB of
+    an independent Monte Carlo, and the AGC reading within 0.012 dB of the IQ layer's AGC loop.
+  - The registered hysteresis runs were uninformative (every link lost), so that bar is NOT
+    MET. A supplementary run set registered at 37793290 meets it: every flag equals an
+    independent recomputation, and 732 of 1824 links show the hysteresis.
+  - Finding: with a CW jammer a 1-bit ADC loses about 5 dB more than the Gaussian figure.
+  - MODELLED; ledger row "Acquisition hysteresis and the front-end quantiser in the jamming
+    kind against independent recomputations".
 - **Terrain shadowing of the jammer in the jamming kind** (CAP-06b): an optional `[terrain]`
   section in a `jamming` scenario with a jammer. Fields:
   - `dem_hgt`: an SRTM `.hgt` tile, relative to the working directory;
