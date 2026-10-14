@@ -160,6 +160,50 @@ impl SphericalHarmonicField {
         Ok(f)
     }
 
+    /// Parse a fully-normalized PDS SHADR table (the planetary radio-science gravity format,
+    /// e.g. GMM-3 `gmm3_120_sha.tab`), to `nmax`. The comma-separated header row gives the
+    /// reference radius (km), GM (km³/s²), its uncertainty, the degree, the order and the
+    /// normalization state (1 = fully normalized); each later row is
+    /// `n, m, C̄, S̄, σC̄, σS̄`. The table omits degree 0, so `C̄₀₀ = 1` is set here.
+    pub fn from_shadr(text: &str, nmax: usize) -> Result<Self, String> {
+        let mut lines = text.lines().filter(|l| !l.trim().is_empty());
+        let head: Vec<f64> = lines
+            .next()
+            .ok_or("empty SHADR table")?
+            .split(',')
+            .map(|t| t.trim().parse::<f64>())
+            .collect::<Result<_, _>>()
+            .map_err(|_| "bad SHADR header row")?;
+        if head.len() < 6 {
+            return Err("SHADR header row has fewer than 6 fields".into());
+        }
+        let (re, gm) = (head[0] * 1e3, head[1] * 1e9);
+        if !(gm.is_finite() && gm > 0.0 && re.is_finite() && re > 0.0) {
+            return Err("non-physical SHADR GM or radius".into());
+        }
+        if head[5] != 1.0 {
+            return Err("SHADR coefficients are not fully normalized".into());
+        }
+        let nmax = nmax.min(head[3] as usize);
+        let mut f = Self::zeros(gm, re, nmax);
+        f.set(0, 0, 1.0, 0.0);
+        for line in lines {
+            let p: Vec<&str> = line.split(',').map(str::trim).collect();
+            if p.len() < 4 {
+                return Err(format!("short SHADR row: {line}"));
+            }
+            let n: usize = p[0].parse().map_err(|_| "bad SHADR degree")?;
+            let m: usize = p[1].parse().map_err(|_| "bad SHADR order")?;
+            if n > nmax {
+                continue;
+            }
+            let c: f64 = p[2].parse().map_err(|_| "bad SHADR C")?;
+            let s: f64 = p[3].parse().map_err(|_| "bad SHADR S")?;
+            f.set(n, m, c, s);
+        }
+        Ok(f)
+    }
+
     /// Fully-normalized associated Legendre functions `P̄_nm(sin φ)` and their derivatives
     /// `dP̄_nm/dφ`, for `n, m = 0..=nmax`, by the Holmes–Featherstone forward-column recurrence.
     /// `t = sin φ`, `u = cos φ ≥ 0`. Returns `(p, dp)` as lower-triangular `[n][m]` matrices.
@@ -540,5 +584,19 @@ gfc    0     0  1.0000000000000000E+00  0.0000000000000000E+00
             a[1].abs() < 1e-6 && a[2].abs() < 1e-6,
             "off-axis leak {a:?}"
         );
+    }
+
+    #[test]
+    fn shadr_table_parses_header_units_and_rows() {
+        let text = " 3.3960000000000000e+03, 4.2828372854187757e+04, 1.62e-05,  3,  3,    1, 0.0, 0.0\n    2,    0, -8.7450547081842009e-04, 0.0, 1e-12, 0.0\n    2,    2, -8.4585018503931014e-05, 4.8930574157029010e-05, 1e-12, 1e-12\n    3,    1, 3.9e-06, 2.5e-05, 0.0, 0.0\n";
+        let f = SphericalHarmonicField::from_shadr(text, 2).unwrap();
+        assert_eq!(f.nmax, 2);
+        assert_eq!(f.re, 3_396_000.0);
+        assert!((f.gm - 4.282_837_285_418_775_7e13).abs() < 1.0);
+        assert_eq!(f.cbar(0, 0), Some(1.0));
+        assert_eq!(f.cbar(2, 0), Some(-8.745_054_708_184_200_9e-4));
+        assert_eq!(f.sbar(2, 2), Some(4.893_057_415_702_901e-5));
+        let unnormalized = text.replacen(",    1, 0.0", ",    0, 0.0", 1);
+        assert!(SphericalHarmonicField::from_shadr(&unnormalized, 2).is_err());
     }
 }
