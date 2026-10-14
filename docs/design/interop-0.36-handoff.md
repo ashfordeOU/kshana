@@ -35,3 +35,8 @@ session limit. Nothing here has been compared against an oracle yet; no ledger r
   byte-identical to SPICE's; `src/spk_writer.rs`, `tests/spk_writer_spice_oracle.rs`,
   `xval/spk-writer-spice/RESULTS.md`. Pending ledger row: "SPICE SPK export (types 9 and 13)"
   (VALIDATED, Library basis, source "CSPICE N0067", test tests/spk_writer_spice_oracle.rs).
+- CCSDS ADM AEM/APM (RM-29/CAP-24, attitude part): every L1/L2/L3 bar of 7a6a05f MET,
+  L4 schema 15/15; one Orekit writer finding (P02 MAN_DELTA_MASS). `src/adm.rs`,
+  `src/ndm_xml.rs`, `tests/adm_orekit_oracle.rs`, `xval/adm-orekit/RESULTS.md`. Pending ledger
+  row: "CCSDS Attitude Data Messages (AEM, APM)" (VALIDATED, Library basis, source
+  "Orekit 13.1.8", test tests/adm_orekit_oracle.rs).

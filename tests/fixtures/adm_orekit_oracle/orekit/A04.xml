@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aem id="CCSDS_AEM_VERS" version="2.0">
+  <header>
+    <CREATION_DATE>2026-10-13T00:00:00.000</CREATION_DATE>
+    <ORIGINATOR>KSHANA XVAL</ORIGINATOR>
+  </header>
+
+  <body>
+    <segment>
+      <metadata>
+        <OBJECT_NAME>XVAL SAT</OBJECT_NAME>
+        <OBJECT_ID>2026-999A</OBJECT_ID>
+        <CENTER_NAME>EARTH</CENTER_NAME>
+        <REF_FRAME_A>EME2000</REF_FRAME_A>
+        <REF_FRAME_B>SC_BODY_1</REF_FRAME_B>
+        <TIME_SYSTEM>TT</TIME_SYSTEM>
+        <START_TIME>2026-03-01T00:01:00.000</START_TIME>
+        <STOP_TIME>2026-03-01T00:01:40.000</STOP_TIME>
+        <ATTITUDE_TYPE>QUATERNION/ANGVEL</ATTITUDE_TYPE>
+        <ANGVEL_FRAME>EME2000</ANGVEL_FRAME>
+      </metadata>
+      <data>
+        <attitudeState>
+          <quaternionAngVel>
+            <EPOCH>2026-03-01T00:01:00.000</EPOCH>
+            <quaternion>
+              <Q1>0.5930778523746495</Q1>
+              <Q2>-0.47393595584258125</Q2>
+              <Q3>0.19651628516362635</Q3>
+              <QC>0.620503602284258</QC>
+            </quaternion>
+            <angVel>
+              <ANGVEL_X units="deg/s">0.48495890578806594</ANGVEL_X>
+              <ANGVEL_Y units="deg/s">0.46803019070599605</ANGVEL_Y>
+              <ANGVEL_Z units="deg/s">0.05963823864478213</ANGVEL_Z>
+            </angVel>
+          </quaternionAngVel>
+        </attitudeState>
+        <attitudeState>
+          <quaternionAngVel>
+            <EPOCH>2026-03-01T00:01:10.000</EPOCH>
+            <quaternion>
+              <Q1>-0.2591230291121848</Q1>
+              <Q2>-0.7374328587517146</Q2>
+              <Q3>0.3559665287557976</Q3>
+              <QC>0.5121873339146015</QC>
+            </quaternion>
+            <angVel>
+              <ANGVEL_X units="deg/s">-0.03610640390100252</ANGVEL_X>
+              <ANGVEL_Y units="deg/s">-0.13743793390662895</ANGVEL_Y>
+              <ANGVEL_Z units="deg/s">0.1756700171397747</ANGVEL_Z>
+            </angVel>
+          </quaternionAngVel>
+        </attitudeState>
+        <attitudeState>
+          <quaternionAngVel>
+            <EPOCH>2026-03-01T00:01:20.000</EPOCH>
+            <quaternion>
+              <Q1>0.06685786736817022</Q1>
+              <Q2>-0.8808903572914798</Q2>
+              <Q3>-0.23352795563638395</Q3>
+              <QC>0.40623502795569016</QC>
+            </quaternion>
+            <angVel>
+              <ANGVEL_X units="deg/s">-0.03577777793342963</ANGVEL_X>
+              <ANGVEL_Y units="deg/s">0.36563463306873234</ANGVEL_Y>
+              <ANGVEL_Z units="deg/s">-0.1321714800207724</ANGVEL_Z>
+            </angVel>
+          </quaternionAngVel>
+        </attitudeState>
+        <attitudeState>
+          <quaternionAngVel>
+            <EPOCH>2026-03-01T00:01:30.000</EPOCH>
+            <quaternion>
+              <Q1>0.34867200044903013</Q1>
+              <Q2>-0.48086356442607614</Q2>
+              <Q3>-0.7450090381721698</Q3>
+              <QC>0.3035779991239467</QC>
+            </quaternion>
+            <angVel>
+              <ANGVEL_X units="deg/s">-0.21158925084365784</ANGVEL_X>
+              <ANGVEL_Y units="deg/s">-0.4621837099185131</ANGVEL_Y>
+              <ANGVEL_Z units="deg/s">0.43487052175609775</ANGVEL_Z>
+            </angVel>
+          </quaternionAngVel>
+        </attitudeState>
+        <attitudeState>
+          <quaternionAngVel>
+            <EPOCH>2026-03-01T00:01:40.000</EPOCH>
+            <quaternion>
+              <Q1>-0.20675700103073816</Q1>
+              <Q2>0.6922420492394635</Q2>
+              <Q3>0.6482186777610975</Q3>
+              <QC>0.24055151961934895</QC>
+            </quaternion>
+            <angVel>
+              <ANGVEL_X units="deg/s">-0.1548767081164777</ANGVEL_X>
+              <ANGVEL_Y units="deg/s">0.4552348714159438</ANGVEL_Y>
+              <ANGVEL_Z units="deg/s">0.13352652331205594</ANGVEL_Z>
+            </angVel>
+          </quaternionAngVel>
+        </attitudeState>
+      </data>
+    </segment>
+  </body>
+</aem>

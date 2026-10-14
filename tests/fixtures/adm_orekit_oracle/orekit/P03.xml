@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<apm id="CCSDS_APM_VERS" version="2.0">
+  <header>
+    <CREATION_DATE>2026-10-13T00:00:00.000</CREATION_DATE>
+    <ORIGINATOR>KSHANA XVAL</ORIGINATOR>
+  </header>
+
+  <body>
+    <segment>
+      <metadata>
+        <OBJECT_NAME>XVAL SAT</OBJECT_NAME>
+        <OBJECT_ID>2026-999A</OBJECT_ID>
+        <CENTER_NAME>EARTH</CENTER_NAME>
+        <TIME_SYSTEM>UTC</TIME_SYSTEM>
+      </metadata>
+      <data>
+        <EPOCH>2026-03-01T12:00:00.500</EPOCH>
+        <eulerAngleState>
+          <REF_FRAME_A>EME2000</REF_FRAME_A>
+          <REF_FRAME_B>SC_BODY_1</REF_FRAME_B>
+          <EULER_ROT_SEQ>ZXZ</EULER_ROT_SEQ>
+          <ANGLE_1 units="deg">-160.75550790812665</ANGLE_1>
+          <ANGLE_2 units="deg">91.50263362405188</ANGLE_2>
+          <ANGLE_3 units="deg">41.750557479441426</ANGLE_3>
+        </eulerAngleState>
+        <spin>
+          <REF_FRAME_A>EME2000</REF_FRAME_A>
+          <REF_FRAME_B>SC_BODY_1</REF_FRAME_B>
+          <SPIN_ALPHA units="deg">30.106458966736483</SPIN_ALPHA>
+          <SPIN_DELTA units="deg">-4.175510790391584</SPIN_DELTA>
+          <SPIN_ANGLE units="deg">135.82313586783027</SPIN_ANGLE>
+          <SPIN_ANGLE_VEL units="deg/s">12.4554012034092</SPIN_ANGLE_VEL>
+          <NUTATION units="deg">8.147387061032276</NUTATION>
+          <NUTATION_PER units="s">1364.3540075457847</NUTATION_PER>
+          <NUTATION_PHASE units="deg">-114.5777339101938</NUTATION_PHASE>
+        </spin>
+      </data>
+    </segment>
+  </body>
+</apm>
