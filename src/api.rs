@@ -1959,88 +1959,23 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
             builtins::run_builtin::<crate::leo_pnt_chain::LeoPntChainScenario>(src)
         }
         ScenarioKind::ContactSchedule => {
-            let scn: crate::contact_schedule::ContactScheduleScenario = toml::from_str(src)
-                .map_err(|e| format!("invalid contact-schedule scenario: {e}"))?;
-            let (json, summary) = scn.run_json()?;
-            let svg = minimal_svg(&summary);
-            Ok(RunOutput {
-                json,
-                svg,
-                summary,
-                csv: None,
-            })
+            builtins::run_builtin::<crate::contact_schedule::ContactScheduleScenario>(src)
         }
         ScenarioKind::AcmLink => {
-            let scn: crate::contact_schedule::AcmLinkScenario =
-                toml::from_str(src).map_err(|e| format!("invalid acm-link scenario: {e}"))?;
-            let (json, summary) = scn.run_json()?;
-            let svg = minimal_svg(&summary);
-            Ok(RunOutput {
-                json,
-                svg,
-                summary,
-                csv: None,
-            })
+            builtins::run_builtin::<crate::contact_schedule::AcmLinkScenario>(src)
         }
-        ScenarioKind::Aocs => {
-            let scn: crate::aocs_kind::AocsScenario =
-                toml::from_str(src).map_err(|e| format!("invalid aocs scenario: {e}"))?;
-            let (json, summary) = scn.run_json()?;
-            let svg = minimal_svg(&summary);
-            Ok(RunOutput {
-                json,
-                svg,
-                summary,
-                csv: None,
-            })
-        }
-        ScenarioKind::EntryHeating => {
-            let scn: crate::entry_eo_ascent::entry_heating::EntryHeatingScenario =
-                toml::from_str(src).map_err(|e| format!("invalid entry-heating scenario: {e}"))?;
-            let (json, summary) = scn.run_json()?;
-            let svg = minimal_svg(&summary);
-            Ok(RunOutput {
-                json,
-                svg,
-                summary,
-                csv: None,
-            })
-        }
-        ScenarioKind::EoRadiometry => {
-            let scn: crate::entry_eo_ascent::eo_radiometry::EoRadiometryScenario =
-                toml::from_str(src).map_err(|e| format!("invalid eo-radiometry scenario: {e}"))?;
-            let (json, summary) = scn.run_json()?;
-            let svg = minimal_svg(&summary);
-            Ok(RunOutput {
-                json,
-                svg,
-                summary,
-                csv: None,
-            })
-        }
+        ScenarioKind::Aocs => builtins::run_builtin::<crate::aocs_kind::AocsScenario>(src),
+        ScenarioKind::EntryHeating => builtins::run_builtin::<
+            crate::entry_eo_ascent::entry_heating::EntryHeatingScenario,
+        >(src),
+        ScenarioKind::EoRadiometry => builtins::run_builtin::<
+            crate::entry_eo_ascent::eo_radiometry::EoRadiometryScenario,
+        >(src),
         ScenarioKind::AscentLosses => {
-            let scn: crate::entry_eo_ascent::ascent::AscentScenario =
-                toml::from_str(src).map_err(|e| format!("invalid ascent-losses scenario: {e}"))?;
-            let (json, summary) = scn.run_json()?;
-            let svg = minimal_svg(&summary);
-            Ok(RunOutput {
-                json,
-                svg,
-                summary,
-                csv: None,
-            })
+            builtins::run_builtin::<crate::entry_eo_ascent::ascent::AscentScenario>(src)
         }
         ScenarioKind::TimeTransferBudget => {
-            let scn: crate::time_transfer_budget::TimeTransferBudgetScenario = toml::from_str(src)
-                .map_err(|e| format!("invalid time-transfer-budget scenario: {e}"))?;
-            let (json, summary) = scn.run_json()?;
-            let svg = minimal_svg(&summary);
-            Ok(RunOutput {
-                json,
-                svg,
-                summary,
-                csv: None,
-            })
+            builtins::run_builtin::<crate::time_transfer_budget::TimeTransferBudgetScenario>(src)
         }
         ScenarioKind::LeoNavmsg => {
             builtins::run_builtin::<crate::leo_navmsg::LeoNavmsgScenario>(src)
