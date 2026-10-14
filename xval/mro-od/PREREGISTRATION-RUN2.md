@@ -103,3 +103,36 @@ state and force parameters over the whole scored arc, with the same dynamics and
 in the estimator, data, editing or bars changes. The fit is deterministic, so it is executed
 again unchanged to produce the numbers, and its iteration log must reproduce the one above.
 That re-execution is not a second attempt: its numbers are recorded whatever they are.
+
+Notes added with the result:
+
+- The same sampling defect is in run 1's harness: its B3/B4 loop also samples to 12:45 UTC on
+  the fit's own span. It was never reached, because run 1's fit failed first. Run 1 is not
+  re-scored, and its verdict and pin are unchanged.
+- The paragraph above says 11 Jacobian evaluations. The log shown at the time had lost its
+  first line to the display. There were 12, and both executions logged the same 12 lines.
+
+## Result (run 2, 2026-10-14, R2-A1 in force)
+
+The re-execution reproduced the first execution's iteration log line for line: 12 Jacobian
+evaluations, last accepted position update 0.11 m, 6 rejected trial steps in all. The scaled
+normal matrix's smallest eigenvalue stayed between 5.6e-10 and 1.2e-9 throughout. Estimated
+force parameters: SRP 0.0346 m²/kg, drag scale 0.0017. GMM-3: the complete pinned
+`gmm3_120_sha.tab`, truncated to degree and order 80.
+
+| Bar | Result | Verdict |
+|---|---|---|
+| B1 | 0.01253 Hz (unchanged from run 1) | MET |
+| B2 | 0.04856 Hz post-fit, 434 of 447 points kept | **NOT MET** |
+| B3 | 0.3617 km RMS against `mro_psp5` | MET |
+| B4 | 0.5270 km maximum | MET |
+| B5 | 13 of 447 points removed (2.9 %) | MET |
+
+FINDING. With the damped estimator, the orbit determination converges on the 13.75 h scored
+arc and recovers the MRO navigation reconstruction to 0.36 km RMS (0.53 km maximum), within the
+position bars. Its post-fit Doppler RMS, 48.6 mHz, misses the 30 mHz bar. The same data give
+12.5 mHz when predicted from the reconstruction itself, so the estimated orbit fits the Doppler
+worse than the reconstruction does. The remaining difference lies in the dynamics or in the
+fitted parameters (the drag scale goes to almost zero), not in the measurement model. It is not
+diagnosed here. Under the outcome rule the TRK-2-18 row stays MODELLED. Run 2 is pinned in
+`tests/mro_odf_short_arc_od_oracle.rs` next to run 1, whose verdict stands.
