@@ -11,6 +11,18 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **Capped FLL pull-in, opt-in** (DS-LOOP-05): a new loop-design key `[design.carrier]
+  fll_pull_in_max_s` (s), Rust `LoopConfig::fll_pull_in_max_s`. Under `fll_assist = "pull-in"`
+  it forces the FLL-to-PLL hand-over after that long, whatever the PLI. Unset by default, and
+  then out of the design hash; the default design and its hash are unchanged.
+  - Checked against bars pre-registered at 58789af0, on injected truth. The control is met: the
+    default never hands over in 9 of 10 seeds at 33 dB-Hz.
+  - Not met: with a 1.0 s cap, 16 of 20 runs hold lock at 33 dB-Hz and 8 of 20 at 31 dB-Hz; the
+    others cycle between forced hand-overs and the FLL's return. Phase jitter is 1.8× the PLL
+    alone at 33 dB-Hz.
+  - The ~35 dB-Hz pull-in floor stays the default's documented limit.
+  - MODELLED; ledger row "Capped FLL pull-in below the default design's FLL-to-PLL hand-over
+    floor (opt-in)".
 - **Acquisition hysteresis and the front-end quantiser in the jamming kind** (CAP-06c): two
   optional sections for a `jamming` scenario.
   - `[acquisition]`: `acquisition_threshold_dbhz` (dB-Hz, at or above the tracking threshold)

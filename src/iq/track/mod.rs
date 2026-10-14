@@ -231,6 +231,12 @@ pub struct LoopConfig {
     /// ambiguity resolution on two extra very-early/very-late correlators. `None` (the
     /// default) is the plain BPSK-normalised channel.
     pub boc: Option<BocTracking>,
+    /// Opt-in cap on the FLL pull-in of [`FllAssist::PullIn`] (s): once the FLL path has been
+    /// on this long without handing over, it hands over to the PLL whatever the PLI, and until
+    /// the PLI next reaches the gate's `off_pli` it comes back only after the PLI has held
+    /// below `on_pli` for this long (not the gate's dwell). `None` (the default) leaves the
+    /// PLI-only hand-over (`docs/design/evidence/fll-handover-floor/`).
+    pub fll_pull_in_max_s: Option<f64>,
 }
 
 impl Default for LoopConfig {
@@ -263,6 +269,7 @@ impl Default for LoopConfig {
             cn0_window_periods: 20,
             bit_sync: BitSyncConfig::default(),
             boc: None,
+            fll_pull_in_max_s: None,
         }
     }
 }
