@@ -299,6 +299,7 @@ pub mod telemetry;
 #[cfg(test)]
 mod test_support;
 pub mod tides;
+pub mod time_transfer_budget;
 pub mod timegeo;
 pub mod timescales;
 pub mod timetransfer;

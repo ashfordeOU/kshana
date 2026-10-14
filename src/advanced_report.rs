@@ -155,6 +155,7 @@ pub const KIND_CAPABILITIES: &[(&str, &[&str])] = &[
     ("entry-heating", &["3-DoF ballistic entry peak deceleration against the published Stardust nominal", "Stagnation-point convective entry heating (Sutton-Graves) on a 3-DoF entry"]),
     ("eo-radiometry", &["Electro-optical imager radiometry, MTF, relative edge response and GIQE 4 NIIRS"]),
     ("ascent-losses", &["Launch ascent gravity, drag, steering and back-pressure losses"]),
+    ("time-transfer-budget", &["TWSTFT two-way equation, uncertainty budget and link stability with flicker and diurnal non-reciprocity"]),
 ];
 
 /// Rows a kind exercises only on one input path, as (kind, matrix `requirement`, scenario
