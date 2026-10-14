@@ -237,6 +237,9 @@ fn every_registered_kind_has_a_runner() {
 }
 
 #[test]
+// With the ceiling at 0 the ratchet comparison is `len() <= 0`; it stays written as the
+// ratchet so the check reads the same at any ceiling.
+#[allow(clippy::absurd_extreme_comparisons)]
 fn the_exemption_list_is_explicit_and_can_only_shrink() {
     assert!(
         UNCOVERED_KINDS.len() <= UNCOVERED_KIND_CEILING,
