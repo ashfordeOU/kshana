@@ -1,0 +1,378 @@
+{
+ "oracle": "opentelemetry-proto==1.45.1 ExportMetricsServiceRequest via protobuf==7.36.2 json_format.Parse(ignore_unknown_fields=False)",
+ "parsed_strictly": true,
+ "request": {
+  "metrics": [
+   {
+    "description": "Latest GNSS trust score, 0 to 100.",
+    "kind": "gauge",
+    "name": "kshana.trust.score",
+    "points": [
+     {
+      "attributes": {},
+      "start": null,
+      "time": 1790000100000000000,
+      "value": 36.0,
+      "value_kind": "double"
+     }
+    ],
+    "unit": "1"
+   },
+   {
+    "description": "1 for the current trust band, 0 for the others.",
+    "kind": "gauge",
+    "name": "kshana.trust.band",
+    "points": [
+     {
+      "attributes": {
+       "band": "calibrating"
+      },
+      "start": null,
+      "time": 1790000100000000000,
+      "value": 0,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "band": "nominal"
+      },
+      "start": null,
+      "time": 1790000100000000000,
+      "value": 1,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "band": "degraded"
+      },
+      "start": null,
+      "time": 1790000100000000000,
+      "value": 0,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "band": "untrusted"
+      },
+      "start": null,
+      "time": 1790000100000000000,
+      "value": 0,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "band": "unknown"
+      },
+      "start": null,
+      "time": 1790000100000000000,
+      "value": 0,
+      "value_kind": "int"
+     }
+    ],
+    "unit": "1"
+   },
+   {
+    "description": "Epochs received, by trust band.",
+    "is_monotonic": true,
+    "kind": "sum",
+    "name": "kshana.trust.epochs",
+    "points": [
+     {
+      "attributes": {
+       "band": "calibrating"
+      },
+      "start": 1790000000000000000,
+      "time": 1790000100000000000,
+      "value": 5,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "band": "nominal"
+      },
+      "start": 1790000000000000000,
+      "time": 1790000100000000000,
+      "value": 19,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "band": "degraded"
+      },
+      "start": 1790000000000000000,
+      "time": 1790000100000000000,
+      "value": 18,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "band": "untrusted"
+      },
+      "start": 1790000000000000000,
+      "time": 1790000100000000000,
+      "value": 19,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "band": "unknown"
+      },
+      "start": 1790000000000000000,
+      "time": 1790000100000000000,
+      "value": 0,
+      "value_kind": "int"
+     }
+    ],
+    "temporality": 2,
+    "unit": "1"
+   },
+   {
+    "description": "Epochs in which a reason was present, by reason.",
+    "is_monotonic": true,
+    "kind": "sum",
+    "name": "kshana.trust.reason.epochs",
+    "points": [
+     {
+      "attributes": {
+       "reason": "back\\slash"
+      },
+      "start": 1790000000000000000,
+      "time": 1790000100000000000,
+      "value": 12,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "reason": "cn0_drop"
+      },
+      "start": 1790000000000000000,
+      "time": 1790000100000000000,
+      "value": 12,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "reason": "hdop_high"
+      },
+      "start": 1790000000000000000,
+      "time": 1790000100000000000,
+      "value": 12,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "reason": "line\nfeed"
+      },
+      "start": 1790000000000000000,
+      "time": 1790000100000000000,
+      "value": 13,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "reason": "pseudorange_residual"
+      },
+      "start": 1790000000000000000,
+      "time": 1790000100000000000,
+      "value": 13,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "reason": "quote\"inside"
+      },
+      "start": 1790000000000000000,
+      "time": 1790000100000000000,
+      "value": 12,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "reason": "réason ✓"
+      },
+      "start": 1790000000000000000,
+      "time": 1790000100000000000,
+      "value": 13,
+      "value_kind": "int"
+     }
+    ],
+    "temporality": 2,
+    "unit": "1"
+   },
+   {
+    "description": "1 for the current satellite-geometry status (good, degraded, unknown), 0 for the others.",
+    "kind": "gauge",
+    "name": "kshana.geometry.status",
+    "points": [
+     {
+      "attributes": {
+       "status": "good"
+      },
+      "start": null,
+      "time": 1790000100000000000,
+      "value": 0,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "status": "degraded"
+      },
+      "start": null,
+      "time": 1790000100000000000,
+      "value": 1,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "status": "unknown"
+      },
+      "start": null,
+      "time": 1790000100000000000,
+      "value": 0,
+      "value_kind": "int"
+     }
+    ],
+    "unit": "1"
+   },
+   {
+    "description": "1 if the satellite geometry is degraded, 0 if good.",
+    "kind": "gauge",
+    "name": "kshana.geometry.degraded",
+    "points": [
+     {
+      "attributes": {},
+      "start": null,
+      "time": 1790000100000000000,
+      "value": 1,
+      "value_kind": "int"
+     }
+    ],
+    "unit": "1"
+   },
+   {
+    "description": "1 if satellites in view are not tracked while their geometry is good: the signal was lost, not the sky.",
+    "kind": "gauge",
+    "name": "kshana.geometry.signal_loss",
+    "points": [
+     {
+      "attributes": {},
+      "start": null,
+      "time": 1790000100000000000,
+      "value": 1,
+      "value_kind": "int"
+     }
+    ],
+    "unit": "1"
+   },
+   {
+    "description": "Horizontal dilution of precision.",
+    "kind": "gauge",
+    "name": "kshana.geometry.hdop",
+    "points": [
+     {
+      "attributes": {},
+      "start": null,
+      "time": 1790000100000000000,
+      "value": 2.5,
+      "value_kind": "double"
+     }
+    ],
+    "unit": "1"
+   },
+   {
+    "description": "Position dilution of precision.",
+    "kind": "gauge",
+    "name": "kshana.geometry.pdop",
+    "points": [
+     {
+      "attributes": {},
+      "start": null,
+      "time": 1790000100000000000,
+      "value": 3.75,
+      "value_kind": "double"
+     }
+    ],
+    "unit": "1"
+   },
+   {
+    "description": "Satellites used.",
+    "kind": "gauge",
+    "name": "kshana.geometry.used_satellites",
+    "points": [
+     {
+      "attributes": {},
+      "start": null,
+      "time": 1790000100000000000,
+      "value": 7.0,
+      "value_kind": "double"
+     }
+    ],
+    "unit": "1"
+   },
+   {
+    "description": "1 for the current geometry label (good, fair, poor, unknown), 0 for the others; never scored, the score deducts only for poor.",
+    "kind": "gauge",
+    "name": "kshana.geometry.label",
+    "points": [
+     {
+      "attributes": {
+       "label": "good"
+      },
+      "start": null,
+      "time": 1790000100000000000,
+      "value": 0,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "label": "fair"
+      },
+      "start": null,
+      "time": 1790000100000000000,
+      "value": 1,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "label": "poor"
+      },
+      "start": null,
+      "time": 1790000100000000000,
+      "value": 0,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "label": "unknown"
+      },
+      "start": null,
+      "time": 1790000100000000000,
+      "value": 0,
+      "value_kind": "int"
+     }
+    ],
+    "unit": "1"
+   },
+   {
+    "description": "Vertical dilution of precision.",
+    "kind": "gauge",
+    "name": "kshana.geometry.vdop",
+    "points": [
+     {
+      "attributes": {},
+      "start": null,
+      "time": 1790000100000000000,
+      "value": 1.0625,
+      "value_kind": "double"
+     }
+    ],
+    "unit": "1"
+   }
+  ],
+  "resource": {
+   "service.name": "kshana",
+   "service.version": "9.9.9-oracle"
+  },
+  "scope": "kshana.telemetry"
+ }
+}
