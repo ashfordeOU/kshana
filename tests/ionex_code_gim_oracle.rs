@@ -81,7 +81,11 @@ fn datasets() -> Vec<(&'static str, PathBuf)> {
         PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("tests/fixtures/ionex_code_gim/synthetic"),
     )];
     match std::env::var("KSHANA_IONEX_CODE_GIM_DIR") {
-        Ok(d) => v.push(("CODE GIM", PathBuf::from(d))),
+        Ok(d) => {
+            let d = PathBuf::from(d);
+            assert_code_gim_pins(&d);
+            v.push(("CODE GIM", d));
+        }
         Err(_) => eprintln!(
             "SKIP CODE GIM: KSHANA_IONEX_CODE_GIM_DIR unset (run tests/fixtures/ionex_code_gim/fetch.sh <dir>)"
         ),
@@ -89,10 +93,39 @@ fn datasets() -> Vec<(&'static str, PathBuf)> {
     v
 }
 
+// PIN-SCOPE:    the bytes of the fetched CODE GIM crop and its formula reference
+// PIN-EXCLUDES: the committed synthetic map, which is checked by its own content
+/// SHA-256 of the latitude crop `map.18i` and its formula reference that `fetch.sh` writes; the
+/// data-gated checks run only on these exact bytes and fail on any other.
+const CODE_GIM_PINS: [(&str, &str); 2] = [
+    (
+        "map.18i",
+        "44dcdbd425323f168e7e26aed8e33d9599bab0f4549c4d651ec72f13746d90f1",
+    ),
+    (
+        "reference_vtec.csv.gz",
+        "1726acaf589d747a96b69af8bdb860639107d5fa0d970407a2fbadbd6240da6b",
+    ),
+];
+
+fn assert_code_gim_pins(dir: &Path) {
+    use sha2::{Digest, Sha256};
+    for (name, want) in CODE_GIM_PINS {
+        let bytes = std::fs::read(dir.join(name)).unwrap_or_else(|e| panic!("{name}: {e}"));
+        let got = hex::encode(Sha256::digest(&bytes));
+        assert_eq!(
+            got, want,
+            "{name} is not the pinned CODE GIM crop; re-run fetch.sh"
+        );
+    }
+}
+
 fn code_gim_dir() -> Option<PathBuf> {
-    std::env::var("KSHANA_IONEX_CODE_GIM_DIR")
+    let d = std::env::var("KSHANA_IONEX_CODE_GIM_DIR")
         .ok()
-        .map(PathBuf::from)
+        .map(PathBuf::from)?;
+    assert_code_gim_pins(&d);
+    Some(d)
 }
 
 fn ionex_text(dir: &Path) -> String {
