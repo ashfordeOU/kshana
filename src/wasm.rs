@@ -72,6 +72,22 @@ pub fn list_kinds() -> String {
     crate::api::list_scenario_kinds_json()
 }
 
+/// The modules a scenario kind's verification-matrix rows name where they differ from the kind's
+/// own name: a JSON object, kind to array of module names. The Studio's capability map joins a
+/// scenario to its matrix rows through it.
+#[wasm_bindgen]
+pub fn kind_modules() -> String {
+    crate::api::kind_modules_json()
+}
+
+/// Which fields of a scenario answer its question, best first, for the kinds where that is stated:
+/// a JSON object, kind to `{"headline": [dotted path, ...]}`. Display metadata for a front end; the
+/// engine never reads it. A kind that is absent has no stated order.
+#[wasm_bindgen]
+pub fn field_importance() -> String {
+    crate::api::field_importance_json()
+}
+
 /// Run a scenario; on failure return the structured error *kind* tag
 /// (`invalid_input`, `unsupported`, …) so the caller can branch on the failure
 /// category rather than parse the message. Returns an empty string on success.
@@ -598,5 +614,44 @@ pub fn skyline_profile(skyline_json: &str) -> Result<String, JsValue> {
 #[wasm_bindgen]
 pub fn skyplot_svg(request_json: &str) -> Result<String, JsValue> {
     crate::surface::skyplot_svg(request_json, crate::surface::MAX_INPUT_BYTES)
+        .map_err(|e| JsValue::from_str(&e))
+}
+
+/// The signal names `iq_run_short` accepts: a JSON array.
+#[wasm_bindgen]
+pub fn iq_signals() -> String {
+    crate::iq::short::signals_json().to_string()
+}
+
+/// A short synthetic scene, acquired and tracked in memory: `ids` are the PRNs (GLONASS L1OF:
+/// the frequency channel), `dopplers_hz` one value for all or one each, `cn0_dbhz` NaN for the
+/// elevation default. Bounded to 0.25 s, 1 000 000 samples and 8 satellites. Returns JSON
+/// `{fs_hz, samples, acquisition, tracking}`; the same request gives the same answer as the
+/// native build.
+#[wasm_bindgen]
+pub fn iq_run_short(
+    fs_hz: f64,
+    duration_s: f64,
+    signal: &str,
+    ids: Vec<f64>,
+    dopplers_hz: Vec<f64>,
+    cn0_dbhz: f64,
+    seed: u32,
+) -> Result<String, JsValue> {
+    let req = crate::iq::short::ShortRequest {
+        fs_hz,
+        duration_s,
+        signal: signal.to_string(),
+        ids: ids.iter().map(|&v| v as i64).collect(),
+        dopplers: dopplers_hz,
+        cn0_dbhz: if cn0_dbhz.is_nan() {
+            None
+        } else {
+            Some(cn0_dbhz)
+        },
+        seed: u64::from(seed),
+    };
+    crate::iq::short::run_short(&req)
+        .map(|v| v.to_string())
         .map_err(|e| JsValue::from_str(&e))
 }
