@@ -124,8 +124,16 @@ fn equatorial_drag_displacement_matches_gmat() {
             "{}: worst |ΔD| / bar = {worst:.4}, D_gmat(24 h) = {dg24:.1} m, D_kshana(24 h) = {dk24:.1} m",
             c.id
         );
-        assert!(worst <= 1.0, "{}: bar 1 exceeded ({worst:.3} of the bar)", c.id);
-        assert!(dg24 > 100.0, "{}: bar 2, drag displacement only {dg24} m", c.id);
+        assert!(
+            worst <= 1.0,
+            "{}: bar 1 exceeded ({worst:.3} of the bar)",
+            c.id
+        );
+        assert!(
+            dg24 > 100.0,
+            "{}: bar 2, drag displacement only {dg24} m",
+            c.id
+        );
     }
 }
 
@@ -135,7 +143,10 @@ fn a_one_percent_drag_change_breaks_the_bar() {
     let e400 = cs.iter().find(|c| c.id == "E400").unwrap();
     let (worst, _, _) = compare(e400, CDAM * 1.01);
     println!("E400 with Cd*A/m +1 %: worst |ΔD| / bar = {worst:.3}");
-    assert!(worst > 1.0, "the +1 % control stays inside the bar ({worst:.3})");
+    assert!(
+        worst > 1.0,
+        "the +1 % control stays inside the bar ({worst:.3})"
+    );
 }
 
 /// I400, reported only: the geodetic-vs-spherical height difference (no bar). The
