@@ -117,9 +117,11 @@ fn file_like_field(line: &str) -> Option<&str> {
     ]
     .iter()
     .any(|t| ty.starts_with(t));
-    let looks = ["path", "dir", "file", "files", "kernel", "csv_path"]
-        .iter()
-        .any(|s| name == *s || name.ends_with(&format!("_{s}")));
+    let looks = [
+        "path", "paths", "dir", "file", "files", "kernel", "csv_path",
+    ]
+    .iter()
+    .any(|s| name == *s || name.ends_with(&format!("_{s}")));
     (stringy && looks).then_some(name)
 }
 
@@ -189,6 +191,8 @@ fn every_file_like_scenario_field_is_refused_or_explained() {
     for t in [
         "kind = \"receiver-trust\"\n[log]\nformat = \"nmea\"\npath = \"x\"",
         "kind = \"telecom-timing\"\n[clock_log]\nformat = \"ticc\"\npath = \"x\"",
+        // The kind-scoped `paths` of time-transfer-budget's [[series]] (FILE_SOURCE_KEYS_BY_KIND).
+        "kind = \"time-transfer-budget\"\n[[series]]\nformat = \"circular-t\"\npaths = [\"cirt.txt\"]",
     ] {
         assert!(
             reject_file_sources(t, usize::MAX).is_err(),
