@@ -40,3 +40,25 @@ session limit. Nothing here has been compared against an oracle yet; no ledger r
   `src/ndm_xml.rs`, `tests/adm_orekit_oracle.rs`, `xval/adm-orekit/RESULTS.md`. Pending ledger
   row: "CCSDS Attitude Data Messages (AEM, APM)" (VALIDATED, Library basis, source
   "Orekit 13.1.8", test tests/adm_orekit_oracle.rs).
+
+## Handoff 1 (W46), remaining WP-08 work, in order
+1. **ODM (RM-29, FUT-23, CAP-24)**: OMM KVN reader, OMM XML writer/reader, OPM 3.0 and OCM 3.0
+   writer/reader (KVN, XML), against Orekit 13.1.8 parsers/writers + xmllint. No
+   pre-registration exists yet: write `xval/odm-orekit/PREREGISTRATION.md` and commit it alone
+   first. Keep `src/omm.rs`'s existing `to_omm_kvn` output byte-identical (it rounds to 4-8
+   digits; add a new full-precision writer beside it rather than changing it). Scope OCM
+   honestly (e.g. header, metadata, TRAJ, PHYS, COV, MAN, USER blocks; state what is out).
+   Reuse `src/ndm_xml.rs` (XML reader/writer) and the KVN helpers pattern in `src/adm.rs`;
+   reuse `xval/adm-orekit/AdmOracle.java` as the template for an ODM driver (it has the stub
+   Earth for CENTER_NAME and the AccurateFormatter setup); `xval/ndm-xsd/validate.sh` already
+   pins the OPM/OMM/OCM 3.0 schemas. ODM Blue Book: public.ccsds.org/Pubs/502x0b3e1.pdf.
+2. **Telemetry schema 1.3 stream (FUT-04)** through promtool and the OTel Collector.
+3. **Ledger rows + count sites, once, at the end** (rows listed above under W46 progress:
+   Space Packet ext, SPK export, ADM; plus whatever ODM/telemetry add). Count sites via the
+   repo's tests (`readme_headline_counts_match_the_matrix`, tests/readme_validation_counts_doc_sync.rs)
+   and the generators; then a CHANGELOG entry.
+4. Stretch: more SPK types (3, 21) — not started.
+
+Tooling used here (all outside the repo): `bash xval/d8-orekit13/setup.sh` (Orekit 13.1.8);
+a venv with spiceypy 8.3.0, ccsdspy 2.0.1, spacepackets 0.32.0; NAIF `naif0012.tls`;
+`xmllint` is installed; javac/java present. Java prints a JAVA_TOOL_OPTIONS line on stderr.
