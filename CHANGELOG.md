@@ -11,6 +11,33 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **Interoperability, WP-08** (0.36; each item pre-registered and committed alone before its
+  oracle run, each a new VALIDATED ledger row except the telemetry item, which widens an
+  existing row):
+  - **CCSDS Orbit Data Messages** (`src/odm.rs`): OPM 3.0/2.0, OMM 3.0/2.0 and OCM 3.0 (TRAJ,
+    PHYS, COV, MAN, USER blocks) written and read in KVN and NDM/XML, and a full-precision OMM
+    from an SGP4 element set (`OmmMessage::from_omm_file`); `OmmFile::to_omm_kvn` output is
+    unchanged. Against Orekit 13.1.8 both ways: 27 of 30 Kshana messages parse in Orekit and
+    Kshana reads every Orekit-written one, values within 1e-14 relative and epochs within
+    1e-9 s; four findings pinned (Orekit requires `ELEMENT_SET_NO`, refuses `COMMENT` in XML
+    user-defined parameters, will not write `BTERM` without `BSTAR`, and reads OCM relative
+    epochs under TDB in SI seconds). The legacy OMM writer's `META_START` is refused by Orekit
+    (recorded). Row "CCSDS Orbit Data Messages (OPM, OMM, OCM)".
+  - **CCSDS Attitude Data Messages** (`src/adm.rs`, `src/ndm_xml.rs`): AEM 2.0/1.0 and APM 2.0
+    in KVN and XML against Orekit 13.1.8, every bar met; Orekit's APM writer refuses a maneuver
+    without `MAN_DELTA_MASS` (pinned). Row "CCSDS Attitude Data Messages (AEM, APM)".
+  - **SPICE SPK export** (`src/spk_writer.rs`): SPK types 9 and 13 writer and reader and OEM to
+    SPK export; against CSPICE N0067 the kernels are byte-identical to SPICE's and evaluate
+    bit-identically. Row "SPICE SPK export (types 9 and 13)".
+  - **Space Packet extensions** (`src/space_packet.rs`): secondary header with CUC/CDS time codes,
+    packet error control, segmentation and stream checks, against ccsdspy 2.0.1, spacepackets-rs
+    0.18.0, spacepackets-py 0.32.0 and CPython `crc_hqx`, zero mismatches. Row "CCSDS Space
+    Packet secondary header, packet error control and segmentation".
+  - **Telemetry schema 1.3 through real consumers**: a synthetic schema-1.3 stream's Prometheus
+    exposition and OTLP/HTTP JSON, including the geometry series and the `class` label, read
+    exactly by prometheus_client and the OTLP proto, accepted by promtool 3.5.0 `check metrics`
+    with no lint problem, and passed unchanged through the OpenTelemetry Collector contrib
+    0.135.0 (data-gated: tools fetched with pinned SHA-256, outputs committed).
 - **Lunar reference-station study** (0.36, prompted by published material on a planned lunar
   south-pole reference station; sources in [`docs/LUNAR-REFERENCE-STATION.md`](docs/LUNAR-REFERENCE-STATION.md)):
   the `lunar-station-coverage` kind, a Monte Carlo sweep of the lunar differential-PNT model over

@@ -22,8 +22,9 @@ respective formats as the official libraries read them, and that the metric name
 text, labels (including awkward label values) and numeric values the libraries read are those
 the registry holds. NOT checked: that the names suit any dashboard, that the metrics are
 semantically right for operations, or any behaviour of a real collector or server (the HTTP
-transport is not exercised here). ``promtool check metrics`` was not available offline and was
-not run.
+transport is not exercised here). For the schema-1.3 corpus, ``xval/telemetry-1.3/run.sh`` also
+runs ``promtool check metrics`` and the OpenTelemetry Collector (``--collector`` reads the
+Collector's file-exporter record with the same parser).
 
 PINNED ORACLES
 --------------
