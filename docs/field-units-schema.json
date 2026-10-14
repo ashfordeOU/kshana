@@ -1,11 +1,11 @@
 {
   "coverage": {
     "described_fields_without_definition": 239,
-    "fields_described": 2763,
-    "fields_total": 2765,
+    "fields_described": 2885,
+    "fields_total": 2887,
     "fields_without_units": 2,
-    "kinds_complete": 78,
-    "kinds_total": 79,
+    "kinds_complete": 81,
+    "kinds_total": 82,
     "kinds_uncovered": 1,
     "uncovered_kind_ceiling": 1,
     "uncovered_kinds": [
@@ -798,6 +798,208 @@
       "fields_without_units": [],
       "label": "EXTERNALLY CHECKED — the engine's ARAIM protection levels run against the published worked numerical examples of the EU-U.S. Working Group C ARAIM Technical Subgroup reference airborne algorithm, at the tolerance (TOL_PL) those documents themselves state. Every published figure carries its source URL, retrieval date, file SHA-256 and page. This reproduces a reference algorithm's worked example; it is NOT a certification, an airworthiness artefact or an approval.",
       "source": "defaults"
+    },
+    "ascent-losses": {
+      "complete": true,
+      "fields": {
+        "burn_time_s": {
+          "definition": "total burn time",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "end.altitude_m": {
+          "definition": "altitude at final burnout",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "end.circular_speed_m_s": {
+          "definition": "circular orbital speed at the burnout altitude, for comparison",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "m/s"
+        },
+        "end.downrange_m": {
+          "definition": "great-circle downrange at final burnout",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "end.flight_path_angle_deg": {
+          "definition": "flight-path angle at final burnout",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "deg"
+        },
+        "end.speed_m_s": {
+          "definition": "speed (non-rotating Earth, so inertial) at final burnout",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m/s"
+        },
+        "ideal_dv_m_s": {
+          "definition": "sum of Isp_vac g0 ln(m0/mf) over the stages",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "m/s"
+        },
+        "identity_residual_m_s": {
+          "definition": "(v_end - v0) - (ideal dv - total losses); zero up to integration error",
+          "evidence_tier": "validated",
+          "provenance": "internal-consistency",
+          "unit": "m/s"
+        },
+        "inputs.drag_coefficient": {
+          "definition": "constant drag coefficient of the stack",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "1"
+        },
+        "inputs.kick_altitude_m": {
+          "definition": "altitude at which the pitch kick starts",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "m"
+        },
+        "inputs.kick_angle_deg": {
+          "definition": "angle between thrust and velocity during the kick",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "deg"
+        },
+        "inputs.kick_duration_s": {
+          "definition": "kick duration",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "s"
+        },
+        "inputs.payload_kg": {
+          "definition": "payload mass",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "kg"
+        },
+        "inputs.reference_area_m2": {
+          "definition": "drag reference area",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "m^2"
+        },
+        "inputs.stages[].dry_mass_kg": {
+          "definition": "stage dry mass dropped at burnout",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "kg"
+        },
+        "inputs.stages[].exit_area_m2": {
+          "definition": "nozzle exit area for the back-pressure thrust loss",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "m^2"
+        },
+        "inputs.stages[].isp_vac_s": {
+          "definition": "stage vacuum specific impulse",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "s"
+        },
+        "inputs.stages[].propellant_kg": {
+          "definition": "stage propellant mass",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "kg"
+        },
+        "inputs.stages[].thrust_vac_n": {
+          "definition": "stage vacuum thrust",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "N"
+        },
+        "inputs.step_s": {
+          "definition": "RK4 step (shortened so each step ends at a burnout)",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "s"
+        },
+        "liftoff_mass_kg": {
+          "definition": "total mass at lift-off",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "kg"
+        },
+        "liftoff_thrust_to_weight": {
+          "definition": "sea-level thrust over lift-off weight",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "losses_m_s.back_pressure": {
+          "definition": "integral of p_a A_e / m",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m/s"
+        },
+        "losses_m_s.drag": {
+          "definition": "integral of D/m",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m/s"
+        },
+        "losses_m_s.gravity": {
+          "definition": "integral of g sin(gamma)",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m/s"
+        },
+        "losses_m_s.steering": {
+          "definition": "integral of T (1 - cos alpha)/m",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m/s"
+        },
+        "losses_m_s.total": {
+          "definition": "sum of the four losses",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m/s"
+        },
+        "max_accel_g": {
+          "definition": "peak thrust acceleration in standard gravities",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "g0"
+        },
+        "max_q_altitude_m": {
+          "definition": "altitude of peak dynamic pressure",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "max_q_pa": {
+          "definition": "peak dynamic pressure",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "Pa"
+        },
+        "stage_burnouts[].altitude_m": {
+          "definition": "altitude at the stage's burnout",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "stage_burnouts[].speed_m_s": {
+          "definition": "speed at the stage's burnout",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m/s"
+        }
+      },
+      "fields_described": 32,
+      "fields_total": 32,
+      "fields_without_units": [],
+      "label": "MODELLED — planar gravity-turn ascent of a multi-stage vehicle over a non-rotating spherical Earth through US76, with gravity, drag, steering and back-pressure losses integrated and the ideal-dv-minus-losses identity checked; constant C_D, no rotation, no coast, no guidance beyond the pitch kick",
+      "source": "scenarios/ascent-losses.toml"
     },
     "attitude-budget": {
       "complete": true,
@@ -3357,6 +3559,316 @@
       "label": null,
       "source": "scenarios/earth-gnss-lunar.toml"
     },
+    "entry-heating": {
+      "complete": true,
+      "fields": {
+        "ballistic_coefficient_kg_m2": {
+          "definition": "ballistic coefficient B = m / (C_D * A)",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "kg/m^2"
+        },
+        "closed_form_check.altitude_at_peak_m": {
+          "definition": "NACA Report 1381 (1958) altitude of peak deceleration H ln(rho0 H / (B sin|gamma|))",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "m"
+        },
+        "closed_form_check.integrated_over_closed_form": {
+          "definition": "integrated peak deceleration divided by the closed form; near 1 only for a steep, ballistic entry through an exponential atmosphere",
+          "evidence_tier": "validated",
+          "provenance": "internal-consistency",
+          "unit": "1"
+        },
+        "closed_form_check.peak_deceleration_g": {
+          "definition": "NACA Report 1381 (1958) ballistic peak deceleration V_e^2 sin|gamma| / (2 e H) over g_0, from the planet-relative entry state",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "1"
+        },
+        "closed_form_check.rho0_kg_m3": {
+          "definition": "exponential-atmosphere surface density used by the closed form",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "kg/m^3"
+        },
+        "closed_form_check.scale_height_m": {
+          "definition": "exponential-atmosphere scale height used by the closed form (Earth 7200 m, Mars 11100 m unless the exponential atmosphere is chosen)",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "m"
+        },
+        "energy_check.residual": {
+          "definition": "(E_end - E_0 + integral of D V dt) / (V_0^2 / 2) with E = V^2/2 - mu/r - omega^2 r^2 cos^2(phi)/2; zero up to integration error",
+          "evidence_tier": "validated",
+          "provenance": "internal-consistency",
+          "unit": "1"
+        },
+        "heat_load_j_cm2": {
+          "definition": "the same heat load in J/cm^2",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "J/cm^2"
+        },
+        "heat_load_j_m2": {
+          "definition": "integrated stagnation-point heat load, the time integral of the heat flux to the end of the run",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "J/m^2"
+        },
+        "heating_constant_kg05_m": {
+          "definition": "stagnation-point heating constant k of NASA TR R-376 (1971): 1.7415e-4 for Earth, 1.9027e-4 for Mars",
+          "evidence_tier": "validated",
+          "provenance": "constant",
+          "unit": "kg^0.5/m"
+        },
+        "inputs.bank_angle_deg": {
+          "definition": "constant bank angle sigma of the lift vector about the velocity vector",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "deg"
+        },
+        "inputs.drag_coefficient": {
+          "definition": "constant drag coefficient C_D referenced to reference_area_m2",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "1"
+        },
+        "inputs.entry_interface_altitude_m": {
+          "definition": "entry-interface altitude above the spherical planet where the integration starts",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "m"
+        },
+        "inputs.entry_speed_m_s": {
+          "definition": "entry-interface speed as supplied, in the frame named by velocity_frame",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "m/s"
+        },
+        "inputs.flight_path_angle_deg": {
+          "definition": "entry flight-path angle below the local horizontal as supplied, positive downward",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "deg"
+        },
+        "inputs.heading_deg": {
+          "definition": "entry heading as supplied, clockwise from north",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "deg"
+        },
+        "inputs.latitude_deg": {
+          "definition": "geocentric latitude of the entry-interface point",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "deg"
+        },
+        "inputs.lift_to_drag": {
+          "definition": "constant lift-to-drag ratio L/D (0 = ballistic)",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "1"
+        },
+        "inputs.longitude_deg": {
+          "definition": "planet-fixed longitude of the entry-interface point",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "deg"
+        },
+        "inputs.mass_kg": {
+          "definition": "vehicle mass, constant over the entry (no ablation mass loss)",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "kg"
+        },
+        "inputs.nose_radius_m": {
+          "definition": "effective stagnation-point nose radius R_n used in the heating relation",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "m"
+        },
+        "inputs.reference_area_m2": {
+          "definition": "aerodynamic reference area A",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "m^2"
+        },
+        "inputs.step_s": {
+          "definition": "fixed RK4 integration step",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "s"
+        },
+        "inputs.terminal_altitude_m": {
+          "definition": "the integration stops when the altitude falls to this value",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "m"
+        },
+        "peak_deceleration.altitude_m": {
+          "definition": "altitude at the deceleration peak",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "peak_deceleration.g": {
+          "definition": "peak sensed aerodynamic (drag plus lift) deceleration in units of g_0 = 9.80665 m/s^2",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "peak_deceleration.m_s2": {
+          "definition": "peak drag deceleration D = rho V^2 / (2 B)",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m/s^2"
+        },
+        "peak_deceleration.speed_m_s": {
+          "definition": "planet-relative speed at the deceleration peak",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m/s"
+        },
+        "peak_deceleration.time_s": {
+          "definition": "time from the entry interface to the deceleration peak",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "peak_dynamic_pressure.altitude_m": {
+          "definition": "altitude at the dynamic-pressure peak",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "peak_dynamic_pressure.pa": {
+          "definition": "peak dynamic pressure rho V^2 / 2",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "Pa"
+        },
+        "peak_dynamic_pressure.speed_m_s": {
+          "definition": "planet-relative speed at the dynamic-pressure peak",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m/s"
+        },
+        "peak_dynamic_pressure.time_s": {
+          "definition": "time from the entry interface to the dynamic-pressure peak",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "peak_heat_flux.altitude_m": {
+          "definition": "altitude at the heat-flux peak",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "peak_heat_flux.speed_m_s": {
+          "definition": "planet-relative speed at the heat-flux peak",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m/s"
+        },
+        "peak_heat_flux.time_s": {
+          "definition": "time from the entry interface to the heat-flux peak",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "peak_heat_flux.w_cm2": {
+          "definition": "the same peak heat flux in W/cm^2",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "W/cm^2"
+        },
+        "peak_heat_flux.w_m2": {
+          "definition": "peak stagnation-point convective heat flux k sqrt(rho / R_n) V^3 (cold wall, no radiative term)",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "W/m^2"
+        },
+        "relative_entry.flight_path_angle_deg": {
+          "definition": "planet-relative entry flight-path angle below the horizontal, positive downward",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "deg"
+        },
+        "relative_entry.heading_deg": {
+          "definition": "planet-relative entry heading, clockwise from north",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "deg"
+        },
+        "relative_entry.speed_m_s": {
+          "definition": "planet-relative entry speed after removing the surface rotation velocity (equal to the input when velocity_frame = relative or the planet does not rotate)",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m/s"
+        },
+        "step_check.half_step_peak_deceleration_rel_change": {
+          "definition": "relative change in peak deceleration when the run is repeated at half the step",
+          "evidence_tier": "validated",
+          "provenance": "internal-consistency",
+          "unit": "1"
+        },
+        "step_check.half_step_peak_heat_flux_rel_change": {
+          "definition": "relative change in peak heat flux when the run is repeated at half the step",
+          "evidence_tier": "validated",
+          "provenance": "internal-consistency",
+          "unit": "1"
+        },
+        "terminal.altitude_m": {
+          "definition": "altitude at the end of the run",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "terminal.downrange_km": {
+          "definition": "great-circle surface distance from the entry-interface point to the end point",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "km"
+        },
+        "terminal.flight_path_angle_deg": {
+          "definition": "flight-path angle at the end of the run, positive up",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "deg"
+        },
+        "terminal.latitude_deg": {
+          "definition": "geocentric latitude at the end of the run",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "deg"
+        },
+        "terminal.longitude_deg": {
+          "definition": "planet-fixed longitude at the end of the run",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "deg"
+        },
+        "terminal.speed_m_s": {
+          "definition": "planet-relative speed at the end of the run",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m/s"
+        },
+        "terminal.time_s": {
+          "definition": "time from the entry interface to the end of the run",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        }
+      },
+      "fields_described": 50,
+      "fields_total": 50,
+      "fields_without_units": [],
+      "label": "MODELLED — 3-DoF point-mass entry over a rotating spherical planet (central gravity, no J2), co-rotating windless atmosphere, constant C_D, L/D and bank, RK4; convective stagnation-point heating per NASA TR R-376 (1971), cold wall, NO radiative heating, NO TPS/ablation response, NOT 6-DoF",
+      "source": "scenarios/entry-heating-stardust.toml"
+    },
     "eo-coverage": {
       "complete": true,
       "fields": {
@@ -3432,6 +3944,256 @@
       "fields_without_units": [],
       "label": "MODELLED — spherical-Earth space-triangle geometry; swath/GSD/access are geometric (no radiometry/MTF/atmosphere/jitter/glint), ground-track spacing is R_e·(ω − Ω̇)·T_nodal with first-order J2 secular rates",
       "source": "defaults"
+    },
+    "eo-radiometry": {
+      "complete": true,
+      "fields": {
+        "cutoff_cy_mm": {
+          "definition": "optical cutoff frequency 1/(lambda F)",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "cycles/mm"
+        },
+        "f_number": {
+          "definition": "focal length over aperture diameter",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "focal_plane_irradiance_w_m2_um": {
+          "definition": "camera-equation focal-plane spectral irradiance",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "W/m^2/um"
+        },
+        "gsd_m": {
+          "definition": "nadir ground sample distance, altitude times pitch over focal length",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "inputs.adc_bits": {
+          "definition": "analogue-to-digital converter bits",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "count"
+        },
+        "inputs.altitude_m": {
+          "definition": "orbit altitude, nadir viewing",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "m"
+        },
+        "inputs.aperture_m": {
+          "definition": "aperture diameter",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "m"
+        },
+        "inputs.atmospheric_transmittance": {
+          "definition": "two-way atmospheric transmittance",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "1"
+        },
+        "inputs.bandwidth_um": {
+          "definition": "spectral bandwidth",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "um"
+        },
+        "inputs.dark_current_e_s": {
+          "definition": "dark current",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "e/s"
+        },
+        "inputs.fill_factor": {
+          "definition": "linear detector fill factor",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "1"
+        },
+        "inputs.focal_length_m": {
+          "definition": "focal length",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "m"
+        },
+        "inputs.full_well_e": {
+          "definition": "full-well capacity",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "e"
+        },
+        "inputs.integration_s": {
+          "definition": "integration time",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "s"
+        },
+        "inputs.jitter_px_rms": {
+          "definition": "Gaussian line-of-sight jitter, rms",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "px"
+        },
+        "inputs.optics_transmittance": {
+          "definition": "optics transmittance",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "1"
+        },
+        "inputs.path_radiance_w_m2_sr_um": {
+          "definition": "atmospheric path radiance added at the aperture",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "W/m^2/sr/um"
+        },
+        "inputs.pixel_pitch_um": {
+          "definition": "pixel pitch",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "um"
+        },
+        "inputs.quantum_efficiency": {
+          "definition": "detector quantum efficiency at the band centre",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "1"
+        },
+        "inputs.read_noise_e": {
+          "definition": "read noise, rms",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "e"
+        },
+        "inputs.reflectance": {
+          "definition": "Lambertian scene reflectance",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "1"
+        },
+        "inputs.smear_px": {
+          "definition": "linear image motion during the integration time",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "px"
+        },
+        "inputs.solar_irradiance_w_m2_um": {
+          "definition": "band-averaged exo-atmospheric solar spectral irradiance",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "W/m^2/um"
+        },
+        "inputs.sun_zenith_deg": {
+          "definition": "solar zenith angle at the scene",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "deg"
+        },
+        "inputs.wavelength_um": {
+          "definition": "band-centre wavelength",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "um"
+        },
+        "mtf_nyquist.detector": {
+          "definition": "detector-aperture MTF at Nyquist",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "1"
+        },
+        "mtf_nyquist.diffraction": {
+          "definition": "unobscured circular-aperture diffraction MTF at Nyquist",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "1"
+        },
+        "mtf_nyquist.jitter": {
+          "definition": "Gaussian-jitter MTF at Nyquist",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "1"
+        },
+        "mtf_nyquist.smear": {
+          "definition": "linear-smear MTF at Nyquist",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "1"
+        },
+        "mtf_nyquist.system": {
+          "definition": "product of the four factors at Nyquist",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "niirs_giqe4": {
+          "definition": "GIQE version 4 NIIRS with no MTF compensation (noise gain 1); an empirical regression evaluated on modelled inputs",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "noise_e": {
+          "definition": "total noise electrons, rms",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "e"
+        },
+        "nyquist_cy_mm": {
+          "definition": "detector Nyquist frequency in the focal plane",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "cycles/mm"
+        },
+        "overshoot_h": {
+          "definition": "GIQE 4 edge overshoot H",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "q": {
+          "definition": "lambda F / p",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "radiance_w_m2_sr_um": {
+          "definition": "at-aperture spectral radiance",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "W/m^2/sr/um"
+        },
+        "rer": {
+          "definition": "relative edge response, ER(+0.5 px) - ER(-0.5 px), from the system MTF",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "signal_e": {
+          "definition": "signal electrons per pixel",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "e"
+        },
+        "snr": {
+          "definition": "signal-to-noise ratio",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "well_fill": {
+          "definition": "signal over the full well",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        }
+      },
+      "fields_described": 40,
+      "fields_total": 40,
+      "fields_without_units": [],
+      "label": "MODELLED — nadir imager radiometry (Lambertian scene, camera equation, shot/dark/read/quantisation noise), system MTF at Nyquist (diffraction x detector x smear x jitter), relative edge response, Q = lambda F/p and GIQE 4 NIIRS with no MTF compensation; the NIIRS is an empirical regression on modelled inputs, not a rated image",
+      "source": "scenarios/eo-radiometry.toml"
     },
     "ephemeris": {
       "complete": true,
