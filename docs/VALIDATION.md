@@ -215,7 +215,7 @@ Honest framing: the cold-atom advantage is **long-term bias stability** (~2600x 
 |------|--------|----------|
 | White timing jitter -> sync precision | `validated` | `src/timetransfer.rs`: simulated sync RMS reproduces the link jitter sigma_j; sample-mean averages as sigma/sqrt(N) to <20% (seed-averaged). |
 | Timing -> one-way ranging | `validated` | range = c * dt, c=299792458 m/s; 1 ps = 0.299792458 mm (exact, hand-derived test). |
-| Flicker/TDEV floor, two-way reciprocity residual | `not modeled` | Jitter is modeled as white; long-averaging floors and reciprocity residuals are future work. |
+| Flicker/TDEV floor, two-way reciprocity residual | `modelled` | `src/twstft_budget.rs` (`time-transfer-budget` kind): flicker phase noise (Kasdin–Walter, flat TDEV), a diurnal non-reciprocity and a constant reciprocity residual on the two-way series; the white-jitter `timetransfer` pack is unchanged. |
 
 | Link | single-sample jitter | type | source |
 |------|---------------------|------|--------|

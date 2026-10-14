@@ -1499,6 +1499,15 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            requirement: "TWSTFT two-way equation, uncertainty budget and link stability with flicker and diurnal non-reciprocity",
+            capability: "The TWSTFT two-way equation solved for T_A - T_B with station transmit and receive delays, the Ku-band ionospheric up/down asymmetry, the transponder delay difference and the Sagnac terms, against its exact forward model; a quadrature uncertainty budget with the link TDEV as the type A term; a two-way series with white and flicker phase noise (Kasdin-Walter), a diurnal non-reciprocity and a constant reciprocity residual; and the rate, residual RMS, TDEV and ADEV of supplied Circular T, MJD-CSV or IGS RINEX station-clock series. Runnable as the `time-transfer-budget` scenario kind.",
+            module: "twstft_budget (counter_readings, solve_offset, combined_uncertainty, flicker_phase, two_way_series, series_stability); time_transfer_budget (TimeTransferBudgetScenario, read_series)",
+            tests: "twstft_budget::tests (the two-way equation recovers the offset exactly; the Sagnac term equals the BIPM loop closed form; the ionospheric term follows the frequency split and the troposphere cancels; flicker phase has a flat TDEV; a diurnal residual lifts TDEV near half a day; a reciprocity bias shifts the offset and not the TDEV; series stability removes a rate); time_transfer_budget::tests",
+            oracle: "Internal consistency: the forward model and the solved equation agree to 1e-15 s, the Sagnac term equals the module's independent BIPM 2A omega/c^2 loop form, the ionospheric term is 40.3 TEC (1/f_up^2 - 1/f_down^2)/c, and the noise processes show their expected TDEV shapes. WHAT IS NOT: no real TWSTFT measurement or calibration report has been compared; the stated delays and uncertainties are inputs, not measured; the stabilities of supplied series are reported, not validated.",
+            oracle_kind: InternalConsistency,
+            status: Modelled,
+        },
+        VerificationItem {
             requirement: "Closed-loop MRP feedback attitude control with reaction wheels",
             capability: "Inertial-pointing attitude control of a rigid hub with three or more balanced reaction wheels: the MRP feedback law L_r = -K sigma_BR - P omega_BR (Schaub and Junkins), minimum-norm wheel motor torques G_s u = -L_r clipped to each wheel's limit, the coupled hub and wheel dynamics with the hub inertia carrying the wheels' spin inertia, quaternion kinematics, RK4 with a zero-order hold. Runnable as the `aocs` scenario kind (true-state loop).",
             module: "aocs (AocsConfig, required_torque, motor_torques, rates, rk4_step, simulate, mrp_from_quaternion); aocs_kind (AocsScenario)",

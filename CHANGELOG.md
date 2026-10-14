@@ -11,6 +11,20 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **TWSTFT budget and time-transfer stability: the `time-transfer-budget` kind** (0.36, WP-14,
+  FUT-19).
+  - **Two-way equation:** `twstft_budget` solves it for T_A − T_B with station equipment
+    delays, the Ku-band ionospheric up/down asymmetry, the transponder delay difference and the
+    Sagnac terms, and recovers the forward model to 1e-15 s.
+  - **Uncertainty budget:** combined in quadrature, with the link TDEV as the type A term.
+  - **Link noise:** the two-way series gains a flicker phase-noise floor, a diurnal
+    non-reciprocity and a constant reciprocity residual. The white-jitter `timetransfer` pack is
+    unchanged.
+  - **Real series:** the stability of supplied BIPM Circular T, `MJD,ns` CSV or IGS station-clock
+    series.
+
+  MODELLED. New bundled scenario `time-transfer-budget`. The PPP time solution is VALIDATED
+  separately against the IGS station clock on the GNSS real-data branch.
 - **Entry heating, EO radiometry and ascent losses** (0.36, WP-14, CAP-28): three new kinds.
   - `entry-heating`: a 3-DoF point-mass entry over a rotating Earth or Mars with Sutton-Graves
     stagnation-point heating.

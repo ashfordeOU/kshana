@@ -150,6 +150,10 @@ const RUNNERS: &[(&str, &str)] = &[
     ("entry-heating", "scenarios/entry-heating-stardust.toml"),
     ("eo-radiometry", "scenarios/eo-radiometry.toml"),
     ("ascent-losses", "scenarios/ascent-losses.toml"),
+    (
+        "time-transfer-budget",
+        "scenarios/time-transfer-budget.toml",
+    ),
 ];
 
 /// The kinds whose reports do not yet describe every numeric field they emit, each with
