@@ -658,6 +658,28 @@ breaking changes are called out explicitly.
   on small sets, with the greedy's optimality gap. Access windows come from the VALIDATED
   apparent pass predictor. New bundled scenarios `acm-link` and `contact-schedule` (illustrative
   inputs) and `docs/CONTACT-SCHEDULING.md`. MODELLED (two new ledger rows).
+- **Starlink Doppler positioning against a published experiment** (0.36, WP-14, CAP-11 part,
+  MODELLED). This is a pre-registered proxy comparison of the `leo-pvt` Doppler mode with the
+  `starlink-sop` preset against the data-set-3 percentiles of "Unveiling Starlink for PNT"
+  (NAVIGATION 72(1), 2025, doi:10.33012/navi.685). The model used 3 satellites (a 47 deg mask
+  chosen by a fixed rule), no height aid and a 30 Hz Doppler sigma, over 200 seeds. Its
+  90th-percentile 3-D error is 92.2 m at 20 s and 870 m at 8 s, against the published 2 m and
+  10 m, so both factor-of-two bars are NOT MET. The model is pessimistic, not optimistic as
+  predicted: three fixed satellites give far less geometric diversity than the experiment's
+  63 satellites over 10 minutes with channel switching every 15 s. Both misses are asserted
+  (`tests/starlink_doppler_published_proxy.rs`).
+- **Impulsive transfer optimiser on DE440** (0.36, WP-14, CAP-20c/d): `maneuver::optimise_transfer_kernel`
+  finds the departure and arrival dates of a single-revolution ballistic two-impulse transfer that
+  minimise departure C3 or arrival V-infinity within Type I or Type II. It searches a 2-day grid,
+  then refines with 2-D Nelder-Mead, on heliocentric states from the DE440 kernel; it builds on
+  `porkchop_kernel`. The comparison was pre-registered (bf0439e8) against an independent SPICE +
+  pykep 3.0.1 + SciPy 1.18.1 optimiser on the 2026 Earth-to-Mars opportunity: all four
+  optimisations agree to 8.7e-13 relative, with dates within 1e-5 day (VALIDATED, new ledger row).
+  As a secondary published reference, NASA/TM-2010-216764 (the 2026-2045 Earth-to-Mars handbook)
+  is matched for the Type II minimum C3 (9.182 vs 9.144) and the Type II minimum arrival V-infinity
+  (2.564 vs 2.565). Its Type I minimum C3 is not matched: 10.535 vs 11.11 (-5.18 %), where the
+  library oracle agrees with Kshana. That miss is recorded and asserted.
+
 - **Lunar reference-station study** (0.36, prompted by published material on a planned lunar
   south-pole reference station; sources in [`docs/LUNAR-REFERENCE-STATION.md`](docs/LUNAR-REFERENCE-STATION.md)):
   the `lunar-station-coverage` kind, a Monte Carlo sweep of the lunar differential-PNT model over
