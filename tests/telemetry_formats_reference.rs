@@ -89,11 +89,6 @@ fn read_in(corpus: &str, name: &str) -> String {
 
 /// Build the registry the fixtures were made from: the committed stream, the same way the
 /// command line feeds it (a line that does not parse is counted, not dropped silently).
-fn registry() -> (Registry, TrustSample, usize) {
-    let (reg, last, bad, _) = registry_in(C12);
-    (reg, last, bad)
-}
-
 /// The registry of a corpus, its last sample, the count of unparsable lines, and the latest
 /// class each reason came with (read from the samples, not from the registry).
 fn registry_in(

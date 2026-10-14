@@ -62,3 +62,22 @@ session limit. Nothing here has been compared against an oracle yet; no ledger r
 Tooling used here (all outside the repo): `bash xval/d8-orekit13/setup.sh` (Orekit 13.1.8);
 a venv with spiceypy 8.3.0, ccsdspy 2.0.1, spacepackets 0.32.0; NAIF `naif0012.tls`;
 `xmllint` is installed; javac/java present. Java prints a JAVA_TOOL_OPTIONS line on stderr.
+
+## W48 progress
+- ODM (RM-29/FUT-23/CAP-24): pre-registration cc6841da; code, cases and driver 2e4f9b30; run
+  9dcfaa52. `src/odm.rs`, `tests/odm_orekit_oracle.rs`, `xval/odm-orekit/` (RESULTS.md). Every
+  bar met except four pinned Orekit/convention findings; schema leg 14/14.
+- Telemetry schema 1.3 (FUT-04): pre-registration fb226057; corpus and tests d9872223; run
+  ed0e42fb. prometheus_client, OTLP proto, promtool 3.5.0 and the OTel Collector contrib
+  0.135.0 all met (`xval/telemetry-1.3/RESULTS.md`).
+- Ledger: four new VALIDATED rows (Space Packet extensions, SPK export, ADM, ODM) and the
+  telemetry row widened; matrix 278 rows, 138 VALIDATED. Regenerated: docs/VERIFICATION-MATRIX.md,
+  web/data/verification-matrix.json, the two validation figures; README count sites edited.
+  Also regenerated: the provenance diagram (.mmd, mermaid-cli 11.4.2, tools/render-diagram.sh)
+  and the count-bearing README images with `tools/gen_readme_assets.py` (only the 7 files that
+  were already stale on the base changed). Not regenerated: the Studio copy
+  `web/studio/data/verification-matrix.json` and the site pages `web/index.html`,
+  `web/evidence.html`, `web/capabilities.*` (written by `web/tools/port_site.py` from a built
+  site, not available here); they were already stale on the base (263 rows, 75 kinds), so
+  `matrix_total_no_stale_count_doc_sync` and two `scenario_count_doc_sync` tests fail there as
+  before. The Studio screenshot alt text in README.md (line 136) still describes 134 of 274.
