@@ -554,9 +554,9 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             capability: "The closed-loop 15-state error-state EKF driven by IMU increments with GNSS antenna positions fused through the lever-arm model H = [I 0 −[(C_b^n l_b)×] 0 0], configured from a KF-GINS YAML file (initial state and sigmas, ARW/VRW, Gauss-Markov biases)",
             module: "fusion::kfgins (run, loaders, score), fusion::closed_loop (propagate_increments, fuse_position_lever_arm), fusion::gnss_ins_ekf (update_position_lever_arm)",
             tests: "tests/fusion_kfgins_dataset_oracle.rs (synthetic loaders and spinning-platform lever-arm tests always; data-gated on KSHANA_KFGINS_DIR, run 2026-10-13 on the KF-GINS demo dataset: horizontal / vertical RMS 0.0109 / 0.0090 m against the reference trajectory vs KF-GINS C++ 0.0111 / 0.0083 m, all six pre-registered bars held; lever arm off 0.329 m)",
-            oracle: "The dataset's published reference trajectory and the KF-GINS C++ program (GPL-3.0, commit 8291a93e, run as a separate tool); bars pre-registered in xval/kfgins/PREREGISTRATION.md. All bars held, but the evidence is data-gated (the dataset carries no licence and is not vendored), so the row is MODELLED pending an owner decision on data-gated promotion",
+            oracle: "The dataset's published reference trajectory and the KF-GINS C++ program (GPL-3.0, commit 8291a93e, run as a separate tool); bars pre-registered in xval/kfgins/PREREGISTRATION.md, and KF-GINS was not run on this data before that registration (checked in its Results). All six bars held on the first run. DATA-GATED: the KF-GINS demo dataset (real Leador-A15 IMU and RTK GNSS with a reference trajectory) carries no licence, so it is not vendored; xval/kfgins/fetch.sh fetches it at test time with every file's SHA-256 pinned, and the test fails on a mismatch; the reproduce path, which needs network access, is in xval/kfgins/PREREGISTRATION.md. Promoted to VALIDATED by the owner's decision on data-gated evidence (2026-10-13)",
             oracle_kind: ExternalDataset,
-            status: Modelled,
+            status: Validated,
         },
         VerificationItem {
             requirement: "Test-bench export read by a simulator's motion-file readers (gps-sdr-sim)",
@@ -4220,6 +4220,13 @@ pub fn validated_oracle_basis() -> Vec<OracleBasisEntry> {
             basis: Library,
             oracle_test: "tests/greenhall_edf_allantools.rs",
             source: "allantools 2024.6",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Loosely coupled GNSS/INS EKF with lever arm on the KF-GINS dataset",
+            basis: Measured,
+            oracle_test: "tests/fusion_kfgins_dataset_oracle.rs::kfgins_demo_dataset_against_truth_and_kfgins",
+            source: "KF-GINS demo dataset",
             flag: "",
         },
         OracleBasisEntry {
