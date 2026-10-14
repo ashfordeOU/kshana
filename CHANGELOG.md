@@ -11,6 +11,21 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **Lab fit from IQ campaigns, follow-up** (`tests/iq_labfit_followup.rs`, CI job
+  `labfit-iq-followup`). It tests the two hypotheses §13.6 of `docs/design/LABFIT-FROM-IQ.md` left
+  open, against bars pre-registered in 1e532f84. It adds two synthetic campaigns: S, with a
+  stepped J/S (seed 2026_1014), and R, a fresh ramp (seed 2026_1015). Results are in
+  `docs/design/evidence/labfit-followup/RESULTS.md`.
+  - S1 met: with each J/S level held, `δ_eff` is recovered within +0.185 dB. The ramp campaigns'
+    −1.1 dB error is estimator lag.
+  - S2 not met, pinned by a test asserting the miss: (d) as written on the stepped campaign
+    holds for the tracking-loop model (0.45 dB) but not for the empirical one (6.42 dB).
+  - R1 met: on the fresh ramp campaign, (d) with the fitted drop dwell times each event's ramp
+    rate added is within 1 dB for both models.
+  - The (a′) and (d) misses replicate on R.
+  - A campaign may now state its J/S as a `step` profile in the test harness.
+  - No §13 verdict changes, and the ledger row stays MODELLED.
+
 - **Capped FLL pull-in, opt-in** (DS-LOOP-05): a new loop-design key `[design.carrier]
   fll_pull_in_max_s` (s), Rust `LoopConfig::fll_pull_in_max_s`. Under `fll_assist = "pull-in"`
   it forces the FLL-to-PLL hand-over after that long, whatever the PLI. Unset by default, and

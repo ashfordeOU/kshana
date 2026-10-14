@@ -512,6 +512,21 @@ jobs:
       - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2
       - name: Lab fit from IQ campaigns (release)
         run: cargo test --release --test iq_labfit_campaign -- --test-threads 1
+  # The lab-fit follow-up (docs/design/evidence/labfit-followup/): campaigns S and R and their
+  # bars S1, S2 (pinned NOT MET: the test asserts the recorded miss) and R1, against the
+  # verdicts recorded in RESULTS.md. Two campaigns and two 1000-replicate fits, about 55 min on
+  # 4 cores.
+  labfit-iq-followup:
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: dtolnay/rust-toolchain@e2a55d2ffb04f378e9626c28d38b36d230d1e12f # master; the toolchain is the `toolchain` input below
+        with:
+          toolchain: 1.93.0
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2
+      - name: Lab-fit follow-up campaigns (release)
+        run: cargo test --release --test iq_labfit_followup -- --test-threads 1
   public-standalone:
     runs-on: ubuntu-latest
     timeout-minutes: 30
