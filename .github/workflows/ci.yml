@@ -34,7 +34,11 @@ jobs:
     # comment. The 240 cap stays as pure headroom: it costs nothing when healthy, and a
     # cap that clips a passing run reveals nothing (a job cancelled at its cap never
     # reveals its true runtime). No gate below is weakened.
-    timeout-minutes: 240
+    # 0.36: the suite grew (agency_lro alone 55-93 min in debug, the iq lab-fit
+    # campaigns), and on slower runners the full run passed 240 min twice on
+    # integ/batch3b-0.36 (#81) while still passing every test it reached. Raised to
+    # the hosted-runner maximum; nothing is skipped.
+    timeout-minutes: 360
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
