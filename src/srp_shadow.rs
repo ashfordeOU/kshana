@@ -65,6 +65,7 @@
 //! symmetry, monotone penumbra, limits).
 
 use crate::forces::{RE_EARTH, SOLAR_RADIUS};
+use crate::portable_math::PortableFloat;
 use std::f64::consts::PI;
 use std::sync::OnceLock;
 
@@ -195,7 +196,7 @@ pub fn ellipsoid_limb_angle(r: Vec3, s: Vec3, r_eci_to_body: Option<Mat3>, a: f6
     };
     let r_n = norm(r);
     match limb_radius_body(rb, sb, a, f) {
-        Some(rho) => (rho / r_n).clamp(-1.0, 1.0).asin(),
+        Some(rho) => (rho / r_n).clamp(-1.0, 1.0).pasin(),
         None => std::f64::consts::FRAC_PI_2,
     }
 }
@@ -217,13 +218,13 @@ fn disk_angles(
     if d_sun == 0.0 || r_n == 0.0 {
         return None;
     }
-    let a = (SOLAR_RADIUS / d_sun).clamp(-1.0, 1.0).asin();
+    let a = (SOLAR_RADIUS / d_sun).clamp(-1.0, 1.0).pasin();
     let b = match flattening {
-        None => (a_eq / r_n).clamp(-1.0, 1.0).asin(),
+        None => (a_eq / r_n).clamp(-1.0, 1.0).pasin(),
         Some(f) => ellipsoid_limb_angle(r, s, rot, a_eq, f),
     };
     let dot = d[0] * (-r[0]) + d[1] * (-r[1]) + d[2] * (-r[2]);
-    let c = (dot / (d_sun * r_n)).clamp(-1.0, 1.0).acos();
+    let c = (dot / (d_sun * r_n)).clamp(-1.0, 1.0).pacos();
     Some((a, b, c))
 }
 
@@ -241,7 +242,7 @@ fn lens_visible(a: f64, b: f64, c: f64) -> f64 {
     let x = ((c * c + a * a - b * b) / (2.0 * c * a)).clamp(-1.0, 1.0);
     let y = ((c * c + b * b - a * a) / (2.0 * c * b)).clamp(-1.0, 1.0);
     let tri = ((-c + a + b) * (c + a - b) * (c - a + b) * (c + a + b)).max(0.0);
-    let overlap = a * a * x.acos() + b * b * y.acos() - 0.5 * tri.sqrt();
+    let overlap = a * a * x.pacos() + b * b * y.pacos() - 0.5 * tri.sqrt();
     (1.0 - overlap / (PI * a * a)).clamp(0.0, 1.0)
 }
 
@@ -337,7 +338,7 @@ pub fn gauss_legendre_unit(n: usize) -> Vec<(f64, f64)> {
     let mut out = Vec::with_capacity(n);
     let nf = n as f64;
     for i in 0..n {
-        let mut x = (PI * (i as f64 + 0.75) / (nf + 0.5)).cos();
+        let mut x = (PI * (i as f64 + 0.75) / (nf + 0.5)).pcos();
         let mut dp = 1.0;
         for _ in 0..100 {
             let (mut p0, mut p1) = (1.0, x);
@@ -382,7 +383,7 @@ fn arc_inside(rho: f64, gamma: f64, delta: f64, sigma: f64) -> f64 {
         return 0.0;
     }
     let arg = ((rho * rho + delta * sigma) / (2.0 * rho * gamma)).clamp(-1.0, 1.0);
-    2.0 * arg.acos()
+    2.0 * arg.pacos()
 }
 
 /// The occulted flux fraction `∫ I L ρ dρ / ∫ I 2π ρ dρ` for normalised disks, by
@@ -415,7 +416,7 @@ fn occulted_fraction(
         }
         let mut acc = 0.0;
         for &(t, w) in nodes {
-            let (st, ct) = (PI * t).sin_cos();
+            let (st, ct) = (PI * t).psin_cos();
             let rho = r0 + h * 0.5 * (1.0 - ct);
             let jac = h * 0.5 * PI * st;
             let mu = ((1.0 - rho) * (1.0 + rho)).max(0.0).sqrt();
@@ -525,7 +526,7 @@ mod tests {
         // Angle between sat→Sun and sat→Earth is ≈ angle between −r̂ and ŝ (Sun at ∞);
         // solve exactly by bisection on the polar angle φ of r̂ from −ŝ.
         let pos = |phi: f64| -> Vec3 {
-            let (sp, cp) = phi.sin_cos();
+            let (sp, cp) = phi.psin_cos();
             [
                 rn * (-cp * sh[0] + sp * perp[0]),
                 rn * (-cp * sh[1] + sp * perp[1]),
@@ -537,7 +538,7 @@ mod tests {
             let d = sub(s, r);
             (dot(d, scale(r, -1.0)) / (norm(d) * norm(r)))
                 .clamp(-1.0, 1.0)
-                .acos()
+                .pacos()
         };
         let (mut lo, mut hi) = (0.0, PI);
         for _ in 0..200 {
@@ -552,8 +553,8 @@ mod tests {
     }
 
     fn penumbra_cs(rn: f64, k: usize) -> Vec<f64> {
-        let a = (SOLAR_RADIUS / AU_M).asin();
-        let b = (RE_EARTH / rn).asin();
+        let a = (SOLAR_RADIUS / AU_M).pasin();
+        let b = (RE_EARTH / rn).pasin();
         (0..=k)
             .map(|i| (b - a) + 2.0 * a * i as f64 / k as f64)
             .collect()
@@ -567,7 +568,7 @@ mod tests {
     #[test]
     fn oblate_with_zero_flattening_is_bit_identical_to_conical_shadow() {
         let rot = {
-            let (s, c) = 0.7_f64.sin_cos();
+            let (s, c) = 0.7_f64.psin_cos();
             [[c, 0.0, -s], [0.0, 1.0, 0.0], [s, 0.0, c]]
         };
         let mut n = 0;
@@ -604,15 +605,15 @@ mod tests {
         for alt in ALTS {
             let rn = a + alt;
             let b_eq = ellipsoid_limb_angle([rn, 0.0, 0.0], [0.0, AU_M, 0.0], None, a, WGS84_F);
-            assert!((b_eq - (a / rn).asin()).abs() < 1e-15, "{alt}");
+            assert!((b_eq - (a / rn).pasin()).abs() < 1e-15, "{alt}");
             let z = cpol + alt;
             let zt = cpol * cpol / z;
             let xt = a * ((1.0 - cpol / z) * (1.0 + cpol / z)).sqrt();
-            let expect = (xt / (z - zt)).atan();
+            let expect = (xt / (z - zt)).patan();
             let b_pol = ellipsoid_limb_angle([0.0, 0.0, z], [AU_M, 0.0, 0.0], None, a, WGS84_F);
             assert!((b_pol - expect).abs() < 2e-15, "{alt}: {b_pol} vs {expect}");
             // and the polar view sees a larger disk than a sphere of polar radius:
-            assert!(b_pol > (cpol / z).asin());
+            assert!(b_pol > (cpol / z).pasin());
         }
     }
 
@@ -620,7 +621,7 @@ mod tests {
     fn rotation_argument_is_equivalent_to_rotating_the_inputs() {
         // Body frame tilted 30° about x: passing R must equal evaluating with R·r, R·s and
         // the identity (the satellite radius is rotation-invariant).
-        let (sn, cs) = (30f64.to_radians()).sin_cos();
+        let (sn, cs) = (30f64.to_radians()).psin_cos();
         let rot = [[1.0, 0.0, 0.0], [0.0, cs, sn], [0.0, -sn, cs]];
         let rn = RE_EARTH + 400e3;
         for c in penumbra_cs(rn, 20) {
@@ -670,7 +671,7 @@ mod tests {
             let ws: f64 = g.iter().map(|p| p.1).sum();
             assert!((ws - 1.0).abs() < 1e-14);
             for k in 0..(2 * n) {
-                let q: f64 = g.iter().map(|&(x, w)| w * x.powi(k as i32)).sum();
+                let q: f64 = g.iter().map(|&(x, w)| w * x.ppowi(k as i32)).sum();
                 assert!((q - 1.0 / (k as f64 + 1.0)).abs() < 1e-14, "n={n} k={k}");
             }
         }
@@ -705,15 +706,15 @@ mod tests {
                 let x2 = x * x;
                 x * x2 / 6.0 * (1.0 - x2 / 20.0 * (1.0 - x2 / 42.0 * (1.0 - x2 / 72.0)))
             } else {
-                x - x.sin()
+                x - x.psin()
             };
             0.5 * r * r * g
         }
         let x1 = ((c - b) * (c + b) + a * a) / (2.0 * c); // Sun centre → chord
         let h = ((a - x1) * (a + x1)).max(0.0).sqrt();
         let x2 = c - x1; // Earth centre → chord
-        let th1 = h.atan2(x1); // half-angle at the Sun centre
-        let th2 = h.atan2(x2);
+        let th1 = h.patan2(x1); // half-angle at the Sun centre
+        let th2 = h.patan2(x2);
         (seg(a, th1) + seg(b, th2)) / (PI * a * a)
     }
 
@@ -839,7 +840,7 @@ mod tests {
         assert!(b < a && c < 1e-12);
         let beta = b / a;
         // ∫₀^β (0.4 + 0.6√(1−ρ²)) 2ρ dρ = 0.4β² + 0.4(1 − (1−β²)^{3/2})
-        let occ = 0.4 * beta * beta + 0.4 * (1.0 - (1.0 - beta * beta).powf(1.5));
+        let occ = 0.4 * beta * beta + 0.4 * (1.0 - (1.0 - beta * beta).ppowf(1.5));
         let expect = 1.0 - occ / 0.8;
         let v = limb_darkened_shadow_with(r, s, OccultingShape::Sphere, &law);
         assert_eq!(

@@ -700,6 +700,7 @@ pub fn to_svg(r: &EphemerisResult) -> String {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::portable_math::PortableFloat;
 
     // A real published ISS (ZARYA) two-line element set. Inclination 51.64° is the
     // recognisable ISS value the ground-track latitude band must respect.
@@ -737,7 +738,7 @@ mod tests {
         for (x, y) in a.samples.iter().zip(&b.samples) {
             assert_eq!(x.teme_r_m, y.teme_r_m);
             let d: f64 = (0..3)
-                .map(|k| (x.ecef_r_m[k] - y.ecef_r_m[k]).powi(2))
+                .map(|k| (x.ecef_r_m[k] - y.ecef_r_m[k]).ppowi(2))
                 .sum::<f64>()
                 .sqrt();
             assert!(d < 0.1, "t {}: ECEF differs by {d} m", x.t_s);
@@ -753,7 +754,7 @@ mod tests {
         let resolved = run_ephemeris(&fine2).unwrap();
         // Remove the satellite's own motion by comparing the ECEF-TEME azimuth offset.
         let rot = |s: &EphemSample| {
-            s.teme_r_m[1].atan2(s.teme_r_m[0]) - s.ecef_r_m[1].atan2(s.ecef_r_m[0])
+            s.teme_r_m[1].patan2(s.teme_r_m[0]) - s.ecef_r_m[1].patan2(s.ecef_r_m[0])
         };
         let steps = |r: &EphemerisResult| -> Vec<f64> {
             r.samples

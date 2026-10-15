@@ -21,6 +21,7 @@
 //! (`xval/adm-orekit/PREREGISTRATION.md`).
 
 use crate::ndm_xml::{self, Element};
+use crate::portable_math::PortableFloat;
 
 /// The header of an ADM.
 #[derive(Clone, Debug, PartialEq)]
@@ -1493,7 +1494,7 @@ fn qmul(a: [f64; 4], b: [f64; 4]) -> [f64; 4] {
 /// The quaternion (scalar last) of a rotation by `deg` about axis `X`, `Y` or `Z`.
 fn axis_quaternion(axis: char, deg: f64) -> Result<[f64; 4], String> {
     let h = deg.to_radians() / 2.0;
-    let (s, c) = h.sin_cos();
+    let (s, c) = h.psin_cos();
     Ok(match axis {
         'X' | '1' => [s, 0.0, 0.0, c],
         'Y' | '2' => [0.0, s, 0.0, c],
@@ -1687,7 +1688,7 @@ mod tests {
             w * w - x * x - y * y + z * z,
         ];
         let (ar, dr) = (a.to_radians(), d.to_radians());
-        let want = [dr.cos() * ar.cos(), dr.cos() * ar.sin(), dr.sin()];
+        let want = [dr.pcos() * ar.pcos(), dr.pcos() * ar.psin(), dr.psin()];
         for k in 0..3 {
             assert!((img[k] - want[k]).abs() < 1e-14);
         }

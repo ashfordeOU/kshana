@@ -95,6 +95,7 @@ impl HatchFilter {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::portable_math::PortableFloat;
 
     #[test]
     fn noise_free_code_and_carrier_pass_through_unchanged() {
@@ -122,7 +123,7 @@ mod tests {
         let mut n = 0.0;
         for k in 0..20_000 {
             let (u1, u2) = (uniform(), uniform());
-            let noise = (-2.0 * u1.ln()).sqrt() * (std::f64::consts::TAU * u2).cos();
+            let noise = (-2.0 * u1.pln()).sqrt() * (std::f64::consts::TAU * u2).pcos();
             let (s, used) = f.update("G01", k as f64, 100.0 + noise, 0.0, false);
             if used == 100 && k > 1000 {
                 sq += (s - 100.0) * (s - 100.0);

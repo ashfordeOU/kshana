@@ -26,7 +26,8 @@
 //! Everything here is **MODELLED**: it describes the open receiver (a named loop design and
 //! front-end chain) on the recordings it was given.
 
-use rand::{Rng, SeedableRng};
+use crate::portable_math::PortableFloat;
+use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
 use serde::Serialize;
 
@@ -698,7 +699,7 @@ fn js_conditions(power: &PowerProfile, onset: f64, offset: f64) -> Conditions {
 
 /// The level offset of [`js_conditions`] for a C/N0 fit.
 fn js_offset_db(fit: &Cn0Fit, rc: f64) -> f64 {
-    fit.delta_db - 10.0 * (fit.q * rc / crate::jamming::CA_CHIP_RATE_HZ).log10()
+    fit.delta_db - 10.0 * (fit.q * rc / crate::jamming::CA_CHIP_RATE_HZ).plog10()
 }
 
 /// Lock events with their modelled C/N0 profiles under one C/N0 fit.
@@ -732,9 +733,9 @@ fn sse_parts(kind: ModelKind, th: &[f64; 4], ps: &[Prepared], sc: &LabFitScenari
         let m = simulate_sat(&p.cond, p.ev.c0, p.off, &lp, p.ev.end);
         let end = p.ev.end;
         let sq = |o: Option<f64>, m: Option<f64>| match (o, m) {
-            (Some(o), Some(m)) => (m - o).powi(2),
-            (Some(o), None) => (end - o).powi(2),
-            (None, Some(m)) => (m - end).powi(2),
+            (Some(o), Some(m)) => (m - o).ppowi(2),
+            (Some(o), None) => (end - o).ppowi(2),
+            (None, Some(m)) => (m - end).ppowi(2),
             (None, None) => 0.0,
         };
         l += sq(p.ev.loss, m.loss_s);
@@ -937,7 +938,9 @@ impl UnitCtx<'_> {
         let mut failed = 0;
         let m = train.len();
         for _ in 0..b {
-            let idx: Vec<usize> = (0..m).map(|_| train[rng.gen_range(0..m)]).collect();
+            let idx: Vec<usize> = (0..m)
+                .map(|_| train[crate::portable_math::uniform_index(&mut rng, m)])
+                .collect();
             match self.fit(&idx, Some(full.cn0.mode), Some(full)) {
                 Some(f) => reps.push(f),
                 None => failed += 1,
@@ -971,12 +974,12 @@ fn place(q: [f64; 3], pts: &[([f64; 3], String)]) -> (f64, String) {
         }
     }
     let ext = (0..3)
-        .map(|i| (lo[i] - q[i]).max(q[i] - hi[i]).max(0.0).powi(2))
+        .map(|i| (lo[i] - q[i]).max(q[i] - hi[i]).max(0.0).ppowi(2))
         .sum::<f64>()
         .sqrt();
     let mut best = (f64::INFINITY, first.1.clone());
     for (p, l) in pts {
-        let d = (0..3).map(|i| (p[i] - q[i]).powi(2)).sum::<f64>().sqrt();
+        let d = (0..3).map(|i| (p[i] - q[i]).ppowi(2)).sum::<f64>().sqrt();
         if d < best.0 {
             best = (d, l.clone());
         }
@@ -991,7 +994,7 @@ fn pi90(rng: &mut ChaCha8Rng, preds: &[(f64, &[f64])]) -> Option<[f64; 2]> {
         if res.is_empty() || !p.is_finite() {
             continue;
         }
-        draws.push(p + res[rng.gen_range(0..res.len())]);
+        draws.push(p + res[crate::portable_math::uniform_index(rng, res.len())]);
     }
     let s = sorted(&draws);
     (s.len() >= 2).then(|| [percentile(&s, 0.05), percentile(&s, 0.95)])

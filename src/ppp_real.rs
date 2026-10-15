@@ -46,6 +46,7 @@
 
 use crate::frames::{ecef_to_geodetic, look_angles, Geodetic, Vec3};
 use crate::gnss_sim::{niell_hydrostatic, niell_wet};
+use crate::portable_math::PortableFloat;
 use crate::precise_products::{body_axes, sun_ecef, PreciseProducts};
 use crate::pvt::{sagnac_rotate, solve_spp, SppMeasurement};
 use crate::rinex_obs::RinexObs;
@@ -179,7 +180,7 @@ pub fn solid_tide_ecef(r: Vec3, sun: Vec3, moon: Vec3) -> Vec3 {
     for (body, gm) in [(sun, GM_SUN), (moon, GM_MOON)] {
         let nb = norm(body);
         let bh = scale(body, 1.0 / nb);
-        let k = gm / GM_EARTH * RE.powi(4) / nb.powi(3);
+        let k = gm / GM_EARTH * RE.ppowi(4) / nb.ppowi(3);
         let c = dot(bh, rh);
         let radial = h2 * (1.5 * c * c - 0.5);
         for i in 0..3 {
@@ -213,7 +214,7 @@ pub fn phase_windup(rs: Vec3, rr: Vec3, sun: Vec3, prev: f64) -> f64 {
     let ds = sub(sub(exs, scale(ek, dot(ek, exs))), eks);
     let dr = add(sub(exr, scale(ek, dot(ek, exr))), ekr);
     let cosp = (dot(ds, dr) / norm(ds) / norm(dr)).clamp(-1.0, 1.0);
-    let mut ph = cosp.acos() / std::f64::consts::TAU;
+    let mut ph = cosp.pacos() / std::f64::consts::TAU;
     if dot(ek, cross(ds, dr)) < 0.0 {
         ph = -ph;
     }
@@ -502,7 +503,7 @@ pub fn run_ppp(obs: &RinexObs, prod: &PreciseProducts, cfg: &PppConfig) -> PppRe
             });
             let shapiro = {
                 let (r1, r2) = (norm(rs), norm(r_ant));
-                2.0 * GM_EARTH / (C * C) * ((r1 + r2 + rho) / (r1 + r2 - rho)).ln()
+                2.0 * GM_EARTH / (C * C) * ((r1 + r2 + rho) / (r1 + r2 - rho)).pln()
             };
             let mh = niell_hydrostatic(look.el_rad, geo.lat_rad, geo.alt_m, doy);
             let mw = niell_wet(look.el_rad, geo.lat_rad);
@@ -555,12 +556,12 @@ pub fn run_ppp(obs: &RinexObs, prod: &PreciseProducts, cfg: &PppConfig) -> PppRe
             );
             seen.push(idx);
 
-            let w_el = 1.0 + 1.0 / look.el_rad.sin();
+            let w_el = 1.0 + 1.0 / look.el_rad.psin();
             let h_pos = [(0, -e[0]), (1, -e[1]), (2, -e[2]), (3, 1.0), (4, mw)];
             let mut ok = kf.update(
                 &h_pos,
                 sv.p_if - model,
-                (sig_p * w_el).powi(2),
+                (sig_p * w_el).ppowi(2),
                 if out.len() < 10 { 1e6 } else { 8.0 },
             );
             if cfg.use_phase {
@@ -578,11 +579,11 @@ pub fn run_ppp(obs: &RinexObs, prod: &PreciseProducts, cfg: &PppConfig) -> PppRe
                 let mut h = h_pos.to_vec();
                 h.push((idx, 1.0));
                 let v = sv.l_if - model_l;
-                if !kf.update(&h, v, (sig_l * w_el).powi(2), 8.0) {
+                if !kf.update(&h, v, (sig_l * w_el).ppowi(2), 8.0) {
                     // A phase outlier is taken as an undetected slip.
                     n_slips += 1;
                     kf.reset_state(idx, kf.x[idx] + v, 30.0 * 30.0);
-                    ok = kf.update(&h, 0.0, (sig_l * w_el).powi(2), 1e6) && ok;
+                    ok = kf.update(&h, 0.0, (sig_l * w_el).ppowi(2), 1e6) && ok;
                 }
             }
             if ok {
@@ -615,8 +616,8 @@ pub fn run_ppp(obs: &RinexObs, prod: &PreciseProducts, cfg: &PppConfig) -> PppRe
 /// station height, `p = 1013.25·(1 − 2.2557e-5·h)^5.2568` hPa; also returns that pressure.
 fn zenith_hydrostatic(g: Geodetic) -> (f64, f64) {
     let h = g.alt_m.max(0.0);
-    let p = 1013.25 * (1.0 - 2.2557e-5 * h).powf(5.2568);
-    let denom = 1.0 - 0.00266 * (2.0 * g.lat_rad).cos() - 0.00028 * (h / 1000.0);
+    let p = 1013.25 * (1.0 - 2.2557e-5 * h).ppowf(5.2568);
+    let denom = 1.0 - 0.00266 * (2.0 * g.lat_rad).pcos() - 0.00028 * (h / 1000.0);
     (0.0022768 * p / denom, p)
 }
 
@@ -645,8 +646,8 @@ fn geo_of(r: Vec3) -> Geodetic {
 
 /// Local east, north, up unit vectors (ECEF) at geodetic latitude and longitude.
 pub fn enu_axes(lat: f64, lon: f64) -> (Vec3, Vec3, Vec3) {
-    let (sl, cl) = lat.sin_cos();
-    let (so, co) = lon.sin_cos();
+    let (sl, cl) = lat.psin_cos();
+    let (so, co) = lon.psin_cos();
     (
         [-so, co, 0.0],
         [-sl * co, -sl * so, cl],
@@ -700,7 +701,7 @@ mod tests {
         let far = scale(unit(r), 1e30);
         let d = solid_tide_ecef(r, far, moon);
         let up = dot(d, unit(r));
-        let k = 4.902_800_066e12 / GM_EARTH * 6_378_136.6f64.powi(4) / 384_400e3f64.powi(3);
+        let k = 4.902_800_066e12 / GM_EARTH * 6_378_136.6f64.ppowi(4) / 384_400e3f64.ppowi(3);
         let sin_phi = unit(r)[2];
         let h2 = 0.6078 - 0.0006 * (3.0 * sin_phi * sin_phi - 1.0) / 2.0;
         assert!((up - h2 * k).abs() < 1e-12, "{up}");

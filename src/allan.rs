@@ -1115,7 +1115,7 @@ pub(crate) fn greenhall_edf_core(
         let (Some((a0, a1)), Some((b0, b1))) = (greenhall_table2(1, d), greenhall_table3(d)) else {
             return f64::NAN;
         };
-        let den = b0 + b1 * mm.ln();
+        let den = b0 + b1 * mm.pln();
         if r >= dd + 1.0 {
             return 1.0 / ((1.0 / (den * den * r)) * (a0 - a1 / r));
         }
@@ -1148,7 +1148,7 @@ fn greenhall_sw(t: f64, alpha: i32) -> f64 {
             if t == 0.0 {
                 0.0
             } else {
-                t * t * t.abs().ln()
+                t * t * t.abs().pln()
             }
         }
         0 => (t * t * t).abs(),
@@ -1156,18 +1156,18 @@ fn greenhall_sw(t: f64, alpha: i32) -> f64 {
             if t == 0.0 {
                 0.0
             } else {
-                t.powi(4) * t.abs().ln()
+                t.ppowi(4) * t.abs().pln()
             }
         }
-        -2 => (t.powi(5)).abs(),
+        -2 => (t.ppowi(5)).abs(),
         -3 => {
             if t == 0.0 {
                 0.0
             } else {
-                t.powi(6) * t.abs().ln()
+                t.ppowi(6) * t.abs().pln()
             }
         }
-        -4 => (t.powi(7)).abs(),
+        -4 => (t.ppowi(7)).abs(),
         _ => f64::NAN,
     }
 }

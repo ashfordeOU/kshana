@@ -19,6 +19,7 @@
 //! `tests/iq_scint_malindi_measured.rs` gates on it.
 
 use crate::iq::channel::scint::{ScintParams, Scintillation, BUTTERWORTH_1_OVER_E_X};
+use crate::portable_math::PortableFloat;
 use std::f64::consts::{PI, TAU};
 
 /// Sample rate of the log (Hz).
@@ -124,9 +125,9 @@ impl Biquad {
 /// A causal 6th-order Butterworth filter at `fc` (bilinear transform pre-warped at `fs`),
 /// three cascaded biquads.
 fn butter6(fc: f64, fs: f64, high_pass: bool) -> [Biquad; 3] {
-    let k = (PI * fc / fs).tan();
+    let k = (PI * fc / fs).ptan();
     let mk = |idx: usize| {
-        let zeta = (PI * (2 * idx + 1) as f64 / 12.0).sin();
+        let zeta = (PI * (2 * idx + 1) as f64 / 12.0).psin();
         let norm = 1.0 / (1.0 + 2.0 * zeta * k + k * k);
         let a = [
             2.0 * (k * k - 1.0) * norm,
@@ -209,7 +210,7 @@ pub fn one_over_e_lag_s(x: &[f64]) -> Option<f64> {
     if c0 <= 0.0 {
         return None;
     }
-    let target = (-1f64).exp();
+    let target = (-1f64).pexp();
     let mut prev = 1.0;
     for lag in 1..=MAX_LAG.min(d.len() - 1) {
         let r = c(lag) / c0;
@@ -237,7 +238,7 @@ pub fn windows(si: &[f64], phase_rad: &[f64]) -> Vec<WindowStats> {
         let m1 = mean(w);
         let m2 = w.iter().map(|v| v * v).sum::<f64>() / w.len() as f64;
         let pm = mean(p);
-        let sd = (p.iter().map(|v| (v - pm).powi(2)).sum::<f64>() / p.len() as f64).sqrt();
+        let sd = (p.iter().map(|v| (v - pm).ppowi(2)).sum::<f64>() / p.len() as f64).sqrt();
         let max_dphi = p
             .windows(2)
             .map(|q| (q[1] - q[0]).abs())
@@ -269,9 +270,9 @@ pub fn measured_windows(seg: &[LogSample]) -> Vec<WindowStats> {
 pub fn tau0_for_intensity_lag(s4: f64, tau_i_s: f64) -> f64 {
     let p = ScintParams::new(s4, 1.0).diffuse_power();
     let zh2 = 1.0 - p;
-    let c = (-1f64).exp() * (2.0 * zh2 * p + p * p);
+    let c = (-1f64).pexp() * (2.0 * zh2 * p + p * p);
     let rho = (-zh2 + (zh2 * zh2 + c).sqrt()) / p;
-    let f = |x: f64| (-x).exp() * (x.cos() + x.sin());
+    let f = |x: f64| (-x).pexp() * (x.pcos() + x.psin());
     let (mut lo, mut hi) = (0.0, 0.75 * PI);
     for _ in 0..200 {
         let mid = 0.5 * (lo + hi);
@@ -509,7 +510,7 @@ mod tests {
         // A sinusoid at the cut-off comes out at 1/√2 (after the transient).
         let n = 40_000;
         let x: Vec<f64> = (0..n)
-            .map(|k| (TAU * DETREND_HZ * k as f64 * DT_S).sin())
+            .map(|k| (TAU * DETREND_HZ * k as f64 * DT_S).psin())
             .collect();
         for (y, want) in [
             (lowpass6(&x), 0.5f64.sqrt()),

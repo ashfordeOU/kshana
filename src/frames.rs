@@ -309,7 +309,7 @@ pub fn teme_to_itrf_jd2(
     yp_rad: f64,
     jd_tt: f64,
 ) -> Vec3 {
-    let (s, c) = crate::jd2::gmst82(ut1).sin_cos();
+    let (s, c) = crate::jd2::gmst82(ut1).psin_cos();
     let pef = [
         c * r_teme[0] + s * r_teme[1],
         -s * r_teme[0] + c * r_teme[1],
@@ -327,7 +327,7 @@ pub fn itrf_to_teme_jd2(
     jd_tt: f64,
 ) -> Vec3 {
     let pef = itrf_to_pef(r_itrf, xp_rad, yp_rad, jd_tt);
-    let (s, c) = crate::jd2::gmst82(ut1).sin_cos();
+    let (s, c) = crate::jd2::gmst82(ut1).psin_cos();
     [c * pef[0] - s * pef[1], s * pef[0] + c * pef[1], pef[2]]
 }
 

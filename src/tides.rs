@@ -329,12 +329,12 @@ pub fn atmospheric_tide(jd_tt: f64) -> Vec<StokesDelta> {
         // Eq. 6.20 with the normalised amplitude D/N and the sine lead ε = 90° − ψ:
         // C̄ = (D/N)·sin ε = (D/N)·cos ψ,  S̄ = (D/N)·cos ε = (D/N)·sin ψ  (microbars).
         let (cp, sp) = (
-            dp / nf * psp.to_radians().cos(),
-            dp / nf * psp.to_radians().sin(),
+            dp / nf * psp.to_radians().pcos(),
+            dp / nf * psp.to_radians().psin(),
         );
         let (cm, sm) = (
-            dm / nf * psm.to_radians().cos(),
-            dm / nf * psm.to_radians().sin(),
+            dm / nf * psm.to_radians().pcos(),
+            dm / nf * psm.to_radians().psin(),
         );
         // pressure → geopotential surface-load factor (Eq. 6.21 with σ = Δp/g), microbar → Pa
         let fac = (4.0 * std::f64::consts::PI * G / (GE * GE))
@@ -437,7 +437,7 @@ pub fn atmospheric_tide_s1(jd_tt: f64) -> Vec<StokesDelta> {
                 * ((1.0 + load_love_iers(n)) / (2.0 * n as f64 + 1.0))
                 * c_cm
                 * CM_TO_M;
-            let (sa, ca) = (theta + eps_deg.to_radians()).sin_cos();
+            let (sa, ca) = (theta + eps_deg.to_radians()).psin_cos();
             StokesDelta {
                 n,
                 m: m8 as usize,
@@ -598,7 +598,7 @@ mod tests {
         assert_eq!(a.len(), 24 - 3 - 3);
         assert!(a.iter().all(|d| (2..=S1_AIR_MAX_DEGREE).contains(&d.n)));
         for ((x, y), z) in a.iter().zip(&b).zip(&c) {
-            let amp = |d: &StokesDelta| d.dc.hypot(d.ds);
+            let amp = |d: &StokesDelta| d.dc.phypot(d.ds);
             assert!((amp(x) - amp(y)).abs() < 1e-24 && (amp(x) - amp(z)).abs() < 1e-24);
             // one solar day later the phase is back (to the slow drift of p_s and h)
             assert!((x.dc - z.dc).abs() < 1e-3 * amp(x), "{x:?} vs {z:?}");

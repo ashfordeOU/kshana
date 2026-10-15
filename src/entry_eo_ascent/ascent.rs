@@ -33,6 +33,7 @@
 //! no throttling. Not a trajectory optimiser.
 
 use crate::orbit::{MU_EARTH, R_EARTH_EQUATORIAL_M};
+use crate::portable_math::PortableFloat;
 use crate::reentry::{us76_density, us76_pressure, G0};
 use serde::Deserialize;
 
@@ -116,7 +117,7 @@ pub fn simulate_ascent(v: &Vehicle, dt: f64) -> AscentResult {
         y[4] = mass;
         let mdot = st.thrust_vac_n / (st.isp_vac_s * G0);
         let t_burn = st.propellant_kg / mdot;
-        res.ideal_dv_m_s += st.isp_vac_s * G0 * (mass / (mass - st.propellant_kg)).ln();
+        res.ideal_dv_m_s += st.isp_vac_s * G0 * (mass / (mass - st.propellant_kg)).pln();
         let n = (t_burn / dt).ceil().max(1.0) as usize;
         let h = t_burn / n as f64;
         for _ in 0..n {
@@ -136,8 +137,8 @@ pub fn simulate_ascent(v: &Vehicle, dt: f64) -> AscentResult {
                 let rho = us76_density(alt.max(0.0));
                 let drag = 0.5 * rho * vel * vel * v.drag_coefficient * v.reference_area_m2;
                 let g = MU_EARTH / (r * r);
-                let (sg, cg) = gam.sin_cos();
-                let (sa, ca) = tilt.sin_cos();
+                let (sg, cg) = gam.psin_cos();
+                let (sa, ca) = tilt.psin_cos();
                 let v_safe = vel.max(1.0);
                 [
                     vel * sg,
@@ -642,7 +643,7 @@ mod tests {
         assert!(r.gravity_loss_m_s < g_surface * r.burn_time_s);
         assert!(r.gravity_loss_m_s > 0.95 * g_surface * r.burn_time_s);
         // Tsiolkovsky.
-        let want = 300.0 * G0 * (1000.0_f64 / 100.0).ln();
+        let want = 300.0 * G0 * (1000.0_f64 / 100.0).pln();
         assert!((r.ideal_dv_m_s - want).abs() < 1e-9);
         assert!((r.end_speed_m_s - (want - r.gravity_loss_m_s)).abs() < 1e-6);
     }

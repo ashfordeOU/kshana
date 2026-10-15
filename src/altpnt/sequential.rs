@@ -32,6 +32,7 @@ use crate::mapmatch::field_likelihood;
 use crate::palette::chart::{BG, CORAL, FONT_SANS, LIME, MUTED, TEXT};
 use crate::particle_filter::ParticleFilter;
 use crate::portable_distr::{Distribution, Normal};
+use crate::portable_math::PortableFloat;
 use rand::{RngCore, SeedableRng};
 use rand_chacha::ChaCha8Rng;
 use serde::{Deserialize, Serialize};
@@ -443,7 +444,7 @@ fn sequential_core(
                         let innov = m - pred - mu;
                         // Predictive density up to a common constant (variances differ
                         // between particles, so the 1/sqrt term matters).
-                        *w *= (-0.5 * innov * innov / s_var).exp() / s_var.sqrt();
+                        *w *= (-0.5 * innov * innov / s_var).pexp() / s_var.sqrt();
                         let gain = var / s_var;
                         p[2 + c] = mu + gain * innov;
                         p[2 + cells + c] = (1.0 - gain) * var;

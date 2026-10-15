@@ -1450,7 +1450,7 @@ mod tests {
             r.terrain_only_m.to_bits(),
             synthetic.terrain_only_m.to_bits()
         );
-        let cell_m = cfg.search_step_deg / cfg.refine_factor.powi(2) * M_PER_DEG;
+        let cell_m = cfg.search_step_deg / cfg.refine_factor.ppowi(2) * M_PER_DEG;
         assert!(
             (r.magnetic_only_m - synthetic.magnetic_only_m).abs() <= cell_m,
             "magnetic {} m vs synthetic {} m",

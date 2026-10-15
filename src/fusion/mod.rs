@@ -49,6 +49,7 @@ use crate::hybrid::{score_hybrid, HybridResult, HybridSample, HybridScenario, Su
 use crate::inertial::{AccelCfg, AccelModel};
 use crate::kalman::KalmanClock;
 use crate::models::{ClockModel, ErrorModel};
+use crate::portable_math::PortableFloat;
 use crate::run::{PHASE_MEAS_VAR_S2, PROTECTION_K};
 use crate::scenario::{ClockCfg, GnssState};
 use crate::security::{spoof_detection_score, SPOOF_DETECT_K, SPOOF_MONITOR_S};
@@ -418,7 +419,7 @@ fn run_coupled_suite(
     accel_cfg: &AccelCfg,
     seed: u64,
 ) -> SuiteRun {
-    use rand_distr::{Distribution, Normal};
+    use crate::portable_distr::{Distribution, Normal};
     let c = coupled::C_M_PER_S;
     let mut rng = ChaCha8Rng::seed_from_u64(seed);
     let mut meas_rng = ChaCha8Rng::seed_from_u64(seed ^ 0x636f_7570_6c65_6400);
@@ -503,7 +504,7 @@ fn run_coupled_suite(
                 let position_m = truth_pos - kf.pos_est();
                 outage += 1;
                 let phase_bound = PROTECTION_K
-                    * (kf.phase_sigma().powi(2) + if link.is_some() { resync_var } else { 0.0 })
+                    * (kf.phase_sigma().ppowi(2) + if link.is_some() { resync_var } else { 0.0 })
                         .sqrt();
                 let pos_bound = PROTECTION_K * kf.pos_sigma();
                 if timing_s.abs() <= phase_bound && position_m.abs() <= pos_bound {

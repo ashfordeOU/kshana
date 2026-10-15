@@ -649,7 +649,7 @@ pub fn lambert_max_revs(
 fn max_revs_of(g: &LambertGeom, big_t: f64, max_revs: u32) -> u32 {
     let ll = g.ll;
     let mut n = ((big_t / PI).floor() as u32).min(max_revs);
-    let t00 = ll.acos() + ll * (1.0 - ll * ll).sqrt();
+    let t00 = ll.pacos() + ll * (1.0 - ll * ll).sqrt();
     if n > 0 && big_t < t00 + n as f64 * PI {
         let (_, t_min) = tmin_multirev(ll, n);
         if t_min > big_t {
@@ -686,8 +686,8 @@ pub fn lambert_multirev(
     let n = max_revs_of(&g, big_t, max_revs);
     for m in 1..=n {
         let mf = m as f64;
-        let kl = ((mf * PI + PI) / (8.0 * big_t)).powf(2.0 / 3.0);
-        let kr = ((8.0 * big_t) / (mf * PI)).powf(2.0 / 3.0);
+        let kl = ((mf * PI + PI) / (8.0 * big_t)).ppowf(2.0 / 3.0);
+        let kr = ((8.0 * big_t) / (mf * PI)).ppowf(2.0 / 3.0);
         for (branch, k) in [(LambertBranch::Left, kl), (LambertBranch::Right, kr)] {
             let x = householder_multirev((k - 1.0) / (k + 1.0), big_t, g.ll, m);
             let (v1, v2) = lambert_velocities(&g, x, mu);
@@ -884,7 +884,7 @@ pub fn porkchop_kernel(
             }
             let (r1, r2) = (dep[i][0], arr[j][0]);
             let cosang = (dot(r1, r2) / (norm(r1) * norm(r2))).clamp(-1.0, 1.0);
-            let ang = cosang.acos();
+            let ang = cosang.pacos();
             if ang < collinear_guard || (PI - ang) < collinear_guard {
                 continue;
             }
@@ -968,7 +968,7 @@ fn transfer_eval(
         .ok()?;
     let (r1, r2) = (d[0], a[0]);
     let cosang = (dot(r1, r2) / (norm(r1) * norm(r2))).clamp(-1.0, 1.0);
-    let ang = cosang.acos();
+    let ang = cosang.pacos();
     let guard = (0.5_f64).to_radians();
     if ang < guard || (PI - ang) < guard {
         return None;

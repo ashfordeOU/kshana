@@ -579,7 +579,7 @@ pub fn ca_cfar_pfa(alpha: f64, n_ref: usize, m: usize) -> f64 {
     let nm = (n_ref * m) as f64;
     let t = alpha / n_ref as f64;
     // term_k = C(NM + k − 1, k)·t^k/(1 + t)^(NM + k), built by ratio from term_0.
-    let mut term = (-nm * t.ln_1p()).exp();
+    let mut term = (-nm * t.pln_1p()).pexp();
     let mut sum = term;
     for k in 1..m {
         term *= (nm + k as f64 - 1.0) / k as f64 * t / (1.0 + t);
@@ -664,13 +664,14 @@ mod tests {
     use super::{
         auto_coherent_periods, ca_cfar_alpha, ca_cfar_pfa, default_step_hz, PULL_IN_STEP_MARGIN,
     };
+    use crate::portable_math::PortableFloat;
 
     #[test]
     fn ca_cfar_closed_form_reduces_to_the_textbook_case_and_inverts() {
         // M = 1: (1 + α/N)^(−N).
         for n in [8usize, 16, 32] {
             for a in [1.0, 5.0, 12.5] {
-                let want = (1.0 + a / n as f64).powi(-(n as i32));
+                let want = (1.0 + a / n as f64).ppowi(-(n as i32));
                 assert!((ca_cfar_pfa(a, n, 1) - want).abs() <= 1e-15 * want.max(1e-300));
             }
         }

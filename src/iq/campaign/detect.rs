@@ -23,6 +23,7 @@
 //! alarm needs its confirmation rule too, so the alarm rate is lower than the single-test
 //! probability.
 
+use crate::portable_math::PortableFloat;
 use serde::{Deserialize, Serialize};
 
 use super::conditions::TestConditions;
@@ -357,7 +358,7 @@ pub fn pre_correlation_tests(
         v.push(MonitorTest {
             kind: "pulses".into(),
             channel: None,
-            threshold: -s.pulse_pfa.ln(),
+            threshold: -s.pulse_pfa.pln(),
             per: "block".into(),
             pfa: Some(s.pulse_pfa),
             arl0_samples: None,
