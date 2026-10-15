@@ -27,3 +27,13 @@ tolerances needs its own pre-registration.
 
 Pinned: `finding_four_members_miss_a_bar` asserts exactly these four misses at their recorded
 values (within 2 %), with the bars unchanged in the code.
+
+## 0.36 portable maths (2026-10-15)
+
+Re-run on the portable-maths engine (STUDIO-15, batch 4), bars and selection unchanged: the same 58
+members are checked and the same four miss. L1 northern halo #4222 stability index 2.0846 against 2.3046
+(9.5e-2) is unchanged; the DRO closures are #0 3.4e-8 (3.447788e-8), #579 2.2e-8 (2.218222e-8) and #1158
+1.5e-8 (1.533071e-8), bar 1e-8. Worst agreement elsewhere: state 9.8e-11 / 8.8e-11 / 7.4e-11, period
+1.8e-13 / 2.0e-12 / 8.3e-13, Jacobi 1.5e-12 / 8.0e-13 / 1.9e-14 (L1 / L2 / DRO). The verdict stays NOT MET
+and `finding_four_members_miss_a_bar` asserts the new values. Record:
+[`docs/revisions/STUDIO15-batch4-rebaseline.md`](../../../revisions/STUDIO15-batch4-rebaseline.md).

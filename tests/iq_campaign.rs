@@ -967,7 +967,9 @@ fn the_pre_registered_pin_holds_with_the_event_stating_q_1() {
 // estimators, in six fields: `false_lock_episodes` of the run and of the event (0 -> 1) and
 // `false_lock_per_hour` (0 -> 426.29 fll-pll, 437.69 pll-only). Before: M2M4 89c76e01...,
 // NWPR 79696147....
-const DIGEST_M2M4: &str = "c7e1158086720a590a838f0ab11d0a02922d5c293f0f4216d04b31318228f384";
+// Re-pinned for the 0.36 portable maths of the batch 2-3 IQ code (STUDIO-15 rule; record
+// docs/revisions/STUDIO15-batch4-rebaseline.md). Before: M2M4 c7e11580...; NWPR unchanged.
+const DIGEST_M2M4: &str = "8adacb22ba8a30e5794546ca068a7eeee5759000a6edd5392d2446eeb36ab878";
 const DIGEST_NWPR: &str = "f34be6e208759d219bd8ab2e417510b2e6a5df20af20981152e63a97faaf7031";
 
 /// The false-lock fields after the scorer fix (436eda13), pinned on their own in every cell of

@@ -111,7 +111,8 @@ breaking changes are called out explicitly.
     build added the new units to every jamming run's units table); one element is no array;
     noise gain and effective C/N0 against an independent numpy recomputation within 1e-9 dB;
     MVDR tends to the null at high JNR.
-  - Not met: the MVDR jammer gain on 202 of 456 links (worst 1.7e-6 dB). The residuals of −100
+  - Not met: the MVDR jammer gain on 194 of 456 links on the 0.36 portable maths (202 on host
+    maths; `docs/revisions/STUDIO15-batch4-rebaseline.md`) (worst 1.7e-6 dB). The residuals of −100
     to −188 dB are below float64's resolution at that bar, and numpy disagrees with itself
     by the same order.
   - MODELLED; ledger row "CRPA antenna gains in the jamming kind against an independent numpy
@@ -1129,6 +1130,15 @@ breaking changes are called out explicitly.
   joint OD row): fixtures re-exported and the numpy comparison re-run with numpy 2.4.6, the registered
   version, script and bar unchanged; all six networks pass
   ([`docs/revisions/STUDIO15-lunar-joint-od-oracle-rerecord.md`](docs/revisions/STUDIO15-lunar-joint-od-oracle-rerecord.md)).
+  The batch 2-3 work merged after STUDIO-15 is on portable maths too (457 call sites in 62 files); what
+  that moved is in [`docs/revisions/STUDIO15-batch4-rebaseline.md`](docs/revisions/STUDIO15-batch4-rebaseline.md):
+  12 bundled scenarios (largest relative change 5.2e-8, no printed figure moves), 28 skyline guard rows
+  re-blessed, the `iq_campaign` M2M4 digest, the legacy `gnss-ins` truth hashes, the unobserved-beacon
+  datum sigma (632.3769 -> 632.3772 m), and two recorded findings (CR3BP DRO closures; CRPA A3, 194 of 456
+  links). The Greenhall exact edf keeps its validated bar with a double-double logarithm in its kernel
+  ([`docs/revisions/STUDIO15-greenhall-edf-portable.md`](docs/revisions/STUDIO15-greenhall-edf-portable.md)),
+  and the gps-sdr-sim test-bench oracle was re-run on the moved NMEA exports, every bar holding
+  ([`docs/revisions/STUDIO15-testbench-gpssdrsim-rerun.md`](docs/revisions/STUDIO15-testbench-gpssdrsim-rerun.md)).
 - README: the lunar suite row states each piece's evidence tier (it said all were MODELLED).
 - `realdata::clk::rinex_clock_series` returns `RinexClockSeries` (series, gridding log, time system,
   whether it was declared, record type) instead of a `(PhaseSeries, GriddingLog)` tuple. It now

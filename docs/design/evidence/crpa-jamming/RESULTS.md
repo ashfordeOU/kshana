@@ -41,7 +41,7 @@ The `jamming-demo` geometry has 456 satellite links (epoch × satellite). With t
 | null-steering | jammer gain (graded as `< −200 dB` on both sides) | 0 of 456 | both below −200 dB on every link (numpy between −296 dB and exactly zero) |
 | MVDR | array noise gain | 0 of 456 | 5.3e-15 dB |
 | MVDR | effective C/N0 | 0 of 456 | 2.1e-14 dB |
-| MVDR | jammer gain | **202 of 456** | **1.7e-6 dB** |
+| MVDR | jammer gain | **202 of 456** (194 on 0.36 portable maths, see below) | **1.7e-6 dB** |
 
 **Finding F1 (the miss).** The MVDR jammer gains lie between −188 and −101 dB (median −127 dB).
 `|wᴴa_j|²` is then the residual of a sum of four unit-magnitude terms that cancel to between 1e-5 and
@@ -68,3 +68,12 @@ cargo test --test jamming_crpa -- --nocapture
 
 A1: build the release binary at 08d83b4d and at this commit, run every scenario under
 `scenarios/` with each, and compare the `result.json` files byte for byte.
+
+## 0.36 portable maths (2026-10-15)
+
+With the engine on portable maths (STUDIO-15, batch 4) the same comparison against the committed
+`expected.json` gives: MVDR jammer gain over 1e-9 dB on **194 of 456** links (was 202), worst 1.730e-6 dB;
+MVDR noise gain worst 1.2e-14 dB, MVDR effective C/N0 2.8e-14 dB, null-steering noise gain 2.1e-14 dB and
+effective C/N0 2.1e-14 dB, null-steering jammer null below -200 dB on every link. A3 stays NOT MET on the
+MVDR jammer gain only (finding F1); the bar is unchanged and `tests/jamming_crpa.rs` asserts the new count.
+Record: [`docs/revisions/STUDIO15-batch4-rebaseline.md`](../../../revisions/STUDIO15-batch4-rebaseline.md).
