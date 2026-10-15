@@ -18,6 +18,7 @@
 //! `docs/design/evidence/cap32-optimize/PREREGISTRATION.md`.
 
 use super::*;
+use crate::portable_math::PortableFloat;
 
 fn default_method() -> String {
     "nelder-mead".to_string()
@@ -324,7 +325,7 @@ where
 /// grid node's `u = i / (steps - 1)` gives exactly the sweep's value.
 fn denorm(p: &ParamCfg, u: f64) -> f64 {
     if p.scale == "log" {
-        (p.lo.ln() + (p.hi.ln() - p.lo.ln()) * u).exp()
+        (p.lo.pln() + (p.hi.pln() - p.lo.pln()) * u).pexp()
     } else {
         p.lo + (p.hi - p.lo) * u
     }
@@ -332,7 +333,7 @@ fn denorm(p: &ParamCfg, u: f64) -> f64 {
 
 fn norm(p: &ParamCfg, v: f64) -> f64 {
     if p.scale == "log" {
-        (v.ln() - p.lo.ln()) / (p.hi.ln() - p.lo.ln())
+        (v.pln() - p.lo.pln()) / (p.hi.pln() - p.lo.pln())
     } else {
         (v - p.lo) / (p.hi - p.lo)
     }
@@ -689,7 +690,7 @@ mod tests {
         let (u, f, _) = nelder_mead(&start, &s, |u| {
             n += 1;
             let (x, y) = to_x(u);
-            Ok((1.0 - x).powi(2) + 100.0 * (y - x * x).powi(2))
+            Ok((1.0 - x).ppowi(2) + 100.0 * (y - x * x).ppowi(2))
         })
         .unwrap();
         let (x, y) = to_x(&u);
@@ -711,7 +712,7 @@ mod tests {
             Ok(if u[0] > 0.7 {
                 f64::NAN
             } else {
-                (u[0] - 0.3).powi(2)
+                (u[0] - 0.3).ppowi(2)
             })
         })
         .unwrap();

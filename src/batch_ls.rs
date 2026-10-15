@@ -332,18 +332,18 @@ mod tests {
     #[test]
     fn the_analytic_jacobian_corrector_matches_the_finite_difference_corrector() {
         let ts = [0.0f64, 0.5, 1.0, 1.5, 2.0, 2.5];
-        let z: Vec<f64> = ts.iter().map(|&t| 1.5 * (0.5 * t).exp()).collect();
+        let z: Vec<f64> = ts.iter().map(|&t| 1.5 * (0.5 * t).pexp()).collect();
         let w = vec![1.0, 2.0, 1.0, 0.5, 1.0, 3.0];
         let h = move |x: &[f64]| {
             ts.iter()
-                .map(|&t| x[0] * (x[1] * t).exp())
+                .map(|&t| x[0] * (x[1] * t).pexp())
                 .collect::<Vec<_>>()
         };
         let model = move |x: &[f64]| {
             let hx = h(x);
             let jac = ts
                 .iter()
-                .map(|&t| vec![(x[1] * t).exp(), x[0] * t * (x[1] * t).exp()])
+                .map(|&t| vec![(x[1] * t).pexp(), x[0] * t * (x[1] * t).pexp()])
                 .collect();
             Some((hx, jac))
         };

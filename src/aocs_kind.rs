@@ -22,6 +22,7 @@ use crate::aocs::{
 };
 use crate::aocs_mekf::{attitude_error, GyroSim, Mekf, MekfNoise};
 use crate::frames::Vec3;
+use crate::portable_math::PortableFloat;
 use serde::Deserialize;
 
 /// Kind tag.
@@ -155,7 +156,7 @@ pub const UNITS: &[crate::field_schema::FieldUnit] = {
 
 fn pointing_deg(sigma: Vec3) -> f64 {
     let s = (sigma[0] * sigma[0] + sigma[1] * sigma[1] + sigma[2] * sigma[2]).sqrt();
-    (4.0 * s.atan()).to_degrees()
+    (4.0 * s.patan()).to_degrees()
 }
 
 impl AocsScenario {
@@ -163,7 +164,7 @@ impl AocsScenario {
         let mut inertia = self.hub_inertia_kg_m2;
         let mut wheels = Vec::with_capacity(self.wheels.len());
         for (i, w) in self.wheels.iter().enumerate() {
-            let n = (w.axis[0].powi(2) + w.axis[1].powi(2) + w.axis[2].powi(2)).sqrt();
+            let n = (w.axis[0].ppowi(2) + w.axis[1].ppowi(2) + w.axis[2].ppowi(2)).sqrt();
             if !(n.is_finite() && n > 0.0) {
                 return Err(format!("wheels[{i}].axis must be a non-zero finite vector"));
             }
@@ -333,7 +334,8 @@ impl AocsScenario {
             }
             let h = cfg.angular_momentum_inertial(&s);
             drift = drift.max(
-                ((h[0] - h0[0]).powi(2) + (h[1] - h0[1]).powi(2) + (h[2] - h0[2]).powi(2)).sqrt(),
+                ((h[0] - h0[0]).ppowi(2) + (h[1] - h0[1]).ppowi(2) + (h[2] - h0[2]).ppowi(2))
+                    .sqrt(),
             );
             if k % every == 0 {
                 series_t.push(k as f64 * dt);

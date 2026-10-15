@@ -352,7 +352,7 @@ impl Geopotential {
         let jd_ut1 = jd_tt + self.ut1_minus_tt_s / SECONDS_PER_DAY;
         match self.frame {
             EarthFixedFrame::Era => {
-                let (s, c) = earth_rotation_angle(jd_ut1).sin_cos();
+                let (s, c) = earth_rotation_angle(jd_ut1).psin_cos();
                 [[c, s, 0.0], [-s, c, 0.0], [0.0, 0.0, 1.0]]
             }
             EarthFixedFrame::Cio => gcrs_to_itrs_matrix(jd_tt, jd_ut1, 0.0, 0.0),
@@ -1478,7 +1478,7 @@ mod tests {
         let r0 = [crate::forces::RE_EARTH + alt, 0.0, 0.0];
         let vc = (MU_EARTH / (crate::forces::RE_EARTH + alt)).sqrt();
         let inc = 51.6_f64.to_radians();
-        let v0 = [0.0, vc * inc.cos(), vc * inc.sin()];
+        let v0 = [0.0, vc * inc.pcos(), vc * inc.psin()];
         let epoch = 2_452_081.5; // 2001-06-21 00:00 TT
         let tol = Tolerance {
             rtol: 1e-12,
@@ -2124,7 +2124,7 @@ mod tests {
     fn solve_kepler_robust_converges_where_the_checked_solver_fails() {
         // The legacy guard's failing case converges with the shared Markley solver.
         let ea = solve_kepler_robust(0.3, 0.999).expect("robust solver converges");
-        assert!((ea - 0.999 * ea.sin() - 0.3).abs() < 1e-15);
+        assert!((ea - 0.999 * ea.psin() - 0.3).abs() < 1e-15);
         // Agrees with the legacy solver where that one converges.
         let legacy = solve_kepler_checked(1.0, 0.3, 30).unwrap();
         assert!((solve_kepler_robust(1.0, 0.3).unwrap() - legacy).abs() < 1e-14);

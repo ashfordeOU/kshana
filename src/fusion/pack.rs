@@ -510,8 +510,8 @@ fn tight_sats(
     t: f64,
 ) -> Vec<Vec3> {
     let o = crate::frames::geodetic_to_ecef(origin);
-    let (sl, cl) = origin.lat_rad.sin_cos();
-    let (so, co) = origin.lon_rad.sin_cos();
+    let (sl, cl) = origin.lat_rad.psin_cos();
+    let (so, co) = origin.lon_rad.psin_cos();
     let to_ned = |r: Vec3| {
         let d = [r[0] - o[0], r[1] - o[1], r[2] - o[2]];
         [
@@ -525,7 +525,7 @@ fn tight_sats(
         .filter_map(|i| {
             let s = to_ned(con.sat_ecef(i, t));
             let d = [s[0] - user[0], s[1] - user[1], s[2] - user[2]];
-            let el = (-d[2] / (d[0] * d[0] + d[1] * d[1] + d[2] * d[2]).sqrt()).asin();
+            let el = (-d[2] / (d[0] * d[0] + d[1] * d[1] + d[2] * d[2]).sqrt()).pasin();
             (el.to_degrees() >= tc.mask_deg).then_some((el, s))
         })
         .collect();

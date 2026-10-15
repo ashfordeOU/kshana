@@ -51,6 +51,7 @@ pub(crate) fn rk4_step<const N: usize>(
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::portable_math::PortableFloat;
 
     #[test]
     fn rk4_integrates_exponential_decay_to_fourth_order() {
@@ -59,6 +60,6 @@ mod tests {
         for _ in 0..10 {
             y = rk4_step(&y, 0.1, &|s: &[f64; 1]| [-s[0]]);
         }
-        assert!((y[0] - (-1.0_f64).exp()).abs() < 5e-6);
+        assert!((y[0] - (-1.0_f64).pexp()).abs() < 5e-6);
     }
 }

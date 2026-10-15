@@ -42,6 +42,7 @@
 use crate::frames::{Geodetic, Vec3};
 use crate::inertial::attitude::Quaternion;
 use crate::inertial::mechanization::{normal_gravity, NavState};
+use crate::portable_math::PortableFloat;
 use serde::{Deserialize, Serialize};
 
 /// A trajectory selection for the `gnss-ins` pack (`[trajectory]`, `profile = "..."`).
@@ -220,9 +221,9 @@ pub fn parse_truth_csv(text: &str) -> Result<Vec<CsvState>, String> {
 
 /// Body-to-navigation quaternion from roll, pitch, yaw (rad; the 3-2-1 aerospace sequence).
 pub fn euler_to_quat(roll: f64, pitch: f64, yaw: f64) -> Quaternion {
-    let (sr, cr) = (0.5 * roll).sin_cos();
-    let (sp, cp) = (0.5 * pitch).sin_cos();
-    let (sy, cy) = (0.5 * yaw).sin_cos();
+    let (sr, cr) = (0.5 * roll).psin_cos();
+    let (sp, cp) = (0.5 * pitch).psin_cos();
+    let (sy, cy) = (0.5 * yaw).psin_cos();
     Quaternion {
         w: cr * cp * cy + sr * sp * sy,
         x: sr * cp * cy - cr * sp * sy,
@@ -234,9 +235,9 @@ pub fn euler_to_quat(roll: f64, pitch: f64, yaw: f64) -> Quaternion {
 /// Roll, pitch, yaw (rad) of a body-to-navigation quaternion.
 pub fn quat_to_euler(q: &Quaternion) -> (f64, f64, f64) {
     let c = q.to_dcm();
-    let roll = c[2][1].atan2(c[2][2]);
-    let pitch = (-c[2][0]).clamp(-1.0, 1.0).asin();
-    let yaw = c[1][0].atan2(c[0][0]);
+    let roll = c[2][1].patan2(c[2][2]);
+    let pitch = (-c[2][0]).clamp(-1.0, 1.0).pasin();
+    let yaw = c[1][0].patan2(c[0][0]);
     (roll, pitch, yaw)
 }
 
@@ -322,8 +323,8 @@ pub fn truth_epochs(
 /// rates `(φ̇, θ̇, ψ̇)`, at the truth state `s`.
 pub fn kinematic_imu(s: &NavState, a: f64, (dphi, dtheta, dpsi): (f64, f64, f64)) -> (Vec3, Vec3) {
     let (phi, theta, _) = quat_to_euler(&s.q);
-    let (sf, cf) = phi.sin_cos();
-    let (st, ct) = theta.sin_cos();
+    let (sf, cf) = phi.psin_cos();
+    let (st, ct) = theta.psin_cos();
     let w_nb = [
         dphi - dpsi * st,
         dtheta * cf + dpsi * sf * ct,
@@ -473,7 +474,7 @@ fn command(cfg: &TrajectoryCfg, s: &NavState, t: f64) -> (f64, (f64, f64, f64)) 
             let dtheta = angle_cmd(theta, theta_t, 2.0 * deg);
             let v = speed(s).max(1.0);
             let g = normal_gravity(s.p_llh.lat_rad, s.p_llh.alt_m);
-            let dpsi = g * phi.tan() / v;
+            let dpsi = g * phi.ptan() / v;
             (a, (dphi, dtheta, dpsi))
         }
         TrajectoryCfg::Uas {
@@ -499,7 +500,7 @@ fn command(cfg: &TrajectoryCfg, s: &NavState, t: f64) -> (f64, (f64, f64, f64)) 
             let in_climb = t > t_acc && !in_turn && tc - k as f64 * cycle < half;
             let theta_t = if in_climb {
                 let sign = if k % 2 == 0 { 1.0 } else { -1.0 };
-                sign * (alt_step_m / (half * speed_mps)).atan()
+                sign * (alt_step_m / (half * speed_mps)).patan()
             } else {
                 0.0
             };
@@ -607,7 +608,7 @@ fn rotvec(q: &Quaternion) -> Vec3 {
     if s < 1e-15 {
         return [2.0 * q.x, 2.0 * q.y, 2.0 * q.z];
     }
-    let ang = 2.0 * s.atan2(q.w);
+    let ang = 2.0 * s.patan2(q.w);
     [q.x / s * ang, q.y / s * ang, q.z / s * ang]
 }
 
@@ -666,10 +667,10 @@ mod tests {
         let bank: f64 = 0.4;
         let s = NavState::new(euler_to_quat(bank, 0.0, 0.0), [70.0, 0.0, 0.0], origin());
         let g = normal_gravity(s.p_llh.lat_rad, s.p_llh.alt_m);
-        let (_, f) = kinematic_imu(&s, 0.0, (0.0, 0.0, g * bank.tan() / 70.0));
+        let (_, f) = kinematic_imu(&s, 0.0, (0.0, 0.0, g * bank.ptan() / 70.0));
         let c = coriolis_b(&s);
         assert!((f[1] - c[1]).abs() < 1e-9, "{f:?}");
-        assert!((f[2] - c[2] + g / bank.cos()).abs() < 1e-9, "{f:?}");
+        assert!((f[2] - c[2] + g / bank.pcos()).abs() < 1e-9, "{f:?}");
     }
 
     #[test]

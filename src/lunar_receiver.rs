@@ -24,6 +24,7 @@
 //!
 //! MODELLED. Antenna phase-centre and group-delay variation are not modelled.
 
+use crate::portable_math::PortableFloat;
 use serde::{Deserialize, Serialize};
 
 fn d_mp_a() -> f64 {
@@ -129,7 +130,7 @@ impl ReceiverCfg {
 
     /// Multipath 1-sigma (m) at elevation `el_deg`: `a + b exp(-el / el0)`.
     pub fn multipath_sigma_m(&self, el_deg: f64) -> f64 {
-        self.multipath_a_m + self.multipath_b_m * (-el_deg / self.multipath_el0_deg).exp()
+        self.multipath_a_m + self.multipath_b_m * (-el_deg / self.multipath_el0_deg).pexp()
     }
 
     /// Code tracking 1-sigma (m) of the early-minus-late DLL; 0 without `cn0_dbhz`.
@@ -150,7 +151,7 @@ impl ReceiverCfg {
     /// `exp(-dt / tau)`, or 0 (white) without `station_multipath_tau_s`.
     pub fn station_rho(&self, dt_s: f64) -> f64 {
         match self.station_multipath_tau_s {
-            Some(t) => (-dt_s / t).exp(),
+            Some(t) => (-dt_s / t).pexp(),
             None => 0.0,
         }
     }
@@ -165,7 +166,7 @@ pub fn dll_code_noise_m(
     integration_s: f64,
     chip_m: f64,
 ) -> f64 {
-    let c = 10f64.powf(cn0_dbhz / 10.0);
+    let c = 10f64.ppowf(cn0_dbhz / 10.0);
     let d = spacing_chips;
     chip_m * (bandwidth_hz * d / (2.0 * c) * (1.0 + 2.0 / ((2.0 - d) * integration_s * c))).sqrt()
 }

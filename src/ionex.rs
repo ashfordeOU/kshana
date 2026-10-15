@@ -579,7 +579,7 @@ pub fn parse_ionex_file(text: &str) -> Result<IonexFile, String> {
                     {
                         return Err(format!("map {index}: band {band} longitudes differ"));
                     }
-                    let scale = 10f64.powi(map_exp);
+                    let scale = 10f64.ppowi(map_exp);
                     for r in 0..n_rec {
                         let vrec = lines
                             .next()

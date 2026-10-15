@@ -636,9 +636,13 @@ impl RinexEphemeris {
         // Corrected longitude of the ascending node (Earth-fixed).
         let omega_e = self.earth_rotation_rate();
         let omega_k = self.omega0 + (self.omega_dot - omega_e) * tk - omega_e * self.toe;
-        let (so, co) = (omega_k.sin(), omega_k.cos());
-        let ci = i.cos();
-        [xp * co - yp * ci * so, xp * so + yp * ci * co, yp * i.sin()]
+        let (so, co) = (omega_k.psin(), omega_k.pcos());
+        let ci = i.pcos();
+        [
+            xp * co - yp * ci * so,
+            xp * so + yp * ci * co,
+            yp * i.psin(),
+        ]
     }
 
     /// Whether this is a BeiDou geostationary satellite (`C01–C05`, `C59–C63`),
@@ -663,7 +667,7 @@ impl RinexEphemeris {
         let u = phi + du;
         let r = a * (1.0 - self.e * ek.pcos()) + dr;
         let i = self.i0 + di + self.idot * tk;
-        (tk, r * u.cos(), r * u.sin(), i)
+        (tk, r * u.pcos(), r * u.psin(), i)
     }
 
     /// BeiDou geostationary (GEO) satellite position (m, CGCS2000 ECEF) at BDT
@@ -681,17 +685,24 @@ impl RinexEphemeris {
         let (tk, xp, yp, i) = self.orbital_plane_position(t_tow_s);
         let omega_e = self.earth_rotation_rate();
         let omega_k = self.omega0 + self.omega_dot * tk - omega_e * self.toe;
-        let (so, co) = (omega_k.sin(), omega_k.cos());
-        let ci = i.cos();
-        let g = [xp * co - yp * ci * so, xp * so + yp * ci * co, yp * i.sin()];
+        let (so, co) = (omega_k.psin(), omega_k.pcos());
+        let ci = i.pcos();
+        let g = [
+            xp * co - yp * ci * so,
+            xp * so + yp * ci * co,
+            yp * i.psin(),
+        ];
         // R_X(-5°): phi = -5°, so cos phi = cos 5°, sin phi = -sin 5°.
         let r = if apply_minus_5deg_tilt {
-            let (sf, cf) = ((-5.0_f64).to_radians().sin(), (-5.0_f64).to_radians().cos());
+            let (sf, cf) = (
+                (-5.0_f64).to_radians().psin(),
+                (-5.0_f64).to_radians().pcos(),
+            );
             [g[0], cf * g[1] + sf * g[2], -sf * g[1] + cf * g[2]]
         } else {
             g
         };
-        let (sz, cz) = ((omega_e * tk).sin(), (omega_e * tk).cos());
+        let (sz, cz) = ((omega_e * tk).psin(), (omega_e * tk).pcos());
         [cz * r[0] + sz * r[1], -sz * r[0] + cz * r[1], r[2]]
     }
 

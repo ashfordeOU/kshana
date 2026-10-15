@@ -33,9 +33,10 @@
 //! not a property of any published map.
 
 use crate::ionex::cell;
+use crate::portable_distr::{Distribution, StandardNormal};
+use crate::portable_math::PortableFloat;
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
-use rand_distr::{Distribution, StandardNormal};
 
 /// The EMAG2v3 no-data value (`99999` nT, data-source code `999`).
 pub const EMAG2_VOID: f64 = 99_999.0;
@@ -405,7 +406,7 @@ pub fn correlated_error_field(
         ));
     }
     let (n_lat, n_lon) = box_shape(south, north, west, east, step_deg)?;
-    let cos_mid = ((south + north) / 2.0).to_radians().cos().max(1e-3);
+    let cos_mid = ((south + north) / 2.0).to_radians().pcos().max(1e-3);
     // Kernel half-widths in nodes along each axis: width L/√2 in arc, east-west widened by
     // 1/cos φ so the correlation is isotropic in distance rather than in degrees.
     let w_lat = corr_len_deg / std::f64::consts::SQRT_2 / step_deg;
@@ -413,7 +414,7 @@ pub fn correlated_error_field(
     let kernel = |w: f64| -> Vec<f64> {
         let half = (4.0 * w).ceil().max(1.0) as isize;
         (-half..=half)
-            .map(|k| (-(k as f64) * (k as f64) / (2.0 * w * w)).exp())
+            .map(|k| (-(k as f64) * (k as f64) / (2.0 * w * w)).pexp())
             .collect()
     };
     let (k_lat, k_lon) = (kernel(w_lat), kernel(w_lon));
@@ -558,7 +559,7 @@ mod tests {
             }
         }
         let rho = num / den;
-        assert!((rho - (-0.5_f64).exp()).abs() < 0.05, "rho(L) = {rho}");
+        assert!((rho - (-0.5_f64).pexp()).abs() < 0.05, "rho(L) = {rho}");
         // Deterministic per seed, different across seeds.
         let again = correlated_error_field(s, n, w, e, step, sigma, l, 7).unwrap();
         assert_eq!(g, again);

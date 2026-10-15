@@ -28,6 +28,7 @@ pub mod galileo;
 pub mod gps_cnav;
 
 use crate::gps_lnav::GPS_PI;
+use crate::portable_math::PortableFloat;
 
 /// How a field's raw integer maps to a physical value: `value = raw * lsb`, times
 /// [`GPS_PI`] when the specification's unit is the semicircle.
@@ -94,11 +95,11 @@ impl Field {
         let q = (value / self.lsb_si()).round();
         let (lo, hi) = if self.signed {
             (
-                -(2f64.powi(self.bits as i32 - 1)),
-                2f64.powi(self.bits as i32 - 1) - 1.0,
+                -(2f64.ppowi(self.bits as i32 - 1)),
+                2f64.ppowi(self.bits as i32 - 1) - 1.0,
             )
         } else {
-            (0.0, 2f64.powi(self.bits as i32) - 1.0)
+            (0.0, 2f64.ppowi(self.bits as i32) - 1.0)
         };
         if !(q >= lo && q <= hi) {
             return Err(format!(
@@ -237,7 +238,7 @@ mod tests {
     #[test]
     fn pow2_is_exact() {
         for e in -100..100 {
-            assert_eq!(pow2(e), 2f64.powi(e), "{e}");
+            assert_eq!(pow2(e), 2f64.ppowi(e), "{e}");
         }
     }
 

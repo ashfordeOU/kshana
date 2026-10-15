@@ -671,7 +671,7 @@ impl Sp3Accuracy {
         self.header_exponent
             .iter()
             .find(|(s, _)| s == sat)
-            .and_then(|&(_, e)| (e > 0).then(|| 2f64.powi(e as i32) * 1e-3))
+            .and_then(|&(_, e)| (e > 0).then(|| 2f64.ppowi(e as i32) * 1e-3))
     }
 
     /// The per-axis position standard deviations (m) of `sat` at epoch index `epoch`,
@@ -683,7 +683,7 @@ impl Sp3Accuracy {
         let rec = self.records.get(epoch)?.iter().find(|r| r.sat == sat)?;
         let mut out = [0.0; 3];
         for (o, e) in out.iter_mut().zip(rec.pos_exponent) {
-            *o = self.pos_vel_base.powi(e? as i32) * 1e-3;
+            *o = self.pos_vel_base.ppowi(e? as i32) * 1e-3;
         }
         Some(out)
     }
@@ -822,7 +822,7 @@ mod tests {
         assert_eq!(acc.records[1][0].pos_exponent, [None, None, None]);
         let s = acc.record_sigma_m(0, "G01").unwrap();
         for (got, n) in s.iter().zip([10, 9, 11]) {
-            assert!((got - 1.25f64.powi(n) * 1e-3).abs() < 1e-15);
+            assert!((got - 1.25f64.ppowi(n) * 1e-3).abs() < 1e-15);
         }
         let want = ((s[0] * s[0] + s[1] * s[1] + s[2] * s[2]) / 3.0).sqrt();
         assert_eq!(acc.position_sigma_m(0, "G01"), Some(want));

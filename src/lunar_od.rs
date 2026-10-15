@@ -49,6 +49,7 @@ use crate::forces::{
 };
 use crate::gravity_sh::SphericalHarmonicField;
 use crate::lunar_frame::icrf_to_moon_pa;
+use crate::portable_math::PortableFloat;
 use crate::precession::{julian_centuries_tt, mat_vec, mod_to_gcrs, transpose};
 use crate::precise_od::{empirical_accel, EmpiricalAccel, ForceModel};
 use crate::timescales::SECONDS_PER_DAY;
@@ -296,7 +297,7 @@ pub fn degree2_tide_accel(r: Vec3, rj: Vec3, mu_j: f64, k2: f64, re: f64) -> Vec
     let u = [r[0] / rn, r[1] / rn, r[2] / rn];
     let uj = [rj[0] / rjn, rj[1] / rjn, rj[2] / rjn];
     let c = u[0] * uj[0] + u[1] * uj[1] + u[2] * uj[2];
-    let k = k2 * mu_j * re.powi(5) / (2.0 * rjn.powi(3) * rn.powi(4));
+    let k = k2 * mu_j * re.ppowi(5) / (2.0 * rjn.ppowi(3) * rn.ppowi(4));
     std::array::from_fn(|i| k * ((3.0 - 15.0 * c * c) * u[i] + 6.0 * c * uj[i]))
 }
 
@@ -308,7 +309,7 @@ pub fn schwarzschild_accel(r: Vec3, v: Vec3, mu: f64) -> Vec3 {
     let rn = (r[0] * r[0] + r[1] * r[1] + r[2] * r[2]).sqrt();
     let v2 = v[0] * v[0] + v[1] * v[1] + v[2] * v[2];
     let rv = r[0] * v[0] + r[1] * v[1] + r[2] * v[2];
-    let k = mu / (c2 * rn.powi(3));
+    let k = mu / (c2 * rn.ppowi(3));
     std::array::from_fn(|i| k * ((4.0 * mu / rn - v2) * r[i] + 4.0 * rv * v[i]))
 }
 
@@ -463,14 +464,14 @@ impl LunarMacroModel {
             let sn = n(s);
             let cos_psi = (rh[0] * s[0] + rh[1] * s[1] + rh[2] * s[2]) / sn;
             let flux_sun = SRP_PRESSURE_AU * AU_M * AU_M / (sn * sn); // S/c at the Moon (N/m²)
-            let view = (crate::lunar::R_MOON_M / rn).powi(2);
+            let view = (crate::lunar::R_MOON_M / rn).ppowi(2);
             let p_albedo = sr.albedo * flux_sun * cos_psi.max(0.0);
             let t = if cos_psi > 0.0 {
-                (sr.t_subsolar_k * cos_psi.powf(0.25)).max(sr.t_night_k)
+                (sr.t_subsolar_k * cos_psi.ppowf(0.25)).max(sr.t_night_k)
             } else {
                 sr.t_night_k
             };
-            let p_ir = sr.emissivity * STEFAN_BOLTZMANN * t.powi(4) / crate::timegeo::C_M_PER_S;
+            let p_ir = sr.emissivity * STEFAN_BOLTZMANN * t.ppowi(4) / crate::timegeo::C_M_PER_S;
             let p_surf = (p_albedo + p_ir) * view; // N/m² at the satellite, source along −r̂
             if p_surf > 0.0 {
                 // A pseudo-Sun one AU from the satellite along −r̂ carries the pressure
@@ -655,7 +656,7 @@ mod tests {
         let pot = |r: Vec3| {
             let n = |x: Vec3| (x[0] * x[0] + x[1] * x[1] + x[2] * x[2]).sqrt();
             let c = (r[0] * rj[0] + r[1] * rj[1] + r[2] * rj[2]) / (n(r) * n(rj));
-            k2 * mu_e * re.powi(5) * (3.0 * c * c - 1.0) / (2.0 * n(rj).powi(3) * n(r).powi(3))
+            k2 * mu_e * re.ppowi(5) * (3.0 * c * c - 1.0) / (2.0 * n(rj).ppowi(3) * n(r).ppowi(3))
         };
         let r = [1.2e6, -0.9e6, 1.0e6];
         let a = degree2_tide_accel(r, rj, mu_e, k2, re);
@@ -688,7 +689,7 @@ mod tests {
         let v = (mu / r).sqrt();
         let a = schwarzschild_accel([r, 0.0, 0.0], [0.0, v, 0.0], mu);
         let c = crate::timegeo::C_M_PER_S;
-        let want = 3.0 * mu * mu / (c * c * r.powi(3));
+        let want = 3.0 * mu * mu / (c * c * r.ppowi(3));
         assert!((a[0] - want).abs() <= 1e-12 * want && a[1].abs() < 1e-25 && a[2] == 0.0);
         assert!((1e-10..2e-10).contains(&want), "{want:e}");
     }
@@ -954,9 +955,9 @@ mod tests {
         let v = [v[0] / norm(v) * 1.6e3, v[1] / norm(v) * 1.6e3, 0.0];
         let a = mm.accel(r, v, s, 1.0);
         let c = crate::timegeo::C_M_PER_S;
-        let flux = crate::forces::SRP_PRESSURE_AU * (crate::ephem::AU_M / sn).powi(2);
-        let p = (sr.albedo * flux + sr.emissivity * STEFAN_BOLTZMANN * 390f64.powi(4) / c)
-            * (R_MOON_M / rn).powi(2);
+        let flux = crate::forces::SRP_PRESSURE_AU * (crate::ephem::AU_M / sn).ppowi(2);
+        let p = (sr.albedo * flux + sr.emissivity * STEFAN_BOLTZMANN * 390f64.ppowi(4) / c)
+            * (R_MOON_M / rn).ppowi(2);
         let want = p * 2.0 / 500.0; // the nadir plate faces the Moon, away from the Sun
         let radial = (a[0] * r[0] + a[1] * r[1] + a[2] * r[2]) / rn;
         assert!((radial - want).abs() < 1e-12 * want, "{radial} vs {want}");
@@ -964,7 +965,7 @@ mod tests {
         let rn_night = [-r[0], -r[1], -r[2]];
         let a_n = mm.accel(rn_night, v, s, 1.0);
         let want_n =
-            sr.emissivity * STEFAN_BOLTZMANN * 95f64.powi(4) / c * (R_MOON_M / rn).powi(2) * 2.0
+            sr.emissivity * STEFAN_BOLTZMANN * 95f64.ppowi(4) / c * (R_MOON_M / rn).ppowi(2) * 2.0
                 / 500.0;
         assert!((norm(a_n) - want_n).abs() < 1e-12 * want_n);
     }

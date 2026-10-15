@@ -42,6 +42,7 @@ use super::gnss_ins_ekf::{EkfNoise, GnssInsEkf};
 use crate::frames::{Geodetic, Vec3};
 use crate::inertial::attitude::Quaternion;
 use crate::inertial::mechanization::{radii_of_curvature, NavState};
+use crate::portable_math::PortableFloat;
 use std::collections::BTreeMap;
 
 const D2R: f64 = std::f64::consts::PI / 180.0;
@@ -395,9 +396,9 @@ impl KfGinsConfig {
 
 /// Body-to-NED DCM from roll, pitch, yaw (rad), ZYX order as in KF-GINS.
 pub fn dcm_from_euler(rpy: Vec3) -> [[f64; 3]; 3] {
-    let (sr, cr) = rpy[0].sin_cos();
-    let (sp, cp) = rpy[1].sin_cos();
-    let (sy, cy) = rpy[2].sin_cos();
+    let (sr, cr) = rpy[0].psin_cos();
+    let (sp, cp) = rpy[1].psin_cos();
+    let (sy, cy) = rpy[2].psin_cos();
     [
         [cp * cy, sr * sp * cy - cr * sy, cr * sp * cy + sr * sy],
         [cp * sy, sr * sp * sy + cr * cy, cr * sp * sy - sr * cy],
@@ -407,10 +408,10 @@ pub fn dcm_from_euler(rpy: Vec3) -> [[f64; 3]; 3] {
 
 /// Roll, pitch, yaw (rad, ZYX) of a body-to-NED DCM; yaw in `[0, 2π)`.
 pub fn euler_from_dcm(c: [[f64; 3]; 3]) -> Vec3 {
-    let pitch = (-c[2][0]).atan2((c[2][1] * c[2][1] + c[2][2] * c[2][2]).sqrt());
-    let roll = c[2][1].atan2(c[2][2]);
+    let pitch = (-c[2][0]).patan2((c[2][1] * c[2][1] + c[2][2] * c[2][2]).sqrt());
+    let roll = c[2][1].patan2(c[2][2]);
     let yaw = c[1][0]
-        .atan2(c[0][0])
+        .patan2(c[0][0])
         .rem_euclid(2.0 * std::f64::consts::PI);
     [roll, pitch, yaw]
 }
@@ -687,7 +688,7 @@ pub fn score(
         let yaw = a.rpy[2] + w * wrap(b.rpy[2] - a.rpy[2]);
         let (rn, re) = radii_of_curvature(r.pos.lat_rad);
         let dn = (lat - r.pos.lat_rad) * (rn + r.pos.alt_m);
-        let de = (lon - r.pos.lon_rad) * (re + r.pos.alt_m) * r.pos.lat_rad.cos();
+        let de = (lon - r.pos.lon_rad) * (re + r.pos.alt_m) * r.pos.lat_rad.pcos();
         let dd = -(h - r.pos.alt_m);
         let dy = wrap(yaw - r.rpy[2]);
         sn += dn * dn;

@@ -536,7 +536,7 @@ impl SphericalHarmonicField {
         } else {
             (1.0, 0.0)
         };
-        let lambda = sl.atan2(cl);
+        let lambda = sl.patan2(cl);
         let q = self.re / rn;
         let mut qpow = vec![1.0; nmax + 1]; // (Re/r)^n
         for n in 1..=nmax {
@@ -579,7 +579,7 @@ impl SphericalHarmonicField {
                 }
             }
             let mf = m as f64;
-            let (sm, cm) = (mf * lambda).sin_cos();
+            let (sm, cm) = (mf * lambda).psin_cos();
             let a_m = ac * cm + as_ * sm;
             hv = hv * u + a_m;
             if grad {
@@ -794,13 +794,13 @@ impl LevelEllipsoid {
         let b = self.a * (1.0 - self.f);
         let ep = (self.a * self.a - b * b).sqrt() / b; // second eccentricity e'
         let m = self.omega * self.omega * self.a * self.a * b / self.gm;
-        let q0 = 0.5 * ((1.0 + 3.0 / (ep * ep)) * ep.atan() - 3.0 / ep);
+        let q0 = 0.5 * ((1.0 + 3.0 / (ep * ep)) * ep.patan() - 3.0 / ep);
         let j2 = e2 / 3.0 * (1.0 - 2.0 / 15.0 * m * ep / q0);
         (1..=n_max)
             .map(|n| {
                 let nf = n as f64;
                 let sign = if n % 2 == 1 { 1.0 } else { -1.0 };
-                sign * 3.0 * e2.powi(n as i32) * (1.0 - nf + 5.0 * nf * j2 / e2)
+                sign * 3.0 * e2.ppowi(n as i32) * (1.0 - nf + 5.0 * nf * j2 / e2)
                     / ((2.0 * nf + 1.0) * (2.0 * nf + 3.0))
             })
             .collect()
@@ -810,9 +810,9 @@ impl LevelEllipsoid {
     /// longitude `lon` (rad) and ellipsoidal height `h` (m).
     pub fn point(&self, phi: f64, lon: f64, h: f64) -> Vec3 {
         let e2 = self.e2();
-        let (s, c) = phi.sin_cos();
+        let (s, c) = phi.psin_cos();
         let n = self.a / (1.0 - e2 * s * s).sqrt();
-        let (sl, cl) = lon.sin_cos();
+        let (sl, cl) = lon.psin_cos();
         [(n + h) * c * cl, (n + h) * c * sl, (n * (1.0 - e2) + h) * s]
     }
 }
@@ -860,7 +860,7 @@ impl SphericalHarmonicField {
                 return 0.0;
             }
             let cbar = -jz[n / 2 - 1] / ((2 * n + 1) as f64).sqrt();
-            gm_ratio * (ell.a / self.re).powi(n as i32) * cbar
+            gm_ratio * (ell.a / self.re).ppowi(n as i32) * cbar
         };
         let mut a_m = vec![0.0; nmax + 1];
         let mut b_m = vec![0.0; nmax + 1];
@@ -893,7 +893,7 @@ impl SphericalHarmonicField {
             .map(|&lam| {
                 let mut g = 0.0;
                 for m in 0..=nmax {
-                    let (sl, cl) = (m as f64 * lam).sin_cos();
+                    let (sl, cl) = (m as f64 * lam).psin_cos();
                     g += a_m[m] * cl + b_m[m] * sl;
                 }
                 g * 1.0e5
@@ -1092,8 +1092,8 @@ gfc    0     0  1.0000000000000000E+00  0.0000000000000000E+00
     }
 
     fn sph(r: f64, lat_deg: f64, lon_deg: f64) -> Vec3 {
-        let (sp, cp) = lat_deg.to_radians().sin_cos();
-        let (sl, cl) = lon_deg.to_radians().sin_cos();
+        let (sp, cp) = lat_deg.to_radians().psin_cos();
+        let (sl, cl) = lon_deg.to_radians().psin_cos();
         [r * cp * cl, r * cp * sl, r * sp]
     }
 
@@ -1222,9 +1222,9 @@ gfc    0     0  1.0000000000000000E+00  0.0000000000000000E+00
         for k in 1..=m {
             let kf = k as f64;
             let d = if k == 1 { 2.0 } else { 1.0 };
-            lg += 0.5 * (d * (2.0 * kf + 1.0) / (2.0 * kf)).log2();
+            lg += 0.5 * (d * (2.0 * kf + 1.0) / (2.0 * kf)).plog2();
         }
-        lg += m as f64 * u.log2();
+        lg += m as f64 * u.plog2();
         let (mut x2, mut x1) = (0.0, 1.0);
         for nn in (m + 1)..=n {
             let (nf, mf) = (nn as f64, m as f64);
@@ -1238,10 +1238,10 @@ gfc    0     0  1.0000000000000000E+00  0.0000000000000000E+00
             if x1.abs() > 1e100 {
                 x1 *= 1e-100;
                 x2 *= 1e-100;
-                lg += 100.0 * 10f64.log2();
+                lg += 100.0 * 10f64.plog2();
             }
         }
-        (lg + x1.abs().log2(), x1.signum())
+        (lg + x1.abs().plog2(), x1.signum())
     }
 
     #[test]
@@ -1259,10 +1259,10 @@ gfc    0     0  1.0000000000000000E+00  0.0000000000000000E+00
         let (lg, sg) = pbar_xnumber(n, m, t, u);
         assert!(lg > -10.0, "test premise: P̄ is not small here (log2 {lg})");
         assert!(
-            m as f64 * u.log10() < -308.0,
+            m as f64 * u.plog10() < -308.0,
             "test premise: cos^m φ underflows"
         );
-        let want = f.gm / rn * (f.re / rn).powi(n as i32) * sg * lg.exp2();
+        let want = f.gm / rn * (f.re / rn).ppowi(n as i32) * sg * lg.exp2();
         let got = f.potential_hf(p);
         assert!(
             ((got - want) / want).abs() < 1e-9,
@@ -1385,7 +1385,7 @@ gfc    0     0  1.0000000000000000E+00  0.0000000000000000E+00
             let want = ell.gm / (ell.a * ell.a)
                 * 1.0e-6
                 * (15.0_f64.sqrt() / 2.0)
-                * (2.0 * lam).cos()
+                * (2.0 * lam).pcos()
                 * 1e5;
             assert!((g[k] - want).abs() < 1e-9, "{} vs {want}", g[k]);
         }

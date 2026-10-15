@@ -58,6 +58,7 @@
 //! MODELLED: this is a parser. Its output feeds estimators that are validated elsewhere;
 //! the tests here are on small hand-written logs.
 use crate::clock_library::series::PhaseSeries;
+use crate::portable_math::PortableFloat;
 use serde::{Deserialize, Serialize};
 
 /// The formats this layer reads.
@@ -302,8 +303,8 @@ pub fn detect_tau0(times: &[f64]) -> Option<f64> {
     }
     d.sort_by(f64::total_cmp);
     let med = d[d.len() / 2];
-    let e = med.log10().floor() - 3.0;
-    let s = 10f64.powf(e);
+    let e = med.plog10().floor() - 3.0;
+    let s = 10f64.ppowf(e);
     Some((med / s).round() * s)
 }
 

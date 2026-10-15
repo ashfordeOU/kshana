@@ -40,6 +40,7 @@ use crate::batch_ls::{gauss_newton, LsqResult};
 use crate::forces::{gravity_accel, J2, MU_EARTH, RE_EARTH};
 use crate::fusion::ukf::Ukf;
 use crate::integrator::rk4_step;
+use crate::portable_math::PortableFloat;
 
 /// A ground tracking station at a fixed ECEF position (m).
 #[derive(Clone, Copy, Debug)]
@@ -244,7 +245,7 @@ pub fn elevation(sat: [f64; 3], station: &Station) -> f64 {
         station.pos[1] / sn,
         station.pos[2] / sn,
     ];
-    (dot3(d, up) / norm3(d)).clamp(-1.0, 1.0).asin()
+    (dot3(d, up) / norm3(d)).clamp(-1.0, 1.0).pasin()
 }
 
 /// Station visibility: `true` when the satellite at `sat` is at or above the elevation mask
@@ -297,11 +298,11 @@ pub fn measurement_with_partials(
                 return None;
             }
             let h = h2.sqrt();
-            let mut az = de.atan2(dn);
+            let mut az = de.patan2(dn);
             if az < 0.0 {
                 az += std::f64::consts::TAU;
             }
-            let el = du.atan2(h);
+            let el = du.patan2(h);
             let mut ga = [0.0; 6];
             let mut ge = [0.0; 6];
             for k in 0..3 {

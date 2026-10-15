@@ -59,9 +59,9 @@ use crate::lunar_service::{
 use crate::lunar_solution::{EpochRows, SolutionCfg};
 use crate::lunar_terrain::{clears_horizon, LunarTerrainCfg, ResolvedTerrain};
 use crate::palette::chart::{AMBER, AXIS, BG, CORAL, CYAN, FONT_SANS, INK, INK_2, INK_3, LIME};
-use crate::skyline::Skyline;
 use crate::portable_distr::{Distribution, Normal};
 use crate::portable_math::PortableFloat;
+use crate::skyline::Skyline;
 use rand::{Rng, SeedableRng};
 use rand_chacha::ChaCha8Rng;
 use serde::{Deserialize, Serialize};

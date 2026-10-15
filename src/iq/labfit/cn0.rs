@@ -27,6 +27,7 @@
 //! event's own `q`, or, for a type the table does not cover, the most damaging stated value
 //! (the smallest `Q` in the table, CW).
 
+use crate::portable_math::PortableFloat;
 use serde::Serialize;
 
 use super::optim::{grid_search, nelder_mead_bounded, NmOptions};
@@ -55,9 +56,9 @@ pub fn threshold_js_db(
     if !(c_thr_dbhz.is_finite() && c0_dbhz.is_finite()) {
         return None;
     }
-    let lin = |x: f64| 10f64.powf(x / 10.0);
+    let lin = |x: f64| 10f64.ppowf(x / 10.0);
     let a = q * chip_rate_hz * (1.0 / lin(c_thr_dbhz) - 1.0 / lin(c0_dbhz));
-    (a > 0.0).then(|| 10.0 * a.log10() - delta_db)
+    (a > 0.0).then(|| 10.0 * a.plog10() - delta_db)
 }
 
 /// One measured C/N0 bin entering the fit.
@@ -139,7 +140,7 @@ pub fn jacobian_corr(points: &[Cn0Point], q: f64, delta_db: f64) -> Option<f64> 
     let (mut a, mut b, mut c) = (0.0, 0.0, 0.0);
     for p in points {
         // f = −10·log10(1/C0 + 10^((J+δ)/10 − qdB/10)/R_c); ∂f/∂δ = −s, ∂f/∂qdB = +s.
-        let lin = |x: f64| 10f64.powf(x / 10.0);
+        let lin = |x: f64| 10f64.ppowf(x / 10.0);
         let jt = lin(p.js_db + delta_db) / (q * p.chip_rate_hz);
         let s = jt / (1.0 / lin(p.c0_dbhz) + jt);
         let (jq, jd) = (s, -s);
@@ -153,7 +154,7 @@ pub fn jacobian_corr(points: &[Cn0Point], q: f64, delta_db: f64) -> Option<f64> 
 fn wsse(points: &[Cn0Point], q: f64, delta: f64) -> f64 {
     points
         .iter()
-        .map(|p| p.weight * p.residual(q, delta).powi(2))
+        .map(|p| p.weight * p.residual(q, delta).ppowi(2))
         .sum()
 }
 
@@ -179,10 +180,10 @@ fn fit_delta(points: &[Cn0Point], q: f64, cfg: &Cn0FitCfg) -> f64 {
 
 /// Fit both parameters (`Q` searched in dB).
 fn fit_both(points: &[Cn0Point], cfg: &Cn0FitCfg) -> (f64, f64) {
-    let qlo = 10.0 * cfg.q_bounds[0].log10();
-    let qhi = 10.0 * cfg.q_bounds[1].log10();
+    let qlo = 10.0 * cfg.q_bounds[0].plog10();
+    let qhi = 10.0 * cfg.q_bounds[1].plog10();
     let [dlo, dhi] = cfg.delta_bounds_db;
-    let f = |x: &[f64]| wsse(points, 10f64.powf(x[0] / 10.0), x[1]);
+    let f = |x: &[f64]| wsse(points, 10f64.ppowf(x[0] / 10.0), x[1]);
     let lo = [qlo, dlo];
     let hi = [qhi, dhi];
     let mut best: Option<(Vec<f64>, f64)> = None;
@@ -192,14 +193,14 @@ fn fit_both(points: &[Cn0Point], cfg: &Cn0FitCfg) -> (f64, f64) {
             best = Some((r.x, r.f));
         }
     }
-    let x = best.map_or(vec![10.0 * cfg.q_stated.log10(), 0.0], |b| b.0);
-    (10f64.powf(x[0] / 10.0), x[1])
+    let x = best.map_or(vec![10.0 * cfg.q_stated.plog10(), 0.0], |b| b.0);
+    (10f64.ppowf(x[0] / 10.0), x[1])
 }
 
 /// The identifiable offset of a fit, `δ_eff = δ − 10·log10 Q` (dB): the J/S offset referred
 /// to `Q = 1`. It is the same for every `(Q, δ)` on the degenerate ridge.
 pub fn delta_eff_db(f: &Cn0Fit) -> f64 {
-    f.delta_db - 10.0 * f.q.log10()
+    f.delta_db - 10.0 * f.q.plog10()
 }
 
 /// The span (dB) of the stated J/S over `points`.
@@ -286,7 +287,7 @@ mod tests {
         // The same curve from (Q, δ) and (2Q, δ + 3.0103 dB).
         for j in [0.0, 15.0, 30.0] {
             let a = model_cn0_dbhz(45.0, j, 1.0, 0.0, RC);
-            let b = model_cn0_dbhz(45.0, j, 2.0, 10.0 * 2f64.log10(), RC);
+            let b = model_cn0_dbhz(45.0, j, 2.0, 10.0 * 2f64.plog10(), RC);
             assert!((a - b).abs() < 1e-12);
         }
         let p = pts(2.0, 1.5, &[0.0, 10.0, 20.0, 30.0, 40.0]);
@@ -305,7 +306,7 @@ mod tests {
         assert!(f.residual_rms_db < 1e-6);
         // At a wrong stated Q, δ absorbs 10·log10 of the ratio exactly.
         let f = fit(&p, &cfg(1.0)).unwrap();
-        assert!((f.delta_db - (1.5 - 10.0 * 2f64.log10())).abs() < 1e-6);
+        assert!((f.delta_db - (1.5 - 10.0 * 2f64.plog10())).abs() < 1e-6);
     }
 
     #[test]

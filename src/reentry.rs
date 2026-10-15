@@ -189,9 +189,9 @@ pub fn us76_pressure(altitude_m: f64) -> f64 {
     let (hb, tb, lapse, pb) = layer;
     let t = tb + lapse * (hp - hb);
     if lapse == 0.0 {
-        pb * (-G0 * (hp - hb) / (US76_R_AIR * tb)).exp()
+        pb * (-G0 * (hp - hb) / (US76_R_AIR * tb)).pexp()
     } else {
-        pb * (tb / t).powf(G0 / (US76_R_AIR * lapse))
+        pb * (tb / t).ppowf(G0 / (US76_R_AIR * lapse))
     }
 }
 
