@@ -53,6 +53,7 @@
 
 use crate::lunar::{selenographic_to_mcmf, Selenographic};
 use crate::lunar_service::topocentric_basis;
+use crate::portable_math::PortableFloat;
 use crate::skyline::{Skyline, SkylineCfg};
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
@@ -198,7 +199,7 @@ impl PolarDem {
     /// Bilinear height (m) at a selenographic latitude and longitude (deg).
     pub fn height_at_deg(&self, lat_deg: f64, lon_deg: f64) -> Option<f64> {
         let (la, lo) = (lat_deg.to_radians(), lon_deg.to_radians());
-        self.height_m([la.cos() * lo.cos(), la.cos() * lo.sin(), la.sin()])
+        self.height_m([la.pcos() * lo.pcos(), la.pcos() * lo.psin(), la.psin()])
     }
 
     /// Load a DEM from its descriptor ([`DemDescriptor`], TOML). The image path is
@@ -299,8 +300,8 @@ impl HeightField for crate::realdata::lola_dem::DemTile {
         if r.is_nan() || r <= 0.0 || self.heights_m.is_empty() {
             return None;
         }
-        let lat = (dir[2] / r).clamp(-1.0, 1.0).asin().to_degrees();
-        let lon = dir[1].atan2(dir[0]).to_degrees();
+        let lat = (dir[2] / r).clamp(-1.0, 1.0).pasin().to_degrees();
+        let lon = dir[1].patan2(dir[0]).to_degrees();
         let lon = self.lon_min_deg + (lon - self.lon_min_deg).rem_euclid(360.0);
         let inside = lat >= self.lat_min_deg
             && lat <= self.lat_max_deg
@@ -560,7 +561,7 @@ pub fn horizon_profile(
     let mut truncated = 0usize;
     for i in 0..n_az {
         let az = i as f64 * p.azimuth_step_deg;
-        let (sa, ca) = az.to_radians().sin_cos();
+        let (sa, ca) = az.to_radians().psin_cos();
         let d = [
             ca * north[0] + sa * east[0],
             ca * north[1] + sa * east[1],
@@ -569,7 +570,7 @@ pub fn horizon_profile(
         let mut best = -90.0_f64;
         for k in 1..=n_steps {
             let th = k as f64 * p.range_step_m / r_ref;
-            let (st, ct) = th.sin_cos();
+            let (st, ct) = th.psin_cos();
             let dir = [
                 ct * up[0] + st * d[0],
                 ct * up[1] + st * d[1],
@@ -587,7 +588,7 @@ pub fn horizon_profile(
             ];
             let vu = dot(v, up);
             let horiz = [v[0] - vu * up[0], v[1] - vu * up[1], v[2] - vu * up[2]];
-            let el = vu.atan2(dot(horiz, horiz).sqrt()).to_degrees();
+            let el = vu.patan2(dot(horiz, horiz).sqrt()).to_degrees();
             if el > best {
                 best = el;
             }
@@ -1237,7 +1238,7 @@ impl HeightField for CraterInPlateau {
         self.radius_m
     }
     fn height_m(&self, dir: Vec3) -> Option<f64> {
-        let ang = dot(dir, self.centre).clamp(-1.0, 1.0).acos();
+        let ang = dot(dir, self.centre).clamp(-1.0, 1.0).pacos();
         Some(if ang * self.radius_m <= self.rim_arc_m {
             0.0
         } else {
@@ -1254,7 +1255,7 @@ impl CraterInPlateau {
     pub fn closed_form_horizon_deg(&self, site_up: Vec3, antenna_m: f64, az_deg: f64) -> f64 {
         let r = self.radius_m;
         let (east, north, up) = topocentric_basis(site_up);
-        let (sa, ca) = az_deg.to_radians().sin_cos();
+        let (sa, ca) = az_deg.to_radians().psin_cos();
         let d = [
             ca * north[0] + sa * east[0],
             ca * north[1] + sa * east[1],
@@ -1265,13 +1266,13 @@ impl CraterInPlateau {
         // the exit is the positive root σ = φ + w.
         let a_coef = dot(up, self.centre);
         let b_coef = dot(d, self.centre);
-        let c = (self.rim_arc_m / r).cos();
+        let c = (self.rim_arc_m / r).pcos();
         let rho = (a_coef * a_coef + b_coef * b_coef).sqrt();
-        let phi = b_coef.atan2(a_coef);
-        let sig = phi + (c / rho).clamp(-1.0, 1.0).acos();
-        let (ss, cs) = sig.sin_cos();
+        let phi = b_coef.patan2(a_coef);
+        let sig = phi + (c / rho).clamp(-1.0, 1.0).pacos();
+        let (ss, cs) = sig.psin_cos();
         let rh = r + self.plateau_m;
-        (rh * cs - (r + antenna_m)).atan2(rh * ss).to_degrees()
+        (rh * cs - (r + antenna_m)).patan2(rh * ss).to_degrees()
     }
 }
 
@@ -1295,7 +1296,7 @@ impl HeightField for Cone {
         self.radius_m
     }
     fn height_m(&self, dir: Vec3) -> Option<f64> {
-        let s = dot(dir, self.centre).clamp(-1.0, 1.0).acos() * self.radius_m;
+        let s = dot(dir, self.centre).clamp(-1.0, 1.0).pacos() * self.radius_m;
         Some((self.peak_m * (1.0 - s / self.base_arc_m)).max(0.0))
     }
 }
@@ -1342,11 +1343,11 @@ pub fn rasterise(field: &dyn HeightField, n: usize, scale_m: f64) -> Result<Pola
             // Inverse stereographic (south): ρ = sqrt(x² + y²), c = 2 atan(ρ / 2R),
             // u = (sin c · y/ρ, sin c · x/ρ, −cos c).
             let rho = (x * x + y * y).sqrt();
-            let c = 2.0 * (rho / (2.0 * r)).atan();
+            let c = 2.0 * (rho / (2.0 * r)).patan();
             let dir = if rho == 0.0 {
                 [0.0, 0.0, -1.0]
             } else {
-                [c.sin() * y / rho, c.sin() * x / rho, -c.cos()]
+                [c.psin() * y / rho, c.psin() * x / rho, -c.pcos()]
             };
             h.push(field.height_m(dir).unwrap_or(0.0) as f32);
         }
@@ -1375,10 +1376,10 @@ mod tests {
             let u = up_of(lat, lon);
             let (x, y) = dem.project(u).unwrap();
             let c = (90.0_f64 + lat).to_radians();
-            let rho = 2.0 * R_MOON_M * (c / 2.0).tan();
+            let rho = 2.0 * R_MOON_M * (c / 2.0).ptan();
             let lo = lon.to_radians();
-            assert!((x - rho * lo.sin()).abs() < 1e-6, "x at {lat},{lon}");
-            assert!((y - rho * lo.cos()).abs() < 1e-6, "y at {lat},{lon}");
+            assert!((x - rho * lo.psin()).abs() < 1e-6, "x at {lat},{lon}");
+            assert!((y - rho * lo.pcos()).abs() < 1e-6, "y at {lat},{lon}");
         }
         // Longitude 0 is up (smaller line index), 90 E to the right (larger sample).
         let (l0, s0) = dem.pixel(0.0, 0.0);
@@ -1410,7 +1411,7 @@ mod tests {
                 ..params(10.0, 60_000.0)
             };
             let h = horizon_profile(&s, up_of(-89.0, 30.0), &p).unwrap();
-            let dip = -(R_MOON_M / (R_MOON_M + a)).acos().to_degrees();
+            let dip = -(R_MOON_M / (R_MOON_M + a)).pacos().to_degrees();
             for &(az, el) in &h.profile {
                 // The sampled maximum sits at most one step from the tangent point; the
                 // elevation curve is flat there, so the error is second order.
@@ -1439,9 +1440,9 @@ mod tests {
         for &(off_m, t) in &[(0.0, north), (4_000.0, north), (7_000.0, east)] {
             let dl = off_m / R_MOON_M;
             let site = unit([
-                dl.cos() * centre[0] + dl.sin() * t[0],
-                dl.cos() * centre[1] + dl.sin() * t[1],
-                dl.cos() * centre[2] + dl.sin() * t[2],
+                dl.pcos() * centre[0] + dl.psin() * t[0],
+                dl.pcos() * centre[1] + dl.psin() * t[1],
+                dl.pcos() * centre[2] + dl.psin() * t[2],
             ]);
             let p = HorizonParams {
                 antenna_height_m: 2.0,

@@ -76,6 +76,7 @@
 //! the long one's phase as `(T₂/T₁)²·φ₁`, and the same formula holds with
 //! `s² = ((T₂/T₁)²·σ_Φ₁)² + σ_Φ₂²`.
 
+use crate::portable_math::PortableFloat;
 use std::f64::consts::PI;
 
 /// Speed of light in vacuum (m/s), exact (SI).
@@ -109,7 +110,7 @@ pub fn rabi_frequency_for_pi2_pulse(tau_r_s: f64) -> f64 {
 pub fn raman_phase_transfer_function(omega_rad_s: f64, pulse_sep_t: f64, tau_r_s: f64) -> f64 {
     let w = omega_rad_s.abs();
     if tau_r_s <= 0.0 {
-        let s = (w * pulse_sep_t / 2.0).sin();
+        let s = (w * pulse_sep_t / 2.0).psin();
         return 4.0 * s * s;
     }
     let om = rabi_frequency_for_pi2_pulse(tau_r_s);
@@ -121,8 +122,8 @@ pub fn raman_phase_transfer_function(omega_rad_s: f64, pulse_sep_t: f64, tau_r_s
     };
     let a = w * (pulse_sep_t + 2.0 * tau_r_s) / 2.0;
     // ω·G(ω) with the 1/ω of the bracket multiplied through, so ω → 0 is regular.
-    let h =
-        4.0 * om * a.sin() * (w * a.cos() + om * (w * pulse_sep_t / 2.0).sin()) / (w * w - om * om);
+    let h = 4.0 * om * a.psin() * (w * a.pcos() + om * (w * pulse_sep_t / 2.0).psin())
+        / (w * w - om * om);
     h.abs()
 }
 
@@ -135,7 +136,7 @@ pub fn raman_phase_variance_white(s_phi0_rad2_per_hz: f64, tau_r_s: f64) -> f64 
     if tau_r_s <= 0.0 {
         return 0.0;
     }
-    (PI / 2.0).powi(2) * s_phi0_rad2_per_hz / tau_r_s
+    (PI / 2.0).ppowi(2) * s_phi0_rad2_per_hz / tau_r_s
 }
 
 /// Numeric per-shot phase variance (rad²) `∫₀^{f_hi} |H(2πf)|² S_φ(f) df` for an arbitrary
@@ -170,7 +171,7 @@ pub fn raman_phase_variance_numeric(
 pub fn short_pulse_white_band_variance(s_phi0_rad2_per_hz: f64, pulse_sep_t: f64, f_c: f64) -> f64 {
     let t = pulse_sep_t;
     let x = 2.0 * PI * f_c * t;
-    s_phi0_rad2_per_hz * (6.0 * f_c - 4.0 * x.sin() / (PI * t) + (2.0 * x).sin() / (2.0 * PI * t))
+    s_phi0_rad2_per_hz * (6.0 * f_c - 4.0 * x.psin() / (PI * t) + (2.0 * x).psin() / (2.0 * PI * t))
 }
 
 /// Retro-reflection delay `t_d = 2L/c` (s) for an atom–mirror distance `retro_distance_m`
@@ -184,7 +185,7 @@ pub fn retro_delay_s(retro_distance_m: f64) -> f64 {
 /// reach the atoms `t_d` (s) apart. It vanishes at `f = 0` — the common-mode part cancels —
 /// and does not vanish above it.
 pub fn delay_filter(f_hz: f64, delay_s: f64) -> f64 {
-    let s = (PI * f_hz * delay_s).sin();
+    let s = (PI * f_hz * delay_s).psin();
     4.0 * s * s
 }
 
@@ -200,7 +201,7 @@ pub fn delay_frequency_noise_variance_white(
     if tau_r_s <= 0.0 {
         return 0.0;
     }
-    (2.0 * PI * delay_s).powi(2) * s_nu0_hz2_per_hz * PI * PI / (4.0 * tau_r_s)
+    (2.0 * PI * delay_s).ppowi(2) * s_nu0_hz2_per_hz * PI * PI / (4.0 * tau_r_s)
 }
 
 /// Numeric per-shot phase variance (rad²) from a laser frequency-noise PSD `s_nu(f)`
@@ -222,7 +223,7 @@ pub fn delay_frequency_noise_variance_numeric(
         let f = df * i as f64;
         let h = raman_phase_transfer_function(2.0 * PI * f, pulse_sep_t, tau_r_s);
         let filt = if f == 0.0 {
-            (2.0 * PI * delay_s).powi(2)
+            (2.0 * PI * delay_s).ppowi(2)
         } else {
             delay_filter(f, delay_s) / (f * f)
         };
@@ -306,7 +307,11 @@ pub fn detected_transverse_v2(
     let rho2 = sv_t2 / sd2;
     let u = detection_radius_m * detection_radius_m / (2.0 * sd2);
     // h(u) = 1 − u·e^{−u}/(1 − e^{−u}) = 1 − u/(e^{u} − 1); written with expm1 for small u.
-    let h = if u > 700.0 { 1.0 } else { 1.0 - u / u.exp_m1() };
+    let h = if u > 700.0 {
+        1.0
+    } else {
+        1.0 - u / u.pexp_m1()
+    };
     full * (1.0 - rho2 * (1.0 - h))
 }
 
@@ -371,8 +376,8 @@ pub fn wavefront_bias_monte_carlo(
     n_atoms: usize,
     seed: u64,
 ) -> (f64, f64) {
+    use crate::portable_distr::{Distribution, Normal};
     use rand::SeedableRng;
-    use rand_distr::{Distribution, Normal};
     let mut rng = rand_chacha::ChaCha8Rng::seed_from_u64(seed);
     let pos = Normal::new(0.0, cloud.cloud_radius_m.max(0.0)).expect("finite cloud radius");
     let vel = Normal::new(0.0, cloud.sigma_v2.max(0.0).sqrt()).expect("finite sigma_v");
@@ -425,7 +430,7 @@ pub fn ambiguity_failure_probability(
     sigma_phi_rad: f64,
 ) -> f64 {
     let pred = k_eff * pulse_sep_t * pulse_sep_t * sigma_classical_m_s2;
-    wrong_index_probability(pred.hypot(sigma_phi_rad))
+    wrong_index_probability(pred.phypot(sigma_phi_rad))
 }
 
 /// Resolve one wrapped fringe reading `phi_wrapped` (rad) with a classical specific-force
@@ -480,8 +485,8 @@ pub fn multi_t_failure_probability(
     sigma_phi_short: f64,
     sigma_phi_long: f64,
 ) -> f64 {
-    let ratio = (t_long / t_short).powi(2);
-    wrong_index_probability((ratio * sigma_phi_short).hypot(sigma_phi_long))
+    let ratio = (t_long / t_short).ppowi(2);
+    wrong_index_probability((ratio * sigma_phi_short).phypot(sigma_phi_long))
 }
 
 /// Resolve the long-T wrapped phase with the short-T wrapped phase: index
@@ -493,7 +498,7 @@ pub fn resolve_multi_t(
     phi_short_wrapped: f64,
     phi_long_wrapped: f64,
 ) -> (i64, f64) {
-    let ratio = (t_long / t_short).powi(2);
+    let ratio = (t_long / t_short).ppowi(2);
     let n = ((ratio * phi_short_wrapped - phi_long_wrapped) / (2.0 * PI)).round();
     (
         n as i64,
@@ -508,9 +513,9 @@ mod tests {
         accel_transfer_function, effective_wavevector, mach_zehnder_phase, max_unambiguous_accel,
         wrap_phase, RB87_D2_WAVELENGTH_M,
     };
+    use crate::portable_distr::{Distribution, Normal};
     use rand::{Rng, SeedableRng};
     use rand_chacha::ChaCha8Rng;
-    use rand_distr::{Distribution, Normal};
 
     // ── RM-26 ───────────────────────────────────────────────────────────────────────
 
@@ -528,7 +533,7 @@ mod tests {
             // 2·ω·τ_R·|cot(ωT/2)| (3.3e-4 at 3 Hz, close to a zero; 1.7e-3 at 120 Hz).
             let tau_r = 1e-6;
             let finite = raman_phase_transfer_function(w, t, tau_r);
-            let cot = 1.0 / (w * t / 2.0).tan();
+            let cot = 1.0 / (w * t / 2.0).ptan();
             assert!(
                 (finite - hp).abs() < 4.0 * w * tau_r * (1.0 + cot.abs()) * hp + 1e-9,
                 "f={f}: {finite} vs {hp}"
@@ -582,7 +587,7 @@ mod tests {
         // with τ_R = 20 µs the white Raman phase noise must be below −111 dB·rad²/Hz for
         // 1 mrad per shot. The paper derives the level with its Eq. 17 (flicker plus
         // white); the white part alone through Eq. 18 at one cycle gives 0.99 mrad.
-        let s0 = 10f64.powf(-111.0 / 10.0);
+        let s0 = 10f64.ppowf(-111.0 / 10.0);
         let sigma = raman_phase_variance_white(s0, 20e-6).sqrt();
         assert!((sigma - 1e-3).abs() / 1e-3 < 0.02, "σ_Φ = {sigma:.4e} rad");
     }
@@ -597,7 +602,7 @@ mod tests {
         let f_hi = 2.0e6;
         let numeric = delay_frequency_noise_variance_numeric(t, tau, td, &|_| h0, f_hi, 2_000_000);
         let om = rabi_frequency_for_pi2_pulse(tau);
-        let tail = (2.0 * PI * td).powi(2) * h0 * om * om / (2.0 * PI * PI * f_hi);
+        let tail = (2.0 * PI * td).ppowi(2) * h0 * om * om / (2.0 * PI * PI * f_hi);
         let closed = delay_frequency_noise_variance_white(h0, td, tau);
         let rel = ((numeric + tail) - closed).abs() / closed;
         assert!(rel < 3e-3, "{numeric:.4e} vs {closed:.4e}");

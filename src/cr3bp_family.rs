@@ -53,6 +53,7 @@
 #![allow(clippy::needless_range_loop)]
 
 use crate::cr3bp::{cr3bp_accel, cr3bp_jacobian, jacobi_constant, Cr3bpState};
+use crate::portable_math::PortableFloat;
 
 /// Which coordinate of the crossing state is held fixed while correcting a member.
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
@@ -205,7 +206,7 @@ fn dp_step(y: &Aug, h: f64, mu: f64, tol: &FlowTolerance) -> (Aug, f64) {
                 + 22.0 / 525.0 * k6[i]
                 - 1.0 / 40.0 * k7[i]);
         let sc = tol.atol + tol.rtol * yn[i].abs().max(y[i].abs());
-        err += (e / sc).powi(2);
+        err += (e / sc).ppowi(2);
     }
     (yn, (err / 42.0).sqrt())
 }
@@ -270,7 +271,7 @@ fn drive(
             y = yn;
         }
         let f = if err > 0.0 {
-            (0.9 * err.powf(-0.2)).clamp(0.2, 5.0)
+            (0.9 * err.ppowf(-0.2)).clamp(0.2, 5.0)
         } else {
             5.0
         };
@@ -565,7 +566,7 @@ pub fn stability_index(eig: &[(f64, f64); 6]) -> f64 {
             // λ + 1/λ = (re + re/m2) + i(im − im/m2)
             let s_re = re + re / m2;
             let s_im = im - im / m2;
-            0.5 * s_re.hypot(s_im)
+            0.5 * s_re.phypot(s_im)
         })
         .fold(0.0, f64::max)
 }
@@ -723,7 +724,7 @@ pub fn eigenvalues6(m: &[[f64; 6]; 6]) -> [(f64, f64); 6] {
     balance(&mut a);
     elmhes(&mut a);
     let mut out = hqr(&mut a).unwrap_or([(f64::NAN, f64::NAN); 6]);
-    out.sort_by(|p, q| q.0.hypot(q.1).total_cmp(&p.0.hypot(p.1)));
+    out.sort_by(|p, q| q.0.phypot(q.1).total_cmp(&p.0.phypot(p.1)));
     out
 }
 
@@ -998,7 +999,7 @@ mod tests {
     #[test]
     fn eigenvalues_of_known_matrices() {
         // Block-diagonal: real pair 5, 1/5; rotation by 0.3 rad; diag(1, 1).
-        let (c, s) = (0.3f64.cos(), 0.3f64.sin());
+        let (c, s) = (0.3f64.pcos(), 0.3f64.psin());
         let m = [
             [5.0, 0.0, 0.0, 0.0, 0.0, 0.0],
             [0.0, 0.2, 0.0, 0.0, 0.0, 0.0],
@@ -1084,7 +1085,7 @@ mod tests {
         // Monodromy eigenvalues come in reciprocal pairs (symplectic flow), and the
         // trivial pair sits at 1.
         let e = m.eigenvalues;
-        let prod_max_min = e[0].0.hypot(e[0].1) * e[5].0.hypot(e[5].1);
+        let prod_max_min = e[0].0.phypot(e[0].1) * e[5].0.phypot(e[5].1);
         assert!(
             (prod_max_min - 1.0).abs() < 1e-6,
             "λmax·λmin = {prod_max_min}"

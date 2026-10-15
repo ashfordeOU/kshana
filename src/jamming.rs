@@ -371,9 +371,9 @@ impl CrpaCfg {
 /// The local east-north-up unit vector of an azimuth (from north, clockwise) and elevation.
 fn enu_unit(az_rad: f64, el_rad: f64) -> Vec3 {
     [
-        az_rad.sin() * el_rad.cos(),
-        az_rad.cos() * el_rad.cos(),
-        el_rad.sin(),
+        az_rad.psin() * el_rad.pcos(),
+        az_rad.pcos() * el_rad.pcos(),
+        el_rad.psin(),
     ]
 }
 
@@ -744,10 +744,10 @@ pub fn run_jamming_sky(
                 0.0,
             ) - terrain_loss_db;
             let b_hz = c.bandwidth_mhz.map_or(2.0 * scn.chip_rate_hz, |b| b * 1e6);
-            let noise_dbw = noise_density_dbw_per_hz(scn.temp_k) + 10.0 * b_hz.log10();
+            let noise_dbw = noise_density_dbw_per_hz(scn.temp_k) + 10.0 * b_hz.plog10();
             Some((
                 enu_unit(look.az_rad, look.el_rad),
-                10f64.powf((jam_dbw - noise_dbw) / 10.0),
+                10f64.ppowf((jam_dbw - noise_dbw) / 10.0),
             ))
         }
         _ => None,
@@ -788,10 +788,10 @@ pub fn run_jamming_sky(
                 let norm2: f64 = w.iter().map(|x| x.re * x.re + x.im * x.im).sum();
                 let jam_gain = crpa_jammer.map_or(f64::NEG_INFINITY, |(dir, _)| {
                     let g = crate::crpa::array_response(&w, &c.elements_enu_m, dir, lambda);
-                    10.0 * (g.re * g.re + g.im * g.im).log10()
+                    10.0 * (g.re * g.re + g.im * g.im).plog10()
                 });
                 SatCrpa {
-                    array_noise_gain_db: -10.0 * norm2.log10(),
+                    array_noise_gain_db: -10.0 * norm2.plog10(),
                     jammer_gain_db: jam_gain,
                 }
             });

@@ -238,7 +238,7 @@ impl ClosedLoopInsGnss {
         let (rn, re) = radii_of_curvature(p.lat_rad);
         let d_ins = [
             (p.lat_rad - antenna.lat_rad) * (rn + p.alt_m),
-            (p.lon_rad - antenna.lon_rad) * (re + p.alt_m) * p.lat_rad.cos(),
+            (p.lon_rad - antenna.lon_rad) * (re + p.alt_m) * p.lat_rad.pcos(),
             -(p.alt_m - antenna.alt_m),
         ];
         let lever_n = self.nav.q.rotate(lever_b);

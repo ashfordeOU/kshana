@@ -52,6 +52,7 @@ use crate::eop::EopSeries;
 use crate::gravity_sh::SphericalHarmonicField;
 use crate::naif_kernel::SpkKernel;
 use crate::odf::{seconds_1950, Odf, OdfRamp};
+use crate::portable_math::PortableFloat;
 use crate::precession::{matmul, rz, transpose, Mat3, Vec3};
 use std::collections::BTreeMap;
 use std::sync::Mutex;
@@ -536,12 +537,12 @@ impl DopplerModel {
         let r = st.xyz_m;
         let g = crate::frames::ecef_to_geodetic(r);
         let up = [
-            g.lat_rad.cos() * g.lon_rad.cos(),
-            g.lat_rad.cos() * g.lon_rad.sin(),
-            g.lat_rad.sin(),
+            g.lat_rad.pcos() * g.lon_rad.pcos(),
+            g.lat_rad.pcos() * g.lon_rad.psin(),
+            g.lat_rad.psin(),
         ];
         let l = mv(m, los_gcrs);
-        let el = (dot(up, l) / norm(l)).clamp(-1.0, 1.0).asin();
+        let el = (dot(up, l) / norm(l)).clamp(-1.0, 1.0).pasin();
         let tropo = if self.troposphere && el > 0.02 {
             crate::radiometric::tropo_delay(g.lat_rad, g.alt_m, el, doy)
         } else {
@@ -687,8 +688,8 @@ impl MarsDynamics<'_> {
                 sun = d;
             }
             let rel = sub(d, r);
-            let k1 = gm / norm(rel).powi(3);
-            let k2 = gm / norm(d).powi(3);
+            let k1 = gm / norm(rel).ppowi(3);
+            let k2 = gm / norm(d).ppowi(3);
             a = add(a, sub(scale(rel, k1), scale(d, k2)));
         }
         // Solar radiation pressure, Sun-line, with a cylindrical Mars shadow.
@@ -698,7 +699,7 @@ impl MarsDynamics<'_> {
         if lit {
             let s = sub(r, sun); // Sun → spacecraft
             let d = norm(s);
-            let p = SRP_P0_1AU * (AU_M / d).powi(2) * fp.srp_cr_a_over_m;
+            let p = SRP_P0_1AU * (AU_M / d).ppowi(2) * fp.srp_cr_a_over_m;
             a = add(a, scale(s, p / d));
         }
         // Drag relative to the atmosphere co-rotating about the Mars pole.
@@ -781,10 +782,10 @@ impl DenseTrajectory {
         let (a, b) = (&self.states[i], &self.states[i + 1]);
         let h = self.h;
         let (h00, h10, h01, h11) = (
-            2.0 * s.powi(3) - 3.0 * s * s + 1.0,
-            s.powi(3) - 2.0 * s * s + s,
-            -2.0 * s.powi(3) + 3.0 * s * s,
-            s.powi(3) - s * s,
+            2.0 * s.ppowi(3) - 3.0 * s * s + 1.0,
+            s.ppowi(3) - 2.0 * s * s + s,
+            -2.0 * s.ppowi(3) + 3.0 * s * s,
+            s.ppowi(3) - s * s,
         );
         let (d00, d10, d01, d11) = (
             6.0 * s * s - 6.0 * s,
@@ -1273,7 +1274,7 @@ pub fn fit_damped(
             break;
         };
         let dpos =
-            ((xt[0] - x[0]).powi(2) + (xt[1] - x[1]).powi(2) + (xt[2] - x[2]).powi(2)).sqrt();
+            ((xt[0] - x[0]).ppowi(2) + (xt[1] - x[1]).ppowi(2) + (xt[2] - x[2]).ppowi(2)).sqrt();
         log.push(FitIteration {
             n_kept: keep.iter().filter(|k| **k).count(),
             rms_hz: kept_rms,
@@ -1355,7 +1356,7 @@ mod tests {
         };
         // ∫_{50.25+(-20)}^{50.25+90} (10 t) dt = 5 (b² − a²) with a = 30.25, b = 140.25.
         let got = t.integral_minus_ref(origin, -20.0, 90.0).unwrap();
-        let want = 5.0 * (140.25f64.powi(2) - 30.25f64.powi(2));
+        let want = 5.0 * (140.25f64.ppowi(2) - 30.25f64.ppowi(2));
         assert!((got - want).abs() < 1e-6, "{got} vs {want}");
         assert!(t.integral_minus_ref(origin, 0.0, 300.0).is_none());
     }

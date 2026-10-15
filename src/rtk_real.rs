@@ -32,6 +32,7 @@
 
 use crate::frames::{ecef_to_geodetic, look_angles, Vec3};
 use crate::lambda::resolve;
+use crate::portable_math::PortableFloat;
 use crate::precise_products::PreciseProducts;
 use crate::pvt::sagnac_rotate;
 use crate::rinex_obs::RinexObs;
@@ -248,7 +249,7 @@ pub fn run_rtk(
         let Some(ref_i) = (0..sds.len()).max_by(|&a, &b| sds[a].el.total_cmp(&sds[b].el)) else {
             continue;
         };
-        let w = |el: f64| 1.0 + 1.0 / el.sin();
+        let w = |el: f64| 1.0 + 1.0 / el.psin();
         let n = x.len();
         let others: Vec<usize> = (0..sds.len()).filter(|&i| i != ref_i).collect();
         let m = others.len();
@@ -269,7 +270,7 @@ pub fn run_rtk(
                 cfg.code_sigma_m
             };
             // SD variance = 2 sigma² (two receivers).
-            let var_ref = 2.0 * (sig * w(rf.el)).powi(2);
+            let var_ref = 2.0 * (sig * w(rf.el)).ppowi(2);
             for (j, &i) in others.iter().enumerate() {
                 let s = &sds[i];
                 let row = blk * m + j;
@@ -294,7 +295,7 @@ pub fn run_rtk(
                 for jj in 0..m {
                     r_mat[row][blk * m + jj] = var_ref;
                 }
-                r_mat[row][row] += 2.0 * (sig * w(s.el)).powi(2);
+                r_mat[row][row] += 2.0 * (sig * w(s.el)).ppowi(2);
             }
         }
         // H for the baseline is the derivative of the rover range: d rho_r / d b = -e_r(rx->sat)

@@ -38,6 +38,7 @@
 use crate::forces::EARTH_ROTATION_RATE;
 use crate::mars_atmos::{mars_density, MARS_RE, MARS_ROTATION_RATE};
 use crate::orbit::{MU_EARTH, R_EARTH_EQUATORIAL_M};
+use crate::portable_math::PortableFloat;
 use crate::reentry::{altitude_at_peak_deceleration, peak_deceleration, us76_density, G0};
 use serde::Deserialize;
 
@@ -50,7 +51,7 @@ pub const MU_MARS: f64 = 4.282_837e13;
 
 /// Stagnation-point convective heat flux (W/m²): `k·√(ρ/R_n)·V³`.
 pub fn stagnation_heat_flux(k: f64, rho_kg_m3: f64, nose_radius_m: f64, speed_m_s: f64) -> f64 {
-    k * (rho_kg_m3.max(0.0) / nose_radius_m).sqrt() * speed_m_s.powi(3)
+    k * (rho_kg_m3.max(0.0) / nose_radius_m).sqrt() * speed_m_s.ppowi(3)
 }
 
 /// Which atmosphere density model the entry uses.
@@ -72,7 +73,7 @@ impl Atmosphere {
             Atmosphere::Exponential {
                 rho0,
                 scale_height_m,
-            } => rho0 * (-h / scale_height_m).exp(),
+            } => rho0 * (-h / scale_height_m).pexp(),
             Atmosphere::Mars => mars_density(h),
         }
     }
@@ -150,11 +151,11 @@ pub fn inertial_to_relative(
     r: f64,
     omega: f64,
 ) -> (f64, f64, f64) {
-    let east = v * gamma.cos() * heading.sin() - omega * r * lat.cos();
-    let north = v * gamma.cos() * heading.cos();
-    let up = v * gamma.sin();
+    let east = v * gamma.pcos() * heading.psin() - omega * r * lat.pcos();
+    let north = v * gamma.pcos() * heading.pcos();
+    let up = v * gamma.psin();
     let vr = (east * east + north * north + up * up).sqrt();
-    (vr, (up / vr).asin(), east.atan2(north))
+    (vr, (up / vr).pasin(), east.patan2(north))
 }
 
 /// Integrate one 3-DoF entry. State: `[r, θ, φ, V, γ, ψ, heat load, drag work]`.
@@ -174,12 +175,12 @@ pub fn simulate_entry(c: &EntryCase) -> EntryResult {
         let (_rho, d, q, _qd) = aux(s);
         let l = c.lift_to_drag * d;
         let g = p.mu_m3_s2 / (r * r);
-        let (sg, cg) = gam.sin_cos();
+        let (sg, cg) = gam.psin_cos();
         let cg = if cg.abs() < 1e-9 { 1e-9 } else { cg };
-        let (sp, cp) = psi.sin_cos();
-        let (sf, cf) = phi.sin_cos();
+        let (sp, cp) = psi.psin_cos();
+        let (sf, cf) = phi.psin_cos();
         let v_safe = v.max(1e-3);
-        let (ss, cs) = c.bank_rad.sin_cos();
+        let (ss, cs) = c.bank_rad.psin_cos();
         [
             v * sg,
             v * cg * sp / (r * cf),
@@ -198,7 +199,9 @@ pub fn simulate_entry(c: &EntryCase) -> EntryResult {
         ]
     };
     let energy = |s: &[f64; 8]| {
-        0.5 * s[3] * s[3] - p.mu_m3_s2 / s[0] - 0.5 * w * w * s[0] * s[0] * s[2].cos() * s[2].cos()
+        0.5 * s[3] * s[3]
+            - p.mu_m3_s2 / s[0]
+            - 0.5 * w * w * s[0] * s[0] * s[2].pcos() * s[2].pcos()
     };
     let mut s = [
         p.radius_m + c.interface_altitude_m,
@@ -253,7 +256,8 @@ pub fn simulate_entry(c: &EntryCase) -> EntryResult {
     }
     // Great-circle downrange from the interface point.
     let (la0, lo0, la1, lo1) = (c.latitude_rad, c.longitude_rad, s[2], s[1]);
-    let cosc = (la0.sin() * la1.sin() + la0.cos() * la1.cos() * (lo1 - lo0).cos()).clamp(-1.0, 1.0);
+    let cosc =
+        (la0.psin() * la1.psin() + la0.pcos() * la1.pcos() * (lo1 - lo0).pcos()).clamp(-1.0, 1.0);
     EntryResult {
         peak_deceleration_m_s2: pk_d,
         peak_heat_flux_w_m2: pk_q,
@@ -265,7 +269,7 @@ pub fn simulate_entry(c: &EntryCase) -> EntryResult {
         end_gamma_rad: s[4],
         end_latitude_rad: s[2],
         end_longitude_rad: s[1],
-        downrange_m: p.radius_m * cosc.acos(),
+        downrange_m: p.radius_m * cosc.pacos(),
         energy_residual: (energy(&s) - e0 + s[7]) / (0.5 * c.speed_m_s * c.speed_m_s),
         outcome,
     }

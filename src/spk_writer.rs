@@ -37,6 +37,7 @@
 //! the file ends at the last byte written (after a name record it is not a whole record).
 
 use crate::naif_kernel::DafFile;
+use crate::portable_math::PortableFloat;
 
 /// Words per DAF record.
 const NWD: usize = 128;
@@ -1048,8 +1049,8 @@ pub fn et_from_label(label: &str, time_system: &str) -> Result<f64, String> {
             let dta = crate::timescales::tai_minus_utc(jd_day + 0.5);
             let aet = whole + sec + dta + 32.184;
             let m = 6.239_996 + 1.990_968_71e-7 * aet;
-            let e = m + 1.671e-2 * m.sin();
-            Ok(whole + sec + (dta + 32.184 + 1.657e-3 * e.sin()))
+            let e = m + 1.671e-2 * m.psin();
+            Ok(whole + sec + (dta + 32.184 + 1.657e-3 * e.psin()))
         }
         other => Err(format!("time system {other:?} not supported (UTC or TDB)")),
     }

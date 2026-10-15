@@ -12,6 +12,7 @@
 //! the series.
 
 use crate::frames::{geodetic_to_ecef, Geodetic};
+use crate::portable_math::PortableFloat;
 use crate::twstft_budget::{
     combined_uncertainty, counter_readings, series_stability, solve_offset, tdev_curve,
     two_way_series, BudgetLine, LinkNoise, Relay, SeriesStability, Station,
@@ -343,7 +344,7 @@ impl TimeTransferBudgetScenario {
         let lon = self.satellite_lon_deg.to_radians();
         let r_geo = 42_164_172.0;
         let sat = Relay {
-            r_m: [r_geo * lon.cos(), r_geo * lon.sin(), 0.0],
+            r_m: [r_geo * lon.pcos(), r_geo * lon.psin(), 0.0],
             delay_ab_s: self.transponder_ab_ns * 1e-9,
             delay_ba_s: self.transponder_ba_ns * 1e-9,
         };

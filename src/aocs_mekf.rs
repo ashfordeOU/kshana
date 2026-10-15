@@ -37,9 +37,10 @@
 
 use crate::frames::Vec3;
 use crate::inertial::attitude::Quaternion;
+use crate::portable_distr::{Distribution, StandardNormal};
+use crate::portable_math::PortableFloat;
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
-use rand_distr::{Distribution, StandardNormal};
 
 type M6 = [[f64; 6]; 6];
 
@@ -216,8 +217,8 @@ impl Mekf {
             phi[i][i + 3] = -dt;
             phi[i + 3][i + 3] = 1.0;
         }
-        let (sv2, su2) = (self.noise.sigma_v.powi(2), self.noise.sigma_u.powi(2));
-        let q11 = sv2 * dt + su2 * dt.powi(3) / 3.0;
+        let (sv2, su2) = (self.noise.sigma_v.ppowi(2), self.noise.sigma_u.ppowi(2));
+        let q11 = sv2 * dt + su2 * dt.ppowi(3) / 3.0;
         let q12 = -su2 * dt * dt / 2.0;
         let q22 = su2 * dt;
         let mut p = mat6_mul(&mat6_mul(&phi, &self.p), &transpose6(&phi));
@@ -233,7 +234,7 @@ impl Mekf {
     /// Update with a star-tracker attitude.
     pub fn update(&mut self, q_st: &Quaternion) {
         let z = attitude_error(&self.q, q_st);
-        let r = self.noise.sigma_st.powi(2);
+        let r = self.noise.sigma_st.ppowi(2);
         let mut s = [[0.0; 3]; 3];
         for i in 0..3 {
             for j in 0..3 {
@@ -336,7 +337,8 @@ impl GyroSim {
     /// One output over a step of `dt` for the true mean rate `omega`.
     pub fn sample(&mut self, omega: Vec3, dt: f64) -> Vec3 {
         let mut out = [0.0; 3];
-        let s1 = (self.noise.sigma_v.powi(2) / dt + self.noise.sigma_u.powi(2) * dt / 12.0).sqrt();
+        let s1 =
+            (self.noise.sigma_v.ppowi(2) / dt + self.noise.sigma_u.ppowi(2) * dt / 12.0).sqrt();
         let s2 = self.noise.sigma_u * dt.sqrt();
         for (a, o) in out.iter_mut().enumerate() {
             let n1: f64 = StandardNormal.sample(&mut self.rng);
@@ -376,7 +378,7 @@ mod tests {
         let bias0 = [3e-6, -2e-6, 1e-6];
         let mut gyro = GyroSim::new(bias0, NOISE, seed);
         let mut q_true = Quaternion::from_axis_angle([1.0, 2.0, -0.5], 0.7);
-        let omega = |t: f64| [1e-3 * (0.01 * t).sin(), 5e-4, -8e-4 * (0.007 * t).cos()];
+        let omega = |t: f64| [1e-3 * (0.01 * t).psin(), 5e-4, -8e-4 * (0.007 * t).pcos()];
         let q0 = q_true.mul(&small_angle_quat([1e-4, -1e-4, 5e-5]));
         let mut f = Mekf::new(q0, [0.0; 3], 2e-4, 1e-5, NOISE);
         let mut nees = Vec::new();

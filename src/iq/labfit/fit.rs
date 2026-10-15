@@ -29,7 +29,7 @@
 
 use crate::portable_math::PortableFloat;
 use rand::seq::SliceRandom;
-use rand::{Rng, SeedableRng};
+use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
 use serde::Serialize;
 use sha2::{Digest, Sha256};
@@ -722,7 +722,9 @@ pub fn analyse(runs: &[LabRun], sc: &LabFitScenario) -> Result<LabFitReport, Str
     if sc.fit.bootstrap > 0 && m >= 2 {
         let mut rng = ChaCha8Rng::seed_from_u64(sc.fit.seed);
         for _ in 0..sc.fit.bootstrap {
-            let idx: Vec<usize> = (0..m).map(|_| rng.gen_range(0..m)).collect();
+            let idx: Vec<usize> = (0..m)
+                .map(|_| crate::portable_math::uniform_index(&mut rng, m))
+                .collect();
             let sub: Vec<&Prepared> = idx.iter().map(|&i| elig[i]).collect();
             let o = fit_offset(&sub, sc).unwrap_or(off);
             if off_full.is_some() {

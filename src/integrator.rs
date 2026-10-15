@@ -717,7 +717,7 @@ where
     let h1 = if d1 <= 1e-15 && d2 <= 1e-15 {
         (h0 * 1e-3).max(1e-6)
     } else {
-        (0.01 / d1.max(d2)).powf(1.0 / 8.0)
+        (0.01 / d1.max(d2)).ppowf(1.0 / 8.0)
     };
     (100.0 * h0).min(h1).min(interval).min(tol.h_max)
 }
@@ -930,7 +930,7 @@ where
                     DOP853_MAX_FACTOR
                 } else {
                     DOP853_MAX_FACTOR
-                        .min(DOP853_SAFETY * step.error_norm.powf(DOP853_ERROR_EXPONENT))
+                        .min(DOP853_SAFETY * step.error_norm.ppowf(DOP853_ERROR_EXPONENT))
                 };
                 if step_rejected {
                     factor = factor.min(1.0);
@@ -959,7 +959,7 @@ where
             }
             last_nonfinite = !finite;
             h_abs *= if finite {
-                DOP853_MIN_FACTOR.max(DOP853_SAFETY * step.error_norm.powf(DOP853_ERROR_EXPONENT))
+                DOP853_MIN_FACTOR.max(DOP853_SAFETY * step.error_norm.ppowf(DOP853_ERROR_EXPONENT))
             } else {
                 DOP853_MIN_FACTOR
             };
@@ -1287,7 +1287,7 @@ mod tests {
         }
         for k in 0..8 {
             let q: f64 = (0..DOP853_STAGES)
-                .map(|j| tab.b[j] * tab.c[j].powi(k))
+                .map(|j| tab.b[j] * tab.c[j].ppowi(k))
                 .sum();
             assert!(
                 (q - 1.0 / (k as f64 + 1.0)).abs() < 1e-14,
@@ -1306,7 +1306,7 @@ mod tests {
         let tol = Tolerance::default();
         let err = |h: f64| {
             let s = dop853_step(&f, 0.0, &[1.0], &[1.0], h, &tol);
-            (s.y_new[0] - h.exp()).abs()
+            (s.y_new[0] - h.pexp()).abs()
         };
         let ratio = err(0.4) / err(0.2);
         assert!((300.0..800.0).contains(&ratio), "h⁹ ratio {ratio}");
@@ -1316,7 +1316,7 @@ mod tests {
     fn dop853_two_body_eccentric_orbit_matches_kepler_over_five_periods() {
         // μ = 1, a = 1, e = 0.7 from perigee: after 5 periods the state returns to the start.
         let f = |_t: f64, y: &[f64]| {
-            let r3 = (y[0] * y[0] + y[1] * y[1]).sqrt().powi(3);
+            let r3 = (y[0] * y[0] + y[1] * y[1]).sqrt().ppowi(3);
             vec![y[2], y[3], -y[0] / r3, -y[1] / r3]
         };
         let e = 0.7_f64;
@@ -1362,8 +1362,8 @@ mod tests {
             let t = 20.0 * k as f64 / 400.0;
             let y = dense.eval(t).unwrap();
             worst = worst
-                .max((y[0] - t.cos()).abs())
-                .max((y[1] + t.sin()).abs());
+                .max((y[0] - t.pcos()).abs())
+                .max((y[1] + t.psin()).abs());
         }
         assert!(worst < 1e-8, "dense error {worst}");
         assert!(dense.eval(20.5).is_none() && plain.eval(1.0).is_none());

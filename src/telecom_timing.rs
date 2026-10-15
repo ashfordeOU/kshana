@@ -99,7 +99,7 @@ impl Segment {
         if self.tau_exponent == 1.0 {
             self.slope_ns_per_s * tau_s + self.intercept_ns
         } else {
-            self.slope_ns_per_s * tau_s.powf(self.tau_exponent) + self.intercept_ns
+            self.slope_ns_per_s * tau_s.ppowf(self.tau_exponent) + self.intercept_ns
         }
     }
 }
@@ -3063,7 +3063,7 @@ mod tests {
                 x += white_fm_ns * norm.sample(&mut rng);
                 let mut f = 0.0;
                 for (r, t) in relax.iter_mut().zip([1.0_f64, 10.0, 100.0, 1000.0]) {
-                    let a = (-1.0 / t).exp();
+                    let a = (-1.0 / t).pexp();
                     *r = a * *r + (1.0 - a * a).sqrt() * norm.sample(&mut rng);
                     f += *r;
                 }

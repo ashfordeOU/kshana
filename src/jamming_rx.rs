@@ -17,6 +17,7 @@
 //! loses the quantiser's correlation loss. That loss is exact for noise plus a noise-like
 //! (`broadband`) jammer and not valid for CW, narrowband or swept jammers, which the run flags.
 
+use crate::portable_math::PortableFloat;
 use serde::{Deserialize, Serialize};
 
 /// The `[acquisition]` section of a `jamming` scenario.
@@ -157,9 +158,9 @@ pub fn front_end(
     chip_rate_hz: f64,
 ) -> FrontEnd {
     let b_hz = cfg.bandwidth_mhz.map_or(2.0 * chip_rate_hz, |b| b * 1e6);
-    let noise_dbw = n0_dbw_per_hz + 10.0 * b_hz.log10();
+    let noise_dbw = n0_dbw_per_hz + 10.0 * b_hz.plog10();
     let agc_gain_reduction_db = jammer.map_or(0.0, |(j_dbw, _)| {
-        10.0 * (1.0 + 10f64.powf((j_dbw - noise_dbw) / 10.0)).log10()
+        10.0 * (1.0 + 10f64.ppowf((j_dbw - noise_dbw) / 10.0)).plog10()
     });
     let gaussian = jammer.is_none_or(|(_, kind)| kind == "broadband");
     FrontEnd {
@@ -255,9 +256,9 @@ mod tests {
             bandwidth_mhz: None,
         };
         let n0 = -204.0;
-        let noise = n0 + 10.0 * (2.046e6f64).log10();
+        let noise = n0 + 10.0 * (2.046e6f64).plog10();
         let fe = front_end(&f, Some((noise, "broadband")), n0, 1.023e6);
-        assert!((fe.agc_gain_reduction_db - 10.0 * 2f64.log10()).abs() < 1e-12);
+        assert!((fe.agc_gain_reduction_db - 10.0 * 2f64.plog10()).abs() < 1e-12);
         assert_eq!(fe.loss_model, "gaussian-input");
         assert_eq!(
             front_end(&f, Some((noise, "cw")), n0, 1.023e6).loss_model,

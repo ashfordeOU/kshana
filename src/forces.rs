@@ -316,7 +316,7 @@ pub fn conical_shadow_body(r: Vec3, s: Vec3, body_radius_m: f64) -> f64 {
     }
     let a = (SOLAR_RADIUS / d_sun).clamp(-1.0, 1.0).pasin(); // Sun apparent radius
     let b = (body_radius_m / r_n).clamp(-1.0, 1.0).pasin(); // occulting body's apparent radius
-                                                           // Apparent separation c = angle between sat→Sun (d) and sat→Earth-centre (−r).
+                                                            // Apparent separation c = angle between sat→Sun (d) and sat→Earth-centre (−r).
     let dot = d[0] * (-r[0]) + d[1] * (-r[1]) + d[2] * (-r[2]);
     let c = (dot / (d_sun * r_n)).clamp(-1.0, 1.0).pacos();
     if c >= a + b {
@@ -490,7 +490,7 @@ pub fn density_at(model: &DensityModel, r: Vec3, jd_tt: f64) -> f64 {
         DensityModel::Exponential => atmospheric_density(norm(r) - RE_EARTH),
         DensityModel::Nrlmsise00 { f107a, f107, ap } => {
             let theta = crate::cio::earth_rotation_angle(jd_tt);
-            let (s, c) = theta.sin_cos();
+            let (s, c) = theta.psin_cos();
             let r_ecef = [c * r[0] + s * r[1], -s * r[0] + c * r[1], r[2]];
             let g = crate::frames::ecef_to_geodetic(r_ecef);
             let (doy, ut_s) = crate::nrlmsise00::doy_and_seconds(jd_tt);
@@ -1050,7 +1050,7 @@ mod tests {
         let jd = 2_452_081.5 + 0.25; // 2001-06-21 06:00
         let theta = crate::cio::earth_rotation_angle(jd);
         let rad = crate::frames::WGS84_A + 400e3;
-        let r = [rad * theta.cos(), rad * theta.sin(), 0.0];
+        let r = [rad * theta.pcos(), rad * theta.psin(), 0.0];
         let model = DensityModel::Nrlmsise00 {
             f107a: 150.0,
             f107: 150.0,
@@ -1070,7 +1070,7 @@ mod tests {
         };
         assert!(density_at(&quiet, r, jd) < rho);
         // The drag acceleration with this tier is the quadratic drag at that density.
-        let v = [-7_670.0 * theta.sin(), 7_670.0 * theta.cos(), 0.0];
+        let v = [-7_670.0 * theta.psin(), 7_670.0 * theta.pcos(), 0.0];
         let a = drag_accel_with_density(r, v, 0.02, &model, jd);
         let w = EARTH_ROTATION_RATE;
         let v_rel = [v[0] + w * r[1], v[1] - w * r[0], v[2]];

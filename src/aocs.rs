@@ -405,6 +405,7 @@ pub fn simulate(
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::portable_math::PortableFloat;
 
     fn pyramid() -> AocsConfig {
         let b = 54.7356_f64.to_radians();
@@ -413,7 +414,7 @@ mod tests {
             .map(|az| {
                 let a = az.to_radians();
                 Wheel {
-                    gs: [b.sin() * a.cos(), b.sin() * a.sin(), b.cos()],
+                    gs: [b.psin() * a.pcos(), b.psin() * a.psin(), b.pcos()],
                     js: 0.08,
                     u_max: 0.2,
                 }

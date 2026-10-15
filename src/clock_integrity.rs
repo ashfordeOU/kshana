@@ -22,10 +22,11 @@
 //! `sigma_m`, the alert limits and the probabilities are stated inputs.
 
 use crate::geometry::{sky_geometry, ClockModel, Site, SkyRequest, SystemSpec};
+use crate::portable_distr::{Distribution, Normal};
+use crate::portable_math::PortableFloat;
 use crate::scenario::{GnssState, Scenario};
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
-use rand_distr::{Distribution, Normal};
 use serde::{Deserialize, Serialize};
 
 type Vec3 = [f64; 3];
@@ -216,9 +217,9 @@ fn state_name(s: GnssState) -> &'static str {
 fn basis(site: &Site) -> (Vec3, Vec3, Vec3) {
     let (p, l) = (site.lat_deg.to_radians(), site.lon_deg.to_radians());
     (
-        [-l.sin(), l.cos(), 0.0],
-        [-p.sin() * l.cos(), -p.sin() * l.sin(), p.cos()],
-        [p.cos() * l.cos(), p.cos() * l.sin(), p.sin()],
+        [-l.psin(), l.pcos(), 0.0],
+        [-p.psin() * l.pcos(), -p.psin() * l.psin(), p.pcos()],
+        [p.pcos() * l.pcos(), p.pcos() * l.psin(), p.psin()],
     )
 }
 

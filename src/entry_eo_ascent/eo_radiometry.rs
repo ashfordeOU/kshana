@@ -42,6 +42,7 @@
 //! empirical regression with its own error (about ±0.3 NIIRS in its publication); the NIIRS
 //! reported here is that regression evaluated on the modelled inputs, not a rated image.
 
+use crate::portable_math::PortableFloat;
 use serde::Deserialize;
 use std::f64::consts::PI;
 
@@ -54,7 +55,7 @@ fn sinc(x: f64) -> f64 {
     if x.abs() < 1e-12 {
         1.0
     } else {
-        (PI * x).sin() / (PI * x)
+        (PI * x).psin() / (PI * x)
     }
 }
 
@@ -93,12 +94,12 @@ impl Imager {
         let diff = if x >= 1.0 {
             0.0
         } else {
-            (2.0 / PI) * (x.acos() - x * (1.0 - x * x).sqrt())
+            (2.0 / PI) * (x.pacos() - x * (1.0 - x * x).sqrt())
         };
         let det = sinc(self.fill_factor * self.pitch_m * nu).abs();
         let smear = sinc(self.smear_px * self.pitch_m * nu).abs();
         let s = self.jitter_px * self.pitch_m;
-        let jit = (-2.0 * PI * PI * s * s * nu * nu).exp();
+        let jit = (-2.0 * PI * PI * s * s * nu * nu).pexp();
         [diff, det, smear, jit]
     }
 
@@ -131,7 +132,7 @@ impl Imager {
             if nu == 0.0 {
                 2.0 * PI * x
             } else {
-                self.otf(nu) * (2.0 * PI * nu * x).sin() / nu
+                self.otf(nu) * (2.0 * PI * nu * x).psin() / nu
             }
         };
         let mut s = f(0.0) + f(nu_max);
@@ -175,7 +176,7 @@ pub fn giqe4_niirs(gsd_m: f64, rer: f64, h: f64, g: f64, snr: f64) -> f64 {
     } else {
         (3.16, 2.817)
     };
-    10.251 - a * gsd_in.log10() + b * rer.log10() - 0.656 * h - 0.344 * g / snr
+    10.251 - a * gsd_in.plog10() + b * rer.plog10() - 0.656 * h - 0.344 * g / snr
 }
 
 /// The scene, the detector and the result of the signal-to-noise budget.
@@ -217,7 +218,7 @@ pub struct Radiometry {
 pub fn snr_budget(r: &Radiometry, im: &Imager) -> SnrBudget {
     let l = r.reflectance
         * r.solar_irradiance_w_m2_um
-        * r.sun_zenith_rad.cos()
+        * r.sun_zenith_rad.pcos()
         * r.atmospheric_transmittance
         / PI
         + r.path_radiance;
@@ -225,8 +226,8 @@ pub fn snr_budget(r: &Radiometry, im: &Imager) -> SnrBudget {
     let photon_energy = H_PLANCK * C_LIGHT / im.wavelength_m;
     let power = e_fp * im.pitch_m * im.pitch_m * r.bandwidth_um;
     let s = power * r.integration_s * r.quantum_efficiency / photon_energy;
-    let q = r.full_well_e / 2f64.powi(r.adc_bits as i32);
-    let var = s + r.dark_e_s * r.integration_s + r.read_noise_e.powi(2) + q * q / 12.0;
+    let q = r.full_well_e / 2f64.ppowi(r.adc_bits as i32);
+    let var = s + r.dark_e_s * r.integration_s + r.read_noise_e.ppowi(2) + q * q / 12.0;
     let noise = var.sqrt();
     SnrBudget {
         radiance: l,
@@ -670,10 +671,10 @@ mod tests {
     fn giqe4_switches_coefficients_at_rer_0_9_and_falls_with_gsd() {
         let n1 = giqe4_niirs(0.5, 0.95, 1.0, 1.0, 100.0);
         let n2 = giqe4_niirs(1.0, 0.95, 1.0, 1.0, 100.0);
-        assert!((n1 - n2 - 3.32 * 2f64.log10()).abs() < 1e-12);
+        assert!((n1 - n2 - 3.32 * 2f64.plog10()).abs() < 1e-12);
         let lo = giqe4_niirs(0.5, 0.89, 1.0, 1.0, 100.0);
         let gsd_in: f64 = 0.5 / 0.0254;
-        let want = 10.251 - 3.16 * gsd_in.log10() + 2.817 * 0.89f64.log10() - 0.656 - 0.00344;
+        let want = 10.251 - 3.16 * gsd_in.plog10() + 2.817 * 0.89f64.plog10() - 0.656 - 0.00344;
         assert!((lo - want).abs() < 1e-12);
     }
 

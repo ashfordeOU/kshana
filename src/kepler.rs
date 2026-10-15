@@ -29,6 +29,7 @@
 //! are kept unchanged because committed goldens depend on their exact outputs; new code should use
 //! this module ([`crate::propagator::solve_kepler_robust`] is the propagator-facing wrapper).
 
+use crate::portable_math::PortableFloat;
 use std::f64::consts::{PI, TAU};
 
 /// Newton polishing steps allowed after Markley's starter and correction.
@@ -88,7 +89,7 @@ pub fn e_minus_sin_e(ea: f64) -> f64 {
         }
         terms.iter().rev().sum()
     } else {
-        ea - ea.sin()
+        ea - ea.psin()
     }
 }
 
@@ -98,13 +99,13 @@ pub fn kepler_residual(ea: f64, e: f64, m: f64) -> f64 {
     if e >= 0.5 {
         (1.0 - e) * ea + e * e_minus_sin_e(ea) - m
     } else {
-        ea - e * ea.sin() - m
+        ea - e * ea.psin() - m
     }
 }
 
 /// `dM/dE = 1 − e·cos E`, as `(1 − e) + 2e·sin²(E/2)` (no cancellation near `E = 0`, `e → 1`).
 fn kepler_derivative(ea: f64, e: f64) -> f64 {
-    let s = (0.5 * ea).sin();
+    let s = (0.5 * ea).psin();
     (1.0 - e) + 2.0 * e * s * s
 }
 
@@ -115,7 +116,7 @@ fn markley_start(m: f64, e: f64) -> f64 {
     let d = 3.0 * (1.0 - e) + alpha * e;
     let q = 2.0 * alpha * d * (1.0 - e) - m * m;
     let r = 3.0 * alpha * d * (d - 1.0 + e) * m + m * m * m;
-    let w = (r.abs() + (q * q * q + r * r).sqrt()).powf(2.0 / 3.0);
+    let w = (r.abs() + (q * q * q + r * r).sqrt()).ppowf(2.0 / 3.0);
     let denom = w * w + w * q + q * q;
     let e1 = if denom > 0.0 {
         (2.0 * r * w / denom + m) / d
@@ -125,7 +126,7 @@ fn markley_start(m: f64, e: f64) -> f64 {
     // Fifth-order correction (Markley eqs. 29–32), on the accurate residual and derivative.
     let f0 = kepler_residual(e1, e, m);
     let f1 = kepler_derivative(e1, e);
-    let f2 = e * e1.sin();
+    let f2 = e * e1.psin();
     let f3 = 1.0 - f1;
     let f4 = -f2;
     let d3 = -f0 / (f1 - 0.5 * f0 * f2 / f1);
@@ -217,7 +218,7 @@ mod tests {
     #[test]
     fn e_minus_sin_e_matches_the_direct_form_where_both_are_accurate() {
         for &x in &[0.5_f64, 0.7, 0.749_999] {
-            let direct = x - x.sin();
+            let direct = x - x.psin();
             // The direct difference itself carries ~ε·x/(x³/6) ≤ 24ε relative error here.
             assert!((e_minus_sin_e(x) - direct).abs() < 1e-14 * direct.abs());
         }

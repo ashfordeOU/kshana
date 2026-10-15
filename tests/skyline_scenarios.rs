@@ -135,10 +135,17 @@ fn the_q_table_and_galileo_icd21_files_are_rows_that_moved_from_0_35_0() {
     let (portable, historical) = (rows(BASELINE), rows(HISTORICAL_0_35_0));
     for name in Q_TABLE_CHANGED.iter().chain(GALILEO_ICD21_CHANGED.iter()) {
         let (p, h0) = (
-            portable.get(name).unwrap_or_else(|| panic!("{name}: not a 0.36 portable row")),
-            historical.get(name).unwrap_or_else(|| panic!("{name}: not a 0.35.0 row")),
+            portable
+                .get(name)
+                .unwrap_or_else(|| panic!("{name}: not a 0.36 portable row")),
+            historical
+                .get(name)
+                .unwrap_or_else(|| panic!("{name}: not a 0.35.0 row")),
         );
-        assert_ne!(p, h0, "{name}: listed as changed by design but equals its 0.35.0 row");
+        assert_ne!(
+            p, h0,
+            "{name}: listed as changed by design but equals its 0.35.0 row"
+        );
     }
 }
 

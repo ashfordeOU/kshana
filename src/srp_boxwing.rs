@@ -82,6 +82,7 @@
 
 use crate::ephem::AU_M;
 use crate::forces::SRP_PRESSURE_AU;
+use crate::portable_math::PortableFloat;
 
 type Vec3 = [f64; 3];
 /// A 3×3 matrix stored row-major: `m[i][j]` is row `i`, column `j`.
@@ -603,7 +604,7 @@ pub fn dyb_frame(r: Vec3, v: Vec3, s: Vec3) -> DybFrame {
     } else {
         let yo = unit(yo);
         let xo = unit(cross(yo, h));
-        dot(r, yo).atan2(dot(r, xo))
+        dot(r, yo).patan2(dot(r, xo))
     };
     DybFrame {
         e_d,
@@ -617,9 +618,9 @@ pub fn dyb_frame(r: Vec3, v: Vec3, s: Vec3) -> DybFrame {
 pub fn ecom2_partials(r: Vec3, v: Vec3, s: Vec3, nu: f64) -> [[f64; 3]; 9] {
     let f = dyb_frame(r, v, s);
     let u = f.delta_u;
-    let (s1, c1) = u.sin_cos();
-    let (s2, c2) = (2.0 * u).sin_cos();
-    let (s4, c4) = (4.0 * u).sin_cos();
+    let (s1, c1) = u.psin_cos();
+    let (s2, c2) = (2.0 * u).psin_cos();
+    let (s4, c4) = (4.0 * u).psin_cos();
     let d = scale3(nu, f.e_d);
     let y = scale3(nu, f.e_y);
     let b = scale3(nu, f.e_b);
@@ -900,8 +901,8 @@ mod tests {
         let s = [AU_M, 0.0, 0.0];
         for deg in [0.0f64, 30.0, 90.0, 170.0, -45.0] {
             let t = deg.to_radians();
-            let r = [2.9e7 * t.cos(), 2.9e7 * t.sin(), 0.0];
-            let v = [-3.7e3 * t.sin(), 3.7e3 * t.cos(), 0.0];
+            let r = [2.9e7 * t.pcos(), 2.9e7 * t.psin(), 0.0];
+            let v = [-3.7e3 * t.psin(), 3.7e3 * t.pcos(), 0.0];
             let f = dyb_frame(r, v, s);
             assert!((f.delta_u - t).abs() < 1e-12, "{deg}: {}", f.delta_u);
         }
@@ -1023,18 +1024,18 @@ mod tests {
         ]);
         let mut samples = Vec::new();
         let (a, inc) = (2.96e7f64, 56f64.to_radians());
-        let n = (crate::forces::MU_EARTH / a.powi(3)).sqrt();
+        let n = (crate::forces::MU_EARTH / a.ppowi(3)).sqrt();
         for k in 0..200 {
             let th = n * (k as f64) * 300.0;
             let r = [
-                a * th.cos(),
-                a * th.sin() * inc.cos(),
-                a * th.sin() * inc.sin(),
+                a * th.pcos(),
+                a * th.psin() * inc.pcos(),
+                a * th.psin() * inc.psin(),
             ];
             let v = [
-                -a * n * th.sin(),
-                a * n * th.cos() * inc.cos(),
-                a * n * th.cos() * inc.sin(),
+                -a * n * th.psin(),
+                a * n * th.pcos() * inc.pcos(),
+                a * n * th.pcos() * inc.psin(),
             ];
             samples.push(Ecom2Sample {
                 r,

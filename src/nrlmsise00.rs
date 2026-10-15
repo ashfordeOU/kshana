@@ -23,6 +23,7 @@
 //! the model: NRLMSISE-00's own density error against measurements is of order 15 % (1σ).
 
 use crate::nrlmsise00_data::{PAVGM, PD, PDL, PDM, PMA, PS, PT, PTL, PTM};
+use crate::portable_math::PortableFloat;
 
 /// The 24 model switches of `TSELEC` (index 0 to 23). `1` turns a term on, `0` off; switch 0 on
 /// selects SI output (m⁻³, kg/m³) instead of CGS (cm⁻³, g/cm³); switch 9 may be `-1` to drive
@@ -149,13 +150,13 @@ impl Ctx {
     /// GLATF: latitude variation of gravity and the effective Earth radius.
     fn glatf(&mut self, lat: f64) {
         let dgtr = 1.74533E-2;
-        let c2 = (2.0 * dgtr * lat).cos();
+        let c2 = (2.0 * dgtr * lat).pcos();
         self.gsurf = 980.616 * (1.0 - 0.0026373 * c2);
         self.re = 2.0 * self.gsurf / (3.085462E-6 + 2.27E-9 * c2) * 1.0E-5;
     }
 
     fn scalh(&self, alt: f64, xm: f64, temp: f64) -> f64 {
-        let g = self.gsurf / (1.0 + alt / self.re).powf(2.0);
+        let g = self.gsurf / (1.0 + alt / self.re).ppowf(2.0);
         RGAS * temp / (g * xm)
     }
 
@@ -186,20 +187,20 @@ impl Ctx {
         }
         let yd1 = -self.meso_tgn2[0] / (t1 * t1) * zgdif;
         let yd2 =
-            -self.meso_tgn2[1] / (t2 * t2) * zgdif * ((self.re + z2) / (self.re + z1)).powf(2.0);
+            -self.meso_tgn2[1] / (t2 * t2) * zgdif * ((self.re + z2) / (self.re + z1)).ppowf(2.0);
         spline(&xs, &ys, mn, yd1, yd2, &mut y2out);
         let x = zg / zgdif;
         let y = splint(&xs, &ys, &y2out, mn, x);
         *tz = 1.0 / y;
         if xm != 0.0 {
-            let glb = self.gsurf / (1.0 + z1 / self.re).powf(2.0);
+            let glb = self.gsurf / (1.0 + z1 / self.re).ppowf(2.0);
             let gamm = xm * glb * zgdif / RGAS;
             let yi = splini(&xs, &ys, &y2out, mn, x);
             let mut expl = gamm * yi;
             if expl > 50.0 {
                 expl = 50.0;
             }
-            densm_tmp = densm_tmp * (t1 / *tz) * (-expl).exp();
+            densm_tmp = densm_tmp * (t1 / *tz) * (-expl).pexp();
         }
         if alt > zn3[0] {
             return if xm == 0.0 { *tz } else { densm_tmp };
@@ -217,20 +218,20 @@ impl Ctx {
         }
         let yd1 = -self.meso_tgn3[0] / (t1 * t1) * zgdif;
         let yd2 =
-            -self.meso_tgn3[1] / (t2 * t2) * zgdif * ((self.re + z2) / (self.re + z1)).powf(2.0);
+            -self.meso_tgn3[1] / (t2 * t2) * zgdif * ((self.re + z2) / (self.re + z1)).ppowf(2.0);
         spline(&xs, &ys, mn, yd1, yd2, &mut y2out);
         let x = zg / zgdif;
         let y = splint(&xs, &ys, &y2out, mn, x);
         *tz = 1.0 / y;
         if xm != 0.0 {
-            let glb = self.gsurf / (1.0 + z1 / self.re).powf(2.0);
+            let glb = self.gsurf / (1.0 + z1 / self.re).ppowf(2.0);
             let gamm = xm * glb * zgdif / RGAS;
             let yi = splini(&xs, &ys, &y2out, mn, x);
             let mut expl = gamm * yi;
             if expl > 50.0 {
                 expl = 50.0;
             }
-            densm_tmp = densm_tmp * (t1 / *tz) * (-expl).exp();
+            densm_tmp = densm_tmp * (t1 / *tz) * (-expl).pexp();
         }
         if xm == 0.0 {
             *tz
@@ -269,13 +270,13 @@ impl Ctx {
         // Geopotential altitude difference from ZLB.
         let zg2 = self.zeta(z, zlb);
         // Bates temperature.
-        let tt = tinf - (tinf - tlb) * (-s2 * zg2).exp();
+        let tt = tinf - (tinf - tlb) * (-s2 * zg2).pexp();
         let ta = tt;
         *tz = tt;
         let mut densu_temp = *tz;
         if alt < za {
             // Temperature gradient at ZA from the Bates profile.
-            let dta = (tinf - ta) * s2 * ((self.re + zlb) / (self.re + za)).powf(2.0);
+            let dta = (tinf - ta) * s2 * ((self.re + zlb) / (self.re + za)).ppowf(2.0);
             self.meso_tgn1[0] = dta;
             self.meso_tn1[0] = ta;
             let z = if alt > zn1[mn1 - 1] {
@@ -297,7 +298,7 @@ impl Ctx {
             let yd1 = -self.meso_tgn1[0] / (t1 * t1) * zgdif;
             let yd2 = -self.meso_tgn1[1] / (t2 * t2)
                 * zgdif
-                * ((self.re + z2) / (self.re + z1)).powf(2.0);
+                * ((self.re + z2) / (self.re + z1)).ppowf(2.0);
             spline(&xs, &ys, mn, yd1, yd2, &mut y2out);
             x = zg / zgdif;
             let y = splint(&xs, &ys, &y2out, mn, x);
@@ -308,22 +309,22 @@ impl Ctx {
             return densu_temp;
         }
         // Density above ZA.
-        let glb = self.gsurf / (1.0 + zlb / self.re).powf(2.0);
+        let glb = self.gsurf / (1.0 + zlb / self.re).ppowf(2.0);
         let gamma = xm * glb / (s2 * RGAS * tinf);
-        let mut expl = (-s2 * gamma * zg2).exp();
+        let mut expl = (-s2 * gamma * zg2).pexp();
         if expl > 50.0 {
             expl = 50.0;
         }
         if tt <= 0.0 {
             expl = 50.0;
         }
-        let densa = dlb * (tlb / tt).powf(1.0 + alpha + gamma) * expl;
+        let densa = dlb * (tlb / tt).ppowf(1.0 + alpha + gamma) * expl;
         densu_temp = densa;
         if alt >= za {
             return densu_temp;
         }
         // Density below ZA.
-        let glb = self.gsurf / (1.0 + z1 / self.re).powf(2.0);
+        let glb = self.gsurf / (1.0 + z1 / self.re).ppowf(2.0);
         let gamm = xm * glb * zgdif / RGAS;
         let yi = splini(&xs, &ys, &y2out, mn, x);
         let mut expl = gamm * yi;
@@ -333,7 +334,7 @@ impl Ctx {
         if *tz <= 0.0 {
             expl = 50.0;
         }
-        densu_temp * (t1 / *tz).powf(1.0 + alpha) * (-expl).exp()
+        densu_temp * (t1 / *tz).ppowf(1.0 + alpha) * (-expl).pexp()
     }
 
     /// GLOBE7: the G(L) function of the upper thermosphere parameters.
@@ -348,8 +349,8 @@ impl Ctx {
         let doy = f64::from(input.doy);
 
         // Legendre polynomials.
-        let c = (input.g_lat_deg * dgtr).sin();
-        let s = (input.g_lat_deg * dgtr).cos();
+        let c = (input.g_lat_deg * dgtr).psin();
+        let s = (input.g_lat_deg * dgtr).pcos();
         let c2 = c * c;
         let c4 = c2 * c2;
         let s2 = s * s;
@@ -379,12 +380,12 @@ impl Ctx {
         let plg = self.plg;
 
         if !(sw[7] == 0.0 && sw[8] == 0.0 && sw[14] == 0.0) {
-            self.stloc = (hr * tloc).sin();
-            self.ctloc = (hr * tloc).cos();
-            self.s2tloc = (2.0 * hr * tloc).sin();
-            self.c2tloc = (2.0 * hr * tloc).cos();
-            self.s3tloc = (3.0 * hr * tloc).sin();
-            self.c3tloc = (3.0 * hr * tloc).cos();
+            self.stloc = (hr * tloc).psin();
+            self.ctloc = (hr * tloc).pcos();
+            self.s2tloc = (2.0 * hr * tloc).psin();
+            self.c2tloc = (2.0 * hr * tloc).pcos();
+            self.s3tloc = (3.0 * hr * tloc).psin();
+            self.c3tloc = (3.0 * hr * tloc).pcos();
         }
         let (ctloc, stloc, c2tloc, s2tloc, s3tloc, c3tloc) = (
             self.ctloc,
@@ -395,10 +396,10 @@ impl Ctx {
             self.c3tloc,
         );
 
-        let cd32 = (dr * (doy - p[31])).cos();
-        let cd18 = (2.0 * dr * (doy - p[17])).cos();
-        let cd14 = (dr * (doy - p[13])).cos();
-        let cd39 = (2.0 * dr * (doy - p[38])).cos();
+        let cd32 = (dr * (doy - p[31])).pcos();
+        let cd18 = (2.0 * dr * (doy - p[17])).pcos();
+        let cd14 = (dr * (doy - p[13])).pcos();
+        let cd39 = (2.0 * dr * (doy - p[38])).pcos();
 
         // F10.7 effect.
         let df = input.f107 - input.f107a;
@@ -407,7 +408,7 @@ impl Ctx {
         t[0] = p[19] * df * (1.0 + p[59] * dfa)
             + p[20] * df * df
             + p[21] * dfa
-            + p[29] * dfa.powf(2.0);
+            + p[29] * dfa.ppowf(2.0);
         let f1 = 1.0 + (p[47] * dfa + p[19] * df + p[20] * df * df) * swc[1];
         let f2 = 1.0 + (p[49] * dfa + p[19] * df + p[20] * df * df) * swc[1];
 
@@ -455,7 +456,7 @@ impl Ctx {
             if p[51] != 0.0 {
                 let mut exp1 = (-10800.0 * (p[51] * p[51]).sqrt()
                     / (1.0 + p[138] * (45.0 - (input.g_lat_deg * input.g_lat_deg).sqrt())))
-                .exp();
+                .pexp();
                 if exp1 > 0.99999 {
                     exp1 = 0.99999;
                 }
@@ -472,7 +473,7 @@ impl Ctx {
                                 * swc[5]
                             + (p[128] * plg[1][1] + p[129] * plg[1][3] + p[130] * plg[1][5])
                                 * swc[7]
-                                * (hr * (tloc - p[131])).cos());
+                                * (hr * (tloc - p[131])).pcos());
                 }
             }
         } else {
@@ -482,7 +483,7 @@ impl Ctx {
             if p44 < 0.0 {
                 p44 = 1.0E-5;
             }
-            self.apdf = apd + (p45 - 1.0) * (apd + ((-p44 * apd).exp() - 1.0) / p44);
+            self.apdf = apd + (p45 - 1.0) * (apd + ((-p44 * apd).pexp() - 1.0) / p44);
             if sw[9] != 0.0 {
                 t[8] = self.apdf
                     * (p[32]
@@ -493,7 +494,7 @@ impl Ctx {
                             * swc[5]
                         + (p[121] * plg[1][1] + p[122] * plg[1][3] + p[123] * plg[1][5])
                             * swc[7]
-                            * (hr * (tloc - p[124])).cos());
+                            * (hr * (tloc - p[124])).pcos());
             }
         }
 
@@ -510,7 +511,7 @@ impl Ctx {
                         + swc[5]
                             * (p[109] * plg[1][1] + p[110] * plg[1][3] + p[111] * plg[1][5])
                             * cd14)
-                        * (dgtr * input.g_long_deg).cos()
+                        * (dgtr * input.g_long_deg).pcos()
                         + (p[90] * plg[1][2]
                             + p[91] * plg[1][4]
                             + p[92] * plg[1][6]
@@ -520,7 +521,7 @@ impl Ctx {
                             + swc[5]
                                 * (p[112] * plg[1][1] + p[113] * plg[1][3] + p[114] * plg[1][5])
                                 * cd14)
-                            * (dgtr * input.g_long_deg).sin());
+                            * (dgtr * input.g_long_deg).psin());
             }
             // UT and mixed UT, longitude.
             if sw[12] != 0.0 {
@@ -528,10 +529,10 @@ impl Ctx {
                     * (1.0 + p[81] * dfa * swc[1])
                     * (1.0 + p[119] * plg[0][1] * swc[5] * cd14)
                     * ((p[68] * plg[0][1] + p[69] * plg[0][3] + p[70] * plg[0][5])
-                        * (sr * (input.sec - p[71])).cos());
+                        * (sr * (input.sec - p[71])).pcos());
                 t[11] += swc[11]
                     * (p[76] * plg[2][3] + p[77] * plg[2][5] + p[78] * plg[2][7])
-                    * (sr * (input.sec - p[79]) + 2.0 * dgtr * input.g_long_deg).cos()
+                    * (sr * (input.sec - p[79]) + 2.0 * dgtr * input.g_long_deg).pcos()
                     * (1.0 + p[137] * dfa * swc[1]);
             }
             // UT, longitude magnetic activity.
@@ -543,17 +544,17 @@ impl Ctx {
                             * swc[11]
                             * (1. + p[132] * plg[0][1])
                             * ((p[52] * plg[1][2] + p[98] * plg[1][4] + p[67] * plg[1][6])
-                                * (dgtr * (input.g_long_deg - p[97])).cos())
+                                * (dgtr * (input.g_long_deg - p[97])).pcos())
                             + apt0
                                 * swc[11]
                                 * swc[5]
                                 * (p[133] * plg[1][1] + p[134] * plg[1][3] + p[135] * plg[1][5])
                                 * cd14
-                                * (dgtr * (input.g_long_deg - p[136])).cos()
+                                * (dgtr * (input.g_long_deg - p[136])).pcos()
                             + apt0
                                 * swc[12]
                                 * (p[55] * plg[0][1] + p[56] * plg[0][3] + p[57] * plg[0][5])
-                                * (sr * (input.sec - p[58])).cos();
+                                * (sr * (input.sec - p[58])).pcos();
                     }
                 } else {
                     let apdf = self.apdf;
@@ -561,17 +562,17 @@ impl Ctx {
                         * swc[11]
                         * (1.0 + p[120] * plg[0][1])
                         * ((p[60] * plg[1][2] + p[61] * plg[1][4] + p[62] * plg[1][6])
-                            * (dgtr * (input.g_long_deg - p[63])).cos())
+                            * (dgtr * (input.g_long_deg - p[63])).pcos())
                         + apdf
                             * swc[11]
                             * swc[5]
                             * (p[115] * plg[1][1] + p[116] * plg[1][3] + p[117] * plg[1][5])
                             * cd14
-                            * (dgtr * (input.g_long_deg - p[118])).cos()
+                            * (dgtr * (input.g_long_deg - p[118])).pcos()
                         + apdf
                             * swc[12]
                             * (p[83] * plg[0][1] + p[84] * plg[0][3] + p[85] * plg[0][5])
-                            * (sr * (input.sec - p[75])).cos();
+                            * (sr * (input.sec - p[75])).pcos();
                 }
             }
         }
@@ -597,10 +598,10 @@ impl Ctx {
         if p99 != pset {
             return -1.0;
         }
-        let cd32 = (dr * (doy - p[31])).cos();
-        let cd18 = (2.0 * dr * (doy - p[17])).cos();
-        let cd14 = (dr * (doy - p[13])).cos();
-        let cd39 = (2.0 * dr * (doy - p[38])).cos();
+        let cd32 = (dr * (doy - p[31])).pcos();
+        let cd18 = (2.0 * dr * (doy - p[17])).pcos();
+        let cd14 = (dr * (doy - p[13])).pcos();
+        let cd39 = (2.0 * dr * (doy - p[38])).pcos();
 
         // F10.7.
         t[0] = p[21] * self.dfa;
@@ -650,24 +651,24 @@ impl Ctx {
         if !(sw[10] == 0.0 || sw[11] == 0.0 || input.g_long_deg <= -1000.0) {
             t[10] = (1.0
                 + plg[0][1]
-                    * (p[80] * swc[5] * (dr * (doy - p[81])).cos()
-                        + p[85] * swc[6] * (2.0 * dr * (doy - p[86])).cos())
-                + p[83] * swc[3] * (dr * (doy - p[84])).cos()
-                + p[87] * swc[4] * (2.0 * dr * (doy - p[88])).cos())
+                    * (p[80] * swc[5] * (dr * (doy - p[81])).pcos()
+                        + p[85] * swc[6] * (2.0 * dr * (doy - p[86])).pcos())
+                + p[83] * swc[3] * (dr * (doy - p[84])).pcos()
+                + p[87] * swc[4] * (2.0 * dr * (doy - p[88])).pcos())
                 * ((p[64] * plg[1][2]
                     + p[65] * plg[1][4]
                     + p[66] * plg[1][6]
                     + p[74] * plg[1][1]
                     + p[75] * plg[1][3]
                     + p[76] * plg[1][5])
-                    * (dgtr * input.g_long_deg).cos()
+                    * (dgtr * input.g_long_deg).pcos()
                     + (p[90] * plg[1][2]
                         + p[91] * plg[1][4]
                         + p[92] * plg[1][6]
                         + p[77] * plg[1][1]
                         + p[78] * plg[1][3]
                         + p[79] * plg[1][5])
-                        * (dgtr * input.g_long_deg).sin());
+                        * (dgtr * input.g_long_deg).psin());
         }
         let mut tt = 0.0;
         for i in 0..14 {
@@ -717,14 +718,14 @@ impl Ctx {
                 * (1.0 + sw[18] * sw[20] * self.glob7s(&PMA[8], input))
                 * self.meso_tn1[4]
                 * self.meso_tn1[4]
-                / (PTM[4] * PTL[3][0]).powf(2.0);
+                / (PTM[4] * PTL[3][0]).ppowf(2.0);
         } else {
             self.meso_tn1[1] = PTM[6] * PTL[0][0];
             self.meso_tn1[2] = PTM[2] * PTL[1][0];
             self.meso_tn1[3] = PTM[7] * PTL[2][0];
             self.meso_tn1[4] = PTM[4] * PTL[3][0];
             self.meso_tgn1[1] = PTM[8] * PMA[8][0] * self.meso_tn1[4] * self.meso_tn1[4]
-                / (PTM[4] * PTL[3][0]).powf(2.0);
+                / (PTM[4] * PTL[3][0]).ppowf(2.0);
         }
 
         // N2 variation factor at Zlb.
@@ -734,14 +735,14 @@ impl Ctx {
             * (1.0
                 + sw[5]
                     * PDL[0][24]
-                    * (dgtr * input.g_lat_deg).sin()
-                    * (dr * (f64::from(input.doy) - PT[13])).cos());
+                    * (dgtr * input.g_lat_deg).psin()
+                    * (dr * (f64::from(input.doy) - PT[13])).pcos());
         t[0] = tinf;
         let xmm = PDM[2][4];
         let z = alt;
 
         // N2 density.
-        let db28 = PDM[2][0] * g28.exp() * PD[2][0];
+        let db28 = PDM[2][0] * g28.pexp() * PD[2][0];
         d[2] = self.densu(
             z, db28, tinf, tlb, 28.0, alpha[2], &mut t[1], PTM[5], s, &zn1,
         );
@@ -767,7 +768,7 @@ impl Ctx {
 
         // He density.
         let g4 = sw[21] * self.globe7(&PD[0], input, ap_a);
-        let db04 = PDM[0][0] * g4.exp() * PD[0][0];
+        let db04 = PDM[0][0] * g4.pexp() * PD[0][0];
         d[0] = self.densu(z, db04, tinf, tlb, 4., alpha[0], &mut t[1], PTM[5], s, &zn1);
         if sw[15] != 0.0 && z < altl[0] {
             let zh04 = PDM[0][2];
@@ -786,7 +787,7 @@ impl Ctx {
             let dm04 = self.densu(z, b04, tinf, tlb, xmm, 0., &mut t[1], PTM[5], s, &zn1);
             let zhm04 = zhm28;
             d[0] = dnet(d[0], dm04, zhm04, xmm, 4.);
-            let rl = (b28 * PDM[0][1] / b04).ln();
+            let rl = (b28 * PDM[0][1] / b04).pln();
             let zc04 = PDM[0][4] * PDL[1][0];
             let hc04 = PDM[0][5] * PDL[1][1];
             d[0] *= ccor(z, rl, hc04, zc04);
@@ -794,7 +795,7 @@ impl Ctx {
 
         // O density.
         let g16 = sw[21] * self.globe7(&PD[1], input, ap_a);
-        let db16 = PDM[1][0] * g16.exp() * PD[1][0];
+        let db16 = PDM[1][0] * g16.pexp() * PD[1][0];
         d[1] = self.densu(
             z, db16, tinf, tlb, 16., alpha[1], &mut t[1], PTM[5], s, &zn1,
         );
@@ -829,7 +830,7 @@ impl Ctx {
 
         // O2 density.
         let g32 = sw[21] * self.globe7(&PD[4], input, ap_a);
-        let db32 = PDM[3][0] * g32.exp() * PD[4][0];
+        let db32 = PDM[3][0] * g32.pexp() * PD[4][0];
         d[3] = self.densu(
             z, db32, tinf, tlb, 32., alpha[3], &mut t[1], PTM[5], s, &zn1,
         );
@@ -851,7 +852,7 @@ impl Ctx {
                 let dm32 = self.densu(z, b32, tinf, tlb, xmm, 0., &mut t[1], PTM[5], s, &zn1);
                 let zhm32 = zhm28;
                 d[3] = dnet(d[3], dm32, zhm32, xmm, 32.);
-                let rl = (b28 * PDM[3][1] / b32).ln();
+                let rl = (b28 * PDM[3][1] / b32).pln();
                 let hc32 = PDM[3][5] * PDL[1][7];
                 let zc32 = PDM[3][4] * PDL[1][6];
                 d[3] *= ccor(z, rl, hc32, zc32);
@@ -866,7 +867,7 @@ impl Ctx {
 
         // Ar density.
         let g40 = sw[21] * self.globe7(&PD[5], input, ap_a);
-        let db40 = PDM[4][0] * g40.exp() * PD[5][0];
+        let db40 = PDM[4][0] * g40.pexp() * PD[5][0];
         d[4] = self.densu(
             z, db40, tinf, tlb, 40., alpha[4], &mut t[1], PTM[5], s, &zn1,
         );
@@ -887,7 +888,7 @@ impl Ctx {
             let dm40 = self.densu(z, b40, tinf, tlb, xmm, 0., &mut t[1], PTM[5], s, &zn1);
             let zhm40 = zhm28;
             d[4] = dnet(d[4], dm40, zhm40, xmm, 40.);
-            let rl = (b28 * PDM[4][1] / b40).ln();
+            let rl = (b28 * PDM[4][1] / b40).pln();
             let hc40 = PDM[4][5] * PDL[1][9];
             let zc40 = PDM[4][4] * PDL[1][8];
             d[4] *= ccor(z, rl, hc40, zc40);
@@ -895,7 +896,7 @@ impl Ctx {
 
         // Hydrogen density.
         let g1 = sw[21] * self.globe7(&PD[6], input, ap_a);
-        let db01 = PDM[5][0] * g1.exp() * PD[6][0];
+        let db01 = PDM[5][0] * g1.pexp() * PD[6][0];
         d[6] = self.densu(z, db01, tinf, tlb, 1., alpha[6], &mut t[1], PTM[5], s, &zn1);
         if sw[15] != 0.0 && z <= altl[6] {
             let zh01 = PDM[5][2];
@@ -914,7 +915,7 @@ impl Ctx {
             let dm01 = self.densu(z, b01, tinf, tlb, xmm, 0., &mut t[1], PTM[5], s, &zn1);
             let zhm01 = zhm28;
             d[6] = dnet(d[6], dm01, zhm01, xmm, 1.);
-            let rl = (b28 * PDM[5][1] * (PDL[1][17] * PDL[1][17]).sqrt() / b01).ln();
+            let rl = (b28 * PDM[5][1] * (PDL[1][17] * PDL[1][17]).sqrt() / b01).pln();
             let hc01 = PDM[5][5] * PDL[1][11];
             let zc01 = PDM[5][4] * PDL[1][10];
             d[6] *= ccor(z, rl, hc01, zc01);
@@ -927,7 +928,7 @@ impl Ctx {
 
         // Atomic nitrogen density.
         let g14 = sw[21] * self.globe7(&PD[7], input, ap_a);
-        let db14 = PDM[6][0] * g14.exp() * PD[7][0];
+        let db14 = PDM[6][0] * g14.pexp() * PD[7][0];
         d[7] = self.densu(
             z, db14, tinf, tlb, 14., alpha[7], &mut t[1], PTM[5], s, &zn1,
         );
@@ -948,7 +949,7 @@ impl Ctx {
             let dm14 = self.densu(z, b14, tinf, tlb, xmm, 0., &mut t[1], PTM[5], s, &zn1);
             let zhm14 = zhm28;
             d[7] = dnet(d[7], dm14, zhm14, xmm, 14.);
-            let rl = (b28 * PDM[6][1] * (PDL[0][2] * PDL[0][2]).sqrt() / b14).ln();
+            let rl = (b28 * PDM[6][1] * (PDL[0][2] * PDL[0][2]).sqrt() / b14).pln();
             let hc14 = PDM[6][5] * PDL[0][1];
             let zc14 = PDM[6][4] * PDL[0][0];
             d[7] *= ccor(z, rl, hc14, zc14);
@@ -961,7 +962,7 @@ impl Ctx {
 
         // Anomalous oxygen density.
         let g16h = sw[21] * self.globe7(&PD[8], input, ap_a);
-        let db16h = PDM[7][0] * g16h.exp() * PD[8][0];
+        let db16h = PDM[7][0] * g16h.pexp() * PD[8][0];
         let tho = PDM[7][9] * PDL[0][6];
         let dd = self.densu(
             z, db16h, tho, tho, 16., alpha[8], &mut t[1], PTM[5], s, &zn1,
@@ -969,7 +970,7 @@ impl Ctx {
         let zsht = PDM[7][5];
         let zmho = PDM[7][4];
         let zsho = self.scalh(zmho, 16.0, tho);
-        d[8] = dd * (-zsht / zsho * ((-(z - zmho) / zsht).exp() - 1.)).exp();
+        d[8] = dd * (-zsht / zsho * ((-(z - zmho) / zsht).pexp() - 1.)).pexp();
 
         // Total mass density.
         d[5] = 1.66E-24
@@ -998,12 +999,12 @@ impl Ctx {
 fn g0(a: f64, p24: f64, p25: f64) -> f64 {
     a - 4.0
         + (p25 - 1.0)
-            * (a - 4.0 + ((-(p24 * p24).sqrt() * (a - 4.0)).exp() - 1.0) / (p24 * p24).sqrt())
+            * (a - 4.0 + ((-(p24 * p24).sqrt() * (a - 4.0)).pexp() - 1.0) / (p24 * p24).sqrt())
 }
 
 /// Eq. A24c.
 fn sumex(ex: f64) -> f64 {
-    1.0 + (1.0 - ex.powf(19.0)) / (1.0 - ex) * ex.powf(0.5)
+    1.0 + (1.0 - ex.ppowf(19.0)) / (1.0 - ex) * ex.ppowf(0.5)
 }
 
 /// Eq. A24a.
@@ -1011,9 +1012,9 @@ fn sg0(ex: f64, p24: f64, p25: f64, ap: &[f64; 7]) -> f64 {
     (g0(ap[1], p24, p25)
         + (g0(ap[2], p24, p25) * ex
             + g0(ap[3], p24, p25) * ex * ex
-            + g0(ap[4], p24, p25) * ex.powf(3.0)
-            + (g0(ap[5], p24, p25) * ex.powf(4.0) + g0(ap[6], p24, p25) * ex.powf(12.0))
-                * (1.0 - ex.powf(8.0))
+            + g0(ap[4], p24, p25) * ex.ppowf(3.0)
+            + (g0(ap[5], p24, p25) * ex.ppowf(4.0) + g0(ap[6], p24, p25) * ex.ppowf(12.0))
+                * (1.0 - ex.ppowf(8.0))
                 / (1.0 - ex)))
         / sumex(ex)
 }
@@ -1022,13 +1023,13 @@ fn sg0(ex: f64, p24: f64, p25: f64, ap: &[f64; 7]) -> f64 {
 fn ccor(alt: f64, r: f64, h1: f64, zh: f64) -> f64 {
     let e = (alt - zh) / h1;
     if e > 70.0 {
-        return 0.0f64.exp();
+        return 0.0f64.pexp();
     }
     if e < -70.0 {
-        return r.exp();
+        return r.pexp();
     }
-    let ex = e.exp();
-    (r / (1.0 + ex)).exp()
+    let ex = e.pexp();
+    (r / (1.0 + ex)).pexp()
 }
 
 /// CCOR2: chemistry/dissociation correction with two transition scale lengths.
@@ -1036,14 +1037,14 @@ fn ccor2(alt: f64, r: f64, h1: f64, zh: f64, h2: f64) -> f64 {
     let e1 = (alt - zh) / h1;
     let e2 = (alt - zh) / h2;
     if e1 > 70.0 || e2 > 70.0 {
-        return 0.0f64.exp();
+        return 0.0f64.pexp();
     }
     if e1 < -70.0 && e2 < -70.0 {
-        return r.exp();
+        return r.pexp();
     }
-    let ex1 = e1.exp();
-    let ex2 = e2.exp();
-    (r / (1.0 + 0.5 * (ex1 + ex2))).exp()
+    let ex1 = e1.pexp();
+    let ex2 = e2.pexp();
+    (r / (1.0 + 0.5 * (ex1 + ex2))).pexp()
 }
 
 /// DNET: turbopause correction, combining the diffusive and fully mixed densities.
@@ -1060,14 +1061,14 @@ fn dnet(mut dd: f64, dm: f64, zhm: f64, xmm: f64, xm: f64) -> f64 {
             return dm;
         }
     }
-    let ylog = a * (dm / dd).ln();
+    let ylog = a * (dm / dd).pln();
     if ylog < -10.0 {
         return dd;
     }
     if ylog > 10.0 {
         return dm;
     }
-    dd * (1.0 + ylog.exp()).powf(1.0 / a)
+    dd * (1.0 + ylog.pexp()).ppowf(1.0 / a)
 }
 
 /// SPLINI: integrate the cubic spline from `xa[0]` to `x`.
@@ -1199,7 +1200,7 @@ pub fn gtd7(input: &Input, flags: &Flags) -> Output {
         * (1.0 + sw[20] * sw[22] * ctx.glob7s(&PMA[9], input))
         * ctx.meso_tn2[3]
         * ctx.meso_tn2[3]
-        / (PMA[2][0] * PAVGM[2]).powf(2.0);
+        / (PMA[2][0] * PAVGM[2]).ppowf(2.0);
     ctx.meso_tn3[0] = ctx.meso_tn2[3];
 
     if input.alt_km <= ZN3[0] {
@@ -1214,7 +1215,7 @@ pub fn gtd7(input: &Input, flags: &Flags) -> Output {
             * (1.0 + sw[22] * ctx.glob7s(&PMA[7], input))
             * ctx.meso_tn3[4]
             * ctx.meso_tn3[4]
-            / (PMA[6][0] * PAVGM[6]).powf(2.0);
+            / (PMA[6][0] * PAVGM[6]).ppowf(2.0);
     }
 
     // Linear transition to full mixing below ZN2[0].

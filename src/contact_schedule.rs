@@ -40,6 +40,7 @@ use crate::frames::Geodetic;
 use crate::jd2::Jd2;
 use crate::orbit::R_EARTH_EQUATORIAL_M;
 use crate::passes::{apparent_look_angles, predict_passes_apparent, ApparentOptions, Pass};
+use crate::portable_math::PortableFloat;
 use crate::sgp4::{MeanElementSet, SgpOrbit};
 use serde::Deserialize;
 
@@ -133,13 +134,13 @@ pub fn select_modcod(es_n0_db: f64, margin_db: f64) -> Option<&'static Modcod> {
 
 /// Free-space path loss (dB) over `range_m` at `freq_hz`: `20·log10(4π d f / c)`.
 pub fn fspl_db(range_m: f64, freq_hz: f64) -> f64 {
-    20.0 * (4.0 * std::f64::consts::PI * range_m * freq_hz / C_M_S).log10()
+    20.0 * (4.0 * std::f64::consts::PI * range_m * freq_hz / C_M_S).plog10()
 }
 
 /// Cosecant-law slant atmospheric loss (dB) from a zenith loss: `A_z / sin(el)`, with the
 /// elevation floored at 3° so the flat-Earth law is not taken below where it holds.
 pub fn atmospheric_loss_db(zenith_loss_db: f64, el_rad: f64) -> f64 {
-    zenith_loss_db / el_rad.max(3f64.to_radians()).sin()
+    zenith_loss_db / el_rad.max(3f64.to_radians()).psin()
 }
 
 /// The downlink link parameters shared by every satellite (a satellite may override EIRP).
@@ -249,7 +250,7 @@ pub fn es_n0_db(
         - link.other_losses_db
         + g_over_t_db
         - BOLTZMANN_DBW_PER_K_HZ
-        - 10.0 * (link.symbol_rate_msps * 1e6).log10()
+        - 10.0 * (link.symbol_rate_msps * 1e6).plog10()
 }
 
 /// The slant range (m) from a station at the given elevation to a satellite at
@@ -258,7 +259,7 @@ pub fn es_n0_db(
 pub fn slant_range_at_elevation(sat_alt_m: f64, el_rad: f64) -> f64 {
     let re = R_EARTH_EQUATORIAL_M;
     let r = re + sat_alt_m;
-    (r * r - (re * el_rad.cos()).powi(2)).sqrt() - re * el_rad.sin()
+    (r * r - (re * el_rad.pcos()).ppowi(2)).sqrt() - re * el_rad.psin()
 }
 
 /// A satellite of the scenario: a circular orbit, a backlog and a priority.
@@ -335,7 +336,7 @@ impl SatelliteSpec {
         let a_er = (R_EARTH_EQUATORIAL_M + self.altitude_km * 1000.0) / 1000.0 / g.radiusearthkm;
         SgpOrbit::new(MeanElementSet {
             epoch_utc: start,
-            no_kozai: g.xke / a_er.powf(1.5),
+            no_kozai: g.xke / a_er.ppowf(1.5),
             ecco: 0.0,
             inclo: self.inclination_deg.to_radians(),
             nodeo: self.raan_deg.to_radians().rem_euclid(std::f64::consts::TAU),
@@ -1395,7 +1396,7 @@ mod tests {
             (slant_range_at_elevation(550e3, std::f64::consts::FRAC_PI_2) - 550e3).abs() < 1e-6
         );
         let re = R_EARTH_EQUATORIAL_M;
-        let hz = ((re + 550e3).powi(2) - re * re).sqrt();
+        let hz = ((re + 550e3).ppowi(2) - re * re).sqrt();
         assert!((slant_range_at_elevation(550e3, 0.0) - hz).abs() < 1e-6);
         // Es/N0 identity: one dB more EIRP is one dB more Es/N0; doubling Rs costs 3.01 dB.
         let link = LinkConfig::default();
@@ -1407,7 +1408,7 @@ mod tests {
             ..link
         };
         let c = es_n0_db(&link2, 7.0, 30.0, 1.0e6, 0.5);
-        assert!((a - c - 10.0 * 2f64.log10()).abs() < 1e-12);
+        assert!((a - c - 10.0 * 2f64.plog10()).abs() < 1e-12);
     }
 
     fn cand(sat: usize, station: usize, s: f64, e: f64, cap: f64) -> Candidate {

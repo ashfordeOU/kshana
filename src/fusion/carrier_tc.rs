@@ -99,10 +99,11 @@ use crate::inertial::attitude::Quaternion;
 use crate::inertial::imu_errors::ImuErrorModel;
 use crate::inertial::mechanization::{radii_of_curvature, NavState};
 use crate::orbit::Propagator;
+use crate::portable_distr::{Distribution, StandardNormal};
+use crate::portable_math::PortableFloat;
 use crate::walker::{walker_epoch_jd, WalkerSgp4};
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
-use rand_distr::{Distribution, StandardNormal};
 use serde::{Deserialize, Serialize};
 
 /// L1 carrier wavelength (m).
@@ -371,7 +372,10 @@ impl ClockTcCfg {
     /// (random-walk frequency): `q_b = c²·h₀/2`, `q_d = 2π²·c²·h₋₂`.
     pub fn from_allan(h0: f64, hm2: f64) -> (f64, f64) {
         let c2 = C_M_PER_S * C_M_PER_S;
-        (c2 * h0 / 2.0, 2.0 * std::f64::consts::PI.powi(2) * c2 * hm2)
+        (
+            c2 * h0 / 2.0,
+            2.0 * std::f64::consts::PI.ppowi(2) * c2 * hm2,
+        )
     }
 }
 
@@ -679,7 +683,7 @@ impl Constellation {
         for _ in 0..2 {
             let r_tx = self.sat_ecef(i, t - tau);
             let th = OMEGA_E_WGS84 * tau;
-            let (s, c) = th.sin_cos();
+            let (s, c) = th.psin_cos();
             rs = [
                 c * r_tx[0] + s * r_tx[1],
                 -s * r_tx[0] + c * r_tx[1],
@@ -704,8 +708,8 @@ fn norm(a: Vec3) -> f64 {
 
 /// ECEF → NED rotation of a vector at geodetic latitude/longitude.
 fn ecef_to_ned(v: Vec3, lat: f64, lon: f64) -> Vec3 {
-    let (sl, cl) = lat.sin_cos();
-    let (so, co) = lon.sin_cos();
+    let (sl, cl) = lat.psin_cos();
+    let (so, co) = lon.psin_cos();
     [
         -sl * co * v[0] - sl * so * v[1] + cl * v[2],
         -so * v[0] + co * v[1],
@@ -715,8 +719,8 @@ fn ecef_to_ned(v: Vec3, lat: f64, lon: f64) -> Vec3 {
 
 /// NED → ECEF rotation of a vector.
 fn ned_to_ecef(v: Vec3, lat: f64, lon: f64) -> Vec3 {
-    let (sl, cl) = lat.sin_cos();
-    let (so, co) = lon.sin_cos();
+    let (sl, cl) = lat.psin_cos();
+    let (so, co) = lon.psin_cos();
     [
         -sl * co * v[0] - so * v[1] - cl * co * v[2],
         -sl * so * v[0] + co * v[1] - cl * so * v[2],
@@ -730,14 +734,14 @@ fn pos_err_ned(ins: Geodetic, truth: Geodetic) -> Vec3 {
     let h = truth.alt_m;
     [
         (ins.lat_rad - truth.lat_rad) * (rn + h),
-        (ins.lon_rad - truth.lon_rad) * (re + h) * truth.lat_rad.cos(),
+        (ins.lon_rad - truth.lon_rad) * (re + h) * truth.lat_rad.pcos(),
         -(ins.alt_m - truth.alt_m),
     ]
 }
 
 fn sigma_el(sigma: f64, el: f64, weighting: bool) -> f64 {
     if weighting {
-        sigma / el.sin().max(0.05)
+        sigma / el.psin().max(0.05)
     } else {
         sigma
     }
@@ -763,7 +767,7 @@ fn tropo_m(cfg: &TropoTcCfg, p: Geodetic, el: f64) -> f64 {
 /// Exact discrete two-state clock process noise over `dt`.
 fn clock_q(q_b: f64, q_d: f64, dt: f64) -> [[f64; 2]; 2] {
     [
-        [q_b * dt + q_d * dt.powi(3) / 3.0, q_d * dt * dt / 2.0],
+        [q_b * dt + q_d * dt.ppowi(3) / 3.0, q_d * dt * dt / 2.0],
         [q_d * dt * dt / 2.0, q_d * dt],
     ]
 }
@@ -1083,7 +1087,7 @@ impl Navigator {
         let (rn, re) = radii_of_curvature(self.nav.p_llh.lat_rad);
         let h = self.nav.p_llh.alt_m;
         self.nav.p_llh.lat_rad -= dx[0] / (rn + h);
-        self.nav.p_llh.lon_rad -= dx[1] / ((re + h) * self.nav.p_llh.lat_rad.cos());
+        self.nav.p_llh.lon_rad -= dx[1] / ((re + h) * self.nav.p_llh.lat_rad.pcos());
         self.nav.p_llh.alt_m += dx[2];
         for k in 0..3 {
             self.nav.v_ned[k] -= dx[3 + k];
@@ -1282,7 +1286,7 @@ fn run_mode(
             ns * cfg.init_sigma_pos_m * g(&mut init_rng),
         ];
         nav0.p_llh.lat_rad += dp[0] / (rn + h);
-        nav0.p_llh.lon_rad += dp[1] / ((re + h) * t0.p_llh.lat_rad.cos());
+        nav0.p_llh.lon_rad += dp[1] / ((re + h) * t0.p_llh.lat_rad.pcos());
         nav0.p_llh.alt_m -= dp[2];
         for k in 0..3 {
             nav0.v_ned[k] += ns * cfg.init_sigma_vel_mps * g(&mut init_rng);
@@ -1304,14 +1308,14 @@ fn run_mode(
         });
     let mut p0 = DMat::zeros(NB, NB);
     for k in 0..3 {
-        p0.set(k, k, cfg.init_sigma_pos_m.powi(2));
-        p0.set(3 + k, 3 + k, cfg.init_sigma_vel_mps.powi(2));
-        p0.set(6 + k, 6 + k, cfg.init_sigma_att_rad.powi(2));
+        p0.set(k, k, cfg.init_sigma_pos_m.ppowi(2));
+        p0.set(3 + k, 3 + k, cfg.init_sigma_vel_mps.ppowi(2));
+        p0.set(6 + k, 6 + k, cfg.init_sigma_att_rad.ppowi(2));
         p0.set(9 + k, 9 + k, sab * sab);
         p0.set(12 + k, 12 + k, sgb * sgb);
     }
-    p0.set(CB, CB, cfg.clock.sigma_bias0_m.powi(2));
-    p0.set(CD, CD, cfg.clock.sigma_drift0_mps.powi(2));
+    p0.set(CB, CB, cfg.clock.sigma_bias0_m.ppowi(2));
+    p0.set(CD, CD, cfg.clock.sigma_drift0_mps.ppowi(2));
     let mut f = Navigator {
         nav: nav0,
         b_a: [0.0; 3],
@@ -1422,7 +1426,7 @@ fn run_mode(
                         let dt = t - f.last_gnss_t;
                         let var = f.p.at(CD, CD) * dt * dt
                             + cfg.clock.q_b * dt
-                            + cfg.clock.q_d * dt.powi(3) / 3.0;
+                            + cfg.clock.q_d * dt.ppowi(3) / 3.0;
                         (0.0, (cfg.slip_threshold_cycles * lam).max(5.0 * var.sqrt()))
                     };
                     let dt_g = t - f.last_gnss_t;
@@ -1456,7 +1460,7 @@ fn run_mode(
                 }
                 // (Re)initialise new, re-acquired and slipped ambiguities from
                 // code-minus-carrier.
-                let var0 = cfg.sigma_amb_init_m.powi(2);
+                let var0 = cfg.sigma_amb_init_m.ppowi(2);
                 for (j, o) in ep.obs.iter().enumerate() {
                     if fresh[j] || flagged[j] {
                         f.reset_amb(o.sat, ph_c[j] - pr_c[j], var0);
@@ -1485,7 +1489,7 @@ fn run_mode(
                 r.set(
                     row,
                     row,
-                    sigma_el(cfg.sigma_pr_m, gm.el, cfg.elevation_weighting).powi(2),
+                    sigma_el(cfg.sigma_pr_m, gm.el, cfg.elevation_weighting).ppowi(2),
                 );
                 row += 1;
                 if mode == TcMode::Carrier {
@@ -1501,7 +1505,7 @@ fn run_mode(
                     r.set(
                         row,
                         row,
-                        sigma_el(cfg.sigma_phase_m, gm.el, cfg.elevation_weighting).powi(2),
+                        sigma_el(cfg.sigma_phase_m, gm.el, cfg.elevation_weighting).ppowi(2),
                     );
                     row += 1;
                 }
@@ -1515,7 +1519,7 @@ fn run_mode(
                     r.set(
                         row,
                         row,
-                        sigma_el(s_rr, gm.el, cfg.elevation_weighting).powi(2),
+                        sigma_el(s_rr, gm.el, cfg.elevation_weighting).ppowi(2),
                     );
                     row += 1;
                 }
@@ -1612,7 +1616,7 @@ fn run_mode(
         if s.is_empty() {
             return 0.0;
         }
-        (s.iter().map(|e| sel(e).powi(2)).sum::<f64>() / s.len() as f64).sqrt()
+        (s.iter().map(|e| sel(e).ppowi(2)).sum::<f64>() / s.len() as f64).sqrt()
     };
     let half = epochs.len() / 2;
     let steady_nees: Vec<f64> = epochs[half..].iter().filter_map(|e| e.nees8).collect();

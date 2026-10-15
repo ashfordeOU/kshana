@@ -63,10 +63,11 @@
 //! parametric stand-in, not a fit to a real link.
 
 use crate::allan::{overlapping_adev, time_deviation};
+use crate::portable_distr::{Distribution, StandardNormal};
+use crate::portable_math::PortableFloat;
 use crate::timegeo::{sagnac_correction, C_M_PER_S};
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
-use rand_distr::{Distribution, StandardNormal};
 
 type Vec3 = [f64; 3];
 
@@ -112,7 +113,7 @@ fn path_asymmetry(s: &Station) -> f64 {
 }
 
 fn norm(a: Vec3, b: Vec3) -> f64 {
-    ((a[0] - b[0]).powi(2) + (a[1] - b[1]).powi(2) + (a[2] - b[2]).powi(2)).sqrt()
+    ((a[0] - b[0]).ppowi(2) + (a[1] - b[1]).ppowi(2) + (a[2] - b[2]).ppowi(2)).sqrt()
 }
 
 /// The two counter readings `(TI(A), TI(B))` for a true offset `T_A − T_B` (forward model).
@@ -251,7 +252,7 @@ pub fn two_way_series(
                 + noise.reciprocity_bias_s
                 + noise.white_s * w
                 + fl[i]
-                + noise.diurnal_amp_s * (2.0 * std::f64::consts::PI * t / 86_400.0).sin()
+                + noise.diurnal_amp_s * (2.0 * std::f64::consts::PI * t / 86_400.0).psin()
         })
         .collect()
 }
@@ -301,7 +302,7 @@ pub fn series_stability(series: &[(f64, f64)]) -> Result<SeriesStability, String
     let n = series.len() as f64;
     let tm = series.iter().map(|p| p.0).sum::<f64>() / n;
     let xm = series.iter().map(|p| p.1).sum::<f64>() / n;
-    let sxx = series.iter().map(|p| (p.0 - tm).powi(2)).sum::<f64>();
+    let sxx = series.iter().map(|p| (p.0 - tm).ppowi(2)).sum::<f64>();
     let sxy = series.iter().map(|p| (p.0 - tm) * (p.1 - xm)).sum::<f64>();
     let rate = sxy / sxx;
     let resid: Vec<f64> = series
@@ -391,7 +392,7 @@ mod tests {
         b.slant_tec_tecu = 0.0;
         let t = solve_offset(&a, &b, &s, 0.0, 0.0);
         let want =
-            -0.5 * 40.3 * 50e16 * (1.0 / 14e9f64.powi(2) - 1.0 / 11e9f64.powi(2)) / C_M_PER_S;
+            -0.5 * 40.3 * 50e16 * (1.0 / 14e9f64.ppowi(2) - 1.0 / 11e9f64.ppowi(2)) / C_M_PER_S;
         assert!((t.ionosphere - want).abs() < 1e-20);
         // About 0.1 ns for 50 TECU at 14/11 GHz.
         assert!(

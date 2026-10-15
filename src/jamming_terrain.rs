@@ -16,6 +16,7 @@
 
 use crate::altpnt::terrain::DemGrid;
 use crate::frames::Geodetic;
+use crate::portable_math::PortableFloat;
 use serde::{Deserialize, Serialize};
 
 /// The sphere radius of the profile's great circle and of the Earth bulge (m).
@@ -101,7 +102,7 @@ impl TerrainCfg {
 pub fn knife_edge_loss_db(nu: f64) -> f64 {
     if nu > -0.78 {
         let x = nu - 0.1;
-        6.9 + 20.0 * ((x * x + 1.0).sqrt() + x).log10()
+        6.9 + 20.0 * ((x * x + 1.0).sqrt() + x).plog10()
     } else {
         0.0
     }
@@ -125,8 +126,8 @@ pub struct JammerTerrain {
 }
 
 fn unit(g: &Geodetic) -> [f64; 3] {
-    let (sl, cl) = g.lat_rad.sin_cos();
-    let (so, co) = g.lon_rad.sin_cos();
+    let (sl, cl) = g.lat_rad.psin_cos();
+    let (so, co) = g.lon_rad.psin_cos();
     [cl * co, cl * so, sl]
 }
 
@@ -154,7 +155,7 @@ pub fn jammer_terrain(
 ) -> Result<JammerTerrain, String> {
     let (uj, ur) = (unit(jammer), unit(receiver));
     let c = cross(uj, ur);
-    let theta = dot(c, c).sqrt().atan2(dot(uj, ur));
+    let theta = dot(c, c).sqrt().patan2(dot(uj, ur));
     let d = theta * EARTH_RADIUS_M;
     let (hj, hr) = (
         jammer.alt_m - cfg.geoid_undulation_m,
@@ -164,7 +165,7 @@ pub fn jammer_terrain(
     let lon_max = dem.lon0_deg + (dem.n_lon - 1) as f64 * dem.dlon_deg;
     let mut best: Option<(f64, f64, f64)> = None; // (ν, d1, terrain)
     let mut points = 0usize;
-    let sin_theta = theta.sin();
+    let sin_theta = theta.psin();
     loop {
         let d1 = (points + 1) as f64 * cfg.profile_step_m;
         if d1 >= d {
@@ -172,14 +173,14 @@ pub fn jammer_terrain(
         }
         points += 1;
         let f = d1 / d;
-        let (a, b) = (((1.0 - f) * theta).sin(), (f * theta).sin());
+        let (a, b) = (((1.0 - f) * theta).psin(), (f * theta).psin());
         let p = [
             (a * uj[0] + b * ur[0]) / sin_theta,
             (a * uj[1] + b * ur[1]) / sin_theta,
             (a * uj[2] + b * ur[2]) / sin_theta,
         ];
-        let lat = p[2].atan2(p[0].hypot(p[1])).to_degrees();
-        let lon = p[1].atan2(p[0]).to_degrees();
+        let lat = p[2].patan2(p[0].phypot(p[1])).to_degrees();
+        let lon = p[1].patan2(p[0]).to_degrees();
         if !(dem.lat0_deg..=lat_max).contains(&lat) || !(dem.lon0_deg..=lon_max).contains(&lon) {
             return Err(format!(
                 "terrain: profile point {points} ({lat:.6}, {lon:.6}) is outside the DEM tile"
