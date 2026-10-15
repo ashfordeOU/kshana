@@ -181,9 +181,10 @@ impl TightlyCoupled {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::portable_distr::{Distribution, Normal};
+    use crate::portable_math::PortableFloat;
     use rand::SeedableRng;
     use rand_chacha::ChaCha8Rng;
-    use rand_distr::{Distribution, Normal};
 
     // A GPS-like satellite geometry at MEO radius, well spread for good DOP.
     fn constellation() -> Vec<Sat> {
@@ -361,7 +362,7 @@ mod tests {
         let v = (MU_EARTH / r).sqrt(); // circular speed at this radius
         let inc = 28.5_f64.to_radians(); // a representative inclination
                                          // Equatorial-plane position, velocity tilted into the orbit plane (|v| = circular speed).
-        let mut pv = vec![r, 0.0, 0.0, 0.0, v * inc.cos(), v * inc.sin()];
+        let mut pv = vec![r, 0.0, 0.0, 0.0, v * inc.pcos(), v * inc.psin()];
         let deriv = |_t: f64, y: &[f64]| {
             let a = gravity_accel([y[0], y[1], y[2]]);
             vec![y[3], y[4], y[5], a[0], a[1], a[2]]

@@ -14,6 +14,7 @@
 //! receiver.
 
 use crate::palette::chart::{BG, CORAL, FONT_SANS, INK_3, LIME, MUTED, TITLE};
+use crate::portable_math::PortableFloat;
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 
@@ -278,7 +279,7 @@ fn geometry_rows(sats: &[AzEl]) -> Vec<[f64; 4]> {
     sats.iter()
         .map(|s| {
             let (a, e) = (s.az_deg.to_radians(), s.el_deg.to_radians());
-            [e.cos() * a.sin(), e.cos() * a.cos(), e.sin(), 1.0]
+            [e.pcos() * a.psin(), e.pcos() * a.pcos(), e.psin(), 1.0]
         })
         .collect()
 }

@@ -43,6 +43,7 @@
 use crate::clock_library::card::DeviceCard;
 use crate::clock_specs::{sigma_y, x_clock_s, LunarClock};
 use crate::lunar_time_budget::BudgetParams;
+use crate::portable_math::PortableFloat;
 use serde::Deserialize;
 
 /// Default constant steer residual (ns). ILLUSTRATIVE: no public figure is used.
@@ -344,7 +345,7 @@ impl TimeLab {
         if self.height_sigma_m != 0.0 {
             return None;
         }
-        let f2 = self.steer_residual_s.powi(2) + self.ltc_realisation_s.powi(2);
+        let f2 = self.steer_residual_s.ppowi(2) + self.ltc_realisation_s.ppowi(2);
         let rem = thr_s * thr_s - f2;
         if rem <= 0.0 {
             return None;

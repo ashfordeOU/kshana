@@ -35,6 +35,7 @@
 //! [`crate::ephem_provider::AnalyticSolarSystem`] composes them into any body relative to any
 //! other; `tests/solar_system_horizons_reference.rs` checks them against JPL Horizons.
 
+use crate::portable_math::PortableFloat;
 type Vec3 = [f64; 3];
 
 /// J2000.0 mean obliquity of the ecliptic (rad), `23.43929111°`.
@@ -51,12 +52,13 @@ pub fn sun_position(t_tt_jc: f64) -> Vec3 {
     // Solar mean anomaly (deg → rad).
     let m = (357.5256 + 35999.049 * t) * deg;
     // Geocentric ecliptic longitude (the 6892″ and 72″ terms are the equation of centre).
-    let lambda = (282.94) * deg + m + (6892.0 * m.sin() + 72.0 * (2.0 * m).sin()) * (deg / 3600.0);
+    let lambda =
+        (282.94) * deg + m + (6892.0 * m.psin() + 72.0 * (2.0 * m).psin()) * (deg / 3600.0);
     // Geocentric distance (m): 1 AU modulated by the Earth's orbital eccentricity.
-    let r = (149.619 - 2.499 * m.cos() - 0.021 * (2.0 * m).cos()) * 1e9;
+    let r = (149.619 - 2.499 * m.pcos() - 0.021 * (2.0 * m).pcos()) * 1e9;
     // Ecliptic → equatorial rotation about the x-axis by the obliquity.
-    let (sl, cl) = lambda.sin_cos();
-    let (se, ce) = OBLIQUITY_J2000.sin_cos();
+    let (sl, cl) = lambda.psin_cos();
+    let (se, ce) = OBLIQUITY_J2000.psin_cos();
     [r * cl, r * sl * ce, r * sl * se]
 }
 
@@ -78,48 +80,48 @@ pub fn moon_position(t_tt_jc: f64) -> Vec3 {
     let d = (297.85027 + 445_267.111_35 * t) * deg;
 
     // Ecliptic longitude: mean longitude plus the periodic series (coefficients in arcseconds).
-    let dlon = 22640.0 * l.sin() + 769.0 * (2.0 * l).sin() - 4586.0 * (l - 2.0 * d).sin()
-        + 2370.0 * (2.0 * d).sin()
-        - 668.0 * lp.sin()
-        - 412.0 * (2.0 * f).sin()
-        - 212.0 * (2.0 * l - 2.0 * d).sin()
-        - 206.0 * (l + lp - 2.0 * d).sin()
-        + 192.0 * (l + 2.0 * d).sin()
-        - 165.0 * (lp - 2.0 * d).sin()
-        + 148.0 * (l - lp).sin()
-        - 125.0 * d.sin()
-        - 110.0 * (l + lp).sin()
-        - 55.0 * (2.0 * f - 2.0 * d).sin();
+    let dlon = 22640.0 * l.psin() + 769.0 * (2.0 * l).psin() - 4586.0 * (l - 2.0 * d).psin()
+        + 2370.0 * (2.0 * d).psin()
+        - 668.0 * lp.psin()
+        - 412.0 * (2.0 * f).psin()
+        - 212.0 * (2.0 * l - 2.0 * d).psin()
+        - 206.0 * (l + lp - 2.0 * d).psin()
+        + 192.0 * (l + 2.0 * d).psin()
+        - 165.0 * (lp - 2.0 * d).psin()
+        + 148.0 * (l - lp).psin()
+        - 125.0 * d.psin()
+        - 110.0 * (l + lp).psin()
+        - 55.0 * (2.0 * f - 2.0 * d).psin();
     let lambda = l0 + dlon * asec;
 
     // Ecliptic latitude (the leading 18520″ ≈ 5.14° term carries the lunar inclination).
     let beta = 18520.0
-        * (f + (lambda - l0) + (412.0 * (2.0 * f).sin() + 541.0 * lp.sin()) * asec).sin()
-        - 526.0 * (f - 2.0 * d).sin()
-        + 44.0 * (l + f - 2.0 * d).sin()
-        - 31.0 * (-l + f - 2.0 * d).sin()
-        - 23.0 * (lp + f - 2.0 * d).sin()
-        + 11.0 * (-2.0 * l + f - 2.0 * d).sin()
-        - 25.0 * (-2.0 * l + f).sin()
-        + 21.0 * (-l + f).sin();
+        * (f + (lambda - l0) + (412.0 * (2.0 * f).psin() + 541.0 * lp.psin()) * asec).psin()
+        - 526.0 * (f - 2.0 * d).psin()
+        + 44.0 * (l + f - 2.0 * d).psin()
+        - 31.0 * (-l + f - 2.0 * d).psin()
+        - 23.0 * (lp + f - 2.0 * d).psin()
+        + 11.0 * (-2.0 * l + f - 2.0 * d).psin()
+        - 25.0 * (-2.0 * l + f).psin()
+        + 21.0 * (-l + f).psin();
     let beta = beta * asec;
 
     // Geocentric distance (km → m).
     let r = (385_000.0
-        - 20905.0 * l.cos()
-        - 3699.0 * (2.0 * d - l).cos()
-        - 2956.0 * (2.0 * d).cos()
-        - 570.0 * (2.0 * l).cos()
-        + 246.0 * (2.0 * l - 2.0 * d).cos()
-        - 205.0 * (lp - 2.0 * d).cos()
-        - 171.0 * (l + 2.0 * d).cos()
-        - 152.0 * (l + lp - 2.0 * d).cos())
+        - 20905.0 * l.pcos()
+        - 3699.0 * (2.0 * d - l).pcos()
+        - 2956.0 * (2.0 * d).pcos()
+        - 570.0 * (2.0 * l).pcos()
+        + 246.0 * (2.0 * l - 2.0 * d).pcos()
+        - 205.0 * (lp - 2.0 * d).pcos()
+        - 171.0 * (l + 2.0 * d).pcos()
+        - 152.0 * (l + lp - 2.0 * d).pcos())
         * 1e3;
 
     // Spherical ecliptic → Cartesian ecliptic → equatorial (rotate about x by the obliquity).
-    let (sb, cb) = beta.sin_cos();
-    let (sl, cl) = lambda.sin_cos();
-    let (se, ce) = OBLIQUITY_J2000.sin_cos();
+    let (sb, cb) = beta.psin_cos();
+    let (sl, cl) = lambda.psin_cos();
+    let (se, ce) = OBLIQUITY_J2000.psin_cos();
     let (xe, ye, ze) = (r * cb * cl, r * cb * sl, r * sb);
     [xe, ce * ye - se * ze, se * ye + ce * ze]
 }
@@ -567,9 +569,9 @@ const SECONDS_PER_JULIAN_CENTURY: f64 = 36_525.0 * 86_400.0;
 /// Legacy solver, kept numerically unchanged because committed outputs depend on it; new code
 /// should use the shared robust solver [`crate::kepler::solve_kepler_markley`].
 pub fn solve_kepler(m_rad: f64, e: f64) -> f64 {
-    let mut ecc_anom = m_rad + e * m_rad.sin();
+    let mut ecc_anom = m_rad + e * m_rad.psin();
     for _ in 0..50 {
-        let d = (m_rad - (ecc_anom - e * ecc_anom.sin())) / (1.0 - e * ecc_anom.cos());
+        let d = (m_rad - (ecc_anom - e * ecc_anom.psin())) / (1.0 - e * ecc_anom.pcos());
         ecc_anom += d;
         if d.abs() < 1e-14 {
             break;
@@ -631,7 +633,7 @@ impl StandishElements {
     pub fn state_at_mean_anomaly(&self, m_rad: f64) -> EclipticState {
         let (a, e) = (self.a_m, self.e);
         let ecc_anom = solve_kepler(m_rad, e);
-        let (se, ce) = ecc_anom.sin_cos();
+        let (se, ce) = ecc_anom.psin_cos();
         let root = (1.0 - e * e).sqrt();
         let edot = self.mean_motion_rad_s / (1.0 - e * ce);
         let rot = orbit_to_ecliptic(self.omega_rad, self.inc_rad, self.node_rad);
@@ -703,11 +705,11 @@ pub fn standish_elements(
     let varpi = row[4] + row[10] * t;
     let node = row[5] + row[11] * t;
     let [b, c, s, f] = extra;
-    let m_deg = l - varpi + b * t * t + c * (f * t * deg).cos() + s * (f * t * deg).sin();
+    let m_deg = l - varpi + b * t * t + c * (f * t * deg).pcos() + s * (f * t * deg).psin();
     let m_wrapped = (m_deg + 180.0).rem_euclid(360.0) - 180.0;
     // dM/dt in degrees per century: the L and ϖ rates plus the Table 2b terms' derivative.
-    let m_dot_deg_cy = row[9] - row[10] + 2.0 * b * t - c * f * deg * (f * t * deg).sin()
-        + s * f * deg * (f * t * deg).cos();
+    let m_dot_deg_cy = row[9] - row[10] + 2.0 * b * t - c * f * deg * (f * t * deg).psin()
+        + s * f * deg * (f * t * deg).pcos();
     Some(StandishElements {
         a_m: (row[0] + row[6] * t) * AU_M,
         e: row[1] + row[7] * t,
@@ -725,9 +727,9 @@ pub fn standish_elements(
 /// The first two columns of `R_z(−Ω)·R_x(−I)·R_z(−ω)` (the orbital-plane `x'` and
 /// `y'` axes expressed in the reference frame).
 fn orbit_to_ecliptic(omega: f64, inc: f64, node: f64) -> [[f64; 2]; 3] {
-    let (sw, cw) = omega.sin_cos();
-    let (so, co) = node.sin_cos();
-    let (si, ci) = inc.sin_cos();
+    let (sw, cw) = omega.psin_cos();
+    let (so, co) = node.psin_cos();
+    let (si, ci) = inc.psin_cos();
     [
         [cw * co - sw * so * ci, -sw * co - cw * so * ci],
         [cw * so + sw * co * ci, -sw * so + cw * co * ci],
@@ -746,14 +748,14 @@ fn apply_plane(r: &[[f64; 2]; 3], x: f64, y: f64) -> Vec3 {
 /// Rotate a J2000 ecliptic vector into the equatorial ICRF (J2000) frame with the
 /// Standish obliquity `ε = 23.43928°`.
 pub fn ecliptic_to_icrf(v: Vec3) -> Vec3 {
-    let (se, ce) = (STANDISH_OBLIQUITY_DEG * std::f64::consts::PI / 180.0).sin_cos();
+    let (se, ce) = (STANDISH_OBLIQUITY_DEG * std::f64::consts::PI / 180.0).psin_cos();
     [v[0], ce * v[1] - se * v[2], se * v[1] + ce * v[2]]
 }
 
 /// Rotate an equatorial ICRF (J2000) vector into the J2000 ecliptic frame, the
 /// inverse of [`ecliptic_to_icrf`].
 pub fn icrf_to_ecliptic(v: Vec3) -> Vec3 {
-    let (se, ce) = (STANDISH_OBLIQUITY_DEG * std::f64::consts::PI / 180.0).sin_cos();
+    let (se, ce) = (STANDISH_OBLIQUITY_DEG * std::f64::consts::PI / 180.0).psin_cos();
     [v[0], ce * v[1] + se * v[2], -se * v[1] + ce * v[2]]
 }
 
@@ -1009,8 +1011,8 @@ impl Satellite {
 
 /// A unit vector from right ascension and declination (radians).
 fn unit_radec(ra: f64, dec: f64) -> Vec3 {
-    let (sr, cr) = ra.sin_cos();
-    let (sd, cd) = dec.sin_cos();
+    let (sr, cr) = ra.psin_cos();
+    let (sd, cd) = dec.psin_cos();
     [cd * cr, cd * sr, sd]
 }
 
@@ -1033,13 +1035,13 @@ pub fn satellite_state(sat: Satellite, jd_tdb: f64) -> EclipticState {
             let p = unit_radec(r.pole_ra_deg * deg, r.pole_dec_deg * deg);
             // The node of the body equator on the ICRF equator, at RA α₀ + 90°.
             let nvec = [
-                -(r.pole_ra_deg * deg).sin(),
-                (r.pole_ra_deg * deg).cos(),
+                -(r.pole_ra_deg * deg).psin(),
+                (r.pole_ra_deg * deg).pcos(),
                 0.0,
             ];
             let q = cross3(p, nvec);
             let w = (r.w0_deg + r.w_dot_deg_day * dt_day) * deg;
-            let (sw, cw) = w.sin_cos();
+            let (sw, cw) = w.psin_cos();
             let a = r.a_km * 1e3;
             let wdot = r.w_dot_deg_day * deg / 86_400.0;
             let mut pos = [0.0; 3];
@@ -1072,7 +1074,7 @@ pub fn satellite_state(sat: Satellite, jd_tdb: f64) -> EclipticState {
             let n = (r.w_dot_deg_day - varpi_rate) * deg / 86_400.0;
             let e = r.e;
             let ecc_anom = solve_kepler(m, e);
-            let (se, ce) = ecc_anom.sin_cos();
+            let (se, ce) = ecc_anom.psin_cos();
             let root = (1.0 - e * e).sqrt();
             let a = r.a_km * 1e3;
             let edot = n / (1.0 - e * ce);
@@ -1082,7 +1084,7 @@ pub fn satellite_state(sat: Satellite, jd_tdb: f64) -> EclipticState {
             // Laplace frame → ICRF: x along the Laplace plane's ascending node on the
             // ICRF equator (RA + 90°), z along the Laplace pole.
             let z = unit_radec(r.lp_ra_deg * deg, r.lp_dec_deg * deg);
-            let x = [-(r.lp_ra_deg * deg).sin(), (r.lp_ra_deg * deg).cos(), 0.0];
+            let x = [-(r.lp_ra_deg * deg).psin(), (r.lp_ra_deg * deg).pcos(), 0.0];
             let y = cross3(z, x);
             let to_icrf = |v: Vec3| -> Vec3 {
                 [
@@ -1163,7 +1165,7 @@ mod tests {
         let u0 = sun_position(0.0);
         let u1 = sun_position(day);
         let dot = (u0[0] * u1[0] + u0[1] * u1[1] + u0[2] * u1[2]) / (norm(u0) * norm(u1));
-        let ang = dot.clamp(-1.0, 1.0).acos().to_degrees();
+        let ang = dot.clamp(-1.0, 1.0).pacos().to_degrees();
         assert!(
             (0.90..1.10).contains(&ang),
             "Sun daily motion = {ang}°/day (expected ≈ 0.99–1.02 near perihelion)"
@@ -1178,7 +1180,7 @@ mod tests {
         let u0 = sun_position(0.0);
         let uq = sun_position(quarter);
         let dot = (u0[0] * uq[0] + u0[1] * uq[1] + u0[2] * uq[2]) / (norm(u0) * norm(uq));
-        let ang = dot.clamp(-1.0, 1.0).acos().to_degrees();
+        let ang = dot.clamp(-1.0, 1.0).pacos().to_degrees();
         assert!(
             (85.0..95.0).contains(&ang),
             "Sun moved {ang}° in a quarter year (expected ≈ 90°)"
@@ -1239,14 +1241,14 @@ mod tests {
         // periodic terms (≤ ~0.2°), so |β| ≤ ~5.35°. Project each position onto the ecliptic-pole
         // direction n = (0, −sinε, cosε) in equatorial coordinates and check the latitude bound —
         // this validates the latitude series *and* the ecliptic→equatorial rotation together.
-        let (se, ce) = OBLIQUITY_J2000.sin_cos();
+        let (se, ce) = OBLIQUITY_J2000.psin_cos();
         let n = [0.0, -se, ce];
         for k in 0..60 {
             let t = (k as f64) * 0.5 / 36525.0; // every 12 h for a month
             let p = moon_position(t);
             let r = norm(p);
             let sin_lat = (p[0] * n[0] + p[1] * n[1] + p[2] * n[2]) / r;
-            let lat = sin_lat.clamp(-1.0, 1.0).asin().to_degrees();
+            let lat = sin_lat.clamp(-1.0, 1.0).pasin().to_degrees();
             assert!(
                 lat.abs() <= 5.4,
                 "Moon ecliptic latitude {lat}° at day {} exceeds the lunar-orbit inclination",
@@ -1265,7 +1267,7 @@ mod tests {
         let u0 = moon_position(0.0);
         let u1 = moon_position(sidereal);
         let dot = (u0[0] * u1[0] + u0[1] * u1[1] + u0[2] * u1[2]) / (norm(u0) * norm(u1));
-        let ang = dot.clamp(-1.0, 1.0).acos().to_degrees();
+        let ang = dot.clamp(-1.0, 1.0).pacos().to_degrees();
         assert!(
             ang < 2.0,
             "Moon direction moved {ang}° over one sidereal month (expected ≈ 0, a return)"
@@ -1283,7 +1285,7 @@ mod tests {
             let p0 = moon_position(t0);
             let p1 = moon_position(t0 + day);
             let dot = (p0[0] * p1[0] + p0[1] * p1[1] + p0[2] * p1[2]) / (norm(p0) * norm(p1));
-            let ang = dot.clamp(-1.0, 1.0).acos().to_degrees();
+            let ang = dot.clamp(-1.0, 1.0).pacos().to_degrees();
             assert!(
                 (11.0..16.0).contains(&ang),
                 "Moon daily motion {ang}°/day at day {k} outside the physical 12–15°/day band"
@@ -1313,7 +1315,7 @@ mod tests {
             for k in 0..24 {
                 let m = -std::f64::consts::PI + k as f64 * 0.27;
                 let big_e = solve_kepler(m, e);
-                assert!((big_e - e * big_e.sin() - m).abs() < 1e-12, "e {e}, M {m}");
+                assert!((big_e - e * big_e.psin() - m).abs() < 1e-12, "e {e}, M {m}");
             }
         }
     }
@@ -1327,14 +1329,14 @@ mod tests {
         for p in Planet::ALL {
             let el = standish_elements(p, 0.0, StandishTable::Table1).unwrap();
             let kepler =
-                2.0 * std::f64::consts::PI * (el.a_m.powi(3) / crate::forces::MU_SUN).sqrt();
+                2.0 * std::f64::consts::PI * (el.a_m.ppowi(3) / crate::forces::MU_SUN).sqrt();
             let rel = el.period_s() / kepler - 1.0;
             assert!(rel.abs() < 5e-3, "{p:?}: period off Kepler by {rel:e}");
         }
         for p in &Planet::ALL[..8] {
             let el = standish_elements(*p, 0.0, StandishTable::Table2).unwrap();
             let kepler =
-                2.0 * std::f64::consts::PI * (el.a_m.powi(3) / crate::forces::MU_SUN).sqrt();
+                2.0 * std::f64::consts::PI * (el.a_m.ppowi(3) / crate::forces::MU_SUN).sqrt();
             assert!((el.period_s() / kepler - 1.0).abs() < 5e-3, "{p:?} table 2");
         }
     }
@@ -1364,7 +1366,7 @@ mod tests {
         // The ecliptic pole maps to (0, −sin ε, cos ε) in the ICRF.
         let pole = ecliptic_to_icrf([0.0, 0.0, 1.0]);
         let eps = STANDISH_OBLIQUITY_DEG.to_radians();
-        assert!((pole[1] + eps.sin()).abs() < 1e-15 && (pole[2] - eps.cos()).abs() < 1e-15);
+        assert!((pole[1] + eps.psin()).abs() < 1e-15 && (pole[2] - eps.pcos()).abs() < 1e-15);
     }
 
     #[test]

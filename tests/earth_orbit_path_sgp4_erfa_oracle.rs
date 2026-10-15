@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
+// Host maths on purpose: this test recomputes its expected values independently of the engine's
+// portable maths (STUDIO-15), so the engine is checked against a second implementation.
 //! The one Earth-orbit path of package D8, legs 1 and 2 of the three-leg oracle: SGP4 element
 //! sets propagated to TEME (true equator, mean equinox) against the reference SGP4, and the
 //! TEME -> ITRS (International Terrestrial Reference System) and GCRS -> ITRS rotations of the

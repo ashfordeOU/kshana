@@ -29,6 +29,7 @@
 //! High Supersonic Speeds*, NACA Report 1381 (1958).
 
 use crate::orbit::R_EARTH_EQUATORIAL_M;
+use crate::portable_math::PortableFloat;
 use serde::Deserialize;
 
 /// Earth sea-level density (kg/m³) used as the exponential-atmosphere reference.
@@ -43,18 +44,19 @@ pub const G0: f64 = 9.806_65;
 /// height `scale_height_m`: `V_e²·sin|γ| / (2·e·H)`. Independent of the ballistic
 /// coefficient.
 pub fn peak_deceleration(v_entry_m_s: f64, gamma_rad: f64, scale_height_m: f64) -> f64 {
-    v_entry_m_s * v_entry_m_s * gamma_rad.abs().sin() / (2.0 * std::f64::consts::E * scale_height_m)
+    v_entry_m_s * v_entry_m_s * gamma_rad.abs().psin()
+        / (2.0 * std::f64::consts::E * scale_height_m)
 }
 
 /// Velocity (m/s) at which peak deceleration occurs: `V_e·e^(−1/2)` (≈0.607·V_e).
 pub fn velocity_at_peak_deceleration(v_entry_m_s: f64) -> f64 {
-    v_entry_m_s * (-0.5_f64).exp()
+    v_entry_m_s * (-0.5_f64).pexp()
 }
 
 /// Velocity (m/s) at which convective stagnation heating peaks: `V_e·e^(−1/6)`
 /// (≈0.846·V_e) — earlier (faster) than the deceleration peak.
 pub fn velocity_at_peak_heating(v_entry_m_s: f64) -> f64 {
-    v_entry_m_s * (-1.0 / 6.0_f64).exp()
+    v_entry_m_s * (-1.0 / 6.0_f64).pexp()
 }
 
 /// Altitude (m) of peak deceleration: the peak occurs at density
@@ -67,10 +69,10 @@ pub fn altitude_at_peak_deceleration(
     rho0: f64,
     scale_height_m: f64,
 ) -> f64 {
-    let rho_star = ballistic_coeff * gamma_rad.abs().sin() / scale_height_m;
+    let rho_star = ballistic_coeff * gamma_rad.abs().psin() / scale_height_m;
     // h* = H·ln(ρ0/ρ*); since ρ* already carries the 1/H, this expands to the
     // textbook H·ln(ρ0·H/(B·sin|γ|)).
-    scale_height_m * (rho0 / rho_star).ln()
+    scale_height_m * (rho0 / rho_star).pln()
 }
 
 // ---------------------------------------------------------------------------
@@ -145,9 +147,9 @@ pub fn us76_density(altitude_m: f64) -> f64 {
         let (hb, tb, lapse, pb) = layer;
         let t = tb + lapse * (hp - hb);
         let p = if lapse == 0.0 {
-            pb * (-G0 * (hp - hb) / (US76_R_AIR * tb)).exp()
+            pb * (-G0 * (hp - hb) / (US76_R_AIR * tb)).pexp()
         } else {
-            pb * (tb / t).powf(G0 / (US76_R_AIR * lapse))
+            pb * (tb / t).ppowf(G0 / (US76_R_AIR * lapse))
         };
         return p / (US76_R_AIR * t);
     }
@@ -160,7 +162,7 @@ pub fn us76_density(altitude_m: f64) -> f64 {
         let ((z0, r0), (z1, r1)) = (w[0], w[1]);
         if z_km <= z1 {
             let f = (z_km - z0) / (z1 - z0);
-            return (r0.ln() + f * (r1.ln() - r0.ln())).exp();
+            return (r0.pln() + f * (r1.pln() - r0.pln())).pexp();
         }
     }
     last.1
@@ -258,9 +260,9 @@ pub fn simulate_planar_entry(e: &PlanarEntry) -> PlanarEntryResult {
         let grav = MU_EARTH_M3_S2 / (r * r);
         (
             [
-                -drag - grav * g.sin(),
-                (v / r - grav / v) * g.cos(),
-                v * g.sin(),
+                -drag - grav * g.psin(),
+                (v / r - grav / v) * g.pcos(),
+                v * g.psin(),
             ],
             drag,
         )

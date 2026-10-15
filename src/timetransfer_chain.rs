@@ -27,6 +27,7 @@
 use crate::detection::{analytic_pd, detection_boundary};
 use crate::holdover::{coast_phase_sigma, QuantumClockClass};
 use crate::palette::chart::{BG, CORAL, FONT_SANS, LIME, TEXT};
+use crate::portable_math::PortableFloat;
 use crate::qtrade::{TradeEvidence, TradeFom, TradeFrame};
 use crate::quantum_devices::EntanglementTimeLink;
 use crate::representativeness::{Gap, Representativeness};
@@ -240,13 +241,13 @@ impl QuantumTimeTransferScenario {
         };
         let q_link_sigma = q_link.timing_precision_s(self.integration_s);
         let q_clock_coast = clock_coast_sigma_s(q_clock.psds(), self.dissemination_interval_s);
-        let quantum_chain_sigma_s = (q_link_sigma.powi(2) + q_clock_coast.powi(2)).sqrt();
+        let quantum_chain_sigma_s = (q_link_sigma.ppowi(2) + q_clock_coast.ppowi(2)).sqrt();
 
         // Classical: CSAC + two-way RF link.
         let c_psds = crate::clock_state::ClockClass::Csac.psds();
         let c_clock_coast = clock_coast_sigma_s(c_psds, self.dissemination_interval_s);
         let classical_chain_sigma_s =
-            (self.classical_link_sigma_s.powi(2) + c_clock_coast.powi(2)).sqrt();
+            (self.classical_link_sigma_s.ppowi(2) + c_clock_coast.ppowi(2)).sqrt();
 
         // --- 2. Secure dissemination: protection level + attack detection -------
         // Protection level (reuse the certified TPL bound) over the quantum clock.

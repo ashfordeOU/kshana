@@ -11,6 +11,7 @@
 use kshana::api::run_toml;
 use kshana::frames::{ecef_to_geodetic, geodetic_to_ecef, teme_to_ecef, Geodetic};
 use kshana::kalman::KalmanClock;
+use kshana::portable_math::PortableFloat;
 use kshana::scenario::TimeCfg;
 use kshana::tle::{
     parse_propagators, parse_propagators_opts, tle_checksum, verify_checksum, ParseOpts,
@@ -324,7 +325,7 @@ fn kalman_clock_covariance_stays_psd_and_symmetric() {
     let mut rng = ChaCha8Rng::seed_from_u64(20_260_628);
     // log-uniform draw over [10^lo, 10^hi]
     fn logu(rng: &mut ChaCha8Rng, lo: f64, hi: f64) -> f64 {
-        10f64.powf(lo + (hi - lo) * rng.gen::<f64>())
+        10f64.ppowf(lo + (hi - lo) * rng.gen::<f64>())
     }
 
     let mut worst_slack = f64::INFINITY; // most-negative relative Cholesky pivot seen

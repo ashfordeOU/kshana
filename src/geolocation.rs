@@ -552,6 +552,7 @@ pub fn solve_tdoa_fdoa_cov(
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::portable_math::PortableFloat;
 
     #[test]
     fn tdoa_forward_then_inverse_recovers_a_known_emitter() {
@@ -696,7 +697,7 @@ mod tests {
         let emitter = [2_000.0, 1_500.0, 800.0];
         let sigma = 5e-9;
         let white = tdoa_crlb(&receivers, emitter, sigma).expect("bound");
-        let s2 = (C * sigma).powi(2);
+        let s2 = (C * sigma).ppowi(2);
         let q: Vec<Vec<f64>> = (0..4)
             .map(|i| (0..4).map(|j| if i == j { s2 } else { 0.0 }).collect())
             .collect();
@@ -714,9 +715,9 @@ mod tests {
         let ll = |lat: f64, lon: f64, r: f64| {
             let (la, lo) = (lat.to_radians(), lon.to_radians());
             [
-                r * la.cos() * lo.cos(),
-                r * la.cos() * lo.sin(),
-                r * la.sin(),
+                r * la.pcos() * lo.pcos(),
+                r * la.pcos() * lo.psin(),
+                r * la.psin(),
             ]
         };
         let receivers = [

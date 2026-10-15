@@ -20,6 +20,7 @@
 //! (NAVIGATION, 2001); Kaplan & Hegarty, *Understanding GPS/GNSS* (3rd ed., §8);
 //! Julien, *Design of Galileo L1F Receiver Tracking Loops* (2005).
 
+use crate::portable_math::PortableFloat;
 use std::f64::consts::PI;
 
 /// The chip-rate base unit `f₀ = 1.023 MHz` (the GPS/Galileo reference rate).
@@ -30,7 +31,7 @@ fn sinc(x: f64) -> f64 {
     if x.abs() < 1e-12 {
         1.0
     } else {
-        x.sin() / x
+        x.psin() / x
     }
 }
 
@@ -75,7 +76,7 @@ impl Modulation {
         match *self {
             Modulation::BpskR { n } => {
                 let tc = 1.0 / (n * F0_HZ);
-                tc * sinc(PI * f_hz * tc).powi(2)
+                tc * sinc(PI * f_hz * tc).ppowi(2)
             }
             Modulation::BocSin { m, n } => {
                 let fc = n * F0_HZ; // code rate
@@ -84,7 +85,7 @@ impl Modulation {
                     return 0.0; // sine-BOC has a spectral null at the carrier
                 }
                 let arg_sub = PI * f_hz / (2.0 * fs);
-                let cos_sub = arg_sub.cos();
+                let cos_sub = arg_sub.pcos();
                 if cos_sub.abs() < 1e-9 {
                     // f = odd multiple of f_s: the closed form is 0·∞; the true PSD
                     // is finite but this exact point has zero measure under the
@@ -95,12 +96,12 @@ impl Modulation {
                 let n_half = 2.0 * fs / fc; // number of subcarrier half-periods/chip
                 let n_even = (n_half.round() as i64) % 2 == 0;
                 let num_code = if n_even {
-                    (PI * f_hz / fc).sin()
+                    (PI * f_hz / fc).psin()
                 } else {
-                    (PI * f_hz / fc).cos()
+                    (PI * f_hz / fc).pcos()
                 };
-                let factor = num_code * arg_sub.sin() / (PI * f_hz * cos_sub);
-                fc * factor.powi(2)
+                let factor = num_code * arg_sub.psin() / (PI * f_hz * cos_sub);
+                fc * factor.ppowi(2)
             }
             Modulation::Mboc { p } => {
                 let p = p.clamp(0.0, 1.0);
@@ -264,7 +265,7 @@ pub fn dll_code_jitter_chips(
     corr_spacing_chips: f64,
     integ_time_s: f64,
 ) -> f64 {
-    let c = 10f64.powf(cn0_dbhz / 10.0);
+    let c = 10f64.ppowf(cn0_dbhz / 10.0);
     let d = corr_spacing_chips.clamp(1e-3, 1.999);
     let lead = loop_bw_hz * d / (2.0 * c);
     let squaring = 1.0 + 2.0 / ((2.0 - d) * integ_time_s * c);
@@ -289,7 +290,7 @@ pub fn multipath_error_envelope_chips(
     smr_db: f64,
     delay_chips: f64,
 ) -> (f64, f64) {
-    let a = 10f64.powf(-smr_db.abs() / 20.0); // reflected/direct amplitude ratio
+    let a = 10f64.ppowf(-smr_db.abs() / 20.0); // reflected/direct amplitude ratio
     let d = spacing_chips.max(1e-3);
     // Composite coherent EML discriminator at tracking error ε (chips):
     // D(ε) = [E² − L²] of (direct + cosθ · a · reflected), triangular ACF.
@@ -453,7 +454,7 @@ impl CodeFamily {
     /// the sidelobe bound is undefined (see [`max_autocorr_sidelobe`]).
     pub fn peak_to_sidelobe_db(&self) -> Option<f64> {
         self.max_autocorr_sidelobe()
-            .map(|s| 20.0 * (1.0 / s).log10())
+            .map(|s| 20.0 * (1.0 / s).plog10())
     }
 
     /// Whether a Gold (preferred-pair) set exists for this register length: `true`
@@ -566,7 +567,7 @@ pub fn sine_integral(x: f64) -> f64 {
     }
     let f = f / x;
     let g = g * inv2;
-    PI / 2.0 - f * x.cos() - g * x.sin()
+    PI / 2.0 - f * x.pcos() - g * x.psin()
 }
 
 /// **Fraction of a BPSK-R signal's power inside a double-sided bandwidth `band_hz`**
@@ -579,7 +580,7 @@ pub fn bpsk_power_in_band_closed_form(chip_rate_hz: f64, band_hz: f64) -> f64 {
     }
     let a = PI * band_hz / chip_rate_hz;
     let h = a / 2.0;
-    (2.0 / PI) * (sine_integral(a) - h.sin().powi(2) / h)
+    (2.0 / PI) * (sine_integral(a) - h.psin().ppowi(2) / h)
 }
 
 /// **Band-limited RMS (Gabor) bandwidth of a BPSK-R signal**, closed form (Hz):
@@ -590,7 +591,7 @@ pub fn bpsk_power_in_band_closed_form(chip_rate_hz: f64, band_hz: f64) -> f64 {
 pub fn bpsk_gabor_bandwidth_closed_form_hz(chip_rate_hz: f64, band_hz: f64) -> f64 {
     let tc = 1.0 / chip_rate_hz;
     let eta = bpsk_power_in_band_closed_form(chip_rate_hz, band_hz);
-    let num = band_hz / 2.0 - (PI * band_hz * tc).sin() / (2.0 * PI * tc);
+    let num = band_hz / 2.0 - (PI * band_hz * tc).psin() / (2.0 * PI * tc);
     (num / (PI * PI * tc * eta.max(1e-300))).sqrt()
 }
 
@@ -605,7 +606,7 @@ pub fn bpsk_offset_ssc_closed_form(chip_rate_hz: f64, offset_hz: f64) -> f64 {
     if x.abs() < 1e-4 {
         return 2.0 * tc / 3.0 * (1.0 - x * x / 20.0);
     }
-    4.0 / (x * x / tc) * (1.0 - x.sin() / x)
+    4.0 / (x * x / tc) * (1.0 - x.psin() / x)
 }
 
 /// Composite Simpson integral of `g` over `[a, b]` with at least `n` panels (forced even).
@@ -667,20 +668,20 @@ pub fn dll_jitter_bandlimited_s(
     spacing_s: f64,
     mode: EarlyLate,
 ) -> f64 {
-    let cn0 = 10f64.powf(c_n0_dbhz / 10.0);
+    let cn0 = 10f64.ppowf(c_n0_dbhz / 10.0);
     let half = band_hz / 2.0;
     let n = panels_for(band_hz, lobe_hz.min(1.0 / spacing_s.max(1e-15)));
     let num = simpson(-half, half, n, |f| {
-        psd(f) * (PI * f * spacing_s).sin().powi(2)
+        psd(f) * (PI * f * spacing_s).psin().ppowi(2)
     });
-    let slope = simpson(-half, half, n, |f| f * psd(f) * (PI * f * spacing_s).sin());
+    let slope = simpson(-half, half, n, |f| f * psd(f) * (PI * f * spacing_s).psin());
     let bl = loop_bw_hz * (1.0 - 0.5 * loop_bw_hz * integ_time_s).max(0.0);
-    let mut var = bl * num / ((2.0 * PI).powi(2) * cn0 * slope * slope).max(1e-300);
+    let mut var = bl * num / ((2.0 * PI).ppowi(2) * cn0 * slope * slope).max(1e-300);
     if mode == EarlyLate::NonCoherent {
         let c2 = simpson(-half, half, n, |f| {
-            psd(f) * (PI * f * spacing_s).cos().powi(2)
+            psd(f) * (PI * f * spacing_s).pcos().ppowi(2)
         });
-        let c1 = simpson(-half, half, n, |f| psd(f) * (PI * f * spacing_s).cos());
+        let c1 = simpson(-half, half, n, |f| psd(f) * (PI * f * spacing_s).pcos());
         var *= 1.0 + c2 / (integ_time_s * cn0 * c1 * c1).max(1e-300);
     }
     var.sqrt()
@@ -697,13 +698,13 @@ pub fn dll_jitter_small_spacing_limit_s(
     loop_bw_hz: f64,
     integ_time_s: f64,
 ) -> f64 {
-    let cn0 = 10f64.powf(c_n0_dbhz / 10.0);
+    let cn0 = 10f64.ppowf(c_n0_dbhz / 10.0);
     let half = band_hz / 2.0;
     let f2 = simpson(-half, half, panels_for(band_hz, lobe_hz), |f| {
         f * f * psd(f)
     });
     let bl = loop_bw_hz * (1.0 - 0.5 * loop_bw_hz * integ_time_s).max(0.0);
-    (bl / ((2.0 * PI).powi(2) * cn0 * f2).max(1e-300)).sqrt()
+    (bl / ((2.0 * PI).ppowi(2) * cn0 * f2).max(1e-300)).sqrt()
 }
 
 /// **Galileo E5 AltBOC(15,10) unit-area PSD** (1/Hz) at offset `f_hz` from 1191.795 MHz:
@@ -719,16 +720,16 @@ pub fn altboc_15_10_psd(f_hz: f64) -> f64 {
     let fs = 15.0 * F0_HZ;
     let eval = |f: f64| -> f64 {
         let u = PI * f / (2.0 * fs);
-        let cu = u.cos();
-        let bracket = cu * cu - cu - 2.0 * cu * (u / 2.0).cos() + 2.0;
-        0.5 * fc / (PI * PI * f * f) * (PI * f / fc).cos().powi(2) / (cu * cu) * bracket
+        let cu = u.pcos();
+        let bracket = cu * cu - cu - 2.0 * cu * (u / 2.0).pcos() + 2.0;
+        0.5 * fc / (PI * PI * f * f) * (PI * f / fc).pcos().ppowi(2) / (cu * cu) * bracket
     };
     if f_hz.abs() < 1.0 {
         // The removable singularity at the carrier: (0.75 f_c / f_s²) / 8.
         return 0.75 * fc / (fs * fs) / 8.0;
     }
     let u = PI * f_hz / (2.0 * fs);
-    if u.cos().abs() < 1e-6 {
+    if u.pcos().abs() < 1e-6 {
         // cos(πf/(2f_s)) = 0 is a removable 0/0 point: average its two neighbours.
         let e = 1e-3 * fs;
         return 0.5 * (eval(f_hz - e) + eval(f_hz + e));
@@ -896,8 +897,8 @@ pub fn band_limited_acf(
         }
         // cos(k θ) by the recurrence c_{k+1} = 2 cos θ c_k − c_{k−1}.
         let theta = 2.0 * PI * f * tau_step_s;
-        let two_c = 2.0 * theta.cos();
-        let (mut c_prev, mut c) = (theta.cos(), 1.0);
+        let two_c = 2.0 * theta.pcos();
+        let (mut c_prev, mut c) = (theta.pcos(), 1.0);
         for a in acc.iter_mut() {
             *a += g * c;
             let next = two_c * c - c_prev;
@@ -953,7 +954,7 @@ pub fn first_acf_side_lobe(acf: &BandLimitedAcf, chip_s: f64) -> Option<(f64, f6
     let v = &acf.values;
     let crossing = (1..=k_end).find(|&k| v[k] * v[k - 1] <= 0.0 && v[k - 1] != 0.0)?;
     for k in crossing.max(1)..k_end {
-        let (a, b, c) = (v[k - 1].powi(2), v[k].powi(2), v[k + 1].powi(2));
+        let (a, b, c) = (v[k - 1].ppowi(2), v[k].ppowi(2), v[k + 1].ppowi(2));
         if b >= a && b > c {
             return Some(parabolic_peak(acf, k, |x| x * x));
         }
@@ -1149,7 +1150,7 @@ mod band_limited_measure_tests {
         let m = Modulation::BpskR { n: 1.0 };
         let tc = 1.0 / m.chip_rate_hz();
         let acf = modulation_acf(&m, 400e6, 2.0 * tc, 0.5e-9);
-        let gamma = 10f64.powf(-6.0 / 20.0);
+        let gamma = 10f64.ppowf(-6.0 / 20.0);
         for d_chips in [0.1, 0.3, 0.6] {
             let b = nelp_multipath_bias_s(&acf, 0.5 * tc, gamma, d_chips * tc, 1.0).unwrap();
             let (coh, _) = multipath_error_envelope_chips(0.5, 6.0, d_chips);
@@ -1192,7 +1193,7 @@ mod code_tests {
         // t(10) = 1 + 2^6 = 65; max |cross| = 65/1023.
         let xc = f.max_crosscorr().unwrap();
         assert!((xc - 65.0 / 1023.0).abs() < 1e-15, "xc {xc}");
-        let db = 20.0 * xc.log10();
+        let db = 20.0 * xc.plog10();
         assert!(
             (db - (-23.94)).abs() < 0.1,
             "GPS C/A Gold cross-corr {db:.2} dB, want ≈ −23.9 dB"
@@ -1454,7 +1455,7 @@ mod band_limited_tests {
                 0.0,
                 x,
                 200_000,
-                |t| if t == 0.0 { 1.0 } else { t.sin() / t },
+                |t| if t == 0.0 { 1.0 } else { t.psin() / t },
             );
             assert!((sine_integral(x) - q).abs() < 1e-8, "Si({x})");
         }
@@ -1553,7 +1554,7 @@ mod band_limited_tests {
         assert!((tiny / lim - 1.0).abs() < 1e-3, "{tiny} vs {lim}");
         let eta = bpsk_power_in_band_closed_form(rc, b);
         let beta = bpsk_gabor_bandwidth_closed_form_hz(rc, b);
-        let cf = (0.99 / ((2.0 * PI).powi(2) * 10f64.powf(4.5) * eta * beta * beta)).sqrt();
+        let cf = (0.99 / ((2.0 * PI).ppowi(2) * 10f64.ppowf(4.5) * eta * beta * beta)).sqrt();
         assert!((lim / cf - 1.0).abs() < 1e-5, "{lim} vs {cf}");
         // Band-limiting floors the jitter: at 0.1 chip spacing the 2R_c front end is worse
         // than an unlimited one.
@@ -1581,12 +1582,12 @@ mod band_limited_tests {
             let num = spectral_separation_coeff_offset(&m, &m, off, 200.0 * rc);
             let cf = bpsk_offset_ssc_closed_form(rc, off);
             assert!(
-                (10.0 * (num / cf).log10()).abs() < 0.01,
+                (10.0 * (num / cf).plog10()).abs() < 0.01,
                 "offset {off}: {num:e} vs {cf:e}"
             );
         }
         // Zero offset: 2/(3 R_c) = −71.86 dB/Hz for BPSK(10).
-        let z = 10.0 * bpsk_offset_ssc_closed_form(rc, 0.0).log10();
+        let z = 10.0 * bpsk_offset_ssc_closed_form(rc, 0.0).plog10();
         assert!((z - (-71.86)).abs() < 0.01, "{z}");
     }
 

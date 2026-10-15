@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
+// Host maths on purpose: this test recomputes its expected values independently of the engine's
+// portable maths (STUDIO-15), so the engine is checked against a second implementation.
 //! LEO (low Earth orbit) coverage and dilution of precision (DOP) for polar and Arctic users
 //! against MEO (medium Earth orbit) GNSS (global navigation satellite systems), FULL CLAIM:
 //! the `leo-pvt` polar sweep from the scenario's element sets to the reported figures, with the

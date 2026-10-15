@@ -49,7 +49,7 @@
 //! underflow to zero in the high-degree method.
 
 use crate::egm2008_data::{EGM2008_COEFFS, EGM2008_GM, EGM2008_NMAX, EGM2008_RE};
-use crate::portable_math::{Maths, Platform, Portable};
+use crate::portable_math::{Maths, Portable, PortableFloat};
 use std::io::BufRead;
 use std::sync::OnceLock;
 
@@ -250,7 +250,7 @@ impl SphericalHarmonicField {
         let rn = (r[0] * r[0] + r[1] * r[1] + r[2] * r[2]).sqrt();
         let t = r[2] / rn; // sin φ
         let u = ((r[0] * r[0] + r[1] * r[1]).sqrt() / rn).max(0.0); // cos φ
-        let lambda = r[1].atan2(r[0]);
+        let lambda = r[1].patan2(r[0]);
         let (p, _) = self.legendre(t, u);
         let ror = self.re / rn;
         let mut sum = 0.0;
@@ -258,7 +258,7 @@ impl SphericalHarmonicField {
         for nn in 0..=self.nmax {
             let mut an = 0.0;
             for m in 0..=nn {
-                let (cl, sl) = ((m as f64 * lambda).cos(), (m as f64 * lambda).sin());
+                let (cl, sl) = ((m as f64 * lambda).pcos(), (m as f64 * lambda).psin());
                 an += p[nn][m] * (self.c[nn][m] * cl + self.s[nn][m] * sl);
             }
             sum += rn_pow * an;
@@ -270,7 +270,7 @@ impl SphericalHarmonicField {
     /// Gravitational acceleration `∇U` (m/s², Earth-fixed) — the **total** field, central term
     /// included, so a point-mass field returns `−μr/|r|³`.
     pub fn acceleration(&self, r: Vec3) -> Vec3 {
-        self.acceleration_with::<Platform>(r)
+        self.acceleration_with::<Portable>(r)
     }
 
     /// [`Self::acceleration`] evaluated with the platform-independent mathematics library
@@ -705,7 +705,7 @@ pub const GRS80_GAMMA_P: f64 = 9.832_186_368_5;
 /// Closed-form **Somigliana** normal gravity on the GRS80 ellipsoid at geodetic latitude `phi`
 /// (rad). The published external reference for [`SphericalHarmonicField::gravity_magnitude`].
 pub fn grs80_normal_gravity(phi: f64) -> f64 {
-    let (s, c) = phi.sin_cos();
+    let (s, c) = phi.psin_cos();
     let b = GRS80_A * (1.0 - GRS80_F);
     let num = GRS80_A * GRS80_GAMMA_E * c * c + b * GRS80_GAMMA_P * s * s;
     let den = (GRS80_A * GRS80_A * c * c + b * b * s * s).sqrt();
@@ -716,9 +716,9 @@ pub fn grs80_normal_gravity(phi: f64) -> f64 {
 /// geodetic latitude `phi` and longitude `lon` (rad).
 pub fn grs80_surface_point(phi: f64, lon: f64) -> Vec3 {
     let e2 = GRS80_F * (2.0 - GRS80_F);
-    let (s, c) = phi.sin_cos();
+    let (s, c) = phi.psin_cos();
     let n = GRS80_A / (1.0 - e2 * s * s).sqrt();
-    let (sl, cl) = lon.sin_cos();
+    let (sl, cl) = lon.psin_cos();
     [n * c * cl, n * c * sl, n * (1.0 - e2) * s]
 }
 
@@ -936,7 +936,7 @@ mod tests {
     fn p_bar_low_degree_matches_closed_forms() {
         // Spot-check the normalized Legendre values against their closed forms at a known φ.
         let phi = 0.5_f64;
-        let (t, u) = (phi.sin(), phi.cos());
+        let (t, u) = (phi.psin(), phi.pcos());
         let f = SphericalHarmonicField::zeros(MU_EARTH, RE_EARTH, 4);
         let (p, _) = f.legendre(t, u);
         assert!((p[0][0] - 1.0).abs() < 1e-14);
@@ -1052,7 +1052,7 @@ gfc    0     0  1.0000000000000000E+00  0.0000000000000000E+00
         assert!((f.re - 1_738_000.0).abs() < 1e-3, "Re {}", f.re);
         let r = [2.0e6, 0.0, 0.0];
         let a = f.acceleration(r);
-        let want = -f.gm / (2.0e6f64).powi(2);
+        let want = -f.gm / (2.0e6f64).ppowi(2);
         assert!(
             (a[0] - want).abs() / want.abs() < 1e-12,
             "point mass a_x {} vs {want}",

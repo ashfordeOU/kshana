@@ -117,6 +117,7 @@ use kshana::iq::signals::{beidou, galileo, glonass, gps, Modulation, SignalCode}
 use kshana::iq::track::design::Design;
 use kshana::iq::track::{replay, ChannelInit, EpochOutput};
 use kshana::iq::{Cf64, SampleSpec, SpreadingCode, VecSink, VecSource, C_M_PER_S};
+use kshana::portable_math::PortableFloat;
 use std::sync::Arc;
 
 /// The Galileo E1 memory-code tables are user-supplied (not bundled, by the ICD's terms);
@@ -215,7 +216,7 @@ fn l2c_cm_case(prn: u16) -> Case {
         secondary: Vec::new(),
         fs_hz: 2.5e6,
         duration_s: 4.5,
-        expected_cn0_dbhz: CN0_DBHZ - 10.0 * 2f64.log10(),
+        expected_cn0_dbhz: CN0_DBHZ - 10.0 * 2f64.plog10(),
         doppler_hz: DOPPLER_HZ,
     }
 }
@@ -298,12 +299,12 @@ fn m2m4_cn0_dbhz(prompts: &[Cf64], t_s: f64) -> f64 {
         / n;
     let m4 = prompts
         .iter()
-        .map(|p| (p.re * p.re + p.im * p.im).powi(2))
+        .map(|p| (p.re * p.re + p.im * p.im).ppowi(2))
         .sum::<f64>()
         / n;
     let ps = (2.0 * m2 * m2 - m4).max(0.0).sqrt();
     let pn = m2 - ps;
-    10.0 * (ps / pn / t_s).log10()
+    10.0 * (ps / pn / t_s).plog10()
 }
 
 /// Best agreement of the prompt signs with the secondary code over every cyclic shift, up to
@@ -412,7 +413,7 @@ fn run(case: &Case) -> Outcome {
     let pli: Vec<f64> = scored
         .iter()
         .map(|e| {
-            let (i2, q2) = (e.prompt.re.powi(2), e.prompt.im.powi(2));
+            let (i2, q2) = (e.prompt.re.ppowi(2), e.prompt.im.ppowi(2));
             (i2 - q2) / (i2 + q2)
         })
         .collect();
@@ -420,7 +421,7 @@ fn run(case: &Case) -> Outcome {
         .iter()
         .map(|e| {
             let t = e.sample_index as f64 / case.fs_hz;
-            wrap_diff(e.code_phase_chips, truth_phase(&truth, &case.tx, t), rx_len).powi(2)
+            wrap_diff(e.code_phase_chips, truth_phase(&truth, &case.tx, t), rx_len).ppowi(2)
         })
         .sum::<f64>()
         / n)

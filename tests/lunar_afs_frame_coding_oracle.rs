@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
+// Host maths on purpose: this test recomputes its expected values independently of the engine's
+// portable maths (STUDIO-15), so the engine is checked against a second implementation.
 //! Oracles for the Augmented Forward Signal (AFS) frame channel coding of the LunaNet
 //! Signal-In-Space Recommended Standard (LSIS) V1.0, 29 January 2025, Volume A, frame
 //! identifier 0 (FID0): the Bose–Chaudhuri–Hocquenghem (BCH) (51, 8) code of subframe 1, the

@@ -13,6 +13,7 @@
 //! navigation is the IGS/BKG BRDC product for the same day, trimmed to the GPS
 //! records bracketing the epoch. See `tests/fixtures/igs/NOTICE`.
 
+use kshana::portable_math::PortableFloat;
 use kshana::pvt::{run_pvt, PvtScenario};
 
 const OBS: &str = include_str!("fixtures/igs/ABMF00GLP_R_20181330000_01D_30S_MO.rnx");
@@ -88,9 +89,9 @@ fn abmf_solution_is_determined_by_the_data_not_the_a_priori() {
         .fix
         .as_ref()
         .expect("a fix at epoch 0");
-    let d = ((a.ecef_m[0] - b.ecef_m[0]).powi(2)
-        + (a.ecef_m[1] - b.ecef_m[1]).powi(2)
-        + (a.ecef_m[2] - b.ecef_m[2]).powi(2))
+    let d = ((a.ecef_m[0] - b.ecef_m[0]).ppowi(2)
+        + (a.ecef_m[1] - b.ecef_m[1]).ppowi(2)
+        + (a.ecef_m[2] - b.ecef_m[2]).ppowi(2))
     .sqrt();
     assert!(
         d < 0.1,

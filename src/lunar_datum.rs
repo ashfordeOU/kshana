@@ -7,6 +7,7 @@
 //! matrices and the Fisher-information identifiability decomposition.
 
 pub use crate::lunar_llr_geometry::Vec3;
+use crate::portable_math::PortableFloat;
 
 /// Seven-parameter Helmert similarity datum.
 ///
@@ -47,8 +48,8 @@ pub fn apply_datum7(d: &Datum7, p_body: Vec3) -> Vec3 {
     let rotated = if angle < 1e-15 {
         p_body
     } else {
-        let cos_a = angle.cos();
-        let sin_a = angle.sin();
+        let cos_a = angle.pcos();
+        let sin_a = angle.psin();
         let one_minus_cos = 1.0 - cos_a;
         let inv_a = 1.0 / angle;
         let k = [th[0] * inv_a, th[1] * inv_a, th[2] * inv_a];
@@ -217,15 +218,15 @@ pub fn orbiter_position(
     let inc = inc_deg.to_radians();
     let raan = raan_deg.to_radians();
     // In-plane circular position, then R3(raan)·R1(inc) into inertial directions.
-    let xp = a * u.cos();
-    let yp = a * u.sin();
+    let xp = a * u.pcos();
+    let yp = a * u.psin();
     // R1(inc) about x:
     let x1 = xp;
-    let y1 = yp * inc.cos();
-    let z1 = yp * inc.sin();
+    let y1 = yp * inc.pcos();
+    let z1 = yp * inc.psin();
     // R3(raan) about z:
-    let xi = x1 * raan.cos() - y1 * raan.sin();
-    let yi = x1 * raan.sin() + y1 * raan.cos();
+    let xi = x1 * raan.pcos() - y1 * raan.psin();
+    let yi = x1 * raan.psin() + y1 * raan.pcos();
     let zi = z1;
     // Offset by the geocentric Moon position (same of-date frame as reflector_inertial).
     let r_moon = crate::ephem::moon_position(t_tt_jc);
@@ -325,7 +326,7 @@ mod tests {
                 fd
             );
         }
-        let rot = (analytic[4].powi(2) + analytic[5].powi(2) + analytic[6].powi(2)).sqrt();
+        let rot = (analytic[4].ppowi(2) + analytic[5].ppowi(2) + analytic[6].ppowi(2)).sqrt();
         assert!(
             rot.is_finite() && rot > 0.0,
             "rotation cols degenerate: {rot}"

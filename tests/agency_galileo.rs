@@ -23,6 +23,7 @@
 
 use kshana::cio::itrs_to_gcrs;
 use kshana::eop::EopSeries;
+use kshana::portable_math::PortableFloat;
 use kshana::precise_od::{fit, EstimatedParams, FitConfig, Observation, PreciseForceModel};
 use kshana::sp3::{parse_sp3, parse_sp3_accuracy};
 use kshana::timescales::{gps_to_tt, julian_date};
@@ -118,7 +119,7 @@ fn raw_overlap_rms(
     let sumsq: f64 = obs
         .iter()
         .zip(&pred)
-        .map(|(o, r)| (0..3).map(|k| (r[k] - o.pos[k]).powi(2)).sum::<f64>())
+        .map(|(o, r)| (0..3).map(|k| (r[k] - o.pos[k]).ppowi(2)).sum::<f64>())
         .sum();
     (sumsq / obs.len() as f64).sqrt()
 }

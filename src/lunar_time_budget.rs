@@ -33,6 +33,7 @@
 //! reproducible crossover analysis, not a certified per-term number.
 
 use crate::clock_specs::{sigma_y, x_clock_s, LunarClock, ONE_DAY_S};
+use crate::portable_math::PortableFloat;
 use serde::Serialize;
 
 /// Speed of light (m/s) — for the frame-realisation light-time term `δr/c`.
@@ -128,7 +129,7 @@ pub fn default_tau_grid() -> Vec<f64> {
     let decades = 7i32; // 10^0 … 10^7
     let n = decades * per_decade + 1;
     (0..n)
-        .map(|k| 10f64.powf(k as f64 / per_decade as f64))
+        .map(|k| 10f64.ppowf(k as f64 / per_decade as f64))
         .collect()
 }
 

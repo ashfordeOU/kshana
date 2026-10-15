@@ -6,6 +6,7 @@
 use super::*;
 use crate::gps_lnav::{decode_fields, encode_word, field_values, source_data, LnavEphemeris};
 use crate::iq::{Cf64, VecSink};
+use crate::portable_math::PortableFloat;
 use crate::sdr::{CaCode, L1_HZ};
 
 const FS: f64 = 2.5e6;
@@ -125,7 +126,7 @@ fn doppler_is_minus_range_rate_over_lambda_in_truth_and_in_the_samples() {
         let prod = Cf64::new(a.re * b.re + a.im * b.im, a.im * b.re - a.re * b.im);
         acc = acc + prod * prod;
     }
-    let f = acc.im.atan2(acc.re) / 2.0 * FS / TAU;
+    let f = acc.im.patan2(acc.re) / 2.0 * FS / TAU;
     let want = -rate / lambda;
     assert!((f - want).abs() < 1e-3, "measured {f} Hz vs {want} Hz");
 }
@@ -199,7 +200,7 @@ fn noise_power_is_n0_times_fs() {
 #[test]
 fn noise_density_from_noise_figure() {
     let n = NoiseConfig::from_noise_figure(0.0, 290.0);
-    assert!((n.n0_dbw_per_hz - 10.0 * (1.380_649e-23f64 * 290.0).log10()).abs() < 1e-12);
+    assert!((n.n0_dbw_per_hz - 10.0 * (1.380_649e-23f64 * 290.0).plog10()).abs() < 1e-12);
     assert!((n.n0_dbw_per_hz + 203.975).abs() < 1e-3);
     let n2 = NoiseConfig::from_noise_figure(3.0, 290.0);
     assert!((n2.n0_dbw_per_hz - n.n0_dbw_per_hz - 3.0).abs() < 1e-12);
@@ -431,7 +432,7 @@ fn data_bits_in_the_samples_follow_the_lnav_frame() {
         for (o, s) in iq[k..k + spp].iter().enumerate() {
             let t = (k + o) as f64 / FS;
             let chip = code.bipolar[((cp0 + 1.023e6 * t).floor().rem_euclid(1023.0)) as usize];
-            let (sn, cs) = (TAU * carrier).sin_cos();
+            let (sn, cs) = (TAU * carrier).psin_cos();
             acc += chip * (s.re * cs + s.im * sn);
         }
         signs.push(acc.signum());

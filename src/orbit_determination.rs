@@ -586,9 +586,11 @@ fn cross3(a: [f64; 3], b: [f64; 3]) -> [f64; 3] {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::forces::MU_EARTH;
+    use crate::portable_distr::{Distribution, Normal};
+    use crate::portable_math::PortableFloat;
     use rand::SeedableRng;
     use rand_chacha::ChaCha8Rng;
-    use rand_distr::{Distribution, Normal};
 
     // Three ground stations spread around the Earth (ECEF, on the equatorial surface and a tilt).
     fn stations() -> Vec<Station> {
@@ -610,7 +612,7 @@ mod tests {
         let r = 7.0e6_f64;
         let v = (MU_EARTH / r).sqrt();
         let inc = 35.0_f64.to_radians();
-        [r, 0.0, 0.0, 0.0, v * inc.cos(), v * inc.sin()]
+        [r, 0.0, 0.0, 0.0, v * inc.pcos(), v * inc.psin()]
     }
 
     fn pos_err(est: &[f64], truth: &[f64]) -> f64 {
@@ -707,9 +709,9 @@ mod tests {
             }
         }
         let pos_sigma = (cov[0][0] + cov[1][1] + cov[2][2]).sqrt();
-        let err = ((b.x[0] - truth[0]).powi(2)
-            + (b.x[1] - truth[1]).powi(2)
-            + (b.x[2] - truth[2]).powi(2))
+        let err = ((b.x[0] - truth[0]).ppowi(2)
+            + (b.x[1] - truth[1]).ppowi(2)
+            + (b.x[2] - truth[2]).ppowi(2))
         .sqrt();
         assert!(
             err < 5.0 * pos_sigma,

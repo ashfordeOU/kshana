@@ -63,6 +63,7 @@ pub mod stk;
 pub mod testbench;
 mod time;
 
+use crate::portable_math::PortableFloat;
 pub use time::UtcEpoch;
 
 /// The export formats `--export` accepts.
@@ -389,7 +390,7 @@ pub fn scenario_table_md(scenarios: &[(String, String)]) -> String {
 /// Round to `dp` decimal places, so serialised numbers do not depend on how the last
 /// floating-point digits happen to fall. `-0.0` is folded to `0.0`.
 pub(crate) fn round_dp(v: f64, dp: i32) -> f64 {
-    let s = 10f64.powi(dp);
+    let s = 10f64.ppowi(dp);
     let r = (v * s).round() / s;
     if r == 0.0 {
         0.0

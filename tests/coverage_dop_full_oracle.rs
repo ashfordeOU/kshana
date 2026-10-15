@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
+// Host maths on purpose: this test recomputes its expected values independently of the engine's
+// portable maths (STUDIO-15), so the engine is checked against a second implementation.
 //! External oracles for the full claim of the verification row "Coverage and
 //! dilution-of-precision maps for arbitrary multi-constellation designs at scale, around any
 //! central body" (`constellation::coverage`, `ConstellationDesignScenario`).

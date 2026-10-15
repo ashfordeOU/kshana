@@ -26,6 +26,7 @@
 //! predicted here. The fully CIO-based (X, Y, s) chain is [`crate::cio`] (checked against
 //! SOFA), and the GCRS→ITRS reduction is cross-checked against ANISE in `xval/anise-frames`.
 
+use crate::portable_math::PortableFloat;
 use crate::precession::{mat_vec, matmul, rx, ry, rz, transpose, Mat3};
 use crate::sgp4::gstime;
 use crate::timescales::JD_J2000;
@@ -57,7 +58,7 @@ pub fn wgs84_b() -> f64 {
 /// Greenwich Mean Sidereal Time for the given UT1 Julian date. R3(theta).
 pub fn teme_to_ecef(r_teme: Vec3, jd_ut1: f64) -> Vec3 {
     let theta = gstime(jd_ut1);
-    let (s, c) = theta.sin_cos();
+    let (s, c) = theta.psin_cos();
     [
         c * r_teme[0] + s * r_teme[1],
         -s * r_teme[0] + c * r_teme[1],
@@ -68,7 +69,7 @@ pub fn teme_to_ecef(r_teme: Vec3, jd_ut1: f64) -> Vec3 {
 /// Inverse of [`teme_to_ecef`]: rotate an Earth-fixed position back to TEME.
 pub fn ecef_to_teme(r_ecef: Vec3, jd_ut1: f64) -> Vec3 {
     let theta = gstime(jd_ut1);
-    let (s, c) = theta.sin_cos();
+    let (s, c) = theta.psin_cos();
     [
         c * r_ecef[0] - s * r_ecef[1],
         s * r_ecef[0] + c * r_ecef[1],
@@ -88,8 +89,8 @@ pub struct Geodetic {
 /// WGS-84 geodetic → ECEF (exact).
 pub fn geodetic_to_ecef(g: Geodetic) -> Vec3 {
     let e2 = wgs84_e2();
-    let (sin_lat, cos_lat) = g.lat_rad.sin_cos();
-    let (sin_lon, cos_lon) = g.lon_rad.sin_cos();
+    let (sin_lat, cos_lat) = g.lat_rad.psin_cos();
+    let (sin_lon, cos_lon) = g.lon_rad.psin_cos();
     // Prime-vertical radius of curvature.
     let n = WGS84_A / (1.0 - e2 * sin_lat * sin_lat).sqrt();
     [
@@ -111,7 +112,7 @@ pub fn ecef_to_geodetic(r: Vec3) -> Geodetic {
     let e2 = wgs84_e2();
     let ep2 = (a * a - b * b) / (b * b); // second eccentricity squared
     let p = (x * x + y * y).sqrt();
-    let lon = y.atan2(x);
+    let lon = y.patan2(x);
 
     if p < 1e-9 {
         // On the spin axis: latitude is ±90°, longitude undefined (take 0).
@@ -124,21 +125,21 @@ pub fn ecef_to_geodetic(r: Vec3) -> Geodetic {
     }
 
     // Bowring initial latitude.
-    let theta = (z * a).atan2(p * b);
-    let (sin_t, cos_t) = theta.sin_cos();
-    let mut lat = (z + ep2 * b * sin_t * sin_t * sin_t).atan2(p - e2 * a * cos_t * cos_t * cos_t);
+    let theta = (z * a).patan2(p * b);
+    let (sin_t, cos_t) = theta.psin_cos();
+    let mut lat = (z + ep2 * b * sin_t * sin_t * sin_t).patan2(p - e2 * a * cos_t * cos_t * cos_t);
 
     // Refine: lat = atan2(z, p (1 - e^2 N/(N+h))). Converges in a few steps.
     let mut n = a;
     for _ in 0..5 {
-        let sin_lat = lat.sin();
+        let sin_lat = lat.psin();
         n = a / (1.0 - e2 * sin_lat * sin_lat).sqrt();
-        let cos_lat = lat.cos();
+        let cos_lat = lat.pcos();
         let h = p * cos_lat + z * sin_lat - n * (1.0 - e2 * sin_lat * sin_lat);
-        lat = z.atan2(p * (1.0 - e2 * n / (n + h)));
+        lat = z.patan2(p * (1.0 - e2 * n / (n + h)));
     }
 
-    let (sin_lat, cos_lat) = lat.sin_cos();
+    let (sin_lat, cos_lat) = lat.psin_cos();
     // Height by projection onto the local vertical (well-conditioned everywhere).
     let alt = p * cos_lat + z * sin_lat - n * (1.0 - e2 * sin_lat * sin_lat);
     Geodetic {
@@ -170,19 +171,19 @@ pub fn look_angles(station: Geodetic, target_ecef: Vec3) -> AzElRange {
         target_ecef[1] - s[1],
         target_ecef[2] - s[2],
     ];
-    let (sin_lat, cos_lat) = station.lat_rad.sin_cos();
-    let (sin_lon, cos_lon) = station.lon_rad.sin_cos();
+    let (sin_lat, cos_lat) = station.lat_rad.psin_cos();
+    let (sin_lon, cos_lon) = station.lon_rad.psin_cos();
     // ECEF -> ENU at the station.
     let east = -sin_lon * d[0] + cos_lon * d[1];
     let north = -sin_lat * cos_lon * d[0] - sin_lat * sin_lon * d[1] + cos_lat * d[2];
     let up = cos_lat * cos_lon * d[0] + cos_lat * sin_lon * d[1] + sin_lat * d[2];
     let range = (east * east + north * north + up * up).sqrt();
-    let mut az = east.atan2(north);
+    let mut az = east.patan2(north);
     if az < 0.0 {
         az += TAU;
     }
     let el = if range > 0.0 {
-        (up / range).asin()
+        (up / range).pasin()
     } else {
         0.0
     };
@@ -563,7 +564,7 @@ mod tests {
         ];
         let dn = norm(d);
         let sin_el = (radial[0] * d[0] + radial[1] * d[1] + radial[2] * d[2]) / dn;
-        sin_el.asin()
+        sin_el.pasin()
     }
 
     #[test]
@@ -580,8 +581,8 @@ mod tests {
         };
         let s = geodetic_to_ecef(station);
         // Unit ellipsoid normal at the station.
-        let (sla, cla) = station.lat_rad.sin_cos();
-        let (slo, clo) = station.lon_rad.sin_cos();
+        let (sla, cla) = station.lat_rad.psin_cos();
+        let (slo, clo) = station.lon_rad.psin_cos();
         let normal = [cla * clo, cla * slo, sla];
         // A satellite 20,000 km straight "up" along the geodetic vertical.
         let sat = [

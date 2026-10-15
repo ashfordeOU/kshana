@@ -33,6 +33,7 @@
 
 use super::{ChannelEffect, LineOfSight};
 use crate::iq::{ChannelSnapshot, PathState, C_M_PER_S};
+use crate::portable_math::PortableFloat;
 use std::collections::BTreeMap;
 use std::f64::consts::PI;
 
@@ -91,11 +92,11 @@ impl Complex {
     }
     /// Magnitude.
     pub fn abs(self) -> f64 {
-        self.re.hypot(self.im)
+        self.re.phypot(self.im)
     }
     /// Argument (rad).
     pub fn arg(self) -> f64 {
-        self.im.atan2(self.re)
+        self.im.patan2(self.re)
     }
     fn add(self, o: Self) -> Self {
         Self::new(self.re + o.re, self.im + o.im)
@@ -127,7 +128,7 @@ impl Complex {
 pub fn fresnel(ground: Ground, grazing_rad: f64, carrier_hz: f64) -> (Complex, Complex) {
     let lambda = C_M_PER_S / carrier_hz;
     let eps = Complex::new(ground.eps_r, -60.0 * lambda * ground.sigma_s_per_m);
-    let (s, c) = grazing_rad.sin_cos();
+    let (s, c) = grazing_rad.psin_cos();
     let root = eps.sub(Complex::new(c * c, 0.0)).sqrt();
     let sn = Complex::new(s, 0.0);
     let gh = sn.sub(root).div(sn.add(root));
@@ -155,7 +156,7 @@ pub fn reflection_coefficient(
 /// Excess path length (m) of the ground reflection for an antenna `h_m` above the plane at
 /// elevation `el_rad`: `2h·sin(el)`.
 pub fn excess_path_m(h_m: f64, el_rad: f64) -> f64 {
-    2.0 * h_m * el_rad.sin()
+    2.0 * h_m * el_rad.psin()
 }
 
 /// One specular reflection off a flat ground plane below the antenna.
@@ -243,7 +244,7 @@ mod tests {
         for el in [5.0, 30.0, 60.0, 89.0] {
             let s = ch.snapshot(4, 0.0, &test_geom(el));
             assert_eq!(s.paths.len(), 2);
-            let want = 2.0 * h * f64::to_radians(el).sin() / C_M_PER_S;
+            let want = 2.0 * h * f64::to_radians(el).psin() / C_M_PER_S;
             let got = s.paths[1].group_delay_s - s.paths[0].group_delay_s;
             assert!((got - want).abs() < 1e-15, "{got} vs {want}");
             assert!(!s.is_nlos());
@@ -268,7 +269,7 @@ mod tests {
     #[test]
     fn vertical_vanishes_at_the_brewster_angle() {
         // Lossless Brewster grazing angle: tan θB = 1/√εr.
-        let tb = (1.0 / LOSSLESS4.eps_r.sqrt()).atan();
+        let tb = (1.0 / LOSSLESS4.eps_r.sqrt()).patan();
         let (_, gv) = fresnel(LOSSLESS4, tb, L1_HZ);
         assert!(gv.abs() < 1e-12, "{}", gv.abs());
     }
@@ -280,9 +281,9 @@ mod tests {
         let n2 = LOSSLESS4.eps_r.sqrt();
         for el in [10.0f64, 25.0, 40.0, 70.0] {
             let ti = (90.0 - el).to_radians();
-            let tt = (ti.sin() / n2).asin();
-            let rs = (ti.cos() - n2 * tt.cos()) / (ti.cos() + n2 * tt.cos());
-            let rp = (n2 * ti.cos() - tt.cos()) / (n2 * ti.cos() + tt.cos());
+            let tt = (ti.psin() / n2).pasin();
+            let rs = (ti.pcos() - n2 * tt.pcos()) / (ti.pcos() + n2 * tt.pcos());
+            let rp = (n2 * ti.pcos() - tt.pcos()) / (n2 * ti.pcos() + tt.pcos());
             let (gh, gv) = fresnel(LOSSLESS4, el.to_radians(), L1_HZ);
             assert!((gh.re - rs).abs() < 1e-12, "el {el}: {} vs {rs}", gh.re);
             assert!((gv.re - rp).abs() < 1e-12, "el {el}: {} vs {rp}", gv.re);

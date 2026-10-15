@@ -19,6 +19,7 @@
 //! only from the calibration window at the start of the log, so nothing is tuned on the
 //! events being scored. Outputs are deterministic: ordered maps and sets only.
 
+use crate::portable_math::PortableFloat;
 use std::collections::{BTreeMap, BTreeSet};
 
 use serde::{Deserialize, Serialize};
@@ -512,11 +513,11 @@ fn horizontal_offset_m(reference: (f64, f64, f64), fix: &ReportedFix) -> f64 {
         alt_m: h0,
     });
     let d = [p[0] - r[0], p[1] - r[1], p[2] - r[2]];
-    let (sl, cl) = lat0.to_radians().sin_cos();
-    let (so, co) = lon0.to_radians().sin_cos();
+    let (sl, cl) = lat0.to_radians().psin_cos();
+    let (so, co) = lon0.to_radians().psin_cos();
     let east = -so * d[0] + co * d[1];
     let north = -sl * co * d[0] - sl * so * d[1] + cl * d[2];
-    east.hypot(north)
+    east.phypot(north)
 }
 
 /// Whether the loss-of-lock monitor decides at this timeline epoch: when it carries a
@@ -647,7 +648,7 @@ fn engine_pass(
     let r = if ts.len() > 2 {
         ts.iter()
             .zip(&ys)
-            .map(|(t, y)| (y - (a + b * (t - t0))).powi(2))
+            .map(|(t, y)| (y - (a + b * (t - t0))).ppowi(2))
             .sum::<f64>()
             / (ts.len() as f64 - 2.0)
     } else {
@@ -831,7 +832,7 @@ pub fn run_monitors(
     let agc_mean = mean(&agc_cal);
     let agc_sd = agc_mean.map(|m| {
         let sd = if agc_cal.len() > 1 {
-            (agc_cal.iter().map(|x| (x - m).powi(2)).sum::<f64>() / (agc_cal.len() - 1) as f64)
+            (agc_cal.iter().map(|x| (x - m).ppowi(2)).sum::<f64>() / (agc_cal.len() - 1) as f64)
                 .sqrt()
         } else {
             0.0

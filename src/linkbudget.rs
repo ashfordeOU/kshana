@@ -40,6 +40,7 @@
 //!   the design-control-table form of the link equation).
 //! * Friis, *A Note on a Simple Transmission Formula* (Proc. IRE, 1946) — the free-space loss.
 
+use crate::portable_math::PortableFloat;
 use crate::radiometric::Band;
 use crate::timegeo::C_M_PER_S;
 use std::f64::consts::PI;
@@ -143,7 +144,7 @@ pub fn band_frequency_hz(band: Band) -> f64 {
 /// ≈ 12 dB to X at the same range, recovered by Ka's far higher antenna gain). Uses the crate's
 /// speed of light [`C_M_PER_S`] for consistency with the navigation kernel.
 pub fn free_space_loss_db(range_m: f64, freq_hz: f64) -> f64 {
-    20.0 * (4.0 * PI * range_m * freq_hz / C_M_PER_S).log10()
+    20.0 * (4.0 * PI * range_m * freq_hz / C_M_PER_S).plog10()
 }
 
 /// Compute the one-way **link budget** for `p` against a required `Eb/N₀` (`required_eb_n0_db`, dB).
@@ -170,7 +171,7 @@ pub fn link_budget(p: &LinkParams, required_eb_n0_db: f64) -> LinkResult {
         p.eirp_dbw - fsl_db - p.other_losses_db + p.g_over_t_db - BOLTZMANN_DBW_PER_K_PER_HZ;
 
     // Eb/N₀ = C/N₀ − 10·log10(data rate).
-    let eb_n0_db = cn0_dbhz - 10.0 * p.data_rate_bps.log10();
+    let eb_n0_db = cn0_dbhz - 10.0 * p.data_rate_bps.plog10();
 
     let margin_db = eb_n0_db - required_eb_n0_db;
 
@@ -201,7 +202,7 @@ pub fn required_g_over_t_db(p: &LinkParams, required_eb_n0_db: f64) -> f64 {
     let fsl_db = free_space_loss_db(p.range_m, band_frequency_hz(p.band));
     fsl_db + p.other_losses_db - p.eirp_dbw
         + BOLTZMANN_DBW_PER_K_PER_HZ
-        + 10.0 * p.data_rate_bps.log10()
+        + 10.0 * p.data_rate_bps.plog10()
         + required_eb_n0_db
 }
 
@@ -237,7 +238,7 @@ pub fn rx_gain_from_g_over_t_dbi(g_over_t_db: f64, tsys_k: f64) -> Option<f64> {
     if !tsys_k.is_finite() || tsys_k <= 0.0 {
         return None;
     }
-    Some(g_over_t_db + 10.0 * tsys_k.log10())
+    Some(g_over_t_db + 10.0 * tsys_k.plog10())
 }
 
 /// Received navigation-signal power (dBW) at the user antenna output for a transmitter
@@ -272,7 +273,7 @@ pub fn power_deficit_db(reference_dbw: f64, received_dbw: f64) -> f64 {
 /// quoted to a whole dB — the "32× (rounded) vs 36× (unrounded)" figures are one deficit
 /// read at two dB precisions (they differ only by the 0.6 dB rounding), not two results.
 pub fn deficit_power_factor(deficit_db: f64) -> f64 {
-    10.0_f64.powf(deficit_db / 10.0)
+    10.0_f64.ppowf(deficit_db / 10.0)
 }
 
 /// The power-deficit sensitivity band of a received navigation signal versus a reference,
@@ -583,7 +584,7 @@ impl LinkBudgetScenario {
                 json["receive_terminal"] = serde_json::json!({
                     "tsys_k": tsys_k,
                     "rx_gain_dbi": gain,
-                    "g_over_t_to_gain_offset_db": 10.0 * tsys_k.log10(),
+                    "g_over_t_to_gain_offset_db": 10.0 * tsys_k.plog10(),
                 });
                 json["units"]["receive_terminal.tsys_k"] =
                     serde_json::json!({"unit": "K", "provenance": "input"});
@@ -626,7 +627,7 @@ mod tests {
         // Hand value: 4π·R·f / c, then 20·log10.
         let c = 299_792_458.0_f64;
         let arg = 4.0 * std::f64::consts::PI * range_m * freq_hz / c;
-        let hand_db = 20.0 * arg.log10();
+        let hand_db = 20.0 * arg.plog10();
 
         // Sanity: the literal magnitude is ≈ 211.0 dB at this geometry (a cross-check on the hand
         // value itself, independent of the implementation).
@@ -669,7 +670,7 @@ mod tests {
         //   G/T  = Gr(71.7 dBi) − 10·log10(Tsys = 26.30 K)       = 57.50 dB/K
         //   other losses = Tx pointing(1.2) + polarisation(0.04) = 1.24 dB
         // The table prints received Pr/N₀ = 54.6 dB-Hz.
-        let g_over_t = 71.7 - 10.0 * 26.30_f64.log10();
+        let g_over_t = 71.7 - 10.0 * 26.30_f64.plog10();
         let p = LinkParams {
             band: Band::X, // band centre 8.420 GHz ≈ the table's 8420.43 MHz channel
             eirp_dbw: 60.3,
@@ -785,7 +786,7 @@ mod tests {
 
         // The gap is the 20·log10(f_Ka / f_X) dispersion difference, ≈ 11.6 dB.
         let expected_gap =
-            20.0 * (band_frequency_hz(Band::Ka) / band_frequency_hz(Band::X)).log10();
+            20.0 * (band_frequency_hz(Band::Ka) / band_frequency_hz(Band::X)).plog10();
         assert!(
             (fsl_ka - fsl_x - expected_gap).abs() < 1e-6,
             "FSL gap {} dB must equal 20·log10(f_Ka/f_X) = {} dB",
@@ -861,7 +862,7 @@ mod tests {
         let r = link_budget(&p, required);
 
         // Eb/N₀ = C/N₀ − 10·log10(data rate).
-        let eb_hand = r.cn0_dbhz - 10.0 * p.data_rate_bps.log10();
+        let eb_hand = r.cn0_dbhz - 10.0 * p.data_rate_bps.plog10();
         assert!(
             (r.eb_n0_db - eb_hand).abs() < 1e-9,
             "Eb/N0 {} dB vs C/N0 − 10log10(Rb) {} dB",
@@ -1075,7 +1076,7 @@ mod tests {
             let fsl = 20.0
                 * (4.0 * PI * f("range_km") * 1000.0 * f("link_constants.carrier_frequency_hz")
                     / C_M_PER_S)
-                    .log10();
+                    .plog10();
             assert!(
                 (fsl - f("free_space_loss_db")).abs() < 1e-9,
                 "{band}: FSL from the report's own constants {fsl} vs reported {}",
@@ -1088,7 +1089,7 @@ mod tests {
                 - f("link_constants.other_losses_db")
                 + f("link_constants.g_over_t_db")
                 - f("link_constants.boltzmann_dbw_per_k_per_hz")
-                - 10.0 * f("data_rate_bps").log10();
+                - 10.0 * f("data_rate_bps").plog10();
             let margin = eb_n0 - f("required_eb_n0_db");
             assert!(
                 (margin - f("margin_db")).abs() < 1e-9,
@@ -1226,7 +1227,7 @@ mod tests {
             .as_f64()
             .expect("offset");
         assert!(
-            (offset - 10.0 * 300.0_f64.log10()).abs() < 1e-12,
+            (offset - 10.0 * 300.0_f64.plog10()).abs() < 1e-12,
             "300 K offset is {offset} dB"
         );
         assert!(
@@ -1244,7 +1245,7 @@ mod tests {
             .as_f64()
             .unwrap();
         assert!(
-            (cold_offset - 10.0 * 29.0_f64.log10()).abs() < 1e-12
+            (cold_offset - 10.0 * 29.0_f64.plog10()).abs() < 1e-12
                 && (cold_offset - offset).abs() > 10.0,
             "29 K offset {cold_offset} must differ from the 300 K offset {offset}"
         );

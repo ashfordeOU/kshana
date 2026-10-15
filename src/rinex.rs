@@ -34,6 +34,7 @@
 //! Records for other systems are skipped using their own line count, not rejected,
 //! so a mixed-constellation file still yields the ephemerides it can decode.
 
+use crate::portable_math::PortableFloat;
 /// A calendar epoch in UTC/GPS time, as carried in a RINEX record (the clock
 /// reference time `Toc`).
 #[derive(Clone, Copy, Debug, PartialEq, serde::Serialize, serde::Deserialize)]
@@ -590,7 +591,7 @@ impl RinexEphemeris {
         // Kepler's equation M = E − e·sin E, solved by Newton iteration.
         let mut ek = mk;
         for _ in 0..30 {
-            let d = (ek - self.e * ek.sin() - mk) / (1.0 - self.e * ek.cos());
+            let d = (ek - self.e * ek.psin() - mk) / (1.0 - self.e * ek.pcos());
             ek -= d;
             if d.abs() < 1e-13 {
                 break;
@@ -613,7 +614,7 @@ impl RinexEphemeris {
             dt += 604_800.0;
         }
         let (_, ek) = self.tk_and_eccentric_anomaly(t_tow_s);
-        let dtr = F_REL * self.e * self.sqrt_a * ek.sin();
+        let dtr = F_REL * self.e * self.sqrt_a * ek.psin();
         self.af0 + self.af1 * dt + self.af2 * dt * dt + dtr
     }
 
@@ -653,14 +654,14 @@ impl RinexEphemeris {
     fn orbital_plane_position(&self, t_tow_s: f64) -> (f64, f64, f64, f64) {
         let a = self.semi_major_axis();
         let (tk, ek) = self.tk_and_eccentric_anomaly(t_tow_s);
-        let nu = ((1.0 - self.e * self.e).sqrt() * ek.sin()).atan2(ek.cos() - self.e);
+        let nu = ((1.0 - self.e * self.e).sqrt() * ek.psin()).patan2(ek.pcos() - self.e);
         let phi = nu + self.omega;
-        let (s2, c2) = ((2.0 * phi).sin(), (2.0 * phi).cos());
+        let (s2, c2) = ((2.0 * phi).psin(), (2.0 * phi).pcos());
         let du = self.cus * s2 + self.cuc * c2;
         let dr = self.crs * s2 + self.crc * c2;
         let di = self.cis * s2 + self.cic * c2;
         let u = phi + du;
-        let r = a * (1.0 - self.e * ek.cos()) + dr;
+        let r = a * (1.0 - self.e * ek.pcos()) + dr;
         let i = self.i0 + di + self.idot * tk;
         (tk, r * u.cos(), r * u.sin(), i)
     }
@@ -898,8 +899,8 @@ G01 2023 01 01 00 00 00 4.567890123456D-04 1.136868377216D-12 0.000000000000D+00
         let dt = 1.0;
         let a = eph.sv_position_ecef(eph.toe);
         let b = eph.sv_position_ecef(eph.toe + dt);
-        let v =
-            (((b[0] - a[0]).powi(2) + (b[1] - a[1]).powi(2) + (b[2] - a[2]).powi(2)).sqrt()) / dt;
+        let v = (((b[0] - a[0]).ppowi(2) + (b[1] - a[1]).ppowi(2) + (b[2] - a[2]).ppowi(2)).sqrt())
+            / dt;
         assert!((3.0e3..4.5e3).contains(&v), "ECEF speed {v:.1} m/s");
     }
 
@@ -1072,8 +1073,8 @@ G01 2023 01 01 00 00 00 4.567890123456D-04 1.136868377216D-12 0.000000000000D+00
         let eph = &parse_nav(SAMPLE).unwrap()[0];
         let ecef = eph.sv_position_ecef(eph.toe);
         let teme = eph.sv_position_teme(eph.toe);
-        let r_ecef = (ecef[0].powi(2) + ecef[1].powi(2) + ecef[2].powi(2)).sqrt();
-        let r_teme = (teme[0].powi(2) + teme[1].powi(2) + teme[2].powi(2)).sqrt();
+        let r_ecef = (ecef[0].ppowi(2) + ecef[1].ppowi(2) + ecef[2].ppowi(2)).sqrt();
+        let r_teme = (teme[0].ppowi(2) + teme[1].ppowi(2) + teme[2].ppowi(2)).sqrt();
         assert!(
             (r_ecef - r_teme).abs() < 1e-3,
             "ECEF {r_ecef:.3} vs TEME {r_teme:.3}"

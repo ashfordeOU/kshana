@@ -69,6 +69,7 @@ use crate::navsignal::{
 use crate::palette::chart::{
     AMBER, AXIS, BLUE, CORAL, CYAN, GRID, INK_2, INK_3, LIME, MAGENTA, MUTED,
 };
+use crate::portable_math::PortableFloat;
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 use std::f64::consts::PI;
@@ -653,7 +654,7 @@ impl SignalDesign {
     /// [`dll_jitter_bandlimited_s`] and the SSC chain take for component `i`: its share of
     /// the unfiltered power over the in-band fraction, `10 log₁₀(s_i/η)`.
     pub fn component_cn0_offset_db(&self, i: usize, eta: f64) -> f64 {
-        10.0 * (self.components[i].share / eta.max(1e-300)).log10()
+        10.0 * (self.components[i].share / eta.max(1e-300)).plog10()
     }
 
     /// The signal as a [`crate::spectrum::Band`] at received power `power_dbw`: the
@@ -777,17 +778,17 @@ pub fn code_jitter_m(
 pub fn max_doppler_hz(f_hz: f64, alt_m: f64, mask_deg: f64) -> f64 {
     let r = R_EARTH_M + alt_m;
     let v = (MU_EARTH / r).sqrt();
-    let vr = v * R_EARTH_M * mask_deg.to_radians().cos() / r;
+    let vr = v * R_EARTH_M * mask_deg.to_radians().pcos() / r;
     f_hz * vr / C_LIGHT_M_PER_S
 }
 
 /// `ln(k!)` by direct summation for small `k` and Stirling's series beyond.
 fn ln_factorial(k: u64) -> f64 {
     if k < 64 {
-        (2..=k).map(|i| (i as f64).ln()).sum()
+        (2..=k).map(|i| (i as f64).pln()).sum()
     } else {
         let x = k as f64 + 1.0;
-        (x - 0.5) * x.ln() - x + 0.5 * (2.0 * PI).ln() + 1.0 / (12.0 * x)
+        (x - 0.5) * x.pln() - x + 0.5 * (2.0 * PI).pln() + 1.0 / (12.0 * x)
             - 1.0 / (360.0 * x * x * x)
     }
 }
@@ -800,7 +801,7 @@ pub fn gamma_tail(k: u64, gamma: f64) -> f64 {
     }
     let mut sum = 0.0;
     for i in 0..k {
-        sum += (-gamma + i as f64 * gamma.ln() - ln_factorial(i)).exp();
+        sum += (-gamma + i as f64 * gamma.pln() - ln_factorial(i)).pexp();
     }
     sum.min(1.0)
 }
@@ -834,7 +835,7 @@ pub fn detection_probability(snr: f64, n_nc: u64, gamma: f64) -> f64 {
     let j1 = (mu + 12.0 * sd + 40.0) as u64;
     let mut pd = 0.0;
     for j in j0..=j1 {
-        let w = (-mu + j as f64 * mu.ln() - ln_factorial(j)).exp();
+        let w = (-mu + j as f64 * mu.pln() - ln_factorial(j)).pexp();
         if w < 1e-300 {
             continue;
         }
@@ -1253,7 +1254,7 @@ fn finite(v: f64) -> Option<f64> {
 }
 
 fn lin_db(x: f64) -> f64 {
-    10.0 * x.max(1e-300).log10()
+    10.0 * x.max(1e-300).plog10()
 }
 
 /// One signal's results, kept for the trade table and the chart.
@@ -1422,7 +1423,7 @@ impl LeoSignalScenario {
         let fspl_ref =
             crate::jamming::free_space_path_loss_db(range_m, runs[ref_idx].design.centre_hz);
         let tec = self.trade.slant_tec_tecu * TECU;
-        let iono_ref = IONO_K * tec / runs[ref_idx].design.centre_hz.powi(2);
+        let iono_ref = IONO_K * tec / runs[ref_idx].design.centre_hz.ppowi(2);
         let mut trade_rows = Vec::new();
         for s in &runs {
             let f = s.design.centre_hz;
@@ -1659,7 +1660,7 @@ impl LeoSignalScenario {
                                 r.cn0_dbhz
                                     .iter()
                                     .map(|&c0| {
-                                        let cn = 10f64.powf((c0 + off) / 10.0);
+                                        let cn = 10f64.ppowf((c0 + off) / 10.0);
                                         let bl = r.loop_bandwidth_hz
                                             * (1.0
                                                 - 0.5 * r.loop_bandwidth_hz * r.integration_time_s);
@@ -1741,10 +1742,10 @@ impl LeoSignalScenario {
             .map(|v| {
                 let k_lg = ssc_leo_into_gnss(&d, eta, v);
                 let k_gl = tracked.map(|i| ssc_gnss_into_leo(&d, i, v));
-                let n0 = 10f64.powf(n0_db / 10.0);
+                let n0 = 10f64.ppowf(n0_db / 10.0);
                 let dgnss = d.received_power_dbw.and_then(|p| {
                     if k_lg > 0.0 {
-                        Some(lin_db(1.0 + 10f64.powf(p / 10.0) * k_lg / n0))
+                        Some(lin_db(1.0 + 10f64.ppowf(p / 10.0) * k_lg / n0))
                     } else {
                         None
                     }
@@ -1753,7 +1754,7 @@ impl LeoSignalScenario {
                     if k > 0.0 {
                         Some(lin_db(
                             1.0 + self.compatibility.gnss_aggregate_satellites
-                                * 10f64.powf(v.received_power_dbw / 10.0)
+                                * 10f64.ppowf(v.received_power_dbw / 10.0)
                                 * k
                                 / n0,
                         ))
@@ -1860,15 +1861,15 @@ impl LeoSignalScenario {
         let cn0 = a.cn0_dbhz.unwrap_or(ref_cn0)
             + d.component_cn0_offset_db(i, eta)
             + lin_db(c.in_band_fraction(d.tx_bandwidth_hz));
-        let snr = 10f64.powf(cn0 / 10.0) * t_coh;
+        let snr = 10f64.ppowf(cn0 / 10.0) * t_coh;
         let gamma = threshold_for_pfa(a.pfa_cell, a.noncoherent);
         let pd_nom = detection_probability(snr, a.noncoherent, gamma);
         // Worst-case straddle: a quarter-bin code offset (0.75 amplitude for a 1/2-chip
         // bin on a triangular correlation) and a half-bin Doppler offset.
         let code_amp = (1.0 - a.code_bin_chips / 2.0).max(0.0);
         let dop_x = PI * (bin / 2.0) * t_coh;
-        let dop_amp = dop_x.sin() / dop_x;
-        let snr_worst = snr * (code_amp * dop_amp).powi(2);
+        let dop_amp = dop_x.psin() / dop_x;
+        let snr_worst = snr * (code_amp * dop_amp).ppowi(2);
         let pd_worst = detection_probability(snr_worst, a.noncoherent, gamma);
         let code_bins = match (c.code_length_chips, c.shape.chip_rate_hz()) {
             (Some(l), Some(_)) if d.ranging || c.role == Role::Acquisition => {
@@ -1886,7 +1887,7 @@ impl LeoSignalScenario {
                     a.false_alarm_penalty_dwells,
                     dwell,
                 );
-                let pfa_dwell = 1.0 - (1.0 - a.pfa_cell).powf(nc);
+                let pfa_dwell = 1.0 - (1.0 - a.pfa_cell).ppowf(nc);
                 let tp = mean_acquisition_time_s(
                     nd,
                     pd_worst,
@@ -1946,8 +1947,8 @@ pub fn jammer_tolerance(
     if d.tracked_index() != Some(i) {
         return None;
     }
-    let c = 10f64.powf((cn0_total_dbhz + d.component_cn0_offset_db(i, eta)) / 10.0);
-    let cth = 10f64.powf(threshold_dbhz / 10.0);
+    let c = 10f64.ppowf((cn0_total_dbhz + d.component_cn0_offset_db(i, eta)) / 10.0);
+    let cth = 10f64.ppowf(threshold_dbhz / 10.0);
     let margin = 1.0 / cth - 1.0 / c;
     let mk = |w: Waveform, bw: Option<f64>| JammerCfg {
         name: None,
@@ -2182,12 +2183,12 @@ fn chart(runs: &[SignalRun], r: &ReceiverCfg) -> String {
             vals.iter()
                 .cloned()
                 .fold(f64::INFINITY, f64::min)
-                .log10()
+                .plog10()
                 .floor(),
             vals.iter()
                 .cloned()
                 .fold(f64::NEG_INFINITY, f64::max)
-                .log10()
+                .plog10()
                 .ceil(),
         )
     };
@@ -2199,7 +2200,7 @@ fn chart(runs: &[SignalRun], r: &ReceiverCfg) -> String {
             0.5
         } * pw
     };
-    let yj = |j: f64| py + ph - (j.log10() - lo) / (hi - lo) * ph;
+    let yj = |j: f64| py + ph - (j.plog10() - lo) / (hi - lo) * ph;
     let mut dec = lo;
     while dec <= hi + 1e-9 {
         let y = py + ph - (dec - lo) / (hi - lo) * ph;
@@ -2210,9 +2211,9 @@ fn chart(runs: &[SignalRun], r: &ReceiverCfg) -> String {
             px - 5.0,
             y + 3.0,
             if dec >= 0.0 {
-                format!("{}", 10f64.powf(dec))
+                format!("{}", 10f64.ppowf(dec))
             } else {
-                format!("{:.prec$}", 10f64.powf(dec), prec = (-dec) as usize)
+                format!("{:.prec$}", 10f64.ppowf(dec), prec = (-dec) as usize)
             }
         ));
         dec += 1.0;
@@ -2419,7 +2420,7 @@ mod tests {
         // N = 1 closed form: P_d = Q1(sqrt(2 snr), sqrt(2 gamma)); at gamma = 0 it is 1.
         assert!((detection_probability(3.0, 1, 0.0) - 1.0).abs() < 1e-12);
         // N = 1, snr = 0: exp(-gamma).
-        assert!((gamma_tail(1, 2.0) - (-2.0f64).exp()).abs() < 1e-15);
+        assert!((gamma_tail(1, 2.0) - (-2.0f64).pexp()).abs() < 1e-15);
     }
 
     // ── Holmes mean time: a sure detector with no false alarm takes (q+1)/2 dwells ──

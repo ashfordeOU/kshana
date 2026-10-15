@@ -10,6 +10,7 @@
 
 use crate::chart::esc;
 use crate::palette::chart::{AMBER, BG, BLUE, CORAL, FONT_SANS, INK, LIME, MUTED, RULE, TITLE};
+use crate::portable_math::PortableFloat;
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 
@@ -877,7 +878,7 @@ fn to_svg_vessel(r: &ReceiverTrustResult) -> String {
         ));
         // A scale bar of a round length.
         let target = 0.2 * (x1 - x0) / scale;
-        let mag = 10f64.powf(target.log10().floor());
+        let mag = 10f64.ppowf(target.plog10().floor());
         let bar_m = [1.0, 2.0, 5.0, 10.0]
             .iter()
             .map(|m| m * mag)

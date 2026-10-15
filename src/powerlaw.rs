@@ -34,6 +34,7 @@
 //! - W. J. Riley, *Handbook of Frequency Stability Analysis*, NIST SP 1065 (2008), §3
 //!   (power-law noise, the σ_y²↔h_α conversion table).
 
+use crate::portable_math::PortableFloat;
 use std::f64::consts::PI;
 
 /// The five IEEE-1139 power-law PSD coefficients `h_α` (`S_y(f) = Σ h_α f^α`), indexed by
@@ -57,9 +58,9 @@ pub struct PowerLaw {
 pub fn allan_variance(p: &PowerLaw, tau: f64, f_h: f64) -> f64 {
     let inv_t2 = 1.0 / (tau * tau);
     let wpm = p.h_2 * 3.0 * f_h / (4.0 * PI * PI) * inv_t2;
-    let fpm = p.h_1 * (1.038 + 3.0 * (2.0 * PI * f_h * tau).ln()) / (4.0 * PI * PI) * inv_t2;
+    let fpm = p.h_1 * (1.038 + 3.0 * (2.0 * PI * f_h * tau).pln()) / (4.0 * PI * PI) * inv_t2;
     let wfm = p.h_0 * 0.5 / tau;
-    let ffm = p.h_m1 * 2.0 * 2.0_f64.ln();
+    let ffm = p.h_m1 * 2.0 * 2.0_f64.pln();
     let rwfm = p.h_m2 * (2.0 * PI * PI / 3.0) * tau;
     wpm + fpm + wfm + ffm + rwfm
 }
@@ -72,7 +73,7 @@ pub fn allan_deviation(p: &PowerLaw, tau: f64, f_h: f64) -> f64 {
 /// The flicker-FM floor `σ_y = √(2 ln 2 · h_{−1})` — the τ-independent Allan-deviation
 /// level a flicker-FM-limited clock cannot beat by averaging.
 pub fn flicker_fm_floor(h_m1: f64) -> f64 {
-    (2.0 * 2.0_f64.ln() * h_m1).max(0.0).sqrt()
+    (2.0 * 2.0_f64.pln() * h_m1).max(0.0).sqrt()
 }
 
 /// Recovered FM-family coefficients `(h_{−2}, h_{−1}, h_0)` from a measured ADEV curve, by
@@ -90,7 +91,7 @@ pub fn fit_fm_family(taus: &[f64], adevs: &[f64]) -> (f64, f64, f64) {
     if pts.len() < 2 {
         return (0.0, 0.0, 0.0);
     }
-    let ln2 = 2.0_f64.ln();
+    let ln2 = 2.0_f64.pln();
     // Basis columns for σ_y² (coefficients are h_{-2}, h_{-1}, h_0 respectively).
     let basis = |t: f64| [(2.0 * PI * PI / 3.0) * t, 2.0 * ln2, 0.5 / t];
     let rows: Vec<[f64; 3]> = pts.iter().map(|&(t, _)| basis(t)).collect();
@@ -184,9 +185,9 @@ mod tests {
     // log-log slope of the ADEV between two decades of τ for a single noise type.
     fn adev_slope(p: &PowerLaw, f_h: f64) -> f64 {
         let (t1, t2) = (1.0, 100.0);
-        let s1 = allan_deviation(p, t1, f_h).ln();
-        let s2 = allan_deviation(p, t2, f_h).ln();
-        (s2 - s1) / (t2.ln() - t1.ln())
+        let s1 = allan_deviation(p, t1, f_h).pln();
+        let s2 = allan_deviation(p, t2, f_h).pln();
+        (s2 - s1) / (t2.pln() - t1.pln())
     }
 
     #[test]
@@ -233,7 +234,7 @@ mod tests {
             );
         }
         // identity σ_y = √(2 ln2 · h_{-1})
-        assert!(approx(floor, (2.0 * 2.0_f64.ln() * h_m1).sqrt(), 1e-30));
+        assert!(approx(floor, (2.0 * 2.0_f64.pln() * h_m1).sqrt(), 1e-30));
     }
 
     #[test]
@@ -245,7 +246,7 @@ mod tests {
             h_0: 4.0e-23,
             ..Default::default()
         };
-        let taus: Vec<f64> = (0..7).map(|k| 10f64.powi(k)).collect(); // 1 … 1e6 s
+        let taus: Vec<f64> = (0..7).map(|k| 10f64.ppowi(k)).collect(); // 1 … 1e6 s
         let adevs: Vec<f64> = taus
             .iter()
             .map(|&t| allan_deviation(&truth, t, 100.0))
@@ -264,7 +265,7 @@ mod tests {
             h_0: 1.0e-23,
             ..Default::default()
         };
-        let taus: Vec<f64> = (0..7).map(|k| 10f64.powi(k)).collect();
+        let taus: Vec<f64> = (0..7).map(|k| 10f64.ppowi(k)).collect();
         let adevs: Vec<f64> = taus
             .iter()
             .map(|&t| allan_deviation(&truth, t, 100.0))
