@@ -117,3 +117,11 @@ B3a: N samples read on all 8 scenarios. B4a: 0 m on all 8 (the same decimal text
 B5, B6 and B7 from run 1 (unchanged on this run), every bar for the NMEA, LLH and amended ECEF
 recipes holds: the ledger row is VALIDATED. The run-1 B3/B4 FINDING stays recorded and pinned
 (`tests/testbench_gpssdrsim_oracle.rs`).
+
+## Re-run on the 0.36 portable exports (2026-10-15)
+
+Not a new registration: the NMEA bytes of `gnss-ins-maritime`, `gnss-ins-rail` and `gnss-ins-aviation`
+moved with the 0.36 portable maths, so `run.sh` was run again at the same gps-sdr-sim commit with the
+bars unchanged. Only those three `nmea_sha256` values changed; every count and difference is identical
+and every bar holds as before. Record:
+[`docs/revisions/STUDIO15-testbench-gpssdrsim-rerun.md`](../../docs/revisions/STUDIO15-testbench-gpssdrsim-rerun.md).
