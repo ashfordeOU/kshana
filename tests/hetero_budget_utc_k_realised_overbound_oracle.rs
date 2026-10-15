@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
+// Host maths on purpose: this test recomputes its expected values independently of the engine's
+// portable maths (STUDIO-15), so the engine is checked against a second implementation.
 //! Oracle for the matrix row "Heterogeneous UTC(k) traceability-bias integrity overbound"
 //! (row 147, M083), round 2: the per-source bias overbound built from each laboratory's
 //! REALISED offsets (`integrity::hetero_budget::source_bias_from_realised_offsets`, a paired

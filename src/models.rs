@@ -1,9 +1,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 //! Stochastic clock and error models — the noise processes a scenario samples to
 //! drive a run.
+use crate::portable_distr::{Distribution, Normal};
+use crate::portable_math::PortableFloat;
 use crate::types::{ModelSpec, Seconds};
 use rand::RngCore;
-use rand_distr::{Distribution, Normal};
 
 /// Coerce a per-step random-walk standard deviation into a value
 /// `rand_distr::Normal::new` is guaranteed to accept. `Normal::new` (0.4) rejects only a
@@ -51,13 +52,13 @@ pub(crate) struct Flicker {
 impl Flicker {
     pub(crate) fn new(sigma_floor: f64, tau_min: f64, tau_max: f64, per_decade: usize) -> Self {
         assert!(tau_max > tau_min && tau_min > 0.0 && per_decade >= 1);
-        let rho = 10f64.powf(1.0 / per_decade as f64);
-        let ln_rho = rho.ln();
+        let rho = 10f64.ppowf(1.0 / per_decade as f64);
+        let ln_rho = rho.pln();
         // Per-component stationary variance that places the flat ADEV floor at sigma_floor.
         let comp_var = sigma_floor * sigma_floor * ln_rho / (2.0 * std::f64::consts::LN_2);
-        let decades = (tau_max / tau_min).log10();
+        let decades = (tau_max / tau_min).plog10();
         let m = (decades * per_decade as f64).round() as usize + 1;
-        let taus: Vec<f64> = (0..m).map(|i| tau_min * rho.powi(i as i32)).collect();
+        let taus: Vec<f64> = (0..m).map(|i| tau_min * rho.ppowi(i as i32)).collect();
         Self {
             sigma_floor,
             comp_var,
@@ -89,13 +90,13 @@ impl Flicker {
         self.taus
             .iter()
             .map(|&tau| {
-                let a = (-dt / tau).exp();
-                let one_minus_a = -(-dt / tau).exp_m1();
+                let a = (-dt / tau).pexp();
+                let one_minus_a = -(-dt / tau).pexp_m1();
                 // sum_{m=1}^{n-1} (n - m) a^m, with the n(n-1)/2 limit as a -> 1.
                 let cross = if one_minus_a < 1e-7 {
                     nf * (nf - 1.0) / 2.0
                 } else {
-                    a * (nf - 1.0 - nf * a + a.powi(n as i32)) / (one_minus_a * one_minus_a)
+                    a * (nf - 1.0 - nf * a + a.ppowi(n as i32)) / (one_minus_a * one_minus_a)
                 };
                 dt * dt * self.comp_var * (nf + 2.0 * cross)
             })
@@ -128,7 +129,7 @@ impl Flicker {
         }
         let mut sum = 0.0;
         for (i, s) in self.states.iter_mut().enumerate() {
-            let a = (-dt / self.taus[i]).exp();
+            let a = (-dt / self.taus[i]).pexp();
             let sd = (self.comp_var * (1.0 - a * a)).sqrt();
             let n = Normal::new(0.0, finite_pos_std_dev(sd))
                 .expect("finite_pos_std_dev returns a finite, strictly-positive std_dev, which Normal::new always accepts");

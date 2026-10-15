@@ -52,7 +52,7 @@ pub const J6: f64 = 5.4068e-7;
 pub const EARTH_ZONALS_J2_J6: [f64; 5] = [J2, J3, J4, J5, J6];
 
 use crate::ephem::AU_M;
-use crate::portable_math::{Maths, Platform, Portable};
+use crate::portable_math::{Maths, Portable, PortableFloat};
 
 type Vec3 = [f64; 3];
 
@@ -84,7 +84,7 @@ pub fn j2_accel(r: Vec3) -> Vec3 {
     let rn = norm(r);
     let r2 = rn * rn;
     let zr2 = 5.0 * r[2] * r[2] / r2;
-    let c = -1.5 * J2 * MU_EARTH * RE_EARTH * RE_EARTH / rn.powi(5);
+    let c = -1.5 * J2 * MU_EARTH * RE_EARTH * RE_EARTH / rn.ppowi(5);
     [
         c * r[0] * (1.0 - zr2),
         c * r[1] * (1.0 - zr2),
@@ -130,7 +130,7 @@ fn zonal_potential_with(r: Vec3, mu: f64, re: f64, jn: &[f64]) -> f64 {
     let mut sum = 0.0;
     for (i, &j) in jn.iter().enumerate() {
         let n = i + 2;
-        sum += j * (re / rn).powi(n as i32) * p[n];
+        sum += j * (re / rn).ppowi(n as i32) * p[n];
     }
     -mu / rn * sum
 }
@@ -189,7 +189,7 @@ fn zonal_accel_with<M: Maths>(r: Vec3, mu: f64, re: f64, jn: &[f64]) -> Vec3 {
 /// [`zonal_potential`]; with `jn = [J2]` it reduces to [`j2_accel`] to machine precision.
 /// Delegates to [`zonal_accel_with`] with the Earth [`MU_EARTH`]/[`RE_EARTH`] literals.
 pub fn zonal_accel(r: Vec3, jn: &[f64]) -> Vec3 {
-    zonal_accel_with::<Platform>(r, MU_EARTH, RE_EARTH, jn)
+    zonal_accel_with::<Portable>(r, MU_EARTH, RE_EARTH, jn)
 }
 
 /// [`zonal_accel`] evaluated with the platform-independent mathematics library
@@ -203,7 +203,7 @@ pub(crate) fn zonal_accel_portable(r: Vec3, jn: &[f64]) -> Vec3 {
 /// `b.zonals`). With `b = Body::earth()` this equals [`zonal_accel`] called with
 /// [`EARTH_ZONALS_J2_J6`] bit-for-bit, so the Earth path stays byte-identical.
 pub fn zonal_accel_body(r: Vec3, b: &crate::body::Body) -> Vec3 {
-    zonal_accel_with::<Platform>(r, b.mu, b.re, b.zonals)
+    zonal_accel_with::<Portable>(r, b.mu, b.re, b.zonals)
 }
 
 /// Sun gravitational parameter `GM☉` (m³/s²), IAU/DE value.
@@ -314,11 +314,11 @@ pub fn conical_shadow_body(r: Vec3, s: Vec3, body_radius_m: f64) -> f64 {
     if d_sun == 0.0 || r_n == 0.0 {
         return 1.0;
     }
-    let a = (SOLAR_RADIUS / d_sun).clamp(-1.0, 1.0).asin(); // Sun apparent radius
-    let b = (body_radius_m / r_n).clamp(-1.0, 1.0).asin(); // occulting body's apparent radius
+    let a = (SOLAR_RADIUS / d_sun).clamp(-1.0, 1.0).pasin(); // Sun apparent radius
+    let b = (body_radius_m / r_n).clamp(-1.0, 1.0).pasin(); // occulting body's apparent radius
                                                            // Apparent separation c = angle between sat→Sun (d) and sat→Earth-centre (−r).
     let dot = d[0] * (-r[0]) + d[1] * (-r[1]) + d[2] * (-r[2]);
-    let c = (dot / (d_sun * r_n)).clamp(-1.0, 1.0).acos();
+    let c = (dot / (d_sun * r_n)).clamp(-1.0, 1.0).pacos();
     if c >= a + b {
         return 1.0; // full sun
     }
@@ -332,7 +332,7 @@ pub fn conical_shadow_body(r: Vec3, s: Vec3, body_radius_m: f64) -> f64 {
     let x = ((c * c + a * a - b * b) / (2.0 * c * a)).clamp(-1.0, 1.0);
     let y = ((c * c + b * b - a * a) / (2.0 * c * b)).clamp(-1.0, 1.0);
     let tri = ((-c + a + b) * (c + a - b) * (c - a + b) * (c + a + b)).max(0.0);
-    let overlap = a * a * x.acos() + b * b * y.acos() - 0.5 * tri.sqrt();
+    let overlap = a * a * x.pacos() + b * b * y.pacos() - 0.5 * tri.sqrt();
     (1.0 - overlap / (std::f64::consts::PI * a * a)).clamp(0.0, 1.0)
 }
 
@@ -389,7 +389,7 @@ pub const EARTH_ROTATION_RATE: f64 = 7.292_115_146_7e-5;
 /// cutoff). This is a **static, solar-activity-independent mean** — *not* NRLMSISE-00, which is
 /// the opt-in [`DensityModel::Nrlmsise00`] tier.
 pub fn atmospheric_density(altitude_m: f64) -> f64 {
-    atmospheric_density_with::<Platform>(altitude_m)
+    atmospheric_density_with::<Portable>(altitude_m)
 }
 
 /// [`atmospheric_density`], written once for both mathematics libraries
@@ -443,7 +443,7 @@ fn atmospheric_density_with<M: Maths>(altitude_m: f64) -> f64 {
 /// (m²/kg) and `ρ` is [`atmospheric_density`] at the spherical altitude `|r| − Rₑ`. This force is
 /// **dissipative** — it always removes orbital energy, the signature the propagator validates.
 pub fn drag_accel(r: Vec3, v: Vec3, cd_area_over_mass: f64) -> Vec3 {
-    drag_accel_with::<Platform>(r, v, cd_area_over_mass)
+    drag_accel_with::<Portable>(r, v, cd_area_over_mass)
 }
 
 /// [`drag_accel`] evaluated with the platform-independent mathematics library
@@ -615,7 +615,7 @@ pub struct SecularRates {
 
 /// Compute the J2 secular rates for the given orbit.
 pub fn j2_secular_rates(a: f64, e: f64, i_rad: f64) -> SecularRates {
-    j2_secular_rates_with::<Platform>(a, e, i_rad)
+    j2_secular_rates_with::<Portable>(a, e, i_rad)
 }
 
 /// [`j2_secular_rates`] evaluated with the platform-independent mathematics library
@@ -670,7 +670,7 @@ mod tests {
     fn critical_inclination_freezes_the_perigee() {
         // ω̇ = 0 at the critical inclination i = arcsin(√(4/5)) ≈ 63.4349° (2 − 2.5·sin²i = 0).
         let a = 7.0e6;
-        let crit = (0.8_f64).sqrt().asin();
+        let crit = (0.8_f64).sqrt().pasin();
         let rates = j2_secular_rates(a, 0.001, crit);
         assert!(
             rates.arg_perigee.abs() < 1e-12,
@@ -836,9 +836,9 @@ mod tests {
         let r = [4.5e6, 2.0e6, 4.8e6];
         let a_j2 = zonal_accel(r, &[J2]);
         let a_full = zonal_accel(r, &EARTH_ZONALS_J2_J6);
-        let dmag = ((a_full[0] - a_j2[0]).powi(2)
-            + (a_full[1] - a_j2[1]).powi(2)
-            + (a_full[2] - a_j2[2]).powi(2))
+        let dmag = ((a_full[0] - a_j2[0]).ppowi(2)
+            + (a_full[1] - a_j2[1]).ppowi(2)
+            + (a_full[2] - a_j2[2]).ppowi(2))
         .sqrt();
         let j2mag = (a_j2[0] * a_j2[0] + a_j2[1] * a_j2[1] + a_j2[2] * a_j2[2]).sqrt();
         let ratio = dmag / j2mag;
@@ -946,9 +946,9 @@ mod tests {
         // take ν smoothly from 0 (umbra) through ~½ (Sun half-occulted at c = b) to 1 (full sun).
         let sun = [AU_M, 0.0, 0.0];
         let rn = RE_EARTH + 700e3;
-        let a = (SOLAR_RADIUS / AU_M).asin(); // Sun apparent radius (~0.27°)
-        let b = (RE_EARTH / rn).asin(); // Earth apparent radius (~64°)
-        let mk = |c: f64| [-rn * c.cos(), -rn * c.sin(), 0.0];
+        let a = (SOLAR_RADIUS / AU_M).pasin(); // Sun apparent radius (~0.27°)
+        let b = (RE_EARTH / rn).pasin(); // Earth apparent radius (~64°)
+        let mk = |c: f64| [-rn * c.pcos(), -rn * c.psin(), 0.0];
         let deep = conical_shadow(mk(b - 2.0 * a), sun); // c ≤ b−a → umbra
         let mid = conical_shadow(mk(b), sun); // c = b → Sun centre on Earth's limb
         let shallow = conical_shadow(mk(b + 2.0 * a), sun); // c ≥ a+b → full sun
@@ -971,9 +971,9 @@ mod tests {
         // fully lit) is still partially shadowed by the cone — the penumbra the cylinder misses.
         let sun = [AU_M, 0.0, 0.0];
         let rn = RE_EARTH + 700e3;
-        let a = (SOLAR_RADIUS / AU_M).asin();
-        let b = (RE_EARTH / rn).asin();
-        let r = [-rn * (b + 0.5 * a).cos(), -rn * (b + 0.5 * a).sin(), 0.0];
+        let a = (SOLAR_RADIUS / AU_M).pasin();
+        let b = (RE_EARTH / rn).pasin();
+        let r = [-rn * (b + 0.5 * a).pcos(), -rn * (b + 0.5 * a).psin(), 0.0];
         // r⊥ = rn·sin(b+0.5a) > rn·sin b = Rₑ, so the cylinder says fully lit…
         assert_eq!(cylindrical_shadow(r, sun), 1.0);
         // …while the cone sees a partial eclipse (penumbra), 0 < ν < 1.
@@ -1023,7 +1023,7 @@ mod tests {
         // physical signature, not a re-statement of any single tabulated number.
         let (h1, h2) = (400e3, 440e3);
         let ratio = atmospheric_density(h2) / atmospheric_density(h1);
-        let scale_km = -(h2 - h1) / 1000.0 / ratio.ln();
+        let scale_km = -(h2 - h1) / 1000.0 / ratio.pln();
         assert!(
             (50.0..=70.0).contains(&scale_km),
             "recovered LEO scale height {scale_km} km outside ~50–70 band"

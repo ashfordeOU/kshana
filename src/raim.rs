@@ -44,10 +44,11 @@
 use crate::frames::Vec3;
 use crate::orbit::{enu_basis, invert4, los_unit, ConstellationCfg, Orbit, OrbitCfg, Propagator};
 use crate::palette::chart::{AMBER, AXIS, BG, CORAL, CYAN, FONT_SANS, INK_2, INK_4, LIME, MAGENTA};
+use crate::portable_distr::{Distribution, Normal};
+use crate::portable_math::PortableFloat;
 use crate::scenario::TimeCfg;
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
-use rand_distr::{Distribution, Normal};
 use serde::{Deserialize, Serialize};
 
 /// Upper bound on the number of doublings used to bracket a monotone quantile.
@@ -71,7 +72,7 @@ fn ln_gamma(x: f64) -> f64 {
     ];
     if x < 0.5 {
         // Reflection formula.
-        std::f64::consts::PI.ln() - (std::f64::consts::PI * x).sin().ln() - ln_gamma(1.0 - x)
+        std::f64::consts::PI.pln() - (std::f64::consts::PI * x).psin().pln() - ln_gamma(1.0 - x)
     } else {
         let x = x - 1.0;
         let mut a = C[0];
@@ -79,7 +80,7 @@ fn ln_gamma(x: f64) -> f64 {
         for (i, &c) in C.iter().enumerate().skip(1) {
             a += c / (x + i as f64);
         }
-        0.5 * (2.0 * std::f64::consts::PI).ln() + (x + 0.5) * t.ln() - t + a.ln()
+        0.5 * (2.0 * std::f64::consts::PI).pln() + (x + 0.5) * t.pln() - t + a.pln()
     }
 }
 
@@ -103,7 +104,7 @@ fn gammp(s: f64, x: f64) -> f64 {
                 break;
             }
         }
-        sum * (-x + s * x.ln() - gln).exp()
+        sum * (-x + s * x.pln() - gln).pexp()
     } else {
         // Continued fraction (Lentz).
         let tiny = 1e-300;
@@ -129,7 +130,7 @@ fn gammp(s: f64, x: f64) -> f64 {
                 break;
             }
         }
-        1.0 - (-x + s * x.ln() - gln).exp() * h
+        1.0 - (-x + s * x.pln() - gln).pexp() * h
     }
 }
 
@@ -218,9 +219,9 @@ pub fn noncentral_chi2_cdf(x: f64, k: f64, lambda: f64) -> f64 {
     let mut sum = 0.0;
     for j in 0..600 {
         if j > 0 {
-            term_ln += half.ln() - (j as f64).ln();
+            term_ln += half.pln() - (j as f64).pln();
         }
-        let weight = term_ln.exp();
+        let weight = term_ln.pexp();
         sum += weight * chi2_cdf(x, k + 2.0 * j as f64);
         // Stop once the Poisson tail past the mode is negligible.
         if j as f64 > half && weight < 1e-14 {
@@ -390,8 +391,8 @@ fn geodetic_enu_basis(user: Vec3) -> Option<(Vec3, Vec3, Vec3)> {
         return None;
     }
     let g = crate::frames::ecef_to_geodetic(user);
-    let (sl, cl) = g.lat_rad.sin_cos();
-    let (so, co) = g.lon_rad.sin_cos();
+    let (sl, cl) = g.lat_rad.psin_cos();
+    let (so, co) = g.lon_rad.psin_cos();
     Some((
         [-so, co, 0.0],
         [-sl * co, -sl * so, cl],
@@ -2470,7 +2471,7 @@ mod tests {
         // chi2_{0.95}(10) = 18.307.
         assert!((chi2_quantile(0.95, 10.0) - 18.307).abs() < 1e-2);
         // Median of chi2(2) is 2 ln 2 = 1.3863.
-        assert!((chi2_cdf(2.0 * 2.0_f64.ln(), 2.0) - 0.5).abs() < 1e-6);
+        assert!((chi2_cdf(2.0 * 2.0_f64.pln(), 2.0) - 0.5).abs() < 1e-6);
     }
 
     #[test]
@@ -2511,9 +2512,9 @@ mod tests {
             .map(|&(az, el)| {
                 let (azr, elr) = (az.to_radians(), el.to_radians());
                 // ENU direction from the station to the satellite.
-                let de = elr.cos() * azr.sin();
-                let dn = elr.cos() * azr.cos();
-                let du = elr.sin();
+                let de = elr.pcos() * azr.psin();
+                let dn = elr.pcos() * azr.pcos();
+                let du = elr.psin();
                 [
                     s[0] + range * (de * east[0] + dn * north[0] + du * up[0]),
                     s[1] + range * (de * east[1] + dn * north[1] + du * up[1]),
@@ -2544,9 +2545,9 @@ mod tests {
         azel.iter()
             .map(|&(az, el)| {
                 let (azr, elr) = (az.to_radians(), el.to_radians());
-                let de = elr.cos() * azr.sin();
-                let dn = elr.cos() * azr.cos();
-                let du = elr.sin();
+                let de = elr.pcos() * azr.psin();
+                let dn = elr.pcos() * azr.pcos();
+                let du = elr.psin();
                 [
                     s[0] + range * (de * east[0] + dn * north[0] + du * up[0]),
                     s[1] + range * (de * east[1] + dn * north[1] + du * up[1]),
@@ -3294,7 +3295,7 @@ mod tests {
         let (east, north, up) = enu_basis(user).unwrap();
         let place = |az_deg: f64, el_deg: f64, range: f64| -> Vec3 {
             let (az, el) = (az_deg.to_radians(), el_deg.to_radians());
-            let (de, dn, du) = (el.cos() * az.sin(), el.cos() * az.cos(), el.sin());
+            let (de, dn, du) = (el.pcos() * az.psin(), el.pcos() * az.pcos(), el.psin());
             [
                 user[0] + range * (de * east[0] + dn * north[0] + du * up[0]),
                 user[1] + range * (de * east[1] + dn * north[1] + du * up[1]),

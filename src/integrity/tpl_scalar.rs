@@ -9,6 +9,7 @@
 //! R2 paper's contribution). This is ARAIM specialized to a degenerate
 //! geometry, not a new theorem.
 
+use crate::portable_math::PortableFloat;
 use crate::raim::{araim_integrity_risk, araim_protection_level, normal_quantile, AraimMode};
 
 /// One heterogeneous time source reduced to its scalar UTC(k) contribution.
@@ -52,10 +53,10 @@ pub fn scalar_tpl(sources: &[TimeSource], ir_budget: f64, p_fa: f64) -> Option<S
     }
     let n = sources.len();
     // Fault-free fused solution (all sources).
-    let sigma_ff2 = fused_variance(sources.iter().map(|s| s.sigma_s.powi(2)));
+    let sigma_ff2 = fused_variance(sources.iter().map(|s| s.sigma_s.ppowi(2)));
     let w_ff: Vec<f64> = sources
         .iter()
-        .map(|s| sigma_ff2 / s.sigma_s.powi(2))
+        .map(|s| sigma_ff2 / s.sigma_s.ppowi(2))
         .collect();
     let bias_ff: f64 = sources
         .iter()
@@ -89,7 +90,7 @@ pub fn scalar_tpl(sources: &[TimeSource], ir_budget: f64, p_fa: f64) -> Option<S
                     .iter()
                     .enumerate()
                     .filter(|(i, _)| *i != j)
-                    .map(|(_, s)| s.sigma_s.powi(2)),
+                    .map(|(_, s)| s.sigma_s.ppowi(2)),
             );
             // Separation statistic variance for nested estimators: σ_ss² = σ_sub² − σ_ff².
             let sig_ss = (sub_var - sigma_ff2).max(0.0).sqrt();
@@ -98,7 +99,7 @@ pub fn scalar_tpl(sources: &[TimeSource], ir_budget: f64, p_fa: f64) -> Option<S
                 .iter()
                 .enumerate()
                 .filter(|(i, _)| *i != j)
-                .map(|(_, s)| (sub_var / s.sigma_s.powi(2)) * s.bias_s.abs())
+                .map(|(_, s)| (sub_var / s.sigma_s.ppowi(2)) * s.bias_s.abs())
                 .sum();
             let threshold = k_fa * sig_ss;
             let metric = bias_sub + threshold + sub_var.sqrt();

@@ -17,6 +17,7 @@
 
 use crate::holdover::coast_phase_variance;
 use crate::integrity::kir::k_running_max;
+use crate::portable_math::PortableFloat;
 
 /// Holdover noise + seed parameters for one disciplined oscillator.
 #[derive(Clone, Copy, Debug)]
@@ -41,7 +42,7 @@ impl HoldoverEnvelope {
     pub fn stochastic_variance(&self, tau_s: f64) -> f64 {
         self.p0_phase_var_s2
             + coast_phase_variance(self.q_wf, self.q_rw, self.q_drift, tau_s)
-            + (self.flicker_floor * tau_s).powi(2)
+            + (self.flicker_floor * tau_s).ppowi(2)
     }
 
     /// Deterministic aging bias ½Dτ² (s).
@@ -121,7 +122,7 @@ mod tests {
         let t = 1000.0;
         let var = e.p0_phase_var_s2
             + crate::holdover::coast_phase_variance(e.q_wf, e.q_rw, e.q_drift, t)
-            + (e.flicker_floor * t).powi(2);
+            + (e.flicker_floor * t).ppowi(2);
         let bias = 0.5 * e.d_aging * t * t;
         let pointwise = bias + k_ir_two_sided(1e-5) * var.sqrt();
         let running = bias + k_running_max(1e-5) * var.sqrt();

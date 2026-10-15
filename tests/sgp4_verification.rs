@@ -11,6 +11,7 @@
 //! for those we simply skip the steps where our propagator returns an error code,
 //! exactly as the reference stops reporting there.
 
+use kshana::portable_math::PortableFloat;
 use kshana::sgp4::wgs72;
 use kshana::tle::parse_tle;
 
@@ -119,13 +120,13 @@ fn matches_official_verification_vectors() {
         for r in rows {
             match prop.propagate(r.tsince) {
                 Ok((p, v)) => {
-                    let d = ((p[0] - r.pos[0]).powi(2)
-                        + (p[1] - r.pos[1]).powi(2)
-                        + (p[2] - r.pos[2]).powi(2))
+                    let d = ((p[0] - r.pos[0]).ppowi(2)
+                        + (p[1] - r.pos[1]).ppowi(2)
+                        + (p[2] - r.pos[2]).ppowi(2))
                     .sqrt();
-                    let dv = ((v[0] - r.vel[0]).powi(2)
-                        + (v[1] - r.vel[1]).powi(2)
-                        + (v[2] - r.vel[2]).powi(2))
+                    let dv = ((v[0] - r.vel[0]).ppowi(2)
+                        + (v[1] - r.vel[1]).ppowi(2)
+                        + (v[2] - r.vel[2]).ppowi(2))
                     .sqrt();
                     worst_case_err = worst_case_err.max(d);
                     if dv > worst_vel {

@@ -12,6 +12,7 @@
 //! white-FM/BM leg; Chung-type for the integrated-BM τ³/τ⁵ legs).
 
 use crate::integrity::kir::k_running_max;
+use crate::portable_math::PortableFloat;
 
 /// Hartman-Wintner a.s. envelope `√(2 D t ln ln t)` for the white-FM/Brownian
 /// phase leg (s). Returns 0 for `t ≤ e` (where `ln ln t ≤ 0`).
@@ -19,7 +20,7 @@ pub fn lil_envelope(diffusion: f64, t_s: f64) -> f64 {
     if t_s <= std::f64::consts::E {
         return 0.0;
     }
-    let llt = t_s.ln().ln();
+    let llt = t_s.pln().pln();
     if llt <= 0.0 {
         return 0.0;
     }

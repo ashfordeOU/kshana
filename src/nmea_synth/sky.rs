@@ -150,6 +150,7 @@ impl SkyModel {
 mod tests {
     use super::*;
     use crate::frames::{look_angles, Geodetic};
+    use crate::portable_math::PortableFloat;
 
     #[test]
     fn a_northern_sea_sees_a_plausible_sky() {
@@ -204,7 +205,7 @@ mod tests {
             let (a, b, c) = (m.positions(t - 0.5), m.positions(t), m.positions(t + 0.5));
             for i in 0..a.len() {
                 let d2: f64 = (0..3)
-                    .map(|j| (a[i][j] + c[i][j] - 2.0 * b[i][j]).powi(2))
+                    .map(|j| (a[i][j] + c[i][j] - 2.0 * b[i][j]).ppowi(2))
                     .sum::<f64>()
                     .sqrt();
                 assert!(d2 < 100.0, "sat {i} at {t}: second difference {d2} m");

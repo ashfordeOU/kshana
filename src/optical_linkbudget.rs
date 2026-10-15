@@ -49,6 +49,7 @@
 //! * Deschênes et al., *Synchronization of Distant Optical Clocks at the Femtosecond Level*
 //!   (Phys. Rev. X 6, 021016, 2016) — sub-femtosecond OTWTT synchronization.
 
+use crate::portable_math::PortableFloat;
 use crate::timegeo::C_M_PER_S;
 
 /// **Planck's constant** `h = 6.626 070 15×10⁻³⁴ J·s`, the SI-2019 fixed value. The photon
@@ -197,10 +198,10 @@ pub fn optical_link_budget(p: &OpticalLinkParams) -> OpticalLinkResult {
     let footprint_m = divergence_rad * p.range_m;
     // Top-hat geometric capture: receive area / beam area = (D_rx / d_beam)², capped at 1
     // (the receiver cannot capture more than the whole beam).
-    let capture = ((p.rx_aperture_m / footprint_m.max(f64::MIN_POSITIVE)).powi(2)).min(1.0);
-    let geometric_loss_db = -10.0 * capture.log10();
+    let capture = ((p.rx_aperture_m / footprint_m.max(f64::MIN_POSITIVE)).ppowi(2)).min(1.0);
+    let geometric_loss_db = -10.0 * capture.plog10();
     let total_loss_db = geometric_loss_db + p.atmospheric_loss_db + p.pointing_loss_db;
-    let transmission = 10f64.powf(-total_loss_db / 10.0);
+    let transmission = 10f64.ppowf(-total_loss_db / 10.0);
     let received_power_w = p.tx_power_w * transmission * p.optics_efficiency;
     let e_photon = photon_energy_j(p.wavelength_m);
     let photon_rate_hz = received_power_w / e_photon * p.detector_efficiency;
@@ -373,7 +374,7 @@ mod tests {
         // correctly toward the demonstrated regime rather than beating it for free.
         let n_for_1fs_from_1ps = {
             let st = 1e-12_f64;
-            (st / demonstrated_tdev_s).powi(2) // = 1e6
+            (st / demonstrated_tdev_s).ppowi(2) // = 1e6
         };
         assert!(
             (photon_limited_toa_crlb_s(1e-12, n_for_1fs_from_1ps) - demonstrated_tdev_s).abs()

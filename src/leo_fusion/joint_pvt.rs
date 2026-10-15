@@ -330,9 +330,10 @@ pub fn sin_elevation(user: Vec3, sat: Vec3) -> f64 {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::portable_distr::{Distribution, Normal};
+    use crate::portable_math::PortableFloat;
     use rand::SeedableRng;
     use rand_chacha::ChaCha8Rng;
-    use rand_distr::{Distribution, Normal};
 
     /// A user on the equator at the prime meridian: local up is +x, east +y, north +z.
     fn user() -> Vec3 {
@@ -475,7 +476,7 @@ mod tests {
             // The cross terms are small for this geometry but not zero; use the per-axis
             // ratio, whose mean is still one per axis.
             for (ei, si) in enu.iter().zip(fix.sigma_enu_m) {
-                sum += (ei / si).powi(2);
+                sum += (ei / si).ppowi(2);
             }
         }
         let mean = sum / trials as f64;
@@ -493,7 +494,7 @@ mod tests {
         // 293.05 m * sqrt(1/(2*31623) * (1 + 2/(0.02*31623))) = 1.1672 m (evaluated by hand).
         let s = code_sigma_dll_m(45.0, 1.023e6, 1.0, 1.0, 0.02);
         let lc = 299_792_458.0 / 1.023e6;
-        let cn0 = 10f64.powf(4.5);
+        let cn0 = 10f64.ppowf(4.5);
         let want = lc * (1.0 / (2.0 * cn0) * (1.0 + 2.0 / (0.02 * cn0))).sqrt();
         assert!((s - want).abs() < 1e-12);
         assert!((s - 1.1672).abs() < 1e-3, "{s}");

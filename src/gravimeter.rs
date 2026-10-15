@@ -37,9 +37,10 @@
 use crate::inertial::quantum_imu::CaiAccelerometer;
 use crate::mapmatch::{hierarchical_offset_search, map_match_likelihood};
 use crate::particle_filter::ParticleFilter;
+use crate::portable_distr::{Distribution, Normal};
+use crate::portable_math::PortableFloat;
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
-use rand_distr::{Distribution, Normal};
 use serde::Deserialize;
 
 /// Earth gravitational parameter `GM` (m³/s², WGS-84/EGM).
@@ -171,14 +172,14 @@ impl GravityAnomalyModel {
     // triangular arrays.
     #[allow(clippy::needless_range_loop)]
     pub fn anomaly_mgal(&self, lat_rad: f64, lon_rad: f64) -> f64 {
-        let t = lat_rad.sin();
+        let t = lat_rad.psin();
         let pbar = normalized_legendre(self.nmax, t);
         let mut sum = 0.0;
         for n in 2..=self.nmax {
             let scale = (n as f64) - 1.0;
             for m in 0..=n {
                 let ml = (m as f64) * lon_rad;
-                let trig = self.cbar[n][m] * ml.cos() + self.sbar[n][m] * ml.sin();
+                let trig = self.cbar[n][m] * ml.pcos() + self.sbar[n][m] * ml.psin();
                 sum += scale * trig * pbar[n][m];
             }
         }
@@ -186,12 +187,12 @@ impl GravityAnomalyModel {
 
         let lat_deg = lat_rad.to_degrees();
         let lon_deg = lon_rad.to_degrees();
-        let cos_lat = lat_rad.cos();
+        let cos_lat = lat_rad.pcos();
         for ms in &self.mascons {
             let dlat = lat_deg - ms.lat_deg;
             let dlon = (lon_deg - ms.lon_deg) * cos_lat; // metric east-west scaling
             let r2 = (dlat * dlat + dlon * dlon) / (2.0 * ms.sigma_deg * ms.sigma_deg);
-            anom += ms.amp_mgal * (-r2).exp();
+            anom += ms.amp_mgal * (-r2).pexp();
         }
         anom
     }
@@ -616,7 +617,7 @@ pub fn run_gravity_map_benchmark(cfg: &GravityMapBenchmarkCfg) -> GravityMapNavR
 
     // Representative latitude for the east-west metric scale.
     let mid_lat = cfg.start_lat_deg + cfg.step_lat_deg * (cfg.waypoints as f64 - 1.0) / 2.0;
-    let cos_lat = mid_lat.to_radians().cos();
+    let cos_lat = mid_lat.to_radians().pcos();
     let to_m = |dlat: f64, dlon: f64| {
         let north = dlat * M_PER_DEG;
         let east = dlon * M_PER_DEG * cos_lat;
@@ -746,7 +747,7 @@ fn gps_denied_core(
     );
 
     let mid_lat = cfg.start_lat_deg + cfg.step_lat_deg * (cfg.waypoints as f64 - 1.0) / 2.0;
-    let cos_lat = mid_lat.to_radians().cos();
+    let cos_lat = mid_lat.to_radians().pcos();
     let to_m = |dlat: f64, dlon: f64| {
         let north = dlat * M_PER_DEG;
         let east = dlon * M_PER_DEG * cos_lat;
@@ -994,7 +995,7 @@ mod tests {
     #[test]
     fn normalized_legendre_matches_closed_forms_off_equator() {
         let phi = 30.0_f64.to_radians();
-        let (t, u) = (phi.sin(), phi.cos()); // 0.5, √3/2
+        let (t, u) = (phi.psin(), phi.pcos()); // 0.5, √3/2
         let p = normalized_legendre(2, t);
         assert!((p[1][0] - 3.0_f64.sqrt() * t).abs() < 1e-12);
         assert!((p[1][1] - 3.0_f64.sqrt() * u).abs() < 1e-12);
@@ -1038,7 +1039,7 @@ mod tests {
         // One σ away (north) it falls to amp·e^{−1/2}.
         let one_sigma = model.anomaly_mgal((10.4_f64).to_radians(), 20.0_f64.to_radians());
         assert!(
-            (one_sigma - 30.0 * (-0.5_f64).exp()).abs() < 1e-6,
+            (one_sigma - 30.0 * (-0.5_f64).pexp()).abs() < 1e-6,
             "1σ = {one_sigma}"
         );
     }

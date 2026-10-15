@@ -46,6 +46,7 @@
 //! These bounds are deliberately loose enough never to flap on a re-extraction and tight
 //! enough that a frame swap, a unit error or a truncated column fails the build.
 
+use kshana::portable_math::PortableFloat;
 use std::collections::BTreeMap;
 use std::path::Path;
 
@@ -107,7 +108,7 @@ fn catalogue(rel: &str) -> BTreeMap<String, Xyz> {
 }
 
 fn dist(a: Xyz, b: Xyz) -> f64 {
-    ((a[0] - b[0]).powi(2) + (a[1] - b[1]).powi(2) + (a[2] - b[2]).powi(2)).sqrt()
+    ((a[0] - b[0]).ppowi(2) + (a[1] - b[1]).ppowi(2) + (a[2] - b[2]).ppowi(2)).sqrt()
 }
 
 fn radius(a: Xyz) -> f64 {
@@ -299,7 +300,7 @@ fn the_orientation_series_interpolation_error_is_tens_of_metres_not_sub_metre() 
                 tr += g[k][d] * t[k][d];
             }
         }
-        let ang = (((tr - 1.0) / 2.0).clamp(-1.0, 1.0)).acos();
+        let ang = (((tr - 1.0) / 2.0).clamp(-1.0, 1.0)).pacos();
         worst_rad = worst_rad.max(ang);
         n += 1;
     }

@@ -81,6 +81,7 @@
 //! independent library or published worked value recomputes them here.
 
 use kshana::lunar_service::{ExportAntennaCfg, LunarServiceScenario};
+use kshana::portable_math::PortableFloat;
 use std::collections::HashMap;
 
 const REFERENCE_A: &str = "tests/fixtures/lunar_export_offboresight_spice/flown_orbiters.csv";
@@ -162,7 +163,7 @@ fn compare(
         .expect("export site configured");
     let ap = rep.antenna_pattern.as_ref().expect("antenna configured");
     assert_eq!(geom.len(), rows.len(), "{case}: row count");
-    let g0_lin = 10f64.powf(ap.boresight_gain_dbi / 10.0);
+    let g0_lin = 10f64.ppowf(ap.boresight_gain_dbi / 10.0);
     let (mut worst_angle, mut worst_gain, mut edges) = (0.0_f64, 0.0_f64, 0usize);
     for (g, o) in geom.iter().zip(rows) {
         assert!(
@@ -191,7 +192,7 @@ fn compare(
                 o.gain_dbi
             );
         } else {
-            let lin = 10f64.powf(gain / 10.0) / g0_lin;
+            let lin = 10f64.ppowf(gain / 10.0) / g0_lin;
             assert!(
                 (lin - o.gain_lin_rel).abs() <= GAIN_LIN_REL_TOL,
                 "{case} t={} sat {}: sidelobe gain engine {lin:.3e}, SciPy {:.3e} of boresight",

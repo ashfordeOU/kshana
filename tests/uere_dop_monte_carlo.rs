@@ -16,6 +16,7 @@
 //! input.
 
 use kshana::dop_error_mc::{check, run_geometry, GeometryResult, McConfig};
+use kshana::portable_math::PortableFloat;
 
 const REF: &str = include_str!("fixtures/dop/dop_reference.csv");
 
@@ -24,9 +25,9 @@ fn user() -> [f64; 3] {
     let (lat, lon) = (45.0_f64.to_radians(), 10.0_f64.to_radians());
     let r = 6.371e6;
     [
-        r * lat.cos() * lon.cos(),
-        r * lat.cos() * lon.sin(),
-        r * lat.sin(),
+        r * lat.pcos() * lon.pcos(),
+        r * lat.pcos() * lon.psin(),
+        r * lat.psin(),
     ]
 }
 

@@ -19,6 +19,7 @@
 //! elsewhere. No PZ-90.11 → ITRF transformation is applied: since 2014 the broadcast frame is
 //! PZ-90.11, which agrees with ITRF2008 at the centimetre level (RTKLIB applies none either).
 
+use crate::portable_math::PortableFloat;
 use crate::rinex::{col, orbit_fields, parse_d, EpochUtc};
 use serde::Serialize;
 
@@ -179,7 +180,7 @@ impl GlonassEphemeris {
 
     /// Approximate orbital period (s) from the broadcast radius, `2π·√(r³/μ⊕)`.
     pub fn orbital_period_s(&self) -> f64 {
-        let r = (self.pos_m[0].powi(2) + self.pos_m[1].powi(2) + self.pos_m[2].powi(2)).sqrt();
+        let r = (self.pos_m[0].ppowi(2) + self.pos_m[1].ppowi(2) + self.pos_m[2].ppowi(2)).sqrt();
         std::f64::consts::TAU * (r * r * r / crate::orbit::MU_EARTH).sqrt()
     }
 }
@@ -281,7 +282,7 @@ R01 2023 01 01 00 15 00-1.234567890123D-04 0.000000000000D+00 9.000000000000D+02
         // Velocity (km/s → m/s).
         assert!((e.vel_m_s[0] - 2500.0).abs() < 1e-6);
         // The state is a GLONASS-altitude orbit (~25 500 km).
-        let r = (e.pos_m[0].powi(2) + e.pos_m[1].powi(2) + e.pos_m[2].powi(2)).sqrt();
+        let r = (e.pos_m[0].ppowi(2) + e.pos_m[1].ppowi(2) + e.pos_m[2].ppowi(2)).sqrt();
         assert!((r - 25_500_000.0).abs() < 1_000_000.0, "radius {r:.0} m");
     }
 
@@ -295,10 +296,10 @@ R01 2023 01 01 00 15 00-1.234567890123D-04 0.000000000000D+00 9.000000000000D+02
     #[test]
     fn integration_keeps_the_orbit_radius_physical() {
         let e = &parse_glonass_nav(SAMPLE).unwrap()[0];
-        let r0 = (e.pos_m[0].powi(2) + e.pos_m[1].powi(2) + e.pos_m[2].powi(2)).sqrt();
+        let r0 = (e.pos_m[0].ppowi(2) + e.pos_m[1].ppowi(2) + e.pos_m[2].ppowi(2)).sqrt();
         // Over a 5-minute propagation the radius stays within a few percent.
         let p = e.position_ecef(300.0);
-        let r = (p[0].powi(2) + p[1].powi(2) + p[2].powi(2)).sqrt();
+        let r = (p[0].ppowi(2) + p[1].ppowi(2) + p[2].ppowi(2)).sqrt();
         assert!(
             (r - r0).abs() / r0 < 0.05,
             "radius drift {:.3}",

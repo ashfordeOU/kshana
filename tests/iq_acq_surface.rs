@@ -15,6 +15,7 @@ use kshana::iq::acq::{acquire, AcqConfig};
 use kshana::iq::acq_surface::{Surface, SurfaceFormat, FINE_STEPS_PER_BIN};
 use kshana::iq::cli::build_code;
 use kshana::iq::{Cf64, SampleSpec, SpreadingCode};
+use kshana::portable_math::PortableFloat;
 use std::f64::consts::TAU;
 
 const FS: f64 = 2.046e6;
@@ -36,7 +37,7 @@ fn signal(prn: i64, doppler: f64, phase0: f64, n: usize) -> Vec<Cf64> {
             let t = i as f64 / FS;
             let c = code.value_at(phase0 + rate * t);
             let ph = TAU * doppler * t;
-            Cf64::new(c * ph.cos(), c * ph.sin())
+            Cf64::new(c * ph.pcos(), c * ph.psin())
         })
         .collect()
 }
@@ -178,8 +179,8 @@ fn a_noise_only_surface_says_not_acquired() {
     let s: Vec<Cf64> = (0..4 * 2046)
         .map(|_| {
             let (a, b) = (u(), u());
-            let r = (-a.ln()).sqrt();
-            Cf64::new(r * (TAU * b).cos(), r * (TAU * b).sin())
+            let r = (-a.pln()).sqrt();
+            Cf64::new(r * (TAU * b).pcos(), r * (TAU * b).psin())
         })
         .collect();
     let surf = Surface::compute(&s, &spec(), &code, &cfg()).unwrap();

@@ -487,6 +487,7 @@ fn neg(v: Vec3) -> Vec3 {
 mod tests {
     use super::*;
     use crate::ephem::{moon_position, sun_position};
+    use crate::portable_math::PortableFloat;
 
     /// A fixed probe epoch (Julian Date, TDB) inside the analytic series' good span: 2022-001.5.
     const PROBE_JD: f64 = 2_459_580.5;
@@ -742,7 +743,7 @@ mod tests {
         let n = |v: Vec3| (v[0] * v[0] + v[1] * v[1] + v[2] * v[2]).sqrt();
         let ang = (dot / (n(kern) * n(ana)))
             .clamp(-1.0, 1.0)
-            .acos()
+            .pacos()
             .to_degrees();
         assert!(ang < 0.3, "{ang} deg");
     }

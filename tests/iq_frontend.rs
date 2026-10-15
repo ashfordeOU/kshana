@@ -13,6 +13,7 @@ use kshana::iq::frontend::notch::AdaptiveNotch;
 use kshana::iq::frontend::quant::{correlation_loss_db, optimum_step_sigma, Quantiser};
 use kshana::iq::frontend::{Chain, Stage};
 use kshana::iq::Cf64;
+use kshana::portable_math::PortableFloat;
 use rand::{Rng, SeedableRng};
 use rand_chacha::ChaCha8Rng;
 use rand_distr::{Distribution, StandardNormal};
@@ -34,7 +35,7 @@ fn tone(n: usize, amp: f64, f_norm: f64) -> Vec<Cf64> {
     (0..n)
         .map(|k| {
             let ph = 2.0 * PI * f_norm * k as f64;
-            Cf64::new(amp * ph.cos(), amp * ph.sin())
+            Cf64::new(amp * ph.pcos(), amp * ph.psin())
         })
         .collect()
 }
@@ -48,7 +49,7 @@ fn power(x: &[Cf64]) -> f64 {
 }
 
 fn db(x: f64) -> f64 {
-    10.0 * x.log10()
+    10.0 * x.plog10()
 }
 
 /// Run `make()` once over `x` in one call and once over seeded random chunk sizes;
@@ -114,13 +115,13 @@ fn fir_lowpass_meets_its_kaiser_specification() {
             "A={atten}: passband deviation {dev:e} vs δ={delta:e}"
         );
         assert!(
-            -20.0 * leak.log10() >= atten - 20.0 * 1.5f64.log10(),
+            -20.0 * leak.plog10() >= atten - 20.0 * 1.5f64.plog10(),
             "A={atten}: stopband {:.2} dB",
-            20.0 * leak.log10()
+            20.0 * leak.plog10()
         );
         // Passband ripple in dB is within ±20·log10(1 + 1.5δ).
-        let ripple_db = 20.0 * (1.0 + dev).log10();
-        assert!(ripple_db <= 20.0 * (1.0 + 1.5 * delta).log10());
+        let ripple_db = 20.0 * (1.0 + dev).plog10();
+        assert!(ripple_db <= 20.0 * (1.0 + 1.5 * delta).plog10());
     }
 }
 
@@ -133,7 +134,7 @@ fn kaiser_beta_and_bessel_i0_match_published_values() {
     assert!((fir::bessel_i0(5.0) - 27.239_871_82).abs() < 1e-7);
     assert_eq!(fir::kaiser_beta(20.0), 0.0);
     assert!((fir::kaiser_beta(60.0) - 0.1102 * 51.3).abs() < 1e-12);
-    assert!((fir::kaiser_beta(50.0) - (0.5842 * 29f64.powf(0.4) + 0.07886 * 29.0)).abs() < 1e-12);
+    assert!((fir::kaiser_beta(50.0) - (0.5842 * 29f64.ppowf(0.4) + 0.07886 * 29.0)).abs() < 1e-12);
     let w = fir::kaiser_window(21, 6.0);
     assert!((w[10] - 1.0).abs() < 1e-15);
     assert!((w[0] - 1.0 / fir::bessel_i0(6.0)).abs() < 1e-15);
@@ -155,7 +156,7 @@ fn fir_complex_bandpass_passes_only_its_band() {
         &[(-fs / 2.0, lo - tw), (hi + tw, fs / 2.0)],
     );
     assert!(dev <= 1.5 * delta, "passband deviation {dev:e}");
-    assert!(20.0 * leak.log10() <= -(atten - 20.0 * 1.5f64.log10()));
+    assert!(20.0 * leak.plog10() <= -(atten - 20.0 * 1.5f64.plog10()));
     // The mirror of the band centre is deep in the stopband.
     assert!(fir::freq_response(&d.taps, -1.5e6, fs).abs() < 1.5 * delta);
 }
@@ -194,14 +195,14 @@ fn biquad_lowpass_is_the_bilinear_butterworth() {
     let (fs, f0) = (1.0e6, 0.12e6);
     let b = Biquad::lowpass(fs, f0, std::f64::consts::FRAC_1_SQRT_2);
     assert!(b.is_stable());
-    let t0 = (PI * f0 / fs).tan();
+    let t0 = (PI * f0 / fs).ptan();
     for k in 0..400 {
         let f = (k as f64 + 0.5) / 400.0 * 0.499 * fs;
-        let r = (PI * f / fs).tan() / t0;
-        let want = 1.0 / (1.0 + r.powi(4)).sqrt();
+        let r = (PI * f / fs).ptan() / t0;
+        let want = 1.0 / (1.0 + r.ppowi(4)).sqrt();
         assert!((b.response(f, fs).abs() - want).abs() < 1e-12, "f={f}");
     }
-    assert!((20.0 * b.response(f0, fs).abs().log10() + 3.0103).abs() < 1e-3);
+    assert!((20.0 * b.response(f0, fs).abs().plog10() + 3.0103).abs() < 1e-3);
 }
 
 /// Notch, high-pass and band-pass sections: zeros and unit gains where the designs put
@@ -254,7 +255,7 @@ fn biquad_cascade_streaming_matches_response_and_is_chunk_invariant() {
 #[test]
 fn quantiser_loss_matches_published_values() {
     let one = correlation_loss_db(1, 1.0);
-    assert!((one - 10.0 * (PI / 2.0).log10()).abs() < 1e-12);
+    assert!((one - 10.0 * (PI / 2.0).plog10()).abs() < 1e-12);
     assert!((one - 1.96).abs() < 0.005);
     let (t2, l2) = optimum_step_sigma(2);
     assert!((l2 - 0.55).abs() < 0.01, "2-bit loss {l2}");
@@ -349,7 +350,7 @@ fn agc_settles_with_its_time_constant_to_the_target_level() {
         gain_db.push(agc.gain_db());
     }
     // Settled before the step: gain² · 2 = target.
-    let want0 = 10.0 * (target / 2.0).log10();
+    let want0 = 10.0 * (target / 2.0).plog10();
     let want1 = want0 - 10.0;
     assert!((gain_db[n0 - 1] - want0).abs() < 0.5);
     // Settling time to within 1 dB of the new level, from a smoothed gain trace.
@@ -358,7 +359,7 @@ fn agc_settles_with_its_time_constant_to_the_target_level() {
         .find(|&k| smooth(k) - want1 < 1.0)
         .unwrap();
     let t_settle = (k1 - n0) as f64 / fs;
-    let t_want = tau * 10f64.ln();
+    let t_want = tau * 10f64.pln();
     assert!(
         (t_settle / t_want - 1.0).abs() < 0.15,
         "settled in {t_settle:e} s, closed form {t_want:e} s"
@@ -528,7 +529,7 @@ fn freq_excision_removes_a_strong_tone() {
         });
         let a_out = proj.abs() / (range.len() as f64 * 10.0);
         assert!(
-            20.0 * (a_out / 10.0).log10() < -30.0,
+            20.0 * (a_out / 10.0).plog10() < -30.0,
             "f={f}: residual {a_out}"
         );
         // The noise passes: output power close to the noise power (a few bins removed).

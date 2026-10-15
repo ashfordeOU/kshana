@@ -29,6 +29,7 @@
 //! playground contour widget. Kshana points users to GMAT/Orekit for full multi-burn /
 //! low-thrust optimization.
 
+use crate::portable_math::PortableFloat;
 use serde::Serialize;
 use std::f64::consts::PI;
 
@@ -196,7 +197,7 @@ pub struct FiniteBurnResult {
 
 /// Tsiolkovsky rocket equation: ΔV = `Isp · g₀ · ln(m0 / mf)` (m/s).
 pub fn tsiolkovsky(isp_s: f64, m0_kg: f64, mf_kg: f64) -> f64 {
-    isp_s * G0 * (m0_kg / mf_kg).ln()
+    isp_s * G0 * (m0_kg / mf_kg).pln()
 }
 
 /// Integrate a finite burn in a field-free setting (isolating the rocket-equation check from
@@ -246,10 +247,10 @@ pub fn integrate_finite_burn(burn: &FiniteBurn, steps: usize) -> Result<FiniteBu
 fn stumpff(psi: f64) -> (f64, f64) {
     if psi > 1e-6 {
         let s = psi.sqrt();
-        ((1.0 - s.cos()) / psi, (s - s.sin()) / (psi * s))
+        ((1.0 - s.pcos()) / psi, (s - s.psin()) / (psi * s))
     } else if psi < -1e-6 {
         let s = (-psi).sqrt();
-        ((s.cosh() - 1.0) / (-psi), (s.sinh() - s) / ((-psi) * s))
+        ((s.pcosh() - 1.0) / (-psi), (s.psinh() - s) / ((-psi) * s))
     } else {
         // Series: c2 = 1/2 − ψ/24 + ψ²/720…, c3 = 1/6 − ψ/120 + ψ²/5040…
         (
@@ -277,7 +278,7 @@ pub fn kepler_universal(r0: Vec3, v0: Vec3, dt: f64, mu: f64) -> (Vec3, Vec3) {
             * (-a).sqrt()
             * ((-2.0 * mu * alpha * dt)
                 / (dot(r0, v0) + dt.signum() * (-mu * a).sqrt() * (1.0 - r0n * alpha)))
-                .ln()
+                .pln()
     } else {
         sqrt_mu * dt / r0n
     };
@@ -338,10 +339,10 @@ fn compute_y(x: f64, ll: f64) -> f64 {
 fn compute_psi(x: f64, y: f64, ll: f64) -> f64 {
     if (-1.0..1.0).contains(&x) {
         // Elliptic.
-        (x * y + ll * (1.0 - x * x)).acos()
+        (x * y + ll * (1.0 - x * x)).pacos()
     } else if x > 1.0 {
         // Hyperbolic.
-        ((y - x * ll) * (x * x - 1.0).sqrt()).asinh()
+        ((y - x * ll) * (x * x - 1.0).sqrt()).pasinh()
     } else {
         0.0
     }
@@ -368,7 +369,8 @@ fn tof_eq_p2(x: f64, y: f64, tof: f64, dt: f64, ll: f64) -> f64 {
     (3.0 * tof + 5.0 * x * dt + 2.0 * (1.0 - ll * ll) * ll * ll * ll / (y * y * y)) / (1.0 - x * x)
 }
 fn tof_eq_p3(x: f64, y: f64, _tof: f64, dt: f64, ddt: f64, ll: f64) -> f64 {
-    (7.0 * x * ddt + 8.0 * dt - 6.0 * (1.0 - ll * ll) * ll.powi(5) * x / y.powi(5)) / (1.0 - x * x)
+    (7.0 * x * ddt + 8.0 * dt - 6.0 * (1.0 - ll * ll) * ll.ppowi(5) * x / y.ppowi(5))
+        / (1.0 - x * x)
 }
 
 /// Householder (cubic-order) iteration for the single-rev root `x` of `tof(x) = T`.
@@ -441,14 +443,14 @@ pub fn lambert(
     let big_t = (2.0 * mu / (s * s * s)).sqrt() * tof;
 
     // Single-revolution initial guess (Izzo `_initial_guess`, M = 0 branch).
-    let t0 = ll.acos() + ll * (1.0 - ll * ll).sqrt(); // T(x = 0)
+    let t0 = ll.pacos() + ll * (1.0 - ll * ll).sqrt(); // T(x = 0)
     let t1 = 2.0 / 3.0 * (1.0 - ll * ll * ll); // T(x = 1), parabola
     let x0 = if big_t >= t0 {
-        (t0 / big_t).powf(2.0 / 3.0) - 1.0
+        (t0 / big_t).ppowf(2.0 / 3.0) - 1.0
     } else if big_t < t1 {
-        2.5 * t1 / big_t * (t1 - big_t) / (1.0 - ll.powi(5)) + 1.0
+        2.5 * t1 / big_t * (t1 - big_t) / (1.0 - ll.ppowi(5)) + 1.0
     } else {
-        (t0 / big_t).powf((t1 / t0).log2()) - 1.0
+        (t0 / big_t).ppowf((t1 / t0).plog2()) - 1.0
     };
     let x = householder(x0, big_t, ll);
     let y = compute_y(x, ll);
@@ -742,19 +744,19 @@ pub struct CircularCoplanarBody {
 impl CircularCoplanarBody {
     /// Mean angular rate `n = √(μ/r³)` (rad/s).
     pub fn angular_rate(&self) -> f64 {
-        (self.mu_central / self.radius_m.powi(3)).sqrt()
+        (self.mu_central / self.radius_m.ppowi(3)).sqrt()
     }
     /// Heliocentric position (m) at time `t` (s).
     pub fn position(&self, t: f64) -> Vec3 {
         let th = self.phase0_rad + self.angular_rate() * t;
-        [self.radius_m * th.cos(), self.radius_m * th.sin(), 0.0]
+        [self.radius_m * th.pcos(), self.radius_m * th.psin(), 0.0]
     }
     /// Heliocentric velocity (m/s) at time `t` (s).
     pub fn velocity(&self, t: f64) -> Vec3 {
         let n = self.angular_rate();
         let th = self.phase0_rad + n * t;
         let speed = self.radius_m * n;
-        [-speed * th.sin(), speed * th.cos(), 0.0]
+        [-speed * th.psin(), speed * th.pcos(), 0.0]
     }
 }
 
@@ -822,7 +824,7 @@ pub fn porkchop(
             let r2 = arr.position(ta);
             // Skip near-collinear geometry.
             let cosang = (dot(r1, r2) / (norm(r1) * norm(r2))).clamp(-1.0, 1.0);
-            let ang = cosang.acos();
+            let ang = cosang.pacos();
             if ang < collinear_guard || (PI - ang) < collinear_guard {
                 continue;
             }
@@ -1304,7 +1306,7 @@ mod tests {
         };
         // Place the target so a 0 → tof_h transfer sweeps ~180° (the Hohmann geometry),
         // but we never sample exactly there (the guard / grid offsets keep us off the singularity).
-        let n2 = (MU_SUN / r2.powi(3)).sqrt();
+        let n2 = (MU_SUN / r2.ppowi(3)).sqrt();
         let arr = CircularCoplanarBody {
             radius_m: r2,
             phase0_rad: PI - n2 * tof_h,

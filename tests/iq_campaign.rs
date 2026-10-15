@@ -56,6 +56,7 @@ use kshana::iq::scene::{
 use kshana::iq::track::design::DesignFile;
 use kshana::iq::{ChannelSnapshot, PathState, SampleSpec};
 use kshana::jamming::effective_cn0_dbhz;
+use kshana::portable_math::PortableFloat;
 use std::collections::BTreeMap;
 use std::path::{Path, PathBuf};
 use std::sync::OnceLock;
@@ -123,7 +124,7 @@ fn scene(
         paths: match cn0(id, t) {
             None => Vec::new(),
             Some(c) => vec![PathState {
-                amplitude: 10f64.powf((c - NOMINAL) / 20.0),
+                amplitude: 10f64.ppowf((c - NOMINAL) / 20.0),
                 ..direct_path()
             }],
         },

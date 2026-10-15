@@ -39,9 +39,10 @@ use crate::igrf::magnetic_field;
 use crate::ionex::cell;
 use crate::mapmatch::{field_likelihood, hierarchical_offset_search};
 use crate::palette::chart::{BG, BLUE, FONT_SANS, TEXT};
+use crate::portable_distr::{Distribution, Normal};
+use crate::portable_math::PortableFloat;
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
-use rand_distr::{Distribution, Normal};
 use serde::{Deserialize, Serialize};
 
 /// The SRTM void / no-data sentinel: cells with no measured elevation are coded -32768.
@@ -147,7 +148,7 @@ impl DemGrid {
         let mut elev_m = vec![0.0_f64; n_lat * n_lon];
         for i in 0..n_lat {
             let lat = lat0_deg + dlat_deg * i as f64;
-            let cos_lat = lat.to_radians().cos();
+            let cos_lat = lat.to_radians().pcos();
             for j in 0..n_lon {
                 let lon = lon0_deg + dlon_deg * j as f64;
                 // Tilted-plane regional ridge.
@@ -157,7 +158,7 @@ impl DemGrid {
                     let dlat = lat - flat;
                     let dlon = (lon - flon) * cos_lat;
                     let r2 = (dlat * dlat + dlon * dlon) / (2.0 * sig * sig);
-                    h += amp * (-r2).exp();
+                    h += amp * (-r2).pexp();
                 }
                 elev_m[i * n_lon + j] = h;
             }
@@ -458,7 +459,7 @@ fn finite_std_dev(sigma: f64) -> f64 {
 
 /// Convert a (Δlat, Δlon) degree offset to metres at the representative latitude.
 pub(crate) fn deg_offset_to_m(dlat: f64, dlon: f64, ref_lat_deg: f64) -> f64 {
-    let cos_lat = ref_lat_deg.to_radians().cos();
+    let cos_lat = ref_lat_deg.to_radians().pcos();
     let north = dlat * M_PER_DEG;
     let east = dlon * M_PER_DEG * cos_lat;
     (north * north + east * east).sqrt()
@@ -725,14 +726,14 @@ fn magnetic_anomaly_field(
 ) -> impl Fn(f64, f64) -> f64 + '_ {
     move |lat_deg: f64, lon_deg: f64| {
         let base = magnetic_field(lat_deg, lon_deg, alt_km, year).total_nt - regional_mean_nt;
-        let cos_lat = lat_deg.to_radians().cos();
+        let cos_lat = lat_deg.to_radians().pcos();
         let mut a = base;
         for ms in mascons {
             let dlat = lat_deg - ms.lat_deg;
             let dlon = (lon_deg - ms.lon_deg) * cos_lat;
             let r2 = (dlat * dlat + dlon * dlon) / (2.0 * ms.sigma_deg * ms.sigma_deg);
             // Mascon amplitude reused as the magnetic anomaly amplitude (nT here, not mGal).
-            a += ms.amp_mgal * (-r2).exp();
+            a += ms.amp_mgal * (-r2).pexp();
         }
         a
     }
@@ -965,7 +966,7 @@ fn bars_svg(title: &str, rows: &[(&str, f64)]) -> String {
         .iter()
         .map(|&(_, v)| v.max(1.0))
         .fold(1.0_f64, f64::max);
-    let lmax = (max).log10();
+    let lmax = (max).plog10();
     let mut s = String::new();
     s.push_str(&format!(
         "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w}\" height=\"{h}\" \
@@ -980,7 +981,7 @@ fn bars_svg(title: &str, rows: &[(&str, f64)]) -> String {
         let frac = if v <= 1.0 {
             0.0
         } else {
-            (v.log10() / lmax).clamp(0.0, 1.0)
+            (v.plog10() / lmax).clamp(0.0, 1.0)
         };
         let len = (bar_w * frac).max(2.0);
         s.push_str(&format!(
@@ -1375,7 +1376,7 @@ mod tests {
             .gravity_only_m
             .min(cr.magnetic_only_m)
             .min(cr.terrain_only_m);
-        let grid_floor_m = ccfg.search_step_deg / ccfg.refine_factor.powi(2) * M_PER_DEG;
+        let grid_floor_m = ccfg.search_step_deg / ccfg.refine_factor.ppowi(2) * M_PER_DEG;
         assert!(
             cr.combined_m <= best + grid_floor_m,
             "combined {} m vs best single {} m (floor {} m)",

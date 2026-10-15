@@ -75,6 +75,7 @@ use crate::integrator::{
     integrate, integrate_dop853_checked, integrate_dopri, rk4_step, Dop853Error, Tolerance,
 };
 use crate::jd2::Jd2;
+use crate::portable_math::PortableFloat;
 use crate::precession::{julian_centuries_tt, mat_vec, transpose, Mat3};
 use crate::sgp4::Sgp4;
 use crate::timescales::SECONDS_PER_DAY;
@@ -959,7 +960,7 @@ pub fn raan_rad(r: Vec3, v: Vec3) -> f64 {
     let h = cross(r, v);
     // n = ẑ × h = (−h_y, h_x, 0).
     let n = [-h[1], h[0], 0.0];
-    n[1].atan2(n[0])
+    n[1].patan2(n[0])
 }
 
 /// Two-body specific orbital energy `ε = v²/2 − μ/|r|` (J/kg). Conserved exactly under pure
@@ -1071,14 +1072,14 @@ pub fn solve_kepler_checked(
     }
     let mut ea = mean_anomaly;
     for _ in 0..max_iter {
-        let residual = ea - e * ea.sin() - mean_anomaly;
+        let residual = ea - e * ea.psin() - mean_anomaly;
         if residual.abs() < TOL {
             return Ok(ea);
         }
-        let deriv = 1.0 - e * ea.cos();
+        let deriv = 1.0 - e * ea.pcos();
         ea -= residual / deriv;
     }
-    let final_residual = (ea - e * ea.sin() - mean_anomaly).abs();
+    let final_residual = (ea - e * ea.psin() - mean_anomaly).abs();
     if final_residual < TOL {
         Ok(ea)
     } else {
@@ -1121,7 +1122,7 @@ mod tests {
         let inc = 45.0_f64.to_radians();
         // r along +x; v in the orbit plane inclined 45° about x.
         let r0 = [a, 0.0, 0.0];
-        let v0 = [0.0, v * inc.cos(), v * inc.sin()];
+        let v0 = [0.0, v * inc.pcos(), v * inc.psin()];
         (r0, v0)
     }
 
@@ -1224,7 +1225,7 @@ mod tests {
         let inc = 51.6_f64.to_radians();
         let v = (MU_EARTH / a).sqrt();
         let r0 = [a, 0.0, 0.0];
-        let v0 = [0.0, v * inc.cos(), v * inc.sin()];
+        let v0 = [0.0, v * inc.pcos(), v * inc.psin()];
 
         let day = 86_400.0;
         let hist = nodal_history(r0, v0, day, 10.0, &ForceModel::with_j2());
@@ -1249,7 +1250,7 @@ mod tests {
         let m = 1.0;
         let e = 0.3;
         let ea = solve_kepler_checked(m, e, 30).expect("should converge");
-        assert!((ea - e * ea.sin() - m).abs() < 1e-12);
+        assert!((ea - e * ea.psin() - m).abs() < 1e-12);
         // Circular is exact in one shot.
         assert_eq!(solve_kepler_checked(0.7, 0.0, 30), Ok(0.7));
     }
@@ -1526,7 +1527,7 @@ mod tests {
         let r0 = [crate::forces::RE_EARTH + alt, 0.0, 0.0];
         let vc = (MU_EARTH / (crate::forces::RE_EARTH + alt)).sqrt();
         let inc = 45.0_f64.to_radians();
-        let v0 = [0.0, vc * inc.cos(), vc * inc.sin()];
+        let v0 = [0.0, vc * inc.pcos(), vc * inc.psin()];
         let day = 86_400.0;
         let tol = Tolerance {
             rtol: 1e-12,

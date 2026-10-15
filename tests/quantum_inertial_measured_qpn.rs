@@ -80,6 +80,7 @@
 //! sum) must turn the strict test red.
 
 use kshana::inertial::quantum_imu::{effective_wavevector, CaiAccelerometer, DualCai};
+use kshana::portable_math::PortableFloat;
 
 const FIG14: &str = "tests/fixtures/quantum_inertial_measured_qpn/gauguet2009_fig14.csv";
 const JANVIER: &str = "tests/fixtures/quantum_inertial_measured_qpn/janvier2022_fig2b_qpn_line.csv";
@@ -108,7 +109,7 @@ fn gauguet(n_reduced: f64) -> DualCai {
 }
 
 fn v_perp() -> f64 {
-    2.4 * 8.0_f64.to_radians().sin()
+    2.4 * 8.0_f64.to_radians().psin()
 }
 
 fn qpn_share(n: f64) -> f64 {

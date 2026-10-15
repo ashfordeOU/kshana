@@ -31,6 +31,7 @@
 //! - **Modelled.** The specific optical / RF measurement-noise magnitudes and the
 //!   modality-transition covariance-inflation factor are representative inputs.
 
+use crate::portable_math::PortableFloat;
 use crate::raim::chi2_quantile;
 use serde::Serialize;
 
@@ -71,7 +72,7 @@ impl HandoffState {
         }
         let k = p / s;
         self.x[i] += k * (z - self.x[i]);
-        self.p_diag[i] = (1.0 - k).powi(2) * p + k * k * r;
+        self.p_diag[i] = (1.0 - k).ppowi(2) * p + k * k * r;
     }
 
     /// Apply a batch of per-axis Joseph updates `(axis, z, r)` in order.
@@ -271,9 +272,9 @@ pub fn rf_optical_handoff(
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::portable_distr::{Distribution, Normal};
     use rand::SeedableRng;
     use rand_chacha::ChaCha8Rng;
-    use rand_distr::{Distribution, Normal};
 
     /// The handoff carries the mean bit-for-bit (the PROVEN no-jump guarantee) while
     /// inflating the covariance; a zero inflation reproduces the state exactly. Oracle: the
@@ -338,7 +339,7 @@ mod tests {
 
             // A state whose error is exactly 1σ on every axis has NEES = dof (in gate).
             let x: Vec<f64> = (0..dof).map(|i| (i as f64) + 1.0).collect();
-            let p: Vec<f64> = (0..dof).map(|i| ((i as f64) + 2.0).powi(2)).collect();
+            let p: Vec<f64> = (0..dof).map(|i| ((i as f64) + 2.0).ppowi(2)).collect();
             let truth: Vec<f64> = x
                 .iter()
                 .zip(p.iter())
@@ -506,7 +507,7 @@ mod tests {
             s.joseph_update_axis(0, 1.0, r);
             let k = p / (p + r);
             // Joseph closed form.
-            let joseph = (1.0 - k).powi(2) * p + k * k * r;
+            let joseph = (1.0 - k).ppowi(2) * p + k * k * r;
             // Independent information-form closed form P⁺ = 1/(1/P + 1/R) = P·R/(P+R).
             let info_form = p * r / (p + r);
             let rel = 1e-9 * info_form.max(1e-18);

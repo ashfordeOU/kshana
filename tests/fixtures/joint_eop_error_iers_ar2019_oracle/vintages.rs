@@ -10,6 +10,7 @@
 
 #![allow(dead_code)]
 
+use kshana::portable_math::PortableFloat;
 use std::collections::BTreeMap;
 
 const VINTAGES: &str = include_str!("vintages.csv");
@@ -32,11 +33,11 @@ pub struct Issue {
 impl Issue {
     /// IERS printed accuracy of a UT1-UTC prediction `h` days past MJD0, seconds.
     pub fn s_t(&self, h: f64) -> f64 {
-        self.st.0 * h.powf(self.st.1)
+        self.st.0 * h.ppowf(self.st.1)
     }
     /// IERS printed accuracy of one polar-motion coordinate `h` days past MJD0, arcsec.
     pub fn s_xy(&self, h: f64) -> f64 {
-        self.sxy.0 * h.powf(self.sxy.1)
+        self.sxy.0 * h.ppowf(self.sxy.1)
     }
     /// The as-issued `finals2000A` body of this issue.
     pub fn as_issued_body(&self) -> String {

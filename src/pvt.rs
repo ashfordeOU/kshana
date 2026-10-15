@@ -28,6 +28,7 @@ use crate::frames::{ecef_to_geodetic, look_angles, Geodetic, Vec3};
 use crate::gnss_sim::{klobuchar_delay_m, tropo_delay_m, KlobucharCoeffs, Meteo, C_M_PER_S};
 use crate::orbit::{invert4, los_unit};
 use crate::palette::chart::{AXIS, BG, CYAN, FONT_SANS, INK_2};
+use crate::portable_math::PortableFloat;
 use crate::rinex::{parse_nav, RinexEphemeris};
 use crate::rinex_obs::{parse_obs, RinexObs};
 use serde::{Deserialize, Serialize};
@@ -119,8 +120,8 @@ fn dist(a: Vec3, b: Vec3) -> f64 {
 /// The local geodetic East/North/Up unit vectors (in ECEF) at latitude `lat` and
 /// longitude `lon` (radians).
 fn enu_axes(lat: f64, lon: f64) -> (Vec3, Vec3, Vec3) {
-    let (sla, cla) = lat.sin_cos();
-    let (slo, clo) = lon.sin_cos();
+    let (sla, cla) = lat.psin_cos();
+    let (slo, clo) = lon.psin_cos();
     let east = [-slo, clo, 0.0];
     let north = [-sla * clo, -sla * slo, cla];
     let up = [cla * clo, cla * slo, sla];
@@ -249,7 +250,7 @@ pub fn solve_spp(meas: &[SppMeasurement], apriori: Vec3) -> Option<PvtFix> {
 /// `Rz(Ω̇ₑ·τ)` rotation applied in single-point positioning.
 pub fn sagnac_rotate(r: Vec3, travel_s: f64) -> Vec3 {
     let theta = OMEGA_E * travel_s;
-    let (s, c) = theta.sin_cos();
+    let (s, c) = theta.psin_cos();
     [r[0] * c + r[1] * s, -r[0] * s + r[1] * c, r[2]]
 }
 
@@ -502,7 +503,7 @@ pub fn assemble_epoch(
             look.el_rad,
             doy,
         );
-        let weight = look.el_rad.sin().powi(2).max(1e-3);
+        let weight = look.el_rad.psin().ppowi(2).max(1e-3);
         out.push((
             sv.sat.clone(),
             SppMeasurement {
@@ -664,7 +665,7 @@ fn assemble_epoch_precise_inner(
             continue;
         }
         let tropo_m = tropo_delay_m(meteo, station.lat_rad, station.alt_m, look.el_rad, doy);
-        let weight = look.el_rad.sin().powi(2).max(1e-3);
+        let weight = look.el_rad.psin().ppowi(2).max(1e-3);
         out.push((
             sv.sat.clone(),
             SppMeasurement {
@@ -1204,8 +1205,8 @@ mod tests {
             .iter()
             .map(|&(el, az)| {
                 let (el, az) = (el.to_radians(), az.to_radians());
-                let (ce, se) = (el.cos(), el.sin());
-                let (sa, ca) = (az.sin(), az.cos());
+                let (ce, se) = (el.pcos(), el.psin());
+                let (sa, ca) = (az.psin(), az.pcos());
                 // LOS direction in ECEF: up·sinEl + (east·sinAz + north·cosAz)·cosEl.
                 let dir = [
                     up[0] * se + ce * (east[0] * sa + north[0] * ca),
@@ -1382,7 +1383,7 @@ G01 2023 01 01 00 00 00 4.567890123456D-04 1.136868377216D-12 0.000000000000D+00
         // the iono-free combination must return the geometry, delay removed.
         let geo = 22_000_000.0_f64;
         let i1 = 8.0; // L1 slant iono (m)
-        let i2 = i1 * (L1_HZ / L2_HZ).powi(2); // L2 delay scales as 1/f²
+        let i2 = i1 * (L1_HZ / L2_HZ).ppowi(2); // L2 delay scales as 1/f²
         let p1 = geo + i1;
         let p2 = geo + i2;
         let pif = iono_free_pair(p1, L1_HZ, p2, L2_HZ);
@@ -1397,7 +1398,7 @@ G01 2023 01 01 00 00 00 4.567890123456D-04 1.136868377216D-12 0.000000000000D+00
         let geo = 24_000_000.0_f64;
         let i1 = 6.0;
         for f2 in [E5A_HZ, E5B_HZ] {
-            let p2 = geo + i1 * (L1_HZ / f2).powi(2);
+            let p2 = geo + i1 * (L1_HZ / f2).ppowi(2);
             let pif = iono_free_pair(geo + i1, L1_HZ, p2, f2);
             assert!((pif - geo).abs() < 1e-6, "iono-free {pif:.6} vs {geo}");
         }
@@ -1644,8 +1645,8 @@ G01 2023 01 01 00 00 00 4.567890123456D-04 1.136868377216D-12 0.000000000000D+00
             let ang = k as f64 * std::f64::consts::FRAC_PI_4;
             let mut e = base;
             e.prn = k + 2;
-            e.omega0 = base.omega0 + 0.45 * ang.cos();
-            e.m0 = base.m0 + 0.45 * ang.sin();
+            e.omega0 = base.omega0 + 0.45 * ang.pcos();
+            e.m0 = base.m0 + 0.45 * ang.psin();
             ephs.push(e);
         }
         // Receiver at the sub-satellite point of the zenith satellite.

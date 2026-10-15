@@ -11,6 +11,7 @@ use kshana::nmea_synth::config::{TrainingScenario, KN_MPS};
 use kshana::nmea_synth::gen::{generate, Generated};
 use kshana::nmea_synth::stream::{self, Pace, Sink, TcpServer, UdpSink, WriterSink};
 use kshana::nmea_synth::track;
+use kshana::portable_math::PortableFloat;
 use kshana::receiver_trust::ingest::read_nmea;
 use std::io::Read;
 use std::net::{TcpStream, UdpSocket};
@@ -394,7 +395,7 @@ fn relative_bearing_is_latched_at_onset_and_logged() {
             r.reported_lat_deg.unwrap().to_radians(),
             r.reported_lon_deg.unwrap().to_radians(),
         );
-        de.atan2(dn).to_degrees().rem_euclid(360.0)
+        de.patan2(dn).to_degrees().rem_euclid(360.0)
     };
     for t in [900.0, 1000.0, 1100.0, 1190.0] {
         assert!(

@@ -39,9 +39,10 @@ use super::C_LIGHT;
 use crate::chart::esc;
 use crate::field_schema::{FieldUnit, ProvenanceClass::*};
 use crate::palette::chart::{BLUE, CYAN, MUTED};
+use crate::portable_distr::{Distribution, Normal};
+use crate::portable_math::PortableFloat;
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
-use rand_distr::{Distribution, Normal};
 use serde::{Deserialize, Serialize};
 use std::f64::consts::PI;
 
@@ -55,13 +56,13 @@ pub fn gabor_bandwidth_flat_hz(b_hz: f64) -> f64 {
 /// (numerator in closed form; the band power by Simpson integration of the sinc²).
 pub fn gabor_bandwidth_bpsk_hz(chip_rate_hz: f64, b_hz: f64) -> f64 {
     let tc = 1.0 / chip_rate_hz;
-    let num = (b_hz / 2.0 - (PI * b_hz * tc).sin() / (2.0 * PI * tc)) / (PI * PI * tc);
+    let num = (b_hz / 2.0 - (PI * b_hz * tc).psin() / (2.0 * PI * tc)) / (PI * PI * tc);
     let psd = |f: f64| {
         let x = PI * f * tc;
         if x.abs() < 1e-12 {
             tc
         } else {
-            tc * (x.sin() / x).powi(2)
+            tc * (x.psin() / x).ppowi(2)
         }
     };
     let p = simpson(psd, -b_hz / 2.0, b_hz / 2.0, 20_000);
@@ -89,14 +90,14 @@ pub fn gabor_bandwidth_numeric_hz<F: Fn(f64) -> f64>(psd: F, b_hz: f64) -> f64 {
 
 /// CRB range one-sigma (m) for RMS bandwidth `beta_hz`, C/N0 in dB-Hz and integration `t_s`.
 pub fn toa_crb_sigma_m(beta_hz: f64, cn0_dbhz: f64, t_s: f64) -> f64 {
-    let cn0 = 10f64.powf(cn0_dbhz / 10.0);
+    let cn0 = 10f64.ppowf(cn0_dbhz / 10.0);
     C_LIGHT / (2.0 * PI * beta_hz * (2.0 * cn0 * t_s).sqrt())
 }
 
 /// CRB frequency one-sigma (Hz) of a complex tone at C/N0 (dB-Hz) over `t_s`.
 pub fn doppler_crb_sigma_hz(cn0_dbhz: f64, t_s: f64) -> f64 {
-    let cn0 = 10f64.powf(cn0_dbhz / 10.0);
-    (3.0 / (2.0 * PI * PI * cn0 * t_s.powi(3))).sqrt()
+    let cn0 = 10f64.ppowf(cn0_dbhz / 10.0);
+    (3.0 / (2.0 * PI * PI * cn0 * t_s.ppowi(3))).sqrt()
 }
 
 /// Root-mean-square (energy-weighted, central) duration of any signal envelope over
@@ -115,7 +116,7 @@ pub fn rms_duration_numeric_s<F: Fn(f64) -> f64>(power: F, t_s: f64) -> f64 {
 /// [`toa_crb_sigma_m`]. With `σ_t = T/√12` (a constant-envelope tone) it equals
 /// [`doppler_crb_sigma_hz`].
 pub fn frequency_crb_sigma_hz(sigma_t_s: f64, cn0_dbhz: f64, t_s: f64) -> f64 {
-    let cn0 = 10f64.powf(cn0_dbhz / 10.0);
+    let cn0 = 10f64.ppowf(cn0_dbhz / 10.0);
     1.0 / (2.0 * PI * sigma_t_s * (2.0 * cn0 * t_s).sqrt())
 }
 
@@ -413,8 +414,8 @@ impl NtnScenario {
                     Ok(fix) => {
                         let e = sub(fix.position, user);
                         let (ee, nn, _) = site.enu();
-                        let h = ((super::geom::dot(e, ee)).powi(2)
-                            + (super::geom::dot(e, nn)).powi(2))
+                        let h = ((super::geom::dot(e, ee)).ppowi(2)
+                            + (super::geom::dot(e, nn)).ppowi(2))
                         .sqrt();
                         Some(DopplerPassOut {
                             satellite: *j,
@@ -665,17 +666,17 @@ fn ntn_svg(r: &NtnReport) -> String {
         .iter()
         .copied()
         .fold(f64::MAX, f64::min)
-        .log10()
+        .plog10()
         .floor()
         .min(-1.0);
     let hi = vals
         .iter()
         .copied()
         .fold(f64::MIN, f64::max)
-        .log10()
+        .plog10()
         .ceil()
         .max(lo + 1.0);
-    let y = |v: f64| top + ph - ph * (v.log10() - lo) / (hi - lo);
+    let y = |v: f64| top + ph - ph * (v.plog10() - lo) / (hi - lo);
     let n = r.signals.len().max(1) as f64;
     for (k, sig) in r.signals.iter().enumerate() {
         let x = ml + pw * (k as f64 + 0.5) / n;
@@ -751,7 +752,7 @@ mod tests {
             if x.abs() < 1e-12 {
                 tc
             } else {
-                tc * (x.sin() / x).powi(2)
+                tc * (x.psin() / x).ppowi(2)
             }
         };
         let q = gabor_bandwidth_numeric_hz(psd, 4.0e6);
@@ -790,7 +791,7 @@ mod tests {
         // By hand at 45 dB-Hz over 1 s: sqrt(3 / (2 pi^2 * 31622.8)) = 2.192e-3 Hz.
         let s = doppler_crb_sigma_hz(45.0, 1.0);
         assert!((s - 2.192e-3).abs() < 1e-6, "{s}");
-        assert!((doppler_crb_sigma_hz(45.0, 2.0) / s - 2f64.powf(-1.5)).abs() < 1e-12);
+        assert!((doppler_crb_sigma_hz(45.0, 2.0) / s - 2f64.ppowf(-1.5)).abs() < 1e-12);
     }
 
     #[test]

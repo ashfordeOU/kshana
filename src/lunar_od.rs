@@ -623,6 +623,7 @@ impl<E: LunarEnvironment> ForceModel for LunarForceModel<E> {
 mod tests {
     use super::*;
     use crate::lunar::{MOON_GM_M3_S2, R_MOON_M};
+    use crate::portable_math::PortableFloat;
 
     fn norm(v: Vec3) -> f64 {
         (v[0] * v[0] + v[1] * v[1] + v[2] * v[2]).sqrt()
@@ -705,7 +706,7 @@ mod tests {
         let fm = LunarForceModel::new(synthetic_moon_field(), 2_459_580.5);
         let (r, v) = lro_state();
         let a = norm(fm.accel_rv(0.0, r, v));
-        let central = MOON_GM_M3_S2 / norm(r).powi(2);
+        let central = MOON_GM_M3_S2 / norm(r).ppowi(2);
         assert!(
             (a - central).abs() / central < 0.02,
             "|a| {a} vs central {central} (>2% off — gravity should dominate)"
@@ -801,7 +802,7 @@ mod tests {
         impl LunarEnvironment for ShiftedEnv {
             fn icrf_to_moon_pa(&self, jd: f64) -> Mat3 {
                 let base = crate::lunar_frame::icrf_to_moon_pa(jd);
-                let (c, s) = (10.0_f64.to_radians().cos(), 10.0_f64.to_radians().sin());
+                let (c, s) = (10.0_f64.to_radians().pcos(), 10.0_f64.to_radians().psin());
                 let rz = [[c, s, 0.0], [-s, c, 0.0], [0.0, 0.0, 1.0]];
                 let mut out = [[0.0; 3]; 3];
                 for (i, row) in out.iter_mut().enumerate() {

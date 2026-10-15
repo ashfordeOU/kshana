@@ -34,6 +34,7 @@
 
 use crate::body::Body;
 use crate::ephem_provider::EphemerisProvider;
+use crate::portable_math::PortableFloat;
 use crate::timegeo::C_M_PER_S;
 use crate::timescales::TwoPartJd;
 
@@ -229,7 +230,7 @@ pub fn shapiro_delay(r_tx: Vec3, r_rx: Vec3, mu: f64) -> f64 {
     let r2 = norm(r_rx);
     let r12 = norm([r_tx[0] - r_rx[0], r_tx[1] - r_rx[1], r_tx[2] - r_rx[2]]);
     let c = C_M_PER_S;
-    (2.0 * mu / (c * c * c)) * ((r1 + r2 + r12) / (r1 + r2 - r12)).ln()
+    (2.0 * mu / (c * c * c)) * ((r1 + r2 + r12) / (r1 + r2 - r12)).pln()
 }
 
 // ============================================================================
@@ -801,8 +802,8 @@ pub fn coronal_tec_from_sep(sep_rad: f64, reference_tec: f64, exponent: f64) -> 
     // Clamp the SEP off the singularity at the solar limb (≈ 0.27° as seen from
     // 1 AU); the corona is opaque/over-modelled inside that anyway.
     let min_sep = 0.27_f64.to_radians();
-    let s = sep_rad.max(min_sep).sin();
-    reference_tec / s.powf(exponent)
+    let s = sep_rad.max(min_sep).psin();
+    reference_tec / s.ppowf(exponent)
 }
 
 /// **Dual-frequency plasma calibration**: recover the (band-independent) plasma
@@ -1124,7 +1125,7 @@ mod tests {
 
         // Independent closed-form expected value (argument is exactly 5.0).
         let c = C_M_PER_S;
-        let expected = (2.0 * mu / (c * c * c)) * 5.0_f64.ln();
+        let expected = (2.0 * mu / (c * c * c)) * 5.0_f64.pln();
         let got = shapiro_delay(r_tx, r_rx, mu);
         assert!(
             (got - expected).abs() < 1e-12,
@@ -1507,7 +1508,7 @@ mod tests {
         // Spacecraft offset from the quasar by a small angle Δθ in the x–z plane,
         // i.e. tilted toward +x (along the baseline) by Δθ.
         let dtheta = 1.0e-3_f64; // 1 mrad ≈ 206 arcsec
-        let sc_unit = [dtheta.sin(), 0.0, dtheta.cos()];
+        let sc_unit = [dtheta.psin(), 0.0, dtheta.pcos()];
         // Put the spacecraft at a deep-space distance along that unit direction.
         let r = 2.0e11;
         let sc_pos = [sc_unit[0] * r, sc_unit[1] * r, sc_unit[2] * r];
@@ -1516,7 +1517,7 @@ mod tests {
 
         // The differential delay projects the offset onto the baseline:
         //   Δτ = −B·(ŝ_sc − ŝ_q)/c ; the x-component of (ŝ_sc − ŝ_q) is sin(Δθ).
-        let expected = -(baseline[0] * dtheta.sin()) / C_M_PER_S;
+        let expected = -(baseline[0] * dtheta.psin()) / C_M_PER_S;
         assert!(
             (dtau - expected).abs() < 1e-15,
             "Δ-DOR {dtau} s vs analytic projection {expected} s"
@@ -1562,7 +1563,7 @@ mod tests {
         );
         // 1/f² law: dx/dka = (f_ka/f_x)².
         let ratio = dx / dka;
-        let expected = (f_ka / f_x).powi(2);
+        let expected = (f_ka / f_x).ppowi(2);
         assert!(
             (ratio - expected).abs() / expected < 1e-9,
             "plasma X/Ka delay ratio {ratio} should be (f_Ka/f_X)² = {expected}"
