@@ -131,6 +131,8 @@ fn run() -> (Vec<Miss>, usize) {
 /// relative, so the test fails if the result moves either way. All other members meet every bar.
 #[test]
 fn finding_four_members_miss_a_bar() {
+    // The three DRO closures re-recorded on 0.36 portable maths (same four misses; was
+    // 3.335240e-8, 2.268366e-8, 1.465687e-8 on host maths): docs/revisions/STUDIO15-batch4-rebaseline.md.
     const RECORDED: [(&str, usize, &str, f64); 4] = [
         (
             "L1 northern halo",
@@ -138,9 +140,9 @@ fn finding_four_members_miss_a_bar() {
             "stability index (relative)",
             9.547032e-2,
         ),
-        ("DRO", 0, "closure", 3.335240e-8),
-        ("DRO", 579, "closure", 2.268366e-8),
-        ("DRO", 1158, "closure", 1.465687e-8),
+        ("DRO", 0, "closure", 3.447788e-8),
+        ("DRO", 579, "closure", 2.218222e-8),
+        ("DRO", 1158, "closure", 1.533071e-8),
     ];
     let (misses, checked) = run();
     assert_eq!(checked, 58);
@@ -149,16 +151,15 @@ fn finding_four_members_miss_a_bar() {
         RECORDED.len(),
         "the finding changed: {misses:#?}"
     );
+    let mut moved = Vec::new();
     for (m, r) in misses.iter().zip(RECORDED) {
         assert_eq!((m.0, m.1, m.2), (r.0, r.1, r.2), "the finding changed");
-        assert!(
-            (m.3 - r.3).abs() <= 0.02 * r.3,
-            "{} #{} {}: {:.6e} moved from the recorded {:.6e}",
-            m.0,
-            m.1,
-            m.2,
-            m.3,
-            r.3
-        );
+        if (m.3 - r.3).abs() > 0.02 * r.3 {
+            moved.push(format!(
+                "{} #{} {}: {:.6e} moved from the recorded {:.6e}",
+                m.0, m.1, m.2, m.3, r.3
+            ));
+        }
     }
+    assert!(moved.is_empty(), "{}", moved.join("\n"));
 }

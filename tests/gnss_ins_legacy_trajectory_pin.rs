@@ -52,21 +52,25 @@ fn truth_hash(scn: &GnssInsScenario) -> String {
     sha(&s)
 }
 
+// Truth hashes re-pinned for the 0.36 portable maths (the trajectory library's truth path now
+// computes its transcendentals through PortableFloat; the result hashes did not move). Before,
+// on host maths: gnss-ins 1e23d78e..., automotive-urban-canyon 72d7afc1..., small-uas-jammed-nav
+// 78d1ca1f...; docs/revisions/STUDIO15-batch4-rebaseline.md.
 const PINS: &[(&str, &str, &str)] = &[
     (
         "gnss-ins",
         "acb9347aa45fcba3705f7b4733fe7260e125011b96e4d82b605bd88190d62486",
-        "1e23d78ec10e51cd1ca086fae6e69bbfc7e3b93b6288e16a7dbaf07176433338",
+        "2b02b9375a09246bb993736ce29883329728aebebbd686d2e4db785d47c63e9b",
     ),
     (
         "automotive-urban-canyon",
         "9c7fd428de14f726e0f5ef4a2bc715c41921434c5aac158ec27a95c6f9f5944a",
-        "72d7afc17386fb6087172a8bb00d7265633e4a4bcc03c986178a2ff72dbe5660",
+        "080caef78371648b2f1e946e3163ba30ef13ec36fa93d0de2916f748c8ac2f08",
     ),
     (
         "small-uas-jammed-nav",
         "c8330bc99f298d7febe3cb2879509180f42c99db26a86f039f2fe6afccc0c6ae",
-        "78d1ca1ff77f186203cd74c84ee33618746155d3eb3ac08b08af1cde66debf2d",
+        "4c9d481a34214a7abeb54f28e520f74dd35fcad46df421fb78dfc1b379fe91c3",
     ),
 ];
 
