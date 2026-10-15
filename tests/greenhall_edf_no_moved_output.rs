@@ -15,6 +15,8 @@ use kshana::assurance::uncertainty::{edf, NoiseType, VarType};
 use sha2::{Digest, Sha256};
 
 /// SHA-256 of the dump at the base commit (host maths; the historical Bar 5 record).
+// PIN-SCOPE:    the same dump on host maths at the base commit (historical; not compared)
+// PIN-EXCLUDES: everything; it is printed only when the 0.36 portable pin below fails
 const BASE_DUMP_SHA256: &str = "5b2de183db76bf26920a51ae8b7dc55818471e930aee4a5e46597de6a6bb8ad9";
 
 /// SHA-256 of the dump on the 0.36 portable-maths engine.
