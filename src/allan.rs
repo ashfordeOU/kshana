@@ -1140,6 +1140,115 @@ pub(crate) fn greenhall_edf_core(
     f64::NAN
 }
 
+/// Natural logarithm for the Greenhall kernel, accurate to well below half a unit in the
+/// last place (the double-double result is rounded once), so it returns the correctly
+/// rounded `ln(x)` except in rare near-halfway cases, on every platform.
+///
+/// Why the kernel needs it: `sx` and `sz` (Eqns 8 and 9) are finite differences of
+/// `t^2 ln|t|` (and `t^4`, `t^6` forms) with step `1/F`; at `F = m = 10000` the second
+/// difference cancels about nine decimal digits, so a one-ulp difference in a single
+/// logarithm becomes a relative 1e-8 in the edf. The published algorithm as written (and
+/// allantools, the pre-registered oracle, which runs it in double precision) carries that
+/// cancellation; a reformulation that removes it computes the exact edf, which differs from
+/// the double-precision algorithm by up to 5.3e-9 at `alpha = 1, d = 2, m = 10000,
+/// N = 100000`. Keeping the published operation order and making the logarithm itself
+/// accurate instead gives the double-precision algorithm's value to the round-off of its
+/// last additions on any platform. `libm::log` (portable, but up to about one ulp) is used
+/// only for arguments outside the normal range, which the kernel does not produce.
+fn greenhall_ln(x: f64) -> f64 {
+    if !(x.is_finite() && x >= f64::MIN_POSITIVE) {
+        return libm::log(x);
+    }
+    // x = 2^k * m with m in [sqrt(1/2), sqrt(2)), exactly.
+    let bits = x.to_bits();
+    let mut k = ((bits >> 52) & 0x7ff) as i64 - 1023;
+    let mut m = f64::from_bits((bits & 0x000f_ffff_ffff_ffff) | 0x3ff0_0000_0000_0000);
+    if m > core::f64::consts::SQRT_2 {
+        m *= 0.5;
+        k += 1;
+    }
+    // u = (m - 1) / (m + 1) in double-double; m - 1 is exact (Sterbenz).
+    let num = m - 1.0;
+    let den = dd_two_sum(m, 1.0);
+    let u = dd_div_d(num, den);
+    // ln m = 2 atanh(u) = 2u (1 + z P(z)), z = u^2 <= 0.0295,
+    // P(z) = 1/3 + z/5 + z^2/7 + z^3 R(z). R's terms (to 1/45) are in double: their
+    // weight z^3 <= 2.6e-5 puts their round-off near 2^-70 of the result.
+    let z = dd_mul(u, u);
+    let mut r = 0.0_f64;
+    let mut n = 45.0_f64;
+    while n >= 9.0 {
+        r = 1.0 / n + z.0 * r;
+        n -= 2.0;
+    }
+    const C7: (f64, f64) = (0.142_857_142_857_142_85, 7.930_164_461_608_26e-18);
+    const C5: (f64, f64) = (0.2, -1.110_223_024_625_156_6e-17);
+    const C3: (f64, f64) = (0.333_333_333_333_333_3, 1.850_371_707_708_594e-17);
+    let mut acc = (r, 0.0);
+    for c in [C7, C5, C3] {
+        acc = dd_add(c, dd_mul(z, acc));
+    }
+    let one_plus = dd_add((1.0, 0.0), dd_mul(z, acc));
+    let ln_m = dd_mul((2.0 * u.0, 2.0 * u.1), one_plus);
+    const LN2: (f64, f64) = (core::f64::consts::LN_2, 2.319_046_813_846_299_6e-17);
+    let kf = k as f64;
+    let k_ln2 = dd_add(dd_two_prod(LN2.0, kf), (LN2.1 * kf, 0.0));
+    let s = dd_add(k_ln2, ln_m);
+    s.0 + s.1
+}
+
+/// Error-free sum `a + b = s + e` (Knuth).
+fn dd_two_sum(a: f64, b: f64) -> (f64, f64) {
+    let s = a + b;
+    let bb = s - a;
+    let e = (a - (s - bb)) + (b - bb);
+    (s, e)
+}
+
+/// Dekker's split of `a` into two 26-bit halves (basic operations only, no fused
+/// multiply-add, so it is exact and identical on every target).
+fn dd_split(a: f64) -> (f64, f64) {
+    let c = 134_217_729.0 * a; // 2^27 + 1
+    let hi = c - (c - a);
+    (hi, a - hi)
+}
+
+/// Error-free product `a * b = p + e` (Dekker).
+fn dd_two_prod(a: f64, b: f64) -> (f64, f64) {
+    let p = a * b;
+    let (ah, al) = dd_split(a);
+    let (bh, bl) = dd_split(b);
+    let e = ((ah * bh - p) + ah * bl + al * bh) + al * bl;
+    (p, e)
+}
+
+/// Double-double sum, renormalised.
+fn dd_add(a: (f64, f64), b: (f64, f64)) -> (f64, f64) {
+    let (s, e) = dd_two_sum(a.0, b.0);
+    let e = e + (a.1 + b.1);
+    let hi = s + e;
+    (hi, e - (hi - s))
+}
+
+/// Double-double product, renormalised.
+fn dd_mul(a: (f64, f64), b: (f64, f64)) -> (f64, f64) {
+    let (p, e) = dd_two_prod(a.0, b.0);
+    let e = e + (a.0 * b.1 + a.1 * b.0);
+    let hi = p + e;
+    (hi, e - (hi - p))
+}
+
+/// Double `a` divided by double-double `b`, as a double-double.
+fn dd_div_d(a: f64, b: (f64, f64)) -> (f64, f64) {
+    let q1 = a / b.0;
+    // a - q1 * b, with q1 * b.0 formed exactly.
+    let (p, e) = dd_two_prod(q1, b.0);
+    let r = ((a - p) - e) - q1 * b.1;
+    let q2 = r / b.0;
+    let hi = q1 + q2;
+    (hi, q2 - (hi - q1))
+}
+
 /// Greenhall basis weight `sw(t, alpha)` (Eqn 7 of Greenhall 2004).
 fn greenhall_sw(t: f64, alpha: i32) -> f64 {
     match alpha {
@@ -1148,7 +1257,7 @@ fn greenhall_sw(t: f64, alpha: i32) -> f64 {
             if t == 0.0 {
                 0.0
             } else {
-                t * t * t.abs().pln()
+                t * t * greenhall_ln(t.abs())
             }
         }
         0 => (t * t * t).abs(),
@@ -1156,7 +1265,7 @@ fn greenhall_sw(t: f64, alpha: i32) -> f64 {
             if t == 0.0 {
                 0.0
             } else {
-                t.ppowi(4) * t.abs().pln()
+                t.ppowi(4) * greenhall_ln(t.abs())
             }
         }
         -2 => (t.ppowi(5)).abs(),
@@ -1164,7 +1273,7 @@ fn greenhall_sw(t: f64, alpha: i32) -> f64 {
             if t == 0.0 {
                 0.0
             } else {
-                t.ppowi(6) * t.abs().pln()
+                t.ppowi(6) * greenhall_ln(t.abs())
             }
         }
         -4 => (t.ppowi(7)).abs(),
@@ -1251,6 +1360,45 @@ fn binom(n: i32, k: i32) -> f64 {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn greenhall_ln_is_correctly_rounded_at_reference_arguments() {
+        // Expected values: ln(x) to 60 digits (Python decimal) rounded once to f64.
+        let cases = [
+            (0x3f1a36e2eb1c432d_u64, 0xc0226bb1bbb55515_u64), // 1e-4
+            (0x3fefff2e48e8a71e, 0xbf1a3738d2cf1cc2),         // 0.9999
+            (0x3ff00068db8bac71, 0x3f1a368d0657fcd4),         // 1.0001
+            (0x3fffff972474538f, 0x3fe62dda22c2bf90),         // 1.9999
+            (0x400000346dc5d639, 0x3fe62eabd9da1b61),         // 2.0001
+            (0x4007ffcb923a29c7, 0x3ff193c786ad9be8),         // 2.9999
+            (0x400800346dc5d639, 0x3ff1940d6e600f4e),         // 3.0001
+            (0x3fe0000000000000, 0xbfe62e42fefa39ef),         // 0.5
+            (0x3fe6a09e667f3bcd, 0xbfd62e42fefa39ee),         // sqrt(1/2)
+            (0x3ff6a09e667f3bcd, 0x3fd62e42fefa39f0),         // sqrt(2)
+            (0x4008000000000000, 0x3ff193ea7aad030b),         // 3
+            (0x4024000000000000, 0x40026bb1bbb55516),         // 10
+            (0x40c3880000000000, 0x40226bb1bbb55516),         // 1e4
+            (0x01a56e1fc2f8f359, 0xc085963447f87fb5),         // 1e-300
+            (0x0010000000000000, 0xc086232bdd7abcd2),         // f64::MIN_POSITIVE
+            (0x7fefffffffffffff, 0x40862e42fefa39ef),         // f64::MAX
+            (0x40fe240c9fbe76c9, 0x40277281cad8a844),         // 123456.789
+            (0x3fb999999999999a, 0xc0026bb1bbb55515),         // 0.1
+            (0x3fd5555555555555, 0xbff193ea7aad030b),         // 1/3
+            (0x4013ffe5c91d14e4, 0x3ff9c02cff2a45d4),         // 4.9999
+            (0x4014001a36e2eb1c, 0x3ff9c056f09557b3),         // 5.0001
+        ];
+        for (x, want) in cases {
+            let x = f64::from_bits(x);
+            assert_eq!(
+                greenhall_ln(x).to_bits(),
+                want,
+                "ln({x:e}) = {:e}, want {:e}",
+                greenhall_ln(x),
+                f64::from_bits(want)
+            );
+        }
+        assert_eq!(greenhall_ln(1.0), 0.0);
+    }
 
     #[test]
     fn linear_phase_has_zero_adev() {
