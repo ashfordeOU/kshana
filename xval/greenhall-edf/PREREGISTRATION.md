@@ -87,3 +87,12 @@ no oracle value there. kshana uses the paper's Table 2 entry for that cell (a0 =
 a1 = 0.535). These points are counted separately and not as passes.
 
 By the ledger rule above, bars 1 to 4 hold: the row is VALIDATED against allantools.
+
+## Re-run on portable maths (0.36, 2026-10-15)
+
+Not a new registration: the grid, the oracle fixture and the five bars above are unchanged. On the 0.36
+portable-maths engine Bar 1 first missed at 3 points (case 3.1, m = 10000, N = 100000; 6.49e-9 at the
+first); with the kernel's logarithm evaluated in double-double and rounded once it holds again at all 4 876
+points, worst relative 6.0e-13. The Bar 5 guard is re-based to the 0.36 portable dump. Numbers, method and
+why a cancellation-free form cannot meet Bar 1 against allantools:
+[`docs/revisions/STUDIO15-greenhall-edf-portable.md`](../../docs/revisions/STUDIO15-greenhall-edf-portable.md).
