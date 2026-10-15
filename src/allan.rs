@@ -1162,7 +1162,8 @@ fn greenhall_ln(x: f64) -> f64 {
     // x = 2^k * m with m in [sqrt(1/2), sqrt(2)), exactly.
     let bits = x.to_bits();
     let mut k = ((bits >> 52) & 0x7ff) as i64 - 1023;
-    let mut m = f64::from_bits((bits & 0x000f_ffff_ffff_ffff) | 0x3ff0_0000_0000_0000);
+    let mantissa_mask = (1_u64 << 52) - 1;
+    let mut m = f64::from_bits((bits & mantissa_mask) | (1023_u64 << 52));
     if m > core::f64::consts::SQRT_2 {
         m *= 0.5;
         k += 1;
@@ -1364,6 +1365,8 @@ mod tests {
     #[test]
     fn greenhall_ln_is_correctly_rounded_at_reference_arguments() {
         // Expected values: ln(x) to 60 digits (Python decimal) rounded once to f64.
+        // PIN-SCOPE:    the f64 bits of greenhall_ln at the 21 listed arguments
+        // PIN-EXCLUDES: every other argument, and libm::log (used outside the normal range)
         let cases = [
             (0x3f1a36e2eb1c432d_u64, 0xc0226bb1bbb55515_u64), // 1e-4
             (0x3fefff2e48e8a71e, 0xbf1a3738d2cf1cc2),         // 0.9999
