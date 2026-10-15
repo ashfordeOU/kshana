@@ -19,6 +19,7 @@
 //! Allan pipeline and NaveGo's noise-coefficient definitions are consistent.
 
 use kshana::allan::overlapping_adev;
+use kshana::portable_math::PortableFloat;
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
 use rand_distr::{Distribution, Normal};
@@ -100,8 +101,8 @@ fn white_noise_region_has_the_minus_half_allan_slope() {
         .iter()
         .map(|&m| {
             (
-                (m as f64 * dt).log10(),
-                overlapping_adev(&phase, dt, m).log10(),
+                (m as f64 * dt).plog10(),
+                overlapping_adev(&phase, dt, m).plog10(),
             )
         })
         .collect();

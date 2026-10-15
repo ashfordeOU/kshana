@@ -48,11 +48,12 @@ use crate::inertial::imu_errors::ImuErrorModel;
 use crate::inertial::mechanization::{normal_gravity, radii_of_curvature, NavState};
 use crate::inertial::{score_position, PosSample, PositionFoM};
 use crate::palette::chart::{AMBER, AXIS, BG, CORAL, CYAN, FONT_SANS, INK_2};
+use crate::portable_distr::{Distribution, Normal};
+use crate::portable_math::PortableFloat;
 use crate::scenario::{GnssState, GnssTimeline, TimeCfg};
 use crate::types::ModelSpec;
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
-use rand_distr::{Distribution, Normal};
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 
@@ -563,7 +564,7 @@ fn project(origin: Geodetic, p: Geodetic) -> Vec3 {
     let h = origin.alt_m;
     [
         (p.lat_rad - origin.lat_rad) * (rn + h),
-        (p.lon_rad - origin.lon_rad) * (re + h) * origin.lat_rad.cos(),
+        (p.lon_rad - origin.lon_rad) * (re + h) * origin.lat_rad.pcos(),
         -(p.alt_m - origin.alt_m),
     ]
 }
@@ -647,7 +648,7 @@ fn imu_spec(cfg: &ImuCfg) -> ModelSpec {
 }
 
 fn hypot_ne(a: Vec3, b: Vec3) -> f64 {
-    ((a[0] - b[0]).powi(2) + (a[1] - b[1]).powi(2)).sqrt()
+    ((a[0] - b[0]).ppowi(2) + (a[1] - b[1]).ppowi(2)).sqrt()
 }
 
 /// The true trajectory the scenario's driving profile flies, on the scenario's own time
@@ -803,7 +804,7 @@ fn run_one(scn: &GnssInsScenario, cfg: &ImuCfg, seed: u64) -> FusedRun {
         let fused_err = hypot_ne(fe, te);
         if gnss != GnssState::Nominal {
             fused_sq += fused_err * fused_err;
-            free_sq += hypot_ne(xe, te).powi(2);
+            free_sq += hypot_ne(xe, te).ppowi(2);
             out_n += 1.0;
         }
         series.push(PosSample {

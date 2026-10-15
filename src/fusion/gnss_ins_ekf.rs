@@ -50,6 +50,7 @@
 //! by the helpers in this module.
 
 use crate::frames::Vec3;
+use crate::portable_math::PortableFloat;
 
 const N: usize = 15; // error-state dimension
 
@@ -287,11 +288,11 @@ impl GnssInsEkf {
     ) -> Self {
         let mut p = Mat::zeros(N, N);
         let var = [
-            sigma_pos_m.powi(2),
-            sigma_vel_mps.powi(2),
-            sigma_att_rad.powi(2),
-            sigma_accel_bias.powi(2),
-            sigma_gyro_bias.powi(2),
+            sigma_pos_m.ppowi(2),
+            sigma_vel_mps.ppowi(2),
+            sigma_att_rad.ppowi(2),
+            sigma_accel_bias.ppowi(2),
+            sigma_gyro_bias.ppowi(2),
         ];
         for (block, &v) in var.iter().enumerate() {
             for k in 0..3 {
@@ -461,8 +462,8 @@ impl GnssInsEkf {
 
         // R (6×6 diagonal).
         let mut r = Mat::zeros(6, 6);
-        let rp = gnss.sigma_pos_m.powi(2);
-        let rv = gnss.sigma_vel_mps.powi(2);
+        let rp = gnss.sigma_pos_m.ppowi(2);
+        let rv = gnss.sigma_vel_mps.ppowi(2);
         for k in 0..3 {
             r.set(k, k, rp);
             r.set(3 + k, 3 + k, rv);
@@ -716,7 +717,7 @@ mod tests {
             assert!(v >= 0.0, "negative variance {v}");
         }
         // Position uncertainty grows without aiding.
-        assert!(ekf.position_cov_trace() > 3.0 * 10.0_f64.powi(2));
+        assert!(ekf.position_cov_trace() > 3.0 * 10.0_f64.ppowi(2));
     }
 
     #[test]
@@ -753,8 +754,8 @@ mod tests {
             sigma_vel_mps: 0.1,
         };
         let dx = ekf.update_loosely_coupled(ins_pos, [0.0; 3], gnss);
-        let pp = 10.0_f64.powi(2); // initial position variance
-        let rp = 1.0_f64.powi(2);
+        let pp = 10.0_f64.ppowi(2); // initial position variance
+        let rp = 1.0_f64.ppowi(2);
         let gain = pp / (pp + rp);
         for k in 0..3 {
             assert!(

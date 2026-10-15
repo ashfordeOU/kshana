@@ -40,6 +40,7 @@ use crate::ephem::{
 };
 use crate::ephem_provider::{AnalyticSolarSystem, EphemerisProvider};
 use crate::palette::chart::{AMBER, AXIS, CYAN, LIME, MUTED};
+use crate::portable_math::PortableFloat;
 use crate::radiometric::{light_time_solution, shapiro_delay, two_way_range};
 use crate::timescales::TwoPartJd;
 use serde::{Deserialize, Serialize};
@@ -406,7 +407,7 @@ pub fn link_on<E: EphemerisProvider>(
             sub(rx, sun_rx),
             crate::forces::MU_SUN,
         ),
-        sun_separation_deg: cos_sep.clamp(-1.0, 1.0).acos().to_degrees(),
+        sun_separation_deg: cos_sep.clamp(-1.0, 1.0).pacos().to_degrees(),
     })
 }
 
@@ -505,8 +506,8 @@ impl SolarSystemScenario {
             let r = norm(pos);
             let (lon, lat) = if r > 0.0 {
                 (
-                    ecl[1].atan2(ecl[0]).to_degrees().rem_euclid(360.0),
-                    (ecl[2] / r).asin().to_degrees(),
+                    ecl[1].patan2(ecl[0]).to_degrees().rem_euclid(360.0),
+                    (ecl[2] / r).pasin().to_degrees(),
                 )
             } else {
                 (0.0, 0.0)

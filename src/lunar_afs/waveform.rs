@@ -23,6 +23,7 @@
 use super::codes::{chip_level, LsisCodes, NodeChips, NodeCodes, I_PRIMARY_LEN, Q_PRIMARY_LEN};
 use super::frame::{FrameCoder, FrameData, FRAME_SYMBOLS, SB2_DATA_BITS, SB34_DATA_BITS};
 use super::{CARRIER_HZ, I_CHIP_RATE_HZ, LSIS_VERSION, Q_CHIP_RATE_HZ};
+use crate::portable_math::PortableFloat;
 use crate::sdr::Cf64;
 use rand::{Rng, SeedableRng};
 use rand_chacha::ChaCha8Rng;
@@ -88,7 +89,7 @@ where
         let i = state.amp_i * chip_level(ci ^ d);
         let q = state.amp_q * chip_level(cq);
         let ph = (state.carrier_phase_cycles + state.carrier_hz * dt).rem_euclid(1.0);
-        let (s, c) = (std::f64::consts::TAU * ph).sin_cos();
+        let (s, c) = (std::f64::consts::TAU * ph).psin_cos();
         o.re += i * c - q * s;
         o.im += i * s + q * c;
     }
@@ -159,7 +160,7 @@ impl NodeSignal {
     /// of total power 2 over a bandwidth `fs` has density `N0 = 2 / fs`, and each component
     /// carries half of `C = (C/N0) · N0`.
     pub fn component_amplitude(&self, fs: f64) -> f64 {
-        let c = 10f64.powf(self.cn0_dbhz / 10.0) * 2.0 / fs;
+        let c = 10f64.ppowf(self.cn0_dbhz / 10.0) * 2.0 / fs;
         (c / 2.0).sqrt()
     }
 
@@ -256,8 +257,8 @@ impl Generator {
         }
         if let Some(rng) = self.noise.as_mut() {
             for o in out.iter_mut() {
-                o.re += rng.sample::<f64, _>(rand_distr::StandardNormal);
-                o.im += rng.sample::<f64, _>(rand_distr::StandardNormal);
+                o.re += rng.sample::<f64, _>(crate::portable_distr::StandardNormal);
+                o.im += rng.sample::<f64, _>(crate::portable_distr::StandardNormal);
             }
         }
         self.next_sample += n as u64;
@@ -351,7 +352,7 @@ pub fn truth_meta_json(cfg: &RecordingConfig) -> Result<String, String> {
         );
         m.insert(
             format!("{ns}:component_cn0_dbhz"),
-            json!(node.cn0_dbhz - 10.0 * 2f64.log10()),
+            json!(node.cn0_dbhz - 10.0 * 2f64.plog10()),
         );
         m.insert(format!("{ns}:code_scale"), json!(node.code_scale()));
         // Time from the first sample to the next AFS-I primary-code epoch (s).

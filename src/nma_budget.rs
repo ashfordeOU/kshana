@@ -53,6 +53,7 @@
 //! key-management, loss or re-synchronisation modelling is included — this is a
 //! budget calculator.
 
+use crate::portable_math::PortableFloat;
 use serde::Deserialize;
 
 /// TESLA/OSNMA budget-sizing configuration.
@@ -174,7 +175,7 @@ pub fn budget(cfg: &NmaConfig) -> Result<NmaBudget, String> {
     let overhead_bps = (cfg.mack_bits_per_subframe + cfg.hkroot_bits_per_subframe) / cfg.subframe_s;
     let overhead_fraction = overhead_bps / cfg.nav_data_rate_bps;
     let auth_latency_s = cfg.subframe_s * cfg.disclosure_lag_subframes;
-    let tag_forgery_prob = 2.0_f64.powf(-cfg.mac_tag_bits);
+    let tag_forgery_prob = 2.0_f64.ppowf(-cfg.mac_tag_bits);
     let key_brute_force_bits = cfg.tesla_key_bits;
 
     Ok(NmaBudget {
@@ -230,7 +231,7 @@ mod tests {
             "tag_forgery_prob = {}",
             b.tag_forgery_prob
         );
-        assert!((b.tag_forgery_prob - 2.0_f64.powi(-40)).abs() < 1e-30);
+        assert!((b.tag_forgery_prob - 2.0_f64.ppowi(-40)).abs() < 1e-30);
 
         // 128-bit one-way-chain key brute-force work factor.
         assert!((b.key_brute_force_bits - 128.0).abs() < 1e-12);

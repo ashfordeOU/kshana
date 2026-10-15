@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 //! Allan-family frequency-stability estimators — overlapping ADEV, MDEV, TDEV and
 //! HDEV, and the IEEE-1139 power-law noise fit.
+use crate::portable_math::PortableFloat;
 use crate::types::Seconds;
 use serde::Serialize;
 
@@ -175,7 +176,7 @@ fn normal_quantile(p: f64) -> f64 {
     let plow = 0.02425;
     let phigh = 1.0 - plow;
     if p < plow {
-        let q = (-2.0 * p.ln()).sqrt();
+        let q = (-2.0 * p.pln()).sqrt();
         (((((C[0] * q + C[1]) * q + C[2]) * q + C[3]) * q + C[4]) * q + C[5])
             / ((((D[0] * q + D[1]) * q + D[2]) * q + D[3]) * q + 1.0)
     } else if p <= phigh {
@@ -184,7 +185,7 @@ fn normal_quantile(p: f64) -> f64 {
         (((((A[0] * r + A[1]) * r + A[2]) * r + A[3]) * r + A[4]) * r + A[5]) * q
             / (((((B[0] * r + B[1]) * r + B[2]) * r + B[3]) * r + B[4]) * r + 1.0)
     } else {
-        let q = (-2.0 * (1.0 - p).ln()).sqrt();
+        let q = (-2.0 * (1.0 - p).pln()).sqrt();
         -(((((C[0] * q + C[1]) * q + C[2]) * q + C[3]) * q + C[4]) * q + C[5])
             / ((((D[0] * q + D[1]) * q + D[2]) * q + D[3]) * q + 1.0)
     }
@@ -311,7 +312,7 @@ pub fn edf_overlapping_adev(noise: PowerLawNoise, n: usize, m: usize) -> f64 {
         PowerLawNoise::FlickerPm => {
             let a = (nn - 1.0) / mm;
             let b = (2.0 * mm + 1.0) * (nn - 1.0) / 4.0;
-            (a.ln() * b.ln()).sqrt().exp()
+            (a.pln() * b.pln()).sqrt().pexp()
         }
         PowerLawNoise::WhiteFm => {
             (3.0 * (nn - 1.0) / (2.0 * mm) - 2.0 * (nn - 2.0) / nn)
@@ -346,7 +347,7 @@ pub fn classify_power_law(phase: &[f64], tau0: Seconds) -> Option<PowerLawNoise>
     while n > 3 * m && (n - 3 * m + 1) >= 8 {
         let md = modified_adev(phase, tau0, m);
         if md > 0.0 {
-            pts.push(((m as f64 * tau0).log10(), md.log10()));
+            pts.push(((m as f64 * tau0).plog10(), md.plog10()));
         }
         m *= 2;
     }
@@ -475,8 +476,8 @@ pub fn theo_br_bias(phase: &[f64], tau0: Seconds) -> f64 {
         if n <= 2 * k_av || n <= k_th {
             break;
         }
-        let avar = overlapping_adev(phase, tau0, k_av).powi(2);
-        let theo = theo1(phase, tau0, k_th).powi(2);
+        let avar = overlapping_adev(phase, tau0, k_av).ppowi(2);
+        let theo = theo1(phase, tau0, k_th).ppowi(2);
         if theo > 0.0 {
             sum += avar / theo;
             count += 1.0;
@@ -1380,9 +1381,9 @@ mod tests {
     // production estimator as their own reference.
     // ---------------------------------------------------------------------
 
+    use crate::portable_distr::{Distribution, Normal};
     use rand::SeedableRng;
     use rand_chacha::ChaCha8Rng;
-    use rand_distr::{Distribution, Normal};
 
     /// Classic *non-overlapping* Allan deviation, coded independently of
     /// `overlapping_adev`: average the fractional frequency over disjoint blocks
@@ -1476,8 +1477,8 @@ mod tests {
     /// least squares — the log-log slope that identifies the dominant noise type.
     fn loglog_slope(curve: &[AdevPoint]) -> f64 {
         let n = curve.len() as f64;
-        let xs: Vec<f64> = curve.iter().map(|p| p.tau_s.log10()).collect();
-        let ys: Vec<f64> = curve.iter().map(|p| p.adev.log10()).collect();
+        let xs: Vec<f64> = curve.iter().map(|p| p.tau_s.plog10()).collect();
+        let ys: Vec<f64> = curve.iter().map(|p| p.adev.plog10()).collect();
         let sx: f64 = xs.iter().sum();
         let sy: f64 = ys.iter().sum();
         let sxx: f64 = xs.iter().map(|x| x * x).sum();
@@ -1669,8 +1670,8 @@ mod tests {
             .filter(|&(_, v)| v > 0.0)
             .collect();
         let n = pts.len() as f64;
-        let xs: Vec<f64> = pts.iter().map(|p| p.0.log10()).collect();
-        let ys: Vec<f64> = pts.iter().map(|p| p.1.log10()).collect();
+        let xs: Vec<f64> = pts.iter().map(|p| p.0.plog10()).collect();
+        let ys: Vec<f64> = pts.iter().map(|p| p.1.plog10()).collect();
         let sx: f64 = xs.iter().sum();
         let sy: f64 = ys.iter().sum();
         let sxx: f64 = xs.iter().map(|x| x * x).sum();
@@ -2153,8 +2154,8 @@ mod tests {
         );
         assert!(theoh.iter().all(|p| p.dev.is_finite() && p.dev > 0.0));
         // Slope across the whole hybrid curve is the white-FM -1/2.
-        let xs: Vec<f64> = theoh.iter().map(|p| p.tau_s.log10()).collect();
-        let ys: Vec<f64> = theoh.iter().map(|p| p.dev.log10()).collect();
+        let xs: Vec<f64> = theoh.iter().map(|p| p.tau_s.plog10()).collect();
+        let ys: Vec<f64> = theoh.iter().map(|p| p.dev.plog10()).collect();
         let k = xs.len() as f64;
         let sx: f64 = xs.iter().sum();
         let sy: f64 = ys.iter().sum();

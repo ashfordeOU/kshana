@@ -20,6 +20,7 @@
 //! validates nothing about the inputs — see [`super::sensitivity`].
 
 use super::Objective;
+use crate::portable_math::PortableFloat;
 
 /// The outcome of a [`wpm`] run.
 #[derive(Clone, Debug, PartialEq, serde::Serialize)]
@@ -98,7 +99,7 @@ pub fn wpm(matrix: &[Vec<f64>], weights: &[f64], types: &[Objective]) -> Result<
 
     let scores: Vec<f64> = norm
         .iter()
-        .map(|row| (0..n).map(|j| row[j].powf(weights[j])).product::<f64>())
+        .map(|row| (0..n).map(|j| row[j].ppowf(weights[j])).product::<f64>())
         .collect();
 
     let ranking = super::topsis::rank_desc(&scores);

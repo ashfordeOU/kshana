@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
+// Host maths on purpose: this test recomputes its expected values independently of the engine's
+// portable maths (STUDIO-15), so the engine is checked against a second implementation.
 //! The arithmetic the maritime trust monitors rest on, against independent oracles.
 //!
 //! `scripts/gen_maritime_trust_ref.py` runs `pynmea2` 1.19.0 (NMEA decoding), `geographiclib` 2.1

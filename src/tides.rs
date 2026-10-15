@@ -24,6 +24,7 @@ use crate::fes2004_data::FES2004;
 use crate::forces::{MU_MOON, MU_SUN};
 use crate::gravity_sh::SphericalHarmonicField;
 use crate::nutation::delaunay_args;
+use crate::portable_math::PortableFloat;
 use std::collections::BTreeMap;
 
 type Vec3 = [f64; 3];
@@ -110,7 +111,7 @@ pub fn step2_constituent(
 ) -> (f64, f64) {
     let amp = a_m * h_f;
     let (tr, ti) = (amp * dk_re, amp * dk_im); // A_m·δk_f·H_f (complex)
-    let (s, c) = theta_f.sin_cos();
+    let (s, c) = theta_f.psin_cos();
     // (tr + i·ti)·e^(iθ) = pr + i·pi
     let pr = tr * c - ti * s;
     let pi = tr * s + ti * c;
@@ -144,7 +145,7 @@ pub fn solid_earth_tide_step1(jd_tt: f64) -> Vec<StokesDelta> {
         .map(|&(p, mu)| {
             let r = (p[0] * p[0] + p[1] * p[1] + p[2] * p[2]).sqrt();
             let sinphi = p[2] / r;
-            let lambda = p[1].atan2(p[0]) - theta_g;
+            let lambda = p[1].patan2(p[0]) - theta_g;
             (sinphi, lambda, r, mu)
         })
         .collect();
@@ -157,10 +158,10 @@ pub fn solid_earth_tide_step1(jd_tt: f64) -> Vec<StokesDelta> {
             let mut sum_sin = 0.0;
             for &(sinphi, lambda, r, mu) in &geo {
                 let g =
-                    (mu / EGM2008_GM) * (EGM2008_RE / r).powi((n + 1) as i32) * pbar(n, m, sinphi);
+                    (mu / EGM2008_GM) * (EGM2008_RE / r).ppowi((n + 1) as i32) * pbar(n, m, sinphi);
                 let ml = m as f64 * lambda;
-                sum_cos += g * ml.cos();
-                sum_sin += g * ml.sin();
+                sum_cos += g * ml.pcos();
+                sum_sin += g * ml.psin();
             }
             let f = 1.0 / (2.0 * n as f64 + 1.0);
             // (kr + i·ki)·(cos − i·sin): ΔC̄ = f·(kr·Σcos + ki·Σsin), ΔS̄ = f·(kr·Σsin − ki·Σcos).
@@ -207,7 +208,7 @@ pub fn ocean_tide(jd_tt: f64) -> Vec<StokesDelta> {
     let mut acc: BTreeMap<(usize, usize), (f64, f64)> = BTreeMap::new();
     for &(mult, n, m, cp, sp, cm, sm) in FES2004 {
         let theta = doodson_phase(&mult, &args);
-        let (sin_t, cos_t) = theta.sin_cos();
+        let (sin_t, cos_t) = theta.psin_cos();
         let dc = ((cp + cm) * cos_t + (sp + sm) * sin_t) * 1e-11;
         let ds = ((cm - cp) * sin_t + (sp - sm) * cos_t) * 1e-11;
         let e = acc.entry((n as usize, m as usize)).or_insert((0.0, 0.0));
@@ -320,7 +321,7 @@ pub fn atmospheric_tide(jd_tt: f64) -> Vec<StokesDelta> {
     const GE: f64 = 9.806_65; // m s⁻²
     const UBAR_TO_PA: f64 = 0.1; // 1 microbar = 0.1 Pa
     let args = doodson_args(jd_tt);
-    let (sin_t, cos_t) = doodson_phase(&S2_DOODSON, &args).sin_cos();
+    let (sin_t, cos_t) = doodson_phase(&S2_DOODSON, &args).psin_cos();
     let mut out = Vec::new();
     for &(n8, m8, dp, psp, dm, psm) in S2_AIR {
         let (n, m) = (n8 as usize, m8 as usize);
@@ -464,13 +465,13 @@ pub fn s1_air_tide_acceleration(r_eci: Vec3, jd_tt: f64) -> Vec3 {
 /// Rotate an ECI vector into the Earth-fixed frame by the Greenwich sidereal angle `θ_g`
 /// (z-axis rotation). The inverse is [`rot_ecef_to_eci`].
 fn rot_eci_to_ecef(theta_g: f64, v: Vec3) -> Vec3 {
-    let (s, c) = theta_g.sin_cos();
+    let (s, c) = theta_g.psin_cos();
     [c * v[0] + s * v[1], -s * v[0] + c * v[1], v[2]]
 }
 
 /// Rotate an Earth-fixed vector back to ECI (transpose of [`rot_eci_to_ecef`]).
 fn rot_ecef_to_eci(theta_g: f64, v: Vec3) -> Vec3 {
-    let (s, c) = theta_g.sin_cos();
+    let (s, c) = theta_g.psin_cos();
     [c * v[0] - s * v[1], s * v[0] + c * v[1], v[2]]
 }
 

@@ -54,6 +54,7 @@ use super::gnss_ins_ekf::{GnssInsEkf, GnssMeasurement};
 use crate::frames::{Geodetic, Vec3};
 use crate::inertial::attitude::Quaternion;
 use crate::inertial::mechanization::{radii_of_curvature, NavState};
+use crate::portable_math::PortableFloat;
 
 /// A closed-loop loosely-coupled GNSS/INS navigator.
 pub struct ClosedLoopInsGnss {
@@ -103,7 +104,7 @@ impl ClosedLoopInsGnss {
         let (rn, re) = radii_of_curvature(origin.lat_rad);
         let h = origin.alt_m;
         let north = (p.lat_rad - origin.lat_rad) * (rn + h);
-        let east = (p.lon_rad - origin.lon_rad) * (re + h) * origin.lat_rad.cos();
+        let east = (p.lon_rad - origin.lon_rad) * (re + h) * origin.lat_rad.pcos();
         let down = -(p.alt_m - origin.alt_m);
         [north, east, down]
     }
@@ -265,7 +266,7 @@ impl ClosedLoopInsGnss {
         let (rn, re) = radii_of_curvature(self.nav.p_llh.lat_rad);
         let h = self.nav.p_llh.alt_m;
         self.nav.p_llh.lat_rad -= dp[0] / (rn + h);
-        self.nav.p_llh.lon_rad -= dp[1] / ((re + h) * self.nav.p_llh.lat_rad.cos());
+        self.nav.p_llh.lon_rad -= dp[1] / ((re + h) * self.nav.p_llh.lat_rad.pcos());
         self.nav.p_llh.alt_m += dp[2]; // down-error +ve ⇒ INS too low ⇒ raise alt
 
         // Velocity feedback: subtract the estimated velocity error.
@@ -313,9 +314,9 @@ mod tests {
     use crate::fusion::gnss_ins_ekf::EkfNoise;
     use crate::inertial::attitude::Quaternion;
     use crate::inertial::mechanization::{normal_gravity, OMEGA_IE};
+    use crate::portable_distr::{Distribution, Normal};
     use rand::SeedableRng;
     use rand_chacha::ChaCha8Rng;
-    use rand_distr::{Distribution, Normal};
     use std::f64::consts::PI;
 
     const LAT0: f64 = PI / 4.0;
@@ -356,7 +357,7 @@ mod tests {
         let h = o.alt_m;
         [
             (p.lat_rad - o.lat_rad) * (rn + h),
-            (p.lon_rad - o.lon_rad) * (re + h) * o.lat_rad.cos(),
+            (p.lon_rad - o.lon_rad) * (re + h) * o.lat_rad.pcos(),
             -(p.alt_m - o.alt_m),
         ]
     }
@@ -399,7 +400,7 @@ mod tests {
     /// A static platform at 45°N: the gyro that keeps the body aligned with the
     /// rotating NED frame, and the specific force (−gravity, i.e. up).
     fn static_truth(lat: f64, alt: f64) -> (Vec3, Vec3) {
-        let gyro = [OMEGA_IE * lat.cos(), 0.0, -OMEGA_IE * lat.sin()];
+        let gyro = [OMEGA_IE * lat.pcos(), 0.0, -OMEGA_IE * lat.psin()];
         let g = normal_gravity(lat, alt);
         (gyro, [0.0, 0.0, -g])
     }
@@ -413,9 +414,9 @@ mod tests {
         let mut drv = navigator();
         let (rn, re) = radii_of_curvature(LAT0);
         drv.nav.p_llh.lat_rad += 8.0 / (rn + start.alt_m);
-        drv.nav.p_llh.lon_rad += -5.0 / ((re + start.alt_m) * LAT0.cos());
-        let err0 = (drv.ins_ned()[0].powi(2) + drv.ins_ned()[1].powi(2)).sqrt();
-        assert!((err0 - (8.0_f64.powi(2) + 5.0_f64.powi(2)).sqrt()).abs() < 1e-6);
+        drv.nav.p_llh.lon_rad += -5.0 / ((re + start.alt_m) * LAT0.pcos());
+        let err0 = (drv.ins_ned()[0].ppowi(2) + drv.ins_ned()[1].ppowi(2)).sqrt();
+        assert!((err0 - (8.0_f64.ppowi(2) + 5.0_f64.ppowi(2)).sqrt()).abs() < 1e-6);
 
         let (gyro, accel) = static_truth(LAT0, start.alt_m);
         for step in 0..200 {
@@ -424,7 +425,7 @@ mod tests {
                 drv.fuse([0.0; 3], [0.0; 3], 1.0, 0.05);
             }
         }
-        let err = (drv.ins_ned()[0].powi(2) + drv.ins_ned()[1].powi(2)).sqrt();
+        let err = (drv.ins_ned()[0].ppowi(2) + drv.ins_ned()[1].ppowi(2)).sqrt();
         assert!(err < 0.1, "closed loop left {err} m of position error");
     }
 
@@ -453,11 +454,11 @@ mod tests {
             }
             let de = project(start, drv.nav.p_llh);
             let te = project(start, truth.p_llh);
-            max_aided = max_aided.max(((de[0] - te[0]).powi(2) + (de[1] - te[1]).powi(2)).sqrt());
+            max_aided = max_aided.max(((de[0] - te[0]).ppowi(2) + (de[1] - te[1]).ppowi(2)).sqrt());
         }
         let fe = project(start, free.p_llh);
         let te = project(start, truth.p_llh);
-        let free_err = ((fe[0] - te[0]).powi(2) + (fe[1] - te[1]).powi(2)).sqrt();
+        let free_err = ((fe[0] - te[0]).ppowi(2) + (fe[1] - te[1]).ppowi(2)).sqrt();
         assert!(max_aided < 6.0, "aided error reached {max_aided} m");
         assert!(free_err > 100.0, "free INS only diverged {free_err} m");
     }
@@ -560,7 +561,7 @@ mod tests {
             }
             let de = project(start, drv.nav.p_llh);
             let te = project(start, truth.p_llh);
-            max_aided = max_aided.max(((de[0] - te[0]).powi(2) + (de[1] - te[1]).powi(2)).sqrt());
+            max_aided = max_aided.max(((de[0] - te[0]).ppowi(2) + (de[1] - te[1]).ppowi(2)).sqrt());
         }
         assert!(max_aided < 6.0, "aided error reached {max_aided} m");
         let est = drv.gyro_bias_estimate();
@@ -615,8 +616,8 @@ mod tests {
                 let te = project(start, truth.p_llh);
                 let de = project(start, drv.nav.p_llh);
                 let xe = project(start, free.p_llh);
-                sf += (de[0] - te[0]).powi(2) + (de[1] - te[1]).powi(2);
-                sx += (xe[0] - te[0]).powi(2) + (xe[1] - te[1]).powi(2);
+                sf += (de[0] - te[0]).ppowi(2) + (de[1] - te[1]).ppowi(2);
+                sx += (xe[0] - te[0]).ppowi(2) + (xe[1] - te[1]).ppowi(2);
                 n += 1.0;
             }
         }
@@ -668,8 +669,8 @@ mod tests {
         let mut drv = navigator();
         let (rn, re) = radii_of_curvature(LAT0);
         drv.nav.p_llh.lat_rad += 8.0 / (rn + start.alt_m);
-        drv.nav.p_llh.lon_rad += -5.0 / ((re + start.alt_m) * LAT0.cos());
-        assert!((horiz_err(&drv) - (8.0_f64.powi(2) + 5.0_f64.powi(2)).sqrt()).abs() < 1e-6);
+        drv.nav.p_llh.lon_rad += -5.0 / ((re + start.alt_m) * LAT0.pcos());
+        assert!((horiz_err(&drv) - (8.0_f64.ppowi(2) + 5.0_f64.ppowi(2)).sqrt()).abs() < 1e-6);
 
         // Four satellites in NED (down is negative ⇒ up); good 3-D spread.
         let sats = [
@@ -704,7 +705,7 @@ mod tests {
         let mut drv = navigator();
         let (rn, re) = radii_of_curvature(LAT0);
         drv.nav.p_llh.lat_rad += 8.0 / (rn + start.alt_m);
-        drv.nav.p_llh.lon_rad += -5.0 / ((re + start.alt_m) * LAT0.cos());
+        drv.nav.p_llh.lon_rad += -5.0 / ((re + start.alt_m) * LAT0.pcos());
         let err0 = horiz_err(&drv);
 
         let sats = [

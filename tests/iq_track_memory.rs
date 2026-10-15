@@ -9,6 +9,7 @@ use kshana::iq::cli::build_code;
 use kshana::iq::track::sink::{BinaryEpochWriter, CollectSink, EpochHeader, Fanout, Summary};
 use kshana::iq::track::{ChannelInit, LoopConfig, SessionChannel, TrackSession};
 use kshana::iq::{Cf64, IqError, IqSource, SampleSpec, SpreadingCode};
+use kshana::portable_math::PortableFloat;
 use std::alloc::{GlobalAlloc, Layout, System};
 use std::f64::consts::TAU;
 use std::sync::atomic::{AtomicUsize, Ordering};
@@ -64,7 +65,7 @@ impl Synth {
         let code = build_code("gps-l1ca", prn).unwrap();
         let rate = code.chip_rate_hz() * (1.0 + doppler / code.carrier_hz());
         Self {
-            amp: (10f64.powf(cn0_dbhz / 10.0) / FS).sqrt(),
+            amp: (10f64.ppowf(cn0_dbhz / 10.0) / FS).sqrt(),
             code,
             doppler,
             rate,
@@ -85,7 +86,7 @@ impl Synth {
                 / (1u64 << 53) as f64
         };
         let (a, b) = (u(), u());
-        (-2.0 * a.ln()).sqrt() * (TAU * b).cos()
+        (-2.0 * a.pln()).sqrt() * (TAU * b).pcos()
     }
     /// The truth hand-off: code phase at sample 0 and the Doppler.
     fn init(&self, doppler: f64) -> ChannelInit {
@@ -116,7 +117,7 @@ impl IqSource for Synth {
             if on {
                 let c = self.code.value_at(self.phase0 + self.rate * t);
                 let ph = TAU * self.doppler * t;
-                v = v + Cf64::new(ph.cos(), ph.sin()) * (self.amp * c);
+                v = v + Cf64::new(ph.pcos(), ph.psin()) * (self.amp * c);
             }
             *out = v;
             self.n += 1;

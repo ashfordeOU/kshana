@@ -33,6 +33,7 @@
 //! here). Everything below is seeded and deterministic.
 
 use kshana::allan::overlapping_adev;
+use kshana::portable_math::PortableFloat;
 use kshana::powerlaw::{allan_deviation, PowerLaw};
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
@@ -96,9 +97,10 @@ fn white_fm_forward_synthesis_round_trips_through_overlapping_adev() {
     }
 
     // The recovered curve must carry the white-FM τ^{-1/2} log-log slope.
-    let first = ms.first().map(|&m| (m as f64 * tau0).ln()).unwrap();
-    let last = ms.last().map(|&m| (m as f64 * tau0).ln()).unwrap();
-    let slope = (recovered.last().unwrap().ln() - recovered.first().unwrap().ln()) / (last - first);
+    let first = ms.first().map(|&m| (m as f64 * tau0).pln()).unwrap();
+    let last = ms.last().map(|&m| (m as f64 * tau0).pln()).unwrap();
+    let slope =
+        (recovered.last().unwrap().pln() - recovered.first().unwrap().pln()) / (last - first);
     assert!(
         (slope + 0.5).abs() < 0.02,
         "recovered slope {slope} is not white-FM τ^{{-1/2}}"

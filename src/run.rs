@@ -5,6 +5,7 @@ use crate::estimator::HoldoverEstimator;
 use crate::fom::{score, Sample};
 use crate::kalman::KalmanClock;
 use crate::models::{ClockModel, ErrorModel};
+use crate::portable_math::PortableFloat;
 use crate::report::{ClockRun, RunResult};
 use crate::scenario::{ClockCfg, GnssState, Scenario};
 use crate::security::{spoof_detection_score, SPOOF_DETECT_K, SPOOF_MONITOR_S};
@@ -83,7 +84,7 @@ pub(crate) fn run_clock_probed(
             // flicker frequency, so the bound adds the flicker phase variance accumulated
             // since the last anchor (unconditional: the 2-state filter's own variance plus
             // the truth bank's). Zero without a flicker floor.
-            let var = kf.phase_sigma().powi(2)
+            let var = kf.phase_sigma().ppowi(2)
                 + clock.flicker_phase_variance_after_steps(steps_since_sync, dt);
             probe(err_s, var.sqrt());
             if err_s.abs() <= PROTECTION_K * var.sqrt() {
@@ -396,9 +397,9 @@ q_rw = 1.0e-28
         // Engine-internal consistency: the first track sample's magnitude equals
         // |user.position_eci(0)| (in km).
         let p0 = scn.user.as_ref().unwrap().to_orbit().position_eci(0.0);
-        let r0_km = (p0[0].powi(2) + p0[1].powi(2) + p0[2].powi(2)).sqrt() / 1000.0;
+        let r0_km = (p0[0].ppowi(2) + p0[1].ppowi(2) + p0[2].ppowi(2)).sqrt() / 1000.0;
         let first = track[0];
-        let track_r0 = (first[0].powi(2) + first[1].powi(2) + first[2].powi(2)).sqrt();
+        let track_r0 = (first[0].ppowi(2) + first[1].ppowi(2) + first[2].ppowi(2)).sqrt();
         assert!(
             (track_r0 - r0_km).abs() < 1e-6,
             "first track radius {track_r0} != user radius {r0_km}"

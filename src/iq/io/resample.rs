@@ -18,6 +18,7 @@
 //! verified against the closed-form behaviour of a sinusoid through a linear filter).
 
 use crate::iq::{Cf64, IqError, IqSource, SampleSpec};
+use crate::portable_math::PortableFloat;
 
 /// Low-pass design targets for [`PolyphaseResampler`].
 #[derive(Clone, Copy, Debug, PartialEq)]
@@ -43,7 +44,7 @@ pub fn kaiser_beta(atten_db: f64) -> f64 {
     if atten_db > 50.0 {
         0.1102 * (atten_db - 8.7)
     } else if atten_db >= 21.0 {
-        0.5842 * (atten_db - 21.0).powf(0.4) + 0.07886 * (atten_db - 21.0)
+        0.5842 * (atten_db - 21.0).ppowf(0.4) + 0.07886 * (atten_db - 21.0)
     } else {
         0.0
     }
@@ -67,7 +68,7 @@ pub fn kaiser_lowpass(n: usize, cutoff: f64, beta: f64) -> Vec<f64> {
             let sinc = if t == 0.0 {
                 2.0 * cutoff
             } else {
-                (2.0 * std::f64::consts::PI * cutoff * t).sin() / (std::f64::consts::PI * t)
+                (2.0 * std::f64::consts::PI * cutoff * t).psin() / (std::f64::consts::PI * t)
             };
             let r = if m > 0.0 { t / m } else { 0.0 };
             let w = bessel_i0(beta * (1.0 - r * r).max(0.0).sqrt()) / i0b;
@@ -349,7 +350,7 @@ impl<S: IqSource> IqSource for Mixer<S> {
     fn read(&mut self, buf: &mut [Cf64]) -> Result<usize, IqError> {
         let n = self.src.read(buf)?;
         for s in &mut buf[..n] {
-            let (sin, cos) = (2.0 * std::f64::consts::PI * self.cyc).sin_cos();
+            let (sin, cos) = (2.0 * std::f64::consts::PI * self.cyc).psin_cos();
             let x = s.re;
             *s = Cf64::new(x * cos, -x * sin);
             self.cyc += self.step;

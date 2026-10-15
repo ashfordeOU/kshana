@@ -19,6 +19,7 @@
 //! band (positive or negative frequencies).
 
 use super::{Cf64, Stage};
+use crate::portable_math::PortableFloat;
 use std::f64::consts::PI;
 
 /// Modified Bessel function of the first kind, order zero, by its power series
@@ -42,7 +43,7 @@ pub fn kaiser_beta(atten_db: f64) -> f64 {
     if atten_db > 50.0 {
         0.1102 * (atten_db - 8.7)
     } else if atten_db >= 21.0 {
-        0.5842 * (atten_db - 21.0).powf(0.4) + 0.07886 * (atten_db - 21.0)
+        0.5842 * (atten_db - 21.0).ppowf(0.4) + 0.07886 * (atten_db - 21.0)
     } else {
         0.0
     }
@@ -87,7 +88,7 @@ pub struct FirDesign {
 impl FirDesign {
     /// Design ripple `δ = 10^(−A/20)` in passband and stopband (linear).
     pub fn ripple(&self) -> f64 {
-        10f64.powf(-self.atten_db / 20.0)
+        10f64.ppowf(-self.atten_db / 20.0)
     }
     /// Group delay of the linear-phase design (samples): `(len − 1)/2`.
     pub fn delay(&self) -> usize {
@@ -114,7 +115,7 @@ pub fn lowpass(fs_hz: f64, pass_hz: f64, stop_hz: f64, atten_db: f64) -> FirDesi
             let ideal = if t == 0.0 {
                 2.0 * fc
             } else {
-                (2.0 * PI * fc * t).sin() / (PI * t)
+                (2.0 * PI * fc * t).psin() / (PI * t)
             };
             Cf64::new(ideal * w[n], 0.0)
         })

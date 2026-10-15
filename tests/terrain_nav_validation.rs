@@ -24,6 +24,7 @@
 use kshana::altpnt::terrain::{
     run_combined_altpnt, run_terrain_nav, CombinedAltPntCfg, DemGrid, TerrainNavCfg, SRTM_VOID,
 };
+use kshana::portable_math::PortableFloat;
 
 const M_PER_DEG: f64 = 111_319.490_793_27;
 
@@ -75,7 +76,7 @@ fn oracle_b_terrain_match_recovers_injected_drift() {
     // Hand-derived drift magnitude (independent of any field value): 0.5°N, -0.4°E at the
     // track-midpoint latitude.
     let ref_lat = cfg.start_lat_deg + cfg.step_lat_deg * (cfg.waypoints as f64 - 1.0) / 2.0;
-    let cos_lat = ref_lat.to_radians().cos();
+    let cos_lat = ref_lat.to_radians().pcos();
     let north = cfg.drift_lat_deg * M_PER_DEG;
     let east = cfg.drift_lon_deg * M_PER_DEG * cos_lat;
     let expected_drift = (north * north + east * east).sqrt();
@@ -86,7 +87,7 @@ fn oracle_b_terrain_match_recovers_injected_drift() {
         expected_drift
     );
     // Recovered to within the grid-resolution floor (search_step/factor^(stages-1)).
-    let floor_deg = cfg.search_step_deg / cfg.refine_factor.powi(cfg.refine_stages as i32 - 1);
+    let floor_deg = cfg.search_step_deg / cfg.refine_factor.ppowi(cfg.refine_stages as i32 - 1);
     let floor_m = floor_deg * M_PER_DEG;
     assert!(
         r.matched_error_m < (500.0_f64).max(2.0 * floor_m),

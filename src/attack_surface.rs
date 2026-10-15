@@ -41,6 +41,7 @@ use crate::linkbudget::{deficit_sensitivity_band, received_signal_power_dbw};
 use crate::lunar::{horizon_los_distance_m, surface_los_max_m, R_MOON_M};
 use crate::nma_budget::{budget as nma_budget, NmaConfig};
 use crate::palette::chart::{BG, FONT_MONO, FONT_SANS, TITLE};
+use crate::portable_math::PortableFloat;
 use crate::spoof_capture::{run_capture, CaptureConfig};
 use crate::sweep::SweepAxis;
 use serde::{Deserialize, Serialize};
@@ -457,7 +458,7 @@ fn d_transmitter_altitude_m() -> f64 {
 }
 fn d_transmitter_power_dbw() -> f64 {
     // 40 W = 16.0206 dBW.
-    10.0 * 40.0_f64.log10()
+    10.0 * 40.0_f64.plog10()
 }
 fn d_antenna_diameter_m() -> f64 {
     1.0
@@ -746,7 +747,7 @@ impl LunarAttackSurfaceScenario {
                     standoff_m: d,
                     spoof_tx_power_dbw: spoof,
                     jam_tx_power_dbw: jam,
-                    spoof_tx_power_w: 10.0_f64.powf(spoof / 10.0),
+                    spoof_tx_power_w: 10.0_f64.ppowf(spoof / 10.0),
                 }
             })
             .collect();

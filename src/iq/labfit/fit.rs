@@ -27,6 +27,7 @@
 //! observed behaviour, not a measurement of any receiver's internals, and the hold-out
 //! error is the evidence for how far the fitted model can be trusted.
 
+use crate::portable_math::PortableFloat;
 use rand::seq::SliceRandom;
 use rand::{Rng, SeedableRng};
 use rand_chacha::ChaCha8Rng;
@@ -104,7 +105,7 @@ fn boot_stats(v: &[f64]) -> Option<BootStats> {
     let n = v.len();
     let mean = v.iter().sum::<f64>() / n as f64;
     let sd = if n > 1 {
-        (v.iter().map(|x| (x - mean).powi(2)).sum::<f64>() / (n - 1) as f64).sqrt()
+        (v.iter().map(|x| (x - mean).ppowi(2)).sum::<f64>() / (n - 1) as f64).sqrt()
     } else {
         0.0
     };
@@ -381,7 +382,7 @@ fn scaled(c: [f64; 3], s: &ScaleCfg) -> [f64; 3] {
 fn dist(a: [f64; 3], b: [f64; 3]) -> f64 {
     a.iter()
         .zip(&b)
-        .map(|(x, y)| (x - y).powi(2))
+        .map(|(x, y)| (x - y).ppowi(2))
         .sum::<f64>()
         .sqrt()
 }
@@ -398,7 +399,7 @@ fn place(q: [f64; 3], pts: &[([f64; 3], String)]) -> Option<(f64, String, f64)> 
         }
     }
     let ext = (0..3)
-        .map(|i| (lo[i] - q[i]).max(q[i] - hi[i]).max(0.0).powi(2))
+        .map(|i| (lo[i] - q[i]).max(q[i] - hi[i]).max(0.0).ppowi(2))
         .sum::<f64>()
         .sqrt();
     let (mut best, mut bd) = (first.1.clone(), f64::INFINITY);
@@ -501,9 +502,9 @@ fn sse_parts(
         let lp = lock_params(kind, theta, &sc.loop_fixed, c);
         let end = p.obs.run_end_s;
         let sq = |o: Option<f64>, m: Option<f64>| match (o, m) {
-            (Some(o), Some(m)) => (m - o).powi(2),
-            (Some(o), None) => (end - o).powi(2),
-            (None, Some(m)) => (m - end).powi(2),
+            (Some(o), Some(m)) => (m - o).ppowi(2),
+            (Some(o), None) => (end - o).ppowi(2),
+            (None, Some(m)) => (m - end).ppowi(2),
             (None, None) => 0.0,
         };
         for s in &p.obs.sats {

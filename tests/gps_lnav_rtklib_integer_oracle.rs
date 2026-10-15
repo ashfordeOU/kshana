@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
+// Host maths on purpose: this test recomputes its expected values independently of the engine's
+// portable maths (STUDIO-15), so the engine is checked against a second implementation.
 //! GPS legacy navigation message (LNAV) encoding conformance at the integer level: Kshana's
 //! subframes 1 to 3 for a broadcast-ephemeris file not used before, parsed by RTKLIB, encoded
 //! by Kshana, decoded by RTKLIB.

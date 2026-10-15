@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
+// Host maths on purpose: this test recomputes its expected values independently of the engine's
+// portable maths (STUDIO-15), so the engine is checked against a second implementation.
 //! Oracle for a NEW matrix row, "Measured device cards with held-out prediction" (package D9,
 //! the measured clock library): a device card fitted to one third of a named measured clock
 //! record predicts the Allan deviation of the other two thirds.

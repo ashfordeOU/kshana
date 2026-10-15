@@ -18,6 +18,7 @@
 //! [`precession_matrix`] matches ERFA `pmat06` bit for bit at 40 epochs 1950–2100
 //! (`tests/frames_erfa_vector_oracle.rs`).
 
+use crate::portable_math::PortableFloat;
 use crate::timescales::JD_J2000;
 
 /// Arc seconds to radians.
@@ -113,19 +114,19 @@ pub fn fw_angles(jd_tt: f64) -> FwAngles {
 
 /// Rotation about the x-axis by `phi` (rad), SOFA `iauRx` convention.
 pub(crate) fn rx(phi: f64) -> Mat3 {
-    let (s, c) = phi.sin_cos();
+    let (s, c) = phi.psin_cos();
     [[1.0, 0.0, 0.0], [0.0, c, s], [0.0, -s, c]]
 }
 
 /// Rotation about the y-axis by `theta` (rad), SOFA `iauRy` convention.
 pub(crate) fn ry(theta: f64) -> Mat3 {
-    let (s, c) = theta.sin_cos();
+    let (s, c) = theta.psin_cos();
     [[c, 0.0, -s], [0.0, 1.0, 0.0], [s, 0.0, c]]
 }
 
 /// Rotation about the z-axis by `psi` (rad), SOFA `iauRz` convention.
 pub(crate) fn rz(psi: f64) -> Mat3 {
-    let (s, c) = psi.sin_cos();
+    let (s, c) = psi.psin_cos();
     [[c, s, 0.0], [-s, c, 0.0], [0.0, 0.0, 1.0]]
 }
 
@@ -257,7 +258,9 @@ mod tests {
         // catches both an identity bug (θ≈0) and an un-cancelled obliquity (θ≈23°).
         let m = precession_matrix(JD_J2000 + DAYS_PER_CENTURY);
         let trace = m[0][0] + m[1][1] + m[2][2];
-        let theta_deg = (((trace - 1.0) / 2.0).clamp(-1.0, 1.0)).acos().to_degrees();
+        let theta_deg = (((trace - 1.0) / 2.0).clamp(-1.0, 1.0))
+            .pacos()
+            .to_degrees();
         assert!(
             (1.2..1.6).contains(&theta_deg),
             "1-century precession θ = {theta_deg}°"
@@ -280,7 +283,7 @@ mod tests {
         // A GCRS vector actually moves under precession (it is not a no-op).
         let moved = gcrs_to_mod(v, jd);
         let shift =
-            ((moved[0] - v[0]).powi(2) + (moved[1] - v[1]).powi(2) + (moved[2] - v[2]).powi(2))
+            ((moved[0] - v[0]).ppowi(2) + (moved[1] - v[1]).ppowi(2) + (moved[2] - v[2]).ppowi(2))
                 .sqrt();
         assert!(shift > 1.0, "precession should move the vector: {shift} m");
     }

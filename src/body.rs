@@ -29,6 +29,7 @@
 //! defined in its producer's body-fixed frame, not necessarily the IAU frame used here.
 
 use crate::gravity_sh::SphericalHarmonicField;
+use crate::portable_math::PortableFloat;
 
 /// Degrees → radians, for the IAU pole/prime-meridian constants below (which are published in
 /// degrees and degrees-per-day).
@@ -552,7 +553,7 @@ impl Body {
             w += t.prime_w_quad_deg_per_day2 * d * d * DEG;
             for (i, a) in t.angles.iter().enumerate() {
                 let theta = ((a[0] + a[1] * tc + a[2] * tc * tc) * DEG).rem_euclid(TAU);
-                let (s, c) = theta.sin_cos();
+                let (s, c) = theta.psin_cos();
                 ra += t.ra_sin_deg.get(i).copied().unwrap_or(0.0) * s * DEG;
                 dec += t.dec_cos_deg.get(i).copied().unwrap_or(0.0) * c * DEG;
                 w += t.w_sin_deg.get(i).copied().unwrap_or(0.0) * s * DEG;
@@ -578,9 +579,9 @@ impl Body {
 
 /// `R_z(a) · R_x(b) · R_z(c)` (frame rotations).
 fn euler_313(a: f64, b: f64, c: f64) -> [[f64; 3]; 3] {
-    let (sa, ca) = a.sin_cos();
-    let (sb, cb) = b.sin_cos();
-    let (sc, cc) = c.sin_cos();
+    let (sa, ca) = a.psin_cos();
+    let (sb, cb) = b.psin_cos();
+    let (sc, cc) = c.psin_cos();
     [
         [ca * cc - sa * cb * sc, ca * sc + sa * cb * cc, sa * sb],
         [-sa * cc - ca * cb * sc, -sa * sc + ca * cb * cc, ca * sb],

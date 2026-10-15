@@ -22,6 +22,7 @@
 //! This module is deterministic and `wasm32`-safe: it uses only `f64` math,
 //! never calls [`std::time::SystemTime::now`], and allocates nothing.
 
+use crate::portable_math::PortableFloat;
 /// Power-law noise type, identified by its phase-spectral exponent `alpha`
 /// (the exponent in `S_y(f) ~ f^alpha` for fractional-frequency noise).
 ///
@@ -151,7 +152,7 @@ fn edf_allan_table5(alpha: i32, n: usize, m: usize) -> f64 {
             // Flicker PM
             let a = (nn - 1.0) / (2.0 * mm);
             let b = (2.0 * mm + 1.0) * (nn - 1.0) / 4.0;
-            (a.ln() * b.ln()).sqrt().exp()
+            (a.pln() * b.pln()).sqrt().pexp()
         }
         0 => {
             // White FM
@@ -289,8 +290,8 @@ fn chi2_pdf(x: f64, dof: f64) -> f64 {
         return 0.0;
     }
     let a = 0.5 * dof;
-    let ln_pdf = (a - 1.0) * x.ln() - 0.5 * x - a * core::f64::consts::LN_2 - ln_gamma(a);
-    ln_pdf.exp()
+    let ln_pdf = (a - 1.0) * x.pln() - 0.5 * x - a * core::f64::consts::LN_2 - ln_gamma(a);
+    ln_pdf.pexp()
 }
 
 /// Natural log of the Gamma function via the Lanczos approximation
@@ -305,13 +306,13 @@ fn ln_gamma(x: f64) -> f64 {
         -0.539_523_938_495_3e-5,
     ];
     let mut y = x;
-    let tmp = (x + 5.5) - (x + 0.5) * (x + 5.5).ln();
+    let tmp = (x + 5.5) - (x + 0.5) * (x + 5.5).pln();
     let mut ser = 1.000_000_000_190_015;
     for &c in &COF {
         y += 1.0;
         ser += c / y;
     }
-    -tmp + (2.506_628_274_631_000_5 * ser / x).ln()
+    -tmp + (2.506_628_274_631_000_5 * ser / x).pln()
 }
 
 /// Regularized lower incomplete gamma function `P(a, x) = gamma(a, x)/Gamma(a)`.
@@ -336,7 +337,7 @@ fn reg_lower_gamma(a: f64, x: f64) -> f64 {
                 break;
             }
         }
-        sum * (-x + a * x.ln() - ln_gamma(a)).exp()
+        sum * (-x + a * x.pln() - ln_gamma(a)).pexp()
     } else {
         // Continued fraction for Q(a, x) via the modified Lentz algorithm.
         const TINY: f64 = 1e-300;
@@ -362,7 +363,7 @@ fn reg_lower_gamma(a: f64, x: f64) -> f64 {
                 break;
             }
         }
-        let q = (-x + a * x.ln() - ln_gamma(a)).exp() * h;
+        let q = (-x + a * x.pln() - ln_gamma(a)).pexp() * h;
         1.0 - q
     }
 }
@@ -416,7 +417,7 @@ fn norm_inv(p: f64) -> f64 {
 
     if p < P_LOW {
         // Lower tail.
-        let q = (-2.0 * p.ln()).sqrt();
+        let q = (-2.0 * p.pln()).sqrt();
         (((((C[0] * q + C[1]) * q + C[2]) * q + C[3]) * q + C[4]) * q + C[5])
             / ((((D[0] * q + D[1]) * q + D[2]) * q + D[3]) * q + 1.0)
     } else if p <= p_high {
@@ -427,7 +428,7 @@ fn norm_inv(p: f64) -> f64 {
             / (((((B[0] * r + B[1]) * r + B[2]) * r + B[3]) * r + B[4]) * r + 1.0)
     } else {
         // Upper tail.
-        let q = (-2.0 * (1.0 - p).ln()).sqrt();
+        let q = (-2.0 * (1.0 - p).pln()).sqrt();
         -(((((C[0] * q + C[1]) * q + C[2]) * q + C[3]) * q + C[4]) * q + C[5])
             / ((((D[0] * q + D[1]) * q + D[2]) * q + D[3]) * q + 1.0)
     }

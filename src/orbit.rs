@@ -17,6 +17,7 @@
 //! two-body + J2-secular model is intentional and documented; it is not a
 //! precise-ephemeris propagator.
 
+use crate::portable_math::PortableFloat;
 use crate::scenario::{ClockCfg, GnssState, GnssTimeline, GnssWindow, TimeCfg};
 use crate::skyline::Skyline;
 use serde::{Deserialize, Serialize};
@@ -68,7 +69,7 @@ pub(crate) fn solve_kepler(mean_anomaly: f64, e: f64) -> f64 {
     }
     let mut ea = mean_anomaly;
     for _ in 0..30 {
-        let d = (ea - e * ea.sin() - mean_anomaly) / (1.0 - e * ea.cos());
+        let d = (ea - e * ea.psin() - mean_anomaly) / (1.0 - e * ea.pcos());
         ea -= d;
         if d.abs() < 1e-13 {
             break;
@@ -147,8 +148,8 @@ impl Orbit {
     pub fn with_j2(mut self) -> Self {
         let n = self.mean_motion();
         let p = self.radius_m * (1.0 - self.eccentricity * self.eccentricity);
-        let factor = n * J2_EARTH * (R_EARTH_EQUATORIAL_M / p).powi(2);
-        let ci = self.inclination_rad.cos();
+        let factor = n * J2_EARTH * (R_EARTH_EQUATORIAL_M / p).ppowi(2);
+        let ci = self.inclination_rad.pcos();
         self.raan_dot = -1.5 * factor * ci;
         self.argp_dot = 0.75 * factor * (5.0 * ci * ci - 1.0);
         self
@@ -156,7 +157,7 @@ impl Orbit {
 
     /// Mean motion (rad/s) = sqrt(mu / a^3).
     pub fn mean_motion(&self) -> f64 {
-        (MU_EARTH / self.radius_m.powi(3)).sqrt()
+        (MU_EARTH / self.radius_m.ppowi(3)).sqrt()
     }
 
     /// Orbital period (s) = 2 pi / n.
@@ -178,12 +179,12 @@ impl Orbit {
     /// inclination about x and the (drifting) RAAN about z.
     pub fn position_eci(&self, t: f64) -> Vec3 {
         let n = self.mean_motion();
-        let (si, ci) = self.inclination_rad.sin_cos();
+        let (si, ci) = self.inclination_rad.psin_cos();
         if self.is_circular() {
             // Closed-form circular case (identical to the original formulation).
             let u = self.u0_rad + n * t;
-            let (su, cu) = u.sin_cos();
-            let (so, co) = self.raan_rad.sin_cos();
+            let (su, cu) = u.psin_cos();
+            let (so, co) = self.raan_rad.psin_cos();
             let r = self.radius_m;
             let (x, y, z) = (r * cu, r * su * ci, r * su * si);
             return [x * co - y * so, x * so + y * co, z];
@@ -193,12 +194,12 @@ impl Orbit {
         let argp = self.argp_rad + self.argp_dot * t;
         let m = self.u0_rad + n * t;
         let ea = solve_kepler(m, e);
-        let r = self.radius_m * (1.0 - e * ea.cos());
+        let r = self.radius_m * (1.0 - e * ea.pcos());
         // True anomaly from the eccentric anomaly.
-        let nu =
-            2.0 * ((1.0 + e).sqrt() * (ea * 0.5).sin()).atan2((1.0 - e).sqrt() * (ea * 0.5).cos());
-        let (su, cu) = (argp + nu).sin_cos();
-        let (so, co) = raan.sin_cos();
+        let nu = 2.0
+            * ((1.0 + e).sqrt() * (ea * 0.5).psin()).patan2((1.0 - e).sqrt() * (ea * 0.5).pcos());
+        let (su, cu) = (argp + nu).psin_cos();
+        let (so, co) = raan.psin_cos();
         let (x, y, z) = (r * cu, r * su * ci, r * su * si);
         [x * co - y * so, x * so + y * co, z]
     }
@@ -573,7 +574,7 @@ pub fn elevation_deg(user: Vec3, sat: Vec3) -> f64 {
         return 0.0;
     }
     let sin_el = dot(user, los) / (u_n * los_n);
-    sin_el.clamp(-1.0, 1.0).asin().to_degrees()
+    sin_el.clamp(-1.0, 1.0).pasin().to_degrees()
 }
 
 /// Number of GNSS satellites visible from the user at time `t`: not Earth-occulted
@@ -1201,7 +1202,7 @@ impl UserPath {
             UserPath::Orbit(o) => o.position_eci(t),
             UserPath::Site { ecef, jd0_ut1, .. } => {
                 let theta = crate::sgp4::gstime(jd0_ut1 + t / 86_400.0);
-                let (sn, c) = theta.sin_cos();
+                let (sn, c) = theta.psin_cos();
                 [
                     c * ecef[0] - sn * ecef[1],
                     sn * ecef[0] + c * ecef[1],
@@ -1221,8 +1222,8 @@ impl UserPath {
             UserPath::Orbit(o) => enu_basis(o.position_eci(t)),
             UserPath::Site { geo, .. } => {
                 let lon = geo.lon_rad;
-                let (sl, cl) = geo.lat_rad.sin_cos();
-                let (so, co) = lon.sin_cos();
+                let (sl, cl) = geo.lat_rad.psin_cos();
+                let (so, co) = lon.psin_cos();
                 Some((
                     [-so, co, 0.0],
                     [-sl * co, -sl * so, cl],
@@ -2112,7 +2113,7 @@ G01 2023 01 01 00 00 00 4.567890123456D-04 1.136868377216D-12 0.000000000000D+00
         // E must satisfy M = E - e sin E; check the residual across e and M.
         for &(m, e) in &[(1.0, 0.3), (0.2, 0.7), (3.0, 0.1), (-1.5, 0.5)] {
             let ea = solve_kepler(m, e);
-            assert!((ea - e * ea.sin() - m).abs() < 1e-12, "M={m} e={e}");
+            assert!((ea - e * ea.psin() - m).abs() < 1e-12, "M={m} e={e}");
         }
         assert_eq!(solve_kepler(1.234, 0.0), 1.234); // circular is exact
     }
@@ -2162,7 +2163,7 @@ G01 2023 01 01 00 00 00 4.567890123456D-04 1.136868377216D-12 0.000000000000D+00
         let retro = Orbit::keplerian(7.0e6, 0.0, 2.0, 0.0, 0.0, 0.0).with_j2();
         assert!(retro.raan_dot > 0.0, "retrograde node should advance");
         // Critical inclination i = acos(1/sqrt(5)) ~ 63.43 deg: apsides do not drift.
-        let crit_i = (1.0_f64 / 5.0_f64.sqrt()).acos();
+        let crit_i = (1.0_f64 / 5.0_f64.sqrt()).pacos();
         let crit = Orbit::keplerian(7.0e6, 0.01, crit_i, 0.0, 0.0, 0.0).with_j2();
         assert!(crit.argp_dot.abs() < 1e-15, "argp_dot={}", crit.argp_dot);
     }
@@ -2341,8 +2342,8 @@ G01 2023 01 01 00 00 00 4.567890123456D-04 1.136868377216D-12 0.000000000000D+00
             }
         }
         // A satellite straight above the site (along the ellipsoid normal) is at 90 deg.
-        let (sl, cl) = geo.lat_rad.sin_cos();
-        let (so, co) = geo.lon_rad.sin_cos();
+        let (sl, cl) = geo.lat_rad.psin_cos();
+        let (so, co) = geo.lon_rad.psin_cos();
         let up = [cl * co, cl * so, sl];
         let sat_ecef = [0, 1, 2].map(|k| ecef[k] + 2.0e7 * up[k]);
         let t = 600.0;
@@ -2396,8 +2397,8 @@ G01 2023 01 01 00 00 00 4.567890123456D-04 1.136868377216D-12 0.000000000000D+00
             [9.0e6, 2.1e7, -3.0e6],
         ] {
             let l = crate::frames::look_angles(*geo, sat);
-            let (sa, ca) = l.az_rad.sin_cos();
-            let (se, ce) = l.el_rad.sin_cos();
+            let (sa, ca) = l.az_rad.psin_cos();
+            let (se, ce) = l.el_rad.psin_cos();
             let reference = [l.range_m * ce * sa, l.range_m * ce * ca, l.range_m * se];
             let d = sub(sat, *ecef);
             let got = [dot(d, e), dot(d, n), dot(d, u)];
@@ -2408,7 +2409,7 @@ G01 2023 01 01 00 00 00 4.567890123456D-04 1.136868377216D-12 0.000000000000D+00
         // The geodetic up leans from the geocentric radial by the deflection (~0.19 deg at 45
         // deg), and an orbiting user keeps the geocentric basis exactly.
         let (_, _, radial) = enu_basis(*ecef).unwrap();
-        let lean = dot(u, radial).clamp(-1.0, 1.0).acos().to_degrees();
+        let lean = dot(u, radial).clamp(-1.0, 1.0).pacos().to_degrees();
         assert!(lean > 0.18 && lean < 0.2, "{lean}");
         let orbit = UserPath::Orbit(
             OrbitCfg {

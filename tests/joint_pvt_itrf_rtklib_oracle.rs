@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
+// Host maths on purpose: this test recomputes its expected values independently of the engine's
+// portable maths (STUDIO-15), so the engine is checked against a second implementation.
 //! Reference and library oracle for the joint multi-system pseudorange fix with an inter-system
 //! bias (`leo_fusion::joint_pvt::solve`), on a real GPS + Galileo day of the IGS station ABMF.
 //!

@@ -299,8 +299,9 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
 mod tests {
     use super::*;
     use crate::iq::simrng::SimRng;
+    use crate::portable_distr::StandardNormal;
+    use crate::portable_math::PortableFloat;
     use rand::Rng;
-    use rand_distr::StandardNormal;
     use std::f64::consts::TAU;
 
     fn mean_power(xs: &[Cf64]) -> f64 {
@@ -317,7 +318,7 @@ mod tests {
                 let ph = TAU * f0 * n as f64 / fs;
                 let nr: f64 = rng.sample(StandardNormal);
                 let ni: f64 = rng.sample(StandardNormal);
-                Cf64::new(ph.cos() + 0.05 * nr, ph.sin() + 0.05 * ni)
+                Cf64::new(ph.pcos() + 0.05 * nr, ph.psin() + 0.05 * ni)
             })
             .collect();
         let p = FrontendParams {

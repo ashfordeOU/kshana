@@ -14,6 +14,7 @@
 //! table at `tests/fixtures/sgp4_comparison.md`; without it the test only asserts
 //! and prints, leaving the working tree clean (so CI never writes files).
 
+use kshana::portable_math::PortableFloat;
 use std::f64::consts::TAU;
 use std::fmt::Write as _;
 
@@ -106,7 +107,7 @@ fn category(line2: &str) -> &'static str {
 
 /// Euclidean distance between two position vectors (km).
 fn dist(a: &[f64; 3], b: &[f64; 3]) -> f64 {
-    ((a[0] - b[0]).powi(2) + (a[1] - b[1]).powi(2) + (a[2] - b[2]).powi(2)).sqrt()
+    ((a[0] - b[0]).ppowi(2) + (a[1] - b[1]).ppowi(2) + (a[2] - b[2]).ppowi(2)).sqrt()
 }
 
 /// Accumulated worst-case errors for one category.

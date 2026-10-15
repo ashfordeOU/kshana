@@ -33,6 +33,7 @@
 //! ephemeris" a checked statement rather than an excuse.
 
 use kshana::api::run_toml;
+use kshana::portable_math::PortableFloat;
 use serde_json::Value;
 use std::path::Path;
 
@@ -288,7 +289,7 @@ fn the_analytic_moon_series_disagrees_with_jpl_by_the_same_amount() {
     // where it is checked against something outside the crate rather than repeated. A worst
     // vector error of `worst` km at ~3.85e5 km is an angular error of at most
     // asin(worst/3.85e5).
-    let worst_angle_deg = (worst / 385_000.0).min(1.0).asin().to_degrees();
+    let worst_angle_deg = (worst / 385_000.0).min(1.0).pasin().to_degrees();
     assert!(
         worst_angle_deg < 0.3,
         "the analytic Moon series is off by {worst_angle_deg:.4} deg at its worst epoch, \
@@ -356,7 +357,7 @@ fn an_ephemeris_sized_tilt_of_the_geometry_barely_moves_the_datum() {
         let r = kshana::ephem::moon_position((f[0] - kshana::timescales::JD_J2000) / 36_525.0);
         let d = [r[0] / 1e3 - f[1], r[1] / 1e3 - f[2], r[2] / 1e3 - f[3]];
         let km = (d[0] * d[0] + d[1] * d[1] + d[2] * d[2]).sqrt();
-        worst_deg = worst_deg.max((km / 385_000.0).min(1.0).asin().to_degrees());
+        worst_deg = worst_deg.max((km / 385_000.0).min(1.0).pasin().to_degrees());
     }
     assert!(
         tilt_deg > worst_deg,
@@ -417,9 +418,9 @@ fn the_published_catalogues_are_internally_consistent() {
             s.crd_name
         );
         // The ITRF velocity is plate motion: centimetres a year, never more.
-        let v = (s.velocity_m_per_year[0].powi(2)
-            + s.velocity_m_per_year[1].powi(2)
-            + s.velocity_m_per_year[2].powi(2))
+        let v = (s.velocity_m_per_year[0].ppowi(2)
+            + s.velocity_m_per_year[1].ppowi(2)
+            + s.velocity_m_per_year[2].ppowi(2))
         .sqrt();
         assert!((0.001..0.2).contains(&v), "{}: |v| = {v} m/y", s.crd_name);
     }

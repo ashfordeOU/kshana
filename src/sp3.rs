@@ -36,6 +36,7 @@
 //! bad-value sentinels (positions of exactly 0, clock 999999.999999) are preserved
 //! as parsed, not silently rewritten, so a caller can decide how to treat them.
 
+use crate::portable_math::PortableFloat;
 use crate::rinex::EpochUtc;
 use serde::Serialize;
 
@@ -425,7 +426,7 @@ impl Sp3Interpolator {
         let mut yr = Vec::with_capacity(n);
         for (k, &node_t) in xs.iter().enumerate() {
             let theta = OMGE * (node_t - t);
-            let (sin_t, cos_t) = theta.sin_cos();
+            let (sin_t, cos_t) = theta.psin_cos();
             let x = self.x[a + k];
             let y = self.y[a + k];
             xr.push(cos_t * x - sin_t * y);
@@ -452,7 +453,7 @@ impl Sp3Interpolator {
     /// Approximate orbital period (s) from the radius at the first sample,
     /// `2π·√(r³/μ⊕)`.
     pub fn approx_period_s(&self) -> f64 {
-        let r = (self.x[0].powi(2) + self.y[0].powi(2) + self.z[0].powi(2)).sqrt();
+        let r = (self.x[0].ppowi(2) + self.y[0].ppowi(2) + self.z[0].ppowi(2)).sqrt();
         std::f64::consts::TAU * (r * r * r / crate::orbit::MU_EARTH).sqrt()
     }
 }
@@ -1078,7 +1079,7 @@ EOF";
             lagrange(xs, &interp.y[lo..hi], t_mid),
             lagrange(xs, &interp.z[lo..hi], t_mid),
         ];
-        let dxy = ((corrected[0] - raw[0]).powi(2) + (corrected[1] - raw[1]).powi(2)).sqrt();
+        let dxy = ((corrected[0] - raw[0]).ppowi(2) + (corrected[1] - raw[1]).ppowi(2)).sqrt();
         assert!(
             dxy > 1e-3,
             "Earth-rotation correction should move the X/Y fit off the raw fit, Δxy={dxy:.6} m"
@@ -1124,18 +1125,18 @@ EOF";
         let t_mid = 9.5 * 900.0;
         let mid = interp.position_teme(t_mid);
         let truth_mid = orbit.position_eci(t_mid);
-        let err = ((mid[0] - truth_mid[0]).powi(2)
-            + (mid[1] - truth_mid[1]).powi(2)
-            + (mid[2] - truth_mid[2]).powi(2))
+        let err = ((mid[0] - truth_mid[0]).ppowi(2)
+            + (mid[1] - truth_mid[1]).ppowi(2)
+            + (mid[2] - truth_mid[2]).ppowi(2))
         .sqrt();
         assert!(err < 100.0, "midpoint interpolation error {err:.3} m");
 
         // As a Propagator it is a GPS-radius orbit with a ~12 h period.
         let p: Propagator = interp.into();
         assert!(matches!(p, Propagator::Sp3Precise(_)));
-        let r = (p.position_eci(t_mid)[0].powi(2)
-            + p.position_eci(t_mid)[1].powi(2)
-            + p.position_eci(t_mid)[2].powi(2))
+        let r = (p.position_eci(t_mid)[0].ppowi(2)
+            + p.position_eci(t_mid)[1].ppowi(2)
+            + p.position_eci(t_mid)[2].ppowi(2))
         .sqrt();
         assert!((r - a).abs() < 400_000.0, "radius {r:.0} m");
         assert!(
@@ -1176,7 +1177,7 @@ EOF";
         assert_eq!(f.epochs.len(), 3);
         // Earth-fixed rotation preserves the geocentric radius (GPS altitude).
         let p = f.position_of("G01", 0).unwrap();
-        let r = (p[0].powi(2) + p[1].powi(2) + p[2].powi(2)).sqrt();
+        let r = (p[0].ppowi(2) + p[1].ppowi(2) + p[2].ppowi(2)).sqrt();
         assert!((r - a).abs() < 1.0, "radius {r:.0} m");
         // Clocks are the unavailable sentinel (no clock model).
         assert!(f.epochs[0].sats[0].clock_is_bad());

@@ -109,6 +109,7 @@ pub(crate) trait Maths {
 
 /// The host's own mathematics library: what every routine in the crate used before this
 /// module existed, kept so that their published numbers do not move.
+#[allow(dead_code)]
 pub(crate) struct Platform;
 
 impl Maths for Platform {
@@ -216,7 +217,7 @@ pub(crate) fn standard_normal<R: rand::RngCore + ?Sized>(rng: &mut R) -> f64 {
 
 /// Platform-independent counterparts of the inherent `f64` transcendentals. Each method
 /// is the inherent one's name with a `p` in front.
-pub(crate) trait PortableFloat: Sized {
+pub trait PortableFloat: Sized {
     /// Sine.
     fn psin(self) -> f64;
     /// Cosine.
@@ -241,6 +242,27 @@ pub(crate) trait PortableFloat: Sized {
     fn ppowi(self, n: i32) -> f64;
     /// `sqrt(self² + y²)` without intermediate overflow.
     fn phypot(self, y: f64) -> f64;
+    /// Tangent.
+    fn ptan(self) -> f64;
+    /// Natural logarithm.
+    fn pln(self) -> f64;
+    /// Arctangent.
+    fn patan(self) -> f64;
+    /// Cube root.
+    fn pcbrt(self) -> f64;
+    /// Hyperbolic sine.
+    fn psinh(self) -> f64;
+    /// Hyperbolic cosine.
+    fn pcosh(self) -> f64;
+    /// Inverse hyperbolic sine.
+    fn pasinh(self) -> f64;
+    /// `exp(self) - 1`, accurate near zero.
+    fn pexp_m1(self) -> f64;
+    /// `ln(1 + self)`, accurate near zero.
+    fn pln_1p(self) -> f64;
+    /// Logarithm of `self` to the base `base`, as `ln(self) / ln(base)`.
+    #[allow(dead_code)]
+    fn plog(self, base: f64) -> f64;
 }
 
 impl PortableFloat for f64 {
@@ -291,6 +313,46 @@ impl PortableFloat for f64 {
     #[inline]
     fn phypot(self, y: f64) -> f64 {
         libm::hypot(self, y)
+    }
+    #[inline]
+    fn ptan(self) -> f64 {
+        libm::tan(self)
+    }
+    #[inline]
+    fn pln(self) -> f64 {
+        libm::log(self)
+    }
+    #[inline]
+    fn patan(self) -> f64 {
+        libm::atan(self)
+    }
+    #[inline]
+    fn pcbrt(self) -> f64 {
+        libm::cbrt(self)
+    }
+    #[inline]
+    fn psinh(self) -> f64 {
+        libm::sinh(self)
+    }
+    #[inline]
+    fn pcosh(self) -> f64 {
+        libm::cosh(self)
+    }
+    #[inline]
+    fn pasinh(self) -> f64 {
+        libm::asinh(self)
+    }
+    #[inline]
+    fn pexp_m1(self) -> f64 {
+        libm::expm1(self)
+    }
+    #[inline]
+    fn pln_1p(self) -> f64 {
+        libm::log1p(self)
+    }
+    #[inline]
+    fn plog(self, base: f64) -> f64 {
+        libm::log(self) / libm::log(base)
     }
 }
 

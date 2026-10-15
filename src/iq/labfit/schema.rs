@@ -36,6 +36,7 @@
 //! doppler_rate_hz_per_s = 20.0
 //! ```
 
+use crate::portable_math::PortableFloat;
 use serde::{Deserialize, Serialize};
 
 use crate::jamming::{q_factor, CA_CHIP_RATE_HZ};
@@ -189,13 +190,13 @@ impl Conditions {
         match self.level_kind {
             LevelKind::Cn0Drop => nominal_dbhz - threshold_dbhz - offset_db,
             LevelKind::JOverS => {
-                let t_lin = 10f64.powf(threshold_dbhz / 10.0);
-                let n_lin = 10f64.powf(nominal_dbhz / 10.0);
+                let t_lin = 10f64.ppowf(threshold_dbhz / 10.0);
+                let n_lin = 10f64.ppowf(nominal_dbhz / 10.0);
                 let js_lin = self.q() * CA_CHIP_RATE_HZ * (1.0 / t_lin - 1.0 / n_lin);
                 if js_lin <= 0.0 {
                     f64::NEG_INFINITY
                 } else {
-                    10.0 * js_lin.log10() - offset_db
+                    10.0 * js_lin.plog10() - offset_db
                 }
             }
         }

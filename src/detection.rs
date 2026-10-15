@@ -33,9 +33,10 @@
 //! closed-form operating characteristics follow Kay, *Fundamentals of Statistical
 //! Signal Processing, Vol. II: Detection Theory* (1998), §3 and §5.
 
+use crate::portable_distr::{Distribution, Normal};
+use crate::portable_math::PortableFloat;
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
-use rand_distr::{Distribution, Normal};
 use std::f64::consts::SQRT_2;
 
 /// Error function via Abramowitz & Stegun 7.1.26 (max abs error 1.5e-7).
@@ -47,7 +48,7 @@ pub fn erf(x: f64) -> f64 {
         - (((((1.061_405_429 * t - 1.453_152_027) * t) + 1.421_413_741) * t - 0.284_496_736) * t
             + 0.254_829_592)
             * t
-            * (-x * x).exp();
+            * (-x * x).pexp();
     sign * y
 }
 
@@ -97,7 +98,7 @@ pub fn normal_inv_cdf(p: f64) -> f64 {
     let p_low = 0.024_25;
     let p_high = 1.0 - p_low;
     if p < p_low {
-        let q = (-2.0 * p.ln()).sqrt();
+        let q = (-2.0 * p.pln()).sqrt();
         (((((C[0] * q + C[1]) * q + C[2]) * q + C[3]) * q + C[4]) * q + C[5])
             / ((((D[0] * q + D[1]) * q + D[2]) * q + D[3]) * q + 1.0)
     } else if p <= p_high {
@@ -106,7 +107,7 @@ pub fn normal_inv_cdf(p: f64) -> f64 {
         (((((A[0] * r + A[1]) * r + A[2]) * r + A[3]) * r + A[4]) * r + A[5]) * q
             / (((((B[0] * r + B[1]) * r + B[2]) * r + B[3]) * r + B[4]) * r + 1.0)
     } else {
-        let q = (-2.0 * (1.0 - p).ln()).sqrt();
+        let q = (-2.0 * (1.0 - p).pln()).sqrt();
         -(((((C[0] * q + C[1]) * q + C[2]) * q + C[3]) * q + C[4]) * q + C[5])
             / ((((D[0] * q + D[1]) * q + D[2]) * q + D[3]) * q + 1.0)
     }

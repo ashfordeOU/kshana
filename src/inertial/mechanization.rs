@@ -28,6 +28,7 @@
 
 use super::attitude::{coning_increment, Quaternion};
 use crate::frames::{wgs84_e2, Geodetic, Vec3, WGS84_A, WGS84_F};
+use crate::portable_math::PortableFloat;
 
 /// WGS-84 Earth rotation rate (rad/s).
 pub const OMEGA_IE: f64 = 7.292_115e-5;
@@ -56,7 +57,7 @@ fn cross(a: Vec3, b: Vec3) -> Vec3 {
 /// in `h/a`. "Gravity" here is plumb-bob gravity — gravitation plus the
 /// centrifugal term — so a static accelerometer reads exactly its negative.
 pub fn normal_gravity(lat_rad: f64, alt_m: f64) -> f64 {
-    let sin2 = lat_rad.sin().powi(2);
+    let sin2 = lat_rad.psin().ppowi(2);
     let e2 = wgs84_e2();
     let g0 = GAMMA_E * (1.0 + SOMIGLIANA_K * sin2) / (1.0 - e2 * sin2).sqrt();
     let h = alt_m;
@@ -70,14 +71,14 @@ pub fn normal_gravity(lat_rad: f64, alt_m: f64) -> f64 {
 /// Meridian (north–south) radius of curvature `R_N` at latitude `lat_rad` (m).
 fn radius_meridian(lat_rad: f64) -> f64 {
     let e2 = wgs84_e2();
-    let s2 = lat_rad.sin().powi(2);
-    WGS84_A * (1.0 - e2) / (1.0 - e2 * s2).powf(1.5)
+    let s2 = lat_rad.psin().ppowi(2);
+    WGS84_A * (1.0 - e2) / (1.0 - e2 * s2).ppowf(1.5)
 }
 
 /// Transverse / prime-vertical radius of curvature `R_E` at latitude `lat_rad` (m).
 fn radius_transverse(lat_rad: f64) -> f64 {
     let e2 = wgs84_e2();
-    let s2 = lat_rad.sin().powi(2);
+    let s2 = lat_rad.psin().ppowi(2);
     WGS84_A / (1.0 - e2 * s2).sqrt()
 }
 
@@ -115,7 +116,7 @@ impl NavState {
     /// Earth-rotation rate resolved in the current NED frame: `[ω cosL, 0, −ω sinL]`.
     pub fn omega_ie_n(&self) -> Vec3 {
         let l = self.p_llh.lat_rad;
-        [OMEGA_IE * l.cos(), 0.0, -OMEGA_IE * l.sin()]
+        [OMEGA_IE * l.pcos(), 0.0, -OMEGA_IE * l.psin()]
     }
 
     /// Transport rate `ω_en^n` — the turn rate of the NED frame as the platform
@@ -126,7 +127,7 @@ impl NavState {
         let rn = radius_meridian(l);
         let re = radius_transverse(l);
         let (vn, ve) = (self.v_ned[0], self.v_ned[1]);
-        [ve / (re + h), -vn / (rn + h), -ve * l.tan() / (re + h)]
+        [ve / (re + h), -vn / (rn + h), -ve * l.ptan() / (re + h)]
     }
 
     /// Advance the state by `dt` seconds given a single IMU sample: the body-frame
@@ -212,7 +213,7 @@ impl NavState {
         let ve = 0.5 * (v_old[1] + v_new[1]);
         let vd = 0.5 * (v_old[2] + v_new[2]);
         let lat = l + dt * vn / (rn + h);
-        let lon = self.p_llh.lon_rad + dt * ve / ((re + h) * l.cos());
+        let lon = self.p_llh.lon_rad + dt * ve / ((re + h) * l.pcos());
         let alt = h - dt * vd;
 
         self.q = q_new;
@@ -287,7 +288,7 @@ mod tests {
     fn ecef_distance(a: Geodetic, b: Geodetic) -> f64 {
         let pa = geodetic_to_ecef(a);
         let pb = geodetic_to_ecef(b);
-        ((pa[0] - pb[0]).powi(2) + (pa[1] - pb[1]).powi(2) + (pa[2] - pb[2]).powi(2)).sqrt()
+        ((pa[0] - pb[0]).ppowi(2) + (pa[1] - pb[1]).ppowi(2) + (pa[2] - pb[2]).ppowi(2)).sqrt()
     }
 
     #[test]
@@ -320,7 +321,7 @@ mod tests {
         };
         let mut nav = NavState::new(Quaternion::identity(), [0.0, 0.0, 0.0], start);
         // Body == NED, so the body-frame Earth rate is ω_ie^n directly.
-        let gyro = [OMEGA_IE * lat.cos(), 0.0, -OMEGA_IE * lat.sin()];
+        let gyro = [OMEGA_IE * lat.pcos(), 0.0, -OMEGA_IE * lat.psin()];
         // Specific force of a static platform is −gravity: up (negative down).
         let g = normal_gravity(lat, 120.0);
         let accel = [0.0, 0.0, -g];
@@ -330,7 +331,7 @@ mod tests {
         }
         // 60 s later it must not have moved more than 1 mm or built up velocity.
         let drift = ecef_distance(start, nav.p_llh);
-        let speed = (nav.v_ned[0].powi(2) + nav.v_ned[1].powi(2) + nav.v_ned[2].powi(2)).sqrt();
+        let speed = (nav.v_ned[0].ppowi(2) + nav.v_ned[1].ppowi(2) + nav.v_ned[2].ppowi(2)).sqrt();
         assert!(drift < 1e-3, "static drift {drift} m exceeds 1 mm");
         assert!(speed < 1e-5, "static speed {speed} m/s");
     }
@@ -467,8 +468,8 @@ mod tests {
         let (dur, dt_f, dt_c) = (60.0_f64, 0.001_f64, 0.1_f64);
         let w0 = 2.0 * PI * 10.0; // 10 Hz vibration
         let (amp_theta, amp_acc) = (0.03_f64, 0.15_f64);
-        let gyro = |t: f64| [amp_theta * w0 * (w0 * t).cos(), 0.0, 0.0];
-        let accel = |t: f64| [0.0, 0.0, amp_acc * (w0 * t).sin()];
+        let gyro = |t: f64| [amp_theta * w0 * (w0 * t).pcos(), 0.0, 0.0];
+        let accel = |t: f64| [0.0, 0.0, amp_acc * (w0 * t).psin()];
         let nf = (dt_c / dt_f).round() as usize;
         let ncoarse = (dur / dt_c).round() as usize;
 

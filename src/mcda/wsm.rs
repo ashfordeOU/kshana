@@ -15,6 +15,7 @@
 //! plain descending/ascending sort exactly (the back-compatibility golden below).
 
 use super::Objective;
+use crate::portable_math::PortableFloat;
 use std::collections::BTreeMap;
 
 /// Whether higher or lower raw values of a criterion are preferred.
@@ -219,7 +220,7 @@ fn preference(vf: ValueFn, dir: Direction, x: f64, lo: f64, hi: f64) -> f64 {
             midpoint,
             steepness,
         } => {
-            let s = 1.0 / (1.0 + (-steepness * (x - midpoint)).exp());
+            let s = 1.0 / (1.0 + (-steepness * (x - midpoint)).pexp());
             match dir {
                 Direction::Benefit => s,
                 Direction::Cost => 1.0 - s,

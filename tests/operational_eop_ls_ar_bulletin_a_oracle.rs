@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
+// Host maths on purpose: this test recomputes its expected values independently of the engine's
+// portable maths (STUDIO-15), so the engine is checked against a second implementation.
 //! Oracle for the matrix row "Operational-style Earth-orientation prediction error" (row
 //! 135, M073), round 2: the least-squares plus autoregressive predictor with the zonal tides
 //! removed analytically (`eop_ls_ar::ls_ar_predict`, IERS Conventions 2010 chapter 8 Table

@@ -40,6 +40,7 @@
 //! References: Kaplan & Hegarty, *Understanding GPS/GNSS* (3rd ed., chs. 8 & 14);
 //! Borre et al., *A Software-Defined GPS and Galileo Receiver* (2007); IS-GPS-200.
 
+use crate::portable_math::PortableFloat;
 use std::f64::consts::TAU;
 
 /// C/A code chip rate (chips/s) and code length (chips) for GPS L1.
@@ -181,7 +182,7 @@ impl Cf64 {
     }
     /// Magnitude `√(re² + im²)`.
     pub fn abs(self) -> f64 {
-        self.re.hypot(self.im)
+        self.re.phypot(self.im)
     }
 }
 
@@ -367,7 +368,7 @@ pub fn correlate(iq: &[Cf64], code: &CaCode, p: &CorrParams) -> Correlation {
         let t = k as f64 / p.fs_hz;
         // Conjugate carrier replica exp(-jθ) = cosθ - j sinθ.
         let theta = TAU * p.carrier_freq_hz * t + p.carrier_phase_rad;
-        let (sin, cos) = theta.sin_cos();
+        let (sin, cos) = theta.psin_cos();
         let wiped = s * Cf64::new(cos, -sin);
         let cp = p.code_phase_chips + p.code_rate_hz * t;
         let prompt = chip_at(code, cp);
@@ -416,7 +417,7 @@ pub fn synth_if(
             let cp = code_phase0_chips + code_rate_hz * t;
             let chip = chip_at(code, cp);
             let theta = TAU * carrier_freq_hz * t;
-            let (sin, cos) = theta.sin_cos();
+            let (sin, cos) = theta.psin_cos();
             let sig = Cf64::new(amp * chip * cos, amp * chip * sin);
             if noise > 0.0 {
                 Cf64::new(sig.re + noise * next(), sig.im + noise * next())
@@ -469,7 +470,7 @@ pub fn acquire(
             .enumerate()
             .map(|(k, &s)| {
                 let theta = TAU * fc * (k as f64 / fs_hz);
-                let (sin, cos) = theta.sin_cos();
+                let (sin, cos) = theta.psin_cos();
                 s * Cf64::new(cos, -sin)
             })
             .collect();
@@ -647,7 +648,7 @@ pub fn track(
         };
         // Costas PLL: atan(Q/I) phase error (rad), insensitive to data-bit sign.
         let pll = if loop_corr.prompt.re != 0.0 {
-            (loop_corr.prompt.im / loop_corr.prompt.re).atan()
+            (loop_corr.prompt.im / loop_corr.prompt.re).patan()
         } else {
             0.0
         };
