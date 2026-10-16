@@ -14,6 +14,10 @@
 //! now the "0.36 portable" ones (engine on portable maths); the 0.35.0 values they replaced are in
 //! `tests/fixtures/geometry_trust/pins_0.35.0.txt` (pinned by hash in `geometry_corpus_identity.rs`).
 //!
+//! The telemetry exporters (Prometheus, CEF, LEEF) write the engine version, so their pins hold for one
+//! version: the 0.36.0 version bump re-blessed them (docs/revisions/STUDIO15-pins-0.36.0-version.md); the
+//! result, CSV, SVG, verdict and `$PKSHT` pins carry no version and did not move.
+//!
 //! The 0.35.0 hashes were taken by running this file on the 0.35.0 release commit, checked out
 //! at a different path from this one, where the removal is a no-op. The scenario hash covers the
 //! resolved (absolute) log path, so it is replaced by a placeholder in the result JSON and in the
@@ -221,15 +225,15 @@ fn the_vessel_demo_outputs_are_those_of_0_36_portable_apart_from_the_appended_ke
             ),
             (
                 "telemetry prometheus of the 0.35 result",
-                "95f5aa3fac4c4d022bccc069c8b51a2b0984230e58b08db295991ee5a95b86d3",
+                "fcc066d175cbcc7cb362f7ba50b7654e8a4dea69e9c791740145e1bf842348c7",
             ),
             (
                 "telemetry cef of the 0.35 result",
-                "35872b3245ed6e36185398a5c7828a1ccf15a2bd61e6c7124a442f973c5bd0db",
+                "b94be1c4c4e9a454412ada8ec36de216689088b163b16bda346c11cf7829fe5c",
             ),
             (
                 "telemetry leef of the 0.35 result",
-                "f1527d3e177f54203e1704e863d8f4b9a5d1842bcdf30bc2ea4eda2cfbe6b9ba",
+                "41e303df190a4bf992ee75c03d3f990ee0ee104fa5cea3e9975d7f5c72d87fdd",
             ),
         ],
     );
@@ -260,15 +264,15 @@ fn the_static_example_outputs_are_those_of_0_36_portable_apart_from_the_appended
             ),
             (
                 "telemetry prometheus of the 0.35 result",
-                "97e0c3459e83826af5f5f38d0c8c49211ba54e3600f3f7c2c65e40db57f83e99",
+                "09796bf7ed8c3d5b5a924b578ae8507f20af5c1ef56756e126a2c97256923c07",
             ),
             (
                 "telemetry cef of the 0.35 result",
-                "db703adf972d5912dd29ed0fd7ec60753fadb3f423cb044e347f812d582abdd4",
+                "4da9ffa0e6b26c17a70fa5f162d10a28a03d5ed30338cb015b63a5c42dedfa78",
             ),
             (
                 "telemetry leef of the 0.35 result",
-                "43e533c9a7328970d7012eb160af293dbb0ca7fabba7f30d7a9f7ce415f0e323",
+                "629c0fb567060fb9fa5c012571349609665eb07fbd079fd8e0ccbfebfcbc9694",
             ),
         ],
     );
@@ -295,15 +299,15 @@ fn the_replayed_stream_is_that_of_0_36_portable_apart_from_the_appended_keys() {
             ),
             (
                 "telemetry prometheus of the 0.35 lines",
-                "0e09688fb521e648cb007bd9ac8b00d7f6a606bd4a11527bf2ed1d9ffeda6c87",
+                "35fe030eb8e67867ff538e0524300b1a8c1a1fcd93e8bd5ce193de6098725b2c",
             ),
             (
                 "telemetry cef of the 0.35 lines",
-                "d8019910c91daa2037c3e745d7f0e2e0e2e35a5aeaf09fd9e5b9aa75f887ce66",
+                "91da02a2d7ba3f2702c3b1c75bb615163e13ffb32f26d22441f5291698000630",
             ),
             (
                 "telemetry leef of the 0.35 lines",
-                "a792d9bc87093b839cc8d8dc4a722bb94ef26478677bac4a884a18934ced630a",
+                "be6408acd3c3afbd4310bfab66317cf2d6db3cd0909443aad8221c313d89c0e7",
             ),
         ],
     );
@@ -355,27 +359,27 @@ fn the_0_36_telemetry_of_the_vessel_demo_is_pinned() {
         &[
             (
                 "0.36 telemetry prometheus of the result",
-                "7262710f866654484e26364dc1e543801d61635b7b39d246a8d8d0177e38a4d2",
+                "7a27a54197f7b4ef9eed2aad6d0a28764541b4a82844f00dc93d7a2d8c9e681a",
             ),
             (
                 "0.36 telemetry prometheus of the lines",
-                "0220791499407a21fbc4245d422935f323ae3637f0ac9f86d2d7e582e84161a8",
+                "a8690121254c4ea408fa3ff41eaffcf1701e85697ee5c1f49c711ee2a3444b8d",
             ),
             (
                 "0.36 telemetry cef of the result",
-                "7e5f5aa1333c46108582eb0e4756b21c07f9e1a207a698f02711b7eb3f3091bb",
+                "22b589b677c128b233d7523ef18833f3cc30671f8fb99da074038f801fabab79",
             ),
             (
                 "0.36 telemetry cef of the lines",
-                "fcc032de563d8962688b10f7be95f66f18d033a5e44b92dd1701320024cc82b6",
+                "d09588b8c7d59ab8d4da78a56b9a13d7f45b04203b19b78dedad3b4ae55befd5",
             ),
             (
                 "0.36 telemetry leef of the result",
-                "878c204d9affa02050aa905bdcd1f8e287cc0a12284716cf203c72815e0b5220",
+                "b1c358cfab7af34493e804f7ec97483c491c851edc41b7bc744ecac8a73b4123",
             ),
             (
                 "0.36 telemetry leef of the lines",
-                "f3252aa5a129a165fd999a5d4bf22ba66bb61900d2d94d77208e9908b2f1d8eb",
+                "9c97442d9ce00931644b9f65f40300c3eddf8b4db8ea8c6752d2e11473b19ba9",
             ),
         ],
     );
@@ -434,27 +438,27 @@ fn the_label_fields_are_appended_to_the_0_36_telemetry_and_nothing_else_moves() 
     let before_label: [(&str, &str); 6] = [
         (
             "0.36 telemetry prometheus of the result",
-            "e79d328d92077016fdeccbcfaa1e70cab207d7509d67fe3305fe2021931e7dbc",
+            "d35e330a35c88fc0c0cc8d5b184d6ed09b2fba1bd968a059244771bdabef443c",
         ),
         (
             "0.36 telemetry prometheus of the lines",
-            "9714c93f47f8b7efae4697290ff5afa0816e32f5462a1ce491ed73f6bdea19cb",
+            "d32a40631bcb789dbdfa67d73eecbf25dfe99de3ed4c5214f81e577410ca9ae3",
         ),
         (
             "0.36 telemetry cef of the result",
-            "a6d35405d856532b3d4606ed4c44c37cb48d8ce0c118a98a37482bf166fad71a",
+            "2978bbb29ceea5e55a1990fe681ca401a5819527a7102ddf0d3f35fdb84d06f4",
         ),
         (
             "0.36 telemetry cef of the lines",
-            "73780319cc14859bf823f84d3c4f4b02c19b3ccc280e7112b6414c7831ede560",
+            "80202fcdfb6762704bad28c5bb4bea9d0b8618fefca2bc947e773cc26eec559a",
         ),
         (
             "0.36 telemetry leef of the result",
-            "776bb3c674efb22f615112726967b30c54d412f900e635e5be4a1b782cd4eb83",
+            "9909996146fee548fe337f945020606d4836d5f42ee97b4157a8a54a17a6f3c1",
         ),
         (
             "0.36 telemetry leef of the lines",
-            "7bc3ef383458431a6166bc131ddb2f88140aa002db212605947e490b53947d23",
+            "a421aa097fd0738baa0ce75867b9eef803f019c0eec61a9b7552d270e3967042",
         ),
     ];
     for ((name, text), (pin_name, pin)) in telemetry_036().iter().zip(before_label) {
