@@ -305,17 +305,10 @@ if (!JSON.parse(iq_signals()).includes("gps-l1ca")) {
 }
 const iqGolden = (await readFile(new URL("tests/fixtures/iq_short_golden.json", rootDir), "utf8")).trimEnd();
 const iqWasm = iq_run_short(2.046e6, 0.1, "gps-l1ca", new Float64Array([3, 11]), new Float64Array([1200, -800]), 45, 7);
-// Exact for every integer, string and flag; numbers within 1e-9 relative, because the wasm and
-// native math libraries differ in the last digit or two of a float (the first run showed it:
-// a statistic of 228.05711797612463 against 228.0571179761247).
-const iqSame = (a, b) =>
-  typeof a === "number" && typeof b === "number"
-    ? Math.abs(a - b) <= 1e-9 * Math.max(1, Math.abs(a), Math.abs(b))
-    : a && b && typeof a === "object" && typeof b === "object"
-      ? Object.keys(a).length === Object.keys(b).length && Object.keys(a).every((k) => iqSame(a[k], b[k]))
-      : a === b;
-if (!iqSame(JSON.parse(iqWasm), JSON.parse(iqGolden))) {
-  console.error("wasm iq_run_short() differs from the native golden beyond rounding");
+// Exact, byte for byte: since 0.36.0 every transcendental in the engine goes through the portable maths
+// library, so the browser build and the native build give the same bits (STUDIO-15).
+if (iqWasm !== iqGolden) {
+  console.error("wasm iq_run_short() differs from the native golden");
   process.exit(1);
 }
 let iqTooBig = false;
