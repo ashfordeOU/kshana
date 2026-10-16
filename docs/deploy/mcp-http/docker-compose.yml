@@ -2,7 +2,7 @@
 # Usage: export KSHANA_MCP_HTTP_TOKEN="$(openssl rand -hex 32)" && docker compose up
 services:
   kshana-mcp:
-    image: ghcr.io/ashfordeou/kshana-mcp:0.35.0
+    image: ghcr.io/ashfordeou/kshana-mcp:0.36.0
     command:
       - --http
       - 0.0.0.0:8080
