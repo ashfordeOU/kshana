@@ -7,7 +7,13 @@
 //!    and summary of every shipped scenario that runs one of the wired kinds (orbit, integrity,
 //!    gnss-sim, jamming, leo-pvt, leo-pass, campaigns that compose them), and of the NMEA text of
 //!    every training scenario, on the portable maths of STUDIO-15. This build must reproduce
-//!    every one of them byte for byte. The original baseline, `flat_hashes_0.35.0.txt`, was
+//!    every one of them byte for byte. Every result carries the engine version
+//!    (`engine_version`) and digests of its own content (`reproducibility.run_digest`, the
+//!    campaign members' `result_sha256`), so the baseline holds for one version: a version bump
+//!    re-blesses it with `KSHANA_BLESS_SKYLINE_PORTABLE=1 cargo test --test skyline_scenarios
+//!    write_the_portable_baseline_on_request`, and the revisions record of that bump shows that
+//!    nothing but the version and those digests moved (docs/revisions/STUDIO15-skyline-baseline-0.36.0.md).
+//!    The original baseline, `flat_hashes_0.35.0.txt`, was
 //!    computed by the frozen 0.35.0 release commit (35c1558d) before any skyline code existed;
 //!    it is kept as the historical record and pinned by hash (STUDIO-15 moved most of its rows).
 //! 2. **An empty skyline is the old mask.** An empty `[skyline]` section describes no
