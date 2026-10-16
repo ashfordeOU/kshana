@@ -103,10 +103,11 @@ height_m = 15.0
 preset = "harbour-approach"
 ```
 
-**Backward compatibility.** Without a `[skyline]` section a scenario is byte-identical to 0.35.0:
+**Backward compatibility.** Without a `[skyline]` section a scenario is byte-identical to what the same engine gave before skyline code existed:
 `tests/skyline_scenarios.rs` checks the JSON, chart and summary of every shipped scenario that
 runs one of these kinds, and the NMEA text of every training scenario, against SHA-256 digests
-computed by the 0.35.0 release commit. An empty `[skyline]` section cuts nothing; the result then
+of the "0.36 portable" baseline (the 0.35.0 release commit's digests, re-based when the engine moved to
+portable maths and kept in the test as the record: `docs/revisions/STUDIO15-portable-math-rebaseline.md`). An empty `[skyline]` section cuts nothing; the result then
 equals the run without it except for the added `skyline` block and the zero `masked_by_skyline`
 counts.
 

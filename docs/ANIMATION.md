@@ -118,9 +118,8 @@ power, for decibel cells, so a narrow jammer is not diluted).
 A kind whose result carries none of these shapes (a link budget, a single-epoch geometry,
 a statistics-only Monte Carlo summary, or the telecom holdover, whose result publishes the
 record's hash but not the record) is refused with `no time series to animate`, and nothing
-is written. With kshana 0.35.0, 68 of the 132 bundled scenarios animate and 64 are
-refused (over all 138 scenario files, 71 and 67). `cargo test --test animation --
---nocapture` prints the census over all 138 files.
+is written. With kshana 0.36.0, 85 of the 167 bundled scenarios (every scenario file except a study suite)
+animate and 82 are refused. `cargo test --test animation -- --nocapture` prints the census.
 
 Among the LEO kinds, every bundled `leo-pass`, `leo-pnt-chain` and `leo-ppp` scenario
 animates. `leo-pvt` animates in its Doppler, joint-positioning and timing modes (a timing
