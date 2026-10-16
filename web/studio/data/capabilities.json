@@ -181,7 +181,7 @@
       "status": "modelled",
       "name": "Lunar denial contour from a measured C/N\u2080 spread",
       "summary": "Per-satellite jammer-to-signal ratio over real lunar slant ranges, with the wanted-signal side kept as a distribution rather than collapsed to a median, so the denial contour carries the uncertainty band the relay geometry actually produces. Two criteria are reported side by side: the power-ratio threshold, and loss of lock computed from tracking-loop dynamics. The orbital capture footprint is swept over transmitter altitude and beamwidth, and where the grid never reaches limb capture the report says so and prints the shortfall.",
-      "proof": "Standoff 49.2 km by power ratio against 27.4 km by loss of lock",
+      "proof": "Standoff 49.2 km by power ratio against 19.4 km by loss of lock",
       "run": "lunar-jamming.toml"
     },
     {
@@ -312,7 +312,7 @@
       "status": "modelled",
       "name": "Unit and provenance on every reported quantity",
       "summary": "Every numeric field a scenario emits carries a unit and a provenance class drawn from a closed vocabulary, with a definition where one exists, published as a machine-readable schema beside the engine. A ratcheted gate runs every built-in kind and fails on a field that carries none; the kinds not yet complete are named one by one with the reason each is still open, and the list can only shrink. Reports that state their own constants \u2014 the one-way link budget, the optical and RF budget \u2014 let a reader recompute the headline from the report alone.",
-      "proof": "74 of 75 kinds, 2518 of 2520 numeric fields"
+      "proof": "83 of 83 kinds, 2906 of 2906 numeric fields"
     },
     {
       "domain": "Mission analysis",
@@ -460,6 +460,38 @@
       "name": "Galileo OSNMA verification",
       "summary": "An open, pure-Rust receiver-side verifier for Galileo Open Service Navigation Message Authentication: it checks which satellites' navigation data a receiver can authenticate from I/NAV pages or a u-blox UBX stream, through the public-key, key-chain and tag checks of the signal-in-space specification, and reports authentication per satellite and per time. It authenticates data; it does not claim any anti-spoofing performance.",
       "proof": "all 18 official test-vector sets: 186,382 tags authenticated, 0 failed"
+    },
+    {
+      "domain": "Sky geometry",
+      "group": "GNSS",
+      "status": "validated",
+      "name": "Skyline-masked visibility, DOP and error ellipse",
+      "summary": "Which satellites a site can see when buildings, quays, cranes or terrain block part of the sky, and what that does to the dilution of precision (DOP) and the horizontal error ellipse. An azimuth-dependent skyline replaces the single elevation cut-off; the visible set, its DOP and the ellipse come out per epoch and per constellation. A skyline removes line-of-sight satellites and nothing more: it models no reflections, no diffraction and no signal strength.",
+      "proof": "1173 look angles and 142 visible sets match Orekit 12.2 and gnss_lib_py 1.0.4 to 1e-12; the ellipse matches numpy on 270 cases"
+    },
+    {
+      "domain": "Sky geometry",
+      "group": "GNSS",
+      "status": "modelled",
+      "name": "Skyline presets and the sky-geometry functions",
+      "summary": "The street-canyon, sector and terrain reductions to a skyline table, four representative presets (city street, harbour approach, fjord, container terminal) and the functions that compose them into a skyplot and a Monte Carlo cloud, from the CLI, MCP, Python and the browser. The presets are representative geometries with chosen, stated dimensions, not surveys, and the reductions are checked only against hand-computed values.",
+      "proof": "hand-computed values and the geometry the cloud samples; no external oracle"
+    },
+    {
+      "domain": "Maritime trust",
+      "group": "Maritime",
+      "status": "modelled",
+      "name": "Geometry-aware trust classification",
+      "summary": "Puts the satellite geometry beside the receiver-trust score and names a class on every deduction: signal loss, poor geometry or an inconsistency between the receiver's stated DOP and the one derived from the satellites in view. Geometry is judged only when it is known, and the label is the headline: only a poor geometry costs points. Advisory software, not type-approved navigation equipment.",
+      "proof": "the classification rule and thresholds are the project's own, checked against themselves"
+    },
+    {
+      "domain": "Lunar",
+      "group": "Lunar",
+      "status": "modelled",
+      "name": "Lunar reference-station study",
+      "summary": "One reproducible study of what a lunar south-pole reference station could do under public assumptions: a coverage and accuracy map over the polar region (percentile corrected and uncorrected position error, availability with a reason for every unavailable epoch, protection levels and the correction-link budget), a time laboratory that holds a lunar time reference on an atomic clock, and the geodesy of an added laser retroreflector and VLBI beacon against the five-array datum. Every input is labelled with its public source or as illustrative. It is not a statement about the performance of any real system, and Kshana is not affiliated with any agency.",
+      "proof": "composes tested lunar differential, clock and frame functions; checked against themselves and a numpy reference, no external flight data"
     }
   ],
   "standards": [

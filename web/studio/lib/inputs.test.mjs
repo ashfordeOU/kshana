@@ -2,7 +2,7 @@
 // Tests for the input ranking (inputs.mjs) over every bundled scenario. Run with `node lib/inputs.test.mjs`.
 import { readFileSync, readdirSync } from "node:fs";
 import assert from "node:assert/strict";
-import { rankInputs, splitInputs, isTechnical, fieldName, VISIBLE_INPUTS } from "./inputs.mjs";
+import { rankInputs, splitInputs, isTechnical, fieldName, idToPath, VISIBLE_INPUTS } from "./inputs.mjs";
 import { numericFields } from "./params.mjs";
 import { GUIDED_KNOBS, readKnob } from "./guided.mjs";
 import * as K from "./kinds.mjs";
@@ -27,6 +27,20 @@ assert.equal(fieldName({ key: "mask_deg", comment: "" }), "Mask");
   assert.deepEqual(ids.slice(0, VISIBLE_INPUTS), ["::sigma_uere_m", "::al_h_m", "::al_v_m", "time::duration_s", "::mask_deg"]);
   assert.ok(ids.indexOf("::seed") > ids.indexOf("::al_h_m"), "seed after the alert limit");
   assert.ok(ids.slice(0, VISIBLE_INPUTS).includes("::al_h_m") && ids.slice(0, VISIBLE_INPUTS).includes("::al_v_m"), "both alert limits show by default");
+}
+// The engine's headline fields (field_importance()) lead, in the engine's order; technical settings stay last.
+{
+  assert.equal(idToPath("jammers[0]::eirp_dbw"), "jammers[].eirp_dbw");
+  assert.equal(idToPath("::duration_s"), "duration_s");
+  assert.equal(idToPath("pass.satellite[2].band[0]::eirp_dbw"), "pass.satellite[].band[].eirp_dbw");
+  const toml = readFileSync(new URL("integrity-raim.toml", dir), "utf8");
+  const ranked = rankInputs(numericFields(toml), curatedFor(toml), ["mask_deg", "al_v_m", "seed", "no.such.path"]);
+  const ids = ranked.map((x) => x.id);
+  assert.deepEqual(ids.slice(0, 2), ["::mask_deg", "::al_v_m"], "the engine's order leads");
+  assert.equal(ranked[0].tier, -1);
+  assert.ok(ranked.findIndex((x) => x.id === "::seed") > ids.indexOf("::al_h_m"), "a listed technical setting still goes last");
+  assert.equal(new Set(ids).size, ids.length, "nothing listed twice");
+  assert.deepEqual(rankInputs(numericFields(toml), curatedFor(toml), []).map((x) => x.id), rankInputs(numericFields(toml), curatedFor(toml)).map((x) => x.id), "no headline list changes nothing");
 }
 // Every scenario: at most 5 visible, nothing lost, nothing twice, technical settings never ahead of others.
 for (const f of readdirSync(dir).filter((x) => x.endsWith(".toml"))) {

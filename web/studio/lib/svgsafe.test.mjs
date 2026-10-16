@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 // Tests for what chart markup is allowed into the page (svgsafe.mjs). Run with `node lib/svgsafe.test.mjs`.
 // The tree here is a plain stand-in for a parsed XML document; the same functions run on the real
-// one in the browser (checked in a browser by site-next/scratch/port/check_svgsafe.mjs).
+// one in the browser: the last section below adopts every vector into a real parsed XML document in
+// Chromium, with and without the sanitiser (it runs when Playwright and a Chromium are found, see there).
 import assert from "node:assert/strict";
 import { hasDeclaration, parseSvgMarkup, sanitizeSvg, MAX_SVG_BYTES } from "./svgsafe.mjs";
 
@@ -178,3 +179,88 @@ console.log("svgsafe.test.mjs: all assertions passed");
   assert.equal(parsed, 1);
 }
 console.log("svgsafe.test.mjs: entity-expansion checks passed");
+
+// ---- Browser section: each vector is adopted twice into a real parsed XML document, untouched (the
+// control, which must run its handler, so this can fail) and through sanitizeSvg (which must not).
+// It needs Playwright and a Chromium: PLAYWRIGHT_MODULE (default /opt/node-tools/node_modules) and,
+// optionally, CHROMIUM (the browser's path). Where Playwright is not installed the section says so and
+// the node checks above stand alone; set SVGSAFE_BROWSER=1 to make a missing browser a failure.
+import { createRequire } from "node:module";
+import fs from "node:fs";
+let chromium = null;
+try {
+  chromium = createRequire((process.env.PLAYWRIGHT_MODULE || "/opt/node-tools/node_modules") + "/")("playwright").chromium;
+} catch {
+  if (process.env.SVGSAFE_BROWSER === "1") { console.error("FAIL: SVGSAFE_BROWSER=1 and Playwright is not installed"); process.exit(1); }
+  console.log("svgsafe.test.mjs: browser section NOT run (Playwright not found; set PLAYWRIGHT_MODULE)");
+}
+if (chromium) {
+  const NS = 'xmlns="http://www.w3.org/2000/svg"';
+  const vectors = {
+    "image handler": `<svg ${NS}><image href="x" onerror="window.__p=1"/></svg>`,
+    "handler in a text run": `<svg ${NS}><text>a</text><image href="x" onerror="window.__p=1"/><text>b</text></svg>`,
+    "embedded document": `<svg ${NS}><foreignObject><body xmlns="http://www.w3.org/1999/xhtml"><img src="x" onerror="window.__p=1"/></body></foreignObject></svg>`,
+    "animated handler": `<svg ${NS}><image href="x"><set attributeName="onerror" to="window.__p=1"/></image></svg>`,
+    "script element": `<svg ${NS}><script>window.__p=1</script></svg>`,
+    "script address": `<svg ${NS}><a href="javascript:window.__p=1"><text>x</text></a></svg>`,
+    "outside paint": `<svg ${NS}><rect width="5" height="5" fill="url(https://other.example/x.svg#p)"/></svg>`,
+    "outside filter and cursor": `<svg ${NS}><rect width="5" height="5" filter="url(https://other.example/x.svg#f)" cursor="url(https://other.example/c.cur), auto"/></svg>`,
+    "animated outside value": `<svg ${NS}><rect width="5" height="5"><animate attributeName="fill" values="url(https://other.example/x.svg#p)"/></rect></svg>`,
+    "style element": `<svg ${NS}><style>rect{fill:url(https://other.example/x.svg#p)}</style><rect width="5" height="5"/></svg>`,
+    "outside link": `<svg ${NS}><image href="https://other.example/x.png" onerror="window.__p=1"/></svg>`,
+  };
+  const source = fs.readFileSync(new URL("./svgsafe.mjs", import.meta.url), "utf8").replace(/^export /gm, "") + "\nwindow.svgsafe = { hasDeclaration, sanitizeSvg };";
+  const browser = await chromium.launch(process.env.CHROMIUM ? { executablePath: process.env.CHROMIUM } : {});
+  // A page of its own for every adoption, so a handler that fires late cannot be counted for another input.
+  async function fresh() {
+    const page = await browser.newPage();
+    await page.setContent("<!doctype html><div id=box></div>");
+    await page.addScriptTag({ content: source });
+    return page;
+  }
+
+  // Adopt as the Studio does (app.js svgNode), with or without the sanitiser.
+  const adopt = (page, markup, clean) => page.evaluate(({ markup, clean }) => {
+    window.__p = 0;
+    if (window.svgsafe.hasDeclaration(markup)) return { drawn: false, why: "declaration" };
+    const root = new DOMParser().parseFromString(markup, "image/svg+xml").documentElement;
+    if (!root || root.nodeName !== "svg") return { drawn: false, why: "not svg" };
+    if (clean) window.svgsafe.sanitizeSvg(root);
+    const box = document.getElementById("box");
+    box.replaceChildren(document.importNode(root, true));
+    // What is left that could run or load something, counted on the live tree (text is not markup).
+    let bad = 0;
+    for (const e of box.querySelectorAll("*")) {
+      if (/^(script|foreignobject|iframe|object|embed|audio|video|canvas|link|meta|base|style)$/i.test(e.localName)) bad++;
+      for (const a of e.attributes) {
+        if (/^on/i.test(a.name) || (a.localName.toLowerCase() === "href" && !/^\s*#/.test(a.value)) || /javascript\s*:/i.test(a.value.replace(/[\u0000-\u0020]+/g, "")) || /url\(\s*['"]?\s*[^#'"\s)]/i.test(a.value)) bad++;
+      }
+    }
+    return { drawn: true, bad };
+  }, { markup, clean });
+
+  const failures = [];
+  let controls = 0;
+  for (const [name, markup] of Object.entries(vectors)) {
+    const rawPage = await fresh();
+    const raw = await adopt(rawPage, markup, false);
+    const injected = raw.drawn && raw.bad > 0;
+    await rawPage.waitForTimeout(200);
+    const ran = (await rawPage.evaluate(() => window.__p)) === 1;
+    await rawPage.close();
+    if (injected && ran) controls++;
+    const cleanPage = await fresh();
+    const clean = await adopt(cleanPage, markup, true);
+    await cleanPage.waitForTimeout(200);
+    const ranClean = (await cleanPage.evaluate(() => window.__p)) === 1;
+    await cleanPage.close();
+    const ok = clean.drawn && !ranClean && clean.bad === 0;
+    console.log(`${ok ? "ok  " : "FAIL"} ${name}: control ${raw.drawn ? `${raw.bad} live item(s)${ran ? ", handler ran" : ""}` : raw.why}; sanitised ${clean.drawn ? `${clean.bad} left${ranClean ? ", HANDLER RAN" : ""}` : clean.why}`);
+    if (!ok) failures.push(name);
+  }
+  await browser.close();
+  if (controls === 0) { console.error("FAIL: no control vector ran its handler, so this check could not have failed"); process.exit(1); }
+  if (failures.length) { console.error(`FAIL: ${failures.length} vector(s) not neutralised`); process.exit(1); }
+  console.log(`svgsafe.test.mjs: browser section: ${Object.keys(vectors).length} vectors inert after sanitising; ${controls} controls ran their handler untouched`);
+
+}

@@ -1,0 +1,480 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Skyline masks and sky geometry · Kshana docs</title>
+<meta name="description" content="Until 0.36 every Earth visibility test in the engine was one elevation cut-off, mask_deg: a satellite counted when it was at or above one number…">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#E8ECF3" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#060A14" media="(prefers-color-scheme: dark)">
+<link rel="apple-touch-icon" href="../assets/brand/apple-touch-icon.png">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 64 64'%3E%3Cstyle%3E.d%7Bdisplay:none%7D%40media (prefers-color-scheme:dark)%7B.l%7Bdisplay:none%7D.d%7Bdisplay:inline%7D%7D%3C/style%3E%3Cimage class='l' width='64' height='64' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAMFElEQVR42qWbaaxdVRXHf3vf84Y%2BqC1tqS2UFCwUAko1UqMgEhIcMEoc0DgkDkiiET6oERFwilMCipioifBBgyZqFNREFA1OiaLEOiGKRAaFliqTrS2P17737tl%2B4L/rYncP5%2BFNTu65555hr3mt/1rHzazaTOPj9B0K/wV9x/3A8E/r3hT%2Bd4Vj6bk%2BWZNL9vGFB7vkWMj8nzsnmOOucu90sU5r8cnCa0yprTd%2B%2BgIdznKIBrGh8oBQOZZjRkqwZZyVVF94Rnpvl7lHjiEuw7AA0A3gssuoel9Qx9y%2BGyAZKqZTMpMhgqldCxD8gIvjgl2yn5Nqbj9ng88FTh6g1qHgV1xFYOm5vsAkDzhf4WBOlUPFCYUBdhmfdypwSsMMQ8Peo59IBeKAkb4ngMMisRmTYTSxbLUb4GiG/u8KzPEJcf8E7gT2JOf7RhRxA6NCEBM2AWcAfwf2527YLdEWW2EuFJiQmtVRwCKwo%2BJL0numpuQK2uKBGWANcBnwCmAa%2BAHwoJ57wJd1FZVeSqwOhf0SYSNg0iykyxDTVzSq5Ejt%2BT0wC9wNPALM5QTZZcKVK/iAGpN8wQ%2Bk%2B/F7NfCYzh9XNGpkiClJP13HWN/PB64E1gK/B/blaOgaHjunYi2vm2NWDJ0L%2Bh1V8SRFhLHOmZN/2A7co3MwTqzPJFyWWWPgSOB84MvAfcBDhviDaIhOMOe1fUXlS%2BoeCils0P3WaaHH6rwdIniXtmXACcDpwNnan9c5wXj3VEidiD8ReD9wtRxfJ%2BcXSg7TmVrAVZKIIWHQHveSVgcsB46QZAJwB/Bx2ec7K%2Bp/uLTjDN3v%2B8BPEmnHkLcIbAU%2BIgbcZtbga4mbG1AMLaWwsUw5WhKfBh6VROakjlu0qD8l/sMV0uETgVfpXl%2BSeVjizwI%2BDbxODO6Mty8JEcB1hZQ1JMfDAK8f9OBJ4FkiYDuwWwyIqtoD66Xaltj0Gd7kBbdr2wq8BfgF8HP5lNeI%2BJclxOfM8CBt7yoqPsSureSn5XFPkITubiQ4LXMKGSe4Dfgd8FpghWL8Z%2BUzbjO%2BYEhJfUADaBQMrTohyHkdJTvfJoeWS1ZS6VJzUMmxXioP8A3gA8CHgWcCf8lIvpZSH6DDDyQ%2BVBa2TCq9DrjFEB8KdUVkwKiQ47tKhhnzhiuBj8nmNyc%2BI6e9xYjmB%2Bb/pbR3QoRvBH4tJ%2BcKBLskxI4G1hkhqUQ/D7wHeClwvfzNeYmGDMkaswtzSyyKDpXa32zUr5RZpgzJaVifATW8OfY14ALg5cCNcrgfBV4CvMCExhoQ8oRn%2Bga44DIwljNq9XTgD8aju4L6t2p6KslYLwd7HfB64FzgBmlfL8Z/EvigzHEotJf1zqEARqQE9HI%2B9ymu%2B0oqXZNAqZawydQK4LvAK4E3SO0nFAIXtf9H4Fbg4sQUQiFqkTpB1/DEqdSO1IMekdrV6nOXASR8ZpEhk9evlaq/GHgb8HVDfPws6n6fkWlsMDYfKlVtERXuG8RHxzenBMcnmpODxlJvPGEYMJEwJxK/EbgJeB5woTLAkYh3maRpJ/Ar4B2mbmiV88Fnyl/fyPFXaNF/TQDSUIjpXudPaYtET%2Bi/eHykY2MhOT8Sbngh8AVj8yWQ1QHXyiEeYhxiqAGnfkAiYm0yquXeDIdz1WInBzYpAmbkqCa1P2V%2BP0XSPUlFz/HAe0X8qJLeWlzwt/JJp5s116KY9wNzgMiYFVrov43th0rY7LRNSSrLRPihYsyMtuXCB0%2BT5Dcq1l9ptCJUsABrXtuAMxtRLDKv94V8gALgEI8/PACbmxDxE4bwGaG0a8SQFfq9qMTme3KwFwNXZSSfC8fps3%2BqoikHq6VMcD4TKkroT6%2B6flXB2aWLGZnqcFoEr5YDXS7i1%2Buac5TkHAZcAlwhZvUNGw5GePG8O4GV5noy5hBsNUgD5UmZsNPgbiVm%2BYT45TKdNTpvrX6vBp4NXKrzPyQ0Z60Ak1FGKKHSd3DAvdKaDcDfjO8KmQSLrtIMKTnCfQ0gE/0fuT8p5zaSKWwRYDkr1Ods3fMS4Cti2H8UZsOT6EnOCQZbmcEaDrq%2ByxA4MhLstD8polYp7T3axPLOXGND3rS2qI5HybmdITtHnr6X7f9LoMZubfMiZEHnjJNtUdvYMLw3/mqlGB7LZItAR41wXSGERc89YUJYJCp69N6EuciEkbl2ShKOTFgtJqzLSG9CQKkXI9aI%2BFlD4H4xJabAC0Yb5w0TYl0SzS/SNE5CZoiNkTT3n9c2W4gK80J7Wp9J2f6MbHqVGLBTah%2BAfyjZOUsx/GrjX3b9H/jkgtL05j26JQwhkKSuvjItYrVluek/LEjdpyXF74gpF6iiO0XI7j26Lko6DLB/C9BMKVeptemwnaHW%2BEv8f4%2Bkae3KVXA%2BJ03qje2N1RjZJXW/VyDnWwVsbAVerYRmslBs1TpTh8sUdzacerV3XsIIZhW%2BukIOYKNArNRm1QbbLbV8UIzco4bHvI5dJCZMA78B3m7s2Tc008b5TWLu3oQ%2Bt1QG5BgyqxvNFKo9O0Eyb5zWPl27V62qB7TI3VLVOd3zWkFcNwJfVIk7SjI6V%2BlWOTVT/pzQ50r5g2/cLEV0x1rwdCZ/SHsJYxG/IEbMSRP2alvQd9SQWdnv/UqL3we8W7XBcgN0hELuEk3lVNNB6luAb2tCJFW/XhI81pS2roAlBMOAfQpj8XtRWEIkfl7f%2B83zPgW8EHiGurubdF1X0IZeecYK%2BZTawJfLIUIlCKtPsIIHRNQhjbmASMiiCIxmEAzBYx3fl8TyGG1%2BrDD5kJhwsoHBchjGeeoY7S1oy0G%2Bw1e6PVTUbQdwjFlIqU63v8emsps3hC4WGhoxfX5A9f31YsKZuj7NYqdUTl%2BbADWuMFZXhcVzdb79b6cqt/WZerw02mI9dT8gtDnT3Q2S7mWy73OMJkSk6HxBYnclMB1DfYBrTIOm0rxdOf2ogSSViqVcCe4zDOxNeX058Gbgm8AbjY85AniRMARXGLQMrWKoHzD5YY9FLdiqrpBPYnIotL1Lrbac%2BfXJ/iTwVeUP15hw%2Bhx1jHZl5gFKWncAEgsDZnBdQUvu0f5xpjiiQLwrSMMP6OJavxCd47lqjl6hOuOmDEIdEka6EiRWcn6tenxObenD1CVayJhVSLpJNRg%2BNDpHGEZH4h4DnpZp9NRadAfWlhuUzCVFoXDMK3bvlx2ulWmU/EhUzxPkxO40md4QYNaZuv9Eo3G7dOzuwv2KeGdXKXxcwZvnmPCwCDpOTcptJq57Q7gNfaEyYttnzM3rukngXUqjL9X/pylMnq1e5cjUI77ic5wf2LujMJpuJbtb5rBdqM9Gk8KmUxsTA2b8rdnEJugpPD4RcpecYMQdb%2Bbx0ZnrhAWODYrd1ybNu8JUtjNg4lLeztinhuku%2BYT1Ona/St/4jEf539wQhQzSOq91wJt0v8%2BpKzUyzJ0EfqgO8beULO0v2b097mZWbc6NkdVmg2qDDD6BnI5RE%2BRw09C8QwVLEDhSm0HeLJxwE/AzSTgdkwsmdV6QeWxVnmBnhkKuPzB0TK42REXDb0Ss8KmKFrslqQeV2UViOmENG1QAxYLrFs0D9A21xgA1V8kvfaIwO0SNAa4yBucqLyW5Ss8/XewWha8FEevFIGcAkttkTiQjdqHhp6IWXgN8W9iCzzjWkIsCpcSolBfUwk2fAV9ie3ujnn2D8IU4y7%2B/MCwdElWumWFk0kXqLd6q0Jx9L8EXpjPDgHhcwxBCobCx948w916TS2BMxmWaork154a0Y1S6XICrLwgniweEAa/BhIGpsiuYz9jA7qPk3HEDCA2FdaXvGozUGvulqsc%2B9%2BpMrb8XBjx8yHBl7r/7TYe5r2hOzcGWSndvmDySDzhEZtfn5gTdwBw8VCRN5UXK3Ls8qxQeHUt7NykMQIf7xOwcjw9ZbVKoLE6I1KQw5EWJ1psi1kMfrxi/lJcyQ%2BUt1VbWOqsUeSo9t/a%2BwFLH42k0V6wGjJ/EvWpNm1ZzppQIBd8YhK5FgNBwfKV54XEyLO0KpevQ94MZMKqTY1KgULu3HthSzSHmkJtFKFWdtcmV1subzbHfVufELUFNSxOmbgBzfAFUrYG2ruGb%2BsL7hk9Y738BiK3K27ls0kUAAAAASUVORK5CYII='/%3E%3Cimage class='d' width='64' height='64' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAMDUlEQVR42qWbaaxeVRWGn32%2Bcwc6UNrS0kJJwTIYUKqRGgSREHGMEgc0DokDkmiEH2pERJzilAAiJmoi/NBUEzVKlShaDU6JoERURBSJQBVKKy1Dr5TLHb%2Bz/dF3Xxe7ezi33uTkO/eMe81rvWsdt3fCU/lz%2BvWZc16/Yb/6wEU8m8x5lzkWX9tEa3LRPk3mxS465hPnU9d4c9wVnh0v1mktTbTwElNK6w1/XYYOZzlEhVhfeIEvHEsxIybYMs5Kqsu8I362SzwjxRCXYJgHaHtw2SVUvcuoY2rf9ZAMBdPJmUkfwZTuBfBNj5vDgl20n5Jqaj9lg2cAp/VQa5/xK64gsPjaJsOkBnBNgYMpVfYFJ%2BR72GV435nA6RUz9BV7D34iFogDBvodAVYGYhMmQ5sgJpYehfM5de0ShFuivg/MZ7x21yN61HzPUEw4HtgC/BB4InV9u0hbrIW5OCTmzOpYMeChgi%2BJnxmbkstoSwMsAY4ErgBeA4wDPwH26r0LvqxdhFR95ZzLOKcUYQNg1CykTRDTZZhZcqT2%2Bg6YBO4HHgOmUoJsE%2BHKZXxAiUlNxlTi/fC7GnjKqGvub2CIyUk/XsdQvy8ErgHWAn8CplM0tBWPnVKxmtd1Gb/SAXP6P6jiqYoIQ10zBfwb2AnsMH6iMc/wmRA40HOOAS4Cvg48CDxiiD%2BIBrd3wudSzqZAvMssxBdS2AY4SpI/S4u6B1gKLAPGgPXARkltVAT8BrgjoRF2Ha2YdQrwPuBq4F4d7wp5C87UAq6QRPQJg/Z48OYtsBw4WpLxIvozss/3FtR/jbTjHD3vx8AvImmHkDcvb/9J4MPAXWYNTSlxcz2KocUUNvZhxwHr5IGfBP4pFZ8GNmtRf4n8h8ukw6cAr9OzvibzsMSfB3weeJMY3BpvnxMigGszKauPjvseXj%2Bo4ijwXBGwE5gQAzAquR6YjYiN39EYM7xb2xbgHTKLX8unvEHEvyoinkouA%2BDbgorX7Do2h3HZ7jMlofvNNU0hc3SFxCZ2grcDfwTeCKxQjP8icLbUvo2iiqvkN64tXOB71gkeOEzJzTFa5L5MshJLt0%2BWaeP6QMe%2BA3wU%2BATwHOBvCcmXUuoFOpqexPvCwg6TSq8DbjPE%2B0xdERgwyOT4rpBhhrzhGuDTsvmTIp%2BR0t4c7rFwwh2C0/MqNtYpdP1OTs5lCHZRSBz0BDx8VGN8GfgA8Epgm/zNhZGG9MkakwtzlcXEi10mtb81Km5cJinymQrQRxlfqupzwLeAi4FXA9vlcD8FvBx4kQmNJSDkae9sKuCCS8BYzqjVs5SkzGZSZt%2Bzps%2BV0CGGjwM3AG8GLgBukvZ1YvzngI/JHPtCe0nv7DNgRExAJ%2BfzoOJ6U0ilSxLI1RI2mVoB3Ai8FniL1H5EIXBe%2B38G7gQui0zBZ6IWsRN0i6z3j9GLHpPalVBblwAkmsQifSKvXytVfxnwLuDbhvjwN6/nfUGmscHYvC9UtVlUuKsQHxzflBKcJtKcFDQWe%2BMRw4CRiDmB%2BI3AzcALgEuUAQ5EvEskTbuB3wLv0fsGPcp53yTK36aS46/Qov8eAaQ%2BE9MbXT%2BmLRA9onPh%2BEDHhsAm4GfCDS8BvmJsPgeyOmCrHOJS4xB9CVVqesJd3tTaa4H9CQ6n6v5WDmxUBCyRoxrV/pj5/3BJ91QVPScDHxTxg0J6a3HBP8gnnW3WXIpiTdMzBwiMWaGFPm5s3xfCZqttTFI5TIQvE2OWaFsuzO4sSX6jYv01Rit8AQuw5nU7cG4ligXmdU0mHyADOITjj/bA5kZE/IghfIlQ2iPFkBX6f16JzY/kYC8Drk1IPhWO43f/UkVTClaLmeCaRKjIoT%2Bd6vpVGWcXL2ZgqsNxEbxaDnS5iF%2Bve85XkrMSuBy4SszqKjbsjfDCdfcCR5j7SZiDt9VgCeBMMWG3wd1yzGoi4pfLdI7UdWv1/2rgecBHdP3Hget0ftIgQLlcJWWqD0hrNgD/ML4rCb%2B3hWZIzhFOV4BMdD5wf1TObSBT2CzAclKozyv0zMuBb4hh/1GY9YfQF5gCZqQFZLTIWycVEzgwEmy1PyqiVintPc7E8tbcY0PeuLagjsfKuZ0jO0eevpPtPyxQY0LbrAiZ0zXDaJvXNjQM74y/OkIMD2WyRaCDRrg2E8KC5x4xISwQFTx6Z8JcYMLA3DsmCQcmrBYT1iWkNwKcIAY%2BLFOZkZYEAmfElJACzxltnDVMCHVJML9A0zAKmT40RuLcf1bbZCYqzArtqf2NyvaXyKZXiQG7pfYe%2BJeSnfMUw68z/mXf/4FPzilNrz6jXcQQAlHq2hSmRay2LDf9hzmp%2B7ik%2BAMx5WJVdKcL2d2h%2B4KkfQ/7twDNmHKVUpsO2xmqjb%2BE809ImtauXAHnc9KkztjeUI2RfVL3BwRyvlPAxhbg9UpoRjPFVqkztUamuLvi1Iu98xxGMKnw1WZyABsFQqU2qWbIhNRyrxj5hLpAszp2qZgwDvweeLex56aimTbObxJz90f0ucUyIMWQST1oSabasxMks8ZpTeve/WpV7dEiJ6SqU3rmVkFc24GvqsQdRBldLmMN584A/hrR53L5Q1N5WIzoDrXg8UT%2BEPcShiJ%2BToyYkibs1zan36Ahk7LfXUqLPwS8X7XBcgN0%2BEzuEkzlTNNB6mqAb21CJFa/ThI8wZS2LoMleMOAaYWx8DsvLCEQP6vfGfO%2Bq4GXAM9Wd3eT7msz2tApz1ghn1Ia%2BHIpRCgHYXURVrBHRC2tzAUEQuZFYDADbwge6vh0FMtDtPm5wuQjYsJpBgZLYRgXqmO0P6MtB/mOptDtoaBuD3Fg/GSkMMbmE2Mr8yaX6IyjTDU0Qvq8R/X9NjHhXN0fZ7FjKqe3RkCNy4zVFWHxVJ1vz%2B1W5bY%2BUY/nRlusp%2B56hDZnurte0r1C9n2%2B0YSAFF0kSOy%2BCKajrw9wlWnQWJp3K6cfVJCkXLGUKsGbBAM7U15fCbwd%2BC7wVuNjjgZeKgzBZQYtfa0Y6npMfthjQQu2qCvURDHZZ9reuVZbyvy6aH8U%2BKbyh%2BtNOH2%2BOkb7EvMAOa1bgMR8jxlcl9GSHdo/0RRHZIh3GWk0Pbq41i8E53iBmqNXqc64OYFQ%2B8RESRISyzm/Wj0%2Bpbb0SnWJ5hJm5aNuUgmG95XOEYbRgbingGckGj2lFt3C2vpw31Ug7yelCYcL3ekKQ9EUxmf7ToqGaLISuEVm8DjwYh0fFCC%2Bg8J1Wyh8XMabuwQTHtXLT1ST8nYT1xtjlzb0%2BcKIbZcwt0b3jXJgEGpCUBoKf9tUZt9hmiu5Ya8FupqevTsyo%2BnWjidkDjuF%2Bmw0KWw8tTHSY8bfmk1ogp7OgYmQ%2B%2BQEA%2B54KwdGZ24QFjg0KHZX0oI2M5XtDJi4mK8zptUw3SefsF7Hdqn0De94kv/NDZHJIK3zWge8Tc/7krpSA8PcUeCn6hB/T8nSTGEOeuG42zvhU2NktZk/VwBNLeR0vJoga0xD8x4VLF7gSGkG%2BSThhJuAX0nC8ZicN6nznMxji/IEOzPkU/2BvmNypSEqKn4jYIVHyXFNSFJ7ldkFYlo50g0qgELBdZvmAbqKWmOAmmvllz6bmR2ixABXGINzhWlSV%2Bj5xy/ZrPA1J2LDFKkzAMldMieiETtf8VNBC6/nwFj%2B9kgzk%2BPyLsrgXGEWv9RKd4VzjWlvb9S7b1IIm9E1M5lhaR%2BpcskMA5MuVW/xTmWtLjW212SmM33FHFwFQ/CZwsY%2BP8Dc%2B7U/Y4geRFC2TwxclYa0Q1S6UoBrkxFOEg/wPT6D8T1TZZcxn6GB3QfRtcMKEOoz64q/NRioNXaLqscu9elMqb/ne7y8z3Bl6twu02HuCppTcrC50r0xTB7IByyV2XWpOUHXMwf3BUlT%2BJAyZthAxcuyymyC64lU5ypIm1HeqFA6UpoQKUmhz4cStS9FrIc%2BWTF%2BMR9l%2BsJXqrWsdVIp8lh8bel7gcWOx1NprlgNGB7Cs0pNm1pzJpcI%2BaYyCF2KAL7i%2BHLzwsNoWNplSte%2B3wfTY1QnxSRPpnavvbCmmn3MITWL4Cuf4vien9Muauy31jlxi1DT3ISp68GcJgOqlkBbV/FNXeZ7w6et978oq/I35bE6mwAAAABJRU5ErkJggg=='/%3E%3C/svg%3E">
+<script>try{var t=localStorage.getItem('kshana-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link href="../fonts/geist-geist-mono-unbounded.css" rel="stylesheet">
+<link href="../fonts/noto-sans-devanagari.css" rel="stylesheet">
+<link rel="stylesheet" href="../tokens.css">
+<link rel="stylesheet" href="../theme.css">
+<link rel="stylesheet" href="../site.css">
+<link rel="stylesheet" href="../css/docs.css">
+<link rel="stylesheet" href="../css/light.css">
+<!-- seo:head -->
+<link rel="canonical" href="https://kshana.dev/docs/skyline">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Kshana">
+<meta property="og:locale" content="en_GB">
+<meta property="og:url" content="https://kshana.dev/docs/skyline">
+<meta property="og:title" content="Skyline masks and sky geometry · Kshana docs">
+<meta property="og:description" content="Until 0.36 every Earth visibility test in the engine was one elevation cut-off, mask_deg: a satellite counted when it was at or above one number…">
+<meta property="og:image" content="https://kshana.dev/og-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:alt" content="Kshana, a PNT (positioning, navigation and timing) resilience simulator. 175 of 361 capabilities validated against external oracles.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Skyline masks and sky geometry · Kshana docs">
+<meta name="twitter:description" content="Until 0.36 every Earth visibility test in the engine was one elevation cut-off, mask_deg: a satellite counted when it was at or above one number…">
+<meta name="twitter:image" content="https://kshana.dev/og-card.png">
+<meta name="twitter:image:alt" content="Kshana, a PNT (positioning, navigation and timing) resilience simulator. 175 of 361 capabilities validated against external oracles.">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://kshana.dev/"}, {"@type": "ListItem", "position": 2, "name": "Docs", "item": "https://kshana.dev/docs/"}, {"@type": "ListItem", "position": 3, "name": "Skyline masks and sky geometry", "item": "https://kshana.dev/docs/skyline"}]}</script>
+<!-- /seo:head -->
+</head>
+<body data-page="docs">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-copy" viewBox="0 0 16 16"><rect x="5" y="5" width="9" height="9" rx="2" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M11 5V3.5A1.5 1.5 0 0 0 9.5 2h-6A1.5 1.5 0 0 0 2 3.5v6A1.5 1.5 0 0 0 3.5 11H5" fill="none" stroke="currentColor" stroke-width="1.4"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 16 16"><path d="M3 8h9M8.5 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-play" viewBox="0 0 12 12"><path d="M3 1.5v9l7.5-4.5Z" fill="currentColor"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 12 12"><path d="M3 1.5h2v9H3zM7 1.5h2v9H7z" fill="currentColor"/></symbol>
+  <symbol id="i-ext" viewBox="0 0 16 16"><path d="M9 3h4v4M13 3 7.5 8.5M12 9.5V13H3V4h3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></g></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="m20 20-3.5-3.5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></symbol>
+  <symbol id="i-theme" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.2" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M8 1.8a6.2 6.2 0 0 1 0 12.4z" fill="currentColor"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 16 16"><path d="M2.5 4.5h11M2.5 8h11M2.5 11.5h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
+</svg>
+<a class="skip" href="#main">Skip to content</a>
+<div class="bg-field" aria-hidden="true"></div>
+<header class="nav" id="nav">
+  <div class="nav-in">
+    <a class="brand" href="/" aria-label="Kshana home"><span class="brand-mark" aria-hidden="true"></span><span class="brand-t">kshana</span> <small>v0.36.0</small></a>
+    <nav class="nav-links" id="navLinks" aria-label="Primary">
+      <a href="/missions">Missions</a>
+      <a href="/capabilities">Capabilities</a>
+      <a href="/evidence">Evidence</a>
+      <a href="/evidence#research">Research</a>
+      <a href="/developers">Developers</a>
+      <a href="/docs/" aria-current="page">Docs</a>
+      <a href="/editions">Editions</a>
+    </nav>
+    <div class="nav-right">
+      <button class="k-btn" id="kbtn" type="button" aria-haspopup="dialog" aria-controls="palette"><svg width="14" height="14" aria-hidden="true"><use href="#i-search"/></svg><span class="lbl">Search</span><kbd class="kmod">⌘K</kbd></button>
+      <button class="icon-btn" id="themeBtn" type="button" aria-label="Switch between light and dark theme" title="Switch theme"><svg class="moon" aria-hidden="true"><use href="#i-moon"/></svg><svg class="sun" aria-hidden="true"><use href="#i-sun"/></svg></button>
+      <a class="pill" href="/studio/"><span class="pill-l">Launch&nbsp;</span>Kshana Studio</a>
+      <button class="icon-btn menu-btn" id="menuBtn" type="button" aria-label="Open the menu" aria-expanded="false" aria-controls="navLinks"><svg aria-hidden="true"><use href="#i-menu"/></svg></button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+<div class="docs docs-page">
+  <aside class="docs-side" aria-label="Documentation">
+    <div class="docs-search"><label class="vh" for="docsQ">Search the docs</label><input id="docsQ" type="search" placeholder="Search the docs" autocomplete="off" aria-keyshortcuts="/" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="docsR"><div class="docs-results" id="docsR" role="listbox" aria-label="Search results"></div><p class="vh" id="docsCount" aria-live="polite"></p></div>
+    <details class="docs-nav-d" open><summary>All docs pages</summary><nav class="docs-nav" aria-label="Docs pages"><div><h2>Get started</h2><a href="/docs/overview">Overview</a><a href="/docs/concepts">Concepts primer</a><a href="/docs/glossary">Glossary</a><a href="/docs/studio">Studio guide</a><a href="/docs/tutorials">Tutorials</a><a href="/docs/tutorial-first-orbit">1 · Your first orbit</a><a href="/docs/tutorial-clock-holdover">2 · Clock holdover</a><a href="/docs/tutorial-quantum-vs-classical">3 · Quantum against classical</a><a href="/docs/example-multi-tool">Worked example: multi-tool pipeline</a></div><div><h2>Scenarios</h2><a href="/docs/scenarios">Scenario kinds</a><a href="/docs/scenario-reference">Scenario reference</a><a href="/docs/schema">Result schema</a><a href="/docs/real-tle-guide">Using real TLEs</a><a href="/docs/campaigns">Campaigns</a></div><div><h2>Outputs and exports</h2><a href="/docs/reports">Run reports</a><a href="/docs/animation">Animation export</a><a href="/docs/interop">Interoperability exports and imports</a></div><div><h2>Validation and evidence</h2><a href="/docs/validation">Validation status</a><a href="/docs/verification-matrix">Verification matrix</a><a href="/docs/capability-reference">Capability reference</a><a href="/docs/modelled-rationale">Why rows stay Modelled</a><a href="/docs/claims-vs-reality">Claims against reality</a><a href="/docs/provenance">Provenance</a><a href="/docs/reproducibility">Reproducibility</a><a href="/docs/capability-map">Capability map</a><a href="/docs/standards">Standards and interoperability</a><a href="/docs/line-coverage">Line coverage</a><a href="/docs/evidence-packs">Evidence packs</a></div><div><h2>Timing</h2><a href="/docs/slot-timing">Slot timing</a><a href="/docs/telecom-timing">Telecom timing</a><a href="/docs/deceived-time">Deceived time</a></div><div><h2>Integrity and interference</h2><a href="/docs/integrity">Integrity and security</a><a href="/docs/spectrum">Spectrum and waterfall</a><a href="/docs/araim-reference">ARAIM reference</a><a href="/docs/compliance">DO-316 / DO-229E map</a><a href="/docs/resilience-crosswalk">Resilience cross-walk</a></div><div><h2>Receiver trust and maritime</h2><a href="/docs/receiver-trust">Receiver trust</a><a href="/docs/maritime-trust">Maritime trust</a><a href="/docs/nmea-training">NMEA training streams</a><a href="/docs/interference-map">Interference map and route exposure</a><a href="/docs/interference-data-sources">Interference map: data sources and licences</a><a href="/docs/marine-integrations">Marine integrations</a><a href="/docs/skyline" aria-current="page">Sky geometry and skylines</a><a href="/docs/trust-telemetry">Trust as security telemetry</a><a href="/docs/osnma">Galileo OSNMA verification</a></div><div><h2>Compliance and test bench</h2><a href="/docs/test-bench">Running a receiver against a scenario</a><a href="/docs/compliance-mapping">Compliance mapping</a><a href="/docs/compliance-dhs-rpcf">US DHS resilient PNT framework</a><a href="/docs/compliance-imo-ships">IMO guidance for ships</a><a href="/docs/compliance-easa-aviation">EASA guidance for aviation</a><a href="/docs/compliance-nis2-art21">EU NIS2, Article 21</a><a href="/docs/compliance-en-16803">EN 16803</a></div><div><h2>Orbits</h2><a href="/docs/sgp4-validation">SGP4 validation</a><a href="/docs/agency-orbit-validation">Force-model validation</a><a href="/docs/solar-system">Solar system and other bodies</a><a href="/docs/lunar-reference-station">Lunar reference station</a></div><div><h2>Low Earth orbit (LEO) navigation</h2><a href="/docs/leo-pnt">LEO positioning, navigation and timing</a><a href="/docs/leo-signal">LEO signal designs</a><a href="/docs/leo-pass">LEO pass and link budget</a><a href="/docs/leo-navmsg">LEO navigation message</a><a href="/docs/leo-pnt-fusion">Fused MEO and LEO positioning</a><a href="/docs/constellation-design">Constellation design</a></div><div><h2>Quantum sensors</h2><a href="/docs/quantum-models">Quantum-sensor models</a><a href="/docs/quantum-physics">Cold-atom interferometer</a></div><div><h2>APIs and integrations</h2><a href="/docs/python-api">Python API</a><a href="/docs/npm">npm and WebAssembly</a><a href="/docs/rust">Rust crate</a><a href="/docs/mcp">MCP server</a><a href="/docs/mcp-install">MCP server: every install channel</a><a href="/docs/mcp-http">MCP server: self-hosted HTTP mode</a><a href="/docs/agents">Using Kshana from an agent</a><a href="/docs/surfaces">Where each capability is reachable</a><a href="/docs/jetbrains">JetBrains plugin</a><a href="/docs/deployment-targets">Where Kshana runs</a><a href="/docs/architecture">Architecture</a><a href="/docs/positioning">Where Kshana sits</a></div><div><h2>Project</h2><a href="/docs/changelog">Changelog</a><a href="/docs/licensing">Licensing</a><a href="/docs/security">Security</a><a href="/docs/contributing">Contributing</a><a href="/docs/governance">Governance</a><a href="/docs/code-of-conduct">Code of conduct</a></div></nav></details>
+  </aside>
+  <article class="docs-main">
+    <div class="docs-meta"><span>Receiver trust and maritime</span><a href="https://github.com/ashfordeOU/kshana/blob/main/docs/SKYLINE.md">Edit on GitHub</a><span>Source: <code>docs/SKYLINE.md</code></span></div>
+    <div class="prose"><h1 id="skyline-masks-and-sky-geometry">Skyline masks and sky geometry</h1>
+<p>Until 0.36 every Earth visibility test in the engine was one elevation cut-off, <code>mask_deg</code>: a
+satellite counted when it was at or above one number, whatever its direction. A street, a quay, a
+fjord or a crane blocks part of the sky and leaves the rest open. A <strong>skyline</strong> is an elevation
+cut that depends on azimuth; the <strong>sky-geometry functions</strong> turn a site, a time, constellations
+and a skyline into the visible set, the dilution of precision (DOP), the geometry covariance, the
+horizontal error ellipse, a Monte Carlo cloud and a skyplot. The design is
+<code>docs/design/2026-10-12-geometry-and-skyline-design.md</code> (items 1 and 2).</p>
+<p>Evidence: the masked visibility decision (geodetic look angles, the table mask, the visible set
+and its DOP) is <strong>VALIDATED</strong> against Orekit 12.2 and gnss_lib_py 1.0.4 in a pre-registered
+comparison, and so are the error ellipse and the per-system cofactor (numpy, pre-registered); the
+canyon, sector and terrain reductions, the presets and the rest of the sky-geometry functions are
+<strong>MODELLED</strong> (<a href="#evidence">Evidence</a>). A skyline removes line-of-sight satellites and nothing
+more. The presets are REPRESENTATIVE geometries, not surveys.</p>
+<h2 id="the-skyline">The skyline<a class="anchor" href="#the-skyline" aria-label="Link to this section">#</a></h2>
+<p>A skyline is the pointwise maximum of four descriptions. Azimuth is degrees clockwise from true
+north in the site&#39;s local east-north-up frame; elevations are in <code>[0, 90)</code>.</p>
+<div class="tbl"><table><thead><tr>
+<th>Description</th>
+<th>TOML</th>
+<th>What it is</th>
+</tr>
+</thead><tbody><tr>
+<td>Table</td>
+<td><code>table = [[az, el], ...]</code></td>
+<td>Elevations linearly interpolated in azimuth, wrapped at 360°. Azimuths strictly increasing in <code>[0, 360)</code>; at most 3600 rows.</td>
+</tr>
+<tr>
+<td>Street canyon</td>
+<td><code>street_az_deg</code>, <code>width_m</code>, <code>height_left_m</code>, <code>height_right_m</code>, <code>antenna_m</code>, <code>length_m</code></td>
+<td>Two straight parallel walls (below).</td>
+</tr>
+<tr>
+<td>Sectors</td>
+<td><code>sectors = [{ az_from, az_to, el_deg }]</code></td>
+<td>Sharp-edged intervals, clockwise from <code>az_from</code> (included) to <code>az_to</code> (excluded), which may wrap through north; at most 360.</td>
+</tr>
+<tr>
+<td>Terrain</td>
+<td><code>terrain = [{ az, distance_m, height_m }]</code></td>
+<td>Points reduced to a table: elevation <code>atan((height_m − d²/(2 R_eff)) / d)</code>, with the curvature drop for <code>R_eff = 4/3 × 6371 km</code> (a chosen, stated constant). <code>height_m</code> is above the antenna.</td>
+</tr>
+</tbody></table></div>
+<p><code>preset = &quot;&lt;name&gt;&quot;</code> starts from a named geometry; the canyon fields then override the preset&#39;s
+canyon field by field, and <code>table</code>, <code>sectors</code> and <code>terrain</code> add to it.</p>
+<p>The receiver&#39;s <code>mask_deg</code> keeps its meaning: it is a flat skyline. The effective cut at azimuth
+<code>az</code> is <code>max(mask_deg, skyline(az))</code>, and a satellite is visible when its elevation is <strong>at or
+above</strong> it: the same <code>&gt;=</code> the flat mask always used. A satellite above <code>mask_deg</code> but below the
+skyline is <strong>masked by the skyline</strong>.</p>
+<h3 id="the-street-canyon">The street canyon<a class="anchor" href="#the-street-canyon" aria-label="Link to this section">#</a></h3>
+<p>A street runs along azimuth <code>s</code>, <code>w</code> metres between the walls, the antenna <code>a</code> metres up on the
+centreline. Along azimuth <code>az</code>, with <code>θ = az − s</code>, the ray reaches a wall after
+<code>d(az) = (w/2) / |sin θ|</code>, so a wall of height <code>h</code> cuts at</p>
+<pre data-lang="text"><code class="hljs language-text">cut(az) = atan( (h − a) / d(az) )          (the right wall for sin θ &gt; 0, the side at s + 90°)</code></pre>
+<p>The open strip lies along the street. With <code>length_m = L</code> (the antenna at the middle) a ray
+leaves through an open end, and the wall cuts nothing, when <code>d(az) · |cos θ| &gt; L/2</code>. A wall no
+taller than the antenna cuts nothing. <code>antenna_m</code> defaults to 1.5 m (a car roof or a hand-held
+receiver, a stated choice); a new canyon needs <code>width_m</code>.</p>
+<h3 id="presets">Presets<a class="anchor" href="#presets" aria-label="Link to this section">#</a></h3>
+<p>Chosen and stated dimensions (the design note&#39;s), not surveys of any real place.
+<code>kshana skyline --preset &lt;name&gt;</code> prints one with its provenance and its cut every degree.</p>
+<div class="tbl"><table><thead><tr>
+<th>Preset</th>
+<th>Geometry</th>
+<th>Provenance</th>
+</tr>
+</thead><tbody><tr>
+<td><code>city-street</code></td>
+<td>Canyon: street 0°, width 20 m, walls 30 m and 30 m, antenna 1.5 m. 70.7° across the street, open along it.</td>
+<td>Height-to-width 1.5, inside the 0.5–2 band of street-canyon aspect ratios in Oke (1988), <em>Street design and urban canopy layer climate</em>, Energy and Buildings 11, 103–113.</td>
+</tr>
+<tr>
+<td><code>harbour-approach</code></td>
+<td>Sectors: open to seaward over 090–270 (180°); quay buildings 8° over 315–045 (90°); the breakwater and its light 3° over 045–090 and 270–315.</td>
+<td>Stated choices (for example 40 m warehouses about 285 m off).</td>
+</tr>
+<tr>
+<td><code>fjord</code></td>
+<td>Terrain: walls 600 m above the antenna at 1500 m either side of a north-south channel, one point per degree (at <code>1500/|sin az|</code> m), curvature drop applied. 21.8° across, below 1° along the axis.</td>
+<td>The order of the width and relief of the deep west-Norwegian fjords (Holtedahl (1967), <em>Notes on the formation of fjords and fjord-valleys</em>, Geografiska Annaler 49A, 193–203).</td>
+</tr>
+<tr>
+<td><code>container-terminal</code></td>
+<td>Sectors: container stacks 12° over the landward half 000–180; crane booms 35° over 245–255 and 25° over 285–295; open to the water elsewhere.</td>
+<td>Five ISO 668 high-cube boxes (14.5 m) about 60 m off an antenna 2 m up; a boom about 50 m above the quay at 70 m and 100 m, the order of a post-Panamax crane. A crane sector is opaque.</td>
+</tr>
+</tbody></table></div>
+<h2 id="in-a-scenario">In a scenario<a class="anchor" href="#in-a-scenario" aria-label="Link to this section">#</a></h2>
+<p>An optional <code>[skyline]</code> section, over the kind&#39;s own cut-off:</p>
+<div class="tbl"><table><thead><tr>
+<th>Kind</th>
+<th>What the skyline changes</th>
+<th>Per sample</th>
+</tr>
+</thead><tbody><tr>
+<td><code>orbit</code> (with <code>user_site</code>)</td>
+<td>The visibility timeline (GNSS availability) and the DOP summary.</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>integrity</code> (with <code>user_site</code>)</td>
+<td>The satellites RAIM and ARAIM (<code>araim_dual</code>) use.</td>
+<td><code>epochs[].masked_by_skyline</code></td>
+</tr>
+<tr>
+<td><code>gnss-sim</code></td>
+<td>The satellites whose pseudoranges are simulated and used by RAIM.</td>
+<td><code>gnss_measurements[].masked_by_skyline</code></td>
+</tr>
+<tr>
+<td><code>jamming</code></td>
+<td>The satellites the receiver can track, before the jammer.</td>
+<td><code>epochs[].masked_by_skyline</code></td>
+</tr>
+<tr>
+<td><code>leo-pvt</code></td>
+<td>Every mode&#39;s in-view set over each system&#39;s own mask, the polar sweep included (the same skyline at every site). The Doppler-mode envelope and the designed single pass are bounds on what a receiver must handle and keep each system&#39;s mask.</td>
+<td><code>joint.epochs[].masked_by_skyline</code></td>
+</tr>
+<tr>
+<td><code>leo-pass</code></td>
+<td>Which epochs count as above the mask, the time above it, the GNSS comparison&#39;s satellites.</td>
+<td><code>satellites[].pass.epochs_masked_by_skyline</code></td>
+</tr>
+<tr>
+<td><code>nmea-scenario</code> (training NMEA)</td>
+<td>The satellites in GSV and in the fix. Azimuths are true bearings fixed to the ground, not the vessel&#39;s heading.</td>
+<td>—</td>
+</tr>
+</tbody></table></div>
+<p><strong>The ground site of <code>orbit</code> and <code>integrity</code>.</strong> Both kinds model an orbiting user with a
+geocentric elevation and no Earth-fixed azimuth, so they take a skyline only with the design
+note&#39;s ground-site mode: <code>user_site = { lat_deg, lon_deg, height_m }</code> in place of <code>user</code> (exactly
+one of the two). Each sample is one absolute instant, <code>epoch + t</code>: every satellite is propagated
+to it (an element set, broadcast ephemeris or SP3 file is advanced from its own epoch, a Walker
+satellite counts <code>t</code> from <code>epoch</code>) and rotated to Earth-fixed at it, so the site sees one
+consistent sky. <code>epoch</code> is the orbit scenario&#39;s own; without one (and always for <code>integrity</code>,
+which has none) it is the newest epoch among the satellites that carry one, or J2000 for Walker
+patterns only. Elevation and azimuth are geodetic (WGS-84). The
+horizontal and vertical split of the integrity kind&#39;s ARAIM protection levels and Stanford
+vertical error uses the same geodetic up (the WGS-84 ellipsoid normal, about 0.19° from the
+geocentric radial at 45° latitude); snapshot RAIM already used it. A <code>user_site</code> without a
+skyline is a plain ground user; the orbiting <code>user</code> path is unchanged.</p>
+<pre data-lang="toml"><code class="hljs language-ini"><span class="hljs-attr">kind</span> = <span class="hljs-string">&quot;integrity&quot;</span>
+<span class="hljs-attr">mask_deg</span> = <span class="hljs-number">5.0</span>
+<span class="hljs-comment"># ...</span>
+<span class="hljs-section">[user_site]</span>
+<span class="hljs-attr">lat_deg</span> = <span class="hljs-number">59.45</span>
+<span class="hljs-attr">lon_deg</span> = <span class="hljs-number">24.75</span>
+<span class="hljs-attr">height_m</span> = <span class="hljs-number">15.0</span>
+
+<span class="hljs-section">[skyline]</span>
+<span class="hljs-attr">preset</span> = <span class="hljs-string">&quot;harbour-approach&quot;</span></code></pre>
+<p><strong>Backward compatibility.</strong> Without a <code>[skyline]</code> section a scenario is byte-identical to what the same engine gave before skyline code existed:
+<code>tests/skyline_scenarios.rs</code> checks the JSON, chart and summary of every shipped scenario that
+runs one of these kinds, and the NMEA text of every training scenario, against SHA-256 digests
+of the &quot;0.36 portable&quot; baseline (the 0.35.0 release commit&#39;s digests, re-based when the engine moved to
+portable maths and kept in the test as the record: <code>docs/revisions/STUDIO15-portable-math-rebaseline.md</code>). An empty <code>[skyline]</code> section cuts nothing; the result then
+equals the run without it except for the added <code>skyline</code> block and the zero <code>masked_by_skyline</code>
+counts.</p>
+<p><strong>What is refused</strong>, with the reason in the message: a skyline on an orbiting <code>user</code>; <code>user</code> and
+<code>user_site</code> together; an unknown preset; a canyon without <code>width_m</code>; a table that is not strictly
+increasing in <code>[0, 360)</code>; an elevation outside <code>[0, 90)</code>; an empty sector; a non-positive terrain
+distance; input over the caps; any unknown key.</p>
+<p><strong>The result</strong> gains <code>skyline: { source, open_fraction, provenance }</code> when the section is present:
+<code>source</code> is <code>preset:&lt;name&gt;</code>, <code>preset:&lt;name&gt;+overrides</code> or <code>custom</code>; <code>open_fraction</code> is the
+fraction of the upper hemisphere&#39;s solid angle above <code>max(mask_deg, skyline)</code> (the mean of
+<code>1 − sin(cut)</code> over azimuth: 1 for a zero mask, 0.5 for a flat 30° cut); <code>provenance</code> is the
+preset&#39;s line or the scenario&#39;s own. Units and provenance classes are in the <code>units</code> block.</p>
+<p>Bundled examples (<code>kshana example &lt;name&gt;</code>):</p>
+<div class="tbl"><table><thead><tr>
+<th>Example</th>
+<th>What it shows (remove the <code>[skyline]</code> section to compare)</th>
+</tr>
+</thead><tbody><tr>
+<td><code>orbit-urban-canyon-skyline</code></td>
+<td>GPS + Galileo at the bottom of <code>city-street</code>: 17 of 289 samples keep a fix, median PDOP 70.5 (1.14 under open sky).</td>
+</tr>
+<tr>
+<td><code>integrity-harbour-approach</code></td>
+<td>Dual-constellation ARAIM entering a port: 70 satellite-epochs hidden, availability unchanged (145 of 145).</td>
+</tr>
+<tr>
+<td><code>gnss-sim-container-terminal-skyline</code></td>
+<td>Pseudoranges and RAIM on a quay: 44 satellite-epochs hidden; RAIM availability 0.59 (0.85 under open sky).</td>
+</tr>
+<tr>
+<td><code>jamming-harbour-approach-skyline</code></td>
+<td>A 2 W jammer in a harbour: 83 satellite-epochs hidden, tracking unchanged (the jammer had taken them).</td>
+</tr>
+<tr>
+<td><code>leo-pvt-fjord-skyline</code></td>
+<td>GPS + Galileo + a LEO layer in a fjord: median fused PDOP 1.14 (0.93 under open sky).</td>
+</tr>
+<tr>
+<td><code>leo-vertical-autonomous-vehicle-skyline</code></td>
+<td>The <code>leo-vertical-autonomous-vehicle</code> canyon as a flat 35° cut and as <code>city-street</code> turned along the car&#39;s heading: 8 against 4 to 5 GPS and Galileo satellites; fused mean error 2.1 m in both; the 1.5 m alarm at 51 % and 59 % of epochs.</td>
+</tr>
+</tbody></table></div>
+<h2 id="sky-geometry">Sky geometry<a class="anchor" href="#sky-geometry" aria-label="Link to this section">#</a></h2>
+<p>Five engine functions (<code>src/geometry.rs</code>), the same on every surface:</p>
+<div class="tbl"><table><thead><tr>
+<th>Function</th>
+<th>Input → output</th>
+</tr>
+</thead><tbody><tr>
+<td><code>sky_geometry(request)</code></td>
+<td>per satellite <code>id</code>, <code>system</code>, <code>az_deg</code>, <code>el_deg</code>, <code>cut_deg</code>, <code>visible</code>, <code>masked</code>; <code>n_visible</code>, <code>n_masked</code>, <code>open_fraction</code>; <code>dop</code> (GDOP, PDOP, HDOP, VDOP, TDOP, <code>tdop_by_clock</code>); <code>states</code>, <code>cofactor_enu</code> (unit variance), <code>covariance_enu_m2</code>; <code>ellipse_1sigma</code> and <code>ellipse</code> at the requested confidence; <code>label</code>, <code>statement</code>, <code>advisory</code></td>
+</tr>
+<tr>
+<td><code>sky_monte_carlo(request, seed, n)</code></td>
+<td><code>n</code> (at most 5000, an input cap) least-squares errors under independent Gaussian range errors of <code>σ_UERE</code> from a ChaCha8 stream seeded by <code>seed</code>: <code>samples_enu_m</code>, the empirical covariance, horizontal and 3-D RMS beside <code>σ_UERE × HDOP</code> and <code>σ_UERE × PDOP</code>, the fraction inside the 95 % ellipse</td>
+</tr>
+<tr>
+<td><code>skyline_presets()</code></td>
+<td>the presets with label, description, provenance, the cut every degree and <code>open_fraction</code></td>
+</tr>
+<tr>
+<td><code>skyline_profile(skyline)</code></td>
+<td>a skyline section reduced to the 360-entry table the engine uses, with <code>source</code>, <code>provenance</code>, <code>open_fraction</code></td>
+</tr>
+<tr>
+<td><code>skyplot_svg(request)</code></td>
+<td>the skyplot as static SVG (no script, no external reference, every input string escaped)</td>
+</tr>
+</tbody></table></div>
+<p>A request:</p>
+<pre data-lang="json"><code class="hljs language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;site&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span><span class="hljs-attr">&quot;lat_deg&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">59.91</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;lon_deg&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">10.75</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;height_m&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">5</span><span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;time_s&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">3600</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;systems&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">&quot;gps-baseline&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;galileo&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;beidou-meo&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;xona-pulsar&quot;</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;mask_deg&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">5</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;skyline&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span><span class="hljs-attr">&quot;preset&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;fjord&quot;</span><span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;clock&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;per-system&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;sigma_uere_m&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1.5</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;confidence&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">0.95</span>
+<span class="hljs-punctuation">}</span></code></pre>
+<p><code>systems</code> are the engine&#39;s constellation presets (<code>constellation-design</code>&#39;s <code>gps-baseline</code>,
+<code>galileo</code>, <code>beidou-meo</code>, <code>glonass</code>, ...; the LEO presets <code>xona-pulsar</code>, <code>iridium-stl</code>, ...) or a
+full <code>leo-pvt</code> <code>[[system]]</code> table, propagated to <code>time_s</code> (Keplerian with secular J2, the
+<code>leo-pvt</code> joint-mode orbits). Their relative phases come from different reference epochs, so the
+sky is <strong>a representative geometry, not the sky of that date at that place</strong>. Satellites may
+instead (or as well) be given directly: <code>&quot;satellites&quot;: [{&quot;id&quot;: &quot;G05&quot;, &quot;system&quot;: &quot;GPS&quot;, &quot;az_deg&quot;: 120, &quot;el_deg&quot;: 35}, ...]</code>, or with <code>&quot;ecef_m&quot;: [x, y, z]</code> and a <code>site</code> or
+<code>user_ecef_m</code>. Defaults: each system&#39;s own mask (5° GNSS, 10° LEO; 5° for satellites given
+directly), one receiver clock per system (<code>&quot;common&quot;</code> for one shared clock), <code>σ_UERE</code> 1 m (a
+representative dual-frequency budget line), confidence 0.95. Input caps: at most 2000
+satellites above the horizon (a system table asking for more is refused before it is built) and
+16 receiver clocks.</p>
+<p><strong>A dated sky from element sets.</strong> <code>&quot;tle&quot;</code> takes two-line element set text (a name line before
+each set is optional; at most 4 MiB, an input cap), propagated by the engine&#39;s SGP4 (WGS-72, the
+propagator <code>orbit-real-tle</code> uses) to <code>&quot;epoch&quot;</code> plus <code>time_s</code>, rotated to Earth-fixed with UT1
+taken as UTC and no polar motion, and seen from <code>site</code>. <code>&quot;epoch&quot;</code> is UTC ISO 8601
+(<code>2026-06-07T12:00:00Z</code>) and dates only the element sets (the presets carry no date, so an
+<code>epoch</code> without <code>tle</code> is refused); <code>&quot;tle_system&quot;</code> labels them for the per-system clock (default
+<code>TLE</code>). Every result says what sky it is in <code>sky_source</code> and <code>sky_statement</code>:</p>
+<div class="tbl"><table><thead><tr>
+<th><code>sky_source</code></th>
+<th>The sky</th>
+</tr>
+</thead><tbody><tr>
+<td><code>presets</code></td>
+<td>the engine&#39;s constellation presets: a representative geometry</td>
+</tr>
+<tr>
+<td><code>tle-at-epoch</code></td>
+<td>the element sets propagated to the stated epoch: the sky those element sets give at that epoch, not a measurement of it (their own accuracy is SGP4&#39;s and the sets&#39; age)</td>
+</tr>
+<tr>
+<td><code>tle-at-element-epoch</code></td>
+<td>no <code>epoch</code>: the element sets propagated to the newest set&#39;s own epoch plus <code>time_s</code>, a representative sky</td>
+</tr>
+<tr>
+<td><code>satellites</code></td>
+<td>satellites given directly, as stated</td>
+</tr>
+</tbody></table></div>
+<p>A mix joins them with <code>+</code>. <code>epoch_utc</code> is the instant the element sets were propagated to, and
+<code>tle_skipped</code> names what of the text was not used, with the reason: malformed or orphaned
+element-set lines (with their line numbers), sets the parser refused, and sets SGP4 could not
+propagate to that instant (decayed, or past its limits); at most 100 entries in all, then one
+last entry counting the rest. An
+empty <code>systems</code> list adds no presets.
+The skyplot states the basis in its footer.</p>
+<p><strong>One kernel.</strong> The cofactor matrix is <code>orbit::cofactor_from_los</code>, the design-matrix assembly and
+Gauss-Jordan inverse behind <code>orbit::dop</code>. <code>orbit::dop_cov</code> exposes the covariance and <code>orbit::dop</code>
+is its reduction, so the VALIDATED scalars are unchanged and still pinned by
+<code>tests/dop_reference.rs</code>. There is no second DOP implementation.</p>
+<p><strong>The ellipse.</strong> Semi-axes <code>k σ √λ</code> for the eigenvalues <code>λ</code> of the east-north block, with
+<code>k = √(−2 ln(1 − p))</code> (<code>√5.991 = 2.448</code> at 95 %, 1 at 39.35 %), and the major axis&#39;s azimuth
+<code>½ atan2(2 Q_EN, Q_NN − Q_EE)</code> in <code>[0, 180)</code> from north.</p>
+<div class="tbl"><table><thead><tr>
+<th>Surface</th>
+<th>Entry points</th>
+</tr>
+</thead><tbody><tr>
+<td>CLI</td>
+<td><code>kshana sky &lt;request.json|toml&gt;</code> or <code>kshana sky --site &lt;lat,lon[,h]&gt; (--systems &lt;a,b&gt; | --tle &lt;file&gt;) [--epoch] [--tle-system] [--time] [--mask] [--skyline-preset] [--uere] [--clock]</code>, with <code>--monte-carlo &lt;n&gt; --seed &lt;s&gt;</code> or <code>--svg</code>; <code>kshana skyline --preset &lt;name&gt; | --presets | --profile &lt;file&gt;</code></td>
+</tr>
+<tr>
+<td>Rust</td>
+<td><code>kshana::geometry::{sky_geometry, sky_monte_carlo, skyline_presets, skyline_profile, skyplot_svg}</code>, <code>kshana::surface::*</code> of the same names</td>
+</tr>
+<tr>
+<td>Python</td>
+<td><code>kshana.sky_geometry</code>, <code>sky_monte_carlo</code>, <code>skyline_presets</code>, <code>skyline_profile</code>, <code>skyplot_svg</code></td>
+</tr>
+<tr>
+<td>WASM</td>
+<td><code>sky_geometry(request_json)</code>, <code>sky_monte_carlo(request_json, seed, n)</code>, <code>skyline_presets()</code>, <code>skyline_profile(skyline_json)</code>, <code>skyplot_svg(request_json)</code></td>
+</tr>
+<tr>
+<td>MCP</td>
+<td><code>sky_geometry</code> (<code>request</code>, or <code>skyline_preset</code>); no Monte Carlo over MCP (bulk samples an agent should summarise, not carry)</td>
+</tr>
+</tbody></table></div>
+<p>Every result carries <code>label</code> (MODELLED), the <code>statement</code> (geometry under a stated error model:
+independent, equal, zero-mean Gaussian range errors; not a prediction of a receiver&#39;s real error,
+which also has biases, multipath and non-line-of-sight errors; not an integrity bound) and the
+advisory: <em>Advisory software, not type-approved navigation equipment (IEC 61108, IEC 61162): the
+operator remains responsible for the navigation of the vessel.</em></p>
+<h2 id="evidence">Evidence<a class="anchor" href="#evidence" aria-label="Link to this section">#</a></h2>
+<p>Five ledger rows (<code>docs/VERIFICATION-MATRIX.md</code>), as the design note scopes them:</p>
+<div class="tbl"><table><thead><tr>
+<th>Row</th>
+<th>Status</th>
+<th>Oracle</th>
+</tr>
+</thead><tbody><tr>
+<td>Azimuth-dependent skyline mask: visible set, azimuth and elevation, and DOP under the mask</td>
+<td><strong>VALIDATED</strong></td>
+<td>Orekit 12.2 (<code>TopocentricFrame</code> look angles, <code>ElevationMask</code>) with gnss_lib_py 1.0.4 (<code>get_dop</code> and the DOP matrix), pre-registered in <code>xval/orekit-skyline/PREREGISTRATION.md</code> (commit e4b9d912) before either was run: 1173 look angles at six sites and four epochs, six tables, 142 visible sets; worst elevation 1.3e-13°, azimuth 2.3e-13°, mask 1.1e-12° against 1e-9°; identical visible sets, none in the boundary band; DOP 3.3e-13 relative and cofactor 6.6e-13 of the matrix scale against 1e-9. Scope: table masks, geodetic look angles, the masked set and its common-clock DOP and cofactor.</td>
+</tr>
+<tr>
+<td>Street-canyon, sector and terrain reductions to a table</td>
+<td>MODELLED</td>
+<td>hand-computed values; the comparison above reads their tables as inputs and does not check them</td>
+</tr>
+<tr>
+<td>Skyline presets</td>
+<td>MODELLED</td>
+<td>none: chosen, stated dimensions (checked only against themselves)</td>
+</tr>
+<tr>
+<td>Horizontal error ellipse and per-system cofactor from the geometry covariance</td>
+<td><strong>VALIDATED</strong></td>
+<td>numpy 2.5.4 <code>linalg.inv</code> and <code>linalg.eigh</code> (standard P2) on the 142 committed visible sets, common clock and one clock per system, pre-registered in <code>xval/numpy-ellipse/PREREGISTRATION.md</code> (commit 0bbeeaee): 270 cases, axes 5.1e-13 relative, orientation 5.3e-12°, cofactor 1.0e-12 of the matrix scale, against 1e-9 and 1e-6°</td>
+</tr>
+<tr>
+<td>Sky geometry functions</td>
+<td>MODELLED</td>
+<td>the composition: preset propagation to a representative sky, the Monte Carlo cloud (checked against the geometry it samples), the surfaces</td>
+</tr>
+</tbody></table></div>
+<p>The absence of a <code>[skyline]</code> section is checked byte for byte against the 0.35.0 outputs, which
+shows backward compatibility and validates nothing. gnss_lib_py applies a single elevation mask
+only, so it is the DOP oracle here, not the mask oracle.</p>
+<p>What a skyline does not model: diffraction over a wall edge, reflections and non-line-of-sight
+signals a real receiver may still track (they are dropped, not degraded), partial transparency (a
+lattice crane is opaque across its sector), terrain beyond the points given, and Earth curvature
+inside the canyon and sector forms.</p>
+</div>
+    <nav class="docs-pn" aria-label="Previous and next"><a class="prev" href="/docs/marine-integrations"><small>Previous</small>Marine integrations</a><a class="next" href="/docs/trust-telemetry"><small>Next</small>Trust as security telemetry</a></nav>
+  </article>
+  <nav class="docs-toc" aria-label="On this page"><h2>On this page</h2><a class="l2" href="#the-skyline">The skyline</a><a class="l3" href="#the-street-canyon">The street canyon</a><a class="l3" href="#presets">Presets</a><a class="l2" href="#in-a-scenario">In a scenario</a><a class="l2" href="#sky-geometry">Sky geometry</a><a class="l2" href="#evidence">Evidence</a></nav>
+</div>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand"><a class="brand" href="/"><span class="brand-mark" aria-hidden="true"></span>kshana</a><p class="kname">Kshana · <span lang="sa" class="dev">क्षण</span> · <em>the precise instant</em></p><p>Open-source PNT (positioning, navigation and timing) resilience simulator. It drives no radio hardware and transmits nothing: its signal-level output is baseband IQ sample files, and its software GNSS receiver is an analysis tool. Not a flight product.</p><div class="foot-by">by Ashforde®</div></div>
+      <div><h2>Product</h2><a href="/studio/">Kshana Studio</a><a href="/missions">Missions</a><a href="/capabilities">Capabilities</a><a href="/evidence">Evidence</a><a href="/evidence#research">Research</a></div>
+      <div><h2>Developers</h2><a href="/developers#install">Install</a><a href="/developers#mcp">MCP server</a><a href="/docs/">Docs</a><a href="https://github.com/ashfordeOU/kshana">GitHub</a></div>
+      <div><h2>Company</h2><a href="/editions">Editions</a><a href="/editions#pro">Kshana Pro</a><a href="mailto:contact@ashforde.org">contact@ashforde.org</a><a href="https://ashforde.org">ashforde.org</a></div>
+    </div>
+    <div class="foot-bottom">
+      <span>Kshana v0.36.0 · by Ashforde® OÜ · AGPL-3.0, with a commercial licence option</span>
+      <span>Every chart is drawn from a recorded run of engine v0.36.0 and names its scenario, seed and route to reproduce it. Imagery: NASA Visible Earth (Blue Marble, Black Marble), NASA Scientific Visualization Studio (CGI Moon Kit), NASA/JPL (Mars), NASA, JPL and USGS mission mosaics (moons and Pluto); Sun, Mercury, Venus, Jupiter, Saturn, Uranus and Neptune maps: Solar System Scope, Creative Commons Attribution (CC BY) 4.0; Deimos map: Oleg-Pluton, Creative Commons Attribution-ShareAlike (CC BY-SA) 3.0; coastlines: Natural Earth.</span>
+    </div>
+  </div>
+</footer>
+
+<div class="pal" id="palette" role="dialog" aria-modal="true" aria-label="Search pages, sections, scenarios and docs" hidden>
+  <div class="pal-box">
+    <div class="pal-in"><svg aria-hidden="true"><use href="#i-search"/></svg><input id="palInput" type="text" placeholder="Search pages, scenarios, docs and actions…" autocomplete="off" spellcheck="false" aria-controls="palList" aria-label="Search"><kbd>esc</kbd></div>
+    <div class="pal-list" id="palList" role="listbox" aria-label="Results"></div>
+    <div class="pal-foot"><span><kbd>↑</kbd> <kbd>↓</kbd> move</span><span><kbd>↵</kbd> open</span><span class="pal-count" id="palCount"></span></div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>window.KSITE={root:"../",page:"docs",version:"0.36.0",studio:"Kshana Studio"};</script>
+<script src="../site.js" defer></script>
+<script src="docs.js" defer></script>
+</body>
+</html>

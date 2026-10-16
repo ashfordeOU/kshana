@@ -1,8 +1,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 // Which inputs a task screen shows by default, and which wait under "Advanced settings".
-// The engine publishes no importance metadata for scenario fields (research/STUDIO-UX-BASELINE.md
-// section 7), so the order is derived, generically, from what exists:
+// Where the engine states which fields answer a scenario's question (its field_importance() export,
+// 0.36: dotted paths per kind, best first, for the kinds where that is decided), those fields come
+// first, in the engine's order (tier -1 below). For every other field, and every other kind, the
+// order is derived, generically, from what exists (research/STUDIO-UX-BASELINE.md section 7):
 //
+//   tier -1 the engine's headline fields for the kind, in the engine's order. A noise-draw or
+//           resolution setting stays last even if listed: it changes how a run is computed.
 //   tier 0  the scenario's headline settings: top-level fields (above any [section]) whose inline
 //           comment gives them a plain name and whose key carries a physical unit (_m, _s, _db,
 //           _deg, ...). Scenario authors put the question's own settings there. File order.
@@ -27,6 +31,13 @@ const UNIT_SUFFIX = /_(m|s|km|deg|rad|hz|khz|mhz|ghz|db|dbw|dbm|dbhz|dbi|ns|us|m
 
 export const isTechnical = (key) => TECHNICAL.test(String(key));
 
+// A field id ("jammers[0]::eirp_dbw", "::duration_s") as the engine's dotted path ("jammers[].eirp_dbw",
+// "duration_s"): array indices become [].
+export const idToPath = (id) => {
+  const [section, key] = String(id).split("::");
+  return (section ? section.replace(/\[\d+\]/g, "[]") + "." : "") + (key === undefined ? "" : key);
+};
+
 // A readable name for a field: the scenario's own words, else the key made readable.
 export function fieldName(f) {
   const plain = plainLabel(f.comment);
@@ -38,8 +49,9 @@ export function fieldName(f) {
 // Rank every input of a scenario. `fields` is params.mjs numericFields(toml); `curated` is the
 // list of guided controls, each { id: "section::key", label, hint, ... }. Returns
 // [{ id, tier, curated, field, label, term, hint }] best first, one entry per field id
-// (a curated control whose field is not a single number is kept, with field null).
-export function rankInputs(fields, curated = []) {
+// (a curated control whose field is not a single number is kept, with field null). `headline` is the
+// engine's ordered list of dotted paths for the scenario's kind (field_importance()[kind].headline).
+export function rankInputs(fields, curated = [], headline = []) {
   const out = [];
   const seen = new Set();
   const keyOf = (id) => String(id).split("::").pop();
@@ -65,6 +77,12 @@ export function rankInputs(fields, curated = []) {
     const tier = isTechnical(f.key) ? 9 : plainUnit(f) ? 2 : plain ? 3 : 4;
     out.push({ id: f.id, tier, order: n, curated: null, field: f, label: fieldName(f), term: f.key, hint: f.comment && !plain ? f.comment : "" });
   });
+  // The engine's headline fields lead, in its order; a technical setting still goes last.
+  const lead = new Map((headline || []).map((p, n) => [p, n]));
+  if (lead.size) for (const o of out) {
+    const n = lead.get(idToPath(o.id));
+    if (n !== undefined && o.tier !== 9) { o.tier = -1; o.order = n; }
+  }
   return out.sort((a, b) => a.tier - b.tier || a.order - b.order);
 }
 

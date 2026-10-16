@@ -8,6 +8,7 @@
 
 // Pages of the Studio, relative to the Studio's folder. Tool tabs are #fragments of tools/.
 export const PAGES = Object.freeze({
+  geometry: { href: "geometry/", label: "Geometry: skyplot, skyline and DOP" },
   trust: { href: "trust/", label: "Maritime trust" },
   training: { href: "training/", label: "Training debrief" },
   interference: { href: "interference/", label: "Interference map" },

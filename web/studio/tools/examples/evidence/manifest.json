@@ -1,7 +1,7 @@
 {
   "format": "kshana-evidence/1",
   "title": "Synthetic demonstration pack",
-  "engine_version": "0.35.0",
+  "engine_version": "0.36.0",
   "created_utc": "2026-01-01T00:00:00Z",
   "disclaimer": "This pack is a technical record of what the Kshana engine computed from the stated receiver log with the stated configuration. It is not a legal opinion, not a finding of fact about any event or its cause, and not a certification.",
   "window": {
@@ -24,8 +24,8 @@
   },
   "signer": {
     "algorithm": "ed25519",
-    "public_key": "d351d6c51d5a15622867eaf35941204408137af720c3f2c8f06987df2ec5c07e",
-    "fingerprint": "55b171d79eee435fc40deb3df790f8c9"
+    "public_key": "9d0264800e0b144c27ce0558dfbdeceb0dbcc2561ff5d3e7e58552f47625f35d",
+    "fingerprint": "57a87a6f9f01bf6fee18acaef5b62af4"
   },
   "artifacts": [
     {
@@ -38,24 +38,24 @@
     {
       "name": "config.json",
       "role": "configuration and every threshold",
-      "bytes": 2482,
-      "sha256": "9e009bcc3900dfbd24834a595876c8cf6a99243268d5a51bb4e8ac3834af32a7",
-      "link": "f26f756bf0380fcb66a44771f701462dfc1e1b4eded116c0c16e62982e51aac3"
+      "bytes": 6449,
+      "sha256": "32a47cc3a5477db55b9a2787300fd298de4288cc94f7dbd1807a2dd5a2cefd6b",
+      "link": "63d68be994cdfb2a41726214edb938759060cbc91ce1d2eb9299fe34b293a264"
     },
     {
       "name": "epochs.json",
       "role": "per-epoch results and reasons",
-      "bytes": 49883,
-      "sha256": "da336839fc86d4627d4b93b141a31f4fe92b99a6bbd360793b918342c3d3b826",
-      "link": "7cdd4719cdb3c60ec47d67e16f8a775369cd568c55ddb30c55ac131b4cf5ceb7"
+      "bytes": 84377,
+      "sha256": "798b068df668d69676e75152ad9391eb0241c94f13b4fc52b2035bab2d3d3181",
+      "link": "ed0bc3a4e5da753543cebf5eb7293f4897ed87a7ff1114306818466e62811c38"
     },
     {
       "name": "summary.html",
       "role": "human-readable summary",
-      "bytes": 15114,
-      "sha256": "d6ade9ccd912a026419e75c99209dc2fbf7cbd75b6b3b4f17dbca4f1be2c423d",
-      "link": "1e7e3db4777e4dec6a0df66bf3feb7023b15727438de350a65b848f97e7151d5"
+      "bytes": 21108,
+      "sha256": "f78a1093bee01e77ff5a1d6215c95e584efb5505def3715bcdcdf3c1a624bb17",
+      "link": "218d6cc218ad0ea1855a191832d66051cda6f210bb269b9486dc5dd239c108e4"
     }
   ],
-  "chain_head": "1e7e3db4777e4dec6a0df66bf3feb7023b15727438de350a65b848f97e7151d5"
+  "chain_head": "218d6cc218ad0ea1855a191832d66051cda6f210bb269b9486dc5dd239c108e4"
 }

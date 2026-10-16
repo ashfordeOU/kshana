@@ -1,6 +1,6 @@
 {
   "schema_version": "0.7",
-  "engine_version": "0.35.0",
+  "engine_version": "0.36.0",
   "scenario_hash": "5aac34b045c7b765b09af732dc1c31a3df63cac3196db719d70f73a8b8e137ee",
   "seed": 1,
   "jammer_present": true,
@@ -22,7 +22,7 @@
           "el_deg": 26.58345651415591,
           "js_db": 72.60684535219013,
           "cn0_nominal_dbhz": 42.65667415041278,
-          "cn0_effective_dbhz": -12.508102237378491,
+          "cn0_effective_dbhz": -9.497815503008377,
           "status": "LOST"
         },
         {
@@ -30,15 +30,15 @@
           "el_deg": 10.755422678334112,
           "js_db": 73.3103135226711,
           "cn0_nominal_dbhz": 41.95320597993182,
-          "cn0_effective_dbhz": -13.211570407859446,
+          "cn0_effective_dbhz": -10.201283673489334,
           "status": "LOST"
         },
         {
           "prn": 9,
-          "el_deg": 78.1253311023196,
+          "el_deg": 78.12533110231968,
           "js_db": 70.31609537049397,
           "cn0_nominal_dbhz": 44.94742413210895,
-          "cn0_effective_dbhz": -10.21735225568232,
+          "cn0_effective_dbhz": -7.207065521312208,
           "status": "LOST"
         },
         {
@@ -46,7 +46,7 @@
           "el_deg": 37.436419109468304,
           "js_db": 72.12449145906513,
           "cn0_nominal_dbhz": 43.13902804353779,
-          "cn0_effective_dbhz": -12.025748344253484,
+          "cn0_effective_dbhz": -9.015461609883372,
           "status": "LOST"
         },
         {
@@ -54,15 +54,15 @@
           "el_deg": 29.373429420748057,
           "js_db": 72.4828465563416,
           "cn0_nominal_dbhz": 42.78067294626132,
-          "cn0_effective_dbhz": -12.384103441529957,
+          "cn0_effective_dbhz": -9.373816707159845,
           "status": "LOST"
         },
         {
           "prn": 16,
-          "el_deg": 70.28985208326345,
+          "el_deg": 70.28985208326347,
           "js_db": 70.664338882452,
           "cn0_nominal_dbhz": 44.59918062015092,
-          "cn0_effective_dbhz": -10.565595767640355,
+          "cn0_effective_dbhz": -7.555309033270243,
           "status": "LOST"
         },
         {
@@ -70,15 +70,15 @@
           "el_deg": 20.657837362557533,
           "js_db": 72.87020620337228,
           "cn0_nominal_dbhz": 42.39331329923064,
-          "cn0_effective_dbhz": -12.771463088560633,
+          "cn0_effective_dbhz": -9.761176354190523,
           "status": "LOST"
         },
         {
           "prn": 23,
-          "el_deg": 7.959357758408639,
+          "el_deg": 7.959357758408641,
           "js_db": 73.43458307466778,
           "cn0_nominal_dbhz": 41.82893642793513,
-          "cn0_effective_dbhz": -13.335839959856138,
+          "cn0_effective_dbhz": -10.325553225486026,
           "status": "LOST"
         }
       ]
@@ -91,10 +91,10 @@
       "sats": [
         {
           "prn": 5,
-          "el_deg": 26.664119731522646,
+          "el_deg": 26.664119731522657,
           "js_db": 72.60326032030716,
           "cn0_nominal_dbhz": 42.66025918229576,
-          "cn0_effective_dbhz": -12.504517205495516,
+          "cn0_effective_dbhz": -9.494230471125402,
           "status": "LOST"
         },
         {
@@ -102,7 +102,7 @@
           "el_deg": 10.550964334319522,
           "js_db": 73.31940056018286,
           "cn0_nominal_dbhz": 41.94411894242006,
-          "cn0_effective_dbhz": -13.22065744537121,
+          "cn0_effective_dbhz": -10.210370711001097,
           "status": "LOST"
         },
         {
@@ -110,15 +110,15 @@
           "el_deg": 78.06481147680209,
           "js_db": 70.31878513162806,
           "cn0_nominal_dbhz": 44.94473437097486,
-          "cn0_effective_dbhz": -10.220042016816418,
+          "cn0_effective_dbhz": -7.209755282446306,
           "status": "LOST"
         },
         {
           "prn": 12,
-          "el_deg": 37.639186680056625,
+          "el_deg": 37.63918668005663,
           "js_db": 72.11547956703899,
           "cn0_nominal_dbhz": 43.14803993556393,
-          "cn0_effective_dbhz": -12.016736452227342,
+          "cn0_effective_dbhz": -9.00644971785723,
           "status": "LOST"
         },
         {
@@ -126,7 +126,7 @@
           "el_deg": 29.17649036811114,
           "js_db": 72.49159940312546,
           "cn0_nominal_dbhz": 42.771920099477455,
-          "cn0_effective_dbhz": -12.392856288313821,
+          "cn0_effective_dbhz": -9.382569553943709,
           "status": "LOST"
         },
         {
@@ -134,7 +134,7 @@
           "el_deg": 70.27021861430404,
           "js_db": 70.66521148107242,
           "cn0_nominal_dbhz": 44.5983080215305,
-          "cn0_effective_dbhz": -10.566468366260775,
+          "cn0_effective_dbhz": -7.556181631890661,
           "status": "LOST"
         },
         {
@@ -142,7 +142,7 @@
           "el_deg": 20.59648332954603,
           "js_db": 72.87293304928389,
           "cn0_nominal_dbhz": 42.39058645331903,
-          "cn0_effective_dbhz": -12.774189934472238,
+          "cn0_effective_dbhz": -9.763903200102126,
           "status": "LOST"
         },
         {
@@ -150,7 +150,7 @@
           "el_deg": 8.152240315274476,
           "js_db": 73.42601051658485,
           "cn0_nominal_dbhz": 41.837508986018065,
-          "cn0_effective_dbhz": -13.327267401773211,
+          "cn0_effective_dbhz": -10.316980667403099,
           "status": "LOST"
         }
       ]
@@ -163,10 +163,10 @@
       "sats": [
         {
           "prn": 5,
-          "el_deg": 26.74363633112475,
+          "el_deg": 26.743636331124762,
           "js_db": 72.59972624921375,
           "cn0_nominal_dbhz": 42.66379325338917,
-          "cn0_effective_dbhz": -12.5009831344021,
+          "cn0_effective_dbhz": -9.490696400031988,
           "status": "LOST"
         },
         {
@@ -174,7 +174,7 @@
           "el_deg": 10.346780101649776,
           "js_db": 73.32847541496818,
           "cn0_nominal_dbhz": 41.935044087634736,
-          "cn0_effective_dbhz": -13.229732300156536,
+          "cn0_effective_dbhz": -10.219445565786424,
           "status": "LOST"
         },
         {
@@ -182,7 +182,7 @@
           "el_deg": 77.99883134175774,
           "js_db": 70.32171758207448,
           "cn0_nominal_dbhz": 44.941801920528434,
-          "cn0_effective_dbhz": -10.222974467262842,
+          "cn0_effective_dbhz": -7.21268773289273,
           "status": "LOST"
         },
         {
@@ -190,7 +190,7 @@
           "el_deg": 37.84209927731494,
           "js_db": 72.10646122938306,
           "cn0_nominal_dbhz": 43.15705827321986,
-          "cn0_effective_dbhz": -12.007718114571409,
+          "cn0_effective_dbhz": -8.997431380201297,
           "status": "LOST"
         },
         {
@@ -198,7 +198,7 @@
           "el_deg": 28.979733763938942,
           "js_db": 72.50034414108865,
           "cn0_nominal_dbhz": 42.76317536151427,
-          "cn0_effective_dbhz": -12.401601026277003,
+          "cn0_effective_dbhz": -9.391314291906891,
           "status": "LOST"
         },
         {
@@ -206,23 +206,23 @@
           "el_deg": 70.24687809447383,
           "js_db": 70.66624883750933,
           "cn0_nominal_dbhz": 44.59727066509359,
-          "cn0_effective_dbhz": -10.567505722697684,
+          "cn0_effective_dbhz": -7.557218988327573,
           "status": "LOST"
         },
         {
           "prn": 20,
-          "el_deg": 20.53402366163145,
-          "js_db": 72.87570903452453,
-          "cn0_nominal_dbhz": 42.387810468078385,
-          "cn0_effective_dbhz": -12.776965919712884,
+          "el_deg": 20.534023661631444,
+          "js_db": 72.87570903452456,
+          "cn0_nominal_dbhz": 42.38781046807836,
+          "cn0_effective_dbhz": -9.766679185342808,
           "status": "LOST"
         },
         {
           "prn": 23,
-          "el_deg": 8.345370535074036,
+          "el_deg": 8.345370535074034,
           "js_db": 73.41742695126044,
           "cn0_nominal_dbhz": 41.84609255134248,
-          "cn0_effective_dbhz": -13.318683836448793,
+          "cn0_effective_dbhz": -10.30839710207868,
           "status": "LOST"
         }
       ]
@@ -238,7 +238,7 @@
           "el_deg": 26.822000112853793,
           "js_db": 72.59624341447022,
           "cn0_nominal_dbhz": 42.667276088132695,
-          "cn0_effective_dbhz": -12.497500299658578,
+          "cn0_effective_dbhz": -9.487213565288465,
           "status": "LOST"
         },
         {
@@ -246,7 +246,7 @@
           "el_deg": 10.14287153073953,
           "js_db": 73.33753801811974,
           "cn0_nominal_dbhz": 41.925981484483174,
-          "cn0_effective_dbhz": -13.238794903308102,
+          "cn0_effective_dbhz": -10.22850816893799,
           "status": "LOST"
         },
         {
@@ -254,7 +254,7 @@
           "el_deg": 77.92747554128975,
           "js_db": 70.32488895098419,
           "cn0_nominal_dbhz": 44.93863055161873,
-          "cn0_effective_dbhz": -10.226145836172547,
+          "cn0_effective_dbhz": -7.215859101802435,
           "status": "LOST"
         },
         {
@@ -262,7 +262,7 @@
           "el_deg": 38.045157166501035,
           "js_db": 72.09743643430812,
           "cn0_nominal_dbhz": 43.166083068294796,
-          "cn0_effective_dbhz": -11.998693319496477,
+          "cn0_effective_dbhz": -8.988406585126365,
           "status": "LOST"
         },
         {
@@ -270,7 +270,7 @@
           "el_deg": 28.783159150910013,
           "js_db": 72.50908079055662,
           "cn0_nominal_dbhz": 42.754438712046294,
-          "cn0_effective_dbhz": -12.410337675744978,
+          "cn0_effective_dbhz": -9.400050941374866,
           "status": "LOST"
         },
         {
@@ -278,7 +278,7 @@
           "el_deg": 70.21984771922524,
           "js_db": 70.66745018752039,
           "cn0_nominal_dbhz": 44.59606931508253,
-          "cn0_effective_dbhz": -10.568707072708746,
+          "cn0_effective_dbhz": -7.5584203383386335,
           "status": "LOST"
         },
         {
@@ -286,7 +286,7 @@
           "el_deg": 20.470462553979537,
           "js_db": 72.8785339726424,
           "cn0_nominal_dbhz": 42.38498552996052,
-          "cn0_effective_dbhz": -12.779790857830758,
+          "cn0_effective_dbhz": -9.769504123460646,
           "status": "LOST"
         },
         {
@@ -294,7 +294,7 @@
           "el_deg": 8.538746263061268,
           "js_db": 73.40883247446101,
           "cn0_nominal_dbhz": 41.85468702814191,
-          "cn0_effective_dbhz": -13.310089359649362,
+          "cn0_effective_dbhz": -10.29980262527925,
           "status": "LOST"
         }
       ]
@@ -307,10 +307,10 @@
       "sats": [
         {
           "prn": 5,
-          "el_deg": 26.899204942084246,
+          "el_deg": 26.899204942084257,
           "js_db": 72.59281208872665,
           "cn0_nominal_dbhz": 42.67070741387627,
-          "cn0_effective_dbhz": -12.494068973915,
+          "cn0_effective_dbhz": -9.48378223954489,
           "status": "LOST"
         },
         {
@@ -318,7 +318,7 @@
           "el_deg": 9.939240162763994,
           "js_db": 73.34658830114088,
           "cn0_nominal_dbhz": 41.916931201462035,
-          "cn0_effective_dbhz": -13.247845186329242,
+          "cn0_effective_dbhz": -10.23755845195913,
           "status": "LOST"
         },
         {
@@ -326,7 +326,7 @@
           "el_deg": 77.85083430031756,
           "js_db": 70.32829522836073,
           "cn0_nominal_dbhz": 44.93522427424219,
-          "cn0_effective_dbhz": -10.229552113549081,
+          "cn0_effective_dbhz": -7.219265379178969,
           "status": "LOST"
         },
         {
@@ -334,7 +334,7 @@
           "el_deg": 38.248360612559516,
           "js_db": 72.08840517003887,
           "cn0_nominal_dbhz": 43.17511433256405,
-          "cn0_effective_dbhz": -11.989662055227226,
+          "cn0_effective_dbhz": -8.979375320857114,
           "status": "LOST"
         },
         {
@@ -342,7 +342,7 @@
           "el_deg": 28.586766067051084,
           "js_db": 72.51780937206146,
           "cn0_nominal_dbhz": 42.745710130541454,
-          "cn0_effective_dbhz": -12.41906625724982,
+          "cn0_effective_dbhz": -9.408779522879708,
           "status": "LOST"
         },
         {
@@ -350,7 +350,7 @@
           "el_deg": 70.18914676957236,
           "js_db": 70.66881467417161,
           "cn0_nominal_dbhz": 44.594704828431304,
-          "cn0_effective_dbhz": -10.570071559359969,
+          "cn0_effective_dbhz": -7.5597848249898565,
           "status": "LOST"
         },
         {
@@ -358,7 +358,7 @@
           "el_deg": 20.405804267456837,
           "js_db": 72.88140767426563,
           "cn0_nominal_dbhz": 42.38211182833729,
-          "cn0_effective_dbhz": -12.78266455945399,
+          "cn0_effective_dbhz": -9.772377825083877,
           "status": "LOST"
         },
         {
@@ -366,7 +366,7 @@
           "el_deg": 8.7323653294744,
           "js_db": 73.40022718262043,
           "cn0_nominal_dbhz": 41.86329231998249,
-          "cn0_effective_dbhz": -13.301484067808785,
+          "cn0_effective_dbhz": -10.291197333438673,
           "status": "LOST"
         }
       ]
@@ -379,10 +379,10 @@
       "sats": [
         {
           "prn": 5,
-          "el_deg": 26.97524474964949,
+          "el_deg": 26.975244749649498,
           "js_db": 72.58943254172374,
           "cn0_nominal_dbhz": 42.67408696087918,
-          "cn0_effective_dbhz": -12.490689426912096,
+          "cn0_effective_dbhz": -9.480402692541986,
           "status": "LOST"
         },
         {
@@ -390,7 +390,7 @@
           "el_deg": 9.73588752930697,
           "js_db": 73.35562619596118,
           "cn0_nominal_dbhz": 41.90789330664174,
-          "cn0_effective_dbhz": -13.256883081149534,
+          "cn0_effective_dbhz": -10.246596346779421,
           "status": "LOST"
         },
         {
@@ -398,7 +398,7 @@
           "el_deg": 77.76900267334652,
           "js_db": 70.33193218955944,
           "cn0_nominal_dbhz": 44.93158731304348,
-          "cn0_effective_dbhz": -10.233189074747793,
+          "cn0_effective_dbhz": -7.222902340377681,
           "status": "LOST"
         },
         {
@@ -406,7 +406,7 @@
           "el_deg": 38.451709877673764,
           "js_db": 72.07936742492268,
           "cn0_nominal_dbhz": 43.18415207768024,
-          "cn0_effective_dbhz": -11.980624310111033,
+          "cn0_effective_dbhz": -8.97033757574092,
           "status": "LOST"
         },
         {
@@ -414,7 +414,7 @@
           "el_deg": 28.39055404810678,
           "js_db": 72.52652990623676,
           "cn0_nominal_dbhz": 42.73698959636616,
-          "cn0_effective_dbhz": -12.427786791425113,
+          "cn0_effective_dbhz": -9.417500057055001,
           "status": "LOST"
         },
         {
@@ -422,7 +422,7 @@
           "el_deg": 70.15479656410541,
           "js_db": 70.67034134997016,
           "cn0_nominal_dbhz": 44.59317815263276,
-          "cn0_effective_dbhz": -10.571598235158513,
+          "cn0_effective_dbhz": -7.561311500788401,
           "status": "LOST"
         },
         {
@@ -430,7 +430,7 @@
           "el_deg": 20.340053129063403,
           "js_db": 72.88432994708313,
           "cn0_nominal_dbhz": 42.37918955551979,
-          "cn0_effective_dbhz": -12.785586832271488,
+          "cn0_effective_dbhz": -9.775300097901376,
           "status": "LOST"
         },
         {
@@ -438,7 +438,7 @@
           "el_deg": 8.926225550236873,
           "js_db": 73.39161117280875,
           "cn0_nominal_dbhz": 41.87190832979417,
-          "cn0_effective_dbhz": -13.292868057997111,
+          "cn0_effective_dbhz": -10.282581323626998,
           "status": "LOST"
         }
       ]
@@ -454,7 +454,7 @@
           "el_deg": 27.050113534090478,
           "js_db": 72.58610504019305,
           "cn0_nominal_dbhz": 42.67741446240987,
-          "cn0_effective_dbhz": -12.487361925381402,
+          "cn0_effective_dbhz": -9.477075191011288,
           "status": "LOST"
         },
         {
@@ -462,7 +462,7 @@
           "el_deg": 9.532815152775317,
           "js_db": 73.36465163491815,
           "cn0_nominal_dbhz": 41.89886786768477,
-          "cn0_effective_dbhz": -13.265908520106498,
+          "cn0_effective_dbhz": -10.255621785736386,
           "status": "LOST"
         },
         {
@@ -470,7 +470,7 @@
           "el_deg": 77.68207999118415,
           "js_db": 70.33579541987777,
           "cn0_nominal_dbhz": 44.92772408272515,
-          "cn0_effective_dbhz": -10.237052305066124,
+          "cn0_effective_dbhz": -7.226765570696012,
           "status": "LOST"
         },
         {
@@ -478,7 +478,7 @@
           "el_deg": 38.65520522183595,
           "js_db": 72.07032318740434,
           "cn0_nominal_dbhz": 43.19319631519858,
-          "cn0_effective_dbhz": -11.971580072592694,
+          "cn0_effective_dbhz": -8.961293338222582,
           "status": "LOST"
         },
         {
@@ -486,15 +486,15 @@
           "el_deg": 28.194522627013114,
           "js_db": 72.5352424138409,
           "cn0_nominal_dbhz": 42.72827708876201,
-          "cn0_effective_dbhz": -12.436499299029256,
+          "cn0_effective_dbhz": -9.426212564659144,
           "status": "LOST"
         },
         {
           "prn": 16,
-          "el_deg": 70.11682040283974,
+          "el_deg": 70.11682040283976,
           "js_db": 70.67202917935973,
           "cn0_nominal_dbhz": 44.59149032324319,
-          "cn0_effective_dbhz": -10.57328606454808,
+          "cn0_effective_dbhz": -7.562999330177968,
           "status": "LOST"
         },
         {
@@ -502,7 +502,7 @@
           "el_deg": 20.273213530340108,
           "js_db": 72.88730059591526,
           "cn0_nominal_dbhz": 42.376218906687654,
-          "cn0_effective_dbhz": -12.78855748110362,
+          "cn0_effective_dbhz": -9.778270746733508,
           "status": "LOST"
         },
         {
@@ -510,7 +510,7 @@
           "el_deg": 9.120324726380403,
           "js_db": 73.38298454275792,
           "cn0_nominal_dbhz": 41.880534959844994,
-          "cn0_effective_dbhz": -13.284241427946275,
+          "cn0_effective_dbhz": -10.273954693576163,
           "status": "LOST"
         }
       ]
@@ -523,10 +523,10 @@
       "sats": [
         {
           "prn": 5,
-          "el_deg": 27.12380536367871,
+          "el_deg": 27.123805363678713,
           "js_db": 72.5828298477669,
           "cn0_nominal_dbhz": 42.680689654836016,
-          "cn0_effective_dbhz": -12.484086732955253,
+          "cn0_effective_dbhz": -9.473799998585141,
           "status": "LOST"
         },
         {
@@ -534,7 +534,7 @@
           "el_deg": 9.330024546730831,
           "js_db": 73.37366455074235,
           "cn0_nominal_dbhz": 41.88985495186057,
-          "cn0_effective_dbhz": -13.2749214359307,
+          "cn0_effective_dbhz": -10.264634701560588,
           "status": "LOST"
         },
         {
@@ -542,7 +542,7 @@
           "el_deg": 77.59016930935003,
           "js_db": 70.33988033907039,
           "cn0_nominal_dbhz": 44.92363916353253,
-          "cn0_effective_dbhz": -10.241137224258743,
+          "cn0_effective_dbhz": -7.230850489888631,
           "status": "LOST"
         },
         {
@@ -550,7 +550,7 @@
           "el_deg": 38.858846903116344,
           "js_db": 72.0612724460141,
           "cn0_nominal_dbhz": 43.20224705658882,
-          "cn0_effective_dbhz": -11.962529331202452,
+          "cn0_effective_dbhz": -8.95224259683234,
           "status": "LOST"
         },
         {
@@ -558,7 +558,7 @@
           "el_deg": 27.998671333663737,
           "js_db": 72.54394691576755,
           "cn0_nominal_dbhz": 42.71957258683537,
-          "cn0_effective_dbhz": -12.4452038009559,
+          "cn0_effective_dbhz": -9.434917066585788,
           "status": "LOST"
         },
         {
@@ -566,7 +566,7 @@
           "el_deg": 70.07524350671018,
           "js_db": 70.67387704140992,
           "cn0_nominal_dbhz": 44.589642461192994,
-          "cn0_effective_dbhz": -10.575133926598282,
+          "cn0_effective_dbhz": -7.564847192228169,
           "status": "LOST"
         },
         {
@@ -574,7 +574,7 @@
           "el_deg": 20.205289925972902,
           "js_db": 72.89031942277603,
           "cn0_nominal_dbhz": 42.37320007982689,
-          "cn0_effective_dbhz": -12.791576307964386,
+          "cn0_effective_dbhz": -9.781289573594274,
           "status": "LOST"
         },
         {
@@ -582,7 +582,7 @@
           "el_deg": 9.314660643588937,
           "js_db": 73.37434739088198,
           "cn0_nominal_dbhz": 41.88917211172094,
-          "cn0_effective_dbhz": -13.275604276070332,
+          "cn0_effective_dbhz": -10.26531754170022,
           "status": "LOST"
         }
       ]
@@ -598,7 +598,7 @@
           "el_deg": 27.19631437727765,
           "js_db": 72.57960722494028,
           "cn0_nominal_dbhz": 42.68391227766264,
-          "cn0_effective_dbhz": -12.480864110128634,
+          "cn0_effective_dbhz": -9.470577375758522,
           "status": "LOST"
         },
         {
@@ -606,7 +606,7 @@
           "el_deg": 9.12751721584564,
           "js_db": 73.38266487655946,
           "cn0_nominal_dbhz": 41.88085462604346,
-          "cn0_effective_dbhz": -13.283921761747813,
+          "cn0_effective_dbhz": -10.2736350273777,
           "status": "LOST"
         },
         {
@@ -614,7 +614,7 @@
           "el_deg": 77.493376863207,
           "js_db": 70.34418222556565,
           "cn0_nominal_dbhz": 44.91933727703727,
-          "cn0_effective_dbhz": -10.245439110754003,
+          "cn0_effective_dbhz": -7.2351523763838905,
           "status": "LOST"
         },
         {
@@ -622,7 +622,7 @@
           "el_deg": 39.062635176416755,
           "js_db": 72.05221518942298,
           "cn0_nominal_dbhz": 43.21130431317994,
-          "cn0_effective_dbhz": -11.953472074611334,
+          "cn0_effective_dbhz": -8.943185340241222,
           "status": "LOST"
         },
         {
@@ -630,7 +630,7 @@
           "el_deg": 27.802999696115567,
           "js_db": 72.55264343299191,
           "cn0_nominal_dbhz": 42.710876069611004,
-          "cn0_effective_dbhz": -12.453900318180267,
+          "cn0_effective_dbhz": -9.443613583810155,
           "status": "LOST"
         },
         {
@@ -638,7 +638,7 @@
           "el_deg": 70.03009295438083,
           "js_db": 70.67588373262458,
           "cn0_nominal_dbhz": 44.587635769978334,
-          "cn0_effective_dbhz": -10.577140617812935,
+          "cn0_effective_dbhz": -7.566853883442823,
           "status": "LOST"
         },
         {
@@ -646,7 +646,7 @@
           "el_deg": 20.136286833377355,
           "js_db": 72.89338622689141,
           "cn0_nominal_dbhz": 42.37013327571151,
-          "cn0_effective_dbhz": -12.794643112079765,
+          "cn0_effective_dbhz": -9.784356377709653,
           "status": "LOST"
         },
         {
@@ -654,7 +654,7 @@
           "el_deg": 9.50923107238945,
           "js_db": 73.36569981626863,
           "cn0_nominal_dbhz": 41.89781968633429,
-          "cn0_effective_dbhz": -13.266956701456987,
+          "cn0_effective_dbhz": -10.256669967086875,
           "status": "LOST"
         }
       ]
@@ -670,7 +670,7 @@
           "el_deg": 27.267634787746463,
           "js_db": 72.57643742891943,
           "cn0_nominal_dbhz": 42.687082073683484,
-          "cn0_effective_dbhz": -12.477694314107788,
+          "cn0_effective_dbhz": -9.467407579737676,
           "status": "LOST"
         },
         {
@@ -678,7 +678,7 @@
           "el_deg": 8.92529465667671,
           "js_db": 73.39165254585586,
           "cn0_nominal_dbhz": 41.871866956747056,
-          "cn0_effective_dbhz": -13.292909431044214,
+          "cn0_effective_dbhz": -10.282622696674101,
           "status": "LOST"
         },
         {
@@ -686,15 +686,15 @@
           "el_deg": 77.39181153823516,
           "js_db": 70.34869624000882,
           "cn0_nominal_dbhz": 44.9148232625941,
-          "cn0_effective_dbhz": -10.249953125197171,
+          "cn0_effective_dbhz": -7.239666390827059,
           "status": "LOST"
         },
         {
           "prn": 12,
-          "el_deg": 39.26657029555883,
+          "el_deg": 39.26657029555884,
           "js_db": 72.04315140635,
           "cn0_nominal_dbhz": 43.22036809625291,
-          "cn0_effective_dbhz": -11.944408291538362,
+          "cn0_effective_dbhz": -8.93412155716825,
           "status": "LOST"
         },
         {
@@ -702,7 +702,7 @@
           "el_deg": 27.60750723862273,
           "js_db": 72.56133198665827,
           "cn0_nominal_dbhz": 42.702187515944644,
-          "cn0_effective_dbhz": -12.462588871846625,
+          "cn0_effective_dbhz": -9.452302137476513,
           "status": "LOST"
         },
         {
@@ -710,15 +710,15 @@
           "el_deg": 69.98139761159858,
           "js_db": 70.67804797008156,
           "cn0_nominal_dbhz": 44.58547153252135,
-          "cn0_effective_dbhz": -10.579304855269916,
+          "cn0_effective_dbhz": -7.569018120899804,
           "status": "LOST"
         },
         {
           "prn": 20,
-          "el_deg": 20.06620883010337,
+          "el_deg": 20.066208830103374,
           "js_db": 72.89650080481468,
           "cn0_nominal_dbhz": 42.36701869778824,
-          "cn0_effective_dbhz": -12.797757690003031,
+          "cn0_effective_dbhz": -9.78747095563292,
           "status": "LOST"
         },
         {
@@ -726,7 +726,7 @@
           "el_deg": 9.704033766907788,
           "js_db": 73.3570419187345,
           "cn0_nominal_dbhz": 41.90647758386842,
-          "cn0_effective_dbhz": -13.258298803922848,
+          "cn0_effective_dbhz": -10.248012069552736,
           "status": "LOST"
         }
       ]
@@ -742,7 +742,7 @@
           "el_deg": 27.33776088209409,
           "js_db": 72.57332071361509,
           "cn0_nominal_dbhz": 42.69019878898783,
-          "cn0_effective_dbhz": -12.474577598803442,
+          "cn0_effective_dbhz": -9.464290864433329,
           "status": "LOST"
         },
         {
@@ -750,7 +750,7 @@
           "el_deg": 8.723358357392929,
           "js_db": 73.40062749249071,
           "cn0_nominal_dbhz": 41.862892010112205,
-          "cn0_effective_dbhz": -13.301884377679068,
+          "cn0_effective_dbhz": -10.291597643308956,
           "status": "LOST"
         },
         {
@@ -758,23 +758,23 @@
           "el_deg": 77.28558435491908,
           "js_db": 70.35341744815622,
           "cn0_nominal_dbhz": 44.910102054446696,
-          "cn0_effective_dbhz": -10.254674333344578,
+          "cn0_effective_dbhz": -7.244387598974466,
           "status": "LOST"
         },
         {
           "prn": 12,
-          "el_deg": 39.47065251112701,
+          "el_deg": 39.47065251112703,
           "js_db": 72.03408108565807,
           "cn0_nominal_dbhz": 43.229438416944845,
-          "cn0_effective_dbhz": -11.93533797084643,
+          "cn0_effective_dbhz": -8.925051236476317,
           "status": "LOST"
         },
         {
           "prn": 13,
-          "el_deg": 27.412193483706083,
+          "el_deg": 27.412193483706055,
           "js_db": 72.5700125979879,
           "cn0_nominal_dbhz": 42.69350690461502,
-          "cn0_effective_dbhz": -12.471269483176249,
+          "cn0_effective_dbhz": -9.460982748806137,
           "status": "LOST"
         },
         {
@@ -782,15 +782,15 @@
           "el_deg": 69.92918806154606,
           "js_db": 70.68036839452833,
           "cn0_nominal_dbhz": 44.58315110807459,
-          "cn0_effective_dbhz": -10.581625279716683,
+          "cn0_effective_dbhz": -7.5713385453465705,
           "status": "LOST"
         },
         {
           "prn": 20,
-          "el_deg": 19.99506055399615,
+          "el_deg": 19.995060553996144,
           "js_db": 72.89966295041944,
           "cn0_nominal_dbhz": 42.36385655218348,
-          "cn0_effective_dbhz": -12.800919835607798,
+          "cn0_effective_dbhz": -9.790633101237686,
           "status": "LOST"
         },
         {
@@ -798,7 +798,7 @@
           "el_deg": 9.899066465443951,
           "js_db": 73.34837379879954,
           "cn0_nominal_dbhz": 41.915145703803375,
-          "cn0_effective_dbhz": -13.249630683987899,
+          "cn0_effective_dbhz": -10.239343949617787,
           "status": "LOST"
         }
       ]
@@ -814,7 +814,7 @@
           "el_deg": 27.40668702394161,
           "js_db": 72.57025732953298,
           "cn0_nominal_dbhz": 42.69326217306994,
-          "cn0_effective_dbhz": -12.471514214721331,
+          "cn0_effective_dbhz": -9.46122748035122,
           "status": "LOST"
         },
         {
@@ -822,7 +822,7 @@
           "el_deg": 8.52170979824549,
           "js_db": 73.40958965067503,
           "cn0_nominal_dbhz": 41.85392985192789,
-          "cn0_effective_dbhz": -13.310846535863384,
+          "cn0_effective_dbhz": -10.300559801493272,
           "status": "LOST"
         },
         {
@@ -830,7 +830,7 @@
           "el_deg": 77.17480797695194,
           "js_db": 70.35834084273253,
           "cn0_nominal_dbhz": 44.90517865987039,
-          "cn0_effective_dbhz": -10.259597727920882,
+          "cn0_effective_dbhz": -7.24931099355077,
           "status": "LOST"
         },
         {
@@ -838,7 +838,7 @@
           "el_deg": 39.67488207134347,
           "js_db": 72.02500421631512,
           "cn0_nominal_dbhz": 43.23851528628779,
-          "cn0_effective_dbhz": -11.926261101503481,
+          "cn0_effective_dbhz": -8.915974367133368,
           "status": "LOST"
         },
         {
@@ -846,7 +846,7 @@
           "el_deg": 27.217057951339694,
           "js_db": 72.57868528831528,
           "cn0_nominal_dbhz": 42.68483421428763,
-          "cn0_effective_dbhz": -12.479942173503636,
+          "cn0_effective_dbhz": -9.469655439133524,
           "status": "LOST"
         },
         {
@@ -854,7 +854,7 @@
           "el_deg": 69.8734965288712,
           "js_db": 70.68284357375833,
           "cn0_nominal_dbhz": 44.580675928844585,
-          "cn0_effective_dbhz": -10.584100458946686,
+          "cn0_effective_dbhz": -7.573813724576574,
           "status": "LOST"
         },
         {
@@ -862,7 +862,7 @@
           "el_deg": 19.922846701376297,
           "js_db": 72.90287245498033,
           "cn0_nominal_dbhz": 42.36064704762259,
-          "cn0_effective_dbhz": -12.804129340168682,
+          "cn0_effective_dbhz": -9.793842605798572,
           "status": "LOST"
         },
         {
@@ -870,7 +870,7 @@
           "el_deg": 10.09432688974274,
           "js_db": 73.33969555771961,
           "cn0_nominal_dbhz": 41.92382394488331,
-          "cn0_effective_dbhz": -13.240952442907961,
+          "cn0_effective_dbhz": -10.230665708537849,
           "status": "LOST"
         }
       ]
@@ -886,7 +886,7 @@
           "el_deg": 27.474407560664602,
           "js_db": 72.56724752790086,
           "cn0_nominal_dbhz": 42.69627197470206,
-          "cn0_effective_dbhz": -12.468504413089219,
+          "cn0_effective_dbhz": -9.458217678719107,
           "status": "LOST"
         },
         {
@@ -894,7 +894,7 @@
           "el_deg": 8.320350422514336,
           "js_db": 73.41853895626309,
           "cn0_nominal_dbhz": 41.844980546339826,
-          "cn0_effective_dbhz": -13.31979584145145,
+          "cn0_effective_dbhz": -10.309509107081338,
           "status": "LOST"
         },
         {
@@ -902,7 +902,7 @@
           "el_deg": 77.05959617194405,
           "js_db": 70.36346136739954,
           "cn0_nominal_dbhz": 44.90005813520338,
-          "cn0_effective_dbhz": -10.26471825258789,
+          "cn0_effective_dbhz": -7.254431518217778,
           "status": "LOST"
         },
         {
@@ -910,7 +910,7 @@
           "el_deg": 39.8792590996728,
           "js_db": 72.01592079283381,
           "cn0_nominal_dbhz": 43.24759870976911,
-          "cn0_effective_dbhz": -11.917177678022169,
+          "cn0_effective_dbhz": -8.906890943652057,
           "status": "LOST"
         },
         {
@@ -918,7 +918,7 @@
           "el_deg": 27.022100274548887,
           "js_db": 72.58735007395043,
           "cn0_nominal_dbhz": 42.676169428652486,
-          "cn0_effective_dbhz": -12.488606959138789,
+          "cn0_effective_dbhz": -9.478320224768677,
           "status": "LOST"
         },
         {
@@ -926,7 +926,7 @@
           "el_deg": 69.81435693319985,
           "js_db": 70.68547200023261,
           "cn0_nominal_dbhz": 44.57804750237031,
-          "cn0_effective_dbhz": -10.586728885420962,
+          "cn0_effective_dbhz": -7.57644215105085,
           "status": "LOST"
         },
         {
@@ -934,7 +934,7 @@
           "el_deg": 19.84957210359741,
           "js_db": 72.9061291037705,
           "cn0_nominal_dbhz": 42.35739039883242,
-          "cn0_effective_dbhz": -12.80738598895885,
+          "cn0_effective_dbhz": -9.797099254588739,
           "status": "LOST"
         },
         {
@@ -942,7 +942,7 @@
           "el_deg": 10.289812797987773,
           "js_db": 73.33100729513095,
           "cn0_nominal_dbhz": 41.93251220747197,
-          "cn0_effective_dbhz": -13.232264180319298,
+          "cn0_effective_dbhz": -10.221977445949186,
           "status": "LOST"
         }
       ]
@@ -955,10 +955,10 @@
       "sats": [
         {
           "prn": 5,
-          "el_deg": 27.54091720498638,
+          "el_deg": 27.54091720498639,
           "js_db": 72.56429154370878,
           "cn0_nominal_dbhz": 42.69922795889414,
-          "cn0_effective_dbhz": -12.465548428897131,
+          "cn0_effective_dbhz": -9.45526169452702,
           "status": "LOST"
         },
         {
@@ -966,23 +966,23 @@
           "el_deg": 8.119281754593542,
           "js_db": 73.42747534150402,
           "cn0_nominal_dbhz": 41.8360441610989,
-          "cn0_effective_dbhz": -13.328732226692377,
+          "cn0_effective_dbhz": -10.318445492322265,
           "status": "LOST"
         },
         {
           "prn": 9,
-          "el_deg": 76.94006365886794,
+          "el_deg": 76.94006365886796,
           "js_db": 70.36877392353625,
           "cn0_nominal_dbhz": 44.894745579066665,
-          "cn0_effective_dbhz": -10.270030808724611,
+          "cn0_effective_dbhz": -7.259744074354499,
           "status": "LOST"
         },
         {
           "prn": 12,
-          "el_deg": 40.08378408626845,
+          "el_deg": 40.08378408626846,
           "js_db": 72.00683079342957,
           "cn0_nominal_dbhz": 43.256688709173346,
-          "cn0_effective_dbhz": -11.908087678617923,
+          "cn0_effective_dbhz": -8.89780094424781,
           "status": "LOST"
         },
         {
@@ -990,7 +990,7 @@
           "el_deg": 26.82731973518563,
           "js_db": 72.59600698681103,
           "cn0_nominal_dbhz": 42.667512515791884,
-          "cn0_effective_dbhz": -12.497263871999385,
+          "cn0_effective_dbhz": -9.486977137629275,
           "status": "LOST"
         },
         {
@@ -998,7 +998,7 @@
           "el_deg": 69.75180428232171,
           "js_db": 70.68825211804943,
           "cn0_nominal_dbhz": 44.575267384553484,
-          "cn0_effective_dbhz": -10.589509003237792,
+          "cn0_effective_dbhz": -7.57922226886768,
           "status": "LOST"
         },
         {
@@ -1006,7 +1006,7 @@
           "el_deg": 19.775241412999673,
           "js_db": 72.90943269001929,
           "cn0_nominal_dbhz": 42.35408681258363,
-          "cn0_effective_dbhz": -12.810689575207642,
+          "cn0_effective_dbhz": -9.80040284083753,
           "status": "LOST"
         },
         {
@@ -1014,7 +1014,7 @@
           "el_deg": 10.485521770362705,
           "js_db": 73.32230911858093,
           "cn0_nominal_dbhz": 41.941210384021986,
-          "cn0_effective_dbhz": -13.223566003769285,
+          "cn0_effective_dbhz": -10.213279269399173,
           "status": "LOST"
         }
       ]
@@ -1030,7 +1030,7 @@
           "el_deg": 27.606210465163,
           "js_db": 72.56138962103427,
           "cn0_nominal_dbhz": 42.70212988156865,
-          "cn0_effective_dbhz": -12.462646506222617,
+          "cn0_effective_dbhz": -9.452359771852505,
           "status": "LOST"
         },
         {
@@ -1038,15 +1038,15 @@
           "el_deg": 7.9185052225484505,
           "js_db": 73.43639874292825,
           "cn0_nominal_dbhz": 41.82712075967467,
-          "cn0_effective_dbhz": -13.337655628116599,
+          "cn0_effective_dbhz": -10.327368893746486,
           "status": "LOST"
         },
         {
           "prn": 9,
-          "el_deg": 76.81632525859396,
+          "el_deg": 76.816325258594,
           "js_db": 70.37427340799289,
           "cn0_nominal_dbhz": 44.88924609461003,
-          "cn0_effective_dbhz": -10.275530293181241,
+          "cn0_effective_dbhz": -7.265243558811127,
           "status": "LOST"
         },
         {
@@ -1054,7 +1054,7 @@
           "el_deg": 40.28845714796811,
           "js_db": 71.99773421290959,
           "cn0_nominal_dbhz": 43.265785289693326,
-          "cn0_effective_dbhz": -11.898991098097945,
+          "cn0_effective_dbhz": -8.888704363727832,
           "status": "LOST"
         },
         {
@@ -1062,7 +1062,7 @@
           "el_deg": 26.63271596323119,
           "js_db": 72.60465604334235,
           "cn0_nominal_dbhz": 42.65886345926057,
-          "cn0_effective_dbhz": -12.505912928530696,
+          "cn0_effective_dbhz": -9.495626194160584,
           "status": "LOST"
         },
         {
@@ -1070,7 +1070,7 @@
           "el_deg": 69.68587538336185,
           "js_db": 70.69118229133653,
           "cn0_nominal_dbhz": 44.57233721126639,
-          "cn0_effective_dbhz": -10.592439176524884,
+          "cn0_effective_dbhz": -7.582152442154772,
           "status": "LOST"
         },
         {
@@ -1078,7 +1078,7 @@
           "el_deg": 19.699859573189336,
           "js_db": 72.91278299401085,
           "cn0_nominal_dbhz": 42.350736508592064,
-          "cn0_effective_dbhz": -12.814039879199209,
+          "cn0_effective_dbhz": -9.803753144829097,
           "status": "LOST"
         },
         {
@@ -1086,7 +1086,7 @@
           "el_deg": 10.681451530798574,
           "js_db": 73.31360112922823,
           "cn0_nominal_dbhz": 41.949918373374686,
-          "cn0_effective_dbhz": -13.214858014416587,
+          "cn0_effective_dbhz": -10.204571280046475,
           "status": "LOST"
         }
       ]
@@ -1102,7 +1102,7 @@
           "el_deg": 27.670282030211933,
           "js_db": 72.55854199592096,
           "cn0_nominal_dbhz": 42.704977506681956,
-          "cn0_effective_dbhz": -12.459798881109315,
+          "cn0_effective_dbhz": -9.449512146739202,
           "status": "LOST"
         },
         {
@@ -1110,7 +1110,7 @@
           "el_deg": 7.718022277799238,
           "js_db": 73.44530909602821,
           "cn0_nominal_dbhz": 41.81821040657471,
-          "cn0_effective_dbhz": -13.346565981216568,
+          "cn0_effective_dbhz": -10.336279246846455,
           "status": "LOST"
         },
         {
@@ -1118,7 +1118,7 @@
           "el_deg": 76.68849580728164,
           "js_db": 70.37995471694009,
           "cn0_nominal_dbhz": 44.88356478566283,
-          "cn0_effective_dbhz": -10.281211602128442,
+          "cn0_effective_dbhz": -7.27092486775833,
           "status": "LOST"
         },
         {
@@ -1126,15 +1126,15 @@
           "el_deg": 40.4932785250301,
           "js_db": 71.98863104059572,
           "cn0_nominal_dbhz": 43.2748884620072,
-          "cn0_effective_dbhz": -11.889887925784073,
+          "cn0_effective_dbhz": -8.879601191413961,
           "status": "LOST"
         },
         {
           "prn": 13,
-          "el_deg": 26.43828846725271,
+          "el_deg": 26.4382884672527,
           "js_db": 72.61329726538582,
           "cn0_nominal_dbhz": 42.65022223721709,
-          "cn0_effective_dbhz": -12.514554150574176,
+          "cn0_effective_dbhz": -9.504267416204064,
           "status": "LOST"
         },
         {
@@ -1142,7 +1142,7 @@
           "el_deg": 69.61660822736097,
           "js_db": 70.69426083160323,
           "cn0_nominal_dbhz": 44.56925867099969,
-          "cn0_effective_dbhz": -10.595517716791585,
+          "cn0_effective_dbhz": -7.585230982421473,
           "status": "LOST"
         },
         {
@@ -1150,7 +1150,7 @@
           "el_deg": 19.623431500889847,
           "js_db": 72.91617979722417,
           "cn0_nominal_dbhz": 42.347339705378744,
-          "cn0_effective_dbhz": -12.817436682412529,
+          "cn0_effective_dbhz": -9.807149948042417,
           "status": "LOST"
         },
         {
@@ -1158,7 +1158,7 @@
           "el_deg": 10.877599730530118,
           "js_db": 73.30488343146237,
           "cn0_nominal_dbhz": 41.958636071140546,
-          "cn0_effective_dbhz": -13.20614031665073,
+          "cn0_effective_dbhz": -10.195853582280618,
           "status": "LOST"
         }
       ]
@@ -1174,7 +1174,7 @@
           "el_deg": 27.733126672818454,
           "js_db": 72.55574890069403,
           "cn0_nominal_dbhz": 42.70777060190889,
-          "cn0_effective_dbhz": -12.457005785882378,
+          "cn0_effective_dbhz": -9.446719051512266,
           "status": "LOST"
         },
         {
@@ -1182,7 +1182,7 @@
           "el_deg": 7.517834364531358,
           "js_db": 73.45420633661789,
           "cn0_nominal_dbhz": 41.80931316598503,
-          "cn0_effective_dbhz": -13.355463221806241,
+          "cn0_effective_dbhz": -10.34517648743613,
           "status": "LOST"
         },
         {
@@ -1190,7 +1190,7 @@
           "el_deg": 76.55668972850924,
           "js_db": 70.38581276488554,
           "cn0_nominal_dbhz": 44.877706737717375,
-          "cn0_effective_dbhz": -10.287069650073901,
+          "cn0_effective_dbhz": -7.276782915703787,
           "status": "LOST"
         },
         {
@@ -1198,7 +1198,7 @@
           "el_deg": 40.698248453045416,
           "js_db": 71.97952126601726,
           "cn0_nominal_dbhz": 43.28399823658566,
-          "cn0_effective_dbhz": -11.88077815120561,
+          "cn0_effective_dbhz": -8.870491416835497,
           "status": "LOST"
         },
         {
@@ -1206,15 +1206,15 @@
           "el_deg": 26.24403675553086,
           "js_db": 72.62193067479569,
           "cn0_nominal_dbhz": 42.641588827807226,
-          "cn0_effective_dbhz": -12.523187559984049,
+          "cn0_effective_dbhz": -9.512900825613936,
           "status": "LOST"
         },
         {
           "prn": 16,
-          "el_deg": 69.54404204214845,
+          "el_deg": 69.54404204214846,
           "js_db": 70.69748599539045,
           "cn0_nominal_dbhz": 44.56603350721247,
-          "cn0_effective_dbhz": -10.598742880578802,
+          "cn0_effective_dbhz": -7.58845614620869,
           "status": "LOST"
         },
         {
@@ -1222,7 +1222,7 @@
           "el_deg": 19.54596216645534,
           "js_db": 72.91962287875461,
           "cn0_nominal_dbhz": 42.34389662384831,
-          "cn0_effective_dbhz": -12.820879763942965,
+          "cn0_effective_dbhz": -9.810593029572853,
           "status": "LOST"
         },
         {
@@ -1230,7 +1230,7 @@
           "el_deg": 11.073964003407246,
           "js_db": 73.29615613044561,
           "cn0_nominal_dbhz": 41.96736337215731,
-          "cn0_effective_dbhz": -13.197413015633968,
+          "cn0_effective_dbhz": -10.187126281263856,
           "status": "LOST"
         }
       ]
@@ -1243,10 +1243,10 @@
       "sats": [
         {
           "prn": 5,
-          "el_deg": 27.794739252688366,
+          "el_deg": 27.79473925268837,
           "js_db": 72.55301056381091,
           "cn0_nominal_dbhz": 42.710508938792,
-          "cn0_effective_dbhz": -12.454267448999266,
+          "cn0_effective_dbhz": -9.443980714629154,
           "status": "LOST"
         },
         {
@@ -1254,15 +1254,15 @@
           "el_deg": 7.317942920436122,
           "js_db": 73.4630904007999,
           "cn0_nominal_dbhz": 41.80042910180302,
-          "cn0_effective_dbhz": -13.364347285988254,
+          "cn0_effective_dbhz": -10.35406055161814,
           "status": "LOST"
         },
         {
           "prn": 9,
-          "el_deg": 76.42102071422353,
+          "el_deg": 76.42102071422352,
           "js_db": 70.39184249885378,
           "cn0_nominal_dbhz": 44.87167700374914,
-          "cn0_effective_dbhz": -10.293099384042133,
+          "cn0_effective_dbhz": -7.282812649672021,
           "status": "LOST"
         },
         {
@@ -1270,7 +1270,7 @@
           "el_deg": 40.903367165033806,
           "js_db": 71.97040487881779,
           "cn0_nominal_dbhz": 43.29311462378513,
-          "cn0_effective_dbhz": -11.871661764006143,
+          "cn0_effective_dbhz": -8.861375029636031,
           "status": "LOST"
         },
         {
@@ -1278,7 +1278,7 @@
           "el_deg": 26.04996033409577,
           "js_db": 72.63055629352613,
           "cn0_nominal_dbhz": 42.63296320907679,
-          "cn0_effective_dbhz": -12.531813178714478,
+          "cn0_effective_dbhz": -9.521526444344365,
           "status": "LOST"
         },
         {
@@ -1286,7 +1286,7 @@
           "el_deg": 69.46821720515769,
           "js_db": 70.7008559881456,
           "cn0_nominal_dbhz": 44.56266351445731,
-          "cn0_effective_dbhz": -10.602112873333958,
+          "cn0_effective_dbhz": -7.591826138963846,
           "status": "LOST"
         },
         {
@@ -1294,7 +1294,7 @@
           "el_deg": 19.467456591268057,
           "js_db": 72.92311201542958,
           "cn0_nominal_dbhz": 42.34040748717334,
-          "cn0_effective_dbhz": -12.824368900617936,
+          "cn0_effective_dbhz": -9.814082166247823,
           "status": "LOST"
         },
         {
@@ -1302,7 +1302,7 @@
           "el_deg": 11.270541964602508,
           "js_db": 73.28741933217029,
           "cn0_nominal_dbhz": 41.97610017043263,
-          "cn0_effective_dbhz": -13.188676217358644,
+          "cn0_effective_dbhz": -10.178389482988532,
           "status": "LOST"
         }
       ]
@@ -1315,10 +1315,10 @@
       "sats": [
         {
           "prn": 5,
-          "el_deg": 27.855114719676276,
+          "el_deg": 27.85511471967628,
           "js_db": 72.55032720972255,
           "cn0_nominal_dbhz": 42.713192292880365,
-          "cn0_effective_dbhz": -12.451584094910906,
+          "cn0_effective_dbhz": -9.441297360540794,
           "status": "LOST"
         },
         {
@@ -1326,23 +1326,23 @@
           "el_deg": 7.1183493773629,
           "js_db": 73.47196122493648,
           "cn0_nominal_dbhz": 41.79155827766644,
-          "cn0_effective_dbhz": -13.37321811012483,
+          "cn0_effective_dbhz": -10.362931375754718,
           "status": "LOST"
         },
         {
           "prn": 9,
-          "el_deg": 76.28160143615595,
+          "el_deg": 76.28160143615598,
           "js_db": 70.39803891121235,
           "cn0_nominal_dbhz": 44.865480591390565,
-          "cn0_effective_dbhz": -10.29929579640071,
+          "cn0_effective_dbhz": -7.289009062030599,
           "status": "LOST"
         },
         {
           "prn": 12,
-          "el_deg": 41.10863489324279,
+          "el_deg": 41.108634893242794,
           "js_db": 71.96128186867514,
           "cn0_nominal_dbhz": 43.302237633927774,
-          "cn0_effective_dbhz": -11.862538753863497,
+          "cn0_effective_dbhz": -8.852252019493385,
           "status": "LOST"
         },
         {
@@ -1350,15 +1350,15 @@
           "el_deg": 25.85605870505823,
           "js_db": 72.63917414370559,
           "cn0_nominal_dbhz": 42.62434535889733,
-          "cn0_effective_dbhz": -12.54043102889394,
+          "cn0_effective_dbhz": -9.530144294523827,
           "status": "LOST"
         },
         {
           "prn": 16,
-          "el_deg": 69.38917515629757,
+          "el_deg": 69.38917515629755,
           "js_db": 70.70436896809494,
           "cn0_nominal_dbhz": 44.55915053450798,
-          "cn0_effective_dbhz": -10.605625853283296,
+          "cn0_effective_dbhz": -7.595339118913184,
           "status": "LOST"
         },
         {
@@ -1366,15 +1366,15 @@
           "el_deg": 19.387919845354205,
           "js_db": 72.92664698191464,
           "cn0_nominal_dbhz": 42.336872520688274,
-          "cn0_effective_dbhz": -12.827903867102995,
+          "cn0_effective_dbhz": -9.817617132732883,
           "status": "LOST"
         },
         {
           "prn": 23,
-          "el_deg": 11.467331209429078,
+          "el_deg": 11.467331209429076,
           "js_db": 73.27867314351133,
           "cn0_nominal_dbhz": 41.98484635909159,
-          "cn0_effective_dbhz": -13.179930028699685,
+          "cn0_effective_dbhz": -10.169643294329573,
           "status": "LOST"
         }
       ]
@@ -1387,10 +1387,10 @@
       "sats": [
         {
           "prn": 5,
-          "el_deg": 27.914248112837562,
+          "el_deg": 27.91424811283757,
           "js_db": 72.54769905891538,
           "cn0_nominal_dbhz": 42.715820443687534,
-          "cn0_effective_dbhz": -12.448955944103737,
+          "cn0_effective_dbhz": -9.438669209733625,
           "status": "LOST"
         },
         {
@@ -1398,7 +1398,7 @@
           "el_deg": 6.919055160760267,
           "js_db": 73.48081874567438,
           "cn0_nominal_dbhz": 41.782700756928534,
-          "cn0_effective_dbhz": -13.38207563086274,
+          "cn0_effective_dbhz": -10.371788896492628,
           "status": "LOST"
         },
         {
@@ -1406,7 +1406,7 @@
           "el_deg": 76.13854328484095,
           "js_db": 70.40439705127079,
           "cn0_nominal_dbhz": 44.85912245133213,
-          "cn0_effective_dbhz": -10.30565393645915,
+          "cn0_effective_dbhz": -7.295367202089038,
           "status": "LOST"
         },
         {
@@ -1414,23 +1414,23 @@
           "el_deg": 41.31405186575397,
           "js_db": 71.95215222545244,
           "cn0_nominal_dbhz": 43.31136727715048,
-          "cn0_effective_dbhz": -11.853409110640792,
+          "cn0_effective_dbhz": -8.84312237627068,
           "status": "LOST"
         },
         {
           "prn": 13,
-          "el_deg": 25.66233136980869,
+          "el_deg": 25.662331369808697,
           "js_db": 72.64778424749446,
           "cn0_nominal_dbhz": 42.61573525510846,
-          "cn0_effective_dbhz": -12.549041132682815,
+          "cn0_effective_dbhz": -9.538754398312703,
           "status": "LOST"
         },
         {
           "prn": 16,
-          "el_deg": 69.30695831653301,
+          "el_deg": 69.30695831653303,
           "js_db": 70.70802304986225,
           "cn0_nominal_dbhz": 44.55549645274067,
-          "cn0_effective_dbhz": -10.609279935050607,
+          "cn0_effective_dbhz": -7.5989932006804946,
           "status": "LOST"
         },
         {
@@ -1438,7 +1438,7 @@
           "el_deg": 19.307357048225214,
           "js_db": 72.93022755067594,
           "cn0_nominal_dbhz": 42.33329195192698,
-          "cn0_effective_dbhz": -12.831484435864294,
+          "cn0_effective_dbhz": -9.821197701494182,
           "status": "LOST"
         },
         {
@@ -1446,7 +1446,7 @@
           "el_deg": 11.664329314451892,
           "js_db": 73.26991767217697,
           "cn0_nominal_dbhz": 41.993601830425945,
-          "cn0_effective_dbhz": -13.171174557365324,
+          "cn0_effective_dbhz": -10.160887822995212,
           "status": "LOST"
         }
       ]
@@ -1459,10 +1459,10 @@
       "sats": [
         {
           "prn": 5,
-          "el_deg": 27.972134562550323,
+          "el_deg": 27.97213456255032,
           "js_db": 72.54512632781703,
           "cn0_nominal_dbhz": 42.71839317478589,
-          "cn0_effective_dbhz": -12.446383213005381,
+          "cn0_effective_dbhz": -9.436096478635271,
           "status": "LOST"
         },
         {
@@ -1470,7 +1470,7 @@
           "el_deg": 6.720061690048048,
           "js_db": 73.48966289992825,
           "cn0_nominal_dbhz": 41.77385660267467,
-          "cn0_effective_dbhz": -13.390919785116607,
+          "cn0_effective_dbhz": -10.380633050746495,
           "status": "LOST"
         },
         {
@@ -1478,7 +1478,7 @@
           "el_deg": 75.99195614010031,
           "js_db": 70.41091203548149,
           "cn0_nominal_dbhz": 44.85260746712143,
-          "cn0_effective_dbhz": -10.312168920669842,
+          "cn0_effective_dbhz": -7.30188218629973,
           "status": "LOST"
         },
         {
@@ -1486,7 +1486,7 @@
           "el_deg": 41.51961830705386,
           "js_db": 71.94301593917243,
           "cn0_nominal_dbhz": 43.32050356343049,
-          "cn0_effective_dbhz": -11.844272824360782,
+          "cn0_effective_dbhz": -8.83398608999067,
           "status": "LOST"
         },
         {
@@ -1494,7 +1494,7 @@
           "el_deg": 25.468777828489085,
           "js_db": 72.65638662710865,
           "cn0_nominal_dbhz": 42.60713287549427,
-          "cn0_effective_dbhz": -12.557643512297004,
+          "cn0_effective_dbhz": -9.547356777926892,
           "status": "LOST"
         },
         {
@@ -1502,7 +1502,7 @@
           "el_deg": 69.22161000265768,
           "js_db": 70.71181630825672,
           "cn0_nominal_dbhz": 44.5517031943462,
-          "cn0_effective_dbhz": -10.613073193445073,
+          "cn0_effective_dbhz": -7.60278645907496,
           "status": "LOST"
         },
         {
@@ -1510,7 +1510,7 @@
           "el_deg": 19.225773367232136,
           "js_db": 72.9338534920534,
           "cn0_nominal_dbhz": 42.329666010549516,
-          "cn0_effective_dbhz": -12.835110377241756,
+          "cn0_effective_dbhz": -9.824823642871642,
           "status": "LOST"
         },
         {
@@ -1518,7 +1518,7 @@
           "el_deg": 11.86153383685002,
           "js_db": 73.26115302673705,
           "cn0_nominal_dbhz": 42.00236647586587,
-          "cn0_effective_dbhz": -13.1624099119254,
+          "cn0_effective_dbhz": -10.152123177555287,
           "status": "LOST"
         }
       ]
@@ -1534,15 +1534,15 @@
           "el_deg": 28.028769294804274,
           "js_db": 72.54260922860576,
           "cn0_nominal_dbhz": 42.72091027399716,
-          "cn0_effective_dbhz": -12.443866113794114,
+          "cn0_effective_dbhz": -9.433579379424001,
           "status": "LOST"
         },
         {
           "prn": 6,
-          "el_deg": 6.521370379610042,
+          "el_deg": 6.521370379610038,
           "js_db": 73.49849362483661,
           "cn0_nominal_dbhz": 41.765025877766305,
-          "cn0_effective_dbhz": -13.39975051002497,
+          "cn0_effective_dbhz": -10.389463775654859,
           "status": "LOST"
         },
         {
@@ -1550,7 +1550,7 @@
           "el_deg": 75.84194817090003,
           "js_db": 70.41757905633483,
           "cn0_nominal_dbhz": 44.84594044626809,
-          "cn0_effective_dbhz": -10.318835941523188,
+          "cn0_effective_dbhz": -7.308549207153076,
           "status": "LOST"
         },
         {
@@ -1558,7 +1558,7 @@
           "el_deg": 41.7253344413666,
           "js_db": 71.93387299986966,
           "cn0_nominal_dbhz": 43.329646502733254,
-          "cn0_effective_dbhz": -11.835129885058018,
+          "cn0_effective_dbhz": -8.824843150687906,
           "status": "LOST"
         },
         {
@@ -1566,15 +1566,15 @@
           "el_deg": 25.275397576893,
           "js_db": 72.66498130495737,
           "cn0_nominal_dbhz": 42.59853819764555,
-          "cn0_effective_dbhz": -12.566238190145718,
+          "cn0_effective_dbhz": -9.555951455775606,
           "status": "LOST"
         },
         {
           "prn": 16,
-          "el_deg": 69.13317433987636,
+          "el_deg": 69.13317433987638,
           "js_db": 70.7157467821581,
           "cn0_nominal_dbhz": 44.54777272044481,
-          "cn0_effective_dbhz": -10.617003667346461,
+          "cn0_effective_dbhz": -7.606716932976349,
           "status": "LOST"
         },
         {
@@ -1582,7 +1582,7 @@
           "el_deg": 19.14317401424904,
           "js_db": 72.9375245744082,
           "cn0_nominal_dbhz": 42.32599492819472,
-          "cn0_effective_dbhz": -12.838781459596554,
+          "cn0_effective_dbhz": -9.828494725226442,
           "status": "LOST"
         },
         {
@@ -1590,7 +1590,7 @@
           "el_deg": 12.058942312536017,
           "js_db": 73.25237931670657,
           "cn0_nominal_dbhz": 42.01114018589635,
-          "cn0_effective_dbhz": -13.15363620189492,
+          "cn0_effective_dbhz": -10.143349467524809,
           "status": "LOST"
         }
       ]
@@ -1603,10 +1603,10 @@
       "sats": [
         {
           "prn": 5,
-          "el_deg": 28.084147630182166,
+          "el_deg": 28.084147630182173,
           "js_db": 72.54014796925563,
           "cn0_nominal_dbhz": 42.72337153334729,
-          "cn0_effective_dbhz": -12.44140485444398,
+          "cn0_effective_dbhz": -9.431118120073869,
           "status": "LOST"
         },
         {
@@ -1614,7 +1614,7 @@
           "el_deg": 6.322982638235548,
           "js_db": 73.50731085778659,
           "cn0_nominal_dbhz": 41.756208644816326,
-          "cn0_effective_dbhz": -13.408567742974949,
+          "cn0_effective_dbhz": -10.398281008604837,
           "status": "LOST"
         },
         {
@@ -1622,7 +1622,7 @@
           "el_deg": 75.68862565886755,
           "js_db": 70.42439339020294,
           "cn0_nominal_dbhz": 44.83912611239998,
-          "cn0_effective_dbhz": -10.32565027539129,
+          "cn0_effective_dbhz": -7.315363541021178,
           "status": "LOST"
         },
         {
@@ -1630,15 +1630,15 @@
           "el_deg": 41.93120048925377,
           "js_db": 71.92472339774133,
           "cn0_nominal_dbhz": 43.338796104861586,
-          "cn0_effective_dbhz": -11.825980282929683,
+          "cn0_effective_dbhz": -8.81569354855957,
           "status": "LOST"
         },
         {
           "prn": 13,
-          "el_deg": 25.082190109660914,
+          "el_deg": 25.082190109660946,
           "js_db": 72.67356830350101,
           "cn0_nominal_dbhz": 42.589951199101904,
-          "cn0_effective_dbhz": -12.574825188689365,
+          "cn0_effective_dbhz": -9.564538454319255,
           "status": "LOST"
         },
         {
@@ -1646,7 +1646,7 @@
           "el_deg": 69.04169618273436,
           "js_db": 70.71981247803109,
           "cn0_nominal_dbhz": 44.54370702457183,
-          "cn0_effective_dbhz": -10.621069363219442,
+          "cn0_effective_dbhz": -7.61078262884933,
           "status": "LOST"
         },
         {
@@ -1654,15 +1654,15 @@
           "el_deg": 19.059564246496752,
           "js_db": 72.94124056408609,
           "cn0_nominal_dbhz": 42.32227893851683,
-          "cn0_effective_dbhz": -12.84249744927444,
+          "cn0_effective_dbhz": -9.832210714904328,
           "status": "LOST"
         },
         {
           "prn": 23,
-          "el_deg": 12.256552257264662,
+          "el_deg": 12.25655225726466,
           "js_db": 73.2435966524964,
           "cn0_nominal_dbhz": 42.019922850106525,
-          "cn0_effective_dbhz": -13.144853537684751,
+          "cn0_effective_dbhz": -10.13456680331464,
           "status": "LOST"
         }
       ]
@@ -1678,7 +1678,7 @@
           "el_deg": 28.13826498471996,
           "js_db": 72.53774275349838,
           "cn0_nominal_dbhz": 42.72577674910454,
-          "cn0_effective_dbhz": -12.438999638686735,
+          "cn0_effective_dbhz": -9.428712904316622,
           "status": "LOST"
         },
         {
@@ -1686,7 +1686,7 @@
           "el_deg": 6.124899869134596,
           "js_db": 73.51611453641328,
           "cn0_nominal_dbhz": 41.747404966189634,
-          "cn0_effective_dbhz": -13.417371421601636,
+          "cn0_effective_dbhz": -10.407084687231524,
           "status": "LOST"
         },
         {
@@ -1694,15 +1694,15 @@
           "el_deg": 75.53209284848423,
           "js_db": 70.43135040399775,
           "cn0_nominal_dbhz": 44.83216909860516,
-          "cn0_effective_dbhz": -10.33260728918611,
+          "cn0_effective_dbhz": -7.322320554815997,
           "status": "LOST"
         },
         {
           "prn": 12,
-          "el_deg": 42.13721666665466,
+          "el_deg": 42.13721666665465,
           "js_db": 71.91556712319019,
           "cn0_nominal_dbhz": 43.34795237941273,
-          "cn0_effective_dbhz": -11.816824008378537,
+          "cn0_effective_dbhz": -8.806537274008425,
           "status": "LOST"
         },
         {
@@ -1710,7 +1710,7 @@
           "el_deg": 24.889154921179234,
           "js_db": 72.6821476452113,
           "cn0_nominal_dbhz": 42.581371857391616,
-          "cn0_effective_dbhz": -12.58340453039966,
+          "cn0_effective_dbhz": -9.573117796029546,
           "status": "LOST"
         },
         {
@@ -1718,7 +1718,7 @@
           "el_deg": 68.94722103479248,
           "js_db": 70.72401137349516,
           "cn0_nominal_dbhz": 44.53950812910776,
-          "cn0_effective_dbhz": -10.625268258683514,
+          "cn0_effective_dbhz": -7.614981524313402,
           "status": "LOST"
         },
         {
@@ -1726,15 +1726,15 @@
           "el_deg": 18.974949365836164,
           "js_db": 72.94500122544878,
           "cn0_nominal_dbhz": 42.31851827715414,
-          "cn0_effective_dbhz": -12.846258110637132,
+          "cn0_effective_dbhz": -9.83597137626702,
           "status": "LOST"
         },
         {
           "prn": 23,
-          "el_deg": 12.45436116666652,
+          "el_deg": 12.454361166666523,
           "js_db": 73.23480514541188,
           "cn0_nominal_dbhz": 42.028714357191035,
-          "cn0_effective_dbhz": -13.136062030600238,
+          "cn0_effective_dbhz": -10.125775296230126,
           "status": "LOST"
         }
       ]
@@ -1750,23 +1750,23 @@
           "el_deg": 28.191116875123043,
           "js_db": 72.53539378059159,
           "cn0_nominal_dbhz": 42.72812572201133,
-          "cn0_effective_dbhz": -12.436650665779945,
+          "cn0_effective_dbhz": -9.426363931409833,
           "status": "LOST"
         },
         {
           "prn": 6,
-          "el_deg": 5.927123471191212,
+          "el_deg": 5.927123471191203,
           "js_db": 73.52490459854411,
           "cn0_nominal_dbhz": 41.73861490405881,
-          "cn0_effective_dbhz": -13.426161483732466,
+          "cn0_effective_dbhz": -10.415874749362352,
           "status": "LOST"
         },
         {
           "prn": 9,
-          "el_deg": 75.37245182335627,
+          "el_deg": 75.37245182335626,
           "js_db": 70.43844556067012,
           "cn0_nominal_dbhz": 44.8250739419328,
-          "cn0_effective_dbhz": -10.339702445858475,
+          "cn0_effective_dbhz": -7.3294157114883625,
           "status": "LOST"
         },
         {
@@ -1774,7 +1774,7 @@
           "el_deg": 42.34338318945092,
           "js_db": 71.90640416662146,
           "cn0_nominal_dbhz": 43.35711533598146,
-          "cn0_effective_dbhz": -11.807661051809813,
+          "cn0_effective_dbhz": -8.7973743174397,
           "status": "LOST"
         },
         {
@@ -1782,7 +1782,7 @@
           "el_deg": 24.696291501342266,
           "js_db": 72.69071935275963,
           "cn0_nominal_dbhz": 42.57280014984329,
-          "cn0_effective_dbhz": -12.591976237947982,
+          "cn0_effective_dbhz": -9.58168950357787,
           "status": "LOST"
         },
         {
@@ -1790,7 +1790,7 @@
           "el_deg": 68.84979496398068,
           "js_db": 70.72834142108681,
           "cn0_nominal_dbhz": 44.53517808151611,
-          "cn0_effective_dbhz": -10.629598306275161,
+          "cn0_effective_dbhz": -7.619311571905049,
           "status": "LOST"
         },
         {
@@ -1798,15 +1798,15 @@
           "el_deg": 18.88933471473185,
           "js_db": 72.94880632105341,
           "cn0_nominal_dbhz": 42.31471318154951,
-          "cn0_effective_dbhz": -12.850063206241769,
+          "cn0_effective_dbhz": -9.839776471871657,
           "status": "LOST"
         },
         {
           "prn": 23,
-          "el_deg": 12.652366513789827,
+          "el_deg": 12.652366513789824,
           "js_db": 73.22600490776196,
           "cn0_nominal_dbhz": 42.03751459484096,
-          "cn0_effective_dbhz": -13.127261792950316,
+          "cn0_effective_dbhz": -10.116975058580204,
           "status": "LOST"
         }
       ]
@@ -1822,7 +1822,7 @@
           "el_deg": 28.24269891717437,
           "js_db": 72.5331012453893,
           "cn0_nominal_dbhz": 42.730418257213614,
-          "cn0_effective_dbhz": -12.434358130577657,
+          "cn0_effective_dbhz": -9.424071396207545,
           "status": "LOST"
         },
         {
@@ -1830,7 +1830,7 @@
           "el_deg": 5.729654838272217,
           "js_db": 73.53368098222941,
           "cn0_nominal_dbhz": 41.729838520373505,
-          "cn0_effective_dbhz": -13.43493786741777,
+          "cn0_effective_dbhz": -10.424651133047657,
           "status": "LOST"
         },
         {
@@ -1838,7 +1838,7 @@
           "el_deg": 75.20980240086652,
           "js_db": 70.44567442389189,
           "cn0_nominal_dbhz": 44.81784507871103,
-          "cn0_effective_dbhz": -10.346931309080247,
+          "cn0_effective_dbhz": -7.336644574710133,
           "status": "LOST"
         },
         {
@@ -1846,7 +1846,7 @@
           "el_deg": 42.549700269445054,
           "js_db": 71.89723451862173,
           "cn0_nominal_dbhz": 43.36628498398119,
-          "cn0_effective_dbhz": -11.798491403810088,
+          "cn0_effective_dbhz": -8.788204669439976,
           "status": "LOST"
         },
         {
@@ -1854,7 +1854,7 @@
           "el_deg": 24.5035993393108,
           "js_db": 72.69928344884991,
           "cn0_nominal_dbhz": 42.56423605375301,
-          "cn0_effective_dbhz": -12.600540334038266,
+          "cn0_effective_dbhz": -9.590253599668152,
           "status": "LOST"
         },
         {
@@ -1862,7 +1862,7 @@
           "el_deg": 68.7494645290722,
           "js_db": 70.73280055152719,
           "cn0_nominal_dbhz": 44.53071895107573,
-          "cn0_effective_dbhz": -10.634057436715548,
+          "cn0_effective_dbhz": -7.6237707023454355,
           "status": "LOST"
         },
         {
@@ -1870,7 +1870,7 @@
           "el_deg": 18.802725677425798,
           "js_db": 72.95265561160036,
           "cn0_nominal_dbhz": 42.310863891002555,
-          "cn0_effective_dbhz": -12.853912496788718,
+          "cn0_effective_dbhz": -9.843625762418606,
           "status": "LOST"
         },
         {
@@ -1878,7 +1878,7 @@
           "el_deg": 12.850565750489265,
           "js_db": 73.21719605279753,
           "cn0_nominal_dbhz": 42.046323449805385,
-          "cn0_effective_dbhz": -13.118452937985888,
+          "cn0_effective_dbhz": -10.108166203615776,
           "status": "LOST"
         }
       ]
@@ -1891,10 +1891,10 @@
       "sats": [
         {
           "prn": 5,
-          "el_deg": 28.29300682798958,
+          "el_deg": 28.29300682798959,
           "js_db": 72.53086533824197,
           "cn0_nominal_dbhz": 42.73265416436095,
-          "cn0_effective_dbhz": -12.432122223430325,
+          "cn0_effective_dbhz": -9.421835489060213,
           "status": "LOST"
         },
         {
@@ -1902,7 +1902,7 @@
           "el_deg": 5.532495359647574,
           "js_db": 73.54244362572382,
           "cn0_nominal_dbhz": 41.7210758768791,
-          "cn0_effective_dbhz": -13.443700510912178,
+          "cn0_effective_dbhz": -10.433413776542066,
           "status": "LOST"
         },
         {
@@ -1910,7 +1910,7 @@
           "el_deg": 75.0442420494318,
           "js_db": 70.45303266173343,
           "cn0_nominal_dbhz": 44.81048684086949,
-          "cn0_effective_dbhz": -10.35428954692179,
+          "cn0_effective_dbhz": -7.344002812551677,
           "status": "LOST"
         },
         {
@@ -1918,15 +1918,15 @@
           "el_deg": 42.75616811524309,
           "js_db": 71.88805816991959,
           "cn0_nominal_dbhz": 43.37546133268333,
-          "cn0_effective_dbhz": -11.789315055107943,
+          "cn0_effective_dbhz": -8.779028320737831,
           "status": "LOST"
         },
         {
           "prn": 13,
-          "el_deg": 24.31107792269866,
+          "el_deg": 24.311077922698633,
           "js_db": 72.7078399562549,
           "cn0_nominal_dbhz": 42.55567954634802,
-          "cn0_effective_dbhz": -12.609096841443257,
+          "cn0_effective_dbhz": -9.598810107073145,
           "status": "LOST"
         },
         {
@@ -1934,7 +1934,7 @@
           "el_deg": 68.64627670294892,
           "js_db": 70.73738667713266,
           "cn0_nominal_dbhz": 44.526132825470256,
-          "cn0_effective_dbhz": -10.63864356232102,
+          "cn0_effective_dbhz": -7.628356827950908,
           "status": "LOST"
         },
         {
@@ -1942,7 +1942,7 @@
           "el_deg": 18.7151276781301,
           "js_db": 72.95654885601348,
           "cn0_nominal_dbhz": 42.306970646589434,
-          "cn0_effective_dbhz": -12.85780574120184,
+          "cn0_effective_dbhz": -9.847519006831728,
           "status": "LOST"
         },
         {
@@ -1950,7 +1950,7 @@
           "el_deg": 13.04895630661476,
           "js_db": 73.20837869474752,
           "cn0_nominal_dbhz": 42.055140807855395,
-          "cn0_effective_dbhz": -13.109635579935881,
+          "cn0_effective_dbhz": -10.09934884556577,
           "status": "LOST"
         }
       ]
@@ -1963,10 +1963,10 @@
       "sats": [
         {
           "prn": 5,
-          "el_deg": 28.342036427767237,
+          "el_deg": 28.34203642776725,
           "js_db": 72.5286862449185,
           "cn0_nominal_dbhz": 42.734833257684414,
-          "cn0_effective_dbhz": -12.42994313010686,
+          "cn0_effective_dbhz": -9.419656395736748,
           "status": "LOST"
         },
         {
@@ -1974,7 +1974,7 @@
           "el_deg": 5.3356464202669285,
           "js_db": 73.5511924674741,
           "cn0_nominal_dbhz": 41.71232703512882,
-          "cn0_effective_dbhz": -13.452449352662448,
+          "cn0_effective_dbhz": -10.442162618292336,
           "status": "LOST"
         },
         {
@@ -1982,7 +1982,7 @@
           "el_deg": 74.87586582420104,
           "js_db": 70.46051604952146,
           "cn0_nominal_dbhz": 44.80300345308146,
-          "cn0_effective_dbhz": -10.36177293470981,
+          "cn0_effective_dbhz": -7.351486200339698,
           "status": "LOST"
         },
         {
@@ -1990,7 +1990,7 @@
           "el_deg": 42.962786932525184,
           "js_db": 71.8788751113737,
           "cn0_nominal_dbhz": 43.384644391229216,
-          "cn0_effective_dbhz": -11.78013199656206,
+          "cn0_effective_dbhz": -8.769845262191948,
           "status": "LOST"
         },
         {
@@ -1998,7 +1998,7 @@
           "el_deg": 24.11872673733099,
           "js_db": 72.71638889782679,
           "cn0_nominal_dbhz": 42.54713060477613,
-          "cn0_effective_dbhz": -12.617645783015144,
+          "cn0_effective_dbhz": -9.607359048645032,
           "status": "LOST"
         },
         {
@@ -2006,7 +2006,7 @@
           "el_deg": 68.54027879878834,
           "js_db": 70.74209769509534,
           "cn0_nominal_dbhz": 44.52142180750758,
-          "cn0_effective_dbhz": -10.643354580283697,
+          "cn0_effective_dbhz": -7.633067845913585,
           "status": "LOST"
         },
         {
@@ -2014,7 +2014,7 @@
           "el_deg": 18.62654617960012,
           "js_db": 72.96048581150373,
           "cn0_nominal_dbhz": 42.30303369109919,
-          "cn0_effective_dbhz": -12.861742696692085,
+          "cn0_effective_dbhz": -9.851455962321973,
           "status": "LOST"
         },
         {
@@ -2022,7 +2022,7 @@
           "el_deg": 13.247535589467287,
           "js_db": 73.19955294884295,
           "cn0_nominal_dbhz": 42.06396655375997,
-          "cn0_effective_dbhz": -13.100809834031306,
+          "cn0_effective_dbhz": -10.090523099661192,
           "status": "LOST"
         }
       ]
@@ -2038,7 +2038,7 @@
           "el_deg": 28.38978364176463,
           "js_db": 72.52656414651864,
           "cn0_nominal_dbhz": 42.73695535608428,
-          "cn0_effective_dbhz": -12.427821031706994,
+          "cn0_effective_dbhz": -9.417534297336882,
           "status": "LOST"
         },
         {
@@ -2046,15 +2046,15 @@
           "el_deg": 5.139109401099223,
           "js_db": 73.55992744610376,
           "cn0_nominal_dbhz": 41.70359205649916,
-          "cn0_effective_dbhz": -13.461184331292111,
+          "cn0_effective_dbhz": -10.450897596922,
           "status": "LOST"
         },
         {
           "prn": 9,
-          "el_deg": 74.70476631991832,
+          "el_deg": 74.70476631991833,
           "js_db": 70.46812047193401,
           "cn0_nominal_dbhz": 44.795399030668904,
-          "cn0_effective_dbhz": -10.369377357122367,
+          "cn0_effective_dbhz": -7.359090622752255,
           "status": "LOST"
         },
         {
@@ -2062,15 +2062,15 @@
           "el_deg": 43.169556924625184,
           "js_db": 71.86968533394705,
           "cn0_nominal_dbhz": 43.39383416865587,
-          "cn0_effective_dbhz": -11.770942219135401,
+          "cn0_effective_dbhz": -8.760655484765289,
           "status": "LOST"
         },
         {
           "prn": 13,
-          "el_deg": 23.926545266719835,
+          "el_deg": 23.926545266719863,
           "js_db": 72.72493029652063,
           "cn0_nominal_dbhz": 42.53858920608229,
-          "cn0_effective_dbhz": -12.626187181708984,
+          "cn0_effective_dbhz": -9.615900447338872,
           "status": "LOST"
         },
         {
@@ -2078,7 +2078,7 @@
           "el_deg": 68.43151839834366,
           "js_db": 70.74693149067068,
           "cn0_nominal_dbhz": 44.51658801193224,
-          "cn0_effective_dbhz": -10.648188375859034,
+          "cn0_effective_dbhz": -7.637901641488922,
           "status": "LOST"
         },
         {
@@ -2086,15 +2086,15 @@
           "el_deg": 18.536986681534767,
           "js_db": 72.96446623363997,
           "cn0_nominal_dbhz": 42.29905326896295,
-          "cn0_effective_dbhz": -12.865723118828319,
+          "cn0_effective_dbhz": -9.855436384458207,
           "status": "LOST"
         },
         {
           "prn": 23,
-          "el_deg": 13.446300983106493,
+          "el_deg": 13.446300983106495,
           "js_db": 73.19071893134787,
           "cn0_nominal_dbhz": 42.072800571255044,
-          "cn0_effective_dbhz": -13.091975816536232,
+          "cn0_effective_dbhz": -10.081689082166118,
           "status": "LOST"
         }
       ]
@@ -2107,10 +2107,10 @@
       "sats": [
         {
           "prn": 5,
-          "el_deg": 28.436244501265303,
+          "el_deg": 28.436244501265307,
           "js_db": 72.52449921942971,
           "cn0_nominal_dbhz": 42.739020283173204,
-          "cn0_effective_dbhz": -12.425756104618067,
+          "cn0_effective_dbhz": -9.415469370247955,
           "status": "LOST"
         },
         {
@@ -2118,7 +2118,7 @@
           "el_deg": 74.5310336387804,
           "js_db": 70.47584192442903,
           "cn0_nominal_dbhz": 44.787677578173884,
-          "cn0_effective_dbhz": -10.377098809617385,
+          "cn0_effective_dbhz": -7.366812075247273,
           "status": "LOST"
         },
         {
@@ -2126,7 +2126,7 @@
           "el_deg": 43.376478291880744,
           "js_db": 71.8604888287357,
           "cn0_nominal_dbhz": 43.40303067386722,
-          "cn0_effective_dbhz": -11.761745713924048,
+          "cn0_effective_dbhz": -8.751458979553936,
           "status": "LOST"
         },
         {
@@ -2134,7 +2134,7 @@
           "el_deg": 23.734532992677387,
           "js_db": 72.73346417536695,
           "cn0_nominal_dbhz": 42.53005532723597,
-          "cn0_effective_dbhz": -12.634721060555306,
+          "cn0_effective_dbhz": -9.624434326185193,
           "status": "LOST"
         },
         {
@@ -2142,7 +2142,7 @@
           "el_deg": 68.32004328410912,
           "js_db": 70.75188594019221,
           "cn0_nominal_dbhz": 44.51163356241071,
-          "cn0_effective_dbhz": -10.653142825380566,
+          "cn0_effective_dbhz": -7.642856091010454,
           "status": "LOST"
         },
         {
@@ -2150,15 +2150,15 @@
           "el_deg": 18.446454719712364,
           "js_db": 72.96848987638762,
           "cn0_nominal_dbhz": 42.295029626215296,
-          "cn0_effective_dbhz": -12.86974676157598,
+          "cn0_effective_dbhz": -9.859460027205868,
           "status": "LOST"
         },
         {
           "prn": 23,
-          "el_deg": 13.645249848212197,
+          "el_deg": 13.645249848212195,
           "js_db": 73.1818767595654,
           "cn0_nominal_dbhz": 42.08164274303752,
-          "cn0_effective_dbhz": -13.083133644753751,
+          "cn0_effective_dbhz": -10.072846910383639,
           "status": "LOST"
         }
       ]
@@ -2174,7 +2174,7 @@
           "el_deg": 28.481415144262552,
           "js_db": 72.52249163529649,
           "cn0_nominal_dbhz": 42.74102786730643,
-          "cn0_effective_dbhz": -12.423748520484848,
+          "cn0_effective_dbhz": -9.413461786114736,
           "status": "LOST"
         },
         {
@@ -2182,7 +2182,7 @@
           "el_deg": 74.35475537214175,
           "js_db": 70.48367651405744,
           "cn0_nominal_dbhz": 44.77984298854548,
-          "cn0_effective_dbhz": -10.384933399245789,
+          "cn0_effective_dbhz": -7.3746466648756765,
           "status": "LOST"
         },
         {
@@ -2190,7 +2190,7 @@
           "el_deg": 43.58355123067167,
           "js_db": 71.85128558701166,
           "cn0_nominal_dbhz": 43.41223391559126,
-          "cn0_effective_dbhz": -11.752542472200014,
+          "cn0_effective_dbhz": -8.742255737829902,
           "status": "LOST"
         },
         {
@@ -2198,7 +2198,7 @@
           "el_deg": 23.5426893962114,
           "js_db": 72.7419905574321,
           "cn0_nominal_dbhz": 42.521528945170814,
-          "cn0_effective_dbhz": -12.643247442620458,
+          "cn0_effective_dbhz": -9.632960708250346,
           "status": "LOST"
         },
         {
@@ -2206,7 +2206,7 @@
           "el_deg": 68.20590137449281,
           "js_db": 70.75695891395293,
           "cn0_nominal_dbhz": 44.50656058864999,
-          "cn0_effective_dbhz": -10.658215799141287,
+          "cn0_effective_dbhz": -7.647929064771175,
           "status": "LOST"
         },
         {
@@ -2214,15 +2214,15 @@
           "el_deg": 18.35495586530106,
           "js_db": 72.97255649213923,
           "cn0_nominal_dbhz": 42.290963010463685,
-          "cn0_effective_dbhz": -12.873813377327588,
+          "cn0_effective_dbhz": -9.863526642957476,
           "status": "LOST"
         },
         {
           "prn": 23,
-          "el_deg": 13.844379522088412,
+          "el_deg": 13.844379522088413,
           "js_db": 73.17302655183758,
           "cn0_nominal_dbhz": 42.09049295076534,
-          "cn0_effective_dbhz": -13.074283437025931,
+          "cn0_effective_dbhz": -10.06399670265582,
           "status": "LOST"
         }
       ]
@@ -2238,7 +2238,7 @@
           "el_deg": 28.52529181809101,
           "js_db": 72.52054156090412,
           "cn0_nominal_dbhz": 42.7429779416988,
-          "cn0_effective_dbhz": -12.421798446092476,
+          "cn0_effective_dbhz": -9.411511711722362,
           "status": "LOST"
         },
         {
@@ -2246,7 +2246,7 @@
           "el_deg": 74.17601659548426,
           "js_db": 70.49162045968666,
           "cn0_nominal_dbhz": 44.77189904291626,
-          "cn0_effective_dbhz": -10.392877344875016,
+          "cn0_effective_dbhz": -7.382590610504904,
           "status": "LOST"
         },
         {
@@ -2254,7 +2254,7 @@
           "el_deg": 43.79077593492324,
           "js_db": 71.84207560015602,
           "cn0_nominal_dbhz": 43.421443902446896,
-          "cn0_effective_dbhz": -11.743332485344382,
+          "cn0_effective_dbhz": -8.733045750974268,
           "status": "LOST"
         },
         {
@@ -2262,7 +2262,7 @@
           "el_deg": 23.351013956145735,
           "js_db": 72.75050946587947,
           "cn0_nominal_dbhz": 42.51301003672344,
-          "cn0_effective_dbhz": -12.651766351067833,
+          "cn0_effective_dbhz": -9.64147961669772,
           "status": "LOST"
         },
         {
@@ -2270,7 +2270,7 @@
           "el_deg": 68.08914065911208,
           "js_db": 70.76214827908098,
           "cn0_nominal_dbhz": 44.50137122352194,
-          "cn0_effective_dbhz": -10.663405164269333,
+          "cn0_effective_dbhz": -7.653118429899221,
           "status": "LOST"
         },
         {
@@ -2278,7 +2278,7 @@
           "el_deg": 18.262495722729504,
           "js_db": 72.97666583180907,
           "cn0_nominal_dbhz": 42.286853670793846,
-          "cn0_effective_dbhz": -12.87792271699743,
+          "cn0_effective_dbhz": -9.867635982627318,
           "status": "LOST"
         },
         {
@@ -2286,7 +2286,7 @@
           "el_deg": 14.043687317535513,
           "js_db": 73.16416842759548,
           "cn0_nominal_dbhz": 42.099351075007434,
-          "cn0_effective_dbhz": -13.065425312783841,
+          "cn0_effective_dbhz": -10.055138578413729,
           "status": "LOST"
         }
       ]
@@ -2302,15 +2302,15 @@
           "el_deg": 28.56787088154934,
           "js_db": 72.51864915808375,
           "cn0_nominal_dbhz": 42.74487034451917,
-          "cn0_effective_dbhz": -12.419906043272098,
+          "cn0_effective_dbhz": -9.409619308901986,
           "status": "LOST"
         },
         {
           "prn": 9,
-          "el_deg": 73.99489987410342,
+          "el_deg": 73.9948998741034,
           "js_db": 70.49967009174802,
           "cn0_nominal_dbhz": 44.7638494108549,
-          "cn0_effective_dbhz": -10.400926976936374,
+          "cn0_effective_dbhz": -7.390640242566262,
           "status": "LOST"
         },
         {
@@ -2318,7 +2318,7 @@
           "el_deg": 43.99815259699788,
           "js_db": 71.83285885961936,
           "cn0_nominal_dbhz": 43.430660642983554,
-          "cn0_effective_dbhz": -11.734115744807719,
+          "cn0_effective_dbhz": -8.723829010437607,
           "status": "LOST"
         },
         {
@@ -2326,7 +2326,7 @@
           "el_deg": 23.159506148313813,
           "js_db": 72.75902092400534,
           "cn0_nominal_dbhz": 42.50449857859758,
-          "cn0_effective_dbhz": -12.660277809193692,
+          "cn0_effective_dbhz": -9.64999107482358,
           "status": "LOST"
         },
         {
@@ -2334,7 +2334,7 @@
           "el_deg": 67.96980913759317,
           "js_db": 70.76745190225958,
           "cn0_nominal_dbhz": 44.49606760034334,
-          "cn0_effective_dbhz": -10.668708787447938,
+          "cn0_effective_dbhz": -7.658422053077826,
           "status": "LOST"
         },
         {
@@ -2342,7 +2342,7 @@
           "el_deg": 18.169079927941567,
           "js_db": 72.98081764491076,
           "cn0_nominal_dbhz": 42.28270185769216,
-          "cn0_effective_dbhz": -12.88207453009911,
+          "cn0_effective_dbhz": -9.871787795728999,
           "status": "LOST"
         },
         {
@@ -2350,7 +2350,7 @@
           "el_deg": 14.243170521986322,
           "js_db": 73.15530250739766,
           "cn0_nominal_dbhz": 42.108216995205254,
-          "cn0_effective_dbhz": -13.05655939258602,
+          "cn0_effective_dbhz": -10.046272658215909,
           "status": "LOST"
         }
       ]
@@ -2366,7 +2366,7 @@
           "el_deg": 28.609148802004903,
           "js_db": 72.5168145838413,
           "cn0_nominal_dbhz": 42.74670491876162,
-          "cn0_effective_dbhz": -12.418071469029648,
+          "cn0_effective_dbhz": -9.407784734659536,
           "status": "LOST"
         },
         {
@@ -2374,15 +2374,15 @@
           "el_deg": 73.81148527660349,
           "js_db": 70.50782185163689,
           "cn0_nominal_dbhz": 44.75569765096603,
-          "cn0_effective_dbhz": -10.409078736825242,
+          "cn0_effective_dbhz": -7.39879200245513,
           "status": "LOST"
         },
         {
           "prn": 12,
-          "el_deg": 44.20568140241259,
+          "el_deg": 44.2056814024126,
           "js_db": 71.82363535715649,
           "cn0_nominal_dbhz": 43.43988414544643,
-          "cn0_effective_dbhz": -11.724892242344847,
+          "cn0_effective_dbhz": -8.714605507974735,
           "status": "LOST"
         },
         {
@@ -2390,7 +2390,7 @@
           "el_deg": 22.968165450423488,
           "js_db": 72.76752495502268,
           "cn0_nominal_dbhz": 42.49599454758024,
-          "cn0_effective_dbhz": -12.668781840211032,
+          "cn0_effective_dbhz": -9.65849510584092,
           "status": "LOST"
         },
         {
@@ -2398,7 +2398,7 @@
           "el_deg": 67.84795476787444,
           "js_db": 70.77286765202487,
           "cn0_nominal_dbhz": 44.49065185057805,
-          "cn0_effective_dbhz": -10.674124537213226,
+          "cn0_effective_dbhz": -7.663837802843114,
           "status": "LOST"
         },
         {
@@ -2406,15 +2406,15 @@
           "el_deg": 18.074714150220945,
           "js_db": 72.98501167947612,
           "cn0_nominal_dbhz": 42.2785078231268,
-          "cn0_effective_dbhz": -12.88626856466447,
+          "cn0_effective_dbhz": -9.875981830294355,
           "status": "LOST"
         },
         {
           "prn": 23,
-          "el_deg": 14.442826399493637,
+          "el_deg": 14.442826399493644,
           "js_db": 73.14642891284177,
           "cn0_nominal_dbhz": 42.11709058976115,
-          "cn0_effective_dbhz": -13.047685798030127,
+          "cn0_effective_dbhz": -10.037399063660015,
           "status": "LOST"
         }
       ]
@@ -2427,18 +2427,18 @@
       "sats": [
         {
           "prn": 5,
-          "el_deg": 28.649122060928118,
+          "el_deg": 28.649122060928125,
           "js_db": 72.5150379945558,
           "cn0_nominal_dbhz": 42.74848150804712,
-          "cn0_effective_dbhz": -12.41629487974415,
+          "cn0_effective_dbhz": -9.406008145374038,
           "status": "LOST"
         },
         {
           "prn": 9,
-          "el_deg": 73.62585036507718,
+          "el_deg": 73.62585036507717,
           "js_db": 70.51607229214918,
           "cn0_nominal_dbhz": 44.74744721045374,
-          "cn0_effective_dbhz": -10.417329177337534,
+          "cn0_effective_dbhz": -7.4070424429674215,
           "status": "LOST"
         },
         {
@@ -2446,7 +2446,7 @@
           "el_deg": 44.41336241172541,
           "js_db": 71.81440509007592,
           "cn0_nominal_dbhz": 43.449114412526995,
-          "cn0_effective_dbhz": -11.715661975264274,
+          "cn0_effective_dbhz": -8.705375240894162,
           "status": "LOST"
         },
         {
@@ -2454,7 +2454,7 @@
           "el_deg": 22.7769914502856,
           "js_db": 72.77602157725102,
           "cn0_nominal_dbhz": 42.4874979253519,
-          "cn0_effective_dbhz": -12.677278462439368,
+          "cn0_effective_dbhz": -9.666991728069256,
           "status": "LOST"
         },
         {
@@ -2462,7 +2462,7 @@
           "el_deg": 67.72362553786684,
           "js_db": 70.77839339558076,
           "cn0_nominal_dbhz": 44.485126107022154,
-          "cn0_effective_dbhz": -10.679650280769122,
+          "cn0_effective_dbhz": -7.66936354639901,
           "status": "LOST"
         },
         {
@@ -2470,7 +2470,7 @@
           "el_deg": 17.979404158456667,
           "js_db": 72.9892476791101,
           "cn0_nominal_dbhz": 42.274271823492825,
-          "cn0_effective_dbhz": -12.890504564298444,
+          "cn0_effective_dbhz": -9.880217829928332,
           "status": "LOST"
         },
         {
@@ -2478,7 +2478,7 @@
           "el_deg": 14.64265224523732,
           "js_db": 73.13754776414206,
           "cn0_nominal_dbhz": 42.12597173846086,
-          "cn0_effective_dbhz": -13.038804649330407,
+          "cn0_effective_dbhz": -10.028517914960295,
           "status": "LOST"
         }
       ]
@@ -2491,10 +2491,10 @@
       "sats": [
         {
           "prn": 5,
-          "el_deg": 28.68778755714698,
+          "el_deg": 28.687787557146986,
           "js_db": 72.5133195280572,
           "cn0_nominal_dbhz": 42.75019997454572,
-          "cn0_effective_dbhz": -12.414576413245547,
+          "cn0_effective_dbhz": -9.404289678875434,
           "status": "LOST"
         },
         {
@@ -2502,7 +2502,7 @@
           "el_deg": 73.43807036844287,
           "js_db": 70.52441806977737,
           "cn0_nominal_dbhz": 44.73910143282555,
-          "cn0_effective_dbhz": -10.425674954965725,
+          "cn0_effective_dbhz": -7.415388220595612,
           "status": "LOST"
         },
         {
@@ -2510,23 +2510,23 @@
           "el_deg": 44.62119605648875,
           "js_db": 71.80516803919755,
           "cn0_nominal_dbhz": 43.458351463405364,
-          "cn0_effective_dbhz": -11.70642492438591,
+          "cn0_effective_dbhz": -8.696138190015798,
           "status": "LOST"
         },
         {
           "prn": 13,
-          "el_deg": 22.585983391177717,
+          "el_deg": 22.585983391177724,
           "js_db": 72.7845108243225,
           "cn0_nominal_dbhz": 42.47900867828042,
-          "cn0_effective_dbhz": -12.685767709510854,
+          "cn0_effective_dbhz": -9.675480975140742,
           "status": "LOST"
         },
         {
           "prn": 16,
-          "el_deg": 67.59686888425028,
+          "el_deg": 67.59686888425031,
           "js_db": 70.78402702463038,
           "cn0_nominal_dbhz": 44.47949247797254,
-          "cn0_effective_dbhz": -10.68528390981873,
+          "cn0_effective_dbhz": -7.674997175448618,
           "status": "LOST"
         },
         {
@@ -2534,7 +2534,7 @@
           "el_deg": 17.883155535995023,
           "js_db": 72.99352539566394,
           "cn0_nominal_dbhz": 42.26999410693898,
-          "cn0_effective_dbhz": -12.894782280852295,
+          "cn0_effective_dbhz": -9.884495546482183,
           "status": "LOST"
         },
         {
@@ -2542,7 +2542,7 @@
           "el_deg": 14.8426451545366,
           "js_db": 73.12865919039544,
           "cn0_nominal_dbhz": 42.13486031220748,
-          "cn0_effective_dbhz": -13.02991607558379,
+          "cn0_effective_dbhz": -10.019629341213678,
           "status": "LOST"
         }
       ]
@@ -2558,23 +2558,23 @@
           "el_deg": 28.72514199989655,
           "js_db": 72.51165933060165,
           "cn0_nominal_dbhz": 42.75186017200127,
-          "cn0_effective_dbhz": -12.41291621579,
+          "cn0_effective_dbhz": -9.402629481419888,
           "status": "LOST"
         },
         {
           "prn": 9,
-          "el_deg": 73.24821800193466,
+          "el_deg": 73.24821800193467,
           "js_db": 70.53285595273329,
           "cn0_nominal_dbhz": 44.73066354986963,
-          "cn0_effective_dbhz": -10.434112837921637,
+          "cn0_effective_dbhz": -7.4238261035515265,
           "status": "LOST"
         },
         {
           "prn": 12,
-          "el_deg": 44.82918238839789,
+          "el_deg": 44.82918238839788,
           "js_db": 71.79592420222383,
           "cn0_nominal_dbhz": 43.46759530037909,
-          "cn0_effective_dbhz": -11.697181087412181,
+          "cn0_effective_dbhz": -8.686894353042069,
           "status": "LOST"
         },
         {
@@ -2582,7 +2582,7 @@
           "el_deg": 22.39514086040386,
           "js_db": 72.7929927145791,
           "cn0_nominal_dbhz": 42.47052678802382,
-          "cn0_effective_dbhz": -12.694249599767458,
+          "cn0_effective_dbhz": -9.683962865397348,
           "status": "LOST"
         },
         {
@@ -2590,7 +2590,7 @@
           "el_deg": 67.46773244617279,
           "js_db": 70.78976642187826,
           "cn0_nominal_dbhz": 44.47375308072466,
-          "cn0_effective_dbhz": -10.69102330706661,
+          "cn0_effective_dbhz": -7.680736572696498,
           "status": "LOST"
         },
         {
@@ -2598,7 +2598,7 @@
           "el_deg": 17.78597410983715,
           "js_db": 72.99784457015986,
           "cn0_nominal_dbhz": 42.26567493244306,
-          "cn0_effective_dbhz": -12.899101455348212,
+          "cn0_effective_dbhz": -9.888814720978102,
           "status": "LOST"
         },
         {
@@ -2606,7 +2606,7 @@
           "el_deg": 15.042802371113543,
           "js_db": 73.11976331410312,
           "cn0_nominal_dbhz": 42.14375618849979,
-          "cn0_effective_dbhz": -13.021020199291478,
+          "cn0_effective_dbhz": -10.010733464921364,
           "status": "LOST"
         }
       ]
@@ -2622,7 +2622,7 @@
           "el_deg": 28.761182318475534,
           "js_db": 72.5100575386648,
           "cn0_nominal_dbhz": 42.75346196393812,
-          "cn0_effective_dbhz": -12.41131442385315,
+          "cn0_effective_dbhz": -9.40102768948304,
           "status": "LOST"
         },
         {
@@ -2630,7 +2630,7 @@
           "el_deg": 73.05636365723682,
           "js_db": 70.54138281249763,
           "cn0_nominal_dbhz": 44.72213669010529,
-          "cn0_effective_dbhz": -10.442639697685985,
+          "cn0_effective_dbhz": -7.432352963315875,
           "status": "LOST"
         },
         {
@@ -2638,7 +2638,7 @@
           "el_deg": 45.037321583738034,
           "js_db": 71.78667357131982,
           "cn0_nominal_dbhz": 43.476845931283094,
-          "cn0_effective_dbhz": -11.687930456508182,
+          "cn0_effective_dbhz": -8.677643722138068,
           "status": "LOST"
         },
         {
@@ -2646,7 +2646,7 @@
           "el_deg": 22.204463326559818,
           "js_db": 72.80146727163884,
           "cn0_nominal_dbhz": 42.462052230964076,
-          "cn0_effective_dbhz": -12.702724156827195,
+          "cn0_effective_dbhz": -9.692437422457083,
           "status": "LOST"
         },
         {
@@ -2654,7 +2654,7 @@
           "el_deg": 67.33626348048828,
           "js_db": 70.79560948701979,
           "cn0_nominal_dbhz": 44.46791001558313,
-          "cn0_effective_dbhz": -10.696866372208145,
+          "cn0_effective_dbhz": -7.686579637838033,
           "status": "LOST"
         },
         {
@@ -2662,7 +2662,7 @@
           "el_deg": 17.687865659930235,
           "js_db": 73.00220494571127,
           "cn0_nominal_dbhz": 42.26131455689165,
-          "cn0_effective_dbhz": -12.903461830899621,
+          "cn0_effective_dbhz": -9.893175096529509,
           "status": "LOST"
         },
         {
@@ -2670,7 +2670,7 @@
           "el_deg": 15.243121052500427,
           "js_db": 73.11086026159703,
           "cn0_nominal_dbhz": 42.15265924100589,
-          "cn0_effective_dbhz": -13.012117146785378,
+          "cn0_effective_dbhz": -10.001830412415266,
           "status": "LOST"
         }
       ]
@@ -2683,10 +2683,10 @@
       "sats": [
         {
           "prn": 5,
-          "el_deg": 28.79590555790817,
+          "el_deg": 28.795905557908178,
           "js_db": 72.5085142835789,
           "cn0_nominal_dbhz": 42.755005219024014,
-          "cn0_effective_dbhz": -12.409771168767259,
+          "cn0_effective_dbhz": -9.399484434397147,
           "status": "LOST"
         },
         {
@@ -2694,7 +2694,7 @@
           "el_deg": 72.86257541106502,
           "js_db": 70.5499956234386,
           "cn0_nominal_dbhz": 44.71352387916431,
-          "cn0_effective_dbhz": -10.451252508626963,
+          "cn0_effective_dbhz": -7.440965774256851,
           "status": "LOST"
         },
         {
@@ -2702,7 +2702,7 @@
           "el_deg": 45.24561381299291,
           "js_db": 71.77741613890848,
           "cn0_nominal_dbhz": 43.48610336369444,
-          "cn0_effective_dbhz": -11.678673024096831,
+          "cn0_effective_dbhz": -8.668386289726719,
           "status": "LOST"
         },
         {
@@ -2710,7 +2710,7 @@
           "el_deg": 22.01395025917844,
           "js_db": 72.80993451907801,
           "cn0_nominal_dbhz": 42.453584983524905,
-          "cn0_effective_dbhz": -12.71119140426637,
+          "cn0_effective_dbhz": -9.700904669896257,
           "status": "LOST"
         },
         {
@@ -2718,7 +2718,7 @@
           "el_deg": 67.20250895841949,
           "js_db": 70.80155413244509,
           "cn0_nominal_dbhz": 44.46196537015783,
-          "cn0_effective_dbhz": -10.702811017633447,
+          "cn0_effective_dbhz": -7.692524283263335,
           "status": "LOST"
         },
         {
@@ -2726,7 +2726,7 @@
           "el_deg": 17.588835992865324,
           "js_db": 73.0066062642475,
           "cn0_nominal_dbhz": 42.25691323835542,
-          "cn0_effective_dbhz": -12.907863149435846,
+          "cn0_effective_dbhz": -9.897576415065734,
           "status": "LOST"
         },
         {
@@ -2734,7 +2734,7 @@
           "el_deg": 15.443598330048259,
           "js_db": 73.1019501603727,
           "cn0_nominal_dbhz": 42.16156934223022,
-          "cn0_effective_dbhz": -13.00320704556105,
+          "cn0_effective_dbhz": -9.992920311190938,
           "status": "LOST"
         }
       ]
@@ -2750,7 +2750,7 @@
           "el_deg": 28.829308883094384,
           "js_db": 72.50702969134841,
           "cn0_nominal_dbhz": 42.75648981125451,
-          "cn0_effective_dbhz": -12.408286576536758,
+          "cn0_effective_dbhz": -9.397999842166646,
           "status": "LOST"
         },
         {
@@ -2758,15 +2758,15 @@
           "el_deg": 72.66691907679633,
           "js_db": 70.55869146051722,
           "cn0_nominal_dbhz": 44.704828042085694,
-          "cn0_effective_dbhz": -10.459948345705577,
+          "cn0_effective_dbhz": -7.449661611335465,
           "status": "LOST"
         },
         {
           "prn": 12,
-          "el_deg": 45.454059244520565,
+          "el_deg": 45.454059244520586,
           "js_db": 71.76815189750727,
           "cn0_nominal_dbhz": 43.49536760509565,
-          "cn0_effective_dbhz": -11.669408782695621,
+          "cn0_effective_dbhz": -8.659122048325509,
           "status": "LOST"
         },
         {
@@ -2774,7 +2774,7 @@
           "el_deg": 21.823601125374417,
           "js_db": 72.81839448058042,
           "cn0_nominal_dbhz": 42.445125022022495,
-          "cn0_effective_dbhz": -12.719651365768774,
+          "cn0_effective_dbhz": -9.709364631398662,
           "status": "LOST"
         },
         {
@@ -2782,7 +2782,7 @@
           "el_deg": 67.06651552177284,
           "js_db": 70.80759828518492,
           "cn0_nominal_dbhz": 44.455921217417995,
-          "cn0_effective_dbhz": -10.708855170373281,
+          "cn0_effective_dbhz": -7.698568436003168,
           "status": "LOST"
         },
         {
@@ -2790,7 +2790,7 @@
           "el_deg": 17.48889093860444,
           "js_db": 73.01104826665909,
           "cn0_nominal_dbhz": 42.25247123594383,
-          "cn0_effective_dbhz": -12.912305151847441,
+          "cn0_effective_dbhz": -9.90201841747733,
           "status": "LOST"
         },
         {
@@ -2798,7 +2798,7 @@
           "el_deg": 15.644231306725906,
           "js_db": 73.09303313918701,
           "cn0_nominal_dbhz": 42.170486363415904,
-          "cn0_effective_dbhz": -12.99429002437537,
+          "cn0_effective_dbhz": -9.984003290005258,
           "status": "LOST"
         }
       ]
@@ -2814,7 +2814,7 @@
           "el_deg": 28.861389578641507,
           "js_db": 72.50560388265743,
           "cn0_nominal_dbhz": 42.75791561994549,
-          "cn0_effective_dbhz": -12.406860767845778,
+          "cn0_effective_dbhz": -9.396574033475666,
           "status": "LOST"
         },
         {
@@ -2822,7 +2822,7 @@
           "el_deg": 72.46945825764722,
           "js_db": 70.56746749692385,
           "cn0_nominal_dbhz": 44.696052005679064,
-          "cn0_effective_dbhz": -10.468724382112205,
+          "cn0_effective_dbhz": -7.458437647742093,
           "status": "LOST"
         },
         {
@@ -2830,7 +2830,7 @@
           "el_deg": 45.66265804296906,
           "js_db": 71.75888083979842,
           "cn0_nominal_dbhz": 43.504638662804496,
-          "cn0_effective_dbhz": -11.660137724986777,
+          "cn0_effective_dbhz": -8.649850990616665,
           "status": "LOST"
         },
         {
@@ -2838,7 +2838,7 @@
           "el_deg": 21.633415391297415,
           "js_db": 72.82684717987271,
           "cn0_nominal_dbhz": 42.4366723227302,
-          "cn0_effective_dbhz": -12.728104065061066,
+          "cn0_effective_dbhz": -9.717817330690954,
           "status": "LOST"
         },
         {
@@ -2846,7 +2846,7 @@
           "el_deg": 66.92832944755962,
           "js_db": 70.8137398884833,
           "cn0_nominal_dbhz": 44.44977961411962,
-          "cn0_effective_dbhz": -10.71499677367165,
+          "cn0_effective_dbhz": -7.7047100393015375,
           "status": "LOST"
         },
         {
@@ -2854,7 +2854,7 @@
           "el_deg": 17.388036350197645,
           "js_db": 73.0155306928105,
           "cn0_nominal_dbhz": 42.24798880979242,
-          "cn0_effective_dbhz": -12.916787577998859,
+          "cn0_effective_dbhz": -9.906500843628747,
           "status": "LOST"
         },
         {
@@ -2862,7 +2862,7 @@
           "el_deg": 15.845017057373743,
           "js_db": 73.0841093280471,
           "cn0_nominal_dbhz": 42.17941017455581,
-          "cn0_effective_dbhz": -12.985366213235457,
+          "cn0_effective_dbhz": -9.975079478865347,
           "status": "LOST"
         }
       ]
@@ -2878,7 +2878,7 @@
           "el_deg": 28.892145050424556,
           "js_db": 72.50423697280041,
           "cn0_nominal_dbhz": 42.759282529802505,
-          "cn0_effective_dbhz": -12.405493857988768,
+          "cn0_effective_dbhz": -9.395207123618656,
           "status": "LOST"
         },
         {
@@ -2886,7 +2886,7 @@
           "el_deg": 72.27025440272246,
           "js_db": 70.57632100158716,
           "cn0_nominal_dbhz": 44.68719850101576,
-          "cn0_effective_dbhz": -10.477577886775514,
+          "cn0_effective_dbhz": -7.4672911524054015,
           "status": "LOST"
         },
         {
@@ -2894,7 +2894,7 @@
           "el_deg": 45.87141036985891,
           "js_db": 71.74960295860333,
           "cn0_nominal_dbhz": 43.513916543999585,
-          "cn0_effective_dbhz": -11.650859843791686,
+          "cn0_effective_dbhz": -8.640573109421576,
           "status": "LOST"
         },
         {
@@ -2902,7 +2902,7 @@
           "el_deg": 21.443392521606686,
           "js_db": 72.83529264074787,
           "cn0_nominal_dbhz": 42.42822686185505,
-          "cn0_effective_dbhz": -12.736549525936221,
+          "cn0_effective_dbhz": -9.726262791566109,
           "status": "LOST"
         },
         {
@@ -2910,7 +2910,7 @@
           "el_deg": 66.78799661305547,
           "js_db": 70.81997690335015,
           "cn0_nominal_dbhz": 44.443542599252766,
-          "cn0_effective_dbhz": -10.721233788538507,
+          "cn0_effective_dbhz": -7.710947054168395,
           "status": "LOST"
         },
         {
@@ -2918,7 +2918,7 @@
           "el_deg": 17.28627810228645,
           "js_db": 73.02005328160655,
           "cn0_nominal_dbhz": 42.24346622099637,
-          "cn0_effective_dbhz": -12.921310166794909,
+          "cn0_effective_dbhz": -9.911023432424797,
           "status": "LOST"
         },
         {
@@ -2926,7 +2926,7 @@
           "el_deg": 16.045952627935588,
           "js_db": 73.07517885824436,
           "cn0_nominal_dbhz": 42.18834064435856,
-          "cn0_effective_dbhz": -12.976435743432713,
+          "cn0_effective_dbhz": -9.966149009062601,
           "status": "LOST"
         }
       ]
@@ -2942,7 +2942,7 @@
           "el_deg": 28.9215728258352,
           "js_db": 72.50292907167105,
           "cn0_nominal_dbhz": 42.76059043093187,
-          "cn0_effective_dbhz": -12.404185956859404,
+          "cn0_effective_dbhz": -9.393899222489292,
           "status": "LOST"
         },
         {
@@ -2950,7 +2950,7 @@
           "el_deg": 72.06936686445295,
           "js_db": 70.58524933662136,
           "cn0_nominal_dbhz": 44.67827016598156,
-          "cn0_effective_dbhz": -10.486506221809718,
+          "cn0_effective_dbhz": -7.4762194874396055,
           "status": "LOST"
         },
         {
@@ -2958,7 +2958,7 @@
           "el_deg": 46.0803163826154,
           "js_db": 71.74031824692526,
           "cn0_nominal_dbhz": 43.52320125567766,
-          "cn0_effective_dbhz": -11.641575132113607,
+          "cn0_effective_dbhz": -8.631288397743495,
           "status": "LOST"
         },
         {
@@ -2966,7 +2966,7 @@
           "el_deg": 21.253531980355703,
           "js_db": 72.84373088702569,
           "cn0_nominal_dbhz": 42.41978861557723,
-          "cn0_effective_dbhz": -12.744987772214039,
+          "cn0_effective_dbhz": -9.734701037843926,
           "status": "LOST"
         },
         {
@@ -2974,7 +2974,7 @@
           "el_deg": 66.64556246517336,
           "js_db": 70.8263073099227,
           "cn0_nominal_dbhz": 44.43721219268022,
-          "cn0_effective_dbhz": -10.727564195111048,
+          "cn0_effective_dbhz": -7.717277460740936,
           "status": "LOST"
         },
         {
@@ -2982,7 +2982,7 @@
           "el_deg": 17.18362209047948,
           "js_db": 73.0246157710202,
           "cn0_nominal_dbhz": 42.238903731582724,
-          "cn0_effective_dbhz": -12.92587265620855,
+          "cn0_effective_dbhz": -9.915585921838439,
           "status": "LOST"
         },
         {
@@ -2990,7 +2990,7 @@
           "el_deg": 16.24703503541868,
           "js_db": 73.06624186235624,
           "cn0_nominal_dbhz": 42.19727764024668,
-          "cn0_effective_dbhz": -12.967498747544592,
+          "cn0_effective_dbhz": -9.957212013174479,
           "status": "LOST"
         }
       ]
@@ -3006,15 +3006,15 @@
           "el_deg": 28.94967055526112,
           "js_db": 72.50168028369657,
           "cn0_nominal_dbhz": 42.761839218906346,
-          "cn0_effective_dbhz": -12.402937168884927,
+          "cn0_effective_dbhz": -9.392650434514815,
           "status": "LOST"
         },
         {
           "prn": 9,
-          "el_deg": 71.86685295763348,
+          "el_deg": 71.86685295763347,
           "js_db": 70.59424995470224,
           "cn0_nominal_dbhz": 44.66926954790068,
-          "cn0_effective_dbhz": -10.49550683989059,
+          "cn0_effective_dbhz": -7.485220105520478,
           "status": "LOST"
         },
         {
@@ -3022,7 +3022,7 @@
           "el_deg": 46.28937623515124,
           "js_db": 71.73102669792365,
           "cn0_nominal_dbhz": 43.532492804679265,
-          "cn0_effective_dbhz": -11.632283583112011,
+          "cn0_effective_dbhz": -8.6219968487419,
           "status": "LOST"
         },
         {
@@ -3030,15 +3030,15 @@
           "el_deg": 21.063833230465086,
           "js_db": 72.85216194257637,
           "cn0_nominal_dbhz": 42.411357560026545,
-          "cn0_effective_dbhz": -12.753418827764731,
+          "cn0_effective_dbhz": -9.74313209339462,
           "status": "LOST"
         },
         {
           "prn": 16,
-          "el_deg": 66.50107199078985,
+          "el_deg": 66.50107199078982,
           "js_db": 70.83272910878418,
           "cn0_nominal_dbhz": 44.43079039381874,
-          "cn0_effective_dbhz": -10.733985993972535,
+          "cn0_effective_dbhz": -7.723699259602423,
           "status": "LOST"
         },
         {
@@ -3046,7 +3046,7 @@
           "el_deg": 17.080074229874214,
           "js_db": 73.02921789815821,
           "cn0_nominal_dbhz": 42.23430160444471,
-          "cn0_effective_dbhz": -12.930474783346567,
+          "cn0_effective_dbhz": -9.920188048976454,
           "status": "LOST"
         },
         {
@@ -3054,7 +3054,7 @@
           "el_deg": 16.448261267115818,
           "js_db": 73.0572984742808,
           "cn0_nominal_dbhz": 42.20622102832212,
-          "cn0_effective_dbhz": -12.958555359469155,
+          "cn0_effective_dbhz": -9.948268625099043,
           "status": "LOST"
         }
       ]
@@ -3070,7 +3070,7 @@
           "el_deg": 28.97643601378859,
           "js_db": 72.500490707762,
           "cn0_nominal_dbhz": 42.76302879484092,
-          "cn0_effective_dbhz": -12.401747592950352,
+          "cn0_effective_dbhz": -9.39146085858024,
           "status": "LOST"
         },
         {
@@ -3078,7 +3078,7 @@
           "el_deg": 71.66276801928298,
           "js_db": 70.6033203964067,
           "cn0_nominal_dbhz": 44.66019910619622,
-          "cn0_effective_dbhz": -10.504577281595056,
+          "cn0_effective_dbhz": -7.494290547224944,
           "status": "LOST"
         },
         {
@@ -3086,7 +3086,7 @@
           "el_deg": 46.498590078761374,
           "js_db": 71.72172830487432,
           "cn0_nominal_dbhz": 43.5417911977286,
-          "cn0_effective_dbhz": -11.62298519006267,
+          "cn0_effective_dbhz": -8.612698455692557,
           "status": "LOST"
         },
         {
@@ -3094,7 +3094,7 @@
           "el_deg": 20.874295732917364,
           "js_db": 72.86058583135627,
           "cn0_nominal_dbhz": 42.40293367124664,
-          "cn0_effective_dbhz": -12.76184271654463,
+          "cn0_effective_dbhz": -9.751555982174517,
           "status": "LOST"
         },
         {
@@ -3102,7 +3102,7 @@
           "el_deg": 66.35456968926385,
           "js_db": 70.83924032218533,
           "cn0_nominal_dbhz": 44.424279180417585,
-          "cn0_effective_dbhz": -10.740497207373688,
+          "cn0_effective_dbhz": -7.7302104730035754,
           "status": "LOST"
         },
         {
@@ -3110,7 +3110,7 @@
           "el_deg": 16.975640453428593,
           "js_db": 73.03385939933355,
           "cn0_nominal_dbhz": 42.22966010326937,
-          "cn0_effective_dbhz": -12.935116284521902,
+          "cn0_effective_dbhz": -9.92482955015179,
           "status": "LOST"
         },
         {
@@ -3118,7 +3118,7 @@
           "el_deg": 16.649628279665865,
           "js_db": 73.04834882927858,
           "cn0_nominal_dbhz": 42.21517067332434,
-          "cn0_effective_dbhz": -12.949605714466939,
+          "cn0_effective_dbhz": -9.939318980096827,
           "status": "LOST"
         }
       ]
@@ -3134,15 +3134,15 @@
           "el_deg": 29.00186710029836,
           "js_db": 72.49936043725046,
           "cn0_nominal_dbhz": 42.76415906535246,
-          "cn0_effective_dbhz": -12.400617322438812,
+          "cn0_effective_dbhz": -9.3903305880687,
           "status": "LOST"
         },
         {
           "prn": 9,
-          "el_deg": 71.4571654683016,
+          "el_deg": 71.45716546830164,
           "js_db": 70.61245828756142,
           "cn0_nominal_dbhz": 44.651061215041494,
-          "cn0_effective_dbhz": -10.513715172749778,
+          "cn0_effective_dbhz": -7.503428438379666,
           "status": "LOST"
         },
         {
@@ -3150,7 +3150,7 @@
           "el_deg": 46.70795805991104,
           "js_db": 71.71242306126769,
           "cn0_nominal_dbhz": 43.55109644133523,
-          "cn0_effective_dbhz": -11.613679946456042,
+          "cn0_effective_dbhz": -8.60339321208593,
           "status": "LOST"
         },
         {
@@ -3158,7 +3158,7 @@
           "el_deg": 20.684918948764672,
           "js_db": 72.86900257731864,
           "cn0_nominal_dbhz": 42.39451692528428,
-          "cn0_effective_dbhz": -12.77025946250699,
+          "cn0_effective_dbhz": -9.75997272813688,
           "status": "LOST"
         },
         {
@@ -3166,7 +3166,7 @@
           "el_deg": 66.20609955064813,
           "js_db": 70.84583899501268,
           "cn0_nominal_dbhz": 44.417680507590234,
-          "cn0_effective_dbhz": -10.747095880201039,
+          "cn0_effective_dbhz": -7.736809145830927,
           "status": "LOST"
         },
         {
@@ -3174,7 +3174,7 @@
           "el_deg": 16.870326712041138,
           "js_db": 73.0385400100619,
           "cn0_nominal_dbhz": 42.224979492541024,
-          "cn0_effective_dbhz": -12.939796895250247,
+          "cn0_effective_dbhz": -9.929510160880136,
           "status": "LOST"
         },
         {
@@ -3182,7 +3182,7 @@
           "el_deg": 16.85113299959508,
           "js_db": 73.03939306394838,
           "cn0_nominal_dbhz": 42.22412643865454,
-          "cn0_effective_dbhz": -12.940649949136736,
+          "cn0_effective_dbhz": -9.930363214766624,
           "status": "LOST"
         }
       ]
@@ -3198,7 +3198,7 @@
           "el_deg": 29.025961840107797,
           "js_db": 72.49828955992561,
           "cn0_nominal_dbhz": 42.76522994267731,
-          "cn0_effective_dbhz": -12.399546445113963,
+          "cn0_effective_dbhz": -9.389259710743849,
           "status": "LOST"
         },
         {
@@ -3206,7 +3206,7 @@
           "el_deg": 71.25009686606059,
           "js_db": 70.62166133654992,
           "cn0_nominal_dbhz": 44.641858166053,
-          "cn0_effective_dbhz": -10.52291822173828,
+          "cn0_effective_dbhz": -7.512631487368168,
           "status": "LOST"
         },
         {
@@ -3214,15 +3214,15 @@
           "el_deg": 46.91748032237362,
           "js_db": 71.70311096071379,
           "cn0_nominal_dbhz": 43.56040854188913,
-          "cn0_effective_dbhz": -11.604367845902138,
+          "cn0_effective_dbhz": -8.594081111532025,
           "status": "LOST"
         },
         {
           "prn": 13,
-          "el_deg": 20.495702337196004,
+          "el_deg": 20.495702337195976,
           "js_db": 72.87741220449945,
           "cn0_nominal_dbhz": 42.38610729810347,
-          "cn0_effective_dbhz": -12.778669089687805,
+          "cn0_effective_dbhz": -9.768382355317693,
           "status": "LOST"
         },
         {
@@ -3230,7 +3230,7 @@
           "el_deg": 66.05570503165815,
           "js_db": 70.85252319585669,
           "cn0_nominal_dbhz": 44.41099630674623,
-          "cn0_effective_dbhz": -10.753780081045042,
+          "cn0_effective_dbhz": -7.74349334667493,
           "status": "LOST"
         },
         {
@@ -3238,7 +3238,7 @@
           "el_deg": 16.764138972261932,
           "js_db": 73.0432594651632,
           "cn0_nominal_dbhz": 42.220260037439715,
-          "cn0_effective_dbhz": -12.944516350351554,
+          "cn0_effective_dbhz": -9.934229615981442,
           "status": "LOST"
         },
         {
@@ -3246,7 +3246,7 @@
           "el_deg": 17.05277232177378,
           "js_db": 73.03043131629599,
           "cn0_nominal_dbhz": 42.23308818630693,
-          "cn0_effective_dbhz": -12.93168820148434,
+          "cn0_effective_dbhz": -9.921401467114228,
           "status": "LOST"
         }
       ]
@@ -3262,7 +3262,7 @@
           "el_deg": 29.04871838448937,
           "js_db": 72.49727815795308,
           "cn0_nominal_dbhz": 42.76624134464984,
-          "cn0_effective_dbhz": -12.398535043141433,
+          "cn0_effective_dbhz": -9.388248308771322,
           "status": "LOST"
         },
         {
@@ -3270,7 +3270,7 @@
           "el_deg": 71.04161197603936,
           "js_db": 70.63092733166198,
           "cn0_nominal_dbhz": 44.63259217094094,
-          "cn0_effective_dbhz": -10.532184216850336,
+          "cn0_effective_dbhz": -7.521897482480224,
           "status": "LOST"
         },
         {
@@ -3278,7 +3278,7 @@
           "el_deg": 47.12715700556999,
           "js_db": 71.69379199701618,
           "cn0_nominal_dbhz": 43.56972750558674,
-          "cn0_effective_dbhz": -11.595048882204535,
+          "cn0_effective_dbhz": -8.584762147834423,
           "status": "LOST"
         },
         {
@@ -3286,7 +3286,7 @@
           "el_deg": 20.30664535698035,
           "js_db": 72.88581473695348,
           "cn0_nominal_dbhz": 42.37770476564944,
-          "cn0_effective_dbhz": -12.78707162214183,
+          "cn0_effective_dbhz": -9.77678488777172,
           "status": "LOST"
         },
         {
@@ -3294,7 +3294,7 @@
           "el_deg": 65.90342903779973,
           "js_db": 70.85929101780596,
           "cn0_nominal_dbhz": 44.40422848479696,
-          "cn0_effective_dbhz": -10.760547902994311,
+          "cn0_effective_dbhz": -7.750261168624199,
           "status": "LOST"
         },
         {
@@ -3302,7 +3302,7 @@
           "el_deg": 16.657083216050076,
           "js_db": 73.0480174987726,
           "cn0_nominal_dbhz": 42.21550200383032,
-          "cn0_effective_dbhz": -12.949274383960947,
+          "cn0_effective_dbhz": -9.938987649590835,
           "status": "LOST"
         },
         {
@@ -3310,7 +3310,7 @@
           "el_deg": 17.254543109652758,
           "js_db": 73.0214637257236,
           "cn0_nominal_dbhz": 42.24205577687931,
-          "cn0_effective_dbhz": -12.922720610911965,
+          "cn0_effective_dbhz": -9.912433876541852,
           "status": "LOST"
         }
       ]
@@ -3326,7 +3326,7 @@
           "el_deg": 29.070135012980586,
           "js_db": 72.49632630779791,
           "cn0_nominal_dbhz": 42.767193194805,
-          "cn0_effective_dbhz": -12.397583192986266,
+          "cn0_effective_dbhz": -9.387296458616154,
           "status": "LOST"
         },
         {
@@ -3334,7 +3334,7 @@
           "el_deg": 70.83175882360032,
           "js_db": 70.64025413843703,
           "cn0_nominal_dbhz": 44.62326536416589,
-          "cn0_effective_dbhz": -10.541511023625388,
+          "cn0_effective_dbhz": -7.531224289255276,
           "status": "LOST"
         },
         {
@@ -3342,7 +3342,7 @@
           "el_deg": 47.33698824667459,
           "js_db": 71.68446616407817,
           "cn0_nominal_dbhz": 43.579053338524744,
-          "cn0_effective_dbhz": -11.58572304926653,
+          "cn0_effective_dbhz": -8.575436314896418,
           "status": "LOST"
         },
         {
@@ -3350,7 +3350,7 @@
           "el_deg": 20.117747464819107,
           "js_db": 72.89421019882732,
           "cn0_nominal_dbhz": 42.369309303775594,
-          "cn0_effective_dbhz": -12.795467084015682,
+          "cn0_effective_dbhz": -9.78518034964557,
           "status": "LOST"
         },
         {
@@ -3358,7 +3358,7 @@
           "el_deg": 65.74931390405497,
           "js_db": 70.86614057930572,
           "cn0_nominal_dbhz": 44.3973789232972,
-          "cn0_effective_dbhz": -10.767397464494078,
+          "cn0_effective_dbhz": -7.7571107301239675,
           "status": "LOST"
         },
         {
@@ -3366,7 +3366,7 @@
           "el_deg": 16.549165438690284,
           "js_db": 73.05281384443305,
           "cn0_nominal_dbhz": 42.21070565816987,
-          "cn0_effective_dbhz": -12.954070729621401,
+          "cn0_effective_dbhz": -9.94378399525129,
           "status": "LOST"
         },
         {
@@ -3374,7 +3374,7 @@
           "el_deg": 17.456442193846787,
           "js_db": 73.01249043309275,
           "cn0_nominal_dbhz": 42.25102906951017,
-          "cn0_effective_dbhz": -12.913747318281102,
+          "cn0_effective_dbhz": -9.90346058391099,
           "status": "LOST"
         }
       ]
@@ -3390,7 +3390,7 @@
           "el_deg": 29.090210132031032,
           "js_db": 72.49543408028455,
           "cn0_nominal_dbhz": 42.768085422318364,
-          "cn0_effective_dbhz": -12.39669096547291,
+          "cn0_effective_dbhz": -9.386404231102798,
           "status": "LOST"
         },
         {
@@ -3398,15 +3398,15 @@
           "el_deg": 70.62058375432477,
           "js_db": 70.6496396970715,
           "cn0_nominal_dbhz": 44.61387980553141,
-          "cn0_effective_dbhz": -10.550896582259861,
+          "cn0_effective_dbhz": -7.540609847889749,
           "status": "LOST"
         },
         {
           "prn": 12,
-          "el_deg": 47.54697417767117,
+          "el_deg": 47.546974177671174,
           "js_db": 71.6751334560339,
           "cn0_nominal_dbhz": 43.58838604656901,
-          "cn0_effective_dbhz": -11.576390341222263,
+          "cn0_effective_dbhz": -8.56610360685215,
           "status": "LOST"
         },
         {
@@ -3414,7 +3414,7 @@
           "el_deg": 19.929008117627575,
           "js_db": 72.90259861425804,
           "cn0_nominal_dbhz": 42.36092088834488,
-          "cn0_effective_dbhz": -12.803855499446398,
+          "cn0_effective_dbhz": -9.793568765076285,
           "status": "LOST"
         },
         {
@@ -3422,7 +3422,7 @@
           "el_deg": 65.59340138216568,
           "js_db": 70.87307002472303,
           "cn0_nominal_dbhz": 44.39044947787988,
-          "cn0_effective_dbhz": -10.774326909911387,
+          "cn0_effective_dbhz": -7.764040175541275,
           "status": "LOST"
         },
         {
@@ -3430,7 +3430,7 @@
           "el_deg": 16.440391649065965,
           "js_db": 73.05764823508301,
           "cn0_nominal_dbhz": 42.20587126751991,
-          "cn0_effective_dbhz": -12.95890512027136,
+          "cn0_effective_dbhz": -9.948618385901248,
           "status": "LOST"
         },
         {
@@ -3438,7 +3438,7 @@
           "el_deg": 17.658466372816818,
           "js_db": 73.0035115806941,
           "cn0_nominal_dbhz": 42.26000792190882,
-          "cn0_effective_dbhz": -12.904768465882448,
+          "cn0_effective_dbhz": -9.894481731512334,
           "status": "LOST"
         }
       ]
@@ -3454,15 +3454,15 @@
           "el_deg": 29.1089422759207,
           "js_db": 72.49460154055615,
           "cn0_nominal_dbhz": 42.76891796204677,
-          "cn0_effective_dbhz": -12.3958584257445,
+          "cn0_effective_dbhz": -9.385571691374388,
           "status": "LOST"
         },
         {
           "prn": 9,
-          "el_deg": 70.40813149198456,
+          "el_deg": 70.40813149198455,
           "js_db": 70.65908201984217,
           "cn0_nominal_dbhz": 44.604437482760744,
-          "cn0_effective_dbhz": -10.560338905030527,
+          "cn0_effective_dbhz": -7.550052170660415,
           "status": "LOST"
         },
         {
@@ -3470,7 +3470,7 @@
           "el_deg": 47.75711492590284,
           "js_db": 71.66579386722358,
           "cn0_nominal_dbhz": 43.597725635379334,
-          "cn0_effective_dbhz": -11.56705075241194,
+          "cn0_effective_dbhz": -8.556764018041829,
           "status": "LOST"
         },
         {
@@ -3478,7 +3478,7 @@
           "el_deg": 19.740426772286593,
           "js_db": 72.91098000738432,
           "cn0_nominal_dbhz": 42.35253949521859,
-          "cn0_effective_dbhz": -12.812236892572678,
+          "cn0_effective_dbhz": -9.801950158202565,
           "status": "LOST"
         },
         {
@@ -3486,7 +3486,7 @@
           "el_deg": 65.43573262692632,
           "js_db": 70.88007752495588,
           "cn0_nominal_dbhz": 44.38344197764704,
-          "cn0_effective_dbhz": -10.781334410144233,
+          "cn0_effective_dbhz": -7.7710476757741205,
           "status": "LOST"
         },
         {
@@ -3494,7 +3494,7 @@
           "el_deg": 16.330767868424623,
           "js_db": 73.0625204031115,
           "cn0_nominal_dbhz": 42.20099909949141,
-          "cn0_effective_dbhz": -12.96377728829986,
+          "cn0_effective_dbhz": -9.953490553929749,
           "status": "LOST"
         },
         {
@@ -3502,7 +3502,7 @@
           "el_deg": 17.86061241220222,
           "js_db": 72.99452731227694,
           "cn0_nominal_dbhz": 42.268992190325974,
-          "cn0_effective_dbhz": -12.895784197465295,
+          "cn0_effective_dbhz": -9.885497463095183,
           "status": "LOST"
         }
       ]
@@ -3515,10 +3515,10 @@
       "sats": [
         {
           "prn": 5,
-          "el_deg": 29.12633011050807,
+          "el_deg": 29.12633011050808,
           "js_db": 72.4938287479078,
           "cn0_nominal_dbhz": 42.76969075469512,
-          "cn0_effective_dbhz": -12.395085633096155,
+          "cn0_effective_dbhz": -9.384798898726043,
           "status": "LOST"
         },
         {
@@ -3526,7 +3526,7 @@
           "el_deg": 70.1944451959376,
           "js_db": 70.66857918855538,
           "cn0_nominal_dbhz": 44.594940314047534,
-          "cn0_effective_dbhz": -10.569836073743735,
+          "cn0_effective_dbhz": -7.559549339373622,
           "status": "LOST"
         },
         {
@@ -3534,7 +3534,7 @@
           "el_deg": 47.96741061770585,
           "js_db": 71.65644739203236,
           "cn0_nominal_dbhz": 43.607072110570556,
-          "cn0_effective_dbhz": -11.557704277220713,
+          "cn0_effective_dbhz": -8.547417542850601,
           "status": "LOST"
         },
         {
@@ -3542,7 +3542,7 @@
           "el_deg": 19.55200288231912,
           "js_db": 72.91935440249398,
           "cn0_nominal_dbhz": 42.34416510010894,
-          "cn0_effective_dbhz": -12.820611287682338,
+          "cn0_effective_dbhz": -9.810324553312226,
           "status": "LOST"
         },
         {
@@ -3550,7 +3550,7 @@
           "el_deg": 65.2763481807736,
           "js_db": 70.88716127811824,
           "cn0_nominal_dbhz": 44.376358224484676,
-          "cn0_effective_dbhz": -10.788418163306595,
+          "cn0_effective_dbhz": -7.778131428936483,
           "status": "LOST"
         },
         {
@@ -3558,7 +3558,7 @@
           "el_deg": 16.220300127354555,
           "js_db": 73.06743008049241,
           "cn0_nominal_dbhz": 42.196089422110504,
-          "cn0_effective_dbhz": -12.968686965680767,
+          "cn0_effective_dbhz": -9.958400231310655,
           "status": "LOST"
         },
         {
@@ -3566,7 +3566,7 @@
           "el_deg": 18.062877042463295,
           "js_db": 72.98553777315425,
           "cn0_nominal_dbhz": 42.27798172944867,
-          "cn0_effective_dbhz": -12.8867946583426,
+          "cn0_effective_dbhz": -9.876507923972488,
           "status": "LOST"
         }
       ]
@@ -3579,18 +3579,18 @@
       "sats": [
         {
           "prn": 5,
-          "el_deg": 29.142372429646887,
+          "el_deg": 29.142372429646905,
           "js_db": 72.49311575594609,
           "cn0_nominal_dbhz": 42.770403746656825,
-          "cn0_effective_dbhz": -12.394372641134444,
+          "cn0_effective_dbhz": -9.384085906764332,
           "status": "LOST"
         },
         {
           "prn": 9,
-          "el_deg": 69.97956651607358,
+          "el_deg": 69.97956651607359,
           "js_db": 70.67812935210489,
           "cn0_nominal_dbhz": 44.58539015049803,
-          "cn0_effective_dbhz": -10.57938623729324,
+          "cn0_effective_dbhz": -7.5690995029231285,
           "status": "LOST"
         },
         {
@@ -3598,7 +3598,7 @@
           "el_deg": 48.17786137338458,
           "js_db": 71.64709402511329,
           "cn0_nominal_dbhz": 43.61642547748963,
-          "cn0_effective_dbhz": -11.548350910301648,
+          "cn0_effective_dbhz": -8.538064175931536,
           "status": "LOST"
         },
         {
@@ -3606,15 +3606,15 @@
           "el_deg": 19.363735902406255,
           "js_db": 72.92772182382345,
           "cn0_nominal_dbhz": 42.33579767877947,
-          "cn0_effective_dbhz": -12.828978709011805,
+          "cn0_effective_dbhz": -9.818691974641693,
           "status": "LOST"
         },
         {
           "prn": 16,
-          "el_deg": 65.11528796918874,
+          "el_deg": 65.11528796918873,
           "js_db": 70.89431950974424,
           "cn0_nominal_dbhz": 44.36919999285868,
-          "cn0_effective_dbhz": -10.795576394932594,
+          "cn0_effective_dbhz": -7.785289660562482,
           "status": "LOST"
         },
         {
@@ -3622,7 +3622,7 @@
           "el_deg": 16.108994467400816,
           "js_db": 73.07237699871257,
           "cn0_nominal_dbhz": 42.19114250389035,
-          "cn0_effective_dbhz": -12.973633883900922,
+          "cn0_effective_dbhz": -9.963347149530811,
           "status": "LOST"
         },
         {
@@ -3630,7 +3630,7 @@
           "el_deg": 18.26525696077127,
           "js_db": 72.97654311011834,
           "cn0_nominal_dbhz": 42.286976392484576,
-          "cn0_effective_dbhz": -12.8777999953067,
+          "cn0_effective_dbhz": -9.867513260936589,
           "status": "LOST"
         }
       ]
@@ -3646,7 +3646,7 @@
           "el_deg": 29.15706815753217,
           "js_db": 72.4924626124845,
           "cn0_nominal_dbhz": 42.771056890118416,
-          "cn0_effective_dbhz": -12.393719497672853,
+          "cn0_effective_dbhz": -9.383432763302741,
           "status": "LOST"
         },
         {
@@ -3654,7 +3654,7 @@
           "el_deg": 69.76353564759346,
           "js_db": 70.68773072403735,
           "cn0_nominal_dbhz": 44.57578877856557,
-          "cn0_effective_dbhz": -10.588987609225702,
+          "cn0_effective_dbhz": -7.57870087485559,
           "status": "LOST"
         },
         {
@@ -3662,7 +3662,7 @@
           "el_deg": 48.388467309353764,
           "js_db": 71.63773376129245,
           "cn0_nominal_dbhz": 43.625785741310466,
-          "cn0_effective_dbhz": -11.538990646480805,
+          "cn0_effective_dbhz": -8.528703912110693,
           "status": "LOST"
         },
         {
@@ -3670,7 +3670,7 @@
           "el_deg": 19.175625286459926,
           "js_db": 72.93608229564327,
           "cn0_nominal_dbhz": 42.327437206959644,
-          "cn0_effective_dbhz": -12.837339180831629,
+          "cn0_effective_dbhz": -9.827052446461517,
           "status": "LOST"
         },
         {
@@ -3678,7 +3678,7 @@
           "el_deg": 64.9525912902967,
           "js_db": 70.90155047325052,
           "cn0_nominal_dbhz": 44.361969029352395,
-          "cn0_effective_dbhz": -10.80280735843888,
+          "cn0_effective_dbhz": -7.792520624068768,
           "status": "LOST"
         },
         {
@@ -3686,7 +3686,7 @@
           "el_deg": 15.996856938882285,
           "js_db": 73.07736088886895,
           "cn0_nominal_dbhz": 42.186158613733966,
-          "cn0_effective_dbhz": -12.978617774057309,
+          "cn0_effective_dbhz": -9.968331039687197,
           "status": "LOST"
         },
         {
@@ -3694,7 +3694,7 @@
           "el_deg": 18.467748829406414,
           "js_db": 72.96754347151233,
           "cn0_nominal_dbhz": 42.29597603109059,
-          "cn0_effective_dbhz": -12.868800356700685,
+          "cn0_effective_dbhz": -9.858513622330573,
           "status": "LOST"
         }
       ]
@@ -3710,23 +3710,23 @@
           "el_deg": 29.170416350760064,
           "js_db": 72.49186935945215,
           "cn0_nominal_dbhz": 42.771650143150765,
-          "cn0_effective_dbhz": -12.39312624464051,
+          "cn0_effective_dbhz": -9.382839510270397,
           "status": "LOST"
         },
         {
           "prn": 9,
-          "el_deg": 69.54639138432209,
+          "el_deg": 69.54639138432208,
           "js_db": 70.69738158018274,
           "cn0_nominal_dbhz": 44.56613792242018,
-          "cn0_effective_dbhz": -10.598638465371089,
+          "cn0_effective_dbhz": -7.588351731000975,
           "status": "LOST"
         },
         {
           "prn": 12,
-          "el_deg": 48.599228539976394,
+          "el_deg": 48.5992285399764,
           "js_db": 71.628366595487,
           "cn0_nominal_dbhz": 43.63515290711592,
-          "cn0_effective_dbhz": -11.529623480675351,
+          "cn0_effective_dbhz": -8.519336746305239,
           "status": "LOST"
         },
         {
@@ -3734,7 +3734,7 @@
           "el_deg": 18.987670485983834,
           "js_db": 72.9444358423311,
           "cn0_nominal_dbhz": 42.319083660271815,
-          "cn0_effective_dbhz": -12.845692727519456,
+          "cn0_effective_dbhz": -9.835405993149346,
           "status": "LOST"
         },
         {
@@ -3742,7 +3742,7 @@
           "el_deg": 64.78829680636314,
           "js_db": 70.90885245031424,
           "cn0_nominal_dbhz": 44.354667052288676,
-          "cn0_effective_dbhz": -10.8101093355026,
+          "cn0_effective_dbhz": -7.7998226011324885,
           "status": "LOST"
         },
         {
@@ -3750,7 +3750,7 @@
           "el_deg": 15.883893598913659,
           "js_db": 73.08238148175644,
           "cn0_nominal_dbhz": 42.181138020846475,
-          "cn0_effective_dbhz": -12.983638366944799,
+          "cn0_effective_dbhz": -9.973351632574689,
           "status": "LOST"
         },
         {
@@ -3758,7 +3758,7 @@
           "el_deg": 18.67034927428049,
           "js_db": 72.95853900729571,
           "cn0_nominal_dbhz": 42.304980495307206,
-          "cn0_effective_dbhz": -12.859795892484065,
+          "cn0_effective_dbhz": -9.849509158113953,
           "status": "LOST"
         }
       ]
@@ -3771,10 +3771,10 @@
       "sats": [
         {
           "prn": 5,
-          "el_deg": 29.182416195883654,
+          "el_deg": 29.18241619588367,
           "js_db": 72.49133603300223,
           "cn0_nominal_dbhz": 42.77218346960069,
-          "cn0_effective_dbhz": -12.392592918190582,
+          "cn0_effective_dbhz": -9.38230618382047,
           "status": "LOST"
         },
         {
@@ -3782,23 +3782,23 @@
           "el_deg": 69.32817116995781,
           "js_db": 70.70708025637671,
           "cn0_nominal_dbhz": 44.556439246226205,
-          "cn0_effective_dbhz": -10.608337141565068,
+          "cn0_effective_dbhz": -7.598050407194956,
           "status": "LOST"
         },
         {
           "prn": 12,
-          "el_deg": 48.81014517409092,
+          "el_deg": 48.81014517409091,
           "js_db": 71.61899252285968,
           "cn0_nominal_dbhz": 43.64452697974323,
-          "cn0_effective_dbhz": -11.520249408048036,
+          "cn0_effective_dbhz": -8.509962673677924,
           "status": "LOST"
         },
         {
           "prn": 13,
-          "el_deg": 18.799870953180918,
+          "el_deg": 18.799870953180942,
           "js_db": 72.95278248823345,
           "cn0_nominal_dbhz": 42.310737014369465,
-          "cn0_effective_dbhz": -12.854039373421811,
+          "cn0_effective_dbhz": -9.843752639051699,
           "status": "LOST"
         },
         {
@@ -3806,7 +3806,7 @@
           "el_deg": 64.62244254222497,
           "js_db": 70.9162237509426,
           "cn0_nominal_dbhz": 44.34729575166031,
-          "cn0_effective_dbhz": -10.817480636130963,
+          "cn0_effective_dbhz": -7.807193901760849,
           "status": "LOST"
         },
         {
@@ -3814,7 +3814,7 @@
           "el_deg": 15.770110512207001,
           "js_db": 73.0874385078323,
           "cn0_nominal_dbhz": 42.176080994770615,
-          "cn0_effective_dbhz": -12.988695393020658,
+          "cn0_effective_dbhz": -9.978408658650546,
           "status": "LOST"
         },
         {
@@ -3822,7 +3822,7 @@
           "el_deg": 18.873054886068317,
           "js_db": 72.949529868994,
           "cn0_nominal_dbhz": 42.31398963360891,
-          "cn0_effective_dbhz": -12.850786754182362,
+          "cn0_effective_dbhz": -9.84050001981225,
           "status": "LOST"
         }
       ]
@@ -3838,7 +3838,7 @@
           "el_deg": 29.19306701031403,
           "js_db": 72.490862663472,
           "cn0_nominal_dbhz": 42.77265683913092,
-          "cn0_effective_dbhz": -12.392119548660359,
+          "cn0_effective_dbhz": -9.381832814290247,
           "status": "LOST"
         },
         {
@@ -3846,7 +3846,7 @@
           "el_deg": 69.10891114842835,
           "js_db": 70.71682514622248,
           "cn0_nominal_dbhz": 44.54669435638044,
-          "cn0_effective_dbhz": -10.618082031410834,
+          "cn0_effective_dbhz": -7.607795297040722,
           "status": "LOST"
         },
         {
@@ -3854,7 +3854,7 @@
           "el_deg": 49.02121731559491,
           "js_db": 71.60961153879285,
           "cn0_nominal_dbhz": 43.65390796381007,
-          "cn0_effective_dbhz": -11.510868423981202,
+          "cn0_effective_dbhz": -8.50058168961109,
           "status": "LOST"
         },
         {
@@ -3862,7 +3862,7 @@
           "el_deg": 18.612226140424795,
           "js_db": 72.96112225768928,
           "cn0_nominal_dbhz": 42.302397244913635,
-          "cn0_effective_dbhz": -12.862379142877634,
+          "cn0_effective_dbhz": -9.852092408507522,
           "status": "LOST"
         },
         {
@@ -3870,7 +3870,7 @@
           "el_deg": 64.45506588088956,
           "js_db": 70.92366271366862,
           "cn0_nominal_dbhz": 44.3398567889343,
-          "cn0_effective_dbhz": -10.82491959885697,
+          "cn0_effective_dbhz": -7.814632864486859,
           "status": "LOST"
         },
         {
@@ -3878,7 +3878,7 @@
           "el_deg": 15.655513749751412,
           "js_db": 73.09253169727478,
           "cn0_nominal_dbhz": 42.17098780532814,
-          "cn0_effective_dbhz": -12.993788582463138,
+          "cn0_effective_dbhz": -9.983501848093026,
           "status": "LOST"
         },
         {
@@ -3886,7 +3886,7 @@
           "el_deg": 19.07586221934776,
           "js_db": 72.94051620973715,
           "cn0_nominal_dbhz": 42.323003292865764,
-          "cn0_effective_dbhz": -12.841773094925511,
+          "cn0_effective_dbhz": -9.8314863605554,
           "status": "LOST"
         }
       ]
@@ -3902,15 +3902,15 @@
           "el_deg": 29.202368139001585,
           "js_db": 72.49044927997477,
           "cn0_nominal_dbhz": 42.77307022262815,
-          "cn0_effective_dbhz": -12.391706165163123,
+          "cn0_effective_dbhz": -9.381419430793011,
           "status": "LOST"
         },
         {
           "prn": 9,
-          "el_deg": 68.88864620056398,
+          "el_deg": 68.88864620056395,
           "js_db": 70.72661469946087,
           "cn0_nominal_dbhz": 44.53690480314205,
-          "cn0_effective_dbhz": -10.62787158464922,
+          "cn0_effective_dbhz": -7.617584850279108,
           "status": "LOST"
         },
         {
@@ -3918,7 +3918,7 @@
           "el_deg": 49.23244494075021,
           "js_db": 71.6002236443415,
           "cn0_nominal_dbhz": 43.66329585826142,
-          "cn0_effective_dbhz": -11.501480529529855,
+          "cn0_effective_dbhz": -8.491193795159743,
           "status": "LOST"
         },
         {
@@ -3926,7 +3926,7 @@
           "el_deg": 18.424735609406277,
           "js_db": 72.969455170179,
           "cn0_nominal_dbhz": 42.294064332423915,
-          "cn0_effective_dbhz": -12.87071205536736,
+          "cn0_effective_dbhz": -9.860425320997248,
           "status": "LOST"
         },
         {
@@ -3934,7 +3934,7 @@
           "el_deg": 64.2862036863036,
           "js_db": 70.93116770009468,
           "cn0_nominal_dbhz": 44.33235180250824,
-          "cn0_effective_dbhz": -10.832424585283034,
+          "cn0_effective_dbhz": -7.822137850912922,
           "status": "LOST"
         },
         {
@@ -3942,7 +3942,7 @@
           "el_deg": 15.540109450473608,
           "js_db": 73.09766077724268,
           "cn0_nominal_dbhz": 42.16585872536024,
-          "cn0_effective_dbhz": -12.998917662431031,
+          "cn0_effective_dbhz": -9.98863092806092,
           "status": "LOST"
         },
         {
@@ -3950,7 +3950,7 @@
           "el_deg": 19.27876785324486,
           "js_db": 72.93149818156394,
           "cn0_nominal_dbhz": 42.33202132103898,
-          "cn0_effective_dbhz": -12.832755066752293,
+          "cn0_effective_dbhz": -9.822468332382181,
           "status": "LOST"
         }
       ]
@@ -3966,7 +3966,7 @@
           "el_deg": 29.21031937732117,
           "js_db": 72.490095891605,
           "cn0_nominal_dbhz": 42.773423610997924,
-          "cn0_effective_dbhz": -12.391352776793346,
+          "cn0_effective_dbhz": -9.381066042423233,
           "status": "LOST"
         },
         {
@@ -3974,7 +3974,7 @@
           "el_deg": 68.66741004143653,
           "js_db": 70.73644741764431,
           "cn0_nominal_dbhz": 44.527072084958604,
-          "cn0_effective_dbhz": -10.637704302832665,
+          "cn0_effective_dbhz": -7.627417568462553,
           "status": "LOST"
         },
         {
@@ -3982,15 +3982,15 @@
           "el_deg": 49.44382839841368,
           "js_db": 71.59082882400088,
           "cn0_nominal_dbhz": 43.67269067860204,
-          "cn0_effective_dbhz": -11.492085709189233,
+          "cn0_effective_dbhz": -8.481798974819121,
           "status": "LOST"
         },
         {
           "prn": 13,
-          "el_deg": 18.23739858598902,
+          "el_deg": 18.237398585989027,
           "js_db": 72.97778126010866,
           "cn0_nominal_dbhz": 42.28573824249426,
-          "cn0_effective_dbhz": -12.879038145297013,
+          "cn0_effective_dbhz": -9.868751410926901,
           "status": "LOST"
         },
         {
@@ -3998,7 +3998,7 @@
           "el_deg": 64.11589179097368,
           "js_db": 70.93873711766489,
           "cn0_nominal_dbhz": 44.32478238493803,
-          "cn0_effective_dbhz": -10.839994002853242,
+          "cn0_effective_dbhz": -7.82970726848313,
           "status": "LOST"
         },
         {
@@ -4006,7 +4006,7 @@
           "el_deg": 15.423903564505212,
           "js_db": 73.1028254832857,
           "cn0_nominal_dbhz": 42.16069401931722,
-          "cn0_effective_dbhz": -13.004082368474055,
+          "cn0_effective_dbhz": -9.993795634103943,
           "status": "LOST"
         },
         {
@@ -4014,7 +4014,7 @@
           "el_deg": 19.481768141404412,
           "js_db": 72.92247594653463,
           "cn0_nominal_dbhz": 42.341043556068286,
-          "cn0_effective_dbhz": -12.823732831722987,
+          "cn0_effective_dbhz": -9.813446097352875,
           "status": "LOST"
         }
       ]
@@ -4030,7 +4030,7 @@
           "el_deg": 29.216920334458706,
           "js_db": 72.48980251573224,
           "cn0_nominal_dbhz": 42.77371698687068,
-          "cn0_effective_dbhz": -12.391059400920595,
+          "cn0_effective_dbhz": -9.380772666550483,
           "status": "LOST"
         },
         {
@@ -4038,7 +4038,7 @@
           "el_deg": 68.44523518942114,
           "js_db": 70.74632185551167,
           "cn0_nominal_dbhz": 44.51719764709125,
-          "cn0_effective_dbhz": -10.647578740700022,
+          "cn0_effective_dbhz": -7.6372920063299095,
           "status": "LOST"
         },
         {
@@ -4046,7 +4046,7 @@
           "el_deg": 49.655367655773176,
           "js_db": 71.58142707922937,
           "cn0_nominal_dbhz": 43.68209242337355,
-          "cn0_effective_dbhz": -11.482683964417726,
+          "cn0_effective_dbhz": -8.472397230047612,
           "status": "LOST"
         },
         {
@@ -4054,15 +4054,15 @@
           "el_deg": 18.050214631630165,
           "js_db": 72.98610054696906,
           "cn0_nominal_dbhz": 42.27741895563386,
-          "cn0_effective_dbhz": -12.887357432157412,
+          "cn0_effective_dbhz": -9.8770706977873,
           "status": "LOST"
         },
         {
           "prn": 16,
-          "el_deg": 63.94416576682813,
+          "el_deg": 63.94416576682814,
           "js_db": 70.9463693854047,
           "cn0_nominal_dbhz": 44.317150117198224,
-          "cn0_effective_dbhz": -10.847626270593052,
+          "cn0_effective_dbhz": -7.83733953622294,
           "status": "LOST"
         },
         {
@@ -4070,7 +4070,7 @@
           "el_deg": 15.306902238358411,
           "js_db": 73.10802554222556,
           "cn0_nominal_dbhz": 42.155493960377356,
-          "cn0_effective_dbhz": -13.00928242741392,
+          "cn0_effective_dbhz": -9.99899569304381,
           "status": "LOST"
         },
         {
@@ -4078,7 +4078,7 @@
           "el_deg": 19.684859587185215,
           "js_db": 72.91344966005548,
           "cn0_nominal_dbhz": 42.35006984254744,
-          "cn0_effective_dbhz": -12.814706545243835,
+          "cn0_effective_dbhz": -9.804419810873723,
           "status": "LOST"
         }
       ]
@@ -4094,7 +4094,7 @@
           "el_deg": 29.222170858125402,
           "js_db": 72.48956915912481,
           "cn0_nominal_dbhz": 42.773950343478106,
-          "cn0_effective_dbhz": -12.39082604431317,
+          "cn0_effective_dbhz": -9.380539309943059,
           "status": "LOST"
         },
         {
@@ -4102,7 +4102,7 @@
           "el_deg": 68.22215306233862,
           "js_db": 70.75623661671534,
           "cn0_nominal_dbhz": 44.50728288588758,
-          "cn0_effective_dbhz": -10.657493501903692,
+          "cn0_effective_dbhz": -7.64720676753358,
           "status": "LOST"
         },
         {
@@ -4110,7 +4110,7 @@
           "el_deg": 49.86706280127654,
           "js_db": 71.57201840609588,
           "cn0_nominal_dbhz": 43.69150109650704,
-          "cn0_effective_dbhz": -11.473275291284233,
+          "cn0_effective_dbhz": -8.462988556914121,
           "status": "LOST"
         },
         {
@@ -4118,7 +4118,7 @@
           "el_deg": 17.86318319554468,
           "js_db": 72.9944130552395,
           "cn0_nominal_dbhz": 42.26910644736341,
-          "cn0_effective_dbhz": -12.895669940427863,
+          "cn0_effective_dbhz": -9.885383206057751,
           "status": "LOST"
         },
         {
@@ -4126,7 +4126,7 @@
           "el_deg": 63.771060411606925,
           "js_db": 70.95406295674786,
           "cn0_nominal_dbhz": 44.309456545855056,
-          "cn0_effective_dbhz": -10.85531984193622,
+          "cn0_effective_dbhz": -7.845033107566108,
           "status": "LOST"
         },
         {
@@ -4134,7 +4134,7 @@
           "el_deg": 15.189111556184013,
           "js_db": 73.11326068365554,
           "cn0_nominal_dbhz": 42.15025881894738,
-          "cn0_effective_dbhz": -13.014517568843898,
+          "cn0_effective_dbhz": -10.004230834473786,
           "status": "LOST"
         },
         {
@@ -4142,7 +4142,7 @@
           "el_deg": 19.88803859267926,
           "js_db": 72.90441948203355,
           "cn0_nominal_dbhz": 42.35910002056937,
-          "cn0_effective_dbhz": -12.8056763672219,
+          "cn0_effective_dbhz": -9.795389632851787,
           "status": "LOST"
         }
       ]
@@ -4214,5 +4214,29 @@
       "provenance": "input",
       "unit": "1"
     }
+  },
+  "figure_tiers": {
+    "figures": [
+      {
+        "applicable": true,
+        "path": "fom.availability_under_jamming",
+        "requirement": "GNSS-denied jamming resilience",
+        "tier": "MODELLED"
+      },
+      {
+        "applicable": true,
+        "path": "fom.mean_js_db",
+        "requirement": "GNSS-denied jamming resilience",
+        "tier": "MODELLED"
+      },
+      {
+        "applicable": true,
+        "path": "fom.min_tracking",
+        "requirement": "GNSS-denied jamming resilience",
+        "tier": "MODELLED"
+      }
+    ],
+    "legend": "VALIDATED: checked against an independent external oracle. MODELLED: first-principles or published-formula model, internally tested, with no external oracle to a stated tolerance. applicable=false: the figure is emitted for continuity but does not answer a question this scenario asks",
+    "source": "src/verification.rs (the verification matrix), read through src/fom_label.rs"
   }
 }

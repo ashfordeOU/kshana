@@ -50,6 +50,18 @@ export function plainLabel(comment) {
   return t.charAt(0).toUpperCase() + t.slice(1);
 }
 
+// The name a key-figure row is shown under: the scenario's own words when the path is one of its fields
+// (never invented), else the engine's key in plain words (views.mjs humanKey). `where` is the result
+// block the figure sits in, in plain words, when that says something ("Quantum › Fom" is not a place a
+// reader knows, so the generic blocks fom, result and summary are left out); `path` stays the exact address.
+const GENERIC_BLOCK = /^(fom|result|summary|decision|fix|verdict|holdover)$/;
+export function figureName(fig, toml = "") {
+  const f = fieldFor(toml, fig.path);
+  const plain = f && plainLabel(f.comment);
+  const blocks = String(fig.path).split(".").slice(0, -1).filter((b) => !GENERIC_BLOCK.test(b));
+  return { name: plain || fig.label || V.humanKey(String(fig.path).split(".").pop()), where: blocks.map((b) => V.humanKey(b)).join(" › "), path: fig.path };
+}
+
 // Does a card only echo a value the reader set? The engine's units block says so
 // (provenance "input"); without it, a figure equal to the scenario field it is named after is
 // an echo. Returns true, false, or null when nothing says either way.

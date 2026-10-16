@@ -1,0 +1,70 @@
+# GNSS availability and dilution of precision at the bottom of a city street: the `orbit`
+# kind with a ground-site user (`user_site`) under the `city-street` skyline preset.
+#
+# The question a road-vehicle or pedestrian-navigation team asks: the buildings either side
+# of a street hide every satellite low across it and leave a strip of sky along it, so how
+# much of the day does a GPS plus Galileo receiver still have four satellites, and what does
+# the narrow strip do to the position dilution of precision? The street runs north-south,
+# 20 m between 30 m walls, with the antenna 1.5 m up on the centreline: the walls rise to
+# atan(28.5/10) = 70.7 deg across the street and fall to the 5 deg receiver mask along it.
+# The site is a generic point in a north-west European city (52.0 N, 5.0 E); remove the
+# [skyline] section to see the same site under open sky.
+#
+# `user_site` makes the user a ground site fixed to the rotating Earth (geodetic elevation
+# and azimuth, so the skyline has an Earth-fixed azimuth to depend on); an orbiting `user`
+# refuses a skyline. The clock-holdover half of the result is the orbit kind's usual
+# quantum-versus-classical comparison over the visibility timeline the street leaves.
+#
+# The skyline preset is REPRESENTATIVE (provenance in docs/SKYLINE.md and `kshana skyline
+# --preset city-street`): a street of the proportions urban-climate studies report, not a
+# survey of any street. Line of sight only: no diffraction, reflection or non-line-of-sight
+# reception. The constellations are Walker patterns with their public parameters, and their
+# relative phase is not a snapshot of any date. MODELLED.
+kind = "orbit"
+seed = 7
+threshold_ns = 5.0
+mask_deg = 5.0
+sigma_uere_m = 1.0
+
+[time]
+step_s = 300.0
+duration_s = 86400.0   # one day
+
+[user_site]
+lat_deg = 52.0
+lon_deg = 5.0
+height_m = 45.0
+
+# GPS-like Walker-delta (24 satellites, 6 planes, 55 deg, ~20,180 km; IS-GPS-200 / USCG
+# NAVCEN public constellation parameters).
+[constellation]
+altitude_km = 20180.0
+inclination_deg = 55.0
+planes = 6
+sats_per_plane = 4
+phasing_f = 1.0
+
+# Galileo-like Walker 24/3/1 (23,222 km, 56 deg; Galileo OS SDD issue 1.1).
+[[constellations]]
+altitude_km = 23222.0
+inclination_deg = 56.0
+planes = 3
+sats_per_plane = 8
+phasing_f = 1.0
+
+[clock_quantum]
+id = "optical-sr-lattice"
+provenance = "Strontium optical lattice clock, space-oriented goal sigma_y(1s)=1e-15 (arXiv:1503.08457); not flown."
+y0 = 1.0e-15
+q_wf = 1.0e-30
+q_rw = 1.0e-40
+
+[clock_classical]
+id = "csac-sa45s"
+provenance = "Microchip SA.45s / SA65 chip-scale atomic clock, sigma_y(1s)=3.0e-10 (datasheet); deployed commercial part."
+y0 = 1.0e-11
+q_wf = 9.0e-20
+q_rw = 1.0e-28
+
+[skyline]
+preset = "city-street"

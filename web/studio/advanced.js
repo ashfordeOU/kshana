@@ -26,7 +26,7 @@ const STUDIO_NAME = (document.querySelector("title")?.textContent || "").trim();
 import { clampStep, placeTooltip } from "./lib/tour.mjs";
 import { matrixCounts } from "./lib/counts.mjs";
 import { createEngineClient, isCancelled, busyLabel, errorMessage } from "./lib/engine.mjs";
-import { SCENARIOS, DOMAINS, NOT_IN_BROWSER, RECORDED_NATIVELY, DEFAULT_SCENARIO, entryFor, domainOf, groupedLibrary, searchScenarios, registerGroup, dirOf, isGroupDir, groupFileUrl, scenarioPath } from "./lib/catalog.mjs";
+import { SCENARIOS, DOMAINS, NOT_IN_BROWSER, RECORDED_NATIVELY, needsNewerEngine, engineCaps, DEFAULT_SCENARIO, entryFor, domainOf, groupedLibrary, searchScenarios, registerGroup, dirOf, isGroupDir, groupFileUrl, scenarioPath } from "./lib/catalog.mjs";
 import { numericFields, stepValue, patchField, isLogScale } from "./lib/params.mjs";
 import * as V from "./lib/views.mjs";
 import * as K from "./lib/kinds.mjs";
@@ -98,6 +98,7 @@ async function bootEngine() {
       const wasm = await compileEngine(new URL("./pkg/kshana_bg.wasm", import.meta.url));
       await mod.default({ module_or_path: wasm }); // fails here if the host blocks WebAssembly
       S.version = mod.version();
+      S.caps = engineCaps(mod);
       const local = { run: mod.run, run_all: mod.run_all, summary: mod.summary, chart_svg: mod.chart_svg, table_csv: mod.table_csv, export_sp3: mod.export_sp3, export_omm: mod.export_omm, export_oem: mod.export_oem };
       S.engine = createEngineClient({
         spawn: typeof Worker === "function" ? () => new Worker(new URL("./lib/engine-worker.mjs", import.meta.url), { type: "module" }) : null,
@@ -222,6 +223,7 @@ function setStatus(text, cls = "") {
 async function runScenario() {
   if (!S.engine) return;
   if (NOT_IN_BROWSER[S.file] && !S.shared) { await showNativeRun(); return; }
+  if (S.engine.mode !== "recorded" && needsNewerEngine(S.file, S.caps || S.version)) { await showNewerRun(); return; }
   if (job.active) {
     if (S.engine.canCancel && performance.now() - job.startedAt > SUPERSEDE_MS) S.engine.cancel();
     else { job.rerun = true; return; }
@@ -265,6 +267,30 @@ async function runScenario() {
   setStatus(`${S.mode === "live" ? "Ran locally" : "Recorded run shown"} at ${run.at.toLocaleTimeString()}, run ${S.runCount}${ms >= 1000 ? `, ${(ms / 1000).toFixed(1)} s` : ""}.`, "ran");
   const sum = $("summary");
   sum.classList.remove("flash"); void sum.offsetWidth; sum.classList.add("flash");
+}
+
+// A bundled scenario that needs a newer engine than the one running here: show its recording (made with a new
+// enough engine), labelled, and do not run it, since this engine would refuse its fields or ignore them.
+async function showNewerRun() {
+  clearError();
+  const need = needsNewerEngine(S.file, S.caps || S.version);
+  const rec = await loadRecorded(S.file).catch(() => null);
+  const why = `This scenario needs engine ${need} or later; the engine running here is v${S.version}.`;
+  if (!rec) { showError(`${why} There is no recording of it here.`); setStatus("Needs a newer engine."); return; }
+  if (tomlEl.value !== rec.toml) { showNotice(`${why} Only the recording of the bundled file can be shown: use Reset to see it, or run an edited copy with engine ${need}.`); setStatus(`Edited: needs engine ${need}.`); return; }
+  let result;
+  try { result = JSON.parse(rec.json); } catch (e) { showError(errorMessage(e)); return; }
+  S.runCount += 1;
+  const entry = entryFor(S.file);
+  const run = { id: S.runCount, file: S.file, title: entry ? entry.title : S.file, toml: rec.toml, result, svg: rec.svg || "", summary: rec.summary || "", csv: rec.csv || null, ms: 0, at: new Date(), mode: rec.source === "native" ? "native" : "recorded", platform: rec.platform || "", command: rec.command || "" };
+  S.history.unshift(run);
+  if (S.history.length > 25) S.history.pop();
+  const stamp = (((await recordedIndex(dirOf(S.file)).catch(() => null)) || {}).runs || {})[S.file.split("/").pop()] || {};
+  const by = /^[0-9a-f]{40}$/.test(stamp.engine_commit || "") ? `an engine build at commit ${stamp.engine_commit.slice(0, 8)}` : `engine v${rec.engine_version || result.engine_version || "?"}`;
+  showNotice(`${why} What you see is the run recorded with ${by}, shown unchanged; it does not re-run here.`);
+  renderRun(run);
+  renderHistory();
+  setStatus(`Recorded run shown at ${run.at.toLocaleTimeString()} (needs engine ${need}).`, "ran");
 }
 
 // A scenario the browser build cannot run: show the run the native command-line engine

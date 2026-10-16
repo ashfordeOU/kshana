@@ -125,3 +125,28 @@ button.mt-rrow:hover{background:var(--line)}
 
 .mt-toml{width:100%;box-sizing:border-box;font:12.5px/1.45 var(--f-mono);border-radius:10px;border:1px solid var(--line-2);background:var(--surface);color:var(--ink);padding:10px;resize:vertical}
 .mt-notes-line{margin:6px 0 0;font-size:12.5px;color:var(--ink-3)}
+
+/* geometry lane (0.36): the sky beside the score. "geometry" is a neutral blue that no band uses, so a masked
+   sky never shares a colour with an attack (red, or amber with a poor sky). Unknown is grey hatched, never green. */
+:root{--g-sky:#3D6FD9;--g-env:#7A4FD0}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--g-sky:#7FA4FF;--g-env:#B79BFF}}
+:root[data-theme="dark"]{--g-sky:#7FA4FF;--g-env:#B79BFF}
+.mt-hatch-bg{fill:color-mix(in srgb,var(--b-cal) 25%,transparent)}
+.mt-hatch-line{stroke:var(--b-cal);stroke-width:1.6}
+.mt-legend i.hatch{border-top:none;height:8px;background:repeating-linear-gradient(45deg,var(--b-cal) 0 2px,transparent 2px 5px);border:1px solid var(--b-cal)}
+.mt-legend .mt-lg-head{font-weight:600;color:var(--ink);margin-left:6px}
+.mt-class{display:inline-block;margin-left:6px;padding:1px 6px;border-radius:999px;border:1px solid var(--c,var(--ink-3));color:var(--c,var(--ink-3));font:600 10.5px/1.4 var(--f-text);white-space:nowrap}
+.mt-class.geometry{--c:var(--g-sky)}.mt-class.environment{--c:var(--g-env)}.mt-class.inconsistency{--c:var(--b-unt)}
+.mt-geo-flags{list-style:none;margin:0 0 8px;padding:0;display:grid;gap:4px}
+.mt-geo-flags li{padding:6px 10px;border-radius:10px;font-size:12.5px;line-height:1.4;border-left:4px solid var(--b-unt);background:var(--surface-2)}
+.mt-geo-flags li.signal-loss{border-left-color:var(--g-env)}
+.mt-geo-now.fair{border-left-color:var(--b-deg)}
+.mt-geo-now.poor{border-left-color:var(--b-unt)}
+.mt-rname{display:flex;flex-wrap:wrap;align-items:center;gap:2px}
+.mt-geo-now{margin:0 0 8px;font:600 15px/1.3 var(--f-display);padding-left:10px;border-left:4px solid var(--b-cal)}
+.mt-geo-now.good{border-left-color:var(--b-nom)}
+.mt-geo-now.unknown{border-left-style:dashed}
+.mt-geo-rows div{font-size:12.5px}
+@media (forced-colors:active){.mt-class,.mt-clsdot{forced-color-adjust:none}}
+.mt-geo-rows .wide{grid-column:1/-1}
+.mt-geo-rows .wide dd{text-align:right}

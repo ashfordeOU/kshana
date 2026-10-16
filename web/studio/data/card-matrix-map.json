@@ -214,5 +214,22 @@
   ],
   "Galileo OSNMA verification": [
     "Galileo OSNMA receiver-side navigation-data authentication"
+  ],
+  "Skyline-masked visibility, DOP and error ellipse": [
+    "Azimuth-dependent skyline mask: visible set, azimuth and elevation, and DOP under the mask",
+    "Horizontal error ellipse and per-system cofactor from the geometry covariance"
+  ],
+  "Skyline presets and the sky-geometry functions": [
+    "Street-canyon, sector and terrain reductions to a table",
+    "Skyline presets (city street, harbour approach, fjord, container terminal)",
+    "Sky geometry functions: visibility, DOP, covariance, error ellipse, Monte Carlo cloud"
+  ],
+  "Geometry-aware trust classification": [
+    "Geometry-aware trust classification: satellite geometry beside the receiver-trust score and a class on every deduction"
+  ],
+  "Lunar reference-station study": [
+    "Lunar reference-station coverage and accuracy map",
+    "Lunar station time laboratory: miniRAFS holdover against LTC",
+    "Lunar reference-station geodesy: added retroreflector and VLBI beacon against the five-array datum"
   ]
 }

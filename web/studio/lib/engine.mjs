@@ -25,6 +25,7 @@ export const ENGINE_FNS = Object.freeze([
   "export_sp3",
   "export_omm",
   "export_oem",
+  "list_kinds",
   // 0.35 (the engine package must be built from 0.35 or later; an older package lacks them and says so)
   "receiver_trust",
   "assess_vessel_log",
@@ -42,10 +43,26 @@ export const ENGINE_FNS = Object.freeze([
   "list_examples",
   "get_example",
   "version",
+  // 0.36 (design note 2026-10-12, section 3.2: the Geometry view; an older package lacks them and the view says so)
+  "sky_geometry",
+  "sky_monte_carlo",
+  "skyline_presets",
+  "skyline_profile",
+  "skyplot_svg",
+  // 0.36 (STUDIO-05: the kind-to-module table the capability map used to keep by hand)
+  "kind_modules",
+  // 0.36 (STUDIO-06: the headline fields per kind, which the input ranking reads first)
+  "field_importance",
 ]);
 
 // The functions the 0.35 tools pages call. A page checks engineHas() before offering a button.
-export const ENGINE_FNS_035 = Object.freeze(ENGINE_FNS.slice(ENGINE_FNS.indexOf("receiver_trust")));
+export const ENGINE_FNS_035 = Object.freeze(ENGINE_FNS.slice(ENGINE_FNS.indexOf("receiver_trust"), ENGINE_FNS.indexOf("sky_geometry")));
+// The functions the 0.36 Geometry view calls (lib/geometry-adapter.mjs GEOMETRY_FNS).
+export const ENGINE_FNS_036 = Object.freeze(ENGINE_FNS.slice(ENGINE_FNS.indexOf("sky_geometry"), ENGINE_FNS.indexOf("kind_modules")));
+// The 0.36 function the capability map calls (lib/areas.mjs rowsForKind takes its result).
+export const ENGINE_FNS_036_MAP = Object.freeze(["kind_modules"]);
+// The 0.36 function the input ranking calls (lib/inputs.mjs rankInputs takes its headline list).
+export const ENGINE_FNS_036_INPUTS = Object.freeze(["field_importance"]);
 export const engineHas = (api, fn) => !!api && typeof api[fn] === "function";
 
 // Normalise a thrown value to a message. wasm-bindgen throws the engine's error as a
