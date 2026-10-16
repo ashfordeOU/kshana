@@ -634,8 +634,8 @@ breaking changes are called out explicitly.
   samples and 8 satellites. The scene builder and the signal lookup by name moved out of the native-only
   `iq::cli` (to `iq::scene::synthetic` and `iq::signals::by_name`) so both builds share them; the
   command line's output is unchanged. The native test and `web/smoke.mjs` compare the same request
-  against one golden (`tests/fixtures/iq_short_golden.json`): exact natively, within 1e-9 relative in the
-  browser build, where the math library differs in the last digit of a float.
+  against one golden (`tests/fixtures/iq_short_golden.json`), byte for byte: since the portable-maths change
+  (STUDIO-15, below) the browser build and the native build give the same bits.
 - **Typed Python and TypeScript APIs** (CAP-34): `kshana.pyi` types the closed
   vocabularies (`ScenarioKind`, every kind name; `ErrorKind`; `ProvenanceClass`) and the
   `KindMeta` and `FieldUnit` dictionaries; `scenario_kinds()` and `error_kind()` return
