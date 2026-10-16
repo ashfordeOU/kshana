@@ -93,7 +93,7 @@ it today with `/plugin marketplace add ashfordeOU/kshana`. To be listed in the o
 Cursor has no submission-free directory of its own: its one-click links
 (`cursor://anysphere.cursor-deeplink/mcp/install?...`) work with no listing, and are on the README and
 the site. For the community directory (cursor.directory), sign in with GitHub, choose "Add MCP server",
-and paste the repository URL and the `npx -y kshana-mcp@0.35.0` command from `docs/MCP-INSTALL.md`.
+and paste the repository URL and the `npx -y kshana-mcp@0.36.0` command from `docs/MCP-INSTALL.md`.
 
 ### VS Code
 

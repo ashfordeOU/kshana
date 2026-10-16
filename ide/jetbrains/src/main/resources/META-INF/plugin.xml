@@ -31,6 +31,13 @@
     ]]></description>
 
     <change-notes><![CDATA[
+        <b>0.36.0</b> — the plugin itself is unchanged; this release adds to the engine: sky geometry
+        and geometry-aware trust, a lunar reference-station study, a short in-memory IQ run in the
+        browser build, and results that are identical natively and in the browser. Advisory software,
+        not type-approved navigation equipment: the operator remains responsible for navigation.
+        Update the engine with <code>cargo install kshana</code> and see the release notes at
+        https://github.com/ashfordeOU/kshana/releases.
+        <br/>
         <b>0.35.0</b> — new context-menu actions: <b>Assess Receiver Trust</b>,
         <b>Generate Training NMEA</b>, <b>Build Interference Map</b>, <b>Route Exposure</b>,
         <b>Export Test-Bench Files</b>, <b>Build Compliance Report</b> and

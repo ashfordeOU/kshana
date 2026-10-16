@@ -9,6 +9,8 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+## [0.36.0] - 2026-10-16
+
 ### Added
 
 - **Detection ROC of the IQ monitors** (PRO-32,

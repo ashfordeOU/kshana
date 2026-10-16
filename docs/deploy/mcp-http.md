@@ -6,7 +6,7 @@ tools over **streamable HTTP** at `http://<addr>/mcp`.
 
 **Kshana does not host an endpoint.** There is no shared `kshana` server to point a client at. You run
 it on your own machine, container or cloud project, and you own its access control and cost.
-The 0.35.0 server is the one in this repository: its figures carry their VALIDATED or MODELLED labels
+The 0.36.0 server is the one in this repository: its figures carry their VALIDATED or MODELLED labels
 exactly as over stdio.
 
 ## The safe defaults
@@ -48,7 +48,7 @@ Client config (a URL client; add the header only when a token is set):
 ```bash
 export KSHANA_MCP_HTTP_TOKEN="$(openssl rand -hex 32)"
 docker run --rm -p 127.0.0.1:8080:8080 -e KSHANA_MCP_HTTP_TOKEN \
-  ghcr.io/ashfordeou/kshana-mcp:0.35.0 \
+  ghcr.io/ashfordeou/kshana-mcp:0.36.0 \
   --http 0.0.0.0:8080 --allow-remote --allowed-host localhost:8080 --allowed-host 127.0.0.1:8080
 ```
 
