@@ -7,7 +7,7 @@
 # KSHANA_BUILD_PLUGIN=OFF builds and tests only the wx-free core (no wxWidgets needed).
 # Advisory software, not type-approved equipment: the operator stays responsible.
 cmake_minimum_required(VERSION 3.16)
-project(kshana_pi VERSION 0.35.0 LANGUAGES CXX)
+project(kshana_pi VERSION 0.36.0 LANGUAGES CXX)
 
 option(KSHANA_BUILD_PLUGIN "Build the OpenCPN plugin (needs wxWidgets 3.0 or newer)" ON)
 set(OCPN_PLUGIN_HEADER_DIR "${CMAKE_CURRENT_SOURCE_DIR}/third_party/opencpn"

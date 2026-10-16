@@ -6,7 +6,7 @@
 app = "YOUR-APP"
 
 [build]
-  image = "ghcr.io/ashfordeou/kshana-mcp:0.35.0"
+  image = "ghcr.io/ashfordeou/kshana-mcp:0.36.0"
 
 [experimental]
   cmd = ["--http", "0.0.0.0:8080", "--allow-remote", "--allowed-host", "YOUR-APP.fly.dev", "--max-concurrent", "2"]
