@@ -24,6 +24,7 @@
 //! [`super::sensitivity`] robustness tools remain the module's real product.
 
 use super::Objective;
+use crate::portable_math::PortableFloat;
 
 /// The outcome of a [`topsis`] run.
 #[derive(Clone, Debug, PartialEq, serde::Serialize)]
@@ -140,8 +141,8 @@ pub fn topsis(
         let mut dp = 0.0;
         let mut dm = 0.0;
         for j in 0..n {
-            dp += (row[j] - pis[j]).powi(2);
-            dm += (row[j] - nis[j]).powi(2);
+            dp += (row[j] - pis[j]).ppowi(2);
+            dm += (row[j] - nis[j]).ppowi(2);
         }
         let dp = dp.sqrt();
         let dm = dm.sqrt();

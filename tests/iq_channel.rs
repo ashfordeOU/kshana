@@ -10,6 +10,7 @@ use kshana::iq::channel::scint::{ScintParams, Scintillation};
 use kshana::iq::channel::tropo::Troposphere;
 use kshana::iq::channel::{ChannelModel, Composite, LineOfSight};
 use kshana::iq::C_M_PER_S;
+use kshana::portable_math::PortableFloat;
 use std::f64::consts::PI;
 
 const L1: f64 = 1_575_420_000.0;
@@ -50,7 +51,7 @@ fn dual_frequency_chain_is_consistent_with_a_first_order_ionosphere() {
     let i1 = (code(&s1) - carrier(&s1, L1)) / 2.0;
     let i5 = (code(&s5) - carrier(&s5, L5)) / 2.0;
     assert!(i1 > 0.0);
-    assert!((i5 / i1 - (L1 / L5).powi(2)).abs() < 1e-6, "{}", i5 / i1);
+    assert!((i5 / i1 - (L1 / L5).ppowi(2)).abs() < 1e-6, "{}", i5 / i1);
     // The non-dispersive part (range + troposphere) is the same on both carriers.
     assert!(((code(&s1) - i1) - (code(&s5) - i5)).abs() < 1e-6);
 }

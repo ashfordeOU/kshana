@@ -49,6 +49,7 @@
 use kshana::body::Body;
 use kshana::ephem_provider::EphemerisProvider;
 use kshana::forces::MU_SUN;
+use kshana::portable_math::PortableFloat;
 use kshana::radiometric::{
     delta_dor, dual_freq_plasma_calibration, one_way_doppler, one_way_range, shapiro_delay,
     solar_plasma_delay, two_way_doppler, two_way_range, Band,
@@ -288,14 +289,14 @@ fn delta_dor_precision_far_below_dsn_angular_floor() {
     // Quasar along +z; spacecraft offset toward +x (along the baseline) by a small angle.
     let quasar = [0.0, 0.0, 1.0];
     let dtheta = 5.0e-7_f64; // 0.5 µrad offset, in the Δ-DOR sensitivity regime
-    let sc_unit = [dtheta.sin(), 0.0, dtheta.cos()];
+    let sc_unit = [dtheta.psin(), 0.0, dtheta.pcos()];
     let r = 2.27e11; // ~Earth–Mars-scale range (m)
     let sc_pos = [sc_unit[0] * r, sc_unit[1] * r, sc_unit[2] * r];
 
     let dtau_model = delta_dor(sc_pos, quasar, baseline);
     // Exact analytic differential delay: only the x-component of (ŝ_sc − ŝ_q) projects on
     // the baseline, and that component is sin(Δθ).
-    let dtau_analytic = -(baseline[0] * dtheta.sin()) / C_M_PER_S;
+    let dtau_analytic = -(baseline[0] * dtheta.psin()) / C_M_PER_S;
 
     let delay_err = (dtau_model - dtau_analytic).abs();
     // Convert the residual *delay* error to an equivalent plane-of-sky *angle*:

@@ -10,6 +10,7 @@
 
 use crate::chart::esc;
 use crate::palette::chart::{AMBER, BG, BLUE, CORAL, FONT_SANS, INK, LIME, MUTED, RULE, TITLE};
+use crate::portable_math::PortableFloat;
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 
@@ -167,6 +168,8 @@ struct RawScenario {
     live: LiveCfg,
     #[serde(default)]
     geometry: GeometryCfg,
+    #[serde(default)]
+    skyline: Option<crate::skyline::SkylineCfg>,
 }
 
 impl From<RawScenario> for ReceiverTrustScenario {
@@ -177,6 +180,7 @@ impl From<RawScenario> for ReceiverTrustScenario {
         monitors.score = r.score;
         monitors.live = r.live;
         monitors.geometry = r.geometry;
+        monitors.skyline = r.skyline;
         Self {
             kind: r.kind,
             name: r.name,
@@ -301,6 +305,10 @@ pub struct ReceiverTrustResult {
     /// monitor's weight. Present for a vessel platform only.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub score_model: Option<ScoreModel>,
+    /// With an opt-in threshold profile only: what it is and how far it holds
+    /// ([`crate::receiver_trust::monitors::PROFILE_NOTE`]).
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub profile_note: Option<&'static str>,
     /// One sentence on the session.
     pub verdict: String,
     /// The per-epoch trust timeline.
@@ -619,7 +627,13 @@ pub fn run_receiver_trust_bytes(
             skipped_records: timeline.skipped_records,
             engine_fix: engine_inputs.is_some(),
         },
-        monitor_config: scn.monitors.clone(),
+        // The thresholds the monitors applied: with an opt-in profile, the profile's.
+        monitor_config: scn.monitors.with_profile()?.into_owned(),
+        profile_note: scn
+            .monitors
+            .profile
+            .as_ref()
+            .map(|_| crate::receiver_trust::monitors::PROFILE_NOTE),
         compare: scn.compare.clone(),
         monitors_run: trust.monitors_run,
         baseline: trust.baseline,
@@ -637,6 +651,10 @@ pub fn run_receiver_trust_bytes(
             &scn.monitors.geometry,
             scn.monitors.score.evidence_hold_s,
             scn.monitors.score.degraded_min,
+        )
+        .with_skyline(
+            scn.monitors.skyline.as_ref(),
+            scn.monitors.stated_skyline()?.as_ref(),
         ),
         geometry_summary: {
             let mut g = GeometrySummary::default();
@@ -860,7 +878,7 @@ fn to_svg_vessel(r: &ReceiverTrustResult) -> String {
         ));
         // A scale bar of a round length.
         let target = 0.2 * (x1 - x0) / scale;
-        let mag = 10f64.powf(target.log10().floor());
+        let mag = 10f64.ppowf(target.plog10().floor());
         let bar_m = [1.0, 2.0, 5.0, 10.0]
             .iter()
             .map(|m| m * mag)

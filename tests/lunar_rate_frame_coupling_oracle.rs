@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
+// Host maths on purpose: this test recomputes its expected values independently of the engine's
+// portable maths (STUDIO-15), so the engine is checked against a second implementation.
 //! Published-value (P1) comparison for the relativistic clock-rate to frame coupling,
 //! `lunar_gauge::rate_frame_jacobian`, entry `d_alpha_d_scale = +U_moon / c^2`.
 //!

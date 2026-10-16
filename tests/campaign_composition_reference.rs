@@ -5,7 +5,8 @@
 //! changes nothing it should not:
 //!
 //! 1. A one-phase campaign reproduces the stand-alone scenario output bit for bit: the
-//!    member's result document is byte-identical to `run_toml` on the scenario file,
+//!    member's result document is byte-identical to `run_toml_untiered` on the scenario
+//!    file (a campaign member carries no per-kind `figure_tiers` block, see `campaign.rs`),
 //!    its digest is the one the campaign reports, and, when the timeline grid matches
 //!    the run's own step, every aligned value equals the stand-alone series value.
 //!    Checked on three kinds with different time columns (`clock`, `jamming`,
@@ -63,7 +64,7 @@ fn one_phase(path: &str, duration_s: f64, step_s: f64) -> String {
 }
 
 fn check_one_phase(path: &str, duration_s: f64, step_s: f64, t_col: &str, pairs: &[(&str, &str)]) {
-    let standalone = kshana::api::run_toml(&read(path)).unwrap();
+    let standalone = kshana::api::run_toml_untiered(&read(path)).unwrap();
     let run =
         kshana::campaign::run_campaign_detailed(&one_phase(path, duration_s, step_s)).unwrap();
     // The member result is the stand-alone result, byte for byte.
@@ -128,7 +129,7 @@ fn a_one_phase_jamming_campaign_reproduces_the_standalone_run_bit_for_bit() {
     // The jamming channel is a mean over satellites, so compare it to the mean the
     // stand-alone document gives, computed here independently.
     let path = "scenarios/jamming-demo.toml";
-    let standalone = kshana::api::run_toml(&read(path)).unwrap();
+    let standalone = kshana::api::run_toml_untiered(&read(path)).unwrap();
     let run = kshana::campaign::run_campaign_detailed(&one_phase(path, 1800.0, 30.0)).unwrap();
     assert_eq!(run.member_results[0].1, standalone.json);
     let doc: Value = serde_json::from_str(&standalone.json).unwrap();
@@ -160,7 +161,7 @@ fn a_one_phase_jamming_campaign_reproduces_the_standalone_run_bit_for_bit() {
 #[test]
 fn a_one_node_sweep_and_a_one_member_composition_read_the_standalone_number() {
     let path = "scenarios/jamming-demo.toml";
-    let standalone = kshana::api::run_toml(&read(path)).unwrap();
+    let standalone = kshana::api::run_toml_untiered(&read(path)).unwrap();
     let doc: Value = serde_json::from_str(&standalone.json).unwrap();
     let want = doc["fom"]["mean_js_db"].as_f64().unwrap();
     let scn = read(path)

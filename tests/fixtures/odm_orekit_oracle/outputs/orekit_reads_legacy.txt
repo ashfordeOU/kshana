@@ -1,0 +1,6 @@
+case=M04
+kind=OMM
+format=KVN
+parse_error=value for key TIME_SYSTEM has not been initialized
+end
+

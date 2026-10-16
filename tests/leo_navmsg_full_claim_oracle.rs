@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
+// Host maths on purpose: this test recomputes its expected values independently of the engine's
+// portable maths (STUDIO-15), so the engine is checked against a second implementation.
 //! M120 round 2: the parts of the LEO broadcast-ephemeris fitter row that round 1 left outside
 //! its narrowed claim (the along/cross/radial correction polynomials of `kepler-rac`, the clock
 //! fit net of the user's relativistic term, the update-period trade, and Kshana's integrated

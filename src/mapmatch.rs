@@ -22,12 +22,13 @@
 //! [`hierarchical_offset_search`] so the gravity, terrain, and combined paths call a single
 //! implementation rather than each carrying its own copy.
 
+use crate::portable_math::PortableFloat;
 /// Gaussian likelihood that a `predicted` field value explains the `measured` value under
 /// measurement noise `sigma`: `exp(−½·((predicted − measured)/σ)²)`. Unit at a perfect
 /// match, falling off with the mismatch.
 pub fn field_likelihood(predicted: f64, measured: f64, sigma: f64) -> f64 {
     let z = (predicted - measured) / sigma;
-    (-0.5 * z * z).exp()
+    (-0.5 * z * z).pexp()
 }
 
 /// Map-match likelihood for a particle at `(lat, lon)`: sample the reference `field` there
@@ -105,7 +106,7 @@ mod tests {
     fn likelihood_peaks_at_a_perfect_match() {
         assert!((field_likelihood(100.0, 100.0, 5.0) - 1.0).abs() < 1e-12);
         // One sigma off ⇒ e^(−1/2) ≈ 0.6065.
-        assert!((field_likelihood(105.0, 100.0, 5.0) - (-0.5_f64).exp()).abs() < 1e-12);
+        assert!((field_likelihood(105.0, 100.0, 5.0) - (-0.5_f64).pexp()).abs() < 1e-12);
         // Far off ⇒ negligible.
         assert!(field_likelihood(140.0, 100.0, 5.0) < 1e-6);
     }
@@ -114,7 +115,7 @@ mod tests {
     fn terrain_match_recovers_position_with_a_particle_filter() {
         // A distinctive synthetic terrain: a single Gaussian "hill" centred at (2, 3).
         let terrain = |lat: f64, lon: f64| {
-            1000.0 * (-((lat - 2.0).powi(2) + (lon - 3.0).powi(2)) / 0.5).exp()
+            1000.0 * (-((lat - 2.0).ppowi(2) + (lon - 3.0).ppowi(2)) / 0.5).pexp()
         };
         let truth = (2.0, 3.0);
         let measured = terrain(truth.0, truth.1);

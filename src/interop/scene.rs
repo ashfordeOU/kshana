@@ -11,6 +11,7 @@ use super::{round_dp, ExportError, UtcEpoch};
 use crate::api::ScenarioKind;
 use crate::frames::{ecef_to_geodetic, geodetic_to_ecef, teme_to_ecef, Geodetic, Vec3};
 use crate::orbit::Propagator;
+use crate::portable_math::PortableFloat;
 
 /// What a moving object is.
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
@@ -309,8 +310,8 @@ pub fn circle_ring(lat_deg: f64, lon_deg: f64, radius_m: f64, n: usize) -> Vec<[
     for k in 0..n {
         // Bearings run from north towards west: counter-clockwise seen from above.
         let brg = -std::f64::consts::TAU * k as f64 / n as f64;
-        let p2 = (p1.sin() * d.cos() + p1.cos() * d.sin() * brg.cos()).asin();
-        let l2 = l1 + (brg.sin() * d.sin() * p1.cos()).atan2(d.cos() - p1.sin() * p2.sin());
+        let p2 = (p1.psin() * d.pcos() + p1.pcos() * d.psin() * brg.pcos()).pasin();
+        let l2 = l1 + (brg.psin() * d.psin() * p1.pcos()).patan2(d.pcos() - p1.psin() * p2.psin());
         let mut lon = l2.to_degrees();
         if lon > 180.0 {
             lon -= 360.0;
@@ -345,13 +346,13 @@ pub fn jammer_denial_range_m(
     // (C/N0)_eff = thr  <=>  J/S = q Rc (1/thr - 1/cn0), linear.
     let js_lin = q.max(1e-9)
         * scn.chip_rate_hz
-        * (1.0 / 10f64.powf(thr / 10.0) - 1.0 / 10f64.powf(cn0 / 10.0));
-    let js_db = 10.0 * js_lin.log10();
+        * (1.0 / 10f64.ppowf(thr / 10.0) - 1.0 / 10f64.ppowf(cn0 / 10.0));
+    let js_db = 10.0 * js_lin.plog10();
     // J/S = P + G + G_jam - FSPL(d) - (S + G_sat)  =>  FSPL(d).
     let fspl = j.power_dbw + j.gain_dbi + g_jam - (scn.signal_power_dbw + g_sat) - js_db;
     let c = 299_792_458.0f64;
-    let d = 10f64.powf(
-        (fspl - 20.0 * scn.freq_hz.log10() - 20.0 * (4.0 * std::f64::consts::PI / c).log10())
+    let d = 10f64.ppowf(
+        (fspl - 20.0 * scn.freq_hz.plog10() - 20.0 * (4.0 * std::f64::consts::PI / c).plog10())
             / 20.0,
     );
     if d.is_finite() && d > 0.0 {
@@ -421,6 +422,23 @@ pub fn reason_for_kind(kind: ScenarioKind) -> Option<String> {
         | K::SlotTiming
         | K::Spectrum => no_position,
         K::LeoPass | K::LeoPntChain => return None,
+        K::TimeTransferBudget => "the `time-transfer-budget` kind computes a link budget and \
+             stabilities, with no time-tagged geometry to place"
+            .to_string(),
+        K::EoRadiometry | K::AscentLosses => "the `eo-radiometry` and `ascent-losses` kinds \
+             compute budgets with no Earth position"
+            .to_string(),
+        K::EntryHeating => "not exported in this release: the `entry-heating` kind reports peak \
+             loads and heating, and keeps no time-tagged ground track"
+            .to_string(),
+        K::Aocs => "the `aocs` kind simulates attitude about the centre of mass with no orbit \
+             or ground position, so there is nothing to place on the Earth"
+            .to_string(),
+        K::ContactSchedule | K::AcmLink => {
+            "the `contact-schedule` and `acm-link` kinds plan downlink contacts and coding; \
+             export a `passes` scenario for the same satellite and station to see the geometry"
+            .to_string()
+        }
         K::LeoSignal => "the `leo-signal` kind analyses signal designs (spectra, tracking, \
              acquisition, compatibility) with no satellite or user position; export the \
              `leo-pass` or `leo-pnt-chain` scenario that flies the design"

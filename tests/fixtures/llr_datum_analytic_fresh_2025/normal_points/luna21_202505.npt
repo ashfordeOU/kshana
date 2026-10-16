@@ -1,0 +1,54 @@
+H1 CRD  2 2025  5  5  6
+H2 WETL       8834 10  1  4 ILRS      
+H3 luna21          104  104       na 0 1  1
+H4  1 2025  5  2 19 30  4 2025  5  2 19 44 10  0 0 0 0 1 0 2 0
+C0 0   1064.000 std4 las1 det4 tim0   na   na met0   na
+C1 0 las1     Nd:YAG    1064.00     250.00      30.00   10.0  2.00    2
+C2 0 det4       SPAD   1064.000  70.00   -93.0 180.0     analog 150.0  0.35  90.0  18.0       none    0.0    0.0  0
+C3 0 tim0                  TAC              EFOS-18             Dassault             02,09,10    0.0
+C6 0 met0 Paroscientific Digiquarz_765-16B     155046 E+E_Elektronik EE33-PFTM2022N 17059374047303 E+E_Elektronik EE33-PFTM2022N 17059374047303
+20 69960.000000000000  943.65 293.55   36 0
+20 70320.000000000000  943.65 293.65   36 0
+20 70680.000000000000  943.66 293.52   36 0
+20 70860.000000000000  943.67 293.37   36 0
+20 71040.000000000000  943.70 293.49   36 0
+20 71220.000000000000  943.69 293.29   37 0
+20 71400.000000000000  943.64 293.47   36 0
+20 71580.000000000000  943.60 293.67   36 0
+40 68192.129575800000 0 std4       na       na      na   118814.2     -0.0   28.4      na      na     na 3 4 0 3    na
+41 64975.281651300000 0 std4     3282     3282      na   118813.1       na   28.6   0.023  -0.899   -9.1 3 0 0 1   9.0
+41 67826.394900300000 0 std4     3076     3076      na   118816.2       na   27.7  -0.002  -0.876    5.8 3 0 0 1   8.9
+41 71408.977500300000 0 std4     3330     3330      na   118813.3       na   28.8  -0.049  -0.893    2.7 3 0 0 2  12.0
+11 70618.039674860079     2.482051269502 std4 2  900.0    109     214.0  -0.043  -0.870        na    na 0    na
+50 std4  212.4  -0.043  -0.850     na 0
+H8
+h1 CRD  2 2025  6 26 21
+h2       APOL 7045 95  1  4       ILRS
+h3 luna21          104  104       na 0 1  3
+h4  1 2025  5 19 11 17  7 2025  5 19 11 21 10  0 0 0 0 1 0 2 0
+h5  0 25 051911 JPL   430
+c0 0     532.0 std3 lpd apd4 cesm  na  na  na  na
+c1 0 lpd  Nd-YAG 1064.00 10.00 100.00 100.0 0.5 1
+c2 0 apd4 APD-array 532.000    na 30.5 100.0 ECL   na 16.00 90.0 1.4 Functional_fit   na   na 0
+c3 0 cesm Symmetricom_5071A_GPS CS-C001 ACM_CS_PS7186H na 0.0
+11 40765.0000000 2.5295202976999 std3 2  243.0     31     145.0      na      na       na    na 0  52.3
+20 40765.000  721.96 279.05   38 1
+40   121.5000000 0 std3 2814 1442      na        na      na  119.3      na      na    na 3 0 0 4    na
+50 std3  145.0     na     na   na 1
+00 run.refl.shots.thresh.yield.net 250519e.r4.s05000.t01.y31.n31
+00 Git commit 3716d7ef99a20269c22c4b55eb848cc10a42a9f6
+00 ACS Git commit 1d568d1eaebb3ad9b8317693fea841524d0605db
+00 LUN Gate width 9
+00 Longterm offsets data not present. 0 ps used for all channels.
+00 No 1st photon bias.
+00 Cesium used as timebase; Clock allan deviation suggests no...
+00 uncertainty inflation is needed relative to the scale of NP uncertainty.
+00 Run contains inadequate or no contemporaneous ACS data.
+00 Applied ACS differential correction of 28.7 +/- 6.2 [ps]...
+00 to final normal point round trip time based on distributions of...
+00 historic ACS differential correction estimates.
+00 We estimate a total (excepting a potential scale factor or RSS value,
+00 which will follow) normal point uncertainty of 37.1 [ps].
+00 Internal studies suggest no additional uncertainty inflation is needed.
+h8
+H9

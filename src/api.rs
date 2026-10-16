@@ -440,6 +440,35 @@ fn json_of_with_units_and_tiers<T: serde::Serialize>(
     })
 }
 
+/// The clock kind's optional `[clock_log]` table: a measured phase log read through
+/// [`crate::clock_log`]. Read beside [`crate::scenario::Scenario`], which does not carry
+/// it, so a scenario without the table parses and hashes exactly as before.
+#[derive(serde::Deserialize)]
+struct ClockLogTable {
+    #[serde(default)]
+    clock_log: Option<crate::clock_log::ClockLogInput>,
+}
+
+/// The `measured` block of a clock run, when the scenario names a clock log.
+fn clock_log_measured(src: &str) -> Result<Option<crate::clock_log::MeasuredPhaseReport>, String> {
+    let t: ClockLogTable = toml::from_str(src).map_err(|e| format!("invalid scenario: {e}"))?;
+    t.clock_log
+        .as_ref()
+        .map(|c| {
+            crate::clock_log::MeasuredPhaseReport::from_input(c)
+                .map_err(|e| format!("clock_log: {e}"))
+        })
+        .transpose()
+}
+
+/// A clock run with its `measured` block appended after the run's own keys.
+#[derive(serde::Serialize)]
+struct WithMeasured<'a, T: serde::Serialize> {
+    #[serde(flatten)]
+    run: &'a T,
+    measured: &'a crate::clock_log::MeasuredPhaseReport,
+}
+
 /// A minimal one-line SVG banner for scenario kinds whose primary artifact is the
 /// JSON report (the rich table lives in the JSON, not a bespoke chart).
 fn minimal_svg(summary: &str) -> String {
@@ -670,6 +699,24 @@ pub enum ScenarioKind {
     /// One LEO-PNT system end to end: signal design, pass link budget, navigation
     /// message and fused MEO + LEO positioning, each stage's output handed to the next.
     LeoPntChain,
+    /// Ground-contact planning: access windows of several satellites over several stations,
+    /// DVB-S2 ACM data volume per pass and a conflict-free contact schedule.
+    ContactSchedule,
+    /// One satellite over one station: each pass's `Es/N0` range and the DVB-S2 ACM data
+    /// volume against the constant-coding baseline.
+    AcmLink,
+    /// Reaction-wheel attitude control under MRP feedback, optionally closed on an MEKF.
+    Aocs,
+    /// 3-DoF point-mass atmospheric entry with stagnation-point convective heating.
+    EntryHeating,
+    /// Imager radiometry, MTF at Nyquist, relative edge response and GIQE 4 NIIRS.
+    EoRadiometry,
+    /// Gravity-turn ascent of a multi-stage vehicle with its gravity, drag, steering and
+    /// back-pressure losses.
+    AscentLosses,
+    /// TWSTFT two-way equation, uncertainty budget and link stability, plus the stability of
+    /// supplied UTC − UTC(k) and station-clock series.
+    TimeTransferBudget,
 }
 
 impl ScenarioKind {
@@ -752,6 +799,13 @@ impl ScenarioKind {
             ScenarioKind::LeoPpp => "leo-ppp",
             ScenarioKind::NtnPositioning => "ntn-positioning",
             ScenarioKind::LeoPntChain => "leo-pnt-chain",
+            ScenarioKind::ContactSchedule => "contact-schedule",
+            ScenarioKind::AcmLink => "acm-link",
+            ScenarioKind::Aocs => "aocs",
+            ScenarioKind::EntryHeating => "entry-heating",
+            ScenarioKind::EoRadiometry => "eo-radiometry",
+            ScenarioKind::AscentLosses => "ascent-losses",
+            ScenarioKind::TimeTransferBudget => "time-transfer-budget",
         }
     }
 
@@ -838,6 +892,13 @@ impl ScenarioKind {
             "leo-ppp" => ScenarioKind::LeoPpp,
             "ntn-positioning" => ScenarioKind::NtnPositioning,
             "leo-pnt-chain" => ScenarioKind::LeoPntChain,
+            "contact-schedule" => ScenarioKind::ContactSchedule,
+            "acm-link" => ScenarioKind::AcmLink,
+            "aocs" => ScenarioKind::Aocs,
+            "entry-heating" => ScenarioKind::EntryHeating,
+            "eo-radiometry" => ScenarioKind::EoRadiometry,
+            "ascent-losses" => ScenarioKind::AscentLosses,
+            "time-transfer-budget" => ScenarioKind::TimeTransferBudget,
             // The clock pack, named explicitly. It had no arm of its own before, because
             // it was reached through the catch-all below — so removing that catch-all
             // orphaned the one kind the engine has always had. The round-trip test found
@@ -966,7 +1027,7 @@ fn nearest_kind(probe: &str) -> Option<&'static str> {
 /// rule in both directions.
 pub fn list_scenario_kinds() -> Vec<ScenarioMeta> {
     vec![
-        ScenarioMeta { name: "clock", description: "Clock holdover vs spec; optional Monte-Carlo ensemble (runs > 1).", required_fields: &["seed", "threshold_ns", "time", "gnss", "clock_quantum", "clock_classical"], optional_fields: &["runs"] },
+        ScenarioMeta { name: "clock", description: "Clock holdover vs spec; optional Monte-Carlo ensemble (runs > 1).", required_fields: &["seed", "threshold_ns", "time", "gnss", "clock_quantum", "clock_classical"], optional_fields: &["runs", "integrity"] },
         ScenarioMeta { name: "inertial", description: "1-DOF inertial dead-reckoning during a GNSS outage.", required_fields: &["seed", "threshold_m", "time", "gnss", "accel_quantum", "accel_classical"], optional_fields: &["runs"] },
         ScenarioMeta { name: "orbit", description: "GNSS availability + DOP from an orbital constellation (Walker / TLE / RINEX).", required_fields: &["seed", "threshold_ns", "mask_deg", "time", "user|user_site", "constellation", "clock_quantum", "clock_classical"], optional_fields: &["sigma_uere_m", "constellations", "epoch", "export_sp3", "export_omm", "export_oem", "skyline"] },
         ScenarioMeta { name: "ephemeris", description: "Ephemeris & ground track: propagate one satellite (TLE→SGP4 or analytic orbit) and emit its TEME/GCRS state (position + velocity), ITRF/ECEF position, WGS-84 sub-satellite lat/lon/alt, and per-step station az/el/range + range-rate (Doppler). The satellite comes from a `tle` or from an analytic `orbit` with its `epoch` (a `tle` wins when both are given); with a `tle`, an `epoch` overrides the TLE's own epoch as t = 0.", required_fields: &["tle|orbit+epoch"], optional_fields: &["step_s", "duration_s", "station", "dut1_s", "xp_arcsec", "yp_arcsec", "carrier_hz", "eop_finals2000a"] },
@@ -976,28 +1037,28 @@ pub fn list_scenario_kinds() -> Vec<ScenarioMeta> {
         ScenarioMeta { name: "lunar-vlbi", description: "Modelled lunar geodetic VLBI delay observable: an Earth baseline (two ground stations, GCRS) observes a one-way signal from a NovaMoon-class lunar-surface beacon. Emits the near-field two-range-difference delay, its rate, and the wavefront-curvature near-field correction over a pass — cross-checked against the same-codebase plane-wave Δ-DOR observable in the far-field limit, with finite-difference-verified partials. The default analytic path is MODELLED and carries the frame-consistency, xp=yp=0 polar-motion and plane-wave-vs-near-field caveats. Setting planetary_kernel_path, earth_orientation_kernel_path and moon_orientation_kernel_path runs the kernel path instead (DE440, MOON_PA_DE440, ITRF93; converged barycentric light times; adds the epoch's beacon and station partials), whose Newtonian delay and partials agree with NAIF SPICE converged light times to 0.06 ps and 7.4e-9. Not validated against real VLBI data.", required_fields: &[], optional_fields: &["station1_lat_deg", "station1_lon_deg", "station1_alt_m", "station2_lat_deg", "station2_lon_deg", "station2_alt_m", "beacon_lat_deg", "beacon_lon_deg", "beacon_alt_m", "epoch_year", "epoch_month", "epoch_day", "horizon_hours", "step_min", "planetary_kernel_path", "earth_orientation_kernel_path", "moon_orientation_kernel_path"] },
         ScenarioMeta { name: "lunar-joint-od-clock", description: "Modelled joint multi-technique lunar OD + clock batch estimator on a SIMULATED network: a Gauss-Newton snapshot fit that fuses Earth-baseline geodetic VLBI delays, lunar-local station↔satellite ranges and inter-satellite ranges to recover, together, a lunar surface station's 3-D position, a small constellation's positions and every asset's clock offset from an injected truth. The headline honest result — VLBI makes the station's full 3-D position observable where lunar-local ranging alone leaves a weakly-observed direction — is reported as the with-vs-without-VLBI station-error contrast. MODELLED simulated closed-loop recovery (truth shares the observation model), deterministic (seeded), NOT real-data validated; no force-model propagation inside the solver; no TRL/heritage/agency endorsement.", required_fields: &[], optional_fields: &["n_sat", "n_earth", "seed", "sigma_vlbi_s", "sigma_range_m", "sigma_isl_m", "station_lat_deg", "station_lon_deg", "station_alt_m", "orbit_radius_km", "sigma_clock_s", "orbit_ecc", "orbit_inc_deg", "orbit_argp_deg", "orbit_planes", "epoch_year", "epoch_month", "epoch_day"] },
         ScenarioMeta { name: "lunar-frame-realisation", description: "Modelled lunar reference-frame realisation: a 7-parameter Helmert (similarity) datum fit — 3 translation, 3 small-angle rotation, 1 scale — tying an estimated set of selenographic-derived MCMF point coordinates to a datum by weighted least squares (crate::batch_ls::gauss_newton), plus a simple orientation tie expressing the realised small rotation about the ICRF axes relative to the IAU 2015 WGCCRE body orientation. The scenario injects a known small transform (translation ~tens of m, rotation ~µrad, scale ~1e-7) into a well-spread synthetic point network, adds seeded Gaussian noise, recovers the datum, and reports the recovered transform, the per-parameter recovery error vs the injected truth, and the post-fit RMS residual. MODELLED self-consistency — recovers an injected similarity transform (noiseless to ~machine precision), NOT a realisation against real tracking/VLBI data; deterministic (seeded); no TRL/heritage/agency endorsement.", required_fields: &[], optional_fields: &["n_points", "tx_m", "ty_m", "tz_m", "rot_x_urad", "rot_y_urad", "rot_z_urad", "scale_ppb", "noise_sigma_m", "seed", "epoch_year", "epoch_month", "epoch_day"] },
-        ScenarioMeta { name: "moonlight-service-volume", description: "Modelled lunar navigation service-volume analysis from an ILLUSTRATIVE, public-source Moonlight/LCNS-class lunar-orbit constellation (not affiliated with ESA): sweeps a selenographic lat/lon grid over a time horizon and reports DOP / coverage / availability (≥4 sats AND PDOP < threshold) plus a generalised lunar ARAIM protection-level (HPL/VPL) envelope over the volume. The DOP geometry REUSES the gnss_lib_py-VALIDATED kernel (crate::orbit::dop); the protection level REUSES the LunaNet LNIS lunar ARAIM machinery (crate::lunar, σ_URE≈30 m) and reduces to the existing south-pole PL as a special case. MODELLED composition: a circular-/elliptical-Keplerian relay set (not the real differential-corrected LCNS/NRHO ephemeris), a mean-rotation Moon (no libration/precessing pole). Deterministic (pure geometry). No TRL/heritage/agency endorsement.", required_fields: &[], optional_fields: &["n_sats", "sma_km", "eccentricity", "inc_deg", "argp_deg", "lat_min_deg", "lat_max_deg", "lat_step_deg", "lon_min_deg", "lon_max_deg", "lon_step_deg", "horizon_hours", "step_min", "elev_mask_deg", "pdop_threshold", "alert_limit_m", "p_hmi", "perturbed", "sigma_ure_m", "export_site_lat_deg", "export_site_lon_deg", "export_antenna", "ephemeris_path", "planetary_kernel_path", "epoch_utc"] },
+        ScenarioMeta { name: "moonlight-service-volume", description: "Modelled lunar navigation service-volume analysis from an ILLUSTRATIVE, public-source Moonlight/LCNS-class lunar-orbit constellation (not affiliated with ESA): sweeps a selenographic lat/lon grid over a time horizon and reports DOP / coverage / availability (≥4 sats AND PDOP < threshold) plus a generalised lunar ARAIM protection-level (HPL/VPL) envelope over the volume. The DOP geometry REUSES the gnss_lib_py-VALIDATED kernel (crate::orbit::dop); the protection level REUSES the LunaNet LNIS lunar ARAIM machinery (crate::lunar, σ_URE≈30 m) and reduces to the existing south-pole PL as a special case. MODELLED composition: a circular-/elliptical-Keplerian relay set (not the real differential-corrected LCNS/NRHO ephemeris), a mean-rotation Moon (no libration/precessing pole). Deterministic (pure geometry). No TRL/heritage/agency endorsement.", required_fields: &[], optional_fields: &["n_sats", "sma_km", "eccentricity", "inc_deg", "argp_deg", "lat_min_deg", "lat_max_deg", "lat_step_deg", "lon_min_deg", "lon_max_deg", "lon_step_deg", "horizon_hours", "step_min", "elev_mask_deg", "pdop_threshold", "alert_limit_m", "p_hmi", "perturbed", "sigma_ure_m", "export_site_lat_deg", "export_site_lon_deg", "export_antenna", "ephemeris_path", "planetary_kernel_path", "epoch_utc", "terrain"] },
         ScenarioMeta { name: "lunar-differential-pnt", description: "Modelled lunar DIFFERENTIAL PNT (a lunar DGNSS/SBAS analogue): a NovaMoon-class reference station at a KNOWN selenographic location computes per-satellite differential corrections from an ILLUSTRATIVE, public-source Moonlight/LCNS-class constellation (NovaMoon referenced only as a system CLASS, not affiliated with ESA), and a user offset by baseline_km applies them so the COMMON-MODE orbit + clock errors cancel. The clock term cancels EXACTLY (an algebraic identity); the orbit term leaves only the line-of-sight-difference projection, which → 0 as baseline → 0 (the spatial-decorrelation floor) and grows ≈ linearly with baseline. Reports the user 3-D position error WITH vs WITHOUT corrections, the reduction factor, the error-vs-baseline curve, and a user protection level that REUSES the DO-229E SBAS machinery (crate::sbas) with the differential residual σ. MODELLED — exact cancellation identity + first-order decorrelation model; not real-data validated; no TRL/heritage/agency endorsement. Deterministic if seeded.", required_fields: &[], optional_fields: &["n_sats", "sma_km", "eccentricity", "inc_deg", "argp_deg", "ref_lat_deg", "ref_lon_deg", "baseline_km", "orbit_err_m", "clock_err_m", "noise_m", "seed", "t_s", "residual_sigma_m", "p_hmi", "survey_sigma_m", "latency_s", "quantization_bits"] },
-        ScenarioMeta { name: "lunar-station-coverage", description: "Modelled lunar reference-station coverage: a Monte Carlo sweep of the lunar differential-PNT model over a south-polar user grid and a day of epochs. A differential reference station at a known south-polar site corrects a stated constellation (illustrative Keplerian or a tabulated ephemeris) with a stated signal-in-space error, survey error, correction latency and link quantization; per point and over the region it reports the percentile corrected and uncorrected position error (3-D, horizontal, vertical), availability, coverage against a stated threshold, DO-229E protection levels, the coverage radius per azimuth and the correction-link budget at the station and at the worst point. Not a statement about the performance of any real system; not affiliated with or endorsed by any agency. MODELLED.", required_fields: &[], optional_fields: &["n_sats", "sma_km", "eccentricity", "inc_deg", "argp_deg", "ephemeris_path", "mask_deg", "station_lat_deg", "station_lon_deg", "station_height_m", "survey_sigma_m", "orbit_err_m", "clock_err_m", "sise_sigma_m", "sise_orbit_variance_fraction", "noise_m", "latency_s", "quantization_bits", "grid_lat_max_deg", "grid_lat_step_deg", "points", "t_start_s", "t_span_s", "t_step_s", "n_trials", "accuracy_threshold_m", "percentile", "alert_limit_m", "residual_sigma_m", "p_hmi", "seed"] },
+        ScenarioMeta { name: "lunar-station-coverage", description: "Modelled lunar reference-station coverage: a Monte Carlo sweep of the lunar differential-PNT model over a south-polar user grid and a day of epochs. A differential reference station at a known south-polar site corrects a stated constellation (illustrative Keplerian or a tabulated ephemeris) with a stated signal-in-space error, survey error, correction latency and link quantization; per point and over the region it reports the percentile corrected and uncorrected position error (3-D, horizontal, vertical), availability, coverage against a stated threshold, DO-229E protection levels, the coverage radius per azimuth and the correction-link budget at the station and at the worst point. Not a statement about the performance of any real system; not affiliated with or endorsed by any agency. MODELLED.", required_fields: &[], optional_fields: &["n_sats", "sma_km", "eccentricity", "inc_deg", "argp_deg", "ephemeris_path", "mask_deg", "station_lat_deg", "station_lon_deg", "station_height_m", "survey_sigma_m", "orbit_err_m", "clock_err_m", "sise_sigma_m", "sise_orbit_variance_fraction", "noise_m", "latency_s", "quantization_bits", "grid_lat_max_deg", "grid_lat_step_deg", "points", "t_start_s", "t_span_s", "t_step_s", "n_trials", "accuracy_threshold_m", "percentile", "alert_limit_m", "residual_sigma_m", "p_hmi", "seed", "terrain", "orbit_err_growth_m_per_s", "receiver", "solution"] },
         ScenarioMeta { name: "lunar-interop-export", description: "Modelled lunar interoperability export: emits the lunar reference frame, lunar time scale and lunar ephemeris in LunaNet/IOAG-aligned, CCSDS-based interchange forms with round-trip / field conformance. REUSES the crate's CCSDS OEM 2.0 emitter+parser (crate::oem) re-tagged for the lunar context — the OEM REF_FRAME carries the IAU 2015 WGCCRE lunar body frame (MOON_ME / MOON_PA), TIME_SYSTEM the lunar time scale (LTC / TCL / UTC), CENTER_NAME = MOON — over a sample illustrative LCNS-class ephemeris (positions from crate::lunar_service, velocity by finite difference). Also emits a LunaNet/IOAG-aligned lunar-time descriptor (scale id, secular rate µs/day from crate::lunar_time, published band, reference surface) that round-trips via serde_json, and wraps the artifacts in the existing KIF envelope (crate::interchange) with the MODELLED honesty label. Reports artifacts emitted, OEM line count, field-conformance pass + present/missing field list, OEM round-trip ok, time-metadata round-trip ok, and KIF byte size. MODELLED — deterministic round-trip + field-name conformance vs published CCSDS OEM + LunaNet/IOAG field semantics is the oracle; NOT a certified interoperability conformance test; illustrative public-source ephemeris, not affiliated with ESA; no TRL/heritage/agency endorsement.", required_fields: &[], optional_fields: &["frame", "time_system", "n_states", "epoch", "step_min", "object"] },
         ScenarioMeta { name: "timetransfer", description: "Optical vs RF two-way time/frequency transfer.", required_fields: &["seed", "samples", "step_s", "range_spec_mm", "link_quantum", "link_classical"], optional_fields: &[] },
         ScenarioMeta { name: "quantum-anomaly-detect", description: "MODELLED fault/anomaly detection for quantum PNT systems: a labelled fault catalog (clock frequency-jump/drift/lock-loss; sensor bias-step/dropout), a detection-statistic ROC AUC (with a bootstrap CI from the externally-validated eval_stats) and a minimum-detectable-fault at a fixed false-alarm rate, with the quantum-clock-aided monitor (lower noise) detecting smaller faults — as honest TradeEvidence + representativeness. Gaussian detection-statistic model (AUC = Phi(mu/(sigma*sqrt2))); models the class, illustrative public-source params, no TRL/flight/certification.", required_fields: &[], optional_fields: &["fault_mu", "quantum_sigma", "classical_sigma", "pfa", "pd", "samples", "seed"] },
         ScenarioMeta { name: "quantum-gnss-free-nav", description: "MODELLED GNSS-free quantum navigation: during a GNSS outage, a quantum (cold-atom interferometer) inertial budget vs a classical navigation-grade INS — position-error growth over the coast, holdover to a position threshold, and the quantum-vs-classical trade as honest TradeEvidence with representativeness. Honest observability note: with no external fix the accelerometer bias is unobservable so the error grows; the quantum sensor slows but does not close that gap. Illustrative public-source device params; models the class, no TRL/flight/certification.", required_fields: &[], optional_fields: &["outage_s", "threshold_m", "quantum_bias_m_s2", "classical_bias_m_s2"] },
         ScenarioMeta { name: "quantum-time-transfer", description: "MODELLED trusted-quantum-timing chain: an end-to-end quantum (optical-lattice clock + entanglement/single-photon link) vs classical (CSAC + RF two-way) time-transfer budget, a reused timing protection level + a delay/replay-attack security FoM (1-P_md), a clock-anomaly detection probability + CUSUM latency, and the quantum-vs-classical trade as honest TradeEvidence with a representativeness + gaps-to-flight record. Illustrative public-source device/link params; models the class, no TRL/flight/certification claimed.", required_fields: &[], optional_fields: &["integration_s", "dissemination_interval_s", "link_loss_db", "classical_link_sigma_s", "monitor_pfa", "attack_delay_s", "clock_fault_sigma"] },
         ScenarioMeta { name: "hybrid", description: "Hybrid PNT capstone: clock + IMU + time-transfer aiding.", required_fields: &["seed", "timing_spec_ns", "position_spec_m", "time", "gnss", "resync", "clock_quantum", "clock_classical", "accel_quantum", "accel_classical"], optional_fields: &[] },
-        ScenarioMeta { name: "fusion", description: "Joint Kalman sensor-fusion PNT over the same hybrid inputs.", required_fields: &["seed", "timing_spec_ns", "position_spec_m", "time", "gnss", "resync", "clock_quantum", "clock_classical", "accel_quantum", "accel_classical"], optional_fields: &[] },
+        ScenarioMeta { name: "fusion", description: "Joint Kalman sensor-fusion PNT over the same hybrid inputs.", required_fields: &["seed", "timing_spec_ns", "position_spec_m", "time", "gnss", "resync", "clock_quantum", "clock_classical", "accel_quantum", "accel_classical"], optional_fields: &["coupled"] },
         ScenarioMeta { name: "hybrid-ukf", description: "17-state hybrid quantum+classical tightly-coupled GNSS/INS UKF (MODELLED): 15 INS error states + CAI-derived accel-bias correction + a 2-state (phase+frequency) clock from the q-parameter clock engine, driven by the bracketed CAI error model. The figure of merit is filter self-consistency (NEES + innovation-whiteness vs χ² bounds) — a self-consistency statement, NOT a real-world accuracy guarantee. Simulation only; no TRL>3, no flight heritage, no external validation.", required_fields: &["seed", "time", "gnss", "accel", "clock"], optional_fields: &["residual_accel_bias_m_s2", "speed_m_s", "sigma_pr_m", "sigma_rr_mps", "consistency_seeds", "q_factor", "r_factor"] },
-        ScenarioMeta { name: "gnss-ins", description: "Loosely- and tightly-coupled GNSS/INS error-state EKF.", required_fields: &["seed", "threshold_m", "time", "gnss", "imu_quantum", "imu_classical"], optional_fields: &["fix_interval_s", "sigma_pos_m", "sigma_vel_mps", "lat_deg", "lon_deg", "alt_m"] },
+        ScenarioMeta { name: "gnss-ins", description: "Loosely- and tightly-coupled GNSS/INS error-state EKF.", required_fields: &["seed", "threshold_m", "time", "gnss", "imu_quantum", "imu_classical"], optional_fields: &["fix_interval_s", "sigma_pos_m", "sigma_vel_mps", "lat_deg", "lon_deg", "alt_m", "trajectory", "tight"] },
         ScenarioMeta { name: "gnss-sim", description: "Measurement-domain pseudorange simulation (Klobuchar iono, Saastamoinen/Niell tropo) + RAIM.", required_fields: &["seed", "time", "receiver", "constellation"], optional_fields: &["iono", "tropo", "mask_deg", "noise_sigma_m", "multipath_m", "sat_clock_rms_m", "uere_m", "p_fa", "p_md", "alert_limit_h_m", "alert_limit_v_m", "skyline"] },
         ScenarioMeta { name: "jamming", description: "Link-budget jamming: J/S → effective C/N₀ → loss of lock.", required_fields: &["seed", "time", "receiver", "constellation"], optional_fields: &["jammer", "mask_deg", "tracking_threshold_dbhz", "degraded_margin_db", "signal_power_dbw", "temp_k", "freq_hz", "chip_rate_hz", "skyline"] },
         ScenarioMeta { name: "spoof", description: "Stochastic time-spoof detector (Neyman–Pearson / χ²₁) with Monte-Carlo P_fa/P_md.", required_fields: &["threshold_ns", "time", "attack", "clock_quantum", "clock_classical"], optional_fields: &[] },
         ScenarioMeta { name: "spoof-detect", description: "Combined RF/measurement spoof detector (multi-SV RAIM-consistency + AGC + SQM, fused) vs a parameterised attack (power advantage, carrier-phase alignment, time/position push; TEXBAT-style).", required_fields: &["attack"], optional_fields: &["satellites", "detector"] },
         ScenarioMeta { name: "sweep", description: "1-D trade-study sweep over a clock-pack parameter.", required_fields: &["parameter", "metric", "start", "stop", "steps", "base"], optional_fields: &["scale"] },
         ScenarioMeta { name: "sweep-nd", description: "Generic N-D sweep over any pack via dotted TOML keys / JSON metric paths.", required_fields: &["base", "axes", "metrics"], optional_fields: &[] },
-        ScenarioMeta { name: "gravity-map", description: "GPS-denied gravity-map-matching navigation: a cold-atom gravimeter recovers a constant INS drift from the gravity-anomaly sequence it flies through.", required_fields: &["nmax", "start_lat_deg", "start_lon_deg", "step_lat_deg", "step_lon_deg", "waypoints", "drift_lat_deg", "drift_lon_deg", "gravimeter_asd", "averaging_time_s", "map_sigma_mgal", "search_half_deg", "search_step_deg"], optional_fields: &["coeffs", "mascons", "refine_stages", "refine_factor", "noise_seed"] },
+        ScenarioMeta { name: "gravity-map", description: "GPS-denied gravity-map-matching navigation: a cold-atom gravimeter recovers a constant INS drift from the gravity-anomaly sequence it flies through.", required_fields: &["nmax", "start_lat_deg", "start_lon_deg", "step_lat_deg", "step_lon_deg", "waypoints", "drift_lat_deg", "drift_lon_deg", "gravimeter_asd", "averaging_time_s", "map_sigma_mgal", "search_half_deg", "search_step_deg"], optional_fields: &["coeffs", "mascons", "refine_stages", "refine_factor", "noise_seed", "reference", "map_error_mc"] },
         ScenarioMeta { name: "terrain-nav", description: "GPS-denied terrain-referenced navigation (TERCOM/SITAN): a radar/baro altimeter matches the ground-elevation profile against an SRTM-style DEM to recover the INS drift.", required_fields: &["dem_seed", "start_lat_deg", "start_lon_deg", "step_lat_deg", "step_lon_deg", "waypoints", "drift_lat_deg", "drift_lon_deg", "altimeter_sigma_m", "map_sigma_m", "search_half_deg", "search_step_deg"], optional_fields: &["refine_stages", "refine_factor", "noise_seed"] },
         ScenarioMeta { name: "terrain-slam", description: "GPS-denied sequential (recursive) terrain-referenced navigation: a particle filter runs the terrain-match measurement model epoch by epoch (SITAN as a running filter) so a time-varying INS drift is tracked along the track, where the batch terrain-nav only recovers a single constant offset.", required_fields: &["dem_seed", "start_lat_deg", "start_lon_deg", "step_lat_deg", "step_lon_deg", "waypoints", "drift_rate_lat_deg", "drift_rate_lon_deg", "altimeter_sigma_m", "map_sigma_m"], optional_fields: &["n_particles", "init_pos_sigma_deg", "process_sigma_deg", "resample_ess_frac", "seed"] },
-        ScenarioMeta { name: "combined-altpnt", description: "GPS-denied combined gravity + magnetic + terrain navigator: three scalar field channels fused per waypoint for a sharper (lower-CRLB) drift fix than any single field.", required_fields: &["start_lat_deg", "start_lon_deg", "step_lat_deg", "step_lon_deg", "waypoints", "drift_lat_deg", "drift_lon_deg", "search_half_deg", "search_step_deg", "nmax", "gravity_sigma_mgal", "igrf_year", "magnetic_sigma_nt", "dem_seed", "terrain_sigma_m"], optional_fields: &["coeffs", "mascons", "magnetic_mascons", "igrf_alt_km", "refine_stages", "refine_factor", "noise_seed"] },
+        ScenarioMeta { name: "combined-altpnt", description: "GPS-denied combined gravity + magnetic + terrain navigator: three scalar field channels fused per waypoint for a sharper (lower-CRLB) drift fix than any single field.", required_fields: &["start_lat_deg", "start_lon_deg", "step_lat_deg", "step_lon_deg", "waypoints", "drift_lat_deg", "drift_lon_deg", "search_half_deg", "search_step_deg", "nmax", "gravity_sigma_mgal", "igrf_year", "magnetic_sigma_nt", "dem_seed", "terrain_sigma_m"], optional_fields: &["coeffs", "mascons", "magnetic_mascons", "igrf_alt_km", "refine_stages", "refine_factor", "noise_seed", "magnetic_grid"] },
         ScenarioMeta { name: "pvt", description: "Real-observation single-point positioning: solve a receiver's position from a RINEX 3 observation file and a broadcast-navigation file (code pseudoranges, broadcast ephemeris, Klobuchar iono, Saastamoinen/Niell tropo), optionally validated against a surveyed coordinate.", required_fields: &["obs_rinex", "nav_rinex"], optional_fields: &["truth_ecef", "apriori_ecef", "mask_deg", "dual_frequency"] },
         ScenarioMeta { name: "mars-pnt", description: "Deep-space Mars PNT: a simulated MARCONI relay constellation (areostationary + inclined relays broadcasting one-way + relaying two-way to a deep-space station) navigates a reference user (transfer | lmo | surface) through the joint one-way/two-way radiometric fusion estimator. Reports per-epoch geometry/visibility, achieved RMS vs truth, and the formal covariance (1σ / 3σ position) — an honest simulated FoM, NOT a certified protection level.", required_fields: &[], optional_fields: &["user", "clock_class", "step_s", "duration_s", "nmax", "range_sigma_m", "doppler_sigma_mps", "dynamic_tightness", "two_way_period_s", "seed"] },
         ScenarioMeta { name: "impairment-eval", description: "AI/ML RF-impairment detection evaluation testbed (13494): generate a labelled, parameter-grounded SYNTHETIC corpus (nominal/jamming/spoof-time/spoof-position/multipath), score a detector (energy|agc|sqm|parity|fused) with the detector-agnostic harness, and report AUC/ROC/confusion + per-class Pd at a target Pfa, plus the in- vs out-of-distribution optimism gap. MODELLED operating characteristics only — never field/IQ, no good/bad verdict.", required_fields: &[], optional_fields: &["seed", "n_per_class", "nominal_cn0_dbhz", "meas_noise", "detector", "target_pfa", "shift_severity_scale", "optimism_tol"] },
@@ -1042,6 +1103,13 @@ pub fn list_scenario_kinds() -> Vec<ScenarioMeta> {
         ScenarioMeta { name: "leo-ppp", description: "Precise point positioning (PPP) convergence with GNSS only and with LEO augmentation: a float extended Kalman filter on ionosphere-free code and carrier phase with the static station coordinates, a white receiver clock, one inter-system bias per extra system, a random-walk zenith wet delay mapped by 1/sin(elevation) and a float ambiguity per satellite arc; the precise orbit-and-clock error is white and common to the code and phase of a satellite, so each satellite is one correlated two-row update in a Joseph-stabilised form. Measurements are simulated from the same model with seeded noise over several sites and seeds, and each case (GNSS only first, then each [[case]] of LEO systems, any constellation or preset) reports the median convergence time (the first epoch after which the horizontal and vertical errors stay below the thresholds, 10 cm by default), the fraction converged, the median error curves and the filter consistency (the run-averaged position NEES against the two-sided 95% chi-square band). Optionally beside the published Li et al. (2019, J. Geod. 93:749, doi 10.1007/s00190-018-1195-2) mid-latitude figures: 9.6 min for multi-GNSS shortened to 7.0, 3.2, 2.1 and 1.3 min with 60, 96, 192 and 288 LEO satellites. MODELLED: a consistency comparison of the trend, not a reproduction of that study's constellations, noise or stations; no ambiguity resolution, cycle slips, phase wind-up, tides or time-correlated product errors.", required_fields: &[], optional_fields: &["seed", "duration_s", "step_s", "runs", "criterion_horizontal_m", "criterion_vertical_m", "compare_li_2019", "noise", "site", "gnss", "case"] },
         ScenarioMeta { name: "ntn-positioning", description: "Positioning from a 5G non-terrestrial network (NTN) downlink in the mobile-satellite service (MSS) S band (3GPP band n256, downlink 2170 to 2200 MHz; default carrier 2172.5 MHz): the Cramér-Rao bound (CRB) on time of arrival, c / (2 pi beta sqrt(2 (C/N0) T)) with beta the root-mean-square (Gabor) bandwidth of the flat OFDM spectrum (B/sqrt(12)), and on the Doppler of a complex tone, sqrt(3 / (2 pi^2 (C/N0) T^3)), for each signal (default a 5 MHz New Radio channel with 4.5 MHz occupied and a 200 kHz narrowband channel with 180 kHz occupied); then, over any LEO constellation, downlink time-of-arrival fixes with an unknown receiver clock (seeded, with the bound plus a network synchronisation error as the sigma), their PDOP and formal 3D sigma, and a single-satellite Doppler fix over the longest pass with the height held. MODELLED: the bandwidth-to-bound step is the textbook closed form, checked against numerical integration of the flat and band-limited BPSK spectra (internal consistency, no published worked figure pinned), and the positioning accuracy is a bound on a multipath-free channel with a stated synchronisation error, not an achieved result.", required_fields: &[], optional_fields: &["seed", "carrier_hz", "signal", "integration_s", "doppler_integration_s", "cn0_dbhz", "sync_error_m", "user", "duration_s", "step_s", "system"] },
         ScenarioMeta { name: "leo-pnt-chain", description: "One LEO-PNT (positioning, navigation and timing from low Earth orbit) system end to end, for any constellation and signal: the leo-signal design named by signal_design (a public preset or an inline [signal] design) sets a [pass] band's centre, bandwidth, chip rate and EIRP split, the leo-pass link budget gives the tracked C/N0 and band-limited code jitter over the pass, a C/N0 line in sin(elevation) and the [navmsg] message's broadcast SISRE (fitted at the pass satellite's altitude) feed every LEO system of the [fusion] leo-pvt joint fix, and optionally the [ppp] leo-ppp cases; every hand-off is listed with its value and unit. MODELLED.", required_fields: &["signal_design", "pass", "fusion"], optional_fields: &["name", "description", "seed", "signal", "navmsg", "od_sisre_m", "ppp"] },
+        ScenarioMeta { name: "contact-schedule", description: "Ground-contact planning for several satellites over several stations: apparent access windows (SGP4, IAU 2006/2000A Earth-fixed frame, ITU-R P.834 refraction, light time), the DVB-S2 ACM data volume of each pass (ETSI EN 302 307-1 Table 13 thresholds) and a conflict-free schedule (one satellite per antenna with a turnaround, one station per satellite, priority-weighted delivery capped at each backlog) by a marginal-value greedy, a first-come baseline and an exact branch and bound on small sets, with the greedy's optimality gap. MODELLED.", required_fields: &[], optional_fields: &["epoch", "duration_hours", "step_s", "refraction", "light_time", "link", "satellites", "stations"] },
+        ScenarioMeta { name: "acm-link", description: "One satellite over one station: each pass's slant range, elevation and Es/N0 along the pass, the DVB-S2 MODCOD chosen at each step (ETSI EN 302 307-1 Table 13 thresholds plus an implementation margin) and the data volume ACM moves against the constant-coding baseline that closes at the mask. MODELLED.", required_fields: &[], optional_fields: &["epoch", "duration_hours", "step_s", "refraction", "light_time", "link", "satellite", "station"] },
+        ScenarioMeta { name: "aocs", description: "Spacecraft attitude control: an inertial-pointing slew of a rigid hub with three or more balanced reaction wheels under MRP feedback (L = -K sigma - P omega), minimum-norm wheel torques clipped to each motor's limit, RK4 with a zero-order hold; optionally closed on a multiplicative EKF from a simulated gyro (angle and rate random walk) and star tracker. Reports settling time, final and peak pointing error, peak wheel speed and torque, the saturated fraction, angular-momentum drift and, with the estimator, its attitude error and NEES. The true-state loop is VALIDATED against Basilisk 2.9.1; the estimator is MODELLED.", required_fields: &["hub_inertia_kg_m2", "k_nm", "p_nms", "wheels", "sigma0"], optional_fields: &["duration_s", "dt_s", "sample_s", "omega0_rad_s", "pointing_threshold_deg", "estimator"] },
+        ScenarioMeta { name: "entry-heating", description: "3-DoF point-mass atmospheric entry over a rotating spherical Earth or Mars (ballistic or lifting at constant bank), RK4, through US76, an exponential or the Mars atmosphere, with Sutton-Graves stagnation-point convective heating (NASA TR R-376): peak deceleration, heat flux and dynamic pressure, heat load, downrange, a rotating-frame energy check and the Allen-Eggers closed form beside it. Peak deceleration is checked against the published Stardust nominal; heating is MODELLED.", required_fields: &[], optional_fields: &["body", "atmosphere", "rho0_kg_m3", "scale_height_m", "entry_interface_altitude_m", "velocity_frame", "entry_speed_m_s", "flight_path_angle_deg", "heading_deg", "latitude_deg", "longitude_deg", "mass_kg", "drag_coefficient", "reference_area_m2", "nose_radius_m", "lift_to_drag", "bank_angle_deg", "rotating_planet", "step_s", "terminal_altitude_m", "max_time_s"] },
+        ScenarioMeta { name: "eo-radiometry", description: "Nadir imager radiometry and image quality: at-aperture radiance of a Lambertian scene, the camera equation, signal and shot/dark/read/quantisation noise and SNR; the system MTF at Nyquist (diffraction x detector x smear x jitter), the relative edge response from it, Q = lambda F/p and the GIQE version 4 NIIRS with no MTF compensation. MODELLED.", required_fields: &[], optional_fields: &["altitude_m", "focal_length_m", "aperture_m", "pixel_pitch_um", "wavelength_um", "bandwidth_um", "fill_factor", "smear_px", "jitter_px_rms", "reflectance", "solar_irradiance_w_m2_um", "sun_zenith_deg", "atmospheric_transmittance", "path_radiance_w_m2_sr_um", "optics_transmittance", "integration_s", "quantum_efficiency", "dark_current_e_s", "read_noise_e", "full_well_e", "adc_bits"] },
+        ScenarioMeta { name: "ascent-losses", description: "Planar gravity-turn ascent of a multi-stage vehicle over a non-rotating spherical Earth through the US Standard Atmosphere 1976 (vertical rise, pitch kick, thrust along velocity), integrating the gravity, drag, steering and back-pressure losses and checking ideal dv minus losses against the burnout speed; max-Q, peak acceleration and burnout state. MODELLED.", required_fields: &[], optional_fields: &["stages", "payload_kg", "drag_coefficient", "reference_area_m2", "kick_altitude_m", "kick_angle_deg", "kick_duration_s", "step_s"] },
+        ScenarioMeta { name: "time-transfer-budget", description: "Two-way satellite time and frequency transfer between two stations through a geostationary relay: the two-way equation solved for T_A - T_B with every non-reciprocal term (station equipment delays, Ku-band ionosphere, transponder, Sagnac), a quadrature uncertainty budget whose type A term is the simulated link's TDEV at the averaging time, a simulated link with white and flicker phase noise and a diurnal non-reciprocity, and the stability (rate, residual RMS, TDEV, ADEV) of any supplied BIPM Circular T Section 1 series, MJD,ns CSV or IGS RINEX station-clock records. MODELLED.", required_fields: &["station_a", "station_b", "satellite_lon_deg", "transponder_ab_ns", "transponder_ba_ns", "white_noise_ns", "uncertainty"], optional_fields: &["uplink_ghz", "downlink_ghz", "true_offset_ns", "flicker_noise_ns", "diurnal_amplitude_ns", "reciprocity_bias_ns", "step_s", "span_days", "averaging_s", "seed", "series"] },
     ]
 }
 
@@ -1054,6 +1122,192 @@ pub fn list_scenario_kinds_json() -> String {
     // arm is unreachable by construction.
     json_of(&list_scenario_kinds())
         .expect("ScenarioMeta is all-static-string data; JSON serialisation is infallible")
+}
+
+/// For each scenario kind whose verification-matrix rows name a module other than the kind's own
+/// name (the kind with hyphens as underscores, or as written), the module names its rows use.
+///
+/// The Studio's capability map joins a scenario's kinds to the matrix rows through this table;
+/// it used to keep its own hand-written copy. `tests/kind_modules.rs` fails if a kind here is not
+/// a dispatchable kind or a module here appears in no matrix row, so the table cannot name
+/// something that is not there. A kind absent from the table matches its own name only.
+pub const KIND_MODULES: &[(&str, &[&str])] = &[
+    ("gnss-ins", &["fusion"]),
+    ("hybrid-ukf", &["fusion"]),
+    ("hybrid", &["fusion", "holdover"]),
+    ("conflict-resilience", &["resilience"]),
+    ("terrain-nav", &["altpnt"]),
+    ("terrain-slam", &["altpnt"]),
+    ("gravity-map", &["gravity_sh", "altpnt"]),
+    ("combined-altpnt", &["altpnt"]),
+    ("quantum-gnss-free-nav", &["quantum_nav_od"]),
+    ("quantum-time-transfer", &["timetransfer_chain"]),
+    ("moonlight-service-volume", &["lunar_service"]),
+    ("lunar-integrity", &["lunar_service"]),
+    ("lunar-attack-surface", &["lunar_service", "antenna"]),
+    ("lunar-time-offset", &["lunar_time"]),
+    ("lunar-differential-pnt", &["lunar_dpnt"]),
+    ("lunar-joint-od-clock", &["lunar_combination"]),
+    ("lunar-interop-export", &["lunar_interop"]),
+    ("quantum-anomaly-detect", &["quantum_faults"]),
+    ("pvt", &["rinex"]),
+    ("ephemeris", &["sgp4"]),
+    ("inertial", &["inertial"]),
+    ("constellation-design", &["constellation"]),
+    ("integrity", &["raim", "sbas"]),
+    ("araim-reference-check", &["araim_reference"]),
+    ("launch-window", &["launch"]),
+    ("eo-coverage", &["eo_payload"]),
+    ("link-budget", &["linkbudget"]),
+    ("aperture-duty-cycle", &["aperture_duty"]),
+    ("oem-interop", &["oem"]),
+    ("telecom-timing", &["telecom_timing"]),
+    ("slot-timing", &["slot_timing"]),
+    ("solar-system", &["solar_system", "ephem"]),
+    ("body-pnt", &["body_pnt"]),
+    ("mars-pnt", &["mars_pnt", "body_pnt"]),
+];
+
+/// [`KIND_MODULES`] as a JSON object, kind to array of module names, in table order.
+pub fn kind_modules_json() -> String {
+    let mut o = serde_json::Map::new();
+    for (kind, modules) in KIND_MODULES {
+        o.insert((*kind).to_string(), serde_json::json!(modules));
+    }
+    serde_json::Value::Object(o).to_string()
+}
+
+/// Which fields of a scenario answer its question, best first, for the kinds where that has been
+/// decided: the inputs a front end should put in front of the user before all the others. Each
+/// entry is a dotted path through the scenario file; `[]` stands for any element of an array of
+/// tables (`jammers[].eirp_dbw`). A kind absent here has no stated order and a front end ranks
+/// its fields itself.
+///
+/// This is display metadata only. The engine never reads it, so no scenario file needs it and no
+/// result depends on it. `tests/field_importance.rs` fails if a kind here is not dispatchable, a
+/// path is listed twice, or a path is found in none of the bundled scenarios of its kind.
+pub const HEADLINE_FIELDS: &[(&str, &[&str])] = &[
+    (
+        "spectrum",
+        &[
+            "receiver.tracking_threshold_dbhz",
+            "receiver.noise_figure_db",
+            "jammers[].eirp_dbw",
+            "jammers[].received_power_dbw",
+            "jammers[].range_m",
+            "jammers[].bandwidth_mhz",
+            "duration_s",
+        ],
+    ),
+    ("solar-system", &["track_points"]),
+    (
+        "body-pnt",
+        &[
+            "constellation.planes",
+            "constellation.sats_per_plane",
+            "constellation.altitude_km",
+            "constellation.inclination_deg",
+            "constellation.sigma_range_m",
+            "earth_link.sigma_range_m",
+        ],
+    ),
+    (
+        "constellation-design",
+        &[
+            "mask_deg",
+            "pdop_threshold",
+            "grid_step_deg",
+            "constellation[].shell[].altitude_km",
+            "constellation[].shell[].inclination_deg",
+        ],
+    ),
+    (
+        "campaign",
+        &[
+            "monte_carlo.runs",
+            "sweep.axes[].start",
+            "sweep.axes[].stop",
+            "sweep.axes[].steps",
+            "compose.shared[].value",
+            "timeline.step_s",
+            "phases[].duration_s",
+        ],
+    ),
+    (
+        "leo-signal",
+        &[
+            "receiver.reference_cn0_dbhz",
+            "receiver.loop_bandwidth_hz",
+            "trade.slant_tec_tecu",
+            "trade.slant_range_km",
+            "acquisition.altitude_km",
+        ],
+    ),
+    (
+        "leo-pass",
+        &[
+            "user.mask_deg",
+            "satellite[].max_elevation_deg",
+            "user.lat_deg",
+            "spoofer.offset_m",
+            "spoofer.onset_s",
+            "iot.active_power_mw",
+        ],
+    ),
+    (
+        "leo-navmsg",
+        &[
+            "orbit.altitude_km",
+            "orbit.inclination_deg",
+            "message.fit_interval_s",
+            "message.update_period_s",
+            "orbit.gravity_degree",
+        ],
+    ),
+    (
+        "leo-pvt",
+        &[
+            "user.lat_deg",
+            "system[].sisre_m",
+            "system[].mask_deg",
+            "system[].sigma_doppler_hz",
+            "joint.max_leo_sweep",
+            "duration_s",
+        ],
+    ),
+    ("leo-ppp", &["duration_s", "runs", "gnss[].mask_deg"]),
+    (
+        "ntn-positioning",
+        &[
+            "signal[].bandwidth_hz",
+            "integration_s",
+            "sync_error_m",
+            "system[].mask_deg",
+        ],
+    ),
+    (
+        "leo-pnt-chain",
+        &[
+            "od_sisre_m",
+            "pass.satellite[].altitude_km",
+            "pass.satellite[].max_elevation_deg",
+            "pass.satellite[].band[].eirp_dbw",
+            "navmsg.message.fit_interval_s",
+        ],
+    ),
+];
+
+/// [`HEADLINE_FIELDS`] as JSON: `{kind: {"headline": [path, ...]}}`, in table order. The object
+/// per kind leaves room for further tiers without changing the shape.
+pub fn field_importance_json() -> String {
+    let mut o = serde_json::Map::new();
+    for (kind, paths) in HEADLINE_FIELDS {
+        o.insert(
+            (*kind).to_string(),
+            serde_json::json!({ "headline": paths }),
+        );
+    }
+    serde_json::Value::Object(o).to_string()
 }
 
 /// Render the built-in scenario-kind catalogue as a standalone Markdown reference
@@ -1365,6 +1619,9 @@ pub fn with_study_meta(json: &str, meta: &crate::report::StudyMeta) -> String {
     format!("{{\n  \"meta\": {},\n{rest}", indented.trim_start())
 }
 
+mod builtins;
+pub use builtins::BuiltinKind;
+
 /// The contract a scenario pack fulfils: run itself and produce the unified output
 /// envelope, returning a structured [`KshanaError`] on failure.
 pub trait Scenario {
@@ -1393,13 +1650,14 @@ pub trait ExternalPack: Scenario {
 }
 
 // A built-in pack implemented through the `Scenario` trait, as the worked example
-// the dispatcher and any external pack follow. (The other built-ins run inline in
-// `run_toml`; migrating each is a mechanical follow-on.)
+// the dispatcher and any external pack follow. Every other built-in's impl, and every
+// `BuiltinKind` impl (this one's included), lives in `api/builtins.rs` (FUT-27).
 impl Scenario for crate::jamming::JammingScenario {
     fn run(&self) -> Result<RunOutput, KshanaError> {
         self.time.validate()?;
         let sky = self.sky().map_err(KshanaError::InvalidInput)?;
-        let r = crate::jamming::run_jamming_sky(self, sky.as_ref());
+        let r = crate::jamming::run_jamming_sky(self, sky.as_ref())
+            .map_err(KshanaError::InvalidInput)?;
         let summary = format!(
             "scenario {} | jamming {} | availability under jamming {:.2} (nominal {:.2}) | min tracking {} | mean J/S {}",
             &r.scenario_hash[..12],
@@ -1414,13 +1672,13 @@ impl Scenario for crate::jamming::JammingScenario {
             sky.as_ref(),
             self.mask_deg,
         ) {
-            None => json_of_with_units(&r, crate::jamming::UNITS),
+            None => json_of_with_units(&r, &crate::jamming::units(self)),
             Some(skyline) => json_of_with_units(
                 &crate::skyline::WithSkyline {
                     report: &r,
                     skyline,
                 },
-                &crate::skyline::with_units(true, &[crate::jamming::UNITS]),
+                &crate::skyline::with_units(true, &[&crate::jamming::units(self)]),
             ),
         }
         .map_err(KshanaError::InvalidInput)?;
@@ -1447,7 +1705,18 @@ pub fn run_scenario(src: &str) -> Result<RunOutput, KshanaError> {
 /// the existing bindings (see [`run_scenario`] for the structured-error variant).
 /// Every chart is stamped with a provenance footer so saved images stand alone.
 pub fn run_toml(src: &str) -> Result<RunOutput, String> {
-    let mut out = run_toml_inner(src)?;
+    let mut out = run_toml_inner(src, true)?;
+    let hash = extract_scenario_hash(&out.json).unwrap_or_else(|| src_fingerprint(src));
+    out.svg = with_provenance(out.svg, &hash);
+    Ok(out)
+}
+
+/// [`run_toml`] without the per-kind `figure_tiers` block that [`run_toml_inner`]
+/// appends (RM-04): for a run whose document is embedded in another kind's result (a
+/// campaign member), so the outer document keeps its bytes. A kind that builds its own
+/// block inside its run keeps it.
+pub fn run_toml_untiered(src: &str) -> Result<RunOutput, String> {
+    let mut out = run_toml_inner(src, false)?;
     let hash = extract_scenario_hash(&out.json).unwrap_or_else(|| src_fingerprint(src));
     out.svg = with_provenance(out.svg, &hash);
     Ok(out)
@@ -1458,12 +1727,59 @@ pub fn run_toml(src: &str) -> Result<RunOutput, String> {
 /// [`crate::registry::PackRegistry`] of built-ins. The error mapping is identical to
 /// the historical inline dispatch (the registry wraps the built-in's `String` error
 /// in `InvalidInput`, whose `Display` passes it through unchanged).
-fn run_toml_inner(src: &str) -> Result<RunOutput, String> {
+///
+/// With `tiers`, a kind in [`crate::fom_label::kind_figures`] then gets its
+/// `figure_tiers` block appended as the document's last key (RM-04), unless the document
+/// already carries one. Frozen-prediction kinds
+/// ([`crate::fom_label::FROZEN_PREDICTION_KINDS`]) get none.
+fn run_toml_inner(src: &str, tiers: bool) -> Result<RunOutput, String> {
     let kind = ScenarioKind::classify(src).map_err(|e| e.to_string())?;
-    crate::registry::PackRegistry::with_builtins()
+    let mut out = crate::registry::PackRegistry::with_builtins()
         .build(&kind.to_id(), src)?
         .run()
-        .map_err(|e| e.to_string())
+        .map_err(|e| e.to_string())?;
+    if tiers
+        && crate::fom_label::kind_figures(kind.as_str()).is_some()
+        && without_figure_tiers(&out.json).is_none()
+    {
+        if let Ok(doc) = serde_json::from_str::<serde_json::Value>(&out.json) {
+            if let Some(block) = crate::fom_label::kind_figure_tiers(kind.as_str(), &doc) {
+                out.json = append_figure_tiers(&out.json, &block)?;
+            }
+        }
+    }
+    Ok(out)
+}
+
+/// `json` with `block` appended as its last key, `figure_tiers`, byte for byte as the
+/// `Documented` wrapper would have serialised it: two-space pretty printing, the block
+/// nested one level in. Fails on a document that is not a pretty-printed JSON object or
+/// that already carries the block.
+///
+/// The one implementation: the FUT-27 seam (`builtins::run_builtin`) appends a kind's
+/// own block with it too.
+pub fn append_figure_tiers(json: &str, block: &serde_json::Value) -> Result<String, String> {
+    if without_figure_tiers(json).is_some() {
+        return Err(format!(
+            "the result document already carries `{FIGURE_TIERS_KEY}`"
+        ));
+    }
+    let body = json.trim_end();
+    let head = body.strip_suffix("\n}").ok_or_else(|| {
+        "figure_tiers: the result document is not a pretty JSON object".to_string()
+    })?;
+    let pretty = serde_json::to_string_pretty(block)
+        .map_err(|e| format!("failed to serialise figure_tiers: {e}"))?;
+    let nested = pretty.replace('\n', "\n  ");
+    let mut out = String::with_capacity(json.len() + nested.len() + 32);
+    out.push_str(head);
+    out.push_str(",\n  \"");
+    out.push_str(FIGURE_TIERS_KEY);
+    out.push_str("\": ");
+    out.push_str(&nested);
+    out.push_str("\n}");
+    out.push_str(&json[body.len()..]);
+    Ok(out)
 }
 
 /// The built-in dispatch table, keyed on an already-resolved [`ScenarioKind`]. This
@@ -1472,1217 +1788,164 @@ fn run_toml_inner(src: &str) -> Result<RunOutput, String> {
 /// without forking core.
 pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutput, String> {
     match kind {
-        ScenarioKind::Inertial => {
-            let scn: crate::inertial::InertialScenario =
-                toml::from_str(src).map_err(|e| format!("invalid inertial scenario: {e}"))?;
-            scn.time.validate()?;
-            let r = crate::inertial::run_inertial(&scn);
-            let summary = format!(
-                "scenario {} | quantum holdover {:.0}s p95 {:.2}m | classical holdover {:.0}s p95 {:.1}m",
-                &r.scenario_hash[..12],
-                r.quantum.fom.holdover_s, r.quantum.fom.pos_p95_m,
-                r.classical.fom.holdover_s, r.classical.fom.pos_p95_m,
-            );
-            Ok(RunOutput {
-                json: json_of_with_units(&r, crate::inertial::UNITS)?,
-                svg: crate::inertial::to_svg(&r),
-                summary,
-                csv: None,
-            })
-        }
-        ScenarioKind::Integrity => {
-            let scn: crate::raim::IntegrityScenario =
-                toml::from_str(src).map_err(|e| format!("invalid integrity scenario: {e}"))?;
-            scn.time.validate()?;
-            let n_sats = scn.all_satellites()?.len();
-            let report = scn.run()?;
-            let summary = format!(
-                "integrity | {} satellites | {}/{} epochs available ({:.1}%) | HAL {:.0} m VAL {:.0} m | sigma {:.1} m | Stanford(V): {} integrity events, {} HMI",
-                n_sats,
-                report.samples_available,
-                report.samples_total,
-                report.availability() * 100.0,
-                report.al_h_m,
-                report.al_v_m,
-                scn.sigma_uere_m,
-                report.stanford.integrity_events(),
-                report
-                    .stanford
-                    .count(crate::raim::StanfordRegion::HazardouslyMisleadingInformation),
-            );
-            let (_, sky) = scn.user_and_sky()?;
-            let json = match crate::skyline::SkylineSummary::of(
-                scn.skyline.as_ref(),
-                sky.as_ref(),
-                scn.mask_deg,
-            ) {
-                None => json_of_with_units(&report, crate::raim::UNITS)?,
-                Some(skyline) => json_of_with_units(
-                    &crate::skyline::WithSkyline {
-                        report: &report,
-                        skyline,
-                    },
-                    &crate::skyline::with_units(true, &[crate::raim::UNITS]),
-                )?,
-            };
-            Ok(RunOutput {
-                json,
-                svg: crate::raim::availability_svg(&report),
-                summary,
-                csv: None,
-            })
-        }
-        ScenarioKind::LunarIntegrity => {
-            let scn: crate::lunar::LunarScenario = toml::from_str(src)
-                .map_err(|e| format!("invalid lunar-integrity scenario: {e}"))?;
-            let report = scn.run();
-            let summary = format!(
-                "lunar-integrity | south pole | {}/{} epochs available ({:.1}%) | AL {:.0} m | σ_URE {:.0} m | HPL {:.0}–{:.0} m",
-                report.samples_available,
-                report.samples_total,
-                report.availability() * 100.0,
-                report.alert_limit_m,
-                report.sigma_ure_m,
-                report.min_hpl_m,
-                report.max_hpl_m,
-            );
-            Ok(RunOutput {
-                json: json_of_with_units(&report, crate::lunar::UNITS)?,
-                svg: crate::lunar::lunar_report_svg(&report),
-                summary,
-                csv: None,
-            })
-        }
+        ScenarioKind::Inertial => builtins::run_builtin::<crate::inertial::InertialScenario>(src),
+        ScenarioKind::Integrity => builtins::run_builtin::<crate::raim::IntegrityScenario>(src),
+        ScenarioKind::LunarIntegrity => builtins::run_builtin::<crate::lunar::LunarScenario>(src),
         ScenarioKind::LunarTime => {
-            let scn: crate::lunar_time::LunarTimeScenario = toml::from_str(src)
-                .map_err(|e| format!("invalid lunar-time-offset scenario: {e}"))?;
-            let report = scn.run();
-            let summary = format!(
-                "lunar-time-offset | secular LTC−TT rate {:.2} µs/day (band {:.0}–{:.0}) | self-pot {:.2} kinetic {:.2} | offset @ {:.2} d = {:.2} µs",
-                report.secular_rate_us_per_day,
-                report.band_low,
-                report.band_high,
-                report.self_potential_us_per_day,
-                report.kinetic_us_per_day,
-                report.horizon_days,
-                report.offset_at_horizon_us,
-            );
-            Ok(RunOutput {
-                json: json_of_with_units(&report, crate::lunar_time::UNITS)?,
-                svg: crate::lunar_time::lunar_time_svg(&report),
-                summary,
-                csv: None,
-            })
+            builtins::run_builtin::<crate::lunar_time::LunarTimeScenario>(src)
         }
         ScenarioKind::LunarVlbi => {
-            let scn: crate::lunar_vlbi::LunarVlbiScenario =
-                toml::from_str(src).map_err(|e| format!("invalid lunar-vlbi scenario: {e}"))?;
-            let report = scn.try_run()?;
-            let summary = format!(
-                "lunar-vlbi | baseline {:.0} km | beacon range {:.0} km | delay {:.3} µs (rate {:.3e} s/s) | near-field {:.1} µs | {} samples over {:.1} h",
-                report.baseline_km,
-                report.beacon_range_km,
-                report.delay_s * 1e6,
-                report.delay_rate_s_per_s,
-                report.near_field_correction_us,
-                report.samples,
-                report.horizon_hours,
-            );
-            Ok(RunOutput {
-                json: json_of_with_units(&report, crate::lunar_vlbi::UNITS)?,
-                svg: crate::lunar_vlbi::lunar_vlbi_svg(&report),
-                summary,
-                csv: None,
-            })
+            builtins::run_builtin::<crate::lunar_vlbi::LunarVlbiScenario>(src)
         }
         ScenarioKind::LunarCombination => {
-            let scn: crate::lunar_combination::LunarCombinationScenario = toml::from_str(src)
-                .map_err(|e| format!("invalid lunar-joint-od-clock scenario: {e}"))?;
-            let report = scn.run();
-            let summary = format!(
-                "lunar-joint-od-clock | {} sats, {} Earth stations | station 3-D err with VLBI {:.2} m vs range-only {:.2} m ({:.1}× sharper) | sat pos RMS {:.2} m | station clk err {:.2e} s | obs {}/{} params",
-                report.n_sat,
-                report.n_earth,
-                report.with_vlbi.station_pos_err_m,
-                report.without_vlbi.station_pos_err_m,
-                report.station_observability_improvement_factor,
-                report.with_vlbi.sat_pos_rms_m,
-                report.with_vlbi.station_clock_err_s,
-                report.with_vlbi.n_obs,
-                report.with_vlbi.n_params,
-            );
-            Ok(RunOutput {
-                json: json_of_with_units(&report, crate::lunar_combination::UNITS)?,
-                svg: crate::lunar_combination::lunar_combination_svg(&report),
-                summary,
-                csv: None,
-            })
+            builtins::run_builtin::<crate::lunar_combination::LunarCombinationScenario>(src)
         }
         ScenarioKind::LunarFrameRealise => {
-            let scn: crate::lunar_frame_realise::LunarFrameRealiseScenario = toml::from_str(src)
-                .map_err(|e| format!("invalid lunar-frame-realisation scenario: {e}"))?;
-            let report = scn.run();
-            let summary = format!(
-                "lunar-frame-realisation | {} points | translation err {:.3e} m, rotation err {:.3e} rad, scale err {:.3e} ppb | rms residual {:.3} m | converged {}",
-                report.n_points,
-                report.trans_err_norm_m,
-                report.rot_err_norm_rad,
-                report.scale_err_ppb,
-                report.rms_residual_m,
-                report.converged,
-            );
-            Ok(RunOutput {
-                json: json_of_with_units(&report, crate::lunar_frame_realise::UNITS)?,
-                svg: crate::lunar_frame_realise::lunar_frame_realise_svg(&report),
-                summary,
-                csv: None,
-            })
+            builtins::run_builtin::<crate::lunar_frame_realise::LunarFrameRealiseScenario>(src)
         }
         ScenarioKind::LunarService => {
-            let scn: crate::lunar_service::LunarServiceScenario = toml::from_str(src)
-                .map_err(|e| format!("invalid moonlight-service-volume scenario: {e}"))?;
-            // `try_run` rather than `run`: with `ephemeris_path` set the scenario reads a
-            // file, and a missing or malformed one must surface as a clean dispatch error
-            // rather than a panic. With the path unset the two are identical.
-            let report = scn.try_run()?;
-            // The headline geometry is the illustrative set UNLESS a file supplied it, in
-            // which case saying "illustrative LCNS-class" of it would be false. The
-            // default wording is byte-unchanged.
-            let geometry_label = match &report.ephemeris {
-                None => "illustrative LCNS-class, not affiliated",
-                Some(e) if e.provenance_class == "published-ephemeris" => {
-                    "retrieved ephemeris, published-ephemeris"
-                }
-                Some(_) => "retrieved constellation definition, published-elements",
-            };
-            let mut summary = format!(
-                "moonlight-service-volume | {} sats ({geometry_label}) | {} pts × {} epochs | coverage {:.1}% (PDOP<{:.1}) | sats {}–{} | PDOP {:.2}/{:.2}/{:.2} | HPL {:.0}–{:.0} m | PL avail {:.1}% | MODELLED",
-                report.n_sats,
-                report.n_grid_points,
-                report.n_epochs,
-                report.coverage_pct,
-                report.pdop_threshold,
-                report.min_sats,
-                report.max_sats,
-                report.pdop_min,
-                report.pdop_mean,
-                report.pdop_max,
-                report.hpl_min_m,
-                report.hpl_max_m,
-                report.pl_availability_pct,
-            );
-            // Appended only when `ephemeris_path` named a file, so the default summary
-            // line is unchanged: the sigma requirement under the retrieved geometry and
-            // the one it is reported beside, never in place of.
-            if let Some(c) = &report.ephemeris_comparison {
-                let fmt = |v: Option<f64>| match v {
-                    Some(x) => format!("{x:.4} m"),
-                    None => "n/a".to_string(),
-                };
-                summary.push_str(&format!(
-                    " | ephemeris {} ({}) σ_URE required {} vs Keplerian {} vs perturbed {} (Δ {})",
-                    report
-                        .ephemeris
-                        .as_ref()
-                        .map(|e| e.name.as_str())
-                        .unwrap_or(""),
-                    c.ephemeris.provenance,
-                    fmt(c.ephemeris.sigma_required_m),
-                    fmt(c.keplerian.sigma_required_m),
-                    fmt(c.perturbed.sigma_required_m),
-                    fmt(c.sigma_requirement_delta_vs_keplerian_m),
-                ));
-            }
-            // G11: publish the per-satellite geometry as a long-form runtime artifact.
-            // It is the largest array the crate emits — 2304 rows in the released joint
-            // communications-and-navigation table — and reached consumers only inside
-            // JSON, the shape that silently truncated a sibling scenario's curve.
-            // `None` unless an export site was configured, so the default run is
-            // byte-unchanged and no empty file is written.
-            let csv = report.per_sat_geometry_csv();
-            Ok(RunOutput {
-                json: json_of_with_units(&report, crate::lunar_service::UNITS)?,
-                svg: crate::lunar_service::lunar_service_svg(&report),
-                summary,
-                csv,
-            })
+            builtins::run_builtin::<crate::lunar_service::LunarServiceScenario>(src)
         }
         ScenarioKind::LunarDpnt => {
-            let scn: crate::lunar_dpnt::LunarDpntScenario = toml::from_str(src)
-                .map_err(|e| format!("invalid lunar-differential-pnt scenario: {e}"))?;
-            let report = scn.run();
-            let summary = format!(
-                "lunar-differential-pnt | {} sats (illustrative LCNS-class, not affiliated) | baseline {:.0} km | user error {:.2} m → {:.4} m ({:.0}× reduction) | HPL {:.1} m (σ_resid {:.1} m) | MODELLED",
-                report.n_sats,
-                report.baseline_km,
-                report.user_error_uncorrected_m,
-                report.user_error_corrected_m,
-                report.reduction_factor,
-                report.protection_level_m,
-                report.residual_sigma_m,
-            );
-            Ok(RunOutput {
-                json: json_of(&report)?,
-                svg: crate::lunar_dpnt::lunar_dpnt_svg(&report),
-                summary,
-                csv: None,
-            })
+            builtins::run_builtin::<crate::lunar_dpnt::LunarDpntScenario>(src)
         }
         ScenarioKind::LunarStationCoverage => {
-            let scn: crate::lunar_station::LunarStationCoverageScenario = toml::from_str(src)
-                .map_err(|e| format!("invalid lunar-station-coverage scenario: {e}"))?;
-            let report = scn.run()?;
-            let f = |v: Option<f64>| v.map_or("n/a".to_string(), |v| format!("{v:.3} m"));
-            let summary = format!(
-                "lunar-station-coverage | {} points x {} epochs x {} trials | availability {:.1} % | coverage {:.1} % (p{:.0} <= {} m) | corrected p{:.0} 3-D {} (uncorrected {}) | HPL max {} | MODELLED; not a statement about any real system",
-                report.n_grid_points,
-                report.n_epochs,
-                report.n_trials,
-                100.0 * report.region.availability,
-                100.0 * report.region.coverage_fraction,
-                report.percentile,
-                report.inputs_echo.accuracy_threshold_m,
-                report.percentile,
-                f(report.region.corrected_p_3d_m),
-                f(report.region.uncorrected_p_3d_m),
-                f(report.region.hpl_max_m),
-            );
-            Ok(RunOutput {
-                json: json_of_with_units(&report, crate::lunar_station::UNITS)?,
-                svg: crate::lunar_station::lunar_station_coverage_svg(&report),
-                summary,
-                csv: None,
-            })
+            builtins::run_builtin::<crate::lunar_station::LunarStationCoverageScenario>(src)
         }
         ScenarioKind::LunarInterop => {
-            let scn: crate::lunar_interop::LunarInteropScenario = toml::from_str(src)
-                .map_err(|e| format!("invalid lunar-interop-export scenario: {e}"))?;
-            let report = scn.run();
-            let summary = format!(
-                "lunar-interop-export | REF_FRAME {} / TIME_SYSTEM {} | {} states, OEM {} lines | conformance {} ({} present / {} missing) | OEM round-trip {} | time-meta round-trip {} | KIF {} bytes | MODELLED",
-                report.frame,
-                report.time_system,
-                report.n_states,
-                report.oem_line_count,
-                if report.conformance.pass { "PASS" } else { "FAIL" },
-                report.conformance.present_fields.len(),
-                report.conformance.missing_fields.len(),
-                if report.oem_roundtrip_ok { "ok" } else { "fail" },
-                if report.time_metadata_roundtrip_ok { "ok" } else { "fail" },
-                report.kif_bytes,
-            );
-            Ok(RunOutput {
-                json: json_of_with_units(&report, crate::lunar_interop::UNITS)?,
-                svg: crate::lunar_interop::lunar_interop_svg(&report),
-                summary,
-                csv: None,
-            })
+            builtins::run_builtin::<crate::lunar_interop::LunarInteropScenario>(src)
         }
         ScenarioKind::TimeTransfer => {
-            let scn: crate::timetransfer::TimeTransferScenario =
-                toml::from_str(src).map_err(|e| format!("invalid time-transfer scenario: {e}"))?;
-            let r = crate::timetransfer::run_timetransfer(&scn);
-            let summary = format!(
-                "scenario {} | optical sync_rms {:.2}ps range_rms {:.3}mm adev(1s) {:.2e} | RF sync_rms {:.1}ps range_rms {:.1}mm adev(1s) {:.2e}",
-                &r.scenario_hash[..12],
-                r.quantum.fom.sync_rms_ps, r.quantum.fom.range_rms_mm, r.quantum.fom.adev_tau0,
-                r.classical.fom.sync_rms_ps, r.classical.fom.range_rms_mm, r.classical.fom.adev_tau0,
-            );
-            Ok(RunOutput {
-                json: json_of_with_units(&r, crate::timetransfer::UNITS)?,
-                svg: crate::timetransfer::to_svg(&r),
-                summary,
-                csv: None,
-            })
+            builtins::run_builtin::<crate::timetransfer::TimeTransferScenario>(src)
         }
         ScenarioKind::QuantumTimeTransfer => {
-            let scn: crate::timetransfer_chain::QuantumTimeTransferScenario =
-                toml::from_str(src)
-                    .map_err(|e| format!("invalid quantum-time-transfer scenario: {e}"))?;
-            let r = scn.run();
-            let summary = format!(
-                "quantum-time-transfer | quantum chain {:.3e}s vs classical {:.3e}s | PL {:.2} ns | security Pd {:.3} (Pfa {:.0e}) | anomaly Pd {:.3} | trade quantum wins {}/{} | MODELLED",
-                r.quantum_chain_sigma_s,
-                r.classical_chain_sigma_s,
-                r.protection_level_ns,
-                r.security_pd,
-                r.monitor_pfa,
-                r.anomaly_pd,
-                r.trade.quantum_wins(),
-                r.trade.foms.len(),
-            );
-            Ok(RunOutput {
-                json: json_of_with_units(&r, crate::timetransfer_chain::UNITS)?,
-                svg: crate::timetransfer_chain::to_svg(&r),
-                summary,
-                csv: None,
-            })
+            builtins::run_builtin::<crate::timetransfer_chain::QuantumTimeTransferScenario>(src)
         }
         ScenarioKind::QuantumGnssFreeNav => {
-            let scn: crate::quantum_nav_od::QuantumNavOdScenario = toml::from_str(src)
-                .map_err(|e| format!("invalid quantum-gnss-free-nav scenario: {e}"))?;
-            let r = scn.run();
-            let summary = format!(
-                "quantum-gnss-free-nav | outage {:.0}s | quantum pos err {:.2} m vs classical {:.2} m ({:.1}x) | holdover quantum {:.0}s vs classical {:.0}s (thr {:.0} m) | trade quantum wins {}/{} | MODELLED",
-                r.outage_s,
-                r.quantum_pos_err_m,
-                r.classical_pos_err_m,
-                r.improvement_x,
-                r.quantum_holdover_s,
-                r.classical_holdover_s,
-                r.threshold_m,
-                r.trade.quantum_wins(),
-                r.trade.foms.len(),
-            );
-            Ok(RunOutput {
-                json: json_of_with_units(&r, crate::quantum_nav_od::UNITS)?,
-                svg: crate::quantum_nav_od::to_svg(&r),
-                summary,
-                csv: None,
-            })
+            builtins::run_builtin::<crate::quantum_nav_od::QuantumNavOdScenario>(src)
         }
         ScenarioKind::QuantumAnomalyDetect => {
-            let scn: crate::quantum_faults::QuantumAnomalyScenario = toml::from_str(src)
-                .map_err(|e| format!("invalid quantum-anomaly-detect scenario: {e}"))?;
-            let r = scn.run();
-            let summary = format!(
-                "quantum-anomaly-detect | AUC quantum {:.4} vs classical {:.4} | min-detectable fault quantum {:.3} vs classical {:.3} | {} fault classes | trade quantum wins {}/{} | MODELLED",
-                r.quantum_auc,
-                r.classical_auc,
-                r.quantum_min_detectable,
-                r.classical_min_detectable,
-                r.fault_catalog.len(),
-                r.trade.quantum_wins(),
-                r.trade.foms.len(),
-            );
-            Ok(RunOutput {
-                json: json_of_with_units(&r, crate::quantum_faults::UNITS)?,
-                svg: crate::quantum_faults::to_svg(&r),
-                summary,
-                csv: None,
-            })
+            builtins::run_builtin::<crate::quantum_faults::QuantumAnomalyScenario>(src)
         }
-        ScenarioKind::Hybrid => {
-            let scn: crate::hybrid::HybridScenario =
-                toml::from_str(src).map_err(|e| format!("invalid hybrid scenario: {e}"))?;
-            scn.time.validate()?;
-            let r = crate::hybrid::run_hybrid(&scn);
-            let summary = format!(
-                "scenario {} | quantum PNT-holdover {:.0}s (t {:.0}s/p {:.0}s) integrity {} security {} | classical PNT-holdover {:.0}s (t {:.0}s/p {:.0}s) integrity {} security {}",
-                &r.scenario_hash[..12],
-                r.quantum.fom.pnt_holdover_s, r.quantum.fom.timing_holdover_s, r.quantum.fom.position_holdover_s, integ(r.quantum.fom.integrity), SECURITY_NA,
-                r.classical.fom.pnt_holdover_s, r.classical.fom.timing_holdover_s, r.classical.fom.position_holdover_s, integ(r.classical.fom.integrity), SECURITY_NA,
-            );
-            Ok(RunOutput {
-                json: json_of_with_units_and_tiers(
-                    &r,
-                    crate::hybrid::UNITS,
-                    &["quantum.fom", "classical.fom"],
-                    crate::fom_label::HYBRID_FOM_FIELDS,
-                )?,
-                svg: crate::hybrid::to_svg(&r),
-                summary,
-                csv: None,
-            })
-        }
-        ScenarioKind::Fusion => {
-            let scn: crate::hybrid::HybridScenario =
-                toml::from_str(src).map_err(|e| format!("invalid fusion scenario: {e}"))?;
-            scn.time.validate()?;
-            let r = crate::fusion::run_fusion(&scn);
-            let summary = format!(
-                "scenario {} | fused | quantum PNT-holdover {:.0}s (t {:.0}s/p {:.0}s) integrity {} security {} | classical PNT-holdover {:.0}s (t {:.0}s/p {:.0}s) integrity {} security {}",
-                &r.scenario_hash[..12],
-                r.quantum.fom.pnt_holdover_s, r.quantum.fom.timing_holdover_s, r.quantum.fom.position_holdover_s, integ(r.quantum.fom.integrity), SECURITY_NA,
-                r.classical.fom.pnt_holdover_s, r.classical.fom.timing_holdover_s, r.classical.fom.position_holdover_s, integ(r.classical.fom.integrity), SECURITY_NA,
-            );
-            Ok(RunOutput {
-                json: json_of_with_units_and_tiers(
-                    &r,
-                    crate::fusion::UNITS,
-                    &["quantum.fom", "classical.fom"],
-                    crate::fom_label::HYBRID_FOM_FIELDS,
-                )?,
-                svg: crate::hybrid::to_svg(&r),
-                summary,
-                csv: None,
-            })
-        }
+        ScenarioKind::Hybrid => builtins::run_builtin::<crate::hybrid::HybridScenario>(src),
+        ScenarioKind::Fusion => builtins::run_fusion_kind(src),
         ScenarioKind::HybridUkf => {
-            let scn: crate::fusion::hybrid_ukf::HybridUkfScenario =
-                toml::from_str(src).map_err(|e| format!("invalid hybrid-ukf scenario: {e}"))?;
-            scn.time.validate()?;
-            let r = crate::fusion::hybrid_ukf::run_hybrid_ukf(&scn);
-            let c = &r.consistency;
-            let summary = format!(
-                "scenario {} | hybrid-ukf (17-state, MODELLED) | sensor {} (q_va {:.2e}) | clock q_wf {:.2e} q_rw {:.2e} | NIS {:.2}/{} in [{:.2},{:.2}] | NEES {:.2}/{} in [{:.2},{:.2}] | {} | aided {:.1}m -> coast {:.1}m over {:.0}s | self-consistency, not accuracy",
-                &r.scenario_hash[..12],
-                if r.quantum_cai { "quantum-CAI" } else { "classical" },
-                r.effective_q_va,
-                r.clock_q_wf, r.clock_q_rw,
-                c.nis_mean, c.nis_dof, c.nis_chi2_lower_95, c.nis_chi2_upper_95,
-                c.nees_mean, c.nees_dof, c.nees_chi2_lower_95, c.nees_chi2_upper_95,
-                if c.consistent { "CONSISTENT" } else { "INCONSISTENT" },
-                r.coast.aided_pos_rms_m, r.coast.coast_end_pos_rms_m, r.coast.coast_duration_s,
-            );
-            Ok(RunOutput {
-                json: json_of_with_units(&r, crate::fusion::hybrid_ukf::UNITS)?,
-                svg: crate::fusion::hybrid_ukf::to_svg(&r),
-                summary,
-                csv: None,
-            })
+            builtins::run_builtin::<crate::fusion::hybrid_ukf::HybridUkfScenario>(src)
         }
-        ScenarioKind::GnssIns => {
-            let scn: crate::fusion::pack::GnssInsScenario =
-                toml::from_str(src).map_err(|e| format!("invalid gnss-ins scenario: {e}"))?;
-            scn.time.validate()?;
-            scn.validate()?;
-            let r = crate::fusion::pack::run_gnss_ins(&scn);
-            let summary = format!(
-                "scenario {} | gnss-ins | quantum outage-RMS fused {:.1}m vs free {:.1}m (hold {:.0}s, avail {:.2}) | classical fused {:.1}m vs free {:.1}m (hold {:.0}s, avail {:.2})",
-                &r.scenario_hash[..12],
-                r.quantum.fused_outage_rms_m, r.quantum.free_outage_rms_m, r.quantum.fom.holdover_s, r.quantum.fom.availability,
-                r.classical.fused_outage_rms_m, r.classical.free_outage_rms_m, r.classical.fom.holdover_s, r.classical.fom.availability,
-            );
-            Ok(RunOutput {
-                json: json_of_with_units(&r, crate::fusion::pack::UNITS)?,
-                svg: crate::fusion::pack::to_svg(&r),
-                summary,
-                csv: None,
-            })
-        }
-        ScenarioKind::GnssSim => {
-            let scn: crate::gnss_sim::GnssSimScenario =
-                toml::from_str(src).map_err(|e| format!("invalid gnss-sim scenario: {e}"))?;
-            scn.time.validate()?;
-            let (alert_h, alert_v) = (scn.alert_limit_h_m, scn.alert_limit_v_m);
-            let sky = scn.sky()?;
-            let r = crate::gnss_sim::run_gnss_sim_sky(&scn, sky.as_ref());
-            let summary = format!(
-                "scenario {} | gnss-sim | mean iono {:.1}m tropo {:.1}m | RAIM avail {:.2} mean HPL {:.1}m VPL {:.1}m fault-rate {:.3}",
-                &r.scenario_hash[..12],
-                r.fom.mean_iono_m, r.fom.mean_tropo_m,
-                r.fom.raim_availability, r.fom.mean_hpl_m, r.fom.mean_vpl_m, r.fom.fault_rate,
-            );
-            let json = match crate::skyline::SkylineSummary::of(
-                scn.skyline.as_ref(),
-                sky.as_ref(),
-                scn.mask_deg,
-            ) {
-                None => json_of_with_units(&r, crate::gnss_sim::UNITS)?,
-                Some(skyline) => json_of_with_units(
-                    &crate::skyline::WithSkyline {
-                        report: &r,
-                        skyline,
-                    },
-                    &crate::skyline::with_units(true, &[crate::gnss_sim::UNITS]),
-                )?,
-            };
-            Ok(RunOutput {
-                json,
-                svg: crate::gnss_sim::to_svg(&r, alert_h, alert_v),
-                summary,
-                csv: None,
-            })
-        }
-        ScenarioKind::Jamming => {
-            // Routed through the `Scenario` trait — the extension-point contract.
-            let scn: crate::jamming::JammingScenario =
-                toml::from_str(src).map_err(|e| format!("invalid jamming scenario: {e}"))?;
-            scn.run().map_err(|e| e.to_string())
-        }
-        ScenarioKind::Spoof => {
-            let scn: crate::spoof::SpoofScenario =
-                toml::from_str(src).map_err(|e| format!("invalid spoof scenario: {e}"))?;
-            scn.time.validate()?;
-            let r = crate::spoof::run_spoof(&scn);
-            let det = |c: &crate::spoof::SpoofClock| {
-                c.detect_time_s
-                    .map_or_else(|| "undetected".to_string(), |t| format!("detected {t:.0}s"))
-            };
-            let summary = format!(
-                "scenario {} | spoof {:?} vs {:.3} ns spec (P_fa {:.3}) | quantum security {:.3} (P_md {:.3}, MC {:.3}) {} | classical security {:.3} (P_md {:.3}, MC {:.3}) {}",
-                &r.scenario_hash[..12], scn.attack.resolved_shape(), r.threshold_ns, scn.attack.target_pfa,
-                r.quantum.security_fom, r.quantum.detection.analytic_pmd, r.quantum.detection.mc_pmd, det(&r.quantum),
-                r.classical.security_fom, r.classical.detection.analytic_pmd, r.classical.detection.mc_pmd, det(&r.classical),
-            );
-            Ok(RunOutput {
-                json: json_of_with_units(&r, crate::spoof::UNITS)?,
-                svg: crate::spoof::to_svg(&r),
-                summary,
-                csv: None,
-            })
-        }
+        ScenarioKind::GnssIns => builtins::run_builtin::<crate::fusion::pack::GnssInsScenario>(src),
+        ScenarioKind::GnssSim => builtins::run_builtin::<crate::gnss_sim::GnssSimScenario>(src),
+        ScenarioKind::Jamming => builtins::run_builtin::<crate::jamming::JammingScenario>(src),
+        ScenarioKind::Spoof => builtins::run_builtin::<crate::spoof::SpoofScenario>(src),
         ScenarioKind::SpoofDetect => {
-            let scn: crate::spoof_detect::SpoofDetectScenario =
-                toml::from_str(src).map_err(|e| format!("invalid spoof-detect scenario: {e}"))?;
-            let r = crate::spoof_detect::run_spoof_detect(&scn);
-            let summary = format!(
-                "scenario {} | spoof-detect | {} SVs, +{:.1} dB{} | {:?} push | fused score {:.2} (thr {:.2}) | {}",
-                &r.scenario_hash[..12],
-                r.n_sats,
-                r.attack.power_advantage_db,
-                if r.attack.carrier_aligned { ", carrier-aligned" } else { "" },
-                r.attack.push,
-                r.decision.fused.score,
-                scn.detector.fusion_threshold,
-                r.verdict,
-            );
-            Ok(RunOutput {
-                json: json_of_with_units(&r, crate::spoof_detect::UNITS)?,
-                svg: crate::spoof_detect::to_svg(&r),
-                summary,
-                csv: None,
-            })
+            builtins::run_builtin::<crate::spoof_detect::SpoofDetectScenario>(src)
         }
-        ScenarioKind::Sweep => {
-            let scn: crate::sweep::SweepScenario =
-                toml::from_str(src).map_err(|e| format!("invalid sweep scenario: {e}"))?;
-            scn.base.time.validate()?;
-            let r = crate::sweep::run_sweep(&scn)?;
-            let (first, last) = (r.points.first(), r.points.last());
-            let summary = format!(
-                "sweep {} over {} ({:.2e}..{:.2e}, {} pts, {} scale) | quantum {:.3}->{:.3} | classical {:.3}->{:.3}",
-                r.metric, r.parameter,
-                first.map_or(0.0, |p| p.value), last.map_or(0.0, |p| p.value), r.points.len(), r.scale,
-                first.map_or(0.0, |p| p.quantum), last.map_or(0.0, |p| p.quantum),
-                first.map_or(0.0, |p| p.classical), last.map_or(0.0, |p| p.classical),
-            );
-            Ok(RunOutput {
-                json: json_of_with_units(&r, &crate::sweep::units(&r.parameter, &r.metric))?,
-                svg: crate::sweep::to_svg(&r),
-                summary,
-                csv: None,
-            })
-        }
-        ScenarioKind::SweepNd => {
-            let scn: crate::sweep::GenericSweepScenario =
-                toml::from_str(src).map_err(|e| format!("invalid generic sweep scenario: {e}"))?;
-            let r = crate::sweep::run_generic_sweep(&scn)?;
-            let summary = format!(
-                "generic sweep of `{}` over [{}] | {} nodes (shape {:?}) | metrics [{}]",
-                r.kind,
-                r.keys.join(", "),
-                r.points.len(),
-                r.shape,
-                r.metrics.join(", "),
-            );
-            Ok(RunOutput {
-                json: json_of_with_units(&r, crate::sweep::GENERIC_UNITS)?,
-                svg: crate::sweep::generic_to_svg(&r),
-                summary,
-                csv: None,
-            })
-        }
-        ScenarioKind::Orbit => {
-            let scn: crate::orbit::OrbitClockScenario =
-                toml::from_str(src).map_err(|e| format!("invalid orbit scenario: {e}"))?;
-            scn.time.validate()?;
-            let r = crate::run::run_orbit_clock(&scn)?;
-            let sats = scn.all_satellites()?;
-            let (user, sky) = scn.user_and_sky_for(&sats)?;
-            let geometry = crate::orbit::summarize_dop_at(
-                &user,
-                &sats,
-                scn.time.step_s,
-                scn.time.duration_s,
-                scn.mask_deg,
-                sky.as_ref(),
-                scn.sigma_uere_m,
-            );
-            let skyline = crate::skyline::SkylineSummary::of(
-                scn.skyline.as_ref(),
-                sky.as_ref(),
-                scn.mask_deg,
-            );
-            let has_skyline = skyline.is_some();
-            let nominal = r
-                .quantum
-                .series
-                .iter()
-                .filter(|s| s.gnss == GnssState::Nominal)
-                .count();
-            let summary = format!(
-                "scenario {} | {}/{} samples GNSS-nominal | best PDOP {} pos {} | quantum holdover {:.0}s p95 {}ns integrity {} security {} | classical holdover {:.0}s p95 {}ns integrity {} security {}",
-                &r.scenario_hash[..12],
-                nominal, r.quantum.series.len(),
-                fnum(geometry.best_pdop), posm(geometry.best_position_sigma_m),
-                r.quantum.fom.holdover_s, ns1(r.quantum.fom.timing_p95_ns), integ(r.quantum.fom.integrity), SECURITY_NA,
-                r.classical.fom.holdover_s, ns1(r.classical.fom.timing_p95_ns), integ(r.classical.fom.integrity), SECURITY_NA,
-            );
-            #[derive(serde::Serialize)]
-            struct OrbitOutput<'a> {
-                #[serde(flatten)]
-                run: &'a crate::report::RunResult,
-                geometry: crate::orbit::DopSummary,
-                #[serde(skip_serializing_if = "Option::is_none")]
-                skyline: Option<crate::skyline::SkylineSummary>,
-            }
-            Ok(RunOutput {
-                json: json_of_with_units_and_tiers(
-                    &OrbitOutput {
-                        run: &r,
-                        geometry,
-                        skyline,
-                    },
-                    &crate::skyline::with_units(
-                        has_skyline,
-                        &[crate::orbit::UNITS, crate::report::UNITS],
-                    ),
-                    &["quantum.fom", "classical.fom"],
-                    crate::fom_label::CLOCK_FOM_FIELDS,
-                )?,
-                svg: crate::report::to_svg(&r),
-                summary,
-                csv: None,
-            })
-        }
+        ScenarioKind::Sweep => builtins::run_builtin::<crate::sweep::SweepScenario>(src),
+        ScenarioKind::SweepNd => builtins::run_builtin::<crate::sweep::GenericSweepScenario>(src),
+        ScenarioKind::Orbit => builtins::run_builtin::<crate::orbit::OrbitClockScenario>(src),
         ScenarioKind::Ephemeris => {
-            let scn: crate::ephemeris::EphemerisScenario =
-                toml::from_str(src).map_err(|e| format!("invalid ephemeris scenario: {e}"))?;
-            let r = crate::ephemeris::run_ephemeris(&scn).map_err(|e| format!("ephemeris: {e}"))?;
-            let pass = match (r.max_elevation_deg, r.peak_doppler_hz) {
-                (Some(el), Some(d)) => {
-                    format!(" | max el {el:.1}° peak Doppler {:.1} kHz", d / 1000.0)
-                }
-                _ => String::new(),
-            };
-            let summary = format!(
-                "scenario {} | {} | {} samples | alt {:.0}–{:.0} km | |lat| ≤ {:.1}° | speed {:.0}–{:.0} m/s{}",
-                &r.scenario_hash[..12],
-                r.source,
-                r.n_samples,
-                r.alt_min_km,
-                r.alt_max_km,
-                r.lat_max_deg.abs().max(r.lat_min_deg.abs()),
-                r.speed_min_m_s,
-                r.speed_max_m_s,
-                pass,
-            );
-            Ok(RunOutput {
-                json: json_of_with_units(&r, crate::ephemeris::UNITS)?,
-                svg: crate::ephemeris::to_svg(&r),
-                summary,
-                csv: None,
-            })
+            builtins::run_builtin::<crate::ephemeris::EphemerisScenario>(src)
         }
         ScenarioKind::GravityMap => {
-            let cfg: crate::gravimeter::GravityMapBenchmarkCfg =
-                toml::from_str(src).map_err(|e| format!("invalid gravity-map scenario: {e}"))?;
-            let r = crate::gravimeter::run_gps_denied_gravity_nav(&cfg);
-            let summary = format!(
-                "gravity-map | free-inertial drift {:.0} m | gravity-matched {:.0} m | matching sigma {:.3e} mGal",
-                r.free_inertial_drift_m, r.map_matched_error_m, r.measurement_sigma_mgal,
-            );
-            #[derive(serde::Serialize)]
-            struct GravityMapOut {
-                free_inertial_drift_m: f64,
-                map_matched_error_m: f64,
-                measurement_sigma_mgal: f64,
-            }
-            let out = GravityMapOut {
-                free_inertial_drift_m: r.free_inertial_drift_m,
-                map_matched_error_m: r.map_matched_error_m,
-                measurement_sigma_mgal: r.measurement_sigma_mgal,
-            };
-            Ok(RunOutput {
-                json: json_of_with_units(&out, crate::gravimeter::UNITS)?,
-                svg: crate::altpnt::terrain::gravity_nav_svg(
-                    r.free_inertial_drift_m,
-                    r.map_matched_error_m,
-                ),
-                summary,
-                csv: None,
-            })
+            builtins::run_builtin::<crate::gravimeter::GravityMapBenchmarkCfg>(src)
         }
         ScenarioKind::Terrain => {
-            let cfg: crate::altpnt::terrain::TerrainNavCfg =
-                toml::from_str(src).map_err(|e| format!("invalid terrain-nav scenario: {e}"))?;
-            let r = crate::altpnt::terrain::run_terrain_nav(&cfg);
-            let summary = format!(
-                "terrain-nav | free-inertial drift {:.0} m | terrain-matched {:.0} m ({:.0}x cut) | matching sigma {:.1} m",
-                r.free_inertial_drift_m,
-                r.matched_error_m,
-                if r.matched_error_m > 0.0 { r.free_inertial_drift_m / r.matched_error_m } else { 0.0 },
-                r.measurement_sigma_m,
-            );
-            Ok(RunOutput {
-                json: json_of_with_units(&r, crate::altpnt::terrain::TERRAIN_NAV_UNITS)?,
-                svg: crate::altpnt::terrain::terrain_nav_svg(&r),
-                summary,
-                csv: None,
-            })
+            builtins::run_builtin::<crate::altpnt::terrain::TerrainNavCfg>(src)
         }
         ScenarioKind::TerrainSlam => {
-            let cfg: crate::altpnt::sequential::SequentialTrnCfg =
-                toml::from_str(src).map_err(|e| format!("invalid terrain-slam scenario: {e}"))?;
-            let r = crate::altpnt::sequential::run_sequential_trn(&cfg);
-            let summary = format!(
-                "terrain-slam | {} waypoints | free-inertial RMS {:.0} m (final {:.0} m) | terrain-matched RMS {:.0} m (final {:.0} m, {:.0}x cut) | mean ESS {:.0}/{} | matching sigma {:.1} m",
-                r.waypoints,
-                r.free_inertial_rms_m,
-                r.free_inertial_final_m,
-                r.matched_rms_m,
-                r.matched_final_m,
-                if r.matched_rms_m > 0.0 { r.free_inertial_rms_m / r.matched_rms_m } else { 0.0 },
-                r.mean_ess,
-                cfg.n_particles.max(1),
-                r.measurement_sigma_m,
-            );
-            Ok(RunOutput {
-                json: json_of_with_units(&r, crate::altpnt::sequential::UNITS)?,
-                svg: crate::altpnt::sequential::sequential_trn_svg(&r),
-                summary,
-                csv: None,
-            })
+            builtins::run_builtin::<crate::altpnt::sequential::SequentialTrnCfg>(src)
         }
         ScenarioKind::CombinedAltPnt => {
-            let cfg: crate::altpnt::terrain::CombinedAltPntCfg = toml::from_str(src)
-                .map_err(|e| format!("invalid combined-altpnt scenario: {e}"))?;
-            let r = crate::altpnt::terrain::run_combined_altpnt(&cfg);
-            let summary = format!(
-                "combined-altpnt | free-inertial drift {:.0} m | gravity {:.0} m magnetic {:.0} m terrain {:.0} m | FUSED {:.0} m",
-                r.free_inertial_drift_m,
-                r.gravity_only_m,
-                r.magnetic_only_m,
-                r.terrain_only_m,
-                r.combined_m,
-            );
-            Ok(RunOutput {
-                json: json_of_with_units(&r, crate::altpnt::terrain::COMBINED_ALTPNT_UNITS)?,
-                svg: crate::altpnt::terrain::combined_altpnt_svg(&r),
-                summary,
-                csv: None,
-            })
+            builtins::run_builtin::<crate::altpnt::terrain::CombinedAltPntCfg>(src)
         }
-        ScenarioKind::Pvt => {
-            let scn: crate::pvt::PvtScenario =
-                toml::from_str(src).map_err(|e| format!("invalid pvt scenario: {e}"))?;
-            let r = crate::pvt::run_pvt(&scn)?;
-            let summary = crate::pvt::summary(&r);
-            Ok(RunOutput {
-                json: json_of_with_units(&r, crate::pvt::UNITS)?,
-                svg: crate::pvt::pvt_svg(&r),
-                summary,
-                csv: None,
-            })
-        }
-        ScenarioKind::MarsPnt => {
-            let scn: crate::mars_pnt::MarsScenario =
-                toml::from_str(src).map_err(|e| format!("invalid mars-pnt scenario: {e}"))?;
-            let r = crate::mars_pnt::run_mars_pnt(&scn)?;
-            let summary = crate::mars_pnt::summary(&r);
-            Ok(RunOutput {
-                json: json_of_with_units(&r, crate::mars_pnt::UNITS)?,
-                svg: crate::mars_pnt::to_svg(&r),
-                summary,
-                csv: None,
-            })
-        }
+        ScenarioKind::Pvt => builtins::run_builtin::<crate::pvt::PvtScenario>(src),
+        ScenarioKind::MarsPnt => builtins::run_builtin::<crate::mars_pnt::MarsScenario>(src),
         ScenarioKind::ImpairmentEval => {
-            let scn: crate::impairment_eval::ImpairmentEvalScenario = toml::from_str(src)
-                .map_err(|e| format!("invalid impairment-eval scenario: {e}"))?;
-            let (json, summary) = scn.run_json()?;
-            let svg = minimal_svg(&summary);
-            Ok(RunOutput {
-                json,
-                svg,
-                summary,
-                csv: None,
-            })
+            builtins::run_builtin::<crate::impairment_eval::ImpairmentEvalScenario>(src)
         }
         ScenarioKind::QuantumTrade => {
-            let scn: crate::quantum_trade::QuantumTradeScenario =
-                toml::from_str(src).map_err(|e| format!("invalid quantum-trade scenario: {e}"))?;
-            let (json, summary) = scn.run_json()?;
-            let svg = minimal_svg(&summary);
-            Ok(RunOutput {
-                json,
-                svg,
-                summary,
-                csv: None,
-            })
+            builtins::run_builtin::<crate::quantum_trade::QuantumTradeScenario>(src)
         }
         ScenarioKind::SpaceWeather => {
-            let scn: crate::space_weather::SpaceWeatherScenario =
-                toml::from_str(src).map_err(|e| format!("invalid space-weather scenario: {e}"))?;
-            let (json, summary) = scn.run_json()?;
-            let svg = minimal_svg(&summary);
-            Ok(RunOutput {
-                json,
-                svg,
-                summary,
-                csv: None,
-            })
+            builtins::run_builtin::<crate::space_weather::SpaceWeatherScenario>(src)
         }
-        ScenarioKind::OemInterop => {
-            let scn: crate::oem::OemInteropScenario =
-                toml::from_str(src).map_err(|e| format!("invalid oem-interop scenario: {e}"))?;
-            let (json, summary) = scn.run_json()?;
-            let svg = minimal_svg(&summary);
-            Ok(RunOutput {
-                json,
-                svg,
-                summary,
-                csv: None,
-            })
-        }
+        ScenarioKind::OemInterop => builtins::run_builtin::<crate::oem::OemInteropScenario>(src),
         ScenarioKind::LaunchWindow => {
-            let scn: crate::launch::LaunchWindowScenario =
-                toml::from_str(src).map_err(|e| format!("invalid launch-window scenario: {e}"))?;
-            let (json, summary) = scn.run_json()?;
-            let svg = minimal_svg(&summary);
-            Ok(RunOutput {
-                json,
-                svg,
-                summary,
-                csv: None,
-            })
+            builtins::run_builtin::<crate::launch::LaunchWindowScenario>(src)
         }
-        ScenarioKind::Reentry => {
-            let scn: crate::reentry::ReentryScenario =
-                toml::from_str(src).map_err(|e| format!("invalid reentry scenario: {e}"))?;
-            let (json, summary) = scn.run_json()?;
-            let svg = minimal_svg(&summary);
-            Ok(RunOutput {
-                json,
-                svg,
-                summary,
-                csv: None,
-            })
-        }
+        ScenarioKind::Reentry => builtins::run_builtin::<crate::reentry::ReentryScenario>(src),
         ScenarioKind::EoCoverage => {
-            let scn: crate::eo_payload::EoCoverageScenario =
-                toml::from_str(src).map_err(|e| format!("invalid eo-coverage scenario: {e}"))?;
-            let (json, summary) = scn.run_json()?;
-            let svg = minimal_svg(&summary);
-            Ok(RunOutput {
-                json,
-                svg,
-                summary,
-                csv: None,
-            })
+            builtins::run_builtin::<crate::eo_payload::EoCoverageScenario>(src)
         }
         ScenarioKind::SpacePacket => {
-            let scn: crate::space_packet::SpacePacketScenario =
-                toml::from_str(src).map_err(|e| format!("invalid space-packet scenario: {e}"))?;
-            let (json, summary) = scn.run_json()?;
-            let svg = minimal_svg(&summary);
-            Ok(RunOutput {
-                json,
-                svg,
-                summary,
-                csv: None,
-            })
+            builtins::run_builtin::<crate::space_packet::SpacePacketScenario>(src)
         }
         ScenarioKind::AttitudeBudget => {
-            let scn: crate::attitude_budget::AttitudeBudgetScenario = toml::from_str(src)
-                .map_err(|e| format!("invalid attitude-budget scenario: {e}"))?;
-            let (json, summary) = scn.run_json()?;
-            let svg = minimal_svg(&summary);
-            Ok(RunOutput {
-                json,
-                svg,
-                summary,
-                csv: None,
-            })
+            builtins::run_builtin::<crate::attitude_budget::AttitudeBudgetScenario>(src)
         }
-        ScenarioKind::Passes => {
-            let scn: crate::passes::PassesScenario =
-                toml::from_str(src).map_err(|e| format!("invalid passes scenario: {e}"))?;
-            let (json, summary) = scn.run_json()?;
-            let svg = minimal_svg(&summary);
-            Ok(RunOutput {
-                json,
-                svg,
-                summary,
-                csv: None,
-            })
-        }
+        ScenarioKind::Passes => builtins::run_builtin::<crate::passes::PassesScenario>(src),
         ScenarioKind::LinkBudget => {
-            let scn: crate::linkbudget::LinkBudgetScenario =
-                toml::from_str(src).map_err(|e| format!("invalid link-budget scenario: {e}"))?;
-            let (json, summary) = scn.run_json()?;
-            let svg = minimal_svg(&summary);
-            Ok(RunOutput {
-                json,
-                svg,
-                summary,
-                csv: None,
-            })
+            builtins::run_builtin::<crate::linkbudget::LinkBudgetScenario>(src)
         }
         ScenarioKind::LunarTimeBudget => {
-            let scn: crate::lunar_time_budget_scenario::LunarTimeBudgetScenario =
-                toml::from_str(src)
-                    .map_err(|e| format!("invalid lunar-time-budget scenario: {e}"))?;
-            let (json, summary) = scn.run_json()?;
-            let svg = minimal_svg(&summary);
-            // G11: publish the long-form (tau, term) budget table as a runtime artifact.
-            // The array-valued fields previously reached consumers only as JSON arrays,
-            // which is how a released table came to publish 23 of its 57 averaging times.
-            let csv = Some(scn.to_csv()?);
-            Ok(RunOutput {
-                json,
-                svg,
-                summary,
-                csv,
-            })
+            builtins::run_builtin::<crate::lunar_time_budget_scenario::LunarTimeBudgetScenario>(src)
         }
         ScenarioKind::RealtimeFrameEop => {
-            let scn: crate::realtime_frame_eop::RealtimeFrameEopScenario = toml::from_str(src)
-                .map_err(|e| format!("invalid realtime-frame-eop scenario: {e}"))?;
-            let (json, summary, svg) = scn.run_output()?;
-            // G4: publish the P4 Table 1 + Table 2 reproducibility CSV as a runtime
-            // artifact, so a plain scenario run produces the file the paper cites (not
-            // only the #[ignore] golden-regen test).
-            let csv = Some(scn.to_csv()?);
-            Ok(RunOutput {
-                json,
-                svg,
-                summary,
-                csv,
-            })
+            builtins::run_builtin::<crate::realtime_frame_eop::RealtimeFrameEopScenario>(src)
         }
         ScenarioKind::HybridOpticalRf => {
-            let scn: crate::hybrid_integrity::HybridOpticalRfScenario = toml::from_str(src)
-                .map_err(|e| format!("invalid hybrid-optical-rf scenario: {e}"))?;
-            let (json, summary, svg) = scn.run_output()?;
-            Ok(RunOutput {
-                json,
-                svg,
-                summary,
-                csv: None,
-            })
+            builtins::run_builtin::<crate::hybrid_integrity::HybridOpticalRfScenario>(src)
         }
-        ScenarioKind::CislunarObservability => {
-            let scn: crate::cislunar_observability::CislunarObservabilityScenario =
-                toml::from_str(src)
-                    .map_err(|e| format!("invalid cislunar-observability scenario: {e}"))?;
-            let (json, summary, svg) = scn.run_output()?;
-            Ok(RunOutput {
-                json,
-                svg,
-                summary,
-                csv: None,
-            })
-        }
+        ScenarioKind::CislunarObservability => builtins::run_builtin::<
+            crate::cislunar_observability::CislunarObservabilityScenario,
+        >(src),
         ScenarioKind::CislunarArcRecovery => {
-            let scn: crate::cislunar_arc_recovery::CislunarArcRecoveryScenario =
-                toml::from_str(src)
-                    .map_err(|e| format!("invalid cislunar-arc-recovery scenario: {e}"))?;
-            let (json, summary, svg) = scn.run_output()?;
-            Ok(RunOutput {
-                json,
-                svg,
-                summary,
-                csv: None,
-            })
+            builtins::run_builtin::<crate::cislunar_arc_recovery::CislunarArcRecoveryScenario>(src)
         }
         ScenarioKind::EarthGnssLunar => {
-            let scn: crate::earth_gnss_lunar::EarthGnssLunarScenario = toml::from_str(src)
-                .map_err(|e| format!("invalid earth-gnss-lunar scenario: {e}"))?;
-            let (json, summary, svg) = scn.run_output()?;
-            Ok(RunOutput {
-                json,
-                svg,
-                summary,
-                csv: None,
-            })
+            builtins::run_builtin::<crate::earth_gnss_lunar::EarthGnssLunarScenario>(src)
         }
         ScenarioKind::LunarBeacon => {
-            let scn: crate::lunar_beacon::LunarBeaconScenario =
-                toml::from_str(src).map_err(|e| format!("invalid lunar-beacon scenario: {e}"))?;
-            let (json, summary, svg) = scn.run_output()?;
-            Ok(RunOutput {
-                json,
-                svg,
-                summary,
-                csv: None,
-            })
+            builtins::run_builtin::<crate::lunar_beacon::LunarBeaconScenario>(src)
         }
         ScenarioKind::ConflictResilience => {
-            let scn: crate::conflict_resilience::ConflictResilienceScenario =
-                toml::from_str(src)
-                    .map_err(|e| format!("invalid conflict-resilience scenario: {e}"))?;
-            let (json, summary, svg) = scn.run_output()?;
-            Ok(RunOutput {
-                json,
-                svg,
-                summary,
-                csv: None,
-            })
+            builtins::run_builtin::<crate::conflict_resilience::ConflictResilienceScenario>(src)
         }
         ScenarioKind::LunarAttackSurface => {
-            let scn: crate::attack_surface::LunarAttackSurfaceScenario = toml::from_str(src)
-                .map_err(|e| format!("invalid lunar-attack-surface scenario: {e}"))?;
-            let (json, summary, svg) = scn.run_output()?;
-            Ok(RunOutput {
-                json,
-                svg,
-                summary,
-                csv: None,
-            })
+            builtins::run_builtin::<crate::attack_surface::LunarAttackSurfaceScenario>(src)
         }
         ScenarioKind::ApertureDutyCycle => {
-            let scn: crate::aperture_duty::ApertureDutyCycleScenario = toml::from_str(src)
-                .map_err(|e| format!("invalid aperture-duty-cycle scenario: {e}"))?;
-            let (json, summary) = scn.run_json()?;
-            let svg = minimal_svg(&summary);
-            Ok(RunOutput {
-                json,
-                svg,
-                summary,
-                csv: None,
-            })
+            builtins::run_builtin::<crate::aperture_duty::ApertureDutyCycleScenario>(src)
         }
         ScenarioKind::TrackingLoop => {
-            let scn: crate::tracking_loop::TrackingLoopScenario =
-                toml::from_str(src).map_err(|e| format!("invalid tracking-loop scenario: {e}"))?;
-            let (json, summary) = scn.run_json()?;
-            let svg = minimal_svg(&summary);
-            Ok(RunOutput {
-                json,
-                svg,
-                summary,
-                csv: None,
-            })
+            builtins::run_builtin::<crate::tracking_loop::TrackingLoopScenario>(src)
         }
         ScenarioKind::AraimReferenceCheck => {
-            let scn: crate::araim_reference::AraimReferenceCheckScenario = toml::from_str(src)
-                .map_err(|e| format!("invalid araim-reference-check scenario: {e}"))?;
-            let (json, summary) = scn.run_json()?;
-            let svg = minimal_svg(&summary);
-            Ok(RunOutput {
-                json,
-                svg,
-                summary,
-                csv: None,
-            })
+            builtins::run_builtin::<crate::araim_reference::AraimReferenceCheckScenario>(src)
         }
         ScenarioKind::InsTrnCoast => {
-            let scn: crate::inertial::coast::InsTrnCoastScenario =
-                toml::from_str(src).map_err(|e| format!("invalid ins-trn-coast scenario: {e}"))?;
-            let (json, summary) = scn.run_json()?;
-            let svg = minimal_svg(&summary);
-            Ok(RunOutput {
-                json,
-                svg,
-                summary,
-                csv: None,
-            })
+            builtins::run_builtin::<crate::inertial::coast::InsTrnCoastScenario>(src)
         }
         ScenarioKind::TelecomTiming => {
-            let scn: crate::telecom_timing::TelecomTimingScenario =
-                toml::from_str(src).map_err(|e| format!("invalid telecom-timing scenario: {e}"))?;
-            // The MTIE/TDEV table with every selected mask's limit beside it is the
-            // result a timing engineer compares, so it is published as the CSV artifact.
-            let (json, summary, svg, csv) = scn.run_all()?;
-            let csv = Some(csv);
-            Ok(RunOutput {
-                json,
-                svg,
-                summary,
-                csv,
-            })
+            builtins::run_builtin::<crate::telecom_timing::TelecomTimingScenario>(src)
         }
-        ScenarioKind::Spectrum => {
-            let scn: crate::spectrum::SpectrumScenario =
-                toml::from_str(src).map_err(|e| format!("invalid spectrum scenario: {e}"))?;
-            let (json, summary, svg) = scn.run_all()?;
-            Ok(RunOutput {
-                json,
-                svg,
-                summary,
-                csv: None,
-            })
-        }
+        ScenarioKind::Spectrum => builtins::run_builtin::<crate::spectrum::SpectrumScenario>(src),
         ScenarioKind::SolarSystem => {
-            let scn: crate::solar_system::SolarSystemScenario =
-                toml::from_str(src).map_err(|e| format!("invalid solar-system scenario: {e}"))?;
-            let (json, summary, svg) = scn.run_output()?;
-            Ok(RunOutput {
-                json,
-                svg,
-                summary,
-                csv: None,
-            })
+            builtins::run_builtin::<crate::solar_system::SolarSystemScenario>(src)
         }
-        ScenarioKind::BodyPnt => {
-            let scn: crate::body_pnt::BodyPntScenario =
-                toml::from_str(src).map_err(|e| format!("invalid body-pnt scenario: {e}"))?;
-            let (json, summary, svg) = scn.run_output()?;
-            Ok(RunOutput {
-                json,
-                svg,
-                summary,
-                csv: None,
-            })
-        }
+        ScenarioKind::BodyPnt => builtins::run_builtin::<crate::body_pnt::BodyPntScenario>(src),
         ScenarioKind::ConstellationDesign => {
-            let scn: crate::constellation::ConstellationDesignScenario = toml::from_str(src)
-                .map_err(|e| format!("invalid constellation-design scenario: {e}"))?;
-            let (json, summary, svg) = scn.run_all()?;
-            Ok(RunOutput {
-                json,
-                svg,
-                summary,
-                csv: None,
-            })
+            builtins::run_builtin::<crate::constellation::ConstellationDesignScenario>(src)
         }
         ScenarioKind::LeoSignal => {
-            let scn: crate::leo_signal::LeoSignalScenario =
-                toml::from_str(src).map_err(|e| format!("invalid leo-signal scenario: {e}"))?;
-            let (json, summary, svg) = scn.run_all()?;
-            Ok(RunOutput {
-                json,
-                svg,
-                summary,
-                csv: None,
-            })
+            builtins::run_builtin::<crate::leo_signal::LeoSignalScenario>(src)
         }
-        ScenarioKind::LeoPass => {
-            let scn: crate::leo_pass::LeoPassScenario =
-                toml::from_str(src).map_err(|e| format!("invalid leo-pass scenario: {e}"))?;
-            let (json, summary, svg) = scn.run_output()?;
-            Ok(RunOutput {
-                json,
-                svg,
-                summary,
-                csv: None,
-            })
-        }
+        ScenarioKind::LeoPass => builtins::run_builtin::<crate::leo_pass::LeoPassScenario>(src),
         ScenarioKind::LeoPvt => {
-            let scn: crate::leo_fusion::pvt_kind::LeoPvtScenario =
-                toml::from_str(src).map_err(|e| format!("invalid leo-pvt scenario: {e}"))?;
-            let (json, summary, svg) = scn.run_output()?;
-            Ok(RunOutput {
-                json,
-                svg,
-                summary,
-                csv: None,
-            })
+            builtins::run_builtin::<crate::leo_fusion::pvt_kind::LeoPvtScenario>(src)
         }
-        ScenarioKind::LeoPpp => {
-            let scn: crate::leo_fusion::ppp::PppScenario =
-                toml::from_str(src).map_err(|e| format!("invalid leo-ppp scenario: {e}"))?;
-            let (json, summary, svg) = scn.run_output()?;
-            Ok(RunOutput {
-                json,
-                svg,
-                summary,
-                csv: None,
-            })
-        }
+        ScenarioKind::LeoPpp => builtins::run_builtin::<crate::leo_fusion::ppp::PppScenario>(src),
         ScenarioKind::NtnPositioning => {
-            let scn: crate::leo_fusion::ntn::NtnScenario = toml::from_str(src)
-                .map_err(|e| format!("invalid ntn-positioning scenario: {e}"))?;
-            let (json, summary, svg) = scn.run_output()?;
-            Ok(RunOutput {
-                json,
-                svg,
-                summary,
-                csv: None,
-            })
+            builtins::run_builtin::<crate::leo_fusion::ntn::NtnScenario>(src)
         }
         ScenarioKind::Campaign => {
             let (json, summary, svg) = crate::campaign::run_all(src)?;
@@ -2694,135 +1957,46 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
             })
         }
         ScenarioKind::LeoPntChain => {
-            let scn: crate::leo_pnt_chain::LeoPntChainScenario =
-                toml::from_str(src).map_err(|e| format!("invalid leo-pnt-chain scenario: {e}"))?;
-            let (json, summary, svg) = scn.run_output()?;
-            Ok(RunOutput {
-                json,
-                svg,
-                summary,
-                csv: None,
-            })
+            builtins::run_builtin::<crate::leo_pnt_chain::LeoPntChainScenario>(src)
+        }
+        ScenarioKind::ContactSchedule => {
+            builtins::run_builtin::<crate::contact_schedule::ContactScheduleScenario>(src)
+        }
+        ScenarioKind::AcmLink => {
+            builtins::run_builtin::<crate::contact_schedule::AcmLinkScenario>(src)
+        }
+        ScenarioKind::Aocs => builtins::run_builtin::<crate::aocs_kind::AocsScenario>(src),
+        ScenarioKind::EntryHeating => builtins::run_builtin::<
+            crate::entry_eo_ascent::entry_heating::EntryHeatingScenario,
+        >(src),
+        ScenarioKind::EoRadiometry => builtins::run_builtin::<
+            crate::entry_eo_ascent::eo_radiometry::EoRadiometryScenario,
+        >(src),
+        ScenarioKind::AscentLosses => {
+            builtins::run_builtin::<crate::entry_eo_ascent::ascent::AscentScenario>(src)
+        }
+        ScenarioKind::TimeTransferBudget => {
+            builtins::run_builtin::<crate::time_transfer_budget::TimeTransferBudgetScenario>(src)
         }
         ScenarioKind::LeoNavmsg => {
-            let scn: crate::leo_navmsg::LeoNavmsgScenario =
-                toml::from_str(src).map_err(|e| format!("invalid leo-navmsg scenario: {e}"))?;
-            let (json, summary, svg, csv) = scn.run_all()?;
-            Ok(RunOutput {
-                json,
-                svg,
-                summary,
-                csv,
-            })
+            builtins::run_builtin::<crate::leo_navmsg::LeoNavmsgScenario>(src)
         }
         ScenarioKind::SlotTiming => {
-            let scn: crate::slot_timing::SlotTimingScenario =
-                toml::from_str(src).map_err(|e| format!("invalid slot-timing scenario: {e}"))?;
-            let (json, summary, svg) = scn.run_all()?;
-            Ok(RunOutput {
-                json,
-                svg,
-                summary,
-                csv: None,
-            })
+            builtins::run_builtin::<crate::slot_timing::SlotTimingScenario>(src)
         }
         ScenarioKind::LunarLlrDatum => {
-            let scn: crate::lunar_llr::LunarLlrDatumScenario = toml::from_str(src)
-                .map_err(|e| format!("invalid lunar-llr-datum scenario: {e}"))?;
-            let (json, summary) = scn.run_json()?;
-            let svg = minimal_svg(&summary);
-            Ok(RunOutput {
-                json,
-                svg,
-                summary,
-                csv: None,
-            })
+            builtins::run_builtin::<crate::lunar_llr::LunarLlrDatumScenario>(src)
         }
         ScenarioKind::LunarFrameCampaign => {
-            let scn: crate::lunar_frame_campaign::LunarFrameCampaignScenario = toml::from_str(src)
-                .map_err(|e| format!("invalid lunar-frame-campaign scenario: {e}"))?;
-            let (json, summary) = scn.run_json()?;
-            let svg = minimal_svg(&summary);
-            Ok(RunOutput {
-                json,
-                svg,
-                summary,
-                csv: None,
-            })
+            builtins::run_builtin::<crate::lunar_frame_campaign::LunarFrameCampaignScenario>(src)
         }
         ScenarioKind::LunarVlbiFim => {
-            let scn: crate::lunar_vlbi_fim::LunarVlbiFimScenario =
-                toml::from_str(src).map_err(|e| format!("invalid lunar-vlbi-fim scenario: {e}"))?;
-            let (json, summary) = scn.run_json()?;
-            let svg = minimal_svg(&summary);
-            Ok(RunOutput {
-                json,
-                svg,
-                summary,
-                csv: None,
-            })
+            builtins::run_builtin::<crate::lunar_vlbi_fim::LunarVlbiFimScenario>(src)
         }
         ScenarioKind::LunarJamming => {
-            let scn: crate::lunar_jamming::LunarJammingScenario =
-                toml::from_str(src).map_err(|e| format!("invalid lunar-jamming scenario: {e}"))?;
-            let (json, summary, svg) = scn.run_output()?;
-            // The per-satellite J/S table is the result, so it is published as a runtime
-            // CSV artifact too: the table a paper cites is then a file the engine wrote,
-            // not a block a manuscript transcribed out of two separate link-budget runs.
-            let csv = Some(scn.to_csv()?);
-            Ok(RunOutput {
-                json,
-                svg,
-                summary,
-                csv,
-            })
+            builtins::run_builtin::<crate::lunar_jamming::LunarJammingScenario>(src)
         }
-        ScenarioKind::Clock => {
-            let scn: crate::scenario::Scenario =
-                toml::from_str(src).map_err(|e| format!("invalid scenario: {e}"))?;
-            scn.time.validate()?;
-            if scn.runs > 1 {
-                // Monte Carlo ensemble: report confidence bands instead of one run.
-                let r = crate::ensemble::run_ensemble(&scn);
-                let q = &r.quantum;
-                let c = &r.classical;
-                let summary = format!(
-                    "scenario {} | {} runs | quantum holdover {:.0}s [{:.0}-{:.0}] p95 {}ns security {} | classical holdover {:.0}s [{:.0}-{:.0}] p95 {}ns security {}",
-                    &r.scenario_hash[..12], r.runs,
-                    q.holdover_s.mean, q.holdover_s.p05, q.holdover_s.p95, ns1(q.timing_p95_ns.mean), SECURITY_NA,
-                    c.holdover_s.mean, c.holdover_s.p05, c.holdover_s.p95, ns1(c.timing_p95_ns.mean), SECURITY_NA,
-                );
-                return Ok(RunOutput {
-                    json: json_of_with_units_and_tiers(
-                        &r,
-                        crate::ensemble::UNITS,
-                        &["quantum", "classical"],
-                        crate::fom_label::CLOCK_FOM_FIELDS,
-                    )?,
-                    svg: crate::ensemble::to_svg(&r),
-                    summary,
-                    csv: None,
-                });
-            }
-            let r = crate::run::run(&scn);
-            let summary = format!(
-                "scenario {} | quantum holdover {:.0}s p95 {}ns integrity {} security {} | classical holdover {:.0}s p95 {}ns integrity {} security {}",
-                &r.scenario_hash[..12],
-                r.quantum.fom.holdover_s, ns1(r.quantum.fom.timing_p95_ns), integ(r.quantum.fom.integrity), SECURITY_NA,
-                r.classical.fom.holdover_s, ns1(r.classical.fom.timing_p95_ns), integ(r.classical.fom.integrity), SECURITY_NA,
-            );
-            Ok(RunOutput {
-                json: json_of_with_units_and_tiers(
-                    &r,
-                    crate::report::UNITS,
-                    &["quantum.fom", "classical.fom"],
-                    crate::fom_label::CLOCK_FOM_FIELDS,
-                )?,
-                svg: crate::report::to_svg(&r),
-                summary,
-                csv: None,
-            })
-        }
+        ScenarioKind::Clock => builtins::run_clock_kind(src),
     }
 }
 

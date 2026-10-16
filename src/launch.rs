@@ -14,6 +14,7 @@
 
 use crate::forces::EARTH_ROTATION_RATE;
 use crate::orbit::{MU_EARTH, R_EARTH_EQUATORIAL_M};
+use crate::portable_math::PortableFloat;
 use serde::Deserialize;
 
 /// Circular orbital speed (m/s) at geometric `altitude_m` above the equatorial
@@ -32,7 +33,7 @@ pub fn min_inclination(lat_rad: f64) -> f64 {
 /// rotation: `omega · R_eq · cos(lat)` — the free velocity a posigrade (easterly)
 /// launch starts with (≈465 m/s at the equator).
 pub fn site_rotation_speed(lat_rad: f64) -> f64 {
-    EARTH_ROTATION_RATE * R_EARTH_EQUATORIAL_M * lat_rad.cos()
+    EARTH_ROTATION_RATE * R_EARTH_EQUATORIAL_M * lat_rad.pcos()
 }
 
 /// Surface speed (m/s) of an Earth-fixed site at geodetic `lat_rad`, `lon_rad` on the
@@ -55,9 +56,9 @@ pub fn site_rotation_speed_at(
     let n = (xp * xp + yp * yp + 1.0).sqrt();
     let pole = [xp / n, -yp / n, 1.0 / n];
     let site = [
-        lat_rad.cos() * lon_rad.cos(),
-        lat_rad.cos() * lon_rad.sin(),
-        lat_rad.sin(),
+        lat_rad.pcos() * lon_rad.pcos(),
+        lat_rad.pcos() * lon_rad.psin(),
+        lat_rad.psin(),
     ];
     let d = pole[0] * site[0] + pole[1] * site[1] + pole[2] * site[2];
     omega * R_EARTH_EQUATORIAL_M * (1.0 - d * d).max(0.0).sqrt()
@@ -66,7 +67,7 @@ pub fn site_rotation_speed_at(
 /// Plane-change Δv (m/s) to rotate a velocity of magnitude `v_orbit` through
 /// `delta_i_rad`: the vector relation `2·v·sin(Δi/2)`.
 pub fn plane_change_dv(v_orbit: f64, delta_i_rad: f64) -> f64 {
-    2.0 * v_orbit * (delta_i_rad.abs() / 2.0).sin()
+    2.0 * v_orbit * (delta_i_rad.abs() / 2.0).psin()
 }
 
 /// Geometric launch azimuth(s) (rad clockwise from north, in `[0, 2π)`) to reach
@@ -75,11 +76,11 @@ pub fn plane_change_dv(v_orbit: f64, delta_i_rad: f64) -> f64 {
 /// (the descending pass is `π − ascending`). Errors when `i < |lat|` (the target
 /// inclination is unreachable without a dogleg) or `i > π − |lat|`.
 pub fn launch_azimuth(lat_rad: f64, inclination_rad: f64) -> Result<(f64, f64), String> {
-    let cl = lat_rad.cos();
+    let cl = lat_rad.pcos();
     if cl.abs() < 1e-12 {
         return Err("launch site at the pole has no defined azimuth".to_string());
     }
-    let s = inclination_rad.cos() / cl;
+    let s = inclination_rad.pcos() / cl;
     if !(-1.0..=1.0).contains(&s) {
         return Err(format!(
             "inclination {:.2}° unreachable from latitude {:.2}° without a dogleg \
@@ -88,9 +89,9 @@ pub fn launch_azimuth(lat_rad: f64, inclination_rad: f64) -> Result<(f64, f64), 
             lat_rad.to_degrees()
         ));
     }
-    let asc = s.asin(); // in [-π/2, π/2]; for prograde i this is the NE/SE azimuth
+    let asc = s.pasin(); // in [-π/2, π/2]; for prograde i this is the NE/SE azimuth
     let asc = asc.rem_euclid(std::f64::consts::TAU);
-    let desc = (std::f64::consts::PI - s.asin()).rem_euclid(std::f64::consts::TAU);
+    let desc = (std::f64::consts::PI - s.pasin()).rem_euclid(std::f64::consts::TAU);
     Ok((asc, desc))
 }
 

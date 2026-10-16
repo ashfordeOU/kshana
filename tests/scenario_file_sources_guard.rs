@@ -26,7 +26,18 @@ const NOT_A_SCENARIO_FILE_SOURCE: &[(&str, &str, &str)] = &[
         "path",
         "a path into the run's result JSON (`quantum.fom.x`), not a file",
     ),
+    (
+        "src/campaign/optimize.rs",
+        "path",
+        "the objective's path into the run's result JSON, not a file",
+    ),
     ("src/field_schema.rs", "path", "a path into the result JSON"),
+    (
+        "src/adm.rs",
+        "attitude_dir",
+        "the CCSDS ADM ATTITUDE_DIR keyword (A2B or B2A) of a parsed message, not a file; \
+         no scenario kind reads it",
+    ),
     ("src/ccsds_tdm.rs", "path", "a path into the result JSON"),
     (
         "src/lunar_ephemeris.rs",
@@ -34,9 +45,30 @@ const NOT_A_SCENARIO_FILE_SOURCE: &[(&str, &str, &str)] = &[
         "output: where the report says the file it read came from",
     ),
     (
+        "src/lunar_terrain.rs",
+        "path",
+        "output: the DEM descriptor path echoed in the result (DemEcho)",
+    ),
+    (
+        "src/solar_system.rs",
+        "path",
+        "output: the SPK path echoed in the result (KernelOut, Serialize only); the input \
+         planetary_kernel_path is in FILE_SOURCE_KEYS",
+    ),
+    (
         "src/receiver_trust/scenario.rs",
         "path",
         "[log] and [log.nav]: refused through FILE_SOURCE_TABLES",
+    ),
+    (
+        "src/clock_log.rs",
+        "path",
+        "[clock_log]: refused through FILE_SOURCE_TABLES (its `text` carries the log inline)",
+    ),
+    (
+        "src/receiver_trust/calibration.rs",
+        "path",
+        "output: a dataset folder named in the calibration report (Serialize only)",
     ),
     (
         "src/advanced_report.rs",
@@ -91,9 +123,12 @@ fn file_like_field(line: &str) -> Option<&str> {
     ]
     .iter()
     .any(|t| ty.starts_with(t));
-    let looks = ["path", "dir", "file", "files", "kernel", "csv_path"]
-        .iter()
-        .any(|s| name == *s || name.ends_with(&format!("_{s}")));
+    // `hgt`: an SRTM elevation tile (`[terrain] dem_hgt` of the jamming kind).
+    let looks = [
+        "path", "paths", "dir", "file", "files", "kernel", "csv_path", "hgt",
+    ]
+    .iter()
+    .any(|s| name == *s || name.ends_with(&format!("_{s}")));
     (stringy && looks).then_some(name)
 }
 
@@ -159,6 +194,18 @@ fn every_file_like_scenario_field_is_refused_or_explained() {
             "FILE_SOURCE_KEYS lists `{k}`, which no scenario type defines"
         );
     }
+    // The table-scoped `path`s explained above are refused through the public check.
+    for t in [
+        "kind = \"receiver-trust\"\n[log]\nformat = \"nmea\"\npath = \"x\"",
+        "kind = \"telecom-timing\"\n[clock_log]\nformat = \"ticc\"\npath = \"x\"",
+        // The kind-scoped `paths` of time-transfer-budget's [[series]] (FILE_SOURCE_KEYS_BY_KIND).
+        "kind = \"time-transfer-budget\"\n[[series]]\nformat = \"circular-t\"\npaths = [\"cirt.txt\"]",
+    ] {
+        assert!(
+            reject_file_sources(t, usize::MAX).is_err(),
+            "not refused: {t}"
+        );
+    }
 }
 
 #[test]
@@ -185,5 +232,27 @@ fn every_scenario_in_the_repository_that_an_agent_may_run_is_inline_only_or_list
     assert!(
         refused.is_empty(),
         "bundled scenarios an agent can fetch name a file, so the MCP server would refuse to run them: {refused:?}"
+    );
+}
+
+#[test]
+fn a_jamming_terrain_tile_is_refused_without_naming_the_path() {
+    let text = format!(
+        "{}\n[terrain]\ndem_hgt = \"/definitely/not/a/tile.hgt\"\nsamples_per_side = 601\n\
+         ll_lat_deg = 36.0\nll_lon_deg = -117.0\n",
+        include_str!("../scenarios/jamming-demo.toml")
+    );
+    let e = reject_file_sources(&text, usize::MAX).unwrap_err();
+    assert!(
+        e.contains("`dem_hgt`") && e.contains("inline content only"),
+        "{e}"
+    );
+    assert!(
+        !e.contains("/definitely"),
+        "the refusal names the path: {e}"
+    );
+    assert!(
+        !e.to_lowercase().contains("no such file"),
+        "OS error text: {e}"
     );
 }

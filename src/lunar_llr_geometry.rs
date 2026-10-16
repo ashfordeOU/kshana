@@ -15,6 +15,7 @@
 //! ILRS geodetic coordinates (ITRF-aligned) for Grasse OCA, APOLLO/APO,
 //! Wettzell WLRS, and Matera MLRO.
 
+use crate::portable_math::PortableFloat;
 /// Three-element Cartesian vector (metres in body-frame or ECEF context).
 pub type Vec3 = [f64; 3];
 
@@ -176,9 +177,9 @@ impl ItrfStation {
             } => {
                 let (la, lo) = (geocentric_lat_deg.to_radians(), lon_deg.to_radians());
                 [
-                    radius_m * la.cos() * lo.cos(),
-                    radius_m * la.cos() * lo.sin(),
-                    radius_m * la.sin(),
+                    radius_m * la.pcos() * lo.pcos(),
+                    radius_m * la.pcos() * lo.psin(),
+                    radius_m * la.psin(),
                 ]
             }
             StationCoordinates::IlrsApproximate {
@@ -290,7 +291,7 @@ pub const GM_MOON_DE440: f64 = 4.902_800_118_457_55e12;
 /// `(2 GM / c^2) ln((r1 + r2 + rho) / (r1 + r2 - rho))`.
 pub fn shapiro_leg_m(gm: f64, r1: f64, r2: f64, rho: f64) -> f64 {
     const C: f64 = 299_792_458.0;
-    2.0 * gm / (C * C) * ((r1 + r2 + rho) / (r1 + r2 - rho)).ln()
+    2.0 * gm / (C * C) * ((r1 + r2 + rho) / (r1 + r2 - rho)).pln()
 }
 
 /// Predicted one-way LLR range (m), half the round-trip light path in TDB, by the barycentric
@@ -713,9 +714,10 @@ mod tests {
         assert_eq!(r.len(), 5, "five near-side LLR reflectors");
         // PA body coordinates lie on a ~1737.4 km sphere to within topography (a few km).
         for refl in &r {
-            let radius =
-                (refl.pa_body_m[0].powi(2) + refl.pa_body_m[1].powi(2) + refl.pa_body_m[2].powi(2))
-                    .sqrt();
+            let radius = (refl.pa_body_m[0].ppowi(2)
+                + refl.pa_body_m[1].ppowi(2)
+                + refl.pa_body_m[2].ppowi(2))
+            .sqrt();
             assert!(
                 (radius - 1_737_400.0).abs() < 10_000.0,
                 "{} radius {radius}",

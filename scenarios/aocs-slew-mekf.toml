@@ -1,0 +1,52 @@
+# Reaction-wheel attitude slew under MRP feedback, closed on an MEKF estimate.
+#
+# The slew of scenarios/aocs-slew.toml, but the controller sees a multiplicative EKF's
+# attitude and the gyro rate less its bias estimate. The gyro has an angle random walk of
+# 1e-5 rad/sqrt(s), a rate random walk of 1e-8 rad/s^1.5 and a true turn-on bias. The star
+# tracker gives 5 arcsec per axis at 1 Hz. The control law and wheel dynamics are VALIDATED
+# against Basilisk on the true-state loop; the estimator and this loop are MODELLED. Every
+# number is ILLUSTRATIVE.
+kind = "aocs"
+duration_s = 600.0
+dt_s = 0.1
+sample_s = 1.0
+hub_inertia_kg_m2 = [[900.0, 0.0, 0.0], [0.0, 800.0, 0.0], [0.0, 0.0, 600.0]]
+k_nm = 3.5
+p_nms = 30.0
+sigma0 = [0.1, 0.2, -0.3]
+omega0_rad_s = [0.001, -0.01, 0.03]
+pointing_threshold_deg = 0.1
+
+[[wheels]]
+axis = [0.5773502, 0.5773502, 0.5773504]   # 54.7356 deg from z, azimuth 45 deg
+js_kg_m2 = 0.08
+u_max_nm = 0.2
+speed0_rpm = 100.0
+
+[[wheels]]
+axis = [-0.5773502, 0.5773502, 0.5773504]  # azimuth 135 deg
+js_kg_m2 = 0.08
+u_max_nm = 0.2
+speed0_rpm = -200.0
+
+[[wheels]]
+axis = [-0.5773502, -0.5773502, 0.5773504] # azimuth 225 deg
+js_kg_m2 = 0.08
+u_max_nm = 0.2
+speed0_rpm = 300.0
+
+[[wheels]]
+axis = [0.5773502, -0.5773502, 0.5773504]  # azimuth 315 deg
+js_kg_m2 = 0.08
+u_max_nm = 0.2
+speed0_rpm = -400.0
+
+[estimator]
+gyro_arw_rad_sqrt_s = 1.0e-5
+gyro_rrw_rad_s_1p5 = 1.0e-8
+gyro_bias0_rad_s = [3.0e-6, -2.0e-6, 1.0e-6]
+star_tracker_sigma_arcsec = 5.0
+star_tracker_every_s = 1.0
+initial_attitude_sigma_deg = 0.01
+initial_bias_sigma_rad_s = 1.0e-5
+seed = 2026

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<omm id="CCSDS_OMM_VERS" version="3.0">
+  <header>
+    <CREATION_DATE>2026-10-14T00:00:00.000</CREATION_DATE>
+    <ORIGINATOR>KSHANA XVAL</ORIGINATOR>
+  </header>
+
+  <body>
+    <segment>
+      <metadata>
+        <OBJECT_NAME>XVAL SAT</OBJECT_NAME>
+        <OBJECT_ID>2026-999A</OBJECT_ID>
+        <CENTER_NAME>EARTH</CENTER_NAME>
+        <REF_FRAME>TEME</REF_FRAME>
+        <TIME_SYSTEM>UTC</TIME_SYSTEM>
+        <MEAN_ELEMENT_THEORY>SGP4</MEAN_ELEMENT_THEORY>
+      </metadata>
+      <data>
+        <meanElements>
+          <EPOCH>2026-03-01T12:00:00.250</EPOCH>
+          <MEAN_MOTION units="rev/d">15.015857820514329</MEAN_MOTION>
+          <ECCENTRICITY>0.19647125740997173</ECCENTRICITY>
+          <INCLINATION units="deg">40.95452431973899</INCLINATION>
+          <RA_OF_ASC_NODE units="deg">227.38691126870899</RA_OF_ASC_NODE>
+          <ARG_OF_PERICENTER units="deg">148.63266101066898</ARG_OF_PERICENTER>
+          <MEAN_ANOMALY units="deg">200.1023148779876</MEAN_ANOMALY>
+          <GM units="km**3/s**2">398600.79999999993</GM>
+        </meanElements>
+        <tleParameters>
+          <EPHEMERIS_TYPE>0</EPHEMERIS_TYPE>
+          <CLASSIFICATION_TYPE>U</CLASSIFICATION_TYPE>
+          <NORAD_CAT_ID>99001</NORAD_CAT_ID>
+          <ELEMENT_SET_NO>999</ELEMENT_SET_NO>
+          <REV_AT_EPOCH>12345</REV_AT_EPOCH>
+          <BSTAR>3.9511237853263556E-4</BSTAR>
+          <MEAN_MOTION_DOT units="2rev/d**2">-5.610498928393192E-5</MEAN_MOTION_DOT>
+          <MEAN_MOTION_DDOT units="6rev/d**3">-5.775522947778593E-10</MEAN_MOTION_DDOT>
+        </tleParameters>
+      </data>
+    </segment>
+  </body>
+</omm>

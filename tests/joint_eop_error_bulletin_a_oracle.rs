@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
+// Host maths on purpose: this test recomputes its expected values independently of the engine's
+// portable maths (STUDIO-15), so the engine is checked against a second implementation.
 //! Oracle for the matrix row "Joint UT1 and polar-motion error over a common row set"
 //! (row 86): the row's predicted-versus-final measurement, run on archived IERS Bulletin A
 //! vintages, against the prediction accuracy IERS itself prints in every issue.

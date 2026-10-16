@@ -30,6 +30,7 @@
 
 use super::{stats, Baseline, MonitorEvent, MonitorReport, Series, Side, SpanDetector, Spectrum};
 use crate::iq::Cf64;
+use crate::portable_math::PortableFloat;
 use serde::{Deserialize, Serialize};
 
 /// Settings of [`SpectralMonitor`].
@@ -175,6 +176,11 @@ impl SpectralMonitor {
         )
     }
 
+    /// The kurtosis baseline `(mean, spread)` the z-score uses, once learned.
+    pub fn kurtosis_reference(&self) -> Option<(f64, f64)> {
+        self.reference.as_ref().map(|(_, _, k0, sd)| (*k0, *sd))
+    }
+
     /// Feed samples.
     pub fn push(&mut self, x: &[Cf64]) {
         for &s in x {
@@ -253,7 +259,7 @@ impl SpectralMonitor {
                         "pulses",
                         None,
                         Side::Above,
-                        -st.pulse_pfa.ln(),
+                        -st.pulse_pfa.pln(),
                         1,
                     ));
                 }
@@ -261,7 +267,7 @@ impl SpectralMonitor {
             Some((base, sigma2, k0, sd_k)) => {
                 let (mut best, mut best_f) = (f64::NEG_INFINITY, 0.0);
                 for (i, (v, r)) in psd.psd.iter().zip(base).enumerate() {
-                    let db = 10.0 * (v / r.max(1e-300)).max(1e-300).log10();
+                    let db = 10.0 * (v / r.max(1e-300)).max(1e-300).plog10();
                     if db > self.max_hold_db[i] {
                         self.max_hold_db[i] = db;
                     }
@@ -277,7 +283,7 @@ impl SpectralMonitor {
                 self.pulse.push(t, count / n);
                 let p = stats::pulse_pfa(self.settings.pulse_t);
                 let tail = stats::binomial_upper_tail(b.len() as u64, p, count as u64);
-                let surprise = -tail.max(1e-300).ln();
+                let surprise = -tail.max(1e-300).pln();
                 let z_kurt = ((kurt - k0) / sd_k).abs();
                 if let Some(d) = self.det_excess.as_mut() {
                     d.push(t, best);
@@ -327,7 +333,7 @@ impl SpectralMonitor {
             spectra.push(Spectrum {
                 name: "psd_baseline_db".into(),
                 freq_hz: self.freq_hz.clone(),
-                value_db: base.iter().map(|v| 10.0 * v.max(1e-300).log10()).collect(),
+                value_db: base.iter().map(|v| 10.0 * v.max(1e-300).plog10()).collect(),
             });
             spectra.push(Spectrum {
                 name: "psd_excess_max_hold_db".into(),

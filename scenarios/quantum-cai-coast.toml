@@ -1,0 +1,54 @@
+# Quantum preset: a cold-atom interferometer (CAI) accelerometer, built from its
+# interferometer physics, against a navigation-grade quartz accelerometer during a GNSS
+# outage. A one-dimensional dead-reckoning coast: 10 minutes of GNSS, then 110 minutes
+# denied.
+#
+# The quantum sensor carries an [accel_quantum.cai] table, so its velocity-random-walk
+# floor q_va is DERIVED from the interferometer: k_eff = 4*pi/lambda, projection noise
+# 1/(C*sqrt(N)) per shot, the cycle time, and a stated platform vibration level added in
+# quadrature (docs/QUANTUM.md). The supplied q_va is only the fallback if the table is
+# removed. The residual bias is the published bias stability of a laboratory hybrid quantum
+# accelerometer. The interferometer parameters are a bracket in the published range, not a
+# datasheet of any instrument.
+#
+# What it answers: how long each sensor keeps the dead-reckoned position inside 100 m, and
+# how the position error grows, when one sensor is specified by interferometer physics and
+# the other by a datasheet. MODELLED: a single-axis error model, not a three-axis
+# navigation solution, and no statement about any real instrument. The further CAI error
+# terms (laser-phase noise, wavefront curvature, fringe ambiguity) are library functions,
+# not yet part of this kind.
+kind = "inertial"
+seed = 20261013
+threshold_m = 100.0
+
+[time]
+step_s = 10.0
+duration_s = 7200.0
+
+[gnss]
+windows = [
+  { t0 = 0.0,   t1 = 600.0,  state = "nominal" },
+  { t0 = 600.0, t1 = 7200.0, state = "denied" },
+]
+
+[accel_quantum]
+id = "cold-atom-interferometer"
+provenance = "Cold-atom (Rb-87 D2) interferometric accelerometer: q_va derived from the [accel_quantum.cai] parameters, a bracket in the GAIN/MAIUS literature range (Freier et al. arXiv:1512.05660; Becker et al. Nature 2018); residual bias 5.88e-7 m/s^2 = the 6e-8 g bias stability of a laboratory hybrid quantum accelerometer (Templier et al., Science Advances 2022, arXiv:2209.13209). Laboratory maturity, not deployed."
+bias = 5.88e-7
+q_va = 4.6656e-8   # fallback only: overridden by the interferometer physics below
+
+[accel_quantum.cai]
+wavelength_m = 780.241209e-9   # Rb-87 D2 line
+pulse_sep_t = 0.02             # pulse separation T (s)
+atom_number = 1.0e6            # detected atoms per shot N
+contrast = 0.5                 # initial fringe contrast C0
+cycle_time_s = 0.5             # measurement cycle time T_c (s)
+vibration_psd = 1.0e-12        # stated platform vibration PSD (m/s^2)^2/Hz along the axis
+
+[accel_classical]
+id = "nav-grade-quartz"
+provenance = "Navigation-grade quartz accelerometer (Honeywell QA-2000 / Groves AESS Tutorial): bias stability ~160 ug = 1.57e-3 m/s^2; noise ~20 ug/sqrtHz = 1.96e-4 (m/s^2)/sqrtHz; bias instability ~1 ug = 1e-5 m/s^2; modest acceleration random walk"
+bias = 1.57e-3
+q_va = 3.8416e-8
+bias_instability = 1.0e-5
+q_aa = 1.0e-13

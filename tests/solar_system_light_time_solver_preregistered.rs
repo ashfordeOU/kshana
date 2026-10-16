@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
+// Host maths on purpose: this test recomputes its expected values independently of the engine's
+// portable maths (STUDIO-15), so the engine is checked against a second implementation.
 //! Pre-registered comparison: the light-time solver itself, separated from the Standish
 //! positions, against JPL Horizons' one-way light time.
 //!

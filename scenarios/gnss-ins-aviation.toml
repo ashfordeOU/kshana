@@ -1,0 +1,66 @@
+# Aviation GNSS/INS with tight coupling: a light aircraft takes off, climbs at 6 deg, levels
+# off and flies a 25 deg-bank coordinated turn (trajectory profile `aircraft`); GNSS is
+# denied for two minutes that cover the turn, the hardest part of a coast because the
+# heading and attitude errors are then projected into the horizontal. Tightly coupled
+# (`[tight]`) on a GPS-like SGP4 Walker constellation.
+#
+# Illustrative sensors (assumed values, not a product's datasheet): a navigation-grade unit
+# against a tactical-grade unit, constant biases (a best-case coast); each sensor's filter prior
+# matches its grade.
+#
+# MODELLED: synthetic motion, constellation and sensors.
+kind = "gnss-ins"
+seed = 13
+threshold_m = 100.0
+fix_interval_s = 1.0
+sigma_pos_m = 3.0
+sigma_vel_mps = 0.1
+lat_deg = 52.0
+lon_deg = 5.0
+alt_m = 10.0
+
+[time]
+step_s = 0.1
+duration_s = 400.0
+
+[gnss]
+windows = [
+  { t0 = 0.0,   t1 = 120.0, state = "nominal" },
+  { t0 = 120.0, t1 = 240.0, state = "denied" },
+  { t0 = 240.0, t1 = 400.0, state = "nominal" },
+]
+
+[trajectory]
+profile = "aircraft"
+speed_mps = 70.0
+accel_mps2 = 2.5
+climb_deg = 6.0
+climb_s = 60.0
+bank_deg = 25.0
+turn_s = 60.0
+
+[tight]
+sigma_range_m = 2.0
+
+[imu_quantum]
+id = "navigation-grade-imu"
+provenance = "Illustrative navigation-grade unit (assumed): residual accel bias 50 micro-g, gyro bias 0.01 deg/h"
+accel_bias = [4.9e-4, -4.9e-4, 0.0]
+gyro_bias = [0.0, 0.0, 4.85e-8]
+
+# Filter prior matched to the sensor grade (the pack's default prior suits a tactical unit;
+# for a navigation-grade unit its bias-estimation noise over a short aided arc would exceed
+# the sensor's true bias).
+[imu_quantum.filter_prior]
+sigma_accel_bias = 1.0e-3
+sigma_gyro_bias = 1.0e-7
+
+[imu_classical]
+id = "tactical-grade-imu"
+provenance = "Illustrative tactical-grade unit (assumed): residual accel bias 1 mg, gyro bias 1 deg/h"
+accel_bias = [9.8e-3, -9.8e-3, 0.0]
+gyro_bias = [0.0, 0.0, 4.85e-6]
+
+[imu_classical.filter_prior]
+sigma_accel_bias = 2.0e-2
+sigma_gyro_bias = 1.0e-5

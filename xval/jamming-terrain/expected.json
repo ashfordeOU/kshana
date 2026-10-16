@@ -1,0 +1,122 @@
+{
+ "numpy": "2.5.3",
+ "freq_hz": 1575420000.0,
+ "placements": [
+  {
+   "jammer_lat_deg": 36.45,
+   "jammer_lon_deg": -116.87,
+   "profile_points": 753,
+   "obstacle_index": 320,
+   "nu_max": 1.17452633137522,
+   "diffraction_loss_db": 15.004823750822517,
+   "path_length_m": 22601.196573895428
+  },
+  {
+   "jammer_lat_deg": 36.22,
+   "jammer_lon_deg": -116.727,
+   "profile_points": 313,
+   "obstacle_index": 313,
+   "nu_max": -4.196797153854356,
+   "diffraction_loss_db": 0.0,
+   "path_length_m": 9401.322988703774
+  },
+  {
+   "jammer_lat_deg": 36.17,
+   "jammer_lon_deg": -116.99,
+   "profile_points": 575,
+   "obstacle_index": 12,
+   "nu_max": 14.751626104720252,
+   "diffraction_loss_db": 36.24841422652134,
+   "path_length_m": 17270.676615872366
+  },
+  {
+   "jammer_lat_deg": 36.1,
+   "jammer_lon_deg": -116.8,
+   "profile_points": 560,
+   "obstacle_index": 112,
+   "nu_max": 0.25952149033694055,
+   "diffraction_loss_db": 8.279775825394434,
+   "path_length_m": 16829.50914567697
+  },
+  {
+   "jammer_lat_deg": 36.3,
+   "jammer_lon_deg": -116.9,
+   "profile_points": 290,
+   "obstacle_index": 258,
+   "nu_max": -0.9820590793943547,
+   "diffraction_loss_db": 0.0,
+   "path_length_m": 8724.298372516823
+  },
+  {
+   "jammer_lat_deg": 36.2,
+   "jammer_lon_deg": -116.55,
+   "profile_points": 842,
+   "obstacle_index": 526,
+   "nu_max": 55.096708658963884,
+   "diffraction_loss_db": 47.72805174075005,
+   "path_length_m": 25286.607199283088
+  },
+  {
+   "jammer_lat_deg": 36.4,
+   "jammer_lon_deg": -116.4,
+   "profile_points": 1385,
+   "obstacle_index": 1059,
+   "nu_max": 57.53712772579008,
+   "diffraction_loss_db": 48.105112333037155,
+   "path_length_m": 41567.28139507414
+  },
+  {
+   "jammer_lat_deg": 36.05,
+   "jammer_lon_deg": -116.5,
+   "profile_points": 1222,
+   "obstacle_index": 633,
+   "nu_max": 47.53361731262213,
+   "diffraction_loss_db": 46.44328978240507,
+   "path_length_m": 36689.10260850357
+  },
+  {
+   "jammer_lat_deg": 36.6,
+   "jammer_lon_deg": -116.6,
+   "profile_points": 1460,
+   "obstacle_index": 327,
+   "nu_max": 40.01653067468539,
+   "diffraction_loss_db": 44.945018200129546,
+   "path_length_m": 43816.47653083675
+  },
+  {
+   "jammer_lat_deg": 36.3,
+   "jammer_lon_deg": -116.3,
+   "profile_points": 1579,
+   "obstacle_index": 1264,
+   "nu_max": 54.673411896169235,
+   "diffraction_loss_db": 47.660951059014835,
+   "path_length_m": 47390.220540436
+  }
+ ],
+ "knife_edge_loss_db": [
+  {
+   "nu": -0.78,
+   "j_db": 0.0
+  },
+  {
+   "nu": -0.5,
+   "j_db": 1.9592497062281762
+  },
+  {
+   "nu": 0.0,
+   "j_db": 6.032852208563606
+  },
+  {
+   "nu": 1.0,
+   "j_db": 13.925728934959924
+  },
+  {
+   "nu": 2.4,
+   "j_db": 20.53926612973203
+  },
+  {
+   "nu": 5.0,
+   "j_db": 26.813581122522585
+  }
+ ]
+}

@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 //! Allan-family frequency-stability estimators — overlapping ADEV, MDEV, TDEV and
 //! HDEV, and the IEEE-1139 power-law noise fit.
+use crate::portable_math::PortableFloat;
 use crate::types::Seconds;
 use serde::Serialize;
 
@@ -175,7 +176,7 @@ fn normal_quantile(p: f64) -> f64 {
     let plow = 0.02425;
     let phigh = 1.0 - plow;
     if p < plow {
-        let q = (-2.0 * p.ln()).sqrt();
+        let q = (-2.0 * p.pln()).sqrt();
         (((((C[0] * q + C[1]) * q + C[2]) * q + C[3]) * q + C[4]) * q + C[5])
             / ((((D[0] * q + D[1]) * q + D[2]) * q + D[3]) * q + 1.0)
     } else if p <= phigh {
@@ -184,7 +185,7 @@ fn normal_quantile(p: f64) -> f64 {
         (((((A[0] * r + A[1]) * r + A[2]) * r + A[3]) * r + A[4]) * r + A[5]) * q
             / (((((B[0] * r + B[1]) * r + B[2]) * r + B[3]) * r + B[4]) * r + 1.0)
     } else {
-        let q = (-2.0 * (1.0 - p).ln()).sqrt();
+        let q = (-2.0 * (1.0 - p).pln()).sqrt();
         -(((((C[0] * q + C[1]) * q + C[2]) * q + C[3]) * q + C[4]) * q + C[5])
             / ((((D[0] * q + D[1]) * q + D[2]) * q + D[3]) * q + 1.0)
     }
@@ -311,7 +312,7 @@ pub fn edf_overlapping_adev(noise: PowerLawNoise, n: usize, m: usize) -> f64 {
         PowerLawNoise::FlickerPm => {
             let a = (nn - 1.0) / mm;
             let b = (2.0 * mm + 1.0) * (nn - 1.0) / 4.0;
-            (a.ln() * b.ln()).sqrt().exp()
+            (a.pln() * b.pln()).sqrt().pexp()
         }
         PowerLawNoise::WhiteFm => {
             (3.0 * (nn - 1.0) / (2.0 * mm) - 2.0 * (nn - 2.0) / nn)
@@ -346,7 +347,7 @@ pub fn classify_power_law(phase: &[f64], tau0: Seconds) -> Option<PowerLawNoise>
     while n > 3 * m && (n - 3 * m + 1) >= 8 {
         let md = modified_adev(phase, tau0, m);
         if md > 0.0 {
-            pts.push(((m as f64 * tau0).log10(), md.log10()));
+            pts.push(((m as f64 * tau0).plog10(), md.plog10()));
         }
         m *= 2;
     }
@@ -475,8 +476,8 @@ pub fn theo_br_bias(phase: &[f64], tau0: Seconds) -> f64 {
         if n <= 2 * k_av || n <= k_th {
             break;
         }
-        let avar = overlapping_adev(phase, tau0, k_av).powi(2);
-        let theo = theo1(phase, tau0, k_th).powi(2);
+        let avar = overlapping_adev(phase, tau0, k_av).ppowi(2);
+        let theo = theo1(phase, tau0, k_th).ppowi(2);
         if theo > 0.0 {
             sum += avar / theo;
             count += 1.0;
@@ -913,9 +914,494 @@ pub fn lag1_noise_id(
     }
 }
 
+// ---------------------------------------------------------------------------
+// Greenhall & Riley exact equivalent degrees of freedom: C. A. Greenhall and W. J.
+// Riley, "Uncertainty of stability variances based on finite differences", Proc. 35th
+// PTTI (2003), pp. 267-280, Section 3 (Eqns 7 to 13, Tables 1 to 3), summarised in NIST
+// SP 1065 (2008) §5.3. Moved here from `assurance::uncertainty`, whose direct-sum port
+// it extends with the large-J asymptotic branches and the non-overlapping estimators.
+// ---------------------------------------------------------------------------
+
+/// Exact equivalent degrees of freedom of a stability-variance estimator (Greenhall and
+/// Riley 2003, full version): noise exponent `alpha` (+2 white PM to −4), difference
+/// order `d` (1, 2 or 3; 2 for Allan, 3 for Hadamard), averaging factor `m`, `n` phase
+/// samples, `overlapping` (stride `S = m`) or not (`S = 1`), and the `modified` filter
+/// (`F = 1`) or not (`F = m`).
+///
+/// `f64::NAN` where the algorithm does not apply: `alpha + 2d <= 1`, `alpha` or `d` out of
+/// range, `m = 0`, too few data (`n < L = m/F + m·d`), and the unmodified white-PM case
+/// with `ceil(M/S) <= d`, whose closed form (Section 3.6.4) is not implemented.
+pub fn edf_greenhall(
+    alpha: i32,
+    d: i32,
+    m: usize,
+    n: usize,
+    overlapping: bool,
+    modified: bool,
+) -> f64 {
+    if !(-4..=2).contains(&alpha) || !(1..=3).contains(&d) || m == 0 {
+        return f64::NAN;
+    }
+    let f = if modified { 1.0 } else { m as f64 };
+    if (n as f64) < m as f64 / f + m as f64 * d as f64 {
+        return f64::NAN;
+    }
+    greenhall_edf_core(alpha, d, m, n, overlapping, modified, false)
+}
+
+/// [`edf_greenhall`] for the Allan variance (`d = 2`, unmodified filter).
+pub fn edf_greenhall_adev(alpha: i32, m: usize, n: usize, overlapping: bool) -> f64 {
+    edf_greenhall(alpha, 2, m, n, overlapping, false)
+}
+
+/// [`edf_greenhall`] for the modified Allan variance (`d = 2`, modified filter).
+pub fn edf_greenhall_mdev(alpha: i32, m: usize, n: usize, overlapping: bool) -> f64 {
+    edf_greenhall(alpha, 2, m, n, overlapping, true)
+}
+
+/// [`edf_greenhall`] for the Hadamard variance (`d = 3`, unmodified filter).
+pub fn edf_greenhall_hdev(alpha: i32, m: usize, n: usize, overlapping: bool) -> f64 {
+    edf_greenhall(alpha, 3, m, n, overlapping, false)
+}
+
+/// Table 1 of Greenhall and Riley 2003: `(a0, a1)` for modified variances.
+fn greenhall_table1(alpha: i32, d: i32) -> Option<(f64, f64)> {
+    Some(match (alpha, d) {
+        (2, 1) => (2.0 / 3.0, 1.0 / 3.0),
+        (2, 2) => (7.0 / 9.0, 1.0 / 2.0),
+        (2, 3) => (22.0 / 25.0, 2.0 / 3.0),
+        (1, 1) => (0.840, 0.345),
+        (1, 2) => (0.997, 0.616),
+        (1, 3) => (1.141, 0.843),
+        (0, 1) => (1.079, 0.368),
+        (0, 2) => (1.033, 0.607),
+        (0, 3) => (1.184, 0.848),
+        (-1, 2) => (1.048, 0.534),
+        (-1, 3) => (1.180, 0.816),
+        (-2, 2) => (1.302, 0.535),
+        (-2, 3) => (1.175, 0.777),
+        (-3, 3) => (1.194, 0.703),
+        (-4, 3) => (1.489, 0.702),
+        _ => return None,
+    })
+}
+
+/// Table 2 of Greenhall and Riley 2003: `(a0, a1)` for unmodified variances.
+fn greenhall_table2(alpha: i32, d: i32) -> Option<(f64, f64)> {
+    Some(match (alpha, d) {
+        (2, 1) => (3.0 / 2.0, 1.0 / 2.0),
+        (2, 2) => (35.0 / 18.0, 1.0),
+        (2, 3) => (231.0 / 100.0, 3.0 / 2.0),
+        (1, 1) => (78.6, 25.2),
+        (1, 2) => (790.0, 410.0),
+        (1, 3) => (9950.0, 6520.0),
+        (0, 1) => (2.0 / 3.0, 1.0 / 6.0),
+        (0, 2) => (2.0 / 3.0, 1.0 / 3.0),
+        (0, 3) => (7.0 / 9.0, 1.0 / 2.0),
+        (-1, 2) => (0.852, 0.375),
+        (-1, 3) => (0.997, 0.617),
+        (-2, 2) => (1.079, 0.368),
+        (-2, 3) => (1.033, 0.607),
+        (-3, 3) => (1.053, 0.553),
+        (-4, 3) => (1.302, 0.535),
+        _ => return None,
+    })
+}
+
+/// Table 3 of Greenhall and Riley 2003: `(b0, b1)` of the logarithmic denominator for
+/// unmodified variances with flicker PM (`alpha = 1`).
+fn greenhall_table3(d: i32) -> Option<(f64, f64)> {
+    Some(match d {
+        1 => (6.0, 4.0),
+        2 => (15.23, 12.0),
+        3 => (47.8, 40.0),
+        _ => return None,
+    })
+}
+
+/// The Greenhall and Riley case selection (Section 3.6). With `direct_only` the large-J
+/// asymptotic branches give `f64::NAN` and no input guard beyond `alpha + 2d > 1` is
+/// applied: exactly the private port `assurance::uncertainty` has always used, whose
+/// outputs it keeps bit for bit. The direct-sum arithmetic is the same in both modes.
+pub(crate) fn greenhall_edf_core(
+    alpha: i32,
+    d: i32,
+    m: usize,
+    n: usize,
+    overlapping: bool,
+    modified: bool,
+    direct_only: bool,
+) -> f64 {
+    if alpha + 2 * d <= 1 {
+        return f64::NAN;
+    }
+    let f: f64 = if modified { 1.0 } else { m as f64 };
+    let s: f64 = if overlapping { m as f64 } else { 1.0 };
+    let mm = m as f64;
+    let dd = d as f64;
+    let nn = n as f64;
+
+    // L, M, J, r  (Eqns 11 and 12).
+    let l = mm / f + mm * dd;
+    let big_m = 1.0 + (s * (nn - l) / mm).floor();
+    let j = big_m.min((dd + 1.0) * s);
+    let r = big_m / s;
+    const J_MAX: f64 = 100.0;
+
+    if modified {
+        // Case 1: modified variances, all alpha. F = 1.
+        if j <= J_MAX {
+            let sz0 = greenhall_sz(0.0, 1.0, alpha, d);
+            let inv = (1.0 / (sz0 * sz0 * big_m)) * greenhall_basic_sum(j, big_m, s, 1.0, alpha, d);
+            return 1.0 / inv;
+        }
+        if direct_only {
+            return f64::NAN;
+        }
+        if r >= dd + 1.0 {
+            let Some((a0, a1)) = greenhall_table1(alpha, d) else {
+                return f64::NAN;
+            };
+            return 1.0 / ((1.0 / r) * (a0 - a1 / r));
+        }
+        let mp = J_MAX / r;
+        let sz0 = greenhall_sz(0.0, 1.0, alpha, d);
+        let inv =
+            (1.0 / (sz0 * sz0 * J_MAX)) * greenhall_basic_sum(J_MAX, J_MAX, mp, 1.0, alpha, d);
+        return 1.0 / inv;
+    }
+
+    // Unmodified variances.
+    if alpha <= 0 {
+        // Case 2: unmodified, alpha <= 0. F = m.
+        if j <= J_MAX {
+            // variant (a): m*(d+1) <= J_MAX so m_prime = m (finite); else inf.
+            let m_prime = if mm * (dd + 1.0) <= J_MAX {
+                mm
+            } else {
+                f64::INFINITY
+            };
+            let sz0 = greenhall_sz(0.0, m_prime, alpha, d);
+            let inv =
+                (1.0 / (sz0 * sz0 * big_m)) * greenhall_basic_sum(j, big_m, s, m_prime, alpha, d);
+            return 1.0 / inv;
+        }
+        if direct_only {
+            return f64::NAN;
+        }
+        if r >= dd + 1.0 {
+            let Some((a0, a1)) = greenhall_table2(alpha, d) else {
+                return f64::NAN;
+            };
+            return 1.0 / ((1.0 / r) * (a0 - a1 / r));
+        }
+        let mp = J_MAX / r;
+        let sz0 = greenhall_sz(0.0, f64::INFINITY, alpha, d);
+        let inv = (1.0 / (sz0 * sz0 * J_MAX))
+            * greenhall_basic_sum(J_MAX, J_MAX, mp, f64::INFINITY, alpha, d);
+        return 1.0 / inv;
+    }
+
+    if alpha == 1 {
+        // Case 3: unmodified, alpha = 1. F = m.
+        if j <= J_MAX {
+            let sz0 = greenhall_sz(0.0, mm, 1, d);
+            let inv = (1.0 / (sz0 * sz0 * big_m)) * greenhall_basic_sum(j, big_m, s, mm, 1, d);
+            return 1.0 / inv;
+        }
+        if direct_only {
+            return f64::NAN;
+        }
+        let (Some((a0, a1)), Some((b0, b1))) = (greenhall_table2(1, d), greenhall_table3(d)) else {
+            return f64::NAN;
+        };
+        let den = b0 + b1 * mm.pln();
+        if r >= dd + 1.0 {
+            return 1.0 / ((1.0 / (den * den * r)) * (a0 - a1 / r));
+        }
+        let mp = J_MAX / r;
+        let inv = (1.0 / (den * den * J_MAX)) * greenhall_basic_sum(J_MAX, J_MAX, mp, mp, 1, d);
+        return 1.0 / inv;
+    }
+
+    if alpha == 2 {
+        // Case 4: unmodified, alpha = 2. Closed form (Section 3.6.4).
+        let k = r.ceil();
+        if k <= dd {
+            // The K <= d closed form of the paper is not implemented.
+            return f64::NAN;
+        }
+        let a0 = binom(4 * d, 2 * d) / (binom(2 * d, d) * binom(2 * d, d));
+        let a1 = dd / 2.0;
+        let inv = (1.0 / big_m) * (a0 - a1 / r);
+        return 1.0 / inv;
+    }
+
+    f64::NAN
+}
+
+/// Natural logarithm for the Greenhall kernel, accurate to well below half a unit in the
+/// last place (the double-double result is rounded once), so it returns the correctly
+/// rounded `ln(x)` except in rare near-halfway cases, on every platform.
+///
+/// Why the kernel needs it: `sx` and `sz` (Eqns 8 and 9) are finite differences of
+/// `t^2 ln|t|` (and `t^4`, `t^6` forms) with step `1/F`; at `F = m = 10000` the second
+/// difference cancels about nine decimal digits, so a one-ulp difference in a single
+/// logarithm becomes a relative 1e-8 in the edf. The published algorithm as written (and
+/// allantools, the pre-registered oracle, which runs it in double precision) carries that
+/// cancellation; a reformulation that removes it computes the exact edf, which differs from
+/// the double-precision algorithm by up to 5.3e-9 at `alpha = 1, d = 2, m = 10000,
+/// N = 100000`. Keeping the published operation order and making the logarithm itself
+/// accurate instead gives the double-precision algorithm's value to the round-off of its
+/// last additions on any platform. `libm::log` (portable, but up to about one ulp) is used
+/// only for arguments outside the normal range, which the kernel does not produce.
+fn greenhall_ln(x: f64) -> f64 {
+    if !(x.is_finite() && x >= f64::MIN_POSITIVE) {
+        return libm::log(x);
+    }
+    // x = 2^k * m with m in [sqrt(1/2), sqrt(2)), exactly.
+    let bits = x.to_bits();
+    let mut k = ((bits >> 52) & 0x7ff) as i64 - 1023;
+    let mantissa_mask = (1_u64 << 52) - 1;
+    let mut m = f64::from_bits((bits & mantissa_mask) | (1023_u64 << 52));
+    if m > core::f64::consts::SQRT_2 {
+        m *= 0.5;
+        k += 1;
+    }
+    // u = (m - 1) / (m + 1) in double-double; m - 1 is exact (Sterbenz).
+    let num = m - 1.0;
+    let den = dd_two_sum(m, 1.0);
+    let u = dd_div_d(num, den);
+    // ln m = 2 atanh(u) = 2u (1 + z P(z)), z = u^2 <= 0.0295,
+    // P(z) = 1/3 + z/5 + z^2/7 + z^3 R(z). R's terms (to 1/45) are in double: their
+    // weight z^3 <= 2.6e-5 puts their round-off near 2^-70 of the result.
+    let z = dd_mul(u, u);
+    let mut r = 0.0_f64;
+    let mut n = 45.0_f64;
+    while n >= 9.0 {
+        r = 1.0 / n + z.0 * r;
+        n -= 2.0;
+    }
+    const C7: (f64, f64) = (0.142_857_142_857_142_85, 7.930_164_461_608_26e-18);
+    const C5: (f64, f64) = (0.2, -1.110_223_024_625_156_6e-17);
+    const C3: (f64, f64) = (0.333_333_333_333_333_3, 1.850_371_707_708_594e-17);
+    let mut acc = (r, 0.0);
+    for c in [C7, C5, C3] {
+        acc = dd_add(c, dd_mul(z, acc));
+    }
+    let one_plus = dd_add((1.0, 0.0), dd_mul(z, acc));
+    let ln_m = dd_mul((2.0 * u.0, 2.0 * u.1), one_plus);
+    const LN2: (f64, f64) = (core::f64::consts::LN_2, 2.319_046_813_846_299_6e-17);
+    let kf = k as f64;
+    let k_ln2 = dd_add(dd_two_prod(LN2.0, kf), (LN2.1 * kf, 0.0));
+    let s = dd_add(k_ln2, ln_m);
+    s.0 + s.1
+}
+
+/// Error-free sum `a + b = s + e` (Knuth).
+fn dd_two_sum(a: f64, b: f64) -> (f64, f64) {
+    let s = a + b;
+    let bb = s - a;
+    let e = (a - (s - bb)) + (b - bb);
+    (s, e)
+}
+
+/// Dekker's split of `a` into two 26-bit halves (basic operations only, no fused
+/// multiply-add, so it is exact and identical on every target).
+fn dd_split(a: f64) -> (f64, f64) {
+    let c = 134_217_729.0 * a; // 2^27 + 1
+    let hi = c - (c - a);
+    (hi, a - hi)
+}
+
+/// Error-free product `a * b = p + e` (Dekker).
+fn dd_two_prod(a: f64, b: f64) -> (f64, f64) {
+    let p = a * b;
+    let (ah, al) = dd_split(a);
+    let (bh, bl) = dd_split(b);
+    let e = ((ah * bh - p) + ah * bl + al * bh) + al * bl;
+    (p, e)
+}
+
+/// Double-double sum, renormalised.
+fn dd_add(a: (f64, f64), b: (f64, f64)) -> (f64, f64) {
+    let (s, e) = dd_two_sum(a.0, b.0);
+    let e = e + (a.1 + b.1);
+    let hi = s + e;
+    (hi, e - (hi - s))
+}
+
+/// Double-double product, renormalised.
+fn dd_mul(a: (f64, f64), b: (f64, f64)) -> (f64, f64) {
+    let (p, e) = dd_two_prod(a.0, b.0);
+    let e = e + (a.0 * b.1 + a.1 * b.0);
+    let hi = p + e;
+    (hi, e - (hi - p))
+}
+
+/// Double `a` divided by double-double `b`, as a double-double.
+fn dd_div_d(a: f64, b: (f64, f64)) -> (f64, f64) {
+    let q1 = a / b.0;
+    // a - q1 * b, with q1 * b.0 formed exactly.
+    let (p, e) = dd_two_prod(q1, b.0);
+    let r = ((a - p) - e) - q1 * b.1;
+    let q2 = r / b.0;
+    let hi = q1 + q2;
+    (hi, q2 - (hi - q1))
+}
+
+/// Greenhall basis weight `sw(t, alpha)` (Eqn 7 of Greenhall 2004).
+fn greenhall_sw(t: f64, alpha: i32) -> f64 {
+    match alpha {
+        2 => -t.abs(),
+        1 => {
+            if t == 0.0 {
+                0.0
+            } else {
+                t * t * greenhall_ln(t.abs())
+            }
+        }
+        0 => (t * t * t).abs(),
+        -1 => {
+            if t == 0.0 {
+                0.0
+            } else {
+                t.ppowi(4) * greenhall_ln(t.abs())
+            }
+        }
+        -2 => (t.ppowi(5)).abs(),
+        -3 => {
+            if t == 0.0 {
+                0.0
+            } else {
+                t.ppowi(6) * greenhall_ln(t.abs())
+            }
+        }
+        -4 => (t.ppowi(7)).abs(),
+        _ => f64::NAN,
+    }
+}
+
+/// Filtered kernel `sx(t, F, alpha)` (Eqn 8). `F = inf` degenerates to the
+/// `alpha + 2` white kernel.
+fn greenhall_sx(t: f64, f: f64, alpha: i32) -> f64 {
+    if f.is_infinite() {
+        return greenhall_sw(t, alpha + 2);
+    }
+    let a = 2.0 * greenhall_sw(t, alpha);
+    let b = greenhall_sw(t - 1.0 / f, alpha);
+    let c = greenhall_sw(t + 1.0 / f, alpha);
+    f * f * (a - b - c)
+}
+
+/// dth finite difference `sz(t, F, alpha, d)` (Eqn 9), for `d in {1, 2, 3}`.
+fn greenhall_sz(t: f64, f: f64, alpha: i32, d: i32) -> f64 {
+    match d {
+        1 => {
+            let a = 2.0 * greenhall_sx(t, f, alpha);
+            let b = greenhall_sx(t - 1.0, f, alpha);
+            let c = greenhall_sx(t + 1.0, f, alpha);
+            a - b - c
+        }
+        2 => {
+            let a = 6.0 * greenhall_sx(t, f, alpha);
+            let b = 4.0 * greenhall_sx(t - 1.0, f, alpha);
+            let c = 4.0 * greenhall_sx(t + 1.0, f, alpha);
+            let dd = greenhall_sx(t - 2.0, f, alpha);
+            let e = greenhall_sx(t + 2.0, f, alpha);
+            a - b - c + dd + e
+        }
+        3 => {
+            let a = 20.0 * greenhall_sx(t, f, alpha);
+            let b = 15.0 * greenhall_sx(t - 1.0, f, alpha);
+            let c = 15.0 * greenhall_sx(t + 1.0, f, alpha);
+            let dd = 6.0 * greenhall_sx(t - 2.0, f, alpha);
+            let e = 6.0 * greenhall_sx(t + 2.0, f, alpha);
+            let g = greenhall_sx(t - 3.0, f, alpha);
+            let h = greenhall_sx(t + 3.0, f, alpha);
+            a - b - c + dd + e - g - h
+        }
+        _ => f64::NAN,
+    }
+}
+
+/// BasicSum (Eqn 10 of Greenhall 2004).
+fn greenhall_basic_sum(j: f64, big_m: f64, s: f64, f: f64, alpha: i32, d: i32) -> f64 {
+    let first = {
+        let z = greenhall_sz(0.0, f, alpha, d);
+        z * z
+    };
+    let second = {
+        let z = greenhall_sz(j / s, f, alpha, d);
+        (1.0 - j / big_m) * z * z
+    };
+    let mut third = 0.0;
+    // j runs 1 .. int(J) - 1 inclusive (Python range(1, int(J))).
+    let j_int = j as i64;
+    for jj in 1..j_int {
+        let z = greenhall_sz(jj as f64 / s, f, alpha, d);
+        third += 2.0 * (1.0 - jj as f64 / big_m) * z * z;
+    }
+    first + second + third
+}
+
+/// Binomial coefficient `C(n, k)` as an exact-ish `f64` (small `n` here).
+fn binom(n: i32, k: i32) -> f64 {
+    if k < 0 || k > n {
+        return 0.0;
+    }
+    let k = k.min(n - k);
+    let mut acc = 1.0_f64;
+    for i in 0..k {
+        acc = acc * (n - i) as f64 / (i + 1) as f64;
+    }
+    acc
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn greenhall_ln_is_correctly_rounded_at_reference_arguments() {
+        // Expected values: ln(x) to 60 digits (Python decimal) rounded once to f64.
+        // PIN-SCOPE:    the f64 bits of greenhall_ln at the 21 listed arguments
+        // PIN-EXCLUDES: every other argument, and libm::log (used outside the normal range)
+        let cases = [
+            (0x3f1a36e2eb1c432d_u64, 0xc0226bb1bbb55515_u64), // 1e-4
+            (0x3fefff2e48e8a71e, 0xbf1a3738d2cf1cc2),         // 0.9999
+            (0x3ff00068db8bac71, 0x3f1a368d0657fcd4),         // 1.0001
+            (0x3fffff972474538f, 0x3fe62dda22c2bf90),         // 1.9999
+            (0x400000346dc5d639, 0x3fe62eabd9da1b61),         // 2.0001
+            (0x4007ffcb923a29c7, 0x3ff193c786ad9be8),         // 2.9999
+            (0x400800346dc5d639, 0x3ff1940d6e600f4e),         // 3.0001
+            (0x3fe0000000000000, 0xbfe62e42fefa39ef),         // 0.5
+            (0x3fe6a09e667f3bcd, 0xbfd62e42fefa39ee),         // sqrt(1/2)
+            (0x3ff6a09e667f3bcd, 0x3fd62e42fefa39f0),         // sqrt(2)
+            (0x4008000000000000, 0x3ff193ea7aad030b),         // 3
+            (0x4024000000000000, 0x40026bb1bbb55516),         // 10
+            (0x40c3880000000000, 0x40226bb1bbb55516),         // 1e4
+            (0x01a56e1fc2f8f359, 0xc085963447f87fb5),         // 1e-300
+            (0x0010000000000000, 0xc086232bdd7abcd2),         // f64::MIN_POSITIVE
+            (0x7fefffffffffffff, 0x40862e42fefa39ef),         // f64::MAX
+            (0x40fe240c9fbe76c9, 0x40277281cad8a844),         // 123456.789
+            (0x3fb999999999999a, 0xc0026bb1bbb55515),         // 0.1
+            (0x3fd5555555555555, 0xbff193ea7aad030b),         // 1/3
+            (0x4013ffe5c91d14e4, 0x3ff9c02cff2a45d4),         // 4.9999
+            (0x4014001a36e2eb1c, 0x3ff9c056f09557b3),         // 5.0001
+        ];
+        for (x, want) in cases {
+            let x = f64::from_bits(x);
+            assert_eq!(
+                greenhall_ln(x).to_bits(),
+                want,
+                "ln({x:e}) = {:e}, want {:e}",
+                greenhall_ln(x),
+                f64::from_bits(want)
+            );
+        }
+        assert_eq!(greenhall_ln(1.0), 0.0);
+    }
 
     #[test]
     fn linear_phase_has_zero_adev() {
@@ -1046,9 +1532,9 @@ mod tests {
     // production estimator as their own reference.
     // ---------------------------------------------------------------------
 
+    use crate::portable_distr::{Distribution, Normal};
     use rand::SeedableRng;
     use rand_chacha::ChaCha8Rng;
-    use rand_distr::{Distribution, Normal};
 
     /// Classic *non-overlapping* Allan deviation, coded independently of
     /// `overlapping_adev`: average the fractional frequency over disjoint blocks
@@ -1142,8 +1628,8 @@ mod tests {
     /// least squares — the log-log slope that identifies the dominant noise type.
     fn loglog_slope(curve: &[AdevPoint]) -> f64 {
         let n = curve.len() as f64;
-        let xs: Vec<f64> = curve.iter().map(|p| p.tau_s.log10()).collect();
-        let ys: Vec<f64> = curve.iter().map(|p| p.adev.log10()).collect();
+        let xs: Vec<f64> = curve.iter().map(|p| p.tau_s.plog10()).collect();
+        let ys: Vec<f64> = curve.iter().map(|p| p.adev.plog10()).collect();
         let sx: f64 = xs.iter().sum();
         let sy: f64 = ys.iter().sum();
         let sxx: f64 = xs.iter().map(|x| x * x).sum();
@@ -1335,8 +1821,8 @@ mod tests {
             .filter(|&(_, v)| v > 0.0)
             .collect();
         let n = pts.len() as f64;
-        let xs: Vec<f64> = pts.iter().map(|p| p.0.log10()).collect();
-        let ys: Vec<f64> = pts.iter().map(|p| p.1.log10()).collect();
+        let xs: Vec<f64> = pts.iter().map(|p| p.0.plog10()).collect();
+        let ys: Vec<f64> = pts.iter().map(|p| p.1.plog10()).collect();
         let sx: f64 = xs.iter().sum();
         let sy: f64 = ys.iter().sum();
         let sxx: f64 = xs.iter().map(|x| x * x).sum();
@@ -1819,8 +2305,8 @@ mod tests {
         );
         assert!(theoh.iter().all(|p| p.dev.is_finite() && p.dev > 0.0));
         // Slope across the whole hybrid curve is the white-FM -1/2.
-        let xs: Vec<f64> = theoh.iter().map(|p| p.tau_s.log10()).collect();
-        let ys: Vec<f64> = theoh.iter().map(|p| p.dev.log10()).collect();
+        let xs: Vec<f64> = theoh.iter().map(|p| p.tau_s.plog10()).collect();
+        let ys: Vec<f64> = theoh.iter().map(|p| p.dev.plog10()).collect();
         let k = xs.len() as f64;
         let sx: f64 = xs.iter().sum();
         let sy: f64 = ys.iter().sum();

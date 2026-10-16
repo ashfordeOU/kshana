@@ -72,13 +72,92 @@ by `tests/field_units_global.rs`). The region block: `availability`, `coverage_f
 * Neither checks the model. The error model, the first-order decorrelation, the survey, ageing and
   quantization models and every threshold are this project's own or ILLUSTRATIVE.
 
+### Terrain horizon masks
+
+MODELLED. An optional `[terrain]` section (`src/lunar_terrain.rs`) gives the station and every user
+point its own azimuth-dependent horizon, in the 0.36 skyline table format (rows `[azimuth_deg,
+elevation_deg]`, linear in azimuth with wrap at 360°). A satellite counts at a site when it clears
+both `mask_deg` and the horizon at its azimuth; an epoch the horizon leaves with fewer than four
+satellites at a point, where the flat mask gives four, is reported as `unavailable.terrain_masked`
+(`user_lt4` keeps its flat meaning). Two sources, combined as their pointwise maximum when both are
+given:
+
+* a stated profile, `station_horizon` or `user_horizon` (applied at every user point), each with a
+  required `source` label;
+* a horizon ray-marched over a polar DEM (`dem_path`): great circles of the lunar sphere with exact
+  curvature, from a stated mast height (default 2 m), every `azimuth_step_deg` (default 1°), out to
+  `max_range_km` (default 150 km) or the grid edge. The repository vendors a crop of the
+  public-domain LRO LOLA polar product `LDEM_75S_240M`, 5 × 5 block-mean resampled to 1200 m and
+  about ±420 km from the pole (`data/lunar-dem/NOTICE.md`: source URL, SHA-256, licence, crop and
+  resample steps);
+* or, in place of `dem_path`, a latitude/longitude DEM tile (`dem_tile_path`) in the
+  `realdata::lola_dem` text format (a header `lat_min lat_max lon_min lon_max n_lat n_lon`, then
+  the heights in metres above the mean sphere, row-major), ray-marched the same way, with the
+  latitude spacing setting the default step. The report echoes the tile's path, SHA-256 and
+  extent (`terrain.dem_tile`). A tile resampled from the vendored crop gives the station the
+  crop's own horizon to 0.22° (`tests/lunar_station_terrain.rs`). No tile is vendored.
+
+The same masks apply to the `moonlight-service-volume` grid (`terrain`, `user_horizon` and
+`dem_path`; a grid point outside the DEM keeps the flat mask and is counted). Without the section
+every document is byte-identical to a run without it.
+
+Checks: the ray march reproduces closed-form horizons (the bare-sphere dip, a crater in a plateau
+from its centre and off it, a rasterised cone against the analytic cone); the vendored crop is
+oriented as the source (Shackleton and Haworth floors low, the Malapert massif high); an independent
+numpy ray-cast on the crop, pre-registered (`tests/fixtures/lunar_terrain/PREREGISTRATION.md`), agrees
+to 5.5e-10 deg at five sites, which checks the arithmetic, not the terrain. No published
+polar horizon or illumination figure has been reproduced, so the row stays MODELLED (ledger row
+"Lunar terrain horizon masks from a stated profile or a polar DEM").
+
+`scenarios/lunar-station-coverage-terrain.toml` runs the bundled inputs on a 2° grid with 100 trials
+and the DEM horizon at every site. The station site (89° S, 0° E) has a highest horizon of about
+4.0°, below the 5° mask, so at the station the terrain does not bind; at the user points the
+area-weighted mean of each point's highest horizon is 9.7° and the largest 26.3°. Against the same
+inputs with the flat mask, the region's corrected p95 3-D error rises from 16.3 m to 18.6 m and the
+largest HPL from 480 m to 62 km. Region availability rises from 91.9 % to 93.0 %: an epoch is
+unavailable when a point uses a satellite the station does not see, and a horizon that hides that
+satellite from the point can make the epoch available.
+
 ### Limitations
 
-1. **Terrain and horizon masking at the pole are not modelled** (a flat elevation mask is used).
-   This is the first limitation and a 0.37 candidate.
-2. Multipath and receiver hardware are not modelled.
-3. The growth of the ephemeris error over the correction latency is modelled only as the
-   line-of-sight re-projection of a frozen error.
+1. **Terrain and horizon masking: addressed in 0.36, with limits.** Per-site horizon masks from a
+   stated profile or the vendored LOLA DEM crop are modelled (above). What remains: the vendored
+   crop is 1200 m per pixel, so relief below about a kilometre is smoothed away and block means
+   lower sharp peaks; a ray that leaves the crop (about 420 km from the pole) ends there; there is
+   no diffraction, terrain multipath or partial obstruction; site positions for ranging stay on the
+   mean sphere at the stated heights (the DEM sets the horizon only); the horizon is not validated
+   against an external figure. The per-satellite export site of `moonlight-service-volume` is
+   masked like a grid point: with a `terrain` section each export row carries `clears_terrain`
+   and the report the site's horizon (`export_site_terrain`); the antenna in-beam tallies still
+   count every link that clears the flat mask.
+2. **Multipath and receiver hardware: addressed in 0.36 as an opt-in, with limits.** A `[receiver]`
+   section (`src/lunar_receiver.rs`) adds elevation-dependent multipath `a + b exp(-el / el0)` at the
+   user and the station (the DO-229 functional form; on the Moon every value is ILLUSTRATIVE), the
+   station's multipath optionally first-order Gauss-Markov over epochs, early-minus-late DLL code
+   noise from C/N0, and per-channel inter-channel biases. What remains: antenna phase-centre and
+   group-delay variation are not modelled; no lunar measurement fixes the multipath values; the
+   correction-link budget block does not include the receiver terms.
+3. **Ephemeris-error growth over the latency: addressed in 0.36 as an opt-in, with limits.**
+   `orbit_err_growth_m_per_s` adds a linear growth of the broadcast orbit error with age (range
+   1-sigma `rate x latency / sqrt(3)`), on top of the frozen-error re-projection; linear growth is
+   the first-order term of a propagated state error (checked to 1 % at 600 s against the in-tree
+   two-body propagation). What remains: no public source gives a lunar growth rate (ILLUSTRATIVE);
+   no along-track/radial structure; the correction-link budget block uses the frozen model. The K5
+   addendum (`tests/fixtures/lunar_station_published/ADDENDUM-LRS03.md`, pre-registered alone) runs
+   K5 at 0.001, 0.01 and 0.1 m/s: it fails in every case (369.8 m, 2315 m, 22797 m against a 1.5 m
+   bar), as stated before the run.
+4. **Solution style (filter, height constraint, three satellites): an opt-in in 0.36, with limits.**
+   A `[solution]` section (`src/lunar_solution.rs`) adds a height pseudo-measurement, a
+   three-satellite minimum with it, and a static-user weighted least-squares window over epochs (a
+   shared position, a clock per epoch), which stands in for a filter. What remains: it treats the
+   epochs' errors as independent, so it averages down faster than errors correlated in time would;
+   it is static-user only; there is no dynamic filter, carrier phase or ambiguity resolution; the
+   case trace (`trace_case`) shows the snapshot arithmetic. The published-claims addendum with this
+   mode is `tests/fixtures/lunar_station_published/ADDENDUM-LRS06.md` (pre-registered alone). With a
+   1 m height constraint, three satellites and a 6-epoch window (ILLUSTRATIVE settings), the R300
+   corrected p95 3-D error falls from 280.6 m to 2.11 m (horizontal 0.90 m, not scored); K1 to K5
+   still fail and K6 passes, 1 of 6 as in the recorded run. The window's independence assumption
+   favours it.
 
 ## Comparison against published claims
 

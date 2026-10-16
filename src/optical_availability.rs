@@ -48,6 +48,7 @@
 //! * Fuchs & Moll, *Ground station network optimization for space-to-ground optical
 //!   communication* (JOCN, 2015) — site-diversity availability methodology.
 
+use crate::portable_math::PortableFloat;
 use serde::Serialize;
 
 /// The bundled external clear-sky climatology (`data/optical_site_climatology.csv`),
@@ -138,7 +139,7 @@ pub fn correlated_union_availability(sites: &[OpticalSite], rho: f64) -> f64 {
     let prod = unavailability_product(sites).max(0.0);
     let n_eff = 1.0 + (n as f64 - 1.0) * (1.0 - rho);
     // A = 1 − (Π(1−a))^{N_eff/N}; at ρ=0 the exponent is 1 → the independent union.
-    1.0 - prod.powf(n_eff / n as f64)
+    1.0 - prod.ppowf(n_eff / n as f64)
 }
 
 /// Parse the bundled clear-sky climatology CSV into optical sites. Comment (`#`) and blank

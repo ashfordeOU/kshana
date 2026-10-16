@@ -21,6 +21,7 @@
 
 use crate::clock_state::ClockClass;
 use crate::holdover::QuantumClockClass;
+use crate::portable_math::PortableFloat;
 use crate::representativeness::{Gap, Representativeness};
 
 /// A device's headline spec plus its honesty record.
@@ -136,7 +137,7 @@ impl Default for EntanglementTimeLink {
 impl EntanglementTimeLink {
     /// Detected two-fold coincidence rate (Hz) after efficiencies and channel loss.
     pub fn detected_coincidence_rate_hz(&self) -> f64 {
-        self.source_pair_rate_hz * self.eta_a * self.eta_b * 10f64.powf(-self.link_loss_db / 10.0)
+        self.source_pair_rate_hz * self.eta_a * self.eta_b * 10f64.ppowf(-self.link_loss_db / 10.0)
     }
 
     /// Shot-limited timing precision (s) after integrating for `integration_s`.
@@ -145,7 +146,7 @@ impl EntanglementTimeLink {
         let n = (rc * integration_s.max(0.0)).max(1e-12);
         let shot = self.single_photon_jitter_s / n.sqrt();
         let dark_penalty = (1.0 + self.dark_rate_hz / rc).sqrt();
-        ((shot * dark_penalty).powi(2) + self.systematic_floor_s.powi(2)).sqrt()
+        ((shot * dark_penalty).ppowi(2) + self.systematic_floor_s.ppowi(2)).sqrt()
     }
 
     /// Card with the timing precision at the given integration time.

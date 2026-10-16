@@ -68,6 +68,14 @@ pub trait EphemerisProvider: std::fmt::Debug {
     /// epoch `jd_tdb` (Julian Date, TDB). Returns `None` for a `(target, center)` pair this provider
     /// cannot supply.
     fn relative_position(&self, target: &Body, center: &Body, jd_tdb: f64) -> Option<Vec3>;
+
+    /// [`relative_position`](Self::relative_position) at a two-part TDB epoch. The default splits
+    /// nothing and calls the single-`f64` form; a provider that can keep the two-part precision
+    /// (the [`KernelEphemeris`] reader) overrides it. The numerical propagator's opt-in kernel
+    /// tier calls this, so its perturber positions carry the full epoch precision.
+    fn relative_position_jd2(&self, target: &Body, center: &Body, jd_tdb: Jd2) -> Option<Vec3> {
+        self.relative_position(target, center, jd_tdb.total())
+    }
 }
 
 /// The default, kernel-free **low-precision** ephemeris provider: Kshana's own analytic Montenbruck
@@ -422,7 +430,11 @@ impl EphemerisProvider for KernelEphemeris {
     /// epoch is split with [`Jd2::new`]; callers that hold a two-part epoch should use
     /// [`KernelEphemeris::relative_position_jd2`] and keep its precision.
     fn relative_position(&self, target: &Body, center: &Body, jd_tdb: f64) -> Option<Vec3> {
-        self.relative_position_jd2(target, center, Jd2::new(jd_tdb))
+        KernelEphemeris::relative_position_jd2(self, target, center, Jd2::new(jd_tdb))
+    }
+
+    fn relative_position_jd2(&self, target: &Body, center: &Body, jd_tdb: Jd2) -> Option<Vec3> {
+        KernelEphemeris::relative_position_jd2(self, target, center, jd_tdb)
     }
 }
 
@@ -475,6 +487,7 @@ fn neg(v: Vec3) -> Vec3 {
 mod tests {
     use super::*;
     use crate::ephem::{moon_position, sun_position};
+    use crate::portable_math::PortableFloat;
 
     /// A fixed probe epoch (Julian Date, TDB) inside the analytic series' good span: 2022-001.5.
     const PROBE_JD: f64 = 2_459_580.5;
@@ -730,7 +743,7 @@ mod tests {
         let n = |v: Vec3| (v[0] * v[0] + v[1] * v[1] + v[2] * v[2]).sqrt();
         let ang = (dot / (n(kern) * n(ana)))
             .clamp(-1.0, 1.0)
-            .acos()
+            .pacos()
             .to_degrees();
         assert!(ang < 0.3, "{ang} deg");
     }

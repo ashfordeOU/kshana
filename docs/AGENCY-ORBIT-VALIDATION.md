@@ -53,9 +53,11 @@ A residual is reported only when all of the following hold (design
 
 | Run | Arc | d/o | n_obs | 3-D RMS | RTN (R, T, N) | `C_R` | Notes |
 |-----|-----|-----|-------|---------|---------------|-------|-------|
-| CI fixture, Tier 1 (force + `C_R`) | 8 h | 12 | 97 | **0.132 m** | 0.105, 0.067, 0.047 m | 1.174 | raw overlap 78.7 km |
+| CI fixture, Tier 1 (force + `C_R`) | 8 h | 12 | 97 | **0.133 m** | 0.105, 0.067, 0.047 m | 1.174 | raw overlap 78.7 km |
 | CI fixture, Tier 2 (+ empirical CPR) | 8 h | 12 | 97 | **0.070 m** | 0.048, 0.044, 0.027 m | — | halves the residual |
-| Full-arc dispatch, Tier 1 | 24 h | 12 | 289 | **0.611 m** | 0.276, 0.381, 0.390 m | 1.244 | `workflow_dispatch` |
+| Full-arc dispatch, Tier 1 (pre-fix†) | 24 h | 12 | 289 | **0.611 m** | 0.276, 0.381, 0.390 m | 1.244 | `workflow_dispatch` |
+
+The CI-fixture numbers above were re-recorded in 0.36 after the S2 air-tide fix (`xval/s2-air-tide-fix/`): Galileo Tier 1 moved 0.132 → 0.133 m (C_R 1.1744 → 1.1743), Swarm-A N components by 1–2 mm; the full-arc dispatch figures were not re-run. † **Pre-fix:** the full-arc dispatch figure was recorded before the 0.36 S2 air-tide fix and has not been re-run on the fixed code (the full-day products are fetched by the dispatch workflow, not available in the session that made the fix). On the CI fixtures the fix moved the Galileo 3-D RMS by under 1 mm and the Swarm-A components by 1–2 mm, so a change of the same order is expected; the next `workflow_dispatch` run re-records it.
 
 The MEO field is gravity-converged by degree 8 (the 8 h Tier-1 result is identical at d/o
 8, 10, and 12 to the millimetre), so the CI fixture's d/o-12 truncation is negligible; the
@@ -83,8 +85,8 @@ meaningful LEO orbit.
 
 | Run | Arc | d/o | n_obs | 3-D RMS | RTN (R, T, N) | Notes |
 |-----|-----|-----|-------|---------|---------------|-------|
-| CI fixture, dynamic (`C_R`=1)        | 3 h | 70 | 181 | **2.687 m** | 0.925, 2.522, 0.043 m | residual ≈ pure along-track (drag) |
-| CI fixture, reduced-dynamic (+empirical) | 3 h | 70 | 181 | **0.098 m** | 0.026, 0.092, 0.024 m | empirical absorbs the drag |
+| CI fixture, dynamic (`C_R`=1)        | 3 h | 70 | 181 | **2.687 m** | 0.925, 2.522, 0.045 m | residual ≈ pure along-track (drag) |
+| CI fixture, reduced-dynamic (+empirical) | 3 h | 70 | 181 | **0.098 m** | 0.026, 0.092, 0.025 m | empirical absorbs the drag |
 
 The dynamic fit clears the 5 m bar with the residual almost entirely along-track — the
 textbook drag signature at ~430 km. The empirical tier absorbs that along-track error
@@ -116,8 +118,15 @@ Earth datasets use (the `precise_od::ForceModel` trait).
 
 | Run | Arc | d/o | n_obs | 3-D RMS | RTN (R, T, N) | Notes |
 |-----|-----|-----|-------|---------|---------------|-------|
-| CI fixture, dynamic (state only)        | 4 h | 100 | 241 | **12.6 m** | 3.07, 10.19, 6.81 m | raw overlap 53.8 m |
-| CI fixture, reduced-dynamic (+empirical 1+2/rev) | 4 h | 100 | 241 | **6.6 m**  | 3.49, 4.56, 3.35 m  | 1- and 2-per-rev empirical absorb the along-track |
+| CI fixture, dynamic (state only)        | 4 h | 100 | 241 | **12.05 m** | 2.91, 10.11, 5.88 m | raw overlap 39.9 m |
+| CI fixture, reduced-dynamic (+empirical 1+2/rev) | 4 h | 100 | 241 | **6.67 m**  | 3.41, 4.58, 3.44 m  | 1- and 2-per-rev empirical absorb the along-track |
+
+0.36 correction: until 0.36 the DE421 ME→PA offset was applied in the wrong direction (and with the
+wrong Euler order), which put the analytic PA frame about 208″ from PA instead of on it. It is now
+transcribed as SPICE defines it (checked against `pxform('MOON_ME','MOON_PA')` to 2.6e-16 rad,
+`tests/lunar_me_pa_offset_spice_oracle.rs`; `docs/design/evidence/fut05b-me-pa-offset-sign/`).
+The figures above are after the fix; before it they were 53.8 m raw, **12.6 m** dynamic
+(3.07, 10.19, 6.81 m) and **6.65 m** reduced-dynamic (3.49, 4.56, 3.35 m).
 
 These residuals are **above** the 5 m bar Galileo (0.13 m) and Swarm-A (0.10 m) clear, and are
 reported honestly.
@@ -139,6 +148,11 @@ read through ANISE (Attitude, Navigation, Instrument, Spacecraft, Ephemeris — 
 | dynamic | 12.6 m | **12.0 m** |
 | **reduced-dynamic (1+2/rev)** | **6.65 m** | **6.67 m** |
 
+**0.36 note: most of the dynamic-tier gain below was the offset error, not the DE-grade inputs.**
+With the ME→PA offset corrected, the analytic stack gives 39.9 m raw, 12.05 m dynamic and 6.67 m
+reduced-dynamic, against the DE-grade 41.5, 12.0 and 6.67 m: the analytic and DE-grade fits now
+agree on every tier. The 0.30 reading of the table below follows, kept as it was written.
+
 **The hypothesis is only half right, and the headline claim needed correcting.** DE-grade
 orientation and ephemeris *do* improve the raw overlap (53.8 → 41.5 m) and the **dynamic** fit
 (12.6 → 12.0 m) — so the analytic orientation/ephemeris error is real and does limit those tiers.
@@ -157,8 +171,9 @@ multi-arc fit), not better frames.
 ## Honesty contract
 
 - The < 5 m "green" bar is met for **Galileo MEO** (0.13 m dynamic) and **Swarm-A LEO**
-  (2.69 m dynamic / 0.10 m reduced-dynamic). **LRO lunar is published as-is at 12.6 m dynamic /
-  6.6 m reduced-dynamic (1+2-per-rev empirical) — above the bar.** A DE-grade cross-validation
+  (2.69 m dynamic / 0.10 m reduced-dynamic). **LRO lunar is published as-is at 12.05 m dynamic /
+  6.67 m reduced-dynamic (1+2-per-rev empirical) — above the bar** (0.36, after the ME→PA offset
+  fix; 12.6 / 6.65 m before it). A DE-grade cross-validation
   (above) **tested and corrected** the limiting-factor claim: the reduced-dynamic floor is **not**
   the analytic orientation/ephemeris (DE440 kernels leave it unchanged at 6.67 m), so it is not
   closed by better frames but by modelling the LRO non-gravitational dynamics — the honest, updated
@@ -169,4 +184,4 @@ multi-arc fit), not better frames.
   same separation holds for the MEO empirical/pure-force tiers.
 - Every residual carries its commit hash, dataset reference, and fixture checksum above.
 - **Datasets validated against real agency truth: 3 of 3** (Galileo MEO, Swarm-A LEO, LRO lunar).
-  **Meeting the < 5 m bar: 2 of 3** (Galileo ✓, Swarm-A ✓; LRO at 6.6 m, honestly above it).
+  **Meeting the < 5 m bar: 2 of 3** (Galileo ✓, Swarm-A ✓; LRO at 6.67 m, honestly above it).

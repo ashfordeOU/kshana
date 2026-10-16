@@ -35,6 +35,7 @@
 //! does not apply, in the table `docs/INTEROP.md` carries.
 
 use kshana::interop::{self, scene, ExportError, Format};
+use kshana::portable_math::PortableFloat;
 use serde_json::Value;
 use std::path::{Path, PathBuf};
 
@@ -870,7 +871,7 @@ fn validate(fmt: Format, files: &[interop::ExportFile]) -> Result<(), String> {
 // ------------------------------------------------------------------------------------
 
 fn dist(a: [f64; 3], b: [f64; 3]) -> f64 {
-    ((a[0] - b[0]).powi(2) + (a[1] - b[1]).powi(2) + (a[2] - b[2]).powi(2)).sqrt()
+    ((a[0] - b[0]).ppowi(2) + (a[1] - b[1]).ppowi(2) + (a[2] - b[2]).ppowi(2)).sqrt()
 }
 
 #[test]

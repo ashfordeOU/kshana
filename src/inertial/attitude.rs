@@ -19,6 +19,7 @@
 //!   Design Part 1," *J. Guidance, Control, and Dynamics* 21(1), 1998.
 
 use crate::frames::Vec3;
+use crate::portable_math::PortableFloat;
 
 #[inline]
 fn cross(a: Vec3, b: Vec3) -> Vec3 {
@@ -73,9 +74,9 @@ impl Quaternion {
             return Self::identity();
         }
         let half = 0.5 * angle;
-        let s = half.sin() / n;
+        let s = half.psin() / n;
         Self {
-            w: half.cos(),
+            w: half.pcos(),
             x: axis[0] * s,
             y: axis[1] * s,
             z: axis[2] * s,
@@ -99,9 +100,9 @@ impl Quaternion {
             .normalized();
         }
         let half = 0.5 * m;
-        let s = half.sin() / m;
+        let s = half.psin() / m;
         Self {
-            w: half.cos(),
+            w: half.pcos(),
             x: phi[0] * s,
             y: phi[1] * s,
             z: phi[2] * s,
@@ -406,7 +407,7 @@ mod tests {
     // recovers the bulk of that drift that simple increment-summing misses.
     fn coning_rate(amp: f64, omega_c: f64, t: f64) -> Vec3 {
         let p = omega_c * t;
-        [-amp * omega_c * p.sin(), amp * omega_c * p.cos(), 0.0]
+        [-amp * omega_c * p.psin(), amp * omega_c * p.pcos(), 0.0]
     }
 
     fn integrate_interval(amp: f64, omega_c: f64, t0: f64, dt: f64, sub: usize) -> Vec3 {
@@ -466,7 +467,7 @@ mod tests {
         // Compare to truth via the angle of the residual rotation q_truth* ⊗ q.
         let resid_angle = |q: &Quaternion| -> f64 {
             let r = q_truth.conjugate().mul(q).normalized();
-            2.0 * r.w.abs().min(1.0).acos()
+            2.0 * r.w.abs().min(1.0).pacos()
         };
         let err_naive = resid_angle(&q_naive);
         let err_coning = resid_angle(&q_coning);

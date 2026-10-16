@@ -13,8 +13,12 @@ pub const FILE_SOURCE_KEYS: &[&str] = &[
     "csv_path",
     "data_dir",
     "data_path",
+    "dem_hgt",
+    "dem_path",
+    "dem_tile_path",
     "earth_orientation_kernel_path",
     "ephemeris_path",
+    "gfc_path",
     "meta_path",
     "moon_orientation_kernel_path",
     "normal_points_dir",
@@ -24,18 +28,24 @@ pub const FILE_SOURCE_KEYS: &[&str] = &[
 ];
 
 /// Fields that name a file only for one scenario kind (elsewhere they carry the body inline).
-pub const FILE_SOURCE_KEYS_BY_KIND: &[(&str, &[&str])] = &[(
-    "realtime-frame-eop",
-    &["eop_finals2000a", "eop_finals2000a_later"],
-)];
+pub const FILE_SOURCE_KEYS_BY_KIND: &[(&str, &[&str])] = &[
+    (
+        "realtime-frame-eop",
+        &["eop_finals2000a", "eop_finals2000a_later"],
+    ),
+    // `[[series]] paths`: the Circular T, MJD,ns CSV or RINEX clock files whose stability the
+    // kind reports.
+    ("time-transfer-budget", &["paths"]),
+];
 
 /// Scenario kinds that read their data from files on the host even when the scenario names none
 /// (they fall back to a default data directory). They are refused outright on an inline surface,
 /// with a message that names no path and carries no operating-system error text.
 pub const FILE_READING_KINDS: &[&str] = &["lunar-llr-datum"];
 
-/// Tables whose `path` key names a receiver log or its navigation file.
-const FILE_SOURCE_TABLES: &[&str] = &["log", "nav"];
+/// Tables whose `path` key names a receiver log or its navigation file, or a measured clock log
+/// (`[clock_log]`, read from the file on native builds; its `text` carries the log inline).
+const FILE_SOURCE_TABLES: &[&str] = &["log", "nav", "clock_log"];
 
 /// Refuse a scenario that names a file or folder, and one over `max_bytes`. A text that is not
 /// valid TOML passes: the engine refuses it with its own message.
@@ -123,6 +133,18 @@ mod tests {
         );
         assert!(refused("[log.nav]\npath = \"x\"").contains("path"));
         assert!(refused(
+            "kind = \"time-transfer-budget\"\n[[series]]\nformat = \"mjd-csv\"\npaths = [\"x.csv\"]"
+        )
+        .contains("paths"));
+        assert!(refused(
+            "kind = \"telecom-timing\"\n[clock_log]\nformat = \"ticc\"\npath = \"x.txt\""
+        )
+        .contains("path"));
+        assert!(
+            refused("kind = \"clock\"\n[clock_log]\nformat = \"timelab\"\npath = \"x\"")
+                .contains("path")
+        );
+        assert!(refused(
             "kind = \"campaign\"\n[[phases]]\n[phases.scenario]\nplanetary_kernel_path = \"k\""
         )
         .contains("planetary_kernel_path"));
@@ -159,6 +181,11 @@ mod tests {
         .unwrap();
         reject_file_sources(
             "kind = \"campaign\"\n[[metrics]]\nname = \"a\"\npath = \"quantum.fom.x\"",
+            MAX,
+        )
+        .unwrap();
+        reject_file_sources(
+            "kind = \"telecom-timing\"\n[clock_log]\nformat = \"ticc\"\ntext = \"inline\"",
             MAX,
         )
         .unwrap();

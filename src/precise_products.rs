@@ -105,6 +105,30 @@ pub fn parse_clock_rinex_records(text: &str, record: &str) -> Result<ClockRinex,
 }
 
 impl ClockRinex {
+    /// The satellite clocks tabulated in an SP3 file, as clock records on the same footing as
+    /// a RINEX clock file's `AS` records (seconds from the GPS epoch, offset in s; the bad-clock
+    /// sentinel left out). With [`Self::bias_s`] this is SP3 clock interpolation for
+    /// [`PreciseProducts`] when no clock file is at hand: linear between nodes, as
+    /// [`crate::sp3::Sp3File::clock_s`].
+    pub fn from_sp3(sp3: &Sp3File) -> Self {
+        let s = sp3.header.start;
+        let start = gps_seconds(s.year, s.month, s.day, s.hour, s.minute, s.second);
+        let sats = sp3
+            .observed_satellites()
+            .into_iter()
+            .map(|sat| {
+                let nodes = sp3
+                    .clock_nodes(&sat)
+                    .into_iter()
+                    .map(|(t, c)| (start + t, c))
+                    .collect();
+                (sat, nodes)
+            })
+            .filter(|(_, v): &(String, Vec<(f64, f64)>)| !v.is_empty())
+            .collect();
+        Self { sats }
+    }
+
     /// The satellite clock offset (s) at `t` (seconds from the GPS epoch) by linear
     /// interpolation between the two records that bracket `t`. `None` when the satellite has no
     /// record on both sides of `t` within `max_gap_s` of each.
@@ -400,7 +424,7 @@ fn cross(a: Vec3, b: Vec3) -> Vec3 {
 
 /// The nominal-yaw satellite body axes (ECEF unit vectors): `z` towards the Earth's centre,
 /// `y = z × (Sun − satellite)` normalised, `x = y × z`.
-fn body_axes(r_sat: Vec3, r_sun: Vec3) -> (Vec3, Vec3, Vec3) {
+pub fn body_axes(r_sat: Vec3, r_sun: Vec3) -> (Vec3, Vec3, Vec3) {
     let ez = unit([-r_sat[0], -r_sat[1], -r_sat[2]]);
     let es = unit([
         r_sun[0] - r_sat[0],
@@ -415,7 +439,7 @@ fn body_axes(r_sat: Vec3, r_sun: Vec3) -> (Vec3, Vec3, Vec3) {
 /// Low-precision Sun position (ECEF, m) at `t` seconds from the GPS epoch: the series of
 /// [`crate::ephem::sun_position`] (mean equator of date) rotated by the Greenwich mean sidereal
 /// time. Its error (about 0.01 degrees) is far below what the satellite attitude needs.
-fn sun_ecef(t: f64) -> Vec3 {
+pub fn sun_ecef(t: f64) -> Vec3 {
     // GPS epoch 1980-01-06 00:00 is JD 2444244.5; UT1 differs from GPS time by at most tens of
     // seconds, which turns the Sun direction by under 0.01 degrees.
     let jd = 2_444_244.5 + t / 86_400.0;

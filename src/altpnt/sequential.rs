@@ -31,9 +31,10 @@ use super::terrain::{deg_offset_to_m, Altimeter, DemGrid};
 use crate::mapmatch::field_likelihood;
 use crate::palette::chart::{BG, CORAL, FONT_SANS, LIME, MUTED, TEXT};
 use crate::particle_filter::ParticleFilter;
+use crate::portable_distr::{Distribution, Normal};
+use crate::portable_math::PortableFloat;
 use rand::{RngCore, SeedableRng};
 use rand_chacha::ChaCha8Rng;
-use rand_distr::{Distribution, Normal};
 use serde::{Deserialize, Serialize};
 
 fn default_n_particles() -> usize {
@@ -260,6 +261,77 @@ fn finite_std_dev(sigma: f64) -> f64 {
 pub fn run_sequential_trn(cfg: &SequentialTrnCfg) -> SequentialTrnResult {
     let dem = DemGrid::synthetic_fixture(cfg.dem_seed);
     let field = dem.sampler_deg();
+    sequential_core(cfg, &field, &field, cfg.seed, None)
+}
+
+/// Joint map estimation settings for [`run_sequential_trn_on_map`] (RM-18): a
+/// Rao-Blackwellised, FastSLAM-style filter. Each particle also carries an independent
+/// scalar Kalman estimate of the additive map correction (true minus stored elevation) in
+/// every cell of a piecewise-constant lattice. A measurement touches the one cell under the
+/// particle's hypothesised position; the particle is weighted by the predictive likelihood
+/// of `measured - stored` and that cell's estimate is then updated.
+#[derive(Clone, Copy, Debug)]
+pub struct MapSlamCfg {
+    /// South-west corner of the correction lattice (deg).
+    pub lat0_deg: f64,
+    /// South-west corner of the correction lattice (deg).
+    pub lon0_deg: f64,
+    /// Cell size (deg).
+    pub cell_deg: f64,
+    /// Cells along latitude.
+    pub n_lat: usize,
+    /// Cells along longitude.
+    pub n_lon: usize,
+    /// Prior 1-sigma of each cell's correction (m).
+    pub prior_sigma_m: f64,
+    /// 1-sigma of the residual after the cell correction (m): the altimeter noise plus the
+    /// within-cell variation of the map error.
+    pub residual_sigma_m: f64,
+}
+
+impl MapSlamCfg {
+    fn cell(&self, lat: f64, lon: f64) -> usize {
+        let idx = |x: f64, x0: f64, n: usize| -> usize {
+            let f = ((x - x0) / self.cell_deg).floor();
+            if f.is_finite() {
+                f.clamp(0.0, (n - 1) as f64) as usize
+            } else {
+                0
+            }
+        };
+        idx(lat, self.lat0_deg, self.n_lat) * self.n_lon + idx(lon, self.lon0_deg, self.n_lon)
+    }
+}
+
+/// The sequential navigator of `cfg` flown over a **stored map that differs from the true
+/// terrain**: the altimeter measures the synthetic DEM, the filter holds the DEM plus
+/// `map_error` (sampled bilinearly; `None` for a perfect map). With `slam = None` the filter
+/// trusts the stored map (known-map SITAN, matching sigma `hypot(altimeter, map)`); with
+/// `Some` it estimates the map correction jointly ([`MapSlamCfg`]). `seed` drives the
+/// measurement noise and the filter, so two runs with one seed share the INS track and the
+/// altimeter draws.
+pub fn run_sequential_trn_on_map(
+    cfg: &SequentialTrnCfg,
+    map_error: Option<&crate::altpnt::maps::GeoGrid>,
+    seed: u64,
+    slam: Option<&MapSlamCfg>,
+) -> SequentialTrnResult {
+    let dem = DemGrid::synthetic_fixture(cfg.dem_seed);
+    let truth = dem.sampler_deg();
+    let stored = |la: f64, lo: f64| truth(la, lo) + map_error.map_or(0.0, |e| e.value_at(la, lo));
+    sequential_core(cfg, &truth, &stored, seed, slam)
+}
+
+/// The sequential filter, with the field the altimeter measures (`truth_field`) and the
+/// field the filter holds (`stored_field`) given separately. With the same closure for both,
+/// `seed = cfg.seed` and no SLAM, this is exactly the original single-field navigator.
+fn sequential_core(
+    cfg: &SequentialTrnCfg,
+    truth_field: &dyn Fn(f64, f64) -> f64,
+    stored_field: &dyn Fn(f64, f64) -> f64,
+    seed: u64,
+    slam: Option<&MapSlamCfg>,
+) -> SequentialTrnResult {
     let alt = Altimeter {
         sigma_m: cfg.altimeter_sigma_m,
     };
@@ -269,7 +341,7 @@ pub fn run_sequential_trn(cfg: &SequentialTrnCfg) -> SequentialTrnResult {
         .max(f64::MIN_POSITIVE);
     let n = cfg.waypoints.max(1);
     let np = cfg.n_particles.max(1);
-    let mut rng = ChaCha8Rng::seed_from_u64(cfg.seed);
+    let mut rng = ChaCha8Rng::seed_from_u64(seed);
 
     // True track, time-varying INS drift (linear ramp), and noisy altimeter measurements.
     let truth: Vec<(f64, f64)> = (0..n)
@@ -294,18 +366,27 @@ pub fn run_sequential_trn(cfg: &SequentialTrnCfg) -> SequentialTrnResult {
         .expect("finite_std_dev returns a finite, strictly-positive std_dev, which Normal::new always accepts");
     let measured: Vec<f64> = truth
         .iter()
-        .map(|&(la, lo)| alt.measure(field(la, lo), noise.sample(&mut rng)))
+        .map(|&(la, lo)| alt.measure(truth_field(la, lo), noise.sample(&mut rng)))
         .collect();
 
     // Seed the cloud around the first INS fix (the filter is told nothing else).
     let init = Normal::new(0.0, finite_std_dev(cfg.init_pos_sigma_deg))
         .expect("finite_std_dev returns a finite, strictly-positive std_dev, which Normal::new always accepts");
+    // With SLAM, each particle carries its map-correction means and variances after the
+    // position: [lat, lon, mean_0 .. mean_{c-1}, var_0 .. var_{c-1}].
+    let cells = slam.map_or(0, |m| m.n_lat * m.n_lon);
+    let prior_var = slam.map_or(0.0, |m| m.prior_sigma_m * m.prior_sigma_m);
     let particles: Vec<Vec<f64>> = (0..np)
         .map(|_| {
-            vec![
+            let mut p = vec![
                 ins[0].0 + init.sample(&mut rng),
                 ins[0].1 + init.sample(&mut rng),
-            ]
+            ];
+            if cells > 0 {
+                p.extend(std::iter::repeat_n(0.0, cells));
+                p.extend(std::iter::repeat_n(prior_var, cells));
+            }
+            p
         })
         .collect();
     let mut pf = ParticleFilter::new(particles);
@@ -322,19 +403,55 @@ pub fn run_sequential_trn(cfg: &SequentialTrnCfg) -> SequentialTrnResult {
         if k > 0 {
             let dlat = ins[k].0 - ins[k - 1].0;
             let dlon = ins[k].1 - ins[k - 1].1;
-            pf.predict(|p| vec![p[0] + dlat, p[1] + dlon], &process_sd, &mut rng);
+            if cells > 0 {
+                pf.predict(
+                    |p| {
+                        let mut q = p.to_vec();
+                        q[0] += dlat;
+                        q[1] += dlon;
+                        q
+                    },
+                    &process_sd,
+                    &mut rng,
+                );
+            } else {
+                pf.predict(|p| vec![p[0] + dlat, p[1] + dlon], &process_sd, &mut rng);
+            }
         }
         // Update by the terrain-match likelihood; guard DEM voids / NaN samples.
         let m = measured[k];
         if m.is_finite() {
-            pf.update(|p| {
-                let pred = field(p[0], p[1]);
-                if pred.is_finite() {
-                    field_likelihood(pred, m, sigma_m)
-                } else {
-                    0.0
+            match slam {
+                None => pf.update(|p| {
+                    let pred = stored_field(p[0], p[1]);
+                    if pred.is_finite() {
+                        field_likelihood(pred, m, sigma_m)
+                    } else {
+                        0.0
+                    }
+                }),
+                Some(sc) => {
+                    let r_var = sc.residual_sigma_m * sc.residual_sigma_m;
+                    for (w, p) in pf.weights.iter_mut().zip(pf.particles.iter_mut()) {
+                        let pred = stored_field(p[0], p[1]);
+                        if !pred.is_finite() {
+                            *w = 0.0;
+                            continue;
+                        }
+                        let c = sc.cell(p[0], p[1]);
+                        let (mu, var) = (p[2 + c], p[2 + cells + c]);
+                        let s_var = var + r_var;
+                        let innov = m - pred - mu;
+                        // Predictive density up to a common constant (variances differ
+                        // between particles, so the 1/sqrt term matters).
+                        *w *= (-0.5 * innov * innov / s_var).pexp() / s_var.sqrt();
+                        let gain = var / s_var;
+                        p[2 + c] = mu + gain * innov;
+                        p[2 + cells + c] = (1.0 - gain) * var;
+                    }
+                    crate::particle_filter::normalize(&mut pf.weights);
                 }
-            });
+            }
         }
         let ess = pf.effective_sample_size();
         if ess < cfg.resample_ess_frac * np as f64 {

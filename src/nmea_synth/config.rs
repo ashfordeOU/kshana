@@ -276,6 +276,12 @@ pub enum EventKind {
     TimeSpoof,
     /// Position and (optionally) time lag the truth by a delay, as in meaconing.
     ReplayDelay,
+    /// Natural degradation (a fjord, a container terminal, a canyon): the event's stated
+    /// skyline rises with the event strength and satellites behind it are lost to the sky.
+    /// They stay listed in GSV (the receiver still knows where they are) with no SNR, and
+    /// are not used; the C/N0 of every satellite still in the open sky is unchanged. Nothing
+    /// counterfeit and no power drop: the sky is blocked, the signal is not degraded.
+    NaturalDegradation,
 }
 
 impl EventKind {
@@ -286,11 +292,12 @@ impl EventKind {
             EventKind::DragOff => "drag-off",
             EventKind::TimeSpoof => "time-spoof",
             EventKind::ReplayDelay => "replay-delay",
+            EventKind::NaturalDegradation => "natural-degradation",
         }
     }
     /// True for the kinds in which the receiver follows counterfeit signals.
     pub fn counterfeit(self) -> bool {
-        !matches!(self, EventKind::Jamming)
+        !matches!(self, EventKind::Jamming | EventKind::NaturalDegradation)
     }
 }
 
@@ -349,6 +356,14 @@ pub struct EventCfg {
     /// Absent, the genuine C/N0 pattern is kept: a subtle event.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub counterfeit_cn0_dbhz: Option<f64>,
+    /// natural-degradation: the obstruction, as a `[skyline]`-shaped table
+    /// ([`crate::skyline::SkylineCfg`]: a preset such as `fjord` or `container-terminal`, a
+    /// canyon, sectors, a table or terrain). Azimuths are true bearings, fixed to the ground.
+    /// At event strength `s` (0 to 1 over the ramps) the cut at azimuth `az` is
+    /// `s * skyline(az)`, so the sky closes progressively as the vessel enters and opens as it
+    /// leaves.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub skyline: Option<crate::skyline::SkylineCfg>,
 }
 
 /// The timing envelope shared by every event.
@@ -634,6 +649,10 @@ impl EventCfg {
                 "counterfeit_cn0_dbhz",
                 self.counterfeit_cn0_dbhz.is_some() && !self.kind.counterfeit(),
             ),
+            (
+                "skyline",
+                self.skyline.is_some() && self.kind != EventKind::NaturalDegradation,
+            ),
         ];
         if let Some((n, _)) = used.iter().find(|(_, bad)| *bad) {
             return Err(format!("{n} does not apply to this kind"));
@@ -716,6 +735,14 @@ impl EventCfg {
                     // The delay ramps follow smoothstep, whose steepest slope is 1.5 times
                     // the straight-line one.
                     monotone(d, 1.5)?;
+                }
+            }
+            EventKind::NaturalDegradation => {
+                let sk = self.skyline.as_ref().ok_or(
+                    "a skyline table is required (for example skyline = { preset = \"fjord\" })",
+                )?;
+                if sk.build()?.is_empty() {
+                    return Err("the skyline describes no obstruction".into());
                 }
             }
         }

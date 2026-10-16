@@ -2,13 +2,21 @@
 //! The lab-replay campaign runner and scoring engine (`kshana::iq::campaign`), end to end
 //! on a synthetic campaign whose truth is known.
 //!
-//! PIN-SCOPE: the three 64-character pins below. `PRE_M2M4_SCORED` covers the per-satellite
+//! PIN-SCOPE: the four 64-character pins below. `PRE_REGISTERED_SCORED` is the pre-registered
+//! pin: the scored results of the 12 reference cells with the MODELLED reference, reproduced by
+//! the NWPR campaign with the `ramp` event stating `q = 1`. `PRE_M2M4_SCORED` covers the per-satellite
 //! scored results of the 12 reference cells (canonical hash of their `satellites` arrays).
 //! `DIGEST_M2M4` and `DIGEST_NWPR` cover every cell file of the reference campaign and of
 //! its NWPR twin, so they include each cell's `engine_version` and key: they move at every
 //! version bump, by design, and are re-pinned in the bump commit.
-//! PIN-EXCLUDES: `PRE_M2M4_SCORED` strips the per-estimator fields added with
-//! `cn0_estimator` and the MODELLED reference; the DIGESTs exclude the HTML report, the scorecards and `hashes.json`.
+//! PIN-EXCLUDES: `PRE_REGISTERED_SCORED` strips the per-estimator fields added with
+//! `cn0_estimator` and maps the one label `modelled.q_source` from `event-override` back to the
+//! `type-table` it read at pre-registration. `PRE_M2M4_SCORED` strips the per-estimator fields
+//! added with `cn0_estimator` and the MODELLED reference. Both map the false-lock fields that a
+//! scorer bug fixed after the pins were registered (436eda13) moved (PRN 11 of ramp/agc-3bit:
+//! `false_lock_episodes` of the run and the event, `false_lock_per_hour`) back to their
+//! pre-fix values; the fixed values are pinned by `false_lock_fields_after_the_scorer_fix_are_pinned`.
+//! The DIGESTs exclude the HTML report, the scorecards and `hashes.json`.
 //!
 //! Kshana scenes stand in for lab recordings. Each satellite's C/N0 follows a stated
 //! profile, applied as a per-satellite amplitude through the scene's channel hook. That is
@@ -48,6 +56,7 @@ use kshana::iq::scene::{
 use kshana::iq::track::design::DesignFile;
 use kshana::iq::{ChannelSnapshot, PathState, SampleSpec};
 use kshana::jamming::effective_cn0_dbhz;
+use kshana::portable_math::PortableFloat;
 use std::collections::BTreeMap;
 use std::path::{Path, PathBuf};
 use std::sync::OnceLock;
@@ -115,7 +124,7 @@ fn scene(
         paths: match cn0(id, t) {
             None => Vec::new(),
             Some(c) => vec![PathState {
-                amplitude: 10f64.powf((c - NOMINAL) / 20.0),
+                amplitude: 10f64.ppowf((c - NOMINAL) / 20.0),
                 ..direct_path()
             }],
         },
@@ -746,6 +755,7 @@ fn scored_digest(out: &Path) -> String {
             let mut v = serde_json::to_value(&c.satellites).unwrap();
             without_added(&mut v);
             without_modelled(&mut v);
+            as_before_the_false_lock_fix(&c.recording.id, &c.frontend.name, &mut v);
             (
                 format!("{}/{}/{}", c.recording.id, c.frontend.name, c.design.name),
                 v,
@@ -759,6 +769,32 @@ fn scored_digest(out: &Path) -> String {
             .collect(),
     ))
     .to_string()
+}
+
+/// The satellites whose false-lock fields the scorer fix (436eda13) moved: a false lock the
+/// tracker reported from LOCKED was never counted before it. In the pinned scored results they
+/// are mapped back to their pre-fix values (no episode), so the pins registered before the fix
+/// keep checking every other field; the fixed values are pinned on their own by
+/// `false_lock_fields_after_the_scorer_fix_are_pinned`.
+const FIXED_FALSE_LOCKS: [(&str, &str, i64); 1] = [("ramp", "agc-3bit", 11)];
+
+fn as_before_the_false_lock_fix(rec: &str, fe: &str, v: &mut serde_json::Value) {
+    let Some(sats) = v.as_array_mut() else { return };
+    for sat in sats {
+        // A cell's satellite flattens its score: `id`, `whole_run` and `events` are top level.
+        let id = sat["id"].as_i64().unwrap_or(-1);
+        if !FIXED_FALSE_LOCKS.contains(&(rec, fe, id)) {
+            continue;
+        }
+        let score = sat;
+        score["whole_run"]["false_lock_episodes"] = 0.into();
+        score["whole_run"]["false_lock_per_hour"] = 0.0.into();
+        if let Some(evs) = score["events"].as_array_mut() {
+            for e in evs {
+                e["false_lock_episodes"] = 0.into();
+            }
+        }
+    }
 }
 
 fn without_modelled(v: &mut serde_json::Value) {
@@ -813,13 +849,179 @@ fn nwpr_out() -> &'static PathBuf {
     })
 }
 
+/// The pre-registered pin itself (`b3c2d8a0…`, above), kept live: the scored results of the 12
+/// reference cells with the MODELLED reference included, as hashed at pre-registration.
+const PRE_REGISTERED_SCORED: &str =
+    "b3c2d8a01164760899341692e3bc7d552c5a38ddfd7a947873c6b4aa915c340b";
+
+/// The NWPR reference campaign with the `ramp` event's `q = 1` stated in its test conditions:
+/// the broadband Q the pre-registered pin was made at, now given at event level because the
+/// 0.36 type table gives broadband Q = 2.
+fn nwpr_q1_out() -> &'static PathBuf {
+    static OUT: OnceLock<PathBuf> = OnceLock::new();
+    OUT.get_or_init(|| {
+        let f = fixture();
+        let conds = f.dir.join("conds-q1");
+        std::fs::create_dir_all(&conds).unwrap();
+        for n in ["ramp", "gap", "alias"] {
+            let t = std::fs::read_to_string(f.dir.join("conds").join(format!("{n}.toml"))).unwrap();
+            let t = if n == "ramp" {
+                let q1 = t.replace("offset_s = 9.0\n", "offset_s = 9.0\nq = 1.0\n");
+                assert_ne!(q1, t, "the ramp event states q = 1");
+                q1
+            } else {
+                t
+            };
+            std::fs::write(conds.join(format!("{n}.toml")), t).unwrap();
+        }
+        let text = std::fs::read_to_string(&f.campaign)
+            .unwrap()
+            .replace("[\"conds/*.toml\"]", "[\"conds-q1/*.toml\"]")
+            .replace("[scoring]\n", "[scoring]\ncn0_estimator = \"nwpr\"\n");
+        assert!(text.contains("conds-q1/*.toml") && text.contains("cn0_estimator = \"nwpr\""));
+        let c = LoadedCampaign::load_text(&text, &f.campaign).unwrap();
+        let out = f.dir.join("out-nwpr-q1");
+        let _ = std::fs::remove_dir_all(&out);
+        let s = run(
+            &c,
+            &out,
+            &RunOptions {
+                workers: 4,
+                ..Default::default()
+            },
+        )
+        .unwrap();
+        assert_eq!(s.cells_run, 12);
+        out
+    })
+}
+
+/// The canonical hash of every cell's scored results as the pre-registered pin hashed them:
+/// with the MODELLED reference, without the per-estimator fields added after it. The one
+/// label that cannot match is `modelled.q_source`: at pre-registration Q = 1 came from the
+/// type table (`type-table`); here the same Q = 1 is the event's stated `q`
+/// (`event-override`). That label is mapped back before hashing, and so are the false-lock
+/// fields the later scorer fix moved ([`as_before_the_false_lock_fix`]); nothing else is.
+fn pre_registered_digest(out: &Path) -> String {
+    use kshana::iq::campaign::hash::canonical_hash;
+    fn relabel(v: &mut serde_json::Value) {
+        match v {
+            serde_json::Value::Object(m) => {
+                if m.get("q_source").and_then(|x| x.as_str()) == Some("event-override") {
+                    m.insert("q_source".into(), "type-table".into());
+                }
+                m.values_mut().for_each(relabel);
+            }
+            serde_json::Value::Array(a) => a.iter_mut().for_each(relabel),
+            _ => {}
+        }
+    }
+    let mut rows: Vec<(String, serde_json::Value)> = cells(out)
+        .values()
+        .map(|(_, c)| {
+            let mut v = serde_json::to_value(&c.satellites).unwrap();
+            without_added(&mut v);
+            relabel(&mut v);
+            as_before_the_false_lock_fix(&c.recording.id, &c.frontend.name, &mut v);
+            (
+                format!("{}/{}/{}", c.recording.id, c.frontend.name, c.design.name),
+                v,
+            )
+        })
+        .collect();
+    rows.sort_by(|a, b| a.0.cmp(&b.0));
+    canonical_hash(&serde_json::Value::Array(
+        rows.into_iter()
+            .map(|(k, v)| serde_json::json!([k, v]))
+            .collect(),
+    ))
+    .to_string()
+}
+
+#[test]
+fn the_pre_registered_pin_holds_with_the_event_stating_q_1() {
+    let out = nwpr_q1_out();
+    // Every scored result and the MODELLED reference at Q = 1 reproduce the pre-registered pin.
+    assert_eq!(pre_registered_digest(out), PRE_REGISTERED_SCORED);
+    // Beside it, the current pin (without the reference) is unchanged by stating q.
+    assert_eq!(scored_digest(out), PRE_M2M4_SCORED);
+    // The relabelling touched only events whose Q is the stated q = 1.
+    for (_, c) in cells(out).values() {
+        for s in &c.satellites {
+            for e in &s.score.events {
+                if let Some(m) = &e.modelled {
+                    assert_eq!((m.q, m.q_source.as_str()), (1.0, "event-override"));
+                }
+            }
+        }
+    }
+}
+
 /// The reference DIGESTs after the `cn0_estimator` change, pinned the way the pre-change one was
 /// (`64e701cb8710f9bbfa614be16cb9430dceb5f52ed12a20063c38df21be420734`).
 // Re-pinned for the 0.36 Q table (broadband 1 -> 2, xval/jammer-q/): the cells differ only
 // in the MODELLED reference (`modelled_cn0_dbhz`, `modelled_degradation_db`, `modelled.q`);
 // the scored results are unchanged (`PRE_M2M4_SCORED`). Before: eae86091215c0ba6...
-const DIGEST_M2M4: &str = "89c76e01c178ff26a6e48aa046a60ba2a0e54ec821ccc3050590a128628d5d09";
-const DIGEST_NWPR: &str = "796961479aa9a4553b610422d6827dad9aa1c1a1dc45eb49e283900fd8abf9db";
+// Re-pinned for the false-lock scorer fix (436eda13): a false lock the tracker reported from
+// LOCKED was never counted. Only PRN 11 of ramp/agc-3bit changes, in both designs and both
+// estimators, in six fields: `false_lock_episodes` of the run and of the event (0 -> 1) and
+// `false_lock_per_hour` (0 -> 426.29 fll-pll, 437.69 pll-only). Before: M2M4 89c76e01...,
+// NWPR 79696147....
+// Re-pinned for the 0.36 portable maths of the batch 2-3 IQ code (STUDIO-15 rule; record
+// docs/revisions/STUDIO15-batch4-rebaseline.md). Before: M2M4 c7e11580...; NWPR unchanged.
+const DIGEST_M2M4: &str = "8adacb22ba8a30e5794546ca068a7eeee5759000a6edd5392d2446eeb36ab878";
+const DIGEST_NWPR: &str = "f34be6e208759d219bd8ab2e417510b2e6a5df20af20981152e63a97faaf7031";
+
+/// The false-lock fields after the scorer fix (436eda13), pinned on their own in every cell of
+/// both runs (the pinned scored results map the fixed ones back, `FIXED_FALSE_LOCKS`). PRN 19 of `alias`
+/// is scored from its shifted truth sidecar (one episode at about 750 per locked hour). PRN 11
+/// of ramp/agc-3bit is a false lock the tracker reported from LOCKED in the 30 dB step (about
+/// 30 dB-Hz behind 3 bits; whether a true alias or the check firing on noise, the cells do not
+/// say). Every other satellite has none.
+#[test]
+fn false_lock_fields_after_the_scorer_fix_are_pinned() {
+    for out in [&fixture().reference_out, nwpr_out()] {
+        for (_, c) in cells(out).values() {
+            for s in &c.satellites {
+                let w = &s.score.whole_run;
+                let ev: Vec<u32> = s
+                    .score
+                    .events
+                    .iter()
+                    .map(|e| e.false_lock_episodes)
+                    .collect();
+                let at = format!(
+                    "{}/{}/{} PRN {}",
+                    c.recording.id, c.frontend.name, c.design.name, s.score.id
+                );
+                match (
+                    c.recording.id.as_str(),
+                    c.frontend.name.as_str(),
+                    s.score.id,
+                ) {
+                    ("alias", _, 19) => {
+                        assert_eq!(w.false_lock_episodes, 1, "{at}");
+                        assert!(
+                            (w.false_lock_per_hour.unwrap() - 750.16).abs() < 0.5,
+                            "{at}: {w:?}"
+                        );
+                    }
+                    ("ramp", "agc-3bit", 11) => {
+                        assert_eq!(w.false_lock_episodes, 1, "{at}");
+                        assert_eq!(ev, vec![1], "{at}");
+                        // 426.29 (fll-pll) and 437.69 (pll-only): one episode over the locked time.
+                        let h = w.false_lock_per_hour.unwrap();
+                        assert!((430.0 - 15.0..=430.0 + 15.0).contains(&h), "{at}: {h}");
+                    }
+                    _ => {
+                        assert_eq!(w.false_lock_episodes, 0, "{at}");
+                        assert!(ev.iter().all(|&n| n == 0), "{at}: {ev:?}");
+                    }
+                }
+            }
+        }
+    }
+}
 
 #[test]
 fn the_reference_digests_are_pinned() {

@@ -16,6 +16,7 @@
 //! measurement.
 
 use super::maritime::en_offset_m;
+use crate::portable_math::PortableFloat;
 
 const WGS84_A: f64 = 6_378_137.0;
 const WGS84_E2: f64 = 0.006_694_379_990_14;
@@ -139,7 +140,7 @@ impl Rng {
     }
     fn normal(&mut self) -> f64 {
         let (u1, u2) = (self.unit().max(1e-12), self.unit());
-        (-2.0 * u1.ln()).sqrt() * (std::f64::consts::TAU * u2).cos()
+        (-2.0 * u1.pln()).sqrt() * (std::f64::consts::TAU * u2).pcos()
     }
 }
 
@@ -153,7 +154,7 @@ struct GaussMarkov {
 
 impl GaussMarkov {
     fn new(sigma: f64, tau: f64, rng: &mut Rng) -> Self {
-        let phi = (-1.0 / tau).exp();
+        let phi = (-1.0 / tau).pexp();
         Self {
             x: sigma * rng.normal(),
             phi,
@@ -249,7 +250,7 @@ fn fmt_tod(tod: f64) -> String {
 }
 
 fn bearing_deg(de: f64, dn: f64) -> f64 {
-    de.atan2(dn).to_degrees().rem_euclid(360.0)
+    de.patan2(dn).to_degrees().rem_euclid(360.0)
 }
 
 fn ang_step(from: f64, to: f64, max: f64) -> f64 {
@@ -260,13 +261,13 @@ fn ang_step(from: f64, to: f64, max: f64) -> f64 {
 /// Move a position by `(east, north)` metres.
 fn displace(lat: f64, lon: f64, east: f64, north: f64) -> (f64, f64) {
     let phi = lat.to_radians();
-    let w = (1.0 - WGS84_E2 * phi.sin().powi(2)).sqrt();
+    let w = (1.0 - WGS84_E2 * phi.psin().ppowi(2)).sqrt();
     let n_radius = WGS84_A / w;
     let m_radius = WGS84_A * (1.0 - WGS84_E2) / (w * w * w);
     (
         lat + (north / m_radius).to_degrees(),
         // Longitude stays in [-180, 180): a track across the antimeridian wraps.
-        (lon + (east / (n_radius * phi.cos())).to_degrees() + 540.0).rem_euclid(360.0) - 180.0,
+        (lon + (east / (n_radius * phi.pcos())).to_degrees() + 540.0).rem_euclid(360.0) - 180.0,
     )
 }
 
@@ -308,7 +309,7 @@ pub fn synth_voyage_with_truth(spec: &VoyageSpec) -> (String, Vec<[f64; 2]>) {
         // --- vessel: steer to the waypoint, bounded turn rate, slowly varying speed -----
         if let Some(&(wla, wlo)) = spec.route.get(wp) {
             let (e, n) = en_offset_m(lat, lon, wla, wlo);
-            if e.hypot(n) < 400.0 {
+            if e.phypot(n) < 400.0 {
                 wp += 1;
             }
         }
@@ -317,11 +318,11 @@ pub fn synth_voyage_with_truth(spec: &VoyageSpec) -> (String, Vec<[f64; 2]>) {
             course = ang_step(course, bearing_deg(e, n), spec.turn_rate_dps);
         }
         let sog =
-            spec.sog_kn * KN_TO_MPS * (1.0 + 0.012 * (std::f64::consts::TAU * t / 300.0).sin());
-        let (sc, cc) = course.to_radians().sin_cos();
+            spec.sog_kn * KN_TO_MPS * (1.0 + 0.012 * (std::f64::consts::TAU * t / 300.0).psin());
+        let (sc, cc) = course.to_radians().psin_cos();
         let g = (sog * sc, sog * cc);
         let w = (g.0 - spec.current_mps.0, g.1 - spec.current_mps.1);
-        let stw_kn = w.0.hypot(w.1) / KN_TO_MPS;
+        let stw_kn = w.0.phypot(w.1) / KN_TO_MPS;
         let heading = bearing_deg(w.0, w.1);
 
         // --- the drag-off ---------------------------------------------------------------
@@ -330,8 +331,8 @@ pub fn synth_voyage_with_truth(spec: &VoyageSpec) -> (String, Vec<[f64; 2]>) {
             if t >= d.onset_s {
                 drag_v = (drag_v + d.accel_mps2).min(d.speed_mps);
                 let b = (course + d.bearing_rel_deg).to_radians();
-                off_e += drag_v * b.sin();
-                off_n += drag_v * b.cos();
+                off_e += drag_v * b.psin();
+                off_n += drag_v * b.pcos();
                 cn_pull = ((t - d.onset_s) / d.cn0_ramp_s.max(1.0)).min(1.0);
             }
         }
@@ -348,10 +349,10 @@ pub fn synth_voyage_with_truth(spec: &VoyageSpec) -> (String, Vec<[f64; 2]>) {
             g.0 + drag_vel.0 + 0.04 * rng.normal(),
             g.1 + drag_vel.1 + 0.04 * rng.normal(),
         );
-        let rep_sog_kn = rep_v.0.hypot(rep_v.1) / KN_TO_MPS;
+        let rep_sog_kn = rep_v.0.phypot(rep_v.1) / KN_TO_MPS;
         let rep_cog = bearing_deg(rep_v.0, rep_v.1);
         let alt = spec.antenna_height_m + gm_u.step(&mut rng) + 0.3 * rng.normal();
-        let hdop = 0.9 + 0.2 * (std::f64::consts::TAU * t / 700.0).sin().abs();
+        let hdop = 0.9 + 0.2 * (std::f64::consts::TAU * t / 700.0).psin().abs();
         let tod = spec.start_tod_s + t;
         let ts = fmt_tod(tod);
         let cn_noise: Vec<f64> = gm_cn.iter_mut().map(|g| g.step(&mut rng)).collect();
@@ -394,11 +395,11 @@ pub fn synth_voyage_with_truth(spec: &VoyageSpec) -> (String, Vec<[f64; 2]>) {
                     let mut body = format!("{talker}GSV,{pages},{},{:02}", page + 1, group.len());
                     for (i, s) in chunk {
                         let el = (s.el0
-                            + s.el_amp * (std::f64::consts::TAU * t / 14_400.0 + s.phase).sin())
+                            + s.el_amp * (std::f64::consts::TAU * t / 14_400.0 + s.phase).psin())
                         .clamp(5.0, 88.0);
                         let az = (s.az0 + 0.004 * t).rem_euclid(360.0);
                         let live = 33.0
-                            + 17.0 * (el.to_radians().sin()).powf(0.7)
+                            + 17.0 * (el.to_radians().psin()).ppowf(0.7)
                             + cn_noise[*i]
                             + 0.5 * rng.normal();
                         let cn = match &spec.drag {
@@ -462,7 +463,7 @@ mod tests {
             tl.epochs.last().unwrap().fix.unwrap(),
         );
         let (e, n) = en_offset_m(a.lat_deg, a.lon_deg, b.lat_deg, b.lon_deg);
-        let v_kn = e.hypot(n) / 600.0 / KN_TO_MPS;
+        let v_kn = e.phypot(n) / 600.0 / KN_TO_MPS;
         assert!((v_kn - 15.0).abs() < 1.0, "{v_kn}");
     }
 
@@ -487,7 +488,7 @@ mod tests {
             spoofed.epochs[400].fix.unwrap(),
         );
         let (e, n) = en_offset_m(c.lat_deg, c.lon_deg, s.lat_deg, s.lon_deg);
-        assert!(e.hypot(n) > 500.0, "{}", e.hypot(n));
+        assert!(e.phypot(n) > 500.0, "{}", e.phypot(n));
         assert!(spoofed
             .epochs
             .iter()

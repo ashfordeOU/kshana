@@ -603,6 +603,7 @@ fn xml_escape(s: &str) -> String {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::portable_math::PortableFloat;
 
     /// Build an MCMF position from selenographic latitude/longitude (deg) and antenna
     /// height (m) above the mean sphere. Right-handed, +Z at the north pole.
@@ -611,9 +612,9 @@ mod tests {
         let lon = lon_deg.to_radians();
         let r = R_MOON_M + height_m;
         [
-            r * lat.cos() * lon.cos(),
-            r * lat.cos() * lon.sin(),
-            r * lat.sin(),
+            r * lat.pcos() * lon.pcos(),
+            r * lat.pcos() * lon.psin(),
+            r * lat.psin(),
         ]
     }
 
@@ -631,14 +632,14 @@ mod tests {
         let lon = lon_deg.to_radians();
         let az = az_deg.to_radians();
         let ang = dist_m / R_MOON_M;
-        let lat2 = (lat.sin() * ang.cos() + lat.cos() * ang.sin() * az.cos()).asin();
-        let lon2 =
-            lon + (az.sin() * ang.sin() * lat.cos()).atan2(ang.cos() - lat.sin() * lat2.sin());
+        let lat2 = (lat.psin() * ang.pcos() + lat.pcos() * ang.psin() * az.pcos()).pasin();
+        let lon2 = lon
+            + (az.psin() * ang.psin() * lat.pcos()).patan2(ang.pcos() - lat.psin() * lat2.psin());
         let r = R_MOON_M + height_m;
         [
-            r * lat2.cos() * lon2.cos(),
-            r * lat2.cos() * lon2.sin(),
-            r * lat2.sin(),
+            r * lat2.pcos() * lon2.pcos(),
+            r * lat2.pcos() * lon2.psin(),
+            r * lat2.psin(),
         ]
     }
 

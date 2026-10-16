@@ -17,6 +17,7 @@
 //! against that closed form. The coefficients are real and filter I and Q independently.
 
 use super::{Cf64, Stage};
+use crate::portable_math::PortableFloat;
 use std::f64::consts::PI;
 
 /// One second-order section `H(z) = (b₀ + b₁z⁻¹ + b₂z⁻²)/(1 + a₁z⁻¹ + a₂z⁻²)`, run in
@@ -49,7 +50,7 @@ impl Biquad {
             "biquad needs 0 < f0 < fs/2 and Q > 0"
         );
         let w0 = 2.0 * PI * f0_hz / fs_hz;
-        (w0.cos(), w0.sin() / (2.0 * q))
+        (w0.pcos(), w0.psin() / (2.0 * q))
     }
 
     /// Second-order low-pass with cutoff `f0_hz` and quality `q` (`1/√2` is Butterworth).

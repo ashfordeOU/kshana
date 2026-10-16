@@ -4,6 +4,7 @@
 //! Kshana-propagated arc back to its own initial state. No external data — the truth is Kshana's
 //! own integrator, so any non-zero residual is the estimator's, not the dynamics'.
 
+use kshana::portable_math::PortableFloat;
 use kshana::precise_od::{self, ric_from_state, ForceModel};
 
 /// The radial/transverse/normal (RTN) rotation built from a circular, equatorial, prograde state
@@ -55,7 +56,7 @@ fn ric_from_state_inclined_normal_is_perpendicular_to_the_orbit_plane() {
     let vc = (mu / a).sqrt();
     let inc = 56.0_f64.to_radians();
     let r = [a, 0.0, 0.0];
-    let v = [0.0, vc * inc.cos(), vc * inc.sin()];
+    let v = [0.0, vc * inc.pcos(), vc * inc.psin()];
     let ric = ric_from_state(r, v);
     let n_hat = ric[2];
     // N̂ ⟂ r and N̂ ⟂ v.
@@ -91,7 +92,7 @@ fn leo_state() -> ([f64; 3], [f64; 3]) {
     let inc = 51.6_f64.to_radians();
     let r = [a, 1.2e6, 0.9e6];
     // A velocity roughly circular and inclined (need not be exactly circular for these tests).
-    let v = [-vc * 0.15, vc * inc.cos(), vc * inc.sin()];
+    let v = [-vc * 0.15, vc * inc.pcos(), vc * inc.psin()];
     (r, v)
 }
 
@@ -207,7 +208,7 @@ fn circular_leo() -> ([f64; 3], [f64; 3], f64) {
     let vc = (mu / a).sqrt();
     let inc = 51.6_f64.to_radians();
     let r0 = [a, 0.0, 0.0];
-    let v0 = [0.0, vc * inc.cos(), vc * inc.sin()];
+    let v0 = [0.0, vc * inc.pcos(), vc * inc.psin()];
     let period = std::f64::consts::TAU * (a * a * a / mu).sqrt();
     (r0, v0, period)
 }
@@ -346,7 +347,7 @@ impl Lcg {
     fn gauss(&mut self) -> f64 {
         let u1 = self.next_u().max(1e-12);
         let u2 = self.next_u();
-        (-2.0 * u1.ln()).sqrt() * (std::f64::consts::TAU * u2).cos()
+        (-2.0 * u1.pln()).sqrt() * (std::f64::consts::TAU * u2).pcos()
     }
 }
 

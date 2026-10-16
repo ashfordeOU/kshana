@@ -32,6 +32,7 @@
 //! J71 density relative to the static piecewise-exponential profile
 //! ([`crate::forces::atmospheric_density`]) that carries no activity dependence.
 
+use crate::portable_math::PortableFloat;
 use serde::Deserialize;
 
 /// The IAGA/GFZ planetary `Kp → ap` quasi-logarithmic conversion: the `ap`
@@ -93,7 +94,7 @@ pub fn f107a_centered(series: &[f64], i: usize) -> f64 {
 pub fn exospheric_temperature(f107: f64, f107a: f64, kp: f64) -> f64 {
     let kp = kp.clamp(0.0, 9.0);
     let t_c = 379.0 + 3.24 * f107a + 1.3 * (f107 - f107a);
-    let dt_geo = 28.0 * kp + 0.03 * kp.exp();
+    let dt_geo = 28.0 * kp + 0.03 * kp.pexp();
     t_c + dt_geo
 }
 
@@ -176,7 +177,7 @@ const J71_EPS_DEG: f64 = 23.44;
 
 /// Equation (9): temperature at the inflection point for exospheric temperature `t_inf`.
 fn j71_tx(t_inf: f64) -> f64 {
-    371.6678 + 0.0518806 * t_inf - 294.3505 * (-0.00216222 * t_inf).exp()
+    371.6678 + 0.0518806 * t_inf - 294.3505 * (-0.00216222 * t_inf).pexp()
 }
 
 /// Equations (9)-(13): the J71 temperature (K) at height `z_km` for exospheric temperature
@@ -187,19 +188,19 @@ pub fn jacchia71_temperature(z_km: f64, t_inf: f64) -> f64 {
     if z_km <= J71_ZX_KM {
         // Fourth-degree polynomial with T(z0) = T0, T'(z0) = 0, T'(zx) = Gx, T''(zx) = 0.
         let d0 = J71_Z0_KM - J71_ZX_KM;
-        let c4 = -3.0 * (J71_T0_K - tx - 2.0 / 3.0 * gx * d0) / d0.powi(4);
-        let c3 = -(gx + 4.0 * c4 * d0.powi(3)) / (3.0 * d0 * d0);
+        let c4 = -3.0 * (J71_T0_K - tx - 2.0 / 3.0 * gx * d0) / d0.ppowi(4);
+        let c3 = -(gx + 4.0 * c4 * d0.ppowi(3)) / (3.0 * d0 * d0);
         let d = z_km - J71_ZX_KM;
-        tx + gx * d + c3 * d.powi(3) + c4 * d.powi(4)
+        tx + gx * d + c3 * d.ppowi(3) + c4 * d.ppowi(4)
     } else {
         let a = 2.0 / std::f64::consts::PI * (t_inf - tx);
         let d = z_km - J71_ZX_KM;
-        tx + a * (gx / a * d * (1.0 + 4.5e-6 * d.powf(2.5))).atan()
+        tx + a * (gx / a * d * (1.0 + 4.5e-6 * d.ppowf(2.5))).patan()
     }
 }
 
 fn j71_gravity(z_km: f64) -> f64 {
-    J71_G0 / (1.0 + z_km / J71_RE_KM).powi(2)
+    J71_G0 / (1.0 + z_km / J71_RE_KM).ppowi(2)
 }
 
 fn j71_mbar(z_km: f64) -> f64 {
@@ -249,7 +250,7 @@ pub fn jacchia71_number_densities(z_km: f64, t_inf: f64) -> [f64; 6] {
     });
     let rho_mix = J71_RHO0_G_CM3 * (j71_mbar(z_mix) / temp(z_mix))
         / (j71_mbar(J71_Z0_KM) / J71_T0_K)
-        * (-int_mix).exp();
+        * (-int_mix).pexp();
     // Equations (2)-(4): species at the top of the mixing region.
     let mbar = j71_mbar(z_mix);
     let n_tot = J71_AVOGADRO * rho_mix / mbar;
@@ -276,14 +277,14 @@ pub fn jacchia71_number_densities(z_km: f64, t_inf: f64) -> [f64; 6] {
     let mut out = [0.0; 6];
     for i in 0..5 {
         let alpha = if i == 4 { J71_ALPHA_HE } else { 0.0 };
-        out[i] = base[i] * (t100 / tz).powf(1.0 + alpha) * (-masses[i] * int_diff).exp();
+        out[i] = base[i] * (t100 / tz).ppowf(1.0 + alpha) * (-masses[i] * int_diff).pexp();
     }
     // Equation (7): hydrogen at 500 km, in diffusion equilibrium from there.
     let t500 = temp(500.0);
-    let lt = t500.log10();
-    let n_h500 = 10f64.powf(73.13 - 39.40 * lt + 5.5 * lt * lt);
+    let lt = t500.plog10();
+    let n_h500 = 10f64.ppowf(73.13 - 39.40 * lt + 5.5 * lt * lt);
     let int_h = j71_integrate(500.0, z_km, 12.5, &g_over_rt);
-    out[5] = n_h500 * (t500 / tz) * (-J71_M_H * int_h).exp();
+    out[5] = n_h500 * (t500 / tz) * (-J71_M_H * int_h).pexp();
     out
 }
 
@@ -308,13 +309,13 @@ pub fn jacchia71_diurnal_ratio(lat_rad: f64, decl_rad: f64, hour_angle_rad: f64)
     let theta = 0.5 * (lat_rad + decl_rad).abs();
     let mut tau = hour_angle_rad
         + J71_BETA_DEG * deg
-        + J71_P_DEG * deg * (hour_angle_rad + J71_GAMMA_DEG * deg).sin();
+        + J71_P_DEG * deg * (hour_angle_rad + J71_GAMMA_DEG * deg).psin();
     let two_pi = 2.0 * std::f64::consts::PI;
     tau = (tau + std::f64::consts::PI).rem_euclid(two_pi) - std::f64::consts::PI;
-    let sm = theta.sin().powf(J71_M_EXP);
-    let cm = eta.cos().powf(J71_M_EXP);
+    let sm = theta.psin().ppowf(J71_M_EXP);
+    let cm = eta.pcos().ppowf(J71_M_EXP);
     (1.0 + J71_R * sm)
-        * (1.0 + J71_R * (cm - sm) / (1.0 + J71_R * sm) * (0.5 * tau).cos().powf(J71_N_EXP))
+        * (1.0 + J71_R * (cm - sm) / (1.0 + J71_R * sm) * (0.5 * tau).pcos().ppowf(J71_N_EXP))
 }
 
 /// Equations (21)-(23): semiannual variation Δlog10 ρ at height `z_km` and Modified Julian
@@ -322,12 +323,12 @@ pub fn jacchia71_diurnal_ratio(lat_rad: f64, decl_rad: f64, hour_angle_rad: f64)
 fn j71_semiannual(z_km: f64, mjd: f64) -> f64 {
     let two_pi = 2.0 * std::f64::consts::PI;
     let phi = (mjd - 36204.0) / 365.2422;
-    let tau = phi + 0.09544 * ((0.5 + 0.5 * (two_pi * phi + 6.035).sin()).powf(1.650) - 0.5);
-    let f = (5.876e-7 * z_km.powf(2.331) + 0.06328) * (-2.868e-3 * z_km).exp();
+    let tau = phi + 0.09544 * ((0.5 + 0.5 * (two_pi * phi + 6.035).psin()).ppowf(1.650) - 0.5);
+    let f = (5.876e-7 * z_km.ppowf(2.331) + 0.06328) * (-2.868e-3 * z_km).pexp();
     let g = 0.02835
         + 0.3817
-            * (1.0 + 0.4671 * (two_pi * tau + 4.137).sin())
-            * (2.0 * two_pi * tau + 4.259).sin();
+            * (1.0 + 0.4671 * (two_pi * tau + 4.137).psin())
+            * (2.0 * two_pi * tau + 4.259).psin();
     f * g
 }
 
@@ -335,9 +336,9 @@ fn j71_semiannual(z_km: f64, mjd: f64) -> f64 {
 fn j71_seasonal_latitudinal(z_km: f64, lat_rad: f64, mjd: f64) -> f64 {
     let phi = (mjd - 36204.0) / 365.2422;
     let dz = z_km - 90.0;
-    let s = 0.014 * dz * (-0.0013 * dz * dz).exp();
-    let p = (2.0 * std::f64::consts::PI * phi + 1.72).sin();
-    s * lat_rad.signum() * p * lat_rad.sin().powi(2)
+    let s = 0.014 * dz * (-0.0013 * dz * dz).pexp();
+    let p = (2.0 * std::f64::consts::PI * phi + 1.72).psin();
+    s * lat_rad.signum() * p * lat_rad.psin().ppowi(2)
 }
 
 /// Equation (25): seasonal-latitudinal variation of helium, Δlog10 n(He).
@@ -348,7 +349,7 @@ fn j71_helium(lat_rad: f64, decl_rad: f64) -> f64 {
     let eps = J71_EPS_DEG.to_radians();
     let q = std::f64::consts::FRAC_PI_4;
     0.65 * (decl_rad / eps).abs()
-        * ((q - 0.5 * lat_rad * decl_rad.signum()).sin().powi(3) - q.sin().powi(3))
+        * ((q - 0.5 * lat_rad * decl_rad.signum()).psin().ppowi(3) - q.psin().ppowi(3))
 }
 
 /// Geocentric declination of the Sun (rad) at Modified Julian Date `mjd` (low-precision series,
@@ -356,7 +357,7 @@ fn j71_helium(lat_rad: f64, decl_rad: f64) -> f64 {
 pub fn sun_declination_rad(mjd: f64) -> f64 {
     let t = (mjd + 2_400_000.5 - 2_451_545.0) / 36_525.0;
     let r = crate::ephem::sun_position(t);
-    (r[2] / (r[0] * r[0] + r[1] * r[1] + r[2] * r[2]).sqrt()).asin()
+    (r[2] / (r[0] * r[0] + r[1] * r[1] + r[2] * r[2]).sqrt()).pasin()
 }
 
 /// Jacchia 1971 neutral mass density (kg/m³) at a point: geometric height `altitude_m`,
@@ -379,11 +380,11 @@ pub fn jacchia71_density(
     let hour_angle = (lst_h - 12.0) * std::f64::consts::PI / 12.0;
     let t_c = exospheric_temperature(sw.f107, sw.f107a, 0.0);
     let kp = sw.kp.clamp(0.0, 9.0);
-    let t_inf = t_c * jacchia71_diurnal_ratio(lat, decl, hour_angle) + 28.0 * kp + 0.03 * kp.exp();
+    let t_inf = t_c * jacchia71_diurnal_ratio(lat, decl, hour_angle) + 28.0 * kp + 0.03 * kp.pexp();
     let mut n = jacchia71_number_densities(z_km, t_inf);
-    n[4] *= 10f64.powf(j71_helium(lat, decl));
+    n[4] *= 10f64.ppowf(j71_helium(lat, decl));
     let rho = j71_mass_density_g_cm3(&n) * 1000.0;
-    rho * 10f64.powf(j71_semiannual(z_km, mjd) + j71_seasonal_latitudinal(z_km, lat, mjd))
+    rho * 10f64.ppowf(j71_semiannual(z_km, mjd) + j71_seasonal_latitudinal(z_km, lat, mjd))
 }
 
 /// The J71 diurnal-mean exospheric temperature (K) of a space-weather state: the nighttime
@@ -393,7 +394,7 @@ pub fn mean_exospheric_temperature(sw: &SpaceWeather) -> f64 {
     let kp = sw.kp.clamp(0.0, 9.0);
     exospheric_temperature(sw.f107, sw.f107a, 0.0) * (1.0 + J71_R / 2.0)
         + 28.0 * kp
-        + 0.03 * kp.exp()
+        + 0.03 * kp.pexp()
 }
 
 /// A space-weather state: the solar (F10.7 daily + 81-day average, sfu) and
@@ -649,10 +650,10 @@ mod tests {
         let mut worst: f64 = 0.0;
         for &(z, t, logrho) in &J71_TABLE7 {
             let rho_g_cm3 = jacchia71_static_density(z, t) / 1000.0;
-            let d = rho_g_cm3.log10() - logrho;
+            let d = rho_g_cm3.plog10() - logrho;
             eprintln!(
                 "z {z} T {t}: {:.4} vs {logrho} ({d:+.4})",
-                rho_g_cm3.log10()
+                rho_g_cm3.plog10()
             );
             worst = worst.max(d.abs());
         }
@@ -805,7 +806,7 @@ mod tests {
         // 10^0.981 = 9.6 apart.
         let swing = jacchia71_static_density(400.0, 900.0) / jacchia71_static_density(400.0, 600.0);
         assert!(
-            (swing.log10() - 0.981).abs() < 0.01,
+            (swing.plog10() - 0.981).abs() < 0.01,
             "400 km swing {swing}x"
         );
     }

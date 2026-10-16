@@ -5,6 +5,7 @@
 //! (about 55 km at 0.5 degrees at the equator, about 28 km at 60 degrees north); the
 //! method documents this and the cell index is stable, so maps from different days line up.
 
+use crate::portable_math::PortableFloat;
 /// Integer cell index: `i` counts latitude cells up from -90, `j` longitude cells up from -180.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord)]
 pub struct CellId {
@@ -74,8 +75,8 @@ pub fn haversine_m(lat1: f64, lon1: f64, lat2: f64, lon2: f64) -> f64 {
     let (p1, p2) = (lat1.to_radians(), lat2.to_radians());
     let dp = p2 - p1;
     let dl = (lon2 - lon1).to_radians();
-    let a = (dp / 2.0).sin().powi(2) + p1.cos() * p2.cos() * (dl / 2.0).sin().powi(2);
-    2.0 * EARTH_RADIUS_M * a.sqrt().min(1.0).asin()
+    let a = (dp / 2.0).psin().ppowi(2) + p1.pcos() * p2.pcos() * (dl / 2.0).psin().ppowi(2);
+    2.0 * EARTH_RADIUS_M * a.sqrt().min(1.0).pasin()
 }
 
 #[cfg(test)]

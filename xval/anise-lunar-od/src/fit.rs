@@ -18,8 +18,17 @@ use crate::truth;
 /// analytic fit reads — only the orientation that *places* this field changes here.
 const GRGM: &str = include_str!("../../../tests/fixtures/agency/lro/GRGM660PRIM_to150.gfc");
 
-/// Geopotential degree/order, matching the analytic CI fit (`agency_lro::FIT_DEGREE`).
-const FIT_DEGREE: usize = 100;
+/// Geopotential degree/order, matching the analytic CI fit (`agency_lro::FIT_DEGREE`); the
+/// `KSHANA_LRO_DEGREE` environment variable overrides it (up to the fixture's 150), to test the
+/// field-truncation floor at the full degree.
+const DEFAULT_FIT_DEGREE: usize = 100;
+
+fn fit_degree() -> usize {
+    std::env::var("KSHANA_LRO_DEGREE")
+        .ok()
+        .and_then(|s| s.parse().ok())
+        .unwrap_or(DEFAULT_FIT_DEGREE)
+}
 
 /// The < 5 m bar.
 const BAR_M: f64 = 5.0;
@@ -58,8 +67,9 @@ pub fn run(
     kernel_sha256: Vec<(String, String)>,
 ) -> Result<Report, String> {
     let (epoch, obs, v0) = truth::observations(truth::LRO_CSV);
-    let field = SphericalHarmonicField::from_gfc(GRGM, FIT_DEGREE)
-        .map_err(|e| format!("load GRGM660PRIM d/o {FIT_DEGREE}: {e}"))?;
+    let degree = fit_degree();
+    let field = SphericalHarmonicField::from_gfc(GRGM, degree)
+        .map_err(|e| format!("load GRGM660PRIM d/o {degree}: {e}"))?;
     let tmpl = LunarForceModel::with_env(field, epoch, env);
     let tol = Tolerance {
         rtol: 1e-10,
@@ -114,7 +124,7 @@ pub fn run(
         orientation: "DE440 lunar principal axis (moon_pa_de440_200625.bpc, via ANISE)".to_string(),
         ephemeris: "JPL DE440 (de440s.bsp, via ANISE)".to_string(),
         gravity_field: "GRAIL GRGM660PRIM".to_string(),
-        fit_degree: FIT_DEGREE,
+        fit_degree: degree,
         empirical_sigma: 1e-7,
         n_obs: obs.len(),
         raw_overlap_rms_m: raw,

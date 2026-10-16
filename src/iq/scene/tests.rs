@@ -6,6 +6,7 @@
 use super::*;
 use crate::gps_lnav::{decode_fields, encode_word, field_values, source_data, LnavEphemeris};
 use crate::iq::{Cf64, VecSink};
+use crate::portable_math::PortableFloat;
 use crate::sdr::{CaCode, L1_HZ};
 
 const FS: f64 = 2.5e6;
@@ -125,7 +126,7 @@ fn doppler_is_minus_range_rate_over_lambda_in_truth_and_in_the_samples() {
         let prod = Cf64::new(a.re * b.re + a.im * b.im, a.im * b.re - a.re * b.im);
         acc = acc + prod * prod;
     }
-    let f = acc.im.atan2(acc.re) / 2.0 * FS / TAU;
+    let f = acc.im.patan2(acc.re) / 2.0 * FS / TAU;
     let want = -rate / lambda;
     assert!((f - want).abs() < 1e-3, "measured {f} Hz vs {want} Hz");
 }
@@ -199,7 +200,7 @@ fn noise_power_is_n0_times_fs() {
 #[test]
 fn noise_density_from_noise_figure() {
     let n = NoiseConfig::from_noise_figure(0.0, 290.0);
-    assert!((n.n0_dbw_per_hz - 10.0 * (1.380_649e-23f64 * 290.0).log10()).abs() < 1e-12);
+    assert!((n.n0_dbw_per_hz - 10.0 * (1.380_649e-23f64 * 290.0).plog10()).abs() < 1e-12);
     assert!((n.n0_dbw_per_hz + 203.975).abs() < 1e-3);
     let n2 = NoiseConfig::from_noise_figure(3.0, 290.0);
     assert!((n2.n0_dbw_per_hz - n.n0_dbw_per_hz - 3.0).abs() < 1e-12);
@@ -431,7 +432,7 @@ fn data_bits_in_the_samples_follow_the_lnav_frame() {
         for (o, s) in iq[k..k + spp].iter().enumerate() {
             let t = (k + o) as f64 / FS;
             let chip = code.bipolar[((cp0 + 1.023e6 * t).floor().rem_euclid(1023.0)) as usize];
-            let (sn, cs) = (TAU * carrier).sin_cos();
+            let (sn, cs) = (TAU * carrier).psin_cos();
             acc += chip * (s.re * cs + s.im * sn);
         }
         signs.push(acc.signum());
@@ -607,17 +608,20 @@ fn static_samples(
 fn seeded_data_uses_each_signals_symbol_timing() {
     use crate::iq::signals::{beidou, galileo, glonass, gps};
     let dur = 0.1;
-    let cases: Vec<(crate::iq::signals::SignalCode, f64, bool)> = vec![
+    let mut cases: Vec<(crate::iq::signals::SignalCode, f64, bool)> = vec![
         (gps::l1ca(3).unwrap(), 0.02, false),
         (gps::l5_i5(3).unwrap(), 0.01, false),
         (gps::l2c_cm(3).unwrap(), 0.02, false),
-        (galileo::e1b(11).unwrap(), 0.004, false),
         (galileo::e5a_i(11).unwrap(), 0.02, false),
         (beidou::b1i(6).unwrap(), 0.02, false),
         (beidou::b1i(1).unwrap(), 0.002, false),
         (beidou::b1c_data(19).unwrap(), 0.01, false),
         (glonass::l1of(1).unwrap(), 0.02, true),
     ];
+    // Galileo E1 only when the user has supplied the ICD tables (they are not bundled).
+    if let Ok(c) = galileo::e1b(11) {
+        cases.push((c, 0.004, false));
+    }
     for (code, sym_s, meander) in cases {
         let name = code.name();
         let with = static_samples(code.clone(), NavData::Seeded { seed: 9 }, dur).unwrap();
@@ -683,13 +687,15 @@ fn seeded_data_uses_each_signals_symbol_timing() {
 fn data_is_refused_on_pilots_and_unmodelled_signals() {
     use crate::iq::signals::{beidou, galileo, gps};
     let seeded = NavData::Seeded { seed: 1 };
-    for code in [
+    let mut codes = vec![
         gps::l5_q5(3).unwrap(),
         gps::l2c_cl(3).unwrap(),
         gps::l2c(3).unwrap(),
-        galileo::e1c(11).unwrap(),
         galileo::e5a_q(11).unwrap(),
-    ] {
+    ];
+    // Galileo E1 only when the user has supplied the ICD tables (they are not bundled).
+    codes.extend(galileo::e1c(11));
+    for code in codes {
         let name = code.name();
         assert!(
             static_samples(code.clone(), seeded.clone(), 0.01).is_err(),
@@ -706,6 +712,8 @@ fn data_is_refused_on_pilots_and_unmodelled_signals() {
         eph: Box::new(eph()),
         conv: LnavConventions::default(),
     };
-    assert!(static_samples(galileo::e1b(11).unwrap(), lnav.clone(), 0.01).is_err());
+    if let Ok(e1b) = galileo::e1b(11) {
+        assert!(static_samples(e1b, lnav.clone(), 0.01).is_err());
+    }
     assert!(static_samples(gps::l1ca(3).unwrap(), lnav, 0.01).is_ok());
 }

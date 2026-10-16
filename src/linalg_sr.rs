@@ -426,6 +426,7 @@ pub fn datum_from_sqrt_information(
 #[allow(clippy::needless_range_loop)] // index loops mirror the matrix formulas they check
 mod tests {
     use super::*;
+    use crate::portable_math::PortableFloat;
 
     /// A deterministic pseudo-random stream (a 64-bit linear congruential generator) in
     /// `[-1, 1)`, so the tests need no random-number crate state.
@@ -456,8 +457,8 @@ mod tests {
     fn the_dekker_product_is_error_free_and_equals_the_fused_multiply_add_residual() {
         let mut g = stream(7);
         for _ in 0..20_000 {
-            let a = g() * 10f64.powi((g() * 30.0) as i32);
-            let b = g() * 10f64.powi((g() * 30.0) as i32);
+            let a = g() * 10f64.ppowi((g() * 30.0) as i32);
+            let b = g() * 10f64.ppowi((g() * 30.0) as i32);
             let (p, e) = two_prod(a, b);
             assert_eq!(p, a * b);
             // The exact residual of a correctly rounded product, by a fused multiply-add.

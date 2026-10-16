@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
+// Host maths on purpose: this test recomputes its expected values independently of the engine's
+// portable maths (STUDIO-15), so the engine is checked against a second implementation.
 //! Oracle for the matrix row "Onboard clock state estimation" (row 42, M002), round 2: the
 //! extended clock filter `clock_state::ClockStateExt` (phase, frequency and drift; a
 //! flicker frequency-modulation (flicker-FM) bank of Gauss-Markov states; once-, twice-,

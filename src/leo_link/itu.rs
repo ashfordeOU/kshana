@@ -23,6 +23,7 @@
 //! Every function is pure and allocation-free. Frequencies are in GHz where the Recommendation
 //! states them in GHz, angles in degrees, and losses in dB.
 
+use crate::portable_math::PortableFloat;
 /// One Gaussian term `a·exp(−((log10 f − b)/c)²)` of the P.838-3 curve fits.
 type Term = (f64, f64, f64);
 
@@ -71,7 +72,7 @@ const AV_C: f64 = 0.83433;
 fn gauss_sum(terms: &[Term], lf: f64) -> f64 {
     terms
         .iter()
-        .map(|(a, b, c)| a * (-((lf - b) / c).powi(2)).exp())
+        .map(|(a, b, c)| a * (-((lf - b) / c).ppowi(2)).pexp())
         .sum()
 }
 
@@ -91,11 +92,11 @@ pub struct RainCoefficients {
 /// ITU-R P.838-3 equations (2) and (3): `k_H`, `α_H`, `k_V` and `α_V` at `f_ghz` (valid
 /// 1 GHz to 1000 GHz).
 pub fn p838_coefficients(f_ghz: f64) -> RainCoefficients {
-    let lf = f_ghz.log10();
+    let lf = f_ghz.plog10();
     RainCoefficients {
-        k_h: 10f64.powf(gauss_sum(&KH, lf) + KH_M * lf + KH_C),
+        k_h: 10f64.ppowf(gauss_sum(&KH, lf) + KH_M * lf + KH_C),
         alpha_h: gauss_sum(&AH, lf) + AH_M * lf + AH_C,
-        k_v: 10f64.powf(gauss_sum(&KV, lf) + KV_M * lf + KV_C),
+        k_v: 10f64.ppowf(gauss_sum(&KV, lf) + KV_M * lf + KV_C),
         alpha_v: gauss_sum(&AV, lf) + AV_M * lf + AV_C,
     }
 }
@@ -104,8 +105,8 @@ pub fn p838_coefficients(f_ghz: f64) -> RainCoefficients {
 /// polarisation tilt `tau_deg` from the horizontal (45° for circular polarisation).
 pub fn p838_k_alpha(f_ghz: f64, el_deg: f64, tau_deg: f64) -> (f64, f64) {
     let c = p838_coefficients(f_ghz);
-    let cos2el = el_deg.to_radians().cos().powi(2);
-    let cos2tau = (2.0 * tau_deg.to_radians()).cos();
+    let cos2el = el_deg.to_radians().pcos().ppowi(2);
+    let cos2tau = (2.0 * tau_deg.to_radians()).pcos();
     let k = (c.k_h + c.k_v + (c.k_h - c.k_v) * cos2el * cos2tau) / 2.0;
     let alpha = (c.k_h * c.alpha_h
         + c.k_v * c.alpha_v
@@ -126,7 +127,7 @@ pub fn rain_specific_attenuation_db_km(
         return 0.0;
     }
     let (k, a) = p838_k_alpha(f_ghz, el_deg, tau_deg);
-    k * rain_mm_h.powf(a)
+    k * rain_mm_h.ppowf(a)
 }
 
 /// Inputs of the ITU-R P.618-14 § 2.2.1.1 rain-attenuation procedure.
@@ -169,7 +170,7 @@ pub fn p618_rain_attenuation_db(path: &RainPath, p_percent: f64) -> f64 {
         return 0.0;
     }
     let th = el_deg.to_radians();
-    let (s, c) = th.sin_cos();
+    let (s, c) = th.psin_cos();
     // Step 2: slant-path length below the rain height, equations (1) and (2).
     let ls = if el_deg >= 5.0 {
         dh / s
@@ -181,9 +182,9 @@ pub fn p618_rain_attenuation_db(path: &RainPath, p_percent: f64) -> f64 {
     // Step 5: specific attenuation, equation (4).
     let gamma = rain_specific_attenuation_db_km(f, r001, el_deg, tau_deg);
     // Step 6: horizontal reduction factor, equation (5).
-    let r = 1.0 / (1.0 + 0.78 * (lg * gamma / f).sqrt() - 0.38 * (1.0 - (-2.0 * lg).exp()));
+    let r = 1.0 / (1.0 + 0.78 * (lg * gamma / f).sqrt() - 0.38 * (1.0 - (-2.0 * lg).pexp()));
     // Step 7: vertical adjustment factor.
-    let zeta = (dh / (lg * r)).atan().to_degrees();
+    let zeta = (dh / (lg * r)).patan().to_degrees();
     let lr = if zeta > el_deg { lg * r / c } else { dh / s };
     let chi = if lat_deg.abs() < 36.0 {
         36.0 - lat_deg.abs()
@@ -193,7 +194,8 @@ pub fn p618_rain_attenuation_db(path: &RainPath, p_percent: f64) -> f64 {
     let v = 1.0
         / (1.0
             + s.sqrt()
-                * (31.0 * (1.0 - (-(el_deg / (1.0 + chi))).exp()) * (lr * gamma).sqrt() / (f * f)
+                * (31.0 * (1.0 - (-(el_deg / (1.0 + chi))).pexp()) * (lr * gamma).sqrt()
+                    / (f * f)
                     - 0.45));
     // Steps 8 and 9: effective path length and A0.01, equations (6) and (7).
     let a001 = gamma * lr * v;
@@ -209,8 +211,8 @@ pub fn p618_rain_attenuation_db(path: &RainPath, p_percent: f64) -> f64 {
     } else {
         -0.005 * (lat_deg.abs() - 36.0) + 1.8 - 4.25 * s
     };
-    let expo = -(0.655 + 0.033 * p.ln() - 0.045 * a001.ln() - beta * (1.0 - p) * s);
-    a001 * (p / 0.01).powf(expo)
+    let expo = -(0.655 + 0.033 * p.pln() - 0.045 * a001.pln() - beta * (1.0 - p) * s);
+    a001 * (p / 0.01).ppowf(expo)
 }
 
 /// Wet term of the surface refractivity `N_wet` (N-units) from temperature `t_c` (°C),
@@ -221,7 +223,7 @@ pub fn p618_rain_attenuation_db(path: &RainPath, p_percent: f64) -> f64 {
 /// `N_wet = 72·e/T + 3.75e5·e/T²` with `T = t + 273.15`.
 pub fn wet_refractivity(t_c: f64, h_percent: f64, p_hpa: f64) -> f64 {
     let ef = 1.0 + 1e-4 * (7.2 + p_hpa * (0.0320 + 5.9e-6 * t_c * t_c));
-    let es = ef * 6.1121 * ((18.678 - t_c / 234.5) * t_c / (t_c + 257.14)).exp();
+    let es = ef * 6.1121 * ((18.678 - t_c / 234.5) * t_c / (t_c + 257.14)).pexp();
     let e = h_percent * es / 100.0;
     let tk = t_c + 273.15;
     72.0 * e / tk + 3.75e5 * e / (tk * tk)
@@ -250,7 +252,7 @@ pub struct ScintillationPath {
 pub fn p618_scintillation_db(path: &ScintillationPath, p_percent: f64) -> (f64, bool) {
     let in_range = (4.0..=55.0).contains(&path.f_ghz);
     let th = path.el_deg.max(5.0).to_radians();
-    let s = th.sin();
+    let s = th.psin();
     // Step 3, equation (42).
     let sigma_ref = 3.6e-3 + 1e-4 * path.n_wet;
     // Step 4, equation (43), turbulent layer height 1000 m.
@@ -261,20 +263,20 @@ pub fn p618_scintillation_db(path: &ScintillationPath, p_percent: f64) -> (f64, 
     let x = 1.22 * d_eff * d_eff * (path.f_ghz / l);
     let arg = if x <= 0.0 {
         // x → 0: sin(11/6 · π/2) · 3.86.
-        3.86 * (11.0 / 6.0 * std::f64::consts::FRAC_PI_2).sin()
+        3.86 * (11.0 / 6.0 * std::f64::consts::FRAC_PI_2).psin()
     } else {
-        3.86 * (x * x + 1.0).powf(11.0 / 12.0) * (11.0 / 6.0 * (1.0 / x).atan()).sin()
-            - 7.08 * x.powf(5.0 / 6.0)
+        3.86 * (x * x + 1.0).ppowf(11.0 / 12.0) * (11.0 / 6.0 * (1.0 / x).patan()).psin()
+            - 7.08 * x.ppowf(5.0 / 6.0)
     };
     if arg <= 0.0 {
         return (0.0, in_range);
     }
     let g = arg.sqrt();
     // Step 7, equation (47).
-    let sigma = sigma_ref * path.f_ghz.powf(7.0 / 12.0) * g / s.powf(1.2);
+    let sigma = sigma_ref * path.f_ghz.ppowf(7.0 / 12.0) * g / s.ppowf(1.2);
     // Step 8, equation (48).
-    let lp = p_percent.log10();
-    let a = -0.061 * lp.powi(3) + 0.072 * lp * lp - 1.71 * lp + 3.0;
+    let lp = p_percent.plog10();
+    let a = -0.061 * lp.ppowi(3) + 0.072 * lp * lp - 1.71 * lp + 3.0;
     // Step 9, equation (49).
     (a * sigma, in_range)
 }
@@ -302,7 +304,7 @@ impl Default for Meteo {
 }
 
 fn phi(rp: f64, rt: f64, a: f64, b: f64, c: f64, d: f64) -> f64 {
-    rp.powf(a) * rt.powf(b) * (c * (1.0 - rp) + d * (1.0 - rt)).exp()
+    rp.ppowf(a) * rt.ppowf(b) * (c * (1.0 - rp) + d * (1.0 - rt)).pexp()
 }
 
 /// ITU-R P.676-10 Annex 2 equation (22a): specific attenuation of dry air (dB/km), valid for
@@ -314,8 +316,8 @@ pub fn p676_gamma_oxygen_db_km(f_ghz: f64, m: &Meteo) -> f64 {
     let xi1 = phi(rp, rt, 0.0717, -1.8132, 0.0156, -1.6515);
     let xi2 = phi(rp, rt, 0.5146, -4.6368, -0.1921, -5.7416);
     let xi3 = phi(rp, rt, 0.3414, -6.5851, 0.2130, -8.5854);
-    (7.2 * rt.powf(2.8) / (f * f + 0.34 * rp * rp * rt.powf(1.6))
-        + 0.62 * xi3 / ((54.0 - f).powf(1.16 * xi1) + 0.83 * xi2))
+    (7.2 * rt.ppowf(2.8) / (f * f + 0.34 * rp * rp * rt.ppowf(1.6))
+        + 0.62 * xi3 / ((54.0 - f).ppowf(1.16 * xi1) + 0.83 * xi2))
         * f
         * f
         * rp
@@ -330,35 +332,35 @@ pub fn p676_gamma_water_db_km(f_ghz: f64, m: &Meteo) -> f64 {
     let rt = 288.0 / (273.0 + m.temperature_c);
     let rho = m.water_vapour_g_m3;
     let f = f_ghz;
-    let eta1 = 0.955 * rp * rt.powf(0.68) + 0.006 * rho;
-    let eta2 = 0.735 * rp * rt.powf(0.5) + 0.0353 * rt.powi(4) * rho;
-    let g = |fi: f64| 1.0 + ((f - fi) / (f + fi)).powi(2);
+    let eta1 = 0.955 * rp * rt.ppowf(0.68) + 0.006 * rho;
+    let eta2 = 0.735 * rp * rt.ppowf(0.5) + 0.0353 * rt.ppowi(4) * rho;
+    let g = |fi: f64| 1.0 + ((f - fi) / (f + fi)).ppowi(2);
     let e1 = eta1 * eta1;
-    let sum = 3.98 * eta1 * (2.23 * (1.0 - rt)).exp() / ((f - 22.235).powi(2) + 9.42 * e1)
+    let sum = 3.98 * eta1 * (2.23 * (1.0 - rt)).pexp() / ((f - 22.235).ppowi(2) + 9.42 * e1)
         * g(22.0)
-        + 11.96 * eta1 * (0.7 * (1.0 - rt)).exp() / ((f - 183.31).powi(2) + 11.14 * e1)
-        + 0.081 * eta1 * (6.44 * (1.0 - rt)).exp() / ((f - 321.226).powi(2) + 6.29 * e1)
-        + 3.66 * eta1 * (1.6 * (1.0 - rt)).exp() / ((f - 325.153).powi(2) + 9.22 * e1)
-        + 25.37 * eta1 * (1.09 * (1.0 - rt)).exp() / (f - 380.0).powi(2)
-        + 17.4 * eta1 * (1.46 * (1.0 - rt)).exp() / (f - 448.0).powi(2)
-        + 844.6 * eta1 * (0.17 * (1.0 - rt)).exp() / (f - 557.0).powi(2) * g(557.0)
-        + 290.0 * eta1 * (0.41 * (1.0 - rt)).exp() / (f - 752.0).powi(2) * g(752.0)
-        + 8.3328e4 * eta2 * (0.99 * (1.0 - rt)).exp() / (f - 1780.0).powi(2) * g(1780.0);
-    sum * f * f * rt.powf(2.5) * rho * 1e-4
+        + 11.96 * eta1 * (0.7 * (1.0 - rt)).pexp() / ((f - 183.31).ppowi(2) + 11.14 * e1)
+        + 0.081 * eta1 * (6.44 * (1.0 - rt)).pexp() / ((f - 321.226).ppowi(2) + 6.29 * e1)
+        + 3.66 * eta1 * (1.6 * (1.0 - rt)).pexp() / ((f - 325.153).ppowi(2) + 9.22 * e1)
+        + 25.37 * eta1 * (1.09 * (1.0 - rt)).pexp() / (f - 380.0).ppowi(2)
+        + 17.4 * eta1 * (1.46 * (1.0 - rt)).pexp() / (f - 448.0).ppowi(2)
+        + 844.6 * eta1 * (0.17 * (1.0 - rt)).pexp() / (f - 557.0).ppowi(2) * g(557.0)
+        + 290.0 * eta1 * (0.41 * (1.0 - rt)).pexp() / (f - 752.0).ppowi(2) * g(752.0)
+        + 8.3328e4 * eta2 * (0.99 * (1.0 - rt)).pexp() / (f - 1780.0).ppowi(2) * g(1780.0);
+    sum * f * f * rt.ppowf(2.5) * rho * 1e-4
 }
 
 /// ITU-R P.676-10 Annex 2 equations (25a) to (25e): equivalent height of dry air (km).
 pub fn p676_oxygen_height_km(f_ghz: f64, m: &Meteo) -> f64 {
     let rp = m.pressure_hpa / 1013.0;
     let f = f_ghz;
-    let t1 = 4.64 / (1.0 + 0.066 * rp.powf(-2.3))
-        * (-((f - 59.7) / (2.87 + 12.4 * (-7.9 * rp).exp())).powi(2)).exp();
-    let t2 = 0.14 * (2.12 * rp).exp() / ((f - 118.75).powi(2) + 0.031 * (2.2 * rp).exp());
-    let t3 = 0.0114 / (1.0 + 0.14 * rp.powf(-2.6)) * f * (-0.0247 + 0.0001 * f + 1.61e-6 * f * f)
-        / (1.0 - 0.0169 * f + 4.1e-5 * f * f + 3.2e-7 * f.powi(3));
-    let ho = 6.1 / (1.0 + 0.17 * rp.powf(-1.1)) * (1.0 + t1 + t2 + t3);
+    let t1 = 4.64 / (1.0 + 0.066 * rp.ppowf(-2.3))
+        * (-((f - 59.7) / (2.87 + 12.4 * (-7.9 * rp).pexp())).ppowi(2)).pexp();
+    let t2 = 0.14 * (2.12 * rp).pexp() / ((f - 118.75).ppowi(2) + 0.031 * (2.2 * rp).pexp());
+    let t3 = 0.0114 / (1.0 + 0.14 * rp.ppowf(-2.6)) * f * (-0.0247 + 0.0001 * f + 1.61e-6 * f * f)
+        / (1.0 - 0.0169 * f + 4.1e-5 * f * f + 3.2e-7 * f.ppowi(3));
+    let ho = 6.1 / (1.0 + 0.17 * rp.ppowf(-1.1)) * (1.0 + t1 + t2 + t3);
     if f < 70.0 {
-        ho.min(10.7 * rp.powf(0.3))
+        ho.min(10.7 * rp.ppowf(0.3))
     } else {
         ho
     }
@@ -368,11 +370,11 @@ pub fn p676_oxygen_height_km(f_ghz: f64, m: &Meteo) -> f64 {
 pub fn p676_water_height_km(f_ghz: f64, m: &Meteo) -> f64 {
     let rp = m.pressure_hpa / 1013.0;
     let f = f_ghz;
-    let sw = 1.013 / (1.0 + (-8.6 * (rp - 0.57)).exp());
+    let sw = 1.013 / (1.0 + (-8.6 * (rp - 0.57)).pexp());
     1.66 * (1.0
-        + 1.39 * sw / ((f - 22.235).powi(2) + 2.56 * sw)
-        + 3.37 * sw / ((f - 183.31).powi(2) + 4.69 * sw)
-        + 1.58 * sw / ((f - 325.1).powi(2) + 2.89 * sw))
+        + 1.39 * sw / ((f - 22.235).ppowi(2) + 2.56 * sw)
+        + 3.37 * sw / ((f - 183.31).ppowi(2) + 4.69 * sw)
+        + 1.58 * sw / ((f - 325.1).ppowi(2) + 2.89 * sw))
 }
 
 /// ITU-R P.676-10 Annex 2 equation (27): total zenith gaseous attenuation (dB).
@@ -392,13 +394,13 @@ pub fn p676_gaseous_attenuation_db(f_ghz: f64, el_deg: f64, m: &Meteo) -> f64 {
     let aw = p676_gamma_water_db_km(f_ghz, m) * p676_water_height_km(f_ghz, m);
     let el = el_deg.max(0.0);
     if el >= 5.0 {
-        return (ao + aw) / el.to_radians().sin();
+        return (ao + aw) / el.to_radians().psin();
     }
     let airmass = |el_deg: f64, h_km: f64| {
-        let s = el_deg.to_radians().sin();
+        let s = el_deg.to_radians().psin();
         2.0 / ((s * s + 2.0 * h_km / 6371.0).sqrt() + s)
     };
-    let s5 = 5f64.to_radians().sin();
+    let s5 = 5f64.to_radians().psin();
     let ho = p676_oxygen_height_km(f_ghz, m);
     let hw = p676_water_height_km(f_ghz, m);
     ao / s5 * airmass(el, ho) / airmass(5.0, ho) + aw / s5 * airmass(el, hw) / airmass(5.0, hw)
@@ -442,7 +444,7 @@ pub fn p2109_building_entry_loss_db(f_ghz: f64, p: f64, class: BuildingClass, el
         BuildingClass::Traditional => (12.64, 3.72, 0.96, 9.6, 2.0, 9.1, -3.0, 4.5, -2.0),
         BuildingClass::ThermallyEfficient => (28.19, -3.00, 8.48, 13.5, 3.8, 27.8, -2.9, 9.4, -2.1),
     };
-    let lf = f_ghz.log10();
+    let lf = f_ghz.plog10();
     // Equations (9) and (10).
     let lh = r + s * lf + t * lf * lf;
     let le = 0.212 * el_deg.abs();
@@ -456,7 +458,7 @@ pub fn p2109_building_entry_loss_db(f_ghz: f64, p: f64, class: BuildingClass, el
     let a = finv * sigma1 + mu1;
     let b = finv * sigma2 + mu2;
     let c = -3.0;
-    10.0 * (10f64.powf(0.1 * a) + 10f64.powf(0.1 * b) + 10f64.powf(0.1 * c)).log10()
+    10.0 * (10f64.ppowf(0.1 * a) + 10f64.ppowf(0.1 * b) + 10f64.ppowf(0.1 * c)).plog10()
 }
 
 #[cfg(test)]

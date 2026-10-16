@@ -79,6 +79,20 @@ The SVG charts and summaries of the changed scenarios move with their results, a
     exactly.
   - **Cell-file DIGESTs:** these cover the reference fields, so they are re-pinned: M2M4
     eae86091… → 89c76e01…, and NWPR fd5b8c32… → 79696147….
+  - **Later change (false-lock scorer fix, 436eda13).** It came after these pins were
+    registered. The campaign scorer never counted a false lock the tracker reported from LOCKED:
+    the check moves the channel to LOST, and the scorer flagged the next, unlocked update.
+    Fixing that changes exactly six fields of the reference campaign, the same in M2M4 and
+    NWPR: PRN 11 of ramp/agc-3bit, in both designs, has `false_lock_episodes` 0 → 1 (run and
+    event) and `false_lock_per_hour` 0 → 426.29 (fll-pll) and 437.69 (pll-only).
+    - The scored-results pins (`e9c9f840…`, and `b3c2d8a0…` where it is kept live) stay live.
+      In their hash only those six fields are mapped back to their pre-fix values (no
+      episode). Every other field is still checked against the registered value, and
+      `e9c9f840…` reproduces exactly. The fixed values are pinned on their own
+      (`false_lock_fields_after_the_scorer_fix_are_pinned`).
+    - The cell-file DIGESTs are re-pinned: M2M4 89c76e01… → c7e11580…, NWPR 79696147… →
+      f34be6e2….
+    - No bar was changed, and no VALIDATED row, figure or web number moved.
   - **Ramp test:** it now checks the measured degradation against the scene's injected truth
     at `SCENE_Q`, and the MODELLED reference against the Q table.
 - **`tests/conflict_resilience_architecture_guard.rs`:** this guard reads the lunar orbital

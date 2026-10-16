@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
+// Host maths on purpose: this test recomputes its expected values independently of the engine's
+// portable maths (STUDIO-15), so the engine is checked against a second implementation.
 //! Earth-GNSS reception far above the constellation's service volume, with REAL satellite
 //! positions, per-block transmit power and tabulated gain patterns, against the tracking
 //! statistics Montenbruck et al. (2023) print for the GENESIS orbit.

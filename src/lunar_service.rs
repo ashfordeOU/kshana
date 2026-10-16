@@ -46,7 +46,9 @@ use crate::lunar::{
 };
 use crate::orbit::Dop;
 use crate::palette::chart::{AXIS, BG, CORAL, CYAN, FONT_SANS, INK_2};
+use crate::portable_math::PortableFloat;
 use crate::raim::IntegrityBudget;
+use crate::skyline::Skyline;
 use serde::{Deserialize, Serialize};
 
 type Vec3 = [f64; 3];
@@ -86,27 +88,27 @@ impl LunarSat {
     /// 3-1-3 (RAAN, inclination, argument-of-perilune) sequence — the same convention as
     /// [`crate::lunar::relay_position_mci`], generalised to non-zero eccentricity.
     pub fn position_mci(&self, t_s: f64) -> Vec3 {
-        let n = (MOON_GM_M3_S2 / self.sma_m.powi(3)).sqrt();
+        let n = (MOON_GM_M3_S2 / self.sma_m.ppowi(3)).sqrt();
         let e = self.eccentricity;
         let m = self.mean_anom_deg.to_radians() + n * t_s;
         // Kepler's equation M = E − e sin E by Newton-Raphson (exact for e = 0).
         let mut ea = m;
         if e != 0.0 {
             for _ in 0..40 {
-                let d = (ea - e * ea.sin() - m) / (1.0 - e * ea.cos());
+                let d = (ea - e * ea.psin() - m) / (1.0 - e * ea.pcos());
                 ea -= d;
                 if d.abs() < 1e-13 {
                     break;
                 }
             }
         }
-        let r = self.sma_m * (1.0 - e * ea.cos());
-        let nu =
-            2.0 * ((1.0 + e).sqrt() * (ea * 0.5).sin()).atan2((1.0 - e).sqrt() * (ea * 0.5).cos());
+        let r = self.sma_m * (1.0 - e * ea.pcos());
+        let nu = 2.0
+            * ((1.0 + e).sqrt() * (ea * 0.5).psin()).patan2((1.0 - e).sqrt() * (ea * 0.5).pcos());
         let u = self.argp_deg.to_radians() + nu;
-        let (su, cu) = u.sin_cos();
-        let (si, ci) = self.inc_deg.to_radians().sin_cos();
-        let (sraan, craan) = self.raan_deg.to_radians().sin_cos();
+        let (su, cu) = u.psin_cos();
+        let (si, ci) = self.inc_deg.to_radians().psin_cos();
+        let (sraan, craan) = self.raan_deg.to_radians().psin_cos();
         [
             r * (craan * cu - sraan * ci * su),
             r * (sraan * cu + craan * ci * su),
@@ -232,8 +234,8 @@ pub fn south_polar_ring_grid(outer_lat_deg: f64, step_deg: f64) -> Vec<PolarGrid
             break;
         }
         let lat = lat_deg.to_radians();
-        let n = ((360.0 * lat.cos()).round() as usize).max(1);
-        let band_sr = 2.0 * std::f64::consts::PI * ((lat + half).sin() - (lat - half).sin());
+        let n = ((360.0 * lat.pcos()).round() as usize).max(1);
+        let band_sr = 2.0 * std::f64::consts::PI * ((lat + half).psin() - (lat - half).psin());
         for k in 0..n {
             let lon_deg = 360.0 * k as f64 / n as f64;
             pts.push(PolarGridPoint {
@@ -257,7 +259,7 @@ pub fn south_polar_ring_grid(outer_lat_deg: f64, step_deg: f64) -> Vec<PolarGrid
             lon_rad: 0.0,
             alt_m: 0.0,
         }),
-        area_sr: 2.0 * std::f64::consts::PI * (1.0 - half.cos()),
+        area_sr: 2.0 * std::f64::consts::PI * (1.0 - half.pcos()),
     });
     pts
 }
@@ -280,7 +282,7 @@ pub fn south_polar_ring_grid(outer_lat_deg: f64, step_deg: f64) -> Vec<PolarGrid
 /// that want positions use [`visible_sat_positions`].
 pub fn visible_sats(user_mcmf: Vec3, sats_mcmf: &[Vec3], elev_mask_rad: f64) -> Vec<Vec3> {
     let up = unit_or_zero(user_mcmf);
-    let sin_mask = elev_mask_rad.sin();
+    let sin_mask = elev_mask_rad.psin();
     let mut out = Vec::new();
     for &s in sats_mcmf {
         let d = [
@@ -306,7 +308,7 @@ pub fn visible_sats(user_mcmf: Vec3, sats_mcmf: &[Vec3], elev_mask_rad: f64) -> 
 /// ARAIM calls (both of which take full positions and recompute the LOS internally).
 pub fn visible_sat_positions(user_mcmf: Vec3, sats_mcmf: &[Vec3], elev_mask_rad: f64) -> Vec<Vec3> {
     let up = unit_or_zero(user_mcmf);
-    let sin_mask = elev_mask_rad.sin();
+    let sin_mask = elev_mask_rad.psin();
     sats_mcmf
         .iter()
         .copied()
@@ -334,6 +336,31 @@ fn unit_or_zero(v: Vec3) -> Vec3 {
     }
 }
 
+/// The local east, north and up unit vectors [`topocentric`] measures azimuth and
+/// elevation in, at a Moon-fixed position: up is radial, east is `z × up` (the x axis where
+/// that is degenerate, at a pole) and north is `up × east`. A horizon profile built in this
+/// basis ([`crate::lunar_terrain`]) shares its azimuths with [`topocentric`].
+pub fn topocentric_basis(user_mcmf: Vec3) -> (Vec3, Vec3, Vec3) {
+    fn cross3(a: Vec3, b: Vec3) -> Vec3 {
+        [
+            a[1] * b[2] - a[2] * b[1],
+            a[2] * b[0] - a[0] * b[2],
+            a[0] * b[1] - a[1] * b[0],
+        ]
+    }
+    let up = unit_or_zero(user_mcmf);
+    // Local east/north from the body spin axis. At a pole the east direction is
+    // degenerate; fall back to the x axis so azimuth stays finite there.
+    let mut east = cross3([0.0, 0.0, 1.0], up);
+    if dot(east, east).sqrt() < 1e-12 {
+        east = [1.0, 0.0, 0.0];
+    } else {
+        east = unit_or_zero(east);
+    }
+    let north = unit_or_zero(cross3(up, east));
+    (east, north, up)
+}
+
 /// Topocentric look angles and slant range from a lunar surface user to one satellite.
 ///
 /// Returns `(azimuth_deg, elevation_deg, range_m)` in the user's local east-north-up
@@ -345,26 +372,10 @@ fn unit_or_zero(v: Vec3) -> Vec3 {
 /// coverage/DOP summary discards, so this is the geometry a joint communications and
 /// navigation analysis has to see. Pure geometry: deterministic, no randomness.
 pub fn topocentric(user_mcmf: Vec3, sat_mcmf: Vec3) -> (f64, f64, f64) {
-    fn cross3(a: Vec3, b: Vec3) -> Vec3 {
-        [
-            a[1] * b[2] - a[2] * b[1],
-            a[2] * b[0] - a[0] * b[2],
-            a[0] * b[1] - a[1] * b[0],
-        ]
-    }
     fn norm3(v: Vec3) -> f64 {
         dot(v, v).sqrt()
     }
-    let up = unit_or_zero(user_mcmf);
-    // Local east/north from the body spin axis. At a pole the east direction is
-    // degenerate; fall back to the x axis so azimuth stays finite there.
-    let mut east = cross3([0.0, 0.0, 1.0], up);
-    if norm3(east) < 1e-12 {
-        east = [1.0, 0.0, 0.0];
-    } else {
-        east = unit_or_zero(east);
-    }
-    let north = unit_or_zero(cross3(up, east));
+    let (east, north, up) = topocentric_basis(user_mcmf);
     let d = [
         sat_mcmf[0] - user_mcmf[0],
         sat_mcmf[1] - user_mcmf[1],
@@ -376,9 +387,9 @@ pub fn topocentric(user_mcmf: Vec3, sat_mcmf: Vec3) -> (f64, f64, f64) {
     }
     let e = unit_or_zero(d);
     let sin_el = dot(e, up).clamp(-1.0, 1.0);
-    let el_deg = sin_el.asin().to_degrees();
+    let el_deg = sin_el.pasin().to_degrees();
     let az_deg = {
-        let a = dot(e, east).atan2(dot(e, north)).to_degrees();
+        let a = dot(e, east).patan2(dot(e, north)).to_degrees();
         if a < 0.0 {
             a + 360.0
         } else {
@@ -416,8 +427,23 @@ pub fn nadir_off_boresight_rad(sat_mcmf: Vec3, user_mcmf: Vec3) -> f64 {
     if dot(boresight, boresight) == 0.0 || dot(los, los) == 0.0 {
         return 0.0;
     }
-    dot(boresight, los).clamp(-1.0, 1.0).acos()
+    dot(boresight, los).clamp(-1.0, 1.0).pacos()
 }
+
+/// Units of the per-satellite geometry export rows, added to a document's units block
+/// only when it carries `per_sat_geometry` (an export site is configured).
+pub const PER_SAT_GEOMETRY_UNITS: &[crate::field_schema::FieldUnit] = &{
+    use crate::field_schema::{FieldUnit, ProvenanceClass::*};
+    [
+        FieldUnit { path: "per_sat_geometry[].t_s", unit: "s", provenance: Computed, definition: "seconds from the scenario epoch" },
+        FieldUnit { path: "per_sat_geometry[].sat", unit: "index", provenance: Computed, definition: "satellite index within the constellation" },
+        FieldUnit { path: "per_sat_geometry[].az_deg", unit: "deg", provenance: Computed, definition: "azimuth of the satellite from the export site, clockwise from local north" },
+        FieldUnit { path: "per_sat_geometry[].el_deg", unit: "deg", provenance: Computed, definition: "elevation of the satellite above the export site's local horizon plane" },
+        FieldUnit { path: "per_sat_geometry[].range_km", unit: "km", provenance: Computed, definition: "slant range from the export site to the satellite" },
+        FieldUnit { path: "per_sat_geometry[].off_boresight_deg", unit: "deg", provenance: Computed, definition: "off-boresight angle at the satellite toward the export site (with export_antenna)" },
+        FieldUnit { path: "per_sat_geometry[].pattern_gain_dbi", unit: "dBi", provenance: Computed, definition: "transmit-antenna gain toward the export site from the aperture pattern (with export_antenna)" },
+    ]
+};
 
 /// One per-satellite geometry sample at one epoch for one site.
 #[derive(Clone, Debug, Serialize)]
@@ -457,6 +483,11 @@ pub struct GeometrySample {
     /// `in_beam_pattern`.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub in_beam_symmetric: Option<bool>,
+    /// Whether the satellite also clears the export site's terrain horizon
+    /// ([`crate::lunar_terrain::clears_horizon`]): `visible` and above the horizon at its
+    /// azimuth. Present only when the scenario has a `terrain` section.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub clears_terrain: Option<bool>,
 }
 
 /// Dilution of precision at a lunar surface user from the visible satellites — a thin
@@ -541,6 +572,45 @@ pub fn coverage<C: PositionsMcmf + ?Sized>(
     elev_mask_rad: f64,
     pdop_threshold: f64,
 ) -> CoverageStats {
+    coverage_masked(
+        constellation,
+        grid_points_selenographic,
+        times_s,
+        elev_mask_rad,
+        pdop_threshold,
+        None,
+    )
+}
+
+/// The satellites visible from `user` above the flat mask ([`visible_sat_positions`]) and,
+/// with a terrain horizon, above it too ([`crate::lunar_terrain::clears_horizon`]). With
+/// `None` (or an empty skyline) this is exactly [`visible_sat_positions`].
+pub fn masked_visible(
+    user: Vec3,
+    sats_mcmf: &[Vec3],
+    elev_mask_rad: f64,
+    sky: Option<&Skyline>,
+) -> Vec<Vec3> {
+    let vis = visible_sat_positions(user, sats_mcmf, elev_mask_rad);
+    match sky {
+        Some(k) if !k.is_empty() => vis
+            .into_iter()
+            .filter(|&s| crate::lunar_terrain::clears_horizon(k, user, s, true))
+            .collect(),
+        _ => vis,
+    }
+}
+
+/// [`coverage`] with an optional terrain horizon per grid point (`masks[i]` for
+/// `grid_points_selenographic[i]`); `None` is exactly [`coverage`].
+pub fn coverage_masked<C: PositionsMcmf + ?Sized>(
+    constellation: &C,
+    grid_points_selenographic: &[Selenographic],
+    times_s: &[f64],
+    elev_mask_rad: f64,
+    pdop_threshold: f64,
+    masks: Option<&[Skyline]>,
+) -> CoverageStats {
     let users: Vec<Vec3> = grid_points_selenographic
         .iter()
         .map(|&s| selenographic_to_mcmf(s))
@@ -560,9 +630,9 @@ pub fn coverage<C: PositionsMcmf + ?Sized>(
 
     for &t in times_s {
         let sats = constellation.positions_mcmf(t);
-        for &user in &users {
+        for (ui, &user) in users.iter().enumerate() {
             n_samples += 1;
-            let vis = visible_sat_positions(user, &sats, elev_mask_rad);
+            let vis = masked_visible(user, &sats, elev_mask_rad, masks.map(|m| &m[ui]));
             let nv = vis.len();
             min_sats = min_sats.min(nv);
             max_sats = max_sats.max(nv);
@@ -1069,6 +1139,14 @@ pub struct LunarServiceScenario {
     /// [`Self::planetary_kernel_path`].
     #[serde(default)]
     pub epoch_utc: Option<String>,
+    /// Per-point terrain horizon masks over the grid ([`crate::lunar_terrain`]): a horizon
+    /// ray-marched over a DEM at every grid point inside it and/or a stated `user_horizon`
+    /// at every point (`station_horizon` is refused: this kind has no station). A point
+    /// outside the DEM keeps the flat mask and is counted. Unset (the default) means
+    /// nothing changes. The per-satellite export site is not masked. Read with
+    /// [`Self::try_run`].
+    #[serde(default)]
+    pub terrain: Option<crate::lunar_terrain::LunarTerrainCfg>,
 }
 
 impl Default for LunarServiceScenario {
@@ -1099,6 +1177,7 @@ impl Default for LunarServiceScenario {
             ephemeris_path: None,
             planetary_kernel_path: None,
             epoch_utc: None,
+            terrain: None,
         }
     }
 }
@@ -1594,6 +1673,14 @@ pub struct LunarServiceReport {
     /// `None` — and absent from the JSON — whenever `ephemeris_path` is unset.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub ephemeris_comparison: Option<SigmaRequirementComparison>,
+    /// The terrain horizon masks over the grid; `None`, and absent from the JSON, without
+    /// a `terrain` section.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub terrain: Option<crate::lunar_terrain::GridTerrainEcho>,
+    /// The export site's terrain horizon; `None`, and absent from the JSON, unless the
+    /// scenario has both a `terrain` section and an export site.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub export_site_terrain: Option<crate::lunar_terrain::SiteHorizonEcho>,
 }
 
 impl LunarServiceReport {
@@ -1622,6 +1709,7 @@ impl LunarServiceReport {
     pub fn per_sat_geometry_csv(&self) -> Option<String> {
         let rows = self.per_sat_geometry.as_ref()?;
         let with_antenna = self.antenna_pattern.is_some();
+        let with_terrain = rows.iter().any(|r| r.clears_terrain.is_some());
 
         let mut s = String::new();
         s.push_str(&format!(
@@ -1651,14 +1739,26 @@ impl LunarServiceReport {
             },
         ));
 
+        if with_terrain {
+            s.push_str(
+                "# clears_terrain: the satellite clears the flat mask and the export site's \
+                 terrain horizon at its azimuth (present because the scenario has a terrain \
+                 section).\n",
+            );
+        }
         if with_antenna {
             s.push_str(
                 "t_s,sat,az_deg,el_deg,range_km,visible,off_boresight_deg,\
-                 pattern_gain_dbi,in_beam_pattern,in_beam_symmetric\n",
+                 pattern_gain_dbi,in_beam_pattern,in_beam_symmetric",
             );
         } else {
-            s.push_str("t_s,sat,az_deg,el_deg,range_km,visible\n");
+            s.push_str("t_s,sat,az_deg,el_deg,range_km,visible");
         }
+        s.push_str(if with_terrain {
+            ",clears_terrain\n"
+        } else {
+            "\n"
+        });
 
         // An Option that is None where the header promised a column would be a silent
         // hole, so it is written as the empty field and the header explains the case.
@@ -1683,6 +1783,9 @@ impl LunarServiceReport {
                     b(r.in_beam_pattern),
                     b(r.in_beam_symmetric),
                 ));
+            }
+            if with_terrain {
+                s.push_str(&format!(",{}", b(r.clears_terrain)));
             }
             s.push('\n');
         }
@@ -2111,14 +2214,60 @@ impl LunarServiceScenario {
     /// report additionally carries the provenance block and the σ_URE-requirement
     /// comparison against the unchanged Keplerian and perturbed results.
     pub fn try_run(&self) -> Result<LunarServiceReport, String> {
+        let terrain = match &self.terrain {
+            Some(t) => {
+                let pts: Vec<(f64, f64)> = self
+                    .grid()
+                    .iter()
+                    .map(|g| (g.lat_rad.to_degrees(), g.lon_rad.to_degrees()))
+                    .collect();
+                Some(
+                    t.resolve_grid(&pts, self.elev_mask_deg)
+                        .map_err(|e| format!("moonlight-service-volume: {e}"))?,
+                )
+            }
+            None => None,
+        };
+        let masks = terrain.as_ref().map(|t| t.masks.as_slice());
+        // The export site gets its own mask, built as a grid point's is.
+        let export_mask = match (
+            &self.terrain,
+            self.export_site_lat_deg,
+            self.export_site_lon_deg,
+        ) {
+            (Some(t), Some(lat), Some(lon)) => Some(
+                t.resolve_site(lat, lon, self.elev_mask_deg)
+                    .map_err(|e| format!("moonlight-service-volume: export site: {e}"))?,
+            ),
+            _ => None,
+        };
+        let mut report = self.try_run_masked(masks)?;
+        report.terrain = terrain.map(|t| t.echo);
+        if let Some(m) = export_mask {
+            // A row clears the terrain when it clears the flat mask and its elevation is at
+            // or above the horizon at its azimuth: the test `clears_horizon` applies, on
+            // the azimuth and elevation the row already carries (the same topocentric
+            // frame). The antenna tallies stay over flat-mask-visible links.
+            for row in report.per_sat_geometry.iter_mut().flatten() {
+                row.clears_terrain =
+                    Some(row.visible && row.el_deg >= m.skyline.cut_deg(row.az_deg));
+            }
+            report.export_site_terrain = Some(m.echo);
+        }
+        Ok(report)
+    }
+
+    fn try_run_masked(&self, masks: Option<&[Skyline]>) -> Result<LunarServiceReport, String> {
         let (sats, n) = self.keplerian_sats();
         let Some(path) = self.ephemeris_path.as_deref() else {
             // Unchanged path: exactly what this scenario emitted before `ephemeris_path`
             // existed, byte for byte.
             return Ok(if self.perturbed {
-                self.sweep(&Self::perturbed_constellation(&sats), n, true).0
+                self.sweep(&Self::perturbed_constellation(&sats), n, true, masks)
+                    .0
             } else {
-                self.sweep(&LunarConstellation::new(sats), n, false).0
+                self.sweep(&LunarConstellation::new(sats), n, false, masks)
+                    .0
             });
         };
 
@@ -2141,8 +2290,8 @@ impl LunarServiceScenario {
             Some(spk_path) => Some(self.op_frame_constellation(&eph, spk_path)?),
         };
         let (mut report, ex_eph) = match &op_path {
-            Some((tab, _)) => self.sweep(tab, eph.n_sats(), false),
-            None => self.sweep(&eph, eph.n_sats(), false),
+            Some((tab, _)) => self.sweep(tab, eph.n_sats(), false, masks),
+            None => self.sweep(&eph, eph.n_sats(), false, masks),
         };
         // The headline geometry is no longer the illustrative set, so the headline note
         // must stop calling it that. The default note is untouched.
@@ -2165,8 +2314,8 @@ impl LunarServiceScenario {
                  Keplerian and perturbed results are retained in `ephemeris_comparison`."
             }
         };
-        let (kep, ex_kep) = self.sweep(&LunarConstellation::new(sats.clone()), n, false);
-        let (per, ex_per) = self.sweep(&Self::perturbed_constellation(&sats), n, true);
+        let (kep, ex_kep) = self.sweep(&LunarConstellation::new(sats.clone()), n, false, masks);
+        let (per, ex_per) = self.sweep(&Self::perturbed_constellation(&sats), n, true, masks);
 
         let row = |geometry: &'static str,
                    provenance: &str,
@@ -2195,7 +2344,7 @@ impl LunarServiceScenario {
         let matched = (report.n_sats != n).then(|| {
             let m_sats = self.keplerian_sats_at(report.n_sats);
             let m_n = m_sats.len();
-            let (m_kep, ex_m) = self.sweep(&LunarConstellation::new(m_sats), m_n, false);
+            let (m_kep, ex_m) = self.sweep(&LunarConstellation::new(m_sats), m_n, false, masks);
             row("keplerian-matched", "modelled-keplerian", &m_kep, &ex_m)
         });
         let k_row = row("keplerian", "modelled-keplerian", &kep, &ex_kep);
@@ -2368,17 +2517,19 @@ impl LunarServiceScenario {
         constellation: &C,
         n: usize,
         perturbed: bool,
+        masks: Option<&[Skyline]>,
     ) -> (LunarServiceReport, SweepExtras) {
         let grid = self.grid();
         let times = self.times();
         let elev_mask_rad = self.elev_mask_deg.to_radians();
 
-        let stats = coverage(
+        let stats = coverage_masked(
             constellation,
             &grid,
             &times,
             elev_mask_rad,
             self.pdop_threshold,
+            masks,
         );
 
         // Protection-level envelope over the same service volume.
@@ -2396,11 +2547,11 @@ impl LunarServiceScenario {
         let mut hpl_all: Vec<f64> = Vec::new();
         for &t in &times {
             let sats_mcmf = constellation.positions_mcmf(t);
-            for &g in &grid {
+            for (gi, &g) in grid.iter().enumerate() {
                 // Only the satellites above the mask feed the ARAIM PL — same visibility
                 // gate as the DOP path.
                 let user = selenographic_to_mcmf(g);
-                let vis = visible_sat_positions(user, &sats_mcmf, elev_mask_rad);
+                let vis = masked_visible(user, &sats_mcmf, elev_mask_rad, masks.map(|m| &m[gi]));
                 if let Some(pl) =
                     lunar_protection_level_with_sigma(g, &vis, self.sigma_ure_m, budget)
                 {
@@ -2465,6 +2616,7 @@ impl LunarServiceScenario {
                                 pattern_gain_dbi: None,
                                 in_beam_pattern: None,
                                 in_beam_symmetric: None,
+                                clears_terrain: None,
                             };
                             if let Some((a, _g0, sym_half)) = ant {
                                 let theta = nadir_off_boresight_rad(sp, user);
@@ -2591,6 +2743,8 @@ impl LunarServiceScenario {
             perturbed,
             ephemeris: None,
             ephemeris_comparison: None,
+            terrain: None,
+            export_site_terrain: None,
         };
         (report, SweepExtras::new(hpl_all))
     }
@@ -2700,7 +2854,7 @@ mod tests {
         let mut old = Vec::new();
         for lat in 80..90 {
             let lat_deg = -(lat as f64);
-            let n = (360.0 * lat_deg.to_radians().cos()).round() as usize;
+            let n = (360.0 * lat_deg.to_radians().pcos()).round() as usize;
             for k in 0..n {
                 old.push(selenographic_to_mcmf(Selenographic {
                     lat_rad: lat_deg.to_radians(),
@@ -2724,7 +2878,7 @@ mod tests {
             .iter()
             .map(|p| p.area_sr)
             .sum();
-        let cap = 2.0 * std::f64::consts::PI * (1.0 - (10.5_f64).to_radians().cos());
+        let cap = 2.0 * std::f64::consts::PI * (1.0 - (10.5_f64).to_radians().pcos());
         assert!((total - cap).abs() < 1e-12, "{total} vs {cap}");
         assert!(south_polar_ring_grid(-80.0, 0.0).is_empty());
     }
@@ -2739,7 +2893,7 @@ mod tests {
             serde_json::from_str(r#"{"diameter_m": 1.0}"#).expect("diameter-only config");
         assert_eq!(cfg.carrier_hz, 2_492.028e6);
         assert_eq!(cfg.carrier_hz, LSIS_AFS_CARRIER_HZ);
-        let delta_fspl_db = 20.0 * (cfg.carrier_hz / 2.4e9).log10();
+        let delta_fspl_db = 20.0 * (cfg.carrier_hz / 2.4e9).plog10();
         assert!((delta_fspl_db - 0.3268).abs() < 1e-4, "{delta_fspl_db}");
     }
 
@@ -2958,7 +3112,7 @@ mod tests {
         let peri = a * (1.0 - e);
         let apo = a * (1.0 + e);
         // Sample one full period and check the radius stays within [peri, apo].
-        let n = (MOON_GM_M3_S2 / a.powi(3)).sqrt();
+        let n = (MOON_GM_M3_S2 / a.ppowi(3)).sqrt();
         let period = std::f64::consts::TAU / n;
         let mut rmin = f64::INFINITY;
         let mut rmax = 0.0_f64;
@@ -3294,10 +3448,10 @@ mod tests {
 
         // Interior points against the closed form.
         for i in 1..=20 {
-            let gamma = (R_MOON_M / r).acos() * (i as f64) / 20.0;
-            let user = [R_MOON_M * gamma.sin(), 0.0, R_MOON_M * gamma.cos()];
+            let gamma = (R_MOON_M / r).pacos() * (i as f64) / 20.0;
+            let user = [R_MOON_M * gamma.psin(), 0.0, R_MOON_M * gamma.pcos()];
             let got = nadir_off_boresight_rad(sat, user);
-            let want = (R_MOON_M * gamma.sin()).atan2(r - R_MOON_M * gamma.cos());
+            let want = (R_MOON_M * gamma.psin()).patan2(r - R_MOON_M * gamma.pcos());
             assert!(
                 (got - want).abs() < 1e-12,
                 "gamma = {gamma}: got {got} rad, closed form {want} rad"
@@ -3306,13 +3460,13 @@ mod tests {
 
         // The limb sits at exactly asin(R/r) — the largest off-nadir angle that can
         // reach the body at all.
-        let gamma_limb = (R_MOON_M / r).acos();
+        let gamma_limb = (R_MOON_M / r).pacos();
         let limb = [
-            R_MOON_M * gamma_limb.sin(),
+            R_MOON_M * gamma_limb.psin(),
             0.0,
-            R_MOON_M * gamma_limb.cos(),
+            R_MOON_M * gamma_limb.pcos(),
         ];
-        assert!((nadir_off_boresight_rad(sat, limb) - (R_MOON_M / r).asin()).abs() < 1e-12);
+        assert!((nadir_off_boresight_rad(sat, limb) - (R_MOON_M / r).pasin()).abs() < 1e-12);
 
         // Degenerate inputs stay finite rather than poisoning a sweep with a NaN.
         assert_eq!(

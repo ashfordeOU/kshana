@@ -27,11 +27,14 @@
 //!
 //! Scope (this stage): the Keplerian broadcast systems — GPS (`G`), Galileo
 //! (`E`), QZSS (`J`), and BeiDou (`C`, MEO/IGSO; geostationary BeiDou is skipped
-//! pending validation, see `is_beidou_geo`). GLONASS uses a state-vector model
+//! by default, see `is_beidou_geo`, and decoded on request with
+//! [`NavParseOptions::include_beidou_geo`]). RINEX 4.0x navigation files are read
+//! from their `> EPH` record headers ([`parse_nav_with`]). GLONASS uses a state-vector model
 //! and is handled by [`crate::glonass`]; SP3 precise ephemerides by [`crate::sp3`].
 //! Records for other systems are skipped using their own line count, not rejected,
 //! so a mixed-constellation file still yields the ephemerides it can decode.
 
+use crate::portable_math::PortableFloat;
 /// A calendar epoch in UTC/GPS time, as carried in a RINEX record (the clock
 /// reference time `Toc`).
 #[derive(Clone, Copy, Debug, PartialEq, serde::Serialize, serde::Deserialize)]
@@ -198,41 +201,61 @@ fn is_parsed_system(system: char) -> bool {
 
 /// BeiDou geostationary (GEO) satellites use a different final coordinate rotation
 /// (the ICD's `R_X(-5°)·R_Z(Ω_e·t_k)` step) than the MEO/IGSO satellites, which
-/// follow the standard algorithm. The radius is rotation-invariant, so a GEO
-/// position cannot be self-validated here; rather than emit unverified positions,
-/// the GEO PRNs (BDS-2 `C01–C05`, BDS-3 `C59–C63`) are skipped until there is a
-/// reference fixture to check them against. Returns true for those PRNs.
+/// follow the standard algorithm. [`parse_nav`] skips the GEO PRNs (BDS-2
+/// `C01–C05`, BDS-3 `C59–C63`), so its output is unchanged; the GEO algorithm is
+/// [`RinexEphemeris::sv_position_ecef_bds_geo`], reached through
+/// [`parse_nav_with`] with [`NavParseOptions::include_beidou_geo`]. Returns true
+/// for those PRNs.
 fn is_beidou_geo(prn: u8) -> bool {
     matches!(prn, 1..=5 | 59..=63)
 }
 
+/// Options for [`parse_nav_with`]. The default reproduces [`parse_nav`] exactly.
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
+pub struct NavParseOptions {
+    /// Emit BeiDou geostationary records (`C01–C05`, `C59–C63`, see
+    /// [`is_beidou_geo`]) instead of skipping them. Off by default, so every
+    /// existing caller of [`parse_nav`] keeps its output. A GEO record is
+    /// evaluated by [`RinexEphemeris::sv_position_ecef`] with the BeiDou GEO
+    /// algorithm ([`RinexEphemeris::sv_position_ecef_bds_geo`]).
+    pub include_beidou_geo: bool,
+}
+
 /// Parse the GPS, Galileo, QZSS, and BeiDou broadcast ephemerides from a RINEX 3
-/// navigation file. The header (up to and including the `END OF HEADER` line) is
-/// skipped; each Keplerian record is eight lines (one SV/epoch line plus seven
-/// orbit lines). Records for other systems are walked over using their own line
-/// count (GLONASS/SBAS are four lines); BeiDou geostationary satellites are
+/// or RINEX 4 navigation file. The header (up to and including the `END OF HEADER`
+/// line) is skipped; each Keplerian record is eight lines (one SV/epoch line plus
+/// seven orbit lines). Records for other systems are walked over using their own
+/// line count (GLONASS/SBAS are four lines); BeiDou geostationary satellites are
 /// skipped (see [`is_beidou_geo`]), so a mixed-constellation file yields the
-/// ephemerides it can validly decode.
+/// ephemerides it can validly decode. A RINEX 4 file (declared version 4.xx) is
+/// read record by record from its `>` record headers; see [`parse_nav_with`].
 pub fn parse_nav(text: &str) -> Result<Vec<RinexEphemeris>, String> {
+    parse_nav_with(text, NavParseOptions::default())
+}
+
+/// [`parse_nav`] with explicit [`NavParseOptions`].
+///
+/// RINEX 4.00/4.01/4.02 navigation files precede every record with a
+/// `> TYPE SV MSG` line (RINEX 4.02 specification, IGS/RTCM RINEX Working Group,
+/// section 5.4 and Tables A31–A51). The body of an `EPH` record of the legacy
+/// Keplerian messages — GPS `LNAV`, Galileo `INAV`/`FNAV`, BeiDou `D1`/`D2`, QZSS
+/// `LNAV` — keeps the RINEX 3 field layout, so it is decoded by the same field
+/// map. Every other record (`EPH` of `CNAV`/`CNV1`/`CNV2`/`CNV3`/`FDMA`/`SBAS`/
+/// IRNSS, and the `STO`, `EOP`, and `ION` records) is skipped up to the next `>`
+/// line rather than by a fixed line count, so an unfamiliar record cannot
+/// desynchronise the walk. A file whose header declares a version below 4 is read
+/// with the RINEX 3 walk, byte for byte as before; a `>` line inside such a file
+/// is still an error.
+pub fn parse_nav_with(text: &str, opts: NavParseOptions) -> Result<Vec<RinexEphemeris>, String> {
     let lines: Vec<&str> = text.lines().collect();
-    // Find the end of the header, checking the declared version on the way.
-    // RINEX 4 changed the navigation record layout: every record is preceded by
-    // a `> EPH G01 LNAV` header line. A reader that walks fixed line counts does
-    // not see that line for what it is, swallows it as eight lines of data, and
-    // desynchronises from there — decoding a few ephemerides out of misaligned
-    // fields and reporting no error at all. Refusing the file is the only honest
-    // answer until the RINEX 4 layout is actually read.
+    // Find the end of the header, noting the declared version on the way.
+    let mut declared: Option<f64> = None;
     let mut i = 0;
     while i < lines.len() {
         let line = lines[i];
         if line.contains("RINEX VERSION / TYPE") {
             if let Ok(v) = col(line, 0, 9).trim().parse::<f64>() {
-                if v >= 4.0 {
-                    return Err(format!(
-                        "RINEX {v:.2} navigation file: this reader decodes RINEX 3.0x \
-                         navigation records only"
-                    ));
-                }
+                declared = Some(v);
             }
         }
         let done = line.contains("END OF HEADER");
@@ -240,6 +263,18 @@ pub fn parse_nav(text: &str) -> Result<Vec<RinexEphemeris>, String> {
         if done {
             break;
         }
+    }
+    let rinex4 = match declared {
+        Some(v) => v >= 4.0,
+        // No declared version: the record layout itself decides. RINEX 4 is the
+        // only navigation layout whose first record line begins with '>'.
+        None => lines[i..]
+            .iter()
+            .find(|l| !l.trim().is_empty())
+            .is_some_and(|l| l.starts_with('>')),
+    };
+    if rinex4 {
+        return parse_nav_v4(&lines, i, opts);
     }
     let mut out = Vec::new();
     while i < lines.len() {
@@ -249,7 +284,8 @@ pub fn parse_nav(text: &str) -> Result<Vec<RinexEphemeris>, String> {
             continue;
         }
         if head.starts_with('>') {
-            // Reached even when the header is absent or does not declare a version.
+            // A RINEX 3 file (or a headerless body that did not start as RINEX 4)
+            // with a RINEX 4 record header in it: walking on would desynchronise.
             return Err(format!(
                 "unsupported navigation record header {head:?}: a line beginning with \
                  '>' is a RINEX 4 record header, not a RINEX 3 navigation record"
@@ -270,66 +306,146 @@ pub fn parse_nav(text: &str) -> Result<Vec<RinexEphemeris>, String> {
             .trim()
             .parse()
             .map_err(|_| format!("bad PRN in {head:?}"))?;
-        if system == 'C' && is_beidou_geo(prn) {
-            // BeiDou GEO uses a different rotation; skip until it can be validated.
+        if system == 'C' && is_beidou_geo(prn) && !opts.include_beidou_geo {
+            // BeiDou GEO uses a different rotation; skipped unless asked for.
             i += nlines;
             continue;
         }
-        let toc = EpochUtc {
-            year: col(head, 4, 8).trim().parse().map_err(|_| "bad year")?,
-            month: col(head, 9, 11).trim().parse().map_err(|_| "bad month")?,
-            day: col(head, 12, 14).trim().parse().map_err(|_| "bad day")?,
-            hour: col(head, 15, 17).trim().parse().map_err(|_| "bad hour")?,
-            minute: col(head, 18, 20).trim().parse().map_err(|_| "bad minute")?,
-            second: parse_d(col(head, 21, 23))?,
-        };
-        let af0 = parse_d(col(head, 23, 42))?;
-        let af1 = parse_d(col(head, 42, 61))?;
-        let af2 = parse_d(col(head, 61, 80))?;
-
-        let l1 = orbit_fields(lines[i + 1])?;
-        let l2 = orbit_fields(lines[i + 2])?;
-        let l3 = orbit_fields(lines[i + 3])?;
-        let l4 = orbit_fields(lines[i + 4])?;
-        let l5 = orbit_fields(lines[i + 5])?;
-        let l6 = orbit_fields(lines[i + 6])?;
-        let l7 = orbit_fields(lines[i + 7])?;
-
-        out.push(RinexEphemeris {
-            system,
-            prn,
-            toc,
-            af0,
-            af1,
-            af2,
-            iode: l1[0],
-            crs: l1[1],
-            delta_n: l1[2],
-            m0: l1[3],
-            cuc: l2[0],
-            e: l2[1],
-            cus: l2[2],
-            sqrt_a: l2[3],
-            toe: l3[0],
-            cic: l3[1],
-            omega0: l3[2],
-            cis: l3[3],
-            i0: l4[0],
-            crc: l4[1],
-            omega: l4[2],
-            omega_dot: l4[3],
-            idot: l5[0],
-            data_sources: l5[1],
-            gps_week: l5[2],
-            sv_accuracy: l6[0],
-            sv_health: l6[1],
-            tgd: l6[2],
-            iodc: l6[3],
-            trans_time: l7[0],
-        });
+        out.push(decode_keplerian_record(system, prn, &lines[i..i + 8])?);
         i += nlines;
     }
     Ok(out)
+}
+
+/// Whether a RINEX 4 `EPH` record of satellite system `system` and message type
+/// `msg` carries the legacy Keplerian broadcast message that maps onto
+/// [`RinexEphemeris`] with the RINEX 3 field layout.
+fn is_v4_keplerian_message(system: char, msg: &str) -> bool {
+    matches!(
+        (system, msg),
+        ('G', "LNAV") | ('E', "INAV") | ('E', "FNAV") | ('C', "D1") | ('C', "D2") | ('J', "LNAV")
+    )
+}
+
+/// The RINEX 4 record walk, starting at line `i` (the first line after the
+/// header). See [`parse_nav_with`].
+fn parse_nav_v4(
+    lines: &[&str],
+    mut i: usize,
+    opts: NavParseOptions,
+) -> Result<Vec<RinexEphemeris>, String> {
+    let mut out = Vec::new();
+    while i < lines.len() {
+        let head = lines[i];
+        if head.trim().is_empty() {
+            i += 1;
+            continue;
+        }
+        if !head.starts_with('>') {
+            return Err(format!(
+                "RINEX 4 navigation: expected a '>' record header, found {head:?}"
+            ));
+        }
+        // The record body runs to the next '>' line (or the end of the file).
+        let mut j = i + 1;
+        while j < lines.len() && !lines[j].starts_with('>') {
+            j += 1;
+        }
+        let body = &lines[i + 1..j];
+        let mut tokens = head[1..].split_whitespace();
+        let rtype = tokens.next().unwrap_or("");
+        let sv = tokens.next().unwrap_or("");
+        let msg = tokens.next().unwrap_or("");
+        let system = sv.chars().next().unwrap_or(' ');
+        if rtype == "EPH" && is_v4_keplerian_message(system, msg) {
+            let prn: u8 = sv
+                .get(1..)
+                .and_then(|p| p.trim().parse().ok())
+                .ok_or_else(|| format!("bad PRN in {head:?}"))?;
+            let skip_geo = system == 'C' && is_beidou_geo(prn) && !opts.include_beidou_geo;
+            if !skip_geo {
+                if body.len() < 8 {
+                    if j == lines.len() {
+                        // An incomplete trailing record cannot be read.
+                        break;
+                    }
+                    return Err(format!(
+                        "RINEX 4 record {head:?} has {} lines, a {msg} ephemeris needs 8",
+                        body.len()
+                    ));
+                }
+                // The SV/epoch line must name the satellite of its record header.
+                if col(body[0], 0, 3) != sv {
+                    return Err(format!(
+                        "RINEX 4 record {head:?} is followed by {:?}, not {sv}",
+                        body[0]
+                    ));
+                }
+                out.push(decode_keplerian_record(system, prn, &body[..8])?);
+            }
+        }
+        i = j;
+    }
+    Ok(out)
+}
+
+/// Decode one eight-line Keplerian navigation record (the SV/epoch line plus
+/// seven `BROADCAST ORBIT` lines, RINEX 3 layout — also the body layout of the
+/// RINEX 4 `LNAV`/`INAV`/`FNAV`/`D1`/`D2` records) for satellite `system`/`prn`.
+fn decode_keplerian_record(system: char, prn: u8, rec: &[&str]) -> Result<RinexEphemeris, String> {
+    let head = rec[0];
+    let toc = EpochUtc {
+        year: col(head, 4, 8).trim().parse().map_err(|_| "bad year")?,
+        month: col(head, 9, 11).trim().parse().map_err(|_| "bad month")?,
+        day: col(head, 12, 14).trim().parse().map_err(|_| "bad day")?,
+        hour: col(head, 15, 17).trim().parse().map_err(|_| "bad hour")?,
+        minute: col(head, 18, 20).trim().parse().map_err(|_| "bad minute")?,
+        second: parse_d(col(head, 21, 23))?,
+    };
+    let af0 = parse_d(col(head, 23, 42))?;
+    let af1 = parse_d(col(head, 42, 61))?;
+    let af2 = parse_d(col(head, 61, 80))?;
+
+    let l1 = orbit_fields(rec[1])?;
+    let l2 = orbit_fields(rec[2])?;
+    let l3 = orbit_fields(rec[3])?;
+    let l4 = orbit_fields(rec[4])?;
+    let l5 = orbit_fields(rec[5])?;
+    let l6 = orbit_fields(rec[6])?;
+    let l7 = orbit_fields(rec[7])?;
+
+    Ok(RinexEphemeris {
+        system,
+        prn,
+        toc,
+        af0,
+        af1,
+        af2,
+        iode: l1[0],
+        crs: l1[1],
+        delta_n: l1[2],
+        m0: l1[3],
+        cuc: l2[0],
+        e: l2[1],
+        cus: l2[2],
+        sqrt_a: l2[3],
+        toe: l3[0],
+        cic: l3[1],
+        omega0: l3[2],
+        cis: l3[3],
+        i0: l4[0],
+        crc: l4[1],
+        omega: l4[2],
+        omega_dot: l4[3],
+        idot: l5[0],
+        data_sources: l5[1],
+        gps_week: l5[2],
+        sv_accuracy: l6[0],
+        sv_health: l6[1],
+        tgd: l6[2],
+        iodc: l6[3],
+        trans_time: l7[0],
+    })
 }
 
 /// Whole weeks from the GPS epoch (1980-01-06) to the BeiDou time epoch
@@ -475,7 +591,7 @@ impl RinexEphemeris {
         // Kepler's equation M = E − e·sin E, solved by Newton iteration.
         let mut ek = mk;
         for _ in 0..30 {
-            let d = (ek - self.e * ek.sin() - mk) / (1.0 - self.e * ek.cos());
+            let d = (ek - self.e * ek.psin() - mk) / (1.0 - self.e * ek.pcos());
             ek -= d;
             if d.abs() < 1e-13 {
                 break;
@@ -498,7 +614,7 @@ impl RinexEphemeris {
             dt += 604_800.0;
         }
         let (_, ek) = self.tk_and_eccentric_anomaly(t_tow_s);
-        let dtr = F_REL * self.e * self.sqrt_a * ek.sin();
+        let dtr = F_REL * self.e * self.sqrt_a * ek.psin();
         self.af0 + self.af1 * dt + self.af2 * dt * dt + dtr
     }
 
@@ -508,25 +624,86 @@ impl RinexEphemeris {
     /// the second-harmonic argument-of-latitude / radius / inclination
     /// corrections, then rotate the in-plane position into the Earth-fixed frame
     /// accounting for Earth rotation since the reference time.
+    ///
+    /// A BeiDou geostationary record (only present when parsed with
+    /// [`NavParseOptions::include_beidou_geo`]) is evaluated with the BeiDou GEO
+    /// algorithm instead, [`Self::sv_position_ecef_bds_geo`] with the tilt applied.
     pub fn sv_position_ecef(&self, t_tow_s: f64) -> [f64; 3] {
+        if self.is_beidou_geo() {
+            return self.sv_position_ecef_bds_geo(t_tow_s, true);
+        }
+        let (tk, xp, yp, i) = self.orbital_plane_position(t_tow_s);
+        // Corrected longitude of the ascending node (Earth-fixed).
+        let omega_e = self.earth_rotation_rate();
+        let omega_k = self.omega0 + (self.omega_dot - omega_e) * tk - omega_e * self.toe;
+        let (so, co) = (omega_k.psin(), omega_k.pcos());
+        let ci = i.pcos();
+        [
+            xp * co - yp * ci * so,
+            xp * so + yp * ci * co,
+            yp * i.psin(),
+        ]
+    }
+
+    /// Whether this is a BeiDou geostationary satellite (`C01–C05`, `C59–C63`),
+    /// whose broadcast elements refer to a frame tilted by 5° (see
+    /// [`Self::sv_position_ecef_bds_geo`]).
+    pub fn is_beidou_geo(&self) -> bool {
+        self.system == 'C' && is_beidou_geo(self.prn)
+    }
+
+    /// The shared first half of the IS-GPS-200 / BDS user algorithm: time from
+    /// `Toe` (s), the corrected in-plane position `(x'ₖ, y'ₖ)` (m), and the
+    /// corrected inclination `iₖ` (rad) at time of week `t_tow_s`.
+    fn orbital_plane_position(&self, t_tow_s: f64) -> (f64, f64, f64, f64) {
         let a = self.semi_major_axis();
         let (tk, ek) = self.tk_and_eccentric_anomaly(t_tow_s);
-        let nu = ((1.0 - self.e * self.e).sqrt() * ek.sin()).atan2(ek.cos() - self.e);
+        let nu = ((1.0 - self.e * self.e).sqrt() * ek.psin()).patan2(ek.pcos() - self.e);
         let phi = nu + self.omega;
-        let (s2, c2) = ((2.0 * phi).sin(), (2.0 * phi).cos());
+        let (s2, c2) = ((2.0 * phi).psin(), (2.0 * phi).pcos());
         let du = self.cus * s2 + self.cuc * c2;
         let dr = self.crs * s2 + self.crc * c2;
         let di = self.cis * s2 + self.cic * c2;
         let u = phi + du;
-        let r = a * (1.0 - self.e * ek.cos()) + dr;
+        let r = a * (1.0 - self.e * ek.pcos()) + dr;
         let i = self.i0 + di + self.idot * tk;
-        let (xp, yp) = (r * u.cos(), r * u.sin());
-        // Corrected longitude of the ascending node (Earth-fixed).
+        (tk, r * u.pcos(), r * u.psin(), i)
+    }
+
+    /// BeiDou geostationary (GEO) satellite position (m, CGCS2000 ECEF) at BDT
+    /// time of week `t_tow_s`, per the BeiDou SIS ICD (BDS-SIS-ICD-B1I v3.0,
+    /// section 5.2.4.12, Table 5-11): the node longitude omits Earth rotation
+    /// since `Toe`, `Ωₖ = Ω₀ + Ω̇·tₖ − Ω̇ₑ·Toe`, giving a position `(X_GK, Y_GK,
+    /// Z_GK)` in a frame that is then rotated into ECEF by
+    /// `R_Z(Ω̇ₑ·tₖ) · R_X(−5°)`, with `R_X(φ) = [[1,0,0],[0,cos φ,sin φ],
+    /// [0,−sin φ,cos φ]]` and `R_Z(φ) = [[cos φ,sin φ,0],[−sin φ,cos φ,0],[0,0,1]]`.
+    ///
+    /// `apply_minus_5deg_tilt = false` omits the `R_X(−5°)` step (keeping
+    /// `R_Z`); it exists only so a test can show that the tilt is load-bearing.
+    /// The function evaluates any record with the GEO algorithm, whatever its PRN.
+    pub fn sv_position_ecef_bds_geo(&self, t_tow_s: f64, apply_minus_5deg_tilt: bool) -> [f64; 3] {
+        let (tk, xp, yp, i) = self.orbital_plane_position(t_tow_s);
         let omega_e = self.earth_rotation_rate();
-        let omega_k = self.omega0 + (self.omega_dot - omega_e) * tk - omega_e * self.toe;
-        let (so, co) = (omega_k.sin(), omega_k.cos());
-        let ci = i.cos();
-        [xp * co - yp * ci * so, xp * so + yp * ci * co, yp * i.sin()]
+        let omega_k = self.omega0 + self.omega_dot * tk - omega_e * self.toe;
+        let (so, co) = (omega_k.psin(), omega_k.pcos());
+        let ci = i.pcos();
+        let g = [
+            xp * co - yp * ci * so,
+            xp * so + yp * ci * co,
+            yp * i.psin(),
+        ];
+        // R_X(-5°): phi = -5°, so cos phi = cos 5°, sin phi = -sin 5°.
+        let r = if apply_minus_5deg_tilt {
+            let (sf, cf) = (
+                (-5.0_f64).to_radians().psin(),
+                (-5.0_f64).to_radians().pcos(),
+            );
+            [g[0], cf * g[1] + sf * g[2], -sf * g[1] + cf * g[2]]
+        } else {
+            g
+        };
+        let (sz, cz) = ((omega_e * tk).psin(), (omega_e * tk).pcos());
+        [cz * r[0] + sz * r[1], -sz * r[0] + cz * r[1], r[2]]
     }
 
     /// The UT1 Julian Date of time-of-week `t_tow_s` in this ephemeris's week.
@@ -733,8 +910,8 @@ G01 2023 01 01 00 00 00 4.567890123456D-04 1.136868377216D-12 0.000000000000D+00
         let dt = 1.0;
         let a = eph.sv_position_ecef(eph.toe);
         let b = eph.sv_position_ecef(eph.toe + dt);
-        let v =
-            (((b[0] - a[0]).powi(2) + (b[1] - a[1]).powi(2) + (b[2] - a[2]).powi(2)).sqrt()) / dt;
+        let v = (((b[0] - a[0]).ppowi(2) + (b[1] - a[1]).ppowi(2) + (b[2] - a[2]).ppowi(2)).sqrt())
+            / dt;
         assert!((3.0e3..4.5e3).contains(&v), "ECEF speed {v:.1} m/s");
     }
 
@@ -765,23 +942,96 @@ G01 2023 01 01 00 00 00 4.567890123456D-04 1.136868377216D-12 0.000000000000D+00
         assert!(parse_d(NON_ASCII_COLUMN).is_err());
     }
 
-    #[test]
-    fn rinex_4_navigation_is_refused_rather_than_silently_mis_walked() {
-        // RINEX 4 precedes every navigation record with a `> EPH G01 LNAV` line.
-        // A RINEX 3 reader does not recognise it, swallows it as data, and
-        // desynchronises from there: on a real 4.00 file that turned 11 decoded
-        // satellites into 2 built from misaligned lines, with exit code 0 and no
-        // warning. Both the declared version and the record marker must refuse.
-        let v4 = SAMPLE.replacen("3.04", "4.00", 1);
-        let err = parse_nav(&v4).expect_err("a RINEX 4.00 header is refused");
-        assert!(err.contains("RINEX 4.00"), "{err}");
-
-        // A slice whose header does not declare a version still trips on the
-        // record marker itself.
+    /// The SAMPLE body as a RINEX 4.02 file: a `> EPH G01 LNAV` record header in
+    /// front of the same eight lines, preceded by records this reader skips.
+    fn sample_v4() -> String {
         let body = SAMPLE.lines().skip(2).collect::<Vec<_>>().join("\n");
-        let headerless = format!("{:60}END OF HEADER\n> EPH G01 LNAV\n{body}", "");
-        let err = parse_nav(&headerless).expect_err("a '>' record header is refused");
+        format!(
+            "     4.02           NAVIGATION DATA     M                   RINEX VERSION / TYPE\n\
+             https://doi.org/10.0000/example                             DOI\n\
+                    1                                                    MERGED FILE\n\
+                                                                         END OF HEADER\n\
+             > STO C30 CNVX\n    2023 01 01 00 20 00 BDGA\n     \
+             6.048300000000e+05-1.504668034613e-08 3.730349362741e-14 2.134523027081e-19\n\
+             > ION G01 LNAV\n    2023 01 01 00 00 00 7.4506e-09\n\
+             > EPH G01 LNAV\n{body}\n"
+        )
+    }
+
+    #[test]
+    fn rinex_4_navigation_records_parse_like_their_rinex_3_counterpart() {
+        // RINEX 4 precedes every navigation record with a `> TYPE SV MSG` line; a
+        // fixed-line-count walk would swallow it and desynchronise. The v4 walk
+        // reads the record header, skips STO/ION, and decodes the LNAV body with
+        // the RINEX 3 field map.
+        let v3 = parse_nav(SAMPLE).unwrap();
+        let v4 = parse_nav(&sample_v4()).expect("a RINEX 4.02 file parses");
+        assert_eq!(v4.len(), 1);
+        assert_eq!(v4[0].prn, v3[0].prn);
+        assert_eq!(v4[0].sqrt_a, v3[0].sqrt_a);
+        assert_eq!(v4[0].trans_time, v3[0].trans_time);
+        assert_eq!(
+            v4[0].sv_position_ecef(v4[0].toe),
+            v3[0].sv_position_ecef(v3[0].toe)
+        );
+        // A header that declares no version, followed by a '>' record, is RINEX 4 too.
+        let unversioned = sample_v4().lines().skip(1).collect::<Vec<_>>().join("\n");
+        assert_eq!(parse_nav(&unversioned).unwrap().len(), 1);
+    }
+
+    #[test]
+    fn a_rinex_4_record_header_inside_a_rinex_3_file_is_still_refused() {
+        // The desynchronisation guard stays for a file that declares RINEX 3.
+        let body = SAMPLE.lines().skip(2).collect::<Vec<_>>().join("\n");
+        let head = SAMPLE.lines().take(2).collect::<Vec<_>>().join("\n");
+        let text = format!("{head}\n> EPH G01 LNAV\n{body}");
+        let err = parse_nav(&text).expect_err("a '>' record in a 3.04 file is refused");
         assert!(err.contains("RINEX 4 record header"), "{err}");
+    }
+
+    #[test]
+    fn rinex_4_skips_unread_messages_and_checks_the_record_satellite() {
+        // A CNAV record (nine lines) is skipped to the next '>' header, not by a
+        // line count.
+        let body = SAMPLE.lines().skip(2).collect::<Vec<_>>().join("\n");
+        let cnav = format!("> EPH G01 CNAV\n{body}\n     0.0e+00\n");
+        let text = sample_v4().replace("> EPH G01 LNAV\n", &format!("{cnav}> EPH G01 LNAV\n"));
+        assert_eq!(parse_nav(&text).unwrap().len(), 1);
+        // A record header that names a different satellite from its body is an error.
+        let bad = sample_v4().replace("> EPH G01 LNAV", "> EPH G02 LNAV");
+        assert!(parse_nav(&bad).is_err());
+        // A truncated record before the next header is an error, not a mis-read.
+        let short =
+            sample_v4().replace("> EPH G01 LNAV\n", "> EPH G01 LNAV\nG01\n> EPH G01 LNAV\n");
+        assert!(parse_nav(&short).is_err());
+    }
+
+    #[test]
+    fn beidou_geo_records_are_opt_in_and_use_the_geo_algorithm() {
+        let geo = SAMPLE
+            .replace("G01 2023 01 01 00 00 00", "C03 2023 01 01 00 00 00")
+            .replace("5.153679868698D+03", "6.493433441162D+03");
+        // Default: skipped, exactly as before.
+        assert!(parse_nav(&geo).unwrap().is_empty());
+        let opts = NavParseOptions {
+            include_beidou_geo: true,
+        };
+        let ephs = parse_nav_with(&geo, opts).unwrap();
+        assert_eq!(ephs.len(), 1);
+        let e = &ephs[0];
+        assert!(e.is_beidou_geo());
+        let p = e.sv_position_ecef(e.toe + 600.0);
+        assert_eq!(p, e.sv_position_ecef_bds_geo(e.toe + 600.0, true));
+        // At tk = 0 the R_Z step is the identity, so the tilt alone separates the
+        // two; the radius is rotation-invariant.
+        let t = e.sv_position_ecef_bds_geo(e.toe, true);
+        let u = e.sv_position_ecef_bds_geo(e.toe, false);
+        let norm = |v: [f64; 3]| (v[0] * v[0] + v[1] * v[1] + v[2] * v[2]).sqrt();
+        assert!((norm(t) - norm(u)).abs() < 1e-6);
+        assert!((t[0] - u[0]).abs() < 1e-6);
+        assert!(norm([t[0] - u[0], t[1] - u[1], t[2] - u[2]]) > 1.0e6);
+        // A MEO record is untouched by the GEO dispatch.
+        assert!(!parse_nav(SAMPLE).unwrap()[0].is_beidou_geo());
     }
 
     #[test]
@@ -834,8 +1084,8 @@ G01 2023 01 01 00 00 00 4.567890123456D-04 1.136868377216D-12 0.000000000000D+00
         let eph = &parse_nav(SAMPLE).unwrap()[0];
         let ecef = eph.sv_position_ecef(eph.toe);
         let teme = eph.sv_position_teme(eph.toe);
-        let r_ecef = (ecef[0].powi(2) + ecef[1].powi(2) + ecef[2].powi(2)).sqrt();
-        let r_teme = (teme[0].powi(2) + teme[1].powi(2) + teme[2].powi(2)).sqrt();
+        let r_ecef = (ecef[0].ppowi(2) + ecef[1].ppowi(2) + ecef[2].ppowi(2)).sqrt();
+        let r_teme = (teme[0].ppowi(2) + teme[1].ppowi(2) + teme[2].ppowi(2)).sqrt();
         assert!(
             (r_ecef - r_teme).abs() < 1e-3,
             "ECEF {r_ecef:.3} vs TEME {r_teme:.3}"

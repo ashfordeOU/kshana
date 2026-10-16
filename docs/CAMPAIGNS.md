@@ -101,9 +101,9 @@ table. The jammers are the ones in `scenarios/l-band-waterfall-jamming.toml`.
 
 | Phase | Runs | What the timeline shows |
 |---|---|---|
-| onset, ended at 10 s by `end_at` | `clock`, `spectrum` (chirp from 10 s), `integrity` | L1 C/A 43.48 and E1 44.98 dB-Hz; the phase ends at the spectrum run's own first loss of L1 C/A (`timeline.bands[0].first_loss_t_s`); protection level 21.6 m against 50 m |
-| holdover, 600 s | `clock` (denied, carries the onset error, 0 ns here), `spectrum` (chirp on) | L1 C/A 3.38 and E1 4.69 dB-Hz, both below the 25 dB-Hz floor; time error -0.07 to 5.06 ns against the 50 ns guard; alarm up |
-| galileo-fallback, 300 s | `clock` (re-synchronised), `spectrum` (CW tone on the L1 carrier), `integrity` on a Galileo-like Walker 24/3/1 | L1 C/A held at 17.98 dB-Hz, E1 back to 44.98 dB-Hz; protection level 6.1 to 17.7 m; alarm quiet |
+| onset, ended at 10 s by `end_at` | `clock`, `spectrum` (chirp from 10 s), `integrity` | L1 C/A 43.48 and E1 44.73 dB-Hz; the phase ends at the spectrum run's own first loss of L1 C/A (`timeline.bands[0].first_loss_t_s`); protection level 21.6 m against 50 m |
+| holdover, 600 s | `clock` (denied, carries the onset error, 0 ns here), `spectrum` (chirp on) | L1 C/A 3.38 and E1 4.44 dB-Hz, both below the 25 dB-Hz floor; time error -0.07 to 5.06 ns against the 50 ns guard; alarm up |
+| galileo-fallback, 300 s | `clock` (re-synchronised), `spectrum` (CW tone on the L1 carrier), `integrity` on a Galileo-like Walker 24/3/1 | L1 C/A held at 17.98 dB-Hz, E1 back to 44.73 dB-Hz; protection level 6.1 to 17.7 m; alarm quiet |
 
 E1 recovering under the CW tone rests on the spectrum kind's continuous-spectrum
 treatment: the tone sits in the null of the MBOC spectrum and couples nothing. A real tone
@@ -144,6 +144,35 @@ largest and mean value across the members, naming the best and worst.
 the Gulf of Finland (about 30 km away) and a car on a Helsinki coast road (about 50 km):
 the ship loses every satellite (mean jammer-to-signal ratio 39.0 dB) while the car keeps
 at least four (34.6 dB).
+
+## `[optimize]`: the best value of one metric
+
+One to three dotted scenario keys, each bounded to `[lo, hi]` on a `lin` or `log` scale, are
+searched for the best value of one metric (`goal = "minimize"`, `"maximize"`, or `"target"`,
+which minimises the distance from `target`).
+
+There are two methods:
+* `method = "grid"` runs every node of a `steps`-per-key grid, on the sweep's axis values.
+* `method = "nelder-mead"` (the default) runs a deterministic Nelder–Mead simplex in
+  coordinates normalised to [0, 1] per key. Trial points are projected onto the box. The
+  section takes `max_evals`, an initial `step`, and the stopping tolerances `ftol` and
+  `xtol`.
+
+A run whose metric is absent or non-finite scores worst, and it is kept in the trace. With
+`runs > 1`, the metric is the mean over the same seeds at every evaluation. The result gives
+`best_coords`, `best_metric`, `best_score`, `evals`, `stop_reason`, and every evaluation in
+`trace`.
+
+`scenarios/campaign-optimize-link-budget.toml` searches range and data rate for a 3 dB link
+margin. The optimum is local to the box and the start. It is MODELLED, never a global claim.
+
+The protocol and its pre-registered bars are in `docs/design/evidence/cap32-optimize/`. The
+test is `tests/campaign_optimize_reference.rs`. The results:
+* a 1-D target solve agrees with the closed form to 6e-15;
+* the grid method agrees bit for bit with an independent brute-force loop;
+* the simplex does at least as well as the 41 × 41 grid, in about a tenth of its runs.
+
+Round 1's 1-D bar is recorded NOT MET: the pre-registered box excluded the solution.
 
 ## Reproducibility
 

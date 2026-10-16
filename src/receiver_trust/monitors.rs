@@ -19,6 +19,7 @@
 //! only from the calibration window at the start of the log, so nothing is tuned on the
 //! events being scored. Outputs are deterministic: ordered maps and sets only.
 
+use crate::portable_math::PortableFloat;
 use std::collections::{BTreeMap, BTreeSet};
 
 use serde::{Deserialize, Serialize};
@@ -124,7 +125,40 @@ pub struct MonitorConfig {
     /// classes.
     #[serde(skip_deserializing, skip_serializing_if = "GeometryCfg::is_default")]
     pub geometry: GeometryCfg,
+    /// An optional stated skyline, from the scenario's top-level `[skyline]` section (the
+    /// shape of every other kind's, [`crate::skyline::SkylineCfg`]). With one, each epoch's
+    /// `open_fraction` is set and `sky-blocked` comes from the skyline (a satellite listed
+    /// behind it and not tracked is lost to the sky); without one (the default) the
+    /// azimuth-gap rule decides and every output is as before.
+    #[serde(skip_deserializing, skip_serializing_if = "Option::is_none")]
+    pub skyline: Option<crate::skyline::SkylineCfg>,
+    /// An opt-in threshold profile. `jammertest-2024-calibrated` replaces `cn0_drop_db`,
+    /// `agc_k_sigma` and `jam_ind_threshold` with [`JAMMERTEST_2024_CALIBRATED`] (whatever the
+    /// section states for those three); absent (the default), the stated or default thresholds.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub profile: Option<String>,
 }
+
+/// The `jammertest-2024-calibrated` thresholds `(cn0_drop_db, agc_k_sigma, jam_ind_threshold)`:
+/// the pre-registered selection (smallest grid value with pooled clean-epoch false-alarm
+/// probability at most 0.01) on the evaluable folders of the JammerTest 2024 dataset (Zenodo
+/// 15911589; one u-blox ZED-F9P per folder), `xval/jammertest-trust/RESULTS.md`. MODELLED, fitted
+/// on one public campaign: the `cn0_drop_db` threshold MISSED the pre-registered held-out
+/// false-alarm bar (0.0231 against 0.02); the other two and the union passed. Narrow: this
+/// receiver type at this event, against scheduled-slot truth.
+pub const JAMMERTEST_2024_CALIBRATED: (f64, f64, f64) = (1.5, 3.5, 29.0);
+
+/// The note a result carries when it was run with the `jammertest-2024-calibrated` profile.
+pub const PROFILE_NOTE: &str = "Thresholds from the opt-in profile jammertest-2024-calibrated \
+     (cn0_drop_db 1.5, agc_k_sigma 3.5, jam_ind_threshold 29): MODELLED, fitted on one public \
+     campaign (JammerTest 2024, one u-blox ZED-F9P per scenario, scheduled attack slots as \
+     truth). Its cn0_drop_db threshold MISSED the pre-registered held-out false-alarm bar \
+     (0.0231 against 0.02); the agc, jamming-indicator and union bars passed \
+     (xval/jammertest-trust/RESULTS.md). It may not carry over to another receiver, site or \
+     log format.";
+
+/// The profile names [`MonitorConfig::profile`] accepts.
+pub const THRESHOLD_PROFILES: &[&str] = &["jammertest-2024-calibrated"];
 
 impl Default for MonitorConfig {
     fn default() -> Self {
@@ -145,11 +179,48 @@ impl Default for MonitorConfig {
             score: ScoreCfg::default(),
             live: LiveCfg::default(),
             geometry: GeometryCfg::default(),
+            skyline: None,
+            profile: None,
         }
     }
 }
 
 impl MonitorConfig {
+    /// This configuration with its threshold profile applied (a copy only when one is set).
+    pub fn with_profile(&self) -> Result<std::borrow::Cow<'_, Self>, String> {
+        match self.profile.as_deref() {
+            None => Ok(std::borrow::Cow::Borrowed(self)),
+            Some("jammertest-2024-calibrated") => {
+                let (c, a, j) = JAMMERTEST_2024_CALIBRATED;
+                let mut out = self.clone();
+                out.cn0_drop_db = c;
+                out.agc_k_sigma = a;
+                out.jam_ind_threshold = j;
+                Ok(std::borrow::Cow::Owned(out))
+            }
+            Some(other) => Err(format!(
+                "monitor config: unknown profile \"{other}\"; known: {}",
+                THRESHOLD_PROFILES.join(", ")
+            )),
+        }
+    }
+
+    /// The stated skyline built from `[skyline]` (`None` without one); an error for a section
+    /// that does not describe one.
+    pub fn stated_skyline(&self) -> Result<Option<crate::skyline::Skyline>, String> {
+        crate::skyline::resolve(self.skyline.as_ref())
+    }
+
+    /// The geometry tracker of a run: the `[geometry]` thresholds held for the score's
+    /// evidence hold, under the stated skyline if any.
+    pub fn geometry_tracker(&self) -> GeometryTracker {
+        GeometryTracker::with_skyline(
+            &self.geometry,
+            self.score.evidence_hold_s,
+            self.stated_skyline().ok().flatten(),
+        )
+    }
+
     /// Reject parameters no monitor can use (non-finite, non-positive, out of range).
     pub fn validate(&self) -> Result<(), String> {
         self.platform.validate()?;
@@ -157,6 +228,7 @@ impl MonitorConfig {
         self.score.validate()?;
         self.live.validate()?;
         self.geometry.validate_with(self.score.degraded_min)?;
+        self.stated_skyline()?;
         let pos = |name: &str, v: f64| -> Result<(), String> {
             if v.is_finite() && v > 0.0 {
                 Ok(())
@@ -441,11 +513,11 @@ fn horizontal_offset_m(reference: (f64, f64, f64), fix: &ReportedFix) -> f64 {
         alt_m: h0,
     });
     let d = [p[0] - r[0], p[1] - r[1], p[2] - r[2]];
-    let (sl, cl) = lat0.to_radians().sin_cos();
-    let (so, co) = lon0.to_radians().sin_cos();
+    let (sl, cl) = lat0.to_radians().psin_cos();
+    let (so, co) = lon0.to_radians().psin_cos();
     let east = -so * d[0] + co * d[1];
     let north = -sl * co * d[0] - sl * so * d[1] + cl * d[2];
-    east.hypot(north)
+    east.phypot(north)
 }
 
 /// Whether the loss-of-lock monitor decides at this timeline epoch: when it carries a
@@ -576,7 +648,7 @@ fn engine_pass(
     let r = if ts.len() > 2 {
         ts.iter()
             .zip(&ys)
-            .map(|(t, y)| (y - (a + b * (t - t0))).powi(2))
+            .map(|(t, y)| (y - (a + b * (t - t0))).ppowi(2))
             .sum::<f64>()
             / (ts.len() as f64 - 2.0)
     } else {
@@ -702,6 +774,8 @@ pub fn run_monitors(
     engine: Option<EngineFixInput<'_>>,
     cfg: &MonitorConfig,
 ) -> Result<TrustResult, String> {
+    let resolved = cfg.with_profile()?;
+    let cfg: &MonitorConfig = &resolved;
     cfg.validate()?;
     if tl.epochs.iter().any(|e| !e.t_s.is_finite()) {
         return Err("receiver timeline has a non-finite epoch time".into());
@@ -758,7 +832,7 @@ pub fn run_monitors(
     let agc_mean = mean(&agc_cal);
     let agc_sd = agc_mean.map(|m| {
         let sd = if agc_cal.len() > 1 {
-            (agc_cal.iter().map(|x| (x - m).powi(2)).sum::<f64>() / (agc_cal.len() - 1) as f64)
+            (agc_cal.iter().map(|x| (x - m).ppowi(2)).sum::<f64>() / (agc_cal.len() - 1) as f64)
                 .sqrt()
         } else {
             0.0
@@ -852,7 +926,7 @@ pub fn run_monitors(
     let mut epochs = Vec::with_capacity(slots.len());
     let mut decided: Vec<BTreeSet<Monitor>> = Vec::with_capacity(slots.len());
     let mut held: BTreeMap<Monitor, (f64, f64)> = BTreeMap::new();
-    let mut geo = GeometryTracker::new(&cfg.geometry, cfg.score.evidence_hold_s);
+    let mut geo = cfg.geometry_tracker();
     // Satellites with a calibration baseline: a loss of lock is a loss of some of these.
     let baseline_sats: BTreeSet<String> = key_median.keys().map(|(sat, _)| sat.clone()).collect();
     // Whether the satellites lost at the last epoch that reported C/N0 were all low in the sky.
@@ -1193,6 +1267,34 @@ fn alarm_runs(
 
 #[cfg(test)]
 mod tests {
+
+    /// The opt-in profile replaces the three calibrated thresholds and nothing else; absent, the
+    /// configuration is used as it is; an unknown name is refused.
+    #[test]
+    fn threshold_profile_is_opt_in() {
+        let base = MonitorConfig::default();
+        assert!(matches!(
+            base.with_profile().unwrap(),
+            std::borrow::Cow::Borrowed(_)
+        ));
+        let p = MonitorConfig {
+            profile: Some("jammertest-2024-calibrated".into()),
+            ..MonitorConfig::default()
+        };
+        let r = p.with_profile().unwrap();
+        assert_eq!(
+            (r.cn0_drop_db, r.agc_k_sigma, r.jam_ind_threshold),
+            JAMMERTEST_2024_CALIBRATED
+        );
+        assert_eq!(r.calibration_s, base.calibration_s);
+        assert_eq!(r.sats_lost, base.sats_lost);
+        let bad = MonitorConfig {
+            profile: Some("nope".into()),
+            ..MonitorConfig::default()
+        };
+        assert!(bad.with_profile().is_err());
+    }
+
     use super::super::SatCn0;
     use super::*;
 

@@ -33,11 +33,18 @@ abstract: |
   Allan-deviation agreement with the NIST/Stable32 NBS14 reference, inertial
   error-growth agreement with the NaveGo reference profile, and force-model validation by
   ephemeris fitting that fits real ESA and NASA precise orbits to the decimetre level
-  (Galileo MEO 0.13 m, Swarm-A LEO 0.10 m), with the lunar case (LRO, 6.6 m) reported
+  (Galileo MEO 0.13 m, Swarm-A LEO 0.10 m), with the lunar case (LRO, 6.6 m [0.36 erratum: 6.67 m]) reported
   honestly above the 5 m bar. We close with worked
   resilience case studies, a candid account of the tool's limitations, and the roadmap.
 keywords: [PNT, GNSS, resilient navigation, quantum sensors, optical clocks, cold-atom interferometry, SGP4, reference frames, integrity, ARAIM, reproducibility, Rust, WebAssembly]
 ---
+
+> **Erratum (2026-10-13, release 0.36).** The lunar principal-axis orientation used by the LRO
+> fit applied the DE421 mean-Earth to principal-axis offset in the wrong direction (about 208″
+> off). With it fixed, the LRO figures in this report change: dynamic 12.6 m → 12.05 m,
+> reduced-dynamic 6.6 m → 6.67 m, raw overlap 53.8 m → 39.9 m. The statement that DE-grade inputs
+> improve the dynamic fit was an artefact of that error. The dated values below are kept and
+> marked; see `docs/revisions/FUT05B-lunar-me-pa-offset-cell-changes.md`.
 
 <!--
 This is the EXTENDED technical report. The concise JOSS submission paper lives in
@@ -388,7 +395,7 @@ medium- and low-Earth orbit, and a distinct Moon-centred regime:
 | --- | --- | --- | --- | --- | --- | --- |
 | Galileo E11 | MEO | ESA/ESOC `ESA0MGNFIN` (ITRF) | 97 | **0.13 m** | 0.07 m | < 5 m ✓ |
 | Swarm-A | LEO (~430 km) | ESA L2 `SW_OPER_SP3ACOM_2_` (~2 cm) | 181 | 2.69 m | **0.10 m** | < 5 m ✓ |
-| LRO (NAIF −85) | Lunar (~98 km) | JPL Horizons reconstruction [@giorgini1996horizons] | 241 | 12.6 m | **6.6 m** | honest, > 5 m |
+| LRO (NAIF −85) | Lunar (~98 km) | JPL Horizons reconstruction [@giorgini1996horizons] | 241 | 12.6 m [0.36: 12.05 m] | **6.6 m** [0.36: 6.67 m] | honest, > 5 m |
 
 For the Galileo medium-Earth orbit the pure-force (state + reflectivity) fit reaches
 **13 cm** against ESA/ESOC's final multi-GNSS orbit, and the empirical tier halves it to
@@ -399,7 +406,7 @@ Both Earth regimes clear the 5 m bar comfortably.
 
 The lunar case is reported **honestly above the bar**. Fitting the GRAIL field in the lunar
 body-fixed frame to a real Lunar Reconnaissance Orbiter arc from JPL Horizons gives a
-**12.6 m** dynamic and **6.6 m** reduced-dynamic (one- and two-per-rev) residual; the
+**12.6 m** dynamic and **6.6 m** reduced-dynamic (one- and two-per-rev) residual [0.36 erratum: 12.05 m and 6.67 m after the ME→PA offset fix; see the revisions entry]; the
 estimator is not the limit (the result is identical at field degree/order 100 and 150 and at
 integrator tolerance 1 × 10⁻⁶ versus 1 × 10⁻⁹). To identify what *does* set the floor we ran a
 **DE-grade cross-validation**: a workspace-excluded crate that swaps only the two analytic frame
@@ -500,7 +507,7 @@ We state the limits plainly, in keeping with the tool's honesty contract.
   integrity protection levels, for instance, are computed against modelled error
   distributions, not certified against real fault data.
 - **Selenocentric ephemeris fitting is above the bar, and the cause is now pinned.** The lunar ephemeris-fitting
-  residual (Section 5.4) is 6.6 m reduced-dynamic, *above* the 5 m bar the Earth datasets clear.
+  residual (Section 5.4) is 6.6 m [0.36 erratum: 6.67 m] reduced-dynamic, *above* the 5 m bar the Earth datasets clear.
   A DE-grade cross-validation (DE440 orientation and ephemeris via ANISE) showed the reduced-dynamic
   floor is *not* the analytic frame fidelity — DE-grade kernels leave it unchanged — but a residual
   the empirical tier cannot absorb, most consistent with the satellite's unmodelled
@@ -540,6 +547,29 @@ available at <https://kshana.dev> and on GitHub, under the AGPL-3.0 licence. Eac
 is archived on Zenodo with a citable DOI (10.5281/zenodo.20692259). All case-study figures
 in this report are reproducible from the cited scenario files with the engine version
 recorded in each output.
+
+# Erratum, 13 October 2026
+
+Release 0.36 (STUDIO-15) computes every transcendental function in the engine, and the normal, gamma
+and exponential random deviates, with the portable `libm` instead of the host's maths library, so
+that a native build and the browser build return byte-identical results. Two items in the data this
+report publishes moved in their last digits; neither changes a figure, a table, a bar or a conclusion.
+
+* `paper/crossover/inertial.json` (the data behind the inertial crossover figure): eight values of
+  `vibration_psd` (the nodes at index 8 modulo 9 and `vibration_psds[8]`) changed from
+  0.0008655334580025007 to 0.0008655334580025004, a relative change of 2.5e-16 (three units in the
+  last place). The file's `engine_version` stamp changed from 0.20.0 to 0.35.0 because it was
+  regenerated by the crate's `crossover_study` tool. `paper/crossover/clock.json` is unchanged. The
+  rendered figures are not re-rendered: they cannot differ at plotting precision.
+* The released `cislunar-observability` document (default scenario, as released): eight numbers moved
+  by more than a relative 5e-7, up to 6.8e-5, all round-off-floor quantities (singular values from
+  1e-9 to 1e-6 of the observability Gramian, a periodicity residual of 1e-10, a singular value that was
+  exactly 0.0 and is now 1.14e-9); the ranks and the arc-length threshold the paper reads from it are
+  unchanged. Its hashes in `src/cislunar_observability.rs`,
+  `tests/registry_golden.rs` and `tests/cislunar_arc_recovery_reference.rs` were re-pinned.
+
+Every value that moved is listed old to new in
+`docs/revisions/STUDIO15-portable-math-rebaseline.md`, which is the record of this change.
 
 # Acknowledgements
 

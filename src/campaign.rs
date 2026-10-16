@@ -5,8 +5,9 @@
 //! sequence of situations, and a design study is a family of them. The `campaign`
 //! kind composes the existing kinds without re-implementing any of them: every
 //! member is an ordinary scenario table carrying its own `kind`, dispatched through
-//! [`crate::api::run_toml`] exactly as the command-line interface would run it, and
-//! the campaign only reads numbers back out of the result documents.
+//! [`crate::api::run_toml_untiered`], which runs it as the command-line interface would
+//! but without the per-kind `figure_tiers` block, so a member's embedded document keeps
+//! its bytes. The campaign only reads numbers back out of the result documents.
 //!
 //! Four sections, any combination of which may appear in one campaign:
 //!
@@ -67,6 +68,11 @@ use serde_json::{Map, Value};
 use sha2::{Digest, Sha256};
 use std::collections::BTreeMap;
 
+mod optimize;
+pub use optimize::{
+    EvalOut, ObjectiveCfg, ObjectiveOut, OptimizeCfg, OptimizeOut, ParamCfg, ParamOut,
+};
+
 /// The honesty label every campaign document carries.
 pub const LABEL: &str = "MODELLED composition of existing scenario kinds. Every number \
      is read from a real run of the named kind; the chaining (additive carry of a \
@@ -126,6 +132,9 @@ pub struct CampaignScenario {
     /// Several scenarios run under shared conditions.
     #[serde(default)]
     pub compose: Option<ComposeCfg>,
+    /// A bounded search for the best value of one metric.
+    #[serde(default)]
+    pub optimize: Option<OptimizeCfg>,
 }
 
 /// The mission timeline grid.
@@ -433,6 +442,9 @@ pub struct CampaignResult {
     /// The shared-conditions results; present when the campaign has `[compose]`.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub compose: Option<ComposeOut>,
+    /// The optimisation results; present when the campaign has `[optimize]`.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub optimize: Option<OptimizeOut>,
 }
 
 /// The reproducibility stamp.
@@ -930,7 +942,7 @@ impl Ledger {
             return Err(format!("{label}: a campaign cannot contain a campaign"));
         }
         let src = toml::to_string(scn).map_err(|e| format!("{label}: serialise: {e}"))?;
-        let out = crate::api::run_toml(&src).map_err(|e| format!("{label}: {e}"))?;
+        let out = crate::api::run_toml_untiered(&src).map_err(|e| format!("{label}: {e}"))?;
         let doc: Value = serde_json::from_str(&out.json)
             .map_err(|e| format!("{label}: result did not parse: {e}"))?;
         let input = serde_json::to_value(scn).map_err(|e| format!("{label}: {e}"))?;
@@ -1758,6 +1770,7 @@ fn run_sweep(cfg: &SweepCfg, seed: u64, ledger: &mut Ledger) -> Result<SweepOut,
                 stop: a.stop,
                 steps: a.steps,
                 scale: a.scale.clone(),
+                unit: None,
             }
             .values()
         })
@@ -2104,6 +2117,12 @@ pub fn run_campaign_detailed(src: &str) -> Result<CampaignRun, String> {
         Some(c) => Some(run_compose(c, &mut ledger).map_err(|e| format!("compose: {e}"))?),
         None => None,
     };
+    let optimize = match &cfg.optimize {
+        Some(o) => {
+            Some(optimize::run_optimize(o, &mut ledger).map_err(|e| format!("optimize: {e}"))?)
+        }
+        None => None,
+    };
     let mut digest = Sha256::new();
     for (_, json) in &ledger.runs {
         digest.update(sha256_hex(json).as_bytes());
@@ -2125,6 +2144,7 @@ pub fn run_campaign_detailed(src: &str) -> Result<CampaignRun, String> {
         sweep,
         monte_carlo,
         compose,
+        optimize,
     };
     Ok(CampaignRun {
         result,
@@ -2387,6 +2407,9 @@ pub fn units(r: &CampaignResult) -> Value {
             );
         }
     }
+    if let Some(o) = &r.optimize {
+        optimize::add_units(&mut b, o);
+    }
     Value::Object(b.0)
 }
 
@@ -2442,9 +2465,18 @@ pub fn summary(r: &CampaignResult) -> String {
     if let Some(c) = &r.compose {
         parts.push(format!("compose: {} members", c.members.len()));
     }
-    if r.timeline.is_none() && r.sweep.is_none() && r.monte_carlo.is_none() && r.compose.is_none() {
+    if let Some(o) = &r.optimize {
+        parts.push(optimize::summary_part(o));
+    }
+    if r.timeline.is_none()
+        && r.sweep.is_none()
+        && r.monte_carlo.is_none()
+        && r.compose.is_none()
+        && r.optimize.is_none()
+    {
         parts.push(
-            "no [[phases]], [sweep], [monte_carlo] or [compose] section: nothing composed".into(),
+            "no [[phases]], [sweep], [monte_carlo], [compose] or [optimize] section: nothing composed"
+                .into(),
         );
     }
     parts.push(format!(

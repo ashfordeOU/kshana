@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
+// Host maths on purpose: this test recomputes its expected values independently of the engine's
+// portable maths (STUDIO-15), so the engine is checked against a second implementation.
 //! The `lunar-station-coverage` kind (src/lunar_station.rs) against what it is built from.
 //!
 //! It adds no physics, so the checks are reductions and invariants of the

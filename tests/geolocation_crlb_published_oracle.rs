@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
+// Host maths on purpose: this test recomputes its expected values independently of the engine's
+// portable maths (STUDIO-15), so the engine is checked against a second implementation.
 //! Passive emitter geolocation by time difference of arrival (TDOA) and frequency difference
 //! of arrival (FDOA) against the numbers Ho and Chan (1993) and Ho and Xu (2004) print.
 //!

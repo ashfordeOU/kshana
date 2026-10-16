@@ -31,11 +31,12 @@
 //! states. The GRAIL gravity fields (GRGM*) are strictly in the **principal-axis (PA)** frame, so
 //! [`icrf_to_moon_pa`] composes the analytic ME orientation with the fixed DE421 ME→PA offset
 //! (`moon_080317.tf`); that is the rotation lunar OD uses to evaluate the field. The remaining
-//! limit is that the *analytic* IAU libration series is itself an approximation (tens of arc-
-//! seconds) of the JPL DE numerically-integrated lunar libration (`MOON_PA` from a binary PCK),
-//! the higher-fidelity follow-on — the dominant residual in `tests/agency_lro.rs`, alongside the
-//! low-precision built-in ephemeris.
+//! limit is that the *analytic* IAU libration series is itself an approximation (about 6″ to 8″
+//! over 2014 to 2028) of the JPL DE numerically-integrated lunar libration (`MOON_PA` from a
+//! binary PCK); [`try_icrf_to_moon_pa_de440`] is the opt-in DE440 form (embedded series, 2014 to
+//! 2030).
 
+use crate::portable_math::PortableFloat;
 use crate::precession::{transpose, Mat3};
 
 /// Julian Date of the J2000.0 epoch (TT).
@@ -106,8 +107,8 @@ pub fn lunar_pole_ra_dec(jd_tdb: f64) -> (f64, f64) {
     let mut ra = 269.9949 + 0.0031 * t;
     let mut dec = 66.5392 + 0.0130 * t;
     for i in 0..13 {
-        ra += RA_AMP[i] * e[i].sin();
-        dec += DEC_AMP[i] * e[i].cos();
+        ra += RA_AMP[i] * e[i].psin();
+        dec += DEC_AMP[i] * e[i].pcos();
     }
     (ra.to_radians(), dec.to_radians())
 }
@@ -119,7 +120,7 @@ pub fn lunar_prime_meridian(jd_tdb: f64) -> f64 {
     let e = libration_args(t);
     let mut w = 38.3213 + 13.176_358_15 * d - 1.4e-12 * d * d;
     for i in 0..13 {
-        w += PM_AMP[i] * e[i].sin();
+        w += PM_AMP[i] * e[i].psin();
     }
     w.to_radians()
 }
@@ -127,19 +128,19 @@ pub fn lunar_prime_meridian(jd_tdb: f64) -> f64 {
 /// Frame rotation about +z by `theta` (rotates the coordinate axes; `crate::lunar::rot3`
 /// convention).
 fn rz(theta: f64) -> Mat3 {
-    let (s, c) = theta.sin_cos();
+    let (s, c) = theta.psin_cos();
     [[c, s, 0.0], [-s, c, 0.0], [0.0, 0.0, 1.0]]
 }
 
 /// Frame rotation about +x by `theta`.
 fn rx(theta: f64) -> Mat3 {
-    let (s, c) = theta.sin_cos();
+    let (s, c) = theta.psin_cos();
     [[1.0, 0.0, 0.0], [0.0, c, s], [0.0, -s, c]]
 }
 
 /// Frame rotation about +y by `theta`.
 fn ry(theta: f64) -> Mat3 {
-    let (s, c) = theta.sin_cos();
+    let (s, c) = theta.psin_cos();
     [[c, 0.0, -s], [0.0, 1.0, 0.0], [s, 0.0, c]]
 }
 
@@ -167,28 +168,49 @@ pub fn icrf_to_iau_moon(jd_tdb: f64) -> Mat3 {
     matmul(&matmul(&rz(w), &rx(half_pi - dec)), &rz(half_pi + ra))
 }
 
-/// The fixed DE421 rotation from the lunar **principal-axis (PA)** frame to the **mean-Earth
-/// (ME)** frame, `r_ME = R · r_PA`: the 1-2-3 Euler sequence (67.92″, 78.56″, 0.30″) about axes
-/// (3, 2, 1), transcribed from the NAIF frame kernel `moon_080317.tf` (`MOON_ME_DE421` relative
-/// to `MOON_PA_DE421`, `TKFRAME_31007`). SPICE `AXES = (3,2,1)` builds the matrix innermost-first,
-/// so `R = R_x(0.30″)·R_y(78.56″)·R_z(67.92″)` in the frame-rotation elementaries above.
-fn me_from_pa() -> Mat3 {
-    let a = (67.92_f64 / 3600.0).to_radians(); // about +z (axis 3), applied first
+/// The fixed DE421 rotation from the lunar **mean-Earth (ME)** frame to the **principal-axis
+/// (PA)** frame, `r_PA = R · r_ME`, transcribed from the NAIF frame kernel `moon_080317.tf`
+/// (`MOON_ME_DE421`, `TKFRAME_31007`, ANGLES 67.92″, 78.56″, 0.30″ about AXES 3, 2, 1, relative
+/// to `MOON_PA_DE421`). SPICE's Frames Required Reading defines the matrix that converts vectors
+/// from the TK frame (ME) to the RELATIVE frame (PA) as `[angle_1]_axis_1 [angle_2]_axis_2
+/// [angle_3]_axis_3`, so `R = R_z(67.92″)·R_y(78.56″)·R_x(0.30″)` in the frame-rotation
+/// elementaries above (which equal SPICE's). Checked against SPICE `pxform('MOON_ME', 'MOON_PA')`
+/// in `tests/lunar_me_pa_offset_spice_oracle.rs`. Until 0.36 the code built `R_x·R_y·R_z`, read
+/// it as PA→ME and applied its transpose, which put the analytic PA frame about 208″ from PA
+/// (`docs/design/evidence/fut05b-me-pa-offset-sign/`).
+fn pa_from_me() -> Mat3 {
+    let a = (67.92_f64 / 3600.0).to_radians(); // about +z (axis 3)
     let b = (78.56_f64 / 3600.0).to_radians(); // about +y (axis 2)
-    let c = (0.30_f64 / 3600.0).to_radians(); // about +x (axis 1), applied last
-    matmul(&matmul(&rx(c), &ry(b)), &rz(a))
+    let c = (0.30_f64 / 3600.0).to_radians(); // about +x (axis 1)
+    matmul(&matmul(&rz(a), &ry(b)), &rx(c))
 }
 
 /// The rotation from inertial ICRF/J2000 to the lunar **principal-axis (PA / DE421)** frame at
 /// `jd_tdb` — the frame the GRAIL GRGM gravity fields are defined in. The IAU mean-Earth
 /// orientation ([`icrf_to_iau_moon`]) composed with the fixed DE421 ME→PA offset
-/// ([`me_from_pa`] transposed): `r_PA = (ME→PA) · (ICRF→ME) · r_icrf`. Use this — not the bare
+/// ([`pa_from_me`]): `r_PA = (ME→PA) · (ICRF→ME) · r_icrf`. Use this — not the bare
 /// ME orientation — to evaluate a PA-frame lunar field, so the C₂₂ bulge sits at the right
-/// selenographic longitude (the ~arc-minute ME↔PA offset is otherwise a ~10 m along-track error
-/// over a few-revolution lunar arc).
+/// selenographic longitude. Against DE440 PA it is about 6″ to 8″ off over 2014 to 2028 (the
+/// analytic IAU 2015 series); [`try_icrf_to_moon_pa_de440`] is the opt-in DE-grade form.
 pub fn icrf_to_moon_pa(jd_tdb: f64) -> Mat3 {
-    let pa_from_me = transpose(&me_from_pa());
-    matmul(&pa_from_me, &icrf_to_iau_moon(jd_tdb))
+    matmul(&pa_from_me(), &icrf_to_iau_moon(jd_tdb))
+}
+
+/// The rotation from inertial ICRF/J2000 to the lunar **DE440 principal-axis** frame
+/// (`MOON_PA_DE440`) at `jd_tdb`, `r_PA = R · r_icrf`: the transpose of
+/// [`crate::lunar_orientation::try_de440_moon_pa`], the embedded daily DE440 series (checked
+/// against SPICE to 1.7e-6 rad). The opt-in DE-grade counterpart of [`icrf_to_moon_pa`], which
+/// stays the analytic default. The epoch is read as TT (TDB − TT is at most 1.7 ms, about 5e-9 rad
+/// of lunar rotation).
+///
+/// # Errors
+/// Outside the series span (2014-01-01 to 2030-12-31) it returns the span error; it never clamps
+/// to an end row and never falls back to the analytic orientation.
+pub fn try_icrf_to_moon_pa_de440(
+    jd_tdb: f64,
+) -> Result<Mat3, crate::lunar_orientation::OrientationSpanError> {
+    let t_jc = (jd_tdb - 2_451_545.0) / 36_525.0;
+    crate::lunar_orientation::try_de440_moon_pa(t_jc).map(|r| transpose(&r))
 }
 
 #[cfg(test)]
@@ -211,6 +233,23 @@ mod tests {
     /// (sub-second time error ⇒ sub-µas orientation error).
     fn jd_2022_001() -> f64 {
         2_459_580.5 // 2022-01-01 00:00 TT
+    }
+
+    #[test]
+    fn de440_pa_is_the_transpose_of_the_embedded_series_and_refuses_outside_it() {
+        // 2022-01-01 00:00 TDB: inside the 2014-2030 span. The in-crate DE440 rotation is exactly
+        // the transpose of lunar_orientation's body-to-inertial matrix at the same epoch.
+        let jd = 2_459_580.5;
+        let m = try_icrf_to_moon_pa_de440(jd).expect("inside the span");
+        let r = crate::lunar_orientation::de440_moon_pa((jd - 2_451_545.0) / 36_525.0);
+        for i in 0..3 {
+            for j in 0..3 {
+                assert_eq!(m[i][j], r[j][i]);
+            }
+        }
+        // Outside the span: an error, never a clamp or a silent fallback.
+        assert!(try_icrf_to_moon_pa_de440(2_451_545.0).is_err());
+        assert!(try_icrf_to_moon_pa_de440(2_470_000.5).is_err());
     }
 
     #[test]
@@ -245,7 +284,7 @@ mod tests {
         let (ra, dec) = lunar_pole_ra_dec(jd);
         let m = icrf_to_iau_moon(jd);
         let pole = [m[2][0], m[2][1], m[2][2]];
-        let want = [dec.cos() * ra.cos(), dec.cos() * ra.sin(), dec.sin()];
+        let want = [dec.pcos() * ra.pcos(), dec.pcos() * ra.psin(), dec.psin()];
         for k in 0..3 {
             assert!(
                 (pole[k] - want[k]).abs() < 1e-12,
@@ -295,8 +334,8 @@ mod tests {
             let m = icrf_to_iau_moon(jd);
             let bf = mat_vec(&m, earth_dir);
             let bf = [bf[0] / norm(bf), bf[1] / norm(bf), bf[2] / norm(bf)];
-            let lon = bf[1].atan2(bf[0]).to_degrees(); // selenographic longitude of sub-Earth pt
-            let lat = bf[2].asin().to_degrees();
+            let lon = bf[1].patan2(bf[0]).to_degrees(); // selenographic longitude of sub-Earth pt
+            let lat = bf[2].pasin().to_degrees();
             assert!(
                 lon.abs() < 10.0,
                 "day {day}: sub-Earth longitude {lon}° off near side (libration ≤ ~8°)"
@@ -366,7 +405,7 @@ mod tests {
         let mt = transpose(&m);
         let pole_icrf = mat_vec(&mt, [0.0, 0.0, 1.0]);
         let (ra, dec) = lunar_pole_ra_dec(jd);
-        let want = [dec.cos() * ra.cos(), dec.cos() * ra.sin(), dec.sin()];
+        let want = [dec.pcos() * ra.pcos(), dec.pcos() * ra.psin(), dec.psin()];
         for k in 0..3 {
             assert!((pole_icrf[k] - want[k]).abs() < 1e-12, "pole[{k}]");
         }

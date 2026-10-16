@@ -11,6 +11,7 @@ use kshana::nmea_synth::config::{TrainingScenario, KN_MPS};
 use kshana::nmea_synth::gen::{generate, Generated};
 use kshana::nmea_synth::stream::{self, Pace, Sink, TcpServer, UdpSink, WriterSink};
 use kshana::nmea_synth::track;
+use kshana::portable_math::PortableFloat;
 use kshana::receiver_trust::ingest::read_nmea;
 use std::io::Read;
 use std::net::{TcpStream, UdpSocket};
@@ -18,11 +19,12 @@ use std::path::PathBuf;
 use std::time::Duration;
 
 /// (name, epochs pinned in the golden excerpt)
-const SCENARIOS: [(&str, &[usize]); 4] = [
+const SCENARIOS: [(&str, &[usize]); 5] = [
     ("open-sea-jamming", &[0, 330, 500]),
     ("coastal-drag-off", &[0, 600]),
     ("port-approach-time-spoof", &[0, 700]),
     ("combined-event", &[0, 400, 900, 1500]),
+    ("fjord-natural-degradation", &[0, 600]),
 ];
 
 fn root() -> PathBuf {
@@ -393,7 +395,7 @@ fn relative_bearing_is_latched_at_onset_and_logged() {
             r.reported_lat_deg.unwrap().to_radians(),
             r.reported_lon_deg.unwrap().to_radians(),
         );
-        de.atan2(dn).to_degrees().rem_euclid(360.0)
+        de.patan2(dn).to_degrees().rem_euclid(360.0)
     };
     for t in [900.0, 1000.0, 1100.0, 1190.0] {
         assert!(

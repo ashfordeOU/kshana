@@ -27,9 +27,10 @@
 //! realise σ·DOP under the textbook model; it does not show that any receiver's error follows
 //! that model, and σ_UERE is an input.
 
+use crate::portable_distr::{Distribution, StandardNormal};
+use crate::portable_math::PortableFloat;
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
-use rand_distr::{Distribution, StandardNormal};
 use serde::Serialize;
 
 use crate::orbit::{dop, dop_cofactor, enu_basis, Dop};
@@ -225,7 +226,7 @@ pub fn run_geometry(
         .iter()
         .map(|&(el, az)| {
             let (el, az) = (el.to_radians(), az.to_radians());
-            let l = [el.cos() * az.sin(), el.cos() * az.cos(), el.sin()];
+            let l = [el.pcos() * az.psin(), el.pcos() * az.pcos(), el.psin()];
             [
                 user[0] + RANGE * (l[0] * east[0] + l[1] * north[0] + l[2] * up[0]),
                 user[1] + RANGE * (l[0] * east[1] + l[1] * north[1] + l[2] * up[1]),
@@ -255,14 +256,15 @@ pub fn run_geometry(
     let ranges: Vec<f64> = sats
         .iter()
         .map(|s| {
-            ((s[0] - user[0]).powi(2) + (s[1] - user[1]).powi(2) + (s[2] - user[2]).powi(2)).sqrt()
+            ((s[0] - user[0]).ppowi(2) + (s[1] - user[1]).ppowi(2) + (s[2] - user[2]).ppowi(2))
+                .sqrt()
         })
         .collect();
     let scale: Vec<f64> = dirs
         .iter()
         .map(|(el, _)| {
             if cfg.elevation_dependent_errors {
-                1.0 / el.to_radians().sin().max(0.05)
+                1.0 / el.to_radians().psin().max(0.05)
             } else {
                 1.0
             }
@@ -344,7 +346,7 @@ mod tests {
 
     #[test]
     fn the_ellipse_quantile_is_minus_two_ln_alpha() {
-        assert!((CHI2_2_95 - (-2.0 * 0.05_f64.ln())).abs() < 1e-12);
+        assert!((CHI2_2_95 - (-2.0 * 0.05_f64.pln())).abs() < 1e-12);
         assert!((crate::raim::chi2_quantile(0.95, 2.0) - CHI2_2_95).abs() < 1e-6);
     }
 

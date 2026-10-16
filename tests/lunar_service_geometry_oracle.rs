@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
+// Host maths on purpose: this test recomputes its expected values independently of the engine's
+// portable maths (STUDIO-15), so the engine is checked against a second implementation.
 //! Oracle test for the per-satellite look angles and slant range a lunar surface user sees
 //! (`lunar::selenographic_to_mcmf` and `lunar_service::topocentric`), against ANISE.
 //!

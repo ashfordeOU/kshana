@@ -23,8 +23,9 @@
 
 use kshana::cio::itrs_to_gcrs;
 use kshana::eop::EopSeries;
+use kshana::portable_math::PortableFloat;
 use kshana::precise_od::{fit, EstimatedParams, FitConfig, Observation, PreciseForceModel};
-use kshana::sp3::parse_sp3;
+use kshana::sp3::{parse_sp3, parse_sp3_accuracy};
 use kshana::timescales::{gps_to_tt, julian_date};
 
 const SP3: &str = include_str!("fixtures/agency/swarm/SW_OPER_SP3ACOM_2_L47_2022001_3h.sp3");
@@ -99,7 +100,7 @@ fn raw_overlap_rms(
     let sumsq: f64 = obs
         .iter()
         .zip(&pred)
-        .map(|(o, r)| (0..3).map(|k| (r[k] - o.pos[k]).powi(2)).sum::<f64>())
+        .map(|(o, r)| (0..3).map(|k| (r[k] - o.pos[k]).ppowi(2)).sum::<f64>())
         .sum();
     (sumsq / obs.len() as f64).sqrt()
 }
@@ -210,19 +211,37 @@ fn swarm_a_leo_reduced_dynamic_fit() {
     );
 }
 
+/// DS-PA-06 (MODELLED): the Swarm-A product carries no SP3 accuracy information — every header
+/// `++` exponent is 0 (unknown) and the `%f` bases are 0, so there are no per-record standard
+/// deviations. SP3-derived weighting therefore falls back to the caller's default for every epoch,
+/// and an SP3-accuracy-weighted Swarm fit is the hard-coded `sigma: 1.0` fit above, number for
+/// number; no separate weighted run is recorded.
+///
+/// PIN-SCOPE:    the absence of accuracy codes in the committed 3-hour L47 fixture.
+/// PIN-EXCLUDES: the full-day product (not vendored) and the fit itself.
+#[test]
+fn swarm_sp3_has_no_accuracy_codes_so_weights_fall_back() {
+    let acc = parse_sp3_accuracy(SP3).expect("SP3 accuracy parses");
+    let n = parse_sp3(SP3).expect("SP3 parses").epochs.len();
+    assert_eq!(acc.records.len(), n);
+    assert_eq!(acc.pos_vel_base, 0.0);
+    assert_eq!(acc.header_sigma_m(SAT), None);
+    assert!((0..n).all(|i| acc.position_sigma_m(i, SAT).is_none()));
+}
+
 /// Full-arc, full-degree Swarm-A validation over a complete day (ignored by default; normal
-/// CI has no network). Unlike the Galileo full-arc job there is no plain-`curl` auto-fetch:
-/// the ESA dissemination server serves `SW_OPER_SP3ACOM_2_` only through its file-browser
-/// session, so download the day's product manually from
-/// `https://swarm-diss.eo.esa.int/` → `Level2daily/Latest_baselines/POD/RD/Sat_A/`,
-/// unzip the `.sp3`, fetch the IERS `finals2000A.all`, and point these env vars at them:
+/// CI has no network). The `swarm-full-arc` job of `.github/workflows/agency-od-validation.yml`
+/// (manual `workflow_dispatch`) downloads the day's product with plain `curl` from the ESA
+/// dissemination server's `?do=download&file=swarm/Level2daily/Latest_baselines/POD/RD/Sat_A/
+/// SW_OPER_SP3ACOM_2__20211231T235942_20220101T235942_0201.ZIP` endpoint (open, no login),
+/// unzips the `.sp3`, fetches the IERS `finals2000A.all`, and points these env vars at them:
 ///   KSHANA_SWARM_SP3    path to the full-day SP3
 ///   KSHANA_SWARM_EOP    path to the finals2000A file
 ///   KSHANA_SWARM_SAT    satellite id (default L47 = Swarm-A)
 ///   KSHANA_SWARM_DEGREE geopotential degree/order (default 70)
 /// Same dynamic → reduced-dynamic pipeline as the fixture test, over the whole arc.
 #[test]
-#[ignore = "online full-arc dispatch; download Swarm SP3 and set KSHANA_SWARM_SP3 / _EOP"]
+#[ignore = "online full-arc dispatch; set KSHANA_SWARM_SP3 / _EOP"]
 fn swarm_full_arc_dispatch() {
     let sp3_path = std::env::var("KSHANA_SWARM_SP3").expect("set KSHANA_SWARM_SP3");
     let eop_path = std::env::var("KSHANA_SWARM_EOP").expect("set KSHANA_SWARM_EOP");

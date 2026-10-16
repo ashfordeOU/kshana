@@ -222,9 +222,9 @@ fn sats_len_from(m: usize) -> usize {
 mod tests {
     use super::*;
     use crate::inertial::quantum_imu::CaiAccelerometer;
+    use crate::portable_distr::{Distribution, Normal};
     use rand::SeedableRng;
     use rand_chacha::ChaCha8Rng;
-    use rand_distr::{Distribution, Normal};
 
     // A surface user near the equator; gravity points toward Earth centre (−x).
     const G: f64 = 9.81;

@@ -38,6 +38,66 @@ pub struct HybridScenario {
     pub clock_classical: ClockCfg,
     pub accel_quantum: AccelCfg,
     pub accel_classical: AccelCfg,
+    /// `fusion` kind only (`[coupled]`): run the coupled pseudorange filter with an
+    /// accelerometer-bias state instead of the two independent filters. Absent, both kinds are
+    /// unchanged and the scenario hash too; the `hybrid` kind refuses it.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub coupled: Option<CoupledCfg>,
+}
+
+/// The `fusion` pack's coupled mode ([`crate::fusion::coupled::CoupledPntBiasFilter`]): while
+/// GNSS is nominal the filter takes one pseudorange per entry of `geometry`,
+/// `ρ = g·position + c·clock phase + noise`, instead of separate position and time fixes; an
+/// optical time-transfer re-sync during the outage is a clock-only pseudorange (`g = 0`).
+#[derive(Clone, Debug, Deserialize, Serialize, PartialEq)]
+#[serde(default, deny_unknown_fields)]
+pub struct CoupledCfg {
+    /// Pseudorange 1-sigma (m).
+    pub sigma_pr_m: f64,
+    /// The along-track line-of-sight factor `g` of each pseudorange (at least two distinct
+    /// values make position and clock separable).
+    pub geometry: Vec<f64>,
+    /// Accelerometer-bias random-walk PSD ((m/s²)²/s); 0 is a random-constant bias.
+    pub q_ba: f64,
+    /// Accelerometer-bias prior variance ((m/s²)²).
+    pub bias_var: f64,
+}
+
+impl Default for CoupledCfg {
+    fn default() -> Self {
+        Self {
+            sigma_pr_m: 1.0,
+            geometry: vec![1.0, -0.7, 0.4, -0.2],
+            q_ba: 0.0,
+            bias_var: 1e-6,
+        }
+    }
+}
+
+impl CoupledCfg {
+    /// Reject a configuration the filter cannot run.
+    pub fn validate(&self) -> Result<(), String> {
+        if !(self.sigma_pr_m.is_finite() && self.sigma_pr_m > 0.0) {
+            return Err(format!(
+                "coupled.sigma_pr_m must be finite and > 0, got {}",
+                self.sigma_pr_m
+            ));
+        }
+        let q_ok = self.q_ba.is_finite() && self.q_ba >= 0.0;
+        let var_ok = self.bias_var.is_finite() && self.bias_var > 0.0;
+        if !q_ok || !var_ok {
+            return Err("coupled.q_ba must be >= 0 and coupled.bias_var > 0".into());
+        }
+        let mut g = self.geometry.clone();
+        g.sort_by(f64::total_cmp);
+        g.dedup();
+        if g.len() < 2 || g.iter().any(|v| !v.is_finite()) {
+            return Err(
+                "coupled.geometry needs at least two distinct finite line-of-sight factors".into(),
+            );
+        }
+        Ok(())
+    }
 }
 
 /// Unit and provenance class for every numeric field the `hybrid` report
