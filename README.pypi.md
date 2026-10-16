@@ -140,7 +140,7 @@ on the roadmap.
 
 ## Capabilities
 
-The engine has 75 scenario kinds; `kshana kinds` lists them with their fields.
+The engine has 83 scenario kinds; `kshana kinds` lists them with their fields.
 
 - **Spectrum**: how a jammer takes the GNSS L band, band by band.
 - **Clocks and timing**: holdover against a threshold, time transfer, and telecom holdover
