@@ -33,16 +33,18 @@ classical_fom = data["classical"]["fom"]  # … and the classical baseline
 print(out.json[:80], "...")               # raw JSON also available
 open("chart.svg", "w").write(out.svg)     # the chart SVG
 
-# NumPy interop — wrap any numeric list from the result:
-import numpy as np
-adev = np.asarray([p["adev"] for p in data["quantum"]["adev_curve"]])
+# NumPy arrays straight from the result (NumPy is imported on call; it is not a
+# dependency of the package):
+curve = out.columns("quantum.adev_curve")  # {"tau_s": ndarray, "adev": ndarray, ...}
+adev = curve["adev"]
+everything = out.series()                  # every record series, keyed by path
 ```
 
 ## Surface
 
 | Symbol | Signature | Returns |
 |--------|-----------|---------|
-| `run_typed` | `(toml: str) -> RunOutput` | typed result (`.json`, `.svg`, `.summary`, `.csv`, `.data()`, `.write_csv()`) |
+| `run_typed` | `(toml: str) -> RunOutput` | typed result (`.json`, `.svg`, `.summary`, `.csv`, `.data()`, `.array()`, `.columns()`, `.series()`, `.write_csv()`) |
 | `run` | `(toml: str) -> str` | result document as a JSON (JavaScript Object Notation) string |
 | `run_full` | `(toml: str) -> tuple[str, str, str]` | `(json, svg, summary)` |
 | `scenario_kinds` | `() -> list[dict]` | available scenario kinds + metadata (parsed) |
@@ -301,6 +303,24 @@ integrates coherently. From 0.33.0 it defaults to `None`, meaning auto: about 4 
 channel starts close enough for the frequency loop to pull in; `acq_coherent=1` keeps
 the 0.32 one-period search.
 
+### Types
+
+`kshana.pyi` types the closed vocabularies for checkers (mypy, pyright): `ScenarioKind`
+(every kind name, a `Literal`), `ErrorKind` (the four tags `error_kind` returns),
+`ProvenanceClass`, and the `TypedDict`s `KindMeta` (what `scenario_kinds()` returns a
+list of) and `FieldUnit` (an entry of a result's `units` block). They exist for type
+checkers only and are not importable at runtime; `tests/typed_api_sync.rs` keeps them
+equal to the engine's lists.
+
+```python
+from typing import TYPE_CHECKING
+import kshana
+if TYPE_CHECKING:
+    from kshana import ScenarioKind
+
+names: "list[ScenarioKind]" = [k["name"] for k in kshana.scenario_kinds()]
+```
+
 ### `RunOutput`
 
 | Member | Type | Notes |
@@ -310,6 +330,9 @@ the 0.32 one-period search.
 | `.summary` | `str` | one-line human summary |
 | `.csv` | `str \| None` | the reproducibility table, for the kinds that emit one (see below) |
 | `.data()` | `dict` | the result parsed into a Python dict (see the shape note below) |
+| `.array(path)` | `numpy.ndarray` | the numeric list at `path` (dotted, `"points.0.coords"`, or a JSON Pointer, `"/points/0/coords"`): 1-D for numbers, 2-D for equal-length numeric lists |
+| `.columns(path)` | `dict[str, numpy.ndarray]` | the list of records at `path` (a time series), one array per field that is a number in every record |
+| `.series()` | `dict[str, dict[str, numpy.ndarray]]` | every list of records with a numeric field, keyed by dotted path, each as `.columns` |
 | `.write_csv(path)` | `int` | write that table to `path`; returns the bytes written, or 0 (and writes nothing) when the kind emits no table |
 
 ### The reproducibility table
@@ -352,8 +375,11 @@ guide is [`SCHEMA.md`](SCHEMA.md).
 - Results are reproducible: a scenario carries its `seed` and the engine records a
   `scenario_hash`, so the same input yields byte-identical output on the same platform
   (see [`REPRODUCIBILITY.md`](REPRODUCIBILITY.md)).
-- A first-class NumPy return type (`RunOutput` exposing `np.ndarray` time series
-  directly, rather than via `np.asarray(out.data()[...])`) is a planned follow-on. Runnable
+- `.array`, `.columns` and `.series` return exactly `numpy.asarray(...)` of the
+  same values `.data()` gives (same dtype, bit-identical; `tests/python/test_numpy_runoutput.py`).
+  They import NumPy when called and raise `ImportError` without it; NumPy stays out of
+  the package's runtime requirements. `KeyError` means the path is missing, `ValueError`
+  that the value there is not a numeric array (or not a list of records). Runnable
   notebooks are in [`notebooks/`](../notebooks/README.md).
 
 ## Not in Python: long-running processes

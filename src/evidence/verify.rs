@@ -21,6 +21,10 @@ pub struct VerifyOptions<'a> {
     /// Fail unless the pack carries a timestamp token. A token is stored beside the signed
     /// manifest, not inside it, so removing one cannot be detected without this.
     pub require_timestamp: bool,
+    /// Trusted anchor certificates (DER) for the timestamp authority. With them the token's
+    /// signature and chain are verified ([`crate::evidence::tsa::verify_token`]); without them
+    /// (the default) the token is read for its imprint only, as before.
+    pub tsa_anchors: Option<&'a [Vec<u8>]>,
 }
 
 /// One thing that is wrong.
@@ -137,6 +141,11 @@ pub enum Failure {
         /// What is wrong.
         detail: String,
     },
+    /// The timestamp authority's signature or chain did not verify against the anchors given.
+    TimestampAuthorityInvalid {
+        /// The first check that failed.
+        detail: String,
+    },
     /// The token's imprint is not the hash of `manifest.json`.
     TimestampImprintMismatch {
         /// Hash of `manifest.json` in the token's algorithm.
@@ -176,8 +185,9 @@ pub struct TimestampReport {
     pub imprint_matches: bool,
     /// The time the authority stated, if the token parsed.
     pub gen_time: Option<String>,
-    /// Always false in this build: timestamp authority signature not verified by Kshana (nor
-    /// its certificate chain). Use `openssl ts -verify`.
+    /// True only when trusted anchors were given and the authority's signature, its ESS
+    /// certificate binding, its timeStamping usage and its chain to an anchor all verified
+    /// ([`crate::evidence::tsa`]); false otherwise, including when no anchors were given.
     pub authority_signature_verified: bool,
 }
 
@@ -589,15 +599,33 @@ pub fn verify_bundle(files: &Files, opts: &VerifyOptions<'_>) -> VerifyReport {
                             actual: info.imprint.clone(),
                         });
                     }
-                    r.notes.push(format!(
-                        "timestamp token states {}; its imprint {} manifest.json. Timestamp authority signature not verified by Kshana: check it with `openssl ts -verify`.",
-                        info.gen_time,
-                        if matches { "matches" } else { "does NOT match" }
-                    ));
+                    let authority = opts
+                        .tsa_anchors
+                        .map(|a| crate::evidence::tsa::verify_token(tok, mbytes, a, &[]));
+                    match &authority {
+                        None => r.notes.push(format!(
+                            "timestamp token states {}; its imprint {} manifest.json. Timestamp authority signature not verified by Kshana: check it with `openssl ts -verify`.",
+                            info.gen_time,
+                            if matches { "matches" } else { "does NOT match" }
+                        )),
+                        Some(v) => {
+                            if !v.pass {
+                                r.failures.push(Failure::TimestampAuthorityInvalid {
+                                    detail: v.reason.clone(),
+                                });
+                            }
+                            r.notes.push(format!(
+                                "timestamp token states {}; its imprint {} manifest.json; the timestamp authority's signature and chain {} against the anchors given.",
+                                info.gen_time,
+                                if matches { "matches" } else { "does NOT match" },
+                                if v.pass { "verified" } else { "did NOT verify" }
+                            ));
+                        }
+                    }
                     r.timestamp = Some(TimestampReport {
                         imprint_matches: matches,
                         gen_time: Some(info.gen_time),
-                        authority_signature_verified: false,
+                        authority_signature_verified: authority.is_some_and(|v| v.pass),
                     });
                 }
             }
@@ -644,6 +672,38 @@ mod tests {
     fn stamped(files: &mut Files, digest_of: &[u8]) {
         let d = <sha2::Sha256 as sha2::Digest>::digest(digest_of);
         files.insert("timestamp.tsr".into(), token(&d, "20260102030405Z", true));
+    }
+
+    /// With trusted anchors the authority is verified: the synthetic token here carries no
+    /// signature, so it fails, while the imprint still matches; without anchors the report is
+    /// what it was.
+    #[test]
+    fn anchors_make_the_authority_checked() {
+        let mut f = pack();
+        let m = f["manifest.json"].clone();
+        stamped(&mut f, &m);
+        let anchors = crate::evidence::tsa::pem_certificates(include_str!(
+            "../../tests/fixtures/evidence_tsa/certs/root-rsa.pem"
+        ))
+        .unwrap();
+        let r = verify_bundle(
+            &f,
+            &VerifyOptions {
+                tsa_anchors: Some(&anchors),
+                ..Default::default()
+            },
+        );
+        let t = r.timestamp.as_ref().unwrap();
+        assert!(t.imprint_matches && !t.authority_signature_verified);
+        assert!(r
+            .failures
+            .iter()
+            .any(|x| matches!(x, Failure::TimestampAuthorityInvalid { .. })));
+        let plain = verify_bundle(&f, &VerifyOptions::default());
+        assert!(!plain
+            .failures
+            .iter()
+            .any(|x| matches!(x, Failure::TimestampAuthorityInvalid { .. })));
     }
 
     #[test]

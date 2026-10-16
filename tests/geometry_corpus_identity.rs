@@ -8,7 +8,11 @@
 //! the first 30 s of the short logs), as a batch run and as a replayed live stream; with the keys
 //! 0.36 appends removed, every output is byte-identical to what 0.35.0 wrote.
 //!
-//! PIN-SCOPE:    every pin in this file is a SHA-256 taken on 0.35.0 (35c1558d): of each corpus's
+//! Re-based by STUDIO-15 (docs/revisions/STUDIO15-portable-math-rebaseline.md): the pins below are the
+//! "0.36 portable" baseline, taken with the engine on portable maths. The 0.35.0 (host-maths) values
+//! they replaced are kept in `tests/fixtures/geometry_trust/pins_0.35.0.txt`, pinned by hash below.
+//!
+//! PIN-SCOPE:    every pin in this file is a SHA-256 (0.36 portable; formerly 0.35.0, 35c1558d): of each corpus's
 //!               batch result, one-line summary and live JSON lines in the 0.35 view, and of the
 //!               poor epochs' views in the two scenarios whose jamming makes the geometry poor
 //! PIN-EXCLUDES: the keys 0.36 appends (stripped before hashing), the schema string, the
@@ -206,7 +210,7 @@ fn corpus_hashes() -> Vec<(String, String)> {
 }
 
 #[test]
-fn every_vessel_corpus_scores_as_in_0_35_0() {
+fn every_vessel_corpus_scores_as_in_0_36_portable() {
     // PIN-SCOPE:    batch result JSON, summary, excerpt document, live lines and last $PKSHT of
     //               every committed vessel NMEA corpus under the demo's vessel session
     // PIN-EXCLUDES: the keys in APPENDED (new in 0.36), schema string, scenario_hash, key order
@@ -230,83 +234,83 @@ fn every_vessel_corpus_scores_as_in_0_35_0() {
 const PINS: [(&str, &str); 20] = [
     (
         "examples/maritime-trust/tallinn-helsinki.nmea",
-        "4d91b4af7f061f96f96f0cef6358a644dcfad3cc5dacde24dc3b7a98e7ccd1a7",
+        "6f647f3aeda40d3018ac849dcb2617a396c58ed3cc6e0bdf1ddb3d10a9b2b61c",
     ),
     (
         "tests/fixtures/maritime_trust/antimeridian.nmea",
-        "61e0fade580e3a2bf5f0c73bfa8845a816623dadc249ffbb4f89e1274a2f5a44",
+        "cdcc9f29b7f6e8bcc97b63d10752ef88145f19a1aff43df0ecc57d2e31c7c89b",
     ),
     (
         "tests/fixtures/maritime_trust/lat_0.nmea",
-        "d817662528c62d234033a6d6a178781c967c5a30141cf64744c39545619ab634",
+        "3e34d7da2e897199158ea69f6dae1e20bebb9178fbcf52497a046db2f5626ade",
     ),
     (
         "tests/fixtures/maritime_trust/lat_30.nmea",
-        "258423e2ca31ad44d9bbb9f1bfac2748ed239ac0822fd6a5c0a3413016480d3c",
+        "49398fdbfc40cdf253353dac170ef29811cf9c5ef43e83c77c263257d43f4da0",
     ),
     (
         "tests/fixtures/maritime_trust/lat_70.nmea",
-        "ae084e869f8b87acf90b2be3394aed403f2f119558fa1f485f9e7fdaa0d40996",
+        "20d9014f4cf409eda3e1a0b54d78450ea4286055498f785635ded0f090959b3b",
     ),
     (
         "tests/fixtures/maritime_trust/lat_s45.nmea",
-        "e680301708215d18351afccabe96c182430e9c12c2f9c76e7049a6f5645cdb02",
+        "f256a4944094ad097d0cac86b864f6fe5845e3f8c62f6447a733f511201fcb98",
     ),
     (
         "tests/fixtures/maritime_trust/variant_vbw.nmea",
-        "c149271a3c37f946bce70a069491790a7138da0ed4cc44c13e4ec8af34c905fc",
+        "faac7aa40e93f588907c8b7fa1e01369141abf4bff6635e50a2e5be62118f536",
     ),
     (
         "tests/fixtures/maritime_trust/variant_vtg_only.nmea",
-        "9e8f0cfa1f00a59d255291f2d802b72543eecbf32d04d1ace0d650d309cbd3b8",
+        "a3823e883978c7a1dc9bfe3655dcd43a0df58409282902b1f3f3fdac6378802f",
     ),
     (
         "tests/fixtures/maritime_trust/voyage.nmea",
-        "7a65402aacaf0434c92fe7b1ed03b5f30d11b4138aa4f8c591568ccddf1b5ef3",
+        "870620a8c178b9092b0c28b0cd19c23544889531c2dbe8db77b480799ad6563a",
     ),
     (
         "training coastal-drag-off",
-        "f47ef5bde980d3920b3a1a965cb05d144825142d62b07b1aa5030c445f90ad68",
+        "e9b986b888666ca6e09da0fa5b584f629c5762ce0a645630253acec83822372e",
     ),
     (
         "training port-approach-time-spoof",
-        "501ff8f96a6b5532bb617efb903aa79cb279861e2a2428acb9892b81cb5c540c",
+        "42f32d8b599ff6a3183b1e8438d6f08927e7837a975a25217ebc882558d496ac",
     ),
     (
         "examples/maritime-trust/tallinn-helsinki.nmea (GPS only)",
-        "c6aadc380fc97b948475b19e53b0fff6797f52b81d7fc6b67fa6d76eeee91453",
+        "72e45f9196009a4a562df0eb6f34c5bb02acfa63d387428f0839477c7d511bae",
     ),
     (
         "tests/fixtures/maritime_trust/antimeridian.nmea (GPS only)",
-        "e3bec19ca11ab7d22b3a7adf98cde3b5d763d753cde8231b67fb3deb0fcbae73",
+        "433a4a1c3bb20bf24370854e694d40c895bbf0c5e82d3d0cde87f00c4beae985",
     ),
     (
         "tests/fixtures/maritime_trust/lat_0.nmea (GPS only)",
-        "29d70f3d7a8fd6a6f39d399c5bec98b36cbbbf1d0a57f02c722be7dd9144f5af",
+        "4fe452f1a05f88508f007eae677312807a78c37b4799711a1df625070702b55d",
     ),
     (
         "tests/fixtures/maritime_trust/lat_30.nmea (GPS only)",
-        "153863e2e9a7258836eb92b41ac860764fc4434430d62b7c87e77e661ba906e9",
+        "efc430f8c58e1481ca35cdce2d3012b810525e352683b4329f91c6f1128fb4cb",
     ),
     (
         "tests/fixtures/maritime_trust/lat_70.nmea (GPS only)",
-        "a8af14ae4dd1f8ad52f38f25f2945055bca8a311c903e32ec5c7f65e1fed56ec",
+        "764889cfdd2aaad3aa4021337d08fb273a0516669d203ae2c434589f952416d0",
     ),
     (
         "tests/fixtures/maritime_trust/lat_s45.nmea (GPS only)",
-        "f9411dce77917cdb9fa681dab0841477836774d03a166c1f6a0bfbf5e0700072",
+        "50726fb655f28bcb77ffeab96ce651cd7df162ded965804f55d45b2f5bd40c38",
     ),
     (
         "tests/fixtures/maritime_trust/variant_vbw.nmea (GPS only)",
-        "0c63debc21950828d44ce697fc58c36ae0e06b5a8287bcb40c1ee48cf7b81aad",
+        "79e9b0fe211b1fe4019f67b810c54d2e7bc3df356725694b61975c93fd98cf0b",
     ),
     (
         "tests/fixtures/maritime_trust/variant_vtg_only.nmea (GPS only)",
-        "8f13354ded428122cdb9921b575405551b1c545f8a4e1a06879c24a294bfc980",
+        "9ec1daa7e0a244047912c1f1e159d7e887060750966ecd4dec13bc1f3689ab95",
     ),
     (
         "tests/fixtures/maritime_trust/voyage.nmea (GPS only)",
-        "5418f5c3d2b64d5e1757d9b2c5613bc99d7c5d4773506a542c072884f52f4826",
+        "18d8c1b744fda65ecbbdebaab704ca77aef3347ad76c59072ea4f76e053f32c8",
     ),
 ];
 
@@ -421,7 +425,7 @@ fn training_result(name: &str) -> Value {
 }
 
 #[test]
-fn poor_epochs_differ_from_0_35_0_by_the_geometry_deduction_alone() {
+fn poor_epochs_differ_from_0_36_portable_by_the_geometry_deduction_alone() {
     // PIN-SCOPE:    every batch epoch of the two training scenarios with poor geometry: the
     //               epochs that are not poor as written, the poor ones whole with only the
     //               geometry deduction removed and the score, band and state recomputed
@@ -483,12 +487,24 @@ fn the_poor_epoch_fixture_is_the_0_36_labels_and_only_poor_epochs_deduct() {
 const SPLIT_PINS: [(&str, &str, &str); 2] = [
     (
         "combined-event",
-        "4f6b8e441306cc6608b61123a6bd1fd393382b2ff577b6458440e9972c434d9c",
+        "f892f00089de06559b61179d39468bbcaa13e074a194bef11674c85cd42f074c",
         "5571b7387ca81bdfddf52d47253c7fd377cb6bc28c8340f3f494778e64e9dbcf",
     ),
     (
         "open-sea-jamming",
-        "cf758de503b111c3f2355a2575f37ab09943cbf5a99277f0ca674ab2d0f4fe34",
+        "3ed036ef571c689663b0043d6a0487f42928361c62c8325a7a011c2c5c8ac530",
         "e1130ae77d942fca684ee8346a833a113ec383ceb9805ba5f7e8f5ba63c22f22",
     ),
 ];
+
+/// The 0.35.0 pins that STUDIO-15 replaced are the record of what 0.35.0 released; the file
+/// that holds them (for this file and for `geometry_trust_no_change.rs`) must not move.
+#[test]
+fn the_0_35_0_pins_are_kept_unchanged_as_the_historical_record() {
+    let text = std::fs::read(Path::new(ROOT).join("tests/fixtures/geometry_trust/pins_0.35.0.txt"))
+        .unwrap();
+    assert_eq!(
+        format!("{:x}", Sha256::digest(&text)),
+        "682d05526493528971bc8a9883f0153a9709807541c5e8313b46a20b2ed6abf1"
+    );
+}

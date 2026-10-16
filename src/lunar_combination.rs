@@ -63,9 +63,10 @@ use crate::fusion::ukf::inverse;
 use crate::lunar::mcmf_to_selenographic;
 use crate::lunar_vlbi::{beacon_inertial_position, geometric_delay_s, station_inertial_position};
 use crate::palette::chart::{AXIS, BG, CORAL, FONT_SANS, INK_2, LIME};
+use crate::portable_distr::{Distribution, Normal};
+use crate::portable_math::PortableFloat;
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
-use rand_distr::{Distribution, Normal};
 
 /// Speed of light (m/s).
 const C: f64 = crate::timegeo::C_M_PER_S;
@@ -348,12 +349,12 @@ impl Network {
                         * std::f64::consts::PI
                         * (idx as f64 + 0.5 * plane as f64 / n_planes as f64)
                         / per_plane.max(1) as f64;
-                    let rr = a * (1.0 - e * e) / (1.0 + e * nu.cos());
+                    let rr = a * (1.0 - e * e) / (1.0 + e * nu.pcos());
                     // Perifocal position, then 3-1-3 (argp, inc, raan) rotation into MCI.
-                    let (xp, yp) = (rr * nu.cos(), rr * nu.sin());
-                    let (ca, sa) = (argp.cos(), argp.sin());
-                    let (ci, si) = (inc.cos(), inc.sin());
-                    let (co, so) = (raan.cos(), raan.sin());
+                    let (xp, yp) = (rr * nu.pcos(), rr * nu.psin());
+                    let (ca, sa) = (argp.pcos(), argp.psin());
+                    let (ci, si) = (inc.pcos(), inc.psin());
+                    let (co, so) = (raan.pcos(), raan.psin());
                     // x1 = Rz(argp) * [xp, yp, 0]
                     let (x1, y1) = (ca * xp - sa * yp, sa * xp + ca * yp);
                     // x2 = Rx(inc) * x1
@@ -373,11 +374,11 @@ impl Network {
                     // True anomaly spread over a ~110° arc (a partial pass, not full sky coverage).
                     let nu = (-55.0 + 110.0 * frac).to_radians();
                     // Mild inclination wobble so the points are not coplanar.
-                    let inc = (60.0 + 8.0 * (k as f64).sin()).to_radians();
+                    let inc = (60.0 + 8.0 * (k as f64).psin()).to_radians();
                     [
-                        a * nu.cos() * inc.sin(),
-                        a * nu.sin() * inc.sin(),
-                        a * inc.cos(),
+                        a * nu.pcos() * inc.psin(),
+                        a * nu.psin() * inc.psin(),
+                        a * inc.pcos(),
                     ]
                 })
                 .collect()
@@ -783,7 +784,7 @@ fn summarize_solution(
     };
 
     // Station position error magnitude.
-    let station_pos_err_m = (err(0).powi(2) + err(1).powi(2) + err(2).powi(2))
+    let station_pos_err_m = (err(0).ppowi(2) + err(1).ppowi(2) + err(2).ppowi(2))
         .sqrt()
         .min(big);
 
@@ -792,7 +793,7 @@ fn summarize_solution(
         let mut acc = 0.0;
         for k in 0..n_sat {
             let b = 3 + 3 * k;
-            acc += err(b).powi(2) + err(b + 1).powi(2) + err(b + 2).powi(2);
+            acc += err(b).ppowi(2) + err(b + 1).ppowi(2) + err(b + 2).ppowi(2);
         }
         ((acc / (3.0 * n_sat as f64)).sqrt()).min(big)
     } else {
@@ -806,7 +807,7 @@ fn summarize_solution(
     let sat_clock_rms_s = if n_sat > 0 {
         let mut acc = 0.0;
         for k in 0..n_sat {
-            acc += err(3 + 3 * n_sat + 1 + k).powi(2);
+            acc += err(3 + 3 * n_sat + 1 + k).ppowi(2);
         }
         (((acc / n_sat as f64).sqrt()) / C).min(big)
     } else {
@@ -1461,7 +1462,7 @@ pub fn lunar_combination_svg(r: &LunarCombinationReport) -> String {
     let (w, h) = (820.0_f64, 360.0_f64);
     let (ml, mr, mt, mb) = (70.0_f64, 20.0_f64, 50.0_f64, 56.0_f64);
     let (pw, ph) = (w - ml - mr, h - mt - mb);
-    let log10 = |x: f64| (x.max(1e-6)).log10();
+    let log10 = |x: f64| (x.max(1e-6)).plog10();
     let with = log10(r.with_vlbi.station_pos_err_m);
     let without = log10(r.without_vlbi.station_pos_err_m);
     let y_lo = with.min(without).min(0.0) - 0.5;

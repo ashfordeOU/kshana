@@ -14,15 +14,20 @@
 //! the arc through the same precise Gauss–Newton estimator the Earth datasets use, and
 //! reports the honest post-fit RMS, dynamic and reduced-dynamic.
 //!
-//! Honesty note: unlike Galileo (0.13 m) and Swarm-A (0.10 m), the LRO fit lands at **~6.6 m**
-//! reduced-dynamic (1+2-per-rev empirical) / ~12.6 m dynamic — *above* the < 5 m bar, and not for
+//! Honesty note: unlike Galileo (0.13 m) and Swarm-A (0.10 m), the LRO fit lands at **~6.67 m**
+//! reduced-dynamic (1+2-per-rev empirical) / ~12.05 m dynamic — *above* the < 5 m bar, and not for
 //! want of estimator quality (identical at d/o 100/150 and `atol` 1e-6/1e-9). A DE-grade
 //! cross-validation (`xval/anise-lunar-od`: DE440 lunar PA orientation + DE440 ephemeris via ANISE)
-//! found the analytic orientation/ephemeris limits the *dynamic* fit (12.6 → 12.0 m with DE-grade)
-//! but **not** the *reduced-dynamic* one (6.65 → 6.67 m, unchanged) — the empirical tier already
-//! absorbs it. The operational ~6.6 m floor is therefore an empirical-tier-irreducible residual,
+//! gave 12.0 m dynamic and 6.67 m reduced-dynamic. Since the 0.36 fix of the DE421 ME→PA offset
+//! (it was applied in the wrong direction, about 208″ off; before the fix this test measured
+//! 12.6 m and 6.65 m) the analytic stack gives 12.05 m and 6.67 m: it matches DE-grade on both
+//! tiers. The operational ~6.67 m floor is therefore an empirical-tier-irreducible residual,
 //! most consistent with LRO's unmodelled non-gravitational dynamics over the short arc, and the
 //! lean analytic stack here already matches DE-grade for the reduced-dynamic orbit. Published as-is.
+//! DS-LRO-10 then tested that reading with an opt-in macro-model (Sun-tracking array, Moon
+//! shadow, lunar albedo and IR; `lro_macro_model_pre_registered_run`): it left the floor at
+//! 6.668 m and missed every pre-registered bar, so solar/lunar radiation pressure of LRO's size
+//! does not explain it (`docs/design/evidence/ds-lro-10-macro-model/RESULTS.md`).
 //!
 //! Fixtures (provenance + SHA-256 in `tests/fixtures/agency/NOTICE.md`):
 //!   lro/LRO_2022001_Moon_ICRF_4h.csv    574e3518…d100f0
@@ -31,7 +36,8 @@
 use kshana::gravity_sh::SphericalHarmonicField;
 use kshana::integrator::{integrate_dopri, Tolerance};
 use kshana::lunar::{MOON_GM_M3_S2, R_MOON_M};
-use kshana::lunar_od::LunarForceModel;
+use kshana::lunar_od::{LunarForceModel, LunarMacroModel};
+use kshana::portable_math::PortableFloat;
 use kshana::precise_od::{fit, EstimatedParams, FitConfig, Observation};
 
 const LRO: &str = include_str!("fixtures/agency/lro/LRO_2022001_Moon_ICRF_4h.csv");
@@ -104,7 +110,7 @@ fn lro_truth_geometry_is_sane() {
     for w in s.windows(2) {
         let (a, b) = (w[0].pos, w[1].pos);
         let dot = (0..3).map(|k| a[k] * b[k]).sum::<f64>() / (norm(a) * norm(b));
-        swept += dot.clamp(-1.0, 1.0).acos();
+        swept += dot.clamp(-1.0, 1.0).pacos();
     }
     assert!(
         swept > 2.0 * std::f64::consts::PI,
@@ -148,7 +154,7 @@ fn raw_overlap_rms(
     let sumsq: f64 = obs
         .iter()
         .zip(&pred)
-        .map(|(o, r)| (0..3).map(|k| (r[k] - o.pos[k]).powi(2)).sum::<f64>())
+        .map(|(o, r)| (0..3).map(|k| (r[k] - o.pos[k]).ppowi(2)).sum::<f64>())
         .sum();
     (sumsq / obs.len() as f64).sqrt()
 }
@@ -201,11 +207,11 @@ fn lro_lunar_orbit_fit_against_horizons_truth() {
     );
     assert!(rep.converged, "dynamic fit did not converge");
     assert!(rep.rms_3d < raw, "fit did not improve on the raw overlap");
-    // Honest bound (measured ≈ 12.6 m): the dynamic residual is dominated by the analytic lunar
-    // orientation + low-precision (Montenbruck–Gill) ephemeris fidelity, above the < 5 m bar.
+    // Honest bound (measured ≈ 12.05 m since the 0.36 ME→PA fix, 12.6 m before; DE-grade inputs
+    // give 12.0 m), above the < 5 m bar.
     assert!(
         rep.rms_3d < 25.0,
-        "LRO dynamic 3D RMS {:.3} m off the expected ~12.6 m",
+        "LRO dynamic 3D RMS {:.3} m off the expected ~12.05 m",
         rep.rms_3d
     );
 
@@ -243,7 +249,7 @@ fn lro_lunar_orbit_fit_against_horizons_truth() {
         rep2.rms_3d,
         rep.rms_3d
     );
-    // Honest bound (measured ≈ 6.6 m with the 1+2-per-rev empirical tier): the empirical terms
+    // Honest bound (measured ≈ 6.67 m with the 1+2-per-rev empirical tier): the empirical terms
     // absorb the along-track mismodelling to a roughly isotropic floor, ABOVE the < 5 m bar Galileo
     // and Swarm-A meet. The DE-grade cross-validation (`xval/anise-lunar-od`) proved this floor is
     // NOT the analytic orientation/ephemeris (DE440 kernels leave it at 6.67 m) but an
@@ -251,7 +257,7 @@ fn lro_lunar_orbit_fit_against_horizons_truth() {
     // dynamics over the short arc. No field degree, frame upgrade, or empirical tier crosses it.
     assert!(
         rep2.rms_3d < 12.0,
-        "LRO reduced-dynamic 3D RMS {:.3} m off the expected ~6.6 m",
+        "LRO reduced-dynamic 3D RMS {:.3} m off the expected ~6.67 m",
         rep2.rms_3d
     );
 }
@@ -343,9 +349,9 @@ fn grgm_lunar_field_loads_and_is_physically_lunar() {
     let a = f.acceleration(r);
     let rn = norm(r);
     let tb = [
-        -f.gm * r[0] / rn.powi(3),
-        -f.gm * r[1] / rn.powi(3),
-        -f.gm * r[2] / rn.powi(3),
+        -f.gm * r[0] / rn.ppowi(3),
+        -f.gm * r[1] / rn.ppowi(3),
+        -f.gm * r[2] / rn.ppowi(3),
     ];
     let pert = norm([a[0] - tb[0], a[1] - tb[1], a[2] - tb[2]]);
     let rel = pert / norm(tb);
@@ -390,9 +396,10 @@ fn lro_two_body_overlap_shows_perturbation_signal() {
         let sol = integrate_dopri(&f, t_prev, &y, t, (t - t_prev).min(10.0), &tol);
         y = sol.y;
         t_prev = t;
-        let d =
-            ((y[0] - st.pos[0]).powi(2) + (y[1] - st.pos[1]).powi(2) + (y[2] - st.pos[2]).powi(2))
-                .sqrt();
+        let d = ((y[0] - st.pos[0]).ppowi(2)
+            + (y[1] - st.pos[1]).ppowi(2)
+            + (y[2] - st.pos[2]).ppowi(2))
+        .sqrt();
         sumsq += d * d;
         max_d = max_d.max(d);
     }
@@ -414,4 +421,323 @@ fn lro_two_body_overlap_shows_perturbation_signal() {
         "two-body RMS {rms} m unbounded — integration/parse broken"
     );
     assert!(max_d.is_finite());
+}
+
+/// The opt-in in-crate DE-grade environment (`lunar_od::De440LunarEnvironment`: the embedded
+/// DE440 lunar PA orientation and the geocentric Sun and Moon read from a committed de440s cut by
+/// the crate's own SPK reader) on the same arc and configuration. Information only: the numbers
+/// are printed, and the comparison against the ANISE environment is
+/// `xval/anise-lunar-od/src/bin/in_crate_parity.rs`
+/// (`docs/design/evidence/fut05-de440-lunar-env/`). The bars are the analytic test's.
+/// Ignored in the gating CI for its run time; it runs in the manual `lro-de440-opt-in` job of
+/// `.github/workflows/agency-od-validation.yml`.
+#[test]
+#[ignore = "information only, about 200 s: the opt-in DE440 environment on the LRO arc (11.959 m / 6.665 m on 2026-10-13)"]
+fn lro_fit_with_the_opt_in_de440_environment() {
+    use kshana::ephem_provider::KernelEphemeris;
+    use kshana::lunar_od::De440LunarEnvironment;
+    let (epoch, obs, v0) = lro_observations(LRO, usize::MAX);
+    let kernel = KernelEphemeris::open(std::path::Path::new(concat!(
+        env!("CARGO_MANIFEST_DIR"),
+        "/tests/fixtures/lunar_od_de440/de440s_2021-12-31_2022-01-02.bsp"
+    )))
+    .expect("the committed de440s cut opens");
+    let env = De440LunarEnvironment::new(kernel);
+    let end = epoch + obs.last().expect("observations").t / 86_400.0;
+    env.check_covers(epoch, end)
+        .expect("the cut and the orientation cover the arc");
+    let field = SphericalHarmonicField::from_gfc(GRGM, FIT_DEGREE).expect("GRGM field loads");
+    let tmpl = LunarForceModel::with_env(field, epoch, env);
+    let tol = Tolerance {
+        rtol: 1e-10,
+        atol: 1e-6,
+        ..Default::default()
+    };
+    let initial = || EstimatedParams {
+        r0: obs[0].pos,
+        v0,
+        cr: None,
+        empirical: None,
+    };
+    let cfg = FitConfig {
+        estimate_cr: false,
+        outlier_sigma: 5.0,
+        max_iter: 25,
+        tol,
+        ..Default::default()
+    };
+    let rep = fit(&tmpl, initial(), &obs, &cfg).expect("dynamic fit");
+    let cfg2 = FitConfig {
+        estimate_cr: false,
+        estimate_empirical: true,
+        estimate_empirical_2cpr: true,
+        empirical_sigma: 1e-7,
+        outlier_sigma: 5.0,
+        max_iter: 25,
+        tol,
+    };
+    let rep2 = fit(&tmpl, initial(), &obs, &cfg2).expect("reduced-dynamic fit");
+    eprintln!(
+        "LRO with De440LunarEnvironment (in-crate DE440 PA + de440s cut): dynamic {:.3} m, \
+         reduced-dynamic {:.3} m",
+        rep.rms_3d, rep2.rms_3d
+    );
+    assert!(rep.converged && rep2.converged);
+    assert!(rep.rms_3d < 25.0 && rep2.rms_3d < 12.0);
+}
+
+/// Information only (DS-LRO-11): the same dynamic and reduced-dynamic fits with the optional
+/// lunar solid tide (k2 = 0.02405, Konopliv et al. 2013) and the selenocentric Schwarzschild term
+/// switched on. No bar beyond the analytic test's; prints the change. Ignored for run time
+/// (about 400 s); `KSHANA_LRO_DEGREE` overrides the degree.
+#[test]
+#[ignore = "information only, about 400 s: the LRO fit with the lunar k2 tide and relativity"]
+fn lro_fit_with_lunar_tide_and_relativity() {
+    let degree: usize = std::env::var("KSHANA_LRO_DEGREE")
+        .ok()
+        .and_then(|s| s.parse().ok())
+        .unwrap_or(FIT_DEGREE);
+    let (epoch, obs, v0) = lro_observations(LRO, usize::MAX);
+    let field = SphericalHarmonicField::from_gfc(GRGM, degree).expect("GRGM field loads");
+    let tmpl = LunarForceModel::new(field, epoch)
+        .lunar_tide(0.02405)
+        .relativity();
+    let tol = Tolerance {
+        rtol: 1e-10,
+        atol: 1e-6,
+        ..Default::default()
+    };
+    let initial = || EstimatedParams {
+        r0: obs[0].pos,
+        v0,
+        cr: None,
+        empirical: None,
+    };
+    let cfg = FitConfig {
+        estimate_cr: false,
+        outlier_sigma: 5.0,
+        max_iter: 25,
+        tol,
+        ..Default::default()
+    };
+    let rep = fit(&tmpl, initial(), &obs, &cfg).expect("dynamic fit");
+    let cfg2 = FitConfig {
+        estimate_cr: false,
+        estimate_empirical: true,
+        estimate_empirical_2cpr: true,
+        empirical_sigma: 1e-7,
+        outlier_sigma: 5.0,
+        max_iter: 25,
+        tol,
+    };
+    let rep2 = fit(&tmpl, initial(), &obs, &cfg2).expect("reduced-dynamic fit");
+    eprintln!(
+        "LRO d/o {degree} + lunar k2 tide + relativity: dynamic {:.3} m, reduced-dynamic {:.3} m",
+        rep.rms_3d, rep2.rms_3d
+    );
+    assert!(rep.converged && rep2.converged);
+    assert!(rep.rms_3d < 25.0 && rep2.rms_3d < 12.0);
+}
+
+/// Information only (DS-LRO-09): the same dynamic and reduced-dynamic fits over a 24 h arc
+/// (`fixtures/agency/lro/LRO_2022001_Moon_ICRF_24h_horizons.txt`, the raw JPL Horizons response,
+/// 1 441 epochs; `KSHANA_LRO_ARC` may point at another Horizons vector response in the same
+/// format). Protocol: `docs/design/evidence/ds-lro-09-11-longer-arc/PROTOCOL.md`. Ignored for
+/// run time; it runs in the manual `lro-de440-opt-in` CI job.
+#[test]
+#[ignore = "information only, long: the LRO fit over a 24 h arc"]
+fn lro_fit_over_a_longer_arc() {
+    let path = std::env::var("KSHANA_LRO_ARC").unwrap_or_else(|_| {
+        concat!(
+            env!("CARGO_MANIFEST_DIR"),
+            "/tests/fixtures/agency/lro/LRO_2022001_Moon_ICRF_24h_horizons.txt"
+        )
+        .to_string()
+    });
+    let raw = std::fs::read_to_string(&path).expect("the Horizons response reads");
+    let a = raw.find("$$SOE").expect("SOE") + 5;
+    let b = raw.find("$$EOE").expect("EOE");
+    // JDTDB, calendar date, X, Y, Z, VX, VY, VZ -> the 4 h fixture's JDTDB,X,Y,Z,VX,VY,VZ
+    let csv: String = raw[a..b]
+        .lines()
+        .filter(|l| !l.trim().is_empty())
+        .map(|l| {
+            let f: Vec<&str> = l.split(',').map(str::trim).collect();
+            format!(
+                "{},{},{},{},{},{},{}\n",
+                f[0], f[2], f[3], f[4], f[5], f[6], f[7]
+            )
+        })
+        .collect();
+    let (epoch, obs, v0) = lro_observations(&csv, usize::MAX);
+    let field = SphericalHarmonicField::from_gfc(GRGM, FIT_DEGREE).expect("GRGM field loads");
+    let tmpl = LunarForceModel::new(field, epoch);
+    let tol = Tolerance {
+        rtol: 1e-10,
+        atol: 1e-6,
+        ..Default::default()
+    };
+    let initial = || EstimatedParams {
+        r0: obs[0].pos,
+        v0,
+        cr: None,
+        empirical: None,
+    };
+    let cfg = FitConfig {
+        estimate_cr: false,
+        outlier_sigma: 5.0,
+        max_iter: 25,
+        tol,
+        ..Default::default()
+    };
+    let rep = fit(&tmpl, initial(), &obs, &cfg).expect("dynamic fit");
+    let cfg2 = FitConfig {
+        estimate_cr: false,
+        estimate_empirical: true,
+        estimate_empirical_2cpr: true,
+        empirical_sigma: 1e-7,
+        outlier_sigma: 5.0,
+        max_iter: 25,
+        tol,
+    };
+    let rep2 = fit(&tmpl, initial(), &obs, &cfg2).expect("reduced-dynamic fit");
+    eprintln!(
+        "LRO {} epochs: dynamic {:.3} m (RTN {:.3} {:.3} {:.3}, converged {}), reduced-dynamic \
+         {:.3} m (RTN {:.3} {:.3} {:.3}, converged {})",
+        obs.len(),
+        rep.rms_3d,
+        rep.rms_rtn[0],
+        rep.rms_rtn[1],
+        rep.rms_rtn[2],
+        rep.converged,
+        rep2.rms_3d,
+        rep2.rms_rtn[0],
+        rep2.rms_rtn[1],
+        rep2.rms_rtn[2],
+        rep2.converged
+    );
+}
+
+/// One DS-LRO-10 run: the dynamic and reduced-dynamic fits of the 4 h arc with `tmpl`, `C_R`
+/// estimated in both tiers. Returns `(dynamic RMS, reduced-dynamic RMS, C_R dyn, C_R red,
+/// both converged)`.
+fn macro_model_run(tmpl: &LunarForceModel) -> (f64, f64, f64, f64, bool) {
+    let (_, obs, v0) = lro_observations(LRO, usize::MAX);
+    let tol = Tolerance {
+        rtol: 1e-10,
+        atol: 1e-6,
+        ..Default::default()
+    };
+    let initial = || EstimatedParams {
+        r0: obs[0].pos,
+        v0,
+        cr: Some(1.0),
+        empirical: None,
+    };
+    let cfg = FitConfig {
+        estimate_cr: true,
+        outlier_sigma: 5.0,
+        max_iter: 25,
+        tol,
+        ..Default::default()
+    };
+    let rep = fit(tmpl, initial(), &obs, &cfg).expect("dynamic fit");
+    let cfg2 = FitConfig {
+        estimate_cr: true,
+        estimate_empirical: true,
+        estimate_empirical_2cpr: true,
+        empirical_sigma: 1e-7,
+        outlier_sigma: 5.0,
+        max_iter: 25,
+        tol,
+    };
+    let rep2 = fit(tmpl, initial(), &obs, &cfg2).expect("reduced-dynamic fit");
+    let (c1, c2) = (rep.params.cr.unwrap(), rep2.params.cr.unwrap());
+    eprintln!(
+        "  dynamic {:.3} m (RTN {:.3} {:.3} {:.3}, C_R {c1:.4}, iters {}), reduced-dynamic {:.3} m \
+         (RTN {:.3} {:.3} {:.3}, C_R {c2:.4}, iters {})",
+        rep.rms_3d,
+        rep.rms_rtn[0],
+        rep.rms_rtn[1],
+        rep.rms_rtn[2],
+        rep.iterations,
+        rep2.rms_3d,
+        rep2.rms_rtn[0],
+        rep2.rms_rtn[1],
+        rep2.rms_rtn[2],
+        rep2.iterations,
+    );
+    (
+        rep.rms_3d,
+        rep2.rms_3d,
+        c1,
+        c2,
+        rep.converged && rep2.converged,
+    )
+}
+
+fn lro_template() -> LunarForceModel {
+    let (epoch, _, _) = lro_observations(LRO, 1);
+    let field = SphericalHarmonicField::from_gfc(GRGM, FIT_DEGREE).expect("GRGM field loads");
+    LunarForceModel::new(field, epoch)
+}
+
+/// DS-LRO-10 information runs 2 and 3 (pre-registration
+/// `docs/design/evidence/ds-lro-10-macro-model/PREREGISTRATION.md`): the array-only macro-model
+/// without albedo/IR, and the cannonball with the same A/m and the Moon's shadow.
+#[test]
+#[ignore = "information only, about 10 min: DS-LRO-10 runs 2 and 3"]
+fn lro_macro_model_information_runs() {
+    eprintln!("DS-LRO-10 run 2 (array direct radiation + Moon shadow):");
+    macro_model_run(&lro_template().macro_model(LunarMacroModel::lro_generic(false), 1.0));
+    eprintln!("DS-LRO-10 run 3 (cannonball, A/m = 10.7/1060, Moon shadow):");
+    macro_model_run(&lro_template().solar_radiation(1.0, 10.7 / 1060.0));
+}
+
+/// DS-LRO-10 primary run (pre-registration
+/// `docs/design/evidence/ds-lro-10-macro-model/PREREGISTRATION.md`, bars B1 to B3): the generic
+/// LRO macro-model (Sun-tracking array, Moon shadow, lunar albedo and IR) with `C_R` estimated.
+///
+/// **NOT MET (finding, recorded 2026-10-14 in `RESULTS.md` beside the pre-registration).** This
+/// test pins the measured miss: dynamic 11.937 m (B2 ≤ 10.84 m), reduced-dynamic 6.668 m
+/// (B1 ≤ 6.00 m), `C_R` 20.93 dynamic and −21.81 reduced-dynamic (B3: within [0.3, 3.0]). The
+/// bars are unchanged; the macro-model stays opt-in.
+#[test]
+fn lro_macro_model_pre_registered_run() {
+    eprintln!("DS-LRO-10 run 1 (array + Moon shadow + lunar albedo + IR):");
+    let (dyn_rms, red_rms, cr_dyn, cr_red, converged) =
+        macro_model_run(&lro_template().macro_model(LunarMacroModel::lro_generic(true), 1.0));
+    assert!(converged, "both tiers converged in the recorded run");
+    // The recorded numbers (tolerances cover cross-platform floating-point drift only).
+    assert!(
+        (dyn_rms - 11.937).abs() < 0.01,
+        "dynamic {dyn_rms} vs recorded 11.937 m"
+    );
+    assert!(
+        (red_rms - 6.668).abs() < 0.005,
+        "reduced-dynamic {red_rms} vs recorded 6.668 m"
+    );
+    assert!(
+        (cr_dyn - 20.93).abs() < 0.2,
+        "dynamic C_R {cr_dyn} vs recorded 20.93"
+    );
+    assert!(
+        (cr_red + 21.81).abs() < 0.2,
+        "reduced-dynamic C_R {cr_red} vs recorded -21.81"
+    );
+    // The pre-registered bars, as written, are missed.
+    let (b1, b2) = (6.00, 10.84);
+    let b3 = |c: f64| (0.3..=3.0).contains(&c);
+    assert!(
+        red_rms > b1,
+        "B1 now met ({red_rms} m): re-record DS-LRO-10"
+    );
+    assert!(
+        dyn_rms > b2,
+        "B2 now met ({dyn_rms} m): re-record DS-LRO-10"
+    );
+    assert!(
+        !b3(cr_dyn) && !b3(cr_red),
+        "B3 now met ({cr_dyn}, {cr_red}): re-record DS-LRO-10"
+    );
 }

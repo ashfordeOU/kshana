@@ -37,6 +37,7 @@ use kshana::deepspace_od::{
 use kshana::integrator::Tolerance;
 use kshana::mars_atmos::MARS_RE;
 use kshana::mars_frame::{iau_mars_rotation, inertial_to_bodyfixed};
+use kshana::portable_math::PortableFloat;
 use kshana::precession::{mat_vec, transpose};
 use kshana::precise_od::{empirical_accel, propagate, EmpiricalAccel, ForceModel};
 use kshana::timegeo::C_M_PER_S;
@@ -117,7 +118,7 @@ fn lmo_state() -> (Vec3, Vec3) {
     let vc = (mars.mu / r_orbit).sqrt();
     let inc = 60.0_f64.to_radians();
     let r0 = [r_orbit, 0.0, 0.0];
-    let v0 = [0.0, vc * inc.cos(), vc * inc.sin()];
+    let v0 = [0.0, vc * inc.pcos(), vc * inc.psin()];
     (r0, v0)
 }
 
@@ -140,7 +141,7 @@ fn gaussian_noise(seed: u64, amp: f64) -> impl FnMut() -> f64 {
     move || {
         let u1 = next_u();
         let u2 = next_u();
-        amp * (-2.0 * u1.ln()).sqrt() * (std::f64::consts::TAU * u2).cos()
+        amp * (-2.0 * u1.pln()).sqrt() * (std::f64::consts::TAU * u2).pcos()
     }
 }
 
@@ -323,7 +324,7 @@ fn fusion_beats_either_alone() {
 
     // ~3 orbits at 30 s cadence.
     let period =
-        std::f64::consts::TAU * ((Body::mars().re + 400.0e3).powi(3) / Body::mars().mu).sqrt();
+        std::f64::consts::TAU * ((Body::mars().re + 400.0e3).ppowi(3) / Body::mars().mu).sqrt();
     let arc = 3.0 * period;
     let cadence = 30.0;
     let n = (arc / cadence) as usize;
@@ -423,7 +424,7 @@ fn clock_calibrate_then_coast() {
     let (r0, v0) = lmo_state();
 
     let period =
-        std::f64::consts::TAU * ((Body::mars().re + 400.0e3).powi(3) / Body::mars().mu).sqrt();
+        std::f64::consts::TAU * ((Body::mars().re + 400.0e3).ppowi(3) / Body::mars().mu).sqrt();
     let arc = 3.0 * period;
     let cadence = 30.0;
     let n = (arc / cadence) as usize;

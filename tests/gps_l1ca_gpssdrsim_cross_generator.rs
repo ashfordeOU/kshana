@@ -51,6 +51,7 @@ use kshana::gps_lnav::{
     decode_fields, encode_subframes, field_values, parity, source_data, LnavConventions,
     LnavEphemeris, FIELDS,
 };
+use kshana::portable_math::PortableFloat;
 use kshana::sdr::CaCode;
 use serde_json::Value;
 
@@ -298,7 +299,7 @@ fn gps_sdr_sim_truncates_where_the_broadcast_integer_needs_rounding() {
             if semicircle {
                 x /= GPS_PI;
             }
-            let x = x * 2f64.powi(-p);
+            let x = x * 2f64.ppowi(-p);
             let (k, g) = (as_int(a), as_int(b));
             assert_eq!(
                 k as f64,

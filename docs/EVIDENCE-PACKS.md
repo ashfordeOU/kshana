@@ -211,7 +211,8 @@ is reported separately and does not change the failure set.
 followed by the token) whose status is 0 or 1. The `TSTInfo`'s message imprint algorithm
 must be SHA-256, SHA-384 or SHA-512 with a digest of that algorithm's length, and its
 `genTime` a real UTC calendar time. Indefinite-length BER is not accepted. The
-authority's signature and certificate chain are NOT checked.
+authority's signature and certificate chain are checked only when trusted anchors are given
+(`--tsa-ca`, below).
 
 ## RFC 3161 timestamp (optional)
 
@@ -229,12 +230,20 @@ openssl ts -verify -in response.tsr -data pack/manifest.json -CAfile authority-c
 
 `kshana evidence verify` reads the token (a bare token or a full response), checks that it
 was granted and that its message imprint equals the hash of `manifest.json`, and prints
-the time it states, always followed by the words "timestamp authority signature not verified
-by Kshana". **It does not check the authority's signature or certificate chain**;
-this build carries no RSA, ECDSA or X.509 code. The report says so each time
-(`authority_signature_verified: false`). Run the `openssl ts -verify` line above for that
-part. A token whose imprint differs, or one that does not parse, is a failure. The token's
-content types, imprint length and generation time are checked for sense.
+the time it states. Without trusted anchors it adds "timestamp authority signature not verified
+by Kshana" and reports `authority_signature_verified: false`; run the `openssl ts -verify` line
+above for that part. A token whose imprint differs, or one that does not parse, is a failure.
+The token's content types, imprint length and generation time are checked for sense.
+
+With `--tsa-ca authority-ca.pem` (one or more PEM certificates, all trusted) `verify` also
+checks the authority, offline, the way `openssl ts -verify` does: the signed attributes'
+message digest, the signature (RSA PKCS#1 v1.5, RSA-PSS, ECDSA P-256 or P-384), the ESS
+signing-certificate binding, the signer's critical timeStamping extended key usage, and the
+chain to a self-issued anchor, every certificate valid at the token's `genTime`. A failure is
+reported as `timestamp-authority-invalid` with the first check that failed, and
+`authority_signature_verified` is true only when all of it passed. Revocation (CRL or OCSP)
+is not checked. This verifier agrees with OpenSSL 3.0.13 on 27 self-generated cases
+(`tests/fixtures/evidence_tsa/PREREGISTRATION.md`).
 
 **The token sits beside the signed manifest, not inside it.** Nothing in the signature or
 the chain covers it, so a token can be removed, or a different valid token substituted,

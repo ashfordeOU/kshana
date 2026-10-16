@@ -23,14 +23,17 @@
 //!
 //! Everything here is self-contained: the validation targets are closed forms (Sagnac,
 //! iono-free cancellation, the `h_α` basis) and synthetic truth, not imported reference
-//! products. A real BIPM Circular-T / IGS SP3 ingest is a follow-on (see `ROADMAP.md`).
+//! products. The stability of real Circular T `UTC − UTC(k)` and IGS station-clock series, and a
+//! TWSTFT link with flicker and diurnal non-reciprocity, are in [`crate::twstft_budget`] and the
+//! `time-transfer-budget` kind.
 
 use crate::allan::{overlapping_adev, time_deviation, PowerLawNoise};
+use crate::portable_distr::{Distribution, Normal};
+use crate::portable_math::PortableFloat;
 use crate::timegeo::{sagnac_correction, C_M_PER_S, OMEGA_EARTH};
 use crate::types::Seconds;
 use rand::{RngCore, SeedableRng};
 use rand_chacha::ChaCha8Rng;
-use rand_distr::{Distribution, Normal};
 use std::f64::consts::PI;
 
 type Vec3 = [f64; 3];
@@ -223,14 +226,14 @@ pub fn iono_delay_m(tec_tecu: f64, f_hz: f64) -> f64 {
 /// with `k = 2π/λ`. The weak-turbulence scintillation index ≈ `σ_R²`.
 pub fn rytov_variance(cn2: f64, wavelength_m: f64, path_len_m: f64) -> f64 {
     let k = 2.0 * PI / wavelength_m;
-    1.23 * cn2 * k.powf(7.0 / 6.0) * path_len_m.powf(11.0 / 6.0)
+    1.23 * cn2 * k.ppowf(7.0 / 6.0) * path_len_m.ppowf(11.0 / 6.0)
 }
 
 /// Plane-wave Fried parameter `r₀ = (0.423 · k² · Cn² · L)^(−3/5)` (m), the coherence
 /// length of the turbulent wavefront.
 pub fn fried_parameter(cn2: f64, wavelength_m: f64, path_len_m: f64) -> f64 {
     let k = 2.0 * PI / wavelength_m;
-    (0.423 * k * k * cn2 * path_len_m).powf(-3.0 / 5.0)
+    (0.423 * k * k * cn2 * path_len_m).ppowf(-3.0 / 5.0)
 }
 
 /// A unit-mean log-normal amplitude (scintillation) fading factor for weak turbulence:
@@ -251,7 +254,7 @@ pub fn lognormal_fading(sigma_r2: f64, rng: &mut dyn RngCore) -> f64 {
     };
     let nrm = Normal::new(-sig_chi2, std_dev)
         .expect("std_dev is finite and non-negative, which Normal::new always accepts");
-    (2.0 * nrm.sample(rng)).exp()
+    (2.0 * nrm.sample(rng)).pexp()
 }
 
 // ───────────────────────────────────────────────────────────────────────────
@@ -283,9 +286,9 @@ fn avar_basis(tau: f64, f_h: f64) -> [f64; 5] {
     let fourpi2 = 4.0 * PI * PI;
     [
         3.0 * f_h / (fourpi2 * tau * tau), // WPM
-        (1.038 + 3.0 * (2.0 * PI * f_h * tau).ln()) / (fourpi2 * tau * tau), // FPM
+        (1.038 + 3.0 * (2.0 * PI * f_h * tau).pln()) / (fourpi2 * tau * tau), // FPM
         1.0 / (2.0 * tau),                 // WFM
-        2.0 * (2.0_f64).ln(),              // FFM
+        2.0 * (2.0_f64).pln(),             // FFM
         2.0 * PI * PI * tau / 3.0,         // RWFM
     ]
 }
@@ -362,11 +365,11 @@ pub fn fit_power_law_psd(curve: &[(f64, f64)], f_h: f64) -> Option<PowerLawFit> 
     ];
     let tau_min = curve.iter().map(|p| p.0).fold(f64::INFINITY, f64::min);
     let tau_max = curve.iter().map(|p| p.0).fold(0.0_f64, f64::max);
-    let dec_lo = tau_min.log10().floor() as i32;
-    let dec_hi = tau_max.log10().floor() as i32;
+    let dec_lo = tau_min.plog10().floor() as i32;
+    let dec_hi = tau_max.plog10().floor() as i32;
     let mut dominant = Vec::new();
     for d in dec_lo..=dec_hi {
-        let tau_c = 10f64.powi(d) * (10f64).sqrt(); // geometric centre of the decade
+        let tau_c = 10f64.ppowi(d) * (10f64).sqrt(); // geometric centre of the decade
         let basis = avar_basis(tau_c, f_h);
         let mut best = 0usize;
         let mut best_val = f64::NEG_INFINITY;
@@ -540,7 +543,7 @@ mod tests {
                 cv_epoch(
                     dt_a,
                     dt_b,
-                    1e-6 * (k as f64).sin(),
+                    1e-6 * (k as f64).psin(),
                     2.0e7 + 1e3 * k as f64,
                     2.05e7,
                 )
@@ -633,7 +636,7 @@ mod tests {
         let d2 = iono_delay_m(30.0, F_L2);
         assert!(d2 > d1 && d1 > 0.0);
         // Ratio = (f1/f2)² ≈ 1.647.
-        assert!(((d2 / d1) - (F_L1 / F_L2).powi(2)).abs() < 1e-9);
+        assert!(((d2 / d1) - (F_L1 / F_L2).ppowi(2)).abs() < 1e-9);
     }
 
     #[test]
@@ -692,9 +695,9 @@ mod tests {
             .map(|_| lognormal_fading(sigma_r2, &mut rng))
             .collect();
         let mean = xs.iter().sum::<f64>() / n as f64;
-        let var = xs.iter().map(|x| (x - mean).powi(2)).sum::<f64>() / n as f64;
+        let var = xs.iter().map(|x| (x - mean).ppowi(2)).sum::<f64>() / n as f64;
         // Var = exp(σ_R²) − 1 ≈ 0.221 for σ_R²=0.2.
-        let expected = (sigma_r2).exp() - 1.0;
+        let expected = (sigma_r2).pexp() - 1.0;
         assert!(
             (var - expected).abs() / expected < 0.08,
             "var {var} vs {expected}"

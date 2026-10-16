@@ -188,6 +188,7 @@ pub fn range_rate_row_spatial(a: &SpatialState, b: &SpatialState) -> (f64, Spati
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::portable_math::PortableFloat;
 
     // A representative, non-degenerate planar pair near the Moon.
     fn pair() -> (PlanarState, PlanarState) {
@@ -239,7 +240,7 @@ mod tests {
         }
         // Doppler makes velocity instantaneously observable: the velocity columns are the
         // LOS unit vector, hence non-zero for a non-degenerate pair.
-        assert!(row[2].hypot(row[3]) > 0.5);
+        assert!(row[2].phypot(row[3]) > 0.5);
     }
 
     /// ORACLE (Validated): the planar range-rate row agrees with the crate's own

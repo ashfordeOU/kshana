@@ -32,6 +32,7 @@
 //! test. Everything is seeded and deterministic.
 
 use kshana::allan::overlapping_adev;
+use kshana::portable_math::PortableFloat;
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
 use rand_distr::{Distribution, Normal};
@@ -103,7 +104,7 @@ fn integrate_to_phase(y: &[f64], tau0: f64) -> Vec<f64> {
 
 /// Closed-form flicker-FM Allan deviation (τ-independent floor): `σ_y = √(2 ln2 · h_{-1})`.
 fn flicker_floor(h_m1: f64) -> f64 {
-    (2.0 * 2.0_f64.ln() * h_m1).sqrt()
+    (2.0 * 2.0_f64.pln() * h_m1).sqrt()
 }
 
 /// Closed-form random-walk-FM Allan deviation: `σ_y(τ) = √(h_{-2}·(2π²/3)·τ)`.
@@ -115,8 +116,8 @@ fn rwfm_adev(h_m2: f64, tau: f64) -> f64 {
 /// robust to the heavy long-τ scatter of random-walk FM than an endpoint-to-endpoint estimate.
 fn loglog_slope(taus: &[f64], vals: &[f64]) -> f64 {
     let n = taus.len() as f64;
-    let xs: Vec<f64> = taus.iter().map(|t| t.ln()).collect();
-    let ys: Vec<f64> = vals.iter().map(|v| v.ln()).collect();
+    let xs: Vec<f64> = taus.iter().map(|t| t.pln()).collect();
+    let ys: Vec<f64> = vals.iter().map(|v| v.pln()).collect();
     let sx: f64 = xs.iter().sum();
     let sy: f64 = ys.iter().sum();
     let sxx: f64 = xs.iter().map(|x| x * x).sum();

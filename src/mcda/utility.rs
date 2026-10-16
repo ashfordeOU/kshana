@@ -17,6 +17,7 @@
 //! tested — honestly *Modelled*.
 
 use super::wsm::Direction;
+use crate::portable_math::PortableFloat;
 
 /// Risk attitude shorthand, mapping to a default exponential risk coefficient `ρ`.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
@@ -104,7 +105,7 @@ pub fn exp_utility(t: f64, rho: f64) -> f64 {
         return t.clamp(0.0, 1.0);
     }
     let t = t.clamp(0.0, 1.0);
-    (1.0 - (-rho * t).exp()) / (1.0 - (-rho).exp())
+    (1.0 - (-rho * t).pexp()) / (1.0 - (-rho).pexp())
 }
 
 /// An additive multi-attribute utility model: one [`Attribute`] per dimension and a

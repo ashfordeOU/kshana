@@ -34,6 +34,7 @@
 use super::condition::{condition, ConditioningLog};
 use super::series::{gappy_oavar, gappy_ohvar, remove_quadratic, PhaseSeries};
 use crate::allan::{edf_overlapping_adev, lag1_noise_id, Lag1DataType, PowerLawNoise};
+use crate::portable_math::PortableFloat;
 use serde::Serialize;
 use std::f64::consts::{LN_2, PI};
 
@@ -239,8 +240,8 @@ impl DeviceCard {
             .periodic
             .iter()
             .map(|&(p, a)| {
-                let s = (PI * tau / p).sin();
-                4.0 * a * a * s.powi(4) / (tau * tau)
+                let s = (PI * tau / p).psin();
+                4.0 * a * a * s.ppowi(4) / (tau * tau)
             })
             .sum();
         (self.noise_allan_variance(tau) + 0.5 * d * d + per)
@@ -308,8 +309,8 @@ fn remove_quadratic_and_periodic(
         let mut r = vec![1.0, u, u * u];
         for &p in periods {
             let w = 2.0 * PI / p;
-            r.push((w * t).sin());
-            r.push((w * t).cos());
+            r.push((w * t).psin());
+            r.push((w * t).pcos());
         }
         r
     };
@@ -340,7 +341,7 @@ fn remove_quadratic_and_periodic(
             })
             .collect();
     let amps = (0..periods.len())
-        .map(|j| coef[3 + 2 * j].hypot(coef[4 + 2 * j]))
+        .map(|j| coef[3 + 2 * j].phypot(coef[4 + 2 * j]))
         .collect();
     Some((
         PhaseSeries {
@@ -602,9 +603,9 @@ pub fn pooled_hadamard_noise(records: &[PhaseSeries]) -> Option<PooledHadamard> 
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::portable_distr::{Distribution, Normal};
     use rand::SeedableRng;
     use rand_chacha::ChaCha8Rng;
-    use rand_distr::{Distribution, Normal};
 
     /// White FM of level `a1` at 1 s plus random-walk FM `q_rw` plus a drift `d` (1/s), 1 s grid.
     fn clock(n: usize, a1: f64, q_rw: f64, d: f64, seed: u64) -> PhaseSeries {
@@ -703,7 +704,7 @@ mod tests {
         let mut s = clock(40_320, 3e-13, 0.0, 0.0, 15);
         s.tau0 = 30.0;
         for (i, v) in s.x.iter_mut().enumerate() {
-            *v = *v * 30.0 + 2e-9 * (2.0 * PI * i as f64 * 30.0 / p + 0.3).sin();
+            *v = *v * 30.0 + 2e-9 * (2.0 * PI * i as f64 * 30.0 / p + 0.3).psin();
         }
         let (fit, held) = s.split_thirds();
         let card = DeviceCard::fit_phase_periodic("periodic", &fit, &[p]).unwrap();

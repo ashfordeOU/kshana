@@ -19,6 +19,7 @@
 //! real RINEX-OBS + augmentation-message epoch (as RTKLIB / ESA gLAB do) is the founder-gated
 //! external validation tracked in `docs/COMPLIANCE.md`.
 
+use crate::portable_math::PortableFloat;
 use crate::timetransfer_adv::{F_L1, F_L5};
 use serde::Serialize;
 
@@ -40,7 +41,7 @@ pub fn k_v_pa() -> f64 {
 /// Horizontal K-factor for **En-route through NPA** (horizontal-only): the Rayleigh quantile
 /// `√(−2·ln(5e-9)) ≈ 6.183`.
 pub fn k_h_npa() -> f64 {
-    (-2.0 * (5e-9_f64).ln()).sqrt()
+    (-2.0 * (5e-9_f64).pln()).sqrt()
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -103,10 +104,10 @@ impl SbasErrorModel {
     }
     /// Total measurement variance `σ² = σ_flt² + σ_uire² + σ_air² + σ_tropo²`.
     pub fn variance(&self) -> f64 {
-        self.sigma_flt_m.powi(2)
-            + self.sigma_uire_m.powi(2)
-            + self.sigma_air_m.powi(2)
-            + self.sigma_tropo_m.powi(2)
+        self.sigma_flt_m.ppowi(2)
+            + self.sigma_uire_m.ppowi(2)
+            + self.sigma_air_m.ppowi(2)
+            + self.sigma_tropo_m.ppowi(2)
     }
 }
 
@@ -148,8 +149,8 @@ pub struct SbasProtectionLevel {
 /// The ENU observation row `[−cos El·sin Az, −cos El·cos Az, −sin El, 1]` (East, North, Up,
 /// clock) for one satellite (DO-229E Appendix J local-level convention).
 pub fn geometry_row(s: &SbasSat) -> [f64; 4] {
-    let (ce, se) = (s.el_rad.cos(), s.el_rad.sin());
-    let (sa, ca) = (s.az_rad.sin(), s.az_rad.cos());
+    let (ce, se) = (s.el_rad.pcos(), s.el_rad.psin());
+    let (sa, ca) = (s.az_rad.psin(), s.az_rad.pcos());
     [-ce * sa, -ce * ca, -se, 1.0]
 }
 
@@ -198,7 +199,7 @@ pub fn sbas_protection_level(sats: &[SbasSat], mode: SbasMode) -> Option<SbasPro
     let d = wls_covariance(sats)?;
     let (de2, dn2, den, du2) = (d[0][0], d[1][1], d[0][1], d[2][2]);
     // Largest eigenvalue of the 2×2 EN covariance → horizontal error-ellipse major axis.
-    let d_major = ((de2 + dn2) / 2.0 + (((de2 - dn2) / 2.0).powi(2) + den * den).sqrt()).sqrt();
+    let d_major = ((de2 + dn2) / 2.0 + (((de2 - dn2) / 2.0).ppowi(2) + den * den).sqrt()).sqrt();
     let d_u = du2.sqrt();
     let (k_h, k_v) = match mode {
         SbasMode::PrecisionApproach => (K_H_PA, Some(k_v_pa())),
@@ -329,7 +330,7 @@ mod tests {
 
     #[test]
     fn gamma_l1l5_matches_is_gps_705_frequencies() {
-        assert!((GAMMA_L1L5 - (F_L1 / F_L5).powi(2)).abs() < 1e-12);
+        assert!((GAMMA_L1L5 - (F_L1 / F_L5).ppowi(2)).abs() < 1e-12);
         assert!((GAMMA_L1L5 - 1.793_270).abs() < 1e-5, "γ₁₅ {GAMMA_L1L5}");
     }
 

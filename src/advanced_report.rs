@@ -13,7 +13,7 @@
 //! | Executive summary | the run's one-line summary, the result's own honesty `label`, the kind catalogue |
 //! | Inputs | the scenario file, flattened; each unit from the result's `units` block (the field-units schema), else the field-name suffix, else stated as not stated |
 //! | Results | every scalar of the result document, a summary of every numeric column, the run's chart |
-//! | Aggregation | a campaign's sweep nodes, Monte Carlo percentiles, chain phases or composed members; a `sweep` or `sweep-nd` grid |
+//! | Aggregation | a campaign's sweep nodes, Monte Carlo percentiles, chain phases, composed members or an optimiser's trace and best; a `sweep` or `sweep-nd` grid |
 //! | Events timeline | timed windows in the scenario (`t0`/`t1`, `on_s`/`off_s`, …), `events` arrays in the result, a campaign's phases |
 //! | Verification labels | the verification matrix ([`crate::verification::verification_matrix`]), through [`KIND_CAPABILITIES`] |
 //! | Not modelled | `not_modelled` / `not_implemented` / `honesty` blocks in the result, the kind catalogue's MODELLED clauses, the scenario's own comments, and the matrix's reason each MODELLED row stays modelled |
@@ -101,7 +101,7 @@ pub const KIND_CAPABILITIES: &[(&str, &[&str])] = &[
     ("lunar-llr-datum", &["Lunar frame datum from a REAL observing campaign", "Lunar reference-station geodesy: added retroreflector and VLBI beacon against the five-array datum"]),
     ("moonlight-service-volume", &["Lunar navigation service volume", "Lunar joint communications-and-navigation geometry"]),
     ("lunar-differential-pnt", &["Lunar differential PNT", "Lunar differential PNT — correction-link residual budget"]),
-    ("lunar-station-coverage", &["Lunar reference-station coverage and accuracy map", "Lunar differential PNT", "Lunar differential PNT — correction-link residual budget"]),
+    ("lunar-station-coverage", &["Lunar reference-station coverage and accuracy map", "Lunar differential PNT", "Lunar differential PNT — correction-link residual budget", "Lunar terrain horizon masks from a stated profile or a polar DEM", "Lunar reference-station multipath and receiver-hardware terms", "Lunar reference-station ephemeris-error growth over the correction latency", "Lunar reference-station solution modes: height constraint, three satellites, static-user window"]),
     ("lunar-beacon", &["Lunar surface-beacon DOP augmentation"]),
     ("earth-gnss-lunar", &["Earth-GNSS at lunar distance", "Navigation RF payload & antenna hardware design"]),
     ("lunar-interop-export", &["Lunar interoperability export"]),
@@ -138,7 +138,7 @@ pub const KIND_CAPABILITIES: &[(&str, &[&str])] = &[
     ("telecom-timing", &["Telecom-timing MTIE and TDEV on a holdover time-error series", "ITU-T telecom synchronisation masks with PASS/FAIL and margin", "Oscillator holdover presets from public datasheets"]),
     ("slot-timing", &["Holdover prediction from a measured clock record, checked on held-out data", "Seconds until a free-running clock leaves a time-indexed slot's guard, and the fix cadence that keeps it inside", "Timing protection level for a receiver in orbit under GNSS spoofing"]),
     ("spectrum", &["Closed-form L-band signal power spectral densities and spectral separation coefficients", "L-band spectrum waterfall with per-band J/S and effective C/N0 under a scripted jammer timeline", "SigMF recording input and output, and Welch spectral estimates of complex IQ", "Navigation RF payload & antenna hardware design", "Multi-band spectrum waterfall (UHF, L, S, C) with designed signals and per-band jammers"]),
-    ("solar-system", &["Planet positions across the solar system from the JPL Standish Keplerian elements", "Light time between solar-system bodies", "Uranus and Neptune from Standish Table 1, Pluto, and planetary velocities", "Positions of the Moon and seven major moons (Phobos, Deimos, the Galilean moons, Titan)", "Physical constants of every solar-system body and the whole-system report"]),
+    ("solar-system", &["Planet positions across the solar system from the JPL Standish Keplerian elements", "Light time between solar-system bodies", "Uranus and Neptune from Standish Table 1, Pluto, and planetary velocities", "Positions of the Moon and seven major moons (Phobos, Deimos, the Galilean moons, Titan)", "Physical constants of every solar-system body and the whole-system report", "IAU body orientation and gravitational parameter of the fourteen added solar-system bodies", "Solar-system kind on a JPL kernel (planetary_kernel_path)"]),
     ("body-pnt", &["Positioning around any solar-system body with a local constellation and a deep-space link from Earth"]),
     ("constellation-design", &["Walker constellation geometry and the published nominal slots of GPS, Galileo and GLONASS", "Global dilution of precision of the GPS baseline constellation", "Coverage and dilution-of-precision maps for arbitrary multi-constellation designs at scale, around any central body"]),
     ("campaign", &[]),
@@ -149,6 +149,13 @@ pub const KIND_CAPABILITIES: &[(&str, &[&str])] = &[
     ("leo-ppp", &["Precise point positioning convergence with GNSS only and with LEO augmentation"]),
     ("ntn-positioning", &["5G non-terrestrial-network positioning accuracy from signal bandwidth"]),
     ("leo-pnt-chain", &["One LEO-PNT system end to end: signal design, pass link budget, navigation message and fused positioning, each stage's output handed to the next", "Band-limited closed forms for any ranging signal: power in band and early-late code-tracking jitter against published values, with the Gabor bandwidth and offset spectral separation cross-checked", "Low Earth orbit positioning, navigation and timing signal designs: code tracking, acquisition, GNSS compatibility and a band trade for any system", "A LEO-PNT pass and its per-band link budget against the MEO GNSS satellites in view", "First-order ionospheric delay per band, the ionosphere-free combination and free-space loss", "Maximum Doppler a static user sees from a LEO or MEO orbit", "Tropospheric amplitude scintillation on an Earth-space link", "Rain specific-attenuation coefficients for any band a LEO-PNT link uses", "Long-term slant-path rain attenuation on an Earth-space link", "Building entry loss for an indoor LEO-PNT user", "Named LEO-PNT system presets with stated sources, and a system-agnostic engine", "Global-average signal-in-space range error weights for any orbit altitude", "Galileo ICD broadcast-ephemeris user algorithm as the base of a LEO navigation message", "LEO broadcast-ephemeris fitter and signal-in-space range error versus fit interval and update period", "Joint GNSS and LEO pseudorange positioning with inter-system biases and per-signal error models", "Precise point positioning convergence with GNSS only and with LEO augmentation", "Named LEO PNT systems as optional data presets, each with its source"]),
+    ("contact-schedule", &["Multi-satellite, multi-station ground-contact scheduling with conflict resolution", "DVB-S2 adaptive coding and modulation along a LEO downlink pass", "Apparent ground-station pass prediction with refraction and light time"]),
+    ("acm-link", &["DVB-S2 adaptive coding and modulation along a LEO downlink pass", "Apparent ground-station pass prediction with refraction and light time"]),
+    ("aocs", &["Closed-loop MRP feedback attitude control with reaction wheels", "Multiplicative EKF attitude estimation from a gyro and a star tracker"]),
+    ("entry-heating", &["3-DoF ballistic entry peak deceleration against the published Stardust nominal", "Stagnation-point convective entry heating (Sutton-Graves) on a 3-DoF entry"]),
+    ("eo-radiometry", &["Electro-optical imager radiometry, MTF, relative edge response and GIQE 4 NIIRS"]),
+    ("ascent-losses", &["Launch ascent gravity, drag, steering and back-pressure losses"]),
+    ("time-transfer-budget", &["TWSTFT two-way equation, uncertainty budget and link stability with flicker and diurnal non-reciprocity"]),
 ];
 
 /// Rows a kind exercises only on one input path, as (kind, matrix `requirement`, scenario
@@ -180,6 +187,10 @@ pub const PATH_GATED_CAPABILITIES: &[(&str, &str, &str)] = &[
     ("lunar-vlbi", "Lunar geodetic VLBI, kernel path", "planetary_kernel_path"),
     ("lunar-time-budget", "Lunar station time laboratory: miniRAFS holdover against LTC", "doc:time_lab"),
     ("lunar-llr-datum", "Lunar reference-station geodesy: added retroreflector and VLBI beacon against the five-array datum", "doc:station_geodesy"),
+    ("lunar-station-coverage", "Lunar terrain horizon masks from a stated profile or a polar DEM", "doc:terrain"),
+    ("lunar-station-coverage", "Lunar reference-station multipath and receiver-hardware terms", "doc:receiver"),
+    ("lunar-station-coverage", "Lunar reference-station ephemeris-error growth over the correction latency", "doc:orbit_err_growth_m_per_s"),
+    ("lunar-station-coverage", "Lunar reference-station solution modes: height constraint, three satellites, static-user window", "doc:solution"),
     ("leo-navmsg", "ATOMIC zero-clock ECEF polynomial and the synthetic five-altitude LEO model comparison", "doc:model_comparison"),
     ("leo-navmsg", "Mid-pass LEO navigation message update with a continuity check at the switch", "doc:midpass_update"),
     ("leo-navmsg", "CRC-24Q frame check for the LEO navigation message", "doc:encode_decode"),
@@ -265,6 +276,9 @@ pub const CAMPAIGN_CHAIN_REQUIREMENT: &str =
 /// The matrix row of a campaign `sweep` or `monte_carlo`.
 pub const CAMPAIGN_SWEEP_REQUIREMENT: &str =
     "Parameter sweeps and seeded Monte Carlo ensembles over any scenario kind";
+/// The matrix row of a campaign `optimize`.
+pub const CAMPAIGN_OPTIMIZE_REQUIREMENT: &str =
+    "Bounded optimisation of one metric over campaign parameters";
 /// The matrix row of a campaign `compose`.
 pub const CAMPAIGN_COMPOSE_REQUIREMENT: &str =
     "Several scenarios under shared conditions, with a combined summary";
@@ -639,7 +653,7 @@ pub struct Distribution {
 /// The aggregation section of a campaign or sweep.
 #[derive(Clone, Debug, Serialize)]
 pub struct Aggregation {
-    /// `chain`, `sweep`, `monte-carlo` or `compose`.
+    /// `chain`, `sweep`, `monte-carlo`, `compose` or `optimize`.
     pub mode: String,
     #[serde(skip_serializing_if = "Option::is_none")]
     /// The scenario kind every member run executes (a campaign's `scenario_kind`, or the
@@ -1618,6 +1632,9 @@ fn build_capabilities(
         if doc.get("compose").is_some() {
             add(CAMPAIGN_COMPOSE_REQUIREMENT, "campaign");
         }
+        if doc.get("optimize").is_some() {
+            add(CAMPAIGN_OPTIMIZE_REQUIREMENT, "campaign");
+        }
     }
     let rows = used
         .into_iter()
@@ -2268,6 +2285,94 @@ fn build_aggregation(kind: &str, doc: &Value) -> Option<Aggregation> {
                 vec![String::new(); 8],
                 comb_rows,
             ));
+        } else if let Some(op) = doc.get("optimize") {
+            agg.mode = "optimize".to_string();
+            agg.member_kind = Some(str_of(op, "scenario_kind"));
+            let order: Vec<String> = op
+                .get("param_order")
+                .and_then(Value::as_array)
+                .map(|a| {
+                    a.iter()
+                        .filter_map(|x| x.as_str().map(str::to_string))
+                        .collect()
+                })
+                .unwrap_or_default();
+            let unit_of = |p: &str| {
+                op.get("params")
+                    .and_then(|x| x.get(p))
+                    .map(|x| str_of(x, "unit"))
+                    .unwrap_or_default()
+            };
+            let metric_unit = op
+                .get("objective")
+                .map(|o| str_of(o, "unit"))
+                .unwrap_or_default();
+            let mut columns = vec!["evaluation".to_string()];
+            let mut units = vec![String::new()];
+            for p in &order {
+                columns.push(p.clone());
+                units.push(unit_of(p));
+            }
+            columns.push(str_of(op, "objective_name"));
+            units.push(metric_unit.clone());
+            let rows: Vec<Vec<Value>> = op
+                .get("trace")
+                .and_then(Value::as_array)
+                .map(|t| {
+                    t.iter()
+                        .enumerate()
+                        .map(|(i, e)| {
+                            let mut r = vec![Value::from(i as u64)];
+                            for p in &order {
+                                r.push(
+                                    e.get("coords")
+                                        .and_then(|c| c.get(p))
+                                        .cloned()
+                                        .unwrap_or(Value::Null),
+                                );
+                            }
+                            r.push(e.get("metric").cloned().unwrap_or(Value::Null));
+                            r
+                        })
+                        .collect()
+                })
+                .unwrap_or_default();
+            let mut best = vec![
+                Value::String(str_of(op, "method")),
+                Value::String(
+                    op.get("objective")
+                        .map(|o| str_of(o, "goal"))
+                        .unwrap_or_default(),
+                ),
+                op.get("evals").cloned().unwrap_or(Value::Null),
+                Value::String(str_of(op, "stop_reason")),
+            ];
+            let mut best_cols: Vec<String> = ["method", "goal", "evaluations", "stopped by"]
+                .iter()
+                .map(|s| s.to_string())
+                .collect();
+            let mut best_units = vec![String::new(); 4];
+            for p in &order {
+                best.push(
+                    op.get("best_coords")
+                        .and_then(|c| c.get(p))
+                        .cloned()
+                        .unwrap_or(Value::Null),
+                );
+                best_cols.push(p.clone());
+                best_units.push(unit_of(p));
+            }
+            best.push(op.get("best_metric").cloned().unwrap_or(Value::Null));
+            best_cols.push(str_of(op, "objective_name"));
+            best_units.push(metric_unit);
+            agg.tables.push(table_from_rows(
+                "Optimiser best (a local optimum over the stated bounds)",
+                best_cols,
+                best_units,
+                vec![best],
+            ));
+            agg.tables
+                .push(table_from_rows("Optimiser trace", columns, units, rows));
         } else {
             return None;
         }

@@ -41,6 +41,7 @@ async fn every_scenario_tool_accepts_inline_content_only() {
         "kind = \"lunar-service\"\nephemeris_path = \"/definitely/not/a/file\"\n",
         "kind = \"lunar-llr\"\ndata_dir = \"/definitely/not/a/dir\"\n",
         "kind = \"receiver-trust\"\n[log]\nformat = \"nmea\"\npath = \"/definitely/not/a/file\"\n",
+        "kind = \"jamming\"\n[terrain]\ndem_hgt = \"/definitely/not/a/tile.hgt\"\nsamples_per_side = 601\nll_lat_deg = 36.0\nll_lon_deg = -117.0\n",
     ];
     let route = r#"{"type":"LineString","coordinates":[[0,0],[1,1]]}"#;
     let client = connect().await;
@@ -62,6 +63,11 @@ async fn every_scenario_tool_accepts_inline_content_only() {
             let e = refusal(&client, tool, args).await;
             assert!(
                 e.contains("accepts inline content only"),
+                "{tool} on {toml:?}: {e}"
+            );
+            // The refusal names neither the path nor an operating-system error.
+            assert!(
+                !e.contains("/definitely") && !e.to_lowercase().contains("no such file"),
                 "{tool} on {toml:?}: {e}"
             );
         }

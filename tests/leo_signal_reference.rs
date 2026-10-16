@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
+// Host maths on purpose: this test recomputes its expected values independently of the engine's
+// portable maths (STUDIO-15), so the engine is checked against a second implementation.
 //! The low Earth orbit (LEO) signal-design scenarios, run end to end through the public
 //! dispatcher.
 //!
@@ -147,7 +149,8 @@ fn multi_band_waterfall_denies_each_band_only_by_its_own_jammer() {
 #[test]
 fn the_plain_l_band_example_is_unchanged_by_the_extension() {
     // The published example's table (docs/SPECTRUM.md): L1 C/A nominal 43.48 dB-Hz and
-    // minimum 3.23 dB-Hz, E5a nominal 46.98 dB-Hz untouched.
+    // minimum 3.23 dB-Hz, E5a nominal 46.73 dB-Hz untouched (46.98 before the Galileo OS SIS
+    // ICD 2.1 power revision, docs/revisions/CAP12-galileo-icd21-power-changes.md).
     let (v, _) = run("scenarios/l-band-waterfall-jamming.toml");
     let b = |n: &str| {
         v["timeline"]["bands"]
@@ -159,7 +162,7 @@ fn the_plain_l_band_example_is_unchanged_by_the_extension() {
             .clone()
     };
     assert!((f(&b("gps-l1ca")["min_cn0_dbhz"]) - 3.23).abs() < 0.005);
-    assert!((f(&b("galileo-e5a")["min_cn0_dbhz"]) - 46.98).abs() < 0.005);
+    assert!((f(&b("galileo-e5a")["min_cn0_dbhz"]) - 46.73).abs() < 0.005);
     assert_eq!(v["panels"].as_array().unwrap().len(), 0);
 }
 

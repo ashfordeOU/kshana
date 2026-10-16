@@ -26,9 +26,14 @@
 //!
 //! Scope, stated: no code-Doppler compensation across non-coherent blocks, no data-bit
 //! wipe-off (a bit edge inside a coherent block loses correlation), no straddle-loss
-//! recovery beyond choosing a fine Doppler step, no cell-averaging CFAR. MODELLED: the
+//! recovery beyond choosing a fine Doppler step. MODELLED: the
 //! detector identities are checked against the analytic Marcum-Q values by seeded Monte
 //! Carlo in `tests/iq_receiver.rs`, not against an external dataset.
+//!
+//! An opt-in cell-averaging CFAR detector ([`ca_cfar`], [`CfarConfig`]) decides on the same
+//! grid by comparing a cell with the mean of reference cells in its row, so its false-alarm
+//! probability does not depend on the sample-power normalisation (quantised or band-limited
+//! input). Its closed form is [`ca_cfar_pfa`]; it is checked in `tests/iq_acq_cfar.rs`.
 
 use super::{Cf64, IqError, IqSource, SampleSpec, SpreadingCode};
 use crate::acquisition::{pd_square_law, threshold_for_pfa};
@@ -347,7 +352,7 @@ fn result_from_peak(
 
     let n_cells = (spc * bins.len()) as f64;
     // Per-cell false-alarm probability 1 − (1 − P_fa)^(1/N), formed without cancellation.
-    let pfa_cell = -((-cfg.pfa).ln_1p() / n_cells).exp_m1();
+    let pfa_cell = -((-cfg.pfa).pln_1p() / n_cells).pexp_m1();
     let threshold = threshold_for_pfa(pfa_cell, cfg.noncoherent as f64);
     let len = code.len_chips() as f64;
     let code_phase_chips = (-(tb as f64) * chips_per_sample).rem_euclid(len);
@@ -481,13 +486,208 @@ pub fn acquire_source(
 /// `ρ = (C/N0)·N·T_code` and `M` non-coherent blocks. No straddle or bit-edge loss.
 pub fn predicted_pd(cfg: &AcqConfig, period_s: f64, cn0_dbhz: f64, pfa_cell: f64) -> f64 {
     let m = cfg.noncoherent as f64;
-    let rho = 10f64.powf(cn0_dbhz / 10.0) * cfg.coherent_periods as f64 * period_s;
+    let rho = 10f64.ppowf(cn0_dbhz / 10.0) * cfg.coherent_periods as f64 * period_s;
     pd_square_law(threshold_for_pfa(pfa_cell, m), m, rho)
+}
+
+// --- Cell-averaging CFAR (opt-in) ----------------------------------------------------
+
+/// Settings of the opt-in cell-averaging CFAR detector ([`ca_cfar`]), which decides on the
+/// normalised grid an [`acquire`] search returns instead of on the sample-power threshold.
+///
+/// A cell `X` at Doppler bin `j` and lag `ℓ` is compared with the mean of `reference_cells`
+/// cells of the same row, half on each side at lags `ℓ ± (guard_lags + k·stride_lags)`,
+/// `k = 1 ..= reference_cells/2`, wrapping round the period: it is declared when
+/// `X > α·mean`, with `α` from [`ca_cfar_alpha`] for `pfa_cell`. The stride keeps the
+/// reference cells and the cell close to independent under noise alone (it should exceed the
+/// code's autocorrelation main lobe; [`CfarConfig::new`] uses `ceil(samples per chip) + 1`).
+/// MODELLED; pre-registered in `docs/design/evidence/acq-cfar/`.
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct CfarConfig {
+    /// Number of reference cells `N` (even, at least 2).
+    pub reference_cells: usize,
+    /// Lags between the cell and the first reference cell on each side, before the stride.
+    pub guard_lags: usize,
+    /// Lags between consecutive reference cells (at least 1).
+    pub stride_lags: usize,
+    /// Per-cell false-alarm probability under noise alone.
+    pub pfa_cell: f64,
+}
+
+impl CfarConfig {
+    /// `reference_cells` cells, `guard_lags` guard, and the stride `ceil(fs/chip rate) + 1`
+    /// for `code` sampled as `spec`.
+    pub fn new(
+        spec: &SampleSpec,
+        code: &dyn SpreadingCode,
+        reference_cells: usize,
+        guard_lags: usize,
+        pfa_cell: f64,
+    ) -> Self {
+        Self {
+            reference_cells,
+            guard_lags,
+            stride_lags: (spec.fs_hz / code.chip_rate_hz()).ceil() as usize + 1,
+            pfa_cell,
+        }
+    }
+
+    fn check(&self, samples_per_period: usize) -> Result<(), String> {
+        let n = self.reference_cells;
+        if n < 2 || n % 2 != 0 {
+            return Err(format!(
+                "CFAR reference cells must be even and at least 2 (got {n})"
+            ));
+        }
+        if self.stride_lags == 0 {
+            return Err("CFAR stride must be at least 1 lag".into());
+        }
+        if !(self.pfa_cell > 0.0 && self.pfa_cell < 1.0) {
+            return Err(format!(
+                "CFAR per-cell Pfa must lie in (0, 1) (got {})",
+                self.pfa_cell
+            ));
+        }
+        let reach = self.guard_lags + (n / 2) * self.stride_lags;
+        if 2 * reach >= samples_per_period {
+            return Err(format!(
+                "CFAR window reaches {reach} lags each side, too wide for a {samples_per_period}-lag period"
+            ));
+        }
+        Ok(())
+    }
+
+    /// The mean of the reference cells of lag `lag` in `row` (one period of lags).
+    fn reference_mean(&self, row: &[f64], lag: usize) -> f64 {
+        let len = row.len();
+        let half = self.reference_cells / 2;
+        let mut sum = 0.0;
+        for k in 1..=half {
+            let d = self.guard_lags + k * self.stride_lags;
+            sum += row[(lag + d) % len] + row[(lag + len - d % len) % len];
+        }
+        sum / self.reference_cells as f64
+    }
+}
+
+/// The closed-form per-cell false-alarm probability of the cell-averaging CFAR test
+/// `X > α·Z/N` when the cell `X` is `Gamma(M, θ)` and the `N` reference cells are independent
+/// `Gamma(M, θ)` (square-law cells after `M` non-coherent blocks; `θ` cancels):
+/// `Σ_{k=0}^{M−1} C(NM + k − 1, k)·t^k/(1 + t)^(NM + k)` with `t = α/N`, which for `M = 1` is
+/// `(1 + α/N)^(−N)`.
+pub fn ca_cfar_pfa(alpha: f64, n_ref: usize, m: usize) -> f64 {
+    let nm = (n_ref * m) as f64;
+    let t = alpha / n_ref as f64;
+    // term_k = C(NM + k − 1, k)·t^k/(1 + t)^(NM + k), built by ratio from term_0.
+    let mut term = (-nm * t.pln_1p()).pexp();
+    let mut sum = term;
+    for k in 1..m {
+        term *= (nm + k as f64 - 1.0) / k as f64 * t / (1.0 + t);
+        sum += term;
+    }
+    sum
+}
+
+/// The CFAR factor `α` whose [`ca_cfar_pfa`] equals `pfa` (bisection to 1e-12 relative).
+pub fn ca_cfar_alpha(pfa: f64, n_ref: usize, m: usize) -> f64 {
+    let (mut lo, mut hi) = (0.0f64, 1.0f64);
+    while ca_cfar_pfa(hi, n_ref, m) > pfa {
+        hi *= 2.0;
+    }
+    for _ in 0..200 {
+        let mid = 0.5 * (lo + hi);
+        if ca_cfar_pfa(mid, n_ref, m) > pfa {
+            lo = mid;
+        } else {
+            hi = mid;
+        }
+        if hi - lo <= 1e-12 * hi {
+            break;
+        }
+    }
+    0.5 * (lo + hi)
+}
+
+/// The cell-averaging CFAR decision on a search's peak cell.
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct CfarResult {
+    /// The factor `α` the cells are compared with.
+    pub alpha: f64,
+    /// The peak cell over the mean of its reference cells.
+    pub peak_ratio: f64,
+    /// Whether `peak_ratio > alpha`.
+    pub detected: bool,
+    /// The peak's Doppler bin and lag (the same cell as the search result's).
+    pub doppler_index: usize,
+    /// The peak's lag (samples).
+    pub delay_samples: usize,
+}
+
+/// The cell-averaging CFAR decision on the peak of `grid`, a search made with `cfg`.
+pub fn ca_cfar(grid: &AcqGrid, cfg: &AcqConfig, cfar: &CfarConfig) -> Result<CfarResult, String> {
+    let r = &grid.result;
+    cfar.check(r.samples_per_period)?;
+    let alpha = ca_cfar_alpha(cfar.pfa_cell, cfar.reference_cells, cfg.noncoherent);
+    let row = &grid.grid[r.doppler_index];
+    let peak_ratio = row[r.delay_samples] / cfar.reference_mean(row, r.delay_samples);
+    Ok(CfarResult {
+        alpha,
+        peak_ratio,
+        detected: peak_ratio > alpha,
+        doppler_index: r.doppler_index,
+        delay_samples: r.delay_samples,
+    })
+}
+
+/// The cell-averaging CFAR decision on every cell of `grid` (a search made with `cfg`):
+/// `decisions[j][ℓ]` is true when cell `(j, ℓ)` exceeds `α` times its reference mean.
+pub fn ca_cfar_cells(
+    grid: &AcqGrid,
+    cfg: &AcqConfig,
+    cfar: &CfarConfig,
+) -> Result<Vec<Vec<bool>>, String> {
+    cfar.check(grid.result.samples_per_period)?;
+    let alpha = ca_cfar_alpha(cfar.pfa_cell, cfar.reference_cells, cfg.noncoherent);
+    Ok(grid
+        .grid
+        .iter()
+        .map(|row| {
+            (0..row.len())
+                .map(|l| row[l] > alpha * cfar.reference_mean(row, l))
+                .collect()
+        })
+        .collect())
 }
 
 #[cfg(test)]
 mod tests {
-    use super::{auto_coherent_periods, default_step_hz, PULL_IN_STEP_MARGIN};
+    use super::{
+        auto_coherent_periods, ca_cfar_alpha, ca_cfar_pfa, default_step_hz, PULL_IN_STEP_MARGIN,
+    };
+    use crate::portable_math::PortableFloat;
+
+    #[test]
+    fn ca_cfar_closed_form_reduces_to_the_textbook_case_and_inverts() {
+        // M = 1: (1 + α/N)^(−N).
+        for n in [8usize, 16, 32] {
+            for a in [1.0, 5.0, 12.5] {
+                let want = (1.0 + a / n as f64).ppowi(-(n as i32));
+                assert!((ca_cfar_pfa(a, n, 1) - want).abs() <= 1e-15 * want.max(1e-300));
+            }
+        }
+        // α = 0: the cell exceeds zero with probability one, for every M.
+        assert!((ca_cfar_pfa(0.0, 16, 4) - 1.0).abs() < 1e-12);
+        // The inversion recovers the requested Pfa.
+        for m in [1usize, 2, 4] {
+            for pfa in [1e-2, 1e-3, 1e-6] {
+                let a = ca_cfar_alpha(pfa, 16, m);
+                assert!(
+                    (ca_cfar_pfa(a, 16, m) / pfa - 1.0).abs() < 1e-9,
+                    "{m} {pfa}"
+                );
+            }
+        }
+    }
 
     #[test]
     fn the_auto_coherent_length_is_about_four_milliseconds() {
@@ -508,19 +708,20 @@ mod tests {
     fn the_default_step_leaves_a_residual_inside_the_fll_pull_in() {
         use crate::iq::signals::{beidou, galileo, glonass, gps};
         use crate::iq::SpreadingCode;
-        let codes = [
+        let mut codes = vec![
             gps::l1ca(3).unwrap(),
             gps::l5_i5(3).unwrap(),
             gps::l5_q5(3).unwrap(),
             gps::l2c_cm(3).unwrap(),
-            galileo::e1b(3).unwrap(),
-            galileo::e1c(3).unwrap(),
             galileo::e5a_i(3).unwrap(),
             galileo::e5a_q(3).unwrap(),
             beidou::b1i(6).unwrap(),
             beidou::b1c_data(19).unwrap(),
             glonass::l1of(1).unwrap(),
         ];
+        // Galileo E1 only when the user has supplied the ICD tables (they are not bundled).
+        codes.extend(galileo::e1b(3));
+        codes.extend(galileo::e1c(3));
         let mut worst: f64 = 0.0;
         for code in &codes {
             for rx in [code.clone(), code.primary_only()] {

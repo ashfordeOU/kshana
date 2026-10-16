@@ -58,11 +58,13 @@
 mod code;
 mod geometry;
 mod nav;
+pub(crate) mod synthetic;
 mod truth;
 
 #[cfg(test)]
 mod tests;
 
+use crate::portable_math::PortableFloat;
 pub use code::GpsL1Ca;
 pub use geometry::{
     ElevationCn0, GeomPoint, RangeProfile, ReceiverClock, SatGeometry, Trajectory, Vec3,
@@ -111,17 +113,17 @@ impl NoiseConfig {
     /// `N0 = k · (T_ant + T0 · (F − 1))` for a receiver of noise figure `nf_db` behind an
     /// antenna of noise temperature `antenna_temp_k` (closed form, Friis/IEEE definition).
     pub fn from_noise_figure(nf_db: f64, antenna_temp_k: f64) -> Self {
-        let f = 10f64.powf(nf_db / 10.0);
+        let f = 10f64.ppowf(nf_db / 10.0);
         let n0 = BOLTZMANN_J_PER_K * (antenna_temp_k + T0_K * (f - 1.0));
         Self {
-            n0_dbw_per_hz: 10.0 * n0.log10(),
+            n0_dbw_per_hz: 10.0 * n0.plog10(),
             enabled: true,
             normalise: true,
         }
     }
     /// `N0` in W/Hz.
     pub fn n0_w_per_hz(&self) -> f64 {
-        10f64.powf(self.n0_dbw_per_hz / 10.0)
+        10f64.ppowf(self.n0_dbw_per_hz / 10.0)
     }
 }
 
@@ -565,7 +567,7 @@ impl SceneStream {
         let cn0 = sat
             .cn0_dbhz
             .unwrap_or_else(|| cfg.cn0_model.cn0_dbhz(g.elevation_deg));
-        let amp = (10f64.powf(cn0 / 10.0) * cfg.noise.n0_w_per_hz()).sqrt() * self.gain;
+        let amp = (10f64.ppowf(cn0 / 10.0) * cfg.noise.n0_w_per_hz()).sqrt() * self.gain;
         let view = SatView {
             pseudorange_m: g.pseudorange_m,
             pseudorange_rate_mps: pdot,
@@ -796,7 +798,7 @@ impl Synth<'_> {
                     let cyc = geo_cycles
                         + path.carrier_phase_rad / TAU
                         + path.extra_doppler_hz * (t - j as f64 * h);
-                    let (sn, cs) = (TAU * (cyc - cyc.floor())).sin_cos();
+                    let (sn, cs) = (TAU * (cyc - cyc.floor())).psin_cos();
                     let v = a * chip * bit;
                     re += v * cs;
                     im += v * sn;
@@ -818,7 +820,7 @@ fn box_muller(a: u64, b: u64) -> (f64, f64) {
     const SCALE: f64 = 1.0 / (1u64 << 53) as f64;
     let u1 = ((a >> 11) as f64 + 1.0) * SCALE; // (0, 1]
     let u2 = (b >> 11) as f64 * SCALE; // [0, 1)
-    let r = (-2.0 * u1.ln()).sqrt();
-    let (s, c) = (TAU * u2).sin_cos();
+    let r = (-2.0 * u1.pln()).sqrt();
+    let (s, c) = (TAU * u2).psin_cos();
     (r * c, r * s)
 }

@@ -91,6 +91,7 @@ use crate::ephem::{moon_position, sun_position};
 use crate::forces::{third_body_accel, MU_EARTH, MU_SUN};
 use crate::integrator::{integrate, rk4_step, Tolerance};
 use crate::lunar::{mci_to_mcmf, mcmf_to_mci, MOON_GM_M3_S2, R_MOON_M};
+use crate::portable_math::PortableFloat;
 use crate::timescales::SECONDS_PER_DAY;
 
 type Vec3 = [f64; 3];
@@ -171,13 +172,13 @@ fn scale(a: Vec3, k: f64) -> Vec3 {
 /// passive `R3` of [`crate::lunar::mci_to_mcmf`]; used to build the perifocal → MCI transform
 /// so the generated initial state matches the [`crate::lunar_service::LunarSat`] convention.
 fn rotz(v: Vec3, angle: f64) -> Vec3 {
-    let (s, c) = angle.sin_cos();
+    let (s, c) = angle.psin_cos();
     [c * v[0] - s * v[1], s * v[0] + c * v[1], v[2]]
 }
 
 /// Active rotation of a 3-vector about `+x` by `angle` (right-handed).
 fn rotx(v: Vec3, angle: f64) -> Vec3 {
-    let (s, c) = angle.sin_cos();
+    let (s, c) = angle.psin_cos();
     [v[0], c * v[1] - s * v[2], s * v[1] + c * v[2]]
 }
 
@@ -225,17 +226,18 @@ pub fn elements_to_state(
     let mut ea = m;
     if e != 0.0 {
         for _ in 0..60 {
-            let d = (ea - e * ea.sin() - m) / (1.0 - e * ea.cos());
+            let d = (ea - e * ea.psin() - m) / (1.0 - e * ea.pcos());
             ea -= d;
             if d.abs() < 1e-14 {
                 break;
             }
         }
     }
-    let r = a * (1.0 - e * ea.cos());
-    let nu = 2.0 * ((1.0 + e).sqrt() * (ea * 0.5).sin()).atan2((1.0 - e).sqrt() * (ea * 0.5).cos());
+    let r = a * (1.0 - e * ea.pcos());
+    let nu =
+        2.0 * ((1.0 + e).sqrt() * (ea * 0.5).psin()).patan2((1.0 - e).sqrt() * (ea * 0.5).pcos());
     let p = a * (1.0 - e * e);
-    let (snu, cnu) = nu.sin_cos();
+    let (snu, cnu) = nu.psin_cos();
     // Perifocal (x̂ toward perilune) position and velocity.
     let r_pf: Vec3 = [r * cnu, r * snu, 0.0];
     let sqrt_mu_p = (MOON_MU_M3_S2 / p).sqrt();
@@ -262,7 +264,7 @@ pub fn osculating_sma(state: &LunarState) -> f64 {
 pub fn osculating_raan(state: &LunarState) -> f64 {
     let h = cross(state.r, state.v);
     // n = ẑ × h = (−h_y, h_x, 0).
-    h[0].atan2(-h[1])
+    h[0].patan2(-h[1])
 }
 
 /// Osculating argument of perilune `ω` (rad) from the state: the angle in the orbit plane
@@ -281,7 +283,7 @@ pub fn osculating_argp(state: &LunarState) -> f64 {
     if nn == 0.0 || en == 0.0 {
         return 0.0;
     }
-    let mut w = (dot(n, e_vec) / (nn * en)).clamp(-1.0, 1.0).acos();
+    let mut w = (dot(n, e_vec) / (nn * en)).clamp(-1.0, 1.0).pacos();
     if e_vec[2] < 0.0 {
         w = std::f64::consts::TAU - w;
     }
@@ -307,7 +309,7 @@ pub fn moon_j2_accel(r: Vec3) -> Vec3 {
     let rn = norm(r);
     let r2 = rn * rn;
     let zr2 = 5.0 * r[2] * r[2] / r2;
-    let c = -1.5 * MOON_J2 * MOON_MU_M3_S2 * MOON_REF_RADIUS_M * MOON_REF_RADIUS_M / rn.powi(5);
+    let c = -1.5 * MOON_J2 * MOON_MU_M3_S2 * MOON_REF_RADIUS_M * MOON_REF_RADIUS_M / rn.ppowi(5);
     [
         c * r[0] * (1.0 - zr2),
         c * r[1] * (1.0 - zr2),
@@ -321,7 +323,7 @@ pub fn moon_j2_accel(r: Vec3) -> Vec3 {
 pub fn moon_c22_potential_bodyfixed(r_bf: Vec3) -> f64 {
     let rn = norm(r_bf);
     let k = 3.0 * MOON_MU_M3_S2 * MOON_REF_RADIUS_M * MOON_REF_RADIUS_M * MOON_C22;
-    k * (r_bf[0] * r_bf[0] - r_bf[1] * r_bf[1]) / rn.powi(5)
+    k * (r_bf[0] * r_bf[0] - r_bf[1] * r_bf[1]) / rn.ppowi(5)
 }
 
 /// The `C22` sectoral acceleration in the **Moon-fixed** frame (m/s²) — the exact analytic
@@ -330,7 +332,7 @@ pub fn moon_c22_potential_bodyfixed(r_bf: Vec3) -> f64 {
 pub fn moon_c22_accel_bodyfixed(r_bf: Vec3) -> Vec3 {
     let rn = norm(r_bf);
     let r2 = rn * rn;
-    let k = 3.0 * MOON_MU_M3_S2 * MOON_REF_RADIUS_M * MOON_REF_RADIUS_M * MOON_C22 / rn.powi(5);
+    let k = 3.0 * MOON_MU_M3_S2 * MOON_REF_RADIUS_M * MOON_REF_RADIUS_M * MOON_C22 / rn.ppowi(5);
     let dxy = r_bf[0] * r_bf[0] - r_bf[1] * r_bf[1];
     [
         k * (2.0 * r_bf[0] - 5.0 * r_bf[0] * dxy / r2),
@@ -586,8 +588,8 @@ pub struct J2SecularRates {
 pub fn j2_secular_rates(a: f64, e: f64, i_rad: f64) -> J2SecularRates {
     let n = mean_motion(a);
     let p = a * (1.0 - e * e);
-    let factor = n * MOON_J2 * (MOON_REF_RADIUS_M / p).powi(2);
-    let ci = i_rad.cos();
+    let factor = n * MOON_J2 * (MOON_REF_RADIUS_M / p).ppowi(2);
+    let ci = i_rad.pcos();
     J2SecularRates {
         raan: -1.5 * factor * ci,
         arg_perilune: 0.75 * factor * (5.0 * ci * ci - 1.0),
@@ -827,7 +829,7 @@ pub fn op_frame(
     let z = unit(cross(e[0], e[1]));
     let jd_tdb = crate::timescales::JD_J2000 + (et_hi + et_lo) / SECONDS_PER_DAY;
     let (ra, dec) = crate::lunar_frame::lunar_pole_ra_dec(jd_tdb);
-    let p = [dec.cos() * ra.cos(), dec.cos() * ra.sin(), dec.sin()];
+    let p = [dec.pcos() * ra.pcos(), dec.pcos() * ra.psin(), dec.psin()];
     let x = unit(cross(p, z));
     let y = cross(z, x);
     Ok([x, y, z])
@@ -851,16 +853,17 @@ pub fn elements_in_frame_to_state(
     let m = mean_anom_deg.to_radians();
     let mut ea = m;
     for _ in 0..60 {
-        let d = (ea - e * ea.sin() - m) / (1.0 - e * ea.cos());
+        let d = (ea - e * ea.psin() - m) / (1.0 - e * ea.pcos());
         ea -= d;
         if d.abs() < 1e-15 {
             break;
         }
     }
-    let nu = 2.0 * ((1.0 + e).sqrt() * (ea * 0.5).sin()).atan2((1.0 - e).sqrt() * (ea * 0.5).cos());
+    let nu =
+        2.0 * ((1.0 + e).sqrt() * (ea * 0.5).psin()).patan2((1.0 - e).sqrt() * (ea * 0.5).pcos());
     let p = sma_m * (1.0 - e * e);
-    let r = p / (1.0 + e * nu.cos());
-    let (snu, cnu) = nu.sin_cos();
+    let r = p / (1.0 + e * nu.pcos());
+    let (snu, cnu) = nu.psin_cos();
     let r_pf: Vec3 = [r * cnu, r * snu, 0.0];
     let k = (gm / p).sqrt();
     let v_pf: Vec3 = [-k * snu, k * (e + cnu), 0.0];

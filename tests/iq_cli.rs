@@ -13,6 +13,18 @@ use kshana::iq::cli::run;
 use kshana::iq::scene::truth_from_csv;
 use std::path::PathBuf;
 
+/// The Galileo E1 memory-code tables are user-supplied (not bundled, by the ICD's terms);
+/// the E1 tests skip, with a message, when they are absent. Supply them with
+/// `KSHANA_GALILEO_E1B` / `KSHANA_GALILEO_E1C` or `scripts/fetch_galileo_e1_codes.sh`.
+fn e1_tables_supplied() -> bool {
+    let ok = kshana::iq::signals::galileo::e1b_table().is_ok()
+        && kshana::iq::signals::galileo::e1c_table().is_ok();
+    if !ok {
+        eprintln!("skipped: Galileo E1 tables not supplied (scripts/fetch_galileo_e1_codes.sh)");
+    }
+    ok
+}
+
 /// A fresh scratch folder for one test.
 fn scratch(name: &str) -> PathBuf {
     use std::sync::atomic::{AtomicU64, Ordering};
@@ -496,9 +508,11 @@ fn scene_data_is_refused_on_a_pilot() {
             "--data",
         ]))
     };
-    assert_eq!(scene("galileo-e1c"), 2);
     assert_eq!(scene("gps-l2c"), 2);
-    assert_eq!(scene("galileo-e1b"), 0);
+    if e1_tables_supplied() {
+        assert_eq!(scene("galileo-e1c"), 2);
+        assert_eq!(scene("galileo-e1b"), 0);
+    }
 }
 
 /// `track` and `sweep` apply the front-end flags: running either with `--notch --bits 2`
@@ -679,7 +693,11 @@ fn auto_handoff_coherent_length_per_signal_family() {
     all.sort_unstable();
     assert_eq!(named, all, "pin the auto hand-off length of every signal");
     for &(signal, periods) in expected {
-        let code = build_code(signal, 1).unwrap();
+        // Galileo E1 only when the user has supplied the ICD tables (they are not bundled).
+        let Ok(code) = build_code(signal, 1) else {
+            assert!(signal.starts_with("galileo-e1"), "{signal} failed to build");
+            continue;
+        };
         let t = code.period_s();
         let n = auto_coherent_periods(t);
         assert_eq!(n, periods, "{signal}: full period {t} s");
@@ -1292,6 +1310,28 @@ fn error_paths_return_the_documented_codes() {
     );
 }
 
+/// A labfit scenario whose `[input] campaign` names a folder that does not exist is a run
+/// error (exit 1) that names the folder, resolved against the scenario file's directory, and
+/// writes nothing.
+#[test]
+fn labfit_on_a_missing_campaign_folder_is_a_run_error() {
+    use kshana::iq::cli::{execute, CommandError};
+    let dir = scratch("labfit-campaign");
+    let toml_path = dir.join("fit.toml");
+    std::fs::write(&toml_path, "[input]\ncampaign = \"no-such-campaign\"\n").unwrap();
+    let toml_arg = toml_path.display().to_string();
+    assert_eq!(run(&args(&["labfit", &toml_arg])), 1);
+    match execute(&args(&["labfit", &toml_arg])) {
+        Err(CommandError::Run(m)) => assert!(
+            m.contains(&dir.join("no-such-campaign").display().to_string()),
+            "{m}"
+        ),
+        other => panic!("expected a run error, got {other:?}"),
+    }
+    let left: Vec<_> = std::fs::read_dir(&dir).unwrap().collect();
+    assert_eq!(left.len(), 1, "only the scenario remains");
+}
+
 // --- helpers mirroring the synthetic scenario in tests/iq_labfit.rs ---
 
 /// A ramp up at `up` dB/s to a 40 dB peak, a hold, and a ramp down at `down` dB/s, onset
@@ -1823,4 +1863,14 @@ fn labfit_inline_returns_the_report_and_refuses_log_paths() {
         kshana::surface::iq_labfit_inline(&toml::to_string(&doc2).unwrap(), 64 * 1024 * 1024)
             .is_err()
     );
+}
+
+/// The surface form of `labfit` reads no files, so a scenario naming a campaign folder is
+/// refused with where campaigns are read instead.
+#[test]
+fn labfit_inline_refuses_a_campaign_folder() {
+    let toml = "[input]\ncampaign = \"out\"\n";
+    let e = kshana::surface::iq_labfit_inline(toml, 64 * 1024 * 1024).unwrap_err();
+    assert!(e.contains("[input] campaign"), "{e}");
+    assert!(e.contains("MCP labfit tool"), "{e}");
 }

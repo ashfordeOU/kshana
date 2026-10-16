@@ -50,9 +50,10 @@ use super::geom::{median, norm, sub, EarthOrbit, Site};
 use super::system::SystemCfg;
 use crate::field_schema::{FieldUnit, ProvenanceClass::*};
 use crate::palette::chart::{BLUE, CORAL, CYAN, INK_2, INK_3, LIME, MAGENTA, MUTED};
+use crate::portable_distr::{Distribution, Normal};
+use crate::portable_math::PortableFloat;
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
-use rand_distr::{Distribution, Normal};
 use serde::{Deserialize, Serialize};
 
 /// A system as the PPP filter sees it.
@@ -290,12 +291,12 @@ pub fn run(
     };
     for (i, t) in truth.iter().enumerate() {
         f.x[i] = t + noise.pos0_sigma_m * n01.sample(&mut rng);
-        f.p[i][i] = noise.pos0_sigma_m.powi(2);
+        f.p[i][i] = noise.pos0_sigma_m.ppowi(2);
     }
-    f.p[3][3] = noise.clock_sigma_m.powi(2);
-    f.p[4][4] = noise.zwd0_sigma_m.powi(2);
+    f.p[3][3] = noise.clock_sigma_m.ppowi(2);
+    f.p[4][4] = noise.zwd0_sigma_m.ppowi(2);
     for k in 5..n_fixed {
-        f.p[k][k] = noise.isb0_sigma_m.powi(2);
+        f.p[k][k] = noise.isb0_sigma_m.ppowi(2);
     }
     let n_ep = (duration_s / step_s).floor() as usize + 1;
     let mut out = PppRun {
@@ -320,7 +321,7 @@ pub fn run(
             f.p[3][i] = 0.0;
             f.p[i][3] = 0.0;
         }
-        f.p[3][3] = noise.clock_sigma_m.powi(2);
+        f.p[3][3] = noise.clock_sigma_m.ppowi(2);
         // Visible satellites.
         let mut vis: Vec<(usize, usize, [f64; 3], f64)> = Vec::new();
         for (k, s) in systems.iter().enumerate() {
@@ -348,13 +349,13 @@ pub fn run(
             let id = (v.0, v.1);
             if !f.amb.contains(&id) {
                 f.amb.push(id);
-                f.add_state(0.0, noise.amb0_sigma_m.powi(2));
+                f.add_state(0.0, noise.amb0_sigma_m.ppowi(2));
                 amb_true.push((id, noise.amb0_sigma_m * n01.sample(&mut rng)));
             }
         }
         for v in &vis {
             let (k, j, pos, el) = *v;
-            let m = 1.0 / el.sin();
+            let m = 1.0 / el.psin();
             let sp = noise.sigma_code_m * m;
             let sl = noise.sigma_phase_m * m;
             let ss = systems[k].sigma_sat_m;
@@ -819,7 +820,7 @@ fn ppp_svg(r: &PppReport) -> String {
         .unwrap_or(1)
         .max(2);
     let (lo, hi) = (-3.0_f64, 1.0_f64);
-    let y = |v: f64| top + ph - ph * ((v.max(1e-3).log10() - lo) / (hi - lo)).clamp(0.0, 1.0);
+    let y = |v: f64| top + ph - ph * ((v.max(1e-3).plog10() - lo) / (hi - lo)).clamp(0.0, 1.0);
     for (k, c) in r.cases.iter().enumerate() {
         let pts: Vec<String> = c
             .median_horizontal_error_m

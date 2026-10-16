@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
+// Host maths on purpose: this test recomputes its expected values independently of the engine's
+// portable maths (STUDIO-15), so the engine is checked against a second implementation.
 //! Time-transfer error-budgeting reference test (external oracle: RTKLIB 2.4.3).
 //!
 //! kshana's geometric/time-transfer closed forms are checked against an

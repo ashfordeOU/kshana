@@ -33,6 +33,7 @@
 
 use crate::cr3bp::{cr3bp_accel, propagate_cr3bp, Cr3bpState, EARTH_MOON_DIST_KM, EARTH_MOON_MU};
 use crate::observability_gramian::planar_state_stm;
+use crate::portable_math::PortableFloat;
 
 /// A planar CR3BP state `[x, y, ẋ, ẏ]` (rotating frame, normalised Earth–Moon units).
 pub type Planar = [f64; 4];
@@ -142,10 +143,10 @@ fn scan_vy0(x_cross: f64, mu: f64) -> Option<f64> {
 /// Periodicity residual: four-state closure error after one full period.
 fn periodicity_residual(s0: &Planar, mu: f64, period: f64, steps: usize) -> f64 {
     let end = planar_of(&propagate_cr3bp(embed(s0), mu, period, steps));
-    ((end[0] - s0[0]).powi(2)
-        + (end[1] - s0[1]).powi(2)
-        + (end[2] - s0[2]).powi(2)
-        + (end[3] - s0[3]).powi(2))
+    ((end[0] - s0[0]).ppowi(2)
+        + (end[1] - s0[1]).ppowi(2)
+        + (end[2] - s0[2]).ppowi(2)
+        + (end[3] - s0[3]).ppowi(2))
     .sqrt()
 }
 
@@ -267,10 +268,10 @@ mod tests {
     /// return error. High, matched integration resolution.
     fn closure_residual(ic: &Planar, mu: f64, period: f64, steps: usize) -> f64 {
         let end = planar_of(&propagate_cr3bp(embed(ic), mu, period, steps));
-        ((end[0] - ic[0]).powi(2)
-            + (end[1] - ic[1]).powi(2)
-            + (end[2] - ic[2]).powi(2)
-            + (end[3] - ic[3]).powi(2))
+        ((end[0] - ic[0]).ppowi(2)
+            + (end[1] - ic[1]).ppowi(2)
+            + (end[2] - ic[2]).ppowi(2)
+            + (end[3] - ic[3]).ppowi(2))
         .sqrt()
     }
 

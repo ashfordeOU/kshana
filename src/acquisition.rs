@@ -397,7 +397,7 @@ pub fn pcps_grid(samples: &[Cf64], code: &CaCode, cfg: &PcpsConfig) -> Result<Pc
     }
     let n_cells = (spc * bins.len()) as f64;
     // Per-cell false-alarm probability 1 − (1 − P_fa)^(1/N), formed without cancellation.
-    let pfa_cell = -((-cfg.pfa).ln_1p() / n_cells).exp_m1();
+    let pfa_cell = -((-cfg.pfa).pln_1p() / n_cells).pexp_m1();
     let threshold = threshold_for_pfa(pfa_cell, cfg.noncoherent as f64);
     Ok(PcpsGrid {
         result: PcpsResult {
@@ -619,7 +619,7 @@ pub fn refine_doppler_coherent(
     let at = |k: isize| {
         mag[k.rem_euclid(N as isize) as usize]
             .max(f64::MIN_POSITIVE)
-            .ln()
+            .pln()
     };
     let (a, b, c) = (
         at(kmax as isize - 1),
@@ -650,7 +650,7 @@ mod tests {
         // M = 1, a = 0 ⇒ Q_1(0, b) = exp(−b²/2).
         for &b in &[0.5_f64, 1.0, 2.0, 3.0] {
             let got = marcum_q(1.0, 0.0, b);
-            let want = (-b * b / 2.0).exp();
+            let want = (-b * b / 2.0).pexp();
             assert!(approx(got, want, 1e-9), "Q_1(0,{b}) = {got} vs {want}");
         }
     }
@@ -737,7 +737,7 @@ mod tests {
         let mut rng = rand_chacha::ChaCha8Rng::seed_from_u64(seed);
         let code = CaCode::new(prn).expect("prn");
         let sigma2 = 1.0; // complex noise power per sample
-        let a = (10f64.powf(cn0_dbhz / 10.0) * sigma2 / fs).sqrt();
+        let a = (10f64.ppowf(cn0_dbhz / 10.0) * sigma2 / fs).sqrt();
         let rate = CA_CHIP_RATE_HZ * (1.0 + doppler / L1_HZ);
         (0..n)
             .map(|i| {
@@ -747,7 +747,7 @@ mod tests {
                 let c = code.bipolar[idx] * a;
                 let nr = crate::portable_math::standard_normal(&mut rng) * (sigma2 / 2.0).sqrt();
                 let ni = crate::portable_math::standard_normal(&mut rng) * (sigma2 / 2.0).sqrt();
-                Cf64::new(c * ph.cos() + nr, c * ph.sin() + ni)
+                Cf64::new(c * ph.pcos() + nr, c * ph.psin() + ni)
             })
             .collect()
     }
@@ -767,14 +767,14 @@ mod tests {
     #[test]
     fn fft_round_trips_and_matches_a_direct_sum() {
         let x: Vec<Cf64> = (0..60)
-            .map(|i| Cf64::new((i as f64 * 0.7).sin(), (i as f64 * 0.3).cos()))
+            .map(|i| Cf64::new((i as f64 * 0.7).psin(), (i as f64 * 0.3).pcos()))
             .collect();
         let f = fft_forward(&x);
         let k = 7;
         let mut d = Cf64::default();
         for (n, v) in x.iter().enumerate() {
             let a = -core::f64::consts::TAU * (n * k) as f64 / 60.0;
-            d = d + *v * Cf64::new(a.cos(), a.sin());
+            d = d + *v * Cf64::new(a.pcos(), a.psin());
         }
         assert!((f[k].re - d.re).abs() < 1e-12 && (f[k].im - d.im).abs() < 1e-12);
         for (a, b) in fft_inverse(&f).iter().zip(&x) {

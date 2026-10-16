@@ -25,6 +25,7 @@
 //! matching clock is invisible to them; the sensors that must disagree for a detection
 //! (gyro, log) also have to be on the bus and valid.
 
+use crate::portable_math::PortableFloat;
 use std::collections::{BTreeMap, VecDeque};
 
 use serde::{Deserialize, Serialize};
@@ -261,13 +262,13 @@ impl MarineEpoch {
 /// 1.75 km and 70 degrees).
 pub fn en_offset_m(lat0: f64, lon0: f64, lat1: f64, lon1: f64) -> (f64, f64) {
     let phi = ((lat0 + lat1) / 2.0).to_radians();
-    let s2 = phi.sin().powi(2);
+    let s2 = phi.psin().ppowi(2);
     let w = (1.0 - WGS84_E2 * s2).sqrt();
     let n_radius = WGS84_A / w;
     let m_radius = WGS84_A * (1.0 - WGS84_E2) / (w * w * w);
     let dlon = (lon1 - lon0 + 540.0).rem_euclid(360.0) - 180.0;
     (
-        dlon.to_radians() * n_radius * phi.cos(),
+        dlon.to_radians() * n_radius * phi.pcos(),
         (lat1 - lat0).to_radians() * m_radius,
     )
 }
@@ -354,7 +355,7 @@ pub struct MarineMonitors {
 fn spread(v: &[f64]) -> f64 {
     let n = v.len() as f64;
     let m = v.iter().sum::<f64>() / n;
-    (v.iter().map(|x| (x - m).powi(2)).sum::<f64>() / n).sqrt()
+    (v.iter().map(|x| (x - m).ppowi(2)).sum::<f64>() / n).sqrt()
 }
 
 impl MarineMonitors {
@@ -384,7 +385,7 @@ impl MarineMonitors {
     fn velocity(e: &LogEpoch) -> Option<(f64, f64)> {
         let m = e.marine.as_ref()?;
         let (sog, cog) = (m.sog_kn?, m.cog_deg?);
-        let (s, c) = cog.to_radians().sin_cos();
+        let (s, c) = cog.to_radians().psin_cos();
         Some((sog * KN_TO_MPS * s, sog * KN_TO_MPS * c))
     }
 
@@ -598,7 +599,7 @@ impl MarineMonitors {
             };
             let dt = now.t - a.t;
             let (de, dn) = en_offset_m(a.lat, a.lon, now.lat, now.lon);
-            let dist = de.hypot(dn);
+            let dist = de.phypot(dn);
             let speed = dist / dt;
             if age == w {
                 stats.kin_speed_mps = Some(speed);
@@ -629,9 +630,9 @@ impl MarineMonitors {
                     let (ve, vn) = (0.5 * (v0.0 + v1.0), 0.5 * (v0.1 + v1.1));
                     pe += ve * h;
                     pn += vn * h;
-                    path += ve.hypot(vn) * h;
+                    path += ve.phypot(vn) * h;
                 }
-                let resid = (de - pe).hypot(dn - pn);
+                let resid = (de - pe).phypot(dn - pn);
                 if age == w {
                     stats.kin_resid_m = Some(resid);
                 }
@@ -648,19 +649,19 @@ impl MarineMonitors {
                 let (e1, n1) = en_offset_m(a2.lat, a2.lon, a1.lat, a1.lon);
                 let (v2, v1) = ((e2 / dt2, n2 / dt2), (e1 / dt1, n1 / dt1));
                 let unc = c.kin_pos_tol_m / dt2 + c.kin_pos_tol_m / dt1;
-                let dv = (v2.0 - v1.0).hypot(v2.1 - v1.1);
+                let dv = (v2.0 - v1.0).phypot(v2.1 - v1.1);
                 let span = 0.5 * (dt1 + dt2);
                 let accel = (dv - unc).max(0.0) / span;
                 stats.kin_accel_mps2 = Some(accel);
                 let r_acc = limit_ratio(accel, self.limits.max_accel_mps2, c.kin_limit_guard);
-                let (s1, s2) = (v1.0.hypot(v1.1), v2.0.hypot(v2.1));
+                let (s1, s2) = (v1.0.phypot(v1.1), v2.0.phypot(v2.1));
                 let min_v = c.min_speed_kn * KN_TO_MPS;
                 let mut r_turn = None;
                 if s1 >= min_v && s2 >= min_v {
-                    let b1 = v1.0.atan2(v1.1).to_degrees();
-                    let b2 = v2.0.atan2(v2.1).to_degrees();
+                    let b1 = v1.0.patan2(v1.1).to_degrees();
+                    let b2 = v2.0.patan2(v2.1).to_degrees();
                     let unc_deg = ((c.kin_pos_tol_m / dt1) / s1 + (c.kin_pos_tol_m / dt2) / s2)
-                        .atan()
+                        .patan()
                         .to_degrees();
                     let rate = (ang_diff_deg(b2, b1).abs() - unc_deg).max(0.0) / span;
                     stats.kin_turn_dps = Some(rate);

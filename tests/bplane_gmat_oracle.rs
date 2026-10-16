@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
+// Host maths on purpose: this test recomputes its expected values independently of the engine's
+// portable maths (STUDIO-15), so the engine is checked against a second implementation.
 //! External-library oracle for B-plane targeting and the patched-conic flyby geometry
 //! (`kshana::bplane`, verification row "B-plane targeting & patched-conic gravity assist").
 //!

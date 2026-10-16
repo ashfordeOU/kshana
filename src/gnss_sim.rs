@@ -26,12 +26,12 @@
 
 use crate::frames::{geodetic_to_ecef, look_angles, teme_to_ecef, Geodetic, Vec3};
 use crate::palette::chart::{AXIS, BG, CORAL, CYAN, FONT_SANS, INK_2, MAGENTA};
-use crate::portable_math::{Maths, Platform, Portable};
+use crate::portable_distr::{Distribution, Normal};
+use crate::portable_math::{Maths, Portable, PortableFloat};
 use crate::scenario::TimeCfg;
 use crate::walker::{walker_epoch_jd, WalkerSgp4};
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
-use rand_distr::{Distribution, Normal};
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 use std::f64::consts::PI;
@@ -76,7 +76,7 @@ pub fn klobuchar_delay_m(
     az_rad: f64,
     gps_sod: f64,
 ) -> f64 {
-    klobuchar_delay_m_with::<Platform>(coeffs, lat_rad, lon_rad, el_rad, az_rad, gps_sod)
+    klobuchar_delay_m_with::<Portable>(coeffs, lat_rad, lon_rad, el_rad, az_rad, gps_sod)
 }
 
 /// [`klobuchar_delay_m`] evaluated with the platform-independent mathematics library
@@ -180,14 +180,14 @@ impl Default for Meteo {
 /// scaled by relative humidity — the Magnus/Tetens form.
 fn water_vapour_pressure_hpa(meteo: &Meteo) -> f64 {
     let tc = meteo.temp_k - 273.15;
-    let es = 6.108 * (17.15 * tc / (234.7 + tc)).exp();
+    let es = 6.108 * (17.15 * tc / (234.7 + tc)).pexp();
     meteo.humidity * es
 }
 
 /// Saastamoinen zenith hydrostatic and wet delays (metres) at geodetic latitude
 /// `lat_rad` and height `h_m`. (Davis et al. 1985; Groves §9.4.)
 pub fn saastamoinen_zenith_m(meteo: &Meteo, lat_rad: f64, h_m: f64) -> (f64, f64) {
-    let denom = 1.0 - 0.00266 * (2.0 * lat_rad).cos() - 0.00028 * (h_m / 1000.0);
+    let denom = 1.0 - 0.00266 * (2.0 * lat_rad).pcos() - 0.00028 * (h_m / 1000.0);
     let zhd = 0.0022768 * meteo.pressure_hpa / denom;
     let e = water_vapour_pressure_hpa(meteo);
     let zwd = 0.0022768 * (1255.0 / meteo.temp_k + 0.05) * e / denom;
@@ -260,7 +260,7 @@ pub fn niell_hydrostatic(el_rad: f64, lat_rad: f64, h_m: f64, doy: f64) -> f64 {
     let lat_abs = lat_rad.to_degrees().abs();
     // Seasonal phase: southern hemisphere is shifted half a year.
     let doy_adj = if lat_rad < 0.0 { doy + 182.625 } else { doy };
-    let season = (2.0 * PI * (doy_adj - 28.0) / 365.25).cos();
+    let season = (2.0 * PI * (doy_adj - 28.0) / 365.25).pcos();
     let coef = |avg: &[f64; 5], amp: &[f64; 5]| {
         niell_interp(avg, lat_abs) - niell_interp(amp, lat_abs) * season
     };
@@ -269,7 +269,7 @@ pub fn niell_hydrostatic(el_rad: f64, lat_rad: f64, h_m: f64, doy: f64) -> f64 {
         coef(&AVG_B, &AMP_B),
         coef(&AVG_C, &AMP_C),
     );
-    let sin_e = el_rad.sin();
+    let sin_e = el_rad.psin();
     let m = marini_mapping(sin_e, a, b, c);
     // Height correction (km): the difference between a 1/sin and the fixed-coeff
     // mapping, scaled by height.
@@ -306,7 +306,7 @@ pub fn niell_wet(el_rad: f64, lat_rad: f64) -> f64 {
         niell_interp(&B, lat_abs),
         niell_interp(&C, lat_abs),
     );
-    marini_mapping(el_rad.sin(), a, b, c)
+    marini_mapping(el_rad.psin(), a, b, c)
 }
 
 /// Total slant tropospheric delay (metres): the Saastamoinen zenith hydrostatic
@@ -318,7 +318,7 @@ pub fn tropo_delay_m(meteo: &Meteo, lat_rad: f64, h_m: f64, el_rad: f64, doy: f6
 
 /// Euclidean distance between two ECEF points (m).
 pub fn geometric_range_m(a: Vec3, b: Vec3) -> f64 {
-    ((a[0] - b[0]).powi(2) + (a[1] - b[1]).powi(2) + (a[2] - b[2]).powi(2)).sqrt()
+    ((a[0] - b[0]).ppowi(2) + (a[1] - b[1]).ppowi(2) + (a[2] - b[2]).ppowi(2)).sqrt()
 }
 
 // ----------------------------------------------------------------------------
@@ -673,7 +673,7 @@ pub struct GnssSimResult {
 /// A representative elevation-dependent C/N₀ (dB-Hz): ~48 at zenith, ~40 at the
 /// horizon.
 fn cn0_dbhz(el_rad: f64) -> f64 {
-    40.0 + 8.0 * el_rad.sin()
+    40.0 + 8.0 * el_rad.psin()
 }
 
 /// A deterministic per-PRN satellite clock offset (m) in `[−rms, rms]`.
@@ -787,7 +787,7 @@ pub fn run_gnss_sim_sky(
                 .map(|m| tropo_delay_m(m, station.lat_rad, station.alt_m, el, doy))
                 .unwrap_or(0.0);
             let sclk = sat_clock_m(prn, scn.sat_clock_rms_m);
-            let multipath = scn.multipath_m * (1.0 - el.sin());
+            let multipath = scn.multipath_m * (1.0 - el.psin());
             let eps = if scn.noise_sigma_m > 0.0 {
                 noise.sample(&mut rng)
             } else {

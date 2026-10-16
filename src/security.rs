@@ -49,6 +49,7 @@
 //!
 //! All functions are pure and deterministic.
 
+use crate::portable_math::PortableFloat;
 /// Detection multiplier (sigmas) for a low false-alarm-rate spoof monitor (~5σ).
 pub const SPOOF_DETECT_K: f64 = 5.0;
 
@@ -65,7 +66,7 @@ pub const SPOOF_MONITOR_S: f64 = 600.0;
 /// `samples` is clamped to at least one observation.
 pub fn monitor_sigma_s(q_wf: f64, q_rw: f64, r: f64, tau: f64, samples: f64) -> f64 {
     let m = samples.max(1.0);
-    let var = r / m + q_wf * tau + q_rw * tau.powi(3) / 3.0;
+    let var = r / m + q_wf * tau + q_rw * tau.ppowi(3) / 3.0;
     var.max(0.0).sqrt()
 }
 

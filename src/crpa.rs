@@ -35,6 +35,7 @@
 //! - E. D. Kaplan & C. J. Hegarty (eds.), *Understanding GPS/GNSS*, 3rd ed., §9
 //!   (antenna arrays and interference suppression).
 
+use crate::portable_math::PortableFloat;
 use std::f64::consts::PI;
 use std::ops::{Add, Div, Mul, Neg, Sub};
 
@@ -58,8 +59,8 @@ impl C {
     /// `exp(j·θ)` = `cos θ + j·sin θ`.
     pub fn expi(theta: f64) -> Self {
         Self {
-            re: theta.cos(),
-            im: theta.sin(),
+            re: theta.pcos(),
+            im: theta.psin(),
         }
     }
     pub fn conj(self) -> Self {
@@ -272,7 +273,7 @@ mod tests {
     }
     // Look direction at azimuth `theta` (rad) from boresight (the y-axis), in the xy-plane.
     fn dir(theta: f64) -> Vec3 {
-        [theta.sin(), theta.cos(), 0.0]
+        [theta.psin(), theta.pcos(), 0.0]
     }
 
     #[test]

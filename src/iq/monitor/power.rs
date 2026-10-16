@@ -14,6 +14,7 @@
 
 use super::{stats, Baseline, MonitorEvent, MonitorReport, Series, Side, SpanDetector};
 use crate::iq::Cf64;
+use crate::portable_math::PortableFloat;
 use serde::{Deserialize, Serialize};
 
 /// Settings of [`PowerMonitor`].
@@ -110,13 +111,13 @@ impl PowerMonitor {
     }
 
     fn block(&mut self, t: f64, p: f64) {
-        let db = 10.0 * p.max(1e-300).log10();
+        let db = 10.0 * p.max(1e-300).plog10();
         self.power.push(t, db);
         match self.reference_db {
             None => {
                 self.baseline.push(p);
                 if self.baseline.count() as usize >= self.baseline_blocks {
-                    let r = 10.0 * self.baseline.mean().max(1e-300).log10();
+                    let r = 10.0 * self.baseline.mean().max(1e-300).plog10();
                     self.reference_db = Some(r);
                     let th = self.settings.threshold_db;
                     self.rise = Some(SpanDetector::new(

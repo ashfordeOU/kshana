@@ -127,6 +127,14 @@ pub struct EphemerisScenario {
     /// `precise_od` uses. Left empty, the ground track uses the nominal scalars.
     #[serde(default)]
     pub eop_finals2000a: Option<String>,
+    /// Carry the epoch as a two-part Julian date ([`crate::jd2::Jd2`]) through UTC → TAI → TT,
+    /// UT1 and the sidereal rotation into the Earth-fixed frame (the ECEF position, the ground
+    /// track and the station view), so sub-millisecond steps resolve: a single-`f64` Julian
+    /// date near 2020 resolves about 40 µs, about 3e-9 rad of Earth rotation (13 cm at GNSS
+    /// orbit). Default `false`, the single-`f64` path, unchanged; omitted from the scenario's
+    /// serialised form (and so from its hash) when `false`.
+    #[serde(default, skip_serializing_if = "std::ops::Not::not")]
+    pub two_part_jd: bool,
 }
 
 /// One station-relative view: look angles and the geometric range-rate / Doppler.
@@ -440,20 +448,53 @@ pub fn run_ephemeris(scn: &EphemerisScenario) -> Result<EphemerisResult, String>
     let mut max_el: Option<f64> = None;
     let mut peak_dopp: Option<f64> = None;
 
+    // The opt-in two-part epoch: the TLE's own two-part epoch, or the scenario's calendar epoch.
+    let jd2_utc0 = if scn.two_part_jd {
+        Some(match (&scn.epoch, &prop) {
+            (Some(e), _) => crate::jd2::Jd2::from_utc_calendar(
+                e.year, e.month, e.day, e.hour, e.minute, e.second,
+            )?,
+            (None, Propagator::Sgp4(s)) => s.epoch_jd2(),
+            (None, _) => crate::jd2::Jd2::new(jd_utc0),
+        })
+    } else {
+        None
+    };
+
     for i in 0..=n {
         let t = i as f64 * scn.step_s;
         let jd_utc = jd_utc0 + t / 86_400.0;
-        let jd_tt = utc_to_tt(jd_utc);
+        // The two-part instants (UTC, TT, UT1) when `two_part_jd` is set.
+        let two_part = jd2_utc0.map(|j0| {
+            let utc = j0.add_seconds(t);
+            let tt = crate::jd2::tai_to_tt(crate::jd2::utc_to_tai(utc));
+            let (dut1, xp, yp) = match &eop {
+                Some(s) => {
+                    let (d, xa, ya) = s.interp_utc_mjd(utc.total() - crate::timescales::MJD_OFFSET);
+                    (d, arcsec(xa), arcsec(ya))
+                }
+                None => (scn.dut1_s, xp_nom, yp_nom),
+            };
+            (tt, crate::jd2::utc_to_ut1(utc, dut1), xp, yp)
+        });
+        let jd_tt = match two_part {
+            Some((tt, ..)) => tt.total(),
+            None => utc_to_tt(jd_utc),
+        };
         // UT1 and the pole come from the real EOP series when supplied, else from
         // the nominal scalars (dut1_s / xp_arcsec / yp_arcsec, default 0).
-        let (jd_ut1, xp, yp) = match &eop {
-            Some(s) => s.frame_args_tt(jd_tt),
-            None => (utc_to_ut1(jd_utc, scn.dut1_s), xp_nom, yp_nom),
+        let (jd_ut1, xp, yp) = match (&two_part, &eop) {
+            (Some((_, ut1, xp, yp)), _) => (ut1.total(), *xp, *yp),
+            (None, Some(s)) => s.frame_args_tt(jd_tt),
+            (None, None) => (utc_to_ut1(jd_utc, scn.dut1_s), xp_nom, yp_nom),
         };
 
         let st = prop.state_eci(t); // TEME (m, m/s)
         let gcrs = prop.state_gcrs(t, jd_tt); // GCRS (≈ J2000)
-        let ecef = teme_to_itrf(st.r_m, jd_ut1, xp, yp, jd_tt);
+        let ecef = match two_part {
+            Some((_, ut1, ..)) => crate::frames::teme_to_itrf_jd2(st.r_m, ut1, xp, yp, jd_tt),
+            None => teme_to_itrf(st.r_m, jd_ut1, xp, yp, jd_tt),
+        };
         let geod = ecef_to_geodetic(ecef);
         let (lat_deg, lon_deg, alt_km) = (
             geod.lat_rad.to_degrees(),
@@ -472,7 +513,12 @@ pub fn run_ephemeris(scn: &EphemerisScenario) -> Result<EphemerisResult, String>
             // (v = ω × r about the TEME z-axis), the satellite carries its own inertial
             // velocity, and the range-rate is the relative velocity projected onto the
             // line of sight — the analytic d(range)/dt, free of any JD differencing.
-            let s_teme = itrf_to_teme(geodetic_to_ecef(st_geod), jd_ut1, xp, yp, jd_tt);
+            let s_teme = match two_part {
+                Some((_, ut1, ..)) => {
+                    crate::frames::itrf_to_teme_jd2(geodetic_to_ecef(st_geod), ut1, xp, yp, jd_tt)
+                }
+                None => itrf_to_teme(geodetic_to_ecef(st_geod), jd_ut1, xp, yp, jd_tt),
+            };
             let v_station = [
                 -GMST_RATE_RAD_S * s_teme[1],
                 GMST_RATE_RAD_S * s_teme[0],
@@ -654,6 +700,7 @@ pub fn to_svg(r: &EphemerisResult) -> String {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::portable_math::PortableFloat;
 
     // A real published ISS (ZARYA) two-line element set. Inclination 51.64° is the
     // recognisable ISS value the ground-track latitude band must respect.
@@ -675,7 +722,54 @@ mod tests {
             yp_arcsec: 0.0,
             carrier_hz: GPS_L1_HZ,
             eop_finals2000a: None,
+            two_part_jd: false,
         }
+    }
+
+    #[test]
+    fn two_part_jd_agrees_with_the_default_and_resolves_microsecond_steps() {
+        // Same answer as the single-f64 path to the date rounding (≤ a few cm at the ISS).
+        let a = run_ephemeris(&iss_scenario()).unwrap();
+        let mut scn = iss_scenario();
+        scn.two_part_jd = true;
+        let b = run_ephemeris(&scn).unwrap();
+        // The serialised scenario (and so its hash) only differs because the key is set.
+        assert_ne!(a.scenario_hash, b.scenario_hash);
+        for (x, y) in a.samples.iter().zip(&b.samples) {
+            assert_eq!(x.teme_r_m, y.teme_r_m);
+            let d: f64 = (0..3)
+                .map(|k| (x.ecef_r_m[k] - y.ecef_r_m[k]).ppowi(2))
+                .sum::<f64>()
+                .sqrt();
+            assert!(d < 0.1, "t {}: ECEF differs by {d} m", x.t_s);
+        }
+        // Microsecond steps: the Earth-fixed frame turns by ω·1 µs every step on the two-part
+        // path; on the single-f64 path most steps do not move the rotation at all.
+        let mut fine = iss_scenario();
+        fine.step_s = 1e-6;
+        fine.duration_s = 20e-6;
+        let mut fine2 = fine.clone();
+        fine2.two_part_jd = true;
+        let quantised = run_ephemeris(&fine).unwrap();
+        let resolved = run_ephemeris(&fine2).unwrap();
+        // Remove the satellite's own motion by comparing the ECEF-TEME azimuth offset.
+        let rot = |s: &EphemSample| {
+            s.teme_r_m[1].patan2(s.teme_r_m[0]) - s.ecef_r_m[1].patan2(s.ecef_r_m[0])
+        };
+        let steps = |r: &EphemerisResult| -> Vec<f64> {
+            r.samples
+                .windows(2)
+                .map(|w| rot(&w[1]) - rot(&w[0]))
+                .collect()
+        };
+        for d in steps(&resolved) {
+            assert!((d - 7.292_115e-11).abs() < 2e-12, "two-part step {d}");
+        }
+        let stuck = steps(&quantised).iter().filter(|d| d.abs() < 1e-12).count();
+        assert!(
+            stuck >= 15,
+            "only {stuck} of 20 single-f64 steps were quantised away"
+        );
     }
 
     #[test]
@@ -831,6 +925,7 @@ mod tests {
             yp_arcsec: 0.0,
             carrier_hz: GPS_L1_HZ,
             eop_finals2000a: None,
+            two_part_jd: false,
         };
         let r = run_ephemeris(&scn).unwrap();
         let (prop, _, _) = build(&scn).unwrap();
@@ -904,6 +999,7 @@ mod tests {
             yp_arcsec: 0.0,
             carrier_hz: GPS_L1_HZ,
             eop_finals2000a: None,
+            two_part_jd: false,
         };
         let (wk, ck) = worst_range_rate_vs_fd(&kepler);
         eprintln!("kepler station worst |range_rate − FD| = {wk:.2e} m/s over {ck} samples");
@@ -979,6 +1075,7 @@ mod tests {
             yp_arcsec: 0.31,
             carrier_hz: GPS_L1_HZ,
             eop_finals2000a: None,
+            two_part_jd: false,
         };
         let (wk, ck) = worst_range_rate_vs_fd(&kepler);
         eprintln!("kepler+pole station worst |range_rate − FD| = {wk:.2e} m/s over {ck} samples");
@@ -1071,6 +1168,7 @@ mod tests {
             yp_arcsec: 0.0,
             carrier_hz: GPS_L1_HZ,
             eop_finals2000a: None,
+            two_part_jd: false,
         };
         let r = run_ephemeris(&scn).unwrap();
         assert_eq!(r.source, "kepler");
@@ -1156,6 +1254,7 @@ mod tests {
             yp_arcsec: 0.0,
             carrier_hz: GPS_L1_HZ,
             eop_finals2000a: None,
+            two_part_jd: false,
         };
         let mut with_eop = base.clone();
         with_eop.eop_finals2000a = Some(body.clone());

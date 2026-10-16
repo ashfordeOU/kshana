@@ -357,6 +357,7 @@ mod tests {
                 drift: 0.0,
                 flicker_floor: 0.0,
             },
+            integrity: None,
         };
         let env = Envelope::wrap("scenario", &scn).unwrap();
         let back: Scenario = Envelope::parse(&env.to_json())

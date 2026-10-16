@@ -13,6 +13,18 @@ use kshana::iq::signals::{
 use kshana::iq::SpreadingCode;
 use sha2::{Digest, Sha256};
 
+/// The Galileo E1 memory-code tables are user-supplied (not bundled, by the ICD's terms);
+/// the E1 tests skip, with a message, when they are absent. Supply them with
+/// `KSHANA_GALILEO_E1B` / `KSHANA_GALILEO_E1C` or `scripts/fetch_galileo_e1_codes.sh`.
+fn e1_tables_supplied() -> bool {
+    let ok = kshana::iq::signals::galileo::e1b_table().is_ok()
+        && kshana::iq::signals::galileo::e1c_table().is_ok();
+    if !ok {
+        eprintln!("skipped: Galileo E1 tables not supplied (scripts/fetch_galileo_e1_codes.sh)");
+    }
+    ok
+}
+
 fn bits_of(code: &SignalCode) -> Vec<u8> {
     code.primary_bits()
 }
@@ -160,28 +172,44 @@ fn sha256_hex_crlf_normalised(text: &str) -> String {
 }
 
 #[test]
-fn galileo_e1_tables_are_the_committed_icd_annex_c_files() {
+fn galileo_e1_tables_are_the_icd_annex_c_files() {
+    if !e1_tables_supplied() {
+        return;
+    }
     // data/galileo-os-sis-icd/PROVENANCE.md: SHA-256 of the Annex C attachments with
-    // (the two assertions below.)
-    // PIN-SCOPE:    the SHA-256 of the committed Galileo E1-B and E1-C code tables,
+    // carriage returns removed (robust to a CRLF conversion). The tables are the user's own
+    // copy (not bundled, by the ICD's terms), read from the same place the engine reads them.
+    // PIN-SCOPE:    the SHA-256 of the user-supplied Galileo E1-B and E1-C code tables,
     //               binding them to the bytes extracted from the ICD PDF attachments.
     // PIN-EXCLUDES: nothing — the whole table files, deliberately.
-    // carriage returns removed (robust to a CRLF-converting checkout).
+    let read = |env: &str, file: &str| {
+        let path = std::env::var_os(env)
+            .map(std::path::PathBuf::from)
+            .unwrap_or_else(|| {
+                std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+                    .join("data/galileo-os-sis-icd")
+                    .join(file)
+            });
+        std::fs::read_to_string(path).expect("table supplied")
+    };
     assert_eq!(
-        sha256_hex_crlf_normalised(galileo::E1B_TABLE_TEXT),
+        sha256_hex_crlf_normalised(&read(galileo::E1B_TABLE_ENV, "C7_E1B.txt")),
         "31573a17c451e319a69c30fe6dcdfd949ebda8e3e77c96665981ff5b866ed247"
     );
     assert_eq!(
-        sha256_hex_crlf_normalised(galileo::E1C_TABLE_TEXT),
+        sha256_hex_crlf_normalised(&read(galileo::E1C_TABLE_ENV, "C8_E1C.txt")),
         "37a0f71b49af0c03b8530e2376bcf244b0ef0e76027026f23aebf9611ca4a4a6"
     );
     for t in [galileo::e1b_table(), galileo::e1c_table()] {
-        assert_eq!(t.numbers(), (1..=50).collect::<Vec<u16>>());
+        assert_eq!(t.unwrap().numbers(), (1..=50).collect::<Vec<u16>>());
     }
 }
 
 #[test]
 fn galileo_e1_first_chips_match_icd_annex_c_hex() {
+    if !e1_tables_supplied() {
+        return;
+    }
     // Galileo OS SIS ICD Annex C.7 / C.8: leading hex symbols of the printed codes.
     let b = [
         (1u16, 0xF5D7_1013u32),
@@ -211,6 +239,9 @@ fn galileo_e1_first_chips_match_icd_annex_c_hex() {
 
 #[test]
 fn galileo_cboc_power_split_is_10_11_to_1_11_from_the_waveform() {
+    if !e1_tables_supplied() {
+        return;
+    }
     // Galileo OS SIS ICD Eq. 11: α = √(10/11), β = √(1/11). Project the generated
     // waveform onto the BOC(1,1) and BOC(6,1) subcarriers; with 120 samples per chip
     // (a multiple of 12) the projections are exact.
@@ -256,6 +287,9 @@ fn galileo_cboc_power_split_is_10_11_to_1_11_from_the_waveform() {
 
 #[test]
 fn galileo_e1c_secondary_cs25_flips_primary_periods() {
+    if !e1_tables_supplied() {
+        return;
+    }
     // ICD Table 20: CS25_1 = 380AD90 -> chip 2 (0-based) is 1.
     let code = galileo::e1c(3).unwrap();
     let cs = hex_to_bits(galileo::CS25, 25).unwrap();
@@ -287,10 +321,19 @@ fn galileo_e5a_lfsr_matches_icd_first_24_chips_tables_16_17() {
 
 #[test]
 fn galileo_e5a_lfsr_matches_complete_icd_annex_c3_c4_codes() {
-    // The complete hexadecimal codes of ICD Annex C.3 (E5a-I) and C.4 (E5a-Q), committed
-    // as fixtures from the ICD's electronic attachments.
-    let ai = annex(include_str!("fixtures/iq_signals/C3_E5aI.txt"));
-    let aq = annex(include_str!("fixtures/iq_signals/C4_E5aQ.txt"));
+    // The complete hexadecimal codes of ICD Annex C.3 (E5a-I) and C.4 (E5a-Q), extracted
+    // from the ICD's electronic attachments by scripts/fetch_galileo_e1_codes.sh into
+    // tests/fixtures/iq_signals/ (git-ignored: the ICD's terms allow redistribution only for
+    // non-commercial purposes). The test skips, with a message, when they are absent.
+    let dir = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("tests/fixtures/iq_signals");
+    let (Ok(ti), Ok(tq)) = (
+        std::fs::read_to_string(dir.join("C3_E5aI.txt")),
+        std::fs::read_to_string(dir.join("C4_E5aQ.txt")),
+    ) else {
+        eprintln!("skipped: ICD Annex C.3/C.4 not fetched (scripts/fetch_galileo_e1_codes.sh)");
+        return;
+    };
+    let (ai, aq) = (annex(&ti), annex(&tq));
     assert_eq!((ai.len(), aq.len()), (50, 50));
     for prn in 1..=50u16 {
         let want_i = hex_to_bits(&ai[prn as usize - 1], 10_230).unwrap();
@@ -445,6 +488,56 @@ fn beidou_b1i_gold_code_structure_bds_sis_icd_b1i_3_0() {
     );
 }
 
+/// DS-GIQ-06b: every B1I primary code against an independent implementation, GNSS-SDR
+/// v0.0.19's `beidou_b1i_code_gen_int` (program output committed as
+/// `fixtures/iq_signals/beidou_b1i_gnss_sdr.txt`; provenance in `BEIDOU-B1I-PROVENANCE.md`).
+/// Bar pre-registered in `xval/beidou-b1i-gnss-sdr/PREREGISTRATION.md`: all 2046 chips of all
+/// 63 PRNs identical, GNSS-SDR `+1` read as logic 1, no inversion, shift or relabelling.
+///
+/// PIN-SCOPE:    all 2046 logic chips of `b1i_bits(prn, 2046)` and of `b1i(prn)`'s primary,
+///               PRN 1..63 (64-chip hex prefix plus SHA-256 of the full chip string).
+/// PIN-EXCLUDES: the NH20 secondary code, the GEO PRN list, carrier and chip-rate constants.
+#[test]
+fn beidou_b1i_matches_gnss_sdr_generator_for_all_63_prns() {
+    let rows: Vec<(u16, String, String)> =
+        include_str!("fixtures/iq_signals/beidou_b1i_gnss_sdr.txt")
+            .lines()
+            .filter(|l| !l.starts_with('#') && !l.trim().is_empty())
+            .map(|l| {
+                let f: Vec<&str> = l.split_whitespace().collect();
+                (f[0].parse().unwrap(), f[1].to_string(), f[2].to_string())
+            })
+            .collect();
+    assert_eq!(rows.len(), 63);
+    let mut misses = Vec::new();
+    for (prn, want_head, want_sha) in &rows {
+        let bits = beidou::b1i_bits(*prn, 2046).unwrap();
+        assert_eq!(bits_of(&beidou::b1i(*prn).unwrap()), bits, "PRN {prn}");
+        let ascii: String = bits
+            .iter()
+            .map(|&b| if b == 1 { '1' } else { '0' })
+            .collect();
+        let head = format!("{:016x}", u64::from_str_radix(&ascii[..64], 2).unwrap());
+        let sha: String = Sha256::digest(ascii.as_bytes())
+            .iter()
+            .map(|b| format!("{b:02x}"))
+            .collect();
+        if &head != want_head || &sha != want_sha {
+            misses.push(format!(
+                "PRN {prn}: prefix {head} vs {want_head}, sha {} vs {}",
+                &sha[..12],
+                &want_sha[..12]
+            ));
+        }
+    }
+    assert!(
+        misses.is_empty(),
+        "{} of 63 PRNs differ:\n{}",
+        misses.len(),
+        misses.join("\n")
+    );
+}
+
 // --- GLONASS L1OF -----------------------------------------------------------------------
 
 #[test]
@@ -488,6 +581,9 @@ fn glonass_l1of_fdma_carriers_match_icd_table_3_1() {
 
 #[test]
 fn value_at_wraps_and_handles_fractional_phase_for_every_signal() {
+    if !e1_tables_supplied() {
+        return;
+    }
     let codes: Vec<SignalCode> = vec![
         gps::l1ca(3).unwrap(),
         gps::l5_q5(3).unwrap(),
@@ -513,6 +609,9 @@ fn value_at_wraps_and_handles_fractional_phase_for_every_signal() {
 
 #[test]
 fn generation_is_deterministic() {
+    if !e1_tables_supplied() {
+        return;
+    }
     assert_eq!(gps::l5_i5(30).unwrap(), gps::l5_i5(30).unwrap());
     assert_eq!(galileo::e1c(30).unwrap(), galileo::e1c(30).unwrap());
     assert_eq!(

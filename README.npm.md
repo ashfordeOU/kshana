@@ -18,7 +18,7 @@
 
 <p align="center">
   <a href="https://github.com/AshfordeOU/kshana/releases"><img src="https://img.shields.io/badge/release-v0.35.0-066A86?style=flat-square&labelColor=0A1226" alt="Release v0.35.0"></a>
-  <a href="https://github.com/AshfordeOU/kshana/blob/main/docs/VERIFICATION-MATRIX.md"><img src="https://img.shields.io/badge/validated-134%20external%20oracles-377D0C?style=flat-square&labelColor=0A1226" alt="134 of 274 capabilities validated against independent external oracles"></a>
+  <a href="https://github.com/AshfordeOU/kshana/blob/main/docs/VERIFICATION-MATRIX.md"><img src="https://img.shields.io/badge/validated-175%20external%20oracles-377D0C?style=flat-square&labelColor=0A1226" alt="175 of 361 capabilities validated against independent external oracles"></a>
   <a href="https://github.com/AshfordeOU/kshana/blob/main/docs/COVERAGE.md"><img src="https://img.shields.io/badge/coverage-~95%25-377D0C?style=flat-square&labelColor=0A1226" alt="About 95% line coverage, gated at 85% in continuous integration"></a>
   <a href="https://github.com/AshfordeOU/kshana/blob/main/LICENSE"><img src="https://img.shields.io/badge/licence-AGPL--3.0--only-3F4B67?style=flat-square&labelColor=0A1226" alt="Licence: AGPL-3.0-only, or a commercial licence"></a>
   <a href="https://doi.org/10.5281/zenodo.20528627"><img src="https://img.shields.io/badge/DOI-10.5281%2Fzenodo.20528627-7E4B00?style=flat-square&labelColor=0A1226" alt="DOI 10.5281/zenodo.20528627"></a>
@@ -41,7 +41,7 @@ engine in your browser, compiled to WebAssembly, and uploads nothing.
 
 ## Evidence
 
-**134 of 274** capabilities validated against independent external oracles; 136 honestly labelled Modelled, 4 partner-owned.
+**175 of 361** capabilities validated against independent external oracles; 182 honestly labelled Modelled, 4 partner-owned.
 Each capability carries one label in a machine-checked ledger: VALIDATED (an independent
 external oracle agrees: real data, an independent implementation or published reference
 vectors), MODELLED (internally consistent, and said out loud) or PARTNER (a hardware partner
@@ -52,7 +52,7 @@ Cowell force model to 0.08 m against Orekit 12.2.
 <p align="center">
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/AshfordeOU/kshana/main/docs/assets/readme/flow-verification-dark.svg">
-  <img src="https://raw.githubusercontent.com/AshfordeOU/kshana/main/docs/assets/readme/flow-verification-light.svg" alt="How a capability earns its label: capability, oracle, test, ledger label. The verification status across all 274 capabilities: 134 Validated, 136 Modelled, 4 Partner-owned" width="100%">
+  <img src="https://raw.githubusercontent.com/AshfordeOU/kshana/main/docs/assets/readme/flow-verification-light.svg" alt="How a capability earns its label: capability, oracle, test, ledger label. The verification status across all 361 capabilities: 175 Validated, 182 Modelled, 4 Partner-owned" width="100%">
 </picture>
 </p>
 
@@ -135,6 +135,21 @@ console.log(summary(toml));                     // the one-line result string
 const svg = chart_svg(toml);                    // the same chart the command-line interface (CLI) writes
 ```
 
+TypeScript sees typed results: `run_typed(toml)` returns a `RunOutput` (`json`, `svg`,
+`summary`, `csv: string | null`, `data: ResultDocument`), `scenario_kinds()` a `KindMeta[]`
+whose `name` is the `ScenarioKind` union of every kind, and `error_kind()` an `ErrorKind`
+(or `""` on success). Each result document's own fields vary by kind; `ResultDocument`
+types the shared envelope (`schema_version`, `engine_version`, and the `units` block of
+`FieldUnit`s).
+
+```ts
+import { run_typed, scenario_kinds, type ScenarioKind } from "kshana";
+
+const out = run_typed(toml);
+const units = out.data.units;                                // Record<string, FieldUnit>
+const kinds: ScenarioKind[] = scenario_kinds().map((k) => k.name);
+```
+
 ```js
 import { list_examples, get_example, export_scenario, animate_scenario } from "kshana";
 
@@ -149,8 +164,9 @@ document as a JSON string), `summary`, `chart_svg`, `table_csv` (the scenario's 
 (comma-separated values) table as a string, or `undefined` for kinds that publish no table; it throws on an
 invalid scenario), `run_all` (one engine run returning `{json, svg, summary, csv}` as a
 JSON string — use it when you want more than one output, since every other call runs
-the scenario afresh), `version`, `list_kinds` /
-`error_kind` (introspection), `encode_permalink` / `decode_permalink` — the
+the scenario afresh), `run_typed` (the same outputs as one typed object, with the
+document already parsed as `data`), `version`, `list_kinds` / `scenario_kinds` /
+`error_kind` (introspection; `scenario_kinds` returns the parsed list), `encode_permalink` / `decode_permalink` — the
 shareable-link (URL, uniform resource locator) codec [Kshana Studio](https://kshana.dev) uses to round-trip a whole
 scenario through the address-bar fragment — and `export_sp3` / `export_omm` /
 `export_oem`, the SP3-c (revision c of the Standard Product 3 format) and CCSDS

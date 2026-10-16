@@ -108,6 +108,7 @@
 
 use crate::inertial::imu_errors::ImuErrorModel;
 use crate::inertial::G_M_PER_S2;
+use crate::portable_math::PortableFloat;
 use crate::quantum_trade::PositionDrift;
 use serde::Deserialize;
 
@@ -344,7 +345,7 @@ impl Contribution {
                 0.0
             };
         }
-        self.coefficient * t.powf(self.exponent)
+        self.coefficient * t.ppowf(self.exponent)
     }
 
     /// The coast duration (s) at which this contribution's LEADING-ORDER law alone reaches
@@ -355,7 +356,7 @@ impl Contribution {
         if threshold_m <= 0.0 || self.coefficient <= 0.0 || self.exponent <= 0.0 {
             return None;
         }
-        Some((threshold_m / self.coefficient).powf(1.0 / self.exponent))
+        Some((threshold_m / self.coefficient).ppowf(1.0 / self.exponent))
     }
 }
 
@@ -385,7 +386,7 @@ impl PositionDrift for MonomialDrift {
         if t <= 0.0 {
             return 0.0;
         }
-        self.coefficient * t.powf(self.exponent)
+        self.coefficient * t.ppowf(self.exponent)
     }
 }
 
@@ -558,10 +559,10 @@ impl ErrorDynamics {
     /// Build the dynamics for a site (`latitude_rad`, `height_m`), a northward speed
     /// `speed_m_s` and a northward specific force `accel_m_s2`.
     pub fn new(latitude_rad: f64, height_m: f64, speed_m_s: f64, accel_m_s2: f64) -> Self {
-        let (sl, cl) = latitude_rad.sin_cos();
+        let (sl, cl) = latitude_rad.psin_cos();
         let tl = sl / cl;
         let den = 1.0 - WGS84_E2 * sl * sl;
-        let r_merid = WGS84_A_M * (1.0 - WGS84_E2) / den.powf(1.5);
+        let r_merid = WGS84_A_M * (1.0 - WGS84_E2) / den.ppowf(1.5);
         let r_trans = WGS84_A_M / den.sqrt();
         let (rho_n, rho_e) = (r_merid + height_m, r_trans + height_m);
         // Somigliana normal gravity with the height correction (Groves eq. 2.134/2.139).
@@ -696,7 +697,7 @@ fn norm_inf(a: &[f64], n: usize) -> f64 {
 /// The number of halvings that bring `norm` to at most 1/64.
 fn halvings(norm: f64) -> i32 {
     if norm > 1.0 / 64.0 {
-        (norm * 64.0).log2().ceil() as i32
+        (norm * 64.0).plog2().ceil() as i32
     } else {
         0
     }
@@ -724,7 +725,7 @@ fn expm_small(a: &[f64], n: usize) -> Mat {
 /// Matrix exponential by scaling and squaring.
 fn expm(a: &[f64], n: usize) -> Mat {
     let s = halvings(norm_inf(a, n));
-    let scale = 0.5f64.powi(s);
+    let scale = 0.5f64.ppowi(s);
     let a_s: Mat = a.iter().map(|x| x * scale).collect();
     let mut result = expm_small(&a_s, n);
     for _ in 0..s {
@@ -774,7 +775,7 @@ impl ErrorDynamics {
             }
         }
         let k = halvings(norm_inf(&fmat, NS) * t);
-        let tau = t * 0.5f64.powi(k);
+        let tau = t * 0.5f64.ppowi(k);
         let n = 2 * NS;
         let mut m = vec![0.0; n * n];
         for i in 0..NS {
@@ -2150,7 +2151,7 @@ mod tests {
         let bias = &m.contributions()[0];
         assert_eq!(bias.name, "accel_bias");
         for t in [600.0, 1800.0, 3600.0] {
-            let closed = b * (1.0 - (ws * t).cos()) / (ws * ws);
+            let closed = b * (1.0 - (ws * t).pcos()) / (ws * ws);
             assert!(
                 rel(bias.error_m(t), closed) < 0.03,
                 "{t} s: {} vs {closed}",
@@ -2244,9 +2245,9 @@ mod tests {
             for t in [10.0f64, 137.0, 900.0] {
                 let ratio = lead(&m, 2.0 * t) / lead(&m, t);
                 assert!(
-                    rel(ratio, 2.0f64.powf(*p)) < 1.0e-12,
+                    rel(ratio, 2.0f64.ppowf(*p)) < 1.0e-12,
                     "{name} at t={t}: doubling scaled the error by {ratio}, expected 2^{p} = {}",
-                    2.0f64.powf(*p)
+                    2.0f64.ppowf(*p)
                 );
             }
         }
@@ -2261,7 +2262,7 @@ mod tests {
         let bias = single("accel_bias");
         assert!(rel(lead(&bias, 600.0) / lead(&bias, 300.0), 4.0) < 1.0e-12);
         let vrw = single("velocity_random_walk");
-        assert!(rel(lead(&vrw, 600.0) / lead(&vrw, 300.0), 2.0f64.powf(1.5)) < 1.0e-12);
+        assert!(rel(lead(&vrw, 600.0) / lead(&vrw, 300.0), 2.0f64.ppowf(1.5)) < 1.0e-12);
     }
 
     #[test]
@@ -2279,7 +2280,7 @@ mod tests {
             if c.coefficient <= 0.0 {
                 continue;
             }
-            let measured = (c.leading_order_m(800.0) / c.leading_order_m(400.0)).log2();
+            let measured = (c.leading_order_m(800.0) / c.leading_order_m(400.0)).plog2();
             assert!(
                 rel(measured, c.exponent) < 1.0e-12,
                 "{} reports exponent {} but its curve measures {measured}",
@@ -2389,7 +2390,7 @@ mod tests {
         for _ in 0..n {
             sim.step(dt, &mut rng);
         }
-        let analytic = G_M_PER_S2 * bg * t_end.powi(3) / 6.0;
+        let analytic = G_M_PER_S2 * bg * t_end.ppowi(3) / 6.0;
         assert!(
             rel(sim.pos(), analytic) < 1.0e-3,
             "stepped {} m vs closed form {analytic} m",
@@ -2424,7 +2425,7 @@ mod tests {
             dt,
             t_end,
         );
-        let analytic = vrw * t_end.powf(1.5) / 3.0f64.sqrt();
+        let analytic = vrw * t_end.ppowf(1.5) / 3.0f64.sqrt();
         assert!(
             rel(measured, analytic) < 0.10,
             "Monte-Carlo RMS {measured} m vs closed form {analytic} m over {runs} seeds"
@@ -2442,7 +2443,7 @@ mod tests {
             dt,
             t_end,
         );
-        let analytic = G_M_PER_S2 * arw * t_end.powf(2.5) / 20.0f64.sqrt();
+        let analytic = G_M_PER_S2 * arw * t_end.ppowf(2.5) / 20.0f64.sqrt();
         assert!(
             rel(measured, analytic) < 0.10,
             "Monte-Carlo RMS {measured} m vs closed form {analytic} m over {runs} seeds"

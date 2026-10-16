@@ -10,6 +10,7 @@ use kshana::iq::track::{
     CarrierLoop, ChannelInit, EpochOutput, LoopConfig, SessionChannel, TrackSession,
 };
 use kshana::iq::{Cf64, IqError, IqSource, SampleSpec, SpreadingCode};
+use kshana::portable_math::PortableFloat;
 use std::f64::consts::TAU;
 use std::sync::Arc;
 
@@ -31,7 +32,7 @@ impl Synth {
         let rate = code.chip_rate_hz() * (1.0 + doppler / code.carrier_hz());
         Self {
             fs,
-            amp: (10f64.powf(cn0_dbhz / 10.0) / fs).sqrt(),
+            amp: (10f64.ppowf(cn0_dbhz / 10.0) / fs).sqrt(),
             code,
             doppler,
             rate,
@@ -50,7 +51,7 @@ impl Synth {
                 / (1u64 << 53) as f64
         };
         let (a, b) = (u(), u());
-        (-2.0 * a.ln()).sqrt() * (TAU * b).cos()
+        (-2.0 * a.pln()).sqrt() * (TAU * b).pcos()
     }
     fn init(&self, doppler: f64) -> ChannelInit {
         ChannelInit {
@@ -78,7 +79,7 @@ impl IqSource for Synth {
             let c = self.code.value_at(self.phase0 + self.rate * t);
             let ph = TAU * self.doppler * t;
             let v = Cf64::new(s * self.gauss(), s * self.gauss());
-            *out = v + Cf64::new(ph.cos(), ph.sin()) * (self.amp * c);
+            *out = v + Cf64::new(ph.pcos(), ph.psin()) * (self.amp * c);
             self.n += 1;
         }
         Ok(k)
@@ -137,7 +138,10 @@ fn l1ca_45() -> Vec<EpochOutput> {
 //               epochs of that one run on the unmodified channel
 // PIN-EXCLUDES: every other output and every other scene
 const NWPR_BASELINE_EPOCHS: usize = 5999;
-const NWPR_BASELINE_CHECKSUM: u64 = 0x05b3caf744da2a2d;
+// 0.36 portable re-pin (STUDIO-15, docs/revisions/STUDIO15-portable-math-rebaseline.md): the
+// scene generator of this file and the engine both run on portable maths now. Host-maths value
+// at 0.35.0: 0x05b3caf744da2a2d.
+const NWPR_BASELINE_CHECKSUM: u64 = 0x1e19e42071eec6ad;
 
 /// M2 and M3 (6 s of a 2.5 MS/s stream through the default design).
 #[test]

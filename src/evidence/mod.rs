@@ -24,6 +24,7 @@ pub mod assemble;
 pub mod bundle;
 pub mod cli;
 pub mod html;
+pub mod tsa;
 pub mod tsr;
 pub mod verify;
 

@@ -75,6 +75,7 @@
 //! (the model's ADEV halved) must turn at least one strict test red.
 
 use kshana::allan::overlapping_adev;
+use kshana::portable_math::PortableFloat;
 use kshana::telecom_timing::{holdover_model, synthesize_holdover, HoldoverInput, HoldoverModel};
 
 const FIXTURES: &str = "tests/fixtures/oscillator_presets_measured";
@@ -307,7 +308,7 @@ fn rubidium_ratios() -> Vec<(String, f64)> {
             for s in segs {
                 if s.len() > 2 * k + 1 {
                     let w = (s.len() - 2 * k) as f64;
-                    num += w * overlapping_adev(s, 30.0, k).powi(2);
+                    num += w * overlapping_adev(s, 30.0, k).ppowi(2);
                     den += w;
                 }
             }

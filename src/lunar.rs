@@ -18,6 +18,7 @@
 //! precessing lunar pole (DE421/SPICE), and wiring real NRHO relays in are follow-ons.
 
 use crate::palette::chart::{AXIS, BG, CORAL, CYAN, FONT_SANS, INK_2};
+use crate::portable_math::PortableFloat;
 use crate::raim::{araim_raim, AraimResult, FaultPriors, IntegrityBudget};
 use serde::{Deserialize, Serialize};
 use std::f64::consts::{FRAC_PI_2, TAU};
@@ -78,9 +79,9 @@ pub fn lunar_sky_geometry(user: Vec3, range_m: f64, azels_deg: &[(f64, f64)]) ->
         .iter()
         .map(|&(az, el)| {
             let (azr, elr) = (az.to_radians(), el.to_radians());
-            let de = elr.cos() * azr.sin();
-            let dn = elr.cos() * azr.cos();
-            let du = elr.sin();
+            let de = elr.pcos() * azr.psin();
+            let dn = elr.pcos() * azr.pcos();
+            let du = elr.psin();
             [
                 user[0] + range_m * (de * east[0] + dn * north[0] + du * up[0]),
                 user[1] + range_m * (de * east[1] + dn * north[1] + du * up[1]),
@@ -102,7 +103,7 @@ pub fn lunar_rotation_angle(seconds: f64) -> f64 {
 /// Rotate a 3-vector about the +z (lunar spin) axis by `theta` (R3 convention,
 /// matching [`crate::frames::teme_to_ecef`]).
 fn rot3(r: Vec3, theta: f64) -> Vec3 {
-    let (s, c) = theta.sin_cos();
+    let (s, c) = theta.psin_cos();
     [c * r[0] + s * r[1], -s * r[0] + c * r[1], r[2]]
 }
 
@@ -115,6 +116,36 @@ pub fn mci_to_mcmf(r_mci: Vec3, seconds: f64) -> Vec3 {
 /// Inverse of [`mci_to_mcmf`]: MCMF → MCI.
 pub fn mcmf_to_mci(r_mcmf: Vec3, seconds: f64) -> Vec3 {
     rot3(r_mcmf, -lunar_rotation_angle(seconds))
+}
+
+/// Epoch-anchored MCI → MCMF through the DE440 lunar orientation: the MCI axes are ICRF/J2000 and
+/// the MCMF axes the DE440 principal-axis frame (`MOON_PA_DE440`), at the TDB Julian date
+/// `jd_tdb` ([`crate::lunar_frame::try_icrf_to_moon_pa_de440`]). Opt-in: [`mci_to_mcmf`], a
+/// uniform rotation about a fixed axis from an arbitrary zero, stays the default.
+///
+/// # Errors
+/// Outside the embedded series span (2014-01-01 to 2030-12-31).
+pub fn try_mci_to_mcmf_de440(
+    r_mci: Vec3,
+    jd_tdb: f64,
+) -> Result<Vec3, crate::lunar_orientation::OrientationSpanError> {
+    let m = crate::lunar_frame::try_icrf_to_moon_pa_de440(jd_tdb)?;
+    Ok(crate::precession::mat_vec(&m, r_mci))
+}
+
+/// Inverse of [`try_mci_to_mcmf_de440`]: DE440 principal-axis MCMF → ICRF-axis MCI.
+///
+/// # Errors
+/// Outside the embedded series span (2014-01-01 to 2030-12-31).
+pub fn try_mcmf_to_mci_de440(
+    r_mcmf: Vec3,
+    jd_tdb: f64,
+) -> Result<Vec3, crate::lunar_orientation::OrientationSpanError> {
+    let m = crate::lunar_frame::try_icrf_to_moon_pa_de440(jd_tdb)?;
+    Ok(crate::precession::mat_vec(
+        &crate::precession::transpose(&m),
+        r_mcmf,
+    ))
 }
 
 /// A selenographic position: lunar latitude and longitude (radians) and height
@@ -133,9 +164,9 @@ pub struct Selenographic {
 /// MCMF (Moon-fixed Cartesian) → selenographic latitude/longitude/altitude.
 pub fn mcmf_to_selenographic(r_mcmf: Vec3) -> Selenographic {
     let rad = norm(r_mcmf);
-    let lon = r_mcmf[1].atan2(r_mcmf[0]);
+    let lon = r_mcmf[1].patan2(r_mcmf[0]);
     let lat = if rad > 0.0 {
-        (r_mcmf[2] / rad).asin()
+        (r_mcmf[2] / rad).pasin()
     } else {
         0.0
     };
@@ -149,8 +180,8 @@ pub fn mcmf_to_selenographic(r_mcmf: Vec3) -> Selenographic {
 /// Selenographic latitude/longitude/altitude → MCMF (Moon-fixed Cartesian).
 pub fn selenographic_to_mcmf(s: Selenographic) -> Vec3 {
     let r = R_MOON_M + s.alt_m;
-    let (sla, cla) = s.lat_rad.sin_cos();
-    let (slo, clo) = s.lon_rad.sin_cos();
+    let (sla, cla) = s.lat_rad.psin_cos();
+    let (slo, clo) = s.lon_rad.psin_cos();
     [r * cla * clo, r * cla * slo, r * sla]
 }
 
@@ -269,10 +300,10 @@ pub fn lunar_look_angle(user: Vec3, relay: Vec3) -> LunarAzEl {
     let du = dot(dh, up);
     // Clamp to the asin domain (a float-rounded exactly-overhead relay can push
     // `du` to 1.0000000002 ⇒ NaN), mirroring `crate::orbit::elevation_deg`.
-    let el = du.clamp(-1.0, 1.0).asin().to_degrees();
+    let el = du.clamp(-1.0, 1.0).pasin().to_degrees();
     // `rem_euclid(360)` can float-round up to exactly 360.0, breaking the documented [0,360)
     // invariant; fold that single edge back to 0.
-    let mut az = de.atan2(dn).to_degrees().rem_euclid(360.0);
+    let mut az = de.patan2(dn).to_degrees().rem_euclid(360.0);
     if az >= 360.0 {
         az = 0.0;
     }
@@ -342,11 +373,11 @@ pub struct LunarRelay {
 /// into `u`). At `seconds = 0` and inclination 0 the orbit lies in the equatorial
 /// plane (`z = 0`); `|pos| = radius_m` exactly for all inputs.
 pub fn relay_position_mci(r: &LunarRelay, seconds: f64) -> Vec3 {
-    let n = (MOON_GM_M3_S2 / r.radius_m.powi(3)).sqrt();
+    let n = (MOON_GM_M3_S2 / r.radius_m.ppowi(3)).sqrt();
     let u = r.phase_deg.to_radians() + n * seconds;
-    let (su, cu) = u.sin_cos();
-    let (si, ci) = r.inc_deg.to_radians().sin_cos();
-    let (sraan, craan) = r.raan_deg.to_radians().sin_cos();
+    let (su, cu) = u.psin_cos();
+    let (si, ci) = r.inc_deg.to_radians().psin_cos();
+    let (sraan, craan) = r.raan_deg.to_radians().psin_cos();
     let rr = r.radius_m;
     [
         rr * (craan * cu - sraan * ci * su),
@@ -616,7 +647,7 @@ pub fn south_pole_hpl_pass_cfg(
             .enumerate()
             .map(|(i, &(az, el))| {
                 let a = (az + az_rate[i] * hours).rem_euclid(360.0);
-                let e = (el + 8.0 * (0.3 * hours + i as f64).sin()).clamp(10.0, 88.0);
+                let e = (el + 8.0 * (0.3 * hours + i as f64).psin()).clamp(10.0, 88.0);
                 (a, e)
             })
             .collect();
@@ -919,7 +950,7 @@ pub fn horizon_los_distance_m(radius_m: f64, height_m: f64) -> f64 {
 /// horizon, `d = R * acos(R / (R + h))`. Use this for footprint/coverage *areas* on the
 /// surface; use [`horizon_los_distance_m`] for the slant line-of-sight *range*.
 pub fn horizon_ground_range_m(radius_m: f64, height_m: f64) -> f64 {
-    radius_m * (radius_m / (radius_m + height_m)).acos()
+    radius_m * (radius_m / (radius_m + height_m)).pacos()
 }
 
 /// Maximum surface-to-surface radio line-of-sight distance (m) between two objects of
@@ -959,6 +990,20 @@ mod tests {
     // --- WE4 LunaNet LANS geometry oracles ---------------------------------
 
     #[test]
+    fn de440_mci_mcmf_round_trips_and_preserves_length() {
+        let r = [1.2e6, -8.0e5, 3.3e5];
+        let jd = 2_459_580.5;
+        let b = try_mci_to_mcmf_de440(r, jd).expect("inside the span");
+        let back = try_mcmf_to_mci_de440(b, jd).expect("inside the span");
+        let n = |v: [f64; 3]| (v[0] * v[0] + v[1] * v[1] + v[2] * v[2]).sqrt();
+        assert!((n(b) - n(r)).abs() < 1e-8);
+        for k in 0..3 {
+            assert!((back[k] - r[k]).abs() < 1e-8);
+        }
+        assert!(try_mci_to_mcmf_de440(r, 2_451_545.0).is_err());
+    }
+
+    #[test]
     fn moon_radius_matches_iau() {
         // Oracle: IAU WGCCRE 2015 / NASA NSSDC mean lunar radius 1737.4 km.
         assert!((R_MOON_M - 1_737_400.0).abs() < 1.0);
@@ -981,7 +1026,7 @@ mod tests {
         // Oracle: hand-computed z = R·sin(0.67408°) from NASA NSSDCA 0.67408°N
         // (≈ 1_737_400 · 0.011765 ≈ 20_440 m).
         let m = MARE_TRANQUILLITATIS_A11.mcmf();
-        let z_expected = 1_737_400.0 * 0.674_08_f64.to_radians().sin();
+        let z_expected = 1_737_400.0 * 0.674_08_f64.to_radians().psin();
         assert!((m[2] - z_expected).abs() < 50.0, "z = {}", m[2]);
         assert!((m[2] - 20_440.0).abs() < 100.0, "≈20.44 km, got {}", m[2]);
     }
@@ -1034,10 +1079,10 @@ mod tests {
             // The geometric identity sin(el) = 1 holds to full f64 precision, free
             // of the asin amplification.
             assert!(
-                (la.el_deg.to_radians().sin() - 1.0).abs() < 1e-12,
+                (la.el_deg.to_radians().psin() - 1.0).abs() < 1e-12,
                 "{} sin(el) = {}",
                 site.name,
-                la.el_deg.to_radians().sin()
+                la.el_deg.to_radians().psin()
             );
             assert!(
                 (la.range_m - range).abs() < 1e-3,
@@ -1109,7 +1154,7 @@ mod tests {
             raan_deg: 0.0,
             phase_deg: 0.0,
         };
-        let n = (MOON_GM_M3_S2 / r.radius_m.powi(3)).sqrt();
+        let n = (MOON_GM_M3_S2 / r.radius_m.ppowi(3)).sqrt();
         let period = TAU / n;
         assert!(
             (period - 14_744.8).abs() / 14_744.8 < 0.01,
@@ -1416,12 +1461,12 @@ mod tests {
         // cos θ = R / (R + h): ground = R·θ, slant = (R + h)·sin θ. Two independent
         // implementations must agree through θ.
         for &h in &[10.0, 100.0, 1000.0] {
-            let theta = (R_MOON_M / (R_MOON_M + h)).acos();
+            let theta = (R_MOON_M / (R_MOON_M + h)).pacos();
             let ground = horizon_ground_range_m(R_MOON_M, h);
             let slant = horizon_los_distance_m(R_MOON_M, h);
             assert!((ground - R_MOON_M * theta).abs() < 1e-6, "ground h={h}");
             assert!(
-                (slant - (R_MOON_M + h) * theta.sin()).abs() < 1e-3,
+                (slant - (R_MOON_M + h) * theta.psin()).abs() < 1e-3,
                 "slant h={h}"
             );
         }
@@ -1451,10 +1496,10 @@ mod tests {
                 "h={h}: eo_payload λ={lambda_eo} vs horizon-helper λ={lambda_helper}"
             );
             // Both equal the closed-form spherical-tangent identity acos(R/(R+h)).
-            assert!((lambda_eo - (R_E / (R_E + h)).acos()).abs() < 1e-9);
+            assert!((lambda_eo - (R_E / (R_E + h)).pacos()).abs() < 1e-9);
             // The identical helper reduced to the LUNAR radius is the same closed form.
             let lambda_moon = horizon_ground_range_m(R_MOON_M, h) / R_MOON_M;
-            assert!((lambda_moon - (R_MOON_M / (R_MOON_M + h)).acos()).abs() < 1e-12);
+            assert!((lambda_moon - (R_MOON_M / (R_MOON_M + h)).pacos()).abs() < 1e-12);
         }
     }
 

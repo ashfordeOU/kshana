@@ -38,6 +38,7 @@ use crate::forces::{
 use crate::fusion::ukf::inverse;
 use crate::gravity_sh::SphericalHarmonicField;
 use crate::integrator::{integrate_dopri, Tolerance};
+use crate::portable_math::PortableFloat;
 use crate::precession::{julian_centuries_tt, mat_vec, transpose, Mat3};
 use crate::tides::tidal_acceleration;
 use crate::timescales::SECONDS_PER_DAY;
@@ -182,7 +183,7 @@ fn arg_of_latitude(r: Vec3, v: Vec3) -> f64 {
         unit(node)
     };
     let q_hat = cross(n_hat, p_hat); // 90° ahead, in the direction of motion
-    dot(r, q_hat).atan2(dot(r, p_hat))
+    dot(r, q_hat).patan2(dot(r, p_hat))
 }
 
 /// The empirical RTN acceleration (m/s², ECI) for `emp` at state `(r, v)`: each axis amplitude
@@ -195,8 +196,8 @@ fn arg_of_latitude(r: Vec3, v: Vec3) -> f64 {
 pub fn empirical_accel(emp: &EmpiricalAccel, r: Vec3, v: Vec3) -> Vec3 {
     let ric = ric_from_state(r, v); // rows = R̂, T̂, N̂ in ECI
     let u = arg_of_latitude(r, v);
-    let (cu, su) = (u.cos(), u.sin());
-    let (c2u, s2u) = ((2.0 * u).cos(), (2.0 * u).sin());
+    let (cu, su) = (u.pcos(), u.psin());
+    let (c2u, s2u) = ((2.0 * u).pcos(), (2.0 * u).psin());
     let comp = |c: [f64; 3], c2: [f64; 2]| c[0] + c[1] * cu + c[2] * su + c2[0] * c2u + c2[1] * s2u;
     let rtn = [
         comp(emp.radial, emp.radial_2cpr),
@@ -290,12 +291,20 @@ pub struct PreciseForceModel {
     pub lense_thirring: bool,
     /// Include the solid/ocean/atmospheric tide perturbation.
     pub tides: bool,
+    /// Include the opt-in S1 atmospheric tide ([`crate::tides::s1_air_tide_acceleration`]).
+    pub air_tide_s1: bool,
     /// Optional empirical-acceleration tier (RTN constant + once-per-rev).
     pub empirical: Option<EmpiricalAccel>,
     /// Optional real IERS Earth-orientation series. When present the GCRS↔ITRS rotation uses
     /// real UT1−UTC and polar motion; when absent it falls back to nominal (UT1 = TT, no pole),
     /// which is exact for synthetic self-recovery.
     pub eop: Option<EopSeries>,
+    /// Opt-in box-wing SRP ([`crate::srp_boxwing`]): when `Some` (and [`srp`](Self::srp) is
+    /// `true`), it replaces the cannonball term with the flat-plate model in nominal GNSS yaw
+    /// steering, eclipse from [`crate::forces::conical_shadow`] (as the cannonball), and
+    /// [`cr`](Self::cr) as the radiation factor `k` (1 nominal), so an estimated `cr` is the
+    /// box-wing scale; [`area_over_mass`](Self::area_over_mass) is unused. `None` by default.
+    pub srp_boxwing: Option<crate::srp_boxwing::BoxWing>,
 }
 
 impl PreciseForceModel {
@@ -314,8 +323,10 @@ impl PreciseForceModel {
             relativity: false,
             lense_thirring: false,
             tides: false,
+            air_tide_s1: false,
             empirical: None,
             eop: None,
+            srp_boxwing: None,
         }
     }
 
@@ -328,6 +339,15 @@ impl PreciseForceModel {
     pub fn third_body(mut self, sun: bool, moon: bool) -> Self {
         self.sun = sun;
         self.moon = moon;
+        self
+    }
+
+    /// Use box-wing SRP (see [`srp_boxwing`](Self::srp_boxwing)) for `bw` with radiation factor
+    /// `scale` (1 nominal): sets `srp = true`, `cr = scale` and replaces the cannonball term.
+    pub fn box_wing_srp(mut self, bw: crate::srp_boxwing::BoxWing, scale: f64) -> Self {
+        self.srp = true;
+        self.cr = scale;
+        self.srp_boxwing = Some(bw);
         self
     }
 
@@ -361,6 +381,12 @@ impl PreciseForceModel {
     /// Add the tide perturbation.
     pub fn tides(mut self) -> Self {
         self.tides = true;
+        self
+    }
+
+    /// Add the opt-in S1 atmospheric tide.
+    pub fn air_tide_s1(mut self) -> Self {
+        self.air_tide_s1 = true;
         self
     }
 
@@ -424,7 +450,17 @@ impl PreciseForceModel {
         }
         if self.srp {
             if let Some(s) = sun {
-                add(srp_accel(r, s, self.cr, self.area_over_mass));
+                match &self.srp_boxwing {
+                    None => add(srp_accel(r, s, self.cr, self.area_over_mass)),
+                    Some(bw) => add(crate::srp_boxwing::boxwing_srp_accel(
+                        r,
+                        v,
+                        s,
+                        bw,
+                        self.cr,
+                        crate::forces::conical_shadow(r, s),
+                    )),
+                }
             }
         }
         if self.drag {
@@ -438,6 +474,9 @@ impl PreciseForceModel {
         }
         if self.tides {
             add(tidal_acceleration(r, jd_tt));
+        }
+        if self.air_tide_s1 {
+            add(crate::tides::s1_air_tide_acceleration(r, jd_tt));
         }
         if let Some(emp) = self.empirical {
             add(empirical_accel(&emp, r, v));
@@ -973,7 +1012,7 @@ fn fit_with<F: ForceModel>(
                     .enumerate()
                     .map(|(i, (s, _))| {
                         let o = obs[i].pos;
-                        ((o[0] - s[0]).powi(2) + (o[1] - s[1]).powi(2) + (o[2] - s[2]).powi(2))
+                        ((o[0] - s[0]).ppowi(2) + (o[1] - s[1]).ppowi(2) + (o[2] - s[2]).ppowi(2))
                             .sqrt()
                     })
                     .collect();
@@ -1074,6 +1113,37 @@ fn fit_with<F: ForceModel>(
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn box_wing_srp_is_opt_in_and_replaces_the_cannonball() {
+        use crate::srp_boxwing::{boxwing_srp_accel, BoxWing};
+        let epoch = 2_460_000.5;
+        let base = PreciseForceModel::egm2008(0, epoch).solar_radiation(1.3, 0.01);
+        assert!(base.srp_boxwing.is_none(), "box-wing is off by default");
+        let none = PreciseForceModel::egm2008(0, epoch);
+        let bw = base.clone().box_wing_srp(BoxWing::galileo_iov(), 1.1);
+        let sun = sun_position(julian_centuries_tt(epoch + 60.0 / SECONDS_PER_DAY));
+        let n = (sun[0] * sun[0] + sun[1] * sun[1] + sun[2] * sun[2]).sqrt();
+        let r = [2.96e7 * sun[1] / n, -2.96e7 * sun[0] / n, 0.0];
+        let v = [0.0, 0.0, 3_670.0];
+        let (a, b) = (bw.accel_rv(60.0, r, v), none.accel_rv(60.0, r, v));
+        let want = boxwing_srp_accel(
+            r,
+            v,
+            sun,
+            &BoxWing::galileo_iov(),
+            1.1,
+            crate::forces::conical_shadow(r, sun),
+        );
+        for k in 0..3 {
+            assert!((a[k] - b[k] - want[k]).abs() <= 1e-15, "axis {k}");
+        }
+        let c = base.accel_rv(60.0, r, v);
+        let cn = srp_accel(r, sun, 1.3, 0.01);
+        for k in 0..3 {
+            assert_eq!(c[k], b[k] + cn[k]);
+        }
+    }
 
     #[test]
     fn to_rtn_radial_displacement_is_pure_radial() {

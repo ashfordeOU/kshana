@@ -18,9 +18,10 @@
 //! velocity in the position block, whose coast variance `q_va*T^3/3` is exactly the
 //! Groves velocity-random-walk position variance). The value over open-loop
 //! composition is a single consistent estimator with a joint covariance, and a
-//! clean substrate for cross-aiding. Estimating constant sensor biases with an
-//! augmented state is future work; this demo uses noise-driven sensors so the
-//! filter process noise is consistent with truth.
+//! clean substrate for cross-aiding. The default mode uses noise-driven sensors so the
+//! filter process noise is consistent with truth; the `[coupled]` mode runs one stacked filter
+//! on pseudoranges with an augmented accelerometer-bias state
+//! ([`coupled::CoupledPntBiasFilter`], `scenarios/fusion-pnt-coupled.toml`).
 //!
 //! When the measurements are **pseudoranges** rather than separate position/time
 //! fixes, the position and clock are no longer independently observed and the
@@ -29,19 +30,26 @@
 //! `[pos, vel, phase, freq]` state whose pseudorange update couples the blocks, so a
 //! clock-only fix also sharpens the position (validated in that module).
 
+#[allow(clippy::needless_range_loop)]
+pub mod carrier_tc;
 pub mod closed_loop;
 pub mod coupled;
+mod dense;
 pub mod gnss_ins_ekf;
 pub mod hybrid_ukf;
+pub mod kfgins;
 pub mod pack;
 pub mod tightly_coupled;
 pub mod tightly_coupled17;
+pub mod trajectory;
+pub mod truth;
 pub mod ukf;
 
 use crate::hybrid::{score_hybrid, HybridResult, HybridSample, HybridScenario, SuiteRun};
 use crate::inertial::{AccelCfg, AccelModel};
 use crate::kalman::KalmanClock;
 use crate::models::{ClockModel, ErrorModel};
+use crate::portable_math::PortableFloat;
 use crate::run::{PHASE_MEAS_VAR_S2, PROTECTION_K};
 use crate::scenario::{ClockCfg, GnssState};
 use crate::security::{spoof_detection_score, SPOOF_DETECT_K, SPOOF_MONITOR_S};
@@ -281,6 +289,9 @@ fn run_fused_suite(
     accel_cfg: &AccelCfg,
     seed: u64,
 ) -> SuiteRun {
+    if let Some(cc) = &scn.coupled {
+        return run_coupled_suite(scn, cc, clock_cfg, accel_cfg, seed);
+    }
     let mut rng = ChaCha8Rng::seed_from_u64(seed);
     // Truth sensors (their accumulated error is what the filter estimates).
     let mut clock = ClockModel::new(
@@ -375,6 +386,139 @@ fn run_fused_suite(
         });
     }
 
+    let mut fom = score_hybrid(&series, scn.timing_spec_ns, scn.position_spec_m);
+    if outage > 0 {
+        fom.integrity = Some(contained as f64 / outage as f64);
+    }
+    fom.security = Some(spoof_detection_score(
+        clock_cfg.q_wf,
+        clock_cfg.q_rw,
+        PHASE_MEAS_VAR_S2,
+        scn.timing_spec_ns,
+        SPOOF_MONITOR_S,
+        dt,
+        SPOOF_DETECT_K,
+    ));
+    SuiteRun {
+        clock_spec: clock.spec(),
+        accel_spec: accel.spec(),
+        series,
+        fom,
+    }
+}
+
+/// The coupled mode of the pack (`[coupled]`): one stacked filter
+/// ([`coupled::CoupledPntBiasFilter`]) over position, velocity, clock phase, clock frequency and
+/// the accelerometer bias, fed pseudoranges `ρ = g·position + c·phase + noise` while GNSS is
+/// nominal and clock-only re-syncs during the outage. The truth sensors, the scoring and the
+/// report shape are those of the decoupled mode.
+fn run_coupled_suite(
+    scn: &HybridScenario,
+    cc: &crate::hybrid::CoupledCfg,
+    clock_cfg: &ClockCfg,
+    accel_cfg: &AccelCfg,
+    seed: u64,
+) -> SuiteRun {
+    use crate::portable_distr::{Distribution, Normal};
+    let c = coupled::C_M_PER_S;
+    let mut rng = ChaCha8Rng::seed_from_u64(seed);
+    let mut meas_rng = ChaCha8Rng::seed_from_u64(seed ^ 0x636f_7570_6c65_6400);
+    let mut clock = ClockModel::new(
+        &clock_cfg.id,
+        &clock_cfg.provenance,
+        clock_cfg.y0,
+        clock_cfg.q_wf,
+        clock_cfg.q_rw,
+    )
+    .with_drift(clock_cfg.drift)
+    .with_flicker(clock_cfg.flicker_floor);
+    let mut accel = AccelModel::new(
+        &accel_cfg.id,
+        &accel_cfg.provenance,
+        accel_cfg.bias,
+        accel_cfg.q_va,
+    )
+    .with_gyro(accel_cfg.gyro_bias, accel_cfg.q_arw)
+    .with_accel_random_walk(accel_cfg.q_aa)
+    .with_bias_instability(accel_cfg.bias_instability);
+    let mut kf = coupled::CoupledPntBiasFilter::new(
+        coupled::CoupledBiasNoise {
+            q_va: accel_cfg.q_va.max(1e-30),
+            q_ba: cc.q_ba,
+            q_wf: clock_cfg.q_wf,
+            q_rw: clock_cfg.q_rw,
+        },
+        [
+            POS_MEAS_VAR_M2,
+            INIT_VEL_VAR,
+            PHASE_MEAS_VAR_S2,
+            INIT_FREQ_VAR,
+            cc.bias_var,
+        ],
+    );
+    let link = if scn.resync.enabled {
+        Some(TimeTransferLink::new(
+            "optical-isl",
+            "time-transfer clock-aiding",
+            scn.resync.sigma_j_s,
+        ))
+    } else {
+        None
+    };
+    let resync_var = scn.resync.sigma_j_s * scn.resync.sigma_j_s;
+    let pr_noise = Normal::new(0.0, cc.sigma_pr_m).expect("validated sigma_pr_m");
+    let r_pr = cc.sigma_pr_m * cc.sigma_pr_m;
+
+    let dt = scn.time.step_s;
+    let n = (scn.time.duration_s / dt).round() as usize;
+    let mut series = Vec::with_capacity(n + 1);
+    let mut last_resync = 0.0;
+    let (mut outage, mut contained) = (0u64, 0u64);
+    for i in 0..=n {
+        let t = i as f64 * dt;
+        if i > 0 {
+            clock.step(dt, &mut rng);
+            accel.step(dt, &mut rng);
+            kf.predict(dt);
+        }
+        let gnss = scn.gnss.state_at(t);
+        let truth_phase = clock.phase();
+        let truth_pos = accel.pos();
+        match gnss {
+            GnssState::Nominal => {
+                for &g in &cc.geometry {
+                    let rho = g * truth_pos + c * truth_phase + pr_noise.sample(&mut meas_rng);
+                    let _ = kf.update_pseudorange(rho, g, c, r_pr);
+                }
+                last_resync = t;
+            }
+            _ => {
+                if let Some(link) = &link {
+                    if t - last_resync >= scn.resync.interval_s {
+                        let rho = c * (truth_phase + link.sample(&mut rng));
+                        let _ = kf.update_pseudorange(rho, 0.0, c, c * c * resync_var);
+                        last_resync = t;
+                    }
+                }
+                let timing_s = truth_phase - kf.phase_est();
+                let position_m = truth_pos - kf.pos_est();
+                outage += 1;
+                let phase_bound = PROTECTION_K
+                    * (kf.phase_sigma().ppowi(2) + if link.is_some() { resync_var } else { 0.0 })
+                        .sqrt();
+                let pos_bound = PROTECTION_K * kf.pos_sigma();
+                if timing_s.abs() <= phase_bound && position_m.abs() <= pos_bound {
+                    contained += 1;
+                }
+            }
+        }
+        series.push(HybridSample {
+            t,
+            timing_ns: (truth_phase - kf.phase_est()) * 1e9,
+            position_m: truth_pos - kf.pos_est(),
+            gnss,
+        });
+    }
     let mut fom = score_hybrid(&series, scn.timing_spec_ns, scn.position_spec_m);
     if outage > 0 {
         fom.integrity = Some(contained as f64 / outage as f64);

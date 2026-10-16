@@ -1,10 +1,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
-//! GPS L1 C/A, L5 (I5, Q5) and L2C (CM, CL) spreading codes.
+//! GPS L1 C/A, L1C (L1CP, L1CD, L1CO), L5 (I5, Q5) and L2C (CM, CL) spreading codes.
 //!
-//! References: IS-GPS-200N (01-AUG-2022) for L1 C/A and L2C; IS-GPS-705J (01-AUG-2022)
-//! for L5. Validation status is on each constructor.
+//! References: IS-GPS-200N (01-AUG-2022) for L1 C/A and L2C; IS-GPS-800J (01-AUG-2022)
+//! for L1C; IS-GPS-705J (01-AUG-2022) for L5. Validation status is on each constructor.
 
-use super::tables::{L2C_STATES, L5_PHASES};
+use super::beidou::legendre;
+use super::tables::{L1cRow, L1coRow, L1C_D, L1C_O, L1C_P, L2C_STATES, L5_PHASES};
 use super::{bipolar, Modulation, SignalCode, SignalError};
 use crate::iq::DataModulation;
 use crate::sdr::CaCode;
@@ -15,6 +16,16 @@ pub const L1_HZ: f64 = 1_575_420_000.0;
 pub const L2_HZ: f64 = 1_227_600_000.0;
 /// GPS L5 carrier frequency (Hz).
 pub const L5_HZ: f64 = 1_176_450_000.0;
+/// L1C chip rate, L1CP and L1CD (chips/s).
+pub const L1C_CHIP_RATE_HZ: f64 = 1_023_000.0;
+/// L1CP / L1CD ranging-code length (chips, 10 ms).
+pub const L1C_CODE_LEN: usize = 10_230;
+/// Length of the Legendre sequence the L1C Weil codes are built on (IS-GPS-800J §3.2.2.1.1).
+pub const L1C_WEIL_LEN: usize = 10_223;
+/// The 7-chip expansion sequence inserted into every L1C Weil code (IS-GPS-800J §3.2.2.1.1).
+pub const L1C_EXPANSION: [u8; 7] = [0, 1, 1, 0, 1, 0, 0];
+/// L1CO overlay-code length (bits, 18 s at 100 bit/s): one bit per L1CP code period.
+pub const L1C_OVERLAY_LEN: usize = 1800;
 /// L5 chip rate (chips/s).
 pub const L5_CHIP_RATE_HZ: f64 = 10_230_000.0;
 /// L5 primary-code length (chips).
@@ -51,6 +62,129 @@ pub fn l1ca(prn: u16) -> Result<SignalCode, SignalError> {
         Modulation::Bpsk,
     )
     .with_data_modulation(DataModulation::Lnav))
+}
+
+// --- L1C ------------------------------------------------------------------------------
+
+/// The L1C Weil code `W(t; w) = L(t) xor L((t + w) mod 10223)`, `t = 0..=10222`, over the
+/// Legendre sequence `L` of length 10223 (IS-GPS-800J §3.2.2.1.1), logic bits.
+pub fn l1c_weil(w: u16) -> Vec<u8> {
+    let l = legendre(L1C_WEIL_LEN);
+    let w = w as usize % L1C_WEIL_LEN;
+    (0..L1C_WEIL_LEN)
+        .map(|t| l[t] ^ l[(t + w) % L1C_WEIL_LEN])
+        .collect()
+}
+
+/// An L1C ranging code (L1CP or L1CD), 10230 logic bits, from Weil index `w` and insertion
+/// index `p` (IS-GPS-800J §3.2.2.1.1): `W(t; w)` for `t = 0..=p-2`, the expansion
+/// sequence `0110100` at `t = p-1..=p+5`, then `W(t - 7; w)` up to `t = 10229`.
+///
+/// # Panics
+/// If `p` is outside `1..=10223`.
+pub fn l1c_ranging_bits(w: u16, p: u16) -> Vec<u8> {
+    let p = p as usize;
+    assert!(
+        (1..=L1C_WEIL_LEN).contains(&p),
+        "L1C insertion index {p} outside 1..=10223"
+    );
+    let weil = l1c_weil(w);
+    let mut code = Vec::with_capacity(L1C_CODE_LEN);
+    code.extend_from_slice(&weil[..p - 1]);
+    code.extend_from_slice(&L1C_EXPANSION);
+    code.extend_from_slice(&weil[p - 1..]);
+    code
+}
+
+fn l1c_row(
+    table: &'static [L1cRow; 63],
+    signal: &'static str,
+    prn: u16,
+) -> Result<&'static L1cRow, SignalError> {
+    (prn as usize)
+        .checked_sub(1)
+        .and_then(|i| table.get(i))
+        .ok_or(SignalError::UnknownPrn { signal, prn })
+}
+
+/// The L1CP (pilot) ranging code of `prn` 1..=63, logic bits (IS-GPS-800J Table 3.2-2).
+pub fn l1c_p_bits(prn: u16) -> Result<Vec<u8>, SignalError> {
+    let r = l1c_row(&L1C_P, "GPS L1CP", prn)?;
+    Ok(l1c_ranging_bits(r.w, r.p))
+}
+
+/// The L1CD (data) ranging code of `prn` 1..=63, logic bits (IS-GPS-800J Table 3.2-2).
+pub fn l1c_d_bits(prn: u16) -> Result<Vec<u8>, SignalError> {
+    let r = l1c_row(&L1C_D, "GPS L1CD", prn)?;
+    Ok(l1c_ranging_bits(r.w, r.p))
+}
+
+/// Run the L1CO S1 generator of IS-GPS-800J Figure 3.2-2 for `len` output bits: an
+/// 11-stage register shifting from stage 1 towards stage 11, output at stage 11, stage 1
+/// fed with the exclusive-or of the stages `j` whose coefficient `m_j` is 1 (`m_j` is bit
+/// `j` of `s1_poly`, `m_11 = 1`). `initial` holds `n11 ... n1` with `n11` in the most
+/// significant of its 11 bits, so the first output bit is that most significant bit.
+pub fn l1co_s1_run(s1_poly: u16, initial: u16, len: usize) -> Vec<u8> {
+    // reg[j - 1] is stage j.
+    let mut reg = [0u8; 11];
+    for (j, s) in reg.iter_mut().enumerate() {
+        *s = ((initial >> j) & 1) as u8;
+    }
+    let taps: Vec<usize> = (1..=11).filter(|&j| (s1_poly >> j) & 1 == 1).collect();
+    let mut out = Vec::with_capacity(len);
+    for _ in 0..len {
+        out.push(reg[10]);
+        let fb = taps.iter().fold(0u8, |acc, &j| acc ^ reg[j - 1]);
+        reg.copy_within(0..10, 1);
+        reg[0] = fb;
+    }
+    out
+}
+
+/// The 1800-bit L1CO overlay code of `prn` 1..=63, logic bits: the S1 sequence alone, as
+/// IS-GPS-800J §3.2.2.1.2 specifies for PRNs 1-63 (Table 3.2-3).
+pub fn l1c_o_bits(prn: u16) -> Result<Vec<u8>, SignalError> {
+    let r: &L1coRow = (prn as usize)
+        .checked_sub(1)
+        .and_then(|i| L1C_O.get(i))
+        .ok_or(SignalError::UnknownPrn {
+            signal: "GPS L1CO",
+            prn,
+        })?;
+    Ok(l1co_s1_run(r.s1_poly, r.initial, L1C_OVERLAY_LEN))
+}
+
+/// GPS L1C data component L1CD for `prn` 1..=63: the Weil ranging code with the
+/// sine-phased BOC(1,1) subcarrier, no overlay code, 100 symbol/s CNAV-2 symbols (one per
+/// 10 ms code period; IS-GPS-800J §3.3). The chips are checked against the printed initial
+/// and final 24 chips of Table 3.2-2 (`tests/iq_signals_gps_l1c.rs`).
+pub fn l1c_d(prn: u16) -> Result<SignalCode, SignalError> {
+    Ok(SignalCode::new(
+        format!("GPS L1CD PRN {prn}"),
+        L1C_CHIP_RATE_HZ,
+        L1_HZ,
+        bipolar(&l1c_d_bits(prn)?),
+        vec![],
+        Modulation::SineBoc { n: 1 },
+    )
+    .with_data_modulation(DataModulation::Symbols { symbol_s: 0.01 }))
+}
+
+/// GPS L1C pilot component L1CP for `prn` 1..=63: the Weil ranging code tiered with the
+/// 1800-bit L1CO overlay code (one overlay bit per 10 ms code period, 18 s in all) and the
+/// TMBOC(6,1,4/33) subcarrier ([`Modulation::Tmboc`]: BOC(6,1) symbols at positions 0, 4,
+/// 6 and 29 of every 33, IS-GPS-800J §3.3). The chips are checked against Tables 3.2-2 and
+/// 3.2-3 (`tests/iq_signals_gps_l1c.rs`); the TMBOC pattern is MODELLED from the §3.3 text.
+pub fn l1c_p(prn: u16) -> Result<SignalCode, SignalError> {
+    Ok(SignalCode::new(
+        format!("GPS L1CP PRN {prn}"),
+        L1C_CHIP_RATE_HZ,
+        L1_HZ,
+        bipolar(&l1c_p_bits(prn)?),
+        bipolar(&l1c_o_bits(prn)?),
+        Modulation::Tmboc,
+    )
+    .with_data_modulation(DataModulation::Pilot))
 }
 
 // --- L5 -------------------------------------------------------------------------------
@@ -260,6 +394,142 @@ mod tests {
         assert!(l5_i5(0).is_err());
         assert!(l5_q5(211).is_err());
         assert!(l2c_cm(64).is_err());
+    }
+
+    #[test]
+    fn l1c_prn_range_is_1_to_63() {
+        assert!(l1c_p(0).is_err());
+        assert!(l1c_d(64).is_err());
+        assert!(l1c_o_bits(64).is_err());
+        assert!(l1c_p_bits(63).is_ok() && l1c_o_bits(1).is_ok());
+    }
+
+    #[test]
+    fn l1c_expansion_is_inserted_before_the_pth_weil_chip() {
+        // Structure of IS-GPS-800J §3.2.2.1.1 on arbitrary indices (not a table check).
+        let weil = l1c_weil(1234);
+        assert_eq!(weil.len(), L1C_WEIL_LEN);
+        for p in [1u16, 2, 412, 10_223] {
+            let c = l1c_ranging_bits(1234, p);
+            let p = p as usize;
+            assert_eq!(c.len(), L1C_CODE_LEN);
+            assert_eq!(&c[..p - 1], &weil[..p - 1]);
+            assert_eq!(&c[p - 1..p + 6], &L1C_EXPANSION);
+            assert_eq!(&c[p + 6..], &weil[p - 1..]);
+        }
+    }
+
+    #[test]
+    fn l1co_register_emits_its_initial_state_first_and_has_period_2047() {
+        // Structure of Figure 3.2-2: the first 11 output bits are n11 ... n1 (the initial
+        // state, most significant first). 1 + x^9 + x^11 is the ICD's own S2 polynomial;
+        // as a primitive polynomial its sequence repeats after 2047 bits and not before.
+        let init = 0b101_1001_0111u16;
+        let poly = (1 << 11) | (1 << 9) | 1;
+        let out = l1co_s1_run(poly, init, 2047 * 2);
+        let first: u16 = out[..11].iter().fold(0, |a, &b| (a << 1) | u16::from(b));
+        assert_eq!(first, init);
+        assert_eq!(&out[..2047], &out[2047..]);
+        assert!((1..2047).all(|s| out[s..s + 11] != out[..11]));
+        assert_eq!(out[..2047].iter().filter(|&&b| b == 1).count(), 1024);
+    }
+
+    #[test]
+    fn l1c_components_lengths_rates_and_modulations() {
+        let d = l1c_d(5).unwrap();
+        let p = l1c_p(5).unwrap();
+        assert_eq!(d.len_chips(), L1C_CODE_LEN);
+        assert_eq!(p.len_chips(), L1C_CODE_LEN * L1C_OVERLAY_LEN);
+        assert!((d.period_s() - 0.010).abs() < 1e-12);
+        assert!((p.period_s() - 18.0).abs() < 1e-9);
+        assert_eq!(d.modulation(), Modulation::SineBoc { n: 1 });
+        assert_eq!(p.modulation(), Modulation::Tmboc);
+        assert_eq!(
+            d.data_modulation(),
+            DataModulation::Symbols { symbol_s: 0.01 }
+        );
+        assert_eq!(p.data_modulation(), DataModulation::Pilot);
+        assert_eq!(p.carrier_hz(), L1_HZ);
+        // The overlay holds one bit per 10 ms primary period.
+        let o = l1c_o_bits(5).unwrap();
+        let m = o.iter().position(|&b| b != o[0]).unwrap() as i64;
+        let k = m * L1C_CODE_LEN as i64 + 17;
+        assert_eq!(p.chip(k), -p.chip(17));
+    }
+
+    #[test]
+    fn l1cp_tmboc_symbols_follow_the_33_slot_pattern() {
+        // IS-GPS-800J §3.3: BOC(6,1) at t = 0, 4, 6, 29, 33, 37, 39, 62, ..., 10197, 10201,
+        // 10203, 10226 of each code period; BOC(1,1) elsewhere. MODELLED from the text.
+        let p = l1c_p(9).unwrap();
+        let listed = [
+            0usize, 4, 6, 29, 33, 37, 39, 62, 10_197, 10_201, 10_203, 10_226,
+        ];
+        let boc61: Vec<usize> = (0..L1C_CODE_LEN)
+            .filter(|&t| super::super::tmboc_is_boc61(t))
+            .collect();
+        assert_eq!(boc61.len(), 4 * 310);
+        for t in listed {
+            assert!(boc61.contains(&t), "t = {t}");
+        }
+        // Chip-level waveform: 12 half-periods on a BOC(6,1) symbol, 2 on BOC(1,1).
+        let sign_changes = |t: usize| {
+            let v: Vec<f64> = (0..24)
+                .map(|s| p.value_at(t as f64 + (s as f64 + 0.5) / 24.0))
+                .collect();
+            v.windows(2).filter(|w| w[0] != w[1]).count()
+        };
+        for period in [0usize, 1, 1799] {
+            let base = period * L1C_CODE_LEN;
+            assert_eq!(sign_changes(base), 11);
+            assert_eq!(sign_changes(base + 29), 11);
+            assert_eq!(sign_changes(base + 1), 1);
+            assert_eq!(sign_changes(base + 32), 1);
+            assert_eq!(sign_changes(base + 33), 11);
+        }
+        // Sine phasing: every symbol starts positive relative to its chip value.
+        for t in [0usize, 1, 4, 5] {
+            assert_eq!(p.value_at(t as f64 + 0.01), p.chip(t as i64));
+        }
+    }
+
+    #[test]
+    fn l1cp_tmboc_power_is_4_33_boc61_and_29_33_boc11_from_the_waveform() {
+        // Project one full code period of the L1CP waveform on the BOC(6,1) and BOC(1,1)
+        // replicas of the same code. The two square subcarriers are orthogonal over a chip,
+        // so the projections are the shares of symbols of each kind: 4/33 and 29/33.
+        const SPC: usize = 48;
+        let p = l1c_p(21).unwrap();
+        let (mut a6, mut a1, mut e) = (0.0, 0.0, 0.0);
+        for k in 0..L1C_CODE_LEN {
+            let c = p.chip(k as i64);
+            for s in 0..SPC {
+                let f = (s as f64 + 0.5) / SPC as f64;
+                let v = p.value_at(k as f64 + f);
+                a6 += v * c * crate::iq::signals::square_subcarrier(6, f);
+                a1 += v * c * crate::iq::signals::square_subcarrier(1, f);
+                e += v * v;
+            }
+        }
+        let n = (L1C_CODE_LEN * SPC) as f64;
+        assert!((a6 / n - 4.0 / 33.0).abs() < 1e-12, "{}", a6 / n);
+        assert!((a1 / n - 29.0 / 33.0).abs() < 1e-12, "{}", a1 / n);
+        assert!((e / n - 1.0).abs() < 1e-12);
+    }
+
+    #[test]
+    fn non_tmboc_modulations_ignore_the_chip_index() {
+        for m in [
+            Modulation::Bpsk,
+            Modulation::SineBoc { n: 1 },
+            Modulation::Cboc { plus: true },
+        ] {
+            for chip in [0usize, 4, 29, 33] {
+                for f in [0.03, 0.3, 0.7] {
+                    assert_eq!(m.subcarrier_at(chip, f), m.subcarrier(f));
+                }
+            }
+        }
     }
 
     #[test]

@@ -1,0 +1,29 @@
+# OpenSSL 3.0.13 30 Jan 2024 (Library: OpenSSL 3.0.13 30 Jan 2024)
+# id verdict ts_verify_verdict gen_time_unix reason(OpenSSL's first error, or -)
+G01 PASS PASS 1791834325 -
+G02 PASS PASS 1791834325 -
+G03 PASS PASS 1791834325 -
+G04 FAIL FAIL 1791834325 unable to get local issuer certificate
+G05 PASS PASS 1791834325 -
+G06 PASS PASS 1791834325 -
+G07 FAIL FAIL 1791834325 signer certificate not found
+G08 PASS PASS 1791834325 -
+G09 PASS PASS 1791834325 -
+G10 PASS FAIL 1791834325 -
+T01 FAIL FAIL 1791834325 invalid padding
+T02 FAIL FAIL 1791834325 signature failure
+T03 FAIL FAIL 1791834325 last octet invalid
+T04 FAIL FAIL 1791834325 digest failure
+T05 FAIL FAIL 1791834325 digest failure
+T06 FAIL FAIL 1791834325 certificate signature failure
+T07 FAIL FAIL 1791834325 ess cert id not found
+W01 FAIL FAIL 1791834325 unable to get local issuer certificate
+W02 FAIL FAIL 1791834325 unable to get local issuer certificate
+W03 FAIL FAIL 1791834325 unable to get local issuer certificate
+W04 FAIL FAIL 1791834325 unable to get issuer certificate
+X01 FAIL FAIL 1791834325 certificate has expired
+E01 FAIL FAIL 1791834325 unsuitable certificate purpose
+E02 FAIL FAIL 1791834325 unsuitable certificate purpose
+D01 FAIL FAIL 1791834325 message imprint mismatch
+D02 FAIL FAIL 1791834325 message imprint mismatch
+D03 FAIL FAIL 1791834325 message imprint mismatch

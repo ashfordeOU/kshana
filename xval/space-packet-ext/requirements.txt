@@ -1,0 +1,9 @@
+appdirs==1.4.4
+bitstruct==8.23.0
+ccsdspy==2.0.1
+deprecation==2.1.0
+fastcrc==0.3.6
+numpy==2.5.4
+packaging==26.3
+PyYAML==6.0.3
+spacepackets==0.32.0

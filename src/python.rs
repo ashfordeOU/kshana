@@ -77,15 +77,188 @@ struct PyRunOutput {
     csv: Option<String>,
 }
 
+impl PyRunOutput {
+    fn parsed(&self) -> PyResult<serde_json::Value> {
+        serde_json::from_str(&self.json).map_err(|e| PyValueError::new_err(e.to_string()))
+    }
+}
+
+/// Import NumPy on demand: the package has no runtime NumPy dependency, so only the
+/// array accessors need it.
+fn numpy(py: Python<'_>) -> PyResult<pyo3::Bound<'_, pyo3::types::PyModule>> {
+    py.import("numpy").map_err(|e| {
+        pyo3::exceptions::PyImportError::new_err(format!(
+            "RunOutput's array accessors need NumPy (pip install numpy): {e}"
+        ))
+    })
+}
+
+/// Resolve a dotted path (`a.b.0.c`) or a JSON Pointer (`/a/b/0/c`) in `doc`.
+fn lookup<'a>(doc: &'a serde_json::Value, path: &str) -> PyResult<&'a serde_json::Value> {
+    let missing = || pyo3::exceptions::PyKeyError::new_err(path.to_string());
+    if path.starts_with('/') {
+        return doc.pointer(path).ok_or_else(missing);
+    }
+    if path.is_empty() {
+        return Ok(doc);
+    }
+    let mut v = doc;
+    for part in path.split('.') {
+        v = match v {
+            serde_json::Value::Object(o) => o.get(part),
+            serde_json::Value::Array(a) => part.parse::<usize>().ok().and_then(|i| a.get(i)),
+            _ => None,
+        }
+        .ok_or_else(missing)?;
+    }
+    Ok(v)
+}
+
+/// A list of numbers, or a non-empty list of equal-length lists of numbers.
+fn is_numeric_array(v: &serde_json::Value) -> bool {
+    let Some(a) = v.as_array() else { return false };
+    if a.iter().all(|x| x.is_number()) {
+        return true;
+    }
+    let rows: Option<Vec<&Vec<serde_json::Value>>> = a.iter().map(|r| r.as_array()).collect();
+    match rows {
+        Some(rows) => {
+            let n = rows[0].len();
+            rows.iter()
+                .all(|r| r.len() == n && r.iter().all(|x| x.is_number()))
+        }
+        None => false,
+    }
+}
+
+/// The fields that are numbers in every record, in first-record order.
+fn numeric_fields(records: &[serde_json::Value]) -> Vec<&str> {
+    let Some(first) = records.first().and_then(|r| r.as_object()) else {
+        return Vec::new();
+    };
+    first
+        .keys()
+        .filter(|k| {
+            records
+                .iter()
+                .all(|r| r.get(k.as_str()).is_some_and(|x| x.is_number()))
+        })
+        .map(String::as_str)
+        .collect()
+}
+
+fn records_to_columns<'py>(
+    py: Python<'py>,
+    np: &pyo3::Bound<'py, pyo3::types::PyModule>,
+    records: &[serde_json::Value],
+) -> PyResult<pyo3::Bound<'py, PyAny>> {
+    let out = PyDict::new(py);
+    for name in numeric_fields(records) {
+        let list = PyList::empty(py);
+        for r in records {
+            list.append(json_to_py(py, &r[name])?)?;
+        }
+        out.set_item(name, np.call_method1("asarray", (list,))?)?;
+    }
+    Ok(out.into_any())
+}
+
+/// Collect every non-empty list of records with at least one numeric field, by path.
+fn collect_series<'a>(
+    v: &'a serde_json::Value,
+    path: String,
+    out: &mut Vec<(String, &'a [serde_json::Value])>,
+) {
+    let join = |k: &str| {
+        if path.is_empty() {
+            k.to_string()
+        } else {
+            format!("{path}.{k}")
+        }
+    };
+    match v {
+        serde_json::Value::Object(o) => {
+            for (k, x) in o {
+                collect_series(x, join(k), out);
+            }
+        }
+        serde_json::Value::Array(a) => {
+            if !a.is_empty() && a.iter().all(|r| r.is_object()) && !numeric_fields(a).is_empty() {
+                out.push((path.clone(), a.as_slice()));
+            }
+            for (i, x) in a.iter().enumerate() {
+                collect_series(x, join(&i.to_string()), out);
+            }
+        }
+        _ => {}
+    }
+}
+
 #[pymethods]
 impl PyRunOutput {
     /// The result document parsed into a Python `dict` (figures of merit,
-    /// time series, provenance, ...). NumPy users can wrap any numeric list with
-    /// `numpy.asarray(...)`.
+    /// time series, provenance, ...). For NumPy arrays use [`array`](Self::array),
+    /// [`columns`](Self::columns) or [`series`](Self::series).
     fn data<'py>(&self, py: Python<'py>) -> PyResult<pyo3::Bound<'py, PyAny>> {
         let v: serde_json::Value =
             serde_json::from_str(&self.json).map_err(|e| PyValueError::new_err(e.to_string()))?;
         json_to_py(py, &v)
+    }
+
+    /// The array at `path` in the result document as a NumPy `ndarray`: a list of
+    /// numbers gives a 1-D array, a list of equal-length numeric lists a 2-D one.
+    /// `path` is dotted (`"classical.adev_curve"`, list indices as integers:
+    /// `"points.0.coords"`) or a JSON Pointer (`"/classical/adev_curve"`). The array is
+    /// exactly `numpy.asarray(...)` of the same list from [`data`](Self::data), so the
+    /// dtype and values are the list path's. NumPy is imported when this is called and is
+    /// not a dependency of the package; raises `ImportError` without it, `KeyError` for a
+    /// missing path and `ValueError` when the value is not a numeric array.
+    fn array<'py>(&self, py: Python<'py>, path: &str) -> PyResult<pyo3::Bound<'py, PyAny>> {
+        let doc = self.parsed()?;
+        let v = lookup(&doc, path)?;
+        if !is_numeric_array(v) {
+            return Err(PyValueError::new_err(format!(
+                "{path:?} is not a numeric array (a list of numbers, or of equal-length lists of numbers)"
+            )));
+        }
+        let np = numpy(py)?;
+        np.call_method1("asarray", (json_to_py(py, v)?,))
+    }
+
+    /// The records at `path` (a list of objects, such as a time series) as a `dict` of
+    /// column name to NumPy `ndarray`, one entry per field that is a number in every
+    /// record; text, nested and sometimes-missing fields are left out. Each column is
+    /// `numpy.asarray([r[name] for r in records])` of the [`data`](Self::data) list, so it
+    /// keeps the list path's dtype and values. `path` is written as for
+    /// [`array`](Self::array); the same errors apply.
+    fn columns<'py>(&self, py: Python<'py>, path: &str) -> PyResult<pyo3::Bound<'py, PyAny>> {
+        let doc = self.parsed()?;
+        let v = lookup(&doc, path)?;
+        let records = v
+            .as_array()
+            .filter(|a| !a.is_empty() && a.iter().all(|r| r.is_object()))
+            .ok_or_else(|| {
+                PyValueError::new_err(format!("{path:?} is not a non-empty list of records"))
+            })?;
+        let np = numpy(py)?;
+        records_to_columns(py, &np, records)
+    }
+
+    /// Every record series in the result document as NumPy columns: a `dict` keyed by the
+    /// dotted path of each non-empty list of records with at least one numeric field, whose
+    /// value is that list's [`columns`](Self::columns). A series nested in a record of
+    /// another is included under its own path (`"points.0.legs"`). Lists of plain numbers
+    /// are not series; read those with [`array`](Self::array).
+    fn series<'py>(&self, py: Python<'py>) -> PyResult<pyo3::Bound<'py, PyAny>> {
+        let doc = self.parsed()?;
+        let np = numpy(py)?;
+        let out = PyDict::new(py);
+        let mut found = Vec::new();
+        collect_series(&doc, String::new(), &mut found);
+        for (path, records) in found {
+            out.set_item(path, records_to_columns(py, &np, records)?)?;
+        }
+        Ok(out.into_any())
     }
 
     /// Write the reproducibility table to `path`, returning the number of bytes
@@ -112,7 +285,8 @@ impl PyRunOutput {
 }
 
 /// Run a scenario from a TOML string and return a typed [`RunOutput`] (with
-/// `.json`, `.svg`, `.summary`, `.csv`, `.write_csv()`, and `.data()`). Raises
+/// `.json`, `.svg`, `.summary`, `.csv`, `.write_csv()`, `.data()`, and the NumPy
+/// accessors `.array()`, `.columns()` and `.series()`). Raises
 /// `ValueError` if invalid.
 #[pyfunction]
 fn run_typed(toml: &str) -> PyResult<PyRunOutput> {
@@ -1128,17 +1302,21 @@ fn iq_inventory<'py>(
 /// Fit the tracking-loop loss-of-lock model to a receiver-trust timeline described by an
 /// `iq-labfit` TOML scenario. Returns a dict with the parsed `report`, the `residuals_csv`
 /// and `predictions_csv` tables and the `markdown`. Relative log paths are resolved against
-/// the working directory. Raises `ValueError` on an invalid scenario or unreadable log.
+/// the working directory. A scenario whose `[input]` names `campaign = "<out-dir>"` fits
+/// that `kshana iq campaign` output folder instead (a relative folder is resolved against
+/// the working directory) and returns the same keys, with a `kshana.labfit-iq/1` report.
+/// Raises `ValueError` on an invalid scenario, unreadable log or unusable campaign.
 #[pyfunction]
 fn iq_labfit<'py>(py: Python<'py>, toml: &str) -> PyResult<Bound<'py, PyAny>> {
-    let out = crate::iq::labfit::run_toml(toml).map_err(PyValueError::new_err)?;
+    let [json, residuals_csv, predictions_csv, markdown] =
+        crate::iq::labfit::run_toml_views(toml).map_err(PyValueError::new_err)?;
     let report: serde_json::Value =
-        serde_json::from_str(&out.json).map_err(|e| PyValueError::new_err(e.to_string()))?;
+        serde_json::from_str(&json).map_err(|e| PyValueError::new_err(e.to_string()))?;
     let v = serde_json::json!({
         "report": report,
-        "residuals_csv": out.residuals_csv,
-        "predictions_csv": out.predictions_csv,
-        "markdown": out.markdown,
+        "residuals_csv": residuals_csv,
+        "predictions_csv": predictions_csv,
+        "markdown": markdown,
     });
     json_to_py(py, &v)
 }

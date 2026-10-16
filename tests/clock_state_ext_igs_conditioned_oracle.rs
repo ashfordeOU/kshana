@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
+// Host maths on purpose: this test recomputes its expected values independently of the engine's
+// portable maths (STUDIO-15), so the engine is checked against a second implementation.
 //! Oracle for the matrix row "Onboard clock state estimation" (M002), round 3: the round-2
 //! extended filter, tuning rule and criteria UNCHANGED, on a fresh window whose records are first
 //! cleaned by the frozen conditioning detector of the measured clock library.

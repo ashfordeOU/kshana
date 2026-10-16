@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
+// Host maths on purpose: this test recomputes its expected values independently of the engine's
+// portable maths (STUDIO-15), so the engine is checked against a second implementation.
 //! Independent-generator oracle for the Augmented Forward Signal (AFS) baseband waveform of
 //! the LunaNet Signal-In-Space Recommended Standard (LSIS) V1.0, 29 January 2025, Volume A.
 //!

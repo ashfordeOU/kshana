@@ -172,7 +172,7 @@ mod tests {
 
     #[test]
     fn costas_ignores_a_bit_flip_and_atan2_does_not() {
-        let p = Cf64::new(0.2_f64.cos(), 0.2_f64.sin()) * 5.0;
+        let p = Cf64::new(0.2_f64.pcos(), 0.2_f64.psin()) * 5.0;
         let flipped = p * -1.0;
         for k in [
             PllDiscriminator::CostasAtan,
@@ -190,13 +190,13 @@ mod tests {
         let f = 37.0;
         let p1 = Cf64::new(1.0, 0.0);
         let ang = TAU * f * t;
-        let p2 = Cf64::new(ang.cos(), ang.sin());
+        let p2 = Cf64::new(ang.pcos(), ang.psin());
         let a = FllDiscriminator::Atan2.discriminate(p1, p2, t);
         assert!((a - f).abs() < 1e-9);
         let a = FllDiscriminator::Atan2.discriminate(p1, p2 * -1.0, t);
         assert!((a - f).abs() < 1e-9, "data-tolerant across a flip");
         let c = FllDiscriminator::CrossProduct.discriminate(p1, p2, t);
-        assert!((c - ang.sin() / (TAU * t)).abs() < 1e-9);
+        assert!((c - ang.psin() / (TAU * t)).abs() < 1e-9);
         let pl = FllDiscriminator::Atan2Pilot.discriminate(p1, p2, t);
         assert!((pl - f).abs() < 1e-9);
     }

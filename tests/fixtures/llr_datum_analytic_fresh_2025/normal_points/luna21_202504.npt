@@ -1,0 +1,233 @@
+H1 CRD  2 2025 04 05 21
+H2 GRSM       7845 78  1  7 ILRS
+H3 luna21     0000104 0104 na 0 1 3
+H4  1 2025 04 05 21 21 17 2025 04 05 21 32 01  0 0 0 0 1 0 2 0
+H5  0 25 040400 OPA 5951
+C0 0 1064.200 me09 las6 det2 tim2 none nm01 met1 na  
+C1 0 las6 Nd-Yag 1064.20 10.00 240.00 150.0 0.00 4
+C2 0 det2 SPAD 1064.20 20.00 80.0 12.0 ECL 999.9 0.14 60.0 70.0 none 0.0 0.0 na
+C3 0 tim2 Maser_T4S36_Oca Maser_T4S36_Oca Dassault na 0.0
+C5 0 nm01 station_meo version_1.0 telemetrie_laser version_1.0
+C6 0 met1 VAISALA PTU303 na VAISALA PTU303 na VAISALA PTU303 na
+20 76877.513863480795 867.75 281.95 64  0
+40 77202.328870642144 0 me09 451 427 3.716 102560.2 751.0 152.8 0.138 -0.277 na 3 3 0 4 12.1
+41 77202.328870642144 0 me09 451 427 3.716 102560.2 751.0 152.8 0.138 -0.277 na 3 3 0 0 12.1
+30 77204.244 257.7379 49.4940 0 2 0 0.0034699 -0.0028933
+11 77204.243819136449 2.527941101178 me09 2 650.0 284 218.4 0.129 -0.655  na 4.7 0 41.1
+50 me09 218.4 0.129 -0.655 na 1
+H8
+H1 CRD  2 2026 04 22 09
+H2 GRSM       7845 78  1  7 ILRS
+H3 luna21     0000104 0104 na 0 1 3
+H4  1 2025 04 06 20 34 10 2025 04 06 22 40 22  0 0 0 0 1 0 2 0
+H5  0 25 040400 OPA 5951
+C0 0 1064.200 me09 las6 det2 tim2 none nm01 met1 na  
+C1 0 las6 Nd-Yag 1064.20 10.00 240.00 150.0 0.00 2
+C2 0 det2 SPAD 1064.20 20.00 80.0 12.0 ECL 999.9 0.14 60.0 70.0 none 0.0 0.0 na
+C3 0 tim2 Maser_T4S36_Oca Maser_T4S36_Oca Dassault na 0.0
+C5 0 nm01 station_meo version_1.0 telemetrie_laser version_1.0
+C6 0 met1 VAISALA PTU303 na VAISALA PTU303 na VAISALA PTU303 na
+20 74050.992174115949 869.95 283.35 41  0
+40 74345.314619113458 0 me09 463 447 3.716 102551.7 709.0 150.6 0.212 -0.347 na 3 3 0 4 13.2
+41 74345.314619113458 0 me09 463 447 3.716 102551.7 709.0 150.6 0.212 -0.347 na 3 3 0 0 13.2
+30 74343.628 223.7533 62.3164 0 2 0 0.0068097 -0.0020826
+11 74343.627960312440 2.554364742160 me09 2 596.0 352 226.4 0.072 -0.604  na 5.9 0 66.4
+20 81103.465179959501 870.95 282.05 50  0
+40 81364.566670457658 0 me09 462 444 3.716 102570.2 737.0 151.4 0.016 -0.496 na 3 3 0 4 15.2
+41 81364.566670457658 0 me09 462 444 3.716 102570.2 737.0 151.4 0.016 -0.496 na 3 3 0 0 15.2
+30 81251.138 256.6106 44.3080 0 2 0 0.0034069 -0.0028960
+11 81251.137996889289 2.564698355930 me09 2 522.0 189 224.7 -0.274 -0.550  na 3.1 0 54.8
+50 me09 225.6 -0.101 -0.577 na 0
+H8
+h1 CRD  2 2025  6 26 21
+h2       APOL 7045 95  1  4       ILRS
+h3 luna21          104  104       na 0 1  3
+h4  1 2025  4 18 10 29 15 2025  4 18 10 31  4  0 0 0 0 1 0 2 0
+h5  0 25 041810 JPL   430
+c0 0     532.0 std3 lpd apd4 cesm  na  na  na  na
+c1 0 lpd  Nd-YAG 1064.00 10.00 100.00 100.0 0.5 1
+c2 0 apd4 APD-array 532.000    na 30.5 100.0 ECL   na 16.00 90.0 1.4 Correlation   na   na 0
+c3 0 cesm Symmetricom_5071A_GPS CS-C001 ACM_CS_PS7186H na 0.0
+11 37810.0000000 2.6301708514929 std3 2  109.0     15     170.2      na      na       na    na 0 374.3
+20 37810.000  721.45 278.55   31 1
+40    54.5000000 0 std3 2300 1227      na        na      na  122.7      na      na    na 3 0 0 4    na
+50 std3  170.2     na     na   na 1
+00 run.refl.shots.thresh.yield.net 250418f.r4.s02000.t01.y16.n15
+00 Git commit 3716d7ef99a20269c22c4b55eb848cc10a42a9f6
+00 ACS Git commit 1d568d1eaebb3ad9b8317693fea841524d0605db
+00 LUN Gate width 9
+00 Found bad channel(s): [14]...
+00 I.e.: channel(s) found to be unusual performer(s); Unused in reduction.
+00 Longterm offsets data not present. 0 ps used for all channels.
+00 No 1st photon bias.
+00 Cesium used as timebase; Clock allan deviation suggests no...
+00 uncertainty inflation is needed relative to the scale of NP uncertainty.
+00 Run contains inadequate or no contemporaneous ACS data.
+00 Applied ACS differential correction of 29.7 +/- 6.2 [ps]...
+00 to final normal point round trip time based on distributions of...
+00 historic ACS differential correction estimates.
+00 We estimate a total (excepting a potential scale factor or RSS value,
+00 which will follow) normal point uncertainty of 44.4 [ps].
+00 Internal studies suggest no additional uncertainty inflation is needed.
+h8
+h1 CRD  2 2025  6 26 21
+h2       APOL 7045 95  1  4       ILRS
+h3 luna21          104  104       na 0 1  3
+h4  1 2025  4 18 10 57 18 2025  4 18 10 58 34  0 0 0 0 1 0 2 0
+h5  0 25 041810 JPL   430
+c0 0     532.0 std3 lpd apd4 cesm  na  na  na  na
+c1 0 lpd  Nd-YAG 1064.00 10.00 100.00 100.0 0.5 1
+c2 0 apd4 APD-array 532.000    na 30.5 100.0 ECL   na 16.00 90.0 1.4 Functional_fit   na   na 0
+c3 0 cesm Symmetricom_5071A_GPS CS-C001 ACM_CS_PS7186H na 0.0
+11 39445.0000000 2.6293409242202 std3 2   76.0      3       0.0      na      na       na    na 0  24.0
+20 39445.000  721.38 277.95   30 1
+40    38.0000000 0 std3 850 468      na        na      na  122.0      na      na    na 3 0 0 4    na
+50 std3    0.0     na     na   na 1
+00 run.refl.shots.thresh.yield.net 250418l.r4.s01034.t01.y3.n3
+00 Git commit 3716d7ef99a20269c22c4b55eb848cc10a42a9f6
+00 ACS Git commit 1d568d1eaebb3ad9b8317693fea841524d0605db
+00 LUN Gate width 9
+00 Found bad channel(s): [1, 2, 8, 10, 13, 16]...
+00 I.e.: channel(s) found to be unusual performer(s); Unused in reduction.
+00 Longterm offsets data not present. 0 ps used for all channels.
+00 No 1st photon bias.
+00 Cesium used as timebase; Clock allan deviation suggests no...
+00 uncertainty inflation is needed relative to the scale of NP uncertainty.
+00 Run contains inadequate or no contemporaneous ACS data.
+00 Applied ACS differential correction of 22.9 +/- 6.9 [ps]...
+00 to final normal point round trip time based on distributions of...
+00 historic ACS differential correction estimates.
+00 We estimate a total (excepting a potential scale factor or RSS value,
+00 which will follow) normal point uncertainty of 577.5 [ps].
+00 Internal studies suggest no additional uncertainty inflation is needed.
+h8
+h1 CRD  2 2025  6 26 21
+h2       APOL 7045 95  1  4       ILRS
+h3 luna21          104  104       na 0 1  3
+h4  1 2025  4 22 11 20 47 2025  4 22 11 24 51  0 0 0 0 1 0 2 0
+h5  0 25 042211 JPL   430
+c0 0     532.0 std3 lpd apd4 cesm  na  na  na  na
+c1 0 lpd  Nd-YAG 1064.00 10.00 100.00 100.0 0.5 1
+c2 0 apd4 APD-array 532.000    na 30.5 100.0 ECL   na 16.00 90.0 1.4 Functional_fit   na   na 0
+c3 0 cesm Symmetricom_5071A_GPS CS-C001 ACM_CS_PS7186H na 0.0
+11 41010.0000000 2.4961422612217 std3 2  243.0     17     131.1      na      na       na    na 0 169.4
+20 41010.000  726.12 281.44   18 1
+40   122.0000000 0 std3 5866 3176      na        na      na  119.1      na      na    na 3 0 0 4    na
+50 std3  131.1     na     na   na 1
+00 run.refl.shots.thresh.yield.net 250422g.r4.s05000.t01.y17.n17
+00 Git commit 3716d7ef99a20269c22c4b55eb848cc10a42a9f6
+00 ACS Git commit 1d568d1eaebb3ad9b8317693fea841524d0605db
+00 LUN Gate width 9
+00 Found bad channel(s): [9]...
+00 I.e.: channel(s) found to be unusual performer(s); Unused in reduction.
+00 Longterm offsets data not present. 0 ps used for all channels.
+00 No 1st photon bias.
+00 Cesium used as timebase; Clock allan deviation suggests no...
+00 uncertainty inflation is needed relative to the scale of NP uncertainty.
+00 Run contains inadequate or no contemporaneous ACS data.
+00 Applied ACS differential correction of 22.6 +/- 6.1 [ps]...
+00 to final normal point round trip time based on distributions of...
+00 historic ACS differential correction estimates.
+00 We estimate a total (excepting a potential scale factor or RSS value,
+00 which will follow) normal point uncertainty of 62.3 [ps].
+00 Internal studies suggest no additional uncertainty inflation is needed.
+h8
+h1 CRD  2 2025  6 26 21
+h2       APOL 7045 95  1  4       ILRS
+h3 luna21          104  104       na 0 1  3
+h4  1 2025  4 22 12  5 53 2025  4 22 12 10  1  0 0 0 0 1 0 2 0
+h5  0 25 042212 JPL   430
+c0 0     532.0 std3 lpd apd4 cesm  na  na  na  na
+c1 0 lpd  Nd-YAG 1064.00 10.00 100.00 100.0 0.5 1
+c2 0 apd4 APD-array 532.000    na 30.5 100.0 ECL   na 16.00 90.0 1.4 Functional_fit   na   na 0
+c3 0 cesm Symmetricom_5071A_GPS CS-C001 ACM_CS_PS7186H na 0.0
+11 43730.0000000 2.4904089986983 std3 2  248.0     35     139.5      na      na       na    na 0 131.1
+20 43730.000  726.37 281.51   18 1
+40   124.0000000 0 std3 7009 3789      na        na      na  123.9      na      na    na 3 0 0 4    na
+50 std3  139.5     na     na   na 1
+00 run.refl.shots.thresh.yield.net 250422o.r4.s05000.t01.y37.n35
+00 Git commit 3716d7ef99a20269c22c4b55eb848cc10a42a9f6
+00 ACS Git commit 1d568d1eaebb3ad9b8317693fea841524d0605db
+00 LUN Gate width 9
+00 Longterm offsets data not present. 0 ps used for all channels.
+00 No 1st photon bias.
+00 Cesium used as timebase; Clock allan deviation suggests no...
+00 uncertainty inflation is needed relative to the scale of NP uncertainty.
+00 Run contains inadequate or no contemporaneous ACS data.
+00 Applied ACS differential correction of 21.6 +/- 6.1 [ps]...
+00 to final normal point round trip time based on distributions of...
+00 historic ACS differential correction estimates.
+00 We estimate a total (excepting a potential scale factor or RSS value,
+00 which will follow) normal point uncertainty of 37.3 [ps].
+00 Internal studies suggest no additional uncertainty inflation is needed.
+h8
+H1 CRD  2 2025 04 23 08
+H2 GRSM       7845 78  1  7 ILRS
+H3 luna21     0000104 0104 na 0 1 3
+H4  1 2025 04 23 08 07 10 2025 04 23 08 12 05  0 0 0 0 1 0 2 0
+H5  0 25 042100 OPA 6121
+C0 0 1064.200 me09 las6 det2 tim2 none nm01 met1 na  
+C1 0 las6 Nd-Yag 1064.20 10.00 240.00 150.0 0.00 1
+C2 0 det2 SPAD 1064.20 20.00 80.0 12.0 ECL 999.9 0.14 60.0 70.0 none 0.0 0.0 na
+C3 0 tim2 Maser_T4S36_Oca Maser_T4S36_Oca Dassault na 0.0
+C5 0 nm01 station_meo version_1.0 telemetrie_laser version_1.0
+C6 0 met1 VAISALA PTU303 na VAISALA PTU303 na VAISALA PTU303 na
+20 29230.507814150791 873.35 286.05 63  0
+40 29380.036707839310 0 me09 312 298 3.716 102559.2 797.0 165.7 0.218 -0.434 na 3 3 0 4 18.6
+41 29380.036707839310 0 me09 312 298 3.716 102559.2 797.0 165.7 0.218 -0.434 na 3 3 0 0 18.6
+30 29340.723 187.4612 32.2548 0 2 0 0.0046742 -0.0003110
+11 29340.723320128979 2.454288409317 me09 2 299.0 66 128.3 -0.336 -0.357  na 1.1 0 80.4
+50 me09 128.3 -0.336 -0.357 na 1
+H8
+H1 CRD  2 2026 05 06 11
+H2 GRSM       7845 78  1  7 ILRS
+H3 luna21     0000104 0104 na 0 1 3
+H4  1 2025 04 25 07 40 40 2025 04 25 14 15 59  0 0 0 0 1 0 2 0
+H5  0 25 042300 OPA 6141
+C0 0 1064.200 me09 las6 det2 tim2 none nm01 met1 na  
+C1 0 las6 Nd-Yag 1064.20 10.00 240.00 150.0 0.00 2
+C2 0 det2 SPAD 1064.20 20.00 80.0 12.0 ECL 999.9 0.14 60.0 70.0 none 0.0 0.0 na
+C3 0 tim2 Maser_T4S36_Oca Maser_T4S36_Oca Dassault na 0.0
+C5 0 nm01 station_meo version_1.0 telemetrie_laser version_1.0
+C6 0 met1 VAISALA PTU303 na VAISALA PTU303 na VAISALA PTU303 na
+20 27640.838083357045 869.75 285.05 47  0
+40 27940.691798472246 0 me09 361 359 3.716 102564.1 866.0 175.2 0.265 -0.373 na 3 3 0 4 11.2
+41 27940.691798472246 0 me09 361 359 3.716 102564.1 866.0 175.2 0.265 -0.373 na 3 3 0 0 11.2
+30 27971.938 148.4201 41.3699 0 2 0 0.0049855 0.0016185
+11 27971.937543762827 2.380223664391 me09 2 599.0 153 178.7 0.234 -0.245  na 2.5 0 42.5
+20 35134.629501390460 870.05 286.05 44  0
+40 35433.243181386621 0 me09 453 433 3.716 102560.0 680.0 140.1 -0.078 -0.449 na 3 3 0 4 13.0
+41 35433.243181386621 0 me09 453 433 3.716 102560.0 680.0 140.1 -0.078 -0.449 na 3 3 0 0 13.0
+30 35356.930 190.0980 46.1457 0 2 0 0.0058550 -0.0004340
+11 35356.929658780060 2.375355386672 me09 2 606.0 141 181.0 0.125 -0.429  na 2.4 0 50.9
+20 47271.022343305573 869.45 286.25 47  0
+40 47587.272149916753 0 me09 281 263 3.716 102562.2 776.0 158.4 -0.008 -0.430 na 3 3 0 4 10.2
+41 47587.272149916753 0 me09 281 263 3.716 102562.2 776.0 158.4 -0.008 -0.430 na 3 3 0 0 10.2
+30 47653.035 246.8137 24.1730 0 2 0 0.0033815 -0.0026315
+11 47653.035246995603 2.384770511648 me09 2 635.0 24 233.4 0.928 -0.347  na 0.4 0 5.2
+20 50757.080854387175 869.15 287.05 44  0
+40 51059.315139725797 0 me09 260 252 3.716 102572.2 730.0 152.1 0.122 -0.279 na 3 3 0 4 10.0
+41 51059.315139725797 0 me09 260 252 3.716 102572.2 730.0 152.1 0.122 -0.279 na 3 3 0 0 10.0
+30 51085.600 257.7387 14.8217 0 2 0 0.0030195 -0.0027965
+11 51085.599778119935 2.390274911128 me09 2 605.0 23 102.9 0.024 -0.506  na 0.4 0 6.2
+50 me09 174.0 0.328 -0.382 na 0
+H8
+H1 CRD  2 2025 04 29 08
+H2 GRSM       7845 78  1  7 ILRS
+H3 luna21     0000104 0104 na 0 1 3
+H4  1 2025 04 29 08 41 27 2025 04 29 08 51 24  0 0 0 0 1 0 2 0
+H5  0 25 042700 OPA 6181
+C0 0 1064.200 me09 las6 det2 tim2 none nm01 met1 na  
+C1 0 las6 Nd-Yag 1064.20 10.00 240.00 150.0 0.00 1
+C2 0 det2 SPAD 1064.20 20.00 80.0 12.0 ECL 999.9 0.14 60.0 70.0 none 0.0 0.0 na
+C3 0 tim2 Maser_T4S36_Oca Maser_T4S36_Oca Dassault na 0.0
+C5 0 nm01 station_meo version_1.0 telemetrie_laser version_1.0
+C6 0 met1 VAISALA PTU303 na VAISALA PTU303 na VAISALA PTU303 na
+20 31287.754150521076 880.25 286.45 64  0
+40 31587.446903410739 0 me09 577 547 3.716 102551.6 767.0 154.9 0.137 -0.302 na 3 3 0 4 18.4
+41 31587.446903410739 0 me09 577 547 3.716 102551.6 767.0 154.9 0.137 -0.302 na 3 3 0 0 18.4
+30 31616.490 89.1974 36.2078 0 2 0 0.0026865 0.0029405
+11 31616.489611513347 2.366804623236 me09 2 602.0 73 234.9 0.477 -0.289  na 1.2 0 7.5
+50 me09 234.9 0.477 -0.289 na 1
+H8
+H9

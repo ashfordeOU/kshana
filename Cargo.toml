@@ -43,6 +43,11 @@ exclude = [
     # crate fail to compile — which is exactly what happened to the v0.27.0 publish.
     "!/tests/fixtures/llr_geometry/de440_moon_pa.csv",
     "/tests/igs_real_data.rs",
+    # The LRO LOLA south-polar DEM crop (about 1 MB) is read at run time by path, by
+    # scenarios/lunar-station-coverage-terrain.toml (repository-only) and its test; nothing
+    # the library compiles embeds it.
+    "/data/lunar-dem",
+    "/tests/lunar_station_terrain.rs",
     # The interference-map sample outputs are documentation inputs for the Studio; the test
     # that pins them reads them from a checkout.
     "/examples/interference-map",
@@ -143,6 +148,13 @@ aes = { version = "0.8", default-features = false }
 sha3 = { version = "0.10", default-features = false }
 p256 = { version = "0.13", default-features = false, features = ["ecdsa"] }
 p521 = { version = "0.13", default-features = false, features = ["ecdsa"] }
+# RFC 3161 timestamp-token verification (`kshana::evidence::tsa`): ECDSA P-384 signatures, the
+# SHA-1 ESS signing-certificate hash (RFC 2634; verification of public data only), and RSA
+# public-key operations on the already-present crypto-bigint (the `rsa` crate is not used: it
+# carries an open advisory for its private-key path, which verification never needs).
+p384 = { version = "0.13", default-features = false, features = ["ecdsa"] }
+sha1 = { version = "0.10", default-features = false }
+crypto-bigint = { version = "0.5", default-features = false }
 # Pure-Rust mathematics library: the same source, and so the same bits, on every target.
 # Already in the dependency tree (rand_distr draws through it); named here because
 # `src/portable_math.rs` calls it directly for the outputs that must not depend on the
