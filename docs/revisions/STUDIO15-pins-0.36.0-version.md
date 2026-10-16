@@ -40,6 +40,20 @@ pins reproduce. Change: the chart is blanked the same way as the JSON, so these 
 version, and the two chart hashes are re-pinned once (fusion-pnt `3cfdcf6f...` -> `5102614a...`, hybrid-pnt
 `699add2a...` -> `7409368f...`). The JSON and summary pins are unchanged.
 
+## 4. The three README demo charts
+
+`docs/assets/clock-holdover.svg`, `inertial-deadreckoning.svg` and `orbit-gnss-challenged.svg` are checked by
+`tests/published_figures_still_reproduce.rs` against what the engine emits today. Each name the engine
+version in its footer. They were re-rendered with `api::run_scenario` at 0.36.0 (the test's own recipe); each
+differs from the committed chart by that one version stamp and nothing else (the committed chart, with 0.35.0
+mapped to 0.36.0, equals the new one byte for byte), so no plotted value moved.
+
+## Full suite at 0.36.0
+
+After these changes the whole suite was run once at 0.36.0 with fresh builds (`cargo test --release`,
+release symbols stripped to fit the disk): the library tests, all 515 integration test files and the doc
+tests, 5,290 tests passed, none failed (ignored tests are not run by default).
+
 ## What was not changed
 
 No bar, tolerance, threshold or scenario; no VALIDATED verdict; the frozen prediction files; the historical
