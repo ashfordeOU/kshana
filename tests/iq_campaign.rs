@@ -969,8 +969,12 @@ fn the_pre_registered_pin_holds_with_the_event_stating_q_1() {
 // NWPR 79696147....
 // Re-pinned for the 0.36 portable maths of the batch 2-3 IQ code (STUDIO-15 rule; record
 // docs/revisions/STUDIO15-batch4-rebaseline.md). Before: M2M4 c7e11580...; NWPR unchanged.
-const DIGEST_M2M4: &str = "8adacb22ba8a30e5794546ca068a7eeee5759000a6edd5392d2446eeb36ab878";
-const DIGEST_NWPR: &str = "f34be6e208759d219bd8ab2e417510b2e6a5df20af20981152e63a97faaf7031";
+// Re-pinned at the 0.36.0 version bump: every cell file names the engine version, so both digests hold for
+// one version. The same source at 0.35.0 reproduced the previous pair exactly (M2M4 8adacb22..., NWPR
+// f34be6e2...), which is the evidence that nothing but the version moved
+// (docs/revisions/STUDIO15-pins-0.36.0-version.md).
+const DIGEST_M2M4: &str = "8e4f74c4c53a92d337b0c14e83dc11d45cd4e3ade572494c89e96b47b29257f5";
+const DIGEST_NWPR: &str = "7fb26d8589fca25ee753f8995bfebe0c81707bb66f05c82311f32120ae73ee93";
 
 /// The false-lock fields after the scorer fix (436eda13), pinned on their own in every cell of
 /// both runs (the pinned scored results map the fixed ones back, `FIXED_FALSE_LOCKS`). PRN 19 of `alias`
