@@ -229,6 +229,7 @@ pub fn representative_report() -> FramePredictError {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::portable_math::PortableFloat;
 
     /// ORACLE: exact light-time closed form `t = Δr / c`. Published P3 magnitudes
     /// 15 m → 50.035 ns and 0.27 m → 0.901 ns, reproduced to < 0.01 ns. With
@@ -260,7 +261,7 @@ mod tests {
     fn representative_lands_in_the_order_15m_realtime_band() {
         let r = representative_report();
         // The genuine propagated value of the round representative covariance.
-        let expect = (0.27_f64.powi(2) + (REALTIME_LATENCY_S * 4.0e-3).powi(2)).sqrt();
+        let expect = (0.27_f64.ppowi(2) + (REALTIME_LATENCY_S * 4.0e-3).ppowi(2)).sqrt();
         assert!(
             (r.predicted_pos_sigma_m - expect).abs() < 1e-9,
             "predicted {} vs genuine RSS {expect}",
@@ -347,7 +348,7 @@ mod tests {
         let r = predict_frame_error(cov, REALTIME_LATENCY_S);
         // The propagated value is the genuine RSS of the seeded post-processed 1σ and the
         // latency-scaled velocity term — an order-15-m figure, not a pinned constant.
-        let expect = (0.27_f64.powi(2) + (REALTIME_LATENCY_S * 4.0e-3).powi(2)).sqrt();
+        let expect = (0.27_f64.ppowi(2) + (REALTIME_LATENCY_S * 4.0e-3).ppowi(2)).sqrt();
         assert!((r.predicted_pos_sigma_m - expect).abs() < 1e-9);
     }
 }

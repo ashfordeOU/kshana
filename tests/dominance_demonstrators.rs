@@ -8,6 +8,12 @@
 use kshana::api::run_toml;
 use serde_json::Value;
 
+/// The scenario document without RM-04's trailing `figure_tiers` block, whose legend names
+/// every tier ("VALIDATED: ..."): the no-overclaim guard is about the document's own claims.
+fn scenario_doc(json: &str) -> String {
+    kshana::api::without_figure_tiers(json).unwrap_or_else(|| json.to_string())
+}
+
 fn run(src: &str) -> Value {
     let out = run_toml(src).expect("scenario runs");
     serde_json::from_str(&out.json).expect("valid JSON")
@@ -44,7 +50,7 @@ fn impairment_eval_is_reachable_reproducible_and_honest() {
     let label = v["label"].as_str().unwrap();
     assert!(label.contains("MODELLED") && label.to_lowercase().contains("synthetic"));
     assert!(
-        !a.json.contains("VALIDATED"),
+        !scenario_doc(&a.json).contains("VALIDATED"),
         "a MODELLED demonstrator must never claim VALIDATED"
     );
 }
@@ -78,7 +84,7 @@ fn quantum_trade_measured_adev_is_data_driven_and_honest() {
     let benefit = v["trade"]["timing_benefit_x"].as_f64().unwrap();
     assert!(benefit.is_finite() && benefit > 0.0);
     assert!(v["label"].as_str().unwrap().contains("MODELLED"));
-    assert!(!a.json.contains("VALIDATED"));
+    assert!(!scenario_doc(&a.json).contains("VALIDATED"));
 }
 
 #[test]
@@ -137,7 +143,7 @@ fn space_weather_is_reachable_reproducible_and_honest() {
     let label = v["label"].as_str().unwrap();
     assert!(label.contains("MODELLED"));
     assert!(
-        !a.json.contains("VALIDATED"),
+        !scenario_doc(&a.json).contains("VALIDATED"),
         "a MODELLED model must never claim VALIDATED"
     );
 
@@ -173,7 +179,7 @@ fn oem_interop_round_trip_is_reachable_reproducible_and_honest() {
     // Honest label: an interop ingest check, never an orbit-accuracy validation.
     let label = v["label"].as_str().unwrap();
     assert!(label.contains("MODELLED"));
-    assert!(!a.json.contains("VALIDATED"));
+    assert!(!scenario_doc(&a.json).contains("VALIDATED"));
 }
 
 #[test]
@@ -192,7 +198,7 @@ fn launch_window_is_reachable_reproducible_and_honest() {
     let az = v["launch_azimuth_deg"]["ascending"].as_f64().unwrap();
     assert!((az - 44.98).abs() < 0.2, "KSC->ISS azimuth {az}");
     assert!(v["label"].as_str().unwrap().contains("MODELLED"));
-    assert!(!a.json.contains("VALIDATED"));
+    assert!(!scenario_doc(&a.json).contains("VALIDATED"));
 }
 
 #[test]
@@ -213,7 +219,7 @@ fn reentry_is_reachable_reproducible_and_honest() {
         v["velocity_at_peak_g_m_s"].as_f64().unwrap() / v["entry_velocity_m_s"].as_f64().unwrap();
     assert!((vr - 0.6065).abs() < 1e-2, "peak-g velocity fraction {vr}");
     assert!(v["label"].as_str().unwrap().contains("MODELLED"));
-    assert!(!a.json.contains("VALIDATED"));
+    assert!(!scenario_doc(&a.json).contains("VALIDATED"));
 }
 
 #[test]
@@ -233,7 +239,7 @@ fn eo_coverage_is_reachable_reproducible_and_honest() {
     assert!(v["swath_width_km"].as_f64().unwrap() > 0.0);
     assert!(v["nadir_gsd_m"].as_f64().unwrap() > 0.0);
     assert!(v["label"].as_str().unwrap().contains("MODELLED"));
-    assert!(!a.json.contains("VALIDATED"));
+    assert!(!scenario_doc(&a.json).contains("VALIDATED"));
 }
 
 #[test]
@@ -249,7 +255,7 @@ fn space_packet_is_reachable_reproducible_and_round_trips() {
     assert_eq!(v["round_trip_exact"], true);
     // Honest scope: a deterministic CCSDS-133.0 framing, never a "validated" claim.
     assert!(v["label"].as_str().unwrap().contains("CCSDS 133.0"));
-    assert!(!a.json.contains("VALIDATED"));
+    assert!(!scenario_doc(&a.json).contains("VALIDATED"));
 }
 
 #[test]
@@ -269,7 +275,7 @@ fn attitude_budget_is_reachable_reproducible_and_honest() {
     assert!(total > 0.0);
     assert!(v["gravity_gradient_torque_max_nm"].as_f64().unwrap() > 0.0);
     assert!(v["label"].as_str().unwrap().contains("MODELLED"));
-    assert!(!a.json.contains("VALIDATED"));
+    assert!(!scenario_doc(&a.json).contains("VALIDATED"));
 }
 
 #[test]
@@ -298,7 +304,7 @@ fn passes_is_reachable_reproducible_and_honest() {
         assert!(aos <= tca && tca <= los, "AOS<=TCA<=LOS");
     }
     assert!(v["label"].as_str().unwrap().contains("MODELLED"));
-    assert!(!a.json.contains("VALIDATED"));
+    assert!(!scenario_doc(&a.json).contains("VALIDATED"));
 }
 
 #[test]
@@ -324,5 +330,5 @@ fn link_budget_is_reachable_reproducible_and_honest() {
     assert_eq!(v["closes"], margin >= 0.0);
     assert!(v["free_space_loss_db"].as_f64().unwrap() > 0.0);
     // A deterministic engineering calc, never a "validated" claim.
-    assert!(!a.json.contains("VALIDATED"));
+    assert!(!scenario_doc(&a.json).contains("VALIDATED"));
 }

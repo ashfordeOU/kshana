@@ -31,6 +31,7 @@
 use kshana::iq::cli::{build_code, run};
 use kshana::iq::track::sink::BinaryEpochReader;
 use kshana::iq::{Cf64, SpreadingCode};
+use kshana::portable_math::PortableFloat;
 use std::alloc::{GlobalAlloc, Layout, System};
 use std::f64::consts::TAU;
 use std::io::{BufReader, BufWriter, Write};
@@ -68,7 +69,7 @@ const BAR_MSPS: f64 = 1.0;
 fn generate(path: &std::path::Path, n: u64) -> u64 {
     let code = build_code("gps-l1ca", 7).unwrap();
     let rate = code.chip_rate_hz() * (1.0 + DOPPLER / code.carrier_hz());
-    let amp = (10f64.powf(CN0_DBHZ / 10.0) / FS).sqrt();
+    let amp = (10f64.ppowf(CN0_DBHZ / 10.0) / FS).sqrt();
     let mut w = BufWriter::with_capacity(1 << 20, std::fs::File::create(path).unwrap());
     let mut rng = 0x9e37_79b9_7f4a_7c15u64;
     let mut u = move || {
@@ -78,18 +79,18 @@ fn generate(path: &std::path::Path, n: u64) -> u64 {
         ((rng.wrapping_mul(0x2545_f491_4f6c_dd1d) >> 11) as f64 + 0.5) / (1u64 << 53) as f64
     };
     let s = std::f64::consts::FRAC_1_SQRT_2;
-    let step = Cf64::new((TAU * DOPPLER / FS).cos(), (TAU * DOPPLER / FS).sin());
+    let step = Cf64::new((TAU * DOPPLER / FS).pcos(), (TAU * DOPPLER / FS).psin());
     let mut lo = Cf64::new(1.0, 0.0);
     for i in 0..n {
         if i % 4096 == 0 {
             // Re-anchor the phasor so rounding never accumulates.
             let ph = TAU * DOPPLER * (i as f64 / FS);
-            lo = Cf64::new(ph.cos(), ph.sin());
+            lo = Cf64::new(ph.pcos(), ph.psin());
         }
         let (a, b, c, d) = (u(), u(), u(), u());
-        let r1 = (-2.0 * a.ln()).sqrt();
-        let r2 = (-2.0 * c.ln()).sqrt();
-        let (ni, nq) = (s * r1 * (TAU * b).cos(), s * r2 * (TAU * d).cos());
+        let r1 = (-2.0 * a.pln()).sqrt();
+        let r2 = (-2.0 * c.pln()).sqrt();
+        let (ni, nq) = (s * r1 * (TAU * b).pcos(), s * r2 * (TAU * d).pcos());
         let chip = code.value_at(300.25 + rate * (i as f64 / FS));
         let v = Cf64::new(ni, nq) + lo * (amp * chip);
         w.write_all(&(v.re as f32).to_le_bytes()).unwrap();

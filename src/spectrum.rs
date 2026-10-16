@@ -17,8 +17,11 @@
 //!   MBOC(6,1,1/11), or plain BOC(1,1)), GPS L2 civil (L2C, BPSK(1) composite of the
 //!   time-multiplexed CM and CL codes), GPS L5 and Galileo E5a (BPSK(10)). The unit-area
 //!   densities are [`crate::navsignal::Modulation::psd`]; this module places them at their
-//!   carriers with a received power. No other signal is claimed: GLONASS, BeiDou and
-//!   Galileo E6 are not modelled.
+//!   carriers with a received power. Opt-in by name ([`MORE_BAND_NAMES`], not in the default
+//!   set): GLONASS L1OF and L2OF on any FDMA channel (BPSK, 0.511 Mchip/s), BeiDou B1I
+//!   (BPSK(2)), B1C (MBOC(6,1,1/11)), B2a and B3I (BPSK(10)), and Galileo E6 (BPSK(5)),
+//!   from their interface control documents (`docs/design/evidence/spectrum-bands/`).
+//!   No other signal is claimed.
 //! * **Jammers** ([`Waveform`]): a continuous-wave (CW) tone, flat narrowband noise, a
 //!   linear sawtooth chirp (swept jammer) and broadband noise whose spectrum matches a
 //!   band's own modulation. Each has a centre, a bandwidth where it applies, a received
@@ -58,6 +61,7 @@ use crate::jamming::{
 };
 use crate::navsignal::{q_from_ssc, simpson, spectral_separation_coeff_offset, Modulation, F0_HZ};
 use crate::palette::chart::{AMBER, AXIS, CORAL, INK_2, LIME, MUTED, TEXT};
+use crate::portable_math::PortableFloat;
 use crate::sdr::Cf64;
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
@@ -116,18 +120,100 @@ pub const BAND_NAMES: &[&str] = &["gps-l1ca", "galileo-e1", "gps-l2c", "gps-l5",
 ///
 /// Sources of the received-power figures (minimum user-received power, 0 dBic antenna):
 /// IS-GPS-200 (L1 C/A −158.5 dBW, L2C −160.0 dBW), IS-GPS-705 (L5, each of I5 and Q5,
-/// −157.9 dBW), Galileo Open Service Signal-in-Space Interface Control Document (E1 −157.0
-/// dBW, E5a −155.0 dBW, each the total of data and pilot). The bandwidths are modelling
+/// −157.9 dBW), Galileo Open Service Signal-in-Space Interface Control Document Issue 2.1
+/// (2023), Table 12 (E1 −157.25 dBW, E5a −155.25 dBW, each the total of data and pilot; until
+/// 2026-10-14 the earlier issue's −157.0 and −155.0, see
+/// `docs/revisions/CAP12-galileo-icd21-power-changes.md`). The bandwidths are modelling
 /// choices: the null-to-null main lobe for the BPSK signals and ±7.161 MHz for MBOC so
 /// the BOC(6,1) lobes at about ±6.1 MHz are inside.
 pub fn default_band(name: &str) -> Option<Band> {
     let (centre_mhz, modulation, p, bw_mhz) = match name {
         "gps-l1ca" => (1575.42, Modulation::BpskR { n: 1.0 }, -158.5, 2.046),
-        "galileo-e1" => (1575.42, Modulation::Mboc { p: 1.0 / 11.0 }, -157.0, 14.322),
+        "galileo-e1" => (1575.42, Modulation::Mboc { p: 1.0 / 11.0 }, -157.25, 14.322),
         "gps-l2c" => (1227.60, Modulation::BpskR { n: 1.0 }, -160.0, 2.046),
         "gps-l5" => (1176.45, Modulation::BpskR { n: 10.0 }, -157.9, 20.46),
-        "galileo-e5a" => (1176.45, Modulation::BpskR { n: 10.0 }, -155.0, 20.46),
-        _ => return None,
+        "galileo-e5a" => (1176.45, Modulation::BpskR { n: 10.0 }, -155.25, 20.46),
+        other => return more_band(other),
+    };
+    Some(Band {
+        name: name.to_string(),
+        centre_hz: centre_mhz * 1e6,
+        modulation,
+        signal_power_dbw: p,
+        rx_bandwidth_hz: bw_mhz * 1e6,
+        design: None,
+    })
+}
+
+/// The bands a scenario can name beyond [`BAND_NAMES`]. They are opt-in: a scenario that names
+/// no band still gets exactly [`BAND_NAMES`]. GLONASS channels other than `K = 0` are named
+/// `glonass-l1of-k<K>` / `glonass-l2of-k<K>` with `K` in −7 ..= +6 ([`GLONASS_CHANNELS`]).
+pub const MORE_BAND_NAMES: &[&str] = &[
+    "glonass-l1of",
+    "glonass-l2of",
+    "beidou-b1i",
+    "beidou-b1c",
+    "beidou-b2a",
+    "beidou-b3i",
+    "galileo-e6",
+];
+
+/// GLONASS FDMA frequency channels `K` of the post-2005 plan (GLONASS ICD Edition 5.1,
+/// §3.3.1.1).
+pub const GLONASS_CHANNELS: std::ops::RangeInclusive<i32> = -7..=6;
+
+/// GLONASS FDMA spreading: 0.511 Mchip/s BPSK, as a [`Modulation::BpskR`] multiple of 1.023 MHz.
+const GLONASS_CHIP_N: f64 = 0.511 / 1.023;
+
+/// The opt-in bands of [`MORE_BAND_NAMES`] (and the GLONASS channel names). Sources:
+/// - GLONASS ICD Edition 5.1 (2008): carriers `1602 + K·0.5625` MHz (L1) and
+///   `1246 + K·0.4375` MHz (L2), §3.3.1.1 and Table 3.1; 0.511 Mchip/s; not less than −161 dBW
+///   (L1) and −167 dBW (L2, GLONASS-M) at a 3 dBi linearly polarised antenna, §3.3.1.6.
+/// - BDS-SIS-ICD-B1I-3.0 (2019) §4.2.5 and BDS-SIS-ICD-B3I-1.0 (2018) §4.2.5: −163 dBW; B1I at
+///   1561.098 MHz, 2.046 Mchip/s; B3I at 1268.52 MHz, 10.23 Mchip/s.
+/// - BDS-SIS-ICD-B1C-1.0 (2017) Tables 4-1 and 4-4: −159 dBW (MEO, data and pilot); sine
+///   BOC(1,1) 1/4 + 29/44 and sine BOC(6,1) 1/11 of the power, so the composite is
+///   MBOC(6,1,1/11).
+/// - BDS-SIS-ICD-B2a-1.0 (2017) Table 4-4: −156 dBW (MEO, data and pilot); 10.23 Mchip/s at
+///   1176.45 MHz.
+/// - Galileo OS SIS ICD Issue 2.1 (2023) §2.3.2 and Table 12: E6 at 1278.75 MHz, 5.115 Mchip/s
+///   B and C components, −155.25 dBW total.
+///
+/// The front-end bands are modelling choices as for [`default_band`]: the null-to-null main
+/// lobe for BPSK and ±7.161 MHz for MBOC.
+fn more_band(name: &str) -> Option<Band> {
+    let glonass = |rest: &str, f0: f64, df: f64, p: f64| -> Option<(f64, Modulation, f64, f64)> {
+        let k = match rest {
+            "" => 0,
+            r => {
+                let k: i32 = r.strip_prefix("-k")?.parse().ok()?;
+                if !GLONASS_CHANNELS.contains(&k) {
+                    return None;
+                }
+                k
+            }
+        };
+        Some((
+            f0 + k as f64 * df,
+            Modulation::BpskR { n: GLONASS_CHIP_N },
+            p,
+            1.022,
+        ))
+    };
+    let (centre_mhz, modulation, p, bw_mhz) = if let Some(rest) = name.strip_prefix("glonass-l1of")
+    {
+        glonass(rest, 1602.0, 0.5625, -161.0)?
+    } else if let Some(rest) = name.strip_prefix("glonass-l2of") {
+        glonass(rest, 1246.0, 0.4375, -167.0)?
+    } else {
+        match name {
+            "beidou-b1i" => (1561.098, Modulation::BpskR { n: 2.0 }, -163.0, 4.092),
+            "beidou-b1c" => (1575.42, Modulation::Mboc { p: 1.0 / 11.0 }, -159.0, 14.322),
+            "beidou-b2a" => (1176.45, Modulation::BpskR { n: 10.0 }, -156.0, 20.46),
+            "beidou-b3i" => (1268.52, Modulation::BpskR { n: 10.0 }, -163.0, 20.46),
+            "galileo-e6" => (1278.75, Modulation::BpskR { n: 5.0 }, -155.25, 10.23),
+            _ => return None,
+        }
     };
     Some(Band {
         name: name.to_string(),
@@ -607,7 +693,7 @@ pub fn effective_cn0_multi_dbhz(cn0_nominal_dbhz: f64, terms: &[(f64, f64)]) -> 
     for &(js_db, kappa) in terms {
         denom += db_to_lin(js_db) * kappa;
     }
-    -10.0 * denom.log10()
+    -10.0 * denom.plog10()
 }
 
 /// System noise temperature (K): `T_ant + T₀(F − 1)`.
@@ -617,15 +703,15 @@ pub fn system_temp_k(antenna_temp_k: f64, noise_figure_db: f64) -> f64 {
 
 /// Thermal noise density (dBW/Hz) `10·log₁₀(k·T)`.
 pub fn noise_density_dbw_per_hz(temp_k: f64) -> f64 {
-    10.0 * (BOLTZMANN_J_PER_K * temp_k).log10()
+    10.0 * (BOLTZMANN_J_PER_K * temp_k).plog10()
 }
 
 fn db_to_lin(db: f64) -> f64 {
-    10f64.powf(db / 10.0)
+    10f64.ppowf(db / 10.0)
 }
 
 fn lin_to_db(x: f64) -> f64 {
-    10.0 * x.max(1e-300).log10()
+    10.0 * x.max(1e-300).plog10()
 }
 
 fn overlap(a0: f64, a1: f64, b0: f64, b1: f64) -> f64 {
@@ -721,7 +807,7 @@ pub fn fft_in_place(buf: &mut [Cf64], inverse: bool) {
     let mut len = 2;
     while len <= n {
         let ang = sign * 2.0 * PI / len as f64;
-        let (wr, wi) = (ang.cos(), ang.sin());
+        let (wr, wi) = (ang.pcos(), ang.psin());
         for start in (0..n).step_by(len) {
             let (mut cr, mut ci) = (1.0f64, 0.0f64);
             for k in 0..len / 2 {
@@ -780,7 +866,7 @@ pub fn welch_psd(x: &[Cf64], fs_hz: f64, nfft: usize, overlap: f64) -> Result<We
     let ov = overlap.clamp(0.0, 0.95);
     let step = ((nfft as f64) * (1.0 - ov)).round().max(1.0) as usize;
     let w: Vec<f64> = (0..nfft)
-        .map(|n| 0.5 - 0.5 * (2.0 * PI * n as f64 / nfft as f64).cos())
+        .map(|n| 0.5 - 0.5 * (2.0 * PI * n as f64 / nfft as f64).pcos())
         .collect();
     let s1: f64 = w.iter().sum();
     let s2: f64 = w.iter().map(|v| v * v).sum();
@@ -834,8 +920,8 @@ pub fn synthesise_iq(
     t_s: f64,
     seed: u64,
 ) -> Result<Vec<Cf64>, String> {
+    use crate::portable_distr::{Distribution, StandardNormal};
     use rand::SeedableRng;
-    use rand_distr::{Distribution, StandardNormal};
     if !n.is_power_of_two() || n < 16 {
         return Err(format!("iq: n = {n} must be a power of two, at least 16"));
     }
@@ -879,7 +965,7 @@ pub fn synthesise_iq(
                     let ph0 = 2.0 * PI * rand::Rng::gen::<f64>(&mut rng);
                     for (k, s) in x.iter_mut().enumerate() {
                         let ph = ph0 + 2.0 * PI * fo * k as f64 / fs_hz;
-                        *s = *s + Cf64::new(a * ph.cos(), a * ph.sin());
+                        *s = *s + Cf64::new(a * ph.pcos(), a * ph.psin());
                     }
                 }
             }
@@ -892,7 +978,7 @@ pub fn synthesise_iq(
                     let tau = t_off + k as f64 / fs_hz;
                     let fi = lo + bw * (tau / tp).rem_euclid(1.0);
                     if fi.abs() < fs_hz / 2.0 {
-                        *s = *s + Cf64::new(a * phase.cos(), a * phase.sin());
+                        *s = *s + Cf64::new(a * phase.pcos(), a * phase.psin());
                     }
                     phase += 2.0 * PI * fi / fs_hz;
                 }
@@ -1243,9 +1329,10 @@ impl SpectrumScenario {
             }
             let mut b = default_band(&c.name).ok_or_else(|| {
                 format!(
-                    "unknown band {:?}: the spectrum model has {}; any other band takes                      `signal = \"<preset signal>\"` or `centre_mhz` with `modulation` and                      `signal_power_dbw`",
+                    "unknown band {:?}: the spectrum model has {} and, by name, {} (GLONASS                      channels as glonass-l1of-k<K>, K = -7 to 6); any other band takes                      `signal = \"<preset signal>\"` or `centre_mhz` with `modulation` and                      `signal_power_dbw`",
                     c.name,
-                    BAND_NAMES.join(", ")
+                    BAND_NAMES.join(", "),
+                    MORE_BAND_NAMES.join(", ")
                 )
             })?;
             if let Some(p) = c.signal_power_dbw {
@@ -2552,8 +2639,8 @@ mod tests {
         // Closed-form maximum: solve tan y = 2y independently by Newton.
         let mut y = 1.2f64;
         for _ in 0..50 {
-            let f = y.tan() - 2.0 * y;
-            let d = 1.0 / y.cos().powi(2) - 2.0;
+            let f = y.ptan() - 2.0 * y;
+            let d = 1.0 / y.pcos().ppowi(2) - 2.0;
             y -= f / d;
         }
         let f_star = 2.0 * y * RC / PI;
@@ -2686,7 +2773,7 @@ mod tests {
     fn noise_floor_is_kt0f() {
         // T_ant = T0 ⇒ T_sys = T0·F; kT0 = −203.98 dBW/Hz, +2 dB of noise figure.
         let t = system_temp_k(290.0, 2.0);
-        assert!((t - 290.0 * 10f64.powf(0.2)).abs() < 1e-9);
+        assert!((t - 290.0 * 10f64.ppowf(0.2)).abs() < 1e-9);
         assert!((noise_density_dbw_per_hz(290.0) + 203.975).abs() < 0.01);
         assert!(
             (noise_density_dbw_per_hz(t) - (noise_density_dbw_per_hz(290.0) + 2.0)).abs() < 1e-9
@@ -2756,7 +2843,7 @@ mod tests {
     fn fft_matches_a_direct_dft() {
         let n = 64;
         let x: Vec<Cf64> = (0..n)
-            .map(|k| Cf64::new((0.3 * k as f64).sin(), (0.11 * (k * k) as f64).cos()))
+            .map(|k| Cf64::new((0.3 * k as f64).psin(), (0.11 * (k * k) as f64).pcos()))
             .collect();
         let mut y = x.clone();
         fft_in_place(&mut y, false);
@@ -2764,8 +2851,8 @@ mod tests {
             let (mut re, mut im) = (0.0, 0.0);
             for (t, xt) in x.iter().enumerate() {
                 let a = -2.0 * PI * (k * t) as f64 / n as f64;
-                re += xt.re * a.cos() - xt.im * a.sin();
-                im += xt.re * a.sin() + xt.im * a.cos();
+                re += xt.re * a.pcos() - xt.im * a.psin();
+                im += xt.re * a.psin() + xt.im * a.pcos();
             }
             assert!((yk.re - re).abs() < 1e-9 && (yk.im - im).abs() < 1e-9);
         }
@@ -2777,8 +2864,8 @@ mod tests {
 
     #[test]
     fn welch_reads_white_noise_as_variance_over_fs_and_keeps_a_tone_s_power() {
+        use crate::portable_distr::{Distribution, StandardNormal};
         use rand::SeedableRng;
-        use rand_distr::{Distribution, StandardNormal};
         let mut rng = rand_chacha::ChaCha8Rng::seed_from_u64(3);
         let fs = 1.0e6;
         let n = 1 << 16;
@@ -2790,7 +2877,7 @@ mod tests {
                 let g1: f64 = StandardNormal.sample(&mut rng);
                 let g2: f64 = StandardNormal.sample(&mut rng);
                 let ph = 2.0 * PI * f_t * k as f64 / fs;
-                Cf64::new(g1 + tone_a * ph.cos(), g2 + tone_a * ph.sin())
+                Cf64::new(g1 + tone_a * ph.pcos(), g2 + tone_a * ph.psin())
             })
             .collect();
         let w = welch_psd(&x, fs, 1024, 0.5).unwrap();

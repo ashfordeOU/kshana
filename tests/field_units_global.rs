@@ -144,6 +144,16 @@ const RUNNERS: &[(&str, &str)] = &[
     ("leo-ppp", ""),
     ("ntn-positioning", "scenarios/ntn-5g-positioning.toml"),
     ("leo-pnt-chain", "scenarios/leo-pnt-end-to-end.toml"),
+    ("contact-schedule", "scenarios/contact-schedule.toml"),
+    ("acm-link", "scenarios/acm-link.toml"),
+    ("aocs", "scenarios/aocs-slew.toml"),
+    ("entry-heating", "scenarios/entry-heating-stardust.toml"),
+    ("eo-radiometry", "scenarios/eo-radiometry.toml"),
+    ("ascent-losses", "scenarios/ascent-losses.toml"),
+    (
+        "time-transfer-budget",
+        "scenarios/time-transfer-budget.toml",
+    ),
 ];
 
 /// The kinds whose reports do not yet describe every numeric field they emit, each with
@@ -153,24 +163,20 @@ const RUNNERS: &[(&str, &str)] = &[
 /// should ever be made: the gate fails if a listed kind turns out to be fully covered, so
 /// an entry cannot be left here to pad the budget, and it fails if the list grows past
 /// [`UNCOVERED_KIND_CEILING`]. There is no wildcard — every uncovered kind is named.
-const UNCOVERED_KINDS: &[(&str, &str)] = &[(
-    "sweep-nd",
-    "two of its three columns have no unit that is not itself data: \
-         `points[].coords[]` carries one value per caller-chosen dotted scenario key and \
-         `points[].metrics[]` one per caller-chosen dotted result path, so each is a \
-         column of mixed units. Resolving them means looking each path up in the SWEPT \
-         pack's own units table, which this pack does not consult. Its third column, \
-         `shape[]`, is described — 2 fields",
-)];
+const UNCOVERED_KINDS: &[(&str, &str)] = &[];
 
 /// The pinned size of [`UNCOVERED_KINDS`]. Lower it whenever a kind is finished; never
 /// raise it.
+///
+/// Was 1. `sweep-nd` came off the list with FUT-28: its two caller-keyed columns are
+/// described as `mixed - see note`, and the unit of every position is resolved from the
+/// swept pack's own units table into `key_units[]` and `metric_units[]`.
 ///
 /// Was 2. `cislunar-observability` came off the list when its released document gained a
 /// units block: the pin that had blocked it now proves the addition is additive (strip
 /// `units` back off and the document still hashes to the value frozen before it existed)
 /// instead of forbidding it outright.
-const UNCOVERED_KIND_CEILING: usize = 1;
+const UNCOVERED_KIND_CEILING: usize = 0;
 
 /// The pinned number of covered fields whose units entry carries no definition. The
 /// entries that predate this gate largely have none; new entries must. Lower it as the
@@ -241,6 +247,9 @@ fn every_registered_kind_has_a_runner() {
 }
 
 #[test]
+// With the ceiling at 0 the ratchet comparison is `len() <= 0`; it stays written as the
+// ratchet so the check reads the same at any ceiling.
+#[allow(clippy::absurd_extreme_comparisons)]
 fn the_exemption_list_is_explicit_and_can_only_shrink() {
     assert!(
         UNCOVERED_KINDS.len() <= UNCOVERED_KIND_CEILING,
@@ -365,6 +374,30 @@ fn the_definition_backlog_only_shrinks() {
 /// The machine-readable schema, built from the corpus: for every kind, every emitted
 /// numeric field with its unit, provenance class, evidence tier and definition — and, by
 /// name, every field that has none yet.
+/// Result documents that are not scenario kinds, with their declared units tables. Each is
+/// audited against an emitted document by its own test (named in `audited_by`).
+fn documents() -> Value {
+    let mut fields = Map::new();
+    for f in kshana::iq::labfit::iqfit::FIELD_UNITS {
+        fields.insert(
+            f.path.to_string(),
+            json!({
+                "unit": f.unit,
+                "provenance": f.provenance.as_str(),
+                "evidence_tier": f.provenance.evidence_tier().as_str(),
+                "definition": f.definition,
+            }),
+        );
+    }
+    json!({
+        "kshana.labfit-iq/1": {
+            "label": "MODELLED",
+            "audited_by": "tests/iq_labfit_campaign.rs (the_report_carries_its_inputs_censoring_validation_and_labels)",
+            "fields": fields,
+        }
+    })
+}
+
 fn build_schema() -> Value {
     let runs = corpus();
 
@@ -475,6 +508,7 @@ fn build_schema() -> Value {
         "provenance_classes": classes,
         "evidence_tiers": tiers,
         "kinds": kinds,
+        "documents": documents(),
     })
 }
 

@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
+// Host maths on purpose: this test recomputes its expected values independently of the engine's
+// portable maths (STUDIO-15), so the engine is checked against a second implementation.
 //! Independent-estimator corroboration of the cislunar arc-length observability threshold.
 //!
 //! `cislunar-observability` reports an arc length at which a single range-only
@@ -406,7 +408,9 @@ fn strip_comments_and_strings(src: &str) -> String {
 #[test]
 fn the_released_observability_document_is_unchanged() {
     let out = run_toml("kind = \"cislunar-observability\"\n").expect("the released default runs");
-    let doc: Value = serde_json::from_str(&out.json).expect("valid JSON");
+    // RM-04's trailing `figure_tiers` block is pinned on its own; R1 is the released document.
+    let json = kshana::api::without_figure_tiers(&out.json).unwrap_or(out.json);
+    let doc: Value = serde_json::from_str(&json).expect("valid JSON");
 
     let keys: Vec<&str> = doc
         .as_object()
@@ -476,7 +480,10 @@ fn the_released_observability_document_is_unchanged() {
 ///               key cannot move it. Its PRESENCE is still required, by the key-set
 ///               assertion above. Nothing else — a cross-cutting change that appends any
 ///               OTHER block to every scenario IS in scope here.
-const RELEASED_OBSERVABILITY_CANONICAL_FNV: u64 = 9_459_780_657_697_663_305;
+// STUDIO-15 (0.36 portable maths): was 9_459_780_657_697_663_305 on the host's maths. Eight values
+// of the document moved by more than the six digits this pin keeps (round-off-floor singular
+// values and residuals; no rank or threshold moved): docs/revisions/STUDIO15-portable-math-rebaseline.md.
+const RELEASED_OBSERVABILITY_CANONICAL_FNV: u64 = 14_410_212_428_669_190_182;
 
 /// FNV-1a 64-bit — a tiny, dependency-free byte-identity fingerprint (the same one the
 /// registry golden guard uses).

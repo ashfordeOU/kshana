@@ -34,6 +34,7 @@
 //! 1972 value there. UT1−UTC (DUT1) is an observed quantity supplied by the
 //! caller (IERS Bulletin A/B); it is not predicted here.
 
+use crate::portable_math::PortableFloat;
 /// Julian Date of the J2000.0 epoch (2000-01-01 12:00:00 TT).
 pub const JD_J2000: f64 = 2_451_545.0;
 /// Offset between Julian Date and Modified Julian Date: `MJD = JD - 2400000.5`.
@@ -162,6 +163,49 @@ const LEAP_TABLE: &[(i32, u32, u32, f64)] = &[
     (2015, 7, 1, 36.0),
     (2017, 1, 1, 37.0),
 ];
+
+/// The first day of each TAI − UTC expression of the drifting-rate UTC era, 1960-01-01 to
+/// 1968-02-01, as `(year, month, ΔAT at the reference MJD, reference MJD, drift rate s/day)`:
+/// `TAI − UTC = ΔAT + (MJD − MJD_ref)·rate`. Transcribed from SOFA `iauDat` (ERFA 2.0.1
+/// `eraDat`, the same table), which takes it from the USNO/BIPM history of UTC.
+const PRE_1972_DRIFT: &[(i32, u32, f64, f64, f64)] = &[
+    (1960, 1, 1.417_818_0, 37_300.0, 0.001_296_0),
+    (1961, 1, 1.422_818_0, 37_300.0, 0.001_296_0),
+    (1961, 8, 1.372_818_0, 37_300.0, 0.001_296_0),
+    (1962, 1, 1.845_858_0, 37_665.0, 0.001_123_2),
+    (1963, 11, 1.945_858_0, 37_665.0, 0.001_123_2),
+    (1964, 1, 3.240_130_0, 38_761.0, 0.001_296_0),
+    (1964, 4, 3.340_130_0, 38_761.0, 0.001_296_0),
+    (1964, 9, 3.440_130_0, 38_761.0, 0.001_296_0),
+    (1965, 1, 3.540_130_0, 38_761.0, 0.001_296_0),
+    (1965, 3, 3.640_130_0, 38_761.0, 0.001_296_0),
+    (1965, 7, 3.740_130_0, 38_761.0, 0.001_296_0),
+    (1965, 9, 3.840_130_0, 38_761.0, 0.001_296_0),
+    (1966, 1, 4.313_170_0, 39_126.0, 0.002_592_0),
+    (1968, 2, 4.213_170_0, 39_126.0, 0.002_592_0),
+];
+
+/// TAI − UTC (s) on the UTC calendar day `year-month-day` at the fraction `fd` of that day,
+/// with the convention of SOFA `iauDat`: from 1972 the integer leap-second table; from
+/// 1960-01-01 to 1971-12-31 the drifting-rate expressions `ΔAT + (MJD + fd − MJD_ref)·rate`
+/// (the "rubber-second" era); before 1960, where UTC is not defined, 0 (SOFA's value, returned
+/// there with a "pre-UTC" status). Unlike [`tai_minus_utc`], which clamps before 1972, this is
+/// the value the two-part time path ([`crate::jd2`]) uses.
+pub fn tai_minus_utc_on_date(year: i32, month: u32, day: u32, fd: f64) -> f64 {
+    let m = 12 * year as i64 + month as i64;
+    if m > 12 * 1972 {
+        return tai_minus_utc(julian_date(year, month, day, 0, 0, 0.0));
+    }
+    let Some(&(_, _, delat, mjd_ref, rate)) = PRE_1972_DRIFT
+        .iter()
+        .rev()
+        .find(|&&(y, mo, ..)| m >= 12 * y as i64 + mo as i64)
+    else {
+        return 0.0;
+    };
+    let mjd = julian_date(year, month, day, 0, 0, 0.0) - MJD_OFFSET;
+    delat + (mjd + fd - mjd_ref) * rate
+}
 
 /// TAI − UTC (seconds) at a given instant expressed as a JD in UTC. Returns the
 /// value of the latest leap-second entry in effect at that instant. For dates
@@ -346,7 +390,7 @@ pub fn tdb_minus_tt(jd_tt: f64) -> f64 {
     // Earth's mean anomaly, degrees → radians.
     let g_deg = 357.53 + 0.985_600_28 * (jd_tt - JD_J2000);
     let g = g_deg.to_radians();
-    0.001_657 * g.sin() + 0.000_022 * (2.0 * g).sin()
+    0.001_657 * g.psin() + 0.000_022 * (2.0 * g).psin()
 }
 
 /// JD(TDB) from JD(TT): `TDB = TT + (TDB − TT)`, with the difference from

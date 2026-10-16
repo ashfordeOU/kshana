@@ -66,6 +66,12 @@ const TIERED: &[&str] = &[
     "orbit-sgp4-gps",
     "orbit-molniya",
     "hybrid-pnt",
+    // RM-04: the per-kind block appended after the run.
+    "araim-gps-galileo",
+    "gnss-ins",
+    "integrity-raim",
+    "jamming-demo",
+    "timetransfer",
 ];
 
 /// Append a cross-platform-invariant SHAPE descriptor of `v` to `out`: object keys

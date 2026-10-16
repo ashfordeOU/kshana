@@ -13,7 +13,20 @@ use kshana::iq::acq::{acquire, acquire_peak, AcqConfig};
 use kshana::iq::cli::build_code;
 use kshana::iq::track::design::Design;
 use kshana::iq::{Cf64, SampleSpec, SpreadingCode};
+use kshana::portable_math::PortableFloat;
 use std::f64::consts::TAU;
+
+/// The Galileo E1 memory-code tables are user-supplied (not bundled, by the ICD's terms);
+/// the E1 tests skip, with a message, when they are absent. Supply them with
+/// `KSHANA_GALILEO_E1B` / `KSHANA_GALILEO_E1C` or `scripts/fetch_galileo_e1_codes.sh`.
+fn e1_tables_supplied() -> bool {
+    let ok = kshana::iq::signals::galileo::e1b_table().is_ok()
+        && kshana::iq::signals::galileo::e1c_table().is_ok();
+    if !ok {
+        eprintln!("skipped: Galileo E1 tables not supplied (scripts/fetch_galileo_e1_codes.sh)");
+    }
+    ok
+}
 
 /// `n` samples of `code` at `doppler` and code phase `phase0` chips plus unit-variance noise
 /// at the given amplitude `amp` (xorshift + Box-Muller, seeded).
@@ -40,10 +53,10 @@ fn scene(
             let c = code.value_at(phase0 + rate * t) * amp;
             let ph = TAU * doppler * t;
             let (a, b, d, e) = (u(), u(), u(), u());
-            let (r1, r2) = ((-2.0 * a.ln()).sqrt(), (-2.0 * d.ln()).sqrt());
+            let (r1, r2) = ((-2.0 * a.pln()).sqrt(), (-2.0 * d.pln()).sqrt());
             Cf64::new(
-                s * r1 * (TAU * b).cos() + c * ph.cos(),
-                s * r2 * (TAU * e).cos() + c * ph.sin(),
+                s * r1 * (TAU * b).pcos() + c * ph.pcos(),
+                s * r2 * (TAU * e).pcos() + c * ph.psin(),
             )
         })
         .collect()
@@ -91,6 +104,9 @@ fn a1_gps_l1ca() {
 
 #[test]
 fn a1_galileo_e1b() {
+    if !e1_tables_supplied() {
+        return;
+    }
     same_as_the_grid_path("galileo-e1b", 11, 4.092e6, 0.15);
 }
 

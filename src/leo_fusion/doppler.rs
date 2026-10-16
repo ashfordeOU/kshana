@@ -37,6 +37,7 @@
 //! the caller, and the ionosphere, troposphere and oscillator acceleration are not modelled.
 
 use super::geom::{cross, dot, inverse, norm, normal_equations, scale, sub, EarthOrbit, Mat, Vec3};
+use crate::portable_math::PortableFloat;
 use serde::Serialize;
 
 /// One range-rate measurement.
@@ -355,13 +356,13 @@ pub fn offset_site(orbit: &EarthOrbit, t_c: f64, offset_m: f64) -> super::geom::
     let c_hat = cross(s_hat, t_hat);
     let th = offset_m / super::geom::RE_EARTH;
     let p = [
-        s_hat[0] * th.cos() + c_hat[0] * th.sin(),
-        s_hat[1] * th.cos() + c_hat[1] * th.sin(),
-        s_hat[2] * th.cos() + c_hat[2] * th.sin(),
+        s_hat[0] * th.pcos() + c_hat[0] * th.psin(),
+        s_hat[1] * th.pcos() + c_hat[1] * th.psin(),
+        s_hat[2] * th.pcos() + c_hat[2] * th.psin(),
     ];
     super::geom::Site {
-        lat_deg: p[2].clamp(-1.0, 1.0).asin() / super::geom::DEG,
-        lon_deg: p[1].atan2(p[0]) / super::geom::DEG,
+        lat_deg: p[2].clamp(-1.0, 1.0).pasin() / super::geom::DEG,
+        lon_deg: p[1].patan2(p[0]) / super::geom::DEG,
         height_m: 0.0,
     }
 }
@@ -553,9 +554,9 @@ pub fn closest_approach(
 mod tests {
     use super::*;
     use crate::leo_fusion::geom::{Site, DEG};
+    use crate::portable_distr::{Distribution, Normal};
     use rand::SeedableRng;
     use rand_chacha::ChaCha8Rng;
-    use rand_distr::{Distribution, Normal};
 
     fn orbit() -> EarthOrbit {
         EarthOrbit::circular(1080e3, 53.0 * DEG, 0.0, 0.0)
@@ -587,7 +588,7 @@ mod tests {
             let a = scale(sub(o.state(t + h).1, o.state(t - h).1), 0.5 / h);
             let d = sub(rs, user);
             let rho = norm(d);
-            let want = (dot(vs, vs) - rr(t).powi(2) + dot(d, a)) / rho;
+            let want = (dot(vs, vs) - rr(t).ppowi(2) + dot(d, a)) / rho;
             assert!(((acc - want) / want).abs() < 1e-5, "t {t}: {acc} vs {want}");
         }
         // The straight-line value overstates the slope by the gravity term, here 10 to 20%.

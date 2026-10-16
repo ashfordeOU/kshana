@@ -27,11 +27,16 @@
 //! `peph2pos` does (`preceph.c`); the corrected ECEF result is then rotated into
 //! the shared TEME frame and exposed as a [`crate::orbit::Propagator`].
 //!
+//! The accuracy codes (header `++` exponents, the `%f` bases and each record's
+//! standard-deviation exponents) are read separately by [`parse_sp3_accuracy`] and mapped to a
+//! per-observation position sigma by [`Sp3Accuracy::position_sigma_m`].
+//!
 //! Scope (this stage): the read/write round trip and Lagrange position
 //! interpolation. Clock interpolation and a RINEX/SP3 scenario kind are next. The
 //! bad-value sentinels (positions of exactly 0, clock 999999.999999) are preserved
 //! as parsed, not silently rewritten, so a caller can decide how to treat them.
 
+use crate::portable_math::PortableFloat;
 use crate::rinex::EpochUtc;
 use serde::Serialize;
 
@@ -265,6 +270,50 @@ impl Sp3File {
             start_jd_ut1: jd0,
         })
     }
+
+    /// The valid clock nodes of satellite `sat` as (seconds from the file start, clock offset
+    /// in s), in increasing time. Records carrying the [`BAD_CLOCK_US`] sentinel are left out.
+    pub fn clock_nodes(&self, sat: &str) -> Vec<(f64, f64)> {
+        let s0 = self.header.start;
+        let mut out: Vec<(f64, f64)> = self
+            .epochs
+            .iter()
+            .filter_map(|epoch| {
+                let st = epoch.sats.iter().find(|s| s.sat == sat)?;
+                (!st.clock_is_bad()).then(|| (node_offset_s(s0, epoch.time), st.clock_us * 1e-6))
+            })
+            .collect();
+        out.sort_by(|a, b| a.0.total_cmp(&b.0));
+        out
+    }
+
+    /// The satellite clock offset (s) of `sat` at `t` seconds from the file start, by linear
+    /// interpolation between the two valid clock nodes that bracket `t` (the node value itself
+    /// at a node). This is the scheme of RTKLIB's `pephclk` (`preceph.c`) and of the IGS
+    /// guidance for tabulated clocks: a satellite clock is a random process, so a high-order
+    /// polynomial through it does not help and can hurt. `None` when a bracketing node is
+    /// missing or bad, or when either bracketing node lies more than `max_gap_s` from `t`.
+    pub fn clock_s(&self, sat: &str, t: f64, max_gap_s: f64) -> Option<f64> {
+        interpolate_clock_linear(&self.clock_nodes(sat), t, max_gap_s)
+    }
+}
+
+/// Linear interpolation of a clock series `(t, offset)` sorted by time, as
+/// [`Sp3File::clock_s`] describes. Exact at a node.
+pub fn interpolate_clock_linear(nodes: &[(f64, f64)], t: f64, max_gap_s: f64) -> Option<f64> {
+    let i = nodes.partition_point(|&(ti, _)| ti < t);
+    if i < nodes.len() && nodes[i].0 == t {
+        return Some(nodes[i].1);
+    }
+    if i == 0 || i == nodes.len() {
+        return None;
+    }
+    let (t0, c0) = nodes[i - 1];
+    let (t1, c1) = nodes[i];
+    if t - t0 > max_gap_s || t1 - t > max_gap_s {
+        return None;
+    }
+    Some(c0 + (c1 - c0) * (t - t0) / (t1 - t0))
 }
 
 /// Seconds elapsed from epoch `from` to epoch `to`, computed without the
@@ -377,7 +426,7 @@ impl Sp3Interpolator {
         let mut yr = Vec::with_capacity(n);
         for (k, &node_t) in xs.iter().enumerate() {
             let theta = OMGE * (node_t - t);
-            let (sin_t, cos_t) = theta.sin_cos();
+            let (sin_t, cos_t) = theta.psin_cos();
             let x = self.x[a + k];
             let y = self.y[a + k];
             xr.push(cos_t * x - sin_t * y);
@@ -404,7 +453,7 @@ impl Sp3Interpolator {
     /// Approximate orbital period (s) from the radius at the first sample,
     /// `2π·√(r³/μ⊕)`.
     pub fn approx_period_s(&self) -> f64 {
-        let r = (self.x[0].powi(2) + self.y[0].powi(2) + self.z[0].powi(2)).sqrt();
+        let r = (self.x[0].ppowi(2) + self.y[0].ppowi(2) + self.z[0].ppowi(2)).sqrt();
         std::f64::consts::TAU * (r * r * r / crate::orbit::MU_EARTH).sqrt()
     }
 }
@@ -580,9 +629,218 @@ pub fn parse_sp3(text: &str) -> Result<Sp3File, String> {
     })
 }
 
+/// The accuracy codes of one `P` record: the per-axis position standard-deviation exponents
+/// (columns 62–63, 65–66, 68–69) and the clock exponent (columns 71–73). A blank field is `None`.
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct Sp3RecordAccuracy {
+    /// Satellite identifier.
+    pub sat: String,
+    /// X, Y, Z position standard-deviation exponents `n` (σ = `pos_vel_base`ⁿ mm).
+    pub pos_exponent: [Option<u32>; 3],
+    /// Clock standard-deviation exponent `n` (σ = `clock_base`ⁿ ps).
+    pub clock_exponent: Option<u32>,
+}
+
+/// The accuracy information of an SP3-c/d file, read by [`parse_sp3_accuracy`] separately from
+/// [`parse_sp3`] (whose output is unchanged):
+///
+/// * the header `++` **accuracy exponents**, one per satellite slot of the `+` list
+///   (accuracy = 2ⁿ mm; `0` means unknown),
+/// * the first `%f` line's **floating-point bases** for position/velocity and clock/clock-rate
+///   standard deviations (`0` means the per-record fields are unused),
+/// * each `P` record's **standard-deviation exponents** (σ = baseⁿ mm per axis).
+///
+/// [`Sp3Accuracy::position_sigma_m`] maps these to the one-sigma per-axis position uncertainty an
+/// orbit fit weights by (`precise_od::Observation::sigma`).
+#[derive(Clone, Debug, Default, PartialEq)]
+pub struct Sp3Accuracy {
+    /// `(satellite, exponent)` for every identified satellite slot of the header, in list order.
+    pub header_exponent: Vec<(String, u32)>,
+    /// Base for the position/velocity standard deviations (first `%f` line, columns 4–13).
+    pub pos_vel_base: f64,
+    /// Base for the clock/clock-rate standard deviations (first `%f` line, columns 15–26).
+    pub clock_base: f64,
+    /// Per epoch (same order as [`Sp3File::epochs`]), the accuracy codes of each `P` record.
+    pub records: Vec<Vec<Sp3RecordAccuracy>>,
+}
+
+impl Sp3Accuracy {
+    /// The header accuracy of `sat` in metres, `2ⁿ mm`; `None` when the exponent is 0 (unknown)
+    /// or the satellite is not listed.
+    pub fn header_sigma_m(&self, sat: &str) -> Option<f64> {
+        self.header_exponent
+            .iter()
+            .find(|(s, _)| s == sat)
+            .and_then(|&(_, e)| (e > 0).then(|| 2f64.ppowi(e as i32) * 1e-3))
+    }
+
+    /// The per-axis position standard deviations (m) of `sat` at epoch index `epoch`,
+    /// `pos_vel_base`ⁿ mm; `None` unless the base is positive and all three exponents are present.
+    pub fn record_sigma_m(&self, epoch: usize, sat: &str) -> Option<[f64; 3]> {
+        if self.pos_vel_base.is_nan() || self.pos_vel_base <= 0.0 {
+            return None;
+        }
+        let rec = self.records.get(epoch)?.iter().find(|r| r.sat == sat)?;
+        let mut out = [0.0; 3];
+        for (o, e) in out.iter_mut().zip(rec.pos_exponent) {
+            *o = self.pos_vel_base.ppowi(e? as i32) * 1e-3;
+        }
+        Some(out)
+    }
+
+    /// The one-sigma **per-axis** position uncertainty (m) for `sat` at epoch index `epoch`: the
+    /// record standard deviations combined as `√((σx² + σy² + σz²)/3)` when present, otherwise the
+    /// header accuracy `2ⁿ mm` taken as a per-axis sigma, otherwise `None` (no accuracy
+    /// information; the caller keeps its own default).
+    pub fn position_sigma_m(&self, epoch: usize, sat: &str) -> Option<f64> {
+        if let Some(s) = self.record_sigma_m(epoch, sat) {
+            return Some(((s[0] * s[0] + s[1] * s[1] + s[2] * s[2]) / 3.0).sqrt());
+        }
+        self.header_sigma_m(sat)
+    }
+}
+
+/// Parse an exponent field: blank → `None`, otherwise an unsigned integer.
+fn exp_field(line: &str, range: std::ops::Range<usize>) -> Result<Option<u32>, String> {
+    let f = line.get(range).unwrap_or("").trim();
+    if f.is_empty() {
+        return Ok(None);
+    }
+    f.parse::<u32>()
+        .map(Some)
+        .map_err(|_| format!("bad accuracy exponent {f:?} in {line:?}"))
+}
+
+/// Read the accuracy codes of an SP3-c/d file (see [`Sp3Accuracy`]). The header `+` and `++`
+/// records are read slot by slot (three characters from column 10), the first `%f` line gives the
+/// bases, and each `P` record contributes its columns 62–73. Epochs are counted by their `*`
+/// headers, so `records[i]` belongs to [`Sp3File::epochs`]`[i]` of [`parse_sp3`] on the same text.
+pub fn parse_sp3_accuracy(text: &str) -> Result<Sp3Accuracy, String> {
+    let mut slots: Vec<String> = Vec::new();
+    let mut exps: Vec<Option<u32>> = Vec::new();
+    let mut acc = Sp3Accuracy::default();
+    let mut seen_f = false;
+    let chunks = |line: &str| -> Vec<String> {
+        let body = line.get(9..).unwrap_or("");
+        let b = body.as_bytes();
+        (0..b.len() / 3)
+            .map(|i| String::from_utf8_lossy(&b[3 * i..3 * i + 3]).into_owned())
+            .collect()
+    };
+    for line in text.lines().skip(1) {
+        if line.starts_with("EOF") {
+            break;
+        }
+        if line.starts_with("++") {
+            for c in chunks(line) {
+                let t = c.trim();
+                exps.push(if t.is_empty() {
+                    None
+                } else {
+                    Some(
+                        t.parse::<u32>()
+                            .map_err(|_| format!("bad header accuracy {t:?}"))?,
+                    )
+                });
+            }
+        } else if line.starts_with('+') {
+            slots.extend(chunks(line));
+        } else if line.starts_with("%f") && !seen_f {
+            seen_f = true;
+            let tok: Vec<&str> = line[2..].split_whitespace().collect();
+            let num = |i: usize| -> Result<f64, String> {
+                tok.get(i)
+                    .ok_or_else(|| format!("short %f line {line:?}"))?
+                    .parse::<f64>()
+                    .map_err(|_| format!("bad %f base in {line:?}"))
+            };
+            acc.pos_vel_base = num(0)?;
+            acc.clock_base = num(1)?;
+        } else if line.starts_with('*') {
+            acc.records.push(Vec::new());
+        } else if line.starts_with('P') {
+            let sat = line.get(1..4).unwrap_or("").trim().to_string();
+            let rec = Sp3RecordAccuracy {
+                sat,
+                pos_exponent: [
+                    exp_field(line, 61..63)?,
+                    exp_field(line, 64..66)?,
+                    exp_field(line, 67..69)?,
+                ],
+                clock_exponent: exp_field(line, 70..73)?,
+            };
+            acc.records
+                .last_mut()
+                .ok_or("position record before any epoch header")?
+                .push(rec);
+        }
+    }
+    for (slot, e) in slots.iter().zip(exps) {
+        let b = slot.as_bytes();
+        if b[0].is_ascii_uppercase() && slot[1..].bytes().all(|c| c.is_ascii_digit()) {
+            acc.header_exponent.push((slot.clone(), e.unwrap_or(0)));
+        }
+    }
+    Ok(acc)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn accuracy_codes_map_to_position_sigmas() {
+        // SAMPLE with per-record standard deviations on G01's first record (base 1.25 mm):
+        // exponents 10, 9, 11 → 1.25^n mm. Header exponents: G01 = 2, G02 = 2.
+        let text = SAMPLE.replace(
+            "PG01  15000.000000  -5000.000000  20000.000000    123.456789",
+            "PG01  15000.000000  -5000.000000  20000.000000    123.456789 10  9 11 105",
+        );
+        // The position/clock parse is unaffected by the accuracy columns.
+        let sats = |t: &str| -> Vec<Vec<Sp3SatState>> {
+            parse_sp3(t)
+                .unwrap()
+                .epochs
+                .into_iter()
+                .map(|e| e.sats)
+                .collect()
+        };
+        assert_eq!(sats(&text), sats(SAMPLE));
+        let acc = parse_sp3_accuracy(&text).expect("parses");
+        assert_eq!(acc.pos_vel_base, 1.25);
+        assert_eq!(acc.clock_base, 1.025);
+        assert_eq!(
+            acc.header_exponent,
+            vec![("G01".to_string(), 2), ("G02".to_string(), 2)]
+        );
+        assert_eq!(acc.records.len(), 2);
+        assert_eq!(
+            acc.records[0][0].pos_exponent,
+            [Some(10), Some(9), Some(11)]
+        );
+        assert_eq!(acc.records[0][0].clock_exponent, Some(105));
+        assert_eq!(acc.records[1][0].pos_exponent, [None, None, None]);
+        let s = acc.record_sigma_m(0, "G01").unwrap();
+        for (got, n) in s.iter().zip([10, 9, 11]) {
+            assert!((got - 1.25f64.ppowi(n) * 1e-3).abs() < 1e-15);
+        }
+        let want = ((s[0] * s[0] + s[1] * s[1] + s[2] * s[2]) / 3.0).sqrt();
+        assert_eq!(acc.position_sigma_m(0, "G01"), Some(want));
+        // No record codes at epoch 1 → the header 2^2 mm.
+        assert_eq!(acc.position_sigma_m(1, "G01"), Some(4e-3));
+        assert_eq!(acc.position_sigma_m(1, "G09"), None);
+    }
+
+    #[test]
+    fn zero_accuracy_codes_mean_unknown() {
+        let text = SAMPLE
+            .replace("++         2  2", "++         0  3")
+            .replace("%f  1.2500000  1.025000000", "%f  0.0000000  0.000000000");
+        let acc = parse_sp3_accuracy(&text).expect("parses");
+        assert_eq!(acc.position_sigma_m(0, "G01"), None);
+        assert_eq!(acc.position_sigma_m(0, "G02"), Some(8e-3));
+        assert!(parse_sp3_accuracy(&SAMPLE.replace("++         2  2", "++         x  2")).is_err());
+    }
 
     // A minimal but format-valid SP3-c position file: two epochs, two GPS
     // satellites, 15-minute spacing. Positions are in km, clocks in µs.
@@ -821,7 +1079,7 @@ EOF";
             lagrange(xs, &interp.y[lo..hi], t_mid),
             lagrange(xs, &interp.z[lo..hi], t_mid),
         ];
-        let dxy = ((corrected[0] - raw[0]).powi(2) + (corrected[1] - raw[1]).powi(2)).sqrt();
+        let dxy = ((corrected[0] - raw[0]).ppowi(2) + (corrected[1] - raw[1]).ppowi(2)).sqrt();
         assert!(
             dxy > 1e-3,
             "Earth-rotation correction should move the X/Y fit off the raw fit, Δxy={dxy:.6} m"
@@ -867,18 +1125,18 @@ EOF";
         let t_mid = 9.5 * 900.0;
         let mid = interp.position_teme(t_mid);
         let truth_mid = orbit.position_eci(t_mid);
-        let err = ((mid[0] - truth_mid[0]).powi(2)
-            + (mid[1] - truth_mid[1]).powi(2)
-            + (mid[2] - truth_mid[2]).powi(2))
+        let err = ((mid[0] - truth_mid[0]).ppowi(2)
+            + (mid[1] - truth_mid[1]).ppowi(2)
+            + (mid[2] - truth_mid[2]).ppowi(2))
         .sqrt();
         assert!(err < 100.0, "midpoint interpolation error {err:.3} m");
 
         // As a Propagator it is a GPS-radius orbit with a ~12 h period.
         let p: Propagator = interp.into();
         assert!(matches!(p, Propagator::Sp3Precise(_)));
-        let r = (p.position_eci(t_mid)[0].powi(2)
-            + p.position_eci(t_mid)[1].powi(2)
-            + p.position_eci(t_mid)[2].powi(2))
+        let r = (p.position_eci(t_mid)[0].ppowi(2)
+            + p.position_eci(t_mid)[1].ppowi(2)
+            + p.position_eci(t_mid)[2].ppowi(2))
         .sqrt();
         assert!((r - a).abs() < 400_000.0, "radius {r:.0} m");
         assert!(
@@ -919,7 +1177,7 @@ EOF";
         assert_eq!(f.epochs.len(), 3);
         // Earth-fixed rotation preserves the geocentric radius (GPS altitude).
         let p = f.position_of("G01", 0).unwrap();
-        let r = (p[0].powi(2) + p[1].powi(2) + p[2].powi(2)).sqrt();
+        let r = (p[0].ppowi(2) + p[1].ppowi(2) + p[2].ppowi(2)).sqrt();
         assert!((r - a).abs() < 1.0, "radius {r:.0} m");
         // Clocks are the unavailable sentinel (no clock model).
         assert!(f.epochs[0].sats[0].clock_is_bad());
@@ -928,5 +1186,25 @@ EOF";
         // And it serialises to something the reader accepts.
         let reparsed = parse_sp3(&f.to_sp3_string()).expect("built SP3 re-parses");
         assert_eq!(reparsed.observed_satellites(), ids);
+    }
+
+    #[test]
+    fn clock_interpolation_is_linear_between_valid_nodes_and_exact_at_them() {
+        let f = parse_sp3(SAMPLE).expect("parses");
+        // G01: 123.456789 µs at 0 s, 124.0 µs at 900 s.
+        let at = |t| f.clock_s("G01", t, 900.0).expect("bracketed");
+        assert_eq!(at(0.0), 123.456789e-6);
+        assert_eq!(at(900.0), 124.0e-6);
+        let mid = 0.5 * (123.456789e-6 + 124.0e-6);
+        assert!((at(450.0) - mid).abs() < 1e-18);
+        // Outside the table, and a gap larger than allowed.
+        assert!(f.clock_s("G01", -1.0, 900.0).is_none());
+        assert!(f.clock_s("G01", 901.0, 900.0).is_none());
+        assert!(f.clock_s("G01", 450.0, 300.0).is_none());
+        // G02's first clock is the bad sentinel: one valid node only, nothing to interpolate.
+        assert_eq!(f.clock_nodes("G02"), vec![(900.0, -46.0e-6)]);
+        assert!(f.clock_s("G02", 450.0, 900.0).is_none());
+        assert_eq!(f.clock_s("G02", 900.0, 900.0), Some(-46.0e-6));
+        assert!(f.clock_s("G03", 0.0, 900.0).is_none());
     }
 }

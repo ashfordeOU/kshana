@@ -33,3 +33,23 @@ Government work; NASA/USGS EOSDIS data policy — free, open, no restriction on 
 redistribution). Retrieved via the AWS Open Data Program `elevation-tiles-prod` mirror.
 
 Cited, not endorsed. Kshana is not affiliated with NASA, USGS, or the mirror operators.
+
+## `N36W119_whitney_crop1s.hgt` and `N36W117_badwater_crop1s.hgt` (real, public domain)
+Two **full-resolution** (1-arc-second) windows of NASA/USGS SRTM v3 (SRTMGL1) tiles, cut so
+the real-terrain tests that used to need a 25 MB tile run in CI (pre-registered in
+`xval/srtm-ungate/PREREGISTRATION.md`).
+
+- **Source:** the same AWS Open Data `elevation-tiles-prod` (Skadi) mirror,
+  `s3.amazonaws.com/elevation-tiles-prod/skadi/N36/N36W119.hgt.gz` (unzipped tile sha256
+  `0f55d40d89d997178bdbc99dd4d31c9d526d0690fc0bba30696ec22e7d5872b4`) and
+  `.../N36W117.hgt.gz` (unzipped tile sha256
+  `639c00935467913fe21212b1ceeada4ee48a4dc6d35da168c5c3586cfa51f36a`).
+- **Crop (the only transform):** a 361 x 361-sample window copied verbatim (16-bit signed
+  big-endian, north row first, no resampling), step 1/3600 deg.
+  - Whitney: file rows 1337..1697, columns 2368..2728 of N36W119; south-west node
+    36 + 1903/3600 N, -119 + 2368/3600 E (around the Mount Whitney summit).
+    sha256 `d26c5393c21855aab4d9558e1642d49df42be5116ba29577770df4b0054e5b05`.
+  - Badwater: file rows 2520..2880, columns 450..810 of N36W117; south-west node
+    36.2 N, -116.875 E (centred on Badwater Basin).
+    sha256 `69c2599a4add14633bedddb0f826b48b26c7f495ed979143edfd7ed8c413ac20`.
+- **Licence:** public domain, as above.

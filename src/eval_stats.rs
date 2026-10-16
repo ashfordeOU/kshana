@@ -10,6 +10,7 @@
 
 use crate::impairment_eval::auc;
 use crate::portable_math::uniform_index;
+use crate::portable_math::PortableFloat;
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
 
@@ -113,7 +114,7 @@ fn sample_var(v: &[f64]) -> f64 {
         return 0.0;
     }
     let mean = v.iter().sum::<f64>() / n as f64;
-    v.iter().map(|x| (x - mean).powi(2)).sum::<f64>() / (n as f64 - 1.0)
+    v.iter().map(|x| (x - mean).ppowi(2)).sum::<f64>() / (n as f64 - 1.0)
 }
 
 /// DeLong variance of a single AUC: `Var = S10/m + S01/n`. `NaN` if either class
@@ -285,7 +286,7 @@ pub fn ridge_predict(coeffs: &[f64], x: &[f64]) -> f64 {
 mod tests {
     use super::*;
     use crate::detection::normal_cdf;
-    use rand_distr::{Distribution, Normal};
+    use crate::portable_distr::{Distribution, Normal};
 
     #[test]
     fn bootstrap_ci_brackets_a_known_mean() {

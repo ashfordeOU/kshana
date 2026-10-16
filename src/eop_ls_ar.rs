@@ -22,6 +22,7 @@
 //! Every input sample must lie at or before the issue epoch (enforced), on a gap-free daily
 //! grid over the window.
 
+use crate::portable_math::PortableFloat;
 /// IERS Conventions (2010) Table 8.1: Delaunay multipliers `l, l', F, D, Omega` and the
 /// `dUT1` coefficients `B` (sine) and `C` (cosine) in units of 1e-4 s. (The length-of-day and
 /// angular-velocity columns are not needed here.) Transcribed from the published table and
@@ -103,7 +104,7 @@ pub fn zonal_tide_dut1(mjd: f64) -> f64 {
             .zip(a.iter())
             .map(|(&k, &x)| f64::from(k) * x)
             .sum();
-        let (sn, cs) = arg.sin_cos();
+        let (sn, cs) = arg.psin_cos();
         s += b * sn + c * cs;
     }
     s * 1e-4
@@ -196,8 +197,8 @@ fn design_row(t: f64, periods: &[f64]) -> Vec<f64> {
     let mut r = vec![1.0, t / ANNUAL];
     for p in periods {
         let w = std::f64::consts::TAU * t / p;
-        r.push(w.cos());
-        r.push(w.sin());
+        r.push(w.pcos());
+        r.push(w.psin());
     }
     r
 }
@@ -337,8 +338,8 @@ mod tests {
             let ut1r = 0.1 - 1e-3 * t / 1.0 + 2e-8 * t * t;
             (
                 m,
-                0.1 + 1e-4 * t + 0.05 * w.cos(),
-                0.3 - 2e-4 * t + 0.03 * w.sin(),
+                0.1 + 1e-4 * t + 0.05 * w.pcos(),
+                0.3 - 2e-4 * t + 0.03 * w.psin(),
                 ut1r + zonal_tide_dut1(m) + tai_minus_utc(m),
             )
         };

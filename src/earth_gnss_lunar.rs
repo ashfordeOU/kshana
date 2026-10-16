@@ -66,6 +66,7 @@ use crate::antenna::{boresight_gain_dbi, pattern_gain_dbi, GainPattern2D};
 use crate::jamming::{free_space_path_loss_db, nominal_cn0_dbhz, L1_HZ};
 use crate::orbit::{dop, Dop, R_EARTH_EQUATORIAL_M};
 use crate::palette::chart::{AMBER, BG, CORAL, FONT_SANS, INK_2, INK_4, MUTED, RULE, TITLE};
+use crate::portable_math::PortableFloat;
 use crate::walker::WalkerSgp4;
 use serde::{Deserialize, Serialize};
 
@@ -328,9 +329,9 @@ impl EarthGnssLunarScenario {
         let ra = self.receiver_ra_deg.unwrap_or(0.0).to_radians();
         let dec = self.receiver_dec_deg.unwrap_or(0.0).to_radians();
         let user: Vec3 = [
-            range_m * dec.cos() * ra.cos(),
-            range_m * dec.cos() * ra.sin(),
-            range_m * dec.sin(),
+            range_m * dec.pcos() * ra.pcos(),
+            range_m * dec.pcos() * ra.psin(),
+            range_m * dec.psin(),
         ];
 
         let constellation = WalkerSgp4 {
@@ -356,7 +357,7 @@ impl EarthGnssLunarScenario {
                 // Earth's centre, so nadir is the direction from the satellite to the origin.
                 let off_boresight_rad =
                     match (unit(to_user), unit([-r_sat[0], -r_sat[1], -r_sat[2]])) {
-                        (Some(u), Some(n)) => dot(u, n).clamp(-1.0, 1.0).acos(),
+                        (Some(u), Some(n)) => dot(u, n).clamp(-1.0, 1.0).pacos(),
                         // A propagation failure returns the geocentre; treat it as no link rather
                         // than divide by zero.
                         _ => std::f64::consts::PI,
@@ -478,7 +479,7 @@ impl EarthGnssLunarScenario {
             let mut max_sep: f64 = 0.0;
             for (i, a) in dirs.iter().enumerate() {
                 for b in dirs.iter().skip(i + 1) {
-                    max_sep = max_sep.max(dot(*a, *b).clamp(-1.0, 1.0).acos());
+                    max_sep = max_sep.max(dot(*a, *b).clamp(-1.0, 1.0).pacos());
                 }
             }
             Some(max_sep.to_degrees() / 2.0)
@@ -490,7 +491,7 @@ impl EarthGnssLunarScenario {
             let r_orbit = (R_EARTH_EQUATORIAL_M / 1000.0 + altitude_km) * 1000.0;
             (R_EARTH_EQUATORIAL_M / r_orbit)
                 .clamp(-1.0, 1.0)
-                .asin()
+                .pasin()
                 .to_degrees()
         };
 
@@ -927,10 +928,10 @@ pub fn measured_link(
     let u = unit(los)?;
     let nadir = unit([-tx_m[0], -tx_m[1], -tx_m[2]])?;
     let b = unit(rx_boresight)?;
-    let theta_tx_deg = dot(nadir, u).clamp(-1.0, 1.0).acos().to_degrees();
+    let theta_tx_deg = dot(nadir, u).clamp(-1.0, 1.0).pacos().to_degrees();
     let z_rx_deg = dot(b, [-u[0], -u[1], -u[2]])
         .clamp(-1.0, 1.0)
-        .acos()
+        .pacos()
         .to_degrees();
     let free_space_loss_db = free_space_path_loss_db(range_m, freq_hz);
     let occulted = segment_blocked_by_sphere(tx_m, rx_m, occulting_radius_m);
@@ -1006,8 +1007,8 @@ pub fn yaw_steering_axes(sat_m: Vec3, sun_m: Vec3) -> Option<[Vec3; 3]> {
 pub fn transmit_angles(tx_m: Vec3, sun_m: Vec3, rx_m: Vec3) -> Option<(f64, f64)> {
     let [x, y, z] = yaw_steering_axes(tx_m, sun_m)?;
     let u = unit(sub(rx_m, tx_m))?;
-    let theta = dot(u, z).clamp(-1.0, 1.0).acos().to_degrees();
-    let az = dot(u, y).atan2(dot(u, x)).to_degrees().rem_euclid(360.0);
+    let theta = dot(u, z).clamp(-1.0, 1.0).pacos().to_degrees();
+    let az = dot(u, y).patan2(dot(u, x)).to_degrees().rem_euclid(360.0);
     Some((theta, az))
 }
 
@@ -1072,7 +1073,7 @@ mod tests {
         assert!(l.theta_tx_deg.abs() < 1e-5 && l.z_rx_deg.abs() < 1e-5);
         assert!(!l.occulted);
         let lambda = 299_792_458.0 / L1_HZ;
-        let fsl = 20.0 * (4.0 * std::f64::consts::PI * 19_560e3 / lambda).log10();
+        let fsl = 20.0 * (4.0 * std::f64::consts::PI * 19_560e3 / lambda).plog10();
         let want = 14.5 + 3.0 + 3.0 - fsl + BOLTZMANN_DB - 28.5;
         assert!((l.cn0_dbhz.expect("cn0") - want).abs() < 1e-9);
         // A receiver on the far side of the Earth is occulted.
@@ -1161,7 +1162,7 @@ mod tests {
         let rep = scn().compute().expect("default scenario runs");
         // asin(R_earth / (R_earth + 20180 km)) = 13.9 deg or so.
         let want = (R_EARTH_EQUATORIAL_M / (R_EARTH_EQUATORIAL_M + 20_180_000.0))
-            .asin()
+            .pasin()
             .to_degrees();
         assert!(
             (rep.earth_limb_half_angle_deg - want).abs() < 1e-9,

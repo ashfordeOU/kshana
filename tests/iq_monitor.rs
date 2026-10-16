@@ -35,6 +35,7 @@ use kshana::iq::monitor::{stats, EpochMonitorSettings, EpochMonitors, MonitorRep
 use kshana::iq::track::cn0::phase_lock_indicator;
 use kshana::iq::track::{ChannelInit, EpochOutput, LoopConfig, TrackingBank};
 use kshana::iq::{Cf64, SampleSpec, SpreadingCode};
+use kshana::portable_math::PortableFloat;
 use kshana::sdr::CaCode;
 use rand::{Rng, SeedableRng};
 use rand_chacha::ChaCha8Rng;
@@ -112,7 +113,7 @@ fn power_step_is_flagged_and_agc_gain_follows() {
     for _ in 0..2 {
         m.push(&noise(1_000_000, &mut rng));
     }
-    let g = 10f64.powf(3.0 / 20.0);
+    let g = 10f64.ppowf(3.0 / 20.0);
     let louder: Vec<Cf64> = noise(1_000_000, &mut rng)
         .into_iter()
         .map(|s| s * g)
@@ -251,7 +252,7 @@ fn spectral_false_events_stay_under_an_a_priori_poisson_bar() {
         let blocks = r.series_named("psd_excess_db", None).unwrap().value.len() as f64;
         let mean = blocks * settings.excess_pfa * 2.0;
         // Smallest k with P(N > k) <= 0.001 for N ~ Poisson(mean).
-        let (mut k, mut pmf, mut cdf) = (0u32, (-mean).exp(), (-mean).exp());
+        let (mut k, mut pmf, mut cdf) = (0u32, (-mean).pexp(), (-mean).pexp());
         while 1.0 - cdf > 0.001 {
             k += 1;
             pmf *= mean / f64::from(k);
@@ -284,7 +285,7 @@ fn spectral_excess_and_pulses_are_flagged() {
         .enumerate()
         .map(|(i, s)| {
             let ph = TAU * 50_000.0 * (n0 + i) as f64 / fs;
-            s + Cf64::new(a * ph.cos(), a * ph.sin())
+            s + Cf64::new(a * ph.pcos(), a * ph.psin())
         })
         .collect();
     m.push(&toned);
@@ -434,7 +435,7 @@ struct Gen {
 
 impl Gen {
     fn chunk(&mut self, len: usize) -> Vec<Cf64> {
-        let a0 = (10f64.powf(self.cn0_dbhz / 10.0) / FS).sqrt();
+        let a0 = (10f64.ppowf(self.cn0_dbhz / 10.0) / FS).sqrt();
         let rate = CHIP * (1.0 + self.doppler / L1);
         let s = 0.5f64.sqrt();
         (0..len)
@@ -452,8 +453,8 @@ impl Gen {
                 }
                 let ph = TAU * self.doppler * t;
                 Cf64::new(
-                    c * ph.cos() + s * gauss(&mut self.rng),
-                    c * ph.sin() + s * gauss(&mut self.rng),
+                    c * ph.pcos() + s * gauss(&mut self.rng),
+                    c * ph.psin() + s * gauss(&mut self.rng),
                 )
             })
             .collect()
@@ -532,7 +533,7 @@ fn sqm_statistics_on_a_tracked_signal_match_closed_forms() {
             .map(|(_, v)| *v)
             .collect()
     };
-    let cn0t = 10f64.powf(4.5) * 1e-3;
+    let cn0t = 10f64.ppowf(4.5) * 1e-3;
     let d = cfg.spacing_chips;
     let (dm, ds) = mean_sd(&steady("sqm_delta"));
     let (rm, rs) = mean_sd(&steady("sqm_ratio"));

@@ -22,6 +22,7 @@
 //! the rising scale height of the thin upper atmosphere. Use a vendored Mars-GRAM/MCD profile
 //! for production aerobraking work.
 
+use crate::portable_math::PortableFloat;
 type Vec3 = [f64; 3];
 
 /// Mars reference radius (m) — the IAU mean equatorial radius, matching
@@ -71,7 +72,7 @@ pub fn mars_density(altitude_m: f64) -> f64 {
         i += 1;
     }
     let (h0, rho0, scale) = BANDS[i];
-    rho0 * (-(h_km - h0) / scale).exp()
+    rho0 * (-(h_km - h0) / scale).pexp()
 }
 
 /// Atmospheric-drag acceleration (m/s², Mars-centred inertial) on a spacecraft at areocentric
@@ -152,7 +153,7 @@ mod tests {
         // signature rather than a re-statement of any single tabulated number.
         let (h1, h2) = (5e3, 15e3);
         let ratio = mars_density(h2) / mars_density(h1);
-        let scale_km = -(h2 - h1) / 1000.0 / ratio.ln();
+        let scale_km = -(h2 - h1) / 1000.0 / ratio.pln();
         assert!(
             (10.0..=12.0).contains(&scale_km),
             "recovered near-surface scale height {scale_km} km outside ~11 km Mars band"

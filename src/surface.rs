@@ -556,12 +556,22 @@ pub fn animate_scenario(
 
 /// Run an `iq-labfit` scenario with its logs inline: the loop-model fit to lab runs, in memory.
 /// A run whose `log` (or its `nav`) names a `path` is refused: logs travel as `text` or
-/// `base64`. Returns the parsed `report` and the `residuals_csv`, `predictions_csv` and
-/// `markdown` renderings.
+/// `base64`. A scenario whose `[input]` names a `campaign` folder is refused too: campaigns
+/// are read only by the CLI, Python, or the MCP labfit tool inside its work directory.
+/// Returns the parsed `report` and the `residuals_csv`, `predictions_csv` and `markdown`
+/// renderings.
 pub fn iq_labfit_inline(toml_text: &str, max_bytes: usize) -> Result<Value, String> {
     cap("scenario", toml_text, max_bytes)?;
     let v: toml::Value =
         toml::from_str(toml_text).map_err(|e| format!("iq-labfit scenario: {e}"))?;
+    if v.get("input").and_then(|i| i.get("campaign")).is_some() {
+        return Err(
+            "[input] campaign names a campaign folder, and this surface reads no files; \
+             campaigns are read only by the CLI (`kshana iq labfit`), Python \
+             (`kshana.iq_labfit`), or the MCP labfit tool inside its IQ work directory"
+                .into(),
+        );
+    }
     if let Some(runs) = v.get("runs").and_then(toml::Value::as_array) {
         for (i, r) in runs.iter().enumerate() {
             let log = r.get("log");
@@ -1056,6 +1066,7 @@ pub fn evidence_verify(
             expected_public_key: expected,
             full_log,
             require_timestamp,
+            tsa_anchors: None,
         },
     );
     let fp = r.signer_fingerprint.clone().unwrap_or_default();

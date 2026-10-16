@@ -67,6 +67,7 @@
 use crate::detection::{analytic_pd, detection_boundary};
 use crate::lunar::{selenographic_to_mcmf, Selenographic};
 use crate::lunar_service::visible_sat_positions;
+use crate::portable_math::PortableFloat;
 use crate::spoof_monitors::{combine_power_dbm, AgcMonitor};
 
 /// Great-circle (surface arc) radius, in metres, of the surface disk an object at height
@@ -75,7 +76,7 @@ use crate::spoof_monitors::{combine_power_dbm, AgcMonitor};
 /// `R/(R+h)`, times `R`). Retained as a footprint/coverage-area helper; the *observation*
 /// gate now uses the real [`crate::lunar_service::visible_sat_positions`] visibility test.
 pub fn horizon_ground_range_m(radius_m: f64, height_m: f64) -> f64 {
-    radius_m * (radius_m / (radius_m + height_m)).acos()
+    radius_m * (radius_m / (radius_m + height_m)).pacos()
 }
 
 /// A surveyed, fixed-location monitor station on the surface, whose detection statistic is
@@ -216,7 +217,7 @@ pub fn free_space_path_loss_db(range_m: f64) -> f64 {
     if range_m <= 1.0 {
         0.0
     } else {
-        20.0 * range_m.log10()
+        20.0 * range_m.plog10()
     }
 }
 
@@ -437,7 +438,7 @@ mod tests {
         // Doubling range: +6.0206 dB.
         let d1 = free_space_path_loss_db(1000.0);
         let d2 = free_space_path_loss_db(2000.0);
-        assert!((d2 - d1 - 20.0 * 2.0_f64.log10()).abs() < 1e-12);
+        assert!((d2 - d1 - 20.0 * 2.0_f64.plog10()).abs() < 1e-12);
     }
 
     // ORACLE: crate::lunar_service::visible_sat_positions (the real selenographic

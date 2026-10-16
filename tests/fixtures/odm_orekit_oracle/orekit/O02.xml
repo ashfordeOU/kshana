@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<opm id="CCSDS_OPM_VERS" version="3.0">
+  <header>
+    <CREATION_DATE>2026-10-14T00:00:00.000</CREATION_DATE>
+    <ORIGINATOR>KSHANA XVAL</ORIGINATOR>
+  </header>
+
+  <body>
+    <segment>
+      <metadata>
+        <OBJECT_NAME>XVAL SAT</OBJECT_NAME>
+        <OBJECT_ID>2026-999A</OBJECT_ID>
+        <CENTER_NAME>EARTH</CENTER_NAME>
+        <REF_FRAME>GCRF</REF_FRAME>
+        <TIME_SYSTEM>TAI</TIME_SYSTEM>
+      </metadata>
+      <data>
+        <stateVector>
+          <EPOCH>2026-03-02T00:00:00.000</EPOCH>
+          <X units="km">-588.0912118819398</X>
+          <Y units="km">-4108.4642737694885</Y>
+          <Z units="km">-1081.824189009531</Z>
+          <X_DOT units="km/s">3.9767041770942795</X_DOT>
+          <Y_DOT units="km/s">-4.921067957634498</Y_DOT>
+          <Z_DOT units="km/s">6.0198181094392895</Z_DOT>
+        </stateVector>
+        <keplerianElements>
+          <SEMI_MAJOR_AXIS units="km">22380.15056142308</SEMI_MAJOR_AXIS>
+          <ECCENTRICITY>0.08949302821458822</ECCENTRICITY>
+          <INCLINATION units="deg">105.02947313153892</INCLINATION>
+          <RA_OF_ASC_NODE units="deg">283.1409691144875</RA_OF_ASC_NODE>
+          <ARG_OF_PERICENTER units="deg">177.47818060091834</ARG_OF_PERICENTER>
+          <TRUE_ANOMALY units="deg">88.7350675942953</TRUE_ANOMALY>
+          <GM units="km**3/s**2">398600.4415</GM>
+        </keplerianElements>
+        <spacecraftParameters>
+          <MASS units="kg">1456.456350347378</MASS>
+          <SOLAR_RAD_AREA units="m**2">20.300452314061435</SOLAR_RAD_AREA>
+          <SOLAR_RAD_COEFF>1.8250426939001725</SOLAR_RAD_COEFF>
+          <DRAG_AREA units="m**2">8.12647738807712</DRAG_AREA>
+          <DRAG_COEFF>2.0442877249691067</DRAG_COEFF>
+        </spacecraftParameters>
+      </data>
+    </segment>
+  </body>
+</opm>

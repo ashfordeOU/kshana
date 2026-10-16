@@ -15,9 +15,11 @@
 //! precision), for any sigma-point spread.
 //!
 //! Scope (honest): this is the estimator engine and its linear-algebra core (Cholesky
-//! sigma-point spread, scaled-UT weights, predict/update). Wiring it into a 17-state
-//! tightly-coupled GNSS/INS navigator with a pseudorange/Doppler measurement model and
-//! an outage-validation scenario is a follow-on (see `ROADMAP.md`).
+//! sigma-point spread, scaled-UT weights, predict/update). It drives the 8-state
+//! [`crate::fusion::tightly_coupled`] filter and the 17-state tightly-coupled GNSS/INS
+//! navigator [`crate::fusion::tightly_coupled17`] (pseudorange/range-rate measurement model,
+//! CAI dead-reckoning through an outage), which the `hybrid-ukf` scenario runs
+//! ([`crate::fusion::hybrid_ukf`]).
 
 /// A dense matrix as rows of columns.
 type Mat = Vec<Vec<f64>>;

@@ -1,0 +1,192 @@
+{
+ "generated_by": "xval/testbench-gpssdrsim/run.sh",
+ "oracle": "gps-sdr-sim",
+ "oracle_commit": "28ca29a6719475195e3aabd5930c4ed02d67190f",
+ "user_motion_size": 3000,
+ "scenarios": {
+  "automotive-urban-canyon": {
+   "samples_in_export": 1801,
+   "n_expected": 1801,
+   "csv_sha256": "b6d761a635fada30394bc0eb35802f68fcb7509a158f872a9b0fc8e0dd4fd07d",
+   "nmea_sha256": "b5ef4cd4bc1ef5e0e7b943d438fc5bd96e9156130eef000effde0be956225e4b",
+   "nmea_count": 1801,
+   "nmea_max_diff_m": 0.0012109393977619773,
+   "ecef_count": 3000,
+   "ecef_max_diff_m": 6366840.977412473,
+   "ecef4_count": 1801,
+   "ecef4_max_diff_m": 0.0,
+   "llh_count": 1801,
+   "llh_max_diff_m": 0.000131593620464835,
+   "row_spacing_s": [
+    0.09999999999999432,
+    0.10000000000002274
+   ],
+   "max_time_vs_grid_0p1_s": 2.842170943040401e-14,
+   "as_written_count": 3000,
+   "as_written_first_sample_is_nan": true,
+   "as_written_rest_max_diff_m": null,
+   "export_stderr": ""
+  },
+  "gnss-ins": {
+   "samples_in_export": 1601,
+   "n_expected": 1601,
+   "csv_sha256": "797046241c7463ad26ea820c657034b57198ddf8b4afe38e33dc43dba9382183",
+   "nmea_sha256": "2fe6ed21bb91bc0c48be1b338c40542d1ea6d3c99182be9cb897fcbfb1fb01f2",
+   "nmea_count": 1601,
+   "nmea_max_diff_m": 0.0011934385550636413,
+   "ecef_count": 3000,
+   "ecef_max_diff_m": 6367540.261405958,
+   "ecef4_count": 1601,
+   "ecef4_max_diff_m": 0.0,
+   "llh_count": 1601,
+   "llh_max_diff_m": 0.00013609568424818093,
+   "row_spacing_s": [
+    0.09999999999999432,
+    0.10000000000002274
+   ],
+   "max_time_vs_grid_0p1_s": 2.842170943040401e-14,
+   "as_written_count": 3000,
+   "as_written_first_sample_is_nan": true,
+   "as_written_rest_max_diff_m": null,
+   "export_stderr": ""
+  },
+  "small-uas-jammed-nav": {
+   "samples_in_export": 1601,
+   "n_expected": 1601,
+   "csv_sha256": "aa8844b0080bcf3b9db4fd8482595ecaabfe151c5c7caa055e19ab91e2f7557d",
+   "nmea_sha256": "a6fc88c6186842677e3178b92a7a39574926979fbf15388d77070dbf9b2e0c76",
+   "nmea_count": 1601,
+   "nmea_max_diff_m": 0.0011613946632651382,
+   "ecef_count": 3000,
+   "ecef_max_diff_m": 6362435.976795615,
+   "ecef4_count": 1601,
+   "ecef4_max_diff_m": 0.0,
+   "llh_count": 1601,
+   "llh_max_diff_m": 0.00013596347617407178,
+   "row_spacing_s": [
+    0.09999999999999432,
+    0.10000000000002274
+   ],
+   "max_time_vs_grid_0p1_s": 2.842170943040401e-14,
+   "as_written_count": 3000,
+   "as_written_first_sample_is_nan": true,
+   "as_written_rest_max_diff_m": null,
+   "export_stderr": ""
+  },
+  "gnss-ins-maritime": {
+   "samples_in_export": 12001,
+   "n_expected": 3000,
+   "csv_sha256": "9f396f000dbfd0e07d6ea76fb52ce48aecae2f3d8cae2672a900a67b5e040b95",
+   "nmea_sha256": "e00b6d32a61f09ce40e734fe4d620dd0b18e842b1cba53741b130a8940c2e60e",
+   "nmea_count": 3000,
+   "nmea_max_diff_m": 0.0010890204471234923,
+   "ecef_count": 3000,
+   "ecef_max_diff_m": 6364181.196722641,
+   "ecef4_count": 3000,
+   "ecef4_max_diff_m": 0.0,
+   "llh_count": 3000,
+   "llh_max_diff_m": 0.00012776915645892396,
+   "row_spacing_s": [
+    0.09999999999990905,
+    0.10000000000013642
+   ],
+   "max_time_vs_grid_0p1_s": 2.2737367544323206e-13,
+   "as_written_count": 3000,
+   "as_written_first_sample_is_nan": true,
+   "as_written_rest_max_diff_m": null,
+   "export_stderr": ""
+  },
+  "gnss-ins-rail": {
+   "samples_in_export": 9001,
+   "n_expected": 3000,
+   "csv_sha256": "9260b93df1436ea01e84ed95dd1eb581febe409b0f722090fd3c885b28f372ca",
+   "nmea_sha256": "dadc607c0d3b11c8a8434a6ed591d18672545a08c3472a60621fd29bd751f420",
+   "nmea_count": 3000,
+   "nmea_max_diff_m": 0.00116153729809438,
+   "ecef_count": 3000,
+   "ecef_max_diff_m": 6366871.416695989,
+   "ecef4_count": 3000,
+   "ecef4_max_diff_m": 0.0,
+   "llh_count": 3000,
+   "llh_max_diff_m": 0.0001347626109905809,
+   "row_spacing_s": [
+    0.09999999999990905,
+    0.10000000000002274
+   ],
+   "max_time_vs_grid_0p1_s": 1.1368683772161603e-13,
+   "as_written_count": 3000,
+   "as_written_first_sample_is_nan": true,
+   "as_written_rest_max_diff_m": null,
+   "export_stderr": ""
+  },
+  "gnss-ins-aviation": {
+   "samples_in_export": 4001,
+   "n_expected": 3000,
+   "csv_sha256": "c5113378a0fbaae220fb520a2c7dfa58d9b4fa3b9a7f847e1a8033b7f50cd94d",
+   "nmea_sha256": "e0f94b573c79ed314cbe2e8630733318f566f2e7bc892b39ca524d81aef54545",
+   "nmea_count": 3000,
+   "nmea_max_diff_m": 0.0011529395623462977,
+   "ecef_count": 3000,
+   "ecef_max_diff_m": 6365335.355829099,
+   "ecef4_count": 3000,
+   "ecef4_max_diff_m": 0.0,
+   "llh_count": 3000,
+   "llh_max_diff_m": 0.00014462035363176266,
+   "row_spacing_s": [
+    0.0999999999999659,
+    0.10000000000002274
+   ],
+   "max_time_vs_grid_0p1_s": 5.684341886080802e-14,
+   "as_written_count": 3000,
+   "as_written_first_sample_is_nan": true,
+   "as_written_rest_max_diff_m": null,
+   "export_stderr": ""
+  },
+  "jamming-demo": {
+   "samples_in_export": 61,
+   "n_expected": 61,
+   "csv_sha256": "dc4cb2110dc7532d267b077eece6f30f8b5b45096f324c6a4496c8b42da27f93",
+   "nmea_sha256": "966255a2e50f8953c8c66107a477a102af46dfb1edf51f712ee3de5fbd8c5043",
+   "nmea_count": 61,
+   "nmea_max_diff_m": 5.751544080091478e-05,
+   "ecef_count": 122,
+   "ecef_max_diff_m": 6364900.249624637,
+   "ecef4_count": 61,
+   "ecef4_max_diff_m": 0.0,
+   "llh_count": 61,
+   "llh_max_diff_m": 5.751544080091478e-05,
+   "row_spacing_s": [
+    30.0,
+    30.0
+   ],
+   "max_time_vs_grid_0p1_s": 1794.0,
+   "as_written_count": 124,
+   "as_written_first_sample_is_nan": true,
+   "as_written_rest_max_diff_m": null,
+   "export_stderr": ""
+  },
+  "gnss-sim-raim": {
+   "samples_in_export": 61,
+   "n_expected": 61,
+   "csv_sha256": "bd14916bb61bd1b5888d2fdee110b6b0b2e9e35ec41bdf005e75963beb0986b4",
+   "nmea_sha256": "955fc1e451ce20fa67e045e8b71389a5691873d65ff74a6434101c9558196b4b",
+   "nmea_count": 61,
+   "nmea_max_diff_m": 2.4940276438367492e-05,
+   "ecef_count": 122,
+   "ecef_max_diff_m": 6369857.866839708,
+   "ecef4_count": 61,
+   "ecef4_max_diff_m": 0.0,
+   "llh_count": 61,
+   "llh_max_diff_m": 2.4940276438367492e-05,
+   "row_spacing_s": [
+    60.0,
+    60.0
+   ],
+   "max_time_vs_grid_0p1_s": 3594.0,
+   "as_written_count": 124,
+   "as_written_first_sample_is_nan": true,
+   "as_written_rest_max_diff_m": null,
+   "export_stderr": ""
+  }
+ }
+}

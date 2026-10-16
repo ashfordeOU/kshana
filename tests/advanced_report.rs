@@ -25,6 +25,7 @@
 //! gives a byte-identical result document) is `tests/advanced_report_cli.rs`.
 
 use kshana::advanced_report::{build, sha256_hex, Invocation, Report};
+use kshana::portable_math::PortableFloat;
 use serde_json::Value;
 use std::fs;
 
@@ -408,7 +409,7 @@ fn a_path_specific_validated_row_is_listed_only_when_the_run_takes_that_path() {
     let phase: Vec<String> = (0..600)
         .map(|i| {
             let x = i as f64;
-            format!("{:.6}", 0.02 * (x * 0.37).sin() + 1e-4 * x * x / 600.0)
+            format!("{:.6}", 0.02 * (x * 0.37).psin() + 1e-4 * x * x / 600.0)
         })
         .collect();
     let with_record = with_record.replace("PHASE", &phase.join(", "));

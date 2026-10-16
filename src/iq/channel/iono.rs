@@ -125,6 +125,7 @@ impl ChannelEffect for Ionosphere {
 mod tests {
     use super::super::{test_geom, ChannelModel, Composite};
     use super::*;
+    use crate::portable_math::PortableFloat;
 
     const L5_HZ: f64 = 1_176_450_000.0;
 
@@ -167,7 +168,7 @@ mod tests {
         let engine = klobuchar_delay_m(&coeffs, g.lat_rad, g.lon_rad, g.el_rad, g.az_rad, 50_400.0);
         assert_eq!(l1, engine);
         let l5 = iono.delay_m(400.0, &g, L5_HZ);
-        let want = (L1_HZ / L5_HZ).powi(2);
+        let want = (L1_HZ / L5_HZ).ppowi(2);
         assert!((l5 / l1 - want).abs() < 1e-12);
     }
 
@@ -182,7 +183,7 @@ mod tests {
         // Closed-form thin-shell factor at 10° elevation.
         let el = 10f64.to_radians();
         let re = crate::ionex::IONO_SHELL_RE_KM;
-        let sin_zp = re / (re + 350.0) * el.cos();
+        let sin_zp = re / (re + 350.0) * el.pcos();
         let m = 1.0 / (1.0 - sin_zp * sin_zp).sqrt();
         let low = iono.delay_m(0.0, &test_geom(10.0), L1_HZ);
         assert!((low / zen - m).abs() < 1e-9);

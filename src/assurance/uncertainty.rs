@@ -22,6 +22,7 @@
 //! This module is deterministic and `wasm32`-safe: it uses only `f64` math,
 //! never calls [`std::time::SystemTime::now`], and allocates nothing.
 
+use crate::portable_math::PortableFloat;
 /// Power-law noise type, identified by its phase-spectral exponent `alpha`
 /// (the exponent in `S_y(f) ~ f^alpha` for fractional-frequency noise).
 ///
@@ -151,7 +152,7 @@ fn edf_allan_table5(alpha: i32, n: usize, m: usize) -> f64 {
             // Flicker PM
             let a = (nn - 1.0) / (2.0 * mm);
             let b = (2.0 * mm + 1.0) * (nn - 1.0) / 4.0;
-            (a.ln() * b.ln()).sqrt().exp()
+            (a.pln() * b.pln()).sqrt().pexp()
         }
         0 => {
             // White FM
@@ -198,204 +199,13 @@ fn edf_totvar_table7(alpha: i32, n: usize, m: usize) -> f64 {
     }
 }
 
-// ---------------------------------------------------------------------------
-// Greenhall & Riley combined EDF (Greenhall 2004, "Uncertainty of stability
-// variances based on finite differences", IEEE UFFC / Proc. 35th PTTI 2003).
-//
-// This is the general basis-function algorithm whose closed-form Allan
-// specialisation is Table 5. It is used here for the modified-Allan (MVAR,
-// d=2, modified filter) and overlapping-Hadamard (HVAR, d=3, unmodified
-// filter) estimators. The implementation follows the equations of the paper:
-//   sw  (Eqn 7)   — weight kernel per noise exponent
-//   sx  (Eqn 8)   — filtered kernel with filter factor F
-//   sz  (Eqn 9)   — dth finite-difference of sx
-//   BasicSum (Eqn 10) and the case selection (Eqns 11-13).
-// ---------------------------------------------------------------------------
-
-/// Greenhall combined EDF. `d` is the difference order (2 = Allan/Modified,
-/// 3 = Hadamard); `modified` selects the modified phase filter (`F = 1`) vs the
-/// unmodified filter (`F = m`). The estimator is always overlapping (`S = m`).
-///
-/// Returns `f64::NAN` if the algorithm's applicability guard `alpha + 2d > 1`
-/// fails or the input falls outside the direct-sum / closed-form cases wired
-/// here (the regimes that occur for realistic `N`, `m` are all covered).
+/// Greenhall combined EDF for the uncertainty module: `d` is the difference order
+/// (2 = Allan/Modified, 3 = Hadamard), `modified` selects the modified phase filter, and
+/// the estimator is always overlapping. Only the direct-sum and closed-form cases are
+/// used here (the large-J asymptotic branches give `f64::NAN`, as they always have);
+/// the full algorithm is [`crate::allan::edf_greenhall`], which this shares its code with.
 fn edf_greenhall(alpha: i32, d: i32, m: usize, n: usize, modified: bool) -> f64 {
-    if alpha + 2 * d <= 1 {
-        return f64::NAN;
-    }
-    let f: f64 = if modified { 1.0 } else { m as f64 };
-    let s: f64 = m as f64; // overlapping
-    let mm = m as f64;
-    let dd = d as f64;
-    let nn = n as f64;
-
-    // L, M, J, r  (paper notation).
-    let l = mm / f + mm * dd;
-    let big_m = 1.0 + (s * (nn - l) / mm).floor();
-    let j = big_m.min((dd + 1.0) * s);
-    let r = big_m / s;
-    const J_MAX: f64 = 100.0;
-
-    if modified {
-        // Case 1: modified variances, all alpha. F = 1.
-        if j <= J_MAX {
-            let sz0 = greenhall_sz(0.0, 1.0, alpha, d);
-            let inv = (1.0 / (sz0 * sz0 * big_m)) * greenhall_basic_sum(j, big_m, s, 1.0, alpha, d);
-            return 1.0 / inv;
-        }
-        // Large-J asymptotic branches are not reached for realistic inputs.
-        return f64::NAN;
-    }
-
-    // Unmodified variances.
-    if alpha <= 0 {
-        // Case 2: unmodified, alpha <= 0. F = m.
-        if j <= J_MAX {
-            // variant (a): m*(d+1) <= J_MAX so m_prime = m (finite); else inf.
-            let m_prime = if mm * (dd + 1.0) <= J_MAX {
-                mm
-            } else {
-                f64::INFINITY
-            };
-            let sz0 = greenhall_sz(0.0, m_prime, alpha, d);
-            let inv =
-                (1.0 / (sz0 * sz0 * big_m)) * greenhall_basic_sum(j, big_m, s, m_prime, alpha, d);
-            return 1.0 / inv;
-        }
-        return f64::NAN;
-    }
-
-    if alpha == 1 {
-        // Case 3: unmodified, alpha = 1. F = m.
-        if j <= J_MAX {
-            let sz0 = greenhall_sz(0.0, mm, 1, d);
-            let inv = (1.0 / (sz0 * sz0 * big_m)) * greenhall_basic_sum(j, big_m, s, mm, 1, d);
-            return 1.0 / inv;
-        }
-        return f64::NAN;
-    }
-
-    if alpha == 2 {
-        // Case 4: unmodified, alpha = 2. Closed form (Eqn / Table of paper).
-        let k = r.ceil();
-        if k <= dd {
-            return f64::NAN; // paper's special sub-case, not needed here.
-        }
-        let a0 = binom(4 * d, 2 * d) / (binom(2 * d, d) * binom(2 * d, d));
-        let a1 = dd / 2.0;
-        let inv = (1.0 / big_m) * (a0 - a1 / r);
-        return 1.0 / inv;
-    }
-
-    f64::NAN
-}
-
-/// Greenhall basis weight `sw(t, alpha)` (Eqn 7 of Greenhall 2004).
-fn greenhall_sw(t: f64, alpha: i32) -> f64 {
-    match alpha {
-        2 => -t.abs(),
-        1 => {
-            if t == 0.0 {
-                0.0
-            } else {
-                t * t * t.abs().ln()
-            }
-        }
-        0 => (t * t * t).abs(),
-        -1 => {
-            if t == 0.0 {
-                0.0
-            } else {
-                t.powi(4) * t.abs().ln()
-            }
-        }
-        -2 => (t.powi(5)).abs(),
-        -3 => {
-            if t == 0.0 {
-                0.0
-            } else {
-                t.powi(6) * t.abs().ln()
-            }
-        }
-        -4 => (t.powi(7)).abs(),
-        _ => f64::NAN,
-    }
-}
-
-/// Filtered kernel `sx(t, F, alpha)` (Eqn 8). `F = inf` degenerates to the
-/// `alpha + 2` white kernel.
-fn greenhall_sx(t: f64, f: f64, alpha: i32) -> f64 {
-    if f.is_infinite() {
-        return greenhall_sw(t, alpha + 2);
-    }
-    let a = 2.0 * greenhall_sw(t, alpha);
-    let b = greenhall_sw(t - 1.0 / f, alpha);
-    let c = greenhall_sw(t + 1.0 / f, alpha);
-    f * f * (a - b - c)
-}
-
-/// dth finite difference `sz(t, F, alpha, d)` (Eqn 9), for `d in {1, 2, 3}`.
-fn greenhall_sz(t: f64, f: f64, alpha: i32, d: i32) -> f64 {
-    match d {
-        1 => {
-            let a = 2.0 * greenhall_sx(t, f, alpha);
-            let b = greenhall_sx(t - 1.0, f, alpha);
-            let c = greenhall_sx(t + 1.0, f, alpha);
-            a - b - c
-        }
-        2 => {
-            let a = 6.0 * greenhall_sx(t, f, alpha);
-            let b = 4.0 * greenhall_sx(t - 1.0, f, alpha);
-            let c = 4.0 * greenhall_sx(t + 1.0, f, alpha);
-            let dd = greenhall_sx(t - 2.0, f, alpha);
-            let e = greenhall_sx(t + 2.0, f, alpha);
-            a - b - c + dd + e
-        }
-        3 => {
-            let a = 20.0 * greenhall_sx(t, f, alpha);
-            let b = 15.0 * greenhall_sx(t - 1.0, f, alpha);
-            let c = 15.0 * greenhall_sx(t + 1.0, f, alpha);
-            let dd = 6.0 * greenhall_sx(t - 2.0, f, alpha);
-            let e = 6.0 * greenhall_sx(t + 2.0, f, alpha);
-            let g = greenhall_sx(t - 3.0, f, alpha);
-            let h = greenhall_sx(t + 3.0, f, alpha);
-            a - b - c + dd + e - g - h
-        }
-        _ => f64::NAN,
-    }
-}
-
-/// BasicSum (Eqn 10 of Greenhall 2004).
-fn greenhall_basic_sum(j: f64, big_m: f64, s: f64, f: f64, alpha: i32, d: i32) -> f64 {
-    let first = {
-        let z = greenhall_sz(0.0, f, alpha, d);
-        z * z
-    };
-    let second = {
-        let z = greenhall_sz(j / s, f, alpha, d);
-        (1.0 - j / big_m) * z * z
-    };
-    let mut third = 0.0;
-    // j runs 1 .. int(J) - 1 inclusive (Python range(1, int(J))).
-    let j_int = j as i64;
-    for jj in 1..j_int {
-        let z = greenhall_sz(jj as f64 / s, f, alpha, d);
-        third += 2.0 * (1.0 - jj as f64 / big_m) * z * z;
-    }
-    first + second + third
-}
-
-/// Binomial coefficient `C(n, k)` as an exact-ish `f64` (small `n` here).
-fn binom(n: i32, k: i32) -> f64 {
-    if k < 0 || k > n {
-        return 0.0;
-    }
-    let k = k.min(n - k);
-    let mut acc = 1.0_f64;
-    for i in 0..k {
-        acc = acc * (n - i) as f64 / (i + 1) as f64;
-    }
-    acc
+    crate::allan::greenhall_edf_core(alpha, d, m, n, true, modified, true)
 }
 
 /// Inverse chi-square CDF (quantile): returns `x` such that
@@ -480,8 +290,8 @@ fn chi2_pdf(x: f64, dof: f64) -> f64 {
         return 0.0;
     }
     let a = 0.5 * dof;
-    let ln_pdf = (a - 1.0) * x.ln() - 0.5 * x - a * core::f64::consts::LN_2 - ln_gamma(a);
-    ln_pdf.exp()
+    let ln_pdf = (a - 1.0) * x.pln() - 0.5 * x - a * core::f64::consts::LN_2 - ln_gamma(a);
+    ln_pdf.pexp()
 }
 
 /// Natural log of the Gamma function via the Lanczos approximation
@@ -496,13 +306,13 @@ fn ln_gamma(x: f64) -> f64 {
         -0.539_523_938_495_3e-5,
     ];
     let mut y = x;
-    let tmp = (x + 5.5) - (x + 0.5) * (x + 5.5).ln();
+    let tmp = (x + 5.5) - (x + 0.5) * (x + 5.5).pln();
     let mut ser = 1.000_000_000_190_015;
     for &c in &COF {
         y += 1.0;
         ser += c / y;
     }
-    -tmp + (2.506_628_274_631_000_5 * ser / x).ln()
+    -tmp + (2.506_628_274_631_000_5 * ser / x).pln()
 }
 
 /// Regularized lower incomplete gamma function `P(a, x) = gamma(a, x)/Gamma(a)`.
@@ -527,7 +337,7 @@ fn reg_lower_gamma(a: f64, x: f64) -> f64 {
                 break;
             }
         }
-        sum * (-x + a * x.ln() - ln_gamma(a)).exp()
+        sum * (-x + a * x.pln() - ln_gamma(a)).pexp()
     } else {
         // Continued fraction for Q(a, x) via the modified Lentz algorithm.
         const TINY: f64 = 1e-300;
@@ -553,7 +363,7 @@ fn reg_lower_gamma(a: f64, x: f64) -> f64 {
                 break;
             }
         }
-        let q = (-x + a * x.ln() - ln_gamma(a)).exp() * h;
+        let q = (-x + a * x.pln() - ln_gamma(a)).pexp() * h;
         1.0 - q
     }
 }
@@ -607,7 +417,7 @@ fn norm_inv(p: f64) -> f64 {
 
     if p < P_LOW {
         // Lower tail.
-        let q = (-2.0 * p.ln()).sqrt();
+        let q = (-2.0 * p.pln()).sqrt();
         (((((C[0] * q + C[1]) * q + C[2]) * q + C[3]) * q + C[4]) * q + C[5])
             / ((((D[0] * q + D[1]) * q + D[2]) * q + D[3]) * q + 1.0)
     } else if p <= p_high {
@@ -618,7 +428,7 @@ fn norm_inv(p: f64) -> f64 {
             / (((((B[0] * r + B[1]) * r + B[2]) * r + B[3]) * r + B[4]) * r + 1.0)
     } else {
         // Upper tail.
-        let q = (-2.0 * (1.0 - p).ln()).sqrt();
+        let q = (-2.0 * (1.0 - p).pln()).sqrt();
         -(((((C[0] * q + C[1]) * q + C[2]) * q + C[3]) * q + C[4]) * q + C[5])
             / ((((D[0] * q + D[1]) * q + D[2]) * q + D[3]) * q + 1.0)
     }

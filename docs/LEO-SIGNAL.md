@@ -158,7 +158,7 @@ still gives 43.48 dB-Hz nominal and 3.23 dB-Hz minimum for L1 C/A (pinned in
 |---|---|---|---|
 | generic-uhf (465 MHz) | 49.41 dB-Hz | 34.38 dB-Hz from 10 s | CW at the carrier, −120 dBW |
 | gps-l1ca | 43.48 dB-Hz | 3.38 dB-Hz from 20 s (lost) | 16 MHz chirp, 50 mW at 100 m |
-| galileo-e5a | 46.98 dB-Hz | 38.76 dB-Hz from 30 s | 40 MHz barrage at 1185 MHz, −118 dBW |
+| galileo-e5a | 46.73 dB-Hz | 38.51 dB-Hz from 30 s | 40 MHz barrage at 1185 MHz, −118 dBW |
 | xona-x5 | 54.51 dB-Hz | 46.29 dB-Hz from 30 s | the same barrage |
 | generic-s (2492.028 MHz) | 49.23 dB-Hz | 41.69 dB-Hz from 40 s | 2 MHz noise, −128 dBW |
 | generic-c-band-leo (5020 MHz) | 47.41 dB-Hz | 40.35 dB-Hz from 50 s | matched noise, −124 dBW |

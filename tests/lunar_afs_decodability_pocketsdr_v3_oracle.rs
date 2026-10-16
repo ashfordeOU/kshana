@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
+// Host maths on purpose: this test recomputes its expected values independently of the engine's
+// portable maths (STUDIO-15), so the engine is checked against a second implementation.
 //! Closed-loop decodability oracle, third pre-registration: an independent software
 //! receiver acquires, tracks and decodes a fresh `kshana::lunar_afs` recording quantised to
 //! the receiver's 4-bit input range, and its decoded values are compared with the recording's

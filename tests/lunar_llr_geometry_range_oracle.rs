@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
+// Host maths on purpose: this test recomputes its expected values independently of the engine's
+// portable maths (STUDIO-15), so the engine is checked against a second implementation.
 //! Measured-data comparison for the lunar LLR datum geometry substrate (`lunar_llr_geometry`):
 //! predicted Earth-station to reflector ranges against archived ILRS lunar normal points.
 //!

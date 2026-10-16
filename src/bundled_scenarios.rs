@@ -27,13 +27,18 @@ macro_rules! bundled {
 
 /// Every scenario file in `scenarios/` that runs on its own, in file-name order.
 pub const BUNDLED: &[(&str, &str)] = &[
+    bundled!("acm-link"),
+    bundled!("aocs-slew"),
+    bundled!("aocs-slew-mekf"),
     bundled!("aperture-duty-cycle"),
     bundled!("araim-gps-galileo"),
     bundled!("araim-reference-check"),
+    bundled!("ascent-losses"),
     bundled!("attitude-budget"),
     bundled!("automotive-urban-canyon"),
     bundled!("campaign-jam-spoof-holdover-integrity"),
     bundled!("campaign-monte-carlo-clock-holdover"),
+    bundled!("campaign-optimize-link-budget"),
     bundled!("campaign-shared-jammer-sea-road"),
     bundled!("campaign-spectrum-holdover-integrity"),
     bundled!("campaign-sweep-jammer-power"),
@@ -45,15 +50,24 @@ pub const BUNDLED: &[(&str, &str)] = &[
     bundled!("combined-altpnt"),
     bundled!("conflict-resilience"),
     bundled!("constellation-multi-gnss-coverage"),
+    bundled!("contact-schedule"),
     bundled!("earth-gnss-lunar"),
+    bundled!("entry-heating-stardust"),
     bundled!("eo-coverage"),
+    bundled!("eo-radiometry"),
     bundled!("ephemeris"),
     bundled!("europa-surface-pnt"),
     bundled!("fusion-pnt"),
+    bundled!("fusion-pnt-coupled"),
     bundled!("gnss-ins"),
+    bundled!("gnss-ins-aviation"),
+    bundled!("gnss-ins-maritime"),
+    bundled!("gnss-ins-rail"),
     bundled!("gnss-sim-container-terminal-skyline"),
     bundled!("gnss-sim-raim"),
     bundled!("gps-denied-gravity-nav"),
+    bundled!("gps-denied-gravity-nav-egm2008"),
+    bundled!("gravity-map-error-mc"),
     bundled!("gravity-map-nav"),
     bundled!("hybrid-optical-rf"),
     bundled!("hybrid-pnt"),
@@ -143,6 +157,7 @@ pub const BUNDLED: &[(&str, &str)] = &[
     bundled!("polar-arctic-leo-coverage"),
     bundled!("pvt-abmf"),
     bundled!("quantum-anomaly-detect"),
+    bundled!("quantum-cai-coast"),
     bundled!("quantum-gnss-free-nav"),
     bundled!("quantum-time-transfer"),
     bundled!("quantum-trade"),
@@ -161,9 +176,11 @@ pub const BUNDLED: &[(&str, &str)] = &[
     bundled!("sweep-clock-stability"),
     bundled!("sweep-nd-inertial"),
     bundled!("telecom-prtc-holdover-24h"),
+    bundled!("telecom-synce-eec"),
     bundled!("telecom-tie-ingest"),
     bundled!("terrain-nav"),
     bundled!("terrain-slam"),
+    bundled!("time-transfer-budget"),
     bundled!("timetransfer"),
     bundled!("tracking-loop"),
     bundled!("xona-pulsar-end-to-end"),
@@ -216,6 +233,13 @@ pub const REPO_ONLY: &[(&str, &str)] = &[
          which ships with the repository but not with the registry packages; clone \
          https://github.com/ashfordeOU/kshana and run `kshana scenarios/lunar-llr-datum.toml` \
          from the checkout, or set `data_dir` to a copy of that slice",
+    ),
+    (
+        "lunar-station-coverage-terrain",
+        "reads the LRO LOLA south-polar DEM crop under data/lunar-dem, which ships with the \
+         repository but not with the registry packages; clone \
+         https://github.com/ashfordeOU/kshana and run `kshana scenarios/lunar-station-coverage-terrain.toml` \
+         from the checkout, or set `dem_path` to a copy of that descriptor and its image",
     ),
     (
         "lunar-station-geodesy-baseline",

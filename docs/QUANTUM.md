@@ -87,7 +87,9 @@ transfer function against its analytic `T³` result).
 The model is also **wired into runnable scenarios**: an accelerometer resolves to
 `ImuKind::QuantumCai` when it carries a `cai` table — `[accel_quantum.cai]` or
 `[accel_classical.cai]` in an `inertial` scenario, `[accel.cai]` in a `hybrid-ukf` scenario
-(`scenarios/hybrid-ukf.toml` ships one) — with the fields `wavelength_m`, `pulse_sep_t`
+(`scenarios/hybrid-ukf.toml` ships one, and the bundled preset `scenarios/quantum-cai-coast.toml`
+sets a physics-specified CAI against a navigation-grade quartz accelerometer through a GNSS
+outage) — with the fields `wavelength_m`, `pulse_sep_t`
 (`T`), `atom_number` (`N`), `contrast` (`C`), `cycle_time_s` (`T_c`) and an optional
 platform `vibration_psd`. Its velocity-random-walk PSD `q_va` is then
 **derived** from the interferometer physics — the shot-noise floor plus, when a vibration

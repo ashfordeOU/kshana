@@ -17,9 +17,12 @@
 //! …followed by a data field of 1..=65536 octets.
 //!
 //! HONEST SCOPE: exact, deterministic CCSDS-133.0 *framing* — the primary-header
-//! bit layout and a round-trippable encode/decode. It is not a CCSDS conformance
-//! certification, and carries no secondary-header / CRC / segmentation logic beyond
-//! the flags (those are out-of-scope follow-ons).
+//! bit layout and a round-trippable encode/decode — plus, additively, a secondary
+//! header carrying a CCSDS 301.0-B-4 CUC or CDS time code and ancillary octets, a
+//! packet error control CRC (CRC-16/IBM-3740, the PUS convention: CCSDS 133.0-B itself
+//! defines none) and the conventional segmentation of a user data unit over the
+//! sequence flags, with a reassembler. It is not a CCSDS conformance certification;
+//! the time codes are bit-packings with no time-scale or leap-second semantics.
 
 use serde::Deserialize;
 
@@ -135,6 +138,773 @@ pub fn decode_packet(bytes: &[u8]) -> Result<(PrimaryHeader, Vec<u8>), String> {
         ));
     }
     Ok((header, bytes[6..].to_vec()))
+}
+
+// ---------------------------------------------------------------------------
+// Secondary header (CCSDS 133.0-B-2 §4.1.4.2) with a CCSDS 301.0-B-4 time code,
+// packet error control (CRC-16/IBM-3740) and segmentation. Additive: nothing
+// above this line changes behaviour, and the `space-packet` scenario does not
+// call any of it.
+// ---------------------------------------------------------------------------
+
+/// Epoch of a CCSDS unsegmented time code (CUC), the P-field time code identification.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CucEpoch {
+    /// Identification `001`: 1958 January 1 epoch (level 1, TAI).
+    Ccsds1958,
+    /// Identification `010`: an agency-defined epoch (level 2).
+    Agency,
+}
+
+/// The format of a CUC time code (CCSDS 301.0-B-4 §3.2): its epoch and the octet counts of
+/// its coarse (basic time unit, seconds) and fine (binary fraction of a second) parts. Only
+/// the one-octet P-field is supported: 1 to 4 coarse octets and 0 to 3 fine octets.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub struct CucFormat {
+    /// The epoch the coarse time counts from.
+    pub epoch: CucEpoch,
+    /// Coarse-time octets, 1..=4.
+    pub coarse_octets: u8,
+    /// Fine-time octets, 0..=3.
+    pub fine_octets: u8,
+}
+
+impl CucFormat {
+    /// A CUC format; errors outside the one-octet P-field's 1..=4 coarse and 0..=3 fine octets.
+    pub fn new(epoch: CucEpoch, coarse_octets: u8, fine_octets: u8) -> Result<Self, String> {
+        if !(1..=4).contains(&coarse_octets) {
+            return Err(format!("CUC coarse octets {coarse_octets} outside 1..=4"));
+        }
+        if fine_octets > 3 {
+            return Err(format!(
+                "CUC fine octets {fine_octets} outside 0..=3 (the extended P-field is not supported)"
+            ));
+        }
+        Ok(CucFormat {
+            epoch,
+            coarse_octets,
+            fine_octets,
+        })
+    }
+
+    /// The one-octet P-field: `0 | id(3) | coarse octets - 1 (2) | fine octets (2)`.
+    pub fn p_field(&self) -> u8 {
+        let id: u8 = match self.epoch {
+            CucEpoch::Ccsds1958 => 0b001,
+            CucEpoch::Agency => 0b010,
+        };
+        (id << 4) | ((self.coarse_octets - 1) << 2) | self.fine_octets
+    }
+
+    /// Read a CUC P-field. Errors on the extension flag or a non-CUC identification.
+    pub fn from_p_field(p: u8) -> Result<Self, String> {
+        if p & 0x80 != 0 {
+            return Err(format!(
+                "CUC P-field {p:#04X}: extended P-field not supported"
+            ));
+        }
+        let epoch = match (p >> 4) & 0b111 {
+            0b001 => CucEpoch::Ccsds1958,
+            0b010 => CucEpoch::Agency,
+            id => {
+                return Err(format!(
+                    "P-field {p:#04X}: time code id {id:03b} is not CUC"
+                ))
+            }
+        };
+        CucFormat::new(epoch, ((p >> 2) & 0b11) + 1, p & 0b11)
+    }
+
+    /// Length of the T-field (coarse plus fine octets).
+    pub fn t_field_len(&self) -> usize {
+        (self.coarse_octets + self.fine_octets) as usize
+    }
+}
+
+/// A CUC time value: the coarse count (seconds) and the fine count (units of
+/// `2^-(8 * fine_octets)` s), each held right-aligned.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub struct CucTime {
+    /// Coarse time, seconds from the epoch.
+    pub coarse: u32,
+    /// Fine time, a binary fraction of a second over `fine_octets` octets.
+    pub fine: u32,
+}
+
+impl CucTime {
+    /// Seconds from the epoch: `coarse + fine / 2^(8 * fine_octets)`.
+    pub fn seconds(&self, format: &CucFormat) -> f64 {
+        let scale = (1u64 << (8 * format.fine_octets as u32)) as f64;
+        self.coarse as f64 + self.fine as f64 / scale
+    }
+}
+
+/// Epoch of a CCSDS day segmented time code (CDS).
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CdsEpoch {
+    /// Epoch bit 0: 1958 January 1.
+    Ccsds1958,
+    /// Epoch bit 1: an agency-defined epoch.
+    Agency,
+}
+
+/// Width of the CDS day segment.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CdsDaySegment {
+    /// 16-bit day count.
+    Bits16,
+    /// 24-bit day count.
+    Bits24,
+}
+
+/// The CDS sub-millisecond segment.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CdsSubmillis {
+    /// None.
+    None,
+    /// 16-bit microseconds of the millisecond, 0..=999.
+    Microseconds,
+    /// 32-bit picoseconds of the millisecond, 0..=999 999 999.
+    Picoseconds,
+}
+
+/// The format of a CDS time code (CCSDS 301.0-B-4 §3.3).
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub struct CdsFormat {
+    /// The epoch the day count starts from.
+    pub epoch: CdsEpoch,
+    /// Day-segment width.
+    pub days: CdsDaySegment,
+    /// Sub-millisecond segment.
+    pub submillis: CdsSubmillis,
+}
+
+impl CdsFormat {
+    /// The one-octet P-field: `0 | 100 | epoch | day length | sub-ms (2)`.
+    pub fn p_field(&self) -> u8 {
+        let epoch = u8::from(self.epoch == CdsEpoch::Agency);
+        let days = u8::from(self.days == CdsDaySegment::Bits24);
+        let sub = match self.submillis {
+            CdsSubmillis::None => 0b00,
+            CdsSubmillis::Microseconds => 0b01,
+            CdsSubmillis::Picoseconds => 0b10,
+        };
+        (0b100 << 4) | (epoch << 3) | (days << 2) | sub
+    }
+
+    /// Read a CDS P-field. Errors on the extension flag, a non-CDS identification or the
+    /// reserved sub-millisecond code `11`.
+    pub fn from_p_field(p: u8) -> Result<Self, String> {
+        if p & 0x80 != 0 || (p >> 4) & 0b111 != 0b100 {
+            return Err(format!("P-field {p:#04X} is not a CDS P-field"));
+        }
+        let submillis = match p & 0b11 {
+            0b00 => CdsSubmillis::None,
+            0b01 => CdsSubmillis::Microseconds,
+            0b10 => CdsSubmillis::Picoseconds,
+            _ => return Err(format!("CDS P-field {p:#04X}: reserved sub-ms code 11")),
+        };
+        Ok(CdsFormat {
+            epoch: if p & 0b1000 != 0 {
+                CdsEpoch::Agency
+            } else {
+                CdsEpoch::Ccsds1958
+            },
+            days: if p & 0b100 != 0 {
+                CdsDaySegment::Bits24
+            } else {
+                CdsDaySegment::Bits16
+            },
+            submillis,
+        })
+    }
+
+    fn day_octets(&self) -> usize {
+        match self.days {
+            CdsDaySegment::Bits16 => 2,
+            CdsDaySegment::Bits24 => 3,
+        }
+    }
+
+    fn submillis_octets(&self) -> usize {
+        match self.submillis {
+            CdsSubmillis::None => 0,
+            CdsSubmillis::Microseconds => 2,
+            CdsSubmillis::Picoseconds => 4,
+        }
+    }
+
+    /// Length of the T-field (day, millisecond-of-day and sub-millisecond segments).
+    pub fn t_field_len(&self) -> usize {
+        self.day_octets() + 4 + self.submillis_octets()
+    }
+}
+
+/// A CDS time value.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub struct CdsTime {
+    /// Days from the epoch.
+    pub days: u32,
+    /// Milliseconds of the day (up to 86 400 999, allowing a leap second).
+    pub ms_of_day: u32,
+    /// The sub-millisecond count in the format's unit (0 when the format has none).
+    pub submillis: u32,
+}
+
+/// A time code format: CUC or CDS.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum TimeCodeFormat {
+    /// CCSDS unsegmented time code.
+    Cuc(CucFormat),
+    /// CCSDS day segmented time code.
+    Cds(CdsFormat),
+}
+
+impl TimeCodeFormat {
+    /// The one-octet P-field.
+    pub fn p_field(&self) -> u8 {
+        match self {
+            TimeCodeFormat::Cuc(f) => f.p_field(),
+            TimeCodeFormat::Cds(f) => f.p_field(),
+        }
+    }
+
+    /// Read a P-field of either code.
+    pub fn from_p_field(p: u8) -> Result<Self, String> {
+        match (p >> 4) & 0b111 {
+            0b100 => CdsFormat::from_p_field(p).map(TimeCodeFormat::Cds),
+            _ => CucFormat::from_p_field(p).map(TimeCodeFormat::Cuc),
+        }
+    }
+
+    /// Length of the T-field.
+    pub fn t_field_len(&self) -> usize {
+        match self {
+            TimeCodeFormat::Cuc(f) => f.t_field_len(),
+            TimeCodeFormat::Cds(f) => f.t_field_len(),
+        }
+    }
+}
+
+/// A time value of either code.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum TimeValue {
+    /// CUC value.
+    Cuc(CucTime),
+    /// CDS value.
+    Cds(CdsTime),
+}
+
+/// A time code: its format and value.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub struct TimeCode {
+    /// The format (which also gives the P-field).
+    pub format: TimeCodeFormat,
+    /// The value.
+    pub value: TimeValue,
+}
+
+fn push_be(out: &mut Vec<u8>, v: u32, octets: usize) {
+    for i in (0..octets).rev() {
+        out.push((v >> (8 * i)) as u8);
+    }
+}
+
+fn read_be(bytes: &[u8]) -> u32 {
+    bytes.iter().fold(0u32, |a, b| (a << 8) | *b as u32)
+}
+
+fn fits(v: u32, octets: usize) -> bool {
+    octets >= 4 || u64::from(v) < (1u64 << (8 * octets))
+}
+
+impl TimeCode {
+    /// Encode the time code: the P-field (when `explicit_p_field`) and then the T-field,
+    /// big-endian. Errors when a value does not fit its field or is out of its range.
+    pub fn encode(&self, explicit_p_field: bool) -> Result<Vec<u8>, String> {
+        let mut out = Vec::with_capacity(1 + self.format.t_field_len());
+        if explicit_p_field {
+            out.push(self.format.p_field());
+        }
+        match (self.format, self.value) {
+            (TimeCodeFormat::Cuc(f), TimeValue::Cuc(t)) => {
+                let (c, n) = (f.coarse_octets as usize, f.fine_octets as usize);
+                if !fits(t.coarse, c) {
+                    return Err(format!("CUC coarse {} does not fit {c} octets", t.coarse));
+                }
+                if !fits(t.fine, n) || (n == 0 && t.fine != 0) {
+                    return Err(format!("CUC fine {} does not fit {n} octets", t.fine));
+                }
+                push_be(&mut out, t.coarse, c);
+                push_be(&mut out, t.fine, n);
+            }
+            (TimeCodeFormat::Cds(f), TimeValue::Cds(t)) => {
+                if !fits(t.days, f.day_octets()) {
+                    return Err(format!(
+                        "CDS days {} do not fit {} octets",
+                        t.days,
+                        f.day_octets()
+                    ));
+                }
+                if t.ms_of_day > 86_400_999 {
+                    return Err(format!("CDS ms of day {} above 86 400 999", t.ms_of_day));
+                }
+                let max_sub = match f.submillis {
+                    CdsSubmillis::None => 0,
+                    CdsSubmillis::Microseconds => 999,
+                    CdsSubmillis::Picoseconds => 999_999_999,
+                };
+                if t.submillis > max_sub {
+                    return Err(format!(
+                        "CDS sub-millisecond {} above {max_sub}",
+                        t.submillis
+                    ));
+                }
+                push_be(&mut out, t.days, f.day_octets());
+                push_be(&mut out, t.ms_of_day, 4);
+                push_be(&mut out, t.submillis, f.submillis_octets());
+            }
+            _ => return Err("time code format and value are of different codes".into()),
+        }
+        Ok(out)
+    }
+
+    /// Decode a time code from the start of `bytes`, returning it and the octets consumed.
+    /// With `implicit` = `None` the P-field is read from the first octet; with `Some(format)`
+    /// the P-field is implicit (not present) and `format` gives the layout.
+    pub fn decode(bytes: &[u8], implicit: Option<TimeCodeFormat>) -> Result<(Self, usize), String> {
+        let (format, start) = match implicit {
+            Some(f) => (f, 0),
+            None => {
+                let p = *bytes.first().ok_or("time code: no P-field octet")?;
+                (TimeCodeFormat::from_p_field(p)?, 1)
+            }
+        };
+        let end = start + format.t_field_len();
+        if bytes.len() < end {
+            return Err(format!(
+                "time code needs {end} octets, {} present",
+                bytes.len()
+            ));
+        }
+        let t = &bytes[start..end];
+        let value = match format {
+            TimeCodeFormat::Cuc(f) => {
+                let c = f.coarse_octets as usize;
+                TimeValue::Cuc(CucTime {
+                    coarse: read_be(&t[..c]),
+                    fine: read_be(&t[c..]),
+                })
+            }
+            TimeCodeFormat::Cds(f) => {
+                let d = f.day_octets();
+                TimeValue::Cds(CdsTime {
+                    days: read_be(&t[..d]),
+                    ms_of_day: read_be(&t[d..d + 4]),
+                    submillis: read_be(&t[d + 4..]),
+                })
+            }
+        };
+        Ok((TimeCode { format, value }, end))
+    }
+}
+
+/// How a secondary header's time code field is laid out.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum TimeCodeLayout {
+    /// The P-field is written in front of the T-field (and read from it on decode).
+    ExplicitPField,
+    /// The P-field is fixed by the mission and not written; the format is this one.
+    ImplicitPField(TimeCodeFormat),
+}
+
+/// The layout of a packet secondary header: an optional time code field, then an
+/// ancillary data field of a fixed, mission-defined length (0 for none).
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub struct SecondaryHeaderFormat {
+    /// The time code field's layout, or `None` when the header has no time code.
+    pub time_code: Option<TimeCodeLayout>,
+    /// Length of the ancillary data field, octets.
+    pub ancillary_octets: usize,
+}
+
+/// A packet secondary header's content.
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct SecondaryHeader {
+    /// The time code, when the format has one.
+    pub time_code: Option<TimeCode>,
+    /// The ancillary data field.
+    pub ancillary: Vec<u8>,
+}
+
+impl SecondaryHeader {
+    /// Encode the secondary header in `format`. Errors when the content does not match the
+    /// format (time code present or absent, implicit format different, ancillary length).
+    pub fn encode(&self, format: &SecondaryHeaderFormat) -> Result<Vec<u8>, String> {
+        let mut out = match (format.time_code, &self.time_code) {
+            (None, None) => Vec::new(),
+            (Some(TimeCodeLayout::ExplicitPField), Some(tc)) => tc.encode(true)?,
+            (Some(TimeCodeLayout::ImplicitPField(f)), Some(tc)) => {
+                if tc.format != f {
+                    return Err("time code format differs from the implicit P-field".into());
+                }
+                tc.encode(false)?
+            }
+            (Some(_), None) => return Err("the format has a time code field; none given".into()),
+            (None, Some(_)) => return Err("the format has no time code field".into()),
+        };
+        if self.ancillary.len() != format.ancillary_octets {
+            return Err(format!(
+                "ancillary data is {} octets; the format says {}",
+                self.ancillary.len(),
+                format.ancillary_octets
+            ));
+        }
+        out.extend_from_slice(&self.ancillary);
+        if out.is_empty() {
+            return Err("a secondary header must hold at least one octet".into());
+        }
+        Ok(out)
+    }
+
+    /// Decode a secondary header in `format` from the start of `bytes`; returns it and the
+    /// octets consumed.
+    pub fn decode(bytes: &[u8], format: &SecondaryHeaderFormat) -> Result<(Self, usize), String> {
+        let (time_code, n) = match format.time_code {
+            None => (None, 0),
+            Some(TimeCodeLayout::ExplicitPField) => {
+                let (tc, n) = TimeCode::decode(bytes, None)?;
+                (Some(tc), n)
+            }
+            Some(TimeCodeLayout::ImplicitPField(f)) => {
+                let (tc, n) = TimeCode::decode(bytes, Some(f))?;
+                (Some(tc), n)
+            }
+        };
+        let end = n + format.ancillary_octets;
+        if bytes.len() < end {
+            return Err(format!(
+                "secondary header needs {end} octets, {} present",
+                bytes.len()
+            ));
+        }
+        Ok((
+            SecondaryHeader {
+                time_code,
+                ancillary: bytes[n..end].to_vec(),
+            },
+            end,
+        ))
+    }
+}
+
+/// CRC-16 with polynomial 0x1021, initial value 0xFFFF, no reflection and no final XOR
+/// (CRC-16/IBM-3740, also called CRC-16-CCITT-FALSE; check value 0x29B1 over `123456789`).
+/// It is the packet error control of ECSS-E-ST-70-41C (PUS) and the CRC of the CCSDS
+/// 132.0-B / 232.0-B frame error control field. CCSDS 133.0-B defines no packet CRC.
+pub fn crc16_ccitt_false(data: &[u8]) -> u16 {
+    let mut crc: u16 = 0xFFFF;
+    for &b in data {
+        crc ^= (b as u16) << 8;
+        for _ in 0..8 {
+            crc = if crc & 0x8000 != 0 {
+                (crc << 1) ^ 0x1021
+            } else {
+                crc << 1
+            };
+        }
+    }
+    crc
+}
+
+/// Whether a packet's last two octets are the CRC of every octet before them.
+pub fn pec_ok(packet: &[u8]) -> bool {
+    packet.len() >= 8
+        && crc16_ccitt_false(&packet[..packet.len() - 2])
+            == u16::from_be_bytes([packet[packet.len() - 2], packet[packet.len() - 1]])
+}
+
+/// The layout of a packet's data field: an optional secondary header, the user data, and an
+/// optional packet error control field (the CRC, last two octets).
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub struct PacketFormat {
+    /// The secondary header's layout; `Some` sets the secondary-header flag.
+    pub secondary_header: Option<SecondaryHeaderFormat>,
+    /// Whether the packet ends with a packet error control field.
+    pub pec: bool,
+}
+
+/// A packet decoded with [`decode_packet_with`].
+#[derive(Clone, Debug, PartialEq)]
+pub struct DecodedPacket {
+    /// The primary header.
+    pub header: PrimaryHeader,
+    /// The secondary header, when the format has one.
+    pub secondary_header: Option<SecondaryHeader>,
+    /// The user data field.
+    pub user_data: Vec<u8>,
+    /// The packet error control value, when the format has one (already checked).
+    pub pec: Option<u16>,
+}
+
+/// Encode a version-1 packet in `format`: primary header, secondary header, user data and
+/// (when the format says) the PEC over everything before it. The data length field counts
+/// the secondary header, the user data and the PEC.
+pub fn encode_packet_with(
+    format: &PacketFormat,
+    is_telecommand: bool,
+    apid: u16,
+    sequence_flags: SequenceFlags,
+    sequence_count: u16,
+    secondary_header: Option<&SecondaryHeader>,
+    user_data: &[u8],
+) -> Result<Vec<u8>, String> {
+    let mut data = match (&format.secondary_header, secondary_header) {
+        (Some(f), Some(sh)) => sh.encode(f)?,
+        (None, None) => Vec::new(),
+        (Some(_), None) => return Err("the format has a secondary header; none given".into()),
+        (None, Some(_)) => return Err("the format has no secondary header".into()),
+    };
+    data.extend_from_slice(user_data);
+    if format.pec {
+        data.extend_from_slice(&[0, 0]);
+    }
+    let mut pkt = encode_packet(
+        0,
+        is_telecommand,
+        format.secondary_header.is_some(),
+        apid,
+        sequence_flags,
+        sequence_count,
+        &data,
+    )?;
+    if format.pec {
+        let n = pkt.len();
+        let crc = crc16_ccitt_false(&pkt[..n - 2]);
+        pkt[n - 2..].copy_from_slice(&crc.to_be_bytes());
+    }
+    Ok(pkt)
+}
+
+/// Decode a packet written in `format`. Errors when the buffer length disagrees with the
+/// length field, the secondary-header flag disagrees with the format, the secondary header
+/// or PEC does not fit, or the PEC does not check.
+pub fn decode_packet_with(bytes: &[u8], format: &PacketFormat) -> Result<DecodedPacket, String> {
+    let (header, data) = decode_packet(bytes)?;
+    if header.secondary_header != format.secondary_header.is_some() {
+        return Err(format!(
+            "secondary-header flag {} disagrees with the format",
+            u8::from(header.secondary_header)
+        ));
+    }
+    let pec_len = if format.pec { 2 } else { 0 };
+    if data.len() < pec_len {
+        return Err("data field shorter than the PEC".into());
+    }
+    let body = &data[..data.len() - pec_len];
+    let pec = if format.pec {
+        if !pec_ok(bytes) {
+            return Err(format!(
+                "PEC {:04X} does not match the CRC {:04X} of the packet",
+                u16::from_be_bytes([bytes[bytes.len() - 2], bytes[bytes.len() - 1]]),
+                crc16_ccitt_false(&bytes[..bytes.len() - 2])
+            ));
+        }
+        Some(u16::from_be_bytes([
+            bytes[bytes.len() - 2],
+            bytes[bytes.len() - 1],
+        ]))
+    } else {
+        None
+    };
+    let (secondary_header, n) = match &format.secondary_header {
+        Some(f) => {
+            let (sh, n) = SecondaryHeader::decode(body, f)?;
+            (Some(sh), n)
+        }
+        None => (None, 0),
+    };
+    Ok(DecodedPacket {
+        header,
+        secondary_header,
+        user_data: body[n..].to_vec(),
+        pec,
+    })
+}
+
+/// Splits user data units into packets of one APID.
+///
+/// CCSDS 133.0-B-2 carries the sequence flags for the user's segmentation and does not
+/// itself define a segmentation service; this is the conventional use of the flags: one
+/// unit that fits in a packet goes unsegmented (`11`), a longer one as first (`01`),
+/// continuation (`00`) ... and last (`10`) packets with consecutive sequence counts
+/// modulo 16384.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub struct Segmenter {
+    /// The packet layout every segment uses.
+    pub format: PacketFormat,
+    /// Telecommand (true) or telemetry (false).
+    pub is_telecommand: bool,
+    /// The APID, 0..=2047.
+    pub apid: u16,
+    /// The most user-data octets one packet carries.
+    pub max_user_octets: usize,
+}
+
+impl Segmenter {
+    /// Split `user_data` into packets whose sequence counts start at `first_count` and wrap
+    /// at 16384. Every packet carries `secondary_header` when the format has one.
+    pub fn segment(
+        &self,
+        first_count: u16,
+        secondary_header: Option<&SecondaryHeader>,
+        user_data: &[u8],
+    ) -> Result<Vec<Vec<u8>>, String> {
+        if user_data.is_empty() {
+            return Err("nothing to segment: empty user data".into());
+        }
+        if self.max_user_octets == 0 {
+            return Err("max_user_octets must be at least 1".into());
+        }
+        if first_count > 0x3FFF {
+            return Err("first_count exceeds 14 bits (0..=16383)".into());
+        }
+        let chunks: Vec<&[u8]> = user_data.chunks(self.max_user_octets).collect();
+        let n = chunks.len();
+        let mut out = Vec::with_capacity(n);
+        for (i, chunk) in chunks.iter().enumerate() {
+            let flags = if n == 1 {
+                SequenceFlags::Unsegmented
+            } else if i == 0 {
+                SequenceFlags::First
+            } else if i == n - 1 {
+                SequenceFlags::Last
+            } else {
+                SequenceFlags::Continuation
+            };
+            let count = ((first_count as usize + i) % 16384) as u16;
+            out.push(encode_packet_with(
+                &self.format,
+                self.is_telecommand,
+                self.apid,
+                flags,
+                count,
+                secondary_header,
+                chunk,
+            )?);
+        }
+        Ok(out)
+    }
+}
+
+/// Rebuilds user data units from the packets of one APID, in arrival order.
+///
+/// Rejects: a packet that does not decode in the format (including a PEC that does not
+/// check), an APID other than the first one seen, a sequence count that is not the previous
+/// one plus 1 modulo 16384 (a gap, a repeat or an out-of-order packet), a continuation or
+/// last packet with no unit open, and a first or unsegmented packet while a unit is open.
+/// After a rejection the open unit is discarded and the next packet starts afresh.
+#[derive(Clone, Debug)]
+pub struct Reassembler {
+    format: PacketFormat,
+    apid: Option<u16>,
+    last_count: Option<u16>,
+    open: Option<Vec<u8>>,
+}
+
+impl Reassembler {
+    /// A reassembler for packets in `format`.
+    pub fn new(format: PacketFormat) -> Self {
+        Reassembler {
+            format,
+            apid: None,
+            last_count: None,
+            open: None,
+        }
+    }
+
+    /// Whether a unit has been started but not finished.
+    pub fn is_open(&self) -> bool {
+        self.open.is_some()
+    }
+
+    fn fail(&mut self, msg: String) -> Result<Option<Vec<u8>>, String> {
+        self.open = None;
+        self.last_count = None;
+        Err(msg)
+    }
+
+    /// Take the next packet. Returns `Ok(Some(unit))` when it completes a unit.
+    pub fn push(&mut self, packet: &[u8]) -> Result<Option<Vec<u8>>, String> {
+        let p = match decode_packet_with(packet, &self.format) {
+            Ok(p) => p,
+            Err(e) => return self.fail(e),
+        };
+        let h = &p.header;
+        match self.apid {
+            Some(a) if a != h.apid => {
+                return self.fail(format!("APID {} where {a} was expected", h.apid))
+            }
+            _ => self.apid = Some(h.apid),
+        }
+        if let Some(last) = self.last_count {
+            let step = (h.sequence_count + 16384 - last) % 16384;
+            if step != 1 {
+                let msg = if step == 0 {
+                    format!("sequence count {} repeated", h.sequence_count)
+                } else if step < 8192 {
+                    format!(
+                        "sequence count gap: {} after {last} ({} packet(s) missing)",
+                        h.sequence_count,
+                        step - 1
+                    )
+                } else {
+                    format!(
+                        "sequence count out of order: {} after {last}",
+                        h.sequence_count
+                    )
+                };
+                return self.fail(msg);
+            }
+        }
+        self.last_count = Some(h.sequence_count);
+        match (h.sequence_flags, self.open.take()) {
+            (SequenceFlags::Unsegmented, None) => Ok(Some(p.user_data)),
+            (SequenceFlags::First, None) => {
+                self.open = Some(p.user_data);
+                Ok(None)
+            }
+            (SequenceFlags::Continuation, Some(mut u)) => {
+                u.extend_from_slice(&p.user_data);
+                self.open = Some(u);
+                Ok(None)
+            }
+            (SequenceFlags::Last, Some(mut u)) => {
+                u.extend_from_slice(&p.user_data);
+                Ok(Some(u))
+            }
+            (f @ (SequenceFlags::Continuation | SequenceFlags::Last), None) => {
+                self.fail(format!("{f:?} packet with no unit open"))
+            }
+            (f, Some(_)) => self.fail(format!("{f:?} packet while a unit is open")),
+        }
+    }
+}
+
+/// Reassemble every unit of a packet sequence; errors on the first rejected packet or when
+/// the sequence ends with a unit still open.
+pub fn reassemble(format: &PacketFormat, packets: &[Vec<u8>]) -> Result<Vec<Vec<u8>>, String> {
+    let mut r = Reassembler::new(*format);
+    let mut units = Vec::new();
+    for (i, p) in packets.iter().enumerate() {
+        if let Some(u) = r.push(p).map_err(|e| format!("packet {i}: {e}"))? {
+            units.push(u);
+        }
+    }
+    if r.is_open() {
+        return Err("the sequence ends with a unit still open (no last packet)".into());
+    }
+    Ok(units)
 }
 
 fn sp_default_apid() -> u16 {
@@ -508,5 +1278,113 @@ mod tests {
         assert_eq!(v["total_stream_octets"], (6 + 16) * 3);
         assert!(v["label"].as_str().unwrap().contains("CCSDS 133.0"));
         assert!(!j1.contains("VALIDATED"));
+    }
+
+    fn cuc_code(c: u8, f: u8, coarse: u32, fine: u32) -> TimeCode {
+        TimeCode {
+            format: TimeCodeFormat::Cuc(CucFormat::new(CucEpoch::Ccsds1958, c, f).unwrap()),
+            value: TimeValue::Cuc(CucTime { coarse, fine }),
+        }
+    }
+
+    #[test]
+    fn crc_check_value_and_pec_round_trip() {
+        assert_eq!(crc16_ccitt_false(b"123456789"), 0x29B1);
+        assert_eq!(crc16_ccitt_false(b""), 0xFFFF);
+        let fmt = PacketFormat {
+            secondary_header: None,
+            pec: true,
+        };
+        let mut p = encode_packet_with(&fmt, false, 5, SequenceFlags::Unsegmented, 9, None, b"abc")
+            .unwrap();
+        assert!(pec_ok(&p));
+        assert_eq!(decode_packet_with(&p, &fmt).unwrap().user_data, b"abc");
+        p[7] ^= 0x40;
+        assert!(!pec_ok(&p));
+        assert!(decode_packet_with(&p, &fmt).unwrap_err().contains("PEC"));
+    }
+
+    #[test]
+    fn time_code_p_fields_and_round_trips() {
+        // CUC, 1958 epoch, 4 coarse + 2 fine octets: 0 | 001 | 11 | 10 = 0x1E.
+        let c = cuc_code(4, 2, 0x0102_0304, 0x0506);
+        assert_eq!(c.encode(true).unwrap(), [0x1E, 1, 2, 3, 4, 5, 6]);
+        assert_eq!(c.encode(false).unwrap(), [1, 2, 3, 4, 5, 6]);
+        assert_eq!(
+            TimeCode::decode(&c.encode(true).unwrap(), None).unwrap(),
+            (c, 7)
+        );
+        // CDS, 1958, 16-bit days, microseconds: 0 | 100 | 0 | 0 | 01 = 0x41.
+        let d = TimeCode {
+            format: TimeCodeFormat::Cds(CdsFormat {
+                epoch: CdsEpoch::Ccsds1958,
+                days: CdsDaySegment::Bits16,
+                submillis: CdsSubmillis::Microseconds,
+            }),
+            value: TimeValue::Cds(CdsTime {
+                days: 0x0102,
+                ms_of_day: 0x0304_0506,
+                submillis: 999,
+            }),
+        };
+        let e = d.encode(true).unwrap();
+        assert_eq!(e, [0x41, 1, 2, 3, 4, 5, 6, 0x03, 0xE7]);
+        assert_eq!(TimeCode::decode(&e, None).unwrap(), (d, 9));
+        assert_eq!(TimeCode::decode(&e[1..], Some(d.format)).unwrap(), (d, 8));
+        assert!(cuc_code(1, 0, 256, 0).encode(true).is_err());
+        assert!(CucFormat::new(CucEpoch::Agency, 5, 0).is_err());
+        assert!(TimeCodeFormat::from_p_field(0x9E).is_err());
+        assert!(TimeCodeFormat::from_p_field(0x43).is_err());
+    }
+
+    #[test]
+    fn segmentation_round_trips_wraps_and_rejects_anomalies() {
+        let fmt = PacketFormat {
+            secondary_header: Some(SecondaryHeaderFormat {
+                time_code: Some(TimeCodeLayout::ImplicitPField(cuc_code(4, 0, 0, 0).format)),
+                ancillary_octets: 1,
+            }),
+            pec: true,
+        };
+        let sh = SecondaryHeader {
+            time_code: Some(cuc_code(4, 0, 77, 0)),
+            ancillary: vec![0xAA],
+        };
+        let seg = Segmenter {
+            format: fmt,
+            is_telecommand: false,
+            apid: 42,
+            max_user_octets: 10,
+        };
+        let unit: Vec<u8> = (0..35).collect();
+        let pk = seg.segment(16382, Some(&sh), &unit).unwrap();
+        let counts: Vec<u16> = pk
+            .iter()
+            .map(|p| decode_packet(p).unwrap().0.sequence_count)
+            .collect();
+        assert_eq!(counts, [16382, 16383, 0, 1]);
+        assert_eq!(reassemble(&fmt, &pk).unwrap(), vec![unit.clone()]);
+        let one = seg.segment(3, Some(&sh), &unit[..10]).unwrap();
+        assert_eq!(
+            decode_packet(&one[0]).unwrap().0.sequence_flags,
+            SequenceFlags::Unsegmented
+        );
+        let mut gap = pk.clone();
+        gap.remove(1);
+        assert!(reassemble(&fmt, &gap).unwrap_err().contains("gap"));
+        let mut rep = pk.clone();
+        rep.insert(1, pk[0].clone());
+        assert!(reassemble(&fmt, &rep).unwrap_err().contains("repeated"));
+        assert!(reassemble(&fmt, &pk[1..])
+            .unwrap_err()
+            .contains("no unit open"));
+        assert!(reassemble(&fmt, &pk[..3])
+            .unwrap_err()
+            .contains("still open"));
+        let other = Segmenter { apid: 43, ..seg }
+            .segment(0, Some(&sh), &unit)
+            .unwrap();
+        let mixed = vec![pk[0].clone(), other[1].clone()];
+        assert!(reassemble(&fmt, &mixed).unwrap_err().contains("APID"));
     }
 }

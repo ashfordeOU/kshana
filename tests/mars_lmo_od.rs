@@ -36,6 +36,7 @@ use kshana::deepspace_od::{
 use kshana::integrator::Tolerance;
 use kshana::mars_atmos::{mars_drag_accel, MARS_RE};
 use kshana::mars_frame::{iau_mars_rotation, inertial_to_bodyfixed};
+use kshana::portable_math::PortableFloat;
 use kshana::precession::{mat_vec, transpose};
 use kshana::precise_od::{empirical_accel, propagate, EmpiricalAccel, ForceModel};
 
@@ -141,7 +142,7 @@ fn lmo_state() -> (Vec3, Vec3) {
     let vc = (mars.mu / r_orbit).sqrt();
     let inc = 60.0_f64.to_radians();
     let r0 = [r_orbit, 0.0, 0.0];
-    let v0 = [0.0, vc * inc.cos(), vc * inc.sin()];
+    let v0 = [0.0, vc * inc.pcos(), vc * inc.psin()];
     (r0, v0)
 }
 
@@ -172,7 +173,7 @@ fn gaussian_noise(seed: u64, amp: f64) -> impl FnMut() -> f64 {
     move || {
         let u1 = next_u();
         let u2 = next_u();
-        amp * (-2.0 * u1.ln()).sqrt() * (std::f64::consts::TAU * u2).cos()
+        amp * (-2.0 * u1.pln()).sqrt() * (std::f64::consts::TAU * u2).pcos()
     }
 }
 
@@ -327,7 +328,7 @@ fn mars_lmo_reduced_dynamic_od_recovers_from_radiometric_data() {
 
     // ~3 orbits at a 30 s cadence (period ≈ 7100 s ⇒ ~3 orbits in ~21 300 s).
     let period =
-        std::f64::consts::TAU * ((Body::mars().re + 400.0e3).powi(3) / Body::mars().mu).sqrt();
+        std::f64::consts::TAU * ((Body::mars().re + 400.0e3).ppowi(3) / Body::mars().mu).sqrt();
     let arc = 3.0 * period;
     let cadence = 30.0;
     let n = (arc / cadence) as usize;
@@ -406,12 +407,12 @@ fn reduced_dynamic_tuning_improves_the_lmo_fit() {
     let vc = (mars.mu / r_orbit).sqrt();
     let inc = 50.0_f64.to_radians();
     let r0 = [r_orbit, 0.0, 0.0];
-    let v0 = [0.0, vc * inc.cos(), vc * inc.sin()];
+    let v0 = [0.0, vc * inc.pcos(), vc * inc.psin()];
 
     let truth_fm = MarsForceModel::gmm3(nmax, epoch).with_drag(cd_am);
     let filter_fm = MarsForceModel::gmm3(nmax, epoch); // drag-blind template
 
-    let period = std::f64::consts::TAU * (r_orbit.powi(3) / mars.mu).sqrt();
+    let period = std::f64::consts::TAU * (r_orbit.ppowi(3) / mars.mu).sqrt();
     let arc = 2.0 * period;
     let cadence = 20.0;
     let n = (arc / cadence) as usize;

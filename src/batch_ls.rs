@@ -8,12 +8,13 @@
 //! `(HᵀWH)·Δx = HᵀW·(z − h(x))`, and iterates to convergence.
 //!
 //! It is deliberately generic over the model closure, so it is independent of any
-//! particular measurement set. For orbit determination the state would be the
-//! satellite epoch state (and a receiver clock bias) and `h` the range / range-rate /
-//! azimuth-elevation model from a ground station; here the engine and its convergence
-//! are delivered and tested, while the orbit-specific measurement model, the analytic
-//! state-transition matrix, and the published-case validation are follow-ons
-//! (see `ROADMAP.md`).
+//! particular measurement set. The orbit-specific measurement models live in
+//! [`crate::orbit_determination`]: its range-only path linearises through
+//! [`gauss_newton`] (finite-difference Jacobian, kept as it was), and its
+//! range / range-rate / azimuth-elevation tracking path supplies an analytic Jacobian
+//! `H = (∂h/∂x(t))·Φ(t, t0)` from the variational state-transition matrix to
+//! [`gauss_newton_analytic`], which does no finite differencing. Both are compared with
+//! Orekit 12.2's `BatchLSEstimator` (see `docs/VALIDATION.md`).
 //!
 //! **References.** The weighted-normal-equation batch corrector is the standard
 //! batch processor of Tapley, Schutz & Born, *Statistical Orbit Determination*
@@ -21,6 +22,7 @@
 //! Björck, *Numerical Methods for Least Squares Problems* (1996).
 
 use crate::fusion::ukf::inverse;
+use crate::portable_math::PortableFloat;
 
 /// The outcome of a batch least-squares solve.
 #[derive(Clone, Debug)]
@@ -121,7 +123,7 @@ where
     let rms = (z
         .iter()
         .zip(&hx)
-        .map(|(&zi, &hi)| (zi - hi).powi(2))
+        .map(|(&zi, &hi)| (zi - hi).ppowi(2))
         .sum::<f64>()
         / m as f64)
         .sqrt();
@@ -185,7 +187,7 @@ where
     let rms = (z
         .iter()
         .zip(&hx)
-        .map(|(&zi, &hi)| (zi - hi).powi(2))
+        .map(|(&zi, &hi)| (zi - hi).ppowi(2))
         .sum::<f64>()
         / m as f64)
         .sqrt();
@@ -257,9 +259,109 @@ where
     ))
 }
 
+/// Gauss–Newton with a caller-supplied **analytic Jacobian**: `model(x)` returns the predicted
+/// measurements `h(x)` and their Jacobian `H = ∂h/∂x` (`m × n`) together, so no finite
+/// differencing is done. Each step is solved by the square-root route of
+/// [`crate::linalg_sr::weighted_lstsq`] (Householder QR of the whitened Jacobian), and the formal
+/// covariance `(HᵀWH)⁻¹` at the final state is returned from the same triangular factor. Same
+/// arguments and step-norm convergence rule as [`gauss_newton`]; `None` on a dimension mismatch,
+/// a model failure (`model` returning `None`), a negative weight or a rank-deficient Jacobian.
+///
+/// This is the corrector the state-transition-matrix orbit-determination path
+/// ([`crate::orbit_determination::determine_orbit_batch_tracking`]) uses, with
+/// `H = (∂h/∂x(t))·Φ(t, t0)`.
+pub fn gauss_newton_analytic<F>(
+    model: F,
+    z: &[f64],
+    weights: &[f64],
+    x0: &[f64],
+    max_iter: usize,
+    tol: f64,
+) -> Option<(LsqResult, Vec<Vec<f64>>)>
+where
+    F: Fn(&[f64]) -> Option<(Vec<f64>, Vec<Vec<f64>>)>,
+{
+    let n = x0.len();
+    let m = z.len();
+    if weights.len() != m || n == 0 || m < n {
+        return None;
+    }
+    let mut x = x0.to_vec();
+    let mut iterations = 0;
+    let mut converged = false;
+    for it in 0..max_iter {
+        iterations = it + 1;
+        let (hx, jac) = model(&x)?;
+        if hx.len() != m || jac.len() != m {
+            return None;
+        }
+        let r: Vec<f64> = (0..m).map(|i| z[i] - hx[i]).collect();
+        let dx = crate::linalg_sr::weighted_lstsq(&jac, weights, &r)?.x;
+        for (xp, &d) in x.iter_mut().zip(&dx) {
+            *xp += d;
+        }
+        let dx_norm = dx.iter().map(|v| v * v).sum::<f64>().sqrt();
+        if dx_norm < tol {
+            converged = true;
+            break;
+        }
+    }
+    let (hx, jac) = model(&x)?;
+    if hx.len() != m || jac.len() != m {
+        return None;
+    }
+    let resid: Vec<f64> = (0..m).map(|i| z[i] - hx[i]).collect();
+    let sol = crate::linalg_sr::weighted_lstsq(&jac, weights, &resid)?;
+    let cov = crate::linalg_sr::covariance_from_sqrt_information(&sol.r)?;
+    let rms = (resid.iter().map(|v| v * v).sum::<f64>() / m as f64).sqrt();
+    Some((
+        LsqResult {
+            x,
+            iterations,
+            rms_residual: rms,
+            converged,
+        },
+        cov,
+    ))
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn the_analytic_jacobian_corrector_matches_the_finite_difference_corrector() {
+        let ts = [0.0f64, 0.5, 1.0, 1.5, 2.0, 2.5];
+        let z: Vec<f64> = ts.iter().map(|&t| 1.5 * (0.5 * t).pexp()).collect();
+        let w = vec![1.0, 2.0, 1.0, 0.5, 1.0, 3.0];
+        let h = move |x: &[f64]| {
+            ts.iter()
+                .map(|&t| x[0] * (x[1] * t).pexp())
+                .collect::<Vec<_>>()
+        };
+        let model = move |x: &[f64]| {
+            let hx = h(x);
+            let jac = ts
+                .iter()
+                .map(|&t| vec![(x[1] * t).pexp(), x[0] * t * (x[1] * t).pexp()])
+                .collect();
+            Some((hx, jac))
+        };
+        let (a, cov) = gauss_newton_analytic(model, &z, &w, &[1.0, 1.0], 50, 1e-12).expect("ok");
+        let (b, cov_fd) = gauss_newton_srif(h, &z, &w, &[1.0, 1.0], 50, 1e-12).expect("ok");
+        assert!(a.converged);
+        for (p, q) in a.x.iter().zip(&b.x) {
+            assert!((p - q).abs() < 1e-9, "{p} vs {q}");
+        }
+        for i in 0..2 {
+            for j in 0..2 {
+                assert!((cov[i][j] - cov_fd[i][j]).abs() < 1e-6 * cov[i][i].abs().max(1e-12));
+            }
+        }
+        // A model failure or a dimension mismatch is reported, not hidden.
+        assert!(gauss_newton_analytic(|_: &[f64]| None, &z, &w, &[1.0, 1.0], 5, 1e-9).is_none());
+        assert!(gauss_newton_analytic(model, &z, &w[..3], &[1.0, 1.0], 5, 1e-9).is_none());
+    }
 
     #[test]
     fn linear_line_fit_recovers_exact_solution() {
@@ -279,11 +381,11 @@ mod tests {
     fn nonlinear_exponential_fit_converges() {
         // Fit y = a·exp(b·t); recover a=1.5, b=0.5 from noise-free samples.
         let ts = [0.0f64, 0.5, 1.0, 1.5, 2.0, 2.5];
-        let z: Vec<f64> = ts.iter().map(|&t| 1.5 * (0.5 * t).exp()).collect();
+        let z: Vec<f64> = ts.iter().map(|&t| 1.5 * (0.5 * t).pexp()).collect();
         let w = vec![1.0; ts.len()];
         let model = move |x: &[f64]| {
             ts.iter()
-                .map(|&t| x[0] * (x[1] * t).exp())
+                .map(|&t| x[0] * (x[1] * t).pexp())
                 .collect::<Vec<_>>()
         };
         let r = gauss_newton(model, &z, &w, &[1.0, 1.0], 50, 1e-12).expect("solves");
@@ -305,7 +407,7 @@ mod tests {
         ];
         let truth = [350.0, -120.0, 640.0];
         let range = |s: &[f64; 3], p: &[f64]| {
-            ((p[0] - s[0]).powi(2) + (p[1] - s[1]).powi(2) + (p[2] - s[2]).powi(2)).sqrt()
+            ((p[0] - s[0]).ppowi(2) + (p[1] - s[1]).ppowi(2) + (p[2] - s[2]).ppowi(2)).sqrt()
         };
         let z: Vec<f64> = stations.iter().map(|s| range(s, &truth)).collect();
         let w = vec![1.0; stations.len()];
@@ -321,11 +423,11 @@ mod tests {
     #[allow(clippy::needless_range_loop)] // the 2x2 product mirrors its formula
     fn the_srif_corrector_matches_the_normal_equation_corrector_and_returns_its_covariance() {
         let ts = [0.0f64, 0.5, 1.0, 1.5, 2.0, 2.5];
-        let z: Vec<f64> = ts.iter().map(|&t| 1.5 * (0.5 * t).exp()).collect();
+        let z: Vec<f64> = ts.iter().map(|&t| 1.5 * (0.5 * t).pexp()).collect();
         let w = vec![1.0, 2.0, 1.0, 0.5, 1.0, 3.0];
         let model = move |x: &[f64]| {
             ts.iter()
-                .map(|&t| x[0] * (x[1] * t).exp())
+                .map(|&t| x[0] * (x[1] * t).pexp())
                 .collect::<Vec<_>>()
         };
         let a = gauss_newton(model, &z, &w, &[1.0, 1.0], 50, 1e-12).expect("solves");

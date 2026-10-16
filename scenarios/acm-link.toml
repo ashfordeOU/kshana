@@ -1,0 +1,41 @@
+# DVB-S2 adaptive coding and modulation (ACM) along one satellite's passes over one station.
+# Along a pass the slant range and elevation change, so the downlink Es/N0 changes. The run
+# picks, at each step, the most efficient MODCOD whose ETSI EN 302 307-1 Table 13 threshold
+# plus an implementation margin the link clears. It reports each pass's Es/N0 range and the
+# data volume ACM moves, against the constant-coding baseline that closes at the mask
+# elevation and the longest range.
+#
+# Every number below is ILLUSTRATIVE: no operator's orbit, station or link budget. MODELLED.
+kind = "acm-link"
+epoch = [2024.0, 1.0, 1.0, 0.0, 0.0, 0.0]
+duration_hours = 12.0
+step_s = 30.0
+refraction = true
+light_time = true
+
+[link]
+frequency_ghz = 8.2            # X-band downlink
+eirp_dbw = 7.0
+symbol_rate_msps = 20.0
+other_losses_db = 2.0
+zenith_atm_loss_db = 0.3
+implementation_margin_db = 1.0
+acm_step_s = 10.0
+
+[satellite]
+name = "eo-sso-a"
+altitude_km = 550.0
+inclination_deg = 97.6
+raan_deg = 0.0
+arg_lat_deg = 0.0
+backlog_mbit = 400000.0
+priority = 2.0
+
+[station]
+name = "mid-latitude"
+lat_deg = 52.2
+lon_deg = 5.0
+alt_m = 10.0
+mask_deg = 5.0
+g_over_t_db = 30.0
+setup_s = 120.0

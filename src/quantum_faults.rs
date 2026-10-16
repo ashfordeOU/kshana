@@ -19,12 +19,12 @@
 use crate::detection::{normal_cdf, normal_inv_cdf};
 use crate::eval_stats::bootstrap_auc_ci;
 use crate::palette::chart::{BG, CORAL, FONT_SANS, LIME, TEXT};
+use crate::portable_distr::{Distribution, Normal};
 use crate::qtrade::{TradeEvidence, TradeFom, TradeFrame};
 use crate::representativeness::{Gap, Representativeness};
 use crate::verification::VerificationStatus;
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
-use rand_distr::{Distribution, Normal};
 
 /// A labelled quantum-PNT fault class.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, serde::Serialize)]

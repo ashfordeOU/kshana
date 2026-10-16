@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 //! Writes the two outputs the telemetry format oracles read, from the committed synthetic
-//! stream `tests/fixtures/telemetry_oracle/stream.jsonl`: `exposition.prom` (Prometheus text)
+//! streams `tests/fixtures/telemetry_oracle/stream.jsonl` (schema 1.2) and
+//! `tests/fixtures/telemetry_oracle_13/stream.jsonl` (schema 1.3): `exposition.prom` (Prometheus text)
 //! and `otlp.json` (OTLP/HTTP JSON; needs `--features otlp`). It writes no oracle output;
 //! that is `scripts/gen_telemetry_formats_ref.py`'s job.
 //!
@@ -22,7 +23,15 @@ const NOW: f64 = 1_790_000_000.0;
 const NOW_NANO: u64 = 1_790_000_100_000_000_000;
 
 fn main() {
-    let dir = Path::new(env!("CARGO_MANIFEST_DIR")).join("tests/fixtures/telemetry_oracle");
+    for corpus in ["telemetry_oracle", "telemetry_oracle_13"] {
+        write(corpus);
+    }
+}
+
+fn write(corpus: &str) {
+    let dir = Path::new(env!("CARGO_MANIFEST_DIR"))
+        .join("tests/fixtures")
+        .join(corpus);
     let stream = std::fs::read_to_string(dir.join("stream.jsonl")).unwrap();
     let mut reg = Registry::new(VERSION);
     reg.set_expose_position(true);

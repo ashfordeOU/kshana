@@ -26,10 +26,11 @@
 //! Iridium timing receivers (under 40 ns from UTC(NIST) with a miniature atomic clock) is a
 //! comparison, not a reproduction of that test.
 
+use crate::portable_distr::{Distribution, Normal};
+use crate::portable_math::PortableFloat;
 use crate::slot_timing::ClockNoise;
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
-use rand_distr::{Distribution, Normal};
 use serde::{Deserialize, Serialize};
 
 /// Seconds in a GPS-style week.
@@ -135,7 +136,7 @@ pub fn simulate_traced(
     let n01 = Normal::new(0.0, 1.0).map_err(|e| e.to_string())?;
     let (qwf, qrw) = (clock.q_wf, clock.q_rw);
     // Process noise of [phase, frequency] over one step (van Loan for white and random-walk FM).
-    let q11 = qwf * dt + qrw * dt.powi(3) / 3.0;
+    let q11 = qwf * dt + qrw * dt.ppowi(3) / 3.0;
     let q12 = qrw * dt * dt / 2.0;
     let q22 = qrw * dt;
     // Cholesky factor of Q for the truth simulation.
@@ -200,7 +201,7 @@ pub fn simulate_traced(
             errs.push(e);
             sig.push(s);
             if s > 0.0 {
-                norm_sq.push((e / s).powi(2));
+                norm_sq.push((e / s).ppowi(2));
             }
         }
     }
@@ -275,7 +276,7 @@ mod tests {
         let seeds = 40;
         for s in 0..seeds {
             let r = simulate(&meas, 1.0, &clock, 3e-9, s).unwrap();
-            sum += r.rms_normalised.powi(2);
+            sum += r.rms_normalised.ppowi(2);
         }
         let mean = sum / seeds as f64;
         assert!((0.6..1.5).contains(&mean), "{mean}");

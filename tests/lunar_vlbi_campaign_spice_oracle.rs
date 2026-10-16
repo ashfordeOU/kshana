@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
+// Host maths on purpose: this test recomputes its expected values independently of the engine's
+// portable maths (STUDIO-15), so the engine is checked against a second implementation.
 //! Library comparison (SPICE geometry, binding) plus independent-library comparison (policy P2,
 //! NumPy) for two verification rows that share one geometry harness:
 //!

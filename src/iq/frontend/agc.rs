@@ -21,6 +21,7 @@
 
 use super::quant::{optimum_step_sigma, Quantiser};
 use super::{norm_sqr, Cf64, Stage};
+use crate::portable_math::PortableFloat;
 
 /// Euler-Mascheroni constant `γ`.
 const EULER_GAMMA: f64 = 0.577_215_664_901_532_9;
@@ -42,9 +43,9 @@ impl Agc {
         let mu = 1.0 / (2.0 * tau_s * fs_hz);
         assert!(mu < 0.5, "time constant must be longer than one sample");
         Self {
-            log_gain: initial_gain.ln(),
+            log_gain: initial_gain.pln(),
             mu,
-            ln_target: target_power.ln(),
+            ln_target: target_power.pln(),
         }
     }
     /// A loop that drives Gaussian noise to the loss-minimising level for `q`: per-component
@@ -55,7 +56,7 @@ impl Agc {
     }
     /// Current linear gain.
     pub fn gain(&self) -> f64 {
-        self.log_gain.exp()
+        self.log_gain.pexp()
     }
     /// Current gain in decibels (`20·log10 g`).
     pub fn gain_db(&self) -> f64 {
@@ -63,17 +64,17 @@ impl Agc {
     }
     /// Target mean output power.
     pub fn target_power(&self) -> f64 {
-        self.ln_target.exp()
+        self.ln_target.pexp()
     }
 }
 
 impl Stage for Agc {
     fn process(&mut self, block: &mut [Cf64]) {
         for x in block.iter_mut() {
-            let y = *x * self.log_gain.exp();
+            let y = *x * self.log_gain.pexp();
             let p = norm_sqr(y);
             if p > 0.0 && p.is_finite() {
-                self.log_gain -= self.mu * (p.ln() + EULER_GAMMA - self.ln_target);
+                self.log_gain -= self.mu * (p.pln() + EULER_GAMMA - self.ln_target);
             }
             *x = y;
         }

@@ -45,6 +45,7 @@ use crate::leo_navmsg::LeoNavmsgScenario;
 use crate::leo_pass::{LeoPassReport, LeoPassScenario};
 use crate::leo_signal::{LeoSignalScenario, SignalDesign};
 use crate::palette::chart::{BLUE, CYAN};
+use crate::portable_math::PortableFloat;
 use serde::Deserialize;
 use serde_json::{json, Value};
 
@@ -130,7 +131,7 @@ fn fit_sin_line(pts: &[(f64, f64)]) -> Option<(f64, f64)> {
     let n = pts.len() as f64;
     let (mut sx, mut sy, mut sxx, mut sxy) = (0.0, 0.0, 0.0, 0.0);
     for &(el, c) in pts {
-        let x = el.to_radians().sin();
+        let x = el.to_radians().psin();
         sx += x;
         sy += c;
         sxx += x * x;
@@ -336,7 +337,7 @@ impl LeoPntChainScenario {
         if !(od.is_finite() && (0.0..=100.0).contains(&od)) {
             return Err(format!("od_sisre_m must be in [0, 100] m; got {od}"));
         }
-        let sisre = (stats.sisre_rms_m.powi(2) + od * od).sqrt();
+        let sisre = (stats.sisre_rms_m.ppowi(2) + od * od).sqrt();
 
         // 4. Fused positioning.
         let mut fusion: LeoPvtScenario = table(&self.fusion, "fusion")?;
@@ -363,7 +364,7 @@ impl LeoPntChainScenario {
             }
             n_leo_systems += 1;
             let mask = s.mask_deg.unwrap_or(10.0);
-            let lo = a + b * mask.to_radians().sin();
+            let lo = a + b * mask.to_radians().psin();
             let hi = a + b;
             let sys_name = s.name.clone();
             let tag = |f: &str| format!("system '{sys_name}' {f}");
@@ -808,7 +809,7 @@ mod tests {
     fn a_sine_line_fit_recovers_its_line() {
         let pts: Vec<(f64, f64)> = [10.0, 30.0, 50.0, 70.0, 90.0]
             .iter()
-            .map(|&e: &f64| (e, 40.0 + 15.0 * e.to_radians().sin()))
+            .map(|&e: &f64| (e, 40.0 + 15.0 * e.to_radians().psin()))
             .collect();
         let (a, b) = fit_sin_line(&pts).expect("fit");
         assert!(

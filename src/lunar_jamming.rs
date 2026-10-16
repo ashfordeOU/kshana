@@ -107,6 +107,7 @@ use crate::jamming::{
 use crate::lunar::{selenographic_to_mcmf, Selenographic, R_MOON_M};
 use crate::lunar_service::{topocentric, LunarConstellation, LunarSat};
 use crate::palette::chart::{AMBER, AXIS, BG, CORAL, FONT_SANS, INK_2, LIME, MUTED};
+use crate::portable_math::PortableFloat;
 use serde::{Deserialize, Serialize};
 
 // ---------------------------------------------------------------------------
@@ -515,8 +516,8 @@ fn quantile_sorted(sorted: &[f64], q: f64) -> f64 {
 /// round trip through the pair is exact wherever the forward clamp is not active, and
 /// the tests check that on the values this module actually produces.
 pub fn range_for_free_space_path_loss_m(fspl_db: f64, f_hz: f64) -> f64 {
-    let k = 20.0 * f_hz.log10() + 20.0 * (4.0 * std::f64::consts::PI / C_M_PER_S).log10();
-    10f64.powf((fspl_db - k) / 20.0)
+    let k = 20.0 * f_hz.plog10() + 20.0 * (4.0 * std::f64::consts::PI / C_M_PER_S).plog10();
+    10f64.ppowf((fspl_db - k) / 20.0)
 }
 
 /// The jammer-to-signal ratio (dB) at which the anti-jam equation takes a link whose
@@ -543,9 +544,9 @@ pub fn denial_js_db(
     // `q.max(1e-9)` mirrors the clamp `effective_cn0_dbhz` applies, so the inverse is
     // the inverse of the function the report's own rows were scored with.
     let arg = (q.max(1e-9) * chip_rate_hz)
-        * (10f64.powf(-threshold_dbhz / 10.0) - 10f64.powf(-cn0_nominal_dbhz / 10.0));
+        * (10f64.ppowf(-threshold_dbhz / 10.0) - 10f64.ppowf(-cn0_nominal_dbhz / 10.0));
     if arg.is_finite() && arg > 0.0 {
-        Some(10.0 * arg.log10())
+        Some(10.0 * arg.plog10())
     } else {
         None
     }
@@ -593,7 +594,7 @@ impl Cn0Distribution {
         let stdev = if n < 2 {
             0.0
         } else {
-            (sorted.iter().map(|x| (x - mean).powi(2)).sum::<f64>() / (n - 1) as f64).sqrt()
+            (sorted.iter().map(|x| (x - mean).ppowi(2)).sum::<f64>() / (n - 1) as f64).sqrt()
         };
         let (p05, med, p95) = (
             quantile_sorted(sorted, 0.05),
@@ -2008,7 +2009,7 @@ mod tests {
             ..Default::default()
         };
         let (rf, rn) = (far.run().unwrap(), near.run().unwrap());
-        let expect = 20.0 * 2.0_f64.log10();
+        let expect = 20.0 * 2.0_f64.plog10();
         assert_eq!(rf.links.len(), rn.links.len());
         for (lf, ln) in rf.links.iter().zip(rn.links.iter()) {
             assert!(
@@ -2139,7 +2140,7 @@ mod tests {
                 lt.cn0_effective_dbhz < lw.cn0_effective_dbhz,
                 "a tone on the carrier must leave less C/N0 than broadband noise"
             );
-            assert!(lw.cn0_effective_dbhz - lt.cn0_effective_dbhz <= 10.0 * 2f64.log10() + 1e-9);
+            assert!(lw.cn0_effective_dbhz - lt.cn0_effective_dbhz <= 10.0 * 2f64.plog10() + 1e-9);
         }
     }
 
@@ -2769,7 +2770,7 @@ mod tests {
         // Mean and stdev, recomputed independently.
         let mean = s.iter().sum::<f64>() / n as f64;
         assert!((d.mean_dbhz - mean).abs() < 1e-12);
-        let var = s.iter().map(|x| (x - mean).powi(2)).sum::<f64>() / (n - 1) as f64;
+        let var = s.iter().map(|x| (x - mean).ppowi(2)).sum::<f64>() / (n - 1) as f64;
         assert!((d.stdev_dbhz - var.sqrt()).abs() < 1e-12);
         // …and the per-link rows are still all there.
         assert_eq!(

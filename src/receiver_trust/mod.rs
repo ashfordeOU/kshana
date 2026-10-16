@@ -15,6 +15,7 @@
 //! scored: every monitor parameter is an input stated in the scenario.
 
 pub mod assess;
+pub mod calibration;
 pub mod geometry;
 pub mod ingest;
 pub mod live;

@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
+// Host maths on purpose: this test recomputes its expected values independently of the engine's
+// portable maths (STUDIO-15), so the engine is checked against a second implementation.
 //! Externally validate kshana's **batch & sequential orbit determination** against an
 //! independent third-party authority: **Orekit 12.2** (CS GROUP, Apache-2.0) — its
 //! `BatchLSEstimator` (Levenberg–Marquardt) and `KalmanEstimator` (extended Kalman),

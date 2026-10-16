@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<opm id="CCSDS_OPM_VERS" version="3.0">
+  <header>
+    <CREATION_DATE>2026-10-14T00:00:00.000</CREATION_DATE>
+    <ORIGINATOR>KSHANA XVAL</ORIGINATOR>
+  </header>
+
+  <body>
+    <segment>
+      <metadata>
+        <OBJECT_NAME>XVAL SAT</OBJECT_NAME>
+        <OBJECT_ID>2026-999A</OBJECT_ID>
+        <CENTER_NAME>EARTH</CENTER_NAME>
+        <REF_FRAME>EME2000</REF_FRAME>
+        <TIME_SYSTEM>TDB</TIME_SYSTEM>
+      </metadata>
+      <data>
+        <stateVector>
+          <EPOCH>2026-03-03T06:30:15.123456</EPOCH>
+          <X units="km">-5875.774930884787</X>
+          <Y units="km">999.4847586556688</Y>
+          <Z units="km">-4123.795560542243</Z>
+          <X_DOT units="km/s">-6.825047882368147</X_DOT>
+          <Y_DOT units="km/s">4.813490785178164</Y_DOT>
+          <Z_DOT units="km/s">5.212899993454289</Z_DOT>
+        </stateVector>
+        <keplerianElements>
+          <SEMI_MAJOR_AXIS units="km">23830.04397245235</SEMI_MAJOR_AXIS>
+          <ECCENTRICITY>0.19405868388978512</ECCENTRICITY>
+          <INCLINATION units="deg">101.43518530498616</INCLINATION>
+          <RA_OF_ASC_NODE units="deg">175.00510788179696</RA_OF_ASC_NODE>
+          <ARG_OF_PERICENTER units="deg">279.7714485276383</ARG_OF_PERICENTER>
+          <MEAN_ANOMALY units="deg">243.14004815155178</MEAN_ANOMALY>
+          <GM units="km**3/s**2">398600.4415</GM>
+        </keplerianElements>
+        <covarianceMatrix>
+          <COV_REF_FRAME>RTN</COV_REF_FRAME>
+          <CX_X units="km**2">0.0023507926601187743</CX_X>
+          <CY_X units="km**2">2.330029245709684E-4</CY_X>
+          <CY_Y units="km**2">0.0010153318856193638</CY_Y>
+          <CZ_X units="km**2">-3.060873229220436E-4</CZ_X>
+          <CZ_Y units="km**2">2.2559715540132214E-4</CZ_Y>
+          <CZ_Z units="km**2">0.004505277663226624</CZ_Z>
+          <CX_DOT_X units="km**2/s">6.156564348844762E-8</CX_DOT_X>
+          <CX_DOT_Y units="km**2/s">2.7149691301159656E-7</CX_DOT_Y>
+          <CX_DOT_Z units="km**2/s">1.9844285807260792E-7</CX_DOT_Z>
+          <CX_DOT_X_DOT units="km**2/s**2">2.974388691018687E-9</CX_DOT_X_DOT>
+          <CY_DOT_X units="km**2/s">1.750779218823201E-7</CY_DOT_X>
+          <CY_DOT_Y units="km**2/s">-2.1330388834411543E-7</CY_DOT_Y>
+          <CY_DOT_Z units="km**2/s">-2.2050591063065409E-7</CY_DOT_Z>
+          <CY_DOT_X_DOT units="km**2/s**2">3.35436851741081E-10</CY_DOT_X_DOT>
+          <CY_DOT_Y_DOT units="km**2/s**2">3.3053830461623143E-9</CY_DOT_Y_DOT>
+          <CZ_DOT_X units="km**2/s">1.0339016488588234E-7</CZ_DOT_X>
+          <CZ_DOT_Y units="km**2/s">-3.008063208818293E-7</CZ_DOT_Y>
+          <CZ_DOT_Z units="km**2/s">2.222506997086391E-7</CZ_DOT_Z>
+          <CZ_DOT_X_DOT units="km**2/s**2">-9.23434160987119E-11</CZ_DOT_X_DOT>
+          <CZ_DOT_Y_DOT units="km**2/s**2">3.234651331716686E-10</CZ_DOT_Y_DOT>
+          <CZ_DOT_Z_DOT units="km**2/s**2">4.70976509909929E-9</CZ_DOT_Z_DOT>
+        </covarianceMatrix>
+      </data>
+    </segment>
+  </body>
+</opm>

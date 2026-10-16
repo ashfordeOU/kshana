@@ -19,6 +19,7 @@
 //! and belongs with the navigation-message code, not here.
 
 use super::antenna::{Polarisation, SatPattern};
+use crate::portable_math::PortableFloat;
 
 pub mod centispace;
 pub mod generic;
@@ -172,7 +173,7 @@ pub fn fspl_db(range_m: f64, f_hz: f64) -> f64 {
 pub fn slant_range_m(alt_m: f64, el_deg: f64) -> f64 {
     let re = super::RE_EARTH;
     let e = el_deg.to_radians();
-    ((re + alt_m).powi(2) - (re * e.cos()).powi(2)).sqrt() - re * e.sin()
+    ((re + alt_m).ppowi(2) - (re * e.pcos()).ppowi(2)).sqrt() - re * e.psin()
 }
 
 #[cfg(test)]

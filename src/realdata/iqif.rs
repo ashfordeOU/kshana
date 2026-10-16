@@ -15,6 +15,7 @@
 //! [`IqFormat`]; the absolute scale is irrelevant to correlation.
 
 use super::{Observation, Orient};
+use crate::portable_math::PortableFloat;
 use crate::sdr::{self, CaCode, Cf64, CorrelatorDump, TrackConfig};
 
 /// Interleaved I/Q sample quantisation of a raw IF file.
@@ -163,7 +164,7 @@ pub fn prompt_power_observations(dumps: &[CorrelatorDump]) -> Vec<Observation> {
         .iter()
         .map(|d| {
             let p = d.prompt.abs().max(1e-12);
-            Observation::new("pwr", 20.0 * p.log10(), Orient::Negate)
+            Observation::new("pwr", 20.0 * p.plog10(), Orient::Negate)
         })
         .collect()
 }

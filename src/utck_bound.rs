@@ -28,6 +28,7 @@
 //! split. Status: MODELLED, an engine for a pre-registered prospective comparison; nothing here
 //! has been scored against Circular T.
 
+use crate::portable_math::PortableFloat;
 use std::collections::BTreeMap;
 
 /// A laboratory's offset history: MJD -> `[UTC - UTC(k)]` (ns).
@@ -94,7 +95,7 @@ pub fn fit_prior(
             .iter()
             .filter_map(|s| {
                 let (v, n) = mean_square_increment(s, lag, range);
-                (n >= min_pairs && v > 0.0).then(|| v.ln())
+                (n >= min_pairs && v > 0.0).then(|| v.pln())
             })
             .collect();
         if ls.len() < 2 {
@@ -126,15 +127,15 @@ impl PooledAgeingPrior {
         let last = *self.lags.last()?;
         let l = lag as f64;
         if lag <= first {
-            return Some(lv[0].exp());
+            return Some(lv[0].pexp());
         }
         if lag >= last {
-            return Some((lv[lv.len() - 1] + 2.0 * (l / last as f64).ln()).exp());
+            return Some((lv[lv.len() - 1] + 2.0 * (l / last as f64).pln()).pexp());
         }
         let i = self.lags.partition_point(|&x| x <= lag);
         let (a, b) = (self.lags[i - 1] as f64, self.lags[i] as f64);
-        let w = (l.ln() - a.ln()) / (b.ln() - a.ln());
-        Some((lv[i - 1] + w * (lv[i] - lv[i - 1])).exp())
+        let w = (l.pln() - a.pln()) / (b.pln() - a.pln());
+        Some((lv[i - 1] + w * (lv[i] - lv[i - 1])).pexp())
     }
 
     /// The shrunk ageing standard deviation (ns) of a laboratory whose training history is
@@ -190,7 +191,7 @@ mod tests {
         assert_eq!(n, 399);
         let p = fit_prior(&[&a, &b, &c], (60_000, 62_000), &[5, 10, 20], 20, 1.0, 10.0);
         assert_eq!(p.lags, vec![5, 10, 20]);
-        assert!((p.mu[0] - (1f64.ln() + 4f64.ln() + 16f64.ln()) / 3.0).abs() < 1e-12);
+        assert!((p.mu[0] - (1f64.pln() + 4f64.pln() + 16f64.pln()) / 3.0).abs() < 1e-12);
         assert_eq!(p.n_labs, vec![3, 3, 3]);
         // A lab with no history takes the prior; a long history dominates it.
         let empty = LabSeries::new();

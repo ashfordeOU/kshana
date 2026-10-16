@@ -242,6 +242,7 @@ impl ImuErrorModel {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::portable_math::PortableFloat;
 
     fn vclose(a: Vec3, b: Vec3, tol: f64) -> bool {
         (0..3).all(|i| (a[i] - b[i]).abs() <= tol)
@@ -348,7 +349,7 @@ mod tests {
         };
         // True IMU of a platform held level and still on the rotating Earth.
         let omega_ie = super::super::mechanization::OMEGA_IE;
-        let true_omega = [omega_ie * lat.cos(), 0.0, -omega_ie * lat.sin()];
+        let true_omega = [omega_ie * lat.pcos(), 0.0, -omega_ie * lat.psin()];
         let g = normal_gravity(lat, 0.0);
         let true_f = [0.0, 0.0, -g];
 
@@ -364,7 +365,7 @@ mod tests {
             }
             let p0 = geodetic_to_ecef(start);
             let p1 = geodetic_to_ecef(nav.p_llh);
-            ((p1[0] - p0[0]).powi(2) + (p1[1] - p0[1]).powi(2) + (p1[2] - p0[2]).powi(2)).sqrt()
+            ((p1[0] - p0[0]).ppowi(2) + (p1[1] - p0[1]).ppowi(2) + (p1[2] - p0[2]).ppowi(2)).sqrt()
         };
 
         let ideal_drift = run(&ImuErrorModel::ideal());

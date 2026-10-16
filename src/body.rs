@@ -21,11 +21,15 @@
 //! This is a parameter record, not a dynamics engine: it holds the constants the force model
 //! consumes. The Mars/Moon/Sun entries carry the standard published constants (IAU/DE values, DE
 //! being the JPL Development Ephemeris of the Jet Propulsion Laboratory; cited inline); the
-//! non-Earth gravity fields here are the low-degree zonal sets, not full tesseral models (those
-//! load through [`crate::gravity_sh::SphericalHarmonicField::from_gfc`] and can be attached via
-//! [`Body::gravity`]).
+//! non-Earth gravity fields here are the low-degree zonal sets (Mars also has the d/o-4
+//! [`Body::with_gmm3_gravity`]). Full tesseral models load from ICGEM `.gfc` files
+//! ([`crate::gravity_sh::SphericalHarmonicField::from_gfc`]) or PDS SHADR tables
+//! ([`crate::gravity_sh::SphericalHarmonicField::from_shadr`], e.g. GMM-3 to d/o 120, GRAIL
+//! GL0660B to d/o 660) and attach with [`Body::with_gravity_field`]; each published field is
+//! defined in its producer's body-fixed frame, not necessarily the IAU frame used here.
 
 use crate::gravity_sh::SphericalHarmonicField;
+use crate::portable_math::PortableFloat;
 
 /// Degrees → radians, for the IAU pole/prime-meridian constants below (which are published in
 /// degrees and degrees-per-day).
@@ -188,7 +192,8 @@ impl Body {
     /// `C̄00 = 1` is set so the field carries its own central term (`SphericalHarmonicField`
     /// returns the *total* acceleration). `C̄21/S̄21` are omitted: in the principal-axis / IAU
     /// frame the Mars degree-2 order-1 terms are negligible (the pole is the figure axis), and no
-    /// trustworthy non-zero value is invented here. Higher degree/order is available by loading a
+    /// trustworthy non-zero value is invented here. Higher degree/order (GMM-3 to 120) loads with
+    /// `SphericalHarmonicField::from_shadr` and attaches with [`Body::with_gravity_field`], or by loading a
     /// vendored ICGEM `.gfc` through [`SphericalHarmonicField::from_gfc`] and assigning it to
     /// [`gravity`](Self::gravity) (mirroring the LRO `GRGM660PRIM_to150.gfc` path), which requires
     /// no code change.
@@ -548,7 +553,7 @@ impl Body {
             w += t.prime_w_quad_deg_per_day2 * d * d * DEG;
             for (i, a) in t.angles.iter().enumerate() {
                 let theta = ((a[0] + a[1] * tc + a[2] * tc * tc) * DEG).rem_euclid(TAU);
-                let (s, c) = theta.sin_cos();
+                let (s, c) = theta.psin_cos();
                 ra += t.ra_sin_deg.get(i).copied().unwrap_or(0.0) * s * DEG;
                 dec += t.dec_cos_deg.get(i).copied().unwrap_or(0.0) * c * DEG;
                 w += t.w_sin_deg.get(i).copied().unwrap_or(0.0) * s * DEG;
@@ -574,9 +579,9 @@ impl Body {
 
 /// `R_z(a) · R_x(b) · R_z(c)` (frame rotations).
 fn euler_313(a: f64, b: f64, c: f64) -> [[f64; 3]; 3] {
-    let (sa, ca) = a.sin_cos();
-    let (sb, cb) = b.sin_cos();
-    let (sc, cc) = c.sin_cos();
+    let (sa, ca) = a.psin_cos();
+    let (sb, cb) = b.psin_cos();
+    let (sc, cc) = c.psin_cos();
     [
         [ca * cc - sa * cb * sc, ca * sc + sa * cb * cc, sa * sb],
         [-sa * cc - ca * cb * sc, -sa * sc + ca * cb * cc, ca * sb],

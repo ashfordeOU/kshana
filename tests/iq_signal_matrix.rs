@@ -117,7 +117,20 @@ use kshana::iq::signals::{beidou, galileo, glonass, gps, Modulation, SignalCode}
 use kshana::iq::track::design::Design;
 use kshana::iq::track::{replay, ChannelInit, EpochOutput};
 use kshana::iq::{Cf64, SampleSpec, SpreadingCode, VecSink, VecSource, C_M_PER_S};
+use kshana::portable_math::PortableFloat;
 use std::sync::Arc;
+
+/// The Galileo E1 memory-code tables are user-supplied (not bundled, by the ICD's terms);
+/// the E1 tests skip, with a message, when they are absent. Supply them with
+/// `KSHANA_GALILEO_E1B` / `KSHANA_GALILEO_E1C` or `scripts/fetch_galileo_e1_codes.sh`.
+fn e1_tables_supplied() -> bool {
+    let ok = kshana::iq::signals::galileo::e1b_table().is_ok()
+        && kshana::iq::signals::galileo::e1c_table().is_ok();
+    if !ok {
+        eprintln!("skipped: Galileo E1 tables not supplied (scripts/fetch_galileo_e1_codes.sh)");
+    }
+    ok
+}
 
 const CN0_DBHZ: f64 = 45.0;
 const DOPPLER_HZ: f64 = 1250.0;
@@ -203,7 +216,7 @@ fn l2c_cm_case(prn: u16) -> Case {
         secondary: Vec::new(),
         fs_hz: 2.5e6,
         duration_s: 4.5,
-        expected_cn0_dbhz: CN0_DBHZ - 10.0 * 2f64.log10(),
+        expected_cn0_dbhz: CN0_DBHZ - 10.0 * 2f64.plog10(),
         doppler_hz: DOPPLER_HZ,
     }
 }
@@ -286,12 +299,12 @@ fn m2m4_cn0_dbhz(prompts: &[Cf64], t_s: f64) -> f64 {
         / n;
     let m4 = prompts
         .iter()
-        .map(|p| (p.re * p.re + p.im * p.im).powi(2))
+        .map(|p| (p.re * p.re + p.im * p.im).ppowi(2))
         .sum::<f64>()
         / n;
     let ps = (2.0 * m2 * m2 - m4).max(0.0).sqrt();
     let pn = m2 - ps;
-    10.0 * (ps / pn / t_s).log10()
+    10.0 * (ps / pn / t_s).plog10()
 }
 
 /// Best agreement of the prompt signs with the secondary code over every cyclic shift, up to
@@ -400,7 +413,7 @@ fn run(case: &Case) -> Outcome {
     let pli: Vec<f64> = scored
         .iter()
         .map(|e| {
-            let (i2, q2) = (e.prompt.re.powi(2), e.prompt.im.powi(2));
+            let (i2, q2) = (e.prompt.re.ppowi(2), e.prompt.im.ppowi(2));
             (i2 - q2) / (i2 + q2)
         })
         .collect();
@@ -408,7 +421,7 @@ fn run(case: &Case) -> Outcome {
         .iter()
         .map(|e| {
             let t = e.sample_index as f64 / case.fs_hz;
-            wrap_diff(e.code_phase_chips, truth_phase(&truth, &case.tx, t), rx_len).powi(2)
+            wrap_diff(e.code_phase_chips, truth_phase(&truth, &case.tx, t), rx_len).ppowi(2)
         })
         .sum::<f64>()
         / n)
@@ -523,11 +536,17 @@ fn gps_l2c() {
 /// 62.5 Hz pull-in.
 #[test]
 fn galileo_e1b() {
+    if !e1_tables_supplied() {
+        return;
+    }
     check(plain("galileo-e1b", galileo::e1b(3).unwrap(), 5e6, 1.5));
 }
 
 #[test]
 fn galileo_e1c() {
+    if !e1_tables_supplied() {
+        return;
+    }
     check(tiered("galileo-e1c", galileo::e1c(3).unwrap(), 5e6, 1.5));
 }
 
@@ -582,6 +601,9 @@ fn glonass_l1of() {
 /// the D8 false lock cannot occur).
 #[test]
 fn galileo_e1b_on_grid_doppler() {
+    if !e1_tables_supplied() {
+        return;
+    }
     let mut case = plain("galileo-e1b", galileo::e1b(3).unwrap(), 5e6, 1.5);
     case.doppler_hz = 4000.0 / 3.0; // 8 bins of 2/(3 · 4 ms)
     check(case);

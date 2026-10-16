@@ -7,6 +7,7 @@
 //! pins are regression guards on the synthetic data and the pipeline, not a measure of how any
 //! monitor does on real interference.
 
+use kshana::portable_math::PortableFloat;
 use std::path::Path;
 
 use sha2::{Digest, Sha256};
@@ -202,7 +203,7 @@ fn the_truth_file_shows_the_reported_track_leaving_the_real_one_only_after_the_o
     let off = |i: usize| {
         let f = tl.epochs[i].fix.unwrap();
         let (e, n) = en_offset_m(rows[i][1], rows[i][2], f.lat_deg, f.lon_deg);
-        e.hypot(n)
+        e.phypot(n)
     };
     // Before the onset the receiver's own error (a few metres); at the end, far from the vessel.
     assert!((0..1500).all(|i| off(i) < 20.0));

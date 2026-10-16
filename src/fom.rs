@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 //! Figures of merit — the scored timing, integrity and security metrics a scenario
 //! reports, and the samples that feed them.
+use crate::portable_math::PortableFloat;
 use crate::scenario::GnssState;
 use crate::types::Seconds;
 use serde::Serialize;
@@ -89,9 +90,11 @@ pub struct FoMScores {
 /// These are deliberately distinct from the timing-domain `FoMScores` and from
 /// the inertial pack's single-axis `pos_rms_m`: CEP/SEP/2DRMS are properties of a
 /// 2-D/3-D error distribution, and HPL is a protection level from a real
-/// multi-measurement integrity monitor — none of which the current 1-DOF models
-/// produce. This struct exists so the planned capability has an honest, named
-/// home rather than a position number masquerading as accuracy.
+/// multi-measurement integrity monitor — none of which the 1-DOF models produce.
+/// It is built from a position covariance by
+/// [`PositioningFom::from_position_covariance`] (and [`positioning_performance`]),
+/// checked in `tests/positioning_fom_reference.rs`; not every positioning kind emits
+/// it yet.
 #[derive(Clone, Debug, Serialize)]
 pub struct PositioningFom {
     /// Circular Error Probable (50%) — horizontal. Metres.
@@ -152,9 +155,9 @@ fn cep50(var1: f64, var2: f64) -> f64 {
         let mut s = 0.0;
         for i in 0..=N {
             let th = h * i as f64;
-            let (c, sn) = (th.cos(), th.sin());
+            let (c, sn) = (th.pcos(), th.psin());
             let g = v1 * c * c + v2 * sn * sn;
-            let f = (-r * r / (2.0 * g)).exp();
+            let f = (-r * r / (2.0 * g)).pexp();
             let w = if i == 0 || i == N {
                 1.0
             } else if i % 2 == 1 {
@@ -193,7 +196,7 @@ fn sep50(var1: f64, var2: f64, var3: f64) -> f64 {
     if v1 <= 0.0 && v2 <= 0.0 && v3 <= 0.0 {
         return 0.0;
     }
-    let inv_norm = (2.0 * core::f64::consts::PI).powf(-1.5);
+    let inv_norm = (2.0 * core::f64::consts::PI).ppowf(-1.5);
     let sqrt_half_pi = (0.5 * core::f64::consts::PI).sqrt();
     let cdf = |r: f64| -> f64 {
         const NU: usize = 120;
@@ -220,11 +223,11 @@ fn sep50(var1: f64, var2: f64, var3: f64) -> f64 {
                 } else {
                     2.0
                 };
-                let (l, m, n) = (sin_t * phi.cos(), sin_t * phi.sin(), u);
+                let (l, m, n) = (sin_t * phi.pcos(), sin_t * phi.psin(), u);
                 let hval = v1 * l * l + v2 * m * m + v3 * n * n;
                 let a = r / hval.sqrt();
                 let inner = sqrt_half_pi * crate::detection::erf(a / core::f64::consts::SQRT_2)
-                    - a * (-0.5 * a * a).exp();
+                    - a * (-0.5 * a * a).pexp();
                 acc += wu * wp * inner;
             }
         }

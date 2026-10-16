@@ -1,0 +1,3 @@
+tool=promtool 3.5.0 check metrics
+exit=0
+

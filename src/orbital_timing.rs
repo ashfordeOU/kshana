@@ -37,6 +37,7 @@
 //! geometry is a spherical Earth. Nothing here has been validated on a spoofed receiver
 //! in orbit.
 
+use crate::portable_math::PortableFloat;
 use serde::{Deserialize, Serialize};
 
 use crate::slot_timing::ClockNoise;
@@ -54,14 +55,14 @@ pub fn orbital_speed_m_s(h_m: f64) -> f64 {
 
 /// Circular orbital period (s) at altitude `h_m`.
 pub fn orbital_period_s(h_m: f64) -> f64 {
-    2.0 * std::f64::consts::PI * ((EARTH_RADIUS_M + h_m).powi(3) / GM_EARTH).sqrt()
+    2.0 * std::f64::consts::PI * ((EARTH_RADIUS_M + h_m).ppowi(3) / GM_EARTH).sqrt()
 }
 
 /// Earth central half-angle (rad) of the region from which the satellite is above
 /// `min_elevation_rad`: `λ = acos(R·cos ε / (R + h)) − ε` (spherical Earth).
 pub fn visibility_half_angle_rad(h_m: f64, min_elevation_rad: f64) -> f64 {
     let r = EARTH_RADIUS_M;
-    (r * min_elevation_rad.cos() / (r + h_m)).acos() - min_elevation_rad
+    (r * min_elevation_rad.pcos() / (r + h_m)).pacos() - min_elevation_rad
 }
 
 /// Longest time (s) one ground point sees the satellite in a pass: an overhead pass,
@@ -231,7 +232,7 @@ pub fn orbital_timing(i: &OrbitalTimingInputs) -> Result<OrbitalTimingReport, St
     // clock's white phase noise, averaged over the window's epochs; the clock term is
     // its coast over the window without the white-phase floor already counted.
     let samples = (i.monitor_window_s / i.epoch_s).max(1.0);
-    let r = i.receiver_time_sigma_s.powi(2) + i.clock.white_pm_var;
+    let r = i.receiver_time_sigma_s.ppowi(2) + i.clock.white_pm_var;
     let coast_window = i.clock.coast_variance(i.monitor_window_s) - i.clock.white_pm_var;
     let monitor_floor_ns = i.k * (r / samples + coast_window).max(0.0).sqrt() * 1e9;
 
@@ -369,7 +370,7 @@ mod tests {
             q_wf: 1e-22,
             q_rw: 1e-30,
             q_drift: 0.0,
-            r: (10e-9f64).powi(2),
+            r: (10e-9f64).ppowi(2),
             tau: 600.0,
             samples: 600.0,
             k: 5.0,
@@ -393,7 +394,7 @@ mod tests {
         assert!((p - 5730.1).abs() < 0.5, "period {p}");
         // Horizon half-angle: acos(R/(R+h)).
         let lam = visibility_half_angle_rad(h, 0.0);
-        assert!(rel(lam, (EARTH_RADIUS_M / (EARTH_RADIUS_M + h)).acos()) < 1e-15);
+        assert!(rel(lam, (EARTH_RADIUS_M / (EARTH_RADIUS_M + h)).pacos()) < 1e-15);
         // Overhead pass at 0 deg: 2λ/n, about 12.2 minutes at 550 km.
         let pass = max_pass_s(h, 0.0);
         assert!((pass - 2.0 * lam * p / (2.0 * std::f64::consts::PI)).abs() < 1e-9);
@@ -472,7 +473,7 @@ mod tests {
     fn the_white_phase_floor_raises_the_monitor_floor() {
         let base = orbital_timing(&inputs(fm_only(1e-22, 0.0))).unwrap();
         let mut c = fm_only(1e-22, 0.0);
-        c.white_pm_var = (50e-9f64).powi(2);
+        c.white_pm_var = (50e-9f64).ppowi(2);
         let noisy = orbital_timing(&inputs(c)).unwrap();
         assert!(noisy.monitor_floor_ns > base.monitor_floor_ns);
     }

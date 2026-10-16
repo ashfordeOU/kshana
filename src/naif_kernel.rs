@@ -2,6 +2,7 @@
 //! A pure-Rust reader for the binary kernels of the NAIF (Navigation and Ancillary Information
 //! Facility, NASA Jet Propulsion Laboratory) SPICE system: the Double-precision Array File (DAF)
 //! container, Spacecraft and Planet Kernel (SPK) segments of type 2 (Chebyshev position) and
+//! type 1 (modified difference arrays, the form of JPL spacecraft reconstructions), and
 //! binary Planetary Constants Kernel (PCK) segments of type 2 (Chebyshev Euler angles).
 //!
 //! Written from the public NAIF "DAF Required Reading", "SPK Required Reading" and "PCK
@@ -42,6 +43,7 @@
 // Index loops read more plainly than iterator chains in the 3x3 matrix and record code here.
 #![allow(clippy::needless_range_loop)]
 
+use crate::portable_math::PortableFloat;
 use crate::precession::Vec3;
 
 /// A 3x3 matrix, row-major.
@@ -135,6 +137,14 @@ impl DafFile {
         } else {
             f64::from_be_bytes(b)
         })
+    }
+
+    /// The doubles at 1-based word addresses `first..=last` (a segment's data).
+    pub fn words(&self, first: usize, last: usize) -> Result<Vec<f64>, String> {
+        if first == 0 || last < first {
+            return Err(format!("bad DAF address range {first}..={last}"));
+        }
+        (first..=last).map(|a| self.word(a)).collect()
     }
 
     /// The 4-byte integer at byte offset `off`.
@@ -295,18 +305,179 @@ impl Chebyshev2 {
     }
 }
 
-/// An SPK kernel: its type-2 segments, keyed by (target, centre).
+/// A type-1 SPK segment: modified difference arrays (MDA), the variable-step
+/// Adams-type representation JPL navigation writes for spacecraft trajectories.
+///
+/// The segment holds N records of 71 doubles, then the N record end epochs, then every 100th of
+/// those epochs as a directory, then N. A record covers the interval that ends at its epoch and
+/// holds `TL`, the step-size vector `G[15]`, the reference position and velocity (interleaved),
+/// the difference table `DT[15][3]`, `KQMAX1` and the per-component orders `KQ[3]`. Evaluation
+/// follows the algorithm given for type 1 in the NAIF "SPK Required Reading" (SPKE01).
+#[derive(Clone, Debug)]
+pub struct Mda1 {
+    start_et: f64,
+    end_et: f64,
+    first_addr: usize,
+    n: usize,
+}
+
+/// Doubles per type-1 record.
+const MDA1_RSIZE: usize = 71;
+
+impl Mda1 {
+    fn new(
+        file: &DafFile,
+        start_et: f64,
+        end_et: f64,
+        first: usize,
+        last: usize,
+    ) -> Result<Self, String> {
+        let n = file.word(last)? as usize;
+        if n == 0 || first + n * MDA1_RSIZE + n + n / 100 != last {
+            return Err(format!("type-1 segment size does not match its N = {n}"));
+        }
+        Ok(Self {
+            start_et,
+            end_et,
+            first_addr: first,
+            n,
+        })
+    }
+
+    fn covers(&self, et: f64) -> bool {
+        et >= self.start_et && et <= self.end_et
+    }
+
+    /// Position and velocity (km, km/s) at `et`.
+    fn eval_pv(&self, file: &DafFile, et: f64) -> Result<[Vec3; 2], String> {
+        // The first record whose end epoch is at or after `et` (binary search on the epochs).
+        let epochs = self.first_addr + self.n * MDA1_RSIZE;
+        let (mut lo, mut hi) = (0usize, self.n - 1);
+        while lo < hi {
+            let mid = (lo + hi) / 2;
+            if file.word(epochs + mid)? < et {
+                lo = mid + 1;
+            } else {
+                hi = mid;
+            }
+        }
+        let base = self.first_addr + lo * MDA1_RSIZE;
+        let mut r = [0.0; MDA1_RSIZE];
+        for (k, v) in r.iter_mut().enumerate() {
+            *v = file.word(base + k)?;
+        }
+        let tl = r[0];
+        let g = &r[1..16];
+        let refpos = [r[16], r[18], r[20]];
+        let refvel = [r[17], r[19], r[21]];
+        let dt = |j: usize, i: usize| r[22 + i * 15 + j]; // DT(j+1, i+1)
+        let kqmax1 = r[67] as usize;
+        let kq = [r[68] as usize, r[69] as usize, r[70] as usize];
+        if !(2..=16).contains(&kqmax1) || kq.iter().any(|&k| k > 15) {
+            return Err(format!(
+                "malformed type-1 record: KQMAX1 {kqmax1}, KQ {kq:?}"
+            ));
+        }
+        // Arrays are 1-based in the published algorithm; index 0 is unused here.
+        let delta = et - tl;
+        let mut tp = delta;
+        let mq2 = kqmax1 - 2;
+        let mut ks = kqmax1 - 1;
+        let mut fc = [0.0; 16];
+        let mut wc = [0.0; 16];
+        let mut w = [0.0; 20];
+        fc[1] = 1.0;
+        for j in 1..=mq2 {
+            fc[j + 1] = tp / g[j - 1];
+            wc[j] = delta / g[j - 1];
+            tp = delta + g[j - 1];
+        }
+        for j in 1..=kqmax1 {
+            w[j] = 1.0 / j as f64;
+        }
+        let mut jx = 0;
+        let mut ks1 = ks - 1;
+        while ks >= 2 {
+            jx += 1;
+            for j in 1..=jx {
+                w[j + ks] = fc[j + 1] * w[j + ks1] - wc[j] * w[j + ks];
+            }
+            ks = ks1;
+            ks1 -= 1;
+        }
+        let mut pos = [0.0; 3];
+        for i in 0..3 {
+            let mut sum = 0.0;
+            for j in (1..=kq[i]).rev() {
+                sum += dt(j - 1, i) * w[j + ks];
+            }
+            pos[i] = refpos[i] + delta * (refvel[i] + delta * sum);
+        }
+        for j in 1..=jx {
+            w[j + ks] = fc[j + 1] * w[j + ks1] - wc[j] * w[j + ks];
+        }
+        ks -= 1;
+        let mut vel = [0.0; 3];
+        for i in 0..3 {
+            let mut sum = 0.0;
+            for j in (1..=kq[i]).rev() {
+                sum += dt(j - 1, i) * w[j + ks];
+            }
+            vel[i] = refvel[i] + delta * sum;
+        }
+        Ok([pos, vel])
+    }
+
+    /// Position, velocity and acceleration (km, km/s, km/s²). Type 1 carries no acceleration;
+    /// it is the central difference of the velocity over ±1 s.
+    fn eval(&self, file: &DafFile, et_hi: f64, et_lo: f64) -> Result<[Vec3; 3], String> {
+        let et = et_hi + et_lo;
+        let [p, v] = self.eval_pv(file, et)?;
+        let h = 1.0;
+        let tm = (et - h).max(self.start_et);
+        let tp = (et + h).min(self.end_et);
+        let vm = self.eval_pv(file, tm)?[1];
+        let vp = self.eval_pv(file, tp)?[1];
+        let a = std::array::from_fn(|k| (vp[k] - vm[k]) / (tp - tm));
+        Ok([p, v, a])
+    }
+}
+
+/// One SPK segment's representation.
+#[derive(Clone, Debug)]
+enum SpkSegment {
+    Cheb(Chebyshev2),
+    Mda(Mda1),
+}
+
+impl SpkSegment {
+    fn covers(&self, et: f64) -> bool {
+        match self {
+            Self::Cheb(c) => c.covers(et),
+            Self::Mda(m) => m.covers(et),
+        }
+    }
+
+    fn eval(&self, file: &DafFile, et_hi: f64, et_lo: f64) -> Result<[Vec3; 3], String> {
+        match self {
+            Self::Cheb(c) => c.eval(file, et_hi, et_lo),
+            Self::Mda(m) => m.eval(file, et_hi, et_lo),
+        }
+    }
+}
+
+/// An SPK kernel: its type-1 and type-2 segments, keyed by (target, centre).
 #[derive(Clone, Debug)]
 pub struct SpkKernel {
     file: DafFile,
-    segments: Vec<(i32, i32, i32, Chebyshev2)>,
+    segments: Vec<(i32, i32, i32, SpkSegment)>,
 }
 
 /// Position (m), velocity (m/s) and acceleration (m/s²), J2000 axes.
 pub type State3 = [Vec3; 3];
 
 impl SpkKernel {
-    /// Read an SPK, keeping its type-2 segments (other types are ignored).
+    /// Read an SPK, keeping its type-1 and type-2 segments (other types are ignored).
     pub fn open(path: &std::path::Path) -> Result<Self, String> {
         Self::from_daf(DafFile::open(path)?)
     }
@@ -321,16 +492,12 @@ impl SpkKernel {
             if s.doubles.len() != 2 || s.ints.len() != 6 {
                 return Err("SPK summary is not ND=2, NI=6".into());
             }
-            if s.ints[3] != 2 {
-                continue;
-            }
-            let seg = Chebyshev2::new(
-                &file,
-                s.doubles[0],
-                s.doubles[1],
-                s.ints[4] as usize,
-                s.ints[5] as usize,
-            )?;
+            let (a, b) = (s.ints[4] as usize, s.ints[5] as usize);
+            let seg = match s.ints[3] {
+                1 => SpkSegment::Mda(Mda1::new(&file, s.doubles[0], s.doubles[1], a, b)?),
+                2 => SpkSegment::Cheb(Chebyshev2::new(&file, s.doubles[0], s.doubles[1], a, b)?),
+                _ => continue,
+            };
             segments.push((s.ints[0], s.ints[1], s.ints[2], seg));
         }
         Ok(Self { file, segments })
@@ -345,7 +512,7 @@ impl SpkKernel {
             .iter()
             .rev()
             .find(|(t, _, _, s)| *t == target && s.covers(et))
-            .ok_or_else(|| format!("no SPK type-2 data for body {target} at ET {et}"))?;
+            .ok_or_else(|| format!("no SPK type-1/2 data for body {target} at ET {et}"))?;
         if *frame != 1 {
             return Err(format!(
                 "SPK segment for {target} is in frame {frame}, not J2000"
@@ -383,6 +550,26 @@ impl SpkKernel {
         et_hi: f64,
         et_lo: f64,
     ) -> Result<State3, String> {
+        // The observer on the target's own centre chain (MRO relative to the Mars barycentre in
+        // a spacecraft kernel that holds no planetary segments): sum the hops up to it only.
+        let mut s = [[0.0; 3]; 3];
+        let mut b = target;
+        while b != observer && b != 0 {
+            match self.hop(b, et_hi, et_lo) {
+                Ok((c, st)) => {
+                    for k in 0..3 {
+                        for j in 0..3 {
+                            s[k][j] += st[k][j];
+                        }
+                    }
+                    b = c;
+                }
+                Err(_) => break,
+            }
+        }
+        if b == observer {
+            return Ok(s);
+        }
         let ct = self.chain(target, et_hi, et_lo)?;
         let co = self.chain(observer, et_hi, et_lo)?;
         let bodies_t: Vec<i32> = ct.iter().map(|x| x.0).chain([0]).collect();
@@ -507,7 +694,7 @@ impl PckKernel {
 
 /// Frame rotation about x: `[[1,0,0],[0,c,s],[0,−s,c]]`.
 pub fn rot_x(a: f64) -> Mat3 {
-    let (s, c) = a.sin_cos();
+    let (s, c) = a.psin_cos();
     [[1.0, 0.0, 0.0], [0.0, c, s], [0.0, -s, c]]
 }
 
@@ -545,9 +732,9 @@ pub fn mat_vec(a: &Mat3, v: Vec3) -> Vec3 {
 /// `R = R_z(w) · R_x(δ) · R_z(φ)` for angles `(φ, δ, w)`, and `dR/dt` from the angle rates.
 pub fn euler_313_with_rate(ang: Vec3, rate: Vec3) -> (Mat3, Mat3) {
     let (phi, delta, w) = (ang[0], ang[1], ang[2]);
-    let (sp, cp) = phi.sin_cos();
-    let (sd, cd) = delta.sin_cos();
-    let (sw, cw) = w.sin_cos();
+    let (sp, cp) = phi.psin_cos();
+    let (sd, cd) = delta.psin_cos();
+    let (sw, cw) = w.psin_cos();
     let rz = |s: f64, c: f64| [[c, s, 0.0], [-s, c, 0.0], [0.0, 0.0, 1.0]];
     let drz = |s: f64, c: f64| [[-s, c, 0.0], [-c, -s, 0.0], [0.0, 0.0, 0.0]];
     let rx = [[1.0, 0.0, 0.0], [0.0, cd, sd], [0.0, -sd, cd]];
@@ -588,8 +775,8 @@ pub fn naif_et_from_utc(jd_utc_day: f64, utc_seconds_of_day: f64) -> (f64, f64) 
     let mut lo = DELTA_T_A;
     for _ in 0..8 {
         let m = DELTET_M0 + DELTET_M1 * (hi + lo);
-        let e = m + DELTET_EB * m.sin();
-        lo = DELTA_T_A + DELTET_K * e.sin();
+        let e = m + DELTET_EB * m.psin();
+        lo = DELTA_T_A + DELTET_K * e.psin();
     }
     (hi, lo)
 }

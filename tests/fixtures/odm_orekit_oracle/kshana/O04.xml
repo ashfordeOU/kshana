@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<opm id="CCSDS_OPM_VERS" version="3.0">
+  <header>
+    <CLASSIFICATION>unclassified test data</CLASSIFICATION>
+    <CREATION_DATE>2026-10-14T00:00:00</CREATION_DATE>
+    <ORIGINATOR>KSHANA XVAL</ORIGINATOR>
+    <MESSAGE_ID>O04-0001</MESSAGE_ID>
+  </header>
+  <body>
+    <segment>
+      <metadata>
+        <OBJECT_NAME>XVAL SAT</OBJECT_NAME>
+        <OBJECT_ID>2026-999A</OBJECT_ID>
+        <CENTER_NAME>EARTH</CENTER_NAME>
+        <REF_FRAME>EME2000</REF_FRAME>
+        <TIME_SYSTEM>GPS</TIME_SYSTEM>
+      </metadata>
+      <data>
+        <stateVector>
+          <EPOCH>2026-03-04T00:00:00</EPOCH>
+          <X>-7520.648181023646</X>
+          <Y>1042.713114543641</Y>
+          <Z>-7836.472520813146</Z>
+          <X_DOT>1.8090081239889757</X_DOT>
+          <Y_DOT>4.641062465919871</Y_DOT>
+          <Z_DOT>-7.536910369718909</Z_DOT>
+        </stateVector>
+        <maneuverParameters>
+          <MAN_EPOCH_IGNITION>2026-03-04T01:00:00</MAN_EPOCH_IGNITION>
+          <MAN_DURATION>216.13400495146095</MAN_DURATION>
+          <MAN_DELTA_MASS>-5.400909140153002</MAN_DELTA_MASS>
+          <MAN_REF_FRAME>RTN</MAN_REF_FRAME>
+          <MAN_DV_1>0.0024541611380150532</MAN_DV_1>
+          <MAN_DV_2>-0.002385650086198126</MAN_DV_2>
+          <MAN_DV_3>0.007949726868498087</MAN_DV_3>
+        </maneuverParameters>
+        <maneuverParameters>
+          <MAN_EPOCH_IGNITION>2026-03-04T02:30:00.5</MAN_EPOCH_IGNITION>
+          <MAN_DURATION>224.96840651651493</MAN_DURATION>
+          <MAN_DELTA_MASS>-1.2805307399576078</MAN_DELTA_MASS>
+          <MAN_REF_FRAME>EME2000</MAN_REF_FRAME>
+          <MAN_DV_1>-0.002998867935968681</MAN_DV_1>
+          <MAN_DV_2>0.0009508830520067909</MAN_DV_2>
+          <MAN_DV_3>0.0073033885665842934</MAN_DV_3>
+        </maneuverParameters>
+        <userDefinedParameters>
+          <USER_DEFINED parameter="EARTH_MODEL">WGS-84</USER_DEFINED>
+          <USER_DEFINED parameter="OPERATOR_NOTE">two burns</USER_DEFINED>
+        </userDefinedParameters>
+      </data>
+    </segment>
+  </body>
+</opm>

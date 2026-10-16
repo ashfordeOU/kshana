@@ -29,6 +29,7 @@
 //! playground contour widget. Kshana points users to GMAT/Orekit for full multi-burn /
 //! low-thrust optimization.
 
+use crate::portable_math::PortableFloat;
 use serde::Serialize;
 use std::f64::consts::PI;
 
@@ -196,7 +197,7 @@ pub struct FiniteBurnResult {
 
 /// Tsiolkovsky rocket equation: ΔV = `Isp · g₀ · ln(m0 / mf)` (m/s).
 pub fn tsiolkovsky(isp_s: f64, m0_kg: f64, mf_kg: f64) -> f64 {
-    isp_s * G0 * (m0_kg / mf_kg).ln()
+    isp_s * G0 * (m0_kg / mf_kg).pln()
 }
 
 /// Integrate a finite burn in a field-free setting (isolating the rocket-equation check from
@@ -246,10 +247,10 @@ pub fn integrate_finite_burn(burn: &FiniteBurn, steps: usize) -> Result<FiniteBu
 fn stumpff(psi: f64) -> (f64, f64) {
     if psi > 1e-6 {
         let s = psi.sqrt();
-        ((1.0 - s.cos()) / psi, (s - s.sin()) / (psi * s))
+        ((1.0 - s.pcos()) / psi, (s - s.psin()) / (psi * s))
     } else if psi < -1e-6 {
         let s = (-psi).sqrt();
-        ((s.cosh() - 1.0) / (-psi), (s.sinh() - s) / ((-psi) * s))
+        ((s.pcosh() - 1.0) / (-psi), (s.psinh() - s) / ((-psi) * s))
     } else {
         // Series: c2 = 1/2 − ψ/24 + ψ²/720…, c3 = 1/6 − ψ/120 + ψ²/5040…
         (
@@ -277,7 +278,7 @@ pub fn kepler_universal(r0: Vec3, v0: Vec3, dt: f64, mu: f64) -> (Vec3, Vec3) {
             * (-a).sqrt()
             * ((-2.0 * mu * alpha * dt)
                 / (dot(r0, v0) + dt.signum() * (-mu * a).sqrt() * (1.0 - r0n * alpha)))
-                .ln()
+                .pln()
     } else {
         sqrt_mu * dt / r0n
     };
@@ -338,10 +339,10 @@ fn compute_y(x: f64, ll: f64) -> f64 {
 fn compute_psi(x: f64, y: f64, ll: f64) -> f64 {
     if (-1.0..1.0).contains(&x) {
         // Elliptic.
-        (x * y + ll * (1.0 - x * x)).acos()
+        (x * y + ll * (1.0 - x * x)).pacos()
     } else if x > 1.0 {
         // Hyperbolic.
-        ((y - x * ll) * (x * x - 1.0).sqrt()).asinh()
+        ((y - x * ll) * (x * x - 1.0).sqrt()).pasinh()
     } else {
         0.0
     }
@@ -368,7 +369,8 @@ fn tof_eq_p2(x: f64, y: f64, tof: f64, dt: f64, ll: f64) -> f64 {
     (3.0 * tof + 5.0 * x * dt + 2.0 * (1.0 - ll * ll) * ll * ll * ll / (y * y * y)) / (1.0 - x * x)
 }
 fn tof_eq_p3(x: f64, y: f64, _tof: f64, dt: f64, ddt: f64, ll: f64) -> f64 {
-    (7.0 * x * ddt + 8.0 * dt - 6.0 * (1.0 - ll * ll) * ll.powi(5) * x / y.powi(5)) / (1.0 - x * x)
+    (7.0 * x * ddt + 8.0 * dt - 6.0 * (1.0 - ll * ll) * ll.ppowi(5) * x / y.ppowi(5))
+        / (1.0 - x * x)
 }
 
 /// Householder (cubic-order) iteration for the single-rev root `x` of `tof(x) = T`.
@@ -441,14 +443,14 @@ pub fn lambert(
     let big_t = (2.0 * mu / (s * s * s)).sqrt() * tof;
 
     // Single-revolution initial guess (Izzo `_initial_guess`, M = 0 branch).
-    let t0 = ll.acos() + ll * (1.0 - ll * ll).sqrt(); // T(x = 0)
+    let t0 = ll.pacos() + ll * (1.0 - ll * ll).sqrt(); // T(x = 0)
     let t1 = 2.0 / 3.0 * (1.0 - ll * ll * ll); // T(x = 1), parabola
     let x0 = if big_t >= t0 {
-        (t0 / big_t).powf(2.0 / 3.0) - 1.0
+        (t0 / big_t).ppowf(2.0 / 3.0) - 1.0
     } else if big_t < t1 {
-        2.5 * t1 / big_t * (t1 - big_t) / (1.0 - ll.powi(5)) + 1.0
+        2.5 * t1 / big_t * (t1 - big_t) / (1.0 - ll.ppowi(5)) + 1.0
     } else {
-        (t0 / big_t).powf((t1 / t0).log2()) - 1.0
+        (t0 / big_t).ppowf((t1 / t0).plog2()) - 1.0
     };
     let x = householder(x0, big_t, ll);
     let y = compute_y(x, ll);
@@ -463,6 +465,264 @@ pub fn lambert(
     let v1 = add(scale(ir1, vr1), scale(it1, vt1));
     let v2 = add(scale(ir2, vr2), scale(it2, vt2));
     Ok((v1, v2))
+}
+
+// ===========================================================================
+// 4b. Izzo-2015 multi-revolution Lambert branches (M >= 1).
+// ===========================================================================
+
+/// Which of the two `M`-revolution Lambert solutions (Izzo 2015, §3): the **left** branch starts
+/// its Householder iteration from Izzo's left initial guess `x0l`, the **right** branch from
+/// `x0r`. The names and the order follow Izzo's paper and his reference implementation.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize)]
+#[serde(rename_all = "lowercase")]
+pub enum LambertBranch {
+    /// The solution reached from the left initial guess.
+    Left,
+    /// The solution reached from the right initial guess.
+    Right,
+}
+
+/// One solution of Lambert's problem.
+#[derive(Clone, Copy, Debug, PartialEq, Serialize)]
+pub struct LambertSolution {
+    /// Complete revolutions `M` before arrival.
+    pub revs: u32,
+    /// `None` for `M = 0` (unique); the branch for `M >= 1`.
+    pub branch: Option<LambertBranch>,
+    /// Departure velocity (same units as `mu` and the positions imply; m/s in SI).
+    pub v1: Vec3,
+    /// Arrival velocity.
+    pub v2: Vec3,
+}
+
+/// The non-dimensional Lambert geometry of Izzo 2015, §2: `λ`, the tangential unit vectors and
+/// the scale factors. Same construction as [`lambert`].
+struct LambertGeom {
+    ll: f64,
+    ir1: Vec3,
+    ir2: Vec3,
+    it1: Vec3,
+    it2: Vec3,
+    r1n: f64,
+    r2n: f64,
+    c: f64,
+    s: f64,
+}
+
+fn lambert_geom(r1: Vec3, r2: Vec3, prograde: bool) -> Result<LambertGeom, String> {
+    let r1n = norm(r1);
+    let r2n = norm(r2);
+    let c = norm(sub(r2, r1));
+    let s = 0.5 * (r1n + r2n + c);
+    let ir1 = unit(r1);
+    let ir2 = unit(r2);
+    let cross12 = cross(ir1, ir2);
+    let cross_n = norm(cross12);
+    if cross_n < 1e-12 {
+        return Err("collinear endpoints: transfer plane is undefined (≈0°/180°)".into());
+    }
+    let ih = scale(cross12, 1.0 / cross_n);
+    let mut ll = (1.0 - (c / s).min(1.0)).sqrt();
+    let (mut it1, mut it2);
+    if ih[2] < 0.0 {
+        ll = -ll;
+        it1 = cross(ir1, ih);
+        it2 = cross(ir2, ih);
+    } else {
+        it1 = cross(ih, ir1);
+        it2 = cross(ih, ir2);
+    }
+    if !prograde {
+        ll = -ll;
+        it1 = scale(it1, -1.0);
+        it2 = scale(it2, -1.0);
+    }
+    Ok(LambertGeom {
+        ll,
+        ir1,
+        ir2,
+        it1: unit(it1),
+        it2: unit(it2),
+        r1n,
+        r2n,
+        c,
+        s,
+    })
+}
+
+/// Non-dimensional time of flight `T(x)` on the elliptic `M`-revolution family (`|x| < 1`):
+/// `T = [(ψ + Mπ)/√(1 − x²) − x + λy] / (1 − x²)` (Izzo 2015, eq. 18 with the `Mπ` term).
+fn tof_multirev(x: f64, ll: f64, m: u32) -> f64 {
+    let y = compute_y(x, ll);
+    let psi = compute_psi(x, y, ll);
+    let om = 1.0 - x * x;
+    ((psi + m as f64 * PI) / om.sqrt() - x + ll * y) / om
+}
+
+/// Householder (cubic-order) iteration on `T(x) = big_t` along the `M`-revolution family.
+fn householder_multirev(x0: f64, big_t: f64, ll: f64, m: u32) -> f64 {
+    let mut x = x0;
+    for _ in 0..60 {
+        let y = compute_y(x, ll);
+        let tof = tof_multirev(x, ll, m);
+        let fval = tof - big_t;
+        let fp = tof_eq_p(x, y, tof, ll);
+        let fpp = tof_eq_p2(x, y, tof, fp, ll);
+        let fppp = tof_eq_p3(x, y, tof, fp, fpp, ll);
+        let denom = fp * (fp * fp - fval * fpp) + fppp * fval * fval / 6.0;
+        let dx = fval * (fp * fp - fval * fpp / 2.0) / denom;
+        // Keep the iterate inside the ellipse family.
+        let next = (x - dx).clamp(-1.0 + 1e-15, 1.0 - 1e-15);
+        let step = (next - x).abs();
+        x = next;
+        if step < 1e-14 {
+            break;
+        }
+    }
+    x
+}
+
+/// The minimum non-dimensional time of flight `T_min(M)` of the `M`-revolution family and its
+/// `x`: Halley iteration on `dT/dx = 0` from `x = 0.1` (Izzo 2015, §3).
+fn tmin_multirev(ll: f64, m: u32) -> (f64, f64) {
+    if ll.abs() == 1.0 {
+        return (0.0, tof_multirev(0.0, ll, m));
+    }
+    let mut x = 0.1_f64;
+    for _ in 0..60 {
+        let y = compute_y(x, ll);
+        let tof = tof_multirev(x, ll, m);
+        let d1 = tof_eq_p(x, y, tof, ll);
+        let d2 = tof_eq_p2(x, y, tof, d1, ll);
+        let d3 = tof_eq_p3(x, y, tof, d1, d2, ll);
+        let den = 2.0 * d2 * d2 - d1 * d3;
+        if den == 0.0 {
+            break;
+        }
+        let next = (x - 2.0 * d1 * d2 / den).clamp(-1.0 + 1e-15, 1.0 - 1e-15);
+        let step = (next - x).abs();
+        x = next;
+        if step < 1e-14 {
+            break;
+        }
+    }
+    (x, tof_multirev(x, ll, m))
+}
+
+/// Terminal velocities from a converged `x` (Izzo 2015, §2, Algorithm 1 last step).
+fn lambert_velocities(g: &LambertGeom, x: f64, mu: f64) -> (Vec3, Vec3) {
+    let ll = g.ll;
+    let y = compute_y(x, ll);
+    let gamma = (mu * g.s / 2.0).sqrt();
+    let rho = (g.r1n - g.r2n) / g.c;
+    let sigma = (1.0 - rho * rho).sqrt();
+    let vr1 = gamma * ((ll * y - x) - rho * (ll * y + x)) / g.r1n;
+    let vr2 = -gamma * ((ll * y - x) + rho * (ll * y + x)) / g.r2n;
+    let vt1 = gamma * sigma * (y + ll * x) / g.r1n;
+    let vt2 = gamma * sigma * (y + ll * x) / g.r2n;
+    (
+        add(scale(g.ir1, vr1), scale(g.it1, vt1)),
+        add(scale(g.ir2, vr2), scale(g.it2, vt2)),
+    )
+}
+
+/// The largest number of complete revolutions `M <= max_revs` for which a Lambert solution
+/// exists: `floor(T/π)` cropped to `max_revs`, lowered by one when `T` is below that family's
+/// minimum time of flight (Izzo 2015, §3).
+pub fn lambert_max_revs(
+    r1: Vec3,
+    r2: Vec3,
+    tof: f64,
+    mu: f64,
+    prograde: bool,
+    max_revs: u32,
+) -> Result<u32, String> {
+    if tof <= 0.0 {
+        return Err("time of flight must be positive".into());
+    }
+    let g = lambert_geom(r1, r2, prograde)?;
+    let big_t = (2.0 * mu / (g.s * g.s * g.s)).sqrt() * tof;
+    Ok(max_revs_of(&g, big_t, max_revs))
+}
+
+fn max_revs_of(g: &LambertGeom, big_t: f64, max_revs: u32) -> u32 {
+    let ll = g.ll;
+    let mut n = ((big_t / PI).floor() as u32).min(max_revs);
+    let t00 = ll.pacos() + ll * (1.0 - ll * ll).sqrt();
+    if n > 0 && big_t < t00 + n as f64 * PI {
+        let (_, t_min) = tmin_multirev(ll, n);
+        if t_min > big_t {
+            n -= 1;
+        }
+    }
+    n
+}
+
+/// Every solution of Lambert's problem with at most `max_revs` complete revolutions, by Izzo's
+/// 2015 method: the single-revolution solution first (exactly [`lambert`]), then for each
+/// `M = 1 ..= Nmax` the left and the right branch. `Nmax` is [`lambert_max_revs`]; with
+/// `max_revs = 0` this is `[lambert(..)]`.
+///
+/// Near a family's minimum time of flight the two branches merge and the root is
+/// ill-conditioned; there the velocities lose digits (see the oracle test's bars).
+pub fn lambert_multirev(
+    r1: Vec3,
+    r2: Vec3,
+    tof: f64,
+    mu: f64,
+    prograde: bool,
+    max_revs: u32,
+) -> Result<Vec<LambertSolution>, String> {
+    let (v1, v2) = lambert(r1, r2, tof, mu, prograde)?;
+    let mut out = vec![LambertSolution {
+        revs: 0,
+        branch: None,
+        v1,
+        v2,
+    }];
+    let g = lambert_geom(r1, r2, prograde)?;
+    let big_t = (2.0 * mu / (g.s * g.s * g.s)).sqrt() * tof;
+    let n = max_revs_of(&g, big_t, max_revs);
+    for m in 1..=n {
+        let mf = m as f64;
+        let kl = ((mf * PI + PI) / (8.0 * big_t)).ppowf(2.0 / 3.0);
+        let kr = ((8.0 * big_t) / (mf * PI)).ppowf(2.0 / 3.0);
+        for (branch, k) in [(LambertBranch::Left, kl), (LambertBranch::Right, kr)] {
+            let x = householder_multirev((k - 1.0) / (k + 1.0), big_t, g.ll, m);
+            let (v1, v2) = lambert_velocities(&g, x, mu);
+            out.push(LambertSolution {
+                revs: m,
+                branch: Some(branch),
+                v1,
+                v2,
+            });
+        }
+    }
+    Ok(out)
+}
+
+/// One `M`-revolution Lambert solution on the given branch (`M >= 1`), or an error when no
+/// `M`-revolution transfer exists for this time of flight. For `M = 0` use [`lambert`].
+pub fn lambert_revs(
+    r1: Vec3,
+    r2: Vec3,
+    tof: f64,
+    mu: f64,
+    prograde: bool,
+    revs: u32,
+    branch: LambertBranch,
+) -> Result<(Vec3, Vec3), String> {
+    if revs == 0 {
+        return Err("lambert_revs is for M >= 1; use lambert for M = 0".into());
+    }
+    let all = lambert_multirev(r1, r2, tof, mu, prograde, revs)?;
+    all.iter()
+        .find(|s| s.revs == revs && s.branch == Some(branch))
+        .map(|s| (s.v1, s.v2))
+        .ok_or_else(|| {
+            format!("no {revs}-revolution transfer: the time of flight is below its minimum")
+        })
 }
 
 // ===========================================================================
@@ -484,19 +744,19 @@ pub struct CircularCoplanarBody {
 impl CircularCoplanarBody {
     /// Mean angular rate `n = √(μ/r³)` (rad/s).
     pub fn angular_rate(&self) -> f64 {
-        (self.mu_central / self.radius_m.powi(3)).sqrt()
+        (self.mu_central / self.radius_m.ppowi(3)).sqrt()
     }
     /// Heliocentric position (m) at time `t` (s).
     pub fn position(&self, t: f64) -> Vec3 {
         let th = self.phase0_rad + self.angular_rate() * t;
-        [self.radius_m * th.cos(), self.radius_m * th.sin(), 0.0]
+        [self.radius_m * th.pcos(), self.radius_m * th.psin(), 0.0]
     }
     /// Heliocentric velocity (m/s) at time `t` (s).
     pub fn velocity(&self, t: f64) -> Vec3 {
         let n = self.angular_rate();
         let th = self.phase0_rad + n * t;
         let speed = self.radius_m * n;
-        [-speed * th.sin(), speed * th.cos(), 0.0]
+        [-speed * th.psin(), speed * th.pcos(), 0.0]
     }
 }
 
@@ -564,7 +824,7 @@ pub fn porkchop(
             let r2 = arr.position(ta);
             // Skip near-collinear geometry.
             let cosang = (dot(r1, r2) / (norm(r1) * norm(r2))).clamp(-1.0, 1.0);
-            let ang = cosang.acos();
+            let ang = cosang.pacos();
             if ang < collinear_guard || (PI - ang) < collinear_guard {
                 continue;
             }
@@ -582,6 +842,271 @@ pub fn porkchop(
         c3_km2s2: c3,
         vinf_arr_kms: vinf,
     }
+}
+
+/// The porkchop sweep of [`porkchop`] on a JPL planetary ephemeris: the departure and arrival
+/// states are the heliocentric J2000 states of the NAIF bodies `dep_body` and `arr_body` (for
+/// example 399 for the Earth and 4 for the Mars barycentre) read from `kernel` (a DE440 SPK) at
+/// the TDB Julian dates `dep_jd_tdb` and `arr_jd_tdb`, with heliocentric parameter `mu_sun`.
+/// Same single-revolution prograde Lambert, the same 0.5° collinearity guard, C3 in km²/s² and
+/// arrival V∞ in km/s; the epoch axes of the grid are seconds from the first departure date.
+/// Checked against SPICE states and pykep's Lambert in `tests/porkchop_de440_oracle.rs`.
+///
+/// # Errors
+/// When the kernel does not cover an epoch or lacks a body.
+pub fn porkchop_kernel(
+    kernel: &crate::ephem_provider::KernelEphemeris,
+    dep_body: i32,
+    arr_body: i32,
+    dep_jd_tdb: &[f64],
+    arr_jd_tdb: &[f64],
+    mu_sun: f64,
+) -> Result<PorkchopGrid, String> {
+    use crate::ephem_provider::naif_code::SUN;
+    let st = |b: i32, jd: f64| kernel.state(b, SUN, crate::jd2::Jd2::new(jd));
+    let dep: Vec<_> = dep_jd_tdb
+        .iter()
+        .map(|&j| st(dep_body, j))
+        .collect::<Result<_, _>>()?;
+    let arr: Vec<_> = arr_jd_tdb
+        .iter()
+        .map(|&j| st(arr_body, j))
+        .collect::<Result<_, _>>()?;
+    let t0 = dep_jd_tdb.first().copied().unwrap_or(0.0);
+    let collinear_guard = (0.5_f64).to_radians();
+    let mut c3 = vec![vec![f64::NAN; arr_jd_tdb.len()]; dep_jd_tdb.len()];
+    let mut vinf = vec![vec![f64::NAN; arr_jd_tdb.len()]; dep_jd_tdb.len()];
+    for (i, &jd) in dep_jd_tdb.iter().enumerate() {
+        for (j, &ja) in arr_jd_tdb.iter().enumerate() {
+            let tof = (ja - jd) * 86_400.0;
+            if tof <= 0.0 {
+                continue;
+            }
+            let (r1, r2) = (dep[i][0], arr[j][0]);
+            let cosang = (dot(r1, r2) / (norm(r1) * norm(r2))).clamp(-1.0, 1.0);
+            let ang = cosang.pacos();
+            if ang < collinear_guard || (PI - ang) < collinear_guard {
+                continue;
+            }
+            if let Ok((v1, v2)) = lambert(r1, r2, tof, mu_sun, true) {
+                let vd = sub(v1, dep[i][1]);
+                let va = sub(v2, arr[j][1]);
+                c3[i][j] = dot(vd, vd) / 1.0e6;
+                vinf[i][j] = norm(va) / 1000.0;
+            }
+        }
+    }
+    Ok(PorkchopGrid {
+        dep_epochs_s: dep_jd_tdb.iter().map(|j| (j - t0) * 86_400.0).collect(),
+        arr_epochs_s: arr_jd_tdb.iter().map(|j| (j - t0) * 86_400.0).collect(),
+        c3_km2s2: c3,
+        vinf_arr_kms: vinf,
+    })
+}
+
+/// What [`optimise_transfer_kernel`] minimises.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum TransferObjective {
+    /// Departure C3 `|v1 − v_dep|²` (km²/s²).
+    MinC3,
+    /// Arrival hyperbolic excess speed `|v2 − v_arr|` (km/s).
+    MinArrivalVinf,
+}
+
+/// Transfer type: the heliocentric transfer angle below (Type I) or above (Type II) 180°,
+/// measured in the prograde sense about the frame's +Z axis (the convention of the prograde
+/// Lambert solver), so Type I means `(r1 × r2)_z > 0`.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum TransferType {
+    /// Transfer angle below 180°.
+    I,
+    /// Transfer angle above 180°.
+    II,
+}
+
+/// The optimum found by [`optimise_transfer_kernel`].
+#[derive(Clone, Copy, Debug)]
+pub struct TransferOptimum {
+    /// Departure epoch (JD, TDB).
+    pub dep_jd_tdb: f64,
+    /// Arrival epoch (JD, TDB).
+    pub arr_jd_tdb: f64,
+    /// Departure C3 (km²/s²).
+    pub c3_km2s2: f64,
+    /// Arrival hyperbolic excess speed (km/s).
+    pub vinf_arr_kms: f64,
+    /// Prograde transfer angle (deg, 0..360).
+    pub transfer_angle_deg: f64,
+    /// Nelder-Mead iterations used.
+    pub iterations: usize,
+}
+
+/// One ballistic two-impulse transfer between the states of two NAIF bodies on the kernel:
+/// `(C3 km²/s², arrival V∞ km/s, prograde transfer angle deg)`, or `None` for a non-positive
+/// time of flight, a geometry within the 0.5° collinearity guard, the other transfer type, or a
+/// Lambert failure.
+#[allow(clippy::too_many_arguments)]
+fn transfer_eval(
+    kernel: &crate::ephem_provider::KernelEphemeris,
+    dep_body: i32,
+    arr_body: i32,
+    dep_jd: f64,
+    arr_jd: f64,
+    ttype: TransferType,
+    mu_sun: f64,
+) -> Option<(f64, f64, f64)> {
+    use crate::ephem_provider::naif_code::SUN;
+    let tof = (arr_jd - dep_jd) * 86_400.0;
+    if tof.is_nan() || tof <= 0.0 {
+        return None;
+    }
+    let d = kernel
+        .state(dep_body, SUN, crate::jd2::Jd2::new(dep_jd))
+        .ok()?;
+    let a = kernel
+        .state(arr_body, SUN, crate::jd2::Jd2::new(arr_jd))
+        .ok()?;
+    let (r1, r2) = (d[0], a[0]);
+    let cosang = (dot(r1, r2) / (norm(r1) * norm(r2))).clamp(-1.0, 1.0);
+    let ang = cosang.pacos();
+    let guard = (0.5_f64).to_radians();
+    if ang < guard || (PI - ang) < guard {
+        return None;
+    }
+    let short = cross(r1, r2)[2] > 0.0;
+    if short != (ttype == TransferType::I) {
+        return None;
+    }
+    let theta = if short { ang } else { 2.0 * PI - ang };
+    let (v1, v2) = lambert(r1, r2, tof, mu_sun, true).ok()?;
+    let vd = sub(v1, d[1]);
+    let va = sub(v2, a[1]);
+    Some((dot(vd, vd) / 1.0e6, norm(va) / 1000.0, theta.to_degrees()))
+}
+
+/// The departure and arrival dates of a single-revolution ballistic two-impulse transfer that
+/// minimise `objective` within one transfer type, as a continuous optimum (CAP-20c): a grid
+/// over both windows at `grid_step_days`, then 2-D Nelder-Mead on (departure, arrival) in days
+/// from the best cell (initial steps 1 day; stop when the simplex spans < 1e-7 day and the
+/// objective spread is < 1e-13 relative, or after 4000 iterations). Candidates of the other
+/// type, with a non-positive time of flight, within the collinearity guard or where Lambert
+/// fails score +infinity. States come from the DE440 SPK as in [`porkchop_kernel`].
+///
+/// A date optimiser for one ballistic leg, not a mission design: no launch-vehicle, parking
+/// orbit, deep-space manoeuvre or multi-revolution options.
+#[allow(clippy::too_many_arguments)]
+pub fn optimise_transfer_kernel(
+    kernel: &crate::ephem_provider::KernelEphemeris,
+    dep_body: i32,
+    arr_body: i32,
+    dep_window_jd_tdb: (f64, f64),
+    arr_window_jd_tdb: (f64, f64),
+    objective: TransferObjective,
+    ttype: TransferType,
+    mu_sun: f64,
+    grid_step_days: f64,
+) -> Result<TransferOptimum, String> {
+    if !(grid_step_days.is_finite() && grid_step_days > 0.0) {
+        return Err(format!(
+            "grid_step_days must be positive, got {grid_step_days}"
+        ));
+    }
+    let (d0, d1) = dep_window_jd_tdb;
+    let (a0, a1) = arr_window_jd_tdb;
+    if !(d1 >= d0 && a1 >= a0) {
+        return Err("each window must run forward (start <= end)".into());
+    }
+    let pick = |e: (f64, f64, f64)| match objective {
+        TransferObjective::MinC3 => e.0,
+        TransferObjective::MinArrivalVinf => e.1,
+    };
+    let f = |x: [f64; 2]| -> f64 {
+        transfer_eval(kernel, dep_body, arr_body, x[0], x[1], ttype, mu_sun)
+            .map(pick)
+            .unwrap_or(f64::INFINITY)
+    };
+    // Grid.
+    let steps = |lo: f64, hi: f64| ((hi - lo) / grid_step_days + 1e-9).floor() as usize + 1;
+    let mut best = ([f64::NAN; 2], f64::INFINITY);
+    for i in 0..steps(d0, d1) {
+        let dj = d0 + i as f64 * grid_step_days;
+        for j in 0..steps(a0, a1) {
+            let aj = a0 + j as f64 * grid_step_days;
+            let v = f([dj, aj]);
+            if v < best.1 {
+                best = ([dj, aj], v);
+            }
+        }
+    }
+    if !best.1.is_finite() {
+        return Err("no transfer of the requested type in the windows".into());
+    }
+    // Nelder-Mead (reflection 1, expansion 2, contraction 0.5, shrink 0.5).
+    let x0 = best.0;
+    let mut simplex = [
+        (x0, best.1),
+        ([x0[0] + 1.0, x0[1]], f([x0[0] + 1.0, x0[1]])),
+        ([x0[0], x0[1] + 1.0], f([x0[0], x0[1] + 1.0])),
+    ];
+    let mut iterations = 0;
+    while iterations < 4000 {
+        simplex.sort_by(|p, q| p.1.total_cmp(&q.1));
+        let (b, w) = (simplex[0], simplex[2]);
+        let span = simplex[1..]
+            .iter()
+            .map(|p| (p.0[0] - b.0[0]).abs().max((p.0[1] - b.0[1]).abs()))
+            .fold(0.0, f64::max);
+        let fspread = (w.1 - b.1).abs();
+        if span < 1e-7 && fspread <= 1e-13 * b.1.abs().max(1e-300) {
+            break;
+        }
+        iterations += 1;
+        let c = [
+            0.5 * (simplex[0].0[0] + simplex[1].0[0]),
+            0.5 * (simplex[0].0[1] + simplex[1].0[1]),
+        ];
+        let at = |t: f64| [c[0] + t * (w.0[0] - c[0]), c[1] + t * (w.0[1] - c[1])];
+        let xr = at(-1.0);
+        let fr = f(xr);
+        if fr < simplex[0].1 {
+            let xe = at(-2.0);
+            let fe = f(xe);
+            simplex[2] = if fe < fr { (xe, fe) } else { (xr, fr) };
+        } else if fr < simplex[1].1 {
+            simplex[2] = (xr, fr);
+        } else {
+            let (xc, fc) = if fr < w.1 {
+                let x = at(-0.5);
+                (x, f(x))
+            } else {
+                let x = at(0.5);
+                (x, f(x))
+            };
+            if fc < fr.min(w.1) {
+                simplex[2] = (xc, fc);
+            } else {
+                for p in simplex.iter_mut().skip(1) {
+                    let x = [
+                        b.0[0] + 0.5 * (p.0[0] - b.0[0]),
+                        b.0[1] + 0.5 * (p.0[1] - b.0[1]),
+                    ];
+                    *p = (x, f(x));
+                }
+            }
+        }
+    }
+    simplex.sort_by(|p, q| p.1.total_cmp(&q.1));
+    let x = simplex[0].0;
+    let (c3, vinf, theta) = transfer_eval(kernel, dep_body, arr_body, x[0], x[1], ttype, mu_sun)
+        .ok_or("the optimum left the feasible region")?;
+    Ok(TransferOptimum {
+        dep_jd_tdb: x[0],
+        arr_jd_tdb: x[1],
+        c3_km2s2: c3,
+        vinf_arr_kms: vinf,
+        transfer_angle_deg: theta,
+        iterations,
+    })
 }
 
 /// Closed-form departure C3 (m²/s²) of the Hohmann transfer between two coplanar circular
@@ -781,7 +1306,7 @@ mod tests {
         };
         // Place the target so a 0 → tof_h transfer sweeps ~180° (the Hohmann geometry),
         // but we never sample exactly there (the guard / grid offsets keep us off the singularity).
-        let n2 = (MU_SUN / r2.powi(3)).sqrt();
+        let n2 = (MU_SUN / r2.ppowi(3)).sqrt();
         let arr = CircularCoplanarBody {
             radius_m: r2,
             phase0_rad: PI - n2 * tof_h,

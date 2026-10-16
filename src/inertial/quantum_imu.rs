@@ -46,6 +46,7 @@
 //! [`max_unambiguous_accel`], [`dynamic_range_cells`]). Wavefront aberration remains
 //! out of scope; see [`docs/QUANTUM.md`](../../docs/QUANTUM.md).
 
+use crate::portable_math::PortableFloat;
 use std::f64::consts::PI;
 
 /// Rb-87 D2 line wavelength (m) — the workhorse species for cold-atom inertial
@@ -94,7 +95,7 @@ pub fn accel_transfer_function(omega_rad_s: f64, pulse_sep_t: f64) -> f64 {
     if w * pulse_sep_t < 1e-4 {
         return pulse_sep_t * pulse_sep_t;
     }
-    let s = (w * pulse_sep_t / 2.0).sin();
+    let s = (w * pulse_sep_t / 2.0).psin();
     4.0 * s * s / (w * w)
 }
 
@@ -105,7 +106,7 @@ pub fn accel_transfer_function(omega_rad_s: f64, pulse_sep_t: f64) -> f64 {
 /// `σ_Φ² = k_eff²·S_a·T³/3`. Variance grows as `T³`, so the long interrogation that
 /// buys signal sensitivity also amplifies vibration — the central CAI design tension.
 pub fn vibration_phase_variance_white(k_eff: f64, pulse_sep_t: f64, accel_psd: f64) -> f64 {
-    k_eff * k_eff * accel_psd * pulse_sep_t.powi(3) / 3.0
+    k_eff * k_eff * accel_psd * pulse_sep_t.ppowi(3) / 3.0
 }
 
 /// Band-limited numeric counterpart of [`vibration_phase_variance_white`]: integrates
@@ -139,7 +140,7 @@ pub fn vibration_phase_variance_band(
 /// direction `beam_unit` and acceleration `accel` (both in the same frame). `beam_unit`
 /// is normalised defensively.
 pub fn beam_axis_projection(beam_unit: [f64; 3], accel: [f64; 3]) -> f64 {
-    let norm = (beam_unit[0].powi(2) + beam_unit[1].powi(2) + beam_unit[2].powi(2)).sqrt();
+    let norm = (beam_unit[0].ppowi(2) + beam_unit[1].ppowi(2) + beam_unit[2].ppowi(2)).sqrt();
     if norm == 0.0 {
         return 0.0;
     }
@@ -253,7 +254,7 @@ impl CaiAccelerometer {
         if tau_contrast_s <= 0.0 {
             return self.contrast;
         }
-        self.contrast * (-t_s / tau_contrast_s).exp()
+        self.contrast * (-t_s / tau_contrast_s).pexp()
     }
 
     /// Vibration-limited readout-phase noise `σ_Φ` (rad) for a white platform
@@ -361,7 +362,7 @@ impl DualCai {
     pub fn differential_phase_noise(&self) -> f64 {
         self.a
             .projection_noise_phase()
-            .hypot(self.b.projection_noise_phase())
+            .phypot(self.b.projection_noise_phase())
     }
 
     /// Per-shot QPN of the gravity gradient (s⁻²) for clouds `baseline_m` apart along
@@ -446,7 +447,7 @@ pub fn cai_drift_sweep(
                 ..base
             };
             let q = cai.q_va();
-            let drift = (q * nav_duration_s.powi(3) / 3.0).sqrt();
+            let drift = (q * nav_duration_s.ppowi(3) / 3.0).sqrt();
             DriftSweepPoint {
                 cycle_time_s: tc,
                 q_va: q,
@@ -530,12 +531,12 @@ impl QuantumNavBudget {
     pub fn vrw_position_variance(&self, t: f64) -> f64 {
         let q0 = self.cai.q_va();
         if self.tau_stability_s <= 0.0 || t <= 0.0 {
-            return q0 * t.max(0.0).powi(3) / 3.0;
+            return q0 * t.max(0.0).ppowi(3) / 3.0;
         }
         // Numeric Simpson integral of (t−u)²·q0·exp(2u/τ_s) du over [0, t].
         let n = 2000usize;
         let h = t / n as f64;
-        let f = |u: f64| (t - u) * (t - u) * q0 * (2.0 * u / self.tau_stability_s).exp();
+        let f = |u: f64| (t - u) * (t - u) * q0 * (2.0 * u / self.tau_stability_s).pexp();
         let mut s = f(0.0) + f(t);
         for i in 1..n {
             let u = i as f64 * h;
@@ -654,7 +655,7 @@ mod budget_tests {
         let budget = ref_budget(0.0, 0.0, 0.0, 0.0);
         let t = 300.0;
         let var = budget.vrw_position_variance(t);
-        let closed = budget.cai.q_va() * t.powi(3) / 3.0;
+        let closed = budget.cai.q_va() * t.ppowi(3) / 3.0;
         let rel = (var - closed).abs() / closed;
         assert!(rel < 1e-12, "vrw var {var:.6e} vs q_va t³/3 {closed:.6e}");
     }
@@ -670,7 +671,8 @@ mod budget_tests {
         let q0 = budget.cai.q_va();
         let a: f64 = 2.0 / 200.0; // 2/τ_s
         let analytic = q0
-            * ((a * t).exp() * 2.0 / a.powi(3) - (t * t / a + 2.0 * t / (a * a) + 2.0 / a.powi(3)));
+            * ((a * t).pexp() * 2.0 / a.ppowi(3)
+                - (t * t / a + 2.0 * t / (a * a) + 2.0 / a.ppowi(3)));
         let numeric = budget.vrw_position_variance(t);
         let rel = (numeric - analytic).abs() / analytic;
         assert!(
@@ -807,7 +809,7 @@ mod tests {
         };
         // Quadrature sum of 1/(C√N): 0.02 and 0.0125.
         let diff = d.differential_phase_noise();
-        assert!((diff - (0.02f64.powi(2) + 0.0125f64.powi(2)).sqrt()).abs() < 1e-15);
+        assert!((diff - (0.02f64.ppowi(2) + 0.0125f64.ppowi(2)).sqrt()).abs() < 1e-15);
         assert!((d.half_difference_phase_noise() - diff / 2.0).abs() < 1e-15);
         let k = effective_wavevector(RB87_D2_WAVELENGTH_M);
         let g = d.gradient_noise_per_shot(0.5);

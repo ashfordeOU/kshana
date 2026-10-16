@@ -300,9 +300,11 @@ mod tests {
             low.gnss.median_vdop.unwrap(),
             high.gnss.median_vdop.unwrap(),
         );
+        // The message carries no swept values: code scanning reads anything derived from
+        // latitude_sweep as location data, even for these synthetic test latitudes.
         assert!(
             vdop_high > vdop_low,
-            "median VDOP of the medium-orbit set: low-latitude row {vdop_low}, high-latitude row {vdop_high}"
+            "median VDOP of the medium-orbit set must be higher at the high-latitude row"
         );
         // The polar LEO shell has more satellites in view at the pole than at the equator.
         assert!(high.leo.mean_in_view > low.leo.mean_in_view);

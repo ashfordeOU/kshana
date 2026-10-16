@@ -1,0 +1,36 @@
+# Run the CAP-30 Mars orbit determination against the MRO navigation reconstruction.
+#
+# WHY THIS EXISTS
+#   tests/mro_odf_short_arc_od_oracle.rs fits real DSN 2-way Doppler of the Mars
+#   Reconnaissance Orbiter (the vendored PDS ODF) and compares the orbit with the MRO
+#   navigation team's reconstructed trajectory. The reconstruction (126 MB), DE440s, the
+#   DSN station coordinates and the GMM-3 gravity field are not vendored; without them the
+#   test prints a skip notice. This job fetches them (scripts/fetch_mro_od.sh checks every
+#   SHA-256) and runs the test with KSHANA_REQUIRE_REALDATA=1, which turns a missing input
+#   into a failure.
+#
+# Monthly, not per-push: the fetch reaches third-party hosts (NAIF, PDS), so a per-push
+# job would turn an upstream outage into a red main.
+name: Real-data Mars OD validation
+on:
+  schedule:
+    - cron: "41 5 4 * *"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  realdata-mro-od:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: dtolnay/rust-toolchain@e2a55d2ffb04f378e9626c28d38b36d230d1e12f # master; the toolchain is the `toolchain` input below
+        with:
+          toolchain: 1.93.0
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2
+      - name: Fetch the inputs (SHA-256 checked)
+        run: sh scripts/fetch_mro_od.sh
+      - name: Run the check, data REQUIRED
+        env:
+          KSHANA_REQUIRE_REALDATA: "1"
+        run: cargo test --release --test mro_odf_short_arc_od_oracle -- --nocapture

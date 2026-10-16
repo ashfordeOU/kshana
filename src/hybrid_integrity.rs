@@ -85,6 +85,7 @@ use crate::optical_linkbudget::{
 use crate::palette::chart::{
     AMBER, AXIS, BG, BLUE, CYAN, FONT_SANS, GRID, INK_2, LIME, MAGENTA, MUTED, TITLE,
 };
+use crate::portable_math::PortableFloat;
 use crate::radiometric::Band;
 use crate::raim::{chi2_cdf, noncentral_chi2_cdf, normal_quantile, pbias};
 use crate::timegeo::C_M_PER_S;
@@ -332,7 +333,7 @@ pub fn random_walk_time_to_limit(p0: f64, q: f64, k: f64, limit: f64) -> Option<
     if k <= 0.0 || limit <= 0.0 {
         return Some(0.0);
     }
-    let p_limit = (limit / k).powi(2);
+    let p_limit = (limit / k).ppowi(2);
     if p0 >= p_limit {
         return Some(0.0);
     }
@@ -616,7 +617,7 @@ pub fn margin_limited_range_m(range_m: f64, margin_db: f64) -> f64 {
     if !range_m.is_finite() || !margin_db.is_finite() || range_m <= 0.0 {
         return f64::NAN;
     }
-    range_m * 10f64.powf(margin_db / 20.0)
+    range_m * 10f64.ppowf(margin_db / 20.0)
 }
 
 /// Build the RF-availability block from the one-way link budget and the tracking
@@ -833,7 +834,7 @@ fn build_ranging_comparison(
         },
         optical_over_rf: ratio,
         rf_over_optical: ratio.map(|r| 1.0 / r),
-        optical_advantage_db: ratio.map(|r| -20.0 * r.log10()),
+        optical_advantage_db: ratio.map(|r| -20.0 * r.plog10()),
         refused,
         refusal_reason,
         released_two_way_optical_sigma_m: released_two_way_sigma_m,
@@ -1109,7 +1110,7 @@ fn build_fault_study(
 
     let mut out = Vec::with_capacity(axes.len());
     for (i, ax) in axes.iter().enumerate() {
-        let sigma_separation = (ax.rf_sigma.powi(2) + ax.opt_sigma.powi(2)).sqrt();
+        let sigma_separation = (ax.rf_sigma.ppowi(2) + ax.opt_sigma.ppowi(2)).sqrt();
         let mdb = root_lambda * sigma_separation;
         let (unit, alert_limit, ramp_rate_per_s) = match ax.role {
             AxisRole::Horizontal => ("m", inp.alert_h, inp.ramp_pos),
@@ -2484,7 +2485,7 @@ impl HybridOpticalRfScenario {
         let link_params = params;
         // A two-way ranging return path spreads the beam again (double-pass geometric loss).
         let return_factor = if two_way {
-            10f64.powf(-optical.geometric_loss_db / 10.0)
+            10f64.ppowf(-optical.geometric_loss_db / 10.0)
         } else {
             1.0
         };
@@ -2580,17 +2581,17 @@ impl HybridOpticalRfScenario {
         // L23 — optical→RF handoff consistency probe (deterministic 1σ draw).
         let truth = vec![0.0_f64; 4];
         let p0 = vec![
-            rf_pos_sigma_m.powi(2),
-            rf_pos_sigma_m.powi(2),
-            rf_vertical_sigma_m.powi(2),
-            rf_clock_sigma_s.powi(2),
+            rf_pos_sigma_m.ppowi(2),
+            rf_pos_sigma_m.ppowi(2),
+            rf_vertical_sigma_m.ppowi(2),
+            rf_clock_sigma_s.ppowi(2),
         ];
         let x0: Vec<f64> = p0.iter().map(|&p| p.sqrt()).collect(); // 1σ prior error
         let opt_r = [
-            opt_pos_sigma_m.powi(2),
-            opt_pos_sigma_m.powi(2),
-            opt_pos_sigma_m.powi(2),
-            opt_clock_sigma_s.powi(2),
+            opt_pos_sigma_m.ppowi(2),
+            opt_pos_sigma_m.ppowi(2),
+            opt_pos_sigma_m.ppowi(2),
+            opt_clock_sigma_s.ppowi(2),
         ];
         let optical_updates: Vec<(usize, f64, f64)> = (0..4)
             .map(|i| (i, truth[i] + opt_r[i].sqrt(), opt_r[i]))
@@ -3600,7 +3601,7 @@ mod tests {
             let sigma = ax["sigma_separation"].as_f64().unwrap();
             for inj in ax["injected"].as_array().unwrap() {
                 let bias = inj["injected_bias"].as_f64().unwrap();
-                let hand = (bias / sigma).powi(2);
+                let hand = (bias / sigma).ppowi(2);
                 let realised = inj["realised_chi2_statistic"].as_f64().unwrap();
                 assert!(
                     (realised - hand).abs() <= 1e-9 * hand.abs().max(1.0),
@@ -3733,7 +3734,7 @@ mod tests {
             for _ in 0..n {
                 let mut stat = 0.0_f64;
                 for axis in 0..dof {
-                    let z: f64 = rng.sample(rand_distr::StandardNormal);
+                    let z: f64 = rng.sample(crate::portable_distr::StandardNormal);
                     // The fault sits on one axis; the rest are fault-free.
                     let t = if axis == 0 { z + shift } else { z };
                     stat += t * t;
@@ -3946,7 +3947,7 @@ mod tests {
             assert_eq!(t, d["time_to_alert_limit_h_s"].as_f64().unwrap());
             assert!(t > 0.0 && t.is_finite());
             // Independent recomputation of the bound either side of the crossing.
-            let p_h0 = d["sigma_h_at_handover_m"].as_f64().unwrap().powi(2);
+            let p_h0 = d["sigma_h_at_handover_m"].as_f64().unwrap().ppowi(2);
             let bound = |tt: f64| k * (p_h0 + 2.0 * q_pos * tt).sqrt();
             assert!(
                 bound(t * 0.999) < al_h,
@@ -4127,7 +4128,7 @@ mod tests {
             .as_f64()
             .unwrap();
         for d in dirs {
-            let p_h0 = d["sigma_h_at_handover_m"].as_f64().unwrap().powi(2);
+            let p_h0 = d["sigma_h_at_handover_m"].as_f64().unwrap().ppowi(2);
             let expected = p_h0 / (2.0 * q_pos);
             let got = d["horizontal_variance_doubling_time_s"].as_f64().unwrap();
             assert!((got - expected).abs() <= 1e-9 * expected.max(1e-12));
@@ -4159,11 +4160,11 @@ mod tests {
         let p_rev = c["directions"][1]["sigma_h_at_handover_m"]
             .as_f64()
             .unwrap()
-            .powi(2);
+            .ppowi(2);
         let p_fwd = c["directions"][0]["sigma_h_at_handover_m"]
             .as_f64()
             .unwrap()
-            .powi(2);
+            .ppowi(2);
         let expected = (p_rev - p_fwd) / (2.0 * q_pos);
         assert!(
             ((fwd - rev) - expected).abs() < 1e-6,
@@ -4270,7 +4271,7 @@ mod tests {
             + cfg["g_over_t_db"].as_f64().unwrap()
             - crate::linkbudget::BOLTZMANN_DBW_PER_K_PER_HZ;
         assert!((cn0 - hand_cn0).abs() < 1e-9, "{cn0} vs {hand_cn0}");
-        let hand_ebn0 = cn0 - 10.0 * cfg["data_rate_bps"].as_f64().unwrap().log10();
+        let hand_ebn0 = cn0 - 10.0 * cfg["data_rate_bps"].as_f64().unwrap().plog10();
         assert!((r["eb_n0_db"].as_f64().unwrap() - hand_ebn0).abs() < 1e-9);
         assert!((margin - (hand_ebn0 - cfg["required_eb_n0_db"].as_f64().unwrap())).abs() < 1e-9);
         assert!(
@@ -4522,7 +4523,7 @@ mod tests {
             "the reciprocal must be the reciprocal"
         );
         assert!(
-            (c["optical_advantage_db"].as_f64().unwrap() - 20.0 * (sr / so).log10()).abs() < 1e-9
+            (c["optical_advantage_db"].as_f64().unwrap() - 20.0 * (sr / so).plog10()).abs() < 1e-9
         );
         assert_eq!(c["refused"], false);
         assert_eq!(c["refusal_reason"], "");
@@ -4638,7 +4639,7 @@ mod tests {
         let v = default_report();
         let c = &v["ranging_comparison"];
         let g_db = v["optical_link"]["geometric_loss_db"].as_f64().unwrap();
-        let return_factor = 10f64.powf(-g_db / 10.0);
+        let return_factor = 10f64.ppowf(-g_db / 10.0);
         let hand = 0.5 / return_factor.sqrt();
         let got = c["two_way_penalty_factor"].as_f64().unwrap();
         assert!(

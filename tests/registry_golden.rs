@@ -179,6 +179,12 @@ fn normalize_volatile(json: &str) -> String {
 const TIERED: &[&str] = &[
     "scenarios/clock-holdover.toml",
     "scenarios/orbit-multignss.toml",
+    // RM-04: the per-kind block appended after the run.
+    "scenarios/jamming-demo.toml",
+    "scenarios/lunar-time-offset.toml",
+    "scenarios/hybrid-optical-rf.toml",
+    "scenarios/cislunar-observability.toml",
+    "scenarios/conflict-resilience.toml",
 ];
 
 fn check(g: &Golden) {
@@ -412,7 +418,9 @@ fn golden_cislunar_observability() {
         // assert it — src/cislunar_observability.rs and
         // tests/cislunar_arc_recovery_reference.rs both now strip `units` back off and
         // re-hash against the constants frozen BEFORE it existed, and both are unchanged.
-        expect_fnv_canonical: 0x2cb0_2851_850e_09c1,
+        // STUDIO-15 (0.36 portable maths): was 0x2cb0_2851_850e_09c1 on the host's maths; the document moved only in
+        // round-off-floor quantities (docs/revisions/STUDIO15-portable-math-rebaseline.md).
+        expect_fnv_canonical: 0x274d_1075_bfa4_b6f8,
         expect_fnv_raw_linux_x64: None,
     });
 }

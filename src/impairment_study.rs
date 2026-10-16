@@ -22,6 +22,7 @@ use crate::impairment_eval::{
     ParityDetector, SqmDetector,
 };
 use crate::impairment_ml::{LogisticRegression, Mlp};
+use crate::portable_math::PortableFloat;
 
 /// Per-class AUC: one impairment `class`'s cases (positives) versus the corpus's
 /// `Nominal` cases (negatives), scored by `det`. This isolates a single
@@ -302,7 +303,8 @@ pub fn run_grid(cfg: &GridConfig) -> GridResult {
                 let k = gaps.len().max(1) as f64;
                 let mean = gaps.iter().sum::<f64>() / k;
                 let var = if gaps.len() > 1 {
-                    gaps.iter().map(|g| (g - mean).powi(2)).sum::<f64>() / (gaps.len() as f64 - 1.0)
+                    gaps.iter().map(|g| (g - mean).ppowi(2)).sum::<f64>()
+                        / (gaps.len() as f64 - 1.0)
                 } else {
                     0.0
                 };
@@ -375,7 +377,7 @@ fn std_pop(v: &[f64], m: f64) -> f64 {
     if v.is_empty() {
         0.0
     } else {
-        (v.iter().map(|x| (x - m).powi(2)).sum::<f64>() / v.len() as f64).sqrt()
+        (v.iter().map(|x| (x - m).ppowi(2)).sum::<f64>() / v.len() as f64).sqrt()
     }
 }
 
@@ -591,7 +593,7 @@ fn col_stats(rows: &[Vec<f64>]) -> (Vec<f64>, Vec<f64>) {
     let mut std = vec![0.0; p];
     for r in rows {
         for (k, &v) in r.iter().enumerate() {
-            std[k] += (v - mean[k]).powi(2);
+            std[k] += (v - mean[k]).ppowi(2);
         }
     }
     for s in &mut std {
@@ -652,8 +654,8 @@ pub struct CvResult {
 fn cv_metrics(pa: Vec<(f64, f64)>, n_folds: usize) -> CvResult {
     let n = pa.len().max(1) as f64;
     let ybar = pa.iter().map(|(_, a)| a).sum::<f64>() / n;
-    let ss_tot: f64 = pa.iter().map(|(_, a)| (a - ybar).powi(2)).sum();
-    let ss_res: f64 = pa.iter().map(|(p, a)| (a - p).powi(2)).sum();
+    let ss_tot: f64 = pa.iter().map(|(_, a)| (a - ybar).ppowi(2)).sum();
+    let ss_res: f64 = pa.iter().map(|(p, a)| (a - p).ppowi(2)).sum();
     let r2 = if ss_tot > 0.0 {
         1.0 - ss_res / ss_tot
     } else {

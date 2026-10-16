@@ -9,11 +9,11 @@
    "n_params": 16,
    "rank": 15,
    "defect": 1,
-   "station_null_overlap": 0.34039724864717225,
+   "station_null_overlap": 0.34039725962117323,
    "station_crlb_m": null,
-   "smallest_kept_over_largest": 4.631780910602653e-07,
-   "largest_discarded_over_largest": 4.870969684361013e-11,
-   "condition_kept": 2158996.764529364
+   "smallest_kept_over_largest": 4.6317814912203114e-07,
+   "largest_discarded_over_largest": 4.870853943177207e-11,
+   "condition_kept": 2158996.4938880033
   },
   {
    "name": "default_with_vlbi",
@@ -21,21 +21,21 @@
    "rank": 16,
    "defect": 0,
    "station_null_overlap": 0.0,
-   "station_crlb_m": 20.07769346899468,
-   "smallest_kept_over_largest": 8.087993417168249e-07,
+   "station_crlb_m": 20.07769356264509,
+   "smallest_kept_over_largest": 8.0879935293688e-07,
    "largest_discarded_over_largest": 0.0,
-   "condition_kept": 1236400.6106598908
+   "condition_kept": 1236400.5935079446
   },
   {
    "name": "default_two_stations",
    "n_params": 16,
    "rank": 14,
    "defect": 2,
-   "station_null_overlap": 0.4252717060285199,
+   "station_null_overlap": 0.42527170591104724,
    "station_crlb_m": null,
-   "smallest_kept_over_largest": 1.0673086743948187e-07,
-   "largest_discarded_over_largest": 8.83609449490068e-18,
-   "condition_kept": 9369360.748117374
+   "smallest_kept_over_largest": 1.067308673419902e-07,
+   "largest_discarded_over_largest": 1.82864679995167e-17,
+   "condition_kept": 9369360.756675672
   },
   {
    "name": "default_three_stations",
@@ -43,10 +43,10 @@
    "rank": 16,
    "defect": 0,
    "station_null_overlap": 0.0,
-   "station_crlb_m": 50.12378988617651,
-   "smallest_kept_over_largest": 1.8467970363953464e-07,
+   "station_crlb_m": 50.123789886839745,
+   "smallest_kept_over_largest": 1.846797036459154e-07,
    "largest_discarded_over_largest": 0.0,
-   "condition_kept": 5414780.185871647
+   "condition_kept": 5414780.185684564
   },
   {
    "name": "default_four_stations",
@@ -54,10 +54,10 @@
    "rank": 16,
    "defect": 0,
    "station_null_overlap": 0.0,
-   "station_crlb_m": 36.80401462820206,
-   "smallest_kept_over_largest": 2.990382019111067e-07,
+   "station_crlb_m": 36.8040146324693,
+   "smallest_kept_over_largest": 2.9903820191894747e-07,
    "largest_discarded_over_largest": 0.0,
-   "condition_kept": 3344054.350277507
+   "condition_kept": 3344054.350189827
   },
   {
    "name": "default_five_stations",
@@ -65,32 +65,32 @@
    "rank": 16,
    "defect": 0,
    "station_null_overlap": 0.0,
-   "station_crlb_m": 27.528540034282706,
-   "smallest_kept_over_largest": 4.837309269124476e-07,
+   "station_crlb_m": 27.52854004331083,
+   "smallest_kept_over_largest": 4.837309266214354e-07,
    "largest_discarded_over_largest": 0.0,
-   "condition_kept": 2067264.9697690182
+   "condition_kept": 2067264.971012683
   },
   {
    "name": "ladder_six_sats_one_station",
    "n_params": 28,
    "rank": 25,
    "defect": 3,
-   "station_null_overlap": 0.5974535585526847,
+   "station_null_overlap": 0.5974535551713713,
    "station_crlb_m": null,
-   "smallest_kept_over_largest": 3.345523157724707e-09,
-   "largest_discarded_over_largest": 5.38257547300088e-17,
-   "condition_kept": 298906913.16574264
+   "smallest_kept_over_largest": 3.3455228768729552e-09,
+   "largest_discarded_over_largest": 6.462087403044954e-17,
+   "condition_kept": 298906938.25854075
   },
   {
    "name": "ladder_six_sats_two_stations",
    "n_params": 28,
    "rank": 27,
    "defect": 1,
-   "station_null_overlap": 0.1448424669769817,
+   "station_null_overlap": 0.14484207322286155,
    "station_crlb_m": null,
-   "smallest_kept_over_largest": 8.302655879677154e-08,
-   "largest_discarded_over_largest": 3.0847844067704594e-17,
-   "condition_kept": 12044338.757285515
+   "smallest_kept_over_largest": 8.302664413200594e-08,
+   "largest_discarded_over_largest": 3.17457382722119e-17,
+   "condition_kept": 12044326.378048925
   },
   {
    "name": "ladder_six_sats_three_stations",
@@ -98,10 +98,10 @@
    "rank": 28,
    "defect": 0,
    "station_null_overlap": 0.0,
-   "station_crlb_m": 12.061309477470061,
-   "smallest_kept_over_largest": 9.793257513892085e-07,
+   "station_crlb_m": 12.061309455590134,
+   "smallest_kept_over_largest": 9.793257447308286e-07,
    "largest_discarded_over_largest": 0.0,
-   "condition_kept": 1021110.6963964385
+   "condition_kept": 1021110.7033389118
   },
   {
    "name": "eight_sats_three_stations",
@@ -109,10 +109,10 @@
    "rank": 36,
    "defect": 0,
    "station_null_overlap": 0.0,
-   "station_crlb_m": 5.826627639838505,
-   "smallest_kept_over_largest": 1.0651840025730555e-06,
+   "station_crlb_m": 5.826627643315774,
+   "smallest_kept_over_largest": 1.0651840017721593e-06,
    "largest_discarded_over_largest": 0.0,
-   "condition_kept": 938804.9365972478
+   "condition_kept": 938804.9373031214
   },
   {
    "name": "rich_without_vlbi",
@@ -120,10 +120,10 @@
    "rank": 28,
    "defect": 0,
    "station_null_overlap": 0.0,
-   "station_crlb_m": 23.179035743674877,
-   "smallest_kept_over_largest": 2.2744941511184015e-07,
+   "station_crlb_m": 23.17903463994909,
+   "smallest_kept_over_largest": 2.274494366561969e-07,
    "largest_discarded_over_largest": 0.0,
-   "condition_kept": 4396581.980693534
+   "condition_kept": 4396581.564242599
   },
   {
    "name": "rich_with_vlbi",
@@ -131,32 +131,32 @@
    "rank": 28,
    "defect": 0,
    "station_null_overlap": 0.0,
-   "station_crlb_m": 9.711588816247252,
-   "smallest_kept_over_largest": 1.754745706826276e-06,
+   "station_crlb_m": 9.711588466885535,
+   "smallest_kept_over_largest": 1.7547459756545863e-06,
    "largest_discarded_over_largest": 0.0,
-   "condition_kept": 569883.1438138417
+   "condition_kept": 569883.0565073456
   },
   {
    "name": "elfo_one_station",
    "n_params": 28,
    "rank": 25,
    "defect": 3,
-   "station_null_overlap": 0.289448420642348,
+   "station_null_overlap": 0.28944842161758155,
    "station_crlb_m": null,
-   "smallest_kept_over_largest": 0.0003299169899362095,
-   "largest_discarded_over_largest": 3.279331406216442e-17,
-   "condition_kept": 3031.0654816332835
+   "smallest_kept_over_largest": 0.00032991698748370264,
+   "largest_discarded_over_largest": 5.627884851415614e-17,
+   "condition_kept": 3031.065504165342
   },
   {
    "name": "elfo_two_stations",
    "n_params": 28,
    "rank": 27,
    "defect": 1,
-   "station_null_overlap": 0.14295345218686706,
+   "station_null_overlap": 0.14295345336726256,
    "station_crlb_m": null,
-   "smallest_kept_over_largest": 9.29201018739407e-06,
-   "largest_discarded_over_largest": 2.5852633946809568e-18,
-   "condition_kept": 107619.33960819822
+   "smallest_kept_over_largest": 9.292010138250464e-06,
+   "largest_discarded_over_largest": 9.801066203985527e-18,
+   "condition_kept": 107619.34017737565
   },
   {
    "name": "elfo_three_stations",
@@ -164,21 +164,21 @@
    "rank": 28,
    "defect": 0,
    "station_null_overlap": 0.0,
-   "station_crlb_m": 0.476256449894656,
-   "smallest_kept_over_largest": 1.6836595891487378e-05,
+   "station_crlb_m": 0.47625645062737687,
+   "smallest_kept_over_largest": 1.683659582185868e-05,
    "largest_discarded_over_largest": 0.0,
-   "condition_kept": 59394.42904284484
+   "condition_kept": 59394.42928847387
   },
   {
    "name": "elfo_sparse_without_vlbi",
    "n_params": 16,
    "rank": 15,
    "defect": 1,
-   "station_null_overlap": 0.8951285008303623,
+   "station_null_overlap": 0.8951285015006532,
    "station_crlb_m": null,
-   "smallest_kept_over_largest": 1.1054727383415845e-06,
-   "largest_discarded_over_largest": 7.348390602527031e-12,
-   "condition_kept": 904590.375969096
+   "smallest_kept_over_largest": 1.1054726792058652e-06,
+   "largest_discarded_over_largest": 7.348759818172209e-12,
+   "condition_kept": 904590.4243588967
   },
   {
    "name": "elfo_sparse_with_vlbi",
@@ -186,10 +186,10 @@
    "rank": 16,
    "defect": 0,
    "station_null_overlap": 0.0,
-   "station_crlb_m": 1.829545831205522,
-   "smallest_kept_over_largest": 6.958259440105043e-06,
+   "station_crlb_m": 1.829545818654116,
+   "smallest_kept_over_largest": 6.958259325809564e-06,
    "largest_discarded_over_largest": 0.0,
-   "condition_kept": 143714.10100582623
+   "condition_kept": 143714.1033664557
   }
  ]
 }

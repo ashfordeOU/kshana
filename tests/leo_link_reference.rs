@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
+// Host maths on purpose: this test recomputes its expected values independently of the engine's
+// portable maths (STUDIO-15), so the engine is checked against a second implementation.
 //! External oracles for the LEO-PNT link physics of the `leo-pass` kind.
 //!
 //! Every test here reproduces a published setup and pins the published figure within a stated

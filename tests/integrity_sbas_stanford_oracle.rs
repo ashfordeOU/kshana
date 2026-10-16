@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
+// Host maths on purpose: this test recomputes its expected values independently of the engine's
+// portable maths (STUDIO-15), so the engine is checked against a second implementation.
 //! Satellite-Based Augmentation System (SBAS) protection levels (RTCA DO-229E) against Stanford
 //! MAAST (the MATLAB Algorithm Availability Simulation Tool) driven by real Wide Area
 //! Augmentation System (WAAS) messages.

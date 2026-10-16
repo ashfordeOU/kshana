@@ -16,6 +16,7 @@
 //! input.
 
 use kshana::dop_error_mc::{check, run_geometry, GeometryResult, McConfig};
+use kshana::portable_math::PortableFloat;
 
 const REF: &str = include_str!("fixtures/dop/dop_reference.csv");
 
@@ -24,9 +25,9 @@ fn user() -> [f64; 3] {
     let (lat, lon) = (45.0_f64.to_radians(), 10.0_f64.to_radians());
     let r = 6.371e6;
     [
-        r * lat.cos() * lon.cos(),
-        r * lat.cos() * lon.sin(),
-        r * lat.sin(),
+        r * lat.pcos() * lon.pcos(),
+        r * lat.pcos() * lon.psin(),
+        r * lat.psin(),
     ]
 }
 
@@ -128,4 +129,61 @@ fn negative_control_elevation_dependent_errors_fail_the_low_elevation_geometries
         }
     }
     assert!(low >= 5, "{low}");
+}
+
+/// The masked-skyline addendum (tests/fixtures/dop/PREREGISTRATION-MASKED.md, committed alone in
+/// 03999c11 before this ran): the `10sat-mixed` sky under the `city-street` (M1) and
+/// `container-terminal` (M2) presets, a satellite kept when its elevation is at or above the
+/// skyline's cut at its azimuth; geometry indices 8 and 9; the five tolerances unchanged.
+#[test]
+fn position_error_is_sigma_times_dop_on_masked_skies() {
+    let base = geometries()
+        .into_iter()
+        .find(|g| g.0 == "10sat-mixed")
+        .expect("the 10sat-mixed row");
+    let mut failed = Vec::new();
+    for (i, (label, preset)) in [
+        ("M1-city-street", "city-street"),
+        ("M2-container-terminal", "container-terminal"),
+    ]
+    .into_iter()
+    .enumerate()
+    {
+        let sky = kshana::skyline::preset(preset).unwrap().skyline();
+        let dirs: Vec<(f64, f64)> = base
+            .1
+            .iter()
+            .copied()
+            .filter(|&(el, az)| el >= sky.cut_deg(az))
+            .collect();
+        eprintln!(
+            "{label}: {} of 10 satellites above the skyline: {dirs:?}",
+            dirs.len()
+        );
+        assert!(
+            dirs.len() >= 4,
+            "{label}: not evaluable ({} satellites)",
+            dirs.len()
+        );
+        let r = run_geometry(label, user(), &dirs, 8 + i as u64, &McConfig::default())
+            .unwrap_or_else(|e| panic!("{label}: not evaluable: {e}"));
+        eprintln!(
+            "{label}: PDOP {:.4} HDOP {:.4} VDOP {:.4}",
+            r.dop.pdop, r.dop.hdop, r.dop.vdop
+        );
+        for c in check(&r) {
+            eprintln!(
+                "{:<22} {:<9} {:>+10.5} (bound {}) {}",
+                r.label,
+                c.name,
+                c.value,
+                c.bound,
+                if c.pass { "ok" } else { "FAIL" }
+            );
+            if !c.pass {
+                failed.push(format!("{} {} {}", r.label, c.name, c.value));
+            }
+        }
+    }
+    assert!(failed.is_empty(), "{failed:?}");
 }

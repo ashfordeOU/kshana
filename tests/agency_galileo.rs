@@ -23,8 +23,9 @@
 
 use kshana::cio::itrs_to_gcrs;
 use kshana::eop::EopSeries;
+use kshana::portable_math::PortableFloat;
 use kshana::precise_od::{fit, EstimatedParams, FitConfig, Observation, PreciseForceModel};
-use kshana::sp3::parse_sp3;
+use kshana::sp3::{parse_sp3, parse_sp3_accuracy};
 use kshana::timescales::{gps_to_tt, julian_date};
 
 const SP3: &str = include_str!("fixtures/agency/galileo/ESA0MGNFIN_E11_2022001_8h.sp3");
@@ -35,12 +36,38 @@ const DEGREE: usize = 12;
 const AREA_OVER_MASS: f64 = 0.02;
 
 /// Rotate every `sat` SP3 ITRF fix into GCRS with real EOP. Returns the first epoch (TT
-/// Julian Date) and the inertial position observations relative to it.
+/// Julian Date) and the inertial position observations relative to it, each weighted with the
+/// hard-coded `sigma: 1.0` m (the recorded numbers of the tests below use this path).
 fn observations_from(sp3_text: &str, sat: &str, eop: &EopSeries) -> (f64, Vec<Observation>) {
+    observations_with_sigma(sp3_text, sat, eop, |_| 1.0)
+}
+
+/// [`observations_from`] with the per-observation sigma taken from the SP3 accuracy codes
+/// ([`parse_sp3_accuracy`]: record standard deviations, else the header `2ⁿ mm` accuracy), and
+/// `fallback_m` where the file carries no accuracy information.
+fn observations_from_sp3_accuracy(
+    sp3_text: &str,
+    sat: &str,
+    eop: &EopSeries,
+    fallback_m: f64,
+) -> (f64, Vec<Observation>) {
+    let acc = parse_sp3_accuracy(sp3_text).expect("SP3 accuracy parses");
+    observations_with_sigma(sp3_text, sat, eop, |i| {
+        acc.position_sigma_m(i, sat).unwrap_or(fallback_m)
+    })
+}
+
+/// The shared SP3 → GCRS observation path; `sigma_of(epoch_index)` gives each sigma (m).
+fn observations_with_sigma(
+    sp3_text: &str,
+    sat: &str,
+    eop: &EopSeries,
+    sigma_of: impl Fn(usize) -> f64,
+) -> (f64, Vec<Observation>) {
     let sp3 = parse_sp3(sp3_text).expect("SP3 parses");
     let mut epoch0: Option<f64> = None;
     let mut obs = Vec::new();
-    for ep in &sp3.epochs {
+    for (i, ep) in sp3.epochs.iter().enumerate() {
         let Some(st) = ep.sats.iter().find(|s| s.sat == sat) else {
             continue;
         };
@@ -53,7 +80,7 @@ fn observations_from(sp3_text: &str, sat: &str, eop: &EopSeries) -> (f64, Vec<Ob
         obs.push(Observation {
             t: (jd_tt - e0) * 86_400.0,
             pos: r_gcrs,
-            sigma: 1.0,
+            sigma: sigma_of(i),
         });
     }
     (epoch0.expect("at least one matching epoch"), obs)
@@ -92,7 +119,7 @@ fn raw_overlap_rms(
     let sumsq: f64 = obs
         .iter()
         .zip(&pred)
-        .map(|(o, r)| (0..3).map(|k| (r[k] - o.pos[k]).powi(2)).sum::<f64>())
+        .map(|(o, r)| (0..3).map(|k| (r[k] - o.pos[k]).ppowi(2)).sum::<f64>())
         .sum();
     (sumsq / obs.len() as f64).sqrt()
 }
@@ -193,6 +220,98 @@ fn galileo_e11_meo_post_fit_under_5m() {
         rep2.rms_3d,
         rep.rms_3d
     );
+}
+
+/// DS-PA-06 (MODELLED): the same CI-fixture Galileo fit, weighted by the SP3 accuracy codes
+/// instead of the hard-coded `sigma: 1.0`. The ESOC file sets the `%f` bases to 0 (no per-record
+/// standard deviations), so every E11 observation takes the header accuracy exponent 5 → 2⁵ mm =
+/// 0.032 m. A uniform sigma leaves the Tier-1 (state + `C_R`) solution unchanged — weighted least
+/// squares is invariant to a common scale and the outlier edit is on the unweighted RMS — but it
+/// re-balances the Tier-2 empirical-acceleration a-priori constraint (`empirical_sigma`) against the
+/// data by (1 m / 0.032 m)² ≈ 977. The existing test above keeps its recorded numbers; this variant
+/// records its own (see the eprintln). Not an external-oracle comparison.
+///
+/// PIN-SCOPE:    the SP3-accuracy-weighted fit of the committed 8-hour E11 fixture: the derived
+///               sigma (0.032 m), Tier-1 equal to the unweighted run, and the Tier-1/Tier-2 3-D RMS
+///               green bars.
+/// PIN-EXCLUDES: the full-day dispatch run, other satellites, and any claim that the SP3 accuracy
+///               code is a calibrated per-axis one-sigma (it is the producer's quality indicator).
+#[test]
+fn galileo_e11_sp3_accuracy_weighted_fit() {
+    let eop = EopSeries::from_finals2000a(EOP);
+    let (epoch_jd_tt, obs_w) = observations_from_sp3_accuracy(SP3, SAT, &eop, 1.0);
+    let (_, obs_u) = observations_from(SP3, SAT, &eop);
+    assert_eq!(obs_w.len(), obs_u.len());
+    for o in &obs_w {
+        assert!((o.sigma - 0.032).abs() < 1e-15, "E11 sigma {}", o.sigma);
+    }
+
+    let v0 = seed_velocity(&obs_w);
+    let initial = EstimatedParams {
+        r0: obs_w[0].pos,
+        v0,
+        cr: Some(1.0),
+        empirical: None,
+    };
+    let tmpl = template(DEGREE, epoch_jd_tt, &eop);
+    let tol = kshana::integrator::Tolerance {
+        rtol: 1e-10,
+        atol: 1e-7,
+        ..Default::default()
+    };
+    let cfg = FitConfig {
+        estimate_cr: true,
+        outlier_sigma: 5.0,
+        max_iter: 25,
+        tol,
+        ..Default::default()
+    };
+    let rep = fit(&tmpl, initial, &obs_w, &cfg).expect("weighted Tier-1 fit");
+    let rep_u = fit(&tmpl, initial, &obs_u, &cfg).expect("unweighted Tier-1 fit");
+    let initial2 = EstimatedParams {
+        r0: obs_w[0].pos,
+        v0,
+        cr: Some(rep.params.cr.unwrap_or(1.0)),
+        empirical: None,
+    };
+    let cfg2 = FitConfig {
+        estimate_cr: true,
+        estimate_empirical: true,
+        estimate_empirical_2cpr: false,
+        empirical_sigma: 1e-8,
+        outlier_sigma: 5.0,
+        max_iter: 25,
+        tol,
+    };
+    let rep2 = fit(&tmpl, initial2, &obs_w, &cfg2).expect("weighted Tier-2 fit");
+    eprintln!(
+        "Galileo E11 SP3-accuracy-weighted (sigma 0.032 m): Tier-1 3D RMS = {:.3} m (unweighted \
+         {:.3} m) | RTN = [{:.3}, {:.3}, {:.3}] m | C_R = {:.4} | edited {} | Tier-2 3D RMS = \
+         {:.3} m | RTN = [{:.3}, {:.3}, {:.3}] m | iters {} converged {}",
+        rep.rms_3d,
+        rep_u.rms_3d,
+        rep.rms_rtn[0],
+        rep.rms_rtn[1],
+        rep.rms_rtn[2],
+        rep.params.cr.unwrap_or(f64::NAN),
+        rep.n_edited,
+        rep2.rms_3d,
+        rep2.rms_rtn[0],
+        rep2.rms_rtn[1],
+        rep2.rms_rtn[2],
+        rep2.iterations,
+        rep2.converged,
+    );
+    assert!(rep.converged && rep2.converged);
+    // A common sigma does not move the Tier-1 solution beyond iteration rounding.
+    assert!(
+        (rep.rms_3d - rep_u.rms_3d).abs() < 1e-3,
+        "{} vs {}",
+        rep.rms_3d,
+        rep_u.rms_3d
+    );
+    assert!(rep.rms_3d < 5.0 && rep2.rms_3d < 5.0);
+    assert!(rep2.rms_3d <= rep.rms_3d * 1.05 + 1e-6);
 }
 
 /// Full-arc, full-degree Galileo validation over a complete day — the `workflow_dispatch`

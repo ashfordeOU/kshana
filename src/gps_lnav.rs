@@ -29,6 +29,7 @@
 //! error; truncation would not.
 
 use crate::portable_math::powi;
+use crate::portable_math::PortableFloat;
 
 /// The value of pi IS-GPS-200 specifies for semicircle conversions. Deliberately not
 /// `std::f64::consts::PI`: the specification fixes these fourteen digits.
@@ -210,11 +211,11 @@ pub fn quantise(value: f64, scale_pow2: i32, bits: u32, signed: bool) -> Result<
     let q = (value * powi(2.0, -scale_pow2)).round();
     let (lo, hi) = if signed {
         (
-            -(2f64.powi(bits as i32 - 1)),
-            2f64.powi(bits as i32 - 1) - 1.0,
+            -(2f64.ppowi(bits as i32 - 1)),
+            2f64.ppowi(bits as i32 - 1) - 1.0,
         )
     } else {
-        (0.0, 2f64.powi(bits as i32) - 1.0)
+        (0.0, 2f64.ppowi(bits as i32) - 1.0)
     };
     if !(q >= lo && q <= hi) {
         return Err(format!(
@@ -497,9 +498,9 @@ mod tests {
         }
         // M0 back to radians within half a quantum.
         let m0 = dec.iter().find(|(n, _)| *n == "m0").unwrap().1 as u32 as i32 as f64;
-        assert!((m0 * 2f64.powi(-31) * GPS_PI - e.m0).abs() <= 0.5 * 2f64.powi(-31) * GPS_PI);
+        assert!((m0 * 2f64.ppowi(-31) * GPS_PI - e.m0).abs() <= 0.5 * 2f64.ppowi(-31) * GPS_PI);
         let sqrt_a = dec.iter().find(|(n, _)| *n == "sqrt_a").unwrap().1 as f64;
-        assert!((sqrt_a * 2f64.powi(-19) - e.sqrt_a).abs() <= 2f64.powi(-20));
+        assert!((sqrt_a * 2f64.ppowi(-19) - e.sqrt_a).abs() <= 2f64.ppowi(-20));
     }
 
     #[test]
@@ -514,10 +515,10 @@ mod tests {
     #[test]
     fn quantise_rounds_to_nearest_and_refuses_overflow() {
         assert_eq!(
-            quantise(3.0 * 2f64.powi(-5) - 1e-12, -5, 16, true).unwrap(),
+            quantise(3.0 * 2f64.ppowi(-5) - 1e-12, -5, 16, true).unwrap(),
             3
         );
-        assert_eq!(quantise(-(2f64.powi(-5)), -5, 16, true).unwrap(), 0xFFFF);
+        assert_eq!(quantise(-(2f64.ppowi(-5)), -5, 16, true).unwrap(), 0xFFFF);
         assert!(quantise(4.0, -5, 8, true).is_err());
         assert_eq!(quantise(127.0 / 32.0, -5, 8, true).unwrap(), 127);
         assert!(quantise(-1.0, 0, 8, false).is_err());

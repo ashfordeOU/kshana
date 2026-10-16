@@ -1,0 +1,13 @@
+[package]
+name = "space-packet-ext-oracle"
+version = "0.1.0"
+edition = "2021"
+publish = false
+authors = ["Ashforde OÜ"]
+license = "AGPL-3.0-only"
+description = "Oracle driver for xval/space-packet-ext (spacepackets-rs); no Kshana dependency"
+
+[workspace]
+
+[dependencies]
+spacepackets = "=0.18.0"

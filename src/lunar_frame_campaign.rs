@@ -91,6 +91,7 @@ use crate::frames::Geodetic;
 use crate::lunar::Selenographic;
 use crate::lunar_vlbi::{delay_partials_beacon, delay_partials_station1, delay_partials_station2};
 use crate::lunar_vlbi_fim::{epoch_geometry, EpochGeometry, StationInput, DEFAULT_STATIONS};
+use crate::portable_math::PortableFloat;
 use crate::precession::{mat_vec, Vec3};
 use serde::Deserialize;
 
@@ -851,7 +852,7 @@ pub fn solve_datum_information(h: &[Vec<f64>], rel_tol: f64) -> DatumSolution {
     }
     let constrained_fraction: Vec<f64> = (0..N_HELMERT)
         .map(|k| {
-            let leak: f64 = (0..c.defect).map(|j| c.null_space[k][j].powi(2)).sum();
+            let leak: f64 = (0..c.defect).map(|j| c.null_space[k][j].ppowi(2)).sum();
             (1.0 - leak).clamp(0.0, 1.0)
         })
         .collect();
@@ -873,13 +874,13 @@ impl DatumSolution {
     /// The translation sigma norm (m) — the headline datum accuracy, the root-sum-square of the
     /// three translation standard deviations.
     pub fn translation_sigma_norm_m(&self) -> f64 {
-        (self.sigma[0].powi(2) + self.sigma[1].powi(2) + self.sigma[2].powi(2)).sqrt()
+        (self.sigma[0].ppowi(2) + self.sigma[1].ppowi(2) + self.sigma[2].ppowi(2)).sqrt()
     }
 
     /// The rotation sigma norm (rad), root-sum-square over the three small-angle standard
     /// deviations.
     pub fn rotation_sigma_norm_rad(&self) -> f64 {
-        (self.sigma[3].powi(2) + self.sigma[4].powi(2) + self.sigma[5].powi(2)).sqrt() * URAD
+        (self.sigma[3].ppowi(2) + self.sigma[4].ppowi(2) + self.sigma[5].ppowi(2)).sqrt() * URAD
     }
 
     /// The scale standard deviation in parts-per-billion.
@@ -1107,7 +1108,7 @@ impl LunarFrameCampaignScenario {
                 let u = unit_mcmf_to_earth(g);
                 let d = (u0[0] * u[0] + u0[1] * u[1] + u0[2] * u[2])
                     .clamp(-1.0, 1.0)
-                    .acos()
+                    .pacos()
                     .to_degrees();
                 worst = worst.max(d);
                 for k in 0..3 {
@@ -1123,19 +1124,56 @@ impl LunarFrameCampaignScenario {
             (worst, mean)
         };
 
+        // A beacon no observation reaches carries no information: its three columns of the beacon
+        // information are exactly zero, so the full beacon covariance is rank-deficient and every
+        // beacon sigma would be null. Only in that case, the observed beacons' sigmas come from the
+        // information restricted to their columns (exact, since the dropped block is zero), and the
+        // report names the unobserved beacons. With every beacon observed nothing here changes.
+        let obs_count: Vec<usize> = (0..beacons.len())
+            .map(|b| {
+                sched
+                    .observations
+                    .iter()
+                    .filter(|ob| ob.beacon == b)
+                    .count()
+            })
+            .collect();
+        let unobserved: Vec<usize> = (0..beacons.len()).filter(|&b| obs_count[b] == 0).collect();
+        let observed_std: Option<Vec<f64>> = if unobserved.is_empty() || cov_b_full_rank {
+            None
+        } else {
+            let cols: Vec<usize> = (0..beacons.len())
+                .filter(|b| obs_count[*b] > 0)
+                .flat_map(|b| 3 * b..3 * b + 3)
+                .collect();
+            let sub: Vec<Vec<f64>> = cols
+                .iter()
+                .map(|&i| cols.iter().map(|&j| info_b[i][j]).collect())
+                .collect();
+            let c = crlb(&sub, rel_tol);
+            c.covariance.map(|_| {
+                let mut std = vec![f64::NAN; n_beacon_columns];
+                for (k, &i) in cols.iter().enumerate() {
+                    std[i] = c.crlb_std[k];
+                }
+                std
+            })
+        };
         let beacon_rows: Vec<serde_json::Value> = beacons
             .iter()
             .enumerate()
             .map(|(b, (name, provenance, sel))| {
                 let o = 3 * b;
-                let n = sched
-                    .observations
-                    .iter()
-                    .filter(|ob| ob.beacon == b)
-                    .count();
-                let sx = beacon_crlb.crlb_std[o];
-                let sy = beacon_crlb.crlb_std[o + 1];
-                let sz = beacon_crlb.crlb_std[o + 2];
+                let n = obs_count[b];
+                let (ok, sx, sy, sz) = match &observed_std {
+                    Some(std) if n > 0 => (true, std[o], std[o + 1], std[o + 2]),
+                    _ => (
+                        cov_b_full_rank,
+                        beacon_crlb.crlb_std[o],
+                        beacon_crlb.crlb_std[o + 1],
+                        beacon_crlb.crlb_std[o + 2],
+                    ),
+                };
                 serde_json::json!({
                     "name": name,
                     "coordinate_provenance": provenance,
@@ -1144,13 +1182,10 @@ impl LunarFrameCampaignScenario {
                     "alt_m": sel.alt_m,
                     "observations": n,
                     "epochs_with_no_station_above_its_horizon": sched.earth_below_beacon_horizon[b],
-                    "sigma_x_m": number_or_null(cov_b_full_rank, sx),
-                    "sigma_y_m": number_or_null(cov_b_full_rank, sy),
-                    "sigma_z_m": number_or_null(cov_b_full_rank, sz),
-                    "sigma_3d_m": number_or_null(
-                        cov_b_full_rank,
-                        (sx * sx + sy * sy + sz * sz).sqrt(),
-                    ),
+                    "sigma_x_m": number_or_null(ok, sx),
+                    "sigma_y_m": number_or_null(ok, sy),
+                    "sigma_z_m": number_or_null(ok, sz),
+                    "sigma_3d_m": number_or_null(ok, (sx * sx + sy * sy + sz * sz).sqrt()),
                 })
             })
             .collect();
@@ -1184,7 +1219,7 @@ impl LunarFrameCampaignScenario {
                     "unit": unit,
                     "sigma": number_or_null(datum.full_rank, datum.sigma[k]),
                     "constrained_fraction": datum.constrained_fraction[k],
-                    "weakest_direction_share": datum.weakest_direction[k].powi(2),
+                    "weakest_direction_share": datum.weakest_direction[k].ppowi(2),
                     "constrained": constrained,
                     "status": if datum.full_rank {
                         "constrained by the campaign"
@@ -1438,6 +1473,19 @@ impl LunarFrameCampaignScenario {
             // Emitted only when the solver is chosen, so the default report is unchanged.
             json["helmert"]["solver"] = serde_json::Value::from("srif");
             json["helmert"]["solver_effective"] = serde_json::Value::from(solver_effective);
+        }
+        if !unobserved.is_empty() {
+            // Emitted only when a beacon has no observation, so every other report is unchanged.
+            let names: Vec<&str> = unobserved.iter().map(|&b| beacons[b].0.as_str()).collect();
+            json["unobserved_beacons"] = serde_json::json!(names);
+            json["warning"] = serde_json::Value::from(format!(
+                "{} of {} beacons have no observation in this schedule ({}); they carry no \
+                 information, their sigmas are null, and the datum is realised from the observed \
+                 beacons only",
+                names.len(),
+                beacons.len(),
+                names.join(", ")
+            ));
         }
         Ok(Computed { json, summary })
     }
@@ -2213,7 +2261,10 @@ mod tests {
                 14_926.000_030_141_684,
             ),
         ] {
-            let out = crate::api::run_toml(src).expect("the injected-transform scenario still runs");
+            // Without the per-kind `figure_tiers` block (RM-04), which, like `units`, is
+            // appended after the run and is not this scenario's own emission.
+            let out = crate::api::run_toml_untiered(src)
+                .expect("the injected-transform scenario still runs");
             // Strip the top-level `units` block before hashing. That block is appended to
             // EVERY scenario document by the global unit/provenance schema, so leaving it in
             // would make this pin fail whenever a unit is documented anywhere — turning an R1

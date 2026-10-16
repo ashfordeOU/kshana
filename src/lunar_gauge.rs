@@ -28,6 +28,7 @@
 //! to make all 9 partials O(1) for the Fisher preconditioner.
 
 use crate::lunar_llr_geometry::Vec3;
+use crate::portable_math::PortableFloat;
 
 /// Number of parameters in the coupled datum vector `θ`.
 pub const N_GAUGE: usize = 9;
@@ -98,7 +99,7 @@ impl LunarSurfacePotential {
     /// `−Φ0m` (m²/s², positive): `GM/a · (1 + J2/2) + ω² a² / 2` on the equator.
     pub fn equatorial_potential_m2_s2(&self) -> f64 {
         let a = self.radius_m;
-        self.gm_m3_s2 / a * (1.0 + 0.5 * self.j2) + 0.5 * self.omega_rad_s.powi(2) * a * a
+        self.gm_m3_s2 / a * (1.0 + 0.5 * self.j2) + 0.5 * self.omega_rad_s.ppowi(2) * a * a
     }
 
     /// `L_m = −Φ0m / c²`, the fractional rate of a clock on the lunar equator against one at
@@ -111,7 +112,7 @@ impl LunarSurfacePotential {
     /// downward acceleration: `GM/a² · (1 + 3 J2/2) − ω² a` (m/s²).
     pub fn effective_gravity_m_s2(&self) -> f64 {
         let a = self.radius_m;
-        self.gm_m3_s2 / (a * a) * (1.0 + 1.5 * self.j2) - self.omega_rad_s.powi(2) * a
+        self.gm_m3_s2 / (a * a) * (1.0 + 1.5 * self.j2) - self.omega_rad_s.ppowi(2) * a
     }
 }
 
@@ -1088,7 +1089,7 @@ mod tests {
         // Q = [[cosθ, -sinθ], [sinθ, cosθ]].  U_rot spans the same subspace but neither
         // column is pure spatial or temporal — the real invariance check.
         let theta: f64 = 0.6;
-        let (cos_t, sin_t) = (theta.cos(), theta.sin());
+        let (cos_t, sin_t) = (theta.pcos(), theta.psin());
         let mut u_rot = vec![vec![0.0_f64; 2]; 9];
         for r in 0..9 {
             u_rot[r][0] = u_axis[r][0] * cos_t + u_axis[r][1] * sin_t;

@@ -201,6 +201,53 @@ impl EopSeries {
         self.records.is_empty()
     }
 
+    /// The MJD (UTC) of the last record, or `None` for an empty series.
+    pub fn last_mjd(&self) -> Option<f64> {
+        self.records.last().map(|r| r.mjd)
+    }
+
+    /// This series extended by `days` daily records beyond its last one, forecast by the
+    /// least-squares plus autoregressive predictor ([`crate::eop_ls_ar::ls_ar_predict`]) issued
+    /// at the last record from the whole series as history. Opt-in: the series itself still
+    /// clamps at its ends, so nothing that reads it changes unless this is called. Within the
+    /// table the returned series holds exactly the same records. The forecast records carry
+    /// `x_p`, `y_p` and `UT1 − UTC` from the predictor and an excess length of day derived from
+    /// the forecast `UT1 − UTC` steps (no leap second is assumed beyond the leap-second table).
+    ///
+    /// Errors as [`crate::eop_ls_ar::ls_ar_predict`] does: the history must cover the
+    /// predictor's window (five years by default) on a gap-free daily grid ending at the last
+    /// record.
+    pub fn with_ls_ar_prediction(
+        &self,
+        days: usize,
+        cfg: &crate::eop_ls_ar::LsArConfig,
+    ) -> Result<Self, crate::eop_ls_ar::LsArError> {
+        let Some(last) = self.records.last().copied() else {
+            return Err(crate::eop_ls_ar::LsArError::IncompleteWindow);
+        };
+        let history: Vec<crate::eop_ls_ar::EopSample> = self
+            .records
+            .iter()
+            .map(|r| (r.mjd, r.xp_arcsec, r.yp_arcsec, r.ut1_utc_s))
+            .collect();
+        let fc = crate::eop_ls_ar::ls_ar_predict(&history, last.mjd, days, cfg)?;
+        let mut records = self.records.clone();
+        let mut prev = (last.mjd, last.ut1_utc_s);
+        for (mjd, xp, yp, ut1_utc) in fc {
+            let leap = tai_minus_utc(mjd + MJD_OFFSET) - tai_minus_utc(prev.0 + MJD_OFFSET);
+            let lod_ms = -1000.0 * ((ut1_utc - prev.1) - leap) / (mjd - prev.0);
+            records.push(EopRecord {
+                mjd,
+                ut1_utc_s: ut1_utc,
+                xp_arcsec: xp,
+                yp_arcsec: yp,
+                lod_ms,
+            });
+            prev = (mjd, ut1_utc);
+        }
+        Ok(Self { records })
+    }
+
     /// Linearly interpolate `(UT1−UTC [s], x_p [arcsec], y_p [arcsec])` at a UTC MJD,
     /// clamping to the endpoints outside the tabulated span.
     pub fn interp_utc_mjd(&self, mjd_utc: f64) -> (f64, f64, f64) {

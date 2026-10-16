@@ -31,6 +31,7 @@
 //! network access. The same scenario, seed and options give byte-identical files, and no
 //! timestamp is written at all. The module is WebAssembly-safe for that reason.
 
+use crate::portable_math::PortableFloat;
 use serde_json::{Map, Value};
 use std::fmt::Write as _;
 
@@ -774,8 +775,8 @@ fn decimate_grid(rows: Vec<Vec<Option<f64>>>, freq: Vec<f64>, t: Vec<f64>, db: b
             return None;
         }
         if db {
-            let p: f64 = xs.iter().map(|x| 10f64.powf(x / 10.0)).sum::<f64>() / xs.len() as f64;
-            Some(10.0 * p.log10())
+            let p: f64 = xs.iter().map(|x| 10f64.ppowf(x / 10.0)).sum::<f64>() / xs.len() as f64;
+            Some(10.0 * p.plog10())
         } else {
             Some(xs.iter().sum::<f64>() / xs.len() as f64)
         }
@@ -1036,7 +1037,7 @@ fn decimate_trace(t: Vec<f64>, y: Vec<Option<f64>>) -> (Vec<f64>, Vec<Option<f64
 fn nice_ticks(lo: f64, hi: f64, n: usize) -> (f64, f64, f64) {
     let span = (hi - lo).abs().max(1e-300);
     let raw = span / n.max(1) as f64;
-    let mag = 10f64.powf(raw.log10().floor());
+    let mag = 10f64.ppowf(raw.plog10().floor());
     let norm = raw / mag;
     let step = mag
         * if norm <= 1.0 {
@@ -1057,7 +1058,7 @@ fn fmt_tick(v: f64, step: f64) -> String {
     if a != 0.0 && !(1e-3..1e6).contains(&a) {
         return format!("{v:.2e}");
     }
-    let dec = (-(step.log10().floor())).clamp(0.0, 6.0) as usize;
+    let dec = (-(step.plog10().floor())).clamp(0.0, 6.0) as usize;
     format!("{v:.dec$}")
 }
 

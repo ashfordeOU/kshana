@@ -12,6 +12,7 @@
 //! unbounded coordinates (the sine transform). Non-finite objective values count as
 //! `+∞`.
 
+use crate::portable_math::PortableFloat;
 /// Nelder-Mead settings.
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct NmOptions {
@@ -236,7 +237,7 @@ pub fn nelder_mead_bounded<F: FnMut(&[f64]) -> f64>(
         y.iter()
             .zip(lo)
             .zip(&span)
-            .map(|((yi, l), s)| l + s * yi.sin().powi(2))
+            .map(|((yi, l), s)| l + s * yi.psin().ppowi(2))
             .collect()
     };
     let y0: Vec<f64> = x0
@@ -245,7 +246,7 @@ pub fn nelder_mead_bounded<F: FnMut(&[f64]) -> f64>(
         .zip(&span)
         .map(|((x, l), s)| {
             if *s > 0.0 {
-                ((x - l) / s).clamp(0.0, 1.0).sqrt().asin()
+                ((x - l) / s).clamp(0.0, 1.0).sqrt().pasin()
             } else {
                 0.0
             }
@@ -300,7 +301,7 @@ mod tests {
     use super::*;
 
     fn rosenbrock(x: &[f64]) -> f64 {
-        (1.0 - x[0]).powi(2) + 100.0 * (x[1] - x[0] * x[0]).powi(2)
+        (1.0 - x[0]).ppowi(2) + 100.0 * (x[1] - x[0] * x[0]).ppowi(2)
     }
 
     /// Reference: the Rosenbrock function's known global minimum is 0 at (1, 1)
@@ -322,7 +323,7 @@ mod tests {
             x.iter()
                 .zip(&c)
                 .enumerate()
-                .map(|(i, (a, b))| (i as f64 + 1.0) * (a - b).powi(2))
+                .map(|(i, (a, b))| (i as f64 + 1.0) * (a - b).ppowi(2))
                 .sum::<f64>()
         };
         let r = nelder_mead(f, &[0.0; 4], &NmOptions::default());
@@ -335,7 +336,7 @@ mod tests {
     /// quadratic).
     #[test]
     fn bounded_nelder_mead_stops_on_the_active_bound() {
-        let f = |x: &[f64]| (x[0] - 3.0).powi(2) + (x[1] + 0.25).powi(2);
+        let f = |x: &[f64]| (x[0] - 3.0).ppowi(2) + (x[1] + 0.25).ppowi(2);
         let r = nelder_mead_bounded(
             f,
             &[0.5, 0.5],
