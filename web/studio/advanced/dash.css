@@ -132,6 +132,9 @@
 #v-cap>.cap-stage,#v-cap>.cap-panels,#v-cap .stage{display:contents}
 #v-cap .card{grid-column:1/-1;min-width:0;container-type:inline-size}
 #v-cap .card[data-w="4"] .chart-box svg.chart{min-width:0}
+/* the waterfall shares its card with the bands list, so its box can be narrower than the 520 px
+   chart floor (447 px at a 1440 px window): scale the chart to the box, never past its right edge */
+#v-cap .wf-box svg.chart{min-width:0}
 .subtabs{display:none}
 @container views (min-width:1000px){
   .views>.view[data-w="6"]{grid-column:span 6}

@@ -23,18 +23,18 @@ const STUDIO_NAME = (document.querySelector("title")?.textContent || "").trim();
 import { clampStep, placeTooltip } from "./lib/tour.mjs";
 import { matrixCounts } from "./lib/counts.mjs";
 import { createEngineClient, isCancelled, busyLabel, errorMessage } from "./lib/engine.mjs";
-import { SCENARIOS, DOMAINS, NOT_IN_BROWSER, RECORDED_NATIVELY, entryFor, domainOf, groupedLibrary, searchScenarios, registerGroup, dirOf, isGroupDir, groupFileUrl, DOMAIN_LINES, scenarioPath } from "./lib/catalog.mjs";
+import { SCENARIOS, DOMAINS, NOT_IN_BROWSER, RECORDED_NATIVELY, needsNewerEngine, engineCaps, entryFor, domainOf, groupedLibrary, searchScenarios, registerGroup, dirOf, isGroupDir, groupFileUrl, DOMAIN_LINES, scenarioPath } from "./lib/catalog.mjs";
 import { numericFields, stepValue, patchField, isLogScale } from "./lib/params.mjs";
 import * as V from "./lib/views.mjs";
 import * as K from "./lib/kinds.mjs";
 import * as G from "./lib/stages.mjs";
 import { createPackReader } from "./lib/packs.mjs";
-import { kpis as kpiCards, honesty, kpiDelta, kpiKey, plainLabel } from "./lib/kpi.mjs";
+import { kpis as kpiCards, honesty, kpiDelta, kpiKey, plainLabel, figureName } from "./lib/kpi.mjs";
 import { fieldIndex, findFields, scenarioCount, filterControls } from "./lib/finder.mjs";
 import { plainMeaning, plainDuration, headerParagraphs, taskWords } from "./lib/meaning.mjs";
 import { rankInputs, splitInputs, inputLabel, fieldName, VISIBLE_INPUTS } from "./lib/inputs.mjs";
 import { parseState, buildSearch, isNewEntry, persistentExtras, tabFromLink, viewUrl, chooseView, VIEW_KEY } from "./lib/urlstate.mjs";
-import { kindsOfToml, rowsForKind, evidenceMix } from "./lib/areas.mjs";
+import { kindsOfToml, kindOfToml, rowsForKind, evidenceMix } from "./lib/areas.mjs";
 import { spellOut } from "./lib/abbr.mjs";
 import { GUIDED_KNOBS } from "./lib/guided.mjs";
 
@@ -103,6 +103,7 @@ async function bootEngine() {
       const wasm = await compileEngine(new URL("./pkg/kshana_bg.wasm", import.meta.url));
       await mod.default({ module_or_path: wasm }); // fails here if the host blocks WebAssembly
       S.version = mod.version();
+      S.caps = engineCaps(mod);
       const local = { run: mod.run, run_all: mod.run_all, summary: mod.summary, chart_svg: mod.chart_svg, table_csv: mod.table_csv, export_sp3: mod.export_sp3, export_omm: mod.export_omm, export_oem: mod.export_oem };
       S.engine = createEngineClient({
         spawn: typeof Worker === "function" ? () => new Worker(new URL("./lib/engine-worker.mjs", import.meta.url), { type: "module" }) : null,
@@ -227,6 +228,7 @@ function setStatus(text, cls = "") {
 async function runScenario() {
   if (!S.engine) return;
   if (NOT_IN_BROWSER[S.file] && !S.shared) { await showNativeRun(); return; }
+  if (S.engine.mode !== "recorded" && needsNewerEngine(S.file, S.caps || S.version)) { await showNewerRun(); return; }
   if (job.active) {
     if (S.engine.canCancel && performance.now() - job.startedAt > SUPERSEDE_MS) S.engine.cancel();
     else { job.rerun = true; return; }
@@ -272,6 +274,30 @@ async function runScenario() {
   setStatus(`${S.mode === "live" ? "Ran locally" : "Recorded run shown"} at ${run.at.toLocaleTimeString()}, run ${S.runCount}${ms >= 1000 ? `, ${(ms / 1000).toFixed(1)} s` : ""}.`, "ran");
   const sum = $("m-big");
   sum.classList.remove("flash"); void sum.offsetWidth; sum.classList.add("flash");
+}
+
+// A bundled scenario that needs a newer engine than the one running here: show its recording (made with a new
+// enough engine), labelled, and do not run it, since this engine would refuse its fields or ignore them.
+async function showNewerRun() {
+  clearError();
+  const need = needsNewerEngine(S.file, S.caps || S.version);
+  const rec = await loadRecorded(S.file).catch(() => null);
+  const why = `This scenario needs engine ${need} or later; the engine running here is v${S.version}.`;
+  if (!rec) { showError(`${why} There is no recording of it here.`); setStatus("Needs a newer engine."); return; }
+  if (tomlEl.value !== rec.toml) { showNotice(`${why} Only the recording of the bundled file can be shown: use Reset to see it, or run an edited copy with engine ${need}.`); setStatus(`Edited: needs engine ${need}.`); return; }
+  let result;
+  try { result = JSON.parse(rec.json); } catch (e) { showError(errorMessage(e)); return; }
+  S.runCount += 1;
+  const entry = entryFor(S.file);
+  const run = { id: S.runCount, file: S.file, title: entry ? entry.title : S.file, toml: rec.toml, result, svg: rec.svg || "", summary: rec.summary || "", csv: rec.csv || null, ms: 0, at: new Date(), mode: rec.source === "native" ? "native" : "recorded", platform: rec.platform || "", command: rec.command || "" };
+  S.history.unshift(run);
+  if (S.history.length > 25) S.history.pop();
+  const stamp = (((await recordedIndex(dirOf(S.file)).catch(() => null)) || {}).runs || {})[S.file.split("/").pop()] || {};
+  const by = /^[0-9a-f]{40}$/.test(stamp.engine_commit || "") ? `an engine build at commit ${stamp.engine_commit.slice(0, 8)}` : `engine v${rec.engine_version || result.engine_version || "?"}`;
+  showNotice(`${why} What you see is the run recorded with ${by}, shown unchanged; it does not re-run here.`);
+  renderRun(run);
+  renderHistory();
+  setStatus(`Recorded run shown at ${run.at.toLocaleTimeString()} (needs engine ${need}).`, "ran");
 }
 
 // A scenario the browser build cannot run: show the run the native command-line engine
@@ -347,7 +373,7 @@ function renderRun(run) {
   add("file", run.file || "shared link");
   if (run.mode === "live") add("time", `${Math.max(1, Math.round(run.ms))} ms`);
   renderAnswer(run);
-  renderOverview(r);
+  renderOverview(r, run.toml);
   buildTabs();
   $("json").replaceChildren(...jsonNodes(r));
   renderHow(run);
@@ -411,7 +437,7 @@ function fieldLabelNode(f) {
   return plain ? h("label", { title: f.key }, plain, h("small", { class: "fkey", text: f.key })) : h("label", { title: f.key }, fieldName(f), h("small", { class: "fkey", text: f.comment ? `${f.key} · ${f.comment}` : f.key }));
 }
 
-function renderOverview(r) {
+function renderOverview(r, toml = "") {
   const rows = buildFomRows(r);
   const t = $("fom-table");
   t.replaceChildren();
@@ -444,7 +470,8 @@ function renderOverview(r) {
     for (const x of kf) {
       const ft = figureTier(r, x.path);
       tb.append(h("tr", {},
-        h("td", {}, h("code", { text: x.path }), " ", tierPill(ft && ft.tier)),
+        h("td", { title: x.path }, figureName(x, toml).name, " ", tierPill(ft && ft.tier),
+          h("small", { class: "fkey", text: figureName(x, toml).where ? `${figureName(x, toml).where} · ${x.path}` : x.path })),
         h("td", { class: "num", text: typeof x.value === "number" ? V.fmt(x.value) : String(x.value) }),
         h("td", { text: x.unit || "—" }),
         h("td", { text: x.provenance || "—" }),
@@ -1845,7 +1872,8 @@ function changed() { refreshEditor(); updateSteps(); }
 
 function buildParams() {
   const toml = tomlEl.value;
-  const ranked = rankInputs(numericFields(toml), curatedInputs(toml));
+  const headline = ((S.fieldImportance || {})[kindOfToml(toml)] || {}).headline || [];
+  const ranked = rankInputs(numericFields(toml), curatedInputs(toml), headline);
   const { visible, advanced } = splitInputs(ranked, S.inputBudget);
   S.visibleIds = new Set(visible.map((x) => x.id));
   const kh = $("knobs");
@@ -1930,6 +1958,21 @@ function paintScenarioHeader(entry) {
 // scenario runs (lib/areas.mjs); the references are the oracles of those rows plus the sources
 // the header cites.
 let matrixPromise = null;
+// The engine's kind -> module names table (kind_modules(), 0.36). Read once; an engine without it gives {}
+// and a kind then matches the matrix rows by its own name only.
+// The engine's headline fields per kind (field_importance(), 0.36), read once when the engine is ready; the
+// inputs are ranked again when it arrives. An engine without it gives {} and the Studio ranks by itself.
+function loadFieldImportance() {
+  return (S.engineReady || Promise.resolve()).then(async () => {
+    try { const t = JSON.parse(await S.engine.call("field_importance")); return t && typeof t === "object" ? t : {}; } catch { return {}; }
+  });
+}
+let kindModulesP = null;
+function loadKindModules() {
+  return (kindModulesP ||= (S.engineReady || Promise.resolve()).then(async () => {
+    try { const t = JSON.parse(await S.engine.call("kind_modules")); return t && typeof t === "object" ? t : {}; } catch { return {}; }
+  }));
+}
 function loadMatrix() {
   if (!matrixPromise) matrixPromise = fetch("data/verification-matrix.json").then((x) => (x.ok ? x.json() : null)).catch(() => null);
   return matrixPromise;
@@ -1962,7 +2005,9 @@ async function renderHow(run) {
   const matrix = await loadMatrix();
   if (S.run !== run || !matrix) return;
   const rows = matrix.rows;
-  const idx = [...new Set(kindsOfToml(base).flatMap((k) => rowsForKind(k, rows)))];
+  const kindModules = await loadKindModules();
+  if (S.run !== run) return;
+  const idx = [...new Set(kindsOfToml(base).flatMap((k) => rowsForKind(k, rows, kindModules)))];
   if (idx.length) {
     const mix = evidenceMix(idx, rows);
     const ordered = idx.sort((a, b) => (rows[a].status === "VALIDATED" ? 0 : 1) - (rows[b].status === "VALIDATED" ? 0 : 1));
@@ -2811,6 +2856,7 @@ async function main() {
   }
   let booting = bootEngine();
   S.engineReady = booting.catch(() => {});
+  loadFieldImportance().then((t) => { S.fieldImportance = t; try { if (Object.keys(t).length && tomlEl && tomlEl.value) buildParams(); } catch { /* no scenario loaded yet */ } });
   booting.catch(() => { /* reported below */ });
   // Real coastlines for the maps (Natural Earth 1:110m land, public domain).
   fetch("data/land.json").then((r) => (r.ok ? r.json() : [])).then((l) => { S.land = l; if (S.heroRedraw) S.heroRedraw(); if (S.run && V.groundTrack(S.run.result)) renderGround(); if (S.run && S.activeTab && VIEW_ID[S.activeTab] === "v-cap") { S.capDirty = true; selectTab(S.activeTab, { url: false }); } }).catch(() => { S.land = []; });

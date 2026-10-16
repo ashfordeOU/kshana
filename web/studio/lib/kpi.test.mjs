@@ -3,8 +3,9 @@
 // Run with `node lib/kpi.test.mjs`.
 import { readFileSync } from "node:fs";
 import assert from "node:assert/strict";
-import { kpis, honesty, kpiDelta, headline, plainLabel, fieldTerm, isInputEcho } from "./kpi.mjs";
+import { kpis, honesty, kpiDelta, headline, plainLabel, fieldTerm, isInputEcho, figureName } from "./kpi.mjs";
 import * as K from "./kinds.mjs";
+import * as V from "./views.mjs";
 
 const rec = (name) => { const d = JSON.parse(readFileSync(new URL(`../recorded/${name}.json`, import.meta.url), "utf8")); return { r: JSON.parse(d.json), toml: d.toml }; };
 
@@ -77,3 +78,22 @@ assert.equal(plainLabel("horizontal alert limit (APV-I)"), "Horizontal alert lim
 assert.equal(plainLabel("12 h"), null, "a value note is not a label");
 assert.equal(fieldTerm("al_h_m"), "AL_H");
 console.log("kpi: ok");
+
+// The figures table names a figure in plain words and keeps the exact path beside it (STUDIO-02).
+{
+  const { r, toml } = rec("constellation-multi-gnss-coverage");
+  const kf = V.keyFigures(r, 40);
+  assert.ok(kf.length, "the recording has key figures");
+  for (const x of kf) {
+    const n = figureName(x, toml);
+    assert.ok(n.name && !/[_.]/.test(n.name), `${x.path}: the name is plain words, not an address (${n.name})`);
+    assert.equal(n.path, x.path, "the exact path is kept");
+    assert.ok(!/^(Fom|Result|Summary)\b/.test(n.where), `${x.path}: a generic block is not shown as a place`);
+  }
+  // A figure that is a scenario field takes the scenario's own words for it.
+  const q = figureName({ path: "pdop_threshold", label: "Pdop threshold" }, "pdop_threshold = 6.0  # PDOP alert threshold for availability\n");
+  assert.equal(q.name, "PDOP alert threshold for availability");
+  // A nested figure names its block in plain words.
+  assert.equal(figureName({ path: "global.pdop.p95", label: "P95" }, "").where, "Global › PDOP");
+}
+console.log("kpi: figure names ok");

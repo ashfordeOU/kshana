@@ -13385,5 +13385,35 @@
     "prefilter_ratio": 0.6986,
     "satellites": 102,
     "visible_pairs": 1947600
+  },
+  "figure_tiers": {
+    "figures": [
+      {
+        "applicable": true,
+        "path": "global.availability_pct",
+        "requirement": "Coverage and dilution-of-precision maps for arbitrary multi-constellation designs at scale, around any central body",
+        "tier": "MODELLED"
+      },
+      {
+        "applicable": true,
+        "path": "global.worst_site_availability_pct",
+        "requirement": "Coverage and dilution-of-precision maps for arbitrary multi-constellation designs at scale, around any central body",
+        "tier": "MODELLED"
+      },
+      {
+        "applicable": true,
+        "path": "global.pdop.median",
+        "requirement": "Coverage and dilution-of-precision maps for arbitrary multi-constellation designs at scale, around any central body",
+        "tier": "MODELLED"
+      },
+      {
+        "applicable": true,
+        "path": "global.mean_visible",
+        "requirement": "Coverage and dilution-of-precision maps for arbitrary multi-constellation designs at scale, around any central body",
+        "tier": "MODELLED"
+      }
+    ],
+    "legend": "VALIDATED: checked against an independent external oracle. MODELLED: first-principles or published-formula model, internally tested, with no external oracle to a stated tolerance. applicable=false: the figure is emitted for continuity but does not answer a question this scenario asks",
+    "source": "src/verification.rs (the verification matrix), read through src/fom_label.rs"
   }
 }

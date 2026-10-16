@@ -1,0 +1,466 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lunar reference station · Kshana docs</title>
+<meta name="description" content="MODELLED. Under the stated assumptions (the constellation, its signal-in-space error, the station&#x27;s survey accuracy, the correction latency and the link…">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#E8ECF3" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#060A14" media="(prefers-color-scheme: dark)">
+<link rel="apple-touch-icon" href="../assets/brand/apple-touch-icon.png">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 64 64'%3E%3Cstyle%3E.d%7Bdisplay:none%7D%40media (prefers-color-scheme:dark)%7B.l%7Bdisplay:none%7D.d%7Bdisplay:inline%7D%7D%3C/style%3E%3Cimage class='l' width='64' height='64' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAMFElEQVR42qWbaaxdVRXHf3vf84Y%2BqC1tqS2UFCwUAko1UqMgEhIcMEoc0DgkDkiiET6oERFwilMCipioifBBgyZqFNREFA1OiaLEOiGKRAaFliqTrS2P17737tl%2B4L/rYncP5%2BFNTu65555hr3mt/1rHzazaTOPj9B0K/wV9x/3A8E/r3hT%2Bd4Vj6bk%2BWZNL9vGFB7vkWMj8nzsnmOOucu90sU5r8cnCa0yprTd%2B%2BgIdznKIBrGh8oBQOZZjRkqwZZyVVF94Rnpvl7lHjiEuw7AA0A3gssuoel9Qx9y%2BGyAZKqZTMpMhgqldCxD8gIvjgl2yn5Nqbj9ng88FTh6g1qHgV1xFYOm5vsAkDzhf4WBOlUPFCYUBdhmfdypwSsMMQ8Peo59IBeKAkb4ngMMisRmTYTSxbLUb4GiG/u8KzPEJcf8E7gT2JOf7RhRxA6NCEBM2AWcAfwf2527YLdEWW2EuFJiQmtVRwCKwo%2BJL0numpuQK2uKBGWANcBnwCmAa%2BAHwoJ57wJd1FZVeSqwOhf0SYSNg0iykyxDTVzSq5Ejt%2BT0wC9wNPALM5QTZZcKVK/iAGpN8wQ%2Bk%2B/F7NfCYzh9XNGpkiClJP13HWN/PB64E1gK/B/blaOgaHjunYi2vm2NWDJ0L%2Bh1V8SRFhLHOmZN/2A7co3MwTqzPJFyWWWPgSOB84MvAfcBDhviDaIhOMOe1fUXlS%2BoeCils0P3WaaHH6rwdIniXtmXACcDpwNnan9c5wXj3VEidiD8ReD9wtRxfJ%2BcXSg7TmVrAVZKIIWHQHveSVgcsB46QZAJwB/Bx2ec7K%2Bp/uLTjDN3v%2B8BPEmnHkLcIbAU%2BIgbcZtbga4mbG1AMLaWwsUw5WhKfBh6VROakjlu0qD8l/sMV0uETgVfpXl%2BSeVjizwI%2BDbxODO6Mty8JEcB1hZQ1JMfDAK8f9OBJ4FkiYDuwWwyIqtoD66Xaltj0Gd7kBbdr2wq8BfgF8HP5lNeI%2BJclxOfM8CBt7yoqPsSureSn5XFPkITubiQ4LXMKGSe4Dfgd8FpghWL8Z%2BUzbjO%2BYEhJfUADaBQMrTohyHkdJTvfJoeWS1ZS6VJzUMmxXioP8A3gA8CHgWcCf8lIvpZSH6DDDyQ%2BVBa2TCq9DrjFEB8KdUVkwKiQ47tKhhnzhiuBj8nmNyc%2BI6e9xYjmB%2Bb/pbR3QoRvBH4tJ%2BcKBLskxI4G1hkhqUQ/D7wHeClwvfzNeYmGDMkaswtzSyyKDpXa32zUr5RZpgzJaVifATW8OfY14ALg5cCNcrgfBV4CvMCExhoQ8oRn%2Bga44DIwljNq9XTgD8aju4L6t2p6KslYLwd7HfB64FzgBmlfL8Z/EvigzHEotJf1zqEARqQE9HI%2B9ymu%2B0oqXZNAqZawydQK4LvAK4E3SO0nFAIXtf9H4Fbg4sQUQiFqkTpB1/DEqdSO1IMekdrV6nOXASR8ZpEhk9evlaq/GHgb8HVDfPws6n6fkWlsMDYfKlVtERXuG8RHxzenBMcnmpODxlJvPGEYMJEwJxK/EbgJeB5woTLAkYh3maRpJ/Ar4B2mbmiV88Fnyl/fyPFXaNF/TQDSUIjpXudPaYtET%2Bi/eHykY2MhOT8Sbngh8AVj8yWQ1QHXyiEeYhxiqAGnfkAiYm0yquXeDIdz1WInBzYpAmbkqCa1P2V%2BP0XSPUlFz/HAe0X8qJLeWlzwt/JJp5s116KY9wNzgMiYFVrov43th0rY7LRNSSrLRPihYsyMtuXCB0%2BT5Dcq1l9ptCJUsABrXtuAMxtRLDKv94V8gALgEI8/PACbmxDxE4bwGaG0a8SQFfq9qMTme3KwFwNXZSSfC8fps3%2BqoikHq6VMcD4TKkroT6%2B6flXB2aWLGZnqcFoEr5YDXS7i1%2Buac5TkHAZcAlwhZvUNGw5GePG8O4GV5noy5hBsNUgD5UmZsNPgbiVm%2BYT45TKdNTpvrX6vBp4NXKrzPyQ0Z60Ak1FGKKHSd3DAvdKaDcDfjO8KmQSLrtIMKTnCfQ0gE/0fuT8p5zaSKWwRYDkr1Ods3fMS4Cti2H8UZsOT6EnOCQZbmcEaDrq%2ByxA4MhLstD8polYp7T3axPLOXGND3rS2qI5HybmdITtHnr6X7f9LoMZubfMiZEHnjJNtUdvYMLw3/mqlGB7LZItAR41wXSGERc89YUJYJCp69N6EuciEkbl2ShKOTFgtJqzLSG9CQKkXI9aI%2BFlD4H4xJabAC0Yb5w0TYl0SzS/SNE5CZoiNkTT3n9c2W4gK80J7Wp9J2f6MbHqVGLBTah%2BAfyjZOUsx/GrjX3b9H/jkgtL05j26JQwhkKSuvjItYrVluek/LEjdpyXF74gpF6iiO0XI7j26Lko6DLB/C9BMKVeptemwnaHW%2BEv8f4%2Bkae3KVXA%2BJ03qje2N1RjZJXW/VyDnWwVsbAVerYRmslBs1TpTh8sUdzacerV3XsIIZhW%2BukIOYKNArNRm1QbbLbV8UIzco4bHvI5dJCZMA78B3m7s2Tc008b5TWLu3oQ%2Bt1QG5BgyqxvNFKo9O0Eyb5zWPl27V62qB7TI3VLVOd3zWkFcNwJfVIk7SjI6V%2BlWOTVT/pzQ50r5g2/cLEV0x1rwdCZ/SHsJYxG/IEbMSRP2alvQd9SQWdnv/UqL3we8W7XBcgN0hELuEk3lVNNB6luAb2tCJFW/XhI81pS2roAlBMOAfQpj8XtRWEIkfl7f%2B83zPgW8EHiGurubdF1X0IZeecYK%2BZTawJfLIUIlCKtPsIIHRNQhjbmASMiiCIxmEAzBYx3fl8TyGG1%2BrDD5kJhwsoHBchjGeeoY7S1oy0G%2Bw1e6PVTUbQdwjFlIqU63v8emsps3hC4WGhoxfX5A9f31YsKZuj7NYqdUTl%2BbADWuMFZXhcVzdb79b6cqt/WZerw02mI9dT8gtDnT3Q2S7mWy73OMJkSk6HxBYnclMB1DfYBrTIOm0rxdOf2ogSSViqVcCe4zDOxNeX058Gbgm8AbjY85AniRMARXGLQMrWKoHzD5YY9FLdiqrpBPYnIotL1Lrbac%2BfXJ/iTwVeUP15hw%2Bhx1jHZl5gFKWncAEgsDZnBdQUvu0f5xpjiiQLwrSMMP6OJavxCd47lqjl6hOuOmDEIdEka6EiRWcn6tenxObenD1CVayJhVSLpJNRg%2BNDpHGEZH4h4DnpZp9NRadAfWlhuUzCVFoXDMK3bvlx2ulWmU/EhUzxPkxO40md4QYNaZuv9Eo3G7dOzuwv2KeGdXKXxcwZvnmPCwCDpOTcptJq57Q7gNfaEyYttnzM3rukngXUqjL9X/pylMnq1e5cjUI77ic5wf2LujMJpuJbtb5rBdqM9Gk8KmUxsTA2b8rdnEJugpPD4RcpecYMQdb%2Bbx0ZnrhAWODYrd1ybNu8JUtjNg4lLeztinhuku%2BYT1Ona/St/4jEf539wQhQzSOq91wJt0v8%2BpKzUyzJ0EfqgO8beULO0v2b097mZWbc6NkdVmg2qDDD6BnI5RE%2BRw09C8QwVLEDhSm0HeLJxwE/AzSTgdkwsmdV6QeWxVnmBnhkKuPzB0TK42REXDb0Ss8KmKFrslqQeV2UViOmENG1QAxYLrFs0D9A21xgA1V8kvfaIwO0SNAa4yBucqLyW5Ss8/XewWha8FEevFIGcAkttkTiQjdqHhp6IWXgN8W9iCzzjWkIsCpcSolBfUwk2fAV9ie3ujnn2D8IU4y7%2B/MCwdElWumWFk0kXqLd6q0Jx9L8EXpjPDgHhcwxBCobCx948w916TS2BMxmWaork154a0Y1S6XICrLwgniweEAa/BhIGpsiuYz9jA7qPk3HEDCA2FdaXvGozUGvulqsc%2B9%2BpMrb8XBjx8yHBl7r/7TYe5r2hOzcGWSndvmDySDzhEZtfn5gTdwBw8VCRN5UXK3Ls8qxQeHUt7NykMQIf7xOwcjw9ZbVKoLE6I1KQw5EWJ1psi1kMfrxi/lJcyQ%2BUt1VbWOqsUeSo9t/a%2BwFLH42k0V6wGjJ/EvWpNm1ZzppQIBd8YhK5FgNBwfKV54XEyLO0KpevQ94MZMKqTY1KgULu3HthSzSHmkJtFKFWdtcmV1subzbHfVufELUFNSxOmbgBzfAFUrYG2ruGb%2BsL7hk9Y738BiK3K27ls0kUAAAAASUVORK5CYII='/%3E%3Cimage class='d' width='64' height='64' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAMDUlEQVR42qWbaaxeVRWGn32%2Bcwc6UNrS0kJJwTIYUKqRGgSREHGMEgc0DokDkmiEH2pERJzilAAiJmoi/NBUEzVKlShaDU6JoERURBSJQBVKKy1Dr5TLHb%2Bz/dF3Xxe7ezi33uTkO/eMe81rvWsdt3fCU/lz%2BvWZc16/Yb/6wEU8m8x5lzkWX9tEa3LRPk3mxS465hPnU9d4c9wVnh0v1mktTbTwElNK6w1/XYYOZzlEhVhfeIEvHEsxIybYMs5Kqsu8I362SzwjxRCXYJgHaHtw2SVUvcuoY2rf9ZAMBdPJmUkfwZTuBfBNj5vDgl20n5Jqaj9lg2cAp/VQa5/xK64gsPjaJsOkBnBNgYMpVfYFJ%2BR72GV435nA6RUz9BV7D34iFogDBvodAVYGYhMmQ5sgJpYehfM5de0ShFuivg/MZ7x21yN61HzPUEw4HtgC/BB4InV9u0hbrIW5OCTmzOpYMeChgi%2BJnxmbkstoSwMsAY4ErgBeA4wDPwH26r0LvqxdhFR95ZzLOKcUYQNg1CykTRDTZZhZcqT2%2Bg6YBO4HHgOmUoJsE%2BHKZXxAiUlNxlTi/fC7GnjKqGvub2CIyUk/XsdQvy8ErgHWAn8CplM0tBWPnVKxmtd1Gb/SAXP6P6jiqYoIQ10zBfwb2AnsMH6iMc/wmRA40HOOAS4Cvg48CDxiiD%2BIBrd3wudSzqZAvMssxBdS2AY4SpI/S4u6B1gKLAPGgPXARkltVAT8BrgjoRF2Ha2YdQrwPuBq4F4d7wp5C87UAq6QRPQJg/Z48OYtsBw4WpLxIvozss/3FtR/jbTjHD3vx8AvImmHkDcvb/9J4MPAXWYNTSlxcz2KocUUNvZhxwHr5IGfBP4pFZ8GNmtRf4n8h8ukw6cAr9OzvibzsMSfB3weeJMY3BpvnxMigGszKauPjvseXj%2Bo4ijwXBGwE5gQAzAquR6YjYiN39EYM7xb2xbgHTKLX8unvEHEvyoinkouA%2BDbgorX7Do2h3HZ7jMlofvNNU0hc3SFxCZ2grcDfwTeCKxQjP8icLbUvo2iiqvkN64tXOB71gkeOEzJzTFa5L5MshJLt0%2BWaeP6QMe%2BA3wU%2BATwHOBvCcmXUuoFOpqexPvCwg6TSq8DbjPE%2B0xdERgwyOT4rpBhhrzhGuDTsvmTIp%2BR0t4c7rFwwh2C0/MqNtYpdP1OTs5lCHZRSBz0BDx8VGN8GfgA8Epgm/zNhZGG9MkakwtzlcXEi10mtb81Km5cJinymQrQRxlfqupzwLeAi4FXA9vlcD8FvBx4kQmNJSDkae9sKuCCS8BYzqjVs5SkzGZSZt%2Bzps%2BV0CGGjwM3AG8GLgBukvZ1YvzngI/JHPtCe0nv7DNgRExAJ%2BfzoOJ6U0ilSxLI1RI2mVoB3Ai8FniL1H5EIXBe%2B38G7gQui0zBZ6IWsRN0i6z3j9GLHpPalVBblwAkmsQifSKvXytVfxnwLuDbhvjwN6/nfUGmscHYvC9UtVlUuKsQHxzflBKcJtKcFDQWe%2BMRw4CRiDmB%2BI3AzcALgEuUAQ5EvEskTbuB3wLv0fsGPcp53yTK36aS46/Qov8eAaQ%2BE9MbXT%2BmLRA9onPh%2BEDHhsAm4GfCDS8BvmJsPgeyOmCrHOJS4xB9CVVqesJd3tTaa4H9CQ6n6v5WDmxUBCyRoxrV/pj5/3BJ91QVPScDHxTxg0J6a3HBP8gnnW3WXIpiTdMzBwiMWaGFPm5s3xfCZqttTFI5TIQvE2OWaFsuzO4sSX6jYv01Rit8AQuw5nU7cG4ligXmdU0mHyADOITjj/bA5kZE/IghfIlQ2iPFkBX6f16JzY/kYC8Drk1IPhWO43f/UkVTClaLmeCaRKjIoT%2Bd6vpVGWcXL2ZgqsNxEbxaDnS5iF%2Bve85XkrMSuBy4SszqKjbsjfDCdfcCR5j7SZiDt9VgCeBMMWG3wd1yzGoi4pfLdI7UdWv1/2rgecBHdP3Hget0ftIgQLlcJWWqD0hrNgD/ML4rCb%2B3hWZIzhFOV4BMdD5wf1TObSBT2CzAclKozyv0zMuBb4hh/1GY9YfQF5gCZqQFZLTIWycVEzgwEmy1PyqiVintPc7E8tbcY0PeuLagjsfKuZ0jO0eevpPtPyxQY0LbrAiZ0zXDaJvXNjQM74y/OkIMD2WyRaCDRrg2E8KC5x4xISwQFTx6Z8JcYMLA3DsmCQcmrBYT1iWkNwKcIAY%2BLFOZkZYEAmfElJACzxltnDVMCHVJML9A0zAKmT40RuLcf1bbZCYqzArtqf2NyvaXyKZXiQG7pfYe%2BJeSnfMUw68z/mXf/4FPzilNrz6jXcQQAlHq2hSmRay2LDf9hzmp%2B7ik%2BAMx5WJVdKcL2d2h%2B4KkfQ/7twDNmHKVUpsO2xmqjb%2BE809ImtauXAHnc9KkztjeUI2RfVL3BwRyvlPAxhbg9UpoRjPFVqkztUamuLvi1Iu98xxGMKnw1WZyABsFQqU2qWbIhNRyrxj5hLpAszp2qZgwDvweeLex56aimTbObxJz90f0ucUyIMWQST1oSabasxMks8ZpTeve/WpV7dEiJ6SqU3rmVkFc24GvqsQdRBldLmMN584A/hrR53L5Q1N5WIzoDrXg8UT%2BEPcShiJ%2BToyYkibs1zan36Ahk7LfXUqLPwS8X7XBcgN0%2BEzuEkzlTNNB6mqAb21CJFa/ThI8wZS2LoMleMOAaYWx8DsvLCEQP6vfGfO%2Bq4GXAM9Wd3eT7msz2tApz1ghn1Ia%2BHIpRCgHYXURVrBHRC2tzAUEQuZFYDADbwge6vh0FMtDtPm5wuQjYsJpBgZLYRgXqmO0P6MtB/mOptDtoaBuD3Fg/GSkMMbmE2Mr8yaX6IyjTDU0Qvq8R/X9NjHhXN0fZ7FjKqe3RkCNy4zVFWHxVJ1vz%2B1W5bY%2BUY/nRlusp%2B56hDZnurte0r1C9n2%2B0YSAFF0kSOy%2BCKajrw9wlWnQWJp3K6cfVJCkXLGUKsGbBAM7U15fCbwd%2BC7wVuNjjgZeKgzBZQYtfa0Y6npMfthjQQu2qCvURDHZZ9reuVZbyvy6aH8U%2BKbyh%2BtNOH2%2BOkb7EvMAOa1bgMR8jxlcl9GSHdo/0RRHZIh3GWk0Pbq41i8E53iBmqNXqc64OYFQ%2B8RESRISyzm/Wj0%2Bpbb0SnWJ5hJm5aNuUgmG95XOEYbRgbingGckGj2lFt3C2vpw31Ug7yelCYcL3ekKQ9EUxmf7ToqGaLISuEVm8DjwYh0fFCC%2Bg8J1Wyh8XMabuwQTHtXLT1ST8nYT1xtjlzb0%2BcKIbZcwt0b3jXJgEGpCUBoKf9tUZt9hmiu5Ya8FupqevTsyo%2BnWjidkDjuF%2Bmw0KWw8tTHSY8bfmk1ogp7OgYmQ%2B%2BQEA%2B54KwdGZ24QFjg0KHZX0oI2M5XtDJi4mK8zptUw3SefsF7Hdqn0De94kv/NDZHJIK3zWge8Tc/7krpSA8PcUeCn6hB/T8nSTGEOeuG42zvhU2NktZk/VwBNLeR0vJoga0xD8x4VLF7gSGkG%2BSThhJuAX0nC8ZicN6nznMxji/IEOzPkU/2BvmNypSEqKn4jYIVHyXFNSFJ7ldkFYlo50g0qgELBdZvmAbqKWmOAmmvllz6bmR2ixABXGINzhWlSV%2Bj5xy/ZrPA1J2LDFKkzAMldMieiETtf8VNBC6/nwFj%2B9kgzk%2BPyLsrgXGEWv9RKd4VzjWlvb9S7b1IIm9E1M5lhaR%2BpcskMA5MuVW/xTmWtLjW212SmM33FHFwFQ/CZwsY%2BP8Dc%2B7U/Y4geRFC2TwxclYa0Q1S6UoBrkxFOEg/wPT6D8T1TZZcxn6GB3QfRtcMKEOoz64q/NRioNXaLqscu9elMqb/ne7y8z3Bl6twu02HuCppTcrC50r0xTB7IByyV2XWpOUHXMwf3BUlT%2BJAyZthAxcuyymyC64lU5ypIm1HeqFA6UpoQKUmhz4cStS9FrIc%2BWTF%2BMR9l%2BsJXqrWsdVIp8lh8bel7gcWOx1NprlgNGB7Cs0pNm1pzJpcI%2BaYyCF2KAL7i%2BHLzwsNoWNplSte%2B3wfTY1QnxSRPpnavvbCmmn3MITWL4Cuf4vien9Muauy31jlxi1DT3ISp68GcJgOqlkBbV/FNXeZ7w6et978oq/I35bE6mwAAAABJRU5ErkJggg=='/%3E%3C/svg%3E">
+<script>try{var t=localStorage.getItem('kshana-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link href="../fonts/geist-geist-mono-unbounded.css" rel="stylesheet">
+<link href="../fonts/noto-sans-devanagari.css" rel="stylesheet">
+<link rel="stylesheet" href="../tokens.css">
+<link rel="stylesheet" href="../theme.css">
+<link rel="stylesheet" href="../site.css">
+<link rel="stylesheet" href="../css/docs.css">
+<link rel="stylesheet" href="../css/light.css">
+<!-- seo:head -->
+<link rel="canonical" href="https://kshana.dev/docs/lunar-reference-station">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Kshana">
+<meta property="og:locale" content="en_GB">
+<meta property="og:url" content="https://kshana.dev/docs/lunar-reference-station">
+<meta property="og:title" content="Lunar reference station · Kshana docs">
+<meta property="og:description" content="MODELLED. Under the stated assumptions (the constellation, its signal-in-space error, the station&#x27;s survey accuracy, the correction latency and the link…">
+<meta property="og:image" content="https://kshana.dev/og-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:alt" content="Kshana, a PNT (positioning, navigation and timing) resilience simulator. 175 of 361 capabilities validated against external oracles.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Lunar reference station · Kshana docs">
+<meta name="twitter:description" content="MODELLED. Under the stated assumptions (the constellation, its signal-in-space error, the station&#x27;s survey accuracy, the correction latency and the link…">
+<meta name="twitter:image" content="https://kshana.dev/og-card.png">
+<meta name="twitter:image:alt" content="Kshana, a PNT (positioning, navigation and timing) resilience simulator. 175 of 361 capabilities validated against external oracles.">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://kshana.dev/"}, {"@type": "ListItem", "position": 2, "name": "Docs", "item": "https://kshana.dev/docs/"}, {"@type": "ListItem", "position": 3, "name": "Lunar reference station", "item": "https://kshana.dev/docs/lunar-reference-station"}]}</script>
+<!-- /seo:head -->
+</head>
+<body data-page="docs">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-copy" viewBox="0 0 16 16"><rect x="5" y="5" width="9" height="9" rx="2" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M11 5V3.5A1.5 1.5 0 0 0 9.5 2h-6A1.5 1.5 0 0 0 2 3.5v6A1.5 1.5 0 0 0 3.5 11H5" fill="none" stroke="currentColor" stroke-width="1.4"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 16 16"><path d="M3 8h9M8.5 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-play" viewBox="0 0 12 12"><path d="M3 1.5v9l7.5-4.5Z" fill="currentColor"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 12 12"><path d="M3 1.5h2v9H3zM7 1.5h2v9H7z" fill="currentColor"/></symbol>
+  <symbol id="i-ext" viewBox="0 0 16 16"><path d="M9 3h4v4M13 3 7.5 8.5M12 9.5V13H3V4h3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></g></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="m20 20-3.5-3.5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></symbol>
+  <symbol id="i-theme" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.2" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M8 1.8a6.2 6.2 0 0 1 0 12.4z" fill="currentColor"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 16 16"><path d="M2.5 4.5h11M2.5 8h11M2.5 11.5h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
+</svg>
+<a class="skip" href="#main">Skip to content</a>
+<div class="bg-field" aria-hidden="true"></div>
+<header class="nav" id="nav">
+  <div class="nav-in">
+    <a class="brand" href="/" aria-label="Kshana home"><span class="brand-mark" aria-hidden="true"></span><span class="brand-t">kshana</span> <small>v0.36.0</small></a>
+    <nav class="nav-links" id="navLinks" aria-label="Primary">
+      <a href="/missions">Missions</a>
+      <a href="/capabilities">Capabilities</a>
+      <a href="/evidence">Evidence</a>
+      <a href="/evidence#research">Research</a>
+      <a href="/developers">Developers</a>
+      <a href="/docs/" aria-current="page">Docs</a>
+      <a href="/editions">Editions</a>
+    </nav>
+    <div class="nav-right">
+      <button class="k-btn" id="kbtn" type="button" aria-haspopup="dialog" aria-controls="palette"><svg width="14" height="14" aria-hidden="true"><use href="#i-search"/></svg><span class="lbl">Search</span><kbd class="kmod">⌘K</kbd></button>
+      <button class="icon-btn" id="themeBtn" type="button" aria-label="Switch between light and dark theme" title="Switch theme"><svg class="moon" aria-hidden="true"><use href="#i-moon"/></svg><svg class="sun" aria-hidden="true"><use href="#i-sun"/></svg></button>
+      <a class="pill" href="/studio/"><span class="pill-l">Launch&nbsp;</span>Kshana Studio</a>
+      <button class="icon-btn menu-btn" id="menuBtn" type="button" aria-label="Open the menu" aria-expanded="false" aria-controls="navLinks"><svg aria-hidden="true"><use href="#i-menu"/></svg></button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+<div class="docs docs-page">
+  <aside class="docs-side" aria-label="Documentation">
+    <div class="docs-search"><label class="vh" for="docsQ">Search the docs</label><input id="docsQ" type="search" placeholder="Search the docs" autocomplete="off" aria-keyshortcuts="/" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="docsR"><div class="docs-results" id="docsR" role="listbox" aria-label="Search results"></div><p class="vh" id="docsCount" aria-live="polite"></p></div>
+    <details class="docs-nav-d" open><summary>All docs pages</summary><nav class="docs-nav" aria-label="Docs pages"><div><h2>Get started</h2><a href="/docs/overview">Overview</a><a href="/docs/concepts">Concepts primer</a><a href="/docs/glossary">Glossary</a><a href="/docs/studio">Studio guide</a><a href="/docs/tutorials">Tutorials</a><a href="/docs/tutorial-first-orbit">1 · Your first orbit</a><a href="/docs/tutorial-clock-holdover">2 · Clock holdover</a><a href="/docs/tutorial-quantum-vs-classical">3 · Quantum against classical</a><a href="/docs/example-multi-tool">Worked example: multi-tool pipeline</a></div><div><h2>Scenarios</h2><a href="/docs/scenarios">Scenario kinds</a><a href="/docs/scenario-reference">Scenario reference</a><a href="/docs/schema">Result schema</a><a href="/docs/real-tle-guide">Using real TLEs</a><a href="/docs/campaigns">Campaigns</a></div><div><h2>Outputs and exports</h2><a href="/docs/reports">Run reports</a><a href="/docs/animation">Animation export</a><a href="/docs/interop">Interoperability exports and imports</a></div><div><h2>Validation and evidence</h2><a href="/docs/validation">Validation status</a><a href="/docs/verification-matrix">Verification matrix</a><a href="/docs/capability-reference">Capability reference</a><a href="/docs/modelled-rationale">Why rows stay Modelled</a><a href="/docs/claims-vs-reality">Claims against reality</a><a href="/docs/provenance">Provenance</a><a href="/docs/reproducibility">Reproducibility</a><a href="/docs/capability-map">Capability map</a><a href="/docs/standards">Standards and interoperability</a><a href="/docs/line-coverage">Line coverage</a><a href="/docs/evidence-packs">Evidence packs</a></div><div><h2>Timing</h2><a href="/docs/slot-timing">Slot timing</a><a href="/docs/telecom-timing">Telecom timing</a><a href="/docs/deceived-time">Deceived time</a></div><div><h2>Integrity and interference</h2><a href="/docs/integrity">Integrity and security</a><a href="/docs/spectrum">Spectrum and waterfall</a><a href="/docs/araim-reference">ARAIM reference</a><a href="/docs/compliance">DO-316 / DO-229E map</a><a href="/docs/resilience-crosswalk">Resilience cross-walk</a></div><div><h2>Receiver trust and maritime</h2><a href="/docs/receiver-trust">Receiver trust</a><a href="/docs/maritime-trust">Maritime trust</a><a href="/docs/nmea-training">NMEA training streams</a><a href="/docs/interference-map">Interference map and route exposure</a><a href="/docs/interference-data-sources">Interference map: data sources and licences</a><a href="/docs/marine-integrations">Marine integrations</a><a href="/docs/skyline">Sky geometry and skylines</a><a href="/docs/trust-telemetry">Trust as security telemetry</a><a href="/docs/osnma">Galileo OSNMA verification</a></div><div><h2>Compliance and test bench</h2><a href="/docs/test-bench">Running a receiver against a scenario</a><a href="/docs/compliance-mapping">Compliance mapping</a><a href="/docs/compliance-dhs-rpcf">US DHS resilient PNT framework</a><a href="/docs/compliance-imo-ships">IMO guidance for ships</a><a href="/docs/compliance-easa-aviation">EASA guidance for aviation</a><a href="/docs/compliance-nis2-art21">EU NIS2, Article 21</a><a href="/docs/compliance-en-16803">EN 16803</a></div><div><h2>Orbits</h2><a href="/docs/sgp4-validation">SGP4 validation</a><a href="/docs/agency-orbit-validation">Force-model validation</a><a href="/docs/solar-system">Solar system and other bodies</a><a href="/docs/lunar-reference-station" aria-current="page">Lunar reference station</a></div><div><h2>Low Earth orbit (LEO) navigation</h2><a href="/docs/leo-pnt">LEO positioning, navigation and timing</a><a href="/docs/leo-signal">LEO signal designs</a><a href="/docs/leo-pass">LEO pass and link budget</a><a href="/docs/leo-navmsg">LEO navigation message</a><a href="/docs/leo-pnt-fusion">Fused MEO and LEO positioning</a><a href="/docs/constellation-design">Constellation design</a></div><div><h2>Quantum sensors</h2><a href="/docs/quantum-models">Quantum-sensor models</a><a href="/docs/quantum-physics">Cold-atom interferometer</a></div><div><h2>APIs and integrations</h2><a href="/docs/python-api">Python API</a><a href="/docs/npm">npm and WebAssembly</a><a href="/docs/rust">Rust crate</a><a href="/docs/mcp">MCP server</a><a href="/docs/mcp-install">MCP server: every install channel</a><a href="/docs/mcp-http">MCP server: self-hosted HTTP mode</a><a href="/docs/agents">Using Kshana from an agent</a><a href="/docs/surfaces">Where each capability is reachable</a><a href="/docs/jetbrains">JetBrains plugin</a><a href="/docs/deployment-targets">Where Kshana runs</a><a href="/docs/architecture">Architecture</a><a href="/docs/positioning">Where Kshana sits</a></div><div><h2>Project</h2><a href="/docs/changelog">Changelog</a><a href="/docs/licensing">Licensing</a><a href="/docs/security">Security</a><a href="/docs/contributing">Contributing</a><a href="/docs/governance">Governance</a><a href="/docs/code-of-conduct">Code of conduct</a></div></nav></details>
+  </aside>
+  <article class="docs-main">
+    <div class="docs-meta"><span>Orbits</span><a href="https://github.com/ashfordeOU/kshana/blob/main/docs/LUNAR-REFERENCE-STATION.md">Edit on GitHub</a><span>Source: <code>docs/LUNAR-REFERENCE-STATION.md</code></span></div>
+    <div class="prose"><h1 id="lunar-reference-station">Lunar reference station</h1>
+<blockquote>
+<p><strong>MODELLED.</strong> Under the stated assumptions (the constellation, its signal-in-space error, the
+station&#39;s survey accuracy, the correction latency and the link quantization, each an input
+labelled with its public source or as ILLUSTRATIVE), the model gives the figures below. They are
+<strong>not</strong> a statement about the performance of any real system. Kshana is <strong>not</strong> affiliated with
+or endorsed by any agency, and makes no TRL or heritage claim. Advisory only.</p>
+</blockquote>
+<h2 id="purpose">Purpose<a class="anchor" href="#purpose" aria-label="Link to this section">#</a></h2>
+<p>Public material describes a lunar south-pole reference station that monitors a lunar navigation
+service, computes local differential corrections, keeps a lunar time reference on an atomic
+clock, and carries a laser retroreflector and a VLBI transmitter for the lunar reference frame
+(the class publicly described for ESA&#39;s NovaMoon concept; sources below). Kshana already models
+each piece separately. This study composes them into one reproducible, open analysis of what
+such a station could do under public assumptions, and pre-registers it so it can be scored
+against published results and, eventually, flight results.</p>
+<h2 id="run-it">Run it<a class="anchor" href="#run-it" aria-label="Link to this section">#</a></h2>
+<pre data-lang="shell"><code class="hljs language-bash">kshana scenarios/lunar-station-coverage.toml     <span class="hljs-comment"># about 6 s in a release build</span></code></pre>
+<p>or <code>run_toml</code> from Python, WebAssembly or the MCP server&#39;s <code>run_scenario</code> with
+<code>kind = &quot;lunar-station-coverage&quot;</code>.</p>
+<h2 id="coverage-and-accuracy-map-lunar-station-coverage">Coverage and accuracy map (<code>lunar-station-coverage</code>)<a class="anchor" href="#coverage-and-accuracy-map-lunar-station-coverage" aria-label="Link to this section">#</a></h2>
+<p>For a differential reference station at a known south-polar site: at each user point on a ring grid
+from 80° S to the pole and over the region, across a day of epochs and Monte Carlo trials, the
+percentile corrected and uncorrected position error (3-D, horizontal, vertical), availability
+with a reason for every unavailable epoch, coverage against a threshold stated before the run,
+DO-229E protection levels, the coverage radius per azimuth sector, and the correction-link budget
+at the station and at the worst point. No new physics: it sweeps the tested functions of
+<code>lunar-differential-pnt</code> and reduces to that kind exactly at one point, one epoch and one trial.</p>
+<h3 id="inputs">Inputs<a class="anchor" href="#inputs" aria-label="Link to this section">#</a></h3>
+<div class="tbl"><table><thead><tr>
+<th>Input</th>
+<th>Default</th>
+<th>Source</th>
+</tr>
+</thead><tbody><tr>
+<td>Constellation (<code>n_sats</code>, <code>sma_km</code>, <code>eccentricity</code>, <code>inc_deg</code>, <code>argp_deg</code>) or <code>ephemeris_path</code></td>
+<td>the in-tree LCNS-class set</td>
+<td>ILLUSTRATIVE in the bundled default; the public-sources example sets four satellites and the 24 h period from S2 and S4, the element set staying ILLUSTRATIVE (no source states it)</td>
+</tr>
+<tr>
+<td><code>mask_deg</code></td>
+<td>5°</td>
+<td>ILLUSTRATIVE</td>
+</tr>
+<tr>
+<td>Station (<code>station_lat_deg</code>, <code>station_lon_deg</code>, <code>station_height_m</code>)</td>
+<td>89° S, 0°, 0 m</td>
+<td>ILLUSTRATIVE</td>
+</tr>
+<tr>
+<td><code>survey_sigma_m</code></td>
+<td>0.30 m</td>
+<td>ILLUSTRATIVE (the in-tree frame-realisation allocation, itself MODELLED)</td>
+</tr>
+<tr>
+<td><code>orbit_err_m</code>, <code>clock_err_m</code>, or <code>sise_sigma_m</code> with <code>sise_orbit_variance_fraction</code></td>
+<td>100 m, 30 m (line-of-sight SISE 65 m)</td>
+<td>ILLUSTRATIVE in the bundled default; the public-sources example sets <code>sise_sigma_m</code> = 10 / 1.96 m from S4 p8</td>
+</tr>
+<tr>
+<td><code>noise_m</code>, <code>latency_s</code>, <code>quantization_bits</code></td>
+<td>0 m, 10 s, 8 bits</td>
+<td>ILLUSTRATIVE</td>
+</tr>
+<tr>
+<td>Grid (<code>grid_lat_max_deg</code>, <code>grid_lat_step_deg</code>) or <code>points</code></td>
+<td>80° S, 1° (346 points)</td>
+<td>the study region</td>
+</tr>
+<tr>
+<td>Time (<code>t_start_s</code>, <code>t_span_s</code>, <code>t_step_s</code>), <code>n_trials</code></td>
+<td>0 s, one day, 600 s, 200</td>
+<td></td>
+</tr>
+<tr>
+<td><code>accuracy_threshold_m</code>, <code>percentile</code></td>
+<td>20 m at p95 in the bundled default (1 m in the public-sources example)</td>
+<td>stated before the run; 20 m is ILLUSTRATIVE, sized to the default&#39;s illustrative errors</td>
+</tr>
+<tr>
+<td><code>alert_limit_m</code></td>
+<td>10 m</td>
+<td>ILLUSTRATIVE: no public value exists</td>
+</tr>
+<tr>
+<td><code>residual_sigma_m</code>, <code>p_hmi</code>, <code>seed</code></td>
+<td>5 m, 1e-4, 42</td>
+<td></td>
+</tr>
+</tbody></table></div>
+<h3 id="outputs">Outputs<a class="anchor" href="#outputs" aria-label="Link to this section">#</a></h3>
+<p>Every numeric field carries a unit and a provenance class in the result&#39;s <code>units</code> block (checked
+by <code>tests/field_units_global.rs</code>). The region block: <code>availability</code>, <code>coverage_fraction</code>,
+<code>corrected_p_3d_m</code>, <code>corrected_p_h_m</code>, <code>corrected_p_v_m</code>, <code>uncorrected_p_3d_m</code>,
+<code>improvement_factor</code>, <code>hpl_max_m</code>, <code>vpl_max_m</code>, <code>hpl_below_alert_fraction</code>, <code>worst_point</code>;
+<code>coverage_radius_km</code> per 30° azimuth sector; <code>points[]</code> per point; and
+<code>budget_at_station_and_at_edge</code>.</p>
+<h3 id="what-the-checks-can-and-cannot-tell">What the checks can and cannot tell<a class="anchor" href="#what-the-checks-can-and-cannot-tell" aria-label="Link to this section">#</a></h3>
+<ul>
+<li><code>tests/lunar_station_coverage_reference.rs</code>: the reduction to <code>lunar-differential-pnt</code>, the
+zero-baseline and survey floors, monotonicity, unavailable reasons, determinism, the work guard.
+These show the sweep is the model it claims to sweep.</li>
+<li><code>tests/lunar_station_numpy_oracle.rs</code>: an independent numpy re-computation of the arithmetic on
+exported cases, pre-registered before it ran. Positions and percentiles met their bars; the
+station corrections missed theirs by double-precision rounding (recorded, with its numbers, in
+<code>tests/fixtures/lunar_station/PREREGISTRATION.md</code>).</li>
+<li>Neither checks the model. The error model, the first-order decorrelation, the survey, ageing and
+quantization models and every threshold are this project&#39;s own or ILLUSTRATIVE.</li>
+</ul>
+<h3 id="terrain-horizon-masks">Terrain horizon masks<a class="anchor" href="#terrain-horizon-masks" aria-label="Link to this section">#</a></h3>
+<p>MODELLED. An optional <code>[terrain]</code> section (<code>src/lunar_terrain.rs</code>) gives the station and every user
+point its own azimuth-dependent horizon, in the 0.36 skyline table format (rows <code>[azimuth_deg, elevation_deg]</code>, linear in azimuth with wrap at 360°). A satellite counts at a site when it clears
+both <code>mask_deg</code> and the horizon at its azimuth; an epoch the horizon leaves with fewer than four
+satellites at a point, where the flat mask gives four, is reported as <code>unavailable.terrain_masked</code>
+(<code>user_lt4</code> keeps its flat meaning). Two sources, combined as their pointwise maximum when both are
+given:</p>
+<ul>
+<li>a stated profile, <code>station_horizon</code> or <code>user_horizon</code> (applied at every user point), each with a
+required <code>source</code> label;</li>
+<li>a horizon ray-marched over a polar DEM (<code>dem_path</code>): great circles of the lunar sphere with exact
+curvature, from a stated mast height (default 2 m), every <code>azimuth_step_deg</code> (default 1°), out to
+<code>max_range_km</code> (default 150 km) or the grid edge. The repository vendors a crop of the
+public-domain LRO LOLA polar product <code>LDEM_75S_240M</code>, 5 × 5 block-mean resampled to 1200 m and
+about ±420 km from the pole (<code>data/lunar-dem/NOTICE.md</code>: source URL, SHA-256, licence, crop and
+resample steps);</li>
+<li>or, in place of <code>dem_path</code>, a latitude/longitude DEM tile (<code>dem_tile_path</code>) in the
+<code>realdata::lola_dem</code> text format (a header <code>lat_min lat_max lon_min lon_max n_lat n_lon</code>, then
+the heights in metres above the mean sphere, row-major), ray-marched the same way, with the
+latitude spacing setting the default step. The report echoes the tile&#39;s path, SHA-256 and
+extent (<code>terrain.dem_tile</code>). A tile resampled from the vendored crop gives the station the
+crop&#39;s own horizon to 0.22° (<code>tests/lunar_station_terrain.rs</code>). No tile is vendored.</li>
+</ul>
+<p>The same masks apply to the <code>moonlight-service-volume</code> grid (<code>terrain</code>, <code>user_horizon</code> and
+<code>dem_path</code>; a grid point outside the DEM keeps the flat mask and is counted). Without the section
+every document is byte-identical to a run without it.</p>
+<p>Checks: the ray march reproduces closed-form horizons (the bare-sphere dip, a crater in a plateau
+from its centre and off it, a rasterised cone against the analytic cone); the vendored crop is
+oriented as the source (Shackleton and Haworth floors low, the Malapert massif high); an independent
+numpy ray-cast on the crop, pre-registered (<code>tests/fixtures/lunar_terrain/PREREGISTRATION.md</code>), agrees
+to 5.5e-10 deg at five sites, which checks the arithmetic, not the terrain. No published
+polar horizon or illumination figure has been reproduced, so the row stays MODELLED (ledger row
+&quot;Lunar terrain horizon masks from a stated profile or a polar DEM&quot;).</p>
+<p><code>scenarios/lunar-station-coverage-terrain.toml</code> runs the bundled inputs on a 2° grid with 100 trials
+and the DEM horizon at every site. The station site (89° S, 0° E) has a highest horizon of about
+4.0°, below the 5° mask, so at the station the terrain does not bind; at the user points the
+area-weighted mean of each point&#39;s highest horizon is 9.7° and the largest 26.3°. Against the same
+inputs with the flat mask, the region&#39;s corrected p95 3-D error rises from 16.3 m to 18.6 m and the
+largest HPL from 480 m to 62 km. Region availability rises from 91.9 % to 93.0 %: an epoch is
+unavailable when a point uses a satellite the station does not see, and a horizon that hides that
+satellite from the point can make the epoch available.</p>
+<h3 id="limitations">Limitations<a class="anchor" href="#limitations" aria-label="Link to this section">#</a></h3>
+<ol>
+<li><strong>Terrain and horizon masking: addressed in 0.36, with limits.</strong> Per-site horizon masks from a
+stated profile or the vendored LOLA DEM crop are modelled (above). What remains: the vendored
+crop is 1200 m per pixel, so relief below about a kilometre is smoothed away and block means
+lower sharp peaks; a ray that leaves the crop (about 420 km from the pole) ends there; there is
+no diffraction, terrain multipath or partial obstruction; site positions for ranging stay on the
+mean sphere at the stated heights (the DEM sets the horizon only); the horizon is not validated
+against an external figure. The per-satellite export site of <code>moonlight-service-volume</code> is
+masked like a grid point: with a <code>terrain</code> section each export row carries <code>clears_terrain</code>
+and the report the site&#39;s horizon (<code>export_site_terrain</code>); the antenna in-beam tallies still
+count every link that clears the flat mask.</li>
+<li><strong>Multipath and receiver hardware: addressed in 0.36 as an opt-in, with limits.</strong> A <code>[receiver]</code>
+section (<code>src/lunar_receiver.rs</code>) adds elevation-dependent multipath <code>a + b exp(-el / el0)</code> at the
+user and the station (the DO-229 functional form; on the Moon every value is ILLUSTRATIVE), the
+station&#39;s multipath optionally first-order Gauss-Markov over epochs, early-minus-late DLL code
+noise from C/N0, and per-channel inter-channel biases. What remains: antenna phase-centre and
+group-delay variation are not modelled; no lunar measurement fixes the multipath values; the
+correction-link budget block does not include the receiver terms.</li>
+<li><strong>Ephemeris-error growth over the latency: addressed in 0.36 as an opt-in, with limits.</strong>
+<code>orbit_err_growth_m_per_s</code> adds a linear growth of the broadcast orbit error with age (range
+1-sigma <code>rate x latency / sqrt(3)</code>), on top of the frozen-error re-projection; linear growth is
+the first-order term of a propagated state error (checked to 1 % at 600 s against the in-tree
+two-body propagation). What remains: no public source gives a lunar growth rate (ILLUSTRATIVE);
+no along-track/radial structure; the correction-link budget block uses the frozen model. The K5
+addendum (<code>tests/fixtures/lunar_station_published/ADDENDUM-LRS03.md</code>, pre-registered alone) runs
+K5 at 0.001, 0.01 and 0.1 m/s: it fails in every case (369.8 m, 2315 m, 22797 m against a 1.5 m
+bar), as stated before the run.</li>
+<li><strong>Solution style (filter, height constraint, three satellites): an opt-in in 0.36, with limits.</strong>
+A <code>[solution]</code> section (<code>src/lunar_solution.rs</code>) adds a height pseudo-measurement, a
+three-satellite minimum with it, and a static-user weighted least-squares window over epochs (a
+shared position, a clock per epoch), which stands in for a filter. What remains: it treats the
+epochs&#39; errors as independent, so it averages down faster than errors correlated in time would;
+it is static-user only; there is no dynamic filter, carrier phase or ambiguity resolution; the
+case trace (<code>trace_case</code>) shows the snapshot arithmetic. The published-claims addendum with this
+mode is <code>tests/fixtures/lunar_station_published/ADDENDUM-LRS06.md</code> (pre-registered alone). With a
+1 m height constraint, three satellites and a 6-epoch window (ILLUSTRATIVE settings), the R300
+corrected p95 3-D error falls from 280.6 m to 2.11 m (horizontal 0.90 m, not scored); K1 to K5
+still fail and K6 passes, 1 of 6 as in the recorded run. The window&#39;s independence assumption
+favours it.</li>
+</ol>
+<h2 id="comparison-against-published-claims">Comparison against published claims<a class="anchor" href="#comparison-against-published-claims" aria-label="Link to this section">#</a></h2>
+<p>MODELLED. A comparison of this model, run under the public assumptions, with the claims the sources
+make. It is not a statement about the performance of any real system.</p>
+<ul>
+<li>Sources S1 to S5 (title, URL, retrieval date, SHA-256, licence): <code>tests/fixtures/lunar_station/SOURCES.md</code>.</li>
+<li>Every numeric claim, quoted with its page and stated assumptions and classified as comparable, partly
+comparable or not comparable: <code>tests/fixtures/lunar_station_published/CLAIMS.md</code>. No claim is fully
+comparable, because no source states a percentile or the satellites&#39; orbit elements.</li>
+<li>Bars, cases and inputs, committed alone before the run (revision 2, 05bf9a19), and the recorded run:
+<code>tests/fixtures/lunar_station_published/PREREGISTRATION.md</code>. The finding is pinned in
+<code>tests/lunar_station_published_oracle.rs</code>.</li>
+</ul>
+<div class="tbl"><table><thead><tr>
+<th>bar</th>
+<th>claim (sources)</th>
+<th>this model</th>
+<th>bar</th>
+<th>verdict</th>
+</tr>
+</thead><tbody><tr>
+<td>K1</td>
+<td>one station gives sub-metre accuracy over the whole south pole, 300 km circle (S1, S2, S3)</td>
+<td>coverage 0.00</td>
+<td>&gt;= 0.95</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>K2</td>
+<td>the same, 600 km circle (S2 p10, S3 p23)</td>
+<td>coverage 0.00</td>
+<td>&gt;= 0.95</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>K3</td>
+<td>sub-metre with code corrections (S1, S2)</td>
+<td>corrected p95 3-D 280.6 m</td>
+<td>&lt;= 1.5 m</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>K4</td>
+<td>&quot;decimeter level&quot; from pseudorange corrections (S3 p22, S5 p5)</td>
+<td>280.6 m</td>
+<td>&lt;= 0.15 m</td>
+<td>fail (could not pass at the sources&#39; 0.30 m code noise)</td>
+</tr>
+<tr>
+<td>K5</td>
+<td>sub-metre kept at 600 s latency (S2 p16)</td>
+<td>293.0 m</td>
+<td>&lt;= 1.5 m</td>
+<td>fail</td>
+</tr>
+<tr>
+<td>K6</td>
+<td>the same accuracy from 10 km to 500 km baseline (S2 p17)</td>
+<td>ratio 1.39</td>
+<td>&lt;= 1.5</td>
+<td>pass</td>
+</tr>
+</tbody></table></div>
+<p>1 of 6 bars passes. The cause is geometry. No source publishes the constellation&#39;s orbit elements. On
+the ILLUSTRATIVE in-tree elements, a user and the station share four satellites above 5 deg in only 8 %
+(300 km) and 6 % (600 km) of epochs, at near-singular geometry: the uncorrected p95 is 3.8 km, where
+the sources quote &lt; 10 m. The sources&#39; own simulations used a filter, a height constraint and three
+satellites in common view, which this snapshot model does not have. The run therefore does not
+reproduce the claims on those elements, and it is not evidence that the claims are wrong. The K6 pass is
+a ratio of two geometry-dominated figures and says nothing about decorrelation. A published set of the
+constellation&#39;s elements would be scored under the same bars as a second, dated run.</p>
+<h2 id="pre-registered-prediction">Pre-registered prediction<a class="anchor" href="#pre-registered-prediction" aria-label="Link to this section">#</a></h2>
+<p>A pre-registered prediction, frozen at commit <code>c05dac1d</code> on the public-sources inputs, with its
+scoring protocol: <a href="https://github.com/ashfordeOU/kshana/blob/main/docs/predictions/lunar-reference-station.md"><code>docs/predictions/lunar-reference-station.md</code></a>.
+It is a prediction, not a validation, and every figure in it is dominated by the unpublished
+element set of the four-satellite constellation (the elements used are ILLUSTRATIVE): over the
+80 deg S region, availability 8.2 %, corrected p95 3-D 280 m, uncorrected 3.8 km. MODELLED;
+<code>tests/prediction_frozen.rs</code> fails if any frozen byte moves.</p>
+<h2 id="station-time-laboratory">Station time laboratory<a class="anchor" href="#station-time-laboratory" aria-label="Link to this section">#</a></h2>
+<p>Whether the station&#39;s miniRAFS, steered to LTC and then free-running or re-steered, stays within
+1, 10 and 100 ns: the optional <code>[time_lab]</code> block of <code>lunar-time-budget</code>
+(<code>scenarios/lunar-station-time-lab.toml</code>). The miniRAFS reaches 1 ns after 2.8 s, 10 ns after
+377 s and 100 ns after 10.5 h; the source&#39;s nanosecond-level target is quoted, not adopted.
+MODELLED. Model, outputs, the time-to-threshold table for four clock classes and the comparison
+with the sources: <a href="https://github.com/ashfordeOU/kshana/blob/main/docs/lunar-station/time-lab.md"><code>docs/lunar-station/time-lab.md</code></a>.</p>
+<h2 id="station-geodesy">Station geodesy<a class="anchor" href="#station-geodesy" aria-label="Link to this section">#</a></h2>
+<p>How much one retroreflector and one VLBI beacon at the station site tighten the lunar frame
+datum beyond the five archived retroreflector arrays: the optional <code>extra_reflectors</code> and
+<code>extra_beacons</code> inputs of <code>lunar-llr-datum</code> (<code>scenarios/lunar-station-geodesy-baseline.toml</code>
+and <code>-with-station.toml</code>). Cramer-Rao bounds for a reduced parameter set on an ILLUSTRATIVE
+schedule and site: the translation norm 1-sigma falls from 0.0185 m to 0.0102 m (ratio 0.551),
+the scale from 0.00178 to 0.00063 ppm. MODELLED. Method, caveats (a south-polar site sees the
+Earth low or not at all) and the full Helmert table:
+<a href="https://github.com/ashfordeOU/kshana/blob/main/docs/lunar-station/geodesy.md"><code>docs/lunar-station/geodesy.md</code></a>.</p>
+<h2 id="sources">Sources<a class="anchor" href="#sources" aria-label="Link to this section">#</a></h2>
+<p>Each source by title, identifier and publisher, with its retrieval date and licence. URLs,
+SHA-256 hashes and notes on where the sources disagree are in the register,
+<a href="https://github.com/ashfordeOU/kshana/blob/main/tests/fixtures/lunar_station/SOURCES.md"><code>tests/fixtures/lunar_station/SOURCES.md</code></a>. No source
+file is redistributed. Personal names are left out on purpose.</p>
+<div class="tbl"><table><thead><tr>
+<th>id</th>
+<th>title</th>
+<th>identifier</th>
+<th>publisher</th>
+<th>retrieved</th>
+<th>licence</th>
+</tr>
+</thead><tbody><tr>
+<td>S1</td>
+<td>white paper on a lunar reference station for positioning, timing and science, version 3</td>
+<td>arXiv:2602.08432v3</td>
+<td>arXiv (authors&#39; white paper)</td>
+<td>2026-10-12</td>
+<td>arXiv non-exclusive licence to distribute 1.0 (grants arXiv only)</td>
+</tr>
+<tr>
+<td>S2</td>
+<td>&quot;Lunar local Differential PNT and Selenodetic Reference Station&quot; (27 slides)</td>
+<td>ioag.org/meetings/cislunar, section 6, item 07</td>
+<td>ICG-IOAG Workshop on Cislunar PNT, February 2025; slides by the European Space Agency</td>
+<td>2026-10-12</td>
+<td>none stated; marked releasable to the public from slide 3</td>
+</tr>
+<tr>
+<td>S3</td>
+<td>&quot;Moonlight: LCNS, and Lunar Pathfinder&quot; (28 slides)</td>
+<td>unoosa.org, <code>LunarPNT_Jun24_01_04.pdf</code></td>
+<td>UNOOSA, ICG Joint Working Group Session on Lunar PNT, June 2024; slides by the European Space Agency</td>
+<td>2026-10-12</td>
+<td>none stated; marked releasable to the public</td>
+</tr>
+<tr>
+<td>S4</td>
+<td>&quot;Moonlight Programme Development Status&quot; (16 slides)</td>
+<td>ioag.org/meetings/cislunar2026</td>
+<td>2nd ICG-IOAG Cislunar PNT Workshop, February 2026; slides by the European Space Agency and Telespazio</td>
+<td>2026-10-12</td>
+<td>none stated; marked releasable to the public</td>
+</tr>
+<tr>
+<td>S5</td>
+<td>&quot;Lunar Reference Time: ESA&#39;s Views&quot; (9 slides)</td>
+<td>ioag.org/meetings/cislunar2026</td>
+<td>Workshop on Cislunar PNT, February 2026; slides by the European Space Agency</td>
+<td>2026-10-12</td>
+<td>none stated; marked releasable to the public</td>
+</tr>
+<tr>
+<td>S6</td>
+<td>LunaNet Signal-In-Space Recommended Standard, Augmented Forward Signal (LSIS) V1.0, and the in-tree <code>LUNAR_SIGMA_URE_M</code></td>
+<td><code>tests/fixtures/lunar_afs_*</code>; <code>src/lunar.rs</code></td>
+<td>as recorded with <code>lunar_afs</code></td>
+<td>already in the tree</td>
+<td>as recorded there</td>
+</tr>
+</tbody></table></div>
+</div>
+    <nav class="docs-pn" aria-label="Previous and next"><a class="prev" href="/docs/solar-system"><small>Previous</small>Solar system and other bodies</a><a class="next" href="/docs/leo-pnt"><small>Next</small>LEO positioning, navigation and timing</a></nav>
+  </article>
+  <nav class="docs-toc" aria-label="On this page"><h2>On this page</h2><a class="l2" href="#purpose">Purpose</a><a class="l2" href="#run-it">Run it</a><a class="l2" href="#coverage-and-accuracy-map-lunar-station-coverage">Coverage and accuracy map (lunar-station-coverage)</a><a class="l3" href="#inputs">Inputs</a><a class="l3" href="#outputs">Outputs</a><a class="l3" href="#what-the-checks-can-and-cannot-tell">What the checks can and cannot tell</a><a class="l3" href="#terrain-horizon-masks">Terrain horizon masks</a><a class="l3" href="#limitations">Limitations</a><a class="l2" href="#comparison-against-published-claims">Comparison against published claims</a><a class="l2" href="#pre-registered-prediction">Pre-registered prediction</a><a class="l2" href="#station-time-laboratory">Station time laboratory</a><a class="l2" href="#station-geodesy">Station geodesy</a><a class="l2" href="#sources">Sources</a></nav>
+</div>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand"><a class="brand" href="/"><span class="brand-mark" aria-hidden="true"></span>kshana</a><p class="kname">Kshana · <span lang="sa" class="dev">क्षण</span> · <em>the precise instant</em></p><p>Open-source PNT (positioning, navigation and timing) resilience simulator. It drives no radio hardware and transmits nothing: its signal-level output is baseband IQ sample files, and its software GNSS receiver is an analysis tool. Not a flight product.</p><div class="foot-by">by Ashforde®</div></div>
+      <div><h2>Product</h2><a href="/studio/">Kshana Studio</a><a href="/missions">Missions</a><a href="/capabilities">Capabilities</a><a href="/evidence">Evidence</a><a href="/evidence#research">Research</a></div>
+      <div><h2>Developers</h2><a href="/developers#install">Install</a><a href="/developers#mcp">MCP server</a><a href="/docs/">Docs</a><a href="https://github.com/ashfordeOU/kshana">GitHub</a></div>
+      <div><h2>Company</h2><a href="/editions">Editions</a><a href="/editions#pro">Kshana Pro</a><a href="mailto:contact@ashforde.org">contact@ashforde.org</a><a href="https://ashforde.org">ashforde.org</a></div>
+    </div>
+    <div class="foot-bottom">
+      <span>Kshana v0.36.0 · by Ashforde® OÜ · AGPL-3.0, with a commercial licence option</span>
+      <span>Every chart is drawn from a recorded run of engine v0.36.0 and names its scenario, seed and route to reproduce it. Imagery: NASA Visible Earth (Blue Marble, Black Marble), NASA Scientific Visualization Studio (CGI Moon Kit), NASA/JPL (Mars), NASA, JPL and USGS mission mosaics (moons and Pluto); Sun, Mercury, Venus, Jupiter, Saturn, Uranus and Neptune maps: Solar System Scope, Creative Commons Attribution (CC BY) 4.0; Deimos map: Oleg-Pluton, Creative Commons Attribution-ShareAlike (CC BY-SA) 3.0; coastlines: Natural Earth.</span>
+    </div>
+  </div>
+</footer>
+
+<div class="pal" id="palette" role="dialog" aria-modal="true" aria-label="Search pages, sections, scenarios and docs" hidden>
+  <div class="pal-box">
+    <div class="pal-in"><svg aria-hidden="true"><use href="#i-search"/></svg><input id="palInput" type="text" placeholder="Search pages, scenarios, docs and actions…" autocomplete="off" spellcheck="false" aria-controls="palList" aria-label="Search"><kbd>esc</kbd></div>
+    <div class="pal-list" id="palList" role="listbox" aria-label="Results"></div>
+    <div class="pal-foot"><span><kbd>↑</kbd> <kbd>↓</kbd> move</span><span><kbd>↵</kbd> open</span><span class="pal-count" id="palCount"></span></div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>window.KSITE={root:"../",page:"docs",version:"0.36.0",studio:"Kshana Studio"};</script>
+<script src="../site.js" defer></script>
+<script src="docs.js" defer></script>
+</body>
+</html>

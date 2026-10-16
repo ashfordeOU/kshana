@@ -1,0 +1,62 @@
+# Lunar reference-station coverage: what positioning accuracy and protection level a user
+# gets from a lunar differential reference station at a known south-polar site, over the
+# south-polar region and a day.
+#
+# A Monte Carlo sweep of the lunar differential-PNT model (src/lunar_dpnt.rs, the same
+# functions the lunar-differential-pnt kind runs) over a ring grid from 80 deg S to the pole
+# and a day of epochs. No new physics: per epoch and trial the common-mode orbit and clock
+# errors are drawn, the station's corrections carry a survey, ageing and quantization
+# error, and each user's corrected and raw range errors go through the same least-squares
+# solve. Per point and over the region: percentile corrected and uncorrected error (3-D,
+# horizontal, vertical), availability, coverage against a threshold stated before the run,
+# DO-229E protection levels, the coverage radius per azimuth, and the correction-link
+# budget at the station and at the worst point.
+#
+# HONESTY: MODELLED. Under the stated assumptions below the model gives these figures. Not
+# a statement about the performance of any real system; not affiliated with or endorsed by
+# any agency; no TRL or heritage claim. Omitted: terrain and horizon masking at the pole
+# (the first limitation), multipath, receiver hardware.
+#
+# Every input names its source: an id S1..S6 from docs/LUNAR-REFERENCE-STATION.md, or
+# ILLUSTRATIVE (no public source used). Inputs not set here take the defaults of the
+# lunar-differential-pnt kind, which mean the same.
+kind = "lunar-station-coverage"
+
+# Constellation. ILLUSTRATIVE: the in-tree LCNS-class Keplerian set (an elliptical orbit
+# favouring the south pole), the same as lunar-differential-pnt's.
+n_sats = 8             # ILLUSTRATIVE
+sma_km = 9737.4        # ILLUSTRATIVE (about 8000 km above the mean lunar radius)
+eccentricity = 0.6     # ILLUSTRATIVE
+inc_deg = 57.7         # ILLUSTRATIVE
+argp_deg = 90.0        # ILLUSTRATIVE (apolune over the southern hemisphere)
+mask_deg = 5.0         # ILLUSTRATIVE (the moonlight-service-volume default)
+
+# Station: a known site near the south pole.
+station_lat_deg = -89.0    # ILLUSTRATIVE (a south-polar site; not a published location)
+station_lon_deg = 0.0      # ILLUSTRATIVE
+station_height_m = 0.0     # ILLUSTRATIVE (on the mean lunar sphere)
+survey_sigma_m = 0.30      # ILLUSTRATIVE (the in-tree lunar frame-realisation allocation, itself MODELLED)
+
+# Error model: common-mode orbit and clock errors, as in lunar-differential-pnt. The
+# line-of-sight SISE this gives is sqrt(orbit_err_m^2 / 3 + clock_err_m^2) = 65 m.
+orbit_err_m = 100.0        # ILLUSTRATIVE
+clock_err_m = 30.0         # ILLUSTRATIVE
+noise_m = 0.0              # ILLUSTRATIVE (no receiver noise)
+latency_s = 10.0           # ILLUSTRATIVE (no published correction latency)
+quantization_bits = 8      # ILLUSTRATIVE (no published correction message)
+
+# User grid and time.
+grid_lat_max_deg = -80.0   # the region: 80 deg S to the pole
+grid_lat_step_deg = 1.0    # rings every degree, round(360 cos lat) points each, plus the pole
+t_start_s = 0.0
+t_span_s = 86400.0         # one day
+t_step_s = 600.0           # every 10 min
+n_trials = 200             # Monte Carlo trials per epoch
+
+# Thresholds, stated before the run and never fitted.
+accuracy_threshold_m = 20.0 # ILLUSTRATIVE: sized to this example's illustrative 65 m SISE so the map shows where coverage holds; the public-sources example uses 1 m
+percentile = 95.0
+alert_limit_m = 10.0       # ILLUSTRATIVE: no public alert limit exists
+residual_sigma_m = 5.0     # ILLUSTRATIVE (lunar-differential-pnt's default)
+p_hmi = 1e-4
+seed = 42

@@ -49,6 +49,7 @@ export const SCENARIOS = [
   // Jamming & interference
   ["jamming-demo.toml", "interference", "Jamming", "At what jammer-to-signal ratio does the receiver lose lock?"],
   ["maritime-strait-jamming.toml", "interference", "Ship jammed in a strait", "Across 30 km of open water, does a 50 W jammer take a vessel's GNSS away? (modelled)"],
+  ["jamming-harbour-approach-skyline.toml", "interference", "Ship jammed entering harbour", "Under a 2 W shore jammer, how many satellites does a ship keep, and how many does the quay itself hide? (modelled; representative skyline)"],
   ["maritime-spoof-position-push.toml", "spoofing", "Ship position spoofed", "When a spoofer drags a ship's fix 500 m, which detection layers catch it? (modelled)"],
   ["maritime-port-approach-coast.toml", "navigation", "Port approach on inertial", "Entering port without GNSS, when does a navigation-grade INS leave the harbour and ocean budgets? (modelled)"],
   ["automotive-urban-canyon.toml", "navigation", "Car through an urban canyon", "Through an underpass and a roadside jammer, does a car stay inside a half-lane budget? (modelled)"],
@@ -84,17 +85,21 @@ export const SCENARIOS = [
   ["gps-denied-gravity-nav.toml", "navigation", "GNSS-free nav", "How far does position drift over a full hour without GNSS — and can a gravity map rein it in?"],
   ["combined-altpnt.toml", "navigation", "Combined alt-PNT", "What does fusing three scalar map channels buy over any one alone?"],
   ["quantum-gnss-free-nav.toml", "navigation", "Quantum GNSS-free nav", "How far does a cold-atom navigator coast vs a nav-grade INS with no GNSS? (modelled)"],
+  ["quantum-cai-coast.toml", "navigation", "Quantum accelerometer coast", "How long does a cold-atom interferometer, specified by its physics, keep dead reckoning inside 100 m after GNSS is lost, against a nav-grade quartz accelerometer? (modelled)"],
   ["hybrid-optical-rf.toml", "navigation", "Optical/RF hybrid", "What continuity and integrity does combining optical and RF PNT buy? (modelled)"],
   // Integrity & positioning
   ["integrity-raim.toml", "integrity", "RAIM integrity", "Does the geometry meet the alert limits (HPL / VPL)?"],
+  ["integrity-harbour-approach.toml", "integrity", "ARAIM entering harbour", "With quay buildings and a breakwater hiding low satellites, do GPS and Galileo keep ARAIM protection inside the alert limits? (modelled; representative skyline)"],
   ["araim-gps-galileo.toml", "integrity", "Dual-constellation ARAIM", "With GPS + Galileo and the constellation-wide fault hypothesis, how available is advanced RAIM?"],
   ["araim-reference-check.toml", "integrity", "ARAIM reference check", "Do the engine's protection levels land on the published Working Group C worked examples?"],
   ["gnss-sim-raim.toml", "integrity", "GNSS measurements", "How do the ionosphere and troposphere shape raw pseudoranges, and does RAIM still protect?"],
+  ["gnss-sim-container-terminal-skyline.toml", "integrity", "Straddle carrier on a container quay", "With cranes to seaward and stacks to landward, how many satellites are left, and what happens to RAIM protection? (modelled; representative skyline)"],
   ["pvt-abmf.toml", "integrity", "Positioning (SPP)", "Can a real receiver position be solved from raw RINEX measurements?"],
   // Orbits & GNSS geometry
   ["orbit-gnss-challenged.toml", "orbits", "GNSS availability", "When is a fix even possible from the satellite geometry?"],
   ["orbit-sgp4-gps.toml", "orbits", "SGP4 orbits", "How does a real GPS-like constellation propagate over a day?"],
   ["orbit-multignss.toml", "orbits", "Multi-GNSS availability", "How much do GPS + Galileo together lift availability and tighten dilution of precision?"],
+  ["orbit-urban-canyon-skyline.toml", "orbits", "City street availability", "At the bottom of a city street, how much of the day do GPS and Galileo give four satellites, and what does the strip of sky do to PDOP? (modelled; representative skyline)"],
   ["orbit-molniya.toml", "orbits", "Molniya user", "Can a highly-eccentric Molniya-orbit user still see enough GNSS satellites near apogee?"],
   ["orbit-real-tle.toml", "orbits", "Real two-line elements", "What coverage does an actual constellation, given as two-line element sets, provide?"],
   ["orbit-rinex.toml", "orbits", "Broadcast ephemeris", "What availability comes out of a real RINEX 3 broadcast ephemeris?"],
@@ -118,6 +123,9 @@ export const SCENARIOS = [
   ["earth-gnss-lunar.toml", "deepspace", "Earth-GNSS at the Moon", "Can a receiver near the Moon hear Earth's GNSS, and is it ever enough for a fix? (modelled)"],
   ["lunar-beacon.toml", "deepspace", "Lunar surface beacons", "How much does a handful of surveyed surface beacons collapse south-polar DOP? (modelled)"],
   ["lunar-differential-pnt.toml", "deepspace", "Lunar differential PNT", "How much does differential correction cancel common-mode error vs baseline on the Moon? (modelled)"],
+  ["lunar-station-coverage.toml", "deepspace", "Lunar reference station coverage", "Over the south-polar region and a day, what corrected error does a lunar reference station give, and how far from it does coverage hold? (modelled; not a statement about any real system)"],
+  ["lunar-station-coverage-public-sources.toml", "deepspace", "Lunar reference station, public assumptions", "Under only the publicly stated assumptions, what corrected error does the station give over the south pole? The result is dominated by the orbit elements, which are not public and set ILLUSTRATIVE; this is the input of the frozen prediction. (modelled; not a statement about any real system)"],
+  ["lunar-station-time-lab.toml", "deepspace", "Lunar station time laboratory", "After a station's miniature rubidium clock is last steered to lunar time, how long does it stay within 1, 10 and 100 ns, and which error term dominates? (modelled)"],
   ["lunar-vlbi.toml", "deepspace", "Lunar VLBI", "What delay does an Earth-baseline VLBI pair see for a lunar surface beacon? (modelled)"],
   ["lunar-vlbi-fim.toml", "deepspace", "Lunar VLBI information", "What station-coordinate accuracy does a given VLBI tracking schedule actually buy? (modelled)"],
   ["lunar-joint-od-clock.toml", "deepspace", "Lunar joint OD+clock", "Does an Earth-baseline VLBI tie make a lunar station's absolute position observable? (modelled)"],
@@ -154,6 +162,7 @@ export const SCENARIOS = [
   ["leo-navmsg-midpass-update.toml", "leo", "Navigation message: mid-pass update", "When a satellite switches to a new message in the middle of a pass, does the user see a jump? (modelled)"],
   ["leo-navmsg-encode-decode.toml", "leo", "Navigation message: binary frame", "What does each field's quantisation cost, and does the frame survive encoding, decoding and a corrupted bit? (modelled)"],
   ["meo-leo-fused-pvt.toml", "leo", "Fused GNSS and low-orbit fix", "What does adding a low-orbit layer to GPS and Galileo do to position error and geometry? (modelled)"],
+  ["leo-pvt-fjord-skyline.toml", "leo", "Ferry deep in a fjord", "Where the fjord walls leave a strip of sky along the channel, how much does a low-orbit layer add to GPS and Galileo? (modelled; representative skyline)"],
   ["leo-doppler-positioning.toml", "leo", "Positioning from Doppler alone", "How good is a fix from ten minutes of Doppler on a low-orbit navigation constellation? (modelled)"],
   ["starlink-sop-doppler-positioning.toml", "leo", "Broadband signals of opportunity", "How well can a receiver position itself from the Doppler of a broadband constellation that sends no navigation message? (modelled)"],
   ["leo-timing-utc.toml", "leo", "Time transfer to UTC", "How closely can a receiver recover Coordinated Universal Time (UTC) from low-orbit satellites, by oscillator and signal level? (modelled)"],
@@ -175,6 +184,7 @@ export const SCENARIOS = [
   ["leo-vertical-5g-network-timing.toml", "leo-missions", "5G base-station timing", "When GNSS is lost for a day, does low-orbit time keep a base station inside its timing limit? (modelled)"],
   ["leo-vertical-asset-tracking-iot.toml", "leo-missions", "Container tracking", "Along a container's journey, what does each position fix cost a battery tag? (modelled)"],
   ["leo-vertical-autonomous-vehicle.toml", "leo-missions", "Vehicle in an urban canyon", "When buildings hide the low satellites, does a low-orbit layer keep a car inside a lane-level error? (modelled)"],
+  ["leo-vertical-autonomous-vehicle-skyline.toml", "leo-missions", "Vehicle in a street, not a flat cut-off", "Modelled as a real street instead of a flat 35° cut-off, does a low-orbit layer still keep a car inside a lane-level error? (modelled; representative skyline)"],
   ["leo-vertical-critical-infrastructure-timing.toml", "leo-missions", "Substation timing", "When GNSS is lost, does low-orbit time hold a substation's synchronisation? (modelled)"],
   ["leo-vertical-polar-arctic.toml", "leo-missions", "Arctic journey", "From Tromsø to the North Pole, what does a polar low-orbit layer add to GNSS? (modelled)"],
   ["leo-vertical-rail-maritime.toml", "leo-missions", "Rail and maritime with a low-orbit layer", "When the bundled ship and train scenarios lose GNSS, does a low-orbit pass still reach them? (modelled)"],
@@ -204,6 +214,40 @@ export const NOT_IN_BROWSER = {
 };
 // Of those, the files the Studio shows as a run recorded with the native command-line engine.
 export const RECORDED_NATIVELY = ["lunar-llr-datum.toml"];
+// Bundled scenarios that need a newer engine than an older package has: what they need (a kind the engine lists, or
+// a function it exports) and the release that brings it. With an engine that lacks it, the Studio shows the recording
+// made with one that has it and does not run them (an older engine refuses their fields, or runs without them).
+// The test is the engine's own capability, not its version string: a build from a branch before the release still
+// reports the previous version. The 0.36 skyline and ground-site scenarios, and the lunar reference-station kind.
+const SKYLINE_036 = Object.freeze({ release: "0.36", fn: "skyline_profile" });
+export const NEEDS_ENGINE = Object.freeze({
+  "gnss-sim-container-terminal-skyline.toml": SKYLINE_036, "integrity-harbour-approach.toml": SKYLINE_036,
+  "jamming-harbour-approach-skyline.toml": SKYLINE_036, "leo-pvt-fjord-skyline.toml": SKYLINE_036,
+  "leo-vertical-autonomous-vehicle-skyline.toml": SKYLINE_036, "orbit-urban-canyon-skyline.toml": SKYLINE_036,
+  "lunar-station-coverage.toml": Object.freeze({ release: "0.36", kind: "lunar-station-coverage" }),
+  "lunar-station-coverage-public-sources.toml": Object.freeze({ release: "0.36", kind: "lunar-station-coverage" }),
+  // The lunar-time-budget kind is older, but its [time_lab] block is not: it ships with the station study, whose kind
+  // stands in for it.
+  "lunar-station-time-lab.toml": Object.freeze({ release: "0.36", kind: "lunar-station-coverage" }),
+});
+// What the engine running here can do: {version, kinds, fns} (kinds from list_kinds(), fns its exported functions).
+export function engineCaps(mod) {
+  const fns = new Set(Object.keys(mod || {}).filter((k) => typeof mod[k] === "function"));
+  let kinds = null;
+  try { const k = JSON.parse(mod.list_kinds()); if (Array.isArray(k)) kinds = new Set(k.map((x) => (x && typeof x === "object" ? x.name : x)).filter((x) => typeof x === "string")); } catch { /* an engine without list_kinds */ }
+  return { version: typeof mod?.version === "function" ? String(mod.version()) : "", kinds, fns };
+}
+// The release a scenario needs, as "0.36", when the engine (caps, or a bare version string) lacks what it needs; else
+// null. Without capability facts, the version decides.
+export function needsNewerEngine(file, caps) {
+  const need = NEEDS_ENGINE[file];
+  if (!need) return null;
+  const c = typeof caps === "string" || caps == null ? { version: caps || "" } : caps;
+  if (need.kind && c.kinds) return c.kinds.has(need.kind) ? null : need.release;
+  if (need.fn && c.fns) return c.fns.has(need.fn) ? null : need.release;
+  const [a, b] = String(c.version || "").split(".").map((x) => parseInt(x, 10) || 0), [ma, mb] = need.release.split(".").map(Number);
+  return a > ma || (a === ma && b >= mb) ? null : need.release;
+}
 
 export const DEFAULT_SCENARIO = "clock-holdover.toml";
 

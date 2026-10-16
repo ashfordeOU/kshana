@@ -11,52 +11,15 @@
 // every kind named in its file (`kind = "..."` lines: a campaign names its members' kinds too),
 // or the clock kind when none is named. A row belongs
 // to a kind when the row's `module` (or `tests`) field names the kind's module: the kind with
-// hyphens as underscores, or as written. Kinds whose module has another name are listed in
-// KIND_MODULES below; that table is the only hand-written part. Pure; tested in areas.test.mjs.
+// hyphens as underscores, or as written. Kinds whose module has another name come from the engine
+// (its kind_modules() export, passed to rowsForKind); nothing here is hand-written. Pure; tested in
+// areas.test.mjs.
 import * as V from "./views.mjs";
 import * as K from "./kinds.mjs";
 import * as G from "./stages.mjs";
 import { own } from "./own.mjs";
 
 export const DEFAULT_KIND = "holdover";
-
-// Kind -> the module names its rows use, where they differ from the kind's own name.
-export const KIND_MODULES = {
-  "gnss-ins": ["fusion"],
-  "hybrid-ukf": ["fusion"],
-  hybrid: ["fusion", "holdover"],
-  "conflict-resilience": ["resilience"],
-  "terrain-nav": ["altpnt"],
-  "terrain-slam": ["altpnt"],
-  "gravity-map": ["gravity_sh", "altpnt"],
-  "combined-altpnt": ["altpnt"],
-  "quantum-gnss-free-nav": ["quantum_nav_od"],
-  "quantum-time-transfer": ["timetransfer_chain"],
-  "moonlight-service-volume": ["lunar_service"],
-  "lunar-integrity": ["lunar_service"],
-  "lunar-attack-surface": ["lunar_service", "antenna"],
-  "lunar-time-offset": ["lunar_time"],
-  "lunar-differential-pnt": ["lunar_dpnt"],
-  "lunar-joint-od-clock": ["lunar_combination"],
-  "lunar-interop-export": ["lunar_interop"],
-  "quantum-anomaly-detect": ["quantum_faults"],
-  pvt: ["rinex"],
-  ephemeris: ["sgp4"],
-  inertial: ["inertial"],
-  "constellation-design": ["constellation"],
-  integrity: ["raim", "sbas"],
-  "araim-reference-check": ["araim_reference"],
-  "launch-window": ["launch"],
-  "eo-coverage": ["eo_payload"],
-  "link-budget": ["linkbudget"],
-  "aperture-duty-cycle": ["aperture_duty"],
-  "oem-interop": ["oem"],
-  "telecom-timing": ["telecom_timing"],
-  "slot-timing": ["slot_timing"],
-  "solar-system": ["solar_system", "ephem"],
-  "body-pnt": ["body_pnt"],
-  "mars-pnt": ["mars_pnt", "body_pnt"],
-};
 
 export const kindOfToml = (toml) => (String(toml).match(/^\s*kind\s*=\s*"([^"]+)"/m) || [])[1] || DEFAULT_KIND;
 // Every kind a scenario file names (its own and, for a campaign, its members').
@@ -66,9 +29,10 @@ export const kindsOfToml = (toml) => { const ks = [...String(toml).matchAll(/^\s
 const tokenRe = (t) => new RegExp(`(^|[^A-Za-z0-9_/.-])${t.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}([^A-Za-z0-9_/-]|$)`);
 const moduleMatch = (row, t) => tokenRe(t).test(row.module || "") || tokenRe(t).test(row.tests || "");
 
-// Indices of the matrix rows that belong to a kind.
-export function rowsForKind(kind, rows) {
-  const names = [kind, kind.replace(/-/g, "_"), ...(own(KIND_MODULES, kind) || [])];
+// Indices of the matrix rows that belong to a kind. `kindModules` is the engine's kind -> module names
+// table (kind_modules()); without it a kind matches only its own name.
+export function rowsForKind(kind, rows, kindModules = {}) {
+  const names = [kind, kind.replace(/-/g, "_"), ...(own(kindModules, kind) || [])];
   const out = [];
   rows.forEach((r, i) => { if (names.some((n) => moduleMatch(r, n))) out.push(i); });
   return out;
