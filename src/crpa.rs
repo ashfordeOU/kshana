@@ -42,17 +42,22 @@ use std::ops::{Add, Div, Mul, Neg, Sub};
 /// A minimal complex number (`re + im·j`).
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct C {
+    /// Real part.
     pub re: f64,
+    /// Imaginary part.
     pub im: f64,
 }
 
 impl C {
+    /// Builds `re + im·j`.
     pub const fn new(re: f64, im: f64) -> Self {
         Self { re, im }
     }
+    /// The complex zero, `0 + 0j`.
     pub const fn zero() -> Self {
         Self { re: 0.0, im: 0.0 }
     }
+    /// The complex one, `1 + 0j`.
     pub const fn one() -> Self {
         Self { re: 1.0, im: 0.0 }
     }
@@ -63,15 +68,18 @@ impl C {
             im: theta.psin(),
         }
     }
+    /// Complex conjugate, `re − im·j`.
     pub fn conj(self) -> Self {
         Self {
             re: self.re,
             im: -self.im,
         }
     }
+    /// Squared magnitude, `re² + im²`.
     pub fn norm_sq(self) -> f64 {
         self.re * self.re + self.im * self.im
     }
+    /// Magnitude, `√(re² + im²)`.
     pub fn abs(self) -> f64 {
         self.norm_sq().sqrt()
     }

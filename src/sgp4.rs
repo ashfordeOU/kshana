@@ -35,12 +35,19 @@ const TEMP4: f64 = 1.5e-12;
 /// Gravity-model constants for the propagator.
 #[derive(Clone, Copy, Debug)]
 pub struct GravConst {
+    /// Earth gravitational parameter (km³/s²).
     pub mu: f64,
+    /// Earth equatorial radius (km).
     pub radiusearthkm: f64,
+    /// `√(GM)` in Earth radii^1.5 per minute (the SGP4 time-unit constant).
     pub xke: f64,
+    /// Second zonal harmonic `J2`.
     pub j2: f64,
+    /// Third zonal harmonic `J3`.
     pub j3: f64,
+    /// Fourth zonal harmonic `J4`.
     pub j4: f64,
+    /// The ratio `J3 / J2`.
     pub j3oj2: f64,
 }
 

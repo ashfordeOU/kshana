@@ -3,12 +3,15 @@
 //! `ModelSpec`).
 use serde::{Deserialize, Serialize};
 
+/// A duration or time in seconds.
 pub type Seconds = f64;
 
 /// A regular time grid starting at t=0.
 #[derive(Clone, Debug)]
 pub struct TimeGrid {
+    /// Interval between grid points (s).
     pub step: Seconds,
+    /// Total span of the grid (s).
     pub duration: Seconds,
 }
 
@@ -23,9 +26,13 @@ impl TimeGrid {
 /// Static description of an active model, with provenance for honesty/reporting.
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct ModelSpec {
+    /// Stable identifier of the model.
     pub id: String,
+    /// Kind of model, e.g. `time-transfer`.
     pub kind: String,
+    /// Where the model figures come from.
     pub provenance: String,
+    /// The model parameters, as JSON.
     pub params: serde_json::Value,
 }
 

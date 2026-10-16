@@ -245,9 +245,13 @@ pub const UNITS: &[crate::field_schema::FieldUnit] = {
 /// overlapping Allan-deviation curve of the clock's phase over the run.
 #[derive(Clone, Debug, Serialize)]
 pub struct ClockRun {
+    /// The model specification the clock was run with.
     pub spec: ModelSpec,
+    /// The error series, one sample per step.
     pub series: Vec<Sample>,
+    /// Figures of merit scored over the series.
     pub fom: FoMScores,
+    /// Overlapping Allan-deviation curve of the clock's phase over the run.
     #[serde(default)]
     pub adev_curve: Vec<crate::allan::AdevPoint>,
     /// Kalman filter-consistency health (NIS/NEES vs χ² bands). `None` for runs
@@ -264,14 +268,17 @@ pub struct ClockRun {
 /// not the scenario inputs, so it never enters [`hash_scenario`].
 #[derive(Clone, Debug, Serialize)]
 pub struct StudyMeta {
+    /// Title of the study.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub study_title: Option<String>,
     /// Caller-supplied UTC ISO-8601 stamp. Stamped by the CLI, never read from a
     /// clock inside the engine/api, so the library stays pure/deterministic.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub generated_utc: Option<String>,
+    /// Author of the study.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub author: Option<String>,
+    /// Optional disclaimer text for the report.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub disclaimer: Option<String>,
 }
@@ -279,12 +286,19 @@ pub struct StudyMeta {
 /// Top-level result artifact (versioned, self-describing, reproducible).
 #[derive(Clone, Debug, Serialize)]
 pub struct RunResult {
+    /// Schema version of this result document.
     pub schema_version: String,
+    /// Version of the engine that produced the result.
     pub engine_version: String,
+    /// Hash of the scenario the result was produced from.
     pub scenario_hash: String,
+    /// RNG seed of the run.
     pub seed: u64,
+    /// Timing-error budget (ns) the figures of merit are scored against.
     pub threshold_ns: f64,
+    /// Run of the quantum (optical) clock.
     pub quantum: ClockRun,
+    /// Run of the classical clock.
     pub classical: ClockRun,
     /// Optional propagated Earth-centred-inertial track of the user spacecraft
     /// (km), one `[x, y, z]` per sampled time, populated only for the orbit pack
