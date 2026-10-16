@@ -168,8 +168,8 @@ assert.match(buildRun({ lines: [] }).error, /no epochs/);
   assert.equal(run.hasPosition, false);
 }
 
-// Every monitor named in the documentation has a description (16).
-assert.equal(KNOWN_MONITORS.length, 16);
+// Every monitor named in the documentation has a description (16, and from 0.36 the geometry monitor).
+assert.equal(KNOWN_MONITORS.length, 17);
 for (const m of KNOWN_MONITORS) assert.ok(MONITOR_INFO[m].length > 20, m);
 
 // The recorded demo, when it is present: the engine's own result for the synthetic ferry log.
@@ -195,7 +195,7 @@ if (fs.existsSync(demo)) {
   assert.equal(r.error, undefined);
   assert.equal(r.run.epochs.length, 10);
   assert.ok(r.run.notes.some((n) => /3 epoch\(s\) without a numeric t_s were skipped/.test(n)));
-  assert.deepEqual(r.run.epochs[5].deductions, [{ monitor: "kinematic", ratio: 2, points: 40 }]);
+  assert.deepEqual(r.run.epochs[5].deductions, [{ monitor: "kinematic", ratio: 2, points: 40, class: null }]);
   const noObjs = buildRun({ lines: [null, 5, "x"] });
   assert.match(noObjs.error, /no epochs/);
   // monitor names that are prototype property names

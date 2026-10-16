@@ -1,0 +1,67 @@
+# Pseudoranges and RAIM for a straddle carrier on a container quay, with ship-to-shore
+# cranes to seaward and container stacks to landward: the `gnss-sim` scenario under the
+# `container-terminal` skyline preset.
+#
+# The question a terminal-automation team asks: a straddle carrier or an automated guided
+# vehicle positions itself on the quay with GNSS, and the cranes and the stacks hide part of
+# the sky; how many satellites are left, and what does that do to the RAIM protection levels?
+# The quay runs north-south with the water to the west. Container stacks rise to 12 deg over
+# the landward half (000-180 deg); two crane booms over the water are narrow sectors up to
+# 35 deg (245-255 deg) and 25 deg (285-295 deg); the receiver mask is 5 deg. Each epoch
+# reports `masked_by_skyline`. The site is a generic
+# North Sea port at 51.95 N, 4.05 E; the measurement model is that of `gnss-sim-raim.toml`
+# (Klobuchar ionosphere, Saastamoinen troposphere with Niell mapping, thermal noise,
+# multipath, satellite clock offsets) over a GPS-like Walker shell.
+#
+# The skyline preset is REPRESENTATIVE (provenance in docs/SKYLINE.md and `kshana skyline
+# --preset container-terminal`): stack height from the ISO 668 high-cube box, boom height
+# of the order of a post-Panamax crane; not a survey of any terminal. A crane sector is
+# treated as opaque, and the skyline is line of sight only: no diffraction, no reflection
+# from the steel. MODELLED.
+kind = "gnss-sim"
+seed = 7
+mask_deg = 5.0
+noise_sigma_m = 1.5      # 1-sigma thermal noise per pseudorange
+multipath_m = 0.5        # peak deterministic multipath, scaled by (1 - sin elevation)
+sat_clock_rms_m = 30.0   # peak per-PRN satellite clock offset
+uere_m = 3.0             # RAIM 1-sigma user-equivalent range error
+p_fa = 1.0e-5
+p_md = 1.0e-3
+alert_limit_h_m = 40.0
+alert_limit_v_m = 50.0
+
+[time]
+step_s = 60.0
+duration_s = 3600.0
+
+[receiver]
+lat_deg = 51.95
+lon_deg = 4.05
+alt_m = 5.0
+clock_bias_m = 1500.0
+
+# A GPS-like 24-satellite Walker shell propagated through the validated SGP4 core.
+[constellation]
+altitude_km = 20200.0
+inclination_deg = 55.0
+planes = 6
+sats_per_plane = 4
+phasing_f = 1.0
+
+# Klobuchar single-frequency ionosphere (IS-GPS-200 section 20.3.3.5.2.5): the eight
+# broadcast coefficients and the GPS seconds-of-day at the start of the run.
+[iono]
+alpha = [3.82e-8, 1.49e-8, -1.79e-7, 0.0]
+beta = [1.43e5, 0.0, -3.28e5, 1.13e5]
+gps_seconds_of_day = 50400.0
+
+# Saastamoinen zenith troposphere (Davis 1985 / Groves section 9.4) with Niell (1996)
+# mapping: surface meteorology and the day-of-year.
+[tropo]
+pressure_hpa = 1013.25
+temp_k = 288.15
+humidity = 0.7
+day_of_year = 180.0
+
+[skyline]
+preset = "container-terminal"

@@ -11,6 +11,7 @@
 .tl h4{margin:14px 0 6px;font:600 12px/1.2 var(--f-text);color:var(--ink-3);text-transform:uppercase;letter-spacing:.05em}
 .tl-advice,.tl-warn{margin:0 0 14px;padding:12px 14px;border-radius:14px;border:1px solid var(--line-2);border-left:4px solid var(--nav-card);background:var(--surface);font-size:13.5px;line-height:1.5;color:var(--ink-2);max-width:96ch}
 .tl-advice b,.tl-warn b{color:var(--ink)}
+.tl-also{margin:0 0 8px;font-size:14px;color:var(--ink-2)}
 .tl-engine{margin:0 0 16px;font-size:13px;color:var(--ink-3)}
 .tl-engine.err{color:var(--int);font-weight:600}
 .card{margin-bottom:16px}

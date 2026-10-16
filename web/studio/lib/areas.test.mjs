@@ -17,7 +17,10 @@ assert.deepEqual([...new Set(rows.map((r) => r.status))].sort(), ["MODELLED", "P
   assert.ok(orbit.some((m) => /^orbit \(dop\)/.test(m)));
   assert.ok(!orbit.some((m) => /^sgp4, propagator, orbit_determination/.test(m)), "no partial-word match");
   assert.ok(rowsForKind("integrity", rows).length === 0 || true);
-  assert.ok(rowsForKind("constellation-design", rows).length >= 3, "alias reaches the constellation rows");
+  // The alias table is the engine's (kind_modules()); a fixture of one entry stands in for it here.
+  const table = { "constellation-design": ["constellation"] };
+  assert.ok(rowsForKind("constellation-design", rows, table).length >= 3, "alias reaches the constellation rows");
+  assert.equal(rowsForKind("constellation-design", rows).length < rowsForKind("constellation-design", rows, table).length, true, "without the table a kind matches its own name only");
 }
 // Mix counts each row once.
 {

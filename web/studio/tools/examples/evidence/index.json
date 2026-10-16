@@ -1,6 +1,6 @@
 {
   "note": "A synthetic evidence pack: the first 60 s of the synthetic maritime demo log, signed with a key made only for this example.",
-  "recorded_with": "kshana 0.35.0",
+  "recorded_with": "kshana 0.36.0",
   "files": [
     "config.json",
     "epochs.json",
@@ -10,5 +10,5 @@
     "summary.html"
   ],
   "tamper": "epochs.json",
-  "public_key": "d351d6c51d5a15622867eaf35941204408137af720c3f2c8f06987df2ec5c07e"
+  "public_key": "9d0264800e0b144c27ce0558dfbdeceb0dbcc2561ff5d3e7e58552f47625f35d"
 }

@@ -1,6 +1,6 @@
 # HELP kshana_build_info Engine version; constant 1.
 # TYPE kshana_build_info gauge
-kshana_build_info{version="0.35.0"} 1
+kshana_build_info{version="0.36.0"} 1
 # HELP kshana_trust_score Latest GNSS trust score, 0 (no trust) to 100 (full trust). Absent when the source computes none.
 # TYPE kshana_trust_score gauge
 kshana_trust_score 5.9
@@ -13,11 +13,11 @@ kshana_trust_band{band="untrusted"} 1
 kshana_trust_band{band="unknown"} 0
 # HELP kshana_trust_reason_active 1 if the reason was present at the latest epoch, 0 if it was seen earlier but is not now.
 # TYPE kshana_trust_reason_active gauge
-kshana_trust_reason_active{reason="cn0-rise"} 0
-kshana_trust_reason_active{reason="cn0-spread"} 1
-kshana_trust_reason_active{reason="heading-course"} 1
-kshana_trust_reason_active{reason="kinematic"} 1
-kshana_trust_reason_active{reason="speed-log"} 1
+kshana_trust_reason_active{reason="cn0-rise",class="environment"} 0
+kshana_trust_reason_active{reason="cn0-spread",class="environment"} 1
+kshana_trust_reason_active{reason="heading-course",class="inconsistency"} 1
+kshana_trust_reason_active{reason="kinematic",class="inconsistency"} 1
+kshana_trust_reason_active{reason="speed-log",class="inconsistency"} 1
 # HELP kshana_trust_epochs_total Epochs received, by trust band.
 # TYPE kshana_trust_epochs_total counter
 kshana_trust_epochs_total{band="calibrating"} 300
@@ -46,4 +46,38 @@ kshana_trust_syslog_send_failures_total 0
 kshana_trust_epoch_offset_seconds 3000
 # HELP kshana_trust_last_sample_timestamp_seconds Wall-clock time the latest epoch was received, Unix seconds. Alert on its age to detect a stalled stream.
 # TYPE kshana_trust_last_sample_timestamp_seconds gauge
-kshana_trust_last_sample_timestamp_seconds 1791730557.9429553
+kshana_trust_last_sample_timestamp_seconds 1792112459.7148492
+# HELP kshana_trust_geometry Satellite geometry at the latest epoch: 1 for the current status (good, degraded, unknown), 0 for the others.
+# TYPE kshana_trust_geometry gauge
+kshana_trust_geometry{status="good"} 1
+kshana_trust_geometry{status="degraded"} 0
+kshana_trust_geometry{status="unknown"} 0
+# HELP kshana_trust_geometry_degraded 1 if the satellite geometry at the latest epoch is degraded, 0 if good; absent when unknown.
+# TYPE kshana_trust_geometry_degraded gauge
+kshana_trust_geometry_degraded 0
+# HELP kshana_trust_geometry_signal_loss 1 if satellites in view are not tracked while their geometry is good: the signal was lost, not the sky (geometry still reads degraded); absent when unknown.
+# TYPE kshana_trust_geometry_signal_loss gauge
+kshana_trust_geometry_signal_loss 0
+# HELP kshana_trust_geometry_hdop Horizontal dilution of precision at the latest epoch.
+# TYPE kshana_trust_geometry_hdop gauge
+kshana_trust_geometry_hdop 0.761
+# HELP kshana_trust_geometry_pdop Position dilution of precision at the latest epoch.
+# TYPE kshana_trust_geometry_pdop gauge
+kshana_trust_geometry_pdop 1.367
+# HELP kshana_trust_geometry_used_satellites Satellites used (tracked, where derived from the sky) at the latest epoch.
+# TYPE kshana_trust_geometry_used_satellites gauge
+kshana_trust_geometry_used_satellites 13
+# HELP kshana_trust_geometry_epochs_total Epochs received, by geometry status.
+# TYPE kshana_trust_geometry_epochs_total counter
+kshana_trust_geometry_epochs_total{status="good"} 3001
+kshana_trust_geometry_epochs_total{status="degraded"} 0
+kshana_trust_geometry_epochs_total{status="unknown"} 0
+# HELP kshana_trust_geometry_label Geometry label at the latest epoch: 1 for the current one (good, fair, poor, unknown), 0 for the others; never scored, the score deducts only for poor.
+# TYPE kshana_trust_geometry_label gauge
+kshana_trust_geometry_label{label="good"} 1
+kshana_trust_geometry_label{label="fair"} 0
+kshana_trust_geometry_label{label="poor"} 0
+kshana_trust_geometry_label{label="unknown"} 0
+# HELP kshana_trust_geometry_vdop Vertical dilution of precision at the latest epoch.
+# TYPE kshana_trust_geometry_vdop gauge
+kshana_trust_geometry_vdop 1.135

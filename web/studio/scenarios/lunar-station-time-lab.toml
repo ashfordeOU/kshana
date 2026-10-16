@@ -1,0 +1,48 @@
+# Lunar reference station time laboratory: a miniature rubidium clock (miniRAFS) steered to
+# Coordinated Lunar Time (LTC) and then left to free-run.
+#
+# The question: after the station clock was last steered to LTC, how does its time error grow,
+# how long does it stay within 1, 10 and 100 ns, and which term dominates at each horizon?
+# (src/lunar_time_lab.rs, the optional [time_lab] block of the lunar-time-budget kind.)
+#
+# The time error is the root-sum-square of four terms, each a function of the time since the
+# last steer:
+#   clock           the clock's power-law time error, the same curve the budget uses;
+#   steer-residual  a constant offset left by each steer (ILLUSTRATIVE, no public figure);
+#   ltc-realisation the constant LTC realisation residual (a budget allocation); the LTC rate
+#                   itself is not re-derived here and keeps its own VALIDATED ledger row;
+#   station-height  zero unless station_height_sigma_m is set: a height error biases the
+#                   gravitational rate and grows linearly.
+# No lunar thermal model is included, because none is sourced.
+#
+# Source statement, not a claim: the ICG WG-B Lunar PNT material of June 2024 (unoosa.org,
+# source S3 of the study) describes a lunar time reference laboratory at the station with a
+# nanosecond-level time target. It is quoted for context only.
+#
+# MODELLED. Under the stated assumptions the model gives the numbers in the report; they are not
+# a statement about any real system. Not affiliated with or endorsed by any agency.
+kind = "lunar-time-budget"
+
+# The budget part of the report is the default passive-H-maser budget; the time lab below runs
+# its own clock over the same grid.
+clock = "passive-h-maser"
+
+[time_lab]
+# One of optical-master | passive-h-maser | rafs | mini-rafs, or a device_card instead:
+#   device_card = { name = "my-clock", points = [[1.0, 5e-10, 100.0], [10.0, 1.6e-10, 100.0], [100.0, 5e-11, 100.0]] }
+clock = "mini-rafs"
+
+# Absent: free-run after the initial steer. Set to re-steer every N seconds, e.g. 3600.0.
+# steer_interval_s = 3600.0
+
+# ILLUSTRATIVE constant offset left by each steer (ns).
+steer_residual_ns = 0.5
+
+# Default: the budget's relativistic-residual allocation, 0.05 ns.
+ltc_realisation_ns = 0.05
+
+# 0 means the station height is modelled exactly and the topographic rate term is not applied.
+station_height_sigma_m = 0.0
+
+thresholds_ns = [1.0, 10.0, 100.0]
+horizons_s = [3600.0, 86400.0, 604800.0, 2592000.0]

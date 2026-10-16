@@ -357,6 +357,12 @@ function lunarDpnt(r) {
   if (!num(r.user_error_uncorrected_m) || !num(r.user_error_corrected_m)) return null;
   return { big: `Differential corrections bring the error from ${f(r.user_error_uncorrected_m)} m to ${f(r.user_error_corrected_m)} m.`, line: num(r.baseline_km) ? `With a reference station ${f(r.baseline_km)} km away.` : "" };
 }
+function lunarStation(r) {
+  const g = r.region;
+  if (!g || !num(g.corrected_p_3d_m) || !num(g.uncorrected_p_3d_m)) return null;
+  const n = num(r.percentile) ? `${f(r.percentile)} %` : "percentile";
+  return { big: `Over the south-polar region, a lunar reference station's corrections bring the ${n} error from ${f(g.uncorrected_p_3d_m)} m to ${f(g.corrected_p_3d_m)} m (modelled).`, line: num(g.coverage_fraction) ? `Within the accuracy threshold for ${f(g.coverage_fraction * 100)} % of the epochs; not a statement about any real system.` : "" };
+}
 function lunarAttack(r) {
   if (typeof r.spoof_captured !== "boolean") return null;
   return { big: r.spoof_captured ? "A spoofer on the surface can capture a lunar receiver." : "A spoofer on the surface cannot capture a lunar receiver.", line: num(r.surface_transmitter_reach_m) ? `A surface transmitter reaches ${f(r.surface_transmitter_reach_m / 1000)} km before the horizon blocks it.` : "" };
@@ -415,7 +421,7 @@ export const KIND_TEMPLATES = {
   "attitude-budget": attitude, "aperture-duty-cycle": aperture, "eo-coverage": eo, "launch-window": launch, "link-budget": linkBudget, passes, reentry,
   ephemeris, "space-weather": spaceWeather, "space-packet": spacePacket, "oem-interop": oem, "solar-system": solar, "realtime-frame-eop": realtimeEop,
   "body-pnt": bodyPnt, "mars-pnt": marsPnt, "moonlight-service-volume": moonlight, "earth-gnss-lunar": earthGnssLunar, "lunar-beacon": lunarBeacon,
-  "lunar-differential-pnt": lunarDpnt, "lunar-attack-surface": lunarAttack, "lunar-joint-od-clock": lunarJointOd, "lunar-frame-realisation": lunarFrameReal,
+  "lunar-differential-pnt": lunarDpnt, "lunar-station-coverage": lunarStation, "lunar-attack-surface": lunarAttack, "lunar-joint-od-clock": lunarJointOd, "lunar-frame-realisation": lunarFrameReal,
   "lunar-interop-export": lunarInterop, "lunar-vlbi": lunarVlbi, "lunar-vlbi-fim": lunarVlbiFim, "lunar-frame-campaign": lunarFrameCampaign,
   "lunar-llr-datum": lunarLlr, "cislunar-observability": cislunarObs, "cislunar-arc-recovery": cislunarArc,
 };

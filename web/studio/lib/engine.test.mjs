@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 // Tests for the off-main-thread engine client (engine.mjs), against a fake worker so they
 // run under plain node with no WebAssembly build. Run with `node web/engine.test.mjs`.
-import { classifyMessage, createEngineClient, dispatch, isCancelled, busyLabel, ENGINE_FNS, ENGINE_FNS_035, engineHas } from "./engine.mjs";
+import { classifyMessage, createEngineClient, dispatch, isCancelled, busyLabel, ENGINE_FNS, ENGINE_FNS_035, ENGINE_FNS_036, ENGINE_FNS_036_MAP, ENGINE_FNS_036_INPUTS, engineHas } from "./engine.mjs";
 import { engineAtLeast, versionParts } from "./engine-page.mjs";
 import assert from "node:assert/strict";
 
@@ -56,6 +56,13 @@ const api = {
 {
   for (const n of ["receiver_trust", "assess_vessel_log", "receiver_trust_replay", "nmea_training", "interference_map", "route_exposure", "bench_export", "compliance_report", "compliance_mapping", "evidence_verify", "evidence_attach_timestamp", "osnma_verify", "trust_telemetry"]) assert.ok(ENGINE_FNS_035.includes(n), n);
   assert.ok(!ENGINE_FNS_035.includes("run"), "the 0.35 list holds only the 0.35 functions");
+  assert.deepEqual([...ENGINE_FNS_036], ["sky_geometry", "sky_monte_carlo", "skyline_presets", "skyline_profile", "skyplot_svg"], "the 0.36 Geometry view's functions");
+  assert.ok(ENGINE_FNS_036.every((n) => !ENGINE_FNS_035.includes(n)), "the 0.35 list holds no 0.36 function");
+  assert.deepEqual([...ENGINE_FNS_036_MAP], ["kind_modules"], "the capability map's 0.36 function");
+  assert.deepEqual([...ENGINE_FNS_036_INPUTS], ["field_importance"], "the input ranking's 0.36 function");
+  assert.ok(ENGINE_FNS.includes("field_importance") && !ENGINE_FNS_036.includes("field_importance") && !ENGINE_FNS_035.includes("field_importance"));
+  assert.ok(ENGINE_FNS.includes("kind_modules") && !ENGINE_FNS_035.includes("kind_modules") && !ENGINE_FNS_036.includes("kind_modules"));
+  assert.equal(classifyMessage({ id: 1, fn: "sky_monte_carlo", args: ["{}", 36, 1000] }), "call", "a 0.36 call is on the worker's allow-list");
   const r = dispatch(api, { id: 9, fn: "bench_export", args: ["x", ""] });
   assert.equal(r.ok, false); assert.equal(r.missing, true);
   assert.match(r.error, /this engine build has no bench_export \(it predates the version this page needs\)/);

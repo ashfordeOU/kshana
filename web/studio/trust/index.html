@@ -28,6 +28,7 @@
   <symbol id="i-play" viewBox="0 0 16 16"><path d="M4.5 2.8v10.4a.6.6 0 0 0 .9.5l8.1-5.2a.6.6 0 0 0 0-1L5.4 2.3a.6.6 0 0 0-.9.5z" fill="currentColor"/></symbol>
   <symbol id="i-pause" viewBox="0 0 16 16"><path d="M4 2.5h3v11H4zM9 2.5h3v11H9z" fill="currentColor"/></symbol>
   <symbol id="i-arrow" viewBox="0 0 16 16"><path d="M3 8h9m0 0L8.5 4.5M12 8l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <pattern id="mt-hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" class="mt-hatch-bg"/><path d="M0 0v6" class="mt-hatch-line"/></pattern>
 </svg>
 <a class="skip" href="#main">Skip to the view</a>
 <header class="bar" id="bar">
@@ -54,6 +55,7 @@
       <label class="mt-file btn-primary">Choose files…<input id="mt-files" type="file" multiple accept=".json,.jsonl,.ndjson,.csv,.nmea,.txt,.log,text/*,application/json"></label>
       <span class="mt-or">or drop them here</span>
       <button class="mt-demo" id="mt-demo" type="button">Open the synthetic demo</button>
+      <button class="mt-demo" id="mt-geo-demo" type="button">Open the masked-sky demo (geometry, 0.36)</button>
     </div>
     <p class="mt-status" id="mt-status" role="status" aria-live="polite">Nothing open yet.</p>
     <ul class="mt-notes" id="mt-notes"></ul>
@@ -133,6 +135,14 @@
         <p class="mt-pksht"><span>Latest <code>$PKSHT</code></span><code id="mt-pksht"></code></p>
       </section>
 
+      <section class="card mt-geo" aria-labelledby="mt-geo-h">
+        <div class="card-head"><h3 id="mt-geo-h">Geometry at the cursor</h3>
+          <p class="card-note">The satellite geometry, always shown: its label (good, fair or poor) and the DOPs. A masked sky (a hull, a quay, a fjord wall) is natural degradation, told apart from attack-like inconsistency. The score takes points for geometry only when it is poor, at most 15, and never below the degraded band.</p></div>
+        <p class="mt-geo-now" id="mt-geo-now"></p>
+        <ul class="mt-geo-flags" id="mt-geo-flags"></ul>
+        <dl class="mt-setgrid mt-geo-rows" id="mt-geo-rows"></dl>
+      </section>
+
       <section class="card mt-set" aria-labelledby="mt-set-h">
         <div class="card-head"><h3 id="mt-set-h">What the score used</h3><p class="card-note">Read from the run, read-only.</p></div>
         <div id="mt-set"></div>
@@ -146,6 +156,7 @@
       <li>The demo is <b>synthetic text</b>: a made-up NMEA log of a ferry on an illustrative Tallinn to Helsinki route, with a made-up position drag-off partway through. It models no radio signal and is not a measurement or a chart.</li>
       <li>In the demo the receiver reports a <b>valid fix throughout</b> (GGA quality 1, RMC status A). The trust score is what falls. The gap between the reported and the true track is the point of the view.</li>
       <li>NMEA-only checks cannot see a spoofer that reproduces the whole constellation with a self-consistent position, velocity, heading, power and clock, nor a replay of recorded real signals. A fix with no alarm is not thereby a good fix.</li>
+      <li><b>Geometry</b> (runs from engine 0.36): a deduction classed as geometry is a statement about the sky the log reports, not a finding that no attack occurred. A spoofer can fake a poor sky; a stated HDOP the reported sky does not explain is therefore classed as inconsistency, never as geometry. "Geometry unknown" means the log has no GSV or GSA; it is not a good sky.</li>
       <li>Nothing on this page is a measure of how the checks perform on real interference. The score mapping and every weight are fixed before a log is scored, with no learning and nothing fitted to events.</li>
     </ul>
   </section>

@@ -1,6 +1,6 @@
 # Kshana
 
-> Open-source GNSS jamming and spoofing simulator for PNT (positioning, navigation and timing) resilience: holdover, RAIM, lunar navigation, in your browser. Version 0.35.0, AGPL-3.0-only licence, by Ashforde® OÜ. 132 of 263 capabilities are validated against external oracles; the rest are labelled Modelled or partner-owned.
+> Open-source GNSS jamming and spoofing simulator for PNT (positioning, navigation and timing) resilience: holdover, RAIM, lunar navigation, in your browser. Version 0.36.0, AGPL-3.0-only licence, by Ashforde® OÜ. 175 of 361 capabilities are validated against external oracles; the rest are labelled Modelled or partner-owned.
 
 Kshana is a deterministic Rust engine for PNT (positioning, navigation and timing) resilience studies: GNSS (global navigation satellite system) jamming and spoofing, clock holdover, RAIM (receiver autonomous integrity monitoring) and protection levels, orbits, low-Earth-orbit navigation, and navigation at the Moon and Mars. Every scenario is a TOML file; every run is reproducible from its scenario, seed and engine version. It drives no radio hardware and transmits nothing: its signal-level output is baseband IQ sample files for software receivers, its software GNSS receiver is an analysis tool, and it is not a flight product.
 
@@ -22,10 +22,10 @@ Kshana is a deterministic Rust engine for PNT (positioning, navigation and timin
 - JavaScript and WebAssembly: `npm install kshana` (https://www.npmjs.com/package/kshana)
 - AI assistant (MCP server, cargo): `cargo install kshana-mcp` (https://crates.io/crates/kshana-mcp)
 - Docker image: `docker run --rm -i ghcr.io/ashfordeou/kshana-mcp` (https://github.com/ashfordeOU/kshana/pkgs/container/kshana-mcp)
-- Cursor (one click): `npx -y kshana-mcp@0.35.0`
-- VS Code (one click): `npx -y kshana-mcp@0.35.0`
-- npx: `npx -y kshana-mcp@0.35.0` (https://www.npmjs.com/package/kshana-mcp)
-- uvx / pipx: `uvx kshana-mcp==0.35.0` (https://pypi.org/project/kshana-mcp/)
+- Cursor (one click): `npx -y kshana-mcp@0.36.0`
+- VS Code (one click): `npx -y kshana-mcp@0.36.0`
+- npx: `npx -y kshana-mcp@0.36.0` (https://www.npmjs.com/package/kshana-mcp)
+- uvx / pipx: `uvx kshana-mcp==0.36.0` (https://pypi.org/project/kshana-mcp/)
 - Homebrew: `brew install ashfordeOU/tap/kshana-mcp` (https://github.com/ashfordeOU/homebrew-tap)
 - Scoop: `scoop bucket add ashforde https://github.com/ashfordeOU/scoop-bucket && scoop install kshana-mcp` (https://github.com/ashfordeOU/scoop-bucket)
 - winget: `winget install AshfordeOU.KshanaMcp` (https://github.com/microsoft/winget-pkgs)
@@ -57,8 +57,8 @@ Kshana is a deterministic Rust engine for PNT (positioning, navigation and timin
 
 ## Docs: Scenarios
 
-- [Scenario kinds](https://kshana.dev/docs/scenarios): The 75 built-in scenario kinds that kshana::api::run_toml dispatches over, each with its one-line description and its required / optional TOML (Tom's…
-- [Scenario reference](https://kshana.dev/docs/scenario-reference): Every bundled scenario file (138), grouped by kind. The description is the file's own header comment; the key parameters are its top-level settings.
+- [Scenario kinds](https://kshana.dev/docs/scenarios): The 83 built-in scenario kinds that kshana::api::run_toml dispatches over, each with its one-line description and its required / optional TOML (Tom's…
+- [Scenario reference](https://kshana.dev/docs/scenario-reference): Every bundled scenario file (167), grouped by kind. The description is the file's own header comment; the key parameters are its top-level settings.
 - [Result schema — reading a Kshana *.result.json](https://kshana.dev/docs/schema): Every run writes a versioned, self-describing JSON (JavaScript Object Notation) artifact next to the scenario.
 - [Using real constellation TLEs](https://kshana.dev/docs/real-tle-guide): The bundled scenarios/orbit-sgp4-gps.toml already carries real TLEs (two-line element sets): the Celestrak gps-ops snapshot of the operational GPS…
 - [Campaigns](https://kshana.dev/docs/campaigns): A single scenario answers one question about one situation. A mission is a sequence of situations, and a design study is a family of them.
@@ -72,8 +72,8 @@ Kshana is a deterministic Rust engine for PNT (positioning, navigation and timin
 ## Docs: Validation and evidence
 
 - [Validation status](https://kshana.dev/docs/validation): On tolerances. "Validated" below means a calibration test asserts the simulated statistic matches the reference relation within an enforced gate…
-- [Verification matrix](https://kshana.dev/docs/verification-matrix): The complete, machine-checked evidence ledger: 263 rows — 132 VALIDATED, 127 MODELLED, 4 PARTNER.
-- [Capability reference](https://kshana.dev/docs/capability-reference): The 54 capability cards from web/capabilities.json, then all 263 rows of the verification matrix.
+- [Verification matrix](https://kshana.dev/docs/verification-matrix): The complete, machine-checked evidence ledger: 361 rows — 175 VALIDATED, 182 MODELLED, 4 PARTNER.
+- [Capability reference](https://kshana.dev/docs/capability-reference): The 58 capability cards from web/capabilities.json, then all 361 rows of the verification matrix.
 - [Modelled capabilities — rationale](https://kshana.dev/docs/modelled-rationale): These capabilities are implemented from published or first-principles physics with tests, but are honestly labelled MODELLED — not checked against an…
 - [Claims vs. reality — overclaim ledger](https://kshana.dev/docs/claims-vs-reality): An independent audit of an earlier Kshana version catalogued fourteen overclaims (OC-0 … OC-13): places where a public-facing surface (README…
 - [Provenance](https://kshana.dev/docs/provenance): Kshana's central honesty discipline is that every sensor parameter, physical model, and validation dataset is traceable to a published source — a…
@@ -105,6 +105,7 @@ Kshana is a deterministic Rust engine for PNT (positioning, navigation and timin
 - [Interference map and route exposure](https://kshana.dev/docs/interference-map): kshana interference-map builds a per-day picture of where aircraft and ships reported degraded navigation data, from openly licensed tracking files you…
 - [Interference map: data source licence review](https://kshana.dev/docs/interference-data-sources): Status: APPROVED by the coordinator on 2026-10-09 with the decisions recorded at the end.
 - [Marine integrations: the trust score on the bridge](https://kshana.dev/docs/marine-integrations): Kshana's maritime trust score (MARITIME-TRUST.md) is reachable from software boaters already run: a Signal K server plugin and OpenCPN through gate-mode…
+- [Skyline masks and sky geometry](https://kshana.dev/docs/skyline): Until 0.36 every Earth visibility test in the engine was one elevation cut-off, mask_deg: a satellite counted when it was at or above one number…
 - [GNSS trust as security telemetry](https://kshana.dev/docs/trust-telemetry): kshana trust-telemetry turns the per-epoch GNSS trust stream (score 0-100, band, reasons) into signals an operations or security centre already ingests…
 - [Galileo OSNMA receiver-side verifier](https://kshana.dev/docs/osnma): A receiver-side verifier for Galileo Open Service Navigation Message Authentication (OSNMA), in pure Rust.
 
@@ -123,6 +124,7 @@ Kshana is a deterministic Rust engine for PNT (positioning, navigation and timin
 - [SGP4/SDP4 validation against the community reference](https://kshana.dev/docs/sgp4-validation): Kshana's orbit propagator is validated against the canonical community reference for SGP4/SDP4 (SGP4: Simplified General Perturbations 4; SDP4…
 - [Force-model validation by ephemeris fitting](https://kshana.dev/docs/agency-orbit-validation): Kshana's full-force engine (src/precise_od.rs) fit to real agency precise-orbit products, with honest, citable, commit-hash-stamped residuals.
 - [Solar system and positioning around other bodies](https://kshana.dev/docs/solar-system): The constellation-design kind uses the same catalogue to build constellations around any of these bodies (CONSTELLATION-DESIGN.md).
+- [Lunar reference station](https://kshana.dev/docs/lunar-reference-station): MODELLED. Under the stated assumptions (the constellation, its signal-in-space error, the station's survey accuracy, the correction latency and the link…
 
 ## Docs: Low Earth orbit (LEO) navigation
 
@@ -144,7 +146,7 @@ Kshana is a deterministic Rust engine for PNT (positioning, navigation and timin
 - [npm and WebAssembly](https://kshana.dev/docs/npm): Kshana replays jamming, spoofing and clock holdover when GNSS (Global Navigation Satellite System) signals fail, and tells you how long a system keeps…
 - [Rust crate](https://kshana.dev/docs/rust): Try it first with nothing to install: Kshana Studio runs the whole engine in your browser, compiled to WebAssembly, and uploads nothing.
 - [kshana-mcp](https://kshana.dev/docs/mcp): kshana-mcp is a Model Context Protocol (MCP) server for Kshana, the open-source simulator for PNT (positioning, navigation and timing) resilience.
-- [Install the Kshana MCP server (v0.35.0)](https://kshana.dev/docs/mcp-install): Advisory, not type-approved navigation equipment: the operator remains responsible for navigation.
+- [Install the Kshana MCP server (v0.36.0)](https://kshana.dev/docs/mcp-install): Advisory, not type-approved navigation equipment: the operator remains responsible for navigation.
 - [Running kshana-mcp over HTTP (self-hosted)](https://kshana.dev/docs/mcp-http): A passage naming third-party AI clients is left out here; it is in docs/deploy/mcp-http.md on GitHub.
 - [Using Kshana from an AI agent](https://kshana.dev/docs/agents): For an agent (or the person directing one): which tool to call for which question, what the tools will and will not do, and what to keep with every…
 - [Where each capability is reachable](https://kshana.dev/docs/surfaces): Every capability is available on the surfaces where it makes sense; where one cannot carry a capability, the cell says N/A and why.

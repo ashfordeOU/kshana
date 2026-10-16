@@ -7,6 +7,24 @@
     "clock_innov_ns": null,
     "cn0_drop_db": -0.07692307692307693,
     "cn0_mean_dbhz": 44.76923076923077,
+    "geometry": {
+      "age_s": 0.0,
+      "hdop": 0.801,
+      "in_view": 11,
+      "label": "good",
+      "max_azimuth_gap_deg": 40.0,
+      "n_used": 13,
+      "note": "geometry good: HDOP 0.801, PDOP 1.433, VDOP 1.188, 13 satellites; not scored (the score deducts only above HDOP 4, PDOP 6 or below 5 satellites)",
+      "open_fraction": null,
+      "pdop": 1.433,
+      "reasons": [],
+      "reported_derived_mismatch": false,
+      "reported_hdop": 0.9,
+      "signal_loss": false,
+      "source": "derived",
+      "status": "good",
+      "vdop": 1.188
+    },
     "jam_ind": null,
     "marine": {
       "position": [
@@ -43,6 +61,24 @@
     "clock_innov_ns": null,
     "cn0_drop_db": null,
     "cn0_mean_dbhz": null,
+    "geometry": {
+      "age_s": 1.0,
+      "hdop": 0.801,
+      "in_view": 11,
+      "label": "good",
+      "max_azimuth_gap_deg": 40.0,
+      "n_used": 13,
+      "note": "geometry good: HDOP 0.801, PDOP 1.433, VDOP 1.188, 13 satellites; not scored (the score deducts only above HDOP 4, PDOP 6 or below 5 satellites)",
+      "open_fraction": null,
+      "pdop": 1.433,
+      "reasons": [],
+      "reported_derived_mismatch": false,
+      "reported_hdop": 0.9,
+      "signal_loss": false,
+      "source": "derived",
+      "status": "good",
+      "vdop": 1.188
+    },
     "jam_ind": null,
     "marine": {
       "position": [
@@ -79,6 +115,24 @@
     "clock_innov_ns": null,
     "cn0_drop_db": null,
     "cn0_mean_dbhz": null,
+    "geometry": {
+      "age_s": 2.0,
+      "hdop": 0.801,
+      "in_view": 11,
+      "label": "good",
+      "max_azimuth_gap_deg": 40.0,
+      "n_used": 13,
+      "note": "geometry good: HDOP 0.801, PDOP 1.433, VDOP 1.188, 13 satellites; not scored (the score deducts only above HDOP 4, PDOP 6 or below 5 satellites)",
+      "open_fraction": null,
+      "pdop": 1.433,
+      "reasons": [],
+      "reported_derived_mismatch": false,
+      "reported_hdop": 0.9,
+      "signal_loss": false,
+      "source": "derived",
+      "status": "good",
+      "vdop": 1.188
+    },
     "jam_ind": null,
     "marine": {
       "position": [
@@ -115,6 +169,24 @@
     "clock_innov_ns": null,
     "cn0_drop_db": null,
     "cn0_mean_dbhz": null,
+    "geometry": {
+      "age_s": 3.0,
+      "hdop": 0.801,
+      "in_view": 11,
+      "label": "good",
+      "max_azimuth_gap_deg": 40.0,
+      "n_used": 13,
+      "note": "geometry good: HDOP 0.801, PDOP 1.433, VDOP 1.188, 13 satellites; not scored (the score deducts only above HDOP 4, PDOP 6 or below 5 satellites)",
+      "open_fraction": null,
+      "pdop": 1.433,
+      "reasons": [],
+      "reported_derived_mismatch": false,
+      "reported_hdop": 0.9,
+      "signal_loss": false,
+      "source": "derived",
+      "status": "good",
+      "vdop": 1.188
+    },
     "jam_ind": null,
     "marine": {
       "position": [
@@ -151,6 +223,24 @@
     "clock_innov_ns": null,
     "cn0_drop_db": null,
     "cn0_mean_dbhz": null,
+    "geometry": {
+      "age_s": 4.0,
+      "hdop": 0.801,
+      "in_view": 11,
+      "label": "good",
+      "max_azimuth_gap_deg": 40.0,
+      "n_used": 13,
+      "note": "geometry good: HDOP 0.801, PDOP 1.433, VDOP 1.188, 13 satellites; not scored (the score deducts only above HDOP 4, PDOP 6 or below 5 satellites)",
+      "open_fraction": null,
+      "pdop": 1.433,
+      "reasons": [],
+      "reported_derived_mismatch": false,
+      "reported_hdop": 0.9,
+      "signal_loss": false,
+      "source": "derived",
+      "status": "good",
+      "vdop": 1.188
+    },
     "jam_ind": null,
     "marine": {
       "position": [
@@ -187,6 +277,24 @@
     "clock_innov_ns": null,
     "cn0_drop_db": -0.15384615384615385,
     "cn0_mean_dbhz": 44.84615384615385,
+    "geometry": {
+      "age_s": 0.0,
+      "hdop": 0.801,
+      "in_view": 11,
+      "label": "good",
+      "max_azimuth_gap_deg": 40.0,
+      "n_used": 13,
+      "note": "geometry good: HDOP 0.801, PDOP 1.433, VDOP 1.188, 13 satellites; not scored (the score deducts only above HDOP 4, PDOP 6 or below 5 satellites)",
+      "open_fraction": null,
+      "pdop": 1.433,
+      "reasons": [],
+      "reported_derived_mismatch": false,
+      "reported_hdop": 0.9,
+      "signal_loss": false,
+      "source": "derived",
+      "status": "good",
+      "vdop": 1.188
+    },
     "jam_ind": null,
     "marine": {
       "position": [
@@ -223,6 +331,24 @@
     "clock_innov_ns": null,
     "cn0_drop_db": null,
     "cn0_mean_dbhz": null,
+    "geometry": {
+      "age_s": 1.0,
+      "hdop": 0.801,
+      "in_view": 11,
+      "label": "good",
+      "max_azimuth_gap_deg": 40.0,
+      "n_used": 13,
+      "note": "geometry good: HDOP 0.801, PDOP 1.433, VDOP 1.188, 13 satellites; not scored (the score deducts only above HDOP 4, PDOP 6 or below 5 satellites)",
+      "open_fraction": null,
+      "pdop": 1.433,
+      "reasons": [],
+      "reported_derived_mismatch": false,
+      "reported_hdop": 0.9,
+      "signal_loss": false,
+      "source": "derived",
+      "status": "good",
+      "vdop": 1.188
+    },
     "jam_ind": null,
     "marine": {
       "position": [
@@ -259,6 +385,24 @@
     "clock_innov_ns": null,
     "cn0_drop_db": null,
     "cn0_mean_dbhz": null,
+    "geometry": {
+      "age_s": 2.0,
+      "hdop": 0.801,
+      "in_view": 11,
+      "label": "good",
+      "max_azimuth_gap_deg": 40.0,
+      "n_used": 13,
+      "note": "geometry good: HDOP 0.801, PDOP 1.433, VDOP 1.188, 13 satellites; not scored (the score deducts only above HDOP 4, PDOP 6 or below 5 satellites)",
+      "open_fraction": null,
+      "pdop": 1.433,
+      "reasons": [],
+      "reported_derived_mismatch": false,
+      "reported_hdop": 0.9,
+      "signal_loss": false,
+      "source": "derived",
+      "status": "good",
+      "vdop": 1.188
+    },
     "jam_ind": null,
     "marine": {
       "position": [
@@ -295,6 +439,24 @@
     "clock_innov_ns": null,
     "cn0_drop_db": null,
     "cn0_mean_dbhz": null,
+    "geometry": {
+      "age_s": 3.0,
+      "hdop": 0.801,
+      "in_view": 11,
+      "label": "good",
+      "max_azimuth_gap_deg": 40.0,
+      "n_used": 13,
+      "note": "geometry good: HDOP 0.801, PDOP 1.433, VDOP 1.188, 13 satellites; not scored (the score deducts only above HDOP 4, PDOP 6 or below 5 satellites)",
+      "open_fraction": null,
+      "pdop": 1.433,
+      "reasons": [],
+      "reported_derived_mismatch": false,
+      "reported_hdop": 0.9,
+      "signal_loss": false,
+      "source": "derived",
+      "status": "good",
+      "vdop": 1.188
+    },
     "jam_ind": null,
     "marine": {
       "position": [
@@ -331,6 +493,24 @@
     "clock_innov_ns": null,
     "cn0_drop_db": null,
     "cn0_mean_dbhz": null,
+    "geometry": {
+      "age_s": 4.0,
+      "hdop": 0.801,
+      "in_view": 11,
+      "label": "good",
+      "max_azimuth_gap_deg": 40.0,
+      "n_used": 13,
+      "note": "geometry good: HDOP 0.801, PDOP 1.433, VDOP 1.188, 13 satellites; not scored (the score deducts only above HDOP 4, PDOP 6 or below 5 satellites)",
+      "open_fraction": null,
+      "pdop": 1.433,
+      "reasons": [],
+      "reported_derived_mismatch": false,
+      "reported_hdop": 0.9,
+      "signal_loss": false,
+      "source": "derived",
+      "status": "good",
+      "vdop": 1.188
+    },
     "jam_ind": null,
     "marine": {
       "position": [
@@ -367,6 +547,24 @@
     "clock_innov_ns": null,
     "cn0_drop_db": 0.15384615384615385,
     "cn0_mean_dbhz": 44.53846153846154,
+    "geometry": {
+      "age_s": 0.0,
+      "hdop": 0.801,
+      "in_view": 11,
+      "label": "good",
+      "max_azimuth_gap_deg": 40.0,
+      "n_used": 13,
+      "note": "geometry good: HDOP 0.801, PDOP 1.433, VDOP 1.188, 13 satellites; not scored (the score deducts only above HDOP 4, PDOP 6 or below 5 satellites)",
+      "open_fraction": null,
+      "pdop": 1.433,
+      "reasons": [],
+      "reported_derived_mismatch": false,
+      "reported_hdop": 0.9,
+      "signal_loss": false,
+      "source": "derived",
+      "status": "good",
+      "vdop": 1.188
+    },
     "jam_ind": null,
     "marine": {
       "position": [
@@ -403,6 +601,24 @@
     "clock_innov_ns": null,
     "cn0_drop_db": null,
     "cn0_mean_dbhz": null,
+    "geometry": {
+      "age_s": 1.0,
+      "hdop": 0.801,
+      "in_view": 11,
+      "label": "good",
+      "max_azimuth_gap_deg": 40.0,
+      "n_used": 13,
+      "note": "geometry good: HDOP 0.801, PDOP 1.433, VDOP 1.188, 13 satellites; not scored (the score deducts only above HDOP 4, PDOP 6 or below 5 satellites)",
+      "open_fraction": null,
+      "pdop": 1.433,
+      "reasons": [],
+      "reported_derived_mismatch": false,
+      "reported_hdop": 0.9,
+      "signal_loss": false,
+      "source": "derived",
+      "status": "good",
+      "vdop": 1.188
+    },
     "jam_ind": null,
     "marine": {
       "position": [
@@ -439,6 +655,24 @@
     "clock_innov_ns": null,
     "cn0_drop_db": null,
     "cn0_mean_dbhz": null,
+    "geometry": {
+      "age_s": 2.0,
+      "hdop": 0.801,
+      "in_view": 11,
+      "label": "good",
+      "max_azimuth_gap_deg": 40.0,
+      "n_used": 13,
+      "note": "geometry good: HDOP 0.801, PDOP 1.433, VDOP 1.188, 13 satellites; not scored (the score deducts only above HDOP 4, PDOP 6 or below 5 satellites)",
+      "open_fraction": null,
+      "pdop": 1.433,
+      "reasons": [],
+      "reported_derived_mismatch": false,
+      "reported_hdop": 0.9,
+      "signal_loss": false,
+      "source": "derived",
+      "status": "good",
+      "vdop": 1.188
+    },
     "jam_ind": null,
     "marine": {
       "position": [
@@ -475,6 +709,24 @@
     "clock_innov_ns": null,
     "cn0_drop_db": null,
     "cn0_mean_dbhz": null,
+    "geometry": {
+      "age_s": 3.0,
+      "hdop": 0.801,
+      "in_view": 11,
+      "label": "good",
+      "max_azimuth_gap_deg": 40.0,
+      "n_used": 13,
+      "note": "geometry good: HDOP 0.801, PDOP 1.433, VDOP 1.188, 13 satellites; not scored (the score deducts only above HDOP 4, PDOP 6 or below 5 satellites)",
+      "open_fraction": null,
+      "pdop": 1.433,
+      "reasons": [],
+      "reported_derived_mismatch": false,
+      "reported_hdop": 0.9,
+      "signal_loss": false,
+      "source": "derived",
+      "status": "good",
+      "vdop": 1.188
+    },
     "jam_ind": null,
     "marine": {
       "position": [
@@ -511,6 +763,24 @@
     "clock_innov_ns": null,
     "cn0_drop_db": null,
     "cn0_mean_dbhz": null,
+    "geometry": {
+      "age_s": 4.0,
+      "hdop": 0.801,
+      "in_view": 11,
+      "label": "good",
+      "max_azimuth_gap_deg": 40.0,
+      "n_used": 13,
+      "note": "geometry good: HDOP 0.801, PDOP 1.433, VDOP 1.188, 13 satellites; not scored (the score deducts only above HDOP 4, PDOP 6 or below 5 satellites)",
+      "open_fraction": null,
+      "pdop": 1.433,
+      "reasons": [],
+      "reported_derived_mismatch": false,
+      "reported_hdop": 0.9,
+      "signal_loss": false,
+      "source": "derived",
+      "status": "good",
+      "vdop": 1.188
+    },
     "jam_ind": null,
     "marine": {
       "position": [
@@ -547,6 +817,24 @@
     "clock_innov_ns": null,
     "cn0_drop_db": 0.0,
     "cn0_mean_dbhz": 44.69230769230769,
+    "geometry": {
+      "age_s": 0.0,
+      "hdop": 0.801,
+      "in_view": 11,
+      "label": "good",
+      "max_azimuth_gap_deg": 40.0,
+      "n_used": 13,
+      "note": "geometry good: HDOP 0.801, PDOP 1.433, VDOP 1.188, 13 satellites; not scored (the score deducts only above HDOP 4, PDOP 6 or below 5 satellites)",
+      "open_fraction": null,
+      "pdop": 1.433,
+      "reasons": [],
+      "reported_derived_mismatch": false,
+      "reported_hdop": 0.9,
+      "signal_loss": false,
+      "source": "derived",
+      "status": "good",
+      "vdop": 1.188
+    },
     "jam_ind": null,
     "marine": {
       "position": [
@@ -583,6 +871,24 @@
     "clock_innov_ns": null,
     "cn0_drop_db": null,
     "cn0_mean_dbhz": null,
+    "geometry": {
+      "age_s": 1.0,
+      "hdop": 0.801,
+      "in_view": 11,
+      "label": "good",
+      "max_azimuth_gap_deg": 40.0,
+      "n_used": 13,
+      "note": "geometry good: HDOP 0.801, PDOP 1.433, VDOP 1.188, 13 satellites; not scored (the score deducts only above HDOP 4, PDOP 6 or below 5 satellites)",
+      "open_fraction": null,
+      "pdop": 1.433,
+      "reasons": [],
+      "reported_derived_mismatch": false,
+      "reported_hdop": 0.9,
+      "signal_loss": false,
+      "source": "derived",
+      "status": "good",
+      "vdop": 1.188
+    },
     "jam_ind": null,
     "marine": {
       "position": [
@@ -619,6 +925,24 @@
     "clock_innov_ns": null,
     "cn0_drop_db": null,
     "cn0_mean_dbhz": null,
+    "geometry": {
+      "age_s": 2.0,
+      "hdop": 0.801,
+      "in_view": 11,
+      "label": "good",
+      "max_azimuth_gap_deg": 40.0,
+      "n_used": 13,
+      "note": "geometry good: HDOP 0.801, PDOP 1.433, VDOP 1.188, 13 satellites; not scored (the score deducts only above HDOP 4, PDOP 6 or below 5 satellites)",
+      "open_fraction": null,
+      "pdop": 1.433,
+      "reasons": [],
+      "reported_derived_mismatch": false,
+      "reported_hdop": 0.9,
+      "signal_loss": false,
+      "source": "derived",
+      "status": "good",
+      "vdop": 1.188
+    },
     "jam_ind": null,
     "marine": {
       "position": [
@@ -655,6 +979,24 @@
     "clock_innov_ns": null,
     "cn0_drop_db": null,
     "cn0_mean_dbhz": null,
+    "geometry": {
+      "age_s": 3.0,
+      "hdop": 0.801,
+      "in_view": 11,
+      "label": "good",
+      "max_azimuth_gap_deg": 40.0,
+      "n_used": 13,
+      "note": "geometry good: HDOP 0.801, PDOP 1.433, VDOP 1.188, 13 satellites; not scored (the score deducts only above HDOP 4, PDOP 6 or below 5 satellites)",
+      "open_fraction": null,
+      "pdop": 1.433,
+      "reasons": [],
+      "reported_derived_mismatch": false,
+      "reported_hdop": 0.9,
+      "signal_loss": false,
+      "source": "derived",
+      "status": "good",
+      "vdop": 1.188
+    },
     "jam_ind": null,
     "marine": {
       "position": [
@@ -691,6 +1033,24 @@
     "clock_innov_ns": null,
     "cn0_drop_db": null,
     "cn0_mean_dbhz": null,
+    "geometry": {
+      "age_s": 4.0,
+      "hdop": 0.801,
+      "in_view": 11,
+      "label": "good",
+      "max_azimuth_gap_deg": 40.0,
+      "n_used": 13,
+      "note": "geometry good: HDOP 0.801, PDOP 1.433, VDOP 1.188, 13 satellites; not scored (the score deducts only above HDOP 4, PDOP 6 or below 5 satellites)",
+      "open_fraction": null,
+      "pdop": 1.433,
+      "reasons": [],
+      "reported_derived_mismatch": false,
+      "reported_hdop": 0.9,
+      "signal_loss": false,
+      "source": "derived",
+      "status": "good",
+      "vdop": 1.188
+    },
     "jam_ind": null,
     "marine": {
       "position": [
@@ -727,6 +1087,24 @@
     "clock_innov_ns": null,
     "cn0_drop_db": -0.23076923076923078,
     "cn0_mean_dbhz": 44.92307692307692,
+    "geometry": {
+      "age_s": 0.0,
+      "hdop": 0.801,
+      "in_view": 11,
+      "label": "good",
+      "max_azimuth_gap_deg": 40.0,
+      "n_used": 13,
+      "note": "geometry good: HDOP 0.801, PDOP 1.433, VDOP 1.188, 13 satellites; not scored (the score deducts only above HDOP 4, PDOP 6 or below 5 satellites)",
+      "open_fraction": null,
+      "pdop": 1.433,
+      "reasons": [],
+      "reported_derived_mismatch": false,
+      "reported_hdop": 0.9,
+      "signal_loss": false,
+      "source": "derived",
+      "status": "good",
+      "vdop": 1.188
+    },
     "jam_ind": null,
     "marine": {
       "position": [
@@ -763,6 +1141,24 @@
     "clock_innov_ns": null,
     "cn0_drop_db": null,
     "cn0_mean_dbhz": null,
+    "geometry": {
+      "age_s": 1.0,
+      "hdop": 0.801,
+      "in_view": 11,
+      "label": "good",
+      "max_azimuth_gap_deg": 40.0,
+      "n_used": 13,
+      "note": "geometry good: HDOP 0.801, PDOP 1.433, VDOP 1.188, 13 satellites; not scored (the score deducts only above HDOP 4, PDOP 6 or below 5 satellites)",
+      "open_fraction": null,
+      "pdop": 1.433,
+      "reasons": [],
+      "reported_derived_mismatch": false,
+      "reported_hdop": 0.9,
+      "signal_loss": false,
+      "source": "derived",
+      "status": "good",
+      "vdop": 1.188
+    },
     "jam_ind": null,
     "marine": {
       "position": [
@@ -799,6 +1195,24 @@
     "clock_innov_ns": null,
     "cn0_drop_db": null,
     "cn0_mean_dbhz": null,
+    "geometry": {
+      "age_s": 2.0,
+      "hdop": 0.801,
+      "in_view": 11,
+      "label": "good",
+      "max_azimuth_gap_deg": 40.0,
+      "n_used": 13,
+      "note": "geometry good: HDOP 0.801, PDOP 1.433, VDOP 1.188, 13 satellites; not scored (the score deducts only above HDOP 4, PDOP 6 or below 5 satellites)",
+      "open_fraction": null,
+      "pdop": 1.433,
+      "reasons": [],
+      "reported_derived_mismatch": false,
+      "reported_hdop": 0.9,
+      "signal_loss": false,
+      "source": "derived",
+      "status": "good",
+      "vdop": 1.188
+    },
     "jam_ind": null,
     "marine": {
       "position": [
@@ -835,6 +1249,24 @@
     "clock_innov_ns": null,
     "cn0_drop_db": null,
     "cn0_mean_dbhz": null,
+    "geometry": {
+      "age_s": 3.0,
+      "hdop": 0.801,
+      "in_view": 11,
+      "label": "good",
+      "max_azimuth_gap_deg": 40.0,
+      "n_used": 13,
+      "note": "geometry good: HDOP 0.801, PDOP 1.433, VDOP 1.188, 13 satellites; not scored (the score deducts only above HDOP 4, PDOP 6 or below 5 satellites)",
+      "open_fraction": null,
+      "pdop": 1.433,
+      "reasons": [],
+      "reported_derived_mismatch": false,
+      "reported_hdop": 0.9,
+      "signal_loss": false,
+      "source": "derived",
+      "status": "good",
+      "vdop": 1.188
+    },
     "jam_ind": null,
     "marine": {
       "position": [
@@ -871,6 +1303,24 @@
     "clock_innov_ns": null,
     "cn0_drop_db": null,
     "cn0_mean_dbhz": null,
+    "geometry": {
+      "age_s": 4.0,
+      "hdop": 0.801,
+      "in_view": 11,
+      "label": "good",
+      "max_azimuth_gap_deg": 40.0,
+      "n_used": 13,
+      "note": "geometry good: HDOP 0.801, PDOP 1.433, VDOP 1.188, 13 satellites; not scored (the score deducts only above HDOP 4, PDOP 6 or below 5 satellites)",
+      "open_fraction": null,
+      "pdop": 1.433,
+      "reasons": [],
+      "reported_derived_mismatch": false,
+      "reported_hdop": 0.9,
+      "signal_loss": false,
+      "source": "derived",
+      "status": "good",
+      "vdop": 1.188
+    },
     "jam_ind": null,
     "marine": {
       "position": [
@@ -907,6 +1357,24 @@
     "clock_innov_ns": null,
     "cn0_drop_db": 0.23076923076923078,
     "cn0_mean_dbhz": 44.46153846153846,
+    "geometry": {
+      "age_s": 0.0,
+      "hdop": 0.801,
+      "in_view": 11,
+      "label": "good",
+      "max_azimuth_gap_deg": 40.0,
+      "n_used": 13,
+      "note": "geometry good: HDOP 0.801, PDOP 1.433, VDOP 1.188, 13 satellites; not scored (the score deducts only above HDOP 4, PDOP 6 or below 5 satellites)",
+      "open_fraction": null,
+      "pdop": 1.433,
+      "reasons": [],
+      "reported_derived_mismatch": false,
+      "reported_hdop": 0.9,
+      "signal_loss": false,
+      "source": "derived",
+      "status": "good",
+      "vdop": 1.188
+    },
     "jam_ind": null,
     "marine": {
       "position": [
@@ -943,6 +1411,24 @@
     "clock_innov_ns": null,
     "cn0_drop_db": null,
     "cn0_mean_dbhz": null,
+    "geometry": {
+      "age_s": 1.0,
+      "hdop": 0.801,
+      "in_view": 11,
+      "label": "good",
+      "max_azimuth_gap_deg": 40.0,
+      "n_used": 13,
+      "note": "geometry good: HDOP 0.801, PDOP 1.433, VDOP 1.188, 13 satellites; not scored (the score deducts only above HDOP 4, PDOP 6 or below 5 satellites)",
+      "open_fraction": null,
+      "pdop": 1.433,
+      "reasons": [],
+      "reported_derived_mismatch": false,
+      "reported_hdop": 0.9,
+      "signal_loss": false,
+      "source": "derived",
+      "status": "good",
+      "vdop": 1.188
+    },
     "jam_ind": null,
     "marine": {
       "position": [
@@ -979,6 +1465,24 @@
     "clock_innov_ns": null,
     "cn0_drop_db": null,
     "cn0_mean_dbhz": null,
+    "geometry": {
+      "age_s": 2.0,
+      "hdop": 0.801,
+      "in_view": 11,
+      "label": "good",
+      "max_azimuth_gap_deg": 40.0,
+      "n_used": 13,
+      "note": "geometry good: HDOP 0.801, PDOP 1.433, VDOP 1.188, 13 satellites; not scored (the score deducts only above HDOP 4, PDOP 6 or below 5 satellites)",
+      "open_fraction": null,
+      "pdop": 1.433,
+      "reasons": [],
+      "reported_derived_mismatch": false,
+      "reported_hdop": 0.9,
+      "signal_loss": false,
+      "source": "derived",
+      "status": "good",
+      "vdop": 1.188
+    },
     "jam_ind": null,
     "marine": {
       "position": [
@@ -1015,6 +1519,24 @@
     "clock_innov_ns": null,
     "cn0_drop_db": null,
     "cn0_mean_dbhz": null,
+    "geometry": {
+      "age_s": 3.0,
+      "hdop": 0.801,
+      "in_view": 11,
+      "label": "good",
+      "max_azimuth_gap_deg": 40.0,
+      "n_used": 13,
+      "note": "geometry good: HDOP 0.801, PDOP 1.433, VDOP 1.188, 13 satellites; not scored (the score deducts only above HDOP 4, PDOP 6 or below 5 satellites)",
+      "open_fraction": null,
+      "pdop": 1.433,
+      "reasons": [],
+      "reported_derived_mismatch": false,
+      "reported_hdop": 0.9,
+      "signal_loss": false,
+      "source": "derived",
+      "status": "good",
+      "vdop": 1.188
+    },
     "jam_ind": null,
     "marine": {
       "position": [
@@ -1051,6 +1573,24 @@
     "clock_innov_ns": null,
     "cn0_drop_db": null,
     "cn0_mean_dbhz": null,
+    "geometry": {
+      "age_s": 4.0,
+      "hdop": 0.801,
+      "in_view": 11,
+      "label": "good",
+      "max_azimuth_gap_deg": 40.0,
+      "n_used": 13,
+      "note": "geometry good: HDOP 0.801, PDOP 1.433, VDOP 1.188, 13 satellites; not scored (the score deducts only above HDOP 4, PDOP 6 or below 5 satellites)",
+      "open_fraction": null,
+      "pdop": 1.433,
+      "reasons": [],
+      "reported_derived_mismatch": false,
+      "reported_hdop": 1.0,
+      "signal_loss": false,
+      "source": "derived",
+      "status": "good",
+      "vdop": 1.188
+    },
     "jam_ind": null,
     "marine": {
       "position": [
@@ -1087,6 +1627,24 @@
     "clock_innov_ns": null,
     "cn0_drop_db": 0.07692307692307693,
     "cn0_mean_dbhz": 44.61538461538461,
+    "geometry": {
+      "age_s": 0.0,
+      "hdop": 0.8,
+      "in_view": 11,
+      "label": "good",
+      "max_azimuth_gap_deg": 40.0,
+      "n_used": 13,
+      "note": "geometry good: HDOP 0.800, PDOP 1.434, VDOP 1.190, 13 satellites; not scored (the score deducts only above HDOP 4, PDOP 6 or below 5 satellites)",
+      "open_fraction": null,
+      "pdop": 1.434,
+      "reasons": [],
+      "reported_derived_mismatch": false,
+      "reported_hdop": 1.0,
+      "signal_loss": false,
+      "source": "derived",
+      "status": "good",
+      "vdop": 1.19
+    },
     "jam_ind": null,
     "marine": {
       "position": [
@@ -1123,6 +1681,24 @@
     "clock_innov_ns": null,
     "cn0_drop_db": null,
     "cn0_mean_dbhz": null,
+    "geometry": {
+      "age_s": 1.0,
+      "hdop": 0.8,
+      "in_view": 11,
+      "label": "good",
+      "max_azimuth_gap_deg": 40.0,
+      "n_used": 13,
+      "note": "geometry good: HDOP 0.800, PDOP 1.434, VDOP 1.190, 13 satellites; not scored (the score deducts only above HDOP 4, PDOP 6 or below 5 satellites)",
+      "open_fraction": null,
+      "pdop": 1.434,
+      "reasons": [],
+      "reported_derived_mismatch": false,
+      "reported_hdop": 1.0,
+      "signal_loss": false,
+      "source": "derived",
+      "status": "good",
+      "vdop": 1.19
+    },
     "jam_ind": null,
     "marine": {
       "position": [
@@ -1159,6 +1735,24 @@
     "clock_innov_ns": null,
     "cn0_drop_db": null,
     "cn0_mean_dbhz": null,
+    "geometry": {
+      "age_s": 2.0,
+      "hdop": 0.8,
+      "in_view": 11,
+      "label": "good",
+      "max_azimuth_gap_deg": 40.0,
+      "n_used": 13,
+      "note": "geometry good: HDOP 0.800, PDOP 1.434, VDOP 1.190, 13 satellites; not scored (the score deducts only above HDOP 4, PDOP 6 or below 5 satellites)",
+      "open_fraction": null,
+      "pdop": 1.434,
+      "reasons": [],
+      "reported_derived_mismatch": false,
+      "reported_hdop": 1.0,
+      "signal_loss": false,
+      "source": "derived",
+      "status": "good",
+      "vdop": 1.19
+    },
     "jam_ind": null,
     "marine": {
       "position": [
@@ -1195,6 +1789,24 @@
     "clock_innov_ns": null,
     "cn0_drop_db": null,
     "cn0_mean_dbhz": null,
+    "geometry": {
+      "age_s": 3.0,
+      "hdop": 0.8,
+      "in_view": 11,
+      "label": "good",
+      "max_azimuth_gap_deg": 40.0,
+      "n_used": 13,
+      "note": "geometry good: HDOP 0.800, PDOP 1.434, VDOP 1.190, 13 satellites; not scored (the score deducts only above HDOP 4, PDOP 6 or below 5 satellites)",
+      "open_fraction": null,
+      "pdop": 1.434,
+      "reasons": [],
+      "reported_derived_mismatch": false,
+      "reported_hdop": 1.0,
+      "signal_loss": false,
+      "source": "derived",
+      "status": "good",
+      "vdop": 1.19
+    },
     "jam_ind": null,
     "marine": {
       "position": [
@@ -1231,6 +1843,24 @@
     "clock_innov_ns": null,
     "cn0_drop_db": null,
     "cn0_mean_dbhz": null,
+    "geometry": {
+      "age_s": 4.0,
+      "hdop": 0.8,
+      "in_view": 11,
+      "label": "good",
+      "max_azimuth_gap_deg": 40.0,
+      "n_used": 13,
+      "note": "geometry good: HDOP 0.800, PDOP 1.434, VDOP 1.190, 13 satellites; not scored (the score deducts only above HDOP 4, PDOP 6 or below 5 satellites)",
+      "open_fraction": null,
+      "pdop": 1.434,
+      "reasons": [],
+      "reported_derived_mismatch": false,
+      "reported_hdop": 1.0,
+      "signal_loss": false,
+      "source": "derived",
+      "status": "good",
+      "vdop": 1.19
+    },
     "jam_ind": null,
     "marine": {
       "position": [
@@ -1267,6 +1897,24 @@
     "clock_innov_ns": null,
     "cn0_drop_db": 0.07692307692307693,
     "cn0_mean_dbhz": 44.61538461538461,
+    "geometry": {
+      "age_s": 0.0,
+      "hdop": 0.8,
+      "in_view": 11,
+      "label": "good",
+      "max_azimuth_gap_deg": 40.0,
+      "n_used": 13,
+      "note": "geometry good: HDOP 0.800, PDOP 1.434, VDOP 1.190, 13 satellites; not scored (the score deducts only above HDOP 4, PDOP 6 or below 5 satellites)",
+      "open_fraction": null,
+      "pdop": 1.434,
+      "reasons": [],
+      "reported_derived_mismatch": false,
+      "reported_hdop": 1.0,
+      "signal_loss": false,
+      "source": "derived",
+      "status": "good",
+      "vdop": 1.19
+    },
     "jam_ind": null,
     "marine": {
       "position": [
@@ -1303,6 +1951,24 @@
     "clock_innov_ns": null,
     "cn0_drop_db": null,
     "cn0_mean_dbhz": null,
+    "geometry": {
+      "age_s": 1.0,
+      "hdop": 0.8,
+      "in_view": 11,
+      "label": "good",
+      "max_azimuth_gap_deg": 40.0,
+      "n_used": 13,
+      "note": "geometry good: HDOP 0.800, PDOP 1.434, VDOP 1.190, 13 satellites; not scored (the score deducts only above HDOP 4, PDOP 6 or below 5 satellites)",
+      "open_fraction": null,
+      "pdop": 1.434,
+      "reasons": [],
+      "reported_derived_mismatch": false,
+      "reported_hdop": 1.0,
+      "signal_loss": false,
+      "source": "derived",
+      "status": "good",
+      "vdop": 1.19
+    },
     "jam_ind": null,
     "marine": {
       "position": [
@@ -1339,6 +2005,24 @@
     "clock_innov_ns": null,
     "cn0_drop_db": null,
     "cn0_mean_dbhz": null,
+    "geometry": {
+      "age_s": 2.0,
+      "hdop": 0.8,
+      "in_view": 11,
+      "label": "good",
+      "max_azimuth_gap_deg": 40.0,
+      "n_used": 13,
+      "note": "geometry good: HDOP 0.800, PDOP 1.434, VDOP 1.190, 13 satellites; not scored (the score deducts only above HDOP 4, PDOP 6 or below 5 satellites)",
+      "open_fraction": null,
+      "pdop": 1.434,
+      "reasons": [],
+      "reported_derived_mismatch": false,
+      "reported_hdop": 1.0,
+      "signal_loss": false,
+      "source": "derived",
+      "status": "good",
+      "vdop": 1.19
+    },
     "jam_ind": null,
     "marine": {
       "position": [
@@ -1375,6 +2059,24 @@
     "clock_innov_ns": null,
     "cn0_drop_db": null,
     "cn0_mean_dbhz": null,
+    "geometry": {
+      "age_s": 3.0,
+      "hdop": 0.8,
+      "in_view": 11,
+      "label": "good",
+      "max_azimuth_gap_deg": 40.0,
+      "n_used": 13,
+      "note": "geometry good: HDOP 0.800, PDOP 1.434, VDOP 1.190, 13 satellites; not scored (the score deducts only above HDOP 4, PDOP 6 or below 5 satellites)",
+      "open_fraction": null,
+      "pdop": 1.434,
+      "reasons": [],
+      "reported_derived_mismatch": false,
+      "reported_hdop": 1.0,
+      "signal_loss": false,
+      "source": "derived",
+      "status": "good",
+      "vdop": 1.19
+    },
     "jam_ind": null,
     "marine": {
       "position": [
@@ -1411,6 +2113,24 @@
     "clock_innov_ns": null,
     "cn0_drop_db": null,
     "cn0_mean_dbhz": null,
+    "geometry": {
+      "age_s": 4.0,
+      "hdop": 0.8,
+      "in_view": 11,
+      "label": "good",
+      "max_azimuth_gap_deg": 40.0,
+      "n_used": 13,
+      "note": "geometry good: HDOP 0.800, PDOP 1.434, VDOP 1.190, 13 satellites; not scored (the score deducts only above HDOP 4, PDOP 6 or below 5 satellites)",
+      "open_fraction": null,
+      "pdop": 1.434,
+      "reasons": [],
+      "reported_derived_mismatch": false,
+      "reported_hdop": 1.0,
+      "signal_loss": false,
+      "source": "derived",
+      "status": "good",
+      "vdop": 1.19
+    },
     "jam_ind": null,
     "marine": {
       "position": [
@@ -1447,6 +2167,24 @@
     "clock_innov_ns": null,
     "cn0_drop_db": 0.5384615384615384,
     "cn0_mean_dbhz": 44.15384615384615,
+    "geometry": {
+      "age_s": 0.0,
+      "hdop": 0.8,
+      "in_view": 11,
+      "label": "good",
+      "max_azimuth_gap_deg": 40.0,
+      "n_used": 13,
+      "note": "geometry good: HDOP 0.800, PDOP 1.434, VDOP 1.190, 13 satellites; not scored (the score deducts only above HDOP 4, PDOP 6 or below 5 satellites)",
+      "open_fraction": null,
+      "pdop": 1.434,
+      "reasons": [],
+      "reported_derived_mismatch": false,
+      "reported_hdop": 1.0,
+      "signal_loss": false,
+      "source": "derived",
+      "status": "good",
+      "vdop": 1.19
+    },
     "jam_ind": null,
     "marine": {
       "position": [
@@ -1483,6 +2221,24 @@
     "clock_innov_ns": null,
     "cn0_drop_db": null,
     "cn0_mean_dbhz": null,
+    "geometry": {
+      "age_s": 1.0,
+      "hdop": 0.8,
+      "in_view": 11,
+      "label": "good",
+      "max_azimuth_gap_deg": 40.0,
+      "n_used": 13,
+      "note": "geometry good: HDOP 0.800, PDOP 1.434, VDOP 1.190, 13 satellites; not scored (the score deducts only above HDOP 4, PDOP 6 or below 5 satellites)",
+      "open_fraction": null,
+      "pdop": 1.434,
+      "reasons": [],
+      "reported_derived_mismatch": false,
+      "reported_hdop": 1.0,
+      "signal_loss": false,
+      "source": "derived",
+      "status": "good",
+      "vdop": 1.19
+    },
     "jam_ind": null,
     "marine": {
       "position": [
@@ -1519,6 +2275,24 @@
     "clock_innov_ns": null,
     "cn0_drop_db": null,
     "cn0_mean_dbhz": null,
+    "geometry": {
+      "age_s": 2.0,
+      "hdop": 0.8,
+      "in_view": 11,
+      "label": "good",
+      "max_azimuth_gap_deg": 40.0,
+      "n_used": 13,
+      "note": "geometry good: HDOP 0.800, PDOP 1.434, VDOP 1.190, 13 satellites; not scored (the score deducts only above HDOP 4, PDOP 6 or below 5 satellites)",
+      "open_fraction": null,
+      "pdop": 1.434,
+      "reasons": [],
+      "reported_derived_mismatch": false,
+      "reported_hdop": 1.0,
+      "signal_loss": false,
+      "source": "derived",
+      "status": "good",
+      "vdop": 1.19
+    },
     "jam_ind": null,
     "marine": {
       "position": [
@@ -1555,6 +2329,24 @@
     "clock_innov_ns": null,
     "cn0_drop_db": null,
     "cn0_mean_dbhz": null,
+    "geometry": {
+      "age_s": 3.0,
+      "hdop": 0.8,
+      "in_view": 11,
+      "label": "good",
+      "max_azimuth_gap_deg": 40.0,
+      "n_used": 13,
+      "note": "geometry good: HDOP 0.800, PDOP 1.434, VDOP 1.190, 13 satellites; not scored (the score deducts only above HDOP 4, PDOP 6 or below 5 satellites)",
+      "open_fraction": null,
+      "pdop": 1.434,
+      "reasons": [],
+      "reported_derived_mismatch": false,
+      "reported_hdop": 1.0,
+      "signal_loss": false,
+      "source": "derived",
+      "status": "good",
+      "vdop": 1.19
+    },
     "jam_ind": null,
     "marine": {
       "position": [
@@ -1591,6 +2383,24 @@
     "clock_innov_ns": null,
     "cn0_drop_db": null,
     "cn0_mean_dbhz": null,
+    "geometry": {
+      "age_s": 4.0,
+      "hdop": 0.8,
+      "in_view": 11,
+      "label": "good",
+      "max_azimuth_gap_deg": 40.0,
+      "n_used": 13,
+      "note": "geometry good: HDOP 0.800, PDOP 1.434, VDOP 1.190, 13 satellites; not scored (the score deducts only above HDOP 4, PDOP 6 or below 5 satellites)",
+      "open_fraction": null,
+      "pdop": 1.434,
+      "reasons": [],
+      "reported_derived_mismatch": false,
+      "reported_hdop": 1.0,
+      "signal_loss": false,
+      "source": "derived",
+      "status": "good",
+      "vdop": 1.19
+    },
     "jam_ind": null,
     "marine": {
       "position": [
@@ -1627,6 +2437,24 @@
     "clock_innov_ns": null,
     "cn0_drop_db": 0.0,
     "cn0_mean_dbhz": 44.69230769230769,
+    "geometry": {
+      "age_s": 0.0,
+      "hdop": 0.8,
+      "in_view": 11,
+      "label": "good",
+      "max_azimuth_gap_deg": 40.0,
+      "n_used": 13,
+      "note": "geometry good: HDOP 0.800, PDOP 1.434, VDOP 1.190, 13 satellites; not scored (the score deducts only above HDOP 4, PDOP 6 or below 5 satellites)",
+      "open_fraction": null,
+      "pdop": 1.434,
+      "reasons": [],
+      "reported_derived_mismatch": false,
+      "reported_hdop": 1.0,
+      "signal_loss": false,
+      "source": "derived",
+      "status": "good",
+      "vdop": 1.19
+    },
     "jam_ind": null,
     "marine": {
       "position": [
@@ -1663,6 +2491,24 @@
     "clock_innov_ns": null,
     "cn0_drop_db": null,
     "cn0_mean_dbhz": null,
+    "geometry": {
+      "age_s": 1.0,
+      "hdop": 0.8,
+      "in_view": 11,
+      "label": "good",
+      "max_azimuth_gap_deg": 40.0,
+      "n_used": 13,
+      "note": "geometry good: HDOP 0.800, PDOP 1.434, VDOP 1.190, 13 satellites; not scored (the score deducts only above HDOP 4, PDOP 6 or below 5 satellites)",
+      "open_fraction": null,
+      "pdop": 1.434,
+      "reasons": [],
+      "reported_derived_mismatch": false,
+      "reported_hdop": 1.0,
+      "signal_loss": false,
+      "source": "derived",
+      "status": "good",
+      "vdop": 1.19
+    },
     "jam_ind": null,
     "marine": {
       "position": [
@@ -1699,6 +2545,24 @@
     "clock_innov_ns": null,
     "cn0_drop_db": null,
     "cn0_mean_dbhz": null,
+    "geometry": {
+      "age_s": 2.0,
+      "hdop": 0.8,
+      "in_view": 11,
+      "label": "good",
+      "max_azimuth_gap_deg": 40.0,
+      "n_used": 13,
+      "note": "geometry good: HDOP 0.800, PDOP 1.434, VDOP 1.190, 13 satellites; not scored (the score deducts only above HDOP 4, PDOP 6 or below 5 satellites)",
+      "open_fraction": null,
+      "pdop": 1.434,
+      "reasons": [],
+      "reported_derived_mismatch": false,
+      "reported_hdop": 1.0,
+      "signal_loss": false,
+      "source": "derived",
+      "status": "good",
+      "vdop": 1.19
+    },
     "jam_ind": null,
     "marine": {
       "position": [
@@ -1735,6 +2599,24 @@
     "clock_innov_ns": null,
     "cn0_drop_db": null,
     "cn0_mean_dbhz": null,
+    "geometry": {
+      "age_s": 3.0,
+      "hdop": 0.8,
+      "in_view": 11,
+      "label": "good",
+      "max_azimuth_gap_deg": 40.0,
+      "n_used": 13,
+      "note": "geometry good: HDOP 0.800, PDOP 1.434, VDOP 1.190, 13 satellites; not scored (the score deducts only above HDOP 4, PDOP 6 or below 5 satellites)",
+      "open_fraction": null,
+      "pdop": 1.434,
+      "reasons": [],
+      "reported_derived_mismatch": false,
+      "reported_hdop": 1.0,
+      "signal_loss": false,
+      "source": "derived",
+      "status": "good",
+      "vdop": 1.19
+    },
     "jam_ind": null,
     "marine": {
       "position": [
@@ -1771,6 +2653,24 @@
     "clock_innov_ns": null,
     "cn0_drop_db": null,
     "cn0_mean_dbhz": null,
+    "geometry": {
+      "age_s": 4.0,
+      "hdop": 0.8,
+      "in_view": 11,
+      "label": "good",
+      "max_azimuth_gap_deg": 40.0,
+      "n_used": 13,
+      "note": "geometry good: HDOP 0.800, PDOP 1.434, VDOP 1.190, 13 satellites; not scored (the score deducts only above HDOP 4, PDOP 6 or below 5 satellites)",
+      "open_fraction": null,
+      "pdop": 1.434,
+      "reasons": [],
+      "reported_derived_mismatch": false,
+      "reported_hdop": 1.0,
+      "signal_loss": false,
+      "source": "derived",
+      "status": "good",
+      "vdop": 1.19
+    },
     "jam_ind": null,
     "marine": {
       "position": [
@@ -1807,6 +2707,24 @@
     "clock_innov_ns": null,
     "cn0_drop_db": 0.0,
     "cn0_mean_dbhz": 44.69230769230769,
+    "geometry": {
+      "age_s": 0.0,
+      "hdop": 0.8,
+      "in_view": 11,
+      "label": "good",
+      "max_azimuth_gap_deg": 40.0,
+      "n_used": 13,
+      "note": "geometry good: HDOP 0.800, PDOP 1.434, VDOP 1.190, 13 satellites; not scored (the score deducts only above HDOP 4, PDOP 6 or below 5 satellites)",
+      "open_fraction": null,
+      "pdop": 1.434,
+      "reasons": [],
+      "reported_derived_mismatch": false,
+      "reported_hdop": 1.0,
+      "signal_loss": false,
+      "source": "derived",
+      "status": "good",
+      "vdop": 1.19
+    },
     "jam_ind": null,
     "marine": {
       "position": [
@@ -1843,6 +2761,24 @@
     "clock_innov_ns": null,
     "cn0_drop_db": null,
     "cn0_mean_dbhz": null,
+    "geometry": {
+      "age_s": 1.0,
+      "hdop": 0.8,
+      "in_view": 11,
+      "label": "good",
+      "max_azimuth_gap_deg": 40.0,
+      "n_used": 13,
+      "note": "geometry good: HDOP 0.800, PDOP 1.434, VDOP 1.190, 13 satellites; not scored (the score deducts only above HDOP 4, PDOP 6 or below 5 satellites)",
+      "open_fraction": null,
+      "pdop": 1.434,
+      "reasons": [],
+      "reported_derived_mismatch": false,
+      "reported_hdop": 1.0,
+      "signal_loss": false,
+      "source": "derived",
+      "status": "good",
+      "vdop": 1.19
+    },
     "jam_ind": null,
     "marine": {
       "position": [
@@ -1879,6 +2815,24 @@
     "clock_innov_ns": null,
     "cn0_drop_db": null,
     "cn0_mean_dbhz": null,
+    "geometry": {
+      "age_s": 2.0,
+      "hdop": 0.8,
+      "in_view": 11,
+      "label": "good",
+      "max_azimuth_gap_deg": 40.0,
+      "n_used": 13,
+      "note": "geometry good: HDOP 0.800, PDOP 1.434, VDOP 1.190, 13 satellites; not scored (the score deducts only above HDOP 4, PDOP 6 or below 5 satellites)",
+      "open_fraction": null,
+      "pdop": 1.434,
+      "reasons": [],
+      "reported_derived_mismatch": false,
+      "reported_hdop": 1.0,
+      "signal_loss": false,
+      "source": "derived",
+      "status": "good",
+      "vdop": 1.19
+    },
     "jam_ind": null,
     "marine": {
       "position": [
@@ -1915,6 +2869,24 @@
     "clock_innov_ns": null,
     "cn0_drop_db": null,
     "cn0_mean_dbhz": null,
+    "geometry": {
+      "age_s": 3.0,
+      "hdop": 0.8,
+      "in_view": 11,
+      "label": "good",
+      "max_azimuth_gap_deg": 40.0,
+      "n_used": 13,
+      "note": "geometry good: HDOP 0.800, PDOP 1.434, VDOP 1.190, 13 satellites; not scored (the score deducts only above HDOP 4, PDOP 6 or below 5 satellites)",
+      "open_fraction": null,
+      "pdop": 1.434,
+      "reasons": [],
+      "reported_derived_mismatch": false,
+      "reported_hdop": 1.0,
+      "signal_loss": false,
+      "source": "derived",
+      "status": "good",
+      "vdop": 1.19
+    },
     "jam_ind": null,
     "marine": {
       "position": [
@@ -1951,6 +2923,24 @@
     "clock_innov_ns": null,
     "cn0_drop_db": null,
     "cn0_mean_dbhz": null,
+    "geometry": {
+      "age_s": 4.0,
+      "hdop": 0.8,
+      "in_view": 11,
+      "label": "good",
+      "max_azimuth_gap_deg": 40.0,
+      "n_used": 13,
+      "note": "geometry good: HDOP 0.800, PDOP 1.434, VDOP 1.190, 13 satellites; not scored (the score deducts only above HDOP 4, PDOP 6 or below 5 satellites)",
+      "open_fraction": null,
+      "pdop": 1.434,
+      "reasons": [],
+      "reported_derived_mismatch": false,
+      "reported_hdop": 1.0,
+      "signal_loss": false,
+      "source": "derived",
+      "status": "good",
+      "vdop": 1.19
+    },
     "jam_ind": null,
     "marine": {
       "position": [
@@ -1987,6 +2977,24 @@
     "clock_innov_ns": null,
     "cn0_drop_db": -0.23076923076923078,
     "cn0_mean_dbhz": 44.92307692307692,
+    "geometry": {
+      "age_s": 0.0,
+      "hdop": 0.8,
+      "in_view": 11,
+      "label": "good",
+      "max_azimuth_gap_deg": 40.0,
+      "n_used": 13,
+      "note": "geometry good: HDOP 0.800, PDOP 1.434, VDOP 1.190, 13 satellites; not scored (the score deducts only above HDOP 4, PDOP 6 or below 5 satellites)",
+      "open_fraction": null,
+      "pdop": 1.434,
+      "reasons": [],
+      "reported_derived_mismatch": false,
+      "reported_hdop": 1.0,
+      "signal_loss": false,
+      "source": "derived",
+      "status": "good",
+      "vdop": 1.19
+    },
     "jam_ind": null,
     "marine": {
       "position": [
@@ -2023,6 +3031,24 @@
     "clock_innov_ns": null,
     "cn0_drop_db": null,
     "cn0_mean_dbhz": null,
+    "geometry": {
+      "age_s": 1.0,
+      "hdop": 0.8,
+      "in_view": 11,
+      "label": "good",
+      "max_azimuth_gap_deg": 40.0,
+      "n_used": 13,
+      "note": "geometry good: HDOP 0.800, PDOP 1.434, VDOP 1.190, 13 satellites; not scored (the score deducts only above HDOP 4, PDOP 6 or below 5 satellites)",
+      "open_fraction": null,
+      "pdop": 1.434,
+      "reasons": [],
+      "reported_derived_mismatch": false,
+      "reported_hdop": 1.0,
+      "signal_loss": false,
+      "source": "derived",
+      "status": "good",
+      "vdop": 1.19
+    },
     "jam_ind": null,
     "marine": {
       "position": [
@@ -2059,6 +3085,24 @@
     "clock_innov_ns": null,
     "cn0_drop_db": null,
     "cn0_mean_dbhz": null,
+    "geometry": {
+      "age_s": 2.0,
+      "hdop": 0.8,
+      "in_view": 11,
+      "label": "good",
+      "max_azimuth_gap_deg": 40.0,
+      "n_used": 13,
+      "note": "geometry good: HDOP 0.800, PDOP 1.434, VDOP 1.190, 13 satellites; not scored (the score deducts only above HDOP 4, PDOP 6 or below 5 satellites)",
+      "open_fraction": null,
+      "pdop": 1.434,
+      "reasons": [],
+      "reported_derived_mismatch": false,
+      "reported_hdop": 1.0,
+      "signal_loss": false,
+      "source": "derived",
+      "status": "good",
+      "vdop": 1.19
+    },
     "jam_ind": null,
     "marine": {
       "position": [
@@ -2095,6 +3139,24 @@
     "clock_innov_ns": null,
     "cn0_drop_db": null,
     "cn0_mean_dbhz": null,
+    "geometry": {
+      "age_s": 3.0,
+      "hdop": 0.8,
+      "in_view": 11,
+      "label": "good",
+      "max_azimuth_gap_deg": 40.0,
+      "n_used": 13,
+      "note": "geometry good: HDOP 0.800, PDOP 1.434, VDOP 1.190, 13 satellites; not scored (the score deducts only above HDOP 4, PDOP 6 or below 5 satellites)",
+      "open_fraction": null,
+      "pdop": 1.434,
+      "reasons": [],
+      "reported_derived_mismatch": false,
+      "reported_hdop": 1.0,
+      "signal_loss": false,
+      "source": "derived",
+      "status": "good",
+      "vdop": 1.19
+    },
     "jam_ind": null,
     "marine": {
       "position": [
@@ -2131,6 +3193,24 @@
     "clock_innov_ns": null,
     "cn0_drop_db": null,
     "cn0_mean_dbhz": null,
+    "geometry": {
+      "age_s": 4.0,
+      "hdop": 0.8,
+      "in_view": 11,
+      "label": "good",
+      "max_azimuth_gap_deg": 40.0,
+      "n_used": 13,
+      "note": "geometry good: HDOP 0.800, PDOP 1.434, VDOP 1.190, 13 satellites; not scored (the score deducts only above HDOP 4, PDOP 6 or below 5 satellites)",
+      "open_fraction": null,
+      "pdop": 1.434,
+      "reasons": [],
+      "reported_derived_mismatch": false,
+      "reported_hdop": 1.0,
+      "signal_loss": false,
+      "source": "derived",
+      "status": "good",
+      "vdop": 1.19
+    },
     "jam_ind": null,
     "marine": {
       "position": [
@@ -2167,6 +3247,24 @@
     "clock_innov_ns": null,
     "cn0_drop_db": -0.15384615384615385,
     "cn0_mean_dbhz": 44.84615384615385,
+    "geometry": {
+      "age_s": 0.0,
+      "hdop": 0.8,
+      "in_view": 11,
+      "label": "good",
+      "max_azimuth_gap_deg": 40.0,
+      "n_used": 13,
+      "note": "geometry good: HDOP 0.800, PDOP 1.434, VDOP 1.190, 13 satellites; not scored (the score deducts only above HDOP 4, PDOP 6 or below 5 satellites)",
+      "open_fraction": null,
+      "pdop": 1.434,
+      "reasons": [],
+      "reported_derived_mismatch": false,
+      "reported_hdop": 1.0,
+      "signal_loss": false,
+      "source": "derived",
+      "status": "good",
+      "vdop": 1.19
+    },
     "jam_ind": null,
     "marine": {
       "position": [

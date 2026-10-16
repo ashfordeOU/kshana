@@ -9,6 +9,40 @@
     "jam_ind_median": null,
     "tracked_median": 13.0
   },
+  "geometry_model": {
+    "azimuth_gap_deg": 180.0,
+    "cap_in_force": 15.0,
+    "cap_points": 15.0,
+    "classes": "geometry: the geometry monitor (which deducts only when the geometry is poor), and loss-of-lock when every satellite lost against the baseline was below low_elev_deg at its last report; environment: cn0-drop, cn0-spread, cn0-rise, agc, jam-ind, loss-of-lock otherwise, and the geometry monitor during signal loss (satellites in view not tracked while their geometry is good); inconsistency: every other monitor, and the geometry monitor when the stated HDOP disagrees with the derived one by more than max(reported_vs_derived_tol, reported_vs_derived_rel x derived HDOP). A geometry class is a statement about the sky, not a finding that no attack occurred.",
+    "floor": null,
+    "floor_in_force": 55.0,
+    "full_ratio": 1.5,
+    "hdop_good": 2.0,
+    "hdop_max": 4.0,
+    "hold_s": 10.0,
+    "low_elev_deg": 15.0,
+    "min_used": 5,
+    "pdop_good": 3.0,
+    "pdop_max": 6.0,
+    "provenance": {
+      "azimuth_gap_deg": "geometric: every tracked satellite in one half of the horizon (gap >= 180 deg); informational, not in the ratio",
+      "cap_points": "15 points (design note, 4.2): geometry alone moves the score from nominal (>= 90) into degraded and never to untrusted (< 55); nothing is deducted unless the geometry is poor (above hdop_max or pdop_max, or below min_used), so good and fair geometry score as in 0.35 (founder decision B1, 0.36)",
+      "floor": "the score's degraded_min unless set: geometry alone never reaches the untrusted band; the cap in force is min(cap_points, 100 - floor), so a [score] table that raises degraded_min lowers the cap rather than being refused",
+      "full_ratio": "the score's own full_ratio (1.5): the deduction ramps linearly from 0 at the poor thresholds to cap_points at 1.5 times them",
+      "hdop_good / pdop_good / used_good": "REPRESENTATIVE engineering choice for the label only (good, fair, poor), never the score: half of hdop_max and pdop_max (the 0.35 score's onset ratio, 0.5), and one satellite more than min_used so a single loss still leaves a redundant measurement",
+      "hdop_max": "chosen (0.36 geometry design note, 4.2): at sigma_uere_m 1.5 m, HDOP 4 is a 2drms of 12 m, the kinematic check's kin_pos_tol_m. IEC 61108-1 is commonly cited as stating its accuracy requirements for HDOP <= 4 (or PDOP <= 6): recalled from secondary GNSS receiver literature, no specific secondary source consulted and the standard not read; to be checked against the standard's text",
+      "low_elev_deg": "design note, 4.3: satellites lost below 15 deg are lost to the sky (masking, multipath and low signal); above it a loss stays environment",
+      "min_used": "one more than a fix needs (four unknowns), so a single loss does not end the fix; the fewest with one redundant measurement for RAIM (Parkinson and Axelrad 1988)",
+      "pdop_max": "the PDOP availability threshold of scenarios/polar-arctic-leo-coverage.toml (pdop_threshold = 6.0); GPS SPS Performance Standard, 5th ed. (2020), PDOP <= 6, as cited in tests/constellation_availability_published_spec_oracle.rs; to be checked against the standard's text",
+      "reported_vs_derived_rel": "REPRESENTATIVE engineering choice (0.25): per-constellation receiver clocks and subset solutions make the stated HDOP differ from the derived single-clock HDOP by an amount that grows with the HDOP; not a measured or standard figure",
+      "reported_vs_derived_tol": "chosen (design note, 4.2): a stated HDOP more than the tolerance from the derived one is not geometry and is classed inconsistency; the tolerance is max(1.0, reported_vs_derived_rel x derived HDOP)",
+      "sigma_uere_m": "a stated input for the 2drms link of hdop_max (design note, 4.2); set the receiver's own figure"
+    },
+    "reported_vs_derived_rel": 0.25,
+    "reported_vs_derived_tol": 1.0,
+    "sigma_uere_m": 1.5,
+    "used_good": 6
+  },
   "honesty_label": "MEASURED log, MODELLED assessment: the observables are the receiver's own; the monitors and their thresholds are the engine's and the scenario's, and a stated prediction is compared with the log, not fitted to it",
   "monitors_run": [
     "cn0-drop",
@@ -19,7 +53,8 @@
     "sea-level",
     "cn0-spread",
     "cn0-rise",
-    "time-consistency"
+    "time-consistency",
+    "geometry"
   ],
   "scenario": {
     "compare": {
