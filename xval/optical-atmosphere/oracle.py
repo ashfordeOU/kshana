@@ -64,6 +64,20 @@ def clear(lam_nm, V, h0, ha):
     return aer + ray
 
 
+def gg_cdf(alpha, beta, t):
+    a, b, t = mp.mpf(alpha), mp.mpf(beta), mp.mpf(t)
+    c = 2 * (a * b) ** ((a + b) / 2) / (mp.gamma(a) * mp.gamma(b))
+    pdf = lambda x: c * x ** ((a + b) / 2 - 1) * mp.besselk(a - b, 2 * mp.sqrt(a * b * x))
+    return mp.quad(pdf, [0, t / 1000, t / 100, t / 10, t / 2, t])
+
+
+def aperture_factor(lam_nm, D, L, wave):
+    k = 2 * mp.pi / (mp.mpf(lam_nm) * mp.mpf("1e-9"))
+    d2 = k * mp.mpf(D) ** 2 / (4 * mp.mpf(L))
+    c = mp.mpf("1.07") if wave == "plane" else mp.mpf("0.214")
+    return 1 / (1 + c * d2 ** (mp.mpf(7) / 6))
+
+
 def p(x): return mp.nstr(x, 17)
 
 
@@ -88,3 +102,18 @@ for lam in LAM_NM:
     for V in ("2", "5", "23", "80"):
         for h0 in H0S:
             print("CLEAR", lam, V, h0, TOP, 1200, p(clear(lam, V, h0, 1200)))
+print("# APERTURE lam_nm D_m L_m wave A")
+for lam in LAM_NM:
+    for D in ("0.05", "0.2", "1"):
+        for L in ("5000", "20000"):
+            for wave in ("plane", "spherical"):
+                print("APERTURE", lam, D, L, wave, p(aperture_factor(lam, D, L, wave)))
+print("# FADE lam_nm zen_deg wave fade_db alpha beta prob   (A1 subset: h0=0, HV 5/7, downlink plane / spherical)")
+for lam in LAM_NM:
+    for z in ZEN_DEG:
+        for wave in ("plane", "spherical"):
+            s2 = rytov(lam, z, 0.0, 1.7e-14, 21.0, wave, "down")
+            lnx, lny, si, al, be = scint(s2, wave)
+            for fd in (1, 3, 6, 10):
+                t = mp.mpf(10) ** (-mp.mpf(fd) / 10)
+                print("FADE", lam, z, wave, fd, p(al), p(be), p(gg_cdf(al, be, t)))

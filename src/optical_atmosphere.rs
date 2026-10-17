@@ -167,6 +167,122 @@ pub fn scintillation(sigma2_rytov: f64, wave: Wave) -> Scintillation {
     }
 }
 
+/// **Aperture-averaging factor** `A = σ_I²(D)/σ_I²(0)` for a receive aperture `aperture_m` over an
+/// effective turbulent path `path_m`, in weak turbulence (Churnside's approximation as quoted in
+/// the free-space-optics literature): plane wave `A = [1 + 1.07 (kD²/4L)^{7/6}]⁻¹`, spherical
+/// wave `A = [1 + 0.214 (kD²/4L)^{7/6}]⁻¹`. The effective path length is a stated input
+/// (Modelled), not derived from the profile.
+pub fn aperture_averaging_factor(
+    wavelength_m: f64,
+    aperture_m: f64,
+    path_m: f64,
+    wave: Wave,
+) -> f64 {
+    let k = 2.0 * std::f64::consts::PI / wavelength_m;
+    let d2 = k * aperture_m * aperture_m / (4.0 * path_m);
+    let c = match wave {
+        Wave::Plane => 1.07,
+        Wave::Spherical => 0.214,
+    };
+    1.0 / (1.0 + c * d2.ppowf(7.0 / 6.0))
+}
+
+impl Scintillation {
+    /// Rescale to a target scintillation index `target_index`, keeping the large/small-scale
+    /// ratio: both log variances are multiplied by `s = ln(1 + target)/(σ²_lnx + σ²_lny)`, so
+    /// the gamma-gamma moment `σ_I²` equals the target exactly. This is how a published
+    /// aperture-averaging factor or a technique's scintillation reduction is applied to the
+    /// gamma-gamma parameters (a moment-matching convention, Modelled).
+    pub fn with_index(&self, target_index: f64) -> Scintillation {
+        let total = self.sigma2_lnx + self.sigma2_lny;
+        if total <= 0.0 || target_index <= 0.0 {
+            return Scintillation {
+                sigma2_lnx: 0.0,
+                sigma2_lny: 0.0,
+                scintillation_index: 0.0,
+                alpha: f64::INFINITY,
+                beta: f64::INFINITY,
+            };
+        }
+        let s = target_index.pln_1p() / total;
+        let lnx = self.sigma2_lnx * s;
+        let lny = self.sigma2_lny * s;
+        Scintillation {
+            sigma2_lnx: lnx,
+            sigma2_lny: lny,
+            scintillation_index: (lnx + lny).pexp_m1(),
+            alpha: 1.0 / lnx.pexp_m1(),
+            beta: 1.0 / lny.pexp_m1(),
+        }
+    }
+}
+
+/// Number of Simpson intervals of the gamma-gamma CDF quadrature (even).
+pub const GAMMA_GAMMA_INTERVALS: usize = 4_000;
+
+/// **Gamma-gamma CDF** `P(I ≤ t)` of the unit-mean normalised irradiance `I = X·Y` with
+/// `X ~ Gamma(α, 1/α)`, `Y ~ Gamma(β, 1/β)`: `E_X[ P(β, β t/X) ]`, integrated over `s = ln X`
+/// (density `α^α/Γ(α) · exp(αs − αe^s)`, mode at `s = 0`) on a window grown until the density is
+/// 45 nats below its peak. Returns 0 for `t ≤ 0`; infinite `α`/`β` (no scintillation) is a step at 1.
+pub fn gamma_gamma_cdf(alpha: f64, beta: f64, t: f64) -> f64 {
+    use crate::iq::monitor::stats::{gamma_pq, ln_gamma};
+    if t <= 0.0 {
+        return 0.0;
+    }
+    if !alpha.is_finite() || !beta.is_finite() {
+        return if t >= 1.0 { 1.0 } else { 0.0 };
+    }
+    let ln_norm = alpha * alpha.pln() - ln_gamma(alpha);
+    let ln_g = |s: f64| ln_norm + alpha * s - alpha * s.pexp();
+    let peak = ln_g(0.0);
+    let mut hi = 0.01;
+    while ln_g(hi) > peak - 45.0 && hi < 60.0 {
+        hi *= 1.5;
+    }
+    let mut lo = -0.01;
+    while ln_g(lo) > peak - 45.0 && lo > -1.0e4 {
+        lo *= 1.5;
+    }
+    let n = GAMMA_GAMMA_INTERVALS;
+    let h = (hi - lo) / n as f64;
+    let f = |s: f64| ln_g(s).pexp() * gamma_pq(beta, beta * t * (-s).pexp()).0;
+    let mut sum = f(lo) + f(hi);
+    for i in 1..n {
+        let c = if i % 2 == 1 { 4.0 } else { 2.0 };
+        sum += c * f(lo + h * i as f64);
+    }
+    (sum * h / 3.0).clamp(0.0, 1.0)
+}
+
+/// Probability that the irradiance is at least `fade_db` below its mean (a fade of that
+/// depth or more): the gamma-gamma CDF at `t = 10^(−fade_db/10)`.
+pub fn fade_probability(alpha: f64, beta: f64, fade_db: f64) -> f64 {
+    gamma_gamma_cdf(
+        alpha,
+        beta,
+        (-fade_db / 10.0 * std::f64::consts::LN_10).pexp(),
+    )
+}
+
+/// **Fade margin** (dB) that holds the turbulence outage probability to `outage_probability`:
+/// the fade depth whose exceedance probability equals it, by bisection on `[0, 80]` dB. Returns
+/// 0 when even a 0 dB margin meets it, and 80 if the target is not reached by 80 dB.
+pub fn fade_margin_db(alpha: f64, beta: f64, outage_probability: f64) -> f64 {
+    if fade_probability(alpha, beta, 0.0) <= outage_probability {
+        return 0.0;
+    }
+    let (mut lo, mut hi) = (0.0, 80.0);
+    for _ in 0..40 {
+        let mid = 0.5 * (lo + hi);
+        if fade_probability(alpha, beta, mid) > outage_probability {
+            lo = mid;
+        } else {
+            hi = mid;
+        }
+    }
+    hi
+}
+
 /// **Cloud optical depth** `τ = 3L/(2 ρ_w r_e)` for a liquid-water column `lwp_kg_m2` and
 /// effective droplet radius `r_eff_m` (geometric-optics limit, extinction efficiency 2). Zenith
 /// value; multiply by `sec ζ` for a slant path.
