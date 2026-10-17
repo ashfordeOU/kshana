@@ -64,11 +64,24 @@ fn bar_a4_diversity_limits() {
 #[test]
 fn bar_a6_holdover_coupling_is_bit_exact() {
     let mut n = 0;
-    for clock in ["tcxo", "ocxo", "rafs", "uso", "dsac", "csac", "optical-lattice", "trapped-ion", "mercury-ion"] {
+    for clock in [
+        "tcxo",
+        "ocxo",
+        "rafs",
+        "uso",
+        "dsac",
+        "csac",
+        "optical-lattice",
+        "trapped-ion",
+        "mercury-ion",
+    ] {
         let (q1, q2, q3) = clock_psds(clock).unwrap();
         for mean_h in [1.0, 6.0, 48.0] {
             for sigma in [0.5, 1.0, 1.5] {
-                let o = OutageModel { mean_s: mean_h * 3600.0, sigma_ln: sigma };
+                let o = OutageModel {
+                    mean_s: mean_h * 3600.0,
+                    sigma_ln: sigma,
+                };
                 let c = couple(clock, 0.7, &o, 1e-7).unwrap();
                 for e in &c.errors {
                     let sx = coast_phase_sigma(q1, q2, q3, e.duration_s);
@@ -105,7 +118,11 @@ fn bar_a7_source_uses_portable_maths_only() {
         for (i, line) in shipped.lines().enumerate() {
             let code = line.split("//").next().unwrap();
             for bad in FORBIDDEN {
-                assert!(!code.contains(bad), "{f}:{}: non-portable call {bad}", i + 1);
+                assert!(
+                    !code.contains(bad),
+                    "{f}:{}: non-portable call {bad}",
+                    i + 1
+                );
             }
         }
     }

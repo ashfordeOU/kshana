@@ -1985,11 +1985,9 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
         ScenarioKind::TimeTransferBudget => {
             builtins::run_builtin::<crate::time_transfer_budget::TimeTransferBudgetScenario>(src)
         }
-        ScenarioKind::OpticalAtmosphere => {
-            builtins::run_builtin::<crate::optical_atmosphere_scenario::OpticalAtmosphereScenario>(
-                src,
-            )
-        }
+        ScenarioKind::OpticalAtmosphere => builtins::run_builtin::<
+            crate::optical_atmosphere_scenario::OpticalAtmosphereScenario,
+        >(src),
         ScenarioKind::LeoNavmsg => {
             builtins::run_builtin::<crate::leo_navmsg::LeoNavmsgScenario>(src)
         }
