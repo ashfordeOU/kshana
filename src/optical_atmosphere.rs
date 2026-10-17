@@ -225,6 +225,11 @@ pub const GAMMA_GAMMA_INTERVALS: usize = 4_000;
 /// (density `α^α/Γ(α) · exp(αs − αe^s)`, mode at `s = 0`) on a window grown until the density is
 /// 45 nats below its peak. Returns 0 for `t ≤ 0`; infinite `α`/`β` (no scintillation) is a step at 1.
 pub fn gamma_gamma_cdf(alpha: f64, beta: f64, t: f64) -> f64 {
+    gamma_gamma_cdf_n(alpha, beta, t, GAMMA_GAMMA_INTERVALS)
+}
+
+/// [`gamma_gamma_cdf`] with an explicit (even) number of Simpson intervals, for tabulation.
+pub fn gamma_gamma_cdf_n(alpha: f64, beta: f64, t: f64, n: usize) -> f64 {
     use crate::iq::monitor::stats::{gamma_pq, ln_gamma};
     if t <= 0.0 {
         return 0.0;
@@ -243,7 +248,6 @@ pub fn gamma_gamma_cdf(alpha: f64, beta: f64, t: f64) -> f64 {
     while ln_g(lo) > peak - 45.0 && lo > -1.0e4 {
         lo *= 1.5;
     }
-    let n = GAMMA_GAMMA_INTERVALS;
     let h = (hi - lo) / n as f64;
     let f = |s: f64| ln_g(s).pexp() * gamma_pq(beta, beta * t * (-s).pexp()).0;
     let mut sum = f(lo) + f(hi);
@@ -257,10 +261,16 @@ pub fn gamma_gamma_cdf(alpha: f64, beta: f64, t: f64) -> f64 {
 /// Probability that the irradiance is at least `fade_db` below its mean (a fade of that
 /// depth or more): the gamma-gamma CDF at `t = 10^(−fade_db/10)`.
 pub fn fade_probability(alpha: f64, beta: f64, fade_db: f64) -> f64 {
-    gamma_gamma_cdf(
+    fade_probability_n(alpha, beta, fade_db, GAMMA_GAMMA_INTERVALS)
+}
+
+/// [`fade_probability`] with an explicit number of Simpson intervals.
+pub fn fade_probability_n(alpha: f64, beta: f64, fade_db: f64, n: usize) -> f64 {
+    gamma_gamma_cdf_n(
         alpha,
         beta,
         (-fade_db / 10.0 * std::f64::consts::LN_10).pexp(),
+        n,
     )
 }
 
@@ -355,6 +365,22 @@ pub fn slant_transmittance(tau_zenith: f64, zenith_rad: f64) -> f64 {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    /// The coarse grid used for tabulation agrees with the full grid to well below the
+    /// Modelled inputs' uncertainty.
+    #[test]
+    fn coarse_gamma_gamma_grid_is_accurate() {
+        for (a, b) in [(15.8, 15.1), (3.0, 2.0)] {
+            for fd in [3.0, 12.0] {
+                let full = fade_probability(a, b, fd);
+                let coarse = fade_probability_n(a, b, fd, 800);
+                assert!(
+                    ((coarse - full) / full).abs() < 2e-4,
+                    "{a} {b} {fd}: {coarse} vs {full}"
+                );
+            }
+        }
+    }
 
     /// Zero turbulence gives zero Rytov variance and zero scintillation.
     #[test]
