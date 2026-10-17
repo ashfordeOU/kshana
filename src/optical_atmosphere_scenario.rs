@@ -21,8 +21,8 @@ use crate::optical_weather::{
     availability_for_budget, margin_for_availability, site_availability, CloudClimate, FadeTable,
     OutageModel, SiteLink,
 };
-use serde::Deserialize;
 use crate::portable_math::PortableFloat;
+use serde::Deserialize;
 use serde_json::json;
 
 fn d_wl() -> f64 {
@@ -346,10 +346,19 @@ impl OpticalAtmosphereScenario {
         frac(self.link.detector_efficiency, "link.detector_efficiency")?;
         pos(self.atmosphere.path_eff_km, "atmosphere.path_eff_km")?;
         pos(self.atmosphere.visibility_km, "atmosphere.visibility_km")?;
-        pos(self.atmosphere.aerosol_scale_height_m, "atmosphere.aerosol_scale_height_m")?;
+        pos(
+            self.atmosphere.aerosol_scale_height_m,
+            "atmosphere.aerosol_scale_height_m",
+        )?;
         pos(self.atmosphere.top_km, "atmosphere.top_km")?;
-        pos(self.atmosphere.cloud_effective_radius_um, "atmosphere.cloud_effective_radius_um")?;
-        pos(self.network.correlation_length_km, "network.correlation_length_km")?;
+        pos(
+            self.atmosphere.cloud_effective_radius_um,
+            "atmosphere.cloud_effective_radius_um",
+        )?;
+        pos(
+            self.network.correlation_length_km,
+            "network.correlation_length_km",
+        )?;
         pos(self.clock.threshold_ns, "clock.threshold_ns")?;
         if !matches!(self.atmosphere.wave.as_str(), "plane" | "spherical") {
             return Err("atmosphere.wave must be \"plane\" or \"spherical\"".into());
@@ -380,7 +389,10 @@ impl OpticalAtmosphereScenario {
             pos(s.sigma_ln, "site.sigma_ln")?;
             pos(s.mean_outage_h, "site.mean_outage_h")?;
             pos(s.outage_sigma_ln, "site.outage_sigma_ln")?;
-            if !(s.altitude_m.is_finite() && s.altitude_m >= 0.0 && s.altitude_m < self.atmosphere.top_km * 1000.0) {
+            if !(s.altitude_m.is_finite()
+                && s.altitude_m >= 0.0
+                && s.altitude_m < self.atmosphere.top_km * 1000.0)
+            {
                 return Err(format!("site {}: altitude_m must be in [0, top)", s.name));
             }
         }
@@ -388,7 +400,11 @@ impl OpticalAtmosphereScenario {
     }
 
     /// The clear-sky link margin with no atmosphere (dB) at `wavelength_m` and `rx_aperture_m`.
-    fn budget(&self, wavelength_m: f64, rx_aperture_m: f64) -> (crate::optical_linkbudget::OpticalLinkResult, f64) {
+    fn budget(
+        &self,
+        wavelength_m: f64,
+        rx_aperture_m: f64,
+    ) -> (crate::optical_linkbudget::OpticalLinkResult, f64) {
         let p = OpticalLinkParams {
             wavelength_m,
             tx_power_w: self.link.tx_power_w,
@@ -416,8 +432,16 @@ impl OpticalAtmosphereScenario {
         let wl = scn.wavelength_nm * 1e-9;
         let zenith = (90.0 - scn.elevation_deg).to_radians();
         let (budget, margin0) = scn.budget(wl, scn.link.rx_aperture_m);
-        let wave = if scn.atmosphere.wave == "plane" { Wave::Plane } else { Wave::Spherical };
-        let dir = if scn.atmosphere.direction == "downlink" { Direction::Downlink } else { Direction::Uplink };
+        let wave = if scn.atmosphere.wave == "plane" {
+            Wave::Plane
+        } else {
+            Wave::Spherical
+        };
+        let dir = if scn.atmosphere.direction == "downlink" {
+            Direction::Downlink
+        } else {
+            Direction::Uplink
+        };
         let link_for = |s: &SiteSpec| SiteLink {
             wavelength_m: wl,
             zenith_rad: zenith,
@@ -427,8 +451,14 @@ impl OpticalAtmosphereScenario {
             path_eff_m: scn.atmosphere.path_eff_km * 1000.0,
             wave,
             direction: dir,
-            profile: HvProfile { ground_cn2: scn.atmosphere.hv_ground_cn2, wind_rms_ms: scn.atmosphere.hv_wind_ms },
-            clear: ClearAirParams { visibility_km: scn.atmosphere.visibility_km, aerosol_scale_height_m: scn.atmosphere.aerosol_scale_height_m },
+            profile: HvProfile {
+                ground_cn2: scn.atmosphere.hv_ground_cn2,
+                wind_rms_ms: scn.atmosphere.hv_wind_ms,
+            },
+            clear: ClearAirParams {
+                visibility_km: scn.atmosphere.visibility_km,
+                aerosol_scale_height_m: scn.atmosphere.aerosol_scale_height_m,
+            },
             r_eff_m: scn.atmosphere.cloud_effective_radius_um * 1e-6,
             gas_db_zenith: scn.atmosphere.gas_absorption_db_zenith,
             margin_excl_atmosphere_db: margin0,
@@ -441,15 +471,26 @@ impl OpticalAtmosphereScenario {
         let mut avail = Vec::new();
         for s in &scn.site {
             let link = link_for(s);
-            let climate = CloudClimate { p_cloud: s.p_cloud, median_lwp_kg_m2: s.median_lwp_kg_m2, sigma_ln: s.sigma_ln };
+            let climate = CloudClimate {
+                p_cloud: s.p_cloud,
+                median_lwp_kg_m2: s.median_lwp_kg_m2,
+                sigma_ln: s.sigma_ln,
+            };
             let sc = link.scintillation();
             let table = FadeTable::new(&sc);
             let budget_db = link.fade_budget_db();
             let a = availability_for_budget(&link, &climate, &table, budget_db);
             debug_assert!((a - site_availability(&link, &climate)).abs() < 1e-12);
-            let clear_only = if budget_db < 0.0 { 0.0 } else { link.pointing_availability * (1.0 - table.exceedance(budget_db)) };
+            let clear_only = if budget_db < 0.0 {
+                0.0
+            } else {
+                link.pointing_availability * (1.0 - table.exceedance(budget_db))
+            };
             avail.push(a);
-            let outages = OutageModel { mean_s: s.mean_outage_h * 3600.0, sigma_ln: s.outage_sigma_ln };
+            let outages = OutageModel {
+                mean_s: s.mean_outage_h * 3600.0,
+                sigma_ln: s.outage_sigma_ln,
+            };
             let u = 1.0 - a;
             let targets: Vec<_> = scn
                 .availability_targets_pct
@@ -567,8 +608,15 @@ impl OpticalAtmosphereScenario {
 
         // network: best sites first
         let mut order: Vec<usize> = (0..scn.site.len()).collect();
-        order.sort_by(|&i, &j| avail[j].partial_cmp(&avail[i]).unwrap_or(std::cmp::Ordering::Equal));
-        let coords: Vec<(f64, f64)> = order.iter().map(|&i| (scn.site[i].lat_deg, scn.site[i].lon_deg)).collect();
+        order.sort_by(|&i, &j| {
+            avail[j]
+                .partial_cmp(&avail[i])
+                .unwrap_or(std::cmp::Ordering::Equal)
+        });
+        let coords: Vec<(f64, f64)> = order
+            .iter()
+            .map(|&i| (scn.site[i].lat_deg, scn.site[i].lon_deg))
+            .collect();
         let full_rho = correlation_matrix(&coords, scn.network.correlation_length_km);
         let mut rows = Vec::new();
         for n in 1..=order.len() {
@@ -632,7 +680,10 @@ impl OpticalAtmosphereScenario {
                 "pair_correlation": pairs,
             },
         });
-        Ok((serde_json::to_string_pretty(&json).map_err(|e| e.to_string())?, summary))
+        Ok((
+            serde_json::to_string_pretty(&json).map_err(|e| e.to_string())?,
+            summary,
+        ))
     }
 }
 
@@ -657,8 +708,14 @@ mod tests {
         let v = run("kind = \"optical-atmosphere\"\n");
         let rows = v["network"]["rows"].as_array().unwrap();
         assert_eq!(rows.len(), 3);
-        let ind: Vec<f64> = rows.iter().map(|r| r["independent_pct"].as_f64().unwrap()).collect();
-        let cor: Vec<f64> = rows.iter().map(|r| r["correlated_pct"].as_f64().unwrap()).collect();
+        let ind: Vec<f64> = rows
+            .iter()
+            .map(|r| r["independent_pct"].as_f64().unwrap())
+            .collect();
+        let cor: Vec<f64> = rows
+            .iter()
+            .map(|r| r["correlated_pct"].as_f64().unwrap())
+            .collect();
         assert!(ind[0] < ind[1] && ind[1] < ind[2]);
         assert!(cor[2] <= ind[2] + 1e-9 && cor[2] > cor[0]);
         assert!((cor[0] - ind[0]).abs() < 1e-12);
@@ -672,7 +729,8 @@ mod tests {
             "[clock]\nclasses = [\"nope\"]",
             "availability_targets_pct = [100.0]",
         ] {
-            let scn: OpticalAtmosphereScenario = toml::from_str(&format!("kind = \"x\"\n{bad}\n")).unwrap();
+            let scn: OpticalAtmosphereScenario =
+                toml::from_str(&format!("kind = \"x\"\n{bad}\n")).unwrap();
             assert!(scn.run_json().is_err(), "{bad}");
         }
     }

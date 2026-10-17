@@ -398,6 +398,8 @@ stale.
 | `multi-band-jamming-waterfall.toml` | `spectrum` | no [4] | no [4] | no [4] | no [4] | no [16] |
 | `ntn-5g-positioning.toml` | `ntn-positioning` | no [9] | no [9] | no [9] | no [9] | no [2] |
 | `oem-interop.toml` | `oem-interop` | no [17] | no [17] | no [17] | no [17] | no [2] |
+| `optical-atmosphere-network.toml` | `optical-atmosphere` | no [18] | no [18] | no [18] | no [18] | no [2] |
+| `optical-atmosphere-techniques.toml` | `optical-atmosphere` | no [18] | no [18] | no [18] | no [18] | no [2] |
 | `orbit-gnss-challenged.toml` | `orbit` | yes | yes | yes | yes | no [2] |
 | `orbit-molniya.toml` | `orbit` | yes | yes | yes | yes | no [2] |
 | `orbit-multignss.toml` | `orbit` | yes | yes | yes | yes | no [2] |
@@ -425,14 +427,14 @@ stale.
 | `spoof-detect.toml` | `spoof-detect` | no [4] | no [4] | no [4] | no [4] | no [2] |
 | `spoof-meaconing.toml` | `spoof` | no [4] | no [4] | no [4] | no [4] | no [2] |
 | `starlink-sop-doppler-positioning.toml` | `leo-pvt` | no [9] | no [9] | no [9] | no [9] | no [2] |
-| `sweep-clock-stability.toml` | `sweep` | no [18] | no [18] | no [18] | no [18] | no [2] |
-| `sweep-nd-inertial.toml` | `sweep-nd` | no [18] | no [18] | no [18] | no [18] | no [2] |
+| `sweep-clock-stability.toml` | `sweep` | no [19] | no [19] | no [19] | no [19] | no [2] |
+| `sweep-nd-inertial.toml` | `sweep-nd` | no [19] | no [19] | no [19] | no [19] | no [2] |
 | `telecom-prtc-holdover-24h.toml` | `telecom-timing` | no [4] | no [4] | no [4] | no [4] | no [2] |
 | `telecom-synce-eec.toml` | `telecom-timing` | no [4] | no [4] | no [4] | no [4] | no [2] |
 | `telecom-tie-ingest.toml` | `telecom-timing` | no [4] | no [4] | no [4] | no [4] | no [2] |
 | `terrain-nav.toml` | `terrain-nav` | yes | yes | yes | no [6] | no [2] |
 | `terrain-slam.toml` | `terrain-slam` | yes | yes | yes | no [6] | no [2] |
-| `time-transfer-budget.toml` | `time-transfer-budget` | no [19] | no [19] | no [19] | no [19] | no [2] |
+| `time-transfer-budget.toml` | `time-transfer-budget` | no [20] | no [20] | no [20] | no [20] | no [2] |
 | `timetransfer.toml` | `timetransfer` | no [4] | no [4] | no [4] | no [4] | no [2] |
 | `tracking-loop.toml` | `tracking-loop` | no [4] | no [4] | no [4] | no [4] | no [2] |
 | `xona-pulsar-end-to-end.toml` | `leo-pnt-chain` | yes | yes | yes | yes | no [2] |
@@ -458,6 +460,7 @@ Why a format does not apply:
 15. not exported in this release: the `leo-navmsg` truth orbit is a fitting reference whose Earth rotation angle at the epoch is an input (`theta0_deg`, default 0), not derived from the calendar date, so its Earth-fixed positions are not tied to a date
 16. this spectrum scenario has no [iq] block, so no samples are synthesised to record
 17. not exported in this release: `oem-interop` reads and writes a CCSDS (Consultative Committee for Space Data Systems) Orbit Ephemeris Message, which is itself the ephemeris interchange file
-18. the scenario sweeps another scenario over a grid; export the swept scenario on its own
-19. the `time-transfer-budget` kind computes a link budget and stabilities, with no time-tagged geometry to place
+18. the `optical-atmosphere` kind computes link statistics for ground sites with no time-tagged geometry to place
+19. the scenario sweeps another scenario over a grid; export the swept scenario on its own
+20. the `time-transfer-budget` kind computes a link budget and stabilities, with no time-tagged geometry to place
 <!-- interop-table:end -->
