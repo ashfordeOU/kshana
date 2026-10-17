@@ -216,6 +216,46 @@ pub fn optical_link_budget(p: &OpticalLinkParams) -> OpticalLinkResult {
     }
 }
 
+/// A slant atmospheric path for [`optical_link_budget_atmosphere`].
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct AtmosphericPath {
+    /// Zenith angle of the slant path (rad).
+    pub zenith_rad: f64,
+    /// Station height above sea level (m).
+    pub station_height_m: f64,
+    /// Top of the atmosphere profile (m).
+    pub top_m: f64,
+    /// Clear-air extinction parameters (visibility, aerosol scale height).
+    pub clear: crate::optical_atmosphere::ClearAirParams,
+    /// Zenith gas-absorption loss (dB), a stated input.
+    pub gas_db_zenith: f64,
+}
+
+/// **Clear-air slant loss** (dB) of `path` at `wavelength_m`: aerosol + Rayleigh optical depth
+/// plus the stated gas absorption, over `cos ζ`. Replaces the lumped `atmospheric_loss_db`.
+pub fn clear_air_loss_db(wavelength_m: f64, path: &AtmosphericPath) -> f64 {
+    let tau = crate::optical_atmosphere::clear_air_optical_depth(
+        wavelength_m,
+        path.station_height_m,
+        path.top_m,
+        &path.clear,
+    );
+    (4.342_944_819_032_518 * tau + path.gas_db_zenith) / path.zenith_rad.pcos()
+}
+
+/// [`optical_link_budget`] with the lumped atmospheric loss replaced by the wavelength- and
+/// geometry-dependent [`clear_air_loss_db`]. Cloud and turbulence fades are availability terms
+/// (see [`crate::optical_weather`]), not part of this clear-sky budget. Calling
+/// [`optical_link_budget`] directly is unchanged.
+pub fn optical_link_budget_atmosphere(
+    p: &OpticalLinkParams,
+    path: &AtmosphericPath,
+) -> OpticalLinkResult {
+    let mut q = *p;
+    q.atmospheric_loss_db = clear_air_loss_db(p.wavelength_m, path);
+    optical_link_budget(&q)
+}
+
 /// The number of detected photons over an integration time: `rate_hz · integration_s`
 /// (the detector efficiency is already folded into the rate by [`optical_link_budget`]).
 /// Clamped to ≥ 0.
@@ -418,5 +458,31 @@ mod tests {
         let n2 = detected_photons(a.photon_rate_hz, 2.0);
         assert!((n2 - 2.0 * n1).abs() < 1e-3 * n1.max(1.0));
         assert!(detected_photons(a.photon_rate_hz, -5.0) == 0.0);
+    }
+
+    /// The atmosphere-aware budget differs from the lumped one only through the loss term, and
+    /// that term follows the slant path (`1/cos ζ`) and the wavelength.
+    #[test]
+    fn atmosphere_budget_replaces_only_the_loss_term() {
+        let p = OpticalLinkParams::default();
+        let path = AtmosphericPath {
+            zenith_rad: 0.0,
+            station_height_m: 0.0,
+            top_m: 30_000.0,
+            clear: crate::optical_atmosphere::ClearAirParams::default(),
+            gas_db_zenith: 0.0,
+        };
+        let loss0 = clear_air_loss_db(p.wavelength_m, &path);
+        let r = optical_link_budget_atmosphere(&p, &path);
+        let mut q = p;
+        q.atmospheric_loss_db = loss0;
+        assert_eq!(r, optical_link_budget(&q));
+        let slant = AtmosphericPath {
+            zenith_rad: 60f64.to_radians(),
+            ..path
+        };
+        assert!((clear_air_loss_db(p.wavelength_m, &slant) / loss0 - 2.0).abs() < 1e-12);
+        // shorter wavelengths are more strongly extinguished
+        assert!(clear_air_loss_db(8.5e-7, &path) > loss0);
     }
 }
