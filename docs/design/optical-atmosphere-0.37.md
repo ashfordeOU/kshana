@@ -115,3 +115,45 @@ MODELLED. That is acceptable and will be stated plainly.
 Pre-registration commit -> modules 1-2 -> 3-4 -> 5 -> 6 -> scenario + surfaces -> scored runs ->
 ledger rows and docs. Per push: fmt, clippy -D warnings, `cargo test --lib`, affected integration
 tests, `cli_first_run`, MCP `round_trip`, wasm check, `scripts/check-no-attribution.sh`.
+
+## 8. ITU-R validation numbers: licence check (17 Oct 2026)
+
+Question: may values from ITU-R Recommendations (P.840 and its validation examples) be reproduced
+as test vectors in this public AGPL repository? Status: **not cleared. The numbers stay out of the
+repository until the owner decides.**
+
+What was found, with sources:
+
+- ITU's general terms for its documents oblige users "not to duplicate the document or parts
+  thereof for distribution or sale external to the user's organization", while internal use to
+  support product development is permitted (<https://www.itu.int/itudoc/about/copyrght.txt>).
+  Publishing values in a public repository is distribution outside the organisation. The page is
+  a general statement, not a ruling on numerical values or on validation spreadsheets.
+- ITU publications may not be reproduced without prior written authorisation (ITU publications
+  licence, <https://itu.int/en/publications/Documents/ITU_Licence-e.pdf>). The ITU-T software
+  licence listed at <https://scancode-licensedb.aboutcode.org/itu-t.html> grants a licence to
+  implement an ITU-T Recommendation in code; it is ITU-T, not ITU-R, and covers code, not test
+  tables.
+- The ITU-R Study Group 3 validation examples are distributed as spreadsheets. The ITU-Rpy project
+  (MIT licence, <https://github.com/iportillo/ITU-Rpy>) tests against "ITU Validation examples
+  rev 5.1" (<https://itu-rpy.readthedocs.io/en/latest/validation.html>). That a third project
+  publishes such values is not evidence that doing so is permitted, and its documentation does not
+  state the terms of the ITU file.
+- I could not locate the official P.840 validation spreadsheet or its terms on itu.int in this
+  session; related Working Party 3M contribution pages are restricted to ITU-R TIES users. So the
+  terms of the validation examples specifically are **unknown**, not cleared.
+
+What this means for the work:
+
+- P.840 supplies here only the integrated cloud liquid-water *amount*; its attenuation law is a
+  microwave law and is not used. The validation examples that would apply are the liquid-water
+  statistics at stated coordinates, not the attenuation coefficient.
+- The method is implemented from the published form (log-normal liquid-water column and
+  probability of cloud as inputs). No ITU table or validation value has been copied into the
+  repository.
+- Options for the owner: (a) request written authorisation from ITU to reproduce the validation
+  values as test vectors; (b) keep the numbers outside the repository in a data-gated test that
+  fetches the file from itu.int with a pinned SHA-256, if ITU permits that access; (c) use no ITU
+  values and rely on cited measured records for the weather side.
+- Until the owner decides, section B of the pre-registration stays empty and no ITU-based
+  VALIDATED row is added.
