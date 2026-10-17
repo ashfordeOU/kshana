@@ -69,33 +69,42 @@ or **PARTNER** (a hardware partner owns it).
 > is an analysis tool) and not a flight product. New to the field? Start with the
 > [plain-language primer](docs/CONCEPTS.md) and the [glossary](docs/GLOSSARY.md).
 
-## What's new in 0.35
+## What's new in 0.36
 
-0.35 turns the receiver-trust work into a toolchain for the bridge of a vessel: score whether a
-navigation fix can be trusted, train crews on it, map where reported positions look degraded, prove
-what the software said, and put the answer where the crew already looks. It is **advisory**: not
-type-approved navigation equipment, and the operator stays responsible. Nothing here transmits, and
-nothing synthesises a jammer or spoofer radio waveform. Each row below states what the ledger
-holds for it ([how a label is earned](#evidence)); a status names only what was checked, and the
-ledger row and the linked page say what was not.
+0.36 adds a lunar reference-station study with a frozen, pre-registered prediction, makes the
+native and WebAssembly builds return the same bytes, and widens the engine with eight new
+scenario kinds, real-data GNSS processing, GNSS/INS fusion, fitting from IQ campaigns, gravity
+fields and interchange formats. It stays a study instrument: receiver trust is **advisory**, not
+type-approved navigation equipment, nothing here is certified, and nothing transmits. Several
+rows below carry a pre-registered bar that was **not met**; each miss is recorded, not loosened.
+Each row states what the ledger holds for it ([how a label is earned](#evidence)); a status names
+only what was checked, and the ledger row and the linked page say what was not.
 
-| New in 0.35 | What it does, and why | Ledger status | Read |
+| New in 0.36 | What it does, and why | Ledger status | Read |
 |---|---|---|---|
-| **Maritime trust score** | `kshana receiver-trust` scores a vessel's fix from the NMEA 0183 it already has: a 0-100 score, three bands and the reasons, per epoch, in batch, live or as a gate | arithmetic of the monitors **VALIDATED** (pynmea2, GeographicLib); the score's aggregation **MODELLED** | [Maritime trust](docs/MARITIME-TRUST.md) |
-| **NMEA training streams** | `kshana nmea-scenario` writes synthetic bridge NMEA with scripted jamming, drag-off, time-spoof and replay events and an instructor log, for crew training; text only | stream conformance and decoded values **VALIDATED** (pynmea2); the receiver, sky and event models **MODELLED** | [NMEA training](docs/NMEA-TRAINING.md) |
-| **Interference map and route exposure** | `kshana interference-map` and `route-exposure` turn openly licensed ADS-B and AIS reports into a GeoJSON map per day and the share of a route through degraded cells | how the codes are read and the geometry **VALIDATED** (pyModeS, pyais, shapely, GeographicLib, pyproj); that a cell is interference is **not** checked | [Interference map](docs/INTERFERENCE-MAP.md) |
-| **Trust telemetry** | `kshana trust-telemetry` exports the trust stream as Prometheus text, OpenTelemetry (OTLP/HTTP) and CEF or LEEF syslog events, so a security operations centre sees a navigation fault | Prometheus, OTLP and CEF **VALIDATED** against independent parsers; LEEF **MODELLED** | [Trust telemetry](docs/TRUST-TELEMETRY.md) |
-| **Signed evidence packs** | `kshana receiver-trust evidence` bundles an event window into a hash-chained, Ed25519-signed pack that verifies offline: a technical record, not a legal opinion | integrity, signature and verification **VALIDATED** (RFC 8032 vectors, FIPS 180-4, a clean-room verifier) | [Evidence packs](docs/EVIDENCE-PACKS.md) |
-| **Test-bench export** | `kshana bench-export` writes a scenario's vehicle motion and events as a CSV trajectory and NMEA for a laboratory GNSS simulator; no signal is written | conversions and encodings **VALIDATED** (PROJ, GeographicLib, pynmea2, SciPy) | [Test bench](docs/TEST-BENCH.md) |
-| **Compliance mapping** | `kshana compliance-report` maps run results to clauses of public frameworks, by number only, and says "supports evidence for", never that a framework is met | **MODELLED**: its references are checked to exist, not that each mapping is right | [Compliance mapping](docs/compliance/README.md) |
-| **Signal K, OpenCPN and a reference build** | the score and its reasons on a boat's Signal K server and in an OpenCPN panel, and a pinned image that rebuilds the engine | **MODELLED** (an integration run, not an oracle) | [Marine integrations](docs/MARINE-INTEGRATIONS.md) |
-| **Galileo OSNMA verification** | `kshana osnma verify` checks which satellites' navigation data a receiver can authenticate, from the Galileo signal-in-space specification | **VALIDATED** against the official test vectors; scope stated in the ledger row | [OSNMA](docs/OSNMA.md) |
-| **MCP install channels and self-hosting** | every channel for `kshana-mcp` in one place: prebuilt binaries, the Claude Desktop extension, Cursor and VS Code buttons, `npx`, `uvx`, Homebrew, Scoop, winget, the registries, and an HTTP mode you host | distribution, not a ledger capability | [Install](#install), [MCP install](docs/MCP-INSTALL.md), [HTTP self-host](docs/deploy/mcp-http.md) |
+| **Lunar reference-station study** | the `lunar-station-coverage` kind sweeps the lunar differential-PNT model over a south-polar user grid and a day of epochs: error percentiles, availability with reasons, coverage, protection levels, coverage radius per azimuth and the correction-link budget; opt-in terrain horizon masks (a stated profile or a vendored LOLA DEM crop), receiver terms, a station time laboratory and station geodesy. Not affiliated with or endorsed by any agency | **MODELLED**: arithmetic re-computed by numpy under a pre-registered bar; against published claims, 1 of 6 bars met on illustrative orbit elements, recorded as a finding, not as evidence the claims are wrong | [Lunar reference station](docs/LUNAR-REFERENCE-STATION.md) |
+| **Frozen lunar prediction** | the study's results under the publicly stated assumptions, frozen at a commit with SHA-256 hashes and a scoring protocol fixed in advance; a changed assumption gets a new dated prediction, and a miss is published as prominently as a hit | a prediction, not a validation; no ledger row. Dominated by an unpublished element set, labelled ILLUSTRATIVE | [Prediction](docs/predictions/lunar-reference-station.md) |
+| **Geometry-aware trust** | every `receiver-trust` epoch carries its satellite geometry (good, degraded or unknown, with HDOP, PDOP and VDOP) and every deduction a class (`geometry`, `environment`, `inconsistency`), so a poor sky does not read as an attack; geometry alone costs at most 15 points and never reaches the untrusted band. Scores are unchanged unless the geometry is poor | **MODELLED** (checked against its stated rules); the DOP kernel underneath keeps its **VALIDATED** row (gnss_lib_py) | [Receiver trust](docs/RECEIVER-TRUST.md) |
+| **Skyline masks and sky geometry** | an azimuth-dependent elevation cut (street canyon, sectors, terrain profile, four representative presets) as an optional `[skyline]` in several kinds, and `kshana sky` and `kshana skyline` for visibility, DOPs, covariance and the error ellipse | look angles, visible set and DOP under the mask **VALIDATED** (Orekit, gnss_lib_py); error ellipse **VALIDATED** (numpy); presets, reductions and the sky composition **MODELLED** | [Skyline](docs/SKYLINE.md) |
+| **Portable maths: native equals WebAssembly** | every `f64` transcendental and the normal, gamma and exponential samplers go through the pure-Rust `libm`, so the native and WebAssembly builds return byte-identical result JSON for every bundled scenario. The last bits of many results moved; every moved value is listed, and no bar, tolerance or threshold changed | an engineering guarantee, not a ledger capability | [Rebaseline record](docs/revisions/STUDIO15-portable-math-rebaseline.md) |
+| **GNSS on real RINEX** | RTK with LAMBDA integer fixing on a short real baseline, a float PPP receiver-clock solution, RINEX 4 navigation reading, and PPP parity runs against gLAB and RTKLIB | RTK **VALIDATED** (ITRF2020 baseline, median error 4.5 mm); PPP receiver clock **VALIDATED** (IGS final station clock); RINEX 4 navigation **VALIDATED** (the same day's IGS RINEX 3 file); the single-point parity bars were not met, recorded | [Verification matrix](docs/VERIFICATION-MATRIX.md) |
+| **GNSS/INS fusion** | the `gnss-ins` kind gains a trajectory library, maritime, rail and aviation packs and optional pseudorange tight coupling; carrier-phase tight coupling with float ambiguities; a coupled PNT filter with a bias state in the `fusion` kind | loosely coupled EKF with lever arm **VALIDATED** on the KF-GINS dataset (data-gated, fetched with pinned hashes); the packs, tight and carrier-phase coupling and the coupled filter **MODELLED** | [Verification matrix](docs/VERIFICATION-MATRIX.md) |
+| **IQ campaigns: monitors, lab fit, tracking** | IQ monitors scored inside a lab-replay campaign, with a detection ROC; `kshana iq labfit` fits the receiver's C/N0 and lock models to a campaign folder with prediction intervals; the tracking engine compared with GNSS-SDR 0.0.19; BeiDou B1I and GPS L1C codes | codes **VALIDATED** (GNSS-SDR's generator, the IS-GPS-800J check columns); monitors, ROC, lab fit and the tracking comparison **MODELLED**, with several pre-registered bars not met and recorded | [Lab fit from IQ](docs/design/LABFIT-FROM-IQ.md) |
+| **Gravity fields** | `gravity-map` takes a real reference field (bundled EGM2008 to degree 70, or an ICGEM file) and a map-error Monte Carlo; planetary fields from PDS SHADR tables; Earth gravity to degree 2190; Mars orbit determination from DSN ramped Doppler | anomaly synthesis **VALIDATED** (ICGEM Calculation Service); SHADR fields **VALIDATED** (pyshtools); degree 2190 and Mars orbit determination **MODELLED**. The navigation bar on the degree-70 field is not met (3106 m against 500 m), as predicted | [Capability](docs/CAPABILITY.md) |
+| **Time-transfer budget** | the `time-transfer-budget` kind solves the two-way (TWSTFT) equation with every non-reciprocal term, budgets its uncertainty, and gives the stability of supplied BIPM Circular T, CSV or IGS station-clock series | **MODELLED**; the PPP time solution is **VALIDATED** separately (row above) | [Scenario reference](docs/SCENARIOS.md#time-transfer-budget) |
+| **Space-segment kinds** | `entry-heating`, `eo-radiometry`, `ascent-losses`, `aocs` (reaction-wheel attitude control, optionally on a multiplicative EKF), `acm-link` (DVB-S2 adaptive coding and modulation) and `contact-schedule` | entry peak deceleration **VALIDATED** (published Stardust nominal, +6.1 % against a 10 % bar); reaction-wheel control **VALIDATED** (Basilisk 2.9.1); heating, radiometry, ascent, the EKF, ACM and scheduling **MODELLED** | [Entry, EO, ascent](docs/ENTRY-EO-ASCENT.md), [AOCS](docs/AOCS.md), [Contact scheduling](docs/CONTACT-SCHEDULING.md) |
+| **Interchange formats** | CCSDS Orbit and Attitude Data Messages, SPICE SPK types 3, 9, 13 and 21, and Space Packet secondary headers, error control and segmentation, written and read | **VALIDATED** against Orekit 13.1.8, CSPICE N0067 and independent packet libraries, each comparison pre-registered | [Verification matrix](docs/VERIFICATION-MATRIX.md) |
 
-Also new: the Studio's trust, interference, training and tools views ([Kshana Studio](#kshana-studio)),
-the same capabilities in Python, WebAssembly, MCP, the Claude Code plugin and the JetBrains plugin
-([surfaces](docs/SURFACES.md)), an [AI-agent guide](docs/AGENTS.md), and runnable notebooks on synthetic data: [vessel trust and training](notebooks/vessel-trust-and-training.md), [interference map and route exposure](notebooks/interference-map-route-exposure.md) and [compliance mapping and test bench](notebooks/compliance-and-test-bench.md). The full list is in the
-[changelog](CHANGELOG.md#0350---2026-10-12).
+Also new: an impulsive transfer optimiser on the DE440 ephemeris (**VALIDATED** against an
+independent SPICE and pykep optimiser), a campaign optimiser (**MODELLED**),
+[calibration ensembles](docs/CALIBRATION-ENSEMBLES.md) over 200 seeds, opt-in NRLMSISE-00 drag
+density and a DOP853 integrator, typed Python and TypeScript APIs, and a short IQ run in the
+browser build. Two changes to note: broadband and swept jammers now use Q = 2 in the anti-jam
+equation, and the Galileo E1 memory codes are no longer bundled, because their terms allow
+redistribution only for non-commercial purposes; the engine reads your own copy
+([licensing](LICENSING.md)). The full list is in the [changelog](CHANGELOG.md#0360---2026-10-16).
+
+0.35's highlights: [changelog](CHANGELOG.md#0350---2026-10-12).
 
 ## Kshana Studio
 
