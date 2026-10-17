@@ -1,11 +1,11 @@
 {
   "coverage": {
     "described_fields_without_definition": 239,
-    "fields_described": 2906,
-    "fields_total": 2906,
+    "fields_described": 2958,
+    "fields_total": 2958,
     "fields_without_units": 0,
-    "kinds_complete": 83,
-    "kinds_total": 83,
+    "kinds_complete": 84,
+    "kinds_total": 84,
     "kinds_uncovered": 0,
     "uncovered_kind_ceiling": 0,
     "uncovered_kinds": []
@@ -14461,6 +14461,328 @@
       "fields_without_units": [],
       "label": "MODELLED — CCSDS OEM import/round-trip interop bridge (GMAT/Orekit/STK emit OEM); a structural + physical ingest check, NOT an orbit-accuracy validation of the source",
       "source": "defaults"
+    },
+    "optical-atmosphere": {
+      "complete": true,
+      "fields": {
+        "inputs.correlation_length_km": {
+          "definition": "weather decorrelation length of the site-diversity model",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "km"
+        },
+        "inputs.elevation_deg": {
+          "definition": "elevation of the slant path",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "deg"
+        },
+        "inputs.wavelength_nm": {
+          "definition": "carrier wavelength",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "nm"
+        },
+        "inputs.zenith_deg": {
+          "definition": "zenith angle, 90 degrees minus the elevation",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "deg"
+        },
+        "link.footprint_m": {
+          "definition": "diffraction footprint (lambda/D) x range",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "m"
+        },
+        "link.geometric_loss_db": {
+          "definition": "far-field geometric capture loss",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "dB"
+        },
+        "link.margin_no_atmosphere_db": {
+          "definition": "received power over the requirement with no atmosphere",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dB"
+        },
+        "link.received_power_no_atmosphere_dbm": {
+          "definition": "received power with no atmospheric loss",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dBm"
+        },
+        "link.receiver_sensitivity_dbm": {
+          "definition": "received power the link requires",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "dBm"
+        },
+        "network.pair_correlation[].distance_km": {
+          "definition": "great-circle distance between the two sites",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "km"
+        },
+        "network.pair_correlation[].rho": {
+          "definition": "exp(-distance / decorrelation length)",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "1"
+        },
+        "network.rows[].correlated_pct": {
+          "definition": "availability with distance-correlated weather",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "%"
+        },
+        "network.rows[].independent_pct": {
+          "definition": "independent-union availability 1 - prod(1 - a)",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "%"
+        },
+        "network.rows[].n": {
+          "definition": "number of best sites combined",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "network.sites_used": {
+          "definition": "sites in the row, best first",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "sites[].altitude_m": {
+          "definition": "station height above sea level",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "m"
+        },
+        "sites[].availability_ceiling_pct": {
+          "definition": "availability with a 60 dB fade budget: the cloud and pointing ceiling no margin can pass",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "%"
+        },
+        "sites[].availability_pct": {
+          "definition": "link availability against cloud and turbulence fades",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "%"
+        },
+        "sites[].clear_air_loss_db": {
+          "definition": "aerosol + Rayleigh + gas slant loss",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "dB"
+        },
+        "sites[].clear_sky_availability_pct": {
+          "definition": "availability with no cloud (turbulence fade only)",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "%"
+        },
+        "sites[].fade_budget_db": {
+          "definition": "margin left after the clear-air loss",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dB"
+        },
+        "sites[].holdover[].errors[].duration_h": {
+          "definition": "outage duration",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "h"
+        },
+        "sites[].holdover[].errors[].range_sigma_m": {
+          "definition": "ranging error 1-sigma after the outage",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "m"
+        },
+        "sites[].holdover[].errors[].timing_sigma_ns": {
+          "definition": "timing error 1-sigma after the outage",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "ns"
+        },
+        "sites[].holdover[].fraction_outage_time_within": {
+          "definition": "fraction of outage time in outages no longer than the holdover",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "1"
+        },
+        "sites[].holdover[].fraction_outages_within": {
+          "definition": "fraction of outages no longer than the holdover",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "1"
+        },
+        "sites[].holdover[].holdover_s": {
+          "definition": "coast time to the threshold",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "s"
+        },
+        "sites[].holdover[].threshold_ns": {
+          "definition": "timing-error threshold",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "ns"
+        },
+        "sites[].holdover[].timing_availability_pct": {
+          "definition": "fraction of all time the timing error is within the threshold",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "%"
+        },
+        "sites[].lat_deg": {
+          "definition": "station latitude",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "deg"
+        },
+        "sites[].lon_deg": {
+          "definition": "station longitude, east positive",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "deg"
+        },
+        "sites[].margin_for_availability[].extra_margin_db": {
+          "definition": "margin to add to the current link for the target",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "dB"
+        },
+        "sites[].margin_for_availability[].required_margin_no_atmosphere_db": {
+          "definition": "link margin with no atmosphere needed for the target",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "dB"
+        },
+        "sites[].margin_for_availability[].target_pct": {
+          "definition": "target availability",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "%"
+        },
+        "sites[].median_lwp_kg_m2": {
+          "definition": "median liquid-water column given cloud",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "kg/m^2"
+        },
+        "sites[].outages.exceedance[].duration_h": {
+          "definition": "outage duration",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "h"
+        },
+        "sites[].outages.exceedance[].probability": {
+          "definition": "probability an outage lasts longer",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "1"
+        },
+        "sites[].outages.exceedance[].time_fraction": {
+          "definition": "fraction of outage time spent in outages that long",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "1"
+        },
+        "sites[].outages.mean_h": {
+          "definition": "mean outage duration",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "h"
+        },
+        "sites[].outages.per_year": {
+          "definition": "outages per year at the unavailability and mean duration",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "count"
+        },
+        "sites[].outages.quantiles[].duration_h": {
+          "definition": "outage duration not exceeded with that probability",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "h"
+        },
+        "sites[].outages.quantiles[].probability": {
+          "definition": "non-exceedance probability",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "1"
+        },
+        "sites[].outages.sigma_ln": {
+          "definition": "standard deviation of ln D",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "1"
+        },
+        "sites[].p_cloud": {
+          "definition": "probability of cloud on the line of sight",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "1"
+        },
+        "sites[].sigma_ln": {
+          "definition": "standard deviation of ln L given cloud",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "1"
+        },
+        "sites[].turbulence.alpha": {
+          "definition": "gamma-gamma large-scale parameter",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "1"
+        },
+        "sites[].turbulence.aperture_averaging_factor": {
+          "definition": "weak-turbulence aperture-averaging factor",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "1"
+        },
+        "sites[].turbulence.beta": {
+          "definition": "gamma-gamma small-scale parameter",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "1"
+        },
+        "sites[].turbulence.fade_margin_db_at_1e-3": {
+          "definition": "turbulence fade margin for a 1e-3 outage probability",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "dB"
+        },
+        "sites[].turbulence.rytov_variance": {
+          "definition": "Rytov variance of the slant path",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "1"
+        },
+        "sites[].turbulence.scintillation_index": {
+          "definition": "aperture-averaged scintillation index",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "1"
+        },
+        "sites[].unavailability_pct": {
+          "definition": "100 minus the availability",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "%"
+        }
+      },
+      "fields_described": 52,
+      "fields_total": 52,
+      "fields_without_units": [],
+      "label": "MODELLED — optical PNT through the atmosphere: clear-air extinction (Kim visibility law + Rayleigh), cloud optical depth from a stated liquid-water climate (P.840 amount, geometric-optics extinction), Hufnagel-Valley turbulence with gamma-gamma fades and aperture averaging, availability against the link margin, outage durations coupled to clock holdover, and distance-correlated site diversity. The numerics are checked against an independent oracle; no measured availability record has been compared, and the weather, technique and clock inputs are assumptions.",
+      "source": "scenarios/optical-atmosphere-network.toml"
     },
     "orbit": {
       "complete": true,

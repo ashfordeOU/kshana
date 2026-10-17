@@ -742,6 +742,47 @@ async fn run_scenario_reaches_constellations_around_other_bodies() {
 }
 
 #[tokio::test]
+async fn run_scenario_reaches_optical_atmosphere() {
+    // 0.37: the optical-atmosphere kind runs through `run_scenario` from both bundled scenarios, states
+    // that it is MODELLED and advisory, and keeps its availability inside its own cloud ceiling.
+    let client = connect().await;
+    for name in ["optical-atmosphere-network", "optical-atmosphere-techniques"] {
+        let (summary, doc) = run_example(&client, name).await;
+        assert!(
+            summary.contains("optical-atmosphere") && summary.contains("MODELLED"),
+            "{summary}"
+        );
+        assert_eq!(doc["kind"], "optical-atmosphere");
+        assert!(doc["label"].as_str().unwrap().contains("MODELLED"));
+        assert!(doc["advisory"].as_str().unwrap().contains("Advisory"));
+        let sites = doc["sites"].as_array().expect("sites");
+        assert!(!sites.is_empty(), "{name}: no sites");
+        for site in sites {
+            let a = site["availability_pct"].as_f64().unwrap();
+            let ceiling = site["availability_ceiling_pct"].as_f64().unwrap();
+            assert!((0.0..=ceiling + 1e-9).contains(&a) && ceiling <= 100.0, "{name}: {a} vs {ceiling}");
+            assert!(site["holdover"].as_array().is_some_and(|h| !h.is_empty()));
+        }
+    }
+    // the network scenario shows the diversity effect: more sites, higher independent availability
+    let (_, doc) = run_example(&client, "optical-atmosphere-network").await;
+    let rows = doc["network"]["rows"].as_array().expect("rows");
+    assert_eq!(rows.len(), 3);
+    let ind: Vec<f64> = rows.iter().map(|r| r["independent_pct"].as_f64().unwrap()).collect();
+    assert!(ind[0] < ind[1] && ind[1] < ind[2], "{ind:?}");
+    // one site: the correlated and independent figures are the same number
+    assert!((rows[0]["correlated_pct"].as_f64().unwrap() - ind[0]).abs() < 1e-9);
+    // the technique scenario carries what-if gains, each against the same baseline
+    let (_, doc) = run_example(&client, "optical-atmosphere-techniques").await;
+    let techniques = doc["sites"][0]["techniques"].as_array().expect("techniques");
+    assert_eq!(techniques.len(), 5);
+    assert!(techniques
+        .iter()
+        .all(|t| t["baseline_pct"] == doc["sites"][0]["techniques"][0]["baseline_pct"]));
+    client.cancel().await.ok();
+}
+
+#[tokio::test]
 async fn run_scenario_reaches_campaigns() {
     let client = connect().await;
     let (summary, doc) = run_example(&client, "campaign-sweep-jammer-power").await;

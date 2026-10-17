@@ -10,7 +10,9 @@ packaging/channels.json is the schema the site build reads to write web/channels
 edit web/ by hand). Fields per channel: id, group, name, audience, requires, command, pinned,
 verify, registry, registry_label, docs, docs_label, note, links (extra buttons, each
 {label, url}), registry_name, parity (the probe in check_channel_parity.py that proves the
-channel serves the version, or null) and optional (true: a missing credential skips it).
+channel serves the version, or null), optional (true: a missing credential skips it) and pending
+(true: submitted and waiting on a third party, so the site tags it; false once the channel serves the
+version: the MCP registry and the Signal K package serve it since 0.36, winget is still in review).
 """
 from __future__ import annotations
 
@@ -26,12 +28,12 @@ REPO = M.REPO
 BLOB = f"https://github.com/{REPO}/blob/main/"
 BEGIN, END = "<!-- channels:begin -->", "<!-- channels:end -->"
 FIELDS = ["id", "group", "name", "audience", "requires", "command", "pinned", "verify", "registry",
-          "registry_label", "docs", "docs_label", "note", "links", "registry_name", "parity", "optional"]
+          "registry_label", "docs", "docs_label", "note", "links", "registry_name", "parity", "optional", "pending"]
 
 
 def ch(**kw):
     c = {k: None for k in FIELDS}
-    c.update(links=[], optional=False)
+    c.update(links=[], optional=False, pending=False)
     c.update(kw)
     return c
 
@@ -117,7 +119,7 @@ def channels(ver: str) -> list[dict]:
            command="winget install AshfordeOU.KshanaMcp", pinned=f"winget install AshfordeOU.KshanaMcp --version {ver}",
            verify="kshana-mcp --version", registry="https://github.com/microsoft/winget-pkgs",
            registry_label="winget-pkgs", note="Appears once Microsoft merges the submission.",
-           parity="winget AshfordeOU.KshanaMcp", optional=True, **mcpdoc),
+           parity="winget AshfordeOU.KshanaMcp", optional=True, pending=True, **mcpdoc),
         ch(id="mcp-binary", group="mcp", name="Prebuilt binary", audience="no package manager", requires="none",
            command=f"download kshana-mcp-<target> from the release and check it against SHA256SUMS",
            pinned=f"v{ver}", verify="gh attestation verify <file> --repo " + REPO,

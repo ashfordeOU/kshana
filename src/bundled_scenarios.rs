@@ -146,6 +146,8 @@ pub const BUNDLED: &[(&str, &str)] = &[
     bundled!("multi-band-jamming-waterfall"),
     bundled!("ntn-5g-positioning"),
     bundled!("oem-interop"),
+    bundled!("optical-atmosphere-network"),
+    bundled!("optical-atmosphere-techniques"),
     bundled!("orbit-gnss-challenged"),
     bundled!("orbit-molniya"),
     bundled!("orbit-multignss"),
