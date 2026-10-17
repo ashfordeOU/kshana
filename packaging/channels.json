@@ -18,7 +18,8 @@
     "links",
     "registry_name",
     "parity",
-    "optional"
+    "optional",
+    "pending"
   ],
   "channels": [
     {
@@ -38,7 +39,8 @@
       "links": [],
       "registry_name": null,
       "parity": null,
-      "optional": false
+      "optional": false,
+      "pending": false
     },
     {
       "id": "cli",
@@ -57,7 +59,8 @@
       "links": [],
       "registry_name": null,
       "parity": "crates.io kshana",
-      "optional": false
+      "optional": false,
+      "pending": false
     },
     {
       "id": "rust",
@@ -76,7 +79,8 @@
       "links": [],
       "registry_name": null,
       "parity": "crates.io kshana",
-      "optional": false
+      "optional": false,
+      "pending": false
     },
     {
       "id": "python",
@@ -95,7 +99,8 @@
       "links": [],
       "registry_name": null,
       "parity": "PyPI kshana",
-      "optional": false
+      "optional": false,
+      "pending": false
     },
     {
       "id": "npm",
@@ -114,7 +119,8 @@
       "links": [],
       "registry_name": null,
       "parity": "npm kshana",
-      "optional": false
+      "optional": false,
+      "pending": false
     },
     {
       "id": "mcp",
@@ -133,7 +139,8 @@
       "links": [],
       "registry_name": "io.github.ashfordeOU/kshana-mcp",
       "parity": "crates.io kshana-mcp",
-      "optional": false
+      "optional": false,
+      "pending": false
     },
     {
       "id": "docker",
@@ -152,7 +159,8 @@
       "links": [],
       "registry_name": null,
       "parity": "ghcr.io kshana-mcp",
-      "optional": false
+      "optional": false,
+      "pending": false
     },
     {
       "id": "mcp-desktop",
@@ -192,7 +200,8 @@
       ],
       "registry_name": null,
       "parity": "GitHub release assets",
-      "optional": false
+      "optional": false,
+      "pending": false
     },
     {
       "id": "mcp-cursor",
@@ -220,7 +229,8 @@
       ],
       "registry_name": null,
       "parity": "npm kshana-mcp",
-      "optional": false
+      "optional": false,
+      "pending": false
     },
     {
       "id": "mcp-vscode",
@@ -252,7 +262,8 @@
       ],
       "registry_name": null,
       "parity": "npm kshana-mcp",
-      "optional": false
+      "optional": false,
+      "pending": false
     },
     {
       "id": "mcp-claude-code",
@@ -271,7 +282,8 @@
       "links": [],
       "registry_name": null,
       "parity": "npm kshana-mcp",
-      "optional": false
+      "optional": false,
+      "pending": false
     },
     {
       "id": "mcp-npx",
@@ -290,7 +302,8 @@
       "links": [],
       "registry_name": null,
       "parity": "npm kshana-mcp",
-      "optional": false
+      "optional": false,
+      "pending": false
     },
     {
       "id": "mcp-uvx",
@@ -309,7 +322,8 @@
       "links": [],
       "registry_name": null,
       "parity": "PyPI kshana-mcp",
-      "optional": false
+      "optional": false,
+      "pending": false
     },
     {
       "id": "mcp-brew",
@@ -328,7 +342,8 @@
       "links": [],
       "registry_name": null,
       "parity": "Homebrew tap kshana-mcp",
-      "optional": true
+      "optional": true,
+      "pending": false
     },
     {
       "id": "mcp-scoop",
@@ -347,7 +362,8 @@
       "links": [],
       "registry_name": null,
       "parity": "Scoop bucket kshana-mcp",
-      "optional": true
+      "optional": true,
+      "pending": false
     },
     {
       "id": "mcp-winget",
@@ -366,7 +382,8 @@
       "links": [],
       "registry_name": null,
       "parity": "winget AshfordeOU.KshanaMcp",
-      "optional": true
+      "optional": true,
+      "pending": true
     },
     {
       "id": "mcp-binary",
@@ -385,7 +402,8 @@
       "links": [],
       "registry_name": null,
       "parity": "GitHub release assets",
-      "optional": false
+      "optional": false,
+      "pending": false
     },
     {
       "id": "mcp-registry",
@@ -404,7 +422,8 @@
       "links": [],
       "registry_name": "io.github.ashfordeOU/kshana-mcp",
       "parity": "MCP registry kshana-mcp",
-      "optional": true
+      "optional": true,
+      "pending": false
     },
     {
       "id": "mcp-http",
@@ -423,7 +442,8 @@
       "links": [],
       "registry_name": null,
       "parity": null,
-      "optional": false
+      "optional": false,
+      "pending": false
     },
     {
       "id": "claude-plugin",
@@ -442,7 +462,8 @@
       "links": [],
       "registry_name": null,
       "parity": null,
-      "optional": false
+      "optional": false,
+      "pending": false
     },
     {
       "id": "jetbrains",
@@ -461,7 +482,8 @@
       "links": [],
       "registry_name": null,
       "parity": null,
-      "optional": false
+      "optional": false,
+      "pending": false
     },
     {
       "id": "signalk",
@@ -480,7 +502,8 @@
       "links": [],
       "registry_name": null,
       "parity": "npm signalk-kshana-trust",
-      "optional": true
+      "optional": true,
+      "pending": false
     },
     {
       "id": "opencpn",
@@ -499,7 +522,8 @@
       "links": [],
       "registry_name": null,
       "parity": "GitHub release assets",
-      "optional": false
+      "optional": false,
+      "pending": false
     },
     {
       "id": "grafana",
@@ -518,7 +542,8 @@
       "links": [],
       "registry_name": null,
       "parity": "GitHub release assets",
-      "optional": false
+      "optional": false,
+      "pending": false
     },
     {
       "id": "reference-image",
@@ -537,7 +562,8 @@
       "links": [],
       "registry_name": null,
       "parity": "ghcr.io kshana-reference-build",
-      "optional": false
+      "optional": false,
+      "pending": false
     }
   ]
 }
