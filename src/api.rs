@@ -717,6 +717,10 @@ pub enum ScenarioKind {
     /// TWSTFT two-way equation, uncertainty budget and link stability, plus the stability of
     /// supplied UTC − UTC(k) and station-clock series.
     TimeTransferBudget,
+    /// Optical PNT through the atmosphere: clear-air extinction, cloud and turbulence fades,
+    /// weather-driven availability per site, outage durations coupled to clock holdover, and
+    /// distance-correlated site diversity, with enhancement-technique what-ifs.
+    OpticalAtmosphere,
 }
 
 impl ScenarioKind {
@@ -806,6 +810,7 @@ impl ScenarioKind {
             ScenarioKind::EoRadiometry => "eo-radiometry",
             ScenarioKind::AscentLosses => "ascent-losses",
             ScenarioKind::TimeTransferBudget => "time-transfer-budget",
+            ScenarioKind::OpticalAtmosphere => "optical-atmosphere",
         }
     }
 
@@ -899,6 +904,7 @@ impl ScenarioKind {
             "eo-radiometry" => ScenarioKind::EoRadiometry,
             "ascent-losses" => ScenarioKind::AscentLosses,
             "time-transfer-budget" => ScenarioKind::TimeTransferBudget,
+            "optical-atmosphere" => ScenarioKind::OpticalAtmosphere,
             // The clock pack, named explicitly. It had no arm of its own before, because
             // it was reached through the catch-all below — so removing that catch-all
             // orphaned the one kind the engine has always had. The round-trip test found
@@ -1110,6 +1116,7 @@ pub fn list_scenario_kinds() -> Vec<ScenarioMeta> {
         ScenarioMeta { name: "eo-radiometry", description: "Nadir imager radiometry and image quality: at-aperture radiance of a Lambertian scene, the camera equation, signal and shot/dark/read/quantisation noise and SNR; the system MTF at Nyquist (diffraction x detector x smear x jitter), the relative edge response from it, Q = lambda F/p and the GIQE version 4 NIIRS with no MTF compensation. MODELLED.", required_fields: &[], optional_fields: &["altitude_m", "focal_length_m", "aperture_m", "pixel_pitch_um", "wavelength_um", "bandwidth_um", "fill_factor", "smear_px", "jitter_px_rms", "reflectance", "solar_irradiance_w_m2_um", "sun_zenith_deg", "atmospheric_transmittance", "path_radiance_w_m2_sr_um", "optics_transmittance", "integration_s", "quantum_efficiency", "dark_current_e_s", "read_noise_e", "full_well_e", "adc_bits"] },
         ScenarioMeta { name: "ascent-losses", description: "Planar gravity-turn ascent of a multi-stage vehicle over a non-rotating spherical Earth through the US Standard Atmosphere 1976 (vertical rise, pitch kick, thrust along velocity), integrating the gravity, drag, steering and back-pressure losses and checking ideal dv minus losses against the burnout speed; max-Q, peak acceleration and burnout state. MODELLED.", required_fields: &[], optional_fields: &["stages", "payload_kg", "drag_coefficient", "reference_area_m2", "kick_altitude_m", "kick_angle_deg", "kick_duration_s", "step_s"] },
         ScenarioMeta { name: "time-transfer-budget", description: "Two-way satellite time and frequency transfer between two stations through a geostationary relay: the two-way equation solved for T_A - T_B with every non-reciprocal term (station equipment delays, Ku-band ionosphere, transponder, Sagnac), a quadrature uncertainty budget whose type A term is the simulated link's TDEV at the averaging time, a simulated link with white and flicker phase noise and a diurnal non-reciprocity, and the stability (rate, residual RMS, TDEV, ADEV) of any supplied BIPM Circular T Section 1 series, MJD,ns CSV or IGS RINEX station-clock records. MODELLED.", required_fields: &["station_a", "station_b", "satellite_lon_deg", "transponder_ab_ns", "transponder_ba_ns", "white_noise_ns", "uncertainty"], optional_fields: &["uplink_ghz", "downlink_ghz", "true_offset_ns", "flicker_noise_ns", "diurnal_amplitude_ns", "reciprocity_bias_ns", "step_s", "span_days", "averaging_s", "seed", "series"] },
+        ScenarioMeta { name: "optical-atmosphere", description: "MODELLED optical PNT through the atmosphere: for an optical link and a set of ground sites with stated cloud climates it reports the wavelength- and elevation-dependent clear-air loss (Kim visibility law plus Rayleigh), the Hufnagel-Valley turbulence state (Rytov variance, scintillation index, gamma-gamma parameters, aperture averaging), the weather-driven availability against the link margin (cloud optical depth from a log-normal liquid-water climate, geometric-optics extinction, independent turbulence fade), the link margin needed for target availabilities, the outage-duration distribution, the timing and ranging error growth per outage through the clock holdover model, distance-correlated site-diversity availability, and what-if gains for enhancement techniques (wavelength, receive aperture, adaptive-optics scintillation reduction, extra margin). VALIDATED as implementation of the stated formulas against an independent mpmath oracle: Rytov variance, scintillation index, gamma-gamma fade probability, aperture-averaging factor, cloud and clear-air optical depth. MODELLED: every weather, technique and clock input and the independence and copula assumptions; no measured availability record has been compared. Advisory analysis, not a certified availability or navigation product.", required_fields: &[], optional_fields: &["wavelength_nm", "elevation_deg", "availability_targets_pct", "link", "atmosphere", "site", "network", "technique", "clock"] },
     ]
 }
 
@@ -1977,6 +1984,11 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
         }
         ScenarioKind::TimeTransferBudget => {
             builtins::run_builtin::<crate::time_transfer_budget::TimeTransferBudgetScenario>(src)
+        }
+        ScenarioKind::OpticalAtmosphere => {
+            builtins::run_builtin::<crate::optical_atmosphere_scenario::OpticalAtmosphereScenario>(
+                src,
+            )
         }
         ScenarioKind::LeoNavmsg => {
             builtins::run_builtin::<crate::leo_navmsg::LeoNavmsgScenario>(src)

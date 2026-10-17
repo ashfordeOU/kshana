@@ -101,6 +101,7 @@ ScenarioKind = Literal[
     "eo-radiometry",
     "ascent-losses",
     "time-transfer-budget",
+    "optical-atmosphere",
 ]
 """Every built-in scenario kind, the value of a scenario's top-level ``kind``."""
 
