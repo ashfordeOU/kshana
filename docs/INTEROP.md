@@ -244,6 +244,29 @@ The files have not been loaded into CesiumJS, Google Earth, Ansys STK or an SDR 
 part of the test suite, so acceptance by a particular version of those tools is not
 tested here.
 
+## Orbit, attitude and kernel interchange (library, 0.36)
+
+Beside the `--export` formats, 0.36 added library readers and writers for the standard files
+mission-analysis tools exchange. They take and return text or bytes and touch no file. Each is a
+VALIDATED row of the [verification matrix](VERIFICATION-MATRIX.md), against the independent
+implementation named there:
+
+- **CCSDS Orbit Data Messages** (`kshana::odm`, with `kshana::ndm_xml` for the XML form): OPM, OMM
+  and OCM in keyword-value notation (KVN) and NDM/XML, per CCSDS 502.0-B-3 (OPM and OMM versions 3.0
+  and 2.0, OCM 3.0). Checked both ways against Orekit: Orekit reads Kshana's files and Kshana reads
+  Orekit's. The findings that remain are pinned by tests.
+- **CCSDS Attitude Data Messages** (`kshana::adm`, with `kshana::ndm_xml`): AEM and APM per
+  CCSDS 504.0-B-2, in KVN and NDM/XML. Checked against Orekit the same way, and the record
+  rotations against Orekit's.
+- **SPICE SPK** (`kshana::spk_writer`): writers and readers of NAIF SPK segments of types 9 and 13
+  (with the export of a CCSDS OEM to an SPK kernel) and types 3 and 21 (Chebyshev polynomials and
+  extended difference lines), checked against the NAIF SPICE toolkit's own readers, down to byte
+  identity. Kshana writes the segments from records it is given: it does not fit Chebyshev
+  coefficients or produce difference lines.
+
+The CCSDS OEM importer and writer, and the OEM covariance block, are older and are described under
+the imports above and in the matrix.
+
 ## Limitations
 
 - Only the kinds in the table below export geometry. Kinds whose geometry is centred on
