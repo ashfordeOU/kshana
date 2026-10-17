@@ -22,7 +22,7 @@
   <a href="docs/COVERAGE.md"><img src="https://img.shields.io/badge/coverage-~95%25-377D0C?style=flat-square&labelColor=0A1226" height="18" alt="Line coverage near 95 % of src/, measured in docs/COVERAGE.md and gated at 85 % in continuous integration"></a>
   <a href="#evidence"><img src="https://img.shields.io/badge/validated-175%2F364-377D0C?style=flat-square&labelColor=0A1226" height="18" alt="175 of 364 capabilities VALIDATED against an independent external oracle, from the verification matrix"></a>
   <a href="https://sonarcloud.io/summary/overall?id=ashfordeOU_kshana"><img src="https://img.shields.io/sonar/quality_gate/ashfordeOU_kshana?server=https%3A%2F%2Fsonarcloud.io&label=quality&style=flat-square&labelColor=0A1226" height="18" alt="SonarQube Cloud quality gate status"></a>
-  <a href="https://github.com/ashfordeOU/kshana/releases"><img src="https://img.shields.io/badge/release-v0.36.0-066A86?style=flat-square&labelColor=0A1226" height="18" alt="Release v0.36.0"></a>
+  <a href="https://github.com/ashfordeOU/kshana/releases"><img src="https://img.shields.io/badge/release-v0.37.0-066A86?style=flat-square&labelColor=0A1226" height="18" alt="Release v0.37.0"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/licence-AGPL--3.0-3F4B67?style=flat-square&labelColor=0A1226" height="18" alt="Licence: AGPL-3.0-only"></a>
   <br>
   <a href="https://doi.org/10.5281/zenodo.20528627"><img src="https://img.shields.io/badge/DOI-zenodo.20528627-7E4B00?style=flat-square&labelColor=0A1226" height="18" alt="DOI 10.5281/zenodo.20528627, the Zenodo concept record of every release"></a>
@@ -45,7 +45,7 @@
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/hero-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/hero-light.svg">
-  <img src="docs/assets/readme/hero-light.svg" alt="Rehearse the minute GNSS goes dark. Kshana's mission console, drawn from a real run of engine v0.36.0: the chained campaign campaign-jam-spoof-holdover-integrity (seed 20260928, 6 phases, 18 member runs over T+01:16:10) and the 102 satellites of GPS, Galileo, BeiDou and GLONASS from constellation-multi-gnss-coverage, each drawn on the circular two-body orbit recovered from the engine's ground track, radii compressed for display. Clock time error peaks at 62.7 ns against a 50 ns guard, carrier-to-noise density falls to -12.2 dB-Hz against a 25 dB-Hz floor, and the vertical protection level reaches 135.4 m against a 50 m alert limit." width="100%">
+  <img src="docs/assets/readme/hero-light.svg" alt="Rehearse the minute GNSS goes dark. Kshana's mission console, drawn from a real run of engine v0.37.0: the chained campaign campaign-jam-spoof-holdover-integrity (seed 20260928, 6 phases, 18 member runs over T+01:16:10) and the 102 satellites of GPS, Galileo, BeiDou and GLONASS from constellation-multi-gnss-coverage, each drawn on the circular two-body orbit recovered from the engine's ground track, radii compressed for display. Clock time error peaks at 62.7 ns against a 50 ns guard, carrier-to-noise density falls to -12.2 dB-Hz against a 25 dB-Hz floor, and the vertical protection level reaches 135.4 m against a 50 m alert limit." width="100%">
 </picture>
 
 ## Rehearse the minute GNSS goes dark
@@ -61,7 +61,7 @@ Every capability carries one of three labels in a machine-checked ledger: **VALI
 independent external oracle agrees), **MODELLED** (internally consistent, and said out loud)
 or **PARTNER** (a hardware partner owns it).
 
-> **Status: v0.36.0.** A validated, reproducible simulation substrate for PNT resilience.
+> **Status: v0.37.0.** A validated, reproducible simulation substrate for PNT resilience.
 > Timing and holdover come first, because that domain is the best validated. Kshana is a
 > study and trade-off instrument: not radio-frequency (RF) signal-generator hardware (it
 > drives no radio and transmits nothing; its signal-level output is baseband IQ sample files
@@ -69,42 +69,19 @@ or **PARTNER** (a hardware partner owns it).
 > is an analysis tool) and not a flight product. New to the field? Start with the
 > [plain-language primer](docs/CONCEPTS.md) and the [glossary](docs/GLOSSARY.md).
 
-## What's new in 0.36
+## What's new in 0.37
 
-0.36 adds a lunar reference-station study with a frozen, pre-registered prediction, makes the
-native and WebAssembly builds return the same bytes, and widens the engine with eight new
-scenario kinds, real-data GNSS processing, GNSS/INS fusion, fitting from IQ campaigns, gravity
-fields and interchange formats. It stays a study instrument: receiver trust is **advisory**, not
-type-approved navigation equipment, nothing here is certified, and nothing transmits. Several
-rows below carry a pre-registered bar that was **not met**; each miss is recorded, not loosened.
-Each row states what the ledger holds for it ([how a label is earned](#evidence)); a status names
-only what was checked, and the ledger row and the linked page say what was not.
+0.37 adds optical timing links through the atmosphere. It stays a study instrument: the output is
+**advisory**, not a link-design, safety or navigation tool, and nothing here is certified. Each row
+states what the ledger holds for it ([how a label is earned](#evidence)); a status names only what
+was checked, and the ledger row and the linked page say what was not.
 
-| New in 0.36 | What it does, and why | Ledger status | Read |
+| New in 0.37 | What it does, and why | Ledger status | Read |
 |---|---|---|---|
-| **Lunar reference-station study** | the `lunar-station-coverage` kind sweeps the lunar differential-PNT model over a south-polar user grid and a day of epochs: error percentiles, availability with reasons, coverage, protection levels, coverage radius per azimuth and the correction-link budget; opt-in terrain horizon masks (a stated profile or a vendored LOLA DEM crop), receiver terms, a station time laboratory and station geodesy. Not affiliated with or endorsed by any agency | **MODELLED**: arithmetic re-computed by numpy under a pre-registered bar; against published claims, 1 of 6 bars met on illustrative orbit elements, recorded as a finding, not as evidence the claims are wrong | [Lunar reference station](docs/LUNAR-REFERENCE-STATION.md) |
-| **Frozen lunar prediction** | the study's results under the publicly stated assumptions, frozen at a commit with SHA-256 hashes and a scoring protocol fixed in advance; a changed assumption gets a new dated prediction, and a miss is published as prominently as a hit | a prediction, not a validation; no ledger row. Dominated by an unpublished element set, labelled ILLUSTRATIVE | [Prediction](docs/predictions/lunar-reference-station.md) |
-| **Geometry-aware trust** | every `receiver-trust` epoch carries its satellite geometry (good, degraded or unknown, with HDOP, PDOP and VDOP) and every deduction a class (`geometry`, `environment`, `inconsistency`), so a poor sky does not read as an attack; geometry alone costs at most 15 points and never reaches the untrusted band. Scores are unchanged unless the geometry is poor | **MODELLED** (checked against its stated rules); the DOP kernel underneath keeps its **VALIDATED** row (gnss_lib_py) | [Receiver trust](docs/RECEIVER-TRUST.md) |
-| **Skyline masks and sky geometry** | an azimuth-dependent elevation cut (street canyon, sectors, terrain profile, four representative presets) as an optional `[skyline]` in several kinds, and `kshana sky` and `kshana skyline` for visibility, DOPs, covariance and the error ellipse | look angles, visible set and DOP under the mask **VALIDATED** (Orekit, gnss_lib_py); error ellipse **VALIDATED** (numpy); presets, reductions and the sky composition **MODELLED** | [Skyline](docs/SKYLINE.md) |
-| **Portable maths: native equals WebAssembly** | every `f64` transcendental and the normal, gamma and exponential samplers go through the pure-Rust `libm`, so the native and WebAssembly builds return byte-identical result JSON for every bundled scenario. The last bits of many results moved; every moved value is listed, and no bar, tolerance or threshold changed | an engineering guarantee, not a ledger capability | [Rebaseline record](docs/revisions/STUDIO15-portable-math-rebaseline.md) |
-| **GNSS on real RINEX** | RTK with LAMBDA integer fixing on a short real baseline, a float PPP receiver-clock solution, RINEX 4 navigation reading, and PPP parity runs against gLAB and RTKLIB | RTK **VALIDATED** (ITRF2020 baseline, median error 4.5 mm); PPP receiver clock **VALIDATED** (IGS final station clock); RINEX 4 navigation **VALIDATED** (the same day's IGS RINEX 3 file); the single-point parity bars were not met, recorded | [Verification matrix](docs/VERIFICATION-MATRIX.md) |
-| **GNSS/INS fusion** | the `gnss-ins` kind gains a trajectory library, maritime, rail and aviation packs and optional pseudorange tight coupling; carrier-phase tight coupling with float ambiguities; a coupled PNT filter with a bias state in the `fusion` kind | loosely coupled EKF with lever arm **VALIDATED** on the KF-GINS dataset (data-gated, fetched with pinned hashes); the packs, tight and carrier-phase coupling and the coupled filter **MODELLED** | [Verification matrix](docs/VERIFICATION-MATRIX.md) |
-| **IQ campaigns: monitors, lab fit, tracking** | IQ monitors scored inside a lab-replay campaign, with a detection ROC; `kshana iq labfit` fits the receiver's C/N0 and lock models to a campaign folder with prediction intervals; the tracking engine compared with GNSS-SDR 0.0.19; BeiDou B1I and GPS L1C codes | codes **VALIDATED** (GNSS-SDR's generator, the IS-GPS-800J check columns); monitors, ROC, lab fit and the tracking comparison **MODELLED**, with several pre-registered bars not met and recorded | [Lab fit from IQ](docs/design/LABFIT-FROM-IQ.md) |
-| **Gravity fields** | `gravity-map` takes a real reference field (bundled EGM2008 to degree 70, or an ICGEM file) and a map-error Monte Carlo; planetary fields from PDS SHADR tables; Earth gravity to degree 2190; Mars orbit determination from DSN ramped Doppler | anomaly synthesis **VALIDATED** (ICGEM Calculation Service); SHADR fields **VALIDATED** (pyshtools); degree 2190 and Mars orbit determination **MODELLED**. The navigation bar on the degree-70 field is not met (3106 m against 500 m), as predicted | [Capability](docs/CAPABILITY.md) |
-| **Time-transfer budget** | the `time-transfer-budget` kind solves the two-way (TWSTFT) equation with every non-reciprocal term, budgets its uncertainty, and gives the stability of supplied BIPM Circular T, CSV or IGS station-clock series | **MODELLED**; the PPP time solution is **VALIDATED** separately (row above) | [Scenario reference](docs/SCENARIOS.md#time-transfer-budget) |
-| **Space-segment kinds** | `entry-heating`, `eo-radiometry`, `ascent-losses`, `aocs` (reaction-wheel attitude control, optionally on a multiplicative EKF), `acm-link` (DVB-S2 adaptive coding and modulation) and `contact-schedule` | entry peak deceleration **VALIDATED** (published Stardust nominal, +6.1 % against a 10 % bar); reaction-wheel control **VALIDATED** (Basilisk 2.9.1); heating, radiometry, ascent, the EKF, ACM and scheduling **MODELLED** | [Entry, EO, ascent](docs/ENTRY-EO-ASCENT.md), [AOCS](docs/AOCS.md), [Contact scheduling](docs/CONTACT-SCHEDULING.md) |
-| **Interchange formats** | CCSDS Orbit and Attitude Data Messages, SPICE SPK types 3, 9, 13 and 21, and Space Packet secondary headers, error control and segmentation, written and read | **VALIDATED** against Orekit 13.1.8, CSPICE N0067 and independent packet libraries, each comparison pre-registered | [Verification matrix](docs/VERIFICATION-MATRIX.md) |
+| **Optical PNT through the atmosphere** | the `optical-atmosphere` kind reports clear-air loss, Hufnagel-Valley turbulence (Rytov variance, scintillation index, gamma-gamma fades, aperture averaging), weather-driven per-site availability and its cloud ceiling, outage durations, distance-correlated site diversity, enhancement techniques (wavelength, aperture, adaptive optics, margin) and the timing error an outage costs a holdover clock; two bundled scenarios with ILLUSTRATIVE cloud climates | **MODELLED**: three ledger rows; the numerics match an independent mpmath program under pre-registered bars, which checks the implementation of the stated formulas, not the atmosphere; no measured availability record has been compared | [Optical atmosphere](docs/OPTICAL-ATMOSPHERE.md) |
 
-Also new: an impulsive transfer optimiser on the DE440 ephemeris (**VALIDATED** against an
-independent SPICE and pykep optimiser), a campaign optimiser (**MODELLED**),
-[calibration ensembles](docs/CALIBRATION-ENSEMBLES.md) over 200 seeds, opt-in NRLMSISE-00 drag
-density and a DOP853 integrator, typed Python and TypeScript APIs, and a short IQ run in the
-browser build. Two changes to note: broadband and swept jammers now use Q = 2 in the anti-jam
-equation, and the Galileo E1 memory codes are no longer bundled, because their terms allow
-redistribution only for non-commercial purposes; the engine reads your own copy
-([licensing](LICENSING.md)). The full list is in the [changelog](CHANGELOG.md#0360---2026-10-16).
-
-0.35's highlights: [changelog](CHANGELOG.md#0350---2026-10-12).
+0.36's highlights: [changelog](CHANGELOG.md#0360---2026-10-16). The full 0.37 list is in the
+[changelog](CHANGELOG.md#0370---2026-10-17).
 
 ## Kshana Studio
 
@@ -125,7 +102,7 @@ figures, the scenario file, the code to run it from Python and the citation.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/studio/studio-task-dark.jpg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/studio/studio-task-light.jpg">
-  <img src="docs/assets/readme/studio/studio-task-light.jpg" alt="Kshana Studio, Simple view, on the bundled scenario integrity-raim, engine v0.36.0 running locally. The question: does the geometry meet the alert limits (horizontal and vertical protection level)? The answer first, marked Live result: Yes, mostly: for 95.3 % of the 12 h. The receiver's error bound stayed under the alert limits (40 m horizontal and 50 m vertical) at 344 of 361 checks, and no fix was misleading. Key figures: time the fix can be trusted 95.3 %, longest gap 10 min, typical error bound 6.5 / 13 m, misleading fixes 0. Beside it, Try other settings with five of them (the range error, the two alert limits, the duration and the elevation mask) and Run again, then the folded sections Advanced settings (13 more), How this is computed (8 validated, 6 modelled) and For researchers. Below, the views of this result and the protection levels plotted against the alert limit." width="100%">
+  <img src="docs/assets/readme/studio/studio-task-light.jpg" alt="Kshana Studio, Simple view, on the bundled scenario integrity-raim, engine v0.37.0 running locally. The question: does the geometry meet the alert limits (horizontal and vertical protection level)? The answer first, marked Live result: Yes, mostly: for 95.3 % of the 12 h. The receiver's error bound stayed under the alert limits (40 m horizontal and 50 m vertical) at 344 of 361 checks, and no fix was misleading. Key figures: time the fix can be trusted 95.3 %, longest gap 10 min, typical error bound 6.5 / 13 m, misleading fixes 0. Beside it, Try other settings with five of them (the range error, the two alert limits, the duration and the elevation mask) and Run again, then the folded sections Advanced settings (13 more), How this is computed (8 validated, 6 modelled) and For researchers. Below, the views of this result and the protection levels plotted against the alert limit." width="100%">
 </picture>
 
 **The Advanced view** is the full dashboard: the scenario library, five numbered steps
@@ -142,13 +119,13 @@ them, and you can pin up to four runs and compare them side by side.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/studio/studio-home-dark.jpg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/studio/studio-home-light.jpg">
-  <img src="docs/assets/readme/studio/studio-home-light.jpg" alt="Kshana Studio, Simple view, opening screen, titled What would you like to find out?, with the engine v0.36.0 live and, in the top bar, three links: Training debrief, Interference map and Receiver trust. Four questions: how many satellites can I see anywhere on Earth, can I trust my position fix, how long can a clock keep time without satellites, and what does a jammer do to my receiver. Below the first, its recorded result: at least 22 satellites in view at every place and 31 on average with GPS, Galileo, BeiDou and GLONASS together, a fix possible at 100 % of places and times, on a world map of satellites in view, with an Open this result button. Beside it, Everything Kshana can do: 16 areas and 139 ready-to-run scenarios, each tile with a small chart from a recorded run and its share of validated methods, and the ledger's 173 of 350 capabilities validated." width="100%">
+  <img src="docs/assets/readme/studio/studio-home-light.jpg" alt="Kshana Studio, Simple view, opening screen, titled What would you like to find out?, with the engine v0.37.0 live and, in the top bar, three links: Training debrief, Interference map and Receiver trust. Four questions: how many satellites can I see anywhere on Earth, can I trust my position fix, how long can a clock keep time without satellites, and what does a jammer do to my receiver. Below the first, its recorded result: at least 22 satellites in view at every place and 31 on average with GPS, Galileo, BeiDou and GLONASS together, a fix possible at 100 % of places and times, on a world map of satellites in view, with an Open this result button. Beside it, Everything Kshana can do: 16 areas and 139 ready-to-run scenarios, each tile with a small chart from a recorded run and its share of validated methods, and the ledger's 173 of 350 capabilities validated." width="100%">
 </picture>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/studio/studio-advanced-dark.jpg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/studio/studio-advanced-light.jpg">
-  <img src="docs/assets/readme/studio/studio-advanced-light.jpg" alt="Kshana Studio, Advanced view, after a run of the bundled scenario constellation-multi-gnss-coverage (Four GNSS constellations, one map), engine v0.36.0 running locally. On the left the scenario library, 139 scenarios in 16 domains. The five steps Choose, Set, Run, Read results and Share or export, with step 4 current. Key figures: 102 satellites, availability 100 % (PASS), median position dilution of precision (PDOP) 0.95 (PASS), PDOP 95th percentile 1.105 (PASS), 31.03 satellites in view on average and 22 at the fewest. Below, the panel row with Coverage selected, the replay bar, a world map of the mean PDOP from 0.831 to 1.0853 with every satellite drawn, and the global coverage figures." width="100%">
+  <img src="docs/assets/readme/studio/studio-advanced-light.jpg" alt="Kshana Studio, Advanced view, after a run of the bundled scenario constellation-multi-gnss-coverage (Four GNSS constellations, one map), engine v0.37.0 running locally. On the left the scenario library, 139 scenarios in 16 domains. The five steps Choose, Set, Run, Read results and Share or export, with step 4 current. Key figures: 102 satellites, availability 100 % (PASS), median position dilution of precision (PDOP) 0.95 (PASS), PDOP 95th percentile 1.105 (PASS), 31.03 satellites in view on average and 22 at the fewest. Below, the panel row with Coverage selected, the replay bar, a world map of the mean PDOP from 0.831 to 1.0853 with every satellite drawn, and the global coverage figures." width="100%">
 </picture>
 
 </details>
@@ -164,7 +141,7 @@ editions.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/site/site-strip-dark.jpg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/site/site-strip-light.jpg">
-  <img src="docs/assets/readme/site/site-strip-light.jpg" alt="Three pages of kshana.dev side by side. The Home hero: the name line Kshana · क्षण · the precise instant above the headline Rehearse the minute GNSS goes dark, with the mission console of a real run of engine v0.36.0 (a globe and three live charts: clock time error, carrier-to-noise density and protection level). Evidence, Published research: the five arXiv papers built on the open engine, the newest with an engine figure. Editions, Kshana Pro, the same engine, amplified: Free runs one scenario, Pro answers the programme's question." width="100%">
+  <img src="docs/assets/readme/site/site-strip-light.jpg" alt="Three pages of kshana.dev side by side. The Home hero: the name line Kshana · क्षण · the precise instant above the headline Rehearse the minute GNSS goes dark, with the mission console of a real run of engine v0.37.0 (a globe and three live charts: clock time error, carrier-to-noise density and protection level). Evidence, Published research: the five arXiv papers built on the open engine, the newest with an engine figure. Editions, Kshana Pro, the same engine, amplified: Free runs one scenario, Pro answers the programme's question." width="100%">
 </picture>
 
 ## Capabilities
@@ -214,7 +191,7 @@ SigMF is the Signal Metadata Format.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/lband-waterfall-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/lband-waterfall-light.svg">
-  <img src="docs/assets/readme/lband-waterfall-light.svg" alt="The GNSS L band as one power spectral density over 60 s, from a real run of the spectrum kind (l-band-waterfall-jamming.toml, seed 7, engine v0.36.0): frequency across, time down, colour for power above the -202.0 dBW/Hz noise floor. Jammers: chirp privacy device (chirp, on at 10 s, off at 40 s); CW tone on L1 (cw, on at 30 s); L2 narrowband noise (narrowband, on at 45 s). Worst band GPS L1 C/A: minimum effective C/N0 3.2 dB-Hz at 31 s against a 25 dB-Hz tracking floor. GPS L1 C/A minimum 3.2 dB-Hz; Galileo E1 minimum 4.7 dB-Hz; GPS L2C minimum 36.9 dB-Hz; GPS L5 minimum 44.1 dB-Hz; Galileo E5a minimum 47.0 dB-Hz." width="100%">
+  <img src="docs/assets/readme/lband-waterfall-light.svg" alt="The GNSS L band as one power spectral density over 60 s, from a real run of the spectrum kind (l-band-waterfall-jamming.toml, seed 7, engine v0.37.0): frequency across, time down, colour for power above the -202.0 dBW/Hz noise floor. Jammers: chirp privacy device (chirp, on at 10 s, off at 40 s); CW tone on L1 (cw, on at 30 s); L2 narrowband noise (narrowband, on at 45 s). Worst band GPS L1 C/A: minimum effective C/N0 3.2 dB-Hz at 31 s against a 25 dB-Hz tracking floor. GPS L1 C/A minimum 3.2 dB-Hz; Galileo E1 minimum 4.7 dB-Hz; GPS L2C minimum 36.9 dB-Hz; GPS L5 minimum 44.1 dB-Hz; Galileo E5a minimum 47.0 dB-Hz." width="100%">
 </picture>
 
 <picture>
@@ -249,7 +226,7 @@ and `leo-pass-iridium`.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/trust-timeline-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/trust-timeline-light.svg">
-  <img src="docs/assets/readme/trust-timeline-light.svg" alt="Trust score over one synthetic passage, from a real run of engine v0.36.0 on examples/maritime-trust (a made-up NMEA log of a ferry on a Tallinn to Helsinki route, 3001 epochs at 1 Hz). Three lanes share one time axis. Top: the distance between the position the receiver reports and the vessel's real position, which stays within a few metres until about 1576 s, when the log's scripted position drag-off pulls it away, while the receiver keeps reporting a valid fix. Middle: the trust score from 0 to 100, not computed during the first 300 s of calibration, in the nominal band (at least 90) until the drag-off, then falling through the degraded band (at least 55) into the untrusted band. Bottom: the band of each epoch as a coloured ribbon with its name. The score is advisory. Advisory software, not type-approved navigation equipment (IEC 61108, IEC 61162): the operator remains responsible for the navigation of the vessel. The log is made up to show the format and the monitors; it is not a measurement and says nothing about how any receiver would perform." width="100%">
+  <img src="docs/assets/readme/trust-timeline-light.svg" alt="Trust score over one synthetic passage, from a real run of engine v0.37.0 on examples/maritime-trust (a made-up NMEA log of a ferry on a Tallinn to Helsinki route, 3001 epochs at 1 Hz). Three lanes share one time axis. Top: the distance between the position the receiver reports and the vessel's real position, which stays within a few metres until about 1576 s, when the log's scripted position drag-off pulls it away, while the receiver keeps reporting a valid fix. Middle: the trust score from 0 to 100, not computed during the first 300 s of calibration, in the nominal band (at least 90) until the drag-off, then falling through the degraded band (at least 55) into the untrusted band. Bottom: the band of each epoch as a coloured ribbon with its name. The score is advisory. Advisory software, not type-approved navigation equipment (IEC 61108, IEC 61162): the operator remains responsible for the navigation of the vessel. The log is made up to show the format and the monitors; it is not a measurement and says nothing about how any receiver would perform." width="100%">
 </picture>
 
 <picture>
@@ -261,7 +238,7 @@ and `leo-pass-iridium`.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/training-track-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/training-track-light.svg">
-  <img src="docs/assets/readme/training-track-light.svg" alt="Training stream from the scenario coastal-drag-off (engine v0.36.0, seed 22, 25 minutes at one fix per 10 s of the instructor log). A map shows the vessel's true track and the track the receiver reports: they agree until a scripted position drag-off begins at 421 s, the reported track then walks away from the true one while the receiver keeps a valid fix, and it steps back when the event ends at 1140 s. Beside it, the distance between the two tracks over time, and the mean carrier-to-noise density the receiver reports, which rises to one raised level while the event lasts. Synthetic training data generated by Kshana. For training and testing only: never feed this stream to a vessel's live navigation systems. Advisory, not type-approved navigation equipment. Advisory software, not type-approved navigation equipment (IEC 61108, IEC 61162): the operator remains responsible for the navigation of the vessel. Positions, dates and tracks are invented." width="100%">
+  <img src="docs/assets/readme/training-track-light.svg" alt="Training stream from the scenario coastal-drag-off (engine v0.37.0, seed 22, 25 minutes at one fix per 10 s of the instructor log). A map shows the vessel's true track and the track the receiver reports: they agree until a scripted position drag-off begins at 421 s, the reported track then walks away from the true one while the receiver keeps a valid fix, and it steps back when the event ends at 1140 s. Beside it, the distance between the two tracks over time, and the mean carrier-to-noise density the receiver reports, which rises to one raised level while the event lasts. Synthetic training data generated by Kshana. For training and testing only: never feed this stream to a vessel's live navigation systems. Advisory, not type-approved navigation equipment. Advisory software, not type-approved navigation equipment (IEC 61108, IEC 61162): the operator remains responsible for the navigation of the vessel. Positions, dates and tracks are invented." width="100%">
 </picture>
 
 <picture>
@@ -332,7 +309,7 @@ Each scenario compares a quantum sensor against its classical counterpart throug
 
 <p align="center">
   <img src="docs/assets/figures/scenario-fom.png" alt="What quantum sensors buy when GNSS is gone, clock-holdover scenario: quantum holds 6600 s of autonomy vs 2610 s classical, far lower timing error, and 100% vs 95.6% availability" width="88%">
-  <br><sub>What quantum sensors buy when GNSS is gone — <code>clock-holdover</code> · seed 42 · drawn at engine 0.36.0, and every figure above re-checked against the current engine on each build by <code>tests/published_figures_still_reproduce.rs</code> · <a href="docs/assets/figures/scenario-fom.svg">SVG</a></sub>
+  <br><sub>What quantum sensors buy when GNSS is gone — <code>clock-holdover</code> · seed 42 · drawn at engine 0.37.0, and every figure above re-checked against the current engine on each build by <code>tests/published_figures_still_reproduce.rs</code> · <a href="docs/assets/figures/scenario-fom.svg">SVG</a></sub>
 </p>
 
 The advantage is **outage- and vibration-dependent**, with an explicit break-even where classical wins — shown honestly across the technology-readiness ladder (optical-clock figures are ground-demonstrator targets; no strontium optical clock has flown):
@@ -467,7 +444,7 @@ the exports you ask for.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/flow-pipeline-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/flow-pipeline-light.svg">
-  <img src="docs/assets/readme/flow-pipeline-light.svg" alt="How a run flows. A scenario TOML file (a kind, a seed and its parameters) goes into the engine, kshana 0.36.0, through the api::run_toml dispatch over 84 scenario kinds, deterministic from scenario, seed and engine version. The engine writes result.json, chart.svg, report.html and report.json, a table.csv for the kinds that define one, and on request SP3, CCSDS OMM and OEM, CZML, KML, GeoJSON, STK and SigMF exports; a suite writes study.json and study.html. Those files feed Kshana Studio in the browser, an AI assistant through the kshana-mcp server, and continuous integration." width="100%">
+  <img src="docs/assets/readme/flow-pipeline-light.svg" alt="How a run flows. A scenario TOML file (a kind, a seed and its parameters) goes into the engine, kshana 0.37.0, through the api::run_toml dispatch over 84 scenario kinds, deterministic from scenario, seed and engine version. The engine writes result.json, chart.svg, report.html and report.json, a table.csv for the kinds that define one, and on request SP3, CCSDS OMM and OEM, CZML, KML, GeoJSON, STK and SigMF exports; a suite writes study.json and study.html. Those files feed Kshana Studio in the browser, an AI assistant through the kshana-mcp server, and continuous integration." width="100%">
 </picture>
 
 This bundled scenario runs 2 h: 10 min of GNSS, then about 1.8 h with GNSS denied. It asks
@@ -648,7 +625,7 @@ The **Status** column states the *kind* of evidence, matching the validation lad
 ## Install
 
 One line gets the command-line tool: **`cargo install kshana`**. Every channel ships
-v0.36.0 from the same tagged commit.
+v0.37.0 from the same tagged commit.
 
 <!-- channels:begin -->
 | Channel | Install | Guide |
@@ -660,12 +637,12 @@ v0.36.0 from the same tagged commit.
 | JavaScript and WebAssembly | `npm install kshana` | [npm and WebAssembly guide](https://kshana.dev/docs/npm.html) |
 | AI assistant (MCP server, cargo) | `cargo install kshana-mcp` | [MCP server guide](https://kshana.dev/docs/mcp.html) |
 | Docker image | `docker run --rm -i ghcr.io/ashfordeou/kshana-mcp` | [MCP server guide: Docker](https://kshana.dev/docs/mcp.html#install) |
-| Claude Desktop extension | double-click the `.mcpb` for your system: [macOS (Apple silicon)](https://github.com/ashfordeOU/kshana/releases/download/v0.36.0/kshana-mcp-aarch64-apple-darwin.mcpb) · [macOS (Intel)](https://github.com/ashfordeOU/kshana/releases/download/v0.36.0/kshana-mcp-x86_64-apple-darwin.mcpb) · [Windows](https://github.com/ashfordeOU/kshana/releases/download/v0.36.0/kshana-mcp-x86_64-pc-windows-msvc.mcpb) · [Linux (x86-64)](https://github.com/ashfordeOU/kshana/releases/download/v0.36.0/kshana-mcp-x86_64-unknown-linux-gnu.mcpb) · [Linux (Arm)](https://github.com/ashfordeOU/kshana/releases/download/v0.36.0/kshana-mcp-aarch64-unknown-linux-gnu.mcpb) | [Every MCP install snippet](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
-| Cursor (one click) | [Add to Cursor (npx)](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImtzaGFuYS1tY3BAMC4zNi4wIl19) · [Add to Cursor (Docker)](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoiZG9ja2VyIiwiYXJncyI6WyJydW4iLCItaSIsIi0tcm0iLCJnaGNyLmlvL2FzaGZvcmRlb3Uva3NoYW5hLW1jcDowLjM2LjAiXX0%3D) · `npx -y kshana-mcp@0.36.0` | [Every MCP install snippet](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
-| VS Code (one click) | [Install in VS Code (npx)](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522npx%2522%252C%2522args%2522%253A%255B%2522-y%2522%252C%2522kshana-mcp%25400.36.0%2522%255D%257D) · [Install in VS Code (Docker)](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522docker%2522%252C%2522args%2522%253A%255B%2522run%2522%252C%2522-i%2522%252C%2522--rm%2522%252C%2522ghcr.io%252Fashfordeou%252Fkshana-mcp%253A0.36.0%2522%255D%257D) · `npx -y kshana-mcp@0.36.0` | [Every MCP install snippet](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
-| Claude Code | `claude mcp add kshana -- npx -y kshana-mcp@0.36.0` | [Every MCP install snippet](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
-| npx | `npx -y kshana-mcp@0.36.0` | [Every MCP install snippet](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
-| uvx / pipx | `uvx kshana-mcp==0.36.0` | [Every MCP install snippet](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
+| Claude Desktop extension | double-click the `.mcpb` for your system: [macOS (Apple silicon)](https://github.com/ashfordeOU/kshana/releases/download/v0.37.0/kshana-mcp-aarch64-apple-darwin.mcpb) · [macOS (Intel)](https://github.com/ashfordeOU/kshana/releases/download/v0.37.0/kshana-mcp-x86_64-apple-darwin.mcpb) · [Windows](https://github.com/ashfordeOU/kshana/releases/download/v0.37.0/kshana-mcp-x86_64-pc-windows-msvc.mcpb) · [Linux (x86-64)](https://github.com/ashfordeOU/kshana/releases/download/v0.37.0/kshana-mcp-x86_64-unknown-linux-gnu.mcpb) · [Linux (Arm)](https://github.com/ashfordeOU/kshana/releases/download/v0.37.0/kshana-mcp-aarch64-unknown-linux-gnu.mcpb) | [Every MCP install snippet](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
+| Cursor (one click) | [Add to Cursor (npx)](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImtzaGFuYS1tY3BAMC4zNi4wIl19) · [Add to Cursor (Docker)](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoiZG9ja2VyIiwiYXJncyI6WyJydW4iLCItaSIsIi0tcm0iLCJnaGNyLmlvL2FzaGZvcmRlb3Uva3NoYW5hLW1jcDowLjM2LjAiXX0%3D) · `npx -y kshana-mcp@0.37.0` | [Every MCP install snippet](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
+| VS Code (one click) | [Install in VS Code (npx)](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522npx%2522%252C%2522args%2522%253A%255B%2522-y%2522%252C%2522kshana-mcp%25400.37.0%2522%255D%257D) · [Install in VS Code (Docker)](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522docker%2522%252C%2522args%2522%253A%255B%2522run%2522%252C%2522-i%2522%252C%2522--rm%2522%252C%2522ghcr.io%252Fashfordeou%252Fkshana-mcp%253A0.37.0%2522%255D%257D) · `npx -y kshana-mcp@0.37.0` | [Every MCP install snippet](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
+| Claude Code | `claude mcp add kshana -- npx -y kshana-mcp@0.37.0` | [Every MCP install snippet](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
+| npx | `npx -y kshana-mcp@0.37.0` | [Every MCP install snippet](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
+| uvx / pipx | `uvx kshana-mcp==0.37.0` | [Every MCP install snippet](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
 | Homebrew | `brew install ashfordeOU/tap/kshana-mcp` | [Every MCP install snippet](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
 | Scoop | `scoop bucket add ashforde https://github.com/ashfordeOU/scoop-bucket && scoop install kshana-mcp` | [Every MCP install snippet](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
 | winget | `winget install AshfordeOU.KshanaMcp` | [Every MCP install snippet](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
@@ -682,8 +659,8 @@ v0.36.0 from the same tagged commit.
 
 <p><a href="https://plugins.jetbrains.com/plugin/32181-kshana--pnt-simulator"><img src="https://img.shields.io/badge/JetBrains-Marketplace-066A86?style=flat-square&labelColor=0A1226" alt="Kshana on the JetBrains Marketplace"></a> <a href="Cargo.toml"><img src="https://img.shields.io/badge/rust-1.85%2B-3F4B67?style=flat-square&labelColor=0A1226" alt="Builds with Rust 1.85 or newer, the rust-version in Cargo.toml"></a></p>
 
-MCP is the Model Context Protocol. Pin a release with `cargo install kshana --version 0.36.0`,
-`pip install kshana==0.36.0` or `npm install kshana@0.36.0`. To build from source, see
+MCP is the Model Context Protocol. Pin a release with `cargo install kshana --version 0.37.0`,
+`pip install kshana==0.37.0` or `npm install kshana@0.37.0`. To build from source, see
 [Install and build](#install--build) under Reference.
 
 <details>
@@ -697,7 +674,7 @@ import json, kshana
 toml = open("clock-holdover.toml").read()
 result = json.loads(kshana.run(toml))
 print(kshana.version(), result["quantum"]["fom"]["holdover_s"], result["classical"]["fom"]["holdover_s"])
-# 0.36.0 6600.0 2610.0
+# 0.37.0 6600.0 2610.0
 ```
 
 Beyond `run`, the module exposes `run_full` (JSON, SVG and the one-line summary at once),
@@ -718,7 +695,7 @@ initSync({ module: readFileSync(wasm) });
 const toml = readFileSync("clock-holdover.toml", "utf8");
 const result = JSON.parse(run(toml));
 console.log(version(), result.quantum.fom.holdover_s, result.classical.fom.holdover_s);
-// 0.36.0 6600 2610
+// 0.37.0 6600 2610
 console.log(summary(toml));
 ```
 
@@ -734,7 +711,7 @@ top as a separate overlay that depends on the engine and never forks it.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/architecture-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/architecture-light.svg">
-  <img src="docs/assets/readme/architecture-light.svg" alt="Kshana's architecture: one open engine at the centre, kshana 0.36.0 under the AGPL-3.0, with api::run_toml, a typed dispatch over 84 kinds, and the verification ledger of 364 capabilities (175 VALIDATED, 185 MODELLED, 4 PARTNER). Around it, every surface runs the same engine: Command line (cargo install kshana); Rust library (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); MCP server (cargo install kshana-mcp); Docker image (ghcr.io/ashfordeou/kshana-mcp); JetBrains plugin (Marketplace: &quot;Kshana&quot;). Below it, Kshana Pro, a proprietary overlay that depends on the open engine as a library and never forks it, and adds no physical model." width="100%">
+  <img src="docs/assets/readme/architecture-light.svg" alt="Kshana's architecture: one open engine at the centre, kshana 0.37.0 under the AGPL-3.0, with api::run_toml, a typed dispatch over 84 kinds, and the verification ledger of 364 capabilities (175 VALIDATED, 185 MODELLED, 4 PARTNER). Around it, every surface runs the same engine: Command line (cargo install kshana); Rust library (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); MCP server (cargo install kshana-mcp); Docker image (ghcr.io/ashfordeou/kshana-mcp); JetBrains plugin (Marketplace: &quot;Kshana&quot;). Below it, Kshana Pro, a proprietary overlay that depends on the open engine as a library and never forks it, and adds no physical model." width="100%">
 </picture>
 
 <details>
@@ -794,20 +771,20 @@ Claude Code, Cursor, VS Code, Windsurf, Zed, Goose, Codex CLI, Gemini CLI and Co
 <!-- mcp-install:begin -->
 | Channel | Command or button | Requires | Pinned form |
 |---|---|---|---|
-| Claude Desktop extension | double-click the `.mcpb` for your system: [macOS (Apple silicon)](https://github.com/ashfordeOU/kshana/releases/download/v0.36.0/kshana-mcp-aarch64-apple-darwin.mcpb) · [macOS (Intel)](https://github.com/ashfordeOU/kshana/releases/download/v0.36.0/kshana-mcp-x86_64-apple-darwin.mcpb) · [Windows](https://github.com/ashfordeOU/kshana/releases/download/v0.36.0/kshana-mcp-x86_64-pc-windows-msvc.mcpb) | none | `kshana-mcp-<target>.mcpb` of v0.36.0 |
-| Cursor (one click) | [npx (Node)](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImtzaGFuYS1tY3BAMC4zNi4wIl19) · [Docker](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoiZG9ja2VyIiwiYXJncyI6WyJydW4iLCItaSIsIi0tcm0iLCJnaGNyLmlvL2FzaGZvcmRlb3Uva3NoYW5hLW1jcDowLjM2LjAiXX0%3D) | Node, or Docker | `kshana-mcp@0.36.0` / `ghcr.io/ashfordeou/kshana-mcp:0.36.0` |
-| VS Code (one click) | [npx (Node)](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522npx%2522%252C%2522args%2522%253A%255B%2522-y%2522%252C%2522kshana-mcp%25400.36.0%2522%255D%257D) · [Docker](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522docker%2522%252C%2522args%2522%253A%255B%2522run%2522%252C%2522-i%2522%252C%2522--rm%2522%252C%2522ghcr.io%252Fashfordeou%252Fkshana-mcp%253A0.36.0%2522%255D%257D) · [Insiders (npx)](https://insiders.vscode.dev/redirect?url=vscode-insiders%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522npx%2522%252C%2522args%2522%253A%255B%2522-y%2522%252C%2522kshana-mcp%25400.36.0%2522%255D%257D) | Node, or Docker | `kshana-mcp@0.36.0` / `ghcr.io/ashfordeou/kshana-mcp:0.36.0` |
-| Claude Code | `claude mcp add kshana -- npx -y kshana-mcp@0.36.0` · plugin: `/plugin marketplace add ashfordeOU/kshana` then `/plugin install kshana@ashforde` | Node (or Docker) | `kshana-mcp@0.36.0` |
-| npx | `npx -y kshana-mcp@0.36.0` | Node 18+ | `kshana-mcp@0.36.0` |
-| uvx / pipx | `uvx kshana-mcp==0.36.0` · `pipx run kshana-mcp==0.36.0` | Python 3.9+ with uv or pipx | `kshana-mcp==0.36.0` |
-| Docker | `docker run -i --rm ghcr.io/ashfordeou/kshana-mcp:0.36.0` | Docker | `ghcr.io/ashfordeou/kshana-mcp:0.36.0` |
-| Homebrew | `brew install ashfordeOU/tap/kshana-mcp` | brew | formula for v0.36.0 |
-| Scoop | `scoop bucket add ashforde https://github.com/ashfordeOU/scoop-bucket` then `scoop install kshana-mcp` | Scoop (Windows) | manifest for v0.36.0 |
-| winget | `winget install AshfordeOU.KshanaMcp` | winget (Windows) | `--version 0.36.0` |
-| cargo | `cargo install kshana-mcp --version 0.36.0` | Rust 1.88+ | `kshana-mcp 0.36.0` |
-| Prebuilt binary | [the release page](https://github.com/ashfordeOU/kshana/releases/tag/v0.36.0): `kshana-mcp` (Linux x86-64), `kshana-mcp-<target>[.exe]`, checked by `SHA256SUMS` and `gh attestation verify` | none | v0.36.0 |
-| MCP registry | `io.github.ashfordeOU/kshana-mcp` (found by registry-aware clients) | a registry-aware client | `0.36.0` |
-| Remote (streamable HTTP) | `kshana-mcp --http 127.0.0.1:8080`, self-hosted: see [docs/deploy/mcp-http.md](docs/deploy/mcp-http.md) | your own host | v0.36.0 |
+| Claude Desktop extension | double-click the `.mcpb` for your system: [macOS (Apple silicon)](https://github.com/ashfordeOU/kshana/releases/download/v0.37.0/kshana-mcp-aarch64-apple-darwin.mcpb) · [macOS (Intel)](https://github.com/ashfordeOU/kshana/releases/download/v0.37.0/kshana-mcp-x86_64-apple-darwin.mcpb) · [Windows](https://github.com/ashfordeOU/kshana/releases/download/v0.37.0/kshana-mcp-x86_64-pc-windows-msvc.mcpb) | none | `kshana-mcp-<target>.mcpb` of v0.37.0 |
+| Cursor (one click) | [npx (Node)](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImtzaGFuYS1tY3BAMC4zNi4wIl19) · [Docker](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoiZG9ja2VyIiwiYXJncyI6WyJydW4iLCItaSIsIi0tcm0iLCJnaGNyLmlvL2FzaGZvcmRlb3Uva3NoYW5hLW1jcDowLjM2LjAiXX0%3D) | Node, or Docker | `kshana-mcp@0.37.0` / `ghcr.io/ashfordeou/kshana-mcp:0.37.0` |
+| VS Code (one click) | [npx (Node)](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522npx%2522%252C%2522args%2522%253A%255B%2522-y%2522%252C%2522kshana-mcp%25400.37.0%2522%255D%257D) · [Docker](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522docker%2522%252C%2522args%2522%253A%255B%2522run%2522%252C%2522-i%2522%252C%2522--rm%2522%252C%2522ghcr.io%252Fashfordeou%252Fkshana-mcp%253A0.37.0%2522%255D%257D) · [Insiders (npx)](https://insiders.vscode.dev/redirect?url=vscode-insiders%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522npx%2522%252C%2522args%2522%253A%255B%2522-y%2522%252C%2522kshana-mcp%25400.37.0%2522%255D%257D) | Node, or Docker | `kshana-mcp@0.37.0` / `ghcr.io/ashfordeou/kshana-mcp:0.37.0` |
+| Claude Code | `claude mcp add kshana -- npx -y kshana-mcp@0.37.0` · plugin: `/plugin marketplace add ashfordeOU/kshana` then `/plugin install kshana@ashforde` | Node (or Docker) | `kshana-mcp@0.37.0` |
+| npx | `npx -y kshana-mcp@0.37.0` | Node 18+ | `kshana-mcp@0.37.0` |
+| uvx / pipx | `uvx kshana-mcp==0.37.0` · `pipx run kshana-mcp==0.37.0` | Python 3.9+ with uv or pipx | `kshana-mcp==0.37.0` |
+| Docker | `docker run -i --rm ghcr.io/ashfordeou/kshana-mcp:0.37.0` | Docker | `ghcr.io/ashfordeou/kshana-mcp:0.37.0` |
+| Homebrew | `brew install ashfordeOU/tap/kshana-mcp` | brew | formula for v0.37.0 |
+| Scoop | `scoop bucket add ashforde https://github.com/ashfordeOU/scoop-bucket` then `scoop install kshana-mcp` | Scoop (Windows) | manifest for v0.37.0 |
+| winget | `winget install AshfordeOU.KshanaMcp` | winget (Windows) | `--version 0.37.0` |
+| cargo | `cargo install kshana-mcp --version 0.37.0` | Rust 1.88+ | `kshana-mcp 0.37.0` |
+| Prebuilt binary | [the release page](https://github.com/ashfordeOU/kshana/releases/tag/v0.37.0): `kshana-mcp` (Linux x86-64), `kshana-mcp-<target>[.exe]`, checked by `SHA256SUMS` and `gh attestation verify` | none | v0.37.0 |
+| MCP registry | `io.github.ashfordeOU/kshana-mcp` (found by registry-aware clients) | a registry-aware client | `0.37.0` |
+| Remote (streamable HTTP) | `kshana-mcp --http 127.0.0.1:8080`, self-hosted: see [docs/deploy/mcp-http.md](docs/deploy/mcp-http.md) | your own host | v0.37.0 |
 <!-- mcp-install:end -->
 
 <p><a href="https://glama.ai/mcp/servers/ashfordeOU/kshana"><img src="https://glama.ai/mcp/servers/ashfordeOU/kshana/badges/score.svg" alt="kshana-mcp on Glama, its MCP server quality score"></a></p>
@@ -1708,8 +1685,8 @@ afterwards the pipeline checks that each registry really serves the new version
 | [PyPI (Python Package Index)](https://pypi.org/project/kshana/) | `pip install kshana` | abi3 wheels (Linux/macOS/Windows) + sdist (source distribution) |
 | [npm](https://www.npmjs.com/package/kshana) | `npm install kshana` | WebAssembly module + JS wrapper |
 | [ghcr.io](https://github.com/ashfordeOU/kshana/pkgs/container/kshana-mcp) | `docker run -i ghcr.io/ashfordeou/kshana-mcp` | multi-arch OCI (Open Container Initiative) image — no toolchain needed |
-| [npm](https://www.npmjs.com/package/kshana-mcp) | `npx -y kshana-mcp@0.36.0` | launcher: downloads the release binary, verifies `SHA256SUMS`, runs it |
-| [PyPI](https://pypi.org/project/kshana-mcp/) | `uvx kshana-mcp==0.36.0` · `pipx run kshana-mcp==0.36.0` | the same launcher for Python |
+| [npm](https://www.npmjs.com/package/kshana-mcp) | `npx -y kshana-mcp@0.37.0` | launcher: downloads the release binary, verifies `SHA256SUMS`, runs it |
+| [PyPI](https://pypi.org/project/kshana-mcp/) | `uvx kshana-mcp==0.37.0` · `pipx run kshana-mcp==0.37.0` | the same launcher for Python |
 | Homebrew · Scoop · winget | `brew install ashfordeOU/tap/kshana-mcp` · `scoop install kshana-mcp` · `winget install AshfordeOU.KshanaMcp` | the `kshana-mcp` binary, generated from each release's `SHA256SUMS` |
 | Claude Desktop | double-click `kshana-mcp-<target>.mcpb` from the release | the extension, with the binary inside |
 | official MCP registry | auto-discovered by MCP clients | `io.github.ashfordeOU/kshana-mcp` (OCI image, npm and PyPI packages) |

@@ -9,6 +9,8 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+## [0.37.0] - 2026-10-17
+
 ### Added
 
 - **Optical PNT through the atmosphere** (`optical-atmosphere` scenario kind,
