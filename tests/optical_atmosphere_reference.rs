@@ -12,7 +12,8 @@ fn rel(a: f64, b: f64) -> f64 {
 
 #[test]
 fn bars_a1_a2_a3_against_oracle() {
-    let (mut n_ry, mut n_sc, mut n_cl, mut n_ca) = (0, 0, 0, 0);
+    let (mut n_ry, mut n_sc, mut n_cl, mut n_ca, mut n_ap, mut n_fd) = (0, 0, 0, 0, 0, 0);
+    let (mut w_ap, mut w_fd) = (0f64, 0f64);
     let (mut w_ry, mut w_sc, mut w_cl, mut w_ca) = (0f64, 0f64, 0f64, 0f64);
     for line in REF.lines().filter(|l| !l.starts_with('#') && !l.is_empty()) {
         let t: Vec<&str> = line.split_whitespace().collect();
@@ -71,13 +72,32 @@ fn bars_a1_a2_a3_against_oracle() {
                 ));
                 n_ca += 1;
             }
+            "APERTURE" => {
+                let wave = if t[4] == "plane" {
+                    Wave::Plane
+                } else {
+                    Wave::Spherical
+                };
+                let a = aperture_averaging_factor(f(1) * 1e-9, f(2), f(3), wave);
+                w_ap = w_ap.max(rel(a, f(5)));
+                n_ap += 1;
+            }
+            "FADE" => {
+                let got = gamma_gamma_cdf(f(5), f(6), 10f64.powf(-f(4) / 10.0));
+                w_fd = w_fd.max((got.log10() - f(7).log10()).abs());
+                n_fd += 1;
+            }
             _ => {}
         }
     }
+    eprintln!("aperture n={n_ap} worst={w_ap:e}; fade n={n_fd} worst log10 {w_fd:e}");
     eprintln!("A1 rytov n={n_ry} worst={w_ry:e}; A2 scint n={n_sc} worst={w_sc:e}; A3 cloud n={n_cl} worst={w_cl:e}; clear n={n_ca} worst={w_ca:e}");
     assert!(n_ry >= 200 && n_sc >= 16 && n_cl == 12 && n_ca == 24);
     assert!(w_ry <= 1e-6, "A1 rytov worst {w_ry:e}");
     assert!(w_sc <= 1e-6, "A2 scintillation worst {w_sc:e}");
+    assert!(n_ap == 36 && n_fd == 96);
+    assert!(w_ap <= 1e-6, "A2 aperture worst {w_ap:e}");
+    assert!(w_fd <= 1e-6, "A2 fade probability worst log10 {w_fd:e}");
     assert!(
         w_cl <= 1e-12 && w_ca <= 1e-12,
         "A3 cloud {w_cl:e} clear {w_ca:e}"
