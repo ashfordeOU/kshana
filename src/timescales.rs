@@ -47,8 +47,10 @@ pub const SECONDS_PER_DAY: f64 = 86_400.0;
 // Earth Rotation Angle coefficients, IAU 2000 resolution B1.8. The literals are
 // quoted at the full published precision (more digits than f64 represents) for
 // provenance; they round to the nearest representable value on use.
+/// Earth Rotation Angle at J2000.0 UT1, in turns (IAU 2000 resolution B1.8).
 #[allow(clippy::excessive_precision)]
 pub const ERA_TURNS_AT_J2000: f64 = 0.7790572732640;
+/// Rate of the Earth Rotation Angle, in turns per UT1 day (IAU 2000 resolution B1.8).
 #[allow(clippy::excessive_precision)]
 pub const ERA_TURNS_PER_UT1_DAY: f64 = 1.00273781191135448;
 
@@ -75,11 +77,17 @@ pub fn julian_date(year: i32, month: u32, day: u32, hour: u32, minute: u32, seco
 /// A civil date/time broken out from a Julian Date.
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct CivilTime {
+    /// Year (Gregorian calendar).
     pub year: i32,
+    /// Month of the year, 1–12.
     pub month: u32,
+    /// Day of the month, from 1.
     pub day: u32,
+    /// Hour of the day, 0–23.
     pub hour: u32,
+    /// Minute of the hour, 0–59.
     pub minute: u32,
+    /// Second of the minute, including the fraction.
     pub second: f64,
 }
 

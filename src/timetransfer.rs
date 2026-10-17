@@ -22,12 +22,16 @@ pub fn range_error_m(timing_s: f64) -> f64 {
 /// A two-way time-transfer link with white timing jitter (1-sigma per measurement, s).
 #[derive(Clone, Debug)]
 pub struct TimeTransferLink {
+    /// Stable identifier of the link.
     pub id: String,
+    /// Where the link figures come from.
     pub provenance: String,
+    /// White timing jitter, 1-sigma per measurement (s).
     pub sigma_j: f64,
 }
 
 impl TimeTransferLink {
+    /// Builds a link from its identifier, provenance and white-jitter sigma (s).
     pub fn new(id: &str, provenance: &str, sigma_j: f64) -> Self {
         Self {
             id: id.into(),
@@ -35,6 +39,7 @@ impl TimeTransferLink {
             sigma_j,
         }
     }
+    /// Draws one zero-mean Gaussian jitter sample (s) with standard deviation `sigma_j`; 0 when `sigma_j` is not positive.
     pub fn sample(&self, rng: &mut dyn RngCore) -> f64 {
         if self.sigma_j <= 0.0 {
             return 0.0;
@@ -50,6 +55,7 @@ impl TimeTransferLink {
             .expect("sigma is finite and strictly positive, which Normal::new always accepts")
             .sample(rng)
     }
+    /// The link as a [`ModelSpec`] of kind `time-transfer`, carrying `sigma_j_s`.
     pub fn spec(&self) -> ModelSpec {
         ModelSpec {
             id: self.id.clone(),
@@ -91,7 +97,9 @@ pub fn two_way_offset_estimate(offset: f64, common: f64, j1: f64, j2: f64) -> f6
 /// error series has a realistic Allan signature instead of flat white noise. With
 /// `q_wf = q_rw = 0` it reduces exactly to the legacy white-jitter behaviour.
 pub struct TwoWayLink {
+    /// Stable identifier of the link.
     pub id: String,
+    /// Where the link figures come from.
     pub provenance: String,
     /// White jitter on the two-way estimate (s, 1-sigma per exchange).
     pub sigma_j: f64,
@@ -100,6 +108,7 @@ pub struct TwoWayLink {
 }
 
 impl TwoWayLink {
+    /// Builds a link from its identifier, provenance, white-jitter sigma (s) and the white-FM and random-walk-FM intensities of its differential delay.
     pub fn new(id: &str, provenance: &str, sigma_j: f64, q_wf: f64, q_rw: f64) -> Self {
         Self {
             id: id.into(),
@@ -134,6 +143,7 @@ impl TwoWayLink {
         self.diff.phase() + white
     }
 
+    /// The link as a [`ModelSpec`] of kind `two-way-time-transfer`.
     pub fn spec(&self) -> ModelSpec {
         ModelSpec {
             id: self.id.clone(),
@@ -271,17 +281,24 @@ pub const UNITS: &[crate::field_schema::FieldUnit] = {
 /// One synchronization measurement: timing (sync) error in seconds at time t.
 #[derive(Clone, Debug, Serialize)]
 pub struct SyncSample {
+    /// Time of the measurement.
     pub t: Seconds,
+    /// Synchronisation error at `t` (s).
     pub sync_error_s: f64,
 }
 
 /// Time-transfer figures of merit.
 #[derive(Clone, Debug, Serialize)]
 pub struct LinkFoM {
+    /// Root mean square of the synchronisation error over the whole series (ps).
     pub sync_rms_ps: f64,
+    /// 95th percentile (nearest-rank) of the absolute synchronisation error (ps).
     pub sync_p95_ps: f64,
+    /// The RMS synchronisation error as a one-way range error, `c · sync_rms` (mm).
     pub range_rms_mm: f64,
+    /// The 95th-percentile synchronisation error as a one-way range error, `c · sync_p95` (mm).
     pub range_p95_mm: f64,
+    /// Fraction of exchanges whose one-way range error is within `range_spec_mm`.
     pub within_spec_fraction: f64,
     /// Overlapping Allan deviation of the sync-error series at the base averaging
     /// time (tau = the measurement step). 0 when the series is too short. This is
@@ -318,8 +335,11 @@ pub fn score_link(samples: &[SyncSample], range_spec_mm: f64) -> LinkFoM {
 /// Link configuration in a time-transfer scenario.
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct LinkCfg {
+    /// Stable identifier of the link.
     pub id: String,
+    /// Where the link figures come from.
     pub provenance: String,
+    /// White measurement jitter, 1-sigma per exchange (s).
     pub sigma_j_s: f64,
     /// White-FM intensity of the non-reciprocal differential delay (default 0 ⇒
     /// pure white measurement jitter, the legacy model).
@@ -335,29 +355,47 @@ pub struct LinkCfg {
 /// A time-transfer scenario: N synchronization measurements over an optical and an RF link.
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct TimeTransferScenario {
+    /// RNG seed of the optical (quantum) link; the RF link runs at `seed + 0x9e3779b97f4a7c15`.
     pub seed: u64,
+    /// Number of synchronisation measurements.
     pub samples: usize,
+    /// Interval between measurements (s).
     pub step_s: f64,
+    /// One-way range-error specification (mm) used for `within_spec_fraction`.
     pub range_spec_mm: f64,
+    /// The optical (quantum) link.
     pub link_quantum: LinkCfg,
+    /// The classical RF link.
     pub link_classical: LinkCfg,
 }
 
+/// The result of one link: its model spec, sync-error series and figures of merit.
 #[derive(Clone, Debug, Serialize)]
 pub struct LinkRun {
+    /// The model specification the link was run with.
     pub spec: ModelSpec,
+    /// The synchronisation-error series, one sample per measurement.
     pub series: Vec<SyncSample>,
+    /// Figures of merit over the series.
     pub fom: LinkFoM,
 }
 
+/// The time-transfer study result: schema-versioned and reproducible from the scenario.
 #[derive(Clone, Debug, Serialize)]
 pub struct TimeTransferResult {
+    /// Schema version of this result document.
     pub schema_version: String,
+    /// Version of the engine that produced the result.
     pub engine_version: String,
+    /// Hash of the scenario the result was produced from.
     pub scenario_hash: String,
+    /// RNG seed of the optical (quantum) link; the RF link ran at `seed + 0x9e3779b97f4a7c15`.
     pub seed: u64,
+    /// One-way range-error specification (mm).
     pub range_spec_mm: f64,
+    /// Run of the optical (quantum) link.
     pub quantum: LinkRun,
+    /// Run of the classical RF link.
     pub classical: LinkRun,
 }
 
