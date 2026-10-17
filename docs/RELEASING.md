@@ -22,7 +22,7 @@ the new version.
    front page, the Studio's install panel and the port manifest). The site's version is
    written by the site build, so rebuild the site from the bumped checkout and rerun
    `web/tools/port_site.py` rather than editing `web/` by hand. Run the script; it must
-   say OK. Re-port the site at the bump commit; the release PR flips
+   say OK. Right after the bump, run the pin-bearing tests (the golden and digest pins that carry the engine version); re-bless any that moved with a revisions record. Re-port the site at the bump commit; the release PR flips
    `KSHANA_VERSION_SYNC_SITE`'s default to `strict` (in `scripts/check-version-sync.sh`),
    so the version chip and footer of every page, `web/llms.txt` and the changelog page
    are enforced from then on instead of only warned about.
