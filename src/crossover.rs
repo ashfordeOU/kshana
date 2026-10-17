@@ -32,6 +32,7 @@ use serde::Serialize;
 /// platform vibration PSD is *not* here — it is the swept axis.
 #[derive(Clone, Copy, Debug, Serialize)]
 pub struct CaiPhysics {
+    /// Interrogation laser wavelength (m).
     pub wavelength_m: f64,
     /// Pulse separation `T` (s).
     pub pulse_sep_t: f64,
@@ -46,11 +47,17 @@ pub struct CaiPhysics {
 /// The classical (navigation-grade) accelerometer baseline.
 #[derive(Clone, Debug, Serialize)]
 pub struct ClassicalImu {
+    /// Stable identifier of the accelerometer model.
     pub id: String,
+    /// Where the specification figures come from.
     pub provenance: String,
+    /// Accelerometer bias (m/s²).
     pub bias: f64,
+    /// Velocity-random-walk (white-acceleration) PSD ((m/s²)²/Hz).
     pub q_va: f64,
+    /// Accelerometer bias-instability Allan floor (m/s²); 0 = none.
     pub bias_instability: f64,
+    /// Acceleration-random-walk PSD ((m/s²)²/s); 0 = none.
     pub q_aa: f64,
 }
 
@@ -68,7 +75,9 @@ pub struct InertialCrossover {
     pub cai: CaiPhysics,
     /// Cold-atom post-calibration residual bias (m/s²).
     pub quantum_bias: f64,
+    /// Stable identifier of the cold-atom sensor.
     pub quantum_id: String,
+    /// Where the cold-atom sensor figures come from.
     pub quantum_provenance: String,
     /// The navigation-grade baseline.
     pub classical: ClassicalImu,
@@ -76,6 +85,7 @@ pub struct InertialCrossover {
     pub step_s: f64,
     /// Monte-Carlo seeds per node (≥ 2 for a confidence interval).
     pub runs: usize,
+    /// Base seed of the fixed-seed Monte-Carlo ensembles.
     pub seed: u64,
     /// Error-budget threshold (m) for holdover scoring.
     pub threshold_m: f64,
@@ -85,9 +95,13 @@ pub struct InertialCrossover {
 /// (with 95 % CI) for each sensor, plus the advantage factor.
 #[derive(Clone, Copy, Debug, Serialize)]
 pub struct CrossoverNode {
+    /// Outage duration of this node (s).
     pub outage_s: f64,
+    /// Platform vibration PSD of this node ((m/s²)²/Hz).
     pub vibration_psd: f64,
+    /// Cold-atom dead-reckoning p95 position error (m), with its 95 % CI.
     pub quantum_p95_m: MetricStat,
+    /// Navigation-grade dead-reckoning p95 position error (m), with its 95 % CI.
     pub classical_p95_m: MetricStat,
     /// `classical.mean / quantum.mean`: > 1 ⇒ the cold-atom unit is better.
     pub advantage: f64,
@@ -97,6 +111,7 @@ pub struct CrossoverNode {
 /// cold-atom advantage crosses unity (the nav-grade unit matches it).
 #[derive(Clone, Copy, Debug, Serialize)]
 pub struct BreakEven {
+    /// Outage duration this break-even is for (s).
     pub outage_s: f64,
     /// Vibration PSD at advantage = 1, log-interpolated. `+∞` if the cold-atom
     /// stays ahead across the whole swept range; `0` if it never leads.
@@ -107,13 +122,19 @@ pub struct BreakEven {
 /// config (the per-node ensembles and bootstrap are fixed-seed).
 #[derive(Clone, Debug, Serialize)]
 pub struct CrossoverResult {
+    /// Schema version of this result document.
     pub schema_version: String,
+    /// Version of the engine that produced the result.
     pub engine_version: String,
+    /// Name of the metric the nodes report (`pos_p95_m`).
     pub metric: String,
+    /// Outage-duration axis (s), as swept.
     pub outages_s: Vec<f64>,
+    /// Vibration-PSD axis ((m/s²)²/Hz), as swept.
     pub vibration_psds: Vec<f64>,
     /// Row-major: outage outer, vibration inner.
     pub nodes: Vec<CrossoverNode>,
+    /// One break-even per outage duration, in axis order.
     pub breakeven: Vec<BreakEven>,
 }
 
@@ -352,7 +373,9 @@ pub fn breakeven_psd(row: &[(f64, f64)]) -> f64 {
 /// One clock technology, with a technology-readiness label.
 #[derive(Clone, Debug, Serialize)]
 pub struct ClockSpec {
+    /// Stable identifier of the clock.
     pub id: String,
+    /// Where the clock figures come from.
     pub provenance: String,
     /// `flight-qualified` | `deployed` | `ground-lab`.
     pub trl: String,
@@ -372,6 +395,7 @@ pub struct ClockSpec {
 /// technologies, each a Monte-Carlo ensemble, plus the holdover time to threshold.
 #[derive(Clone, Debug, Serialize)]
 pub struct ClockHoldover {
+    /// The clock technologies compared.
     pub clocks: Vec<ClockSpec>,
     /// Holdover-duration axis (s).
     pub holdovers_s: Vec<f64>,
@@ -379,35 +403,53 @@ pub struct ClockHoldover {
     pub threshold_ns: f64,
     /// GNSS-sync window before the holdover (s).
     pub sync_s: f64,
+    /// Integration step (s).
     pub step_s: f64,
+    /// Monte-Carlo seeds per node (≥ 2 for a confidence interval).
     pub runs: usize,
+    /// Base seed of the fixed-seed Monte-Carlo ensembles.
     pub seed: u64,
 }
 
+/// One point on a clock's holdover curve.
 #[derive(Clone, Copy, Debug, Serialize)]
 pub struct ClockCurvePoint {
+    /// Holdover duration (s).
     pub holdover_s: f64,
+    /// p95 timing error (ns) at this holdover, with its 95 % CI.
     pub timing_p95_ns: MetricStat,
 }
 
+/// The holdover curve of one clock technology.
 #[derive(Clone, Debug, Serialize)]
 pub struct ClockCurve {
+    /// Identifier of the clock this curve is for.
     pub id: String,
+    /// Where the clock figures come from.
     pub provenance: String,
+    /// Technology-readiness label (`flight-qualified` | `deployed` | `ground-lab`).
     pub trl: String,
+    /// Curve points in holdover-axis order.
     pub points: Vec<ClockCurvePoint>,
     /// Holdover (s) at which the p95 timing error first exceeds the threshold,
     /// log-interpolated; `+∞` if it stays under threshold across the whole range.
     pub time_to_threshold_s: f64,
 }
 
+/// The clock-holdover study result: schema-versioned and reproducible from the config.
 #[derive(Clone, Debug, Serialize)]
 pub struct ClockHoldoverResult {
+    /// Schema version of this result document.
     pub schema_version: String,
+    /// Version of the engine that produced the result.
     pub engine_version: String,
+    /// Name of the metric the curves report (`timing_p95_ns`).
     pub metric: String,
+    /// Timing-error budget (ns) the holdover time is measured against.
     pub threshold_ns: f64,
+    /// Holdover-duration axis (s), as swept.
     pub holdovers_s: Vec<f64>,
+    /// One curve per clock technology.
     pub curves: Vec<ClockCurve>,
 }
 

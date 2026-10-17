@@ -46,13 +46,21 @@ fn days_1950_to_year(year: i64) -> f64 {
 /// radians, mean motion in rad/min, epoch in days since 1950 Jan 0.0 UTC).
 #[derive(Clone, Copy, Debug)]
 pub struct Tle {
+    /// Epoch, in days since 1950 Jan 0.0 UTC.
     pub epoch_days_1950: f64,
+    /// SGP4 drag term B* (1/Earth radii).
     pub bstar: f64,
+    /// Eccentricity.
     pub ecco: f64,
+    /// Argument of perigee (rad).
     pub argpo_rad: f64,
+    /// Inclination (rad).
     pub inclo_rad: f64,
+    /// Mean anomaly (rad).
     pub mo_rad: f64,
+    /// Mean motion, Kozai convention (rad/min).
     pub no_kozai_rad_min: f64,
+    /// Right ascension of the ascending node (rad).
     pub nodeo_rad: f64,
 }
 
