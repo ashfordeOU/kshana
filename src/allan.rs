@@ -35,15 +35,22 @@ pub fn overlapping_adev(phase: &[f64], tau0: Seconds, m: usize) -> f64 {
 /// is `None` and the interval falls back to the conservative non-overlapping edf.
 #[derive(Clone, Copy, Debug, Serialize, PartialEq)]
 pub struct AdevPoint {
+    /// Averaging time `tau` (s).
     pub tau_s: f64,
+    /// Overlapping Allan deviation at `tau_s` (dimensionless fractional frequency).
     pub adev: f64,
+    /// Number of overlapping differences that went into this point.
     pub n_samples: usize,
+    /// Power-law noise type identified for the whole record; `None` when the record is too short to classify.
     #[serde(default)]
     pub noise: Option<PowerLawNoise>,
+    /// Effective degrees of freedom of the noise type at this tau.
     #[serde(default)]
     pub edf: f64,
+    /// Lower bound of the 95 % chi-squared confidence interval on `adev`.
     #[serde(default)]
     pub ci_lo: f64,
+    /// Upper bound of the 95 % chi-squared confidence interval on `adev`.
     #[serde(default)]
     pub ci_hi: f64,
 }
@@ -205,9 +212,13 @@ fn chi2_quantile(p: f64, nu: f64) -> f64 {
 /// freedom (edf).
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct DeviationCi {
+    /// The deviation estimate.
     pub dev: f64,
+    /// Lower confidence bound on `dev`.
     pub lo: f64,
+    /// Upper confidence bound on `dev`.
     pub hi: f64,
+    /// Effective degrees of freedom the interval was built from.
     pub edf: f64,
 }
 
@@ -659,8 +670,11 @@ pub fn total_deviation_curve(phase: &[f64], tau0: Seconds) -> Vec<AdevPoint> {
 /// over that window (seconds), and the number of window positions that went into it.
 #[derive(Clone, Copy, Debug, Serialize, PartialEq)]
 pub struct MtiePoint {
+    /// Observation window `tau = m·tau0` (s).
     pub tau_s: f64,
+    /// Maximum time interval error over the window (s).
     pub mtie_s: f64,
+    /// Number of window positions that went into the maximum.
     pub n_windows: usize,
 }
 
