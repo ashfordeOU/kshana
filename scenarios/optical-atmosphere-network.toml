@@ -1,0 +1,76 @@
+# Optical PNT through the atmosphere: three ILLUSTRATIVE ground sites (a cloudier northern site, a
+# middling central site and a clearer southern site) viewing a LEO optical terminal at 30 degrees
+# elevation at 1550 nm. The cloud climates are stated inputs, not measurements or any dataset's
+# values, so every availability below is MODELLED. The run reports per site the clear-air loss,
+# the Hufnagel-Valley turbulence state, the availability against the link margin, the margin
+# needed for 40 / 50 / 60 / 70 percent (an optical link cannot pass thick cloud, so a site has an availability ceiling that no margin lifts, reported per site), the outage-duration distribution and the timing error
+# growth per outage for three clock classes, then the site-diversity availability of the best 1, 2
+# and 3 sites with independent and with distance-correlated weather (500 km decorrelation length).
+kind = "optical-atmosphere"
+wavelength_nm = 1550.0
+elevation_deg = 30.0
+availability_targets_pct = [40.0, 50.0, 60.0, 70.0]
+
+[link]
+tx_power_w = 0.5
+tx_aperture_m = 0.1
+rx_aperture_m = 0.4
+range_km = 1000.0
+optics_efficiency = 0.5
+detector_efficiency = 0.7
+pointing_loss_db = 3.0
+receiver_sensitivity_dbm = -30.0
+
+[atmosphere]
+hv_ground_cn2 = 1.7e-14
+hv_wind_ms = 21.0
+wave = "plane"
+direction = "downlink"
+path_eff_km = 10.0
+visibility_km = 23.0
+aerosol_scale_height_m = 1200.0
+top_km = 30.0
+cloud_effective_radius_um = 10.0
+
+[network]
+correlation_length_km = 500.0
+
+[clock]
+classes = ["ocxo", "rafs", "dsac"]
+threshold_ns = 100.0
+
+[[site]]
+name = "northern"
+lat_deg = 58.0
+lon_deg = 10.0
+altitude_m = 50.0
+p_cloud = 0.65
+median_lwp_kg_m2 = 0.08
+sigma_ln = 1.0
+mean_outage_h = 9.0
+outage_sigma_ln = 1.0
+data_source = "ILLUSTRATIVE input, not a measurement"
+
+[[site]]
+name = "central"
+lat_deg = 48.0
+lon_deg = 11.0
+altitude_m = 600.0
+p_cloud = 0.5
+median_lwp_kg_m2 = 0.06
+sigma_ln = 1.0
+mean_outage_h = 7.0
+outage_sigma_ln = 1.0
+data_source = "ILLUSTRATIVE input, not a measurement"
+
+[[site]]
+name = "southern"
+lat_deg = 37.0
+lon_deg = 14.0
+altitude_m = 1200.0
+p_cloud = 0.3
+median_lwp_kg_m2 = 0.04
+sigma_ln = 1.0
+mean_outage_h = 5.0
+outage_sigma_ln = 1.0
+data_source = "ILLUSTRATIVE input, not a measurement"

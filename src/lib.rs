@@ -253,6 +253,7 @@ pub mod odm;
 pub mod oem;
 pub mod omm;
 pub mod optical_atmosphere;
+pub mod optical_atmosphere_scenario;
 pub mod optical_availability;
 pub mod optical_linkbudget;
 pub mod optical_outage_holdover;

@@ -11,11 +11,11 @@
 //!
 //! Exact limits: `ρ = 0` is the independent union `1 − Π(1−a_i)`; `ρ = 1` is the best single site
 //! (and the single-site availability for identical sites); `A` is non-decreasing in the number of
-//! sites and non-increasing in `ρ`. Away from the exact limits the result carries the ≈1e-9 accuracy of
-//! the probit `Φ⁻¹` ([`crate::detection::normal_inv_cdf`]). The decorrelation length `d₀` and the copula
+//! sites and non-increasing in `ρ`. Away from the exact limits the result carries the accuracy of
+//! the quantile `Φ⁻¹` ([`crate::raim::normal_quantile`], bisection on the incomplete-gamma CDF). The decorrelation length `d₀` and the copula
 //! are **Modelled**.
 
-use crate::detection::{normal_cdf, normal_inv_cdf};
+use crate::raim::{normal_cdf, normal_quantile};
 use crate::portable_math::PortableFloat;
 
 const Y_INTERVALS: usize = 4_000;
@@ -70,7 +70,7 @@ pub fn network_availability(avail: &[f64], rho: &[Vec<f64>]) -> f64 {
     if live.is_empty() {
         return 0.0;
     }
-    let z: Vec<f64> = (0..n).map(|i| normal_inv_cdf(avail[i])).collect();
+    let z: Vec<f64> = (0..n).map(|i| normal_quantile(avail[i])).collect();
     let load: Vec<f64> = (0..n)
         .map(|i| {
             let m = (0..n).filter(|&j| j != i).map(|j| rho[i][j]).sum::<f64>() / (n - 1) as f64;
