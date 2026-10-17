@@ -89,7 +89,8 @@ export type ScenarioKind =
   | "entry-heating"
   | "eo-radiometry"
   | "ascent-losses"
-  | "time-transfer-budget";
+  | "time-transfer-budget"
+  | "optical-atmosphere";
 
 /** The failure category `error_kind` returns (`""` on success). */
 export type ErrorKind = "invalid_input" | "non_convergence" | "unsupported" | "io_error";

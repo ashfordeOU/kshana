@@ -422,6 +422,9 @@ pub fn reason_for_kind(kind: ScenarioKind) -> Option<String> {
         | K::SlotTiming
         | K::Spectrum => no_position,
         K::LeoPass | K::LeoPntChain => return None,
+        K::OpticalAtmosphere => "the `optical-atmosphere` kind computes link statistics for ground \
+             sites with no time-tagged geometry to place"
+            .to_string(),
         K::TimeTransferBudget => "the `time-transfer-budget` kind computes a link budget and \
              stabilities, with no time-tagged geometry to place"
             .to_string(),

@@ -13,6 +13,7 @@ clone.
 | `compliance-and-test-bench.ipynb` | which public-framework rows a set of runs supports evidence for, and a scenario's motion exported as text for a laboratory simulator | [`.md`](compliance-and-test-bench.md) |
 | `quantum-vs-classical-gdop.ipynb` | a quantum and a classical sensor in the same constellation geometry, compared by dilution of precision | [`.md`](quantum-vs-classical-gdop.md) |
 | `geometry.ipynb` | which satellites a site sees under a skyline (a street, a container terminal), their dilution of precision and error ellipse, a dated sky from element sets, a seeded Monte Carlo against the covariance, and the skyplot (MODELLED; REPRESENTATIVE presets) | [`.md`](geometry.md) |
+| `optical-atmosphere.ipynb` | an optical timing link through clouds and turbulence: per-site availability, site diversity, enhancement techniques and the outage-to-holdover coupling, on the two bundled scenarios (MODELLED; ILLUSTRATIVE sites) | [`.md`](optical-atmosphere.md) |
 
 The training stream and the trust score are advisory, not type-approved navigation equipment;
 the stream is synthetic training data and is never for a vessel's live navigation systems.

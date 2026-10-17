@@ -155,6 +155,7 @@ pub const KIND_CAPABILITIES: &[(&str, &[&str])] = &[
     ("entry-heating", &["3-DoF ballistic entry peak deceleration against the published Stardust nominal", "Stagnation-point convective entry heating (Sutton-Graves) on a 3-DoF entry"]),
     ("eo-radiometry", &["Electro-optical imager radiometry, MTF, relative edge response and GIQE 4 NIIRS"]),
     ("ascent-losses", &["Launch ascent gravity, drag, steering and back-pressure losses"]),
+    ("optical-atmosphere", &["Optical slant-path atmosphere numerics: Rytov variance, scintillation, gamma-gamma fade probability, aperture averaging, cloud and clear-air optical depth", "Weather-driven optical ground-site availability and distance-correlated site diversity", "Timing and ranging continuity through optical outages"]),
     ("time-transfer-budget", &["TWSTFT two-way equation, uncertainty budget and link stability with flicker and diurnal non-reciprocity"]),
 ];
 

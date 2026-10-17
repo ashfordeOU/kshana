@@ -764,3 +764,23 @@ def test_negative_or_oversized_numbers_raise_value_error_not_overflow():
 def test_trust_telemetry_refuses_a_long_host():
     with pytest.raises(ValueError, match="host"):
         kshana.trust_telemetry(_TRUST_STREAM, "cef", "h" * 256)
+
+
+@pytest.mark.parametrize("name", ["optical-atmosphere-network", "optical-atmosphere-techniques"])
+def test_optical_atmosphere_scenarios_run_through_the_binding(name):
+    toml = (REPO / "scenarios" / f"{name}.toml").read_text()
+    out = kshana.run_typed(toml)
+    assert "optical-atmosphere" in out.summary and "MODELLED" in out.summary
+    data = out.data()
+    assert data["kind"] == "optical-atmosphere"
+    assert "MODELLED" in data["label"] and "Advisory" in data["advisory"]
+    assert data["sites"] and data["units"]
+    for site in data["sites"]:
+        # an availability is a percentage, never above its own cloud ceiling
+        assert 0.0 <= site["availability_pct"] <= site["availability_ceiling_pct"] <= 100.0
+        assert site["turbulence"]["alpha"] > 0 and site["turbulence"]["beta"] > 0
+        assert site["holdover"], "the outage-to-holdover coupling is reported"
+    rows = data["network"]["rows"]
+    # more sites never lower the independent-union availability
+    assert all(a["independent_pct"] <= b["independent_pct"] + 1e-9 for a, b in zip(rows, rows[1:]))
+    assert "optical-atmosphere" in [k["name"] for k in kshana.scenario_kinds()]

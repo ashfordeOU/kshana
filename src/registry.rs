@@ -123,6 +123,7 @@ const BUILTIN_KINDS: &[crate::api::ScenarioKind] = {
         EoRadiometry,
         AscentLosses,
         TimeTransferBudget,
+        OpticalAtmosphere,
     ]
 };
 
@@ -268,6 +269,8 @@ pub mod ids {
     pub const ASCENT_LOSSES: ScenarioId = ScenarioId::from_static("ascent-losses");
     /// TWSTFT two-way equation, budget and stability.
     pub const TIME_TRANSFER_BUDGET: ScenarioId = ScenarioId::from_static("time-transfer-budget");
+    /// Optical PNT through the atmosphere.
+    pub const OPTICAL_ATMOSPHERE: ScenarioId = ScenarioId::from_static("optical-atmosphere");
 
     /// Every built-in scenario id, in the engine's canonical order.
     pub fn all() -> Vec<ScenarioId> {
