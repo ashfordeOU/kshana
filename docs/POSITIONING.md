@@ -125,21 +125,25 @@ light-time solver).
   GeoJSON and STK ephemeris for their viewers,
   and its numerical force model is cross-checked against Orekit rather than offered in
   its place.
-- **Not a carrier-phase GNSS processing engine** (see below).
+- **Not a carrier-phase GNSS processing engine or positioning service** (see below).
 - **Not a certification authority.** A VALIDATED label means a capability matches an
   external oracle; it is not a certification of any product or operator.
 
 ## What Kshana is, and is not, next to a GNSS processing engine
 
-Kshana is **not** a carrier-phase GNSS *processing* engine — no scenario kind resolves
-ambiguities on observations (a LAMBDA (least-squares ambiguity decorrelation adjustment) integer least-squares kernel, `src/lambda.rs`, is in
-the library and MODELLED, but nothing feeds it real data), and there is no carrier
-smoothing and no inter-epoch filter on real observations, so precise point positioning
-(PPP) and real-time kinematic (RTK) positioning of real observations are out of scope.
-The `leo-ppp` kind runs a float PPP filter on code and carrier phase, but on measurements
-it simulates itself, to study convergence time with and without LEO augmentation; it does
-not process an observation file. It does have one foot in
-the measurement domain: the `pvt` kind (position, velocity and time) solves a receiver
+Kshana is **not** a carrier-phase GNSS *processing* engine, and no scenario kind is a
+positioning service. It does have a foot in the measurement domain, as library code that
+the performance study leans on and that is checked against independent references. Short-baseline
+real-time kinematic (RTK) positioning with LAMBDA (least-squares ambiguity decorrelation
+adjustment) integer fixing runs on real dual-frequency RINEX observations, as does a static
+float precise point positioning (PPP) filter with IGS final orbits and clocks, and the
+receiver clock that filter estimates is a time solution against the IGS final station clock.
+Each of the three is a VALIDATED row of the [verification matrix](VERIFICATION-MATRIX.md),
+against the IGS station data it names there, and each runs on static, short observation
+windows, not as a streaming service with ambiguity resolution over long baselines, carrier
+smoothing or a kinematic rover. The `leo-ppp` kind runs a float PPP filter on code and
+carrier phase, but on measurements it simulates itself, to study convergence time with and
+without LEO augmentation; it does not process an observation file. The `pvt` kind (position, velocity and time) solves a receiver
 position from real RINEX code pseudoranges plus broadcast ephemeris, validated against a
 surveyed coordinate of the International GNSS Service (IGS) (station ABMF, 2018-05-13) to
 **5.7 m 3-D RMS (root mean square) / 1.1 m horizontal**. But the product is the performance
@@ -152,7 +156,7 @@ user the wrong-tool disappointment.
 | Output | performance FoMs: holdover, timing/position error, availability, integrity/security bounds — plus a code single-point-positioning (SPP) position from the `pvt` kind | a position/velocity/time **solution** (SPP, PPP, RTK) |
 | Question it answers | "how good *would* this architecture be, and where does it break?" | "given these measurements, where am I *now*?" |
 | Quantum / optical sensors | modelled as error models (optical clocks, cold-atom inertial measurement unit (IMU), optical time transfer), results labelled MODELLED | not modelled |
-| Real-observation processing | code SPP from real RINEX observations (`pvt`, metre-level), plus geometry / dilution of precision (DOP) / availability — no carrier phase | the core competency, through to carrier-phase PPP/RTK |
+| Real-observation processing | code SPP from real RINEX observations (`pvt`, metre-level); short-baseline RTK with LAMBDA and static float PPP on real carrier phase, as library code checked against IGS stations (VALIDATED, static and short windows, not a streaming service); plus geometry / dilution of precision (DOP) / availability | the core competency, through to carrier-phase PPP/RTK |
 | Install | zero — runs in a browser tab (WebAssembly) | native build / toolchain |
 
 ## Complementary, not competing — RTKLIB and gLAB
@@ -162,10 +166,14 @@ are mature, widely used GNSS processing suites. They take real measurements and
 produce a positioning solution (SPP/PPP/RTK; gLAB is also a superb teaching
 tool with strong heritage at the European Space Agency (ESA) and the European
 Geostationary Navigation Overlay Service (EGNOS)). Kshana does **not** replace them and does
-not try to. Its observation path stops at code single-point positioning: no ambiguity
-resolution, no carrier smoothing, no inter-epoch filter, and no troposphere/ionosphere
-*estimation* — `pvt` applies the Saastamoinen/Niell troposphere models and the L1/L2
-ionosphere-free combination, it does not solve for them as states.
+not try to. Its observation path is narrow: code single-point positioning (`pvt`), and, as
+checked library code, short-baseline RTK with LAMBDA integer fixing and a static float PPP
+filter on real dual-frequency observations, each VALIDATED against IGS station data (the PPP
+filter also against an RTKLIB run on the same inputs). It has no carrier smoothing, no
+kinematic or streaming processing and no long-baseline ambiguity resolution, and `pvt`
+does not estimate the troposphere or ionosphere — it applies the Saastamoinen/Niell
+troposphere models and the L1/L2 ionosphere-free combination, it does not solve for them as
+states.
 
 The pipeline is complementary:
 
@@ -175,8 +183,8 @@ The pipeline is complementary:
 
 A natural workflow uses a processing engine for the GNSS-available segment and
 Kshana to study the **holdover** behaviour and the sensor trade space around it.
-If you need carrier-phase positioning — PPP, RTK, ambiguity resolution — use RTKLIB
-or gLAB; if you need reproducible, labelled evidence about resilience and holdover,
+If you need a carrier-phase positioning service — kinematic PPP or RTK, long baselines,
+network ambiguity resolution — use RTKLIB or gLAB; if you need reproducible, labelled evidence about resilience and holdover,
 that is the job Kshana is built for.
 
 ## A zero-install browser tier

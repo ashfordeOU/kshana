@@ -9,6 +9,26 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+### Added
+
+- **Optical PNT through the atmosphere** (`optical-atmosphere` scenario kind,
+  [`docs/OPTICAL-ATMOSPHERE.md`](docs/OPTICAL-ATMOSPHERE.md), design note
+  `docs/design/optical-atmosphere-0.37.md`). For an optical link and a set of ground sites it
+  reports the wavelength- and elevation-dependent clear-air loss, the Hufnagel-Valley turbulence
+  state (Rytov variance, scintillation index, gamma-gamma fades, aperture averaging), the
+  availability against the link margin from a stated cloud climate, the margin needed for target
+  availabilities and the ceiling no margin lifts, the outage-duration distribution, the timing and
+  ranging error per outage through the clock holdover model, distance-correlated site diversity,
+  and what-if gains for a wavelength change, a larger aperture, adaptive-optics scintillation
+  reduction and extra margin. `optical_linkbudget` gains an atmosphere-aware budget; without one
+  its output is bit-identical to 0.36 (bar A5). Two bundled scenarios carry ILLUSTRATIVE cloud
+  climates. MODELLED: three ledger rows. The numerics meet bars A1 to A6 pre-registered in
+  `xval/optical-atmosphere/PREREGISTRATION.md` against an independent mpmath program; that checks
+  the implementation of the stated formulas, not the atmosphere, and no measured availability
+  record has been compared, so no row is VALIDATED. The A4 bar was first missed by 3e-9 because the
+  normal CDF in use was a 1.5e-7 approximation; the CDF was replaced and the bar left as
+  registered. The native-versus-wasm byte comparison (A7) has not been run.
+
 ## [0.36.0] - 2026-10-16
 
 ### Added

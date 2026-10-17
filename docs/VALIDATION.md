@@ -452,11 +452,14 @@ hermetic — no download).
 | Second IMU profile | `validated` | NaveGo ADIS16488 (ARW 0.3 deg/√hr, VRW 0.029 m/s/√hr) both recovered to < 5%. |
 
 Honest scope: this validates the **stochastic error model** against datasheet Allan
-coefficients. A full strapdown + tightly-coupled EKF cross-check against the i2Nav-WHU (WHU: Wuhan University)
-**KF-GINS** vehicle dataset is a follow-on — the published static-RTK (RTK: real-time kinematic) segment converges
-to the cm-level antenna position, so a meaningful navigation-accuracy comparison there
-first requires GNSS/IMU lever-arm compensation and a dynamic free-inertial-divergence
-window; until then it would measure a fixed geometric offset, not navigation quality.
+coefficients. The i2Nav-WHU (WHU: Wuhan University) **KF-GINS** vehicle dataset is used
+as a separate, data-gated check: the loosely coupled closed-loop error-state EKF with the
+GNSS lever-arm model is a VALIDATED row of the [verification matrix](VERIFICATION-MATRIX.md)
+(*Loosely coupled GNSS/INS EKF with lever arm on the KF-GINS dataset*), compared with the
+KF-GINS C++ reference trajectory under bars registered before the run. It runs only where
+the dataset is supplied (`KSHANA_KFGINS_DIR`); without it the synthetic loader and
+lever-arm tests run. The tightly coupled and carrier-phase variants are not covered by that
+row (the carrier-phase tightly coupled GNSS/INS row is MODELLED).
 
 ## Deep-space & Mars PNT — D0 foundation (`src/body.rs`, `src/mars_frame.rs`, `src/ephem_provider.rs`, `src/radiometric.rs`, `src/timescales.rs`)
 
