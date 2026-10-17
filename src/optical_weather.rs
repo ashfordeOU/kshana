@@ -23,7 +23,7 @@
 //!
 //! All weather inputs are **Modelled** unless a scenario states a dataset.
 
-use crate::detection::{normal_cdf, normal_inv_cdf};
+use crate::raim::{normal_cdf, normal_quantile};
 use crate::optical_atmosphere::{
     aperture_averaging_factor, clear_air_optical_depth, cloud_optical_depth, fade_probability_n,
     rytov_variance, scintillation, ClearAirParams, Direction, HvProfile, Scintillation, Wave,
@@ -35,7 +35,8 @@ pub const SECONDS_PER_YEAR: f64 = 31_557_600.0;
 /// `10·log10(e)`: converts an optical depth to dB.
 pub const DB_PER_NEPER_OD: f64 = 4.342_944_819_032_518;
 const TABLE_STEP_DB: f64 = 0.5;
-const TABLE_MAX_DB: f64 = 60.0;
+/// Largest fade budget (dB) the availability search and fade table cover.
+pub const TABLE_MAX_DB: f64 = 60.0;
 const CLOUD_INTERVALS: usize = 240;
 const TABLE_INTERVALS: usize = 800;
 
@@ -277,7 +278,7 @@ impl OutageModel {
 
     /// Duration (s) not exceeded with probability `p`.
     pub fn quantile(&self, p: f64) -> f64 {
-        (self.mu() + self.sigma_ln * normal_inv_cdf(p)).pexp()
+        (self.mu() + self.sigma_ln * normal_quantile(p)).pexp()
     }
 
     /// `E[min(D, T)]` (s): mean time spent inside an outage's first `T` seconds.

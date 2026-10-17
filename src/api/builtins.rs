@@ -2183,6 +2183,32 @@ impl BuiltinKind for crate::time_transfer_budget::TimeTransferBudgetScenario {
     }
 }
 
+fn run_optical_atmosphere(
+    scn: &crate::optical_atmosphere_scenario::OpticalAtmosphereScenario,
+) -> Result<RunOutput, String> {
+    let (json, summary) = scn.run_json()?;
+    let svg = minimal_svg(&summary);
+    Ok(RunOutput {
+        json,
+        svg,
+        summary,
+        csv: None,
+    })
+}
+
+impl Scenario for crate::optical_atmosphere_scenario::OpticalAtmosphereScenario {
+    fn run(&self) -> Result<RunOutput, KshanaError> {
+        run_optical_atmosphere(self).map_err(KshanaError::from)
+    }
+}
+
+impl BuiltinKind for crate::optical_atmosphere_scenario::OpticalAtmosphereScenario {
+    const KIND: ScenarioKind = ScenarioKind::OpticalAtmosphere;
+    fn parse(src: &str) -> Result<Self, String> {
+        parse_toml(src, "optical-atmosphere")
+    }
+}
+
 fn run_leo_navmsg(scn: &crate::leo_navmsg::LeoNavmsgScenario) -> Result<RunOutput, String> {
     let (json, summary, svg, csv) = scn.run_all()?;
     Ok(RunOutput {

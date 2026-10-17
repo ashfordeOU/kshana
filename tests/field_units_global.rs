@@ -154,6 +154,10 @@ const RUNNERS: &[(&str, &str)] = &[
         "time-transfer-budget",
         "scenarios/time-transfer-budget.toml",
     ),
+    (
+        "optical-atmosphere",
+        "scenarios/optical-atmosphere-network.toml",
+    ),
 ];
 
 /// The kinds whose reports do not yet describe every numeric field they emit, each with
