@@ -31,7 +31,7 @@ engine version, so the run can be repeated. Keep each result's own caveats with 
 
 | The question | Tool (MCP) | Slash command |
 |---|---|---|
-| Run or explain a PNT scenario (orbits, GNSS, timing, fusion, lunar, ...) | `list_scenario_kinds`, `list_example_scenarios`, `get_example_scenario`, `validate_scenario`, `run_scenario`, `report_scenario`, `animate_scenario`, `export_sp3`, `export_omm`, `export_oem`, `export_interop`, `list_export_formats`, `export_table_csv` | `/kshana-run` |
+| Run or explain a PNT scenario (orbits, GNSS, timing, fusion, lunar, optical links, ...) | `list_scenario_kinds`, `list_example_scenarios`, `get_example_scenario`, `validate_scenario`, `run_scenario`, `report_scenario`, `animate_scenario`, `export_sp3`, `export_omm`, `export_oem`, `export_interop`, `list_export_formats`, `export_table_csv` | `/kshana-run` |
 | Was this receiver log, or this vessel's NMEA, trustworthy, and when did it stop being? | `assess_receiver_log` (any log format), `assess_vessel_log` (vessel NMEA, batch), `assess_vessel_stream` (bounded excerpt) | `/kshana-assess-receiver` |
 | I need synthetic NMEA with a jamming, drag-off, time-spoof or replay event for training | `generate_training_nmea` | `/kshana-training-scenario` |
 | Show a vessel's trust score in monitoring or SIEM formats (Prometheus, CEF, LEEF, OTLP) | `trust_telemetry` | `/kshana-trust-telemetry` |
@@ -74,6 +74,7 @@ carry the rules below for agents that load skills.
 | Training NMEA | **Text only**, for training and testing, **never** for a vessel's live navigation systems. Return the seed and the instructor log. |
 | Interference map, route exposure | How the accuracy codes are read and the grid and route geometry are **VALIDATED** against independent libraries on synthetic inputs; the method's thresholds stay **MODELLED**, and that a degraded cell is interference is **not** checked: a degraded cell does **not** identify interference as the cause. A cell not observed is **not** evidence of a clear route. Past reports, **not a forecast**. Aggregate only: do not try to recover identifiers. ADS-B and AIS maps stay separate. |
 | Sky geometry, skyline | **MODELLED** geometry under a stated error model, line of sight only: no diffraction, multipath or non-line-of-sight reception. Presets are **REPRESENTATIVE**, not surveys; carry the preset's provenance. Preset constellations are a representative sky, not the sky of a date. The ellipse scales a stated UERE: not a measured accuracy and not an integrity bound. Keep the `advisory`. |
+| Optical-link availability (`optical-atmosphere`, 0.37) | **MODELLED**, advisory. The cloud climates are stated inputs, not a dataset, and no measured availability record has been compared: say "under these assumptions", never "the availability at that site". Keep the site's **ceiling** (`availability_ceiling_pct`: what no margin lifts) beside its availability, and say which technique gains are inputs (Kshana does not model an adaptive-optics loop). The numerics are checked against an independent program, which checks the implementation of the formulas and not the atmosphere. |
 | Any scenario result | The `figure_tiers` or `label` it states, and the provenance line. |
 
 ## Boundaries
