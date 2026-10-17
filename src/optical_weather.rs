@@ -23,12 +23,12 @@
 //!
 //! All weather inputs are **Modelled** unless a scenario states a dataset.
 
-use crate::raim::{normal_cdf, normal_quantile};
 use crate::optical_atmosphere::{
     aperture_averaging_factor, clear_air_optical_depth, cloud_optical_depth, fade_probability_n,
     rytov_variance, scintillation, ClearAirParams, Direction, HvProfile, Scintillation, Wave,
 };
 use crate::portable_math::PortableFloat;
+use crate::raim::{normal_cdf, normal_quantile};
 
 /// Seconds in a Julian year.
 pub const SECONDS_PER_YEAR: f64 = 31_557_600.0;

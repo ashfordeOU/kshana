@@ -69,7 +69,10 @@ fn digest() -> u64 {
 fn bar_a5_no_moved_output() {
     let d = digest();
     eprintln!("A5 digest {d:016x}");
-    assert_eq!(d, EXPECTED, "optical link budget / availability output moved: {d:016x}");
+    assert_eq!(
+        d, EXPECTED,
+        "optical link budget / availability output moved: {d:016x}"
+    );
 }
 
 const EXPECTED: u64 = 0xfb00c966de4299bc;

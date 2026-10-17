@@ -15,12 +15,12 @@
 //! the quantile `Φ⁻¹` ([`crate::raim::normal_quantile`], bisection on the incomplete-gamma CDF). The decorrelation length `d₀` and the copula
 //! are **Modelled**.
 
-use crate::raim::{normal_cdf, normal_quantile};
 use crate::portable_math::PortableFloat;
+use crate::raim::{normal_cdf, normal_quantile};
 
 const Y_INTERVALS: usize = 4_000;
 const Y_LIMIT: f64 = 9.0;
-const EARTH_RADIUS_KM: f64 = 6_371.0088;
+const EARTH_RADIUS_KM: f64 = 6_371.008_8;
 
 /// Great-circle distance (km) between two points (degrees).
 pub fn great_circle_km(lat1_deg: f64, lon1_deg: f64, lat2_deg: f64, lon2_deg: f64) -> f64 {
