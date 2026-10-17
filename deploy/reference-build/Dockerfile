@@ -11,7 +11,7 @@ RUN cargo build --release --locked --bin kshana
 
 FROM debian:bookworm-slim@sha256:7c7b2c966bc9ee8cedfeef67e0e279108992c77681fa595db4a9d65c06ccc587
 # The version below is the one place the image's version is written (read by the version-sync check).
-LABEL org.opencontainers.image.version="0.36.0" \
+LABEL org.opencontainers.image.version="0.37.0" \
       org.opencontainers.image.title="kshana-trust-gate" \
       org.opencontainers.image.description="Kshana receiver-trust gate: serves gated NMEA 0183 with a \$PKSHT trust sentence over TCP. Advisory software, not type-approved equipment." \
       org.opencontainers.image.source="https://github.com/ashfordeOU/kshana" \
