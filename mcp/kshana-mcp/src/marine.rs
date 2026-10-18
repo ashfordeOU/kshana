@@ -83,6 +83,12 @@ pub struct CreateEvidenceRequest {
     /// evidence` on the command line instead.
     #[serde(default)]
     pub signing_key_seed_hex: Option<String>,
+    /// The operator's attestation of a laboratory setup, as TOML text (operator, organisation,
+    /// date, setup `conducted` or `shielded`, attenuation_db or enclosure, emitter, statement;
+    /// see `docs/HARDWARE-SAFETY.md`). Recorded in the signed manifest as given and never
+    /// verified. Optional.
+    #[serde(default)]
+    pub lab_attestation_toml: Option<String>,
 }
 
 /// Parameters for [`KshanaServer::verify_evidence_pack`].
@@ -355,7 +361,7 @@ impl KshanaServer {
             .transpose()
             .map_err(bad)?;
         let created = surface::now_rfc3339_utc();
-        let p = surface::evidence_create(
+        let p = surface::evidence_create_attested(
             &r.session_toml,
             r.nmea.as_bytes(),
             r.from_s,
@@ -363,6 +369,7 @@ impl KshanaServer {
             r.title.as_deref(),
             Some(&created),
             seed,
+            r.lab_attestation_toml.as_deref(),
             MAX_UPLOAD_BYTES,
         )
         .map_err(|e| bad(format!("evidence pack failed: {e}")))?;

@@ -304,12 +304,15 @@ def evidence_create(
     title: Optional[str] = None,
     created_utc: Optional[str] = None,
     seed_hex: Optional[str] = None,
+    lab_attestation: Optional[str] = None,
 ) -> dict[str, Any]:
     """Build a signed evidence pack for a window (seconds since the first epoch) of a vessel's
     NMEA log. ``seed_hex`` is the Ed25519 signing-key seed (64 hex digits); omitted, one is
     generated. ``created_utc``: ``None`` is now, ``"none"`` leaves it out. Keys: ``files``
     (name to ``bytes``), ``public_key``, ``seed_hex`` (keep it private), ``epochs_in_window``,
-    ``slice`` (``[start, end]`` or ``None`` for the whole log). A technical record, not a legal
+    ``slice`` (``[start, end]`` or ``None`` for the whole log). ``lab_attestation`` is TOML text,
+    the operator's statement of a laboratory setup (``docs/HARDWARE-SAFETY.md``), recorded in
+    the signed manifest as given and never verified. A technical record, not a legal
     opinion. Raises ``ValueError``."""
 
 def evidence_verify(

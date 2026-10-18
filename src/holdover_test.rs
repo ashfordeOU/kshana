@@ -975,7 +975,7 @@ mod tests {
             .unwrap();
         assert!(rec.recovered);
         assert_eq!(rec.time_to_recover_s, Some(first_in as f64));
-        assert!(first_in >= 28 && first_in <= 32, "{first_in}");
+        assert!((28..=32).contains(&first_in), "{first_in}");
         assert!((rec.peak_abs_te_ns - 401.0).abs() < 1e-9);
         // The step at restoration: from the last holdover sample (0.5·1799 - 1 = 898.5) to
         // 400 + 1 = 401.

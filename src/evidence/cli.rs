@@ -3,7 +3,7 @@
 //! `kshana receiver-trust evidence`. All file-system, clock and exit-code handling lives
 //! here; the pack logic is in [`super::bundle`] and [`super::verify`].
 
-use super::assemble::{build_receiver_trust_pack, PackRequest};
+use super::assemble::PackRequest;
 use super::bundle::{fingerprint, generate_seed, public_key_hex, Files};
 use super::verify::{attach_timestamp, verify_bundle, Status, VerifyOptions};
 use crate::receiver_trust::scenario::{self, ReceiverTrustScenario};
@@ -18,7 +18,7 @@ const USAGE: &str = "usage:
       (reads the RFC 3161 token and binds it to the manifest; it does NOT verify the timestamp
       authority's signature: use `openssl ts -verify`)
   kshana receiver-trust evidence <scenario.toml> --from <t0> --to <t1> --key <keyfile> --out <dir>
-      [--title <text>] [--created-utc <YYYY-MM-DDTHH:MM:SSZ|none>]
+      [--title <text>] [--created-utc <YYYY-MM-DDTHH:MM:SSZ|none>] [--lab-attestation <file.toml>]
   <t0>/<t1>: seconds since the first epoch of the log, or an ISO-8601 UTC time when the log
   states its start time. A pack is a technical record, not a legal opinion.";
 
@@ -339,6 +339,14 @@ fn receiver_trust_evidence(args: &[String]) -> Result<(), String> {
         None => Some(now_rfc3339()),
     };
     let title = flag_value(args, "--title")?.unwrap_or_else(|| "GNSS trust evidence pack".into());
+    let lab = match flag_value(args, "--lab-attestation")? {
+        Some(p) => {
+            let text = std::fs::read_to_string(&p)
+                .map_err(|e| format!("cannot read lab attestation {p}: {e}"))?;
+            Some(super::lab::LabAttestation::from_toml(&text)?)
+        }
+        None => None,
+    };
 
     let src = std::fs::read_to_string(&scn_path)
         .map_err(|e| format!("cannot read {}: {e}", scn_path.display()))?;
@@ -356,7 +364,7 @@ fn receiver_trust_evidence(args: &[String]) -> Result<(), String> {
         .path
         .clone()
         .unwrap_or_else(|| "inline".into());
-    let pack = build_receiver_trust_pack(
+    let pack = super::assemble::build_receiver_trust_pack_attested(
         &PackRequest {
             scenario: &scn,
             log_bytes: &log_bytes,
@@ -369,6 +377,7 @@ fn receiver_trust_evidence(args: &[String]) -> Result<(), String> {
         },
         &seed,
         None,
+        lab.as_ref(),
     )?;
     write_dir(Path::new(&out), &pack.files)?;
     println!("evidence pack written to {out}");
@@ -384,6 +393,12 @@ fn receiver_trust_evidence(args: &[String]) -> Result<(), String> {
     match pack.slice {
         Some((a, b)) => println!("  log slice: bytes {a} to {b} of {}", log_bytes.len()),
         None => println!("  log slice: whole log (this log gives no byte range for the window)"),
+    }
+    if lab.is_some() {
+        println!(
+            "  lab attestation recorded in the signed manifest ({})",
+            super::lab::STANDING
+        );
     }
     println!("verify with: kshana evidence verify {out} --pubkey <signer public key>");
     println!("A pack is a technical record, not a legal opinion.");
