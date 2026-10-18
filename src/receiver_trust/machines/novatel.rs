@@ -16,7 +16,7 @@
 //! The abbreviated ASCII form (`<` lines) and the other logs are not read. A record whose
 //! CRC does not match is skipped and counted. The engine never writes to the receiver.
 
-use super::{gps_week_ms, EpochMap};
+use super::{gps_week_ms, sat_id_from_prn, EpochMap};
 use crate::receiver_trust::{ReportedFix, SatCn0, Timeline};
 
 const POLY: u32 = 0xEDB8_8320;
@@ -134,15 +134,6 @@ fn band(sys: u32, sig: u32) -> String {
         _ => return format!("S{sig}"),
     };
     s.to_string()
-}
-
-fn sat_name(letter: char, prn: u32) -> Option<String> {
-    let n = match letter {
-        'J' => prn.checked_sub(192)?,
-        'S' => prn.checked_sub(100)?,
-        _ => prn,
-    };
-    (1..=99).contains(&n).then(|| format!("{letter}{n:02}"))
 }
 
 fn jammer(rxstat: u32, aux1: Option<u32>) -> (bool, Vec<u8>) {
@@ -389,7 +380,7 @@ fn range(r: &Rec<'_>, e: &mut crate::receiver_trust::LogEpoch, label: &str) -> O
         let Some(letter) = system_letter(sys) else {
             continue;
         };
-        let Some(sat) = sat_name(letter, prn) else {
+        let Some(sat) = sat_id_from_prn(letter, prn) else {
             continue;
         };
         if !cn0.is_finite() || cn0 <= 0.0 {

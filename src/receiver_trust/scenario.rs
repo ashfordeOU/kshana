@@ -785,6 +785,7 @@ fn format_name(f: LogFormat) -> &'static str {
         LogFormat::Nmea => "nmea",
         LogFormat::RtklibPos => "rtklib-pos",
         LogFormat::Novatel => "novatel",
+        LogFormat::GnssSdr => "gnss-sdr",
     }
 }
 
