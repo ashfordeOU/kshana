@@ -526,6 +526,349 @@
      "Annex A"
     ]
    }
+  },
+  "nist-ir-8323r1": {
+   "read_from": "https://nvlpubs.nist.gov/nistpubs/ir/2023/NIST.IR.8323r1.pdf",
+   "sha256": "3e047ea2ff737f6cff94ea7942a738ed49358b5d706ecd86dc23e3d1f2700e97",
+   "bytes": 2059140,
+   "entries": [
+    {
+     "id": "ID.AM-1",
+     "heading": ""
+    },
+    {
+     "id": "ID.AM-2",
+     "heading": ""
+    },
+    {
+     "id": "ID.AM-3",
+     "heading": ""
+    },
+    {
+     "id": "ID.AM-4",
+     "heading": ""
+    },
+    {
+     "id": "ID.AM-5",
+     "heading": ""
+    },
+    {
+     "id": "ID.BE-1",
+     "heading": ""
+    },
+    {
+     "id": "ID.BE-2",
+     "heading": ""
+    },
+    {
+     "id": "ID.BE-4",
+     "heading": ""
+    },
+    {
+     "id": "ID.BE-5",
+     "heading": ""
+    },
+    {
+     "id": "ID.GV-4",
+     "heading": ""
+    },
+    {
+     "id": "ID.RA-1",
+     "heading": ""
+    },
+    {
+     "id": "ID.RA-2",
+     "heading": ""
+    },
+    {
+     "id": "ID.RA-3",
+     "heading": ""
+    },
+    {
+     "id": "ID.RA-4",
+     "heading": ""
+    },
+    {
+     "id": "ID.RA-5",
+     "heading": ""
+    },
+    {
+     "id": "ID.RM-1",
+     "heading": ""
+    },
+    {
+     "id": "ID.RM-3",
+     "heading": ""
+    },
+    {
+     "id": "ID.SC-2",
+     "heading": ""
+    },
+    {
+     "id": "PR.AC-1",
+     "heading": ""
+    },
+    {
+     "id": "PR.AC-2",
+     "heading": ""
+    },
+    {
+     "id": "PR.AC-3",
+     "heading": ""
+    },
+    {
+     "id": "PR.AC-4",
+     "heading": ""
+    },
+    {
+     "id": "PR.AC-5",
+     "heading": ""
+    },
+    {
+     "id": "PR.AC-6",
+     "heading": ""
+    },
+    {
+     "id": "PR.AC-7",
+     "heading": ""
+    },
+    {
+     "id": "PR.AT-2",
+     "heading": ""
+    },
+    {
+     "id": "PR.AT-3",
+     "heading": ""
+    },
+    {
+     "id": "PR.DS-1",
+     "heading": ""
+    },
+    {
+     "id": "PR.DS-2",
+     "heading": ""
+    },
+    {
+     "id": "PR.DS-3",
+     "heading": ""
+    },
+    {
+     "id": "PR.DS-4",
+     "heading": ""
+    },
+    {
+     "id": "PR.DS-5",
+     "heading": ""
+    },
+    {
+     "id": "PR.DS-6",
+     "heading": ""
+    },
+    {
+     "id": "PR.DS-8",
+     "heading": ""
+    },
+    {
+     "id": "PR.IP-1",
+     "heading": ""
+    },
+    {
+     "id": "PR.IP-2",
+     "heading": ""
+    },
+    {
+     "id": "PR.IP-3",
+     "heading": ""
+    },
+    {
+     "id": "PR.IP-9",
+     "heading": ""
+    },
+    {
+     "id": "PR.IP-10",
+     "heading": ""
+    },
+    {
+     "id": "PR.MA-1",
+     "heading": ""
+    },
+    {
+     "id": "PR.MA-2",
+     "heading": ""
+    },
+    {
+     "id": "PR.PT-1",
+     "heading": ""
+    },
+    {
+     "id": "PR.PT-2",
+     "heading": ""
+    },
+    {
+     "id": "PR.PT-3",
+     "heading": ""
+    },
+    {
+     "id": "PR.PT-4",
+     "heading": ""
+    },
+    {
+     "id": "PR.PT-5",
+     "heading": ""
+    },
+    {
+     "id": "DE.AE-1",
+     "heading": ""
+    },
+    {
+     "id": "DE.AE-2",
+     "heading": ""
+    },
+    {
+     "id": "DE.AE-3",
+     "heading": ""
+    },
+    {
+     "id": "DE.AE-4",
+     "heading": ""
+    },
+    {
+     "id": "DE.AE-5",
+     "heading": ""
+    },
+    {
+     "id": "DE.CM-1",
+     "heading": ""
+    },
+    {
+     "id": "DE.CM-2",
+     "heading": ""
+    },
+    {
+     "id": "DE.CM-3",
+     "heading": ""
+    },
+    {
+     "id": "DE.CM-4",
+     "heading": ""
+    },
+    {
+     "id": "DE.CM-5",
+     "heading": ""
+    },
+    {
+     "id": "DE.CM-6",
+     "heading": ""
+    },
+    {
+     "id": "DE.CM-7",
+     "heading": ""
+    },
+    {
+     "id": "DE.CM-8",
+     "heading": ""
+    },
+    {
+     "id": "DE.DP-1",
+     "heading": ""
+    },
+    {
+     "id": "DE.DP-3",
+     "heading": ""
+    },
+    {
+     "id": "DE.DP-4",
+     "heading": ""
+    },
+    {
+     "id": "DE.DP-5",
+     "heading": ""
+    },
+    {
+     "id": "RS.RP-1",
+     "heading": ""
+    },
+    {
+     "id": "RS.CO-1",
+     "heading": ""
+    },
+    {
+     "id": "RS.CO-2",
+     "heading": ""
+    },
+    {
+     "id": "RS.CO-3",
+     "heading": ""
+    },
+    {
+     "id": "RS.CO-4",
+     "heading": ""
+    },
+    {
+     "id": "RS.AN-1",
+     "heading": ""
+    },
+    {
+     "id": "RS.AN-2",
+     "heading": ""
+    },
+    {
+     "id": "RS.AN-3",
+     "heading": ""
+    },
+    {
+     "id": "RS.AN-4",
+     "heading": ""
+    },
+    {
+     "id": "RS.AN-5",
+     "heading": ""
+    },
+    {
+     "id": "RS.MI-1",
+     "heading": ""
+    },
+    {
+     "id": "RS.MI-2",
+     "heading": ""
+    },
+    {
+     "id": "RS.MI-3",
+     "heading": ""
+    },
+    {
+     "id": "RS.IM-1",
+     "heading": ""
+    },
+    {
+     "id": "RS.IM-2",
+     "heading": ""
+    },
+    {
+     "id": "RC.RP-1",
+     "heading": ""
+    },
+    {
+     "id": "RC.IM-1",
+     "heading": ""
+    },
+    {
+     "id": "RC.IM-2",
+     "heading": ""
+    },
+    {
+     "id": "RC.CO-1",
+     "heading": ""
+    },
+    {
+     "id": "RC.CO-2",
+     "heading": ""
+    },
+    {
+     "id": "RC.CO-3",
+     "heading": ""
+    }
+   ]
   }
  }
 }

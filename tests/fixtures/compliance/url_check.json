@@ -83,6 +83,14 @@
    "status": 200,
    "content_type": "application/pdf",
    "bytes": 643779
+  },
+  {
+   "url": "https://nvlpubs.nist.gov/nistpubs/ir/2023/NIST.IR.8323r1.pdf",
+   "checked": "2026-10-18",
+   "method": "python urllib, browser-like headers",
+   "status": 200,
+   "content_type": "application/pdf",
+   "bytes": 2059140
   }
  ]
 }

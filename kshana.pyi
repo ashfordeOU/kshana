@@ -404,7 +404,7 @@ def bench_export(toml: str, epoch: Optional[str] = None) -> dict[str, Any]:
     radio-frequency or baseband signal is written."""
 
 def compliance_report(runs: list[dict[str, str]]) -> dict[str, Any]:
-    """Fill the public-framework mapping (five resilience frameworks and standards, see
+    """Fill the public-framework mapping (six resilience frameworks and standards, see
     ``docs/compliance/``) from result documents given as text. ``runs`` is a list of dicts with
     ``label``, ``result`` (the result JSON text) and optionally ``scenario`` (the scenario TOML
     text, which names the kind a result does not); at most 64 runs, nothing read from disk.

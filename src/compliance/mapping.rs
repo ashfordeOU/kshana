@@ -23,16 +23,19 @@ pub enum Framework {
     Nis2,
     /// EN 16803 (road ITS GNSS positioning).
     En16803,
+    /// NIST IR 8323r1, the Foundational PNT Profile.
+    NistIr8323,
 }
 
 impl Framework {
     /// Every framework, in document order.
-    pub const ALL: [Framework; 5] = [
+    pub const ALL: [Framework; 6] = [
         Framework::DhsRpcf,
         Framework::ImoShips,
         Framework::EasaAviation,
         Framework::Nis2,
         Framework::En16803,
+        Framework::NistIr8323,
     ];
 
     /// Stable machine name (used in JSON and in file names).
@@ -43,6 +46,7 @@ impl Framework {
             Framework::EasaAviation => "easa-aviation",
             Framework::Nis2 => "nis2-art21",
             Framework::En16803 => "en-16803",
+            Framework::NistIr8323 => "nist-ir-8323r1",
         }
     }
 
@@ -54,6 +58,7 @@ impl Framework {
             Framework::EasaAviation => "EASA guidance on GNSS interference for aviation",
             Framework::Nis2 => "EU NIS2 Directive, Article 21 risk-management measures",
             Framework::En16803 => "EN 16803, GNSS-based positioning for road ITS",
+            Framework::NistIr8323 => "NIST IR 8323r1, Foundational PNT Profile",
         }
     }
 }
@@ -140,6 +145,13 @@ pub const SOURCES: &[Source] = &[
         version: "EN 16803-3:2020 (catalogue: valid from 2 October 2020)",
         url: "https://www.evs.ee/en/evs-en-16803-3-2020",
         checked: "catalogue scope text only; the standard is paid and was not read. The catalogue text names clause 6 (recorded versus simulated signals) and Annex A (a high-level categorisation of attacks) and nothing else by number; the catalogue gives no committee name, so none is stated here",
+    },
+    Source {
+        framework: Framework::NistIr8323,
+        title: "Foundational PNT Profile: Applying the Cybersecurity Framework for the Responsible Use of Positioning, Navigation, and Timing (PNT) Services",
+        version: "NIST IR 8323r1, January 2023 (NIST Internal Report)",
+        url: "https://nvlpubs.nist.gov/nistpubs/ir/2023/NIST.IR.8323r1.pdf",
+        checked: "the PDF was fetched on 2026-10-18 (SHA-256 recorded in tests/fixtures/compliance/headings.json) and its Profile tables 3 to 25 were read for the subcategories cited; the other sections, the appendices and the publication landing page were not read. Subcategory identifiers follow the Profile's own tables, which use Cybersecurity Framework 1.1 identifiers",
     },
 ];
 
@@ -508,6 +520,68 @@ pub fn rows() -> Vec<Row> {
           "A high-level categorisation of attacks on GNSS: interference, jamming, meaconing and spoofing.",
           &["jamming-effects", "spoofing-detection"],
           "Kshana's scenarios name attack classes in the same broad terms; a clause-level crosswalk needs the licensed Annex."),
+
+        // --- NIST IR 8323r1, Foundational PNT Profile -------------------------------------------
+        row("NIST-ID.RA-1", NistIr8323, "ID.RA-1 (Risk Assessment)",
+          "Identify, document and report vulnerabilities of the PNT system and of what distributes PNT data; where safe, test susceptibility to disruption or manipulation, which may use PNT signal simulation, under the law and business-continuity limits.",
+          &["receiver-log-trust", "jamming-effects", "spoofing-detection"],
+          "Kshana characterises susceptibility in modelled scenarios and in a receiver's recorded log. An inventory of the real system's vulnerabilities is the operator's, and any RF test is run with the operator's own equipment and authorisation: Kshana transmits nothing."),
+        row("NIST-ID.RA-3", NistIr8323, "ID.RA-3 (Risk Assessment)",
+          "Identify and document internal and external threats to PNT, from natural and unintentional disruption to deliberate attack such as jamming, spoofing and delay attacks.",
+          &["jamming-effects", "spoofing-detection", "resilience-scoring"],
+          "Scenarios state threats and their effects. A documented threat assessment for the user's own site and system is the user's to write; no scenario is evidence that a threat exists there."),
+        row("NIST-ID.RA-4", NistIr8323, "ID.RA-4 (Risk Assessment)",
+          "Identify potential impacts and likelihoods; for each threat state the extent of impact, how the error shows (step or ramp), the detection thresholds and what the error does downstream.",
+          &["holdover", "jamming-effects", "spoofing-detection", "integrity-monitoring"],
+          "Runs give impact figures (error growth, protection levels, link effects) for modelled sensors and a stated threat. Likelihoods are not produced, and a modelled impact is not a measured one."),
+        row("NIST-ID.RA-5", NistIr8323, "ID.RA-5 (Risk Assessment)",
+          "Use threats, vulnerabilities, likelihoods and impacts to assess risk, and reassess it periodically and when the system or the threat changes.",
+          &["resilience-scoring", "run-provenance"],
+          "Scoring uses a synthetic threat ensemble, stated as such. Hashed, repeatable runs make a reassessment comparable; the risk judgement and its schedule are organisational."),
+        row("NIST-PR.DS-6", NistIr8323, "PR.DS-6 (Data Security)",
+          "Verify the integrity of PNT data when sources disagree, for example by cross-checking several frequencies, constellations or independent sources.",
+          &["integrity-monitoring", "source-diversity"],
+          "Kshana computes protection levels and cross-source results for modelled geometry and sensors; the integrity checks inside a product are not observed."),
+        row("NIST-PR.IP-10", NistIr8323, "PR.IP-10 (Information Protection Processes and Procedures)",
+          "Test response and recovery plans; for a system with a backup time source, remove the primary source and confirm that time accuracy, steps and ramps stay within the stated clock requirements.",
+          &["holdover", "receiver-log-trust"],
+          "A holdover run models the removal and checks the error against a stated threshold; a scored receiver log shows a real loss and recovery. The test on the operator's own time server, and any RF used for it, are the operator's."),
+        row("NIST-PR.PT-5", NistIr8323, "PR.PT-5 (Protective Technology)",
+          "Use mechanisms for resilience in normal and adverse conditions: reject bad signals and data, and pair holdover with anomaly detection, redundant or fused sources and recovery.",
+          &["holdover", "source-diversity", "integrity-monitoring"],
+          "Modelled mechanisms and their limits are shown; whether a product implements them is a product test."),
+        row("NIST-DE.AE-2", NistIr8323, "DE.AE-2 (Anomalies and Events)",
+          "Analyse detected PNT events in real time and afterwards (source, error statistics, duration, frequency, location), tell harmful events from normal operation, and keep the raw data and analysis.",
+          &["receiver-log-trust", "spoofing-detection", "run-provenance"],
+          "Kshana scores a recorded log after the fact and keeps hashes of what it ran. It does not locate or attribute an interference source and does not monitor in real time as a service."),
+        row("NIST-DE.AE-3", NistIr8323, "DE.AE-3 (Anomalies and Events)",
+          "Collect and correlate event data from several sources and sensors, and cross-check PNT data from more than one source to detect anomalous behaviour.",
+          &["receiver-log-trust", "spoofing-detection", "source-diversity"],
+          "Kshana's monitors cross-check the streams of one receiver log or one scenario; correlation across an operator's own sensors and logs is theirs."),
+        row("NIST-DE.AE-4", NistIr8323, "DE.AE-4 (Anomalies and Events)",
+          "Determine the impact of events on PNT data and on the applications that depend on it, including infrequent events.",
+          &["holdover", "integrity-monitoring", "receiver-log-trust"],
+          "Impact is shown on the PNT output of a run or a log. Effects on a specific downstream application need that application's own requirements."),
+        row("NIST-DE.AE-5", NistIr8323, "DE.AE-5 (Anomalies and Events)",
+          "Set and document incident alert thresholds from the error and uncertainty tolerances the application needs, with the notification time.",
+          &["integrity-monitoring", "holdover", "receiver-log-trust"],
+          "Runs are scored against thresholds the user states and record them. Choosing the thresholds and the alert procedure is the user's."),
+        row("NIST-DE.CM-1", NistIr8323, "DE.CM-1 (Security Continuous Monitoring)",
+          "Monitor PNT sources and outputs against baselines to detect anomalies, using diverse sources and fault detection and exclusion, and check that monitoring covers the identified fault modes.",
+          &["receiver-log-trust", "integrity-monitoring", "spoofing-detection", "source-diversity"],
+          "Kshana runs and scores such monitors on logs and scenarios. Continuous monitoring of a live system, and coverage of every fault mode of a product, are not shown by a set of runs."),
+        row("NIST-DE.DP-3", NistIr8323, "DE.DP-3 (Detection Processes)",
+          "Test that event detection works as intended, periodically and after upgrades, against current threat profiles.",
+          &["receiver-log-trust", "spoofing-detection", "run-provenance"],
+          "Repeatable, hashed scenarios and events stated before scoring support evidence for such a test; running it on the operator's equipment on a schedule is theirs."),
+        row("NIST-RS.AN-5", NistIr8323, "RS.AN-5 (Analysis)",
+          "Set up verification and validation for known fault modes and newly found vulnerabilities, and record nominal and anomalous PNT data from incidents to improve later detection.",
+          &["receiver-log-trust", "spoofing-detection"],
+          "A scored log characterises one incident after the fact. Receiving and acting on disclosed vulnerabilities is a process outside any run."),
+        row("NIST-RS.MI-2", NistIr8323, "RS.MI-2 (Mitigation)",
+          "Once an incident is contained, mitigate it with alternate or complementary PNT sources so operation continues, and return the system to a proper working state.",
+          &["source-diversity", "holdover"],
+          "Runs show how long modelled fallback sources keep an error bounded; containment and the return to service are operational steps."),
     ]
 }
 
