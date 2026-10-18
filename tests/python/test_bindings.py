@@ -565,13 +565,30 @@ def test_bench_export_is_in_memory_text_with_the_no_signal_notice():
     toml = (Path(__file__).resolve().parents[2] / "scenarios" / "automotive-urban-canyon.toml").read_text()
     a = kshana.bench_export(toml, "2025-03-01T10:00:00Z")
     assert a == kshana.bench_export(toml, "2025-03-01T10:00:00")
-    assert {".motion.csv", ".motion.json", ".nmea", ".events.csv", ".events.toml"} <= set(a["files"])
+    assert {".motion.csv", ".motion.json", ".nmea", ".events.csv", ".events.toml", ".conditions.json"} <= set(a["files"])
     assert "2025-03-01" in a["files"][".motion.csv"]
     assert "radio-frequency or baseband signal" in a["notice"]
     with pytest.raises(ValueError):
         kshana.bench_export(toml, "not a time")
     with pytest.raises(ValueError):
         kshana.bench_export('kind = "orbit"\n')
+
+
+def test_round_trip_pack_links_scenario_conditions_log_and_score():
+    import json
+
+    toml = (Path(__file__).resolve().parents[2] / "scenarios" / "gnss-ins.toml").read_text()
+    b = kshana.bench_export(toml)
+    scoring = '[log]\nformat = "nmea"\ntext = ""\n\n[monitors]\ncalibration_s = 30.0\n\n' + b["files"][".events.toml"]
+    conditions = b["files"][".conditions.json"]
+    nmea = b["files"][".nmea"]
+    p = kshana.evidence_round_trip(scoring, toml, conditions, nmea, 0.0, 100.0, created_utc="none", seed_hex="07" * 32)
+    rt = json.loads(p["files"]["config.json"])["round_trip"]
+    assert rt["schema"] == "kshana.round-trip/1" and len(rt["conditions_hash"]) == 64
+    bad = json.loads(conditions)
+    bad["event"][0]["onset_s"] = 1.0
+    with pytest.raises(ValueError):
+        kshana.evidence_round_trip(scoring, toml, json.dumps(bad), nmea, 0.0, 100.0, created_utc="none")
 
 
 def test_scenario_exports_animation_routes_and_examples_in_memory():

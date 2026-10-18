@@ -160,6 +160,7 @@ __all__ = [
     "receiver_trust_replay",
     "assess_vessel_log",
     "evidence_create",
+    "evidence_round_trip",
     "evidence_verify",
     "interference_map",
     "bench_export",
@@ -310,6 +311,25 @@ def evidence_create(
     (name to ``bytes``), ``public_key``, ``seed_hex`` (keep it private), ``epochs_in_window``,
     ``slice`` (``[start, end]`` or ``None`` for the whole log). A technical record, not a legal
     opinion. Raises ``ValueError``."""
+
+def evidence_round_trip(
+    scoring_toml: str,
+    scenario_toml: str,
+    conditions: str,
+    log: str | bytes,
+    from_s: float,
+    to_s: float,
+    title: Optional[str] = None,
+    created_utc: Optional[str] = None,
+    seed_hex: Optional[str] = None,
+) -> dict[str, Any]:
+    """Build the signed laboratory round-trip pack: the scenario, the laboratory's
+    ``kshana.test-conditions/1`` document, the receiver log and its score against the stated
+    events, linked by hash (``config.json`` carries a ``round_trip`` block). ``scoring_toml`` is a
+    receiver-trust scenario whose ``[log]`` names the format only and whose ``[[events]]`` are the
+    stated truth. Other arguments and keys as for ``evidence_create``. Writes no signal; a
+    technical record, not a certification. Raises ``ValueError``, including when the conditions
+    and the scoring events disagree or the stated log hash is not the log's."""
 
 def evidence_verify(
     files: dict[str, str | bytes],

@@ -85,6 +85,8 @@ async fn the_new_tools_are_listed_with_their_caveats() {
     assert!(desc("assess_vessel_log").contains("Advisory only"));
     assert!(desc("create_evidence_pack").contains("not a legal opinion"));
     assert!(desc("create_evidence_pack").contains("never returned or logged"));
+    assert!(desc("create_round_trip_pack").contains("NO SIGNAL"));
+    assert!(desc("create_round_trip_pack").contains("never returned or logged"));
     assert!(desc("verify_evidence_pack").contains("does not say what caused"));
     assert!(desc("verify_evidence_pack").contains("intact-signer-not-pinned"));
     assert!(desc("assess_vessel_stream").contains("MODELLED"));
