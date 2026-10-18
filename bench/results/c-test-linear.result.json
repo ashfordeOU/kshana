@@ -1,0 +1,45 @@
+{
+  "label": "MODELLED: truth is the measured IGS final 30 s clock (decimated to 300 s) of the satellites in the split; the IGS files do not state the clock type",
+  "metrics": {
+    "n_cases": 104,
+    "per_horizon": [
+      {
+        "bias_ns": -0.0027768075198113936,
+        "horizon_s": 300,
+        "mae_ns": 0.017626202954839777,
+        "rmse_ns": 0.023080194438790894
+      },
+      {
+        "bias_ns": -0.006933307174705034,
+        "horizon_s": 900,
+        "mae_ns": 0.03860128508228647,
+        "rmse_ns": 0.05020750283024016
+      },
+      {
+        "bias_ns": -0.005764959468178734,
+        "horizon_s": 3600,
+        "mae_ns": 0.13866785870173576,
+        "rmse_ns": 0.16180659376984313
+      },
+      {
+        "bias_ns": 0.03386335029438951,
+        "horizon_s": 7200,
+        "mae_ns": 0.21522644689202122,
+        "rmse_ns": 0.2433639837611226
+      }
+    ],
+    "primary_rmse_3600_ns": 0.16180659376984313
+  },
+  "notice": "Advisory: modelled or measured against stated references, not an approval, certification or statement of conformance. A score describes a log or corpus, never a product.",
+  "predictions_sha256": "c9981d8bd7d2d65308eaa7bf02e0d98fb8a4f389ff7ad99336d9b9e692d505a6",
+  "provenance": "scored",
+  "schema": "kshana-bench-result/1",
+  "spec_version": "kshana-bench/2.0.0",
+  "split": "test",
+  "system": {
+    "name": "kshana-bench baseline: linear",
+    "version": "kshana-bench/2.0.0"
+  },
+  "task": "c",
+  "truth_sha256": "b2ed58864e98c157b515be91a91209610c8af060214ec6ea0f7d279ec19f5e3e"
+}
