@@ -6,7 +6,7 @@
 //! are the lower-case, hyphenated forms a receiver engineer types on the command line; each
 //! maps to one constructor in [`crate::iq::signals`].
 
-use super::{beidou, galileo, glonass, gps, SignalCode};
+use super::{beidou, galileo, glonass, gps, lunanet, SignalCode};
 
 /// Every signal name [`build_code`] accepts, in the order they are listed in help text.
 pub const SIGNAL_NAMES: &[&str] = &[
@@ -21,6 +21,8 @@ pub const SIGNAL_NAMES: &[&str] = &[
     "beidou-b1i",
     "beidou-b1c",
     "glonass-l1of",
+    "lunanet-afs-i",
+    "lunanet-afs-q",
 ];
 
 /// Build the spreading code for `signal` and `id`, where `id` is the PRN for every
@@ -42,6 +44,8 @@ pub fn build_code(signal: &str, id: i64) -> Result<SignalCode, String> {
         "galileo-e5a-q" => galileo::e5a_q(prn()?),
         "beidou-b1i" => beidou::b1i(prn()?),
         "beidou-b1c" => beidou::b1c_data(prn()?),
+        "lunanet-afs-i" => lunanet::afs_i(prn()?),
+        "lunanet-afs-q" => lunanet::afs_q(prn()?),
         "glonass-l1of" => {
             let k = i8::try_from(id)
                 .map_err(|_| format!("GLONASS L1OF frequency channel {id} is outside -7..=6"))?;
