@@ -8,7 +8,8 @@
 //! vendored.
 
 use super::score::{median, ScoreOptions, Scorecard, TestScore};
-use super::{score_log, Schedule, ScoreRequest};
+use super::{score_log, score_timeline, Schedule, ScoreRequest};
+use crate::receiver_trust::ingest::read_log;
 use crate::receiver_trust::scenario::{EventKind, ReceiverTrustScenario};
 use serde::Serialize;
 use std::path::{Path, PathBuf};
@@ -223,7 +224,7 @@ fn score_folder(root: &Path, dir: &Path, opt: &ScoreOptions) -> Option<FolderSco
     Some(f)
 }
 
-/// Score every `.ubx` folder under `root` and hold the pool to the pre-registered bars.
+/// Score every `.ubx` folder under `root` and hold the pool to the pre-registered bars (v1).
 pub fn run_dataset(root: &Path) -> Result<DatasetReport, String> {
     let opt = ScoreOptions::default();
     let mut dirs = Vec::new();
@@ -238,6 +239,164 @@ pub fn run_dataset(root: &Path) -> Result<DatasetReport, String> {
             root.display()
         ));
     }
+    report_from(folders)
+}
+
+/// GPS time of week of a `GPS TOW <s> s` or `GPS week <w> TOW <s> s` label, seconds.
+fn tow_of_label(label: &str) -> Option<f64> {
+    let rest = label.strip_prefix("GPS")?;
+    let after = rest.split("TOW").nth(1)?;
+    after.trim().strip_suffix('s')?.trim().parse().ok()
+}
+
+/// Seconds GPS time is ahead of UTC in 2024 (v2 rule 1).
+const GPS_MINUS_UTC_S: f64 = 18.0;
+
+/// The v2 session: the moving-platform bounds for folders on a moving rover, the v1 static session
+/// otherwise (`PREREGISTRATION-v2.md`, change 3).
+fn session_v2(format: &str, dynamic: bool) -> Result<ReceiverTrustScenario, String> {
+    let platform = if dynamic {
+        "[platform]\nkind = \"vessel\"\nmax_speed_kn = 100.0\nmax_accel_mps2 = 10.0\nmax_turn_rate_dps = 90.0\n"
+    } else {
+        ""
+    };
+    toml::from_str(&format!(
+        "[log]\nformat = \"{format}\"\ntext = \"\"\n{platform}"
+    ))
+    .map_err(|e| format!("scenario: {e}"))
+}
+
+fn score_folder_v2(root: &Path, dir: &Path, opt: &ScoreOptions) -> FolderScore {
+    let rel = dir
+        .strip_prefix(root)
+        .unwrap_or(dir)
+        .to_string_lossy()
+        .into_owned();
+    let meta_text = std::fs::read_to_string(dir.join("scenario.json")).unwrap_or_default();
+    let meta: serde_json::Value =
+        serde_json::from_str(&meta_text).unwrap_or(serde_json::Value::Null);
+    let text = |k: &str| {
+        meta.get(k)
+            .and_then(|v| v.as_str())
+            .unwrap_or("")
+            .to_string()
+    };
+    let lower = rel.to_lowercase();
+    let dynamic = lower.contains("dynamic");
+    let mut f = FolderScore {
+        path: rel,
+        scenario_id: text("scenario_id"),
+        attack_type: text("attack_type"),
+        rover_state: if lower.contains("stationary") {
+            "stationary"
+        } else if dynamic {
+            "dynamic"
+        } else {
+            "unknown"
+        }
+        .into(),
+        excluded: None,
+        scorecard: None,
+    };
+    let schedule = Schedule::AttackLog {
+        scenario_json: &meta_text,
+        shift_s: TZ_SHIFT_S,
+    };
+    let mut ubx: Vec<PathBuf> = std::fs::read_dir(dir)
+        .map(|rd| {
+            rd.flatten()
+                .map(|e| e.path())
+                .filter(|p| p.extension().is_some_and(|x| x == "ubx"))
+                .collect()
+        })
+        .unwrap_or_default();
+    ubx.sort();
+    let result = (|| -> Result<_, String> {
+        if let Some(path) = ubx.first() {
+            let bytes = std::fs::read(path).map_err(|e| format!("read: {e}"))?;
+            let scn = session_v2("ubx", dynamic)?;
+            let tl = read_log(scn.log.format, &bytes)?;
+            // Rule 1: a log that states its start only as GPS time of week is placed from the date.
+            let start = match tl.start_label.as_deref().and_then(tow_of_label) {
+                Some(tow) => {
+                    let date = meta
+                        .get("date")
+                        .and_then(|v| v.as_str())
+                        .ok_or("scenario.json has no date")?;
+                    let day =
+                        crate::telemetry::time::parse_rfc3339_utc(&format!("{date}T00:00:00Z"))
+                            .ok_or_else(|| format!("scenario.json date `{date}` is not a date"))?;
+                    Some(day + tow.rem_euclid(86_400.0) - GPS_MINUS_UTC_S)
+                }
+                None => None,
+            };
+            score_timeline(
+                &ScoreRequest {
+                    scenario: &scn,
+                    log_bytes: &bytes,
+                    schedule,
+                    log_start_utc: start,
+                    options: *opt,
+                },
+                tl,
+            )
+        } else {
+            // Rule 2: a folder with no .ubx is scored from its CSV exports, as the calibration read them.
+            let mon = std::fs::read_to_string(dir.join("mon_rf.csv")).unwrap_or_default();
+            let rnx = std::fs::read_to_string(dir.join("rinex.csv")).unwrap_or_default();
+            let (tl, t0) = crate::receiver_trust::calibration::timeline_from_csv(&mon, &rnx)
+                .ok_or("no readable epoch in mon_rf.csv or rinex.csv")?;
+            let scn = session_v2("ubx", dynamic)?; // the format field is not read for a built timeline
+            let bytes = [mon.as_bytes(), rnx.as_bytes()].concat();
+            score_timeline(
+                &ScoreRequest {
+                    scenario: &scn,
+                    log_bytes: &bytes,
+                    schedule,
+                    log_start_utc: Some(t0),
+                    options: *opt,
+                },
+                tl,
+            )
+        }
+    })();
+    match result {
+        Ok(o) => {
+            if o.scorecard.baseline_contaminated {
+                f.excluded = Some(
+                    "baseline may have been formed under interference (a window starts less than calibration + guard after the log starts)"
+                        .into(),
+                );
+            }
+            f.scorecard = Some(o.scorecard);
+        }
+        Err(e) => f.excluded = Some(e),
+    }
+    f
+}
+
+/// The v2 run (`xval/jammertest-score/PREREGISTRATION-v2.md`): all folders of the dataset, one
+/// source each (UBX where there is a `.ubx`, otherwise the CSV exports), GPS-time-only logs placed
+/// from the folder's date, moving rovers under the moving-platform session; the same bars as v1.
+pub fn run_dataset_v2(root: &Path) -> Result<DatasetReport, String> {
+    let opt = ScoreOptions::default();
+    let mut dirs = Vec::new();
+    walk(root, &mut dirs);
+    let folders: Vec<FolderScore> = dirs
+        .iter()
+        .map(|d| score_folder_v2(root, d, &opt))
+        .collect();
+    if folders.is_empty() {
+        return Err(format!(
+            "no folder with a scenario.json under {}",
+            root.display()
+        ));
+    }
+    report_from(folders)
+}
+
+/// Pool the scored folders and hold the pool to the bars.
+fn report_from(folders: Vec<FolderScore>) -> Result<DatasetReport, String> {
     let kept_cards: Vec<&Scorecard> = folders
         .iter()
         .filter(|f| f.excluded.is_none())

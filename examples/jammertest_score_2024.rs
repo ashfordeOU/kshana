@@ -3,7 +3,7 @@
 //! (`xval/jammertest-score/PREREGISTRATION.md`).
 //!
 //! ```text
-//! cargo run --release --example jammertest_score_2024 -- <extracted-root> report.json
+//! cargo run --release --example jammertest_score_2024 -- <extracted-root> report.json [--v2]
 //! ```
 //!
 //! The dataset (Zenodo record 15911589, GPL-3.0-or-later) is fetched by `xval/oracles/setup.sh`
@@ -12,7 +12,7 @@
 fn main() {
     let args: Vec<String> = std::env::args().collect();
     let (Some(root), Some(out)) = (args.get(1), args.get(2)) else {
-        eprintln!("usage: jammertest_score_2024 <extracted-root> <report.json>");
+        eprintln!("usage: jammertest_score_2024 <extracted-root> <report.json> [--v2]");
         std::process::exit(2);
     };
     let r =

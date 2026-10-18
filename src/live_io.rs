@@ -389,11 +389,15 @@ fn spawn_reader(src: Source, tx: Tx, start: Instant) {
         // supervisor should see it. Stdin and a file read to its end are normal ends.
         let expected_to_go_on = matches!(&src, Source::Tcp(_) | Source::Serial { .. });
         let _ = tx.send(match r {
-            Ok(()) if expected_to_go_on => Msg::Fail(
-                "the tcp connection or serial device was closed (the layer does not reconnect: run \
-                 it under a supervisor that restarts it)"
-                    .into(),
-            ),
+            Ok(()) if expected_to_go_on => Msg::Fail(format!(
+                "the {} was closed by the peer (the layer does not reconnect: run it under a \
+                     supervisor that restarts it)",
+                if matches!(&src, Source::Serial { .. }) {
+                    "serial device"
+                } else {
+                    "tcp connection"
+                }
+            )),
             Ok(()) => Msg::End,
             Err(e) => Msg::Fail(e),
         });
