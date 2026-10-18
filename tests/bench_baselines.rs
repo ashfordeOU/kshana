@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
-//! kshana-bench v1 baselines against the bars of `xval/bench/PREREGISTRATION.md` (committed in
-//! 4e1a0ed before `kshana bench` existed). Results: `xval/bench/RESULTS.md`.
+//! kshana-bench baselines against the bars of `xval/bench/PREREGISTRATION.md` (1.0.0, committed in
+//! 4e1a0ed before `kshana bench` existed) and `PREREGISTRATION-v2.md` (2.0.0, committed in e8bb485
+//! before any v2 score). Results: `xval/bench/RESULTS-v1.md` and `RESULTS-v2.md`.
 //!
 //! PIN-SCOPE:    the first and only scored run of the task (c) and (d) baselines on the `test` split
 //!               and the verdict of each bar, including the one miss (D1, NOT MET)
@@ -183,20 +184,23 @@ fn a1_a2_receiver_log_baselines_on_jammertest_2024() {
     }
 }
 
-/// Data-gated: the registered split rule leaves the holdout split of task (a) without a jamming
-/// epoch (`xval/bench/RESULTS.md`), so it cannot be scored. Pinned as a finding.
+/// Data-gated, bar V1 of `PREREGISTRATION-v2.md`: under the stratified split every split holds at
+/// least one jamming epoch, one clean epoch and two jamming folders. (Under 1.0.0 the holdout held
+/// no jamming epoch: `RESULTS-v1.md`.)
 #[test]
-fn a_holdout_split_has_no_jamming_epoch_so_it_is_not_scoreable() {
+fn v1_every_split_of_the_stratified_rule_holds_jamming_and_clean_epochs() {
     let Ok(root) = std::env::var("KSHANA_JAMMERTEST_DIR") else {
         eprintln!("KSHANA_JAMMERTEST_DIR not set: skipped (data-gated)");
         return;
     };
-    let h = tasks::a_load(std::path::Path::new(&root), Some(Split::Holdout)).unwrap();
-    assert!(!h.labels.is_empty() && h.labels.iter().all(|l| !l.positive));
-    let dev = tasks::a_load(std::path::Path::new(&root), Some(Split::Dev)).unwrap();
-    let test = tasks::a_load(std::path::Path::new(&root), Some(Split::Test)).unwrap();
-    assert_eq!(
-        (dev.folders.len(), test.folders.len(), h.folders.len()),
-        (11, 2, 1)
-    );
+    for s in [Split::Dev, Split::Test, Split::Holdout] {
+        let t = tasks::a_load(std::path::Path::new(&root), Some(s)).unwrap();
+        let jam = t.labels.iter().filter(|l| l.positive).count();
+        let clean = t.labels.len() - jam;
+        let jam_folders = t.folders.iter().filter(|f| f.2 > 0).count();
+        assert!(
+            jam > 0 && clean > 0 && jam_folders >= 2,
+            "{s:?}: {jam} jamming, {clean} clean, {jam_folders} jamming folders"
+        );
+    }
 }

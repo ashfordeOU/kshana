@@ -1,4 +1,4 @@
-# kshana-bench: specification, version 1.0.0
+# kshana-bench: specification, version 2.0.0
 
 **Licence of this document and of `bench/manifests/`: CC-BY-4.0 (text) and CC0 (manifests) proposed, owner decision pending.**
 Until the owner decides, treat both as "all rights reserved by Ashforde OÜ, no licence granted".
@@ -7,6 +7,14 @@ The metric and baseline code is part of Kshana and is AGPL-3.0-only.
 Advisory statement: Kshana results are modelled or measured against stated references. They are advisory,
 not an approval, a certification or a statement of conformance, and a score describes a log or a corpus,
 never a product.
+
+## Changes from 1.0.0
+
+One: the split rule of task (a) (section 4) is stratified. Under 1.0.0 the hash split left the holdout split without
+a jamming epoch and the test split with one jamming folder (`xval/bench/RESULTS-v1.md`); 1.0.0 was never released,
+so the fix is a new major version, registered in `xval/bench/PREREGISTRATION-v2.md` before any v2 score. The tasks,
+the truth rules, the metrics and the baselines are unchanged, and the task (c) and (d) numbers are identical. The
+1.0.0 text is `SPEC-1.0.0.md`.
 
 ## 1. What this is
 
@@ -21,7 +29,7 @@ data stated in section 3.
 
 ## 2. Versioning
 
-`SPEC_VERSION` is `kshana-bench/1.0.0`. A change to a metric, a split rule or a truth rule is a new major
+`SPEC_VERSION` is `kshana-bench/2.0.0`. A change to a metric, a split rule or a truth rule is a new major
 version, and results from different major versions are never put in one table. Adding a baseline, a manifest
 entry or a task is a minor version. A result file carries the spec version it was scored under.
 
@@ -49,7 +57,7 @@ score always means "more likely impaired" (tasks a, b, d).
   latency, missed alarms, false alarms, time to recover per scheduled test) come from the Jammertest scorer
   of `kshana jammertest score`; `kshana bench` carries them once that command is merged and the spec
   minor version is raised.
-- **Splits:** `dev`, `test`, `holdout` by the rule in section 4 over the evaluable folders.
+- **Splits:** `dev`, `test`, `holdout` by the stratified rule in section 4 over the evaluable folders.
 - **Baselines:** the three receiver-trust monitor statistics (`cn0_drop_db`, `agc_k_sigma`,
   `jam_ind_threshold`) at the 0.35 defaults.
 
@@ -98,13 +106,16 @@ score always means "more likely impaired" (tasks a, b, d).
 
 ## 4. Splits and the sealed holdout
 
-**Real-data splits (a).** A scenario folder goes to `dev`, `test` or `holdout` by
-`b = u64 from the first 8 bytes of SHA-256(folder path as a UTF-8 string), big-endian, modulo 10`: `0..=5`
-dev, `6..=7` test, `8..=9` holdout. The rule is fixed in this spec and was applied before any submission
-was scored. **Limit, stated plainly:** the real-data holdout is not secret, because anyone who downloads the
-dataset has its folders. It protects against selecting a split after seeing scores. It does not protect
-against a method tuned on those folders. Do not read a holdout score on a real-data task as unseen-data
-performance unless the method's author states the folders were never used.
+**Real-data splits (a).** The evaluable folders (by the truth rules of task (a)) form two strata: *jamming
+folders* (attack type includes jamming and at least one jamming epoch) and *other folders* (spoofing and meaconing,
+clean epochs only). Within a stratum of `n` folders, sort by the lowercase hex SHA-256 of the folder path ascending;
+the first `max(1, round(n/4))` are `holdout`, the next `max(1, round(n/4))` are `test`, the rest are `dev`
+(rounding half up; for `n = 7`, 2 holdout, 2 test, 3 dev). The rule is folder-level and deterministic and was fixed
+before any v2 score was computed. **Limit, stated plainly:** the real-data holdout is not secret, because anyone who
+downloads the dataset has its folders. Stratification makes the holdout scoreable; it does not hide it. It protects
+against selecting a split after seeing scores, not against a method tuned on those folders. Do not read a holdout
+score on a real-data task as unseen-data performance unless the method's author states the folders were never used.
+The splits have few folders (2 test folders per stratum), so a test score is the behaviour of a handful of events.
 
 **Synthetic splits (b, d).** A holdout can be sealed by commit and reveal. The owner picks a secret seed `s`,
 publishes `SHA-256("kshana-bench/holdout/1" || task || s)` (`kshana bench seal`), keeps `s`, and scores

@@ -1,6 +1,6 @@
 {
   "schema": "kshana-bench-manifest/1",
-  "spec_version": "kshana-bench/1.0.0",
+  "spec_version": "kshana-bench/2.0.0",
   "task": "c",
   "licence": "CC0 proposed, owner decision pending (facts about the data)",
   "source": {
