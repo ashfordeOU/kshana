@@ -1142,8 +1142,17 @@ fn parse_chrony(
     };
     let times: Vec<f64> = readings.iter().map(|r| r.t).collect();
     let offsets: Vec<f64> = readings.iter().map(|r| r.offset).collect();
-    grid_timed_offsets(fmt, id, &times, &offsets, inp, "s", Some("UTC".into()), skipped)?
-        .finish_with(gaps)
+    grid_timed_offsets(
+        fmt,
+        id,
+        &times,
+        &offsets,
+        inp,
+        "s",
+        Some("UTC".into()),
+        skipped,
+    )?
+    .finish_with(gaps)
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -1522,7 +1531,10 @@ TICC startup menu text
         let r = run(&inp("ptp4l"), &fixture("ptp4l.log")).unwrap();
         assert_eq!(r.format, ClockLogFormat::Ptp4l);
         assert_eq!(r.clock, "master");
-        assert_eq!((r.unit_in, r.data, r.tau0_source), ("ns", "phase", "median-spacing"));
+        assert_eq!(
+            (r.unit_in, r.data, r.tau0_source),
+            ("ns", "phase", "median-spacing")
+        );
         assert_eq!(r.tau0_s, 1.0);
         assert_eq!(r.t0_s, 5003.0);
         // Two pre-lock readings (s0, s1) are left out; the message and rms lines are skipped.
@@ -1541,7 +1553,10 @@ TICC startup menu text
         let r = run(&inp("phc2sys"), &fixture("phc2sys.log")).unwrap();
         assert_eq!(r.clock, "CLOCK_REALTIME phc");
         assert_eq!(r.n_parsed, 6);
-        assert_eq!(r.n_skipped_lines, 1, "the ptp4l line is not a phc2sys reading");
+        assert_eq!(
+            r.n_skipped_lines, 1,
+            "the ptp4l line is not a phc2sys reading"
+        );
         assert!((r.phase_s[0] + 30e-9).abs() < 1e-18);
         // The same text has no ts2phc readings.
         let e = run(&inp("ts2phc"), &fixture("phc2sys.log")).unwrap_err();
@@ -1555,7 +1570,10 @@ TICC startup menu text
         let mut i = inp("ts2phc");
         i.gaps = Some("linear".into());
         let r = run(&i, &fixture("ts2phc.log")).unwrap();
-        assert_eq!((r.n_parsed, r.n_missing, r.n_interpolated, r.n_used), (6, 1, 1, 7));
+        assert_eq!(
+            (r.n_parsed, r.n_missing, r.n_interpolated, r.n_used),
+            (6, 1, 1, 7)
+        );
         assert_eq!(r.clock, "/dev/ptp0");
         // The filled epoch is the mean of its neighbours (4 ns and 2 ns).
         assert!((r.phase_s[3] - 3e-9).abs() < 1e-18);
@@ -1568,7 +1586,10 @@ TICC startup menu text
                     Oct 12 10:00:02 gw ptp4l[812]: [102.000] [eth0] master offset 3 s2 freq +1 path delay 9\n\
                     Oct 12 10:00:00 gw ptp4l[812]: [100.000] [eth1] master offset 7 s2 freq +1 path delay 9\n";
         let e = run(&inp("ptp4l"), text).unwrap_err();
-        assert!(e.contains("eth0 master") && e.contains("eth1 master"), "{e}");
+        assert!(
+            e.contains("eth0 master") && e.contains("eth1 master"),
+            "{e}"
+        );
         let mut i = inp("ptp4l");
         i.clock = Some("eth0 master".into());
         let r = run(&i, text).unwrap();
@@ -1582,7 +1603,8 @@ TICC startup menu text
                         ptp4l[2.000]: master offset 800 s1 freq +1 path delay 9\n";
         let e = run(&inp("ptp4l"), unlocked).unwrap_err();
         assert!(e.contains("never reached the locked state"), "{e}");
-        let back = "ptp4l[5.000]: master offset 1 s2 freq +1\nptp4l[6.000]: master offset 1 s2 freq +1\n\
+        let back =
+            "ptp4l[5.000]: master offset 1 s2 freq +1\nptp4l[6.000]: master offset 1 s2 freq +1\n\
                     ptp4l[2.000]: master offset 1 s2 freq +1\n";
         let e = run(&inp("ptp4l"), back).unwrap_err();
         assert!(e.contains("go backwards"), "{e}");
@@ -1592,8 +1614,15 @@ TICC startup menu text
     fn chrony_tracking_reads_the_local_offset_in_seconds() {
         let r = run(&inp("chrony-tracking"), &fixture("chrony_tracking.log")).unwrap();
         assert_eq!(r.clock, "local clock");
-        assert_eq!((r.unit_in, r.time_system.as_deref(), r.tau0_s), ("s", Some("UTC"), 64.0));
-        assert_eq!((r.n_parsed, r.n_skipped_lines), (5, 1), "the column header is counted");
+        assert_eq!(
+            (r.unit_in, r.time_system.as_deref(), r.tau0_s),
+            ("s", Some("UTC"), 64.0)
+        );
+        assert_eq!(
+            (r.n_parsed, r.n_skipped_lines),
+            (5, 1),
+            "the column header is counted"
+        );
         let want = [1e-6, -2e-6, 3e-6, -1e-6, 2e-6];
         for (g, w) in r.phase_s.iter().zip(want) {
             assert_eq!(*g, w);
@@ -1610,7 +1639,10 @@ TICC startup menu text
     #[test]
     fn chrony_statistics_needs_a_source_when_there_are_two() {
         let e = run(&inp("chrony-statistics"), &fixture("chrony_statistics.log")).unwrap_err();
-        assert!(e.contains("192.168.1.1") && e.contains("192.168.1.2"), "{e}");
+        assert!(
+            e.contains("192.168.1.1") && e.contains("192.168.1.2"),
+            "{e}"
+        );
         let mut i = inp("chrony-statistics");
         i.clock = Some("192.168.1.2".into());
         let r = run(&i, &fixture("chrony_statistics.log")).unwrap();
