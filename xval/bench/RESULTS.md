@@ -64,6 +64,35 @@ here, because choosing it after D1 missed would be a post-hoc search for a resul
 register it with its own bar. The miss is pinned by `d1_is_not_met_no_detector_exceeds_the_optimism_tolerance_on_the_test_split`,
 which fails if the measured gap ever exceeds 0.05, so a change in the corpus is noticed.
 
+## Task (a), receiver logs on JammerTest 2024: A1 and A2 met; the split has a flaw
+
+Run with the archive of SHA-256 73e78934…b313 (24 folders, 14 evaluable by the registered rule). Pooled over all
+14 evaluable folders the bench AUCs equal the recorded calibration to the registered tolerance, so the scorer
+reproduces an independent earlier run of the same statistics.
+
+| bar | measured | verdict |
+|---|---|---|
+| A1 pooled AUC `cn0_drop_db`, `agc_k_sigma`, `jam_ind_threshold` within 0.0005 of 0.778, 0.933, 0.678 | reproduced (`a1_a2_receiver_log_baselines_on_jammertest_2024`, data-gated) | MET |
+| A2 `agc_k_sigma` AUC >= 0.80 on test | 0.830 | MET |
+
+Per split (AUC; jamming epochs against clean epochs):
+
+| split | folders | jamming / clean epochs | `cn0_drop_db` | `agc_k_sigma` | `jam_ind_threshold` |
+|---|---|---|---|---|---|
+| dev | 11 | 6,962 / 2,362 | 0.799 | 0.983 | 0.769 |
+| test | 2 | 2,598 / 487 | 0.823 | 0.830 | 0.395 |
+| holdout | 1 | 0 / 0 jamming, clean only | not scoreable | not scoreable | not scoreable |
+
+**Finding (not a loosened bar).** The split rule of `SPEC.md` section 4 was fixed before any scoring and is hash
+based. On the 14 evaluable folders it put 11 in dev, 2 in test and 1 in holdout, and the test split holds a single
+jamming folder (one dynamic 10 W event) next to a spoofing folder that contributes only clean epochs; the holdout
+split holds no jamming epoch at all, so the scorer refuses it (a task needs a positive and a negative case) and
+`jam_ind_threshold` on test (0.395, below chance) is the behaviour of one event, not a general property. The rule is
+not changed after the result: a stratified rule would be a new major spec version, chosen by the owner, and any
+number reported under it would carry that version. Until then the task (a) test and holdout scores are weak
+evidence and the leaderboard states the split sizes beside them. Pinned by
+`a_holdout_split_has_no_jamming_epoch_so_it_is_not_scoreable` (data-gated).
+
 ## Task (b), IQ: carried, not re-run
 
 The baseline is the recorded R1 result of `docs/design/DETECTION-ROC.md` (`cn0_drop` AUC 0.7855, bar R1 **NOT

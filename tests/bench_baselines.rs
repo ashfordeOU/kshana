@@ -182,3 +182,21 @@ fn a1_a2_receiver_log_baselines_on_jammertest_2024() {
         }
     }
 }
+
+/// Data-gated: the registered split rule leaves the holdout split of task (a) without a jamming
+/// epoch (`xval/bench/RESULTS.md`), so it cannot be scored. Pinned as a finding.
+#[test]
+fn a_holdout_split_has_no_jamming_epoch_so_it_is_not_scoreable() {
+    let Ok(root) = std::env::var("KSHANA_JAMMERTEST_DIR") else {
+        eprintln!("KSHANA_JAMMERTEST_DIR not set: skipped (data-gated)");
+        return;
+    };
+    let h = tasks::a_load(std::path::Path::new(&root), Some(Split::Holdout)).unwrap();
+    assert!(!h.labels.is_empty() && h.labels.iter().all(|l| !l.positive));
+    let dev = tasks::a_load(std::path::Path::new(&root), Some(Split::Dev)).unwrap();
+    let test = tasks::a_load(std::path::Path::new(&root), Some(Split::Test)).unwrap();
+    assert_eq!(
+        (dev.folders.len(), test.folders.len(), h.folders.len()),
+        (11, 2, 1)
+    );
+}
