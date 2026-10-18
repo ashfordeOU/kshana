@@ -6,7 +6,8 @@
 //! Run with `cargo run --release --bin gen_araim_m3_study -- --out xval/araim-m3/results.json`.
 //! The bars it is scored against are in `xval/araim-m3/PREREGISTRATION.md`, committed before any
 //! scored run; the study writes the measured entries and `tests/araim_m3_reproduction.rs` scores
-//! them. `--bench` times a few thousand evaluations and writes nothing.
+//! them. `--bench` times a few evaluations and writes nothing. The study evaluates only the
+//! `sigma_URA` values the claims need (`ura_list`), not the whole 1 to 10 m sweep.
 //!
 //! Everything is deterministic: circular Keplerian Walker shells, an exactly sidereal Earth
 //! rotation, the engine's ADD v4.2 horizontal path with the RNP constants of Table 25, and the
@@ -29,7 +30,19 @@ const P_SAT: f64 = 1e-5;
 const FC_THRES: f64 = 0.01;
 const HAL_RNP01: f64 = 185.0;
 const HAL_RNP03: f64 = 556.0;
-const URA_MAX: usize = 10;
+/// The `sigma_URA` values (m) evaluated for each configuration: exactly the values the
+/// pre-registered claims in `xval/araim-m3/PREREGISTRATION.md` need (the printed entry and the
+/// next integer, or 10 m for ">10 m", or 1 m for "N/A"). Fixed before any scored run.
+fn ura_list(id: &str) -> &'static [usize] {
+    match id {
+        "dual-baseline" | "galileo-baseline" => &[10],
+        "dual-depleted" => &[9, 10],
+        "galileo-depleted" => &[1],
+        "gps-depleted" => &[1, 4, 5],
+        "gps-baseline" => &[6, 7, 10],
+        _ => &[],
+    }
+}
 
 /// RNP column of Table 25: all of the integrity budget horizontal.
 const RNP: ReferenceConstants = ReferenceConstants {
@@ -148,9 +161,9 @@ struct Config {
     shells: Vec<(Shell, f64)>,
 }
 
-/// HPL of one user at one epoch for every integer `sigma_URA` in 1..=URA_MAX (NaN where the
-/// solution is not available: fewer than four satellites, a singular geometry, an error).
-fn hpl_for_all_ura(user: [f64; 3], sats: &[Vec<[f64; 3]>], p_const: &[f64]) -> [f64; URA_MAX] {
+/// HPL of one user at one epoch for each `sigma_URA` in `ura` (NaN where the solution is not
+/// available: fewer than four satellites, a singular geometry, an error).
+fn hpl_for_ura(user: [f64; 3], sats: &[Vec<[f64; 3]>], p_const: &[f64], ura: &[usize]) -> Vec<f64> {
     let g = kshana::frames::ecef_to_geodetic(user);
     let (sl, cl) = g.lat_rad.sin_cos();
     let (so, co) = g.lon_rad.sin_cos();
@@ -179,7 +192,7 @@ fn hpl_for_all_ura(user: [f64; 3], sats: &[Vec<[f64; 3]>], p_const: &[f64]) -> [
             }
         }
     }
-    let mut out = [f64::NAN; URA_MAX];
+    let mut out = vec![f64::NAN; ura.len()];
     if rows.len() < 4 {
         return out;
     }
@@ -189,8 +202,8 @@ fn hpl_for_all_ura(user: [f64; 3], sats: &[Vec<[f64; 3]>], p_const: &[f64]) -> [
         .filter(|c| rows.iter().any(|r| r.3 == *c))
         .collect();
     let remap = |c: usize| present.iter().position(|&x| x == c).unwrap_or(0);
-    for (k, slot) in out.iter_mut().enumerate() {
-        let ura = (k + 1) as f64;
+    for (slot, &ura_m) in out.iter_mut().zip(ura) {
+        let ura = ura_m as f64;
         let ure = ura * 2.0 / 3.0;
         let case = AddV42Case {
             satellites: rows
@@ -228,9 +241,9 @@ struct Study {
     step_s: f64,
 }
 
-/// Counts of epochs with HPL <= HAL, per user and URA, for RNP 0.1 and 0.3; plus the epoch
-/// count and the users.
-fn run_config(cfg: &Config, st: &Study, threads: usize) -> Value {
+/// Counts of epochs with HPL <= HAL, per user and URA, for RNP 0.1 and 0.3, reduced to the
+/// coverage of 99.5 % availability at each URA in `ura`.
+fn run_config(cfg: &Config, ura: &[usize], st: &Study, threads: usize) -> Value {
     let n_epochs = (st.days * T_SD / st.step_s).floor() as usize;
     let mut users: Vec<(f64, f64)> = Vec::new();
     let mut lat = -st.lat_max_deg;
@@ -253,8 +266,8 @@ fn run_config(cfg: &Config, st: &Study, threads: usize) -> Value {
         })
         .collect();
     let p_const: Vec<f64> = cfg.shells.iter().map(|s| s.1).collect();
-    // counts[user][k] = (epochs <= 185 m, epochs <= 556 m) at sigma_URA = k + 1
-    let mut counts = vec![[(0u32, 0u32); URA_MAX]; users.len()];
+    // counts[user][k] = (epochs <= 185 m, epochs <= 556 m) at sigma_URA = ura[k]
+    let mut counts = vec![vec![(0u32, 0u32); ura.len()]; users.len()];
     let chunk = users.len().div_ceil(threads.max(1));
     std::thread::scope(|scope| {
         for (ci, slice) in counts.chunks_mut(chunk).enumerate() {
@@ -267,8 +280,8 @@ fn run_config(cfg: &Config, st: &Study, threads: usize) -> Value {
                         cfg.shells.iter().map(|s| s.0.positions(t)).collect();
                     for (j, cnt) in slice.iter_mut().enumerate() {
                         let u = ecef[ci * chunk + j];
-                        let h = hpl_for_all_ura(u, &sats, p_const);
-                        for k in 0..URA_MAX {
+                        let h = hpl_for_ura(u, &sats, p_const, ura);
+                        for k in 0..ura.len() {
                             if h[k].is_finite() {
                                 if h[k] <= HAL_RNP01 {
                                     cnt[k].0 += 1;
@@ -301,12 +314,13 @@ fn run_config(cfg: &Config, st: &Study, threads: usize) -> Value {
         c / wsum
     };
     let cov: Vec<Vec<f64>> = (0..2)
-        .map(|l| (0..URA_MAX).map(|k| coverage(l, k)).collect())
+        .map(|l| (0..ura.len()).map(|k| coverage(l, k)).collect())
         .collect();
     json!({
         "users": users.len(), "epochs": n_epochs,
-        "coverage_rnp01_by_ura_1_to_10": cov[0],
-        "coverage_rnp03_by_ura_1_to_10": cov[1],
+        "sigma_ura_m": ura,
+        "coverage_rnp01": cov[0],
+        "coverage_rnp03": cov[1],
     })
 }
 
@@ -372,7 +386,7 @@ fn main() {
         days: flag("--days").and_then(|v| v.parse().ok()).unwrap_or(10.0),
         step_s: flag("--step")
             .and_then(|v| v.parse().ok())
-            .unwrap_or(1800.0),
+            .unwrap_or(1200.0),
     };
     if args.iter().any(|a| a == "--bench") {
         let cfg = config("dual-baseline").expect("config");
@@ -388,14 +402,14 @@ fn main() {
                     lon_rad: f64::from(lon).to_radians(),
                     alt_m: 0.0,
                 });
-                let h = hpl_for_all_ura(u, &sats, &p_const);
+                let h = hpl_for_ura(u, &sats, &p_const, &[1, 5, 10]);
                 n += 1;
                 ok += usize::from(h.iter().any(|x| x.is_finite()));
             }
         }
         let dt = t0.elapsed().as_secs_f64();
         println!(
-            "{n} user-epochs x {URA_MAX} URA values in {dt:.2} s = {:.1} ms per user-epoch ({ok} solvable)",
+            "{n} user-epochs x 3 URA values in {dt:.2} s = {:.1} ms per user-epoch ({ok} solvable)",
             1000.0 * dt / n as f64
         );
         return;
@@ -408,7 +422,7 @@ fn main() {
         }
         let cfg = config(id).expect("config");
         eprintln!("running {id} ...");
-        results.insert(id.to_string(), run_config(&cfg, &st, threads));
+        results.insert(id.to_string(), run_config(&cfg, ura_list(id), &st, threads));
     }
     let doc = json!({
         "schema": "kshana.araim-m3-study/1",
