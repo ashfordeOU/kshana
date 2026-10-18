@@ -93,6 +93,18 @@ pub fn build_receiver_trust_pack(
     seed: &[u8; 32],
     timestamp_token: Option<&[u8]>,
 ) -> Result<PackSummary, String> {
+    build_receiver_trust_pack_with(req, seed, timestamp_token, &[])
+}
+
+/// As [`build_receiver_trust_pack`], with extra top-level entries in `config.json` (so inside the
+/// signed hash chain), for example the scorecard of `kshana jammertest score`. An entry named
+/// like one the pack already writes is refused.
+pub fn build_receiver_trust_pack_with(
+    req: &PackRequest<'_>,
+    seed: &[u8; 32],
+    timestamp_token: Option<&[u8]>,
+    extra_config: &[(&str, Value)],
+) -> Result<PackSummary, String> {
     let scn = req.scenario;
     let result = scenario::run_receiver_trust_bytes(scn, req.log_bytes, req.nav_bytes)?;
     let t0 = parse_time(req.from, result.log.start_label.as_deref())?;
@@ -116,7 +128,7 @@ pub fn build_receiver_trust_pack(
             sanitise_source(nav);
         }
     }
-    let config = json!({
+    let mut config = json!({
         "scenario": scn_v,
         "scenario_hash": result.scenario_hash,
         "monitors_run": result.monitors_run,
@@ -128,6 +140,12 @@ pub fn build_receiver_trust_pack(
         // geometry and the attribution of its degradation.
         "geometry_model": result.geometry_model,
     });
+    for (k, v) in extra_config {
+        let o = config.as_object_mut().ok_or("config is not an object")?;
+        if o.insert((*k).to_string(), v.clone()).is_some() {
+            return Err(format!("config.json already has an entry `{k}`"));
+        }
+    }
     // The window's bytes, where every epoch in it reports its source span; otherwise the
     // whole log is bundled and the manifest says so.
     let slice = read_log(scn.log.format, req.log_bytes)
