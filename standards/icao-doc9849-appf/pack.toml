@@ -7,6 +7,24 @@ sources = [
   "ICAO GNSS RFI Mitigation Plan, presentation to the ICG-11 Working Group S (United Nations Office for Outer Space Affairs, 2016), which describes the three-step plan (monitor threats, assess risks, deploy mitigation measures) and quotes Doc 9849 sections 5.1.5, 7.11.3.1, 7.12.5, 7.13.1.1 and Appendix B. Read in full on 2026-10-18. Doc 9849 itself is a paid ICAO publication and was NOT read; no clause of Appendix F is cited by number, and the checklists of preventive and reactive measures that Appendix F contains are not reproduced.",
 ]
 
+[[row]]
+id = "ICAO-9849-MON"
+reference = "Doc 9849 Appendix F step 1 (monitor threats) and section 7.11.3.1, as described in ICAO's GNSS RFI Mitigation Plan presentation"
+asks = "Threats are monitored proactively and reactively; when anomaly reports suggest interference, air navigation service providers analyse them and, if interference is present, identify the affected area and issue a notice."
+gap = "The plan puts monitoring best at the aircraft receiver and relies on reports; a scored log shows one receiver's alarm times, not an air-traffic picture or the reporting process."
+
+[[row]]
+id = "ICAO-9849-ASSESS"
+reference = "Doc 9849 Appendix F step 2 (assess risks) and section 7.13.1.1, as described in ICAO's GNSS RFI Mitigation Plan presentation"
+asks = "Providers assess residual likelihood of service outages and the impact of an outage on operations in specific airspace, varying and escalating scenarios and identifying existing barriers."
+gap = "Scenarios give the impact side for a stated geometry; likelihood and the airspace-specific assessment are the provider's."
+
+[[row]]
+id = "ICAO-9849-MIT"
+reference = "Doc 9849 Appendix F step 3 (deploy mitigation measures) and section 5.1.5, as described in ICAO's GNSS RFI Mitigation Plan presentation"
+asks = "Mitigation barriers prevent transmission of interference, prevent a GNSS service outage (resilience, on-board integration) and limit the severity of impact (integration with other navigation sources, alternative PNT, detection and resolution)."
+gap = "The pack models detection, alternative PNT and holdover; prevention of transmission is regulatory and outside simulation. Appendix F's own checklists were not read."
+
 [[test]]
 id = "MON-1"
 profile = "monitor"

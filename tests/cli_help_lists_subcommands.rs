@@ -21,6 +21,8 @@ fn the_top_level_usage_names_every_subcommand() {
         "route-exposure",
         "bench-export",
         "compliance-report",
+        "standards-pack",
+        "evidence round-trip",
         "kinds",
         "example",
         "--validate",

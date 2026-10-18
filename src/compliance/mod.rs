@@ -126,6 +126,40 @@ pub struct ReceiverTrustFacts {
     pub predictions_agreeing: u64,
 }
 
+/// One compliance row as a standards-pack report states it: the tests that name the row and
+/// what their bars came to.
+#[derive(Clone, Debug, Serialize, PartialEq)]
+pub struct PackRowFacts {
+    /// Row id (a row of the static mapping, or one the pack adds).
+    pub id: String,
+    /// Where in the source document.
+    pub reference: String,
+    /// The pack tests that name the row.
+    pub tests: Vec<String>,
+    /// What those tests came to: `all stated bars met`, `a stated bar not met`,
+    /// `partly: stated bars met, input still needed`, or `needs input`.
+    pub outcome: String,
+}
+
+/// Facts read from a standards-pack report (`kshana standards-pack run`), as it states them.
+#[derive(Clone, Debug, Serialize, PartialEq)]
+pub struct PackFacts {
+    /// Run label.
+    pub run: String,
+    /// Pack id.
+    pub pack: String,
+    /// Pack title.
+    pub title: String,
+    /// Tests whose bars were all met.
+    pub met: u64,
+    /// Tests with a bar not met.
+    pub not_met: u64,
+    /// Tests that need operator input and were not scored.
+    pub needs_input: u64,
+    /// Rows the pack's tests name, with their outcomes.
+    pub rows: Vec<PackRowFacts>,
+}
+
 /// A run that was read.
 #[derive(Clone, Debug, Serialize)]
 pub struct RunRef {
@@ -152,6 +186,8 @@ pub struct Report {
     pub capabilities: Vec<CapabilityEvidence>,
     /// Receiver-trust facts, one per receiver-trust run.
     pub receiver_trust: Vec<ReceiverTrustFacts>,
+    /// Standards-pack facts, one per standards-pack report.
+    pub standards_packs: Vec<PackFacts>,
     /// Every row, filled.
     pub rows: Vec<RowReport>,
 }
@@ -251,6 +287,104 @@ fn malformed_counts(r: &Run) -> Option<String> {
     }
 }
 
+/// Whether a result is a standards-pack report.
+fn is_pack_report(v: &Value) -> bool {
+    v.get("schema").and_then(Value::as_str) == Some(crate::standards_pack::REPORT_SCHEMA)
+        && v.get("tests").map(Value::is_array).unwrap_or(false)
+}
+
+/// The facts of a standards-pack report, or `None` when it is malformed.
+fn pack_facts_of(r: &Run) -> Option<PackFacts> {
+    if r.kind != "standards-pack" || !is_pack_report(&r.json) {
+        return None;
+    }
+    let pack_id = r.json.get("pack")?.as_str()?.to_string();
+    let pack = crate::standards_pack::load(&pack_id).ok();
+    let tests = r.json.get("tests")?.as_array()?;
+    let status = |t: &Value| {
+        t.get("status")
+            .and_then(Value::as_str)
+            .unwrap_or("")
+            .to_string()
+    };
+    let count = |s: &str| tests.iter().filter(|t| status(t) == s).count() as u64;
+    let mut ids: Vec<String> = Vec::new();
+    for t in tests {
+        for id in t
+            .get("supports_rows")
+            .and_then(Value::as_array)
+            .into_iter()
+            .flatten()
+            .filter_map(Value::as_str)
+        {
+            if !ids.iter().any(|x| x == id) {
+                ids.push(id.to_string());
+            }
+        }
+    }
+    let rows = ids
+        .into_iter()
+        .map(|id| {
+            let named: Vec<&Value> = tests
+                .iter()
+                .filter(|t| {
+                    t.get("supports_rows")
+                        .and_then(Value::as_array)
+                        .is_some_and(|a| a.iter().any(|x| x.as_str() == Some(&id)))
+                })
+                .collect();
+            let any = |s: &str| named.iter().any(|t| status(t) == s);
+            let outcome = if any("NOT MET") {
+                "a stated bar not met"
+            } else if any("MET") && any("NEEDS INPUT") {
+                "partly: stated bars met, input still needed"
+            } else if any("MET") {
+                "all stated bars met"
+            } else {
+                "needs input"
+            };
+            let reference = pack
+                .as_ref()
+                .and_then(|p| {
+                    p.rows
+                        .iter()
+                        .find(|x| x.id == id)
+                        .map(|x| x.reference.clone())
+                })
+                .or_else(|| {
+                    mapping::rows()
+                        .iter()
+                        .find(|x| x.id == id)
+                        .map(|x| x.reference.to_string())
+                })
+                .unwrap_or_else(|| id.clone());
+            PackRowFacts {
+                id,
+                reference,
+                tests: named
+                    .iter()
+                    .filter_map(|t| t.get("id").and_then(Value::as_str).map(str::to_string))
+                    .collect(),
+                outcome: outcome.into(),
+            }
+        })
+        .collect();
+    Some(PackFacts {
+        run: r.label.clone(),
+        pack: pack_id,
+        title: r
+            .json
+            .get("title")
+            .and_then(Value::as_str)
+            .unwrap_or("")
+            .into(),
+        met: count("MET"),
+        not_met: count("NOT MET"),
+        needs_input: count("NEEDS INPUT"),
+        rows,
+    })
+}
+
 fn facts_of(r: &Run) -> Option<ReceiverTrustFacts> {
     if r.kind != "receiver-trust" || !is_receiver_trust(&r.json) || malformed_counts(r).is_some() {
         return None;
@@ -346,6 +480,7 @@ pub fn assess(runs: &[Run], mut unrecognised: Vec<String>) -> Report {
         unrecognised,
         capabilities,
         receiver_trust: runs.iter().copied().filter_map(facts_of).collect(),
+        standards_packs: runs.iter().copied().filter_map(pack_facts_of).collect(),
         rows,
     }
 }
@@ -379,6 +514,7 @@ pub fn run_from_text(input: &RunInput<'_>) -> Result<Run, String> {
 /// Whether `kind` names a built-in scenario kind or `receiver-trust`.
 fn known_kind(kind: &str) -> bool {
     kind == "receiver-trust"
+        || kind == "standards-pack"
         || crate::api::list_scenario_kinds()
             .iter()
             .any(|m| m.name == kind)
@@ -439,6 +575,9 @@ pub fn load_runs(paths: &[std::path::PathBuf]) -> (Vec<Run>, Vec<String>) {
 fn kind_of(label: &str, scenario_toml: Option<&str>, json: &Value) -> Result<String, String> {
     if is_receiver_trust(json) {
         return Ok("receiver-trust".into());
+    }
+    if is_pack_report(json) {
+        return Ok("standards-pack".into());
     }
     let own = json.get("kind").and_then(Value::as_str);
     let sibling = scenario_toml.and_then(|src| {
@@ -554,6 +693,35 @@ impl Report {
                 "\nThese counts are the runs' own, scored against events and tolerances stated \
                  before the run. They describe those logs, not the receiver in general.\n\n",
             );
+        }
+        if !self.standards_packs.is_empty() {
+            s.push_str("## Standards packs, as the runs state them\n\n");
+            s.push_str(
+                "Each pack measures modelled scenarios against bars stated before the run. The \
+                 rows below are the ones its tests support evidence for; a row is never marked \
+                 met.\n\n",
+            );
+            for f in &self.standards_packs {
+                s.push_str(&format!(
+                    "### {} ({})\n\n{} test(s) with every stated bar met, {} with a bar not met, {} needing input.\n\n",
+                    cell(&f.title),
+                    cell(&f.run),
+                    f.met,
+                    f.not_met,
+                    f.needs_input
+                ));
+                s.push_str("| Row | Reference | Pack tests | Outcome |\n|---|---|---|---|\n");
+                for r in &f.rows {
+                    s.push_str(&format!(
+                        "| {} | {} | {} | {} |\n",
+                        cell(&r.id),
+                        cell(&r.reference),
+                        r.tests.join(", "),
+                        r.outcome
+                    ));
+                }
+                s.push('\n');
+            }
         }
         for fw in Framework::ALL {
             s.push_str(&format!("## {}\n\n", fw.title()));
