@@ -116,6 +116,8 @@ impl Broadcaster {
                 let _ = conn.set_nodelay(true);
                 let _ = conn.set_write_timeout(Some(Duration::from_secs(5)));
                 b.add(tx);
+                // The client now receives every later line; a harness that feeds a stored log waits for this.
+                eprintln!("kshana live: tcp client connected");
                 let h = std::thread::spawn(move || {
                     let mut conn = conn;
                     // Ends when the queue is dropped (client too slow) or a write fails.
