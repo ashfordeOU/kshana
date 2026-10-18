@@ -25,6 +25,7 @@ const USAGE: &str = "usage: kshana <scenario.toml> [--study-name <s>] [--eop <fi
    or: kshana route-exposure --route <route> --map <map.geojson|dir> [--from <date>] [--to <date>]
    or: kshana bench-export <scenario.toml> [--out <base>] [--epoch <YYYY-MM-DDTHH:MM:SS>]
    or: kshana compliance-report [--out <base>] <result.json>... | --mapping | --sources
+   or: kshana lunanet-afs-check <spec [--json] [--strict]|symbols <file> [--max-sp-errors <n>] [--json]|generate --frames <n> [--toi0 <t>] --out <file>>
    or: kshana standards-pack <list|run <id> [--json] [--out <base>]|rows <id>|tests <id>>
    or: kshana osnma verify <pages|vectors.csv|stream.ubx> [--merkle-root <hex>] [--public-key <id:type:hex>] [--reference-time <gst-s>] [--json] (kshana osnma --help)
    or: kshana iq <scene|acquire|track|sweep|labfit|campaign|conditions|frontend|monitor|inventory|info|extract|convert|decimate> ... (kshana iq --help)
@@ -124,6 +125,10 @@ fn main() -> ExitCode {
     }
     // `kshana compliance-report <result.json>...` fills the public-framework mapping from
     // the runs given (docs/compliance/README.md). Terminal, like the others.
+    // `kshana lunanet-afs-check ...` checks the LunaNet Augmented Forward Signal (LSIS-AFS V1.0).
+    if args.get(1).map(String::as_str) == Some("lunanet-afs-check") {
+        return run_lunanet_afs_cli(&args[2..]);
+    }
     // `kshana standards-pack ...` lists and runs the scored standards packs (`standards/`).
     if args.get(1).map(String::as_str) == Some("standards-pack") {
         return run_standards_pack_cli(&args[2..]);
@@ -1358,6 +1363,156 @@ fn run_skyline_cli(args: &[String]) -> ExitCode {
             eprintln!("{SKYLINE_USAGE}");
             ExitCode::from(2)
         }
+    }
+}
+
+const LUNANET_AFS_USAGE: &str = "usage: kshana lunanet-afs-check spec [--json] [--strict]
+   or: kshana lunanet-afs-check symbols <file> [--max-sp-errors <n>] [--json]
+   or: kshana lunanet-afs-check generate --frames <n> [--toi0 <t>] --out <file>
+
+Pinned to LunaNet Interoperability Specification V5, Applicable Document 1 Volume A (LSIS-AFS
+V1.0, 29 January 2025). `spec` checks this implementation against the document's printed code
+tables and worked examples (bars B1 to B10 of xval/lunanet-afs/PREREGISTRATION.md; with --strict
+the exit status is 1 unless every bar is met). `symbols` checks a hard-decision symbol stream
+(text of 0 and 1) for the synchronisation pattern, SB1 decoding, FID, TOI continuity and frame
+spacing; subframes 2 to 4 (LDPC, CRC-24Q) are NOT verified. `generate` writes a test stream of
+symbols with placeholder subframes; it is not a waveform, and Kshana writes no signal. To
+acquire or track the AFS waveform in a recording use `kshana iq acquire --signal lunanet-afs-i`
+(or lunanet-afs-q). Advisory only. docs/LUNANET-AFS.md.";
+
+/// `kshana lunanet-afs-check <spec|symbols|generate>`.
+fn run_lunanet_afs_cli(args: &[String]) -> ExitCode {
+    let fail = |m: &str| {
+        eprintln!("error: {m}\n{LUNANET_AFS_USAGE}");
+        ExitCode::from(2)
+    };
+    let flag = |name: &str| -> Result<Option<String>, String> {
+        match args.iter().position(|a| a == name) {
+            None => Ok(None),
+            Some(i) => args
+                .get(i + 1)
+                .cloned()
+                .map(Some)
+                .ok_or_else(|| format!("{name} needs a value")),
+        }
+    };
+    match args.first().map(String::as_str) {
+        Some("--help" | "-h" | "help") => {
+            println!("{LUNANET_AFS_USAGE}");
+            ExitCode::SUCCESS
+        }
+        Some("spec") => {
+            let r = kshana::surface::lunanet_afs_check_spec();
+            if args.iter().any(|a| a == "--json") {
+                println!("{}", serde_json::to_string_pretty(&r).unwrap_or_default());
+            } else {
+                println!("{}", r["specification"].as_str().unwrap_or(""));
+                for b in r["bars"].as_array().into_iter().flatten() {
+                    println!(
+                        "{:<4} {:<7} {}/{}  {}",
+                        b["bar"].as_str().unwrap_or(""),
+                        b["status"].as_str().unwrap_or(""),
+                        b["matched"],
+                        b["total"],
+                        b["claim"].as_str().unwrap_or("")
+                    );
+                    if let Some(n) = b["note"].as_str().filter(|n| !n.is_empty()) {
+                        println!("       {n}");
+                    }
+                }
+                println!("{}", r["advisory"].as_str().unwrap_or(""));
+            }
+            if args.iter().any(|a| a == "--strict") && r["all_met"] != true {
+                return ExitCode::FAILURE;
+            }
+            ExitCode::SUCCESS
+        }
+        Some("symbols") => {
+            let Some(path) = args.get(1).filter(|a| !a.starts_with("--")) else {
+                return fail("symbols needs a file");
+            };
+            let max_err = match flag("--max-sp-errors") {
+                Ok(v) => v.map_or(Ok(0), |v| v.parse::<usize>().map_err(|e| e.to_string())),
+                Err(e) => Err(e),
+            };
+            let Ok(max_err) = max_err else {
+                return fail("--max-sp-errors needs a whole number");
+            };
+            let text = match std::fs::read_to_string(path) {
+                Ok(t) => t,
+                Err(e) => return fail(&format!("cannot read {path}: {e}")),
+            };
+            match kshana::surface::lunanet_afs_check_symbols(
+                &text,
+                max_err,
+                8 * kshana::surface::MAX_INPUT_BYTES,
+            ) {
+                Ok(r) => {
+                    if args.iter().any(|a| a == "--json") {
+                        println!("{}", serde_json::to_string_pretty(&r).unwrap_or_default());
+                    } else {
+                        println!(
+                            "{} symbols, {} frame(s) found; {}",
+                            r["symbols"],
+                            r["frames_found"],
+                            if r["ok"] == true { "no problems" } else { "problems:" }
+                        );
+                        for p in r["problems"].as_array().into_iter().flatten() {
+                            println!("  {}", p.as_str().unwrap_or(""));
+                        }
+                        for f in r["frames"].as_array().into_iter().flatten() {
+                            println!(
+                                "  frame at {}: FID {} TOI {} (SB1 metric {:.2}, {} SP error(s), {} SB1 error(s))",
+                                f["offset"], f["fid"], f["toi"],
+                                f["sb1_metric"].as_f64().unwrap_or(0.0),
+                                f["sp_errors"], f["sb1_symbol_errors"]
+                            );
+                            for p in f["problems"].as_array().into_iter().flatten() {
+                                println!("    {}", p.as_str().unwrap_or(""));
+                            }
+                        }
+                        println!("not checked: {}", r["not_checked"].as_str().unwrap_or(""));
+                    }
+                    if r["ok"] == true {
+                        ExitCode::SUCCESS
+                    } else {
+                        ExitCode::FAILURE
+                    }
+                }
+                Err(e) => fail(&e),
+            }
+        }
+        Some("generate") => {
+            let frames = match flag("--frames") {
+                Ok(Some(v)) => v.parse::<usize>().ok(),
+                _ => None,
+            };
+            let toi0 = match flag("--toi0") {
+                Ok(Some(v)) => v.parse::<u8>().ok(),
+                Ok(None) => Some(0),
+                Err(_) => None,
+            };
+            let (Some(frames), Some(toi0), Ok(Some(out))) = (frames, toi0, flag("--out")) else {
+                return fail("generate needs --frames <n> and --out <file> (and a whole-number --toi0)");
+            };
+            match kshana::surface::lunanet_afs_generate(frames, toi0) {
+                Ok(text) => match std::fs::write(&out, format!("{text}\n")) {
+                    Ok(()) => {
+                        println!(
+                            "wrote {out}: {frames} frame(s) of 6000 symbols; subframes 2 to 4 are placeholders (not LDPC coded, no message)"
+                        );
+                        ExitCode::SUCCESS
+                    }
+                    Err(e) => {
+                        eprintln!("error: cannot write {out}: {e}");
+                        ExitCode::FAILURE
+                    }
+                },
+                Err(e) => fail(&e),
+            }
+        }
+        Some(other) => fail(&format!("unknown lunanet-afs-check subcommand {other}")),
+        None => fail("lunanet-afs-check needs a subcommand"),
     }
 }
 

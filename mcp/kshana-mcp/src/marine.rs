@@ -216,6 +216,29 @@ pub struct StandardsPackRequest {
     pub pack: String,
 }
 
+/// Parameters for [`KshanaServer::lunanet_afs_check`].
+#[derive(Debug, serde::Deserialize, schemars::JsonSchema)]
+pub struct LunanetAfsCheckRequest {
+    /// `spec` (check the implementation against the published tables and worked examples),
+    /// `symbols` (check the `symbols` stream) or `generate` (a test stream with placeholder
+    /// subframes).
+    pub mode: String,
+    /// For `symbols`: a hard-decision symbol stream as text of `0` and `1` (white space
+    /// ignored), at most 4 MiB.
+    #[serde(default)]
+    pub symbols: Option<String>,
+    /// For `symbols`: symbols of the 68-symbol synchronisation pattern that may be wrong
+    /// (default 0, at most 20).
+    #[serde(default)]
+    pub max_sp_errors: Option<usize>,
+    /// For `generate`: frames to write, 1 to 100 (default 1).
+    #[serde(default)]
+    pub frames: Option<usize>,
+    /// For `generate`: TOI of the first frame, 0 to 99 (default 0).
+    #[serde(default)]
+    pub toi0: Option<u8>,
+}
+
 /// Parameters for [`KshanaServer::trust_telemetry`].
 #[derive(Debug, serde::Deserialize, schemars::JsonSchema)]
 pub struct TrustTelemetryRequest {
@@ -622,6 +645,39 @@ impl KshanaServer {
             .map_err(|e| bad(format!("standards pack failed: {e}")))?;
         report["markdown"] = md.into();
         reply(report)
+    }
+
+    #[tool(
+        description = "Check the LunaNet Augmented Forward Signal (AFS) against the published specification, pinned to LNIS Version 5 Applicable Document 1 Volume A (LSIS-AFS V1.0, 29 January 2025) (`kshana lunanet-afs-check`, docs/LUNANET-AFS.md). Mode `spec` checks this implementation against the document's printed code tables (the first and last 24 chips of every AFS-I Gold, AFS-Q Weil and tertiary code for PRN 1 to 210, and both Legendre sequences) and worked examples (SB1 BCH, CRC-24Q), bars B1 to B10 of a pre-registration; B4 reports one miss (the document prints the same last 24 chips for tertiary PRN 147 and 151). Mode `symbols` checks a hard-decision symbol stream (text of 0 and 1) for the synchronisation pattern, SB1 decoding, FID, TOI continuity and frame spacing. Subframes 2 to 4 (rate-1/2 LDPC, CRC-24Q) are NOT verified: the LDPC matrices are in a separate annex that is not implemented. Mode `generate` returns a test stream with placeholder subframes: symbols, not a waveform; Kshana writes no signal. VALIDATED only against the printed tables of that edition, which the document itself marks TBC; say so, and do not describe a result as showing that any LunaNet node or service is correct. Advisory only."
+    )]
+    fn lunanet_afs_check(
+        &self,
+        Parameters(r): Parameters<LunanetAfsCheckRequest>,
+    ) -> Result<CallToolResult, McpError> {
+        match r.mode.as_str() {
+            "spec" => reply(surface::lunanet_afs_check_spec()),
+            "symbols" => {
+                let text = r.symbols.ok_or_else(|| bad("mode `symbols` needs `symbols`".into()))?;
+                let v = surface::lunanet_afs_check_symbols(
+                    &text,
+                    r.max_sp_errors.unwrap_or(0),
+                    MAX_UPLOAD_BYTES,
+                )
+                .map_err(|e| bad(format!("lunanet-afs-check failed: {e}")))?;
+                reply(v)
+            }
+            "generate" => {
+                let s = surface::lunanet_afs_generate(r.frames.unwrap_or(1), r.toi0.unwrap_or(0))
+                    .map_err(|e| bad(format!("lunanet-afs-check failed: {e}")))?;
+                reply(serde_json::json!({
+                    "symbols": s,
+                    "note": "placeholder subframes 2 to 4 (not LDPC coded, no message); symbols for testing a checker, not a waveform",
+                }))
+            }
+            other => Err(bad(format!(
+                "mode must be spec, symbols or generate (got {other})"
+            ))),
+        }
     }
 
     #[tool(

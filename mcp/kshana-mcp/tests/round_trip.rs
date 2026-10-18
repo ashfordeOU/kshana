@@ -94,6 +94,7 @@ async fn serves_exactly_the_expected_tool_set() {
         "compliance_mapping",
         "list_standards_packs",
         "run_standards_pack",
+        "lunanet_afs_check",
         "create_round_trip_pack",
         "export_test_bench",
         "iq_signals",
