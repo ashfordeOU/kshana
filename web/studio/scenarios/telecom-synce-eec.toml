@@ -1,0 +1,44 @@
+# Telecom timing, frequency synchronisation: a free-running oven-controlled crystal
+# oscillator (OCXO) set against the synchronous Ethernet equipment clock (EEC) wander
+# generation masks of the International Telecommunication Union Telecommunication
+# Standardization Sector (ITU-T).
+#
+# The masks: ITU-T G.8262 (10/2024) EEC Option 1 (Tables 1 and 3) and Option 2 (Tables 4
+# and 5), and ITU-T G.8262.1 (11/2025) enhanced EEC (Tables 1 and 3), each the
+# constant-temperature (within +/-1 K) maximum time interval error (MTIE) and time
+# deviation (TDEV) limit. The record is 12 000 s at one sample per second, so TDEV
+# reaches 1 000 s, the end of every mask, under the twelve-times-tau rule.
+#
+# The clock: the OCXO preset (Microchip OX-208 datasheet, Rev 12-1-2021), free-running
+# from the first sample with white, flicker and (where the fit needs it) random-walk
+# frequency noise fitted to the datasheet's Allan-deviation maxima, and its linear aging.
+# The temperature is held constant (amplitude 0 K), as the masks assume.
+#
+# What the run answers: does this oscillator's own wander, with no loop at all, already
+# fit inside each mask? These are LOCKED-mode masks for a clock synchronised to a
+# wander-free reference. A phase-locked loop passes the oscillator's wander at
+# observation intervals short against its time constant and suppresses it at longer
+# ones, so the free-running record stands in for the oscillator's contribution at short
+# intervals and overstates it at long ones. A FAIL at long intervals says the loop must
+# do that work; it says nothing about any EEC. The report states the locked condition
+# beside every verdict.
+#
+# The 10 Hz measurement filter the Recommendations state acts before sampling; the kind
+# takes the record as already measured through it.
+#
+# Not a conformance test and not a measurement of any unit.
+kind = "telecom-timing"
+seed = 20260925
+masks = ["g8262-eec-option-1", "g8262-eec-option-2", "g8262-1-eeec"]
+# No time-error budgets: they are phase-synchronisation figures, not EEC requirements.
+budgets = []
+
+[holdover]
+oscillator = "ocxo"
+gnss_loss_s = 0.0
+duration_s = 12000.0
+sample_interval_s = 1.0
+locked_te_sigma_ns = 0.0
+initial_frequency_offset = 0.0
+temperature_amplitude_k = 0.0
+temperature_period_s = 86400.0

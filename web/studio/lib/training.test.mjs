@@ -123,7 +123,8 @@ assert.match(parseInstructorLog(JSON.stringify({ ...log0, track: Array.from({ le
 const dir = new URL("../training/demo/", import.meta.url);
 if (fs.existsSync(dir)) {
   const files = fs.readdirSync(dir).filter((f) => f.endsWith(".instructor.json")).sort();
-  assert.ok(files.length >= 4, "the four library scenarios");
+  assert.ok(files.length >= 5, "the five library scenarios");
+  assert.ok(files.includes("fjord-natural-degradation.instructor.json"), "the fjord natural-degradation scenario is in the library");
   for (const f of files) {
     const r = parseInstructorLog(fs.readFileSync(new URL(f, dir), "utf8"), f);
     assert.equal(r.error, undefined, f);
@@ -131,7 +132,7 @@ if (fs.existsSync(dir)) {
     assert.match(l.warning, /never feed this stream to a vessel's live navigation systems/);
     assert.ok(l.track.length > 20 && l.events.length >= 1 && l.timeline.length >= 2, f);
     assert.deepEqual(l.warnings, [], f);
-    for (const e of l.events) assert.ok(["jamming", "drag-off", "time-spoof", "replay-delay"].includes(e.p.kind));
+    for (const e of l.events) assert.ok(["jamming", "drag-off", "time-spoof", "replay-delay", "natural-degradation"].includes(e.p.kind));
     for (const m of l.timeline) assert.ok(["onset", "full-effect", "recovery-begins", "recovered", "fix-lost", "fix-regained"].includes(m.what), m.what);
     // Every row's active events exist; a row with no fix reports nothing.
     for (const r2 of l.track) { for (const id of r2.active) assert.ok(l.events.some((e) => e.id === id)); if (!r2.fixValid) assert.equal(r2.rep, null); }
@@ -152,3 +153,11 @@ if (fs.existsSync(dir)) {
   if (by["port-approach-time-spoof"]) assert.ok(Math.abs(by["port-approach-time-spoof"].stats.maxTimeOffS) > 30, "time drifts away from true UTC");
 }
 console.log("training.test.mjs: ok");
+
+// A natural-degradation event carries a skyline object: it reads as a line, never as "[object Object]".
+{
+  const rows = paramRows({ kind: "natural-degradation", label: "Into the fjord", skyline: { preset: "fjord" } });
+  assert.deepEqual(rows.find((r) => r[0] === "Skyline"), ["Skyline", "preset fjord"]);
+  assert.equal(rows.find((r) => r[0] === "Kind")[1], "Natural degradation (blocked sky)");
+  assert.equal(paramRows({ skyline: { profile: [[0, 10]] } }).find((r) => r[0] === "Skyline")[1], "stated profile");
+}

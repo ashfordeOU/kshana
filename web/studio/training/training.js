@@ -7,7 +7,7 @@ import { getEngine } from "../lib/engine-page.mjs";
 
 const $ = (id) => document.getElementById(id);
 const NS = "http://www.w3.org/2000/svg";
-const DEMOS = [["open-sea-jamming", "Open-sea jamming"], ["coastal-drag-off", "Coastal drag-off"], ["port-approach-time-spoof", "Port-approach time spoof"], ["combined-event", "Combined event"]];
+const DEMOS = [["open-sea-jamming", "Open-sea jamming"], ["coastal-drag-off", "Coastal drag-off"], ["port-approach-time-spoof", "Port-approach time spoof"], ["combined-event", "Combined event"], ["fjord-natural-degradation", "Fjord natural degradation"]];
 const BAND_VAR = { small: "var(--t-small)", medium: "var(--t-medium)", large: "var(--t-large)" };
 const BAND_W = { small: 2.4, medium: 3.2, large: 4 };
 

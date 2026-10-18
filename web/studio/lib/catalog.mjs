@@ -87,6 +87,12 @@ export const SCENARIOS = [
   ["quantum-gnss-free-nav.toml", "navigation", "Quantum GNSS-free nav", "How far does a cold-atom navigator coast vs a nav-grade INS with no GNSS? (modelled)"],
   ["quantum-cai-coast.toml", "navigation", "Quantum accelerometer coast", "How long does a cold-atom interferometer, specified by its physics, keep dead reckoning inside 100 m after GNSS is lost, against a nav-grade quartz accelerometer? (modelled)"],
   ["hybrid-optical-rf.toml", "navigation", "Optical/RF hybrid", "What continuity and integrity does combining optical and RF PNT buy? (modelled)"],
+  ["fusion-pnt-coupled.toml", "navigation", "Coupled sensor-fusion navigator", "With one stacked Kalman filter over position, clock and accelerometer bias, how does the navigator ride out a GNSS outage? (modelled)"],
+  ["gnss-ins-aviation.toml", "navigation", "Aircraft turn through a GNSS gap", "Through a two-minute GNSS denial that covers a banked turn, how far does a tightly coupled navigation-grade or tactical-grade INS drift? (modelled)"],
+  ["gnss-ins-maritime.toml", "navigation", "Ship weaving through a GNSS outage", "After a five-minute GNSS outage on a weaving vessel, how far does a navigation-grade or tactical-grade INS drift? (modelled)"],
+  ["gnss-ins-rail.toml", "navigation", "Train through a cutting and a tunnel", "Through a deep cutting with two satellites and then a tunnel, how far does a tightly coupled INS drift? (modelled)"],
+  ["gravity-map-error-mc.toml", "navigation", "Gravity-map error Monte Carlo", "As the stored gravity map gets noisier, how often does map matching still keep a GPS-denied fix inside its target? (modelled)"],
+  ["gps-denied-gravity-nav-egm2008.toml", "navigation", "Gravity navigation on the real field", "On the real EGM2008 gravity field to degree 70, can map matching hold a GPS-denied track? (modelled)"],
   // Integrity & positioning
   ["integrity-raim.toml", "integrity", "RAIM integrity", "Does the geometry meet the alert limits (HPL / VPL)?"],
   ["integrity-harbour-approach.toml", "integrity", "ARAIM entering harbour", "With quay buildings and a breakwater hiding low satellites, do GPS and Galileo keep ARAIM protection inside the alert limits? (modelled; representative skyline)"],
@@ -95,6 +101,10 @@ export const SCENARIOS = [
   ["gnss-sim-raim.toml", "integrity", "GNSS measurements", "How do the ionosphere and troposphere shape raw pseudoranges, and does RAIM still protect?"],
   ["gnss-sim-container-terminal-skyline.toml", "integrity", "Straddle carrier on a container quay", "With cranes to seaward and stacks to landward, how many satellites are left, and what happens to RAIM protection? (modelled; representative skyline)"],
   ["pvt-abmf.toml", "integrity", "Positioning (SPP)", "Can a real receiver position be solved from raw RINEX measurements?"],
+  ["time-transfer-budget.toml", "timing", "Two-way satellite time transfer", "What do station, transponder, ionosphere and Sagnac terms do to a two-way time offset, and what is its uncertainty budget? (modelled)"],
+  ["optical-atmosphere-network.toml", "timing", "Optical link through the atmosphere, three sites", "How often is an optical timing link up through clouds and turbulence, and what do extra ground sites buy? (modelled; illustrative cloud climates)"],
+  ["optical-atmosphere-techniques.toml", "timing", "Optical link techniques", "What do a larger aperture, another wavelength or adaptive optics buy one optical uplink in cloud and turbulence? (modelled; illustrative cloud climate)"],
+  ["telecom-synce-eec.toml", "timing", "Frequency sync against SyncE masks", "Does a free-running oven-controlled oscillator stay inside the synchronous Ethernet equipment-clock wander masks? (modelled)"],
   // Orbits & GNSS geometry
   ["orbit-gnss-challenged.toml", "orbits", "GNSS availability", "When is a fix even possible from the satellite geometry?"],
   ["orbit-sgp4-gps.toml", "orbits", "SGP4 orbits", "How does a real GPS-like constellation propagate over a day?"],
@@ -113,6 +123,13 @@ export const SCENARIOS = [
   ["attitude-budget.toml", "spaceops", "Pointing budget", "What is the worst-case disturbance torque and pointing-error budget?"],
   ["space-weather.toml", "spaceops", "Space weather", "How does solar / geomagnetic activity change thermospheric density? (modelled)"],
   ["aperture-duty-cycle.toml", "spaceops", "Aperture duty cycle", "When one aperture serves both navigation and communications, what outage does that cost? (modelled)"],
+  ["acm-link.toml", "spaceops", "Satellite downlink with adaptive coding", "Along each pass, which DVB-S2 mode does the link hold, and how much data does the pass move? (modelled)"],
+  ["aocs-slew.toml", "spaceops", "Reaction-wheel slew", "Does the feedback law settle a large-angle slew with four wheels, and how hard do the wheels work? (the control loop is validated; the spacecraft is illustrative)"],
+  ["aocs-slew-mekf.toml", "spaceops", "Slew on an attitude estimate", "With the controller fed by an attitude filter and a biased gyro, how does the slew compare with the true-state case? (modelled)"],
+  ["ascent-losses.toml", "spaceops", "Launch ascent losses", "How much of a two-stage launcher's ideal speed gain do gravity, drag, steering and back-pressure take? (modelled)"],
+  ["contact-schedule.toml", "spaceops", "Ground-contact plan", "For three satellites and three stations over 12 hours, which passes does a conflict-free plan keep, and how much data does it move? (modelled)"],
+  ["entry-heating-stardust.toml", "spaceops", "Stardust capsule entry", "Does the entry model reproduce the published peak deceleration of the Stardust sample-return capsule?"],
+  ["eo-radiometry.toml", "spaceops", "Imager radiometry and image quality", "For a small Earth-observation camera, what signal-to-noise, MTF at Nyquist and NIIRS does a 15 % reflectance scene give? (modelled)"],
   // Moon, cislunar & Mars
   ["moonlight-service-volume.toml", "deepspace", "Lunar service volume", "What DOP, coverage and integrity does a Moonlight/LCNS-class constellation give the south pole? (modelled)"],
   ["lunanet-araim.toml", "deepspace", "Lunar integrity", "Does a sparse lunar relay set meet the integrity limits for an Artemis-region receiver?"],
@@ -139,6 +156,7 @@ export const SCENARIOS = [
   ["mars-pnt-lmo.toml", "deepspace", "Mars PNT, low orbit", "Can a MARCONI relay constellation navigate a user at Mars? (covariance FoM, not a certified PL)"],
   ["mars-pnt-surface.toml", "deepspace", "Mars PNT, surface", "How well can a lander or rover on the rotating Mars surface be navigated against the relay constellation?"],
   ["mars-pnt-transfer.toml", "deepspace", "Mars PNT, transfer", "How well is a vehicle on a high, eccentric approach or capture arc navigated at Mars?"],
+  ["lunar-station-coverage-terrain.toml", "deepspace", "Lunar station with real terrain", "With each site's horizon ray-marched over a real lunar elevation model, how much coverage does the station lose to terrain? (modelled)"],
   // Spectrum
   ["l-band-waterfall-jamming.toml", "spectrum", "L-band waterfall under jamming", "What does the whole GNSS L band look like while a chirp, a tone and a noise jammer switch on, and which signals does each one take away? (modelled)"],
   ["multi-band-jamming-waterfall.toml", "spectrum", "Multi-band jamming waterfall", "With navigation signals spread over four bands, what does a jammer built for one band leave standing? (modelled)"],
@@ -194,6 +212,7 @@ export const SCENARIOS = [
   ["campaign-sweep-jammer-power.toml", "campaigns", "Jammer power sweep", "As a jammer 1 km away is turned up from 10 nW to 10 W, when does the receiver lose its fix? (modelled)"],
   ["campaign-monte-carlo-clock-holdover.toml", "campaigns", "Monte Carlo clock holdover", "Over many seeded runs, does a free-running clock's time error match its closed-form spread?"],
   ["campaign-shared-jammer-sea-road.toml", "campaigns", "One jammer, a ship and a car", "Under one jammer, which platform loses its fix: the ship 30 km away or the car 50 km away? (modelled)"],
+  ["campaign-optimize-link-budget.toml", "campaigns", "Optimise a link budget", "Over range and data rate, where does an X-band link leave exactly 3 dB of margin?"],
   // Solar system
   ["solar-system-tour.toml", "solar", "Solar system at one epoch", "Where is every body the engine knows, from the Sun to Pluto and the large moons, and how long does light take between them?"],
   ["mars-orbit-pnt.toml", "solar", "Mars orbiter with relays and an Earth link", "How well is a low Mars orbiter positioned from twelve navigation relays, and what does a range from Earth add? (modelled)"],
@@ -210,10 +229,11 @@ export const SCENARIOS = [
 // Files the browser engine cannot run, with the reason shown in the library.
 export const NOT_IN_BROWSER = {
   "lunar-llr-datum.toml": "Needs the archived laser-ranging data slice that ships with the repository, not with the browser build.",
+  "lunar-station-coverage-terrain.toml": "Needs the lunar elevation-model crop (data/lunar-dem/) that ships with the repository, not with the browser build.",
   "quantum-pnt-demonstrator.suite.toml": "A study suite, not a single scenario. Run it with the command-line tool: kshana --study.",
 };
 // Of those, the files the Studio shows as a run recorded with the native command-line engine.
-export const RECORDED_NATIVELY = ["lunar-llr-datum.toml"];
+export const RECORDED_NATIVELY = ["lunar-llr-datum.toml", "lunar-station-coverage-terrain.toml"];
 // Bundled scenarios that need a newer engine than an older package has: what they need (a kind the engine lists, or
 // a function it exports) and the release that brings it. With an engine that lacks it, the Studio shows the recording
 // made with one that has it and does not run them (an older engine refuses their fields, or runs without them).

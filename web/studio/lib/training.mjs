@@ -24,7 +24,7 @@ export const MAX_MOMENTS_SHOWN = 200;
 export const kindLabel = (k) => (typeof k === "string" && Object.hasOwn(KIND_LABEL, k) ? KIND_LABEL[k] : String(k));
 export const whatLabel = (w) => (typeof w === "string" && Object.hasOwn(WHAT_LABEL, w) ? WHAT_LABEL[w] : String(w));
 
-export const KIND_LABEL = { jamming: "Jamming", "drag-off": "Position drag-off", "time-spoof": "Time spoof", "replay-delay": "Replay delay" };
+export const KIND_LABEL = { jamming: "Jamming", "drag-off": "Position drag-off", "time-spoof": "Time spoof", "replay-delay": "Replay delay", "natural-degradation": "Natural degradation (blocked sky)" };
 export const WHAT_LABEL = { onset: "Onset", "full-effect": "Full effect", "recovery-begins": "Recovery begins", recovered: "Recovered", "fix-lost": "Fix lost", "fix-regained": "Fix regained" };
 
 // Position-error bands for colouring the reported track (metres). Stated on the page, not a standard.
@@ -171,10 +171,13 @@ export function describeRow(log, i) {
   return bits.join(", ");
 }
 
+// A skyline given to a natural-degradation event, as one line: a preset by name, or a stated profile by its size. Never
+// "[object Object]": the value comes from the file.
+const skylineText = (v) => (v && typeof v === "object" && typeof v.preset === "string" ? `preset ${v.preset}` : v && typeof v === "object" ? "stated profile" : String(v));
 // One-line facts of an event's parameters for the list, in the order the log gives them.
 export function paramRows(p) {
-  const label = { kind: "Kind", label: "Label", start_s: "Onset, s", duration_s: "Duration, s", ramp_s: "Onset ramp, s", recovery_s: "Recovery ramp, s", cn0_drop_db: "C/N0 drop, dB", spread_db: "Per-satellite spread, dB", final_offset_m: "Final offset, m", bearing_deg: "Bearing, deg true", relative_bearing_deg: "Bearing relative to course, deg", offset_s: "Time offset, s", delay_s: "Delay, s", affect_time: "Affects time", counterfeit_cn0_dbhz: "Counterfeit C/N0, dB-Hz" };
-  return Object.entries(p).filter(([, v]) => v !== null && v !== undefined).map(([k, v]) => [(Object.hasOwn(label, k) && label[k]) || k.replace(/_/g, " "), k === "kind" ? kindLabel(v) : String(v)]);
+  const label = { kind: "Kind", label: "Label", start_s: "Onset, s", duration_s: "Duration, s", ramp_s: "Onset ramp, s", recovery_s: "Recovery ramp, s", cn0_drop_db: "C/N0 drop, dB", spread_db: "Per-satellite spread, dB", final_offset_m: "Final offset, m", bearing_deg: "Bearing, deg true", relative_bearing_deg: "Bearing relative to course, deg", offset_s: "Time offset, s", delay_s: "Delay, s", affect_time: "Affects time", counterfeit_cn0_dbhz: "Counterfeit C/N0, dB-Hz", skyline: "Skyline" };
+  return Object.entries(p).filter(([, v]) => v !== null && v !== undefined).map(([k, v]) => [(Object.hasOwn(label, k) && label[k]) || k.replace(/_/g, " "), k === "kind" ? kindLabel(v) : k === "skyline" ? skylineText(v) : String(v)]);
 }
 
 // Extra rows of an event that the log computes (drag-off): the bearing as applied and the peaks the drag adds
