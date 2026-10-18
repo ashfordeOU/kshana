@@ -10,6 +10,7 @@
 //! [`Timeline::skipped_records`], never a panic.
 
 pub mod imu;
+pub mod novatel;
 pub mod rtklib;
 
 use super::ingest::timeline_from;
@@ -38,6 +39,11 @@ impl EpochMap {
     /// The epoch at `key_ms`, created empty when new.
     pub(crate) fn at(&mut self, key_ms: i64) -> &mut LogEpoch {
         self.map.entry(key_ms).or_default()
+    }
+
+    /// The earliest key, if any.
+    pub(crate) fn first_key(&self) -> Option<i64> {
+        self.map.keys().next().copied()
     }
 
     /// Finish into a [`Timeline`].
