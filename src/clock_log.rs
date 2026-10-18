@@ -3,7 +3,7 @@
 //! normalised phase series `(time_s, phase_s)` on a uniform grid, with the sample interval
 //! `tau0` found or stated, every gap counted, and the units of the log named.
 //!
-//! Three formats are read. Each is a documented subset, stated here and in
+//! Eight formats are read. Each is a documented subset, stated here and in
 //! `docs/CLOCK-LOG-FORMATS.md`; anything outside it is refused with an error naming what
 //! was found rather than read approximately.
 //!
@@ -40,6 +40,11 @@
 //!   refused (a channel whose readings do not increase is reported as Period mode). Lines
 //!   starting with `#` and lines that are not `<number> <label>` (the start-up menu) are
 //!   skipped and counted.
+//! * **`ptp4l`**, **`phc2sys`**, **`ts2phc`**, **`chrony-tracking`**, **`chrony-statistics`** —
+//!   the servo lines of linuxptp and the `log tracking` / `log statistics` files of chrony:
+//!   the logged offset is the phase (ns for linuxptp, s for chrony), the time stamp is the
+//!   line's own, and linuxptp readings before the servo first locks (`s2`) are left out.
+//!   Layouts and the sample interval rule are in `docs/CLOCK-LOG-FORMATS.md`.
 //!
 //! ## `tau0` and gaps
 //!
@@ -73,10 +78,34 @@ pub enum ClockLogFormat {
     /// TAPR TICC counter log.
     #[serde(rename = "ticc")]
     Ticc,
+    /// linuxptp `ptp4l` servo log (`master offset`, ns).
+    #[serde(rename = "ptp4l")]
+    Ptp4l,
+    /// linuxptp `phc2sys` servo log (`phc offset` or `sys offset`, ns).
+    #[serde(rename = "phc2sys")]
+    Phc2sys,
+    /// linuxptp `ts2phc` servo log (`<device> offset`, ns).
+    #[serde(rename = "ts2phc")]
+    Ts2phc,
+    /// chrony `tracking.log` (local offset on each clock update, s).
+    #[serde(rename = "chrony-tracking")]
+    ChronyTracking,
+    /// chrony `statistics.log` (estimated offset of each source, s).
+    #[serde(rename = "chrony-statistics")]
+    ChronyStatistics,
 }
 
 /// Format names accepted in a scenario.
-pub const FORMAT_NAMES: [&str; 3] = ["rinex-clk", "timelab", "ticc"];
+pub const FORMAT_NAMES: [&str; 8] = [
+    "rinex-clk",
+    "timelab",
+    "ticc",
+    "ptp4l",
+    "phc2sys",
+    "ts2phc",
+    "chrony-tracking",
+    "chrony-statistics",
+];
 
 impl ClockLogFormat {
     /// Parse a format name from a scenario.
@@ -85,6 +114,11 @@ impl ClockLogFormat {
             "rinex-clk" => Ok(Self::RinexClk),
             "timelab" => Ok(Self::TimeLab),
             "ticc" => Ok(Self::Ticc),
+            "ptp4l" => Ok(Self::Ptp4l),
+            "phc2sys" => Ok(Self::Phc2sys),
+            "ts2phc" => Ok(Self::Ts2phc),
+            "chrony-tracking" => Ok(Self::ChronyTracking),
+            "chrony-statistics" => Ok(Self::ChronyStatistics),
             other => Err(format!(
                 "unknown clock-log format {other:?}; expected one of {}",
                 FORMAT_NAMES.join(", ")
@@ -98,6 +132,11 @@ impl ClockLogFormat {
             Self::RinexClk => "rinex-clk",
             Self::TimeLab => "timelab",
             Self::Ticc => "ticc",
+            Self::Ptp4l => "ptp4l",
+            Self::Phc2sys => "phc2sys",
+            Self::Ts2phc => "ts2phc",
+            Self::ChronyTracking => "chrony-tracking",
+            Self::ChronyStatistics => "chrony-statistics",
         }
     }
 }
@@ -257,8 +296,11 @@ pub fn read_input(inp: &ClockLogInput) -> Result<NormalisedPhase, String> {
     if fmt != ClockLogFormat::TimeLab && (inp.units.is_some() || inp.data.is_some()) {
         return Err("units and data apply to the timelab format only".into());
     }
-    if fmt != ClockLogFormat::RinexClk && inp.clock.is_some() {
-        return Err("clock applies to the rinex-clk format only (TICC uses channel)".into());
+    if inp.clock.is_some() && (fmt == ClockLogFormat::TimeLab || fmt == ClockLogFormat::Ticc) {
+        return Err(
+            "clock applies to the rinex-clk, linuxptp and chrony formats only (TICC uses channel)"
+                .into(),
+        );
     }
     if fmt != ClockLogFormat::Ticc && inp.channel.is_some() {
         return Err("channel applies to the ticc format only".into());
@@ -287,6 +329,12 @@ pub fn parse(
         ClockLogFormat::RinexClk => parse_rinex(text, inp, gaps),
         ClockLogFormat::TimeLab => parse_timelab(text, inp, gaps),
         ClockLogFormat::Ticc => parse_ticc(text, inp, gaps),
+        ClockLogFormat::Ptp4l | ClockLogFormat::Phc2sys | ClockLogFormat::Ts2phc => {
+            parse_linuxptp(fmt, text, inp, gaps)
+        }
+        ClockLogFormat::ChronyTracking | ClockLogFormat::ChronyStatistics => {
+            parse_chrony(fmt, text, inp, gaps)
+        }
     }
 }
 
@@ -809,6 +857,296 @@ fn parse_ticc(text: &str, inp: &ClockLogInput, gaps: GapPolicy) -> Result<Normal
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
+// linuxptp (ptp4l, phc2sys, ts2phc) and chrony (tracking, statistics)
+// ─────────────────────────────────────────────────────────────────────────────
+
+/// Turn time-stamped readings of a time error into a grid. The readings already are the
+/// phase (a servo's logged offset), so the grid carries them as they are. Whole ticks
+/// between successive readings are accumulated, so a sample interval that is not exactly
+/// `tau0` does not walk the index off the grid. A reading under half a tick after the one
+/// kept before it is a duplicate: it is dropped and counted.
+#[allow(clippy::too_many_arguments)]
+fn grid_timed_offsets(
+    format: ClockLogFormat,
+    clock: String,
+    times: &[f64],
+    offsets_s: &[f64],
+    inp: &ClockLogInput,
+    unit_in: &'static str,
+    time_system: Option<String>,
+    n_skipped_lines: usize,
+) -> Result<Gridded, String> {
+    if times.windows(2).any(|w| w[1] < w[0]) {
+        return Err(format!(
+            "the {} time stamps of {clock:?} go backwards (a restarted daemon or a clock step); \
+             split the log and read each part",
+            format.name()
+        ));
+    }
+    let (tau0, tau0_source) = match inp.tau0_s {
+        Some(t) => (t, "input"),
+        None => (
+            detect_tau0(times).ok_or("a single time stamp; tau0 cannot be found")?,
+            "median-spacing",
+        ),
+    };
+    let mut x = vec![offsets_s[0]];
+    let mut last_t = times[0];
+    let mut n_duplicates = 0usize;
+    for (t, v) in times.iter().zip(offsets_s).skip(1) {
+        let k = ((t - last_t) / tau0).round();
+        if k < 1.0 {
+            n_duplicates += 1;
+            continue;
+        }
+        for _ in 1..(k as usize) {
+            x.push(f64::NAN);
+        }
+        x.push(*v);
+        last_t = *t;
+    }
+    Ok(Gridded {
+        format,
+        clock,
+        series: PhaseSeries {
+            t0: times[0],
+            tau0,
+            x,
+        },
+        tau0_source,
+        data: "phase",
+        unit_in,
+        time_system,
+        n_parsed: times.len(),
+        n_off_grid: 0,
+        n_duplicates,
+        n_skipped_lines,
+    })
+}
+
+/// One reading of a source: its time stamp (s), the offset as logged, and the servo state.
+struct TimedOffset {
+    t: f64,
+    offset: f64,
+    locked: Option<bool>,
+}
+
+/// The sources of a log with their readings, in order of first appearance, and the lines
+/// that were not readings.
+fn pick_source(
+    by_source: Vec<(String, Vec<TimedOffset>)>,
+    inp: &ClockLogInput,
+    what: &str,
+    selector: &str,
+) -> Result<(String, Vec<TimedOffset>), String> {
+    let names: Vec<String> = by_source.iter().map(|(k, _)| k.clone()).collect();
+    let id = match &inp.clock {
+        Some(c) => c.clone(),
+        None => match names.as_slice() {
+            [one] => one.clone(),
+            [] => return Err(format!("the log has no {what} readings")),
+            many => {
+                return Err(format!(
+                    "the log holds {} sources; name one with {selector} = \"...\" ({})",
+                    many.len(),
+                    many.join(", ")
+                ))
+            }
+        },
+    };
+    by_source
+        .into_iter()
+        .find(|(k, _)| *k == id)
+        .ok_or_else(|| format!("no {what} readings for {id:?} (found {})", names.join(", ")))
+}
+
+/// Find a `[seconds.fraction]` time stamp in `head`, and the text after it. Syslog's
+/// `ptp4l[1234]:` process id has no fraction and is not taken.
+fn linuxptp_stamp(head: &str) -> Option<(f64, &str)> {
+    let mut from = 0;
+    while let Some(i) = head[from..].find('[') {
+        let open = from + i;
+        let close = open + head[open..].find(']')?;
+        let inner = &head[open + 1..close];
+        if inner.contains('.') {
+            if let Ok(t) = inner.trim().parse::<f64>() {
+                if t.is_finite() {
+                    return Some((t, &head[close + 1..]));
+                }
+            }
+        }
+        from = close + 1;
+    }
+    None
+}
+
+fn parse_linuxptp(
+    fmt: ClockLogFormat,
+    text: &str,
+    inp: &ClockLogInput,
+    gaps: GapPolicy,
+) -> Result<NormalisedPhase, String> {
+    let prog = fmt.name();
+    let mut by_source: Vec<(String, Vec<TimedOffset>)> = Vec::new();
+    let mut skipped = 0usize;
+    for line in text.lines() {
+        let l = line.trim();
+        if l.is_empty() || l.starts_with('#') {
+            continue;
+        }
+        let reading = (|| {
+            if !l.contains(prog) {
+                return None;
+            }
+            let at = l.find(" offset")?;
+            let (t, after_stamp) = linuxptp_stamp(&l[..at])?;
+            let mut it = l[at + " offset".len()..].split_whitespace();
+            let offset: f64 = it.next()?.parse().ok().filter(|v: &f64| v.is_finite())?;
+            let locked = match it.next() {
+                Some("s0") | Some("s1") => Some(false),
+                Some("s2") | Some("s3") => Some(true),
+                _ => None,
+            };
+            let source = after_stamp
+                .trim_start_matches(':')
+                .replace(['[', ']'], " ")
+                .split_whitespace()
+                .collect::<Vec<_>>()
+                .join(" ");
+            let source = if source.is_empty() {
+                "-".to_string()
+            } else {
+                source
+            };
+            Some((source, TimedOffset { t, offset, locked }))
+        })();
+        let Some((source, r)) = reading else {
+            skipped += 1;
+            continue;
+        };
+        match by_source.iter_mut().find(|(k, _)| *k == source) {
+            Some((_, v)) => v.push(r),
+            None => by_source.push((source, vec![r])),
+        }
+    }
+    let (id, readings) = pick_source(by_source, inp, &format!("{prog} offset"), "clock")?;
+    // Before the servo first reports it is locked (s2), the offset is a step or a pull-in
+    // transient, not the clock's time error. Those readings are left out and counted.
+    let has_state = readings.iter().any(|r| r.locked.is_some());
+    let first = if has_state {
+        readings
+            .iter()
+            .position(|r| r.locked == Some(true))
+            .ok_or_else(|| format!("the servo of {id:?} never reached the locked state s2"))?
+    } else {
+        0
+    };
+    skipped += first;
+    let kept = &readings[first..];
+    let times: Vec<f64> = kept.iter().map(|r| r.t).collect();
+    let offsets: Vec<f64> = kept.iter().map(|r| r.offset / 1e9).collect();
+    grid_timed_offsets(fmt, id, &times, &offsets, inp, "ns", None, skipped)?.finish_with(gaps)
+}
+
+/// Seconds from 1980-01-06 00:00:00 of a `YYYY-MM-DD` date and an `HH:MM:SS` time, with no
+/// time-zone or leap-second handling (chrony logs UTC).
+fn chrony_epoch(date: &str, time: &str) -> Option<f64> {
+    let mut d = date.split('-').map(|p| p.parse::<i64>().ok());
+    let (y, m, day) = (d.next()??, d.next()??, d.next()??);
+    if d.next().is_some() || !(1..=12).contains(&m) || !(1..=31).contains(&day) {
+        return None;
+    }
+    let mut t = time.split(':').map(|p| p.parse::<f64>().ok());
+    let (hh, mm, ss) = (t.next()??, t.next()??, t.next()??);
+    if t.next().is_some() || !(0.0..24.0).contains(&hh) || !(0.0..60.0).contains(&mm) {
+        return None;
+    }
+    // Days from civil (H. Hinnant's algorithm), relative to 1980-01-06.
+    let days = |y: i64, m: i64, d: i64| {
+        let y = if m <= 2 { y - 1 } else { y };
+        let era = y.div_euclid(400);
+        let yoe = y - era * 400;
+        let doy = (153 * (if m > 2 { m - 3 } else { m + 9 }) + 2) / 5 + d - 1;
+        let doe = yoe * 365 + yoe / 4 - yoe / 100 + doy;
+        era * 146_097 + doe - 719_468
+    };
+    let n = days(y, m, day) - days(1980, 1, 6);
+    Some(n as f64 * 86_400.0 + hh * 3600.0 + mm * 60.0 + ss)
+}
+
+fn parse_chrony(
+    fmt: ClockLogFormat,
+    text: &str,
+    inp: &ClockLogInput,
+    gaps: GapPolicy,
+) -> Result<NormalisedPhase, String> {
+    // Column positions of chrony's `log tracking` and `log statistics` files: the date,
+    // the time, the address or reference id, then the offset (tracking, column 7: the
+    // local offset on the clock update; statistics, column 5: the estimated offset).
+    let (min_cols, offset_col) = match fmt {
+        ClockLogFormat::ChronyTracking => (14, 6),
+        _ => (13, 4),
+    };
+    let mut by_source: Vec<(String, Vec<TimedOffset>)> = Vec::new();
+    let mut skipped = 0usize;
+    for line in text.lines() {
+        let l = line.trim();
+        if l.is_empty() || l.starts_with('=') || l.starts_with('#') {
+            continue;
+        }
+        let f: Vec<&str> = l.split_whitespace().collect();
+        let reading = (|| {
+            if f.len() < min_cols {
+                return None;
+            }
+            let t = chrony_epoch(f[0], f[1])?;
+            let offset: f64 = f[offset_col].parse().ok().filter(|v: &f64| v.is_finite())?;
+            Some((
+                f[2].to_string(),
+                TimedOffset {
+                    t,
+                    offset,
+                    locked: None,
+                },
+            ))
+        })();
+        let Some((source, r)) = reading else {
+            skipped += 1;
+            continue;
+        };
+        match by_source.iter_mut().find(|(k, _)| *k == source) {
+            Some((_, v)) => v.push(r),
+            None => by_source.push((source, vec![r])),
+        }
+    }
+    // A tracking log is one local clock: the reference id changes with the selected
+    // source, so without a selector every line is read. A statistics log has one series
+    // per source, which must be named.
+    let (id, readings) = if fmt == ClockLogFormat::ChronyTracking && inp.clock.is_none() {
+        let all: Vec<TimedOffset> = by_source.into_iter().flat_map(|(_, v)| v).collect();
+        if all.is_empty() {
+            return Err("the log has no chrony tracking readings".into());
+        }
+        ("local clock".to_string(), all)
+    } else {
+        pick_source(
+            by_source,
+            inp,
+            if fmt == ClockLogFormat::ChronyTracking {
+                "chrony tracking"
+            } else {
+                "chrony statistics"
+            },
+            "clock",
+        )?
+    };
+    let times: Vec<f64> = readings.iter().map(|r| r.t).collect();
+    let offsets: Vec<f64> = readings.iter().map(|r| r.offset).collect();
+    grid_timed_offsets(fmt, id, &times, &offsets, inp, "s", Some("UTC".into()), skipped)?
+        .finish_with(gaps)
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 // Stability of a normalised series (the `measured` block of the clock kind)
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -1168,6 +1506,135 @@ TICC startup menu text
                 MEASURED_UNITS.iter().any(|u| u.path == p),
                 "no unit for {p}"
             );
+        }
+    }
+
+    fn fixture(name: &str) -> String {
+        let p = format!(
+            "{}/tests/fixtures/clock_log/linuxptp_chrony/{name}",
+            env!("CARGO_MANIFEST_DIR")
+        );
+        std::fs::read_to_string(&p).unwrap_or_else(|e| panic!("{p}: {e}"))
+    }
+
+    #[test]
+    fn ptp4l_reads_the_locked_offsets_in_ns() {
+        let r = run(&inp("ptp4l"), &fixture("ptp4l.log")).unwrap();
+        assert_eq!(r.format, ClockLogFormat::Ptp4l);
+        assert_eq!(r.clock, "master");
+        assert_eq!((r.unit_in, r.data, r.tau0_source), ("ns", "phase", "median-spacing"));
+        assert_eq!(r.tau0_s, 1.0);
+        assert_eq!(r.t0_s, 5003.0);
+        // Two pre-lock readings (s0, s1) are left out; the message and rms lines are skipped.
+        assert_eq!(r.n_parsed, 8);
+        assert_eq!(r.n_skipped_lines, 4);
+        let want = [40.0, -12.0, 25.0, -8.0, 17.0, 5.0, -3.0, 9.0];
+        assert_eq!(r.phase_s.len(), want.len());
+        for (g, w) in r.phase_s.iter().zip(want) {
+            assert!((g - w * 1e-9).abs() < 1e-18, "{g} vs {w} ns");
+        }
+        assert_eq!(r.time_s, (0..8).map(f64::from).collect::<Vec<_>>());
+    }
+
+    #[test]
+    fn linuxptp_reads_only_the_named_program() {
+        let r = run(&inp("phc2sys"), &fixture("phc2sys.log")).unwrap();
+        assert_eq!(r.clock, "CLOCK_REALTIME phc");
+        assert_eq!(r.n_parsed, 6);
+        assert_eq!(r.n_skipped_lines, 1, "the ptp4l line is not a phc2sys reading");
+        assert!((r.phase_s[0] + 30e-9).abs() < 1e-18);
+        // The same text has no ts2phc readings.
+        let e = run(&inp("ts2phc"), &fixture("phc2sys.log")).unwrap_err();
+        assert!(e.contains("no ts2phc offset readings"), "{e}");
+    }
+
+    #[test]
+    fn ts2phc_gap_is_refused_or_filled() {
+        let e = run(&inp("ts2phc"), &fixture("ts2phc.log")).unwrap_err();
+        assert!(e.contains("1 missing epoch(s) in 1 gap(s)"), "{e}");
+        let mut i = inp("ts2phc");
+        i.gaps = Some("linear".into());
+        let r = run(&i, &fixture("ts2phc.log")).unwrap();
+        assert_eq!((r.n_parsed, r.n_missing, r.n_interpolated, r.n_used), (6, 1, 1, 7));
+        assert_eq!(r.clock, "/dev/ptp0");
+        // The filled epoch is the mean of its neighbours (4 ns and 2 ns).
+        assert!((r.phase_s[3] - 3e-9).abs() < 1e-18);
+    }
+
+    #[test]
+    fn linuxptp_reads_syslog_prefixed_lines_and_picks_an_interface() {
+        let text = "Oct 12 10:00:00 gw ptp4l[812]: [100.000] [eth0] master offset 5 s2 freq +1 path delay 9\n\
+                    Oct 12 10:00:01 gw ptp4l[812]: [101.000] [eth0] master offset -5 s2 freq +1 path delay 9\n\
+                    Oct 12 10:00:02 gw ptp4l[812]: [102.000] [eth0] master offset 3 s2 freq +1 path delay 9\n\
+                    Oct 12 10:00:00 gw ptp4l[812]: [100.000] [eth1] master offset 7 s2 freq +1 path delay 9\n";
+        let e = run(&inp("ptp4l"), text).unwrap_err();
+        assert!(e.contains("eth0 master") && e.contains("eth1 master"), "{e}");
+        let mut i = inp("ptp4l");
+        i.clock = Some("eth0 master".into());
+        let r = run(&i, text).unwrap();
+        assert_eq!((r.n_parsed, r.t0_s), (3, 100.0));
+        assert!((r.phase_s[1] + 5e-9).abs() < 1e-18);
+    }
+
+    #[test]
+    fn linuxptp_refuses_a_servo_that_never_locks_and_backwards_stamps() {
+        let unlocked = "ptp4l[1.000]: master offset 900 s0 freq +1 path delay 9\n\
+                        ptp4l[2.000]: master offset 800 s1 freq +1 path delay 9\n";
+        let e = run(&inp("ptp4l"), unlocked).unwrap_err();
+        assert!(e.contains("never reached the locked state"), "{e}");
+        let back = "ptp4l[5.000]: master offset 1 s2 freq +1\nptp4l[6.000]: master offset 1 s2 freq +1\n\
+                    ptp4l[2.000]: master offset 1 s2 freq +1\n";
+        let e = run(&inp("ptp4l"), back).unwrap_err();
+        assert!(e.contains("go backwards"), "{e}");
+    }
+
+    #[test]
+    fn chrony_tracking_reads_the_local_offset_in_seconds() {
+        let r = run(&inp("chrony-tracking"), &fixture("chrony_tracking.log")).unwrap();
+        assert_eq!(r.clock, "local clock");
+        assert_eq!((r.unit_in, r.time_system.as_deref(), r.tau0_s), ("s", Some("UTC"), 64.0));
+        assert_eq!((r.n_parsed, r.n_skipped_lines), (5, 1), "the column header is counted");
+        let want = [1e-6, -2e-6, 3e-6, -1e-6, 2e-6];
+        for (g, w) in r.phase_s.iter().zip(want) {
+            assert_eq!(*g, w);
+        }
+        // 2026-10-12 00:00:00 UTC is 17,081 days after 1980-01-06.
+        assert_eq!(r.t0_s, 17_081.0 * 86_400.0);
+        // A selector narrows it to one reference id, (the last three lines here).
+        let mut i = inp("chrony-tracking");
+        i.clock = Some("C0A80002".into());
+        let r = run(&i, &fixture("chrony_tracking.log")).unwrap();
+        assert_eq!((r.clock.as_str(), r.n_parsed), ("C0A80002", 3));
+    }
+
+    #[test]
+    fn chrony_statistics_needs_a_source_when_there_are_two() {
+        let e = run(&inp("chrony-statistics"), &fixture("chrony_statistics.log")).unwrap_err();
+        assert!(e.contains("192.168.1.1") && e.contains("192.168.1.2"), "{e}");
+        let mut i = inp("chrony-statistics");
+        i.clock = Some("192.168.1.2".into());
+        let r = run(&i, &fixture("chrony_statistics.log")).unwrap();
+        assert_eq!((r.n_parsed, r.tau0_s), (5, 16.0));
+        assert_eq!(r.phase_s, vec![5e-6, 4e-6, -3e-6, 2e-6, -5e-6]);
+    }
+
+    #[test]
+    fn chrony_columns_of_the_other_log_are_not_read() {
+        // A statistics log has 13 columns, a tracking log needs 14: nothing is read.
+        let e = run(&inp("chrony-tracking"), &fixture("chrony_statistics.log")).unwrap_err();
+        assert!(e.contains("no chrony tracking readings"), "{e}");
+    }
+
+    #[test]
+    fn clock_selector_is_refused_for_timelab_and_ticc_only() {
+        for f in ["timelab", "ticc"] {
+            let mut i = inp(f);
+            i.clock = Some("x".into());
+            assert!(run(&i, "1\n2\n").unwrap_err().contains("clock applies to"));
+        }
+        assert_eq!(FORMAT_NAMES.len(), 8);
+        for n in FORMAT_NAMES {
+            assert_eq!(ClockLogFormat::from_name(n).unwrap().name(), n);
         }
     }
 }
