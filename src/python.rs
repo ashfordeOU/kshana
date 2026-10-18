@@ -1528,6 +1528,85 @@ fn assess_vessel_log<'py>(
     json_to_py(py, &v)
 }
 
+/// Read the published Jammertest test catalogue and transmission plan as scheduled truth
+/// (`kshana jammertest import`): `catalog_json` and `plans` (a list of plan files, one per day)
+/// are the NPRA JSON texts, `log_start_utc` the log's first epoch (ISO-8601 UTC),
+/// `local_offset_h` the plan's offset from UTC (CEST: 2). Returns a dict: `events_toml` (to
+/// append to a receiver-trust session), `events` (`test_id`, `year`, `kind`, `onset_s`, `end_s`,
+/// ...), `skipped_non_rf`, `outside_log`, `unknown_ids`. The events are planned slots, not
+/// recorded on-air times. Raises `ValueError`.
+#[pyfunction]
+#[pyo3(signature = (catalog_json, plans, log_start_utc, location=None, local_offset_h=2.0, year=None))]
+fn jammertest_import<'py>(
+    py: Python<'py>,
+    catalog_json: &str,
+    plans: Vec<String>,
+    log_start_utc: &str,
+    location: Option<u32>,
+    local_offset_h: f64,
+    year: Option<u32>,
+) -> PyResult<Bound<'py, PyAny>> {
+    let refs: Vec<&str> = plans.iter().map(String::as_str).collect();
+    let j = crate::surface::jammertest_import_json(
+        catalog_json,
+        &refs,
+        location,
+        local_offset_h,
+        log_start_utc,
+        year,
+        crate::surface::MAX_INPUT_BYTES,
+    )
+    .map_err(PyValueError::new_err)?;
+    let v: serde_json::Value =
+        serde_json::from_str(&j).map_err(|e| PyValueError::new_err(e.to_string()))?;
+    json_to_py(py, &v)
+}
+
+/// Score a receiver log against the Jammertest schedule (`kshana jammertest score`): per
+/// scheduled test the detection latency, missed alarms and time to recover, and the false
+/// alarms outside every slot. `session_toml` needs only `[log] format = "ubx"` (or `rinex`,
+/// `android`, `nmea`, `sbf`); `log` is `str` or `bytes`. Returns the scorecard as a dict,
+/// labelled MODELLED (the schedule is planned slots, not recorded on-air times). A signed
+/// evidence pack needs a key: use the command line. Advisory software, not type-approved
+/// navigation equipment (IEC 61108, IEC 61162). Raises `ValueError`.
+#[pyfunction]
+#[pyo3(signature = (session_toml, log, catalog_json, plans, location=None, local_offset_h=2.0, log_start_utc=None, year=None, recover_hold_s=10.0, guard_s=60.0))]
+#[allow(clippy::too_many_arguments)]
+fn jammertest_score<'py>(
+    py: Python<'py>,
+    session_toml: &str,
+    log: TextOrBytes,
+    catalog_json: &str,
+    plans: Vec<String>,
+    location: Option<u32>,
+    local_offset_h: f64,
+    log_start_utc: Option<String>,
+    year: Option<u32>,
+    recover_hold_s: f64,
+    guard_s: f64,
+) -> PyResult<Bound<'py, PyAny>> {
+    let refs: Vec<&str> = plans.iter().map(String::as_str).collect();
+    let j = crate::surface::jammertest_score_json(
+        session_toml,
+        log.bytes(),
+        catalog_json,
+        &refs,
+        location,
+        local_offset_h,
+        log_start_utc.as_deref(),
+        year,
+        crate::jammertest::score::ScoreOptions {
+            recover_hold_s,
+            guard_s,
+        },
+        crate::surface::MAX_INPUT_BYTES,
+    )
+    .map_err(PyValueError::new_err)?;
+    let v: serde_json::Value =
+        serde_json::from_str(&j).map_err(|e| PyValueError::new_err(e.to_string()))?;
+    json_to_py(py, &v)
+}
+
 /// Build a signed evidence pack for a window of a vessel's NMEA log (`kshana receiver-trust
 /// evidence`, in memory). `from_s`/`to_s` are seconds since the log's first epoch.
 /// `seed_hex` is the Ed25519 signing-key seed (64 hex digits); omitted, one is generated
@@ -2143,6 +2222,8 @@ fn kshana(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(receiver_trust, m)?)?;
     m.add_function(wrap_pyfunction!(receiver_trust_replay, m)?)?;
     m.add_function(wrap_pyfunction!(assess_vessel_log, m)?)?;
+    m.add_function(wrap_pyfunction!(jammertest_import, m)?)?;
+    m.add_function(wrap_pyfunction!(jammertest_score, m)?)?;
     m.add_function(wrap_pyfunction!(evidence_create, m)?)?;
     m.add_function(wrap_pyfunction!(evidence_verify, m)?)?;
     m.add_function(wrap_pyfunction!(interference_map, m)?)?;
