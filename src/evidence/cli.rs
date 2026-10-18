@@ -329,6 +329,28 @@ pub fn run_receiver_trust_evidence(args: &[String]) -> i32 {
     }
 }
 
+/// The laboratory round-trip pack (not built for WebAssembly: it reads the IQ campaign types).
+#[cfg(not(target_arch = "wasm32"))]
+fn round_trip_pack(
+    req: &PackRequest<'_>,
+    scenario_text: &str,
+    conditions_text: &str,
+    seed: &[u8; 32],
+) -> Result<super::PackSummary, String> {
+    super::roundtrip::build_round_trip_pack(req, scenario_text, conditions_text, seed)
+}
+
+/// See the native version.
+#[cfg(target_arch = "wasm32")]
+fn round_trip_pack(
+    _req: &PackRequest<'_>,
+    _scenario_text: &str,
+    _conditions_text: &str,
+    _seed: &[u8; 32],
+) -> Result<super::PackSummary, String> {
+    Err("round-trip packs are not built for WebAssembly".to_string())
+}
+
 fn receiver_trust_evidence(args: &[String], round_trip: bool) -> Result<(), String> {
     let scn_path = PathBuf::from(
         args.first()
@@ -381,7 +403,7 @@ fn receiver_trust_evidence(args: &[String], round_trip: bool) -> Result<(), Stri
             std::fs::read_to_string(&sp).map_err(|e| format!("cannot read {sp}: {e}"))?;
         let conditions_text =
             std::fs::read_to_string(&cp).map_err(|e| format!("cannot read {cp}: {e}"))?;
-        super::roundtrip::build_round_trip_pack(&req, &scenario_text, &conditions_text, &seed)?
+        round_trip_pack(&req, &scenario_text, &conditions_text, &seed)?
     } else {
         build_receiver_trust_pack(&req, &seed, None)?
     };
