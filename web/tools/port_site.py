@@ -91,7 +91,9 @@ STUDIO_SKIP_DIRS = {"REVIEW"}
 # the tools page (each with <base href="../">, noindex, and a demo/ or examples/ folder of synthetic data its test reads).
 # 0.36 adds the Geometry view (geometry/: <base href="../">, noindex; no data folder, every number comes from the engine)
 # and the Lunar station view (lunar/: the same; it reads the lunar-station-coverage recording and scenario from recorded/ and scenarios/).
-STUDIO_PAGES = ("index.html", "advanced/index.html", "trust/index.html", "interference/index.html", "training/index.html", "tools/index.html", "geometry/index.html", "lunar/index.html")
+# 0.38 adds the Bridge replay (replay/: the same; it reads replay/data/, written by tools_replay_data.mjs and tools_replay_coast.mjs from the
+# engine's own package and a pinned Natural Earth file) and the Optical PNT view (optical/: the same; it reads the two optical-atmosphere recordings).
+STUDIO_PAGES = ("index.html", "advanced/index.html", "trust/index.html", "interference/index.html", "training/index.html", "tools/index.html", "geometry/index.html", "lunar/index.html", "replay/index.html", "optical/index.html")
 STUDIO_SKIP_RE = re.compile(r"^(tools_.*\.mjs|.*\.d\.ts|\..*)$")
 
 TEXT_EXT = (".html", ".css", ".js", ".mjs", ".json", ".txt", ".xml", ".svg", ".toml", ".md")
