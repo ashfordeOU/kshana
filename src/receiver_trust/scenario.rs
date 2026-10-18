@@ -692,6 +692,7 @@ fn format_name(f: LogFormat) -> &'static str {
         LogFormat::Rinex => "rinex",
         LogFormat::Android => "android",
         LogFormat::Nmea => "nmea",
+        LogFormat::RtklibPos => "rtklib-pos",
     }
 }
 

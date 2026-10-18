@@ -52,6 +52,10 @@ pub fn read_log(format: LogFormat, bytes: &[u8]) -> Result<Timeline, String> {
             read_android(&String::from_utf8_lossy(bytes))?,
         ),
         LogFormat::Nmea => ("NMEA", read_nmea(&String::from_utf8_lossy(bytes))?),
+        LogFormat::RtklibPos => (
+            "RTKLIB .pos",
+            super::machines::rtklib::read_rtklib_pos(&String::from_utf8_lossy(bytes))?,
+        ),
     };
     if tl.epochs.is_empty() {
         return Err(format!(
@@ -234,7 +238,7 @@ pub(crate) fn days_from_civil(y: i64, m: i64, d: i64) -> i64 {
 }
 
 /// The civil date `(year, month, day)` of a day count since 1970-01-01.
-fn civil_from_days(z: i64) -> (i64, i64, i64) {
+pub(crate) fn civil_from_days(z: i64) -> (i64, i64, i64) {
     let z = z + 719_468;
     let era = z.div_euclid(146_097);
     let doe = z - era * 146_097;
@@ -269,7 +273,7 @@ fn iso_utc_ms(ms: i64) -> String {
 
 /// True when the calendar fields are in range (day checked only against 31; the
 /// day-count arithmetic tolerates a 31st of a short month without panicking).
-fn plausible_date(y: i64, mo: i64, d: i64) -> bool {
+pub(crate) fn plausible_date(y: i64, mo: i64, d: i64) -> bool {
     (1900..=2200).contains(&y) && (1..=12).contains(&mo) && (1..=31).contains(&d)
 }
 

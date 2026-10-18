@@ -19,6 +19,7 @@ pub mod calibration;
 pub mod geometry;
 pub mod ingest;
 pub mod live;
+pub mod machines;
 pub mod maritime;
 pub mod monitors;
 pub mod platform;
@@ -46,6 +47,8 @@ pub enum LogFormat {
     Android,
     /// NMEA 0183 text (GSV: per-satellite SNR in dB-Hz; GGA/RMC: time and position).
     Nmea,
+    /// RTKLIB solution file (`.pos`): time, position and satellites used per epoch.
+    RtklibPos,
 }
 
 /// One satellite's signal strength at one epoch.
