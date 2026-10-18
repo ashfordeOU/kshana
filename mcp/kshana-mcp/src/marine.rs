@@ -185,7 +185,7 @@ pub struct TrustTelemetryRequest {
     /// The trust stream (JSON lines, one object per epoch: `t_s`, `state`, `score`, `deductions`,
     /// `alarms`, `gate`) or a `receiver-trust` result document, at most 4 MiB, as text.
     pub input: String,
-    /// `prometheus`, `cef`, `leef` or `otlp`.
+    /// `prometheus`, `cef`, `leef`, `otlp` or `mqtt` (Home Assistant discovery and state lines).
     pub format: String,
     /// `jsonl` (default) for the live stream, or `result` for a batch result document.
     #[serde(default)]
