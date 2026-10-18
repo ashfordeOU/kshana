@@ -19,6 +19,10 @@ const USAGE: &str = "usage:
       authority's signature: use `openssl ts -verify`)
   kshana receiver-trust evidence <scenario.toml> --from <t0> --to <t1> --key <keyfile> --out <dir>
       [--title <text>] [--created-utc <YYYY-MM-DDTHH:MM:SSZ|none>]
+  kshana evidence round-trip <scenario.toml> --scenario <bench-scenario> --conditions <file> --from <t0> --to <t1>
+      --key <keyfile> --out <dir> [--title <text>] [--created-utc <...|none>]
+      (links the scenario, the lab's test conditions, the receiver log and its score; the
+      <scenario.toml> is the receiver-trust scoring scenario; writes no signal)
   <t0>/<t1>: seconds since the first epoch of the log, or an ISO-8601 UTC time when the log
   states its start time. A pack is a technical record, not a legal opinion.";
 
@@ -171,6 +175,10 @@ fn read_pubkey(arg: &str, files: &Files) -> Result<[u8; 32], String> {
 
 fn run_evidence_inner(args: &[String]) -> Result<i32, String> {
     match args.first().map(String::as_str) {
+        Some("round-trip") => {
+            receiver_trust_evidence(&args[1..], true)?;
+            Ok(0)
+        }
         Some("keygen") => {
             let out = flag_value(args, "--out")?.ok_or("keygen needs --out <keyfile>")?;
             let seed = Zeroizing::new(generate_seed());
@@ -311,7 +319,7 @@ fn run_evidence_inner(args: &[String]) -> Result<i32, String> {
 
 /// `kshana receiver-trust evidence ...`; `args` are those after `evidence`.
 pub fn run_receiver_trust_evidence(args: &[String]) -> i32 {
-    match receiver_trust_evidence(args) {
+    match receiver_trust_evidence(args, false) {
         Ok(()) => 0,
         Err(e) => {
             eprintln!("error: {e}");
@@ -321,7 +329,7 @@ pub fn run_receiver_trust_evidence(args: &[String]) -> i32 {
     }
 }
 
-fn receiver_trust_evidence(args: &[String]) -> Result<(), String> {
+fn receiver_trust_evidence(args: &[String], round_trip: bool) -> Result<(), String> {
     let scn_path = PathBuf::from(
         args.first()
             .filter(|a| !a.starts_with("--"))
@@ -356,20 +364,27 @@ fn receiver_trust_evidence(args: &[String]) -> Result<(), String> {
         .path
         .clone()
         .unwrap_or_else(|| "inline".into());
-    let pack = build_receiver_trust_pack(
-        &PackRequest {
-            scenario: &scn,
-            log_bytes: &log_bytes,
-            nav_bytes: nav_bytes.as_deref(),
-            log_file_name: &file_name,
-            from: &from,
-            to: &to,
-            title: &title,
-            created_utc: created.as_deref(),
-        },
-        &seed,
-        None,
-    )?;
+    let req = PackRequest {
+        scenario: &scn,
+        log_bytes: &log_bytes,
+        nav_bytes: nav_bytes.as_deref(),
+        log_file_name: &file_name,
+        from: &from,
+        to: &to,
+        title: &title,
+        created_utc: created.as_deref(),
+    };
+    let pack = if round_trip {
+        let sp = flag_value(args, "--scenario")?.ok_or("needs --scenario <bench scenario>")?;
+        let cp = flag_value(args, "--conditions")?.ok_or("needs --conditions <file>")?;
+        let scenario_text =
+            std::fs::read_to_string(&sp).map_err(|e| format!("cannot read {sp}: {e}"))?;
+        let conditions_text =
+            std::fs::read_to_string(&cp).map_err(|e| format!("cannot read {cp}: {e}"))?;
+        super::roundtrip::build_round_trip_pack(&req, &scenario_text, &conditions_text, &seed)?
+    } else {
+        build_receiver_trust_pack(&req, &seed, None)?
+    };
     write_dir(Path::new(&out), &pack.files)?;
     println!("evidence pack written to {out}");
     println!(

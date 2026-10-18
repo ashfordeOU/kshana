@@ -24,6 +24,7 @@ pub mod assemble;
 pub mod bundle;
 pub mod cli;
 pub mod html;
+pub mod roundtrip;
 pub mod tsa;
 pub mod tsr;
 pub mod verify;
@@ -33,6 +34,7 @@ pub use bundle::{
     create_bundle, generate_seed, public_key_hex, sign_detached, slice_for_window, EvidenceError,
     EvidenceInput, Files, Manifest, Window, DISCLAIMER, FORMAT,
 };
+pub use roundtrip::build_round_trip_pack;
 pub use verify::{
     attach_timestamp, verify_bundle, verify_detached, Failure, VerifyOptions, VerifyReport,
 };

@@ -28,6 +28,11 @@ pub const SCHEMA: &str = "kshana.test-conditions/1";
 pub struct RecordingSpec {
     /// Identifier, unique within a campaign; the label in every output.
     pub id: String,
+    /// What the recording is: `"iq"` (the default when absent: a sample recording) or
+    /// `"receiver-log"` (a receiver's own log, as `kshana bench-export` and
+    /// `kshana evidence round-trip` use; no `[[expected]]` group is then required).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub kind: Option<String>,
     /// The recording, relative to the test-condition file (anything
     /// [`crate::iq::io::inventory::open_recording`] opens).
     pub path: String,
@@ -340,7 +345,9 @@ pub struct TestConditions {
     /// Notes on the receiver under test.
     #[serde(default)]
     pub receiver: ReceiverNotes,
-    /// The satellites the lab expects.
+    /// The satellites the lab expects (required for an IQ recording, optional for a
+    /// `receiver-log` one).
+    #[serde(default)]
     pub expected: Vec<ExpectedSignals>,
     /// The stated events.
     #[serde(default, rename = "event", skip_serializing_if = "Vec::is_empty")]
@@ -504,7 +511,15 @@ impl TestConditions {
             }
         }
         r.raw_sidecar()?;
-        if self.expected.is_empty() {
+        match r.kind.as_deref() {
+            None | Some("iq") | Some("receiver-log") => {}
+            Some(k) => {
+                return Err(format!(
+                    "recording.kind must be \"iq\" or \"receiver-log\" (got \"{k}\")"
+                ))
+            }
+        }
+        if self.expected.is_empty() && r.kind.as_deref() != Some("receiver-log") {
             return Err("at least one [[expected]] group is required".into());
         }
         let mut all_ids = Vec::new();
