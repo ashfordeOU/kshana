@@ -6,8 +6,8 @@
 //! (the creation time is an argument), no key storage (the signing seed is an argument).
 
 use super::bundle::{
-    create_bundle, fingerprint, public_key_hex, sha256_hex, slice_for_window, EvidenceInput, Files,
-    Window,
+    create_bundle_attested, fingerprint, public_key_hex, sha256_hex, slice_for_window,
+    EvidenceInput, Files, Window,
 };
 use crate::receiver_trust::ingest::read_log;
 use crate::receiver_trust::scenario::{self, ReceiverTrustScenario};
@@ -93,6 +93,17 @@ pub fn build_receiver_trust_pack(
     seed: &[u8; 32],
     timestamp_token: Option<&[u8]>,
 ) -> Result<PackSummary, String> {
+    build_receiver_trust_pack_attested(req, seed, timestamp_token, None)
+}
+
+/// [`build_receiver_trust_pack`] with the operator's lab attestation recorded in the signed
+/// manifest (see [`super::lab::LabAttestation`]).
+pub fn build_receiver_trust_pack_attested(
+    req: &PackRequest<'_>,
+    seed: &[u8; 32],
+    timestamp_token: Option<&[u8]>,
+    lab_attestation: Option<&super::lab::LabAttestation>,
+) -> Result<PackSummary, String> {
     let scn = req.scenario;
     let result = scenario::run_receiver_trust_bytes(scn, req.log_bytes, req.nav_bytes)?;
     let t0 = parse_time(req.from, result.log.start_label.as_deref())?;
@@ -155,7 +166,8 @@ pub fn build_receiver_trust_pack(
         epochs,
         created_utc: req.created_utc,
     };
-    let files = create_bundle(&input, seed, timestamp_token).map_err(|e| e.to_string())?;
+    let files = create_bundle_attested(&input, seed, timestamp_token, lab_attestation)
+        .map_err(|e| e.to_string())?;
     let manifest_sha256 = files
         .get("manifest.json")
         .map(|b| sha256_hex(b))

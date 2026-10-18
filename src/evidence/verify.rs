@@ -212,6 +212,9 @@ pub struct VerifyReport {
     pub engine_version: Option<String>,
     /// The timestamp token, if the pack has one.
     pub timestamp: Option<TimestampReport>,
+    /// The lab attestation the manifest records, if any: the operator's statement, as given.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub lab_attestation: Option<super::lab::LabAttestation>,
     /// Things worth knowing that are not failures.
     pub notes: Vec<String>,
 }
@@ -272,6 +275,7 @@ pub fn verify_bundle(files: &Files, opts: &VerifyOptions<'_>) -> VerifyReport {
         signer_pinned: opts.expected_public_key.is_some(),
         engine_version: None,
         timestamp: None,
+        lab_attestation: None,
         notes: Vec::new(),
     };
     fn close(r: &mut VerifyReport, name: &'static str, from: usize, ok_detail: &str) {
@@ -308,6 +312,16 @@ pub fn verify_bundle(files: &Files, opts: &VerifyOptions<'_>) -> VerifyReport {
     };
     if let Some(m) = &manifest {
         r.engine_version = Some(m.engine_version.clone());
+        if let Some(a) = &m.lab_attestation {
+            r.lab_attestation = Some(a.clone());
+            r.notes.push(format!(
+                "the pack records a lab attestation by {} ({}, {}): {}",
+                a.operator,
+                a.organisation,
+                a.setup,
+                super::lab::STANDING
+            ));
+        }
         if m.format != FORMAT {
             r.failures.push(Failure::UnsupportedFormat {
                 found: m.format.clone(),

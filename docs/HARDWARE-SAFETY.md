@@ -34,7 +34,7 @@ gate that must hold before Kshana will treat the result as evidence.
 |---|---|---|---|---|---|
 | **0** | Files: replay logs, IQ, bench exports, live NMEA or UBX over stdin, TCP or UDP | none | none | none | shipped |
 | **1** | Passive receive: receivers read-only; timing logs (linuxptp, chrony, TICC); IMU CSV; `iq monitor --follow` on a growing SigMF file | the user's receivers, grandmaster, SDR in receive | **none** | any configuration write to a receiver needs an explicit `--configure`; the default is read-only | partly shipped: timing-log formats, `holdover-test`, `iq monitor --follow`; serial receiver input is planned |
-| **2** | Lab orchestration with no RF from Kshana: a test-conditions specification, operator steps (antenna pull, simulator start) prompted and time-stamped, round-trip scoring and evidence | lab-owned simulators, shielded boxes | by the **lab's** simulator only, conducted | a signed `lab-attestation` (below) recorded in the evidence pack; Kshana refuses to score a lab run without it | specified here; the attestation check is not yet implemented |
+| **2** | Lab orchestration with no RF from Kshana: a test-conditions specification, operator steps (antenna pull, simulator start) prompted and time-stamped, round-trip scoring and evidence | lab-owned simulators, shielded boxes | by the **lab's** simulator only, conducted | a signed `lab-attestation` (below) recorded in the evidence pack; Kshana refuses to score a lab run without it | the record is implemented in evidence packs; the refusal to score without it is not yet (no lab-run command exists) |
 | **3** | Conducted replay of **legitimate** GNSS IQ scenes: Kshana writes the scene file, and the user replays it with their own tool into a cable with attenuators and a device under test in an RF enclosure | the user's SDR, attenuators, enclosure | conducted only, the user's responsibility | no transmit code in the open engine; interference and spoofing waveforms stay out of scope; export-control review; counsel | not in the open engine; a commercial-edition item to be done with counsel |
 | **4** | Real-time closed-loop RF hardware-in-the-loop | partner equipment | partner | integrate through the stage 2 specification instead | not planned |
 
@@ -82,29 +82,36 @@ recorded in the evidence pack beside the hashes of the inputs. It is a statement
 operator, not a measurement, and Kshana does not verify it.
 
 ```toml
-[lab-attestation]
+[lab-attestation]                                     # or the same keys at the top level of the file
 operator = "name or role of the person responsible"   # required
 organisation = "laboratory or company"                # required
 date = "2026-11-02"                                   # required, the day of the session
 setup = "conducted"                                   # required: "conducted" or "shielded"
-attenuation_db = 60.0                                 # required for "conducted": total, cable to device
+attenuation_db = 60.0                                 # required for "conducted": total, emitter to device
 enclosure = "RF-shielded box, model and ID"           # required for "shielded"
 emitter = "laboratory-owned simulator, model"         # required: what produced any RF
 statement = "No emission outside the enclosure or cable path."   # required, free text
-signature = "ed25519:..."                             # optional until stage 2 ships: a detached signature
+signature = "ed25519:..."                             # optional: the operator's own detached signature, recorded as given
 ```
 
-Rules for the field, to be enforced when stage 2 ships:
+What is implemented in 0.38:
 
-- **Missing means refused.** A lab run without it is not scored, and the refusal names the field.
-- **`setup` is `conducted` or `shielded`, nothing else.** An over-the-air setup is not accepted
-  as a lab run by Kshana.
-- **It is recorded as given.** The report states it as "attested by the operator" and keeps
-  it with the evidence-pack hashes, so a reader sees who said what.
-- **It does not change a result's label.** A scored lab run is MODELLED unless an external oracle
-  agrees.
+- `kshana receiver-trust evidence ... --lab-attestation <file.toml>` validates the file and records
+  the attestation in the pack's `manifest.json`. The manifest is covered by the pack's Ed25519
+  signature, so the record cannot be edited without breaking verification. The same is available as
+  the `lab_attestation` argument of the Python `evidence_create` and the `lab_attestation_toml` argument
+  of the MCP `create_evidence_pack` tool (the browser build does not create packs).
+- A pack made without an attestation is byte-for-byte what it was before.
+- `kshana evidence verify` reports the attestation and says it is "attested by the named operator; not
+  verified by Kshana".
+- An attestation that is incomplete, or whose `setup` is neither `conducted` nor `shielded` (an
+  over-the-air setup is not accepted as a lab run), is refused and no pack is made.
 
-In 0.38 the field is **specified, not enforced**: no command reads it yet.
+What is **not** implemented yet: the stage 2 rule that Kshana refuses to *score* a lab run that has no
+attestation. No command takes a lab-run flag in 0.38, so there is nothing to refuse; the rule arrives with
+the lab orchestration commands. An attestation records the operator's statement of a safeguard. It does not
+make any emission lawful and it does not change a result's label: a scored lab run is MODELLED unless an
+external oracle agrees.
 
 ## What this means for a contributor
 

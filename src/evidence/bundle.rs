@@ -129,6 +129,10 @@ pub struct Manifest {
     pub artifacts: Vec<Artifact>,
     /// The last chain link, hex.
     pub chain_head: String,
+    /// The operator's attestation of a laboratory setup, when the pack was made from a lab
+    /// session. Recorded as given and covered by the signature; never verified.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub lab_attestation: Option<super::lab::LabAttestation>,
 }
 
 /// Why a pack could not be built.
@@ -144,6 +148,8 @@ pub enum EvidenceError {
     BadTimestamp(String),
     /// A value could not be serialised.
     Serialise(String),
+    /// The lab attestation is incomplete or states a setup that is not accepted.
+    BadAttestation(String),
 }
 
 impl std::fmt::Display for EvidenceError {
@@ -154,6 +160,7 @@ impl std::fmt::Display for EvidenceError {
             EvidenceError::BadCreated(s) => write!(f, "bad creation time: {s}"),
             EvidenceError::BadTimestamp(s) => write!(f, "bad timestamp token: {s}"),
             EvidenceError::Serialise(s) => write!(f, "cannot serialise: {s}"),
+            EvidenceError::BadAttestation(s) => write!(f, "{s}"),
         }
     }
 }
@@ -270,6 +277,20 @@ pub fn create_bundle(
     seed: &[u8; 32],
     timestamp_token: Option<&[u8]>,
 ) -> Result<Files, EvidenceError> {
+    create_bundle_attested(input, seed, timestamp_token, None)
+}
+
+/// [`create_bundle`] with the operator's lab attestation recorded in the signed manifest.
+/// Without one the pack is byte-for-byte what [`create_bundle`] makes.
+pub fn create_bundle_attested(
+    input: &EvidenceInput<'_>,
+    seed: &[u8; 32],
+    timestamp_token: Option<&[u8]>,
+    lab_attestation: Option<&super::lab::LabAttestation>,
+) -> Result<Files, EvidenceError> {
+    if let Some(a) = lab_attestation {
+        a.validate().map_err(EvidenceError::BadAttestation)?;
+    }
     if !(input.window.from_s.is_finite() && input.window.to_s.is_finite())
         || input.window.from_s > input.window.to_s
     {
@@ -365,6 +386,7 @@ pub fn create_bundle(
         signer,
         artifacts,
         chain_head: hex::encode(prev),
+        lab_attestation: lab_attestation.cloned(),
     };
     let manifest_bytes = json_bytes(&manifest)?;
     if let Some(t) = timestamp_token {

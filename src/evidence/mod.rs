@@ -13,6 +13,9 @@
 //! | `manifest.sig` | Ed25519 signature over the exact bytes of `manifest.json` |
 //! | `timestamp.tsr` | optional RFC 3161 timestamp token over `manifest.json` |
 //!
+//! A pack made from a laboratory session can carry a `lab_attestation` in its signed manifest
+//! ([`lab::LabAttestation`]): the operator's statement of the setup, recorded as given.
+//!
 //! [`create_bundle`] and [`verify_bundle`] are pure: bytes in, serialisable results out, no
 //! file system, clock or process access, so the Python, WebAssembly and server surfaces can
 //! call them unchanged. [`cli`] is the thin command-line wrapper.
@@ -24,15 +27,19 @@ pub mod assemble;
 pub mod bundle;
 pub mod cli;
 pub mod html;
+pub mod lab;
 pub mod tsa;
 pub mod tsr;
 pub mod verify;
 
-pub use assemble::{build_receiver_trust_pack, PackRequest, PackSummary};
-pub use bundle::{
-    create_bundle, generate_seed, public_key_hex, sign_detached, slice_for_window, EvidenceError,
-    EvidenceInput, Files, Manifest, Window, DISCLAIMER, FORMAT,
+pub use assemble::{
+    build_receiver_trust_pack, build_receiver_trust_pack_attested, PackRequest, PackSummary,
 };
+pub use bundle::{
+    create_bundle, create_bundle_attested, generate_seed, public_key_hex, sign_detached,
+    slice_for_window, EvidenceError, EvidenceInput, Files, Manifest, Window, DISCLAIMER, FORMAT,
+};
+pub use lab::LabAttestation;
 pub use verify::{
     attach_timestamp, verify_bundle, verify_detached, Failure, VerifyOptions, VerifyReport,
 };
