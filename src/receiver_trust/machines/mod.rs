@@ -11,6 +11,7 @@
 
 pub mod gnss_sdr;
 pub mod imu;
+pub mod imu_fit;
 pub mod novatel;
 pub mod rtklib;
 

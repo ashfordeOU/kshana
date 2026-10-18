@@ -48,6 +48,30 @@ in rad/s, `ax`, `ay`, `az` specific force in m/s². `format = "euroc"`: the EuRo
 first sample is `t_s = 0`. Rows that do not parse, and rows whose time does not increase, are
 skipped. See [`RECEIVER-TRUST.md`](RECEIVER-TRUST.md) for how the gyro heading is used.
 
+## IMU into the hybrid and fusion scenarios (`kshana imu-fit`)
+
+The `hybrid` and `fusion` (17-state UKF) scenarios are simulations: they take sensor noise
+parameters (`[accel_quantum]`, `[accel_classical]`: `bias`, `q_va`, `gyro_bias`, `q_arw`,
+`bias_instability`), not a measured series. `imu-fit` reads those parameters off a stationary IMU
+log, so a scenario can be run with the sensor you actually have:
+
+```sh
+kshana imu-fit still.csv --format csv --axis x --expected-mean 0 --id bench-imu      # prints the TOML table
+kshana imu-fit still.csv --axis z --expected-mean 9.80665 --json                     # whole report
+```
+
+Method: the overlapping Allan deviation of the integrated signal
+(`allan::overlapping_adev_curve`): `q_va = (sigma(tau0) sqrt(tau0))^2`, the same for the z gyro
+(`q_arw`), `bias` and `gyro_bias` as the means, and `bias_instability` as the curve minimum when
+the curve turns up after it. `q_aa` is not fitted (it needs a log far longer than the floor).
+The report carries the log's rate and span and the early Allan slope of each channel (about -0.5
+where white noise dominates); a log that is not still, or is too short (under 2000 samples) or
+unevenly sampled, is refused or gives parameters the slopes flag. The table's provenance names the
+log's SHA-256. MODELLED: the estimator is checked on synthetic white-noise logs with known
+coefficients (recovered within 10 %), not against an external oracle. Available on the CLI,
+Python (`imu_fit`), WebAssembly (`imu_fit`), MCP (`fit_imu_log`) and the plugin
+(`/kshana-fit-imu`).
+
 ## Not here
 
 RTCM 3 MSM4/MSM7 observations: the layouts are in the paid RTCM standard, and the only open
