@@ -177,6 +177,7 @@ pub mod interop;
 pub mod intersat_range;
 pub mod ionex;
 pub mod iq;
+pub mod jammertest;
 pub mod jamming;
 pub mod jamming_rx;
 pub mod jamming_terrain;

@@ -28,7 +28,9 @@ pub mod tsa;
 pub mod tsr;
 pub mod verify;
 
-pub use assemble::{build_receiver_trust_pack, PackRequest, PackSummary};
+pub use assemble::{
+    build_receiver_trust_pack, build_receiver_trust_pack_with, PackRequest, PackSummary,
+};
 pub use bundle::{
     create_bundle, generate_seed, public_key_hex, sign_detached, slice_for_window, EvidenceError,
     EvidenceInput, Files, Manifest, Window, DISCLAIMER, FORMAT,
