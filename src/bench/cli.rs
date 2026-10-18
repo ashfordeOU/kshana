@@ -25,7 +25,7 @@ pub const BENCH_USAGE: &str = "usage: kshana bench spec
    or: kshana bench manifest --task a --data <extracted dir> [--archive <tar.gz>] --out <manifest.json>
    or: kshana bench verify-manifest <manifest.json> --root <dir>
    or: kshana bench validate <result.json>...
-   or: kshana bench leaderboard <results dir|result.json>... --out <page.html>
+   or: kshana bench leaderboard [<results dir|result.json>...] --out <page.html> [--fragment]   (no inputs: the empty state; --fragment: an embeddable section)
    (a seed file holds the secret behind a sealed holdout; keep it out of version control)";
 
 /// Run `kshana bench ...`; returns the process exit code.
@@ -313,12 +313,14 @@ fn run_inner(args: &[String]) -> Result<i32, BenchError> {
             Ok(i32::from(bad > 0))
         }
         "leaderboard" => {
+            let fragment = rest.iter().any(|a| a == "--fragment");
+            let rest: Vec<String> = rest
+                .iter()
+                .filter(|a| *a != "--fragment")
+                .cloned()
+                .collect();
+            let rest = &rest[..];
             let inputs = check(rest, &["--out"], true)?;
-            if inputs.is_empty() {
-                return Err(BenchError(
-                    "leaderboard needs a results directory or result files".into(),
-                ));
-            }
             let mut files: Vec<PathBuf> = Vec::new();
             for i in &inputs {
                 let p = PathBuf::from(i);
@@ -342,7 +344,11 @@ fn run_inner(args: &[String]) -> Result<i32, BenchError> {
                         .map_err(|e| BenchError(format!("{} is not JSON: {e}", f.display())))
                 })
                 .collect::<Result<_, _>>()?;
-            let html = site::leaderboard_html(&results)?;
+            let html = if fragment {
+                site::leaderboard_fragment(&results)?
+            } else {
+                site::leaderboard_html(&results)?
+            };
             write(Path::new(need(rest, "--out")?), &html)?;
             println!("{} result(s) rendered", results.len());
             Ok(0)
