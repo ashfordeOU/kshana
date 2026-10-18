@@ -10,7 +10,7 @@ use rand_chacha::ChaCha8Rng;
 use serde_json::{json, Map, Value};
 
 use super::{
-    detection_metrics, err, folder_split, holdout_seed, BenchError, Labeled, Split, CASES_SCHEMA,
+    assign_splits, detection_metrics, err, holdout_seed, BenchError, Labeled, Split, CASES_SCHEMA,
     OPTIMISM_TOL, PREDICTIONS_SCHEMA, SPEC_VERSION, TRUTH_SCHEMA,
 };
 use crate::impairment_eval::{
@@ -124,6 +124,8 @@ pub struct ATruth {
     pub samples: BTreeMap<String, Sample>,
     /// One entry per evaluable folder in the split: path, clean and jamming epoch counts.
     pub folders: Vec<(String, usize, usize)>,
+    /// The 2.0.0 split of each folder in `folders`.
+    pub split_of: BTreeMap<String, Split>,
 }
 
 /// Read the extracted dataset at `root` and keep the evaluable folders of `split` (`None` keeps
@@ -138,10 +140,21 @@ pub fn a_load(root: &Path, split: Option<Split>) -> Result<ATruth, BenchError> {
         labels: Vec::new(),
         samples: BTreeMap::new(),
         folders: Vec::new(),
+        split_of: BTreeMap::new(),
     };
-    for d in &dirs {
-        let f = read_folder(root, d);
-        if f.excluded.is_some() || split.is_some_and(|s| folder_split(&f.path) != s) {
+    let evaluable: Vec<_> = dirs
+        .iter()
+        .map(|d| read_folder(root, d))
+        .filter(|f| f.excluded.is_none())
+        .collect();
+    let assignment = assign_splits(
+        &evaluable
+            .iter()
+            .map(|f| (f.path.clone(), f.jamming && f.epochs.jamming > 0))
+            .collect::<Vec<_>>(),
+    );
+    for f in &evaluable {
+        if split.is_some_and(|s| assignment[&f.path] != s) {
             continue;
         }
         let (mut nc, mut nj) = (0, 0);
@@ -165,6 +178,7 @@ pub fn a_load(root: &Path, split: Option<Split>) -> Result<ATruth, BenchError> {
             t.samples.insert(id, *s);
         }
         t.folders.push((f.path.clone(), nc, nj));
+        t.split_of.insert(f.path.clone(), assignment[&f.path]);
     }
     Ok(t)
 }
@@ -187,7 +201,7 @@ pub fn a_truth_json(t: &ATruth, split: Split) -> Value {
             t.folders
                 .iter()
                 .map(|(p, c, j)| {
-                    json!({"path": p, "split": folder_split(p).name(), "clean_epochs": c, "jamming_epochs": j})
+                    json!({"path": p, "split": t.split_of[p].name(), "clean_epochs": c, "jamming_epochs": j})
                 })
                 .collect(),
         ),

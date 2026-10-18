@@ -9,7 +9,7 @@ Branch `feat/bench-observatory-0.38` (from origin/main, v0.37.0). Pre-registrati
 | `bench/SPEC.md`, `bench/LICENCES.md` | the specification (1.0.0) and the per-dataset licence review |
 | `bench/manifests/`, `bench/schema/`, `bench/holdout/`, `bench/results/`, `bench/site/` | split manifests, result schema, holdout commitment, baseline results, the static leaderboard page |
 | `src/bench/` | `kshana bench ...` (scoring, tasks a to d, baselines, sealing, manifests, leaderboard) |
-| `xval/bench/PREREGISTRATION.md`, `RESULTS.md` | the bars (committed first) and the first scored run |
+| `xval/bench/PREREGISTRATION.md`, `PREREGISTRATION-v2.md`, `RESULTS-v1.md`, `RESULTS-v2.md` | the bars (committed first) and the scored runs; v2 (spec 2.0.0) exists because the v1 split of task (a) left the holdout without a jamming epoch |
 | `src/interference_map/observatory.rs` | `kshana interference-map daily` and `sensitivity` |
 | `docs/observatory/METHOD.md`, `RESULTS.md` | the method note and the back-catalogue and sensitivity results |
 | `scripts/fetch_jammertest2024.sh`, `fetch_adsblol_day.sh`, `observatory_backcatalogue.sh` | fetch scripts (pinned or recorded hashes) |

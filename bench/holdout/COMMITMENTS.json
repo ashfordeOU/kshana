@@ -1,6 +1,6 @@
 {
   "schema": "kshana-bench-holdout-commitments/1",
-  "spec_version": "kshana-bench/1.0.0",
+  "spec_version": "kshana-bench/2.0.0",
   "rule": "SHA-256(\"kshana-bench/holdout/1\" || task || secret); the owner makes the secret with `kshana bench seal --task d --seed-file <file> --new`, keeps the file, and commits only the hash printed. No secret is ever in this repository or in a message.",
   "commitments": [],
   "status": "UNSEALED: no release holdout is committed yet. `reveal-check` and the leaderboard refuse a provisional hash.",
