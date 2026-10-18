@@ -56,6 +56,7 @@ pub fn read_log(format: LogFormat, bytes: &[u8]) -> Result<Timeline, String> {
             "GNSS-SDR monitor",
             super::machines::gnss_sdr::read_gnss_sdr_monitor(&String::from_utf8_lossy(bytes))?,
         ),
+        LogFormat::Rtcm3 => ("RTCM 3 MSM", super::machines::rtcm3::read_rtcm3(bytes)?),
         LogFormat::Novatel => (
             "NovAtel",
             super::machines::novatel::read_novatel(bytes)?.timeline,

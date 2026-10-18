@@ -29,8 +29,8 @@ tables of three logs. Records whose CRC does not match are skipped and counted.
 | `RANGE` | 43 | C/No per signal (dB-Hz); system from tracking-status bits 16-18, signal type from bits 21-25 |
 | `RXSTATUS` | 93 | receiver status bit 15 and auxiliary 1 status jammer bits (RF1-RF6), returned in `NovatelRead.status` |
 
-The CRC implementation reproduces the CRC stated in the documentation's own `BESTPOSA` example
-(one example log line is quoted in a unit test). Not read: abbreviated ASCII, other logs. The
+The CRC routine was checked against the CRC the documentation states for its own `BESTPOSA`
+example (cited, not quoted); the tests use self-written lines. Not read: abbreviated ASCII, other logs. The
 jammer flags are the receiver's own report; no trust monitor consumes them yet.
 
 ## GNSS-SDR (`format = "gnss-sdr"`)
@@ -72,7 +72,24 @@ coefficients (recovered within 10 %), not against an external oracle. Available 
 Python (`imu_fit`), WebAssembly (`imu_fit`), MCP (`fit_imu_log`) and the plugin
 (`/kshana-fit-imu`).
 
-## Not here
+## RTCM 3 MSM4 and MSM7 (`format = "rtcm3"`)
 
-RTCM 3 MSM4/MSM7 observations: the layouts are in the paid RTCM standard, and the only open
-tables found copy them from it. Not implemented, pending an owner decision.
+A byte stream of RTCM 3 frames (a base station's or a receiver's observation output). Read: MSM4
+and MSM7 messages (GPS 1074/1077, GLONASS 1084/1087, Galileo 1094/1097, SBAS 1104/1107, QZSS
+1114/1117, BeiDou 1124/1127, NavIC 1134/1137): the epoch, and the carrier-to-noise ratio of every
+signal cell (MSM4: 6 bits, dB-Hz; MSM7: 10 bits, 1/16 dB-Hz), which is what the C/N0 monitors need.
+Pseudorange and phase fields are stepped over, not used, so RTCM gives the trust monitors
+C/N0 and nothing else; there is no position in MSM. Frames with a bad CRC-24Q are skipped and counted.
+
+**Where the layout comes from.** Not from the RTCM standard (a paid document, not consulted): from
+the open-source decoder pyrtcm 1.2.0, BSD 3-Clause, whose licence and notice are in `NOTICE`
+(owner decision of 18 Oct 2026: "use open decoders"). pyrtcm states that its tables follow
+RTCM 10403.3; Kshana relies on the published tables under pyrtcm's licence and makes no claim
+about the standard. Time: MSM carries no week, so labels read `GPS TOW <s>`; GLONASS epochs
+(Moscow time) are moved to GPS time with GPS-UTC = 18 s (the value since 2017-01-01).
+
+Checked against: the CRC-24Q catalogue check value (`123456789` gives `0xCDE703`) and, as a
+one-off during development, pyrtcm's own decoder on the same self-written frames (same C/N0).
+The fixtures are self-written; no capture was taken from a real receiver, so the reader is MODELLED
+until it has read one.
+

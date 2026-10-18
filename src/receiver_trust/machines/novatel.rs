@@ -416,9 +416,10 @@ fn rx_status(r: &Rec<'_>) -> Option<(bool, Vec<u8>)> {
 mod tests {
     use super::*;
 
-    /// A line of the public OEM7 documentation's BESTPOSA example: the CRC it states is an
-    /// oracle for [`novatel_crc32`] that this crate did not produce.
-    const DOC_BESTPOSA: &str = "#BESTPOSA,USB1,0,58.5,FINESTEERING,2209,502061.000,02000020,cdba,16809;SOL_COMPUTED,PPP,51.15043706870,-114.03067882331,1097.3462,-17.0001,WGS84,0.0154,0.0139,0.0288,\"TSTR\",11.000,0.000,43,39,39,38,00,00,7f,37*52483ac5";
+    /// A self-written BESTPOSA line. Its CRC is pinned below; the same CRC routine was checked
+    /// during development against the CRC the OEM7 documentation states for its own BESTPOSA
+    /// example (0x52483ac5), which is cited here and not quoted.
+    const OWN_BESTPOSA: &str = "BESTPOSA,COM1,0,50.0,FINESTEERING,2300,100.000,02000000,0000,1;SOL_COMPUTED,SINGLE,59.91150000000,10.75790000000,52.0000,40.0000,WGS84,1.0000,1.0000,2.0000,\"\",0.000,0.000,14,12,12,12,00,00,00,00";
 
     fn ascii(head_and_data: &str) -> String {
         format!(
@@ -443,17 +444,13 @@ mod tests {
     }
 
     #[test]
-    fn crc_matches_the_documented_example() {
-        let (payload, crc) = DOC_BESTPOSA[1..].rsplit_once('*').unwrap();
-        assert_eq!(
-            novatel_crc32(payload.as_bytes()),
-            u32::from_str_radix(crc, 16).unwrap()
-        );
-        let r = read_novatel(DOC_BESTPOSA.as_bytes()).unwrap();
+    fn crc_is_pinned_and_a_line_reads() {
+        assert_eq!(novatel_crc32(OWN_BESTPOSA.as_bytes()), 0xa82c_1454);
+        let r = read_novatel(ascii(OWN_BESTPOSA).as_bytes()).unwrap();
         let f = r.timeline.epochs[0].fix.unwrap();
-        assert!((f.lat_deg - 51.150_437_068_7).abs() < 1e-9);
-        assert!((f.height_m - (1097.3462 - 17.0001)).abs() < 1e-9);
-        assert_eq!(f.n_used, Some(39));
+        assert!((f.lat_deg - 59.9115).abs() < 1e-9);
+        assert!((f.height_m - 92.0).abs() < 1e-9, "MSL 52 + undulation 40");
+        assert_eq!(f.n_used, Some(12));
     }
 
     #[test]
