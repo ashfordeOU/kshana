@@ -95,3 +95,25 @@ fn rtklib_pos_runs_as_a_receiver_log() {
     let r = run_receiver_trust_bytes(&scn, pos.as_bytes(), None).unwrap();
     assert_eq!(r.log.epochs, 30);
 }
+
+fn inline_toml(imu_source: &str) -> String {
+    let log = nmea_with_cog(60, 90.0)
+        .replace('\r', "")
+        .replace('\n', "\\n");
+    let imu = imu_csv(0.0, 60).replace('\n', "\\n");
+    format!(
+        "[platform]\nkind = \"vessel\"\nheading_sensor = true\n[log]\nformat = \"nmea\"\ntext = \"{log}\"\n\
+         [log.imu]\nformat = \"csv\"\n{imu_source}heading0_deg = 90.0\n\
+         [monitors]\ncalibration_s = 10.0\n"
+    )
+    .replace("IMU_TEXT", &imu)
+}
+
+#[test]
+fn imu_travels_inline_and_a_path_is_refused_on_inline_surfaces() {
+    let ok = inline_toml("text = \"IMU_TEXT\"\n");
+    let out = kshana::surface::assess_receiver_log_inline(&ok, 1 << 20).unwrap();
+    assert!(out.json.contains("imu_heading"));
+    let bad = inline_toml("path = \"imu.csv\"\n");
+    assert!(kshana::surface::assess_receiver_log_inline(&bad, 1 << 20).is_err());
+}
