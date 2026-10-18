@@ -1,0 +1,73 @@
+<section class="kb-board" aria-labelledby="kb-title">
+<style>
+.kb-board{--kb-ink:var(--ink,#182033);--kb-ink-2:var(--ink-2,#3A455E);--kb-ink-3:var(--ink-3,#4E5971);--kb-surface:var(--surface,#F5F7FB);--kb-line:var(--line,rgba(28,44,84,.12));--kb-line-2:var(--line-2,rgba(28,44,84,.2));--kb-accent:var(--int,#B8262B);color:var(--kb-ink);font:400 16px/1.5 var(--f-text,"Geist",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif);max-width:100%}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .kb-board{--kb-ink:var(--ink,#F2F4FB);--kb-ink-2:var(--ink-2,#A6ADC4);--kb-ink-3:var(--ink-3,#858CA6);--kb-surface:var(--surface,#12141F);--kb-line:var(--line,rgba(255,255,255,.07));--kb-line-2:var(--line-2,rgba(255,255,255,.14));--kb-accent:var(--int,#FF5B54)}}
+:root[data-theme="dark"] .kb-board{--kb-ink:var(--ink,#F2F4FB);--kb-ink-2:var(--ink-2,#A6ADC4);--kb-ink-3:var(--ink-3,#858CA6);--kb-surface:var(--surface,#12141F);--kb-line:var(--line,rgba(255,255,255,.07));--kb-line-2:var(--line-2,rgba(255,255,255,.14));--kb-accent:var(--int,#FF5B54)}
+.kb-board .kb-h1{font-size:clamp(1.6rem,4vw,2.4rem);line-height:1.1;margin:0 0 12px;letter-spacing:-.02em}
+.kb-board h3{font-size:clamp(1.05rem,2vw,1.3rem);margin:32px 0 12px}
+.kb-board .kb-lede{color:var(--kb-ink-2);max-width:60ch}
+.kb-board .kb-notice{background:var(--kb-surface);border:1px solid var(--kb-line-2);border-radius:12px;padding:12px 16px;color:var(--kb-ink-2);font-size:14px}
+.kb-board .kb-none{color:var(--kb-ink-3)}
+.kb-board .kb-scroll{overflow-x:auto;background:var(--kb-surface);border:1px solid var(--kb-line);border-radius:16px;margin:0 0 16px}
+.kb-board .kb-scroll:focus-visible{outline:2px solid var(--kb-accent);outline-offset:2px}
+.kb-board table{border-collapse:collapse;width:100%;min-width:560px;font-size:14px}
+.kb-board caption{text-align:left;padding:12px 16px;font:500 12px/1.2 var(--f-mono,"Geist Mono",ui-monospace,Menlo,monospace);text-transform:uppercase;letter-spacing:.07em;color:var(--kb-ink-3)}
+.kb-board th,.kb-board td{padding:10px 16px;border-top:1px solid var(--kb-line);text-align:left;vertical-align:top}
+.kb-board thead th{font:500 12px/1.3 var(--f-mono,"Geist Mono",ui-monospace,Menlo,monospace);text-transform:uppercase;letter-spacing:.06em;color:var(--kb-ink-3)}
+.kb-board tbody th{font-weight:600}
+.kb-board .kb-n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.kb-board .kb-v{font:400 12px var(--f-mono,"Geist Mono",ui-monospace,Menlo,monospace);color:var(--kb-ink-3)}
+.kb-board code,.kb-board .kb-h{font-family:var(--f-mono,"Geist Mono",ui-monospace,Menlo,monospace);font-size:12px}
+.kb-board a{color:var(--kb-accent)}
+.kb-board .kb-foot{margin-top:24px;color:var(--kb-ink-3);font-size:13px;max-width:70ch}
+</style>
+<h2 class="kb-h1" id="kb-title">kshana-bench leaderboard</h2>
+<p class="kb-lede">Result files scored under <code>kshana-bench/1.0.0</code>. A row says this file scored this number on this split. It does not mean any product has been rated or approved by anyone, and no organisation is named as an endorser.</p>
+<p class="kb-notice">Advisory: modelled or measured against stated references, not an approval, certification or statement of conformance. A score describes a log or corpus, never a product.</p>
+<section><h3>Task (a): detection on receiver logs</h3>
+<div class="kb-scroll" tabindex="0" role="region" aria-label="Task (a): detection on receiver logs dev results"><table><caption>Split: dev</caption><thead><tr><th scope="col">System</th><th scope="col" class="kb-n">AUC</th><th scope="col" class="kb-n">P_d at P_fa cap (upper bound)</th><th scope="col">Provenance</th><th scope="col">Truth SHA-256</th></tr></thead><tbody>
+<tr><th scope="row">kshana receiver-trust agc_k_sigma (0.35 default monitor statistic) <span class="kb-v">kshana-bench/1.0.0</span></th><td class="kb-n">0.983</td><td class="kb-n">0.914</td><td>scored</td><td class="kb-h"><code>28f0c062ec1a</code></td></tr>
+<tr><th scope="row">kshana receiver-trust cn0_drop_db (0.35 default monitor statistic) <span class="kb-v">kshana-bench/1.0.0</span></th><td class="kb-n">0.798</td><td class="kb-n">0.760</td><td>scored</td><td class="kb-h"><code>28f0c062ec1a</code></td></tr>
+<tr><th scope="row">kshana receiver-trust jam_ind_threshold (0.35 default monitor statistic) <span class="kb-v">kshana-bench/1.0.0</span></th><td class="kb-n">0.769</td><td class="kb-n">0.137</td><td>scored</td><td class="kb-h"><code>28f0c062ec1a</code></td></tr>
+</tbody></table></div>
+<div class="kb-scroll" tabindex="0" role="region" aria-label="Task (a): detection on receiver logs test results"><table><caption>Split: test</caption><thead><tr><th scope="col">System</th><th scope="col" class="kb-n">AUC</th><th scope="col" class="kb-n">P_d at P_fa cap (upper bound)</th><th scope="col">Provenance</th><th scope="col">Truth SHA-256</th></tr></thead><tbody>
+<tr><th scope="row">kshana receiver-trust agc_k_sigma (0.35 default monitor statistic) <span class="kb-v">kshana-bench/1.0.0</span></th><td class="kb-n">0.830</td><td class="kb-n">0.000</td><td>scored</td><td class="kb-h"><code>6eb301a17d0d</code></td></tr>
+<tr><th scope="row">kshana receiver-trust cn0_drop_db (0.35 default monitor statistic) <span class="kb-v">kshana-bench/1.0.0</span></th><td class="kb-n">0.822</td><td class="kb-n">0.390</td><td>scored</td><td class="kb-h"><code>6eb301a17d0d</code></td></tr>
+<tr><th scope="row">kshana receiver-trust jam_ind_threshold (0.35 default monitor statistic) <span class="kb-v">kshana-bench/1.0.0</span></th><td class="kb-n">0.395</td><td class="kb-n">0.000</td><td>scored</td><td class="kb-h"><code>6eb301a17d0d</code></td></tr>
+</tbody></table></div>
+</section>
+<section><h3>Task (b): detection on IQ</h3>
+<div class="kb-scroll" tabindex="0" role="region" aria-label="Task (b): detection on IQ test results"><table><caption>Split: test</caption><thead><tr><th scope="col">System</th><th scope="col" class="kb-n">AUC</th><th scope="col" class="kb-n">P_d at P_fa cap (upper bound)</th><th scope="col">Provenance</th><th scope="col">Truth SHA-256</th></tr></thead><tbody>
+<tr><th scope="row">kshana iq monitors: cn0_drop (CUSUM) <span class="kb-v">kshana-bench/1.0.0</span></th><td class="kb-n">0.785</td><td class="kb-n">n/a</td><td>carried: docs/design/DETECTION-ROC.md section 3: the R1 campaign of tests/iq_campaign_roc.rs, run 2026-10-13; not re-run for bench v1. Bar R1 (AUC &gt;= 0.95) was NOT MET.</td><td class="kb-h"><code>000000000000</code></td></tr>
+</tbody></table></div>
+</section>
+<section><h3>Task (c): timing holdover prediction</h3>
+<div class="kb-scroll" tabindex="0" role="region" aria-label="Task (c): timing holdover prediction dev results"><table><caption>Split: dev</caption><thead><tr><th scope="col">System</th><th scope="col" class="kb-n">RMSE 3600 s (ns)</th><th scope="col" class="kb-n">RMSE 300 s (ns)</th><th scope="col" class="kb-n">RMSE 7200 s (ns)</th><th scope="col">Provenance</th><th scope="col">Truth SHA-256</th></tr></thead><tbody>
+<tr><th scope="row">kshana-bench baseline: linear <span class="kb-v">kshana-bench/1.0.0</span></th><td class="kb-n">0.128</td><td class="kb-n">0.019</td><td class="kb-n">0.198</td><td>scored</td><td class="kb-h"><code>8bd6c376b4e5</code></td></tr>
+<tr><th scope="row">kshana-bench baseline: quadratic <span class="kb-v">kshana-bench/1.0.0</span></th><td class="kb-n">0.135</td><td class="kb-n">0.019</td><td class="kb-n">0.235</td><td>scored</td><td class="kb-h"><code>8bd6c376b4e5</code></td></tr>
+<tr><th scope="row">kshana-bench baseline: hold <span class="kb-v">kshana-bench/1.0.0</span></th><td class="kb-n">26.876</td><td class="kb-n">2.238</td><td class="kb-n">53.778</td><td>scored</td><td class="kb-h"><code>8bd6c376b4e5</code></td></tr>
+</tbody></table></div>
+<div class="kb-scroll" tabindex="0" role="region" aria-label="Task (c): timing holdover prediction test results"><table><caption>Split: test</caption><thead><tr><th scope="col">System</th><th scope="col" class="kb-n">RMSE 3600 s (ns)</th><th scope="col" class="kb-n">RMSE 300 s (ns)</th><th scope="col" class="kb-n">RMSE 7200 s (ns)</th><th scope="col">Provenance</th><th scope="col">Truth SHA-256</th></tr></thead><tbody>
+<tr><th scope="row">kshana-bench baseline: linear <span class="kb-v">kshana-bench/1.0.0</span></th><td class="kb-n">0.162</td><td class="kb-n">0.023</td><td class="kb-n">0.243</td><td>scored</td><td class="kb-h"><code>e7170a72eb9b</code></td></tr>
+<tr><th scope="row">kshana-bench baseline: quadratic <span class="kb-v">kshana-bench/1.0.0</span></th><td class="kb-n">0.183</td><td class="kb-n">0.024</td><td class="kb-n">0.290</td><td>scored</td><td class="kb-h"><code>e7170a72eb9b</code></td></tr>
+<tr><th scope="row">kshana-bench baseline: hold <span class="kb-v">kshana-bench/1.0.0</span></th><td class="kb-n">24.612</td><td class="kb-n">2.050</td><td class="kb-n">49.314</td><td>scored</td><td class="kb-h"><code>e7170a72eb9b</code></td></tr>
+</tbody></table></div>
+</section>
+<section><h3>Task (d): out-of-distribution optimism gap</h3>
+<div class="kb-scroll" tabindex="0" role="region" aria-label="Task (d): out-of-distribution optimism gap dev results"><table><caption>Split: dev</caption><thead><tr><th scope="col">System</th><th scope="col" class="kb-n">AUC in</th><th scope="col" class="kb-n">AUC out</th><th scope="col" class="kb-n">Optimism gap</th><th scope="col" class="kb-n">Flag</th><th scope="col">Provenance</th><th scope="col">Truth SHA-256</th></tr></thead><tbody>
+<tr><th scope="row">impairment-eval baseline: fused(max-z) <span class="kb-v">kshana-bench/1.0.0</span></th><td class="kb-n">0.998</td><td class="kb-n">0.982</td><td class="kb-n">0.015</td><td class="kb-n">within tolerance</td><td>scored</td><td class="kb-h"><code>60acd133a010</code></td></tr>
+<tr><th scope="row">impairment-eval baseline: sqm-imbalance <span class="kb-v">kshana-bench/1.0.0</span></th><td class="kb-n">0.867</td><td class="kb-n">0.866</td><td class="kb-n">0.001</td><td class="kb-n">within tolerance</td><td>scored</td><td class="kb-h"><code>60acd133a010</code></td></tr>
+<tr><th scope="row">impairment-eval baseline: agc-excess <span class="kb-v">kshana-bench/1.0.0</span></th><td class="kb-n">0.854</td><td class="kb-n">0.828</td><td class="kb-n">0.026</td><td class="kb-n">within tolerance</td><td>scored</td><td class="kb-h"><code>60acd133a010</code></td></tr>
+<tr><th scope="row">impairment-eval baseline: raim-parity <span class="kb-v">kshana-bench/1.0.0</span></th><td class="kb-n">0.655</td><td class="kb-n">0.642</td><td class="kb-n">0.013</td><td class="kb-n">within tolerance</td><td>scored</td><td class="kb-h"><code>60acd133a010</code></td></tr>
+<tr><th scope="row">impairment-eval baseline: energy(cn0-drop) <span class="kb-v">kshana-bench/1.0.0</span></th><td class="kb-n">0.610</td><td class="kb-n">0.572</td><td class="kb-n">0.038</td><td class="kb-n">within tolerance</td><td>scored</td><td class="kb-h"><code>60acd133a010</code></td></tr>
+</tbody></table></div>
+<div class="kb-scroll" tabindex="0" role="region" aria-label="Task (d): out-of-distribution optimism gap test results"><table><caption>Split: test</caption><thead><tr><th scope="col">System</th><th scope="col" class="kb-n">AUC in</th><th scope="col" class="kb-n">AUC out</th><th scope="col" class="kb-n">Optimism gap</th><th scope="col" class="kb-n">Flag</th><th scope="col">Provenance</th><th scope="col">Truth SHA-256</th></tr></thead><tbody>
+<tr><th scope="row">impairment-eval baseline: fused(max-z) <span class="kb-v">kshana-bench/1.0.0</span></th><td class="kb-n">0.998</td><td class="kb-n">0.983</td><td class="kb-n">0.015</td><td class="kb-n">within tolerance</td><td>scored</td><td class="kb-h"><code>3e9310ee1be9</code></td></tr>
+<tr><th scope="row">impairment-eval baseline: sqm-imbalance <span class="kb-v">kshana-bench/1.0.0</span></th><td class="kb-n">0.882</td><td class="kb-n">0.882</td><td class="kb-n">0.001</td><td class="kb-n">within tolerance</td><td>scored</td><td class="kb-h"><code>3e9310ee1be9</code></td></tr>
+<tr><th scope="row">impairment-eval baseline: agc-excess <span class="kb-v">kshana-bench/1.0.0</span></th><td class="kb-n">0.848</td><td class="kb-n">0.819</td><td class="kb-n">0.030</td><td class="kb-n">within tolerance</td><td>scored</td><td class="kb-h"><code>3e9310ee1be9</code></td></tr>
+<tr><th scope="row">impairment-eval baseline: raim-parity <span class="kb-v">kshana-bench/1.0.0</span></th><td class="kb-n">0.682</td><td class="kb-n">0.672</td><td class="kb-n">0.010</td><td class="kb-n">within tolerance</td><td>scored</td><td class="kb-h"><code>3e9310ee1be9</code></td></tr>
+<tr><th scope="row">impairment-eval baseline: energy(cn0-drop) <span class="kb-v">kshana-bench/1.0.0</span></th><td class="kb-n">0.595</td><td class="kb-n">0.565</td><td class="kb-n">0.030</td><td class="kb-n">within tolerance</td><td>scored</td><td class="kb-h"><code>3e9310ee1be9</code></td></tr>
+</tbody></table></div>
+</section>
+<p class="kb-foot">Every score is modelled unless a row says an external oracle agreed. Licence of the specification and manifests: CC-BY-4.0 / CC0 proposed, owner decision pending. The real-data holdout is not secret: see the specification, section 4.</p>
+</section>
