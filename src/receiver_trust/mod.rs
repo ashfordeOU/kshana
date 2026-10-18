@@ -49,6 +49,8 @@ pub enum LogFormat {
     Nmea,
     /// RTKLIB solution file (`.pos`): time, position and satellites used per epoch.
     RtklibPos,
+    /// NovAtel OEM7 ASCII or binary logs: BESTPOS, RANGE (C/No) and RXSTATUS.
+    Novatel,
 }
 
 /// One satellite's signal strength at one epoch.

@@ -784,6 +784,7 @@ fn format_name(f: LogFormat) -> &'static str {
         LogFormat::Android => "android",
         LogFormat::Nmea => "nmea",
         LogFormat::RtklibPos => "rtklib-pos",
+        LogFormat::Novatel => "novatel",
     }
 }
 
