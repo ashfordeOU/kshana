@@ -870,6 +870,7 @@ in the official MCP registry as `io.github.ashfordeOU/kshana-mcp`.
 | `compliance_mapping` | The static mapping tables (or, with `sources`, the source documents they cite with versions and URLs) as Markdown, led by the same statement |
 | `list_standards_packs` | The standards packs (`kshana standards-pack list`): scored scenario sets for the DHS Resilient PNT framework test profiles, IMO MSC.1/Circ.1575 and ICAO Doc 9849 Appendix F |
 | `run_standards_pack` | One pack run against bars stated before the run: each test `MET`, `NOT MET` or `NEEDS INPUT`; MODELLED, rates no product |
+| `lunanet_afs_check` | The LunaNet Augmented Forward Signal checked against LNIS V5 AD1 Volume A (LSIS-AFS V1.0): the codes against the printed tables, or a symbol stream against the frame format; LDPC and CRC-24Q of subframes 2 to 4 are not verified |
 | `create_round_trip_pack` | The signed laboratory round-trip pack: scenario, `kshana.test-conditions/1` document, receiver log and score linked by hash |
 
 </details>

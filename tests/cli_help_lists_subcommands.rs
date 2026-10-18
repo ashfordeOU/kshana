@@ -22,6 +22,7 @@ fn the_top_level_usage_names_every_subcommand() {
         "bench-export",
         "compliance-report",
         "standards-pack",
+        "lunanet-afs-check",
         "evidence round-trip",
         "kinds",
         "example",

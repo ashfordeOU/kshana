@@ -182,6 +182,9 @@ __all__ = [
     "compliance_mapping",
     "standards_pack_list",
     "standards_pack_run",
+    "lunanet_afs_check_spec",
+    "lunanet_afs_check_symbols",
+    "lunanet_afs_generate",
     "osnma_verify",
     "trust_telemetry",
     "route_exposure",
@@ -452,6 +455,23 @@ def standards_pack_run(pack_id: str) -> dict[str, Any]:
     bar's measured and expected value and ``met``, ``evidence_tier``, ``notice``, ``advisory``,
     ``statement``) plus the same report as Markdown under ``markdown``. A test that needs a
     receiver log is ``NEEDS INPUT`` and not scored. Raises ``ValueError`` for an unknown id."""
+
+def lunanet_afs_check_spec() -> dict[str, Any]:
+    """Check this implementation of the LunaNet Augmented Forward Signal against the published
+    tables and worked examples of LSIS-AFS V1.0 (LNIS V5, AD1 Volume A): ``bars`` (B1 to B10, each
+    with ``matched``, ``total``, ``status``), ``all_met``, ``pin`` and ``status``. B4 reports one
+    miss: the document prints the same last 24 chips for tertiary PRN 147 and 151."""
+
+def lunanet_afs_check_symbols(symbols: str, max_sp_errors: int = 0) -> dict[str, Any]:
+    """Check a hard-decision AFS symbol stream (text of ``0`` and ``1``) against section 2.4 of
+    LSIS-AFS V1.0: synchronisation pattern, SB1 decoding, FID, TOI continuity, frame spacing.
+    Subframes 2 to 4 (LDPC, CRC-24Q) are not verified (see ``not_checked``). Raises
+    ``ValueError``."""
+
+def lunanet_afs_generate(frames: int = 1, toi0: int = 0) -> str:
+    """A test stream of ``frames`` (1 to 100) AFS frames as text of ``0`` and ``1`` with
+    placeholder subframes 2 to 4 (not LDPC coded, no message): symbols for testing a checker,
+    not a waveform. Raises ``ValueError``."""
 
 def osnma_verify(
     data: bytes | str,

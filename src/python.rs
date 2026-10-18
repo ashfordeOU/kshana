@@ -2043,6 +2043,48 @@ fn standards_pack_run<'py>(py: Python<'py>, pack_id: &str) -> PyResult<Bound<'py
     json_to_py(py, &report)
 }
 
+/// Check this implementation of the LunaNet Augmented Forward Signal against the published
+/// tables and worked examples of LSIS-AFS V1.0 (LNIS V5, AD1 Volume A; `kshana lunanet-afs-check
+/// spec`): a dict with `bars` (B1 to B10, each with `matched`, `total`, `status`), `all_met`,
+/// `pin` and `status`. B4 reports one miss: the document prints the same last 24 chips for
+/// tertiary PRN 147 and 151.
+#[pyfunction]
+fn lunanet_afs_check_spec<'py>(py: Python<'py>) -> PyResult<Bound<'py, PyAny>> {
+    json_to_py(py, &crate::surface::lunanet_afs_check_spec())
+}
+
+/// Check a hard-decision AFS symbol stream given as text of `0` and `1` (white space ignored)
+/// against section 2.4 of LSIS-AFS V1.0 (`kshana lunanet-afs-check symbols`): frame
+/// synchronisation, SB1 decoding, FID, TOI continuity and frame spacing. `max_sp_errors`
+/// symbols of the 68-symbol synchronisation pattern may be wrong (at most 20). Subframes 2 to 4
+/// (LDPC, CRC-24Q) are not verified, and the report's `not_checked` says so. Raises
+/// `ValueError`.
+#[pyfunction]
+#[pyo3(signature = (symbols, max_sp_errors=0))]
+fn lunanet_afs_check_symbols<'py>(
+    py: Python<'py>,
+    symbols: &str,
+    max_sp_errors: usize,
+) -> PyResult<Bound<'py, PyAny>> {
+    let r = crate::surface::lunanet_afs_check_symbols(
+        symbols,
+        max_sp_errors,
+        8 * crate::surface::MAX_INPUT_BYTES,
+    )
+    .map_err(PyValueError::new_err)?;
+    json_to_py(py, &r)
+}
+
+/// A test stream of `frames` (1 to 100) AFS frames as text of `0` and `1`, TOI counting from
+/// `toi0` (0 to 99): the synchronisation pattern, SB1 and frame lengths of LSIS-AFS V1.0 with
+/// **placeholder** subframes 2 to 4 (not LDPC coded, no message). Symbols for testing a
+/// checker, not a waveform; Kshana writes no signal. Raises `ValueError`.
+#[pyfunction]
+#[pyo3(signature = (frames=1, toi0=0))]
+fn lunanet_afs_generate(frames: usize, toi0: u8) -> PyResult<String> {
+    crate::surface::lunanet_afs_generate(frames, toi0).map_err(PyValueError::new_err)
+}
+
 /// Render a trust stream or a batch result in one telemetry format with the encoders
 /// `kshana trust-telemetry` uses (no process, socket or clock). `format` is `"prometheus"`,
 /// `"cef"`, `"leef"` or `"otlp"`; `input_kind` is `"jsonl"` (the live per-epoch stream, the
@@ -2246,6 +2288,9 @@ fn kshana(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(compliance_mapping, m)?)?;
     m.add_function(wrap_pyfunction!(standards_pack_list, m)?)?;
     m.add_function(wrap_pyfunction!(standards_pack_run, m)?)?;
+    m.add_function(wrap_pyfunction!(lunanet_afs_check_spec, m)?)?;
+    m.add_function(wrap_pyfunction!(lunanet_afs_check_symbols, m)?)?;
+    m.add_function(wrap_pyfunction!(lunanet_afs_generate, m)?)?;
     m.add_function(wrap_pyfunction!(osnma_verify, m)?)?;
     m.add_function(wrap_pyfunction!(trust_telemetry, m)?)?;
     m.add_function(wrap_pyfunction!(route_exposure, m)?)?;
