@@ -351,7 +351,7 @@ mod tests {
     fn an_invalid_or_foreign_version_result_is_refused() {
         assert!(leaderboard_html(&[json!({"schema": "x"})]).is_err());
         let mut other = r("x", 0.5);
-        other["spec_version"] = json!("kshana-bench/2.0.0");
-        assert!(leaderboard_html(&[other]).unwrap_err().0.contains("2.0.0"));
+        other["spec_version"] = json!("kshana-bench/3.0.0");
+        assert!(leaderboard_html(&[other]).unwrap_err().0.contains("3.0.0"));
     }
 }
