@@ -362,10 +362,9 @@ pub fn validate_result(v: &Value) -> Vec<String> {
     if !matches!(s("split"), Some("dev" | "test" | "holdout")) {
         p.push("`split` must be dev, test or holdout".into());
     }
-    if !v
-        .pointer("/system/name")
+    if v.pointer("/system/name")
         .and_then(Value::as_str)
-        .is_some_and(|x| !x.trim().is_empty())
+        .is_none_or(|x| x.trim().is_empty())
     {
         p.push("`system.name` is required".into());
     }

@@ -26,7 +26,14 @@ while [ "$i" -lt "$COUNT" ]; do
     if ls "$OUT/products"/observatory-adsb-adsb-lol-"$DAY".geojson >/dev/null 2>&1; then
         echo "$DAY: product exists, skipped"
     else
-        "$HERE/fetch_adsblol_day.sh" "$DAY" "$WORK"
+        # A connection reset mid-download is retried: the part files resume (curl -C -).
+        n=0
+        until "$HERE/fetch_adsblol_day.sh" "$DAY" "$WORK"; do
+            n=$((n + 1))
+            if [ "$n" -ge 4 ]; then echo "$DAY: fetch failed 4 times, stopping" >&2; exit 1; fi
+            echo "$DAY: fetch failed, retry $n" >&2
+            sleep 30
+        done
         "$KSHANA" interference-map daily "$WORK/extracted/$DAY" --dataset adsb-lol --day "$DAY" \
             --bbox "$BBOX" --out "$OUT/products"
         cp "$WORK"/v*.parts.json "$OUT/fetch/" 2>/dev/null || true

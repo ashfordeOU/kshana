@@ -41,7 +41,7 @@ for SUF in aa ab ac ad ae af ag ah ai aj; do
         *) echo "unexpected HTTP $CODE for $TAG.tar.$SUF" >&2; exit 1 ;;
     esac
     F="$DEST/$TAG.part.$SUF"
-    curl -fsSL -A "$UA" -C - --retry 5 --retry-delay 10 -o "$F" "$BASE/$TAG.tar.$SUF"
+    curl -fsSL -A "$UA" -C - --retry 8 --retry-delay 10 --retry-all-errors -o "$F" "$BASE/$TAG.tar.$SUF"
     PARTS="$PARTS $F"
 done
 if [ -z "$PARTS" ]; then
