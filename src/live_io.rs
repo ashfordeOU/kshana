@@ -407,21 +407,22 @@ fn spawn_reader(src: Source, tx: Tx, start: Instant) {
 fn open_serial(path: &std::path::Path, baud: u32) -> Result<File, String> {
     use std::os::fd::AsRawFd;
     use std::os::unix::fs::OpenOptionsExt;
-    let speed =
-        match baud {
-            1200 => libc::B1200,
-            2400 => libc::B2400,
-            4800 => libc::B4800,
-            9600 => libc::B9600,
-            19200 => libc::B19200,
-            38400 => libc::B38400,
-            57600 => libc::B57600,
-            115200 => libc::B115200,
-            230400 => libc::B230400,
-            _ => return Err(format!(
+    let speed = match baud {
+        1200 => libc::B1200,
+        2400 => libc::B2400,
+        4800 => libc::B4800,
+        9600 => libc::B9600,
+        19200 => libc::B19200,
+        38400 => libc::B38400,
+        57600 => libc::B57600,
+        115200 => libc::B115200,
+        230400 => libc::B230400,
+        _ => {
+            return Err(format!(
                 "--baud {baud}: use 1200, 2400, 4800, 9600, 19200, 38400, 57600, 115200 or 230400"
-            )),
-        };
+            ))
+        }
+    };
     let f = OpenOptions::new()
         .read(true)
         .custom_flags(libc::O_NOCTTY)

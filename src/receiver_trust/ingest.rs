@@ -52,6 +52,7 @@ pub fn read_log(format: LogFormat, bytes: &[u8]) -> Result<Timeline, String> {
             read_android(&String::from_utf8_lossy(bytes))?,
         ),
         LogFormat::Nmea => ("NMEA", read_nmea(&String::from_utf8_lossy(bytes))?),
+        LogFormat::Sbf => ("SBF", read_sbf(bytes)),
     };
     if tl.epochs.is_empty() {
         return Err(format!(
@@ -156,6 +157,7 @@ impl Acc {
         self.self_report = Some(super::ReceiverSelfReport {
             spoofing: worse(cur.spoofing, sr.spoofing),
             jamming: worse(cur.jamming, sr.jamming),
+            rf_bands_reported: worse(cur.rf_bands_reported, sr.rf_bands_reported),
         });
     }
 
@@ -400,7 +402,7 @@ impl UbxState {
             .or_default()
             .merge_self_report(super::ReceiverSelfReport {
                 spoofing: Some(spoof),
-                jamming: None,
+                ..Default::default()
             });
         true
     }
@@ -428,6 +430,7 @@ impl UbxState {
             // version 2, which `p[1] >> 3` moves to bit 0).
             jamming: state(jam_flags, 2),
             spoofing: state(spf_flags, 3),
+            ..Default::default()
         };
         if sr == super::ReceiverSelfReport::default() {
             return true; // both detectors disabled: nothing to report
@@ -669,6 +672,114 @@ pub fn read_ubx(bytes: &[u8]) -> Timeline {
         }
     }
     finalize(st.map, skipped)
+}
+
+// ---------------------------------------------------------------------------------
+// Septentrio SBF
+// ---------------------------------------------------------------------------------
+
+/// RINEX-style system letter for an SBF constellation.
+fn sbf_letter(c: &sbf_tools::types::Constellation) -> Option<char> {
+    use sbf_tools::types::Constellation as C;
+    Some(match c {
+        C::GPS => 'G',
+        C::GLONASS => 'R',
+        C::Galileo => 'E',
+        C::BeiDou => 'C',
+        C::QZSS => 'J',
+        C::SBAS => 'S',
+        C::NavIC => 'I',
+        C::Unknown(_) => return None,
+    })
+}
+
+/// Read a Septentrio SBF stream (read only). `PVTGeodetic` gives the fix, `MeasEpoch` the
+/// per-satellite C/N0 (band = the signal's name, for example `L1CA`), `RFStatus` the count of RF
+/// bands the receiver reports with a non-zero `Info` byte. Epochs are keyed by the block's
+/// time of week and week number and labelled in GPS time (`2024-09-10T07:00:00.000 GPST`); a
+/// block whose time is "do not use" is skipped. Blocks that fail their CRC or do not parse count
+/// as skipped records. Other blocks are ignored; nothing is written anywhere.
+pub fn read_sbf(bytes: &[u8]) -> Timeline {
+    use sbf_tools::{SbfBlock, SbfReader};
+    let mut reader = SbfReader::new(bytes);
+    let mut map: BTreeMap<i64, Acc> = BTreeMap::new();
+    let gps_epoch_days = days_from_civil(1980, 1, 6);
+    let key_of = |tow_ms: u32, wnc: u16, map: &mut BTreeMap<i64, Acc>| -> Option<i64> {
+        if tow_ms == u32::MAX || wnc == u16::MAX || i64::from(tow_ms) >= WEEK_MS {
+            return None;
+        }
+        let key = i64::from(wnc) * WEEK_MS + i64::from(tow_ms);
+        let acc = map.entry(key).or_default();
+        if acc.label.is_none() {
+            let ms = gps_epoch_days * DAY_MS + key;
+            acc.set_label(RANK_UTC, iso_utc_ms(ms).replace('Z', " GPST"));
+        }
+        Some(key)
+    };
+    let mut bad = 0usize;
+    for block in reader.by_ref() {
+        let Ok(block) = block else {
+            bad += 1;
+            continue;
+        };
+        match block {
+            SbfBlock::PvtGeodetic(p) => {
+                let Some(k) = key_of(p.tow_ms(), p.wnc(), &mut map) else {
+                    continue;
+                };
+                if let (true, Some(lat), Some(lon), Some(h)) = (
+                    p.has_fix(),
+                    p.latitude_deg(),
+                    p.longitude_deg(),
+                    p.height_m(),
+                ) {
+                    if lat.abs() <= 90.0 && lon.abs() <= 180.0 {
+                        if let Some(acc) = map.get_mut(&k) {
+                            acc.fix = Some(ReportedFix {
+                                lat_deg: lat,
+                                lon_deg: lon,
+                                height_m: h,
+                                n_used: p.num_satellites_opt().map(u32::from),
+                            });
+                        }
+                    }
+                }
+            }
+            SbfBlock::MeasEpoch(m) => {
+                let Some(k) = key_of(m.tow_ms(), m.wnc(), &mut map) else {
+                    continue;
+                };
+                let acc = map.entry(k).or_default();
+                for meas in &m.measurements {
+                    let (Some(letter), Some(cn0)) =
+                        (sbf_letter(&meas.sat_id.constellation), meas.cn0_dbhz_opt())
+                    else {
+                        continue;
+                    };
+                    acc.add_cn0(
+                        sat_id(letter, u32::from(meas.sat_id.prn)),
+                        meas.signal_type.name().to_string(),
+                        cn0,
+                    );
+                }
+            }
+            SbfBlock::RfStatus(r) => {
+                let Some(k) = key_of(r.tow_ms(), r.wnc(), &mut map) else {
+                    continue;
+                };
+                let n = r.bands.iter().filter(|b| b.info != 0).count();
+                map.entry(k)
+                    .or_default()
+                    .merge_self_report(super::ReceiverSelfReport {
+                        rf_bands_reported: Some(n.min(255) as u8),
+                        ..Default::default()
+                    });
+            }
+            _ => {}
+        }
+    }
+    let st = reader.stats();
+    finalize(map, bad.max((st.crc_errors + st.parse_errors) as usize))
 }
 
 // ---------------------------------------------------------------------------------

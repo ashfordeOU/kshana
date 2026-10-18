@@ -696,6 +696,7 @@ fn format_name(f: LogFormat) -> &'static str {
         LogFormat::Ubx => "ubx",
         LogFormat::Rinex => "rinex",
         LogFormat::Android => "android",
+        LogFormat::Sbf => "sbf",
         LogFormat::Nmea => "nmea",
     }
 }
