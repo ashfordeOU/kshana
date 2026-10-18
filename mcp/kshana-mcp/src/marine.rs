@@ -85,6 +85,35 @@ pub struct CreateEvidenceRequest {
     pub signing_key_seed_hex: Option<String>,
 }
 
+/// Parameters for [`KshanaServer::create_round_trip_pack`].
+#[derive(Debug, serde::Deserialize, schemars::JsonSchema)]
+pub struct CreateRoundTripRequest {
+    /// A `receiver-trust` scenario: its `[log]` names only the format (for example
+    /// `format = "nmea"`; the log is `log`) and its `[[events]]` are the stated truth the
+    /// log is scored against (`kshana bench-export` writes them as `.events.toml`).
+    pub scoring_toml: String,
+    /// The scenario that produced the motion, as given to `export_test_bench`; only its
+    /// SHA-256 is recorded.
+    pub scenario_toml: String,
+    /// The laboratory's `kshana.test-conditions/1` document (TOML or JSON), as filled in
+    /// from the `.conditions.json` that `export_test_bench` writes.
+    pub conditions: String,
+    /// The receiver's log as text, at most 4 MiB.
+    pub log: String,
+    /// Start of the window, seconds since the log's first epoch.
+    pub from_s: f64,
+    /// End of the window, seconds since the log's first epoch.
+    pub to_s: f64,
+    /// Title shown in the pack's summary and manifest.
+    #[serde(default)]
+    pub title: Option<String>,
+    /// The Ed25519 signing-key seed (64 lower-case hex digits); omitted, a one-time key is
+    /// used and discarded. A seed passed here travels through the conversation: make a pack
+    /// that matters on the command line (`kshana evidence round-trip`).
+    #[serde(default)]
+    pub signing_key_seed_hex: Option<String>,
+}
+
 /// Parameters for [`KshanaServer::verify_evidence_pack`].
 #[derive(Debug, serde::Deserialize, schemars::JsonSchema)]
 pub struct VerifyEvidenceRequest {
@@ -387,6 +416,49 @@ impl KshanaServer {
             "log_slice_bytes": p.slice.map(|(a, b)| [a, b]),
             "signing_key": if seed.is_some() { "the caller's seed (not returned)" } else { "one-time key, discarded: proves integrity, not identity" },
             "notice": "A pack is a technical record, not a legal opinion, a finding of fact or an approval.",
+        }))
+    }
+
+    #[tool(
+        description = "Create the signed laboratory round-trip pack (`kshana evidence round-trip`, docs/spec/TEST-CONDITIONS.md): links by hash the scenario that produced the motion, the laboratory's `kshana.test-conditions/1` document, the receiver log and its score against the stated events, in a signed evidence pack whose `config.json` carries a `round_trip` block. Refuses a pack whose conditions and scoring events disagree, or whose stated log SHA-256 is not the log's. NO SIGNAL: nothing is written, replayed or scheduled; how a scenario's motion reached the receiver is the operator's responsibility and is recorded only as stated. The signing seed is never returned or logged; omitted, a one-time key is used and discarded (integrity, not identity). Input is capped at 4 MiB and the reply at 4 MiB. A technical record, not a legal opinion or a certification. Evidence tier: MODELLED."
+    )]
+    fn create_round_trip_pack(
+        &self,
+        Parameters(r): Parameters<CreateRoundTripRequest>,
+    ) -> Result<CallToolResult, McpError> {
+        let seed = r
+            .signing_key_seed_hex
+            .as_deref()
+            .map(|h| surface::hex32("signing_key_seed_hex", h))
+            .transpose()
+            .map_err(bad)?;
+        let created = surface::now_rfc3339_utc();
+        let p = surface::evidence_round_trip(
+            &r.scoring_toml,
+            &r.scenario_toml,
+            &r.conditions,
+            r.log.as_bytes(),
+            r.from_s,
+            r.to_s,
+            r.title.as_deref(),
+            Some(&created),
+            seed,
+            MAX_UPLOAD_BYTES,
+        )
+        .map_err(|e| bad(format!("round-trip pack failed: {e}")))?;
+        let files = surface::files_to_json(&p.files);
+        let size = files.to_string().len();
+        if size > MAX_MAP_REPLY_BYTES {
+            return Err(bad(format!(
+                "the pack is {size} bytes, over the {MAX_MAP_REPLY_BYTES}-byte reply limit; narrow the window or use `kshana evidence round-trip` on the command line"
+            )));
+        }
+        reply(serde_json::json!({
+            "files": files,
+            "public_key": p.public_key,
+            "epochs_in_window": p.epochs_in_window,
+            "signing_key": if seed.is_some() { "the caller's seed (not returned)" } else { "one-time key, discarded: proves integrity, not identity" },
+            "notice": "A pack is a technical record, not a legal opinion, a finding of fact or an approval. No signal is written or replayed.",
         }))
     }
 
