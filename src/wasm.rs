@@ -492,8 +492,9 @@ pub fn jammertest_import(
     local_offset_h: f64,
     year: u32,
 ) -> Result<String, JsValue> {
-    let plans: Vec<String> = serde_json::from_str(plans_json)
-        .map_err(|e| JsValue::from_str(&format!("plans_json is not a JSON array of strings: {e}")))?;
+    let plans: Vec<String> = serde_json::from_str(plans_json).map_err(|e| {
+        JsValue::from_str(&format!("plans_json is not a JSON array of strings: {e}"))
+    })?;
     let refs: Vec<&str> = plans.iter().map(String::as_str).collect();
     crate::surface::jammertest_import_json(
         catalog_json,
@@ -526,8 +527,9 @@ pub fn jammertest_score(
     recover_hold_s: f64,
     guard_s: f64,
 ) -> Result<String, JsValue> {
-    let plans: Vec<String> = serde_json::from_str(plans_json)
-        .map_err(|e| JsValue::from_str(&format!("plans_json is not a JSON array of strings: {e}")))?;
+    let plans: Vec<String> = serde_json::from_str(plans_json).map_err(|e| {
+        JsValue::from_str(&format!("plans_json is not a JSON array of strings: {e}"))
+    })?;
     let refs: Vec<&str> = plans.iter().map(String::as_str).collect();
     let log = crate::permalink::base64_decode(log_base64.trim())
         .ok_or_else(|| JsValue::from_str("log_base64 is not base64"))?;

@@ -44,14 +44,23 @@ fn log(secs: u32, jam: (u32, u32)) -> String {
     let mut o = String::new();
     for t in 0..secs {
         let tod = format!("{:02}{:02}{:02}.00", 12 + t / 3600, t / 60 % 60, t % 60);
-        o += &s(&format!("GPRMC,{tod},A,6900.0000,N,01600.0000,E,0.0,0.0,150925,,,A"));
-        o += &s(&format!("GPGGA,{tod},6900.0000,N,01600.0000,E,1,08,1.0,10.0,M,0.0,M,,"));
+        o += &s(&format!(
+            "GPRMC,{tod},A,6900.0000,N,01600.0000,E,0.0,0.0,150925,,,A"
+        ));
+        o += &s(&format!(
+            "GPGGA,{tod},6900.0000,N,01600.0000,E,1,08,1.0,10.0,M,0.0,M,,"
+        ));
         for set in 0..2u32 {
             let mut body = format!("GPGSV,2,{},08", set + 1);
             for k in 0..4u32 {
                 let sv = set * 4 + k + 1;
                 let drop = if t >= jam.0 && t <= jam.1 { 20.0 } else { 0.0 };
-                body += &format!(",{sv:02},{:02},{:03},{:02.0}", 30 + sv * 5, sv * 40, 45.0 - f64::from(sv % 3) - drop);
+                body += &format!(
+                    ",{sv:02},{:02},{:03},{:02.0}",
+                    30 + sv * 5,
+                    sv * 40,
+                    45.0 - f64::from(sv % 3) - drop
+                );
             }
             o += &s(&body);
         }
@@ -77,7 +86,11 @@ async fn the_tools_are_listed_with_the_scheduled_truth_caveat() {
             .clone()
             .unwrap_or_default()
             .to_string();
-        assert!(d.contains("MODELLED") && d.contains("not recorded on-air times") || d.contains("planned slots, not recorded"), "{n}: {d}");
+        assert!(
+            d.contains("MODELLED") && d.contains("not recorded on-air times")
+                || d.contains("planned slots, not recorded"),
+            "{n}: {d}"
+        );
     }
     client.cancel().await.ok();
 }
@@ -94,8 +107,16 @@ async fn a_plan_is_imported_and_a_log_scored_in_memory() {
     .expect("import");
     assert_eq!(v["events"][0]["test_id"], "1.2.5");
     assert_eq!(v["events"][0]["onset_s"], 300.0);
-    assert!(v["events_toml"].as_str().unwrap().contains("scheduled truth"));
-    assert!(!v.to_string().contains("Person"), "no personal field is read");
+    assert!(
+        v["events_toml"]
+            .as_str()
+            .unwrap()
+            .contains("scheduled truth")
+    );
+    assert!(
+        !v.to_string().contains("Person"),
+        "no personal field is read"
+    );
 
     let nmea = log(700, (300, 360));
     let v = call(
