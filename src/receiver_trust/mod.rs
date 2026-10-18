@@ -44,6 +44,9 @@ pub enum LogFormat {
     Rinex,
     /// Android GnssLogger CSV (`Raw` rows: C/N0, AGC; `Fix` rows: position).
     Android,
+    /// Septentrio SBF binary: PVTGeodetic (fix), MeasEpoch (per-satellite C/N0), RFStatus (the
+    /// receiver's own RF-band report). Read only.
+    Sbf,
     /// NMEA 0183 text (GSV: per-satellite SNR in dB-Hz; GGA/RMC: time and position).
     Nmea,
 }
@@ -113,6 +116,11 @@ pub struct ReceiverSelfReport {
     pub spoofing: Option<u8>,
     /// Jamming state, 0 to 3, where the log carries one (UBX-SEC-SIG only).
     pub jamming: Option<u8>,
+    /// Septentrio RFStatus: the number of RF bands whose `Info` byte is non-zero. Carried as the
+    /// receiver reports it and not interpreted: the meaning of the bits is the manufacturer's, and
+    /// it does not count towards [`ReceiverSelfReport::flagged`].
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub rf_bands_reported: Option<u8>,
 }
 
 impl ReceiverSelfReport {

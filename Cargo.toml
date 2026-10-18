@@ -168,6 +168,10 @@ libm = "0.2"
 zeroize = { version = "1", default-features = false, features = ["alloc"] }
 ed25519-dalek = { version = "2", default-features = false, features = ["std"] }
 
+# Septentrio SBF block decoding for `receiver_trust::ingest::read_sbf` (read-only). MIT, a single
+# dependency (thiserror), pure Rust. Evaluated before adoption: see docs/RECEIVER-PROTOCOLS.md.
+sbf-tools = { version = "0.4", default-features = false }
+
 # Optional bindings. Off by default: the core library, CLI, tests, and the
 # dependency-audit gate never compile or scan these unless the feature is enabled.
 pyo3 = { version = "0.29", features = ["extension-module", "abi3-py39"], optional = true }
