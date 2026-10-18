@@ -60,6 +60,21 @@ not any dataset's values.
    `A + U·E[min(D, T_h)]/E[D]`. The class power-law floors are the holdover module's synthesised
    ones, so a tight threshold is governed by that assumed floor, as `holdover.rs` states.
 
+## Link margin against time (0.38)
+
+A `[timeseries]` table (`duration_h` up to 8760, `step_s`, `seed`) adds to each site one **seeded realisation** of the model above:
+the line of sight alternates between clear spells (exponential, mean set so the share of time in cloud is the stated `p_cloud`) and
+cloud outages (log-normal, the stated mean and spread); each outage draws one liquid-water column from the stated climate and holds
+it; each step draws one gamma-gamma scintillation sample (independent from step to step, a stated simplification) and the terminal is
+on target with the stated pointing availability. The step's margin is the fade budget minus the cloud and scintillation fades, and the
+link is up when the margin is not negative and the terminal is on target, the condition the availability integral uses.
+
+It is a draw, not the climate: its availability differs from the statistical one by the draw's sampling error, and the first episode is
+drawn whole. The result carries `margin_db`, `cloud_db`, `scint_db` and `up` per step and a `realised` block (availability, cloud
+fraction, outage count, longest outage). **MODELLED**; the checks (`tests/optical_atmosphere_timeseries.rs`, bars fixed in
+`xval/optical-atmosphere/PREREGISTRATION-timeseries.md` before the first run) are determinism and consistency with the stated figures, not
+an external oracle. Without the table nothing is written and the result is the 0.37 document.
+
 ## Scenario fields
 
 All top-level fields are optional. A bare `kind = "optical-atmosphere"` runs three illustrative
