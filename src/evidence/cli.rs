@@ -22,7 +22,7 @@ const USAGE: &str = "usage:
   <t0>/<t1>: seconds since the first epoch of the log, or an ISO-8601 UTC time when the log
   states its start time. A pack is a technical record, not a legal opinion.";
 
-fn flag_value(args: &[String], name: &str) -> Result<Option<String>, String> {
+pub(crate) fn flag_value(args: &[String], name: &str) -> Result<Option<String>, String> {
     match args.iter().position(|a| a == name) {
         None => Ok(None),
         Some(i) => args
@@ -33,7 +33,7 @@ fn flag_value(args: &[String], name: &str) -> Result<Option<String>, String> {
     }
 }
 
-fn now_rfc3339() -> String {
+pub(crate) fn now_rfc3339() -> String {
     let s = std::time::SystemTime::now()
         .duration_since(std::time::UNIX_EPOCH)
         .map(|d| d.as_secs() as i64)
@@ -59,7 +59,7 @@ fn write_new_file(path: &Path, bytes: &[u8], private: bool) -> Result<(), String
         .map_err(|e| format!("cannot write {}: {e}", path.display()))
 }
 
-fn read_seed(path: &str) -> Result<Zeroizing<[u8; 32]>, String> {
+pub(crate) fn read_seed(path: &str) -> Result<Zeroizing<[u8; 32]>, String> {
     #[cfg(unix)]
     {
         use std::os::unix::fs::PermissionsExt;
@@ -96,7 +96,7 @@ pub fn read_dir(dir: &Path) -> Result<Files, String> {
     Ok(f)
 }
 
-fn write_dir(dir: &Path, files: &Files) -> Result<(), String> {
+pub(crate) fn write_dir(dir: &Path, files: &Files) -> Result<(), String> {
     if dir.exists()
         && std::fs::read_dir(dir)
             .map_err(|e| e.to_string())?

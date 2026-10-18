@@ -45,7 +45,7 @@ package (`receiver_trust(toml)`, with the log inline) and from the Model Context
 | `android` | Android GnssLogger CSV | `Raw` rows: C/N0 and `AgcDb` per satellite; `Fix` rows: position |
 | `nmea` | NMEA 0183 text | GSV signal-to-noise per satellite (dB-Hz, with or without the 4.10 signal ID) and its elevation and azimuth, GSA dilution of precision and satellites used, GGA and RMC time and position |
 | `rtklib-pos` | RTKLIB solution file (`.pos`) | time, position (latitude/longitude or ECEF, converted) and satellites used per epoch; degrees-minutes-seconds files are refused with a message |
-| `novatel` | NovAtel OEM7 ASCII or binary logs | `BESTPOS` position (solution computed only), `RANGE` C/No per satellite and signal; `RXSTATUS` jammer flags are read as data (`NovatelRead.status`) but no monitor consumes them yet |
+| `novatel` | NovAtel OEM7 ASCII or binary logs | `BESTPOS` position (solution computed only), `RANGE` C/No per satellite and signal; `RXSTATUS` jammer flags become the epoch's `self_report` (jamming state 2 when the receiver flags a jammer, 1 when not; no spoofing flag exists in RXSTATUS), set against Kshana's alarms by the `receiver-self-report` comparison |
 | `gnss-sdr` | GNSS-SDR Monitor and PVT-monitor streams as JSON lines | per-channel C/N0, fix, satellites used, HDOP, azimuth and elevation; made by `integrations/gnss-sdr/relay.py` |
 
 Details, sources and limits of these three: [`MACHINE-INPUTS.md`](MACHINE-INPUTS.md).

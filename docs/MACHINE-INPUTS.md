@@ -27,11 +27,11 @@ tables of three logs. Records whose CRC does not match are skipped and counted.
 |---|---|---|
 | `BESTPOS` | 42 | solution status (only `SOL_COMPUTED` gives a fix), latitude, longitude, height above mean sea level plus undulation (the fix height is ellipsoidal), satellites used |
 | `RANGE` | 43 | C/No per signal (dB-Hz); system from tracking-status bits 16-18, signal type from bits 21-25 |
-| `RXSTATUS` | 93 | receiver status bit 15 and auxiliary 1 status jammer bits (RF1-RF6), returned in `NovatelRead.status` |
+| `RXSTATUS` | 93 | receiver status bit 15 (jammer detected) becomes the epoch's `self_report` (jamming 2 flagged, 1 not; RXSTATUS has no spoofing flag), compared with Kshana's alarms by `receiver-self-report`; the auxiliary 1 jammer bits (RF1-RF6) are returned in `NovatelRead.status` |
 
 The CRC routine was checked against the CRC the documentation states for its own `BESTPOSA`
 example (cited, not quoted); the tests use self-written lines. Not read: abbreviated ASCII, other logs. The
-jammer flags are the receiver's own report; no trust monitor consumes them yet.
+jammer flag is the receiver's own report, not Kshana's finding; agreement with Kshana's monitors is not validation.
 
 ## GNSS-SDR (`format = "gnss-sdr"`)
 

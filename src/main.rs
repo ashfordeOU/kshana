@@ -18,6 +18,7 @@ const USAGE: &str = "usage: kshana <scenario.toml> [--study-name <s>] [--eop <fi
    or: kshana receiver-trust live <session.toml> [--stdin | --file <path> [--follow] | --tcp <host:port> | --udp <port>] [--gate] (kshana receiver-trust live --help)
    or: kshana receiver-trust evidence <scenario.toml> --from <t0> --to <t1> --key <keyfile> --out <dir> (kshana evidence --help)
    or: kshana evidence <keygen|verify|attach-timestamp> ... (kshana evidence --help)
+   or: kshana jammertest <import|score> ... (kshana jammertest --help)
    or: kshana trust-telemetry [options] (kshana trust-telemetry --help)
    or: kshana imu-fit <imu.csv> [--format csv|euroc] [--axis x|y|z] [--expected-mean <m/s2>] [--id <name>] [--json]
    or: kshana nmea-scenario <scenario.toml> [--out <file.nmea>] [--tcp <addr>|--udp <addr>] (kshana nmea-scenario --help)
@@ -91,6 +92,11 @@ fn main() -> ExitCode {
         return ExitCode::from(
             kshana::evidence::cli::run_receiver_trust_evidence(&args[3..]) as u8,
         );
+    }
+    // `kshana jammertest <import|score>` reads the published Jammertest plan as scheduled truth
+    // and scores a receiver log against it (docs/JAMMERTEST.md). Terminal, local files only.
+    if args.get(1).map(String::as_str) == Some("jammertest") {
+        return kshana::jammertest::cli::run_cli(&args[2..]);
     }
     // `kshana trust-telemetry` feeds the per-epoch trust stream to Prometheus, syslog
     // (CEF/LEEF) and, with the `otlp` feature, OpenTelemetry.
