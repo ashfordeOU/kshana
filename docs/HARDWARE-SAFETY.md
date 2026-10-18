@@ -7,7 +7,7 @@ have not been reviewed by counsel, and the law differs by country. Read them as 
 a lawyer, not as a permission.
 
 Kshana is advisory software for research, simulation and test. It is not type-approved
-equipment and does not certify a receiver, a clock or a laboratory. See the advisory statement
+equipment and does not rate or approve a receiver, a clock or a laboratory. See the advisory statement
 in the README.
 
 ## The rule
@@ -53,7 +53,7 @@ used with any partner, laboratory or authority; none has.
 5. Antennas with controlled patterns, inertial units and chip-scale atomic clocks are treated
    as data sources (patterns, logs, published stability curves), not as devices Kshana drives.
 6. Wording: a result is "measured against the mask" or "supports evidence for" a requirement.
-   Kshana never says a device is conformant, certified or compliant.
+   Kshana does not say that a device meets a standard, and nobody has rated or approved it.
 
 ## Legal notes (owner legal review pending)
 

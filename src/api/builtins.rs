@@ -2739,3 +2739,28 @@ mod tests {
         );
     }
 }
+
+fn run_holdover_test(
+    scn: &crate::holdover_test::HoldoverTestScenario,
+) -> Result<RunOutput, String> {
+    let (json, summary, svg) = scn.run_output()?;
+    Ok(RunOutput {
+        json,
+        svg,
+        summary,
+        csv: None,
+    })
+}
+
+impl Scenario for crate::holdover_test::HoldoverTestScenario {
+    fn run(&self) -> Result<RunOutput, KshanaError> {
+        run_holdover_test(self).map_err(KshanaError::from)
+    }
+}
+
+impl BuiltinKind for crate::holdover_test::HoldoverTestScenario {
+    const KIND: ScenarioKind = ScenarioKind::HoldoverTest;
+    fn parse(src: &str) -> Result<Self, String> {
+        parse_toml(src, "holdover-test")
+    }
+}
