@@ -1535,9 +1535,11 @@ fn assess_vessel_log<'py>(
 /// is now, `"none"` leaves it out (a reproducible pack). Returns a dict: `files` (name to
 /// `bytes`), `public_key`, `seed_hex` (the seed used: keep it private), `epochs_in_window`
 /// and `slice` (`[start, end]` of the log bytes bundled, or `None` for the whole log). A
-/// pack is a technical record, not a legal opinion. Raises `ValueError`.
+/// pack is a technical record, not a legal opinion. `lab_attestation` is TOML text, the
+/// operator's statement of a laboratory setup (`docs/HARDWARE-SAFETY.md`): it is validated and
+/// recorded in the signed manifest as given, never verified. Raises `ValueError`.
 #[pyfunction]
-#[pyo3(signature = (session_toml, log, from_s, to_s, title=None, created_utc=None, seed_hex=None))]
+#[pyo3(signature = (session_toml, log, from_s, to_s, title=None, created_utc=None, seed_hex=None, lab_attestation=None))]
 #[allow(clippy::too_many_arguments)]
 fn evidence_create<'py>(
     py: Python<'py>,
@@ -1548,6 +1550,7 @@ fn evidence_create<'py>(
     title: Option<String>,
     created_utc: Option<String>,
     seed_hex: Option<String>,
+    lab_attestation: Option<String>,
 ) -> PyResult<Bound<'py, PyAny>> {
     use pyo3::types::{PyBytes, PyDict};
     let seed = seed_hex
@@ -1560,7 +1563,7 @@ fn evidence_create<'py>(
         Some("none") => None,
         Some(t) => Some(t.to_string()),
     };
-    let p = crate::surface::evidence_create(
+    let p = crate::surface::evidence_create_attested(
         session_toml,
         log.bytes(),
         from_s,
@@ -1568,6 +1571,7 @@ fn evidence_create<'py>(
         title.as_deref(),
         created.as_deref(),
         seed,
+        lab_attestation.as_deref(),
         crate::surface::MAX_INPUT_BYTES,
     )
     .map_err(PyValueError::new_err)?;
