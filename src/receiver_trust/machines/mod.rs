@@ -9,6 +9,7 @@
 //! [`super::ingest`]. Corrupt or unsupported records are skipped and counted in
 //! [`Timeline::skipped_records`], never a panic.
 
+pub mod imu;
 pub mod rtklib;
 
 use super::ingest::timeline_from;
