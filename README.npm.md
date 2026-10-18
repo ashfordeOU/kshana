@@ -150,6 +150,14 @@ const units = out.data.units;                                // Record<string, F
 const kinds: ScenarioKind[] = scenario_kinds().map((k) => k.name);
 ```
 
+Four more functions describe the engine to a front end. `kind_modules()` returns a JSON
+object from kind to the modules its verification-matrix rows name, `field_importance()` one
+from kind to the result fields that answer its question (display metadata; the engine never
+reads it), `iq_signals()` the signal names `iq_run_short` accepts, and
+`iq_run_short(fs_hz, duration_s, signal, ids, dopplers_hz, cn0_dbhz, seed)` a short synthetic
+IQ scene, acquired and tracked in memory (at most 0.25 s, 1,000,000 samples and 8
+satellites), with the same answer as the native build.
+
 ```js
 import { list_examples, get_example, export_scenario, animate_scenario } from "kshana";
 

@@ -308,7 +308,7 @@ the 0.32 one-period search.
 `kshana.pyi` types the closed vocabularies for checkers (mypy, pyright): `ScenarioKind`
 (every kind name, a `Literal`), `ErrorKind` (the four tags `error_kind` returns),
 `ProvenanceClass`, and the `TypedDict`s `KindMeta` (what `scenario_kinds()` returns a
-list of) and `FieldUnit` (an entry of a result's `units` block). They exist for type
+list of) and `FieldUnit` (an entry of a result's `units` block, which extends the required-keys base `_FieldUnitBase`). They exist for type
 checkers only and are not importable at runtime; `tests/typed_api_sync.rs` keeps them
 equal to the engine's lists.
 
