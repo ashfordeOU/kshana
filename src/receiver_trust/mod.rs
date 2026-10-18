@@ -51,6 +51,8 @@ pub enum LogFormat {
     RtklibPos,
     /// NovAtel OEM7 ASCII or binary logs: BESTPOS, RANGE (C/No) and RXSTATUS.
     Novatel,
+    /// GNSS-SDR `Monitor` and PVT-monitor messages as JSON lines (see `machines::gnss_sdr`).
+    GnssSdr,
 }
 
 /// One satellite's signal strength at one epoch.

@@ -9,6 +9,7 @@
 //! [`super::ingest`]. Corrupt or unsupported records are skipped and counted in
 //! [`Timeline::skipped_records`], never a panic.
 
+pub mod gnss_sdr;
 pub mod imu;
 pub mod novatel;
 pub mod rtklib;
@@ -16,6 +17,17 @@ pub mod rtklib;
 use super::ingest::timeline_from;
 use super::{LogEpoch, Timeline};
 use std::collections::BTreeMap;
+
+/// RINEX-style satellite id from the system letter and the PRN a receiver reports: QZSS PRNs
+/// count from 193 and SBAS from 120 (`J01`, `S20`); `None` outside 1-99.
+pub(crate) fn sat_id_from_prn(letter: char, prn: u32) -> Option<String> {
+    let n = match letter {
+        'J' => prn.checked_sub(192)?,
+        'S' => prn.checked_sub(100)?,
+        _ => prn,
+    };
+    (1..=99).contains(&n).then(|| format!("{letter}{n:02}"))
+}
 
 /// Milliseconds in one GPS week.
 pub(crate) const WEEK_MS: i64 = 604_800_000;
