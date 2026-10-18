@@ -540,6 +540,7 @@ mod tests {
             state: TrustState::Degraded,
             marine: None,
             score: None,
+            self_report: None,
             geometry: crate::receiver_trust::geometry::EpochGeometry::unknown(),
         };
         let s = from_epoch_trust(&e);

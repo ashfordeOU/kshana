@@ -84,6 +84,7 @@ struct Acc {
     span: Option<(usize, usize)>,
     sky: Vec<SatSky>,
     dop: Option<ReportedDop>,
+    self_report: Option<super::ReceiverSelfReport>,
     /// GSV sets seen for this epoch, by (talker, signal ID): (sentences in the set, bit mask
     /// of the sentence numbers received). The sky is kept only when every set is complete.
     gsv_sets: BTreeMap<(String, Option<u8>), (u32, u64)>,
@@ -144,6 +145,20 @@ impl Acc {
         }
     }
 
+    /// Merge a self-report: a state already read at this epoch is kept unless the new one is
+    /// worse (a higher code), so a later message cannot hide an earlier flag.
+    fn merge_self_report(&mut self, sr: super::ReceiverSelfReport) {
+        let worse = |a: Option<u8>, b: Option<u8>| match (a, b) {
+            (Some(x), Some(y)) => Some(x.max(y)),
+            (x, y) => x.or(y),
+        };
+        let cur = self.self_report.unwrap_or_default();
+        self.self_report = Some(super::ReceiverSelfReport {
+            spoofing: worse(cur.spoofing, sr.spoofing),
+            jamming: worse(cur.jamming, sr.jamming),
+        });
+    }
+
     fn add_agc(&mut self, v: f64) {
         if v.is_finite() {
             self.agc_sum += v;
@@ -182,6 +197,7 @@ fn epochs_from(map: BTreeMap<i64, Acc>, first: i64) -> Vec<LogEpoch> {
                 Vec::new()
             },
             reported_dop: a.dop,
+            self_report: a.self_report,
         })
         .collect()
 }
@@ -283,6 +299,9 @@ const CLASS_NAV: u8 = 0x01;
 const ID_NAV_PVT: u8 = 0x07;
 const ID_NAV_TIMEGPS: u8 = 0x20;
 const ID_NAV_SAT: u8 = 0x35;
+const ID_NAV_STATUS: u8 = 0x03;
+const CLASS_SEC: u8 = 0x27;
+const ID_SEC_SIG: u8 = 0x09;
 const CLASS_MON: u8 = 0x0A;
 const ID_MON_RF: u8 = 0x38;
 
@@ -327,6 +346,8 @@ struct UbxState {
     cur_key: Option<i64>,
     /// MON-RF blocks `(agcCnt, jamInd)` read before any iTOW, held for the first epoch.
     pending_rf: Vec<(f64, f64)>,
+    /// A UBX-SEC-SIG read before any iTOW, held for the first epoch.
+    pending_sr: Option<super::ReceiverSelfReport>,
     /// A GPS week number and the key-week index it belongs to (from NAV-TIMEGPS), used
     /// to label epochs that carry no date of their own.
     week_ref: Option<(i64, i64)>,
@@ -357,7 +378,65 @@ impl UbxState {
             acc.add_agc(agc);
             acc.add_jam(jam);
         }
+        if let Some(sr) = self.pending_sr.take() {
+            acc.merge_self_report(sr);
+        }
         Some(key)
+    }
+
+    /// UBX-NAV-STATUS (16 bytes): iTOW u4 @0, flags2 x1 @7 whose bits 4..3 are `spoofDetState`
+    /// (0 unknown or deactivated, 1 no spoofing indicated, 2 spoofing indicated, 3 multiple
+    /// spoofing indications; protocol 18 and later; u-blox F9 HPG 1.32 interface description).
+    fn nav_status(&mut self, p: &[u8]) -> bool {
+        if p.len() < 16 {
+            return false;
+        }
+        let Some(key) = le_u32(p, 0).and_then(|t| self.epoch_key(t)) else {
+            return false;
+        };
+        let spoof = (p[7] >> 3) & 0b11;
+        self.map
+            .entry(key)
+            .or_default()
+            .merge_self_report(super::ReceiverSelfReport {
+                spoofing: Some(spoof),
+                jamming: None,
+            });
+        true
+    }
+
+    /// UBX-SEC-SIG: no iTOW, so it belongs to the current navigation epoch. Version 1 (12
+    /// bytes): `jamFlags` x1 @4 (bit 0 jamDetEnabled, bits 2..1 jammingState) and `spfFlags` x1
+    /// @8 (bit 0 spfDetEnabled, bits 3..1 spoofingState). Version 2: `sigSecFlags` x1 @1 (bit 0
+    /// jamDetEnabled, bits 2..1 jammingState, bit 3 spfDetEnabled, bits 6..4 spoofingState),
+    /// then `jamNumCentFreqs` and that many x4 groups, which are not used. A state is read only
+    /// where its detector is enabled; 0 means unknown or not enabled, 1 none indicated, 2
+    /// warning or spoofing indicated, 3 critical or spoofing affirmed. The layouts are those of
+    /// the u-blox interface descriptions as transcribed in the pyubx2 library (BSD-3-Clause);
+    /// the F9 HPG 1.32 and M10 SPG 5.10 PDFs name the message but do not define it.
+    fn sec_sig(&mut self, p: &[u8]) -> bool {
+        let (jam_flags, spf_flags) = match p.first() {
+            Some(1) if p.len() >= 12 => (p[4], p[8]),
+            Some(2) if p.len() >= 4 => (p[1], p[1] >> 3),
+            _ => return false,
+        };
+        let state =
+            |flags: u8, width: u8| (flags & 1 == 1).then(|| (flags >> 1) & ((1u8 << width) - 1));
+        let sr = super::ReceiverSelfReport {
+            // Versions 1 and 2 pack the states differently: jamming is 2 bits after the enable
+            // bit in both; spoofing is 3 bits after its enable bit (bit 3 of sigSecFlags in
+            // version 2, which `p[1] >> 3` moves to bit 0).
+            jamming: state(jam_flags, 2),
+            spoofing: state(spf_flags, 3),
+        };
+        if sr == super::ReceiverSelfReport::default() {
+            return true; // both detectors disabled: nothing to report
+        }
+        match self.cur_key {
+            Some(k) => self.map.entry(k).or_default().merge_self_report(sr),
+            None => self.pending_sr = Some(sr),
+        }
+        true
     }
 
     /// UBX-NAV-PVT: iTOW u4 @0; year u2 @4, month @6, day @7, hour @8, min @9, sec @10,
@@ -548,6 +627,8 @@ pub fn read_ubx(bytes: &[u8]) -> Timeline {
             (CLASS_NAV, ID_NAV_PVT) => st.nav_pvt(payload),
             (CLASS_NAV, ID_NAV_TIMEGPS) => st.nav_timegps(payload),
             (CLASS_NAV, ID_NAV_SAT) => st.nav_sat(payload),
+            (CLASS_NAV, ID_NAV_STATUS) => st.nav_status(payload),
+            (CLASS_SEC, ID_SEC_SIG) => st.sec_sig(payload),
             (CLASS_MON, ID_MON_RF) => st.mon_rf(payload),
             _ => true, // a valid frame of a message this reader does not use
         };
@@ -558,6 +639,8 @@ pub fn read_ubx(bytes: &[u8]) -> Timeline {
             (CLASS_NAV, ID_NAV_PVT)
                 | (CLASS_NAV, ID_NAV_TIMEGPS)
                 | (CLASS_NAV, ID_NAV_SAT)
+                | (CLASS_NAV, ID_NAV_STATUS)
+                | (CLASS_SEC, ID_SEC_SIG)
                 | (CLASS_MON, ID_MON_RF)
         ) {
             if let Some(k) = st.cur_key {
