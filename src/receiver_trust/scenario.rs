@@ -1219,6 +1219,9 @@ pub fn resolve_paths(scn: &mut ReceiverTrustScenario, base: &std::path::Path) {
     if let Some(nav) = scn.log.nav.as_mut() {
         fix(&mut nav.path);
     }
+    if let Some(imu) = scn.log.imu.as_mut() {
+        fix(&mut imu.source.path);
+    }
 }
 
 #[cfg(test)]
