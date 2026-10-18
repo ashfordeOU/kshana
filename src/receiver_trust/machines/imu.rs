@@ -201,7 +201,7 @@ bad,row\n\
     fn heading_wraps_across_north() {
         let s = [(0.0, 359.0), (1.0, 1.0)];
         let h = heading_at(&s, 0.5).unwrap();
-        assert!(h > 359.9 || h < 0.1, "{h}");
+        assert!(!(0.1..=359.9).contains(&h), "{h}");
     }
 
     #[test]

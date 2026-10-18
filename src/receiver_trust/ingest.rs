@@ -52,6 +52,10 @@ pub fn read_log(format: LogFormat, bytes: &[u8]) -> Result<Timeline, String> {
             read_android(&String::from_utf8_lossy(bytes))?,
         ),
         LogFormat::Nmea => ("NMEA", read_nmea(&String::from_utf8_lossy(bytes))?),
+        LogFormat::Novatel => (
+            "NovAtel",
+            super::machines::novatel::read_novatel(bytes)?.timeline,
+        ),
         LogFormat::RtklibPos => (
             "RTKLIB .pos",
             super::machines::rtklib::read_rtklib_pos(&String::from_utf8_lossy(bytes))?,
