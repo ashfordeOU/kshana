@@ -15,11 +15,16 @@ fn main() {
         eprintln!("usage: jammertest_score_2024 <extracted-root> <report.json> [--v2]");
         std::process::exit(2);
     };
-    let r =
-        kshana::jammertest::dataset::run_dataset(std::path::Path::new(root)).unwrap_or_else(|e| {
-            eprintln!("error: {e}");
-            std::process::exit(1);
-        });
+    let root = std::path::Path::new(root);
+    let run = if args.iter().any(|a| a == "--v2") {
+        kshana::jammertest::dataset::run_dataset_v2(root)
+    } else {
+        kshana::jammertest::dataset::run_dataset(root)
+    };
+    let r = run.unwrap_or_else(|e| {
+        eprintln!("error: {e}");
+        std::process::exit(1);
+    });
     std::fs::write(out, serde_json::to_string_pretty(&r).expect("serialise"))
         .expect("write report");
     for f in &r.folders {
