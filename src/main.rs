@@ -1455,7 +1455,11 @@ fn run_lunanet_afs_cli(args: &[String]) -> ExitCode {
                             "{} symbols, {} frame(s) found; {}",
                             r["symbols"],
                             r["frames_found"],
-                            if r["ok"] == true { "no problems" } else { "problems:" }
+                            if r["ok"] == true {
+                                "no problems"
+                            } else {
+                                "problems:"
+                            }
                         );
                         for p in r["problems"].as_array().into_iter().flatten() {
                             println!("  {}", p.as_str().unwrap_or(""));
@@ -1493,7 +1497,9 @@ fn run_lunanet_afs_cli(args: &[String]) -> ExitCode {
                 Err(_) => None,
             };
             let (Some(frames), Some(toi0), Ok(Some(out))) = (frames, toi0, flag("--out")) else {
-                return fail("generate needs --frames <n> and --out <file> (and a whole-number --toi0)");
+                return fail(
+                    "generate needs --frames <n> and --out <file> (and a whole-number --toi0)",
+                );
             };
             match kshana::surface::lunanet_afs_generate(frames, toi0) {
                 Ok(text) => match std::fs::write(&out, format!("{text}\n")) {
