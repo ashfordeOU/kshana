@@ -117,3 +117,58 @@ fn imu_travels_inline_and_a_path_is_refused_on_inline_surfaces() {
     let bad = inline_toml("path = \"imu.csv\"\n");
     assert!(kshana::surface::assess_receiver_log_inline(&bad, 1 << 20).is_err());
 }
+
+fn white_imu_csv(n: usize) -> String {
+    // A deterministic pseudo-noise stationary log: 100 Hz, small gyro and accelerometer noise.
+    let mut x: u64 = 0x2545_F491_4F6C_DD1D;
+    let mut next = || {
+        x ^= x << 13;
+        x ^= x >> 7;
+        x ^= x << 17;
+        (x as f64 / u64::MAX as f64) - 0.5
+    };
+    let mut s = String::from("t_s,gx,gy,gz,ax,ay,az\n");
+    for i in 0..n {
+        s.push_str(&format!(
+            "{:.2},0,0,{:e},{:e},0,9.80665\n",
+            i as f64 * 0.01,
+            1e-3 * next(),
+            1e-2 * next()
+        ));
+    }
+    s
+}
+
+#[test]
+fn imu_fit_gives_a_toml_table_the_hybrid_kind_can_read() {
+    let out = kshana::surface::imu_fit(&white_imu_csv(6000), "csv", "x", 0.0, "bench-imu", 1 << 26)
+        .unwrap();
+    let v: serde_json::Value = serde_json::from_str(&out).unwrap();
+    assert_eq!(v["evidence"], "MODELLED");
+    assert_eq!(v["sha256"].as_str().unwrap().len(), 64);
+    let t: toml::Value = toml::from_str(v["toml"].as_str().unwrap()).unwrap();
+    assert_eq!(t["accel_classical"]["id"].as_str(), Some("bench-imu"));
+    assert!(t["accel_classical"]["q_va"].as_float().unwrap() > 0.0);
+    assert!(kshana::surface::imu_fit("x", "csv", "w", 0.0, "a", 1 << 20).is_err());
+    assert!(kshana::surface::imu_fit("x", "csv", "x", 0.0, "a b", 1 << 20).is_err());
+}
+
+#[test]
+fn trust_telemetry_mqtt_text_has_discovery_then_state() {
+    use kshana::surface::{trust_telemetry, TelemetryFormat, TelemetryInput, TelemetryOptions};
+    let stream = "{\"t_s\":0,\"state\":\"nominal\",\"score\":97}\n\
+                  {\"t_s\":1,\"state\":\"untrusted\",\"score\":20,\"alarms\":[\"cn0-drop\"]}\n";
+    let out = trust_telemetry(
+        stream,
+        TelemetryFormat::parse("mqtt").unwrap(),
+        "",
+        TelemetryInput::Jsonl,
+        TelemetryOptions::default(),
+        1 << 20,
+    )
+    .unwrap();
+    let lines: Vec<&str> = out.lines().collect();
+    assert_eq!(lines.len(), 5, "3 discovery + 2 band changes");
+    assert!(lines[0].starts_with("homeassistant/sensor/kshana/score/config\t"));
+    assert!(lines[4].starts_with("kshana/trust/state\t") && lines[4].contains("untrusted"));
+}

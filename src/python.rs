@@ -2001,6 +2001,26 @@ fn trust_telemetry(
     .map_err(bad)
 }
 
+/// Fit the accelerometer and gyro parameters of the `hybrid` and `fusion` scenarios from a
+/// stationary IMU log (`kshana imu-fit`). `log` is the CSV text, `format` is `"csv"` or
+/// `"euroc"`, `axis` is `"x"`, `"y"` or `"z"` and `expected_mean` the specific force that axis
+/// reads at rest (0 for a horizontal axis, about 9.80665 for the vertical one). Returns JSON
+/// text with `fit`, a ready-to-paste `[accel_classical]` `toml` and the log's `sha256`.
+/// MODELLED. Raises `ValueError` on a log that is too short, uneven or unreadable.
+#[pyfunction]
+#[pyo3(signature = (log, format="csv", axis="x", expected_mean=0.0, id="imu-fit"))]
+fn imu_fit(log: &str, format: &str, axis: &str, expected_mean: f64, id: &str) -> PyResult<String> {
+    crate::surface::imu_fit(
+        log,
+        format,
+        axis,
+        expected_mean,
+        id,
+        crate::surface::MAX_INPUT_BYTES,
+    )
+    .map_err(PyValueError::new_err)
+}
+
 /// Share of a route (GeoJSON LineString or `lat,lon` CSV text) through degraded cells of
 /// one or more interference maps (the `geojson` of [`interference_map`]), optionally limited
 /// to `date_from`..`date_to` (`YYYY-MM-DD`). Returns the report as JSON text. Cells not
@@ -2165,6 +2185,7 @@ fn kshana(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(compliance_mapping, m)?)?;
     m.add_function(wrap_pyfunction!(osnma_verify, m)?)?;
     m.add_function(wrap_pyfunction!(trust_telemetry, m)?)?;
+    m.add_function(wrap_pyfunction!(imu_fit, m)?)?;
     m.add_function(wrap_pyfunction!(route_exposure, m)?)?;
     m.add_function(wrap_pyfunction!(nmea_training, m)?)?;
     m.add_function(wrap_pyfunction!(iq_scene, m)?)?;
