@@ -29,7 +29,7 @@ breaking changes are called out explicitly.
   the implementation of the stated formulas, not the atmosphere, and no measured availability
   record has been compared, so no row is VALIDATED. The A4 bar was first missed by 3e-9 because the
   normal CDF in use was a 1.5e-7 approximation; the CDF was replaced and the bar left as
-  registered. The native-versus-wasm byte comparison (A7) has not been run.
+  registered. The native and WebAssembly builds return byte-identical documents for both bundled scenarios (A7, run on the 0.37.0 integration commit).
 
 ## [0.36.0] - 2026-10-16
 
