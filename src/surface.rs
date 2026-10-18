@@ -682,6 +682,37 @@ pub fn compliance_report(
     })
 }
 
+/// Score a kshana-bench predictions file against a truth file, both as JSON text
+/// (`bench/SPEC.md`), and return the result file (`kshana-bench-result/1`) as JSON. Nothing is
+/// read from or written to disk. `threshold` is the declared alarm threshold of tasks a and b.
+pub fn bench_score(
+    truth_json: &str,
+    predictions_json: &str,
+    threshold: Option<f64>,
+    max_bytes: usize,
+) -> Result<String, String> {
+    cap_len("truth", truth_json.len(), max_bytes)?;
+    cap_len("predictions", predictions_json.len(), max_bytes)?;
+    crate::bench::score(truth_json, predictions_json, threshold).map_err(|e| e.to_string())
+}
+
+/// Render kshana-bench result files (JSON texts, at most 256) as the static leaderboard page.
+/// Every file must pass `kshana bench validate` and carry this spec version's major number.
+pub fn bench_leaderboard(results: &[String], max_bytes: usize) -> Result<String, String> {
+    if results.len() > 256 {
+        return Err(format!("{} result files given, at most 256", results.len()));
+    }
+    let mut docs = Vec::with_capacity(results.len());
+    for (i, r) in results.iter().enumerate() {
+        cap_len("result file", r.len(), max_bytes)?;
+        docs.push(
+            serde_json::from_str::<serde_json::Value>(r)
+                .map_err(|e| format!("result {} is not JSON: {e}", i + 1))?,
+        );
+    }
+    crate::bench::site::leaderboard_html(&docs).map_err(|e| e.to_string())
+}
+
 /// The static mapping tables (`sources = false`) or the source documents they cite
 /// (`sources = true`), as Markdown, led by [`crate::compliance::STATEMENT`].
 pub fn compliance_mapping(sources: bool) -> String {

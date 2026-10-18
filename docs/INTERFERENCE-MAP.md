@@ -181,6 +181,17 @@ FeatureCollection
 `degraded` and `anomalous` only. The route-exposure report has its own
 `kshana-route-exposure/v1` schema.
 
+## Observatory: the daily product
+
+`kshana interference-map daily` turns one UTC day of ADS-B reports into the observatory's three files
+(GeoJSON, PNG and an incident-report JSON) and a hash manifest, and `kshana interference-map sensitivity`
+replays that day under one-at-a-time changes of the pre-registered parameters. The command enforces the
+release rules: at least 24 h after the day ends (`--delay-hours` may only be raised), cells of 0.5 degrees
+or coarser, three states only (`degraded`, `not_degraded`, `not_observed`), no cause attributed, and no
+OpenSky data. The method note, the file formats and the limits are in
+[`observatory/METHOD.md`](observatory/METHOD.md). A regional run (`--bbox south,west,north,east`) reads
+only the box's reports and says so in the file.
+
 ## Studio map page specification
 
 For the Studio's map page, which loads a GeoJSON file the user provides (the page is built

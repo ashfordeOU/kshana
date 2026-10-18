@@ -1,0 +1,18 @@
+{
+  "schema": "kshana-bench-holdout-commitments/1",
+  "spec_version": "kshana-bench/1.0.0",
+  "rule": "SHA-256(\"kshana-bench/holdout/1\" || task || secret); the secret is held by the owner and is not in this repository",
+  "commitments": [
+    {
+      "task": "d",
+      "committed": "2026-10-18",
+      "sha256": "3aa9099fa4249aacf67a83659324391731ac25525146b5cf143ae6b4d70de7cc",
+      "revealed": false
+    }
+  ],
+  "tasks_without_sealed_holdout": {
+    "a": "real data: the holdout folders are public (SPEC section 4)",
+    "b": "regenerated from public code, no hidden seed in v1",
+    "c": "real data: the holdout satellites are public"
+  }
+}
