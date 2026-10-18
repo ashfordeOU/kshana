@@ -92,6 +92,8 @@ async fn serves_exactly_the_expected_tool_set() {
         "trust_telemetry",
         "compliance_report",
         "compliance_mapping",
+        "score_benchmark",
+        "render_leaderboard",
         "export_test_bench",
         "iq_signals",
         "iq_info",

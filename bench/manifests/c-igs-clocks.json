@@ -1,0 +1,123 @@
+{
+  "schema": "kshana-bench-manifest/1",
+  "spec_version": "kshana-bench/1.0.0",
+  "task": "c",
+  "licence": "CC0 proposed, owner decision pending (facts about the data)",
+  "source": {
+    "name": "IGS final combined satellite clocks, 30 s, GPS weeks 2380 and 2381 (2025-08-17 to 2025-08-30)",
+    "publisher": "International GNSS Service via the BKG mirror https://igs.bkg.bund.de/root_ftp/IGS/products/",
+    "data_licence": "open with attribution to the IGS",
+    "clock_type": "not stated by the IGS files; not claimed"
+  },
+  "fetch": "scripts/fetch_igs_clocks.sh",
+  "files": [
+    {
+      "path": "tests/fixtures/clock_state_igs_holdout_oracle/clocks.txt",
+      "description": "GPS Block IIF satellites decimated to 300 s, increments in 1e-13 s (generated 2026-10-01); the unit of task (c)",
+      "sha256": "3da6d0a5a7facdc1e564fdeed5f5ada890a2f9cdab6a218fa79a83608a3230a4"
+    }
+  ],
+  "sources": [
+    {
+      "name": "IGS0OPSFIN_20252290000_01D_30S_CLK.CLK.gz",
+      "gps_week": 2380,
+      "sha256": "4aa9682ba2006b633a64ce8a0c90aca6995f89800d8b48a0e204250b795ca96e"
+    },
+    {
+      "name": "IGS0OPSFIN_20252300000_01D_30S_CLK.CLK.gz",
+      "gps_week": 2380,
+      "sha256": "64e5b87d6cb52abd48b68f9d9c675538b0734236e3d71ad506b70266c753a693"
+    },
+    {
+      "name": "IGS0OPSFIN_20252310000_01D_30S_CLK.CLK.gz",
+      "gps_week": 2380,
+      "sha256": "0b6a89ea071ea39a3ac53ca2a57b0d251b1437b808059c677b2833f86ef6edc6"
+    },
+    {
+      "name": "IGS0OPSFIN_20252320000_01D_30S_CLK.CLK.gz",
+      "gps_week": 2380,
+      "sha256": "590f9609cc255e19620f20e7dfe70fd8c8d2745770914c77462973d848dc8584"
+    },
+    {
+      "name": "IGS0OPSFIN_20252330000_01D_30S_CLK.CLK.gz",
+      "gps_week": 2380,
+      "sha256": "803305fcac91a29a4ef8098b23127e67526858b98dd20a16ca41aea1d6c8aade"
+    },
+    {
+      "name": "IGS0OPSFIN_20252340000_01D_30S_CLK.CLK.gz",
+      "gps_week": 2380,
+      "sha256": "91272d5ff66ea7835c79c250fd97c678dc27249ed16846ccaf16cd447d0caf03"
+    },
+    {
+      "name": "IGS0OPSFIN_20252350000_01D_30S_CLK.CLK.gz",
+      "gps_week": 2380,
+      "sha256": "a0a5e70159c7ec5ee8345b9f0222c64aeb1380bea4d5e7dbd6e682942a44d351"
+    },
+    {
+      "name": "IGS0OPSFIN_20252360000_01D_30S_CLK.CLK.gz",
+      "gps_week": 2381,
+      "sha256": "303effae1f3013df5c2284dadce20b2535b68022b8a6c5ae9218aa20c1449194"
+    },
+    {
+      "name": "IGS0OPSFIN_20252370000_01D_30S_CLK.CLK.gz",
+      "gps_week": 2381,
+      "sha256": "d31afe7c1f1e610b62ef76e3f7429d972afcf0a24a5fa5a129ea49a214c6a473"
+    },
+    {
+      "name": "IGS0OPSFIN_20252380000_01D_30S_CLK.CLK.gz",
+      "gps_week": 2381,
+      "sha256": "88cb559c4a66014090ab71c825f73eda6acd1623a8a8d6b9e166136e21fee749"
+    },
+    {
+      "name": "IGS0OPSFIN_20252390000_01D_30S_CLK.CLK.gz",
+      "gps_week": 2381,
+      "sha256": "be31e2d451ad8eef8f8000d3410887924fcc6ebd04c72016d1114c6b61699d79"
+    },
+    {
+      "name": "IGS0OPSFIN_20252400000_01D_30S_CLK.CLK.gz",
+      "gps_week": 2381,
+      "sha256": "a8ca00f3b3c208335acdf8c0c91416327c7d8b14214d1228752ab2c381e85539"
+    },
+    {
+      "name": "IGS0OPSFIN_20252410000_01D_30S_CLK.CLK.gz",
+      "gps_week": 2381,
+      "sha256": "225d68c870c6ab93913c83c519ee4783a24239f9a101f4206ff63dc7c38f4793"
+    },
+    {
+      "name": "IGS0OPSFIN_20252420000_01D_30S_CLK.CLK.gz",
+      "gps_week": 2381,
+      "sha256": "0ab16ccbbb0f7bfb23208f0358811e3d26b94cbff4ab07e707b65e23cf8cc502"
+    }
+  ],
+  "unit": {
+    "training_samples": 288,
+    "step_s": 300,
+    "origin_stride_samples": 144,
+    "horizons_s": [
+      300,
+      900,
+      3600,
+      7200
+    ]
+  },
+  "splits": {
+    "dev": [
+      "G03",
+      "G06",
+      "G08",
+      "G09"
+    ],
+    "test": [
+      "G10",
+      "G24",
+      "G25",
+      "G26"
+    ],
+    "holdout": [
+      "G27",
+      "G30",
+      "G32"
+    ]
+  },
+  "holdout_is_secret": false
+}

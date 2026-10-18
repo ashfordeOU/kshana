@@ -132,6 +132,6 @@ miss.
 
 ## 7. What a leaderboard row may and may not say
 
-A row says: "this file scored X on split S under spec V". It does not say a product is certified, conformant,
-approved or endorsed, and no organisation is named as an endorser. Names on the page are the names the
+A row says: "this file scored X on split S under spec V". It does not mean any product has been rated or approved
+by anyone, and no organisation is named as an endorser. Names on the page are the names the
 submitter gave their system.
