@@ -877,6 +877,63 @@ pub fn read_events_csv(text: &str) -> Result<Vec<MotionEvent>, String> {
     Ok(out)
 }
 
+/// The run as a `kshana.test-conditions/1` document (`docs/spec/TEST-CONDITIONS.md`) for a
+/// `receiver-log` recording: the scenario's events as stated truth, with the laboratory's
+/// own fields (`recording.path`, `recording.sha256`, `receiver.*`, each event's `type` and
+/// power) left for the operator to fill in. Metadata only: it describes no signal. The
+/// recording id carries the scenario hash, so the file ties the lab's record to the scenario
+/// that produced the motion.
+pub fn write_conditions_json(t: &Trajectory) -> String {
+    use crate::iq::campaign::conditions::{
+        Affects, Event, EventKind as CKind, EventType, ReceiverNotes, RecordingSpec,
+        TestConditions, SCHEMA,
+    };
+    let events = t
+        .events
+        .iter()
+        .map(|e| Event {
+            id: e.label.clone(),
+            kind: match e.kind {
+                EventKind::Jamming => CKind::Interference,
+                EventKind::Spoofing => CKind::Spoofing,
+                EventKind::Other => CKind::Outage,
+            },
+            event_type: EventType::Unknown,
+            onset_s: round_dp(e.onset_s, 3),
+            offset_s: round_dp(e.end_s, 3),
+            affects: Affects::default(),
+            center_offset_hz: None,
+            bandwidth_hz: None,
+            q: None,
+            power: None,
+        })
+        .collect();
+    let tc = TestConditions {
+        schema: SCHEMA.into(),
+        recording: RecordingSpec {
+            id: format!("bench-{}", t.scenario_hash),
+            kind: Some("receiver-log".into()),
+            path: "receiver-log".into(),
+            sha256: None,
+            format: None,
+            sample_rate_hz: None,
+            center_hz: None,
+            if_hz: None,
+            header_bytes: None,
+            start_utc: Some(t.epoch.iso(0.0)),
+            events_from_sigmf: false,
+            settle_s: 5.0,
+        },
+        receiver: ReceiverNotes::default(),
+        expected: Vec::new(),
+        events,
+        bars: None,
+    };
+    let mut s = serde_json::to_string_pretty(&tc).unwrap_or_default();
+    s.push('\n');
+    s
+}
+
 /// The events as `[[events]]` blocks for a `receiver-trust` scenario. Onsets are seconds
 /// after the epoch; `receiver-trust` counts from the first epoch of the receiver's log, so
 /// the two agree when the log starts at the motion's first sample, and the operator adds
@@ -942,6 +999,7 @@ pub fn files_and_notes_of(t: &Trajectory) -> (Vec<ExportFile>, Vec<String>) {
     }
     files.push(mk(".events.csv", write_events_csv(t)));
     files.push(mk(".events.toml", write_events_toml(t)));
+    files.push(mk(".conditions.json", write_conditions_json(t)));
     (files, notes)
 }
 
