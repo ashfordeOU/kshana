@@ -13,7 +13,7 @@ pub mod score;
 
 use crate::evidence::{build_receiver_trust_pack_with, PackRequest, PackSummary};
 use crate::receiver_trust::ingest::read_log;
-use crate::receiver_trust::scenario::{run_receiver_trust_bytes, ReceiverTrustScenario};
+use crate::receiver_trust::scenario::{run_receiver_trust_on, ReceiverTrustScenario};
 use crate::telemetry::time::parse_rfc3339_utc;
 use plan::{import, import_attack_log, parse_catalog, parse_plan, ImportOptions, Imported};
 use score::{score_run, ScoreOptions, Scorecard};
@@ -74,6 +74,15 @@ pub struct ScoreOutput {
 /// Import the schedule for a log and score it.
 pub fn score_log(req: &ScoreRequest<'_>) -> Result<ScoreOutput, String> {
     let timeline = read_log(req.scenario.log.format, req.log_bytes)?;
+    score_timeline(req, timeline)
+}
+
+/// As [`score_log`], on a timeline already built from `req.log_bytes` (or from files whose bytes
+/// the caller passes for the hash), for sources outside the four log formats.
+pub fn score_timeline(
+    req: &ScoreRequest<'_>,
+    timeline: crate::receiver_trust::Timeline,
+) -> Result<ScoreOutput, String> {
     let log_start_utc = match (req.log_start_utc, timeline.start_label.as_deref()) {
         (Some(t), _) => t,
         (None, Some(l)) => parse_rfc3339_utc(l).ok_or_else(|| {
@@ -113,7 +122,7 @@ pub fn score_log(req: &ScoreRequest<'_>) -> Result<ScoreOutput, String> {
     };
     let mut scenario = req.scenario.clone();
     scenario.events = imported.events.iter().map(|e| e.event.clone()).collect();
-    let result = run_receiver_trust_bytes(&scenario, req.log_bytes, None)?;
+    let result = run_receiver_trust_on(&scenario, timeline, req.log_bytes, None)?;
     let scorecard = score_run(&result, &imported.events, &req.options)?;
     Ok(ScoreOutput {
         scorecard,
