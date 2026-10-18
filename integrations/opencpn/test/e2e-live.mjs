@@ -1,7 +1,7 @@
 // End to end with the real binary. Not part of `npm test` (it needs a built kshana and takes a few seconds):
 //   KSHANA_BIN=target/release/kshana [KSHANA_DEMO=<dir with session.toml and the demo .nmea>] npm run e2e [direct|relay]
 // direct (default): kshana --gate --listen tcp:<port> | TCP consumer, and the consumer's bytes must equal what the same
-//                   gate writes to stdout.
+//                   gate writes to stdout. The log is fed only after the gate reports the consumer registered.
 // relay:            kshana --gate | nmea-tcp-relay | TCP consumer.
 import { spawn } from 'node:child_process'
 import net from 'node:net'
@@ -25,10 +25,12 @@ const base = ['receiver-trust', 'live', session, '--gate', '--replay']
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
 // The gate gives every client a bounded queue and drops one that cannot keep up, so a stored log is fed in modest
 // chunks (still far faster than real time) instead of one burst that no consumer could read in time.
-async function feedPaced(stream) {
+// `pause` runs after each chunk; the default is a short sleep. The listener run passes one that waits for the consumer
+// to drain, so a consumer that is briefly slow (a loaded CI runner) is waited for instead of being dropped.
+async function feedPaced(stream, pause = () => sleep(2)) {
   for (let i = 0; i < input.length; i += 8192) {
     stream.write(input.subarray(i, i + 8192))
-    await sleep(2)
+    await pause()
   }
   stream.end()
 }
@@ -42,10 +44,14 @@ const freePort = () =>
 const connect = (port) =>
   new Promise((res, rej) => {
     const chunks = []
+    let bytes = 0
     const s = net.connect(port, '127.0.0.1')
     const done = new Promise((r) => s.on('end', r))
-    s.on('connect', () => res({ chunks, done }))
-    s.on('data', (d) => chunks.push(d))
+    s.on('connect', () => res({ chunks, done, received: () => bytes }))
+    s.on('data', (d) => {
+      bytes += d.length
+      chunks.push(d)
+    })
     s.on('error', rej)
   })
 
@@ -72,13 +78,39 @@ if (mode === 'relay') {
 } else {
   const port = await freePort()
   const k = spawn(bin, [...base, '--listen', `tcp:${port}`], { stdio: ['pipe', 'ignore', 'pipe'] })
-  await new Promise((res, rej) => {
-    k.stderr.on('data', (d) => String(d).includes('listening on tcp') && res())
-    k.on('close', () => rej(new Error('kshana exited before listening')))
-  })
+  // The gate logs when it listens and again when it has registered a client. A connect that has only completed the
+  // TCP handshake is not yet registered, so feeding before the second line lets early epochs go to nobody.
+  const waitFor = (needle) =>
+    new Promise((res, rej) => {
+      let seen = ''
+      const onData = (d) => {
+        seen += String(d)
+        if (seen.includes(needle)) {
+          k.stderr.off('data', onData)
+          res()
+        }
+      }
+      k.stderr.on('data', onData)
+      k.on('close', () => rej(new Error(`kshana exited before "${needle}"`)))
+    })
+  let stderr = ''
+  k.stderr.on('data', (d) => (stderr += String(d)))
+  await waitFor('listening on tcp')
+  const registered = waitFor('tcp client connected')
   const c = await connect(port)
-  feedPaced(k.stdin)
+  await registered
+  // Between chunks, wait until the consumer has received everything the gate has sent so far (no new bytes over two
+  // polls), so the gate's bounded queue for this client never fills.
+  const drained = async () => {
+    let last = -1
+    for (let i = 0; i < 400 && c.received() !== last; i++) {
+      last = c.received()
+      await sleep(5)
+    }
+  }
+  feedPaced(k.stdin, drained)
   await c.done
+  assert.ok(!stderr.includes('dropped a tcp client'), 'the gate dropped the consumer for being too slow')
   const got = Buffer.concat(c.chunks)
   const chunks = []
   await runStdout((d) => chunks.push(d))
