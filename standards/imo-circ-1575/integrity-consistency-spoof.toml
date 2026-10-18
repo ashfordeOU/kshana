@@ -1,0 +1,46 @@
+# Combined RF/measurement spoof detector: multi-SV RAIM-consistency + AGC + SQM, fused.
+#
+# This pack runs `kshana::spoof_detect` — the integrated CombinedSpoofDetector — against a
+# parameterised spoofing attack. Where the `spoof` pack catches a *time* spoof via the clock,
+# this catches the spoof *transmitter* via three independent receiver observables and fuses
+# them into one weighted decision (which layer fired, and the overall verdict).
+#
+# The attack is described in the parameters the TEXBAT public test battery (Humphreys et al.,
+# ION GNSS 2012) uses to classify a record: the spoofer power advantage over the authentic
+# floor (dB), whether it is carrier-phase aligned (an aligned spoofer leaves no SQM
+# correlation-distortion signature), and whether it pushes time (common-mode, RAIM-invisible)
+# or position (a satellite subset, RAIM-detectable).
+#
+# This example is a static matched-power POSITION push (~ds4): a +1.5 dB advantage (under the
+# 3 dB AGC margin, so power alone misses it) that biases three satellites — caught by the RAIM
+# parity layer and corroborated by SQM. Try `carrier_aligned = true`, `push = "time"`, and a
+# small `power_advantage_db` to reproduce the documented hard case (ds7) that defeats the RF
+# layers and is left to the clock-aided `spoof` pack.
+#
+# Honest scope: this drives the detector with parameterised observables, not raw IQ — kshana is
+# a simulator, not an SDR receiver; raw-vector (TEXBAT IQ / licensed Spirent) validation is a
+# documented follow-on.
+
+kind = "spoof-detect"
+
+[attack]
+power_advantage_db = 1.5
+carrier_aligned = false
+push = "position"
+push_magnitude_m = 75.0
+num_biased = 3
+el_imbalance = 0.12
+
+[detector]
+sat_power_dbm = -130.0
+agc_margin_db = 3.0
+sqm_tolerance = 0.10
+raim_p_fa = 1.0e-3
+sigma_m = 5.0
+fusion_threshold = 0.5
+
+# `satellites` is optional; omitting it uses a well-spread 8-satellite geometry. To specify your
+# own sky, list azimuth/elevation rows, e.g.:
+# [[satellites]]
+# az_deg = 0.0
+# el_deg = 80.0
