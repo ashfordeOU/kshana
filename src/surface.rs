@@ -1112,6 +1112,7 @@ pub fn evidence_create(
 /// stated truth; `conditions` is TOML or JSON. Refuses a pack whose conditions and scoring
 /// events disagree or whose stated log hash is not the log's. Nothing is read from disk and
 /// no signal is written, replayed or scheduled. A technical record, not a certification.
+#[cfg(not(target_arch = "wasm32"))]
 #[allow(clippy::too_many_arguments)]
 pub fn evidence_round_trip(
     scoring_toml: &str,
