@@ -737,6 +737,58 @@ impl TelemetryFormat {
     }
 }
 
+/// Fit the sensor parameters of the `hybrid` and `fusion` scenarios from a stationary IMU log
+/// (`kshana imu-fit`, docs/MACHINE-INPUTS.md). `format` is `csv` or `euroc`; `axis` is `x`,
+/// `y` or `z` (the accelerometer axis); `expected_mean` is the specific force that axis reads at
+/// rest (0 for a horizontal axis, about 9.80665 for the vertical one). Returns JSON: `fit` (the
+/// parameters, the log's rate and span, the white-noise slopes and `notes`), `toml` (an
+/// `[accel_classical]` table to paste into a scenario, its provenance naming the log's SHA-256)
+/// and the log's `sha256`. MODELLED: the Allan estimator applied to the log, no external
+/// oracle; a log that was not stationary gives wrong parameters, which the slopes show.
+pub fn imu_fit(
+    text: &str,
+    format: &str,
+    axis: &str,
+    expected_mean: f64,
+    id: &str,
+    max_bytes: usize,
+) -> Result<String, String> {
+    use crate::receiver_trust::machines::{
+        imu::{read_imu, ImuFormat},
+        imu_fit::fit_accel_cfg,
+    };
+    cap("imu log", text, max_bytes)?;
+    let fmt = match format {
+        "csv" => ImuFormat::Csv,
+        "euroc" => ImuFormat::Euroc,
+        o => return Err(format!("unknown IMU format `{o}`: use `csv` or `euroc`")),
+    };
+    let ax = match axis {
+        "x" => 0,
+        "y" => 1,
+        "z" => 2,
+        o => return Err(format!("unknown axis `{o}`: use `x`, `y` or `z`")),
+    };
+    if id.is_empty() || id.len() > 64 || !id.chars().all(|c| c.is_ascii_graphic()) {
+        return Err("id must be 1 to 64 printable ASCII characters without spaces".into());
+    }
+    let samples = read_imu(fmt, text)?;
+    let fit = fit_accel_cfg(&samples, ax, expected_mean)?;
+    let sha = crate::advanced_report::sha256_hex(text.as_bytes());
+    let toml = fit.to_toml(
+        "accel_classical",
+        id,
+        &format!("fitted from a stationary IMU log, sha256 {sha}, axis {axis}, Allan estimator"),
+    );
+    serde_json::to_string_pretty(&json!({
+        "fit": fit,
+        "toml": toml,
+        "sha256": sha,
+        "evidence": "MODELLED",
+    }))
+    .map_err(|e| e.to_string())
+}
+
 /// What the input of [`trust_telemetry`] is.
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum TelemetryInput {
