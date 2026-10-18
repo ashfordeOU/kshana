@@ -20,6 +20,7 @@ pub mod api;
 pub mod cli;
 pub mod grid;
 pub mod land;
+pub mod observatory;
 pub mod output;
 pub mod route;
 pub mod sources;

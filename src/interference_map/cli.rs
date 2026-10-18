@@ -21,6 +21,8 @@ use super::{IdHasher, MapError};
 /// Usage text for `kshana interference-map`.
 pub const MAP_USAGE: &str = "usage: kshana interference-map adsb <input.csv|trace.json[.gz]|dir> --dataset <adsb-lol|custom> --out <dir> [--cell-deg <deg>]
    or: kshana interference-map ais <input.csv> --dataset <noaa-marinecadastre|kystverket|custom> --out <dir> [--land <land.geojson>] [--cell-deg <deg>]
+   or: kshana interference-map daily <input.csv|trace.json[.gz]|dir> --dataset <adsb-lol|custom> --day <YYYY-MM-DD> --out <dir> [--cell-deg <deg, 0.5 or coarser>] [--bbox <south,west,north,east>] [--delay-hours <24 or more>]
+   or: kshana interference-map sensitivity <input.csv|trace.json[.gz]|dir> --dataset <adsb-lol|custom> --day <YYYY-MM-DD> --out <report.json> [--bbox <south,west,north,east>]
    or: kshana interference-map fetch-land --out <land.geojson> --allow-network
    (--dataset custom also needs --licence <text> --licence-url <url> --attribution <text>)";
 
@@ -39,7 +41,7 @@ pub const NATURAL_EARTH_LAND_SHA256: &str =
 
 use super::api::MAX_TRACE_BYTES;
 
-fn flag_value<'a>(args: &'a [String], name: &str) -> Result<Option<&'a str>, MapError> {
+pub(super) fn flag_value<'a>(args: &'a [String], name: &str) -> Result<Option<&'a str>, MapError> {
     match args.iter().position(|a| a == name) {
         None => Ok(None),
         Some(i) => args
@@ -57,7 +59,7 @@ fn flag_values<'a>(args: &'a [String], name: &str) -> Vec<&'a str> {
 }
 
 /// Every argument must be a known flag (with a value), a known switch, or the one positional.
-fn check_args(
+pub(super) fn check_args(
     args: &[String],
     valued: &[&str],
     switches: &[&str],
@@ -86,11 +88,11 @@ fn check_args(
     Ok(())
 }
 
-fn read(path: &str) -> Result<String, MapError> {
+pub(super) fn read(path: &str) -> Result<String, MapError> {
     std::fs::read_to_string(path).map_err(|e| MapError::Io(format!("cannot read {path}: {e}")))
 }
 
-fn dataset_from(args: &[String], kind: Kind) -> Result<Dataset, MapError> {
+pub(super) fn dataset_from(args: &[String], kind: Kind) -> Result<Dataset, MapError> {
     let key = flag_value(args, "--dataset")?.ok_or_else(|| {
         MapError::Format("--dataset is required so the licence and attribution are embedded".into())
     })?;
@@ -260,6 +262,8 @@ fn run_map_inner(args: &[String]) -> Result<(), MapError> {
                 &out,
             )
         }
+        "daily" => super::observatory::run_daily(rest),
+        "sensitivity" => super::observatory::run_sensitivity(rest),
         "fetch-land" => {
             check_args(rest, &["--out"], &["--allow-network"], 0)?;
             if !rest.iter().any(|a| a == "--allow-network") {
@@ -276,7 +280,7 @@ fn run_map_inner(args: &[String]) -> Result<(), MapError> {
 }
 
 /// The one positional argument: the first argument that is neither a flag nor a flag's value.
-fn positional<'a>(args: &'a [String], valued: &[&str]) -> Option<&'a str> {
+pub(super) fn positional<'a>(args: &'a [String], valued: &[&str]) -> Option<&'a str> {
     let mut i = 0;
     while i < args.len() {
         let a = args[i].as_str();
@@ -292,7 +296,7 @@ fn positional<'a>(args: &'a [String], valued: &[&str]) -> Option<&'a str> {
 }
 
 /// SHA-256 of a file as lowercase hex.
-fn file_sha256(path: &Path) -> Result<String, MapError> {
+pub(super) fn file_sha256(path: &Path) -> Result<String, MapError> {
     use sha2::{Digest, Sha256};
     use std::io::Read;
     let mut f = std::fs::File::open(path)
@@ -371,7 +375,7 @@ fn read_csv_file(
 /// or a directory, searched recursively for `trace_full_*` files (an extracted adsb.lol
 /// daily archive). A trace file that cannot be read is counted in the output metadata and
 /// skipped; it does not stop the run.
-fn read_adsb_input(agg: &mut AdsbAggregator, path: &Path) -> Result<(), MapError> {
+pub(super) fn read_adsb_input(agg: &mut AdsbAggregator, path: &Path) -> Result<(), MapError> {
     if path.is_dir() {
         let mut files = Vec::new();
         collect_trace_files(path, &mut files)?;
