@@ -22,6 +22,7 @@ const USAGE: &str = "usage: kshana <scenario.toml> [--study-name <s>] [--eop <fi
    or: kshana nmea-scenario <scenario.toml> [--out <file.nmea>] [--tcp <addr>|--udp <addr>] (kshana nmea-scenario --help)
    or: kshana interference-map <adsb|ais|fetch-land> ... (kshana interference-map --help)
    or: kshana route-exposure --route <route> --map <map.geojson|dir> [--from <date>] [--to <date>]
+   or: kshana bench <spec|truth|cases|score|baseline|seal|reveal-check|manifest|verify-manifest|validate|leaderboard> ... (kshana bench --help)
    or: kshana bench-export <scenario.toml> [--out <base>] [--epoch <YYYY-MM-DDTHH:MM:SS>]
    or: kshana compliance-report [--out <base>] <result.json>... | --mapping | --sources
    or: kshana osnma verify <pages|vectors.csv|stream.ubx> [--merkle-root <hex>] [--public-key <id:type:hex>] [--reference-time <gst-s>] [--json] (kshana osnma --help)
@@ -114,6 +115,10 @@ fn main() -> ExitCode {
     }
     if args.get(1).map(String::as_str) == Some("route-exposure") {
         return ExitCode::from(kshana::interference_map::cli::run_route(&args[2..]) as u8);
+    }
+    // `kshana bench ...` scores kshana-bench result files (bench/SPEC.md); local files only.
+    if args.get(1).map(String::as_str) == Some("bench") {
+        return ExitCode::from(kshana::bench::cli::run(&args[2..]) as u8);
     }
     // `kshana bench-export <scenario.toml>` writes a scenario's vehicle motion and events
     // for a laboratory GNSS simulator (docs/TEST-BENCH.md). Terminal, like the others.
