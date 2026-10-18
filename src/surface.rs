@@ -628,6 +628,51 @@ pub fn standards_pack_run(id: &str) -> Result<(Value, String), String> {
     Ok((report, md))
 }
 
+/// Most frames [`lunanet_afs_generate`] writes in one call (600 000 symbols of text).
+pub const MAX_AFS_FRAMES: usize = 100;
+
+/// Check this implementation of the LunaNet Augmented Forward Signal against the published
+/// tables and worked examples of LSIS-AFS V1.0 (LNIS V5, AD1 Volume A; `kshana lunanet-afs-check
+/// spec`, `docs/LUNANET-AFS.md`): bars B1 to B10 of `xval/lunanet-afs/PREREGISTRATION.md`, each
+/// with its count and status. A miss is reported, never hidden. Nothing is read from disk.
+pub fn lunanet_afs_check_spec() -> Value {
+    crate::iq::lunanet_afs::check_spec()
+}
+
+/// Check a hard-decision AFS symbol stream given as text (`0` and `1`, white space ignored)
+/// against section 2.4 of LSIS-AFS V1.0: synchronisation pattern, SB1 decoding, FID, TOI
+/// continuity and frame spacing. Subframes 2 to 4 (LDPC, CRC-24Q) are not verified and the
+/// report says so. `max_sp_errors` symbols of the 68-symbol pattern may be wrong.
+pub fn lunanet_afs_check_symbols(
+    text: &str,
+    max_sp_errors: usize,
+    max_bytes: usize,
+) -> Result<Value, String> {
+    cap("symbol stream", text, max_bytes)?;
+    if max_sp_errors > 20 {
+        return Err("max_sp_errors must be at most 20".into());
+    }
+    let symbols = crate::iq::lunanet_afs::parse_symbol_text(text)?;
+    Ok(crate::iq::lunanet_afs::check_symbols(&symbols, max_sp_errors).to_json())
+}
+
+/// A test stream of `frames` AFS frames (at most [`MAX_AFS_FRAMES`]) as `0`/`1` text, TOI
+/// counting from `toi0` modulo 100: the document's synchronisation pattern, SB1 and frame
+/// lengths, with **placeholder** subframes 2 to 4 (not LDPC coded, no message). It is symbols
+/// for testing a checker or a decoder, not a waveform; Kshana writes no signal.
+pub fn lunanet_afs_generate(frames: usize, toi0: u8) -> Result<String, String> {
+    if !(1..=MAX_AFS_FRAMES).contains(&frames) {
+        return Err(format!("frames must be 1 to {MAX_AFS_FRAMES}"));
+    }
+    if u16::from(toi0) >= crate::iq::lunanet_afs::TOI_VALUES {
+        return Err("toi0 must be 0 to 99".into());
+    }
+    Ok(crate::iq::lunanet_afs::generate_symbols(frames, toi0)
+        .iter()
+        .map(|&b| char::from(b'0' + b))
+        .collect())
+}
+
 /// Most runs a surface accepts in one compliance report.
 pub const MAX_COMPLIANCE_RUNS: usize = 64;
 
