@@ -1,11 +1,11 @@
 # kshana-bench
 
 An open set of tasks, splits and metrics for GNSS interference detection and timing holdover. The
-specification is [`bench/SPEC.md`](../bench/SPEC.md) (version 1.0.0; licence of the text and manifests:
+specification is [`bench/SPEC.md`](../bench/SPEC.md) (version 2.0.0; licence of the text and manifests:
 CC-BY-4.0 / CC0 proposed, owner decision pending). The dataset licence review is
 [`bench/LICENCES.md`](../bench/LICENCES.md). The baselines' bars were fixed before the first scored run in
-[`xval/bench/PREREGISTRATION.md`](../xval/bench/PREREGISTRATION.md) and their results are in
-[`xval/bench/RESULTS.md`](../xval/bench/RESULTS.md).
+[`xval/bench/PREREGISTRATION.md`](../xval/bench/PREREGISTRATION.md) and, for 2.0.0, [`PREREGISTRATION-v2.md`](../xval/bench/PREREGISTRATION-v2.md) and their results are in
+[`xval/bench/RESULTS-v2.md`](../xval/bench/RESULTS-v2.md).
 
 What it is: a way to compare methods on the same data with the same metric code. What it is not: a ranking of products, an approval, or evidence that a method works in the field. Every score is MODELLED,
 and a score describes a log or a corpus, never a product. Kshana results are advisory.

@@ -25,7 +25,7 @@ use sha2::{Digest, Sha256};
 use crate::impairment_eval::{auc, confusion_at, threshold_for_pfa};
 
 /// The specification version results are scored under (`bench/SPEC.md`).
-pub const SPEC_VERSION: &str = "kshana-bench/1.0.0";
+pub const SPEC_VERSION: &str = "kshana-bench/2.0.0";
 /// Schema name of a result file.
 pub const RESULT_SCHEMA: &str = "kshana-bench-result/1";
 /// Schema name of a predictions file.
@@ -96,9 +96,10 @@ pub fn sha256_hex(bytes: &[u8]) -> String {
     hex::encode(Sha256::digest(bytes))
 }
 
-/// The split of a real-data scenario folder (`bench/SPEC.md` section 4): the first 8 bytes of the
-/// SHA-256 of the folder path, big-endian, modulo 10; 0 to 5 dev, 6 and 7 test, 8 and 9 holdout.
-pub fn folder_split(path: &str) -> Split {
+/// The 1.0.0 split of a real-data folder (superseded, kept so `RESULTS-v1.md` stays reproducible):
+/// the first 8 bytes of the SHA-256 of the folder path, big-endian, modulo 10; 0 to 5 dev, 6 and 7
+/// test, 8 and 9 holdout. On JammerTest 2024 it left the holdout without a jamming epoch.
+pub fn folder_split_v1(path: &str) -> Split {
     let d = Sha256::digest(path.as_bytes());
     let mut b = [0u8; 8];
     b.copy_from_slice(&d[..8]);
@@ -107,6 +108,37 @@ pub fn folder_split(path: &str) -> Split {
         6 | 7 => Split::Test,
         _ => Split::Holdout,
     }
+}
+
+/// The 2.0.0 split of the evaluable folders of a real-data task (`xval/bench/PREREGISTRATION-v2.md`):
+/// two strata (`true` = a jamming folder, `false` = any other), each ordered by the lowercase hex
+/// SHA-256 of the folder path; within a stratum of `n` folders the first `max(1, round(n/4))` are
+/// holdout, the next `max(1, round(n/4))` test and the rest dev (rounding half up). Folder-level and
+/// deterministic, so every split of the JammerTest 2024 set holds jamming and clean epochs.
+pub fn assign_splits(folders: &[(String, bool)]) -> BTreeMap<String, Split> {
+    let mut out = BTreeMap::new();
+    for stratum in [true, false] {
+        let mut v: Vec<(String, &str)> = folders
+            .iter()
+            .filter(|(_, j)| *j == stratum)
+            .map(|(p, _)| (sha256_hex(p.as_bytes()), p.as_str()))
+            .collect();
+        v.sort();
+        let n = v.len();
+        let h = ((n + 2) / 4).max(1);
+        let t = ((n + 2) / 4).max(1);
+        for (i, (_, p)) in v.iter().enumerate() {
+            let s = if i < h {
+                Split::Holdout
+            } else if i < h + t {
+                Split::Test
+            } else {
+                Split::Dev
+            };
+            out.insert((*p).to_string(), s);
+        }
+    }
+    out
 }
 
 /// The commitment to a holdout seed: `SHA-256("kshana-bench/holdout/1" || task || secret)`.
@@ -427,16 +459,41 @@ mod tests {
     use super::*;
 
     #[test]
-    fn folder_split_is_a_pure_function_and_covers_all_three_splits() {
-        assert_eq!(
-            folder_split("Jamming/stationary 1.6.4"),
-            folder_split("Jamming/stationary 1.6.4")
-        );
+    fn the_v1_folder_split_is_a_pure_function_and_covers_all_three_splits() {
+        assert_eq!(folder_split_v1("a/b"), folder_split_v1("a/b"));
         let mut seen = std::collections::BTreeSet::new();
         for i in 0..200 {
-            seen.insert(folder_split(&format!("f{i}")).name());
+            seen.insert(folder_split_v1(&format!("f{i}")).name());
         }
         assert_eq!(seen.len(), 3);
+    }
+
+    #[test]
+    fn the_stratified_split_gives_every_split_both_strata_and_does_not_depend_on_input_order() {
+        let folders: Vec<(String, bool)> = (0..14)
+            .map(|i| (format!("folder-{i}"), i % 2 == 0))
+            .collect();
+        let a = assign_splits(&folders);
+        let mut rev = folders.clone();
+        rev.reverse();
+        assert_eq!(a, assign_splits(&rev));
+        for s in [Split::Dev, Split::Test, Split::Holdout] {
+            for stratum in [true, false] {
+                let n = folders
+                    .iter()
+                    .filter(|(p, j)| *j == stratum && a[p] == s)
+                    .count();
+                let want = match s {
+                    Split::Dev => 3,
+                    _ => 2,
+                };
+                assert_eq!(n, want, "{s:?} {stratum}");
+            }
+        }
+        // Tiny strata still fill holdout and test first.
+        let two = assign_splits(&[("x".into(), true), ("y".into(), true)]);
+        assert_eq!(two.values().filter(|s| **s == Split::Holdout).count(), 1);
+        assert_eq!(two.values().filter(|s| **s == Split::Test).count(), 1);
     }
 
     #[test]

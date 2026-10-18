@@ -10,8 +10,8 @@ use serde_json::{json, Value};
 
 use super::tasks::{self, C_BASELINES};
 use super::{
-    folder_split, reveal_check, seal, sha256_hex, site, validate_result, BenchError, Split,
-    MANIFEST_SCHEMA, SPEC_VERSION,
+    reveal_check, seal, sha256_hex, site, validate_result, BenchError, Split, MANIFEST_SCHEMA,
+    SPEC_VERSION,
 };
 
 /// Usage text for `kshana bench`.
@@ -545,23 +545,33 @@ fn manifest(args: &[String]) -> Result<i32, BenchError> {
             375_338_522,
         ),
     };
+    let read: Vec<_> = dirs
+        .iter()
+        .map(|d| (d, crate::receiver_trust::calibration::read_folder(&root, d)))
+        .collect();
+    let assignment = super::assign_splits(
+        &read
+            .iter()
+            .filter(|(_, f)| f.excluded.is_none())
+            .map(|(_, f)| (f.path.clone(), f.jamming && f.epochs.jamming > 0))
+            .collect::<Vec<_>>(),
+    );
     let mut folders = Vec::new();
     let mut holdout = Vec::new();
-    for d in &dirs {
-        let f = crate::receiver_trust::calibration::read_folder(&root, d);
+    for (d, f) in &read {
         let mut files = Vec::new();
         for name in ["scenario.json", "mon_rf.csv", "rinex.csv"] {
             if let Ok(b) = std::fs::read(d.join(name)) {
                 files.push(json!({"name": name, "bytes": b.len(), "sha256": sha256_hex(&b)}));
             }
         }
-        let sp = folder_split(&f.path);
-        if sp == Split::Holdout {
+        let sp = assignment.get(&f.path).map(|s| s.name());
+        if sp == Some("holdout") {
             holdout.push(f.path.clone());
         }
         folders.push(json!({
             "path": f.path,
-            "split": sp.name(),
+            "split": sp,
             "evaluable": f.excluded.is_none(),
             "excluded_reason": f.excluded,
             "attack_type": f.attack_type,
@@ -583,7 +593,7 @@ fn manifest(args: &[String]) -> Result<i32, BenchError> {
         },
         "archive": {"file": "GNSS_DATASET_JAMMING_SPOOFING.tar.gz", "bytes": archive_bytes, "sha256": archive_sha},
         "fetch": "scripts/fetch_jammertest2024.sh",
-        "split_rule": "SHA-256 of the folder path, first 8 bytes big-endian, modulo 10: 0..=5 dev, 6..=7 test, 8..=9 holdout",
+        "split_rule": "2.0.0: evaluable folders in two strata (jamming folders, other folders), each ordered by the hex SHA-256 of the folder path; per stratum the first max(1, round(n/4)) are holdout, the next max(1, round(n/4)) test, the rest dev (xval/bench/PREREGISTRATION-v2.md)",
         "holdout_folders_sha256": sha256_hex(holdout.join("\n").as_bytes()),
         "holdout_is_secret": false,
         "folders": folders,
