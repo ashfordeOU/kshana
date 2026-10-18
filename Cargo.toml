@@ -177,6 +177,11 @@ wasm-bindgen = { version = "0.2", optional = true }
 # permissive-licence gate: flate2 is MIT OR Apache-2.0, miniz_oxide MIT OR Zlib OR Apache-2.0.
 flate2 = { version = "1", default-features = false, features = ["rust_backend"] }
 
+# Direct serial input to `kshana receiver-trust live --serial` (open read-only, set the local
+# line's speed and raw mode). Already in the tree; MIT OR Apache-2.0. Unix only.
+[target.'cfg(unix)'.dependencies]
+libc = "0.2"
+
 # On wasm32 the (transitive) getrandom must use the browser/JS entropy source.
 # Target-gated, so native builds and the dependency-audit gate are unaffected.
 [target.'cfg(target_arch = "wasm32")'.dependencies]
