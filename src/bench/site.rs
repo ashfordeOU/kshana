@@ -96,6 +96,17 @@ fn cells(task: &str, r: &Value) -> Vec<String> {
 /// the current spec version's major number, because results of different major versions are never
 /// put in one table.
 pub fn leaderboard_html(results: &[Value]) -> Result<String, BenchError> {
+    render(results, false)
+}
+
+/// The same board as a fragment for embedding in a site page: no `<html>` or `<head>`, one wrapper
+/// element, every class prefixed `kb-`, and its own inline `<style>` scoped to the wrapper. Numbers
+/// come from the result files only; with no results it says so.
+pub fn leaderboard_fragment(results: &[Value]) -> Result<String, BenchError> {
+    render(results, true)
+}
+
+fn render(results: &[Value], fragment: bool) -> Result<String, BenchError> {
     let major = SPEC_VERSION
         .rsplit('/')
         .next()
@@ -146,24 +157,30 @@ pub fn leaderboard_html(results: &[Value]) -> Result<String, BenchError> {
             .push(r);
     }
     let mut body = String::new();
+    if results.is_empty() {
+        body.push_str("<p class=\"kb-none\">No results published yet. A row appears here only when a result file is scored and added; nothing on this page is an estimate.</p>\n");
+    }
     for (task, title) in TITLES {
+        if results.is_empty() {
+            break;
+        }
         let mine: Vec<_> = groups.iter().filter(|((t, _), _)| t == task).collect();
-        body.push_str(&format!("<section><h2>{}</h2>\n", esc(title)));
+        body.push_str(&format!("<section><h3>{}</h3>\n", esc(title)));
         if mine.is_empty() {
-            body.push_str("<p class=\"none\">No results yet for this task.</p>\n</section>\n");
+            body.push_str("<p class=\"kb-none\">No results yet for this task.</p>\n</section>\n");
             continue;
         }
         for ((_, split), rows) in mine {
             let mut rows = rows.clone();
             rows.sort_by(|a, b| sort_key(task, a).total_cmp(&sort_key(task, b)));
             body.push_str(&format!(
-                "<div class=\"scroll\" tabindex=\"0\" role=\"region\" aria-label=\"{} {} results\"><table><caption>Split: {}</caption><thead><tr><th scope=\"col\">System</th>",
+                "<div class=\"kb-scroll\" tabindex=\"0\" role=\"region\" aria-label=\"{} {} results\"><table><caption>Split: {}</caption><thead><tr><th scope=\"col\">System</th>",
                 esc(title),
                 esc(split),
                 esc(split)
             ));
             for c in columns(task) {
-                body.push_str(&format!("<th scope=\"col\" class=\"n\">{}</th>", esc(c)));
+                body.push_str(&format!("<th scope=\"col\" class=\"kb-n\">{}</th>", esc(c)));
             }
             body.push_str("<th scope=\"col\">Provenance</th><th scope=\"col\">Truth SHA-256</th></tr></thead><tbody>\n");
             for r in rows {
@@ -177,11 +194,11 @@ pub fn leaderboard_html(results: &[Value]) -> Result<String, BenchError> {
                     _ => esc(name),
                 };
                 body.push_str(&format!(
-                    "<tr><th scope=\"row\">{label} <span class=\"v\">{}</span></th>",
+                    "<tr><th scope=\"row\">{label} <span class=\"kb-v\">{}</span></th>",
                     esc(ver)
                 ));
                 for c in cells(task, r) {
-                    body.push_str(&format!("<td class=\"n\">{}</td>", esc(&c)));
+                    body.push_str(&format!("<td class=\"kb-n\">{}</td>", esc(&c)));
                 }
                 let prov = match r["provenance"].as_str() {
                     Some("carried") => {
@@ -191,7 +208,7 @@ pub fn leaderboard_html(results: &[Value]) -> Result<String, BenchError> {
                 };
                 let th = r["truth_sha256"].as_str().unwrap_or("");
                 body.push_str(&format!(
-                    "<td>{}</td><td class=\"h\"><code>{}</code></td></tr>\n",
+                    "<td>{}</td><td class=\"kb-h\"><code>{}</code></td></tr>\n",
                     esc(&prov),
                     esc(th.get(..12).unwrap_or(th))
                 ));
@@ -200,39 +217,57 @@ pub fn leaderboard_html(results: &[Value]) -> Result<String, BenchError> {
         }
         body.push_str("</section>\n");
     }
-    Ok(format!(
-        "<!doctype html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n<title>kshana-bench leaderboard</title>\n<meta name=\"description\" content=\"Scores of submitted result files under kshana-bench {spec}. Advisory only.\">\n<style>{css}</style>\n</head>\n<body>\n<main>\n<h1>kshana-bench leaderboard</h1>\n<p class=\"lede\">Result files scored under <code>{spec}</code>. A row says this file scored this number on this split. It does not mean any product has been rated or approved by anyone.</p>\n<p class=\"notice\">{notice}</p>\n{body}<footer>\n<p>Licence of the specification and manifests: CC-BY-4.0 / CC0 proposed, owner decision pending. The real-data holdout is not secret: see the specification, section 4. Every score is modelled unless a row says an external oracle agreed.</p>\n</footer>\n</main>\n</body>\n</html>\n",
+    let board = format!(
+        "<section class=\"kb-board\" aria-labelledby=\"kb-title\">\n<style>{css}</style>\n<h2 class=\"kb-h1\" id=\"kb-title\">kshana-bench leaderboard</h2>\n<p class=\"kb-lede\">Result files scored under <code>{spec}</code>. A row says this file scored this number on this split. It does not mean any product has been rated or approved by anyone, and no organisation is named as an endorser.</p>\n<p class=\"kb-notice\">{notice}</p>\n{body}<p class=\"kb-foot\">Every score is modelled unless a row says an external oracle agreed. Licence of the specification and manifests: CC-BY-4.0 / CC0 proposed, owner decision pending. The real-data holdout is not secret: see the specification, section 4.</p>\n</section>\n",
+        css = BOARD_CSS,
         spec = esc(SPEC_VERSION),
-        css = CSS,
         notice = esc(NOTICE),
         body = body
+    );
+    if fragment {
+        return Ok(board);
+    }
+    Ok(format!(
+        "<!doctype html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n<title>kshana-bench leaderboard</title>\n<meta name=\"description\" content=\"Scores of submitted result files under kshana-bench {spec}. Advisory only.\">\n<style>{page}</style>\n</head>\n<body>\n<main>\n{board}</main>\n</body>\n</html>\n",
+        spec = esc(SPEC_VERSION),
+        page = PAGE_CSS,
+        board = board
     ))
 }
 
-const CSS: &str = r#"
-:root{--bg:#E8ECF3;--surface:#F5F7FB;--ink:#182033;--ink-2:#3A455E;--ink-3:#4E5971;--line:rgba(28,44,84,.12);--line-2:rgba(28,44,84,.2);--int:#B8262B;--f-text:"Geist",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;--f-mono:"Geist Mono",ui-monospace,"SF Mono",Menlo,monospace;--gut:clamp(16px,4vw,44px);--r-card:28px}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#07080E;--surface:#12141F;--ink:#F2F4FB;--ink-2:#A6ADC4;--ink-3:#858CA6;--line:rgba(255,255,255,.07);--line-2:rgba(255,255,255,.14);--int:#FF5B54;color-scheme:dark}}
-:root[data-theme="dark"]{--bg:#07080E;--surface:#12141F;--ink:#F2F4FB;--ink-2:#A6ADC4;--ink-3:#858CA6;--line:rgba(255,255,255,.07);--line-2:rgba(255,255,255,.14);--int:#FF5B54;color-scheme:dark}
+/// Styles of the page shell only; the board brings its own, scoped under `.kb-board`.
+const PAGE_CSS: &str = r#"
+:root{--bg:#E8ECF3;--ink:#182033}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#07080E;--ink:#F2F4FB;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#07080E;--ink:#F2F4FB;color-scheme:dark}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.5 var(--f-text);-webkit-text-size-adjust:100%}
-main{max-width:1200px;margin:0 auto;padding:clamp(32px,6vw,72px) var(--gut)}
-h1{font-size:clamp(2rem,5vw,3.2rem);line-height:1.05;margin:0 0 12px;letter-spacing:-.02em}
-h2{font-size:clamp(1.15rem,2.2vw,1.5rem);margin:40px 0 12px;letter-spacing:-.01em}
-.lede{color:var(--ink-2);max-width:60ch}
-.notice{background:var(--surface);border:1px solid var(--line-2);border-radius:12px;padding:12px 16px;color:var(--ink-2);font-size:14px}
-.none{color:var(--ink-3)}
-.scroll{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:16px;margin:0 0 16px}
-.scroll:focus-visible{outline:2px solid var(--int);outline-offset:2px}
-table{border-collapse:collapse;width:100%;min-width:560px;font-size:14px}
-caption{text-align:left;padding:12px 16px;font:500 12px/1.2 var(--f-mono);text-transform:uppercase;letter-spacing:.07em;color:var(--ink-3)}
-th,td{padding:10px 16px;border-top:1px solid var(--line);text-align:left;vertical-align:top}
-thead th{font:500 12px/1.3 var(--f-mono);text-transform:uppercase;letter-spacing:.06em;color:var(--ink-3)}
-tbody th{font-weight:600}
-.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
-.v{font:400 12px var(--f-mono);color:var(--ink-3)}
-code,.h{font-family:var(--f-mono);font-size:12px}
-a{color:var(--int)}
-footer{margin-top:48px;color:var(--ink-3);font-size:13px;max-width:70ch}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.5 "Geist",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-text-size-adjust:100%}
+main{max-width:1200px;margin:0 auto;padding:clamp(32px,6vw,72px) clamp(16px,4vw,44px)}
+"#;
+
+/// The board's own styles, every selector under `.kb-board`, colours from the site tokens with
+/// the token values as fallbacks so it also works outside the site.
+const BOARD_CSS: &str = r#"
+.kb-board{--kb-ink:var(--ink,#182033);--kb-ink-2:var(--ink-2,#3A455E);--kb-ink-3:var(--ink-3,#4E5971);--kb-surface:var(--surface,#F5F7FB);--kb-line:var(--line,rgba(28,44,84,.12));--kb-line-2:var(--line-2,rgba(28,44,84,.2));--kb-accent:var(--int,#B8262B);color:var(--kb-ink);font:400 16px/1.5 var(--f-text,"Geist",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif);max-width:100%}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .kb-board{--kb-ink:var(--ink,#F2F4FB);--kb-ink-2:var(--ink-2,#A6ADC4);--kb-ink-3:var(--ink-3,#858CA6);--kb-surface:var(--surface,#12141F);--kb-line:var(--line,rgba(255,255,255,.07));--kb-line-2:var(--line-2,rgba(255,255,255,.14));--kb-accent:var(--int,#FF5B54)}}
+:root[data-theme="dark"] .kb-board{--kb-ink:var(--ink,#F2F4FB);--kb-ink-2:var(--ink-2,#A6ADC4);--kb-ink-3:var(--ink-3,#858CA6);--kb-surface:var(--surface,#12141F);--kb-line:var(--line,rgba(255,255,255,.07));--kb-line-2:var(--line-2,rgba(255,255,255,.14));--kb-accent:var(--int,#FF5B54)}
+.kb-board .kb-h1{font-size:clamp(1.6rem,4vw,2.4rem);line-height:1.1;margin:0 0 12px;letter-spacing:-.02em}
+.kb-board h3{font-size:clamp(1.05rem,2vw,1.3rem);margin:32px 0 12px}
+.kb-board .kb-lede{color:var(--kb-ink-2);max-width:60ch}
+.kb-board .kb-notice{background:var(--kb-surface);border:1px solid var(--kb-line-2);border-radius:12px;padding:12px 16px;color:var(--kb-ink-2);font-size:14px}
+.kb-board .kb-none{color:var(--kb-ink-3)}
+.kb-board .kb-scroll{overflow-x:auto;background:var(--kb-surface);border:1px solid var(--kb-line);border-radius:16px;margin:0 0 16px}
+.kb-board .kb-scroll:focus-visible{outline:2px solid var(--kb-accent);outline-offset:2px}
+.kb-board table{border-collapse:collapse;width:100%;min-width:560px;font-size:14px}
+.kb-board caption{text-align:left;padding:12px 16px;font:500 12px/1.2 var(--f-mono,"Geist Mono",ui-monospace,Menlo,monospace);text-transform:uppercase;letter-spacing:.07em;color:var(--kb-ink-3)}
+.kb-board th,.kb-board td{padding:10px 16px;border-top:1px solid var(--kb-line);text-align:left;vertical-align:top}
+.kb-board thead th{font:500 12px/1.3 var(--f-mono,"Geist Mono",ui-monospace,Menlo,monospace);text-transform:uppercase;letter-spacing:.06em;color:var(--kb-ink-3)}
+.kb-board tbody th{font-weight:600}
+.kb-board .kb-n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.kb-board .kb-v{font:400 12px var(--f-mono,"Geist Mono",ui-monospace,Menlo,monospace);color:var(--kb-ink-3)}
+.kb-board code,.kb-board .kb-h{font-family:var(--f-mono,"Geist Mono",ui-monospace,Menlo,monospace);font-size:12px}
+.kb-board a{color:var(--kb-accent)}
+.kb-board .kb-foot{margin-top:24px;color:var(--kb-ink-3);font-size:13px;max-width:70ch}
 "#;
 
 #[cfg(test)]
@@ -286,6 +321,30 @@ mod tests {
             .contains("exposed"));
         h["holdout_commitment"] = json!("ab".repeat(32));
         assert!(leaderboard_html(&[h]).is_ok());
+    }
+
+    #[test]
+    fn the_fragment_has_one_wrapper_only_kb_classes_its_own_style_and_the_advisory_statement() {
+        let f = leaderboard_fragment(&[r("a", 0.7)]).unwrap();
+        assert!(!f.contains("<html") && !f.contains("<head") && !f.contains("<body"));
+        assert!(f.starts_with("<section class=\"kb-board\""));
+        assert_eq!(f.matches("<style>").count(), 1);
+        for chunk in f.split("class=\"").skip(1) {
+            let v = chunk.split('"').next().unwrap();
+            assert!(v.split(' ').all(|c| c.starts_with("kb-")), "{v}");
+        }
+        assert!(f.contains("Advisory:") && f.contains("rated or approved by anyone"));
+        assert!(f.contains("0.700"));
+    }
+
+    #[test]
+    fn with_no_results_the_board_says_so_and_invents_nothing() {
+        let f = leaderboard_fragment(&[]).unwrap();
+        assert!(f.contains("No results published yet"));
+        assert!(!f.contains("<table"));
+        assert!(leaderboard_html(&[])
+            .unwrap()
+            .contains("No results published yet"));
     }
 
     #[test]
