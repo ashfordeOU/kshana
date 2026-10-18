@@ -505,6 +505,23 @@ def test_assess_vessel_log_returns_the_batch_result():
     assert len(r["epochs"]) > 300
 
 
+_JT_CATALOG = '{"test_types":[{"type":"Jamming","type_id":1,"test_groups":[{"group_id":2,"group_name":"CW","tests":[{"test_id":5,"name":"CW jammer"}]}]}]}'
+_JT_PLAN = '{"locations":[{"location_id":1,"location_name":"Test Area 1","tests":[{"start_time":"2025-09-15T14:05:00","end_time":"2025-09-15T14:06:00","test_id":"1.2.5","test_contact":"A Person (X)","power_w":0,"status":""}]}]}'
+
+
+def test_jammertest_import_reads_the_plan_as_scheduled_truth():
+    r = kshana.jammertest_import(_JT_CATALOG, [_JT_PLAN], "2025-09-15T12:00:00Z")
+    assert r["events"][0]["test_id"] == "1.2.5" and r["events"][0]["onset_s"] == 300.0
+    assert "scheduled truth" in r["events_toml"] and "Person" not in str(r)
+
+
+def test_jammertest_score_needs_a_log_and_says_modelled():
+    import pytest
+
+    with pytest.raises(ValueError):
+        kshana.jammertest_score('[log]\nformat = "nmea"\n', "not a log", _JT_CATALOG, [_JT_PLAN])
+
+
 def test_evidence_pack_round_trip_in_memory():
     import pytest
 
