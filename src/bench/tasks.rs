@@ -534,6 +534,7 @@ pub fn c_files(cases: &[CCase], split: Split) -> (Value, Value) {
 
 /// Least-squares polynomial of `degree` (1 or 2) through `y` at `x`, by the normal equations with
 /// partial pivoting; returns the coefficients, lowest order first.
+#[allow(clippy::needless_range_loop)]
 fn polyfit(x: &[f64], y: &[f64], degree: usize) -> Option<Vec<f64>> {
     let n = degree + 1;
     let mut a = vec![vec![0.0f64; n + 1]; n];
