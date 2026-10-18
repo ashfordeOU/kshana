@@ -15,7 +15,7 @@ use std::time::{Duration, Instant};
 
 use kshana::receiver_trust::live::{parse_live_scenario, LiveEngine, LiveOut};
 
-pub const LIVE_USAGE: &str = "usage: kshana receiver-trust live <session.toml> [--stdin | --file <path> [--follow] [--from-end] | --tcp <host:port> | --udp <[addr:]port>] [--replay] [--gate [--listen tcp:[<addr>:]<port>]] [--json <path|->] [--pksht <path|->]
+pub const LIVE_USAGE: &str = "usage: kshana receiver-trust live <session.toml> [--stdin | --file <path> [--follow] [--from-end] | --tcp <host:port> | --udp <[addr:]port> | --serial <device> [--baud <n>]] [--replay] [--gate [--listen tcp:[<addr>:]<port>]] [--json <path|->] [--pksht <path|->]
 
 Reads NMEA 0183 (stdin by default), scores every epoch of a vessel's fix 0-100 and writes one
 JSON line per epoch (stdout by default). With --gate the NMEA stream is passed through on stdout
@@ -31,6 +31,10 @@ The receiver's time is also checked against this computer's clock, which only me
 a stream arriving in real time; for a stored log fed in faster than that (stdin, tcp, udp) pass
 --replay, and a plain --file (without --follow) already does.
 
+--serial reads a serial or USB device (Unix only), read only: it opens the device for reading, sets
+the local line to raw mode at --baud (default 4800, the NMEA 0183 rate) and never writes a byte to the
+receiver. Kshana does not configure receivers; set the receiver to output NMEA with its own tool.
+
 This is advisory software, not type-approved navigation equipment (IEC 61108, IEC 61162): the
 operator remains responsible for the navigation of the vessel.";
 
@@ -43,6 +47,11 @@ enum Source {
     },
     Tcp(String),
     Udp(String),
+    /// A serial or USB device, read only: `--serial <device> [--baud <n>]`.
+    Serial {
+        path: PathBuf,
+        baud: u32,
+    },
 }
 
 /// Fan-out of the forwarded stream to TCP clients. Every client has its own bounded queue and
@@ -368,20 +377,83 @@ fn spawn_reader(src: Source, tx: Tx, start: Instant) {
                     read_lines(BufReader::new(s), &tx, start)
                 }),
             Source::Udp(addr) => read_udp(addr, &tx, start),
+            Source::Serial { path, baud } => open_serial(path, *baud).and_then(|f| {
+                eprintln!(
+                    "kshana live: reading serial {} at {baud} baud (read only)",
+                    path.display()
+                );
+                read_lines(BufReader::new(f), &tx, start)
+            }),
         };
         // A stream that was expected to go on and ended is a fault, not a normal end: a
         // supervisor should see it. Stdin and a file read to its end are normal ends.
-        let expected_to_go_on = matches!(&src, Source::Tcp(_));
+        let expected_to_go_on = matches!(&src, Source::Tcp(_) | Source::Serial { .. });
         let _ = tx.send(match r {
             Ok(()) if expected_to_go_on => Msg::Fail(
-                "the tcp connection was closed by the peer (the layer does not reconnect: run it \
-                 under a supervisor that restarts it)"
+                "the tcp connection or serial device was closed (the layer does not reconnect: run \
+                 it under a supervisor that restarts it)"
                     .into(),
             ),
             Ok(()) => Msg::End,
             Err(e) => Msg::Fail(e),
         });
     });
+}
+
+/// Open a serial device for reading and put the local line in raw mode at `baud`. Nothing is
+/// written to the device: this changes the host's terminal settings for the line, not the
+/// receiver's configuration.
+#[cfg(unix)]
+fn open_serial(path: &std::path::Path, baud: u32) -> Result<File, String> {
+    use std::os::fd::AsRawFd;
+    use std::os::unix::fs::OpenOptionsExt;
+    let speed =
+        match baud {
+            1200 => libc::B1200,
+            2400 => libc::B2400,
+            4800 => libc::B4800,
+            9600 => libc::B9600,
+            19200 => libc::B19200,
+            38400 => libc::B38400,
+            57600 => libc::B57600,
+            115200 => libc::B115200,
+            230400 => libc::B230400,
+            _ => return Err(format!(
+                "--baud {baud}: use 1200, 2400, 4800, 9600, 19200, 38400, 57600, 115200 or 230400"
+            )),
+        };
+    let f = OpenOptions::new()
+        .read(true)
+        .custom_flags(libc::O_NOCTTY)
+        .open(path)
+        .map_err(|e| format!("cannot open {}: {e}", path.display()))?;
+    // SAFETY: `f` owns a valid open descriptor for the whole block, and `t` is a plain C struct
+    // that `tcgetattr` fills before any other call reads it.
+    unsafe {
+        let mut t: libc::termios = std::mem::zeroed();
+        if libc::tcgetattr(f.as_raw_fd(), &mut t) != 0 {
+            return Err(format!(
+                "{} is not a serial device (tcgetattr failed)",
+                path.display()
+            ));
+        }
+        libc::cfmakeraw(&mut t);
+        t.c_cflag |= libc::CLOCAL | libc::CREAD;
+        t.c_cc[libc::VMIN] = 1;
+        t.c_cc[libc::VTIME] = 0;
+        if libc::cfsetispeed(&mut t, speed) != 0 || libc::cfsetospeed(&mut t, speed) != 0 {
+            return Err(format!("cannot set {baud} baud"));
+        }
+        if libc::tcsetattr(f.as_raw_fd(), libc::TCSANOW, &t) != 0 {
+            return Err(format!("cannot set the line mode of {}", path.display()));
+        }
+    }
+    Ok(f)
+}
+
+#[cfg(not(unix))]
+fn open_serial(_path: &std::path::Path, _baud: u32) -> Result<File, String> {
+    Err("--serial is supported on Unix only; use --file, --tcp or --stdin".into())
 }
 
 /// `kshana receiver-trust live ...`
@@ -407,6 +479,7 @@ fn run_inner(args: &[String]) -> Result<(), (String, u8)> {
     let (mut json_spec, mut pksht_spec): (Option<String>, Option<String>) = (None, None);
     let mut listen: Option<String> = None;
     let mut tcp: Option<Broadcaster> = None;
+    let mut baud: Option<u32> = None;
     let mut it = args.iter();
     while let Some(a) = it.next() {
         let mut value = |name: &str| -> Result<String, (String, u8)> {
@@ -435,6 +508,26 @@ fn run_inner(args: &[String]) -> Result<(), (String, u8)> {
                     format!("127.0.0.1:{v}")
                 });
             }
+            "--serial" => {
+                source = Source::Serial {
+                    path: PathBuf::from(value("--serial")?),
+                    baud: 4800,
+                }
+            }
+            "--baud" => {
+                baud = Some(
+                    value("--baud")?
+                        .parse::<u32>()
+                        .map_err(|_| usage("--baud needs a number".into()))?,
+                )
+            }
+            "--configure" => {
+                return Err(usage(
+                    "--configure is not implemented: Kshana never writes to a receiver. Configure \
+                     it with the maker's own tool, then read it with --serial"
+                        .into(),
+                ))
+            }
             "--gate" => gate = true,
             "--replay" => replay = true,
             "--listen" => listen = Some(value("--listen")?),
@@ -458,6 +551,11 @@ fn run_inner(args: &[String]) -> Result<(), (String, u8)> {
         *e = from_end;
     } else if follow || from_end {
         return Err(usage("--follow and --from-end apply to --file only".into()));
+    }
+    match (&mut source, baud) {
+        (Source::Serial { baud: b, .. }, Some(v)) => *b = v,
+        (_, Some(_)) => return Err(usage("--baud applies to --serial only".into())),
+        _ => {}
     }
     let Some(session) = session else {
         return Err(usage("live needs a session .toml".into()));
