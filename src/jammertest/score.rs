@@ -103,6 +103,8 @@ pub struct ScoreSummary {
     pub false_alarm_epochs: usize,
     /// Post-calibration epochs outside every slot and its guard.
     pub clean_epochs: usize,
+    /// Clean time, hours, from the median epoch spacing.
+    pub clean_hours: Option<f64>,
     /// `false_alarm_epochs` / `clean_epochs`.
     pub false_alarm_epoch_rate: Option<f64>,
     /// False-alarm runs per hour of clean time, from the epoch spacing of the log.
@@ -129,7 +131,7 @@ pub struct Scorecard {
     pub summary: ScoreSummary,
 }
 
-fn median(mut v: Vec<f64>) -> Option<f64> {
+pub(crate) fn median(mut v: Vec<f64>) -> Option<f64> {
     if v.is_empty() {
         return None;
     }
@@ -304,6 +306,7 @@ pub fn score_run(
         false_alarm_runs: false_runs,
         false_alarm_epochs: false_epochs,
         clean_epochs: clean.len(),
+        clean_hours,
         false_alarm_epoch_rate: ratio(false_epochs, clean.len()),
         false_alarm_runs_per_hour: clean_hours
             .filter(|h| *h > 0.0)
