@@ -30,7 +30,7 @@ kshana bench score --truth truth.json --predictions my-scores.json --out my.resu
 kshana bench baseline --task d --split test --out results/               # the built-in baselines
 kshana bench validate results/*.result.json
 kshana bench leaderboard results/ --out bench/site/index.html
-kshana bench seal --task d --seed-file secret.txt                        # commit to a sealed holdout
+kshana bench seal --task d --seed-file secret.txt --new                  # owner: make a seed, print only its hash
 kshana bench reveal-check --task d --seed-file secret.txt --commitment <hex>
 kshana bench manifest --task a --data <extracted dir> --out manifest.json
 kshana bench verify-manifest manifest.json --root <dir>
@@ -45,7 +45,7 @@ predictions, and the metrics. Results of different major spec versions are never
 
 - The real-data holdouts (a and c) are public, because anyone can download the data. They guard against
   choosing a split after seeing scores, not against tuning on those folders. The sealed holdout of task (d) is
-  a commit and reveal: the hash is in `bench/holdout/COMMITMENTS.json`, the seed is held by the owner.
+  a commit and reveal: the owner commits only the hash to `bench/holdout/COMMITMENTS.json` and keeps the seed (none is sealed yet).
 - Task (a) truth is the scheduled attack slots of the event logs at one-minute resolution, so a detection
   probability is a lower bound; the event-level metrics (latency, missed alarms, false alarms) arrive with the
   Jammertest scorer of `kshana jammertest score`.

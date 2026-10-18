@@ -20,7 +20,7 @@ pub const BENCH_USAGE: &str = "usage: kshana bench spec
    or: kshana bench cases --task <c|d> --split <dev|test|holdout> --out <dir> [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
    or: kshana bench score --truth <truth.json> --predictions <predictions.json> [--threshold <x>] [--out <result.json>]
    or: kshana bench baseline --task <a|b|c|d> --split <dev|test|holdout> --out <dir> [--data <dir>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
-   or: kshana bench seal --task <a|b|c|d> --seed-file <file>
+   or: kshana bench seal --task <a|b|c|d> --seed-file <file> [--new]
    or: kshana bench reveal-check --task <a|b|c|d> --seed-file <file> --commitment <hex>
    or: kshana bench manifest --task a --data <extracted dir> [--archive <tar.gz>] --out <manifest.json>
    or: kshana bench verify-manifest <manifest.json> --root <dir>
@@ -272,16 +272,16 @@ fn run_inner(args: &[String]) -> Result<i32, BenchError> {
             Ok(0)
         }
         "baseline" => baseline(rest),
-        "seal" => {
-            check(rest, &["--task", "--seed-file"], false)?;
-            let s = secret(rest)?.ok_or_else(|| BenchError("--seed-file is required".into()))?;
-            println!("{}", seal(task_arg(rest)?, &s));
-            Ok(0)
-        }
+        "seal" => seal_cmd(rest),
         "reveal-check" => {
             check(rest, &["--task", "--seed-file", "--commitment"], false)?;
             let s = secret(rest)?.ok_or_else(|| BenchError("--seed-file is required".into()))?;
-            if reveal_check(task_arg(rest)?, &s, need(rest, "--commitment")?) {
+            let c = need(rest, "--commitment")?;
+            if super::is_exposed(c) {
+                println!("REFUSED: this commitment is provisional and its seed was exposed; it is not a release holdout");
+                return Ok(1);
+            }
+            if reveal_check(task_arg(rest)?, &s, c) {
                 println!("match");
                 Ok(0)
             } else {
@@ -361,6 +361,46 @@ fn emit(out: &Path, stem: &str, truth_text: &str, preds: &Value) -> Result<(), B
     write(&out.join(format!("{stem}.result.json")), &format!("{r}\n"))?;
     println!("{stem}");
     Ok(())
+}
+
+/// `seal`: print the commitment of an existing seed file, or with `--new` create the seed file
+/// (refusing to overwrite one, readable by its owner only) and print only the commitment.
+fn seal_cmd(rest: &[String]) -> Result<i32, BenchError> {
+    use std::io::Write;
+    let valued = ["--task", "--seed-file"];
+    let mut v: Vec<String> = rest.to_vec();
+    let new = v.iter().any(|a| a == "--new");
+    v.retain(|a| a != "--new");
+    check(&v, &valued, false)?;
+    let task = task_arg(&v)?;
+    if !new {
+        let s = secret(&v)?.ok_or_else(|| BenchError("--seed-file is required".into()))?;
+        println!("{}", seal(task, &s));
+        return Ok(0);
+    }
+    let path = Path::new(need(&v, "--seed-file")?);
+    let s = super::new_secret();
+    let mut opts = std::fs::OpenOptions::new();
+    opts.write(true).create_new(true);
+    #[cfg(unix)]
+    {
+        use std::os::unix::fs::OpenOptionsExt;
+        opts.mode(0o600);
+    }
+    let mut f = opts.open(path).map_err(|e| {
+        BenchError(format!(
+            "cannot create {} (an existing seed file is never overwritten): {e}",
+            path.display()
+        ))
+    })?;
+    f.write_all(format!("{s}\n").as_bytes())
+        .map_err(|e| BenchError(format!("cannot write {}: {e}", path.display())))?;
+    eprintln!(
+        "seed written to {}: keep it out of version control and out of any message; only the hash below is public",
+        path.display()
+    );
+    println!("{}", seal(task, s.as_bytes()));
+    Ok(0)
 }
 
 fn baseline(args: &[String]) -> Result<i32, BenchError> {

@@ -119,9 +119,25 @@ pub fn seal(task: &str, secret: &[u8]) -> String {
     hex::encode(h.finalize())
 }
 
+/// Commitments whose seed has been shown to more than its owner. They are test material only and
+/// are refused as a release holdout by `reveal-check` and by the leaderboard.
+pub const EXPOSED_COMMITMENTS: [&str; 1] =
+    ["3aa9099fa4249aacf67a83659324391731ac25525146b5cf143ae6b4d70de7cc"];
+
+/// Whether a commitment is on the exposed list (provisional, not a release holdout).
+pub fn is_exposed(commitment: &str) -> bool {
+    EXPOSED_COMMITMENTS.contains(&commitment.trim().to_ascii_lowercase().as_str())
+}
+
+/// A fresh secret: 32 random bytes as 64 hex characters. The caller writes it to a file the
+/// owner keeps; it is never printed or sent.
+pub fn new_secret() -> String {
+    hex::encode(rand::random::<[u8; 32]>())
+}
+
 /// Whether `secret` is the seed behind `commitment` for `task`.
 pub fn reveal_check(task: &str, secret: &[u8], commitment: &str) -> bool {
-    seal(task, secret) == commitment.trim().to_ascii_lowercase()
+    !is_exposed(commitment) && seal(task, secret) == commitment.trim().to_ascii_lowercase()
 }
 
 /// The numeric seed a synthetic holdout is generated from: the first 8 bytes (big-endian) of
@@ -389,7 +405,7 @@ pub fn score(
         "d" => tasks::score_d(&truth, &preds)?,
         other => return err(format!("unknown task `{other}`")),
     };
-    let r = result_json(
+    let mut r = result_json(
         task,
         split,
         &system,
@@ -400,6 +416,9 @@ pub fn score(
         metrics,
         &label,
     );
+    if let Some(c) = truth.get("holdout_commitment").and_then(Value::as_str) {
+        r["holdout_commitment"] = json!(c);
+    }
     serde_json::to_string_pretty(&r).map_err(|e| BenchError(e.to_string()))
 }
 
@@ -428,6 +447,19 @@ mod tests {
         assert!(!reveal_check("d", b"secret-seeD", &c));
         assert!(!reveal_check("c", b"secret-seed", &c));
         assert_ne!(holdout_seed("d", b"a"), holdout_seed("d", b"b"));
+    }
+
+    #[test]
+    fn an_exposed_commitment_is_refused_and_a_fresh_secret_is_not() {
+        let exposed = EXPOSED_COMMITMENTS[0];
+        assert!(is_exposed(exposed) && is_exposed(&exposed.to_ascii_uppercase()));
+        // Even the right seed is refused when its commitment is on the list.
+        let s = new_secret();
+        assert_eq!(s.len(), 64);
+        assert_ne!(s, new_secret());
+        let c = seal("d", s.as_bytes());
+        assert!(reveal_check("d", s.as_bytes(), &c));
+        assert!(!is_exposed(&c));
     }
 
     #[test]
