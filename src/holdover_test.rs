@@ -55,6 +55,32 @@ pub const LABEL: &str = "MODELLED — a holdover test scored from a time-error r
      it. The times at which GNSS was removed and restored are the operator's statement and \
      are not verified. Advisory software, not type-approved equipment.";
 
+/// The most points of the record `record.series` carries.
+pub const SERIES_MAX_POINTS: usize = 3000;
+
+/// How `record.series` is cut down, stated in the report.
+pub const SERIES_DECIMATION_RULE: &str = "every stride-th sample from the first, stride = 1 for a \
+     record of at most 3000 samples and otherwise ceil((n - 1) / 2998), plus the last sample when \
+     the stride does not land on it; no averaging, no interpolation: each point is a sample of \
+     the record as it was read";
+
+/// The deterministic decimation of a record: the indices kept and the stride.
+pub fn series_indices(n: usize) -> (usize, Vec<usize>) {
+    if n == 0 {
+        return (1, Vec::new());
+    }
+    let stride = if n <= SERIES_MAX_POINTS {
+        1
+    } else {
+        (n - 1).div_ceil(SERIES_MAX_POINTS - 2)
+    };
+    let mut idx: Vec<usize> = (0..n).step_by(stride).collect();
+    if idx.last() != Some(&(n - 1)) {
+        idx.push(n - 1);
+    }
+    (stride, idx)
+}
+
 /// What the report says is not covered, in every report.
 pub const NOT_COVERED: &[&str] = &[
     "whether GNSS was in fact removed and restored at the stated times: they are the operator's statement",
@@ -582,6 +608,7 @@ impl HoldoverTestScenario {
                 })
             })
             .collect();
+        let (series_stride, series_idx) = series_indices(n);
         let hold = r.steps.iter().find(|s| s.name == "holdover");
         let holdover = hold.map(|h| {
             json!({
@@ -650,6 +677,16 @@ impl HoldoverTestScenario {
                 "record_length_s": (n - 1) as f64 * rec.dt_s,
                 "start_s": rec.t0_s,
                 "series_sha256": series_sha256(&rec.te_ns),
+                "series": {
+                    "time_s": series_idx.iter().map(|&k| rec.t0_s + k as f64 * rec.dt_s).collect::<Vec<f64>>(),
+                    "time_error_ns": series_idx.iter().map(|&k| rec.te_ns[k]).collect::<Vec<f64>>(),
+                },
+                "series_decimation": {
+                    "stride": series_stride,
+                    "n_source": n,
+                    "n_points": series_idx.len(),
+                    "rule": SERIES_DECIMATION_RULE,
+                },
             },
             "steps": steps,
             "holdover": holdover,
@@ -839,6 +876,11 @@ pub fn units() -> Vec<FieldUnit> {
         row("record.n_samples", "count", Computed, "number of time-error samples in the record"),
         row("record.record_length_s", "s", Computed, "time from the first to the last sample"),
         row("record.start_s", "s", Input, "time stamp of the first sample"),
+        row("record.series.time_s[]", "s", Computed, "time of a kept sample on the record's own time axis, the first sample, every stride-th sample and the last (the rule is in record.series_decimation.rule)"),
+        row("record.series.time_error_ns[]", "ns", Input, "the time error of that sample, exactly as the record gave it"),
+        row("record.series_decimation.stride", "count", Computed, "samples between kept points; 1 when the record has at most 3000 samples"),
+        row("record.series_decimation.n_source", "count", Computed, "samples in the whole record"),
+        row("record.series_decimation.n_points", "count", Computed, "points in record.series, at most 3000"),
         row("steps[].start_s", "s", Computed, "time of the first sample of the step"),
         row("steps[].end_s", "s", Computed, "time of the last sample of the step"),
         row("steps[].n_samples", "count", Computed, "samples in the step"),
@@ -911,6 +953,50 @@ mod tests {
                 clock_log: None,
             },
         }
+    }
+
+    #[test]
+    fn the_record_series_is_decimated_deterministically_and_keeps_the_ends() {
+        // At most 3000 samples: every sample, stride 1.
+        let (stride, idx) = series_indices(3000);
+        assert_eq!((stride, idx.len()), (1, 3000));
+        // Over: ceil((n - 1) / 2998); the last sample is always kept; never more than 3000 points.
+        for n in [3001usize, 4500, 9001, 100_000, 5_000_000] {
+            let (stride, idx) = series_indices(n);
+            assert_eq!(stride, (n - 1).div_ceil(2998), "{n}");
+            assert!(idx.len() <= SERIES_MAX_POINTS, "{n}: {}", idx.len());
+            assert_eq!((idx[0], *idx.last().unwrap()), (0, n - 1), "{n}");
+            assert!(idx.windows(2).all(|w| w[1] > w[0]), "{n}");
+        }
+        // In the report: the points are samples of the record, with the rule stated.
+        let mut sc = scenario(&["prtc-a"], Some(2400.0));
+        let long: Vec<[f64; 2]> = (0..9001).map(|k| [k as f64, (k % 7) as f64]).collect();
+        sc.series.samples = long;
+        sc.test.gnss_removed_s = 3000.0;
+        sc.test.gnss_restored_s = Some(6000.0);
+        let (json, _, _) = sc.run_output().unwrap();
+        let v: Value = serde_json::from_str(&json).unwrap();
+        let t = v["record"]["series"]["time_s"].as_array().unwrap();
+        let x = v["record"]["series"]["time_error_ns"].as_array().unwrap();
+        assert_eq!(
+            (t.len(), x.len()),
+            (
+                v["record"]["series_decimation"]["n_points"]
+                    .as_u64()
+                    .unwrap() as usize,
+                t.len()
+            )
+        );
+        assert!(t.len() <= 3000);
+        assert_eq!(v["record"]["series_decimation"]["stride"], 4);
+        assert_eq!(t[1].as_f64().unwrap(), 4.0);
+        assert_eq!(t.last().unwrap().as_f64().unwrap(), 9000.0);
+        assert_eq!(x[1].as_f64().unwrap(), (4 % 7) as f64);
+        assert!(v["record"]["series_decimation"]["rule"]
+            .as_str()
+            .unwrap()
+            .contains("no averaging"));
+        assert!(v["units"]["record.series.time_s[]"].is_object());
     }
 
     #[test]
