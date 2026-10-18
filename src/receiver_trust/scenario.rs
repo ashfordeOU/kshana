@@ -309,6 +309,10 @@ pub struct ReceiverTrustResult {
     /// ([`crate::receiver_trust::monitors::PROFILE_NOTE`]).
     #[serde(skip_serializing_if = "Option::is_none")]
     pub profile_note: Option<&'static str>,
+    /// The receiver's own spoofing/jamming flags against Kshana's monitors (`receiver-self-report`),
+    /// present only when the log carries them (UBX-NAV-STATUS, UBX-SEC-SIG).
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub receiver_self_report: Option<super::monitors::SelfReportSummary>,
     /// One sentence on the session.
     pub verdict: String,
     /// The per-epoch trust timeline.
@@ -646,6 +650,7 @@ pub fn run_receiver_trust_bytes(
         predictions_agreeing,
         predictions_evaluable,
         score_model,
+        receiver_self_report: super::monitors::self_report_summary(&trust.epochs),
         verdict,
         geometry_model: GeometryModel::new(
             &scn.monitors.geometry,
