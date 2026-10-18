@@ -444,6 +444,19 @@ pub fn run_receiver_trust_bytes(
 ) -> Result<ReceiverTrustResult, String> {
     validate(scn)?;
     let timeline = read_log(scn.log.format, log_bytes)?;
+    run_receiver_trust_on(scn, timeline, log_bytes, nav_bytes)
+}
+
+/// As [`run_receiver_trust_bytes`], on a timeline the caller has already built (a reader outside
+/// the four formats, such as the JammerTest CSV exports). `hashed_bytes` are the bytes the
+/// timeline came from; they go into the result's hash and its log summary, nothing else.
+pub fn run_receiver_trust_on(
+    scn: &ReceiverTrustScenario,
+    timeline: super::Timeline,
+    log_bytes: &[u8],
+    nav_bytes: Option<&[u8]>,
+) -> Result<ReceiverTrustResult, String> {
+    validate(scn)?;
 
     // The engine's own fix needs pseudoranges, which only the RINEX observation file has.
     if nav_bytes.is_some() && scn.log.format != LogFormat::Rinex {
