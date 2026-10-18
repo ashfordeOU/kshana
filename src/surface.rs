@@ -1043,6 +1043,59 @@ pub fn evidence_create(
     })
 }
 
+/// Build the signed laboratory round-trip pack in memory (`kshana evidence round-trip`,
+/// `docs/spec/TEST-CONDITIONS.md`): the scenario that produced the motion, the laboratory's
+/// `kshana.test-conditions/1` document, the receiver log and its score against the stated
+/// events, linked by hash. `scoring_toml` is a `receiver-trust` scenario whose `[log]`
+/// section names only the format (the log arrives as `log`) and whose `[[events]]` are the
+/// stated truth; `conditions` is TOML or JSON. Refuses a pack whose conditions and scoring
+/// events disagree or whose stated log hash is not the log's. Nothing is read from disk and
+/// no signal is written, replayed or scheduled. A technical record, not a certification.
+#[allow(clippy::too_many_arguments)]
+pub fn evidence_round_trip(
+    scoring_toml: &str,
+    scenario_toml: &str,
+    conditions: &str,
+    log: &[u8],
+    from_s: f64,
+    to_s: f64,
+    title: Option<&str>,
+    created_utc: Option<&str>,
+    seed: Option<[u8; 32]>,
+    max_bytes: usize,
+) -> Result<EvidencePack, String> {
+    cap("scoring scenario", scoring_toml, max_bytes)?;
+    cap("scenario", scenario_toml, max_bytes)?;
+    cap("conditions", conditions, max_bytes)?;
+    cap_len("log", log.len(), max_bytes)?;
+    let scn: crate::receiver_trust::scenario::ReceiverTrustScenario = toml::from_str(scoring_toml)
+        .map_err(|e| format!("invalid receiver-trust scenario: {e}"))?;
+    let seed = seed.unwrap_or_else(generate_seed);
+    let (from, to) = (from_s.to_string(), to_s.to_string());
+    let summary = crate::evidence::build_round_trip_pack(
+        &PackRequest {
+            scenario: &scn,
+            log_bytes: log,
+            nav_bytes: None,
+            log_file_name: "inline",
+            from: &from,
+            to: &to,
+            title: title.unwrap_or("Laboratory round-trip evidence pack"),
+            created_utc,
+        },
+        scenario_toml,
+        conditions,
+        &seed,
+    )?;
+    Ok(EvidencePack {
+        public_key: public_key_hex(&seed),
+        seed,
+        epochs_in_window: summary.epochs_in_window,
+        slice: summary.slice,
+        files: summary.files,
+    })
+}
+
 /// Verify an evidence pack held in memory: every hash, the chain, the signature, and with
 /// `public_key` (hex, obtained from the signer by another route) that the signer is the one
 /// you expect, with `full_log` that the log you hold is the one recorded, and with

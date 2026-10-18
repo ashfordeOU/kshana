@@ -1584,6 +1584,65 @@ fn evidence_create<'py>(
     Ok(out.into_any())
 }
 
+/// Build the signed laboratory round-trip pack (`kshana evidence round-trip`,
+/// `docs/spec/TEST-CONDITIONS.md`): the scenario, the laboratory's `kshana.test-conditions/1`
+/// document, the receiver log and its score against the stated events, linked by hash.
+/// `scoring_toml` is a receiver-trust scenario (its `[log]` names the format only; the log is
+/// `log`) whose `[[events]]` are the stated truth. Arguments after `to_s` and the return value
+/// are as for `evidence_create`. Raises `ValueError`, including when the conditions and the
+/// scoring events disagree. Writes no signal; a technical record, not a certification.
+#[pyfunction]
+#[pyo3(signature = (scoring_toml, scenario_toml, conditions, log, from_s, to_s, title=None, created_utc=None, seed_hex=None))]
+#[allow(clippy::too_many_arguments)]
+fn evidence_round_trip<'py>(
+    py: Python<'py>,
+    scoring_toml: &str,
+    scenario_toml: &str,
+    conditions: &str,
+    log: TextOrBytes,
+    from_s: f64,
+    to_s: f64,
+    title: Option<String>,
+    created_utc: Option<String>,
+    seed_hex: Option<String>,
+) -> PyResult<Bound<'py, PyAny>> {
+    use pyo3::types::{PyBytes, PyDict};
+    let seed = seed_hex
+        .as_deref()
+        .map(|h| crate::surface::hex32("seed_hex", h))
+        .transpose()
+        .map_err(PyValueError::new_err)?;
+    let created = match created_utc.as_deref() {
+        None => Some(crate::surface::now_rfc3339_utc()),
+        Some("none") => None,
+        Some(t) => Some(t.to_string()),
+    };
+    let p = crate::surface::evidence_round_trip(
+        scoring_toml,
+        scenario_toml,
+        conditions,
+        log.bytes(),
+        from_s,
+        to_s,
+        title.as_deref(),
+        created.as_deref(),
+        seed,
+        crate::surface::MAX_INPUT_BYTES,
+    )
+    .map_err(PyValueError::new_err)?;
+    let files = PyDict::new(py);
+    for (k, v) in &p.files {
+        files.set_item(k, PyBytes::new(py, v))?;
+    }
+    let out = PyDict::new(py);
+    out.set_item("files", files)?;
+    out.set_item("public_key", p.public_key)?;
+    out.set_item("seed_hex", hex::encode(p.seed))?;
+    out.set_item("epochs_in_window", p.epochs_in_window)?;
+    out.set_item("slice", p.slice.map(|(a, b)| vec![a, b]))?;
+    Ok(out.into_any())
+}
+
 /// Verify an evidence pack: `files` maps names to `bytes` (or `str`). Checks every hash, the
 /// chain and the signature; with `public_key` (64 hex digits, obtained from the signer by
 /// another route) also that the signer is the one expected, with `full_log` that the log
@@ -2144,6 +2203,7 @@ fn kshana(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(receiver_trust_replay, m)?)?;
     m.add_function(wrap_pyfunction!(assess_vessel_log, m)?)?;
     m.add_function(wrap_pyfunction!(evidence_create, m)?)?;
+    m.add_function(wrap_pyfunction!(evidence_round_trip, m)?)?;
     m.add_function(wrap_pyfunction!(evidence_verify, m)?)?;
     m.add_function(wrap_pyfunction!(interference_map, m)?)?;
     m.add_function(wrap_pyfunction!(compliance_report, m)?)?;
