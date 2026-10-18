@@ -716,6 +716,9 @@ pub enum TelemetryFormat {
     Leef,
     /// The OTLP/HTTP JSON metrics payload of the final state (needs the `otlp` feature).
     Otlp,
+    /// Home Assistant MQTT discovery messages then one JSON state message per event, as
+    /// `topic<TAB>payload` lines (nothing is published).
+    Mqtt,
 }
 
 impl TelemetryFormat {
@@ -726,8 +729,9 @@ impl TelemetryFormat {
             "cef" => Ok(Self::Cef),
             "leef" => Ok(Self::Leef),
             "otlp" => Ok(Self::Otlp),
+            "mqtt" => Ok(Self::Mqtt),
             o => Err(format!(
-                "unknown format `{o}`: use `prometheus`, `cef`, `leef` or `otlp`"
+                "unknown format `{o}`: use `prometheus`, `cef`, `leef`, `otlp` or `mqtt`"
             )),
         }
     }
@@ -801,6 +805,11 @@ pub fn trust_telemetry(
     }
     let mut out = String::new();
     let mut prev = None;
+    if format == TelemetryFormat::Mqtt {
+        for m in crate::telemetry::mqtt::discovery(&Default::default()) {
+            out.push_str(&format!("{}\t{}\n", m.topic, m.payload));
+        }
+    }
     for s in &samples {
         reg.observe(s, None);
         if matches!(format, TelemetryFormat::Cef | TelemetryFormat::Leef)
@@ -821,10 +830,20 @@ pub fn trust_telemetry(
                 ));
             }
         }
+        if format == TelemetryFormat::Mqtt && (opts.syslog_all || prev != Some(s.band)) {
+            let m = crate::telemetry::mqtt::state_message(&Default::default(), s);
+            out.push_str(&format!("{}\t{}\n", m.topic, m.payload));
+            if out.len() > max_bytes.min(MAX_INPUT_BYTES) {
+                return Err(format!(
+                    "the reply is over the {}-byte limit; send fewer epochs or leave `syslog_all` off",
+                    max_bytes.min(MAX_INPUT_BYTES)
+                ));
+            }
+        }
         prev = Some(s.band);
     }
     match format {
-        TelemetryFormat::Cef | TelemetryFormat::Leef => Ok(out),
+        TelemetryFormat::Cef | TelemetryFormat::Leef | TelemetryFormat::Mqtt => Ok(out),
         TelemetryFormat::Prometheus => Ok(reg.render()),
         #[cfg(feature = "otlp")]
         TelemetryFormat::Otlp => {
