@@ -884,52 +884,40 @@ pub fn read_events_csv(text: &str) -> Result<Vec<MotionEvent>, String> {
 /// recording id carries the scenario hash, so the file ties the lab's record to the scenario
 /// that produced the motion.
 pub fn write_conditions_json(t: &Trajectory) -> String {
-    use crate::iq::campaign::conditions::{
-        Affects, Event, EventKind as CKind, EventType, ReceiverNotes, RecordingSpec,
-        TestConditions, SCHEMA,
-    };
-    let events = t
+    // Written with `serde_json` rather than through the IQ campaign types, which are not built
+    // for WebAssembly; `tests/round_trip_pack.rs` parses it with those types on native builds.
+    let events: Vec<serde_json::Value> = t
         .events
         .iter()
-        .map(|e| Event {
-            id: e.label.clone(),
-            kind: match e.kind {
-                EventKind::Jamming => CKind::Interference,
-                EventKind::Spoofing => CKind::Spoofing,
-                EventKind::Other => CKind::Outage,
-            },
-            event_type: EventType::Unknown,
-            onset_s: round_dp(e.onset_s, 3),
-            offset_s: round_dp(e.end_s, 3),
-            affects: Affects::default(),
-            center_offset_hz: None,
-            bandwidth_hz: None,
-            q: None,
-            power: None,
+        .map(|e| {
+            serde_json::json!({
+                "id": e.label,
+                "kind": match e.kind {
+                    EventKind::Jamming => "interference",
+                    EventKind::Spoofing => "spoofing",
+                    EventKind::Other => "outage",
+                },
+                "type": "unknown",
+                "onset_s": round_dp(e.onset_s, 3),
+                "offset_s": round_dp(e.end_s, 3),
+                "affects": "all",
+            })
         })
         .collect();
-    let tc = TestConditions {
-        schema: SCHEMA.into(),
-        recording: RecordingSpec {
-            id: format!("bench-{}", t.scenario_hash),
-            kind: Some("receiver-log".into()),
-            path: "receiver-log".into(),
-            sha256: None,
-            format: None,
-            sample_rate_hz: None,
-            center_hz: None,
-            if_hz: None,
-            header_bytes: None,
-            start_utc: Some(t.epoch.iso(0.0)),
-            events_from_sigmf: false,
-            settle_s: 5.0,
+    let doc = serde_json::json!({
+        "schema": "kshana.test-conditions/1",
+        "recording": {
+            "id": format!("bench-{}", t.scenario_hash),
+            "kind": "receiver-log",
+            "path": "receiver-log",
+            "start_utc": t.epoch.iso(0.0),
+            "settle_s": 5.0,
         },
-        receiver: ReceiverNotes::default(),
-        expected: Vec::new(),
-        events,
-        bars: None,
-    };
-    let mut s = serde_json::to_string_pretty(&tc).unwrap_or_default();
+        "receiver": {"dut": "", "front_end": "", "notes": ""},
+        "expected": [],
+        "event": events,
+    });
+    let mut s = serde_json::to_string_pretty(&doc).unwrap_or_default();
     s.push('\n');
     s
 }
