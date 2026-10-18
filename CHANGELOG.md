@@ -9,6 +9,17 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+### Added
+
+- **Optical link margin against time.** The `optical-atmosphere` kind takes an opt-in `[timeseries]`
+  table (`duration_h`, `step_s`, `seed`) and then also writes, per site, one seeded realisation of the
+  stated site model through time: cloud episodes, a liquid-water column per episode, one gamma-gamma
+  scintillation sample per step, and from them the link margin, the cloud and scintillation fades and
+  the link-up flag, with the realised availability, cloud fraction, outage count and longest outage.
+  MODELLED (one draw from the model, not the climate; no external oracle). Without the table the
+  result is the 0.37 document. The two bundled optical scenarios carry the table (336 h, 600 s, seed 37).
+  Bars pre-registered in `xval/optical-atmosphere/PREREGISTRATION-timeseries.md` before the first run.
+
 ## [0.37.0] - 2026-10-17
 
 ### Added
