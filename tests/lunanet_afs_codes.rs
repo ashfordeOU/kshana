@@ -53,10 +53,16 @@ fn chip_misses(
         let c = code(prn);
         let (head, tail) = (&c[..24], &c[c.len() - 24..]);
         if head != hex_bits(&r[first]).as_slice() {
-            misses.push(format!("{name} PRN {prn}: first 24 chips differ from {}", r[first]));
+            misses.push(format!(
+                "{name} PRN {prn}: first 24 chips differ from {}",
+                r[first]
+            ));
         }
         if tail != hex_bits(&r[last]).as_slice() {
-            misses.push(format!("{name} PRN {prn}: last 24 chips differ from {}", r[last]));
+            misses.push(format!(
+                "{name} PRN {prn}: last 24 chips differ from {}",
+                r[last]
+            ));
         }
     }
     (rows.len() * 2, misses)
@@ -67,7 +73,12 @@ fn assert_all(name: &str, total: usize, misses: &[String]) {
         misses.is_empty(),
         "{name}: {} of {total} columns differ:\n{}",
         misses.len(),
-        misses.iter().take(12).cloned().collect::<Vec<_>>().join("\n")
+        misses
+            .iter()
+            .take(12)
+            .cloned()
+            .collect::<Vec<_>>()
+            .join("\n")
     );
 }
 
@@ -117,7 +128,8 @@ fn b1c_post_hoc_the_printed_g2_state_is_the_state_after_2047_minus_the_delay() {
 #[test]
 fn b2_the_legendre_sequence_of_length_10223_is_the_printed_table_d1() {
     let text = std::fs::read_to_string(
-        PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("xval/lunanet-afs/oracle/legendre_10223.hex"),
+        PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("xval/lunanet-afs/oracle/legendre_10223.hex"),
     )
     .unwrap();
     let hex = text.lines().find(|l| !l.starts_with('#')).unwrap().trim();
@@ -125,7 +137,11 @@ fn b2_the_legendre_sequence_of_length_10223_is_the_printed_table_d1() {
     let printed = hex_bits(hex);
     assert_eq!(printed.len(), 10224);
     let l = legendre_bits(10223);
-    assert_eq!(&printed[1..], l.as_slice(), "Legendre(10223) differs from Table D-1");
+    assert_eq!(
+        &printed[1..],
+        l.as_slice(),
+        "Legendre(10223) differs from Table D-1"
+    );
 }
 
 #[test]
@@ -154,7 +170,11 @@ fn b4_legendre_1499_matches_and_tertiary_codes_match_except_one_printed_column()
     let mut printed = hex_bits(&hex[..1])[1..].to_vec();
     printed.extend(hex_bits(&hex[1..]));
     assert_eq!(printed.len(), 1499);
-    assert_eq!(printed, legendre_bits(1499), "Legendre(1499) differs from Table E-1");
+    assert_eq!(
+        printed,
+        legendre_bits(1499),
+        "Legendre(1499) differs from Table E-1"
+    );
     let rows = oracle("afs_q_tertiary_weil.csv");
     assert_eq!(rows.len(), 210);
     let (total, misses) = chip_misses("tertiary", &rows, 2, 3, |p| afs_q_tertiary_bits(p).unwrap());
@@ -168,7 +188,11 @@ fn b4_legendre_1499_matches_and_tertiary_codes_match_except_one_printed_column()
         .filter(|r| r[3] == "A14850")
         .map(|r| r[0].as_str())
         .collect();
-    assert_eq!(same, ["147", "151"], "the printed value appears for two PRNs");
+    assert_eq!(
+        same,
+        ["147", "151"],
+        "the printed value appears for two PRNs"
+    );
 }
 
 #[test]
@@ -187,10 +211,18 @@ fn code_lengths_and_the_tiered_pilot_are_the_documents() {
     assert_eq!(afs_q_tertiary_bits(1).unwrap().len(), 1500);
     // Table 9: 10230 chips = 2 ms at 5.115 Mchip/s; 4 x 1500 primary periods = 12 s.
     assert_eq!(afs_q_overlay_bits(0, 1).unwrap().len(), 6000);
+    use kshana::iq::SpreadingCode;
     let q = afs_q(1).unwrap();
     assert_eq!(q.primary_len(), 10_230);
+    // The receiver replica is primary x secondary: 4 x 2 ms = 8 ms.
+    assert_eq!(q.len_chips(), 4 * 10_230);
+    assert!((q.len_chips() as f64 / q.chip_rate_hz() - 0.008).abs() < 1e-12);
+    // The full pilot adds the 1500-chip tertiary code: 12 s.
+    let full = afs_q_tiered(1, 0, 1).unwrap();
+    assert_eq!(full.len_chips(), 10_230 * 4 * 1500);
+    assert!((full.len_chips() as f64 / full.chip_rate_hz() - 12.0).abs() < 1e-9);
     assert!(afs_i_bits(0).is_err() && afs_i_bits(211).is_err());
-    assert!(afs_q_with(1, 4, 1).is_err());
+    assert!(afs_q_with(1, 4, None).is_err() && afs_q_with(1, 4, Some(1)).is_err());
 }
 
 #[test]
@@ -209,7 +241,13 @@ fn the_spec_check_reports_every_bar_and_pins_the_b4_miss() {
     }
     assert_eq!(status("B4"), "NOT MET");
     let b4 = bars.iter().find(|b| b["bar"] == "B4").unwrap();
-    assert_eq!((b4["matched"].as_u64(), b4["total"].as_u64()), (Some(420), Some(421)));
+    assert_eq!(
+        (b4["matched"].as_u64(), b4["total"].as_u64()),
+        (Some(420), Some(421))
+    );
     assert_eq!(r["all_met"], false);
-    assert!(r["specification"].as_str().unwrap().contains("V1.0, 29 January 2025"));
+    assert!(r["specification"]
+        .as_str()
+        .unwrap()
+        .contains("V1.0, 29 January 2025"));
 }
