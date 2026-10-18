@@ -75,4 +75,7 @@ fn bar_a5_no_moved_output() {
     );
 }
 
+// PIN-SCOPE:    the FNV digest of the optical link-budget and availability output of the
+// PIN-SCOPE:    atmosphere-free paths, as computed at the base commit (bar A5)
+// PIN-EXCLUDES: the optical-atmosphere kind's own output, the engine version, key order
 const EXPECTED: u64 = 0xfb00c966de4299bc;

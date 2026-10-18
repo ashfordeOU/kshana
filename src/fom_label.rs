@@ -224,6 +224,7 @@ pub const KINDS_EXCLUDED_FROM_FIGURE_TIERS: &[(&str, &str)] = &[
     ("lunar-attack-surface", "its result document is compact JSON; appending the block byte-exactly would need the whole document re-printed"),
     ("leo-ppp", "its result carries the convergence times and NEES as arrays; no scalar headline figure"),
     ("solar-system", "its positions and light times are arrays; the only scalars are the epoch and the body count"),
+    ("optical-atmosphere", "its figures are per-site and per-network-row arrays; the document carries its own MODELLED label"),
     ("sweep", "its results are arrays of member runs; the members carry their own tiers"),
     ("sweep-nd", "its results are arrays of member metrics; the members carry their own tiers"),
 ];

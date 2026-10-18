@@ -7,7 +7,7 @@ not available on a given surface: [`SURFACES.md`](SURFACES.md).
 ## Connect
 
 ```sh
-npx -y kshana-mcp@0.36.0            # or: uvx kshana-mcp==0.36.0, brew, scoop, winget, cargo, docker
+npx -y kshana-mcp@0.37.0            # or: uvx kshana-mcp==0.37.0, brew, scoop, winget, cargo, docker
 ```
 
 Every channel, with one-click Cursor and VS Code links and snippets for Claude Desktop, Cursor,
