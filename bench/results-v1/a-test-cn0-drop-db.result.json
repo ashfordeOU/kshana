@@ -1,0 +1,24 @@
+{
+  "label": "MODELLED: truth is the scheduled attack slots of the JammerTest 2024 event logs, at one-minute resolution, so a detection probability is a lower bound; a clean epoch means outside the logged windows",
+  "metrics": {
+    "auc": 0.8224755893413509,
+    "n_negative": 487,
+    "n_positive": 2598,
+    "pd_at_pfa_cap": 0.3903002309468822,
+    "pd_at_pfa_cap_note": "empirical threshold chosen on the scored split itself: an upper bound, not a deployable operating point",
+    "pfa_achieved_at_cap": 0.008213552361396304,
+    "pfa_cap": 0.01
+  },
+  "notice": "Advisory: modelled or measured against stated references, not an approval, certification or statement of conformance. A score describes a log or corpus, never a product.",
+  "predictions_sha256": "0f50063c7979fa8ea46f6a2383f993d4c1f4eb328b0ff0f6fb3ef1e489df63be",
+  "provenance": "scored",
+  "schema": "kshana-bench-result/1",
+  "spec_version": "kshana-bench/1.0.0",
+  "split": "test",
+  "system": {
+    "name": "kshana receiver-trust cn0_drop_db (0.35 default monitor statistic)",
+    "version": "kshana-bench/1.0.0"
+  },
+  "task": "a",
+  "truth_sha256": "6eb301a17d0d405fc487bf220ff343d711b03fa81756bfcf1eb0ead5cc6bafac"
+}

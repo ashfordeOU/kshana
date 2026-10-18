@@ -134,7 +134,7 @@ fn s3_a_baseline_run_is_byte_identical_twice() {
     );
 }
 
-/// Data-gated (the archive is never vendored): A1 reproduces the recorded pooled AUCs of
+/// Data-gated (the archive is never vendored): A2 is NOT MET (pinned below); A1 reproduces the recorded pooled AUCs of
 /// `xval/jammertest-trust/RESULTS.md`; A2 is the floor on the test split. Without
 /// `KSHANA_JAMMERTEST_DIR` the test says so and returns.
 #[test]
@@ -179,7 +179,16 @@ fn a1_a2_receiver_log_baselines_on_jammertest_2024() {
             )
             .unwrap();
             let got = r["metrics"]["auc"].as_f64().unwrap();
-            assert!(got >= 0.80, "A2: agc_k_sigma test AUC {got}");
+            // Registered: >= 0.80. Measured under the 2.0.0 split: 0.766, so A2 is NOT MET and the
+            // miss is pinned (under 1.0.0 the single-folder test split gave 0.830).
+            assert!(
+                got < 0.80,
+                "A2 would now be met: agc_k_sigma test AUC {got}"
+            );
+            assert!(
+                (got - 0.7659).abs() < 1e-3,
+                "A2: agc_k_sigma test AUC {got}"
+            );
         }
     }
 }
@@ -202,5 +211,45 @@ fn v1_every_split_of_the_stratified_rule_holds_jamming_and_clean_epochs() {
             jam > 0 && clean > 0 && jam_folders >= 2,
             "{s:?}: {jam} jamming, {clean} clean, {jam_folders} jamming folders"
         );
+    }
+}
+
+/// Bar V2 of `PREREGISTRATION-v2.md`: the task (c) and (d) metrics under 2.0.0 equal the 1.0.0 ones.
+#[test]
+fn v2_task_c_and_d_metrics_are_identical_to_the_1_0_0_results() {
+    let dir = |d: &str| std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join(d);
+    let mut n = 0;
+    for e in std::fs::read_dir(dir("bench/results-v1"))
+        .unwrap()
+        .flatten()
+    {
+        let name = e.file_name().to_string_lossy().into_owned();
+        if !(name.starts_with("c-") || name.starts_with("d-")) || !name.ends_with(".result.json") {
+            continue;
+        }
+        let old: Value = serde_json::from_slice(&std::fs::read(e.path()).unwrap()).unwrap();
+        let new: Value =
+            serde_json::from_slice(&std::fs::read(dir("bench/results").join(&name)).unwrap())
+                .unwrap();
+        assert_eq!(old["spec_version"], "kshana-bench/1.0.0");
+        assert_eq!(new["spec_version"], "kshana-bench/2.0.0");
+        assert!(same(&old["metrics"], &new["metrics"]), "{name}");
+        n += 1;
+    }
+    assert_eq!(n, 16);
+}
+
+fn same(a: &Value, b: &Value) -> bool {
+    match (a, b) {
+        (Value::Object(x), Value::Object(y)) => {
+            x.len() == y.len() && x.iter().all(|(k, v)| y.get(k).is_some_and(|w| same(v, w)))
+        }
+        (Value::Array(x), Value::Array(y)) => {
+            x.len() == y.len() && x.iter().zip(y).all(|(p, q)| same(p, q))
+        }
+        (Value::Number(x), Value::Number(y)) => {
+            (x.as_f64().unwrap() - y.as_f64().unwrap()).abs() <= 1e-12
+        }
+        _ => a == b,
     }
 }
