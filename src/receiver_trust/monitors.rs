@@ -322,6 +322,95 @@ pub enum Monitor {
     Geometry,
 }
 
+/// The receiver's own spoofing and jamming flags at one epoch, set against Kshana's monitors:
+/// the `receiver-self-report` comparison. It raises no alarm and changes no score.
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+pub struct SelfReportEpoch {
+    /// The receiver's spoofing state, 0 to 3 (see [`super::ReceiverSelfReport`]).
+    pub spoofing_state: Option<u8>,
+    /// The receiver's jamming state, 0 to 3.
+    pub jamming_state: Option<u8>,
+    /// The receiver flags spoofing or jamming (a state of 2 or more).
+    pub receiver_flag: bool,
+    /// At least one Kshana monitor alarmed.
+    pub kshana_alarm: bool,
+    /// `both`, `receiver-only`, `kshana-only`, `neither`, or `calibrating`.
+    pub agreement: String,
+}
+
+/// The `receiver-self-report` comparison over a whole log.
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+pub struct SelfReportSummary {
+    /// What this is: the receiver's own detector, set against Kshana's monitors; neither is
+    /// ground truth, and agreement is not validation.
+    pub note: String,
+    /// Post-calibration epochs that carry a receiver flag state.
+    pub epochs_reported: usize,
+    /// Of those, epochs where the receiver flags spoofing or jamming.
+    pub receiver_flag_epochs: usize,
+    /// Both the receiver and a Kshana monitor flag.
+    pub both: usize,
+    /// Only the receiver flags.
+    pub receiver_only: usize,
+    /// Only a Kshana monitor alarms.
+    pub kshana_only: usize,
+    /// Neither flags.
+    pub neither: usize,
+    /// Epochs where the receiver's spoofing state is 2 or more.
+    pub spoofing_flag_epochs: usize,
+    /// Epochs where the receiver's jamming state is 2 or more.
+    pub jamming_flag_epochs: usize,
+    /// First post-calibration epoch the receiver flags, s.
+    pub first_receiver_flag_s: Option<f64>,
+    /// First post-calibration epoch a Kshana monitor alarms among the reported epochs, s.
+    pub first_kshana_alarm_s: Option<f64>,
+}
+
+/// Compare the receiver's flags with Kshana's alarms over the post-calibration epochs that
+/// carry a flag state; `None` when the log carries none.
+pub fn self_report_summary(epochs: &[EpochTrust]) -> Option<SelfReportSummary> {
+    let rep: Vec<(&EpochTrust, &SelfReportEpoch)> = epochs
+        .iter()
+        .filter_map(|e| e.self_report.as_ref().map(|r| (e, r)))
+        .collect();
+    if rep.is_empty() {
+        return None;
+    }
+    let post: Vec<_> = rep
+        .iter()
+        .filter(|(_, r)| r.agreement != "calibrating")
+        .collect();
+    let n = |a: &str| post.iter().filter(|(_, r)| r.agreement == a).count();
+    Some(SelfReportSummary {
+        note:
+            "the receiver's own spoofing/jamming flags (UBX-NAV-STATUS, UBX-SEC-SIG) set against \
+               Kshana's monitors; neither is ground truth, agreement is not validation"
+                .into(),
+        epochs_reported: post.len(),
+        receiver_flag_epochs: post.iter().filter(|(_, r)| r.receiver_flag).count(),
+        both: n("both"),
+        receiver_only: n("receiver-only"),
+        kshana_only: n("kshana-only"),
+        neither: n("neither"),
+        spoofing_flag_epochs: post
+            .iter()
+            .filter(|(_, r)| r.spoofing_state.is_some_and(|v| v >= 2))
+            .count(),
+        jamming_flag_epochs: post
+            .iter()
+            .filter(|(_, r)| r.jamming_state.is_some_and(|v| v >= 2))
+            .count(),
+        first_receiver_flag_s: post
+            .iter()
+            .find(|(_, r)| r.receiver_flag)
+            .map(|(e, _)| e.t_s),
+        first_kshana_alarm_s: post
+            .iter()
+            .find(|(_, r)| r.kshana_alarm)
+            .map(|(e, _)| e.t_s),
+    })
+}
+
 /// The trust verdict for one epoch.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "kebab-case")]
@@ -381,6 +470,9 @@ pub struct EpochTrust {
     /// The satellite geometry at this epoch: good, degraded (with reasons) or unknown (0.36).
     #[serde(default = "EpochGeometry::unknown")]
     pub geometry: EpochGeometry,
+    /// The receiver's own flags against Kshana's alarms, where the log carries them.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub self_report: Option<SelfReportEpoch>,
 }
 
 /// A contiguous run of one monitor's alarm.
@@ -951,6 +1043,7 @@ pub fn run_monitors(
             clock_bound_ns: None,
             marine: None,
             score: None,
+            self_report: None,
             alarms: Vec::new(),
             state: TrustState::Calibrating,
             geometry: match s.tl {
@@ -1137,6 +1230,23 @@ pub fn run_monitors(
             }
         }
         et.alarms = alarms.into_iter().collect();
+        if let Some(sr) = s.tl.and_then(|i| tl.epochs[i].self_report) {
+            let (flag, alarm) = (sr.flagged(), !et.alarms.is_empty());
+            et.self_report = Some(SelfReportEpoch {
+                spoofing_state: sr.spoofing,
+                jamming_state: sr.jamming,
+                receiver_flag: flag,
+                kshana_alarm: alarm,
+                agreement: match (et.state == TrustState::Calibrating, flag, alarm) {
+                    (true, _, _) => "calibrating",
+                    (_, true, true) => "both",
+                    (_, true, false) => "receiver-only",
+                    (_, false, true) => "kshana-only",
+                    (_, false, false) => "neither",
+                }
+                .into(),
+            });
+        }
         epochs.push(et);
         decided.push(dec);
     }
