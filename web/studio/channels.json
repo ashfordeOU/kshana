@@ -1,5 +1,5 @@
 {
- "version": "0.36.0",
+ "version": "0.37.0",
  "studio": "Kshana Studio",
  "channels": [
   {
@@ -19,7 +19,8 @@
    "links": [],
    "registry_name": null,
    "parity": null,
-   "optional": false
+   "optional": false,
+   "pending": false
   },
   {
    "id": "cli",
@@ -28,7 +29,7 @@
    "audience": "engineers who want the kshana command",
    "requires": "Rust",
    "command": "cargo install kshana",
-   "pinned": "cargo install kshana --version 0.36.0",
+   "pinned": "cargo install kshana --version 0.37.0",
    "verify": "kshana --version",
    "registry": "https://crates.io/crates/kshana",
    "registry_label": "crates.io: kshana",
@@ -38,7 +39,8 @@
    "links": [],
    "registry_name": null,
    "parity": "crates.io kshana",
-   "optional": false
+   "optional": false,
+   "pending": false
   },
   {
    "id": "rust",
@@ -47,7 +49,7 @@
    "audience": "Rust developers embedding the engine",
    "requires": "Rust",
    "command": "cargo add kshana",
-   "pinned": "cargo add kshana@0.36.0",
+   "pinned": "cargo add kshana@0.37.0",
    "verify": "cargo tree --depth 1 | grep kshana",
    "registry": "https://crates.io/crates/kshana",
    "registry_label": "crates.io: kshana",
@@ -57,7 +59,8 @@
    "links": [],
    "registry_name": null,
    "parity": "crates.io kshana",
-   "optional": false
+   "optional": false,
+   "pending": false
   },
   {
    "id": "python",
@@ -66,7 +69,7 @@
    "audience": "analysts and notebooks",
    "requires": "Python",
    "command": "pip install kshana",
-   "pinned": "pip install kshana==0.36.0",
+   "pinned": "pip install kshana==0.37.0",
    "verify": "python -c \"import kshana; print(kshana.version())\"",
    "registry": "https://pypi.org/project/kshana/",
    "registry_label": "PyPI: kshana",
@@ -76,7 +79,8 @@
    "links": [],
    "registry_name": null,
    "parity": "PyPI kshana",
-   "optional": false
+   "optional": false,
+   "pending": false
   },
   {
    "id": "npm",
@@ -85,7 +89,7 @@
    "audience": "web and Node.js developers",
    "requires": "Node",
    "command": "npm install kshana",
-   "pinned": "npm install kshana@0.36.0",
+   "pinned": "npm install kshana@0.37.0",
    "verify": "npm ls kshana",
    "registry": "https://www.npmjs.com/package/kshana",
    "registry_label": "npm: kshana",
@@ -95,7 +99,8 @@
    "links": [],
    "registry_name": null,
    "parity": "npm kshana",
-   "optional": false
+   "optional": false,
+   "pending": false
   },
   {
    "id": "mcp",
@@ -104,7 +109,7 @@
    "audience": "anyone using an MCP-capable assistant",
    "requires": "Rust 1.88+",
    "command": "cargo install kshana-mcp",
-   "pinned": "cargo install kshana-mcp --version 0.36.0",
+   "pinned": "cargo install kshana-mcp --version 0.37.0",
    "verify": "cargo install --list | grep kshana-mcp",
    "registry": "https://crates.io/crates/kshana-mcp",
    "registry_label": "crates.io: kshana-mcp",
@@ -115,6 +120,7 @@
    "registry_name": "io.github.ashfordeOU/kshana-mcp",
    "parity": "crates.io kshana-mcp",
    "optional": false,
+   "pending": false,
    "configs": [
     "{\n  \"mcpServers\": {\n    \"kshana\": {\n      \"command\": \"/Users/you/.cargo/bin/kshana-mcp\",\n      \"env\": { \"KSHANA_MCP_IQ_DIR\": \"/Users/you/iq\" }\n    }\n  }\n}",
     "{\n  \"mcpServers\": {\n    \"kshana\": {\n      \"command\": \"/Users/you/.cargo/bin/kshana-mcp\",\n      \"args\": [],\n      \"env\": {}\n    }\n  }\n}"
@@ -127,8 +133,8 @@
    "audience": "no Rust toolchain; the MCP server in a container",
    "requires": "Docker",
    "command": "docker run --rm -i ghcr.io/ashfordeou/kshana-mcp",
-   "pinned": "docker run --rm -i ghcr.io/ashfordeou/kshana-mcp:0.36.0",
-   "verify": "docker image inspect ghcr.io/ashfordeou/kshana-mcp:0.36.0 --format '{{.Id}}'",
+   "pinned": "docker run --rm -i ghcr.io/ashfordeou/kshana-mcp:0.37.0",
+   "verify": "docker image inspect ghcr.io/ashfordeou/kshana-mcp:0.37.0 --format '{{.Id}}'",
    "registry": "https://github.com/ashfordeOU/kshana/pkgs/container/kshana-mcp",
    "registry_label": "GitHub container registry",
    "docs": "docs/mcp.html#install-the-mcp-server",
@@ -137,7 +143,8 @@
    "links": [],
    "registry_name": null,
    "parity": "ghcr.io kshana-mcp",
-   "optional": false
+   "optional": false,
+   "pending": false
   },
   {
    "id": "mcp-desktop",
@@ -148,7 +155,7 @@
    "command": null,
    "pinned": null,
    "verify": null,
-   "registry": "https://github.com/ashfordeOU/kshana/releases/tag/v0.36.0",
+   "registry": "https://github.com/ashfordeOU/kshana/releases/tag/v0.37.0",
    "registry_label": "GitHub release",
    "docs": "https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md",
    "docs_label": "Every MCP install snippet",
@@ -156,28 +163,29 @@
    "links": [
     {
      "label": "macOS (Apple silicon)",
-     "url": "https://github.com/ashfordeOU/kshana/releases/download/v0.36.0/kshana-mcp-aarch64-apple-darwin.mcpb"
+     "url": "https://github.com/ashfordeOU/kshana/releases/download/v0.37.0/kshana-mcp-aarch64-apple-darwin.mcpb"
     },
     {
      "label": "macOS (Intel)",
-     "url": "https://github.com/ashfordeOU/kshana/releases/download/v0.36.0/kshana-mcp-x86_64-apple-darwin.mcpb"
+     "url": "https://github.com/ashfordeOU/kshana/releases/download/v0.37.0/kshana-mcp-x86_64-apple-darwin.mcpb"
     },
     {
      "label": "Windows",
-     "url": "https://github.com/ashfordeOU/kshana/releases/download/v0.36.0/kshana-mcp-x86_64-pc-windows-msvc.mcpb"
+     "url": "https://github.com/ashfordeOU/kshana/releases/download/v0.37.0/kshana-mcp-x86_64-pc-windows-msvc.mcpb"
     },
     {
      "label": "Linux (x86-64)",
-     "url": "https://github.com/ashfordeOU/kshana/releases/download/v0.36.0/kshana-mcp-x86_64-unknown-linux-gnu.mcpb"
+     "url": "https://github.com/ashfordeOU/kshana/releases/download/v0.37.0/kshana-mcp-x86_64-unknown-linux-gnu.mcpb"
     },
     {
      "label": "Linux (Arm)",
-     "url": "https://github.com/ashfordeOU/kshana/releases/download/v0.36.0/kshana-mcp-aarch64-unknown-linux-gnu.mcpb"
+     "url": "https://github.com/ashfordeOU/kshana/releases/download/v0.37.0/kshana-mcp-aarch64-unknown-linux-gnu.mcpb"
     }
    ],
    "registry_name": null,
    "parity": "GitHub release assets",
-   "optional": false
+   "optional": false,
+   "pending": false
   },
   {
    "id": "mcp-cursor",
@@ -185,8 +193,8 @@
    "name": "Cursor (one click)",
    "audience": "Cursor users",
    "requires": "Node, or Docker",
-   "command": "npx -y kshana-mcp@0.36.0",
-   "pinned": "kshana-mcp@0.36.0 / ghcr.io/ashfordeou/kshana-mcp:0.36.0",
+   "command": "npx -y kshana-mcp@0.37.0",
+   "pinned": "kshana-mcp@0.37.0 / ghcr.io/ashfordeou/kshana-mcp:0.37.0",
    "verify": null,
    "registry": null,
    "registry_label": null,
@@ -196,16 +204,17 @@
    "links": [
     {
      "label": "Add to Cursor (npx)",
-     "url": "https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImtzaGFuYS1tY3BAMC4zNi4wIl19"
+     "url": "https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImtzaGFuYS1tY3BAMC4zNy4wIl19"
     },
     {
      "label": "Add to Cursor (Docker)",
-     "url": "https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoiZG9ja2VyIiwiYXJncyI6WyJydW4iLCItaSIsIi0tcm0iLCJnaGNyLmlvL2FzaGZvcmRlb3Uva3NoYW5hLW1jcDowLjM2LjAiXX0%3D"
+     "url": "https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoiZG9ja2VyIiwiYXJncyI6WyJydW4iLCItaSIsIi0tcm0iLCJnaGNyLmlvL2FzaGZvcmRlb3Uva3NoYW5hLW1jcDowLjM3LjAiXX0%3D"
     }
    ],
    "registry_name": null,
    "parity": "npm kshana-mcp",
-   "optional": false
+   "optional": false,
+   "pending": false
   },
   {
    "id": "mcp-vscode",
@@ -213,8 +222,8 @@
    "name": "VS Code (one click)",
    "audience": "VS Code and Insiders users",
    "requires": "Node, or Docker",
-   "command": "npx -y kshana-mcp@0.36.0",
-   "pinned": "kshana-mcp@0.36.0 / ghcr.io/ashfordeou/kshana-mcp:0.36.0",
+   "command": "npx -y kshana-mcp@0.37.0",
+   "pinned": "kshana-mcp@0.37.0 / ghcr.io/ashfordeou/kshana-mcp:0.37.0",
    "verify": null,
    "registry": null,
    "registry_label": null,
@@ -224,20 +233,21 @@
    "links": [
     {
      "label": "Install in VS Code (npx)",
-     "url": "https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522npx%2522%252C%2522args%2522%253A%255B%2522-y%2522%252C%2522kshana-mcp%25400.36.0%2522%255D%257D"
+     "url": "https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522npx%2522%252C%2522args%2522%253A%255B%2522-y%2522%252C%2522kshana-mcp%25400.37.0%2522%255D%257D"
     },
     {
      "label": "Install in VS Code (Docker)",
-     "url": "https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522docker%2522%252C%2522args%2522%253A%255B%2522run%2522%252C%2522-i%2522%252C%2522--rm%2522%252C%2522ghcr.io%252Fashfordeou%252Fkshana-mcp%253A0.36.0%2522%255D%257D"
+     "url": "https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522docker%2522%252C%2522args%2522%253A%255B%2522run%2522%252C%2522-i%2522%252C%2522--rm%2522%252C%2522ghcr.io%252Fashfordeou%252Fkshana-mcp%253A0.37.0%2522%255D%257D"
     },
     {
      "label": "Install in VS Code Insiders (npx)",
-     "url": "https://insiders.vscode.dev/redirect?url=vscode-insiders%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522npx%2522%252C%2522args%2522%253A%255B%2522-y%2522%252C%2522kshana-mcp%25400.36.0%2522%255D%257D"
+     "url": "https://insiders.vscode.dev/redirect?url=vscode-insiders%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522npx%2522%252C%2522args%2522%253A%255B%2522-y%2522%252C%2522kshana-mcp%25400.37.0%2522%255D%257D"
     }
    ],
    "registry_name": null,
    "parity": "npm kshana-mcp",
-   "optional": false
+   "optional": false,
+   "pending": false
   },
   {
    "id": "mcp-npx",
@@ -245,9 +255,9 @@
    "name": "npx",
    "audience": "Node users, any MCP client",
    "requires": "Node 18+",
-   "command": "npx -y kshana-mcp@0.36.0",
-   "pinned": "kshana-mcp@0.36.0",
-   "verify": "npx -y kshana-mcp@0.36.0 --version",
+   "command": "npx -y kshana-mcp@0.37.0",
+   "pinned": "kshana-mcp@0.37.0",
+   "verify": "npx -y kshana-mcp@0.37.0 --version",
    "registry": "https://www.npmjs.com/package/kshana-mcp",
    "registry_label": "npm: kshana-mcp",
    "docs": "https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md",
@@ -256,7 +266,8 @@
    "links": [],
    "registry_name": null,
    "parity": "npm kshana-mcp",
-   "optional": false
+   "optional": false,
+   "pending": false
   },
   {
    "id": "mcp-uvx",
@@ -264,9 +275,9 @@
    "name": "uvx / pipx",
    "audience": "Python users, any MCP client",
    "requires": "Python 3.9+ with uv or pipx",
-   "command": "uvx kshana-mcp==0.36.0",
-   "pinned": "kshana-mcp==0.36.0",
-   "verify": "uvx kshana-mcp==0.36.0 --version",
+   "command": "uvx kshana-mcp==0.37.0",
+   "pinned": "kshana-mcp==0.37.0",
+   "verify": "uvx kshana-mcp==0.37.0 --version",
    "registry": "https://pypi.org/project/kshana-mcp/",
    "registry_label": "PyPI: kshana-mcp",
    "docs": "https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md",
@@ -275,7 +286,8 @@
    "links": [],
    "registry_name": null,
    "parity": "PyPI kshana-mcp",
-   "optional": false
+   "optional": false,
+   "pending": false
   },
   {
    "id": "mcp-brew",
@@ -284,7 +296,7 @@
    "audience": "macOS and Linux",
    "requires": "brew",
    "command": "brew install ashfordeOU/tap/kshana-mcp",
-   "pinned": "formula for v0.36.0",
+   "pinned": "formula for v0.37.0",
    "verify": "kshana-mcp --version",
    "registry": "https://github.com/ashfordeOU/homebrew-tap",
    "registry_label": "Homebrew tap",
@@ -294,7 +306,8 @@
    "links": [],
    "registry_name": null,
    "parity": "Homebrew tap kshana-mcp",
-   "optional": true
+   "optional": true,
+   "pending": false
   },
   {
    "id": "mcp-scoop",
@@ -303,7 +316,7 @@
    "audience": "Windows",
    "requires": "Scoop",
    "command": "scoop bucket add ashforde https://github.com/ashfordeOU/scoop-bucket && scoop install kshana-mcp",
-   "pinned": "manifest for v0.36.0",
+   "pinned": "manifest for v0.37.0",
    "verify": "kshana-mcp --version",
    "registry": "https://github.com/ashfordeOU/scoop-bucket",
    "registry_label": "Scoop bucket",
@@ -313,7 +326,8 @@
    "links": [],
    "registry_name": null,
    "parity": "Scoop bucket kshana-mcp",
-   "optional": true
+   "optional": true,
+   "pending": false
   },
   {
    "id": "mcp-winget",
@@ -322,7 +336,7 @@
    "audience": "Windows",
    "requires": "winget",
    "command": "winget install AshfordeOU.KshanaMcp",
-   "pinned": "winget install AshfordeOU.KshanaMcp --version 0.36.0",
+   "pinned": "winget install AshfordeOU.KshanaMcp --version 0.37.0",
    "verify": "kshana-mcp --version",
    "registry": "https://github.com/microsoft/winget-pkgs",
    "registry_label": "winget-pkgs",
@@ -332,7 +346,8 @@
    "links": [],
    "registry_name": null,
    "parity": "winget AshfordeOU.KshanaMcp",
-   "optional": true
+   "optional": true,
+   "pending": true
   },
   {
    "id": "mcp-binary",
@@ -343,7 +358,7 @@
    "command": null,
    "pinned": null,
    "verify": null,
-   "registry": "https://github.com/ashfordeOU/kshana/releases/tag/v0.36.0",
+   "registry": "https://github.com/ashfordeOU/kshana/releases/tag/v0.37.0",
    "registry_label": "GitHub release",
    "docs": "https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md",
    "docs_label": "Every MCP install snippet",
@@ -351,7 +366,8 @@
    "links": [],
    "registry_name": null,
    "parity": "GitHub release assets",
-   "optional": false
+   "optional": false,
+   "pending": false
   },
   {
    "id": "mcp-registry",
@@ -370,7 +386,8 @@
    "links": [],
    "registry_name": "io.github.ashfordeOU/kshana-mcp",
    "parity": "MCP registry kshana-mcp",
-   "optional": true
+   "optional": true,
+   "pending": false
   },
   {
    "id": "mcp-http",
@@ -379,7 +396,7 @@
    "audience": "clients that take a URL",
    "requires": "your own host",
    "command": "kshana-mcp --http 127.0.0.1:8080",
-   "pinned": "v0.36.0",
+   "pinned": "v0.37.0",
    "verify": null,
    "registry": null,
    "registry_label": null,
@@ -389,7 +406,8 @@
    "links": [],
    "registry_name": null,
    "parity": null,
-   "optional": false
+   "optional": false,
+   "pending": false
   },
   {
    "id": "jetbrains",
@@ -408,7 +426,8 @@
    "links": [],
    "registry_name": null,
    "parity": null,
-   "optional": false
+   "optional": false,
+   "pending": false
   },
   {
    "id": "signalk",
@@ -417,7 +436,7 @@
    "audience": "boat owners running a Signal K server",
    "requires": "Node, a Signal K server",
    "command": "npm install signalk-kshana-trust",
-   "pinned": "npm install signalk-kshana-trust@0.36.0",
+   "pinned": "npm install signalk-kshana-trust@0.37.0",
    "verify": "npm ls signalk-kshana-trust",
    "registry": "https://www.npmjs.com/package/signalk-kshana-trust",
    "registry_label": "npm: signalk-kshana-trust",
@@ -427,7 +446,8 @@
    "links": [],
    "registry_name": null,
    "parity": "npm signalk-kshana-trust",
-   "optional": true
+   "optional": true,
+   "pending": false
   },
   {
    "id": "opencpn",
@@ -438,7 +458,7 @@
    "command": null,
    "pinned": null,
    "verify": null,
-   "registry": "https://github.com/ashfordeOU/kshana/releases/tag/v0.36.0",
+   "registry": "https://github.com/ashfordeOU/kshana/releases/tag/v0.37.0",
    "registry_label": "GitHub release",
    "docs": "https://github.com/ashfordeOU/kshana/blob/main/packaging/opencpn/SUBMITTING.md",
    "docs_label": "OpenCPN catalogue submission",
@@ -446,7 +466,8 @@
    "links": [],
    "registry_name": null,
    "parity": "GitHub release assets",
-   "optional": false
+   "optional": false,
+   "pending": false
   },
   {
    "id": "grafana",
@@ -457,7 +478,7 @@
    "command": null,
    "pinned": null,
    "verify": null,
-   "registry": "https://github.com/ashfordeOU/kshana/releases/tag/v0.36.0",
+   "registry": "https://github.com/ashfordeOU/kshana/releases/tag/v0.37.0",
    "registry_label": "GitHub release",
    "docs": "https://github.com/ashfordeOU/kshana/blob/main/deploy/grafana/kshana-gnss-trust.json",
    "docs_label": "Dashboard source",
@@ -465,7 +486,8 @@
    "links": [],
    "registry_name": null,
    "parity": "GitHub release assets",
-   "optional": false
+   "optional": false,
+   "pending": false
   },
   {
    "id": "reference-image",
@@ -474,7 +496,7 @@
    "audience": "gate and bench deployments",
    "requires": "Docker",
    "command": "docker pull ghcr.io/ashfordeou/kshana-reference-build",
-   "pinned": "docker pull ghcr.io/ashfordeou/kshana-reference-build:0.36.0",
+   "pinned": "docker pull ghcr.io/ashfordeou/kshana-reference-build:0.37.0",
    "verify": null,
    "registry": "https://github.com/ashfordeOU/kshana/pkgs/container/kshana-reference-build",
    "registry_label": "GitHub container registry",
@@ -484,7 +506,8 @@
    "links": [],
    "registry_name": null,
    "parity": "ghcr.io kshana-reference-build",
-   "optional": false
+   "optional": false,
+   "pending": false
   }
  ]
 }

@@ -1,0 +1,54 @@
+# An optimisation through a campaign: the link-budget example's X-band link
+# (55 dBW EIRP, 53 dB/K G/T, 3 dB other losses, 4.5 dB required Eb/N0), searched
+# over range and data rate for the operating point that leaves exactly 3 dB of
+# margin. Each evaluation is an ordinary `link-budget` run. The Nelder-Mead simplex
+# works in log-normalised coordinates inside the stated bounds, and every
+# evaluation is listed in the result's `trace`.
+#
+# The margin falls 20 dB per decade of range and 10 dB per decade of data rate, so
+# the 3 dB points form a line across this box. The optimiser returns one point on
+# it, nearest its start; the trace shows the path. Use `method = "grid"` with
+# `steps` on each param for an exhaustive search instead.
+#
+# MODELLED: a local search over the box, not a global guarantee, and as good as the
+# `link-budget` kind it runs. Protocol and pre-registered bars:
+# docs/design/evidence/cap32-optimize/.
+kind = "campaign"
+title = "Link budget: range and rate for a 3 dB margin"
+seed = 20261013
+
+[optimize]
+method = "nelder-mead"
+max_evals = 300
+
+[optimize.objective]
+name = "margin"
+path = "margin_db"
+goal = "target"
+target = 3.0
+
+[[optimize.params]]
+name = "range"
+key = "range_km"
+unit = "km"
+lo = 1.0e6
+hi = 1.0e9
+scale = "log"
+
+[[optimize.params]]
+name = "rate"
+key = "data_rate_bps"
+unit = "bit/s"
+lo = 1.0e3
+hi = 1.0e8
+scale = "log"
+
+[optimize.scenario]
+kind = "link-budget"
+band = "x"
+eirp_dbw = 55.0
+g_over_t_db = 53.0
+range_km = 2000.0
+data_rate_bps = 1.0e6
+other_losses_db = 3.0
+required_eb_n0_db = 4.5

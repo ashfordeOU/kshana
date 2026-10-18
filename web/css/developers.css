@@ -166,3 +166,28 @@ section.block.dx-start{padding:clamp(44px,4vw,60px) 0}
 .dt-chip:hover{border-color:var(--line-3)}
 @media (max-width:560px){.dt-chs{grid-template-columns:repeat(2,minmax(0,1fr))}.dt-term{font-size:11.5px;padding:12px}}
 @media (prefers-reduced-motion:reduce){.dt-caret{animation:none}}
+
+/* ------------------------------------------------------------------ every way to install it
+   developers.html #channels (build.py channels_all): three groups, each a grid of channel cards:
+   title and status chip, audience line, the command, "Pinned to" and "Then check it" as a caption
+   over a mono block, optional buttons, a note and the registry and guide links. */
+.ch-group{margin-top:clamp(36px,4vw,56px)}
+.ch-group:first-child{margin-top:clamp(20px,2.4vw,32px)}
+.ch-group>h3{margin:0 0 6px;font:600 clamp(20px,2vw,26px)/1.15 var(--sans);letter-spacing:-.02em;color:var(--ink)}
+.ch-blurb{margin:0 0 20px;max-width:72ch;font-size:14.5px;line-height:1.55;color:var(--ink-2)}
+.ch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,22rem),1fr));gap:16px;align-items:stretch}
+.ch{display:flex;flex-direction:column;gap:12px;padding:20px;min-width:0}
+.ch>h4{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;margin:0;font:600 17px/1.25 var(--sans);letter-spacing:-.01em;color:var(--ink)}
+.ch-opt{display:inline-block;padding:4px 8px;border-radius:999px;border:1px solid var(--line-2);background:var(--bg-2);font:600 10.5px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2);white-space:nowrap}
+.ch-aud{margin:0;font-size:13.5px;line-height:1.5;color:var(--ink-2)}
+.ch-cmd{display:flex;min-width:0}
+.ch-cmd .cmd{width:100%;min-height:42px;font-size:13px}
+.ch-pin,.ch-verify{display:grid;gap:5px;margin:0;min-width:0}
+.ch-pin>span,.ch-verify>span{font:600 10.5px/1 var(--mono);letter-spacing:.07em;text-transform:uppercase;color:var(--ink-3)}
+.ch-pin>code,.ch-verify>code{display:block;padding:8px 10px;border-radius:9px;border:1px solid var(--line);background:var(--bg-2);font:500 12.5px/1.45 var(--mono);color:var(--ink);white-space:pre-wrap;overflow-wrap:anywhere}
+.ch-btns{display:flex;flex-wrap:wrap;gap:8px;margin:0}
+.ch-btns .btn{min-height:34px;padding:0 13px;border-radius:9px;border:1px solid var(--line-2);background:var(--panel);color:var(--ink);font-size:13px;box-shadow:none}
+.ch-btns .btn:hover,.ch-btns .btn:focus-visible{transform:none;border-color:var(--line-3);color:var(--cyan)}
+.ch-note{margin:0;font-size:13px;line-height:1.5;color:var(--ink-3)}
+.ch-links{display:flex;flex-wrap:wrap;gap:6px 18px;margin:auto 0 0;padding-top:4px;font-size:13px}
+.ch-links a{color:var(--tim)}

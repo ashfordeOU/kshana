@@ -34,6 +34,10 @@ const pairOf = (cards, re) => {
 // ---------------------------------------------------------------- campaigns
 function campaign(r, toml, cards) {
   const runs = get(r, "reproducibility.runs_total");
+  if (r.optimize && num(r.optimize.best_metric) && num(r.optimize.evals) && typeof r.optimize.objective_name === "string") {
+    const o = r.optimize, at = o.best_coords && typeof o.best_coords === "object" ? Object.entries(o.best_coords).filter(([, v]) => num(v)).map(([k, v]) => `${words(k)} ${f(v)}`) : [];
+    return { big: `The search settles on a ${words(o.objective_name)} of ${f(o.best_metric)}${o.objective && typeof o.objective.unit === "string" && o.objective.unit !== "1" ? " " + o.objective.unit : ""} after ${o.evals} runs${typeof o.scenario_kind === "string" ? ` of ${words(o.scenario_kind)}` : ""}.`, line: at.length ? `At ${list(at)}.` : undefined };
+  }
   const tl = r.timeline;
   if (tl && Array.isArray(tl.phases) && num(tl.duration_s)) {
     const last = Array.isArray(tl.t_s) ? tl.t_s.length - 1 : -1;
@@ -410,6 +414,53 @@ function cislunarArc(r) {
   return { big: `The estimator recovers the orbit once it has ${dur(h * 3600)} of the ${f(r.arc_hours)} h arc.`, line: num(r.n_spacecraft) ? `${r.n_spacecraft} spacecraft, ${words(r.observable || "")} measurements.` : "" };
 }
 
+// ---------------------------------------------------------------- 0.36 kinds
+function acmLink(r) {
+  if (!has(r, "acm_gain", "acm_volume_mbit", "ccm_volume_mbit", "pass_count")) return null;
+  const n = r.pass_count;
+  return { big: `Adaptive coding moves ${f(r.acm_gain, 2)} times the data of the best fixed mode: ${f(r.acm_volume_mbit / 1000)} Gbit against ${f(r.ccm_volume_mbit / 1000)} Gbit over ${n} pass${n === 1 ? "" : "es"}.`, line: `Fixed mode ${r.ccm_modcod || "—"}; ${dur(num(r.outage_s) ? r.outage_s : 0)} of outage.` };
+}
+function aocs(r) {
+  if (!has(r, "max_pointing_error_deg", "pointing_threshold_deg", "final_pointing_error_deg")) return null;
+  const big = num(r.settle_time_s) ? `The ${f(r.max_pointing_error_deg)} degree slew settles below ${f(r.pointing_threshold_deg)} degrees after ${dur(r.settle_time_s)}.` : `The ${f(r.max_pointing_error_deg)} degree slew does not settle below ${f(r.pointing_threshold_deg)} degrees.`;
+  const w = Array.isArray(r.wheels) && r.wheels[0] && num(r.wheels[0].peak_torque_nm) ? ` Peak wheel torque ${f(r.wheels[0].peak_torque_nm)} N m.` : "";
+  const est = r.estimator && num(r.estimator.rms_attitude_error_arcsec) ? ` An attitude filter in the loop is off by ${f(r.estimator.rms_attitude_error_arcsec)} arcsec RMS.` : "";
+  return { big, line: `Final pointing error ${f(r.final_pointing_error_deg)} degrees.${w}${est}` };
+}
+function ascentLosses(r) {
+  if (!has(r, "ideal_dv_m_s", "losses_m_s.total", "end.altitude_m", "end.speed_m_s", "max_q_pa")) return null;
+  return { big: `Gravity, drag, steering and back-pressure take ${f(r.losses_m_s.total, 4)} m/s of the ${f(r.ideal_dv_m_s, 4)} m/s ideal speed gain.`, line: `Burnout at ${f(r.end.altitude_m / 1000)} km and ${f(r.end.speed_m_s, 4)} m/s; peak dynamic pressure ${f(r.max_q_pa / 1000)} kPa.` };
+}
+function contactSchedule(r) {
+  const g = r.plans && r.plans.greedy;
+  if (!g || !num(g.delivered_mbit) || !num(g.contacts) || !num(r.candidate_contacts) || !Array.isArray(r.satellites) || !Array.isArray(r.stations)) return null;
+  const backlog = r.satellites.reduce((a, x) => a + (num(x.backlog_mbit) ? x.backlog_mbit : 0), 0);
+  return { big: `The plan keeps ${g.contacts} of ${r.candidate_contacts} candidate contacts and delivers ${f(g.delivered_mbit / 1000)} Gbit${backlog > 0 ? ` of the ${f(backlog / 1000)} Gbit waiting` : ""}.`, line: `${r.satellites.length} satellites and ${r.stations.length} stations over ${f(r.duration_hours)} h.` };
+}
+function entryHeating(r) {
+  if (!has(r, "peak_deceleration.g", "peak_deceleration.altitude_m", "peak_heat_flux.w_cm2", "relative_entry.speed_m_s", "relative_entry.flight_path_angle_deg")) return null;
+  return { big: `Peak deceleration is ${f(r.peak_deceleration.g)} g at ${f(r.peak_deceleration.altitude_m / 1000)} km, with a peak heat flux of ${f(r.peak_heat_flux.w_cm2)} W/cm².`, line: `Entering at ${f(r.relative_entry.speed_m_s, 4)} m/s, ${f(r.relative_entry.flight_path_angle_deg)} degrees below the horizon.` };
+}
+function eoRadiometry(r) {
+  if (!has(r, "niirs_giqe4", "gsd_m", "snr", "mtf_nyquist.system")) return null;
+  return { big: `The camera reaches NIIRS ${f(r.niirs_giqe4)} at ${f(r.gsd_m)} m ground sample distance, with a signal-to-noise ratio of ${f(r.snr)}.`, line: `System MTF at Nyquist ${f(r.mtf_nyquist.system)}.` };
+}
+function timeTransferBudget(r) {
+  if (!has(r, "terms_ns.offset", "combined_uncertainty_ns")) return null;
+  return { big: `The two-way offset is ${f(r.terms_ns.offset)} ns, with a combined uncertainty of ${f(r.combined_uncertainty_ns)} ns.`, line: has(r, "terms_ns.sagnac", "terms_ns.ionosphere") ? `Sagnac ${f(r.terms_ns.sagnac)} ns; ionosphere ${f(r.terms_ns.ionosphere)} ns.` : undefined };
+}
+
+function opticalAtmosphere(r) {
+  const sites = Array.isArray(r.sites) ? r.sites.filter((x) => has(x, "availability_pct", "availability_ceiling_pct")) : [];
+  if (!sites.length) return null;
+  const best = sites.reduce((a, b) => (b.availability_pct > a.availability_pct ? b : a));
+  const rows = Array.isArray(get(r, "network.rows")) ? r.network.rows.filter((x) => has(x, "independent_pct", "correlated_pct")) : [];
+  const last = rows[rows.length - 1];
+  const team = rows.length > 1 && last ? `${rows.length} sites together reach ${f(last.independent_pct, 1)} % if their weather is independent, ${f(last.correlated_pct, 1)} % with the stated correlation` : `no cloud-free margin lifts it above ${f(best.availability_ceiling_pct, 1)} %`;
+  const tech = Array.isArray(best.techniques) ? best.techniques.find((t) => has(t, "baseline_pct", "with_technique_pct")) : null;
+  return { big: `The best single site keeps the optical link up ${f(best.availability_pct, 1)} % of the time (cloud-free ceiling ${f(best.availability_ceiling_pct, 1)} %); ${team}.`, line: tech ? `${words(tech.name)}: ${f(tech.baseline_pct, 1)} % becomes ${f(tech.with_technique_pct, 1)} %.` : `${sites.length} site${sites.length === 1 ? "" : "s"} modelled; the cloud climates are illustrative.` };
+}
+
 export const KIND_TEMPLATES = {
   campaign, sweep, "sweep-nd": sweepNd, spoof, fusion: pnt, hybrid: pnt, timetransfer, "telecom-timing": telecom, "slot-timing": slotTiming,
   "lunar-time-budget": lunarTimeBudget, "lunar-time-offset": lunarTimeOffset, "quantum-time-transfer": quantumTT,
@@ -424,4 +475,6 @@ export const KIND_TEMPLATES = {
   "lunar-differential-pnt": lunarDpnt, "lunar-station-coverage": lunarStation, "lunar-attack-surface": lunarAttack, "lunar-joint-od-clock": lunarJointOd, "lunar-frame-realisation": lunarFrameReal,
   "lunar-interop-export": lunarInterop, "lunar-vlbi": lunarVlbi, "lunar-vlbi-fim": lunarVlbiFim, "lunar-frame-campaign": lunarFrameCampaign,
   "lunar-llr-datum": lunarLlr, "cislunar-observability": cislunarObs, "cislunar-arc-recovery": cislunarArc,
+  "acm-link": acmLink, aocs, "ascent-losses": ascentLosses, "contact-schedule": contactSchedule, "entry-heating": entryHeating,
+  "eo-radiometry": eoRadiometry, "time-transfer-budget": timeTransferBudget, "optical-atmosphere": opticalAtmosphere,
 };

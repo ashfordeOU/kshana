@@ -1,0 +1,81 @@
+# Ground-contact planning: three illustrative satellites over three illustrative stations for
+# 12 hours. The run gives each satellite-station pass its access window and the data volume
+# DVB-S2 adaptive coding and modulation (ACM) can move in it (ETSI EN 302 307-1 Table 13
+# thresholds plus an implementation margin). It then builds a conflict-free contact plan in
+# which each antenna serves one satellite at a time, with a turnaround between contacts, and
+# each satellite downlinks to one station at a time. Delivery is weighted by priority and
+# capped at each satellite's backlog. Three plans are reported side by side: a marginal-value
+# greedy, a first-come baseline and, when the candidate set is small, the exact optimum, with
+# the greedy's optimality gap.
+#
+# Every number below is ILLUSTRATIVE: no operator's orbits, stations or link budget.
+# MODELLED: the scheduler is checked against its own exact solver, not an external tool.
+kind = "contact-schedule"
+epoch = [2024.0, 1.0, 1.0, 0.0, 0.0, 0.0]
+duration_hours = 12.0
+step_s = 30.0
+refraction = true
+light_time = true
+
+[link]
+frequency_ghz = 8.2            # X-band downlink
+eirp_dbw = 7.0
+symbol_rate_msps = 20.0
+other_losses_db = 2.0
+zenith_atm_loss_db = 0.3
+implementation_margin_db = 1.0
+acm_step_s = 10.0
+
+[[satellites]]
+name = "eo-sso-a"
+altitude_km = 550.0
+inclination_deg = 97.6
+raan_deg = 0.0
+arg_lat_deg = 0.0
+backlog_mbit = 400000.0
+priority = 2.0
+
+[[satellites]]
+name = "eo-sso-b"
+altitude_km = 550.0
+inclination_deg = 97.6
+raan_deg = 0.0
+arg_lat_deg = 180.0
+backlog_mbit = 400000.0
+priority = 1.0
+
+[[satellites]]
+name = "iot-mid"
+altitude_km = 700.0
+inclination_deg = 53.0
+raan_deg = 60.0
+arg_lat_deg = 90.0
+backlog_mbit = 60000.0
+priority = 1.5
+
+[[stations]]
+name = "polar-north"
+lat_deg = 78.2
+lon_deg = 15.4
+alt_m = 450.0
+mask_deg = 5.0
+g_over_t_db = 30.0
+setup_s = 120.0
+
+[[stations]]
+name = "mid-latitude"
+lat_deg = 52.2
+lon_deg = 5.0
+alt_m = 10.0
+mask_deg = 5.0
+g_over_t_db = 30.0
+setup_s = 120.0
+
+[[stations]]
+name = "southern"
+lat_deg = -33.9
+lon_deg = 18.4
+alt_m = 100.0
+mask_deg = 5.0
+g_over_t_db = 30.0
+setup_s = 120.0

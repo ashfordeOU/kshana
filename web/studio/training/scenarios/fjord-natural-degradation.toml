@@ -1,0 +1,37 @@
+# Fjord passage: the walls close in and the receiver loses the satellites behind them. Nothing is
+# jammed or counterfeit: the sky is blocked and the signal of every satellite still in the open sky
+# is as before. Synthetic NMEA for bridge-simulator training only; the fjord is the REPRESENTATIVE
+# `fjord` skyline preset (600 m walls 1.5 km either side of a north-south channel), not a survey of
+# any real fjord, and the position is illustrative, not a chart.
+# Synthetic training data: never feed it to a vessel's live navigation systems.
+# Kshana is advisory, not type-approved navigation equipment.
+[scenario]
+name = "fjord-natural-degradation"
+description = "A ferry runs up a north-south fjord; its walls hide the satellites to the east and west, then the channel opens again."
+trainer_note = "Watch GSV: satellites low to the east and west keep their elevation and azimuth but lose their SNR as the walls rise, and are dropped from GSA; those along the channel keep their usual levels. HDOP grows and the fix may thin out. Nothing else moves: heading (HDT), water speed (VBW) and the track agree throughout. This is a blocked sky, not jamming: compare the GSV levels of the satellites still tracked with open-sea-jamming, where every level falls together."
+seed = 44
+start_utc = "2026-08-03T09:00:00Z"
+duration_s = 1200
+rate_hz = 1
+
+[vessel]
+lat_deg = 60.90
+lon_deg = 6.00
+speed_kn = 12
+
+[[waypoint]]
+lat_deg = 61.10
+lon_deg = 6.00
+speed_kn = 12
+
+[receiver]
+systems = ["gps"]
+
+[[event]]
+kind = "natural-degradation"
+label = "Into the fjord"
+start_s = 300
+duration_s = 660
+ramp_s = 120
+recovery_s = 120
+skyline = { preset = "fjord" }
