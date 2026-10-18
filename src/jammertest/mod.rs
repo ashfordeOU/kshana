@@ -7,6 +7,7 @@
 //! MODELLED: the schedule says when a test was planned, not when a transmitter was on.
 
 pub mod cli;
+pub mod dataset;
 pub mod plan;
 pub mod score;
 
