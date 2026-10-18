@@ -7,7 +7,7 @@
 //! | Component | Code | Length | Chip rate |
 //! |---|---|---|---|
 //! | AFS-I (data) | Gold, 2047 short-cycled to 2046; G2 delayed by a per-PRN number of chips | 2046 | 1.023 Mchip/s (BPSK(1)) |
-//! | AFS-Q (pilot) | Weil 10230 (as GPS L1C) tiered with a 4-chip secondary and a 1500-chip tertiary code | 10230 x 4 x 1500 | 5.115 Mchip/s (BPSK(5)) |
+//! | AFS-Q (pilot) | Weil 10230 (as GPS L1C) tiered with a 4-chip secondary and a 1500-chip tertiary code | 10230 x 4 x 1500 (the receiver replica [`afs_q`] omits the 12 s tertiary code: 10230 x 4) | 5.115 Mchip/s (BPSK(5)) |
 //!
 //! The carrier is 2492.028 MHz (LSIS-020). Both components are linearly multiplexed (LSIS-125).
 //! The data symbol rate is 500 symbol/s, one symbol per AFS-I code period of 2 ms; the pilot
@@ -146,7 +146,11 @@ pub fn afs_q_primary_bits(prn: u16) -> Result<Vec<u8>, SignalError> {
 /// `W(t; k) = L(t) xor L((t + k) mod 1499)` over the length-1499 Legendre sequence, with a `0`
 /// appended (Appendix E).
 pub fn afs_q_tertiary_bits(prn: u16) -> Result<Vec<u8>, SignalError> {
-    let k = usize::from(*prn_index(&AFS_Q_TERTIARY_K, "LunaNet AFS-Q tertiary", prn)?);
+    let k = usize::from(*prn_index(
+        &AFS_Q_TERTIARY_K,
+        "LunaNet AFS-Q tertiary",
+        prn,
+    )?);
     let l = legendre(1499);
     let mut bits: Vec<u8> = (0..1499).map(|t| l[t] ^ l[(t + k) % 1499]).collect();
     bits.push(0);
@@ -156,12 +160,10 @@ pub fn afs_q_tertiary_bits(prn: u16) -> Result<Vec<u8>, SignalError> {
 /// The tiered overlay of the AFS-Q pilot: one chip per primary period, `secondary xor
 /// tertiary`, 4 x 1500 = 6000 chips (12 s), logic bits. `secondary` is 0..=3 for S0..S3.
 pub fn afs_q_overlay_bits(secondary: usize, tertiary_prn: u16) -> Result<Vec<u8>, SignalError> {
-    let s = SECONDARY
-        .get(secondary)
-        .ok_or(SignalError::UnknownPrn {
-            signal: "LunaNet AFS-Q secondary (S0..S3)",
-            prn: secondary as u16,
-        })?;
+    let s = SECONDARY.get(secondary).ok_or(SignalError::UnknownPrn {
+        signal: "LunaNet AFS-Q secondary (S0..S3)",
+        prn: secondary as u16,
+    })?;
     let t = afs_q_tertiary_bits(tertiary_prn)?;
     let mut out = Vec::with_capacity(4 * AFS_Q_TERTIARY_LEN);
     for tc in t {
@@ -194,30 +196,58 @@ pub fn afs_i(prn: u16) -> Result<SignalCode, SignalError> {
     .with_data_modulation(DataModulation::Symbols { symbol_s: 0.002 }))
 }
 
-/// AFS-Q pilot component for `prn` 1..=210 with the interim assignment of Table 11: the
-/// primary Weil code of that PRN, secondary code `S(prn - 1 mod 4)` and tertiary code of the
-/// same PRN with zero phase offset (PRNs 1..=12 are the document's interim test assignments;
-/// beyond them the same pattern is applied and is **not** a document assignment, since Table F-1
-/// is TBD). Use [`afs_q_with`] for any other combination. BPSK(5), no data.
+/// AFS-Q pilot component for `prn` 1..=210 as a receiver replicates it: the primary Weil code
+/// of that PRN tiered with the 4-chip secondary code `S((prn - 1) mod 4)` (the interim
+/// assignment of Table 11 for PRNs 1..=12; beyond them the same pattern is this
+/// implementation's, not the document's, since Table F-1 is TBD), a 2 ms primary period and an
+/// 8 ms tiered period, BPSK(5), no data. The 1500-chip **tertiary** code is left out here: it
+/// is a 12 s frame-synchronisation overlay, and a replica 12 s long is not what acquisition and
+/// tracking correlate against. [`afs_q_tiered`] is the full code.
 pub fn afs_q(prn: u16) -> Result<SignalCode, SignalError> {
-    afs_q_with(prn, ((prn as usize).wrapping_sub(1)) % 4, prn)
+    afs_q_with(prn, (usize::from(prn).wrapping_sub(1)) % 4, None)
 }
 
-/// AFS-Q pilot with an explicit primary PRN, secondary code (0..=3 for S0..S3) and tertiary PRN.
+/// AFS-Q pilot with an explicit primary PRN and secondary code (0..=3 for S0..S3), tiered with
+/// the tertiary code of `tertiary_prn` when one is given (the full 12 s code) and with the
+/// secondary alone when `None`.
 pub fn afs_q_with(
     primary_prn: u16,
     secondary: usize,
-    tertiary_prn: u16,
+    tertiary_prn: Option<u16>,
 ) -> Result<SignalCode, SignalError> {
-    Ok(SignalCode::new(
-        format!(
-            "LunaNet AFS-Q primary {primary_prn} S{secondary} tertiary {tertiary_prn}"
+    let (overlay, name) = match tertiary_prn {
+        Some(t) => (
+            afs_q_overlay_bits(secondary, t)?,
+            format!("LunaNet AFS-Q primary {primary_prn} S{secondary} tertiary {t}"),
         ),
+        None => (
+            SECONDARY
+                .get(secondary)
+                .ok_or(SignalError::UnknownPrn {
+                    signal: "LunaNet AFS-Q secondary (S0..S3)",
+                    prn: secondary as u16,
+                })?
+                .to_vec(),
+            format!("LunaNet AFS-Q primary {primary_prn} S{secondary} (tertiary omitted)"),
+        ),
+    };
+    Ok(SignalCode::new(
+        name,
         AFS_Q_CHIP_RATE_HZ,
         AFS_HZ,
         bipolar(&afs_q_primary_bits(primary_prn)?),
-        bipolar(&afs_q_overlay_bits(secondary, tertiary_prn)?),
+        bipolar(&overlay),
         Modulation::Bpsk,
     )
     .with_data_modulation(DataModulation::Pilot))
+}
+
+/// The full AFS-Q pilot code of `prn` for a stated secondary code and tertiary PRN: primary x
+/// secondary x tertiary, 10230 x 4 x 1500 chips, 12 s (Table 9), tertiary phase offset zero.
+pub fn afs_q_tiered(
+    prn: u16,
+    secondary: usize,
+    tertiary_prn: u16,
+) -> Result<SignalCode, SignalError> {
+    afs_q_with(prn, secondary, Some(tertiary_prn))
 }

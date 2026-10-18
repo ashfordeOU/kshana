@@ -130,7 +130,11 @@ pub fn sb1_decode(soft: &[f64; SB1_SYMBOLS]) -> Sb1 {
         field,
         fid: (field >> 7) as u8,
         toi: (field & 0x7F) as u8,
-        metric: if total > 0.0 { best_corr.abs() / total } else { 0.0 },
+        metric: if total > 0.0 {
+            best_corr.abs() / total
+        } else {
+            0.0
+        },
     }
 }
 
@@ -161,7 +165,11 @@ pub fn crc24q_bytes(bytes: &[u8]) -> u32 {
 /// Block-interleave the 5880 coded symbols of SB2, SB3 and SB4: written row by row into a
 /// 60-row, 98-column array, read column by column (section 2.4.3.1.5).
 pub fn interleave(symbols: &[u8]) -> Vec<u8> {
-    assert_eq!(symbols.len(), INTERLEAVED_SYMBOLS, "the interleaver holds 5880 symbols");
+    assert_eq!(
+        symbols.len(),
+        INTERLEAVED_SYMBOLS,
+        "the interleaver holds 5880 symbols"
+    );
     let mut out = Vec::with_capacity(symbols.len());
     for c in 0..INTERLEAVER_COLS {
         for r in 0..INTERLEAVER_ROWS {
@@ -173,7 +181,11 @@ pub fn interleave(symbols: &[u8]) -> Vec<u8> {
 
 /// The inverse of [`interleave`].
 pub fn deinterleave(symbols: &[u8]) -> Vec<u8> {
-    assert_eq!(symbols.len(), INTERLEAVED_SYMBOLS, "the interleaver holds 5880 symbols");
+    assert_eq!(
+        symbols.len(),
+        INTERLEAVED_SYMBOLS,
+        "the interleaver holds 5880 symbols"
+    );
     let mut out = vec![0u8; symbols.len()];
     let mut k = 0;
     for c in 0..INTERLEAVER_COLS {
@@ -250,7 +262,11 @@ pub fn check_symbols(symbols: &[u8], max_sp_errors: usize) -> SymbolReport {
     let mut problems = Vec::new();
     if symbols.iter().any(|&s| s > 1) {
         problems.push("the stream holds a value other than 0 or 1".to_string());
-        return SymbolReport { symbols: symbols.len(), frames, problems };
+        return SymbolReport {
+            symbols: symbols.len(),
+            frames,
+            problems,
+        };
     }
     let mut i = 0;
     while i + SP_SYMBOLS + SB1_SYMBOLS <= symbols.len() {
@@ -262,7 +278,11 @@ pub fn check_symbols(symbols: &[u8], max_sp_errors: usize) -> SymbolReport {
         if errs <= max_sp_errors {
             let mut soft = [0.0f64; SB1_SYMBOLS];
             for (k, s) in soft.iter_mut().enumerate() {
-                *s = if symbols[i + SP_SYMBOLS + k] == 0 { 1.0 } else { -1.0 };
+                *s = if symbols[i + SP_SYMBOLS + k] == 0 {
+                    1.0
+                } else {
+                    -1.0
+                };
             }
             let d = sb1_decode(&soft);
             let re = sb1_encode(d.field);
@@ -288,10 +308,13 @@ pub fn check_symbols(symbols: &[u8], max_sp_errors: usize) -> SymbolReport {
                 f.problems.push(format!("TOI {} is outside 0..=99", d.toi));
             }
             if sb1_err > 0 {
-                f.problems.push(format!("{sb1_err} SB1 symbol(s) disagree with the decoded field"));
+                f.problems.push(format!(
+                    "{sb1_err} SB1 symbol(s) disagree with the decoded field"
+                ));
             }
             if i + FRAME_SYMBOLS > symbols.len() {
-                f.problems.push("the stream ends before the frame does".to_string());
+                f.problems
+                    .push("the stream ends before the frame does".to_string());
             }
             frames.push(f);
             i += FRAME_SYMBOLS.min(symbols.len() - i).max(1);
@@ -318,7 +341,11 @@ pub fn check_symbols(symbols: &[u8], max_sp_errors: usize) -> SymbolReport {
     if frames.is_empty() {
         problems.push("no synchronisation pattern found".to_string());
     }
-    SymbolReport { symbols: symbols.len(), frames, problems }
+    SymbolReport {
+        symbols: symbols.len(),
+        frames,
+        problems,
+    }
 }
 
 impl SymbolReport {
@@ -361,7 +388,11 @@ pub fn parse_symbol_text(text: &str) -> Result<Vec<u8>, String> {
             '0' => out.push(0),
             '1' => out.push(1),
             c if c.is_whitespace() => {}
-            c => return Err(format!("unexpected character {c:?} in a symbol stream (only 0, 1 and white space)")),
+            c => {
+                return Err(format!(
+                    "unexpected character {c:?} in a symbol stream (only 0, 1 and white space)"
+                ))
+            }
         }
     }
     Ok(out)
@@ -464,9 +495,14 @@ pub fn check_spec() -> Value {
         },
     ));
     // B5
-    let s5 = codes::SECONDARY
-        == [[1, 1, 1, 0], [0, 1, 1, 1], [1, 0, 1, 1], [1, 1, 0, 1]];
-    bars.push(bar("B5", "secondary codes S0..S3 equal Table 10", usize::from(s5), 1, ""));
+    let s5 = codes::SECONDARY == [[1, 1, 1, 0], [0, 1, 1, 1], [1, 0, 1, 1], [1, 1, 0, 1]];
+    bars.push(bar(
+        "B5",
+        "secondary codes S0..S3 equal Table 10",
+        usize::from(s5),
+        1,
+        "",
+    ));
     // B6: the worked example of Figure 8.
     let enc = sb1_encode(0x045);
     let mut word = 0u64;
@@ -478,7 +514,7 @@ pub fn check_spec() -> Value {
         *s = if enc[k] == 0 { 1.0 } else { -1.0 };
     }
     let d = sb1_decode(&soft);
-    let ok6 = word == 0x229F_61DB_B84A0 && d.fid == 0 && d.toi == 69;
+    let ok6 = word == 0x0002_29F6_1DBB_84A0 && d.fid == 0 && d.toi == 69;
     bars.push(bar(
         "B6",
         "SB1 worked example (Figure 8): 0x045 encodes to 0x229F61DBB84A0 and decodes to FID 0, TOI 69",
@@ -500,14 +536,34 @@ pub fn check_spec() -> Value {
         && (SP_SYMBOLS + SB1_SYMBOLS + INTERLEAVED_SYMBOLS) as f64 / codes::SYMBOL_RATE == 12.0
         && INTERLEAVER_ROWS * INTERLEAVER_COLS == 5880
         && codes::AFS_Q_TERTIARY_LEN == 1500;
-    bars.push(bar("B8", "frame arithmetic: 6000 symbols = 12 s at 500 symbol/s; 60 x 98 = 5880; tertiary 1500", usize::from(b8), 1, ""));
+    bars.push(bar(
+        "B8",
+        "frame arithmetic: 6000 symbols = 12 s at 500 symbol/s; 60 x 98 = 5880; tertiary 1500",
+        usize::from(b8),
+        1,
+        "",
+    ));
     // B9
-    let probe: Vec<u8> = (0..INTERLEAVED_SYMBOLS).map(|i| ((i * 7 + i / 13) % 2) as u8).collect();
+    let probe: Vec<u8> = (0..INTERLEAVED_SYMBOLS)
+        .map(|i| ((i * 7 + i / 13) % 2) as u8)
+        .collect();
     let b9 = deinterleave(&interleave(&probe)) == probe && interleave(&probe) != probe;
-    bars.push(bar("B9", "de-interleaving an interleaved block returns it unchanged", usize::from(b9), 1, "a property of the construction (MODELLED)"));
+    bars.push(bar(
+        "B9",
+        "de-interleaving an interleaved block returns it unchanged",
+        usize::from(b9),
+        1,
+        "a property of the construction (MODELLED)",
+    ));
     // B10
     let b10 = sync_pattern().len() == 68;
-    bars.push(bar("B10", "synchronisation pattern is 68 symbols from the printed hex", usize::from(b10), 1, ""));
+    bars.push(bar(
+        "B10",
+        "synchronisation pattern is 68 symbols from the printed hex",
+        usize::from(b10),
+        1,
+        "",
+    ));
     let all_met = bars.iter().all(|b| b["status"] == "MET");
     json!({
         "schema": "kshana.lunanet-afs-check/spec/1",
@@ -553,16 +609,27 @@ mod tests {
         let s = generate_symbols(3, 98);
         let r = check_symbols(&s, 0);
         assert_eq!(r.frames.len(), 3);
-        assert_eq!(r.frames.iter().map(|f| f.toi).collect::<Vec<_>>(), vec![98, 99, 0]);
+        assert_eq!(
+            r.frames.iter().map(|f| f.toi).collect::<Vec<_>>(),
+            vec![98, 99, 0]
+        );
         assert!(r.problems.is_empty() && r.frames.iter().all(|f| f.problems.is_empty()));
         // A frame lost from the middle breaks the spacing and the TOI sequence.
         let mut cut = s[..FRAME_SYMBOLS].to_vec();
         cut.extend_from_slice(&s[2 * FRAME_SYMBOLS..]);
         let r = check_symbols(&cut, 0);
-        assert!(r.problems.iter().any(|p| p.contains("expected 99")), "{:?}", r.problems);
+        assert!(
+            r.problems.iter().any(|p| p.contains("expected 99")),
+            "{:?}",
+            r.problems
+        );
         let skipped = [generate_symbols(1, 5), generate_symbols(1, 7)].concat();
         let r = check_symbols(&skipped, 0);
-        assert!(r.problems.iter().any(|p| p.contains("expected 6")), "{:?}", r.problems);
+        assert!(
+            r.problems.iter().any(|p| p.contains("expected 6")),
+            "{:?}",
+            r.problems
+        );
         assert!(check_symbols(&[0, 1, 2], 0).problems[0].contains("other than 0 or 1"));
         assert!(check_symbols(&vec![0u8; 300], 0).problems[0].contains("no synchronisation"));
     }

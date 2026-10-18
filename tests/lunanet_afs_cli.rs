@@ -4,7 +4,10 @@
 use std::process::Command;
 
 fn kshana(args: &[&str]) -> std::process::Output {
-    Command::new(env!("CARGO_BIN_EXE_kshana")).args(args).output().unwrap()
+    Command::new(env!("CARGO_BIN_EXE_kshana"))
+        .args(args)
+        .output()
+        .unwrap()
 }
 
 #[test]
@@ -12,9 +15,23 @@ fn generate_check_and_damage_round_trip_through_the_command_line() {
     let dir = std::env::temp_dir().join(format!("kshana-afs-{}", std::process::id()));
     std::fs::create_dir_all(&dir).unwrap();
     let f = dir.join("afs.txt");
-    let g = kshana(&["lunanet-afs-check", "generate", "--frames", "3", "--toi0", "7", "--out", f.to_str().unwrap()]);
+    let g = kshana(&[
+        "lunanet-afs-check",
+        "generate",
+        "--frames",
+        "3",
+        "--toi0",
+        "7",
+        "--out",
+        f.to_str().unwrap(),
+    ]);
     assert!(g.status.success(), "{}", String::from_utf8_lossy(&g.stderr));
-    let ok = kshana(&["lunanet-afs-check", "symbols", f.to_str().unwrap(), "--json"]);
+    let ok = kshana(&[
+        "lunanet-afs-check",
+        "symbols",
+        f.to_str().unwrap(),
+        "--json",
+    ]);
     assert!(ok.status.success());
     let v: serde_json::Value = serde_json::from_slice(&ok.stdout).unwrap();
     assert_eq!(v["frames_found"], 3);
@@ -31,7 +48,12 @@ fn generate_check_and_damage_round_trip_through_the_command_line() {
     assert!(String::from_utf8_lossy(&bad.stdout).contains("expected 8"));
     // Garbage is refused with the usage text.
     std::fs::write(&f, "01x").unwrap();
-    assert_eq!(kshana(&["lunanet-afs-check", "symbols", f.to_str().unwrap()]).status.code(), Some(2));
+    assert_eq!(
+        kshana(&["lunanet-afs-check", "symbols", f.to_str().unwrap()])
+            .status
+            .code(),
+        Some(2)
+    );
     let _ = std::fs::remove_dir_all(&dir);
 }
 
@@ -45,6 +67,14 @@ fn the_spec_report_names_the_pin_and_keeps_the_b4_miss() {
     assert!(t.contains("most likely a misprint"));
     assert!(t.contains("Advisory:"));
     // --strict turns the documented miss into a failing exit status.
-    assert_eq!(kshana(&["lunanet-afs-check", "spec", "--strict"]).status.code(), Some(1));
-    assert_eq!(kshana(&["lunanet-afs-check", "frobnicate"]).status.code(), Some(2));
+    assert_eq!(
+        kshana(&["lunanet-afs-check", "spec", "--strict"])
+            .status
+            .code(),
+        Some(1)
+    );
+    assert_eq!(
+        kshana(&["lunanet-afs-check", "frobnicate"]).status.code(),
+        Some(2)
+    );
 }

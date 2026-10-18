@@ -21,7 +21,7 @@ equipment and not a safety-of-life service.
 | Layer | What | Where |
 |---|---|---|
 | AFS-I (data) | Gold code 2047 short-cycled to 2046 chips, G2 delayed by a per-PRN number of chips, 1.023 Mchip/s, BPSK(1), 500 symbol/s, PRN 1 to 210 | `iq::signals::lunanet::afs_i`, signal name `lunanet-afs-i` |
-| AFS-Q (pilot) | Weil code 10230 (the GPS L1C construction) tiered with a 4-chip secondary code (S0 to S3) and a 1500-chip tertiary Weil code (12 s), 5.115 Mchip/s, BPSK(5), no data | `afs_q`, `afs_q_with`, signal name `lunanet-afs-q` |
+| AFS-Q (pilot) | Weil code 10230 (the GPS L1C construction) tiered with a 4-chip secondary code (S0 to S3) and a 1500-chip tertiary Weil code (12 s), 5.115 Mchip/s, BPSK(5), no data. `afs_q` and the signal name `lunanet-afs-q` are the receiver replica, primary x secondary (8 ms): the 12 s tertiary frame-synchronisation overlay is left out of it, because acquisition and tracking do not correlate against a 12 s replica. `afs_q_tiered` is the full 12 s code | `afs_q`, `afs_q_with`, `afs_q_tiered` |
 | Carrier | 2492.028 MHz (LSIS-020) | `AFS_HZ` |
 | Frame | SP 68 + SB1 52 + 5880 interleaved symbols = 6000 symbols = 12 s at 500 symbol/s | `iq::lunanet_afs` |
 | SB1 | 9 bits (FID 2, TOI 7), BCH(51,8), generator 763 octal, with the document's 256-hypothesis correlation decoder | `sb1_encode`, `sb1_decode` |
@@ -43,9 +43,9 @@ as for every other signal, is a file for a software receiver; nothing here drive
 - **Message content** (MSG-G1, MSG-G2, MSG-G4, ...): the document leaves several definitions
   to be written (TBW).
 - **Code assignment per LunaNet node** (Table F-1 is TBD). PRNs 1 to 12 have interim test
-  assignments (Table 11). `afs_q(prn)` uses PRN *n*'s primary and tertiary code with secondary
-  S((n-1) mod 4); beyond PRN 12 that is this implementation's pattern, not the document's.
-  `afs_q_with` takes any combination.
+  assignments (Table 11). `afs_q(prn)` uses PRN *n*'s primary code with secondary S((n-1) mod 4); beyond
+  PRN 12 that is this implementation's pattern, not the document's. `afs_q_with` and `afs_q_tiered`
+  take any combination, with the tertiary code of any PRN.
 - Link budget, signal-in-space error, power and coherency requirements (LSIS-100 and following).
 
 ## `kshana lunanet-afs-check`
