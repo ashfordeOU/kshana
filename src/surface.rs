@@ -99,7 +99,14 @@ pub fn assess_receiver_log_inline(toml: &str, max_bytes: usize) -> Result<TrustO
     reject_file_sources(toml, max_bytes)?;
     let scn: ReceiverTrustScenario =
         toml::from_str(toml).map_err(|e| format!("invalid receiver-trust scenario: {e}"))?;
-    if scn.log.source.path.is_some() || scn.log.nav.as_ref().is_some_and(|n| n.path.is_some()) {
+    if scn.log.source.path.is_some()
+        || scn.log.nav.as_ref().is_some_and(|n| n.path.is_some())
+        || scn
+            .log
+            .imu
+            .as_ref()
+            .is_some_and(|i| i.source.path.is_some())
+    {
         return Err(
             "`path` sources are not accepted here: give the log inline as `text` or `base64`"
                 .into(),
@@ -1025,6 +1032,7 @@ pub fn evidence_create(
             scenario: &scn,
             log_bytes: log,
             nav_bytes: None,
+            imu_bytes: None,
             log_file_name: "inline",
             from: &from,
             to: &to,

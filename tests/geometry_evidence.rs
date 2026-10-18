@@ -37,6 +37,7 @@ fn a_0_36_pack_carries_and_shows_the_geometry_and_the_classes() {
         scenario: &scn,
         log_bytes: &log,
         nav_bytes: None,
+        imu_bytes: None,
         log_file_name: "tallinn-helsinki.nmea",
         from: "2000",
         to: "2060",

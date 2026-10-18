@@ -23,6 +23,9 @@ pub struct PackRequest<'a> {
     pub log_bytes: &'a [u8],
     /// The RINEX broadcast navigation file's bytes, where the scenario uses one.
     pub nav_bytes: Option<&'a [u8]>,
+    /// The IMU file's bytes, where the scenario has a `[log.imu]`. Its SHA-256 is part of
+    /// the scenario hash the pack records.
+    pub imu_bytes: Option<&'a [u8]>,
     /// The log's file name for the record (a path is reduced to its last component).
     pub log_file_name: &'a str,
     /// Window start: seconds since the first epoch, or ISO-8601 UTC when the log states
@@ -94,7 +97,8 @@ pub fn build_receiver_trust_pack(
     timestamp_token: Option<&[u8]>,
 ) -> Result<PackSummary, String> {
     let scn = req.scenario;
-    let result = scenario::run_receiver_trust_bytes(scn, req.log_bytes, req.nav_bytes)?;
+    let result =
+        scenario::run_receiver_trust_bytes_imu(scn, req.log_bytes, req.nav_bytes, req.imu_bytes)?;
     let t0 = parse_time(req.from, result.log.start_label.as_deref())?;
     let t1 = parse_time(req.to, result.log.start_label.as_deref())?;
     let epochs: Vec<Value> = result
@@ -114,6 +118,9 @@ pub fn build_receiver_trust_pack(
         sanitise_source(log);
         if let Some(nav) = log.get_mut("nav") {
             sanitise_source(nav);
+        }
+        if let Some(imu) = log.get_mut("imu") {
+            sanitise_source(imu);
         }
     }
     let config = json!({

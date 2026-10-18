@@ -350,6 +350,10 @@ fn receiver_trust_evidence(args: &[String]) -> Result<(), String> {
         Some(n) => Some(scenario::load_source(n, "log.nav")?),
         None => None,
     };
+    let imu_bytes = match &scn.log.imu {
+        Some(i) => Some(scenario::load_source(&i.source, "log.imu")?),
+        None => None,
+    };
     let file_name = scn
         .log
         .source
@@ -361,6 +365,7 @@ fn receiver_trust_evidence(args: &[String]) -> Result<(), String> {
             scenario: &scn,
             log_bytes: &log_bytes,
             nav_bytes: nav_bytes.as_deref(),
+            imu_bytes: imu_bytes.as_deref(),
             log_file_name: &file_name,
             from: &from,
             to: &to,

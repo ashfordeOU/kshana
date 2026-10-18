@@ -26,6 +26,7 @@ fn req<'a>(
         scenario: scn,
         log_bytes: log,
         nav_bytes: None,
+        imu_bytes: None,
         log_file_name: "/anywhere/illustrative-jamming.nmea",
         from,
         to,
