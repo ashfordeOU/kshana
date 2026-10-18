@@ -9,6 +9,33 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+### Added
+
+- **Machine and sensor inputs for `receiver-trust`** ([`docs/MACHINE-INPUTS.md`](docs/MACHINE-INPUTS.md)).
+  New `[log] format` values, all read-only, MODELLED, with self-written fixtures and no data
+  vendored: `rtklib-pos` (RTKLIB `.pos` solution files), `novatel` (OEM7 ASCII and binary
+  `BESTPOS`, `RANGE` C/No and `RXSTATUS`; the receiver's jammer flag becomes the epoch's
+  `self_report`, set against Kshana's alarms by the `receiver-self-report` comparison), `rtcm3`
+  (MSM4 and MSM7 C/N0 for GPS, GLONASS, Galileo, SBAS, QZSS, BeiDou and NavIC; layouts from the
+  BSD-licensed pyrtcm tables, whose notice is in `NOTICE`, not from the RTCM standard) and
+  `gnss-sdr` (GNSS-SDR Monitor and PVT-monitor messages as JSON lines, relayed by
+  `integrations/gnss-sdr/relay.py`).
+- **IMU logs as a second sensor.** `[log.imu]` (`csv` or `euroc`) integrates the gyro yaw rate into
+  the heading the `heading-course` monitor reads; inline on every surface and carried through
+  evidence packs. `kshana imu-fit` (Python `imu_fit`, WebAssembly `imu_fit`, MCP `fit_imu_log`,
+  plugin `/kshana-fit-imu`, a JetBrains action) fits the accelerometer and gyro parameters of the
+  `hybrid` and `fusion` scenarios from a stationary log by Allan deviation and prints an
+  `[accel_classical]` table with the log's SHA-256 in its provenance.
+- **Integrations:** a ROS 2 package (`integrations/ros2/kshana_trust`: NavSatFix and
+  `ublox_ubx_msgs` in, trust topics out; its ROS-free bridge is tested against the real engine, the
+  node itself has not run on a live ROS graph), a `gnss_lib_py` bridge (`integrations/gnss_lib_py`,
+  MIT dependency, optional), and a GNSS-SDR relay.
+- **Home Assistant MQTT exporter** for trust telemetry: `kshana trust-telemetry --print-mqtt` and
+  `--mqtt-tcp <host:port>` (discovery messages and a JSON state document; publish only, no
+  credentials or TLS), and `format = "mqtt"` as text on Python, WebAssembly and MCP.
+- Seven MODELLED ledger rows for the above. Nothing here is VALIDATED: no capture from a real
+  receiver, base station, IMU, GNSS-SDR run, ROS graph or MQTT broker was read.
+
 ## [0.37.0] - 2026-10-17
 
 ### Added
