@@ -71,7 +71,7 @@ MET**), carried into the result file with `provenance: "carried"`. Nothing was r
 
 ## Sealed holdout of task (d)
 
-The commitment is in `bench/holdout/COMMITMENTS.json`. The seed was generated on 2026-10-18 and handed to the
-coordinator for the owner; it is not in this repository. The baselines were scored once on the sealed holdout
-(see `bench/results/d-holdout-*.result.json`), by the maintainers, as the operator the spec allows; those scores
-carry no bar.
+No release holdout is sealed yet. A provisional seed was exposed in two session transcripts, so its hash is on
+the exposed list (`bench/holdout/COMMITMENTS.json`): `reveal-check` and the leaderboard refuse it, and no
+baseline was scored on it. The owner makes the real seed with `kshana bench seal --task d --seed-file <file>
+--new` and commits only the printed hash. The mechanism is tested with throwaway seeds.

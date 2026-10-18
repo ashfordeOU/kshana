@@ -24,7 +24,8 @@
       "seed": 2000
     },
     "holdout": {
-      "sealed": true,
+      "sealed": false,
+      "note": "unsealed until the owner commits a hash",
       "commitment": "bench/holdout/COMMITMENTS.json"
     }
   },
