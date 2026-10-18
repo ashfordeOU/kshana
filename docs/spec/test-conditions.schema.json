@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kshana.ashforde.org/spec/test-conditions.schema.json",
+  "title": "kshana.test-conditions/1",
+  "description": "What a laboratory states about one recording or receiver log: the known truth of a test. Metadata only: it describes no signal and drives none. Licence of this file: see docs/drafts/LICENSES-SPLIT.md (proposed CC-BY-4.0; not yet decided).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "recording"],
+  "properties": {
+    "schema": { "const": "kshana.test-conditions/1" },
+    "recording": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "path"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "kind": { "enum": ["iq", "receiver-log"], "description": "Default iq. A receiver-log needs no expected group." },
+        "path": { "type": "string" },
+        "sha256": { "type": "string", "pattern": "^[0-9a-fA-F]{64}$" },
+        "format": { "type": "string" },
+        "sample_rate_hz": { "type": "number" },
+        "center_hz": { "type": "number" },
+        "if_hz": { "type": "number" },
+        "header_bytes": { "type": "integer", "minimum": 0 },
+        "start_utc": { "type": "string" },
+        "events_from_sigmf": { "type": "boolean" },
+        "settle_s": { "type": "number", "minimum": 0, "default": 5.0 }
+      }
+    },
+    "receiver": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Free-text notes on the device under test; never scored and not part of the condition hash.",
+      "properties": {
+        "dut": { "type": "string" },
+        "front_end": { "type": "string" },
+        "notes": { "type": "string" }
+      }
+    },
+    "expected": {
+      "type": "array",
+      "description": "Required (at least one group) when recording.kind is iq or absent.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["signal", "ids"],
+        "properties": {
+          "signal": { "type": "string" },
+          "ids": { "type": "array", "minItems": 1, "items": { "type": "integer" } },
+          "nominal_cn0_dbhz": { "type": "number" },
+          "doppler_hz": { "type": "array", "items": { "type": "number" } },
+          "code_phase_chips": { "type": "array", "items": { "type": "number" } },
+          "periods_per_bit": { "type": "integer", "minimum": 1 },
+          "truth": { "type": "string" }
+        }
+      }
+    },
+    "event": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "kind", "type", "onset_s", "offset_s"],
+        "properties": {
+          "id": { "type": "string" },
+          "kind": { "enum": ["interference", "spoofing", "outage", "other"] },
+          "type": { "enum": ["cw", "narrowband", "broadband", "swept", "pulsed", "chirp", "matched", "meaconing", "spoofer", "unknown"] },
+          "onset_s": { "type": "number" },
+          "offset_s": { "type": "number" },
+          "affects": {
+            "oneOf": [{ "const": "all" }, { "type": "array", "items": { "type": "integer" } }],
+            "default": "all"
+          },
+          "center_offset_hz": { "type": "number" },
+          "bandwidth_hz": { "type": "number" },
+          "q": { "type": "number", "exclusiveMinimum": 0 },
+          "power": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["quantity", "points"],
+            "properties": {
+              "quantity": { "enum": ["js_db", "jammer_dbm"] },
+              "interpolation": { "enum": ["linear", "step"], "default": "linear" },
+              "points": {
+                "type": "array",
+                "minItems": 1,
+                "items": { "type": "array", "minItems": 2, "maxItems": 2, "items": { "type": "number" } }
+              },
+              "reference_signal_dbm": { "type": "number" }
+            }
+          }
+        }
+      }
+    },
+    "bars": {
+      "type": "object",
+      "description": "Pass/fail bars for this recording; not part of the condition hash."
+    }
+  }
+}

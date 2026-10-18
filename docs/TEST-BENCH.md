@@ -36,6 +36,7 @@ The output is byte-identical for the same scenario and epoch.
 | `run1.waypoints.txt` | a `RESOLUTION: <ms>` line then `longitude,latitude,altitude` rows (written only when every sample interval is the same whole number of milliseconds; when it is left out, the command says why on standard error) |
 | `run1.events.csv` | `label,kind,onset_s,end_s,description` |
 | `run1.events.toml` | the same events as `[[events]]` blocks for a `receiver-trust` scenario |
+| `run1.conditions.json` | the run as a [`kshana.test-conditions/1`](spec/TEST-CONDITIONS.md) document for a `receiver-log` recording: the events as stated truth, with `recording.path`, `recording.sha256`, `receiver.*`, each event's `type` and power left for the laboratory to fill in |
 
 ### Frames and conventions
 
@@ -174,6 +175,46 @@ kshana compliance-report bench-session.result.json
 
 See [compliance/README.md](compliance/README.md). That report describes the evidence in the
 runs you give it; it makes no finding about the receiver or any framework.
+
+## 6. Link the round trip in one signed pack
+
+After scoring, `kshana evidence round-trip` ties the four records together: the scenario you
+exported, the laboratory's [test conditions](spec/TEST-CONDITIONS.md), the receiver log and
+the score. Fill in `run1.conditions.json` (the log's path and SHA-256, the receiver under
+test, each event's type and stated power), then:
+
+```sh
+kshana evidence keygen --out lab.key
+kshana evidence round-trip bench-session.toml --scenario scenarios/gnss-ins.toml \
+    --conditions run1.conditions.json --from 0 --to 180 --key lab.key --out round-trip-pack
+kshana evidence verify round-trip-pack --pubkey <signer public key>
+```
+
+`round-trip-pack/config.json` carries a `round_trip` block (`kshana.round-trip/1`) with
+`scenario_sha256`, `conditions_hash`, `log_sha256`, and the score (events detected of
+evaluable, first alarm), covered by the manifest's hashes and the signature. The command
+refuses a pack whose conditions and scoring events disagree, or whose stated log hash is not
+the log's. Like every evidence pack it is a technical record, not a legal opinion.
+
+### Worked example: gps-sdr-sim writing a file
+
+This example uses the open-source simulator gps-sdr-sim only to **write a baseband file**
+from the exported motion. Kshana does not transmit, and nothing on this page automates
+replaying that file through a radio. If your laboratory plays such a file into a receiver,
+that is your operator's responsibility, done only where authorised (cabled or shielded,
+following the simulator's and the radio's own safety instructions), and Kshana neither
+documents nor wraps it.
+
+```sh
+kshana bench-export scenarios/gnss-ins.toml --out run1 --epoch 2025-03-01T10:00:00Z
+tail -n +2 run1.motion.csv | cut -d, -f1-4 > run1.xyz          # time, x, y, z (see above)
+gps-sdr-sim -e brdc0600.25n -u run1.xyz -b 8 -o run1.iq        # writes a file, nothing else
+```
+
+Whatever the laboratory then does with `run1.iq` happens outside Kshana. The receiver's own
+log, however obtained, is what step 5 scores and step 6 links. The files and the
+checks Kshana makes on its own exports are tested on synthetic data only
+(`tests/round_trip_pack.rs`); no laboratory run is claimed here.
 
 ## What this method does not do
 

@@ -93,6 +93,17 @@ pub fn build_receiver_trust_pack(
     seed: &[u8; 32],
     timestamp_token: Option<&[u8]>,
 ) -> Result<PackSummary, String> {
+    build_pack_with_extra(req, seed, timestamp_token, None)
+}
+
+/// As [`build_receiver_trust_pack`], with `extra` added to `config.json` under the key
+/// `round_trip` (so the manifest's file hashes and signature cover it).
+pub(crate) fn build_pack_with_extra(
+    req: &PackRequest<'_>,
+    seed: &[u8; 32],
+    timestamp_token: Option<&[u8]>,
+    extra: Option<Value>,
+) -> Result<PackSummary, String> {
     let scn = req.scenario;
     let result = scenario::run_receiver_trust_bytes(scn, req.log_bytes, req.nav_bytes)?;
     let t0 = parse_time(req.from, result.log.start_label.as_deref())?;
@@ -116,7 +127,7 @@ pub fn build_receiver_trust_pack(
             sanitise_source(nav);
         }
     }
-    let config = json!({
+    let mut config = json!({
         "scenario": scn_v,
         "scenario_hash": result.scenario_hash,
         "monitors_run": result.monitors_run,
@@ -128,6 +139,9 @@ pub fn build_receiver_trust_pack(
         // geometry and the attribution of its degradation.
         "geometry_model": result.geometry_model,
     });
+    if let (Some(x), Some(m)) = (extra, config.as_object_mut()) {
+        m.insert("round_trip".into(), x);
+    }
     // The window's bytes, where every epoch in it reports its source span; otherwise the
     // whole log is bundled and the manifest says so.
     let slice = read_log(scn.log.format, req.log_bytes)
