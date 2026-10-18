@@ -10,14 +10,16 @@
 //!   channel tracking status word (bits 16-18 and 21-25).
 //! * `RXSTATUS` (ID 93): the receiver status and auxiliary 1 status words. The jammer flags
 //!   (receiver status bit 15, auxiliary 1 bits 0-2 and 4-6) are returned in
-//!   [`NovatelRead::status`] with their time; the receiver's own report is carried as data,
-//!   not as a trust monitor.
+//!   [`NovatelRead::status`] with their time, and set on the epoch as
+//!   [`crate::receiver_trust::ReceiverSelfReport`] (`jamming` 2 when the receiver flags a
+//!   jammer, 1 when it does not), which the `receiver-self-report` comparison sets against
+//!   Kshana's monitors. RXSTATUS carries no spoofing flag.
 //!
 //! The abbreviated ASCII form (`<` lines) and the other logs are not read. A record whose
 //! CRC does not match is skipped and counted. The engine never writes to the receiver.
 
 use super::{gps_week_ms, sat_id_from_prn, EpochMap};
-use crate::receiver_trust::{ReportedFix, SatCn0, Timeline};
+use crate::receiver_trust::{ReceiverSelfReport, ReportedFix, SatCn0, Timeline};
 
 const POLY: u32 = 0xEDB8_8320;
 const ID_BESTPOS: u16 = 42;
@@ -246,6 +248,16 @@ pub fn read_novatel(bytes: &[u8]) -> Result<NovatelRead, String> {
             ID_BESTPOS => best_pos(r, map.at(key), &label),
             ID_RANGE => range(r, map.at(key), &label),
             ID_RXSTATUS => rx_status(r).map(|(d, p)| {
+                // The receiver's own jammer flag, in the self-report structure: state 2
+                // (indicated) when it flags a jammer, 1 (none indicated) when it does not.
+                // RXSTATUS has no spoofing flag, so `spoofing` stays unset.
+                let e = map.at(key);
+                e.time_label.get_or_insert_with(|| label.clone());
+                e.self_report = Some(ReceiverSelfReport {
+                    spoofing: None,
+                    jamming: Some(if d { 2 } else { 1 }),
+                    rf_bands_reported: None,
+                });
                 jam.push((
                     key,
                     JammerReport {
@@ -476,6 +488,14 @@ mod tests {
             .iter()
             .any(|s| s.sat == "G05" && s.band == "L1" && s.cn0_dbhz == 44.5));
         assert!(c.iter().any(|s| s.sat == "E11" && s.band == "E1"));
+        let sr = r
+            .timeline
+            .epochs
+            .iter()
+            .find_map(|e| e.self_report)
+            .unwrap();
+        assert_eq!((sr.jamming, sr.spoofing), (Some(2), None));
+        assert!(sr.flagged());
         assert_eq!(r.status.len(), 1);
         assert!(r.status[0].detected && r.status[0].rf_paths == vec![1]);
         assert!((r.status[0].t_s - 1.0).abs() < 1e-9);

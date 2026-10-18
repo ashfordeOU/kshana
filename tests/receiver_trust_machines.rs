@@ -172,3 +172,52 @@ fn trust_telemetry_mqtt_text_has_discovery_then_state() {
     assert!(lines[0].starts_with("homeassistant/sensor/kshana/score/config\t"));
     assert!(lines[4].starts_with("kshana/trust/state\t") && lines[4].contains("untrusted"));
 }
+
+fn nov(line: &str) -> String {
+    format!(
+        "#{line}*{:08x}\r\n",
+        kshana::receiver_trust::machines::novatel::novatel_crc32(line.as_bytes())
+    )
+}
+
+#[test]
+fn novatel_jammer_flag_reaches_the_receiver_self_report() {
+    let mut log = String::new();
+    for i in 0..80 {
+        let t = 100.0 + i as f64;
+        // GPS L1 channels with a steady C/No on PRN 3 and 7
+        log.push_str(&nov(&format!(
+            "RANGEA,COM1,0,50.0,FINESTEERING,2300,{t:.3},02000000,0000,1;2,\
+             3,0,2.4e7,0.2,-1.2e8,0.01,100.0,44.0,500.0,00000004,\
+             7,0,2.2e7,0.2,-1.2e8,0.01,100.0,42.0,500.0,00000004"
+        )));
+        // from i = 50 the receiver reports a jammer (receiver status bit 15)
+        let rx = if i >= 50 { "00008000" } else { "00000000" };
+        log.push_str(&nov(&format!(
+            "RXSTATUSA,COM1,0,50.0,FINESTEERING,2300,{t:.3},02000000,0000,1;00000000,2,\
+             {rx},0,0,0,00000000,0,0,0"
+        )));
+    }
+    let scn: ReceiverTrustScenario = toml::from_str(
+        "[log]\nformat = \"novatel\"\ntext = \"x\"\n[monitors]\ncalibration_s = 20.0\n",
+    )
+    .unwrap();
+    let r = run_receiver_trust_bytes(&scn, log.as_bytes(), None).unwrap();
+    let flagged: Vec<_> = r
+        .epochs
+        .iter()
+        .filter_map(|e| e.self_report.as_ref())
+        .filter(|s| s.receiver_flag)
+        .collect();
+    assert_eq!(flagged.len(), 30);
+    assert!(flagged
+        .iter()
+        .all(|s| s.jamming_state == Some(2) && s.spoofing_state.is_none()));
+    let sum = r
+        .receiver_self_report
+        .expect("a summary when the log carries flags");
+    assert_eq!(sum.jamming_flag_epochs, 30);
+    assert_eq!(sum.spoofing_flag_epochs, 0);
+    // Kshana's monitors saw a steady C/No: the receiver flagged alone
+    assert_eq!(sum.receiver_only, 30);
+}

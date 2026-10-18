@@ -45,6 +45,9 @@ pub enum LogFormat {
     Rinex,
     /// Android GnssLogger CSV (`Raw` rows: C/N0, AGC; `Fix` rows: position).
     Android,
+    /// Septentrio SBF binary: PVTGeodetic (fix), MeasEpoch (per-satellite C/N0), RFStatus (the
+    /// receiver's own RF-band report). Read only.
+    Sbf,
     /// NMEA 0183 text (GSV: per-satellite SNR in dB-Hz; GGA/RMC: time and position).
     Nmea,
     /// RTKLIB solution file (`.pos`): time, position and satellites used per epoch.
@@ -111,6 +114,31 @@ pub struct ReportedFix {
     pub n_used: Option<u32>,
 }
 
+/// What the receiver itself says about spoofing and interference at one epoch: u-blox
+/// UBX-NAV-STATUS `spoofDetState` and UBX-SEC-SIG `spoofingState` / `jammingState`.
+/// The codes are the receiver's, not Kshana's (and a receiver's own detector is not validated
+/// here): 0 unknown or not enabled, 1 none indicated, 2 indicated (warning for jamming),
+/// 3 multiple indications or affirmed (critical for jamming).
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
+pub struct ReceiverSelfReport {
+    /// Spoofing state, 0 to 3, where the log carries one.
+    pub spoofing: Option<u8>,
+    /// Jamming state, 0 to 3, where the log carries one (UBX-SEC-SIG only).
+    pub jamming: Option<u8>,
+    /// Septentrio RFStatus: the number of RF bands whose `Info` byte is non-zero. Carried as the
+    /// receiver reports it and not interpreted: the meaning of the bits is the manufacturer's, and
+    /// it does not count towards [`ReceiverSelfReport::flagged`].
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub rf_bands_reported: Option<u8>,
+}
+
+impl ReceiverSelfReport {
+    /// Whether the receiver itself flags spoofing or jamming (a state of 2 or more).
+    pub fn flagged(&self) -> bool {
+        self.spoofing.is_some_and(|v| v >= 2) || self.jamming.is_some_and(|v| v >= 2)
+    }
+}
+
 /// Everything the log says about one epoch. Fields a format does not carry stay `None`.
 #[derive(Clone, Debug, Default, PartialEq, Serialize, Deserialize)]
 pub struct LogEpoch {
@@ -147,6 +175,10 @@ pub struct LogEpoch {
     /// DOP the receiver reported at this epoch (NMEA GSA), where the log carries it.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub reported_dop: Option<ReportedDop>,
+    /// The receiver's own spoofing and jamming flags at this epoch, where the log carries them
+    /// (UBX-NAV-STATUS, UBX-SEC-SIG).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub self_report: Option<ReceiverSelfReport>,
 }
 
 /// An OSNMA (Galileo navigation message authentication) status as a receiver reports it.
