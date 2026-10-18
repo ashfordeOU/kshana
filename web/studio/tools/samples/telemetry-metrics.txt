@@ -46,7 +46,7 @@ kshana_trust_syslog_send_failures_total 0
 kshana_trust_epoch_offset_seconds 3000
 # HELP kshana_trust_last_sample_timestamp_seconds Wall-clock time the latest epoch was received, Unix seconds. Alert on its age to detect a stalled stream.
 # TYPE kshana_trust_last_sample_timestamp_seconds gauge
-kshana_trust_last_sample_timestamp_seconds 1792295544.8022084
+kshana_trust_last_sample_timestamp_seconds 1792306311.4540076
 # HELP kshana_trust_geometry Satellite geometry at the latest epoch: 1 for the current status (good, degraded, unknown), 0 for the others.
 # TYPE kshana_trust_geometry gauge
 kshana_trust_geometry{status="good"} 1
