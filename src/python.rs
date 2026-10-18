@@ -1867,7 +1867,7 @@ fn get_example(name: &str) -> PyResult<&'static str> {
 }
 
 /// Fill the public-framework mapping from result documents given as text: which rows of
-/// five resilience frameworks and standards (`docs/compliance/`) the runs support evidence
+/// six resilience frameworks and standards (`docs/compliance/`) the runs support evidence
 /// for, which they do not, and the gap each row keeps. `runs` is a list of dicts with
 /// `label` (the name to show), `result` (the result JSON text) and optionally `scenario`
 /// (the scenario TOML text, which names the scenario kind a result does not). At most 64

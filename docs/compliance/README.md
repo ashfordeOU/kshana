@@ -16,9 +16,10 @@ body; Kshana is not one. Requirement text is paraphrased, never reproduced.
 | EASA guidance on GNSS interference for aviation | [easa-aviation.md](easa-aviation.md) |
 | EU NIS2 Directive, Article 21 | [nis2-art21.md](nis2-art21.md) |
 | EN 16803 (paid standard; by part and catalogue-visible clause numbers only) | [en-16803.md](en-16803.md) |
+| NIST IR 8323r1, Foundational PNT Profile (January 2023) | [nist-ir-8323r1.md](nist-ir-8323r1.md) |
 
 Each file lists its source documents with version, URL, date read and what was and was not
-checked. Sources were read on 2026-10-09 (the EASA bulletin and the EN 16803 catalogue pages were checked again on 2026-10-10). Where a source could only be read through a
+checked. Sources were read on 2026-10-09 (the NIST profile on 2026-10-18; the EASA bulletin and the EN 16803 catalogue pages were checked again on 2026-10-10). Where a source could only be read through a
 mirror or a catalogue page, the file says so.
 
 ## The report
