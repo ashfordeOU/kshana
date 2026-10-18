@@ -231,5 +231,10 @@
     "Lunar reference-station coverage and accuracy map",
     "Lunar station time laboratory: miniRAFS holdover against LTC",
     "Lunar reference-station geodesy: added retroreflector and VLBI beacon against the five-array datum"
+  ],
+  "Optical timing links through clouds and turbulence": [
+    "Optical slant-path atmosphere numerics: Rytov variance, scintillation, gamma-gamma fade probability, aperture averaging, cloud and clear-air optical depth",
+    "Weather-driven optical ground-site availability and distance-correlated site diversity",
+    "Timing and ranging continuity through optical outages"
   ]
 }
