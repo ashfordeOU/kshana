@@ -2022,6 +2022,27 @@ fn compliance_mapping(sources: bool) -> String {
     crate::surface::compliance_mapping(sources)
 }
 
+/// The standards packs (`kshana standards-pack list`): a dict with `packs` (id, title,
+/// framework, test counts) and a `notice`. A pack measures modelled scenarios against bars
+/// stated before the run; it rates no product.
+#[pyfunction]
+fn standards_pack_list<'py>(py: Python<'py>) -> PyResult<Bound<'py, PyAny>> {
+    json_to_py(py, &crate::surface::standards_pack_list())
+}
+
+/// Run one standards pack by id (`kshana standards-pack run <id>`). Returns the report as a
+/// dict (`pack`, `summary`, `tests` with each bar's measured and expected value and `met`,
+/// `evidence_tier`, `notice`, `advisory`, `statement`) with the same report as Markdown under
+/// `markdown`. Pass `json.dumps` of the dict (without `markdown`) to `compliance_report` to see
+/// the rows. Raises `ValueError` for an unknown id.
+#[pyfunction]
+fn standards_pack_run<'py>(py: Python<'py>, pack_id: &str) -> PyResult<Bound<'py, PyAny>> {
+    let (mut report, md) =
+        crate::surface::standards_pack_run(pack_id).map_err(PyValueError::new_err)?;
+    report["markdown"] = md.into();
+    json_to_py(py, &report)
+}
+
 /// Render a trust stream or a batch result in one telemetry format with the encoders
 /// `kshana trust-telemetry` uses (no process, socket or clock). `format` is `"prometheus"`,
 /// `"cef"`, `"leef"` or `"otlp"`; `input_kind` is `"jsonl"` (the live per-epoch stream, the
@@ -2223,6 +2244,8 @@ fn kshana(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(list_examples, m)?)?;
     m.add_function(wrap_pyfunction!(get_example, m)?)?;
     m.add_function(wrap_pyfunction!(compliance_mapping, m)?)?;
+    m.add_function(wrap_pyfunction!(standards_pack_list, m)?)?;
+    m.add_function(wrap_pyfunction!(standards_pack_run, m)?)?;
     m.add_function(wrap_pyfunction!(osnma_verify, m)?)?;
     m.add_function(wrap_pyfunction!(trust_telemetry, m)?)?;
     m.add_function(wrap_pyfunction!(route_exposure, m)?)?;

@@ -94,6 +94,7 @@ async fn the_new_tools_are_listed_with_their_caveats() {
     assert!(desc("generate_training_nmea").contains("never for a vessel's live navigation"));
     assert!(desc("build_interference_map").contains("does not identify interference as the cause"));
     assert!(desc("route_exposure").contains("not a forecast"));
+    assert!(desc("run_standards_pack").contains("never describe the output"));
     for t in ["compliance_report", "compliance_mapping"] {
         let d = desc(t);
         assert!(d.contains("not a finding that a framework is met"), "{t}");
@@ -728,6 +729,33 @@ async fn test_bench_export_returns_text_and_refuses_files_and_bad_epochs() {
             .await
             .is_err()
     );
+    client.cancel().await.ok();
+}
+
+#[tokio::test]
+async fn standards_packs_list_run_and_feed_the_compliance_report() {
+    let client = connect().await;
+    let l = call(&client, "list_standards_packs", json!({})).await.unwrap();
+    let l: Value = serde_json::from_str(&l[0]).unwrap();
+    assert!(l["packs"].as_array().unwrap().len() >= 3);
+    let r = call(&client, "run_standards_pack", json!({"pack": "icao-doc9849-appf"}))
+        .await
+        .unwrap();
+    let mut v: Value = serde_json::from_str(&r[0]).unwrap();
+    assert_eq!(v["evidence_tier"], "MODELLED");
+    assert_eq!(v["summary"]["error"], 0);
+    assert!(v["markdown"].as_str().unwrap().contains("supports evidence for"));
+    v.as_object_mut().unwrap().remove("markdown");
+    let c = call(
+        &client,
+        "compliance_report",
+        json!({"runs": [{"label": "icao.pack.json", "result": v.to_string()}]}),
+    )
+    .await
+    .unwrap();
+    let c: Value = serde_json::from_str(&c[0]).unwrap();
+    assert_eq!(c["standards_packs"].as_array().unwrap().len(), 1);
+    assert!(call(&client, "run_standards_pack", json!({"pack": "nope"})).await.is_err());
     client.cancel().await.ok();
 }
 

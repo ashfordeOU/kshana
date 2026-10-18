@@ -208,6 +208,14 @@ pub struct ComplianceMappingRequest {
     pub sources: bool,
 }
 
+/// Parameters for [`KshanaServer::run_standards_pack`].
+#[derive(Debug, serde::Deserialize, schemars::JsonSchema)]
+pub struct StandardsPackRequest {
+    /// The pack id from `list_standards_packs` (for example `dhs-rpcf`, `imo-circ-1575`,
+    /// `icao-doc9849-appf`).
+    pub pack: String,
+}
+
 /// Parameters for [`KshanaServer::trust_telemetry`].
 #[derive(Debug, serde::Deserialize, schemars::JsonSchema)]
 pub struct TrustTelemetryRequest {
@@ -594,6 +602,26 @@ impl KshanaServer {
         Ok(CallToolResult::success(vec![ContentBlock::text(
             surface::compliance_mapping(r.sources),
         )]))
+    }
+
+    #[tool(
+        description = "List the standards packs (`kshana standards-pack list`): scored scenario sets for the DHS Resilient PNT framework test profiles, IMO MSC.1/Circ.1575 and ICAO Doc 9849 Appendix F, each with the bars it states before the run and the compliance rows it supports evidence for. Needs no input. A pack measures modelled scenarios against stated bars; it rates no product. Evidence tier: MODELLED."
+    )]
+    fn list_standards_packs(&self) -> Result<CallToolResult, McpError> {
+        reply(surface::standards_pack_list())
+    }
+
+    #[tool(
+        description = "Run one standards pack (`kshana standards-pack run <id>`): every scenario in it, scored against bars stated before the run. Returns the report (each test `MET`, `NOT MET`, or `NEEDS INPUT` when it needs a receiver log and is not scored; each bar with its measured and expected value) and the same as `markdown`. Pass the report JSON to `compliance_report` to see the rows the pack supports evidence for. Say plainly that a MET bar means a modelled scenario met a stated bar, and that a NOT MET is a result on record; never describe the output as showing that a product or a framework is met. Advisory only: analysis output, not type-approved navigation equipment. Evidence tier: MODELLED."
+    )]
+    fn run_standards_pack(
+        &self,
+        Parameters(r): Parameters<StandardsPackRequest>,
+    ) -> Result<CallToolResult, McpError> {
+        let (mut report, md) = surface::standards_pack_run(&r.pack)
+            .map_err(|e| bad(format!("standards pack failed: {e}")))?;
+        report["markdown"] = md.into();
+        reply(report)
     }
 
     #[tool(

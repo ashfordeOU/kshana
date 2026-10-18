@@ -25,8 +25,12 @@ pub const REPORT_SCHEMA: &str = "kshana.standards-pack-report/1";
 pub const NOTICE: &str = "A standards pack measures modelled scenarios against bars stated \
     before the run. It supports evidence for the framework rows it names; it does not rate or \
     approve any product, and a MET bar says only that the scenario's modelled output met the \
-    stated bar. Advisory only: Kshana is a research and engineering tool, not a certified \
-    navigation or safety-of-life system.";
+    stated bar.";
+
+/// The advisory statement every pack report carries.
+pub const ADVISORY: &str = "Advisory: analysis output from a research and engineering tool, \
+    not type-approved navigation equipment and not a safety-of-life service; it must not be \
+    the sole basis for any navigation or safety decision.";
 
 /// A bar: one comparison on a result field, stated before the run.
 #[derive(Clone, Debug, Deserialize)]
@@ -80,6 +84,21 @@ pub struct Test {
     pub gap: String,
 }
 
+/// A row the pack adds to the compliance mapping: one reference in the source document, in
+/// the pack author's own words, with the tests that support evidence for it.
+#[derive(Clone, Debug, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct Row {
+    /// Identifier, unique across the pack and the static mapping.
+    pub id: String,
+    /// Where in the source document (a paragraph, table or section number).
+    pub reference: String,
+    /// What it asks, paraphrased and short (never a pasted clause).
+    pub asks: String,
+    /// What the pack's tests leave unshown.
+    pub gap: String,
+}
+
 /// A pack manifest.
 #[derive(Clone, Debug, Deserialize)]
 #[serde(deny_unknown_fields)]
@@ -92,6 +111,10 @@ pub struct Pack {
     pub framework: String,
     /// Sources the pack paraphrases, with what was and was not read.
     pub sources: Vec<String>,
+    /// Rows the pack adds to the compliance mapping (tests may also name rows of the static
+    /// mapping in `src/compliance/mapping.rs`).
+    #[serde(default, rename = "row")]
+    pub rows: Vec<Row>,
     /// The tests.
     #[serde(rename = "test")]
     pub tests: Vec<Test>,
@@ -99,7 +122,6 @@ pub struct Pack {
 
 type Scenarios = &'static [(&'static str, &'static str)];
 
-#[allow(unused_macros)]
 macro_rules! scn {
     ($pack:literal, $stem:literal) => {
         (
@@ -116,7 +138,43 @@ struct Embedded {
     scenarios: Scenarios,
 }
 
-const EMBEDDED: &[Embedded] = &[];
+const EMBEDDED: &[Embedded] = &[
+    Embedded {
+        id: "dhs-rpcf",
+        manifest: include_str!("../standards/dhs-rpcf/pack.toml"),
+        scenarios: &[
+            scn!("dhs-rpcf", "l1-repeatable-spoof-detect"),
+            scn!("dhs-rpcf", "l2-spoof-position-push"),
+            scn!("dhs-rpcf", "l2-jammer-1km"),
+            scn!("dhs-rpcf", "l3-clock-holdover"),
+            scn!("dhs-rpcf", "l3-combined-altpnt"),
+            scn!("dhs-rpcf", "l4-conflict-resilience"),
+        ],
+    },
+    Embedded {
+        id: "imo-circ-1575",
+        manifest: include_str!("../standards/imo-circ-1575/pack.toml"),
+        scenarios: &[
+            scn!("imo-circ-1575", "accuracy-a-open-water"),
+            scn!("imo-circ-1575", "accuracy-b-open-water"),
+            scn!("imo-circ-1575", "accuracy-b-multi-system"),
+            scn!("imo-circ-1575", "accuracy-b-harbour"),
+            scn!("imo-circ-1575", "integrity-consistency-spoof"),
+        ],
+    },
+    Embedded {
+        id: "icao-doc9849-appf",
+        manifest: include_str!("../standards/icao-doc9849-appf/pack.toml"),
+        scenarios: &[
+            scn!("icao-doc9849-appf", "assess-jammer-1km"),
+            scn!("icao-doc9849-appf", "assess-jammer-10km"),
+            scn!("icao-doc9849-appf", "assess-jammer-100km"),
+            scn!("icao-doc9849-appf", "mitigate-spoof-detect"),
+            scn!("icao-doc9849-appf", "mitigate-combined-altpnt"),
+            scn!("icao-doc9849-appf", "mitigate-clock-holdover"),
+        ],
+    },
+];
 
 /// Ids of the packs, in order.
 pub fn ids() -> Vec<&'static str> {
@@ -157,7 +215,10 @@ pub fn parse(manifest: &str, scenarios: Scenarios) -> Result<Pack, String> {
             }
             (None, Some(_)) => {
                 if !t.bars.is_empty() {
-                    return Err(format!("test {}: a test that needs input has no bars", t.id));
+                    return Err(format!(
+                        "test {}: a test that needs input has no bars",
+                        t.id
+                    ));
                 }
             }
             _ => {
@@ -165,6 +226,13 @@ pub fn parse(manifest: &str, scenarios: Scenarios) -> Result<Pack, String> {
                     "test {}: give either `scenario` or `needs_input`, not both or neither",
                     t.id
                 ))
+            }
+        }
+        for r in &t.supports_rows {
+            let known = p.rows.iter().any(|x| &x.id == r)
+                || crate::compliance::mapping::rows().iter().any(|x| x.id == r);
+            if !known {
+                return Err(format!("test {}: supports unknown row `{r}`", t.id));
             }
         }
         for b in &t.bars {
@@ -177,6 +245,22 @@ pub fn parse(manifest: &str, scenarios: Scenarios) -> Result<Pack, String> {
                     t.id, b.pointer
                 ));
             }
+        }
+    }
+    let mut row_ids = std::collections::BTreeSet::new();
+    for r in &p.rows {
+        if !row_ids.insert(r.id.as_str())
+            || crate::compliance::mapping::rows()
+                .iter()
+                .any(|x| x.id == r.id)
+        {
+            return Err(format!("row {}: duplicate id", r.id));
+        }
+        if r.asks.len() >= 400 {
+            return Err(format!("row {}: `asks` must be a short paraphrase", r.id));
+        }
+        if !p.tests.iter().any(|t| t.supports_rows.contains(&r.id)) {
+            return Err(format!("row {}: no test supports it", r.id));
         }
     }
     Ok(p)
@@ -293,6 +377,7 @@ pub fn run_with(manifest: &str, scenarios: Scenarios) -> Result<Value, String> {
         "sources": pack.sources,
         "evidence_tier": "MODELLED",
         "notice": NOTICE,
+        "advisory": ADVISORY,
         "statement": STATEMENT,
         "summary": {
             "met": count("MET"), "not_met": count("NOT MET"),
@@ -325,13 +410,81 @@ pub fn list() -> Value {
     json!({ "packs": packs, "notice": NOTICE })
 }
 
+/// The pack's rows as a Markdown table (what `docs/compliance/<pack>.md` embeds): each row
+/// with the tests of the pack that support evidence for it.
+pub fn rows_markdown(pack: &Pack) -> String {
+    let mut s = String::from(
+        "| Reference | What it asks (paraphrased) | Pack tests that support evidence for it | Gap |\n|---|---|---|---|\n",
+    );
+    for r in &pack.rows {
+        let tests = pack
+            .tests
+            .iter()
+            .filter(|t| t.supports_rows.contains(&r.id))
+            .map(|t| t.id.as_str())
+            .collect::<Vec<_>>()
+            .join(", ");
+        s.push_str(&format!(
+            "| {} | {} | {} | {} |\n",
+            r.reference, r.asks, tests, r.gap
+        ));
+    }
+    s
+}
+
+/// The pack's tests as a Markdown table, with the bars each one states.
+pub fn tests_markdown(pack: &Pack) -> String {
+    let mut s = String::from(
+        "| Test | Profile | Scenario | Bars stated before the run |\n|---|---|---|---|\n",
+    );
+    for t in &pack.tests {
+        let bars = if let Some(n) = &t.needs_input {
+            format!(
+                "not scored: needs input ({})",
+                n.split(['.', ':']).next().unwrap_or("")
+            )
+        } else {
+            let mut v: Vec<String> = t
+                .bars
+                .iter()
+                .map(|b| {
+                    let rhs = match (&b.value, &b.against) {
+                        (Some(v), _) => v.to_string(),
+                        (_, Some(a)) => format!("`{a}`"),
+                        _ => String::new(),
+                    };
+                    let lhs = match &b.over {
+                        Some(o) => format!("`{}` / `{o}`", b.pointer),
+                        None => format!("`{}`", b.pointer),
+                    };
+                    format!("{lhs} {} {rhs}", b.op)
+                })
+                .collect();
+            if t.repeat {
+                v.push("identical on a second run".into());
+            }
+            v.join("; ")
+        };
+        s.push_str(&format!(
+            "| {} {} | {} | {} | {} |\n",
+            t.id,
+            t.title,
+            t.profile,
+            t.scenario.as_deref().unwrap_or("none"),
+            bars
+        ));
+    }
+    s
+}
+
 /// The report as Markdown.
 pub fn report_markdown(report: &Value) -> String {
     let mut s = format!(
-        "# {}\n\n{}\n\n{}\n\n",
+        "# {}\n\n{}\n\n{}\n\n{}\n\n",
         report["title"].as_str().unwrap_or("Standards pack"),
         NOTICE,
-        STATEMENT
+        STATEMENT,
+        ADVISORY
     );
     s.push_str("| Test | Profile | Status | Bars | Supports rows |\n|---|---|---|---|---|\n");
     for t in report["tests"].as_array().into_iter().flatten() {
@@ -402,7 +555,10 @@ needs_input = "a receiver log"
 "#;
 
     fn scenarios() -> Scenarios {
-        &[("clock-holdover", include_str!("../scenarios/clock-holdover.toml"))]
+        &[(
+            "clock-holdover",
+            include_str!("../scenarios/clock-holdover.toml"),
+        )]
     }
 
     #[test]
@@ -415,14 +571,23 @@ needs_input = "a receiver log"
         // The repeat check is reported as a bar of its own.
         assert_eq!(a["bars"].as_array().unwrap().len(), 2);
         assert_eq!(a["bars"][1]["met"], true);
-        assert!(r["statement"].as_str().unwrap().contains("supports evidence"));
+        assert!(r["statement"]
+            .as_str()
+            .unwrap()
+            .contains("supports evidence"));
     }
 
     #[test]
     fn bad_manifests_are_refused() {
         for (bad, why) in [
-            (MANIFEST.replace("clock-holdover", "nope"), "not in the pack"),
-            (MANIFEST.replace("op = \"le\"", "op = \"approx\""), "unknown op"),
+            (
+                MANIFEST.replace("clock-holdover", "nope"),
+                "not in the pack",
+            ),
+            (
+                MANIFEST.replace("op = \"le\"", "op = \"approx\""),
+                "unknown op",
+            ),
             (
                 MANIFEST.replace("against = \"/threshold_ns\"", "value = 1\nagainst = \"/x\""),
                 "exactly one",

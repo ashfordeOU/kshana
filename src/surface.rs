@@ -612,6 +612,22 @@ pub fn iq_test_conditions_inline(text: &str, max_bytes: usize) -> Result<Value, 
     Ok(v)
 }
 
+/// The standards packs (`kshana standards-pack list`, `standards/`): id, title, framework and
+/// test counts, with the notice that a pack measures modelled scenarios and rates no product.
+pub fn standards_pack_list() -> Value {
+    crate::standards_pack::list()
+}
+
+/// Run one standards pack by id (`kshana standards-pack run <id>`): the report as JSON and as
+/// Markdown. Nothing is read from disk (the scenarios are embedded) and nothing is written.
+/// Give the JSON text to [`compliance_report`] to see the rows the pack supports evidence for.
+/// A test that needs a receiver log is `NEEDS INPUT` and not scored.
+pub fn standards_pack_run(id: &str) -> Result<(Value, String), String> {
+    let report = crate::standards_pack::run(id)?;
+    let md = crate::standards_pack::report_markdown(&report);
+    Ok((report, md))
+}
+
 /// Most runs a surface accepts in one compliance report.
 pub const MAX_COMPLIANCE_RUNS: usize = 64;
 

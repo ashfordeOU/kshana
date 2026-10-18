@@ -311,6 +311,22 @@ pub fn bench_export(toml: &str, epoch: &str) -> Result<String, JsValue> {
     Ok(serde_json::json!({"files": files, "notes": e.notes, "notice": BENCH_NOTICE}).to_string())
 }
 
+/// The standards packs (`docs/compliance/`): JSON `{packs, notice}`. A pack measures modelled
+/// scenarios against bars stated before the run and rates no product.
+#[wasm_bindgen]
+pub fn standards_pack_list() -> String {
+    crate::surface::standards_pack_list().to_string()
+}
+
+/// Run one standards pack by id. Returns JSON `{report, markdown}`; a test that needs a
+/// receiver log is `NEEDS INPUT` and not scored. Nothing is uploaded or read from disk.
+#[wasm_bindgen]
+pub fn standards_pack_run(id: &str) -> Result<String, JsValue> {
+    let (report, markdown) =
+        crate::surface::standards_pack_run(id).map_err(|e| JsValue::from_str(&e))?;
+    Ok(serde_json::json!({"report": report, "markdown": markdown}).to_string())
+}
+
 /// Fill the public-framework mapping from result documents: which rows of five resilience
 /// frameworks and standards (`docs/compliance/`) the runs support evidence for, which they
 /// do not, and the gap each row keeps. `runs_json` is a JSON array of `{label, result,
