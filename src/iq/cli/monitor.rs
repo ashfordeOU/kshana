@@ -10,20 +10,26 @@
 //! pre-correlation monitors (both when neither is given); `--settings <file>` takes a
 //! [`crate::iq::monitor::run::MonitorConfig`] TOML or JSON file instead, in which a
 //! `[power]` or `[spectral]` table switches that monitor on.
+//!
+//! `--follow` reads a SigMF recording that is still being written, as it grows, and ends
+//! when the file has not grown for `--idle-timeout` seconds or `--max-seconds` of signal
+//! have been read ([`crate::iq::io::follow`]). It is receive only.
 
 use super::acquire::codes_from_args;
 use super::track::{acquire_inits, handoff_from_args};
 use super::{raw_sidecar, Args, Fail};
+use crate::iq::io::follow::{open_sigmf_follow, FollowOptions};
 use crate::iq::io::inventory::open_recording;
 use crate::iq::monitor::run::{run_monitors, MonitorConfig};
 use crate::iq::monitor::MonitorReport;
 use crate::iq::track::{CarrierLoop, LoopConfig};
-use crate::iq::SpreadingCode;
+use crate::iq::{IqSource, SpreadingCode};
 use std::collections::BTreeMap;
 use std::path::Path;
+use std::time::Duration;
 
 /// The value-less flags of `iq monitor`.
-const SWITCHES: &[&str] = &["--power", "--spectral"];
+const SWITCHES: &[&str] = &["--power", "--spectral", "--follow"];
 
 /// The loop design: the default GPS-L1-C/A-like loop with the loop flags applied.
 fn loop_design(a: &Args) -> Result<LoopConfig, Fail> {
@@ -128,18 +134,48 @@ pub(crate) fn report_from_args(
             channels.push((code.name(), init));
         }
     }
-    let mut src = open_recording(path, raw_sidecar(a)?)?;
+    let mut source = open_monitored(a, path)?;
     let max = a
         .num::<f64>("--max-seconds")
         .map_err(Fail::Usage)?
-        .map(|s| (s * src.source.spec().fs_hz).round() as u64);
+        .map(|s| (s * source.spec().fs_hz).round() as u64);
     Ok(run_monitors(
-        src.source.as_mut(),
+        source.as_mut(),
         &channels,
         &design,
         &cfg,
         max,
     )?)
+}
+
+/// The samples to monitor: the recording as it stands, or with `--follow` a SigMF recording
+/// still being written, read as it grows until it has not grown for `--idle-timeout`
+/// seconds (default 5) or `--max-seconds` of signal have been read. Receive only: the
+/// file is opened read-only.
+fn open_monitored(a: &Args, path: &Path) -> Result<Box<dyn IqSource + Send>, Fail> {
+    if !a.has("--follow") {
+        if a.get("--idle-timeout").is_some() {
+            return Err(Fail::Usage("--idle-timeout only goes with --follow".into()));
+        }
+        return Ok(open_recording(path, raw_sidecar(a)?)?.source);
+    }
+    let p = path.to_string_lossy();
+    if !(p.ends_with(".sigmf-meta") || p.ends_with(".sigmf-data") || p.ends_with(".sigmf")) {
+        return Err(Fail::Usage(
+            "--follow reads a SigMF recording (give the .sigmf-meta, the .sigmf-data or the base path)"
+                .into(),
+        ));
+    }
+    let mut opts = FollowOptions::default();
+    if let Some(s) = a.num::<f64>("--idle-timeout").map_err(Fail::Usage)? {
+        if !(s.is_finite() && s > 0.0) {
+            return Err(Fail::Usage(
+                "--idle-timeout must be a positive number of seconds".into(),
+            ));
+        }
+        opts.idle = Duration::from_secs_f64(s);
+    }
+    Ok(open_sigmf_follow(path, opts)?)
 }
 
 /// Run `kshana iq monitor <args>`.

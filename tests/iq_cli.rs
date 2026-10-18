@@ -441,6 +441,278 @@ fn scene_sigmf_round_trips_through_acquire() {
     }
 }
 
+/// Read every sample of a recording through the same opener `acquire` uses.
+fn read_all(path: &str) -> (kshana::iq::SampleSpec, Vec<kshana::iq::Cf64>) {
+    let mut o = kshana::iq::io::inventory::open_recording(std::path::Path::new(path), None)
+        .unwrap_or_else(|e| panic!("{path}: {e}"));
+    let spec = o.source.spec();
+    let mut all = Vec::new();
+    let mut buf = vec![kshana::iq::Cf64::default(); 4096];
+    loop {
+        let n = o.source.read(&mut buf).unwrap();
+        if n == 0 {
+            break;
+        }
+        all.extend_from_slice(&buf[..n]);
+    }
+    (spec, all)
+}
+
+/// A scene written with ION GNSS SDR metadata (`.sdrx` plus `.bin`) holds exactly the
+/// samples the same scene writes as a plain `ci8` or `ci16_le` file, the metadata states the
+/// rate, centre frequency and layout the reader returns, and `acquire` recovers the
+/// injected Doppler and code phase from it.
+#[test]
+fn scene_sdrx_matches_the_plain_integer_file_and_acquires() {
+    for (sdrx_fmt, raw_fmt, bytes_per_sample) in
+        [("sdrx", "ci8", 2u64), ("sdrx:ci16_le", "ci16_le", 4)]
+    {
+        let dir = scratch("sdrx");
+        let sdrx = dir.join("s.sdrx").display().to_string();
+        let raw = dir.join("r.bin").display().to_string();
+        let common = |out: &str, fmt: &str| {
+            args(&[
+                "scene",
+                out,
+                "--rate",
+                "2046000",
+                "--duration",
+                "0.05",
+                "--signal",
+                "gps-l1ca",
+                "--prn",
+                "7,19",
+                "--doppler",
+                "800,-1200",
+                "--cn0",
+                "50",
+                "--no-noise",
+                "--seed",
+                "4",
+                "--center",
+                "1575420000",
+                "--format",
+                fmt,
+            ])
+        };
+        assert_eq!(run(&common(&sdrx, sdrx_fmt)), 0, "{sdrx_fmt}");
+        assert_eq!(run(&common(&raw, raw_fmt)), 0, "{raw_fmt}");
+        let bin = dir.join("s.bin");
+        assert_eq!(
+            std::fs::metadata(&bin).unwrap().len(),
+            (0.05 * 2_046_000.0) as u64 * bytes_per_sample
+        );
+        let text = std::fs::read_to_string(&sdrx).unwrap();
+        assert!(text.contains("SIMULATED scene, not a recording"), "{text}");
+        let (spec, from_sdrx) = read_all(&sdrx);
+        let (_, from_raw) = read_all(&raw);
+        assert_eq!((spec.fs_hz, spec.center_hz), (2_046_000.0, 1_575_420_000.0));
+        assert!(!from_sdrx.is_empty());
+        assert_eq!(
+            from_sdrx, from_raw,
+            "{sdrx_fmt}: the .sdrx stream differs from the plain file"
+        );
+
+        let acq_json = dir.join("acq.json").display().to_string();
+        assert_eq!(
+            run(&args(&[
+                "acquire",
+                &sdrx,
+                "--signal",
+                "gps-l1ca",
+                "--prn",
+                "7,19",
+                "--doppler-max",
+                "4000",
+                "--doppler-step",
+                "250",
+                "--json",
+                &acq_json,
+            ])),
+            0
+        );
+        let want = truth_at_zero(&format!("{sdrx}.truth.csv"));
+        let v: serde_json::Value =
+            serde_json::from_str(&std::fs::read_to_string(&acq_json).unwrap()).unwrap();
+        for (det, prn) in v["detections"].as_array().unwrap().iter().zip([7u32, 19]) {
+            assert!(det["acquired"].as_bool().unwrap(), "{sdrx_fmt}: {det}");
+            let (want_phase, want_dopp) = want[&prn];
+            assert!((det["doppler_hz"].as_f64().unwrap() - want_dopp).abs() <= 250.0);
+            let phase = det["code_phase_chips"].as_f64().unwrap();
+            assert!(((phase - want_phase + 511.5).rem_euclid(1023.0) - 511.5).abs() <= 1.0);
+        }
+    }
+}
+
+/// The metadata standard has no float coding, and SigMF and sdrx are separate outputs.
+#[test]
+fn scene_sdrx_refuses_float_and_a_second_format() {
+    let dir = scratch("sdrx-refuse");
+    let out = dir.join("s.sdrx").display().to_string();
+    let base = [
+        "scene",
+        &out,
+        "--rate",
+        "1023000",
+        "--duration",
+        "0.01",
+        "--signal",
+        "gps-l1ca",
+        "--prn",
+        "3",
+    ];
+    for fmt in ["sdrx:cf32_le", "cf32_le"] {
+        let mut a = base.to_vec();
+        a.extend(["--format", fmt]);
+        assert_eq!(run(&args(&a)), 2, "{fmt}");
+    }
+    let mut a = base.to_vec();
+    a.extend(["--format", "sigmf"]);
+    assert_eq!(run(&args(&a)), 2);
+}
+
+/// `iq monitor --follow` reads a SigMF recording that grows while it runs: the data file
+/// holds a quiet half second when the monitor starts, and a writer thread appends a much
+/// stronger second half in small steps. The monitor sees the appended samples (the power
+/// series runs the whole 1 s) and raises a `power_rise` after the first half; without
+/// `--follow` the same file at its first length shows no event.
+#[test]
+fn monitor_follow_reads_a_sigmf_file_that_grows_during_the_run() {
+    use std::io::Write;
+    let dir = scratch("follow");
+    let base = dir.join("g").display().to_string();
+    let (meta, data) = (format!("{base}.sigmf-meta"), format!("{base}.sigmf-data"));
+    let fs = 10_000.0_f64;
+    std::fs::write(
+        &meta,
+        format!(
+            r#"{{"global":{{"core:datatype":"ci8","core:sample_rate":{fs},"core:version":"1.0.0"}},
+"captures":[{{"core:sample_start":0,"core:frequency":1575420000.0}}],"annotations":[]}}"#
+        ),
+    )
+    .unwrap();
+    // A deterministic noise-like I/Q byte stream: amplitude `amp` levels either side of zero.
+    let mut state = 12345_u64;
+    let mut chunk = move |n_samples: usize, amp: i64| -> Vec<u8> {
+        let mut v = Vec::with_capacity(2 * n_samples);
+        for _ in 0..2 * n_samples {
+            state = state
+                .wrapping_mul(6364136223846793005)
+                .wrapping_add(1442695040888963407);
+            let r = ((state >> 33) % (2 * amp as u64 + 1)) as i64 - amp;
+            v.push(r as i8 as u8);
+        }
+        v
+    };
+    let first = chunk(5_000, 4); // 0.5 s, quiet
+    std::fs::write(&data, &first).unwrap();
+    let tail: Vec<Vec<u8>> = (0..10).map(|_| chunk(500, 40)).collect(); // 0.5 s, +20 dB, in ten steps
+
+    // Without --follow the file as it stands is quiet: no event.
+    let quiet_json = dir.join("quiet.json").display().to_string();
+    assert_eq!(
+        run(&args(&[
+            "monitor",
+            &meta,
+            "--power",
+            "--baseline",
+            "0.2",
+            "--json",
+            &quiet_json
+        ])),
+        0
+    );
+    let quiet: serde_json::Value =
+        serde_json::from_str(&std::fs::read_to_string(&quiet_json).unwrap()).unwrap();
+    assert!(quiet["events"].as_array().unwrap().is_empty(), "{quiet}");
+
+    let writer_path = data.clone();
+    let writer = std::thread::spawn(move || {
+        // Start appending only after the monitor has had time to open the file and read
+        // what is there.
+        std::thread::sleep(std::time::Duration::from_millis(300));
+        let mut f = std::fs::OpenOptions::new()
+            .append(true)
+            .open(&writer_path)
+            .unwrap();
+        for c in tail {
+            f.write_all(&c).unwrap();
+            f.flush().unwrap();
+            std::thread::sleep(std::time::Duration::from_millis(40));
+        }
+    });
+    let json = dir.join("follow.json").display().to_string();
+    assert_eq!(
+        run(&args(&[
+            "monitor",
+            &meta,
+            "--follow",
+            "--idle-timeout",
+            "1.5",
+            "--power",
+            "--baseline",
+            "0.2",
+            "--json",
+            &json,
+        ])),
+        0
+    );
+    writer.join().unwrap();
+    let v: serde_json::Value =
+        serde_json::from_str(&std::fs::read_to_string(&json).unwrap()).unwrap();
+    let power = v["series"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .find(|s| s["name"] == "power_db")
+        .unwrap();
+    let t = power["t_s"].as_array().unwrap();
+    // Ten 0.1 s... the whole 1 s of samples: a block is 10 ms, so a hundred blocks, the last
+    // ending at 0.99 s or so; the first half alone would give fifty.
+    assert!(
+        t.len() >= 99,
+        "only {} power blocks: the appended samples were not read",
+        t.len()
+    );
+    let rise = v["events"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .find(|e| e["kind"] == "power_rise")
+        .unwrap_or_else(|| panic!("no power_rise in {v}"));
+    let alarm = rise["t_alarm_s"].as_f64().unwrap();
+    assert!(
+        (0.5..0.6).contains(&alarm),
+        "alarm at {alarm} s, the step is at 0.5 s"
+    );
+}
+
+/// `--follow` is for SigMF recordings, needs a positive idle time, and `--idle-timeout`
+/// means nothing without it.
+#[test]
+fn monitor_follow_refuses_what_it_does_not_follow() {
+    let dir = scratch("follow-refuse");
+    let raw = dir.join("r.cf32").display().to_string();
+    std::fs::write(&raw, [0u8; 64]).unwrap();
+    assert_eq!(run(&args(&["monitor", &raw, "--follow", "--power"])), 2);
+    let meta = dir.join("m.sigmf-meta").display().to_string();
+    assert_eq!(
+        run(&args(&["monitor", &meta, "--idle-timeout", "2", "--power"])),
+        2
+    );
+    assert_eq!(
+        run(&args(&[
+            "monitor",
+            &meta,
+            "--follow",
+            "--idle-timeout",
+            "0",
+            "--power"
+        ])),
+        2
+    );
+}
+
 /// `track` converges to the injected Doppler and holds phase lock on a noise-free scene.
 #[test]
 fn track_converges_to_injected_doppler() {
