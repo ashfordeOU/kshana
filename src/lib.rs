@@ -160,6 +160,7 @@ pub mod gse_sim;
 pub mod handoff;
 pub mod hatch;
 pub mod holdover;
+pub mod holdover_test;
 pub mod hybrid;
 pub mod hybrid_integrity;
 pub mod igrf;
