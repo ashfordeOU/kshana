@@ -1,6 +1,6 @@
 {
   "schema_version": "0.7",
-  "engine_version": "0.36.0",
+  "engine_version": "0.37.0",
   "scenario_hash": "5aac34b045c7b765b09af732dc1c31a3df63cac3196db719d70f73a8b8e137ee",
   "seed": 1,
   "jammer_present": true,

@@ -312,7 +312,7 @@
       "status": "modelled",
       "name": "Unit and provenance on every reported quantity",
       "summary": "Every numeric field a scenario emits carries a unit and a provenance class drawn from a closed vocabulary, with a definition where one exists, published as a machine-readable schema beside the engine. A ratcheted gate runs every built-in kind and fails on a field that carries none; the kinds not yet complete are named one by one with the reason each is still open, and the list can only shrink. Reports that state their own constants \u2014 the one-way link budget, the optical and RF budget \u2014 let a reader recompute the headline from the report alone.",
-      "proof": "83 of 83 kinds, 2906 of 2906 numeric fields"
+      "proof": "84 of 84 kinds, 2958 of 2958 numeric fields"
     },
     {
       "domain": "Mission analysis",
@@ -492,6 +492,14 @@
       "name": "Lunar reference-station study",
       "summary": "One reproducible study of what a lunar south-pole reference station could do under public assumptions: a coverage and accuracy map over the polar region (percentile corrected and uncorrected position error, availability with a reason for every unavailable epoch, protection levels and the correction-link budget), a time laboratory that holds a lunar time reference on an atomic clock, and the geodesy of an added laser retroreflector and VLBI beacon against the five-array datum. Every input is labelled with its public source or as illustrative. It is not a statement about the performance of any real system, and Kshana is not affiliated with any agency.",
       "proof": "composes tested lunar differential, clock and frame functions; checked against themselves and a numpy reference, no external flight data"
+    },
+    {
+      "domain": "Optical / RF PNT",
+      "group": "Lunar",
+      "status": "modelled",
+      "name": "Optical timing links through clouds and turbulence",
+      "summary": "How often an optical time-transfer link is up when the atmosphere is in the path. For each ground site the engine gives the clear-air loss, the Hufnagel-Valley turbulence state with gamma-gamma scintillation fades and aperture averaging, the availability against the link margin from a stated cloud climate, the ceiling no margin can lift, the outage-duration distribution and the timing error an outage costs a holdover clock. It then shows what extra sites, a larger aperture, another wavelength or adaptive optics buy. The bundled cloud climates are illustrative, not measured; the output is advisory.",
+      "proof": "7 of 7 pre-registered numerical bars met against an independent mpmath program; no measured availability record has been compared"
     }
   ],
   "standards": [

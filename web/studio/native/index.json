@@ -1,10 +1,46 @@
 {
- "engine_version": "0.36.0",
- "engine_commit": "c4e84907c126d187b47a874823f84e18e490118a",
+ "engine_version": "0.37.0",
+ "engine_commit": "82674bcfeba36faa10cecf7b5dea4fab4143943e",
  "source": "native",
  "platform": "linux x64",
- "recorded_utc": "2026-10-16T01:59:55.703Z",
+ "recorded_utc": "2026-10-18T03:50:07.677Z",
  "runs": {
+  "acm-link.toml": {
+   "file": "acm-link.json.gz",
+   "bytes": 9368,
+   "unpacked_bytes": 33746,
+   "report": true,
+   "animation": false,
+   "animation_reason": "--animate svg: no time series to animate: the acm-link result carries no sampled time axis (see docs/ANIMATION.md for the shapes the exporter recognises)",
+   "exports": [],
+   "export_files": 0,
+   "export_files_stored": 0,
+   "full_run": false
+  },
+  "aocs-slew-mekf.toml": {
+   "file": "aocs-slew-mekf.json.gz",
+   "bytes": 29304,
+   "unpacked_bytes": 86856,
+   "report": true,
+   "animation": true,
+   "animation_reason": "",
+   "exports": [],
+   "export_files": 0,
+   "export_files_stored": 0,
+   "full_run": false
+  },
+  "aocs-slew.toml": {
+   "file": "aocs-slew.json.gz",
+   "bytes": 28752,
+   "unpacked_bytes": 83627,
+   "report": true,
+   "animation": true,
+   "animation_reason": "",
+   "exports": [],
+   "export_files": 0,
+   "export_files_stored": 0,
+   "full_run": false
+  },
   "aperture-duty-cycle.toml": {
    "file": "aperture-duty-cycle.json.gz",
    "bytes": 9226,
@@ -46,6 +82,18 @@
    "export_files_stored": 0,
    "full_run": false
   },
+  "ascent-losses.toml": {
+   "file": "ascent-losses.json.gz",
+   "bytes": 7735,
+   "unpacked_bytes": 29276,
+   "report": true,
+   "animation": false,
+   "animation_reason": "--animate svg: no time series to animate: the ascent-losses result carries no sampled time axis (see docs/ANIMATION.md for the shapes the exporter recognises)",
+   "exports": [],
+   "export_files": 0,
+   "export_files_stored": 0,
+   "full_run": false
+  },
   "attitude-budget.toml": {
    "file": "attitude-budget.json.gz",
    "bytes": 7603,
@@ -60,7 +108,7 @@
   },
   "automotive-urban-canyon.toml": {
    "file": "automotive-urban-canyon.json.gz",
-   "bytes": 109435,
+   "bytes": 109432,
    "unpacked_bytes": 300789,
    "report": true,
    "animation": true,
@@ -76,7 +124,7 @@
   },
   "campaign-jam-spoof-holdover-integrity.toml": {
    "file": "campaign-jam-spoof-holdover-integrity.json.gz",
-   "bytes": 325352,
+   "bytes": 325341,
    "unpacked_bytes": 1364042,
    "report": true,
    "animation": true,
@@ -93,8 +141,20 @@
   },
   "campaign-monte-carlo-clock-holdover.toml": {
    "file": "campaign-monte-carlo-clock-holdover.json.gz",
-   "bytes": 12813,
+   "bytes": 12816,
    "unpacked_bytes": 48465,
+   "report": true,
+   "animation": false,
+   "animation_reason": "--animate svg: no time series to animate: the campaign result carries no sampled time axis (see docs/ANIMATION.md for the shapes the exporter recognises)",
+   "exports": [],
+   "export_files": 0,
+   "export_files_stored": 0,
+   "full_run": false
+  },
+  "campaign-optimize-link-budget.toml": {
+   "file": "campaign-optimize-link-budget.json.gz",
+   "bytes": 12472,
+   "unpacked_bytes": 56957,
    "report": true,
    "animation": false,
    "animation_reason": "--animate svg: no time series to animate: the campaign result carries no sampled time axis (see docs/ANIMATION.md for the shapes the exporter recognises)",
@@ -105,7 +165,7 @@
   },
   "campaign-shared-jammer-sea-road.toml": {
    "file": "campaign-shared-jammer-sea-road.json.gz",
-   "bytes": 248640,
+   "bytes": 248638,
    "unpacked_bytes": 962768,
    "report": true,
    "animation": false,
@@ -122,7 +182,7 @@
   },
   "campaign-spectrum-holdover-integrity.toml": {
    "file": "campaign-spectrum-holdover-integrity.json.gz",
-   "bytes": 130902,
+   "bytes": 130904,
    "unpacked_bytes": 790342,
    "report": true,
    "animation": true,
@@ -139,7 +199,7 @@
   },
   "campaign-sweep-jammer-power.toml": {
    "file": "campaign-sweep-jammer-power.json.gz",
-   "bytes": 98342,
+   "bytes": 98341,
    "unpacked_bytes": 354638,
    "report": true,
    "animation": false,
@@ -156,7 +216,7 @@
   },
   "cislunar-arc-recovery.toml": {
    "file": "cislunar-arc-recovery.json.gz",
-   "bytes": 11531,
+   "bytes": 11530,
    "unpacked_bytes": 46076,
    "report": true,
    "animation": false,
@@ -180,7 +240,7 @@
   },
   "clock-ensemble.toml": {
    "file": "clock-ensemble.json.gz",
-   "bytes": 105751,
+   "bytes": 105750,
    "unpacked_bytes": 345188,
    "report": true,
    "animation": true,
@@ -192,7 +252,7 @@
   },
   "clock-holdover-labsr.toml": {
    "file": "clock-holdover-labsr.json.gz",
-   "bytes": 52288,
+   "bytes": 52287,
    "unpacked_bytes": 158390,
    "report": true,
    "animation": true,
@@ -232,7 +292,7 @@
   },
   "conflict-resilience.toml": {
    "file": "conflict-resilience.json.gz",
-   "bytes": 10884,
+   "bytes": 10885,
    "unpacked_bytes": 48145,
    "report": true,
    "animation": false,
@@ -244,11 +304,23 @@
   },
   "constellation-multi-gnss-coverage.toml": {
    "file": "constellation-multi-gnss-coverage.json.gz",
-   "bytes": 47387,
+   "bytes": 47386,
    "unpacked_bytes": 276901,
    "report": true,
    "animation": true,
    "animation_reason": "",
+   "exports": [],
+   "export_files": 0,
+   "export_files_stored": 0,
+   "full_run": false
+  },
+  "contact-schedule.toml": {
+   "file": "contact-schedule.json.gz",
+   "bytes": 10684,
+   "unpacked_bytes": 44428,
+   "report": true,
+   "animation": false,
+   "animation_reason": "--animate svg: no time series to animate: the contact-schedule result carries no sampled time axis (see docs/ANIMATION.md for the shapes the exporter recognises)",
    "exports": [],
    "export_files": 0,
    "export_files_stored": 0,
@@ -266,6 +338,18 @@
    "export_files_stored": 0,
    "full_run": false
   },
+  "entry-heating-stardust.toml": {
+   "file": "entry-heating-stardust.json.gz",
+   "bytes": 8980,
+   "unpacked_bytes": 33230,
+   "report": true,
+   "animation": false,
+   "animation_reason": "--animate svg: no time series to animate: the entry-heating result carries no sampled time axis (see docs/ANIMATION.md for the shapes the exporter recognises)",
+   "exports": [],
+   "export_files": 0,
+   "export_files_stored": 0,
+   "full_run": false
+  },
   "eo-coverage.toml": {
    "file": "eo-coverage.json.gz",
    "bytes": 7773,
@@ -278,9 +362,21 @@
    "export_files_stored": 0,
    "full_run": false
   },
+  "eo-radiometry.toml": {
+   "file": "eo-radiometry.json.gz",
+   "bytes": 7883,
+   "unpacked_bytes": 29874,
+   "report": true,
+   "animation": false,
+   "animation_reason": "--animate svg: no time series to animate: the eo-radiometry result carries no sampled time axis (see docs/ANIMATION.md for the shapes the exporter recognises)",
+   "exports": [],
+   "export_files": 0,
+   "export_files_stored": 0,
+   "full_run": false
+  },
   "ephemeris.toml": {
    "file": "ephemeris.json.gz",
-   "bytes": 138381,
+   "bytes": 138383,
    "unpacked_bytes": 391833,
    "report": true,
    "animation": true,
@@ -297,8 +393,20 @@
   },
   "europa-surface-pnt.toml": {
    "file": "europa-surface-pnt.json.gz",
-   "bytes": 27822,
+   "bytes": 27824,
    "unpacked_bytes": 120043,
+   "report": true,
+   "animation": true,
+   "animation_reason": "",
+   "exports": [],
+   "export_files": 0,
+   "export_files_stored": 0,
+   "full_run": false
+  },
+  "fusion-pnt-coupled.toml": {
+   "file": "fusion-pnt-coupled.json.gz",
+   "bytes": 82394,
+   "unpacked_bytes": 243164,
    "report": true,
    "animation": true,
    "animation_reason": "",
@@ -319,6 +427,54 @@
    "export_files_stored": 0,
    "full_run": false
   },
+  "gnss-ins-aviation.toml": {
+   "file": "gnss-ins-aviation.json.gz",
+   "bytes": 123807,
+   "unpacked_bytes": 373888,
+   "report": true,
+   "animation": true,
+   "animation_reason": "",
+   "exports": [
+    "czml",
+    "geojson",
+    "kml"
+   ],
+   "export_files": 3,
+   "export_files_stored": 3,
+   "full_run": false
+  },
+  "gnss-ins-maritime.toml": {
+   "file": "gnss-ins-maritime.json.gz",
+   "bytes": 140212,
+   "unpacked_bytes": 564364,
+   "report": true,
+   "animation": true,
+   "animation_reason": "",
+   "exports": [
+    "czml",
+    "geojson",
+    "kml"
+   ],
+   "export_files": 3,
+   "export_files_stored": 3,
+   "full_run": false
+  },
+  "gnss-ins-rail.toml": {
+   "file": "gnss-ins-rail.json.gz",
+   "bytes": 154099,
+   "unpacked_bytes": 521329,
+   "report": true,
+   "animation": true,
+   "animation_reason": "",
+   "exports": [
+    "czml",
+    "geojson",
+    "kml"
+   ],
+   "export_files": 3,
+   "export_files_stored": 3,
+   "full_run": false
+  },
   "gnss-ins.toml": {
    "file": "gnss-ins.json.gz",
    "bytes": 94953,
@@ -337,7 +493,7 @@
   },
   "gnss-sim-container-terminal-skyline.toml": {
    "file": "gnss-sim-container-terminal-skyline.json.gz",
-   "bytes": 181036,
+   "bytes": 181039,
    "unpacked_bytes": 618115,
    "report": true,
    "animation": true,
@@ -354,7 +510,7 @@
   },
   "gnss-sim-raim.toml": {
    "file": "gnss-sim-raim.json.gz",
-   "bytes": 179179,
+   "bytes": 179180,
    "unpacked_bytes": 609004,
    "report": true,
    "animation": true,
@@ -369,10 +525,42 @@
    "export_files_stored": 27,
    "full_run": false
   },
+  "gps-denied-gravity-nav-egm2008.toml": {
+   "file": "gps-denied-gravity-nav-egm2008.json.gz",
+   "bytes": 10290,
+   "unpacked_bytes": 33130,
+   "report": true,
+   "animation": false,
+   "animation_reason": "--animate svg: no time series to animate: the gravity-map result carries no sampled time axis (see docs/ANIMATION.md for the shapes the exporter recognises)",
+   "exports": [
+    "czml",
+    "geojson",
+    "kml"
+   ],
+   "export_files": 3,
+   "export_files_stored": 3,
+   "full_run": false
+  },
   "gps-denied-gravity-nav.toml": {
    "file": "gps-denied-gravity-nav.json.gz",
    "bytes": 10490,
    "unpacked_bytes": 35025,
+   "report": true,
+   "animation": false,
+   "animation_reason": "--animate svg: no time series to animate: the gravity-map result carries no sampled time axis (see docs/ANIMATION.md for the shapes the exporter recognises)",
+   "exports": [
+    "czml",
+    "geojson",
+    "kml"
+   ],
+   "export_files": 3,
+   "export_files_stored": 3,
+   "full_run": false
+  },
+  "gravity-map-error-mc.toml": {
+   "file": "gravity-map-error-mc.json.gz",
+   "bytes": 11091,
+   "unpacked_bytes": 37919,
    "report": true,
    "animation": false,
    "animation_reason": "--animate svg: no time series to animate: the gravity-map result carries no sampled time axis (see docs/ANIMATION.md for the shapes the exporter recognises)",
@@ -415,7 +603,7 @@
   },
   "hybrid-pnt.toml": {
    "file": "hybrid-pnt.json.gz",
-   "bytes": 76726,
+   "bytes": 76727,
    "unpacked_bytes": 237154,
    "report": true,
    "animation": true,
@@ -427,7 +615,7 @@
   },
   "hybrid-ukf.toml": {
    "file": "hybrid-ukf.json.gz",
-   "bytes": 11986,
+   "bytes": 11987,
    "unpacked_bytes": 40358,
    "report": true,
    "animation": false,
@@ -451,7 +639,7 @@
   },
   "imu-deadreckoning.toml": {
    "file": "imu-deadreckoning.json.gz",
-   "bytes": 50303,
+   "bytes": 50301,
    "unpacked_bytes": 145764,
    "report": true,
    "animation": true,
@@ -475,7 +663,7 @@
   },
   "integrity-harbour-approach.toml": {
    "file": "integrity-harbour-approach.json.gz",
-   "bytes": 293762,
+   "bytes": 293761,
    "unpacked_bytes": 1028783,
    "report": true,
    "animation": true,
@@ -492,7 +680,7 @@
   },
   "integrity-raim.toml": {
    "file": "integrity-raim.json.gz",
-   "bytes": 336099,
+   "bytes": 336097,
    "unpacked_bytes": 1071564,
    "report": true,
    "animation": true,
@@ -509,7 +697,7 @@
   },
   "jamming-demo.toml": {
    "file": "jamming-demo.json.gz",
-   "bytes": 179778,
+   "bytes": 179781,
    "unpacked_bytes": 618714,
    "report": true,
    "animation": true,
@@ -526,7 +714,7 @@
   },
   "jamming-harbour-approach-skyline.toml": {
    "file": "jamming-harbour-approach-skyline.json.gz",
-   "bytes": 309808,
+   "bytes": 309807,
    "unpacked_bytes": 1002833,
    "report": true,
    "animation": true,
@@ -543,7 +731,7 @@
   },
   "l-band-waterfall-jamming.toml": {
    "file": "l-band-waterfall-jamming.json.gz",
-   "bytes": 555772,
+   "bytes": 555775,
    "unpacked_bytes": 967761,
    "report": true,
    "animation": true,
@@ -605,7 +793,7 @@
   },
   "leo-focus-fused-pnt-sisre.toml": {
    "file": "leo-focus-fused-pnt-sisre.json.gz",
-   "bytes": 10064,
+   "bytes": 10066,
    "unpacked_bytes": 37358,
    "report": true,
    "animation": false,
@@ -617,7 +805,7 @@
   },
   "leo-focus-indoor-uhf.toml": {
    "file": "leo-focus-indoor-uhf.json.gz",
-   "bytes": 32098,
+   "bytes": 32100,
    "unpacked_bytes": 121437,
    "report": true,
    "animation": false,
@@ -634,7 +822,7 @@
   },
   "leo-focus-iot-eirp.toml": {
    "file": "leo-focus-iot-eirp.json.gz",
-   "bytes": 24529,
+   "bytes": 24528,
    "unpacked_bytes": 81423,
    "report": true,
    "animation": false,
@@ -651,7 +839,7 @@
   },
   "leo-focus-ntn-bandwidth.toml": {
    "file": "leo-focus-ntn-bandwidth.json.gz",
-   "bytes": 10565,
+   "bytes": 10567,
    "unpacked_bytes": 37504,
    "report": true,
    "animation": false,
@@ -663,7 +851,7 @@
   },
   "leo-focus-ppp-altitude.toml": {
    "file": "leo-focus-ppp-altitude.json.gz",
-   "bytes": 9948,
+   "bytes": 9951,
    "unpacked_bytes": 37354,
    "report": true,
    "animation": false,
@@ -675,7 +863,7 @@
   },
   "leo-focus-science-iono-sounding.toml": {
    "file": "leo-focus-science-iono-sounding.json.gz",
-   "bytes": 115569,
+   "bytes": 115570,
    "unpacked_bytes": 375146,
    "report": true,
    "animation": true,
@@ -726,7 +914,7 @@
   },
   "leo-navmsg-encode-decode.toml": {
    "file": "leo-navmsg-encode-decode.json.gz",
-   "bytes": 13313,
+   "bytes": 13311,
    "unpacked_bytes": 52552,
    "report": true,
    "animation": false,
@@ -762,7 +950,7 @@
   },
   "leo-navmsg-model-comparison.toml": {
    "file": "leo-navmsg-model-comparison.json.gz",
-   "bytes": 13181,
+   "bytes": 13182,
    "unpacked_bytes": 46503,
    "report": true,
    "animation": false,
@@ -774,7 +962,7 @@
   },
   "leo-pass-iridium.toml": {
    "file": "leo-pass-iridium.json.gz",
-   "bytes": 130633,
+   "bytes": 130630,
    "unpacked_bytes": 421680,
    "report": true,
    "animation": true,
@@ -791,7 +979,7 @@
   },
   "leo-pass-vs-gnss-cn0.toml": {
    "file": "leo-pass-vs-gnss-cn0.json.gz",
-   "bytes": 233311,
+   "bytes": 233309,
    "unpacked_bytes": 758058,
    "report": true,
    "animation": true,
@@ -808,7 +996,7 @@
   },
   "leo-pass-xona-pulsar.toml": {
    "file": "leo-pass-xona-pulsar.json.gz",
-   "bytes": 311003,
+   "bytes": 311006,
    "unpacked_bytes": 1012369,
    "report": true,
    "animation": true,
@@ -825,7 +1013,7 @@
   },
   "leo-pnt-end-to-end.toml": {
    "file": "leo-pnt-end-to-end.json.gz",
-   "bytes": 83161,
+   "bytes": 83162,
    "unpacked_bytes": 258728,
    "report": true,
    "animation": true,
@@ -842,7 +1030,7 @@
   },
   "leo-pnt-mega-shell.toml": {
    "file": "leo-pnt-mega-shell.json.gz",
-   "bytes": 46227,
+   "bytes": 46226,
    "unpacked_bytes": 277139,
    "report": true,
    "animation": true,
@@ -854,7 +1042,7 @@
   },
   "leo-ppp-convergence.toml": {
    "file": "leo-ppp-convergence.json.gz",
-   "bytes": 22261,
+   "bytes": 22259,
    "unpacked_bytes": 77786,
    "report": true,
    "animation": true,
@@ -878,7 +1066,7 @@
   },
   "leo-resilience-gnss-jammed-leo-carries.toml": {
    "file": "leo-resilience-gnss-jammed-leo-carries.json.gz",
-   "bytes": 231085,
+   "bytes": 231087,
    "unpacked_bytes": 1155175,
    "report": true,
    "animation": true,
@@ -895,7 +1083,7 @@
   },
   "leo-resilience-js-margin.toml": {
    "file": "leo-resilience-js-margin.json.gz",
-   "bytes": 36767,
+   "bytes": 36771,
    "unpacked_bytes": 239432,
    "report": true,
    "animation": true,
@@ -907,7 +1095,7 @@
   },
   "leo-resilience-multiband-diversity.toml": {
    "file": "leo-resilience-multiband-diversity.json.gz",
-   "bytes": 13934,
+   "bytes": 13937,
    "unpacked_bytes": 55153,
    "report": true,
    "animation": false,
@@ -919,7 +1107,7 @@
   },
   "leo-resilience-spoof-doppler.toml": {
    "file": "leo-resilience-spoof-doppler.json.gz",
-   "bytes": 585971,
+   "bytes": 585969,
    "unpacked_bytes": 1730666,
    "report": true,
    "animation": true,
@@ -936,7 +1124,7 @@
   },
   "leo-resilience-spoof-monitors.toml": {
    "file": "leo-resilience-spoof-monitors.json.gz",
-   "bytes": 296975,
+   "bytes": 296976,
    "unpacked_bytes": 991564,
    "report": true,
    "animation": false,
@@ -953,7 +1141,7 @@
   },
   "leo-timing-utc.toml": {
    "file": "leo-timing-utc.json.gz",
-   "bytes": 509017,
+   "bytes": 509018,
    "unpacked_bytes": 1377102,
    "report": true,
    "animation": true,
@@ -965,7 +1153,7 @@
   },
   "leo-vertical-5g-network-timing.toml": {
    "file": "leo-vertical-5g-network-timing.json.gz",
-   "bytes": 88700,
+   "bytes": 88697,
    "unpacked_bytes": 321425,
    "report": true,
    "animation": true,
@@ -982,7 +1170,7 @@
   },
   "leo-vertical-asset-tracking-iot.toml": {
    "file": "leo-vertical-asset-tracking-iot.json.gz",
-   "bytes": 56053,
+   "bytes": 56050,
    "unpacked_bytes": 216125,
    "report": true,
    "animation": true,
@@ -999,7 +1187,7 @@
   },
   "leo-vertical-autonomous-vehicle-skyline.toml": {
    "file": "leo-vertical-autonomous-vehicle-skyline.json.gz",
-   "bytes": 78995,
+   "bytes": 78998,
    "unpacked_bytes": 308005,
    "report": true,
    "animation": true,
@@ -1016,7 +1204,7 @@
   },
   "leo-vertical-autonomous-vehicle.toml": {
    "file": "leo-vertical-autonomous-vehicle.json.gz",
-   "bytes": 71144,
+   "bytes": 71146,
    "unpacked_bytes": 274773,
    "report": true,
    "animation": true,
@@ -1033,7 +1221,7 @@
   },
   "leo-vertical-critical-infrastructure-timing.toml": {
    "file": "leo-vertical-critical-infrastructure-timing.json.gz",
-   "bytes": 67691,
+   "bytes": 67689,
    "unpacked_bytes": 268330,
    "report": true,
    "animation": true,
@@ -1050,7 +1238,7 @@
   },
   "leo-vertical-polar-arctic.toml": {
    "file": "leo-vertical-polar-arctic.json.gz",
-   "bytes": 147824,
+   "bytes": 147827,
    "unpacked_bytes": 516330,
    "report": true,
    "animation": true,
@@ -1067,7 +1255,7 @@
   },
   "leo-vertical-rail-maritime.toml": {
    "file": "leo-vertical-rail-maritime.json.gz",
-   "bytes": 239387,
+   "bytes": 239392,
    "unpacked_bytes": 865453,
    "report": true,
    "animation": true,
@@ -1180,7 +1368,7 @@
   },
   "lunar-jamming.toml": {
    "file": "lunar-jamming.json.gz",
-   "bytes": 22168,
+   "bytes": 22169,
    "unpacked_bytes": 80255,
    "report": true,
    "animation": true,
@@ -1192,7 +1380,7 @@
   },
   "lunar-joint-od-clock.toml": {
    "file": "lunar-joint-od-clock.json.gz",
-   "bytes": 10551,
+   "bytes": 10550,
    "unpacked_bytes": 35163,
    "report": true,
    "animation": false,
@@ -1216,7 +1404,7 @@
   },
   "lunar-relay-constellation.toml": {
    "file": "lunar-relay-constellation.json.gz",
-   "bytes": 36396,
+   "bytes": 36397,
    "unpacked_bytes": 233688,
    "report": true,
    "animation": true,
@@ -1238,9 +1426,21 @@
    "export_files_stored": 0,
    "full_run": false
   },
+  "lunar-station-coverage-terrain.toml": {
+   "file": "lunar-station-coverage-terrain.json.gz",
+   "bytes": 53988,
+   "unpacked_bytes": 321918,
+   "report": true,
+   "animation": false,
+   "animation_reason": "--animate svg: no time series to animate: the lunar-station-coverage result carries no sampled time axis (see docs/ANIMATION.md for the shapes the exporter recognises)",
+   "exports": [],
+   "export_files": 0,
+   "export_files_stored": 0,
+   "full_run": true
+  },
   "lunar-station-coverage.toml": {
    "file": "lunar-station-coverage.json.gz",
-   "bytes": 16711,
+   "bytes": 16712,
    "unpacked_bytes": 85752,
    "report": true,
    "animation": false,
@@ -1252,7 +1452,7 @@
   },
   "lunar-station-time-lab.toml": {
    "file": "lunar-station-time-lab.json.gz",
-   "bytes": 21170,
+   "bytes": 21172,
    "unpacked_bytes": 79627,
    "report": true,
    "animation": true,
@@ -1288,7 +1488,7 @@
   },
   "lunar-vlbi-fim.toml": {
    "file": "lunar-vlbi-fim.json.gz",
-   "bytes": 22863,
+   "bytes": 22864,
    "unpacked_bytes": 78067,
    "report": true,
    "animation": true,
@@ -1324,7 +1524,7 @@
   },
   "maritime-spoof-position-push.toml": {
    "file": "maritime-spoof-position-push.json.gz",
-   "bytes": 8687,
+   "bytes": 8685,
    "unpacked_bytes": 29303,
    "report": true,
    "animation": false,
@@ -1336,7 +1536,7 @@
   },
   "maritime-strait-jamming.toml": {
    "file": "maritime-strait-jamming.json.gz",
-   "bytes": 180826,
+   "bytes": 180830,
    "unpacked_bytes": 621352,
    "report": true,
    "animation": true,
@@ -1353,7 +1553,7 @@
   },
   "mars-orbit-pnt.toml": {
    "file": "mars-orbit-pnt.json.gz",
-   "bytes": 60760,
+   "bytes": 60762,
    "unpacked_bytes": 237634,
    "report": true,
    "animation": true,
@@ -1365,7 +1565,7 @@
   },
   "mars-pnt-lmo.toml": {
    "file": "mars-pnt-lmo.json.gz",
-   "bytes": 27331,
+   "bytes": 27332,
    "unpacked_bytes": 106604,
    "report": true,
    "animation": true,
@@ -1377,7 +1577,7 @@
   },
   "mars-pnt-surface.toml": {
    "file": "mars-pnt-surface.json.gz",
-   "bytes": 35702,
+   "bytes": 35698,
    "unpacked_bytes": 145649,
    "report": true,
    "animation": true,
@@ -1425,7 +1625,7 @@
   },
   "multi-band-jamming-waterfall.toml": {
    "file": "multi-band-jamming-waterfall.json.gz",
-   "bytes": 37257,
+   "bytes": 37259,
    "unpacked_bytes": 288631,
    "report": true,
    "animation": true,
@@ -1459,9 +1659,33 @@
    "export_files_stored": 0,
    "full_run": false
   },
+  "optical-atmosphere-network.toml": {
+   "file": "optical-atmosphere-network.json.gz",
+   "bytes": 11693,
+   "unpacked_bytes": 50129,
+   "report": true,
+   "animation": false,
+   "animation_reason": "--animate svg: no time series to animate: the optical-atmosphere result carries no sampled time axis (see docs/ANIMATION.md for the shapes the exporter recognises)",
+   "exports": [],
+   "export_files": 0,
+   "export_files_stored": 0,
+   "full_run": false
+  },
+  "optical-atmosphere-techniques.toml": {
+   "file": "optical-atmosphere-techniques.json.gz",
+   "bytes": 11382,
+   "unpacked_bytes": 48447,
+   "report": true,
+   "animation": false,
+   "animation_reason": "--animate svg: no time series to animate: the optical-atmosphere result carries no sampled time axis (see docs/ANIMATION.md for the shapes the exporter recognises)",
+   "exports": [],
+   "export_files": 0,
+   "export_files_stored": 0,
+   "full_run": false
+  },
   "orbit-gnss-challenged.toml": {
    "file": "orbit-gnss-challenged.json.gz",
-   "bytes": 489206,
+   "bytes": 489205,
    "unpacked_bytes": 1115482,
    "report": true,
    "animation": true,
@@ -1512,7 +1736,7 @@
   },
   "orbit-real-tle.toml": {
    "file": "orbit-real-tle.json.gz",
-   "bytes": 325266,
+   "bytes": 325264,
    "unpacked_bytes": 983541,
    "report": true,
    "animation": true,
@@ -1529,7 +1753,7 @@
   },
   "orbit-rinex.toml": {
    "file": "orbit-rinex.json.gz",
-   "bytes": 292688,
+   "bytes": 292690,
    "unpacked_bytes": 1012121,
    "report": true,
    "animation": true,
@@ -1546,7 +1770,7 @@
   },
   "orbit-sgp4-gps.toml": {
    "file": "orbit-sgp4-gps.json.gz",
-   "bytes": 451619,
+   "bytes": 451618,
    "unpacked_bytes": 1021800,
    "report": true,
    "animation": true,
@@ -1563,7 +1787,7 @@
   },
   "orbit-urban-canyon-skyline.toml": {
    "file": "orbit-urban-canyon-skyline.json.gz",
-   "bytes": 381223,
+   "bytes": 381224,
    "unpacked_bytes": 993423,
    "report": true,
    "animation": true,
@@ -1609,7 +1833,7 @@
   },
   "pvt-abmf.toml": {
    "file": "pvt-abmf.json.gz",
-   "bytes": 19762,
+   "bytes": 19761,
    "unpacked_bytes": 73005,
    "report": true,
    "animation": false,
@@ -1625,7 +1849,7 @@
   },
   "quantum-anomaly-detect.toml": {
    "file": "quantum-anomaly-detect.json.gz",
-   "bytes": 7778,
+   "bytes": 7777,
    "unpacked_bytes": 28052,
    "report": true,
    "animation": false,
@@ -1637,7 +1861,7 @@
   },
   "quantum-cai-coast.toml": {
    "file": "quantum-cai-coast.json.gz",
-   "bytes": 51725,
+   "bytes": 51724,
    "unpacked_bytes": 148442,
    "report": true,
    "animation": true,
@@ -1649,7 +1873,7 @@
   },
   "quantum-gnss-free-nav.toml": {
    "file": "quantum-gnss-free-nav.json.gz",
-   "bytes": 8074,
+   "bytes": 8073,
    "unpacked_bytes": 28408,
    "report": true,
    "animation": false,
@@ -1697,7 +1921,7 @@
   },
   "realtime-frame-eop.toml": {
    "file": "realtime-frame-eop.json.gz",
-   "bytes": 17997,
+   "bytes": 17998,
    "unpacked_bytes": 71042,
    "report": true,
    "animation": false,
@@ -1733,7 +1957,7 @@
   },
   "small-uas-jammed-nav.toml": {
    "file": "small-uas-jammed-nav.json.gz",
-   "bytes": 92662,
+   "bytes": 92660,
    "unpacked_bytes": 275034,
    "report": true,
    "animation": true,
@@ -1749,7 +1973,7 @@
   },
   "solar-system-tour.toml": {
    "file": "solar-system-tour.json.gz",
-   "bytes": 26164,
+   "bytes": 26165,
    "unpacked_bytes": 80903,
    "report": true,
    "animation": false,
@@ -1785,7 +2009,7 @@
   },
   "spoof-attack.toml": {
    "file": "spoof-attack.json.gz",
-   "bytes": 19259,
+   "bytes": 19258,
    "unpacked_bytes": 71090,
    "report": true,
    "animation": true,
@@ -1809,7 +2033,7 @@
   },
   "spoof-meaconing.toml": {
    "file": "spoof-meaconing.json.gz",
-   "bytes": 57368,
+   "bytes": 57372,
    "unpacked_bytes": 308135,
    "report": true,
    "animation": true,
@@ -1821,7 +2045,7 @@
   },
   "starlink-sop-doppler-positioning.toml": {
    "file": "starlink-sop-doppler-positioning.json.gz",
-   "bytes": 21170,
+   "bytes": 21171,
    "unpacked_bytes": 79508,
    "report": true,
    "animation": true,
@@ -1845,7 +2069,7 @@
   },
   "sweep-nd-inertial.toml": {
    "file": "sweep-nd-inertial.json.gz",
-   "bytes": 9822,
+   "bytes": 9821,
    "unpacked_bytes": 34373,
    "report": true,
    "animation": false,
@@ -1859,6 +2083,18 @@
    "file": "telecom-prtc-holdover-24h.json.gz",
    "bytes": 16688,
    "unpacked_bytes": 57423,
+   "report": true,
+   "animation": false,
+   "animation_reason": "--animate svg: no time series to animate: the telecom-timing result carries no sampled time axis (see docs/ANIMATION.md for the shapes the exporter recognises)",
+   "exports": [],
+   "export_files": 0,
+   "export_files_stored": 0,
+   "full_run": false
+  },
+  "telecom-synce-eec.toml": {
+   "file": "telecom-synce-eec.json.gz",
+   "bytes": 15664,
+   "unpacked_bytes": 52021,
    "report": true,
    "animation": false,
    "animation_reason": "--animate svg: no time series to animate: the telecom-timing result carries no sampled time axis (see docs/ANIMATION.md for the shapes the exporter recognises)",
@@ -1881,7 +2117,7 @@
   },
   "terrain-nav.toml": {
    "file": "terrain-nav.json.gz",
-   "bytes": 9643,
+   "bytes": 9642,
    "unpacked_bytes": 30363,
    "report": true,
    "animation": false,
@@ -1911,9 +2147,21 @@
    "export_files_stored": 3,
    "full_run": false
   },
+  "time-transfer-budget.toml": {
+   "file": "time-transfer-budget.json.gz",
+   "bytes": 8064,
+   "unpacked_bytes": 30759,
+   "report": true,
+   "animation": false,
+   "animation_reason": "--animate svg: no time series to animate: the time-transfer-budget result carries no sampled time axis (see docs/ANIMATION.md for the shapes the exporter recognises)",
+   "exports": [],
+   "export_files": 0,
+   "export_files_stored": 0,
+   "full_run": false
+  },
   "timetransfer.toml": {
    "file": "timetransfer.json.gz",
-   "bytes": 45936,
+   "bytes": 45942,
    "unpacked_bytes": 129039,
    "report": true,
    "animation": true,
@@ -1937,7 +2185,7 @@
   },
   "xona-pulsar-end-to-end.toml": {
    "file": "xona-pulsar-end-to-end.json.gz",
-   "bytes": 104836,
+   "bytes": 104837,
    "unpacked_bytes": 336502,
    "report": true,
    "animation": true,
@@ -1954,7 +2202,7 @@
   },
   "xona-pulsar-signals.toml": {
    "file": "xona-pulsar-signals.json.gz",
-   "bytes": 15570,
+   "bytes": 15569,
    "unpacked_bytes": 58249,
    "report": true,
    "animation": false,

@@ -1,0 +1,66 @@
+# Enhancement-technique what-ifs for one ILLUSTRATIVE ground site: a wavelength change, a larger
+# receive aperture, an adaptive-optics scintillation reduction and extra margin, each predicted as
+# an availability gain over the same site's baseline. The gains are stated inputs (Kshana does not
+# model an adaptive-optics loop), a new wavelength or aperture re-evaluates the clear-sky budget,
+# the clear-air loss and the aperture averaging, and everything is MODELLED. The terminal is
+# deliberately margin-limited (about 3 dB before the atmosphere) so the techniques matter; the
+# run also states the cloud ceiling that no technique lifts. Targets below 100 percent of the
+# margin table are reported as the extra margin needed (negative means a surplus).
+kind = "optical-atmosphere"
+wavelength_nm = 1550.0
+elevation_deg = 25.0
+availability_targets_pct = [50.0, 60.0, 70.0]
+
+[link]
+tx_power_w = 0.5
+tx_aperture_m = 0.1
+rx_aperture_m = 0.3
+range_km = 1000.0
+optics_efficiency = 0.5
+detector_efficiency = 0.7
+pointing_loss_db = 3.0
+receiver_sensitivity_dbm = -17.0
+
+[atmosphere]
+wave = "spherical"
+direction = "uplink"
+path_eff_km = 10.0
+visibility_km = 15.0
+
+[clock]
+classes = ["tcxo", "ocxo", "dsac"]
+threshold_ns = 100.0
+
+[[site]]
+name = "single-site"
+lat_deg = 40.0
+lon_deg = 12.0
+altitude_m = 300.0
+p_cloud = 0.2
+median_lwp_kg_m2 = 0.03
+sigma_ln = 1.0
+mean_outage_h = 6.0
+outage_sigma_ln = 1.0
+data_source = "ILLUSTRATIVE input, not a measurement"
+
+[[technique]]
+name = "wavelength 1064 nm"
+wavelength_nm = 1064.0
+
+[[technique]]
+name = "receive aperture 1.0 m"
+rx_aperture_m = 1.0
+
+[[technique]]
+name = "adaptive optics, 80 % scintillation reduction"
+scint_variance_reduction = 0.8
+
+[[technique]]
+name = "6 dB extra margin"
+extra_margin_db = 6.0
+
+[[technique]]
+name = "aperture 1.0 m + AO + 3 dB"
+rx_aperture_m = 1.0
+scint_variance_reduction = 0.8
+extra_margin_db = 3.0

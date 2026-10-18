@@ -1,6 +1,6 @@
 {
   "note": "Two synthetic scenario runs (integrity, jamming) and their scenario files. The mapping reads what each run evidenced; it never says a framework is met.",
-  "recorded_with": "kshana 0.36.0",
+  "recorded_with": "kshana 0.37.0",
   "files": [
     "integrity-raim.toml",
     "integrity-raim.result.json",

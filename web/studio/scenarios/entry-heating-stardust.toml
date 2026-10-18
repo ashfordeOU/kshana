@@ -1,0 +1,25 @@
+# Stardust sample-return capsule entry: the published case the `entry-heating` kind is checked
+# against (xval/entry-stardust/PREREGISTRATION.md; tests/entry_stardust_published.rs).
+#
+# Entry interface at a radius of 6503.14 km, inertial 12.9 km/s at -8.2 deg, 45.8 kg, 0.811 m
+# diameter, 0.2202 m nose radius (Desai et al., NASA NTRS 20050042027 and 20090004445). The
+# latitude and heading are an assumed approximate entry over the Pacific; C_D is the module's
+# 60 deg sphere-cone default. Published 6-DoF nominal peak deceleration: 33.4 g. The heating is
+# Sutton-Graves convective only, MODELLED.
+kind = "entry-heating"
+body = "earth"
+atmosphere = "us76"
+entry_interface_altitude_m = 125003.0
+velocity_frame = "inertial"
+entry_speed_m_s = 12900.0
+flight_path_angle_deg = 8.2
+latitude_deg = 41.0
+heading_deg = 100.0
+mass_kg = 45.8
+reference_area_m2 = 0.51657
+nose_radius_m = 0.2202
+drag_coefficient = 1.4828
+lift_to_drag = 0.0
+rotating_planet = true
+step_s = 0.05
+terminal_altitude_m = 10000.0

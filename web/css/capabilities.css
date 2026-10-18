@@ -657,3 +657,13 @@ section.block.cc{padding-bottom:0}
 /* light theme: the solar tab's provenance chips were still on dark-panel borders */
 @media (prefers-color-scheme: light){:root:not([data-theme="dark"]) .journey .prov-x,:root:not([data-theme="dark"]) .journey .cap-cmd,:root:not([data-theme="dark"]) .journey .file-chip{border-color:var(--line-2);background:transparent;color:var(--ink-2)}}
 :root[data-theme="light"] .journey .prov-x,:root[data-theme="light"] .journey .cap-cmd,:root[data-theme="light"] .journey .file-chip{border-color:var(--line-2);background:transparent;color:var(--ink-2)}
+
+/* ------------------------------------------------------------------ new in this release (cards)
+   div.nw-grid > article.glass.nw (build.py new_section, not compact): chip, title, first sentence,
+   what was checked, and the links, each on its own line inside a padded card. */
+.nw-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,19rem),1fr));gap:14px;margin:0}
+.nw{display:flex;flex-direction:column;align-items:flex-start;gap:8px;padding:18px 20px;min-width:0}
+.nw>h3{margin:0;font:600 17px/1.25 var(--sans);letter-spacing:-.01em;color:var(--ink)}
+.nw>p{margin:0;font-size:14px;line-height:1.5;color:var(--ink-2)}
+.nw>.nw-p{font-size:12.5px;color:var(--ink-3)}
+.nw>.nw-l{margin-top:auto;padding-top:6px;display:flex;flex-wrap:wrap;gap:6px 18px;font-size:13px}
