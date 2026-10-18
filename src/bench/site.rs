@@ -110,6 +110,23 @@ pub fn leaderboard_html(results: &[Value]) -> Result<String, BenchError> {
                 p.join("; ")
             )));
         }
+        if r["split"] == "holdout" && r["task"] == "d" {
+            match r["holdout_commitment"].as_str() {
+                None => {
+                    return Err(BenchError(format!(
+                        "result {} is a task (d) holdout result without a `holdout_commitment`",
+                        i + 1
+                    )))
+                }
+                Some(c) if super::is_exposed(c) => {
+                    return Err(BenchError(format!(
+                        "result {} is scored on a provisional, exposed holdout seed: not a release holdout",
+                        i + 1
+                    )))
+                }
+                Some(_) => {}
+            }
+        }
         let v = r["spec_version"].as_str().unwrap_or("");
         if v.rsplit('/').next().and_then(|x| x.split('.').next()) != Some(major) {
             return Err(BenchError(format!(
@@ -251,6 +268,24 @@ mod tests {
         assert!(html.contains("Advisory:"));
         assert!(html.contains("CC-BY-4.0 / CC0 proposed, owner decision pending"));
         assert!(html.contains("No results yet for this task."));
+    }
+
+    #[test]
+    fn a_holdout_result_on_an_exposed_or_missing_commitment_is_refused() {
+        let mut h = r("x", 0.5);
+        h["task"] = json!("d");
+        h["split"] = json!("holdout");
+        assert!(leaderboard_html(&[h.clone()])
+            .unwrap_err()
+            .0
+            .contains("without a `holdout_commitment`"));
+        h["holdout_commitment"] = json!(crate::bench::EXPOSED_COMMITMENTS[0]);
+        assert!(leaderboard_html(&[h.clone()])
+            .unwrap_err()
+            .0
+            .contains("exposed"));
+        h["holdout_commitment"] = json!("ab".repeat(32));
+        assert!(leaderboard_html(&[h]).is_ok());
     }
 
     #[test]

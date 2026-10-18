@@ -309,6 +309,9 @@ pub fn d_files(
     let mut tm = truth_doc("d", split);
     tm.insert("ood_severity_scale".into(), json!(scale));
     tm.insert("labels".into(), Value::Array(labels));
+    if let (Split::Holdout, Some(s)) = (split, secret) {
+        tm.insert("holdout_commitment".into(), json!(super::seal("d", s)));
+    }
     Ok((Value::Object(cm), Value::Object(tm)))
 }
 

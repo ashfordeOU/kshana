@@ -109,8 +109,9 @@ performance unless the method's author states the folders were never used.
 **Synthetic splits (b, d).** A holdout can be sealed by commit and reveal. The owner picks a secret seed `s`,
 publishes `SHA-256("kshana-bench/holdout/1" || task || s)` (`kshana bench seal`), keeps `s`, and scores
 submissions with the corpus regenerated from `s`. After the leaderboard round, `s` is revealed and
-`kshana bench reveal-check` confirms it matches. The holdout commitment for this release is listed in
-`bench/holdout/COMMITMENTS.json`; **the seed is not in this repository.**
+`kshana bench reveal-check` confirms it matches. The owner makes the seed with `kshana bench seal --task d --seed-file <file> --new`, which prints only the
+commitment, and commits that hash to `bench/holdout/COMMITMENTS.json`; **no seed is ever in this repository or in
+a message.** No release holdout is sealed yet, and `reveal-check` and the leaderboard refuse a provisional hash.
 
 **Leaderboard hygiene.** A result states the split it was scored on. The `holdout` column is filled only by
 the owner or an operator they name. One method, one holdout evaluation per round.
