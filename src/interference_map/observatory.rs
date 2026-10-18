@@ -320,6 +320,66 @@ pub fn build_product(
 /// 5x7 glyphs, one byte per row, bit 4 the leftmost pixel.
 const FONT: &[(char, [u8; 7])] = &[
     (' ', [0; 7]),
+    (
+        '(',
+        [
+            0b00010, 0b00100, 0b01000, 0b01000, 0b01000, 0b00100, 0b00010,
+        ],
+    ),
+    (
+        ')',
+        [
+            0b01000, 0b00100, 0b00010, 0b00010, 0b00010, 0b00100, 0b01000,
+        ],
+    ),
+    (
+        'F',
+        [
+            0b11111, 0b10000, 0b10000, 0b11110, 0b10000, 0b10000, 0b10000,
+        ],
+    ),
+    (
+        'J',
+        [
+            0b00111, 0b00010, 0b00010, 0b00010, 0b00010, 0b10010, 0b01100,
+        ],
+    ),
+    (
+        'M',
+        [
+            0b10001, 0b11011, 0b10101, 0b10101, 0b10001, 0b10001, 0b10001,
+        ],
+    ),
+    (
+        'P',
+        [
+            0b11110, 0b10001, 0b10001, 0b11110, 0b10000, 0b10000, 0b10000,
+        ],
+    ),
+    (
+        'Q',
+        [
+            0b01110, 0b10001, 0b10001, 0b10001, 0b10101, 0b10010, 0b01101,
+        ],
+    ),
+    (
+        'W',
+        [
+            0b10001, 0b10001, 0b10001, 0b10101, 0b10101, 0b11011, 0b10001,
+        ],
+    ),
+    (
+        'X',
+        [
+            0b10001, 0b10001, 0b01010, 0b00100, 0b01010, 0b10001, 0b10001,
+        ],
+    ),
+    (
+        'Z',
+        [
+            0b11111, 0b00001, 0b00010, 0b00100, 0b01000, 0b10000, 0b11111,
+        ],
+    ),
     ('-', [0, 0, 0, 0b11111, 0, 0, 0]),
     ('.', [0, 0, 0, 0, 0, 0b01100, 0b01100]),
     (':', [0, 0b01100, 0b01100, 0, 0b01100, 0b01100, 0]),
@@ -1266,6 +1326,17 @@ mod tests {
             .contains("OpenSky"));
         let ok = super::super::sources::preset("adsb-lol").unwrap();
         assert!(refuse_opensky(&ok).is_ok());
+    }
+
+    #[test]
+    fn the_font_covers_every_character_the_picture_prints() {
+        let text = "KSHANA OBSERVATORY  ADS-B  2026-03-01 0.5 DEG CELLS  UTC DAY  NOT OBSERVED IS NOT CLEAR  NO CAUSE ATTRIBUTED DEGRADED NOT DEGRADED SOURCE ADSB-LOL LICENCE ODBL-1.0 NOLD-2.0 (PUBLISHED CELLS) NOAA CC0 NLOD";
+        for c in text.chars() {
+            assert!(
+                FONT.iter().any(|(k, _)| *k == c.to_ascii_uppercase()),
+                "no glyph for {c:?}"
+            );
+        }
     }
 
     #[test]
