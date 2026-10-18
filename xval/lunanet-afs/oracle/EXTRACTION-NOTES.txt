@@ -1,0 +1,5 @@
+Defects in the PDF's text layer handled by the extractor (see the script):
+unparsed line: 5
+PRN 127: cell 37936 printed with 5 digits; zero-padded
+PRN 132: cell 9394 printed with 4 digits; zero-padded
+PRN 134: cell 99982 printed with 5 digits; zero-padded
