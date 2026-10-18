@@ -13,7 +13,7 @@ changed after a run. Oracle: `oracle.py` (mpmath 1.4.1, 30 digits), fixture
 | A4 | Diversity limits and monotonicity | rho = 0 and rho = 1 worst 0; zero monotonicity violations | MET (see note 1) |
 | A5 | Link budget and default network bit-identical to 5eac3b61 | digest fb00c966de4299bc at the base commit and now | MET |
 | A6 | Holdover coupling bit for bit | 324 comparisons identical | MET |
-| A7 | Native and wasm byte-identical | source half only: no non-portable libm call in the new modules (test passes); `cargo check` for wasm32 is a push gate. The native-versus-wasm byte comparison has not been run here; it will come from CI's `test-wasm-bindings` and `wasm-registry` jobs when 0.37 goes through its CI-only draft PR | PARTIAL: execution half NOT RUN |
+| A7 | Native and wasm byte-identical | MET. Source half: no non-portable libm call in the new modules (test passes). Execution half (2026-10-18, integration commit 0c35d453, 0.37.0): `api::run_toml` JSON from the native release build and `run()` JSON from the wasm32 build (wasm-bindgen 0.2.122, Node 22) compared with `cmp` for both bundled scenarios: `optical-atmosphere-network` (29,856 B, SHA-256 prefix e06d7735c59efc90) and `optical-atmosphere-techniques` (18,431 B, 8004015c5f51429f), byte-identical. CI's `test-wasm-bindings` and `wasm-registry` jobs repeat it on the draft PR | MET |
 
 Scope notes:
 
