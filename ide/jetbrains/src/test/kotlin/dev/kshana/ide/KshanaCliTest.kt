@@ -209,6 +209,16 @@ class KshanaCliTest {
     }
 
     @Test
+    fun imuFitCommandNamesTheFileTheLayoutTheAxisAndTheRestReading() {
+        assertEquals(
+            listOf("kshana", "imu-fit", "/p/i.csv", "--format", "euroc", "--axis", "z", "--expected-mean", "9.80665"),
+            KshanaCli.imuFitCommand("kshana", "/p/i.csv", KshanaCli.ImuFormat.EUROC, KshanaCli.ImuAxis.Z),
+        )
+        assertTrue(KshanaCli.isImuLogFile("still.CSV"))
+        assertFalse(KshanaCli.isImuLogFile("scenario.toml"))
+    }
+
+    @Test
     fun trustTelemetryCommandPrintsAndNeverListens() {
         assertEquals(
             listOf("kshana", "trust-telemetry", "--result", "/p/r.json", "--print-syslog", "--format", "leef"),

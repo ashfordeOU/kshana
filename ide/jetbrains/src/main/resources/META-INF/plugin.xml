@@ -255,10 +255,17 @@
             <add-to-group group-id="ToolsMenu" anchor="last"/>
         </action>
         <action
+            id="dev.kshana.ide.FitImuLog"
+            class="dev.kshana.ide.FitImuLogAction"
+            text="Fit Sensor Parameters from IMU Log (Kshana)"
+            description="Run kshana imu-fit on the selected IMU log CSV: the accelerometer and gyro parameters of the hybrid and fusion scenarios fitted by Allan deviation, printed to the Kshana window as an [accel_classical] table. Nothing is written.">
+            <add-to-group group-id="ProjectViewPopupMenu" anchor="last"/>
+        </action>
+        <action
             id="dev.kshana.ide.RenderTrustTelemetry"
             class="dev.kshana.ide.RenderTrustTelemetryAction"
             text="Render Trust Telemetry (Kshana)"
-            description="Run kshana trust-telemetry --result on the selected receiver-trust result JSON: Prometheus text or CEF/LEEF syslog events printed to the Kshana window. Nothing is sent or served.">
+            description="Run kshana trust-telemetry --result on the selected receiver-trust result JSON: Prometheus text, CEF/LEEF syslog events or Home Assistant MQTT lines printed to the Kshana window. Nothing is sent or served.">
             <add-to-group group-id="ProjectViewPopupMenu" anchor="last"/>
         </action>
     </actions>
