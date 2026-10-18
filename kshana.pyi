@@ -180,6 +180,8 @@ __all__ = [
     "get_example",
     "compliance_report",
     "compliance_mapping",
+    "standards_pack_list",
+    "standards_pack_run",
     "osnma_verify",
     "trust_telemetry",
     "route_exposure",
@@ -439,6 +441,17 @@ def compliance_mapping(sources: bool = False) -> str:
     """The static public-framework mapping as Markdown, led by the statement every report
     carries: one table per framework, or with ``sources=True`` the source documents they cite
     (versions and URLs)."""
+
+def standards_pack_list() -> dict[str, Any]:
+    """The standards packs (``standards/``): ``packs`` (id, title, framework, test counts) and a
+    ``notice``. A pack measures modelled scenarios against bars stated before the run; it rates
+    no product."""
+
+def standards_pack_run(pack_id: str) -> dict[str, Any]:
+    """Run one standards pack. Returns the report (``pack``, ``summary``, ``tests`` with each
+    bar's measured and expected value and ``met``, ``evidence_tier``, ``notice``, ``advisory``,
+    ``statement``) plus the same report as Markdown under ``markdown``. A test that needs a
+    receiver log is ``NEEDS INPUT`` and not scored. Raises ``ValueError`` for an unknown id."""
 
 def osnma_verify(
     data: bytes | str,

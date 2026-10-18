@@ -18,12 +18,14 @@ const USAGE: &str = "usage: kshana <scenario.toml> [--study-name <s>] [--eop <fi
    or: kshana receiver-trust live <session.toml> [--stdin | --file <path> [--follow] | --tcp <host:port> | --udp <port>] [--gate] (kshana receiver-trust live --help)
    or: kshana receiver-trust evidence <scenario.toml> --from <t0> --to <t1> --key <keyfile> --out <dir> (kshana evidence --help)
    or: kshana evidence <keygen|verify|attach-timestamp> ... (kshana evidence --help)
+   or: kshana evidence round-trip <scenario.toml> --scenario <bench-scenario> --conditions <file> --from <t0> --to <t1> --key <keyfile> --out <dir> (kshana evidence --help)
    or: kshana trust-telemetry [options] (kshana trust-telemetry --help)
    or: kshana nmea-scenario <scenario.toml> [--out <file.nmea>] [--tcp <addr>|--udp <addr>] (kshana nmea-scenario --help)
    or: kshana interference-map <adsb|ais|fetch-land> ... (kshana interference-map --help)
    or: kshana route-exposure --route <route> --map <map.geojson|dir> [--from <date>] [--to <date>]
    or: kshana bench-export <scenario.toml> [--out <base>] [--epoch <YYYY-MM-DDTHH:MM:SS>]
    or: kshana compliance-report [--out <base>] <result.json>... | --mapping | --sources
+   or: kshana standards-pack <list|run <id> [--json] [--out <base>]|rows <id>|tests <id>>
    or: kshana osnma verify <pages|vectors.csv|stream.ubx> [--merkle-root <hex>] [--public-key <id:type:hex>] [--reference-time <gst-s>] [--json] (kshana osnma --help)
    or: kshana iq <scene|acquire|track|sweep|labfit|campaign|conditions|frontend|monitor|inventory|info|extract|convert|decimate> ... (kshana iq --help)
    or: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
@@ -122,6 +124,10 @@ fn main() -> ExitCode {
     }
     // `kshana compliance-report <result.json>...` fills the public-framework mapping from
     // the runs given (docs/compliance/README.md). Terminal, like the others.
+    // `kshana standards-pack ...` lists and runs the scored standards packs (`standards/`).
+    if args.get(1).map(String::as_str) == Some("standards-pack") {
+        return run_standards_pack_cli(&args[2..]);
+    }
     if args.get(1).map(String::as_str) == Some("compliance-report") {
         return run_compliance_report_cli(&args[2..]);
     }
@@ -1352,6 +1358,102 @@ fn run_skyline_cli(args: &[String]) -> ExitCode {
             eprintln!("{SKYLINE_USAGE}");
             ExitCode::from(2)
         }
+    }
+}
+
+const STANDARDS_PACK_USAGE: &str = "usage: kshana standards-pack list
+   or: kshana standards-pack run <id> [--json] [--out <base>]
+   or: kshana standards-pack rows <id>
+   or: kshana standards-pack tests <id>
+
+A standards pack is a set of scenarios scored against bars stated before the run, tied to the
+compliance-report rows it supports evidence for. `run` prints a table (or --json) and, with
+--out, writes <base>.pack.json and <base>.pack.md; give the JSON to `kshana compliance-report`
+to see the rows. A test that needs a receiver log is listed as NEEDS INPUT and not scored.
+MODELLED: a MET bar says a modelled scenario met a stated bar, not that any product meets a
+requirement. docs/compliance/README.md.";
+
+/// `kshana standards-pack <list|run|rows|tests>`.
+fn run_standards_pack_cli(args: &[String]) -> ExitCode {
+    let fail = |m: &str| {
+        eprintln!("error: {m}\n{STANDARDS_PACK_USAGE}");
+        ExitCode::from(2)
+    };
+    let Some(cmd) = args.first().map(String::as_str) else {
+        return fail("standards-pack needs a subcommand");
+    };
+    match cmd {
+        "--help" | "-h" | "help" => {
+            println!("{STANDARDS_PACK_USAGE}");
+            ExitCode::SUCCESS
+        }
+        "list" => {
+            println!(
+                "{}",
+                serde_json::to_string_pretty(&kshana::standards_pack::list()).unwrap_or_default()
+            );
+            ExitCode::SUCCESS
+        }
+        "rows" | "tests" => {
+            let Some(id) = args.get(1) else {
+                return fail(&format!("{cmd} needs a pack id"));
+            };
+            match kshana::standards_pack::load(id) {
+                Ok(p) => {
+                    print!(
+                        "{}",
+                        if cmd == "rows" {
+                            kshana::standards_pack::rows_markdown(&p)
+                        } else {
+                            kshana::standards_pack::tests_markdown(&p)
+                        }
+                    );
+                    ExitCode::SUCCESS
+                }
+                Err(e) => fail(&e),
+            }
+        }
+        "run" => {
+            let Some(id) = args.get(1) else {
+                return fail("run needs a pack id");
+            };
+            let mut json = false;
+            let mut out: Option<String> = None;
+            let mut i = 2;
+            while i < args.len() {
+                match args[i].as_str() {
+                    "--json" => json = true,
+                    "--out" if i + 1 < args.len() => {
+                        out = Some(args[i + 1].clone());
+                        i += 1;
+                    }
+                    a => return fail(&format!("unknown standards-pack run option {a}")),
+                }
+                i += 1;
+            }
+            let report = match kshana::standards_pack::run(id) {
+                Ok(r) => r,
+                Err(e) => return fail(&e),
+            };
+            let text = serde_json::to_string_pretty(&report).unwrap_or_default();
+            if let Some(base) = out {
+                let md = kshana::standards_pack::report_markdown(&report);
+                for (ext, body) in [(".pack.json", &text), (".pack.md", &md)] {
+                    let target = format!("{base}{ext}");
+                    if let Err(e) = std::fs::write(&target, body) {
+                        eprintln!("error: cannot write {target}: {e}");
+                        return ExitCode::FAILURE;
+                    }
+                    println!("wrote {target}");
+                }
+            } else if json {
+                println!("{text}");
+            } else {
+                print!("{}", kshana::standards_pack::report_markdown(&report));
+            }
+            ExitCode::SUCCESS
+        }
+        other => fail(&format!("unknown standards-pack subcommand {other}")),
     }
 }
 
