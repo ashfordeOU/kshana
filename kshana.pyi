@@ -453,7 +453,7 @@ def trust_telemetry(
 ) -> str:
     """Render a trust stream or a batch result in one telemetry format with the encoders
     ``kshana trust-telemetry`` uses (no process, socket or clock). ``format`` is ``"prometheus"``,
-    ``"cef"``, ``"leef"`` or ``"otlp"``; ``input_kind`` is ``"jsonl"`` (the live per-epoch
+    ``"cef"``, ``"leef"``, ``"otlp"`` or ``"mqtt"``; ``input_kind`` is ``"jsonl"`` (the live per-epoch
     stream) or ``"result"`` (a ``receiver-trust`` result document); ``host`` names the sender in
     syslog events (default ``kshana``). ``syslog_all`` gives one event per epoch instead of one
     per band change; ``expose_position`` adds the receiver-reported position to the metrics;

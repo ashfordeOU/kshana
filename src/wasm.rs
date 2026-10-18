@@ -508,7 +508,7 @@ pub fn evidence_verify(
 
 /// Render a trust stream or a batch result in one telemetry format, with the encoders
 /// `kshana trust-telemetry` uses (no process, socket or clock). `format` is `"prometheus"`,
-/// `"cef"`, `"leef"` or `"otlp"`; `input_kind` is `"result"` (a `receiver-trust` result
+/// `"cef"`, `"leef"`, `"otlp"` or `"mqtt"`; `input_kind` is `"result"` (a `receiver-trust` result
 /// document) or `"jsonl"` (the live per-epoch stream); `host` names the sender in syslog
 /// events (empty for `kshana`). `options_json` is `""` or an object with `expose_position`
 /// (bool), `syslog_all` (bool: one event per epoch, not per band change) and `unix_nano`
