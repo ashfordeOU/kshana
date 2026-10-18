@@ -40,10 +40,11 @@ package (`receiver_trust(toml)`, with the log inline) and from the Model Context
 
 | `format` | Source | What is read |
 |---|---|---|
-| `ubx` | u-blox binary | NAV-SAT per-satellite C/N0, elevation and azimuth, NAV-PVT position, MON-RF automatic gain control (AGC) and the jamming indicator `jamInd`, NAV-TIMEGPS week |
+| `ubx` | u-blox binary | NAV-SAT per-satellite C/N0, elevation and azimuth, NAV-PVT position, MON-RF automatic gain control (AGC) and the jamming indicator `jamInd`, NAV-TIMEGPS week, and the receiver's own flags: NAV-STATUS `spoofDetState` and SEC-SIG (`self_report`, see [RECEIVER-PROTOCOLS.md](RECEIVER-PROTOCOLS.md)) |
 | `rinex` | RINEX 3 observation file | `S` codes (C/N0) per satellite and signal; with a broadcast navigation file (`nav`), the pseudoranges for the engine's own fix |
 | `android` | Android GnssLogger CSV | `Raw` rows: C/N0 and `AgcDb` per satellite; `Fix` rows: position |
 | `nmea` | NMEA 0183 text | GSV signal-to-noise per satellite (dB-Hz, with or without the 4.10 signal ID) and its elevation and azimuth, GSA dilution of precision and satellites used, GGA and RMC time and position |
+| `sbf` | Septentrio binary (0.38, read only) | PVTGeodetic position, MeasEpoch C/N0 per satellite and signal, RFStatus band count; see [RECEIVER-PROTOCOLS.md](RECEIVER-PROTOCOLS.md) |
 
 Each epoch the readers produce also carries `source_span`, `[start, end)` byte offsets into the
 input: the smallest contiguous range holding the records that contributed to it, so the exact raw

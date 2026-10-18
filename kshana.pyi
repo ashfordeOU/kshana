@@ -159,6 +159,8 @@ __all__ = [
     "receiver_trust",
     "receiver_trust_replay",
     "assess_vessel_log",
+    "jammertest_import",
+    "jammertest_score",
     "evidence_create",
     "evidence_verify",
     "interference_map",
@@ -288,6 +290,41 @@ def receiver_trust_replay(session_toml: str, nmea: str | bytes) -> dict[str, Any
     GSA), with a ``label`` (``good``, ``fair``, ``poor``) always reported; the score deducts for
     geometry only when it is ``poor``. Opens no socket and does not
     apply the gate (both are command-line only). Advisory software, not type-approved navigation equipment (IEC 61108, IEC 61162): the operator remains responsible for the navigation of the vessel. Raises ``ValueError``."""
+
+def jammertest_import(
+    catalog_json: str,
+    plans: list[str],
+    log_start_utc: str,
+    location: int | None = None,
+    local_offset_h: float = 2.0,
+    year: int | None = None,
+) -> dict[str, Any]:
+    """Read the published Jammertest test catalogue and transmission plan (NPRA JSON texts) as
+    scheduled truth, as ``kshana jammertest import`` does. ``plans`` holds one plan file per day;
+    ``log_start_utc`` is the log's first epoch (ISO-8601 UTC); ``local_offset_h`` the plan's offset
+    from UTC (CEST: 2). Returns ``events_toml`` (append it to a receiver-trust session), ``events``
+    (``test_id``, ``year``, ``kind``, ``onset_s``, ``end_s`` ...), ``skipped_non_rf``,
+    ``outside_log`` and ``unknown_ids``. The events are planned slots, not recorded on-air times.
+    Raises ``ValueError``."""
+
+def jammertest_score(
+    session_toml: str,
+    log: str | bytes,
+    catalog_json: str,
+    plans: list[str],
+    location: int | None = None,
+    local_offset_h: float = 2.0,
+    log_start_utc: str | None = None,
+    year: int | None = None,
+    recover_hold_s: float = 10.0,
+    guard_s: float = 60.0,
+) -> dict[str, Any]:
+    """Score a receiver log against the Jammertest schedule, as ``kshana jammertest score`` does:
+    per scheduled test the detection latency, missed alarms and time to recover, and the false
+    alarms outside every slot. ``session_toml`` needs only ``[log] format = "ubx"`` (or
+    ``rinex``, ``android``, ``nmea``, ``sbf``). Returns the scorecard (``tests``, ``summary``,
+    ``label``: MODELLED). A signed evidence pack needs a key: use the command line. Advisory
+    software, not type-approved navigation equipment (IEC 61108, IEC 61162). Raises ``ValueError``."""
 
 def assess_vessel_log(session_toml: str, log: str | bytes) -> dict[str, Any]:
     """Assess a vessel's NMEA log as a batch run: the ``result.json`` of
