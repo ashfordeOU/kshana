@@ -349,7 +349,9 @@ impl KshanaServer {
         .map_err(|e| bad(format!("jammertest import failed: {e}")))?;
         let mut v: serde_json::Value =
             serde_json::from_str(&j).map_err(|e| bad(format!("result is not JSON: {e}")))?;
-        v["notice"] = "Scheduled truth: planned slots, not recorded on-air times. Evidence tier: MODELLED.".into();
+        v["notice"] =
+            "Scheduled truth: planned slots, not recorded on-air times. Evidence tier: MODELLED."
+                .into();
         reply(v)
     }
 
