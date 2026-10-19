@@ -79,6 +79,7 @@ pub mod attack_surface;
 pub mod attitude_budget;
 pub mod attitude_dynamics;
 pub mod batch_ls;
+pub mod bench;
 pub mod benchmark;
 pub mod body;
 pub mod body_pnt;

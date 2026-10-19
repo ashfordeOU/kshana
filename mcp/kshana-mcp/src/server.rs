@@ -25,6 +25,7 @@
 //! The maritime-trust, training-NMEA, interference-map and compliance-mapping tools
 //! (`assess_vessel_stream`, `generate_training_nmea`, `build_interference_map`,
 //! `route_exposure`, `trust_telemetry`, `fit_imu_log`, `compliance_report`, `compliance_mapping`,
+//! `score_benchmark`, `render_leaderboard`,
 //! `export_test_bench`) are in
 //! [`crate::marine`].
 //!

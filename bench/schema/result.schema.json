@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kshana.dev/bench/schema/result.schema.json",
+  "title": "kshana-bench-result/1",
+  "description": "A kshana-bench result file. `kshana bench validate` enforces these rules and one more: a carried result needs a provenance_note.",
+  "type": "object",
+  "required": [
+    "schema",
+    "spec_version",
+    "task",
+    "split",
+    "system",
+    "provenance",
+    "metrics",
+    "label",
+    "notice"
+  ],
+  "properties": {
+    "schema": {
+      "const": "kshana-bench-result/1"
+    },
+    "spec_version": {
+      "type": "string",
+      "pattern": "^kshana-bench/"
+    },
+    "task": {
+      "enum": [
+        "a",
+        "b",
+        "c",
+        "d"
+      ]
+    },
+    "split": {
+      "enum": [
+        "dev",
+        "test",
+        "holdout"
+      ]
+    },
+    "system": {
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "version": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        }
+      }
+    },
+    "provenance": {
+      "enum": [
+        "scored",
+        "carried"
+      ]
+    },
+    "provenance_note": {
+      "type": "string"
+    },
+    "truth_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "predictions_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "metrics": {
+      "type": "object"
+    },
+    "label": {
+      "type": "string",
+      "minLength": 1
+    },
+    "notice": {
+      "type": "string",
+      "pattern": "Advisory"
+    }
+  },
+  "if": {
+    "properties": {
+      "provenance": {
+        "const": "scored"
+      }
+    }
+  },
+  "then": {
+    "required": [
+      "truth_sha256",
+      "predictions_sha256"
+    ]
+  }
+}

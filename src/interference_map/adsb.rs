@@ -190,6 +190,25 @@ pub struct AdsbReadStats {
     pub trace_files: u64,
     /// readsb trace files that could not be decompressed or parsed.
     pub trace_files_unreadable: u64,
+    /// Rows outside the region set with [`AdsbAggregator::with_region`] (not written to the
+    /// method metadata of the existing maps; the observatory product reports it).
+    pub excluded_outside_region: u64,
+}
+
+/// The code stored for an absent NIC or NACp value in a [`RecordedRow`].
+const NONE_CODE: u8 = 255;
+
+/// One input row as kept by [`AdsbAggregator::record_rows`]. The identifier is the per-run
+/// salted hash used for distinct-counting, never the aircraft address.
+#[derive(Debug, Clone, Copy)]
+pub struct RecordedRow {
+    ts: f64,
+    aid: u64,
+    lat: f64,
+    lon: f64,
+    alt_ft: f64,
+    nic: u8,
+    nacp: u8,
 }
 
 /// Aggregation state across one input (which may span several UTC days).
@@ -198,6 +217,8 @@ pub struct AdsbAggregator {
     params: AdsbParams,
     hasher: IdHasher,
     days: BTreeMap<String, DayAcc>,
+    region: Option<(f64, f64, f64, f64)>,
+    recorded: Option<Vec<RecordedRow>>,
     /// Counters for rows read and excluded so far.
     pub stats: AdsbReadStats,
 }
@@ -219,8 +240,18 @@ impl AdsbAggregator {
             params,
             hasher,
             days: BTreeMap::new(),
+            region: None,
+            recorded: None,
             stats: AdsbReadStats::default(),
         }
+    }
+
+    /// Keep only reports inside `(south, west, north, east)` degrees. The equipment-baseline
+    /// guard and the day's background are then computed from the region's reports alone, which
+    /// the observatory states in its output. Longitudes are not wrapped across the antimeridian.
+    pub fn with_region(mut self, region: (f64, f64, f64, f64)) -> Self {
+        self.region = Some(region);
+        self
     }
 
     /// Read the documented CSV from text; see [`AdsbAggregator::read_csv_reader`].
@@ -306,6 +337,39 @@ impl AdsbAggregator {
             self.stats.rejected_malformed += 1;
             return;
         }
+        if let Some((s, w, n, e)) = self.region {
+            if lat < s || lat > n || lon < w || lon > e {
+                self.stats.excluded_outside_region += 1;
+                return;
+            }
+        }
+        let aid = self.hasher.hash(id);
+        if let Some(rec) = &mut self.recorded {
+            rec.push(RecordedRow {
+                ts,
+                aid,
+                lat,
+                lon,
+                alt_ft: alt_ft.unwrap_or(f64::NAN),
+                nic: nic.unwrap_or(NONE_CODE),
+                nacp: nacp.unwrap_or(NONE_CODE),
+            });
+        }
+        self.gate_and_add(ts, aid, lat, lon, alt_ft, nic, nacp);
+    }
+
+    /// Apply the altitude and accuracy-field exclusions, count them, and aggregate the report.
+    #[allow(clippy::too_many_arguments)]
+    fn gate_and_add(
+        &mut self,
+        ts: f64,
+        aid: u64,
+        lat: f64,
+        lon: f64,
+        alt_ft: Option<f64>,
+        nic: Option<u8>,
+        nacp: Option<u8>,
+    ) {
         // "ground" or a missing altitude cannot be shown to be airborne above the floor.
         match alt_ft.filter(|a| a.is_finite()) {
             Some(a) if a >= self.params.min_alt_ft => {}
@@ -318,7 +382,31 @@ impl AdsbAggregator {
             self.stats.excluded_no_accuracy_field += 1;
             return;
         }
-        self.add_report(ts, id, lat, lon, nic, nacp);
+        self.add_report(ts, aid, lat, lon, nic, nacp);
+    }
+
+    /// Start keeping every row that passes the format, region and identifier checks, so the
+    /// same input can be replayed under other parameters without being read again (the
+    /// observatory's sensitivity study). Rows are kept as read: identifiers only as per-run
+    /// salted hashes, never as the identifier.
+    pub fn record_rows(mut self) -> Self {
+        self.recorded = Some(Vec::new());
+        self
+    }
+
+    /// The rows kept since [`AdsbAggregator::record_rows`].
+    pub fn take_recorded(&mut self) -> Vec<RecordedRow> {
+        self.recorded.take().unwrap_or_default()
+    }
+
+    /// Aggregate rows recorded by another aggregator, applying this one's parameters.
+    pub fn replay(&mut self, rows: &[RecordedRow]) {
+        for r in rows {
+            self.stats.rows += 1;
+            let code = |c: u8| (c != NONE_CODE).then_some(c);
+            let alt = r.alt_ft.is_finite().then_some(r.alt_ft);
+            self.gate_and_add(r.ts, r.aid, r.lat, r.lon, alt, code(r.nic), code(r.nacp));
+        }
     }
 
     /// Read one readsb history trace file (`trace_full_<address>.json`, as in the adsb.lol
@@ -391,14 +479,13 @@ impl AdsbAggregator {
     fn add_report(
         &mut self,
         ts: f64,
-        id: &str,
+        aid: u64,
         lat: f64,
         lon: f64,
         nic: Option<u8>,
         nacp: Option<u8>,
     ) {
         let (low, good) = self.params.classify(nic, nacp);
-        let aid = self.hasher.hash(id);
         let cell = self.grid.cell_of(lat, lon);
         let day = self.days.entry(day_of(ts)).or_default();
         let e = day.pairs.entry((aid, cell)).or_default();
