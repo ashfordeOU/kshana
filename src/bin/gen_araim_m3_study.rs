@@ -44,11 +44,14 @@ fn ura_list(id: &str) -> &'static [usize] {
     }
 }
 
-/// RNP column of Table 25: all of the integrity budget horizontal.
+/// RNP column of Table 25: all of the integrity budget horizontal. The vertical budgets are
+/// 1e-12 and 1e-9 rather than the table's 0: the engine solves the vertical level too, and a
+/// zero budget makes its detection multiplier infinite and its bisection never end. The
+/// vertical result is not used, and the horizontal budget changes by a part in 1e5 (D6).
 const RNP: ReferenceConstants = ReferenceConstants {
-    p_hmi_vert: 0.0,
-    p_hmi_horz: 1e-7,
-    p_fa_vert: 0.0,
+    p_hmi_vert: 1e-12,
+    p_hmi_horz: 1e-7 - 1e-12,
+    p_fa_vert: 1e-9,
     p_fa_horz: 3.99e-6,
     p_emt: 1e-5,
     p_thres: 4e-8,
