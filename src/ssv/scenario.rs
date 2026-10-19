@@ -16,7 +16,8 @@ use super::constellations::{Band, Constellation};
 use super::limb::{Limb, LimbModel};
 use super::pattern::{Axis, NamedAntenna, ParametricPattern, TxPattern, UserAntenna};
 use super::sweep::{
-    run_shell, run_trajectory, BandResult, NoEffects, ShellConfig, TrajectoryConfig, TrajectoryResult, UserOrbit,
+    run_shell, run_trajectory, BandResult, NoEffects, ShellConfig, TrajectoryConfig,
+    TrajectoryResult, UserOrbit,
 };
 use super::weak::{Thresholds, WeakSignalReceiver};
 use crate::antenna::GainPattern2D;
@@ -195,10 +196,16 @@ fn antenna_named(name: &str, band: Band) -> Result<UserAntenna, String> {
         "omni" => UserAntenna::Omni,
         "hemisphere-nadir" => UserAntenna::Hemisphere(Axis::Nadir),
         "hemisphere-zenith" => UserAntenna::Hemisphere(Axis::Zenith),
-        "booklet-high-gain-nadir" => UserAntenna::named(&NamedAntenna::BookletHighGain, band, Axis::Nadir),
-        "booklet-high-gain-zenith" => UserAntenna::named(&NamedAntenna::BookletHighGain, band, Axis::Zenith),
+        "booklet-high-gain-nadir" => {
+            UserAntenna::named(&NamedAntenna::BookletHighGain, band, Axis::Nadir)
+        }
+        "booklet-high-gain-zenith" => {
+            UserAntenna::named(&NamedAntenna::BookletHighGain, band, Axis::Zenith)
+        }
         "booklet-patch-nadir" => UserAntenna::named(&NamedAntenna::BookletPatch, band, Axis::Nadir),
-        "booklet-patch-zenith" => UserAntenna::named(&NamedAntenna::BookletPatch, band, Axis::Zenith),
+        "booklet-patch-zenith" => {
+            UserAntenna::named(&NamedAntenna::BookletPatch, band, Axis::Zenith)
+        }
         other => return Err(format!("unknown antenna `{other}`")),
     })
 }
@@ -206,20 +213,39 @@ fn antenna_named(name: &str, band: Band) -> Result<UserAntenna, String> {
 /// Parse a pattern CSV: the first row is `theta_deg` and then the azimuths in degrees; each following row is an off-boresight
 /// angle and one gain (dB) per azimuth. A one-column table (`theta_deg,gain_db` rows) is an azimuth-independent pattern.
 pub fn parse_pattern_csv(text: &str) -> Result<GainPattern2D, String> {
-    let mut lines = text.lines().map(str::trim).filter(|l| !l.is_empty() && !l.starts_with('#'));
-    let head: Vec<&str> = lines.next().ok_or("pattern CSV is empty")?.split(',').map(str::trim).collect();
-    let num = |s: &str| s.parse::<f64>().map_err(|_| format!("`{s}` is not a number in the pattern CSV"));
-    let (azimuths, simple): (Vec<f64>, bool) = if head.len() == 2 && head[1].parse::<f64>().is_err() {
+    let mut lines = text
+        .lines()
+        .map(str::trim)
+        .filter(|l| !l.is_empty() && !l.starts_with('#'));
+    let head: Vec<&str> = lines
+        .next()
+        .ok_or("pattern CSV is empty")?
+        .split(',')
+        .map(str::trim)
+        .collect();
+    let num = |s: &str| {
+        s.parse::<f64>()
+            .map_err(|_| format!("`{s}` is not a number in the pattern CSV"))
+    };
+    let (azimuths, simple): (Vec<f64>, bool) = if head.len() == 2 && head[1].parse::<f64>().is_err()
+    {
         (vec![0.0], true)
     } else {
-        (head[1..].iter().map(|s| num(s)).collect::<Result<_, _>>()?, false)
+        (
+            head[1..].iter().map(|s| num(s)).collect::<Result<_, _>>()?,
+            false,
+        )
     };
     let mut thetas = Vec::new();
     let mut rows: Vec<Vec<f64>> = vec![Vec::new(); azimuths.len()];
     for l in lines {
         let f: Vec<&str> = l.split(',').map(str::trim).collect();
         if f.len() != azimuths.len() + 1 {
-            return Err(format!("pattern CSV row `{l}` has {} columns, expected {}", f.len(), azimuths.len() + 1));
+            return Err(format!(
+                "pattern CSV row `{l}` has {} columns, expected {}",
+                f.len(),
+                azimuths.len() + 1
+            ));
         }
         thetas.push(num(f[0])?);
         for (k, c) in f[1..].iter().enumerate() {
@@ -248,7 +274,9 @@ fn tx_pattern(t: &TransmitCfg) -> Result<TxPattern, String> {
             };
             Ok(TxPattern::Table(Arc::new(parse_pattern_csv(&text)?)))
         }
-        other => Err(format!("transmit.pattern `{other}` is not booklet, parametric or table")),
+        other => Err(format!(
+            "transmit.pattern `{other}` is not booklet, parametric or table"
+        )),
     }
 }
 
@@ -261,12 +289,18 @@ fn threshold(r: &ReceiverCfg) -> Result<(Option<f64>, Option<Thresholds>), Strin
         let t = w.thresholds()?;
         let used = match r.apply.as_deref().unwrap_or("acquisition") {
             "acquisition" => t.acquisition_dbhz,
-            "tracking" => t.tracking_dbhz.ok_or("the carrier loop cannot hold the stated Doppler rate at any C/N0")?,
+            "tracking" => t
+                .tracking_dbhz
+                .ok_or("the carrier loop cannot hold the stated Doppler rate at any C/N0")?,
             "both" => t
                 .tracking_dbhz
                 .ok_or("the carrier loop cannot hold the stated Doppler rate at any C/N0")?
                 .max(t.acquisition_dbhz),
-            other => return Err(format!("receiver.apply `{other}` is not acquisition, tracking or both")),
+            other => {
+                return Err(format!(
+                    "receiver.apply `{other}` is not acquisition, tracking or both"
+                ))
+            }
         };
         return Ok((Some(used), Some(t)));
     }
@@ -278,7 +312,6 @@ fn threshold(r: &ReceiverCfg) -> Result<(Option<f64>, Option<Thresholds>), Strin
     Ok((r.cn0_min_dbhz, None))
 }
 
-
 fn leak(s: String) -> &'static str {
     Box::leak(s.into_boxed_str())
 }
@@ -286,12 +319,13 @@ fn leak(s: String) -> &'static str {
 /// The units and provenance of every numeric field a `gnss-ssv` document can carry.
 fn units_table() -> Vec<FieldUnit> {
     use ProvenanceClass::{Computed, Input, ModelledInput};
-    let f = |path: &'static str, unit: &'static str, provenance, definition: &'static str| FieldUnit {
-        path,
-        unit,
-        provenance,
-        definition,
-    };
+    let f =
+        |path: &'static str, unit: &'static str, provenance, definition: &'static str| FieldUnit {
+            path,
+            unit,
+            provenance,
+            definition,
+        };
     let mut v = vec![
         f("cn0_min_dbhz", "dB-Hz", Computed, "the carrier-to-noise-density threshold applied: the stated one, or the weak-signal receiver design's"),
         f("weak_signal_receiver.effective_t_coh_s", "s", Computed, "coherent integration time after the data-bit limit"),
@@ -329,41 +363,179 @@ fn units_table() -> Vec<FieldUnit> {
         f("result.epochs", "count", Computed, "epochs simulated"),
     ];
     for root in ["bands[].groups[]", "result.bands[].groups[]"] {
-        v.push(f(leak(format!("{root}.at_least_1_pct")), "%", Computed, "share of (user, epoch) pairs with at least one signal"));
-        v.push(f(leak(format!("{root}.at_least_4_pct")), "%", Computed, "share with at least four signals"));
-        v.push(f(leak(format!("{root}.max_outage_1_min")), "min", Computed, "longest run without a signal at the worst user"));
-        v.push(f(leak(format!("{root}.max_outage_4_min")), "min", Computed, "longest run below four signals at the worst user"));
+        v.push(f(
+            leak(format!("{root}.at_least_1_pct")),
+            "%",
+            Computed,
+            "share of (user, epoch) pairs with at least one signal",
+        ));
+        v.push(f(
+            leak(format!("{root}.at_least_4_pct")),
+            "%",
+            Computed,
+            "share with at least four signals",
+        ));
+        v.push(f(
+            leak(format!("{root}.max_outage_1_min")),
+            "min",
+            Computed,
+            "longest run without a signal at the worst user",
+        ));
+        v.push(f(
+            leak(format!("{root}.max_outage_4_min")),
+            "min",
+            Computed,
+            "longest run below four signals at the worst user",
+        ));
     }
-    v.push(f("result.bands[].groups[].availability.at_least_1_pct", "%", Computed, "share of epochs with at least one signal"));
-    v.push(f("result.bands[].groups[].availability.at_least_4_pct", "%", Computed, "share of epochs with at least four signals"));
-    v.push(f("result.bands[].groups[].availability.max_outage_1_min", "min", Computed, "longest stretch without a signal"));
-    v.push(f("result.bands[].groups[].availability.max_outage_4_min", "min", Computed, "longest stretch below four signals"));
-    v.push(f("result.bands[].groups[].main_lobe_links", "count", Computed, "links received through the main lobe, summed over epochs"));
-    v.push(f("result.bands[].groups[].sidelobe_links", "count", Computed, "links received through a sidelobe, summed over epochs"));
+    v.push(f(
+        "result.bands[].groups[].availability.at_least_1_pct",
+        "%",
+        Computed,
+        "share of epochs with at least one signal",
+    ));
+    v.push(f(
+        "result.bands[].groups[].availability.at_least_4_pct",
+        "%",
+        Computed,
+        "share of epochs with at least four signals",
+    ));
+    v.push(f(
+        "result.bands[].groups[].availability.max_outage_1_min",
+        "min",
+        Computed,
+        "longest stretch without a signal",
+    ));
+    v.push(f(
+        "result.bands[].groups[].availability.max_outage_4_min",
+        "min",
+        Computed,
+        "longest stretch below four signals",
+    ));
+    v.push(f(
+        "result.bands[].groups[].main_lobe_links",
+        "count",
+        Computed,
+        "links received through the main lobe, summed over epochs",
+    ));
+    v.push(f(
+        "result.bands[].groups[].sidelobe_links",
+        "count",
+        Computed,
+        "links received through a sidelobe, summed over epochs",
+    ));
     for (block, unit, what) in [
-        ("result.bands[].groups[].signals_in_view", "count", "signals in view per epoch"),
-        ("result.bands[].groups[].best_cn0_dbhz", "dB-Hz", "C/N0 of the strongest link"),
-        ("result.bands[].limb.loss_db", "dB", "neutral-atmosphere loss on usable links"),
-        ("result.bands[].limb.stec_tecu", "TECU", "slant total electron content of usable links"),
-        ("result.bands[].limb.plasmaspheric_tecu", "TECU", "plasmaspheric part of the slant TEC"),
-        ("result.bands[].limb.delay_m", "m", "total excess delay at the band's first frequency"),
-        ("result.bands[].limb.tangent_alt_km", "km", "tangent altitude of usable links"),
+        (
+            "result.bands[].groups[].signals_in_view",
+            "count",
+            "signals in view per epoch",
+        ),
+        (
+            "result.bands[].groups[].best_cn0_dbhz",
+            "dB-Hz",
+            "C/N0 of the strongest link",
+        ),
+        (
+            "result.bands[].limb.loss_db",
+            "dB",
+            "neutral-atmosphere loss on usable links",
+        ),
+        (
+            "result.bands[].limb.stec_tecu",
+            "TECU",
+            "slant total electron content of usable links",
+        ),
+        (
+            "result.bands[].limb.plasmaspheric_tecu",
+            "TECU",
+            "plasmaspheric part of the slant TEC",
+        ),
+        (
+            "result.bands[].limb.delay_m",
+            "m",
+            "total excess delay at the band's first frequency",
+        ),
+        (
+            "result.bands[].limb.tangent_alt_km",
+            "km",
+            "tangent altitude of usable links",
+        ),
     ] {
-        v.push(f(leak(format!("{block}.n")), "count", Computed, "samples in the statistic"));
+        v.push(f(
+            leak(format!("{block}.n")),
+            "count",
+            Computed,
+            "samples in the statistic",
+        ));
         for k in ["min", "mean", "max"] {
-            v.push(f(leak(format!("{block}.{k}")), unit, Computed, leak(format!("{k} of the {what}"))));
+            v.push(f(
+                leak(format!("{block}.{k}")),
+                unit,
+                Computed,
+                leak(format!("{k} of the {what}")),
+            ));
         }
     }
-    v.push(f("result.bands[].pdop_median", "1", Computed, "median position DOP of the combined signals"));
-    v.push(f("result.bands[].pdop_p95", "1", Computed, "95th percentile position DOP"));
-    v.push(f("result.bands[].pdop_worst", "1", Computed, "worst position DOP"));
-    v.push(f("result.bands[].limb.links", "count", Computed, "usable links counted"));
-    v.push(f("result.bands[].limb.grazing_below_100_km", "count", Computed, "usable links grazing below 100 km"));
-    v.push(f("result.bands[].limb.lost_to_atmosphere", "count", Computed, "links lost to the atmosphere's loss"));
-    v.push(f("result.bands[].series[].t_min", "min", Computed, "minutes since the epoch"));
-    v.push(f("result.bands[].series[].altitude_km", "km", Computed, "altitude above the 6378 km Earth"));
-    v.push(f("result.bands[].series[].combined", "count", Computed, "combined signals in view"));
-    v.push(f("result.bands[].series[].best_cn0_dbhz", "dB-Hz", Computed, "best C/N0"));
+    v.push(f(
+        "result.bands[].pdop_median",
+        "1",
+        Computed,
+        "median position DOP of the combined signals",
+    ));
+    v.push(f(
+        "result.bands[].pdop_p95",
+        "1",
+        Computed,
+        "95th percentile position DOP",
+    ));
+    v.push(f(
+        "result.bands[].pdop_worst",
+        "1",
+        Computed,
+        "worst position DOP",
+    ));
+    v.push(f(
+        "result.bands[].limb.links",
+        "count",
+        Computed,
+        "usable links counted",
+    ));
+    v.push(f(
+        "result.bands[].limb.grazing_below_100_km",
+        "count",
+        Computed,
+        "usable links grazing below 100 km",
+    ));
+    v.push(f(
+        "result.bands[].limb.lost_to_atmosphere",
+        "count",
+        Computed,
+        "links lost to the atmosphere's loss",
+    ));
+    v.push(f(
+        "result.bands[].series[].t_min",
+        "min",
+        Computed,
+        "minutes since the epoch",
+    ));
+    v.push(f(
+        "result.bands[].series[].altitude_km",
+        "km",
+        Computed,
+        "altitude above the 6378 km Earth",
+    ));
+    v.push(f(
+        "result.bands[].series[].combined",
+        "count",
+        Computed,
+        "combined signals in view",
+    ));
+    v.push(f(
+        "result.bands[].series[].best_cn0_dbhz",
+        "dB-Hz",
+        Computed,
+        "best C/N0",
+    ));
     v
 }
 
@@ -401,11 +573,15 @@ impl GnssSsvScenario {
             }
             if let Some(p) = &t.preset {
                 if preset_orbit(p).is_none() {
-                    return Err(format!("trajectory.preset `{p}` is not leo, meo, geo, heo or lunar-transfer"));
+                    return Err(format!(
+                        "trajectory.preset `{p}` is not leo, meo, geo, heo or lunar-transfer"
+                    ));
                 }
             }
             if t.duration_min.is_some() == t.duration_periods.is_some() {
-                return Err("trajectory: give exactly one of duration_min and duration_periods".into());
+                return Err(
+                    "trajectory: give exactly one of duration_min and duration_periods".into(),
+                );
             }
             for a in &t.antennas {
                 antenna_named(a, Band::L1)?;
@@ -506,7 +682,11 @@ impl GnssSsvScenario {
         let table = units_table();
         let units: Vec<FieldUnit> = table
             .iter()
-            .filter(|u| present.iter().any(|p| crate::field_schema::pattern_matches(u.path, p)))
+            .filter(|u| {
+                present
+                    .iter()
+                    .any(|p| crate::field_schema::pattern_matches(u.path, p))
+            })
             .cloned()
             .collect();
         doc["units"] = crate::field_schema::units_block(&units);
@@ -528,7 +708,11 @@ fn shell_summary(r: &[BandResult], s: &ShellCfg) -> String {
             ));
         }
     }
-    format!("gnss-ssv shell {:.0} km: {}", s.altitude_km, parts.join("; "))
+    format!(
+        "gnss-ssv shell {:.0} km: {}",
+        s.altitude_km,
+        parts.join("; ")
+    )
 }
 
 fn trajectory_summary(r: &TrajectoryResult) -> String {
@@ -609,21 +793,29 @@ mod tests {
     #[test]
     fn exactly_one_mode_and_the_shell_needs_the_booklet_pattern() {
         assert!(parse("kind = \"gnss-ssv\"").validate().is_err());
-        assert!(parse("[shell]\naltitude_km = 36000.0\n[trajectory]\npreset = \"geo\"\nduration_min = 1.0")
-            .validate()
-            .is_err());
-        assert!(parse("[transmit]\npattern = \"parametric\"\n[shell]\naltitude_km = 36000.0")
-            .validate()
-            .is_err());
-        assert!(parse("[shell]\naltitude_km = 36000.0\ngrid_levels = 1\nduration_min = 60.0\nstep_min = 30.0")
-            .validate()
-            .is_ok());
+        assert!(parse(
+            "[shell]\naltitude_km = 36000.0\n[trajectory]\npreset = \"geo\"\nduration_min = 1.0"
+        )
+        .validate()
+        .is_err());
+        assert!(
+            parse("[transmit]\npattern = \"parametric\"\n[shell]\naltitude_km = 36000.0")
+                .validate()
+                .is_err()
+        );
+        assert!(parse(
+            "[shell]\naltitude_km = 36000.0\ngrid_levels = 1\nduration_min = 60.0\nstep_min = 30.0"
+        )
+        .validate()
+        .is_ok());
         assert!(toml::from_str::<GnssSsvScenario>("bogus = 1").is_err());
     }
 
     #[test]
     fn a_pattern_csv_parses_in_both_shapes_and_bad_rows_are_refused() {
-        let p = parse_pattern_csv("theta_deg,0,90,180,270\n0,10,10,10,10\n10,8,9,8,9\n20,4,5,4,5\n").unwrap();
+        let p =
+            parse_pattern_csv("theta_deg,0,90,180,270\n0,10,10,10,10\n10,8,9,8,9\n20,4,5,4,5\n")
+                .unwrap();
         assert!((p.gain_at(0.0, 10.0).unwrap() - 8.0).abs() < 1e-12);
         let q = parse_pattern_csv("theta_deg,gain_db\n0,10\n10,8\n").unwrap();
         assert!((q.gain_at(123.0, 5.0).unwrap() - 9.0).abs() < 1e-12);

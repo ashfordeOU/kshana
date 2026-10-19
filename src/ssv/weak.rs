@@ -144,7 +144,9 @@ impl WeakSignalReceiver {
         pos("dll_t_s", self.dll_t_s)?;
         pos("parallel_cells", self.parallel_cells)?;
         if !(self.pfa_total > 0.0 && self.pfa_total < 1.0 && self.pd > 0.0 && self.pd < 1.0) {
-            return Err("receiver.pfa_total and receiver.pd must be probabilities in (0, 1)".into());
+            return Err(
+                "receiver.pfa_total and receiver.pd must be probabilities in (0, 1)".into(),
+            );
         }
         Ok(())
     }
@@ -158,8 +160,12 @@ impl WeakSignalReceiver {
             self.t_coh_s.min(self.data_bit_ms * 1e-3 / 2.0).max(1e-4)
         };
         // Frequency bins at 2/(3 T) spacing, the usual compromise with the scalloping loss.
-        let f_bins = (2.0 * self.doppler_uncertainty_hz / (2.0 / (3.0 * t_eff))).ceil().max(1.0);
-        let code_bins = (self.code_window_chips * self.bins_per_chip).ceil().max(1.0);
+        let f_bins = (2.0 * self.doppler_uncertainty_hz / (2.0 / (3.0 * t_eff)))
+            .ceil()
+            .max(1.0);
+        let code_bins = (self.code_window_chips * self.bins_per_chip)
+            .ceil()
+            .max(1.0);
         let cells = f_bins * code_bins;
         let pfa_cell = (self.pfa_total / cells).max(1e-300);
         let gamma = threshold_for_pfa(pfa_cell, self.n_noncoherent);
@@ -220,7 +226,12 @@ mod tests {
         }
         .thresholds()
         .unwrap();
-        assert!(b.acquisition_dbhz < a.acquisition_dbhz - 3.0, "{} {}", a.acquisition_dbhz, b.acquisition_dbhz);
+        assert!(
+            b.acquisition_dbhz < a.acquisition_dbhz - 3.0,
+            "{} {}",
+            a.acquisition_dbhz,
+            b.acquisition_dbhz
+        );
         // A pilot channel allows a long coherent time: lower still.
         let c = WeakSignalReceiver {
             t_coh_s: 0.1,
@@ -256,20 +267,36 @@ mod tests {
         .unwrap();
         assert!(aided.cells < unaided.cells / 100.0);
         assert!(aided.acquisition_dbhz < unaided.acquisition_dbhz);
-        assert!(aided.carrier_tracking_dbhz.unwrap() < unaided.carrier_tracking_dbhz.unwrap() - 5.0);
+        assert!(
+            aided.carrier_tracking_dbhz.unwrap() < unaided.carrier_tracking_dbhz.unwrap() - 5.0
+        );
         assert!(aided.search_time_s < unaided.search_time_s);
     }
 
     #[test]
     fn a_conventional_receiver_is_far_above_the_ssv_signal_levels() {
         let t = WeakSignalReceiver::default().thresholds().unwrap();
-        assert!(t.acquisition_dbhz > 25.0 && t.acquisition_dbhz < 40.0, "{}", t.acquisition_dbhz);
+        assert!(
+            t.acquisition_dbhz > 25.0 && t.acquisition_dbhz < 40.0,
+            "{}",
+            t.acquisition_dbhz
+        );
         assert!(t.tracking_dbhz.unwrap() > 20.0);
     }
 
     #[test]
     fn invalid_inputs_are_refused() {
-        assert!(WeakSignalReceiver { pd: 1.5, ..WeakSignalReceiver::default() }.thresholds().is_err());
-        assert!(WeakSignalReceiver { t_coh_s: 0.0, ..WeakSignalReceiver::default() }.thresholds().is_err());
+        assert!(WeakSignalReceiver {
+            pd: 1.5,
+            ..WeakSignalReceiver::default()
+        }
+        .thresholds()
+        .is_err());
+        assert!(WeakSignalReceiver {
+            t_coh_s: 0.0,
+            ..WeakSignalReceiver::default()
+        }
+        .thresholds()
+        .is_err());
     }
 }

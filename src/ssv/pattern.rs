@@ -51,7 +51,13 @@ impl TxPattern {
     /// The radiated power (EIRP, dBW) toward a point `theta_deg` off the boresight, given the signal's MRTP and reference
     /// angle; `None` where the pattern radiates nothing usable (outside the booklet cone, beyond 90 degrees, outside the
     /// table). `az_deg` is the azimuth about the boresight, used by azimuth-dependent tables only.
-    pub fn eirp_dbw(&self, mrtp_dbw: f64, beam_deg: f64, theta_deg: f64, az_deg: f64) -> Option<f64> {
+    pub fn eirp_dbw(
+        &self,
+        mrtp_dbw: f64,
+        beam_deg: f64,
+        theta_deg: f64,
+        az_deg: f64,
+    ) -> Option<f64> {
         match self {
             TxPattern::Booklet => (theta_deg <= beam_deg).then_some(mrtp_dbw),
             TxPattern::Parametric(p) => {
@@ -100,19 +106,20 @@ fn interp(avg: &[(f64, f64)], x: f64) -> Option<f64> {
 
 /// The user antennas of the booklet's table B10: gain against the angle from the antenna boresight.
 const B10_ANGLES: [f64; 19] = [
-    0.0, 5.0, 10.0, 15.0, 20.0, 25.0, 30.0, 35.0, 40.0, 45.0, 50.0, 55.0, 60.0, 65.0, 70.0, 75.0, 80.0, 85.0,
-    90.0,
+    0.0, 5.0, 10.0, 15.0, 20.0, 25.0, 30.0, 35.0, 40.0, 45.0, 50.0, 55.0, 60.0, 65.0, 70.0, 75.0,
+    80.0, 85.0, 90.0,
 ];
 const B10_PATCH: [f64; 19] = [
-    2.8, 2.9, 3.3, 3.6, 4.0, 4.4, 4.5, 4.4, 4.1, 3.7, 2.8, 1.8, 0.8, -0.7, -1.7, -3.2, -5.2, -6.2, -8.7,
+    2.8, 2.9, 3.3, 3.6, 4.0, 4.4, 4.5, 4.4, 4.1, 3.7, 2.8, 1.8, 0.8, -0.7, -1.7, -3.2, -5.2, -6.2,
+    -8.7,
 ];
 const B10_HIGH_L1: [f64; 19] = [
-    9.00, 8.97, 8.90, 8.56, 8.02, 7.32, 6.46, 5.45, 4.33, 3.11, 1.82, 0.46, -0.93, -2.34, -3.74, -5.12, -6.47,
-    -7.78, -9.03,
+    9.00, 8.97, 8.90, 8.56, 8.02, 7.32, 6.46, 5.45, 4.33, 3.11, 1.82, 0.46, -0.93, -2.34, -3.74,
+    -5.12, -6.47, -7.78, -9.03,
 ];
 const B10_HIGH_L5: [f64; 19] = [
-    8.25, 8.24, 8.05, 7.75, 7.33, 6.79, 6.15, 5.42, 4.61, 3.74, 2.81, 1.83, 0.83, -0.21, -1.25, -2.31, -3.38,
-    -4.45, -5.52,
+    8.25, 8.24, 8.05, 7.75, 7.33, 6.79, 6.15, 5.42, 4.61, 3.74, 2.81, 1.83, 0.83, -0.21, -1.25,
+    -2.31, -3.38, -4.45, -5.52,
 ];
 
 /// A named receive-gain table.
@@ -170,7 +177,10 @@ impl UserAntenna {
     /// zenith), `los_to_tx` the unit vector from the user to the transmitter. `None` when the antenna does not see it.
     pub fn gain_dbi(&self, u: [f64; 3], los_to_tx: [f64; 3]) -> Option<f64> {
         let up = super::geom::unit(u);
-        let off_zenith = super::geom::dot(up, los_to_tx).clamp(-1.0, 1.0).pacos().to_degrees();
+        let off_zenith = super::geom::dot(up, los_to_tx)
+            .clamp(-1.0, 1.0)
+            .pacos()
+            .to_degrees();
         match self {
             UserAntenna::Omni => Some(0.0),
             UserAntenna::Hemisphere(axis) => {
@@ -223,6 +233,12 @@ mod tests {
         let g90 = a.gain_dbi([4.2e7, 0.0, 0.0], [0.0, 1.0, 0.0]).unwrap();
         assert!((g90 + 9.03).abs() < 1e-12);
         assert!(a.gain_dbi([4.2e7, 0.0, 0.0], [1.0, 0.0, 0.0]).is_none());
-        assert!((a.gain_dbi([4.2e7, 0.0, 0.0], [-0.9961946981, 0.087155743, 0.0]).unwrap() - 8.97).abs() < 1e-6);
+        assert!(
+            (a.gain_dbi([4.2e7, 0.0, 0.0], [-0.9961946981, 0.087155743, 0.0])
+                .unwrap()
+                - 8.97)
+                .abs()
+                < 1e-6
+        );
     }
 }
