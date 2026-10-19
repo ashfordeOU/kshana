@@ -35,4 +35,4 @@ phase_bn_hz = 1.0
 sis_sigma_m = 0.5
 
 [monte_carlo]
-trials = 2000
+trials = 400

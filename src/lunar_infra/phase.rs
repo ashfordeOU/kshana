@@ -90,7 +90,8 @@ fn unit(v: [f64; 3]) -> [f64; 3] {
 fn site_at(lat: f64, lon: f64, t_s: f64) -> ([f64; 3], [f64; 3]) {
     let (sl, cl) = (lat.sin(), lat.cos());
     let (so, co) = (lon.sin(), lon.cos());
-    let off = [R_MOON_M * cl * co, R_MOON_M * cl * so, R_MOON_M * sl];
+    // Selenographic longitude 0 faces Earth (the -x direction of the rotating frame); east is -y.
+    let off = [-R_MOON_M * cl * co, -R_MOON_M * cl * so, R_MOON_M * sl];
     let th = t_s / T_UNIT_S;
     let pos = rot_z(th, [L_M + off[0], off[1], off[2]]);
     (pos, rot_z(th, unit(off)))
