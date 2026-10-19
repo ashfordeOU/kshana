@@ -187,6 +187,9 @@ mod tests {
 
     #[test]
     fn euroc_layout_and_bad_rows() {
+        // PIN-SCOPE:    not a pin: the two 19-digit numbers are EuRoC sample timestamps in nanoseconds,
+        //               the input of this layout test, and nothing is compared against a hash.
+        // PIN-EXCLUDES: n/a (no output is pinned; the assertions are the sample count and the 5 ms step).
         let t = "#timestamp [ns],w_RS_S_x [rad s^-1],w_RS_S_y [rad s^-1],w_RS_S_z [rad s^-1],a_RS_S_x [m s^-2],a_RS_S_y [m s^-2],a_RS_S_z [m s^-2]\n\
 1403636579758555392,0,0,0.5,0,0,9.8\n\
 1403636579763555584,0,0,0.5,0,0,9.8\n\
