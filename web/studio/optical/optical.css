@@ -1,0 +1,49 @@
+/* Optical PNT page. Colours, type and radii come from tokens.css; layout from app.css and studio.css. A series is
+   never told apart by colour alone: it is named at the end of its line and in the tooltip. */
+.opt{padding-bottom:56px}
+.opt h1{font:700 clamp(28px,4.4vw,46px)/1.05 var(--f-display);letter-spacing:-.02em;margin:10px 0 8px}
+.opt .lede{max-width:78ch;margin:0 0 14px;color:var(--ink-2);font-size:16px;line-height:1.5}
+.opt .h3{font:650 17px/1.2 var(--f-display)}
+.opt h3{margin:0 0 6px;font:650 15px/1.2 var(--f-display)}
+.op-model{margin:0 0 16px;padding:12px 14px;border-radius:14px;border:1px solid var(--line-2);border-left:4px solid var(--orb-card);background:var(--surface);font-size:13.5px;line-height:1.5;color:var(--ink-2);max-width:100ch}
+.op-model b{color:var(--ink)}
+.op-pick{margin-bottom:14px}
+.op-tabs{display:flex;flex-wrap:wrap;gap:8px}
+.op-tab{min-height:44px;padding:0 16px;border-radius:999px;border:1px solid var(--line-2);background:var(--surface);font-weight:600;font-size:13.5px;color:var(--ink-2)}
+.op-tab[aria-selected=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.op-tab:focus-visible{outline:2px solid var(--tim);outline-offset:2px}
+.op-blurb{margin:10px 0 0;font-size:13.5px;color:var(--ink-2);max-width:90ch}
+.op-status{margin:8px 0 0;font-size:13px;color:var(--ink-2)}.op-status.err{color:var(--int);font-weight:600}
+.op-facts{margin-bottom:14px}
+.op-kv{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:8px 20px;margin:12px 0 0}
+.op-kv dt{font:600 11.5px var(--f-text);color:var(--ink-3);text-transform:uppercase;letter-spacing:.04em}
+.op-kv dd{margin:2px 0 0;font:500 13px var(--f-mono);color:var(--ink)}
+.op-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-bottom:14px;align-items:start}
+.op-card{min-width:0}
+.op-wide{grid-column:1/-1}
+.op-chart{display:block;width:100%;height:auto;margin-top:8px}
+.op-tag{margin:6px 0 0;font:600 10.5px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3)}
+.op-t{font:500 10.5px var(--f-mono);fill:var(--ink-2)}
+.op-v{font:600 11px var(--f-mono);fill:var(--ink)}
+.op-ax{fill:none;stroke:var(--ink-3);stroke-width:1.2}
+.op-grid line,.op-chart .op-grid{stroke:var(--line-2);stroke-width:1;stroke-dasharray:3 3}
+.op-track{fill:var(--surface-2);stroke:var(--line)}
+.op-bar{fill:var(--orb-card)}.op-bar.c{fill:var(--nav-card)}.op-bar.k{fill:var(--ink-3);fill-opacity:.6}
+.op-line{fill:none;stroke-width:2.2}
+.op-s0{--c:var(--orb-card)}.op-s1{--c:var(--nav-card)}.op-s2{--c:var(--spf-card)}.op-s3{--c:var(--tim-card)}
+.op-line.op-s0,.op-line.op-s1,.op-line.op-s2,.op-line.op-s3{stroke:var(--c)}
+.op-pt{fill:var(--bg);stroke:var(--c);stroke-width:2}
+.op-s1.op-line{stroke-dasharray:6 3}.op-s2.op-line{stroke-dasharray:2 3}
+.op-end{fill:var(--ink);font-weight:600}
+.op-sites{margin-bottom:12px}
+.op-tablewrap{overflow-x:auto}
+.op-prov{margin:0 0 14px;font-size:12.5px;color:var(--ink-3);max-width:110ch}
+.op-fine{margin-top:22px;max-width:100ch}
+.op-fine ul{margin:8px 0 0;padding-left:20px;color:var(--ink-2);font-size:13.5px;line-height:1.55}
+@media (max-width:900px){.op-grid{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:520px){.wrap.opt{padding-left:16px;padding-right:16px}}
+/* on a phone the charts keep a readable size and scroll sideways inside their card */
+@media (max-width:640px){.op-card{overflow-x:auto}.op-chart{min-width:520px}}
+.op-down{fill:var(--int-card);fill-opacity:.8}
+.op-cloudstripe{fill:var(--ink-3);fill-opacity:.55}
+.op-line.op-s0{stroke-width:1.6}

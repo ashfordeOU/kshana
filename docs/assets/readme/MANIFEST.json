@@ -286,12 +286,12 @@
     "captured_by": "tools/capture_studio_shots.mjs",
     "record": "studio/SHOTS.json",
     "files": {
-      "studio-advanced-dark.jpg": "f7b5c229dc7481c60644defe17f56a5448998c8283a992b18d0d83bb77ab6f21",
-      "studio-advanced-light.jpg": "16dcdf66b8e1e313c09f7099cee88864b969cd5a2fcc7edff834cc68f6d9fc84",
-      "studio-home-dark.jpg": "a1a8a332f3339c217a2124f206ba2af71cb8b3bcd1fc4e93fc3d795465ed4ab5",
-      "studio-home-light.jpg": "fe928c85e40dc4b864393da499147e67401210502cf69a9561404530f4d1f904",
-      "studio-task-dark.jpg": "249686e35d1b74bd5db205c9df411bbab6192dda3ed7241d1dedc32ab35046be",
-      "studio-task-light.jpg": "3be81b708e2dad91542d07b542e73db3229721dc1fe25ba27c3567f42b5d0387"
+      "studio-advanced-dark.jpg": "8b7b5954b3e02e5663aa29e6e32f60eca919a0979d8a96c38c48107c4eace012",
+      "studio-advanced-light.jpg": "54dcc566955d56148368b3f362bd68dc0b1b0d8b076be062d47efb62aa43d9c5",
+      "studio-home-dark.jpg": "622855e4547d6b308b767c3dd00f38c5b0db3483747d3fcba18fea930156b11a",
+      "studio-home-light.jpg": "1c2fd8d5d7701a2e88da9c603ce12efc191448141da948328a850f03af756e38",
+      "studio-task-dark.jpg": "cc257da69d5cbceb2fbee91587016a975a20292285170e63cb59a4e64621dd1f",
+      "studio-task-light.jpg": "49091acad99b54b694e2430958f96cd8faa0ae6a6dd04a89cd0a9cbc7e20ed60"
     }
   },
   "site_screenshots": {
@@ -299,8 +299,8 @@
     "composed_by": "tools/readme_shots.py",
     "record": "site/SHOTS.json",
     "files": {
-      "site-strip-dark.jpg": "4876a4ad266a18d3885ee8072f61bcb7699be554140b0bbd170c805675ad152d",
-      "site-strip-light.jpg": "28282694de25e1ec6cdccf9b7e0cf9e4d935d890b19620dc3368414757e846ef"
+      "site-strip-dark.jpg": "710bbcbab73ac80558cdf777a483107219629974266537e71aa1826944498cfc",
+      "site-strip-light.jpg": "aa758dec247b04b9274a2705ab10cce41fe56f616f04fac63e9bc2400b3861b4"
     }
   }
 }

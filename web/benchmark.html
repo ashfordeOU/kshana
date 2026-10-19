@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Benchmark: GNSS interference detection · Kshana</title>
+<meta name="description" content="kshana-bench: fixed tasks, splits and metrics for GNSS interference detection and timing holdover, pre-registered baselines and a board of result files.">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#E8ECF3" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#060A14" media="(prefers-color-scheme: dark)">
+<link rel="apple-touch-icon" href="assets/brand/apple-touch-icon.png">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 64 64'%3E%3Cstyle%3E.d%7Bdisplay:none%7D%40media (prefers-color-scheme:dark)%7B.l%7Bdisplay:none%7D.d%7Bdisplay:inline%7D%7D%3C/style%3E%3Cimage class='l' width='64' height='64' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAMFElEQVR42qWbaaxdVRXHf3vf84Y%2BqC1tqS2UFCwUAko1UqMgEhIcMEoc0DgkDkiiET6oERFwilMCipioifBBgyZqFNREFA1OiaLEOiGKRAaFliqTrS2P17737tl%2B4L/rYncP5%2BFNTu65555hr3mt/1rHzazaTOPj9B0K/wV9x/3A8E/r3hT%2Bd4Vj6bk%2BWZNL9vGFB7vkWMj8nzsnmOOucu90sU5r8cnCa0yprTd%2B%2BgIdznKIBrGh8oBQOZZjRkqwZZyVVF94Rnpvl7lHjiEuw7AA0A3gssuoel9Qx9y%2BGyAZKqZTMpMhgqldCxD8gIvjgl2yn5Nqbj9ng88FTh6g1qHgV1xFYOm5vsAkDzhf4WBOlUPFCYUBdhmfdypwSsMMQ8Peo59IBeKAkb4ngMMisRmTYTSxbLUb4GiG/u8KzPEJcf8E7gT2JOf7RhRxA6NCEBM2AWcAfwf2527YLdEWW2EuFJiQmtVRwCKwo%2BJL0numpuQK2uKBGWANcBnwCmAa%2BAHwoJ57wJd1FZVeSqwOhf0SYSNg0iykyxDTVzSq5Ejt%2BT0wC9wNPALM5QTZZcKVK/iAGpN8wQ%2Bk%2B/F7NfCYzh9XNGpkiClJP13HWN/PB64E1gK/B/blaOgaHjunYi2vm2NWDJ0L%2Bh1V8SRFhLHOmZN/2A7co3MwTqzPJFyWWWPgSOB84MvAfcBDhviDaIhOMOe1fUXlS%2BoeCils0P3WaaHH6rwdIniXtmXACcDpwNnan9c5wXj3VEidiD8ReD9wtRxfJ%2BcXSg7TmVrAVZKIIWHQHveSVgcsB46QZAJwB/Bx2ec7K%2Bp/uLTjDN3v%2B8BPEmnHkLcIbAU%2BIgbcZtbga4mbG1AMLaWwsUw5WhKfBh6VROakjlu0qD8l/sMV0uETgVfpXl%2BSeVjizwI%2BDbxODO6Mty8JEcB1hZQ1JMfDAK8f9OBJ4FkiYDuwWwyIqtoD66Xaltj0Gd7kBbdr2wq8BfgF8HP5lNeI%2BJclxOfM8CBt7yoqPsSureSn5XFPkITubiQ4LXMKGSe4Dfgd8FpghWL8Z%2BUzbjO%2BYEhJfUADaBQMrTohyHkdJTvfJoeWS1ZS6VJzUMmxXioP8A3gA8CHgWcCf8lIvpZSH6DDDyQ%2BVBa2TCq9DrjFEB8KdUVkwKiQ47tKhhnzhiuBj8nmNyc%2BI6e9xYjmB%2Bb/pbR3QoRvBH4tJ%2BcKBLskxI4G1hkhqUQ/D7wHeClwvfzNeYmGDMkaswtzSyyKDpXa32zUr5RZpgzJaVifATW8OfY14ALg5cCNcrgfBV4CvMCExhoQ8oRn%2Bga44DIwljNq9XTgD8aju4L6t2p6KslYLwd7HfB64FzgBmlfL8Z/EvigzHEotJf1zqEARqQE9HI%2B9ymu%2B0oqXZNAqZawydQK4LvAK4E3SO0nFAIXtf9H4Fbg4sQUQiFqkTpB1/DEqdSO1IMekdrV6nOXASR8ZpEhk9evlaq/GHgb8HVDfPws6n6fkWlsMDYfKlVtERXuG8RHxzenBMcnmpODxlJvPGEYMJEwJxK/EbgJeB5woTLAkYh3maRpJ/Ar4B2mbmiV88Fnyl/fyPFXaNF/TQDSUIjpXudPaYtET%2Bi/eHykY2MhOT8Sbngh8AVj8yWQ1QHXyiEeYhxiqAGnfkAiYm0yquXeDIdz1WInBzYpAmbkqCa1P2V%2BP0XSPUlFz/HAe0X8qJLeWlzwt/JJp5s116KY9wNzgMiYFVrov43th0rY7LRNSSrLRPihYsyMtuXCB0%2BT5Dcq1l9ptCJUsABrXtuAMxtRLDKv94V8gALgEI8/PACbmxDxE4bwGaG0a8SQFfq9qMTme3KwFwNXZSSfC8fps3%2BqoikHq6VMcD4TKkroT6%2B6flXB2aWLGZnqcFoEr5YDXS7i1%2Buac5TkHAZcAlwhZvUNGw5GePG8O4GV5noy5hBsNUgD5UmZsNPgbiVm%2BYT45TKdNTpvrX6vBp4NXKrzPyQ0Z60Ak1FGKKHSd3DAvdKaDcDfjO8KmQSLrtIMKTnCfQ0gE/0fuT8p5zaSKWwRYDkr1Ods3fMS4Cti2H8UZsOT6EnOCQZbmcEaDrq%2ByxA4MhLstD8polYp7T3axPLOXGND3rS2qI5HybmdITtHnr6X7f9LoMZubfMiZEHnjJNtUdvYMLw3/mqlGB7LZItAR41wXSGERc89YUJYJCp69N6EuciEkbl2ShKOTFgtJqzLSG9CQKkXI9aI%2BFlD4H4xJabAC0Yb5w0TYl0SzS/SNE5CZoiNkTT3n9c2W4gK80J7Wp9J2f6MbHqVGLBTah%2BAfyjZOUsx/GrjX3b9H/jkgtL05j26JQwhkKSuvjItYrVluek/LEjdpyXF74gpF6iiO0XI7j26Lko6DLB/C9BMKVeptemwnaHW%2BEv8f4%2Bkae3KVXA%2BJ03qje2N1RjZJXW/VyDnWwVsbAVerYRmslBs1TpTh8sUdzacerV3XsIIZhW%2BukIOYKNArNRm1QbbLbV8UIzco4bHvI5dJCZMA78B3m7s2Tc008b5TWLu3oQ%2Bt1QG5BgyqxvNFKo9O0Eyb5zWPl27V62qB7TI3VLVOd3zWkFcNwJfVIk7SjI6V%2BlWOTVT/pzQ50r5g2/cLEV0x1rwdCZ/SHsJYxG/IEbMSRP2alvQd9SQWdnv/UqL3we8W7XBcgN0hELuEk3lVNNB6luAb2tCJFW/XhI81pS2roAlBMOAfQpj8XtRWEIkfl7f%2B83zPgW8EHiGurubdF1X0IZeecYK%2BZTawJfLIUIlCKtPsIIHRNQhjbmASMiiCIxmEAzBYx3fl8TyGG1%2BrDD5kJhwsoHBchjGeeoY7S1oy0G%2Bw1e6PVTUbQdwjFlIqU63v8emsps3hC4WGhoxfX5A9f31YsKZuj7NYqdUTl%2BbADWuMFZXhcVzdb79b6cqt/WZerw02mI9dT8gtDnT3Q2S7mWy73OMJkSk6HxBYnclMB1DfYBrTIOm0rxdOf2ogSSViqVcCe4zDOxNeX058Gbgm8AbjY85AniRMARXGLQMrWKoHzD5YY9FLdiqrpBPYnIotL1Lrbac%2BfXJ/iTwVeUP15hw%2Bhx1jHZl5gFKWncAEgsDZnBdQUvu0f5xpjiiQLwrSMMP6OJavxCd47lqjl6hOuOmDEIdEka6EiRWcn6tenxObenD1CVayJhVSLpJNRg%2BNDpHGEZH4h4DnpZp9NRadAfWlhuUzCVFoXDMK3bvlx2ulWmU/EhUzxPkxO40md4QYNaZuv9Eo3G7dOzuwv2KeGdXKXxcwZvnmPCwCDpOTcptJq57Q7gNfaEyYttnzM3rukngXUqjL9X/pylMnq1e5cjUI77ic5wf2LujMJpuJbtb5rBdqM9Gk8KmUxsTA2b8rdnEJugpPD4RcpecYMQdb%2Bbx0ZnrhAWODYrd1ybNu8JUtjNg4lLeztinhuku%2BYT1Ona/St/4jEf539wQhQzSOq91wJt0v8%2BpKzUyzJ0EfqgO8beULO0v2b097mZWbc6NkdVmg2qDDD6BnI5RE%2BRw09C8QwVLEDhSm0HeLJxwE/AzSTgdkwsmdV6QeWxVnmBnhkKuPzB0TK42REXDb0Ss8KmKFrslqQeV2UViOmENG1QAxYLrFs0D9A21xgA1V8kvfaIwO0SNAa4yBucqLyW5Ss8/XewWha8FEevFIGcAkttkTiQjdqHhp6IWXgN8W9iCzzjWkIsCpcSolBfUwk2fAV9ie3ujnn2D8IU4y7%2B/MCwdElWumWFk0kXqLd6q0Jx9L8EXpjPDgHhcwxBCobCx948w916TS2BMxmWaork154a0Y1S6XICrLwgniweEAa/BhIGpsiuYz9jA7qPk3HEDCA2FdaXvGozUGvulqsc%2B9%2BpMrb8XBjx8yHBl7r/7TYe5r2hOzcGWSndvmDySDzhEZtfn5gTdwBw8VCRN5UXK3Ls8qxQeHUt7NykMQIf7xOwcjw9ZbVKoLE6I1KQw5EWJ1psi1kMfrxi/lJcyQ%2BUt1VbWOqsUeSo9t/a%2BwFLH42k0V6wGjJ/EvWpNm1ZzppQIBd8YhK5FgNBwfKV54XEyLO0KpevQ94MZMKqTY1KgULu3HthSzSHmkJtFKFWdtcmV1subzbHfVufELUFNSxOmbgBzfAFUrYG2ruGb%2BsL7hk9Y738BiK3K27ls0kUAAAAASUVORK5CYII='/%3E%3Cimage class='d' width='64' height='64' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAMDUlEQVR42qWbaaxeVRWGn32%2Bcwc6UNrS0kJJwTIYUKqRGgSREHGMEgc0DokDkmiEH2pERJzilAAiJmoi/NBUEzVKlShaDU6JoERURBSJQBVKKy1Dr5TLHb%2Bz/dF3Xxe7ezi33uTkO/eMe81rvWsdt3fCU/lz%2BvWZc16/Yb/6wEU8m8x5lzkWX9tEa3LRPk3mxS465hPnU9d4c9wVnh0v1mktTbTwElNK6w1/XYYOZzlEhVhfeIEvHEsxIybYMs5Kqsu8I362SzwjxRCXYJgHaHtw2SVUvcuoY2rf9ZAMBdPJmUkfwZTuBfBNj5vDgl20n5Jqaj9lg2cAp/VQa5/xK64gsPjaJsOkBnBNgYMpVfYFJ%2BR72GV435nA6RUz9BV7D34iFogDBvodAVYGYhMmQ5sgJpYehfM5de0ShFuivg/MZ7x21yN61HzPUEw4HtgC/BB4InV9u0hbrIW5OCTmzOpYMeChgi%2BJnxmbkstoSwMsAY4ErgBeA4wDPwH26r0LvqxdhFR95ZzLOKcUYQNg1CykTRDTZZhZcqT2%2Bg6YBO4HHgOmUoJsE%2BHKZXxAiUlNxlTi/fC7GnjKqGvub2CIyUk/XsdQvy8ErgHWAn8CplM0tBWPnVKxmtd1Gb/SAXP6P6jiqYoIQ10zBfwb2AnsMH6iMc/wmRA40HOOAS4Cvg48CDxiiD%2BIBrd3wudSzqZAvMssxBdS2AY4SpI/S4u6B1gKLAPGgPXARkltVAT8BrgjoRF2Ha2YdQrwPuBq4F4d7wp5C87UAq6QRPQJg/Z48OYtsBw4WpLxIvozss/3FtR/jbTjHD3vx8AvImmHkDcvb/9J4MPAXWYNTSlxcz2KocUUNvZhxwHr5IGfBP4pFZ8GNmtRf4n8h8ukw6cAr9OzvibzsMSfB3weeJMY3BpvnxMigGszKauPjvseXj%2Bo4ijwXBGwE5gQAzAquR6YjYiN39EYM7xb2xbgHTKLX8unvEHEvyoinkouA%2BDbgorX7Do2h3HZ7jMlofvNNU0hc3SFxCZ2grcDfwTeCKxQjP8icLbUvo2iiqvkN64tXOB71gkeOEzJzTFa5L5MshJLt0%2BWaeP6QMe%2BA3wU%2BATwHOBvCcmXUuoFOpqexPvCwg6TSq8DbjPE%2B0xdERgwyOT4rpBhhrzhGuDTsvmTIp%2BR0t4c7rFwwh2C0/MqNtYpdP1OTs5lCHZRSBz0BDx8VGN8GfgA8Epgm/zNhZGG9MkakwtzlcXEi10mtb81Km5cJinymQrQRxlfqupzwLeAi4FXA9vlcD8FvBx4kQmNJSDkae9sKuCCS8BYzqjVs5SkzGZSZt%2Bzps%2BV0CGGjwM3AG8GLgBukvZ1YvzngI/JHPtCe0nv7DNgRExAJ%2BfzoOJ6U0ilSxLI1RI2mVoB3Ai8FniL1H5EIXBe%2B38G7gQui0zBZ6IWsRN0i6z3j9GLHpPalVBblwAkmsQifSKvXytVfxnwLuDbhvjwN6/nfUGmscHYvC9UtVlUuKsQHxzflBKcJtKcFDQWe%2BMRw4CRiDmB%2BI3AzcALgEuUAQ5EvEskTbuB3wLv0fsGPcp53yTK36aS46/Qov8eAaQ%2BE9MbXT%2BmLRA9onPh%2BEDHhsAm4GfCDS8BvmJsPgeyOmCrHOJS4xB9CVVqesJd3tTaa4H9CQ6n6v5WDmxUBCyRoxrV/pj5/3BJ91QVPScDHxTxg0J6a3HBP8gnnW3WXIpiTdMzBwiMWaGFPm5s3xfCZqttTFI5TIQvE2OWaFsuzO4sSX6jYv01Rit8AQuw5nU7cG4ligXmdU0mHyADOITjj/bA5kZE/IghfIlQ2iPFkBX6f16JzY/kYC8Drk1IPhWO43f/UkVTClaLmeCaRKjIoT%2Bd6vpVGWcXL2ZgqsNxEbxaDnS5iF%2Bve85XkrMSuBy4SszqKjbsjfDCdfcCR5j7SZiDt9VgCeBMMWG3wd1yzGoi4pfLdI7UdWv1/2rgecBHdP3Hget0ftIgQLlcJWWqD0hrNgD/ML4rCb%2B3hWZIzhFOV4BMdD5wf1TObSBT2CzAclKozyv0zMuBb4hh/1GY9YfQF5gCZqQFZLTIWycVEzgwEmy1PyqiVintPc7E8tbcY0PeuLagjsfKuZ0jO0eevpPtPyxQY0LbrAiZ0zXDaJvXNjQM74y/OkIMD2WyRaCDRrg2E8KC5x4xISwQFTx6Z8JcYMLA3DsmCQcmrBYT1iWkNwKcIAY%2BLFOZkZYEAmfElJACzxltnDVMCHVJML9A0zAKmT40RuLcf1bbZCYqzArtqf2NyvaXyKZXiQG7pfYe%2BJeSnfMUw68z/mXf/4FPzilNrz6jXcQQAlHq2hSmRay2LDf9hzmp%2B7ik%2BAMx5WJVdKcL2d2h%2B4KkfQ/7twDNmHKVUpsO2xmqjb%2BE809ImtauXAHnc9KkztjeUI2RfVL3BwRyvlPAxhbg9UpoRjPFVqkztUamuLvi1Iu98xxGMKnw1WZyABsFQqU2qWbIhNRyrxj5hLpAszp2qZgwDvweeLex56aimTbObxJz90f0ucUyIMWQST1oSabasxMks8ZpTeve/WpV7dEiJ6SqU3rmVkFc24GvqsQdRBldLmMN584A/hrR53L5Q1N5WIzoDrXg8UT%2BEPcShiJ%2BToyYkibs1zan36Ahk7LfXUqLPwS8X7XBcgN0%2BEzuEkzlTNNB6mqAb21CJFa/ThI8wZS2LoMleMOAaYWx8DsvLCEQP6vfGfO%2Bq4GXAM9Wd3eT7msz2tApz1ghn1Ia%2BHIpRCgHYXURVrBHRC2tzAUEQuZFYDADbwge6vh0FMtDtPm5wuQjYsJpBgZLYRgXqmO0P6MtB/mOptDtoaBuD3Fg/GSkMMbmE2Mr8yaX6IyjTDU0Qvq8R/X9NjHhXN0fZ7FjKqe3RkCNy4zVFWHxVJ1vz%2B1W5bY%2BUY/nRlusp%2B56hDZnurte0r1C9n2%2B0YSAFF0kSOy%2BCKajrw9wlWnQWJp3K6cfVJCkXLGUKsGbBAM7U15fCbwd%2BC7wVuNjjgZeKgzBZQYtfa0Y6npMfthjQQu2qCvURDHZZ9reuVZbyvy6aH8U%2BKbyh%2BtNOH2%2BOkb7EvMAOa1bgMR8jxlcl9GSHdo/0RRHZIh3GWk0Pbq41i8E53iBmqNXqc64OYFQ%2B8RESRISyzm/Wj0%2Bpbb0SnWJ5hJm5aNuUgmG95XOEYbRgbingGckGj2lFt3C2vpw31Ug7yelCYcL3ekKQ9EUxmf7ToqGaLISuEVm8DjwYh0fFCC%2Bg8J1Wyh8XMabuwQTHtXLT1ST8nYT1xtjlzb0%2BcKIbZcwt0b3jXJgEGpCUBoKf9tUZt9hmiu5Ya8FupqevTsyo%2BnWjidkDjuF%2Bmw0KWw8tTHSY8bfmk1ogp7OgYmQ%2B%2BQEA%2B54KwdGZ24QFjg0KHZX0oI2M5XtDJi4mK8zptUw3SefsF7Hdqn0De94kv/NDZHJIK3zWge8Tc/7krpSA8PcUeCn6hB/T8nSTGEOeuG42zvhU2NktZk/VwBNLeR0vJoga0xD8x4VLF7gSGkG%2BSThhJuAX0nC8ZicN6nznMxji/IEOzPkU/2BvmNypSEqKn4jYIVHyXFNSFJ7ldkFYlo50g0qgELBdZvmAbqKWmOAmmvllz6bmR2ixABXGINzhWlSV%2Bj5xy/ZrPA1J2LDFKkzAMldMieiETtf8VNBC6/nwFj%2B9kgzk%2BPyLsrgXGEWv9RKd4VzjWlvb9S7b1IIm9E1M5lhaR%2BpcskMA5MuVW/xTmWtLjW212SmM33FHFwFQ/CZwsY%2BP8Dc%2B7U/Y4geRFC2TwxclYa0Q1S6UoBrkxFOEg/wPT6D8T1TZZcxn6GB3QfRtcMKEOoz64q/NRioNXaLqscu9elMqb/ne7y8z3Bl6twu02HuCppTcrC50r0xTB7IByyV2XWpOUHXMwf3BUlT%2BJAyZthAxcuyymyC64lU5ypIm1HeqFA6UpoQKUmhz4cStS9FrIc%2BWTF%2BMR9l%2BsJXqrWsdVIp8lh8bel7gcWOx1NprlgNGB7Cs0pNm1pzJpcI%2BaYyCF2KAL7i%2BHLzwsNoWNplSte%2B3wfTY1QnxSRPpnavvbCmmn3MITWL4Cuf4vien9Muauy31jlxi1DT3ISp68GcJgOqlkBbV/FNXeZ7w6et978oq/I35bE6mwAAAABJRU5ErkJggg=='/%3E%3C/svg%3E">
+<script>try{var t=localStorage.getItem('kshana-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link href="fonts/geist-geist-mono-unbounded.css" rel="stylesheet">
+<link href="fonts/noto-sans-devanagari.css" rel="stylesheet">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="theme.css">
+<link rel="stylesheet" href="site.css">
+<link rel="stylesheet" href="css/benchmark.css">
+<link rel="stylesheet" href="css/light.css">
+<!-- seo:head -->
+<link rel="canonical" href="https://kshana.dev/benchmark">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Kshana">
+<meta property="og:locale" content="en_GB">
+<meta property="og:url" content="https://kshana.dev/benchmark">
+<meta property="og:title" content="Benchmark: GNSS interference detection · Kshana">
+<meta property="og:description" content="kshana-bench: fixed tasks, splits and metrics for GNSS interference detection and timing holdover, pre-registered baselines and a board of result files.">
+<meta property="og:image" content="https://kshana.dev/og-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:alt" content="Kshana, a PNT (positioning, navigation and timing) resilience simulator. 176 of 379 capabilities validated against external oracles.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Benchmark: GNSS interference detection · Kshana">
+<meta name="twitter:description" content="kshana-bench: fixed tasks, splits and metrics for GNSS interference detection and timing holdover, pre-registered baselines and a board of result files.">
+<meta name="twitter:image" content="https://kshana.dev/og-card.png">
+<meta name="twitter:image:alt" content="Kshana, a PNT (positioning, navigation and timing) resilience simulator. 176 of 379 capabilities validated against external oracles.">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://kshana.dev/"}, {"@type": "ListItem", "position": 2, "name": "Benchmark", "item": "https://kshana.dev/benchmark"}]}</script>
+<!-- /seo:head -->
+</head>
+<body data-page="benchmark">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-copy" viewBox="0 0 16 16"><rect x="5" y="5" width="9" height="9" rx="2" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M11 5V3.5A1.5 1.5 0 0 0 9.5 2h-6A1.5 1.5 0 0 0 2 3.5v6A1.5 1.5 0 0 0 3.5 11H5" fill="none" stroke="currentColor" stroke-width="1.4"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 16 16"><path d="M3 8h9M8.5 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-play" viewBox="0 0 12 12"><path d="M3 1.5v9l7.5-4.5Z" fill="currentColor"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 12 12"><path d="M3 1.5h2v9H3zM7 1.5h2v9H7z" fill="currentColor"/></symbol>
+  <symbol id="i-ext" viewBox="0 0 16 16"><path d="M9 3h4v4M13 3 7.5 8.5M12 9.5V13H3V4h3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></g></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="m20 20-3.5-3.5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></symbol>
+  <symbol id="i-theme" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.2" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M8 1.8a6.2 6.2 0 0 1 0 12.4z" fill="currentColor"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 16 16"><path d="M2.5 4.5h11M2.5 8h11M2.5 11.5h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
+</svg>
+<a class="skip" href="#main">Skip to content</a>
+<div class="bg-field" aria-hidden="true"></div>
+<header class="nav" id="nav">
+  <div class="nav-in">
+    <a class="brand" href="/" aria-label="Kshana home"><span class="brand-mark" aria-hidden="true"></span><span class="brand-t">kshana</span> <small>v0.38.0</small></a>
+    <nav class="nav-links" id="navLinks" aria-label="Primary">
+      <a href="/missions">Missions</a>
+      <a href="/capabilities">Capabilities</a>
+      <a href="/evidence">Evidence</a>
+      <a href="/evidence#research">Research</a>
+      <a href="/developers">Developers</a>
+      <a href="/docs/">Docs</a>
+      <a href="/editions">Editions</a>
+    </nav>
+    <div class="nav-right">
+      <button class="k-btn" id="kbtn" type="button" aria-haspopup="dialog" aria-controls="palette"><svg width="14" height="14" aria-hidden="true"><use href="#i-search"/></svg><span class="lbl">Search</span><kbd class="kmod">⌘K</kbd></button>
+      <button class="icon-btn" id="themeBtn" type="button" aria-label="Switch between light and dark theme" title="Switch theme"><svg class="moon" aria-hidden="true"><use href="#i-moon"/></svg><svg class="sun" aria-hidden="true"><use href="#i-sun"/></svg></button>
+      <a class="pill" href="/studio/"><span class="pill-l">Launch&nbsp;</span>Kshana Studio</a>
+      <button class="icon-btn menu-btn" id="menuBtn" type="button" aria-label="Open the menu" aria-expanded="false" aria-controls="navLinks"><svg aria-hidden="true"><use href="#i-menu"/></svg></button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+<!-- BENCHMARK (0.38). The kshana-bench leaderboard. The board is the engine's own static page (`kshana bench leaderboard`, bench/site/leaderboard.html in
+     the engine checkout) embedded as a fragment by build.py; without it the page says no results are published yet. Nothing on this page is a
+     certification or an endorsement (bench/SPEC.md, section 7). -->
+<section class="page-hero">
+  <div class="wrap">
+    <span class="eyebrow" style="--c:var(--lime)"><i></i>Benchmark</span>
+    <h1 class="h1">Same logs, same rules. <span class="soft">Scores in the open.</span></h1>
+    <p class="lede">kshana-bench is a fixed set of tasks, splits and metrics for GNSS interference detection and timing holdover, so that different methods can be compared on the same data. A submission is a file; nothing runs on the submitter's behalf. Baselines are the engine's own monitors, with bars written down before the first scored run.</p>
+    <div class="ctas"><a class="btn btn-ink" href="#board">See the board <svg aria-hidden="true"><use href="#i-arrow"/></svg></a><a class="btn btn-ghost" href="https://github.com/ashfordeOU/kshana/blob/main/bench/SPEC.md" rel="noopener">Read the specification</a></div>
+  </div>
+</section>
+
+<section class="block bm" id="board" aria-label="Leaderboard">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><div class="eyebrow" style="--c:var(--cyan)"><span class="idx">01</span>The board</div><h2 class="h2 h2-sm">Result files, scored by the engine.</h2></div>
+    </div>
+    <div class="bm-board">
+<section class="kb-board" aria-labelledby="kb-title">
+<style>
+.kb-board{--kb-ink:var(--ink,#182033);--kb-ink-2:var(--ink-2,#3A455E);--kb-ink-3:var(--ink-3,#4E5971);--kb-surface:var(--surface,#F5F7FB);--kb-line:var(--line,rgba(28,44,84,.12));--kb-line-2:var(--line-2,rgba(28,44,84,.2));--kb-accent:var(--int,#B8262B);color:var(--kb-ink);font:400 16px/1.5 var(--f-text,"Geist",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif);max-width:100%}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .kb-board{--kb-ink:var(--ink,#F2F4FB);--kb-ink-2:var(--ink-2,#A6ADC4);--kb-ink-3:var(--ink-3,#858CA6);--kb-surface:var(--surface,#12141F);--kb-line:var(--line,rgba(255,255,255,.07));--kb-line-2:var(--line-2,rgba(255,255,255,.14));--kb-accent:var(--int,#FF5B54)}}
+:root[data-theme="dark"] .kb-board{--kb-ink:var(--ink,#F2F4FB);--kb-ink-2:var(--ink-2,#A6ADC4);--kb-ink-3:var(--ink-3,#858CA6);--kb-surface:var(--surface,#12141F);--kb-line:var(--line,rgba(255,255,255,.07));--kb-line-2:var(--line-2,rgba(255,255,255,.14));--kb-accent:var(--int,#FF5B54)}
+.kb-board .kb-h1{font-size:clamp(1.6rem,4vw,2.4rem);line-height:1.1;margin:0 0 12px;letter-spacing:-.02em}
+.kb-board h3{font-size:clamp(1.05rem,2vw,1.3rem);margin:32px 0 12px}
+.kb-board .kb-lede{color:var(--kb-ink-2);max-width:60ch}
+.kb-board .kb-notice{background:var(--kb-surface);border:1px solid var(--kb-line-2);border-radius:12px;padding:12px 16px;color:var(--kb-ink-2);font-size:14px}
+.kb-board .kb-none{color:var(--kb-ink-3)}
+.kb-board .kb-scroll{overflow-x:auto;background:var(--kb-surface);border:1px solid var(--kb-line);border-radius:16px;margin:0 0 16px}
+.kb-board .kb-scroll:focus-visible{outline:2px solid var(--kb-accent);outline-offset:2px}
+.kb-board table{border-collapse:collapse;width:100%;min-width:560px;font-size:14px}
+.kb-board caption{text-align:left;padding:12px 16px;font:500 12px/1.2 var(--f-mono,"Geist Mono",ui-monospace,Menlo,monospace);text-transform:uppercase;letter-spacing:.07em;color:var(--kb-ink-3)}
+.kb-board th,.kb-board td{padding:10px 16px;border-top:1px solid var(--kb-line);text-align:left;vertical-align:top}
+.kb-board thead th{font:500 12px/1.3 var(--f-mono,"Geist Mono",ui-monospace,Menlo,monospace);text-transform:uppercase;letter-spacing:.06em;color:var(--kb-ink-3)}
+.kb-board tbody th{font-weight:600}
+.kb-board .kb-n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.kb-board .kb-v{font:400 12px var(--f-mono,"Geist Mono",ui-monospace,Menlo,monospace);color:var(--kb-ink-3)}
+.kb-board code,.kb-board .kb-h{font-family:var(--f-mono,"Geist Mono",ui-monospace,Menlo,monospace);font-size:12px}
+.kb-board a{color:var(--kb-accent)}
+.kb-board .kb-foot{margin-top:24px;color:var(--kb-ink-3);font-size:13px;max-width:70ch}
+</style>
+<h2 class="kb-h1" id="kb-title">kshana-bench leaderboard</h2>
+<p class="kb-lede">Result files scored under <code>kshana-bench/2.0.0</code>. A row says this file scored this number on this split. It does not mean any product has been rated or approved by anyone, and no organisation is named as an endorser.</p>
+<p class="kb-notice">Advisory: modelled or measured against stated references, not an approval, certification or statement of conformance. A score describes a log or corpus, never a product.</p>
+<section><h3>Task (a): detection on receiver logs</h3>
+<div class="kb-scroll" tabindex="0" role="region" aria-label="Task (a): detection on receiver logs dev results"><table><caption>Split: dev</caption><thead><tr><th scope="col">System</th><th scope="col" class="kb-n">AUC</th><th scope="col" class="kb-n">P_d at P_fa cap (upper bound)</th><th scope="col">Provenance</th><th scope="col">Truth SHA-256</th></tr></thead><tbody>
+<tr><th scope="row">kshana receiver-trust agc_k_sigma (0.35 default monitor statistic) <span class="kb-v">kshana-bench/2.0.0</span></th><td class="kb-n">0.981</td><td class="kb-n">0.875</td><td>scored</td><td class="kb-h"><code>334946332bb0</code></td></tr>
+<tr><th scope="row">kshana receiver-trust cn0_drop_db (0.35 default monitor statistic) <span class="kb-v">kshana-bench/2.0.0</span></th><td class="kb-n">0.952</td><td class="kb-n">0.904</td><td>scored</td><td class="kb-h"><code>334946332bb0</code></td></tr>
+<tr><th scope="row">kshana receiver-trust jam_ind_threshold (0.35 default monitor statistic) <span class="kb-v">kshana-bench/2.0.0</span></th><td class="kb-n">0.909</td><td class="kb-n">0.147</td><td>scored</td><td class="kb-h"><code>334946332bb0</code></td></tr>
+</tbody></table></div>
+<div class="kb-scroll" tabindex="0" role="region" aria-label="Task (a): detection on receiver logs holdout results"><table><caption>Split: holdout</caption><thead><tr><th scope="col">System</th><th scope="col" class="kb-n">AUC</th><th scope="col" class="kb-n">P_d at P_fa cap (upper bound)</th><th scope="col">Provenance</th><th scope="col">Truth SHA-256</th></tr></thead><tbody>
+<tr><th scope="row">kshana receiver-trust agc_k_sigma (0.35 default monitor statistic) <span class="kb-v">kshana-bench/2.0.0</span></th><td class="kb-n">1.000</td><td class="kb-n">0.000</td><td>scored</td><td class="kb-h"><code>38b7d5e8b158</code></td></tr>
+<tr><th scope="row">kshana receiver-trust jam_ind_threshold (0.35 default monitor statistic) <span class="kb-v">kshana-bench/2.0.0</span></th><td class="kb-n">0.610</td><td class="kb-n">0.148</td><td>scored</td><td class="kb-h"><code>38b7d5e8b158</code></td></tr>
+<tr><th scope="row">kshana receiver-trust cn0_drop_db (0.35 default monitor statistic) <span class="kb-v">kshana-bench/2.0.0</span></th><td class="kb-n">0.564</td><td class="kb-n">0.562</td><td>scored</td><td class="kb-h"><code>38b7d5e8b158</code></td></tr>
+</tbody></table></div>
+<div class="kb-scroll" tabindex="0" role="region" aria-label="Task (a): detection on receiver logs test results"><table><caption>Split: test</caption><thead><tr><th scope="col">System</th><th scope="col" class="kb-n">AUC</th><th scope="col" class="kb-n">P_d at P_fa cap (upper bound)</th><th scope="col">Provenance</th><th scope="col">Truth SHA-256</th></tr></thead><tbody>
+<tr><th scope="row">kshana receiver-trust cn0_drop_db (0.35 default monitor statistic) <span class="kb-v">kshana-bench/2.0.0</span></th><td class="kb-n">0.864</td><td class="kb-n">0.522</td><td>scored</td><td class="kb-h"><code>ee721e0bf7dc</code></td></tr>
+<tr><th scope="row">kshana receiver-trust agc_k_sigma (0.35 default monitor statistic) <span class="kb-v">kshana-bench/2.0.0</span></th><td class="kb-n">0.766</td><td class="kb-n">0.000</td><td>scored</td><td class="kb-h"><code>ee721e0bf7dc</code></td></tr>
+<tr><th scope="row">kshana receiver-trust jam_ind_threshold (0.35 default monitor statistic) <span class="kb-v">kshana-bench/2.0.0</span></th><td class="kb-n">0.556</td><td class="kb-n">0.104</td><td>scored</td><td class="kb-h"><code>ee721e0bf7dc</code></td></tr>
+</tbody></table></div>
+</section>
+<section><h3>Task (b): detection on IQ</h3>
+<div class="kb-scroll" tabindex="0" role="region" aria-label="Task (b): detection on IQ test results"><table><caption>Split: test</caption><thead><tr><th scope="col">System</th><th scope="col" class="kb-n">AUC</th><th scope="col" class="kb-n">P_d at P_fa cap (upper bound)</th><th scope="col">Provenance</th><th scope="col">Truth SHA-256</th></tr></thead><tbody>
+<tr><th scope="row">kshana iq monitors: cn0_drop (CUSUM) <span class="kb-v">kshana-bench/2.0.0</span></th><td class="kb-n">0.785</td><td class="kb-n">n/a</td><td>carried: docs/design/DETECTION-ROC.md section 3: the R1 campaign of tests/iq_campaign_roc.rs, run 2026-10-13; not re-run for bench v1. Bar R1 (AUC &gt;= 0.95) was NOT MET.</td><td class="kb-h"><code>000000000000</code></td></tr>
+</tbody></table></div>
+</section>
+<section><h3>Task (c): timing holdover prediction</h3>
+<div class="kb-scroll" tabindex="0" role="region" aria-label="Task (c): timing holdover prediction dev results"><table><caption>Split: dev</caption><thead><tr><th scope="col">System</th><th scope="col" class="kb-n">RMSE 3600 s (ns)</th><th scope="col" class="kb-n">RMSE 300 s (ns)</th><th scope="col" class="kb-n">RMSE 7200 s (ns)</th><th scope="col">Provenance</th><th scope="col">Truth SHA-256</th></tr></thead><tbody>
+<tr><th scope="row">kshana-bench baseline: linear <span class="kb-v">kshana-bench/2.0.0</span></th><td class="kb-n">0.128</td><td class="kb-n">0.019</td><td class="kb-n">0.198</td><td>scored</td><td class="kb-h"><code>2b71fa325bff</code></td></tr>
+<tr><th scope="row">kshana-bench baseline: quadratic <span class="kb-v">kshana-bench/2.0.0</span></th><td class="kb-n">0.135</td><td class="kb-n">0.019</td><td class="kb-n">0.235</td><td>scored</td><td class="kb-h"><code>2b71fa325bff</code></td></tr>
+<tr><th scope="row">kshana-bench baseline: hold <span class="kb-v">kshana-bench/2.0.0</span></th><td class="kb-n">26.876</td><td class="kb-n">2.238</td><td class="kb-n">53.778</td><td>scored</td><td class="kb-h"><code>2b71fa325bff</code></td></tr>
+</tbody></table></div>
+<div class="kb-scroll" tabindex="0" role="region" aria-label="Task (c): timing holdover prediction test results"><table><caption>Split: test</caption><thead><tr><th scope="col">System</th><th scope="col" class="kb-n">RMSE 3600 s (ns)</th><th scope="col" class="kb-n">RMSE 300 s (ns)</th><th scope="col" class="kb-n">RMSE 7200 s (ns)</th><th scope="col">Provenance</th><th scope="col">Truth SHA-256</th></tr></thead><tbody>
+<tr><th scope="row">kshana-bench baseline: linear <span class="kb-v">kshana-bench/2.0.0</span></th><td class="kb-n">0.162</td><td class="kb-n">0.023</td><td class="kb-n">0.243</td><td>scored</td><td class="kb-h"><code>b2ed58864e98</code></td></tr>
+<tr><th scope="row">kshana-bench baseline: quadratic <span class="kb-v">kshana-bench/2.0.0</span></th><td class="kb-n">0.183</td><td class="kb-n">0.024</td><td class="kb-n">0.290</td><td>scored</td><td class="kb-h"><code>b2ed58864e98</code></td></tr>
+<tr><th scope="row">kshana-bench baseline: hold <span class="kb-v">kshana-bench/2.0.0</span></th><td class="kb-n">24.612</td><td class="kb-n">2.050</td><td class="kb-n">49.314</td><td>scored</td><td class="kb-h"><code>b2ed58864e98</code></td></tr>
+</tbody></table></div>
+</section>
+<section><h3>Task (d): out-of-distribution optimism gap</h3>
+<div class="kb-scroll" tabindex="0" role="region" aria-label="Task (d): out-of-distribution optimism gap dev results"><table><caption>Split: dev</caption><thead><tr><th scope="col">System</th><th scope="col" class="kb-n">AUC in</th><th scope="col" class="kb-n">AUC out</th><th scope="col" class="kb-n">Optimism gap</th><th scope="col" class="kb-n">Flag</th><th scope="col">Provenance</th><th scope="col">Truth SHA-256</th></tr></thead><tbody>
+<tr><th scope="row">impairment-eval baseline: fused(max-z) <span class="kb-v">kshana-bench/2.0.0</span></th><td class="kb-n">0.998</td><td class="kb-n">0.982</td><td class="kb-n">0.015</td><td class="kb-n">within tolerance</td><td>scored</td><td class="kb-h"><code>f69917c70201</code></td></tr>
+<tr><th scope="row">impairment-eval baseline: sqm-imbalance <span class="kb-v">kshana-bench/2.0.0</span></th><td class="kb-n">0.867</td><td class="kb-n">0.866</td><td class="kb-n">0.001</td><td class="kb-n">within tolerance</td><td>scored</td><td class="kb-h"><code>f69917c70201</code></td></tr>
+<tr><th scope="row">impairment-eval baseline: agc-excess <span class="kb-v">kshana-bench/2.0.0</span></th><td class="kb-n">0.854</td><td class="kb-n">0.828</td><td class="kb-n">0.026</td><td class="kb-n">within tolerance</td><td>scored</td><td class="kb-h"><code>f69917c70201</code></td></tr>
+<tr><th scope="row">impairment-eval baseline: raim-parity <span class="kb-v">kshana-bench/2.0.0</span></th><td class="kb-n">0.655</td><td class="kb-n">0.642</td><td class="kb-n">0.013</td><td class="kb-n">within tolerance</td><td>scored</td><td class="kb-h"><code>f69917c70201</code></td></tr>
+<tr><th scope="row">impairment-eval baseline: energy(cn0-drop) <span class="kb-v">kshana-bench/2.0.0</span></th><td class="kb-n">0.610</td><td class="kb-n">0.572</td><td class="kb-n">0.038</td><td class="kb-n">within tolerance</td><td>scored</td><td class="kb-h"><code>f69917c70201</code></td></tr>
+</tbody></table></div>
+<div class="kb-scroll" tabindex="0" role="region" aria-label="Task (d): out-of-distribution optimism gap test results"><table><caption>Split: test</caption><thead><tr><th scope="col">System</th><th scope="col" class="kb-n">AUC in</th><th scope="col" class="kb-n">AUC out</th><th scope="col" class="kb-n">Optimism gap</th><th scope="col" class="kb-n">Flag</th><th scope="col">Provenance</th><th scope="col">Truth SHA-256</th></tr></thead><tbody>
+<tr><th scope="row">impairment-eval baseline: fused(max-z) <span class="kb-v">kshana-bench/2.0.0</span></th><td class="kb-n">0.998</td><td class="kb-n">0.983</td><td class="kb-n">0.015</td><td class="kb-n">within tolerance</td><td>scored</td><td class="kb-h"><code>1dddb8f6f0d5</code></td></tr>
+<tr><th scope="row">impairment-eval baseline: sqm-imbalance <span class="kb-v">kshana-bench/2.0.0</span></th><td class="kb-n">0.882</td><td class="kb-n">0.882</td><td class="kb-n">0.001</td><td class="kb-n">within tolerance</td><td>scored</td><td class="kb-h"><code>1dddb8f6f0d5</code></td></tr>
+<tr><th scope="row">impairment-eval baseline: agc-excess <span class="kb-v">kshana-bench/2.0.0</span></th><td class="kb-n">0.848</td><td class="kb-n">0.819</td><td class="kb-n">0.030</td><td class="kb-n">within tolerance</td><td>scored</td><td class="kb-h"><code>1dddb8f6f0d5</code></td></tr>
+<tr><th scope="row">impairment-eval baseline: raim-parity <span class="kb-v">kshana-bench/2.0.0</span></th><td class="kb-n">0.682</td><td class="kb-n">0.672</td><td class="kb-n">0.010</td><td class="kb-n">within tolerance</td><td>scored</td><td class="kb-h"><code>1dddb8f6f0d5</code></td></tr>
+<tr><th scope="row">impairment-eval baseline: energy(cn0-drop) <span class="kb-v">kshana-bench/2.0.0</span></th><td class="kb-n">0.595</td><td class="kb-n">0.565</td><td class="kb-n">0.030</td><td class="kb-n">within tolerance</td><td>scored</td><td class="kb-h"><code>1dddb8f6f0d5</code></td></tr>
+</tbody></table></div>
+</section>
+<p class="kb-foot">Every score is modelled unless a row says an external oracle agreed. Licence of the specification and manifests: CC-BY-4.0 / CC0 proposed, owner decision pending. The real-data holdout is not secret: see the specification, section 4.</p>
+</section>
+
+    </div>
+  </div>
+</section>
+
+<section class="block bm" id="rules" aria-label="What a row may say">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><div class="eyebrow" style="--c:var(--magenta)"><span class="idx">02</span>What a row means</div><h2 class="h2 h2-sm">A score describes a log, not a product.</h2></div>
+    </div>
+    <ul class="bm-list">
+      <li>A row says: this file scored X on split S under specification version V. It does not say a product is certified, conformant, approved or endorsed, and no organisation is named as an endorser.</li>
+      <li>The data are recorded or synthetic and named in the specification. Third-party data is never copied into the repository: manifests and fetch scripts pin each file by SHA-256, and each licence is recorded before the data is used.</li>
+      <li>The truth for a recorded log is the test plan's scheduled slots, not recorded on-air times, so a detection probability is a lower bound. The specification says so beside each task.</li>
+      <li>A sealed holdout is scored only in a leaderboard round, and its seed is revealed after it. Bars for any baseline that claims a number are committed before the scored run and never loosened afterwards; a miss is recorded as NOT MET.</li>
+      <li>Advisory only: Kshana results are modelled or measured against stated references, not an approval or a statement of conformance.</li>
+    </ul>
+    <p class="m-note">Run it yourself: <code>kshana bench score</code> turns a submission and a split's truth into a result file; <code>kshana bench leaderboard</code> renders result files into this page.</p>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand"><a class="brand" href="/"><span class="brand-mark" aria-hidden="true"></span>kshana</a><p class="kname">Kshana · <span lang="sa" class="dev">क्षण</span> · <em>the precise instant</em></p><p>Open-source PNT (positioning, navigation and timing) resilience simulator. It drives no radio hardware and transmits nothing: its signal-level output is baseband IQ sample files, and its software GNSS receiver is an analysis tool. Not a flight product.</p><div class="foot-by">by Ashforde®</div></div>
+      <div><h2>Product</h2><a href="/studio/">Kshana Studio</a><a href="/missions">Missions</a><a href="/capabilities">Capabilities</a><a href="/evidence">Evidence</a><a href="/evidence#research">Research</a><a href="/benchmark">Benchmark</a></div>
+      <div><h2>Developers</h2><a href="/developers#install">Install</a><a href="/developers#mcp">MCP server</a><a href="/docs/">Docs</a><a href="https://github.com/ashfordeOU/kshana">GitHub</a></div>
+      <div><h2>Company</h2><a href="/editions">Editions</a><a href="/editions#pro">Kshana Pro</a><a href="mailto:contact@ashforde.org">contact@ashforde.org</a><a href="https://ashforde.org">ashforde.org</a></div>
+    </div>
+    <div class="foot-bottom">
+      <span>Kshana v0.38.0 · by Ashforde® OÜ · AGPL-3.0, with a commercial licence option</span>
+      <span>Every chart is drawn from a recorded run of engine v0.38.0 and names its scenario, seed and route to reproduce it. Imagery: NASA Visible Earth (Blue Marble, Black Marble), NASA Scientific Visualization Studio (CGI Moon Kit), NASA/JPL (Mars), NASA, JPL and USGS mission mosaics (moons and Pluto); Sun, Mercury, Venus, Jupiter, Saturn, Uranus and Neptune maps: Solar System Scope, Creative Commons Attribution (CC BY) 4.0; Deimos map: Oleg-Pluton, Creative Commons Attribution-ShareAlike (CC BY-SA) 3.0; coastlines: Natural Earth.</span>
+    </div>
+  </div>
+</footer>
+
+<div class="pal" id="palette" role="dialog" aria-modal="true" aria-label="Search pages, sections, scenarios and docs" hidden>
+  <div class="pal-box">
+    <div class="pal-in"><svg aria-hidden="true"><use href="#i-search"/></svg><input id="palInput" type="text" placeholder="Search pages, scenarios, docs and actions…" autocomplete="off" spellcheck="false" aria-controls="palList" aria-label="Search"><kbd>esc</kbd></div>
+    <div class="pal-list" id="palList" role="listbox" aria-label="Results"></div>
+    <div class="pal-foot"><span><kbd>↑</kbd> <kbd>↓</kbd> move</span><span><kbd>↵</kbd> open</span><span class="pal-count" id="palCount"></span></div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>window.KSITE={root:"",page:"benchmark",version:"0.38.0",studio:"Kshana Studio"};</script>
+<script src="site.js" defer></script>
+
+</body>
+</html>

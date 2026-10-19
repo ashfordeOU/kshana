@@ -1,0 +1,78 @@
+{
+ "source": "Natural Earth, ne_10m_land",
+ "url": "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_10m_land.geojson",
+ "repository": "https://github.com/nvkelso/natural-earth-vector",
+ "tag": "v5.1.2",
+ "sha256": "1ac90796408bc6ad6911d69448485d3c4dbf2190370080368a09976e1c9f7416",
+ "licence": "Public domain (Natural Earth terms of use: https://www.naturalearthdata.com/about/terms-of-use/); no attribution required, given here as a courtesy",
+ "scale": "1:10 million",
+ "processing": "clipped to the windows below (Sutherland-Hodgman), coordinates rounded to 0.0001 degree, nothing simplified",
+ "windows": [
+  {
+   "id": "dover-strait",
+   "name": "Dover Strait",
+   "box_lat0_lat1_lon0_lon1": [
+    50.4,
+    51.6,
+    0.6,
+    2.4
+   ],
+   "rings": 3
+  },
+  {
+   "id": "gulf-of-finland",
+   "name": "Gulf of Finland",
+   "box_lat0_lat1_lon0_lon1": [
+    59.2,
+    60.5,
+    24.3,
+    25.5
+   ],
+   "rings": 3
+  },
+  {
+   "id": "hardanger-sogn",
+   "name": "Western Norway fjords",
+   "box_lat0_lat1_lon0_lon1": [
+    60.5,
+    61.4,
+    4.9,
+    7.1
+   ],
+   "rings": 8
+  },
+  {
+   "id": "north-sea-east",
+   "name": "Southern North Sea, east",
+   "box_lat0_lat1_lon0_lon1": [
+    53.3,
+    54.7,
+    3,
+    5.2
+   ],
+   "rings": 2
+  },
+  {
+   "id": "north-sea-central",
+   "name": "Central North Sea",
+   "box_lat0_lat1_lon0_lon1": [
+    54.6,
+    55.8,
+    1.6,
+    3.6
+   ],
+   "rings": 0
+  },
+  {
+   "id": "north-sea-south",
+   "name": "Southern North Sea, west",
+   "box_lat0_lat1_lon0_lon1": [
+    53,
+    54.1,
+    2.6,
+    4.2
+   ],
+   "rings": 0
+  }
+ ]
+}

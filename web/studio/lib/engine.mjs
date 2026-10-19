@@ -53,6 +53,11 @@ export const ENGINE_FNS = Object.freeze([
   "kind_modules",
   // 0.36 (STUDIO-06: the headline fields per kind, which the input ranking reads first)
   "field_importance",
+  // 0.38 (the Jammertest scorer: import the transmission plan, score a receiver log against it; an older package lacks them and the Tools card says so)
+  "jammertest_import",
+  "jammertest_score",
+  // 0.38 (fit the hybrid/fusion sensor parameters from a stationary IMU log)
+  "imu_fit",
 ]);
 
 // The functions the 0.35 tools pages call. A page checks engineHas() before offering a button.
@@ -63,6 +68,8 @@ export const ENGINE_FNS_036 = Object.freeze(ENGINE_FNS.slice(ENGINE_FNS.indexOf(
 export const ENGINE_FNS_036_MAP = Object.freeze(["kind_modules"]);
 // The 0.36 function the input ranking calls (lib/inputs.mjs rankInputs takes its headline list).
 export const ENGINE_FNS_036_INPUTS = Object.freeze(["field_importance"]);
+// The 0.38 functions the Tools page's Jammertest card calls.
+export const ENGINE_FNS_038 = Object.freeze(["jammertest_import", "jammertest_score", "imu_fit"]);
 export const engineHas = (api, fn) => !!api && typeof api[fn] === "function";
 
 // Normalise a thrown value to a message. wasm-bindgen throws the engine's error as a

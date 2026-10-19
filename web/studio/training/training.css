@@ -110,3 +110,10 @@ button.tr-chip:hover,.tr-chip.chk:hover{background:var(--line)}
 .tr-genrow label{display:flex;flex-direction:column;gap:4px;font-size:13px;color:var(--ink-2)}
 .tr-genrow select,.tr-genrow input{min-height:44px;border-radius:10px;border:1px solid var(--line-2);background:var(--surface);padding:0 10px;color:var(--ink)}
 .tr-genout{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+
+/* the vessel glyph, error ring and sky (A2, A4) */
+.tr svg .tr-glyph{fill:var(--ink);stroke:var(--bg);stroke-width:1.2}
+.tr svg .tr-hdg{stroke:var(--ink);stroke-width:1.6}
+.tr svg .tr-ring{fill:color-mix(in srgb,var(--tim) 8%,transparent);stroke:var(--ink);stroke-width:1.4;stroke-dasharray:4 3}
+.tr-skybox{width:100%;max-width:300px;margin:0 auto}
+.tr-skybox svg{display:block;width:100%;height:auto}
