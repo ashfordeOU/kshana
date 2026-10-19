@@ -125,6 +125,7 @@ const BUILTIN_KINDS: &[crate::api::ScenarioKind] = {
         TimeTransferBudget,
         OpticalAtmosphere,
         HoldoverTest,
+        GnssSsv,
     ]
 };
 
@@ -274,6 +275,8 @@ pub mod ids {
     pub const OPTICAL_ATMOSPHERE: ScenarioId = ScenarioId::from_static("optical-atmosphere");
     /// Clock holdover test: free-running drift against a stated limit.
     pub const HOLDOVER_TEST: ScenarioId = ScenarioId::from_static("holdover-test");
+    /// GNSS signal availability and link strength for a user in the Space Service Volume and beyond: a global shell or a trajectory, six constellations, transmit-pattern models, limb-ray effects and a weak-signal receiver.
+    pub const GNSS_SSV: ScenarioId = ScenarioId::from_static("gnss-ssv");
 
     /// Every built-in scenario id, in the engine's canonical order.
     pub fn all() -> Vec<ScenarioId> {

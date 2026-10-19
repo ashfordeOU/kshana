@@ -328,6 +328,7 @@ pub mod spoof_detect;
 pub mod spoof_monitors;
 /// Box-wing flat-plate and ECOM2 solar radiation pressure (opt-in; DS-PA-14).
 pub mod srp_boxwing;
+pub mod ssv;
 pub mod srp_shadow;
 pub mod standards_pack;
 pub mod study;
