@@ -315,6 +315,126 @@
    "anchors": [
     "catalogue:Annex A"
    ]
+  },
+  {
+   "row": "NIST-ID.RA-1",
+   "reference": "ID.RA-1 (Risk Assessment)",
+   "document": "nist-ir-8323r1",
+   "anchors": [
+    "ID.RA-1"
+   ]
+  },
+  {
+   "row": "NIST-ID.RA-3",
+   "reference": "ID.RA-3 (Risk Assessment)",
+   "document": "nist-ir-8323r1",
+   "anchors": [
+    "ID.RA-3"
+   ]
+  },
+  {
+   "row": "NIST-ID.RA-4",
+   "reference": "ID.RA-4 (Risk Assessment)",
+   "document": "nist-ir-8323r1",
+   "anchors": [
+    "ID.RA-4"
+   ]
+  },
+  {
+   "row": "NIST-ID.RA-5",
+   "reference": "ID.RA-5 (Risk Assessment)",
+   "document": "nist-ir-8323r1",
+   "anchors": [
+    "ID.RA-5"
+   ]
+  },
+  {
+   "row": "NIST-PR.DS-6",
+   "reference": "PR.DS-6 (Data Security)",
+   "document": "nist-ir-8323r1",
+   "anchors": [
+    "PR.DS-6"
+   ]
+  },
+  {
+   "row": "NIST-PR.IP-10",
+   "reference": "PR.IP-10 (Information Protection Processes and Procedures)",
+   "document": "nist-ir-8323r1",
+   "anchors": [
+    "PR.IP-10"
+   ]
+  },
+  {
+   "row": "NIST-PR.PT-5",
+   "reference": "PR.PT-5 (Protective Technology)",
+   "document": "nist-ir-8323r1",
+   "anchors": [
+    "PR.PT-5"
+   ]
+  },
+  {
+   "row": "NIST-DE.AE-2",
+   "reference": "DE.AE-2 (Anomalies and Events)",
+   "document": "nist-ir-8323r1",
+   "anchors": [
+    "DE.AE-2"
+   ]
+  },
+  {
+   "row": "NIST-DE.AE-3",
+   "reference": "DE.AE-3 (Anomalies and Events)",
+   "document": "nist-ir-8323r1",
+   "anchors": [
+    "DE.AE-3"
+   ]
+  },
+  {
+   "row": "NIST-DE.AE-4",
+   "reference": "DE.AE-4 (Anomalies and Events)",
+   "document": "nist-ir-8323r1",
+   "anchors": [
+    "DE.AE-4"
+   ]
+  },
+  {
+   "row": "NIST-DE.AE-5",
+   "reference": "DE.AE-5 (Anomalies and Events)",
+   "document": "nist-ir-8323r1",
+   "anchors": [
+    "DE.AE-5"
+   ]
+  },
+  {
+   "row": "NIST-DE.CM-1",
+   "reference": "DE.CM-1 (Security Continuous Monitoring)",
+   "document": "nist-ir-8323r1",
+   "anchors": [
+    "DE.CM-1"
+   ]
+  },
+  {
+   "row": "NIST-DE.DP-3",
+   "reference": "DE.DP-3 (Detection Processes)",
+   "document": "nist-ir-8323r1",
+   "anchors": [
+    "DE.DP-3"
+   ]
+  },
+  {
+   "row": "NIST-RS.AN-5",
+   "reference": "RS.AN-5 (Analysis)",
+   "document": "nist-ir-8323r1",
+   "anchors": [
+    "RS.AN-5"
+   ]
+  },
+  {
+   "row": "NIST-RS.MI-2",
+   "reference": "RS.MI-2 (Mitigation)",
+   "document": "nist-ir-8323r1",
+   "anchors": [
+    "RS.MI-2"
+   ]
   }
  ]
 }

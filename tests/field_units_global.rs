@@ -158,6 +158,7 @@ const RUNNERS: &[(&str, &str)] = &[
         "optical-atmosphere",
         "scenarios/optical-atmosphere-network.toml",
     ),
+    ("holdover-test", "scenarios/holdover-test-ptp4l.toml"),
 ];
 
 /// The kinds whose reports do not yet describe every numeric field they emit, each with

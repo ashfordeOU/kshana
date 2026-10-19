@@ -83,6 +83,12 @@ pub struct CreateEvidenceRequest {
     /// evidence` on the command line instead.
     #[serde(default)]
     pub signing_key_seed_hex: Option<String>,
+    /// The operator's attestation of a laboratory setup, as TOML text (operator, organisation,
+    /// date, setup `conducted` or `shielded`, attenuation_db or enclosure, emitter, statement;
+    /// see `docs/HARDWARE-SAFETY.md`). Recorded in the signed manifest as given and never
+    /// verified. Optional.
+    #[serde(default)]
+    pub lab_attestation_toml: Option<String>,
 }
 
 /// Parameters for [`KshanaServer::verify_evidence_pack`].
@@ -355,7 +361,7 @@ impl KshanaServer {
             .transpose()
             .map_err(bad)?;
         let created = surface::now_rfc3339_utc();
-        let p = surface::evidence_create(
+        let p = surface::evidence_create_attested(
             &r.session_toml,
             r.nmea.as_bytes(),
             r.from_s,
@@ -363,6 +369,7 @@ impl KshanaServer {
             r.title.as_deref(),
             Some(&created),
             seed,
+            r.lab_attestation_toml.as_deref(),
             MAX_UPLOAD_BYTES,
         )
         .map_err(|e| bad(format!("evidence pack failed: {e}")))?;
@@ -490,7 +497,7 @@ impl KshanaServer {
     }
 
     #[tool(
-        description = "Fill the public-framework mapping from Kshana result documents (`kshana compliance-report`): which rows of five resilience frameworks and standards (the US DHS Resilient PNT framework v2.0, IMO guidance for ships, EASA guidance for aviation, NIS2 Article 21, EN 16803) the runs given support evidence for, which they do not, and the gap each row keeps. Pass each run as `label`, `result` (the result JSON text) and, when you have it, `scenario` (the scenario TOML, which names the kind a result does not; a receiver-trust result needs none). At most 64 runs and 4 MiB in all; nothing is read from disk. Each row's `status` is `evidenced`, `partly-evidenced`, `not-evidenced` or `out-of-scope`, and every row keeps its `gap` even when evidenced; inputs that could not be used are listed in `unrecognised` and count for nothing. Show the report's `statement` with any result, verbatim: a status means a run supports evidence for the capabilities the row names; it is not a finding that a framework is met, and it does not mean any product has been rated or approved by anyone. Do not describe the output in any stronger terms. Evidence tier: MODELLED."
+        description = "Fill the public-framework mapping from Kshana result documents (`kshana compliance-report`): which rows of six resilience frameworks and standards (the US DHS Resilient PNT framework v2.0, IMO guidance for ships, EASA guidance for aviation, NIS2 Article 21, EN 16803, NIST IR 8323r1) the runs given support evidence for, which they do not, and the gap each row keeps. Pass each run as `label`, `result` (the result JSON text) and, when you have it, `scenario` (the scenario TOML, which names the kind a result does not; a receiver-trust result needs none). At most 64 runs and 4 MiB in all; nothing is read from disk. Each row's `status` is `evidenced`, `partly-evidenced`, `not-evidenced` or `out-of-scope`, and every row keeps its `gap` even when evidenced; inputs that could not be used are listed in `unrecognised` and count for nothing. Show the report's `statement` with any result, verbatim: a status means a run supports evidence for the capabilities the row names; it is not a finding that a framework is met, and it does not mean any product has been rated or approved by anyone. Do not describe the output in any stronger terms. Evidence tier: MODELLED."
     )]
     fn compliance_report(
         &self,

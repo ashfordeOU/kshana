@@ -311,7 +311,7 @@ pub fn bench_export(toml: &str, epoch: &str) -> Result<String, JsValue> {
     Ok(serde_json::json!({"files": files, "notes": e.notes, "notice": BENCH_NOTICE}).to_string())
 }
 
-/// Fill the public-framework mapping from result documents: which rows of five resilience
+/// Fill the public-framework mapping from result documents: which rows of six resilience
 /// frameworks and standards (`docs/compliance/`) the runs support evidence for, which they
 /// do not, and the gap each row keeps. `runs_json` is a JSON array of `{label, result,
 /// scenario?}` where `result` is the result JSON text and `scenario` the scenario TOML text
