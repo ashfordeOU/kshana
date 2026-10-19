@@ -38,10 +38,12 @@
 
 use crate::clock_log::{self, ClockLogInput, NormalisedPhase};
 use crate::field_schema::{FieldUnit, ProvenanceClass};
+#[cfg(not(target_arch = "wasm32"))]
+use crate::telecom_timing::parse_csv_pairs;
 use crate::telecom_timing::{
     budget_results, check_envelope, check_mask, default_budgets, mask_by_id, mtie_curve_ns,
-    parse_csv_pairs, record_from_pairs, series_sha256, tdev_curve_ns, Budget, CheckResult,
-    CurvePoint, MaskCondition, MaskResult, TeRecord, MASKS,
+    record_from_pairs, series_sha256, tdev_curve_ns, Budget, CheckResult, CurvePoint,
+    MaskCondition, MaskResult, TeRecord, MASKS,
 };
 use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};
@@ -991,7 +993,7 @@ mod tests {
         assert_eq!(v["record"]["series_decimation"]["stride"], 4);
         assert_eq!(t[1].as_f64().unwrap(), 4.0);
         assert_eq!(t.last().unwrap().as_f64().unwrap(), 9000.0);
-        assert_eq!(x[1].as_f64().unwrap(), (4 % 7) as f64);
+        assert_eq!(x[1].as_f64().unwrap(), 4.0);
         assert!(v["record"]["series_decimation"]["rule"]
             .as_str()
             .unwrap()
