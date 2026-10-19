@@ -1,0 +1,22 @@
+{
+  "schema": "kshana-bench-manifest/1",
+  "spec_version": "kshana-bench/2.0.0",
+  "task": "d",
+  "track": "ood-reality-check",
+  "licence": "CC0 proposed, owner decision pending (facts about the data)",
+  "source": {
+    "name": "LuGRE mission data (Lunar GNSS Receiver Experiment)",
+    "record": "https://zenodo.org/records/16411687",
+    "doi": "10.5281/zenodo.16411687",
+    "data_licence": "CC BY 4.0",
+    "attribution": "see docs/LUGRE-DATA.md"
+  },
+  "archive": {
+    "file": "LuGRE.zip",
+    "bytes": 256100000,
+    "bytes_note": "256.1 MB as listed by Zenodo; the exact byte count and a SHA-256 are pinned on first fetch",
+    "md5": "cec32df1ca17cb95887762762c16629f",
+    "sha256": null
+  },
+  "use": "receiver-log C/N0 statistics for an out-of-distribution reality check on task (d); it holds no interference ground truth and is not scored for detection"
+}

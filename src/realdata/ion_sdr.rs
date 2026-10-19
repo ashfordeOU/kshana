@@ -565,6 +565,122 @@ pub fn parse_sdrx(text: &str) -> Result<SdrLayout, String> {
     })
 }
 
+/// Escape the characters XML text and attribute values may not carry.
+fn xml_escape(s: &str) -> String {
+    s.replace('&', "&amp;")
+        .replace('<', "&lt;")
+        .replace('>', "&gt;")
+        .replace('"', "&quot;")
+}
+
+/// The `.sdrx` text that describes `layout`, a sample file of the subset [`parse_sdrx`]
+/// reads (one lane, one stream, one block spanning the file). `comment` is written as the
+/// metadata's `<comment>`. [`parse_sdrx`] of the result gives `layout` back, so a writer
+/// and the reader of this module cannot drift apart.
+///
+/// Refused, with the reason: a layout whose reading is a choice of this module and not of
+/// the standard (`fill_lsb_first`, `mid_rise`), and a sample rate that is not a whole
+/// multiple of the stream's rate factor. The sample rate is written as the system base
+/// frequency (`freqbase`, hertz) divided by the rate factor.
+pub fn write_sdrx(layout: &SdrLayout, comment: &str) -> Result<String, String> {
+    if layout.fill_lsb_first || layout.mid_rise {
+        return Err(
+            "this layout carries a reading (fill_lsb_first or mid_rise) the ION metadata \
+             standard has no field for; it cannot be written as .sdrx"
+                .into(),
+        );
+    }
+    if layout.samples_per_lump == 0
+        || !(layout.sample_rate_hz.is_finite() && layout.sample_rate_hz > 0.0)
+    {
+        return Err(
+            "the layout needs a positive sample rate and a rate factor of at least 1".into(),
+        );
+    }
+    let base = layout.sample_rate_hz / layout.samples_per_lump as f64;
+    if base * layout.samples_per_lump as f64 != layout.sample_rate_hz {
+        return Err(format!(
+            "a sample rate of {} Hz is not a whole multiple of the rate factor {}",
+            layout.sample_rate_hz, layout.samples_per_lump
+        ));
+    }
+    let encoding = match layout.encoding {
+        Encoding::TwosComplement => "TC",
+        Encoding::OffsetBinary => "OB",
+        Encoding::SignMagnitude => "SM",
+        Encoding::Sign => "SIGN",
+    };
+    let format = match layout.format {
+        SampleFormat::Iq => "IQ",
+        SampleFormat::Qi => "QI",
+        SampleFormat::If => "IF",
+    };
+    let translated = if layout.translated_freq_hz != 0.0 {
+        format!(
+            "\n      <translatedfreq format=\"Hz\">{}</translatedfreq>",
+            layout.translated_freq_hz
+        )
+    } else {
+        String::new()
+    };
+    Ok(format!(
+        r#"<?xml version="1.0" encoding="utf-8"?>
+<metadata xmlns="http://www.ion.org/standards/sdrwg/schema/metadata.xsd">
+   <comment format="text">{comment}</comment>
+   <lane id="Lane">
+      <system id="System"/>
+      <block id="Block00">
+         <chunk id="Chunk00">
+            <sizeword>{word_bytes}</sizeword>
+            <countwords>{words}</countwords>
+            <endian>{endian}</endian>
+            <padding>{padding}</padding>
+            <lump id="Lump00">
+               <stream id="Stream00">
+                  <ratefactor>{ratefactor}</ratefactor>
+                  <quantization>{q}</quantization>
+                  <packedbits>{packed}</packedbits>
+                  <alignment>{align}</alignment>
+                  <format>{format}</format>
+                  <encoding>{encoding}</encoding>
+                  <band id="Band00"/>
+               </stream>
+            </lump>
+         </chunk>
+         <cycles>0</cycles>
+         <sizeheader>{header}</sizeheader>
+         <sizefooter>{footer}</sizefooter>
+      </block>
+   </lane>
+   <system id="System"><freqbase format="Hz">{base}</freqbase></system>
+   <band id="Band00"><centerfreq format="Hz">{center}</centerfreq>{translated}</band>
+   <file id="File"><url>{url}</url><lane id="Lane"/></file>
+</metadata>
+"#,
+        comment = xml_escape(comment),
+        word_bytes = layout.word_bytes,
+        words = layout.words_per_chunk,
+        endian = if layout.little_endian {
+            "Little"
+        } else {
+            "Big"
+        },
+        padding = if layout.pad_head { "Head" } else { "None" },
+        ratefactor = layout.samples_per_lump,
+        q = layout.quantization,
+        packed = layout.packed_bits,
+        align = if layout.align_left {
+            "Left"
+        } else {
+            "Undefined"
+        },
+        header = layout.header_bytes,
+        footer = layout.footer_bytes,
+        center = layout.center_freq_hz,
+        url = xml_escape(&layout.url),
+    ))
+}
+
 /// Decode `n` complex samples starting at sample `start` from the raw file bytes `data`
 /// laid out as `layout` describes (real `IF` samples come out with a zero imaginary part).
 pub fn decode(
@@ -909,5 +1025,52 @@ mod tests {
         )
         .is_err());
         assert!(parse_xml("<a><b></a>").is_err());
+    }
+    #[test]
+    fn write_sdrx_round_trips_through_the_reader() {
+        let base = parse_sdrx(META).unwrap();
+        // Every field the reader sets survives, on the LuGRE-shaped layout and on layouts of
+        // the shapes `iq scene` writes (8- and 16-bit components, big and little endian).
+        let mut cases = vec![base.clone()];
+        for (word_bytes, words, q, packed, little) in [
+            (1, 2, 8, 16, true),
+            (2, 2, 16, 32, true),
+            (2, 1, 8, 16, false),
+        ] {
+            let mut l = base.clone();
+            l.word_bytes = word_bytes;
+            l.words_per_chunk = words;
+            l.quantization = q;
+            l.packed_bits = packed;
+            l.little_endian = little;
+            l.header_bytes = 0;
+            l.footer_bytes = 0;
+            l.translated_freq_hz = 4.092e6;
+            l.url = "a b&c.bin".into();
+            cases.push(l);
+        }
+        let mut real = base.clone();
+        real.format = SampleFormat::If;
+        real.encoding = Encoding::OffsetBinary;
+        real.pad_head = true;
+        real.align_left = true;
+        cases.push(real);
+        for l in cases {
+            let text = write_sdrx(&l, "a <test> & more").unwrap();
+            assert_eq!(parse_sdrx(&text).unwrap(), l, "{text}");
+        }
+    }
+
+    #[test]
+    fn write_sdrx_refuses_readings_the_standard_has_no_field_for() {
+        let mut l = parse_sdrx(META).unwrap();
+        l.mid_rise = true;
+        assert!(write_sdrx(&l, "").unwrap_err().contains("mid_rise"));
+        let mut l = parse_sdrx(META).unwrap();
+        l.fill_lsb_first = true;
+        assert!(write_sdrx(&l, "").is_err());
+        let mut l = parse_sdrx(META).unwrap();
+        l.sample_rate_hz = 0.0;
+        assert!(write_sdrx(&l, "").is_err());
     }
 }

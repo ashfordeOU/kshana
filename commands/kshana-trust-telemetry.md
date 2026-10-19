@@ -1,6 +1,6 @@
 ---
 description: Render a GNSS trust stream or a receiver-trust result as Prometheus text, CEF or LEEF syslog lines or an OTLP payload via the kshana-mcp server
-argument-hint: "[format: prometheus, cef, leef or otlp, and the trust stream or result to render]"
+argument-hint: "[format: prometheus, cef, leef, otlp or mqtt, and the trust stream or result to render]"
 ---
 
 # Trust telemetry for a security operations centre
@@ -14,7 +14,7 @@ Request: **$ARGUMENTS**
 1. Have the input as text: the per-epoch stream (JSON lines: `t_s`, `state`, `score`,
    `deductions`, `alarms`, `gate`) or a `receiver-trust` result document. For the stream, call the
    `assess_vessel_stream` or `assess_vessel_log` tool first if the user has only a log.
-2. Call `trust_telemetry` with `input`, `format` (`prometheus`, `cef`, `leef` or `otlp`) and
+2. Call `trust_telemetry` with `input`, `format` (`prometheus`, `cef`, `leef`, `otlp` or `mqtt`) and
    `input_kind` (`jsonl`, the default, or `result`). Optional: `host` (the sender's name in
    syslog events), `syslog_all` (one event per epoch instead of one per band change),
    `expose_position` (adds the receiver-reported position; off by default, say why before

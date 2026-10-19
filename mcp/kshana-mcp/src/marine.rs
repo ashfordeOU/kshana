@@ -48,6 +48,51 @@ fn head_lines(text: &str, max: usize) -> (String, bool) {
     (head, it.next().is_some())
 }
 
+/// Parameters for [`KshanaServer::jammertest_import`].
+#[derive(Debug, serde::Deserialize, schemars::JsonSchema)]
+pub struct JammertestImportRequest {
+    /// The Jammertest test catalogue JSON text (`testcatalog*.json` of NPRA/jammertest-plan, MIT).
+    pub catalog_json: String,
+    /// The transmission-plan JSON texts, one per day (`plan-<day>-<date>.json`).
+    pub plans: Vec<String>,
+    /// The log's first epoch, ISO-8601 UTC, for example `2025-09-16T08:00:00Z`.
+    pub log_start_utc: String,
+    /// Test area the log was recorded in; required when the plans hold several.
+    pub location: Option<u32>,
+    /// Offset of the plan's wall-clock times from UTC, hours (default 2: CEST).
+    pub local_offset_h: Option<f64>,
+    /// Edition year, when it is not to be read from the plan dates.
+    pub year: Option<u32>,
+}
+
+/// Parameters for [`KshanaServer::jammertest_score`].
+#[derive(Debug, serde::Deserialize, schemars::JsonSchema)]
+pub struct JammertestScoreRequest {
+    /// A receiver-trust session as TOML whose `[log]` table gives only `format` (`ubx`, `rinex`,
+    /// `android`, `nmea` or `sbf`), plus optional `[monitors]` and `[compare]` tables.
+    pub session_toml: String,
+    /// The log. Text formats as they are; a binary format (`ubx`, `sbf`) as `log_base64`.
+    pub log: Option<String>,
+    /// The log's bytes, base64 (standard alphabet), for the binary formats.
+    pub log_base64: Option<String>,
+    /// The Jammertest test catalogue JSON text.
+    pub catalog_json: String,
+    /// The transmission-plan JSON texts, one per day.
+    pub plans: Vec<String>,
+    /// Test area the log was recorded in; required when the plans hold several.
+    pub location: Option<u32>,
+    /// Offset of the plan's wall-clock times from UTC, hours (default 2).
+    pub local_offset_h: Option<f64>,
+    /// The log's first epoch, ISO-8601 UTC; only needed when the log does not state it.
+    pub log_start_utc: Option<String>,
+    /// Edition year, when it is not to be read from the plan dates.
+    pub year: Option<u32>,
+    /// Alarm-free stretch that counts as recovered, seconds (default 10).
+    pub recover_hold_s: Option<f64>,
+    /// Guard around each slot, seconds (default 60).
+    pub guard_s: Option<f64>,
+}
+
 /// Parameters for [`KshanaServer::assess_vessel_stream`] and [`KshanaServer::assess_vessel_log`].
 #[derive(Debug, serde::Deserialize, schemars::JsonSchema)]
 pub struct VesselNmeaRequest {
@@ -81,6 +126,41 @@ pub struct CreateEvidenceRequest {
     /// pack is intact against the key it names itself. A seed passed here travels through
     /// the conversation: for a key that matters, make the pack with `kshana receiver-trust
     /// evidence` on the command line instead.
+    #[serde(default)]
+    pub signing_key_seed_hex: Option<String>,
+    /// The operator's attestation of a laboratory setup, as TOML text (operator, organisation,
+    /// date, setup `conducted` or `shielded`, attenuation_db or enclosure, emitter, statement;
+    /// see `docs/HARDWARE-SAFETY.md`). Recorded in the signed manifest as given and never
+    /// verified. Optional.
+    #[serde(default)]
+    pub lab_attestation_toml: Option<String>,
+}
+
+/// Parameters for [`KshanaServer::create_round_trip_pack`].
+#[derive(Debug, serde::Deserialize, schemars::JsonSchema)]
+pub struct CreateRoundTripRequest {
+    /// A `receiver-trust` scenario: its `[log]` names only the format (for example
+    /// `format = "nmea"`; the log is `log`) and its `[[events]]` are the stated truth the
+    /// log is scored against (`kshana bench-export` writes them as `.events.toml`).
+    pub scoring_toml: String,
+    /// The scenario that produced the motion, as given to `export_test_bench`; only its
+    /// SHA-256 is recorded.
+    pub scenario_toml: String,
+    /// The laboratory's `kshana.test-conditions/1` document (TOML or JSON), as filled in
+    /// from the `.conditions.json` that `export_test_bench` writes.
+    pub conditions: String,
+    /// The receiver's log as text, at most 4 MiB.
+    pub log: String,
+    /// Start of the window, seconds since the log's first epoch.
+    pub from_s: f64,
+    /// End of the window, seconds since the log's first epoch.
+    pub to_s: f64,
+    /// Title shown in the pack's summary and manifest.
+    #[serde(default)]
+    pub title: Option<String>,
+    /// The Ed25519 signing-key seed (64 lower-case hex digits); omitted, a one-time key is
+    /// used and discarded. A seed passed here travels through the conversation: make a pack
+    /// that matters on the command line (`kshana evidence round-trip`).
     #[serde(default)]
     pub signing_key_seed_hex: Option<String>,
 }
@@ -179,13 +259,84 @@ pub struct ComplianceMappingRequest {
     pub sources: bool,
 }
 
+/// Parameters for [`KshanaServer::fit_imu_log`].
+#[derive(Debug, serde::Deserialize, schemars::JsonSchema)]
+pub struct FitImuRequest {
+    /// The IMU log as text: CSV with the columns `t_s, gx, gy, gz, ax, ay, az` (any order), or
+    /// the EuRoC `imu0/data.csv` layout.
+    pub log: String,
+    /// `csv` (default) or `euroc`.
+    #[serde(default)]
+    pub format: Option<String>,
+    /// Accelerometer axis: `x` (default), `y` or `z`.
+    #[serde(default)]
+    pub axis: Option<String>,
+    /// Specific force that axis reads at rest, m/s^2: 0 for a horizontal axis (default), about
+    /// 9.80665 for the vertical one.
+    #[serde(default)]
+    pub expected_mean: Option<f64>,
+    /// Sensor id written into the table (default `imu-fit`).
+    #[serde(default)]
+    pub id: Option<String>,
+}
+
+/// Parameters for [`KshanaServer::run_standards_pack`].
+#[derive(Debug, serde::Deserialize, schemars::JsonSchema)]
+pub struct StandardsPackRequest {
+    /// The pack id from `list_standards_packs` (for example `dhs-rpcf`, `imo-circ-1575`,
+    /// `icao-doc9849-appf`).
+    pub pack: String,
+}
+
+/// Parameters for [`KshanaServer::lunanet_afs_check`].
+#[derive(Debug, serde::Deserialize, schemars::JsonSchema)]
+pub struct LunanetAfsCheckRequest {
+    /// `spec` (check the implementation against the published tables and worked examples),
+    /// `symbols` (check the `symbols` stream) or `generate` (a test stream with placeholder
+    /// subframes).
+    pub mode: String,
+    /// For `symbols`: a hard-decision symbol stream as text of `0` and `1` (white space
+    /// ignored), at most 4 MiB.
+    #[serde(default)]
+    pub symbols: Option<String>,
+    /// For `symbols`: symbols of the 68-symbol synchronisation pattern that may be wrong
+    /// (default 0, at most 20).
+    #[serde(default)]
+    pub max_sp_errors: Option<usize>,
+    /// For `generate`: frames to write, 1 to 100 (default 1).
+    #[serde(default)]
+    pub frames: Option<usize>,
+    /// For `generate`: TOI of the first frame, 0 to 99 (default 0).
+    #[serde(default)]
+    pub toi0: Option<u8>,
+}
+
+/// Parameters for [`KshanaServer::score_benchmark`].
+#[derive(Debug, serde::Deserialize, schemars::JsonSchema)]
+pub struct ScoreBenchmarkRequest {
+    /// The truth file (`kshana-bench-truth/1`) as JSON text, at most 4 MiB.
+    pub truth: String,
+    /// The predictions file (`kshana-bench-predictions/1`) as JSON text, at most 4 MiB.
+    pub predictions: String,
+    /// The declared alarm threshold of tasks a and b (alarm when `score >= threshold`).
+    #[serde(default)]
+    pub threshold: Option<f64>,
+}
+
+/// Parameters for [`KshanaServer::render_leaderboard`].
+#[derive(Debug, serde::Deserialize, schemars::JsonSchema)]
+pub struct RenderLeaderboardRequest {
+    /// Result files (`kshana-bench-result/1`) as JSON texts, at most 256, 4 MiB each.
+    pub results: Vec<String>,
+}
+
 /// Parameters for [`KshanaServer::trust_telemetry`].
 #[derive(Debug, serde::Deserialize, schemars::JsonSchema)]
 pub struct TrustTelemetryRequest {
     /// The trust stream (JSON lines, one object per epoch: `t_s`, `state`, `score`, `deductions`,
     /// `alarms`, `gate`) or a `receiver-trust` result document, at most 4 MiB, as text.
     pub input: String,
-    /// `prometheus`, `cef`, `leef` or `otlp`.
+    /// `prometheus`, `cef`, `leef`, `otlp` or `mqtt` (Home Assistant discovery and state lines).
     pub format: String,
     /// `jsonl` (default) for the live stream, or `result` for a batch result document.
     #[serde(default)]
@@ -285,6 +436,69 @@ impl KshanaServer {
     }
 
     #[tool(
+        description = "Read the published Jammertest test catalogue and transmission plan (NPRA/jammertest-plan, MIT) as scheduled truth (`kshana jammertest import`): the slots of one test area become receiver-trust events with the catalogue id and year in each label. `plans` holds one plan file per day, `log_start_utc` is the log's first epoch, `local_offset_h` the plan's offset from UTC (default 2, CEST). Returns `events_toml` (append it to a receiver-trust session), `events` (test id, kind, onset and end in seconds since the log start), and the counts skipped. The events are PLANNED slots, not recorded on-air times: a slot may start late or never run, and the plan's `status` field is mostly empty. No contact or personal field of the plan is read. Input is capped at 4 MiB per text. Evidence tier: MODELLED."
+    )]
+    fn jammertest_import(
+        &self,
+        Parameters(r): Parameters<JammertestImportRequest>,
+    ) -> Result<CallToolResult, McpError> {
+        let refs: Vec<&str> = r.plans.iter().map(String::as_str).collect();
+        let j = surface::jammertest_import_json(
+            &r.catalog_json,
+            &refs,
+            r.location,
+            r.local_offset_h.unwrap_or(2.0),
+            &r.log_start_utc,
+            r.year,
+            MAX_UPLOAD_BYTES,
+        )
+        .map_err(|e| bad(format!("jammertest import failed: {e}")))?;
+        let mut v: serde_json::Value =
+            serde_json::from_str(&j).map_err(|e| bad(format!("result is not JSON: {e}")))?;
+        v["notice"] =
+            "Scheduled truth: planned slots, not recorded on-air times. Evidence tier: MODELLED."
+                .into();
+        reply(v)
+    }
+
+    #[tool(
+        description = "Score a receiver log against the Jammertest schedule (`kshana jammertest score`): per scheduled test the detection latency (first alarm minus planned start), whether it was detected within the tolerance, late or missed, and the time to recover (an alarm-free stretch of `recover_hold_s`), plus the false alarms outside every slot and its guard. `session_toml` needs only `[log] format = \"ubx\"` (or rinex, android, nmea, sbf); give the log as `log` (text formats) or `log_base64` (binary). Needs the catalogue and plan JSON (`catalog_json`, `plans`) and the test area (`location`). Returns the scorecard: `tests`, `summary`, `baseline_contaminated` and a MODELLED label. The schedule is planned slots, not recorded on-air times, so a miss may be a test that never ran. A signed evidence pack needs a signing key: use the command line (`kshana jammertest score --key`). Input is capped at 4 MiB per text. Advisory only: not type-approved navigation equipment; the operator remains responsible. Evidence tier: MODELLED."
+    )]
+    fn jammertest_score(
+        &self,
+        Parameters(r): Parameters<JammertestScoreRequest>,
+    ) -> Result<CallToolResult, McpError> {
+        let log: Vec<u8> = match (&r.log, &r.log_base64) {
+            (Some(t), None) => t.as_bytes().to_vec(),
+            (None, Some(b)) => kshana::permalink::base64_decode(b.trim())
+                .ok_or_else(|| bad("log_base64 is not base64".into()))?,
+            _ => return Err(bad("give exactly one of `log` and `log_base64`".into())),
+        };
+        let refs: Vec<&str> = r.plans.iter().map(String::as_str).collect();
+        let dflt = kshana::jammertest::score::ScoreOptions::default();
+        let j = surface::jammertest_score_json(
+            &r.session_toml,
+            &log,
+            &r.catalog_json,
+            &refs,
+            r.location,
+            r.local_offset_h.unwrap_or(2.0),
+            r.log_start_utc.as_deref(),
+            r.year,
+            kshana::jammertest::score::ScoreOptions {
+                recover_hold_s: r.recover_hold_s.unwrap_or(dflt.recover_hold_s),
+                guard_s: r.guard_s.unwrap_or(dflt.guard_s),
+            },
+            MAX_UPLOAD_BYTES,
+        )
+        .map_err(|e| bad(format!("jammertest score failed: {e}")))?;
+        let mut v: serde_json::Value =
+            serde_json::from_str(&j).map_err(|e| bad(format!("result is not JSON: {e}")))?;
+        v["notice"] = ADVISORY.into();
+        reply(v)
+    }
+
+    #[tool(
         description = "Assess a vessel's NMEA 0183 log as a batch run (`kshana receiver-trust` with `[platform] kind = \"vessel\"`): the score model, the monitors that ran and every epoch's 0-100 score with its deductions, its satellite geometry (good, degraded, unknown) with a `label` (good, fair, poor) on every epoch, geometry deducting only when poor, and a class on every deduction (geometry, environment, inconsistency), with `geometry_model` (thresholds, the cap and floor in force, and provenance) and `geometry_summary`. `session_toml` states the vessel's limits and any monitor or score settings (no `[log]` table needed) and `nmea` is the log text, which avoids pasting it inside a TOML string. Input is capped at 4 MiB; the reply carries the document with `epochs` cut to counts by state and at most 200 degraded or untrusted epochs. For a log in another format, or with `[[events]]` to score, use `assess_receiver_log`. Advisory only: not type-approved navigation equipment; the operator remains responsible. Evidence tier: MODELLED."
     )]
     fn assess_vessel_log(
@@ -355,7 +569,7 @@ impl KshanaServer {
             .transpose()
             .map_err(bad)?;
         let created = surface::now_rfc3339_utc();
-        let p = surface::evidence_create(
+        let p = surface::evidence_create_attested(
             &r.session_toml,
             r.nmea.as_bytes(),
             r.from_s,
@@ -363,6 +577,7 @@ impl KshanaServer {
             r.title.as_deref(),
             Some(&created),
             seed,
+            r.lab_attestation_toml.as_deref(),
             MAX_UPLOAD_BYTES,
         )
         .map_err(|e| bad(format!("evidence pack failed: {e}")))?;
@@ -387,6 +602,49 @@ impl KshanaServer {
             "log_slice_bytes": p.slice.map(|(a, b)| [a, b]),
             "signing_key": if seed.is_some() { "the caller's seed (not returned)" } else { "one-time key, discarded: proves integrity, not identity" },
             "notice": "A pack is a technical record, not a legal opinion, a finding of fact or an approval.",
+        }))
+    }
+
+    #[tool(
+        description = "Create the signed laboratory round-trip pack (`kshana evidence round-trip`, docs/spec/TEST-CONDITIONS.md): links by hash the scenario that produced the motion, the laboratory's `kshana.test-conditions/1` document, the receiver log and its score against the stated events, in a signed evidence pack whose `config.json` carries a `round_trip` block. Refuses a pack whose conditions and scoring events disagree, or whose stated log SHA-256 is not the log's. NO SIGNAL: nothing is written, replayed or scheduled; how a scenario's motion reached the receiver is the operator's responsibility and is recorded only as stated. The signing seed is never returned or logged; omitted, a one-time key is used and discarded (integrity, not identity). Input is capped at 4 MiB and the reply at 4 MiB. A technical record, not a legal opinion or a certification. Evidence tier: MODELLED."
+    )]
+    fn create_round_trip_pack(
+        &self,
+        Parameters(r): Parameters<CreateRoundTripRequest>,
+    ) -> Result<CallToolResult, McpError> {
+        let seed = r
+            .signing_key_seed_hex
+            .as_deref()
+            .map(|h| surface::hex32("signing_key_seed_hex", h))
+            .transpose()
+            .map_err(bad)?;
+        let created = surface::now_rfc3339_utc();
+        let p = surface::evidence_round_trip(
+            &r.scoring_toml,
+            &r.scenario_toml,
+            &r.conditions,
+            r.log.as_bytes(),
+            r.from_s,
+            r.to_s,
+            r.title.as_deref(),
+            Some(&created),
+            seed,
+            MAX_UPLOAD_BYTES,
+        )
+        .map_err(|e| bad(format!("round-trip pack failed: {e}")))?;
+        let files = surface::files_to_json(&p.files);
+        let size = files.to_string().len();
+        if size > MAX_MAP_REPLY_BYTES {
+            return Err(bad(format!(
+                "the pack is {size} bytes, over the {MAX_MAP_REPLY_BYTES}-byte reply limit; narrow the window or use `kshana evidence round-trip` on the command line"
+            )));
+        }
+        reply(serde_json::json!({
+            "files": files,
+            "public_key": p.public_key,
+            "epochs_in_window": p.epochs_in_window,
+            "signing_key": if seed.is_some() { "the caller's seed (not returned)" } else { "one-time key, discarded: proves integrity, not identity" },
+            "notice": "A pack is a technical record, not a legal opinion, a finding of fact or an approval. No signal is written or replayed.",
         }))
     }
 
@@ -490,7 +748,7 @@ impl KshanaServer {
     }
 
     #[tool(
-        description = "Fill the public-framework mapping from Kshana result documents (`kshana compliance-report`): which rows of five resilience frameworks and standards (the US DHS Resilient PNT framework v2.0, IMO guidance for ships, EASA guidance for aviation, NIS2 Article 21, EN 16803) the runs given support evidence for, which they do not, and the gap each row keeps. Pass each run as `label`, `result` (the result JSON text) and, when you have it, `scenario` (the scenario TOML, which names the kind a result does not; a receiver-trust result needs none). At most 64 runs and 4 MiB in all; nothing is read from disk. Each row's `status` is `evidenced`, `partly-evidenced`, `not-evidenced` or `out-of-scope`, and every row keeps its `gap` even when evidenced; inputs that could not be used are listed in `unrecognised` and count for nothing. Show the report's `statement` with any result, verbatim: a status means a run supports evidence for the capabilities the row names; it is not a finding that a framework is met, and it does not mean any product has been rated or approved by anyone. Do not describe the output in any stronger terms. Evidence tier: MODELLED."
+        description = "Fill the public-framework mapping from Kshana result documents (`kshana compliance-report`): which rows of six resilience frameworks and standards (the US DHS Resilient PNT framework v2.0, IMO guidance for ships, EASA guidance for aviation, NIS2 Article 21, EN 16803, NIST IR 8323r1) the runs given support evidence for, which they do not, and the gap each row keeps. Pass each run as `label`, `result` (the result JSON text) and, when you have it, `scenario` (the scenario TOML, which names the kind a result does not; a receiver-trust result needs none). At most 64 runs and 4 MiB in all; nothing is read from disk. Each row's `status` is `evidenced`, `partly-evidenced`, `not-evidenced` or `out-of-scope`, and every row keeps its `gap` even when evidenced; inputs that could not be used are listed in `unrecognised` and count for nothing. Show the report's `statement` with any result, verbatim: a status means a run supports evidence for the capabilities the row names; it is not a finding that a framework is met, and it does not mean any product has been rated or approved by anyone. Do not describe the output in any stronger terms. Evidence tier: MODELLED."
     )]
     fn compliance_report(
         &self,
@@ -522,6 +780,102 @@ impl KshanaServer {
         Ok(CallToolResult::success(vec![ContentBlock::text(
             surface::compliance_mapping(r.sources),
         )]))
+    }
+
+    #[tool(
+        description = "Fit the sensor parameters of the `hybrid` and `fusion` scenarios from a stationary IMU log (`kshana imu-fit`, docs/MACHINE-INPUTS.md). Those scenarios take noise parameters, not a time series: this reads them off a log recorded with the sensor held still, by the overlapping Allan deviation of the integrated signal. Returns JSON: `fit` (accelerometer bias, velocity-random-walk PSD `q_va`, gyro bias, angle-random-walk PSD `q_arw`, bias-instability floor when the log is long enough to show one, the log's rate and span, the early Allan slopes, and `notes` on what could not be fitted or trusted), `toml` (an `[accel_classical]` table whose provenance names the log's SHA-256, ready to paste into a scenario) and `sha256`. A log that was not stationary, or is too short or unevenly sampled, gives wrong parameters or is refused; the slopes (about -0.5 where white noise dominates) show which. Nothing is written to disk. Evidence tier: MODELLED (the estimator applied to the log, no external oracle)."
+    )]
+    fn fit_imu_log(
+        &self,
+        Parameters(r): Parameters<FitImuRequest>,
+    ) -> Result<CallToolResult, McpError> {
+        let text = surface::imu_fit(
+            &r.log,
+            r.format.as_deref().unwrap_or("csv"),
+            r.axis.as_deref().unwrap_or("x"),
+            r.expected_mean.unwrap_or(0.0),
+            r.id.as_deref().unwrap_or("imu-fit"),
+            MAX_UPLOAD_BYTES,
+        )
+        .map_err(bad)?;
+        Ok(CallToolResult::success(vec![ContentBlock::text(text)]))
+    }
+
+    #[tool(
+        description = "List the standards packs (`kshana standards-pack list`): scored scenario sets for the DHS Resilient PNT framework test profiles, IMO MSC.1/Circ.1575 and ICAO Doc 9849 Appendix F, each with the bars it states before the run and the compliance rows it supports evidence for. Needs no input. A pack measures modelled scenarios against stated bars; it rates no product. Evidence tier: MODELLED."
+    )]
+    fn list_standards_packs(&self) -> Result<CallToolResult, McpError> {
+        reply(surface::standards_pack_list())
+    }
+
+    #[tool(
+        description = "Run one standards pack (`kshana standards-pack run <id>`): every scenario in it, scored against bars stated before the run. Returns the report (each test `MET`, `NOT MET`, or `NEEDS INPUT` when it needs a receiver log and is not scored; each bar with its measured and expected value) and the same as `markdown`. Pass the report JSON to `compliance_report` to see the rows the pack supports evidence for. Say plainly that a MET bar means a modelled scenario met a stated bar, and that a NOT MET is a result on record; never describe the output as showing that a product or a framework is met. Advisory only: analysis output, not type-approved navigation equipment. Evidence tier: MODELLED."
+    )]
+    fn run_standards_pack(
+        &self,
+        Parameters(r): Parameters<StandardsPackRequest>,
+    ) -> Result<CallToolResult, McpError> {
+        let (mut report, md) = surface::standards_pack_run(&r.pack)
+            .map_err(|e| bad(format!("standards pack failed: {e}")))?;
+        report["markdown"] = md.into();
+        reply(report)
+    }
+
+    #[tool(
+        description = "Check the LunaNet Augmented Forward Signal (AFS) against the published specification, pinned to LNIS Version 5 Applicable Document 1 Volume A (LSIS-AFS V1.0, 29 January 2025) (`kshana lunanet-afs-check`, docs/LUNANET-AFS.md). Mode `spec` checks this implementation against the document's printed code tables (the first and last 24 chips of every AFS-I Gold, AFS-Q Weil and tertiary code for PRN 1 to 210, and both Legendre sequences) and worked examples (SB1 BCH, CRC-24Q), bars B1 to B10 of a pre-registration; B4 reports one miss (the document prints the same last 24 chips for tertiary PRN 147 and 151). Mode `symbols` checks a hard-decision symbol stream (text of 0 and 1) for the synchronisation pattern, SB1 decoding, FID, TOI continuity and frame spacing. Subframes 2 to 4 (rate-1/2 LDPC, CRC-24Q) are NOT verified: the LDPC matrices are in a separate annex that is not implemented. Mode `generate` returns a test stream with placeholder subframes: symbols, not a waveform; Kshana writes no signal. VALIDATED only against the printed tables of that edition, which the document itself marks TBC; say so, and do not describe a result as showing that any LunaNet node or service is correct. Advisory only."
+    )]
+    fn lunanet_afs_check(
+        &self,
+        Parameters(r): Parameters<LunanetAfsCheckRequest>,
+    ) -> Result<CallToolResult, McpError> {
+        match r.mode.as_str() {
+            "spec" => reply(surface::lunanet_afs_check_spec()),
+            "symbols" => {
+                let text = r.symbols.ok_or_else(|| bad("mode `symbols` needs `symbols`".into()))?;
+                let v = surface::lunanet_afs_check_symbols(
+                    &text,
+                    r.max_sp_errors.unwrap_or(0),
+                    MAX_UPLOAD_BYTES,
+                )
+                .map_err(|e| bad(format!("lunanet-afs-check failed: {e}")))?;
+                reply(v)
+            }
+            "generate" => {
+                let s = surface::lunanet_afs_generate(r.frames.unwrap_or(1), r.toi0.unwrap_or(0))
+                    .map_err(|e| bad(format!("lunanet-afs-check failed: {e}")))?;
+                reply(serde_json::json!({
+                    "symbols": s,
+                    "note": "placeholder subframes 2 to 4 (not LDPC coded, no message); symbols for testing a checker, not a waveform",
+                }))
+            }
+            other => Err(bad(format!(
+                "mode must be spec, symbols or generate (got {other})"
+            ))),
+        }
+    }
+
+    #[tool(
+        description = "Score a kshana-bench submission (`kshana bench score`, bench/SPEC.md, docs/BENCH.md): a predictions file (`kshana-bench-predictions/1`) against a truth file (`kshana-bench-truth/1`), both JSON text, at most 4 MiB each, and return the result file (`kshana-bench-result/1`) with the spec version, task (a detection on receiver logs, b detection on IQ, c timing holdover prediction, d out-of-distribution optimism gap), split, the SHA-256 of both inputs and the task's metrics (AUC, detection probability at a false-alarm cap, RMSE per horizon, or the optimism gap). `threshold` is the declared alarm threshold of tasks a and b. Nothing is read from disk or written. Every score is MODELLED and describes a log or corpus, never a product; it is not a certification and no organisation is endorsed by a score. Evidence tier: MODELLED."
+    )]
+    fn score_benchmark(
+        &self,
+        Parameters(r): Parameters<ScoreBenchmarkRequest>,
+    ) -> Result<CallToolResult, McpError> {
+        let out = surface::bench_score(&r.truth, &r.predictions, r.threshold, MAX_UPLOAD_BYTES)
+            .map_err(|e| bad(format!("benchmark scoring failed: {e}")))?;
+        Ok(CallToolResult::success(vec![ContentBlock::text(out)]))
+    }
+
+    #[tool(
+        description = "Render kshana-bench result files (`kshana bench leaderboard`) as the static leaderboard page, HTML text in the reply: `results` is a list of `kshana-bench-result/1` JSON texts (at most 256, 4 MiB each), each validated first; a file scored under another major spec version is refused because results of different major versions are never put in one table. A row says this file scored this number on this split; it does not mean any product has been rated or approved by anyone. Nothing is written. Evidence tier: MODELLED."
+    )]
+    fn render_leaderboard(
+        &self,
+        Parameters(r): Parameters<RenderLeaderboardRequest>,
+    ) -> Result<CallToolResult, McpError> {
+        let out = surface::bench_leaderboard(&r.results, MAX_UPLOAD_BYTES)
+            .map_err(|e| bad(format!("leaderboard failed: {e}")))?;
+        Ok(CallToolResult::success(vec![ContentBlock::text(out)]))
     }
 
     #[tool(

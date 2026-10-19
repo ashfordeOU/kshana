@@ -615,8 +615,9 @@ pub struct IqInfoRequest {
 pub struct IqSceneRequest {
     /// Output recording, relative to the IQ work directory. A raw file gets a JSON sidecar
     /// at `<out>.json`; a name ending `.sigmf-meta`/`.sigmf-data`/`.sigmf` (or `format:
-    /// "sigmf"`) writes a SigMF pair. The truth sidecar goes to `<out>.truth.csv` (or
-    /// `.truth.jsonl`).
+    /// "sigmf"`) writes a SigMF pair; a name ending `.sdrx` (or `format: "sdrx"`) writes
+    /// ION GNSS SDR metadata (`<base>.sdrx`) beside the samples (`<base>.bin`). The truth
+    /// sidecar goes to `<out>.truth.csv` (or `.truth.jsonl`).
     pub out: String,
     /// Complex sample rate (Hz).
     pub rate_hz: f64,
@@ -654,7 +655,8 @@ pub struct IqSceneRequest {
     /// Residual intermediate frequency (Hz); default 0.
     #[serde(default)]
     pub if_hz: Option<f64>,
-    /// Sample format of the output (default `cf32_le`), or `sigmf`.
+    /// Sample format of the output (default `cf32_le`), `sigmf`, or `sdrx` (8-bit; `sdrx:ci16_le`
+    /// for 16-bit): ION GNSS SDR metadata, which has no floating-point coding.
     #[serde(default)]
     pub format: Option<String>,
     /// Truth sidecar format: `csv` (default) or `jsonl`.
@@ -1181,6 +1183,14 @@ impl KshanaServer {
             || [".sigmf-meta", ".sigmf-data", ".sigmf"]
                 .iter()
                 .any(|s| out_s.ends_with(s));
+        // ION GNSS SDR metadata: `format: "sdrx"` (ci8) or `"sdrx:ci16_le"`, or a name ending
+        // `.sdrx`; the samples go to `<base>.bin` and the metadata to `<base>.sdrx`.
+        let sdrx = r
+            .format
+            .as_deref()
+            .map(str::to_ascii_lowercase)
+            .is_some_and(|f| f == "sdrx" || f.starts_with("sdrx:"))
+            || out_s.ends_with(".sdrx");
         let jsonl = match r.truth_format.as_deref().unwrap_or("csv") {
             "csv" => false,
             "jsonl" | "jsonlines" => true,
@@ -1195,7 +1205,13 @@ impl KshanaServer {
             "{out_s}.truth.{}",
             if jsonl { "jsonl" } else { "csv" }
         ));
-        let (data, meta) = if sigmf {
+        let (data, meta) = if sdrx {
+            let base = out_s.strip_suffix(".sdrx").unwrap_or(&out_s);
+            (
+                PathBuf::from(format!("{base}.bin")),
+                PathBuf::from(format!("{base}.sdrx")),
+            )
+        } else if sigmf {
             let base = ["sigmf-meta", "sigmf-data", "sigmf"]
                 .iter()
                 .find_map(|s| out_s.strip_suffix(&format!(".{s}")))
@@ -1257,10 +1273,10 @@ impl KshanaServer {
 
         let Opened {
             spec, samples: n, ..
-        } = iq.open(if sigmf { &meta } else { &data }, None)?;
+        } = iq.open(if sigmf || sdrx { &meta } else { &data }, None)?;
         let (records, first_epoch) = truth_first_epoch(&truth, jsonl);
         reply(serde_json::json!({
-            "recording": iq.rel(if sigmf { &meta } else { &data }),
+            "recording": iq.rel(if sigmf || sdrx { &meta } else { &data }),
             "samples": n,
             "sample_rate_hz": spec.fs_hz,
             "center_hz": spec.center_hz,

@@ -91,6 +91,7 @@ fn receiver_trust_reproduces_the_pre_registered_spoofing_pipeline() {
                     path: Some(nav_for(&o.file)),
                     ..Default::default()
                 }),
+                imu: None,
             },
             monitors: engine_only(cal_s),
             events: vec![EventCfg {
@@ -219,6 +220,7 @@ fn inline_base64_gives_the_same_result_as_a_path() {
                 ..Default::default()
             },
             nav: None,
+            imu: None,
         },
         monitors: MonitorConfig::default(),
         events: Vec::new(),

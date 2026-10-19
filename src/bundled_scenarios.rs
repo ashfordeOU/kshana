@@ -69,6 +69,8 @@ pub const BUNDLED: &[(&str, &str)] = &[
     bundled!("gps-denied-gravity-nav-egm2008"),
     bundled!("gravity-map-error-mc"),
     bundled!("gravity-map-nav"),
+    bundled!("holdover-test-example"),
+    bundled!("holdover-test-ptp4l"),
     bundled!("hybrid-optical-rf"),
     bundled!("hybrid-pnt"),
     bundled!("hybrid-ukf"),

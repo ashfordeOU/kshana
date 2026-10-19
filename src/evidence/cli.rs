@@ -3,7 +3,7 @@
 //! `kshana receiver-trust evidence`. All file-system, clock and exit-code handling lives
 //! here; the pack logic is in [`super::bundle`] and [`super::verify`].
 
-use super::assemble::{build_receiver_trust_pack, PackRequest};
+use super::assemble::PackRequest;
 use super::bundle::{fingerprint, generate_seed, public_key_hex, Files};
 use super::verify::{attach_timestamp, verify_bundle, Status, VerifyOptions};
 use crate::receiver_trust::scenario::{self, ReceiverTrustScenario};
@@ -18,11 +18,15 @@ const USAGE: &str = "usage:
       (reads the RFC 3161 token and binds it to the manifest; it does NOT verify the timestamp
       authority's signature: use `openssl ts -verify`)
   kshana receiver-trust evidence <scenario.toml> --from <t0> --to <t1> --key <keyfile> --out <dir>
-      [--title <text>] [--created-utc <YYYY-MM-DDTHH:MM:SSZ|none>]
+      [--title <text>] [--created-utc <YYYY-MM-DDTHH:MM:SSZ|none>] [--lab-attestation <file.toml>]
+  kshana evidence round-trip <scenario.toml> --scenario <bench-scenario> --conditions <file> --from <t0> --to <t1>
+      --key <keyfile> --out <dir> [--title <text>] [--created-utc <...|none>]
+      (links the scenario, the lab's test conditions, the receiver log and its score; the
+      <scenario.toml> is the receiver-trust scoring scenario; writes no signal)
   <t0>/<t1>: seconds since the first epoch of the log, or an ISO-8601 UTC time when the log
   states its start time. A pack is a technical record, not a legal opinion.";
 
-fn flag_value(args: &[String], name: &str) -> Result<Option<String>, String> {
+pub(crate) fn flag_value(args: &[String], name: &str) -> Result<Option<String>, String> {
     match args.iter().position(|a| a == name) {
         None => Ok(None),
         Some(i) => args
@@ -33,7 +37,7 @@ fn flag_value(args: &[String], name: &str) -> Result<Option<String>, String> {
     }
 }
 
-fn now_rfc3339() -> String {
+pub(crate) fn now_rfc3339() -> String {
     let s = std::time::SystemTime::now()
         .duration_since(std::time::UNIX_EPOCH)
         .map(|d| d.as_secs() as i64)
@@ -59,7 +63,7 @@ fn write_new_file(path: &Path, bytes: &[u8], private: bool) -> Result<(), String
         .map_err(|e| format!("cannot write {}: {e}", path.display()))
 }
 
-fn read_seed(path: &str) -> Result<Zeroizing<[u8; 32]>, String> {
+pub(crate) fn read_seed(path: &str) -> Result<Zeroizing<[u8; 32]>, String> {
     #[cfg(unix)]
     {
         use std::os::unix::fs::PermissionsExt;
@@ -96,7 +100,7 @@ pub fn read_dir(dir: &Path) -> Result<Files, String> {
     Ok(f)
 }
 
-fn write_dir(dir: &Path, files: &Files) -> Result<(), String> {
+pub(crate) fn write_dir(dir: &Path, files: &Files) -> Result<(), String> {
     if dir.exists()
         && std::fs::read_dir(dir)
             .map_err(|e| e.to_string())?
@@ -171,6 +175,10 @@ fn read_pubkey(arg: &str, files: &Files) -> Result<[u8; 32], String> {
 
 fn run_evidence_inner(args: &[String]) -> Result<i32, String> {
     match args.first().map(String::as_str) {
+        Some("round-trip") => {
+            receiver_trust_evidence(&args[1..], true)?;
+            Ok(0)
+        }
         Some("keygen") => {
             let out = flag_value(args, "--out")?.ok_or("keygen needs --out <keyfile>")?;
             let seed = Zeroizing::new(generate_seed());
@@ -311,7 +319,7 @@ fn run_evidence_inner(args: &[String]) -> Result<i32, String> {
 
 /// `kshana receiver-trust evidence ...`; `args` are those after `evidence`.
 pub fn run_receiver_trust_evidence(args: &[String]) -> i32 {
-    match receiver_trust_evidence(args) {
+    match receiver_trust_evidence(args, false) {
         Ok(()) => 0,
         Err(e) => {
             eprintln!("error: {e}");
@@ -321,7 +329,29 @@ pub fn run_receiver_trust_evidence(args: &[String]) -> i32 {
     }
 }
 
-fn receiver_trust_evidence(args: &[String]) -> Result<(), String> {
+/// The laboratory round-trip pack (not built for WebAssembly: it reads the IQ campaign types).
+#[cfg(not(target_arch = "wasm32"))]
+fn round_trip_pack(
+    req: &PackRequest<'_>,
+    scenario_text: &str,
+    conditions_text: &str,
+    seed: &[u8; 32],
+) -> Result<super::PackSummary, String> {
+    super::roundtrip::build_round_trip_pack(req, scenario_text, conditions_text, seed)
+}
+
+/// See the native version.
+#[cfg(target_arch = "wasm32")]
+fn round_trip_pack(
+    _req: &PackRequest<'_>,
+    _scenario_text: &str,
+    _conditions_text: &str,
+    _seed: &[u8; 32],
+) -> Result<super::PackSummary, String> {
+    Err("round-trip packs are not built for WebAssembly".to_string())
+}
+
+fn receiver_trust_evidence(args: &[String], round_trip: bool) -> Result<(), String> {
     let scn_path = PathBuf::from(
         args.first()
             .filter(|a| !a.starts_with("--"))
@@ -339,6 +369,14 @@ fn receiver_trust_evidence(args: &[String]) -> Result<(), String> {
         None => Some(now_rfc3339()),
     };
     let title = flag_value(args, "--title")?.unwrap_or_else(|| "GNSS trust evidence pack".into());
+    let lab = match flag_value(args, "--lab-attestation")? {
+        Some(p) => {
+            let text = std::fs::read_to_string(&p)
+                .map_err(|e| format!("cannot read lab attestation {p}: {e}"))?;
+            Some(super::lab::LabAttestation::from_toml(&text)?)
+        }
+        None => None,
+    };
 
     let src = std::fs::read_to_string(&scn_path)
         .map_err(|e| format!("cannot read {}: {e}", scn_path.display()))?;
@@ -350,26 +388,41 @@ fn receiver_trust_evidence(args: &[String]) -> Result<(), String> {
         Some(n) => Some(scenario::load_source(n, "log.nav")?),
         None => None,
     };
+    let imu_bytes = match &scn.log.imu {
+        Some(i) => Some(scenario::load_source(&i.source, "log.imu")?),
+        None => None,
+    };
     let file_name = scn
         .log
         .source
         .path
         .clone()
         .unwrap_or_else(|| "inline".into());
-    let pack = build_receiver_trust_pack(
-        &PackRequest {
-            scenario: &scn,
-            log_bytes: &log_bytes,
-            nav_bytes: nav_bytes.as_deref(),
-            log_file_name: &file_name,
-            from: &from,
-            to: &to,
-            title: &title,
-            created_utc: created.as_deref(),
-        },
-        &seed,
-        None,
-    )?;
+    let req = PackRequest {
+        scenario: &scn,
+        log_bytes: &log_bytes,
+        nav_bytes: nav_bytes.as_deref(),
+        imu_bytes: imu_bytes.as_deref(),
+        log_file_name: &file_name,
+        from: &from,
+        to: &to,
+        title: &title,
+        created_utc: created.as_deref(),
+    };
+    let pack = if round_trip {
+        if lab.is_some() {
+            return Err("--lab-attestation applies to `receiver-trust evidence`, not to `evidence round-trip` (whose pack records the test conditions)".into());
+        }
+        let sp = flag_value(args, "--scenario")?.ok_or("needs --scenario <bench scenario>")?;
+        let cp = flag_value(args, "--conditions")?.ok_or("needs --conditions <file>")?;
+        let scenario_text =
+            std::fs::read_to_string(&sp).map_err(|e| format!("cannot read {sp}: {e}"))?;
+        let conditions_text =
+            std::fs::read_to_string(&cp).map_err(|e| format!("cannot read {cp}: {e}"))?;
+        round_trip_pack(&req, &scenario_text, &conditions_text, &seed)?
+    } else {
+        super::assemble::build_receiver_trust_pack_attested(&req, &seed, None, lab.as_ref())?
+    };
     write_dir(Path::new(&out), &pack.files)?;
     println!("evidence pack written to {out}");
     println!(
@@ -384,6 +437,12 @@ fn receiver_trust_evidence(args: &[String]) -> Result<(), String> {
     match pack.slice {
         Some((a, b)) => println!("  log slice: bytes {a} to {b} of {}", log_bytes.len()),
         None => println!("  log slice: whole log (this log gives no byte range for the window)"),
+    }
+    if lab.is_some() {
+        println!(
+            "  lab attestation recorded in the signed manifest ({})",
+            super::lab::STANDING
+        );
     }
     println!("verify with: kshana evidence verify {out} --pubkey <signer public key>");
     println!("A pack is a technical record, not a legal opinion.");

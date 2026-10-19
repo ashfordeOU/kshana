@@ -9,8 +9,73 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+## [0.38.0] - 2026-10-19
+
 ### Added
 
+- **The neutral referee, made measurable.** `kshana jammertest import` reads the published NPRA
+  Jammertest catalogue and transmission plan as scheduled truth (catalogue ids kept) and
+  `kshana jammertest score` scores a receiver log against it per test (detection latency, missed
+  alarms, false alarms, time to recover), optionally as a signed evidence pack
+  ([`docs/JAMMERTEST.md`](docs/JAMMERTEST.md)). The scoring bars were pre-registered before any
+  scored run (`xval/jammertest-score/`). On the JammerTest 2024 dataset (fetched, never vendored) the
+  pre-registered minimum-data rule failed in both the first run and the data-handling revision, so no
+  bar is assessable and nothing is claimed; both runs are recorded and pinned. MODELLED: the schedule
+  is the dataset's logged windows, not recorded on-air times. The 2025 SimulaMet NMEA set is not
+  adapted (no licence stated on its page).
+- **The receiver's own flags, beside Kshana's.** UBX-NAV-STATUS `spoofDetState` and UBX-SEC-SIG are
+  read into `self_report` on each epoch, and the `receiver_self_report` comparison in the result sets
+  them against Kshana's monitors (both, receiver only, Kshana only, neither); it raises no alarm and
+  changes no score. A Septentrio SBF reader (PVTGeodetic, MeasEpoch, RFStatus, read only, on the
+  MIT-licensed `sbf-tools` crate) and `receiver-trust live --serial` (a serial or USB NMEA feed, read
+  only; it never writes to a receiver) join them.
+- **Timing and hardware safety** ([`docs/TIMING-HIL.md`](docs/TIMING-HIL.md),
+  [`docs/HARDWARE-SAFETY.md`](docs/HARDWARE-SAFETY.md)). The `holdover-test` scenario kind scores a
+  holdover test of a timing system (GNSS removed by the operator, holdover, recovery) from a measured
+  time-error record, measured against the ITU-T masks from public tables. `clock_log` reads linuxptp
+  (`ptp4l`, `phc2sys`, `ts2phc`) and chrony (`tracking`, `statistics`) logs. `iq scene --format sdrx`
+  writes ION GNSS SDR metadata and `iq monitor --follow` monitors a SigMF recording while it grows
+  (receive only). `compliance-report` gains the NIST IR 8323r1 Foundational PNT Profile (15
+  paraphrased rows, supports evidence for). An evidence pack can record the operator's
+  `lab-attestation` in its signed manifest, never verified; the hardware stages 0 to 4 and the legal
+  notes are in `HARDWARE-SAFETY.md` (awaiting legal review). There is no transmit path of any kind.
+- **kshana-bench v1** (`kshana bench`, [`bench/SPEC.md`](bench/SPEC.md), [`docs/BENCH.md`](docs/BENCH.md)):
+  fixed tasks, splits and metrics for GNSS interference detection on receiver logs (JammerTest 2024) and
+  IQ, timing holdover prediction (IGS clocks) and the out-of-distribution optimism gap; split manifests
+  with pinned hashes and fetch scripts (no data vendored), a sealed holdout by commit and reveal, a
+  result-file schema and a static leaderboard page. Baselines under bars pre-registered in
+  `xval/bench/PREREGISTRATION.md`: scorer bars met, C1 to C3 met, D2 met, **D1 NOT MET** (pinned). Every
+  score is MODELLED. Python `bench_score`, `bench_leaderboard`; WebAssembly the same; MCP
+  `score_benchmark`, `render_leaderboard`.
+- **Interference observatory** (`kshana interference-map daily`, `sensitivity`,
+  [`docs/observatory/METHOD.md`](docs/observatory/METHOD.md)): a reproducible daily GeoJSON, PNG and
+  incident-report JSON with three states (degraded, not degraded, not observed), a 24 h minimum delay,
+  cells of 0.5 degrees or coarser, no cause attributed and OpenSky data refused; a sensitivity study of
+  the pre-registered parameters; a 30-day Baltic back-catalogue from adsb.lol.
+- **Machine and sensor inputs for `receiver-trust`** ([`docs/MACHINE-INPUTS.md`](docs/MACHINE-INPUTS.md)).
+  New `[log] format` values, all read-only, MODELLED, with self-written fixtures and no data
+  vendored: `rtklib-pos` (RTKLIB `.pos` solution files), `novatel` (OEM7 ASCII and binary
+  `BESTPOS`, `RANGE` C/No and `RXSTATUS`; the receiver's jammer flag becomes the epoch's
+  `self_report`, set against Kshana's alarms by the `receiver-self-report` comparison), `rtcm3`
+  (MSM4 and MSM7 C/N0 for GPS, GLONASS, Galileo, SBAS, QZSS, BeiDou and NavIC; layouts from the
+  BSD-licensed pyrtcm tables, whose notice is in `NOTICE`, not from the RTCM standard) and
+  `gnss-sdr` (GNSS-SDR Monitor and PVT-monitor messages as JSON lines, relayed by
+  `integrations/gnss-sdr/relay.py`).
+- **IMU logs as a second sensor.** `[log.imu]` (`csv` or `euroc`) integrates the gyro yaw rate into
+  the heading the `heading-course` monitor reads; inline on every surface and carried through
+  evidence packs. `kshana imu-fit` (Python `imu_fit`, WebAssembly `imu_fit`, MCP `fit_imu_log`,
+  plugin `/kshana-fit-imu`, a JetBrains action) fits the accelerometer and gyro parameters of the
+  `hybrid` and `fusion` scenarios from a stationary log by Allan deviation and prints an
+  `[accel_classical]` table with the log's SHA-256 in its provenance.
+- **Integrations:** a ROS 2 package (`integrations/ros2/kshana_trust`: NavSatFix and
+  `ublox_ubx_msgs` in, trust topics out; its ROS-free bridge is tested against the real engine, the
+  node itself has not run on a live ROS graph), a `gnss_lib_py` bridge (`integrations/gnss_lib_py`,
+  MIT dependency, optional), and a GNSS-SDR relay.
+- **Home Assistant MQTT exporter** for trust telemetry: `kshana trust-telemetry --print-mqtt` and
+  `--mqtt-tcp <host:port>` (discovery messages and a JSON state document; publish only, no
+  credentials or TLS), and `format = "mqtt"` as text on Python, WebAssembly and MCP.
+- Seven MODELLED ledger rows for the above. Nothing here is VALIDATED: no capture from a real
+  receiver, base station, IMU, GNSS-SDR run, ROS graph or MQTT broker was read.
 - **Optical link margin against time.** The `optical-atmosphere` kind takes an opt-in `[timeseries]`
   table (`duration_h`, `step_s`, `seed`) and then also writes, per site, one seeded realisation of the
   stated site model through time: cloud episodes, a liquid-water column per episode, one gamma-gamma
@@ -19,6 +84,34 @@ breaking changes are called out explicitly.
   MODELLED (one draw from the model, not the climate; no external oracle). Without the table the
   result is the 0.37 document. The two bundled optical scenarios carry the table (336 h, 600 s, seed 37).
   Bars pre-registered in `xval/optical-atmosphere/PREREGISTRATION-timeseries.md` before the first run.
+- **Test-conditions spec and the laboratory round trip.** `kshana.test-conditions/1` is published
+  as [`docs/spec/TEST-CONDITIONS.md`](docs/spec/TEST-CONDITIONS.md) with a JSON Schema, and gains
+  `recording.kind = "receiver-log"`. `kshana bench-export` also writes `<base>.conditions.json`.
+  `kshana evidence round-trip` builds a signed pack linking the scenario hash, the stated
+  conditions' hash, the receiver log's hash and the score against the stated events, and refuses
+  conditions that disagree with the scoring events. Worked example with gps-sdr-sim writing a file
+  only; replay is the operator's responsibility and is never automated. Python
+  `evidence_round_trip`, MCP `create_round_trip_pack`, plugin `/kshana-evidence-pack`.
+- **Standards packs** (`kshana standards-pack`, `standards/`): the DHS Resilient PNT framework test
+  profiles for levels 1 to 4, IMO MSC.1/Circ.1575 accuracy levels and integrity evaluation, and
+  ICAO Doc 9849 Appendix F monitor, assess and mitigate, each a set of scenarios scored against
+  bars stated before the run, with the compliance-report rows they support evidence for. Misses
+  are on record and pinned: DHS L4-T1 and the four IMO accuracy tests. Doc 9849 itself was not read
+  (paid); the ICAO pack follows ICAO's own RFI Mitigation Plan presentation. `compliance-report`
+  gains a standards-pack section. All MODELLED.
+- **LunaNet Augmented Forward Signal** (`docs/LUNANET-AFS.md`): AFS-I Gold and AFS-Q Weil codes for
+  PRN 1 to 210, signals `lunanet-afs-i` and `lunanet-afs-q` in `kshana iq`, the SB1 BCH code,
+  CRC-24Q and interleaver, and `kshana lunanet-afs-check` (`spec`, `symbols`, `generate`), pinned to
+  LNIS V5 Applicable Document 1 Volume A (LSIS-AFS V1.0, 29 January 2025). Codes VALIDATED against
+  the document's printed tables (which it marks TBC); one printed tertiary column (PRN 147) is
+  probably a misprint and the miss is pinned. LDPC coding of subframes 2 to 4 is not implemented.
+- **Course notebooks** (`notebooks/course/`): jamming, spoofing, holdover, integrity, OSNMA and
+  interference map, each with exercises.
+- **EU-US WG-C ARAIM Milestone 3 maximum-URA study** (`xval/araim-m3/`,
+  `src/bin/gen_araim_m3_study.rs`), replacing the withdrawn "Table A-3" plan; MODELLED under stated
+  deviations.
+- **Drafts for owner approval** under `docs/drafts/`: JOSS paper, TSC charter amendment, oracle
+  registry process and a `LICENSES/` split proposal. Nothing there is adopted.
 
 ## [0.37.0] - 2026-10-17
 

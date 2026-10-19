@@ -17,6 +17,7 @@ use sha2::{Digest, Sha256};
 use super::geometry::{GeometryCfg, GeometryModel, GeometrySummary};
 use super::ingest::read_log;
 use super::live::LiveCfg;
+use super::machines::imu::{gyro_heading, heading_at, read_imu, ImuFormat};
 use super::maritime::MaritimeConfig;
 use super::monitors::{
     run_monitors, AlarmRun, Baseline, EngineFixInput, EpochTrust, Monitor, MonitorConfig,
@@ -24,7 +25,7 @@ use super::monitors::{
 };
 use super::platform::PlatformCfg;
 use super::score::ScoreCfg;
-use super::LogFormat;
+use super::{LogFormat, MarineObs, Timeline};
 
 /// Where a file's bytes come from: exactly one of `path` (native builds only), `text`
 /// (a text format pasted inline) or `base64` (any format, standard RFC 4648 alphabet).
@@ -56,6 +57,33 @@ pub struct LogCfg {
     /// monitoring (RAIM) and the clock-aided monitor.
     #[serde(default)]
     pub nav: Option<FileSource>,
+    /// An IMU log on the same clock. Its integrated yaw rate fills the heading the
+    /// `heading-course` monitor reads wherever the receiver log carries none.
+    #[serde(default)]
+    pub imu: Option<ImuCfg>,
+}
+
+/// An IMU log used as a second sensor ([`machines::imu`]).
+#[derive(Clone, Debug, Serialize, Deserialize, PartialEq)]
+#[serde(deny_unknown_fields)]
+pub struct ImuCfg {
+    /// File layout: `csv` or `euroc`.
+    pub format: ImuFormat,
+    /// The IMU file's bytes.
+    #[serde(flatten)]
+    pub source: FileSource,
+    /// Heading at the first IMU sample, degrees true.
+    pub heading0_deg: f64,
+    /// Body z points down (NED/FRD, the default) or up (ENU/FLU).
+    #[serde(default = "default_true")]
+    pub yaw_axis_down: bool,
+    /// Seconds added to the IMU clock to put it on the receiver log's `t_s`.
+    #[serde(default)]
+    pub time_offset_s: f64,
+}
+
+fn default_true() -> bool {
+    true
 }
 
 /// What kind of interference an event is.
@@ -309,6 +337,10 @@ pub struct ReceiverTrustResult {
     /// ([`crate::receiver_trust::monitors::PROFILE_NOTE`]).
     #[serde(skip_serializing_if = "Option::is_none")]
     pub profile_note: Option<&'static str>,
+    /// The receiver's own spoofing/jamming flags against Kshana's monitors (`receiver-self-report`),
+    /// present only when the log carries them (UBX-NAV-STATUS, UBX-SEC-SIG).
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub receiver_self_report: Option<super::monitors::SelfReportSummary>,
     /// One sentence on the session.
     pub verdict: String,
     /// The per-epoch trust timeline.
@@ -427,7 +459,43 @@ pub fn run_receiver_trust(scn: &ReceiverTrustScenario) -> Result<ReceiverTrustRe
         Some(src) => Some(load_source(src, "log.nav")?),
         None => None,
     };
-    run_receiver_trust_bytes(scn, &log_bytes, nav_bytes.as_deref())
+    let imu_bytes = match &scn.log.imu {
+        Some(i) => Some(load_source(&i.source, "log.imu")?),
+        None => None,
+    };
+    run_receiver_trust_bytes_imu(scn, &log_bytes, nav_bytes.as_deref(), imu_bytes.as_deref())
+}
+
+/// Fill `marine.heading_deg` from the IMU's integrated yaw rate wherever an epoch has none.
+/// Returns how many epochs it filled.
+fn apply_imu(tl: &mut Timeline, cfg: &ImuCfg, bytes: &[u8]) -> Result<usize, String> {
+    if !cfg.heading0_deg.is_finite() || !cfg.time_offset_s.is_finite() {
+        return Err("log.imu: heading0_deg and time_offset_s must be finite".into());
+    }
+    let samples = read_imu(cfg.format, &String::from_utf8_lossy(bytes))?;
+    let series: Vec<(f64, f64)> = gyro_heading(&samples, cfg.heading0_deg, cfg.yaw_axis_down)
+        .into_iter()
+        .map(|(t, h)| (t + cfg.time_offset_s, h))
+        .collect();
+    let mut filled = 0;
+    for e in &mut tl.epochs {
+        if e.marine.as_ref().is_some_and(|m| m.heading_deg.is_some()) {
+            continue;
+        }
+        if let Some(h) = heading_at(&series, e.t_s) {
+            e.marine.get_or_insert_with(MarineObs::default).heading_deg = Some(h);
+            filled += 1;
+        }
+    }
+    if filled == 0 {
+        return Err(
+            "log.imu: the IMU series overlaps no epoch of the log; check time_offset_s".into(),
+        );
+    }
+    if !tl.observables.iter().any(|o| o == "imu_heading") {
+        tl.observables.push("imu_heading".to_string());
+    }
+    Ok(filled)
 }
 
 /// Run a `receiver-trust` scenario on log bytes the caller already holds: the scenario's own
@@ -438,8 +506,57 @@ pub fn run_receiver_trust_bytes(
     log_bytes: &[u8],
     nav_bytes: Option<&[u8]>,
 ) -> Result<ReceiverTrustResult, String> {
+    run_receiver_trust_bytes_imu(scn, log_bytes, nav_bytes, None)
+}
+
+/// [`run_receiver_trust_bytes`] with the bytes of the scenario's `[log.imu]` file. A scenario
+/// that names an IMU log is refused when `imu_bytes` is `None`.
+pub fn run_receiver_trust_bytes_imu(
+    scn: &ReceiverTrustScenario,
+    log_bytes: &[u8],
+    nav_bytes: Option<&[u8]>,
+    imu_bytes: Option<&[u8]>,
+) -> Result<ReceiverTrustResult, String> {
     validate(scn)?;
-    let timeline = read_log(scn.log.format, log_bytes)?;
+    let mut timeline = read_log(scn.log.format, log_bytes)?;
+    match (&scn.log.imu, imu_bytes) {
+        (Some(cfg), Some(b)) => {
+            apply_imu(&mut timeline, cfg, b)?;
+        }
+        (Some(_), None) => {
+            return Err(
+                "this surface does not carry the `[log.imu]` file: run the scenario \
+                        with `kshana receiver-trust` on the host, or drop `[log.imu]`"
+                    .into(),
+            )
+        }
+        _ => {}
+    }
+    run_receiver_trust_on_imu(scn, timeline, log_bytes, nav_bytes, imu_bytes)
+}
+
+/// As [`run_receiver_trust_bytes`], on a timeline the caller has already built (a reader outside
+/// the four formats, such as the JammerTest CSV exports). `hashed_bytes` are the bytes the
+/// timeline came from; they go into the result's hash and its log summary, nothing else.
+pub fn run_receiver_trust_on(
+    scn: &ReceiverTrustScenario,
+    timeline: super::Timeline,
+    log_bytes: &[u8],
+    nav_bytes: Option<&[u8]>,
+) -> Result<ReceiverTrustResult, String> {
+    run_receiver_trust_on_imu(scn, timeline, log_bytes, nav_bytes, None)
+}
+
+/// [`run_receiver_trust_on`] where the timeline already carries the IMU's heading: the IMU
+/// bytes go into the result's hash.
+pub fn run_receiver_trust_on_imu(
+    scn: &ReceiverTrustScenario,
+    timeline: super::Timeline,
+    log_bytes: &[u8],
+    nav_bytes: Option<&[u8]>,
+    imu_bytes: Option<&[u8]>,
+) -> Result<ReceiverTrustResult, String> {
+    validate(scn)?;
 
     // The engine's own fix needs pseudoranges, which only the RINEX observation file has.
     if nav_bytes.is_some() && scn.log.format != LogFormat::Rinex {
@@ -465,6 +582,9 @@ pub fn run_receiver_trust_bytes(
     hasher.update(log_bytes);
     if let Some(nav) = nav_bytes {
         hasher.update(nav);
+    }
+    if let Some(imu) = imu_bytes {
+        hasher.update(imu);
     }
     let scenario_hash = format!("{:x}", hasher.finalize());
 
@@ -646,6 +766,7 @@ pub fn run_receiver_trust_bytes(
         predictions_agreeing,
         predictions_evaluable,
         score_model,
+        receiver_self_report: super::monitors::self_report_summary(&trust.epochs, scn.log.format),
         verdict,
         geometry_model: GeometryModel::new(
             &scn.monitors.geometry,
@@ -691,7 +812,12 @@ fn format_name(f: LogFormat) -> &'static str {
         LogFormat::Ubx => "ubx",
         LogFormat::Rinex => "rinex",
         LogFormat::Android => "android",
+        LogFormat::Sbf => "sbf",
         LogFormat::Nmea => "nmea",
+        LogFormat::RtklibPos => "rtklib-pos",
+        LogFormat::Novatel => "novatel",
+        LogFormat::Rtcm3 => "rtcm3",
+        LogFormat::GnssSdr => "gnss-sdr",
     }
 }
 
@@ -1126,6 +1252,9 @@ pub fn resolve_paths(scn: &mut ReceiverTrustScenario, base: &std::path::Path) {
     fix(&mut scn.log.source.path);
     if let Some(nav) = scn.log.nav.as_mut() {
         fix(&mut nav.path);
+    }
+    if let Some(imu) = scn.log.imu.as_mut() {
+        fix(&mut imu.source.path);
     }
 }
 

@@ -39,6 +39,7 @@ pub mod cli;
 pub mod frontend;
 pub mod io;
 pub mod labfit;
+pub mod lunanet_afs;
 pub mod monitor;
 pub mod scene;
 pub mod short;
