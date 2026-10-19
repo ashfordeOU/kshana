@@ -1,0 +1,138 @@
+// SPDX-License-Identifier: AGPL-3.0-only
+//! The `lunar-infrastructure` scenario kind: the Moon's orbit and surface as navigation and
+//! geodetic infrastructure (0.38 WS-H, H2). Five studies behind one kind, selected by `study`;
+//! the pre-registered designs, inputs and bars are in `xval/lunar-infra/PREREGISTRATION.md` and
+//! the documentation is `docs/LUNAR-INFRASTRUCTURE.md`.
+//!
+//! **MODELLED.** Every figure is computed from stated inputs on a restricted three-body model with
+//! stated simplifications. Nothing here is a statement about the performance of any mission or
+//! system, nothing is compared with a measurement of a lunar quantity, and the work is not
+//! affiliated with or endorsed by any agency. Nothing is transmitted and no hardware is driven.
+
+pub mod gnss;
+pub mod la;
+pub mod od;
+pub mod orbit;
+pub mod phase;
+
+use serde::{Deserialize, Serialize};
+use serde_json::{json, Value};
+use sha2::{Digest, Sha256};
+
+use gnss::GnssSpec;
+use od::{GroundSpec, McSpec};
+use orbit::OrbitSpec;
+use phase::{PhaseMc, SurfaceSpec};
+
+/// The label every report carries.
+pub const LABEL: &str = "MODELLED — a restricted three-body model (Earth and Moon point masses, \
+     no Sun, no lunar gravity harmonics) with stated simplifications and ILLUSTRATIVE inputs \
+     labelled with their public sources. Numerics are checked against independent programs; \
+     nothing is compared with a measurement of a lunar quantity, and nothing here is a \
+     statement about any mission or system. Not affiliated with or endorsed by any agency. \
+     Advisory software, not type-approved equipment.";
+
+/// The studies the kind runs.
+pub const STUDIES: [&str; 5] = [
+    "od-consistency",
+    "carrier-phase",
+    "frame-coestimation",
+    "space-tie",
+    "geodesy-sensitivity",
+];
+
+/// A `lunar-infrastructure` scenario.
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(deny_unknown_fields)]
+pub struct LunarInfrastructureScenario {
+    /// Scenario kind tag.
+    #[serde(default)]
+    pub kind: Option<String>,
+    /// One of [`STUDIES`].
+    pub study: String,
+    /// Seed of every stochastic draw (default 20261019).
+    #[serde(default)]
+    pub seed: Option<u64>,
+    /// Reference orbit.
+    #[serde(default)]
+    pub orbit: Option<OrbitSpec>,
+    /// Earth-GNSS reception.
+    #[serde(default)]
+    pub gnss: Option<GnssSpec>,
+    /// Ground radiometric tracking.
+    #[serde(default)]
+    pub ground: Option<GroundSpec>,
+    /// Monte Carlo settings of `od-consistency`; `carrier-phase` reads only `trials`.
+    #[serde(default)]
+    pub monte_carlo: Option<McSpec>,
+    /// Lunar surface station(s).
+    #[serde(default)]
+    pub surface: Option<SurfaceSpec>,
+}
+
+impl LunarInfrastructureScenario {
+    /// Reproducible hash of the canonical inputs.
+    pub fn scenario_hash(&self) -> String {
+        let c = serde_json::to_string(self).unwrap_or_default();
+        hex::encode(Sha256::digest(c.as_bytes()))
+    }
+
+    /// Run the study; return `(pretty JSON report, one-line summary)`.
+    pub fn run_json(&self) -> Result<(String, String), String> {
+        let seed = self.seed.unwrap_or(20_261_019);
+        let orbit = self.orbit.clone().unwrap_or_default();
+        let (body, summary) = match self.study.as_str() {
+            "od-consistency" => {
+                let v = od::run(
+                    &orbit,
+                    &self.gnss.clone().unwrap_or_default(),
+                    &self.ground.clone().unwrap_or_default(),
+                    &self.monte_carlo.clone().unwrap_or_default(),
+                    seed,
+                )?;
+                let s = format!(
+                    "lunar-infrastructure od-consistency: GNSS {:.1} m vs ground {:.1} m position sigma, mean q {:.2} (chi-square 6 expects 6)",
+                    v["gnss_estimate"]["position_sigma_m"].as_f64().unwrap_or(f64::NAN),
+                    v["ground_estimate"]["position_sigma_m"].as_f64().unwrap_or(f64::NAN),
+                    v["consistency"]["mean_q"].as_f64().unwrap_or(f64::NAN),
+                );
+                (v, s)
+            }
+            "carrier-phase" => {
+                let mc = PhaseMc { trials: self.monte_carlo.as_ref().and_then(|m| m.trials) };
+                let v = phase::run(
+                    &orbit,
+                    &self.gnss.clone().unwrap_or_default(),
+                    &self.surface.clone().unwrap_or_default(),
+                    &mc,
+                    seed,
+                )?;
+                let last = v["arcs"].as_array().and_then(|a| a.last()).cloned().unwrap_or(Value::Null);
+                let s = format!(
+                    "lunar-infrastructure carrier-phase: {} ambiguities, ILS success {:.3} (bootstrap {:.3}) on the longest arc",
+                    last["double_difference_ambiguities"],
+                    last["monte_carlo_success_rate"].as_f64().unwrap_or(f64::NAN),
+                    last["bootstrapped_success_rate_decorrelated"].as_f64().unwrap_or(f64::NAN),
+                );
+                (v, s)
+            }
+            other => {
+                return Err(format!(
+                    "unknown study `{other}`: expected one of {}",
+                    STUDIES.join(", ")
+                ))
+            }
+        };
+        let mut doc = json!({
+            "kind": "lunar-infrastructure",
+            "study": self.study,
+            "label": LABEL,
+            "scenario_hash": self.scenario_hash(),
+        });
+        if let (Value::Object(d), Value::Object(b)) = (&mut doc, body) {
+            d.extend(b);
+        }
+        let text = serde_json::to_string_pretty(&doc).map_err(|e| e.to_string())?;
+        Ok((text, summary))
+    }
+}

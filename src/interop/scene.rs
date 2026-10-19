@@ -477,6 +477,7 @@ pub fn reason_for_kind(kind: ScenarioKind) -> Option<String> {
         | K::LunarAttackSurface
         | K::LunarJamming
         | K::LunarBeacon
+        | K::LunarInfrastructure
         | K::LunarVlbiFim
         | K::MarsPnt
         | K::SolarSystem
