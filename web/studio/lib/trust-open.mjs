@@ -24,7 +24,8 @@ export function formatFromName(name) {
   const n = String(name || "").toLowerCase().replace(/\s/g, "");
   const ext = (n.match(/\.([a-z0-9]+)$/) || [])[1] || "";
   if (/^\d\do$/.test(ext)) return "rinex";
-  if (/^android|gnss_?log/.test(n.split("/").pop())) return "android";
+  const base = n.split("/").pop();
+  if (base.startsWith("android") || /gnss_?log/.test(base)) return "android";
   const hit = LOG_FORMATS.find((f) => f.exts.includes(ext));
   return hit ? hit.id : "";
 }
