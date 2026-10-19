@@ -75,14 +75,45 @@
     <p class="mt-status" id="mt-score-status" role="status" aria-live="polite"></p>
   </section>
 
+  <section class="card mt-load mt-jt" aria-labelledby="mt-jt-h">
+    <div class="card-head"><h2 id="mt-jt-h" class="h3">Jammertest scorecard</h2>
+      <p class="card-note">Open the scorecard <code>kshana jammertest score</code> writes: a receiver-trust run scored against the scheduled slots of a published test plan, per test (detected, late, missed, not evaluable) with latency and recovery, and the false alarms outside the slots. The slots are the plan's, not recorded on-air times, so every figure is <b>MODELLED</b>. The file is read here and never uploaded.</p></div>
+    <div class="mt-drop">
+      <label class="mt-file btn-primary">Choose a scorecard…<input id="mt-jt-file" type="file" accept=".json,application/json"></label>
+    </div>
+    <p class="mt-status" id="mt-jt-status" role="status" aria-live="polite">No scorecard open.</p>
+    <div id="mt-jt-out" hidden>
+      <p class="mt-offset" id="mt-jt-label"></p>
+      <p class="mt-advice" id="mt-jt-assess" role="note" hidden></p>
+      <dl class="mt-setgrid mt-geo-rows" id="mt-jt-sum"></dl>
+      <div class="mt-tablewrap"><table class="tbl" id="mt-jt-table"></table></div>
+    </div>
+  </section>
+
   <section class="card mt-load" aria-labelledby="mt-gen-h">
     <div class="card-head"><h2 id="mt-gen-h" class="h3">Generic receiver-trust run (not a vessel)</h2>
       <p class="card-note">For a fixed or unspecified receiver, <code>kshana receiver-trust</code> checks a GNSS log against its own calibration window and says when it stopped looking like itself. It gives states and alarms, not the 0 to 100 vessel score. Run the illustrative example (a made-up log with a jammer from 120 s to 240 s) or your own NMEA log under the same settings. The log is read here and never uploaded.</p></div>
     <p class="mt-adv" role="note"><b>Advisory software.</b> Not type-approved navigation equipment. An alarm is an observation about the log, not a finding about the cause, and no alarm is not a guarantee that a fix is good.</p>
     <div class="mt-drop">
       <button class="mt-demo" id="mt-gen-demo" type="button">Run the illustrative jamming example</button>
-      <label class="mt-file btn-primary">Choose an NMEA log…<input id="mt-gen-file" type="file" accept=".nmea,.txt,.log,text/*"></label>
+      <label class="mt-file btn-primary">Choose a receiver log…<input id="mt-gen-file" type="file"></label>
+      <label class="mt-field">Log format <select id="mt-gen-format" aria-describedby="mt-gen-fmt-note"></select></label>
+      <label class="mt-field"><span><input id="mt-gen-vessel" type="checkbox"> Score as a vessel (moving platform, 0 to 100)</span></label>
+      <button class="mt-demo" id="mt-gen-run" type="button" disabled>Assess the chosen file</button>
     </div>
+    <p class="mt-none" id="mt-gen-fmt-note">The format is guessed from the file name; change it here when it is wrong, then assess again. NovAtel OEM7, RTCM 3 and Septentrio SBF are binary formats; they are sent to the engine as they are, in this browser.</p>
+    <details class="mt-gloss"><summary>IMU file (optional): a second sensor for the heading</summary>
+      <p class="mt-none">An IMU log on the receiver log's clock fills the heading the heading-versus-course monitor reads wherever the receiver log carries none. Only a vessel session uses it.</p>
+      <div class="mt-drop">
+        <label class="mt-file btn-primary">Choose an IMU file…<input id="mt-gen-imu" type="file" accept=".csv,.txt,text/*"></label>
+        <label class="mt-field">IMU format <select id="mt-gen-imu-format"></select></label>
+        <label class="mt-field">Heading at its first sample, degrees true <input id="mt-gen-imu-h0" type="text" inputmode="decimal" value="0" spellcheck="false"></label>
+        <label class="mt-field">Added to the IMU clock, s <input id="mt-gen-imu-off" type="text" inputmode="decimal" value="0" spellcheck="false"></label>
+        <label class="mt-field"><input id="mt-gen-imu-down" type="checkbox" checked> Body z points down (NED/FRD)</label>
+        <button class="mt-chip" id="mt-gen-imu-clear" type="button">Remove the IMU file</button>
+      </div>
+      <p class="mt-status" id="mt-gen-imu-status" role="status" aria-live="polite">No IMU file.</p>
+    </details>
     <details class="mt-gloss"><summary>Session settings (TOML, the log is supplied inline)</summary>
       <textarea id="mt-gen-toml" class="mt-toml" rows="12" spellcheck="false" aria-label="Receiver-trust session settings in TOML"></textarea></details>
     <p class="mt-status" id="mt-gen-status" role="status" aria-live="polite"></p>
@@ -115,6 +146,13 @@
         <p class="mt-offset" id="mt-offset" aria-live="off"></p>
       </section>
 
+      <section class="card mt-sky" aria-labelledby="mt-sky-h">
+        <div class="card-head"><h3 id="mt-sky-h">Sky at the cursor</h3>
+          <p class="card-note">The satellites the log's own GSV lists. A filled marker has a signal strength; a hollow one is listed with none; a shaded sector is where the log lists satellites and hears none of them (a blocked sky and a jammed signal look the same here). Nominal constellation, not an ephemeris for the log's date.</p></div>
+        <div class="mt-skybox"><svg id="mt-sky-svg" viewBox="0 0 240 240" role="img" aria-labelledby="mt-sky-h mt-sky-cap"></svg></div>
+        <p class="mt-offset" id="mt-sky-cap" aria-live="off"></p>
+      </section>
+
       <section class="card mt-time" aria-labelledby="mt-time-h">
         <div class="card-head"><h3 id="mt-time-h">Score over time</h3>
           <p class="card-note">Score 0 to 100. Dashed lines are the band edges; the strips underneath are the band and the gate. Drag or click to move the time cursor; the arrow keys step it.</p></div>
@@ -141,6 +179,16 @@
         <p class="mt-geo-now" id="mt-geo-now"></p>
         <ul class="mt-geo-flags" id="mt-geo-flags"></ul>
         <dl class="mt-setgrid mt-geo-rows" id="mt-geo-rows"></dl>
+      </section>
+
+      <section class="card mt-self" id="mt-self-card" aria-labelledby="mt-self-h" hidden>
+        <div class="card-head"><h3 id="mt-self-h">The receiver's own flag</h3>
+          <p class="card-note">What the receiver itself says about spoofing and jamming (u-blox UBX-NAV-STATUS and UBX-SEC-SIG), set beside Kshana's monitors. The codes are the receiver's; neither detector is ground truth, and agreement is not validation. The flag changes no score.</p></div>
+        <p class="mt-geo-now" id="mt-self-now"></p>
+        <dl class="mt-setgrid mt-geo-rows" id="mt-self-rows"></dl>
+        <h4 class="mt-h4">Over the run</h4>
+        <p class="mt-offset" id="mt-self-sum-note"></p>
+        <dl class="mt-setgrid mt-geo-rows" id="mt-self-sum"></dl>
       </section>
 
       <section class="card mt-set" aria-labelledby="mt-set-h">

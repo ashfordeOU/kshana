@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<!-- Optical PNT: a page of the Studio. Every relative address resolves from the Studio's own folder (like the Advanced view), so it shares the theme, tokens and modules. It reads files the person picks, in the browser: nothing is uploaded and the engine is not needed. -->
+<base href="../">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Kshana Studio</title>
+<meta name="description" content="Optical PNT through the atmosphere: the engine's two optical-atmosphere scenarios drawn as availability against the cloud ceiling, the margin each target needs, outage durations, the timing a clock keeps and site diversity. Model output, not a measurement.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="data:,">
+<link href="../fonts/geist-geist-mono-unbounded.css" rel="stylesheet">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="theme.css">
+<link rel="stylesheet" href="app.css">
+<link rel="stylesheet" href="studio.css">
+<link rel="stylesheet" href="optical/optical.css">
+<link rel="modulepreload" href="lib/optical.mjs">
+<script>
+  // Apply a remembered theme before first paint (per-viewer convenience only).
+  try { const q = new URLSearchParams(location.search).get("theme"); const t = q || localStorage.getItem("kshana-theme"); if (t === "dark" || t === "light") document.documentElement.dataset.theme = t; } catch (e) {}
+</script>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-theme" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.2" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M8 1.8a6.2 6.2 0 0 1 0 12.4z" fill="currentColor"/></symbol>
+  <symbol id="i-play" viewBox="0 0 16 16"><path d="M4.5 2.8v10.4a.6.6 0 0 0 .9.5l8.1-5.2a.6.6 0 0 0 0-1L5.4 2.3a.6.6 0 0 0-.9.5z" fill="currentColor"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 16 16"><path d="M4 2.5h3v11H4zM9 2.5h3v11H9z" fill="currentColor"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 16 16"><path d="M3 8h9m0 0L8.5 4.5M12 8l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-back" viewBox="0 0 16 16"><path d="M4 2.5h1.8v11H4zM13 3v10a.5.5 0 0 1-.8.4L6 8.4a.5.5 0 0 1 0-.8l6.2-5A.5.5 0 0 1 13 3z" fill="currentColor"/></symbol>
+  <symbol id="i-fwd" viewBox="0 0 16 16"><path d="M10.2 2.5H12v11h-1.8zM3 3v10a.5.5 0 0 0 .8.4l6.2-5a.5.5 0 0 0 0-.8L3.8 2.6A.5.5 0 0 0 3 3z" fill="currentColor"/></symbol>
+</svg>
+<a class="skip" href="#main">Skip to the view</a>
+<header class="bar" id="bar">
+  <a class="brand" href="/" aria-label="Kshana home"><span aria-hidden="true" style="display:inline-block;width:34px;height:34px;flex:none;margin:-5px -3px -5px -5px;background:var(--ink);-webkit-mask:url(assets/brand/kshana-mark-mask.png) center/contain no-repeat;mask:url(assets/brand/kshana-mark-mask.png) center/contain no-repeat"></span>Kshana <span class="brand-tag">Studio</span></a>
+  <nav class="crumb" aria-label="Where you are"><span>Optical PNT</span></nav>
+  <div class="bar-right">
+    <a class="view-switch" href="./" title="Back to the Studio"><svg class="ic flip" aria-hidden="true"><use href="#i-arrow"/></svg><span class="lbl">Studio</span></a>
+    <button class="icon-btn" id="btn-theme" type="button" aria-label="Switch between light and dark" title="Switch between light and dark"><svg aria-hidden="true"><use href="#i-theme"/></svg></button>
+  </div>
+</header>
+
+<main id="main" tabindex="-1">
+<div class="wrap opt">
+  <p class="kicker"><i style="--c:var(--orb)"></i>Optical PNT</p>
+  <h1 id="op-h">Can an optical link get through the weather?</h1>
+  <p class="lede">An optical timing or ranging link cannot pass thick cloud, so each ground site has an availability ceiling that no extra margin lifts. These are the two <code>optical-atmosphere</code> scenarios the engine ships, drawn from the results it recorded: availability against that ceiling, the margin each target needs, how long outages last, the timing a clock keeps through them, and what more sites or better optics buy.</p>
+  <p class="op-model" role="note"><b>Model output.</b> Everything here is <b>MODELLED</b>: the cloud climates, the clock classes and the techniques are stated assumptions (the sites are ILLUSTRATIVE, not any dataset or place's measured weather), and the numerics are checked against an independent program that implements the same formulas, not against the atmosphere. The time series is one seeded draw from the stated site model, not the climate. <b>Advisory software.</b> Kshana is not type-approved navigation equipment and this is not a certified availability.</p>
+
+  <section class="card op-pick" aria-label="Scenario">
+    <div class="op-tabs" id="op-tabs" role="tablist" aria-label="Optical-atmosphere scenarios"></div>
+    <p class="op-blurb" id="op-blurb"></p>
+    <p class="op-status" id="op-status" role="status" aria-live="polite">Opening the scenarios…</p>
+  </section>
+
+  <div id="op-body" hidden>
+    <section class="card op-facts" aria-labelledby="op-facts-h">
+      <div class="card-head"><h2 id="op-facts-h" class="h3">The link</h2><p class="card-note" id="op-summary"></p></div>
+      <dl class="op-kv" id="op-kv"></dl>
+    </section>
+    <div class="op-grid" id="op-charts"></div>
+    <section class="card op-sites" aria-labelledby="op-sites-h">
+      <div class="card-head"><h2 id="op-sites-h" class="h3">Sites, as the engine states them</h2><p class="card-note">Inputs are marked; everything else is the engine's output for them.</p></div>
+      <div class="op-tablewrap"><table class="tbl" id="op-table"></table></div>
+    </section>
+    <p class="op-prov" id="op-prov"></p>
+  </div>
+
+  <section class="op-fine" aria-label="About this page">
+    <h2 class="h3">What this page does and does not show</h2>
+    <ul>
+      <li>It draws only what the engine recorded for each scenario, including its seeded time series. The page computes nothing: it scales the engine's numbers to the chart.</li>
+      <li>The sites, their cloud climates, the clock classes and the techniques are inputs chosen to illustrate, and are labelled so. No measured availability record has been compared.</li>
+      <li>You can run the scenarios yourself in the Studio (Advanced view, "Optical link through the atmosphere") or with <code>kshana scenarios/optical-atmosphere-network.toml</code>.</li>
+    </ul>
+  </section>
+</div>
+</main>
+<script type="module" src="optical/optical.js"></script>
+</body>
+</html>

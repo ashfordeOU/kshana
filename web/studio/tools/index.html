@@ -138,6 +138,49 @@
     </div>
   </section>
 
+  <section class="tl-panel" id="imufit" role="tabpanel" aria-labelledby="t-imufit" hidden>
+    <div class="card">
+      <div class="card-head"><h2 class="h3">IMU fit: sensor parameters for the hybrid and fusion scenarios</h2>
+        <p class="card-note">The <code>hybrid</code> and <code>fusion</code> scenarios are simulations that take sensor noise parameters, not a measured series. This reads those parameters off a <b>stationary</b> IMU log (the overlapping Allan deviation of the integrated signal) and writes a ready-to-paste <code>[accel_classical]</code> table that names the log's SHA-256. The file is read in this browser and never uploaded.</p></div>
+      <p class="tl-warn" role="note"><b>MODELLED, advisory.</b> The estimator is checked on synthetic white-noise logs with known coefficients (recovered within 10 %), not against an external oracle. A log that is not still, under 2000 samples or unevenly sampled is refused or gives parameters the Allan slopes flag.</p>
+      <div class="tl-row"><label class="tl-file btn-primary">Stationary IMU log (CSV)…<input id="if-file" type="file" accept=".csv,.txt,text/*"></label></div>
+      <p class="tl-sel" id="if-sel" role="status" aria-live="polite">Nothing open yet.</p>
+      <div class="tl-form">
+        <label>Layout<select id="if-format"><option value="csv">CSV with a header row (t_s, gx, gy, gz, ax, ay, az)</option><option value="euroc">EuRoC MAV imu0 data.csv</option></select></label>
+        <label>Accelerometer axis to fit<select id="if-axis"><option value="x">x</option><option value="y">y</option><option value="z">z (vertical)</option></select></label>
+        <label>Specific force that axis reads at rest, m/s² (0 horizontal, about 9.80665 vertical)<input id="if-mean" type="text" inputmode="decimal" value="0" spellcheck="false"></label>
+        <label>Table id<input id="if-id" type="text" value="bench-imu" maxlength="64" spellcheck="false"></label>
+      </div>
+      <div class="tl-row"><button type="button" class="btn-primary" id="if-run">Fit the parameters</button></div>
+      <div id="if-out" class="tl-out" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <section class="tl-panel" id="jammertest" role="tabpanel" aria-labelledby="t-jammertest" hidden>
+    <div class="card">
+      <div class="card-head"><h2 class="h3">Jammertest: score a receiver log against the published test plan</h2>
+        <p class="card-note">The Norwegian Jammertest publishes a test catalogue and a transmission plan. Kshana reads them as <b>scheduled truth</b>, the slots the plan says, not recorded on-air times, and scores a receiver-trust run against them: per test, was it detected, how late, did it recover, and which alarms fell outside every slot. Choose the catalogue and plan files you downloaded yourself (Kshana does not bundle them) and a receiver log. Everything runs in this browser; nothing is uploaded.</p></div>
+      <p class="tl-warn" role="note"><b>MODELLED, advisory.</b> The slots are the plan's, so a detection probability is a lower bound; no external oracle states when a transmitter was on. A scorecard describes one log, never a product. Signed score packs are made with the command line (they need a signing key).</p>
+      <div class="tl-row">
+        <label class="tl-file btn-primary">Catalogue (JSON)…<input id="jt-cat" type="file" accept=".json,application/json"></label>
+        <label class="tl-file btn-primary">Plan file(s) (JSON)…<input id="jt-plans" type="file" multiple accept=".json,application/json"></label>
+        <label class="tl-file btn-primary">Receiver log…<input id="jt-log" type="file"></label>
+      </div>
+      <p class="tl-sel" id="jt-sel" role="status" aria-live="polite">Nothing open yet.</p>
+      <div class="tl-form">
+        <label>Log format<select id="jt-format"><option value="ubx">u-blox UBX</option><option value="sbf">Septentrio SBF</option><option value="rinex">RINEX observation</option><option value="android">Android GNSS logger</option><option value="nmea">NMEA 0183</option></select></label>
+        <label>Plan's offset from UTC, hours (CEST: 2)<input id="jt-off" type="text" inputmode="decimal" value="2" spellcheck="false"></label>
+        <label>Log's first epoch, UTC (ISO 8601; empty when the log states it)<input id="jt-start" type="text" placeholder="2025-09-17T08:00:00Z" spellcheck="false"></label>
+        <label>Test area (0: not given)<input id="jt-loc" type="text" inputmode="numeric" value="0" spellcheck="false"></label>
+        <label>Plan year (0: not given)<input id="jt-year" type="text" inputmode="numeric" value="0" spellcheck="false"></label>
+        <label>Recovery hold, s<input id="jt-hold" type="text" inputmode="decimal" value="10" spellcheck="false"></label>
+        <label>Guard around a slot, s<input id="jt-guard" type="text" inputmode="decimal" value="60" spellcheck="false"></label>
+      </div>
+      <div class="tl-row"><button type="button" class="tl-btn" id="jt-import">Import the schedule</button><button type="button" class="btn-primary" id="jt-score">Score the log</button></div>
+      <div id="jt-out" class="tl-out" aria-live="polite"></div>
+    </div>
+  </section>
+
   <section class="tl-panel" id="cli" role="tabpanel" aria-labelledby="t-cli" hidden>
     <div class="tl-cards" id="cli-cards"></div>
   </section>

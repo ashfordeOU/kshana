@@ -1,0 +1,49 @@
+# Lunar reference station geodesy, WITH STATION: the five retroreflector arrays plus one
+# retroreflector and one VLBI beacon at a south-polar lunar reference station site.
+#
+# The question: how much does adding one retroreflector and one VLBI beacon at the station site
+# tighten the lunar frame datum, compared with today's five retroreflector arrays alone?
+#
+# The run reports the five-array datum exactly as the baseline does, plus a station_geodesy block
+# with each Helmert parameter's 1-sigma before and after and their ratio:
+#   * the added reflector is ranged at the archived normal-point epochs at which the ranging
+#     station is above the site's horizon (the existing look-angle test), each with that normal
+#     point's archived weight. A south-polar site sees the Earth low on its horizon or not at all,
+#     so this is far from continuous ranging; reusing epochs scheduled for the five existing
+#     arrays is an ILLUSTRATIVE schedule, not a plan of any station;
+#   * the added beacon is observed by the [beacon_campaign] network and schedule, with the Earth
+#     stations held fixed (the lunar-frame-campaign and lunar-vlbi-fim delay partials).
+#
+# Site: latitude -89.0, longitude 0.0, height 0 m, the study's default station site
+# (ILLUSTRATIVE; no surveyed position is used).
+#
+# MODELLED: Cramer-Rao bounds for a reduced parameter set; not a solved datum and not a geodetic
+# product. Not a statement about any real station; not affiliated with or endorsed by any agency.
+#
+# DATA: the committed real-data slice ships with the repository but not with the published crate.
+kind = "lunar-llr-datum"
+
+extra_earth_elevation_mask_deg = 0.0
+
+[[extra_reflectors]]
+name = "lunar-reference-station-reflector"
+lat_deg = -89.0
+lon_deg = 0.0
+alt_m = 0.0
+
+[[extra_beacons]]
+name = "lunar-reference-station-beacon"
+lat_deg = -89.0
+lon_deg = 0.0
+alt_m = 0.0
+
+[beacon_campaign]
+# Identical to the baseline file.
+epoch_year = 2024
+epoch_month = 1
+epoch_day = 1
+arc_hours = 672.0
+step_min = 60.0
+delay_sigma_s = 1.0e-11       # ILLUSTRATIVE, the lunar-frame-campaign default
+elevation_mask_deg = 10.0
+earth_elevation_mask_deg = 0.0

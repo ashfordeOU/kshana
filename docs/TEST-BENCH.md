@@ -89,7 +89,7 @@ No vendor scripting interface is written by Kshana.
 
 #### Checked with one open-source simulator's readers
 
-The motion readers of gps-sdr-sim (MIT, commit 28ca29a6) were given the exports of 8 bundled
+The motion readers of gps-sdr-sim (MIT, commit 28ca29a6) were given the exports of eight bundled
 scenarios. Each reader returned the exported trajectory (`tests/testbench_gpssdrsim_oracle.rs`,
 pre-registered in `xval/testbench-gpssdrsim/PREREGISTRATION.md`):
 

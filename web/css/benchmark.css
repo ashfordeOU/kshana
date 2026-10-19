@@ -1,0 +1,10 @@
+/* Benchmark page: only what the page adds to site.css. The board itself is the engine's fragment (kb- classes, its own <style>). */
+.bm{padding-top:clamp(36px,5vw,64px)}
+.bm-board{margin-top:20px;min-width:0;overflow-x:auto}
+.bm-empty{padding:22px 24px;border-radius:var(--r,14px);border:1px dashed var(--line-2);background:var(--panel);max-width:70ch}
+.bm-empty h3{margin:0 0 8px;font-size:18px}
+.bm-empty p{margin:0 0 8px;color:var(--ink-2);line-height:1.55}
+.bm-list{margin:8px 0 0;padding-left:20px;max-width:78ch;color:var(--ink-2);font-size:15px;line-height:1.6}
+.bm-list li{margin:0 0 8px}
+@media (max-width:640px){.bm-empty{padding:16px}}
+.bm .m-note{margin-top:18px}

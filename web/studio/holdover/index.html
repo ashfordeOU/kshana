@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<!-- Holdover test: a page of the Studio. Every relative address resolves from the Studio's own folder (like the Advanced view), so it shares the theme, tokens and modules. It reads files the person picks, in the browser: nothing is uploaded and the engine is not needed. -->
+<base href="../">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Kshana Studio</title>
+<meta name="description" content="Pull the antenna, score the holdover: a time-error record split at the two times the operator states and measured against public ITU-T masks. Phases, limits, MTIE, TDEV and the verdict, from the engine's result. Modelled, measured against the mask; advisory.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="data:,">
+<link href="../fonts/geist-geist-mono-unbounded.css" rel="stylesheet">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="theme.css">
+<link rel="stylesheet" href="app.css">
+<link rel="stylesheet" href="studio.css">
+<link rel="stylesheet" href="holdover/holdover.css">
+<link rel="modulepreload" href="lib/holdover.mjs">
+<script>
+  // Apply a remembered theme before first paint (per-viewer convenience only).
+  try { const q = new URLSearchParams(location.search).get("theme"); const t = q || localStorage.getItem("kshana-theme"); if (t === "dark" || t === "light") document.documentElement.dataset.theme = t; } catch (e) {}
+</script>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-theme" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.2" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M8 1.8a6.2 6.2 0 0 1 0 12.4z" fill="currentColor"/></symbol>
+  <symbol id="i-play" viewBox="0 0 16 16"><path d="M4.5 2.8v10.4a.6.6 0 0 0 .9.5l8.1-5.2a.6.6 0 0 0 0-1L5.4 2.3a.6.6 0 0 0-.9.5z" fill="currentColor"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 16 16"><path d="M4 2.5h3v11H4zM9 2.5h3v11H9z" fill="currentColor"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 16 16"><path d="M3 8h9m0 0L8.5 4.5M12 8l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-back" viewBox="0 0 16 16"><path d="M4 2.5h1.8v11H4zM13 3v10a.5.5 0 0 1-.8.4L6 8.4a.5.5 0 0 1 0-.8l6.2-5A.5.5 0 0 1 13 3z" fill="currentColor"/></symbol>
+  <symbol id="i-fwd" viewBox="0 0 16 16"><path d="M10.2 2.5H12v11h-1.8zM3 3v10a.5.5 0 0 0 .8.4l6.2-5a.5.5 0 0 0 0-.8L3.8 2.6A.5.5 0 0 0 3 3z" fill="currentColor"/></symbol>
+</svg>
+<a class="skip" href="#main">Skip to the view</a>
+<header class="bar" id="bar">
+  <a class="brand" href="/" aria-label="Kshana home"><span aria-hidden="true" style="display:inline-block;width:34px;height:34px;flex:none;margin:-5px -3px -5px -5px;background:var(--ink);-webkit-mask:url(assets/brand/kshana-mark-mask.png) center/contain no-repeat;mask:url(assets/brand/kshana-mark-mask.png) center/contain no-repeat"></span>Kshana <span class="brand-tag">Studio</span></a>
+  <nav class="crumb" aria-label="Where you are"><span>Holdover test</span></nav>
+  <div class="bar-right">
+    <a class="view-switch" href="./" title="Back to the Studio"><svg class="ic flip" aria-hidden="true"><use href="#i-arrow"/></svg><span class="lbl">Studio</span></a>
+    <button class="icon-btn" id="btn-theme" type="button" aria-label="Switch between light and dark" title="Switch between light and dark"><svg aria-hidden="true"><use href="#i-theme"/></svg></button>
+  </div>
+</header>
+
+<main id="main" tabindex="-1">
+<div class="wrap hot">
+  <p class="kicker"><i style="--c:var(--tim)"></i>Holdover test</p>
+  <h1 id="ho-h">How far does the time error go when GNSS is gone?</h1>
+  <p class="lede">The operator pulls GNSS from a timing system, writes down the two times (removed, restored) and keeps the time-error record. Kshana splits the record at those times and <b>measures each step against public ITU-T masks</b>: the baseline while locked, the holdover, the recovery. It does not remove or restore anything, and it reads only the record. The scenario kind is <code>holdover-test</code> (<code>docs/TIMING-HIL.md</code>).</p>
+  <p class="ho-model" role="note"><b>Measured against the mask, not conformance.</b> The result is <b>MODELLED</b>: the step logic, the line fit and the recovery rule are checked on records built from formulas whose answers are known, and no laboratory holdover has been scored against an external oracle. The masks are transcribed from freely downloadable ITU-T Recommendations, and nothing here says that a clock or system meets, or is approved against, any Recommendation. The two times are the operator's statement and are not verified. The records in the two examples are generated for them; they are not measurements. <b>Advisory software.</b> Kshana is not type-approved navigation equipment (IEC 61108, IEC 61162) and not type-approved timing equipment.</p>
+
+  <section class="card ho-pick" aria-label="Scenario">
+    <div class="ho-tabs" id="ho-tabs" role="tablist" aria-label="Holdover-test scenarios"></div>
+    <p class="ho-blurb" id="ho-blurb"></p>
+    <div class="ho-open"><label class="ho-chip">Open a result…<input id="ho-files" type="file" accept=".json,application/json"></label>
+      <span class="ho-hint">A result file from <code>kshana holdover-test.toml</code>. The curve is drawn from the record the engine writes into it. Read here; nothing is uploaded.</span></div>
+    <p class="ho-status" id="ho-status" role="status" aria-live="polite">Opening the scenarios…</p>
+  </section>
+
+  <div id="ho-body" hidden>
+    <section class="card ho-verdict" aria-labelledby="ho-verdict-h">
+      <div class="card-head"><h2 id="ho-verdict-h" class="h3">Verdict, step by step</h2><p class="card-note" id="ho-summary"></p></div>
+      <ul class="ho-chips" id="ho-chips"></ul>
+    </section>
+    <section class="card" aria-labelledby="ho-te-h">
+      <div class="card-head"><h2 id="ho-te-h" class="h3">Time error over the record</h2>
+        <p class="card-note">The three phases are shaded; the dashed vertical lines are the two times the operator stated. Dashed horizontal lines are the masks' limits on the maximum absolute time error, each drawn over the step its mask names, and the recovery band; a triangle marks when a budget or the ePRTC-A holdover envelope is first exceeded.</p></div>
+      <div class="ho-figure" id="ho-te"></div>
+      <p class="ho-tag" id="ho-te-note"></p>
+    </section>
+    <div class="ho-grid">
+      <section class="card" aria-labelledby="ho-mtie-h"><div class="card-head"><h3 id="ho-mtie-h">MTIE</h3><p class="card-note">Of the baseline and the holdover; a cross is a mask limit at the time its check was worst.</p></div><div class="ho-figure" id="ho-mtie"></div></section>
+      <section class="card" aria-labelledby="ho-tdev-h"><div class="card-head"><h3 id="ho-tdev-h">TDEV</h3><p class="card-note">The same two steps against the TDEV limits.</p></div><div class="ho-figure" id="ho-tdev"></div></section>
+    </div>
+    <section class="card" aria-labelledby="ho-num-h">
+      <div class="card-head"><h2 id="ho-num-h" class="h3">The numbers</h2><p class="card-note">Everything below is the engine's, in the units it states.</p></div>
+      <div class="ho-tablewrap"><table class="tbl" id="ho-steps"></table></div>
+      <dl class="ho-kv" id="ho-kv"></dl>
+    </section>
+    <section class="card" aria-labelledby="ho-mask-h">
+      <div class="card-head"><h2 id="ho-mask-h" class="h3">Mask checks</h2><p class="card-note">Each mask is measured on the step its condition names. A mask that needs a longer record than the step gave is INCOMPLETE, never extrapolated; every entry a Recommendation leaves for further study is absent.</p></div>
+      <div class="ho-tablewrap"><table class="tbl" id="ho-masks"></table></div>
+      <div class="ho-tablewrap"><table class="tbl" id="ho-budgets"></table></div>
+    </section>
+    <section class="card" aria-labelledby="ho-nc-h">
+      <div class="card-head"><h2 id="ho-nc-h" class="h3">What this does not cover</h2></div>
+      <ul class="ho-list" id="ho-nc"></ul>
+    </section>
+  </div>
+</div>
+</main>
+<script type="module" src="holdover/holdover.js"></script>
+</body>
+</html>
