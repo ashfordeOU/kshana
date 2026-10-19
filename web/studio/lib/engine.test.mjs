@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 // Tests for the off-main-thread engine client (engine.mjs), against a fake worker so they
 // run under plain node with no WebAssembly build. Run with `node web/engine.test.mjs`.
-import { classifyMessage, createEngineClient, dispatch, isCancelled, busyLabel, ENGINE_FNS, ENGINE_FNS_035, ENGINE_FNS_036, ENGINE_FNS_036_MAP, ENGINE_FNS_036_INPUTS, engineHas } from "./engine.mjs";
+import { classifyMessage, createEngineClient, dispatch, isCancelled, busyLabel, ENGINE_FNS, ENGINE_FNS_035, ENGINE_FNS_036, ENGINE_FNS_036_MAP, ENGINE_FNS_036_INPUTS, ENGINE_FNS_038, engineHas } from "./engine.mjs";
 import { engineAtLeast, versionParts } from "./engine-page.mjs";
 import assert from "node:assert/strict";
 
@@ -60,6 +60,8 @@ const api = {
   assert.ok(ENGINE_FNS_036.every((n) => !ENGINE_FNS_035.includes(n)), "the 0.35 list holds no 0.36 function");
   assert.deepEqual([...ENGINE_FNS_036_MAP], ["kind_modules"], "the capability map's 0.36 function");
   assert.deepEqual([...ENGINE_FNS_036_INPUTS], ["field_importance"], "the input ranking's 0.36 function");
+  assert.deepEqual([...ENGINE_FNS_038], ["jammertest_import", "jammertest_score", "imu_fit"], "the 0.38 Tools cards' functions");
+  assert.ok(ENGINE_FNS_038.every((n) => ENGINE_FNS.includes(n) && !ENGINE_FNS_035.includes(n) && !ENGINE_FNS_036.includes(n)));
   assert.ok(ENGINE_FNS.includes("field_importance") && !ENGINE_FNS_036.includes("field_importance") && !ENGINE_FNS_035.includes("field_importance"));
   assert.ok(ENGINE_FNS.includes("kind_modules") && !ENGINE_FNS_035.includes("kind_modules") && !ENGINE_FNS_036.includes("kind_modules"));
   assert.equal(classifyMessage({ id: 1, fn: "sky_monte_carlo", args: ["{}", 36, 1000] }), "call", "a 0.36 call is on the worker's allow-list");

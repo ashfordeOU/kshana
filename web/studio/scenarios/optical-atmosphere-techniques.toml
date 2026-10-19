@@ -64,3 +64,10 @@ name = "aperture 1.0 m + AO + 3 dB"
 rx_aperture_m = 1.0
 scint_variance_reduction = 0.8
 extra_margin_db = 3.0
+
+# One seeded realisation of each site's link through time (MODELLED; a draw from the model above, not the climate).
+# Absent, no series is written and the result is the 0.37 document.
+[timeseries]
+duration_h = 336.0
+step_s = 600.0
+seed = 37

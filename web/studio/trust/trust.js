@@ -8,11 +8,19 @@ import {
 
 import { geometryAt, countGeometry, statusKey, classKey, geometryUnder, CLASS_TEXT, UNKNOWN_TEXT } from "../lib/trust-geometry.mjs";
 import { getEngine } from "../lib/engine-page.mjs";
+import { readScorecard, summaryRows as jtRows, assessability, MAX_BYTES as JT_MAX } from "../lib/jammertest-card.mjs";
+import { AGREEMENT_TEXT, selfReportAt, summaryLines, readSelfSummary } from "../lib/trust-selfreport.mjs";
+import { LOG_FORMATS, IMU_FORMATS, formatFromName, sniffFormat, formatInfo, buildSession } from "../lib/trust-open.mjs";
+import { parseAux, epochAt } from "../lib/gsv.mjs";
+import { skyMarkup, skyDescribe } from "../lib/skydraw.mjs";
+import { ensureSkyCss } from "../lib/skypage.mjs";
+import { vesselPath, rayEnd, ringPx } from "../lib/replay.mjs";
 import { parseSvgMarkup, sanitizeSvg } from "../lib/svgsafe.mjs";
 
 const $ = (id) => document.getElementById(id);
 const NS = "http://www.w3.org/2000/svg";
 const BAND_VAR = { calibrating: "var(--b-cal)", nominal: "var(--b-nom)", degraded: "var(--b-deg)", untrusted: "var(--b-unt)" };
+const SELF_FILL = { both: "var(--ink)", "receiver-only": "var(--hl)", "kshana-only": "var(--b-deg)", neither: "var(--b-nom)", calibrating: "var(--b-cal)", unknown: "var(--b-cal)" };
 const BAND_W = { calibrating: 2, nominal: 2.6, degraded: 3.2, untrusted: 4 };
 // The geometry lane (0.36). Status: green good, amber degraded, grey hatched unknown (never good). Deduction class:
 // geometry (the sky) in a neutral blue no band uses, environment (the signal) in violet, inconsistency (attack-like)
@@ -37,6 +45,7 @@ const f1 = (x) => (Math.round(x * 10) / 10).toString();
 let run = null, cur = 0, playing = false, raf = 0, lastTs = 0, frac = 0;
 let onlyBad = false, showTruth = true, hlMonitor = null, hlSet = new Set();
 let X = null; // timeline x mapping
+let aux = null; // the NMEA log's own sky and heading (lib/gsv.mjs), when the log is at hand
 const dyn = {}; // elements updated on cursor moves
 
 // ---------- opening files ----------
@@ -49,6 +58,7 @@ async function openTexts(items, label, opts = {}) {
   let current = items.length ? items[0].name : "file";
   try {
     const inputs = { demo: opts.demo === true };
+    let auxHere = opts.aux || null;
     const got = [];
     for (const it of items) {
       current = it.name;
@@ -57,13 +67,14 @@ async function openTexts(items, label, opts = {}) {
       if (kind === "result") inputs.result = JSON.parse(it.text);
       else if (kind === "lines") { const p = parseLines(it.text); inputs.lines = p.epochs; if (p.skipped) got.push(`${p.skipped} line(s) of ${it.name} were not epochs and were skipped`); }
       else if (kind === "csv") inputs.csv = parseTrustCsv(it.text);
-      else if (kind === "nmea") inputs.nmea = parseNmeaFixes(it.text);
+      else if (kind === "nmea") { inputs.nmea = parseNmeaFixes(it.text); auxHere = parseAux(it.text, { stepS: it.text.length > 2e6 ? 5 : 1 }); }
       else if (kind === "truth") inputs.truth = parseTruth(it.text);
       else { setStatus(`${it.name}: not a file this view reads (a result JSON, JSON lines, trust.csv, an NMEA log or a truth file).`, true); return; }
       got.push(`${it.name}: ${{ result: "batch result", lines: "JSON lines", csv: "trust.csv", nmea: "NMEA log", truth: "truth file" }[kind]}`);
     }
     const r = buildRun(inputs);
     if (r.error) { setStatus(r.error, true); setNotes(got); return; }
+    aux = auxHere;
     openRun(r.run);
     setStatus(label || `Opened ${run.epochs.length} epochs (${run.source === "result" ? "batch result" : run.source === "lines" ? "JSON lines" : "trust.csv"}).`);
     setNotes([...got, ...run.notes]);
@@ -125,26 +136,25 @@ function saveAs(name, text, mime) {
   const a = el("a", { href: URL.createObjectURL(new Blob([text], { type: mime || "text/plain" })), download: name });
   document.body.append(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000);
 }
-function inlineLog(toml, nmea) {
-  if (nmea.includes("'''")) throw new Error("the log contains three single quotes in a row, which cannot be embedded in the settings");
-  // the settings name the log by path; the browser has no file system, so the log goes in as text
-  if (!/^\s*path\s*=\s*"[^"\n]*"/m.test(toml)) throw new Error("the settings have no [log] path line to replace with the log");
-  return toml.replace(/^(\s*)path\s*=\s*"[^"\n]*"/m, (_, sp) => `${sp}text = '''\n${nmea}'''`);
-}
-async function genRun(nmea, name, label) {
+async function genRun(log, name, label) {
   const out = $("mt-gen-out"); out.replaceChildren();
   try {
-    if (nmea.length > 2 * 1024 * 1024) { genStatus(`${name}: larger than 2 MiB. Open an excerpt (the command-line tool takes a whole log).`, true); return; }
+    if (log.bytes.length > 2 * 1024 * 1024) { genStatus(`${name}: larger than 2 MiB. Open an excerpt (the command-line tool takes a whole log).`, true); return; }
     genStatus("Starting the engine and assessing…");
     const eng = await getEngine();
     if (!eng.available) { genStatus(`The engine could not start here (${eng.error}).`, true); return; }
     if (!eng.has("receiver_trust")) { genStatus(`This engine build (version ${eng.version}) has no receiver_trust.`, true); return; }
-    const r = JSON.parse(await eng.call("receiver_trust", inlineLog($("mt-gen-toml").value, nmea)));
+    const r = JSON.parse(await eng.call("receiver_trust", buildSession($("mt-gen-toml").value, log, genImuCfg(), $("mt-gen-vessel").checked)));
     const doc = JSON.parse(r.json);
     genStatus(label || `Assessed ${name} with engine ${eng.version}, in this browser.`);
     const st = doc.states || {};
     out.append(el("p", { class: "mt-gate-now" }, r.summary));
     out.append(el("p", { class: "mt-none" }, `Epochs: ${st.nominal_epochs ?? 0} nominal, ${st.degraded_epochs ?? 0} degraded, ${st.untrusted_epochs ?? 0} untrusted after the ${doc.baseline && doc.baseline.calibration_epochs != null ? doc.baseline.calibration_epochs : "?"}-epoch calibration window.`));
+    const self = readSelfSummary(doc.receiver_self_report);
+    if (self) {
+      out.append(el("h3", { class: "h3" }, "The receiver's own flags, against Kshana's alarms"), el("p", { class: "mt-none" }, self.note || "A comparison, not a check of either: the receiver's flag is its own report."));
+      out.append(el("dl", { class: "mt-kv" }, summaryLines(self).map(([k, v]) => el("div", {}, el("dt", {}, k), el("dd", {}, v)))));
+    }
     if (Array.isArray(doc.events) && doc.events.length) {
       const t = el("table", { class: "tbl" }, el("thead", {}, el("tr", {}, ["Stated event", "Onset, s", "Outcome", "First alarm, s", "Latency, s"].map((x) => el("th", { scope: "col" }, x)))));
       t.append(el("tbody", {}, doc.events.map((e) => el("tr", {}, el("td", {}, String(e.label ?? "")), el("td", {}, String(e.onset_s ?? "")), el("td", {}, String(e.outcome ?? "")), el("td", {}, e.first_alarm_s == null ? "none" : String(e.first_alarm_s)), el("td", {}, e.latency_s == null ? "none" : String(e.latency_s))))));
@@ -157,6 +167,11 @@ async function genRun(nmea, name, label) {
     const b1 = el("button", { type: "button", class: "mt-chip" }, "Download the result (JSON)"); b1.onclick = () => saveAs("receiver-trust.result.json", r.json, "application/json");
     const b2 = el("button", { type: "button", class: "mt-chip" }, "Download the per-epoch table (CSV)"); b2.onclick = () => saveAs("receiver-trust.csv", r.csv, "text/csv");
     out.append(el("div", { class: "mt-tools" }, b1, b2));
+    if (doc.score_model) {
+      const b3 = el("button", { type: "button", class: "mt-chip" }, "Show this run in the replay below (track, score, the receiver's own flag)");
+      b3.onclick = async () => { await openTexts([{ name: "receiver-trust.result.json", text: r.json }]); $("mt-run").scrollIntoView({ behavior: "smooth" }); };
+      out.append(el("div", { class: "mt-tools" }, b3));
+    }
   } catch (e) { genStatus(`${name}: could not be assessed (${e && e.message ? e.message : e}).`, true); }
 }
 async function genDemo() {
@@ -165,15 +180,50 @@ async function genDemo() {
     const [a, b] = await Promise.all([fetch("trust/generic/session.toml"), fetch("trust/generic/illustrative-jamming.nmea")]);
     if (!a.ok || !b.ok) throw new Error("the example files did not load");
     $("mt-gen-toml").value = await a.text();
-    await genRun(await b.text(), "illustrative-jamming.nmea", "Illustrative example: a made-up NMEA log with a made-up jammer from 120 s to 240 s, assessed here by the engine. Text, not a measurement.");
+    const text = await b.text();
+    await genRun({ format: "nmea", bytes: new TextEncoder().encode(text), text }, "illustrative-jamming.nmea", "Illustrative example: a made-up NMEA log with a made-up jammer from 120 s to 240 s, assessed here by the engine. Text, not a measurement.");
   } catch (e) { genStatus(`The example could not be opened: ${e.message}.`, true); }
 }
+// The file last chosen, kept so a changed format can be assessed again without choosing it twice.
+const gen = { file: null, imu: null };
 async function genFile(f) {
   if (!f) return;
   if (f.size > 2 * 1024 * 1024) { genStatus(`${f.name}: larger than 2 MiB. Open an excerpt.`, true); return; }
-  if (!$("mt-gen-toml").value.trim()) { try { const r = await fetch("trust/generic/session.toml"); if (r.ok) $("mt-gen-toml").value = await r.text(); } catch (e) { /* stated below */ } }
-  await genRun(await f.text(), f.name, null);
+  gen.file = { name: f.name, bytes: new Uint8Array(await f.arrayBuffer()) };
+  const guess = sniffFormat(gen.file.bytes) || formatFromName(f.name);
+  if (guess) $("mt-gen-format").value = guess;
+  $("mt-gen-run").disabled = false;
+  await genAssessChosen();
 }
+async function genAssessChosen() {
+  const f = gen.file; if (!f) return;
+  if (!$("mt-gen-toml").value.trim()) { try { const r = await fetch("trust/generic/session.toml"); if (r.ok) $("mt-gen-toml").value = await r.text(); } catch (e) { /* stated below */ } }
+  const id = $("mt-gen-format").value, info = formatInfo(id);
+  const text = info && !info.binary ? new TextDecoder().decode(f.bytes) : "";
+  await genRun({ format: id, bytes: f.bytes, text }, f.name, `Assessed ${f.name} as ${info ? info.label : id}, with the engine, in this browser. Nothing was uploaded.`);
+}
+function genImuCfg() {
+  if (!gen.imu) return null;
+  return { format: $("mt-gen-imu-format").value, text: gen.imu.text, heading0Deg: Number($("mt-gen-imu-h0").value), yawAxisDown: $("mt-gen-imu-down").checked, timeOffsetS: Number($("mt-gen-imu-off").value || 0) };
+}
+async function genImuFile(f) {
+  if (!f) return;
+  const st = $("mt-gen-imu-status");
+  if (f.size > 2 * 1024 * 1024) { st.textContent = `${f.name}: larger than 2 MiB. Open an excerpt.`; st.classList.add("err"); return; }
+  gen.imu = { name: f.name, text: await f.text() };
+  if (/imu0|euroc|data\.csv/i.test(f.name)) $("mt-gen-imu-format").value = "euroc";
+  st.classList.remove("err"); st.textContent = `IMU file: ${f.name} (${gen.imu.text.length.toLocaleString("en")} characters). Used on the next assessment${gen.file ? "; press Assess the chosen file" : ""}.`;
+}
+function wireGenFormats() {
+  $("mt-gen-format").replaceChildren(...LOG_FORMATS.map((f) => el("option", { value: f.id }, f.label)));
+  $("mt-gen-imu-format").replaceChildren(...IMU_FORMATS.map((f) => el("option", { value: f.id }, f.label)));
+  $("mt-gen-run").addEventListener("click", genAssessChosen);
+  $("mt-gen-imu").addEventListener("change", (e) => { genImuFile(e.target.files[0]); e.target.value = ""; });
+  $("mt-gen-imu-clear").addEventListener("click", () => { gen.imu = null; const st = $("mt-gen-imu-status"); st.classList.remove("err"); st.textContent = "No IMU file."; });
+}
+
+// The sky and heading recorded for a demo (replay/data, from the demo log's own GSV and HDT); null if it does not load.
+async function auxFile(id) { try { const r = await fetch(`replay/data/${id}.aux.json`); return r.ok ? await r.json() : null; } catch (e) { return null; } }
 
 async function openDemo() {
   setStatus("Opening the synthetic demo…");
@@ -182,7 +232,7 @@ async function openDemo() {
     if (!a.ok || !b.ok) throw new Error("the demo files did not load");
     const ra = await a.text(), tb = await b.text();
     await openTexts([{ name: "tallinn-helsinki.result.json", text: ra }, { name: "tallinn-helsinki.truth.csv", text: tb }],
-      "Synthetic demo: a made-up ferry log with a made-up position drag-off, scored by Kshana. Recorded from the engine; the log is text, not a measurement.", { demo: true });
+      "Synthetic demo: a made-up ferry log with a made-up position drag-off, scored by Kshana. Recorded from the engine; the log is text, not a measurement.", { demo: true, aux: await auxFile("tallinn-helsinki") });
   } catch (e) { setStatus(`The demo could not be opened: ${e.message}.`, true); }
 }
 
@@ -192,14 +242,14 @@ async function openGeoDemo() {
     const [a, b] = await Promise.all([fetch("trust/demo/masked-sky.result.json"), fetch("trust/demo/tallinn-helsinki.truth.csv")]);
     if (!a.ok || !b.ok) throw new Error("the demo files did not load");
     await openTexts([{ name: "masked-sky.result.json", text: await a.text() }, { name: "tallinn-helsinki.truth.csv", text: await b.text() }],
-      "Synthetic masked-sky demo: the ferry log with the western half of the sky blanked from 600 s (natural degradation, put down to geometry) and the same made-up drag-off from 1500 s (attack-like). Recorded from an engine with the 0.36 geometry; text, not a measurement.", { demo: true });
+      "Synthetic masked-sky demo: the ferry log with the western half of the sky blanked from 600 s (natural degradation, put down to geometry) and the same made-up drag-off from 1500 s (attack-like). Recorded from an engine with the 0.36 geometry; text, not a measurement.", { demo: true, aux: await auxFile("masked-sky") });
   } catch (e) { setStatus(`The demo could not be opened: ${e.message}.`, true); }
 }
 
 // ---------- drawing ----------
 
 function openRun(r) {
-  stop();
+  stop(); ensureSkyCss();
   run = r; cur = Math.max(0, r.firstUntrusted >= 0 ? 0 : 0); hlMonitor = null; hlSet = new Set();
   $("mt-run").hidden = false;
   const n = run.epochs.length;
@@ -257,7 +307,10 @@ function drawTrack() {
   dyn.linkL = sv("line", { stroke: "var(--ink)", "stroke-width": 1.2, "stroke-dasharray": "3 2" });
   dyn.repDot = sv("circle", { r: 7, fill: "none", stroke: "var(--tim)", "stroke-width": 2.5 });
   dyn.truDot = sv("circle", { r: 5, fill: "var(--bg)", stroke: "var(--ink)", "stroke-width": 1.8 });
-  dyn.cursorG.append(dyn.linkL, dyn.truDot, dyn.repDot);
+  dyn.ring = sv("circle", { class: "mt-ring", r: 0 });
+  dyn.glyph = sv("path", { class: "mt-glyph" });
+  dyn.hdgRay = sv("line", { class: "mt-hdg" });
+  dyn.cursorG.append(dyn.ring, dyn.linkL, dyn.truDot, dyn.repDot, dyn.hdgRay, dyn.glyph);
   svg.append(dyn.cursorG);
   const nOver = run.epochs.filter((e) => e.state === "untrusted").length;
   $("mt-track-desc").textContent = `Track of ${withPos.length} reported positions, north up. ${nOver} epochs are untrusted.${run.hasTruth ? " A thin grey line shows the true track." : ""}`;
@@ -323,7 +376,8 @@ function drawTimeline() {
   svg.replaceChildren();
   const geo = run.hasGeometry;
   // Spec item 6: the geometry under the band strip, then the cause, then the gate and the marks.
-  const stripY = geo ? { band: 160, geo: 178, cause: 196, gate: 214, hl: 232 } : { band: 160, gate: 178, hl: 196 };
+  const names = ["band", ...(geo ? ["geo", "cause"] : []), ...(run.hasSelfReport ? ["self"] : []), "gate", "hl"];
+  const stripY = Object.fromEntries(names.map((n, i) => [n, 160 + 18 * i]));
   const axisY = stripY.hl + 16;
   const H = axisY + 20;
   svg.setAttribute("viewBox", `0 0 ${TL.W} ${H}`);
@@ -380,6 +434,16 @@ function drawTimeline() {
       if (!k) continue;
       const rc = sv("rect", { x: xOf(run.epochs[a].t_s), y: stripY.cause + 9, width: Math.max(1, xEnd(b) - xOf(run.epochs[a].t_s)), height: 3, fill: CLASS_FILL.geometry, class: "mt-geo-under" });
       rc.append(sv("title", {}, `${CLASS_TEXT.geometry} (also costing points), ${fmtT(run.epochs[a].t_s)} to ${fmtT(run.epochs[b].t_s)}`));
+      svg.append(rc);
+    }
+  }
+  if (run.hasSelfReport) {
+    // The receiver's own flag against Kshana's alarms (0.38): the agreement of each epoch, named in the tooltip and the legend.
+    svg.append(sv("text", { x: TL.L - 8, y: stripY.self + 9, "text-anchor": "end" }, "receiver"));
+    for (const [a, b, k] of runsOf((e) => (e.selfReport ? e.selfReport.agreement : "missing"))) {
+      if (k === "missing") continue;
+      const rc = sv("rect", { x: xOf(run.epochs[a].t_s), y: stripY.self, width: Math.max(1, xEnd(b) - xOf(run.epochs[a].t_s)), height: 12, fill: SELF_FILL[k] || SELF_FILL.unknown, opacity: k === "neither" || k === "calibrating" ? 0.35 : 1, class: k === "receiver-only" ? "mt-recv-only" : null });
+      rc.append(sv("title", {}, `${AGREEMENT_TEXT[k] || "an agreement this page does not know"}, ${fmtT(run.epochs[a].t_s)} to ${fmtT(run.epochs[b].t_s)}`));
       svg.append(rc);
     }
   }
@@ -483,6 +547,7 @@ function drawLegend() {
     li.push(el("li", { class: "mt-lg-head" }, "Sky:"), el("li", { style: `--c:${GEO_FILL.good}` }, el("i", {}), "geometry good"), el("li", { style: `--c:${GEO_FILL.degraded}` }, el("i", {}), "geometry degraded"), el("li", {}, el("i", { class: "hatch" }), "geometry unknown (no GSV or GSA; not good)"));
     li.push(el("li", { class: "mt-lg-head" }, "Deduction class:"), el("li", { style: `--c:${CLASS_FILL.geometry}` }, el("i", {}), "geometry: the sky, not the signal"), el("li", { style: `--c:${CLASS_FILL.environment}` }, el("i", {}), "environment: the signal"), el("li", { style: `--c:${CLASS_FILL.inconsistency}` }, el("i", {}), "inconsistency (attack-like)"), el("li", { style: `--c:${CLASS_FILL.geometry}` }, el("i", { class: "thin" }), "underline: geometry also costing points"));
   }
+  if (run.hasSelfReport) li.push(el("li", { class: "mt-lg-head" }, "Receiver's own flag against Kshana's alarms:"), ...[["both", "both flag"], ["receiver-only", "only the receiver"], ["kshana-only", "only Kshana"], ["neither", "neither"]].map(([k, t]) => el("li", { style: `--c:${SELF_FILL[k]}` }, el("i", {}), t)));
   if (run.demo) li.push(el("li", {}, "In this demo the receiver reports a valid fix throughout (GGA quality 1, RMC status A). The score is what falls."));
   $("mt-legend").replaceChildren(...li);
 }
@@ -538,6 +603,20 @@ function drawGeometrySettings(box) {
   }
 }
 
+// The receiver's own flags at the cursor, and the run's summary of how they sat against Kshana's alarms.
+function drawSelfNow() {
+  const card = $("mt-self-card");
+  if (!card) return;
+  card.hidden = !run.hasSelfReport;
+  if (!run.hasSelfReport) return;
+  const a = selfReportAt(run.epochs[cur]);
+  $("mt-self-now").textContent = a.heading;
+  $("mt-self-rows").replaceChildren(...a.rows.map(([k, v]) => el("div", {}, el("dt", {}, k), el("dd", {}, v))));
+  const sum = run.selfSummary;
+  $("mt-self-sum-note").textContent = sum ? sum.note : "";
+  $("mt-self-sum").replaceChildren(...summaryLines(sum).map(([k, v]) => el("div", {}, el("dt", {}, k), el("dd", {}, v))));
+}
+
 function drawGeometryNow() {
   const box = $("mt-geo-now"), rows = $("mt-geo-rows"), flags = $("mt-geo-flags");
   const a = geometryAt(run.epochs[cur]);
@@ -548,6 +627,32 @@ function drawGeometryNow() {
 }
 
 // ---------- the cursor ----------
+
+// The vessel glyph along the gyro heading (HDT, from the NMEA log), with the error ring to scale; drawn at the true position
+// when the run has one, else at the reported one. No heading, no glyph.
+function drawVessel(e) {
+  if (!dyn.px || !dyn.glyph) return;
+  const k = aux ? epochAt(e.t_s, aux.t) : -1, hdg = k >= 0 ? aux.hdt[k] : null, at = e.truth && showTruth ? e.truth : e.pos;
+  const show = at && hdg != null;
+  dyn.glyph.style.display = dyn.hdgRay.style.display = show ? "" : "none";
+  if (show) {
+    const [x, y] = dyn.px(at), [x2, y2] = rayEnd(x, y, hdg, 36);
+    dyn.glyph.setAttribute("d", vesselPath(x, y, hdg, 22));
+    dyn.hdgRay.setAttribute("x1", x); dyn.hdgRay.setAttribute("y1", y); dyn.hdgRay.setAttribute("x2", x2); dyn.hdgRay.setAttribute("y2", y2);
+  }
+  const ring = e.offsetM != null && e.truth && showTruth ? ringPx(e.offsetM, { k: dyn.k }) : null;
+  dyn.ring.style.display = ring && !ring.tiny ? "" : "none";
+  if (ring && !ring.tiny) { const [x, y] = dyn.px(e.truth); dyn.ring.setAttribute("cx", x); dyn.ring.setAttribute("cy", y); dyn.ring.setAttribute("r", ring.r); }
+}
+// The sky of the log at the cursor: its own GSV satellites (a hollow marker has no signal, a shaded sector is heard by none).
+function drawSky(e) {
+  const svg = $("mt-sky-svg"), cap = $("mt-sky-cap");
+  if (!svg) return;
+  const k = aux ? epochAt(e.t_s, aux.t) : -1;
+  if (k < 0) { svg.replaceChildren(); svg.innerHTML = '<text x="120" y="124" text-anchor="middle" class="sk-lbl">no GSV</text>'; cap.textContent = "No sky: open the NMEA log with the run (or a demo) to see the satellites it lists."; return; }
+  svg.innerHTML = skyMarkup(aux.sky[k], { size: 240, labels: true });
+  cap.textContent = skyDescribe(aux.sky[k]);
+}
 
 function setCursor(i, quiet) {
   if (!run) return;
@@ -575,11 +680,14 @@ function setCursor(i, quiet) {
       } else { dyn.truDot.style.display = "none"; dyn.linkL.style.display = "none"; }
     } else { dyn.repDot.style.display = "none"; dyn.truDot.style.display = "none"; dyn.linkL.style.display = "none"; }
   }
+  drawVessel(e);
+  drawSky(e);
   const off = $("mt-offset");
   if (e.offsetM != null && showTruth) off.textContent = `At ${fmtT(e.t_s)} the receiver-reported position is ${e.offsetM < 10 ? e.offsetM.toFixed(1) : Math.round(e.offsetM)} m from where the vessel really was (synthetic truth).`;
   else off.textContent = run.hasTruth && showTruth ? "No true position at this time." : "";
   drawReasons();
   drawGeometryNow();
+  drawSelfNow();
   const gt = { off: "Off (calibrating)", passed: "Passed: the fix is forwarded unchanged", withheld: "Withheld: the fix would be marked invalid downstream" }[e.gate] || "Off";
   $("mt-gate-now").textContent = `${gt}${run.gateDerived ? " · derived" : ""}`;
   $("mt-pksht").textContent = pkshtFor(e, run);
@@ -668,6 +776,26 @@ function stop() {
   if (run) $("mt-live").textContent = describeEpoch(run, cur);
 }
 
+// ---------- a Jammertest scorecard (kshana jammertest score) ----------
+function jtStatus(msg, err) { const s = $("mt-jt-status"); s.textContent = msg; s.classList.toggle("err", !!err); }
+async function openScorecard(file) {
+  if (!file) return;
+  try {
+    if (file.size > JT_MAX) { jtStatus(`${file.name}: larger than 8 MiB; this page reads a scorecard up to that size.`, true); return; }
+    const r = readScorecard(await file.text(), file.name);
+    if (r.error) { jtStatus(r.error, true); $("mt-jt-out").hidden = true; return; }
+    const c = r.card;
+    $("mt-jt-out").hidden = false;
+    $("mt-jt-label").textContent = `${c.label} Guard ${c.options.guardS ?? "?"} s, recovery hold ${c.options.recoverHoldS ?? "?"} s${c.baselineContaminated ? ". The calibration baseline overlapped a scheduled slot." : "."}`;
+    const a = assessability(c), box = $("mt-jt-assess");
+    box.hidden = !a; box.textContent = a;
+    $("mt-jt-sum").replaceChildren(...jtRows(c).map(([k, v]) => el("div", {}, el("dt", {}, k), el("dd", {}, v))));
+    $("mt-jt-table").replaceChildren(el("thead", {}, el("tr", {}, ["Test", "Name", "Slot, s", "Outcome", "Latency, s", "First monitors", "Recovered"].map((h) => el("th", { scope: "col" }, h)))),
+      el("tbody", {}, c.tests.map((x) => el("tr", {}, el("th", { scope: "row" }, x.id), el("td", {}, x.name), el("td", {}, `${x.onsetS ?? "?"} to ${x.endS ?? "?"}`), el("td", {}, x.outcome || "n/a"), el("td", {}, x.latencyS == null ? "n/a" : x.latencyS.toFixed(1)), el("td", {}, x.firstMonitors.join(", ") || "none"), el("td", {}, x.recovered == null ? "n/a" : x.recovered ? "yes" : "no")))));
+    jtStatus(`Opened ${file.name}: ${c.tests.length} test(s). Read here; nothing was uploaded.`);
+  } catch (e) { jtStatus(`${file.name}: could not be read or drawn (${e && e.message ? e.message : e}).`, true); }
+}
+
 // ---------- wiring ----------
 
 function applyFilterVisual() {
@@ -683,12 +811,14 @@ function applyFilterVisual() {
 function wire() {
   fetch("trust/demo/session.toml").then((r) => (r.ok ? r.text() : "")).then((t) => { if (!$("mt-session").value) $("mt-session").value = t; }).catch(() => {});
   $("mt-score-demo").addEventListener("click", scoreDemo);
+  wireGenFormats();
   $("mt-gen-demo").addEventListener("click", genDemo);
   $("mt-gen-file").addEventListener("change", (e) => { genFile(e.target.files[0]); e.target.value = ""; });
   fetch("trust/generic/session.toml").then((r) => (r.ok ? r.text() : "")).then((t) => { if (!$("mt-gen-toml").value) $("mt-gen-toml").value = t; }).catch(() => {});
   $("mt-nmea").addEventListener("change", (e) => { scoreFile(e.target.files[0]); e.target.value = ""; });
   $("mt-files").addEventListener("change", (e) => { openFiles([...e.target.files]); e.target.value = ""; });
   $("mt-demo").addEventListener("click", openDemo);
+  $("mt-jt-file").addEventListener("change", (e) => { openScorecard(e.target.files[0]); e.target.value = ""; });
   $("mt-geo-demo").addEventListener("click", openGeoDemo);
   const drop = $("mt-drop");
   for (const ev of ["dragenter", "dragover"]) drop.addEventListener(ev, (e) => { e.preventDefault(); drop.classList.add("over"); });

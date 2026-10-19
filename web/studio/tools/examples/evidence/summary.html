@@ -17,7 +17,7 @@ code{font:13px ui-monospace,monospace;word-break:break-all}
 <p class="box"><strong>Advisory.</strong> Advisory software, not type-approved navigation equipment (IEC 61108, IEC 61162): the operator remains responsible for the navigation of the vessel.</p>
 <h2>Identification</h2>
 <table>
-<tr><th>Engine version</th><td><code>0.37.0</code></td></tr>
+<tr><th>Engine version</th><td><code>0.38.0</code></td></tr>
 <tr><th>Created (UTC)</th><td><code>2026-01-01T00:00:00Z</code></td></tr>
 <tr><th>Window</th><td><code>0 s to 60 s after the first epoch of the log</code></td></tr>
 <tr><th>First epoch of the log</th><td><code>2025-06-14T08:00:00.000Z</code></td></tr>
@@ -27,8 +27,8 @@ code{font:13px ui-monospace,monospace;word-break:break-all}
 <tr><th>Full log size (bytes)</th><td><code>881286</code></td></tr>
 <tr><th>Log slice in this pack</th><td><code>ByteRange, bytes 0 to 18206</code></td></tr>
 <tr><th>Log slice SHA-256</th><td><code>7e98d9ba45ac0822354655ef0ca0d26dfd6b70b0c48b06d676767d0a6e355957</code></td></tr>
-<tr><th>Signer (Ed25519) fingerprint</th><td><code>89da36cd2c3de8f6addcd7ce4017e22c</code></td></tr>
-<tr><th>Signer public key</th><td><code>031e5f8149cc5d9c1ce6c3f57801b5f5cee5b2daed56d9bc3b3d179cb72d9858</code></td></tr>
+<tr><th>Signer (Ed25519) fingerprint</th><td><code>8b8b873e060538cdc66ef3533a461f82</code></td></tr>
+<tr><th>Signer public key</th><td><code>6c5bdc73772a9854aec512746ab7c7c3a1eb9c6bee83806b14db0abad9116296</code></td></tr>
 </table>
 <p>A slice of kind <code>WholeLog</code> means the source could not give a byte range for the window, so the whole log is bundled and the window limits only which epochs are reported. A timestamp token, if one is attached later, is not part of this page; its time is shown only by <code>kshana evidence verify</code>, and <strong>timestamp authority signature not verified by Kshana</strong>: check it with <code>openssl ts -verify</code>. Check this pack with <code>kshana evidence verify</code>; compare the signer fingerprint with one you obtained from the signer by another route.</p>
 <h2>Results in the window</h2>
@@ -100,6 +100,7 @@ code{font:13px ui-monospace,monospace;word-break:break-all}
 <tr><th>scenario.kind</th><td><code>receiver-trust</code></td></tr>
 <tr><th>scenario.log.base64</th><td><code>none</code></td></tr>
 <tr><th>scenario.log.format</th><td><code>nmea</code></td></tr>
+<tr><th>scenario.log.imu</th><td><code>none</code></td></tr>
 <tr><th>scenario.log.nav</th><td><code>none</code></td></tr>
 <tr><th>scenario.log.path</th><td><code>tallinn-helsinki.nmea</code></td></tr>
 <tr><th>scenario.log.text</th><td><code>none</code></td></tr>
@@ -142,7 +143,7 @@ code{font:13px ui-monospace,monospace;word-break:break-all}
 <tr><th>scenario.monitors.score.weights.speed-log</th><td><code>40.0</code></td></tr>
 <tr><th>scenario.monitors.score.weights.time-consistency</th><td><code>60.0</code></td></tr>
 <tr><th>scenario.name</th><td><code>Synthetic Gulf of Finland passage with a position drag-off</code></td></tr>
-<tr><th>scenario_hash</th><td><code>ce82e60d3ab5ace53f77c44678613a78737a050377c4ca37ec7a261239eea332</code></td></tr>
+<tr><th>scenario_hash</th><td><code>463e945955ff40aff3a8293c5237d47a1d6fcecd7469e7be503900f78ee96c86</code></td></tr>
 </table>
 <h2>Per-epoch results</h2>
 <table>

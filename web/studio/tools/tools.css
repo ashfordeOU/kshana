@@ -88,3 +88,9 @@
 
 .tl-sel2{display:flex;flex-direction:column;gap:4px;font-size:12.5px;color:var(--ink-2)}
 .tl-sel2 select{min-height:44px;border-radius:10px;border:1px solid var(--line-2);background:var(--surface);padding:0 10px;color:var(--ink)}
+
+/* Jammertest scorecard summary: label above value, several to a row */
+.tl-kv { display: grid; grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr)); gap: .5rem 1rem; margin: .75rem 0; }
+.tl-kv > div { min-width: 0; }
+.tl-kv dt { font-size: .8rem; color: var(--muted, #5b6472); }
+.tl-kv dd { margin: 0; font-weight: 600; font-variant-numeric: tabular-nums; }
