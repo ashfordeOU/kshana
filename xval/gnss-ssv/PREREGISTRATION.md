@@ -141,3 +141,11 @@ the method is revisited.
 Other things the booklet says that the pre-registration did not use (read after run 1, recorded so they are not a
 surprise): for the mission cases the booklet picks the antenna with the most tracked satellites, where this
 implementation (choice 5) takes the higher gain per satellite, which can only count more signals.
+
+## Addendum 5 (S7's reading, fixed before S7 is scored; S7 has not been computed)
+
+S7 is computed on the 20 L1 RHCP panel patterns of the NAVCEN workbooks as extracted by `extract_patterns.py`
+(azimuth power average in dB at theta = 0 to 90 degrees, 2 degree steps). For each pattern: the measured curve is normalised to its own
+peak over theta = 0 to 90; the model is the parametric pattern with GPS L1's reference angle (23.5 degrees), 0 dB up to
+it and falling at 3 dB per degree to the 25 dB floor; the difference is evaluated at theta = 0, 2, ..., 30 and its RMS taken.
+The bar is met only if **every one** of the 20 RMS values is at most 3 dB; the median and the range are reported as well.
