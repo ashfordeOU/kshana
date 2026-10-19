@@ -6,7 +6,9 @@
 # comparisons have never run on Apple silicon anywhere but a developer's machine, and until
 # a failing list is captured from one the cause of each cannot be told.
 #
-# Usage:   scripts/oracle-triage.sh [--release] [--log <file>] [-- <extra cargo test args>]
+# Usage:   scripts/oracle-triage.sh [--all] [--release] [--log <file>] [-- <extra cargo test args>]
+#          --all    run the whole suite (`cargo test --all`, no fail-fast) instead of only the
+#                   oracle and reference targets: the byte-pin guards are in other targets
 # Output:  a log (default oracle-triage.log), a summary on stdout (and in
 #          $GITHUB_STEP_SUMMARY when set), and exit status 0 when every test passed, 1 when
 #          one failed, 2 when the host or toolchain is not set up.
@@ -19,16 +21,18 @@
 set -u
 
 profile=""
+scope_all=0
 summarise_only=""
 log="oracle-triage.log"
 extra=()
 while [ $# -gt 0 ]; do
   case "$1" in
     --release) profile="--release"; shift ;;
+    --all) scope_all=1; shift ;;
     --log) log="${2:?--log needs a file}"; shift 2 ;;
     --summarise) summarise_only="${2:?--summarise needs a log file}"; shift 2 ;;
     --) shift; extra=("$@"); break ;;
-    -h|--help) sed -n 2,19p "$0"; exit 0 ;;
+    -h|--help) sed -n 2,21p "$0"; exit 0 ;;
     *) echo "unknown argument: $1" >&2; exit 2 ;;
   esac
 done
@@ -68,7 +72,8 @@ for f in tests/*_oracle.rs tests/*_reference.rs; do
   targets="$targets --test $t"
   n=$((n + 1))
 done
-echo "== running $n oracle and reference targets ($([ -n "$profile" ] && echo release || echo debug)) =="
+if [ "$scope_all" -eq 1 ]; then targets="--all"; n="all"; fi
+echo "== running $n targets ($([ -n "$profile" ] && echo release || echo debug)) =="
 
 # shellcheck disable=SC2086
 cargo test --locked --no-fail-fast $profile $targets ${extra[@]+"${extra[@]}"} 2>&1 | tee "$log"

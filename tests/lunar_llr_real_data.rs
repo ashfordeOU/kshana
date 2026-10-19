@@ -568,7 +568,7 @@ fn the_pre_existing_lunar_frame_packs_are_bit_for_bit_unchanged() {
         );
 
         // Exact layer: the whole document to the byte, on the host the pin was taken on.
-        if support::ON_BASELINE_HOST {
+        if support::on_baseline_host() {
             let got = fnv(&doc);
             assert_eq!(got, want, "{kind} emission moved: {got:#018x}");
         }

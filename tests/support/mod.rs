@@ -14,8 +14,21 @@
 //! host is a statement about that host.
 #![allow(dead_code)]
 
-/// True on the host every byte-exact literal in this repository was captured on.
-pub const ON_BASELINE_HOST: bool = cfg!(all(target_arch = "aarch64", target_os = "macos"));
+/// Whether the byte-exact layer of a pin runs on this host: aarch64 macOS (where the literals
+/// were captured) AND declared the baseline with `KSHANA_EXACT_PINS=1`, which
+/// `scripts/gate.sh` does. "aarch64 macOS" alone is not one libm: Apple ships a different maths
+/// library with each macOS release (issue #36). See `src/test_support.rs`.
+pub fn on_baseline_host() -> bool {
+    baseline_rule(
+        cfg!(all(target_arch = "aarch64", target_os = "macos")),
+        std::env::var("KSHANA_EXACT_PINS").ok().as_deref(),
+    )
+}
+
+/// The rule behind [`on_baseline_host`], with its inputs explicit so it can be tested anywhere.
+pub fn baseline_rule(is_baseline_platform: bool, exact_pins: Option<&str>) -> bool {
+    is_baseline_platform && exact_pins == Some("1")
+}
 
 /// Do two `f64` agree to within `rel` relative, or to within a floor absolutely?
 ///

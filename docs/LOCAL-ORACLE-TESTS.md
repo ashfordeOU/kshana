@@ -35,11 +35,38 @@ That is the first hypothesis, not a finding about every failing test: each one i
   bar, and a mutation test must show the comparison still fails when it should;
 - **(c)** a real defect: fix the code.
 
+## What the macOS run found (issue #36)
+
+The diagnostic job ran the 623 oracle and reference tests on a hosted macOS 14 arm64 runner
+(rustc 1.93.0, debug). **622 passed, one failed**:
+`lunar_protection_level_reference::the_fixture_geometry_is_still_the_engines_own_service_volume`,
+in its byte-exact layer ("the engine's visible-satellite geometry moved in the last bit"); the
+portable layer of the same test, which compares to a part in 1e9, passed. So the oracle
+comparisons themselves held on Apple silicon, and the failure was a pin.
+
+The cause is in how that pin was gated. The exact layers of the byte-identity guards (an R1
+additivity claim: a change must not move a pre-existing value) were gated on
+`cfg!(all(target_arch = "aarch64", target_os = "macos"))`, "the host the literals were captured
+on". That is every Apple-silicon Mac, but a literal is a statement about one machine's maths
+library, and Apple ships a different library with each macOS release. A hosted runner, or any
+Mac on another release than the capture host, fails those blocks in the last bit; CI never
+runs them, because its only macOS job runs four platform-independent targets. That is the whole
+"green on CI, red on my Mac" gap: not the oracles, not a missing data file, not locale or paths.
+
+The exact layer now needs a second condition: the host must be declared the baseline with
+`KSHANA_EXACT_PINS=1`. `scripts/gate.sh`, the canonical pre-push gate on the baseline Mac, declares
+it (`KSHANA_EXACT_PINS=0 scripts/gate.sh` turns it off on a Mac that is not the baseline), so the
+byte-exact layer is still enforced where the pins were captured, and every other host runs the
+portable layer of each pin, which carries the discriminating power. No literal was re-taken, no
+tolerance changed and no test was skipped on a host that could run it; `tests/exact_pin_gate_guard.rs`
+fails if a byte-exact layer is gated on the platform alone again.
+
 ## See your own failures
 
 ```sh
 scripts/oracle-triage.sh                 # debug profile, the one `cargo test` uses
 scripts/oracle-triage.sh --release       # the optimised profile, which differs on macOS
+scripts/oracle-triage.sh --all           # the whole suite, where the byte-pin guards live
 ```
 
 It prints the host and toolchain (and warns when `rustc` is not the pinned version, since a

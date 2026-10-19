@@ -33,25 +33,45 @@
 //!   catches any movement a real R1 violation would produce (a wired-in term moves a value
 //!   by a percent, not by a part in ten million) while tolerating libm divergence with a
 //!   margin of roughly 1400x over the worst case measured above.
-//! - an **exact** layer, gated to [`ON_BASELINE_HOST`], keeping the original literals
-//!   untouched. No hosted CI job evaluates it: the only macOS leg there is the
-//!   reproducibility matrix, which runs four deliberately platform-independent targets
+//! - an **exact** layer, gated to [`on_baseline_host`] (aarch64 macOS that has been declared
+//!   the baseline with `KSHANA_EXACT_PINS=1`), keeping the original literals untouched. No
+//!   hosted CI job evaluates it: the only macOS leg there is the reproducibility matrix, which runs four deliberately platform-independent targets
 //!   (`cross_platform_golden`, `golden`, `determinism`, `sgp4_verification`) and none of
-//!   them carries an [`ON_BASELINE_HOST`] block, while every other `cargo test` job runs
-//!   on Linux, where the constant is false. What enforces this layer is the native
+//!   them carries an [`on_baseline_host`] block, while every other `cargo test` job runs
+//!   on Linux, where the rule is false. What enforces this layer is the native
 //!   pre-push gate: `scripts/check-gate-receipt.sh` refuses a push whose HEAD is not
 //!   backed by a clean-tree `cargo test --all` receipt for that exact commit, and that
-//!   run happens on the aarch64 macOS baseline host, where the constant is true and
-//!   `--all` covers both the `--lib` blocks and the `tests/` ones.
+//!   run happens on the aarch64 macOS baseline host, where `scripts/gate.sh` declares
+//!   `KSHANA_EXACT_PINS=1`, so the rule is true; `--all` covers both the `--lib` blocks and
+//!   the `tests/` ones.
 //!
 //! The literals are never re-taken to make a red go green. Finding F25 is precisely that
 //! failure mode, and the pins it protects are the ones below.
 
-/// True on the host every byte-exact literal in this crate was captured on.
+/// Whether the byte-exact layer of a pin runs on this host.
 ///
-/// Deliberately both architecture *and* OS: an x86-64 macOS host runs a different libm
-/// code path than this one, and would be just as wrong to assert the pins on.
-pub(crate) const ON_BASELINE_HOST: bool = cfg!(all(target_arch = "aarch64", target_os = "macos"));
+/// It needs two things: the host is aarch64 macOS (the architecture and OS the literals were
+/// captured on), AND it has been declared the baseline host with `KSHANA_EXACT_PINS=1`.
+/// `scripts/gate.sh`, the canonical pre-push gate, declares it by default.
+///
+/// The second condition is there because "aarch64 macOS" is not one libm. Apple ships a
+/// different maths library with each macOS release, so a literal captured on one Mac is not
+/// the last-bit output of another Apple-silicon Mac or of a hosted macOS runner: the
+/// byte-exact layer of `the_fixture_geometry_is_still_the_engines_own_service_volume` failed
+/// in the last bit on a macos-14 arm64 runner while its portable layer passed (issue #36). The
+/// portable layer, which carries the discriminating power, runs on every host regardless.
+pub(crate) fn on_baseline_host() -> bool {
+    baseline_rule(
+        cfg!(all(target_arch = "aarch64", target_os = "macos")),
+        std::env::var("KSHANA_EXACT_PINS").ok().as_deref(),
+    )
+}
+
+/// The rule behind [`on_baseline_host`], with its inputs explicit so it can be tested on any
+/// host: the platform must be the baseline's and the environment must say `1`.
+pub(crate) fn baseline_rule(is_baseline_platform: bool, exact_pins: Option<&str>) -> bool {
+    is_baseline_platform && exact_pins == Some("1")
+}
 
 /// Relative tolerance for the portable layer.
 ///
@@ -376,5 +396,21 @@ mod tests {
         // Units attached to a number are text, not a second measurement.
         let (s6, n6, _) = numeric_skeleton("font-size:10px; dur 50s; v0.26.0");
         assert_eq!(n6, 0, "10px / 50s / v0.26.0 are identifiers: {s6}");
+    }
+    #[test]
+    fn the_exact_layer_needs_the_baseline_platform_and_the_declaration() {
+        // Issue #36: the platform alone is not enough, because aarch64 macOS is not one libm.
+        assert!(baseline_rule(true, Some("1")));
+        assert!(
+            !baseline_rule(true, None),
+            "an undeclared Apple-silicon Mac"
+        );
+        assert!(!baseline_rule(true, Some("0")), "declared off");
+        assert!(!baseline_rule(true, Some("true")), "only 1 declares it");
+        assert!(
+            !baseline_rule(false, Some("1")),
+            "the declaration cannot make Linux the baseline"
+        );
+        assert!(!baseline_rule(false, None));
     }
 }
