@@ -86,6 +86,8 @@ exclude = [
     "/src/bin/crossover_study.rs",
     "/src/bin/gen_validation_artifacts.rs",
     "/src/bin/validation_report.rs",
+    # The ARAIM Milestone 3 max-URA study writes xval/araim-m3/results.json in a checkout.
+    "/src/bin/gen_araim_m3_study.rs",
     # Non-library trees. Nothing the library or the CLI compiles reads from them (the
     # packaging job's `cargo package` verification build compiles exactly the packaged
     # files, so a stray include_str! into any of them fails CI, not the publish): the

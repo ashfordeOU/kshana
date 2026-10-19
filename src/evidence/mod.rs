@@ -28,6 +28,8 @@ pub mod bundle;
 pub mod cli;
 pub mod html;
 pub mod lab;
+#[cfg(not(target_arch = "wasm32"))]
+pub mod roundtrip;
 pub mod tsa;
 pub mod tsr;
 pub mod verify;
@@ -41,6 +43,8 @@ pub use bundle::{
     slice_for_window, EvidenceError, EvidenceInput, Files, Manifest, Window, DISCLAIMER, FORMAT,
 };
 pub use lab::LabAttestation;
+#[cfg(not(target_arch = "wasm32"))]
+pub use roundtrip::build_round_trip_pack;
 pub use verify::{
     attach_timestamp, verify_bundle, verify_detached, Failure, VerifyOptions, VerifyReport,
 };

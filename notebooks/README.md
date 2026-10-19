@@ -15,6 +15,8 @@ clone.
 | `geometry.ipynb` | which satellites a site sees under a skyline (a street, a container terminal), their dilution of precision and error ellipse, a dated sky from element sets, a seeded Monte Carlo against the covariance, and the skyplot (MODELLED; REPRESENTATIVE presets) | [`.md`](geometry.md) |
 | `optical-atmosphere.ipynb` | an optical timing link through clouds and turbulence: per-site availability, site diversity, enhancement techniques and the outage-to-holdover coupling, on the two bundled scenarios (MODELLED; ILLUSTRATIVE sites) | [`.md`](optical-atmosphere.md) |
 
+**Course.** [`course/`](course/README.md) holds six short teaching notebooks (jamming, spoofing, holdover, integrity, OSNMA, interference map), each with exercises.
+
 The training stream and the trust score are advisory, not type-approved navigation equipment;
 the stream is synthetic training data and is never for a vessel's live navigation systems.
 

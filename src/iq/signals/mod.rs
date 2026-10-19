@@ -64,6 +64,9 @@ pub mod by_name;
 pub mod galileo;
 pub mod glonass;
 pub mod gps;
+pub mod lunanet;
+pub mod lunanet_oracle;
+pub mod lunanet_tables;
 pub mod tables;
 
 use super::{Cf64, DataModulation, SpreadingCode};

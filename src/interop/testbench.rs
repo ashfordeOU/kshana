@@ -877,6 +877,51 @@ pub fn read_events_csv(text: &str) -> Result<Vec<MotionEvent>, String> {
     Ok(out)
 }
 
+/// The run as a `kshana.test-conditions/1` document (`docs/spec/TEST-CONDITIONS.md`) for a
+/// `receiver-log` recording: the scenario's events as stated truth, with the laboratory's
+/// own fields (`recording.path`, `recording.sha256`, `receiver.*`, each event's `type` and
+/// power) left for the operator to fill in. Metadata only: it describes no signal. The
+/// recording id carries the scenario hash, so the file ties the lab's record to the scenario
+/// that produced the motion.
+pub fn write_conditions_json(t: &Trajectory) -> String {
+    // Written with `serde_json` rather than through the IQ campaign types, which are not built
+    // for WebAssembly; `tests/round_trip_pack.rs` parses it with those types on native builds.
+    let events: Vec<serde_json::Value> = t
+        .events
+        .iter()
+        .map(|e| {
+            serde_json::json!({
+                "id": e.label,
+                "kind": match e.kind {
+                    EventKind::Jamming => "interference",
+                    EventKind::Spoofing => "spoofing",
+                    EventKind::Other => "outage",
+                },
+                "type": "unknown",
+                "onset_s": round_dp(e.onset_s, 3),
+                "offset_s": round_dp(e.end_s, 3),
+                "affects": "all",
+            })
+        })
+        .collect();
+    let doc = serde_json::json!({
+        "schema": "kshana.test-conditions/1",
+        "recording": {
+            "id": format!("bench-{}", t.scenario_hash),
+            "kind": "receiver-log",
+            "path": "receiver-log",
+            "start_utc": t.epoch.iso(0.0),
+            "settle_s": 5.0,
+        },
+        "receiver": {"dut": "", "front_end": "", "notes": ""},
+        "expected": [],
+        "event": events,
+    });
+    let mut s = serde_json::to_string_pretty(&doc).unwrap_or_default();
+    s.push('\n');
+    s
+}
+
 /// The events as `[[events]]` blocks for a `receiver-trust` scenario. Onsets are seconds
 /// after the epoch; `receiver-trust` counts from the first epoch of the receiver's log, so
 /// the two agree when the log starts at the motion's first sample, and the operator adds
@@ -942,6 +987,7 @@ pub fn files_and_notes_of(t: &Trajectory) -> (Vec<ExportFile>, Vec<String>) {
     }
     files.push(mk(".events.csv", write_events_csv(t)));
     files.push(mk(".events.toml", write_events_toml(t)));
+    files.push(mk(".conditions.json", write_conditions_json(t)));
     (files, notes)
 }
 
