@@ -1,0 +1,7 @@
+
+:root{--bg:#E8ECF3;--ink:#182033}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#07080E;--ink:#F2F4FB;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#07080E;--ink:#F2F4FB;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.5 "Geist",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-text-size-adjust:100%}
+main{max-width:1200px;margin:0 auto;padding:clamp(32px,6vw,72px) clamp(16px,4vw,44px)}
