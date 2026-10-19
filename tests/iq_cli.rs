@@ -1492,6 +1492,7 @@ fn synthetic_labfit_toml() -> String {
                     ..FileSource::default()
                 },
                 nav: None,
+                imu: None,
             },
             conditions: c.clone(),
         });

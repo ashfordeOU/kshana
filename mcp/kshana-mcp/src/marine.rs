@@ -230,13 +230,34 @@ pub struct ComplianceMappingRequest {
     pub sources: bool,
 }
 
+/// Parameters for [`KshanaServer::fit_imu_log`].
+#[derive(Debug, serde::Deserialize, schemars::JsonSchema)]
+pub struct FitImuRequest {
+    /// The IMU log as text: CSV with the columns `t_s, gx, gy, gz, ax, ay, az` (any order), or
+    /// the EuRoC `imu0/data.csv` layout.
+    pub log: String,
+    /// `csv` (default) or `euroc`.
+    #[serde(default)]
+    pub format: Option<String>,
+    /// Accelerometer axis: `x` (default), `y` or `z`.
+    #[serde(default)]
+    pub axis: Option<String>,
+    /// Specific force that axis reads at rest, m/s^2: 0 for a horizontal axis (default), about
+    /// 9.80665 for the vertical one.
+    #[serde(default)]
+    pub expected_mean: Option<f64>,
+    /// Sensor id written into the table (default `imu-fit`).
+    #[serde(default)]
+    pub id: Option<String>,
+}
+
 /// Parameters for [`KshanaServer::trust_telemetry`].
 #[derive(Debug, serde::Deserialize, schemars::JsonSchema)]
 pub struct TrustTelemetryRequest {
     /// The trust stream (JSON lines, one object per epoch: `t_s`, `state`, `score`, `deductions`,
     /// `alarms`, `gate`) or a `receiver-trust` result document, at most 4 MiB, as text.
     pub input: String,
-    /// `prometheus`, `cef`, `leef` or `otlp`.
+    /// `prometheus`, `cef`, `leef`, `otlp` or `mqtt` (Home Assistant discovery and state lines).
     pub format: String,
     /// `jsonl` (default) for the live stream, or `result` for a batch result document.
     #[serde(default)]
@@ -637,6 +658,25 @@ impl KshanaServer {
         Ok(CallToolResult::success(vec![ContentBlock::text(
             surface::compliance_mapping(r.sources),
         )]))
+    }
+
+    #[tool(
+        description = "Fit the sensor parameters of the `hybrid` and `fusion` scenarios from a stationary IMU log (`kshana imu-fit`, docs/MACHINE-INPUTS.md). Those scenarios take noise parameters, not a time series: this reads them off a log recorded with the sensor held still, by the overlapping Allan deviation of the integrated signal. Returns JSON: `fit` (accelerometer bias, velocity-random-walk PSD `q_va`, gyro bias, angle-random-walk PSD `q_arw`, bias-instability floor when the log is long enough to show one, the log's rate and span, the early Allan slopes, and `notes` on what could not be fitted or trusted), `toml` (an `[accel_classical]` table whose provenance names the log's SHA-256, ready to paste into a scenario) and `sha256`. A log that was not stationary, or is too short or unevenly sampled, gives wrong parameters or is refused; the slopes (about -0.5 where white noise dominates) show which. Nothing is written to disk. Evidence tier: MODELLED (the estimator applied to the log, no external oracle)."
+    )]
+    fn fit_imu_log(
+        &self,
+        Parameters(r): Parameters<FitImuRequest>,
+    ) -> Result<CallToolResult, McpError> {
+        let text = surface::imu_fit(
+            &r.log,
+            r.format.as_deref().unwrap_or("csv"),
+            r.axis.as_deref().unwrap_or("x"),
+            r.expected_mean.unwrap_or(0.0),
+            r.id.as_deref().unwrap_or("imu-fit"),
+            MAX_UPLOAD_BYTES,
+        )
+        .map_err(bad)?;
+        Ok(CallToolResult::success(vec![ContentBlock::text(text)]))
     }
 
     #[tool(
