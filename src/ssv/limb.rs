@@ -126,7 +126,11 @@ impl LimbModel {
             let p = [a[0] + t * d[0], a[1] + t * d[1], a[2] + t * d[2]];
             let h_km = (geom::norm(p) - RE_BOOKLET_M) / 1000.0;
             let np = self.plasmasphere(p);
-            let ni = if h_km < 2500.0 { self.ionosphere(h_km.max(0.0)) } else { 0.0 };
+            let ni = if h_km < 2500.0 {
+                self.ionosphere(h_km.max(0.0))
+            } else {
+                0.0
+            };
             tot += (np + ni) * ds;
             plas += np * ds;
         }
@@ -204,7 +208,11 @@ mod tests {
     fn the_surface_limb_bends_about_one_and_a_third_degrees() {
         let m = LimbModel::default();
         let (_, bend, _, _) = m.neutral(0.0, 2.58e7, 4.19e7);
-        assert!((bend.to_degrees() - 1.33).abs() < 0.1, "{}", bend.to_degrees());
+        assert!(
+            (bend.to_degrees() - 1.33).abs() < 0.1,
+            "{}",
+            bend.to_degrees()
+        );
         // Higher tangent heights bend less, and absorb and defocus less.
         let (e20, b20, a20, f20) = m.neutral(20.0, 2.58e7, 4.19e7);
         let (e0, b0, a0, f0) = m.neutral(0.0, 2.58e7, 4.19e7);
@@ -215,7 +223,8 @@ mod tests {
     }
 
     #[test]
-    fn a_ray_through_the_dense_ionosphere_has_a_larger_delay_than_one_through_the_plasmasphere_alone() {
+    fn a_ray_through_the_dense_ionosphere_has_a_larger_delay_than_one_through_the_plasmasphere_alone(
+    ) {
         let m = LimbModel::default();
         let tx = [26.56e6, 0.0, 0.0];
         // A user far on the other side, ray grazing the limb at about 300 km (through the F layer).
