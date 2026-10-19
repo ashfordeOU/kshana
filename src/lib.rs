@@ -261,6 +261,7 @@ pub mod optical_linkbudget;
 pub mod optical_outage_holdover;
 pub mod optical_sitediv;
 pub mod optical_techniques;
+pub mod optical_timeseries;
 pub mod optical_weather;
 pub mod orbit;
 pub mod orbit_determination;
