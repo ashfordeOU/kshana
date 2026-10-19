@@ -195,6 +195,6 @@ dual-frequency tables) are checked, under bars pre-registered in
 with the deviations that cannot be removed stated there: no almanac files, Walker shells instead
 of the real slots, a coarser grid and step, and the engine's ADD v4.2 horizontal path in place of
 the report's own text. Tables 8 to 13 (single frequency) and the Optimistic rows are not attempted,
-with the reasons given there. The result stays MODELLED whatever it is. The study is
+with the reasons given there. **Result: 8 of 12 entries reproduced, 4 NOT MET (pinned):** the dual-constellation entries and all Galileo-only entries match (including the N/A rows), the dual Depleted RNP 0.1 entry reaches coverage 0.847 at 9 m against the printed 9 m (needs 0.90), and three GPS-only entries miss widely (coverage 0.70 at 4 m, 0.58 at 6 m, 0.65 at 10 m against printed 4 m, 6 m and ">10 m"). The GPS-only misses may come from the uniform Walker shell standing in for the real GPS slots (D1); that is a hypothesis, not a finding. The result stays MODELLED whatever it is. The study is
 `src/bin/gen_araim_m3_study.rs`; its measured coverages are in `xval/araim-m3/results.json` and
 scored by `tests/araim_m3_reproduction.rs`. The report itself is cited, not vendored.
