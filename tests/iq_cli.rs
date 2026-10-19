@@ -957,6 +957,10 @@ fn auto_handoff_coherent_length_per_signal_family() {
         ("galileo-e5a-i", 1),
         ("galileo-e5a-q", 1),
         ("galileo-e1c", 1),
+        // LunaNet AFS-I: 2 ms code period, two periods reach the ~4 ms hand-off. AFS-Q's receiver
+        // replica is primary x secondary, 8 ms, so one full period.
+        ("lunanet-afs-i", 2),
+        ("lunanet-afs-q", 1),
     ];
     // Every accepted signal is pinned here, so a new signal must state its expectation.
     let mut named: Vec<&str> = expected.iter().map(|(s, _)| *s).collect();

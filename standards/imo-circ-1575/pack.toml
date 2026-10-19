@@ -1,0 +1,117 @@
+# IMO MSC.1/Circ.1575 (shipborne PNT data processing): integrity and multi-system pack.
+# Bars are stated in PREREGISTRATION.md before any scored run. Everything here is MODELLED.
+id = "imo-circ-1575"
+title = "IMO MSC.1/Circ.1575 shipborne PNT data processing: accuracy levels and integrity evaluation"
+framework = "imo-ships"
+sources = [
+  "Guidelines for shipborne position, navigation and timing (PNT) data processing, IMO MSC.1/Circ.1575, 16 June 2017: annex paragraphs 47, 53 to 57, 84 to 88 and 92 to 93, appendix C Table C-1 (operational accuracy levels A to D at 95 %) and appendix C section 2.2 (integrity evaluation and RAIM). Read in full from the IMO document server on 2026-10-18; paraphrased, never quoted. The circular is a set of guidelines; Table C-2 technical levels are labelled non-mandatory by the circular itself.",
+]
+
+[[row]]
+id = "IMO-1575-ACC"
+reference = "MSC.1/Circ.1575, annex paragraphs 44 to 46 and appendix C, Table C-1"
+asks = "Position and other PNT outputs are specified by operational accuracy levels A to D (horizontal 100 m, 10 m, 1 m, 0.1 m; vertical 10 m, 5 m, 1 m, 0.5 m), each at 95 % confidence; non-mandatory technical sub-levels refine them."
+gap = "A protection-level availability against a stated limit for a representative sky and ranging error; a receiver's measured accuracy needs its own log. Levels C and D are not tested."
+
+[[row]]
+id = "IMO-1575-INT"
+reference = "MSC.1/Circ.1575, annex paragraphs 47 and 84 to 88 and appendix C section 2.2"
+asks = "Integrity evaluation is graded none, low (plausibility and consistency of single sources), medium (consistency across largely uncorrelated sources) and high (an estimate of the inaccuracy, such as a RAIM protection level)."
+gap = "The circular assigns a level to a receiver's method, which a scenario does not show; the pack scores a modelled protection level and a modelled consistency detector."
+
+[[row]]
+id = "IMO-1575-STATUS"
+reference = "MSC.1/Circ.1575, annex paragraphs 92 and 93"
+asks = "Status data reports the usability of sensors and processing, including a seamless switch to a lower accuracy or integrity level and a raised status when redundancy is lost (for example RAIM fault exclusion replaced by no RAIM)."
+gap = "Output status is a property of the equipment's interface; no simulation output shows it, so the test needs the equipment's log or documentation."
+
+[[row]]
+id = "IMO-1575-INPUT"
+reference = "MSC.1/Circ.1575, annex paragraphs 53 to 57"
+asks = "Incoming data is checked for completeness, correctness, update rate, plausibility and consistency; invalid or intolerably inconsistent data is marked and excluded from processing."
+gap = "Input handling belongs to the equipment; Kshana does not inspect it."
+
+[[test]]
+id = "ACC-A"
+profile = "accuracy-level-a"
+title = "Level A horizontal and vertical limits held on open sea, 95 % of epochs"
+scenario = "accuracy-a-open-water"
+supports_rows = ["IMO-1575-ACC"]
+gap = "Protection-level availability against the Table C-1 limits for a representative sky and a stated ranging error; not a measured accuracy of any receiver."
+[[test.bar]]
+pointer = "/samples_available"
+over = "/samples_total"
+op = "ge"
+value = 0.95
+why = "Table C-1 states each operational level at 95 % confidence."
+
+[[test]]
+id = "ACC-B"
+profile = "accuracy-level-b"
+title = "Level B limits held on open sea with one constellation, 95 % of epochs"
+scenario = "accuracy-b-open-water"
+supports_rows = ["IMO-1575-ACC"]
+gap = "As ACC-A."
+[[test.bar]]
+pointer = "/samples_available"
+over = "/samples_total"
+op = "ge"
+value = 0.95
+why = "Table C-1, level B (horizontal 10 m, vertical 5 m) at 95 % confidence."
+
+[[test]]
+id = "ACC-B-MULTI"
+profile = "accuracy-level-b"
+title = "Level B limits held on open sea with GPS plus Galileo, 95 % of epochs"
+scenario = "accuracy-b-multi-system"
+supports_rows = ["IMO-1575-ACC", "IMO-1575-INT"]
+gap = "As ACC-A; the multi-system integrity level (medium or high) is assigned by the circular to the receiver's method, which a scenario does not show."
+[[test.bar]]
+pointer = "/samples_available"
+over = "/samples_total"
+op = "ge"
+value = 0.95
+why = "Table C-1, level B at 95 % confidence, with the dual-constellation ARAIM engine."
+
+[[test]]
+id = "ACC-B-HARBOUR"
+profile = "accuracy-level-b"
+title = "Level B limits held in a harbour approach with a representative skyline, 95 % of epochs"
+scenario = "accuracy-b-harbour"
+supports_rows = ["IMO-1575-ACC", "IMO-1575-INT"]
+gap = "A representative skyline (docs/SKYLINE.md), not a survey of any port."
+[[test.bar]]
+pointer = "/samples_available"
+over = "/samples_total"
+op = "ge"
+value = 0.95
+why = "Table C-1, level B at 95 % confidence, where the skyline hides low satellites."
+
+[[test]]
+id = "INT-CONSIST"
+profile = "integrity-evaluation"
+title = "Consistency checks across measurements flag a satellite-subset position push"
+scenario = "integrity-consistency-spoof"
+supports_rows = ["IMO-1575-INT"]
+gap = "Paragraph 85 describes consistency tests at the low and medium levels; this scores a modelled detector on parameterised observables, not a receiver's implementation."
+[[test.bar]]
+pointer = "/decision/raim/alert"
+op = "eq"
+value = true
+why = "Paragraph 85.2.4 names RAIM-style iterative consistency testing as the method that detects faulty input data."
+
+[[test]]
+id = "STATUS-1"
+profile = "status-data"
+title = "Status is raised when redundancy is lost (for example RAIM FDE replaced by no RAIM)"
+needs_input = "A receiver or PNT-DP output log, or its interface documentation, showing the status or integrity indication change when the number of usable satellites falls from the over-determined case to four. Paragraph 93.2.3 asks for this status to be raised; Kshana scores a log against events stated before the run with `kshana receiver-trust`."
+supports_rows = ["IMO-1575-STATUS"]
+gap = "Output status and interface behaviour belong to the equipment; no simulation output shows them."
+
+[[test]]
+id = "INPUT-1"
+profile = "status-data"
+title = "Implausible or inconsistent input is marked and excluded"
+needs_input = "A receiver log or PNT-DP input trace containing data that violates range, rate or consistency limits, with the exclusion visible in the output. Paragraphs 53 to 57."
+supports_rows = ["IMO-1575-INPUT"]
+gap = "Input handling belongs to the equipment; Kshana does not inspect it."

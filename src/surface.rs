@@ -728,6 +728,67 @@ pub fn iq_test_conditions_inline(text: &str, max_bytes: usize) -> Result<Value, 
     Ok(v)
 }
 
+/// The standards packs (`kshana standards-pack list`, `standards/`): id, title, framework and
+/// test counts, with the notice that a pack measures modelled scenarios and rates no product.
+pub fn standards_pack_list() -> Value {
+    crate::standards_pack::list()
+}
+
+/// Run one standards pack by id (`kshana standards-pack run <id>`): the report as JSON and as
+/// Markdown. Nothing is read from disk (the scenarios are embedded) and nothing is written.
+/// Give the JSON text to [`compliance_report`] to see the rows the pack supports evidence for.
+/// A test that needs a receiver log is `NEEDS INPUT` and not scored.
+pub fn standards_pack_run(id: &str) -> Result<(Value, String), String> {
+    let report = crate::standards_pack::run(id)?;
+    let md = crate::standards_pack::report_markdown(&report);
+    Ok((report, md))
+}
+
+/// Most frames [`lunanet_afs_generate`] writes in one call (600 000 symbols of text).
+pub const MAX_AFS_FRAMES: usize = 100;
+
+/// Check this implementation of the LunaNet Augmented Forward Signal against the published
+/// tables and worked examples of LSIS-AFS V1.0 (LNIS V5, AD1 Volume A; `kshana lunanet-afs-check
+/// spec`, `docs/LUNANET-AFS.md`): bars B1 to B10 of `xval/lunanet-afs/PREREGISTRATION.md`, each
+/// with its count and status. A miss is reported, never hidden. Nothing is read from disk.
+pub fn lunanet_afs_check_spec() -> Value {
+    crate::iq::lunanet_afs::check_spec()
+}
+
+/// Check a hard-decision AFS symbol stream given as text (`0` and `1`, white space ignored)
+/// against section 2.4 of LSIS-AFS V1.0: synchronisation pattern, SB1 decoding, FID, TOI
+/// continuity and frame spacing. Subframes 2 to 4 (LDPC, CRC-24Q) are not verified and the
+/// report says so. `max_sp_errors` symbols of the 68-symbol pattern may be wrong.
+pub fn lunanet_afs_check_symbols(
+    text: &str,
+    max_sp_errors: usize,
+    max_bytes: usize,
+) -> Result<Value, String> {
+    cap("symbol stream", text, max_bytes)?;
+    if max_sp_errors > 20 {
+        return Err("max_sp_errors must be at most 20".into());
+    }
+    let symbols = crate::iq::lunanet_afs::parse_symbol_text(text)?;
+    Ok(crate::iq::lunanet_afs::check_symbols(&symbols, max_sp_errors).to_json())
+}
+
+/// A test stream of `frames` AFS frames (at most [`MAX_AFS_FRAMES`]) as `0`/`1` text, TOI
+/// counting from `toi0` modulo 100: the document's synchronisation pattern, SB1 and frame
+/// lengths, with **placeholder** subframes 2 to 4 (not LDPC coded, no message). It is symbols
+/// for testing a checker or a decoder, not a waveform; Kshana writes no signal.
+pub fn lunanet_afs_generate(frames: usize, toi0: u8) -> Result<String, String> {
+    if !(1..=MAX_AFS_FRAMES).contains(&frames) {
+        return Err(format!("frames must be 1 to {MAX_AFS_FRAMES}"));
+    }
+    if u16::from(toi0) >= crate::iq::lunanet_afs::TOI_VALUES {
+        return Err("toi0 must be 0 to 99".into());
+    }
+    Ok(crate::iq::lunanet_afs::generate_symbols(frames, toi0)
+        .iter()
+        .map(|&b| char::from(b'0' + b))
+        .collect())
+}
+
 /// Most runs a surface accepts in one compliance report.
 pub const MAX_COMPLIANCE_RUNS: usize = 64;
 
@@ -1257,6 +1318,61 @@ pub fn evidence_create_attested(
         &seed,
         None,
         lab.as_ref(),
+    )?;
+    Ok(EvidencePack {
+        public_key: public_key_hex(&seed),
+        seed,
+        epochs_in_window: summary.epochs_in_window,
+        slice: summary.slice,
+        files: summary.files,
+    })
+}
+
+/// Build the signed laboratory round-trip pack in memory (`kshana evidence round-trip`,
+/// `docs/spec/TEST-CONDITIONS.md`): the scenario that produced the motion, the laboratory's
+/// `kshana.test-conditions/1` document, the receiver log and its score against the stated
+/// events, linked by hash. `scoring_toml` is a `receiver-trust` scenario whose `[log]`
+/// section names only the format (the log arrives as `log`) and whose `[[events]]` are the
+/// stated truth; `conditions` is TOML or JSON. Refuses a pack whose conditions and scoring
+/// events disagree or whose stated log hash is not the log's. Nothing is read from disk and
+/// no signal is written, replayed or scheduled. A technical record, not a certification.
+#[cfg(not(target_arch = "wasm32"))]
+#[allow(clippy::too_many_arguments)]
+pub fn evidence_round_trip(
+    scoring_toml: &str,
+    scenario_toml: &str,
+    conditions: &str,
+    log: &[u8],
+    from_s: f64,
+    to_s: f64,
+    title: Option<&str>,
+    created_utc: Option<&str>,
+    seed: Option<[u8; 32]>,
+    max_bytes: usize,
+) -> Result<EvidencePack, String> {
+    cap("scoring scenario", scoring_toml, max_bytes)?;
+    cap("scenario", scenario_toml, max_bytes)?;
+    cap("conditions", conditions, max_bytes)?;
+    cap_len("log", log.len(), max_bytes)?;
+    let scn: crate::receiver_trust::scenario::ReceiverTrustScenario = toml::from_str(scoring_toml)
+        .map_err(|e| format!("invalid receiver-trust scenario: {e}"))?;
+    let seed = seed.unwrap_or_else(generate_seed);
+    let (from, to) = (from_s.to_string(), to_s.to_string());
+    let summary = crate::evidence::build_round_trip_pack(
+        &PackRequest {
+            scenario: &scn,
+            log_bytes: log,
+            nav_bytes: None,
+            imu_bytes: None,
+            log_file_name: "inline",
+            from: &from,
+            to: &to,
+            title: title.unwrap_or("Laboratory round-trip evidence pack"),
+            created_utc,
+        },
+        scenario_toml,
+        conditions,
+        &seed,
     )?;
     Ok(EvidencePack {
         public_key: public_key_hex(&seed),

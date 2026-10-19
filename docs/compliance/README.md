@@ -18,6 +18,15 @@ body; Kshana is not one. Requirement text is paraphrased, never reproduced.
 | EN 16803 (paid standard; by part and catalogue-visible clause numbers only) | [en-16803.md](en-16803.md) |
 | NIST IR 8323r1, Foundational PNT Profile (January 2023) | [nist-ir-8323r1.md](nist-ir-8323r1.md) |
 
+**Standards packs** (0.38) turn a framework into scored scenarios: each pack has scenarios, bars
+stated before the run, and rows it supports evidence for. `kshana standards-pack list` shows them.
+
+| Pack | File |
+|---|---|
+| DHS Resilient PNT Conformance Framework, test profiles for levels 1 to 4 | [dhs-rpcf-test-profiles.md](dhs-rpcf-test-profiles.md) |
+| IMO MSC.1/Circ.1575, shipborne PNT data processing: accuracy levels and integrity | [imo-circ-1575.md](imo-circ-1575.md) |
+| ICAO Doc 9849 Appendix F, monitor, assess and mitigate GNSS interference | [icao-doc9849-appf.md](icao-doc9849-appf.md) |
+
 Each file lists its source documents with version, URL, date read and what was and was not
 checked. Sources were read on 2026-10-09 (the NIST profile on 2026-10-18; the EASA bulletin and the EN 16803 catalogue pages were checked again on 2026-10-10). Where a source could only be read through a
 mirror or a catalogue page, the file says so.

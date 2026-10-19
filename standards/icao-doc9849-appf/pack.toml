@@ -1,0 +1,120 @@
+# ICAO Doc 9849 Appendix F (GNSS RFI mitigation plan): monitor, assess, mitigate.
+# Bars are stated in PREREGISTRATION.md before any scored run. Everything here is MODELLED.
+id = "icao-doc9849-appf"
+title = "ICAO Doc 9849 Appendix F: monitor, assess and mitigate GNSS radio-frequency interference"
+framework = "icao-doc9849"
+sources = [
+  "ICAO GNSS RFI Mitigation Plan, presentation to the ICG-11 Working Group S (United Nations Office for Outer Space Affairs, 2016), which describes the three-step plan (monitor threats, assess risks, deploy mitigation measures) and quotes Doc 9849 sections 5.1.5, 7.11.3.1, 7.12.5, 7.13.1.1 and Appendix B. Read in full on 2026-10-18. Doc 9849 itself is a paid ICAO publication and was NOT read; no clause of Appendix F is cited by number, and the checklists of preventive and reactive measures that Appendix F contains are not reproduced.",
+]
+
+[[row]]
+id = "ICAO-9849-MON"
+reference = "Doc 9849 Appendix F step 1 (monitor threats) and section 7.11.3.1, as described in ICAO's GNSS RFI Mitigation Plan presentation"
+asks = "Threats are monitored proactively and reactively; when anomaly reports suggest interference, air navigation service providers analyse them and, if interference is present, identify the affected area and issue a notice."
+gap = "The plan puts monitoring best at the aircraft receiver and relies on reports; a scored log shows one receiver's alarm times, not an air-traffic picture or the reporting process."
+
+[[row]]
+id = "ICAO-9849-ASSESS"
+reference = "Doc 9849 Appendix F step 2 (assess risks) and section 7.13.1.1, as described in ICAO's GNSS RFI Mitigation Plan presentation"
+asks = "Providers assess residual likelihood of service outages and the impact of an outage on operations in specific airspace, varying and escalating scenarios and identifying existing barriers."
+gap = "Scenarios give the impact side for a stated geometry; likelihood and the airspace-specific assessment are the provider's."
+
+[[row]]
+id = "ICAO-9849-MIT"
+reference = "Doc 9849 Appendix F step 3 (deploy mitigation measures) and section 5.1.5, as described in ICAO's GNSS RFI Mitigation Plan presentation"
+asks = "Mitigation barriers prevent transmission of interference, prevent a GNSS service outage (resilience, on-board integration) and limit the severity of impact (integration with other navigation sources, alternative PNT, detection and resolution)."
+gap = "The pack models detection, alternative PNT and holdover; prevention of transmission is regulatory and outside simulation. Appendix F's own checklists were not read."
+
+[[test]]
+id = "MON-1"
+profile = "monitor"
+title = "Detect the start and end of an interference event at the receiver"
+needs_input = "A receiver log (UBX, RINEX, Android or NMEA) from a flight or test that includes an interference interval, and the interval's stated start and end, scored with `kshana receiver-trust` against events stated before the run."
+supports_rows = ["ICAO-9849-MON"]
+gap = "The plan's own wording is that monitoring is best done at the aircraft receiver; a scored log shows one receiver's alarm times, not an air-traffic picture."
+
+[[test]]
+id = "ASSESS-1"
+profile = "assess"
+title = "Scenario variation: a 10 W broadband jammer 1 km away denies GNSS"
+scenario = "assess-jammer-1km"
+supports_rows = ["ICAO-9849-ASSESS"]
+gap = "A link-budget model of one jammer geometry; the plan's risk assessment also needs likelihood, which a scenario does not give."
+[[test.bar]]
+pointer = "/fom/availability_under_jamming"
+op = "le"
+value = 0.05
+why = "Escalation case: at 1 km the scenario's own notes put the J/S far beyond what a C/A loop tolerates."
+
+[[test]]
+id = "ASSESS-2"
+profile = "assess"
+title = "Scenario variation: the same jammer 10 km away still denies GNSS"
+scenario = "assess-jammer-10km"
+supports_rows = ["ICAO-9849-ASSESS"]
+gap = "As ASSESS-1."
+[[test.bar]]
+pointer = "/fom/availability_under_jamming"
+op = "le"
+value = 0.05
+why = "J/S falls 20 dB per decade of range in free space, so at 10 km it is still well above the tolerable level."
+
+[[test]]
+id = "ASSESS-3"
+profile = "assess"
+title = "Scenario variation: the same jammer 100 km away degrades but does not deny"
+scenario = "assess-jammer-100km"
+supports_rows = ["ICAO-9849-ASSESS"]
+gap = "As ASSESS-1. Pairing the three ranges shows the escalation, not only the worst case."
+[[test.bar]]
+pointer = "/fom/availability_under_jamming"
+op = "ge"
+value = 0.95
+why = "The scenario's own notes put the 100 km case at about 32 dB J/S, which degrades links without losing lock."
+
+[[test]]
+id = "MIT-1"
+profile = "mitigate"
+title = "On-board detection: a spoofer pushing three satellites is flagged"
+scenario = "mitigate-spoof-detect"
+supports_rows = ["ICAO-9849-MIT"]
+gap = "A modelled detector on parameterised observables."
+[[test.bar]]
+pointer = "/decision/fused/alert"
+op = "eq"
+value = true
+why = "A mitigation barrier must at least detect the stated threat."
+
+[[test]]
+id = "MIT-2"
+profile = "mitigate"
+title = "Alternative PNT limits the severity of a GNSS outage"
+scenario = "mitigate-combined-altpnt"
+supports_rows = ["ICAO-9849-MIT"]
+gap = "A modelled gravity, magnetic and terrain navigator; not an avionics system."
+[[test.bar]]
+pointer = "/combined_m"
+op = "le"
+against = "/free_inertial_drift_m"
+why = "The plan lists alternative PNT as a way to limit the severity of impact; it must beat dead reckoning."
+
+[[test]]
+id = "MIT-3"
+profile = "mitigate"
+title = "A timing holdover keeps the stated bound while GNSS is denied"
+scenario = "mitigate-clock-holdover"
+supports_rows = ["ICAO-9849-MIT"]
+gap = "Bounds the modelled error of one stated clock for the scenario's duration."
+[[test.bar]]
+pointer = "/quantum/fom/timing_p95_ns"
+op = "le"
+against = "/threshold_ns"
+why = "Holdover is the timing counterpart of on-board integration: the bound is the scenario's own threshold_ns (20 ns)."
+
+[[test]]
+id = "REPORT-1"
+profile = "monitor"
+title = "Reporting and closed-loop awareness of interference events"
+needs_input = "Aggregated reports for a region (flight reports, ADS-B based interference cells). `kshana interference-map` builds a map from local ADS-B or AIS files; it is a view of past reports and does not locate a source."
+supports_rows = ["ICAO-9849-MON"]
+gap = "Reporting channels and NOTAM practice are organisational."
