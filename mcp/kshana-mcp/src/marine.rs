@@ -831,7 +831,9 @@ impl KshanaServer {
         match r.mode.as_str() {
             "spec" => reply(surface::lunanet_afs_check_spec()),
             "symbols" => {
-                let text = r.symbols.ok_or_else(|| bad("mode `symbols` needs `symbols`".into()))?;
+                let text = r
+                    .symbols
+                    .ok_or_else(|| bad("mode `symbols` needs `symbols`".into()))?;
                 let v = surface::lunanet_afs_check_symbols(
                     &text,
                     r.max_sp_errors.unwrap_or(0),
