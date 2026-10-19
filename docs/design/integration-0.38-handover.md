@@ -42,3 +42,7 @@ kshana-pro `ws/coordination`: `docs/briefs/W56-integration-0.38.md`, `docs/plans
 - 4 cores: a release build of the whole crate takes about 10 minutes, the release test build much longer.
 - `docs/assets/diagrams/rendered-from.json` binds each PNG to its SVG hash; `tools/render-diagram.sh` writes it, my Chromium
   PNGs replaced the ones it made (the SVG hash in the record is still correct).
+
+## Status at 9626fde9
+
+Local suite green after the part B fixes (palette_sync, required_fields_are_true, SBOM oracle reference at 110 components, bench site CSS in css files). Doc tests, doc-coverage (964/964), no-attribution and version-sync pass. cargo deny is not installed in the container; the CI deny job covers it.
