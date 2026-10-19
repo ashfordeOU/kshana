@@ -84,8 +84,13 @@ the hash chain and the signature. A pack is a technical record, not a legal opin
 first scored run; `xval/jammertest-score/RESULTS.md` records that run. Result: **the registered
 minimum-data rule failed** (4 scorable jamming windows from 4 of the 12 `.ubx` folders: 5 folders were
 dropped by the baseline rule and 3 UBX logs state their start only as GPS time of week), so **no bar is
-assessable**. Nothing was loosened or re-run. A second registration (placing GPS-TOW logs from the
-dataset's date, scoring the CSV folders, a moving-platform session) is possible and was not done.
+assessable**. Nothing was loosened or re-run. **v2** (`PREREGISTRATION-v2.md`, committed alone before its run; data handling only, same bars and
+minimum-data rule) placed the GPS-time-only logs from the folder date, scored the 12 CSV-only folders and
+used a moving-platform session for the moving rovers. Result (`RESULTS-v2.md`): 14 of 24 folders kept but only
+**7** scorable jamming windows, so the minimum-data rule failed again and **no bar is assessable**. v1's
+result is unchanged. Descriptive only: 3 of 7 jamming windows alarmed within 10 s, 4 later, none missed;
+median latency 18 s; clean alarm rate 0.089. The binding limit is now the baseline rule, which removes 10
+folders; a further registration would need a different rule for early windows.
 The dataset (JammerTest 2024, Zenodo 15911589, GPL-3.0-or-later) is fetched by `xval/oracles/setup.sh`
 and never vendored; the test `tests/jammertest_score_2024.rs` pins the recorded run when
 `KSHANA_JAMMERTEST_DIR` points at the extracted dataset.
