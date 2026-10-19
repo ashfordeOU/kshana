@@ -13,13 +13,16 @@ fn main() {
     } else {
         kshana::ssv::check::Size::Full
     };
-    let report = kshana::ssv::check::run(
-        &tables,
-        size,
-        std::env::args().any(|a| a == "--glonass-table-4-2"),
-    )
-    .expect("comparison");
-    let mut report = report;
+    let mut report = if std::env::args().any(|a| a == "--s7-only") {
+        serde_json::json!({"bars": {}})
+    } else {
+        kshana::ssv::check::run(
+            &tables,
+            size,
+            std::env::args().any(|a| a == "--glonass-table-4-2"),
+        )
+        .expect("comparison")
+    };
     if let Some(p) =
         std::env::args().find_map(|a| a.strip_prefix("--patterns=").map(str::to_string))
     {
