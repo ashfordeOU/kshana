@@ -12,7 +12,9 @@ fn kshana(args: &[&str]) -> std::process::Output {
 
 #[test]
 fn generate_check_and_damage_round_trip_through_the_command_line() {
-    let dir = std::env::temp_dir().join(format!("kshana-afs-{}", std::process::id()));
+    static SEQ: std::sync::atomic::AtomicU64 = std::sync::atomic::AtomicU64::new(0);
+    let seq = SEQ.fetch_add(1, std::sync::atomic::Ordering::Relaxed);
+    let dir = std::env::temp_dir().join(format!("kshana-afs-{}-{seq}", std::process::id()));
     std::fs::create_dir_all(&dir).unwrap();
     let f = dir.join("afs.txt");
     let g = kshana(&[

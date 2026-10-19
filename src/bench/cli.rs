@@ -541,6 +541,10 @@ fn manifest(args: &[String]) -> Result<i32, BenchError> {
             (sha256_hex(&b), b.len() as u64)
         }
         None => (
+            // PIN-SCOPE:    the SHA-256 and byte length of GNSS_DATASET_JAMMING_SPOOFING.tar.gz (Zenodo
+            //               record 15911589) that the JammerTest 2024 manifests are defined on, used as
+            //               the default when no archive path is given.
+            // PIN-EXCLUDES: any other archive, and the extracted files (their own hashes are in the manifest).
             "73e78934aa00d01dfeebabc45f81b38c9c0aecf972f5fc94d9ff60527065b313".to_string(),
             375_338_522,
         ),

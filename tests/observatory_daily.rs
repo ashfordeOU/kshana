@@ -24,7 +24,10 @@ fn text(o: &Output) -> String {
 struct Scratch(PathBuf);
 impl Scratch {
     fn new(name: &str) -> Self {
-        let p = std::env::temp_dir().join(format!("kshana-obs-{name}-{}", std::process::id()));
+        static SEQ: std::sync::atomic::AtomicU64 = std::sync::atomic::AtomicU64::new(0);
+        let seq = SEQ.fetch_add(1, std::sync::atomic::Ordering::Relaxed);
+        let p =
+            std::env::temp_dir().join(format!("kshana-obs-{name}-{}-{seq}", std::process::id()));
         let _ = std::fs::remove_dir_all(&p);
         Self(p)
     }

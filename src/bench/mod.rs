@@ -153,6 +153,9 @@ pub fn seal(task: &str, secret: &[u8]) -> String {
 
 /// Commitments whose seed has been shown to more than its owner. They are test material only and
 /// are refused as a release holdout by `reveal-check` and by the leaderboard.
+// PIN-SCOPE:    the commitment (SHA-256 of the seed) of one holdout whose seed was exposed; it is a
+//               list entry, not a computed result.
+// PIN-EXCLUDES: every other commitment, and the seed itself (never committed).
 pub const EXPOSED_COMMITMENTS: [&str; 1] =
     ["3aa9099fa4249aacf67a83659324391731ac25525146b5cf143ae6b4d70de7cc"];
 
