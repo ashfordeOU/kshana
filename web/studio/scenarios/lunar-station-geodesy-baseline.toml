@@ -1,0 +1,30 @@
+# Lunar reference station geodesy, BASELINE: today's five retroreflector arrays alone.
+#
+# The seven-parameter Helmert lunar frame datum from the committed slice of archived lunar laser
+# ranging normal points (the lunar-llr-datum kind, src/lunar_llr.rs), with no added site. This
+# file is the "before" of the pair; scenarios/lunar-station-geodesy-with-station.toml is the
+# "after" and uses the same archived schedule and the same VLBI campaign block below, so the only
+# difference between the two runs is the added sites.
+#
+# The [beacon_campaign] block is carried here only so the two files state the same schedule: with
+# no extra_beacons it is not used, and this run's report is exactly the lunar-llr-datum default.
+#
+# MODELLED: a Cramer-Rao bound for a reduced parameter set on a real schedule; not a solved datum,
+# not an LLR analysis and not a geodetic product. Not a statement about any real station; not
+# affiliated with or endorsed by any agency.
+#
+# DATA: the committed real-data slice ships with the repository but not with the published crate.
+kind = "lunar-llr-datum"
+
+[beacon_campaign]
+# The lunar-frame-campaign network defaults (three illustrative deep-space-network-like sites),
+# observed for 28 days from 2024-01-01 at one epoch per hour, so a south-polar beacon's Earth
+# visibility over a libration cycle is sampled rather than one day of it.
+epoch_year = 2024
+epoch_month = 1
+epoch_day = 1
+arc_hours = 672.0
+step_min = 60.0
+delay_sigma_s = 1.0e-11       # ILLUSTRATIVE, the lunar-frame-campaign default
+elevation_mask_deg = 10.0
+earth_elevation_mask_deg = 0.0

@@ -52,7 +52,7 @@ assert.equal(sniff("hello"), "unknown");
   assert.deepEqual(r.ded.map((d) => [d.monitor, d.points, d.weight]), [["heading-course", 40, 40], ["cn0-spread", 30, 30]]);
   assert.deepEqual(r.faint.sort(), ["agc", "kinematic"]);
   assert.ok(r.notRun.includes("osnma") && !r.notRun.includes("agc"), "a monitor that did not run is never shown as passing");
-  assert.equal(r.notRun.length + run.monitorsRun.length, KNOWN_MONITORS.length);
+  assert.equal(r.notRun.length + run.monitorsRun.length, KNOWN_MONITORS.length - 1); // the receiver-self-report is a comparison, not a monitor that can fail to run
   // Above onset (ratio > onset_ratio): agc 0.4 is below it.
   assert.deepEqual(epochsAboveOnset(run, "cn0-spread"), [4, 5]);
   assert.deepEqual(epochsAboveOnset(run, "agc"), []);
@@ -169,7 +169,7 @@ assert.match(buildRun({ lines: [] }).error, /no epochs/);
 }
 
 // Every monitor named in the documentation has a description (16, and from 0.36 the geometry monitor).
-assert.equal(KNOWN_MONITORS.length, 17);
+assert.equal(KNOWN_MONITORS.length, 18);
 for (const m of KNOWN_MONITORS) assert.ok(MONITOR_INFO[m].length > 20, m);
 
 // The recorded demo, when it is present: the engine's own result for the synthetic ferry log.
@@ -253,3 +253,6 @@ if (fs.existsSync(demo)) {
   assert.equal(buildRun({ result: { ...result, advisory: 7 } }).run.advisory, "");
 }
 console.log("trust.test.mjs: ok");
+
+assert.ok(KNOWN_MONITORS.includes("receiver-self-report"));
+assert.match(monitorInfo("receiver-self-report"), /receiver's own/);

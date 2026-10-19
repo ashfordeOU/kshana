@@ -112,6 +112,16 @@ breaking changes are called out explicitly.
   deviations.
 - **Drafts for owner approval** under `docs/drafts/`: JOSS paper, TSC charter amendment, oracle
   registry process and a `LICENSES/` split proposal. Nothing there is adopted.
+- **Studio views for the 0.38 features** (kshana.dev/studio/). Bridge replay (two synthetic runs on one
+  clock: track, trust score, the satellites the log hears and the verdict, with the receiver's own flags
+  beside Kshana's alarms); Optical PNT (the two `optical-atmosphere` scenarios, with an opt-in seeded
+  `[timeseries]` realisation, MODELLED); Holdover test (the `holdover-test` result measured against the
+  ITU-T masks, drawn from the result's own `record.series`); an interference-observatory viewer that
+  opens the files you produced and ships none; in the Tools page a Jammertest scorer, an IMU fit and
+  MQTT as a telemetry format; and in Trust a log-format picker (RTKLIB `.pos`, NovAtel OEM7, RTCM 3,
+  GNSS-SDR, Septentrio SBF) with an optional IMU file. Every view reads files in the browser and
+  uploads nothing; every figure keeps the label the ledger holds for it, and each carries the advisory
+  statement. The `/benchmark` site page shows the `kshana bench leaderboard` fragment.
 
 ## [0.37.0] - 2026-10-17
 

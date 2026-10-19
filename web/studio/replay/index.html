@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<!-- Bridge replay: a page of the Studio. Every relative address resolves from the Studio's own folder (like the Advanced view), so it shares the theme, tokens and modules. It reads files the person picks, in the browser: nothing is uploaded and the engine is not needed. -->
+<base href="../">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Kshana Studio</title>
+<meta name="description" content="Two synthetic runs side by side on one mission clock: each with its track, the engine's trust score and band, a live skyplot from the log's own satellites, and the verdict at the end. Play, pause, step and change speed; save the replay as an animated SVG or frames. Training and testing only.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="data:,">
+<link href="../fonts/geist-geist-mono-unbounded.css" rel="stylesheet">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="theme.css">
+<link rel="stylesheet" href="app.css">
+<link rel="stylesheet" href="studio.css">
+<link rel="stylesheet" href="replay/replay.css">
+<link rel="modulepreload" href="lib/replay.mjs">
+<script>
+  // Apply a remembered theme before first paint (per-viewer convenience only).
+  try { const q = new URLSearchParams(location.search).get("theme"); const t = q || localStorage.getItem("kshana-theme"); if (t === "dark" || t === "light") document.documentElement.dataset.theme = t; } catch (e) {}
+</script>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-theme" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.2" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M8 1.8a6.2 6.2 0 0 1 0 12.4z" fill="currentColor"/></symbol>
+  <symbol id="i-play" viewBox="0 0 16 16"><path d="M4.5 2.8v10.4a.6.6 0 0 0 .9.5l8.1-5.2a.6.6 0 0 0 0-1L5.4 2.3a.6.6 0 0 0-.9.5z" fill="currentColor"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 16 16"><path d="M4 2.5h3v11H4zM9 2.5h3v11H9z" fill="currentColor"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 16 16"><path d="M3 8h9m0 0L8.5 4.5M12 8l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-back" viewBox="0 0 16 16"><path d="M4 2.5h1.8v11H4zM13 3v10a.5.5 0 0 1-.8.4L6 8.4a.5.5 0 0 1 0-.8l6.2-5A.5.5 0 0 1 13 3z" fill="currentColor"/></symbol>
+  <symbol id="i-fwd" viewBox="0 0 16 16"><path d="M10.2 2.5H12v11h-1.8zM3 3v10a.5.5 0 0 0 .8.4l6.2-5a.5.5 0 0 0 0-.8L3.8 2.6A.5.5 0 0 0 3 3z" fill="currentColor"/></symbol>
+</svg>
+<a class="skip" href="#main">Skip to the view</a>
+<header class="bar" id="bar">
+  <a class="brand" href="/" aria-label="Kshana home"><span aria-hidden="true" style="display:inline-block;width:34px;height:34px;flex:none;margin:-5px -3px -5px -5px;background:var(--ink);-webkit-mask:url(assets/brand/kshana-mark-mask.png) center/contain no-repeat;mask:url(assets/brand/kshana-mark-mask.png) center/contain no-repeat"></span>Kshana <span class="brand-tag">Studio</span></a>
+  <nav class="crumb" aria-label="Where you are"><span>Bridge replay</span></nav>
+  <div class="bar-right">
+    <a class="view-switch" href="./" title="Back to the Studio"><svg class="ic flip" aria-hidden="true"><use href="#i-arrow"/></svg><span class="lbl">Studio</span></a>
+    <button class="icon-btn" id="btn-theme" type="button" aria-label="Switch between light and dark" title="Switch between light and dark"><svg aria-hidden="true"><use href="#i-theme"/></svg></button>
+  </div>
+</header>
+
+<main id="main" tabindex="-1">
+<div class="wrap rpl">
+  <p class="kicker"><i style="--c:var(--spf)"></i>Bridge replay</p>
+  <h1 id="rpl-h">Two runs, one clock: when did the bridge know?</h1>
+  <p class="lede">Put two synthetic runs side by side and play them on one mission clock. Each panel shows where the vessel really was against where the receiver said it was, the engine's trust score and band over time, the satellites the log itself lists (the sky blanks where the log hears none), and a verdict when the run ends. Everything drawn comes from a log or from the engine's result for it; nothing is read from the network.</p>
+
+  <p class="rpl-advice" role="note"><b>Training and testing only.</b> The runs are synthetic, with invented positions and dates; the coast under them is real land drawn for orientation only, not a chart. A replay shows what was injected and when, so use it at the debrief, not during an exercise. <b>Advisory software.</b> Kshana is not type-approved navigation equipment (IEC 61108, IEC 61162) and says nothing about how any receiver or system would perform against real interference. The operator remains responsible for the navigation of the vessel.</p>
+
+  <section class="card rpl-bar" aria-label="Replay controls">
+    <div class="rpl-btns" role="group" aria-label="Transport">
+      <button class="rpl-b" id="rpl-prevmark" type="button" title="Previous moment (Page Up)"><svg aria-hidden="true"><use href="#i-back"/></svg><span class="lbl">Moment</span></button>
+      <button class="rpl-b" id="rpl-back" type="button" title="Step back (Left arrow)" aria-label="Step back"><svg aria-hidden="true"><use href="#i-arrow" style="transform:scaleX(-1);transform-origin:center"/></svg></button>
+      <button class="rpl-play" id="rpl-play" type="button" aria-label="Play" title="Play or pause (Space)"><svg aria-hidden="true"><use href="#i-play"/></svg></button>
+      <button class="rpl-b" id="rpl-fwd" type="button" title="Step forward (Right arrow)" aria-label="Step forward"><svg aria-hidden="true"><use href="#i-arrow"/></svg></button>
+      <button class="rpl-b" id="rpl-nextmark" type="button" title="Next moment (Page Down)"><span class="lbl">Moment</span><svg aria-hidden="true"><use href="#i-fwd"/></svg></button>
+    </div>
+    <label class="rpl-speed">Speed <select id="rpl-speed" aria-label="Replay speed, mission seconds per second"></select>×</label>
+    <input class="rpl-slider" id="rpl-slider" type="range" min="0" max="1" value="0" step="1" aria-label="Mission clock, seconds from the start of each run">
+    <output class="rpl-clock" id="rpl-clock" for="rpl-slider">T+0 s</output>
+    <div class="rpl-tools">
+      <label class="rpl-chip chk"><input type="checkbox" id="rpl-truth" checked> True track</label>
+      <label class="rpl-chip chk"><input type="checkbox" id="rpl-coast" checked> Coast</label>
+      <label class="rpl-chip chk"><input type="checkbox" id="rpl-wide" checked> Widen to the coast</label>
+      <label class="rpl-chip chk"><input type="checkbox" id="rpl-early"> Show verdicts early</label>
+      <button class="rpl-chip" id="rpl-svg" type="button">Save animated SVG</button>
+      <button class="rpl-chip" id="rpl-zip" type="button">Save frames (ZIP)</button>
+    </div>
+    <p class="rpl-live" id="rpl-live" aria-live="polite" aria-atomic="true"></p>
+    <p class="rpl-status" id="rpl-status" role="status" aria-live="polite">Opening the two demo runs…</p>
+  </section>
+
+  <div class="rpl-grid" id="rpl-grid">
+    <section class="card rpl-panel" id="rpl-p0" aria-labelledby="rpl-t0"></section>
+    <section class="card rpl-panel" id="rpl-p1" aria-labelledby="rpl-t1"></section>
+  </div>
+
+  <section class="rpl-fine" aria-label="About this page">
+    <h2 class="h3">What this page does and does not show</h2>
+    <ul>
+      <li>The runs are <b>synthetic text</b> made by the engine (<code>kshana nmea-scenario</code> and the Maritime trust demo log). The score and band are the engine's <code>receiver-trust</code> output for each stream, <b>MODELLED</b>: the thresholds are stated in the engine's score model, and no external oracle has checked them against a real receiver.</li>
+      <li>The skyplot is the log's own GSV: a filled marker is a satellite with a signal strength, a hollow one is listed with none, and a shaded sector is an azimuth range where the log lists satellites and hears none of them. A blocked sky and a jammed signal look the same here. It is not a skyline, and the constellation is nominal, not an ephemeris for the log's date.</li>
+      <li>"Position error" is the logged distance between the true and the reported position; the ring around the vessel is that distance drawn to scale. The time from an event's onset to the first score below nominal is a subtraction of two logged times, not a detection-performance figure.</li>
+      <li>The vessel glyph points along the gyro heading (HDT), which no event touches; the dashed outline is where the receiver puts the vessel, along the course it reports. A gap between the two is a debrief cue.</li>
+      <li>The coast is Natural Earth public-domain land at 1:10 million, bundled with this page (nothing is fetched). The demos' positions are invented, so the coast shows where those invented coordinates fall. Illustration only, never for navigation.</li>
+    </ul>
+  </section>
+</div>
+</main>
+<script type="module" src="replay/replay.js"></script>
+</body>
+</html>

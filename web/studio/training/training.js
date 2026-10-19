@@ -4,6 +4,10 @@
 import { parseInstructorLog, errorBand, ERROR_BANDS, kindLabel, whatLabel, MAX_BYTES, MAX_BYTES_TEXT, MAX_MOMENTS_SHOWN, eventShape, nearestRow, stepTimeline, sensorCue, describeRow, paramRows, eventExtraRows, peakFacts } from "../lib/training.mjs";
 import { makeProjection, niceLength } from "../lib/trust.mjs";
 import { getEngine } from "../lib/engine-page.mjs";
+import { parseAux, epochAt } from "../lib/gsv.mjs";
+import { skyMarkup, skyDescribe } from "../lib/skydraw.mjs";
+import { ensureSkyCss } from "../lib/skypage.mjs";
+import { vesselPath, rayEnd, ringPx } from "../lib/replay.mjs";
 
 const $ = (id) => document.getElementById(id);
 const NS = "http://www.w3.org/2000/svg";
@@ -29,6 +33,7 @@ const num = (x, d = 1) => (x == null ? "none" : Number(x).toFixed(d));
 
 let log = null, cur = 0, playing = false, raf = 0, lastTs = 0, frac = 0, showTruth = true;
 const dyn = {};
+let aux = null, pendingAux = null; // the stream's own sky and heading (lib/gsv.mjs): recorded for a library scenario, read from a stream generated here
 const TL = { L: 118, R: 890, W: 900 };
 
 function setStatus(msg, err) { const s = $("tr-status"); s.textContent = msg; s.classList.toggle("err", !!err); }
@@ -40,6 +45,7 @@ async function openText(name, text, label) {
     if (text.length > MAX_BYTES) { setStatus(`${name}: larger than ${MAX_BYTES_TEXT}. This page reads logs up to that size.`, true); setNotes([]); return; }
     const r = parseInstructorLog(text, name);
     if (r.error) { setStatus(r.error, true); setNotes([]); return; }
+    aux = pendingAux; pendingAux = null;
     openLog(r.log);
     setStatus(label || `Opened ${name}: ${log.track.length} log rows over ${Math.round(log.durationS)} s.`);
     setNotes(log.warnings);
@@ -47,6 +53,7 @@ async function openText(name, text, label) {
 }
 async function openFile(file) {
   if (!file) return;
+  pendingAux = null;
   setStatus("Reading…");
   try {
     if (file.size > MAX_BYTES) { setStatus(`${file.name}: larger than ${MAX_BYTES_TEXT}. This page reads logs up to that size.`, true); return; }
@@ -58,6 +65,8 @@ async function openDemo(name, title) {
   try {
     const r = await fetch(`training/demo/${name}.instructor.json`);
     if (!r.ok) throw new Error("the file did not load");
+    pendingAux = null;
+    try { const a = await fetch(`replay/data/${name}.aux.json`); if (a.ok) pendingAux = await a.json(); } catch (e) { /* no sky for this one */ }
     await openText(`${name}.instructor.json`, await r.text(), `Synthetic library scenario "${title}", written by kshana nmea-scenario. Invented positions and dates; no real vessel or recording.`);
   } catch (e) { setStatus(`${title} could not be opened: ${e.message}.`, true); }
 }
@@ -71,7 +80,7 @@ function layout() {
 const xOf = (t) => TL.L + ((t - log.t0) / Math.max(1e-9, log.t1 - log.t0)) * (TL.R - TL.L);
 
 function openLog(l) {
-  stop();
+  stop(); ensureSkyCss();
   log = l; cur = 0;
   $("tr-run").hidden = false;
   $("tr-warning").textContent = log.warning || "Synthetic training data. For training and testing only: never feed this stream to a vessel's live navigation systems.";
@@ -124,7 +133,11 @@ function drawTrack() {
   dyn.link = sv("line", { stroke: "var(--ink)", "stroke-width": 1.2, "stroke-dasharray": "3 2" });
   dyn.truDot = sv("circle", { r: 5, fill: "var(--bg)", stroke: "var(--ink)", "stroke-width": 1.8 });
   dyn.repDot = sv("circle", { r: 7, fill: "none", stroke: "var(--tim)", "stroke-width": 2.5 });
-  svg.append(dyn.link, dyn.truDot, dyn.repDot);
+  dyn.ring = sv("circle", { class: "tr-ring", r: 0 });
+  dyn.hdgRay = sv("line", { class: "tr-hdg" });
+  dyn.glyph = sv("path", { class: "tr-glyph" });
+  dyn.k = k;
+  svg.append(dyn.ring, dyn.link, dyn.truDot, dyn.repDot, dyn.hdgRay, dyn.glyph);
   $("tr-track-desc").textContent = `True track and reported track, north up. Largest position error ${log.stats.maxErrM == null ? "none" : Math.round(log.stats.maxErrM) + " m"}. ${log.stats.spans.length} period(s) with no fix.`;
   svg.onpointerdown = (ev) => { svg.setPointerCapture?.(ev.pointerId); trackPointer(ev); };
   svg.onpointermove = (ev) => { if (ev.buttons) trackPointer(ev); };
@@ -287,7 +300,33 @@ function setCursor(i) {
     dyn.link.setAttribute("x1", rx); dyn.link.setAttribute("y1", ry); dyn.link.setAttribute("x2", tx); dyn.link.setAttribute("y2", ty);
     dyn.link.style.display = showTruth ? "" : "none";
   } else { dyn.repDot.style.display = "none"; dyn.link.style.display = "none"; }
+  drawVessel(r, tx, ty);
+  drawSky(r);
   drawNow();
+}
+
+// The vessel along its gyro heading (HDT) at the true position, with the error ring to scale: the instructor log's own
+// heading and position error, in metres. A ring too small to see at this scale is not drawn.
+function drawVessel(r, tx, ty) {
+  if (!dyn.glyph) return;
+  const show = showTruth && r.trueHdg != null;
+  dyn.glyph.style.display = dyn.hdgRay.style.display = show ? "" : "none";
+  if (show) {
+    const [x2, y2] = rayEnd(tx, ty, r.trueHdg, 36);
+    dyn.glyph.setAttribute("d", vesselPath(tx, ty, r.trueHdg, 22));
+    dyn.hdgRay.setAttribute("x1", tx); dyn.hdgRay.setAttribute("y1", ty); dyn.hdgRay.setAttribute("x2", x2); dyn.hdgRay.setAttribute("y2", y2);
+  }
+  const ring = r.errM != null && showTruth ? ringPx(r.errM, { k: dyn.k }) : null;
+  dyn.ring.style.display = ring && !ring.tiny ? "" : "none";
+  if (ring && !ring.tiny) { dyn.ring.setAttribute("cx", tx); dyn.ring.setAttribute("cy", ty); dyn.ring.setAttribute("r", ring.r); }
+}
+// The sky of the stream at the cursor: its own GSV satellites; hollow = listed with no signal, shaded = heard by none.
+function drawSky(r) {
+  const svg = $("tr-sky-svg"), cap = $("tr-sky-cap");
+  const k = aux ? epochAt(r.t_s, aux.t) : -1;
+  if (k < 0) { svg.innerHTML = '<text x="120" y="124" text-anchor="middle" class="sk-lbl">no GSV</text>'; cap.textContent = "No sky for this log: an instructor log alone has no satellites. Open a library scenario, or generate a stream here and debrief it, to see the satellites its GSV lists."; return; }
+  svg.innerHTML = skyMarkup(aux.sky[k], { size: 240, labels: true });
+  cap.textContent = skyDescribe(aux.sky[k]);
 }
 
 function drawNow() {
@@ -366,7 +405,7 @@ async function generate() {
     const b1 = el("button", { type: "button", class: "tr-demo" }, "Download the NMEA stream"); b1.onclick = () => saveText(stem + ".nmea", res.nmea);
     const b2 = el("button", { type: "button", class: "tr-demo" }, "Download the instructor log (JSON)"); b2.onclick = () => saveText(stem + ".instructor.json", res.log_json);
     const b3 = el("button", { type: "button", class: "tr-demo" }, "Download the instructor log (text)"); b3.onclick = () => saveText(stem + ".instructor.txt", res.log_text);
-    const b4 = el("button", { type: "button", class: "btn-primary" }, "Debrief it now"); b4.onclick = async () => { await openText(stem + ".instructor.json", res.log_json, `Generated here by the engine ("${title}"). Synthetic: invented positions and dates.`); $("tr-run").scrollIntoView?.({ block: "start" }); };
+    const b4 = el("button", { type: "button", class: "btn-primary" }, "Debrief it now"); b4.onclick = async () => { pendingAux = parseAux(res.nmea, { stepS: 5 }); await openText(stem + ".instructor.json", res.log_json, `Generated here by the engine ("${title}"). Synthetic: invented positions and dates.`); $("tr-run").scrollIntoView?.({ block: "start" }); };
     out.replaceChildren(b4, b1, b2, b3);
   } catch (e) { genStatus(`Could not generate: ${e && e.message ? e.message : e}.`, true); }
 }

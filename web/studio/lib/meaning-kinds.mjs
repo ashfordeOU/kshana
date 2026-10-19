@@ -461,7 +461,16 @@ function opticalAtmosphere(r) {
   return { big: `The best single site keeps the optical link up ${f(best.availability_pct, 1)} % of the time (cloud-free ceiling ${f(best.availability_ceiling_pct, 1)} %); ${team}.`, line: tech ? `${words(tech.name)}: ${f(tech.baseline_pct, 1)} % becomes ${f(tech.with_technique_pct, 1)} %.` : `${sites.length} site${sites.length === 1 ? "" : "s"} modelled; the cloud climates are illustrative.` };
 }
 
+// holdover-test (0.38): the operator's time-error record split at the two times stated, measured against ITU-T masks.
+function holdoverTest(r) {
+  if (!has(r, "holdover.duration_s", "holdover.te_at_max_abs_ns") || typeof get(r, "verdicts.holdover_masks") !== "string") return null;
+  const rec = get(r, "recovery.recovered") === true ? `, and recovered ${f(r.recovery.time_to_recover_s, 0)} s after GNSS returned` : get(r, "recovery.recovered") === false ? ", and did not recover inside the band" : "";
+  const masks = Array.isArray(r.masks) ? r.masks.filter((x) => typeof x.id === "string" && typeof x.verdict === "string").map((x) => `${x.id} ${x.verdict}`).join(", ") : "";
+  return { big: `Measured against the masks, the record's holdover of ${f(r.holdover.duration_s, 0)} s reaches ${f(Math.abs(r.holdover.te_at_max_abs_ns), 1)} ns of time error${rec}.`, line: `${masks ? `${masks}. ` : ""}Measured against the mask, never a statement that a system conforms; the two times are the operator's statement.` };
+}
+
 export const KIND_TEMPLATES = {
+  "holdover-test": holdoverTest,
   campaign, sweep, "sweep-nd": sweepNd, spoof, fusion: pnt, hybrid: pnt, timetransfer, "telecom-timing": telecom, "slot-timing": slotTiming,
   "lunar-time-budget": lunarTimeBudget, "lunar-time-offset": lunarTimeOffset, "quantum-time-transfer": quantumTT,
   "gravity-map": mapMatch, "terrain-nav": mapMatch, "combined-altpnt": mapMatch, "terrain-slam": terrainSlam, "ins-trn-coast": insTrn,

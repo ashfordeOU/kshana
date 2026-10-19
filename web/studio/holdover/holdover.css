@@ -1,0 +1,59 @@
+/* Holdover test page. Colours, type and radii come from tokens.css; layout from app.css and studio.css. A verdict is never colour alone:
+   the word is written beside it, and limits are dashed against solid data. */
+.hot{padding-bottom:56px}
+.hot h1{font:700 clamp(28px,4.4vw,46px)/1.05 var(--f-display);letter-spacing:-.02em;margin:10px 0 8px}
+.hot .lede{max-width:78ch;margin:0 0 14px;color:var(--ink-2);font-size:16px;line-height:1.5}
+.hot .h3{font:650 17px/1.2 var(--f-display)}
+.hot h3{margin:0 0 6px;font:650 15px/1.2 var(--f-display)}
+.ho-model{margin:0 0 16px;padding:12px 14px;border-radius:14px;border:1px solid var(--line-2);border-left:4px solid var(--tim-card);background:var(--surface);font-size:13.5px;line-height:1.55;color:var(--ink-2);max-width:104ch}
+.ho-model b{color:var(--ink)}
+.ho-pick{margin-bottom:14px}
+.ho-tabs{display:flex;flex-wrap:wrap;gap:8px}
+.ho-tab{min-height:44px;padding:0 16px;border-radius:999px;border:1px solid var(--line-2);background:var(--surface);font-weight:600;font-size:13.5px;color:var(--ink-2)}
+.ho-tab[aria-selected=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.ho-tab:focus-visible,.ho-chip:focus-within{outline:2px solid var(--tim);outline-offset:2px}
+.ho-blurb{margin:10px 0 0;font-size:13.5px;color:var(--ink-2);max-width:90ch}
+.ho-open{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;margin-top:10px}
+.ho-chip{position:relative;min-height:44px;display:inline-flex;align-items:center;padding:0 14px;border-radius:999px;border:1px solid var(--line-2);background:var(--surface);font-size:13px;font-weight:550;color:var(--ink-2);cursor:pointer}
+.ho-chip input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+.ho-hint{font-size:12.5px;color:var(--ink-3);max-width:70ch}
+.ho-status{margin:8px 0 0;font-size:13px;color:var(--ink-2)}.ho-status.err{color:var(--int);font-weight:600}
+.hot .card{margin-bottom:14px}
+.ho-chips{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0 0;padding:0;list-style:none}
+.ho-chipv{display:flex;flex-direction:column;gap:2px;padding:10px 14px;border-radius:12px;border:1.5px solid var(--ink-3);background:var(--surface-2);min-width:160px}
+.ho-chipv span{font:600 11px var(--f-text);color:var(--ink-3);text-transform:uppercase;letter-spacing:.04em}
+.ho-chipv b{font:700 15px var(--f-mono);color:var(--ink)}
+.ho-chipv.ho-v-pass,.ho-chipv.ho-v-recovered{border-color:var(--itg-card)}
+.ho-chipv.ho-v-fail{border-color:var(--int-card);border-width:3px}
+.ho-chipv.ho-v-incomplete,.ho-chipv.ho-v-not-evaluated{border-style:dashed}
+.ho-figure{width:100%;min-width:0;overflow-x:auto}
+.ho-chart{display:block;width:100%;height:auto;margin-top:8px}
+.ho-tag{margin:6px 0 0;font-size:12.5px;color:var(--ink-3)}
+.ho-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.ho-t{font:500 10.5px var(--f-mono);fill:var(--ink-2)}
+.ho-phl{fill:var(--ink-3)}
+.ho-ax{fill:none;stroke:var(--ink-3);stroke-width:1.2}
+.ho-grid line,.ho-chart .ho-grid{stroke:var(--line-2);stroke-width:1;stroke-dasharray:2 4}
+.ho-ph{stroke:none}
+.ho-baseline{fill:var(--itg-card);fill-opacity:.1}.ho-holdover{fill:var(--nav-card);fill-opacity:.14}.ho-recovery{fill:var(--orb-card);fill-opacity:.12}
+.ho-line{fill:none;stroke:var(--ink);stroke-width:1.5}
+.ho-band{stroke:var(--orb);stroke-width:1.2;stroke-dasharray:6 4}
+.ho-lim{stroke:var(--tim);stroke-width:1.6;stroke-dasharray:8 4}
+.ho-lim.ho-v-fail{stroke:var(--int)}.ho-lim.ho-v-pass{stroke:var(--itg)}
+.ho-limt{fill:var(--ink)}
+.ho-rm,.ho-rs{stroke:var(--ink);stroke-width:1.4;stroke-dasharray:3 3}
+.ho-x{fill:var(--int);stroke:var(--bg);stroke-width:1}
+.ho-cv{fill:none;stroke-width:2}
+.ho-c0{stroke:var(--itg)}.ho-c1{stroke:var(--nav)}
+.ho-end.ho-c0{fill:var(--ink);stroke:none}.ho-end.ho-c1{fill:var(--ink);stroke:none}
+.ho-mk{fill:none;stroke:var(--tim);stroke-width:2}.ho-mk.ho-v-fail{stroke:var(--int)}.ho-mk.ho-v-pass{stroke:var(--itg)}
+.ho-kv{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:8px 20px;margin:14px 0 0}
+.ho-kv dt{font:600 11.5px var(--f-text);color:var(--ink-3);text-transform:uppercase;letter-spacing:.04em}
+.ho-kv dd{margin:2px 0 0;font:500 13px var(--f-mono);color:var(--ink)}
+.ho-tablewrap{overflow-x:auto;margin-top:6px}
+.ho-tablewrap + .ho-tablewrap{margin-top:16px}
+.ho-vtxt.ho-v-fail{color:var(--int)}.ho-vtxt.ho-v-pass{color:var(--itg)}
+.ho-list{margin:8px 0 0;padding-left:20px;max-width:100ch;color:var(--ink-2);font-size:13.5px;line-height:1.55}
+@media (max-width:900px){.ho-grid{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:640px){.ho-chart.ho-te-wide,.ho-figure .ho-chart{min-width:560px}.ho-chipv{min-width:calc(50% - 6px)}}
+@media (max-width:520px){.wrap.hot{padding-left:16px;padding-right:16px}}

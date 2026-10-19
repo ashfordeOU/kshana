@@ -13,6 +13,7 @@
 //   * a truth file (t_s,true_lat_deg,true_lon_deg), which exists only for synthetic data.
 // Advisory software: nothing here is a measure of how the checks do on real interference.
 
+import { readSelfReport, readSelfSummary } from "./trust-selfreport.mjs";
 import { readEpochGeometry, readClass, readGeometryModel, readGeometrySummary, describeGeometry } from "./trust-geometry.mjs";
 
 export const BANDS = ["calibrating", "nominal", "degraded", "untrusted"];
@@ -35,6 +36,7 @@ export const MONITOR_INFO = Object.freeze({
   raim: "The receiver autonomous integrity monitoring test statistic against its threshold.",
   clock: "The clock-aided monitor: the receiver clock against its predicted line.",
   "solve-failure": "The position solution could not be computed.",
+  "receiver-self-report": "The receiver's own spoofing or jamming flag (for example u-blox UBX-SEC-SIG or NAV-STATUS spoofDetState), shown beside Kshana's monitors. Read from the log, not verified; the slot is ready for the 0.38 engine's monitor and draws as a strip once a result carries it.",
   geometry: "The satellite geometry (0.36): costs points only when the geometry is poor (HDOP, PDOP or the satellites used beyond their thresholds), capped and never below the degraded band.",
 });
 export const KNOWN_MONITORS = Object.freeze(Object.keys(MONITOR_INFO));
@@ -234,6 +236,7 @@ function fromResultEpoch(e) {
     pos: m && Array.isArray(m.position) && isNum(m.position[0]) && isNum(m.position[1]) ? [m.position[0], m.position[1]] : null,
     gate: null,
     note: null,
+    selfReport: readSelfReport(e.self_report),
     ...geometryOf(e),
   };
 }
@@ -263,6 +266,7 @@ function fromLineEpoch(e) {
     pos,
     gate: ["off", "passed", "withheld"].includes(e.gate) ? e.gate : null,
     note: typeof e.note === "string" ? e.note : null,
+    selfReport: null,
     time: typeof e.time === "string" ? e.time : null,
     ...geometryOf(e),
   };
@@ -345,7 +349,7 @@ export function joinTruth(epochs, truth, tolS = 0.5) {
 export function buildRun(inputs) {
   const notes = [];
   let advisory = "";
-  let epochs, model = null, monitorsRun = null, events = [], source, states = null, geometryModel = null, geometrySummary = null;
+  let epochs, model = null, monitorsRun = null, events = [], source, states = null, geometryModel = null, geometrySummary = null, selfSummary = null;
   if (inputs.result) {
     const r = inputs.result;
     if (!Array.isArray(r.epochs)) return { error: "This result file has no epochs[]. It needs to come from `kshana receiver-trust <session.toml>` for a vessel session." };
@@ -359,6 +363,7 @@ export function buildRun(inputs) {
     events = (r.events || []).filter((e) => isNum(e.onset_s)).map((e) => ({ label: e.label, onset_s: e.onset_s, end_s: e.end_s ?? null }));
     states = r.states || null;
     geometryModel = readGeometryModel(r.geometry_model);
+    selfSummary = readSelfSummary(r.receiver_self_report);
     geometrySummary = readGeometrySummary(r.geometry_summary);
     source = "result";
   } else if (inputs.lines) {
@@ -372,7 +377,7 @@ export function buildRun(inputs) {
     notes.push("A live stream does not state which monitors ran or the score model; the band edges below are the documented defaults and the monitor strips show only monitors that cost points.");
   } else if (inputs.csv) {
     advisory = typeof inputs.csv.advisory === "string" ? inputs.csv.advisory : "";
-    epochs = inputs.csv.epochs.map((e) => ({ ...e, unknownState: knownState(e.rawState) ? null : String(e.rawState), deductions: cleanDeductions(e.deductions), ratios: table(), pos: null, gate: null, note: null, geometry: null }));
+    epochs = inputs.csv.epochs.map((e) => ({ ...e, unknownState: knownState(e.rawState) ? null : String(e.rawState), deductions: cleanDeductions(e.deductions), ratios: table(), pos: null, gate: null, note: null, geometry: null, selfReport: null }));
     source = "csv";
     notes.push("trust.csv carries scores and reasons but not ratios or positions.");
   } else return { error: "Nothing to draw: pick a result JSON, JSON lines or trust.csv." };
@@ -424,6 +429,8 @@ export function buildRun(inputs) {
     // 0.36: the geometry lane. hasGeometry is false for a run from an older engine (nothing is drawn as good).
     hasGeometry: epochs.some((e) => e.geometry),
     geometryModel, geometrySummary,
+    // 0.38: the receiver's own spoofing/jamming flags against Kshana's alarms (false for a log without those messages).
+    hasSelfReport: epochs.some((e) => e.selfReport), selfSummary,
   };
   return { run };
 }
@@ -438,7 +445,8 @@ export function reasonsAt(run, i) {
   let faint = [], notRun = [];
   if (run.monitorsRun) {
     faint = run.monitorsRun.filter((m) => !names.has(m));
-    notRun = KNOWN_MONITORS.filter((m) => !run.monitorsRun.includes(m));
+    // the receiver-self-report is a comparison beside the monitors (it raises no alarm and costs no points), never a monitor that "did not run"
+    notRun = KNOWN_MONITORS.filter((m) => m !== "receiver-self-report" && !run.monitorsRun.includes(m));
   }
   return { ded, faint, notRun, calibrating: e.state === "calibrating", note: e.note };
 }

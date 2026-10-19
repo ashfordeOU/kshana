@@ -45,7 +45,7 @@
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/hero-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/hero-light.svg">
-  <img src="docs/assets/readme/hero-light.svg" alt="Rehearse the minute GNSS goes dark. Kshana's mission console, drawn from a real run of engine v0.37.0: the chained campaign campaign-jam-spoof-holdover-integrity (seed 20260928, 6 phases, 18 member runs over T+01:16:10) and the 102 satellites of GPS, Galileo, BeiDou and GLONASS from constellation-multi-gnss-coverage, each drawn on the circular two-body orbit recovered from the engine's ground track, radii compressed for display. Clock time error peaks at 62.7 ns against a 50 ns guard, carrier-to-noise density falls to -12.2 dB-Hz against a 25 dB-Hz floor, and the vertical protection level reaches 135.4 m against a 50 m alert limit." width="100%">
+  <img src="docs/assets/readme/hero-light.svg" alt="Rehearse the minute GNSS goes dark. Kshana's mission console, drawn from a real run of engine v0.38.0: the chained campaign campaign-jam-spoof-holdover-integrity (seed 20260928, 6 phases, 18 member runs over T+01:16:10) and the 102 satellites of GPS, Galileo, BeiDou and GLONASS from constellation-multi-gnss-coverage, each drawn on the circular two-body orbit recovered from the engine's ground track, radii compressed for display. Clock time error peaks at 62.7 ns against a 50 ns guard, carrier-to-noise density falls to -12.2 dB-Hz against a 25 dB-Hz floor, and the vertical protection level reaches 135.4 m against a 50 m alert limit." width="100%">
 </picture>
 
 ## Rehearse the minute GNSS goes dark
@@ -110,7 +110,7 @@ figures, the scenario file, the code to run it from Python and the citation.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/studio/studio-task-dark.jpg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/studio/studio-task-light.jpg">
-  <img src="docs/assets/readme/studio/studio-task-light.jpg" alt="Kshana Studio, Simple view, on the bundled scenario integrity-raim, engine v0.37.0 running locally. The question: does the geometry meet the alert limits (horizontal and vertical protection level)? The answer first, marked Live result: Yes, mostly: for 95.3 % of the 12 h. The receiver's error bound stayed under the alert limits (40 m horizontal and 50 m vertical) at 344 of 361 checks, and no fix was misleading. Key figures: time the fix can be trusted 95.3 %, longest gap 10 min, typical error bound 6.5 / 13 m, misleading fixes 0. Beside it, Try other settings with five of them (the range error, the two alert limits, the duration and the elevation mask) and Run again, then the folded sections Advanced settings (13 more), How this is computed (8 validated, 6 modelled) and For researchers. Below, the views of this result and the protection levels plotted against the alert limit." width="100%">
+  <img src="docs/assets/readme/studio/studio-task-light.jpg" alt="Kshana Studio, Simple view, on the bundled scenario integrity-raim, engine v0.38.0 running locally. The question: does the geometry meet the alert limits (horizontal and vertical protection level)? The answer first, marked Live result: Yes, mostly: for 95.3 % of the 12 h. The receiver's error bound stayed under the alert limits (40 m horizontal and 50 m vertical) at 344 of 361 checks, and no fix was misleading. Key figures: time the fix can be trusted 95.3 %, longest gap 10 min, typical error bound 6.5 / 13 m, misleading fixes 0. Beside it, Try other settings with five of them (the range error, the two alert limits, the duration and the elevation mask) and Run again, then the folded sections Advanced settings (13 more), How this is computed (8 validated, 6 modelled) and For researchers. Below, the views of this result and the protection levels plotted against the alert limit." width="100%">
 </picture>
 
 **The Advanced view** is the full dashboard: the scenario library, five numbered steps
@@ -127,13 +127,13 @@ them, and you can pin up to four runs and compare them side by side.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/studio/studio-home-dark.jpg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/studio/studio-home-light.jpg">
-  <img src="docs/assets/readme/studio/studio-home-light.jpg" alt="Kshana Studio, Simple view, opening screen, titled What would you like to find out?, with the engine v0.37.0 live and, in the top bar, three links: Training debrief, Interference map and Receiver trust. Four questions: how many satellites can I see anywhere on Earth, can I trust my position fix, how long can a clock keep time without satellites, and what does a jammer do to my receiver. Below the first, its recorded result: at least 22 satellites in view at every place and 31 on average with GPS, Galileo, BeiDou and GLONASS together, a fix possible at 100 % of places and times, on a world map of satellites in view, with an Open this result button. Beside it, Everything Kshana can do: 16 areas and 139 ready-to-run scenarios, each tile with a small chart from a recorded run and its share of validated methods, and the ledger's 173 of 350 capabilities validated." width="100%">
+  <img src="docs/assets/readme/studio/studio-home-light.jpg" alt="Kshana Studio, Simple view, opening screen, titled What would you like to find out?, with the engine v0.38.0 live and, in the top bar, three links: Training debrief, Interference map and Receiver trust. Four questions: how many satellites can I see anywhere on Earth, can I trust my position fix, how long can a clock keep time without satellites, and what does a jammer do to my receiver. Below the first, its recorded result: at least 22 satellites in view at every place and 31 on average with GPS, Galileo, BeiDou and GLONASS together, a fix possible at 100 % of places and times, on a world map of satellites in view, with an Open this result button. Beside it, Everything Kshana can do: 16 areas and 139 ready-to-run scenarios, each tile with a small chart from a recorded run and its share of validated methods, and the ledger's 173 of 350 capabilities validated." width="100%">
 </picture>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/studio/studio-advanced-dark.jpg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/studio/studio-advanced-light.jpg">
-  <img src="docs/assets/readme/studio/studio-advanced-light.jpg" alt="Kshana Studio, Advanced view, after a run of the bundled scenario constellation-multi-gnss-coverage (Four GNSS constellations, one map), engine v0.37.0 running locally. On the left the scenario library, 139 scenarios in 16 domains. The five steps Choose, Set, Run, Read results and Share or export, with step 4 current. Key figures: 102 satellites, availability 100 % (PASS), median position dilution of precision (PDOP) 0.95 (PASS), PDOP 95th percentile 1.105 (PASS), 31.03 satellites in view on average and 22 at the fewest. Below, the panel row with Coverage selected, the replay bar, a world map of the mean PDOP from 0.831 to 1.0853 with every satellite drawn, and the global coverage figures." width="100%">
+  <img src="docs/assets/readme/studio/studio-advanced-light.jpg" alt="Kshana Studio, Advanced view, after a run of the bundled scenario constellation-multi-gnss-coverage (Four GNSS constellations, one map), engine v0.38.0 running locally. On the left the scenario library, 139 scenarios in 16 domains. The five steps Choose, Set, Run, Read results and Share or export, with step 4 current. Key figures: 102 satellites, availability 100 % (PASS), median position dilution of precision (PDOP) 0.95 (PASS), PDOP 95th percentile 1.105 (PASS), 31.03 satellites in view on average and 22 at the fewest. Below, the panel row with Coverage selected, the replay bar, a world map of the mean PDOP from 0.831 to 1.0853 with every satellite drawn, and the global coverage figures." width="100%">
 </picture>
 
 </details>
@@ -149,7 +149,7 @@ editions.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/site/site-strip-dark.jpg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/site/site-strip-light.jpg">
-  <img src="docs/assets/readme/site/site-strip-light.jpg" alt="Three pages of kshana.dev side by side. The Home hero: the name line Kshana · क्षण · the precise instant above the headline Rehearse the minute GNSS goes dark, with the mission console of a real run of engine v0.37.0 (a globe and three live charts: clock time error, carrier-to-noise density and protection level). Evidence, Published research: the five arXiv papers built on the open engine, the newest with an engine figure. Editions, Kshana Pro, the same engine, amplified: Free runs one scenario, Pro answers the programme's question." width="100%">
+  <img src="docs/assets/readme/site/site-strip-light.jpg" alt="Three pages of kshana.dev side by side. The Home hero: the name line Kshana · क्षण · the precise instant above the headline Rehearse the minute GNSS goes dark, with the mission console of a real run of engine v0.38.0 (a globe and three live charts: clock time error, carrier-to-noise density and protection level). Evidence, Published research: the five arXiv papers built on the open engine, the newest with an engine figure. Editions, Kshana Pro, the same engine, amplified: Free runs one scenario, Pro answers the programme's question." width="100%">
 </picture>
 
 ## Capabilities
@@ -199,7 +199,7 @@ SigMF is the Signal Metadata Format.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/lband-waterfall-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/lband-waterfall-light.svg">
-  <img src="docs/assets/readme/lband-waterfall-light.svg" alt="The GNSS L band as one power spectral density over 60 s, from a real run of the spectrum kind (l-band-waterfall-jamming.toml, seed 7, engine v0.37.0): frequency across, time down, colour for power above the -202.0 dBW/Hz noise floor. Jammers: chirp privacy device (chirp, on at 10 s, off at 40 s); CW tone on L1 (cw, on at 30 s); L2 narrowband noise (narrowband, on at 45 s). Worst band GPS L1 C/A: minimum effective C/N0 3.2 dB-Hz at 31 s against a 25 dB-Hz tracking floor. GPS L1 C/A minimum 3.2 dB-Hz; Galileo E1 minimum 4.7 dB-Hz; GPS L2C minimum 36.9 dB-Hz; GPS L5 minimum 44.1 dB-Hz; Galileo E5a minimum 47.0 dB-Hz." width="100%">
+  <img src="docs/assets/readme/lband-waterfall-light.svg" alt="The GNSS L band as one power spectral density over 60 s, from a real run of the spectrum kind (l-band-waterfall-jamming.toml, seed 7, engine v0.38.0): frequency across, time down, colour for power above the -202.0 dBW/Hz noise floor. Jammers: chirp privacy device (chirp, on at 10 s, off at 40 s); CW tone on L1 (cw, on at 30 s); L2 narrowband noise (narrowband, on at 45 s). Worst band GPS L1 C/A: minimum effective C/N0 3.2 dB-Hz at 31 s against a 25 dB-Hz tracking floor. GPS L1 C/A minimum 3.2 dB-Hz; Galileo E1 minimum 4.7 dB-Hz; GPS L2C minimum 36.9 dB-Hz; GPS L5 minimum 44.1 dB-Hz; Galileo E5a minimum 47.0 dB-Hz." width="100%">
 </picture>
 
 <picture>
@@ -234,7 +234,7 @@ and `leo-pass-iridium`.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/trust-timeline-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/trust-timeline-light.svg">
-  <img src="docs/assets/readme/trust-timeline-light.svg" alt="Trust score over one synthetic passage, from a real run of engine v0.37.0 on examples/maritime-trust (a made-up NMEA log of a ferry on a Tallinn to Helsinki route, 3001 epochs at 1 Hz). Three lanes share one time axis. Top: the distance between the position the receiver reports and the vessel's real position, which stays within a few metres until about 1576 s, when the log's scripted position drag-off pulls it away, while the receiver keeps reporting a valid fix. Middle: the trust score from 0 to 100, not computed during the first 300 s of calibration, in the nominal band (at least 90) until the drag-off, then falling through the degraded band (at least 55) into the untrusted band. Bottom: the band of each epoch as a coloured ribbon with its name. The score is advisory. Advisory software, not type-approved navigation equipment (IEC 61108, IEC 61162): the operator remains responsible for the navigation of the vessel. The log is made up to show the format and the monitors; it is not a measurement and says nothing about how any receiver would perform." width="100%">
+  <img src="docs/assets/readme/trust-timeline-light.svg" alt="Trust score over one synthetic passage, from a real run of engine v0.38.0 on examples/maritime-trust (a made-up NMEA log of a ferry on a Tallinn to Helsinki route, 3001 epochs at 1 Hz). Three lanes share one time axis. Top: the distance between the position the receiver reports and the vessel's real position, which stays within a few metres until about 1576 s, when the log's scripted position drag-off pulls it away, while the receiver keeps reporting a valid fix. Middle: the trust score from 0 to 100, not computed during the first 300 s of calibration, in the nominal band (at least 90) until the drag-off, then falling through the degraded band (at least 55) into the untrusted band. Bottom: the band of each epoch as a coloured ribbon with its name. The score is advisory. Advisory software, not type-approved navigation equipment (IEC 61108, IEC 61162): the operator remains responsible for the navigation of the vessel. The log is made up to show the format and the monitors; it is not a measurement and says nothing about how any receiver would perform." width="100%">
 </picture>
 
 <picture>
@@ -246,7 +246,7 @@ and `leo-pass-iridium`.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/training-track-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/training-track-light.svg">
-  <img src="docs/assets/readme/training-track-light.svg" alt="Training stream from the scenario coastal-drag-off (engine v0.37.0, seed 22, 25 minutes at one fix per 10 s of the instructor log). A map shows the vessel's true track and the track the receiver reports: they agree until a scripted position drag-off begins at 421 s, the reported track then walks away from the true one while the receiver keeps a valid fix, and it steps back when the event ends at 1140 s. Beside it, the distance between the two tracks over time, and the mean carrier-to-noise density the receiver reports, which rises to one raised level while the event lasts. Synthetic training data generated by Kshana. For training and testing only: never feed this stream to a vessel's live navigation systems. Advisory, not type-approved navigation equipment. Advisory software, not type-approved navigation equipment (IEC 61108, IEC 61162): the operator remains responsible for the navigation of the vessel. Positions, dates and tracks are invented." width="100%">
+  <img src="docs/assets/readme/training-track-light.svg" alt="Training stream from the scenario coastal-drag-off (engine v0.38.0, seed 22, 25 minutes at one fix per 10 s of the instructor log). A map shows the vessel's true track and the track the receiver reports: they agree until a scripted position drag-off begins at 421 s, the reported track then walks away from the true one while the receiver keeps a valid fix, and it steps back when the event ends at 1140 s. Beside it, the distance between the two tracks over time, and the mean carrier-to-noise density the receiver reports, which rises to one raised level while the event lasts. Synthetic training data generated by Kshana. For training and testing only: never feed this stream to a vessel's live navigation systems. Advisory, not type-approved navigation equipment. Advisory software, not type-approved navigation equipment (IEC 61108, IEC 61162): the operator remains responsible for the navigation of the vessel. Positions, dates and tracks are invented." width="100%">
 </picture>
 
 <picture>
@@ -317,7 +317,7 @@ Each scenario compares a quantum sensor against its classical counterpart throug
 
 <p align="center">
   <img src="docs/assets/figures/scenario-fom.png" alt="What quantum sensors buy when GNSS is gone, clock-holdover scenario: quantum holds 6600 s of autonomy vs 2610 s classical, far lower timing error, and 100% vs 95.6% availability" width="88%">
-  <br><sub>What quantum sensors buy when GNSS is gone — <code>clock-holdover</code> · seed 42 · drawn at engine 0.37.0, and every figure above re-checked against the current engine on each build by <code>tests/published_figures_still_reproduce.rs</code> · <a href="docs/assets/figures/scenario-fom.svg">SVG</a></sub>
+  <br><sub>What quantum sensors buy when GNSS is gone — <code>clock-holdover</code> · seed 42 · drawn at engine 0.38.0, and every figure above re-checked against the current engine on each build by <code>tests/published_figures_still_reproduce.rs</code> · <a href="docs/assets/figures/scenario-fom.svg">SVG</a></sub>
 </p>
 
 The advantage is **outage- and vibration-dependent**, with an explicit break-even where classical wins — shown honestly across the technology-readiness ladder (optical-clock figures are ground-demonstrator targets; no strontium optical clock has flown):
@@ -633,7 +633,7 @@ The **Status** column states the *kind* of evidence, matching the validation lad
 ## Install
 
 One line gets the command-line tool: **`cargo install kshana`**. Every channel ships
-v0.37.0 from the same tagged commit.
+v0.38.0 from the same tagged commit.
 
 <!-- channels:begin -->
 | Channel | Install | Guide |
@@ -667,8 +667,8 @@ v0.37.0 from the same tagged commit.
 
 <p><a href="https://plugins.jetbrains.com/plugin/32181-kshana--pnt-simulator"><img src="https://img.shields.io/badge/JetBrains-Marketplace-066A86?style=flat-square&labelColor=0A1226" alt="Kshana on the JetBrains Marketplace"></a> <a href="Cargo.toml"><img src="https://img.shields.io/badge/rust-1.85%2B-3F4B67?style=flat-square&labelColor=0A1226" alt="Builds with Rust 1.85 or newer, the rust-version in Cargo.toml"></a></p>
 
-MCP is the Model Context Protocol. Pin a release with `cargo install kshana --version 0.37.0`,
-`pip install kshana==0.37.0` or `npm install kshana@0.37.0`. To build from source, see
+MCP is the Model Context Protocol. Pin a release with `cargo install kshana --version 0.38.0`,
+`pip install kshana==0.38.0` or `npm install kshana@0.38.0`. To build from source, see
 [Install and build](#install--build) under Reference.
 
 <details>
@@ -763,7 +763,7 @@ The rendered diagrams (engine flow, module map, distribution) are in [`docs/ARCH
 ## AI assistant
 
 [`kshana-mcp`](mcp/kshana-mcp/) is an MCP server: your assistant runs the actual engine and
-reads back its JSON, instead of guessing the maths. Each of its 40 tools is a thin wrapper
+reads back its JSON, instead of guessing the maths. Each of its 49 tools is a thin wrapper
 over a public function of the `kshana` library, so no simulation logic lives in the server.
 
 ### Install the MCP server
@@ -808,7 +808,7 @@ Per-client set-up is in [`docs/integrations.md`](docs/integrations.md). The serv
 in the official MCP registry as `io.github.ashfordeOU/kshana-mcp`.
 
 <details>
-<summary>The 40 tools</summary>
+<summary>The 49 tools</summary>
 
 <br>
 
@@ -852,6 +852,9 @@ in the official MCP registry as `io.github.ashfordeOU/kshana-mcp`.
 | `build_interference_map` | A GNSS interference map from ADS-B or AIS position reports as CSV text (at most 4 MiB) |
 | `route_exposure` | The share of a route's length in degraded, not-degraded, unassessed and not-observed cells of one or more interference maps, optionally within a date range |
 | `trust_telemetry` | A trust stream (JSON lines) or `receiver-trust` result rendered as Prometheus text, CEF or LEEF syslog lines or an OTLP JSON payload, with the `kshana trust-telemetry` encoders |
+| `jammertest_import` | Read the published Jammertest test catalogue and transmission plan (NPRA/jammertest-plan, MIT) as scheduled truth (`kshana jammertest import`): one test area's slots become receiver-trust events with the catalogue id and year in each label. Planned slots, not recorded on-air times; no contact field of the plan is read. MODELLED. See [`docs/JAMMERTEST.md`](../../docs/JAMMERTEST.md). |
+| `jammertest_score` | Score a receiver log against that schedule (`kshana jammertest score`): per test the detection latency, missed alarms and time to recover, and the false alarms outside every slot. Text logs as `log`, binary (`ubx`, `sbf`) as `log_base64`. A signed pack needs a key: command line. Advisory only; MODELLED. |
+| `fit_imu_log` | Accelerometer and gyro parameters of the `hybrid` and `fusion` scenarios fitted from a stationary IMU log (CSV or EuRoC) by Allan deviation, with a ready-to-paste `[accel_classical]` table and the log's SHA-256 (`kshana imu-fit`). Text in, JSON out; MODELLED. |
 
 **GNSS IQ (work-directory files; off in HTTP mode)**
 
@@ -880,6 +883,13 @@ in the official MCP registry as `io.github.ashfordeOU/kshana-mcp`.
 | `run_standards_pack` | One pack run against bars stated before the run: each test `MET`, `NOT MET` or `NEEDS INPUT`; MODELLED, rates no product |
 | `lunanet_afs_check` | The LunaNet Augmented Forward Signal checked against LNIS V5 AD1 Volume A (LSIS-AFS V1.0): the codes against the printed tables, or a symbol stream against the frame format; LDPC and CRC-24Q of subframes 2 to 4 are not verified |
 | `create_round_trip_pack` | The signed laboratory round-trip pack: scenario, `kshana.test-conditions/1` document, receiver log and score linked by hash |
+
+**Benchmark**
+
+| Tool | What it does |
+|---|---|
+| `score_benchmark` | A kshana-bench submission scored against a truth file, both JSON text (`kshana bench score`, `bench/SPEC.md`): the result file with the spec version, split, input hashes and the task's metrics. MODELLED; describes a log or corpus, never a product. |
+| `render_leaderboard` | kshana-bench result files rendered as the static leaderboard page (HTML text), each validated first. |
 
 </details>
 
@@ -1697,8 +1707,8 @@ afterwards the pipeline checks that each registry really serves the new version
 | [PyPI (Python Package Index)](https://pypi.org/project/kshana/) | `pip install kshana` | abi3 wheels (Linux/macOS/Windows) + sdist (source distribution) |
 | [npm](https://www.npmjs.com/package/kshana) | `npm install kshana` | WebAssembly module + JS wrapper |
 | [ghcr.io](https://github.com/ashfordeOU/kshana/pkgs/container/kshana-mcp) | `docker run -i ghcr.io/ashfordeou/kshana-mcp` | multi-arch OCI (Open Container Initiative) image — no toolchain needed |
-| [npm](https://www.npmjs.com/package/kshana-mcp) | `npx -y kshana-mcp@0.37.0` | launcher: downloads the release binary, verifies `SHA256SUMS`, runs it |
-| [PyPI](https://pypi.org/project/kshana-mcp/) | `uvx kshana-mcp==0.37.0` · `pipx run kshana-mcp==0.37.0` | the same launcher for Python |
+| [npm](https://www.npmjs.com/package/kshana-mcp) | `npx -y kshana-mcp@0.38.0` | launcher: downloads the release binary, verifies `SHA256SUMS`, runs it |
+| [PyPI](https://pypi.org/project/kshana-mcp/) | `uvx kshana-mcp==0.38.0` · `pipx run kshana-mcp==0.38.0` | the same launcher for Python |
 | Homebrew · Scoop · winget | `brew install ashfordeOU/tap/kshana-mcp` · `scoop install kshana-mcp` · `winget install AshfordeOU.KshanaMcp` | the `kshana-mcp` binary, generated from each release's `SHA256SUMS` |
 | Claude Desktop | double-click `kshana-mcp-<target>.mcpb` from the release | the extension, with the binary inside |
 | official MCP registry | auto-discovered by MCP clients | `io.github.ashfordeOU/kshana-mcp` (OCI image, npm and PyPI packages) |
