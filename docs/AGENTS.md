@@ -35,6 +35,7 @@ engine version, so the run can be repeated. Keep each result's own caveats with 
 | Was this receiver log, or this vessel's NMEA, trustworthy, and when did it stop being? | `assess_receiver_log` (any log format), `assess_vessel_log` (vessel NMEA, batch), `assess_vessel_stream` (bounded excerpt) | `/kshana-assess-receiver` |
 | I need synthetic NMEA with a jamming, drag-off, time-spoof or replay event for training | `generate_training_nmea` | `/kshana-training-scenario` |
 | Show a vessel's trust score in monitoring or SIEM formats (Prometheus, CEF, LEEF, OTLP) | `trust_telemetry` | `/kshana-trust-telemetry` |
+| Score a receiver log against the published Jammertest schedule (detection latency, missed alarms, false alarms, time to recover), or turn that plan into events | `jammertest_score`, `jammertest_import` | `/kshana-jammertest` |
 | Make a tamper-evident record of what the engine said about a window of a vessel's log, or check one | `create_evidence_pack`, `verify_evidence_pack`, `attach_evidence_timestamp` | `/kshana-evidence-pack` |
 | Which Galileo satellites' navigation data does this receiver stream authenticate (OSNMA)? | **none: not on MCP.** Use `kshana osnma verify` (CLI), `kshana.osnma_verify` (Python) or `osnma_verify` (WASM, the Studio OSNMA card) | not a slash command |
 | I need a scenario's vehicle motion and event times to replay through a laboratory GNSS simulator | `export_test_bench` | `/kshana-bench-export` |
