@@ -162,6 +162,7 @@ pub fn score_pack(
             scenario: &out.scenario,
             log_bytes: req.log_bytes,
             nav_bytes: None,
+            imu_bytes: None,
             log_file_name,
             from: "0",
             to: &to,

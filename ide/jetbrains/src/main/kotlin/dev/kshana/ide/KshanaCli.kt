@@ -50,6 +50,7 @@ object KshanaCli {
         PROMETHEUS("Prometheus metrics", listOf("--print-metrics")),
         CEF("Syslog events, CEF", listOf("--print-syslog", "--format", "cef")),
         LEEF("Syslog events, LEEF", listOf("--print-syslog", "--format", "leef")),
+        MQTT("Home Assistant MQTT lines", listOf("--print-mqtt")),
     }
 
     /** `<binary> trust-telemetry --result <result.json> <print flags>`: print the telemetry a stored
@@ -57,6 +58,28 @@ object KshanaCli {
      *  (a print flag is given), nothing is sent. */
     fun trustTelemetryCommand(binary: String, resultPath: String, format: TelemetryFormat): List<String> =
         listOf(binary, "trust-telemetry", "--result", resultPath) + format.args
+
+    /** The IMU log layouts `imu-fit` reads. */
+    enum class ImuFormat(val key: String, val label: String) {
+        CSV("csv", "CSV with columns t_s, gx, gy, gz, ax, ay, az"),
+        EUROC("euroc", "EuRoC imu0/data.csv"),
+    }
+
+    /** The accelerometer axis and the specific force it reads at rest (m/s^2): 0 for a horizontal
+     *  axis, about 9.80665 for the vertical one. */
+    enum class ImuAxis(val key: String, val label: String, val expectedMean: String) {
+        X("x", "x (horizontal, reads 0 at rest)", "0"),
+        Y("y", "y (horizontal, reads 0 at rest)", "0"),
+        Z("z", "z (vertical, reads 9.80665 at rest)", "9.80665"),
+    }
+
+    /** True for the IMU logs the plugin offers `imu-fit` on. */
+    fun isImuLogFile(fileName: String): Boolean = fileName.endsWith(".csv", ignoreCase = true)
+
+    /** `<binary> imu-fit <imu.csv> --format <f> --axis <a> --expected-mean <m>`: print the
+     *  `[accel_classical]` table fitted from a stationary IMU log. Read-only; MODELLED. */
+    fun imuFitCommand(binary: String, logPath: String, format: ImuFormat, axis: ImuAxis): List<String> =
+        listOf(binary, "imu-fit", logPath, "--format", format.key, "--axis", axis.key, "--expected-mean", axis.expectedMean)
 
     /** The approved interference-map datasets and the input kind each one is. */
     enum class MapDataset(val key: String, val source: String, val label: String) {

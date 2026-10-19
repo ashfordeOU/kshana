@@ -366,9 +366,24 @@ pub struct SelfReportSummary {
     pub first_kshana_alarm_s: Option<f64>,
 }
 
+/// What the receiver's flags are, per log format, for [`SelfReportSummary::note`].
+fn self_report_source(format: super::LogFormat) -> &'static str {
+    use super::LogFormat::*;
+    match format {
+        Ubx => "spoofing/jamming flags (UBX-NAV-STATUS spoofDetState, UBX-SEC-SIG)",
+        Novatel => {
+            "jammer flag (NovAtel RXSTATUS receiver status bit 15; RXSTATUS carries no spoofing flag)"
+        }
+        _ => "spoofing/jamming flags (as this log format carries them)",
+    }
+}
+
 /// Compare the receiver's flags with Kshana's alarms over the post-calibration epochs that
 /// carry a flag state; `None` when the log carries none.
-pub fn self_report_summary(epochs: &[EpochTrust]) -> Option<SelfReportSummary> {
+pub fn self_report_summary(
+    epochs: &[EpochTrust],
+    format: super::LogFormat,
+) -> Option<SelfReportSummary> {
     let rep: Vec<(&EpochTrust, &SelfReportEpoch)> = epochs
         .iter()
         .filter_map(|e| e.self_report.as_ref().map(|r| (e, r)))
@@ -382,10 +397,11 @@ pub fn self_report_summary(epochs: &[EpochTrust]) -> Option<SelfReportSummary> {
         .collect();
     let n = |a: &str| post.iter().filter(|(_, r)| r.agreement == a).count();
     Some(SelfReportSummary {
-        note:
-            "the receiver's own spoofing/jamming flags (UBX-NAV-STATUS, UBX-SEC-SIG) set against \
-               Kshana's monitors; neither is ground truth, agreement is not validation"
-                .into(),
+        note: format!(
+            "the receiver's own {} set against Kshana's monitors; neither is ground truth, \
+             agreement is not validation",
+            self_report_source(format)
+        ),
         epochs_reported: post.len(),
         receiver_flag_epochs: post.iter().filter(|(_, r)| r.receiver_flag).count(),
         both: n("both"),

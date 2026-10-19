@@ -581,7 +581,7 @@ pub fn evidence_verify(
 
 /// Render a trust stream or a batch result in one telemetry format, with the encoders
 /// `kshana trust-telemetry` uses (no process, socket or clock). `format` is `"prometheus"`,
-/// `"cef"`, `"leef"` or `"otlp"`; `input_kind` is `"result"` (a `receiver-trust` result
+/// `"cef"`, `"leef"`, `"otlp"` or `"mqtt"`; `input_kind` is `"result"` (a `receiver-trust` result
 /// document) or `"jsonl"` (the live per-epoch stream); `host` names the sender in syslog
 /// events (empty for `kshana`). `options_json` is `""` or an object with `expose_position`
 /// (bool), `syslog_all` (bool: one event per epoch, not per band change) and `unix_nano`
@@ -614,6 +614,30 @@ pub fn trust_telemetry(
         surface::MAX_INPUT_BYTES,
     )
     .map_err(err)
+}
+
+/// Fit the accelerometer and gyro parameters of the `hybrid` and `fusion` scenarios from a
+/// stationary IMU log (`kshana imu-fit`, docs/MACHINE-INPUTS.md). `log` is the CSV text;
+/// `format` is `"csv"` or `"euroc"`; `axis` is `"x"`, `"y"` or `"z"`; `expected_mean` is the
+/// specific force that axis reads at rest (0 horizontal, about 9.80665 vertical). Returns JSON:
+/// `fit`, a ready-to-paste `[accel_classical]` `toml` and the log's `sha256`. MODELLED.
+#[wasm_bindgen]
+pub fn imu_fit(
+    log: &str,
+    format: &str,
+    axis: &str,
+    expected_mean: f64,
+    id: &str,
+) -> Result<String, JsValue> {
+    crate::surface::imu_fit(
+        log,
+        format,
+        axis,
+        expected_mean,
+        id,
+        crate::surface::MAX_INPUT_BYTES,
+    )
+    .map_err(|e| JsValue::from_str(&e))
 }
 
 /// Check Galileo OSNMA authentication of I/NAV pages, in memory, with the verifier
