@@ -1,12 +1,12 @@
 {
   "generator": "tools/gen_readme_assets.py",
-  "engine_version": "0.37.0",
-  "scenario_kinds": 84,
+  "engine_version": "0.38.0",
+  "scenario_kinds": 85,
   "matrix": {
-    "validated": 175,
-    "modelled": 185,
+    "validated": 176,
+    "modelled": 199,
     "partner_owned": 4,
-    "total": 364
+    "total": 379
   },
   "assets": {
     "kshana-mark": {

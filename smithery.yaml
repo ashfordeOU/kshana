@@ -10,4 +10,4 @@ startCommand:
     type: "object"
     properties: {}
   commandFunction: |-
-    (config) => ({ "command": "npx", "args": ["-y", "kshana-mcp@0.37.0"] })
+    (config) => ({ "command": "npx", "args": ["-y", "kshana-mcp@0.38.0"] })
