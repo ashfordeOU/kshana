@@ -1,0 +1,125 @@
+{
+  "generator": "tools/gen_figures_038.py",
+  "engine_version": "0.38.0",
+  "figures": {
+    "jammertest": {
+      "files": [
+        "jammertest-light.svg",
+        "jammertest-dark.svg"
+      ],
+      "drawn_from": "kshana jammertest score (synthetic NMEA log, catalogue and plan written by this script)",
+      "input_files": {},
+      "svg_sha256": {
+        "jammertest-light.svg": "c9516e9a44dccd982459747ed13e0ce8ad3c879992be64304d1785db6d886b1e",
+        "jammertest-dark.svg": "09c862747e5bc7e635a44e7401aa15846bb05f091e161d8b938af14d2b4c870c"
+      }
+    },
+    "receiver-flags": {
+      "files": [
+        "receiver-flags-light.svg",
+        "receiver-flags-dark.svg"
+      ],
+      "drawn_from": "kshana receiver-trust (synthetic UBX log written by this script)",
+      "input_files": {},
+      "svg_sha256": {
+        "receiver-flags-light.svg": "b5573d1f5a419f0c4bbdfbbd2144a9582b30d36a007d91f663a8ecee543736c0",
+        "receiver-flags-dark.svg": "8bb8a12c2f69ffb393ea671b639bcdb1589d25449f5072d79cd118e66145612b"
+      }
+    },
+    "machine-inputs": {
+      "files": [
+        "machine-inputs-light.svg",
+        "machine-inputs-dark.svg"
+      ],
+      "drawn_from": "kshana imu-fit (synthetic stationary IMU CSV written by this script)",
+      "input_files": {},
+      "svg_sha256": {
+        "machine-inputs-light.svg": "52f91522b54bf5f0f1878336e181bc0b755779f9a4bc709f99ae6ac26c83bb72",
+        "machine-inputs-dark.svg": "a5557543cf4873495ab5179670bc19343a1e316d57c1bf3697bdc362468e1810"
+      }
+    },
+    "timing": {
+      "files": [
+        "timing-light.svg",
+        "timing-dark.svg"
+      ],
+      "drawn_from": "kshana scenarios/holdover-test-example.toml",
+      "input_files": {
+        "scenarios/holdover-test-example.toml": "ed81320e34fa8875760ccf002faf8eb801e73f1309863d2f6736fa95e865f753"
+      },
+      "svg_sha256": {
+        "timing-light.svg": "3ea99c8a8b77f3df42fc41cbae16eee37f7019f014e26b2afcebaaed62f102d6",
+        "timing-dark.svg": "e563132b57a8c936e861abeaccdb63e35cbef540ed18e61eeb39cb44e9237f05"
+      }
+    },
+    "standards": {
+      "files": [
+        "standards-light.svg",
+        "standards-dark.svg"
+      ],
+      "drawn_from": "kshana standards-pack run dhs-rpcf | imo-circ-1575 | icao-doc9849-appf",
+      "input_files": {
+        "standards/dhs-rpcf/pack.toml": "a5d90522c44769f7371ac65d86a64c8ea85caf9892e24e0dbf793925a43b27a2",
+        "standards/imo-circ-1575/pack.toml": "deebf358d215013f7c14d77e0399ebdf4ccbac7f52c13d0f4be1ff2e1a7e498c",
+        "standards/icao-doc9849-appf/pack.toml": "18a5f98a7707b29cff1f29c234a22fcf85a6170cf1d5c6b24c901153e7f4820a"
+      },
+      "svg_sha256": {
+        "standards-light.svg": "4631032beff7c18f499d7b54f66b17bf5c15726d9555dcefa28a119567bf7aa9",
+        "standards-dark.svg": "4ddba6bd951d4de8e100ded24a902e76bf11e15e815e96b221faae9e0f4b490f"
+      }
+    },
+    "lunanet-afs": {
+      "files": [
+        "lunanet-afs-light.svg",
+        "lunanet-afs-dark.svg"
+      ],
+      "drawn_from": "kshana lunanet-afs-check spec --json",
+      "input_files": {},
+      "svg_sha256": {
+        "lunanet-afs-light.svg": "97d760f724dca001656531b69cc822a7be01acfe26f8fe0b940c44c77ad0e1b1",
+        "lunanet-afs-dark.svg": "b665ed1eeae948963310e415300db02a600d3f1e42944a98fab6a17445b4dfe9"
+      }
+    },
+    "bench": {
+      "files": [
+        "bench-light.svg",
+        "bench-dark.svg"
+      ],
+      "drawn_from": "kshana bench baseline --task d --split test",
+      "input_files": {},
+      "svg_sha256": {
+        "bench-light.svg": "2271d503aad4f94f0dd9ecf784df257827c7d83d97b0f0e68fcd113424437db1",
+        "bench-dark.svg": "7b32d8350341a7a88c067be1375e2a7e1cbe2e248d96eb65ab737b8f62b205e0"
+      }
+    },
+    "exporters": {
+      "files": [
+        "exporters-light.svg",
+        "exporters-dark.svg"
+      ],
+      "drawn_from": "kshana trust-telemetry on examples/maritime-trust",
+      "input_files": {
+        "examples/maritime-trust/session.toml": "a516c91f43a1a74a3a551dcc5aa1be5974c5d71aca653e55216f1229750045a3",
+        "examples/maritime-trust/tallinn-helsinki.nmea": "008462359dbed742a84445c1585aa465827709ff146d92d4f6069901df82efe0"
+      },
+      "svg_sha256": {
+        "exporters-light.svg": "6afc8f084e9e765cf66850a630a62566e871c8ea018084976eef62a45b0b3847",
+        "exporters-dark.svg": "60ada935693e8b9c94b41079a0d293bf73ad33a99eb6f6cd6ecb19921566ee2f"
+      }
+    },
+    "optical": {
+      "files": [
+        "optical-light.svg",
+        "optical-dark.svg"
+      ],
+      "drawn_from": "kshana scenarios/optical-atmosphere-network.toml",
+      "input_files": {
+        "scenarios/optical-atmosphere-network.toml": "11619483f35d9939d9a50ebdf73c167feb0b3ac2c52b05fe757ed6bc3490cbc5"
+      },
+      "svg_sha256": {
+        "optical-light.svg": "14fb6eaf28e88564d8c5159c49a38216cffc53410adb6ec800c47d30df9437df",
+        "optical-dark.svg": "520b868f74a659dfe1927b757fdd89d653f778151be8493b5ce0d771683d8b5c"
+      }
+    }
+  }
+}

@@ -9,6 +9,12 @@ validated against an external oracle beyond what is stated.
 > **Advisory software.** Not type-approved navigation equipment. The operator stays responsible
 > for the safe navigation of the vessel.
 
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="figures/0.38/machine-inputs-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="figures/0.38/machine-inputs-light.svg">
+  <img src="figures/0.38/machine-inputs-light.svg" alt="What `kshana imu-fit` reads off a stationary IMU log, from a real run of engine v0.38.0 on a made-up log (20,000 samples at 100 Hz, 200 s): the accelerometer velocity random walk q_va = 4.02e-06, the gyro angle random walk q_arw = 9e-08, the bias instability 0.00296 and the early Allan slopes (-0.51 and -0.49; about -0.5 where white noise dominates). The table beside it is the TOML the command prints. The estimator is checked on synthetic logs only. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service.">
+</picture>
+
 ## RTKLIB `.pos` (`format = "rtklib-pos"`)
 
 The solution file RTKLIB's `rnx2rtkp` and RTKPOST write. Read: the time (calendar

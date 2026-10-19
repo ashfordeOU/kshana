@@ -91,6 +91,258 @@ a status names only what was checked, and the ledger row and the linked page say
 0.37's highlights: [changelog](CHANGELOG.md#0370---2026-10-17). The full 0.38 list is in the
 [changelog](CHANGELOG.md#0380---2026-10-19).
 
+## 0.38 in depth
+
+Each capability from the table above, in a few lines: what it does, one command to run it, one
+picture drawn from a real run of the engine, and what the ledger holds for it. The pictures
+are written by [`tools/gen_figures_038.py`](tools/gen_figures_038.py) into
+[`docs/figures/0.38/`](docs/figures/0.38/) (never drawn by hand): `python3 tools/gen_figures_038.py`
+rewrites them from a built engine, and `--check` fails if one is stale or its caption here differs.
+Where an input is a log, it is a made-up one the script writes, because the real third-party logs
+are never vendored, and the caption says so. Everything below is advisory: not certified, not a
+type approval, and nothing transmits. A status names what was checked and nothing more;
+[how a label is earned](#evidence).
+
+### Jammertest scoring
+
+`kshana jammertest import` turns the published NPRA test catalogue and transmission plan into
+scheduled truth, and `kshana jammertest score` scores a receiver log against it: for each
+scheduled test, whether it was detected, how late, and how long the receiver took to recover, plus
+false alarms outside every slot. The catalogue is fetched, never vendored.
+
+```sh
+xval/jammertest-plan/fetch.sh ../jammertest-plan
+kshana jammertest score session.toml --catalog ../jammertest-plan/testcatalog2025.json \
+    --plan ../jammertest-plan/plan-tuesday-2025-09-16.json --location 1 --json
+```
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/jammertest-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/jammertest-light.svg">
+  <img src="docs/figures/0.38/jammertest-light.svg" alt="Scoring of one synthetic receiver log against a three-test schedule, from a real run of engine v0.38.0 (`kshana jammertest score`). The log is made up: 1800 s of NMEA with a 20 dB C/N0 drop over two intervals. The schedule lists three slots; the middle slot has no jammer in the log. The score marks 2 of 3 tests detected (median latency 0 s) and 1 missed, with 0 false-alarm runs over 0.25 h of clean time. Nothing here says anything about a real receiver. Advisory software, not type-approved navigation equipment (IEC 61108, IEC 61162): the operator remains responsible for the navigation of the vessel.">
+</picture>
+
+**Ledger status: MODELLED.** The bars were fixed before any scored run; on the JammerTest 2024 data
+the minimum-data rule failed in both runs, so no bar is assessable and nothing is claimed.
+[Jammertest](docs/JAMMERTEST.md).
+
+### The receiver's own flags
+
+UBX-NAV-STATUS `spoofDetState`, UBX-SEC-SIG and NovAtel RXSTATUS are read into a per-epoch
+`self_report` and set beside Kshana's alarms: both, receiver only, Kshana only, or neither. A
+Septentrio SBF reader and a read-only `--serial` input feed the same comparison. Neither side is
+ground truth.
+
+```sh
+kshana receiver-trust session.toml     # [log] format = "ubx", path = "receiver.ubx"
+```
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/receiver-flags-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/receiver-flags-light.svg">
+  <img src="docs/figures/0.38/receiver-flags-light.svg" alt="The receiver's own spoofing flag set against Kshana's alarms, from a real run of engine v0.38.0 on a made-up UBX log (200 epochs at 1 Hz). C/N0 falls 20 dB at 80 to 90 s and 120 to 130 s; the receiver flags 120 to 130 s and 160 to 165 s. Of 140 epochs compared after calibration, 11 had both flagging, 6 the receiver only, 11 Kshana only and 112 neither. Neither side is ground truth and agreement is not validation. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service.">
+</picture>
+
+**Ledger status: MODELLED.** Agreement between a receiver's detector and Kshana's is not
+validation. [Receiver trust](docs/RECEIVER-TRUST.md).
+
+### More receivers and sensors
+
+RTKLIB `.pos`, NovAtel OEM7, RTCM 3 MSM4/MSM7 C/N0, GNSS-SDR monitor streams, an IMU log as a second
+sensor, a ROS 2 package and a `gnss_lib_py` bridge all end in the same receiver-trust timeline.
+`imu-fit` reads the sensor parameters the hybrid and fusion scenarios need off a stationary IMU
+log, so a scenario can be run with the sensor you actually have.
+
+```sh
+kshana imu-fit still.csv --format csv --axis x --expected-mean 0 --id bench-imu
+```
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/machine-inputs-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/machine-inputs-light.svg">
+  <img src="docs/figures/0.38/machine-inputs-light.svg" alt="What `kshana imu-fit` reads off a stationary IMU log, from a real run of engine v0.38.0 on a made-up log (20,000 samples at 100 Hz, 200 s): the accelerometer velocity random walk q_va = 4.02e-06, the gyro angle random walk q_arw = 9e-08, the bias instability 0.00296 and the early Allan slopes (-0.51 and -0.49; about -0.5 where white noise dominates). The table beside it is the TOML the command prints. The estimator is checked on synthetic logs only. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service.">
+</picture>
+
+**Ledger status: MODELLED.** Self-written fixtures only; no capture from a real receiver, IMU,
+GNSS-SDR run or ROS graph was read. [Machine inputs](docs/MACHINE-INPUTS.md).
+
+### Timing and holdover tests
+
+The `holdover-test` kind scores a holdover test (GNSS removed by the operator, holdover, recovery)
+from a measured time-error record against ITU-T masks, and says so in those words: measured
+against the mask. linuxptp and chrony log readers feed it; the hardware stages and the
+`lab-attestation` field say who stated what.
+
+```sh
+kshana scenarios/holdover-test-example.toml
+```
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/timing-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/timing-light.svg">
+  <img src="docs/figures/0.38/timing-light.svg" alt="A holdover test scored from a time-error record, from a real run of engine v0.38.0 on scenarios/holdover-test-example.toml (601 samples every 5 s). GNSS is removed by the operator at 600 s and restored at 2400 s; the time error drifts to 299 ns at the end of holdover, past the 100 ns budget after 675 s, and returns inside the 100 ns band 70 s after restoration. Verdicts: baseline masks PASS, holdover masks FAIL, holdover envelope FAIL, recovery RECOVERED. Measured against the mask, not an approval. The times are the operator's statement, not verified by Kshana. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service.">
+</picture>
+
+**Ledger status: MODELLED.** The times GNSS was removed and restored are the operator's statement,
+not verified. [Timing HIL](docs/TIMING-HIL.md), [Hardware safety](docs/HARDWARE-SAFETY.md).
+
+### Standards packs
+
+Scored packs for the DHS Resilient PNT test profiles, IMO MSC.1/Circ.1575 and ICAO Doc 9849
+Appendix F, plus a NIST IR 8323r1 crosswalk in `compliance-report`. Each test runs a bundled
+scenario and compares a result field with a bar stated before the run; a test that needs a receiver
+log is listed as needing an input, not scored. The wording is "supports evidence for".
+
+```sh
+kshana standards-pack list
+kshana standards-pack run imo-circ-1575
+```
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/standards-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/standards-light.svg">
+  <img src="docs/figures/0.38/standards-light.svg" alt="Every test of the three scored standards packs, from real runs of engine v0.38.0 (`kshana standards-pack run`): dhs-rpcf: 6 met, 1 not met, 2 need an input; imo-circ-1575: 1 met, 4 not met, 2 need an input; icao-doc9849-appf: 6 met, 0 not met, 2 need an input. In all, 13 met, 5 not met and 6 need an input the engine does not have (a receiver log or equipment documentation). Each bar was stated before the run; a miss is kept as a miss. A met bar says a modelled scenario met a stated bar, nothing about a product. The packs support evidence for the rows they cite; they are not an assessment. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service; it must not be the sole basis for any navigation or safety decision.">
+</picture>
+
+**Ledger status: MODELLED.** A met bar says a modelled scenario met a stated bar, nothing about a
+product; every miss is kept and pinned by a test. [Standards](docs/STANDARDS.md).
+
+### LunaNet AFS
+
+The LunaNet Augmented Forward Signal code generator (Gold, Weil and tertiary codes, the message
+frame and its error coding) and a checker for a recorded or generated symbol stream, pinned to one
+edition of the specification.
+
+```sh
+kshana lunanet-afs-check spec
+kshana lunanet-afs-check generate --frames 2 --out afs.sym
+kshana lunanet-afs-check symbols afs.sym
+```
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/lunanet-afs-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/lunanet-afs-light.svg">
+  <img src="docs/figures/0.38/lunanet-afs-light.svg" alt="The LunaNet AFS code generator checked against the printed columns of the specification, from a real run of engine v0.38.0 (`kshana lunanet-afs-check spec`, pinned to LNIS V5, AD1 Volume A (LSIS-AFS) V1.0, 29 January 2025; the document marks its code tables {LSIS-TBC}). 9 of 10 checks are met; B4 is NOT MET (420 of 421 matched). It checks a symbol stream against one edition of a published specification and says nothing about any LunaNet node or service. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. It checks a symbol stream against one edition of a published specification and says nothing about any LunaNet node or service.">
+</picture>
+
+**Ledger status: VALIDATED** for the code and synchronisation checks, against the values the
+specification prints (which it marks TBC); one check is NOT MET, kept and pinned (one printed
+tertiary-code column differs: the document prints the same value for two PRNs). The LDPC and CRC words
+of subframes 2 to 4 are not checked. The ledger rows say exactly which. [LunaNet AFS](docs/LUNANET-AFS.md).
+
+### Lab round trip
+
+`kshana.test-conditions/1` is a published description of what a laboratory did (events, times,
+powers). `kshana evidence round-trip` links the scenario hash, the conditions hash, the receiver log
+hash and the score into one signed pack, and refuses a pack whose conditions and scoring scenario
+disagree about the events. Kshana never produces or replays a signal: how a scenario reached a
+receiver is the operator's responsibility.
+
+```sh
+kshana evidence --help
+```
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/evidence-pack-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/evidence-pack-light.svg">
+  <img src="docs/assets/readme/evidence-pack-light.svg" alt="The structure of an evidence pack. A receiver log (NMEA, u-blox UBX, RINEX 3 or an Android log) and a time window go into kshana receiver-trust evidence, which writes seven files: log-slice.bin, config.json, epochs.json, summary.html, manifest.json, manifest.sig and an optional timestamp.tsr. The manifest records the SHA-256 of the whole log and of every file and a hash chain over the files; the signature covers the manifest. kshana evidence verify checks the signature, every file's hash, the chain and that no unlisted file is present, and exits 0 when verified, 1 when something failed and 3 when the signer was not pinned. A pack is a technical record, not a legal opinion.">
+</picture>
+
+The picture is the layout of a pack. **Ledger status: MODELLED.**
+[Test conditions](docs/spec/TEST-CONDITIONS.md), [Test bench](docs/TEST-BENCH.md).
+
+### kshana-bench
+
+Fixed tasks, splits and metrics for interference detection, IQ detection, holdover prediction and
+the optimism gap, with a sealed holdout and a static leaderboard. It scores submissions; it is not
+a ranking of receivers.
+
+```sh
+kshana bench baseline --task d --split test --out results/
+```
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/bench-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/bench-light.svg">
+  <img src="docs/figures/0.38/bench-light.svg" alt="The built-in baselines of kshana-bench task D (the optimism gap) on the test split, from a real run of engine v0.38.0 (`kshana bench baseline`). Each bar pair is the area under the ROC curve on the in-distribution cases and on the shifted cases; the gap between them is the optimism gap, against a tolerance of 0.05. fused-max-z: 0.998 and 0.983 (gap 0.015); sqm-imbalance: 0.882 and 0.882 (gap 0.001); agc-excess: 0.848 and 0.819 (gap 0.030); raim-parity: 0.682 and 0.672 (gap 0.010); energy-cn0-drop: 0.595 and 0.565 (gap 0.030). The labels are generative-model labels of a synthetic corpus, never field data: MODELLED. Advisory: modelled or measured against stated references, not an approval, certification or statement of conformance. A score describes a log or corpus, never a product.">
+</picture>
+
+**Ledger status:** no ledger row of its own; the baselines are labelled MODELLED in the result files.
+Against the pre-registered bars the scorer, C1 to C3 and D2 are met and D1 is NOT MET (pinned by a
+test). [Bench](docs/BENCH.md).
+
+### Interference observatory
+
+One product per UTC day and region from an open aircraft-position archive, on a fixed coarse grid:
+each cell is degraded, not degraded, or not observed (which is not "clear"). Released no earlier
+than 24 h after the day ends, with small cells suppressed and no attribution of cause.
+
+```sh
+kshana interference-map daily /path/to/extracted/2026-09-15 \
+    --dataset adsb-lol --day 2026-09-15 --bbox 53.5,9.0,66.0,31.0 --out products/
+```
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/interference-map-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/interference-map-light.svg">
+  <img src="docs/assets/readme/interference-map-light.svg" alt="Two synthetic interference-map days drawn from the committed samples in examples/interference-map/output, each with its own synthetic route and the route-exposure shares the engine reports. Left, an ADS-B day: 1 degraded cell, 6 not degraded, 4 unassessed (hatched) and cells with no entry, drawn empty, which were not observed. The route is 525 km: 11.5% of its length in degraded cells, 38.3% not degraded, 9.1% unassessed and 41.1% not observed. Right, an AIS day: cells flagged by the circle and on-land detectors, not-anomalous cells and empty cells; the route is 454 km with 10.5% in anomalous cells, 21.2% not anomalous, 0.0% unassessed and 68.3% not observed. ADS-B and AIS are separate layers, never combined. A flagged cell is not a finding of interference, and a cell with no colour was not observed, which is not the same as clear. All data are made up, in the open mid-Atlantic, and not a measurement.">
+</picture>
+
+The picture is the committed sample days, not an observatory product. **Ledger status: MODELLED**:
+no external oracle, no ground truth and no cause attribution; a cell that is not observed was not
+assessed, which is not the same as clear. [Observatory method](docs/observatory/METHOD.md).
+
+### Exporters
+
+Trust telemetry as Prometheus text, CEF, LEEF, OTLP and Home Assistant MQTT discovery and state
+messages. The command publishes only to a destination you give it and holds no credentials.
+
+```sh
+kshana trust-telemetry --result session.result.json --print-metrics
+kshana trust-telemetry --result session.result.json --print-syslog --format cef
+```
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/exporters-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/exporters-light.svg">
+  <img src="docs/figures/0.38/exporters-light.svg" alt="One trust result in three export formats, from real runs of engine v0.38.0 (`kshana trust-telemetry`) on examples/maritime-trust: Prometheus text exposition (the latest trust score is 5.9 and the untrusted band is the one set), and the last CEF and LEEF messages. The command publishes nothing unless given a destination, holds no credentials, and transmits no radio signal. Advisory software, not type-approved navigation equipment (IEC 61108, IEC 61162): the operator remains responsible for the navigation of the vessel.">
+</picture>
+
+**Ledger status: MODELLED.** [Trust telemetry](docs/TRUST-TELEMETRY.md).
+
+### Optical link margin against time
+
+The `optical-atmosphere` kind can write one seeded realisation of a site's weather as a link-margin
+series: cloud episodes, a liquid-water column for each, one scintillation sample per step. The
+Studio's Optical PNT page opens the optical-atmosphere scenarios.
+
+```sh
+kshana scenarios/optical-atmosphere-network.toml
+```
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/optical-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/optical-light.svg">
+  <img src="docs/figures/0.38/optical-light.svg" alt="One seeded realisation of the link margin of the site 'northern' over 336 h, from a real run of engine v0.38.0 on scenarios/optical-atmosphere-network.toml (seed 37, a step of 600 s). The margin falls below zero during cloud episodes; in this draw the link is up 40.5 % of the time, with 27 outages and a longest outage of 30.7 h. The inputs are illustrative, the series is one draw from the model and not the climate, and it differs from the statistical availability (37.8 %) by the sampling error of the draw. Advisory analysis only: not a certified availability, integrity or navigation product, and not a prediction for any real site unless its climate inputs come from a stated dataset.">
+</picture>
+
+**Ledger status: MODELLED.** One draw from the model, not the climate. [Optical atmosphere](docs/OPTICAL-ATMOSPHERE.md).
+
+### New Studio views
+
+[kshana.dev/studio](https://kshana.dev/studio/) gains a Bridge replay (two runs side by side on one
+mission clock, at [`/studio/replay/`](https://kshana.dev/studio/replay/)), an Optical PNT page
+(`/studio/optical/`), a Holdover test page (`/studio/holdover/`) and an observatory viewer
+(`/studio/observatory/`). They run the same engine in the browser, nothing is uploaded, and they carry
+the same advisory statement. The pictures above are drawn from the engine's own output by a script;
+they are not screenshots of these pages.
+
+<!-- WS-H placeholder: space-user navigation. The section (what it does, one command, one engine-rendered
+     figure, its ledger status, a link to docs/SSV.md) is added here when the space-user branch lands. -->
+
+<!-- WS-H placeholder: lunar navigation. The section (what it does, one command, one engine-rendered
+     figure, its ledger status, links to the lunar docs) is added here when the lunar branch lands. -->
+
 ## Kshana Studio
 
 Open [kshana.dev/studio](https://kshana.dev/studio/) and the whole engine runs in your
