@@ -9,8 +9,10 @@
 mod annex_c;
 pub mod check;
 pub mod constellations;
+pub mod formation;
 pub mod geom;
 pub mod limb;
+pub mod nav;
 pub mod pattern;
 pub mod scenario;
 pub mod sweep;
