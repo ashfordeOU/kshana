@@ -1568,6 +1568,31 @@ impl BuiltinKind for crate::earth_gnss_lunar::EarthGnssLunarScenario {
     }
 }
 
+fn run_lunar_infrastructure(
+    scn: &crate::lunar_infra::LunarInfrastructureScenario,
+) -> Result<RunOutput, String> {
+    let (json, summary) = scn.run_json()?;
+    Ok(RunOutput {
+        json,
+        svg: String::new(),
+        summary,
+        csv: None,
+    })
+}
+
+impl Scenario for crate::lunar_infra::LunarInfrastructureScenario {
+    fn run(&self) -> Result<RunOutput, KshanaError> {
+        run_lunar_infrastructure(self).map_err(KshanaError::from)
+    }
+}
+
+impl BuiltinKind for crate::lunar_infra::LunarInfrastructureScenario {
+    const KIND: ScenarioKind = ScenarioKind::LunarInfrastructure;
+    fn parse(src: &str) -> Result<Self, String> {
+        parse_toml(src, "lunar-infrastructure")
+    }
+}
+
 fn run_lunar_beacon(scn: &crate::lunar_beacon::LunarBeaconScenario) -> Result<RunOutput, String> {
     let (json, summary, svg) = scn.run_output()?;
     Ok(RunOutput {
