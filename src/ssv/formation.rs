@@ -283,8 +283,8 @@ pub fn run_formation(
         .iter()
         .map(|d| {
             let mut x = [0.0; R];
-            for i in 0..6 {
-                x[i] = d.ekf.x[i] - chief.ekf.x[i];
+            for (i, xi) in x.iter_mut().enumerate().take(6) {
+                *xi = d.ekf.x[i] - chief.ekf.x[i];
             }
             let mut p = [[0.0; R]; R];
             for i in 0..3 {
