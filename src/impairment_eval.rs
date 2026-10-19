@@ -577,7 +577,7 @@ pub struct EvalReport {
 /// Score a detector over the corpus and produce its evaluation report at a chosen
 /// operating P_fa. Reports measured operating characteristics only — it makes no
 /// absolute "good/bad" judgement.
-pub fn evaluate<D: ImpairmentDetector>(
+pub fn evaluate<D: ImpairmentDetector + ?Sized>(
     det: &D,
     corpus: &[LabeledCase],
     target_pfa: f64,

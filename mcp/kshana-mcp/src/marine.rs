@@ -311,6 +311,25 @@ pub struct LunanetAfsCheckRequest {
     pub toi0: Option<u8>,
 }
 
+/// Parameters for [`KshanaServer::score_benchmark`].
+#[derive(Debug, serde::Deserialize, schemars::JsonSchema)]
+pub struct ScoreBenchmarkRequest {
+    /// The truth file (`kshana-bench-truth/1`) as JSON text, at most 4 MiB.
+    pub truth: String,
+    /// The predictions file (`kshana-bench-predictions/1`) as JSON text, at most 4 MiB.
+    pub predictions: String,
+    /// The declared alarm threshold of tasks a and b (alarm when `score >= threshold`).
+    #[serde(default)]
+    pub threshold: Option<f64>,
+}
+
+/// Parameters for [`KshanaServer::render_leaderboard`].
+#[derive(Debug, serde::Deserialize, schemars::JsonSchema)]
+pub struct RenderLeaderboardRequest {
+    /// Result files (`kshana-bench-result/1`) as JSON texts, at most 256, 4 MiB each.
+    pub results: Vec<String>,
+}
+
 /// Parameters for [`KshanaServer::trust_telemetry`].
 #[derive(Debug, serde::Deserialize, schemars::JsonSchema)]
 pub struct TrustTelemetryRequest {
@@ -833,6 +852,30 @@ impl KshanaServer {
                 "mode must be spec, symbols or generate (got {other})"
             ))),
         }
+    }
+
+    #[tool(
+        description = "Score a kshana-bench submission (`kshana bench score`, bench/SPEC.md, docs/BENCH.md): a predictions file (`kshana-bench-predictions/1`) against a truth file (`kshana-bench-truth/1`), both JSON text, at most 4 MiB each, and return the result file (`kshana-bench-result/1`) with the spec version, task (a detection on receiver logs, b detection on IQ, c timing holdover prediction, d out-of-distribution optimism gap), split, the SHA-256 of both inputs and the task's metrics (AUC, detection probability at a false-alarm cap, RMSE per horizon, or the optimism gap). `threshold` is the declared alarm threshold of tasks a and b. Nothing is read from disk or written. Every score is MODELLED and describes a log or corpus, never a product; it is not a certification and no organisation is endorsed by a score. Evidence tier: MODELLED."
+    )]
+    fn score_benchmark(
+        &self,
+        Parameters(r): Parameters<ScoreBenchmarkRequest>,
+    ) -> Result<CallToolResult, McpError> {
+        let out = surface::bench_score(&r.truth, &r.predictions, r.threshold, MAX_UPLOAD_BYTES)
+            .map_err(|e| bad(format!("benchmark scoring failed: {e}")))?;
+        Ok(CallToolResult::success(vec![ContentBlock::text(out)]))
+    }
+
+    #[tool(
+        description = "Render kshana-bench result files (`kshana bench leaderboard`) as the static leaderboard page, HTML text in the reply: `results` is a list of `kshana-bench-result/1` JSON texts (at most 256, 4 MiB each), each validated first; a file scored under another major spec version is refused because results of different major versions are never put in one table. A row says this file scored this number on this split; it does not mean any product has been rated or approved by anyone. Nothing is written. Evidence tier: MODELLED."
+    )]
+    fn render_leaderboard(
+        &self,
+        Parameters(r): Parameters<RenderLeaderboardRequest>,
+    ) -> Result<CallToolResult, McpError> {
+        let out = surface::bench_leaderboard(&r.results, MAX_UPLOAD_BYTES)
+            .map_err(|e| bad(format!("leaderboard failed: {e}")))?;
+        Ok(CallToolResult::success(vec![ContentBlock::text(out)]))
     }
 
     #[tool(

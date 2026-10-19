@@ -99,6 +99,8 @@ async fn serves_exactly_the_expected_tool_set() {
         "run_standards_pack",
         "lunanet_afs_check",
         "create_round_trip_pack",
+        "score_benchmark",
+        "render_leaderboard",
         "export_test_bench",
         "iq_signals",
         "iq_info",
