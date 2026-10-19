@@ -8,8 +8,8 @@
 //! of the signals in view, and how many of the links come through the main lobe and how many through sidelobes.
 
 use super::constellations::{
-    self, free_space_loss_db, mrtp_dbw, noise_density_dbw_hz, Band, Constellation, SatClass, Satellite, SignalSpec,
-    C_LIGHT, MU_BOOKLET,
+    self, free_space_loss_db, mrtp_dbw, noise_density_dbw_hz, Band, Constellation, SatClass,
+    Satellite, SignalSpec, C_LIGHT, MU_BOOKLET,
 };
 use super::geom::{self, V3};
 use super::pattern::{TxPattern, UserAntenna};
@@ -110,7 +110,11 @@ pub fn run_shell(cfg: &ShellConfig) -> Result<Vec<BandResult>, String> {
     let navic_target = {
         let (la, lo) = (5f64.to_radians(), 83f64.to_radians());
         let r = constellations::RE_BOOKLET_M;
-        [r * la.pcos() * lo.pcos(), r * la.pcos() * lo.psin(), r * la.psin()]
+        [
+            r * la.pcos() * lo.pcos(),
+            r * la.pcos() * lo.psin(),
+            r * la.psin(),
+        ]
     };
     let nd = noise_density_dbw_hz();
     let mut out = Vec::new();
@@ -159,7 +163,14 @@ pub fn run_shell(cfg: &ShellConfig) -> Result<Vec<BandResult>, String> {
                 let rs = geom::norm(s);
                 if si.nadir {
                     let sh = geom::scale(s, 1.0 / rs);
-                    let iv = geom::visible_intervals(rs, ru, si.beam_deg, cfg.hemisphere, si.rho_max_m, rb);
+                    let iv = geom::visible_intervals(
+                        rs,
+                        ru,
+                        si.beam_deg,
+                        cfg.hemisphere,
+                        si.rho_max_m,
+                        rb,
+                    );
                     if iv.n == 0 {
                         continue;
                     }
@@ -186,7 +197,9 @@ pub fn run_shell(cfg: &ShellConfig) -> Result<Vec<BandResult>, String> {
                         if lg.blocked || lg.off_boresight_deg > si.beam_deg {
                             continue;
                         }
-                        if cfg.hemisphere && geom::dot(geom::sub(s, *up), geom::scale(*up, -1.0)) < 0.0 {
+                        if cfg.hemisphere
+                            && geom::dot(geom::sub(s, *up), geom::scale(*up, -1.0)) < 0.0
+                        {
                             continue;
                         }
                         if si.rho_max_m.is_some_and(|r| lg.range_m > r) {
@@ -217,7 +230,9 @@ pub fn run_shell(cfg: &ShellConfig) -> Result<Vec<BandResult>, String> {
         let denom = (nu * n_epochs) as f64;
         let mut groups = Vec::new();
         for g in 0..ng {
-            let mean = |i: usize| trackers[g].iter().map(|t| t.avail[i] as f64).sum::<f64>() / denom * 100.0;
+            let mean = |i: usize| {
+                trackers[g].iter().map(|t| t.avail[i] as f64).sum::<f64>() / denom * 100.0
+            };
             let worst = |i: usize| {
                 let m = trackers[g].iter().map(|t| t.max_run[i]).max().unwrap_or(0);
                 (m as f64 * cfg.step_min).min(cfg.duration_min)
@@ -244,7 +259,13 @@ pub fn run_shell(cfg: &ShellConfig) -> Result<Vec<BandResult>, String> {
     Ok(out)
 }
 
-fn sat_info(spec: &SignalSpec, sat: Satellite, group: usize, cfg: &ShellConfig, nd: f64) -> SatInfo {
+fn sat_info(
+    spec: &SignalSpec,
+    sat: Satellite,
+    group: usize,
+    cfg: &ShellConfig,
+    nd: f64,
+) -> SatInfo {
     let mrtp = mrtp_dbw(spec, cfg.mrtp_reference_alt_km);
     let rho_max_m = cfg.cn0_min_dbhz.map(|thr| {
         // C/N0 = MRTP + 0 dBi - Ls - nd >= thr  =>  Ls <= MRTP - nd - thr.
@@ -553,7 +574,10 @@ impl LinkEffects for NoEffects {
 }
 
 /// Run the trajectory sweep.
-pub fn run_trajectory(cfg: &TrajectoryConfig, fx: &dyn LinkEffects) -> Result<TrajectoryResult, String> {
+pub fn run_trajectory(
+    cfg: &TrajectoryConfig,
+    fx: &dyn LinkEffects,
+) -> Result<TrajectoryResult, String> {
     if !(cfg.duration_min > 0.0 && cfg.step_min > 0.0) {
         return Err("duration_min and step_min must be positive".into());
     }
@@ -575,7 +599,12 @@ pub fn run_trajectory(cfg: &TrajectoryConfig, fx: &dyn LinkEffects) -> Result<Tr
                     names.push(c);
                     any = true;
                 }
-                sats.push((names.len() - 1, sat, *spec, mrtp_dbw(spec, cfg.mrtp_reference_alt_km)));
+                sats.push((
+                    names.len() - 1,
+                    sat,
+                    *spec,
+                    mrtp_dbw(spec, cfg.mrtp_reference_alt_km),
+                ));
             }
         }
         if sats.is_empty() {
@@ -611,7 +640,11 @@ pub fn run_trajectory(cfg: &TrajectoryConfig, fx: &dyn LinkEffects) -> Result<Tr
                     let (la, lo) = (5f64.to_radians(), 83f64.to_radians());
                     let r = constellations::RE_BOOKLET_M;
                     let tgt = geom::ecef_to_eci(
-                        [r * la.pcos() * lo.pcos(), r * la.pcos() * lo.psin(), r * la.psin()],
+                        [
+                            r * la.pcos() * lo.pcos(),
+                            r * la.pcos() * lo.psin(),
+                            r * la.psin(),
+                        ],
                         era,
                     );
                     geom::unit(geom::sub(tgt, s))
@@ -635,21 +668,27 @@ pub fn run_trajectory(cfg: &TrajectoryConfig, fx: &dyn LinkEffects) -> Result<Tr
                     // Azimuth about the boresight, from the satellite's velocity direction.
                     let s2 = sat.position(t + 1.0);
                     let vdir = geom::sub(s2, s);
-                    let bperp = |x: V3| geom::sub(x, geom::scale(boresight, geom::dot(x, boresight)));
+                    let bperp =
+                        |x: V3| geom::sub(x, geom::scale(boresight, geom::dot(x, boresight)));
                     let (a, d) = (bperp(vdir), bperp(lg.line_of_sight));
                     let y = geom::dot(geom::cross(a, d), boresight);
                     y.patan2(geom::dot(a, d)).to_degrees()
                 } else {
                     0.0
                 };
-                let Some(eirp) = cfg.tx.eirp_dbw(*mrtp, spec.beam_deg, lg.off_boresight_deg, az) else {
+                let Some(eirp) = cfg
+                    .tx
+                    .eirp_dbw(*mrtp, spec.beam_deg, lg.off_boresight_deg, az)
+                else {
                     continue;
                 };
                 let eff = fx.effects(s, u, spec.freq_hz);
                 let loss_db = eff.loss_db;
                 let cn0 = eirp + gu - free_space_loss_db(lg.range_m, spec.freq_hz) - nd - loss_db;
                 if cfg.cn0_min_dbhz.is_some_and(|thr| cn0 < thr) {
-                    if cfg.collect_limb && cn0 + loss_db >= cfg.cn0_min_dbhz.unwrap_or(f64::NEG_INFINITY) {
+                    if cfg.collect_limb
+                        && cn0 + loss_db >= cfg.cn0_min_dbhz.unwrap_or(f64::NEG_INFINITY)
+                    {
                         lost_atm += 1;
                     }
                     continue;
@@ -703,7 +742,9 @@ pub fn run_trajectory(cfg: &TrajectoryConfig, fx: &dyn LinkEffects) -> Result<Tr
                     }
                     (m as f64 * cfg.step_min).min(cfg.duration_min)
                 };
-                let pct = |need: u32| cnt[g].iter().filter(|&&c| c >= need).count() as f64 / n_epochs as f64 * 100.0;
+                let pct = |need: u32| {
+                    cnt[g].iter().filter(|&&c| c >= need).count() as f64 / n_epochs as f64 * 100.0
+                };
                 let counts_f: Vec<f64> = cnt[g].iter().map(|&c| c as f64).collect();
                 let bests: Vec<f64> = best[g].iter().copied().filter(|x| !x.is_nan()).collect();
                 TrajectoryGroup {
@@ -772,7 +813,12 @@ mod tests {
         ];
         let p = pdop(&good).unwrap();
         assert!(p > 1.0 && p < 3.0, "{p}");
-        let flat = [[1.0, 0.0, 0.0], [0.99, 0.1, 0.0], [0.99, -0.1, 0.0], [0.98, 0.0, 0.1]];
+        let flat = [
+            [1.0, 0.0, 0.0],
+            [0.99, 0.1, 0.0],
+            [0.99, -0.1, 0.0],
+            [0.98, 0.0, 0.1],
+        ];
         assert!(pdop(&flat).unwrap() > 20.0);
         assert!(pdop(&good[..3]).is_none());
     }
@@ -803,7 +849,11 @@ mod tests {
             duration_min: 120.0,
             step_min: 10.0,
             cn0_min_dbhz: None,
-            constellations: vec![Constellation::Gps, Constellation::Galileo, Constellation::Navic],
+            constellations: vec![
+                Constellation::Gps,
+                Constellation::Galileo,
+                Constellation::Navic,
+            ],
             bands: vec![Band::L5],
             mrtp_reference_alt_km: 36000.0,
         };

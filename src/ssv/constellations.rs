@@ -25,7 +25,9 @@ pub const K_BOLTZMANN: f64 = 1.380_648_52e-23;
 pub const T_SYS_K: f64 = 290.0;
 
 /// A GNSS constellation.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, serde::Serialize, serde::Deserialize)]
+#[derive(
+    Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, serde::Serialize, serde::Deserialize,
+)]
 #[serde(rename_all = "kebab-case")]
 pub enum Constellation {
     /// GPS.
@@ -67,7 +69,9 @@ impl Constellation {
 }
 
 /// The two bands the booklet simulates.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, serde::Serialize, serde::Deserialize)]
+#[derive(
+    Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, serde::Serialize, serde::Deserialize,
+)]
 #[serde(rename_all = "kebab-case")]
 pub enum Band {
     /// L1 / E1 / B1 (GLONASS L1, QZSS L1).
@@ -148,16 +152,97 @@ use SatClass::{All, BdsGeoIgso, BdsMeo};
 /// Tables B2, B6 and B8 of the booklet, one row per signal (BeiDou has two rows per band).
 pub const SIGNALS: [SignalSpec; 13] = [
     s(Gps, L1, All, "GPS L1 C/A", 1575.42, 23.5, -184.0, 20181.80),
-    s(Galileo, L1, All, "Galileo E1 B/C", 1575.42, 20.5, -182.5, 23221.80),
-    s(Glonass, L1, All, "GLONASS L1", 1605.375, 20.0, -179.0, 19140.33),
-    s(Bds, L1, BdsMeo, "BDS MEO B1", 1575.42, 25.0, -184.2, 21611.86),
-    s(Bds, L1, BdsGeoIgso, "BDS GEO/IGSO B1", 1575.42, 19.0, -185.9, 35912.69),
-    s(Qzss, L1, All, "QZSS L1 C/A", 1575.42, 22.0, -186.1, 38948.48),
+    s(
+        Galileo,
+        L1,
+        All,
+        "Galileo E1 B/C",
+        1575.42,
+        20.5,
+        -182.5,
+        23221.80,
+    ),
+    s(
+        Glonass,
+        L1,
+        All,
+        "GLONASS L1",
+        1605.375,
+        20.0,
+        -179.0,
+        19140.33,
+    ),
+    s(
+        Bds,
+        L1,
+        BdsMeo,
+        "BDS MEO B1",
+        1575.42,
+        25.0,
+        -184.2,
+        21611.86,
+    ),
+    s(
+        Bds,
+        L1,
+        BdsGeoIgso,
+        "BDS GEO/IGSO B1",
+        1575.42,
+        19.0,
+        -185.9,
+        35912.69,
+    ),
+    s(
+        Qzss,
+        L1,
+        All,
+        "QZSS L1 C/A",
+        1575.42,
+        22.0,
+        -186.1,
+        38948.48,
+    ),
     s(Gps, L5, All, "GPS L5", 1176.45, 26.0, -182.0, 20181.80),
-    s(Galileo, L5, All, "Galileo E5a", 1176.45, 23.5, -182.5, 23221.80),
-    s(Glonass, L5, All, "GLONASS L3", 1201.0, 28.0, -178.0, 19140.33),
-    s(Bds, L5, BdsMeo, "BDS MEO B2", 1191.795, 28.0, -182.8, 21611.86),
-    s(Bds, L5, BdsGeoIgso, "BDS GEO/IGSO B2", 1191.795, 22.0, -184.4, 35912.69),
+    s(
+        Galileo,
+        L5,
+        All,
+        "Galileo E5a",
+        1176.45,
+        23.5,
+        -182.5,
+        23221.80,
+    ),
+    s(
+        Glonass,
+        L5,
+        All,
+        "GLONASS L3",
+        1201.0,
+        28.0,
+        -178.0,
+        19140.33,
+    ),
+    s(
+        Bds,
+        L5,
+        BdsMeo,
+        "BDS MEO B2",
+        1191.795,
+        28.0,
+        -182.8,
+        21611.86,
+    ),
+    s(
+        Bds,
+        L5,
+        BdsGeoIgso,
+        "BDS GEO/IGSO B2",
+        1191.795,
+        22.0,
+        -184.4,
+        35912.69,
+    ),
     s(Qzss, L5, All, "QZSS L5", 1176.45, 24.0, -183.4, 38948.48),
     s(Navic, L5, All, "NavIC L5", 1176.45, 16.0, -184.54, 35815.71),
 ];
@@ -165,9 +250,7 @@ pub const SIGNALS: [SignalSpec; 13] = [
 /// The signal specification of a satellite class in a band, if the constellation transmits there.
 pub fn signal_for(c: Constellation, band: Band, class: SatClass) -> Option<&'static SignalSpec> {
     SIGNALS.iter().find(|x| {
-        x.constellation == c
-            && x.band == band
-            && (x.class == class || x.class == SatClass::All)
+        x.constellation == c && x.band == band && (x.class == class || x.class == SatClass::All)
     })
 }
 

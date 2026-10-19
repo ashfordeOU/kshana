@@ -7,6 +7,7 @@
 //! C/N0, dilution of precision, and main-lobe against sidelobe links. See `docs/SSV.md`.
 
 mod annex_c;
+pub mod check;
 pub mod constellations;
 pub mod geom;
 pub mod limb;
