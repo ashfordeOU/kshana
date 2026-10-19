@@ -59,13 +59,20 @@ reimplementation from a public specification:
    measured values. For S7 the main-lobe level of this model is the pattern's own peak, and the measured pattern is
    normalised to its own peak, so only the shape is compared.
 
+9. **All annex C rows are used**, including the four NavIC IGSO rows annex C marks "yet to be coordinated" (11 NavIC
+   satellites) and all 27 GPS rows annex C lists. This only changes the NavIC and the L5 combined rows.
+10. **User altitude** of the "upper SSV" shell is 36,000 km above the 6378 km booklet Earth; of the lower, 8,000 km.
+
 ## What was seen before this was written (disclosed)
 
 - The booklet's text, tables 4.1 to 5.13 and annexes B and C (every published number this pre-registration compares
   with), read in full. The tolerances were chosen from the interpretation choices above (grid, rounding, trajectory),
   not by trying the simulation.
 - The first rows of the NAVCEN GPS Block IIR/IIR-M panel pattern workbooks (table layout only; no gain value summarised).
-- The engine's existing `earth-gnss-lunar` kind and its antenna module. No `gnss-ssv` result of any kind exists.
+- The engine's existing `earth-gnss-lunar` kind and its antenna module. When this addendum was committed, the `gnss-ssv`
+  code existed and three reduced-size bundled scenarios (162-point grid, 3 days at 10 minutes, four constellations; a HEO and
+  a lunar-transfer trajectory) had been run once each to check that they work; no comparison with any booklet table had been
+  made and none of the bars' configurations (2,562 points, 14 days, 1 minute, all constellations) had been run.
 
 ## Bars
 
