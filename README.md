@@ -20,9 +20,9 @@
 <p align="center">
   <a href="https://github.com/ashfordeOU/kshana/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/ashfordeOU/kshana/ci.yml?branch=main&event=push&label=CI&style=flat-square&labelColor=0A1226" height="18" alt="Continuous integration status on main"></a>
   <a href="docs/COVERAGE.md"><img src="https://img.shields.io/badge/coverage-~95%25-377D0C?style=flat-square&labelColor=0A1226" height="18" alt="Line coverage near 95 % of src/, measured in docs/COVERAGE.md and gated at 85 % in continuous integration"></a>
-  <a href="#evidence"><img src="https://img.shields.io/badge/validated-175%2F364-377D0C?style=flat-square&labelColor=0A1226" height="18" alt="175 of 364 capabilities VALIDATED against an independent external oracle, from the verification matrix"></a>
+  <a href="#evidence"><img src="https://img.shields.io/badge/validated-176%2F379-377D0C?style=flat-square&labelColor=0A1226" height="18" alt="176 of 379 capabilities VALIDATED against an independent external oracle, from the verification matrix"></a>
   <a href="https://sonarcloud.io/summary/overall?id=ashfordeOU_kshana"><img src="https://img.shields.io/sonar/quality_gate/ashfordeOU_kshana?server=https%3A%2F%2Fsonarcloud.io&label=quality&style=flat-square&labelColor=0A1226" height="18" alt="SonarQube Cloud quality gate status"></a>
-  <a href="https://github.com/ashfordeOU/kshana/releases"><img src="https://img.shields.io/badge/release-v0.37.0-066A86?style=flat-square&labelColor=0A1226" height="18" alt="Release v0.37.0"></a>
+  <a href="https://github.com/ashfordeOU/kshana/releases"><img src="https://img.shields.io/badge/release-v0.38.0-066A86?style=flat-square&labelColor=0A1226" height="18" alt="Release v0.38.0"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/licence-AGPL--3.0-3F4B67?style=flat-square&labelColor=0A1226" height="18" alt="Licence: AGPL-3.0-only"></a>
   <br>
   <a href="https://doi.org/10.5281/zenodo.20528627"><img src="https://img.shields.io/badge/DOI-zenodo.20528627-7E4B00?style=flat-square&labelColor=0A1226" height="18" alt="DOI 10.5281/zenodo.20528627, the Zenodo concept record of every release"></a>
@@ -61,7 +61,7 @@ Every capability carries one of three labels in a machine-checked ledger: **VALI
 independent external oracle agrees), **MODELLED** (internally consistent, and said out loud)
 or **PARTNER** (a hardware partner owns it).
 
-> **Status: v0.37.0.** A validated, reproducible simulation substrate for PNT resilience.
+> **Status: v0.38.0.** A validated, reproducible simulation substrate for PNT resilience.
 > Timing and holdover come first, because that domain is the best validated. Kshana is a
 > study and trade-off instrument: not radio-frequency (RF) signal-generator hardware (it
 > drives no radio and transmits nothing; its signal-level output is baseband IQ sample files
@@ -69,19 +69,27 @@ or **PARTNER** (a hardware partner owns it).
 > is an analysis tool) and not a flight product. New to the field? Start with the
 > [plain-language primer](docs/CONCEPTS.md) and the [glossary](docs/GLOSSARY.md).
 
-## What's new in 0.37
+## What's new in 0.38
 
-0.37 adds optical timing links through the atmosphere. It stays a study instrument: the output is
-**advisory**, not a link-design, safety or navigation tool, and nothing here is certified. Each row
-states what the ledger holds for it ([how a label is earned](#evidence)); a status names only what
-was checked, and the ledger row and the linked page say what was not.
+0.38 makes the neutral referee measurable: it scores receiver logs against a published test
+schedule, reads more receivers and sensors, tests timing systems, and ships a benchmark and an
+interference observatory. It stays advisory: nothing here is certified, no result is a type approval,
+and nothing transmits. Each row states what the ledger holds for it ([how a label is earned](#evidence));
+a status names only what was checked, and the ledger row and the linked page say what was not.
 
-| New in 0.37 | What it does, and why | Ledger status | Read |
+| New in 0.38 | What it does, and why | Ledger status | Read |
 |---|---|---|---|
-| **Optical PNT through the atmosphere** | the `optical-atmosphere` kind reports clear-air loss, Hufnagel-Valley turbulence (Rytov variance, scintillation index, gamma-gamma fades, aperture averaging), weather-driven per-site availability and its cloud ceiling, outage durations, distance-correlated site diversity, enhancement techniques (wavelength, aperture, adaptive optics, margin) and the timing error an outage costs a holdover clock; two bundled scenarios with ILLUSTRATIVE cloud climates | **MODELLED**: three ledger rows; the numerics match an independent mpmath program under pre-registered bars, which checks the implementation of the stated formulas, not the atmosphere; no measured availability record has been compared | [Optical atmosphere](docs/OPTICAL-ATMOSPHERE.md) |
+| **Jammertest scoring** | `kshana jammertest import` reads the published NPRA test catalogue and transmission plan as scheduled truth; `jammertest score` scores a receiver log per test (detection latency, missed alarms, false alarms, time to recover), as a signed evidence pack if you give a key | **MODELLED**: one ledger row. The bars were pre-registered before any scored run; on the JammerTest 2024 data the minimum-data rule failed in both runs (4 and 7 scorable windows against 10 required), so **no bar is assessable** and nothing is claimed | [Jammertest](docs/JAMMERTEST.md) |
+| **The receiver's own flags** | UBX-NAV-STATUS `spoofDetState`, UBX-SEC-SIG and NovAtel RXSTATUS read into a per-epoch `self_report` and compared with Kshana's alarms (both, receiver only, Kshana only, neither); a Septentrio SBF reader and read-only `--serial` input | **MODELLED**; agreement between a receiver's detector and Kshana's is not validation | [Receiver trust](docs/RECEIVER-TRUST.md) |
+| **More receivers and sensors** | RTKLIB `.pos`, NovAtel OEM7, RTCM 3 MSM4/MSM7 C/N0 (from the BSD-licensed pyrtcm tables, not the RTCM text), GNSS-SDR monitor streams, an IMU log as a second sensor, a ROS 2 package, a `gnss_lib_py` bridge, and `imu-fit` for hybrid sensor parameters | **MODELLED**: six ledger rows; self-written fixtures only, no capture from a real receiver, IMU, GNSS-SDR run or ROS graph was read | [Machine inputs](docs/MACHINE-INPUTS.md) |
+| **Timing and holdover tests** | the `holdover-test` kind scores a holdover test (GNSS removed by the operator, holdover, recovery) from a measured time-error record against ITU-T masks, "measured against the mask"; linuxptp and chrony log readers; the hardware stages and the `lab-attestation` field | **MODELLED**: two ledger rows; the times are the operator's statement, not verified | [Timing HIL](docs/TIMING-HIL.md), [Hardware safety](docs/HARDWARE-SAFETY.md) |
+| **Standards packs, LunaNet AFS, lab round trip** | scored packs for DHS RPCF, IMO MSC.1/Circ.1575 and ICAO Doc 9849 Appendix F against bars stated before the run, "supports evidence for"; a NIST IR 8323r1 crosswalk; a LunaNet AFS code generator and checker; a signed pack that links a lab run's scenario, test conditions, receiver log and score | **MODELLED** for the packs and the round trip; the AFS code check is **VALIDATED** against its printed check columns (see the ledger rows) | [Standards](docs/STANDARDS.md), [LunaNet AFS](docs/LUNANET-AFS.md) |
+| **kshana-bench and the observatory** | fixed tasks, splits and metrics for interference detection, IQ detection, holdover prediction and the optimism gap, with a sealed holdout and a static leaderboard; a reproducible daily interference product with a 24 h delay, coarse cells and no attribution | no ledger row of its own: it scores submissions, and its baselines are labelled MODELLED in the result files; against the pre-registered bars the scorer, C1 to C3 and D2 are met and **D1 is NOT MET** (pinned by a test) | [Bench](docs/BENCH.md), [Observatory](docs/observatory/METHOD.md) |
+| **Exporters** | trust telemetry as Home Assistant MQTT discovery and state messages (publish only, no credentials) beside Prometheus, CEF, LEEF and OTLP | **MODELLED**: one ledger row | [Trust telemetry](docs/TRUST-TELEMETRY.md) |
+| **Optical link margin against time** | the `optical-atmosphere` kind can write one seeded realisation of a site's weather as a link-margin series | **MODELLED**: one ledger row; one draw from the model, not the climate | [Optical atmosphere](docs/OPTICAL-ATMOSPHERE.md) |
 
-0.36's highlights: [changelog](CHANGELOG.md#0360---2026-10-16). The full 0.37 list is in the
-[changelog](CHANGELOG.md#0370---2026-10-17).
+0.37's highlights: [changelog](CHANGELOG.md#0370---2026-10-17). The full 0.38 list is in the
+[changelog](CHANGELOG.md#0380---2026-10-19).
 
 ## Kshana Studio
 
@@ -147,7 +155,7 @@ editions.
 ## Capabilities
 
 One engine covers the whole failure chain, from the first jammed satellite to the last
-nanosecond of clock holdover. The engine has 84 scenario kinds; `kshana kinds` lists
+nanosecond of clock holdover. The engine has 85 scenario kinds; `kshana kinds` lists
 them and [`docs/SCENARIOS.md`](docs/SCENARIOS.md) documents every field.
 
 | Capability | What it answers |
@@ -444,7 +452,7 @@ the exports you ask for.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/flow-pipeline-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/flow-pipeline-light.svg">
-  <img src="docs/assets/readme/flow-pipeline-light.svg" alt="How a run flows. A scenario TOML file (a kind, a seed and its parameters) goes into the engine, kshana 0.37.0, through the api::run_toml dispatch over 84 scenario kinds, deterministic from scenario, seed and engine version. The engine writes result.json, chart.svg, report.html and report.json, a table.csv for the kinds that define one, and on request SP3, CCSDS OMM and OEM, CZML, KML, GeoJSON, STK and SigMF exports; a suite writes study.json and study.html. Those files feed Kshana Studio in the browser, an AI assistant through the kshana-mcp server, and continuous integration." width="100%">
+  <img src="docs/assets/readme/flow-pipeline-light.svg" alt="How a run flows. A scenario TOML file (a kind, a seed and its parameters) goes into the engine, kshana 0.38.0, through the api::run_toml dispatch over 85 scenario kinds, deterministic from scenario, seed and engine version. The engine writes result.json, chart.svg, report.html and report.json, a table.csv for the kinds that define one, and on request SP3, CCSDS OMM and OEM, CZML, KML, GeoJSON, STK and SigMF exports; a suite writes study.json and study.html. Those files feed Kshana Studio in the browser, an AI assistant through the kshana-mcp server, and continuous integration." width="100%">
 </picture>
 
 This bundled scenario runs 2 h: 10 min of GNSS, then about 1.8 h with GNSS denied. It asks
@@ -507,7 +515,7 @@ start from.
 
 <p><a href="docs/SGP4-VALIDATION.md"><img src="https://img.shields.io/badge/SGP4-666%2F666%20AIAA%20vectors%20%C2%B7%20worst%204.12%20mm-377D0C?style=flat-square&labelColor=0A1226" alt="SGP4 checked against all 666 AIAA 2006-6753 reference vectors, worst position error 4.12 mm"></a></p>
 
-<strong>175 of 364</strong> capabilities validated against independent external oracles; 185 honestly labelled Modelled.
+<strong>176 of 379</strong> capabilities validated against independent external oracles; 199 honestly labelled Modelled.
 Each row of the verification matrix names a capability, the oracle it is checked against,
 the test that runs the check, and the label that follows. Continuous integration (CI) makes
 it impossible to call a capability VALIDATED without an independent external oracle.
@@ -515,13 +523,13 @@ it impossible to call a capability VALIDATED without an independent external ora
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/flow-verification-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/flow-verification-light.svg">
-  <img src="docs/assets/readme/flow-verification-light.svg" alt="How a capability earns its label. Each row of the verification matrix names a capability, the oracle it is checked against, the test that runs the check in continuous integration, and the label that follows. A row may be VALIDATED only with an independent external oracle; otherwise it is MODELLED, or PARTNER when a hardware partner owns it. Example: SGP4/SDP4, Cowell 6-DOF + perturbations, batch/sequential OD, oracle AIAA 2006-6753 SGP4 verification vectors, test tests/sgp4_verification.rs, label VALIDATED. Live counts: 175 VALIDATED, 185 MODELLED, 4 PARTNER of 364 rows. In all, 175 capabilities validated against independent external oracles; 185 more are honestly labelled MODELLED and 4 are PARTNER-owned." width="100%">
+  <img src="docs/assets/readme/flow-verification-light.svg" alt="How a capability earns its label. Each row of the verification matrix names a capability, the oracle it is checked against, the test that runs the check in continuous integration, and the label that follows. A row may be VALIDATED only with an independent external oracle; otherwise it is MODELLED, or PARTNER when a hardware partner owns it. Example: SGP4/SDP4, Cowell 6-DOF + perturbations, batch/sequential OD, oracle AIAA 2006-6753 SGP4 verification vectors, test tests/sgp4_verification.rs, label VALIDATED. Live counts: 176 VALIDATED, 199 MODELLED, 4 PARTNER of 379 rows. In all, 176 capabilities validated against independent external oracles; 199 more are honestly labelled MODELLED and 4 are PARTNER-owned." width="100%">
 </picture>
 
 | Label | Rows | Meaning |
 |---|---|---|
-| VALIDATED | 175 | an independent external oracle agrees: real data, an independent implementation or published reference vectors |
-| MODELLED | 185 | checked against analytic truth or simulation self-consistency, and said out loud |
+| VALIDATED | 176 | an independent external oracle agrees: real data, an independent implementation or published reference vectors |
+| MODELLED | 199 | checked against analytic truth or simulation self-consistency, and said out loud |
 | PARTNER | 4 | owned by a hardware partner; Kshana holds no oracle for it |
 
 A few of the checks: all 666 AIAA (American Institute of Aeronautics and Astronautics)
@@ -530,7 +538,7 @@ model to 0.08 m against Orekit 12.2; Galileo to 0.61 m and Swarm-A to 0.10 m aga
 precise ephemerides of the European Space Agency (ESA). Tests hold near 95 % line coverage of
 `src/`, gated at 85 % in CI. The ledger is
 [`docs/VERIFICATION-MATRIX.md`](docs/VERIFICATION-MATRIX.md), generated from
-`src/verification.rs`: the [full 364-row matrix](docs/VERIFICATION-MATRIX.md), and why each
+`src/verification.rs`: the [full 379-row matrix](docs/VERIFICATION-MATRIX.md), and why each
 Modelled row has no external oracle in [`docs/MODELLED-RATIONALE.md`](docs/MODELLED-RATIONALE.md).
 
 <details>
@@ -552,7 +560,7 @@ Modelled row has no external oracle in [`docs/MODELLED-RATIONALE.md`](docs/MODEL
 ### Validation at a glance
 
 Every row is enforced by a named test in CI. This table is a **curated highlight**;
-the full machine-checked matrix is **364 rows — 175 VALIDATED, 185 MODELLED, 4 PARTNER**
+the full machine-checked matrix is **379 rows — 176 VALIDATED, 199 MODELLED, 4 PARTNER**
 (`src/verification.rs`), with the complete evidence (and what is honestly *not* yet
 validated) in [`docs/VALIDATION.md`](docs/VALIDATION.md) and the per-release
 [`kshana-validation-summary.html`](https://github.com/ashfordeOU/kshana/releases)
@@ -604,20 +612,20 @@ The **Status** column states the *kind* of evidence, matching the validation lad
 | CI | Test coverage | **~95 % line** on `src/` excluding `src/*_data.rs` and `src/main.rs`, gated ≥ 85 % | cargo-tarpaulin (LLVM engine) |
 
 <p align="center">
-  <img src="docs/assets/diagrams/validation-provenance.png" alt="How a capability earns its label: Requirement maps to a module in src, to a test in tests, to an external oracle (real dataset, independent reference implementation, or published vectors), to a status — with a CI-enforced guard that no capability can be Validated without an external oracle. Live counts: 175 Validated, 185 Modelled, 4 Partner, 364 total" width="900">
+  <img src="docs/assets/diagrams/validation-provenance.png" alt="How a capability earns its label: Requirement maps to a module in src, to a test in tests, to an external oracle (real dataset, independent reference implementation, or published vectors), to a status — with a CI-enforced guard that no capability can be Validated without an external oracle. Live counts: 176 Validated, 199 Modelled, 4 Partner, 379 total" width="900">
   <br><sub>How a capability earns its label — the CI-enforced invariant: no external oracle ⇒ cannot be Validated · <a href="docs/assets/diagrams/validation-provenance.svg">SVG</a></sub>
 </p>
 
 <p align="center">
-  <img src="docs/assets/figures/oracle-kind-stacked.png" alt="How each claim is backed: the Validated column is 175 of 175 ExternalDataset by construction (CI-enforced); Modelled rows are honestly tagged InternalConsistency, ReferenceImpl, or ExternalDataset; Partner rows have no Kshana oracle" width="62%">
+  <img src="docs/assets/figures/oracle-kind-stacked.png" alt="How each claim is backed: the Validated column is 176 of 176 ExternalDataset by construction (CI-enforced); Modelled rows are honestly tagged InternalConsistency, ReferenceImpl, or ExternalDataset; Partner rows have no Kshana oracle" width="62%">
   <br>
   <img src="docs/assets/figures/sgp4-regime-bars.png" alt="SGP4/SDP4 worst-case position error vs the AIAA 2006-6753 reference by regime, log scale: every regime is far below the AIAA tolerance, worst case 4.12 mm in the deep-space non-resonant regime" width="96%">
   <br><sub>Top: every Validated row is backed by an external dataset, by construction. Bottom: SGP4 matches the official reference in every regime (worst 4.12 mm). <a href="docs/assets/figures/oracle-kind-stacked.svg">SVG</a> · <a href="docs/assets/figures/sgp4-regime-bars.svg">SVG</a></sub>
 </p>
 
 <p align="center">
-  <img src="docs/assets/figures/validation-breakdown.png" alt="Verification status across all 364 capabilities: 175 Validated (checked vs external oracle), 185 Modelled, 4 Partner-owned" width="780">
-  <br><sub>175 Validated · 185 Modelled · 4 Partner — <a href="docs/assets/figures/validation-breakdown.svg">SVG</a></sub>
+  <img src="docs/assets/figures/validation-breakdown.png" alt="Verification status across all 379 capabilities: 176 Validated (checked vs external oracle), 199 Modelled, 4 Partner-owned" width="780">
+  <br><sub>176 Validated · 199 Modelled · 4 Partner — <a href="docs/assets/figures/validation-breakdown.svg">SVG</a></sub>
 </p>
 
 </details>
@@ -637,12 +645,12 @@ v0.37.0 from the same tagged commit.
 | JavaScript and WebAssembly | `npm install kshana` | [npm and WebAssembly guide](https://kshana.dev/docs/npm.html) |
 | AI assistant (MCP server, cargo) | `cargo install kshana-mcp` | [MCP server guide](https://kshana.dev/docs/mcp.html) |
 | Docker image | `docker run --rm -i ghcr.io/ashfordeou/kshana-mcp` | [MCP server guide: Docker](https://kshana.dev/docs/mcp.html#install) |
-| Claude Desktop extension | double-click the `.mcpb` for your system: [macOS (Apple silicon)](https://github.com/ashfordeOU/kshana/releases/download/v0.37.0/kshana-mcp-aarch64-apple-darwin.mcpb) · [macOS (Intel)](https://github.com/ashfordeOU/kshana/releases/download/v0.37.0/kshana-mcp-x86_64-apple-darwin.mcpb) · [Windows](https://github.com/ashfordeOU/kshana/releases/download/v0.37.0/kshana-mcp-x86_64-pc-windows-msvc.mcpb) · [Linux (x86-64)](https://github.com/ashfordeOU/kshana/releases/download/v0.37.0/kshana-mcp-x86_64-unknown-linux-gnu.mcpb) · [Linux (Arm)](https://github.com/ashfordeOU/kshana/releases/download/v0.37.0/kshana-mcp-aarch64-unknown-linux-gnu.mcpb) | [Every MCP install snippet](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
-| Cursor (one click) | [Add to Cursor (npx)](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImtzaGFuYS1tY3BAMC4zNy4wIl19) · [Add to Cursor (Docker)](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoiZG9ja2VyIiwiYXJncyI6WyJydW4iLCItaSIsIi0tcm0iLCJnaGNyLmlvL2FzaGZvcmRlb3Uva3NoYW5hLW1jcDowLjM3LjAiXX0%3D) · `npx -y kshana-mcp@0.37.0` | [Every MCP install snippet](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
-| VS Code (one click) | [Install in VS Code (npx)](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522npx%2522%252C%2522args%2522%253A%255B%2522-y%2522%252C%2522kshana-mcp%25400.37.0%2522%255D%257D) · [Install in VS Code (Docker)](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522docker%2522%252C%2522args%2522%253A%255B%2522run%2522%252C%2522-i%2522%252C%2522--rm%2522%252C%2522ghcr.io%252Fashfordeou%252Fkshana-mcp%253A0.37.0%2522%255D%257D) · `npx -y kshana-mcp@0.37.0` | [Every MCP install snippet](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
-| Claude Code | `claude mcp add kshana -- npx -y kshana-mcp@0.37.0` | [Every MCP install snippet](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
-| npx | `npx -y kshana-mcp@0.37.0` | [Every MCP install snippet](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
-| uvx / pipx | `uvx kshana-mcp==0.37.0` | [Every MCP install snippet](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
+| Claude Desktop extension | double-click the `.mcpb` for your system: [macOS (Apple silicon)](https://github.com/ashfordeOU/kshana/releases/download/v0.38.0/kshana-mcp-aarch64-apple-darwin.mcpb) · [macOS (Intel)](https://github.com/ashfordeOU/kshana/releases/download/v0.38.0/kshana-mcp-x86_64-apple-darwin.mcpb) · [Windows](https://github.com/ashfordeOU/kshana/releases/download/v0.38.0/kshana-mcp-x86_64-pc-windows-msvc.mcpb) · [Linux (x86-64)](https://github.com/ashfordeOU/kshana/releases/download/v0.38.0/kshana-mcp-x86_64-unknown-linux-gnu.mcpb) · [Linux (Arm)](https://github.com/ashfordeOU/kshana/releases/download/v0.38.0/kshana-mcp-aarch64-unknown-linux-gnu.mcpb) | [Every MCP install snippet](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
+| Cursor (one click) | [Add to Cursor (npx)](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImtzaGFuYS1tY3BAMC4zOC4wIl19) · [Add to Cursor (Docker)](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoiZG9ja2VyIiwiYXJncyI6WyJydW4iLCItaSIsIi0tcm0iLCJnaGNyLmlvL2FzaGZvcmRlb3Uva3NoYW5hLW1jcDowLjM4LjAiXX0%3D) · `npx -y kshana-mcp@0.38.0` | [Every MCP install snippet](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
+| VS Code (one click) | [Install in VS Code (npx)](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522npx%2522%252C%2522args%2522%253A%255B%2522-y%2522%252C%2522kshana-mcp%25400.38.0%2522%255D%257D) · [Install in VS Code (Docker)](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522docker%2522%252C%2522args%2522%253A%255B%2522run%2522%252C%2522-i%2522%252C%2522--rm%2522%252C%2522ghcr.io%252Fashfordeou%252Fkshana-mcp%253A0.38.0%2522%255D%257D) · `npx -y kshana-mcp@0.38.0` | [Every MCP install snippet](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
+| Claude Code | `claude mcp add kshana -- npx -y kshana-mcp@0.38.0` | [Every MCP install snippet](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
+| npx | `npx -y kshana-mcp@0.38.0` | [Every MCP install snippet](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
+| uvx / pipx | `uvx kshana-mcp==0.38.0` | [Every MCP install snippet](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
 | Homebrew | `brew install ashfordeOU/tap/kshana-mcp` | [Every MCP install snippet](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
 | Scoop | `scoop bucket add ashforde https://github.com/ashfordeOU/scoop-bucket && scoop install kshana-mcp` | [Every MCP install snippet](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
 | winget | `winget install AshfordeOU.KshanaMcp` | [Every MCP install snippet](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
@@ -674,7 +682,7 @@ import json, kshana
 toml = open("clock-holdover.toml").read()
 result = json.loads(kshana.run(toml))
 print(kshana.version(), result["quantum"]["fom"]["holdover_s"], result["classical"]["fom"]["holdover_s"])
-# 0.37.0 6600.0 2610.0
+# 0.38.0 6600.0 2610.0
 ```
 
 Beyond `run`, the module exposes `run_full` (JSON, SVG and the one-line summary at once),
@@ -695,7 +703,7 @@ initSync({ module: readFileSync(wasm) });
 const toml = readFileSync("clock-holdover.toml", "utf8");
 const result = JSON.parse(run(toml));
 console.log(version(), result.quantum.fom.holdover_s, result.classical.fom.holdover_s);
-// 0.37.0 6600 2610
+// 0.38.0 6600 2610
 console.log(summary(toml));
 ```
 
@@ -711,7 +719,7 @@ top as a separate overlay that depends on the engine and never forks it.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/architecture-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/architecture-light.svg">
-  <img src="docs/assets/readme/architecture-light.svg" alt="Kshana's architecture: one open engine at the centre, kshana 0.37.0 under the AGPL-3.0, with api::run_toml, a typed dispatch over 84 kinds, and the verification ledger of 364 capabilities (175 VALIDATED, 185 MODELLED, 4 PARTNER). Around it, every surface runs the same engine: Command line (cargo install kshana); Rust library (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); MCP server (cargo install kshana-mcp); Docker image (ghcr.io/ashfordeou/kshana-mcp); JetBrains plugin (Marketplace: &quot;Kshana&quot;). Below it, Kshana Pro, a proprietary overlay that depends on the open engine as a library and never forks it, and adds no physical model." width="100%">
+  <img src="docs/assets/readme/architecture-light.svg" alt="Kshana's architecture: one open engine at the centre, kshana 0.38.0 under the AGPL-3.0, with api::run_toml, a typed dispatch over 85 kinds, and the verification ledger of 379 capabilities (176 VALIDATED, 199 MODELLED, 4 PARTNER). Around it, every surface runs the same engine: Command line (cargo install kshana); Rust library (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); MCP server (cargo install kshana-mcp); Docker image (ghcr.io/ashfordeou/kshana-mcp); JetBrains plugin (Marketplace: &quot;Kshana&quot;). Below it, Kshana Pro, a proprietary overlay that depends on the open engine as a library and never forks it, and adds no physical model." width="100%">
 </picture>
 
 <details>
@@ -720,7 +728,7 @@ top as a separate overlay that depends on the engine and never forks it.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/flow-architecture-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/flow-architecture-light.svg">
-  <img src="docs/assets/readme/flow-architecture-light.svg" alt="Kshana's architecture in layers. Five front doors (command line, Python, JavaScript and WebAssembly, the MCP server and the JetBrains plugin) reach one api::run_toml, a typed dispatch over 84 kinds. Beneath it sit eight domain layers: time and frames, clocks and timing, inertial and fusion, GNSS and integrity, astrodynamics, LEO PNT, Moon, Mars and deep space, and missions and studies, on a shared core, all cross-referenced by the verification module, the machine-checked matrix of 364 capabilities that is the single source of truth for every label." width="100%">
+  <img src="docs/assets/readme/flow-architecture-light.svg" alt="Kshana's architecture in layers. Five front doors (command line, Python, JavaScript and WebAssembly, the MCP server and the JetBrains plugin) reach one api::run_toml, a typed dispatch over 85 kinds. Beneath it sit eight domain layers: time and frames, clocks and timing, inertial and fusion, GNSS and integrity, astrodynamics, LEO PNT, Moon, Mars and deep space, and missions and studies, on a shared core, all cross-referenced by the verification module, the machine-checked matrix of 379 capabilities that is the single source of truth for every label." width="100%">
 </picture>
 
 **One engine, many front doors.** A single Rust core (`kshana`) runs every scenario,
@@ -771,20 +779,20 @@ Claude Code, Cursor, VS Code, Windsurf, Zed, Goose, Codex CLI, Gemini CLI and Co
 <!-- mcp-install:begin -->
 | Channel | Command or button | Requires | Pinned form |
 |---|---|---|---|
-| Claude Desktop extension | double-click the `.mcpb` for your system: [macOS (Apple silicon)](https://github.com/ashfordeOU/kshana/releases/download/v0.37.0/kshana-mcp-aarch64-apple-darwin.mcpb) · [macOS (Intel)](https://github.com/ashfordeOU/kshana/releases/download/v0.37.0/kshana-mcp-x86_64-apple-darwin.mcpb) · [Windows](https://github.com/ashfordeOU/kshana/releases/download/v0.37.0/kshana-mcp-x86_64-pc-windows-msvc.mcpb) | none | `kshana-mcp-<target>.mcpb` of v0.37.0 |
-| Cursor (one click) | [npx (Node)](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImtzaGFuYS1tY3BAMC4zNy4wIl19) · [Docker](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoiZG9ja2VyIiwiYXJncyI6WyJydW4iLCItaSIsIi0tcm0iLCJnaGNyLmlvL2FzaGZvcmRlb3Uva3NoYW5hLW1jcDowLjM3LjAiXX0%3D) | Node, or Docker | `kshana-mcp@0.37.0` / `ghcr.io/ashfordeou/kshana-mcp:0.37.0` |
-| VS Code (one click) | [npx (Node)](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522npx%2522%252C%2522args%2522%253A%255B%2522-y%2522%252C%2522kshana-mcp%25400.37.0%2522%255D%257D) · [Docker](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522docker%2522%252C%2522args%2522%253A%255B%2522run%2522%252C%2522-i%2522%252C%2522--rm%2522%252C%2522ghcr.io%252Fashfordeou%252Fkshana-mcp%253A0.37.0%2522%255D%257D) · [Insiders (npx)](https://insiders.vscode.dev/redirect?url=vscode-insiders%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522npx%2522%252C%2522args%2522%253A%255B%2522-y%2522%252C%2522kshana-mcp%25400.37.0%2522%255D%257D) | Node, or Docker | `kshana-mcp@0.37.0` / `ghcr.io/ashfordeou/kshana-mcp:0.37.0` |
-| Claude Code | `claude mcp add kshana -- npx -y kshana-mcp@0.37.0` · plugin: `/plugin marketplace add ashfordeOU/kshana` then `/plugin install kshana@ashforde` | Node (or Docker) | `kshana-mcp@0.37.0` |
-| npx | `npx -y kshana-mcp@0.37.0` | Node 18+ | `kshana-mcp@0.37.0` |
-| uvx / pipx | `uvx kshana-mcp==0.37.0` · `pipx run kshana-mcp==0.37.0` | Python 3.9+ with uv or pipx | `kshana-mcp==0.37.0` |
-| Docker | `docker run -i --rm ghcr.io/ashfordeou/kshana-mcp:0.37.0` | Docker | `ghcr.io/ashfordeou/kshana-mcp:0.37.0` |
-| Homebrew | `brew install ashfordeOU/tap/kshana-mcp` | brew | formula for v0.37.0 |
-| Scoop | `scoop bucket add ashforde https://github.com/ashfordeOU/scoop-bucket` then `scoop install kshana-mcp` | Scoop (Windows) | manifest for v0.37.0 |
-| winget | `winget install AshfordeOU.KshanaMcp` | winget (Windows) | `--version 0.37.0` |
-| cargo | `cargo install kshana-mcp --version 0.37.0` | Rust 1.88+ | `kshana-mcp 0.37.0` |
-| Prebuilt binary | [the release page](https://github.com/ashfordeOU/kshana/releases/tag/v0.37.0): `kshana-mcp` (Linux x86-64), `kshana-mcp-<target>[.exe]`, checked by `SHA256SUMS` and `gh attestation verify` | none | v0.37.0 |
-| MCP registry | `io.github.ashfordeOU/kshana-mcp` (found by registry-aware clients) | a registry-aware client | `0.37.0` |
-| Remote (streamable HTTP) | `kshana-mcp --http 127.0.0.1:8080`, self-hosted: see [docs/deploy/mcp-http.md](docs/deploy/mcp-http.md) | your own host | v0.37.0 |
+| Claude Desktop extension | double-click the `.mcpb` for your system: [macOS (Apple silicon)](https://github.com/ashfordeOU/kshana/releases/download/v0.38.0/kshana-mcp-aarch64-apple-darwin.mcpb) · [macOS (Intel)](https://github.com/ashfordeOU/kshana/releases/download/v0.38.0/kshana-mcp-x86_64-apple-darwin.mcpb) · [Windows](https://github.com/ashfordeOU/kshana/releases/download/v0.38.0/kshana-mcp-x86_64-pc-windows-msvc.mcpb) | none | `kshana-mcp-<target>.mcpb` of v0.38.0 |
+| Cursor (one click) | [npx (Node)](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImtzaGFuYS1tY3BAMC4zOC4wIl19) · [Docker](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoiZG9ja2VyIiwiYXJncyI6WyJydW4iLCItaSIsIi0tcm0iLCJnaGNyLmlvL2FzaGZvcmRlb3Uva3NoYW5hLW1jcDowLjM4LjAiXX0%3D) | Node, or Docker | `kshana-mcp@0.38.0` / `ghcr.io/ashfordeou/kshana-mcp:0.38.0` |
+| VS Code (one click) | [npx (Node)](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522npx%2522%252C%2522args%2522%253A%255B%2522-y%2522%252C%2522kshana-mcp%25400.38.0%2522%255D%257D) · [Docker](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522docker%2522%252C%2522args%2522%253A%255B%2522run%2522%252C%2522-i%2522%252C%2522--rm%2522%252C%2522ghcr.io%252Fashfordeou%252Fkshana-mcp%253A0.38.0%2522%255D%257D) · [Insiders (npx)](https://insiders.vscode.dev/redirect?url=vscode-insiders%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522npx%2522%252C%2522args%2522%253A%255B%2522-y%2522%252C%2522kshana-mcp%25400.38.0%2522%255D%257D) | Node, or Docker | `kshana-mcp@0.38.0` / `ghcr.io/ashfordeou/kshana-mcp:0.38.0` |
+| Claude Code | `claude mcp add kshana -- npx -y kshana-mcp@0.38.0` · plugin: `/plugin marketplace add ashfordeOU/kshana` then `/plugin install kshana@ashforde` | Node (or Docker) | `kshana-mcp@0.38.0` |
+| npx | `npx -y kshana-mcp@0.38.0` | Node 18+ | `kshana-mcp@0.38.0` |
+| uvx / pipx | `uvx kshana-mcp==0.38.0` · `pipx run kshana-mcp==0.38.0` | Python 3.9+ with uv or pipx | `kshana-mcp==0.38.0` |
+| Docker | `docker run -i --rm ghcr.io/ashfordeou/kshana-mcp:0.38.0` | Docker | `ghcr.io/ashfordeou/kshana-mcp:0.38.0` |
+| Homebrew | `brew install ashfordeOU/tap/kshana-mcp` | brew | formula for v0.38.0 |
+| Scoop | `scoop bucket add ashforde https://github.com/ashfordeOU/scoop-bucket` then `scoop install kshana-mcp` | Scoop (Windows) | manifest for v0.38.0 |
+| winget | `winget install AshfordeOU.KshanaMcp` | winget (Windows) | `--version 0.38.0` |
+| cargo | `cargo install kshana-mcp --version 0.38.0` | Rust 1.88+ | `kshana-mcp 0.38.0` |
+| Prebuilt binary | [the release page](https://github.com/ashfordeOU/kshana/releases/tag/v0.38.0): `kshana-mcp` (Linux x86-64), `kshana-mcp-<target>[.exe]`, checked by `SHA256SUMS` and `gh attestation verify` | none | v0.38.0 |
+| MCP registry | `io.github.ashfordeOU/kshana-mcp` (found by registry-aware clients) | a registry-aware client | `0.38.0` |
+| Remote (streamable HTTP) | `kshana-mcp --http 127.0.0.1:8080`, self-hosted: see [docs/deploy/mcp-http.md](docs/deploy/mcp-http.md) | your own host | v0.38.0 |
 <!-- mcp-install:end -->
 
 <p><a href="https://glama.ai/mcp/servers/ashfordeOU/kshana"><img src="https://glama.ai/mcp/servers/ashfordeOU/kshana/badges/score.svg" alt="kshana-mcp on Glama, its MCP server quality score"></a></p>
@@ -809,7 +817,7 @@ in the official MCP registry as `io.github.ashfordeOU/kshana-mcp`.
 | Tool | What it does |
 |---|---|
 | `run_scenario` | Run a scenario from a TOML (Tom's Obvious, Minimal Language) definition |
-| `list_scenario_kinds` | The 84 built-in scenario kinds with descriptions + required/optional fields — so the agent can construct a valid scenario |
+| `list_scenario_kinds` | The 85 built-in scenario kinds with descriptions + required/optional fields — so the agent can construct a valid scenario |
 | `validate_scenario` | Pre-flight check: parse the TOML and detect its kind, without running |
 | `list_example_scenarios` | The bundled reference scenarios as JSON |
 | `get_example_scenario` | The TOML text of one bundled reference scenario, byte for byte the file under `scenarios/` |
@@ -882,7 +890,7 @@ and every paid route starts with a message: there are no prices here.
 
 | | Free | Kshana Pro | Custom study |
 |---|---|---|---|
-| What it is | the whole open engine, all 84 scenario kinds, no feature gate | a proprietary overlay on the same engine, under contract | a MODELLED PNT-resilience study of your system, done for you |
+| What it is | the whole open engine, all 85 scenario kinds, no feature gate | a proprietary overlay on the same engine, under contract | a MODELLED PNT-resilience study of your system, done for you |
 | Licence | AGPL-3.0 (GNU Affero General Public License, version 3), or a commercial licence | proprietary | contract |
 | How to start | [install](#install) or open [kshana.dev](https://kshana.dev) | [request a Pro evaluation](mailto:contact@ashforde.org?subject=Kshana%20Pro%20evaluation) | [request a study](mailto:contact@ashforde.org?subject=Kshana%20custom%20study) |
 
@@ -1479,7 +1487,7 @@ paper-clock). **MODELLED** — the headline figure is *reference-dependent* (Ear
 vs lunar selenoid, averaging window), which is why a band, not a single certified
 number, is reported (`scenarios/lunar-time-offset.toml`).
 
-See `scenarios/` for at least one worked example of every kind (84 kinds, 169 scenario
+See `scenarios/` for at least one worked example of every kind (85 kinds, 171 scenario
 `.toml` files + 1 suite manifest — several kinds ship more than one example). Not every
 kind has a file named after it: `lunar-integrity` → `scenarios/lunanet-araim.toml` and
 `gravity-map` → `scenarios/gps-denied-gravity-nav.toml` are two of several such.
@@ -1539,7 +1547,7 @@ New to these terms? Each is defined in plain language in the [glossary](docs/GLO
 ```
 kshana/
 ├── src/                                       # the kshana core crate (library + CLI)
-│   ├── api.rs · main.rs · lib.rs              # typed dispatch (84 kinds) + CLI + crate root
+│   ├── api.rs · main.rs · lib.rs              # typed dispatch (85 kinds) + CLI + crate root
 │   ├── python.rs · wasm.rs                    # optional PyO3 / wasm-bindgen bindings
 │   ├── types.rs · scenario.rs · allan.rs      # shared core (time grid, GNSS timeline, Allan)
 │   │
