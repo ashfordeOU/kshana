@@ -509,6 +509,26 @@ jobs:
         run: node web/studio/lib/trust-geometry.test.mjs
       - name: Test the lunar station view's reader, address and map placement (0.36)
         run: node web/studio/lib/lunar-station.test.mjs
+      - name: Test the satellites-in-view reader of the Bridge replay and Trust views (0.38)
+        run: node web/studio/lib/gsv.test.mjs
+      - name: Test the Bridge replay's clock, panels and verdicts (0.38)
+        run: node web/studio/lib/replay.test.mjs
+      - name: Test the Bridge replay's drawings and exports (0.38)
+        run: node web/studio/lib/replay-draw.test.mjs
+      - name: Test the Optical PNT view's reader and charts (0.38)
+        run: node web/studio/lib/optical.test.mjs
+      - name: Test the Holdover test view's reader and drawings (0.38)
+        run: node web/studio/lib/holdover.test.mjs
+      - name: Test the receiver's-own-flag reader (0.38)
+        run: node web/studio/lib/trust-selfreport.test.mjs
+      - name: Test the Trust view's log-format picker and session builder (0.38)
+        run: node web/studio/lib/trust-open.test.mjs
+      - name: Test the IMU fit card's report reader (0.38)
+        run: node web/studio/lib/imufit-card.test.mjs
+      - name: Test the Jammertest scorecard reader (0.38)
+        run: node web/studio/lib/jammertest-card.test.mjs
+      - name: Test the interference observatory viewer's readers and map (0.38)
+        run: node web/studio/lib/observatory.test.mjs
   # ---------------------------------------------------------------------------
   # Overlay-registry assurance gates (Phase 0).
   #

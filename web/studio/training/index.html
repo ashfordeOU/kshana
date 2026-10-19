@@ -107,6 +107,13 @@
         <div class="tr-svgbox"><svg id="tr-time-svg" tabindex="0" role="slider" aria-label="Debrief timeline: time cursor" aria-valuemin="0" aria-valuemax="0" aria-valuenow="0"></svg></div>
       </section>
 
+      <section class="card tr-sky" aria-labelledby="tr-sky-h">
+        <div class="card-head"><h3 id="tr-sky-h">Sky at the cursor</h3>
+          <p class="card-note">The satellites the stream's own GSV lists. A filled marker has a signal strength; a hollow one is listed with none; a shaded sector is where the stream lists satellites and none is heard. Nominal constellation, not an ephemeris for the stream's date.</p></div>
+        <div class="tr-skybox"><svg id="tr-sky-svg" viewBox="0 0 240 240" role="img" aria-labelledby="tr-sky-h tr-sky-cap"></svg></div>
+        <p class="tr-none" id="tr-sky-cap"></p>
+      </section>
+
       <section class="card tr-now" aria-labelledby="tr-now-h">
         <div class="card-head"><h3 id="tr-now-h">At the cursor</h3><p class="card-note" id="tr-now-note"></p></div>
         <div id="tr-now"></div>

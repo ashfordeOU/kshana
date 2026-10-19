@@ -150,3 +150,21 @@ button.mt-rrow:hover{background:var(--line)}
 @media (forced-colors:active){.mt-class,.mt-clsdot{forced-color-adjust:none}}
 .mt-geo-rows .wide{grid-column:1/-1}
 .mt-geo-rows .wide dd{text-align:right}
+
+/* the vessel glyph, error ring and sky (A2, A4) */
+.mt svg .mt-glyph{fill:var(--ink);stroke:var(--bg);stroke-width:1.2}
+.mt svg .mt-hdg{stroke:var(--ink);stroke-width:1.6}
+.mt svg .mt-ring{fill:color-mix(in srgb,var(--tim) 8%,transparent);stroke:var(--ink);stroke-width:1.4;stroke-dasharray:4 3}
+.mt-skybox{width:100%;max-width:300px;margin:0 auto}
+.mt-skybox svg{display:block;width:100%;height:auto}
+
+/* the receiver's own flag (0.38): a thin outline marks "only the receiver" besides its colour */
+.mt svg .mt-recv-only{stroke:var(--ink);stroke-width:1}
+
+/* Generic run: format picker, IMU fields, the receiver's own flags */
+.mt-field { display: grid; gap: .25rem; font-size: .85rem; color: var(--muted, #5b6472); }
+.mt-field select, .mt-field input[type="text"] { font: inherit; padding: .4rem .5rem; max-width: 100%; }
+.mt-kv { display: grid; grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr)); gap: .5rem 1rem; margin: .75rem 0; }
+.mt-kv > div { min-width: 0; }
+.mt-kv dt { font-size: .8rem; color: var(--muted, #5b6472); }
+.mt-kv dd { margin: 0; font-weight: 600; font-variant-numeric: tabular-nums; }

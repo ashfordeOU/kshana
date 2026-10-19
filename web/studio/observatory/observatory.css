@@ -1,0 +1,57 @@
+/* Interference observatory page. Colours, type and radii come from tokens.css; layout from app.css and studio.css.
+   A state is never told apart by colour alone: not observed is hatched, and the table spells each state out. */
+.ko{padding-bottom:56px}
+.ko h1{font:700 clamp(28px,4.4vw,46px)/1.05 var(--f-display);letter-spacing:-.02em;margin:10px 0 8px}
+.ko .lede{max-width:78ch;margin:0 0 14px;color:var(--ink-2);font-size:16px;line-height:1.5}
+.ko .h3{font:650 17px/1.2 var(--f-display)}
+.ko-adv{margin:0 0 16px;padding:12px 14px;border-radius:14px;border:1px solid var(--line-2);border-left:4px solid var(--int-card);background:var(--surface);font-size:13.5px;line-height:1.5;color:var(--ink-2);max-width:100ch}
+.ko-adv b{color:var(--ink)}
+.ko .card{margin-bottom:14px;min-width:0}
+.ko-drop{display:flex;flex-wrap:wrap;align-items:center;gap:12px;padding:14px;border:1px dashed var(--line-2);border-radius:14px}
+.ko-drop.over{border-color:var(--ink);background:var(--surface)}
+.ko-or{font-size:13px;color:var(--ink-3)}
+.ko-file{min-height:44px;display:inline-flex;align-items:center;padding:0 16px;border-radius:999px;cursor:pointer;font-weight:600;font-size:13.5px}
+.ko-file input{position:absolute;width:1px;height:1px;opacity:0}
+.ko-file:focus-within{outline:2px solid var(--tim);outline-offset:2px}
+.ko-status{margin:10px 0 0;font-size:13px;color:var(--ink-2)}.ko-status.err{color:var(--int);font-weight:600}
+.ko-notes{margin:8px 0 0;padding-left:18px;font-size:13px;color:var(--ink-2)}.ko-notes:empty{display:none}
+.ko-dayhead{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px}
+.ko-picker{display:flex;align-items:center;gap:8px}
+.ko-picker select,.ko-flt select{min-height:44px;padding:0 10px;border-radius:10px;border:1px solid var(--line-2);background:var(--surface);color:var(--ink);font:inherit}
+.ko-flt{font-size:13px;color:var(--ink-2);display:flex;align-items:center;gap:8px}
+.ko-btn{min-height:44px;min-width:44px;padding:0 14px;border-radius:999px;border:1px solid var(--line-2);background:var(--surface);color:var(--ink);font-weight:600;font-size:13.5px;cursor:pointer}
+.ko-btn:disabled{opacity:.4;cursor:default}
+.ko-btn:focus-visible{outline:2px solid var(--tim);outline-offset:2px}
+.ko-btn[aria-pressed=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.ko-sum{margin:10px 0 4px;font:600 16px/1.35 var(--f-text);color:var(--ink)}
+.ko-release{margin:0 0 6px;font-size:13.5px;color:var(--ink-2);max-width:90ch}
+.ko-kv{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:8px 20px;margin:12px 0 0}
+.ko-kv dt{font:600 11.5px var(--f-text);color:var(--ink-3);text-transform:uppercase;letter-spacing:.04em}
+.ko-kv dd{margin:2px 0 0;font:500 13px var(--f-mono);color:var(--ink);overflow-wrap:anywhere}
+.ko-leg{list-style:none;margin:10px 0 0;padding:0;display:grid;gap:10px}
+.ko-leg li{display:flex;gap:12px;align-items:flex-start;font-size:13.5px;color:var(--ink-2);line-height:1.45}
+.ko-leg b{color:var(--ink)}
+.ko-sw{width:22px;height:22px;flex:none;margin-top:1px}
+.ko-clear{margin:12px 0 0;font-size:13.5px;color:var(--ink-2);max-width:90ch}
+.ko-pic img{display:block;max-width:100%;height:auto;margin-top:8px;border-radius:10px;border:1px solid var(--line)}
+.ko-grid{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,2fr);gap:14px;align-items:start}
+@media (max-width:900px){.ko-grid{grid-template-columns:minmax(0,1fr)}}
+.ko-mapbox{margin-top:8px;overflow-x:auto}
+.ko-map{display:block;width:100%;height:auto;min-width:420px}
+.ko-t{font:500 10px var(--f-mono);fill:var(--ink-3)}
+.ko-gl{stroke:var(--line-2);stroke-width:1;stroke-dasharray:3 3}
+.ko-c{stroke:var(--bg);stroke-width:.6}
+.ko-degraded,.ko-sw-degraded{fill:var(--int-card)}
+.ko-not_degraded,.ko-sw-not_degraded{fill:var(--tim-card)}
+.ko-sw-not_observed,.ko-hbg{fill:var(--surface-2)}
+.ko-hln{stroke:var(--ink-3);stroke-width:1.4}
+.ko-not_observed{stroke:var(--line-2)}
+.ko-sel{stroke:var(--ink);stroke-width:2}
+.ko-foc{stroke:var(--ink);stroke-width:2.5}
+.ko-read{margin:8px 0 0;font-size:13px;color:var(--ink-2);min-height:1.4em}
+.ko-tablewrap{overflow-x:auto}
+.ko-hash{font:500 11px var(--f-mono);overflow-wrap:anywhere;min-width:260px}
+.ko-rowbtn{min-height:36px;padding:0 10px;font-size:12.5px}
+.ko-notice{margin:12px 0 0;font-size:13px;color:var(--ink-2);max-width:100ch}
+.ko-fine{margin-top:6px}.ko-fine ul{margin:8px 0 0;padding-left:18px;font-size:13.5px;color:var(--ink-2);max-width:100ch;line-height:1.5}
+@media (max-width:600px){.ko-dayhead{align-items:flex-start}}
