@@ -136,6 +136,35 @@ pub struct CreateEvidenceRequest {
     pub lab_attestation_toml: Option<String>,
 }
 
+/// Parameters for [`KshanaServer::create_round_trip_pack`].
+#[derive(Debug, serde::Deserialize, schemars::JsonSchema)]
+pub struct CreateRoundTripRequest {
+    /// A `receiver-trust` scenario: its `[log]` names only the format (for example
+    /// `format = "nmea"`; the log is `log`) and its `[[events]]` are the stated truth the
+    /// log is scored against (`kshana bench-export` writes them as `.events.toml`).
+    pub scoring_toml: String,
+    /// The scenario that produced the motion, as given to `export_test_bench`; only its
+    /// SHA-256 is recorded.
+    pub scenario_toml: String,
+    /// The laboratory's `kshana.test-conditions/1` document (TOML or JSON), as filled in
+    /// from the `.conditions.json` that `export_test_bench` writes.
+    pub conditions: String,
+    /// The receiver's log as text, at most 4 MiB.
+    pub log: String,
+    /// Start of the window, seconds since the log's first epoch.
+    pub from_s: f64,
+    /// End of the window, seconds since the log's first epoch.
+    pub to_s: f64,
+    /// Title shown in the pack's summary and manifest.
+    #[serde(default)]
+    pub title: Option<String>,
+    /// The Ed25519 signing-key seed (64 lower-case hex digits); omitted, a one-time key is
+    /// used and discarded. A seed passed here travels through the conversation: make a pack
+    /// that matters on the command line (`kshana evidence round-trip`).
+    #[serde(default)]
+    pub signing_key_seed_hex: Option<String>,
+}
+
 /// Parameters for [`KshanaServer::verify_evidence_pack`].
 #[derive(Debug, serde::Deserialize, schemars::JsonSchema)]
 pub struct VerifyEvidenceRequest {
@@ -249,6 +278,37 @@ pub struct FitImuRequest {
     /// Sensor id written into the table (default `imu-fit`).
     #[serde(default)]
     pub id: Option<String>,
+}
+
+/// Parameters for [`KshanaServer::run_standards_pack`].
+#[derive(Debug, serde::Deserialize, schemars::JsonSchema)]
+pub struct StandardsPackRequest {
+    /// The pack id from `list_standards_packs` (for example `dhs-rpcf`, `imo-circ-1575`,
+    /// `icao-doc9849-appf`).
+    pub pack: String,
+}
+
+/// Parameters for [`KshanaServer::lunanet_afs_check`].
+#[derive(Debug, serde::Deserialize, schemars::JsonSchema)]
+pub struct LunanetAfsCheckRequest {
+    /// `spec` (check the implementation against the published tables and worked examples),
+    /// `symbols` (check the `symbols` stream) or `generate` (a test stream with placeholder
+    /// subframes).
+    pub mode: String,
+    /// For `symbols`: a hard-decision symbol stream as text of `0` and `1` (white space
+    /// ignored), at most 4 MiB.
+    #[serde(default)]
+    pub symbols: Option<String>,
+    /// For `symbols`: symbols of the 68-symbol synchronisation pattern that may be wrong
+    /// (default 0, at most 20).
+    #[serde(default)]
+    pub max_sp_errors: Option<usize>,
+    /// For `generate`: frames to write, 1 to 100 (default 1).
+    #[serde(default)]
+    pub frames: Option<usize>,
+    /// For `generate`: TOI of the first frame, 0 to 99 (default 0).
+    #[serde(default)]
+    pub toi0: Option<u8>,
 }
 
 /// Parameters for [`KshanaServer::trust_telemetry`].
@@ -527,6 +587,49 @@ impl KshanaServer {
     }
 
     #[tool(
+        description = "Create the signed laboratory round-trip pack (`kshana evidence round-trip`, docs/spec/TEST-CONDITIONS.md): links by hash the scenario that produced the motion, the laboratory's `kshana.test-conditions/1` document, the receiver log and its score against the stated events, in a signed evidence pack whose `config.json` carries a `round_trip` block. Refuses a pack whose conditions and scoring events disagree, or whose stated log SHA-256 is not the log's. NO SIGNAL: nothing is written, replayed or scheduled; how a scenario's motion reached the receiver is the operator's responsibility and is recorded only as stated. The signing seed is never returned or logged; omitted, a one-time key is used and discarded (integrity, not identity). Input is capped at 4 MiB and the reply at 4 MiB. A technical record, not a legal opinion or a certification. Evidence tier: MODELLED."
+    )]
+    fn create_round_trip_pack(
+        &self,
+        Parameters(r): Parameters<CreateRoundTripRequest>,
+    ) -> Result<CallToolResult, McpError> {
+        let seed = r
+            .signing_key_seed_hex
+            .as_deref()
+            .map(|h| surface::hex32("signing_key_seed_hex", h))
+            .transpose()
+            .map_err(bad)?;
+        let created = surface::now_rfc3339_utc();
+        let p = surface::evidence_round_trip(
+            &r.scoring_toml,
+            &r.scenario_toml,
+            &r.conditions,
+            r.log.as_bytes(),
+            r.from_s,
+            r.to_s,
+            r.title.as_deref(),
+            Some(&created),
+            seed,
+            MAX_UPLOAD_BYTES,
+        )
+        .map_err(|e| bad(format!("round-trip pack failed: {e}")))?;
+        let files = surface::files_to_json(&p.files);
+        let size = files.to_string().len();
+        if size > MAX_MAP_REPLY_BYTES {
+            return Err(bad(format!(
+                "the pack is {size} bytes, over the {MAX_MAP_REPLY_BYTES}-byte reply limit; narrow the window or use `kshana evidence round-trip` on the command line"
+            )));
+        }
+        reply(serde_json::json!({
+            "files": files,
+            "public_key": p.public_key,
+            "epochs_in_window": p.epochs_in_window,
+            "signing_key": if seed.is_some() { "the caller's seed (not returned)" } else { "one-time key, discarded: proves integrity, not identity" },
+            "notice": "A pack is a technical record, not a legal opinion, a finding of fact or an approval. No signal is written or replayed.",
+        }))
+    }
+
+    #[tool(
         description = "Verify a signed evidence pack (`kshana evidence verify`): every file's SHA-256 against the manifest, the hash chain, the Ed25519 signature, and with `public_key` (the signer's key, from the signer by another route) that the signer is the one expected, and with `full_log` that the log you hold is the one the pack records and that the slice came from it. Returns the report: `ok`, each failure by code and file, every check, `signer_pinned`, notes, and a `verdict`: `verified` (signer pinned), `intact-signer-not-pinned` (everything checks but no trusted `public_key` was given, so the signature proves only that the pack is intact against the key it names itself, which anyone can generate; say so, do not call it verified) or `failed`, with a `message` to show the user. `require_timestamp` fails a pack that carries no timestamp token. Inputs are capped at 4 MiB. A verified pass says the record is unchanged and who signed it (the key you supplied); it does not say what caused any event, who is responsible, or that the log shows what the receiver really received."
     )]
     fn verify_evidence_pack(
@@ -677,6 +780,59 @@ impl KshanaServer {
         )
         .map_err(bad)?;
         Ok(CallToolResult::success(vec![ContentBlock::text(text)]))
+    }
+
+    #[tool(
+        description = "List the standards packs (`kshana standards-pack list`): scored scenario sets for the DHS Resilient PNT framework test profiles, IMO MSC.1/Circ.1575 and ICAO Doc 9849 Appendix F, each with the bars it states before the run and the compliance rows it supports evidence for. Needs no input. A pack measures modelled scenarios against stated bars; it rates no product. Evidence tier: MODELLED."
+    )]
+    fn list_standards_packs(&self) -> Result<CallToolResult, McpError> {
+        reply(surface::standards_pack_list())
+    }
+
+    #[tool(
+        description = "Run one standards pack (`kshana standards-pack run <id>`): every scenario in it, scored against bars stated before the run. Returns the report (each test `MET`, `NOT MET`, or `NEEDS INPUT` when it needs a receiver log and is not scored; each bar with its measured and expected value) and the same as `markdown`. Pass the report JSON to `compliance_report` to see the rows the pack supports evidence for. Say plainly that a MET bar means a modelled scenario met a stated bar, and that a NOT MET is a result on record; never describe the output as showing that a product or a framework is met. Advisory only: analysis output, not type-approved navigation equipment. Evidence tier: MODELLED."
+    )]
+    fn run_standards_pack(
+        &self,
+        Parameters(r): Parameters<StandardsPackRequest>,
+    ) -> Result<CallToolResult, McpError> {
+        let (mut report, md) = surface::standards_pack_run(&r.pack)
+            .map_err(|e| bad(format!("standards pack failed: {e}")))?;
+        report["markdown"] = md.into();
+        reply(report)
+    }
+
+    #[tool(
+        description = "Check the LunaNet Augmented Forward Signal (AFS) against the published specification, pinned to LNIS Version 5 Applicable Document 1 Volume A (LSIS-AFS V1.0, 29 January 2025) (`kshana lunanet-afs-check`, docs/LUNANET-AFS.md). Mode `spec` checks this implementation against the document's printed code tables (the first and last 24 chips of every AFS-I Gold, AFS-Q Weil and tertiary code for PRN 1 to 210, and both Legendre sequences) and worked examples (SB1 BCH, CRC-24Q), bars B1 to B10 of a pre-registration; B4 reports one miss (the document prints the same last 24 chips for tertiary PRN 147 and 151). Mode `symbols` checks a hard-decision symbol stream (text of 0 and 1) for the synchronisation pattern, SB1 decoding, FID, TOI continuity and frame spacing. Subframes 2 to 4 (rate-1/2 LDPC, CRC-24Q) are NOT verified: the LDPC matrices are in a separate annex that is not implemented. Mode `generate` returns a test stream with placeholder subframes: symbols, not a waveform; Kshana writes no signal. VALIDATED only against the printed tables of that edition, which the document itself marks TBC; say so, and do not describe a result as showing that any LunaNet node or service is correct. Advisory only."
+    )]
+    fn lunanet_afs_check(
+        &self,
+        Parameters(r): Parameters<LunanetAfsCheckRequest>,
+    ) -> Result<CallToolResult, McpError> {
+        match r.mode.as_str() {
+            "spec" => reply(surface::lunanet_afs_check_spec()),
+            "symbols" => {
+                let text = r.symbols.ok_or_else(|| bad("mode `symbols` needs `symbols`".into()))?;
+                let v = surface::lunanet_afs_check_symbols(
+                    &text,
+                    r.max_sp_errors.unwrap_or(0),
+                    MAX_UPLOAD_BYTES,
+                )
+                .map_err(|e| bad(format!("lunanet-afs-check failed: {e}")))?;
+                reply(v)
+            }
+            "generate" => {
+                let s = surface::lunanet_afs_generate(r.frames.unwrap_or(1), r.toi0.unwrap_or(0))
+                    .map_err(|e| bad(format!("lunanet-afs-check failed: {e}")))?;
+                reply(serde_json::json!({
+                    "symbols": s,
+                    "note": "placeholder subframes 2 to 4 (not LDPC coded, no message); symbols for testing a checker, not a waveform",
+                }))
+            }
+            other => Err(bad(format!(
+                "mode must be spec, symbols or generate (got {other})"
+            ))),
+        }
     }
 
     #[tool(

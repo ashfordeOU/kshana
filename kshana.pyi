@@ -163,6 +163,7 @@ __all__ = [
     "jammertest_import",
     "jammertest_score",
     "evidence_create",
+    "evidence_round_trip",
     "evidence_verify",
     "interference_map",
     "bench_export",
@@ -182,6 +183,11 @@ __all__ = [
     "get_example",
     "compliance_report",
     "compliance_mapping",
+    "standards_pack_list",
+    "standards_pack_run",
+    "lunanet_afs_check_spec",
+    "lunanet_afs_check_symbols",
+    "lunanet_afs_generate",
     "osnma_verify",
     "trust_telemetry",
     "imu_fit",
@@ -353,6 +359,25 @@ def evidence_create(
     the signed manifest as given and never verified. A technical record, not a legal
     opinion. Raises ``ValueError``."""
 
+def evidence_round_trip(
+    scoring_toml: str,
+    scenario_toml: str,
+    conditions: str,
+    log: str | bytes,
+    from_s: float,
+    to_s: float,
+    title: Optional[str] = None,
+    created_utc: Optional[str] = None,
+    seed_hex: Optional[str] = None,
+) -> dict[str, Any]:
+    """Build the signed laboratory round-trip pack: the scenario, the laboratory's
+    ``kshana.test-conditions/1`` document, the receiver log and its score against the stated
+    events, linked by hash (``config.json`` carries a ``round_trip`` block). ``scoring_toml`` is a
+    receiver-trust scenario whose ``[log]`` names the format only and whose ``[[events]]`` are the
+    stated truth. Other arguments and keys as for ``evidence_create``. Writes no signal; a
+    technical record, not a certification. Raises ``ValueError``, including when the conditions
+    and the scoring events disagree or the stated log hash is not the log's."""
+
 def evidence_verify(
     files: dict[str, str | bytes],
     public_key: Optional[str] = None,
@@ -461,6 +486,34 @@ def compliance_mapping(sources: bool = False) -> str:
     """The static public-framework mapping as Markdown, led by the statement every report
     carries: one table per framework, or with ``sources=True`` the source documents they cite
     (versions and URLs)."""
+
+def standards_pack_list() -> dict[str, Any]:
+    """The standards packs (``standards/``): ``packs`` (id, title, framework, test counts) and a
+    ``notice``. A pack measures modelled scenarios against bars stated before the run; it rates
+    no product."""
+
+def standards_pack_run(pack_id: str) -> dict[str, Any]:
+    """Run one standards pack. Returns the report (``pack``, ``summary``, ``tests`` with each
+    bar's measured and expected value and ``met``, ``evidence_tier``, ``notice``, ``advisory``,
+    ``statement``) plus the same report as Markdown under ``markdown``. A test that needs a
+    receiver log is ``NEEDS INPUT`` and not scored. Raises ``ValueError`` for an unknown id."""
+
+def lunanet_afs_check_spec() -> dict[str, Any]:
+    """Check this implementation of the LunaNet Augmented Forward Signal against the published
+    tables and worked examples of LSIS-AFS V1.0 (LNIS V5, AD1 Volume A): ``bars`` (B1 to B10, each
+    with ``matched``, ``total``, ``status``), ``all_met``, ``pin`` and ``status``. B4 reports one
+    miss: the document prints the same last 24 chips for tertiary PRN 147 and 151."""
+
+def lunanet_afs_check_symbols(symbols: str, max_sp_errors: int = 0) -> dict[str, Any]:
+    """Check a hard-decision AFS symbol stream (text of ``0`` and ``1``) against section 2.4 of
+    LSIS-AFS V1.0: synchronisation pattern, SB1 decoding, FID, TOI continuity, frame spacing.
+    Subframes 2 to 4 (LDPC, CRC-24Q) are not verified (see ``not_checked``). Raises
+    ``ValueError``."""
+
+def lunanet_afs_generate(frames: int = 1, toi0: int = 0) -> str:
+    """A test stream of ``frames`` (1 to 100) AFS frames as text of ``0`` and ``1`` with
+    placeholder subframes 2 to 4 (not LDPC coded, no message): symbols for testing a checker,
+    not a waveform. Raises ``ValueError``."""
 
 def osnma_verify(
     data: bytes | str,

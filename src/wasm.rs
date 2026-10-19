@@ -311,6 +311,52 @@ pub fn bench_export(toml: &str, epoch: &str) -> Result<String, JsValue> {
     Ok(serde_json::json!({"files": files, "notes": e.notes, "notice": BENCH_NOTICE}).to_string())
 }
 
+/// Check this implementation of the LunaNet Augmented Forward Signal against the published
+/// tables and worked examples of LSIS-AFS V1.0 (LNIS V5): JSON with `bars` (B1 to B10), `all_met`,
+/// `pin` and `status`.
+#[wasm_bindgen]
+pub fn lunanet_afs_check_spec() -> String {
+    crate::surface::lunanet_afs_check_spec().to_string()
+}
+
+/// Check an AFS symbol stream given as text of `0` and `1` against section 2.4 of LSIS-AFS V1.0:
+/// JSON with the frames found and any problems. Subframes 2 to 4 (LDPC, CRC-24Q) are not
+/// verified; the report says so.
+#[wasm_bindgen]
+pub fn lunanet_afs_check_symbols(symbols: &str, max_sp_errors: u32) -> Result<String, JsValue> {
+    crate::surface::lunanet_afs_check_symbols(
+        symbols,
+        max_sp_errors as usize,
+        8 * crate::surface::MAX_INPUT_BYTES,
+    )
+    .map(|v| v.to_string())
+    .map_err(|e| JsValue::from_str(&e))
+}
+
+/// A test stream of `frames` (1 to 100) AFS frames as text of `0` and `1` with placeholder
+/// subframes 2 to 4 (not LDPC coded, no message): symbols, not a waveform.
+#[wasm_bindgen]
+pub fn lunanet_afs_generate(frames: u32, toi0: u32) -> Result<String, JsValue> {
+    let toi0 = u8::try_from(toi0).map_err(|_| JsValue::from_str("toi0 must be 0 to 99"))?;
+    crate::surface::lunanet_afs_generate(frames as usize, toi0).map_err(|e| JsValue::from_str(&e))
+}
+
+/// The standards packs (`docs/compliance/`): JSON `{packs, notice}`. A pack measures modelled
+/// scenarios against bars stated before the run and rates no product.
+#[wasm_bindgen]
+pub fn standards_pack_list() -> String {
+    crate::surface::standards_pack_list().to_string()
+}
+
+/// Run one standards pack by id. Returns JSON `{report, markdown}`; a test that needs a
+/// receiver log is `NEEDS INPUT` and not scored. Nothing is uploaded or read from disk.
+#[wasm_bindgen]
+pub fn standards_pack_run(id: &str) -> Result<String, JsValue> {
+    let (report, markdown) =
+        crate::surface::standards_pack_run(id).map_err(|e| JsValue::from_str(&e))?;
+    Ok(serde_json::json!({"report": report, "markdown": markdown}).to_string())
+}
+
 /// Fill the public-framework mapping from result documents: which rows of six resilience
 /// frameworks and standards (`docs/compliance/`) the runs support evidence for, which they
 /// do not, and the gap each row keeps. `runs_json` is a JSON array of `{label, result,

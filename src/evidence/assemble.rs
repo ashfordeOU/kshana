@@ -122,6 +122,22 @@ pub fn build_receiver_trust_pack_with(
     build_receiver_trust_pack_full(req, seed, timestamp_token, None, extra_config)
 }
 
+/// As [`build_receiver_trust_pack`], with `extra` added to `config.json` under the key
+/// `round_trip` (so the manifest's file hashes and signature cover it).
+pub(crate) fn build_pack_with_extra(
+    req: &PackRequest<'_>,
+    seed: &[u8; 32],
+    timestamp_token: Option<&[u8]>,
+    extra: Option<Value>,
+) -> Result<PackSummary, String> {
+    match extra {
+        Some(x) => {
+            build_receiver_trust_pack_full(req, seed, timestamp_token, None, &[("round_trip", x)])
+        }
+        None => build_receiver_trust_pack_full(req, seed, timestamp_token, None, &[]),
+    }
+}
+
 /// The pack builder with both a lab attestation and extra `config.json` entries; the other
 /// `build_receiver_trust_pack*` functions call it.
 pub fn build_receiver_trust_pack_full(

@@ -31,6 +31,8 @@ Request: **$ARGUMENTS**
    (`kshana evidence keygen`, then `kshana receiver-trust evidence session.toml --from ... --to ...
    --key signer.key --out pack/`) and use this tool only to verify.
 
+**Laboratory round trip** (`create_round_trip_pack`): after `export_test_bench` and a laboratory run, link the scenario, the laboratory's filled-in `kshana.test-conditions/1` document (`docs/spec/TEST-CONDITIONS.md`), the receiver log and its score in one pack. Pass the receiver-trust scoring scenario (`[log]` names the format only; `[[events]]` are the stated truth), the bench scenario, the conditions and the log. The tool refuses conditions and events that disagree. It writes and replays no signal: how the motion reached the receiver is the operator's responsibility. Same signing-key rule as above; for a key that matters use `kshana evidence round-trip`.
+
 **Verify** (`verify_evidence_pack`)
 
 1. Pass the pack's `files` (a string, `{"utf8": ...}` or `{"base64": ...}` per file), the
