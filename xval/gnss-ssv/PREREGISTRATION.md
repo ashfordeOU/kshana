@@ -103,3 +103,21 @@ A bar passes only if every value it lists is within its tolerance. Each bar is r
 One scored run, by the command recorded in `xval/gnss-ssv/RESULTS.md`, on the commit that precedes it. Pinned by a test
 that asserts the recorded verdicts, a miss included. The booklet is cited, never vendored; no pattern data of any
 constellation is committed.
+
+## Addendum 3 (before the scored run; nothing scored yet)
+
+1. **GEO users are labelled by Earth-fixed longitude.** The booklet's six GEO missions are named by longitude. The user
+   is placed on the GEO radius (42,164 km), zero inclination, at the Earth-fixed longitude lambda; the Earth-fixed
+   position is constant. The longitudes are those of tables 5.3 to 5.9 as transcribed in `booklet-tables.json`.
+2. **Blank cells are not scored.** A cell the booklet leaves blank (e.g. BDS L1 at 20 dB-Hz in table B9) is not compared and
+   is listed as "no published value". A bar's tolerance applies to every other cell.
+3. **Run lengths.** HEO: 1.5 orbital periods; lunar: perigee to apogee (the outbound half-period, about 4,978 min), both at
+   1-minute steps (choice 6 restated; the apogee end of the lunar leg is where most of the booklet's lunar service is).
+4. **S0 expected values** (table B6 MRTP, dBW, the figure the inverse budget must reproduce within 0.1 dB):
+   GPS L1 9.1, Galileo E1 10.9, GLONASS L1 14.1, BDS MEO B1 9.0, BDS GEO/IGSO B1 9.0, QZSS L1 9.0, GPS L5 8.5,
+   Galileo E5a 8.4, GLONASS L3 12.6, BDS MEO B2 8.0, BDS GEO/IGSO B2 8.1, QZSS L5 9.2, NavIC L5 7.8.
+5. **Full-size sweeps run in release builds.** The 2,562 x 20,161 shell sweeps take seconds in release and far too long in
+   debug. Their tests run in the existing release-profile CI job; a debug `cargo test` runs the small-grid equivalence
+   tests instead and prints that the full comparison needs `--release`. No bar is changed by this.
+6. The fetch script and the table transcription (`booklet-tables.json`, numbers from the booklet, no tool output) are
+   added with this addendum.
