@@ -13,6 +13,12 @@ ran with, so a run can be repeated and audited.
 For a vessel under way, with a live score and an optional gate in front of a chart system, see
 [`MARITIME-TRUST.md`](MARITIME-TRUST.md).
 
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="figures/0.38/receiver-flags-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="figures/0.38/receiver-flags-light.svg">
+  <img src="figures/0.38/receiver-flags-light.svg" alt="The receiver's own spoofing flag set against Kshana's alarms, from a real run of engine v0.38.0 on a made-up UBX log (200 epochs at 1 Hz). C/N0 falls 20 dB at 80 to 90 s and 120 to 130 s; the receiver flags 120 to 130 s and 160 to 165 s. Of 140 epochs compared after calibration, 11 had both flagging, 6 the receiver only, 11 Kshana only and 112 neither. Neither side is ground truth and agreement is not validation. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service.">
+</picture>
+
 ## Run it
 
 ```sh
