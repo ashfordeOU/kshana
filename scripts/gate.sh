@@ -72,6 +72,13 @@ case "$TEST_THREADS" in
   *[!0-9]*|0) echo "gate: TEST_THREADS must be a positive integer, got '$TEST_THREADS'" >&2; exit 2 ;;
 esac
 
+# Declare this host the baseline for the byte-exact layer of the pins (issue #36). Those
+# literals were captured on one Mac, and "aarch64 macOS" is not one maths library (Apple
+# ships a different one with each macOS release), so the exact layer runs only where it is
+# declared. The canonical gate declares it; KSHANA_EXACT_PINS=0 scripts/gate.sh turns it off,
+# for a Mac that is not the baseline. The portable layer of every pin runs regardless.
+export KSHANA_EXACT_PINS="${KSHANA_EXACT_PINS:-1}"
+
 mkdir -p "$ROOT/target"
 
 # SINGLE WRITER, and a per-run log.
