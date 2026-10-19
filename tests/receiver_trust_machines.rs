@@ -216,6 +216,8 @@ fn novatel_jammer_flag_reaches_the_receiver_self_report() {
     let sum = r
         .receiver_self_report
         .expect("a summary when the log carries flags");
+    assert!(sum.note.contains("NovAtel RXSTATUS") && sum.note.contains("no spoofing flag"));
+    assert!(!sum.note.contains("UBX"));
     assert_eq!(sum.jamming_flag_epochs, 30);
     assert_eq!(sum.spoofing_flag_epochs, 0);
     // Kshana's monitors saw a steady C/No: the receiver flagged alone

@@ -741,7 +741,7 @@ pub fn run_receiver_trust_bytes_imu(
         predictions_agreeing,
         predictions_evaluable,
         score_model,
-        receiver_self_report: super::monitors::self_report_summary(&trust.epochs),
+        receiver_self_report: super::monitors::self_report_summary(&trust.epochs, scn.log.format),
         verdict,
         geometry_model: GeometryModel::new(
             &scn.monitors.geometry,
