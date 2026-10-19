@@ -52,6 +52,13 @@ reimplementation from a public specification:
    is not given); the lunar bar is correspondingly loose.
 7. Percentages are compared unrounded against the published values (which the booklet rounds down to 0.1 %).
 
+8. **The parametric transmit pattern (fixed here for S7).** Radiated power (EIRP) equals the booklet's MRTP for angles up to
+   the reference off-boresight angle of the signal, falls at **3 dB per degree** beyond it, and stops at a sidelobe floor
+   **25 dB below the main lobe**, which it holds out to 90 degrees off-boresight (beyond that, no signal). Both numbers are
+   representative stand-ins, labelled as such, set before the measured patterns were looked at; they are not any system's
+   measured values. For S7 the main-lobe level of this model is the pattern's own peak, and the measured pattern is
+   normalised to its own peak, so only the shape is compared.
+
 ## What was seen before this was written (disclosed)
 
 - The booklet's text, tables 4.1 to 5.13 and annexes B and C (every published number this pre-registration compares
