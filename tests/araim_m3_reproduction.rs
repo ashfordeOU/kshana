@@ -47,7 +47,11 @@ fn coverage(r: &Value, cfg: &str, rnp: u8, ura: usize) -> f64 {
         .iter()
         .position(|u| u.as_u64() == Some(ura as u64))
         .unwrap_or_else(|| panic!("{cfg}: sigma_URA {ura} was not evaluated"));
-    c[if rnp == 1 { "coverage_rnp01" } else { "coverage_rnp03" }][k]
+    c[if rnp == 1 {
+        "coverage_rnp01"
+    } else {
+        "coverage_rnp03"
+    }][k]
         .as_f64()
         .unwrap()
 }
@@ -81,6 +85,23 @@ fn pinned_outcomes_against_the_printed_entries() {
         .iter()
         .map(|(id, cfg, rnp, p)| (*id, status(&r, cfg, *rnp, *p)))
         .collect();
-    let want: &[(&str, bool)] = &[];
+    // 8 of 12 reproduced; 4 NOT MET, pinned: T5-D-01 (coverage 0.847 at 9 m, printed 9 m),
+    // T7-D-03 (0.703 at 4 m), T7-B-01 (0.582 at 6 m) and T7-B-03 (0.654 at 10 m). The GPS-only
+    // misses are large and all on the GPS Walker shell (D1: the real almanac slots are not the
+    // uniform Walker pattern); no claim is made about which deviation causes any miss.
+    let want: &[(&str, bool)] = &[
+        ("T5-B-01", true),
+        ("T5-B-03", true),
+        ("T5-D-01", false),
+        ("T5-D-03", true),
+        ("T6-B-01", true),
+        ("T6-B-03", true),
+        ("T6-D-01", true),
+        ("T6-D-03", true),
+        ("T7-D-01", true),
+        ("T7-D-03", false),
+        ("T7-B-01", false),
+        ("T7-B-03", false),
+    ];
     assert_eq!(got, want, "{got:#?}");
 }
