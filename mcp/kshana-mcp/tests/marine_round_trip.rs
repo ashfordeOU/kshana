@@ -737,40 +737,69 @@ async fn test_bench_export_returns_text_and_refuses_files_and_bad_epochs() {
 #[tokio::test]
 async fn lunanet_afs_check_spec_symbols_and_generate() {
     let client = connect().await;
-    let g = call(&client, "lunanet_afs_check", json!({"mode": "generate", "frames": 2, "toi0": 99}))
-        .await
-        .unwrap();
+    let g = call(
+        &client,
+        "lunanet_afs_check",
+        json!({"mode": "generate", "frames": 2, "toi0": 99}),
+    )
+    .await
+    .unwrap();
     let g: Value = serde_json::from_str(&g[0]).unwrap();
     let symbols = g["symbols"].as_str().unwrap().to_string();
     assert_eq!(symbols.len(), 12000);
-    let c = call(&client, "lunanet_afs_check", json!({"mode": "symbols", "symbols": symbols}))
-        .await
-        .unwrap();
+    let c = call(
+        &client,
+        "lunanet_afs_check",
+        json!({"mode": "symbols", "symbols": symbols}),
+    )
+    .await
+    .unwrap();
     let c: Value = serde_json::from_str(&c[0]).unwrap();
     assert_eq!(c["frames_found"], 2);
     assert_eq!(c["ok"], true);
     assert!(c["not_checked"].as_str().unwrap().contains("LDPC"));
-    let s = call(&client, "lunanet_afs_check", json!({"mode": "spec"})).await.unwrap();
+    let s = call(&client, "lunanet_afs_check", json!({"mode": "spec"}))
+        .await
+        .unwrap();
     let s: Value = serde_json::from_str(&s[0]).unwrap();
     assert_eq!(s["bars"].as_array().unwrap().len(), 10);
-    assert!(call(&client, "lunanet_afs_check", json!({"mode": "nope"})).await.is_err());
-    assert!(call(&client, "lunanet_afs_check", json!({"mode": "symbols"})).await.is_err());
+    assert!(
+        call(&client, "lunanet_afs_check", json!({"mode": "nope"}))
+            .await
+            .is_err()
+    );
+    assert!(
+        call(&client, "lunanet_afs_check", json!({"mode": "symbols"}))
+            .await
+            .is_err()
+    );
     client.cancel().await.ok();
 }
 
 #[tokio::test]
 async fn standards_packs_list_run_and_feed_the_compliance_report() {
     let client = connect().await;
-    let l = call(&client, "list_standards_packs", json!({})).await.unwrap();
-    let l: Value = serde_json::from_str(&l[0]).unwrap();
-    assert!(l["packs"].as_array().unwrap().len() >= 3);
-    let r = call(&client, "run_standards_pack", json!({"pack": "icao-doc9849-appf"}))
+    let l = call(&client, "list_standards_packs", json!({}))
         .await
         .unwrap();
+    let l: Value = serde_json::from_str(&l[0]).unwrap();
+    assert!(l["packs"].as_array().unwrap().len() >= 3);
+    let r = call(
+        &client,
+        "run_standards_pack",
+        json!({"pack": "icao-doc9849-appf"}),
+    )
+    .await
+    .unwrap();
     let mut v: Value = serde_json::from_str(&r[0]).unwrap();
     assert_eq!(v["evidence_tier"], "MODELLED");
     assert_eq!(v["summary"]["error"], 0);
-    assert!(v["markdown"].as_str().unwrap().contains("supports evidence for"));
+    assert!(
+        v["markdown"]
+            .as_str()
+            .unwrap()
+            .contains("supports evidence for")
+    );
     v.as_object_mut().unwrap().remove("markdown");
     let c = call(
         &client,
@@ -781,7 +810,11 @@ async fn standards_packs_list_run_and_feed_the_compliance_report() {
     .unwrap();
     let c: Value = serde_json::from_str(&c[0]).unwrap();
     assert_eq!(c["standards_packs"].as_array().unwrap().len(), 1);
-    assert!(call(&client, "run_standards_pack", json!({"pack": "nope"})).await.is_err());
+    assert!(
+        call(&client, "run_standards_pack", json!({"pack": "nope"}))
+            .await
+            .is_err()
+    );
     client.cancel().await.ok();
 }
 
