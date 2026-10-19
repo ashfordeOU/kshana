@@ -98,7 +98,14 @@ pub fn assess_receiver_log_inline(toml: &str, max_bytes: usize) -> Result<TrustO
     reject_file_sources(toml, max_bytes)?;
     let scn: ReceiverTrustScenario =
         toml::from_str(toml).map_err(|e| format!("invalid receiver-trust scenario: {e}"))?;
-    if scn.log.source.path.is_some() || scn.log.nav.as_ref().is_some_and(|n| n.path.is_some()) {
+    if scn.log.source.path.is_some()
+        || scn.log.nav.as_ref().is_some_and(|n| n.path.is_some())
+        || scn
+            .log
+            .imu
+            .as_ref()
+            .is_some_and(|i| i.source.path.is_some())
+    {
         return Err(
             "`path` sources are not accepted here: give the log inline as `text` or `base64`"
                 .into(),
@@ -818,6 +825,9 @@ pub enum TelemetryFormat {
     Leef,
     /// The OTLP/HTTP JSON metrics payload of the final state (needs the `otlp` feature).
     Otlp,
+    /// Home Assistant MQTT discovery messages then one JSON state message per event, as
+    /// `topic<TAB>payload` lines (nothing is published).
+    Mqtt,
 }
 
 impl TelemetryFormat {
@@ -828,11 +838,64 @@ impl TelemetryFormat {
             "cef" => Ok(Self::Cef),
             "leef" => Ok(Self::Leef),
             "otlp" => Ok(Self::Otlp),
+            "mqtt" => Ok(Self::Mqtt),
             o => Err(format!(
-                "unknown format `{o}`: use `prometheus`, `cef`, `leef` or `otlp`"
+                "unknown format `{o}`: use `prometheus`, `cef`, `leef`, `otlp` or `mqtt`"
             )),
         }
     }
+}
+
+/// Fit the sensor parameters of the `hybrid` and `fusion` scenarios from a stationary IMU log
+/// (`kshana imu-fit`, docs/MACHINE-INPUTS.md). `format` is `csv` or `euroc`; `axis` is `x`,
+/// `y` or `z` (the accelerometer axis); `expected_mean` is the specific force that axis reads at
+/// rest (0 for a horizontal axis, about 9.80665 for the vertical one). Returns JSON: `fit` (the
+/// parameters, the log's rate and span, the white-noise slopes and `notes`), `toml` (an
+/// `[accel_classical]` table to paste into a scenario, its provenance naming the log's SHA-256)
+/// and the log's `sha256`. MODELLED: the Allan estimator applied to the log, no external
+/// oracle; a log that was not stationary gives wrong parameters, which the slopes show.
+pub fn imu_fit(
+    text: &str,
+    format: &str,
+    axis: &str,
+    expected_mean: f64,
+    id: &str,
+    max_bytes: usize,
+) -> Result<String, String> {
+    use crate::receiver_trust::machines::{
+        imu::{read_imu, ImuFormat},
+        imu_fit::fit_accel_cfg,
+    };
+    cap("imu log", text, max_bytes)?;
+    let fmt = match format {
+        "csv" => ImuFormat::Csv,
+        "euroc" => ImuFormat::Euroc,
+        o => return Err(format!("unknown IMU format `{o}`: use `csv` or `euroc`")),
+    };
+    let ax = match axis {
+        "x" => 0,
+        "y" => 1,
+        "z" => 2,
+        o => return Err(format!("unknown axis `{o}`: use `x`, `y` or `z`")),
+    };
+    if id.is_empty() || id.len() > 64 || !id.chars().all(|c| c.is_ascii_graphic()) {
+        return Err("id must be 1 to 64 printable ASCII characters without spaces".into());
+    }
+    let samples = read_imu(fmt, text)?;
+    let fit = fit_accel_cfg(&samples, ax, expected_mean)?;
+    let sha = crate::advanced_report::sha256_hex(text.as_bytes());
+    let toml = fit.to_toml(
+        "accel_classical",
+        id,
+        &format!("fitted from a stationary IMU log, sha256 {sha}, axis {axis}, Allan estimator"),
+    );
+    serde_json::to_string_pretty(&json!({
+        "fit": fit,
+        "toml": toml,
+        "sha256": sha,
+        "evidence": "MODELLED",
+    }))
+    .map_err(|e| e.to_string())
 }
 
 /// What the input of [`trust_telemetry`] is.
@@ -903,6 +966,11 @@ pub fn trust_telemetry(
     }
     let mut out = String::new();
     let mut prev = None;
+    if format == TelemetryFormat::Mqtt {
+        for m in crate::telemetry::mqtt::discovery(&Default::default()) {
+            out.push_str(&format!("{}\t{}\n", m.topic, m.payload));
+        }
+    }
     for s in &samples {
         reg.observe(s, None);
         if matches!(format, TelemetryFormat::Cef | TelemetryFormat::Leef)
@@ -923,10 +991,20 @@ pub fn trust_telemetry(
                 ));
             }
         }
+        if format == TelemetryFormat::Mqtt && (opts.syslog_all || prev != Some(s.band)) {
+            let m = crate::telemetry::mqtt::state_message(&Default::default(), s);
+            out.push_str(&format!("{}\t{}\n", m.topic, m.payload));
+            if out.len() > max_bytes.min(MAX_INPUT_BYTES) {
+                return Err(format!(
+                    "the reply is over the {}-byte limit; send fewer epochs or leave `syslog_all` off",
+                    max_bytes.min(MAX_INPUT_BYTES)
+                ));
+            }
+        }
         prev = Some(s.band);
     }
     match format {
-        TelemetryFormat::Cef | TelemetryFormat::Leef => Ok(out),
+        TelemetryFormat::Cef | TelemetryFormat::Leef | TelemetryFormat::Mqtt => Ok(out),
         TelemetryFormat::Prometheus => Ok(reg.render()),
         #[cfg(feature = "otlp")]
         TelemetryFormat::Otlp => {
@@ -1169,6 +1247,7 @@ pub fn evidence_create_attested(
             scenario: &scn,
             log_bytes: log,
             nav_bytes: None,
+            imu_bytes: None,
             log_file_name: "inline",
             from: &from,
             to: &to,

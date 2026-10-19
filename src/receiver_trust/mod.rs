@@ -19,6 +19,7 @@ pub mod calibration;
 pub mod geometry;
 pub mod ingest;
 pub mod live;
+pub mod machines;
 pub mod maritime;
 pub mod monitors;
 pub mod platform;
@@ -49,6 +50,14 @@ pub enum LogFormat {
     Sbf,
     /// NMEA 0183 text (GSV: per-satellite SNR in dB-Hz; GGA/RMC: time and position).
     Nmea,
+    /// RTKLIB solution file (`.pos`): time, position and satellites used per epoch.
+    RtklibPos,
+    /// NovAtel OEM7 ASCII or binary logs: BESTPOS, RANGE (C/No) and RXSTATUS.
+    Novatel,
+    /// RTCM 3 MSM4 and MSM7 observation messages (carrier-to-noise ratio per signal).
+    Rtcm3,
+    /// GNSS-SDR `Monitor` and PVT-monitor messages as JSON lines (see `machines::gnss_sdr`).
+    GnssSdr,
 }
 
 /// One satellite's signal strength at one epoch.

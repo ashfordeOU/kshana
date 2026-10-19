@@ -184,6 +184,7 @@ __all__ = [
     "compliance_mapping",
     "osnma_verify",
     "trust_telemetry",
+    "imu_fit",
     "route_exposure",
     "nmea_training",
     "iq_scene",
@@ -494,12 +495,29 @@ def trust_telemetry(
 ) -> str:
     """Render a trust stream or a batch result in one telemetry format with the encoders
     ``kshana trust-telemetry`` uses (no process, socket or clock). ``format`` is ``"prometheus"``,
-    ``"cef"``, ``"leef"`` or ``"otlp"``; ``input_kind`` is ``"jsonl"`` (the live per-epoch
+    ``"cef"``, ``"leef"``, ``"otlp"`` or ``"mqtt"``; ``input_kind`` is ``"jsonl"`` (the live per-epoch
     stream) or ``"result"`` (a ``receiver-trust`` result document); ``host`` names the sender in
     syslog events (default ``kshana``). ``syslog_all`` gives one event per epoch instead of one
     per band change; ``expose_position`` adds the receiver-reported position to the metrics;
     ``unix_nano`` is the export time of the ``"otlp"`` payload. Syslog lines carry no timestamp.
     Raises ``ValueError`` on an unknown format or an input with no epoch."""
+
+def imu_fit(
+    log: str,
+    format: str = "csv",
+    axis: str = "x",
+    expected_mean: float = 0.0,
+    id: str = "imu-fit",
+) -> str:
+    """Fit the accelerometer and gyro parameters of the ``hybrid`` and ``fusion`` scenarios from a
+    stationary IMU log (``kshana imu-fit``, docs/MACHINE-INPUTS.md). ``log`` is the CSV text;
+    ``format`` is ``"csv"`` (columns ``t_s, gx, gy, gz, ax, ay, az``) or ``"euroc"``; ``axis`` is
+    ``"x"``, ``"y"`` or ``"z"`` and ``expected_mean`` the specific force that axis reads at rest
+    (0 for a horizontal axis, about 9.80665 for the vertical one). Returns JSON text: ``fit``
+    (bias, ``q_va``, gyro bias, ``q_arw``, bias-instability floor, the log's rate and span, the
+    white-noise slopes, ``notes``), ``toml`` (an ``[accel_classical]`` table to paste into a
+    scenario) and ``sha256`` of the log. Evidence tier: MODELLED; a log that was not stationary
+    gives wrong parameters, which the slopes show. Raises ``ValueError``."""
 
 def interference_map(
     source: str,

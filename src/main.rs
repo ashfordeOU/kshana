@@ -20,6 +20,7 @@ const USAGE: &str = "usage: kshana <scenario.toml> [--study-name <s>] [--eop <fi
    or: kshana evidence <keygen|verify|attach-timestamp> ... (kshana evidence --help)
    or: kshana jammertest <import|score> ... (kshana jammertest --help)
    or: kshana trust-telemetry [options] (kshana trust-telemetry --help)
+   or: kshana imu-fit <imu.csv> [--format csv|euroc] [--axis x|y|z] [--expected-mean <m/s2>] [--id <name>] [--json]
    or: kshana nmea-scenario <scenario.toml> [--out <file.nmea>] [--tcp <addr>|--udp <addr>] (kshana nmea-scenario --help)
    or: kshana interference-map <adsb|ais|fetch-land> ... (kshana interference-map --help)
    or: kshana route-exposure --route <route> --map <map.geojson|dir> [--from <date>] [--to <date>]
@@ -101,6 +102,10 @@ fn main() -> ExitCode {
     // (CEF/LEEF) and, with the `otlp` feature, OpenTelemetry.
     if args.get(1).map(String::as_str) == Some("trust-telemetry") {
         return ExitCode::from(kshana::telemetry::cli::run(&args[2..]) as u8);
+    }
+    // `kshana imu-fit <imu.csv>` fits hybrid/fusion sensor parameters from a stationary IMU log.
+    if args.get(1).map(String::as_str) == Some("imu-fit") {
+        return run_imu_fit_cli(&args[2..]);
     }
     // `kshana receiver-trust <scenario.toml>` assesses a real receiver log. It is terminal
     // and outside the scenario-kind dispatch: its scenario names a log file instead of
@@ -1035,6 +1040,81 @@ fn stamp_study_generated(json: &str, stamp: &str) -> String {
 /// write the test-bench files (`<base>.motion.csv`, `.nmea`, `.events.csv`, ...). The
 /// default base is the scenario path without its extension; the default epoch is
 /// 2024-01-01T00:00:00Z.
+/// `kshana imu-fit`: print the `[accel_classical]` table (or `--json` the whole report).
+fn run_imu_fit_cli(args: &[String]) -> ExitCode {
+    let (mut path, mut format, mut axis, mut id) = (
+        None,
+        "csv".to_string(),
+        "x".to_string(),
+        "imu-fit".to_string(),
+    );
+    let (mut mean, mut json) = (0.0f64, false);
+    let mut i = 0;
+    while i < args.len() {
+        let a = args[i].as_str();
+        let needs = matches!(a, "--format" | "--axis" | "--expected-mean" | "--id");
+        if needs && i + 1 >= args.len() {
+            eprintln!("error: {a} needs a value");
+            return ExitCode::from(2);
+        }
+        match a {
+            "--format" => format = args[i + 1].clone(),
+            "--axis" => axis = args[i + 1].clone(),
+            "--id" => id = args[i + 1].clone(),
+            "--expected-mean" => match args[i + 1].parse() {
+                Ok(v) => mean = v,
+                Err(_) => {
+                    eprintln!("error: --expected-mean needs a number");
+                    return ExitCode::from(2);
+                }
+            },
+            "--json" => json = true,
+            x if x.starts_with("--") => {
+                eprintln!("error: unknown imu-fit option {x}");
+                return ExitCode::from(2);
+            }
+            x => path = Some(PathBuf::from(x)),
+        }
+        i += if needs { 2 } else { 1 };
+    }
+    let Some(path) = path else {
+        eprintln!("error: imu-fit needs an IMU log path");
+        return ExitCode::from(2);
+    };
+    let text = match std::fs::read_to_string(&path) {
+        Ok(t) => t,
+        Err(e) => {
+            eprintln!("error: cannot read {}: {e}", path.display());
+            return ExitCode::from(1);
+        }
+    };
+    match kshana::surface::imu_fit(
+        &text,
+        &format,
+        &axis,
+        mean,
+        &id,
+        kshana::surface::MAX_INPUT_BYTES,
+    ) {
+        Ok(out) if json => {
+            println!("{out}");
+            ExitCode::SUCCESS
+        }
+        Ok(out) => {
+            let v: serde_json::Value = serde_json::from_str(&out).unwrap_or_default();
+            print!("{}", v["toml"].as_str().unwrap_or_default());
+            for n in v["fit"]["notes"].as_array().into_iter().flatten() {
+                eprintln!("note: {}", n.as_str().unwrap_or_default());
+            }
+            ExitCode::SUCCESS
+        }
+        Err(e) => {
+            eprintln!("error: {e}");
+            ExitCode::from(1)
+        }
+    }
+}
+
 fn run_bench_export_cli(args: &[String]) -> ExitCode {
     let mut path: Option<PathBuf> = None;
     let mut out: Option<String> = None;

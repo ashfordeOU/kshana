@@ -34,8 +34,11 @@ access to Kshana): this plugin is the *human*, point-and-click path.
   accepts an unpinned signer) and optionally the full session log. Only a verified result reads as
   verified; an intact pack with an unpinned signer reads "NOT VERIFIED".
 - **Render Trust Telemetry** on a `receiver-trust` result `.json` (`kshana trust-telemetry --result`):
-  Prometheus text or CEF/LEEF syslog events printed to the Kshana window. Nothing is sent or served;
+  Prometheus text, CEF/LEEF syslog events or Home Assistant MQTT lines printed to the Kshana window. Nothing is sent or served;
   the running exporters stay on the command line.
+- **Fit Sensor Parameters from IMU Log** on a stationary IMU `.csv` (`kshana imu-fit`): the accelerometer and
+  gyro parameters of the `hybrid` and `fusion` scenarios fitted by Allan deviation, printed to the Kshana
+  window as an `[accel_classical]` table. Nothing is written; the fit is MODELLED.
 - **Validate Scenario** (`kshana --validate`), **List Scenario Kinds** (Tools menu; `kshana kinds`) and
   **Assess Receiver Stream** (a vessel session `.toml` plus a stored NMEA log you choose; `kshana
   receiver-trust live --file`, scored once with no socket and no gate).

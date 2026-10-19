@@ -240,6 +240,43 @@ class AssessReceiverStreamAction : KshanaFileAction() {
     }
 }
 
+/** Right-click an IMU log `.csv` → "Fit Sensor Parameters from IMU Log (Kshana)": asks for the layout and
+ *  the accelerometer axis and prints the `[accel_classical]` table `kshana imu-fit` fits from a
+ *  stationary log. Console only; nothing is written. The fit is MODELLED. */
+class FitImuLogAction : KshanaFileAction() {
+    override fun accepts(fileName: String) = KshanaCli.isImuLogFile(fileName)
+
+    override fun actionPerformed(e: AnActionEvent) {
+        val project = e.project ?: return
+        val file = e.getData(CommonDataKeys.VIRTUAL_FILE) ?: return
+        val formats = KshanaCli.ImuFormat.values()
+        val f = KshanaChooser.chooseOne(
+            project,
+            "Which IMU layout? The log must be stationary and evenly sampled.",
+            "Fit IMU Log",
+            formats.map { it.label },
+            formats[0].label,
+        )
+        if (f < 0) return
+        val axes = KshanaCli.ImuAxis.values()
+        val a = KshanaChooser.chooseOne(
+            project,
+            "Which accelerometer axis?",
+            "Fit IMU Log",
+            axes.map { it.label },
+            axes[0].label,
+        )
+        if (a < 0) return
+        KshanaRunner.run(
+            project,
+            "Fitting IMU parameters",
+            KshanaCli.imuFitCommand(binary(), file.path, formats[f], axes[a]),
+            file.parent?.path,
+            "Modelled: the Allan estimator applied to this log, with no external oracle. A log that was not still gives wrong parameters; read the notes.",
+        )
+    }
+}
+
 /** Right-click a `receiver-trust` result `.json` → "Render Trust Telemetry (Kshana)": asks for a format
  *  and prints what `kshana trust-telemetry --result` produces. Console only; nothing is sent or served. */
 class RenderTrustTelemetryAction : KshanaFileAction() {
