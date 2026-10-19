@@ -121,3 +121,23 @@ constellation is committed.
    tests instead and prints that the full comparison needs `--release`. No bar is changed by this.
 6. The fetch script and the table transcription (`booklet-tables.json`, numbers from the booklet, no tool output) are
    added with this addendum.
+
+## Addendum 4 (written after scored run 1; the run's results are committed with it)
+
+Scored run 1 (commit 1cea614b, `cargo run --release --example ssv_booklet_check`) used the pre-registered reading and
+is the run of record: S0 and S6 met; S1 to S5 not met (numbers in `RESULTS.md`, cells in `results-run1.json`). Its
+misses are dominated by GLONASS: the simulated GLONASS visibility is far below the published one (upper SSV, L1, at least
+one signal: 59.1 % against 93.9 %). Reading the booklet again after the run shows why this is likely: the booklet is not
+consistent about GLONASS's reference off-boresight angle. Table B2 and table B6 give 20 degrees (L1) and 28 degrees (L5),
+which the pre-registered configuration used; table 4.2 ("SSV signal characteristics") gives 26 and 34 degrees. For every
+other constellation the two tables agree. The pre-registration said "table 4.2 / B6" without noticing they differ.
+
+What is fixed now, so the diagnosis cannot be tuned: one further run, identical in every respect except that GLONASS's two
+angles are table 4.2's (26 and 34 degrees) (`--glonass-table-4-2`). It is a **diagnostic variant**: it is reported beside run 1,
+it does not replace run 1's verdicts, no bar changes, and a variant that passes a bar does not turn that bar MET. It
+shows how much of the miss is the booklet's own inconsistency and how much is left. Beyond the variant, nothing in
+the method is revisited.
+
+Other things the booklet says that the pre-registration did not use (read after run 1, recorded so they are not a
+surprise): for the mission cases the booklet picks the antenna with the most tracked satellites, where this
+implementation (choice 5) takes the higher gain per satellite, which can only count more signals.

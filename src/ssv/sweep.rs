@@ -73,6 +73,9 @@ pub struct ShellConfig {
     pub bands: Vec<Band>,
     /// The reference user altitude of the inverse link budget (36,000 km).
     pub mrtp_reference_alt_km: f64,
+    /// Reference off-boresight angles that replace the signal table's, `(constellation, band, degrees)`; empty for the
+    /// booklet's table B6.
+    pub beam_override_deg: Vec<(Constellation, Band, f64)>,
 }
 
 struct SatInfo {
@@ -88,6 +91,21 @@ struct Tracker {
     run: [u32; 2],
     max_run: [u32; 2],
     seen: [bool; 2],
+}
+
+/// A signal specification with the reference off-boresight angle replaced where `overrides` names it.
+fn with_beam(
+    spec: &constellations::SignalSpec,
+    overrides: &[(Constellation, Band, f64)],
+) -> constellations::SignalSpec {
+    let mut s = *spec;
+    if let Some(o) = overrides
+        .iter()
+        .find(|o| o.0 == s.constellation && o.1 == s.band)
+    {
+        s.beam_deg = o.2;
+    }
+    s
 }
 
 /// Run the shell sweep.
@@ -127,6 +145,7 @@ pub fn run_shell(cfg: &ShellConfig) -> Result<Vec<BandResult>, String> {
                 let Some(spec) = constellations::signal_for(c, band, sat.class) else {
                     continue;
                 };
+                let spec = &with_beam(spec, &cfg.beam_override_deg);
                 if !any {
                     names.push(c);
                     any = true;
@@ -358,6 +377,9 @@ pub struct TrajectoryConfig {
     pub series_every_epochs: usize,
     /// Collect the per-link medium statistics (the `fx` passed to [`run_trajectory`] supplies them).
     pub collect_limb: bool,
+    /// Reference off-boresight angles that replace the signal table's, `(constellation, band, degrees)`; empty for the
+    /// booklet's table B6.
+    pub beam_override_deg: Vec<(Constellation, Band, f64)>,
 }
 
 /// A summary of a quantity over the run.
@@ -595,6 +617,7 @@ pub fn run_trajectory(
                 let Some(spec) = constellations::signal_for(c, band, sat.class) else {
                     continue;
                 };
+                let spec = &with_beam(spec, &cfg.beam_override_deg);
                 if !any {
                     names.push(c);
                     any = true;
@@ -856,6 +879,7 @@ mod tests {
             ],
             bands: vec![Band::L5],
             mrtp_reference_alt_km: 36000.0,
+            beam_override_deg: Vec::new(),
         };
         let r = run_shell(&cfg).unwrap();
         assert_eq!(r.len(), 1);
