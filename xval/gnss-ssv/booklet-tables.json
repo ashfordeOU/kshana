@@ -1,0 +1,1359 @@
+{
+ "_source": "The Interoperable GNSS Space Service Volume, UN OOSA ST/SPACE/75 (1 Nov 2018): table B4 (upper SSV, geometry), table 5.2 (lower SSV, omnidirectional), table B9 (upper SSV with RF constraints), tables 5.4 to 5.9 (GEO receivers), 5.11 (HEO), 5.13 (lunar). Numbers transcribed from the published text; null is the booklet's '*' (no signal observed at the worst-case grid point for the whole run); 'blank' is a cell the booklet leaves empty.",
+ "upper_geometry": [
+  {
+   "band": "l1",
+   "constellation": "gps",
+   "a1": 90.5,
+   "mod1": 111.0,
+   "a4": 4.8,
+   "mod4": null
+  },
+  {
+   "band": "l1",
+   "constellation": "glonass",
+   "a1": 93.9,
+   "mod1": 48.0,
+   "a4": 7.0,
+   "mod4": null
+  },
+  {
+   "band": "l1",
+   "constellation": "galileo",
+   "a1": 78.5,
+   "mod1": 98.0,
+   "a4": 1.2,
+   "mod4": null
+  },
+  {
+   "band": "l1",
+   "constellation": "bds",
+   "a1": 97.4,
+   "mod1": 45.0,
+   "a4": 24.1,
+   "mod4": null
+  },
+  {
+   "band": "l1",
+   "constellation": "qzss",
+   "a1": 26.7,
+   "mod1": null,
+   "a4": 0.8,
+   "mod4": null
+  },
+  {
+   "band": "l1",
+   "constellation": "combined",
+   "a1": 99.9,
+   "mod1": 29.0,
+   "a4": 98.1,
+   "mod4": 93.0
+  },
+  {
+   "band": "l5",
+   "constellation": "gps",
+   "a1": 96.9,
+   "mod1": 77.0,
+   "a4": 15.6,
+   "mod4": 1180.0
+  },
+  {
+   "band": "l5",
+   "constellation": "glonass",
+   "a1": 99.9,
+   "mod1": 8.0,
+   "a4": 60.3,
+   "mod4": 218.0
+  },
+  {
+   "band": "l5",
+   "constellation": "galileo",
+   "a1": 93.4,
+   "mod1": 55.0,
+   "a4": 4.2,
+   "mod4": null
+  },
+  {
+   "band": "l5",
+   "constellation": "bds",
+   "a1": 99.9,
+   "mod1": 7.0,
+   "a4": 45.4,
+   "mod4": 644.0
+  },
+  {
+   "band": "l5",
+   "constellation": "qzss",
+   "a1": 30.5,
+   "mod1": null,
+   "a4": 1.5,
+   "mod4": null
+  },
+  {
+   "band": "l5",
+   "constellation": "navic",
+   "a1": 36.9,
+   "mod1": null,
+   "a4": 0.6,
+   "mod4": null
+  },
+  {
+   "band": "l5",
+   "constellation": "combined",
+   "a1": 100.0,
+   "mod1": 0.0,
+   "a4": 99.9,
+   "mod4": 15.0
+  }
+ ],
+ "lower_geometry": [
+  {
+   "band": "l1",
+   "constellation": "gps",
+   "a1": 100.0,
+   "mod1": 0.0,
+   "a4": 99.6,
+   "mod4": 45.0
+  },
+  {
+   "band": "l1",
+   "constellation": "glonass",
+   "a1": 100.0,
+   "mod1": 0.0,
+   "a4": 99.8,
+   "mod4": 24.0
+  },
+  {
+   "band": "l1",
+   "constellation": "galileo",
+   "a1": 99.9,
+   "mod1": 11.0,
+   "a4": 95.0,
+   "mod4": 60.0
+  },
+  {
+   "band": "l1",
+   "constellation": "bds",
+   "a1": 100.0,
+   "mod1": 0.0,
+   "a4": 100.0,
+   "mod4": 0.0
+  },
+  {
+   "band": "l1",
+   "constellation": "qzss",
+   "a1": 99.6,
+   "mod1": 197.0,
+   "a4": 79.4,
+   "mod4": null
+  },
+  {
+   "band": "l1",
+   "constellation": "combined",
+   "a1": 100.0,
+   "mod1": 0.0,
+   "a4": 100.0,
+   "mod4": 0.0
+  },
+  {
+   "band": "l5",
+   "constellation": "gps",
+   "a1": 100.0,
+   "mod1": 0.0,
+   "a4": 99.9,
+   "mod4": 16.0
+  },
+  {
+   "band": "l5",
+   "constellation": "glonass",
+   "a1": 100.0,
+   "mod1": 0.0,
+   "a4": 100.0,
+   "mod4": 0.0
+  },
+  {
+   "band": "l5",
+   "constellation": "galileo",
+   "a1": 100.0,
+   "mod1": 0.0,
+   "a4": 100.0,
+   "mod4": 0.0
+  },
+  {
+   "band": "l5",
+   "constellation": "bds",
+   "a1": 100.0,
+   "mod1": 0.0,
+   "a4": 100.0,
+   "mod4": 0.0
+  },
+  {
+   "band": "l5",
+   "constellation": "qzss",
+   "a1": 99.6,
+   "mod1": 197.0,
+   "a4": 79.4,
+   "mod4": null
+  },
+  {
+   "band": "l5",
+   "constellation": "navic",
+   "a1": 98.0,
+   "mod1": 348.0,
+   "a4": 51.4,
+   "mod4": null
+  },
+  {
+   "band": "l5",
+   "constellation": "combined",
+   "a1": 100.0,
+   "mod1": 0.0,
+   "a4": 100.0,
+   "mod4": 0.0
+  }
+ ],
+ "upper_rf": {
+  "15": [
+   {
+    "band": "l1",
+    "constellation": "gps",
+    "a1": 90.5,
+    "mod1": 111.0,
+    "a4": 4.8,
+    "mod4": null
+   },
+   {
+    "band": "l1",
+    "constellation": "glonass",
+    "a1": 93.9,
+    "mod1": 48.0,
+    "a4": 7.0,
+    "mod4": null
+   },
+   {
+    "band": "l1",
+    "constellation": "galileo",
+    "a1": 78.5,
+    "mod1": 98.0,
+    "a4": 1.2,
+    "mod4": null
+   },
+   {
+    "band": "l1",
+    "constellation": "bds",
+    "a1": 97.4,
+    "mod1": 45.0,
+    "a4": 24.1,
+    "mod4": null
+   },
+   {
+    "band": "l1",
+    "constellation": "qzss",
+    "a1": 26.7,
+    "mod1": null,
+    "a4": 0.8,
+    "mod4": null
+   },
+   {
+    "band": "l1",
+    "constellation": "combined",
+    "a1": 99.9,
+    "mod1": 29.0,
+    "a4": 98.1,
+    "mod4": 93.0
+   },
+   {
+    "band": "l5",
+    "constellation": "gps",
+    "a1": 96.9,
+    "mod1": 77.0,
+    "a4": 15.6,
+    "mod4": 1180.0
+   },
+   {
+    "band": "l5",
+    "constellation": "glonass",
+    "a1": 99.9,
+    "mod1": 8.0,
+    "a4": 60.3,
+    "mod4": 218.0
+   },
+   {
+    "band": "l5",
+    "constellation": "galileo",
+    "a1": 93.4,
+    "mod1": 55.0,
+    "a4": 4.2,
+    "mod4": null
+   },
+   {
+    "band": "l5",
+    "constellation": "bds",
+    "a1": 99.9,
+    "mod1": 7.0,
+    "a4": 45.4,
+    "mod4": 644.0
+   },
+   {
+    "band": "l5",
+    "constellation": "qzss",
+    "a1": 30.5,
+    "mod1": null,
+    "a4": 1.5,
+    "mod4": null
+   },
+   {
+    "band": "l5",
+    "constellation": "navic",
+    "a1": 36.9,
+    "mod1": null,
+    "a4": 0.6,
+    "mod4": null
+   },
+   {
+    "band": "l5",
+    "constellation": "combined",
+    "a1": 100.0,
+    "mod1": 0.0,
+    "a4": 99.9,
+    "mod4": 15.0
+   }
+  ],
+  "20": [
+   {
+    "band": "l1",
+    "constellation": "gps",
+    "a1": 90.5,
+    "mod1": 111.0,
+    "a4": 4.8,
+    "mod4": null
+   },
+   {
+    "band": "l1",
+    "constellation": "glonass",
+    "a1": 93.9,
+    "mod1": 48.0,
+    "a4": 7.0,
+    "mod4": null
+   },
+   {
+    "band": "l1",
+    "constellation": "galileo",
+    "a1": 78.5,
+    "mod1": 98.0,
+    "a4": 1.2,
+    "mod4": null
+   },
+   {
+    "band": "l1",
+    "constellation": "bds",
+    "a1": "blank",
+    "mod1": 70.0,
+    "a4": 0.6,
+    "mod4": null
+   },
+   {
+    "band": "l1",
+    "constellation": "qzss",
+    "a1": 0.0,
+    "mod1": null,
+    "a4": 0.0,
+    "mod4": null
+   },
+   {
+    "band": "l1",
+    "constellation": "combined",
+    "a1": 99.9,
+    "mod1": 33.0,
+    "a4": 89.8,
+    "mod4": 117.0
+   },
+   {
+    "band": "l5",
+    "constellation": "gps",
+    "a1": 96.9,
+    "mod1": 77.0,
+    "a4": 15.6,
+    "mod4": 1180.0
+   },
+   {
+    "band": "l5",
+    "constellation": "glonass",
+    "a1": 99.9,
+    "mod1": 8.0,
+    "a4": 60.3,
+    "mod4": 218.0
+   },
+   {
+    "band": "l5",
+    "constellation": "galileo",
+    "a1": 93.4,
+    "mod1": 55.0,
+    "a4": 4.2,
+    "mod4": null
+   },
+   {
+    "band": "l5",
+    "constellation": "bds",
+    "a1": 99.9,
+    "mod1": 7.0,
+    "a4": 32.4,
+    "mod4": 644.0
+   },
+   {
+    "band": "l5",
+    "constellation": "qzss",
+    "a1": 30.5,
+    "mod1": null,
+    "a4": 1.5,
+    "mod4": null
+   },
+   {
+    "band": "l5",
+    "constellation": "navic",
+    "a1": 1.0,
+    "mod1": null,
+    "a4": 0.0,
+    "mod4": null
+   },
+   {
+    "band": "l5",
+    "constellation": "combined",
+    "a1": 100.0,
+    "mod1": 0.0,
+    "a4": 99.9,
+    "mod4": 15.0
+   }
+  ],
+  "25": [
+   {
+    "band": "l1",
+    "constellation": "gps",
+    "a1": 0.0,
+    "mod1": null,
+    "a4": 0.0,
+    "mod4": null
+   },
+   {
+    "band": "l1",
+    "constellation": "glonass",
+    "a1": 93.9,
+    "mod1": 48.0,
+    "a4": 7.0,
+    "mod4": null
+   },
+   {
+    "band": "l1",
+    "constellation": "galileo",
+    "a1": 0.0,
+    "mod1": null,
+    "a4": 0.0,
+    "mod4": null
+   },
+   {
+    "band": "l1",
+    "constellation": "bds",
+    "a1": 0.0,
+    "mod1": null,
+    "a4": 0.0,
+    "mod4": null
+   },
+   {
+    "band": "l1",
+    "constellation": "qzss",
+    "a1": 0.0,
+    "mod1": null,
+    "a4": 0.0,
+    "mod4": null
+   },
+   {
+    "band": "l1",
+    "constellation": "combined",
+    "a1": 93.9,
+    "mod1": 48.0,
+    "a4": 7.0,
+    "mod4": null
+   },
+   {
+    "band": "l5",
+    "constellation": "gps",
+    "a1": 0.0,
+    "mod1": null,
+    "a4": 0.0,
+    "mod4": null
+   },
+   {
+    "band": "l5",
+    "constellation": "glonass",
+    "a1": 99.9,
+    "mod1": 8.0,
+    "a4": 60.3,
+    "mod4": 218.0
+   },
+   {
+    "band": "l5",
+    "constellation": "galileo",
+    "a1": 0.0,
+    "mod1": null,
+    "a4": 0.0,
+    "mod4": null
+   },
+   {
+    "band": "l5",
+    "constellation": "bds",
+    "a1": 0.0,
+    "mod1": null,
+    "a4": 0.0,
+    "mod4": null
+   },
+   {
+    "band": "l5",
+    "constellation": "qzss",
+    "a1": 0.0,
+    "mod1": null,
+    "a4": 0.0,
+    "mod4": null
+   },
+   {
+    "band": "l5",
+    "constellation": "navic",
+    "a1": 0.0,
+    "mod1": null,
+    "a4": 0.0,
+    "mod4": null
+   },
+   {
+    "band": "l5",
+    "constellation": "combined",
+    "a1": 99.9,
+    "mod1": 8.0,
+    "a4": 60.3,
+    "mod4": 218.0
+   }
+  ]
+ },
+ "geo": {
+  "0": [
+   {
+    "band": "l1",
+    "constellation": "gps",
+    "a1": 82.24,
+    "mod1": 72.0,
+    "a4": 3.29,
+    "mod4": 697.0
+   },
+   {
+    "band": "l1",
+    "constellation": "glonass",
+    "a1": 84.84,
+    "mod1": 38.0,
+    "a4": 0.71,
+    "mod4": 3808.0
+   },
+   {
+    "band": "l1",
+    "constellation": "galileo",
+    "a1": 63.4,
+    "mod1": 82.0,
+    "a4": 0.0,
+    "mod4": 20160.0
+   },
+   {
+    "band": "l1",
+    "constellation": "bds",
+    "a1": 100.0,
+    "mod1": 0.0,
+    "a4": 28.47,
+    "mod4": 200.0
+   },
+   {
+    "band": "l1",
+    "constellation": "qzss",
+    "a1": 64.31,
+    "mod1": 210.0,
+    "a4": 0.0,
+    "mod4": 20160.0
+   },
+   {
+    "band": "l1",
+    "constellation": "combined",
+    "a1": 100.0,
+    "mod1": 0.0,
+    "a4": 99.7,
+    "mod4": 11.0
+   },
+   {
+    "band": "l5",
+    "constellation": "gps",
+    "a1": 94.29,
+    "mod1": 50.0,
+    "a4": 14.55,
+    "mod4": 425.0
+   },
+   {
+    "band": "l5",
+    "constellation": "glonass",
+    "a1": 100.0,
+    "mod1": 0.0,
+    "a4": 43.99,
+    "mod4": 189.0
+   },
+   {
+    "band": "l5",
+    "constellation": "galileo",
+    "a1": 86.43,
+    "mod1": 41.0,
+    "a4": 0.0,
+    "mod4": 20160.0
+   },
+   {
+    "band": "l5",
+    "constellation": "bds",
+    "a1": 100.0,
+    "mod1": 0.0,
+    "a4": 96.44,
+    "mod4": 21.0
+   },
+   {
+    "band": "l5",
+    "constellation": "qzss",
+    "a1": 90.26,
+    "mod1": 117.0,
+    "a4": 0.0,
+    "mod4": 20160.0
+   },
+   {
+    "band": "l5",
+    "constellation": "navic",
+    "a1": 0.0,
+    "mod1": 0.0,
+    "a4": 0.0,
+    "mod4": 20160.0
+   },
+   {
+    "band": "l5",
+    "constellation": "combined",
+    "a1": 100.0,
+    "mod1": 0.0,
+    "a4": 100.0,
+    "mod4": 0.0
+   }
+  ],
+  "60": [
+   {
+    "band": "l1",
+    "constellation": "gps",
+    "a1": 80.01,
+    "mod1": 89.0,
+    "a4": 2.44,
+    "mod4": 748.0
+   },
+   {
+    "band": "l1",
+    "constellation": "glonass",
+    "a1": 90.7,
+    "mod1": 34.0,
+    "a4": 5.21,
+    "mod4": 475.0
+   },
+   {
+    "band": "l1",
+    "constellation": "galileo",
+    "a1": 62.83,
+    "mod1": 82.0,
+    "a4": 0.0,
+    "mod4": 20160.0
+   },
+   {
+    "band": "l1",
+    "constellation": "bds",
+    "a1": 92.27,
+    "mod1": 28.0,
+    "a4": 0.92,
+    "mod4": 724.0
+   },
+   {
+    "band": "l1",
+    "constellation": "qzss",
+    "a1": 0.0,
+    "mod1": 20160.0,
+    "a4": 0.0,
+    "mod4": 20160.0
+   },
+   {
+    "band": "l1",
+    "constellation": "combined",
+    "a1": 100.0,
+    "mod1": 0.0,
+    "a4": 94.93,
+    "mod4": 36.0
+   },
+   {
+    "band": "l5",
+    "constellation": "gps",
+    "a1": 94.77,
+    "mod1": 55.0,
+    "a4": 10.04,
+    "mod4": 402.0
+   },
+   {
+    "band": "l5",
+    "constellation": "glonass",
+    "a1": 100.0,
+    "mod1": 0.0,
+    "a4": 53.14,
+    "mod4": 90.0
+   },
+   {
+    "band": "l5",
+    "constellation": "galileo",
+    "a1": 86.87,
+    "mod1": 42.0,
+    "a4": 0.0,
+    "mod4": 20160.0
+   },
+   {
+    "band": "l5",
+    "constellation": "bds",
+    "a1": 100.0,
+    "mod1": 0.0,
+    "a4": 10.65,
+    "mod4": 262.0
+   },
+   {
+    "band": "l5",
+    "constellation": "qzss",
+    "a1": 0.0,
+    "mod1": 20160.0,
+    "a4": 0.0,
+    "mod4": 20160.0
+   },
+   {
+    "band": "l5",
+    "constellation": "navic",
+    "a1": 0.0,
+    "mod1": 20160.0,
+    "a4": 0.0,
+    "mod4": 20160.0
+   },
+   {
+    "band": "l5",
+    "constellation": "combined",
+    "a1": 100.0,
+    "mod1": 0.0,
+    "a4": 100.0,
+    "mod4": 0.0
+   }
+  ],
+  "120": [
+   {
+    "band": "l1",
+    "constellation": "gps",
+    "a1": 79.56,
+    "mod1": 103.0,
+    "a4": 3.68,
+    "mod4": 462.0
+   },
+   {
+    "band": "l1",
+    "constellation": "glonass",
+    "a1": 90.48,
+    "mod1": 37.0,
+    "a4": 5.07,
+    "mod4": 474.0
+   },
+   {
+    "band": "l1",
+    "constellation": "galileo",
+    "a1": 63.12,
+    "mod1": 82.0,
+    "a4": 0.0,
+    "mod4": 20160.0
+   },
+   {
+    "band": "l1",
+    "constellation": "bds",
+    "a1": 92.38,
+    "mod1": 26.0,
+    "a4": 0.93,
+    "mod4": 732.0
+   },
+   {
+    "band": "l1",
+    "constellation": "qzss",
+    "a1": 0.0,
+    "mod1": 20160.0,
+    "a4": 0.0,
+    "mod4": 20160.0
+   },
+   {
+    "band": "l1",
+    "constellation": "combined",
+    "a1": 100.0,
+    "mod1": 0.0,
+    "a4": 94.62,
+    "mod4": 51.0
+   },
+   {
+    "band": "l5",
+    "constellation": "gps",
+    "a1": 91.85,
+    "mod1": 66.0,
+    "a4": 9.17,
+    "mod4": 419.0
+   },
+   {
+    "band": "l5",
+    "constellation": "glonass",
+    "a1": 100.0,
+    "mod1": 0.0,
+    "a4": 52.81,
+    "mod4": 94.0
+   },
+   {
+    "band": "l5",
+    "constellation": "galileo",
+    "a1": 86.55,
+    "mod1": 41.0,
+    "a4": 0.0,
+    "mod4": 20160.0
+   },
+   {
+    "band": "l5",
+    "constellation": "bds",
+    "a1": 100.0,
+    "mod1": 0.0,
+    "a4": 11.72,
+    "mod4": 255.0
+   },
+   {
+    "band": "l5",
+    "constellation": "qzss",
+    "a1": 0.0,
+    "mod1": 20160.0,
+    "a4": 0.0,
+    "mod4": 20160.0
+   },
+   {
+    "band": "l5",
+    "constellation": "navic",
+    "a1": 0.0,
+    "mod1": 20160.0,
+    "a4": 0.0,
+    "mod4": 20160.0
+   },
+   {
+    "band": "l5",
+    "constellation": "combined",
+    "a1": 100.0,
+    "mod1": 0.0,
+    "a4": 100.0,
+    "mod4": 0.0
+   }
+  ],
+  "180": [
+   {
+    "band": "l1",
+    "constellation": "gps",
+    "a1": 82.15,
+    "mod1": 73.0,
+    "a4": 3.31,
+    "mod4": 697.0
+   },
+   {
+    "band": "l1",
+    "constellation": "glonass",
+    "a1": 84.93,
+    "mod1": 41.0,
+    "a4": 0.72,
+    "mod4": 3805.0
+   },
+   {
+    "band": "l1",
+    "constellation": "galileo",
+    "a1": 63.4,
+    "mod1": 82.0,
+    "a4": 0.0,
+    "mod4": 20160.0
+   },
+   {
+    "band": "l1",
+    "constellation": "bds",
+    "a1": 91.85,
+    "mod1": 27.0,
+    "a4": 0.94,
+    "mod4": 722.0
+   },
+   {
+    "band": "l1",
+    "constellation": "qzss",
+    "a1": 0.0,
+    "mod1": 20160.0,
+    "a4": 0.0,
+    "mod4": 20160.0
+   },
+   {
+    "band": "l1",
+    "constellation": "combined",
+    "a1": 100.0,
+    "mod1": 0.0,
+    "a4": 93.24,
+    "mod4": 41.0
+   },
+   {
+    "band": "l5",
+    "constellation": "gps",
+    "a1": 94.28,
+    "mod1": 50.0,
+    "a4": 14.55,
+    "mod4": 425.0
+   },
+   {
+    "band": "l5",
+    "constellation": "glonass",
+    "a1": 100.0,
+    "mod1": 0.0,
+    "a4": 44.08,
+    "mod4": 195.0
+   },
+   {
+    "band": "l5",
+    "constellation": "galileo",
+    "a1": 86.43,
+    "mod1": 41.0,
+    "a4": 0.0,
+    "mod4": 20160.0
+   },
+   {
+    "band": "l5",
+    "constellation": "bds",
+    "a1": 100.0,
+    "mod1": 0.0,
+    "a4": 10.37,
+    "mod4": 263.0
+   },
+   {
+    "band": "l5",
+    "constellation": "qzss",
+    "a1": 0.0,
+    "mod1": 20160.0,
+    "a4": 0.0,
+    "mod4": 20160.0
+   },
+   {
+    "band": "l5",
+    "constellation": "navic",
+    "a1": 100.0,
+    "mod1": 0.0,
+    "a4": 0.0,
+    "mod4": 20160.0
+   },
+   {
+    "band": "l5",
+    "constellation": "combined",
+    "a1": 100.0,
+    "mod1": 0.0,
+    "a4": 100.0,
+    "mod4": 0.0
+   }
+  ],
+  "240": [
+   {
+    "band": "l1",
+    "constellation": "gps",
+    "a1": 79.92,
+    "mod1": 89.0,
+    "a4": 2.46,
+    "mod4": 748.0
+   },
+   {
+    "band": "l1",
+    "constellation": "glonass",
+    "a1": 90.85,
+    "mod1": 34.0,
+    "a4": 5.19,
+    "mod4": 476.0
+   },
+   {
+    "band": "l1",
+    "constellation": "galileo",
+    "a1": 62.83,
+    "mod1": 82.0,
+    "a4": 0.0,
+    "mod4": 20160.0
+   },
+   {
+    "band": "l1",
+    "constellation": "bds",
+    "a1": 100.0,
+    "mod1": 0.0,
+    "a4": 28.63,
+    "mod4": 200.0
+   },
+   {
+    "band": "l1",
+    "constellation": "qzss",
+    "a1": 0.0,
+    "mod1": 20160.0,
+    "a4": 0.0,
+    "mod4": 20160.0
+   },
+   {
+    "band": "l1",
+    "constellation": "combined",
+    "a1": 100.0,
+    "mod1": 0.0,
+    "a4": 99.34,
+    "mod4": 19.0
+   },
+   {
+    "band": "l5",
+    "constellation": "gps",
+    "a1": 94.75,
+    "mod1": 55.0,
+    "a4": 10.06,
+    "mod4": 402.0
+   },
+   {
+    "band": "l5",
+    "constellation": "glonass",
+    "a1": 100.0,
+    "mod1": 0.0,
+    "a4": 53.12,
+    "mod4": 91.0
+   },
+   {
+    "band": "l5",
+    "constellation": "galileo",
+    "a1": 86.87,
+    "mod1": 42.0,
+    "a4": 0.0,
+    "mod4": 20160.0
+   },
+   {
+    "band": "l5",
+    "constellation": "bds",
+    "a1": 100.0,
+    "mod1": 0.0,
+    "a4": 54.16,
+    "mod4": 118.0
+   },
+   {
+    "band": "l5",
+    "constellation": "qzss",
+    "a1": 0.0,
+    "mod1": 20160.0,
+    "a4": 0.0,
+    "mod4": 20160.0
+   },
+   {
+    "band": "l5",
+    "constellation": "navic",
+    "a1": 100.0,
+    "mod1": 0.0,
+    "a4": 5.18,
+    "mod4": 371.0
+   },
+   {
+    "band": "l5",
+    "constellation": "combined",
+    "a1": 100.0,
+    "mod1": 0.0,
+    "a4": 100.0,
+    "mod4": 0.0
+   }
+  ],
+  "300": [
+   {
+    "band": "l1",
+    "constellation": "gps",
+    "a1": 79.43,
+    "mod1": 103.0,
+    "a4": 3.68,
+    "mod4": 462.0
+   },
+   {
+    "band": "l1",
+    "constellation": "glonass",
+    "a1": 90.47,
+    "mod1": 33.0,
+    "a4": 5.02,
+    "mod4": 939.0
+   },
+   {
+    "band": "l1",
+    "constellation": "galileo",
+    "a1": 63.12,
+    "mod1": 82.0,
+    "a4": 0.0,
+    "mod4": 20160.0
+   },
+   {
+    "band": "l1",
+    "constellation": "bds",
+    "a1": 100.0,
+    "mod1": 0.0,
+    "a4": 50.5,
+    "mod4": 142.0
+   },
+   {
+    "band": "l1",
+    "constellation": "qzss",
+    "a1": 100.0,
+    "mod1": 0.0,
+    "a4": 0.0,
+    "mod4": 20160.0
+   },
+   {
+    "band": "l1",
+    "constellation": "combined",
+    "a1": 100.0,
+    "mod1": 0.0,
+    "a4": 100.0,
+    "mod4": 0.0
+   },
+   {
+    "band": "l5",
+    "constellation": "gps",
+    "a1": 91.81,
+    "mod1": 66.0,
+    "a4": 9.19,
+    "mod4": 419.0
+   },
+   {
+    "band": "l5",
+    "constellation": "glonass",
+    "a1": 100.0,
+    "mod1": 0.0,
+    "a4": 52.96,
+    "mod4": 94.0
+   },
+   {
+    "band": "l5",
+    "constellation": "galileo",
+    "a1": 86.55,
+    "mod1": 41.0,
+    "a4": 0.0,
+    "mod4": 20160.0
+   },
+   {
+    "band": "l5",
+    "constellation": "bds",
+    "a1": 100.0,
+    "mod1": 0.0,
+    "a4": 100.0,
+    "mod4": 0.0
+   },
+   {
+    "band": "l5",
+    "constellation": "qzss",
+    "a1": 100.0,
+    "mod1": 0.0,
+    "a4": 0.0,
+    "mod4": 20160.0
+   },
+   {
+    "band": "l5",
+    "constellation": "navic",
+    "a1": 67.78,
+    "mod1": 216.0,
+    "a4": 0.0,
+    "mod4": 20160.0
+   },
+   {
+    "band": "l5",
+    "constellation": "combined",
+    "a1": 100.0,
+    "mod1": 0.0,
+    "a4": 100.0,
+    "mod4": 0.0
+   }
+  ]
+ },
+ "heo": [
+  {
+   "band": "l1",
+   "constellation": "gps",
+   "a1": 87.3,
+   "mod1": 70.0,
+   "a4": 12.7,
+   "mod4": 1036.0
+  },
+  {
+   "band": "l1",
+   "constellation": "glonass",
+   "a1": 98.8,
+   "mod1": 12.0,
+   "a4": 14.1,
+   "mod4": 986.0
+  },
+  {
+   "band": "l1",
+   "constellation": "galileo",
+   "a1": 74.3,
+   "mod1": 85.0,
+   "a4": 9.9,
+   "mod4": 1026.0
+  },
+  {
+   "band": "l1",
+   "constellation": "bds",
+   "a1": 88.1,
+   "mod1": 51.0,
+   "a4": 16.1,
+   "mod4": 1008.0
+  },
+  {
+   "band": "l1",
+   "constellation": "qzss",
+   "a1": 27.5,
+   "mod1": 1031.0,
+   "a4": 2.5,
+   "mod4": 2175.0
+  },
+  {
+   "band": "l1",
+   "constellation": "combined",
+   "a1": 100.0,
+   "mod1": 0.0,
+   "a4": 94.5,
+   "mod4": 47.0
+  },
+  {
+   "band": "l5",
+   "constellation": "gps",
+   "a1": 94.7,
+   "mod1": 53.0,
+   "a4": 17.4,
+   "mod4": 911.0
+  },
+  {
+   "band": "l5",
+   "constellation": "glonass",
+   "a1": 100.0,
+   "mod1": 0.0,
+   "a4": 55.5,
+   "mod4": 133.0
+  },
+  {
+   "band": "l5",
+   "constellation": "galileo",
+   "a1": 87.1,
+   "mod1": 63.0,
+   "a4": 11.6,
+   "mod4": 980.0
+  },
+  {
+   "band": "l5",
+   "constellation": "bds",
+   "a1": 96.9,
+   "mod1": 30.0,
+   "a4": 26.0,
+   "mod4": 925.0
+  },
+  {
+   "band": "l5",
+   "constellation": "qzss",
+   "a1": 32.1,
+   "mod1": 1021.0,
+   "a4": 5.8,
+   "mod4": 1091.0
+  },
+  {
+   "band": "l5",
+   "constellation": "navic",
+   "a1": 35.1,
+   "mod1": 989.0,
+   "a4": 5.8,
+   "mod4": 1091.0
+  },
+  {
+   "band": "l5",
+   "constellation": "combined",
+   "a1": 100.0,
+   "mod1": 0.0,
+   "a4": 100.0,
+   "mod4": 0.0
+  }
+ ],
+ "lunar": [
+  {
+   "band": "l1",
+   "constellation": "gps",
+   "a1": 9.0,
+   "a4": 1.0
+  },
+  {
+   "band": "l1",
+   "constellation": "glonass",
+   "a1": 8.0,
+   "a4": 0.0
+  },
+  {
+   "band": "l1",
+   "constellation": "galileo",
+   "a1": 14.0,
+   "a4": 1.0
+  },
+  {
+   "band": "l1",
+   "constellation": "bds",
+   "a1": 14.0,
+   "a4": 3.0
+  },
+  {
+   "band": "l1",
+   "constellation": "qzss",
+   "a1": 1.0,
+   "a4": 0.0
+  },
+  {
+   "band": "l1",
+   "constellation": "combined",
+   "a1": 21.0,
+   "a4": 9.0
+  },
+  {
+   "band": "l5",
+   "constellation": "gps",
+   "a1": 12.0,
+   "a4": 1.0
+  },
+  {
+   "band": "l5",
+   "constellation": "glonass",
+   "a1": 33.0,
+   "a4": 1.0
+  },
+  {
+   "band": "l5",
+   "constellation": "galileo",
+   "a1": 16.0,
+   "a4": 1.0
+  },
+  {
+   "band": "l5",
+   "constellation": "bds",
+   "a1": 18.0,
+   "a4": 5.0
+  },
+  {
+   "band": "l5",
+   "constellation": "qzss",
+   "a1": 4.0,
+   "a4": 0.0
+  },
+  {
+   "band": "l5",
+   "constellation": "navic",
+   "a1": 4.0,
+   "a4": 1.0
+  },
+  {
+   "band": "l5",
+   "constellation": "combined",
+   "a1": 36.0,
+   "a4": 16.0
+  }
+ ]
+}
