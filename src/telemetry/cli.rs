@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 //! `kshana trust-telemetry`: read the per-epoch trust stream and feed the sinks.
 
+use super::mqtt;
 use super::prometheus::{self, Registry};
 use super::sample::{self, Band, TrustSample};
 use super::syslog::{self, Format, Proto, SinkConfig, SyslogSink};
@@ -23,6 +24,11 @@ const USAGE: &str = "usage: kshana trust-telemetry [options]
     --format cef|leef        payload dialect (default cef)
     --syslog-all             one event per epoch (default: one per band change)
     --host <name>            device host name in events (default `kshana`)
+  Home Assistant / NTP appliance (JSON state + MQTT discovery; publish only, no credentials or TLS):
+    --mqtt-tcp <host:port>   publish to a local MQTT 3.1.1 broker (retained messages, QoS 0)
+    --print-mqtt             print the messages as `topic<TAB>payload` lines
+    --mqtt-prefix <p>        state topic prefix (default kshana/trust); --mqtt-node <id> (default kshana)
+    --mqtt-discovery <p>     Home Assistant discovery prefix (default homeassistant)
   OpenTelemetry (build with --features otlp):
     --otlp <http://host:4318/v1/metrics>  --otlp-every <epochs> (default 10)";
 
@@ -41,6 +47,11 @@ struct Opts {
     syslog_all: bool,
     octet_counting: bool,
     host: Option<String>,
+    mqtt_tcp: Option<String>,
+    print_mqtt: bool,
+    mqtt_prefix: Option<String>,
+    mqtt_node: Option<String>,
+    mqtt_discovery: Option<String>,
     otlp: Option<String>,
     otlp_every: Option<usize>,
 }
@@ -74,6 +85,11 @@ fn parse(args: &[String]) -> Result<Opts, String> {
             "--syslog-all" => o.syslog_all = true,
             "--syslog-octet-counting" => o.octet_counting = true,
             "--host" => o.host = Some(val("--host")?),
+            "--mqtt-tcp" => o.mqtt_tcp = Some(val("--mqtt-tcp")?),
+            "--print-mqtt" => o.print_mqtt = true,
+            "--mqtt-prefix" => o.mqtt_prefix = Some(val("--mqtt-prefix")?),
+            "--mqtt-node" => o.mqtt_node = Some(val("--mqtt-node")?),
+            "--mqtt-discovery" => o.mqtt_discovery = Some(val("--mqtt-discovery")?),
             "--otlp" => o.otlp = Some(val("--otlp")?),
             "--otlp-every" => {
                 o.otlp_every = Some(
@@ -132,6 +148,8 @@ fn run_inner(o: &Opts) -> Result<(), String> {
         || o.print_syslog
         || o.syslog_udp.is_some()
         || o.syslog_tcp.is_some()
+        || o.mqtt_tcp.is_some()
+        || o.print_mqtt
         || o.otlp.is_some();
     let listen = match (&o.listen, any_other) {
         (Some(l), _) => Some(l.clone()),
@@ -185,6 +203,42 @@ fn run_inner(o: &Opts) -> Result<(), String> {
         return Err("--syslog-octet-counting applies to --syslog-tcp".into());
     }
 
+    let topics = {
+        let d = mqtt::Topics::default();
+        for (name, v) in [
+            ("--mqtt-prefix", &o.mqtt_prefix),
+            ("--mqtt-node", &o.mqtt_node),
+            ("--mqtt-discovery", &o.mqtt_discovery),
+        ] {
+            if let Some(v) = v {
+                if v.is_empty() || v.contains(['#', '+', '\0']) || v.starts_with('/') {
+                    return Err(format!(
+                        "{name}: a topic part must be non-empty, without #, + or a leading /"
+                    ));
+                }
+            }
+        }
+        mqtt::Topics {
+            prefix: o.mqtt_prefix.clone().unwrap_or(d.prefix),
+            discovery_prefix: o.mqtt_discovery.clone().unwrap_or(d.discovery_prefix),
+            node_id: o.mqtt_node.clone().unwrap_or(d.node_id),
+        }
+    };
+    let mqtt_sink = o
+        .mqtt_tcp
+        .as_ref()
+        .map(|a| mqtt::MqttSink::start(a, format!("kshana-{}", std::process::id())));
+    if mqtt_sink.is_some() || o.print_mqtt {
+        for m in mqtt::discovery(&topics) {
+            if o.print_mqtt {
+                println!("{}\t{}", m.topic, m.payload);
+            }
+            if let Some(t) = &mqtt_sink {
+                t.send(m);
+            }
+        }
+    }
+
     #[cfg(not(feature = "otlp"))]
     if o.otlp.is_some() {
         return Err("--otlp needs a build with `--features otlp`".into());
@@ -227,6 +281,15 @@ fn run_inner(o: &Opts) -> Result<(), String> {
                 }
                 if let Some(t) = &sink {
                     t.send(line);
+                }
+            }
+            if mqtt_sink.is_some() || o.print_mqtt {
+                let m = mqtt::state_message(&topics, &s);
+                if o.print_mqtt {
+                    println!("{}\t{}", m.topic, m.payload);
+                }
+                if let Some(t) = &mqtt_sink {
+                    t.send(m);
                 }
             }
             prev = Some(s.band);
@@ -273,6 +336,14 @@ fn run_inner(o: &Opts) -> Result<(), String> {
     }
     if let Some(t) = sink {
         t.finish();
+    }
+    if let Some(t) = mqtt_sink {
+        let dropped = t.failures.clone();
+        t.finish();
+        let n = dropped.load(std::sync::atomic::Ordering::Relaxed);
+        if n > 0 {
+            eprintln!("warning: {n} MQTT messages were not delivered");
+        }
     }
     let _ = n_epochs;
     if o.print_metrics {

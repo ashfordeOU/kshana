@@ -292,7 +292,8 @@ fn export_is_byte_deterministic_and_carries_no_signal() {
             ".nmea",
             ".waypoints.txt",
             ".events.csv",
-            ".events.toml"
+            ".events.toml",
+            ".conditions.json"
         ]
     );
     let meta = String::from_utf8(a[1].bytes.clone()).unwrap();

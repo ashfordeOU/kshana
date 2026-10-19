@@ -102,6 +102,7 @@ ScenarioKind = Literal[
     "ascent-losses",
     "time-transfer-budget",
     "optical-atmosphere",
+    "holdover-test",
 ]
 """Every built-in scenario kind, the value of a scenario's top-level ``kind``."""
 
@@ -159,7 +160,10 @@ __all__ = [
     "receiver_trust",
     "receiver_trust_replay",
     "assess_vessel_log",
+    "jammertest_import",
+    "jammertest_score",
     "evidence_create",
+    "evidence_round_trip",
     "evidence_verify",
     "interference_map",
     "bench_export",
@@ -179,8 +183,16 @@ __all__ = [
     "get_example",
     "compliance_report",
     "compliance_mapping",
+    "standards_pack_list",
+    "standards_pack_run",
+    "lunanet_afs_check_spec",
+    "lunanet_afs_check_symbols",
+    "lunanet_afs_generate",
+    "bench_score",
+    "bench_leaderboard",
     "osnma_verify",
     "trust_telemetry",
+    "imu_fit",
     "route_exposure",
     "nmea_training",
     "iq_scene",
@@ -289,6 +301,41 @@ def receiver_trust_replay(session_toml: str, nmea: str | bytes) -> dict[str, Any
     geometry only when it is ``poor``. Opens no socket and does not
     apply the gate (both are command-line only). Advisory software, not type-approved navigation equipment (IEC 61108, IEC 61162): the operator remains responsible for the navigation of the vessel. Raises ``ValueError``."""
 
+def jammertest_import(
+    catalog_json: str,
+    plans: list[str],
+    log_start_utc: str,
+    location: int | None = None,
+    local_offset_h: float = 2.0,
+    year: int | None = None,
+) -> dict[str, Any]:
+    """Read the published Jammertest test catalogue and transmission plan (NPRA JSON texts) as
+    scheduled truth, as ``kshana jammertest import`` does. ``plans`` holds one plan file per day;
+    ``log_start_utc`` is the log's first epoch (ISO-8601 UTC); ``local_offset_h`` the plan's offset
+    from UTC (CEST: 2). Returns ``events_toml`` (append it to a receiver-trust session), ``events``
+    (``test_id``, ``year``, ``kind``, ``onset_s``, ``end_s`` ...), ``skipped_non_rf``,
+    ``outside_log`` and ``unknown_ids``. The events are planned slots, not recorded on-air times.
+    Raises ``ValueError``."""
+
+def jammertest_score(
+    session_toml: str,
+    log: str | bytes,
+    catalog_json: str,
+    plans: list[str],
+    location: int | None = None,
+    local_offset_h: float = 2.0,
+    log_start_utc: str | None = None,
+    year: int | None = None,
+    recover_hold_s: float = 10.0,
+    guard_s: float = 60.0,
+) -> dict[str, Any]:
+    """Score a receiver log against the Jammertest schedule, as ``kshana jammertest score`` does:
+    per scheduled test the detection latency, missed alarms and time to recover, and the false
+    alarms outside every slot. ``session_toml`` needs only ``[log] format = "ubx"`` (or
+    ``rinex``, ``android``, ``nmea``, ``sbf``). Returns the scorecard (``tests``, ``summary``,
+    ``label``: MODELLED). A signed evidence pack needs a key: use the command line. Advisory
+    software, not type-approved navigation equipment (IEC 61108, IEC 61162). Raises ``ValueError``."""
+
 def assess_vessel_log(session_toml: str, log: str | bytes) -> dict[str, Any]:
     """Assess a vessel's NMEA log as a batch run: the ``result.json`` of
     ``kshana receiver-trust`` (score model, monitors run, every epoch's 0-100 score with its
@@ -303,13 +350,35 @@ def evidence_create(
     title: Optional[str] = None,
     created_utc: Optional[str] = None,
     seed_hex: Optional[str] = None,
+    lab_attestation: Optional[str] = None,
 ) -> dict[str, Any]:
     """Build a signed evidence pack for a window (seconds since the first epoch) of a vessel's
     NMEA log. ``seed_hex`` is the Ed25519 signing-key seed (64 hex digits); omitted, one is
     generated. ``created_utc``: ``None`` is now, ``"none"`` leaves it out. Keys: ``files``
     (name to ``bytes``), ``public_key``, ``seed_hex`` (keep it private), ``epochs_in_window``,
-    ``slice`` (``[start, end]`` or ``None`` for the whole log). A technical record, not a legal
+    ``slice`` (``[start, end]`` or ``None`` for the whole log). ``lab_attestation`` is TOML text,
+    the operator's statement of a laboratory setup (``docs/HARDWARE-SAFETY.md``), recorded in
+    the signed manifest as given and never verified. A technical record, not a legal
     opinion. Raises ``ValueError``."""
+
+def evidence_round_trip(
+    scoring_toml: str,
+    scenario_toml: str,
+    conditions: str,
+    log: str | bytes,
+    from_s: float,
+    to_s: float,
+    title: Optional[str] = None,
+    created_utc: Optional[str] = None,
+    seed_hex: Optional[str] = None,
+) -> dict[str, Any]:
+    """Build the signed laboratory round-trip pack: the scenario, the laboratory's
+    ``kshana.test-conditions/1`` document, the receiver log and its score against the stated
+    events, linked by hash (``config.json`` carries a ``round_trip`` block). ``scoring_toml`` is a
+    receiver-trust scenario whose ``[log]`` names the format only and whose ``[[events]]`` are the
+    stated truth. Other arguments and keys as for ``evidence_create``. Writes no signal; a
+    technical record, not a certification. Raises ``ValueError``, including when the conditions
+    and the scoring events disagree or the stated log hash is not the log's."""
 
 def evidence_verify(
     files: dict[str, str | bytes],
@@ -404,7 +473,7 @@ def bench_export(toml: str, epoch: Optional[str] = None) -> dict[str, Any]:
     radio-frequency or baseband signal is written."""
 
 def compliance_report(runs: list[dict[str, str]]) -> dict[str, Any]:
-    """Fill the public-framework mapping (five resilience frameworks and standards, see
+    """Fill the public-framework mapping (six resilience frameworks and standards, see
     ``docs/compliance/``) from result documents given as text. ``runs`` is a list of dicts with
     ``label``, ``result`` (the result JSON text) and optionally ``scenario`` (the scenario TOML
     text, which names the kind a result does not); at most 64 runs, nothing read from disk.
@@ -415,10 +484,53 @@ def compliance_report(runs: list[dict[str, str]]) -> dict[str, Any]:
     ``gap``. A status says the runs support evidence for the row's capabilities; it is not a
     finding that a framework is met. Raises ``ValueError``."""
 
+def bench_score(
+    truth_json: str,
+    predictions_json: str,
+    threshold: float | None = None,
+) -> str:
+    """Score a kshana-bench predictions file against a truth file (JSON texts, see
+    ``bench/SPEC.md``) and return the result file (``kshana-bench-result/1``) as JSON text:
+    the spec version, task, split, the SHA-256 of both inputs, the task's metrics and the
+    advisory notice. ``threshold`` is the declared alarm threshold of tasks a and b. Every
+    score is MODELLED and describes a log or corpus, never a product. Raises ``ValueError``."""
+
+def bench_leaderboard(results: list[str]) -> str:
+    """Render kshana-bench result files (JSON texts) as the static leaderboard page (HTML).
+    Raises ``ValueError`` for an invalid file or another spec major version."""
+
 def compliance_mapping(sources: bool = False) -> str:
     """The static public-framework mapping as Markdown, led by the statement every report
     carries: one table per framework, or with ``sources=True`` the source documents they cite
     (versions and URLs)."""
+
+def standards_pack_list() -> dict[str, Any]:
+    """The standards packs (``standards/``): ``packs`` (id, title, framework, test counts) and a
+    ``notice``. A pack measures modelled scenarios against bars stated before the run; it rates
+    no product."""
+
+def standards_pack_run(pack_id: str) -> dict[str, Any]:
+    """Run one standards pack. Returns the report (``pack``, ``summary``, ``tests`` with each
+    bar's measured and expected value and ``met``, ``evidence_tier``, ``notice``, ``advisory``,
+    ``statement``) plus the same report as Markdown under ``markdown``. A test that needs a
+    receiver log is ``NEEDS INPUT`` and not scored. Raises ``ValueError`` for an unknown id."""
+
+def lunanet_afs_check_spec() -> dict[str, Any]:
+    """Check this implementation of the LunaNet Augmented Forward Signal against the published
+    tables and worked examples of LSIS-AFS V1.0 (LNIS V5, AD1 Volume A): ``bars`` (B1 to B10, each
+    with ``matched``, ``total``, ``status``), ``all_met``, ``pin`` and ``status``. B4 reports one
+    miss: the document prints the same last 24 chips for tertiary PRN 147 and 151."""
+
+def lunanet_afs_check_symbols(symbols: str, max_sp_errors: int = 0) -> dict[str, Any]:
+    """Check a hard-decision AFS symbol stream (text of ``0`` and ``1``) against section 2.4 of
+    LSIS-AFS V1.0: synchronisation pattern, SB1 decoding, FID, TOI continuity, frame spacing.
+    Subframes 2 to 4 (LDPC, CRC-24Q) are not verified (see ``not_checked``). Raises
+    ``ValueError``."""
+
+def lunanet_afs_generate(frames: int = 1, toi0: int = 0) -> str:
+    """A test stream of ``frames`` (1 to 100) AFS frames as text of ``0`` and ``1`` with
+    placeholder subframes 2 to 4 (not LDPC coded, no message): symbols for testing a checker,
+    not a waveform. Raises ``ValueError``."""
 
 def osnma_verify(
     data: bytes | str,
@@ -453,12 +565,29 @@ def trust_telemetry(
 ) -> str:
     """Render a trust stream or a batch result in one telemetry format with the encoders
     ``kshana trust-telemetry`` uses (no process, socket or clock). ``format`` is ``"prometheus"``,
-    ``"cef"``, ``"leef"`` or ``"otlp"``; ``input_kind`` is ``"jsonl"`` (the live per-epoch
+    ``"cef"``, ``"leef"``, ``"otlp"`` or ``"mqtt"``; ``input_kind`` is ``"jsonl"`` (the live per-epoch
     stream) or ``"result"`` (a ``receiver-trust`` result document); ``host`` names the sender in
     syslog events (default ``kshana``). ``syslog_all`` gives one event per epoch instead of one
     per band change; ``expose_position`` adds the receiver-reported position to the metrics;
     ``unix_nano`` is the export time of the ``"otlp"`` payload. Syslog lines carry no timestamp.
     Raises ``ValueError`` on an unknown format or an input with no epoch."""
+
+def imu_fit(
+    log: str,
+    format: str = "csv",
+    axis: str = "x",
+    expected_mean: float = 0.0,
+    id: str = "imu-fit",
+) -> str:
+    """Fit the accelerometer and gyro parameters of the ``hybrid`` and ``fusion`` scenarios from a
+    stationary IMU log (``kshana imu-fit``, docs/MACHINE-INPUTS.md). ``log`` is the CSV text;
+    ``format`` is ``"csv"`` (columns ``t_s, gx, gy, gz, ax, ay, az``) or ``"euroc"``; ``axis`` is
+    ``"x"``, ``"y"`` or ``"z"`` and ``expected_mean`` the specific force that axis reads at rest
+    (0 for a horizontal axis, about 9.80665 for the vertical one). Returns JSON text: ``fit``
+    (bias, ``q_va``, gyro bias, ``q_arw``, bias-instability floor, the log's rate and span, the
+    white-noise slopes, ``notes``), ``toml`` (an ``[accel_classical]`` table to paste into a
+    scenario) and ``sha256`` of the log. Evidence tier: MODELLED; a log that was not stationary
+    gives wrong parameters, which the slopes show. Raises ``ValueError``."""
 
 def interference_map(
     source: str,

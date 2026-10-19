@@ -1,0 +1,3 @@
+{"msg":"synchro","System":"G","Signal":"1C","PRN":5,"CN0_dB_hz":44.5,"RX_time":100.02,"Flag_valid_pseudorange":true}
+{"msg":"synchro","System":"E","Signal":"1B","PRN":11,"CN0_dB_hz":41.0,"RX_time":100.02,"Flag_valid_pseudorange":true}
+{"msg":"pvt","rx_time":100.0,"week":2300,"latitude":59.91,"longitude":10.75,"height":12.5,"valid_sats":9,"hdop":1.1,"utc_time":"2024-03-01T12:00:00.000Z","tracked_satellites":[{"prn":5,"system":"G","signal":"1C","azimuth_deg":-170.0,"elevation_deg":35.0,"used":true}]}

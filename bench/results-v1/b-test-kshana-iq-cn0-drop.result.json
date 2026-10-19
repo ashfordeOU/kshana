@@ -1,0 +1,25 @@
+{
+  "label": "MODELLED: truth is the stated 6 dB attenuation events of Kshana's own GPS L1 C/A scenes; no interference waveform is involved",
+  "metrics": {
+    "auc": 0.7855,
+    "bar_R1": "NOT MET (AUC 0.7855 against 0.95)",
+    "declared_threshold_note": "CUSUM threshold h = 5",
+    "n_negative": 36,
+    "n_positive": 18,
+    "pd_at_declared": 1.0,
+    "pfa_at_declared": 0.5
+  },
+  "notice": "Advisory: modelled or measured against stated references, not an approval, certification or statement of conformance. A score describes a log or corpus, never a product.",
+  "predictions_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "provenance": "carried",
+  "provenance_note": "docs/design/DETECTION-ROC.md section 3: the R1 campaign of tests/iq_campaign_roc.rs, run 2026-10-13; not re-run for bench v1. Bar R1 (AUC >= 0.95) was NOT MET.",
+  "schema": "kshana-bench-result/1",
+  "spec_version": "kshana-bench/1.0.0",
+  "split": "test",
+  "system": {
+    "name": "kshana iq monitors: cn0_drop (CUSUM)",
+    "version": "kshana-bench/1.0.0"
+  },
+  "task": "b",
+  "truth_sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+}

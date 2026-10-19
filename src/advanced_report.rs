@@ -156,6 +156,7 @@ pub const KIND_CAPABILITIES: &[(&str, &[&str])] = &[
     ("eo-radiometry", &["Electro-optical imager radiometry, MTF, relative edge response and GIQE 4 NIIRS"]),
     ("ascent-losses", &["Launch ascent gravity, drag, steering and back-pressure losses"]),
     ("optical-atmosphere", &["Optical slant-path atmosphere numerics: Rytov variance, scintillation, gamma-gamma fade probability, aperture averaging, cloud and clear-air optical depth", "Weather-driven optical ground-site availability and distance-correlated site diversity", "Timing and ranging continuity through optical outages"]),
+    ("holdover-test", &["ITU-T telecom synchronisation masks with PASS/FAIL and margin", "Telecom-timing MTIE and TDEV on a holdover time-error series", "Holdover test scored from an operator-supplied time-error record"]),
     ("time-transfer-budget", &["TWSTFT two-way equation, uncertainty budget and link stability with flicker and diurnal non-reciprocity"]),
 ];
 

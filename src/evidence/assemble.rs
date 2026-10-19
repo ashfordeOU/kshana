@@ -6,8 +6,8 @@
 //! (the creation time is an argument), no key storage (the signing seed is an argument).
 
 use super::bundle::{
-    create_bundle, fingerprint, public_key_hex, sha256_hex, slice_for_window, EvidenceInput, Files,
-    Window,
+    create_bundle_attested, fingerprint, public_key_hex, sha256_hex, slice_for_window,
+    EvidenceInput, Files, Window,
 };
 use crate::receiver_trust::ingest::read_log;
 use crate::receiver_trust::scenario::{self, ReceiverTrustScenario};
@@ -23,6 +23,9 @@ pub struct PackRequest<'a> {
     pub log_bytes: &'a [u8],
     /// The RINEX broadcast navigation file's bytes, where the scenario uses one.
     pub nav_bytes: Option<&'a [u8]>,
+    /// The IMU file's bytes, where the scenario has a `[log.imu]`. Its SHA-256 is part of
+    /// the scenario hash the pack records.
+    pub imu_bytes: Option<&'a [u8]>,
     /// The log's file name for the record (a path is reduced to its last component).
     pub log_file_name: &'a str,
     /// Window start: seconds since the first epoch, or ISO-8601 UTC when the log states
@@ -93,8 +96,60 @@ pub fn build_receiver_trust_pack(
     seed: &[u8; 32],
     timestamp_token: Option<&[u8]>,
 ) -> Result<PackSummary, String> {
+    build_receiver_trust_pack_full(req, seed, timestamp_token, None, &[])
+}
+
+/// [`build_receiver_trust_pack`] with the operator's lab attestation recorded in the signed
+/// manifest (see [`super::lab::LabAttestation`]).
+pub fn build_receiver_trust_pack_attested(
+    req: &PackRequest<'_>,
+    seed: &[u8; 32],
+    timestamp_token: Option<&[u8]>,
+    lab_attestation: Option<&super::lab::LabAttestation>,
+) -> Result<PackSummary, String> {
+    build_receiver_trust_pack_full(req, seed, timestamp_token, lab_attestation, &[])
+}
+
+/// As [`build_receiver_trust_pack`], with extra top-level entries in `config.json` (so inside the
+/// signed hash chain), for example the scorecard of `kshana jammertest score`. An entry named
+/// like one the pack already writes is refused.
+pub fn build_receiver_trust_pack_with(
+    req: &PackRequest<'_>,
+    seed: &[u8; 32],
+    timestamp_token: Option<&[u8]>,
+    extra_config: &[(&str, Value)],
+) -> Result<PackSummary, String> {
+    build_receiver_trust_pack_full(req, seed, timestamp_token, None, extra_config)
+}
+
+/// As [`build_receiver_trust_pack`], with `extra` added to `config.json` under the key
+/// `round_trip` (so the manifest's file hashes and signature cover it).
+pub(crate) fn build_pack_with_extra(
+    req: &PackRequest<'_>,
+    seed: &[u8; 32],
+    timestamp_token: Option<&[u8]>,
+    extra: Option<Value>,
+) -> Result<PackSummary, String> {
+    match extra {
+        Some(x) => {
+            build_receiver_trust_pack_full(req, seed, timestamp_token, None, &[("round_trip", x)])
+        }
+        None => build_receiver_trust_pack_full(req, seed, timestamp_token, None, &[]),
+    }
+}
+
+/// The pack builder with both a lab attestation and extra `config.json` entries; the other
+/// `build_receiver_trust_pack*` functions call it.
+pub fn build_receiver_trust_pack_full(
+    req: &PackRequest<'_>,
+    seed: &[u8; 32],
+    timestamp_token: Option<&[u8]>,
+    lab_attestation: Option<&super::lab::LabAttestation>,
+    extra_config: &[(&str, Value)],
+) -> Result<PackSummary, String> {
     let scn = req.scenario;
-    let result = scenario::run_receiver_trust_bytes(scn, req.log_bytes, req.nav_bytes)?;
+    let result =
+        scenario::run_receiver_trust_bytes_imu(scn, req.log_bytes, req.nav_bytes, req.imu_bytes)?;
     let t0 = parse_time(req.from, result.log.start_label.as_deref())?;
     let t1 = parse_time(req.to, result.log.start_label.as_deref())?;
     let epochs: Vec<Value> = result
@@ -115,8 +170,11 @@ pub fn build_receiver_trust_pack(
         if let Some(nav) = log.get_mut("nav") {
             sanitise_source(nav);
         }
+        if let Some(imu) = log.get_mut("imu") {
+            sanitise_source(imu);
+        }
     }
-    let config = json!({
+    let mut config = json!({
         "scenario": scn_v,
         "scenario_hash": result.scenario_hash,
         "monitors_run": result.monitors_run,
@@ -128,6 +186,12 @@ pub fn build_receiver_trust_pack(
         // geometry and the attribution of its degradation.
         "geometry_model": result.geometry_model,
     });
+    for (k, v) in extra_config {
+        let o = config.as_object_mut().ok_or("config is not an object")?;
+        if o.insert((*k).to_string(), v.clone()).is_some() {
+            return Err(format!("config.json already has an entry `{k}`"));
+        }
+    }
     // The window's bytes, where every epoch in it reports its source span; otherwise the
     // whole log is bundled and the manifest says so.
     let slice = read_log(scn.log.format, req.log_bytes)
@@ -155,7 +219,8 @@ pub fn build_receiver_trust_pack(
         epochs,
         created_utc: req.created_utc,
     };
-    let files = create_bundle(&input, seed, timestamp_token).map_err(|e| e.to_string())?;
+    let files = create_bundle_attested(&input, seed, timestamp_token, lab_attestation)
+        .map_err(|e| e.to_string())?;
     let manifest_sha256 = files
         .get("manifest.json")
         .map(|b| sha256_hex(b))

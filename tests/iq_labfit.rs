@@ -551,6 +551,7 @@ fn toml_scenario_runs_end_to_end_through_the_rinex_reader() {
                     ..FileSource::default()
                 },
                 nav: None,
+                imu: None,
             },
             conditions: c,
         });
@@ -565,6 +566,7 @@ fn toml_scenario_runs_end_to_end_through_the_rinex_reader() {
                 ..FileSource::default()
             },
             nav: None,
+            imu: None,
         },
         conditions: Conditions {
             onset_s: 176.0,

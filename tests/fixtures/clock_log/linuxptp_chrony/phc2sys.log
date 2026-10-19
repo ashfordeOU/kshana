@@ -1,0 +1,7 @@
+ptp4l[7000.000]: master offset         11 s2 freq   +1000 path delay       400
+phc2sys[7000.000]: CLOCK_REALTIME phc offset       -30 s2 freq    +100 delay   1200
+phc2sys[7001.000]: CLOCK_REALTIME phc offset       -20 s2 freq    +105 delay   1198
+phc2sys[7002.000]: CLOCK_REALTIME phc offset        10 s2 freq    +108 delay   1201
+phc2sys[7003.000]: CLOCK_REALTIME phc offset        -5 s2 freq    +107 delay   1199
+phc2sys[7004.000]: CLOCK_REALTIME phc offset        15 s2 freq    +109 delay   1200
+phc2sys[7005.000]: CLOCK_REALTIME phc offset         0 s2 freq    +109 delay   1200

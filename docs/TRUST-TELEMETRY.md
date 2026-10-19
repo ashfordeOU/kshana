@@ -33,6 +33,24 @@ elsewhere prints a warning; put it behind your own access control. The endpoint 
 connection at a time with a 2 s read limit, so an idle client can delay a scrape by up to
 that long; it is meant for one scraper, not for the open network.
 
+## Home Assistant and NTP appliances (MQTT)
+
+`--print-mqtt` prints, and `--mqtt-tcp <host:port>` publishes, a JSON state document and Home
+Assistant MQTT discovery messages. Discovery (retained, under `homeassistant/...`) makes three
+entities: trust score, trust band (with the reasons as attributes) and an `untrusted` problem
+sensor. The state document goes to `<prefix>/state` (default `kshana/trust/state`, retained):
+`state`, `score` (null while none), `untrusted`, `t_s`, `time`, `reasons`, `gate` and the
+advisory statement; the position is never included. Options: `--mqtt-prefix`, `--mqtt-node`,
+`--mqtt-discovery`.
+
+The publisher speaks MQTT 3.1.1 at QoS 0 and reads only the broker's CONNACK. It has no
+credentials and no TLS, so use a broker on the local network (or a local relay that adds them).
+Delivery runs on its own thread behind a queue of 1024: a dead broker drops messages, counted
+and reported at the end, and never stalls the stream. An NTP appliance or any other consumer
+that wants plain JSON can read the same state line. Nothing is written to a receiver or a
+clock. Python, WebAssembly and MCP take `format = "mqtt"` and return the same
+`topic<TAB>payload` lines (nothing is published there).
+
 ## From Python, WebAssembly and MCP
 
 The encoders are also available as text-in, text-out calls with no process, socket or clock:

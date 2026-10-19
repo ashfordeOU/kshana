@@ -18,12 +18,18 @@ const USAGE: &str = "usage: kshana <scenario.toml> [--study-name <s>] [--eop <fi
    or: kshana receiver-trust live <session.toml> [--stdin | --file <path> [--follow] | --tcp <host:port> | --udp <port>] [--gate] (kshana receiver-trust live --help)
    or: kshana receiver-trust evidence <scenario.toml> --from <t0> --to <t1> --key <keyfile> --out <dir> (kshana evidence --help)
    or: kshana evidence <keygen|verify|attach-timestamp> ... (kshana evidence --help)
+   or: kshana jammertest <import|score> ... (kshana jammertest --help)
+   or: kshana evidence round-trip <scenario.toml> --scenario <bench-scenario> --conditions <file> --from <t0> --to <t1> --key <keyfile> --out <dir> (kshana evidence --help)
    or: kshana trust-telemetry [options] (kshana trust-telemetry --help)
+   or: kshana imu-fit <imu.csv> [--format csv|euroc] [--axis x|y|z] [--expected-mean <m/s2>] [--id <name>] [--json]
    or: kshana nmea-scenario <scenario.toml> [--out <file.nmea>] [--tcp <addr>|--udp <addr>] (kshana nmea-scenario --help)
    or: kshana interference-map <adsb|ais|fetch-land> ... (kshana interference-map --help)
    or: kshana route-exposure --route <route> --map <map.geojson|dir> [--from <date>] [--to <date>]
+   or: kshana bench <spec|truth|cases|score|baseline|seal|reveal-check|manifest|verify-manifest|validate|leaderboard> ... (kshana bench --help)
    or: kshana bench-export <scenario.toml> [--out <base>] [--epoch <YYYY-MM-DDTHH:MM:SS>]
    or: kshana compliance-report [--out <base>] <result.json>... | --mapping | --sources
+   or: kshana lunanet-afs-check <spec [--json] [--strict]|symbols <file> [--max-sp-errors <n>] [--json]|generate --frames <n> [--toi0 <t>] --out <file>>
+   or: kshana standards-pack <list|run <id> [--json] [--out <base>]|rows <id>|tests <id>>
    or: kshana osnma verify <pages|vectors.csv|stream.ubx> [--merkle-root <hex>] [--public-key <id:type:hex>] [--reference-time <gst-s>] [--json] (kshana osnma --help)
    or: kshana iq <scene|acquire|track|sweep|labfit|campaign|conditions|frontend|monitor|inventory|info|extract|convert|decimate> ... (kshana iq --help)
    or: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
@@ -91,10 +97,19 @@ fn main() -> ExitCode {
             kshana::evidence::cli::run_receiver_trust_evidence(&args[3..]) as u8,
         );
     }
+    // `kshana jammertest <import|score>` reads the published Jammertest plan as scheduled truth
+    // and scores a receiver log against it (docs/JAMMERTEST.md). Terminal, local files only.
+    if args.get(1).map(String::as_str) == Some("jammertest") {
+        return kshana::jammertest::cli::run_cli(&args[2..]);
+    }
     // `kshana trust-telemetry` feeds the per-epoch trust stream to Prometheus, syslog
     // (CEF/LEEF) and, with the `otlp` feature, OpenTelemetry.
     if args.get(1).map(String::as_str) == Some("trust-telemetry") {
         return ExitCode::from(kshana::telemetry::cli::run(&args[2..]) as u8);
+    }
+    // `kshana imu-fit <imu.csv>` fits hybrid/fusion sensor parameters from a stationary IMU log.
+    if args.get(1).map(String::as_str) == Some("imu-fit") {
+        return run_imu_fit_cli(&args[2..]);
     }
     // `kshana receiver-trust <scenario.toml>` assesses a real receiver log. It is terminal
     // and outside the scenario-kind dispatch: its scenario names a log file instead of
@@ -115,6 +130,10 @@ fn main() -> ExitCode {
     if args.get(1).map(String::as_str) == Some("route-exposure") {
         return ExitCode::from(kshana::interference_map::cli::run_route(&args[2..]) as u8);
     }
+    // `kshana bench ...` scores kshana-bench result files (bench/SPEC.md); local files only.
+    if args.get(1).map(String::as_str) == Some("bench") {
+        return ExitCode::from(kshana::bench::cli::run(&args[2..]) as u8);
+    }
     // `kshana bench-export <scenario.toml>` writes a scenario's vehicle motion and events
     // for a laboratory GNSS simulator (docs/TEST-BENCH.md). Terminal, like the others.
     if args.get(1).map(String::as_str) == Some("bench-export") {
@@ -122,6 +141,14 @@ fn main() -> ExitCode {
     }
     // `kshana compliance-report <result.json>...` fills the public-framework mapping from
     // the runs given (docs/compliance/README.md). Terminal, like the others.
+    // `kshana lunanet-afs-check ...` checks the LunaNet Augmented Forward Signal (LSIS-AFS V1.0).
+    if args.get(1).map(String::as_str) == Some("lunanet-afs-check") {
+        return run_lunanet_afs_cli(&args[2..]);
+    }
+    // `kshana standards-pack ...` lists and runs the scored standards packs (`standards/`).
+    if args.get(1).map(String::as_str) == Some("standards-pack") {
+        return run_standards_pack_cli(&args[2..]);
+    }
     if args.get(1).map(String::as_str) == Some("compliance-report") {
         return run_compliance_report_cli(&args[2..]);
     }
@@ -1029,6 +1056,81 @@ fn stamp_study_generated(json: &str, stamp: &str) -> String {
 /// write the test-bench files (`<base>.motion.csv`, `.nmea`, `.events.csv`, ...). The
 /// default base is the scenario path without its extension; the default epoch is
 /// 2024-01-01T00:00:00Z.
+/// `kshana imu-fit`: print the `[accel_classical]` table (or `--json` the whole report).
+fn run_imu_fit_cli(args: &[String]) -> ExitCode {
+    let (mut path, mut format, mut axis, mut id) = (
+        None,
+        "csv".to_string(),
+        "x".to_string(),
+        "imu-fit".to_string(),
+    );
+    let (mut mean, mut json) = (0.0f64, false);
+    let mut i = 0;
+    while i < args.len() {
+        let a = args[i].as_str();
+        let needs = matches!(a, "--format" | "--axis" | "--expected-mean" | "--id");
+        if needs && i + 1 >= args.len() {
+            eprintln!("error: {a} needs a value");
+            return ExitCode::from(2);
+        }
+        match a {
+            "--format" => format = args[i + 1].clone(),
+            "--axis" => axis = args[i + 1].clone(),
+            "--id" => id = args[i + 1].clone(),
+            "--expected-mean" => match args[i + 1].parse() {
+                Ok(v) => mean = v,
+                Err(_) => {
+                    eprintln!("error: --expected-mean needs a number");
+                    return ExitCode::from(2);
+                }
+            },
+            "--json" => json = true,
+            x if x.starts_with("--") => {
+                eprintln!("error: unknown imu-fit option {x}");
+                return ExitCode::from(2);
+            }
+            x => path = Some(PathBuf::from(x)),
+        }
+        i += if needs { 2 } else { 1 };
+    }
+    let Some(path) = path else {
+        eprintln!("error: imu-fit needs an IMU log path");
+        return ExitCode::from(2);
+    };
+    let text = match std::fs::read_to_string(&path) {
+        Ok(t) => t,
+        Err(e) => {
+            eprintln!("error: cannot read {}: {e}", path.display());
+            return ExitCode::from(1);
+        }
+    };
+    match kshana::surface::imu_fit(
+        &text,
+        &format,
+        &axis,
+        mean,
+        &id,
+        kshana::surface::MAX_INPUT_BYTES,
+    ) {
+        Ok(out) if json => {
+            println!("{out}");
+            ExitCode::SUCCESS
+        }
+        Ok(out) => {
+            let v: serde_json::Value = serde_json::from_str(&out).unwrap_or_default();
+            print!("{}", v["toml"].as_str().unwrap_or_default());
+            for n in v["fit"]["notes"].as_array().into_iter().flatten() {
+                eprintln!("note: {}", n.as_str().unwrap_or_default());
+            }
+            ExitCode::SUCCESS
+        }
+        Err(e) => {
+            eprintln!("error: {e}");
+            ExitCode::from(1)
+        }
+    }
+}
+
 fn run_bench_export_cli(args: &[String]) -> ExitCode {
     let mut path: Option<PathBuf> = None;
     let mut out: Option<String> = None;
@@ -1352,6 +1454,258 @@ fn run_skyline_cli(args: &[String]) -> ExitCode {
             eprintln!("{SKYLINE_USAGE}");
             ExitCode::from(2)
         }
+    }
+}
+
+const LUNANET_AFS_USAGE: &str = "usage: kshana lunanet-afs-check spec [--json] [--strict]
+   or: kshana lunanet-afs-check symbols <file> [--max-sp-errors <n>] [--json]
+   or: kshana lunanet-afs-check generate --frames <n> [--toi0 <t>] --out <file>
+
+Pinned to LunaNet Interoperability Specification V5, Applicable Document 1 Volume A (LSIS-AFS
+V1.0, 29 January 2025). `spec` checks this implementation against the document's printed code
+tables and worked examples (bars B1 to B10 of xval/lunanet-afs/PREREGISTRATION.md; with --strict
+the exit status is 1 unless every bar is met). `symbols` checks a hard-decision symbol stream
+(text of 0 and 1) for the synchronisation pattern, SB1 decoding, FID, TOI continuity and frame
+spacing; subframes 2 to 4 (LDPC, CRC-24Q) are NOT verified. `generate` writes a test stream of
+symbols with placeholder subframes; it is not a waveform, and Kshana writes no signal. To
+acquire or track the AFS waveform in a recording use `kshana iq acquire --signal lunanet-afs-i`
+(or lunanet-afs-q). Advisory only. docs/LUNANET-AFS.md.";
+
+/// `kshana lunanet-afs-check <spec|symbols|generate>`.
+fn run_lunanet_afs_cli(args: &[String]) -> ExitCode {
+    let fail = |m: &str| {
+        eprintln!("error: {m}\n{LUNANET_AFS_USAGE}");
+        ExitCode::from(2)
+    };
+    let flag = |name: &str| -> Result<Option<String>, String> {
+        match args.iter().position(|a| a == name) {
+            None => Ok(None),
+            Some(i) => args
+                .get(i + 1)
+                .cloned()
+                .map(Some)
+                .ok_or_else(|| format!("{name} needs a value")),
+        }
+    };
+    match args.first().map(String::as_str) {
+        Some("--help" | "-h" | "help") => {
+            println!("{LUNANET_AFS_USAGE}");
+            ExitCode::SUCCESS
+        }
+        Some("spec") => {
+            let r = kshana::surface::lunanet_afs_check_spec();
+            if args.iter().any(|a| a == "--json") {
+                println!("{}", serde_json::to_string_pretty(&r).unwrap_or_default());
+            } else {
+                println!("{}", r["specification"].as_str().unwrap_or(""));
+                for b in r["bars"].as_array().into_iter().flatten() {
+                    println!(
+                        "{:<4} {:<7} {}/{}  {}",
+                        b["bar"].as_str().unwrap_or(""),
+                        b["status"].as_str().unwrap_or(""),
+                        b["matched"],
+                        b["total"],
+                        b["claim"].as_str().unwrap_or("")
+                    );
+                    if let Some(n) = b["note"].as_str().filter(|n| !n.is_empty()) {
+                        println!("       {n}");
+                    }
+                }
+                println!("{}", r["advisory"].as_str().unwrap_or(""));
+            }
+            if args.iter().any(|a| a == "--strict") && r["all_met"] != true {
+                return ExitCode::FAILURE;
+            }
+            ExitCode::SUCCESS
+        }
+        Some("symbols") => {
+            let Some(path) = args.get(1).filter(|a| !a.starts_with("--")) else {
+                return fail("symbols needs a file");
+            };
+            let max_err = match flag("--max-sp-errors") {
+                Ok(v) => v.map_or(Ok(0), |v| v.parse::<usize>().map_err(|e| e.to_string())),
+                Err(e) => Err(e),
+            };
+            let Ok(max_err) = max_err else {
+                return fail("--max-sp-errors needs a whole number");
+            };
+            let text = match std::fs::read_to_string(path) {
+                Ok(t) => t,
+                Err(e) => return fail(&format!("cannot read {path}: {e}")),
+            };
+            match kshana::surface::lunanet_afs_check_symbols(
+                &text,
+                max_err,
+                8 * kshana::surface::MAX_INPUT_BYTES,
+            ) {
+                Ok(r) => {
+                    if args.iter().any(|a| a == "--json") {
+                        println!("{}", serde_json::to_string_pretty(&r).unwrap_or_default());
+                    } else {
+                        println!(
+                            "{} symbols, {} frame(s) found; {}",
+                            r["symbols"],
+                            r["frames_found"],
+                            if r["ok"] == true {
+                                "no problems"
+                            } else {
+                                "problems:"
+                            }
+                        );
+                        for p in r["problems"].as_array().into_iter().flatten() {
+                            println!("  {}", p.as_str().unwrap_or(""));
+                        }
+                        for f in r["frames"].as_array().into_iter().flatten() {
+                            println!(
+                                "  frame at {}: FID {} TOI {} (SB1 metric {:.2}, {} SP error(s), {} SB1 error(s))",
+                                f["offset"], f["fid"], f["toi"],
+                                f["sb1_metric"].as_f64().unwrap_or(0.0),
+                                f["sp_errors"], f["sb1_symbol_errors"]
+                            );
+                            for p in f["problems"].as_array().into_iter().flatten() {
+                                println!("    {}", p.as_str().unwrap_or(""));
+                            }
+                        }
+                        println!("not checked: {}", r["not_checked"].as_str().unwrap_or(""));
+                    }
+                    if r["ok"] == true {
+                        ExitCode::SUCCESS
+                    } else {
+                        ExitCode::FAILURE
+                    }
+                }
+                Err(e) => fail(&e),
+            }
+        }
+        Some("generate") => {
+            let frames = match flag("--frames") {
+                Ok(Some(v)) => v.parse::<usize>().ok(),
+                _ => None,
+            };
+            let toi0 = match flag("--toi0") {
+                Ok(Some(v)) => v.parse::<u8>().ok(),
+                Ok(None) => Some(0),
+                Err(_) => None,
+            };
+            let (Some(frames), Some(toi0), Ok(Some(out))) = (frames, toi0, flag("--out")) else {
+                return fail(
+                    "generate needs --frames <n> and --out <file> (and a whole-number --toi0)",
+                );
+            };
+            match kshana::surface::lunanet_afs_generate(frames, toi0) {
+                Ok(text) => match std::fs::write(&out, format!("{text}\n")) {
+                    Ok(()) => {
+                        println!(
+                            "wrote {out}: {frames} frame(s) of 6000 symbols; subframes 2 to 4 are placeholders (not LDPC coded, no message)"
+                        );
+                        ExitCode::SUCCESS
+                    }
+                    Err(e) => {
+                        eprintln!("error: cannot write {out}: {e}");
+                        ExitCode::FAILURE
+                    }
+                },
+                Err(e) => fail(&e),
+            }
+        }
+        Some(other) => fail(&format!("unknown lunanet-afs-check subcommand {other}")),
+        None => fail("lunanet-afs-check needs a subcommand"),
+    }
+}
+
+const STANDARDS_PACK_USAGE: &str = "usage: kshana standards-pack list
+   or: kshana standards-pack run <id> [--json] [--out <base>]
+   or: kshana standards-pack rows <id>
+   or: kshana standards-pack tests <id>
+
+A standards pack is a set of scenarios scored against bars stated before the run, tied to the
+compliance-report rows it supports evidence for. `run` prints a table (or --json) and, with
+--out, writes <base>.pack.json and <base>.pack.md; give the JSON to `kshana compliance-report`
+to see the rows. A test that needs a receiver log is listed as NEEDS INPUT and not scored.
+MODELLED: a MET bar says a modelled scenario met a stated bar, not that any product meets a
+requirement. docs/compliance/README.md.";
+
+/// `kshana standards-pack <list|run|rows|tests>`.
+fn run_standards_pack_cli(args: &[String]) -> ExitCode {
+    let fail = |m: &str| {
+        eprintln!("error: {m}\n{STANDARDS_PACK_USAGE}");
+        ExitCode::from(2)
+    };
+    let Some(cmd) = args.first().map(String::as_str) else {
+        return fail("standards-pack needs a subcommand");
+    };
+    match cmd {
+        "--help" | "-h" | "help" => {
+            println!("{STANDARDS_PACK_USAGE}");
+            ExitCode::SUCCESS
+        }
+        "list" => {
+            println!(
+                "{}",
+                serde_json::to_string_pretty(&kshana::standards_pack::list()).unwrap_or_default()
+            );
+            ExitCode::SUCCESS
+        }
+        "rows" | "tests" => {
+            let Some(id) = args.get(1) else {
+                return fail(&format!("{cmd} needs a pack id"));
+            };
+            match kshana::standards_pack::load(id) {
+                Ok(p) => {
+                    print!(
+                        "{}",
+                        if cmd == "rows" {
+                            kshana::standards_pack::rows_markdown(&p)
+                        } else {
+                            kshana::standards_pack::tests_markdown(&p)
+                        }
+                    );
+                    ExitCode::SUCCESS
+                }
+                Err(e) => fail(&e),
+            }
+        }
+        "run" => {
+            let Some(id) = args.get(1) else {
+                return fail("run needs a pack id");
+            };
+            let mut json = false;
+            let mut out: Option<String> = None;
+            let mut i = 2;
+            while i < args.len() {
+                match args[i].as_str() {
+                    "--json" => json = true,
+                    "--out" if i + 1 < args.len() => {
+                        out = Some(args[i + 1].clone());
+                        i += 1;
+                    }
+                    a => return fail(&format!("unknown standards-pack run option {a}")),
+                }
+                i += 1;
+            }
+            let report = match kshana::standards_pack::run(id) {
+                Ok(r) => r,
+                Err(e) => return fail(&e),
+            };
+            let text = serde_json::to_string_pretty(&report).unwrap_or_default();
+            if let Some(base) = out {
+                let md = kshana::standards_pack::report_markdown(&report);
+                for (ext, body) in [(".pack.json", &text), (".pack.md", &md)] {
+                    let target = format!("{base}{ext}");
+                    if let Err(e) = std::fs::write(&target, body) {
+                        eprintln!("error: cannot write {target}: {e}");
+                        return ExitCode::FAILURE;
+                    }
+                    println!("wrote {target}");
+                }
+            } else if json {
+                println!("{text}");
+            } else {
+                print!("{}", kshana::standards_pack::report_markdown(&report));
+            }
+            ExitCode::SUCCESS
+        }
+        other => fail(&format!("unknown standards-pack subcommand {other}")),
     }
 }
 

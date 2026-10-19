@@ -15,8 +15,7 @@
 //! surface that accepts uploads cannot be made to allocate without bound.
 
 use crate::evidence::{
-    build_receiver_trust_pack, generate_seed, public_key_hex, verify_bundle, Files, PackRequest,
-    VerifyOptions,
+    generate_seed, public_key_hex, verify_bundle, Files, PackRequest, VerifyOptions,
 };
 use crate::interference_map::api::{self, DatasetSpec, DEFAULT_CELL_DEG};
 use crate::receiver_trust::assess::{self, ExcerptAssessment};
@@ -99,7 +98,14 @@ pub fn assess_receiver_log_inline(toml: &str, max_bytes: usize) -> Result<TrustO
     reject_file_sources(toml, max_bytes)?;
     let scn: ReceiverTrustScenario =
         toml::from_str(toml).map_err(|e| format!("invalid receiver-trust scenario: {e}"))?;
-    if scn.log.source.path.is_some() || scn.log.nav.as_ref().is_some_and(|n| n.path.is_some()) {
+    if scn.log.source.path.is_some()
+        || scn.log.nav.as_ref().is_some_and(|n| n.path.is_some())
+        || scn
+            .log
+            .imu
+            .as_ref()
+            .is_some_and(|i| i.source.path.is_some())
+    {
         return Err(
             "`path` sources are not accepted here: give the log inline as `text` or `base64`"
                 .into(),
@@ -120,6 +126,116 @@ pub fn assess_vessel_log_json(
     cap_len("log", log.len(), max_bytes)?;
     let r = assess::assess_vessel_log(session_toml, log)?;
     serde_json::to_string_pretty(&r).map_err(|e| e.to_string())
+}
+
+/// Turn the published Jammertest catalogue and transmission plan into receiver-trust events
+/// ("scheduled truth": the planned slots, not recorded on-air times). `plan_jsons` are the plan
+/// files (one per day), `local_offset_h` the plan's offset from UTC (CEST: 2), `log_start_utc`
+/// the first epoch of the log as an ISO-8601 UTC time. Returns JSON: `events_toml` (ready to
+/// append to a session), `events` (test id, year, area, kind, onset and end in seconds since the
+/// log start), and the counts skipped. Nothing is read from disk.
+pub fn jammertest_import_json(
+    catalog_json: &str,
+    plan_jsons: &[&str],
+    location: Option<u32>,
+    local_offset_h: f64,
+    log_start_utc: &str,
+    year: Option<u32>,
+    max_bytes: usize,
+) -> Result<String, String> {
+    use crate::jammertest::plan::{events_toml, import, parse_catalog, parse_plan, ImportOptions};
+    cap("catalogue", catalog_json, max_bytes)?;
+    for p in plan_jsons {
+        cap("plan", p, max_bytes)?;
+    }
+    let start = crate::telemetry::time::parse_rfc3339_utc(log_start_utc)
+        .ok_or_else(|| format!("log_start_utc `{log_start_utc}` is not an ISO-8601 UTC time"))?;
+    let catalog = parse_catalog(catalog_json)?;
+    let mut slots = Vec::new();
+    for p in plan_jsons {
+        slots.extend(parse_plan(p, local_offset_h)?);
+    }
+    let imp = import(
+        &slots,
+        &catalog,
+        &ImportOptions {
+            location,
+            log_start_utc: start,
+            log_duration_s: None,
+            year,
+        },
+    )?;
+    let events: Vec<Value> = imp
+        .events
+        .iter()
+        .map(|e| {
+            json!({"test_id": e.test_id, "test_name": e.test_name, "year": e.year,
+                   "location_id": e.location_id, "label": e.event.label,
+                   "kind": e.event.kind, "onset_s": e.event.onset_s, "end_s": e.event.end_s,
+                   "plan_status": e.status})
+        })
+        .collect();
+    serde_json::to_string_pretty(&json!({
+        "label": crate::jammertest::plan::SCHEDULED_TRUTH,
+        "events_toml": events_toml(&imp, &[]),
+        "events": events,
+        "skipped_non_rf": imp.skipped_non_rf,
+        "outside_log": imp.outside_log,
+        "unknown_ids": imp.unknown_ids,
+    }))
+    .map_err(|e| e.to_string())
+}
+
+/// Score a receiver log against the Jammertest schedule: per scheduled test the detection
+/// latency, missed alarms, time to recover, and the false alarms outside every slot. `session_toml`
+/// is a receiver-trust session whose `[log]` table gives only `format` (`ubx`, `rinex`, `android`,
+/// `nmea`, `sbf`); the log's bytes are `log`. `log_start_utc` is needed only when the log does
+/// not state its start as UTC. Returns the scorecard as JSON, labelled MODELLED. Signed evidence
+/// packs are made with the command line (they need a signing key).
+#[allow(clippy::too_many_arguments)]
+pub fn jammertest_score_json(
+    session_toml: &str,
+    log: &[u8],
+    catalog_json: &str,
+    plan_jsons: &[&str],
+    location: Option<u32>,
+    local_offset_h: f64,
+    log_start_utc: Option<&str>,
+    year: Option<u32>,
+    options: crate::jammertest::score::ScoreOptions,
+    max_bytes: usize,
+) -> Result<String, String> {
+    use crate::jammertest::{score_log, Schedule, ScoreRequest};
+    cap("session", session_toml, max_bytes)?;
+    cap_len("log", log.len(), max_bytes)?;
+    cap("catalogue", catalog_json, max_bytes)?;
+    for p in plan_jsons {
+        cap("plan", p, max_bytes)?;
+    }
+    reject_file_sources(session_toml, max_bytes)?;
+    let scn: ReceiverTrustScenario =
+        toml::from_str(session_toml).map_err(|e| format!("invalid receiver-trust session: {e}"))?;
+    let start = match log_start_utc {
+        Some(t) => Some(
+            crate::telemetry::time::parse_rfc3339_utc(t)
+                .ok_or_else(|| format!("log_start_utc `{t}` is not an ISO-8601 UTC time"))?,
+        ),
+        None => None,
+    };
+    let out = score_log(&ScoreRequest {
+        scenario: &scn,
+        log_bytes: log,
+        schedule: Schedule::Plan {
+            catalog_json,
+            plan_jsons,
+            location,
+            local_offset_h,
+            year,
+        },
+        log_start_utc: start,
+        options,
+    })?;
+    serde_json::to_string_pretty(&out.scorecard).map_err(|e| e.to_string())
 }
 
 /// Score a bounded excerpt of a vessel's NMEA 0183 stream the way live mode scores it:
@@ -612,6 +728,67 @@ pub fn iq_test_conditions_inline(text: &str, max_bytes: usize) -> Result<Value, 
     Ok(v)
 }
 
+/// The standards packs (`kshana standards-pack list`, `standards/`): id, title, framework and
+/// test counts, with the notice that a pack measures modelled scenarios and rates no product.
+pub fn standards_pack_list() -> Value {
+    crate::standards_pack::list()
+}
+
+/// Run one standards pack by id (`kshana standards-pack run <id>`): the report as JSON and as
+/// Markdown. Nothing is read from disk (the scenarios are embedded) and nothing is written.
+/// Give the JSON text to [`compliance_report`] to see the rows the pack supports evidence for.
+/// A test that needs a receiver log is `NEEDS INPUT` and not scored.
+pub fn standards_pack_run(id: &str) -> Result<(Value, String), String> {
+    let report = crate::standards_pack::run(id)?;
+    let md = crate::standards_pack::report_markdown(&report);
+    Ok((report, md))
+}
+
+/// Most frames [`lunanet_afs_generate`] writes in one call (600 000 symbols of text).
+pub const MAX_AFS_FRAMES: usize = 100;
+
+/// Check this implementation of the LunaNet Augmented Forward Signal against the published
+/// tables and worked examples of LSIS-AFS V1.0 (LNIS V5, AD1 Volume A; `kshana lunanet-afs-check
+/// spec`, `docs/LUNANET-AFS.md`): bars B1 to B10 of `xval/lunanet-afs/PREREGISTRATION.md`, each
+/// with its count and status. A miss is reported, never hidden. Nothing is read from disk.
+pub fn lunanet_afs_check_spec() -> Value {
+    crate::iq::lunanet_afs::check_spec()
+}
+
+/// Check a hard-decision AFS symbol stream given as text (`0` and `1`, white space ignored)
+/// against section 2.4 of LSIS-AFS V1.0: synchronisation pattern, SB1 decoding, FID, TOI
+/// continuity and frame spacing. Subframes 2 to 4 (LDPC, CRC-24Q) are not verified and the
+/// report says so. `max_sp_errors` symbols of the 68-symbol pattern may be wrong.
+pub fn lunanet_afs_check_symbols(
+    text: &str,
+    max_sp_errors: usize,
+    max_bytes: usize,
+) -> Result<Value, String> {
+    cap("symbol stream", text, max_bytes)?;
+    if max_sp_errors > 20 {
+        return Err("max_sp_errors must be at most 20".into());
+    }
+    let symbols = crate::iq::lunanet_afs::parse_symbol_text(text)?;
+    Ok(crate::iq::lunanet_afs::check_symbols(&symbols, max_sp_errors).to_json())
+}
+
+/// A test stream of `frames` AFS frames (at most [`MAX_AFS_FRAMES`]) as `0`/`1` text, TOI
+/// counting from `toi0` modulo 100: the document's synchronisation pattern, SB1 and frame
+/// lengths, with **placeholder** subframes 2 to 4 (not LDPC coded, no message). It is symbols
+/// for testing a checker or a decoder, not a waveform; Kshana writes no signal.
+pub fn lunanet_afs_generate(frames: usize, toi0: u8) -> Result<String, String> {
+    if !(1..=MAX_AFS_FRAMES).contains(&frames) {
+        return Err(format!("frames must be 1 to {MAX_AFS_FRAMES}"));
+    }
+    if u16::from(toi0) >= crate::iq::lunanet_afs::TOI_VALUES {
+        return Err("toi0 must be 0 to 99".into());
+    }
+    Ok(crate::iq::lunanet_afs::generate_symbols(frames, toi0)
+        .iter()
+        .map(|&b| char::from(b'0' + b))
+        .collect())
+}
+
 /// Most runs a surface accepts in one compliance report.
 pub const MAX_COMPLIANCE_RUNS: usize = 64;
 
@@ -682,6 +859,37 @@ pub fn compliance_report(
     })
 }
 
+/// Score a kshana-bench predictions file against a truth file, both as JSON text
+/// (`bench/SPEC.md`), and return the result file (`kshana-bench-result/1`) as JSON. Nothing is
+/// read from or written to disk. `threshold` is the declared alarm threshold of tasks a and b.
+pub fn bench_score(
+    truth_json: &str,
+    predictions_json: &str,
+    threshold: Option<f64>,
+    max_bytes: usize,
+) -> Result<String, String> {
+    cap_len("truth", truth_json.len(), max_bytes)?;
+    cap_len("predictions", predictions_json.len(), max_bytes)?;
+    crate::bench::score(truth_json, predictions_json, threshold).map_err(|e| e.to_string())
+}
+
+/// Render kshana-bench result files (JSON texts, at most 256) as the static leaderboard page.
+/// Every file must pass `kshana bench validate` and carry this spec version's major number.
+pub fn bench_leaderboard(results: &[String], max_bytes: usize) -> Result<String, String> {
+    if results.len() > 256 {
+        return Err(format!("{} result files given, at most 256", results.len()));
+    }
+    let mut docs = Vec::with_capacity(results.len());
+    for (i, r) in results.iter().enumerate() {
+        cap_len("result file", r.len(), max_bytes)?;
+        docs.push(
+            serde_json::from_str::<serde_json::Value>(r)
+                .map_err(|e| format!("result {} is not JSON: {e}", i + 1))?,
+        );
+    }
+    crate::bench::site::leaderboard_html(&docs).map_err(|e| e.to_string())
+}
+
 /// The static mapping tables (`sources = false`) or the source documents they cite
 /// (`sources = true`), as Markdown, led by [`crate::compliance::STATEMENT`].
 pub fn compliance_mapping(sources: bool) -> String {
@@ -709,6 +917,9 @@ pub enum TelemetryFormat {
     Leef,
     /// The OTLP/HTTP JSON metrics payload of the final state (needs the `otlp` feature).
     Otlp,
+    /// Home Assistant MQTT discovery messages then one JSON state message per event, as
+    /// `topic<TAB>payload` lines (nothing is published).
+    Mqtt,
 }
 
 impl TelemetryFormat {
@@ -719,11 +930,64 @@ impl TelemetryFormat {
             "cef" => Ok(Self::Cef),
             "leef" => Ok(Self::Leef),
             "otlp" => Ok(Self::Otlp),
+            "mqtt" => Ok(Self::Mqtt),
             o => Err(format!(
-                "unknown format `{o}`: use `prometheus`, `cef`, `leef` or `otlp`"
+                "unknown format `{o}`: use `prometheus`, `cef`, `leef`, `otlp` or `mqtt`"
             )),
         }
     }
+}
+
+/// Fit the sensor parameters of the `hybrid` and `fusion` scenarios from a stationary IMU log
+/// (`kshana imu-fit`, docs/MACHINE-INPUTS.md). `format` is `csv` or `euroc`; `axis` is `x`,
+/// `y` or `z` (the accelerometer axis); `expected_mean` is the specific force that axis reads at
+/// rest (0 for a horizontal axis, about 9.80665 for the vertical one). Returns JSON: `fit` (the
+/// parameters, the log's rate and span, the white-noise slopes and `notes`), `toml` (an
+/// `[accel_classical]` table to paste into a scenario, its provenance naming the log's SHA-256)
+/// and the log's `sha256`. MODELLED: the Allan estimator applied to the log, no external
+/// oracle; a log that was not stationary gives wrong parameters, which the slopes show.
+pub fn imu_fit(
+    text: &str,
+    format: &str,
+    axis: &str,
+    expected_mean: f64,
+    id: &str,
+    max_bytes: usize,
+) -> Result<String, String> {
+    use crate::receiver_trust::machines::{
+        imu::{read_imu, ImuFormat},
+        imu_fit::fit_accel_cfg,
+    };
+    cap("imu log", text, max_bytes)?;
+    let fmt = match format {
+        "csv" => ImuFormat::Csv,
+        "euroc" => ImuFormat::Euroc,
+        o => return Err(format!("unknown IMU format `{o}`: use `csv` or `euroc`")),
+    };
+    let ax = match axis {
+        "x" => 0,
+        "y" => 1,
+        "z" => 2,
+        o => return Err(format!("unknown axis `{o}`: use `x`, `y` or `z`")),
+    };
+    if id.is_empty() || id.len() > 64 || !id.chars().all(|c| c.is_ascii_graphic()) {
+        return Err("id must be 1 to 64 printable ASCII characters without spaces".into());
+    }
+    let samples = read_imu(fmt, text)?;
+    let fit = fit_accel_cfg(&samples, ax, expected_mean)?;
+    let sha = crate::advanced_report::sha256_hex(text.as_bytes());
+    let toml = fit.to_toml(
+        "accel_classical",
+        id,
+        &format!("fitted from a stationary IMU log, sha256 {sha}, axis {axis}, Allan estimator"),
+    );
+    serde_json::to_string_pretty(&json!({
+        "fit": fit,
+        "toml": toml,
+        "sha256": sha,
+        "evidence": "MODELLED",
+    }))
+    .map_err(|e| e.to_string())
 }
 
 /// What the input of [`trust_telemetry`] is.
@@ -794,6 +1058,11 @@ pub fn trust_telemetry(
     }
     let mut out = String::new();
     let mut prev = None;
+    if format == TelemetryFormat::Mqtt {
+        for m in crate::telemetry::mqtt::discovery(&Default::default()) {
+            out.push_str(&format!("{}\t{}\n", m.topic, m.payload));
+        }
+    }
     for s in &samples {
         reg.observe(s, None);
         if matches!(format, TelemetryFormat::Cef | TelemetryFormat::Leef)
@@ -814,10 +1083,20 @@ pub fn trust_telemetry(
                 ));
             }
         }
+        if format == TelemetryFormat::Mqtt && (opts.syslog_all || prev != Some(s.band)) {
+            let m = crate::telemetry::mqtt::state_message(&Default::default(), s);
+            out.push_str(&format!("{}\t{}\n", m.topic, m.payload));
+            if out.len() > max_bytes.min(MAX_INPUT_BYTES) {
+                return Err(format!(
+                    "the reply is over the {}-byte limit; send fewer epochs or leave `syslog_all` off",
+                    max_bytes.min(MAX_INPUT_BYTES)
+                ));
+            }
+        }
         prev = Some(s.band);
     }
     match format {
-        TelemetryFormat::Cef | TelemetryFormat::Leef => Ok(out),
+        TelemetryFormat::Cef | TelemetryFormat::Leef | TelemetryFormat::Mqtt => Ok(out),
         TelemetryFormat::Prometheus => Ok(reg.render()),
         #[cfg(feature = "otlp")]
         TelemetryFormat::Otlp => {
@@ -1015,16 +1294,52 @@ pub fn evidence_create(
     seed: Option<[u8; 32]>,
     max_bytes: usize,
 ) -> Result<EvidencePack, String> {
+    evidence_create_attested(
+        session_toml,
+        log,
+        from_s,
+        to_s,
+        title,
+        created_utc,
+        seed,
+        None,
+        max_bytes,
+    )
+}
+
+/// [`evidence_create`] with a `lab-attestation` (TOML text: the operator's statement of a
+/// laboratory setup, see `docs/HARDWARE-SAFETY.md`) recorded in the signed manifest. The
+/// attestation is validated, recorded as given and never verified.
+#[allow(clippy::too_many_arguments)]
+pub fn evidence_create_attested(
+    session_toml: &str,
+    log: &[u8],
+    from_s: f64,
+    to_s: f64,
+    title: Option<&str>,
+    created_utc: Option<&str>,
+    seed: Option<[u8; 32]>,
+    lab_attestation_toml: Option<&str>,
+    max_bytes: usize,
+) -> Result<EvidencePack, String> {
     cap("session", session_toml, max_bytes)?;
+    let lab = match lab_attestation_toml {
+        Some(t) => {
+            cap("lab_attestation", t, max_bytes)?;
+            Some(crate::evidence::LabAttestation::from_toml(t)?)
+        }
+        None => None,
+    };
     cap_len("log", log.len(), max_bytes)?;
     let scn = parse_live_scenario(session_toml)?;
     let seed = seed.unwrap_or_else(generate_seed);
     let (from, to) = (from_s.to_string(), to_s.to_string());
-    let summary = build_receiver_trust_pack(
+    let summary = crate::evidence::build_receiver_trust_pack_attested(
         &PackRequest {
             scenario: &scn,
             log_bytes: log,
             nav_bytes: None,
+            imu_bytes: None,
             log_file_name: "inline",
             from: &from,
             to: &to,
@@ -1033,6 +1348,62 @@ pub fn evidence_create(
         },
         &seed,
         None,
+        lab.as_ref(),
+    )?;
+    Ok(EvidencePack {
+        public_key: public_key_hex(&seed),
+        seed,
+        epochs_in_window: summary.epochs_in_window,
+        slice: summary.slice,
+        files: summary.files,
+    })
+}
+
+/// Build the signed laboratory round-trip pack in memory (`kshana evidence round-trip`,
+/// `docs/spec/TEST-CONDITIONS.md`): the scenario that produced the motion, the laboratory's
+/// `kshana.test-conditions/1` document, the receiver log and its score against the stated
+/// events, linked by hash. `scoring_toml` is a `receiver-trust` scenario whose `[log]`
+/// section names only the format (the log arrives as `log`) and whose `[[events]]` are the
+/// stated truth; `conditions` is TOML or JSON. Refuses a pack whose conditions and scoring
+/// events disagree or whose stated log hash is not the log's. Nothing is read from disk and
+/// no signal is written, replayed or scheduled. A technical record, not a certification.
+#[cfg(not(target_arch = "wasm32"))]
+#[allow(clippy::too_many_arguments)]
+pub fn evidence_round_trip(
+    scoring_toml: &str,
+    scenario_toml: &str,
+    conditions: &str,
+    log: &[u8],
+    from_s: f64,
+    to_s: f64,
+    title: Option<&str>,
+    created_utc: Option<&str>,
+    seed: Option<[u8; 32]>,
+    max_bytes: usize,
+) -> Result<EvidencePack, String> {
+    cap("scoring scenario", scoring_toml, max_bytes)?;
+    cap("scenario", scenario_toml, max_bytes)?;
+    cap("conditions", conditions, max_bytes)?;
+    cap_len("log", log.len(), max_bytes)?;
+    let scn: crate::receiver_trust::scenario::ReceiverTrustScenario = toml::from_str(scoring_toml)
+        .map_err(|e| format!("invalid receiver-trust scenario: {e}"))?;
+    let seed = seed.unwrap_or_else(generate_seed);
+    let (from, to) = (from_s.to_string(), to_s.to_string());
+    let summary = crate::evidence::build_round_trip_pack(
+        &PackRequest {
+            scenario: &scn,
+            log_bytes: log,
+            nav_bytes: None,
+            imu_bytes: None,
+            log_file_name: "inline",
+            from: &from,
+            to: &to,
+            title: title.unwrap_or("Laboratory round-trip evidence pack"),
+            created_utc,
+        },
+        scenario_toml,
+        conditions,
+        &seed,
     )?;
     Ok(EvidencePack {
         public_key: public_key_hex(&seed),

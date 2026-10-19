@@ -52,6 +52,20 @@ pub fn read_log(format: LogFormat, bytes: &[u8]) -> Result<Timeline, String> {
             read_android(&String::from_utf8_lossy(bytes))?,
         ),
         LogFormat::Nmea => ("NMEA", read_nmea(&String::from_utf8_lossy(bytes))?),
+        LogFormat::GnssSdr => (
+            "GNSS-SDR monitor",
+            super::machines::gnss_sdr::read_gnss_sdr_monitor(&String::from_utf8_lossy(bytes))?,
+        ),
+        LogFormat::Rtcm3 => ("RTCM 3 MSM", super::machines::rtcm3::read_rtcm3(bytes)?),
+        LogFormat::Novatel => (
+            "NovAtel",
+            super::machines::novatel::read_novatel(bytes)?.timeline,
+        ),
+        LogFormat::RtklibPos => (
+            "RTKLIB .pos",
+            super::machines::rtklib::read_rtklib_pos(&String::from_utf8_lossy(bytes))?,
+        ),
+        LogFormat::Sbf => ("SBF", read_sbf(bytes)),
     };
     if tl.epochs.is_empty() {
         return Err(format!(
@@ -84,6 +98,7 @@ struct Acc {
     span: Option<(usize, usize)>,
     sky: Vec<SatSky>,
     dop: Option<ReportedDop>,
+    self_report: Option<super::ReceiverSelfReport>,
     /// GSV sets seen for this epoch, by (talker, signal ID): (sentences in the set, bit mask
     /// of the sentence numbers received). The sky is kept only when every set is complete.
     gsv_sets: BTreeMap<(String, Option<u8>), (u32, u64)>,
@@ -144,6 +159,21 @@ impl Acc {
         }
     }
 
+    /// Merge a self-report: a state already read at this epoch is kept unless the new one is
+    /// worse (a higher code), so a later message cannot hide an earlier flag.
+    fn merge_self_report(&mut self, sr: super::ReceiverSelfReport) {
+        let worse = |a: Option<u8>, b: Option<u8>| match (a, b) {
+            (Some(x), Some(y)) => Some(x.max(y)),
+            (x, y) => x.or(y),
+        };
+        let cur = self.self_report.unwrap_or_default();
+        self.self_report = Some(super::ReceiverSelfReport {
+            spoofing: worse(cur.spoofing, sr.spoofing),
+            jamming: worse(cur.jamming, sr.jamming),
+            rf_bands_reported: worse(cur.rf_bands_reported, sr.rf_bands_reported),
+        });
+    }
+
     fn add_agc(&mut self, v: f64) {
         if v.is_finite() {
             self.agc_sum += v;
@@ -182,6 +212,7 @@ fn epochs_from(map: BTreeMap<i64, Acc>, first: i64) -> Vec<LogEpoch> {
                 Vec::new()
             },
             reported_dop: a.dop,
+            self_report: a.self_report,
         })
         .collect()
 }
@@ -234,7 +265,7 @@ pub(crate) fn days_from_civil(y: i64, m: i64, d: i64) -> i64 {
 }
 
 /// The civil date `(year, month, day)` of a day count since 1970-01-01.
-fn civil_from_days(z: i64) -> (i64, i64, i64) {
+pub(crate) fn civil_from_days(z: i64) -> (i64, i64, i64) {
     let z = z + 719_468;
     let era = z.div_euclid(146_097);
     let doe = z - era * 146_097;
@@ -269,7 +300,7 @@ fn iso_utc_ms(ms: i64) -> String {
 
 /// True when the calendar fields are in range (day checked only against 31; the
 /// day-count arithmetic tolerates a 31st of a short month without panicking).
-fn plausible_date(y: i64, mo: i64, d: i64) -> bool {
+pub(crate) fn plausible_date(y: i64, mo: i64, d: i64) -> bool {
     (1900..=2200).contains(&y) && (1..=12).contains(&mo) && (1..=31).contains(&d)
 }
 
@@ -283,6 +314,9 @@ const CLASS_NAV: u8 = 0x01;
 const ID_NAV_PVT: u8 = 0x07;
 const ID_NAV_TIMEGPS: u8 = 0x20;
 const ID_NAV_SAT: u8 = 0x35;
+const ID_NAV_STATUS: u8 = 0x03;
+const CLASS_SEC: u8 = 0x27;
+const ID_SEC_SIG: u8 = 0x09;
 const CLASS_MON: u8 = 0x0A;
 const ID_MON_RF: u8 = 0x38;
 
@@ -327,6 +361,8 @@ struct UbxState {
     cur_key: Option<i64>,
     /// MON-RF blocks `(agcCnt, jamInd)` read before any iTOW, held for the first epoch.
     pending_rf: Vec<(f64, f64)>,
+    /// A UBX-SEC-SIG read before any iTOW, held for the first epoch.
+    pending_sr: Option<super::ReceiverSelfReport>,
     /// A GPS week number and the key-week index it belongs to (from NAV-TIMEGPS), used
     /// to label epochs that carry no date of their own.
     week_ref: Option<(i64, i64)>,
@@ -357,7 +393,66 @@ impl UbxState {
             acc.add_agc(agc);
             acc.add_jam(jam);
         }
+        if let Some(sr) = self.pending_sr.take() {
+            acc.merge_self_report(sr);
+        }
         Some(key)
+    }
+
+    /// UBX-NAV-STATUS (16 bytes): iTOW u4 @0, flags2 x1 @7 whose bits 4..3 are `spoofDetState`
+    /// (0 unknown or deactivated, 1 no spoofing indicated, 2 spoofing indicated, 3 multiple
+    /// spoofing indications; protocol 18 and later; u-blox F9 HPG 1.32 interface description).
+    fn nav_status(&mut self, p: &[u8]) -> bool {
+        if p.len() < 16 {
+            return false;
+        }
+        let Some(key) = le_u32(p, 0).and_then(|t| self.epoch_key(t)) else {
+            return false;
+        };
+        let spoof = (p[7] >> 3) & 0b11;
+        self.map
+            .entry(key)
+            .or_default()
+            .merge_self_report(super::ReceiverSelfReport {
+                spoofing: Some(spoof),
+                ..Default::default()
+            });
+        true
+    }
+
+    /// UBX-SEC-SIG: no iTOW, so it belongs to the current navigation epoch. Version 1 (12
+    /// bytes): `jamFlags` x1 @4 (bit 0 jamDetEnabled, bits 2..1 jammingState) and `spfFlags` x1
+    /// @8 (bit 0 spfDetEnabled, bits 3..1 spoofingState). Version 2: `sigSecFlags` x1 @1 (bit 0
+    /// jamDetEnabled, bits 2..1 jammingState, bit 3 spfDetEnabled, bits 6..4 spoofingState),
+    /// then `jamNumCentFreqs` and that many x4 groups, which are not used. A state is read only
+    /// where its detector is enabled; 0 means unknown or not enabled, 1 none indicated, 2
+    /// warning or spoofing indicated, 3 critical or spoofing affirmed. The layouts are those of
+    /// the u-blox interface descriptions as transcribed in the pyubx2 library (BSD-3-Clause);
+    /// the F9 HPG 1.32 and M10 SPG 5.10 PDFs name the message but do not define it.
+    fn sec_sig(&mut self, p: &[u8]) -> bool {
+        let (jam_flags, spf_flags) = match p.first() {
+            Some(1) if p.len() >= 12 => (p[4], p[8]),
+            Some(2) if p.len() >= 4 => (p[1], p[1] >> 3),
+            _ => return false,
+        };
+        let state =
+            |flags: u8, width: u8| (flags & 1 == 1).then(|| (flags >> 1) & ((1u8 << width) - 1));
+        let sr = super::ReceiverSelfReport {
+            // Versions 1 and 2 pack the states differently: jamming is 2 bits after the enable
+            // bit in both; spoofing is 3 bits after its enable bit (bit 3 of sigSecFlags in
+            // version 2, which `p[1] >> 3` moves to bit 0).
+            jamming: state(jam_flags, 2),
+            spoofing: state(spf_flags, 3),
+            ..Default::default()
+        };
+        if sr == super::ReceiverSelfReport::default() {
+            return true; // both detectors disabled: nothing to report
+        }
+        match self.cur_key {
+            Some(k) => self.map.entry(k).or_default().merge_self_report(sr),
+            None => self.pending_sr = Some(sr),
+        }
+        true
     }
 
     /// UBX-NAV-PVT: iTOW u4 @0; year u2 @4, month @6, day @7, hour @8, min @9, sec @10,
@@ -548,6 +643,8 @@ pub fn read_ubx(bytes: &[u8]) -> Timeline {
             (CLASS_NAV, ID_NAV_PVT) => st.nav_pvt(payload),
             (CLASS_NAV, ID_NAV_TIMEGPS) => st.nav_timegps(payload),
             (CLASS_NAV, ID_NAV_SAT) => st.nav_sat(payload),
+            (CLASS_NAV, ID_NAV_STATUS) => st.nav_status(payload),
+            (CLASS_SEC, ID_SEC_SIG) => st.sec_sig(payload),
             (CLASS_MON, ID_MON_RF) => st.mon_rf(payload),
             _ => true, // a valid frame of a message this reader does not use
         };
@@ -558,6 +655,8 @@ pub fn read_ubx(bytes: &[u8]) -> Timeline {
             (CLASS_NAV, ID_NAV_PVT)
                 | (CLASS_NAV, ID_NAV_TIMEGPS)
                 | (CLASS_NAV, ID_NAV_SAT)
+                | (CLASS_NAV, ID_NAV_STATUS)
+                | (CLASS_SEC, ID_SEC_SIG)
                 | (CLASS_MON, ID_MON_RF)
         ) {
             if let Some(k) = st.cur_key {
@@ -586,6 +685,114 @@ pub fn read_ubx(bytes: &[u8]) -> Timeline {
         }
     }
     finalize(st.map, skipped)
+}
+
+// ---------------------------------------------------------------------------------
+// Septentrio SBF
+// ---------------------------------------------------------------------------------
+
+/// RINEX-style system letter for an SBF constellation.
+fn sbf_letter(c: &sbf_tools::types::Constellation) -> Option<char> {
+    use sbf_tools::types::Constellation as C;
+    Some(match c {
+        C::GPS => 'G',
+        C::GLONASS => 'R',
+        C::Galileo => 'E',
+        C::BeiDou => 'C',
+        C::QZSS => 'J',
+        C::SBAS => 'S',
+        C::NavIC => 'I',
+        C::Unknown(_) => return None,
+    })
+}
+
+/// Read a Septentrio SBF stream (read only). `PVTGeodetic` gives the fix, `MeasEpoch` the
+/// per-satellite C/N0 (band = the signal's name, for example `L1CA`), `RFStatus` the count of RF
+/// bands the receiver reports with a non-zero `Info` byte. Epochs are keyed by the block's
+/// time of week and week number and labelled in GPS time (`2024-09-10T07:00:00.000 GPST`); a
+/// block whose time is "do not use" is skipped. Blocks that fail their CRC or do not parse count
+/// as skipped records. Other blocks are ignored; nothing is written anywhere.
+pub fn read_sbf(bytes: &[u8]) -> Timeline {
+    use sbf_tools::{SbfBlock, SbfReader};
+    let mut reader = SbfReader::new(bytes);
+    let mut map: BTreeMap<i64, Acc> = BTreeMap::new();
+    let gps_epoch_days = days_from_civil(1980, 1, 6);
+    let key_of = |tow_ms: u32, wnc: u16, map: &mut BTreeMap<i64, Acc>| -> Option<i64> {
+        if tow_ms == u32::MAX || wnc == u16::MAX || i64::from(tow_ms) >= WEEK_MS {
+            return None;
+        }
+        let key = i64::from(wnc) * WEEK_MS + i64::from(tow_ms);
+        let acc = map.entry(key).or_default();
+        if acc.label.is_none() {
+            let ms = gps_epoch_days * DAY_MS + key;
+            acc.set_label(RANK_UTC, iso_utc_ms(ms).replace('Z', " GPST"));
+        }
+        Some(key)
+    };
+    let mut bad = 0usize;
+    for block in reader.by_ref() {
+        let Ok(block) = block else {
+            bad += 1;
+            continue;
+        };
+        match block {
+            SbfBlock::PvtGeodetic(p) => {
+                let Some(k) = key_of(p.tow_ms(), p.wnc(), &mut map) else {
+                    continue;
+                };
+                if let (true, Some(lat), Some(lon), Some(h)) = (
+                    p.has_fix(),
+                    p.latitude_deg(),
+                    p.longitude_deg(),
+                    p.height_m(),
+                ) {
+                    if lat.abs() <= 90.0 && lon.abs() <= 180.0 {
+                        if let Some(acc) = map.get_mut(&k) {
+                            acc.fix = Some(ReportedFix {
+                                lat_deg: lat,
+                                lon_deg: lon,
+                                height_m: h,
+                                n_used: p.num_satellites_opt().map(u32::from),
+                            });
+                        }
+                    }
+                }
+            }
+            SbfBlock::MeasEpoch(m) => {
+                let Some(k) = key_of(m.tow_ms(), m.wnc(), &mut map) else {
+                    continue;
+                };
+                let acc = map.entry(k).or_default();
+                for meas in &m.measurements {
+                    let (Some(letter), Some(cn0)) =
+                        (sbf_letter(&meas.sat_id.constellation), meas.cn0_dbhz_opt())
+                    else {
+                        continue;
+                    };
+                    acc.add_cn0(
+                        sat_id(letter, u32::from(meas.sat_id.prn)),
+                        meas.signal_type.name().to_string(),
+                        cn0,
+                    );
+                }
+            }
+            SbfBlock::RfStatus(r) => {
+                let Some(k) = key_of(r.tow_ms(), r.wnc(), &mut map) else {
+                    continue;
+                };
+                let n = r.bands.iter().filter(|b| b.info != 0).count();
+                map.entry(k)
+                    .or_default()
+                    .merge_self_report(super::ReceiverSelfReport {
+                        rf_bands_reported: Some(n.min(255) as u8),
+                        ..Default::default()
+                    });
+            }
+            _ => {}
+        }
+    }
+    let st = reader.stats();
+    finalize(map, bad.max((st.crc_errors + st.parse_errors) as usize))
 }
 
 // ---------------------------------------------------------------------------------
