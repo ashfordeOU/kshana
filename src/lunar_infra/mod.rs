@@ -9,20 +9,26 @@
 //! system, nothing is compared with a measurement of a lunar quantity, and the work is not
 //! affiliated with or endorsed by any agency. Nothing is transmitted and no hardware is driven.
 
+pub mod frame;
+pub mod geodesy;
 pub mod gnss;
 pub mod la;
 pub mod od;
 pub mod orbit;
 pub mod phase;
+pub mod tie;
 
 use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};
 use sha2::{Digest, Sha256};
 
+use frame::LlrSpec;
+use geodesy::{ClockSpec, GravimeterSpec, Nominal, OrbiterSpec};
 use gnss::GnssSpec;
 use od::{GroundSpec, McSpec};
 use orbit::OrbitSpec;
 use phase::{PhaseMc, SurfaceSpec};
+use tie::TechniqueSpec;
 
 /// The label every report carries.
 pub const LABEL: &str = "MODELLED — a restricted three-body model (Earth and Moon point masses, \
@@ -31,6 +37,9 @@ pub const LABEL: &str = "MODELLED — a restricted three-body model (Earth and M
      nothing is compared with a measurement of a lunar quantity, and nothing here is a \
      statement about any mission or system. Not affiliated with or endorsed by any agency. \
      Advisory software, not type-approved equipment.";
+
+/// Seeded random station sets checked by `frame-coestimation` (bar F1).
+pub const RANDOM_STATION_SETS: usize = 20;
 
 /// The studies the kind runs.
 pub const STUDIES: [&str; 5] = [
@@ -68,6 +77,24 @@ pub struct LunarInfrastructureScenario {
     /// Lunar surface station(s).
     #[serde(default)]
     pub surface: Option<SurfaceSpec>,
+    /// Laser ranging (`frame-coestimation`, `geodesy-sensitivity`).
+    #[serde(default)]
+    pub llr: Option<LlrSpec>,
+    /// Techniques of the co-located spacecraft (`space-tie`).
+    #[serde(default)]
+    pub techniques: Option<TechniqueSpec>,
+    /// Nominal Love numbers (`geodesy-sensitivity`).
+    #[serde(default)]
+    pub nominal: Option<Nominal>,
+    /// Orbiter tracking (`geodesy-sensitivity`).
+    #[serde(default)]
+    pub orbiter: Option<OrbiterSpec>,
+    /// Surface gravimeters (`geodesy-sensitivity`).
+    #[serde(default)]
+    pub gravimeter: Option<GravimeterSpec>,
+    /// Surface clock (`geodesy-sensitivity`).
+    #[serde(default)]
+    pub clock: Option<ClockSpec>,
 }
 
 impl LunarInfrastructureScenario {
@@ -113,6 +140,49 @@ impl LunarInfrastructureScenario {
                     last["double_difference_ambiguities"],
                     last["monte_carlo_success_rate"].as_f64().unwrap_or(f64::NAN),
                     last["bootstrapped_success_rate_decorrelated"].as_f64().unwrap_or(f64::NAN),
+                );
+                (v, s)
+            }
+            "frame-coestimation" => {
+                let v = frame::run(
+                    &orbit,
+                    &self.llr.clone().unwrap_or_default(),
+                    &self.surface.clone().unwrap_or_default(),
+                    RANDOM_STATION_SETS,
+                    seed,
+                )?;
+                let s = format!(
+                    "lunar-infrastructure frame-coestimation: smallest information eigenvalue x{:.2} with orbiter links, CRLB trace x{:.3}",
+                    v["lambda_min_ratio"].as_f64().unwrap_or(f64::NAN),
+                    v["crlb_trace_ratio"].as_f64().unwrap_or(f64::NAN),
+                );
+                (v, s)
+            }
+            "space-tie" => {
+                let v = tie::run(&orbit, &self.techniques.clone().unwrap_or_default())?;
+                let last = v["arcs"].as_array().and_then(|a| a.last()).cloned().unwrap_or(Value::Null);
+                let s = format!(
+                    "lunar-infrastructure space-tie: {} sweep points on {} arcs; laser-vs-GNSS x translation sigma {:.4} m at the registered local tie",
+                    last["sweep"].as_array().map_or(0, |x| x.len()),
+                    v["arcs"].as_array().map_or(0, |x| x.len()),
+                    last["sweep"][0]["offsets"]["slr_minus_gnss"]["translation_sigma_m"][0].as_f64().unwrap_or(f64::NAN),
+                );
+                (v, s)
+            }
+            "geodesy-sensitivity" => {
+                let v = geodesy::run(
+                    &orbit,
+                    &self.nominal.clone().unwrap_or_default(),
+                    &self.llr.clone().unwrap_or_default(),
+                    &self.orbiter.clone().unwrap_or_default(),
+                    &self.gravimeter.clone().unwrap_or_default(),
+                    &self.clock.clone().unwrap_or_default(),
+                )?;
+                let s = format!(
+                    "lunar-infrastructure geodesy-sensitivity: CRLB sigma h2 {:.2e}, k2 {:.2e}, l2 {:.2e}",
+                    v["crlb_sigma"][0].as_f64().unwrap_or(f64::NAN),
+                    v["crlb_sigma"][1].as_f64().unwrap_or(f64::NAN),
+                    v["crlb_sigma"][2].as_f64().unwrap_or(f64::NAN),
                 );
                 (v, s)
             }
