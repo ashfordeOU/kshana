@@ -31,6 +31,17 @@
     ]]></description>
 
     <change-notes><![CDATA[
+        <b>0.38.0</b> — adds <b>Fit Sensor Parameters from IMU Log</b> (a stationary IMU
+        <code>.csv</code>, <code>kshana imu-fit</code>: the accelerometer and gyro parameters of the
+        <code>hybrid</code> and <code>fusion</code> scenarios fitted by Allan deviation, printed as a
+        scenario table) and a Home Assistant MQTT option in <b>Render Trust Telemetry</b>. The engine
+        adds, among other things, the <code>holdover-test</code> scenario kind (run through
+        <b>Run Kshana Scenario</b>), Jammertest scoring, more receiver log formats and the
+        <code>kshana bench</code> benchmark. Advisory software, not type-approved navigation
+        equipment: the operator remains responsible for navigation. Update the engine with
+        <code>cargo install kshana</code> and see the release notes at
+        https://github.com/ashfordeOU/kshana/releases.
+        <br/>
         <b>0.37.0</b> — the plugin itself is unchanged; this release adds to the engine: the
         <code>optical-atmosphere</code> scenario kind (clouds, turbulence and weather-driven availability
         for optical timing links, site diversity, and the outage-to-holdover coupling), run through

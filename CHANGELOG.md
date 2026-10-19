@@ -9,8 +9,49 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+## [0.38.0] - 2026-10-19
+
 ### Added
 
+- **The neutral referee, made measurable.** `kshana jammertest import` reads the published NPRA
+  Jammertest catalogue and transmission plan as scheduled truth (catalogue ids kept) and
+  `kshana jammertest score` scores a receiver log against it per test (detection latency, missed
+  alarms, false alarms, time to recover), optionally as a signed evidence pack
+  ([`docs/JAMMERTEST.md`](docs/JAMMERTEST.md)). The scoring bars were pre-registered before any
+  scored run (`xval/jammertest-score/`). On the JammerTest 2024 dataset (fetched, never vendored) the
+  pre-registered minimum-data rule failed in both the first run and the data-handling revision, so no
+  bar is assessable and nothing is claimed; both runs are recorded and pinned. MODELLED: the schedule
+  is the dataset's logged windows, not recorded on-air times. The 2025 SimulaMet NMEA set is not
+  adapted (no licence stated on its page).
+- **The receiver's own flags, beside Kshana's.** UBX-NAV-STATUS `spoofDetState` and UBX-SEC-SIG are
+  read into `self_report` on each epoch, and the `receiver_self_report` comparison in the result sets
+  them against Kshana's monitors (both, receiver only, Kshana only, neither); it raises no alarm and
+  changes no score. A Septentrio SBF reader (PVTGeodetic, MeasEpoch, RFStatus, read only, on the
+  MIT-licensed `sbf-tools` crate) and `receiver-trust live --serial` (a serial or USB NMEA feed, read
+  only; it never writes to a receiver) join them.
+- **Timing and hardware safety** ([`docs/TIMING-HIL.md`](docs/TIMING-HIL.md),
+  [`docs/HARDWARE-SAFETY.md`](docs/HARDWARE-SAFETY.md)). The `holdover-test` scenario kind scores a
+  holdover test of a timing system (GNSS removed by the operator, holdover, recovery) from a measured
+  time-error record, measured against the ITU-T masks from public tables. `clock_log` reads linuxptp
+  (`ptp4l`, `phc2sys`, `ts2phc`) and chrony (`tracking`, `statistics`) logs. `iq scene --format sdrx`
+  writes ION GNSS SDR metadata and `iq monitor --follow` monitors a SigMF recording while it grows
+  (receive only). `compliance-report` gains the NIST IR 8323r1 Foundational PNT Profile (15
+  paraphrased rows, supports evidence for). An evidence pack can record the operator's
+  `lab-attestation` in its signed manifest, never verified; the hardware stages 0 to 4 and the legal
+  notes are in `HARDWARE-SAFETY.md` (awaiting legal review). There is no transmit path of any kind.
+- **kshana-bench v1** (`kshana bench`, [`bench/SPEC.md`](bench/SPEC.md), [`docs/BENCH.md`](docs/BENCH.md)):
+  fixed tasks, splits and metrics for GNSS interference detection on receiver logs (JammerTest 2024) and
+  IQ, timing holdover prediction (IGS clocks) and the out-of-distribution optimism gap; split manifests
+  with pinned hashes and fetch scripts (no data vendored), a sealed holdout by commit and reveal, a
+  result-file schema and a static leaderboard page. Baselines under bars pre-registered in
+  `xval/bench/PREREGISTRATION.md`: scorer bars met, C1 to C3 met, D2 met, **D1 NOT MET** (pinned). Every
+  score is MODELLED. Python `bench_score`, `bench_leaderboard`; WebAssembly the same; MCP
+  `score_benchmark`, `render_leaderboard`.
+- **Interference observatory** (`kshana interference-map daily`, `sensitivity`,
+  [`docs/observatory/METHOD.md`](docs/observatory/METHOD.md)): a reproducible daily GeoJSON, PNG and
+  incident-report JSON with three states (degraded, not degraded, not observed), a 24 h minimum delay,
+  cells of 0.5 degrees or coarser, no cause attributed and OpenSky data refused; a sensitivity study of
+  the pre-registered parameters; a 30-day Baltic back-catalogue from adsb.lol.
 - **Machine and sensor inputs for `receiver-trust`** ([`docs/MACHINE-INPUTS.md`](docs/MACHINE-INPUTS.md)).
   New `[log] format` values, all read-only, MODELLED, with self-written fixtures and no data
   vendored: `rtklib-pos` (RTKLIB `.pos` solution files), `novatel` (OEM7 ASCII and binary
