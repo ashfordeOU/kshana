@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 //! The pre-registered comparison of the `gnss-ssv` sweeps with the ICG SSV booklet's tables
-//! (xval/gnss-ssv/PREREGISTRATION.md). Run in release: `cargo run --release --example ssv_booklet_check [out.json] [--glonass-table-4-2]`.
+//! (xval/gnss-ssv/PREREGISTRATION.md). Run in release: `cargo run --release --example ssv_booklet_check [out.json] [--glonass-table-4-2] [--patterns=l1-azavg.csv]`.
 
 fn main() {
     let tables =
@@ -19,6 +19,13 @@ fn main() {
         std::env::args().any(|a| a == "--glonass-table-4-2"),
     )
     .expect("comparison");
+    let mut report = report;
+    if let Some(p) =
+        std::env::args().find_map(|a| a.strip_prefix("--patterns=").map(str::to_string))
+    {
+        let csv = std::fs::read_to_string(p).expect("pattern csv");
+        report["bars"]["S7"] = kshana::ssv::check::s7(&csv).expect("S7");
+    }
     let text = serde_json::to_string_pretty(&report).unwrap();
     match std::env::args().nth(1).filter(|a| !a.starts_with("--")) {
         Some(p) => std::fs::write(p, text).unwrap(),

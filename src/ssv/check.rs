@@ -399,3 +399,48 @@ pub fn run(tables: &str, size: Size, glonass_table_4_2: bool) -> Result<Value, S
         json!({"size": if size == Size::Full { "full" } else { "reduced" }, "glonass_table_4_2": glonass_table_4_2, "bars": Value::Object(bars)}),
     )
 }
+
+/// Bar S7: the parametric transmit pattern against the measured GPS L1 panel patterns (`extract_patterns.py` output:
+/// `svn,theta_deg,az_avg_db`). Pre-registration addendum 5 fixes the reading.
+pub fn s7(csv: &str) -> Result<Value, String> {
+    use std::collections::BTreeMap;
+    let mut by_sv: BTreeMap<String, Vec<(f64, f64)>> = BTreeMap::new();
+    for line in csv.lines().skip(1) {
+        let f: Vec<&str> = line.split(',').collect();
+        if f.len() != 3 {
+            continue;
+        }
+        let th: f64 = f[1].parse().map_err(|_| "theta")?;
+        let db: f64 = f[2].parse().map_err(|_| "gain")?;
+        by_sv.entry(f[0].to_string()).or_default().push((th, db));
+    }
+    let p = super::pattern::ParametricPattern::default();
+    let beam = 23.5;
+    let model = |th: f64| {
+        TxPattern::Parametric(p)
+            .eirp_dbw(0.0, beam, th, 0.0)
+            .unwrap_or(f64::NEG_INFINITY)
+    };
+    let mut cells = Vec::new();
+    let mut rms_all = Vec::new();
+    for (sv, pts) in &by_sv {
+        let peak = pts.iter().map(|x| x.1).fold(f64::NEG_INFINITY, f64::max);
+        let mut sq = 0.0;
+        let mut n = 0.0;
+        for &(th, db) in pts.iter().filter(|x| x.0 <= 30.0) {
+            let d = model(th) - (db - peak);
+            sq += d * d;
+            n += 1.0;
+        }
+        let rms = (sq / n).sqrt();
+        rms_all.push(rms);
+        cells.push(json!({"cell": format!("{sv} L1 RMS dB"), "published": 3.0, "sim": rms, "scored": true, "pass": rms <= 3.0, "tol": 3.0}));
+    }
+    rms_all.sort_by(f64::total_cmp);
+    let median = rms_all.get(rms_all.len() / 2).copied();
+    Ok(
+        json!({"statement": "parametric pattern against measured GPS L1 panel patterns, RMS over 0 to 30 degrees, every pattern",
+              "patterns": by_sv.len(), "median_rms_db": median, "min_rms_db": rms_all.first(), "max_rms_db": rms_all.last(),
+              "verdict": verdict(&cells), "cells": cells}),
+    )
+}
