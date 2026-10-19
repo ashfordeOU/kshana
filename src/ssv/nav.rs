@@ -329,8 +329,8 @@ impl Ekf {
         if innov * innov > 25.0 * s {
             return false;
         }
-        for i in 0..N {
-            self.x[i] += ph[i] / s * innov;
+        for (xi, phi) in self.x.iter_mut().zip(&ph) {
+            *xi += phi / s * innov;
         }
         for i in 0..N {
             for j in 0..N {
