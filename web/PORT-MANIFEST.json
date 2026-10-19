@@ -353,7 +353,7 @@
   "studio/lib/trust-geometry.mjs": "7d1678c6af38264be26a988ce58ba9cc68d583d5e1ae549513cf1fefaaffc7aa",
   "studio/lib/trust-geometry.test.mjs": "b888921c28da17d211574f3c4c91c192d7732fe3b631c7d1a0dd96da45b299fb",
   "studio/lib/trust-open.mjs": "1ce1981a2edd724977cdca53c9929e3bdb889490795015afe12745eed7776c8b",
-  "studio/lib/trust-open.test.mjs": "523a17e306bb7423a8796456b5222de364b9be2f570a4122fa0b9d16e898adcc",
+  "studio/lib/trust-open.test.mjs": "29b3fa3fd6d3975a73faa3dc6ab1d05c53d5d3ac077ef9ba3181e2b06012dba3",
   "studio/lib/trust-selfreport.mjs": "330335fc9e6a9a298076cdd59812927b1d52ca71b00ae9cde874c9a3068ce7f6",
   "studio/lib/trust-selfreport.test.mjs": "4e62af90833d4344298f49c0c593b244e400a4290afbcba83ac62b3b160d9bda",
   "studio/lib/trust.mjs": "6f42390f48fabc0ce26bb1ef1f899ddd835a6e90fcc57137264211c6716166a5",
