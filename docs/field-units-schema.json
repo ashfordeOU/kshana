@@ -1,11 +1,11 @@
 {
   "coverage": {
     "described_fields_without_definition": 239,
-    "fields_described": 3029,
-    "fields_total": 3029,
+    "fields_described": 3094,
+    "fields_total": 3094,
     "fields_without_units": 0,
-    "kinds_complete": 85,
-    "kinds_total": 85,
+    "kinds_complete": 86,
+    "kinds_total": 86,
     "kinds_uncovered": 0,
     "uncovered_kind_ceiling": 0,
     "uncovered_kinds": []
@@ -5400,6 +5400,406 @@
       "fields_without_units": [],
       "label": null,
       "source": "scenarios/gnss-sim-raim.toml"
+    },
+    "gnss-ssv": {
+      "complete": true,
+      "fields": {
+        "atmosphere_model.gamma0_db_per_km": {
+          "definition": "sea-level oxygen absorption at the carrier",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "dB/km"
+        },
+        "atmosphere_model.gamma_scale_km": {
+          "definition": "absorption scale height",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "km"
+        },
+        "atmosphere_model.h_scale_km": {
+          "definition": "Chapman-layer scale height",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "km"
+        },
+        "atmosphere_model.hmf2_km": {
+          "definition": "Chapman-layer peak height",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "km"
+        },
+        "atmosphere_model.n0": {
+          "definition": "sea-level refractivity",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "N-units"
+        },
+        "atmosphere_model.n_scale_km": {
+          "definition": "refractivity scale height",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "km"
+        },
+        "atmosphere_model.nmf2": {
+          "definition": "Chapman-layer peak electron density",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "1/m^3"
+        },
+        "atmosphere_model.plasmapause_l": {
+          "definition": "plasmapause L shell",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "1"
+        },
+        "atmosphere_model.plasmasphere_scale": {
+          "definition": "multiplier on the plasmasphere density",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "1"
+        },
+        "atmosphere_model.trough_density": {
+          "definition": "electron density outside the plasmapause",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "1/m^3"
+        },
+        "cn0_min_dbhz": {
+          "definition": "the carrier-to-noise-density threshold applied: the stated one, or the weak-signal receiver design's",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dB-Hz"
+        },
+        "orbit.a_km": {
+          "definition": "user semi-major axis",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "km"
+        },
+        "orbit.argp_deg": {
+          "definition": "user argument of perigee",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "deg"
+        },
+        "orbit.e": {
+          "definition": "user eccentricity",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "1"
+        },
+        "orbit.i_deg": {
+          "definition": "user inclination",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "deg"
+        },
+        "orbit.raan_deg": {
+          "definition": "user right ascension of the ascending node",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "deg"
+        },
+        "orbit.true_anomaly_deg": {
+          "definition": "user true anomaly at the epoch",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "deg"
+        },
+        "result.apogee_alt_km": {
+          "definition": "apogee altitude above the 6378 km Earth",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "km"
+        },
+        "result.bands[].groups[].availability.at_least_1_pct": {
+          "definition": "share of epochs with at least one signal",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "%"
+        },
+        "result.bands[].groups[].availability.at_least_4_pct": {
+          "definition": "share of epochs with at least four signals",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "%"
+        },
+        "result.bands[].groups[].availability.max_outage_1_min": {
+          "definition": "longest stretch without a signal",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "min"
+        },
+        "result.bands[].groups[].availability.max_outage_4_min": {
+          "definition": "longest stretch below four signals",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "min"
+        },
+        "result.bands[].groups[].best_cn0_dbhz.max": {
+          "definition": "max of the C/N0 of the strongest link",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dB-Hz"
+        },
+        "result.bands[].groups[].best_cn0_dbhz.mean": {
+          "definition": "mean of the C/N0 of the strongest link",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dB-Hz"
+        },
+        "result.bands[].groups[].best_cn0_dbhz.min": {
+          "definition": "min of the C/N0 of the strongest link",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dB-Hz"
+        },
+        "result.bands[].groups[].best_cn0_dbhz.n": {
+          "definition": "samples in the statistic",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "result.bands[].groups[].main_lobe_links": {
+          "definition": "links received through the main lobe, summed over epochs",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "result.bands[].groups[].sidelobe_links": {
+          "definition": "links received through a sidelobe, summed over epochs",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "result.bands[].groups[].signals_in_view.max": {
+          "definition": "max of the signals in view per epoch",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "result.bands[].groups[].signals_in_view.mean": {
+          "definition": "mean of the signals in view per epoch",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "result.bands[].groups[].signals_in_view.min": {
+          "definition": "min of the signals in view per epoch",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "result.bands[].groups[].signals_in_view.n": {
+          "definition": "samples in the statistic",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "result.bands[].limb.delay_m.max": {
+          "definition": "max of the total excess delay at the band's first frequency",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "result.bands[].limb.delay_m.mean": {
+          "definition": "mean of the total excess delay at the band's first frequency",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "result.bands[].limb.delay_m.min": {
+          "definition": "min of the total excess delay at the band's first frequency",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "result.bands[].limb.delay_m.n": {
+          "definition": "samples in the statistic",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "result.bands[].limb.grazing_below_100_km": {
+          "definition": "usable links grazing below 100 km",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "result.bands[].limb.links": {
+          "definition": "usable links counted",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "result.bands[].limb.loss_db.max": {
+          "definition": "max of the neutral-atmosphere loss on usable links",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dB"
+        },
+        "result.bands[].limb.loss_db.mean": {
+          "definition": "mean of the neutral-atmosphere loss on usable links",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dB"
+        },
+        "result.bands[].limb.loss_db.min": {
+          "definition": "min of the neutral-atmosphere loss on usable links",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dB"
+        },
+        "result.bands[].limb.loss_db.n": {
+          "definition": "samples in the statistic",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "result.bands[].limb.lost_to_atmosphere": {
+          "definition": "links lost to the atmosphere's loss",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "result.bands[].limb.plasmaspheric_tecu.max": {
+          "definition": "max of the plasmaspheric part of the slant TEC",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "TECU"
+        },
+        "result.bands[].limb.plasmaspheric_tecu.mean": {
+          "definition": "mean of the plasmaspheric part of the slant TEC",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "TECU"
+        },
+        "result.bands[].limb.plasmaspheric_tecu.min": {
+          "definition": "min of the plasmaspheric part of the slant TEC",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "TECU"
+        },
+        "result.bands[].limb.plasmaspheric_tecu.n": {
+          "definition": "samples in the statistic",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "result.bands[].limb.stec_tecu.max": {
+          "definition": "max of the slant total electron content of usable links",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "TECU"
+        },
+        "result.bands[].limb.stec_tecu.mean": {
+          "definition": "mean of the slant total electron content of usable links",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "TECU"
+        },
+        "result.bands[].limb.stec_tecu.min": {
+          "definition": "min of the slant total electron content of usable links",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "TECU"
+        },
+        "result.bands[].limb.stec_tecu.n": {
+          "definition": "samples in the statistic",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "result.bands[].limb.tangent_alt_km.max": {
+          "definition": "max of the tangent altitude of usable links",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "km"
+        },
+        "result.bands[].limb.tangent_alt_km.mean": {
+          "definition": "mean of the tangent altitude of usable links",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "km"
+        },
+        "result.bands[].limb.tangent_alt_km.min": {
+          "definition": "min of the tangent altitude of usable links",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "km"
+        },
+        "result.bands[].limb.tangent_alt_km.n": {
+          "definition": "samples in the statistic",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "result.bands[].pdop_median": {
+          "definition": "median position DOP of the combined signals",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "result.bands[].pdop_p95": {
+          "definition": "95th percentile position DOP",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "result.bands[].pdop_worst": {
+          "definition": "worst position DOP",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "result.bands[].series[].altitude_km": {
+          "definition": "altitude above the 6378 km Earth",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "km"
+        },
+        "result.bands[].series[].best_cn0_dbhz": {
+          "definition": "best C/N0",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dB-Hz"
+        },
+        "result.bands[].series[].combined": {
+          "definition": "combined signals in view",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "result.bands[].series[].t_min": {
+          "definition": "minutes since the epoch",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "min"
+        },
+        "result.epochs": {
+          "definition": "epochs simulated",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "result.perigee_alt_km": {
+          "definition": "perigee altitude above the 6378 km Earth",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "km"
+        },
+        "result.period_min": {
+          "definition": "user orbital period",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "min"
+        }
+      },
+      "fields_described": 65,
+      "fields_total": 65,
+      "fields_without_units": [],
+      "label": "MODELLED: a geometric and link-budget sweep. The booklet pattern is a constant-power main lobe, the parametric pattern a representative stand-in, and the limb-ray medium a simple stated model; nothing here is a measurement of a signal in space. The availability and outage figures follow the method of the ICG Space Service Volume booklet (UN ST/SPACE/75) and are checked against its tables in xval/gnss-ssv/.",
+      "source": "scenarios/gnss-ssv-heo.toml"
     },
     "gravity-map": {
       "complete": true,
