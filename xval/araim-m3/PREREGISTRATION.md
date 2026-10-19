@@ -68,6 +68,11 @@ Users on a latitude-longitude grid, 10 sidereal days (the Galileo repeat period)
   subsets up to two events) with the RNP constants of Table 25, not the report's Annex A text
   verbatim. They differ in details (subset merging, which the engine's `fc_thres` = 0.01 follows
   MAAST for).
+- **D6, vertical budgets.** The table's RNP column has `P_HMI_VERT` = 0 and `P_FA_VERT` = 0; the
+  engine also solves the vertical level, and zero budgets make its detection multiplier infinite
+  and its bisection never terminate (found while timing, before any scored run). The study uses
+  1e-12 and 1e-9, with `P_HMI_HOR` = 1e-7 - 1e-12. The vertical result is unused; the horizontal
+  budget changes by a part in 1e5.
 - **D5, only the needed values.** The study evaluates only the `sigma_URA` values the claims need
   (the printed N and N+1, or 10 m, or 1 m), not the whole 1 to 10 m sweep.
 
