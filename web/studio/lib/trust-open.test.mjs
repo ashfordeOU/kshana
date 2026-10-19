@@ -12,6 +12,7 @@ test("file names suggest a format, and the picker keeps the rest", () => {
   assert.equal(formatFromName("base.rtcm3"), "rtcm3");
   assert.equal(formatFromName("log.gps"), "novatel");
   assert.equal(formatFromName("mystery.dat"), "");
+  assert.equal(formatFromName("dir/gnss_log_2026.txt"), "android"); assert.equal(formatFromName("android-fixes.txt"), "android"); assert.equal(formatFromName("my-android-notes.dat"), "");
 });
 
 test("the log replaces the path and format in [log] and nothing else moves", () => {
