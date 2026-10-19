@@ -505,6 +505,23 @@ def test_assess_vessel_log_returns_the_batch_result():
     assert len(r["epochs"]) > 300
 
 
+_JT_CATALOG = '{"test_types":[{"type":"Jamming","type_id":1,"test_groups":[{"group_id":2,"group_name":"CW","tests":[{"test_id":5,"name":"CW jammer"}]}]}]}'
+_JT_PLAN = '{"locations":[{"location_id":1,"location_name":"Test Area 1","tests":[{"start_time":"2025-09-15T14:05:00","end_time":"2025-09-15T14:06:00","test_id":"1.2.5","test_contact":"A Person (X)","power_w":0,"status":""}]}]}'
+
+
+def test_jammertest_import_reads_the_plan_as_scheduled_truth():
+    r = kshana.jammertest_import(_JT_CATALOG, [_JT_PLAN], "2025-09-15T12:00:00Z")
+    assert r["events"][0]["test_id"] == "1.2.5" and r["events"][0]["onset_s"] == 300.0
+    assert "scheduled truth" in r["events_toml"] and "Person" not in str(r)
+
+
+def test_jammertest_score_needs_a_log_and_says_modelled():
+    import pytest
+
+    with pytest.raises(ValueError):
+        kshana.jammertest_score('[log]\nformat = "nmea"\n', "not a log", _JT_CATALOG, [_JT_PLAN])
+
+
 def test_evidence_pack_round_trip_in_memory():
     import pytest
 
@@ -561,17 +578,55 @@ def test_compliance_report_fills_the_mapping_and_keeps_the_statement():
         kshana.compliance_report([{"label": f"r{i}", "result": "{}"} for i in range(65)])
 
 
+def test_bench_score_scores_a_perfect_and_a_missing_submission_and_renders_the_page():
+    truth = json.dumps({
+        "schema": "kshana-bench-truth/1", "task": "a", "split": "dev",
+        "spec_version": "kshana-bench/1.0.0",
+        "labels": [{"id": "x#0", "positive": True}, {"id": "x#1", "positive": False},
+                   {"id": "x#2", "positive": True}, {"id": "x#3", "positive": False}]})
+    preds = json.dumps({
+        "schema": "kshana-bench-predictions/1", "task": "a", "split": "dev",
+        "system": {"name": "perfect", "version": "1"},
+        "scores": {"x#0": 1.0, "x#1": 0.0, "x#2": 1.0, "x#3": 0.0}})
+    res = json.loads(kshana.bench_score(truth, preds, 0.5))
+    assert res["schema"] == "kshana-bench-result/1" and res["metrics"]["auc"] == 1.0
+    assert "Advisory" in res["notice"] and res["provenance"] == "scored"
+    with pytest.raises(ValueError):
+        kshana.bench_score(truth, preds.replace('"x#3": 0.0', '"y": 0.0'))
+    page = kshana.bench_leaderboard([json.dumps(res)])
+    assert "kshana-bench leaderboard" in page and "perfect" in page
+    with pytest.raises(ValueError):
+        kshana.bench_leaderboard(["{}"])
+
+
 def test_bench_export_is_in_memory_text_with_the_no_signal_notice():
     toml = (Path(__file__).resolve().parents[2] / "scenarios" / "automotive-urban-canyon.toml").read_text()
     a = kshana.bench_export(toml, "2025-03-01T10:00:00Z")
     assert a == kshana.bench_export(toml, "2025-03-01T10:00:00")
-    assert {".motion.csv", ".motion.json", ".nmea", ".events.csv", ".events.toml"} <= set(a["files"])
+    assert {".motion.csv", ".motion.json", ".nmea", ".events.csv", ".events.toml", ".conditions.json"} <= set(a["files"])
     assert "2025-03-01" in a["files"][".motion.csv"]
     assert "radio-frequency or baseband signal" in a["notice"]
     with pytest.raises(ValueError):
         kshana.bench_export(toml, "not a time")
     with pytest.raises(ValueError):
         kshana.bench_export('kind = "orbit"\n')
+
+
+def test_round_trip_pack_links_scenario_conditions_log_and_score():
+    import json
+
+    toml = (Path(__file__).resolve().parents[2] / "scenarios" / "gnss-ins.toml").read_text()
+    b = kshana.bench_export(toml)
+    scoring = '[log]\nformat = "nmea"\ntext = ""\n\n[monitors]\ncalibration_s = 30.0\n\n' + b["files"][".events.toml"]
+    conditions = b["files"][".conditions.json"]
+    nmea = b["files"][".nmea"]
+    p = kshana.evidence_round_trip(scoring, toml, conditions, nmea, 0.0, 100.0, created_utc="none", seed_hex="07" * 32)
+    rt = json.loads(p["files"]["config.json"])["round_trip"]
+    assert rt["schema"] == "kshana.round-trip/1" and len(rt["conditions_hash"]) == 64
+    bad = json.loads(conditions)
+    bad["event"][0]["onset_s"] = 1.0
+    with pytest.raises(ValueError):
+        kshana.evidence_round_trip(scoring, toml, json.dumps(bad), nmea, 0.0, 100.0, created_utc="none")
 
 
 def test_scenario_exports_animation_routes_and_examples_in_memory():

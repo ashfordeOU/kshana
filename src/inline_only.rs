@@ -45,7 +45,7 @@ pub const FILE_READING_KINDS: &[&str] = &["lunar-llr-datum"];
 
 /// Tables whose `path` key names a receiver log or its navigation file, or a measured clock log
 /// (`[clock_log]`, read from the file on native builds; its `text` carries the log inline).
-const FILE_SOURCE_TABLES: &[&str] = &["log", "nav", "clock_log"];
+const FILE_SOURCE_TABLES: &[&str] = &["log", "nav", "imu", "clock_log"];
 
 /// Refuse a scenario that names a file or folder, and one over `max_bytes`. A text that is not
 /// valid TOML passes: the engine refuses it with its own message.

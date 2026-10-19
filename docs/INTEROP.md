@@ -338,6 +338,8 @@ stale.
 | `gps-denied-gravity-nav.toml` | `gravity-map` | yes | yes | yes | no [6] | no [2] |
 | `gravity-map-error-mc.toml` | `gravity-map` | yes | yes | yes | no [6] | no [2] |
 | `gravity-map-nav.toml` | `gravity-map` | yes | yes | yes | no [6] | no [2] |
+| `holdover-test-example.toml` | `holdover-test` | no [4] | no [4] | no [4] | no [4] | no [2] |
+| `holdover-test-ptp4l.toml` | `holdover-test` | no [4] | no [4] | no [4] | no [4] | no [2] |
 | `hybrid-optical-rf.toml` | `hybrid-optical-rf` | no [4] | no [4] | no [4] | no [4] | no [2] |
 | `hybrid-pnt.toml` | `hybrid` | no [4] | no [4] | no [4] | no [4] | no [2] |
 | `hybrid-ukf.toml` | `hybrid-ukf` | no [4] | no [4] | no [4] | no [4] | no [2] |

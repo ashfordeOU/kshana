@@ -13,7 +13,9 @@ import pytest
 
 REPO = Path(__file__).resolve().parents[2]
 NOTEBOOKS = ["vessel-trust-and-training", "interference-map-route-exposure",
-             "compliance-and-test-bench", "geometry", "optical-atmosphere"]
+             "compliance-and-test-bench", "geometry", "optical-atmosphere",
+             "course/01-jamming", "course/02-spoofing", "course/03-holdover",
+             "course/04-integrity", "course/05-osnma", "course/06-interference-map"]
 
 
 @pytest.mark.parametrize("name", NOTEBOOKS)

@@ -1,11 +1,11 @@
 {
   "coverage": {
     "described_fields_without_definition": 239,
-    "fields_described": 2970,
-    "fields_total": 2970,
+    "fields_described": 3029,
+    "fields_total": 3029,
     "fields_without_units": 0,
-    "kinds_complete": 84,
-    "kinds_total": 84,
+    "kinds_complete": 85,
+    "kinds_total": 85,
     "kinds_uncovered": 0,
     "uncovered_kind_ceiling": 0,
     "uncovered_kinds": []
@@ -5428,6 +5428,370 @@
       "fields_without_units": [],
       "label": null,
       "source": "scenarios/gravity-map-nav.toml"
+    },
+    "holdover-test": {
+      "complete": true,
+      "fields": {
+        "budgets[].max_abs_te_ns": {
+          "definition": "the budget: a maximum absolute time error from the named source",
+          "evidence_tier": "validated",
+          "provenance": "published",
+          "unit": "ns"
+        },
+        "clock_log.n_duplicates": {
+          "definition": "duplicate readings, dropped",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "clock_log.n_gaps": {
+          "definition": "runs of consecutive missing epochs",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "clock_log.n_grid": {
+          "definition": "grid epochs spanned by the readings",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "clock_log.n_interpolated": {
+          "definition": "missing epochs filled by the linear gap policy",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "clock_log.n_missing": {
+          "definition": "missing grid epochs",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "clock_log.n_off_grid": {
+          "definition": "readings off the grid, dropped",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "clock_log.n_parsed": {
+          "definition": "readings parsed for the selected clock or channel",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "clock_log.n_skipped_lines": {
+          "definition": "lines neither data nor comment, skipped",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "clock_log.n_used": {
+          "definition": "samples in the normalised series",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "clock_log.t0_s": {
+          "definition": "time of the first kept sample on the log's own time axis; the record's time_s counts from it",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "s"
+        },
+        "clock_log.tau0_s": {
+          "definition": "sample interval of the normalised series",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "curves[].mtie_ns": {
+          "definition": "maximum time interval error of the step at that observation interval",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "ns"
+        },
+        "curves[].tau_s": {
+          "definition": "observation interval of an MTIE and TDEV point",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "curves[].tdev_ns": {
+          "definition": "time deviation of the step at that observation interval",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "ns"
+        },
+        "holdover.duration_s": {
+          "definition": "time from the first to the last sample of the holdover step",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "holdover.fit_intercept_ns": {
+          "definition": "the least-squares line's value at the start of the holdover step",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "ns"
+        },
+        "holdover.fit_residual_rms_ns": {
+          "definition": "root-mean-square distance of the holdover time error from the least-squares line",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "ns"
+        },
+        "holdover.frequency_offset_ppb": {
+          "definition": "slope of the least-squares line through the holdover time error: the fractional frequency offset the system held, in parts per billion (1 ns/s)",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1e-9"
+        },
+        "holdover.step_at_removal_ns": {
+          "definition": "absolute change of the time error between the last baseline sample and the first holdover sample",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "ns"
+        },
+        "holdover.te_at_max_abs_ns": {
+          "definition": "the signed time error at that sample",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "ns"
+        },
+        "holdover.time_of_max_abs_te_s": {
+          "definition": "time after GNSS removal of the largest absolute time error",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "holdover_envelope.holdover_period_s": {
+          "definition": "holdover period H G.8272.1 Table 3 assigns to that locked duration",
+          "evidence_tier": "validated",
+          "provenance": "published",
+          "unit": "s"
+        },
+        "holdover_envelope.locked_duration_days": {
+          "definition": "locked-mode duration before the loss, L in G.8272.1 Table 3",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "d"
+        },
+        "holdover_envelope.min_margin_ns": {
+          "definition": "smallest envelope minus |TE| inside the holdover period",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "ns"
+        },
+        "holdover_envelope.time_to_exceed_s": {
+          "definition": "first time after the start of holdover at which |TE| is above the ePRTC-A envelope, at the sample resolution",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "masks[].checks[].limit_ns": {
+          "definition": "the limit the transcribed ITU-T table or clause states at the binding point",
+          "evidence_tier": "validated",
+          "provenance": "published",
+          "unit": "ns"
+        },
+        "masks[].checks[].margin_ns": {
+          "definition": "limit minus value at the binding point, the smallest over the curve; negative on a FAIL",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "ns"
+        },
+        "masks[].checks[].points_evaluated": {
+          "definition": "curve points that fell inside the mask's observation-interval range",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "masks[].checks[].value_ns": {
+          "definition": "the measured quantity at the binding point (filtered where the mask says so)",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "ns"
+        },
+        "masks[].checks[].worst_tau_s": {
+          "definition": "observation interval of the binding point (for the holdover envelope, the time to exceed it)",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "record.n_samples": {
+          "definition": "number of time-error samples in the record",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "record.record_length_s": {
+          "definition": "time from the first to the last sample",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "record.sample_interval_s": {
+          "definition": "interval between consecutive time-error samples",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "s"
+        },
+        "record.series.time_error_ns[]": {
+          "definition": "the time error of that sample, exactly as the record gave it",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "ns"
+        },
+        "record.series.time_s[]": {
+          "definition": "time of a kept sample on the record's own time axis, the first sample, every stride-th sample and the last (the rule is in record.series_decimation.rule)",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "record.series_decimation.n_points": {
+          "definition": "points in record.series, at most 3000",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "record.series_decimation.n_source": {
+          "definition": "samples in the whole record",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "record.series_decimation.stride": {
+          "definition": "samples between kept points; 1 when the record has at most 3000 samples",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "record.start_s": {
+          "definition": "time stamp of the first sample",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "s"
+        },
+        "recovery.band_ns": {
+          "definition": "the recovery band used",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "ns"
+        },
+        "recovery.dwell_s": {
+          "definition": "the recovery dwell used",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "s"
+        },
+        "recovery.final_abs_te_ns": {
+          "definition": "absolute time error at the last sample",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "ns"
+        },
+        "recovery.largest_step_ns": {
+          "definition": "largest change between consecutive samples from the last holdover sample to the end of the record",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "ns"
+        },
+        "recovery.peak_abs_te_ns": {
+          "definition": "largest absolute time error after GNSS restoration",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "ns"
+        },
+        "recovery.time_to_recover_s": {
+          "definition": "time from GNSS restoration to the start of the first stay inside the recovery band that lasts the dwell time",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "steps[].end_s": {
+          "definition": "time of the last sample of the step",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "steps[].first_te_ns": {
+          "definition": "time error at the first sample of the step",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "ns"
+        },
+        "steps[].last_te_ns": {
+          "definition": "time error at the last sample of the step",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "ns"
+        },
+        "steps[].max_abs_te_ns": {
+          "definition": "largest absolute time error over the step",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "ns"
+        },
+        "steps[].mean_te_ns": {
+          "definition": "mean time error over the step",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "ns"
+        },
+        "steps[].n_samples": {
+          "definition": "samples in the step",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "steps[].rms_te_ns": {
+          "definition": "root-mean-square time error over the step",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "ns"
+        },
+        "steps[].start_s": {
+          "definition": "time of the first sample of the step",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "test.gnss_removed_s": {
+          "definition": "time the operator states GNSS was removed, on the record's time axis",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "s"
+        },
+        "test.gnss_restored_s": {
+          "definition": "time the operator states GNSS was restored, on the record's time axis",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "s"
+        },
+        "test.locked_duration_days": {
+          "definition": "how long the system had been locked before GNSS was removed, which sets the ePRTC-A holdover period",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "d"
+        },
+        "test.recovery_band_ns": {
+          "definition": "|TE| at or below this counts as recovered",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "ns"
+        },
+        "test.recovery_dwell_s": {
+          "definition": "|TE| must stay inside the recovery band this long to count as recovered",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "s"
+        }
+      },
+      "fields_described": 59,
+      "fields_total": 59,
+      "fields_without_units": [],
+      "label": "MODELLED — a holdover test scored from a time-error record the operator supplied. Every limit is transcribed from the named public ITU-T Recommendation and the result is measured against the mask; it says nothing about whether any clock or system meets a Recommendation, and nobody has rated or approved it. The times at which GNSS was removed and restored are the operator's statement and are not verified. Advisory software, not type-approved equipment.",
+      "source": "scenarios/holdover-test-ptp4l.toml"
     },
     "hybrid": {
       "complete": true,

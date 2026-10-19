@@ -311,7 +311,53 @@ pub fn bench_export(toml: &str, epoch: &str) -> Result<String, JsValue> {
     Ok(serde_json::json!({"files": files, "notes": e.notes, "notice": BENCH_NOTICE}).to_string())
 }
 
-/// Fill the public-framework mapping from result documents: which rows of five resilience
+/// Check this implementation of the LunaNet Augmented Forward Signal against the published
+/// tables and worked examples of LSIS-AFS V1.0 (LNIS V5): JSON with `bars` (B1 to B10), `all_met`,
+/// `pin` and `status`.
+#[wasm_bindgen]
+pub fn lunanet_afs_check_spec() -> String {
+    crate::surface::lunanet_afs_check_spec().to_string()
+}
+
+/// Check an AFS symbol stream given as text of `0` and `1` against section 2.4 of LSIS-AFS V1.0:
+/// JSON with the frames found and any problems. Subframes 2 to 4 (LDPC, CRC-24Q) are not
+/// verified; the report says so.
+#[wasm_bindgen]
+pub fn lunanet_afs_check_symbols(symbols: &str, max_sp_errors: u32) -> Result<String, JsValue> {
+    crate::surface::lunanet_afs_check_symbols(
+        symbols,
+        max_sp_errors as usize,
+        8 * crate::surface::MAX_INPUT_BYTES,
+    )
+    .map(|v| v.to_string())
+    .map_err(|e| JsValue::from_str(&e))
+}
+
+/// A test stream of `frames` (1 to 100) AFS frames as text of `0` and `1` with placeholder
+/// subframes 2 to 4 (not LDPC coded, no message): symbols, not a waveform.
+#[wasm_bindgen]
+pub fn lunanet_afs_generate(frames: u32, toi0: u32) -> Result<String, JsValue> {
+    let toi0 = u8::try_from(toi0).map_err(|_| JsValue::from_str("toi0 must be 0 to 99"))?;
+    crate::surface::lunanet_afs_generate(frames as usize, toi0).map_err(|e| JsValue::from_str(&e))
+}
+
+/// The standards packs (`docs/compliance/`): JSON `{packs, notice}`. A pack measures modelled
+/// scenarios against bars stated before the run and rates no product.
+#[wasm_bindgen]
+pub fn standards_pack_list() -> String {
+    crate::surface::standards_pack_list().to_string()
+}
+
+/// Run one standards pack by id. Returns JSON `{report, markdown}`; a test that needs a
+/// receiver log is `NEEDS INPUT` and not scored. Nothing is uploaded or read from disk.
+#[wasm_bindgen]
+pub fn standards_pack_run(id: &str) -> Result<String, JsValue> {
+    let (report, markdown) =
+        crate::surface::standards_pack_run(id).map_err(|e| JsValue::from_str(&e))?;
+    Ok(serde_json::json!({"report": report, "markdown": markdown}).to_string())
+}
+
+/// Fill the public-framework mapping from result documents: which rows of six resilience
 /// frameworks and standards (`docs/compliance/`) the runs support evidence for, which they
 /// do not, and the gap each row keeps. `runs_json` is a JSON array of `{label, result,
 /// scenario?}` where `result` is the result JSON text and `scenario` the scenario TOML text
@@ -341,6 +387,34 @@ pub fn compliance_report(runs_json: &str) -> Result<String, JsValue> {
     let out = crate::surface::compliance_report(&texts, MAX_INPUT_BYTES)
         .map_err(|e| JsValue::from_str(&e))?;
     Ok(serde_json::json!({"report": out.report, "markdown": out.markdown}).to_string())
+}
+
+/// Score a kshana-bench predictions file against a truth file (JSON texts) and return the
+/// result file as JSON text. `threshold` is the declared alarm threshold of tasks a and b.
+#[wasm_bindgen]
+pub fn bench_score(
+    truth_json: &str,
+    predictions_json: &str,
+    threshold: Option<f64>,
+) -> Result<String, JsValue> {
+    crate::surface::bench_score(
+        truth_json,
+        predictions_json,
+        threshold,
+        crate::surface::MAX_INPUT_BYTES,
+    )
+    .map_err(|e| JsValue::from_str(&e))
+}
+
+/// Render kshana-bench result files (a JSON array of result texts) as the static leaderboard
+/// page (HTML).
+#[wasm_bindgen]
+pub fn bench_leaderboard(results_json: &str) -> Result<String, JsValue> {
+    let results: Vec<String> = serde_json::from_str(results_json).map_err(|e| {
+        JsValue::from_str(&format!("results_json is not a JSON array of strings: {e}"))
+    })?;
+    crate::surface::bench_leaderboard(&results, crate::surface::MAX_INPUT_BYTES)
+        .map_err(|e| JsValue::from_str(&e))
 }
 
 /// The static public-framework mapping as Markdown, led by the statement every report
@@ -478,6 +552,79 @@ pub fn assess_vessel_log(session_toml: &str, log: &str) -> Result<String, JsValu
     .map_err(|e| JsValue::from_str(&e))
 }
 
+/// Read the published Jammertest catalogue and transmission plan as scheduled truth
+/// (`kshana jammertest import`). `plans_json` is a JSON array of the plan files' texts,
+/// `local_offset_h` the plan's offset from UTC (CEST: 2), `log_start_utc` the log's first epoch
+/// (ISO-8601 UTC); `location` and `year` are 0 for "not given". Returns JSON `{events_toml,
+/// events, skipped_non_rf, outside_log, unknown_ids}`. Planned slots, not recorded on-air times.
+#[wasm_bindgen]
+pub fn jammertest_import(
+    catalog_json: &str,
+    plans_json: &str,
+    log_start_utc: &str,
+    location: u32,
+    local_offset_h: f64,
+    year: u32,
+) -> Result<String, JsValue> {
+    let plans: Vec<String> = serde_json::from_str(plans_json).map_err(|e| {
+        JsValue::from_str(&format!("plans_json is not a JSON array of strings: {e}"))
+    })?;
+    let refs: Vec<&str> = plans.iter().map(String::as_str).collect();
+    crate::surface::jammertest_import_json(
+        catalog_json,
+        &refs,
+        (location != 0).then_some(location),
+        local_offset_h,
+        log_start_utc,
+        (year != 0).then_some(year),
+        crate::surface::MAX_INPUT_BYTES,
+    )
+    .map_err(|e| JsValue::from_str(&e))
+}
+
+/// Score a receiver log against the Jammertest schedule (`kshana jammertest score`). The session
+/// needs only `[log] format = "ubx"` (or `rinex`, `android`, `nmea`, `sbf`); `log_base64` is the
+/// log's bytes; `log_start_utc` is empty when the log states its own UTC start; `location` and
+/// `year` are 0 for "not given". Returns the scorecard as JSON, labelled MODELLED. Signed packs
+/// are made with the command line.
+#[wasm_bindgen]
+#[allow(clippy::too_many_arguments)]
+pub fn jammertest_score(
+    session_toml: &str,
+    log_base64: &str,
+    catalog_json: &str,
+    plans_json: &str,
+    location: u32,
+    local_offset_h: f64,
+    log_start_utc: &str,
+    year: u32,
+    recover_hold_s: f64,
+    guard_s: f64,
+) -> Result<String, JsValue> {
+    let plans: Vec<String> = serde_json::from_str(plans_json).map_err(|e| {
+        JsValue::from_str(&format!("plans_json is not a JSON array of strings: {e}"))
+    })?;
+    let refs: Vec<&str> = plans.iter().map(String::as_str).collect();
+    let log = crate::permalink::base64_decode(log_base64.trim())
+        .ok_or_else(|| JsValue::from_str("log_base64 is not base64"))?;
+    crate::surface::jammertest_score_json(
+        session_toml,
+        &log,
+        catalog_json,
+        &refs,
+        (location != 0).then_some(location),
+        local_offset_h,
+        (!log_start_utc.is_empty()).then_some(log_start_utc),
+        (year != 0).then_some(year),
+        crate::jammertest::score::ScoreOptions {
+            recover_hold_s,
+            guard_s,
+        },
+        crate::surface::MAX_INPUT_BYTES,
+    )
+    .map_err(|e| JsValue::from_str(&e))
+}
+
 /// Verify an evidence pack. `files_json` is a JSON object of file name to content: a string,
 /// `{"utf8": text}` or `{"base64": bytes}`. `public_key` is the signer's key as 64 hex digits,
 /// obtained from the signer by another route (empty for none: the signature then proves only
@@ -508,7 +655,7 @@ pub fn evidence_verify(
 
 /// Render a trust stream or a batch result in one telemetry format, with the encoders
 /// `kshana trust-telemetry` uses (no process, socket or clock). `format` is `"prometheus"`,
-/// `"cef"`, `"leef"` or `"otlp"`; `input_kind` is `"result"` (a `receiver-trust` result
+/// `"cef"`, `"leef"`, `"otlp"` or `"mqtt"`; `input_kind` is `"result"` (a `receiver-trust` result
 /// document) or `"jsonl"` (the live per-epoch stream); `host` names the sender in syslog
 /// events (empty for `kshana`). `options_json` is `""` or an object with `expose_position`
 /// (bool), `syslog_all` (bool: one event per epoch, not per band change) and `unix_nano`
@@ -541,6 +688,30 @@ pub fn trust_telemetry(
         surface::MAX_INPUT_BYTES,
     )
     .map_err(err)
+}
+
+/// Fit the accelerometer and gyro parameters of the `hybrid` and `fusion` scenarios from a
+/// stationary IMU log (`kshana imu-fit`, docs/MACHINE-INPUTS.md). `log` is the CSV text;
+/// `format` is `"csv"` or `"euroc"`; `axis` is `"x"`, `"y"` or `"z"`; `expected_mean` is the
+/// specific force that axis reads at rest (0 horizontal, about 9.80665 vertical). Returns JSON:
+/// `fit`, a ready-to-paste `[accel_classical]` `toml` and the log's `sha256`. MODELLED.
+#[wasm_bindgen]
+pub fn imu_fit(
+    log: &str,
+    format: &str,
+    axis: &str,
+    expected_mean: f64,
+    id: &str,
+) -> Result<String, JsValue> {
+    crate::surface::imu_fit(
+        log,
+        format,
+        axis,
+        expected_mean,
+        id,
+        crate::surface::MAX_INPUT_BYTES,
+    )
+    .map_err(|e| JsValue::from_str(&e))
 }
 
 /// Check Galileo OSNMA authentication of I/NAV pages, in memory, with the verifier

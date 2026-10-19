@@ -1,0 +1,12 @@
+ptp4l[5000.000]: selected best master clock 001122.fffe.334455
+ptp4l[5001.000]: master offset      -2500 s0 freq   +1200 path delay       500
+ptp4l[5002.001]: master offset       -900 s1 freq   +1500 path delay       498
+ptp4l[5003.000]: master offset         40 s2 freq   +1480 path delay       497
+ptp4l[5003.999]: master offset        -12 s2 freq   +1482 path delay       499
+ptp4l[5005.000]: master offset         25 s2 freq   +1485 path delay       498
+ptp4l[5006.001]: master offset         -8 s2 freq   +1484 path delay       498
+ptp4l[5007.000]: master offset         17 s2 freq   +1486 path delay       497
+ptp4l[5008.000]: master offset          5 s2 freq   +1486 path delay       497
+ptp4l[5009.000]: master offset         -3 s2 freq   +1485 path delay       498
+ptp4l[5010.000]: master offset          9 s2 freq   +1485 path delay       498
+ptp4l[5011.000]: rms    15 max   40 freq  +1485 +/-  10 delay   498 +/-   2

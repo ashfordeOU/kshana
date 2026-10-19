@@ -179,11 +179,22 @@ MODELLED: a representative preset sky, synthetic residuals and stated limits. It
 `runs = 1`.
 
 
-## Data-gated: the EU-ARAIM technical-note Table A-3 comparison (CAP-05c)
+## The EU-US WG-C ARAIM Milestone 3 maximum-URA reproduction (CAP-05c)
 
-Not run. A pre-registered comparison of `araim_dual_raim` against the published Table A-3
-availability needs, under a licence that permits reproducing them: the reference GPS and Galileo
-almanacs the technical note used (with their epoch); the user grid and the time sampling; the
-integrity support message and requirement constants (σ_URA, σ_URE, b_nom, P_sat, P_const, the
-integrity and continuity budgets, HAL and VAL); and the Table A-3 values themselves. Until those
-inputs are available on such terms nothing is fetched or vendored, and the row stays MODELLED.
+An earlier plan promised a comparison with "Table A-3" of an EU-ARAIM technical note. No public
+source for that table could be found (the public Milestone 1 to 3 reports of the EU-US Working
+Group C ARAIM Technical Subgroup have no Table A-3), so that comparison is **withdrawn** and
+nothing is promised under that name.
+
+What is attempted instead is the report that is public: the **Milestone 3 Report** (25 February
+2016, GPS.gov copy, SHA-256 `156147e1...13d8`), Tables 5, 6 and 7, which print for each
+constellation configuration and each of RNP 0.1 and RNP 0.3 the largest `sigma_URA` for which 90 %
+of users have 99.5 % availability. Twelve printed entries (the Depleted and Baseline rows of the
+dual-frequency tables) are checked, under bars pre-registered in
+[`xval/araim-m3/PREREGISTRATION.md`](../xval/araim-m3/PREREGISTRATION.md) before any scored run,
+with the deviations that cannot be removed stated there: no almanac files, Walker shells instead
+of the real slots, a coarser grid and step, and the engine's ADD v4.2 horizontal path in place of
+the report's own text. Tables 8 to 13 (single frequency) and the Optimistic rows are not attempted,
+with the reasons given there. **Result: 8 of 12 entries reproduced, 4 NOT MET (pinned):** the dual-constellation entries and all Galileo-only entries match (including the N/A rows), the dual Depleted RNP 0.1 entry reaches coverage 0.847 at 9 m against the printed 9 m (needs 0.90), and three GPS-only entries miss widely (coverage 0.70 at 4 m, 0.58 at 6 m, 0.65 at 10 m against printed 4 m, 6 m and ">10 m"). The GPS-only misses may come from the uniform Walker shell standing in for the real GPS slots (D1); that is a hypothesis, not a finding. The result stays MODELLED whatever it is. The study is
+`src/bin/gen_araim_m3_study.rs`; its measured coverages are in `xval/araim-m3/results.json` and
+scored by `tests/araim_m3_reproduction.rs`. The report itself is cited, not vendored.

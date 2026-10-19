@@ -40,10 +40,16 @@ package (`receiver_trust(toml)`, with the log inline) and from the Model Context
 
 | `format` | Source | What is read |
 |---|---|---|
-| `ubx` | u-blox binary | NAV-SAT per-satellite C/N0, elevation and azimuth, NAV-PVT position, MON-RF automatic gain control (AGC) and the jamming indicator `jamInd`, NAV-TIMEGPS week |
+| `ubx` | u-blox binary | NAV-SAT per-satellite C/N0, elevation and azimuth, NAV-PVT position, MON-RF automatic gain control (AGC) and the jamming indicator `jamInd`, NAV-TIMEGPS week, and the receiver's own flags: NAV-STATUS `spoofDetState` and SEC-SIG (`self_report`, see [RECEIVER-PROTOCOLS.md](RECEIVER-PROTOCOLS.md)) |
 | `rinex` | RINEX 3 observation file | `S` codes (C/N0) per satellite and signal; with a broadcast navigation file (`nav`), the pseudoranges for the engine's own fix |
 | `android` | Android GnssLogger CSV | `Raw` rows: C/N0 and `AgcDb` per satellite; `Fix` rows: position |
 | `nmea` | NMEA 0183 text | GSV signal-to-noise per satellite (dB-Hz, with or without the 4.10 signal ID) and its elevation and azimuth, GSA dilution of precision and satellites used, GGA and RMC time and position |
+| `sbf` | Septentrio binary (0.38, read only) | PVTGeodetic position, MeasEpoch C/N0 per satellite and signal, RFStatus band count; see [RECEIVER-PROTOCOLS.md](RECEIVER-PROTOCOLS.md) |
+| `rtklib-pos` | RTKLIB solution file (`.pos`) | time, position (latitude/longitude or ECEF, converted) and satellites used per epoch; degrees-minutes-seconds files are refused with a message |
+| `novatel` | NovAtel OEM7 ASCII or binary logs | `BESTPOS` position (solution computed only), `RANGE` C/No per satellite and signal; `RXSTATUS` jammer flags become the epoch's `self_report` (jamming state 2 when the receiver flags a jammer, 1 when not; no spoofing flag exists in RXSTATUS), set against Kshana's alarms by the `receiver-self-report` comparison |
+| `gnss-sdr` | GNSS-SDR Monitor and PVT-monitor streams as JSON lines | per-channel C/N0, fix, satellites used, HDOP, azimuth and elevation; made by `integrations/gnss-sdr/relay.py` |
+
+Details, sources and limits of these three: [`MACHINE-INPUTS.md`](MACHINE-INPUTS.md).
 
 Each epoch the readers produce also carries `source_span`, `[start, end)` byte offsets into the
 input: the smallest contiguous range holding the records that contributed to it, so the exact raw
@@ -55,6 +61,27 @@ well defined (RINEX 2).
 
 The file goes in by `path` (resolved against the scenario's own folder), or inline as
 `text` or `base64` (the only choices in a browser).
+
+## An IMU log as a second sensor
+
+`[log.imu]` adds an inertial log on the same clock:
+
+```toml
+[log.imu]
+format = "csv"          # or "euroc"
+path = "imu.csv"        # or text / base64
+heading0_deg = 90.0     # heading at the first IMU sample
+yaw_axis_down = true    # body z down (NED/FRD); false for z up (ENU/FLU)
+time_offset_s = 0.0     # added to the IMU clock to reach the log's t_s
+```
+
+The yaw rate is integrated from `heading0_deg` and fills the heading wherever the receiver log
+carries none, so the `heading-course` monitor (which needs `heading_sensor = true` on the
+platform) compares gyro heading with course over ground. A gyro drifts: the heading is only as
+good as the integration window and `hdg_cog_tol_deg` decides what counts as disagreement. The
+`csv` layout is documented in `MACHINE-INPUTS.md`. The IMU bytes are part of the scenario hash
+and of an evidence pack's scenario hash. Inline (`text`/`base64`) works on every surface; a
+`path` is refused where files are not read.
 
 ## Platform: static or vessel
 

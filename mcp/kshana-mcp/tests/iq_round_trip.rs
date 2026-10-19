@@ -317,6 +317,33 @@ async fn scene_acquire_track_frontend_round_trip() {
 }
 
 #[tokio::test]
+async fn an_sdrx_scene_is_written_with_ion_metadata_and_described() {
+    let dir = work_dir("sdrx");
+    let client = connect(IqConfig::new(&dir, 5_000_000).unwrap()).await;
+    let mut args = scene_args("scene.sdrx");
+    args["duration_s"] = json!(0.01);
+    let scene = call(&client, "iq_scene", args).await.unwrap();
+    // The recording named is the metadata; the samples sit beside it as 8-bit I/Q.
+    assert_eq!(scene["recording"], "scene.sdrx");
+    let names: Vec<(String, u64)> = files(&scene);
+    assert_eq!(
+        names.iter().map(|(p, _)| p.as_str()).collect::<Vec<_>>(),
+        ["scene.bin", "scene.sdrx", "scene.sdrx.truth.csv"]
+    );
+    assert_eq!(names[0].1, 20_460 * 2);
+    let text = std::fs::read_to_string(dir.join("scene.sdrx")).unwrap();
+    assert!(text.contains("SIMULATED scene, not a recording"), "{text}");
+    assert_eq!(scene["samples"], 20_460);
+    assert_eq!(scene["sample_rate_hz"], 2.046e6);
+    // Float output has no coding in the metadata standard: refused.
+    let mut bad = scene_args("float.sdrx");
+    bad["format"] = json!("sdrx:cf32_le");
+    assert!(call(&client, "iq_scene", bad).await.is_err());
+    client.cancel().await.ok();
+    std::fs::remove_dir_all(&dir).ok();
+}
+
+#[tokio::test]
 async fn a_sigmf_scene_is_written_as_a_pair_and_described() {
     let dir = work_dir("sigmf");
     let client = connect(IqConfig::new(&dir, 5_000_000).unwrap()).await;

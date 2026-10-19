@@ -1,0 +1,140 @@
+# DHS Resilient PNT Conformance Framework v2.0: test profiles for levels 1 to 4.
+# Bars are stated in PREREGISTRATION.md before any scored run. Everything here is MODELLED.
+id = "dhs-rpcf"
+title = "DHS Resilient PNT Conformance Framework v2.0, test profiles for levels 1 to 4"
+framework = "dhs-rpcf"
+sources = [
+  "Resilient PNT Conformance Framework, Version 2.0, 26 April 2022 (DHS Science and Technology Directorate, with CISA): level and requirement numbers, sections 5.5 and 8.1 to 8.6; document read in full on 2026-10-09; paraphrased, never quoted. The framework states no pass or fail values; the bars below are this pack's own stated profile, chosen by the pack author as the framework's section 8.6 says an assessor does.",
+]
+
+# ---- Level 1 ------------------------------------------------------------------------------
+[[test]]
+id = "L1-T1"
+profile = "level-1"
+title = "A run is repeatable from its scenario, seed and engine version"
+scenario = "l1-repeatable-spoof-detect"
+repeat = true
+supports_rows = ["DHS-S8.6"]
+gap = "Repeatability of a simulation is not input validation or firmware-update security (level 1 requirements 1 and 3), which no simulation output observes."
+
+[[test]]
+id = "L1-T2"
+profile = "level-1"
+title = "Manual recovery: a reset returns the receiver to a trusted state"
+needs_input = "A receiver log that covers a threat, an operator reset and the recovery, plus the stated reset time. Score it with `kshana receiver-trust` against events stated before the run, then run `kshana compliance-report` on the result."
+supports_rows = ["DHS-L1-R2"]
+gap = "A log shows when a fix became untrusted and recovered, not that a reset clears every stored state."
+
+# ---- Level 2 ------------------------------------------------------------------------------
+[[test]]
+id = "L2-T1"
+profile = "level-2"
+title = "A position-push spoofer is identified by the combined detector"
+scenario = "l2-spoof-position-push"
+supports_rows = ["DHS-L2-R4"]
+gap = "Scores the modelled detector against parameterised observables, not a product's own source exclusion."
+[[test.bar]]
+pointer = "/decision/fused/alert"
+op = "eq"
+value = true
+why = "Level 2 asks that a compromised source be identified; the fused detector must alert on a 75 m, three-satellite position push."
+[[test.bar]]
+pointer = "/decision/raim/alert"
+op = "eq"
+value = true
+why = "A satellite-subset position push is the case the RAIM parity layer is meant to catch."
+
+[[test]]
+id = "L2-T2"
+profile = "level-2"
+title = "A nearby broadband jammer is visible in the link-budget result"
+scenario = "l2-jammer-1km"
+supports_rows = ["DHS-L2-R4", "DHS-S8.1-8.3"]
+gap = "A link-budget model of one jammer geometry, not a measurement of a receiver."
+[[test.bar]]
+pointer = "/jammer_present"
+op = "eq"
+value = true
+why = "The test must apply the stated threat."
+[[test.bar]]
+pointer = "/fom/availability_under_jamming"
+op = "lt"
+against = "/fom/availability_nominal"
+why = "A stated threat must reduce modelled availability below the unjammed case, or the profile did not exercise it."
+
+[[test]]
+id = "L2-T3"
+profile = "level-2"
+title = "Automatic recovery without interrupting output"
+needs_input = "A receiver log in which output continues during the threat and the source is recovered without operator action, scored with `kshana receiver-trust` against events stated before the run."
+supports_rows = ["DHS-L2-R5"]
+gap = "Holdover runs bound modelled drift; the product's own recovery behaviour needs its log."
+
+# ---- Level 3 ------------------------------------------------------------------------------
+[[test]]
+id = "L3-T1"
+profile = "level-3"
+title = "Optical-clock holdover stays inside the stated timing bound"
+scenario = "l3-clock-holdover"
+supports_rows = ["DHS-L3-R7"]
+gap = "Bounds the modelled error of one stated clock; the product's own cross-checking is not observed."
+[[test.bar]]
+pointer = "/quantum/fom/timing_p95_ns"
+op = "le"
+against = "/threshold_ns"
+why = "Level 3 asks that degradation during a threat stay bounded; the bound is the scenario's own threshold_ns (20 ns)."
+
+[[test]]
+id = "L3-T2"
+profile = "level-3"
+title = "Chip-scale atomic clock holdover stays inside the same bound"
+scenario = "l3-clock-holdover"
+supports_rows = ["DHS-L3-R7"]
+gap = "As L3-T1. The classical clock is run on the same scenario so a pack shows the contrast, not only the favourable case."
+[[test.bar]]
+pointer = "/classical/fom/timing_p95_ns"
+op = "le"
+against = "/threshold_ns"
+why = "The same bound applied to the classical clock of the same scenario."
+
+[[test]]
+id = "L3-T3"
+profile = "level-3"
+title = "Fused alternative-PNT is never worse than free inertial or its best single channel"
+scenario = "l3-combined-altpnt"
+supports_rows = ["DHS-L3-R6", "DHS-L3-R7"]
+gap = "Fusion of modelled sensors side by side; isolation of a corrupted source inside a product needs fault injection into the product."
+[[test.bar]]
+pointer = "/combined_m"
+op = "le"
+against = "/free_inertial_drift_m"
+why = "Cross-verification must not make the solution worse than dead reckoning."
+[[test.bar]]
+pointer = "/combined_m"
+op = "le"
+against = "/gravity_only_m"
+why = "Fused output must not be worse than the gravity channel alone."
+[[test.bar]]
+pointer = "/combined_m"
+op = "le"
+against = "/magnetic_only_m"
+why = "Fused output must not be worse than the magnetic channel alone."
+[[test.bar]]
+pointer = "/combined_m"
+op = "le"
+against = "/terrain_only_m"
+why = "Fused output must not be worse than the terrain channel alone."
+
+# ---- Level 4 ------------------------------------------------------------------------------
+[[test]]
+id = "L4-T1"
+profile = "level-4"
+title = "Layering of PNT sources survives a common-mode denial vector"
+scenario = "l4-conflict-resilience"
+supports_rows = ["DHS-L4-R8", "DHS-S5.5"]
+gap = "A synthetic threat ensemble with sourced but MODELLED priors; a common-mode argument needs the product's real source set."
+[[test.bar]]
+pointer = "/correlation_sweep/min_ratio_over_grid"
+op = "ge"
+value = 2.0
+why = "Level 4 asks for no degradation from a threat spanning diverse sources. At the highest denial correlation in the grid the layered-to-single resilience ratio must still be at least 2."

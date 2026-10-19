@@ -1528,6 +1528,85 @@ fn assess_vessel_log<'py>(
     json_to_py(py, &v)
 }
 
+/// Read the published Jammertest test catalogue and transmission plan as scheduled truth
+/// (`kshana jammertest import`): `catalog_json` and `plans` (a list of plan files, one per day)
+/// are the NPRA JSON texts, `log_start_utc` the log's first epoch (ISO-8601 UTC),
+/// `local_offset_h` the plan's offset from UTC (CEST: 2). Returns a dict: `events_toml` (to
+/// append to a receiver-trust session), `events` (`test_id`, `year`, `kind`, `onset_s`, `end_s`,
+/// ...), `skipped_non_rf`, `outside_log`, `unknown_ids`. The events are planned slots, not
+/// recorded on-air times. Raises `ValueError`.
+#[pyfunction]
+#[pyo3(signature = (catalog_json, plans, log_start_utc, location=None, local_offset_h=2.0, year=None))]
+fn jammertest_import<'py>(
+    py: Python<'py>,
+    catalog_json: &str,
+    plans: Vec<String>,
+    log_start_utc: &str,
+    location: Option<u32>,
+    local_offset_h: f64,
+    year: Option<u32>,
+) -> PyResult<Bound<'py, PyAny>> {
+    let refs: Vec<&str> = plans.iter().map(String::as_str).collect();
+    let j = crate::surface::jammertest_import_json(
+        catalog_json,
+        &refs,
+        location,
+        local_offset_h,
+        log_start_utc,
+        year,
+        crate::surface::MAX_INPUT_BYTES,
+    )
+    .map_err(PyValueError::new_err)?;
+    let v: serde_json::Value =
+        serde_json::from_str(&j).map_err(|e| PyValueError::new_err(e.to_string()))?;
+    json_to_py(py, &v)
+}
+
+/// Score a receiver log against the Jammertest schedule (`kshana jammertest score`): per
+/// scheduled test the detection latency, missed alarms and time to recover, and the false
+/// alarms outside every slot. `session_toml` needs only `[log] format = "ubx"` (or `rinex`,
+/// `android`, `nmea`, `sbf`); `log` is `str` or `bytes`. Returns the scorecard as a dict,
+/// labelled MODELLED (the schedule is planned slots, not recorded on-air times). A signed
+/// evidence pack needs a key: use the command line. Advisory software, not type-approved
+/// navigation equipment (IEC 61108, IEC 61162). Raises `ValueError`.
+#[pyfunction]
+#[pyo3(signature = (session_toml, log, catalog_json, plans, location=None, local_offset_h=2.0, log_start_utc=None, year=None, recover_hold_s=10.0, guard_s=60.0))]
+#[allow(clippy::too_many_arguments)]
+fn jammertest_score<'py>(
+    py: Python<'py>,
+    session_toml: &str,
+    log: TextOrBytes,
+    catalog_json: &str,
+    plans: Vec<String>,
+    location: Option<u32>,
+    local_offset_h: f64,
+    log_start_utc: Option<String>,
+    year: Option<u32>,
+    recover_hold_s: f64,
+    guard_s: f64,
+) -> PyResult<Bound<'py, PyAny>> {
+    let refs: Vec<&str> = plans.iter().map(String::as_str).collect();
+    let j = crate::surface::jammertest_score_json(
+        session_toml,
+        log.bytes(),
+        catalog_json,
+        &refs,
+        location,
+        local_offset_h,
+        log_start_utc.as_deref(),
+        year,
+        crate::jammertest::score::ScoreOptions {
+            recover_hold_s,
+            guard_s,
+        },
+        crate::surface::MAX_INPUT_BYTES,
+    )
+    .map_err(PyValueError::new_err)?;
+    let v: serde_json::Value =
+        serde_json::from_str(&j).map_err(|e| PyValueError::new_err(e.to_string()))?;
+    json_to_py(py, &v)
+}
+
 /// Build a signed evidence pack for a window of a vessel's NMEA log (`kshana receiver-trust
 /// evidence`, in memory). `from_s`/`to_s` are seconds since the log's first epoch.
 /// `seed_hex` is the Ed25519 signing-key seed (64 hex digits); omitted, one is generated
@@ -1535,13 +1614,74 @@ fn assess_vessel_log<'py>(
 /// is now, `"none"` leaves it out (a reproducible pack). Returns a dict: `files` (name to
 /// `bytes`), `public_key`, `seed_hex` (the seed used: keep it private), `epochs_in_window`
 /// and `slice` (`[start, end]` of the log bytes bundled, or `None` for the whole log). A
-/// pack is a technical record, not a legal opinion. Raises `ValueError`.
+/// pack is a technical record, not a legal opinion. `lab_attestation` is TOML text, the
+/// operator's statement of a laboratory setup (`docs/HARDWARE-SAFETY.md`): it is validated and
+/// recorded in the signed manifest as given, never verified. Raises `ValueError`.
 #[pyfunction]
-#[pyo3(signature = (session_toml, log, from_s, to_s, title=None, created_utc=None, seed_hex=None))]
+#[pyo3(signature = (session_toml, log, from_s, to_s, title=None, created_utc=None, seed_hex=None, lab_attestation=None))]
 #[allow(clippy::too_many_arguments)]
 fn evidence_create<'py>(
     py: Python<'py>,
     session_toml: &str,
+    log: TextOrBytes,
+    from_s: f64,
+    to_s: f64,
+    title: Option<String>,
+    created_utc: Option<String>,
+    seed_hex: Option<String>,
+    lab_attestation: Option<String>,
+) -> PyResult<Bound<'py, PyAny>> {
+    use pyo3::types::{PyBytes, PyDict};
+    let seed = seed_hex
+        .as_deref()
+        .map(|h| crate::surface::hex32("seed_hex", h))
+        .transpose()
+        .map_err(PyValueError::new_err)?;
+    let created = match created_utc.as_deref() {
+        None => Some(crate::surface::now_rfc3339_utc()),
+        Some("none") => None,
+        Some(t) => Some(t.to_string()),
+    };
+    let p = crate::surface::evidence_create_attested(
+        session_toml,
+        log.bytes(),
+        from_s,
+        to_s,
+        title.as_deref(),
+        created.as_deref(),
+        seed,
+        lab_attestation.as_deref(),
+        crate::surface::MAX_INPUT_BYTES,
+    )
+    .map_err(PyValueError::new_err)?;
+    let files = PyDict::new(py);
+    for (k, v) in &p.files {
+        files.set_item(k, PyBytes::new(py, v))?;
+    }
+    let out = PyDict::new(py);
+    out.set_item("files", files)?;
+    out.set_item("public_key", p.public_key)?;
+    out.set_item("seed_hex", hex::encode(p.seed))?;
+    out.set_item("epochs_in_window", p.epochs_in_window)?;
+    out.set_item("slice", p.slice.map(|(a, b)| vec![a, b]))?;
+    Ok(out.into_any())
+}
+
+/// Build the signed laboratory round-trip pack (`kshana evidence round-trip`,
+/// `docs/spec/TEST-CONDITIONS.md`): the scenario, the laboratory's `kshana.test-conditions/1`
+/// document, the receiver log and its score against the stated events, linked by hash.
+/// `scoring_toml` is a receiver-trust scenario (its `[log]` names the format only; the log is
+/// `log`) whose `[[events]]` are the stated truth. Arguments after `to_s` and the return value
+/// are as for `evidence_create`. Raises `ValueError`, including when the conditions and the
+/// scoring events disagree. Writes no signal; a technical record, not a certification.
+#[pyfunction]
+#[pyo3(signature = (scoring_toml, scenario_toml, conditions, log, from_s, to_s, title=None, created_utc=None, seed_hex=None))]
+#[allow(clippy::too_many_arguments)]
+fn evidence_round_trip<'py>(
+    py: Python<'py>,
+    scoring_toml: &str,
+    scenario_toml: &str,
+    conditions: &str,
     log: TextOrBytes,
     from_s: f64,
     to_s: f64,
@@ -1560,8 +1700,10 @@ fn evidence_create<'py>(
         Some("none") => None,
         Some(t) => Some(t.to_string()),
     };
-    let p = crate::surface::evidence_create(
-        session_toml,
+    let p = crate::surface::evidence_round_trip(
+        scoring_toml,
+        scenario_toml,
+        conditions,
         log.bytes(),
         from_s,
         to_s,
@@ -1867,7 +2009,7 @@ fn get_example(name: &str) -> PyResult<&'static str> {
 }
 
 /// Fill the public-framework mapping from result documents given as text: which rows of
-/// five resilience frameworks and standards (`docs/compliance/`) the runs support evidence
+/// six resilience frameworks and standards (`docs/compliance/`) the runs support evidence
 /// for, which they do not, and the gap each row keeps. `runs` is a list of dicts with
 /// `label` (the name to show), `result` (the result JSON text) and optionally `scenario`
 /// (the scenario TOML text, which names the scenario kind a result does not). At most 64
@@ -1954,6 +2096,33 @@ fn osnma_verify<'py>(
     json_to_py(py, &v)
 }
 
+/// Score a kshana-bench predictions file against a truth file (JSON texts, `bench/SPEC.md`) and
+/// return the result file (`kshana-bench-result/1`) as JSON text. `threshold` is the declared
+/// alarm threshold of tasks a and b. Raises `ValueError`.
+#[pyfunction]
+#[pyo3(signature = (truth_json, predictions_json, threshold=None))]
+fn bench_score(
+    truth_json: &str,
+    predictions_json: &str,
+    threshold: Option<f64>,
+) -> PyResult<String> {
+    crate::surface::bench_score(
+        truth_json,
+        predictions_json,
+        threshold,
+        crate::surface::MAX_INPUT_BYTES,
+    )
+    .map_err(PyValueError::new_err)
+}
+
+/// Render kshana-bench result files (a list of JSON texts) as the static leaderboard page
+/// (HTML). Raises `ValueError` for an invalid file or another spec major version.
+#[pyfunction]
+fn bench_leaderboard(results: Vec<String>) -> PyResult<String> {
+    crate::surface::bench_leaderboard(&results, crate::surface::MAX_INPUT_BYTES)
+        .map_err(PyValueError::new_err)
+}
+
 /// The static public-framework mapping as Markdown, led by the statement every report
 /// carries: one table per framework (`sources=False`) or the source documents they cite,
 /// with versions and URLs (`sources=True`).
@@ -1963,9 +2132,72 @@ fn compliance_mapping(sources: bool) -> String {
     crate::surface::compliance_mapping(sources)
 }
 
+/// The standards packs (`kshana standards-pack list`): a dict with `packs` (id, title,
+/// framework, test counts) and a `notice`. A pack measures modelled scenarios against bars
+/// stated before the run; it rates no product.
+#[pyfunction]
+fn standards_pack_list<'py>(py: Python<'py>) -> PyResult<Bound<'py, PyAny>> {
+    json_to_py(py, &crate::surface::standards_pack_list())
+}
+
+/// Run one standards pack by id (`kshana standards-pack run <id>`). Returns the report as a
+/// dict (`pack`, `summary`, `tests` with each bar's measured and expected value and `met`,
+/// `evidence_tier`, `notice`, `advisory`, `statement`) with the same report as Markdown under
+/// `markdown`. Pass `json.dumps` of the dict (without `markdown`) to `compliance_report` to see
+/// the rows. Raises `ValueError` for an unknown id.
+#[pyfunction]
+fn standards_pack_run<'py>(py: Python<'py>, pack_id: &str) -> PyResult<Bound<'py, PyAny>> {
+    let (mut report, md) =
+        crate::surface::standards_pack_run(pack_id).map_err(PyValueError::new_err)?;
+    report["markdown"] = md.into();
+    json_to_py(py, &report)
+}
+
+/// Check this implementation of the LunaNet Augmented Forward Signal against the published
+/// tables and worked examples of LSIS-AFS V1.0 (LNIS V5, AD1 Volume A; `kshana lunanet-afs-check
+/// spec`): a dict with `bars` (B1 to B10, each with `matched`, `total`, `status`), `all_met`,
+/// `pin` and `status`. B4 reports one miss: the document prints the same last 24 chips for
+/// tertiary PRN 147 and 151.
+#[pyfunction]
+fn lunanet_afs_check_spec<'py>(py: Python<'py>) -> PyResult<Bound<'py, PyAny>> {
+    json_to_py(py, &crate::surface::lunanet_afs_check_spec())
+}
+
+/// Check a hard-decision AFS symbol stream given as text of `0` and `1` (white space ignored)
+/// against section 2.4 of LSIS-AFS V1.0 (`kshana lunanet-afs-check symbols`): frame
+/// synchronisation, SB1 decoding, FID, TOI continuity and frame spacing. `max_sp_errors`
+/// symbols of the 68-symbol synchronisation pattern may be wrong (at most 20). Subframes 2 to 4
+/// (LDPC, CRC-24Q) are not verified, and the report's `not_checked` says so. Raises
+/// `ValueError`.
+#[pyfunction]
+#[pyo3(signature = (symbols, max_sp_errors=0))]
+fn lunanet_afs_check_symbols<'py>(
+    py: Python<'py>,
+    symbols: &str,
+    max_sp_errors: usize,
+) -> PyResult<Bound<'py, PyAny>> {
+    let r = crate::surface::lunanet_afs_check_symbols(
+        symbols,
+        max_sp_errors,
+        8 * crate::surface::MAX_INPUT_BYTES,
+    )
+    .map_err(PyValueError::new_err)?;
+    json_to_py(py, &r)
+}
+
+/// A test stream of `frames` (1 to 100) AFS frames as text of `0` and `1`, TOI counting from
+/// `toi0` (0 to 99): the synchronisation pattern, SB1 and frame lengths of LSIS-AFS V1.0 with
+/// **placeholder** subframes 2 to 4 (not LDPC coded, no message). Symbols for testing a
+/// checker, not a waveform; Kshana writes no signal. Raises `ValueError`.
+#[pyfunction]
+#[pyo3(signature = (frames=1, toi0=0))]
+fn lunanet_afs_generate(frames: usize, toi0: u8) -> PyResult<String> {
+    crate::surface::lunanet_afs_generate(frames, toi0).map_err(PyValueError::new_err)
+}
+
 /// Render a trust stream or a batch result in one telemetry format with the encoders
 /// `kshana trust-telemetry` uses (no process, socket or clock). `format` is `"prometheus"`,
-/// `"cef"`, `"leef"` or `"otlp"`; `input_kind` is `"jsonl"` (the live per-epoch stream, the
+/// `"cef"`, `"leef"`, `"otlp"` or `"mqtt"`; `input_kind` is `"jsonl"` (the live per-epoch stream, the
 /// default) or `"result"` (a `receiver-trust` result document); `host` names the sender in
 /// syslog events (default `kshana`). `syslog_all` gives one event per epoch instead of one per
 /// band change; `expose_position` adds the receiver-reported position to the metrics;
@@ -1999,6 +2231,26 @@ fn trust_telemetry(
         surface::MAX_INPUT_BYTES,
     )
     .map_err(bad)
+}
+
+/// Fit the accelerometer and gyro parameters of the `hybrid` and `fusion` scenarios from a
+/// stationary IMU log (`kshana imu-fit`). `log` is the CSV text, `format` is `"csv"` or
+/// `"euroc"`, `axis` is `"x"`, `"y"` or `"z"` and `expected_mean` the specific force that axis
+/// reads at rest (0 for a horizontal axis, about 9.80665 for the vertical one). Returns JSON
+/// text with `fit`, a ready-to-paste `[accel_classical]` `toml` and the log's `sha256`.
+/// MODELLED. Raises `ValueError` on a log that is too short, uneven or unreadable.
+#[pyfunction]
+#[pyo3(signature = (log, format="csv", axis="x", expected_mean=0.0, id="imu-fit"))]
+fn imu_fit(log: &str, format: &str, axis: &str, expected_mean: f64, id: &str) -> PyResult<String> {
+    crate::surface::imu_fit(
+        log,
+        format,
+        axis,
+        expected_mean,
+        id,
+        crate::surface::MAX_INPUT_BYTES,
+    )
+    .map_err(PyValueError::new_err)
 }
 
 /// Share of a route (GeoJSON LineString or `lat,lon` CSV text) through degraded cells of
@@ -2143,7 +2395,10 @@ fn kshana(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(receiver_trust, m)?)?;
     m.add_function(wrap_pyfunction!(receiver_trust_replay, m)?)?;
     m.add_function(wrap_pyfunction!(assess_vessel_log, m)?)?;
+    m.add_function(wrap_pyfunction!(jammertest_import, m)?)?;
+    m.add_function(wrap_pyfunction!(jammertest_score, m)?)?;
     m.add_function(wrap_pyfunction!(evidence_create, m)?)?;
+    m.add_function(wrap_pyfunction!(evidence_round_trip, m)?)?;
     m.add_function(wrap_pyfunction!(evidence_verify, m)?)?;
     m.add_function(wrap_pyfunction!(interference_map, m)?)?;
     m.add_function(wrap_pyfunction!(compliance_report, m)?)?;
@@ -2163,8 +2418,16 @@ fn kshana(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(list_examples, m)?)?;
     m.add_function(wrap_pyfunction!(get_example, m)?)?;
     m.add_function(wrap_pyfunction!(compliance_mapping, m)?)?;
+    m.add_function(wrap_pyfunction!(standards_pack_list, m)?)?;
+    m.add_function(wrap_pyfunction!(standards_pack_run, m)?)?;
+    m.add_function(wrap_pyfunction!(lunanet_afs_check_spec, m)?)?;
+    m.add_function(wrap_pyfunction!(lunanet_afs_check_symbols, m)?)?;
+    m.add_function(wrap_pyfunction!(lunanet_afs_generate, m)?)?;
+    m.add_function(wrap_pyfunction!(bench_score, m)?)?;
+    m.add_function(wrap_pyfunction!(bench_leaderboard, m)?)?;
     m.add_function(wrap_pyfunction!(osnma_verify, m)?)?;
     m.add_function(wrap_pyfunction!(trust_telemetry, m)?)?;
+    m.add_function(wrap_pyfunction!(imu_fit, m)?)?;
     m.add_function(wrap_pyfunction!(route_exposure, m)?)?;
     m.add_function(wrap_pyfunction!(nmea_training, m)?)?;
     m.add_function(wrap_pyfunction!(iq_scene, m)?)?;
