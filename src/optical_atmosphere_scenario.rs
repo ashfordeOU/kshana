@@ -17,6 +17,7 @@ use crate::optical_linkbudget::{optical_link_budget, OpticalLinkParams};
 use crate::optical_outage_holdover::couple;
 use crate::optical_sitediv::{correlation_matrix, independent_union, network_availability};
 use crate::optical_techniques::{evaluate, Technique};
+use crate::optical_timeseries::{site_series, SeriesSpec, SiteModel, MAX_STEPS};
 use crate::optical_weather::{
     availability_for_budget, margin_for_availability, site_availability, CloudClimate, FadeTable,
     OutageModel, SiteLink,
@@ -203,6 +204,30 @@ impl Default for ClockSpec {
     }
 }
 
+fn d_ts_duration() -> f64 {
+    336.0
+}
+fn d_ts_step() -> f64 {
+    600.0
+}
+fn d_ts_seed() -> u64 {
+    37
+}
+
+/// The optional `[timeseries]` table: also write one seeded realisation of each site's link through time.
+#[derive(Clone, Debug, Deserialize)]
+pub struct TimeseriesSpec {
+    /// Length of the realisation (hours).
+    #[serde(default = "d_ts_duration")]
+    pub duration_h: f64,
+    /// Step (seconds).
+    #[serde(default = "d_ts_step")]
+    pub step_s: f64,
+    /// Seed of the draw.
+    #[serde(default = "d_ts_seed")]
+    pub seed: u64,
+}
+
 /// The `optical-atmosphere` scenario.
 #[derive(Clone, Debug, Deserialize)]
 pub struct OpticalAtmosphereScenario {
@@ -233,6 +258,10 @@ pub struct OpticalAtmosphereScenario {
     /// Clock coupling.
     #[serde(default)]
     pub clock: ClockSpec,
+    /// One seeded realisation of each site's link through time (absent: none is written and the
+    /// result is byte-identical to a run without this field).
+    #[serde(default)]
+    pub timeseries: Option<TimeseriesSpec>,
 }
 
 fn default_sites() -> Vec<SiteSpec> {
@@ -310,6 +339,18 @@ pub const UNITS: &[FieldUnit] = &[
     FieldUnit { path: "sites[].techniques[].with_technique_pct", unit: "%", provenance: Modelled, definition: "availability with the technique" },
     FieldUnit { path: "sites[].techniques[].gain_pct_points", unit: "%", provenance: Modelled, definition: "availability gain in percentage points" },
     FieldUnit { path: "sites[].techniques[].margin_delta_db", unit: "dB", provenance: Modelled, definition: "clear-sky budget change from a new wavelength or aperture" },
+    FieldUnit { path: "sites[].timeseries.seed", unit: "1", provenance: Input, definition: "seed of the realisation" },
+    FieldUnit { path: "sites[].timeseries.step_s", unit: "s", provenance: Input, definition: "step of the realisation" },
+    FieldUnit { path: "sites[].timeseries.duration_h", unit: "h", provenance: Input, definition: "length of the realisation" },
+    FieldUnit { path: "sites[].timeseries.steps", unit: "count", provenance: Computed, definition: "number of steps of the realisation" },
+    FieldUnit { path: "sites[].timeseries.realised.availability_pct", unit: "%", provenance: Modelled, definition: "share of the realisation's steps with the link up (one draw, not the climate)" },
+    FieldUnit { path: "sites[].timeseries.realised.cloud_fraction_pct", unit: "%", provenance: Modelled, definition: "share of the realisation's steps inside a cloud episode" },
+    FieldUnit { path: "sites[].timeseries.realised.outages", unit: "count", provenance: Modelled, definition: "runs of steps with the link down in the realisation" },
+    FieldUnit { path: "sites[].timeseries.realised.longest_outage_h", unit: "h", provenance: Modelled, definition: "longest run of steps with the link down in the realisation" },
+    FieldUnit { path: "sites[].timeseries.margin_db", unit: "dB", provenance: Modelled, definition: "link margin left at the step: the fade budget minus the cloud and scintillation fades" },
+    FieldUnit { path: "sites[].timeseries.cloud_db", unit: "dB", provenance: Modelled, definition: "cloud attenuation at the step (0 when clear)" },
+    FieldUnit { path: "sites[].timeseries.scint_db", unit: "dB", provenance: Modelled, definition: "scintillation fade at the step (negative is an enhancement)" },
+    FieldUnit { path: "sites[].timeseries.up", unit: "1", provenance: Modelled, definition: "1 when the link is up at the step (margin not negative and the terminal on target), else 0" },
     FieldUnit { path: "network.sites_used", unit: "count", provenance: Computed, definition: "sites in the row, best first" },
     FieldUnit { path: "network.rows[].n", unit: "count", provenance: Computed, definition: "number of best sites combined" },
     FieldUnit { path: "network.rows[].independent_pct", unit: "%", provenance: ClosedForm, definition: "independent-union availability 1 - prod(1 - a)" },
@@ -369,6 +410,19 @@ impl OpticalAtmosphereScenario {
         for t in &self.availability_targets_pct {
             if !(*t > 0.0 && *t < 100.0) {
                 return Err("availability_targets_pct entries must be in (0, 100)".into());
+            }
+        }
+        if let Some(t) = &self.timeseries {
+            pos(t.duration_h, "timeseries.duration_h")?;
+            pos(t.step_s, "timeseries.step_s")?;
+            if t.duration_h > 8760.0 {
+                return Err("timeseries.duration_h must be at most 8760 (one year)".into());
+            }
+            let steps = ((t.duration_h * 3600.0 / t.step_s).round() as usize).max(1);
+            if steps > MAX_STEPS {
+                return Err(format!(
+                    "timeseries: {steps} steps is above the {MAX_STEPS} a result carries; raise step_s or shorten duration_h"
+                ));
             }
         }
         for c in &self.clock.classes {
@@ -469,7 +523,7 @@ impl OpticalAtmosphereScenario {
 
         let mut sites_json = Vec::new();
         let mut avail = Vec::new();
-        for s in &scn.site {
+        for (site_index, s) in scn.site.iter().enumerate() {
             let link = link_for(s);
             let climate = CloudClimate {
                 p_cloud: s.p_cloud,
@@ -570,7 +624,24 @@ impl OpticalAtmosphereScenario {
                     })
                 })
                 .collect();
-            sites_json.push(json!({
+            let series = scn.timeseries.as_ref().map(|t| {
+                let spec = SeriesSpec {
+                    duration_s: t.duration_h * 3600.0,
+                    step_s: t.step_s,
+                    seed: t.seed,
+                };
+                let model = SiteModel {
+                    link: &link,
+                    climate: &climate,
+                    outages: &outages,
+                    sc: &sc,
+                    budget_db,
+                    pointing_availability: link.pointing_availability,
+                };
+                let out = site_series(&model, &spec, site_index as u64);
+                out.to_json(&spec)
+            });
+            let mut site_json = json!({
                 "name": s.name,
                 "lat_deg": s.lat_deg,
                 "lon_deg": s.lon_deg,
@@ -603,7 +674,11 @@ impl OpticalAtmosphereScenario {
                 },
                 "holdover": holdover,
                 "techniques": techniques,
-            }));
+            });
+            if let (Some(ts), Some(obj)) = (series, site_json.as_object_mut()) {
+                obj.insert("timeseries".to_string(), ts);
+            }
+            sites_json.push(site_json);
         }
 
         // network: best sites first
@@ -653,11 +728,17 @@ impl OpticalAtmosphereScenario {
             last["independent_pct"].as_f64().unwrap_or(f64::NAN),
             last["correlated_pct"].as_f64().unwrap_or(f64::NAN),
         );
+        // the time-series fields are described only when the run carries them, so a run without the table is the 0.37 document
+        let units: Vec<FieldUnit> = UNITS
+            .iter()
+            .filter(|u| scn.timeseries.is_some() || !u.path.starts_with("sites[].timeseries"))
+            .cloned()
+            .collect();
         let json = json!({
             "kind": "optical-atmosphere",
             "label": "MODELLED — optical PNT through the atmosphere: clear-air extinction (Kim visibility law + Rayleigh), cloud optical depth from a stated liquid-water climate (P.840 amount, geometric-optics extinction), Hufnagel-Valley turbulence with gamma-gamma fades and aperture averaging, availability against the link margin, outage durations coupled to clock holdover, and distance-correlated site diversity. The numerics are checked against an independent oracle; no measured availability record has been compared, and the weather, technique and clock inputs are assumptions.",
             "advisory": "Advisory analysis only: not a certified availability, integrity or navigation product, and not a prediction for any real site unless its climate inputs come from a stated dataset.",
-            "units": crate::field_schema::units_block(UNITS),
+            "units": crate::field_schema::units_block(&units),
             "inputs": {
                 "wavelength_nm": scn.wavelength_nm,
                 "elevation_deg": scn.elevation_deg,

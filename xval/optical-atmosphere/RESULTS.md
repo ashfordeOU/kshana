@@ -37,3 +37,22 @@ Findings:
    evaluates the same 5/6 form, so A2 does not test that choice. It is recorded in the ledger row.
 
 Nothing in these results is an external-oracle comparison of the atmosphere. No row is VALIDATED.
+
+## Time series addendum (0.38): bars T1-T6
+
+Bars fixed in `PREREGISTRATION-timeseries.md` (commit c4dfdbab) before the first run. `tests/optical_atmosphere_timeseries.rs`, all met on the
+first run: T1, T2, T5 and T6 pass; T3 and T4 over 8760 h at 600 s for the three default sites:
+
+| seed | site | stated availability, % | realised, % | p_cloud, % | realised cloud, % |
+|---|---|---|---|---|---|
+| 37 | northern | 37.76 | 40.29 | 65 | 62.06 |
+| 37 | central | 53.85 | 54.29 | 50 | 52.17 |
+| 37 | southern | 74.66 | 74.24 | 30 | 30.19 |
+| 38 | northern | 37.76 | 41.03 | 65 | 63.14 |
+| 38 | central | 53.85 | 51.36 | 50 | 52.24 |
+| 38 | southern | 74.66 | 76.64 | 30 | 27.99 |
+
+Worst availability difference 3.28 points (bar 6); worst cloud-fraction difference 2.14 points (bar 5). These are consistency checks of a draw
+against the same model's statistical output, not an external oracle; the row stays MODELLED. One draw (seed 38, central) holds a 270 h cloud
+episode: a heavy-tail draw of the stated log-normal (its cloud-run median, 4.17 h, matches the model's 4.25 h; the mean, 7.8 h, includes adjacent
+episodes that merge when a clear spell is shorter than a step).
