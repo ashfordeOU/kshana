@@ -74,3 +74,10 @@ sigma_ln = 1.0
 mean_outage_h = 5.0
 outage_sigma_ln = 1.0
 data_source = "ILLUSTRATIVE input, not a measurement"
+
+# One seeded realisation of each site's link through time (MODELLED; a draw from the model above, not the climate).
+# Absent, no series is written and the result is the 0.37 document.
+[timeseries]
+duration_h = 336.0
+step_s = 600.0
+seed = 37

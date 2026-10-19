@@ -1,0 +1,77 @@
+/* Bridge replay page. Colours, type and radii come from tokens.css; layout from app.css and studio.css. Band colours
+   are never the only cue: line weight, labels and the readout say it too. The drawing's own rules are in
+   lib/replay-draw.mjs (SVG_CSS), injected once by replay.js. */
+.rpl{padding-bottom:56px}
+.rpl h1{font:700 clamp(28px,4.4vw,46px)/1.05 var(--f-display);letter-spacing:-.02em;margin:10px 0 8px}
+.rpl .lede{max-width:78ch;margin:0 0 14px;color:var(--ink-2);font-size:16px;line-height:1.5}
+.rpl .h3{font:650 17px/1.2 var(--f-display)}
+.rpl h3{margin:0 0 6px;font:600 12px/1.2 var(--f-text);color:var(--ink-3);text-transform:uppercase;letter-spacing:.05em}
+.rpl .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.rpl-advice{margin:0 0 16px;padding:12px 14px;border-radius:14px;border:1px solid var(--line-2);border-left:4px solid var(--spf-card);background:var(--surface);font-size:13.5px;line-height:1.5;color:var(--ink-2);max-width:100ch}
+.rpl-advice b{color:var(--ink)}
+
+.rpl-bar{display:grid;grid-template-columns:auto auto minmax(160px,1fr) auto;gap:10px 14px;align-items:center;margin-bottom:14px;position:sticky;top:64px;z-index:20}
+.rpl-btns{display:flex;align-items:center;gap:6px}
+.rpl-b{min-height:44px;min-width:44px;display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:0 12px;border-radius:999px;border:1px solid var(--line-2);background:var(--surface);font-size:12.5px;font-weight:600;color:var(--ink-2)}
+.rpl-b:hover{background:var(--line)}
+.rpl-b svg{width:14px;height:14px}
+.rpl-play{width:48px;height:48px;border-radius:50%;background:var(--ink);color:var(--bg);display:grid;place-items:center}
+.rpl-play svg{width:18px;height:18px}
+.rpl-speed{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--ink-2)}
+.rpl-speed select{min-height:44px;min-width:60px;border-radius:10px;border:1px solid var(--line-2);background:var(--surface);padding:0 8px;color:var(--ink)}
+.rpl-slider{display:block;width:100%;min-width:120px;min-height:44px;box-sizing:border-box;padding:0;accent-color:var(--tim)}
+.rpl-clock{font:600 13px/1.3 var(--f-mono);color:var(--ink);min-width:17ch;text-align:right;white-space:nowrap}
+.rpl-tools{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:8px}
+.rpl-chip{min-height:44px;display:inline-flex;align-items:center;gap:8px;padding:0 14px;border-radius:999px;border:1px solid var(--line-2);background:var(--surface);font-size:13px;font-weight:550;color:var(--ink-2);cursor:pointer}
+button.rpl-chip:hover,.rpl-chip.chk:hover,.rpl-open:hover{background:var(--line)}
+.rpl-chip input[type=checkbox]{width:18px;height:18px;accent-color:var(--tim)}
+.rpl-open{position:relative}.rpl-open input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}.rpl-open:focus-within{outline:2px solid var(--tim);outline-offset:2px}
+.rpl-live{grid-column:1/-1;margin:0;font-size:13px;color:var(--ink-2);min-height:1.5em}
+.rpl-status{grid-column:1/-1;margin:0;font-size:13px;color:var(--ink-2)}
+.rpl-status.err{color:var(--int);font-weight:600}
+.rpl button:focus-visible,.rpl select:focus-visible,.rpl input:focus-visible{outline:2px solid var(--tim);outline-offset:2px}
+
+.rpl-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px;align-items:start}
+.rpl-panel{min-width:0}
+.rpl-pick{display:flex;flex-wrap:wrap;align-items:end;gap:8px 12px;margin:0 0 10px}
+.rpl-pick label:not(.rpl-chip){display:flex;flex-direction:column;gap:4px;font-size:13px;color:var(--ink-2)}
+.rpl-sel{min-height:44px;max-width:100%;border-radius:10px;border:1px solid var(--line-2);background:var(--surface);padding:0 10px;color:var(--ink)}
+.rpl-fig{width:100%;min-width:0}
+.rpl-track,.rpl-strip{display:block;width:100%;height:auto;overflow:visible}
+.rpl-track{aspect-ratio:1/1;border-radius:14px}
+.rpl-strip{margin-top:8px}
+.rpl-legend{display:flex;flex-wrap:wrap;gap:6px 14px;margin:8px 0 0;padding:0;list-style:none;font-size:12.5px;color:var(--ink-2)}
+.rpl-legend li{display:flex;align-items:center;gap:6px}
+.rpl-legend i{display:inline-block;width:22px;height:0;border-top:3px solid var(--c);border-radius:2px;forced-color-adjust:none}
+.rpl-legend i.w{border-top-width:4px}.rpl-legend i.ww{border-top-width:5px}.rpl-legend i.thin{border-top-width:1.5px}.rpl-legend i.dots{border-top-style:dotted;border-top-width:4px}
+.rpl-read{display:grid;grid-template-columns:auto minmax(0,1fr) 150px;gap:10px 14px;align-items:start;margin-top:12px}
+.rpl-score{display:flex;flex-direction:column;align-items:flex-start;gap:6px;min-width:84px}
+.rpl-num{font:700 34px/1 var(--f-mono);color:var(--ink)}
+.rpl-band{display:inline-block;padding:4px 10px;border-radius:999px;border:1.5px solid var(--ink-3);font:600 12px var(--f-text);color:var(--ink)}
+.rpl-band[data-band=nominal]{border-color:var(--rp-nom)}.rpl-band[data-band=degraded]{border-color:var(--rp-deg);border-style:dashed}.rpl-band[data-band=untrusted]{border-color:var(--rp-unt);border-width:3px}
+.rpl-kv{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 14px;margin:0}
+.rpl-kv dt{font:600 11px var(--f-text);color:var(--ink-3);text-transform:uppercase;letter-spacing:.04em}
+.rpl-kv dd{margin:1px 0 0;font:500 12.5px var(--f-mono);color:var(--ink);overflow-wrap:anywhere}
+.rpl-sky{margin:0}
+.rpl-sky svg{display:block;width:100%;height:auto}
+.rpl-sky figcaption{margin-top:4px;font-size:11.5px;line-height:1.35;color:var(--ink-3)}
+.rpl-verdict{margin-top:12px;padding:12px 14px;border-radius:14px;background:var(--surface-2);border:1px solid var(--line)}
+.rpl-verdict p{margin:0;font-size:13.5px;line-height:1.5;color:var(--ink)}
+.rpl-verdict .rpl-wait,.rpl-verdict .rpl-fine2{color:var(--ink-3);font-size:12.5px}
+.rpl-verdict .rpl-fine2{margin-top:6px}
+.rpl-fine{margin-top:22px;max-width:100ch}
+.rpl-fine ul{margin:8px 0 0;padding-left:20px;color:var(--ink-2);font-size:13.5px;line-height:1.55}
+
+@media (max-width:900px){
+  .rpl-grid{grid-template-columns:minmax(0,1fr)}
+  .rpl-bar{grid-template-columns:minmax(0,1fr);position:static}
+  .rpl-btns{flex-wrap:wrap}
+  .rpl-clock{text-align:left;min-width:0;white-space:normal}
+}
+@media (max-width:520px){
+  .wrap.rpl{padding-left:16px;padding-right:16px}
+  .rpl-read{grid-template-columns:auto minmax(0,1fr)}
+  .rpl-sky{grid-column:1/-1;max-width:220px}
+  .rpl-b .lbl{display:none}
+}
+@media (prefers-reduced-motion:reduce){.rpl *{transition:none!important;animation:none!important}}

@@ -104,6 +104,8 @@ export const SCENARIOS = [
   ["time-transfer-budget.toml", "timing", "Two-way satellite time transfer", "What do station, transponder, ionosphere and Sagnac terms do to a two-way time offset, and what is its uncertainty budget? (modelled)"],
   ["optical-atmosphere-network.toml", "timing", "Optical link through the atmosphere, three sites", "How often is an optical timing link up through clouds and turbulence, and what do extra ground sites buy? (modelled; illustrative cloud climates)"],
   ["optical-atmosphere-techniques.toml", "timing", "Optical link techniques", "What do a larger aperture, another wavelength or adaptive optics buy one optical uplink in cloud and turbulence? (modelled; illustrative cloud climate)"],
+  ["holdover-test-example.toml", "timing", "Holdover test: a time-error record against the masks", "Pull the antenna, score the holdover: a record split at the two times the operator states, each step measured against the ITU-T masks written for it. (modelled; the record is invented for the example)"],
+  ["holdover-test-ptp4l.toml", "timing", "Holdover test: a linuxptp log", "The same four steps read from a ptp4l servo log: how far does the daemon's own offset stay from the masks while GNSS is away? (modelled; the log is invented for the example)"],
   ["telecom-synce-eec.toml", "timing", "Frequency sync against SyncE masks", "Does a free-running oven-controlled oscillator stay inside the synchronous Ethernet equipment-clock wander masks? (modelled)"],
   // Orbits & GNSS geometry
   ["orbit-gnss-challenged.toml", "orbits", "GNSS availability", "When is a fix even possible from the satellite geometry?"],
@@ -149,6 +151,8 @@ export const SCENARIOS = [
   ["lunar-frame-realisation.toml", "deepspace", "Lunar frame", "Can a Helmert datum fit recover a lunar reference-frame transform? (modelled)"],
   ["lunar-frame-campaign.toml", "deepspace", "Lunar frame campaign", "What datum accuracy comes out of an observing campaign rather than an injected transform? (modelled)"],
   ["lunar-llr-datum.toml", "deepspace", "Lunar laser-ranging datum", "What does the lunar datum look like when the campaign is real archived lunar laser ranging (LLR)? (modelled; a run recorded with the native engine)"],
+  ["lunar-station-geodesy-baseline.toml", "deepspace", "Lunar station geodesy: the five arrays alone", "How well do today's five retroreflector arrays pin the lunar datum on a real schedule, before any station is added? The baseline of a pair. (modelled; a run recorded with the native engine)"],
+  ["lunar-station-geodesy-with-station.toml", "deepspace", "Lunar station geodesy: with a south-polar station", "The same archived schedule with one added south-polar reflector and VLBI beacon: how much does the datum bound tighten? (modelled, illustrative site; a run recorded with the native engine)"],
   ["lunar-interop-export.toml", "deepspace", "Lunar interop export", "Can lunar frame / time / ephemeris round-trip through CCSDS OEM + a KIF envelope?"],
   ["realtime-frame-eop.toml", "deepspace", "Real-time frame/EOP", "How much frame error does real-time (predicted) Earth-orientation introduce? (modelled)"],
   ["cislunar-observability.toml", "deepspace", "Cislunar observability", "How much of a cislunar spacecraft's state does an inter-satellite arc make observable?"],
@@ -229,11 +233,13 @@ export const SCENARIOS = [
 // Files the browser engine cannot run, with the reason shown in the library.
 export const NOT_IN_BROWSER = {
   "lunar-llr-datum.toml": "Needs the archived laser-ranging data slice that ships with the repository, not with the browser build.",
+  "lunar-station-geodesy-baseline.toml": "Needs the archived laser-ranging data slice that ships with the repository, not with the browser build.",
+  "lunar-station-geodesy-with-station.toml": "Needs the archived laser-ranging data slice that ships with the repository, not with the browser build.",
   "lunar-station-coverage-terrain.toml": "Needs the lunar elevation-model crop (data/lunar-dem/) that ships with the repository, not with the browser build.",
   "quantum-pnt-demonstrator.suite.toml": "A study suite, not a single scenario. Run it with the command-line tool: kshana --study.",
 };
 // Of those, the files the Studio shows as a run recorded with the native command-line engine.
-export const RECORDED_NATIVELY = ["lunar-llr-datum.toml", "lunar-station-coverage-terrain.toml"];
+export const RECORDED_NATIVELY = ["lunar-llr-datum.toml", "lunar-station-coverage-terrain.toml", "lunar-station-geodesy-baseline.toml", "lunar-station-geodesy-with-station.toml"];
 // Bundled scenarios that need a newer engine than an older package has: what they need (a kind the engine lists, or
 // a function it exports) and the release that brings it. With an engine that lacks it, the Studio shows the recording
 // made with one that has it and does not run them (an older engine refuses their fields, or runs without them).
@@ -249,6 +255,9 @@ export const NEEDS_ENGINE = Object.freeze({
   // The lunar-time-budget kind is older, but its [time_lab] block is not: it ships with the station study, whose kind
   // stands in for it.
   "lunar-station-time-lab.toml": Object.freeze({ release: "0.36", kind: "lunar-station-coverage" }),
+  // 0.38: the holdover test (a time-error record split at the operator's two times and measured against ITU-T masks).
+  "holdover-test-example.toml": Object.freeze({ release: "0.38", kind: "holdover-test" }),
+  "holdover-test-ptp4l.toml": Object.freeze({ release: "0.38", kind: "holdover-test" }),
 });
 // What the engine running here can do: {version, kinds, fns} (kinds from list_kinds(), fns its exported functions).
 export function engineCaps(mod) {

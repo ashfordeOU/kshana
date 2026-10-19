@@ -67,6 +67,7 @@
     "log": {
       "base64": null,
       "format": "nmea",
+      "imu": null,
       "nav": null,
       "path": "tallinn-helsinki.nmea",
       "text": null
@@ -119,5 +120,5 @@
     },
     "name": "Synthetic Gulf of Finland passage with a position drag-off"
   },
-  "scenario_hash": "ce82e60d3ab5ace53f77c44678613a78737a050377c4ca37ec7a261239eea332"
+  "scenario_hash": "463e945955ff40aff3a8293c5237d47a1d6fcecd7469e7be503900f78ee96c86"
 }
