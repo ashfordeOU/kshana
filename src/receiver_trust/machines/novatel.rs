@@ -64,10 +64,10 @@ struct Rec<'a> {
     id: u16,
     week: i64,
     ms: i64,
-    body: Body<'a>,
+    body: Payload<'a>,
 }
 
-enum Body<'a> {
+enum Payload<'a> {
     /// Binary data bytes.
     Bin(&'a [u8]),
     /// ASCII data fields.
@@ -180,7 +180,7 @@ fn scan(bytes: &[u8]) -> (Vec<Rec<'_>>, usize) {
                         id,
                         week: i64::from(week),
                         ms: i64::from(ms),
-                        body: Body::Bin(&bytes[i + hl..i + total - 4]),
+                        body: Payload::Bin(&bytes[i + hl..i + total - 4]),
                     });
                 }
             }
@@ -223,7 +223,7 @@ fn scan(bytes: &[u8]) -> (Vec<Rec<'_>>, usize) {
                 id,
                 week,
                 ms: (secs * 1000.0).round() as i64,
-                body: Body::Asc(data.split(',').collect()),
+                body: Payload::Asc(data.split(',').collect()),
             });
         } else {
             i += 1;
@@ -302,7 +302,7 @@ fn map_first(m: &EpochMap) -> Option<i64> {
 
 fn best_pos(r: &Rec<'_>, e: &mut crate::receiver_trust::LogEpoch, label: &str) -> Option<()> {
     let (stat, lat, lon, hgt, und, nsol) = match &r.body {
-        Body::Bin(b) => (
+        Payload::Bin(b) => (
             u64::from(le32(b, 0)?),
             lef64(b, 8)?,
             lef64(b, 16)?,
@@ -310,7 +310,7 @@ fn best_pos(r: &Rec<'_>, e: &mut crate::receiver_trust::LogEpoch, label: &str) -
             lef32(b, 32)?,
             u32::from(*b.get(65)?),
         ),
-        Body::Asc(f) => (
+        Payload::Asc(f) => (
             u64::from(sol_status(f.first()?)?),
             f.get(2)?.parse().ok()?,
             f.get(3)?.parse().ok()?,
@@ -361,7 +361,7 @@ fn sol_status(s: &str) -> Option<u32> {
 fn range(r: &Rec<'_>, e: &mut crate::receiver_trust::LogEpoch, label: &str) -> Option<()> {
     let mut obs: Vec<(u32, f64, u32)> = Vec::new(); // prn, C/No, ch-tr-status
     match &r.body {
-        Body::Bin(b) => {
+        Payload::Bin(b) => {
             let n = le32(b, 0)? as usize;
             if b.len() < 4 + n.checked_mul(44)? {
                 return None;
@@ -371,7 +371,7 @@ fn range(r: &Rec<'_>, e: &mut crate::receiver_trust::LogEpoch, label: &str) -> O
                 obs.push((u32::from(le16(b, o)?), lef32(b, o + 32)?, le32(b, o + 40)?));
             }
         }
-        Body::Asc(f) => {
+        Payload::Asc(f) => {
             let n: usize = f.first()?.trim().parse().ok()?;
             if f.len() < 1 + n.checked_mul(10)? {
                 return None;
@@ -414,8 +414,8 @@ fn range(r: &Rec<'_>, e: &mut crate::receiver_trust::LogEpoch, label: &str) -> O
 
 fn rx_status(r: &Rec<'_>) -> Option<(bool, Vec<u8>)> {
     let (rx, aux1) = match &r.body {
-        Body::Bin(b) => (le32(b, 8)?, le32(b, 24)),
-        Body::Asc(f) => (
+        Payload::Bin(b) => (le32(b, 8)?, le32(b, 24)),
+        Payload::Asc(f) => (
             u32::from_str_radix(f.get(2)?.trim(), 16).ok()?,
             f.get(6)
                 .and_then(|s| u32::from_str_radix(s.trim(), 16).ok()),
