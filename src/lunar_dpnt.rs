@@ -2004,7 +2004,7 @@ mod tests {
         // Exact layer: on the host these literals were captured on, the document is the
         // same to the last bit. See `crate::test_support` for why this cannot be asserted
         // on a host with a different libm.
-        if crate::test_support::ON_BASELINE_HOST {
+        if crate::test_support::on_baseline_host() {
             assert_eq!(
                 v, before,
                 "a pre-existing value moved in the last bit; the budget must be purely additive"
@@ -2041,7 +2041,7 @@ mod tests {
                 crate::test_support::close(got, want),
                 "{name} moved: {got} vs the pre-budget {want}"
             );
-            if crate::test_support::ON_BASELINE_HOST {
+            if crate::test_support::on_baseline_host() {
                 assert_eq!(
                     got.to_bits(),
                     want.to_bits(),

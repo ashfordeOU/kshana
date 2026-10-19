@@ -14,6 +14,12 @@
 name: Oracle tests on macOS (diagnostic)
 on:
   workflow_dispatch:
+    inputs:
+      scope:
+        description: "oracle: the *_oracle and *_reference targets; all: the whole suite"
+        type: choice
+        options: [oracle, all]
+        default: oracle
   schedule:
     - cron: "17 4 * * 1"
   push:
@@ -29,15 +35,18 @@ concurrency:
 jobs:
   oracle-macos:
     runs-on: macos-14
-    timeout-minutes: 300
+    timeout-minutes: 360
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       - uses: dtolnay/rust-toolchain@e2a55d2ffb04f378e9626c28d38b36d230d1e12f # master; the toolchain is the `toolchain` input below
         with:
           toolchain: 1.93.0
       - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2
-      - name: Run the oracle and reference targets, debug profile (the one `cargo test` uses locally)
-        run: scripts/oracle-triage.sh --log oracle-triage.log
+      - name: Run the suite, debug profile (the one `cargo test` uses locally)
+        env:
+          # The investigation branch runs everything; a manual run picks; the weekly run is the oracle set.
+          SCOPE: ${{ github.event_name == 'push' && 'all' || inputs.scope || 'oracle' }}
+        run: scripts/oracle-triage.sh $([ "$SCOPE" = all ] && echo --all) --log oracle-triage.log
       - name: Upload the log and summary
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
