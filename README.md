@@ -793,7 +793,7 @@ In Claude Code the same server arrives as a plugin: `/plugin marketplace add ash
 `/plugin install kshana@ashforde`. The plugin adds slash commands over the tools: `/kshana-run`,
 `/kshana-assess-receiver`, `/kshana-evidence-pack`, `/kshana-interference-map`,
 `/kshana-training-scenario`, `/kshana-bench-export`, `/kshana-compliance-report`, `/kshana-iq`,
-`/kshana-import-route` and `/kshana-marine-integrations`. The vessel-trust tools feed the Signal K and
+`/kshana-import-route`, `/kshana-marine-integrations` and `/kshana-jammertest`. The vessel-trust tools feed the Signal K and
 OpenCPN integrations: [`docs/MARINE-INTEGRATIONS.md`](docs/MARINE-INTEGRATIONS.md).
 
 Per-client set-up is in [`docs/integrations.md`](docs/integrations.md). The server is listed

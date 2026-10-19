@@ -33,7 +33,8 @@ pub mod tsr;
 pub mod verify;
 
 pub use assemble::{
-    build_receiver_trust_pack, build_receiver_trust_pack_attested, PackRequest, PackSummary,
+    build_receiver_trust_pack, build_receiver_trust_pack_attested, build_receiver_trust_pack_full,
+    build_receiver_trust_pack_with, PackRequest, PackSummary,
 };
 pub use bundle::{
     create_bundle, create_bundle_attested, generate_seed, public_key_hex, sign_detached,

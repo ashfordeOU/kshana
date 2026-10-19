@@ -55,6 +55,8 @@ everything = out.series()                  # every record series, keyed by path
 | `receiver_trust` | `(toml: str) -> RunOutput` | assess a real receiver log described by a `receiver-trust` scenario: result document, per-epoch trust CSV, chart and summary; a `[platform] kind = "vessel"` table adds the maritime monitors and the 0-100 trust score with reasons (advisory) |
 | `receiver_trust_replay` | `(session_toml, nmea) -> dict` | a bounded NMEA excerpt scored the way live mode scores it: per-epoch state, 0-100 score and reasons, a summary (no socket, no gate; advisory) |
 | `assess_vessel_log` | `(session_toml, log) -> dict` | a vessel's NMEA log as a batch run: the score model and every epoch's score with its deductions (advisory) |
+| `jammertest_import` | `(catalog_json, plans, log_start_utc, location=None, local_offset_h=2.0, year=None) -> dict` | the published Jammertest catalogue and plan as scheduled-truth events (`events_toml`, `events`); planned slots, not recorded on-air times |
+| `jammertest_score` | `(session_toml, log, catalog_json, plans, location=None, local_offset_h=2.0, log_start_utc=None, year=None, recover_hold_s=10.0, guard_s=60.0) -> dict` | a receiver log scored against that schedule: per-test latency, missed, time to recover, false alarms (MODELLED; a signed pack needs the command line) |
 | `evidence_create` | `(session_toml, log, from_s, to_s, title=None, created_utc=None, seed_hex=None) -> dict` | a signed evidence pack for a window of the log, in memory: `files`, `public_key`, `seed_hex` (keep it private); a technical record, not a legal opinion |
 | `evidence_verify` | `(files, public_key=None, full_log=None, require_timestamp=False) -> dict` | verify a pack: hashes, chain, signature, optionally the trusted signer, the full log and a timestamp; `verdict` is `verified`, `intact-signer-not-pinned` (no public key given: intact, signer not established) or `failed` |
 | `export_sp3`, `export_omm`, `export_oem` | `(toml) -> str` | the CLI's `--export-sp3/-omm/-oem` artifacts as text |
@@ -107,6 +109,12 @@ def receiver_trust(toml: str) -> RunOutput: ...
 
 def receiver_trust_replay(session_toml: str, nmea: str | bytes) -> dict: ...
 def assess_vessel_log(session_toml: str, log: str | bytes) -> dict: ...
+def jammertest_import(catalog_json: str, plans: list[str], log_start_utc: str, location: int | None = None,
+                      local_offset_h: float = 2.0, year: int | None = None) -> dict: ...
+def jammertest_score(session_toml: str, log: str | bytes, catalog_json: str, plans: list[str],
+                     location: int | None = None, local_offset_h: float = 2.0,
+                     log_start_utc: str | None = None, year: int | None = None,
+                     recover_hold_s: float = 10.0, guard_s: float = 60.0) -> dict: ...
 def evidence_create(session_toml: str, log: str | bytes, from_s: float, to_s: float,
                     title: str | None = None, created_utc: str | None = None,
                     seed_hex: str | None = None) -> dict: ...

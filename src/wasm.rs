@@ -478,6 +478,79 @@ pub fn assess_vessel_log(session_toml: &str, log: &str) -> Result<String, JsValu
     .map_err(|e| JsValue::from_str(&e))
 }
 
+/// Read the published Jammertest catalogue and transmission plan as scheduled truth
+/// (`kshana jammertest import`). `plans_json` is a JSON array of the plan files' texts,
+/// `local_offset_h` the plan's offset from UTC (CEST: 2), `log_start_utc` the log's first epoch
+/// (ISO-8601 UTC); `location` and `year` are 0 for "not given". Returns JSON `{events_toml,
+/// events, skipped_non_rf, outside_log, unknown_ids}`. Planned slots, not recorded on-air times.
+#[wasm_bindgen]
+pub fn jammertest_import(
+    catalog_json: &str,
+    plans_json: &str,
+    log_start_utc: &str,
+    location: u32,
+    local_offset_h: f64,
+    year: u32,
+) -> Result<String, JsValue> {
+    let plans: Vec<String> = serde_json::from_str(plans_json).map_err(|e| {
+        JsValue::from_str(&format!("plans_json is not a JSON array of strings: {e}"))
+    })?;
+    let refs: Vec<&str> = plans.iter().map(String::as_str).collect();
+    crate::surface::jammertest_import_json(
+        catalog_json,
+        &refs,
+        (location != 0).then_some(location),
+        local_offset_h,
+        log_start_utc,
+        (year != 0).then_some(year),
+        crate::surface::MAX_INPUT_BYTES,
+    )
+    .map_err(|e| JsValue::from_str(&e))
+}
+
+/// Score a receiver log against the Jammertest schedule (`kshana jammertest score`). The session
+/// needs only `[log] format = "ubx"` (or `rinex`, `android`, `nmea`, `sbf`); `log_base64` is the
+/// log's bytes; `log_start_utc` is empty when the log states its own UTC start; `location` and
+/// `year` are 0 for "not given". Returns the scorecard as JSON, labelled MODELLED. Signed packs
+/// are made with the command line.
+#[wasm_bindgen]
+#[allow(clippy::too_many_arguments)]
+pub fn jammertest_score(
+    session_toml: &str,
+    log_base64: &str,
+    catalog_json: &str,
+    plans_json: &str,
+    location: u32,
+    local_offset_h: f64,
+    log_start_utc: &str,
+    year: u32,
+    recover_hold_s: f64,
+    guard_s: f64,
+) -> Result<String, JsValue> {
+    let plans: Vec<String> = serde_json::from_str(plans_json).map_err(|e| {
+        JsValue::from_str(&format!("plans_json is not a JSON array of strings: {e}"))
+    })?;
+    let refs: Vec<&str> = plans.iter().map(String::as_str).collect();
+    let log = crate::permalink::base64_decode(log_base64.trim())
+        .ok_or_else(|| JsValue::from_str("log_base64 is not base64"))?;
+    crate::surface::jammertest_score_json(
+        session_toml,
+        &log,
+        catalog_json,
+        &refs,
+        (location != 0).then_some(location),
+        local_offset_h,
+        (!log_start_utc.is_empty()).then_some(log_start_utc),
+        (year != 0).then_some(year),
+        crate::jammertest::score::ScoreOptions {
+            recover_hold_s,
+            guard_s,
+        },
+        crate::surface::MAX_INPUT_BYTES,
+    )
+    .map_err(|e| JsValue::from_str(&e))
+}
+
 /// Verify an evidence pack. `files_json` is a JSON object of file name to content: a string,
 /// `{"utf8": text}` or `{"base64": bytes}`. `public_key` is the signer's key as 64 hex digits,
 /// obtained from the signer by another route (empty for none: the signature then proves only

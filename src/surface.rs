@@ -121,6 +121,116 @@ pub fn assess_vessel_log_json(
     serde_json::to_string_pretty(&r).map_err(|e| e.to_string())
 }
 
+/// Turn the published Jammertest catalogue and transmission plan into receiver-trust events
+/// ("scheduled truth": the planned slots, not recorded on-air times). `plan_jsons` are the plan
+/// files (one per day), `local_offset_h` the plan's offset from UTC (CEST: 2), `log_start_utc`
+/// the first epoch of the log as an ISO-8601 UTC time. Returns JSON: `events_toml` (ready to
+/// append to a session), `events` (test id, year, area, kind, onset and end in seconds since the
+/// log start), and the counts skipped. Nothing is read from disk.
+pub fn jammertest_import_json(
+    catalog_json: &str,
+    plan_jsons: &[&str],
+    location: Option<u32>,
+    local_offset_h: f64,
+    log_start_utc: &str,
+    year: Option<u32>,
+    max_bytes: usize,
+) -> Result<String, String> {
+    use crate::jammertest::plan::{events_toml, import, parse_catalog, parse_plan, ImportOptions};
+    cap("catalogue", catalog_json, max_bytes)?;
+    for p in plan_jsons {
+        cap("plan", p, max_bytes)?;
+    }
+    let start = crate::telemetry::time::parse_rfc3339_utc(log_start_utc)
+        .ok_or_else(|| format!("log_start_utc `{log_start_utc}` is not an ISO-8601 UTC time"))?;
+    let catalog = parse_catalog(catalog_json)?;
+    let mut slots = Vec::new();
+    for p in plan_jsons {
+        slots.extend(parse_plan(p, local_offset_h)?);
+    }
+    let imp = import(
+        &slots,
+        &catalog,
+        &ImportOptions {
+            location,
+            log_start_utc: start,
+            log_duration_s: None,
+            year,
+        },
+    )?;
+    let events: Vec<Value> = imp
+        .events
+        .iter()
+        .map(|e| {
+            json!({"test_id": e.test_id, "test_name": e.test_name, "year": e.year,
+                   "location_id": e.location_id, "label": e.event.label,
+                   "kind": e.event.kind, "onset_s": e.event.onset_s, "end_s": e.event.end_s,
+                   "plan_status": e.status})
+        })
+        .collect();
+    serde_json::to_string_pretty(&json!({
+        "label": crate::jammertest::plan::SCHEDULED_TRUTH,
+        "events_toml": events_toml(&imp, &[]),
+        "events": events,
+        "skipped_non_rf": imp.skipped_non_rf,
+        "outside_log": imp.outside_log,
+        "unknown_ids": imp.unknown_ids,
+    }))
+    .map_err(|e| e.to_string())
+}
+
+/// Score a receiver log against the Jammertest schedule: per scheduled test the detection
+/// latency, missed alarms, time to recover, and the false alarms outside every slot. `session_toml`
+/// is a receiver-trust session whose `[log]` table gives only `format` (`ubx`, `rinex`, `android`,
+/// `nmea`, `sbf`); the log's bytes are `log`. `log_start_utc` is needed only when the log does
+/// not state its start as UTC. Returns the scorecard as JSON, labelled MODELLED. Signed evidence
+/// packs are made with the command line (they need a signing key).
+#[allow(clippy::too_many_arguments)]
+pub fn jammertest_score_json(
+    session_toml: &str,
+    log: &[u8],
+    catalog_json: &str,
+    plan_jsons: &[&str],
+    location: Option<u32>,
+    local_offset_h: f64,
+    log_start_utc: Option<&str>,
+    year: Option<u32>,
+    options: crate::jammertest::score::ScoreOptions,
+    max_bytes: usize,
+) -> Result<String, String> {
+    use crate::jammertest::{score_log, Schedule, ScoreRequest};
+    cap("session", session_toml, max_bytes)?;
+    cap_len("log", log.len(), max_bytes)?;
+    cap("catalogue", catalog_json, max_bytes)?;
+    for p in plan_jsons {
+        cap("plan", p, max_bytes)?;
+    }
+    reject_file_sources(session_toml, max_bytes)?;
+    let scn: ReceiverTrustScenario =
+        toml::from_str(session_toml).map_err(|e| format!("invalid receiver-trust session: {e}"))?;
+    let start = match log_start_utc {
+        Some(t) => Some(
+            crate::telemetry::time::parse_rfc3339_utc(t)
+                .ok_or_else(|| format!("log_start_utc `{t}` is not an ISO-8601 UTC time"))?,
+        ),
+        None => None,
+    };
+    let out = score_log(&ScoreRequest {
+        scenario: &scn,
+        log_bytes: log,
+        schedule: Schedule::Plan {
+            catalog_json,
+            plan_jsons,
+            location,
+            local_offset_h,
+            year,
+        },
+        log_start_utc: start,
+        options,
+    })?;
+    serde_json::to_string_pretty(&out.scorecard).map_err(|e| e.to_string())
+}
+
 /// Score a bounded excerpt of a vessel's NMEA 0183 stream the way live mode scores it:
 /// per-epoch trust state and 0-100 score with reasons (live JSON-lines schema 1.3, with an `advisory` field and the satellite `geometry` on every epoch and a `class` on every deduction), the last
 /// `$PKSHT` sentence and a summary. The excerpt must hold the calibration window. Bounded to
