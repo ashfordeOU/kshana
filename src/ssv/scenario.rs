@@ -1105,7 +1105,9 @@ mod tests {
         let table = units_table();
         for path in crate::field_schema::numeric_leaf_paths(&bare) {
             assert!(
-                table.iter().any(|u| crate::field_schema::pattern_matches(u.path, &path)),
+                table
+                    .iter()
+                    .any(|u| crate::field_schema::pattern_matches(u.path, &path)),
                 "no units entry for {path}"
             );
         }
