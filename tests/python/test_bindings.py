@@ -581,7 +581,7 @@ def test_compliance_report_fills_the_mapping_and_keeps_the_statement():
 def test_bench_score_scores_a_perfect_and_a_missing_submission_and_renders_the_page():
     truth = json.dumps({
         "schema": "kshana-bench-truth/1", "task": "a", "split": "dev",
-        "spec_version": "kshana-bench/1.0.0",
+        "spec_version": "kshana-bench/2.0.0",
         "labels": [{"id": "x#0", "positive": True}, {"id": "x#1", "positive": False},
                    {"id": "x#2", "positive": True}, {"id": "x#3", "positive": False}]})
     preds = json.dumps({
@@ -593,6 +593,9 @@ def test_bench_score_scores_a_perfect_and_a_missing_submission_and_renders_the_p
     assert "Advisory" in res["notice"] and res["provenance"] == "scored"
     with pytest.raises(ValueError):
         kshana.bench_score(truth, preds.replace('"x#3": 0.0', '"y": 0.0'))
+    # a truth file made under another major of the spec is refused, not scored
+    with pytest.raises(ValueError):
+        kshana.bench_score(truth.replace("kshana-bench/2.0.0", "kshana-bench/1.0.0"), preds, 0.5)
     page = kshana.bench_leaderboard([json.dumps(res)])
     assert "kshana-bench leaderboard" in page and "perfect" in page
     with pytest.raises(ValueError):
