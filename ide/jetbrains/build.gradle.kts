@@ -1,4 +1,5 @@
 import org.jetbrains.intellij.platform.gradle.IntelliJPlatformType
+import org.jetbrains.intellij.platform.gradle.tasks.VerifyPluginTask
 
 plugins {
     kotlin("jvm") version "2.1.20"
@@ -44,12 +45,21 @@ intellijPlatform {
     }
 
     // `verifyPlugin` runs the IntelliJ Plugin Verifier against the floor (the since-build) and
-    // the newest release line; KSHANA_VERIFY_IDES (comma-separated `TYPE:VERSION`) overrides it.
+    // the newest release line; KSHANA_VERIFY_IDES (comma-separated `TYPE:VERSION`, e.g. `IC:2024.3,IU:263.6800.24`) overrides it.
     pluginVerification {
+        // Fail on what would block a Marketplace upload and on any use of API scheduled for removal;
+        // deprecated-API usages are reported, not fatal.
+        failureLevel = listOf(
+            VerifyPluginTask.FailureLevel.COMPATIBILITY_PROBLEMS,
+            VerifyPluginTask.FailureLevel.INVALID_PLUGIN,
+            VerifyPluginTask.FailureLevel.SCHEDULED_FOR_REMOVAL_API_USAGES,
+        )
         ides {
             val wanted = providers.environmentVariable("KSHANA_VERIFY_IDES").orNull
             if (wanted.isNullOrBlank()) {
                 create(IntelliJPlatformType.IntellijIdeaCommunity, "2024.3")
+                // The 2026.3 line (build 263), the one the Marketplace verifies against.
+                create(IntelliJPlatformType.IntellijIdeaUltimate, "263.6800.24")
             } else {
                 val specs = wanted.split(',').map { it.trim() }.filter { it.isNotEmpty() }
                 require(specs.isNotEmpty()) { "KSHANA_VERIFY_IDES is set but lists no IDEs" }
