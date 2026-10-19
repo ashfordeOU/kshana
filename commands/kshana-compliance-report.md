@@ -5,9 +5,9 @@ argument-hint: "[the result files or runs to map, e.g. 'map these two scenario r
 
 # Map runs to public resilience frameworks
 
-Kshana can say, row by row, which requirements of five public frameworks and standards (the
+Kshana can say, row by row, which requirements of six public frameworks, standards and profiles (the
 US DHS Resilient PNT framework v2.0, IMO guidance for ships, EASA guidance for aviation, NIS2
-Article 21 and EN 16803) a set of its runs **supports evidence for**, and which it does not. It
+Article 21, EN 16803 and the NIST Foundational PNT Profile) a set of its runs **supports evidence for**, and which it does not. It
 is a mapping from Kshana outputs to requirement topics, not a rating or an approval of any
 product, and Kshana is not an assessment body. Use the `kshana` MCP server.
 

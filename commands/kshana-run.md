@@ -23,7 +23,8 @@ Do this:
    (MTIE), GNSS and inertial navigation system (INS) fusion, quantum dead-reckoning,
    L-band spectrum and jamming, low Earth orbit (LEO) PNT signals, passes and end-to-end
    chains, constellation design, lunar and cislunar navigation, the solar system, optical-link availability through
-   clouds and turbulence (`optical-atmosphere`), and
+   clouds and turbulence (`optical-atmosphere`), scored holdover tests of a measured time-error
+   record (`holdover-test`), and
    campaigns that chain other kinds, among others); always call `list_scenario_kinds`
    rather than guessing from the handful this sentence names.
 2. Build a minimal, valid scenario in TOML (Tom's Obvious Minimal Language) for that

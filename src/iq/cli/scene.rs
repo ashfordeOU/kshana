@@ -282,8 +282,18 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
         })
         .collect();
 
+    // ION GNSS SDR metadata output: `--format sdrx` (ci8) or `--format sdrx:ci16_le`, or an
+    // out path ending `.sdrx`. The samples go to `<base>.bin`, described by `<base>.sdrx`.
+    let sdrx_format = sdrx_sample_format(a.get("--format"), &a.pos[0])?;
+    let want_sdrx = sdrx_format.is_some();
+    if want_sdrx && want_sigmf {
+        return Err(Fail::Usage("--format takes sigmf or sdrx, not both".into()));
+    }
+
     let format = if want_sigmf {
         SampleFormat::CF32_LE
+    } else if let Some(f) = sdrx_format {
+        f
     } else {
         match a.get("--format") {
             Some(f) => SampleFormat::parse(f)?,
@@ -300,6 +310,8 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
 
     let data_path = if want_sigmf {
         sigmf_data_path(&a.pos[0])
+    } else if want_sdrx {
+        sdrx_data_path(&a.pos[0])
     } else {
         a.pos[0].clone()
     };
@@ -340,7 +352,12 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
         None => String::new(),
     };
 
-    let meta_note = if want_sigmf {
+    let meta_note = if want_sdrx {
+        let comment =
+            format!("written by kshana iq scene: a SIMULATED scene, not a recording{scale_note}");
+        let path = write_sdrx_meta(&a.pos[0], &data_path, format, &spec, &comment)?;
+        format!("ION SDR metadata {path}")
+    } else if want_sigmf {
         let meta_path = write_sigmf_meta(&a.pos[0], &spec, &sat_meta, &chan_desc, summary.samples)?;
         format!("SigMF data {data_path}, meta {meta_path}")
     } else {
@@ -453,6 +470,97 @@ fn sigmf_base(path: &str) -> &str {
         .or_else(|| path.strip_suffix(".sigmf-data"))
         .or_else(|| path.strip_suffix(".sigmf"))
         .unwrap_or(path)
+}
+
+/// The sample format `iq scene` writes for ION metadata output, or `None` when the output
+/// is not `.sdrx`: `--format sdrx` is 8-bit two's-complement I/Q (`ci8`), `--format
+/// sdrx:ci16_le` names 16-bit. The metadata standard has no float coding, so those are
+/// refused.
+fn sdrx_sample_format(flag: Option<&str>, out: &str) -> Result<Option<SampleFormat>, Fail> {
+    let lower = flag.map(str::to_ascii_lowercase);
+    // `Some(None)`: plain `sdrx`; `Some(Some(name))`: `sdrx:<name>`; `None`: not named.
+    let named: Option<Option<String>> = match lower.as_deref() {
+        Some("sdrx") => Some(None),
+        Some(f) => f.strip_prefix("sdrx:").map(|r| Some(r.to_string())),
+        None => None,
+    };
+    if named.is_none() && !out.ends_with(".sdrx") {
+        return Ok(None);
+    }
+    let name = match (named, lower) {
+        (Some(n), _) => n,
+        (None, Some(f)) if f == "sigmf" => {
+            return Err(Fail::Usage("--format takes sigmf or sdrx, not both".into()))
+        }
+        (None, f) => f,
+    };
+    let fmt = match name {
+        None => SampleFormat::CI8,
+        Some(n) => SampleFormat::parse(&n)?,
+    };
+    if fmt != SampleFormat::CI8 && fmt != SampleFormat::CI16_LE {
+        return Err(Fail::Usage(
+            "--format sdrx writes ci8 (the default) or ci16_le (sdrx:ci16_le); the ION \
+             metadata standard has no floating-point coding"
+                .into(),
+        ));
+    }
+    Ok(Some(fmt))
+}
+
+/// `path` without a `.sdrx` suffix.
+fn sdrx_base(path: &str) -> &str {
+    path.strip_suffix(".sdrx").unwrap_or(path)
+}
+
+/// The data file written beside an `.sdrx`.
+fn sdrx_data_path(path: &str) -> String {
+    format!("{}.bin", sdrx_base(path))
+}
+
+/// Write `<base>.sdrx` describing the `format` samples in `data_path`. The reader of
+/// `crate::realdata::ion_sdr` gives the layout back (checked in `tests/iq_formats.rs`).
+fn write_sdrx_meta(
+    out: &str,
+    data_path: &str,
+    format: SampleFormat,
+    spec: &SampleSpec,
+    comment: &str,
+) -> Result<String, Fail> {
+    use crate::realdata::ion_sdr::{write_sdrx, Encoding as E, SampleFormat as F, SdrLayout};
+    let (word_bytes, q) = if format == SampleFormat::CI8 {
+        (1, 8)
+    } else {
+        (2, 16)
+    };
+    let layout = SdrLayout {
+        url: Path::new(data_path)
+            .file_name()
+            .map(|n| n.to_string_lossy().into_owned())
+            .unwrap_or_else(|| data_path.to_string()),
+        sample_rate_hz: spec.fs_hz,
+        center_freq_hz: spec.center_hz,
+        translated_freq_hz: spec.if_hz,
+        quantization: q,
+        packed_bits: 2 * q,
+        align_left: false,
+        format: F::Iq,
+        encoding: E::TwosComplement,
+        word_bytes,
+        // A sample is two words: I, then Q, in file order. Words are little-endian.
+        words_per_chunk: 2,
+        little_endian: true,
+        fill_lsb_first: false,
+        mid_rise: false,
+        pad_head: false,
+        samples_per_lump: 1,
+        header_bytes: 0,
+        footer_bytes: 0,
+    };
+    let text = write_sdrx(&layout, comment).map_err(Fail::Run)?;
+    let path = format!("{}.sdrx", sdrx_base(out));
+    std::fs::write(&path, text).map_err(|e| Fail::Run(format!("{path}: {e}")))?;
+    Ok(path)
 }
 
 /// The `.sigmf-data` path for `path`.

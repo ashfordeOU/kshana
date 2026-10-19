@@ -1,0 +1,47 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-only -->
+# NIST IR 8323r1, Foundational PNT Profile: what Kshana supports evidence for
+
+NIST Internal Report 8323 revision 1 (January 2023) applies the NIST Cybersecurity Framework to the
+responsible use of positioning, navigation and timing (PNT) services. Its Profile lists, for each
+selected Cybersecurity Framework subcategory, what that subcategory means for a PNT user. This page
+covers the subcategories that a simulation or a scored receiver or clock log can say something about:
+risk assessment (ID.RA), data security and protective technology (PR.DS, PR.IP, PR.PT), anomalies and
+events, continuous monitoring and detection processes (DE.AE, DE.CM, DE.DP) and the analysis and
+mitigation parts of response (RS.AN, RS.MI). The other subcategories (asset inventories, access control,
+training, maintenance, supply chain, communications, recovery planning) are organisational or are
+properties of a system's design, and no Kshana output speaks to them.
+
+Every row says which Kshana outputs **support evidence for** the requirement and what is
+left over. Nothing here says a framework is met or that any product has been rated or
+approved by anyone, and NIST has not reviewed this mapping. Run `kshana compliance-report` on your own
+result files to see which rows your runs actually evidence; see [README.md](README.md).
+
+The paraphrases are Kshana's own short summaries of the PNT-specific text, not NIST's wording. The
+subcategory identifiers (for example `DE.AE-2`) are the Cybersecurity Framework 1.1 identifiers the
+Profile's own tables use. Rows keep their standing gap even when a set of runs evidences them.
+
+## Source documents
+
+- **Foundational PNT Profile: Applying the Cybersecurity Framework for the Responsible Use of Positioning, Navigation, and Timing (PNT) Services**: NIST IR 8323r1, January 2023 (NIST Internal Report). <https://nvlpubs.nist.gov/nistpubs/ir/2023/NIST.IR.8323r1.pdf>. Read 2026-10-09: the PDF was fetched on 2026-10-18 (SHA-256 recorded in tests/fixtures/compliance/headings.json) and its Profile tables 3 to 25 were read for the subcategories cited; the other sections, the appendices and the publication landing page were not read. Subcategory identifiers follow the Profile's own tables, which use Cybersecurity Framework 1.1 identifiers.
+
+## Mapping
+
+<!-- mapping:start -->
+| Reference | What it asks (paraphrased) | Kshana outputs that support evidence for it | Gap |
+|---|---|---|---|
+| ID.RA-1 (Risk Assessment) | Identify, document and report vulnerabilities of the PNT system and of what distributes PNT data; where safe, test susceptibility to disruption or manipulation, which may use PNT signal simulation, under the law and business-continuity limits. | Receiver-log trust assessment; Jamming link-budget effects; Spoofing and meaconing detection | Kshana characterises susceptibility in modelled scenarios and in a receiver's recorded log. An inventory of the real system's vulnerabilities is the operator's, and any RF test is run with the operator's own equipment and authorisation: Kshana transmits nothing. |
+| ID.RA-3 (Risk Assessment) | Identify and document internal and external threats to PNT, from natural and unintentional disruption to deliberate attack such as jamming, spoofing and delay attacks. | Jamming link-budget effects; Spoofing and meaconing detection; Resilience scoring over threat ensembles | Scenarios state threats and their effects. A documented threat assessment for the user's own site and system is the user's to write; no scenario is evidence that a threat exists there. |
+| ID.RA-4 (Risk Assessment) | Identify potential impacts and likelihoods; for each threat state the extent of impact, how the error shows (step or ramp), the detection thresholds and what the error does downstream. | Holdover and coasting; Jamming link-budget effects; Spoofing and meaconing detection; Integrity monitoring and protection levels | Runs give impact figures (error growth, protection levels, link effects) for modelled sensors and a stated threat. Likelihoods are not produced, and a modelled impact is not a measured one. |
+| ID.RA-5 (Risk Assessment) | Use threats, vulnerabilities, likelihoods and impacts to assess risk, and reassess it periodically and when the system or the threat changes. | Resilience scoring over threat ensembles; Reproducible run provenance | Scoring uses a synthetic threat ensemble, stated as such. Hashed, repeatable runs make a reassessment comparable; the risk judgement and its schedule are organisational. |
+| PR.DS-6 (Data Security) | Verify the integrity of PNT data when sources disagree, for example by cross-checking several frequencies, constellations or independent sources. | Integrity monitoring and protection levels; Alternative and diverse PNT sources | Kshana computes protection levels and cross-source results for modelled geometry and sensors; the integrity checks inside a product are not observed. |
+| PR.IP-10 (Information Protection Processes and Procedures) | Test response and recovery plans; for a system with a backup time source, remove the primary source and confirm that time accuracy, steps and ramps stay within the stated clock requirements. | Holdover and coasting; Receiver-log trust assessment | A holdover run models the removal and checks the error against a stated threshold; a scored receiver log shows a real loss and recovery. The test on the operator's own time server, and any RF used for it, are the operator's. |
+| PR.PT-5 (Protective Technology) | Use mechanisms for resilience in normal and adverse conditions: reject bad signals and data, and pair holdover with anomaly detection, redundant or fused sources and recovery. | Holdover and coasting; Alternative and diverse PNT sources; Integrity monitoring and protection levels | Modelled mechanisms and their limits are shown; whether a product implements them is a product test. |
+| DE.AE-2 (Anomalies and Events) | Analyse detected PNT events in real time and afterwards (source, error statistics, duration, frequency, location), tell harmful events from normal operation, and keep the raw data and analysis. | Receiver-log trust assessment; Spoofing and meaconing detection; Reproducible run provenance | Kshana scores a recorded log after the fact and keeps hashes of what it ran. It does not locate or attribute an interference source and does not monitor in real time as a service. |
+| DE.AE-3 (Anomalies and Events) | Collect and correlate event data from several sources and sensors, and cross-check PNT data from more than one source to detect anomalous behaviour. | Receiver-log trust assessment; Spoofing and meaconing detection; Alternative and diverse PNT sources | Kshana's monitors cross-check the streams of one receiver log or one scenario; correlation across an operator's own sensors and logs is theirs. |
+| DE.AE-4 (Anomalies and Events) | Determine the impact of events on PNT data and on the applications that depend on it, including infrequent events. | Holdover and coasting; Integrity monitoring and protection levels; Receiver-log trust assessment | Impact is shown on the PNT output of a run or a log. Effects on a specific downstream application need that application's own requirements. |
+| DE.AE-5 (Anomalies and Events) | Set and document incident alert thresholds from the error and uncertainty tolerances the application needs, with the notification time. | Integrity monitoring and protection levels; Holdover and coasting; Receiver-log trust assessment | Runs are scored against thresholds the user states and record them. Choosing the thresholds and the alert procedure is the user's. |
+| DE.CM-1 (Security Continuous Monitoring) | Monitor PNT sources and outputs against baselines to detect anomalies, using diverse sources and fault detection and exclusion, and check that monitoring covers the identified fault modes. | Receiver-log trust assessment; Integrity monitoring and protection levels; Spoofing and meaconing detection; Alternative and diverse PNT sources | Kshana runs and scores such monitors on logs and scenarios. Continuous monitoring of a live system, and coverage of every fault mode of a product, are not shown by a set of runs. |
+| DE.DP-3 (Detection Processes) | Test that event detection works as intended, periodically and after upgrades, against current threat profiles. | Receiver-log trust assessment; Spoofing and meaconing detection; Reproducible run provenance | Repeatable, hashed scenarios and events stated before scoring support evidence for such a test; running it on the operator's equipment on a schedule is theirs. |
+| RS.AN-5 (Analysis) | Set up verification and validation for known fault modes and newly found vulnerabilities, and record nominal and anomalous PNT data from incidents to improve later detection. | Receiver-log trust assessment; Spoofing and meaconing detection | A scored log characterises one incident after the fact. Receiving and acting on disclosed vulnerabilities is a process outside any run. |
+| RS.MI-2 (Mitigation) | Once an incident is contained, mitigate it with alternate or complementary PNT sources so operation continues, and return the system to a proper working state. | Alternative and diverse PNT sources; Holdover and coasting | Runs show how long modelled fallback sources keep an error bounded; containment and the return to service are operational steps. |
+<!-- mapping:end -->

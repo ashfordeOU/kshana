@@ -19,6 +19,8 @@
 //!   channel of a multi-channel recording, and multi-file recordings (SigMF collections) read as one stream with capture boundaries
 //!   reported. Builds on [`crate::sigmf`].
 //! * [`report`] - CSV and JSON writers for per-file results.
+//! * `follow` (native only) - a SigMF recording still being written, read as it grows
+//!   (receive only; the stream ends when the file stops growing).
 //! * `inventory`, `batch`, `cli` (native only) - a dataset-folder inventory with streamed
 //!   SHA-256, a bounded worker-thread batch runner, and the `kshana iq` command group.
 //!
@@ -38,6 +40,8 @@ pub mod stream;
 pub mod batch;
 #[cfg(not(target_arch = "wasm32"))]
 pub mod cli;
+#[cfg(not(target_arch = "wasm32"))]
+pub mod follow;
 #[cfg(not(target_arch = "wasm32"))]
 pub mod inventory;
 

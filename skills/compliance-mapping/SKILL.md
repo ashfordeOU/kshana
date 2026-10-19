@@ -1,6 +1,6 @@
 ---
 name: compliance-mapping
-description: Map a set of Kshana runs to public PNT-resilience frameworks (US DHS Resilient PNT framework, IMO, EASA, NIS2 Article 21, EN 16803) to see which requirement rows the runs support evidence for and which they do not. Use when the user asks what Kshana evidence exists for a framework, or wants a gap list for a set of runs.
+description: Map a set of Kshana runs to public PNT-resilience frameworks (US DHS Resilient PNT framework, IMO, EASA, NIS2 Article 21, EN 16803, NIST IR 8323r1) to see which requirement rows the runs support evidence for and which they do not. Use when the user asks what Kshana evidence exists for a framework, or wants a gap list for a set of runs.
 ---
 
 # Compliance mapping

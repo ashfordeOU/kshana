@@ -15,8 +15,7 @@
 //! surface that accepts uploads cannot be made to allocate without bound.
 
 use crate::evidence::{
-    build_receiver_trust_pack, generate_seed, public_key_hex, verify_bundle, Files, PackRequest,
-    VerifyOptions,
+    generate_seed, public_key_hex, verify_bundle, Files, PackRequest, VerifyOptions,
 };
 use crate::interference_map::api::{self, DatasetSpec, DEFAULT_CELL_DEG};
 use crate::receiver_trust::assess::{self, ExcerptAssessment};
@@ -1015,12 +1014,47 @@ pub fn evidence_create(
     seed: Option<[u8; 32]>,
     max_bytes: usize,
 ) -> Result<EvidencePack, String> {
+    evidence_create_attested(
+        session_toml,
+        log,
+        from_s,
+        to_s,
+        title,
+        created_utc,
+        seed,
+        None,
+        max_bytes,
+    )
+}
+
+/// [`evidence_create`] with a `lab-attestation` (TOML text: the operator's statement of a
+/// laboratory setup, see `docs/HARDWARE-SAFETY.md`) recorded in the signed manifest. The
+/// attestation is validated, recorded as given and never verified.
+#[allow(clippy::too_many_arguments)]
+pub fn evidence_create_attested(
+    session_toml: &str,
+    log: &[u8],
+    from_s: f64,
+    to_s: f64,
+    title: Option<&str>,
+    created_utc: Option<&str>,
+    seed: Option<[u8; 32]>,
+    lab_attestation_toml: Option<&str>,
+    max_bytes: usize,
+) -> Result<EvidencePack, String> {
     cap("session", session_toml, max_bytes)?;
+    let lab = match lab_attestation_toml {
+        Some(t) => {
+            cap("lab_attestation", t, max_bytes)?;
+            Some(crate::evidence::LabAttestation::from_toml(t)?)
+        }
+        None => None,
+    };
     cap_len("log", log.len(), max_bytes)?;
     let scn = parse_live_scenario(session_toml)?;
     let seed = seed.unwrap_or_else(generate_seed);
     let (from, to) = (from_s.to_string(), to_s.to_string());
-    let summary = build_receiver_trust_pack(
+    let summary = crate::evidence::build_receiver_trust_pack_attested(
         &PackRequest {
             scenario: &scn,
             log_bytes: log,
@@ -1033,6 +1067,7 @@ pub fn evidence_create(
         },
         &seed,
         None,
+        lab.as_ref(),
     )?;
     Ok(EvidencePack {
         public_key: public_key_hex(&seed),

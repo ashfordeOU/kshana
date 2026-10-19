@@ -2,7 +2,7 @@
 
 `src/clock_log.rs` reads a measured clock log into one normalised phase series: a uniform
 grid of `(time_s, phase_s)` samples, with the sample interval `tau0` stated or found, every
-gap counted and the log's units named. Three formats are read, each a documented subset.
+gap counted and the log's units named. Eight formats are read, each a documented subset.
 Anything outside the subset is refused with an error that names what was found, rather
 than read approximately.
 
@@ -25,11 +25,12 @@ Without the table, both kinds parse, hash and report exactly as before.
 
 ```toml
 [clock_log]                 # or [series.clock_log] in a telecom-timing scenario
-format = "ticc"             # "rinex-clk", "timelab" or "ticc"
+format = "ticc"             # "rinex-clk", "timelab", "ticc", "ptp4l", "phc2sys", "ts2phc",
+                            # "chrony-tracking" or "chrony-statistics"
 path = "logs/ticc.txt"      # or text = "..." inline (the only choice in WebAssembly)
 channel = "chA"             # TICC: needed when the log holds more than one channel
 gaps = "linear"             # "refuse" (default), "longest" or "linear"
-# clock = "G08"             # RINEX: needed when the file holds more than one clock
+# clock = "G08"             # RINEX, linuxptp, chrony: needed when the log holds more than one clock or source
 # tau0_s = 1.0              # overrides a header and the detected spacing
 # units = "ns"              # TimeLab phase units: s (default), ms, us, ns, ps
 # data = "phase"            # TimeLab: phase (default) or frequency
@@ -73,6 +74,62 @@ separated by white space, commas or semicolons.
 - Lines starting with `#`, and lines that are not `<number> <label>` (such as the start-up
   menu), are skipped and counted.
 
+## linuxptp and chrony logs
+
+These five formats read what a running time daemon writes about its own clock. They are
+for checking a timing chain after the fact (a boundary clock, a grandmaster's PHC, a
+chrony client) with the same estimators as the other logs. They do not read a daemon's
+configuration, and nothing here talks to a daemon.
+
+**`ptp4l`**, **`phc2sys`**, **`ts2phc`**: the servo lines of linuxptp, each format reading
+only lines of its own program. A reading is a line of the form
+
+```
+ptp4l[5003.000]: master offset         40 s2 freq   +1480 path delay       497
+phc2sys[7000.000]: CLOCK_REALTIME phc offset       -30 s2 freq    +100 delay   1200
+ts2phc[8000.000]: /dev/ptp0 offset          3 s2 freq         -2
+```
+
+- The time stamp is the first `[seconds.fraction]` in the line (the daemon's monotonic
+  clock). It is also read after a syslog prefix, where a process id such as `ptp4l[812]:`
+  has no fraction and is not taken.
+- The phase is the logged `offset`, in nanoseconds, converted to seconds. It is the
+  daemon's measured time error of its slave clock against its reference, as logged: positive
+  when the slave is ahead. It is the error left under servo control, not a free-running
+  clock's drift.
+- The words between the time stamp and `offset` name the source (`master`, `eth0 master`
+  for a `[eth0]` prefix, `CLOCK_REALTIME phc`, `/dev/ptp0`). A log with more than one
+  source needs `clock = "<that text>"`; the error lists them.
+- Readings before the servo first reports `s2` (locked) are left out and counted in
+  `n_skipped_lines`: `s0` and `s1` are the unlocked and step states, whose offsets are
+  pull-in transients. A servo that never reaches `s2` is refused. A line with no state
+  field is read as it is.
+- Summary lines (`rms ... max ...`), `delay` and `selected best master` messages, and lines of
+  other programs are skipped and counted.
+- Time stamps that go backwards (a restarted daemon) are refused; split the log.
+
+**`chrony-tracking`**, **`chrony-statistics`**: chrony's `log tracking` and `log statistics`
+files, read by column position. A reading is a line with at least 14 columns (tracking) or
+13 (statistics) that starts with a `YYYY-MM-DD HH:MM:SS` UTC date and time. The column header
+line is skipped and counted; the `====` rule under it is skipped without being counted.
+
+- Tracking: column 7, the local offset on the clock update, in seconds. The IP address or
+  reference id changes with the selected source, so without `clock` every line is read as
+  one local clock. `clock = "<id>"` keeps one reference id.
+- Statistics: column 5, the estimated offset of a source, in seconds. There is one series
+  per source address, and the log needs `clock = "<address>"` when it holds more than one.
+- Epochs are seconds from 1980-01-06 00:00:00 UTC, with no leap-second handling. Chrony
+  writes a line per update or per source sample, so the spacing is not uniform. `tau0` is
+  the median spacing; a reading under half a `tau0` after the one kept before it is dropped
+  and counted in `n_duplicates`, and a longer spacing is a gap, which `gaps = "refuse"`
+  reports. Give `tau0_s` and `gaps = "linear"` for a log with a steady poll interval.
+
+The chrony columns and the linuxptp line layouts are those of the daemons' public
+documentation. The fixtures in `tests/fixtures/clock_log/linuxptp_chrony/` are written for
+Kshana with made-up values (see its `NOTICE.md`); no real log was read, so a layout that
+differs between daemon versions can still be refused or misread. A line that does not match is
+skipped and counted, never guessed.
+
 ## `tau0` and gaps
 
 When the log carries time stamps and no `tau0` is given, `tau0` is the median spacing of
@@ -94,9 +151,11 @@ The estimators need a gap-free record, which is why gaps are resolved here.
 ## Evidence
 
 MODELLED. This is a parser, and its output feeds estimators that are validated elsewhere
-against allantools. The unit tests in `src/clock_log.rs` use small hand-written logs.
+against allantools. The unit tests in `src/clock_log.rs` use small hand-written logs, and for the
+linuxptp and chrony formats the fixtures in `tests/fixtures/clock_log/linuxptp_chrony/`.
 `tests/clock_log_allantools.rs` runs the comparison pre-registered in
 `tests/fixtures/clock_log/PREREGISTRATION.md`: three seeded synthetic logs, one per format,
 read back by an independent reader written from this page by the same author, with the
-ADEV, TDEV and MTIE checked against allantools 2024.6. The logs are synthetic, so nothing
+ADEV, TDEV and MTIE checked against allantools 2024.6; that comparison covers the first three
+formats only, and the linuxptp and chrony readers have parser tests but no oracle comparison. The logs are synthetic, so nothing
 here describes a real clock or counter.
