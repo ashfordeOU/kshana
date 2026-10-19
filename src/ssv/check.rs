@@ -121,7 +121,13 @@ fn shell_rows(table: &[Value], res: &[BandResult], tag: &str, tol: f64) -> Vec<V
     out
 }
 
-fn shell(size: Size, alt: f64, hemi: bool, cn0: Option<f64>) -> Result<Vec<BandResult>, String> {
+fn shell(
+    ov: &[(Constellation, Band, f64)],
+    size: Size,
+    alt: f64,
+    hemi: bool,
+    cn0: Option<f64>,
+) -> Result<Vec<BandResult>, String> {
     let (grid_levels, duration_min, step_min) = match size {
         Size::Full => (4, RUN_MIN, 1.0),
         Size::Reduced => (2, 1440.0, 10.0),
@@ -136,10 +142,12 @@ fn shell(size: Size, alt: f64, hemi: bool, cn0: Option<f64>) -> Result<Vec<BandR
         constellations: Constellation::ALL.to_vec(),
         bands: vec![Band::L1, Band::L5],
         mrtp_reference_alt_km: 36_000.0,
+        beam_override_deg: ov.to_vec(),
     })
 }
 
 fn trajectory(
+    ov: &[(Constellation, Band, f64)],
     orbit: UserOrbit,
     duration_min: f64,
     step_min: f64,
@@ -170,6 +178,7 @@ fn trajectory(
             mrtp_reference_alt_km: 36_000.0,
             series_every_epochs: 0,
             collect_limb: false,
+            beam_override_deg: ov.to_vec(),
         },
         &NoEffects,
     )
@@ -230,7 +239,19 @@ fn verdict(cells: &[Value]) -> Value {
 
 /// Run the comparison. `tables` is the text of `booklet-tables.json`. Returns the full report: every compared cell of
 /// every bar and a verdict per bar.
-pub fn run(tables: &str, size: Size) -> Result<Value, String> {
+///
+/// `glonass_table_4_2` switches GLONASS's reference off-boresight angles from table B6's (20 and 28 degrees, the
+/// pre-registered reading) to table 4.2's (26 and 34 degrees); it is a diagnostic variant, reported beside the
+/// pre-registered run and never in place of it.
+pub fn run(tables: &str, size: Size, glonass_table_4_2: bool) -> Result<Value, String> {
+    let ov: Vec<(Constellation, Band, f64)> = if glonass_table_4_2 {
+        vec![
+            (Constellation::Glonass, Band::L1, 26.0),
+            (Constellation::Glonass, Band::L5, 34.0),
+        ]
+    } else {
+        Vec::new()
+    };
     let t: Value = serde_json::from_str(tables).map_err(|e| e.to_string())?;
     let arr = |v: &Value| v.as_array().cloned().unwrap_or_default();
     let mut bars = serde_json::Map::new();
@@ -262,14 +283,14 @@ pub fn run(tables: &str, size: Size) -> Result<Value, String> {
     );
 
     // S1: upper SSV geometry.
-    let r1 = shell(size, 36_000.0, true, None)?;
+    let r1 = shell(&ov, size, 36_000.0, true, None)?;
     put(
         "S1",
         "upper SSV geometry (table B4)",
         shell_rows(&arr(&t["upper_geometry"]), &r1, "B4", 2.0),
     );
     // S2: lower SSV.
-    let r2 = shell(size, 8_000.0, false, None)?;
+    let r2 = shell(&ov, size, 8_000.0, false, None)?;
     put(
         "S2",
         "lower SSV geometry (table 5.2)",
@@ -278,7 +299,7 @@ pub fn run(tables: &str, size: Size) -> Result<Value, String> {
     // S3: upper SSV with RF thresholds.
     let mut s3 = Vec::new();
     for thr in [15.0, 20.0, 25.0] {
-        let r = shell(size, 36_000.0, true, Some(thr))?;
+        let r = shell(&ov, size, 36_000.0, true, Some(thr))?;
         let key = format!("{}", thr as u32);
         s3.extend(shell_rows(
             &arr(&t["upper_rf"][&key]),
@@ -310,6 +331,7 @@ pub fn run(tables: &str, size: Size) -> Result<Value, String> {
             true_anomaly_deg: (f64::from(lon) + era0).rem_euclid(360.0),
         };
         let r = trajectory(
+            &ov,
             orbit,
             geo_min,
             step,
@@ -336,6 +358,7 @@ pub fn run(tables: &str, size: Size) -> Result<Value, String> {
         Size::Reduced => 1440.0,
     };
     let r5 = trajectory(
+        &ov,
         heo,
         heo_min,
         step,
@@ -357,6 +380,7 @@ pub fn run(tables: &str, size: Size) -> Result<Value, String> {
         Size::Reduced => 1440.0,
     };
     let r6 = trajectory(
+        &ov,
         lunar,
         lun_min,
         step,
@@ -372,6 +396,6 @@ pub fn run(tables: &str, size: Size) -> Result<Value, String> {
     );
 
     Ok(
-        json!({"size": if size == Size::Full { "full" } else { "reduced" }, "bars": Value::Object(bars)}),
+        json!({"size": if size == Size::Full { "full" } else { "reduced" }, "glonass_table_4_2": glonass_table_4_2, "bars": Value::Object(bars)}),
     )
 }
