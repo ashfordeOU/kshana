@@ -39,6 +39,15 @@ jobs:
     # integ/batch3b-0.36 (#81) while still passing every test it reached. Raised to
     # the hosted-runner maximum; nothing is skipped.
     timeout-minutes: 360
+    # 0.38: the runner ran out of disk while linking test targets (rust-lld "signal 7 [Bus
+    # error]" on leo_navmsg_reference and the yunnan_probe example, run on 154ef434): 0.38 added
+    # many integration-test binaries and every one carries full DWARF in a debug build. Dropping
+    # the debug info of the dev and test profiles cuts each binary several-fold; nothing is
+    # skipped and no assertion changes (debug assertions are separate from debug info; a panic
+    # backtrace loses line numbers).
+    env:
+      CARGO_PROFILE_DEV_DEBUG: "0"
+      CARGO_PROFILE_TEST_DEBUG: "0"
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
