@@ -17,6 +17,7 @@ pub mod od;
 pub mod orbit;
 pub mod phase;
 pub mod tie;
+pub mod units;
 
 use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};
@@ -201,6 +202,22 @@ impl LunarInfrastructureScenario {
         });
         if let (Value::Object(d), Value::Object(b)) = (&mut doc, body) {
             d.extend(b);
+        }
+        // The units block carries only the entries that describe a field this study emits.
+        let all = crate::field_schema::units_block(units::UNITS);
+        if let Value::Object(d) = &mut doc {
+            d.insert("units".into(), all.clone());
+        }
+        let used: std::collections::BTreeSet<String> = crate::field_schema::audit_document(&doc)
+            .covered
+            .into_iter()
+            .map(|f| f.matched_by)
+            .collect();
+        if let (Value::Object(d), Value::Object(all)) = (&mut doc, all) {
+            d.insert(
+                "units".into(),
+                Value::Object(all.into_iter().filter(|(k, _)| used.contains(k)).collect()),
+            );
         }
         let text = serde_json::to_string_pretty(&doc).map_err(|e| e.to_string())?;
         Ok((text, summary))
