@@ -17,7 +17,7 @@ could be downloaded when this was written name UBX-SEC-SIG but do not define it.
 those of the later u-blox interface descriptions as transcribed in the pyubx2 library
 (BSD-3-Clause, `SEC-SIG-V1` and `SEC-SIG-V2`); the fixture tests in
 `tests/receiver_trust_self_report.rs` are built from that layout, not from a real receiver's output.
-Check the layout against the current u-blox interface description before relying on SEC-SIG.
+Layout from open transcription, not checked against the current vendor guide: check it against the current u-blox interface description before relying on SEC-SIG.
 
 A SEC-SIG has no time of week; it belongs to the current navigation epoch. A state already read at an
 epoch is kept unless a later one is worse.
@@ -46,7 +46,7 @@ and the AGC and jamming-indicator monitors do not.
 **Source of the layouts.** Septentrio's reference guide could not be downloaded when this was written (the
 server refused the request), so the layouts were taken from the `sbf-tools` source, which cites the guide,
 and the fixtures in `tests/receiver_trust_sbf.rs` are synthetic blocks built to that layout and its
-CRC-16-CCITT. No real SBF log was used. Check against the reference guide before relying on it.
+CRC-16-CCITT. No real SBF log was used. Layout from the open-source crate, not checked against the current vendor guide: check against Septentrio's reference guide before relying on it.
 
 ## Direct serial and USB input (`receiver-trust live --serial`)
 
