@@ -27,6 +27,8 @@ pub const D_TARGET_PFA: f64 = 0.05;
 /// Cases per class in a task (d) corpus.
 pub const D_N_PER_CLASS: usize = 200;
 /// SHA-256 of the 300 s IGS clock fixture task (c) is defined on.
+// PIN-SCOPE:    the SHA-256 of the one 300 s IGS clock fixture file that task (c) is defined on.
+// PIN-EXCLUDES: any other clock file, and the task's scores.
 pub const C_CLOCKS_SHA256: &str =
     "3da6d0a5a7facdc1e564fdeed5f5ada890a2f9cdab6a218fa79a83608a3230a4";
 /// The prediction horizons of task (c), seconds.
@@ -282,6 +284,9 @@ pub fn d_corpora(seed: u64, scale: f64, split: Split) -> (Vec<DCase>, Vec<DCase>
             })
             .collect()
     };
+    // PIN-SCOPE:    not a pin: two fixed RNG seeds that make the in-distribution and shifted task (d)
+    //               corpora reproducible.
+    // PIN-EXCLUDES: n/a (nothing is compared against these values).
     (
         make(1.0, "in", 0x1111_1111_1111_1111),
         make(scale, "out", 0x2222_2222_2222_2222),

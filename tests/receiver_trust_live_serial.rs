@@ -36,7 +36,9 @@ fn pty() -> (std::fs::File, String) {
 }
 
 fn session() -> std::path::PathBuf {
-    let dir = std::env::temp_dir().join(format!("kshana-serial-{}", std::process::id()));
+    static SEQ: std::sync::atomic::AtomicU64 = std::sync::atomic::AtomicU64::new(0);
+    let seq = SEQ.fetch_add(1, std::sync::atomic::Ordering::Relaxed);
+    let dir = std::env::temp_dir().join(format!("kshana-serial-{}-{seq}", std::process::id()));
     std::fs::create_dir_all(&dir).unwrap();
     let p = dir.join("session.toml");
     std::fs::write(

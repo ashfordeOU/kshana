@@ -514,6 +514,9 @@ pub fn check_spec() -> Value {
         *s = if enc[k] == 0 { 1.0 } else { -1.0 };
     }
     let d = sb1_decode(&soft);
+    // PIN-SCOPE:    the SB1 codeword of the worked example printed in Figure 8 of LSIS-AFS V1.0
+    //               (0x045 encodes to 0x229F61DBB84A0, FID 0, TOI 69).
+    // PIN-EXCLUDES: every other FID and TOI, and subframes 2 to 4.
     let ok6 = word == 0x0002_29F6_1DBB_84A0 && d.fid == 0 && d.toi == 69;
     bars.push(bar(
         "B6",
