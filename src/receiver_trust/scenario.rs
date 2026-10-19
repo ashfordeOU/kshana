@@ -309,6 +309,10 @@ pub struct ReceiverTrustResult {
     /// ([`crate::receiver_trust::monitors::PROFILE_NOTE`]).
     #[serde(skip_serializing_if = "Option::is_none")]
     pub profile_note: Option<&'static str>,
+    /// The receiver's own spoofing/jamming flags against Kshana's monitors (`receiver-self-report`),
+    /// present only when the log carries them (UBX-NAV-STATUS, UBX-SEC-SIG).
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub receiver_self_report: Option<super::monitors::SelfReportSummary>,
     /// One sentence on the session.
     pub verdict: String,
     /// The per-epoch trust timeline.
@@ -440,6 +444,19 @@ pub fn run_receiver_trust_bytes(
 ) -> Result<ReceiverTrustResult, String> {
     validate(scn)?;
     let timeline = read_log(scn.log.format, log_bytes)?;
+    run_receiver_trust_on(scn, timeline, log_bytes, nav_bytes)
+}
+
+/// As [`run_receiver_trust_bytes`], on a timeline the caller has already built (a reader outside
+/// the four formats, such as the JammerTest CSV exports). `hashed_bytes` are the bytes the
+/// timeline came from; they go into the result's hash and its log summary, nothing else.
+pub fn run_receiver_trust_on(
+    scn: &ReceiverTrustScenario,
+    timeline: super::Timeline,
+    log_bytes: &[u8],
+    nav_bytes: Option<&[u8]>,
+) -> Result<ReceiverTrustResult, String> {
+    validate(scn)?;
 
     // The engine's own fix needs pseudoranges, which only the RINEX observation file has.
     if nav_bytes.is_some() && scn.log.format != LogFormat::Rinex {
@@ -646,6 +663,7 @@ pub fn run_receiver_trust_bytes(
         predictions_agreeing,
         predictions_evaluable,
         score_model,
+        receiver_self_report: super::monitors::self_report_summary(&trust.epochs),
         verdict,
         geometry_model: GeometryModel::new(
             &scn.monitors.geometry,
@@ -691,6 +709,7 @@ fn format_name(f: LogFormat) -> &'static str {
         LogFormat::Ubx => "ubx",
         LogFormat::Rinex => "rinex",
         LogFormat::Android => "android",
+        LogFormat::Sbf => "sbf",
         LogFormat::Nmea => "nmea",
     }
 }

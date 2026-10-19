@@ -48,6 +48,51 @@ fn head_lines(text: &str, max: usize) -> (String, bool) {
     (head, it.next().is_some())
 }
 
+/// Parameters for [`KshanaServer::jammertest_import`].
+#[derive(Debug, serde::Deserialize, schemars::JsonSchema)]
+pub struct JammertestImportRequest {
+    /// The Jammertest test catalogue JSON text (`testcatalog*.json` of NPRA/jammertest-plan, MIT).
+    pub catalog_json: String,
+    /// The transmission-plan JSON texts, one per day (`plan-<day>-<date>.json`).
+    pub plans: Vec<String>,
+    /// The log's first epoch, ISO-8601 UTC, for example `2025-09-16T08:00:00Z`.
+    pub log_start_utc: String,
+    /// Test area the log was recorded in; required when the plans hold several.
+    pub location: Option<u32>,
+    /// Offset of the plan's wall-clock times from UTC, hours (default 2: CEST).
+    pub local_offset_h: Option<f64>,
+    /// Edition year, when it is not to be read from the plan dates.
+    pub year: Option<u32>,
+}
+
+/// Parameters for [`KshanaServer::jammertest_score`].
+#[derive(Debug, serde::Deserialize, schemars::JsonSchema)]
+pub struct JammertestScoreRequest {
+    /// A receiver-trust session as TOML whose `[log]` table gives only `format` (`ubx`, `rinex`,
+    /// `android`, `nmea` or `sbf`), plus optional `[monitors]` and `[compare]` tables.
+    pub session_toml: String,
+    /// The log. Text formats as they are; a binary format (`ubx`, `sbf`) as `log_base64`.
+    pub log: Option<String>,
+    /// The log's bytes, base64 (standard alphabet), for the binary formats.
+    pub log_base64: Option<String>,
+    /// The Jammertest test catalogue JSON text.
+    pub catalog_json: String,
+    /// The transmission-plan JSON texts, one per day.
+    pub plans: Vec<String>,
+    /// Test area the log was recorded in; required when the plans hold several.
+    pub location: Option<u32>,
+    /// Offset of the plan's wall-clock times from UTC, hours (default 2).
+    pub local_offset_h: Option<f64>,
+    /// The log's first epoch, ISO-8601 UTC; only needed when the log does not state it.
+    pub log_start_utc: Option<String>,
+    /// Edition year, when it is not to be read from the plan dates.
+    pub year: Option<u32>,
+    /// Alarm-free stretch that counts as recovered, seconds (default 10).
+    pub recover_hold_s: Option<f64>,
+    /// Guard around each slot, seconds (default 60).
+    pub guard_s: Option<f64>,
+}
+
 /// Parameters for [`KshanaServer::assess_vessel_stream`] and [`KshanaServer::assess_vessel_log`].
 #[derive(Debug, serde::Deserialize, schemars::JsonSchema)]
 pub struct VesselNmeaRequest {
@@ -288,6 +333,69 @@ impl KshanaServer {
             "report_schema": "JSON lines, version 1.3 (docs/MARITIME-TRUST.md)",
             "notice": ADVISORY,
         }))
+    }
+
+    #[tool(
+        description = "Read the published Jammertest test catalogue and transmission plan (NPRA/jammertest-plan, MIT) as scheduled truth (`kshana jammertest import`): the slots of one test area become receiver-trust events with the catalogue id and year in each label. `plans` holds one plan file per day, `log_start_utc` is the log's first epoch, `local_offset_h` the plan's offset from UTC (default 2, CEST). Returns `events_toml` (append it to a receiver-trust session), `events` (test id, kind, onset and end in seconds since the log start), and the counts skipped. The events are PLANNED slots, not recorded on-air times: a slot may start late or never run, and the plan's `status` field is mostly empty. No contact or personal field of the plan is read. Input is capped at 4 MiB per text. Evidence tier: MODELLED."
+    )]
+    fn jammertest_import(
+        &self,
+        Parameters(r): Parameters<JammertestImportRequest>,
+    ) -> Result<CallToolResult, McpError> {
+        let refs: Vec<&str> = r.plans.iter().map(String::as_str).collect();
+        let j = surface::jammertest_import_json(
+            &r.catalog_json,
+            &refs,
+            r.location,
+            r.local_offset_h.unwrap_or(2.0),
+            &r.log_start_utc,
+            r.year,
+            MAX_UPLOAD_BYTES,
+        )
+        .map_err(|e| bad(format!("jammertest import failed: {e}")))?;
+        let mut v: serde_json::Value =
+            serde_json::from_str(&j).map_err(|e| bad(format!("result is not JSON: {e}")))?;
+        v["notice"] =
+            "Scheduled truth: planned slots, not recorded on-air times. Evidence tier: MODELLED."
+                .into();
+        reply(v)
+    }
+
+    #[tool(
+        description = "Score a receiver log against the Jammertest schedule (`kshana jammertest score`): per scheduled test the detection latency (first alarm minus planned start), whether it was detected within the tolerance, late or missed, and the time to recover (an alarm-free stretch of `recover_hold_s`), plus the false alarms outside every slot and its guard. `session_toml` needs only `[log] format = \"ubx\"` (or rinex, android, nmea, sbf); give the log as `log` (text formats) or `log_base64` (binary). Needs the catalogue and plan JSON (`catalog_json`, `plans`) and the test area (`location`). Returns the scorecard: `tests`, `summary`, `baseline_contaminated` and a MODELLED label. The schedule is planned slots, not recorded on-air times, so a miss may be a test that never ran. A signed evidence pack needs a signing key: use the command line (`kshana jammertest score --key`). Input is capped at 4 MiB per text. Advisory only: not type-approved navigation equipment; the operator remains responsible. Evidence tier: MODELLED."
+    )]
+    fn jammertest_score(
+        &self,
+        Parameters(r): Parameters<JammertestScoreRequest>,
+    ) -> Result<CallToolResult, McpError> {
+        let log: Vec<u8> = match (&r.log, &r.log_base64) {
+            (Some(t), None) => t.as_bytes().to_vec(),
+            (None, Some(b)) => kshana::permalink::base64_decode(b.trim())
+                .ok_or_else(|| bad("log_base64 is not base64".into()))?,
+            _ => return Err(bad("give exactly one of `log` and `log_base64`".into())),
+        };
+        let refs: Vec<&str> = r.plans.iter().map(String::as_str).collect();
+        let dflt = kshana::jammertest::score::ScoreOptions::default();
+        let j = surface::jammertest_score_json(
+            &r.session_toml,
+            &log,
+            &r.catalog_json,
+            &refs,
+            r.location,
+            r.local_offset_h.unwrap_or(2.0),
+            r.log_start_utc.as_deref(),
+            r.year,
+            kshana::jammertest::score::ScoreOptions {
+                recover_hold_s: r.recover_hold_s.unwrap_or(dflt.recover_hold_s),
+                guard_s: r.guard_s.unwrap_or(dflt.guard_s),
+            },
+            MAX_UPLOAD_BYTES,
+        )
+        .map_err(|e| bad(format!("jammertest score failed: {e}")))?;
+        let mut v: serde_json::Value =
+            serde_json::from_str(&j).map_err(|e| bad(format!("result is not JSON: {e}")))?;
+        v["notice"] = ADVISORY.into();
+        reply(v)
     }
 
     #[tool(

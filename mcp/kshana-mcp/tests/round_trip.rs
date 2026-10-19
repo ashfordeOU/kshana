@@ -83,6 +83,8 @@ async fn serves_exactly_the_expected_tool_set() {
         "assess_receiver_log",
         "assess_vessel_stream",
         "assess_vessel_log",
+        "jammertest_import",
+        "jammertest_score",
         "create_evidence_pack",
         "verify_evidence_pack",
         "attach_evidence_timestamp",
