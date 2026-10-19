@@ -213,6 +213,7 @@ pub mod lunar_gauge;
 pub mod lunar_identifiability;
 pub mod lunar_interop;
 pub mod lunar_interop_budget;
+pub mod lunar_infra;
 pub mod lunar_jamming;
 pub mod lunar_llr;
 pub mod lunar_llr_geometry;
