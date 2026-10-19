@@ -1,0 +1,114 @@
+{
+  "configs": {
+    "dual-baseline": {
+      "coverage_rnp01": [
+        1.0
+      ],
+      "coverage_rnp03": [
+        1.0
+      ],
+      "epochs": 718,
+      "sigma_ura_m": [
+        10
+      ],
+      "users": 540
+    },
+    "dual-depleted": {
+      "coverage_rnp01": [
+        0.8466260145905413,
+        0.8176634244330159
+      ],
+      "coverage_rnp03": [
+        0.9619315170103825,
+        0.9537502895719819
+      ],
+      "epochs": 718,
+      "sigma_ura_m": [
+        9,
+        10
+      ],
+      "users": 540
+    },
+    "galileo-baseline": {
+      "coverage_rnp01": [
+        1.0
+      ],
+      "coverage_rnp03": [
+        1.0
+      ],
+      "epochs": 718,
+      "sigma_ura_m": [
+        10
+      ],
+      "users": 540
+    },
+    "galileo-depleted": {
+      "coverage_rnp01": [
+        0.4446882038759097
+      ],
+      "coverage_rnp03": [
+        0.788783652010069
+      ],
+      "epochs": 718,
+      "sigma_ura_m": [
+        1
+      ],
+      "users": 540
+    },
+    "gps-baseline": {
+      "coverage_rnp01": [
+        0.5819588314954586,
+        0.4992477557472424,
+        0.43752661978646035
+      ],
+      "coverage_rnp03": [
+        0.6925871686600561,
+        0.6668098815450025,
+        0.6539212379874757
+      ],
+      "epochs": 718,
+      "sigma_ura_m": [
+        6,
+        7,
+        10
+      ],
+      "users": 540
+    },
+    "gps-depleted": {
+      "coverage_rnp01": [
+        0.6788007694249476,
+        0.46451812213121596,
+        0.42897153940710875
+      ],
+      "coverage_rnp03": [
+        0.9565879437743672,
+        0.7029694159827884,
+        0.6614355469169031
+      ],
+      "epochs": 718,
+      "sigma_ura_m": [
+        1,
+        4,
+        5
+      ],
+      "users": 540
+    }
+  },
+  "engine_version": "0.37.0",
+  "schema": "kshana.araim-m3-study/1",
+  "source": "EU-U.S. Cooperation on Satellite Navigation, Working Group C ARAIM Technical Subgroup, Milestone 3 Report, Final Version, 25 February 2016",
+  "study": {
+    "algorithm": "kshana::araim_reference::add_v42_protection_levels_to_order, max_order 2, RNP constants of Table 25",
+    "b_nom_m": 0.75,
+    "hal_rnp01_m": 185.0,
+    "hal_rnp03_m": 556.0,
+    "lat_max_deg": 70.0,
+    "lat_step_deg": 10.0,
+    "lon_step_deg": 10.0,
+    "mask_deg": 5.0,
+    "p_sat": 0.00001,
+    "sidereal_days": 10.0,
+    "sigma_ure_over_ura": 0.6666666666666666,
+    "step_s": 1200.0
+  }
+}
