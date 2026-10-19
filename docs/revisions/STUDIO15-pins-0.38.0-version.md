@@ -10,9 +10,10 @@ function of the version string.
 
 ## Evidence that the version is the only difference
 
-The same four test files, with their previous pins unchanged, were run on a worktree at 20485306 (0.37.0):
-the result is recorded in the integrator's report (`prebump` run). At the bump they fail, and the failing
-runs give the new values below.
+The same four test files, with their previous pins unchanged, were run on a worktree at 20485306 (0.37.0)
+and all pass there: `geometry_trust_no_change` 5 of 5, `iq_campaign` 17 of 17 (2 ignored as always),
+`published_figures_still_reproduce` 5 of 5 and `skyline_scenarios` 14 of 14. At the bump they fail, and the
+failing runs give the new values below.
 
 ## 1. `tests/geometry_trust_no_change.rs`: 21 telemetry hashes
 
