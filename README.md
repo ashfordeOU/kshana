@@ -763,7 +763,7 @@ The rendered diagrams (engine flow, module map, distribution) are in [`docs/ARCH
 ## AI assistant
 
 [`kshana-mcp`](mcp/kshana-mcp/) is an MCP server: your assistant runs the actual engine and
-reads back its JSON, instead of guessing the maths. Each of its 40 tools is a thin wrapper
+reads back its JSON, instead of guessing the maths. Each of its 49 tools is a thin wrapper
 over a public function of the `kshana` library, so no simulation logic lives in the server.
 
 ### Install the MCP server
@@ -808,7 +808,7 @@ Per-client set-up is in [`docs/integrations.md`](docs/integrations.md). The serv
 in the official MCP registry as `io.github.ashfordeOU/kshana-mcp`.
 
 <details>
-<summary>The 40 tools</summary>
+<summary>The 49 tools</summary>
 
 <br>
 
@@ -852,6 +852,9 @@ in the official MCP registry as `io.github.ashfordeOU/kshana-mcp`.
 | `build_interference_map` | A GNSS interference map from ADS-B or AIS position reports as CSV text (at most 4 MiB) |
 | `route_exposure` | The share of a route's length in degraded, not-degraded, unassessed and not-observed cells of one or more interference maps, optionally within a date range |
 | `trust_telemetry` | A trust stream (JSON lines) or `receiver-trust` result rendered as Prometheus text, CEF or LEEF syslog lines or an OTLP JSON payload, with the `kshana trust-telemetry` encoders |
+| `jammertest_import` | Read the published Jammertest test catalogue and transmission plan (NPRA/jammertest-plan, MIT) as scheduled truth (`kshana jammertest import`): one test area's slots become receiver-trust events with the catalogue id and year in each label. Planned slots, not recorded on-air times; no contact field of the plan is read. MODELLED. See [`docs/JAMMERTEST.md`](../../docs/JAMMERTEST.md). |
+| `jammertest_score` | Score a receiver log against that schedule (`kshana jammertest score`): per test the detection latency, missed alarms and time to recover, and the false alarms outside every slot. Text logs as `log`, binary (`ubx`, `sbf`) as `log_base64`. A signed pack needs a key: command line. Advisory only; MODELLED. |
+| `fit_imu_log` | Accelerometer and gyro parameters of the `hybrid` and `fusion` scenarios fitted from a stationary IMU log (CSV or EuRoC) by Allan deviation, with a ready-to-paste `[accel_classical]` table and the log's SHA-256 (`kshana imu-fit`). Text in, JSON out; MODELLED. |
 
 **GNSS IQ (work-directory files; off in HTTP mode)**
 
@@ -880,6 +883,13 @@ in the official MCP registry as `io.github.ashfordeOU/kshana-mcp`.
 | `run_standards_pack` | One pack run against bars stated before the run: each test `MET`, `NOT MET` or `NEEDS INPUT`; MODELLED, rates no product |
 | `lunanet_afs_check` | The LunaNet Augmented Forward Signal checked against LNIS V5 AD1 Volume A (LSIS-AFS V1.0): the codes against the printed tables, or a symbol stream against the frame format; LDPC and CRC-24Q of subframes 2 to 4 are not verified |
 | `create_round_trip_pack` | The signed laboratory round-trip pack: scenario, `kshana.test-conditions/1` document, receiver log and score linked by hash |
+
+**Benchmark**
+
+| Tool | What it does |
+|---|---|
+| `score_benchmark` | A kshana-bench submission scored against a truth file, both JSON text (`kshana bench score`, `bench/SPEC.md`): the result file with the spec version, split, input hashes and the task's metrics. MODELLED; describes a log or corpus, never a product. |
+| `render_leaderboard` | kshana-bench result files rendered as the static leaderboard page (HTML text), each validated first. |
 
 </details>
 
