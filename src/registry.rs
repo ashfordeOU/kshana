@@ -272,6 +272,7 @@ pub mod ids {
     pub const TIME_TRANSFER_BUDGET: ScenarioId = ScenarioId::from_static("time-transfer-budget");
     /// Optical PNT through the atmosphere.
     pub const OPTICAL_ATMOSPHERE: ScenarioId = ScenarioId::from_static("optical-atmosphere");
+    /// Clock holdover test: free-running drift against a stated limit.
     pub const HOLDOVER_TEST: ScenarioId = ScenarioId::from_static("holdover-test");
 
     /// Every built-in scenario id, in the engine's canonical order.
