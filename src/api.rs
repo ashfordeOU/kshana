@@ -2006,7 +2006,9 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
         ScenarioKind::HoldoverTest => {
             builtins::run_builtin::<crate::holdover_test::HoldoverTestScenario>(src)
         }
-        ScenarioKind::GnssSsv => builtins::run_builtin::<crate::ssv::scenario::GnssSsvScenario>(src),
+        ScenarioKind::GnssSsv => {
+            builtins::run_builtin::<crate::ssv::scenario::GnssSsvScenario>(src)
+        }
         ScenarioKind::LeoNavmsg => {
             builtins::run_builtin::<crate::leo_navmsg::LeoNavmsgScenario>(src)
         }
