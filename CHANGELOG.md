@@ -9,6 +9,37 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+### Added
+
+- **Test-conditions spec and the laboratory round trip.** `kshana.test-conditions/1` is published
+  as [`docs/spec/TEST-CONDITIONS.md`](docs/spec/TEST-CONDITIONS.md) with a JSON Schema, and gains
+  `recording.kind = "receiver-log"`. `kshana bench-export` also writes `<base>.conditions.json`.
+  `kshana evidence round-trip` builds a signed pack linking the scenario hash, the stated
+  conditions' hash, the receiver log's hash and the score against the stated events, and refuses
+  conditions that disagree with the scoring events. Worked example with gps-sdr-sim writing a file
+  only; replay is the operator's responsibility and is never automated. Python
+  `evidence_round_trip`, MCP `create_round_trip_pack`, plugin `/kshana-evidence-pack`.
+- **Standards packs** (`kshana standards-pack`, `standards/`): the DHS Resilient PNT framework test
+  profiles for levels 1 to 4, IMO MSC.1/Circ.1575 accuracy levels and integrity evaluation, and
+  ICAO Doc 9849 Appendix F monitor, assess and mitigate, each a set of scenarios scored against
+  bars stated before the run, with the compliance-report rows they support evidence for. Misses
+  are on record and pinned: DHS L4-T1 and the four IMO accuracy tests. Doc 9849 itself was not read
+  (paid); the ICAO pack follows ICAO's own RFI Mitigation Plan presentation. `compliance-report`
+  gains a standards-pack section. All MODELLED.
+- **LunaNet Augmented Forward Signal** (`docs/LUNANET-AFS.md`): AFS-I Gold and AFS-Q Weil codes for
+  PRN 1 to 210, signals `lunanet-afs-i` and `lunanet-afs-q` in `kshana iq`, the SB1 BCH code,
+  CRC-24Q and interleaver, and `kshana lunanet-afs-check` (`spec`, `symbols`, `generate`), pinned to
+  LNIS V5 Applicable Document 1 Volume A (LSIS-AFS V1.0, 29 January 2025). Codes VALIDATED against
+  the document's printed tables (which it marks TBC); one printed tertiary column (PRN 147) is
+  probably a misprint and the miss is pinned. LDPC coding of subframes 2 to 4 is not implemented.
+- **Course notebooks** (`notebooks/course/`): jamming, spoofing, holdover, integrity, OSNMA and
+  interference map, each with exercises.
+- **EU-US WG-C ARAIM Milestone 3 maximum-URA study** (`xval/araim-m3/`,
+  `src/bin/gen_araim_m3_study.rs`), replacing the withdrawn "Table A-3" plan; MODELLED under stated
+  deviations.
+- **Drafts for owner approval** under `docs/drafts/`: JOSS paper, TSC charter amendment, oracle
+  registry process and a `LICENSES/` split proposal. Nothing there is adopted.
+
 ## [0.37.0] - 2026-10-17
 
 ### Added
