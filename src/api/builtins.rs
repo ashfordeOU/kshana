@@ -2764,3 +2764,27 @@ mod tests {
         );
     }
 }
+
+fn run_gnssssv(scn: &crate::ssv::scenario::GnssSsvScenario) -> Result<RunOutput, String> {
+    let (json, summary, csv) = scn.run_json()?;
+    let svg = minimal_svg(&summary);
+    Ok(RunOutput {
+        json,
+        svg,
+        summary,
+        csv,
+    })
+}
+
+impl Scenario for crate::ssv::scenario::GnssSsvScenario {
+    fn run(&self) -> Result<RunOutput, KshanaError> {
+        run_gnssssv(self).map_err(KshanaError::from)
+    }
+}
+
+impl BuiltinKind for crate::ssv::scenario::GnssSsvScenario {
+    const KIND: ScenarioKind = ScenarioKind::GnssSsv;
+    fn parse(src: &str) -> Result<Self, String> {
+        parse_toml(src, "gnss-ssv")
+    }
+}
