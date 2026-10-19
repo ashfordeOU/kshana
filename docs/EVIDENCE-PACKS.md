@@ -22,6 +22,10 @@ kshana receiver-trust evidence session.toml \
     --title "Berth 4, 14 June"                  # optional
 ```
 
+For a pack made from a laboratory session, `--lab-attestation lab.toml` records the operator's statement
+of the setup (conducted or shielded, attenuation or enclosure, what emitted any RF) in the signed
+manifest; see [`HARDWARE-SAFETY.md`](HARDWARE-SAFETY.md). It is recorded as given and never verified.
+
 `--from` and `--to` are seconds since the first epoch of the log, or an ISO-8601 UTC time
 when the log states its own start time. `--out` must not already hold files.
 `--created-utc` takes a real UTC time such as `2026-01-02T03:04:05Z` (anything else is
@@ -138,6 +142,7 @@ the stated JSON type; additional members are ignored):
 | `signer` | object | `algorithm` string (`ed25519`), `public_key` hex (32 bytes), `fingerprint` string |
 | `artifacts` | array of objects | one per artifact file, in the fixed order: `name` string, `role` string, `bytes` non-negative integer, `sha256` hex, `link` hex |
 | `chain_head` | hex | the last link |
+| `lab_attestation` | object, optional | present only in a pack made from a laboratory session (`--lab-attestation`): the operator's statement `operator`, `organisation`, `date`, `setup` (`conducted` or `shielded`), `attenuation_db` or `enclosure`, `emitter`, `statement` and optionally `signature`, recorded as given. It is covered by the manifest signature and is never verified; a verifier reports it as "attested by the named operator; not verified by Kshana". Absent otherwise, and a pack without it is unchanged |
 
 `signer.fingerprint` is the first 32 hex digits of SHA-256 over the 32 public-key bytes.
 

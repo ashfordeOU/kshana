@@ -102,6 +102,7 @@ ScenarioKind = Literal[
     "ascent-losses",
     "time-transfer-budget",
     "optical-atmosphere",
+    "holdover-test",
 ]
 """Every built-in scenario kind, the value of a scenario's top-level ``kind``."""
 
@@ -303,12 +304,15 @@ def evidence_create(
     title: Optional[str] = None,
     created_utc: Optional[str] = None,
     seed_hex: Optional[str] = None,
+    lab_attestation: Optional[str] = None,
 ) -> dict[str, Any]:
     """Build a signed evidence pack for a window (seconds since the first epoch) of a vessel's
     NMEA log. ``seed_hex`` is the Ed25519 signing-key seed (64 hex digits); omitted, one is
     generated. ``created_utc``: ``None`` is now, ``"none"`` leaves it out. Keys: ``files``
     (name to ``bytes``), ``public_key``, ``seed_hex`` (keep it private), ``epochs_in_window``,
-    ``slice`` (``[start, end]`` or ``None`` for the whole log). A technical record, not a legal
+    ``slice`` (``[start, end]`` or ``None`` for the whole log). ``lab_attestation`` is TOML text,
+    the operator's statement of a laboratory setup (``docs/HARDWARE-SAFETY.md``), recorded in
+    the signed manifest as given and never verified. A technical record, not a legal
     opinion. Raises ``ValueError``."""
 
 def evidence_verify(
@@ -404,7 +408,7 @@ def bench_export(toml: str, epoch: Optional[str] = None) -> dict[str, Any]:
     radio-frequency or baseband signal is written."""
 
 def compliance_report(runs: list[dict[str, str]]) -> dict[str, Any]:
-    """Fill the public-framework mapping (five resilience frameworks and standards, see
+    """Fill the public-framework mapping (six resilience frameworks and standards, see
     ``docs/compliance/``) from result documents given as text. ``runs`` is a list of dicts with
     ``label``, ``result`` (the result JSON text) and optionally ``scenario`` (the scenario TOML
     text, which names the kind a result does not); at most 64 runs, nothing read from disk.

@@ -61,6 +61,7 @@ FETCH = {
     "en16803-2": "https://www.evs.ee/en/evs-en-16803-2-2020",
     "en16803-3": "https://www.evs.ee/en/evs-en-16803-3-2020",
 }
+NIST_URL = "https://nvlpubs.nist.gov/nistpubs/ir/2023/NIST.IR.8323r1.pdf"
 
 # Mapping row id -> (document id, anchors). An anchor is a heading number plus the words its
 # heading must contain, or a bare id. Written from the document's own headings (see
@@ -107,6 +108,21 @@ CITATIONS = {
     "EN16803-2": ("en16803-2", ["catalogue:Part 2"]),
     "EN16803-3-6": ("en16803-3", ["catalogue:Clause 6"]),
     "EN16803-3-A": ("en16803-3", ["catalogue:Annex A"]),
+    "NIST-ID.RA-1": ("nist-ir-8323r1", ["ID.RA-1"]),
+    "NIST-ID.RA-3": ("nist-ir-8323r1", ["ID.RA-3"]),
+    "NIST-ID.RA-4": ("nist-ir-8323r1", ["ID.RA-4"]),
+    "NIST-ID.RA-5": ("nist-ir-8323r1", ["ID.RA-5"]),
+    "NIST-PR.DS-6": ("nist-ir-8323r1", ["PR.DS-6"]),
+    "NIST-PR.IP-10": ("nist-ir-8323r1", ["PR.IP-10"]),
+    "NIST-PR.PT-5": ("nist-ir-8323r1", ["PR.PT-5"]),
+    "NIST-DE.AE-2": ("nist-ir-8323r1", ["DE.AE-2"]),
+    "NIST-DE.AE-3": ("nist-ir-8323r1", ["DE.AE-3"]),
+    "NIST-DE.AE-4": ("nist-ir-8323r1", ["DE.AE-4"]),
+    "NIST-DE.AE-5": ("nist-ir-8323r1", ["DE.AE-5"]),
+    "NIST-DE.CM-1": ("nist-ir-8323r1", ["DE.CM-1"]),
+    "NIST-DE.DP-3": ("nist-ir-8323r1", ["DE.DP-3"]),
+    "NIST-RS.AN-5": ("nist-ir-8323r1", ["RS.AN-5"]),
+    "NIST-RS.MI-2": ("nist-ir-8323r1", ["RS.MI-2"]),
 }
 
 
@@ -216,6 +232,39 @@ def nis2_article21(xhtml):
     return out
 
 
+def nist_headings(text):
+    """Subcategory identifiers of the Profile tables (3 to 25). The function and category of a
+    subcategory come from the caption of the table it sits in; the subcategory number is the
+    `XX-n:` label at the start of its row. Identifiers only, no body text."""
+    # Table number -> (CSF function code, {two-letter label -> category code}).
+    by_table = {}
+    for n in range(3, 9):
+        by_table[n] = "ID"
+    for n in range(9, 15):
+        by_table[n] = "PR"
+    for n in range(15, 18):
+        by_table[n] = "DE"
+    for n in range(18, 23):
+        by_table[n] = "RS"
+    for n in range(23, 26):
+        by_table[n] = "RC"
+    out, seen, fn = [], set(), None
+    for ln in text.split("\n"):
+        if "...." in ln:
+            continue
+        m = re.match(r"^\s*Table (\d+)\. ", ln)
+        if m:
+            fn = by_table.get(int(m.group(1)))
+            continue
+        m = re.match(r"^\s*([A-Z]{2})-(\d+):", ln)
+        if m and fn:
+            i = f"{fn}.{m.group(1)}-{m.group(2)}"
+            if i not in seen:
+                seen.add(i)
+                out.append({"id": i, "heading": ""})
+    return out
+
+
 def catalogue(htmltext, wants):
     plain = html.unescape(re.sub(r"<[^>]+>", " ", htmltext))
     plain = re.sub(r"\s+", " ", plain)
@@ -226,14 +275,69 @@ def catalogue(htmltext, wants):
     }
 
 
+def nist_record(day):
+    status, ctype, data, final = fetch(NIST_URL)
+    doc = {
+        "read_from": NIST_URL,
+        "sha256": sha(data),
+        "bytes": len(data),
+        "entries": nist_headings(pdf_text(data)),
+    }
+    url = {
+        "url": NIST_URL,
+        "checked": day,
+        "method": "python urllib, browser-like headers",
+        "status": status,
+        "content_type": ctype,
+        "bytes": len(data),
+    }
+    return doc, url
+
+
+def only_nist(day):
+    def load(name):
+        with open(os.path.join(OUT, name), encoding="utf-8") as f:
+            return json.load(f)
+
+    headings, citations, url_check = load("headings.json"), load("citations.json"), load("url_check.json")
+    doc, url = nist_record(day)
+    headings["documents"]["nist-ir-8323r1"] = doc
+    src = open(MAPPING_RS, encoding="utf-8").read()
+    refs = {
+        m.group(1): m.group(2)
+        for m in re.finditer(r'^\s+row\("([^"]+)", [A-Za-z0-9]+, "([^"]+)"', src, flags=re.M)
+    }
+    mine = {r: v for r, v in CITATIONS.items() if v[0] == "nist-ir-8323r1"}
+    citations["rows"] = [x for x in citations["rows"] if x["document"] != "nist-ir-8323r1"] + [
+        {"row": r, "reference": refs[r], "document": d, "anchors": a} for r, (d, a) in mine.items()
+    ]
+    url_check["urls"] = [u for u in url_check["urls"] if u["url"] != NIST_URL] + [url]
+    for name, d in (("headings.json", headings), ("citations.json", citations), ("url_check.json", url_check)):
+        with open(os.path.join(OUT, name), "w", encoding="utf-8") as f:
+            json.dump(d, f, indent=1, ensure_ascii=False)
+            f.write("\n")
+        print("wrote", os.path.join(OUT, name))
+    print("nist-ir-8323r1", len(doc["entries"]), "entries")
+
+
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--dhs-pdf", required=True, help="a copy of the DHS framework PDF")
+    ap.add_argument("--dhs-pdf", help="a copy of the DHS framework PDF (not needed with --only-nist)")
+    ap.add_argument(
+        "--only-nist",
+        action="store_true",
+        help="add or refresh only the NIST IR 8323r1 index, its citation records and its URL record "
+        "in the existing fixture files, leaving every other document, record and date as it is",
+    )
     args = ap.parse_args()
+    if not args.only_nist and not args.dhs_pdf:
+        ap.error("--dhs-pdf is required unless --only-nist is given")
     if subprocess.run(["pdftotext", "-v"], capture_output=True).returncode not in (0, 99):
         sys.exit("pdftotext (poppler) is required")
     day = now_date()
     os.makedirs(OUT, exist_ok=True)
+    if args.only_nist:
+        return only_nist(day)
 
     docs = {}
     with open(args.dhs_pdf, "rb") as f:
@@ -278,6 +382,7 @@ def main():
         "bytes": fetched["nis2"][2],
         "entries": nis2_article21(fetched["nis2"][2].decode("utf-8")),
     }
+    nist_doc, nist_url = nist_record(day)
     cat = {}
     for part, wants in (("1", ["Part 1"]), ("2", ["Part 2"]), ("3", ["Part 3", "Clause 6", "Annex A"])):
         k = f"en16803-{part}"
@@ -305,6 +410,8 @@ def main():
         }
         if "catalogue" in d:
             headings["documents"][k]["catalogue"] = d["catalogue"]
+
+    headings["documents"]["nist-ir-8323r1"] = nist_doc
 
     # Citations: the reference string exactly as mapping.rs has it.
     src = open(MAPPING_RS, encoding="utf-8").read()
@@ -347,6 +454,8 @@ def main():
                 "checked": day,
                 "result": f"HTTP {fetched['nis2'][0]}, {len(fetched['nis2'][2])} bytes, sha256 {sha(fetched['nis2'][2])[:16]}..., the document indexed in headings.json",
             }
+        if u == NIST_URL:
+            entry = nist_url
         checks.append(entry)
     url_check = {"generated_by": "scripts/gen_compliance_refs.py", "checked": day, "urls": checks}
 
