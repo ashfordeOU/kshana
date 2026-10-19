@@ -188,6 +188,8 @@ __all__ = [
     "lunanet_afs_check_spec",
     "lunanet_afs_check_symbols",
     "lunanet_afs_generate",
+    "bench_score",
+    "bench_leaderboard",
     "osnma_verify",
     "trust_telemetry",
     "imu_fit",
@@ -481,6 +483,21 @@ def compliance_report(runs: list[dict[str, str]]) -> dict[str, Any]:
     of ``evidenced``, ``partly-evidenced``, ``not-evidenced`` or ``out-of-scope`` and keeps its
     ``gap``. A status says the runs support evidence for the row's capabilities; it is not a
     finding that a framework is met. Raises ``ValueError``."""
+
+def bench_score(
+    truth_json: str,
+    predictions_json: str,
+    threshold: float | None = None,
+) -> str:
+    """Score a kshana-bench predictions file against a truth file (JSON texts, see
+    ``bench/SPEC.md``) and return the result file (``kshana-bench-result/1``) as JSON text:
+    the spec version, task, split, the SHA-256 of both inputs, the task's metrics and the
+    advisory notice. ``threshold`` is the declared alarm threshold of tasks a and b. Every
+    score is MODELLED and describes a log or corpus, never a product. Raises ``ValueError``."""
+
+def bench_leaderboard(results: list[str]) -> str:
+    """Render kshana-bench result files (JSON texts) as the static leaderboard page (HTML).
+    Raises ``ValueError`` for an invalid file or another spec major version."""
 
 def compliance_mapping(sources: bool = False) -> str:
     """The static public-framework mapping as Markdown, led by the statement every report

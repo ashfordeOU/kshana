@@ -2096,6 +2096,33 @@ fn osnma_verify<'py>(
     json_to_py(py, &v)
 }
 
+/// Score a kshana-bench predictions file against a truth file (JSON texts, `bench/SPEC.md`) and
+/// return the result file (`kshana-bench-result/1`) as JSON text. `threshold` is the declared
+/// alarm threshold of tasks a and b. Raises `ValueError`.
+#[pyfunction]
+#[pyo3(signature = (truth_json, predictions_json, threshold=None))]
+fn bench_score(
+    truth_json: &str,
+    predictions_json: &str,
+    threshold: Option<f64>,
+) -> PyResult<String> {
+    crate::surface::bench_score(
+        truth_json,
+        predictions_json,
+        threshold,
+        crate::surface::MAX_INPUT_BYTES,
+    )
+    .map_err(PyValueError::new_err)
+}
+
+/// Render kshana-bench result files (a list of JSON texts) as the static leaderboard page
+/// (HTML). Raises `ValueError` for an invalid file or another spec major version.
+#[pyfunction]
+fn bench_leaderboard(results: Vec<String>) -> PyResult<String> {
+    crate::surface::bench_leaderboard(&results, crate::surface::MAX_INPUT_BYTES)
+        .map_err(PyValueError::new_err)
+}
+
 /// The static public-framework mapping as Markdown, led by the statement every report
 /// carries: one table per framework (`sources=False`) or the source documents they cite,
 /// with versions and URLs (`sources=True`).
@@ -2396,6 +2423,8 @@ fn kshana(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(lunanet_afs_check_spec, m)?)?;
     m.add_function(wrap_pyfunction!(lunanet_afs_check_symbols, m)?)?;
     m.add_function(wrap_pyfunction!(lunanet_afs_generate, m)?)?;
+    m.add_function(wrap_pyfunction!(bench_score, m)?)?;
+    m.add_function(wrap_pyfunction!(bench_leaderboard, m)?)?;
     m.add_function(wrap_pyfunction!(osnma_verify, m)?)?;
     m.add_function(wrap_pyfunction!(trust_telemetry, m)?)?;
     m.add_function(wrap_pyfunction!(imu_fit, m)?)?;

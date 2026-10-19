@@ -1,0 +1,35 @@
+{
+  "label": "MODELLED: labels are generative-model labels of a synthetic parameter-grounded corpus (never field or IQ data); an AUC here is an AUC over model-derived labels",
+  "metrics": {
+    "auc_in": 0.88228125,
+    "auc_out": 0.88159375,
+    "ood_severity_scale": 0.5,
+    "operating_in": {
+      "n": 1000,
+      "pd": 0.7625,
+      "pfa": 0.05,
+      "target_pfa": 0.05
+    },
+    "operating_out": {
+      "n": 1000,
+      "pd": 0.7575,
+      "pfa": 0.05,
+      "target_pfa": 0.05
+    },
+    "optimism_gap": 0.0006875000000000631,
+    "optimism_tol": 0.05,
+    "optimistic": false
+  },
+  "notice": "Advisory: modelled or measured against stated references, not an approval, certification or statement of conformance. A score describes a log or corpus, never a product.",
+  "predictions_sha256": "b760e99b5cface97d464846006bead3ecc52c0bbf58a20cd4f34fdc20807a24f",
+  "provenance": "scored",
+  "schema": "kshana-bench-result/1",
+  "spec_version": "kshana-bench/1.0.0",
+  "split": "test",
+  "system": {
+    "name": "impairment-eval baseline: sqm-imbalance",
+    "version": "kshana-bench/1.0.0"
+  },
+  "task": "d",
+  "truth_sha256": "3e9310ee1be9b5cfbee63ba9138886084188380df79cc62f11717fbf68e988a9"
+}

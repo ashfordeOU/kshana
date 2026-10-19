@@ -491,7 +491,8 @@ pub struct Folder {
     pub ubx: Option<PathBuf>,
 }
 
-fn find_scenarios(dir: &Path, out: &mut Vec<PathBuf>) {
+/// Every directory under `dir` (including `dir`) that holds a `scenario.json`, in sorted order.
+pub fn find_scenarios(dir: &Path, out: &mut Vec<PathBuf>) {
     let Ok(rd) = std::fs::read_dir(dir) else {
         return;
     };

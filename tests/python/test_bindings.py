@@ -578,6 +578,27 @@ def test_compliance_report_fills_the_mapping_and_keeps_the_statement():
         kshana.compliance_report([{"label": f"r{i}", "result": "{}"} for i in range(65)])
 
 
+def test_bench_score_scores_a_perfect_and_a_missing_submission_and_renders_the_page():
+    truth = json.dumps({
+        "schema": "kshana-bench-truth/1", "task": "a", "split": "dev",
+        "spec_version": "kshana-bench/1.0.0",
+        "labels": [{"id": "x#0", "positive": True}, {"id": "x#1", "positive": False},
+                   {"id": "x#2", "positive": True}, {"id": "x#3", "positive": False}]})
+    preds = json.dumps({
+        "schema": "kshana-bench-predictions/1", "task": "a", "split": "dev",
+        "system": {"name": "perfect", "version": "1"},
+        "scores": {"x#0": 1.0, "x#1": 0.0, "x#2": 1.0, "x#3": 0.0}})
+    res = json.loads(kshana.bench_score(truth, preds, 0.5))
+    assert res["schema"] == "kshana-bench-result/1" and res["metrics"]["auc"] == 1.0
+    assert "Advisory" in res["notice"] and res["provenance"] == "scored"
+    with pytest.raises(ValueError):
+        kshana.bench_score(truth, preds.replace('"x#3": 0.0', '"y": 0.0'))
+    page = kshana.bench_leaderboard([json.dumps(res)])
+    assert "kshana-bench leaderboard" in page and "perfect" in page
+    with pytest.raises(ValueError):
+        kshana.bench_leaderboard(["{}"])
+
+
 def test_bench_export_is_in_memory_text_with_the_no_signal_notice():
     toml = (Path(__file__).resolve().parents[2] / "scenarios" / "automotive-urban-canyon.toml").read_text()
     a = kshana.bench_export(toml, "2025-03-01T10:00:00Z")

@@ -389,6 +389,34 @@ pub fn compliance_report(runs_json: &str) -> Result<String, JsValue> {
     Ok(serde_json::json!({"report": out.report, "markdown": out.markdown}).to_string())
 }
 
+/// Score a kshana-bench predictions file against a truth file (JSON texts) and return the
+/// result file as JSON text. `threshold` is the declared alarm threshold of tasks a and b.
+#[wasm_bindgen]
+pub fn bench_score(
+    truth_json: &str,
+    predictions_json: &str,
+    threshold: Option<f64>,
+) -> Result<String, JsValue> {
+    crate::surface::bench_score(
+        truth_json,
+        predictions_json,
+        threshold,
+        crate::surface::MAX_INPUT_BYTES,
+    )
+    .map_err(|e| JsValue::from_str(&e))
+}
+
+/// Render kshana-bench result files (a JSON array of result texts) as the static leaderboard
+/// page (HTML).
+#[wasm_bindgen]
+pub fn bench_leaderboard(results_json: &str) -> Result<String, JsValue> {
+    let results: Vec<String> = serde_json::from_str(results_json).map_err(|e| {
+        JsValue::from_str(&format!("results_json is not a JSON array of strings: {e}"))
+    })?;
+    crate::surface::bench_leaderboard(&results, crate::surface::MAX_INPUT_BYTES)
+        .map_err(|e| JsValue::from_str(&e))
+}
+
 /// The static public-framework mapping as Markdown, led by the statement every report
 /// carries: the tables (`sources` false) or the source documents they cite (`sources` true).
 #[wasm_bindgen]
