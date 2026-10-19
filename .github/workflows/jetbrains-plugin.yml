@@ -71,6 +71,24 @@ jobs:
             fi
             exit "$rc"
           done
+      # Fails on compatibility problems and on any use of API scheduled for removal, against the
+      # since-build (2024.3) and the 2026.3 line (build 263); deprecated usages are reported only.
+      - name: Verify the plugin (IntelliJ Plugin Verifier)
+        run: |
+          set +e
+          attempt=1; max=3
+          while :; do
+            out="$(./gradlew verifyPlugin --no-daemon --console=plain 2>&1)"; rc=$?
+            printf '%s\n' "$out"
+            if [ "$rc" -eq 0 ]; then break; fi
+            if [ "$attempt" -lt "$max" ] && printf '%s\n' "$out" | grep -qiE "bad gateway|could not resolve|could not get resource|status code: (429|50[0-9])|gateway time-?out|connection (reset|timed out)|read timed out|timeout"; then
+              echo "::warning::transient IntelliJ Platform resolution failure during verification (attempt $attempt/$max) - retrying"
+              sleep $((attempt * 30))
+              attempt=$((attempt + 1))
+              continue
+            fi
+            exit "$rc"
+          done
       - name: Upload the plugin distributable
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
