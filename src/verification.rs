@@ -3578,7 +3578,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             requirement: "ROS 2 receiver-trust package and gnss_lib_py bridge",
             capability: "A ROS-free bridge that writes fix and satellite messages as NMEA and scores them through the Python binding (integrations/ros2/kshana_trust), and a gnss_lib_py NavData to receiver-trust bridge through the rtklib-pos format (integrations/gnss_lib_py).",
             module: "integrations/ros2/kshana_trust (bridge.py, trust_node.py); integrations/gnss_lib_py/kshana_gnss_lib_py.py",
-            tests: "integrations/ros2/kshana_trust/test (bridge with a mock engine; the real wheel scores a steady fix nominal and a 1.1 km jump untrusted); integrations/gnss_lib_py/test_bridge.py (real gnss_lib_py 1.1.0 and the wheel)",
+            tests: "tests/receiver_trust_machines.rs (rtklib_pos_runs_as_a_receiver_log: the format the gnss_lib_py bridge writes, run through receiver-trust); the Python tests of the bridges are integrations/ros2/kshana_trust/test/test_bridge.py (bridge with a mock engine), integrations/ros2/kshana_trust/test/test_engine_integration.py (the real wheel scores a steady fix nominal and a 1.1 km jump untrusted) and integrations/gnss_lib_py/test_bridge.py (real gnss_lib_py 1.1.0 and the wheel), run with pytest, not by cargo",
             oracle: "None external: the ROS node was not run on a live ROS 2 graph, and the ublox_ubx_msgs field names were not checked against a running driver. gnss_lib_py (MIT) was run for the bridge test",
             oracle_kind: InternalConsistency,
             status: Modelled,
