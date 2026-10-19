@@ -13,7 +13,7 @@ and D4 of `docs/plans/0.38-PLAN.md` (kshana-pro, `ws/coordination`).
 | C3 | NIST IR 8323r1 crosswalk in `compliance-report`: 15 paraphrased rows, `docs/compliance/nist-ir-8323r1.md`, citation index extended (`scripts/gen_compliance_refs.py --only-nist`) | a mapping, a judgement; the references resolve in the PDF read on 2026-10-18 |
 | C4 | `iq scene --format sdrx[:ci16_le]`: ION GNSS SDR metadata writer (`realdata::ion_sdr::write_sdrx`), CLI and MCP | round trip with the reader and sample equality with the plain file; no third-party reader run |
 | C5 | `iq monitor --follow [--idle-timeout s]` on a growing single-capture SigMF file (`iq::io::follow`), read-only | tested with a file that grows during the run |
-| C6 | `docs/HARDWARE-SAFETY.md`: stages 0 to 4, legal notes, the `lab-attestation` field (specified, not enforced) | **owner legal review pending** |
+| C6 | `docs/HARDWARE-SAFETY.md`: stages 0 to 4, legal notes, the `lab-attestation` field. The field is recorded in the signed evidence-pack manifest when given (`receiver-trust evidence --lab-attestation`, Python `evidence_create(lab_attestation=)`, MCP `create_evidence_pack(lab_attestation_toml)`); verification reports it as operator-attested, not verified. The rule that Kshana refuses to score a lab run without it is not implemented (no lab-run command exists yet) | **owner legal review pending** |
 | D1 | README: six rows of the evidence table that no matrix row names as an external oracle (GCRS to ITRS against ANISE, Galileo and Swarm-A precise-orbit fits, LRO, Sun-central Mars against DE440, dual-constellation ARAIM) are shown MODELLED, with the figures kept; the sentence that called the LRO miss VALIDATED is corrected | |
 | D3 | `docs/CAPABILITY.md`: RTK on real data and static float PPP on real data are in the GNSS row, from the matrix (both VALIDATED against ITRF2020 station coordinates); PPP ambiguity fixing and kinematic or network RTK stay absent | |
 | D4 | e2e-live listener race: the gate logs when it registers a client (`kshana live: tcp client connected`), the test waits for that line and paces the feed on the consumer, and fails with a clear message if the gate drops a consumer; the byte comparison is unchanged | 40 of 40 runs green after the fix; before it, a run failed within three |
@@ -50,6 +50,7 @@ was set because no external oracle was compared.
   needs legal review; the Studio view of `holdover-test` is pending; `docs/IQ-FOLLOW.md` carries no
   tool-specific capture recipe (the memo's "capture recipe doc" is left to a later release, because a
   recipe names third-party tools whose flags were not checked).
+- `holdover-test` also carries `record.series` (`time_s`, `time_error_ns`, at most 3000 points; `record.series_decimation` states the stride and the rule) for the Studio view (W53).
 - Release-text draft (CHANGELOG / README "What's new in 0.38"):
   - **Timing**: the `holdover-test` kind scores a holdover test of a timing system ("pull the antenna")
     from a measured time-error record, split at the two times the operator states, measured against
