@@ -91,7 +91,8 @@ export type ScenarioKind =
   | "ascent-losses"
   | "time-transfer-budget"
   | "optical-atmosphere"
-  | "holdover-test";
+  | "holdover-test"
+  | "gnss-ssv";
 
 /** The failure category `error_kind` returns (`""` on success). */
 export type ErrorKind = "invalid_input" | "non_convergence" | "unsupported" | "io_error";
