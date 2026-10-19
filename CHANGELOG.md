@@ -123,6 +123,14 @@ breaking changes are called out explicitly.
   uploads nothing; every figure keeps the label the ledger holds for it, and each carries the advisory
   statement. The `/benchmark` site page shows the `kshana bench leaderboard` fragment.
 
+### Fixed
+
+- **JetBrains plugin: no use of deprecated or scheduled-for-removal platform API.** The IntelliJ Plugin Verifier
+  (`verifyPlugin`) against IntelliJ IDEA build 263 (2026.3: 263.6800.24 and 263.7031.23) found one deprecated
+  call, `FileEditorManager.openFile`, in Insert Example; it now opens the new file with `OpenFileDescriptor`.
+  The plugin is compatible with and clean on 2024.3 (the since-build, unchanged) and both 263 builds. CI now
+  runs `verifyPlugin` and fails on compatibility problems and on any use of API scheduled for removal.
+
 ## [0.37.0] - 2026-10-17
 
 ### Added

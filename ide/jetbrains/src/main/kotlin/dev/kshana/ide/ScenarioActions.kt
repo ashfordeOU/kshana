@@ -12,7 +12,7 @@ import com.intellij.openapi.actionSystem.CommonDataKeys
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.fileChooser.FileChooser
 import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory
-import com.intellij.openapi.fileEditor.FileEditorManager
+import com.intellij.openapi.fileEditor.OpenFileDescriptor
 import com.intellij.openapi.progress.ProgressIndicator
 import com.intellij.openapi.progress.Task
 import com.intellij.openapi.project.Project
@@ -86,7 +86,7 @@ class InsertExampleAction : AnAction() {
                 report(project, "wrote ${target.path}", false)
                 ApplicationManager.getApplication().invokeLater {
                     LocalFileSystem.getInstance().refreshAndFindFileByIoFile(target)?.let {
-                        FileEditorManager.getInstance(project).openFile(it, true)
+                        OpenFileDescriptor(project, it).navigate(true)
                     }
                 }
             }
