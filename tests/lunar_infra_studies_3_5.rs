@@ -196,3 +196,18 @@ fn g4_the_clock_tide_ties_to_the_lunar_time_constants() {
     assert!(((dk3 - want * w) / (want * w)).abs() <= 1e-9 && dh3 == -dk3);
     let _ = geom(0.0);
 }
+
+#[test]
+fn every_numeric_field_of_every_study_carries_a_unit_and_a_provenance_class() {
+    for name in ["od-consistency", "od-consistency-model-error", "frame-coestimation", "space-tie", "geodesy-sensitivity"] {
+        let v = run(&example(name));
+        let audit = kshana::field_schema::audit_document(&v);
+        assert!(audit.malformed.is_empty(), "{name}: {:?}", audit.malformed.iter().map(|m| &m.key).collect::<Vec<_>>());
+        assert!(audit.missing.is_empty(), "{name}: no units entry for {:?}", audit.missing);
+        assert!(!audit.covered.is_empty());
+    }
+    // carrier-phase on a short run (the full example is slow).
+    let toml = example("carrier-phase").replace("arcs_days = [1.0, 2.0, 3.0]", "arcs_days = [0.5]").replace("trials = 400", "trials = 2");
+    let audit = kshana::field_schema::audit_document(&run(&toml));
+    assert!(audit.missing.is_empty(), "carrier-phase: {:?}", audit.missing);
+}
