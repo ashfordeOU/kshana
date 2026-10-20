@@ -170,11 +170,28 @@ pub fn design(
             let sp2 = phase_sigma_m(a.cn0_dbhz, cons.phase_bn_hz, lam).powi(2)
                 + phase_sigma_m(b.cn0_dbhz, cons.phase_bn_hz, lam).powi(2)
                 + sis * sis;
-            rows.push(Row { epoch: k, h, pass: None, w: 1.0 / sc2 });
-            rows.push(Row { epoch: k, h, pass, w: 1.0 / sp2 });
+            rows.push(Row {
+                epoch: k,
+                h,
+                pass: None,
+                w: 1.0 / sc2,
+            });
+            rows.push(Row {
+                epoch: k,
+                h,
+                pass,
+                w: 1.0 / sp2,
+            });
         }
     }
-    Ok(Design { rows, n_pass, lambda_m: lam, epochs_dd, epochs: n, epochs_common })
+    Ok(Design {
+        rows,
+        n_pass,
+        lambda_m: lam,
+        epochs_dd,
+        epochs: n,
+        epochs_common,
+    })
 }
 
 /// The float solution of a design.
@@ -198,7 +215,9 @@ pub fn solve_float(d: &Design) -> Result<Float, String> {
             len[p] += 1;
         }
     }
-    let reference = (0..d.n_pass).max_by_key(|&p| len[p]).ok_or("no common satellite between the receivers")?;
+    let reference = (0..d.n_pass)
+        .max_by_key(|&p| len[p])
+        .ok_or("no common satellite between the receivers")?;
     // Connected component of the reference: passes that share an epoch.
     let mut epochs_of: Vec<Vec<usize>> = vec![vec![]; d.epochs];
     for r in &d.rows {
@@ -237,7 +256,9 @@ pub fn solve_float(d: &Design) -> Result<Float, String> {
     let dim = next;
     let passes_used = in_comp.iter().filter(|&&b| b).count();
     if dim <= 9 {
-        return Err("fewer than two connected passes: no double-difference ambiguity to resolve".into());
+        return Err(
+            "fewer than two connected passes: no double-difference ambiguity to resolve".into(),
+        );
     }
     let mut info = la::zeros(dim, dim);
     let mut i0 = 0;
@@ -287,14 +308,23 @@ pub fn solve_float(d: &Design) -> Result<Float, String> {
     }
     let info = la::sym(&info);
     let p = la::inverse(&info).ok_or("the carrier-phase normal equations are singular")?;
-    let q: Mat = (9..dim).map(|i| (9..dim).map(|j| p[i][j]).collect()).collect();
+    let q: Mat = (9..dim)
+        .map(|i| (9..dim).map(|j| p[i][j]).collect())
+        .collect();
     let p_float = la::block(&p, 9);
     let p_fixed = la::inverse(&la::block(&info, 9)).ok_or("the position block is singular")?;
-    Ok(Float { passes_used, q, p_float, p_fixed })
+    Ok(Float {
+        passes_used,
+        q,
+        p_float,
+        p_fixed,
+    })
 }
 
 fn pos3(p: &Mat, from: usize) -> f64 {
-    (p[from][from] + p[from + 1][from + 1] + p[from + 2][from + 2]).max(0.0).sqrt()
+    (p[from][from] + p[from + 1][from + 1] + p[from + 2][from + 2])
+        .max(0.0)
+        .sqrt()
 }
 
 /// Run the study.
@@ -305,7 +335,10 @@ pub fn run(
     mc: &PhaseMc,
     seed: u64,
 ) -> Result<Value, String> {
-    let arcs = orbit.arcs_days.clone().unwrap_or_else(|| vec![orbit.arc_days.unwrap_or(1.0)]);
+    let arcs = orbit
+        .arcs_days
+        .clone()
+        .unwrap_or_else(|| vec![orbit.arc_days.unwrap_or(1.0)]);
     let trials = mc.trials.unwrap_or(2000);
     if trials == 0 {
         return Err("monte_carlo.trials must be at least 1".into());
@@ -321,7 +354,8 @@ pub fn run(
         let res = lambda::resolve(&f.q, &zero);
         let boot_decor = res.as_ref().map(|r| r.success_rate);
         let l = la::cholesky(&f.q).ok_or("the ambiguity covariance is not positive definite")?;
-        let mut rng = ChaCha8Rng::seed_from_u64(seed ^ (ai as u64 + 1).wrapping_mul(0x9E37_79B9_7F4A_7C15));
+        let mut rng =
+            ChaCha8Rng::seed_from_u64(seed ^ (ai as u64 + 1).wrapping_mul(0x9E37_79B9_7F4A_7C15));
         let (mut ok, mut exhausted) = (0usize, 0usize);
         for _ in 0..trials {
             let g: Vec<f64> = (0..n).map(|_| StandardNormal.sample(&mut rng)).collect();

@@ -48,7 +48,11 @@ pub const TECHNIQUES: [&str; 3] = ["gnss", "vlbi", "slr"];
 
 /// Information matrix of the 23 parameters without the local-tie prior.
 pub fn information(positions: &[[f64; 3]], sig: [f64; 3]) -> Mat {
-    let w: [f64; 3] = [1.0 / (sig[0] * sig[0]), 1.0 / (sig[1] * sig[1]), 1.0 / (sig[2] * sig[2])];
+    let w: [f64; 3] = [
+        1.0 / (sig[0] * sig[0]),
+        1.0 / (sig[1] * sig[1]),
+        1.0 / (sig[2] * sig[2]),
+    ];
     let sw: f64 = w.iter().sum();
     let mut info = la::zeros(NP, NP);
     for x in positions {
@@ -151,14 +155,19 @@ pub fn covariance(rows: &[Vec<f64>], tie_sigma_m: f64) -> Result<Mat, String> {
     }
     let w = vec![1.0; jac.len()];
     let c = crate::fim::crlb_srif(&jac, &w, 1e-30);
-    c.covariance.ok_or_else(|| "the space-tie information matrix is singular".to_string())
+    c.covariance
+        .ok_or_else(|| "the space-tie information matrix is singular".to_string())
 }
 
 /// Sigmas of the offset `b - a` between two techniques (0-based, `a < b`): 7 values
 /// `[t_x, t_y, t_z, scale, θ_x, θ_y, θ_z]` (the reference technique 0 has zero offset).
 fn pair_sigmas(cov: &Mat, a: usize, b: usize) -> [f64; 7] {
     let idx = |k: usize, c: usize| -> Option<usize> {
-        if k == 0 { None } else { Some((k - 1) * 7 + c) }
+        if k == 0 {
+            None
+        } else {
+            Some((k - 1) * 7 + c)
+        }
     };
     let mut out = [0.0; 7];
     for (c, o) in out.iter_mut().enumerate() {
@@ -167,7 +176,9 @@ fn pair_sigmas(cov: &Mat, a: usize, b: usize) -> [f64; 7] {
             (Some(i), Some(j)) => cov[i][j],
             _ => 0.0,
         };
-        *o = (var(ib, ib) + var(ia, ia) - 2.0 * var(ia, ib)).max(0.0).sqrt();
+        *o = (var(ib, ib) + var(ia, ia) - 2.0 * var(ia, ib))
+            .max(0.0)
+            .sqrt();
     }
     out
 }
@@ -184,7 +195,10 @@ pub fn run(orbit: &OrbitSpec, tech: &TechniqueSpec) -> Result<Value, String> {
         return Err("technique sigmas must be positive".into());
     }
     let tie = tech.local_tie_sigma_m.unwrap_or(0.001);
-    let mut sweep = tech.local_tie_sweep_m.clone().unwrap_or_else(|| vec![0.001, 0.01, 0.1, 1.0]);
+    let mut sweep = tech
+        .local_tie_sweep_m
+        .clone()
+        .unwrap_or_else(|| vec![0.001, 0.01, 0.1, 1.0]);
     if !sweep.contains(&tie) {
         sweep.push(tie);
         sweep.sort_by(|a, b| a.total_cmp(b));
