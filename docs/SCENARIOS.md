@@ -702,6 +702,6 @@ MODELLED holdover test of a timing system, scored from a time-error record the O
 
 MODELLED GNSS availability and link strength in the Space Service Volume and beyond: for a user on a sphere (the ICG booklet's global shell) or on a Keplerian trajectory (LEO to lunar transfer) it counts, per constellation (GPS, GLONASS, Galileo, BDS, QZSS, NavIC) and for all together, the signals usable above a C/N0 threshold - availability of at least one and of four signals, maximum outage duration, received C/N0, dilution of precision, main-lobe against sidelobe links - with a booklet, parametric or user-supplied transmit pattern, optional limb-ray ionosphere, plasmasphere and atmosphere effects and an optional weak-signal receiver design; also an onboard GNSS extended Kalman filter for HEO and lunar-transfer craft (orbital dynamics, solar radiation pressure, third bodies, clock) and relative navigation of a multi-craft formation by single-differenced pseudoranges. Checked against the ICG SSV booklet tables under a pre-registration (xval/gnss-ssv)
 
-- **Required fields:** *(none)*
-- **Optional fields:** `name`, `constellations`, `transmit`, `receiver`, `atmosphere`, `shell`, `trajectory`, `navigation`, `formation`
+- **Required fields:** `shell|trajectory|navigation`
+- **Optional fields:** `name`, `constellations`, `transmit`, `receiver`, `atmosphere`, `formation`
 
