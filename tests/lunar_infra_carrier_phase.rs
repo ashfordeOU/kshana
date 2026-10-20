@@ -51,7 +51,7 @@ fn q2_success_does_not_fall_with_arc_length_beyond_three_standard_errors() {
 
 #[test]
 fn q1_holds_on_a_live_short_run() {
-    let toml = include_str!("../scenarios/lunar-infrastructure-carrier-phase.toml")
+    let toml = include_str!("../xval/lunar-infra/scenarios/carrier-phase-scored.toml")
         .replace("arcs_days = [1.0, 2.0, 3.0]", "arcs_days = [0.5]")
         .replace("trials = 400", "trials = 60");
     let out = kshana::api::run_toml(&toml).expect("runs");
