@@ -26,13 +26,13 @@ Event log · campaign-jam-spoof-holdover-integrityReal events
 
 Where every trace comes from
 
-Campaign: Engine v0.38.0, build 4a11fab · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
+Campaign: Engine v0.38.0, build 15dc490 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
 
-Orbits: Engine v0.38.0, build 4a11fab · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
+Orbits: Engine v0.38.0, build 15dc490 · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
 
 The console, the three cards and the log replay one chained run of 6 phases and 18 member runs on its 10 s grid (T+01:16:10 of mission time). The orbits are the 102 satellites of GPS, Galileo, BeiDou and GLONASS from the constellation run, each recovered as a circular two-body orbit from the engine's ground track (worst residual 0.0034°), radii compressed for display. Links are drawn to satellites above the constellation run's 10° mask (25° in the integrity-alarm phase, the campaign's reacquisition mask), dimmed by its jamming and cut in holdover. Earth: NASA Blue Marble and Black Marble. Kshana Studio replays the chained run in your browser; the engine's own report and the command reproduce each run.
 
-87scenario kinds 173bundled scenario files 388capabilities in the verification matrix 176/388validated against independent external oracles 5papers on arXiv built on the open engineRead the research  WASMruns in the browser as WebAssembly, no install
+87scenario kinds 173bundled scenario files 388capabilities in the verification matrix 176/388validated against independent external oracles 6papers on arXiv built on the open engineRead the research  WASMruns in the browser as WebAssembly, no install
 
 ## New in v0.38.0: a neutral referee, a holdover test, more inputs and GNSS beyond the constellation
 
@@ -162,7 +162,7 @@ NominalJammingSpoofingHoldoverIntegrity alarmRecovery
 
 T+00:00:00 → T+01:16:10 mission time · the chained run, not three runs side by sidePL = protection level · AL = alert limit · INS = inertial navigation system
 
-Engine v0.38.0, build 4a11fab · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
+Engine v0.38.0, build 15dc490 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
 
 02Capabilities
 
@@ -218,7 +218,7 @@ Integrity
 
 Protection levels (PL) from receiver autonomous integrity monitoring (RAIM) and its advanced form (ARAIM), checked against the alert limit: here, the chained mission's integrity-alarm phase. Hatched bars are epochs where no protection level could be formed.
 
-Engine v0.38.0, build 4a11fab · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
+Engine v0.38.0, build 15dc490 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
 
 Telecom
 
@@ -454,9 +454,9 @@ A spoofer pushes the clock at 0.1 ns/s. The RF (radio-frequency) detector alarms
 
 The jammer goes to 10 dBW and every satellite is lost. The clock free-runs from the 37.0 ns the spoofer left and crosses its 50 ns guard at T+00:35:40; the inertial error reaches 24.3 km.
 
-Campaign: Engine v0.38.0, build 4a11fab · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
+Campaign: Engine v0.38.0, build 15dc490 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
 
-Orbits: Engine v0.38.0, build 4a11fab · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
+Orbits: Engine v0.38.0, build 15dc490 · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
 
 Open core, Kshana Pro, custom study
 ## Free for everyone. Pro when the answer has to stand up in a review.
@@ -1037,7 +1037,7 @@ Orbit view
 
 engine v0.38.0t = 0 sReal engine run, replayed
 
-Engine v0.38.0, build 4a11fab · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
+Engine v0.38.0, build 15dc490 · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
 
 Orbits: re-propagated from the run's own elements and checked against the engine's ground tracks. Planets: NASA imagery.
 
@@ -2444,7 +2444,7 @@ One square per compared vector, coloured by its position error.
 
 oracle · AIAA 2006-6753 verification vectorsHow it was checked
 
-Engine v0.38.0, build 4a11fab · tests/sgp4_verification.rs · deterministic, no seedOpen in Kshana Studio: the same propagator, orbit-sgp4-gps.toml · seed 17
+Engine v0.38.0, build 15dc490 · tests/sgp4_verification.rs · deterministic, no seedOpen in Kshana Studio: the same propagator, orbit-sgp4-gps.toml · seed 17
 
 171 of 171 RAIM (receiver autonomous integrity monitoring) threshold cases match SciPy inside the band. Seed 7.
 
@@ -2460,7 +2460,7 @@ One square per SciPy case, grouped by kernel.
 
 oracle · SciPyHow it was checked
 
-Engine v0.38.0, build 4a11fab · tests/raim_reference.rs · deterministic, no seedOpen in Kshana Studio: the kernel at work, integrity-raim.toml · seed 7
+Engine v0.38.0, build 15dc490 · tests/raim_reference.rs · deterministic, no seedOpen in Kshana Studio: the kernel at work, integrity-raim.toml · seed 7
 
 Numerical (Cowell) orbit propagation against Orekit over a 24-hour arc: worst difference 0.08 m in force tiers 1 to 5.
 
@@ -2476,7 +2476,7 @@ Position difference against time, per force tier.
 
 oracle · Orekit 12.2How it was checked
 
-Engine v0.38.0, build 4a11fab · tests/numerical_cowell_propagator_reference.rs · deterministic, no seedNo Kshana Studio view: this comparison runs as an engine test.
+Engine v0.38.0, build 15dc490 · tests/numerical_cowell_propagator_reference.rs · deterministic, no seedNo Kshana Studio view: this comparison runs as an engine test.
 
 Orbits · millimetres to metresValidated
 
@@ -2490,7 +2490,7 @@ Each residual on a logarithmic scale from a millimetre to twenty metres.
 
 oracle · ESA precise ephemerides, the lunar orbiter's reconstructed trajectory, Orekit 12.2, AIAA vectorsHow it was checked
 
-Engine v0.38.0 · docs/AGENCY-ORBIT-VALIDATION.md residual tables, with the two propagator checks recomputed at build 4a11fab · deterministic, no seedNo Kshana Studio view: precise orbit determination runs as engine tests.
+Engine v0.38.0 · docs/AGENCY-ORBIT-VALIDATION.md residual tables, with the two propagator checks recomputed at build 15dc490 · deterministic, no seedNo Kshana Studio view: precise orbit determination runs as engine tests.
 
 Clocks · stabilityValidated
 
@@ -2504,7 +2504,7 @@ Four deviations against averaging time, with the published values as rings.
 
 oracle · NIST SP 1065How it was checked
 
-Engine v0.38.0, build 4a11fab · tests/allan_nist_sp1065_1000point.rs · deterministic, no seedOpen in Kshana Studio: the estimators on a clock, clock-holdover.toml · seed 42
+Engine v0.38.0, build 15dc490 · tests/allan_nist_sp1065_1000point.rs · deterministic, no seedOpen in Kshana Studio: the estimators on a clock, clock-holdover.toml · seed 42
 
 Holdover prediction on a measured caesium clock record: predicted over measured between 0.84 and 1.03, inside the pre-set factor of 1.5.
 
@@ -2520,7 +2520,7 @@ Measured and predicted time error against coast time, and the ratio window.
 
 oracle · measured caesium recordHow it was checked
 
-Engine v0.38.0, build 4a11fab · tests/slot_timing_cs5071a_holdout.rs · deterministic, no seedOpen in Kshana Studio: the same inversion, slot-timing-ocxo-leo.toml · deterministic
+Engine v0.38.0, build 15dc490 · tests/slot_timing_cs5071a_holdout.rs · deterministic, no seedOpen in Kshana Studio: the same inversion, slot-timing-ocxo-leo.toml · deterministic
 
 02Verification matrix
 
@@ -8104,7 +8104,55 @@ Open the benchmark
 
 ## Published research.
 
-5 papers on arXiv, the open preprint archive, built on the open engine. Each opens to a figure rerun on the engine, its findings, the command and its DOI (Digital Object Identifier).
+6 papers on arXiv, the open preprint archive, built on the open engine. Each opens to a figure rerun on the engine, its findings, the command and its DOI (Digital Object Identifier).
+
+Lunar navigation18 September 2026 · arXiv:2610.23871
+
+### Cislunar navigation is an observability problem: arc-length thresholds, Gramian conditioning, and the Doppler lever
+
+In cislunar space dilution of precision does not apply: range-only links leave the velocity unobservable at any instant, so requirements belong in arc-length, conditioning and measurement-type budgets.
+
+Abstract PDF DOI 10.48550/arXiv.2610.23871
+
+Figure
+
+ModelledEngine v0.38.0 · cislunar-observability.toml · deterministic, no seedOpen in Kshana Studio
+
+Key findings
+
+- In the engine run, range-only geometry at one instant has rank 2 of 4, so a dilution of precision is undefined; the full state becomes observable after a 2.09 h arc.
+
+- Adding range rate lifts the instantaneous rank from 2 to 4: a Doppler-capable link makes a snapshot solution exist where a range-only link cannot.
+
+- Beyond the threshold the conditioning improves with arc length, so requirements read better as arc-length, conditioning and measurement-type budgets.
+
+How Kshana reproduces it
+
+The cislunar-observability kind differential-corrects four planar distant retrograde orbits, assembles the range and range-rate Jacobians through the three-body state-transition matrix, and reports the observable rank over a growing tracking arc, the observability Gramian's condition number, and a square-root information filter that recomputes the same quantity by a second route.
+
+The figure. The bundled scenario: four differential-corrected planar distant retrograde orbits, tracked by inter-satellite ranging over a 6 h arc sampled every 0.26 h.
+
+Reproduce it
+
+Runs the scenario kind cislunar-observability (scenarios/cislunar-observability.toml) with the installed engine.
+Open in Kshana Studio
+
+Cite it
+
+BibTeX · baweja2026cislunar
+
+```
+@misc{baweja2026cislunar,
+title         = "{Cislunar navigation is an observability problem: arc-length thresholds, Gramian conditioning, and the Doppler lever}",
+author        = {Baweja, Chakshu},
+year          = {2026},
+eprint        = {2610.23871},
+archivePrefix = {arXiv},
+primaryClass  = {eess.SP},
+doi           = {10.48550/arXiv.2610.23871},
+url           = {https://arxiv.org/abs/2610.23871}
+}
+```
 
 Lunar navigation7 July 2026 · arXiv:2607.06212
 
@@ -8113,6 +8161,8 @@ Lunar navigation7 July 2026 · arXiv:2607.06212
 Planned orbits bunch overhead for a lunar south-pole user; a few ranging beacons on nearby high ground fix the geometry more cheaply than more satellites.
 
 Abstract PDF DOI 10.48550/arXiv.2607.06212
+
+Figure
 
 ModelledEngine v0.38.0 · lunar-beacon.toml · deterministic, no seedOpen in Kshana Studio
 
@@ -8379,7 +8429,7 @@ Terminal · kshana v0.38.0 Recorded run
 
 ```
 
-A recorded command-line session, engine v0.38.0 (build 4a11fab):
+A recorded command-line session, engine v0.38.0 (build 15dc490):
 
 - $ kshana --version: kshana 0.38.0
 
@@ -11143,7 +11193,10 @@ arXiv:2607.02566 · doi:10.48550/arXiv.2607.02566 |  Ranging inside a lunar cons
 The Cost of Lunar South-Polar Geometry, and Surface Beacons as the Efficient Fix: A Dilution-of-Precision Analysis
 arXiv:2607.06212 · doi:10.48550/arXiv.2607.06212 |  Planned constellations of four to six satellites give poor geometry at the lunar south pole, and a few surface ranging beacons fix it far more cheaply than more satellites. |  the lunar-beacon kind: kshana example lunar-beacon > s.toml && kshana s.toml |
 
-The three study examples write byte-deterministic artifacts (fixed seeds) that record their engine version, seeds and a configuration hash. The two lunar papers are built on the lunar suite (each piece's evidence tier is in the verification matrix); their geometry and dilution-of-precision claims are also cross-checked against separate oracles in tests/validate_p*.rs. More in Reproducible study artifacts under Reference.
+Cislunar navigation is an observability problem: arc-length thresholds, Gramian conditioning, and the Doppler lever
+arXiv:2610.23871 · doi:10.48550/arXiv.2610.23871 |  Dilution of precision is undefined for range-only cislunar tracking, because velocity is unobservable at a snapshot, so the paper uses the observability Gramian on four planar distant retrograde orbits: range-only is rank 2 of 4 at a snapshot and needs an arc of about 2.09 h to become fully observable, with conditioning improving as the arc lengthens; range-rate (Doppler) gives rank 4 instantly; and co-estimating a station with satellite states and clocks stays rank-deficient by one unless an external interferometric observable is added. Requirements belong in arc-length, conditioning and measurement-type budgets, not DOP. |  the cislunar-observability kind: kshana scenarios/cislunar-observability.toml (its sibling cislunar-arc-recovery tests the threshold with an independent finite-difference estimator) |
+
+The three study examples write byte-deterministic artifacts (fixed seeds) that record their engine version, seeds and a configuration hash. The three lunar and cislunar papers are built on the lunar suite (each piece's evidence tier is in the verification matrix); their geometry and dilution-of-precision claims are also cross-checked against separate oracles in tests/validate_p*.rs. More in Reproducible study artifacts under Reference.
 
 ## Cite#
 
@@ -11162,6 +11215,8 @@ Baweja, C. (2026). How Stable Is a PNT Resilience Score? Decision-Instability of
 Baweja, C. (2026). Earth-baseline VLBI restores the observability of a lunar surface station in joint orbit-and-clock determination. arXiv:2607.02566. https://doi.org/10.48550/arXiv.2607.02566
 
 Baweja, C. (2026). The Cost of Lunar South-Polar Geometry, and Surface Beacons as the Efficient Fix: A Dilution-of-Precision Analysis. arXiv:2607.06212. https://doi.org/10.48550/arXiv.2607.06212
+
+Baweja, C. (2026). Cislunar navigation is an observability problem: arc-length thresholds, Gramian conditioning, and the Doppler lever. arXiv:2610.23871. https://doi.org/10.48550/arXiv.2610.23871
 
 ## Licence#
 
@@ -11274,7 +11329,7 @@ cargo run --release --example tpl_jammertest
 
 Each artifact records its engine version, seeds, and a config hash and carries an honest MODELLED/VALIDATED label. The real-data probes (*_probe) run the same pipeline over recordings you supply locally; no datasets are shipped in the repo. The RF-impairment optimism-gap study is written up in the preprint arXiv:2606.22054, and the conditional timing protection level (tpl_jammertest above) in the preprint arXiv:2606.24210 (see Cite).
 
-The published lunar-PNT studies (arXiv:2607.06212 surface-beacon DOP and arXiv:2607.02566 VLBI observability) have their geometry, dilution-of-precision, real-time frame / Earth-orientation-parameter (EOP) prediction, distant-retrograde-orbit and RF-ranging claims independently cross-checked in tests/validate_p*.rs against separate oracles (scipy.special.j1, an independent NumPy (HᵀH)⁻¹ DOP solve, a NumPy re-parse of the same IERS finals2000A rows, and the NASA/JPL Three-Body Periodic Orbit Database). These are additional regression checks over the modelled lunar suite; they do not change the machine-checked matrix count.
+The published lunar-PNT studies (arXiv:2607.06212 surface-beacon DOP, arXiv:2607.02566 VLBI observability and arXiv:2610.23871 cislunar arc-length observability) have their geometry, dilution-of-precision, real-time frame / Earth-orientation-parameter (EOP) prediction, distant-retrograde-orbit and RF-ranging claims independently cross-checked in tests/validate_p*.rs against separate oracles (scipy.special.j1, an independent NumPy (HᵀH)⁻¹ DOP solve, a NumPy re-parse of the same IERS finals2000A rows, and the NASA/JPL Three-Body Periodic Orbit Database). These are additional regression checks over the modelled lunar suite; they do not change the machine-checked matrix count.
 
 Scenario format
 
@@ -30499,7 +30554,7 @@ The same scenario file gives the same bytes on every surface. MCP is the Model C
 
 ## Research#
 
-Five papers on arXiv are built on the open engine, each with the command behind it: arXiv:2606.22054 (the optimism gap of interference detectors), arXiv:2606.24210 (a conditional timing protection level), arXiv:2607.05415 (how stable a PNT resilience score is), arXiv:2607.02566 (lunar surface station observability with very-long-baseline interferometry) and arXiv:2607.06212 (lunar south-polar geometry and surface beacons). See Research.
+Six papers on arXiv are built on the open engine, each with the command behind it: arXiv:2606.22054 (the optimism gap of interference detectors), arXiv:2606.24210 (a conditional timing protection level), arXiv:2607.05415 (how stable a PNT resilience score is), arXiv:2607.02566 (lunar surface station observability with very-long-baseline interferometry), arXiv:2607.06212 (lunar south-polar geometry and surface beacons) and arXiv:2610.23871 (cislunar navigation as an observability problem: arc length, Gramian conditioning and the Doppler lever). See Research.
 
 ## Editions#
 
@@ -30705,7 +30760,7 @@ The same scenario file gives the same bytes on every surface. MCP is the Model C
 
 ## Research#
 
-Five papers on arXiv are built on the open engine, each with the command behind it: arXiv:2606.22054 (the optimism gap of interference detectors), arXiv:2606.24210 (a conditional timing protection level), arXiv:2607.05415 (how stable a PNT resilience score is), arXiv:2607.02566 (lunar surface station observability with very-long-baseline interferometry) and arXiv:2607.06212 (lunar south-polar geometry and surface beacons). See Research.
+Six papers on arXiv are built on the open engine, each with the command behind it: arXiv:2606.22054 (the optimism gap of interference detectors), arXiv:2606.24210 (a conditional timing protection level), arXiv:2607.05415 (how stable a PNT resilience score is), arXiv:2607.02566 (lunar surface station observability with very-long-baseline interferometry), arXiv:2607.06212 (lunar south-polar geometry and surface beacons) and arXiv:2610.23871 (cislunar navigation as an observability problem: arc length, Gramian conditioning and the Doppler lever). See Research.
 
 ## Editions#
 
@@ -32841,6 +32896,8 @@ The format is based on Keep a Changelog, and this project adheres to Semantic Ve
 - GNSS beyond the constellation (gnss-ssv). A new scenario kind for spacecraft above, around and past the GNSS orbits (docs/SSV.md): availability of one and four signals, outage durations, C/N0, DOP and main-lobe against sidelobe links for GPS, GLONASS, Galileo, BDS, QZSS and NavIC on a shell or along LEO, MEO, GEO, HEO and lunar-transfer trajectories; booklet, parametric or user-supplied transmit patterns; a limb-ray ionosphere, plasmasphere and atmosphere model; a weak-signal receiver design; an onboard GNSS extended Kalman filter for HEO and lunar transfer; and formation relative navigation. Compared with the ICG Space Service Volume booklet under a pre-registration committed before the run: the minimum-radiated-power constants and the lunar bar agree, the other bars are not met under the pre-registered reading (almost all through the booklet's inconsistent GLONASS beam angle), and the parametric sidelobe stand-in does not reproduce the measured GPS panel patterns. Everything stays MODELLED (xval/gnss-ssv/RESULTS.md).
 
 - Lunar orbit and surface as navigation and geodetic infrastructure (lunar-infrastructure). A new scenario kind with five studies selected by study (docs/LUNAR-INFRASTRUCTURE.md): consistency of an onboard Earth-GNSS orbit determination in a near-rectilinear halo orbit against an independent ground range and range-rate determination; joint surface-station and orbiter double-differenced carrier phase with LAMBDA integer fixing; Fisher information of the seven-parameter lunar datum with and without orbiter-to-surface ranges; GNSS, VLBI and laser-ranging inter-technique offsets against the local tie; and sensitivity to h2, k2, l2 and the physical libration. MODELLED, with ILLUSTRATIVE inputs: the numerics are checked against independent numpy and scipy programs, and nothing is compared with a measurement of a lunar quantity. Bars were fixed in xval/lunar-infra/PREREGISTRATION.md and two disclosed amendments. Three are NOT MET and each is pinned by a test that asserts the miss: C3 (an injected force error is not detected at the pre-registered rate), Q3 (the bootstrapped success rate differs from the numpy oracle by 1.7e-6 against a bar of 1e-9, from LAMBDA's normal-CDF approximation), and the trace half of G3 (adding a ranging family does not always lower the pseudo-inverse trace). The rest are met (xval/lunar-infra/RESULTS.md).
+
+- A sixth paper in the Research table. "Cislunar navigation is an observability problem: arc-length thresholds, Gramian conditioning, and the Doppler lever" (arXiv:2610.23871, eess.SP) shows that dilution of precision is undefined for range-only cislunar tracking and uses the observability Gramian on four planar distant retrograde orbits instead: range-only is rank 2 of 4 at a snapshot and needs an arc of about 2.09 h, range-rate (Doppler) gives rank 4 instantly, and co-estimating a station with satellite states and clocks stays rank-deficient by one without an external interferometric observable. Its numbers are regenerated by the cislunar-observability kind (kshana scenarios/cislunar-observability.toml); cislunar-arc-recovery tests the threshold with an independent estimator. The README research card, the crates, npm and PyPI READMEs and the generator carry it.
 
 - The neutral referee, made measurable. kshana jammertest import reads the published NPRA Jammertest catalogue and transmission plan as scheduled truth (catalogue ids kept) and kshana jammertest score scores a receiver log against it per test (detection latency, missed alarms, false alarms, time to recover), optionally as a signed evidence pack (docs/JAMMERTEST.md). The scoring bars were pre-registered before any scored run (xval/jammertest-score/). On the JammerTest 2024 dataset (fetched, never vendored) the pre-registered minimum-data rule failed in both the first run and the data-handling revision, so no bar is assessable and nothing is claimed; both runs are recorded and pinned. MODELLED: the schedule is the dataset's logged windows, not recorded on-air times. The 2025 SimulaMet NMEA set is not adapted (no licence stated on its page).
 
