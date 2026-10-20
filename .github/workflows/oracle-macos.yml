@@ -9,8 +9,7 @@
 # one can be read instead of guessed.
 #
 # It is a diagnostic, not a gate: manual and weekly, never triggered by a pull request, and
-# it changes no test and no bar. The `push` trigger below names the branch the investigation
-# runs on and is removed with the investigation.
+# it changes no test and no bar.
 name: Oracle tests on macOS (diagnostic)
 on:
   workflow_dispatch:
@@ -22,11 +21,6 @@ on:
         default: oracle
   schedule:
     - cron: "17 4 * * 1"
-  push:
-    branches: [fix/issue-36-0.38]
-    paths:
-      - ".github/workflows/oracle-macos.yml"
-      - "scripts/oracle-triage.sh"
 permissions:
   contents: read
 concurrency:
@@ -44,14 +38,9 @@ jobs:
       - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2
       - name: Run the suite, debug profile (the one `cargo test` uses locally)
         env:
-          # The investigation branch runs everything; a manual run picks; the weekly run is the oracle set.
-          SCOPE: ${{ github.event_name == 'push' && 'all' || inputs.scope || 'oracle' }}
-        run: |
-          if [ "${{ github.event_name }}" = push ]; then
-            scripts/oracle-triage.sh --only greenhall_edf_no_moved_output --only scenarios_reference_doc_sync --only exact_pin_gate_guard --log oracle-triage.log
-          else
-            scripts/oracle-triage.sh $([ "$SCOPE" = all ] && echo --all) --log oracle-triage.log
-          fi
+          # A manual run picks the scope; the weekly run is the oracle set.
+          SCOPE: ${{ inputs.scope || 'oracle' }}
+        run: scripts/oracle-triage.sh $([ "$SCOPE" = all ] && echo --all) --log oracle-triage.log
       - name: Upload the log and summary
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
