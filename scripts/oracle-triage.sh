@@ -7,6 +7,7 @@
 # a failing list is captured from one the cause of each cannot be told.
 #
 # Usage:   scripts/oracle-triage.sh [--all] [--release] [--log <file>] [-- <extra cargo test args>]
+#          --only <test>  run only that integration target (repeatable), e.g. to re-check a fix
 #          --all    run the whole suite (`cargo test --all`, no fail-fast) instead of only the
 #                   oracle and reference targets: the byte-pin guards are in other targets
 # Output:  a log (default oracle-triage.log), a summary on stdout (and in
@@ -22,6 +23,7 @@ set -u
 
 profile=""
 scope_all=0
+only=""
 summarise_only=""
 log="oracle-triage.log"
 extra=()
@@ -29,10 +31,11 @@ while [ $# -gt 0 ]; do
   case "$1" in
     --release) profile="--release"; shift ;;
     --all) scope_all=1; shift ;;
+    --only) only="$only --test ${2:?--only needs a test target}"; shift 2 ;;
     --log) log="${2:?--log needs a file}"; shift 2 ;;
     --summarise) summarise_only="${2:?--summarise needs a log file}"; shift 2 ;;
     --) shift; extra=("$@"); break ;;
-    -h|--help) sed -n 2,21p "$0"; exit 0 ;;
+    -h|--help) sed -n 2,22p "$0"; exit 0 ;;
     *) echo "unknown argument: $1" >&2; exit 2 ;;
   esac
 done
@@ -73,6 +76,7 @@ for f in tests/*_oracle.rs tests/*_reference.rs; do
   n=$((n + 1))
 done
 if [ "$scope_all" -eq 1 ]; then targets="--all"; n="all"; fi
+if [ -n "$only" ]; then targets="$only"; n="$(echo "$only" | wc -w | awk '{print $1/2}')"; fi
 echo "== running $n targets ($([ -n "$profile" ] && echo release || echo debug)) =="
 
 # shellcheck disable=SC2086
