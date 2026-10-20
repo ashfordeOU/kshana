@@ -162,7 +162,8 @@ impl OrbitSpec {
         }
         let mut phi = vec![id];
         for k in 1..=n {
-            let (s1, p1) = propagate_state_stm(&from_arr(&x[k - 1]), EARTH_MOON_MU, dt_nd, SUBSTEPS);
+            let (s1, p1) =
+                propagate_state_stm(&from_arr(&x[k - 1]), EARTH_MOON_MU, dt_nd, SUBSTEPS);
             x.push(to_arr(&s1));
             phi.push(matmul6(&p1, &phi[k - 1]));
             t_s.push(k as f64 * dt_s);
@@ -182,7 +183,12 @@ pub const SUBSTEPS: usize = 24;
 
 /// Propagate the CR3BP from `x0` with a constant extra acceleration `accel_nd` (normalised units,
 /// rotating frame) and return the states at the same samples as [`RefOrbit`].
-pub fn propagate_with_accel(x0: &[f64; 6], n: usize, dt_s: f64, accel_nd: [f64; 3]) -> Vec<[f64; 6]> {
+pub fn propagate_with_accel(
+    x0: &[f64; 6],
+    n: usize,
+    dt_s: f64,
+    accel_nd: [f64; 3],
+) -> Vec<[f64; 6]> {
     let h = dt_s / T_UNIT_S / SUBSTEPS as f64;
     let f = |s: &[f64; 6]| -> [f64; 6] {
         let a = cr3bp_accel([s[0], s[1], s[2]], [s[3], s[4], s[5]], EARTH_MOON_MU);
@@ -354,7 +360,10 @@ mod tests {
         for i in 0..6 {
             let pred: f64 = (0..6).map(|j| o.phi[k][i][j] * dx[j]).sum();
             let got = pert[k][i] - o.x[k][i];
-            assert!((got - pred).abs() < 1e-3 * got.abs().max(1e-9), "{i}: {got} {pred}");
+            assert!(
+                (got - pred).abs() < 1e-3 * got.abs().max(1e-9),
+                "{i}: {got} {pred}"
+            );
         }
     }
 
@@ -378,8 +387,14 @@ mod tests {
             }
             let p = inertial_from_rot(&x, o.t_s[k]);
             for i in 0..3 {
-                assert!(((p.r[i] - base.r[i]) / e - dr[i][j]).abs() < 1e-2, "r {i} {j}");
-                assert!(((p.v[i] - base.v[i]) / e - dv[i][j]).abs() < 1e-5, "v {i} {j}");
+                assert!(
+                    ((p.r[i] - base.r[i]) / e - dr[i][j]).abs() < 1e-2,
+                    "r {i} {j}"
+                );
+                assert!(
+                    ((p.v[i] - base.v[i]) / e - dv[i][j]).abs() < 1e-5,
+                    "v {i} {j}"
+                );
             }
         }
     }

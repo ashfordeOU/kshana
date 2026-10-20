@@ -18,8 +18,10 @@ fn run(toml: &str) -> Value {
 
 #[test]
 fn o1_the_state_transition_matrix_equals_scipy_dop853() {
-    let oracle: Value = serde_json::from_str(include_str!("fixtures/lunar_infra/oracle_o1.json")).unwrap();
-    let inp: Value = serde_json::from_str(include_str!("fixtures/lunar_infra/nrho_ic.json")).unwrap();
+    let oracle: Value =
+        serde_json::from_str(include_str!("fixtures/lunar_infra/oracle_o1.json")).unwrap();
+    let inp: Value =
+        serde_json::from_str(include_str!("fixtures/lunar_infra/nrho_ic.json")).unwrap();
     // Three days: the orbit the study samples (its last sample is exactly 3 d).
     let o = OrbitSpec::default().build(3.0).unwrap();
     let k = o.t_s.len() - 1;
@@ -40,13 +42,24 @@ fn o1_the_state_transition_matrix_equals_scipy_dop853() {
     assert!(e3 <= 1e-6, "three days: relative max-entry error {e3:e}");
     for i in 0..6 {
         let w = oracle["three_days"]["x"][i].as_f64().unwrap();
-        assert!((o.x[k][i] - w).abs() <= 1e-6 * w.abs().max(1e-3), "state {i}");
+        assert!(
+            (o.x[k][i] - w).abs() <= 1e-6 * w.abs().max(1e-3),
+            "state {i}"
+        );
     }
     // One period, by the crate's own propagator at the sampling step.
     let ic = inp["ic"].as_array().unwrap();
     let s0 = Cr3bpState {
-        r: [ic[0].as_f64().unwrap(), ic[1].as_f64().unwrap(), ic[2].as_f64().unwrap()],
-        v: [ic[3].as_f64().unwrap(), ic[4].as_f64().unwrap(), ic[5].as_f64().unwrap()],
+        r: [
+            ic[0].as_f64().unwrap(),
+            ic[1].as_f64().unwrap(),
+            ic[2].as_f64().unwrap(),
+        ],
+        v: [
+            ic[3].as_f64().unwrap(),
+            ic[4].as_f64().unwrap(),
+            ic[5].as_f64().unwrap(),
+        ],
     };
     let period_nd = inp["period_s"].as_f64().unwrap() / T_UNIT_S;
     let steps = (inp["period_s"].as_f64().unwrap() / 600.0 * 24.0).round() as usize;
@@ -57,14 +70,19 @@ fn o1_the_state_transition_matrix_equals_scipy_dop853() {
 
 #[test]
 fn c1_c2_matched_models_are_statistically_consistent() {
-    let v = run(include_str!("../scenarios/lunar-infrastructure-od-consistency.toml"));
+    let v = run(include_str!(
+        "../scenarios/lunar-infrastructure-od-consistency.toml"
+    ));
     let c = &v["consistency"];
     assert_eq!(c["trials"], 400);
     let mq = c["mean_q"].as_f64().unwrap();
     let within = c["fraction_within_95"].as_f64().unwrap();
     assert!((5.2..=6.8).contains(&mq), "C1 mean q {mq}");
     assert!((0.925..=0.975).contains(&within), "C1 fraction {within}");
-    for key in ["sample_over_formal_trace_gnss", "sample_over_formal_trace_ground"] {
+    for key in [
+        "sample_over_formal_trace_gnss",
+        "sample_over_formal_trace_ground",
+    ] {
         let r = c[key].as_f64().unwrap();
         assert!((0.85..=1.15).contains(&r), "C2 {key} {r}");
     }
@@ -78,7 +96,9 @@ fn c3_is_not_met_the_statistic_does_not_detect_a_3e_minus_10_acceleration() {
     // point is at least 0.5. Measured 0.0525: the onboard-GNSS orbit is only known to hundreds of
     // metres, so about 10 m of unmodelled displacement hides inside its covariance. NOT MET; the
     // miss is pinned (the test fails if the value ever reaches the bar).
-    let v = run(include_str!("../scenarios/lunar-infrastructure-od-consistency-model-error.toml"));
+    let v = run(include_str!(
+        "../scenarios/lunar-infrastructure-od-consistency-model-error.toml"
+    ));
     let c = &v["consistency"];
     assert_eq!(c["model_error_accel_m_s2"], 3.0e-10);
     let exceed = c["fraction_exceeding_95"].as_f64().unwrap();

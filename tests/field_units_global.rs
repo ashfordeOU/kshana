@@ -92,7 +92,10 @@ const RUNNERS: &[(&str, &str)] = &[
     ),
     ("lunar-beacon", "scenarios/lunar-beacon.toml"),
     ("earth-gnss-lunar", "scenarios/earth-gnss-lunar.toml"),
-    ("lunar-infrastructure", "scenarios/lunar-infrastructure-od-consistency.toml"),
+    (
+        "lunar-infrastructure",
+        "scenarios/lunar-infrastructure-od-consistency.toml",
+    ),
     ("lunar-interop-export", ""),
     ("gravity-map", "scenarios/gravity-map-nav.toml"),
     ("terrain-nav", "scenarios/terrain-nav.toml"),
