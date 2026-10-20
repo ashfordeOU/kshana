@@ -46,7 +46,12 @@ jobs:
         env:
           # The investigation branch runs everything; a manual run picks; the weekly run is the oracle set.
           SCOPE: ${{ github.event_name == 'push' && 'all' || inputs.scope || 'oracle' }}
-        run: scripts/oracle-triage.sh $([ "$SCOPE" = all ] && echo --all) --log oracle-triage.log
+        run: |
+          if [ "${{ github.event_name }}" = push ]; then
+            scripts/oracle-triage.sh --only greenhall_edf_no_moved_output --only scenarios_reference_doc_sync --only exact_pin_gate_guard --log oracle-triage.log
+          else
+            scripts/oracle-triage.sh $([ "$SCOPE" = all ] && echo --all) --log oracle-triage.log
+          fi
       - name: Upload the log and summary
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
