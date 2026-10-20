@@ -1,0 +1,42 @@
+# GNSS on a lunar transfer, with a weak-signal receiver that earns its sensitivity.
+#
+# A two-body outbound ellipse from a 185 km perigee to the Moon's distance. Beyond about 10 earth radii the signals are below
+# 20 dB-Hz; whether a receiver can use them depends on its design, so the threshold here is not a number but a receiver: a
+# 100 ms coherent integration on a pilot channel, 100 non-coherent sums, an Earth-orbit-aided Doppler search of +/-200 Hz over a
+# 50-chip code window, and a carrier loop of 1 Hz once the dynamics are aided away. The model derives the C/N0 at which such
+# a receiver acquires (detection 0.9 at a total false-alarm probability of 1e-3) and applies it as the availability threshold.
+#
+# A trajectory in the booklet's lunar case is a propagated one; this is a Keplerian stand-in with the same endpoints, so its
+# availability is indicative. MODELLED throughout.
+
+kind = "gnss-ssv"
+name = "Lunar transfer, weak-signal receiver, parametric sidelobes"
+
+[constellations]
+include = ["gps", "galileo", "glonass", "bds"]
+bands = ["l1", "l5"]
+
+[transmit]
+pattern = "parametric"
+
+[receiver]
+apply = "acquisition"
+
+[receiver.weak_signal]
+t_coh_s = 0.1
+n_noncoherent = 100.0
+pilot_or_data_wipe = true
+pfa_total = 1.0e-3
+pd = 0.9
+doppler_uncertainty_hz = 200.0
+code_window_chips = 50.0
+pll_bn_hz = 1.0
+pll_t_s = 0.02
+doppler_rate_hz_per_s = 0.05
+
+[trajectory]
+preset = "lunar-transfer"
+duration_min = 3600.0
+step_min = 30.0
+antennas = ["booklet-high-gain-nadir"]
+series_every_min = 240.0

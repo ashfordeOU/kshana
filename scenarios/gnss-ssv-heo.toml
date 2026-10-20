@@ -1,0 +1,36 @@
+# A highly elliptical orbit through the GNSS orbits: what a user sees from perigee to apogee.
+#
+# The orbit is the booklet's table 5.10 (semi-major axis 35,937.5 km, eccentricity 0.8087, inclination 63.4 deg, argument of
+# perigee 270 deg). Near perigee the user is below the GNSS shells and sees the satellites over the Earth's limb; near
+# apogee (about 58,000 km altitude) it is far above them and hears only the signals that pass the opposite limb. A nadir
+# high-gain antenna and a zenith patch antenna are both fitted (table B10 of the booklet); each satellite is received on
+# whichever gives the higher gain.
+#
+# The transmit pattern is the parametric shaped-beam-plus-sidelobe stand-in, so signals that come through sidelobes are
+# counted and reported apart from main-lobe ones; the booklet's own model has no sidelobes. The [atmosphere] table switches on
+# the limb-ray medium (ionosphere, plasmasphere, and the neutral atmosphere's absorption and defocusing on rays that graze it),
+# which costs some of the weakest links and gives the slant TEC, the plasmaspheric part of it and the delay.
+#
+# MODELLED: the pattern is representative, not measured; the medium is a stated simple model (docs/SSV.md).
+
+kind = "gnss-ssv"
+name = "HEO, high-gain nadir and patch zenith antennas, parametric sidelobes, limb medium"
+
+[constellations]
+include = ["gps", "glonass", "galileo", "bds"]
+bands = ["l1", "l5"]
+
+[transmit]
+pattern = "parametric"
+
+[receiver]
+cn0_min_dbhz = 20.0
+
+[atmosphere]
+
+[trajectory]
+preset = "heo"
+duration_periods = 1.0
+step_min = 10.0
+antennas = ["booklet-high-gain-nadir", "booklet-patch-zenith"]
+series_every_min = 60.0
