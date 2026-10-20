@@ -206,8 +206,6 @@ fn every_numeric_field_of_every_study_carries_a_unit_and_a_provenance_class() {
         assert!(audit.missing.is_empty(), "{name}: no units entry for {:?}", audit.missing);
         assert!(!audit.covered.is_empty());
     }
-    // carrier-phase on a short run (the full example is slow).
-    let toml = example("carrier-phase").replace("arcs_days = [1.0, 2.0, 3.0]", "arcs_days = [0.5]").replace("trials = 400", "trials = 2");
-    let audit = kshana::field_schema::audit_document(&run(&toml));
+    let audit = kshana::field_schema::audit_document(&run(&example("carrier-phase")));
     assert!(audit.missing.is_empty(), "carrier-phase: {:?}", audit.missing);
 }

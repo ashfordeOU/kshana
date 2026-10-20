@@ -68,6 +68,7 @@ export type ScenarioKind =
   | "lunar-llr-datum"
   | "lunar-beacon"
   | "earth-gnss-lunar"
+  | "lunar-infrastructure"
   | "cislunar-arc-recovery"
   | "telecom-timing"
   | "slot-timing"
