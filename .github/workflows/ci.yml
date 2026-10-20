@@ -538,6 +538,10 @@ jobs:
         run: node web/studio/lib/jammertest-card.test.mjs
       - name: Test the interference observatory viewer's readers and map (0.38)
         run: node web/studio/lib/observatory.test.mjs
+      - name: Test the Space-user (gnss-ssv) view's readers (0.38)
+        run: node web/studio/lib/ssv.test.mjs
+      - name: Test the lunar-infrastructure view's readers (0.38)
+        run: node web/studio/lib/lunar-infra.test.mjs
   # ---------------------------------------------------------------------------
   # Overlay-registry assurance gates (Phase 0).
   #

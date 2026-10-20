@@ -1,0 +1,22 @@
+# Kshana lunar-infrastructure scenario: frame-coestimation. MODELLED; the design, inputs and bars are
+# fixed in xval/lunar-infra/PREREGISTRATION.md (committed before any run). ILLUSTRATIVE inputs
+# are labelled with their public sources there.
+kind = "lunar-infrastructure"
+study = "frame-coestimation"
+seed = 20261019
+
+[orbit]
+family = "nrho"
+x0 = 1.0220
+z0 = -0.1800
+vy0 = -0.1020
+arc_days = 6.56
+sample_s = 900.0
+
+[llr]
+sigma_m = 0.05
+epochs = 200
+
+[surface]
+stations = [[-89.0, 0.0], [-45.0, 90.0], [0.0, 0.0], [30.0, -60.0]]
+orbiter_range_sigma_m = 1.0

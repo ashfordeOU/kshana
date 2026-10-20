@@ -1,6 +1,6 @@
 # Kshana
 
-> Open-source GNSS jamming and spoofing simulator for PNT (positioning, navigation and timing) resilience: holdover, RAIM, lunar navigation, in your browser. Version 0.38.0, AGPL-3.0-only licence, by Ashforde® OÜ. 176 of 379 capabilities are validated against external oracles; the rest are labelled Modelled or partner-owned.
+> Open-source GNSS jamming and spoofing simulator for PNT (positioning, navigation and timing) resilience: holdover, RAIM, lunar navigation, in your browser. Version 0.38.0, AGPL-3.0-only licence, by Ashforde® OÜ. 176 of 388 capabilities are validated against external oracles; the rest are labelled Modelled or partner-owned.
 
 Kshana is a deterministic Rust engine for PNT (positioning, navigation and timing) resilience studies: GNSS (global navigation satellite system) jamming and spoofing, clock holdover, RAIM (receiver autonomous integrity monitoring) and protection levels, orbits, low-Earth-orbit navigation, and navigation at the Moon and Mars. Every scenario is a TOML file; every run is reproducible from its scenario, seed and engine version. It drives no radio hardware and transmits nothing: its signal-level output is baseband IQ sample files for software receivers, its software GNSS receiver is an analysis tool, and it is not a flight product.
 
@@ -58,8 +58,8 @@ Kshana is a deterministic Rust engine for PNT (positioning, navigation and timin
 
 ## Docs: Scenarios
 
-- [Scenario kinds](https://kshana.dev/docs/scenarios): The 85 built-in scenario kinds that kshana::api::run_toml dispatches over, each with its one-line description and its required / optional TOML (Tom's…
-- [Scenario reference](https://kshana.dev/docs/scenario-reference): Every bundled scenario file (171), grouped by kind. The description is the file's own header comment; the key parameters are its top-level settings.
+- [Scenario kinds](https://kshana.dev/docs/scenarios): The 87 built-in scenario kinds that kshana::api::run_toml dispatches over, each with its one-line description and its required / optional TOML (Tom's…
+- [Scenario reference](https://kshana.dev/docs/scenario-reference): Every bundled scenario file (182), grouped by kind. The description is the file's own header comment; the key parameters are its top-level settings.
 - [Result schema — reading a Kshana *.result.json](https://kshana.dev/docs/schema): Every run writes a versioned, self-describing JSON (JavaScript Object Notation) artifact next to the scenario.
 - [Using real constellation TLEs](https://kshana.dev/docs/real-tle-guide): The bundled scenarios/orbit-sgp4-gps.toml already carries real TLEs (two-line element sets): the Celestrak gps-ops snapshot of the operational GPS…
 - [Campaigns](https://kshana.dev/docs/campaigns): A single scenario answers one question about one situation. A mission is a sequence of situations, and a design study is a family of them.
@@ -73,8 +73,8 @@ Kshana is a deterministic Rust engine for PNT (positioning, navigation and timin
 ## Docs: Validation and evidence
 
 - [Validation status](https://kshana.dev/docs/validation): On tolerances. "Validated" below means a calibration test asserts the simulated statistic matches the reference relation within an enforced gate…
-- [Verification matrix](https://kshana.dev/docs/verification-matrix): The complete, machine-checked evidence ledger: 379 rows — 176 VALIDATED, 199 MODELLED, 4 PARTNER.
-- [Capability reference](https://kshana.dev/docs/capability-reference): The 59 capability cards from web/capabilities.json, then all 379 rows of the verification matrix.
+- [Verification matrix](https://kshana.dev/docs/verification-matrix): The complete, machine-checked evidence ledger: 388 rows — 176 VALIDATED, 208 MODELLED, 4 PARTNER.
+- [Capability reference](https://kshana.dev/docs/capability-reference): The 61 capability cards from web/capabilities.json, then all 388 rows of the verification matrix.
 - [Modelled capabilities — rationale](https://kshana.dev/docs/modelled-rationale): These capabilities are implemented from published or first-principles physics with tests, but are honestly labelled MODELLED — not checked against an…
 - [Claims vs. reality — overclaim ledger](https://kshana.dev/docs/claims-vs-reality): An independent audit of an earlier Kshana version catalogued fourteen overclaims (OC-0 … OC-13): places where a public-facing surface (README…
 - [Provenance](https://kshana.dev/docs/provenance): Kshana's central honesty discipline is that every sensor parameter, physical model, and validation dataset is traceable to a published source — a…
@@ -137,6 +137,8 @@ Kshana is a deterministic Rust engine for PNT (positioning, navigation and timin
 - [Force-model validation by ephemeris fitting](https://kshana.dev/docs/agency-orbit-validation): Kshana's full-force engine (src/precise_od.rs) fit to real agency precise-orbit products, with honest, citable, commit-hash-stamped residuals.
 - [Solar system and positioning around other bodies](https://kshana.dev/docs/solar-system): The constellation-design kind uses the same catalogue to build constellations around any of these bodies (CONSTELLATION-DESIGN.md).
 - [Lunar reference station](https://kshana.dev/docs/lunar-reference-station): MODELLED. Under the stated assumptions (the constellation, its signal-in-space error, the station's survey accuracy, the correction latency and the link…
+- [GNSS beyond the constellation: the gnss-ssv kind](https://kshana.dev/docs/ssv): Advisory only. Modelled results from stated inputs and a simulated truth; not a certification, a flight-qualified figure or a service-volume claim for…
+- [Lunar orbit and surface as navigation and geodetic…](https://kshana.dev/docs/lunar-infrastructure): Scenario kind lunar-infrastructure, five studies selected by study. MODELLED: a restricted three-body model with stated simplifications and ILLUSTRATIVE…
 
 ## Docs: Low Earth orbit (LEO) navigation
 
