@@ -32,6 +32,12 @@ and combined, and the longest outage at the worst user. The sweep uses the close
 (a beam cone, Earth blockage by the 6378 km sphere plus 50 km, the user hemisphere and the RF range limit) and runs in
 seconds in a release build; a property test checks it against the general geometric predicate.
 
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="figures/0.38/ssv-shell-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="figures/0.38/ssv-shell-light.svg">
+  <img src="figures/0.38/ssv-shell-light.svg" alt="Signal availability for a user on a sphere at 36000 km altitude with a hemisphere antenna, from a real run of engine v0.38.0 on scenarios/gnss-ssv-shell.toml (a reduced run: 162 users, 3 days, 10 min steps), at a 20 dB-Hz threshold. For each constellation and band, two bars: the share of (user, epoch) pairs with at least one signal and with at least four. Combined, L1: 99.4 % at least one, 73.2 % at least four, longest outage below four signals 160 min. Combined, L5: 100.0 % at least one, 99.9 % at least four, longest outage below four signals 20 min. MODELLED: a modelled study from stated inputs, not a measurement and not a service-volume claim for any system. The reduced size is not the booklet comparison. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service.">
+</picture>
+
 ## Trajectory mode: along an orbit
 
 `[trajectory]` flies the user on a Keplerian orbit (a preset: `leo`, `meo`, `geo`, `heo` (the booklet's table 5.10) or
@@ -54,6 +60,12 @@ main lobe and through sidelobes, and an optional time series and CSV.
   carrier and code tracking thresholds replace the fixed C/N0 threshold (10 to 25 dB-Hz range). Reuses the engine's
   acquisition and tracking-loop models.
 
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="figures/0.38/ssv-heo-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="figures/0.38/ssv-heo-light.svg">
+  <img src="figures/0.38/ssv-heo-light.svg" alt="Signals along one high Earth orbit (perigee 497 km, apogee 58622 km, period 18.8 h), from a real run of engine v0.38.0 on scenarios/gnss-ssv-heo.toml, band L1. Top: the best carrier-to-noise density among the signals in view, against the 20 dB-Hz threshold. Middle: the number of signals in view from all constellations, from 4 to 55 along the sampled points. Of the links received, 2252 came through a main lobe and 696 through sidelobes, using a labelled parametric stand-in pattern, not any system's measured pattern. Median PDOP 67, 95th percentile 358. MODELLED: a modelled study from stated inputs, not a measurement and not a service-volume claim for any system. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service.">
+</picture>
+
 ## Navigation mode: an onboard filter
 
 `[navigation]` flies a high-orbit or lunar-transfer craft and runs a nine-state extended Kalman filter (position, velocity,
@@ -65,12 +77,24 @@ not modelled by the filter. The report separates the part of the run inside the 
 from the part above, gives the longest gap with no measurement and the mean normalised estimation error squared (about 3
 for a consistent position block). The Sun and Moon are low-precision circular stand-ins.
 
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="figures/0.38/ssv-nav-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="figures/0.38/ssv-nav-light.svg">
+  <img src="figures/0.38/ssv-nav-light.svg" alt="An onboard nine-state filter on a transfer from low orbit toward the Moon, from a real run of engine v0.38.0 on scenarios/gnss-ssv-nav-lunar.toml (289 epochs, 13 points drawn). On a log axis, the true position error and the filter's own one-sigma bound against time since the start. Inside the GNSS orbits the position RMS is 1.4 m; above them it is 90 m, with the final error 184 m at 193,330 km altitude with 1 measurement. Mean normalised estimation error squared over the whole run is 4.4 (about 3 for a consistent position block). Truth and filter share their Sun and Moon stand-ins. MODELLED: a modelled study from stated inputs, not a measurement and not a service-volume claim for any system. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service.">
+</picture>
+
 ## Formation mode: relative navigation
 
 `[formation]` (needs `[navigation]` for the chief) adds deputies offset in true anomaly. Each craft runs the absolute filter;
 the deputy's position relative to the chief is estimated by subtracting the independent absolute estimates and by a
 relative filter on single-differenced pseudoranges of the signals both craft track. The report gives both, the baseline,
 and the number of signals tracked in common.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="figures/0.38/ssv-formation-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="figures/0.38/ssv-formation-light.svg">
+  <img src="figures/0.38/ssv-formation-light.svg" alt="Relative navigation of 2 deputies around a chief on a high orbit, from a real run of engine v0.38.0 on scenarios/gnss-ssv-formation-heo.toml (401 epochs). For each deputy, two bars: the relative position RMS from subtracting the two independent absolute estimates, and from the relative filter on single-differenced pseudoranges. Baseline 0.8 km: 5.1 m and 1.2 m. Baseline 2.0 km: 4.1 m and 2.1 m. The absolute filter is not consistent here: mean normalised estimation error squared 187 against about 3 for a consistent filter, so its stated uncertainty is far too small. MODELLED: a modelled study from stated inputs, not a measurement and not a service-volume claim for any system. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service.">
+</picture>
 
 ## What the comparison with the booklet shows
 
@@ -94,6 +118,12 @@ GLONASS. The variant, committed to as a diagnostic before it was run, uses the s
 GEO missions agree cell for cell, outages included. The variant does not replace run 1. **No row is VALIDATED**: the
 booklet is a simulation, the verdict rule requires S0 to S3 under the pre-registered reading, and the remaining misses
 (GPS L1 at 20 dB-Hz, HEO Galileo, QZSS and NavIC, the lunar GLONASS rows) are not explained.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="figures/0.38/ssv-booklet-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="figures/0.38/ssv-booklet-light.svg">
+  <img src="figures/0.38/ssv-booklet-light.svg" alt="The recorded comparison of the space-user availability model with the public Space Service Volume booklet, from the committed results of the pre-registered run (xval/gnss-ssv/results-run1.json, written by the ssv_booklet_check example of engine v0.38.0). Bar by bar, the cells within tolerance: S0 13 of 13 (MET); S1 43 of 52 (NOT MET); S2 48 of 52 (NOT MET); S3 122 of 155 (NOT MET); S4 132 of 156 (NOT MET); S5 18 of 26 (NOT MET); S6 26 of 26 (MET); S7 0 of 20 panel patterns (NOT MET). Only S0 and S6 are met under the pre-registered reading. A diagnostic variant that uses the booklet's other GLONASS angles brings S1, S2 and S4 to every cell, but does not replace the run of record. No ledger row is VALIDATED. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service.">
+</picture>
 
 ## Running it
 

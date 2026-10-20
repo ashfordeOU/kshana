@@ -759,6 +759,266 @@ def optical_fig(t, d, v):
 
 
 # --------------------------------------------------------------------------------------
+# 10. Space-user navigation (gnss-ssv)
+# --------------------------------------------------------------------------------------
+
+SSV_DOC_NOTE = ("MODELLED: a modelled study from stated inputs, not a measurement and not a service-volume claim for any system.")
+
+
+def load_ssv_shell(run: Run) -> dict:
+    return run.scenario("scenarios/gnss-ssv-shell.toml")
+
+
+def load_ssv_heo(run: Run) -> dict:
+    return run.scenario("scenarios/gnss-ssv-heo.toml")
+
+
+def load_ssv_nav(run: Run) -> dict:
+    return run.scenario("scenarios/gnss-ssv-nav-lunar.toml")
+
+
+def load_ssv_formation(run: Run) -> dict:
+    return run.scenario("scenarios/gnss-ssv-formation-heo.toml")
+
+
+def load_ssv_booklet(run: Run) -> dict:
+    d = ROOT / "xval" / "gnss-ssv"
+    out = {}
+    for key, fn in (("run1", "results-run1.json"), ("variant", "results-variant-glonass-table-4-2.json"), ("s7", "results-s7.json")):
+        out[key] = json.loads((d / fn).read_text())
+    return out
+
+
+def ssv_shell_fig(t, d, v):
+    sh = d["shell"]
+    bands = d["bands"]
+    n_rows = sum(len(b["groups"]) for b in bands)
+    all_g = [g_ for b in bands for g_ in b["groups"]]
+    comb = [(b["band"], next(x for x in b["groups"] if x["name"] == "combined")) for b in bands]
+    desc = (f"Signal availability for a user on a sphere at {sh['altitude_km']:g} km altitude with a {sh['antenna']} antenna, from a real run of engine v{v} on "
+            f"scenarios/gnss-ssv-shell.toml (a reduced run: {sh['grid_points']} users, {sh['duration_min'] / 1440:g} days, {sh['step_min']:g} min steps), at a "
+            f"{d['cn0_min_dbhz']:g} dB-Hz threshold. For each constellation and band, two bars: the share of (user, epoch) pairs with at least one signal and with at least four. "
+            + " ".join(f"Combined, {b.upper()}: {g_['at_least_1_pct']:.1f} % at least one, {g_['at_least_4_pct']:.1f} % at least four, longest outage below four signals {g_['max_outage_4_min']:g} min." for b, g_ in comb)
+            + f" {SSV_DOC_NOTE} The reduced size is not the booklet comparison. {advisory_of(None)}")
+    F = Fig(t, d, "Space-user navigation · shell mode", "Few signals, many constellations.",
+            f"{sh['altitude_km']:g} km · {sh['antenna']} · {d['cn0_min_dbhz']:g} dB-Hz", [("kshana", "b"), ("gnss-ssv", "n"), ("·", "n"), ("scenarios/gnss-ssv-shell.toml", "n")],
+            110 + 30 * n_rows + 30 * len(bands), desc, "GNSS signal availability on a shell above the constellations",
+            [("adv", advisory_of(None)),
+             ("note", f"A reduced run (a coarse grid and {sh['duration_min'] / 1440:g} days) that runs in seconds; the full-size comparison with the published booklet is a separate run and mostly NOT MET (see the booklet figure). {SSV_DOC_NOTE}")],
+            f"Engine v{v} · scenarios/gnss-ssv-shell.toml · MODELLED, advisory")
+    s = F.s
+    lx, lw = F.wx + 250, F.ww - 250 - 60
+
+    def X(p):
+        return lx + p / 100 * lw
+
+    y = F.top + 18
+    for val in (0, 25, 50, 75, 100):
+        s.line(X(val), y, X(val), y + 30 * n_rows + 24 * len(bands), g.line(t, 0, t["panel"]), 1)
+        s.text(f"{val}", X(val), y + 30 * n_rows + 24 * len(bands) + 12, 10.5, t["ink3"], "mono", anchor="middle")
+    s.text("share of (user, epoch) pairs, %", F.wx + 24, y + 30 * n_rows + 24 * len(bands) + 12, 10.5, t["ink3"], "mono")
+    for b in bands:
+        s.text(b["band"].upper(), F.wx + 24, y + 14, 12, t["cyan"], "mono", 500)
+        y += 24
+        for g_ in b["groups"]:
+            s.text(g_["name"], F.wx + 24, y + 17, 12.5, t["ink"], "mono", 500)
+            s.rect(lx, y + 4, X(g_["at_least_1_pct"]) - lx, 10, fill=g.soft(t, "cyan", t["panel"], 0.85), r=3)
+            s.rect(lx, y + 16, max(X(g_["at_least_4_pct"]) - lx, 1.5), 10, fill=g.soft(t, "magenta", t["panel"], 0.85), r=3)
+            s.text(f"{g_['at_least_1_pct']:.1f} / {g_['at_least_4_pct']:.1f}", X(100) + 8, y + 20, 10.5, t["ink3"], "mono")
+            y += 30
+    gx, gy = lx, F.wy + F.wh - 22
+    for lab, key in (("at least one signal", "cyan"), ("at least four signals", "magenta")):
+        gx += g.legend_item(s, t, gx, gy, lab, lambda x, yy, k=key: s.rect(x, yy, 12, 12, fill=g.soft(t, k, t["panel"], 0.85), r=3)) + 22
+    return s
+
+
+def ssv_heo_fig(t, d, v):
+    r = d["result"]
+    b = r["bands"][0]
+    ser = b["series"]
+    T1 = ser[-1]["t_min"]
+    thr = d["cn0_min_dbhz"]
+    comb = next(x for x in b["groups"] if x["name"] == "combined") if any(x["name"] == "combined" for x in b["groups"]) else None
+    ml = sum(x["main_lobe_links"] for x in b["groups"] if "main_lobe_links" in x)
+    sl = sum(x["sidelobe_links"] for x in b["groups"] if "sidelobe_links" in x)
+    desc = (f"Signals along one high Earth orbit (perigee {r['perigee_alt_km']:.0f} km, apogee {r['apogee_alt_km']:.0f} km, period {r['period_min'] / 60:.1f} h), from a real run of engine v{v} on "
+            f"scenarios/gnss-ssv-heo.toml, band {b['band'].upper()}. Top: the best carrier-to-noise density among the signals in view, against the {thr:g} dB-Hz threshold. "
+            f"Middle: the number of signals in view from all constellations, from {min(x['combined'] for x in ser)} to {max(x['combined'] for x in ser)} along the sampled points. "
+            f"Of the links received, {ml} came through a main lobe and {sl} through sidelobes, using a labelled parametric stand-in pattern, not any system's measured pattern. "
+            f"Median PDOP {b['pdop_median']:.0f}, 95th percentile {b['pdop_p95']:.0f}. {SSV_DOC_NOTE} {advisory_of(None)}")
+    F = Fig(t, d, "Space-user navigation · trajectory mode", "Along a high orbit.",
+            f"{r['epochs']} epochs · {T1 / 60:.0f} h sampled · {b['band'].upper()}", [("kshana", "b"), ("gnss-ssv", "n"), ("·", "n"), ("scenarios/gnss-ssv-heo.toml", "n")],
+            400, desc, "Signals and C/N0 along a high Earth orbit",
+            [("adv", advisory_of(None)),
+             ("note", f"The sidelobe pattern is a labelled parametric stand-in, not any system's measured pattern, and it does not match the measured GPS panel patterns (booklet bar S7 NOT MET). The orbit is a two-body ellipse. {SSV_DOC_NOTE}")],
+            f"Engine v{v} · scenarios/gnss-ssv-heo.toml · MODELLED, advisory")
+    s = F.s
+    lx, lw = F.wx + 250, F.ww - 250 - 40
+
+    def X(tt):
+        return lx + tt / T1 * lw
+
+    y0, h = F.top + 18, 100
+    cn = [x["best_cn0_dbhz"] for x in ser]
+    lo, hi = min(min(cn), thr) - 3, max(cn) + 3
+    F.label(F.wx + 20, y0, "Best C/N0", f"dB-Hz · {b['band'].upper()}")
+
+    def Y(val):
+        return y0 + h - (val - lo) / (hi - lo) * h
+    for val in g.nice_ticks(lo, hi, 3):
+        s.line(lx, Y(val), lx + lw, Y(val), g.line(t, 0, t["panel"]), 1)
+        s.text(f"{val:g}", lx - 10, Y(val) + 4, 10.5, t["ink3"], "mono", anchor="end")
+    s.line(lx, Y(thr), lx + lw, Y(thr), t["coral"], 1.2, dash="5 4")
+    s.text(f"threshold {thr:g}", lx + lw - 8, Y(thr) - 6, 10.5, t["coral"], "mono", 500, anchor="end")
+    s.poly([(X(x["t_min"]), Y(x["best_cn0_dbhz"])) for x in ser], stroke=t["cyan"], sw=1.8)
+    y1, h1 = y0 + h + 50, 100
+    F.label(F.wx + 20, y1, "Signals in view", "all constellations")
+    mx = max(x["combined"] for x in ser) * 1.1
+
+    def Y1(val):
+        return y1 + h1 - val / mx * h1
+    for val in g.nice_ticks(0, mx, 3):
+        s.line(lx, Y1(val), lx + lw, Y1(val), g.line(t, 0, t["panel"]), 1)
+        s.text(f"{val:g}", lx - 10, Y1(val) + 4, 10.5, t["ink3"], "mono", anchor="end")
+    s.line(lx, Y1(4), lx + lw, Y1(4), t["amber"], 1.1, dash="4 4")
+    s.text("four signals", lx + lw - 8, Y1(4) - 6, 10.5, t["amber"], "mono", 500, anchor="end")
+    s.poly([(X(x["t_min"]), Y1(x["combined"])) for x in ser], stroke=t["magenta"], sw=1.8)
+    for x in ser:
+        s.circle(X(x["t_min"]), Y1(x["combined"]), 2.6, fill=t["magenta"])
+    g.time_axis(s, t, X, y1 + h1 + 24, T1, 240, unit_div=60.0, unit="h")
+    return s
+
+
+def ssv_nav_fig(t, d, v):
+    r = d["result"]
+    ser = r["series"]
+    T1 = ser[-1]["t_min"]
+    ph = {p["phase"]: p for p in r["phases"]}
+    inside = next(p for k, p in ph.items() if k.startswith("inside"))
+    above = next(p for k, p in ph.items() if k.startswith("above"))
+    whole = ph["whole run"]
+    desc = (f"An onboard nine-state filter on a transfer from low orbit toward the Moon, from a real run of engine v{v} on scenarios/gnss-ssv-nav-lunar.toml "
+            f"({r['epochs']} epochs, {len(ser)} points drawn). On a log axis, the true position error and the filter's own one-sigma bound against time since the start. "
+            f"Inside the GNSS orbits the position RMS is {inside['pos_rms_m']:.1f} m; above them it is {above['pos_rms_m']:.0f} m, with the final error {r['final_pos_err_m']:.0f} m "
+            f"at {ser[-1]['altitude_km']:,.0f} km altitude with {ser[-1]['n_meas']} measurement. Mean normalised estimation error squared over the whole run is {whole['pos_nees_mean']:.1f} "
+            f"(about 3 for a consistent position block). Truth and filter share their Sun and Moon stand-ins. {SSV_DOC_NOTE} {advisory_of(None)}")
+    F = Fig(t, d, "Space-user navigation · navigation mode", "An onboard filter, to the Moon.",
+            f"{T1 / 60:.0f} h · {r['epochs']} epochs", [("kshana", "b"), ("gnss-ssv", "n"), ("·", "n"), ("scenarios/gnss-ssv-nav-lunar.toml", "n")],
+            420, desc, "Position error and filter bound on a transfer toward the Moon",
+            [("adv", advisory_of(None)),
+             ("note", f"A design study: no manoeuvres, no attitude, no multipath, and the truth shares its Sun and Moon stand-ins with the filter. {SSV_DOC_NOTE}")],
+            f"Engine v{v} · scenarios/gnss-ssv-nav-lunar.toml · MODELLED, advisory")
+    s = F.s
+    lx, lw = F.wx + 250, F.ww - 250 - 40
+    y0, h = F.top + 18, 230
+    vals = [x["pos_err_m"] for x in ser] + [x["pos_sigma_m"] for x in ser]
+    lo_e, hi_e = math.floor(math.log10(max(min(vals), 0.1))), math.ceil(math.log10(max(vals)))
+
+    def X(tt):
+        return lx + tt / T1 * lw
+
+    def Y(val):
+        return y0 + h - (math.log10(max(val, 10 ** lo_e)) - lo_e) / (hi_e - lo_e) * h
+    F.label(F.wx + 20, y0, "Position error", "m, log axis")
+    for e in range(lo_e, hi_e + 1):
+        s.line(lx, Y(10 ** e), lx + lw, Y(10 ** e), g.line(t, 0, t["panel"]), 1)
+        s.text(f"{10 ** e:g}", lx - 10, Y(10 ** e) + 4, 10.5, t["ink3"], "mono", anchor="end")
+    s.poly([(X(x["t_min"]), Y(x["pos_sigma_m"])) for x in ser], stroke=t["cyan"], sw=1.8, dash="6 4")
+    s.poly([(X(x["t_min"]), Y(x["pos_err_m"])) for x in ser], stroke=t["magenta"], sw=2)
+    for x in ser:
+        s.circle(X(x["t_min"]), Y(x["pos_err_m"]), 2.6, fill=t["magenta"])
+    g.time_axis(s, t, X, y0 + h + 24, T1, 240, unit_div=60.0, unit="h")
+    gx, gy = lx, y0 + h + 52
+    gx += g.legend_item(s, t, gx, gy, "true error", lambda x, yy: s.line(x, yy + 6, x + 14, yy + 6, t["magenta"], 2)) + 18
+    gx += g.legend_item(s, t, gx, gy, "filter one-sigma bound", lambda x, yy: s.line(x, yy + 6, x + 14, yy + 6, t["cyan"], 2)) + 22
+    for lab, val, key in (("below 20,000 km RMS", f"{inside['pos_rms_m']:.1f} m", "lime"), ("above RMS", f"{above['pos_rms_m']:.0f} m", "amber"),
+                          ("NEES", f"{whole['pos_nees_mean']:.1f} (3 is consistent)", "cyan")):
+        gx += g.chip(s, t, gx, gy - 17, f"{lab} {val}", t[key]) + 10
+    return s
+
+
+def ssv_formation_fig(t, d, v):
+    fo = d["formation"]
+    r = d["result"]
+    whole = next(p for p in r["phases"] if p["phase"] == "whole run")
+    deps = fo["deputies"]
+    worst = max(max(x["rel_rms_from_absolute_m"], x["rel_rms_filter_m"]) for x in deps) * 1.2
+    desc = (f"Relative navigation of {len(deps)} deputies around a chief on a high orbit, from a real run of engine v{v} on scenarios/gnss-ssv-formation-heo.toml "
+            f"({fo['epochs']} epochs). For each deputy, two bars: the relative position RMS from subtracting the two independent absolute estimates, and from the relative filter on "
+            f"single-differenced pseudoranges. " + " ".join(f"Baseline {x['baseline_km']:.1f} km: {x['rel_rms_from_absolute_m']:.1f} m and {x['rel_rms_filter_m']:.1f} m." for x in deps)
+            + f" The absolute filter is not consistent here: mean normalised estimation error squared {whole['pos_nees_mean']:.0f} against about 3 for a consistent filter, so its stated "
+              f"uncertainty is far too small. {SSV_DOC_NOTE} {advisory_of(None)}")
+    F = Fig(t, d, "Space-user navigation · formation mode", "Relative, not just absolute.",
+            f"{len(deps)} deputies · {fo['epochs']} epochs", [("kshana", "b"), ("gnss-ssv", "n"), ("·", "n"), ("scenarios/gnss-ssv-formation-heo.toml", "n")],
+            330, desc, "Formation relative navigation, two estimators",
+            [("adv", advisory_of(None)),
+             ("note", f"The absolute filter is overconfident in this run (mean NEES {whole['pos_nees_mean']:.0f}, about 3 expected): its stated uncertainty cannot be relied on, whatever the RMS. {SSV_DOC_NOTE}")],
+            f"Engine v{v} · scenarios/gnss-ssv-formation-heo.toml · MODELLED, advisory")
+    s = F.s
+    lx, lw = F.wx + 250, F.ww - 250 - 120
+
+    def X(val):
+        return lx + val / worst * lw
+    y = F.top + 22
+    for val in g.nice_ticks(0, worst, 4):
+        s.line(X(val), y, X(val), y + 70 * len(deps), g.line(t, 0, t["panel"]), 1)
+        s.text(f"{val:g}", X(val), y + 70 * len(deps) + 12, 10.5, t["ink3"], "mono", anchor="middle")
+    s.text("relative position RMS, m", F.wx + 24, y + 70 * len(deps) + 12, 10.5, t["ink3"], "mono")
+    for x in deps:
+        s.text(f"baseline {x['baseline_km']:.1f} km", F.wx + 24, y + 30, 13, t["ink"], "mono", 500)
+        s.text(f"{x['common_signals_mean']:.0f} signals in common", F.wx + 24, y + 48, 11, t["ink3"], "mono")
+        s.rect(lx, y + 8, X(x["rel_rms_from_absolute_m"]) - lx, 18, fill=g.soft(t, "amber", t["panel"], 0.85), r=3)
+        s.text(f"{x['rel_rms_from_absolute_m']:.1f} m", X(x["rel_rms_from_absolute_m"]) + 8, y + 22, 11, t["ink2"], "mono")
+        s.rect(lx, y + 32, X(x["rel_rms_filter_m"]) - lx, 18, fill=g.soft(t, "cyan", t["panel"], 0.85), r=3)
+        s.text(f"{x['rel_rms_filter_m']:.1f} m", X(x["rel_rms_filter_m"]) + 8, y + 46, 11, t["ink2"], "mono")
+        y += 70
+    g.chip(s, t, lx, y + 30, f"chief absolute NEES {whole['pos_nees_mean']:.0f}: overconfident (about 3 is consistent)", t["coral"])
+    gx, gy = lx, F.wy + F.wh - 22
+    for lab, key in (("from the two absolute estimates", "amber"), ("relative filter, single differences", "cyan")):
+        gx += g.legend_item(s, t, gx, gy, lab, lambda x, yy, k=key: s.rect(x, yy, 12, 12, fill=g.soft(t, k, t["panel"], 0.85), r=3)) + 22
+    return s
+
+
+def ssv_booklet_fig(t, d, v):
+    r1, var, s7 = d["run1"]["bars"], d["variant"]["bars"], d["s7"]["bars"]["S7"]
+
+    def cells(b):
+        sc = [c for c in b["cells"] if c.get("scored", True)]
+        return sum(1 for c in sc if c["pass"]), len(sc)
+    vword = lambda b: "MET" if b["verdict"]["met"] else "NOT MET"
+    rows = [(k, r1[k]["statement"], *cells(r1[k]), vword(r1[k]), *cells(var[k])) for k in r1]
+    n7 = s7["patterns"] if isinstance(s7.get("patterns"), int) else len(s7["patterns"])
+    desc = ("The recorded comparison of the space-user availability model with the public Space Service Volume booklet, from the committed results of the pre-registered run "
+            "(xval/gnss-ssv/results-run1.json, written by the ssv_booklet_check example of engine " f"v{v}). Bar by bar, the cells within tolerance: "
+            + "; ".join(f"{k} {a} of {n} ({vd})" for k, _, a, n, vd, _, _ in rows) + f"; S7 0 of {n7} panel patterns (NOT MET). "
+            "Only S0 and S6 are met under the pre-registered reading. A diagnostic variant that uses the booklet's other GLONASS angles brings S1, S2 and S4 to every cell, "
+            "but does not replace the run of record. No ledger row is VALIDATED. " + advisory_of(None))
+    F = Fig(t, d, "Space-user navigation · against the booklet", "Mostly NOT MET, and said so.",
+            "pre-registered run 1 · committed results", [("kshana", "b"), ("ssv_booklet_check", "n"), ("·", "n"), ("xval/gnss-ssv/results-run1.json", "n")],
+            130 + 44 * (len(rows) + 1), desc, "gnss-ssv against the Space Service Volume booklet",
+            [("adv", advisory_of(None)),
+             ("note", "The booklet is itself a simulation. The bars were fixed before the run and are not loosened; the diagnostic variant (the booklet's other GLONASS angles) is shown "
+                      "as a thin outline bar and does not replace run 1. No row is VALIDATED.")],
+            "Drawn from the committed results of the pre-registered run (xval/gnss-ssv/results-*.json) · MODELLED, advisory")
+    s = F.s
+    lx, lw = F.wx + 150, F.ww - 150 - 260
+    y = F.top + 18
+    for k, stmt, a, n, vd, va, vn in rows + [("S7", s7["statement"], n7 - s7["verdict"]["failed_cells"], n7, vword(s7), None, None)]:
+        key = "lime" if vd == "MET" else "coral"
+        s.text(k, F.wx + 24, y + 22, 14, t["ink"], "mono", 500)
+        s.rect(lx, y + 6, lw, 14, fill=g.soft(t, "ink4", t["panel"], 0.2), r=4)
+        s.rect(lx, y + 6, max(lw * a / n, 0), 14, fill=t[key], r=4)
+        if va is not None:
+            s.rect(lx, y + 24, lw * va / vn, 6, fill="none", stroke=t["cyan"], sw=1.2, r=3)
+        s.text(f"{a} of {n}", lx + lw + 12, y + 18, 11.5, t["ink2"], "mono")
+        s.text(vd, F.wx + F.ww - 24, y + 18, 11, t[key], "mono", 500, anchor="end", ls=0.06)
+        s.text(g.fit_text(stmt, F.ww - 150 - 260 + 120, 10.5, "sans"), lx, y + 42, 10.5, t["ink3"], "sans")
+        y += 44
+    g.chip(s, t, lx, y + 6, "outline bar: diagnostic variant with the booklet's other GLONASS angles; not the run of record", t["cyan"])
+    return s
+
+
+# --------------------------------------------------------------------------------------
 # Build, manifest and CLI
 # --------------------------------------------------------------------------------------
 
@@ -775,6 +1035,12 @@ FIGURES = {
     "exporters": (load_exporters, export_fig, "kshana trust-telemetry on examples/maritime-trust",
                   ("examples/maritime-trust/session.toml", "examples/maritime-trust/tallinn-helsinki.nmea")),
     "optical": (load_optical, optical_fig, "kshana scenarios/optical-atmosphere-network.toml", ("scenarios/optical-atmosphere-network.toml",)),
+    "ssv-shell": (load_ssv_shell, ssv_shell_fig, "kshana scenarios/gnss-ssv-shell.toml", ("scenarios/gnss-ssv-shell.toml",)),
+    "ssv-heo": (load_ssv_heo, ssv_heo_fig, "kshana scenarios/gnss-ssv-heo.toml", ("scenarios/gnss-ssv-heo.toml",)),
+    "ssv-nav": (load_ssv_nav, ssv_nav_fig, "kshana scenarios/gnss-ssv-nav-lunar.toml", ("scenarios/gnss-ssv-nav-lunar.toml",)),
+    "ssv-formation": (load_ssv_formation, ssv_formation_fig, "kshana scenarios/gnss-ssv-formation-heo.toml", ("scenarios/gnss-ssv-formation-heo.toml",)),
+    "ssv-booklet": (load_ssv_booklet, ssv_booklet_fig, "committed results of the pre-registered run (xval/gnss-ssv/results-run1.json, results-variant-glonass-table-4-2.json, results-s7.json)",
+                    ("xval/gnss-ssv/results-run1.json", "xval/gnss-ssv/results-variant-glonass-table-4-2.json", "xval/gnss-ssv/results-s7.json")),
 }
 
 
@@ -811,6 +1077,7 @@ DOC_PAGES = {
     "timing": "docs/TIMING-HIL.md", "standards": "docs/compliance/README.md", "lunanet-afs": "docs/LUNANET-AFS.md",
     "bench": "docs/BENCH.md", "exporters": "docs/TRUST-TELEMETRY.md", "optical": "docs/OPTICAL-ATMOSPHERE.md",
 }
+DOC_PAGES.update({"ssv-shell": "docs/SSV.md", "ssv-heo": "docs/SSV.md", "ssv-nav": "docs/SSV.md", "ssv-formation": "docs/SSV.md", "ssv-booklet": "docs/SSV.md"})
 FIGURE_PAGES = {name: ("README.md", DOC_PAGES[name]) for name in FIGURES}
 
 
