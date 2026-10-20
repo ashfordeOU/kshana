@@ -160,7 +160,7 @@ on the roadmap.
 
 ## Capabilities
 
-The engine has 85 scenario kinds; `kshana kinds` lists them with their fields.
+The engine has 87 scenario kinds; `kshana kinds` lists them with their fields. New in 0.38.0: `gnss-ssv` (GNSS signals for spacecraft above, around and past the GNSS orbits) and `lunar-infrastructure` (lunar orbit and surface as navigation and geodetic infrastructure), both MODELLED, and `holdover-test` (a time-error record against the ITU-T masks).
 
 - **Spectrum**: how a jammer takes the GNSS L band, band by band.
 - **Clocks and timing**: holdover against a threshold, time transfer, and telecom holdover
