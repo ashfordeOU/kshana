@@ -1,4 +1,5 @@
-# Kshana lunar-infrastructure scenario: carrier-phase. MODELLED; the design, inputs and bars are
+# Kshana lunar-infrastructure scenario: carrier-phase, the QUICK example (two short arcs, 10 draws, seconds;
+# the scored configuration, three arcs and 400 draws, is xval/lunar-infra/scenarios/carrier-phase-scored.toml). MODELLED; the design, inputs and bars are
 # fixed in xval/lunar-infra/PREREGISTRATION.md (committed before any run). ILLUSTRATIVE inputs
 # are labelled with their public sources there.
 kind = "lunar-infrastructure"
@@ -11,7 +12,7 @@ x0 = 1.0220
 z0 = -0.1800
 vy0 = -0.1020
 sample_s = 600.0
-arcs_days = [1.0, 2.0, 3.0]
+arcs_days = [0.25, 0.5]
 
 [surface]
 lat_deg = 0.0
@@ -35,4 +36,4 @@ phase_bn_hz = 1.0
 sis_sigma_m = 0.5
 
 [monte_carlo]
-trials = 400
+trials = 10

@@ -8,7 +8,7 @@
 use kshana::lunar_infra::LunarInfrastructureScenario;
 
 fn main() {
-    let toml = include_str!("../scenarios/lunar-infrastructure-carrier-phase.toml");
+    let toml = include_str!("../xval/lunar-infra/scenarios/carrier-phase-scored.toml");
     let s: LunarInfrastructureScenario = toml::from_str(toml).expect("scenario parses");
     let v = kshana::lunar_infra::phase::export_design(
         &s.orbit.unwrap_or_default(),
