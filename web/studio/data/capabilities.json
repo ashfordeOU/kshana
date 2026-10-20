@@ -312,7 +312,7 @@
       "status": "modelled",
       "name": "Unit and provenance on every reported quantity",
       "summary": "Every numeric field a scenario emits carries a unit and a provenance class drawn from a closed vocabulary, with a definition where one exists, published as a machine-readable schema beside the engine. A ratcheted gate runs every built-in kind and fails on a field that carries none; the kinds not yet complete are named one by one with the reason each is still open, and the list can only shrink. Reports that state their own constants \u2014 the one-way link budget, the optical and RF budget \u2014 let a reader recompute the headline from the report alone.",
-      "proof": "85 of 85 kinds, 3029 of 3029 numeric fields"
+      "proof": "87 of 87 kinds, 3127 of 3127 numeric fields"
     },
     {
       "domain": "Mission analysis",
@@ -500,6 +500,24 @@
       "name": "Optical timing links through clouds and turbulence",
       "summary": "How often an optical time-transfer link is up when the atmosphere is in the path. For each ground site the engine gives the clear-air loss, the Hufnagel-Valley turbulence state with gamma-gamma scintillation fades and aperture averaging, the availability against the link margin from a stated cloud climate, the ceiling no margin can lift, the outage-duration distribution and the timing error an outage costs a holdover clock. It then shows what extra sites, a larger aperture, another wavelength or adaptive optics buy. The bundled cloud climates are illustrative, not measured; the output is advisory.",
       "proof": "7 of 7 pre-registered numerical bars met against an independent mpmath program; no measured availability record has been compared"
+    },
+    {
+      "domain": "Nav-signal performance",
+      "group": "GNSS",
+      "status": "modelled",
+      "name": "GNSS beyond the constellation: the Space Service Volume and past it",
+      "summary": "For a spacecraft on a sphere (the global shell of the ICG Space Service Volume booklet) or on a Keplerian trajectory from LEO to lunar transfer, counts per constellation (GPS, GLONASS, Galileo, BDS, QZSS, NavIC) and for all together the signals above a C/N0 threshold: availability of one and of four signals, longest outage, received C/N0, dilution of precision, and main-lobe against sidelobe links. Transmit patterns are the booklet's, a parametric stand-in or one you supply; a limb-ray ionosphere, plasmasphere and atmosphere model and a weak-signal receiver design are optional; an onboard GNSS filter for high and lunar-transfer orbits and formation relative navigation are included. MODELLED: compared with the booklet's tables under a pre-registration committed before the run, the minimum-radiated-power constants and the lunar bar agree, the other bars are NOT MET under the pre-registered reading (almost all through the booklet's inconsistent GLONASS beam angle), and the parametric sidelobe stand-in does not reproduce the measured GPS panel patterns.",
+      "proof": "ICG SSV booklet tables, pre-registered; most bars NOT MET (xval/gnss-ssv/RESULTS.md)",
+      "run": "gnss-ssv-shell.toml"
+    },
+    {
+      "domain": "Lunar & cislunar",
+      "group": "Lunar",
+      "status": "modelled",
+      "name": "Lunar orbit and surface as navigation and geodetic infrastructure",
+      "summary": "Five studies in a restricted three-body model: an onboard Earth-GNSS orbit determination in a near-rectilinear halo orbit against an independent ground range and range-rate determination; joint surface-station and orbiter carrier-phase integer ambiguity fixing (LAMBDA); the Fisher information of a seven-parameter lunar datum with and without orbiter-to-surface ranges; GNSS, VLBI and laser-ranging offsets against the local tie; and sensitivity to the lunar tidal and libration parameters. MODELLED with illustrative inputs: the numerics are checked against independent numpy and scipy programs, not the physics. Under the pre-registered bars, three are NOT MET: an injected force error is not detected at the stated rate (C3), the bootstrapped success rate differs from the numpy oracle by 1.7e-6 against a bar of 1e-9 (Q3), and adding a ranging family does not always lower the pseudo-inverse trace (G3, trace half).",
+      "proof": "numpy/scipy oracles of the numerics; three pre-registered bars NOT MET (xval/lunar-infra/RESULTS.md)",
+      "run": "lunar-infrastructure-od-consistency.toml"
     }
   ],
   "standards": [
