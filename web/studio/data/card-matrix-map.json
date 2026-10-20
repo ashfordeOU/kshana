@@ -236,5 +236,18 @@
     "Optical slant-path atmosphere numerics: Rytov variance, scintillation, gamma-gamma fade probability, aperture averaging, cloud and clear-air optical depth",
     "Weather-driven optical ground-site availability and distance-correlated site diversity",
     "Timing and ranging continuity through optical outages"
+  ],
+  "GNSS beyond the constellation: the Space Service Volume and past it": [
+    "GNSS signal availability in the Space Service Volume and beyond, compared with the ICG SSV booklet",
+    "Limb-ray ionosphere, plasmasphere and atmosphere effects on grazing GNSS signals, and the weak-signal receiver design, in the `gnss-ssv` kind",
+    "Onboard GNSS navigation filter for high-orbit and lunar-transfer spacecraft",
+    "Relative navigation of a multi-spacecraft formation in a highly elliptical orbit from GNSS"
+  ],
+  "Lunar orbit and surface as navigation and geodetic infrastructure": [
+    "Lunar orbit determination: Earth-GNSS against ground radiometric",
+    "Lunar carrier-phase ambiguity resolution: surface and orbiter",
+    "Lunar frame co-estimation: surface stations and orbiters",
+    "Space-tie frame-tie precision: co-located GNSS, VLBI and laser ranging",
+    "Lunar Love-number and libration sensitivity"
   ]
 }
