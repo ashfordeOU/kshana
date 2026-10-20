@@ -120,6 +120,78 @@
         "optical-light.svg": "14fb6eaf28e88564d8c5159c49a38216cffc53410adb6ec800c47d30df9437df",
         "optical-dark.svg": "520b868f74a659dfe1927b757fdd89d653f778151be8493b5ce0d771683d8b5c"
       }
+    },
+    "ssv-shell": {
+      "files": [
+        "ssv-shell-light.svg",
+        "ssv-shell-dark.svg"
+      ],
+      "drawn_from": "kshana scenarios/gnss-ssv-shell.toml",
+      "input_files": {
+        "scenarios/gnss-ssv-shell.toml": "6f2ce21c2a01dbdc13c37fe0de8d0741ce92f876298eccf4c20ea264672fd324"
+      },
+      "svg_sha256": {
+        "ssv-shell-light.svg": "942173eb771fd1208fa9342358069565f76f48c91ae21ee3f92073ff1f070da4",
+        "ssv-shell-dark.svg": "0071a59cd3edb5d01c9349dca06da1c1d24fb924742ffac363bef4947bc98f23"
+      }
+    },
+    "ssv-heo": {
+      "files": [
+        "ssv-heo-light.svg",
+        "ssv-heo-dark.svg"
+      ],
+      "drawn_from": "kshana scenarios/gnss-ssv-heo.toml",
+      "input_files": {
+        "scenarios/gnss-ssv-heo.toml": "d57b184438e995788447bc58b38bf27b8713e0da517754e16b4e7c2817786825"
+      },
+      "svg_sha256": {
+        "ssv-heo-light.svg": "460c62bb62e5baef3bd8afcfd1f0131e1c044a61641d61700389c5c9dedbf242",
+        "ssv-heo-dark.svg": "0d857476becf02301e94fa8dd61197e6f8676bd17f5accf89305a6418cd911c0"
+      }
+    },
+    "ssv-nav": {
+      "files": [
+        "ssv-nav-light.svg",
+        "ssv-nav-dark.svg"
+      ],
+      "drawn_from": "kshana scenarios/gnss-ssv-nav-lunar.toml",
+      "input_files": {
+        "scenarios/gnss-ssv-nav-lunar.toml": "fd9a0ba49a63aa1ef88a5f5cfa3ed8fd044b6efd61ab7b15c25ec76c9460e8d8"
+      },
+      "svg_sha256": {
+        "ssv-nav-light.svg": "75a51daf3c150cf436262ece0013f7cbd06198567998a385c66d0a9e52fd1971",
+        "ssv-nav-dark.svg": "78c374c639fe1263911176188e37e51462ab59485038611c3ea077d1bf2ea79d"
+      }
+    },
+    "ssv-formation": {
+      "files": [
+        "ssv-formation-light.svg",
+        "ssv-formation-dark.svg"
+      ],
+      "drawn_from": "kshana scenarios/gnss-ssv-formation-heo.toml",
+      "input_files": {
+        "scenarios/gnss-ssv-formation-heo.toml": "43ca1199d98bb770237fa75a8c26823c89f28d4e1ab102eddd83d10bcfb6934d"
+      },
+      "svg_sha256": {
+        "ssv-formation-light.svg": "38d14002531f0c019c9adc672eb7469161f3ac9895525a56460b51fee46024ac",
+        "ssv-formation-dark.svg": "b4917a89bdafb4b83c505bdf07ad66c55fd305e05c8010530647b10289894171"
+      }
+    },
+    "ssv-booklet": {
+      "files": [
+        "ssv-booklet-light.svg",
+        "ssv-booklet-dark.svg"
+      ],
+      "drawn_from": "committed results of the pre-registered run (xval/gnss-ssv/results-run1.json, results-variant-glonass-table-4-2.json, results-s7.json)",
+      "input_files": {
+        "xval/gnss-ssv/results-run1.json": "9dd7a13ba1d6576e4e5adbf23e6795d88fc6636dbde4f45c01ee82d1b22a0257",
+        "xval/gnss-ssv/results-variant-glonass-table-4-2.json": "fbd9777ca74a2cf233f796a0849badabb820ab08ef7d9a7aeda45b7fd2bc5b76",
+        "xval/gnss-ssv/results-s7.json": "9d542eb0523a2d87564eae434a7183ad780d4ca6b3c52ebcb1ee833842937396"
+      },
+      "svg_sha256": {
+        "ssv-booklet-light.svg": "fae3838eda9706832b5c8191fc1454e16dbc169191be63d7c98cd8e52834dead",
+        "ssv-booklet-dark.svg": "6095b0a65aa08c650e1f9879de78b95a08215bfa66de5a80a46fb11d62f1e58b"
+      }
     }
   }
 }

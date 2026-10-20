@@ -337,8 +337,66 @@ mission clock, at [`/studio/replay/`](https://kshana.dev/studio/replay/)), an Op
 the same advisory statement. The pictures above are drawn from the engine's own output by a script;
 they are not screenshots of these pages.
 
-<!-- WS-H placeholder: space-user navigation. The section (what it does, one command, one engine-rendered
-     figure, its ledger status, a link to docs/SSV.md) is added here when the space-user branch lands. -->
+### Space-user navigation (`gnss-ssv`)
+
+For a spacecraft above, around or far past the GNSS orbits: how many GNSS signals it can use, how
+strong they are, how good the geometry is, and what an onboard filter can do with them. One kind,
+four modes, chosen by the scenario's tables: a **shell** of users (the share of time with one and four
+signals, per constellation), a **trajectory** (signals, C/N0, dilution of precision and the
+limb-ray medium along an orbit), a **navigation** run (a nine-state filter on pseudoranges, to the
+Moon) and a **formation** (relative navigation of deputies about a chief). The public source for the
+availability comparison is the interoperable GNSS Space Service Volume booklet (UN OOSA
+ST/SPACE/75, from the International Committee on GNSS), which is itself a simulation; it is fetched, never
+vendored. Full page: [docs/SSV.md](docs/SSV.md).
+
+```sh
+kshana scenarios/gnss-ssv-shell.toml            # shell: the upper space service volume, reduced size
+kshana scenarios/gnss-ssv-heo.toml              # trajectory: a high Earth orbit, limb medium
+kshana scenarios/gnss-ssv-nav-lunar.toml        # navigation: an onboard filter toward the Moon
+kshana scenarios/gnss-ssv-formation-heo.toml    # formation: relative navigation
+```
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="figures/0.38/ssv-shell-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="figures/0.38/ssv-shell-light.svg">
+  <img src="figures/0.38/ssv-shell-light.svg" alt="Signal availability for a user on a sphere at 36000 km altitude with a hemisphere antenna, from a real run of engine v0.38.0 on scenarios/gnss-ssv-shell.toml (a reduced run: 162 users, 3 days, 10 min steps), at a 20 dB-Hz threshold. For each constellation and band, two bars: the share of (user, epoch) pairs with at least one signal and with at least four. Combined, L1: 99.4 % at least one, 73.2 % at least four, longest outage below four signals 160 min. Combined, L5: 100.0 % at least one, 99.9 % at least four, longest outage below four signals 20 min. MODELLED: a modelled study from stated inputs, not a measurement and not a service-volume claim for any system. The reduced size is not the booklet comparison. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service.">
+</picture>
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="figures/0.38/ssv-heo-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="figures/0.38/ssv-heo-light.svg">
+  <img src="figures/0.38/ssv-heo-light.svg" alt="Signals along one high Earth orbit (perigee 497 km, apogee 58622 km, period 18.8 h), from a real run of engine v0.38.0 on scenarios/gnss-ssv-heo.toml, band L1. Top: the best carrier-to-noise density among the signals in view, against the 20 dB-Hz threshold. Middle: the number of signals in view from all constellations, from 4 to 55 along the sampled points. Of the links received, 2252 came through a main lobe and 696 through sidelobes, using a labelled parametric stand-in pattern, not any system's measured pattern. Median PDOP 67, 95th percentile 358. MODELLED: a modelled study from stated inputs, not a measurement and not a service-volume claim for any system. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service.">
+</picture>
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="figures/0.38/ssv-nav-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="figures/0.38/ssv-nav-light.svg">
+  <img src="figures/0.38/ssv-nav-light.svg" alt="An onboard nine-state filter on a transfer from low orbit toward the Moon, from a real run of engine v0.38.0 on scenarios/gnss-ssv-nav-lunar.toml (289 epochs, 13 points drawn). On a log axis, the true position error and the filter's own one-sigma bound against time since the start. Inside the GNSS orbits the position RMS is 1.4 m; above them it is 90 m, with the final error 184 m at 193,330 km altitude with 1 measurement. Mean normalised estimation error squared over the whole run is 4.4 (about 3 for a consistent position block). Truth and filter share their Sun and Moon stand-ins. MODELLED: a modelled study from stated inputs, not a measurement and not a service-volume claim for any system. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service.">
+</picture>
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="figures/0.38/ssv-formation-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="figures/0.38/ssv-formation-light.svg">
+  <img src="figures/0.38/ssv-formation-light.svg" alt="Relative navigation of 2 deputies around a chief on a high orbit, from a real run of engine v0.38.0 on scenarios/gnss-ssv-formation-heo.toml (401 epochs). For each deputy, two bars: the relative position RMS from subtracting the two independent absolute estimates, and from the relative filter on single-differenced pseudoranges. Baseline 0.8 km: 5.1 m and 1.2 m. Baseline 2.0 km: 4.1 m and 2.1 m. The absolute filter is not consistent here: mean normalised estimation error squared 187 against about 3 for a consistent filter, so its stated uncertainty is far too small. MODELLED: a modelled study from stated inputs, not a measurement and not a service-volume claim for any system. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service.">
+</picture>
+
+**Ledger status: MODELLED, and the comparison with the booklet mostly misses.** The bars were fixed before
+the run. Of eight, only S0 (the inverse link budget, 13 of 13 values) and S6 (the lunar mission) are
+met. **S1 to S5 and S7 are NOT MET**: the upper and lower service volume geometry (43 of 52 and 48 of 52
+cells), the 15/20/25 dB-Hz upper service volume, the six GEO missions, the HEO mission, and the
+parametric sidelobe pattern against measured GPS panel patterns. Almost every miss in S1 to S5 involves
+GLONASS, and the booklet prints two different reference angles for it; a diagnostic variant that uses the
+other pair brings S1, S2 and S4 to every cell, but it does not replace the run of record and no row is
+VALIDATED. The formation run's absolute filter is also overconfident (mean normalised error squared
+well above the value of about 3 that a consistent filter gives).
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="figures/0.38/ssv-booklet-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="figures/0.38/ssv-booklet-light.svg">
+  <img src="figures/0.38/ssv-booklet-light.svg" alt="The recorded comparison of the space-user availability model with the public Space Service Volume booklet, from the committed results of the pre-registered run (xval/gnss-ssv/results-run1.json, written by the ssv_booklet_check example of engine v0.38.0). Bar by bar, the cells within tolerance: S0 13 of 13 (MET); S1 43 of 52 (NOT MET); S2 48 of 52 (NOT MET); S3 122 of 155 (NOT MET); S4 132 of 156 (NOT MET); S5 18 of 26 (NOT MET); S6 26 of 26 (MET); S7 0 of 20 panel patterns (NOT MET). Only S0 and S6 are met under the pre-registered reading. A diagnostic variant that uses the booklet's other GLONASS angles brings S1, S2 and S4 to every cell, but does not replace the run of record. No ledger row is VALIDATED. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service.">
+</picture>
+
+[Space-user navigation](docs/SSV.md), [what the comparison shows](docs/SSV.md#what-the-comparison-with-the-booklet-shows).
 
 <!-- WS-H placeholder: lunar navigation. The section (what it does, one command, one engine-rendered
      figure, its ledger status, links to the lunar docs) is added here when the lunar branch lands. -->
