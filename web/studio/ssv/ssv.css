@@ -1,0 +1,38 @@
+/* Space-user GNSS page. Colours, type and radii come from tokens.css; layout from app.css and studio.css. A series is never told apart by colour alone. */
+.ssk{padding-bottom:56px}
+.ssk h1{font:700 clamp(28px,4.4vw,46px)/1.05 var(--f-display);letter-spacing:-.02em;margin:10px 0 8px}
+.ssk .lede{max-width:78ch;margin:0 0 14px;color:var(--ink-2);font-size:16px;line-height:1.5}
+.ssk .h3{font:650 17px/1.2 var(--f-display)}
+.ssk h3{margin:0 0 6px;font:650 15px/1.2 var(--f-display)}
+.ssk-adv{margin:0 0 16px;padding:12px 14px;border-radius:14px;border:1px solid var(--line-2);border-left:4px solid var(--orb-card);background:var(--surface);font-size:13.5px;line-height:1.5;color:var(--ink-2);max-width:100ch}
+.ssk-adv b{color:var(--ink)}
+.ssk-pick{margin-bottom:14px}
+.ssk-tabs{display:flex;flex-wrap:wrap;gap:8px}
+.ssk-tab{min-height:44px;padding:0 16px;border-radius:999px;border:1px solid var(--line-2);background:var(--surface);font-weight:600;font-size:13.5px;color:var(--ink-2)}
+.ssk-tab[aria-selected=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.ssk-tab:focus-visible{outline:2px solid var(--tim);outline-offset:2px}
+.ssk-blurb{margin:10px 0 0;font-size:13.5px;color:var(--ink-2);max-width:90ch}
+.ssk-status{margin:8px 0 0;font-size:13px;color:var(--ink-2)}.ssk-status.err{color:var(--int);font-weight:600}
+.ssk .card{margin-bottom:14px;min-width:0}
+.ssk-kv{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:8px 20px;margin:12px 0 0}
+.ssk-kv dt{font:600 11.5px var(--f-text);color:var(--ink-3);text-transform:uppercase;letter-spacing:.04em;overflow-wrap:anywhere}
+.ssk-kv dd{margin:2px 0 0;font:500 13px var(--f-mono);color:var(--ink);overflow-wrap:anywhere}
+.ssk-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-bottom:14px;align-items:start}
+.ssk-card{min-width:0}.ssk-wide{grid-column:1/-1}
+@media (max-width:900px){.ssk-grid{grid-template-columns:minmax(0,1fr)}}
+.ssk-prov{margin:0 0 14px;font-size:12.5px;color:var(--ink-3);max-width:110ch}
+.ssk-pattern{margin:0 0 14px;font-size:12.5px;color:var(--ink-3);max-width:110ch}
+.ssk-scroll,.ssk-tablewrap{overflow-x:auto}
+.ssk-chart{display:block;width:100%;height:auto;min-width:420px;margin-top:8px}
+.ssk-t{font:500 10.5px var(--f-mono);fill:var(--ink-2)}.ssk-lab{fill:var(--ink)}
+.ssk-v{font:600 11px var(--f-mono);fill:var(--ink)}
+.ssk-ax{fill:none;stroke:var(--ink-3);stroke-width:1.2}
+.ssk-gl{stroke:var(--line-2);stroke-width:1;stroke-dasharray:3 3}
+.ssk-track{fill:var(--surface-2);stroke:var(--line)}
+.ssk-p0,.ssk-s0{--c:var(--orb-card)}.ssk-p1,.ssk-s1{--c:var(--nav-card)}.ssk-p2,.ssk-s2{--c:var(--spf-card)}
+.ssk-bar,.ssk-key{fill:var(--c)}.ssk-p1{fill-opacity:.75}
+.ssk-line{fill:none;stroke:var(--c);stroke-width:2.2}.ssk-dash{stroke-dasharray:6 3}
+.ssk-pt{fill:var(--bg);stroke:var(--c);stroke-width:2}
+.ssk-end{fill:var(--ink);font-weight:600}
+.ssk-range{fill:var(--orb-card);fill-opacity:.55;stroke:var(--orb-card)}
+.ssk-mean{stroke:var(--ink);stroke-width:2}

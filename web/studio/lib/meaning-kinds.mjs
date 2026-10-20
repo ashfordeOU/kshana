@@ -469,8 +469,61 @@ function holdoverTest(r) {
   return { big: `Measured against the masks, the record's holdover of ${f(r.holdover.duration_s, 0)} s reaches ${f(Math.abs(r.holdover.te_at_max_abs_ns), 1)} ns of time error${rec}.`, line: `${masks ? `${masks}. ` : ""}Measured against the mask, never a statement that a system conforms; the two times are the operator's statement.` };
 }
 
+// gnss-ssv (0.38): navigation signals far above the GNSS satellites. One sentence per mode, from the result's own numbers.
+function gnssSsv(r) {
+  const mode = r.mode, groups = (bands) => (Array.isArray(bands) ? bands : []).flatMap((b) => (Array.isArray(b.groups) ? b.groups : []).map((g) => ({ band: b.band, g })));
+  const comb = (bands, pick) => { const x = groups(bands).find((e) => e.g.name === "combined" && e.band === "l1") || groups(bands).find((e) => e.g.name === "combined"); return x ? pick(x.g) : null; };
+  const tail = "MODELLED: a geometric and link-budget sweep, not a measurement of any signal in space.";
+  if (mode === "shell" && Array.isArray(r.bands)) {
+    const c = comb(r.bands, (g) => g);
+    if (!c || !has(c, "at_least_1_pct", "at_least_4_pct")) return null;
+    return { big: `On the shell, all constellations together give at least one signal ${f(c.at_least_1_pct, 1)} % of the time and at least four ${f(c.at_least_4_pct, 1)} % (L1).`, line: tail };
+  }
+  if (mode === "trajectory" && has(r, "result.perigee_alt_km", "result.apogee_alt_km")) {
+    const c = comb(get(r, "result.bands"), (g) => g.availability);
+    if (!c || !has(c, "at_least_1_pct", "at_least_4_pct")) return null;
+    return { big: `From ${f(r.result.perigee_alt_km, 0)} to ${f(r.result.apogee_alt_km, 0)} km altitude, at least one signal is in view ${f(c.at_least_1_pct, 1)} % of the epochs and at least four ${f(c.at_least_4_pct, 1)} % (L1, all constellations).`, line: tail };
+  }
+  if (mode === "navigation" && Array.isArray(get(r, "result.phases"))) {
+    const above = r.result.phases.find((p) => /above/i.test(String(p.phase))), inside = r.result.phases.find((p) => /inside/i.test(String(p.phase)));
+    if (!above || !inside || !has(above, "pos_rms_m") || !has(inside, "pos_rms_m")) return null;
+    return { big: `The onboard filter holds position to ${f(inside.pos_rms_m, 1)} m RMS inside the GNSS orbits and ${f(above.pos_rms_m, 1)} m above them.`, line: tail };
+  }
+  if (mode === "formation" && Array.isArray(get(r, "formation.deputies")) && r.formation.deputies.length) {
+    const d = r.formation.deputies[0];
+    if (!has(d, "baseline_km", "rel_rms_filter_m", "rel_rms_from_absolute_m")) return null;
+    return { big: `At ${f(d.baseline_km, 2)} km apart, the filter knows the relative position to ${f(d.rel_rms_filter_m, 1)} m RMS, against ${f(d.rel_rms_from_absolute_m, 1)} m from differencing the two absolute fixes.`, line: tail };
+  }
+  return null;
+}
+
+// lunar-infrastructure (0.38): five studies selected by `study`. One sentence each, from the result's own numbers; the misses are stated.
+function lunarInfrastructure(r) {
+  const tail = "MODELLED: a restricted model with illustrative inputs, not a statement about any mission.";
+  switch (r.study) {
+    case "od-consistency":
+      if (!has(r, "gnss_estimate.position_sigma_m", "ground_estimate.position_sigma_m", "consistency.mean_q")) return null;
+      return { big: `Onboard Earth-GNSS orbit determination in lunar orbit is good to ${f(r.gnss_estimate.position_sigma_m, 0)} m, independent ground tracking to ${f(r.ground_estimate.position_sigma_m, 0)} m; the consistency statistic averages ${f(r.consistency.mean_q, 2)} (${f(r.consistency.expected_mean_q, 0)} expected).`, line: tail };
+    case "carrier-phase": {
+      const a = Array.isArray(r.arcs) && r.arcs.length ? r.arcs[r.arcs.length - 1] : null;
+      if (!a || !has(a, "monte_carlo_success_rate", "arc_days")) return null;
+      return { big: `Integer carrier-phase fixing between a surface station and an orbiter fixed ${f(100 * a.monte_carlo_success_rate, 1)} % of the trials on the longest arc (${f(a.arc_days, 2)} days).`, line: tail };
+    }
+    case "frame-coestimation":
+      if (!has(r, "lambda_min_ratio", "crlb_trace_ratio")) return null;
+      return { big: `Orbiter-to-station links raise the smallest information eigenvalue of the lunar datum ${f(r.lambda_min_ratio, 1)} times and cut the Cramér-Rao trace to ${f(100 * r.crlb_trace_ratio, 1)} %, if the orbit is known in the lunar axes.`, line: tail };
+    case "space-tie":
+      if (!has(r, "local_tie_sigma_m") || !Array.isArray(r.arcs) || !r.arcs.length || !Array.isArray(r.arcs[0].sweep)) return null;
+      return { big: `A ${f(r.local_tie_sigma_m * 1000, 1)} mm local tie on one spacecraft ties the GNSS, VLBI and laser-ranging frames over ${r.arcs[0].sweep.length} tie errors swept.`, line: tail };
+    case "geodesy-sensitivity":
+      if (!Array.isArray(r.crlb_sigma_over_nominal_h2_k2_l2) || r.crlb_sigma_over_nominal_h2_k2_l2.length < 3) return null;
+      return { big: `With all four families together, h2, k2 and l2 are pinned to ${f(100 * r.crlb_sigma_over_nominal_h2_k2_l2[0], 2)} %, ${f(100 * r.crlb_sigma_over_nominal_h2_k2_l2[1], 2)} % and ${f(100 * r.crlb_sigma_over_nominal_h2_k2_l2[2], 2)} % of their nominal values.`, line: tail };
+    default: return null;
+  }
+}
+
 export const KIND_TEMPLATES = {
-  "holdover-test": holdoverTest,
+  "holdover-test": holdoverTest, "gnss-ssv": gnssSsv, "lunar-infrastructure": lunarInfrastructure,
   campaign, sweep, "sweep-nd": sweepNd, spoof, fusion: pnt, hybrid: pnt, timetransfer, "telecom-timing": telecom, "slot-timing": slotTiming,
   "lunar-time-budget": lunarTimeBudget, "lunar-time-offset": lunarTimeOffset, "quantum-time-transfer": quantumTT,
   "gravity-map": mapMatch, "terrain-nav": mapMatch, "combined-altpnt": mapMatch, "terrain-slam": terrainSlam, "ins-trn-coast": insTrn,
