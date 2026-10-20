@@ -2138,7 +2138,8 @@ def architecture(t: dict, n_kinds: int, summary: dict, n_tools: int, version: st
     return s
 
 
-# The five papers live on arXiv (checked against export.arxiv.org/api/query on 2026-09-30),
+# The six papers live on arXiv (the first five checked against export.arxiv.org/api/query on 2026-09-30,
+# the sixth against its arXiv listing on 2026-10-20),
 # each with the engine command behind it: the study example that regenerates its artifact, or
 # the scenario kind the paper is built on. Titles, dates and categories are arXiv's.
 PAPERS = [
@@ -2152,22 +2153,24 @@ PAPERS = [
      "joint orbit-and-clock determination", "kshana example lunar-joint-od-clock", "modelled", "Engine kind"),
     ("2607.06212", "2026-07-07", "astro-ph.EP", "The Cost of Lunar South-Polar Geometry, and Surface Beacons as the Efficient "
      "Fix: A Dilution-of-Precision Analysis", "kshana example lunar-beacon", "cyan", "Engine kind"),
+    ("2610.23871", "2026-09-18", "eess.SP", "Cislunar navigation is an observability problem: arc-length thresholds, "
+     "Gramian conditioning, and the Doppler lever", "kshana example cislunar-observability", "magenta", "Engine kind"),
 ]
 
 
 def research(t: dict) -> Svg:
     W = 1280
-    desc = ("Research built on the open engine: five papers on arXiv, each with the command that regenerates its numbers. "
+    desc = ("Research built on the open engine: six papers on arXiv, each with the command that regenerates its numbers. "
             + " ".join(f"arXiv:{i} ({d}, {c}): {ti}; {lab.lower()}: {cmd}." for i, d, c, ti, cmd, _, lab in PAPERS))
     gap = 16
-    cols = [3, 2]
+    cols = [3, 3]
     heights, i = [], 0
     for n in cols:
         cw = (W - 80 - gap * (n - 1)) / n
         heights.append(56 + 22 * max(len(wrap(PAPERS[i + c][3], cw - 32, 16, "sans", 600)) for c in range(n)) + 78)
         i += n
     H = 128 + sum(heights) + gap * (len(cols) - 1) + 50
-    s = Svg(W, H, "Research: five papers on arXiv, each with the engine command behind it", desc)
+    s = Svg(W, H, "Research: six papers on arXiv, each with the engine command behind it", desc)
     card(s, t)
     eyebrow(s, t, 40, 50, "Research")
     s.text("Published, and built on the open engine.", 40, 92, 32, t["ink"], "sans", 600, ls=-0.03)

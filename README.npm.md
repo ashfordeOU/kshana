@@ -235,14 +235,15 @@ intelligence) assistant run the engine.
 
 ## Research
 
-Five papers on arXiv are built on the open engine, each with the command behind it:
+Six papers on arXiv are built on the open engine, each with the command behind it:
 [arXiv:2606.22054](https://arxiv.org/abs/2606.22054) (the optimism gap of interference
 detectors), [arXiv:2606.24210](https://arxiv.org/abs/2606.24210) (a conditional timing
 protection level), [arXiv:2607.05415](https://arxiv.org/abs/2607.05415) (how stable a PNT
 resilience score is), [arXiv:2607.02566](https://arxiv.org/abs/2607.02566) (lunar surface
-station observability with very-long-baseline interferometry) and
+station observability with very-long-baseline interferometry),
 [arXiv:2607.06212](https://arxiv.org/abs/2607.06212) (lunar south-polar geometry and surface
-beacons). See [Research](https://github.com/AshfordeOU/kshana#research).
+beacons) and [arXiv:2610.23871](https://arxiv.org/abs/2610.23871) (cislunar navigation as an observability
+problem: arc length, Gramian conditioning and the Doppler lever). See [Research](https://github.com/AshfordeOU/kshana#research).
 
 ## Editions
 

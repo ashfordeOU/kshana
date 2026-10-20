@@ -1372,7 +1372,7 @@ behind it, so its numbers can be regenerated from a committed scenario or study 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/research-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/research-light.svg">
-  <img src="docs/assets/readme/research-light.svg" alt="Research built on the open engine: five papers on arXiv, each card naming the paper, its date and category, and the engine command that regenerates its numbers. The same five papers, with links and commands, are in the table below." width="100%">
+  <img src="docs/assets/readme/research-light.svg" alt="Research built on the open engine: six papers on arXiv, each card naming the paper, its date and category, and the engine command that regenerates its numbers. The same six papers, with links and commands, are in the table below." width="100%">
 </picture>
 
 | Paper | What it shows | Engine command |
@@ -1382,9 +1382,10 @@ behind it, so its numbers can be regenerated from a committed scenario or study 
 | [*How Stable Is a PNT Resilience Score? Decision-Instability of Single-Number Resilience Ratings under Framework-Aligned Weighting*](https://arxiv.org/abs/2607.05415)<br><sub>arXiv:2607.05415 · [doi:10.48550/arXiv.2607.05415](https://doi.org/10.48550/arXiv.2607.05415)</sub> | A single composite resilience score is a stable basis for a decision only where one design dominates; where designs contend, re-weighting alone can change the winner. | `cargo run --release --example resilience_report -- paper-artifacts/resilience-study.json` |
 | [*Earth-baseline VLBI restores the observability of a lunar surface station in joint orbit-and-clock determination*](https://arxiv.org/abs/2607.02566)<br><sub>arXiv:2607.02566 · [doi:10.48550/arXiv.2607.02566](https://doi.org/10.48550/arXiv.2607.02566)</sub> | Ranging inside a lunar constellation leaves a surface station's absolute position unobservable; a very-long-baseline interferometry (VLBI) delay from Earth restores it when the constellation is sparse, and sharpens it when it is rich. | the `lunar-joint-od-clock` kind: `kshana example lunar-joint-od-clock > s.toml && kshana s.toml` |
 | [*The Cost of Lunar South-Polar Geometry, and Surface Beacons as the Efficient Fix: A Dilution-of-Precision Analysis*](https://arxiv.org/abs/2607.06212)<br><sub>arXiv:2607.06212 · [doi:10.48550/arXiv.2607.06212](https://doi.org/10.48550/arXiv.2607.06212)</sub> | Planned constellations of four to six satellites give poor geometry at the lunar south pole, and a few surface ranging beacons fix it far more cheaply than more satellites. | the `lunar-beacon` kind: `kshana example lunar-beacon > s.toml && kshana s.toml` |
+| [*Cislunar navigation is an observability problem: arc-length thresholds, Gramian conditioning, and the Doppler lever*](https://arxiv.org/abs/2610.23871)<br><sub>arXiv:2610.23871 · [doi:10.48550/arXiv.2610.23871](https://doi.org/10.48550/arXiv.2610.23871)</sub> | Dilution of precision is undefined for range-only cislunar tracking, because velocity is unobservable at a snapshot, so the paper uses the observability Gramian on four planar distant retrograde orbits: range-only is rank 2 of 4 at a snapshot and needs an arc of about 2.09 h to become fully observable, with conditioning improving as the arc lengthens; range-rate (Doppler) gives rank 4 instantly; and co-estimating a station with satellite states and clocks stays rank-deficient by one unless an external interferometric observable is added. Requirements belong in arc-length, conditioning and measurement-type budgets, not DOP. | the `cislunar-observability` kind: `kshana example cislunar-observability > s.toml && kshana s.toml` (its sibling `cislunar-arc-recovery` tests the threshold with an independent finite-difference estimator) |
 
 The three study examples write byte-deterministic artifacts (fixed seeds) that record their
-engine version, seeds and a configuration hash. The two lunar papers are built on the
+engine version, seeds and a configuration hash. The three lunar and cislunar papers are built on the
 lunar suite (each piece's evidence tier is in the verification matrix); their geometry and dilution-of-precision claims are also cross-checked
 against separate oracles in `tests/validate_p*.rs`. More in
 [Reproducible study artifacts](#reproducible-study-artifacts) under Reference.
@@ -1599,7 +1600,8 @@ protection level (`tpl_jammertest` above) in the preprint
 [arXiv:2606.24210](https://arxiv.org/abs/2606.24210) (see [Cite](#cite)).
 
 The published lunar-PNT studies ([arXiv:2607.06212](https://arxiv.org/abs/2607.06212)
-surface-beacon DOP and [arXiv:2607.02566](https://arxiv.org/abs/2607.02566) VLBI
+surface-beacon DOP, [arXiv:2607.02566](https://arxiv.org/abs/2607.02566) VLBI
+observability and [arXiv:2610.23871](https://arxiv.org/abs/2610.23871) cislunar arc-length
 observability) have their geometry, dilution-of-precision, real-time frame /
 Earth-orientation-parameter (EOP) prediction, distant-retrograde-orbit and RF-ranging
 claims independently cross-checked in
