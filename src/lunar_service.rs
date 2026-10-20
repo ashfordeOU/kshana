@@ -3896,7 +3896,7 @@ mod tests {
         );
         // Exact layer: the whole document to the byte, where the digest was taken.
         let bytes = serde_json::to_string(&r).unwrap();
-        if crate::test_support::ON_BASELINE_HOST {
+        if crate::test_support::on_baseline_host() {
             assert_eq!(
                 sha256_hex(bytes.as_bytes()),
                 DEFAULT_REPORT_SHA256,

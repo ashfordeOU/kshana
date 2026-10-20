@@ -269,13 +269,19 @@ fn the_fixed_sigma_entry_point_matches_the_external_oracle() {
     );
 }
 
-/// True on the host the committed fixture's 17 significant digits were generated on.
+/// True on the host the committed fixture's 17 significant digits were generated on: aarch64
+/// macOS declared the baseline with `KSHANA_EXACT_PINS=1` (`scripts/gate.sh` does).
 ///
 /// The fixture records positions to the last bit. Those positions come out of `sin`/`cos`,
 /// and no platform libm rounds a transcendental the same way as another, so the last bit
-/// is a property of the host and not of the geometry. Asserting it elsewhere tests the C
-/// library, not kshana.
-const ON_BASELINE_HOST: bool = cfg!(all(target_arch = "aarch64", target_os = "macos"));
+/// is a property of the host and not of the geometry; "aarch64 macOS" is not one libm either
+/// (Apple ships a different one with each macOS release), which is why the platform alone is
+/// not enough: this block failed in the last bit on a macos-14 arm64 runner (issue #36).
+/// Asserting it elsewhere tests the C library, not kshana.
+fn on_baseline_host() -> bool {
+    cfg!(all(target_arch = "aarch64", target_os = "macos"))
+        && std::env::var("KSHANA_EXACT_PINS").ok().as_deref() == Some("1")
+}
 
 /// Agreement of two selenographic/MCMF positions, to a part in 1e9.
 ///
@@ -322,7 +328,7 @@ fn the_fixture_geometry_is_still_the_engines_own_service_volume() {
             "case {label}: user point drifted: {user:?} vs {:?}",
             c.user_mcmf
         );
-        if ON_BASELINE_HOST {
+        if on_baseline_host() {
             assert_eq!(
                 user, c.user_mcmf,
                 "case {label}: user point drifted in the last bit"
@@ -346,7 +352,7 @@ fn the_fixture_geometry_is_still_the_engines_own_service_volume() {
                  script. {got:?} vs {want:?}"
             );
         }
-        if ON_BASELINE_HOST {
+        if on_baseline_host() {
             assert_eq!(
                 vis, c.sats_mcmf,
                 "case {label}: the engine's visible-satellite geometry moved in the last bit"
