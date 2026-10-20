@@ -2154,7 +2154,7 @@ PAPERS = [
     ("2607.06212", "2026-07-07", "astro-ph.EP", "The Cost of Lunar South-Polar Geometry, and Surface Beacons as the Efficient "
      "Fix: A Dilution-of-Precision Analysis", "kshana example lunar-beacon", "cyan", "Engine kind"),
     ("2610.23871", "2026-09-18", "eess.SP", "Cislunar navigation is an observability problem: arc-length thresholds, "
-     "Gramian conditioning, and the Doppler lever", "kshana example cislunar-observability", "magenta", "Engine kind"),
+     "Gramian conditioning, and the Doppler lever", "kshana scenarios/cislunar-observability.toml", "magenta", "Engine kind"),
 ]
 
 
