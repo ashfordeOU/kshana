@@ -396,6 +396,12 @@ stale.
 | `lunar-differential-pnt.toml` | `lunar-differential-pnt` | no [10] | no [10] | no [10] | no [10] | no [2] |
 | `lunar-frame-campaign.toml` | `lunar-frame-campaign` | no [10] | no [10] | no [10] | no [10] | no [2] |
 | `lunar-frame-realisation.toml` | `lunar-frame-realisation` | no [10] | no [10] | no [10] | no [10] | no [2] |
+| `lunar-infrastructure-carrier-phase.toml` | `lunar-infrastructure` | no [10] | no [10] | no [10] | no [10] | no [2] |
+| `lunar-infrastructure-frame-coestimation.toml` | `lunar-infrastructure` | no [10] | no [10] | no [10] | no [10] | no [2] |
+| `lunar-infrastructure-geodesy-sensitivity.toml` | `lunar-infrastructure` | no [10] | no [10] | no [10] | no [10] | no [2] |
+| `lunar-infrastructure-od-consistency-model-error.toml` | `lunar-infrastructure` | no [10] | no [10] | no [10] | no [10] | no [2] |
+| `lunar-infrastructure-od-consistency.toml` | `lunar-infrastructure` | no [10] | no [10] | no [10] | no [10] | no [2] |
+| `lunar-infrastructure-space-tie.toml` | `lunar-infrastructure` | no [10] | no [10] | no [10] | no [10] | no [2] |
 | `lunar-interop-export.toml` | `lunar-interop-export` | no [10] | no [10] | no [10] | no [10] | no [2] |
 | `lunar-jamming.toml` | `lunar-jamming` | no [10] | no [10] | no [10] | no [10] | no [2] |
 | `lunar-joint-od-clock.toml` | `lunar-joint-od-clock` | no [10] | no [10] | no [10] | no [10] | no [2] |

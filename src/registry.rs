@@ -70,6 +70,7 @@ const BUILTIN_KINDS: &[crate::api::ScenarioKind] = {
         LunarStationCoverage,
         LunarBeacon,
         EarthGnssLunar,
+        LunarInfrastructure,
         LunarInterop,
         GravityMap,
         Terrain,

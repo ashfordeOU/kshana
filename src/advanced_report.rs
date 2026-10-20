@@ -104,6 +104,7 @@ pub const KIND_CAPABILITIES: &[(&str, &[&str])] = &[
     ("lunar-station-coverage", &["Lunar reference-station coverage and accuracy map", "Lunar differential PNT", "Lunar differential PNT — correction-link residual budget", "Lunar terrain horizon masks from a stated profile or a polar DEM", "Lunar reference-station multipath and receiver-hardware terms", "Lunar reference-station ephemeris-error growth over the correction latency", "Lunar reference-station solution modes: height constraint, three satellites, static-user window"]),
     ("lunar-beacon", &["Lunar surface-beacon DOP augmentation"]),
     ("earth-gnss-lunar", &["Earth-GNSS at lunar distance", "Navigation RF payload & antenna hardware design"]),
+    ("lunar-infrastructure", &["Lunar orbit determination: Earth-GNSS against ground radiometric", "Lunar carrier-phase ambiguity resolution: surface and orbiter", "Lunar frame co-estimation: surface stations and orbiters", "Space-tie frame-tie precision: co-located GNSS, VLBI and laser ranging", "Lunar Love-number and libration sensitivity"]),
     ("lunar-interop-export", &["Lunar interoperability export"]),
     ("gravity-map", &["Alternative / complementary PNT"]),
     ("terrain-nav", &["Alternative / complementary PNT"]),

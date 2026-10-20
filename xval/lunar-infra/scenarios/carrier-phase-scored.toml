@@ -1,0 +1,38 @@
+# Kshana lunar-infrastructure scenario: carrier-phase, the configuration SCORED against bars Q1 to Q4 of
+# xval/lunar-infra/PREREGISTRATION.md (with amendments 1 and 2): three arcs and 400 draws, about eight minutes.
+# `scenarios/lunar-infrastructure-carrier-phase.toml` is the quick example of the same study.
+kind = "lunar-infrastructure"
+study = "carrier-phase"
+seed = 20261019
+
+[orbit]
+family = "nrho"
+x0 = 1.0220
+z0 = -0.1800
+vy0 = -0.1020
+sample_s = 600.0
+arcs_days = [1.0, 2.0, 3.0]
+
+[surface]
+lat_deg = 0.0
+lon_deg = 0.0
+
+[gnss]
+altitude_km = 20180.0
+inclination_deg = 55.0
+planes = 6
+sats_per_plane = 4
+phasing_f = 2.0
+tx_power_dbw = 13.4
+tx_diameter_m = 0.35
+tx_efficiency = 0.6
+freq_hz = 1575.42e6
+rx_gain_dbi = 25.0
+system_temp_k = 290.0
+tracking_threshold_dbhz = 25.0
+dll_bn_hz = 0.25
+phase_bn_hz = 1.0
+sis_sigma_m = 0.5
+
+[monte_carlo]
+trials = 400
