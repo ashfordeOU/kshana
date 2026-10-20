@@ -98,7 +98,13 @@ pub const ARCSEC: f64 = std::f64::consts::PI / 648_000.0;
 const MIN_STATION_ELEVATION_DEG: f64 = 20.0;
 const REL_TOL: f64 = 1e-10;
 /// Parameter names.
-pub const PARAMS: [&str; 5] = ["h2", "k2", "l2", "libration_longitude_arcsec", "libration_latitude_arcsec"];
+pub const PARAMS: [&str; 5] = [
+    "h2",
+    "k2",
+    "l2",
+    "libration_longitude_arcsec",
+    "libration_latitude_arcsec",
+];
 /// The observable families.
 pub const FAMILIES: [&str; 4] = ["llr", "orbiter", "gravimeter", "clock"];
 
@@ -109,7 +115,11 @@ fn sub(a: [f64; 3], b: [f64; 3]) -> [f64; 3] {
     [a[0] - b[0], a[1] - b[1], a[2] - b[2]]
 }
 fn cross(a: [f64; 3], b: [f64; 3]) -> [f64; 3] {
-    [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]]
+    [
+        a[1] * b[2] - a[2] * b[1],
+        a[2] * b[0] - a[0] * b[2],
+        a[0] * b[1] - a[1] * b[0],
+    ]
 }
 fn norm(a: [f64; 3]) -> f64 {
     dot(a, a).sqrt()
@@ -184,10 +194,7 @@ pub fn llr_forward(g: &Geom, u: [f64; 3], p: [f64; 3], x: &[f64; 5]) -> f64 {
     let hv = [c * r[0] - g.e[0], c * r[1] - g.e[1], c * r[2] - g.e[2]];
     let rot_l = cross([0.0, 0.0, x[3] * ARCSEC * g.sin_om], p);
     let rot_p = cross([0.0, x[4] * ARCSEC * g.cos_omd, 0.0], p);
-    dot(u, r) * radial
-        + h * dot(u, hv)
-        + dot(u, rot_l)
-        + dot(u, rot_p)
+    dot(u, r) * radial + h * dot(u, hv) + dot(u, rot_l) + dot(u, rot_p)
 }
 
 /// Analytic partials of [`llr_forward`].
@@ -246,7 +253,10 @@ pub fn llr_rows(epochs: usize, sigma: f64) -> Vec<Row> {
     for k in 0..epochs {
         let t = ANOMALISTIC_S * (k as f64) / (epochs as f64);
         let g = geom(t);
-        let a3 = unit(sub([0.0, 0.0, 1.0], [g.e[2] * g.e[0], g.e[2] * g.e[1], g.e[2] * g.e[2]]));
+        let a3 = unit(sub(
+            [0.0, 0.0, 1.0],
+            [g.e[2] * g.e[0], g.e[2] * g.e[1], g.e[2] * g.e[2]],
+        ));
         let a2 = cross(a3, g.e);
         for s in &sta {
             let (phi, lam) = (s.lat_deg.to_radians(), s.lon_deg.to_radians());
@@ -273,7 +283,12 @@ pub fn llr_rows(epochs: usize, sigma: f64) -> Vec<Row> {
 }
 
 /// Orbiter rows: the line-of-sight integral of the `k2` acceleration, detrended.
-pub fn orbiter_rows(orbit: &OrbitSpec, arc_days: f64, sample_s: f64, sigma_m_s: f64) -> Result<Vec<Row>, String> {
+pub fn orbiter_rows(
+    orbit: &OrbitSpec,
+    arc_days: f64,
+    sample_s: f64,
+    sigma_m_s: f64,
+) -> Result<Vec<Row>, String> {
     let mut o = orbit.clone();
     o.sample_s = Some(sample_s);
     let ro = o.build(arc_days)?;
@@ -281,7 +296,11 @@ pub fn orbiter_rows(orbit: &OrbitSpec, arc_days: f64, sample_s: f64, sigma_m_s: 
     let mut prev: Option<([f64; 3], f64)> = None;
     for (k, s) in ro.x.iter().enumerate() {
         let tk = ro.t_s[k];
-        let r = [-L_M * (s[0] - (1.0 - EARTH_MOON_MU)), -L_M * s[1], L_M * s[2]];
+        let r = [
+            -L_M * (s[0] - (1.0 - EARTH_MOON_MU)),
+            -L_M * s[1],
+            L_M * s[2],
+        ];
         let g = geom(tk);
         let rj = [g.d * g.e[0], g.d * g.e[1], g.d * g.e[2]];
         let a = degree2_tide_accel(r, rj, MU_EARTH, 1.0, RE_MOON_M);
@@ -296,7 +315,9 @@ pub fn orbiter_rows(orbit: &OrbitSpec, arc_days: f64, sample_s: f64, sigma_m_s: 
         t.push(tk);
     }
     detrend_linear(&mut v, &t);
-    Ok(v.into_iter().map(|c| ([0.0, c, 0.0, 0.0, 0.0], sigma_m_s)).collect())
+    Ok(v.into_iter()
+        .map(|c| ([0.0, c, 0.0, 0.0, 0.0], sigma_m_s))
+        .collect())
 }
 
 /// Remove the least-squares constant and linear trend from `v(t)`.
@@ -387,7 +408,12 @@ fn rms(rows: &[Row], col: usize) -> f64 {
 fn trace_pinv(info: &[Vec<f64>]) -> (f64, f64, usize, Vec<f64>) {
     let c = crlb(info, REL_TOL);
     let tr: f64 = (0..5).map(|i| c.pseudo_covariance[i][i]).sum();
-    (tr, c.eigenvalues.first().copied().unwrap_or(0.0), c.rank, c.crlb_std)
+    (
+        tr,
+        c.eigenvalues.first().copied().unwrap_or(0.0),
+        c.rank,
+        c.crlb_std,
+    )
 }
 
 /// Everything of a run: the four families' rows and the specs resolved.
@@ -419,13 +445,22 @@ pub fn build(
     }
     Ok(Families {
         llr: llr_rows(llr.epochs.unwrap_or(400), ls),
-        orbiter: orbiter_rows(orbit, orb.arc_days.unwrap_or(27.3), orb.sample_s.unwrap_or(3600.0), os)?,
+        orbiter: orbiter_rows(
+            orbit,
+            orb.arc_days.unwrap_or(27.3),
+            orb.sample_s.unwrap_or(3600.0),
+            os,
+        )?,
         gravimeter: grav_rows(
             grav.epochs.unwrap_or(1000),
             &grav.stations.clone().unwrap_or_else(|| vec![[0.0, 0.0]]),
             gs,
         ),
-        clock: clock_rows(clock.epochs.unwrap_or(100), clock.station.unwrap_or([0.0, 0.0]), cs),
+        clock: clock_rows(
+            clock.epochs.unwrap_or(100),
+            clock.station.unwrap_or([0.0, 0.0]),
+            cs,
+        ),
     })
 }
 
@@ -451,7 +486,10 @@ pub fn run(
     let (mut lam_ok, mut trace_ok, mut pairs) = (0usize, 0usize, 0usize);
     let mut results = vec![(0.0, 0.0); 16];
     for mask in 1usize..16 {
-        let sel: Vec<&[Row]> = (0..4).filter(|i| mask >> i & 1 == 1).map(|i| fams[i]).collect();
+        let sel: Vec<&[Row]> = (0..4)
+            .filter(|i| mask >> i & 1 == 1)
+            .map(|i| fams[i])
+            .collect();
         let info = information(&sel);
         let (t, l, r, s) = trace_pinv(&info);
         results[mask] = (t, l);
@@ -516,13 +554,19 @@ pub fn export(
     for k in 0..n {
         let t = ANOMALISTIC_S * (k as f64) / (n as f64);
         let g = geom(t);
-        let a3 = unit(sub([0.0, 0.0, 1.0], [g.e[2] * g.e[0], g.e[2] * g.e[1], g.e[2] * g.e[2]]));
+        let a3 = unit(sub(
+            [0.0, 0.0, 1.0],
+            [g.e[2] * g.e[0], g.e[2] * g.e[1], g.e[2] * g.e[2]],
+        ));
         let a2 = cross(a3, g.e);
         for s in &sta {
             let (phi, lam) = (s.lat_deg.to_radians(), s.lon_deg.to_radians());
             let al = lam + OMEGA_REL * t;
             let off: [f64; 3] = std::array::from_fn(|i| {
-                R_EARTH_M * (-phi.pcos() * al.pcos() * g.e[i] + phi.pcos() * al.psin() * a2[i] + phi.psin() * a3[i])
+                R_EARTH_M
+                    * (-phi.pcos() * al.pcos() * g.e[i]
+                        + phi.pcos() * al.psin() * a2[i]
+                        + phi.psin() * a3[i])
             });
             let x: [f64; 3] = std::array::from_fn(|i| g.d * g.e[i] + off[i]);
             let zen = unit(off);
@@ -583,7 +627,11 @@ pub fn random_cases(n: usize, seed: u64) -> Vec<(Geom, [f64; 3], [f64; 3])> {
             let g = geom(rng.gen_range(0.0..ANOMALISTIC_S));
             let s: f64 = rng.gen_range(-1.0..1.0);
             let p = surface_point(s.pasin().to_degrees(), rng.gen_range(-180.0..180.0));
-            let mut dir = [rng.gen_range(-1.0..1.0), rng.gen_range(-1.0..1.0), rng.gen_range(-1.0..1.0)];
+            let mut dir = [
+                rng.gen_range(-1.0..1.0),
+                rng.gen_range(-1.0..1.0),
+                rng.gen_range(-1.0..1.0),
+            ];
             dir = unit(dir);
             (g, dir, p)
         })

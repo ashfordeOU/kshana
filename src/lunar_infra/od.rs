@@ -73,7 +73,8 @@ fn solve(rows: &Rows, n: usize) -> Result<(Mat, Mat), String> {
             }
         }
     }
-    let p = la::inverse(&la::sym(&info)).ok_or("the measurement set does not determine the orbit (singular information)")?;
+    let p = la::inverse(&la::sym(&info))
+        .ok_or("the measurement set does not determine the orbit (singular information)")?;
     let m = rows.h.len();
     let mut k = la::zeros(n, m);
     for (c, (h, &w)) in rows.h.iter().zip(&rows.w).enumerate() {
@@ -89,7 +90,9 @@ fn solve(rows: &Rows, n: usize) -> Result<(Mat, Mat), String> {
 }
 
 fn apply(k: &Mat, y: &[f64]) -> Vec<f64> {
-    k.iter().map(|row| row.iter().zip(y).map(|(a, b)| a * b).sum()).collect()
+    k.iter()
+        .map(|row| row.iter().zip(y).map(|(a, b)| a * b).sum())
+        .collect()
 }
 
 fn pos_sigma_m(p: &Mat) -> f64 {
@@ -147,9 +150,18 @@ pub fn run(
     };
 
     // Design matrices.
-    let mut g = Rows { h: vec![], w: vec![], dy: vec![] };
-    let mut r = Rows { h: vec![], w: vec![], dy: vec![] };
-    let (mut epochs_gnss1, mut epochs_gnss4, mut tracked_sum, mut epochs_ground) = (0usize, 0usize, 0usize, 0usize);
+    let mut g = Rows {
+        h: vec![],
+        w: vec![],
+        dy: vec![],
+    };
+    let mut r = Rows {
+        h: vec![],
+        w: vec![],
+        dy: vec![],
+    };
+    let (mut epochs_gnss1, mut epochs_gnss4, mut tracked_sum, mut epochs_ground) =
+        (0usize, 0usize, 0usize, 0usize);
     for k in 0..n {
         let t = ro.t_s[k];
         let sc = inertial_from_rot(&ro.x[k], t);
@@ -219,7 +231,10 @@ pub fn run(
         }
     }
     if g.h.len() < 8 {
-        return Err("too few trackable GNSS measurements to determine the orbit and the receiver clock".into());
+        return Err(
+            "too few trackable GNSS measurements to determine the orbit and the receiver clock"
+                .into(),
+        );
     }
     if r.h.len() < 6 {
         return Err("too few ground measurements to determine the orbit".into());
@@ -234,7 +249,7 @@ pub fn run(
     let bias_g = apply(&kg, &g.dy);
     let bias_r = apply(&kr, &r.dy);
     let mut rng = ChaCha8Rng::seed_from_u64(seed);
-    let mut draw = |rng: &mut ChaCha8Rng| -> f64 { StandardNormal.sample(rng) };
+    let draw = |rng: &mut ChaCha8Rng| -> f64 { StandardNormal.sample(rng) };
     let (mut q_sum, mut within) = (0.0, 0usize);
     let mut cov_g = la::zeros(6, 6);
     let mut cov_r = la::zeros(6, 6);
@@ -362,10 +377,16 @@ mod tests {
 
     fn cfg(trials: usize, accel: f64) -> Value {
         run(
-            &OrbitSpec { arc_days: Some(2.0), ..OrbitSpec::default() },
+            &OrbitSpec {
+                arc_days: Some(2.0),
+                ..OrbitSpec::default()
+            },
             &GnssSpec::default(),
             &GroundSpec::default(),
-            &McSpec { trials: Some(trials), model_error_accel_m_s2: Some(accel) },
+            &McSpec {
+                trials: Some(trials),
+                model_error_accel_m_s2: Some(accel),
+            },
             7,
         )
         .unwrap()

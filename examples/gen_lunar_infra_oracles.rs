@@ -9,7 +9,8 @@ use kshana::lunar_infra::{frame, geodesy, tie, LunarInfrastructureScenario};
 
 fn load(name: &str) -> LunarInfrastructureScenario {
     let path = format!("scenarios/lunar-infrastructure-{name}.toml");
-    toml::from_str(&std::fs::read_to_string(&path).expect("scenario file")).expect("scenario parses")
+    toml::from_str(&std::fs::read_to_string(&path).expect("scenario file"))
+        .expect("scenario parses")
 }
 
 fn write(name: &str, v: &serde_json::Value) {
@@ -22,7 +23,12 @@ fn main() {
     let arc = s.orbit.clone().unwrap_or_default().arc_days.unwrap_or(6.56);
     write(
         "tie_geometry.json",
-        &tie::export(&s.orbit.unwrap_or_default(), &s.techniques.unwrap_or_default(), arc).expect("tie"),
+        &tie::export(
+            &s.orbit.unwrap_or_default(),
+            &s.techniques.unwrap_or_default(),
+            arc,
+        )
+        .expect("tie"),
     );
     let s = load("geodesy-sensitivity");
     write(

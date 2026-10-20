@@ -80,7 +80,11 @@ pub fn range_row(obs: [f64; 3], p: [f64; 3]) -> [f64; 7] {
 /// Body-axes position of a surface point at selenographic `lat`, `lon` (degrees).
 pub fn surface_point(lat_deg: f64, lon_deg: f64) -> [f64; 3] {
     let (la, lo) = (lat_deg.to_radians(), lon_deg.to_radians());
-    [R_MOON_M * la.pcos() * lo.pcos(), R_MOON_M * la.pcos() * lo.psin(), R_MOON_M * la.psin()]
+    [
+        R_MOON_M * la.pcos() * lo.pcos(),
+        R_MOON_M * la.pcos() * lo.psin(),
+        R_MOON_M * la.psin(),
+    ]
 }
 
 /// Earth-station laser-ranging rows (and their count) over one synodic month.
@@ -108,7 +112,10 @@ pub fn llr_rows(epochs: usize) -> Vec<[f64; 7]> {
                 let n = norm(d);
                 let up_el = dot(zen, d) / n;
                 // The reflector must see the station above its own horizon.
-                let r_el = dot([p[0] / norm(p), p[1] / norm(p), p[2] / norm(p)], [-d[0] / n, -d[1] / n, -d[2] / n]);
+                let r_el = dot(
+                    [p[0] / norm(p), p[1] / norm(p), p[2] / norm(p)],
+                    [-d[0] / n, -d[1] / n, -d[2] / n],
+                );
                 if up_el >= sin_min && r_el > 0.0 {
                     rows.push(range_row(x, p));
                 }
@@ -124,7 +131,13 @@ pub fn orbiter_positions(orbit: &OrbitSpec, arc_days: f64) -> Result<Vec<[f64; 3
     Ok(ro
         .x
         .iter()
-        .map(|s| [-L_M * (s[0] - (1.0 - EARTH_MOON_MU)), -L_M * s[1], L_M * s[2]])
+        .map(|s| {
+            [
+                -L_M * (s[0] - (1.0 - EARTH_MOON_MU)),
+                -L_M * s[1],
+                L_M * s[2],
+            ]
+        })
         .collect())
 }
 
@@ -165,7 +178,11 @@ pub fn summarise(llr: &[[f64; 7]], llr_sigma: f64, orb: &[[f64; 7]], orb_sigma: 
     let info = assemble_multi_info(&blocks);
     let c = crlb(&info, REL_TOL);
     let trace: f64 = (0..7).map(|i| c.pseudo_covariance[i][i]).sum();
-    Summary { info, lambda_min: c.eigenvalues.first().copied().unwrap_or(0.0), crlb_trace: trace }
+    Summary {
+        info,
+        lambda_min: c.eigenvalues.first().copied().unwrap_or(0.0),
+        crlb_trace: trace,
+    }
 }
 
 fn side(llr: &[[f64; 7]], sigma: f64, orb: &[[f64; 7]], orb_sigma: f64) -> Value {
@@ -199,11 +216,14 @@ pub fn run(
     let epochs = llr.epochs.unwrap_or(200);
     let osigma = surface.orbiter_range_sigma_m.unwrap_or(1.0);
     if !(sigma > 0.0 && osigma > 0.0) || epochs == 0 {
-        return Err("llr.sigma_m, surface.orbiter_range_sigma_m and llr.epochs must be positive".into());
+        return Err(
+            "llr.sigma_m, surface.orbiter_range_sigma_m and llr.epochs must be positive".into(),
+        );
     }
-    let sta = surface.stations.clone().unwrap_or_else(|| {
-        vec![[-89.0, 0.0], [-45.0, 90.0], [0.0, 0.0], [30.0, -60.0]]
-    });
+    let sta = surface
+        .stations
+        .clone()
+        .unwrap_or_else(|| vec![[-89.0, 0.0], [-45.0, 90.0], [0.0, 0.0], [30.0, -60.0]]);
     let arc = orbit.arc_days.unwrap_or(6.56);
     let pos = orbiter_positions(orbit, arc)?;
     let l_rows = llr_rows(epochs);
@@ -264,7 +284,11 @@ pub fn export_partials(n: usize, seed: u64) -> Value {
         let s: f64 = rng.gen_range(-1.0..1.0);
         let p = surface_point(s.pasin().to_degrees(), rng.gen_range(-180.0..180.0));
         // Observer 200 km to 400 000 km from the point, away from the surface.
-        let dir = [rng.gen_range(-1.0..1.0), rng.gen_range(-1.0..1.0), rng.gen_range(-1.0..1.0)];
+        let dir = [
+            rng.gen_range(-1.0..1.0),
+            rng.gen_range(-1.0..1.0),
+            rng.gen_range(-1.0..1.0),
+        ];
         let mut u = [dir[0] / norm(dir), dir[1] / norm(dir), dir[2] / norm(dir)];
         if dot(u, p) < 0.0 {
             u = [-u[0], -u[1], -u[2]];

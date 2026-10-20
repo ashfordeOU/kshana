@@ -9,6 +9,10 @@
 //! system, nothing is compared with a measurement of a lunar quantity, and the work is not
 //! affiliated with or endorsed by any agency. Nothing is transmitted and no hardware is driven.
 
+// Dense matrix kernels index several arrays by one loop variable, and the sigma checks reject NaN by
+// negating `> 0.0`, as the crate's other matrix code does.
+#![allow(clippy::needless_range_loop, clippy::neg_cmp_op_on_partial_ord)]
+
 pub mod frame;
 pub mod geodesy;
 pub mod gnss;
@@ -127,7 +131,9 @@ impl LunarInfrastructureScenario {
                 (v, s)
             }
             "carrier-phase" => {
-                let mc = PhaseMc { trials: self.monte_carlo.as_ref().and_then(|m| m.trials) };
+                let mc = PhaseMc {
+                    trials: self.monte_carlo.as_ref().and_then(|m| m.trials),
+                };
                 let v = phase::run(
                     &orbit,
                     &self.gnss.clone().unwrap_or_default(),
@@ -135,7 +141,11 @@ impl LunarInfrastructureScenario {
                     &mc,
                     seed,
                 )?;
-                let last = v["arcs"].as_array().and_then(|a| a.last()).cloned().unwrap_or(Value::Null);
+                let last = v["arcs"]
+                    .as_array()
+                    .and_then(|a| a.last())
+                    .cloned()
+                    .unwrap_or(Value::Null);
                 let s = format!(
                     "lunar-infrastructure carrier-phase: {} ambiguities, ILS success {:.3} (bootstrap {:.3}) on the longest arc",
                     last["double_difference_ambiguities"],
@@ -161,7 +171,11 @@ impl LunarInfrastructureScenario {
             }
             "space-tie" => {
                 let v = tie::run(&orbit, &self.techniques.clone().unwrap_or_default())?;
-                let last = v["arcs"].as_array().and_then(|a| a.last()).cloned().unwrap_or(Value::Null);
+                let last = v["arcs"]
+                    .as_array()
+                    .and_then(|a| a.last())
+                    .cloned()
+                    .unwrap_or(Value::Null);
                 let s = format!(
                     "lunar-infrastructure space-tie: {} sweep points on {} arcs; laser-vs-GNSS x translation sigma {:.4} m at the registered local tie",
                     last["sweep"].as_array().map_or(0, |x| x.len()),

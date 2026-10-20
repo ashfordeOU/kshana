@@ -11,8 +11,8 @@
 
 use kshana::lunar_infra::frame::range_row;
 use kshana::lunar_infra::geodesy::{
-    clock_forward, clock_partials, clock_rate_sensitivities, clock_tidal_amplitude, geom, grav_forward,
-    grav_partials, llr_forward, llr_partials, p2, random_cases,
+    clock_forward, clock_partials, clock_rate_sensitivities, clock_tidal_amplitude, geom,
+    grav_forward, grav_partials, llr_forward, llr_partials, p2, random_cases,
 };
 use serde_json::Value;
 
@@ -38,20 +38,31 @@ fn f1_f3_orbiter_links_add_information() {
     assert_eq!(r["sets"], 20);
     assert_eq!(r["trace_not_larger"], 20, "F1 on the random sets");
     assert_eq!(r["lambda_min_not_smaller"], 20, "F1 on the random sets");
-    assert!(f(&v["with_orbiter_links"]["crlb_trace"]) <= f(&v["without_orbiter_links"]["crlb_trace"]), "F1 on the example");
-    assert!(f(&v["with_orbiter_links"]["lambda_min"]) >= f(&v["without_orbiter_links"]["lambda_min"]), "F1 on the example");
+    assert!(
+        f(&v["with_orbiter_links"]["crlb_trace"]) <= f(&v["without_orbiter_links"]["crlb_trace"]),
+        "F1 on the example"
+    );
+    assert!(
+        f(&v["with_orbiter_links"]["lambda_min"]) >= f(&v["without_orbiter_links"]["lambda_min"]),
+        "F1 on the example"
+    );
     // F3: at least 2.0 times; found about 111 times (pinned from the one scored run).
     let ratio = f(&v["lambda_min_ratio"]);
     assert!(ratio >= 2.0, "F3: {ratio}");
-    assert!((100.0..125.0).contains(&ratio), "pinned value moved: {ratio}");
+    assert!(
+        (100.0..125.0).contains(&ratio),
+        "pinned value moved: {ratio}"
+    );
     assert_eq!(v["with_orbiter_links"]["rank"], 7);
     assert_eq!(v["without_orbiter_links"]["rank"], 7);
 }
 
 #[test]
 fn f2_datum_partials_equal_an_independent_finite_difference() {
-    let k: Value = serde_json::from_str(include_str!("fixtures/lunar_infra/frame_partials.json")).unwrap();
-    let o: Value = serde_json::from_str(include_str!("fixtures/lunar_infra/frame_oracle.json")).unwrap();
+    let k: Value =
+        serde_json::from_str(include_str!("fixtures/lunar_infra/frame_partials.json")).unwrap();
+    let o: Value =
+        serde_json::from_str(include_str!("fixtures/lunar_infra/frame_oracle.json")).unwrap();
     let cases = k["cases"].as_array().unwrap();
     assert_eq!(cases.len(), 50);
     let col_scale = [1.0, 1.0, 1.0, 1.7374e6, 1.7374e6, 1.7374e6, 1.7374e6];
@@ -86,7 +97,10 @@ fn t1_translation_sigmas_do_not_fall_as_the_local_tie_loosens() {
     for name in ["vlbi_minus_gnss", "slr_minus_gnss", "slr_minus_vlbi"] {
         for axis in 0..3 {
             for w in sweep.windows(2) {
-                assert!(f(&pair(&w[1], name)[axis]) >= f(&pair(&w[0], name)[axis]), "{name} axis {axis}");
+                assert!(
+                    f(&pair(&w[1], name)[axis]) >= f(&pair(&w[0], name)[axis]),
+                    "{name} axis {axis}"
+                );
             }
         }
     }
@@ -94,14 +108,20 @@ fn t1_translation_sigmas_do_not_fall_as_the_local_tie_loosens() {
 
 #[test]
 fn t2_with_perfect_techniques_the_translation_sigma_is_the_local_tie_floor() {
-    let toml = example("space-tie").replace("local_tie_sigma_m = 0.001", "local_tie_sigma_m = 0.001\nsigma_scale = 1e-6");
+    let toml = example("space-tie").replace(
+        "local_tie_sigma_m = 0.001",
+        "local_tie_sigma_m = 0.001\nsigma_scale = 1e-6",
+    );
     let v = run(&toml);
     for row in v["arcs"][0]["sweep"].as_array().unwrap() {
         let floor = f(&row["floor_translation_sigma_m"]);
         for name in ["vlbi_minus_gnss", "slr_minus_gnss", "slr_minus_vlbi"] {
             for axis in 0..3 {
                 let s = f(&pair(row, name)[axis]);
-                assert!(((s - floor) / floor).abs() <= 0.01, "{name} axis {axis}: {s} vs floor {floor}");
+                assert!(
+                    ((s - floor) / floor).abs() <= 0.01,
+                    "{name} axis {axis}: {s} vs floor {floor}"
+                );
             }
         }
     }
@@ -109,8 +129,10 @@ fn t2_with_perfect_techniques_the_translation_sigma_is_the_local_tie_floor() {
 
 #[test]
 fn t3_space_tie_information_equals_an_independent_numpy_assembly() {
-    let k: Value = serde_json::from_str(include_str!("fixtures/lunar_infra/tie_geometry.json")).unwrap();
-    let o: Value = serde_json::from_str(include_str!("fixtures/lunar_infra/tie_oracle.json")).unwrap();
+    let k: Value =
+        serde_json::from_str(include_str!("fixtures/lunar_infra/tie_geometry.json")).unwrap();
+    let o: Value =
+        serde_json::from_str(include_str!("fixtures/lunar_infra/tie_oracle.json")).unwrap();
     let (a, b) = (&k["information"], &o["information"]);
     let mut worst: f64 = 0.0;
     for i in 0..23 {
@@ -153,8 +175,10 @@ fn g1_analytic_partials_equal_a_central_finite_difference() {
 
 #[test]
 fn g2_geodesy_information_equals_an_independent_numpy_assembly() {
-    let k: Value = serde_json::from_str(include_str!("fixtures/lunar_infra/geodesy_geometry.json")).unwrap();
-    let o: Value = serde_json::from_str(include_str!("fixtures/lunar_infra/geodesy_oracle.json")).unwrap();
+    let k: Value =
+        serde_json::from_str(include_str!("fixtures/lunar_infra/geodesy_geometry.json")).unwrap();
+    let o: Value =
+        serde_json::from_str(include_str!("fixtures/lunar_infra/geodesy_oracle.json")).unwrap();
     let (a, b) = (&k["rust_information"], &o["information"]);
     let mut worst: f64 = 0.0;
     for i in 0..5 {
@@ -182,7 +206,8 @@ fn g3_a_family_never_lowers_the_smallest_eigenvalue_but_can_raise_the_pseudo_inv
 
 #[test]
 fn g4_the_clock_tide_ties_to_the_lunar_time_constants() {
-    let o: Value = serde_json::from_str(include_str!("fixtures/lunar_infra/geodesy_oracle.json")).unwrap();
+    let o: Value =
+        serde_json::from_str(include_str!("fixtures/lunar_infra/geodesy_oracle.json")).unwrap();
     let d = kshana::lunar_time::EARTH_MOON_DISTANCE_M;
     let want = f(&o["clock_amplitude"]);
     let got = clock_tidal_amplitude(d);
@@ -199,13 +224,31 @@ fn g4_the_clock_tide_ties_to_the_lunar_time_constants() {
 
 #[test]
 fn every_numeric_field_of_every_study_carries_a_unit_and_a_provenance_class() {
-    for name in ["od-consistency", "od-consistency-model-error", "frame-coestimation", "space-tie", "geodesy-sensitivity"] {
+    for name in [
+        "od-consistency",
+        "od-consistency-model-error",
+        "frame-coestimation",
+        "space-tie",
+        "geodesy-sensitivity",
+    ] {
         let v = run(&example(name));
         let audit = kshana::field_schema::audit_document(&v);
-        assert!(audit.malformed.is_empty(), "{name}: {:?}", audit.malformed.iter().map(|m| &m.key).collect::<Vec<_>>());
-        assert!(audit.missing.is_empty(), "{name}: no units entry for {:?}", audit.missing);
+        assert!(
+            audit.malformed.is_empty(),
+            "{name}: {:?}",
+            audit.malformed.iter().map(|m| &m.key).collect::<Vec<_>>()
+        );
+        assert!(
+            audit.missing.is_empty(),
+            "{name}: no units entry for {:?}",
+            audit.missing
+        );
         assert!(!audit.covered.is_empty());
     }
     let audit = kshana::field_schema::audit_document(&run(&example("carrier-phase")));
-    assert!(audit.missing.is_empty(), "carrier-phase: {:?}", audit.missing);
+    assert!(
+        audit.missing.is_empty(),
+        "carrier-phase: {:?}",
+        audit.missing
+    );
 }
