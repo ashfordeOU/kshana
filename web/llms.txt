@@ -38,6 +38,7 @@ Kshana is a deterministic Rust engine for PNT (positioning, navigation and timin
 
 ## Research
 
+- [Cislunar navigation is an observability problem: arc-length thresholds, Gramian conditioning, and the Doppler lever](https://arxiv.org/abs/2610.23871): arXiv 2610.23871. In cislunar space dilution of precision does not apply: range-only links leave the velocity unobservable at any instant, so requirements belong in arc-length, conditioning and measurement-type budgets.
 - [The Cost of Lunar South-Polar Geometry, and Surface Beacons as the Efficient Fix: A Dilution-of-Precision Analysis](https://arxiv.org/abs/2607.06212): arXiv 2607.06212. Planned orbits bunch overhead for a lunar south-pole user; a few ranging beacons on nearby high ground fix the geometry more cheaply than more satellites.
 - [Earth-baseline VLBI restores the observability of a lunar surface station in joint orbit-and-clock determination](https://arxiv.org/abs/2607.02566): arXiv 2607.02566. Lunar-network ranging fixes only relative geometry; an Earth-baseline very-long-baseline interferometry delay ties a surface station to the Earth frame, even with few satellites.
 - [A Conditional Timing Protection Level: Holdover-Limited Undetected Time Error Under GNSS Spoofing](https://arxiv.org/abs/2606.24210): arXiv 2606.24210. A recorded spoof shows a timing receiver serving time far more wrong than it reports; no unconditional bound exists, so the paper bounds the undetected error conditionally.
