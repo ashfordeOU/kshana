@@ -1,0 +1,32 @@
+# Relative navigation of a three-craft formation in the booklet's highly elliptical orbit.
+#
+# A chief and two deputies (offset in true anomaly at perigee by 0.02 and 0.05 degrees, a few kilometres apart) each run
+# the onboard filter on their own pseudoranges. The deputies' positions relative to the chief are estimated two ways: by
+# subtracting the independent absolute estimates, and by a relative filter on single-differenced pseudoranges of the signals
+# both craft track. Differencing removes what the two links share; the relative dynamics are the difference of two nonlinear
+# trajectories, so the relative filter keeps its accuracy through stretches with too few signals. The limb medium is on, and
+# its excess delay (which the filters do not model) is largely common to the two links and so cancels in the differences.
+#
+# MODELLED: simulated truth, forces and noise; no flight formation data.
+
+kind = "gnss-ssv"
+name = "HEO formation relative navigation (reduced length)"
+
+[constellations]
+include = ["gps", "glonass", "galileo", "bds"]
+bands = ["l1", "l5"]
+
+[receiver]
+cn0_min_dbhz = 20.0
+
+[atmosphere]
+
+[navigation]
+preset = "heo"
+duration_min = 400.0
+step_s = 60.0
+antennas = ["booklet-high-gain-nadir", "booklet-patch-zenith"]
+series_every_min = 40.0
+
+[formation]
+offsets_deg = [0.02, 0.05]

@@ -1,0 +1,178 @@
+{
+  "bars": {
+    "S7": {
+      "cells": [
+        {
+          "cell": "SVN41 L1 RMS dB",
+          "pass": false,
+          "published": 3.0,
+          "scored": true,
+          "sim": 8.771569610822228,
+          "tol": 3.0
+        },
+        {
+          "cell": "SVN43 L1 RMS dB",
+          "pass": false,
+          "published": 3.0,
+          "scored": true,
+          "sim": 8.730846762342129,
+          "tol": 3.0
+        },
+        {
+          "cell": "SVN44 L1 RMS dB",
+          "pass": false,
+          "published": 3.0,
+          "scored": true,
+          "sim": 8.673193803322972,
+          "tol": 3.0
+        },
+        {
+          "cell": "SVN45 L1 RMS dB",
+          "pass": false,
+          "published": 3.0,
+          "scored": true,
+          "sim": 8.565154114200165,
+          "tol": 3.0
+        },
+        {
+          "cell": "SVN46 L1 RMS dB",
+          "pass": false,
+          "published": 3.0,
+          "scored": true,
+          "sim": 8.68254128265452,
+          "tol": 3.0
+        },
+        {
+          "cell": "SVN47 L1 RMS dB",
+          "pass": false,
+          "published": 3.0,
+          "scored": true,
+          "sim": 6.41495809125048,
+          "tol": 3.0
+        },
+        {
+          "cell": "SVN48 L1 RMS dB",
+          "pass": false,
+          "published": 3.0,
+          "scored": true,
+          "sim": 6.546147879669385,
+          "tol": 3.0
+        },
+        {
+          "cell": "SVN49 L1 RMS dB",
+          "pass": false,
+          "published": 3.0,
+          "scored": true,
+          "sim": 6.373014612410677,
+          "tol": 3.0
+        },
+        {
+          "cell": "SVN50 L1 RMS dB",
+          "pass": false,
+          "published": 3.0,
+          "scored": true,
+          "sim": 6.366927771696488,
+          "tol": 3.0
+        },
+        {
+          "cell": "SVN51 L1 RMS dB",
+          "pass": false,
+          "published": 3.0,
+          "scored": true,
+          "sim": 8.733086134780761,
+          "tol": 3.0
+        },
+        {
+          "cell": "SVN52 L1 RMS dB",
+          "pass": false,
+          "published": 3.0,
+          "scored": true,
+          "sim": 6.678889831027311,
+          "tol": 3.0
+        },
+        {
+          "cell": "SVN53 L1 RMS dB",
+          "pass": false,
+          "published": 3.0,
+          "scored": true,
+          "sim": 6.413805490892282,
+          "tol": 3.0
+        },
+        {
+          "cell": "SVN54 L1 RMS dB",
+          "pass": false,
+          "published": 3.0,
+          "scored": true,
+          "sim": 8.673193803322972,
+          "tol": 3.0
+        },
+        {
+          "cell": "SVN55 L1 RMS dB",
+          "pass": false,
+          "published": 3.0,
+          "scored": true,
+          "sim": 6.338688596626277,
+          "tol": 3.0
+        },
+        {
+          "cell": "SVN56 L1 RMS dB",
+          "pass": false,
+          "published": 3.0,
+          "scored": true,
+          "sim": 8.389385872189932,
+          "tol": 3.0
+        },
+        {
+          "cell": "SVN57 L1 RMS dB",
+          "pass": false,
+          "published": 3.0,
+          "scored": true,
+          "sim": 6.3383103969038945,
+          "tol": 3.0
+        },
+        {
+          "cell": "SVN58 L1 RMS dB",
+          "pass": false,
+          "published": 3.0,
+          "scored": true,
+          "sim": 6.366670690989131,
+          "tol": 3.0
+        },
+        {
+          "cell": "SVN59 L1 RMS dB",
+          "pass": false,
+          "published": 3.0,
+          "scored": true,
+          "sim": 6.534252118643724,
+          "tol": 3.0
+        },
+        {
+          "cell": "SVN60 L1 RMS dB",
+          "pass": false,
+          "published": 3.0,
+          "scored": true,
+          "sim": 6.454152766823853,
+          "tol": 3.0
+        },
+        {
+          "cell": "SVN61 L1 RMS dB",
+          "pass": false,
+          "published": 3.0,
+          "scored": true,
+          "sim": 6.425616006461949,
+          "tol": 3.0
+        }
+      ],
+      "max_rms_db": 8.771569610822228,
+      "median_rms_db": 6.546147879669385,
+      "min_rms_db": 6.3383103969038945,
+      "patterns": 20,
+      "statement": "parametric pattern against measured GPS L1 panel patterns, RMS over 0 to 30 degrees, every pattern",
+      "verdict": {
+        "failed_cells": 20,
+        "met": false,
+        "scored_cells": 20
+      }
+    }
+  }
+}
