@@ -134,7 +134,9 @@ fn file_like_field(line: &str) -> Option<&str> {
         "path", "paths", "dir", "file", "files", "kernel", "csv_path", "hgt",
     ]
     .iter()
-    .any(|s| name == *s || name.ends_with(&format!("_{s}")));
+    .any(|s| name == *s || name.ends_with(&format!("_{s}")))
+        // `[transmit] pattern_csv` of the gnss-ssv kind: a measured table named by a file.
+        || name == "pattern_csv";
     (stringy && looks).then_some(name)
 }
 
