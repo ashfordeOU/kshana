@@ -1,0 +1,29 @@
+# GNSS signal availability on the upper-SSV shell: the booklet's global metric, at a size that runs in a second.
+#
+# The ICG Space Service Volume booklet (UN ST/SPACE/75, 2018) characterises each constellation by the share of time a user
+# on a sphere at 36,000 km altitude (the top of the upper SSV) has at least one, and at least four, signals, and by the
+# longest outage at the worst point of the sphere. This scenario computes the same metric by the same method (annex B):
+# Keplerian orbits of annex C, the main lobe of each transmitter modelled as a constant minimum radiated power inside the
+# documented off-boresight angle, a nadir-pointing hemispherical user antenna, Earth blockage by the sphere plus 50 km, and a
+# 20 dB-Hz C/N0 threshold for a 0 dBi user antenna.
+#
+# It is cut down to run quickly: a 162-point grid (the booklet uses 2,562) and 3 days at 10-minute steps (the booklet uses 14
+# days at 1 minute). The full-size comparison with the booklet's tables is the pre-registered check in xval/gnss-ssv/.
+# MODELLED: the booklet's own results are a simulation, and a main-lobe-only constant-power beam is not a measured pattern.
+
+kind = "gnss-ssv"
+name = "Upper SSV shell, 20 dB-Hz (reduced size)"
+
+[constellations]
+include = ["gps", "glonass", "galileo", "bds"]
+bands = ["l1", "l5"]
+
+[receiver]
+cn0_min_dbhz = 20.0
+
+[shell]
+altitude_km = 36000.0
+antenna = "hemisphere"
+grid_levels = 2
+duration_min = 4320.0
+step_min = 10.0

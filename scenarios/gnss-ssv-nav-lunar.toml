@@ -1,0 +1,29 @@
+# Onboard GNSS navigation on the way to the Moon: an extended Kalman filter on pseudoranges alone.
+#
+# The spacecraft leaves a 185 km parking orbit on a two-body transfer ellipse to the Moon's distance (perigee to apogee,
+# about 3.5 days). The filter has nine states: position, velocity, receiver clock bias and drift, and a solar-radiation-
+# pressure scale. Its dynamics are point-mass gravity, J2 and the Sun and Moon as third bodies; the true trajectory adds
+# radiation pressure with the Earth's shadow, which the filter has to estimate. Receive antennas are the booklet's high-gain
+# nadir antenna and zenith patch; the 20 dB-Hz threshold is the booklet's, so past a few tens of thousands of kilometres
+# few signals are left and the filter coasts on its dynamics. The result separates the part of the run inside the GNSS
+# orbits from the part above them, reports the longest gap with no measurement, and checks the covariance against the
+# error (mean NEES, 3 for a consistent filter).
+#
+# MODELLED: simulated truth and noise, low-precision circular Sun and Moon, no thrust or manoeuvres, no flight data.
+
+kind = "gnss-ssv"
+name = "Lunar transfer, onboard GNSS EKF (reduced length)"
+
+[constellations]
+include = ["gps", "glonass", "galileo", "bds"]
+bands = ["l1", "l5"]
+
+[receiver]
+cn0_min_dbhz = 20.0
+
+[navigation]
+preset = "lunar-transfer"
+duration_min = 1440.0
+step_s = 300.0
+antennas = ["booklet-high-gain-nadir", "booklet-patch-zenith"]
+series_every_min = 120.0

@@ -43,6 +43,11 @@ flowchart TD
       opt["impairment_* · eval_stats<br/>sdr · realdata · quantum_*"]
       mcda["mcda — MCDA decision suite<br/>WSM…PROMETHEE · AHP · Pareto"]
     end
+    subgraph ref["Referee and benchmarks (0.38)"]
+      rtr["receiver_trust · jammertest<br/>log scoring · receiver self-report"]
+      tim["holdover_test · standards_pack<br/>masks and bars stated first"]
+      brn["bench · telemetry · evidence<br/>tasks · exporters · round trip"]
+    end
     VER["verification<br/>machine-checked matrix<br/>SINGLE SOURCE OF TRUTH"]
     ASR["assurance · representativeness<br/>oracle · provenance · gaps-to-flight"]
     ASR -. underwrites .-> VER
@@ -53,6 +58,7 @@ flowchart TD
     api --> fnav
     api --> deep
     api --> resil
+    api --> ref
     packs --> shared
     astro --> frames
     odm --> prop
@@ -66,3 +72,4 @@ flowchart TD
     VER -. cross-refs .-> intg
     VER -. cross-refs .-> spf
     VER -. cross-refs .-> astro
+    VER -. cross-refs .-> ref

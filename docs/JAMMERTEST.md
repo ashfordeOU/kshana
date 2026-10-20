@@ -9,6 +9,12 @@ Advisory software, not type-approved navigation equipment (IEC 61108, IEC 61162)
 remains responsible for the navigation of the vessel. Nothing here is endorsed by the Norwegian
 Public Roads Administration, Nkom or the event organisers; no agreement with them is claimed.
 
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="figures/0.38/jammertest-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="figures/0.38/jammertest-light.svg">
+  <img src="figures/0.38/jammertest-light.svg" alt="Scoring of one synthetic receiver log against a three-test schedule, from a real run of engine v0.38.0 (`kshana jammertest score`). The log is made up: 1800 s of NMEA with a 20 dB C/N0 drop over two intervals. The schedule lists three slots; the middle slot has no jammer in the log. The score marks 2 of 3 tests detected (median latency 0 s) and 1 missed, with 0 false-alarm runs over 0.25 h of clean time. Nothing here says anything about a real receiver. Advisory software, not type-approved navigation equipment (IEC 61108, IEC 61162): the operator remains responsible for the navigation of the vessel.">
+</picture>
+
 ## The plan and the catalogue
 
 Source: the Norwegian Public Roads Administration's `NPRA/jammertest-plan` repository
