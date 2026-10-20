@@ -4,9 +4,9 @@
   "repo_blob_base": "https://github.com/AshfordeOU/kshana/blob/main/",
   "summary": {
     "validated": 176,
-    "modelled": 199,
+    "modelled": 204,
     "partner_owned": 4,
-    "total": 379
+    "total": 384
   },
   "rows": [
     {
@@ -3964,6 +3964,91 @@
         }
       ],
       "test_links": [],
+      "fixture": null
+    },
+    {
+      "requirement": "Lunar orbit determination: Earth-GNSS against ground radiometric",
+      "capability": "Orbit determination in a near-rectilinear halo orbit (or an elliptical frozen orbit) from two independent data types: Earth-GNSS pseudoranges received on board (the link rule of the Earth-GNSS-at-lunar-distance row, plus Moon occultation) and ground two-way range and range-rate from three Deep Space Network stations. Each is a one-step batch least squares about the reference orbit with its formal covariance; a seeded Monte Carlo of the difference between the two estimates tests whether the two covariances explain it (q = d' (P_G + P_R)^-1 d, chi-square with six degrees of freedom when the models match) and what an unmodelled acceleration does to the statistic.",
+      "status": "MODELLED",
+      "oracle_kind": "ReferenceImpl",
+      "oracle": "An independent scipy/numpy program integrates the same variational equations (bar O1). Nothing is compared with a measurement of a lunar orbit. The oracle checks the numerics of stated formulas, not the physics, so the row stays MODELLED. Restricted three-body model: no Sun, no lunar harmonics, the Earth rotation axis along the orbit normal, ILLUSTRATIVE receiver and station inputs.",
+      "module": "lunar_infra::{orbit, gnss, od}",
+      "tests": "tests/lunar_infra_od_consistency.rs (bar O1: the state-transition matrix chained over three days and over one period equals scipy DOP853 to a relative 1e-6; bar C1: mean q and the in-95 % fraction; bar C2: sample over formal trace of each estimator; bar C3, NOT MET and pinned: with 3e-10 m/s2 of unmodelled acceleration the in-95 % exceedance is 0.0525, not at least 0.5 - the on-board estimate is known only to hundreds of metres, so about ten metres of displacement hides inside its covariance); lunar_infra::orbit::tests, lunar_infra::gnss::tests, lunar_infra::od::tests, lunar_infra::la::tests",
+      "module_links": [],
+      "test_links": [
+        {
+          "path": "tests/lunar_infra_od_consistency.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/lunar_infra_od_consistency.rs"
+        }
+      ],
+      "fixture": null
+    },
+    {
+      "requirement": "Lunar carrier-phase ambiguity resolution: surface and orbiter",
+      "capability": "Between-receiver single-differenced Earth-GNSS carrier phase and code at a lunar surface station and an orbiter, with the per-epoch clock difference profiled out, one ambiguity per continuous pass and the longest pass as the gauge. The float ambiguity covariance is a Schur complement; LAMBDA resolves the integers, the bootstrapped rate is reported beside a seeded Monte Carlo integer-least-squares success rate and the float and fixed position sigmas. Reported as found: at the registered 12 dBi the double-difference problem is not formable (amendment 1 moved the default to 25 dBi after availability counts only were seen), and at 25 dBi integer fixing is NOT achieved - out of reach (a few percent at most) although the float solution improves with the arc.",
+      "status": "MODELLED",
+      "oracle_kind": "ReferenceImpl",
+      "oracle": "An independent numpy solve of the same normal equations from the exported rows (Q3) and a brute-force integer enumeration (Q4). No GNSS or lunar carrier-phase measurement is compared with. MODELLED.",
+      "module": "lunar_infra::phase; lambda",
+      "tests": "tests/lunar_infra_carrier_phase.rs (bar Q1: Monte Carlo success at least the bootstrap bound minus three standard errors; Q2: no fall with arc length beyond three standard errors; Q4: LAMBDA equals brute-force enumeration for 200 draws of dimension up to five; Q3: the float design equals an independent numpy solve to 1e-9 for the ambiguity and position covariances, and the bootstrapped rate is NOT MET at 1e-9, pinned: it differs by a relative 1.7e-6 because LAMBDA's normal CDF is an Abramowitz and Stegun approximation)",
+      "module_links": [],
+      "test_links": [
+        {
+          "path": "tests/lunar_infra_carrier_phase.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/lunar_infra_carrier_phase.rs"
+        }
+      ],
+      "fixture": null
+    },
+    {
+      "requirement": "Lunar frame co-estimation: surface stations and orbiters",
+      "capability": "Fisher information of the seven-parameter lunar frame datum from Earth-station laser ranging to the five reflectors alone and with orbiter-to-surface-station ranges added: the information matrix, rank, Cramer-Rao sigmas, the degeneracy metric of the lunar identifiability module and seeded random station sets. The orbit is held known in the lunar axes (its error is carried by the orbiter range sigma).",
+      "status": "MODELLED",
+      "oracle_kind": "ReferenceImpl",
+      "oracle": "An independent numpy finite difference of the forward model (F2). Nothing is compared with real lunar frame solutions. The factor is conditional on the assumed known orbit and the 1 m range sigma. MODELLED.",
+      "module": "lunar_infra::frame; lunar_datum; lunar_identifiability; lunar_llr_geometry",
+      "tests": "tests/lunar_infra_studies_3_5.rs (bar F1: the CRLB trace does not rise and the smallest eigenvalue does not fall with orbiter links, in the example and in 20 seeded random sets; bar F2: the range partials equal an independent numpy longdouble finite difference of the Rodrigues forward model on 50 geometries; bar F3: the smallest eigenvalue rises by at least 2.0x, found about 111x)",
+      "module_links": [],
+      "test_links": [
+        {
+          "path": "tests/lunar_infra_studies_3_5.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/lunar_infra_studies_3_5.rs"
+        }
+      ],
+      "fixture": null
+    },
+    {
+      "requirement": "Space-tie frame-tie precision: co-located GNSS, VLBI and laser ranging",
+      "capability": "Cramer-Rao precision of the inter-technique translation, scale and rotation offsets between GNSS, VLBI and laser-ranging frames when one spacecraft carries all three, with the spacecraft position eliminated at every epoch and nine local-tie nuisance parameters carrying a prior, swept over the local-tie accuracy. Covariances by the square-root route (normal equations lose the digits when the techniques are near perfect).",
+      "status": "MODELLED",
+      "oracle_kind": "ReferenceImpl",
+      "oracle": "An independent numpy stacked system with the position unknowns eliminated by explicit Schur complements (T3). No GRASP, Genesis or other mission data are compared with. MODELLED.",
+      "module": "lunar_infra::tie; fim::crlb_srif",
+      "tests": "tests/lunar_infra_studies_3_5.rs (bar T1: translation sigmas do not fall as the local tie loosens; T2: with technique sigmas scaled by 1e-6 each pair's translation sigma is within 1 % of sqrt(2) times the local-tie sigma, found within 3e-7; T3: the information matrix equals an independent numpy stacked assembly to 1e-9). The first T2 run with normal-equation inversion missed (1.3 % at a 0.1 m tie, values below the floor at 1 m); the cause was numerical and the covariance moved to the square-root route before the bar was rescored.",
+      "module_links": [],
+      "test_links": [
+        {
+          "path": "tests/lunar_infra_studies_3_5.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/lunar_infra_studies_3_5.rs"
+        }
+      ],
+      "fixture": null
+    },
+    {
+      "requirement": "Lunar Love-number and libration sensitivity",
+      "capability": "Fisher information of h2, k2, l2 and the physical libration amplitudes from laser ranging (radial and horizontal tidal displacement, reflector rotation), orbiter tracking (the degree-2 k2 acceleration integrated along the line of sight, trend removed), a surface gravimeter (gravimetric factor 1 + h2 - 1.5 k2) and a surface clock (fractional rate (1 + k2 - h2) W2/c2, tied to the lunar-time constants). h2 and l2 nominal values are linearisation points; the study says what is sensitive to what, not what the numbers are.",
+      "status": "MODELLED",
+      "oracle_kind": "ReferenceImpl",
+      "oracle": "An independent numpy finite-difference assembly (G2) and closed-form evaluation (G4). The k2 sensitivity of the orbiter family is an upper-end figure (the orbit state absorbs only a constant and a trend here). No lunar tide or libration measurement is compared with; k2 is quoted from Lemoine et al. 2014 as a nominal. MODELLED.",
+      "module": "lunar_infra::geodesy; lunar_od::degree2_tide_accel; lunar_time",
+      "tests": "tests/lunar_infra_studies_3_5.rs (bar G1: analytic partials equal a central finite difference of each forward model to 1e-8; G2: the 5x5 information equals an independent numpy assembly to 1e-6; G4: the clock tide amplitude and its k2 and h2 sensitivities equal an independent evaluation to 1e-9; bar G3 NOT MET in its trace half, pinned: adding a family never lowers the smallest eigenvalue (28 of 28) but the pseudo-inverse trace rose in 12 of 28 additions because the added family raised the rank)",
+      "module_links": [],
+      "test_links": [
+        {
+          "path": "tests/lunar_infra_studies_3_5.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/lunar_infra_studies_3_5.rs"
+        }
+      ],
       "fixture": null
     },
     {

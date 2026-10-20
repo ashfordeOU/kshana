@@ -13,6 +13,16 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **GNSS beyond the constellation (`gnss-ssv`).** A new scenario kind for spacecraft above, around and past the GNSS orbits
+  ([`docs/SSV.md`](docs/SSV.md)): availability of one and four signals, outage durations, C/N0, DOP and main-lobe against
+  sidelobe links for GPS, GLONASS, Galileo, BDS, QZSS and NavIC on a shell or along LEO, MEO, GEO, HEO and lunar-transfer
+  trajectories; booklet, parametric or user-supplied transmit patterns; a limb-ray ionosphere, plasmasphere and atmosphere
+  model; a weak-signal receiver design; an onboard GNSS extended Kalman filter for HEO and lunar transfer; and formation
+  relative navigation. Compared with the ICG Space Service Volume booklet under a pre-registration committed before the
+  run: the minimum-radiated-power constants and the lunar bar agree, the other bars are not met under the pre-registered
+  reading (almost all through the booklet's inconsistent GLONASS beam angle), and the parametric sidelobe stand-in does not
+  reproduce the measured GPS panel patterns. Everything stays MODELLED
+  ([`xval/gnss-ssv/RESULTS.md`](xval/gnss-ssv/RESULTS.md)).
 - **The neutral referee, made measurable.** `kshana jammertest import` reads the published NPRA
   Jammertest catalogue and transmission plan as scheduled truth (catalogue ids kept) and
   `kshana jammertest score` scores a receiver log against it per test (detection latency, missed
