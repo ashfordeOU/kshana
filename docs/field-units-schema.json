@@ -1,11 +1,11 @@
 {
   "coverage": {
     "described_fields_without_definition": 239,
-    "fields_described": 3029,
-    "fields_total": 3029,
+    "fields_described": 3062,
+    "fields_total": 3062,
     "fields_without_units": 0,
-    "kinds_complete": 85,
-    "kinds_total": 85,
+    "kinds_complete": 86,
+    "kinds_total": 86,
     "kinds_uncovered": 0,
     "uncovered_kind_ceiling": 0,
     "uncovered_kinds": []
@@ -11900,6 +11900,214 @@
       "fields_without_units": [],
       "label": null,
       "source": "defaults"
+    },
+    "lunar-infrastructure": {
+      "complete": true,
+      "fields": {
+        "consistency.chi2_95_point": {
+          "definition": "95 % point of the chi-square distribution with 6 degrees of freedom",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "1"
+        },
+        "consistency.expected_mean_q": {
+          "definition": "expected mean of q for a chi-square with 6 degrees of freedom",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "1"
+        },
+        "consistency.formal_difference_position_sigma_m": {
+          "definition": "formal 1-sigma of the position difference (root of the trace of the summed covariances)",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "consistency.fraction_exceeding_95": {
+          "definition": "fraction of trials with q above the 95 % point",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "consistency.fraction_within_95": {
+          "definition": "fraction of trials with q at or below the 95 % point",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "consistency.mean_difference_position_m": {
+          "definition": "mean norm of the position difference between the two estimates",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "consistency.mean_q": {
+          "definition": "sample mean of the consistency statistic q (chi-square with 6 degrees of freedom when the models match)",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "consistency.model_error_accel_m_s2": {
+          "definition": "constant unmodelled acceleration added to the truth (0 when the models match)",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "m/s^2"
+        },
+        "consistency.sample_over_formal_trace_gnss": {
+          "definition": "sample over formal position-error trace of the GNSS estimate",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "consistency.sample_over_formal_trace_ground": {
+          "definition": "sample over formal position-error trace of the ground estimate",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "consistency.trials": {
+          "definition": "Monte Carlo trials",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "count"
+        },
+        "geometry.gnss_epochs_with_four_or_more_satellites": {
+          "definition": "fraction of epochs with at least four tracked satellites",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "geometry.gnss_epochs_with_one_or_more_satellites": {
+          "definition": "fraction of epochs with at least one tracked satellite",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "geometry.gnss_mean_satellites_tracked": {
+          "definition": "mean number of Earth-GNSS satellites tracked per epoch",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "geometry.gnss_measurements": {
+          "definition": "Earth-GNSS pseudorange measurements in the arc",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "geometry.ground_epochs_with_a_station": {
+          "definition": "fraction of epochs with a ground station above its elevation mask",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "geometry.ground_measurements": {
+          "definition": "ground two-way range and range-rate measurements in the arc",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "gnss_estimate.normal_sigma_m": {
+          "definition": "formal 1-sigma along the orbit-normal direction at the arc start",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "gnss_estimate.position_sigma_arc_end_m": {
+          "definition": "formal 1-sigma position error propagated to the arc end",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "gnss_estimate.position_sigma_m": {
+          "definition": "formal 1-sigma position error (root of the trace of the 3x3 position covariance) at the arc start",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "gnss_estimate.radial_sigma_m": {
+          "definition": "formal 1-sigma along the Moon-radial direction at the arc start",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "gnss_estimate.transverse_sigma_m": {
+          "definition": "formal 1-sigma along the in-plane transverse direction at the arc start",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "gnss_estimate.velocity_sigma_m_s": {
+          "definition": "formal 1-sigma velocity error (root of the trace of the 3x3 velocity covariance)",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m/s"
+        },
+        "ground_estimate.normal_sigma_m": {
+          "definition": "formal 1-sigma along the orbit-normal direction at the arc start",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "ground_estimate.position_sigma_arc_end_m": {
+          "definition": "formal 1-sigma position error propagated to the arc end",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "ground_estimate.position_sigma_m": {
+          "definition": "formal 1-sigma position error (root of the trace of the 3x3 position covariance) at the arc start",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "ground_estimate.radial_sigma_m": {
+          "definition": "formal 1-sigma along the Moon-radial direction at the arc start",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "ground_estimate.transverse_sigma_m": {
+          "definition": "formal 1-sigma along the in-plane transverse direction at the arc start",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "ground_estimate.velocity_sigma_m_s": {
+          "definition": "formal 1-sigma velocity error (root of the trace of the 3x3 velocity covariance)",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m/s"
+        },
+        "orbit.arc_days": {
+          "definition": "arc length",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "d"
+        },
+        "orbit.period_days": {
+          "definition": "orbital period of the corrected reference orbit",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "d"
+        },
+        "orbit.sample_s": {
+          "definition": "measurement sample interval",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "s"
+        },
+        "orbit.samples": {
+          "definition": "number of samples in the arc",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        }
+      },
+      "fields_described": 33,
+      "fields_total": 33,
+      "fields_without_units": [],
+      "label": "MODELLED — a restricted three-body model (Earth and Moon point masses, no Sun, no lunar gravity harmonics) with stated simplifications and ILLUSTRATIVE inputs labelled with their public sources. Numerics are checked against independent programs; nothing is compared with a measurement of a lunar quantity, and nothing here is a statement about any mission or system. Not affiliated with or endorsed by any agency. Advisory software, not type-approved equipment.",
+      "source": "scenarios/lunar-infrastructure-od-consistency.toml"
     },
     "lunar-integrity": {
       "complete": true,

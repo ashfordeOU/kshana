@@ -91,6 +91,372 @@ a status names only what was checked, and the ledger row and the linked page say
 0.37's highlights: [changelog](CHANGELOG.md#0370---2026-10-17). The full 0.38 list is in the
 [changelog](CHANGELOG.md#0380---2026-10-19).
 
+## 0.38 in depth
+
+Each capability from the table above, in a few lines: what it does, one command to run it, one
+picture drawn from a real run of the engine, and what the ledger holds for it. The pictures
+are written by [`tools/gen_figures_038.py`](tools/gen_figures_038.py) into
+[`docs/figures/0.38/`](docs/figures/0.38/) (never drawn by hand): `python3 tools/gen_figures_038.py`
+rewrites them from a built engine, and `--check` fails if one is stale or its caption here differs.
+Where an input is a log, it is a made-up one the script writes, because the real third-party logs
+are never vendored, and the caption says so. Everything below is advisory: not certified, not a
+type approval, and nothing transmits. A status names what was checked and nothing more;
+[how a label is earned](#evidence).
+
+### Jammertest scoring
+
+`kshana jammertest import` turns the published NPRA test catalogue and transmission plan into
+scheduled truth, and `kshana jammertest score` scores a receiver log against it: for each
+scheduled test, whether it was detected, how late, and how long the receiver took to recover, plus
+false alarms outside every slot. The catalogue is fetched, never vendored.
+
+```sh
+xval/jammertest-plan/fetch.sh ../jammertest-plan
+kshana jammertest score session.toml --catalog ../jammertest-plan/testcatalog2025.json \
+    --plan ../jammertest-plan/plan-tuesday-2025-09-16.json --location 1 --json
+```
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/jammertest-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/jammertest-light.svg">
+  <img src="docs/figures/0.38/jammertest-light.svg" alt="Scoring of one synthetic receiver log against a three-test schedule, from a real run of engine v0.38.0 (`kshana jammertest score`). The log is made up: 1800 s of NMEA with a 20 dB C/N0 drop over two intervals. The schedule lists three slots; the middle slot has no jammer in the log. The score marks 2 of 3 tests detected (median latency 0 s) and 1 missed, with 0 false-alarm runs over 0.25 h of clean time. Nothing here says anything about a real receiver. Advisory software, not type-approved navigation equipment (IEC 61108, IEC 61162): the operator remains responsible for the navigation of the vessel.">
+</picture>
+
+**Ledger status: MODELLED.** The bars were fixed before any scored run; on the JammerTest 2024 data
+the minimum-data rule failed in both runs, so no bar is assessable and nothing is claimed.
+[Jammertest](docs/JAMMERTEST.md).
+
+### The receiver's own flags
+
+UBX-NAV-STATUS `spoofDetState`, UBX-SEC-SIG and NovAtel RXSTATUS are read into a per-epoch
+`self_report` and set beside Kshana's alarms: both, receiver only, Kshana only, or neither. A
+Septentrio SBF reader and a read-only `--serial` input feed the same comparison. Neither side is
+ground truth.
+
+```sh
+kshana receiver-trust session.toml     # [log] format = "ubx", path = "receiver.ubx"
+```
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/receiver-flags-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/receiver-flags-light.svg">
+  <img src="docs/figures/0.38/receiver-flags-light.svg" alt="The receiver's own spoofing flag set against Kshana's alarms, from a real run of engine v0.38.0 on a made-up UBX log (200 epochs at 1 Hz). C/N0 falls 20 dB at 80 to 90 s and 120 to 130 s; the receiver flags 120 to 130 s and 160 to 165 s. Of 140 epochs compared after calibration, 11 had both flagging, 6 the receiver only, 11 Kshana only and 112 neither. Neither side is ground truth and agreement is not validation. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service.">
+</picture>
+
+**Ledger status: MODELLED.** Agreement between a receiver's detector and Kshana's is not
+validation. [Receiver trust](docs/RECEIVER-TRUST.md).
+
+### More receivers and sensors
+
+RTKLIB `.pos`, NovAtel OEM7, RTCM 3 MSM4/MSM7 C/N0, GNSS-SDR monitor streams, an IMU log as a second
+sensor, a ROS 2 package and a `gnss_lib_py` bridge all end in the same receiver-trust timeline.
+`imu-fit` reads the sensor parameters the hybrid and fusion scenarios need off a stationary IMU
+log, so a scenario can be run with the sensor you actually have.
+
+```sh
+kshana imu-fit still.csv --format csv --axis x --expected-mean 0 --id bench-imu
+```
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/machine-inputs-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/machine-inputs-light.svg">
+  <img src="docs/figures/0.38/machine-inputs-light.svg" alt="What `kshana imu-fit` reads off a stationary IMU log, from a real run of engine v0.38.0 on a made-up log (20,000 samples at 100 Hz, 200 s): the accelerometer velocity random walk q_va = 4.02e-06, the gyro angle random walk q_arw = 9e-08, the bias instability 0.00296 and the early Allan slopes (-0.51 and -0.49; about -0.5 where white noise dominates). The table beside it is the TOML the command prints. The estimator is checked on synthetic logs only. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service.">
+</picture>
+
+**Ledger status: MODELLED.** Self-written fixtures only; no capture from a real receiver, IMU,
+GNSS-SDR run or ROS graph was read. [Machine inputs](docs/MACHINE-INPUTS.md).
+
+### Timing and holdover tests
+
+The `holdover-test` kind scores a holdover test (GNSS removed by the operator, holdover, recovery)
+from a measured time-error record against ITU-T masks, and says so in those words: measured
+against the mask. linuxptp and chrony log readers feed it; the hardware stages and the
+`lab-attestation` field say who stated what.
+
+```sh
+kshana scenarios/holdover-test-example.toml
+```
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/timing-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/timing-light.svg">
+  <img src="docs/figures/0.38/timing-light.svg" alt="A holdover test scored from a time-error record, from a real run of engine v0.38.0 on scenarios/holdover-test-example.toml (601 samples every 5 s). GNSS is removed by the operator at 600 s and restored at 2400 s; the time error drifts to 299 ns at the end of holdover, past the 100 ns budget after 675 s, and returns inside the 100 ns band 70 s after restoration. Verdicts: baseline masks PASS, holdover masks FAIL, holdover envelope FAIL, recovery RECOVERED. Measured against the mask, not an approval. The times are the operator's statement, not verified by Kshana. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service.">
+</picture>
+
+**Ledger status: MODELLED.** The times GNSS was removed and restored are the operator's statement,
+not verified. [Timing HIL](docs/TIMING-HIL.md), [Hardware safety](docs/HARDWARE-SAFETY.md).
+
+### Standards packs
+
+Scored packs for the DHS Resilient PNT test profiles, IMO MSC.1/Circ.1575 and ICAO Doc 9849
+Appendix F, plus a NIST IR 8323r1 crosswalk in `compliance-report`. Each test runs a bundled
+scenario and compares a result field with a bar stated before the run; a test that needs a receiver
+log is listed as needing an input, not scored. The wording is "supports evidence for".
+
+```sh
+kshana standards-pack list
+kshana standards-pack run imo-circ-1575
+```
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/standards-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/standards-light.svg">
+  <img src="docs/figures/0.38/standards-light.svg" alt="Every test of the three scored standards packs, from real runs of engine v0.38.0 (`kshana standards-pack run`): dhs-rpcf: 6 met, 1 not met, 2 need an input; imo-circ-1575: 1 met, 4 not met, 2 need an input; icao-doc9849-appf: 6 met, 0 not met, 2 need an input. In all, 13 met, 5 not met and 6 need an input the engine does not have (a receiver log or equipment documentation). Each bar was stated before the run; a miss is kept as a miss. A met bar says a modelled scenario met a stated bar, nothing about a product. The packs support evidence for the rows they cite; they are not an assessment. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service; it must not be the sole basis for any navigation or safety decision.">
+</picture>
+
+**Ledger status: MODELLED.** A met bar says a modelled scenario met a stated bar, nothing about a
+product; every miss is kept and pinned by a test. [Standards](docs/STANDARDS.md).
+
+### LunaNet AFS
+
+The LunaNet Augmented Forward Signal code generator (Gold, Weil and tertiary codes, the message
+frame and its error coding) and a checker for a recorded or generated symbol stream, pinned to one
+edition of the specification.
+
+```sh
+kshana lunanet-afs-check spec
+kshana lunanet-afs-check generate --frames 2 --out afs.sym
+kshana lunanet-afs-check symbols afs.sym
+```
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/lunanet-afs-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/lunanet-afs-light.svg">
+  <img src="docs/figures/0.38/lunanet-afs-light.svg" alt="The LunaNet AFS code generator checked against the printed columns of the specification, from a real run of engine v0.38.0 (`kshana lunanet-afs-check spec`, pinned to LNIS V5, AD1 Volume A (LSIS-AFS) V1.0, 29 January 2025; the document marks its code tables {LSIS-TBC}). 9 of 10 checks are met; B4 is NOT MET (420 of 421 matched). It checks a symbol stream against one edition of a published specification and says nothing about any LunaNet node or service. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. It checks a symbol stream against one edition of a published specification and says nothing about any LunaNet node or service.">
+</picture>
+
+**Ledger status: VALIDATED** for the code and synchronisation checks, against the values the
+specification prints (which it marks TBC); one check is NOT MET, kept and pinned (one printed
+tertiary-code column differs: the document prints the same value for two PRNs). The LDPC and CRC words
+of subframes 2 to 4 are not checked. The ledger rows say exactly which. [LunaNet AFS](docs/LUNANET-AFS.md).
+
+### Lab round trip
+
+`kshana.test-conditions/1` is a published description of what a laboratory did (events, times,
+powers). `kshana evidence round-trip` links the scenario hash, the conditions hash, the receiver log
+hash and the score into one signed pack, and refuses a pack whose conditions and scoring scenario
+disagree about the events. Kshana never produces or replays a signal: how a scenario reached a
+receiver is the operator's responsibility.
+
+```sh
+kshana evidence --help
+```
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/evidence-pack-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/evidence-pack-light.svg">
+  <img src="docs/assets/readme/evidence-pack-light.svg" alt="The structure of an evidence pack. A receiver log (NMEA, u-blox UBX, RINEX 3 or an Android log) and a time window go into kshana receiver-trust evidence, which writes seven files: log-slice.bin, config.json, epochs.json, summary.html, manifest.json, manifest.sig and an optional timestamp.tsr. The manifest records the SHA-256 of the whole log and of every file and a hash chain over the files; the signature covers the manifest. kshana evidence verify checks the signature, every file's hash, the chain and that no unlisted file is present, and exits 0 when verified, 1 when something failed and 3 when the signer was not pinned. A pack is a technical record, not a legal opinion.">
+</picture>
+
+The picture is the layout of a pack. **Ledger status: MODELLED.**
+[Test conditions](docs/spec/TEST-CONDITIONS.md), [Test bench](docs/TEST-BENCH.md).
+
+### kshana-bench
+
+Fixed tasks, splits and metrics for interference detection, IQ detection, holdover prediction and
+the optimism gap, with a sealed holdout and a static leaderboard. It scores submissions; it is not
+a ranking of receivers.
+
+```sh
+kshana bench baseline --task d --split test --out results/
+```
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/bench-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/bench-light.svg">
+  <img src="docs/figures/0.38/bench-light.svg" alt="The built-in baselines of kshana-bench task D (the optimism gap) on the test split, from a real run of engine v0.38.0 (`kshana bench baseline`). Each bar pair is the area under the ROC curve on the in-distribution cases and on the shifted cases; the gap between them is the optimism gap, against a tolerance of 0.05. fused-max-z: 0.998 and 0.983 (gap 0.015); sqm-imbalance: 0.882 and 0.882 (gap 0.001); agc-excess: 0.848 and 0.819 (gap 0.030); raim-parity: 0.682 and 0.672 (gap 0.010); energy-cn0-drop: 0.595 and 0.565 (gap 0.030). The labels are generative-model labels of a synthetic corpus, never field data: MODELLED. Advisory: modelled or measured against stated references, not an approval, certification or statement of conformance. A score describes a log or corpus, never a product.">
+</picture>
+
+**Ledger status:** no ledger row of its own; the baselines are labelled MODELLED in the result files.
+Against the pre-registered bars the scorer, C1 to C3 and D2 are met and D1 is NOT MET (pinned by a
+test). [Bench](docs/BENCH.md).
+
+### Interference observatory
+
+One product per UTC day and region from an open aircraft-position archive, on a fixed coarse grid:
+each cell is degraded, not degraded, or not observed (which is not "clear"). Released no earlier
+than 24 h after the day ends, with small cells suppressed and no attribution of cause.
+
+```sh
+kshana interference-map daily /path/to/extracted/2026-09-15 \
+    --dataset adsb-lol --day 2026-09-15 --bbox 53.5,9.0,66.0,31.0 --out products/
+```
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/interference-map-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/interference-map-light.svg">
+  <img src="docs/assets/readme/interference-map-light.svg" alt="Two synthetic interference-map days drawn from the committed samples in examples/interference-map/output, each with its own synthetic route and the route-exposure shares the engine reports. Left, an ADS-B day: 1 degraded cell, 6 not degraded, 4 unassessed (hatched) and cells with no entry, drawn empty, which were not observed. The route is 525 km: 11.5% of its length in degraded cells, 38.3% not degraded, 9.1% unassessed and 41.1% not observed. Right, an AIS day: cells flagged by the circle and on-land detectors, not-anomalous cells and empty cells; the route is 454 km with 10.5% in anomalous cells, 21.2% not anomalous, 0.0% unassessed and 68.3% not observed. ADS-B and AIS are separate layers, never combined. A flagged cell is not a finding of interference, and a cell with no colour was not observed, which is not the same as clear. All data are made up, in the open mid-Atlantic, and not a measurement.">
+</picture>
+
+The picture is the committed sample days, not an observatory product. **Ledger status: MODELLED**:
+no external oracle, no ground truth and no cause attribution; a cell that is not observed was not
+assessed, which is not the same as clear. [Observatory method](docs/observatory/METHOD.md).
+
+### Exporters
+
+Trust telemetry as Prometheus text, CEF, LEEF, OTLP and Home Assistant MQTT discovery and state
+messages. The command publishes only to a destination you give it and holds no credentials.
+
+```sh
+kshana trust-telemetry --result session.result.json --print-metrics
+kshana trust-telemetry --result session.result.json --print-syslog --format cef
+```
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/exporters-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/exporters-light.svg">
+  <img src="docs/figures/0.38/exporters-light.svg" alt="One trust result in three export formats, from real runs of engine v0.38.0 (`kshana trust-telemetry`) on examples/maritime-trust: Prometheus text exposition (the latest trust score is 5.9 and the untrusted band is the one set), and the last CEF and LEEF messages. The command publishes nothing unless given a destination, holds no credentials, and transmits no radio signal. Advisory software, not type-approved navigation equipment (IEC 61108, IEC 61162): the operator remains responsible for the navigation of the vessel.">
+</picture>
+
+**Ledger status: MODELLED.** [Trust telemetry](docs/TRUST-TELEMETRY.md).
+
+### Optical link margin against time
+
+The `optical-atmosphere` kind can write one seeded realisation of a site's weather as a link-margin
+series: cloud episodes, a liquid-water column for each, one scintillation sample per step. The
+Studio's Optical PNT page opens the optical-atmosphere scenarios.
+
+```sh
+kshana scenarios/optical-atmosphere-network.toml
+```
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/optical-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/optical-light.svg">
+  <img src="docs/figures/0.38/optical-light.svg" alt="One seeded realisation of the link margin of the site 'northern' over 336 h, from a real run of engine v0.38.0 on scenarios/optical-atmosphere-network.toml (seed 37, a step of 600 s). The margin falls below zero during cloud episodes; in this draw the link is up 40.5 % of the time, with 27 outages and a longest outage of 30.7 h. The inputs are illustrative, the series is one draw from the model and not the climate, and it differs from the statistical availability (37.8 %) by the sampling error of the draw. Advisory analysis only: not a certified availability, integrity or navigation product, and not a prediction for any real site unless its climate inputs come from a stated dataset.">
+</picture>
+
+**Ledger status: MODELLED.** One draw from the model, not the climate. [Optical atmosphere](docs/OPTICAL-ATMOSPHERE.md).
+
+### New Studio views
+
+[kshana.dev/studio](https://kshana.dev/studio/) gains a Bridge replay (two runs side by side on one
+mission clock, at [`/studio/replay/`](https://kshana.dev/studio/replay/)), an Optical PNT page
+(`/studio/optical/`), a Holdover test page (`/studio/holdover/`) and an observatory viewer
+(`/studio/observatory/`). They run the same engine in the browser, nothing is uploaded, and they carry
+the same advisory statement. The pictures above are drawn from the engine's own output by a script;
+they are not screenshots of these pages.
+
+### Space-user navigation (`gnss-ssv`)
+
+For a spacecraft above, around or far past the GNSS orbits: how many GNSS signals it can use, how
+strong they are, how good the geometry is, and what an onboard filter can do with them. One kind,
+four modes, chosen by the scenario's tables: a **shell** of users (the share of time with one and four
+signals, per constellation), a **trajectory** (signals, C/N0, dilution of precision and the
+limb-ray medium along an orbit), a **navigation** run (a nine-state filter on pseudoranges, to the
+Moon) and a **formation** (relative navigation of deputies about a chief). The public source for the
+availability comparison is the interoperable GNSS Space Service Volume booklet (UN OOSA
+ST/SPACE/75, from the International Committee on GNSS), which is itself a simulation; it is fetched, never
+vendored. Full page: [docs/SSV.md](docs/SSV.md).
+
+```sh
+kshana scenarios/gnss-ssv-shell.toml            # shell: the upper space service volume, reduced size
+kshana scenarios/gnss-ssv-heo.toml              # trajectory: a high Earth orbit, limb medium
+kshana scenarios/gnss-ssv-nav-lunar.toml        # navigation: an onboard filter toward the Moon
+kshana scenarios/gnss-ssv-formation-heo.toml    # formation: relative navigation
+```
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="figures/0.38/ssv-shell-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="figures/0.38/ssv-shell-light.svg">
+  <img src="figures/0.38/ssv-shell-light.svg" alt="Signal availability for a user on a sphere at 36000 km altitude with a hemisphere antenna, from a real run of engine v0.38.0 on scenarios/gnss-ssv-shell.toml (a reduced run: 162 users, 3 days, 10 min steps), at a 20 dB-Hz threshold. For each constellation and band, two bars: the share of (user, epoch) pairs with at least one signal and with at least four. Combined, L1: 99.4 % at least one, 73.2 % at least four, longest outage below four signals 160 min. Combined, L5: 100.0 % at least one, 99.9 % at least four, longest outage below four signals 20 min. MODELLED: a modelled study from stated inputs, not a measurement and not a service-volume claim for any system. The reduced size is not the booklet comparison. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service.">
+</picture>
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="figures/0.38/ssv-heo-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="figures/0.38/ssv-heo-light.svg">
+  <img src="figures/0.38/ssv-heo-light.svg" alt="Signals along one high Earth orbit (perigee 497 km, apogee 58622 km, period 18.8 h), from a real run of engine v0.38.0 on scenarios/gnss-ssv-heo.toml, band L1. Top: the best carrier-to-noise density among the signals in view, against the 20 dB-Hz threshold. Middle: the number of signals in view from all constellations, from 4 to 55 along the sampled points. Of the links received, 2252 came through a main lobe and 696 through sidelobes, using a labelled parametric stand-in pattern, not any system's measured pattern. Median PDOP 67, 95th percentile 358. MODELLED: a modelled study from stated inputs, not a measurement and not a service-volume claim for any system. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service.">
+</picture>
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="figures/0.38/ssv-nav-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="figures/0.38/ssv-nav-light.svg">
+  <img src="figures/0.38/ssv-nav-light.svg" alt="An onboard nine-state filter on a transfer from low orbit toward the Moon, from a real run of engine v0.38.0 on scenarios/gnss-ssv-nav-lunar.toml (289 epochs, 13 points drawn). On a log axis, the true position error and the filter's own one-sigma bound against time since the start. Inside the GNSS orbits the position RMS is 1.4 m; above them it is 90 m, with the final error 184 m at 193,330 km altitude with 1 measurement. Mean normalised estimation error squared over the whole run is 4.4 (about 3 for a consistent position block). Truth and filter share their Sun and Moon stand-ins. MODELLED: a modelled study from stated inputs, not a measurement and not a service-volume claim for any system. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service.">
+</picture>
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="figures/0.38/ssv-formation-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="figures/0.38/ssv-formation-light.svg">
+  <img src="figures/0.38/ssv-formation-light.svg" alt="Relative navigation of 2 deputies around a chief on a high orbit, from a real run of engine v0.38.0 on scenarios/gnss-ssv-formation-heo.toml (401 epochs). For each deputy, two bars: the relative position RMS from subtracting the two independent absolute estimates, and from the relative filter on single-differenced pseudoranges. Baseline 0.8 km: 5.1 m and 1.2 m. Baseline 2.0 km: 4.1 m and 2.1 m. The absolute filter is not consistent here: mean normalised estimation error squared 187 against about 3 for a consistent filter, so its stated uncertainty is far too small. MODELLED: a modelled study from stated inputs, not a measurement and not a service-volume claim for any system. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service.">
+</picture>
+
+**Ledger status: MODELLED, and the comparison with the booklet mostly misses.** The bars were fixed before
+the run. Of eight, only S0 (the inverse link budget, 13 of 13 values) and S6 (the lunar mission) are
+met. **S1 to S5 and S7 are NOT MET**: the upper and lower service volume geometry (43 of 52 and 48 of 52
+cells), the 15/20/25 dB-Hz upper service volume, the six GEO missions, the HEO mission, and the
+parametric sidelobe pattern against measured GPS panel patterns. Almost every miss in S1 to S5 involves
+GLONASS, and the booklet prints two different reference angles for it; a diagnostic variant that uses the
+other pair brings S1, S2 and S4 to every cell, but it does not replace the run of record and no row is
+VALIDATED. The formation run's absolute filter is also overconfident (mean normalised error squared
+well above the value of about 3 that a consistent filter gives).
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="figures/0.38/ssv-booklet-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="figures/0.38/ssv-booklet-light.svg">
+  <img src="figures/0.38/ssv-booklet-light.svg" alt="The recorded comparison of the space-user availability model with the public Space Service Volume booklet, from the committed results of the pre-registered run (xval/gnss-ssv/results-run1.json, written by the ssv_booklet_check example of engine v0.38.0). Bar by bar, the cells within tolerance: S0 13 of 13 (MET); S1 43 of 52 (NOT MET); S2 48 of 52 (NOT MET); S3 122 of 155 (NOT MET); S4 132 of 156 (NOT MET); S5 18 of 26 (NOT MET); S6 26 of 26 (MET); S7 0 of 20 panel patterns (NOT MET). Only S0 and S6 are met under the pre-registered reading. A diagnostic variant that uses the booklet's other GLONASS angles brings S1, S2 and S4 to every cell, but does not replace the run of record. No ledger row is VALIDATED. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service.">
+</picture>
+
+[Space-user navigation](docs/SSV.md), [what the comparison shows](docs/SSV.md#what-the-comparison-with-the-booklet-shows).
+
+### Lunar infrastructure (`lunar-infrastructure`)
+
+The Moon's orbit and surface as navigation and geodetic infrastructure, in five studies chosen by
+`study`: **od-consistency** (an onboard Earth-GNSS orbit determination in a halo orbit against an
+independent ground one), **carrier-phase** (integer ambiguity fixing between surface stations and an
+orbiter), **frame-coestimation** (the lunar datum from Earth-station ranging with and without orbiter
+links), **space-tie** (laser, VLBI and GNSS offsets on one spacecraft against the local-tie error) and
+**geodesy-sensitivity** (which observable family sees the Love numbers h2, k2 and l2). The model is a
+restricted three-body one with stated simplifications and illustrative inputs. Full page:
+[docs/LUNAR-INFRASTRUCTURE.md](docs/LUNAR-INFRASTRUCTURE.md).
+
+```sh
+kshana scenarios/lunar-infrastructure-od-consistency.toml
+kshana scenarios/lunar-infrastructure-carrier-phase.toml            # quick; the scored run takes about eight minutes
+kshana scenarios/lunar-infrastructure-frame-coestimation.toml
+kshana scenarios/lunar-infrastructure-space-tie.toml
+kshana scenarios/lunar-infrastructure-geodesy-sensitivity.toml
+```
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="figures/0.38/lunar-od-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="figures/0.38/lunar-od-light.svg">
+  <img src="figures/0.38/lunar-od-light.svg" alt="Consistency of an onboard Earth-GNSS orbit determination in a near-rectilinear halo orbit with an independent ground orbit determination, from real runs of engine v0.38.0 on scenarios/lunar-infrastructure-od-consistency.toml and the model-error variant (400 trials each). Mean normalised difference q is 5.81 with no model error and 5.95 with an injected acceleration error of 3e-10 m/s2, against 6 expected: the two orbit solutions are consistent (bar C1 MET). The share of trials above the 95 % point is 0.040 and 0.052; the bar for detecting the injected error was at least 0.5, so it is NOT MET (C3): the onboard solution is known to about 352 m against 23 m for the ground one, so a ten-metre displacement hides inside its covariance. MODELLED: a restricted three-body model with stated simplifications and illustrative inputs, not a measurement of any lunar quantity. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service.">
+</picture>
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="figures/0.38/lunar-carrier-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="figures/0.38/lunar-carrier-light.svg">
+  <img src="figures/0.38/lunar-carrier-light.svg" alt="Carrier-phase integer ambiguity fixing between lunar surface stations and an orbiter, from the committed result of the scored run of engine v0.38.0 (tests/fixtures/lunar_infra/phase_full_run.json: 3 arc lengths, a Monte Carlo of 400 draws each, written by scenarios/carrier-phase-scored.toml). 1 day: success 1.0 % (standard error 0.5 %), 134 ambiguities, orbiter position sigma 45.6 m float and 18.5 m fixed; 2 day: success 0.5 % (standard error 0.4 %), 259 ambiguities, orbiter position sigma 21.5 m float and 8.7 m fixed; 3 day: success 2.8 % (standard error 0.8 %), 375 ambiguities, orbiter position sigma 6.3 m float and 2.1 m fixed. Integer fixing is not achieved: success stays between 1 % and 3 % at 25 dBi, and at the registered 12 dBi the problem cannot be formed. MODELLED: a restricted three-body model with stated simplifications and illustrative inputs, not a measurement of any lunar quantity. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service.">
+</picture>
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="figures/0.38/lunar-frame-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="figures/0.38/lunar-frame-light.svg">
+  <img src="figures/0.38/lunar-frame-light.svg" alt="Precision of the seven-parameter lunar datum (three translations, a scale and three rotations) from Earth-station ranging, with and without orbiter-to-surface-station ranges, from a real run of engine v0.38.0 on scenarios/lunar-infrastructure-frame-coestimation.toml. The Cramer-Rao sigma of the translations and rotations falls with the orbiter links (for example t_z from 0.98 m to 0.046 m); the smallest information eigenvalue rises 111-fold and the CRLB trace falls to 1.0 % (bar F3 MET). This assumes the orbit is known in the lunar axes, with its error carried by the orbiter range sigma of 1 m. MODELLED: a restricted three-body model with stated simplifications and illustrative inputs, not a measurement of any lunar quantity. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service.">
+</picture>
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="figures/0.38/lunar-tie-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="figures/0.38/lunar-tie-light.svg">
+  <img src="figures/0.38/lunar-tie-light.svg" alt="Precision of the offsets between laser ranging, VLBI and GNSS positions of one spacecraft, against the error of the ground local tie, from a real run of engine v0.38.0 on scenarios/lunar-infrastructure-space-tie.toml (one 6.56-day arc, technique sigmas GNSS 10 m, VLBI 1 m, laser 0.1 m). With a local tie from 1 mm to 1 m, the laser-minus-GNSS translation sigma stays near 1.04 m until the tie reaches 1 m: it is limited by the measurement noise of the techniques, not by the local tie. The floor set by the tie alone is the square root of two times its sigma. MODELLED: a restricted three-body model with stated simplifications and illustrative inputs, not a measurement of any lunar quantity. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service.">
+</picture>
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="figures/0.38/lunar-geodesy-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="figures/0.38/lunar-geodesy-light.svg">
+  <img src="figures/0.38/lunar-geodesy-light.svg" alt="Which observable family is sensitive to the lunar Love numbers h2, k2 and l2, from a real run of engine v0.38.0 on scenarios/lunar-infrastructure-geodesy-sensitivity.toml. Each cell is the RMS partial derivative of a family's observations with respect to a parameter, in that family's own units (so cells are compared across a row, not down a column); a dash means the family has no sensitivity. laser ranging: h2 7.6, k2 none, l2 9.8. orbiter tracking: h2 none, k2 0.00086, l2 none. surface gravimeter: h2 2.9e+03, k2 4.3e+03, l2 none. surface clock: h2 2.8e-17, k2 2.8e-17, l2 none. With all four families, the Cramer-Rao sigma is 0.36 % of nominal h2, 0.52 % of k2 and 1.16 % of l2. Adding a family never lowered the smallest eigenvalue (28 of 28 additions), but the trace of the pseudo-inverse was no larger in only 16 of 28: that half of bar G3 is NOT MET. The orbiter family sees the line-of-sight integral of the k2 acceleration, an upper-end figure. MODELLED: a restricted three-body model with stated simplifications and illustrative inputs, not a measurement of any lunar quantity. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service.">
+</picture>
+
+**Ledger status: MODELLED, and three bars are NOT MET.** The numerics are checked against independent
+numpy and scipy programs; nothing is compared with a measurement of a lunar quantity, and nothing is
+VALIDATED. Met: the two orbit solutions are consistent (mean q 5.81 against 6 expected), and orbiter
+links raise the smallest datum eigenvalue about 111-fold, assuming a known orbit. **Not met**: the
+injected 3e-10 m/s2 model error is **not detected** (C3: the onboard solution is known to about 350 m, so
+about ten metres hides in its covariance); **integer fixing is not achieved** (1 to 3 % success at
+25 dBi, and at the registered 12 dBi the problem cannot be formed); and the trace half of G3 for adding an
+observable family (the trace rose in 12 of 28 additions, each time because the family raised the rank).
+Each miss is pinned by a test. [Lunar infrastructure](docs/LUNAR-INFRASTRUCTURE.md).
+
 ## Kshana Studio
 
 Open [kshana.dev/studio](https://kshana.dev/studio/) and the whole engine runs in your

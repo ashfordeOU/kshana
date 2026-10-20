@@ -423,6 +423,7 @@ pub fn reason_for_kind(kind: ScenarioKind) -> Option<String> {
         | K::SlotTiming
         | K::Spectrum => no_position,
         K::LeoPass | K::LeoPntChain => return None,
+        K::GnssSsv => "the `gnss-ssv` kind sweeps availability and link strength for a user on a shell or a Keplerian trajectory; it has no single position to place on a map".to_string(),
         K::OpticalAtmosphere => "the `optical-atmosphere` kind computes link statistics for ground \
              sites with no time-tagged geometry to place"
             .to_string(),
@@ -477,6 +478,7 @@ pub fn reason_for_kind(kind: ScenarioKind) -> Option<String> {
         | K::LunarAttackSurface
         | K::LunarJamming
         | K::LunarBeacon
+        | K::LunarInfrastructure
         | K::LunarVlbiFim
         | K::MarsPnt
         | K::SolarSystem

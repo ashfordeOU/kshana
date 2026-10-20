@@ -104,6 +104,7 @@ pub const KIND_CAPABILITIES: &[(&str, &[&str])] = &[
     ("lunar-station-coverage", &["Lunar reference-station coverage and accuracy map", "Lunar differential PNT", "Lunar differential PNT — correction-link residual budget", "Lunar terrain horizon masks from a stated profile or a polar DEM", "Lunar reference-station multipath and receiver-hardware terms", "Lunar reference-station ephemeris-error growth over the correction latency", "Lunar reference-station solution modes: height constraint, three satellites, static-user window"]),
     ("lunar-beacon", &["Lunar surface-beacon DOP augmentation"]),
     ("earth-gnss-lunar", &["Earth-GNSS at lunar distance", "Navigation RF payload & antenna hardware design"]),
+    ("lunar-infrastructure", &["Lunar orbit determination: Earth-GNSS against ground radiometric", "Lunar carrier-phase ambiguity resolution: surface and orbiter", "Lunar frame co-estimation: surface stations and orbiters", "Space-tie frame-tie precision: co-located GNSS, VLBI and laser ranging", "Lunar Love-number and libration sensitivity"]),
     ("lunar-interop-export", &["Lunar interoperability export"]),
     ("gravity-map", &["Alternative / complementary PNT"]),
     ("terrain-nav", &["Alternative / complementary PNT"]),
@@ -156,6 +157,12 @@ pub const KIND_CAPABILITIES: &[(&str, &[&str])] = &[
     ("eo-radiometry", &["Electro-optical imager radiometry, MTF, relative edge response and GIQE 4 NIIRS"]),
     ("ascent-losses", &["Launch ascent gravity, drag, steering and back-pressure losses"]),
     ("optical-atmosphere", &["Optical slant-path atmosphere numerics: Rytov variance, scintillation, gamma-gamma fade probability, aperture averaging, cloud and clear-air optical depth", "Weather-driven optical ground-site availability and distance-correlated site diversity", "Timing and ranging continuity through optical outages"]),
+    ("gnss-ssv", &[
+        "GNSS signal availability in the Space Service Volume and beyond, compared with the ICG SSV booklet",
+        "Limb-ray ionosphere, plasmasphere and atmosphere effects on grazing GNSS signals, and the weak-signal receiver design, in the `gnss-ssv` kind",
+        "Onboard GNSS navigation filter for high-orbit and lunar-transfer spacecraft",
+        "Relative navigation of a multi-spacecraft formation in a highly elliptical orbit from GNSS",
+    ]),
     ("holdover-test", &["ITU-T telecom synchronisation masks with PASS/FAIL and margin", "Telecom-timing MTIE and TDEV on a holdover time-error series", "Holdover test scored from an operator-supplied time-error record"]),
     ("time-transfer-budget", &["TWSTFT two-way equation, uncertainty budget and link stability with flicker and diurnal non-reciprocity"]),
 ];

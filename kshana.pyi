@@ -79,6 +79,7 @@ ScenarioKind = Literal[
     "lunar-llr-datum",
     "lunar-beacon",
     "earth-gnss-lunar",
+    "lunar-infrastructure",
     "cislunar-arc-recovery",
     "telecom-timing",
     "slot-timing",
@@ -103,6 +104,7 @@ ScenarioKind = Literal[
     "time-transfer-budget",
     "optical-atmosphere",
     "holdover-test",
+    "gnss-ssv",
 ]
 """Every built-in scenario kind, the value of a scenario's top-level ``kind``."""
 

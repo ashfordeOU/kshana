@@ -1,0 +1,28 @@
+# Kshana lunar-infrastructure scenario: geodesy-sensitivity. MODELLED; the design, inputs and bars are
+# fixed in xval/lunar-infra/PREREGISTRATION.md (committed before any run). ILLUSTRATIVE inputs
+# are labelled with their public sources there.
+kind = "lunar-infrastructure"
+study = "geodesy-sensitivity"
+seed = 20261019
+
+[nominal]
+h2 = 0.0424
+k2 = 0.024116
+l2 = 0.0106
+
+[llr]
+sigma_m = 0.05
+epochs = 400
+
+[orbiter]
+sigma_mm_s = 0.05
+arc_days = 27.3
+sample_s = 3600.0
+
+[gravimeter]
+sigma_nm_s2 = 10.0
+epochs = 1000
+
+[clock]
+sigma_fractional = 1.0e-16
+epochs = 100
