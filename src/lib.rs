@@ -211,6 +211,7 @@ pub mod lunar_frame_predict;
 pub mod lunar_frame_realise;
 pub mod lunar_gauge;
 pub mod lunar_identifiability;
+pub mod lunar_infra;
 pub mod lunar_interop;
 pub mod lunar_interop_budget;
 pub mod lunar_jamming;

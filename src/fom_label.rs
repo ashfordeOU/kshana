@@ -227,6 +227,7 @@ pub const KINDS_EXCLUDED_FROM_FIGURE_TIERS: &[(&str, &str)] = &[
     ("optical-atmosphere", "its figures are per-site and per-network-row arrays; the document carries its own MODELLED label"),
     ("gnss-ssv", "its figures are per-constellation and per-band arrays of availability and outage; the document carries its own MODELLED label"),
     ("holdover-test", "its figures are per-step statistics, mask verdicts and curves of a record the operator supplied; the document carries its own MODELLED label"),
+    ("lunar-infrastructure", "five studies with different report shapes whose figures are per-arc rows, sweeps and matrices; each document carries its own MODELLED label and a units block"),
     ("sweep", "its results are arrays of member runs; the members carry their own tiers"),
     ("sweep-nd", "its results are arrays of member metrics; the members carry their own tiers"),
 ];
