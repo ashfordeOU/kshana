@@ -147,12 +147,12 @@ breaking changes are called out explicitly.
 
 ### Fixed
 
-- **Issue #36: oracle and reference tests on a Mac.** The byte-exact layers of the pin tests were gated on aarch64 macOS, but a
-  literal is one machine's maths library and Apple ships a different one per macOS release. They now also need the declared
-  baseline host (`KSHANA_EXACT_PINS=1`, set by `scripts/gate.sh`), so the exact layer stays enforced where the pins were
-  captured and the portable layer runs everywhere. No literal was re-taken and no tolerance changed; a guard test fails if a
-  byte-exact layer is gated on the platform alone again. `scripts/oracle-triage.sh` and
-  [`docs/LOCAL-ORACLE-TESTS.md`](docs/LOCAL-ORACLE-TESTS.md) say how to triage a difference.
+- **Issue #36: byte-exact pin layers.** Byte-exact pin layers run only on a host declared the baseline (`KSHANA_EXACT_PINS=1`, set
+  by `scripts/gate.sh`), not on every Apple-silicon Mac, because Apple's maths library differs between macOS releases; the
+  portable layer runs everywhere, and `tests/exact_pin_gate_guard.rs` stops a byte-exact layer being gated on platform alone
+  again. The oracle comparisons themselves pass on macOS. No literal was re-taken and no tolerance changed.
+  `scripts/oracle-triage.sh` and [`docs/LOCAL-ORACLE-TESTS.md`](docs/LOCAL-ORACLE-TESTS.md) say how to triage a difference;
+  `.github/workflows/oracle-macos.yml` is a manual and weekly diagnostic, not a gate.
 - **CodeQL: an unanchored pattern in the Studio's trust-open helper** now matches the whole header (`web/studio/lib/trust-open.mjs`).
 - **CI: runner disk.** The `check` job builds the dev and test profiles without debug information, so linking no longer fills the disk.
 - **Source guards.** Every source file that holds pin-bearing test fixtures declares its pin scope, and the tests that write
