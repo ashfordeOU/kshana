@@ -1019,6 +1019,272 @@ def ssv_booklet_fig(t, d, v):
 
 
 # --------------------------------------------------------------------------------------
+# 11. Lunar infrastructure (lunar-infrastructure)
+# --------------------------------------------------------------------------------------
+
+LUNAR_NOTE = "MODELLED: a restricted three-body model with stated simplifications and illustrative inputs, not a measurement of any lunar quantity."
+
+
+def load_lunar_od(run: Run) -> dict:
+    return {"nominal": run.scenario("scenarios/lunar-infrastructure-od-consistency.toml"),
+            "error": run.scenario("scenarios/lunar-infrastructure-od-consistency-model-error.toml")}
+
+
+def load_lunar_carrier(run: Run) -> dict:
+    # The scored configuration (three arcs, 400 draws) takes about eight minutes; its result is committed.
+    full = json.loads((ROOT / "tests" / "fixtures" / "lunar_infra" / "phase_full_run.json").read_text())
+    return {"full": full, "quick": run.scenario("scenarios/lunar-infrastructure-carrier-phase.toml")}
+
+
+def load_lunar_frame(run: Run) -> dict:
+    return run.scenario("scenarios/lunar-infrastructure-frame-coestimation.toml")
+
+
+def load_lunar_tie(run: Run) -> dict:
+    return run.scenario("scenarios/lunar-infrastructure-space-tie.toml")
+
+
+def load_lunar_geodesy(run: Run) -> dict:
+    return run.scenario("scenarios/lunar-infrastructure-geodesy-sensitivity.toml")
+
+
+def lunar_od_fig(t, d, v):
+    a, b = d["nominal"], d["error"]
+    ca, cb = a["consistency"], b["consistency"]
+    desc = (f"Consistency of an onboard Earth-GNSS orbit determination in a near-rectilinear halo orbit with an independent ground orbit determination, from real runs of "
+            f"engine v{v} on scenarios/lunar-infrastructure-od-consistency.toml and the model-error variant ({ca['trials']} trials each). Mean normalised difference q is "
+            f"{ca['mean_q']:.2f} with no model error and {cb['mean_q']:.2f} with an injected acceleration error of {cb['model_error_accel_m_s2']:g} m/s2, against {ca['expected_mean_q']:g} expected: the two "
+            f"orbit solutions are consistent (bar C1 MET). The share of trials above the 95 % point is {ca['fraction_exceeding_95']:.3f} and {cb['fraction_exceeding_95']:.3f}; the bar for detecting the injected error "
+            f"was at least 0.5, so it is NOT MET (C3): the onboard solution is known to about {a['gnss_estimate']['position_sigma_m']:.0f} m against {a['ground_estimate']['position_sigma_m']:.0f} m for the ground one, "
+            f"so a ten-metre displacement hides inside its covariance. {LUNAR_NOTE} {advisory_of(None)}")
+    F = Fig(t, d, "Lunar infrastructure · orbit-determination consistency", "Consistent, and blind to a small error.",
+            f"{ca['trials']} trials · 3-day arc · NRHO", [("kshana", "b"), ("lunar-infrastructure", "n"), ("·", "n"), ("study od-consistency", "n")],
+            290, desc, "Orbit-determination consistency with and without an injected model error",
+            [("adv", advisory_of(None)),
+             ("note", f"C1 is MET and C3 is NOT MET (pinned by a test): the injected error is not detected at this size. {LUNAR_NOTE}")],
+            f"Engine v{v} · scenarios/lunar-infrastructure-od-consistency*.toml · MODELLED, advisory")
+    s = F.s
+    panels = [("mean q", [(("no model error", ca["mean_q"]), "cyan"), (("3e-10 m/s2 injected", cb["mean_q"]), "magenta")], 8.0, ca["expected_mean_q"], "expected 6", "{:.2f}"),
+              ("share above the 95 % point", [(("no model error", ca["fraction_exceeding_95"]), "cyan"), (("3e-10 m/s2 injected", cb["fraction_exceeding_95"]), "magenta")], 1.0, 0.5, "bar 0.5", "{:.3f}"),
+              ("position sigma, m", [(("onboard GNSS", a["gnss_estimate"]["position_sigma_m"]), "amber"), (("ground range and Doppler", a["ground_estimate"]["position_sigma_m"]), "lime")], 400.0, None, "", "{:.0f}")]
+    pw = (F.ww - 48 - 2 * 24) / 3
+    for i, (title, bars, mx, ref, reflab, fmt) in enumerate(panels):
+        x0 = F.wx + 24 + i * (pw + 24)
+        y = F.top + 28
+        s.text(title, x0, y, 13, t["ink"], "sans", 500)
+        for j, ((lab, val), key) in enumerate(bars):
+            yy = y + 28 + j * 66
+            s.text(lab, x0, yy, 11, t["ink3"], "mono")
+            s.rect(x0, yy + 8, pw, 18, fill=g.soft(t, "ink4", t["panel"], 0.2), r=4)
+            s.rect(x0, yy + 8, max(pw * min(val / mx, 1), 2), 18, fill=g.soft(t, key, t["panel"], 0.85), r=4)
+            s.text(fmt.format(val), x0 + pw * min(val / mx, 1) + 8 if val / mx < 0.8 else x0 + pw - 8, yy + 22, 11.5, t["ink"], "mono", 500, anchor="start" if val / mx < 0.8 else "end")
+        if ref is not None:
+            rx = x0 + pw * ref / mx
+            s.line(rx, y + 30, rx, y + 28 + 2 * 66 - 20, t["coral"] if reflab.startswith("bar") else t["lime"], 1.4, dash="4 3")
+            s.text(reflab, rx, y + 28 + 2 * 66 - 6, 10.5, t["coral"] if reflab.startswith("bar") else t["lime"], "mono", 500, anchor="middle")
+    return s
+
+
+def lunar_carrier_fig(t, d, v):
+    arcs = d["full"]["arcs"]
+    q = d["quick"]
+    desc = (f"Carrier-phase integer ambiguity fixing between lunar surface stations and an orbiter, from the committed result of the scored run of engine v{v} "
+            f"(tests/fixtures/lunar_infra/phase_full_run.json: {len(arcs)} arc lengths, a Monte Carlo of 400 draws each, written by scenarios/carrier-phase-scored.toml). "
+            + "; ".join(f"{a['arc_days']:g} day: success {100 * a['monte_carlo_success_rate']:.1f} % (standard error {100 * a['monte_carlo_standard_error']:.1f} %), {a['double_difference_ambiguities']} ambiguities, orbiter position sigma "
+                         f"{a['orbiter_position_sigma_float_m']:.1f} m float and {a['orbiter_position_sigma_fixed_m']:.1f} m fixed" for a in arcs)
+            + ". Integer fixing is not achieved: success stays between 1 % and 3 % at 25 dBi, and at the registered 12 dBi the problem cannot be formed. "
+              f"{LUNAR_NOTE} {advisory_of(None)}")
+    F = Fig(t, d, "Lunar infrastructure · carrier phase", "Integers not fixed.",
+            f"{len(arcs)} arc lengths · 400 draws each", [("kshana", "b"), ("lunar-infrastructure", "n"), ("·", "n"), ("study carrier-phase", "n")],
+            340, desc, "Integer fixing success rate against arc length",
+            [("adv", advisory_of(None)),
+             ("note", "Drawn from the committed result of the scored run (about eight minutes to reproduce); the bundled quick scenario runs two short arcs with ten draws. "
+                      f"Integer fixing is not achieved at the registered inputs. {LUNAR_NOTE}")],
+            f"Engine v{v} · tests/fixtures/lunar_infra/phase_full_run.json (scored run) · MODELLED, advisory")
+    s = F.s
+    half = (F.ww - 48 - 40) / 2
+    x0 = F.wx + 24
+    # left: success rate against arc length
+    y0, h = F.top + 52, 170
+    s.text("Integer fixing success, %", x0, F.top + 28, 13, t["ink"], "sans", 500)
+    lx, lw = x0 + 40, half - 60
+    amax = max(a["arc_days"] for a in arcs) * 1.15
+    ymax = 10.0
+
+    def X(dd):
+        return lx + dd / amax * lw
+
+    def Y(p):
+        return y0 + h - p / ymax * h
+    for p in (0, 2, 4, 6, 8, 10):
+        s.line(lx, Y(p), lx + lw, Y(p), g.line(t, 0, t["panel"]), 1)
+        s.text(f"{p}", lx - 8, Y(p) + 4, 10.5, t["ink3"], "mono", anchor="end")
+    for a in arcs:
+        p, se = 100 * a["monte_carlo_success_rate"], 100 * a["monte_carlo_standard_error"]
+        s.line(X(a["arc_days"]), Y(max(p - se, 0)), X(a["arc_days"]), Y(p + se), t["ink3"], 1.4)
+        s.circle(X(a["arc_days"]), Y(p), 5, fill=t["coral"])
+        s.text(f"{a['arc_days']:g} d", X(a["arc_days"]), y0 + h + 18, 10.5, t["ink3"], "mono", anchor="middle")
+    s.poly([(X(a["arc_days"]), Y(100 * a["monte_carlo_success_rate"])) for a in arcs], stroke=t["coral"], sw=1.6)
+    s.text("arc length", lx + lw, y0 + h + 34, 10.5, t["ink3"], "mono", anchor="end")
+    # right: orbiter position sigma float and fixed
+    rx = x0 + half + 40
+    s.text("Orbiter position sigma, m", rx, F.top + 28, 13, t["ink"], "sans", 500)
+    mx = max(a["orbiter_position_sigma_float_m"] for a in arcs) * 1.1
+    for i, a in enumerate(arcs):
+        yy = F.top + 62 + i * 70
+        s.text(f"{a['arc_days']:g} day", rx, yy + 10, 11.5, t["ink"], "mono", 500)
+        for j, (key, lab, val) in enumerate((("amber", "float", a["orbiter_position_sigma_float_m"]), ("cyan", "if the integers were fixed", a["orbiter_position_sigma_fixed_m"]))):
+            bx = rx + 70
+            s.rect(bx, yy + j * 24 - 4, (half - 90) * val / mx, 16, fill=g.soft(t, key, t["panel"], 0.85), r=3)
+            s.text(f"{val:.1f}  {lab}", bx + (half - 90) * val / mx + 8, yy + j * 24 + 9, 10.5, t["ink2"], "mono")
+    return s
+
+
+def lunar_frame_fig(t, d, v):
+    names = ["t_x", "t_y", "t_z", "scale", "theta_x", "theta_y", "theta_z"]
+    w, wo = d["with_orbiter_links"], d["without_orbiter_links"]
+    desc = (f"Precision of the seven-parameter lunar datum (three translations, a scale and three rotations) from Earth-station ranging, with and without orbiter-to-surface-station ranges, "
+            f"from a real run of engine v{v} on scenarios/lunar-infrastructure-frame-coestimation.toml. The Cramer-Rao sigma of the translations and rotations falls with the orbiter links "
+            f"(for example t_z from {wo['crlb_sigma'][2]:.2f} m to {w['crlb_sigma'][2]:.3f} m); the smallest information eigenvalue rises {d['lambda_min_ratio']:.0f}-fold and the "
+            f"CRLB trace falls to {100 * d['crlb_trace_ratio']:.1f} % (bar F3 MET). This assumes the orbit is known in the lunar axes, with its error carried by the orbiter range sigma of 1 m. "
+            f"{LUNAR_NOTE} {advisory_of(None)}")
+    F = Fig(t, d, "Lunar infrastructure · frame co-estimation", "Orbiter links pin the datum.",
+            f"{len(names)} datum parameters · {w['observations']} observations", [("kshana", "b"), ("lunar-infrastructure", "n"), ("·", "n"), ("study frame-coestimation", "n")],
+            130 + 44 * len(names), desc, "Lunar datum precision with and without orbiter links",
+            [("adv", advisory_of(None)),
+             ("note", f"The orbit is held known in the lunar axes; its error is carried by the orbiter range sigma. Cramer-Rao sigma is a lower bound, not an achieved accuracy. {LUNAR_NOTE}")],
+            f"Engine v{v} · scenarios/lunar-infrastructure-frame-coestimation.toml · MODELLED, advisory")
+    s = F.s
+    lx, lw = F.wx + 190, F.ww - 190 - 330
+    lo, hi = -3, 0
+    vals = w["crlb_sigma"] + wo["crlb_sigma"]
+    lo, hi = math.floor(math.log10(min(vals))), math.ceil(math.log10(max(vals)))
+    if hi == lo:
+        hi += 1
+
+    def X(val):
+        return lx + (math.log10(val) - lo) / (hi - lo) * lw
+    y = F.top + 18
+    for e in range(lo, hi + 1):
+        s.line(X(10 ** e), y, X(10 ** e), y + 44 * len(names), g.line(t, 0, t["panel"]), 1)
+        s.text(f"{10 ** e:g}", X(10 ** e), y + 44 * len(names) + 14, 10.5, t["ink3"], "mono", anchor="middle")
+    s.text("CRLB sigma, metres at the surface (log axis)", F.wx + 24, y + 44 * len(names) + 34, 10.5, t["ink3"], "mono")
+    for i, nme in enumerate(names):
+        yy = y + i * 44
+        s.text(nme, F.wx + 24, yy + 24, 12.5, t["ink"], "mono", 500)
+        s.rect(lx, yy + 4, X(wo["crlb_sigma"][i]) - lx, 14, fill=g.soft(t, "amber", t["panel"], 0.85), r=3)
+        s.rect(lx, yy + 21, X(w["crlb_sigma"][i]) - lx, 14, fill=g.soft(t, "cyan", t["panel"], 0.85), r=3)
+        s.text(f"{wo['crlb_sigma'][i]:.3g}", X(wo["crlb_sigma"][i]) + 8, yy + 16, 10.5, t["ink3"], "mono")
+        s.text(f"{w['crlb_sigma'][i]:.3g}", X(w["crlb_sigma"][i]) + 8, yy + 33, 10.5, t["ink3"], "mono")
+    cx = F.wx + F.ww - 250
+    for k, (lab, key) in enumerate((("Earth stations only", "amber"), ("with orbiter links", "cyan"))):
+        g.legend_item(s, t, cx, y + 14 + k * 24, lab, lambda x, yy, kk=key: s.rect(x, yy, 12, 12, fill=g.soft(t, kk, t["panel"], 0.85), r=3))
+    g.chip(s, t, cx, y + 80, f"smallest eigenvalue x{d['lambda_min_ratio']:.0f}", t["lime"])
+    g.chip(s, t, cx, y + 114, f"CRLB trace {100 * d['crlb_trace_ratio']:.1f} %", t["lime"])
+    return s
+
+
+def lunar_tie_fig(t, d, v):
+    sw = d["arcs"][0]["sweep"]
+    tech = d["technique_sigma_m"]
+    ties = [x["local_tie_sigma_m"] for x in sw]
+    ser = {k: [x["offsets"][k]["translation_sigma_m"][0] for x in sw] for k in ("slr_minus_gnss", "vlbi_minus_gnss", "slr_minus_vlbi")}
+    floor = [x["floor_translation_sigma_m"] for x in sw]
+    desc = (f"Precision of the offsets between laser ranging, VLBI and GNSS positions of one spacecraft, against the error of the ground local tie, from a real run of engine v{v} "
+            f"on scenarios/lunar-infrastructure-space-tie.toml (one {d['arcs'][0]['arc_days']:g}-day arc, technique sigmas GNSS {tech['gnss']:g} m, VLBI {tech['vlbi']:g} m, laser {tech['slr']:g} m). "
+            f"With a local tie from {ties[0] * 1000:g} mm to {ties[-1]:g} m, the laser-minus-GNSS translation sigma stays near {ser['slr_minus_gnss'][0]:.2f} m until the tie reaches 1 m: it is "
+            f"limited by the measurement noise of the techniques, not by the local tie. The floor set by the tie alone is the square root of two times its sigma. {LUNAR_NOTE} {advisory_of(None)}")
+    F = Fig(t, d, "Lunar infrastructure · space tie", "The local tie is not the limit.",
+            f"1 arc · {d['arcs'][0]['epochs']} epochs", [("kshana", "b"), ("lunar-infrastructure", "n"), ("·", "n"), ("study space-tie", "n")],
+            400, desc, "Inter-technique offset precision against the local tie",
+            [("adv", advisory_of(None)),
+             ("note", f"With the registered technique sigmas the offsets are limited by measurement noise; the local tie sets the floor only for near-perfect techniques. {LUNAR_NOTE}")],
+            f"Engine v{v} · scenarios/lunar-infrastructure-space-tie.toml · MODELLED, advisory")
+    s = F.s
+    lx, lw = F.wx + 250, F.ww - 250 - 60
+    y0, h = F.top + 18, 230
+    lo_x, hi_x = math.log10(ties[0]), math.log10(ties[-1])
+    allv = [x for k in ser for x in ser[k]] + floor
+    lo_y, hi_y = math.floor(math.log10(min(allv))), math.ceil(math.log10(max(allv)))
+
+    def X(val):
+        return lx + (math.log10(val) - lo_x) / (hi_x - lo_x) * lw
+
+    def Y(val):
+        return y0 + h - (math.log10(val) - lo_y) / (hi_y - lo_y) * h
+    F.label(F.wx + 20, y0, "Translation sigma", "m, x component, log axes")
+    for e in range(lo_y, hi_y + 1):
+        s.line(lx, Y(10 ** e), lx + lw, Y(10 ** e), g.line(t, 0, t["panel"]), 1)
+        s.text(f"{10 ** e:g}", lx - 10, Y(10 ** e) + 4, 10.5, t["ink3"], "mono", anchor="end")
+    for tv in ties:
+        s.text(f"{tv:g}", X(tv), y0 + h + 18, 10.5, t["ink3"], "mono", anchor="middle")
+    s.text("local tie sigma, m", lx + lw, y0 + h + 34, 10.5, t["ink3"], "mono", anchor="end")
+    s.poly([(X(a), Y(b)) for a, b in zip(ties, floor)], stroke=t["ink3"], sw=1.4, dash="5 4")
+    s.text("floor: sqrt(2) x local tie", X(ties[2]) + 10, Y(floor[2]) + 22, 10.5, t["ink3"], "mono")
+    s.text("laser minus GNSS and VLBI minus GNSS nearly coincide", lx + 10, Y(2.5), 10.5, t["ink3"], "mono")
+    for key, col, lab in (("slr_minus_gnss", "amber", "laser minus GNSS"), ("vlbi_minus_gnss", "magenta", "VLBI minus GNSS"), ("slr_minus_vlbi", "cyan", "laser minus VLBI")):
+        pts = [(X(a), Y(b)) for a, b in zip(ties, ser[key])]
+        s.poly(pts, stroke=t[col], sw=2)
+        for px, py in pts:
+            s.circle(px, py, 3.2, fill=t[col])
+    gx, gy = lx, y0 + h + 62
+    for key, lab in (("amber", "laser minus GNSS"), ("magenta", "VLBI minus GNSS"), ("cyan", "laser minus VLBI")):
+        gx += g.legend_item(s, t, gx, gy, lab, lambda x, yy, kk=key: s.line(x, yy + 6, x + 14, yy + 6, t[kk], 2)) + 22
+    return s
+
+
+def lunar_geodesy_fig(t, d, v):
+    fams = d["families"]
+    order = ["llr", "orbiter", "gravimeter", "clock"]
+    names = {"llr": "laser ranging", "orbiter": "orbiter tracking", "gravimeter": "surface gravimeter", "clock": "surface clock"}
+    par = ["h2", "k2", "l2"]
+    rel = d["crlb_sigma_over_nominal_h2_k2_l2"]
+    ad = d["adding_a_family"]
+    desc = (f"Which observable family is sensitive to the lunar Love numbers h2, k2 and l2, from a real run of engine v{v} on scenarios/lunar-infrastructure-geodesy-sensitivity.toml. "
+            "Each cell is the RMS partial derivative of a family's observations with respect to a parameter, in that family's own units (so cells are compared across a row, not down a column); a dash means the family has no sensitivity. "
+            + " ".join(f"{names[f]}: " + ", ".join(f"{p} {'none' if fams[f]['rms_partial'][i] == 0 else format(fams[f]['rms_partial'][i], '.2g')}" for i, p in enumerate(par)) + "." for f in order)
+            + f" With all four families, the Cramer-Rao sigma is {100 * rel[0]:.2f} % of nominal h2, {100 * rel[1]:.2f} % of k2 and {100 * rel[2]:.2f} % of l2. Adding a family never lowered the smallest eigenvalue "
+              f"({ad['lambda_min_not_smaller']} of {ad['pairs_checked']} additions), but the trace of the pseudo-inverse was no larger in only {ad['trace_not_larger']} of {ad['pairs_checked']}: that half of bar G3 is NOT MET. "
+              f"The orbiter family sees the line-of-sight integral of the k2 acceleration, an upper-end figure. {LUNAR_NOTE} {advisory_of(None)}")
+    F = Fig(t, d, "Lunar infrastructure · geodesy sensitivity", "Who sees h2, k2 and l2.",
+            f"{sum(f['rows'] for f in fams.values()):,} observations · 4 families", [("kshana", "b"), ("lunar-infrastructure", "n"), ("·", "n"), ("study geodesy-sensitivity", "n")],
+            190 + 56 * len(order), desc, "Lunar Love-number sensitivity by observable family",
+            [("adv", advisory_of(None)),
+             ("note", f"G3 is NOT MET in its trace half: adding a family never lowered the smallest information eigenvalue, but the pseudo-inverse trace rose in {ad['pairs_checked'] - ad['trace_not_larger']} of "
+                      f"{ad['pairs_checked']} additions, each time because the added family raised the rank. h2 and l2 are linearisation points, not verified values. {LUNAR_NOTE}")],
+            f"Engine v{v} · scenarios/lunar-infrastructure-geodesy-sensitivity.toml · MODELLED, advisory")
+    s = F.s
+    x0 = F.wx + 24
+    cw = (F.ww - 48 - 230) / 3
+    y = F.top + 18
+    for i, p in enumerate(par):
+        s.text(p, x0 + 230 + i * cw + cw / 2, y + 14, 13, t["cyan"], "mono", 500, anchor="middle")
+    y += 26
+    allv = [x for f in order for x in fams[f]["rms_partial"][:3] if x > 0]
+    lo, hi = math.log10(min(allv)), math.log10(max(allv))
+    for f in order:
+        s.text(names[f], x0, y + 30, 13, t["ink"], "sans", 500)
+        s.text(f"{fams[f]['rows']:,} rows", x0, y + 46, 11, t["ink3"], "mono")
+        for i in range(3):
+            val = fams[f]["rms_partial"][i]
+            cx = x0 + 230 + i * cw
+            if val > 0:
+                k = (math.log10(val) - lo) / (hi - lo) if hi > lo else 1
+                s.rect(cx + 8, y + 6, cw - 16, 46, fill=g.soft(t, "cyan", t["panel"], 0.18 + 0.7 * k), stroke=g.line(t, 1, t["panel"]), r=6)
+                s.text(f"{val:.2g}", cx + cw / 2, y + 35, 13, t["ink"], "mono", 500, anchor="middle")
+            else:
+                s.rect(cx + 8, y + 6, cw - 16, 46, fill="none", stroke=g.line(t, 0, t["panel"]), r=6)
+                s.text("none", cx + cw / 2, y + 35, 12, t["ink4"], "mono", anchor="middle")
+        y += 56
+    gx = x0 + 230
+    for lab, val, key in (("all four, sigma / nominal h2", f"{100 * rel[0]:.2f} %", "lime"), ("k2", f"{100 * rel[1]:.2f} %", "lime"), ("l2", f"{100 * rel[2]:.2f} %", "lime")):
+        gx += g.chip(s, t, gx, y + 14, f"{lab} {val}", t[key]) + 10
+    s.text("Cells are RMS partial derivatives in each family's own units: compare along a row, not down a column.", x0 + 230, y + 14 + 70, 11, t["ink3"], "mono")
+    g.chip(s, t, x0 + 230, y + 50, f"G3 trace half NOT MET: trace no larger in {ad['trace_not_larger']} of {ad['pairs_checked']} additions", t["coral"])
+    return s
+
+
+# --------------------------------------------------------------------------------------
 # Build, manifest and CLI
 # --------------------------------------------------------------------------------------
 
@@ -1039,6 +1305,13 @@ FIGURES = {
     "ssv-heo": (load_ssv_heo, ssv_heo_fig, "kshana scenarios/gnss-ssv-heo.toml", ("scenarios/gnss-ssv-heo.toml",)),
     "ssv-nav": (load_ssv_nav, ssv_nav_fig, "kshana scenarios/gnss-ssv-nav-lunar.toml", ("scenarios/gnss-ssv-nav-lunar.toml",)),
     "ssv-formation": (load_ssv_formation, ssv_formation_fig, "kshana scenarios/gnss-ssv-formation-heo.toml", ("scenarios/gnss-ssv-formation-heo.toml",)),
+    "lunar-od": (load_lunar_od, lunar_od_fig, "kshana scenarios/lunar-infrastructure-od-consistency.toml and -model-error.toml",
+                 ("scenarios/lunar-infrastructure-od-consistency.toml", "scenarios/lunar-infrastructure-od-consistency-model-error.toml")),
+    "lunar-carrier": (load_lunar_carrier, lunar_carrier_fig, "committed result of the scored carrier-phase run (tests/fixtures/lunar_infra/phase_full_run.json)",
+                      ("tests/fixtures/lunar_infra/phase_full_run.json",)),
+    "lunar-frame": (load_lunar_frame, lunar_frame_fig, "kshana scenarios/lunar-infrastructure-frame-coestimation.toml", ("scenarios/lunar-infrastructure-frame-coestimation.toml",)),
+    "lunar-tie": (load_lunar_tie, lunar_tie_fig, "kshana scenarios/lunar-infrastructure-space-tie.toml", ("scenarios/lunar-infrastructure-space-tie.toml",)),
+    "lunar-geodesy": (load_lunar_geodesy, lunar_geodesy_fig, "kshana scenarios/lunar-infrastructure-geodesy-sensitivity.toml", ("scenarios/lunar-infrastructure-geodesy-sensitivity.toml",)),
     "ssv-booklet": (load_ssv_booklet, ssv_booklet_fig, "committed results of the pre-registered run (xval/gnss-ssv/results-run1.json, results-variant-glonass-table-4-2.json, results-s7.json)",
                     ("xval/gnss-ssv/results-run1.json", "xval/gnss-ssv/results-variant-glonass-table-4-2.json", "xval/gnss-ssv/results-s7.json")),
 }
@@ -1078,6 +1351,7 @@ DOC_PAGES = {
     "bench": "docs/BENCH.md", "exporters": "docs/TRUST-TELEMETRY.md", "optical": "docs/OPTICAL-ATMOSPHERE.md",
 }
 DOC_PAGES.update({"ssv-shell": "docs/SSV.md", "ssv-heo": "docs/SSV.md", "ssv-nav": "docs/SSV.md", "ssv-formation": "docs/SSV.md", "ssv-booklet": "docs/SSV.md"})
+DOC_PAGES.update({n: "docs/LUNAR-INFRASTRUCTURE.md" for n in ("lunar-od", "lunar-carrier", "lunar-frame", "lunar-tie", "lunar-geodesy")})
 FIGURE_PAGES = {name: ("README.md", DOC_PAGES[name]) for name in FIGURES}
 
 
