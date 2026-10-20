@@ -57,8 +57,86 @@ fn dump_sha256() -> (String, usize) {
     (hex::encode(h.finalize()), count)
 }
 
+/// Values of `edf` at points of the grid, taken on the baseline engine (Linux, 0.36 portable maths).
+// PIN-SCOPE:    edf at ten grid points (noise, n, m, variance type), as printed by `{:e}`
+// PIN-EXCLUDES: every other grid point; the exact layer's hash covers them on the baseline host
+const SPOT: [(NoiseType, usize, usize, VarType, f64); 10] = [
+    (
+        NoiseType::WhitePM,
+        64,
+        3,
+        VarType::Allan,
+        3.0901639344262296e1,
+    ),
+    (
+        NoiseType::FlickerPM,
+        100,
+        10,
+        VarType::Modified,
+        7.797976206874892e0,
+    ),
+    (
+        NoiseType::WhiteFM,
+        257,
+        7,
+        VarType::Hadamard,
+        3.852758956402695e1,
+    ),
+    (NoiseType::FlickerFM, 1000, 50, VarType::Total, 2.318e1),
+    (
+        NoiseType::RandomWalkFM,
+        4096,
+        100,
+        VarType::Allan,
+        3.8075572018490924e1,
+    ),
+    (
+        NoiseType::FlickerPM,
+        100_000,
+        3,
+        VarType::Hadamard,
+        3.7291637422781256e4,
+    ),
+    (NoiseType::WhiteFM, 4096, 1, VarType::Total, 6.144e3),
+    (
+        NoiseType::RandomWalkFM,
+        1000,
+        20,
+        VarType::Hadamard,
+        4.6031557920043106e1,
+    ),
+    (
+        NoiseType::RandomWalkFM,
+        100_000,
+        5000,
+        VarType::Total,
+        1.8240000000000002e1,
+    ),
+    (
+        NoiseType::FlickerFM,
+        30,
+        4,
+        VarType::Allan,
+        6.696428571428571e0,
+    ),
+];
+
+fn exact_layer_applies() -> bool {
+    !cfg!(target_os = "macos") || std::env::var("KSHANA_EXACT_PINS").ok().as_deref() == Some("1")
+}
+
 #[test]
 fn uncertainty_edf_is_bit_identical_to_the_0_36_portable_baseline() {
+    for &(noise, n, m, var, want) in &SPOT {
+        let got = edf(noise, n, m, var);
+        assert!(
+            (got - want).abs() <= 1e-9 * want.abs(),
+            "edf({noise:?}, {n}, {m}, {var:?}) = {got:e}, baseline {want:e}"
+        );
+    }
+    if !exact_layer_applies() {
+        return;
+    }
     let (got, count) = dump_sha256();
     eprintln!("{count} values, dump SHA-256 {got}");
     assert_eq!(count, 274_280);

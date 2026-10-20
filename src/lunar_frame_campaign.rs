@@ -2305,7 +2305,7 @@ mod tests {
             );
 
             // ── Exact layer: only where these literals were captured ─────────────
-            if crate::test_support::ON_BASELINE_HOST {
+            if crate::test_support::on_baseline_host() {
                 assert_eq!(
                     buf.len(),
                     expect_len,

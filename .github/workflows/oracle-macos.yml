@@ -1,0 +1,52 @@
+# External-oracle comparison tests on Apple silicon (diagnostic; issue #36).
+#
+# The tests that compare Kshana with an external oracle (`tests/*_oracle.rs`,
+# `tests/*_reference.rs`) run on Linux in `ci.yml`. The only macOS job there runs four
+# platform-independent targets, so on a developer's Mac the full suite was the first time
+# those comparisons met Apple's libm, and about a dozen of them failed there while CI was
+# green. This job runs them all on a macOS arm64 runner with --no-fail-fast and writes the
+# list of failures, each classified, to the job summary and an artifact, so the cause of every
+# one can be read instead of guessed.
+#
+# It is a diagnostic, not a gate: manual and weekly, never triggered by a pull request, and
+# it changes no test and no bar.
+name: Oracle tests on macOS (diagnostic)
+on:
+  workflow_dispatch:
+    inputs:
+      scope:
+        description: "oracle: the *_oracle and *_reference targets; all: the whole suite"
+        type: choice
+        options: [oracle, all]
+        default: oracle
+  schedule:
+    - cron: "17 4 * * 1"
+permissions:
+  contents: read
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  oracle-macos:
+    runs-on: macos-14
+    timeout-minutes: 360
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: dtolnay/rust-toolchain@e2a55d2ffb04f378e9626c28d38b36d230d1e12f # master; the toolchain is the `toolchain` input below
+        with:
+          toolchain: 1.93.0
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2
+      - name: Run the suite, debug profile (the one `cargo test` uses locally)
+        env:
+          # A manual run picks the scope; the weekly run is the oracle set.
+          SCOPE: ${{ inputs.scope || 'oracle' }}
+        run: scripts/oracle-triage.sh $([ "$SCOPE" = all ] && echo --all) --log oracle-triage.log
+      - name: Upload the log and summary
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: oracle-macos-triage
+          path: |
+            oracle-triage.log
+            oracle-triage.summary.md
+          if-no-files-found: warn
