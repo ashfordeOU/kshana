@@ -22,6 +22,7 @@ pub const FILE_SOURCE_KEYS: &[&str] = &[
     "meta_path",
     "moon_orientation_kernel_path",
     "normal_points_dir",
+    "pattern_csv",
     "planetary_kernel_path",
     "reflectors_path",
     "stations_path",
