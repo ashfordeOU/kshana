@@ -1,0 +1,43 @@
+/* Lunar infrastructure page. Colours, type and radii come from tokens.css; layout from app.css and studio.css. A series is never told apart by colour alone. */
+.luk{padding-bottom:56px}
+.luk h1{font:700 clamp(28px,4.4vw,46px)/1.05 var(--f-display);letter-spacing:-.02em;margin:10px 0 8px}
+.luk .lede{max-width:78ch;margin:0 0 14px;color:var(--ink-2);font-size:16px;line-height:1.5}
+.luk .h3{font:650 17px/1.2 var(--f-display)}
+.luk h3{margin:0 0 6px;font:650 15px/1.2 var(--f-display)}
+.luk-adv{margin:0 0 16px;padding:12px 14px;border-radius:14px;border:1px solid var(--line-2);border-left:4px solid var(--orb-card);background:var(--surface);font-size:13.5px;line-height:1.5;color:var(--ink-2);max-width:100ch}
+.luk-adv b{color:var(--ink)}
+.luk-pick{margin-bottom:14px}
+.luk-tabs{display:flex;flex-wrap:wrap;gap:8px}
+.luk-tab{min-height:44px;padding:0 16px;border-radius:999px;border:1px solid var(--line-2);background:var(--surface);font-weight:600;font-size:13.5px;color:var(--ink-2)}
+.luk-tab[aria-selected=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.luk-tab:focus-visible{outline:2px solid var(--tim);outline-offset:2px}
+.luk-blurb{margin:10px 0 0;font-size:13.5px;color:var(--ink-2);max-width:90ch}
+.luk-status{margin:8px 0 0;font-size:13px;color:var(--ink-2)}.luk-status.err{color:var(--int);font-weight:600}
+.luk .card{margin-bottom:14px;min-width:0}
+.luk-kv{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:8px 20px;margin:12px 0 0}
+.luk-kv dt{font:600 11.5px var(--f-text);color:var(--ink-3);text-transform:uppercase;letter-spacing:.04em;overflow-wrap:anywhere}
+.luk-kv dd{margin:2px 0 0;font:500 13px var(--f-mono);color:var(--ink);overflow-wrap:anywhere}
+.luk-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-bottom:14px;align-items:start}
+.luk-card{min-width:0}.luk-wide{grid-column:1/-1}
+@media (max-width:900px){.luk-grid{grid-template-columns:minmax(0,1fr)}}
+.luk-prov{margin:0 0 14px;font-size:12.5px;color:var(--ink-3);max-width:110ch}
+
+/* the charts and tables are those of lib/ssv.mjs (class names ssk-*), so their rules come with the page */
+.ssk-scroll,.ssk-tablewrap{overflow-x:auto}
+.ssk-chart{display:block;width:100%;height:auto;min-width:420px;margin-top:8px}
+.ssk-t{font:500 10.5px var(--f-mono);fill:var(--ink-2)}.ssk-lab{fill:var(--ink)}
+.ssk-v{font:600 11px var(--f-mono);fill:var(--ink)}
+.ssk-ax{fill:none;stroke:var(--ink-3);stroke-width:1.2}
+.ssk-gl{stroke:var(--line-2);stroke-width:1;stroke-dasharray:3 3}
+.ssk-track{fill:var(--surface-2);stroke:var(--line)}
+.ssk-p0,.ssk-s0{--c:var(--orb-card)}.ssk-p1,.ssk-s1{--c:var(--nav-card)}.ssk-p2,.ssk-s2{--c:var(--spf-card)}
+.ssk-bar,.ssk-key{fill:var(--c)}.ssk-p1{fill-opacity:.75}
+.ssk-line{fill:none;stroke:var(--c);stroke-width:2.2}.ssk-dash{stroke-dasharray:6 3}
+.ssk-pt{fill:var(--bg);stroke:var(--c);stroke-width:2}
+.ssk-end{fill:var(--ink);font-weight:600}
+.ssk-range{fill:var(--orb-card);fill-opacity:.55;stroke:var(--orb-card)}
+.ssk-mean{stroke:var(--ink);stroke-width:2}
+.luk-miss{margin:0 0 14px;padding:12px 14px;border-radius:14px;border:1px solid var(--line-2);border-left:4px solid var(--int-card);background:var(--surface);font-size:13.5px;line-height:1.5;color:var(--ink-2);max-width:100ch}.luk-miss b{color:var(--ink)}
+.luk-chip{display:inline-block;padding:1px 8px;border-radius:999px;border:1px solid var(--line-2);font:600 11px var(--f-mono)}.luk-chip.nm{border-color:var(--int);color:var(--int)}.luk-chip.mt{border-color:var(--itg);color:var(--itg)}
+.luk-list{margin:6px 0 12px;padding-left:18px;font-size:13.5px;color:var(--ink-2);max-width:110ch;line-height:1.5}
+.luk h3+.luk-list,.luk-card h3{margin-top:0}

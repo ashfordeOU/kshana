@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<!-- Space-user GNSS: a page of the Studio. Every relative address resolves from the Studio's own folder (like the Advanced view), so it shares the theme, tokens and modules. It reads files the person picks, in the browser: nothing is uploaded and the engine is not needed. -->
+<base href="../">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Kshana Studio</title>
+<meta name="description" content="Which navigation signals can a spacecraft far above the GNSS satellites still use? Read from the results the engine recorded; nothing is uploaded.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="data:,">
+<link href="../fonts/geist-geist-mono-unbounded.css" rel="stylesheet">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="theme.css">
+<link rel="stylesheet" href="app.css">
+<link rel="stylesheet" href="studio.css">
+<link rel="stylesheet" href="ssv/ssv.css">
+<link rel="modulepreload" href="lib/ssv.mjs">
+<script>
+  // Apply a remembered theme before first paint (per-viewer convenience only).
+  try { const q = new URLSearchParams(location.search).get("theme"); const t = q || localStorage.getItem("kshana-theme"); if (t === "dark" || t === "light") document.documentElement.dataset.theme = t; } catch (e) {}
+</script>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-theme" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.2" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M8 1.8a6.2 6.2 0 0 1 0 12.4z" fill="currentColor"/></symbol>
+  <symbol id="i-play" viewBox="0 0 16 16"><path d="M4.5 2.8v10.4a.6.6 0 0 0 .9.5l8.1-5.2a.6.6 0 0 0 0-1L5.4 2.3a.6.6 0 0 0-.9.5z" fill="currentColor"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 16 16"><path d="M4 2.5h3v11H4zM9 2.5h3v11H9z" fill="currentColor"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 16 16"><path d="M3 8h9m0 0L8.5 4.5M12 8l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-back" viewBox="0 0 16 16"><path d="M4 2.5h1.8v11H4zM13 3v10a.5.5 0 0 1-.8.4L6 8.4a.5.5 0 0 1 0-.8l6.2-5A.5.5 0 0 1 13 3z" fill="currentColor"/></symbol>
+  <symbol id="i-fwd" viewBox="0 0 16 16"><path d="M10.2 2.5H12v11h-1.8zM3 3v10a.5.5 0 0 0 .8.4l6.2-5a.5.5 0 0 0 0-.8L3.8 2.6A.5.5 0 0 0 3 3z" fill="currentColor"/></symbol>
+</svg>
+<a class="skip" href="#main">Skip to the view</a>
+<header class="bar" id="bar">
+  <a class="brand" href="/" aria-label="Kshana home"><span aria-hidden="true" style="display:inline-block;width:34px;height:34px;flex:none;margin:-5px -3px -5px -5px;background:var(--ink);-webkit-mask:url(assets/brand/kshana-mark-mask.png) center/contain no-repeat;mask:url(assets/brand/kshana-mark-mask.png) center/contain no-repeat"></span>Kshana <span class="brand-tag">Studio</span></a>
+  <nav class="crumb" aria-label="Where you are"><span>Space-user GNSS</span></nav>
+  <div class="bar-right">
+    <a class="view-switch" href="./" title="Back to the Studio"><svg class="ic flip" aria-hidden="true"><use href="#i-arrow"/></svg><span class="lbl">Studio</span></a>
+    <button class="icon-btn" id="btn-theme" type="button" aria-label="Switch between light and dark" title="Switch between light and dark"><svg aria-hidden="true"><use href="#i-theme"/></svg></button>
+  </div>
+</header>
+
+<main id="main" tabindex="-1">
+<div class="wrap ssk">
+  <p class="kicker"><i style="--c:var(--orb)"></i>Space-user GNSS</p>
+  <h1 id="ssk-h">Which navigation signals can a spacecraft far above the GNSS satellites still use?</h1>
+  <p class="lede">The satellites of a navigation system point at the Earth, so a spacecraft above them hears only what spills past the limb or leaks through sidelobes. This page shows what the engine finds for five cases: availability on a shell at geostationary height, a highly elliptical orbit, a lunar transfer with a weak-signal receiver, an onboard filter and a two-spacecraft formation. Every number is copied from a result the engine recorded; the page scales it and draws it, and computes nothing else.</p>
+  <p class="ssk-adv" role="note"><b>Advisory software.</b> Kshana is not type-approved navigation equipment (IEC 61108, IEC 61162) and has not been assessed against any performance standard. Every figure carries the label the ledger holds for it (<b>MODELLED</b> unless an external oracle was used); it is an aid to judgement, not a finding about any place, mission or event.</p>
+  <section class="card ssk-pick" aria-label="Scenario"><div class="ssk-tabs" id="ssk-tabs" role="tablist" aria-label="Space-user GNSS scenarios"></div><p class="ssk-blurb" id="ssk-blurb"></p><p class="ssk-status" id="ssk-status" role="status" aria-live="polite">Opening the scenarios…</p></section>
+  <div id="ssk-body" hidden>
+    <section class="card" aria-labelledby="ssk-facts-h"><div class="card-head"><h2 id="ssk-facts-h" class="h3">What the result holds</h2><p class="card-note" id="ssk-summary"></p></div><dl class="ssk-kv" id="ssk-kv"></dl></section>
+    <p class="ssk-pattern" id="ssk-pattern" role="note"></p>
+    <div class="ssk-grid" id="ssk-charts"></div>
+    <section class="card" aria-labelledby="ssk-icg-h"><div class="card-head"><h2 id="ssk-icg-h" class="h3">Against the ICG booklet</h2><p class="card-note">The pre-registered comparison, run 1, of this implementation with the tables of <i>The Interoperable GNSS Space Service Volume</i> (UN OOSA, 2018), which is itself a simulation, not a measurement. Most bars are <b>not met</b>, and the misses are on record. The variant is a diagnostic, not a new verdict.</p></div><div id="ssk-icg"></div><p class="ssk-prov" id="ssk-icg-note"></p></section>
+    <p class="ssk-prov" id="ssk-prov"></p>
+  </div>
+</div>
+</main>
+<script type="module" src="ssv/ssv.js"></script>
+</body>
+</html>

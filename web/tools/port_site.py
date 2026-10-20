@@ -82,7 +82,7 @@ STUDIO_DATA = {
     "data/standards-matrix-map.json": "data/standards-matrix-map.json",
     "data/verification-matrix.json": "data/verification-matrix.json",
 }
-STUDIO_SKIP_NAMES = {"selfcheck.mjs", "PARITY.md", "PROGRESS.md", "RERECORD.md"}
+STUDIO_SKIP_NAMES = {"selfcheck.mjs", "PARITY.md", "PROGRESS.md", "RERECORD.md", "WSH-STUDIO-PLAN.md"}
 # Folders of review material in a Studio folder (screenshots, gate scripts, their reports).
 STUDIO_SKIP_DIRS = {"REVIEW"}
 # The Studio's pages: the Simple view, and the Advanced view (the full dashboard), which has
@@ -94,7 +94,7 @@ STUDIO_SKIP_DIRS = {"REVIEW"}
 # 0.38 adds the Bridge replay (replay/: the same; it reads replay/data/, written by tools_replay_data.mjs and tools_replay_coast.mjs from the
 # engine's own package and a pinned Natural Earth file) and the Optical PNT view (optical/: the same; it reads the two optical-atmosphere recordings).
 # The Holdover test view (holdover/: the same; it reads the two holdover-test recordings and the record in the scenario text).
-STUDIO_PAGES = ("index.html", "advanced/index.html", "trust/index.html", "interference/index.html", "training/index.html", "tools/index.html", "geometry/index.html", "lunar/index.html", "replay/index.html", "optical/index.html", "holdover/index.html", "observatory/index.html")
+STUDIO_PAGES = ("index.html", "advanced/index.html", "trust/index.html", "interference/index.html", "training/index.html", "tools/index.html", "geometry/index.html", "lunar/index.html", "replay/index.html", "optical/index.html", "holdover/index.html", "observatory/index.html", "ssv/index.html", "lunar-infra/index.html")
 STUDIO_SKIP_RE = re.compile(r"^(tools_.*\.mjs|.*\.d\.ts|\..*)$")
 
 TEXT_EXT = (".html", ".css", ".js", ".mjs", ".json", ".txt", ".xml", ".svg", ".toml", ".md")
