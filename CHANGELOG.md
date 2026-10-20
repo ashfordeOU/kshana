@@ -23,6 +23,18 @@ breaking changes are called out explicitly.
   reading (almost all through the booklet's inconsistent GLONASS beam angle), and the parametric sidelobe stand-in does not
   reproduce the measured GPS panel patterns. Everything stays MODELLED
   ([`xval/gnss-ssv/RESULTS.md`](xval/gnss-ssv/RESULTS.md)).
+- **Lunar orbit and surface as navigation and geodetic infrastructure (`lunar-infrastructure`).** A new scenario kind with five
+  studies selected by `study` ([`docs/LUNAR-INFRASTRUCTURE.md`](docs/LUNAR-INFRASTRUCTURE.md)): consistency of an onboard
+  Earth-GNSS orbit determination in a near-rectilinear halo orbit against an independent ground range and range-rate
+  determination; joint surface-station and orbiter double-differenced carrier phase with LAMBDA integer fixing; Fisher
+  information of the seven-parameter lunar datum with and without orbiter-to-surface ranges; GNSS, VLBI and laser-ranging
+  inter-technique offsets against the local tie; and sensitivity to h2, k2, l2 and the physical libration. MODELLED, with
+  ILLUSTRATIVE inputs: the numerics are checked against independent numpy and scipy programs, and nothing is compared with a
+  measurement of a lunar quantity. Bars were fixed in `xval/lunar-infra/PREREGISTRATION.md` and two disclosed amendments.
+  Three are NOT MET and each is pinned by a test that asserts the miss: C3 (an injected force error is not detected at the
+  pre-registered rate), Q3 (the bootstrapped success rate differs from the numpy oracle by 1.7e-6 against a bar of 1e-9, from
+  LAMBDA's normal-CDF approximation), and the trace half of G3 (adding a ranging family does not always lower the
+  pseudo-inverse trace). The rest are met ([`xval/lunar-infra/RESULTS.md`](xval/lunar-infra/RESULTS.md)).
 - **The neutral referee, made measurable.** `kshana jammertest import` reads the published NPRA
   Jammertest catalogue and transmission plan as scheduled truth (catalogue ids kept) and
   `kshana jammertest score` scores a receiver log against it per test (detection latency, missed
@@ -135,6 +147,17 @@ breaking changes are called out explicitly.
 
 ### Fixed
 
+- **Issue #36: oracle and reference tests on a Mac.** The byte-exact layers of the pin tests were gated on aarch64 macOS, but a
+  literal is one machine's maths library and Apple ships a different one per macOS release. They now also need the declared
+  baseline host (`KSHANA_EXACT_PINS=1`, set by `scripts/gate.sh`), so the exact layer stays enforced where the pins were
+  captured and the portable layer runs everywhere. No literal was re-taken and no tolerance changed; a guard test fails if a
+  byte-exact layer is gated on the platform alone again. `scripts/oracle-triage.sh` and
+  [`docs/LOCAL-ORACLE-TESTS.md`](docs/LOCAL-ORACLE-TESTS.md) say how to triage a difference.
+- **CodeQL: an unanchored pattern in the Studio's trust-open helper** now matches the whole header (`web/studio/lib/trust-open.mjs`).
+- **CI: runner disk.** The `check` job builds the dev and test profiles without debug information, so linking no longer fills the disk.
+- **Source guards.** Every source file that holds pin-bearing test fixtures declares its pin scope, and the tests that write
+  temporary files use a unique path per call, so parallel runs cannot collide.
+- **`docs/SCENARIOS.md`** is regenerated for the optical-atmosphere optional field `timeseries`.
 - **JetBrains plugin: no use of deprecated or scheduled-for-removal platform API.** The IntelliJ Plugin Verifier
   (`verifyPlugin`) against IntelliJ IDEA build 263 (2026.3: 263.6800.24 and 263.7031.23) found one deprecated
   call, `FileEditorManager.openFile`, in Insert Example; it now opens the new file with `OpenFileDescriptor`.

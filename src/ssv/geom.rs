@@ -296,6 +296,8 @@ mod tests {
         [r * a.cos(), r * a.sin(), z]
     }
 
+    // PIN-SCOPE:    the number of grid points the construction yields at one subdivision level (a count, not a hash)
+    // PIN-EXCLUDES: the point positions, which are checked by the unit-norm and spacing assertions below
     #[test]
     fn the_grid_has_the_booklets_2562_points_on_the_unit_sphere() {
         let g = geodesic_grid(4);
