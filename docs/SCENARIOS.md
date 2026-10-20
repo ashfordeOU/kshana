@@ -680,7 +680,7 @@ Two-way satellite time and frequency transfer between two stations through a geo
 MODELLED optical PNT through the atmosphere: for an optical link and a set of ground sites with stated cloud climates it reports the wavelength- and elevation-dependent clear-air loss (Kim visibility law plus Rayleigh), the Hufnagel-Valley turbulence state (Rytov variance, scintillation index, gamma-gamma parameters, aperture averaging), the weather-driven availability against the link margin (cloud optical depth from a log-normal liquid-water climate, geometric-optics extinction, independent turbulence fade), the link margin needed for target availabilities, the outage-duration distribution, the timing and ranging error growth per outage through the clock holdover model, distance-correlated site-diversity availability, and what-if gains for enhancement techniques (wavelength, receive aperture, adaptive-optics scintillation reduction, extra margin). VALIDATED as implementation of the stated formulas against an independent mpmath oracle: Rytov variance, scintillation index, gamma-gamma fade probability, aperture-averaging factor, cloud and clear-air optical depth. MODELLED: every weather, technique and clock input and the independence and copula assumptions; no measured availability record has been compared. Advisory analysis, not a certified availability or navigation product.
 
 - **Required fields:** *(none)*
-- **Optional fields:** `wavelength_nm`, `elevation_deg`, `availability_targets_pct`, `link`, `atmosphere`, `site`, `network`, `technique`, `clock`
+- **Optional fields:** `wavelength_nm`, `elevation_deg`, `availability_targets_pct`, `link`, `atmosphere`, `site`, `network`, `technique`, `clock`, `timeseries`
 
 ## `holdover-test`
 
