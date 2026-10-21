@@ -9,13 +9,29 @@
       "svg": "engine-flow.svg",
       "svg_sha256": "830edf77c68fb01ba4cc0dc8c8a34eca3f8ebdc7fec6e2559f3559abfd404630"
     },
+    "lab-round-trip.png": {
+      "svg": "lab-round-trip.svg",
+      "svg_sha256": "7a2e2f9231734908f9a8085cf94edb5ee87cc8c9656657e651e1b3022b538f30"
+    },
     "module-map.png": {
       "svg": "module-map.svg",
-      "svg_sha256": "4a13160ec88559f4c748cb8ced2cc08ab57110b76fbc12fbe7c5892819a7e492"
+      "svg_sha256": "af58779a74935f7a8cf060106f2da43a40099bff4d1c4ce2112276109b6fd225"
+    },
+    "studio-flow.png": {
+      "svg": "studio-flow.svg",
+      "svg_sha256": "98f4591b2ae5546f1644ee4e82af0aff2aa366a66a1caf2d2a42444669d33142"
+    },
+    "surfaces.png": {
+      "svg": "surfaces.svg",
+      "svg_sha256": "e6159c919fa7ecc44c72b81a95fbfb5556dd3f53f599ba86146b515db3e2f94a"
     },
     "system-overview.png": {
       "svg": "system-overview.svg",
-      "svg_sha256": "4331c4ca80d9743767e11c9825546d6a851e7351b59e10c6a7a166e1c0e4a01a"
+      "svg_sha256": "72c19b52008f359969a4a28c2c84c22d3c39c8137a2f8c86b1321fbf6961a95d"
+    },
+    "trust-flow.png": {
+      "svg": "trust-flow.svg",
+      "svg_sha256": "768596d20814b59a8838627a355d9c5a591cbc38eb8427b92b6cf02ac68575fc"
     },
     "validation-provenance.png": {
       "svg": "validation-provenance.svg",
