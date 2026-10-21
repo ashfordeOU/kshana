@@ -1,0 +1,194 @@
+#!/usr/bin/env python3
+# SPDX-License-Identifier: AGPL-3.0-only
+"""Write docs/KINDS.md and docs/figures/kinds/<kind>.svg from the engine.
+
+One entry per scenario kind the engine dispatches (`kshana kinds --json`): its description, required
+and optional fields, an example scenario and the command that runs it, the ledger rows that name it
+(counted from web/data/verification-matrix.json, so nothing here is a typed-in count), the docs pages
+that cover it, and the chart the engine itself writes for that example (`<name>.chart.svg`, copied
+verbatim: nothing is drawn by hand). Run it after the engine changes; `--check` fails if a committed
+file differs.
+
+Usage:
+    python3 tools/gen_kinds_index.py [--kshana PATH] [--check]
+"""
+from __future__ import annotations
+
+import argparse
+import json
+import os
+import re
+import shutil
+import subprocess
+import sys
+import tempfile
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent.parent
+DOC = ROOT / "docs" / "KINDS.md"
+FIG = ROOT / "docs" / "figures" / "kinds"
+CATALOGUE = {"SURFACES.md", "VERIFICATION-MATRIX.md", "MODELLED-RATIONALE.md", "SCENARIOS.md", "SCHEMA.md", "CAPABILITY.md", "CLAIMS-VS-REALITY.md",
+             "REPORTS.md", "ARCHITECTURE.md", "VALIDATION.md", "PYTHON_API.md", "INTEROP.md", "STANDARDS.md", "GLOSSARY.md", "CONCEPTS.md",
+             "AGENTS.md", "DEPLOYMENT-TARGETS.md", "PRO.md", "KINDS.md"}
+# Examples that need a data directory the published crate does not ship are run from a tree that has it.
+LINKED = ("tests", "data", "scenarios", "examples", "standards", "xval")
+
+
+def find_engine(arg):
+    for c in (arg, os.environ.get("KSHANA_BIN"), str(ROOT / "target" / "release" / "kshana"), shutil.which("kshana")):
+        if c and Path(c).exists():
+            return c
+    sys.exit("gen_kinds_index: no kshana binary; pass --kshana, set KSHANA_BIN or `cargo build --release`")
+
+
+def scenario_kind(p: Path) -> str:
+    m = re.search(r'^kind\s*=\s*"([^"]+)"', p.read_text(), re.M)
+    return m.group(1) if m else "clock"  # a scenario with no `kind` is a clock-holdover scenario
+
+
+def pick_example(kind: str, files: list[Path]) -> Path:
+    """The scenario named for the kind if there is one, else the shortest name, else the first."""
+    exact = [p for p in files if p.stem == kind]
+    if exact:
+        return exact[0]
+    pre = [p for p in files if p.stem.startswith(kind)]
+    return sorted(pre or files, key=lambda p: (len(p.stem), p.stem))[0]
+
+
+def ledger_rows(kind: str, rows: list[dict]) -> dict:
+    """Rows whose capability text names the kind in backticks, or whose module field names it (as `lunar-vlbi` or `lunar_vlbi`)."""
+    toks = [kind, kind.replace("-", "_")]
+    cap = re.compile("|".join(r"`[^`\n]*(?<![\w-])" + re.escape(t) + r"(?![\w-])[^`\n]*`" for t in toks))
+    mod = re.compile("|".join(r"(?<![\w-])" + re.escape(t) + r"(?![\w-])" for t in toks))
+    out = {"VALIDATED": 0, "MODELLED": 0, "PARTNER": 0}
+    for r in rows:
+        if cap.search(str(r.get("capability", ""))) or mod.search(str(r.get("module", ""))):
+            st = r["status"].upper().replace("PARTNER-OWNED", "PARTNER")
+            out[st] = out.get(st, 0) + 1
+    return out
+
+
+def docs_pages(kind: str) -> list[str]:
+    pat = re.compile(r"`[^`\n]*(?<![\w-])" + re.escape(kind) + r"(?![\w-])[^`\n]*`")
+    scored = []
+    for p in sorted((ROOT / "docs").glob("*.md")):
+        if p.name in CATALOGUE:
+            continue
+        n = len(pat.findall(p.read_text()))
+        if n:
+            scored.append((-n, p.name))
+    return [name for _, name in sorted(scored)[:2]]
+
+
+def run_example(exe: str, work: Path, scn: Path) -> tuple[bool, str, Path | None]:
+    d = work / scn.stem
+    d.mkdir()
+    for name in LINKED:
+        if (ROOT / name).exists():
+            (d / name).symlink_to(ROOT / name)
+    shutil.copyfile(scn, d / scn.name)
+    p = subprocess.run([exe, scn.name], cwd=d, capture_output=True, text=True, timeout=300)
+    chart = d / f"{scn.stem}.chart.svg"
+    label = ""
+    res = d / f"{scn.stem}.result.json"
+    if res.exists():
+        try:
+            label = (json.loads(res.read_text()).get("label") or "").strip()
+        except json.JSONDecodeError:
+            pass
+    return p.returncode == 0, label, chart if chart.exists() else None
+
+
+def build(exe: str) -> tuple[str, dict[str, bytes]]:
+    version = subprocess.run([exe, "--version"], capture_output=True, text=True).stdout.split()[-1]
+    kinds = json.loads(subprocess.run([exe, "kinds", "--json"], capture_output=True, text=True, check=True).stdout)
+    by_kind: dict[str, list[Path]] = {}
+    for p in sorted((ROOT / "scenarios").glob("*.toml")):
+        by_kind.setdefault(scenario_kind(p), []).append(p)
+    matrix = json.loads((ROOT / "web" / "data" / "verification-matrix.json").read_text())
+    charts: dict[str, bytes] = {}
+    L = [
+        "<!-- SPDX-License-Identifier: AGPL-3.0-only -->",
+        "<!-- Generated by tools/gen_kinds_index.py from the engine (`kshana kinds --json`), the bundled scenarios, "
+        "web/data/verification-matrix.json and the charts the engine writes. Do not edit by hand. -->",
+        "# Scenario kinds",
+        "",
+        f"Every scenario kind the engine v{version} dispatches ({len(kinds)}), one entry each: what it does, its fields, an example scenario and "
+        "the command that runs it, the ledger rows that name it, and the chart the engine itself writes for that example. The label on a "
+        "result is the engine's own; a kind is MODELLED unless the [verification matrix](VERIFICATION-MATRIX.md) says otherwise, and "
+        "[how a label is earned](../README.md#evidence). Advisory: analysis output from a research and engineering tool, not type-approved "
+        "navigation equipment and not a safety-of-life service.",
+        "",
+        "| Kind | What it does | Ledger rows naming it |",
+        "|---|---|---|",
+    ]
+    sections = []
+    with tempfile.TemporaryDirectory(prefix="kshana-kinds-") as work:
+        for k in sorted(kinds, key=lambda x: x["name"]):
+            n = k["name"]
+            led = ledger_rows(n, matrix["rows"])
+            ledtxt = ", ".join(f"{v} {s}" for s, v in led.items() if v) or "no row names it by kind"
+            first = re.split(r"(?<=\.)\s", k["description"], maxsplit=1)[0]
+            L.append(f"| [`{n}`](#{n}) | {first[:220]} | {ledtxt} |")
+            files = by_kind.get(n, [])
+            sec = [f"### `{n}`", "", k["description"], ""]
+            req, opt = k.get("required_fields", []), k.get("optional_fields", [])
+            sec.append("Required fields: " + (", ".join(f"`{f}`" for f in req) or "none") + (". Optional: " + ", ".join(f"`{f}`" for f in opt) if opt else "") + ".")
+            sec.append("")
+            if files:
+                ex = pick_example(n, files)
+                ok, label, chart = run_example(exe, Path(work), ex)
+                sec.append(f"```sh\nkshana scenarios/{ex.name}\n```")
+                sec.append("")
+                if label:
+                    sec.append(f"Result label: {label.splitlines()[0][:300]}")
+                    sec.append("")
+                if chart is not None and ok:
+                    charts[f"{n}.svg"] = chart.read_bytes()
+                    sec.append(f'<img src="figures/kinds/{n}.svg" alt="The chart the engine writes for scenarios/{ex.name}, kind {n}" width="640">')
+                    sec.append("")
+                elif not ok:
+                    sec.append("The example needs a data directory that ships with the repository but not with the published crate; run it from a checkout.")
+                    sec.append("")
+                if len(files) > 1:
+                    sec.append(f"{len(files)} bundled scenarios use this kind; the others are in [`scenarios/`](../scenarios/).")
+                    sec.append("")
+            else:
+                sec.append("No bundled scenario file; `kshana example` and the schema list the fields above.")
+                sec.append("")
+            pages = docs_pages(n)
+            if pages:
+                sec.append("Docs: " + ", ".join(f"[{p}]({p})" for p in pages) + ".")
+                sec.append("")
+            sec.append("Evidence: " + ledtxt + " in the [verification matrix](VERIFICATION-MATRIX.md).")
+            sec.append("")
+            sections.append("\n".join(sec))
+    L.append("")
+    L.extend(sections)
+    return version, {"KINDS.md": ("\n".join(L).rstrip() + "\n").encode(), **{f"figures/kinds/{k}": v for k, v in charts.items()}}
+
+
+def main() -> int:
+    ap = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
+    ap.add_argument("--kshana")
+    ap.add_argument("--check", action="store_true")
+    a = ap.parse_args()
+    _, assets = build(find_engine(a.kshana))
+    docs = ROOT / "docs"
+    if a.check:
+        bad = [n for n, b in assets.items() if not (docs / n).exists() or (docs / n).read_bytes() != b]
+        stale = sorted(p.name for p in FIG.glob("*.svg") if f"figures/kinds/{p.name}" not in assets) if FIG.exists() else []
+        if bad or stale:
+            print("gen_kinds_index: out of date:", ", ".join(bad + [f"{s} (stale)" for s in stale]))
+            return 1
+        print(f"gen_kinds_index: {len(assets)} files up to date")
+        return 0
+    FIG.mkdir(parents=True, exist_ok=True)
+    for n, b in assets.items():
+        (docs / n).write_bytes(b)
+    print(f"gen_kinds_index: wrote {len(assets)} files")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

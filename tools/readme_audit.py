@@ -138,10 +138,24 @@ def readme_command_for(kind: str, files: list[str], name: str) -> str:
     return ""
 
 
+def kinds_index() -> dict[str, dict]:
+    """What docs/KINDS.md (linked from the README, one entry per kind) gives each kind: a chart and a command."""
+    path = ROOT / "docs" / "KINDS.md"
+    out: dict[str, dict] = {}
+    if not path.exists():
+        return out
+    for sec in re.split(r"\n### ", path.read_text())[1:]:
+        name = sec.split("\n")[0].strip("`")
+        m = re.search(r"```sh\n(kshana [^\n]+)\n```", sec)
+        out[name] = {"figure": "figures/kinds/" + name + ".svg" if "<img" in sec else "", "command": m.group(1) if m else ""}
+    return out
+
+
 def audit_kinds(exe: str) -> list[dict]:
     kinds = json.loads(sh(exe, "kinds", "--json"))
     scn = scenario_index()
     figs = figure_kinds()
+    idx = kinds_index() if "docs/KINDS.md" in README else {}
     rows = []
     for k in kinds:
         n = k["name"]
@@ -152,8 +166,8 @@ def audit_kinds(exe: str) -> list[dict]:
             "mentioned": bool(re.search(r"[`\"']" + re.escape(n) + r"[`\"']", README)),
             "docs_page": pages[0] if pages else "",
             "docs_page_linked_from_readme": bool(linked),
-            "figure": figs.get(n, []),
-            "command": readme_command_for(n, scn.get(n, []), n),
+            "figure": figs.get(n, []) or ([idx[n]["figure"]] if idx.get(n, {}).get("figure") else []),
+            "command": readme_command_for(n, scn.get(n, []), n) or idx.get(n, {}).get("command", ""),
             "scenario_files": len(scn.get(n, [])),
         })
     return rows
@@ -212,7 +226,7 @@ def audit_cli(exe: str) -> list[dict]:
         rows.append({
             "command": cmd, "mentioned": mentioned,
             "docs_page": pages[0] if pages else "", "docs_page_linked_from_readme": any(p in README_LINKED_DOCS for p in pages),
-            "runnable": bool(re.search(r"^\s*(\$ )?kshana\s+" + re.escape(cmd) + r"(\s|$)", FENCES, re.M)) if not cmd.startswith(("<", "-")) else bool(re.search(r"^\s*kshana\s+(scenarios/|\S+\.toml)", FENCES, re.M)),
+            "runnable": bool(re.search(r"^\s*(\$ )?kshana\s+" + re.escape(cmd) + r"(\s|$)", FENCES, re.M) or re.search(r"`kshana\s+" + re.escape(cmd) + r"\s[^`]+`", README)) if not cmd.startswith(("<", "-")) else bool(re.search(r"^\s*kshana\s+(scenarios/|\S+\.toml)", FENCES, re.M)),
             "subcommands": sub_rows,
         })
     return rows
@@ -267,12 +281,15 @@ def audit_figures() -> dict:
         for m in EMBED.finditer(text):
             page_embeds.setdefault((m.group(1) or m.group(2)), set()).add(fn)
     files = sorted(p.relative_to(ROOT).as_posix() for ext in ("svg", "png", "jpg", "mmd") for p in (ROOT / "docs").rglob(f"*.{ext}"))
+    links = set(re.findall(r'href="([^"]+\.(?:svg|png))"', README)) | set(re.findall(r"\]\(([^)\s]+\.(?:svg|png))", README))
     rows = []
     for f in files:
         base = Path(f).name
+        stem = Path(f).with_suffix("")
         used_by_page = sorted({fn for e, fns in page_embeds.items() if Path(e).name == base for fn in fns})
-        rows.append({"file": f, "readme": f in embedded or any(e.endswith(base) and Path(e).name == base for e in embedded) or (f.endswith(".mmd") and False),
-                     "docs_pages": used_by_page})
+        in_readme = lambda names: any(e.endswith(n) for e in embedded | links for n in names)
+        pair = [base] + [Path(f).with_suffix(x).name for x in (".svg", ".png")]
+        rows.append({"file": f, "readme": in_readme(pair) and not f.endswith(".mmd"), "docs_pages": used_by_page})
     # Mermaid sources: embedded through their rendered svg/png
     for r in rows:
         if r["file"].endswith(".mmd"):
