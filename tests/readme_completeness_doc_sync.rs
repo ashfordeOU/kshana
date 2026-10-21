@@ -28,11 +28,20 @@ fn entry_text(k: &kshana::api::ScenarioMeta) -> (String, String) {
     let req = if k.required_fields.is_empty() {
         "none".to_string()
     } else {
-        k.required_fields.iter().map(|f| format!("`{f}`")).collect::<Vec<_>>().join(", ")
+        k.required_fields
+            .iter()
+            .map(|f| format!("`{f}`"))
+            .collect::<Vec<_>>()
+            .join(", ")
     };
     let mut fields = format!("Required fields: {req}");
     if !k.optional_fields.is_empty() {
-        let opt = k.optional_fields.iter().map(|f| format!("`{f}`")).collect::<Vec<_>>().join(", ");
+        let opt = k
+            .optional_fields
+            .iter()
+            .map(|f| format!("`{f}`"))
+            .collect::<Vec<_>>()
+            .join(", ");
         fields.push_str(&format!(". Optional: {opt}"));
     }
     fields.push('.');
@@ -43,23 +52,50 @@ fn entry_text(k: &kshana::api::ScenarioMeta) -> (String, String) {
 fn every_scenario_kind_has_a_docs_page_that_matches_the_engine() {
     let readme = readme();
     let index = std::fs::read_to_string(root().join("docs/KINDS.md")).expect("docs/KINDS.md");
-    assert!(readme.contains("docs/KINDS.md"), "the README must link docs/KINDS.md");
+    assert!(
+        readme.contains("docs/KINDS.md"),
+        "the README must link docs/KINDS.md"
+    );
     let mut problems = Vec::new();
     for k in kshana::api::list_scenario_kinds() {
-        let page = root().join("docs/kinds/by-kind").join(format!("{}.md", k.name));
+        let page = root()
+            .join("docs/kinds/by-kind")
+            .join(format!("{}.md", k.name));
         let Ok(text) = std::fs::read_to_string(&page) else {
-            problems.push(format!("{}: no page docs/kinds/by-kind/{}.md", k.name, k.name));
+            problems.push(format!(
+                "{}: no page docs/kinds/by-kind/{}.md",
+                k.name, k.name
+            ));
             continue;
         };
         let (desc, fields) = entry_text(&k);
         if !text.contains(&desc) {
-            problems.push(format!("{}: the page's description differs from the engine's", k.name));
+            problems.push(format!(
+                "{}: the page's description differs from the engine's",
+                k.name
+            ));
         }
-        let req_line = fields.split(". Optional:").next().unwrap().trim_end_matches('.').to_string();
+        let req_line = fields
+            .split(". Optional:")
+            .next()
+            .unwrap()
+            .trim_end_matches('.')
+            .to_string();
         if !text.contains(&req_line) {
-            problems.push(format!("{}: the page's required fields differ from the engine's", k.name));
+            problems.push(format!(
+                "{}: the page's required fields differ from the engine's",
+                k.name
+            ));
         }
-        for section in ["## What it does", "## Inputs", "## Run it", "## What it gives", "## Evidence", "## Limitations", "## See also"] {
+        for section in [
+            "## What it does",
+            "## Inputs",
+            "## Run it",
+            "## What it gives",
+            "## Evidence",
+            "## Limitations",
+            "## See also",
+        ] {
             if !text.contains(section) {
                 problems.push(format!("{}: the page has no '{section}' section", k.name));
             }
@@ -68,7 +104,10 @@ fn every_scenario_kind_has_a_docs_page_that_matches_the_engine() {
             problems.push(format!("{}: not linked from docs/KINDS.md", k.name));
         }
         if !readme.contains(&format!("docs/kinds/by-kind/{}.md", k.name)) {
-            problems.push(format!("{}: not linked from the README's family table", k.name));
+            problems.push(format!(
+                "{}: not linked from the README's family table",
+                k.name
+            ));
         }
     }
     assert!(
@@ -82,7 +121,11 @@ fn every_scenario_kind_has_a_docs_page_that_matches_the_engine() {
 fn usage_commands() -> BTreeSet<String> {
     let main = std::fs::read_to_string(root().join("src/main.rs")).expect("src/main.rs");
     let start = main.find("const USAGE").expect("USAGE");
-    let usage = &main[start..main[start..].find("\";").map(|i| start + i).expect("end of USAGE")];
+    let usage = &main[start
+        ..main[start..]
+            .find("\";")
+            .map(|i| start + i)
+            .expect("end of USAGE")];
     let mut out = BTreeSet::new();
     for part in usage.split("or: kshana ").skip(1) {
         let first = part.split_whitespace().next().unwrap_or("");
@@ -97,10 +140,18 @@ fn usage_commands() -> BTreeSet<String> {
 
 #[test]
 fn every_command_in_the_usage_text_is_in_the_readme() {
-    let readme = readme() + &std::fs::read_to_string(root().join("docs/COMMANDS.md")).expect("docs/COMMANDS.md");
-    assert!(self::readme().contains("docs/COMMANDS.md"), "the README must link docs/COMMANDS.md");
+    let readme = readme()
+        + &std::fs::read_to_string(root().join("docs/COMMANDS.md")).expect("docs/COMMANDS.md");
+    assert!(
+        self::readme().contains("docs/COMMANDS.md"),
+        "the README must link docs/COMMANDS.md"
+    );
     let cmds = usage_commands();
-    assert!(cmds.len() >= 15, "only {} commands parsed from USAGE: {cmds:?}", cmds.len());
+    assert!(
+        cmds.len() >= 15,
+        "only {} commands parsed from USAGE: {cmds:?}",
+        cmds.len()
+    );
     let missing: Vec<&String> = cmds
         .iter()
         .filter(|c| !readme.contains(&format!("kshana {c}")) && !readme.contains(&format!("`{c}")))
@@ -122,11 +173,7 @@ fn stems(dir: &str, ext: Option<&str>, dirs: bool) -> Vec<String> {
         if !dirs && p.extension().and_then(|x| x.to_str()) != ext {
             continue;
         }
-        let name = if dirs {
-            p.file_name()
-        } else {
-            p.file_stem()
-        };
+        let name = if dirs { p.file_name() } else { p.file_stem() };
         v.push(name.unwrap().to_string_lossy().into_owned());
     }
     v.sort();
@@ -135,8 +182,13 @@ fn stems(dir: &str, ext: Option<&str>, dirs: bool) -> Vec<String> {
 
 #[test]
 fn every_plugin_command_skill_and_studio_page_is_in_the_readme() {
-    assert!(readme().contains("docs/ALL-SURFACES.md"), "the README must link docs/ALL-SURFACES.md");
-    let readme = readme() + &std::fs::read_to_string(root().join("docs/ALL-SURFACES.md")).expect("docs/ALL-SURFACES.md");
+    assert!(
+        readme().contains("docs/ALL-SURFACES.md"),
+        "the README must link docs/ALL-SURFACES.md"
+    );
+    let readme = readme()
+        + &std::fs::read_to_string(root().join("docs/ALL-SURFACES.md"))
+            .expect("docs/ALL-SURFACES.md");
     let mut missing = Vec::new();
     for c in stems("commands", Some("md"), false) {
         if !readme.contains(&format!("`/{c}`")) {
@@ -149,13 +201,20 @@ fn every_plugin_command_skill_and_studio_page_is_in_the_readme() {
         }
     }
     for p in stems("web/studio", None, true) {
-        if root().join("web/studio").join(&p).join("index.html").exists()
+        if root()
+            .join("web/studio")
+            .join(&p)
+            .join("index.html")
+            .exists()
             && !readme.contains(&format!("/studio/{p}/"))
         {
             missing.push(format!("Studio page /studio/{p}/"));
         }
     }
-    assert!(missing.is_empty(), "named nowhere in the README: {missing:?}");
+    assert!(
+        missing.is_empty(),
+        "named nowhere in the README: {missing:?}"
+    );
 }
 
 fn slug(heading: &str) -> String {
@@ -245,7 +304,11 @@ fn broken_links(page: &Path) -> Vec<String> {
     let dir = page.parent().unwrap().to_path_buf();
     let mut bad = Vec::new();
     for l in link_targets(&text) {
-        if l.starts_with("http") || l.starts_with("mailto:") || l.starts_with("data:") || l.is_empty() {
+        if l.starts_with("http")
+            || l.starts_with("mailto:")
+            || l.starts_with("data:")
+            || l.is_empty()
+        {
             continue;
         }
         if let Some(a) = l.strip_prefix('#') {
@@ -294,7 +357,10 @@ fn every_relative_link_image_and_anchor_in_the_readme_and_the_generated_pages_re
     for p in &pages {
         let bad = broken_links(p);
         if !bad.is_empty() {
-            report.push(format!("{}: {bad:?}", p.strip_prefix(root()).unwrap().display()));
+            report.push(format!(
+                "{}: {bad:?}",
+                p.strip_prefix(root()).unwrap().display()
+            ));
         }
     }
     assert!(report.is_empty(), "links that do not resolve: {report:#?}");
