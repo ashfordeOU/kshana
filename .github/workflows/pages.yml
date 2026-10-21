@@ -24,13 +24,18 @@
 # Nothing else depends on main being deployed: ci.yml runs the web tests from the
 # checkout, and publish.yml builds the npm package on its own. Site changes merged to
 # main go live with the next release, or with a manual dispatch naming a tag.
+#
+# Site-only fixes: a dispatch with `tag: main` deploys main, but only when nothing
+# outside web/ (and the CI files in .github/) has changed since the latest published release. The engine, the
+# manifest and the version are then byte-identical to that release, so the version the
+# page states is still the version it runs; anything else is refused.
 name: pages
 
 on:
   workflow_dispatch:
     inputs:
       tag:
-        description: "Release tag to deploy, e.g. v0.27.3. Blank = the latest published release."
+        description: "Release tag to deploy, e.g. v0.27.3. Blank = the latest published release. 'main' = main, only if nothing outside web/ and .github/ changed since the latest release."
         required: false
         type: string
 
@@ -62,6 +67,11 @@ jobs:
             exit 1
           fi
           tag="$IN"
+          ref=""
+          if [ "$tag" = "main" ]; then
+            tag="$(gh release view --repo "$REPO" --json tagName --jq .tagName)"
+            ref="refs/heads/main"
+          fi
           if [ -z "$tag" ]; then
             tag="$(gh release view --repo "$REPO" --json tagName --jq .tagName)"
           fi
@@ -70,10 +80,25 @@ jobs:
             exit 1
           fi
           echo "tag=$tag" >> "$GITHUB_OUTPUT"
-          echo "Deploying kshana.dev from $tag"
+          echo "ref=${ref:-refs/tags/$tag}" >> "$GITHUB_OUTPUT"
+          echo "Deploying kshana.dev from ${ref:-$tag} (release $tag)"
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
-          ref: refs/tags/${{ steps.t.outputs.tag }}
+          ref: ${{ steps.t.outputs.ref }}
+          fetch-depth: 0
+      - name: A main deploy changes nothing outside web/ and .github/ since the release
+        if: steps.t.outputs.ref == 'refs/heads/main'
+        env:
+          TAG: ${{ steps.t.outputs.tag }}
+        run: |
+          set -euo pipefail
+          changed="$(git diff --name-only "$TAG" HEAD -- . ':(exclude)web' ':(exclude).github')"
+          if [ -n "$changed" ]; then
+            echo "::error::main differs from $TAG outside web/ and .github/; release it instead of deploying main:"
+            printf '%s\n' "$changed"
+            exit 1
+          fi
+          echo "main differs from $TAG only under web/ and .github/"
       - name: The tag and the manifest agree
         env:
           TAG: ${{ steps.t.outputs.tag }}
