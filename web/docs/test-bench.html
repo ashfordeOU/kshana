@@ -135,7 +135,7 @@ The output is byte-identical for the same scenario and epoch.</p>
 </tr>
 <tr>
 <td><code>run1.conditions.json</code></td>
-<td>the run as a <span class="not-pushed" title="In the repository branch these docs come from; not yet on GitHub"><code>kshana.test-conditions/1</code></span> document for a <code>receiver-log</code> recording: the events as stated truth, with <code>recording.path</code>, <code>recording.sha256</code>, <code>receiver.*</code>, each event&#39;s <code>type</code> and power left for the laboratory to fill in</td>
+<td>the run as a <a href="https://github.com/ashfordeOU/kshana/blob/main/docs/spec/TEST-CONDITIONS.md"><code>kshana.test-conditions/1</code></a> document for a <code>receiver-log</code> recording: the events as stated truth, with <code>recording.path</code>, <code>recording.sha256</code>, <code>receiver.*</code>, each event&#39;s <code>type</code> and power left for the laboratory to fill in</td>
 </tr>
 </tbody></table></div>
 <h3 id="frames-and-conventions">Frames and conventions<a class="anchor" href="#frames-and-conventions" aria-label="Link to this section">#</a></h3>
@@ -270,7 +270,7 @@ never tuned away. See <a href="/docs/receiver-trust">RECEIVER-TRUST.md</a>.</p>
 runs you give it; it makes no finding about the receiver or any framework.</p>
 <h2 id="6-link-the-round-trip-in-one-signed-pack">6. Link the round trip in one signed pack<a class="anchor" href="#6-link-the-round-trip-in-one-signed-pack" aria-label="Link to this section">#</a></h2>
 <p>After scoring, <code>kshana evidence round-trip</code> ties the four records together: the scenario you
-exported, the laboratory&#39;s <span class="not-pushed" title="In the repository branch these docs come from; not yet on GitHub">test conditions</span>, the receiver log and
+exported, the laboratory&#39;s <a href="https://github.com/ashfordeOU/kshana/blob/main/docs/spec/TEST-CONDITIONS.md">test conditions</a>, the receiver log and
 the score. Fill in <code>run1.conditions.json</code> (the log&#39;s path and SHA-256, the receiver under
 test, each event&#39;s type and stated power), then:</p>
 <pre data-lang="shell"><code class="hljs language-bash">kshana evidence keygen --out lab.key

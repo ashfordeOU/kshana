@@ -34,6 +34,8 @@
 /* a soft local scrim behind the copy (and the story copy), fading the orbit lines and dots that cross it */
 .story-copy::before,.beats::before{content:"";position:absolute;inset:-40px -56px -40px -48px;z-index:-1;pointer-events:none;
   background:radial-gradient(farthest-side,color-mix(in oklab,var(--bg) 82%,transparent) 66%,transparent);filter:blur(8px)}
+.beats::before{opacity:0;transition:opacity .35s}
+.stage:not([data-beat="-1"]) .beats::before{opacity:1}
 .hero-copy::before{content:"";position:absolute;inset:-28px -56px -28px -48px;z-index:-1;pointer-events:none;
   background:radial-gradient(farthest-side,color-mix(in oklab,var(--bg) 90%,transparent) 72%,transparent);filter:blur(8px)}
 .hero-copy .ver{display:inline-flex;align-items:center;gap:10px;font:500 12.5px/1 var(--mono);color:var(--ink-2);padding:7px 12px 7px 8px;border:1px solid var(--line-2);border-radius:999px;background:var(--panel);margin-bottom:20px;text-decoration:none}
@@ -296,9 +298,9 @@ section.block.asst{padding:clamp(44px,4vw,60px) 0}
 .stage .fallback{width:min(52vw,620px);height:auto;left:62%;top:50%;transform:translate(-50%,-50%);border-radius:50%}
 .stage-shade{position:absolute;inset:0;pointer-events:none;z-index:1;background:linear-gradient(90deg,var(--scrim) 0%,color-mix(in oklab,var(--scrim) 45%,transparent) 36%,transparent 62%)}
 .stage-in{position:relative;z-index:3;height:100%}
-.story-copy{position:absolute;left:var(--gut);top:50%;transform:translateY(-46%);max-width:min(560px,calc(100% - 2 * var(--gut)));transition:opacity .5s}
+.story-copy{position:absolute;z-index:2;left:var(--gut);top:50%;transform:translateY(-46%);max-width:min(560px,calc(100% - 2 * var(--gut)));transition:opacity .5s}
 .story-copy .lede{margin-top:20px}
-.beats{position:absolute;left:var(--gut);top:50%;transform:translateY(-50%);width:min(400px,calc(100% - 2 * var(--gut)));height:330px;pointer-events:none}
+.beats{position:absolute;z-index:1;left:var(--gut);top:50%;transform:translateY(-50%);width:min(400px,calc(100% - 2 * var(--gut)));height:330px;pointer-events:none}
 .beat{position:absolute;inset:0;opacity:0;visibility:hidden;transform:translateY(28px);transition:opacity .35s var(--obs-ease),transform .6s var(--obs-ease),visibility 0s linear .35s}
 .beat.on{opacity:1;visibility:visible;transform:none;transition:opacity .7s var(--obs-ease) .35s,transform 1s var(--obs-ease) .35s,visibility 0s linear .35s}
 .beat.past{transform:translateY(-28px)}
