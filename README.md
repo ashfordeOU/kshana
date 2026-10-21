@@ -826,81 +826,50 @@ stage hands its numbers to the next. See [`docs/LEO-PNT.md`](docs/LEO-PNT.md).
 
 ### Every scenario kind by family
 
-All of the engine's scenario kinds, filed by family. Each name links to its entry in
-[`docs/KINDS.md`](docs/KINDS.md): what it does, its fields, an example and the command that runs it,
-the ledger rows that name it, and the chart the engine itself writes for the example. The family
-table is written by [`tools/gen_readme_blocks.py`](tools/gen_readme_blocks.py) from `kshana kinds`, and it
-fails if the engine gains a kind that no family names. A kind is MODELLED unless the
-[verification matrix](docs/VERIFICATION-MATRIX.md) says otherwise.
+The engine's scenario kinds, filed under families. Each family has a page with one entry per kind (the
+engine's description and fields, an example command, headline numbers from a run, the
+[verification matrix](docs/VERIFICATION-MATRIX.md) rows that name it, and the chart the engine itself writes) and a
+contact sheet of those charts; [`docs/KINDS.md`](docs/KINDS.md) indexes them all. The table is written by
+[`tools/gen_readme_blocks.py`](tools/gen_readme_blocks.py) and the pages by
+[`tools/gen_kinds_index.py`](tools/gen_kinds_index.py), and both fail if the engine gains a kind no family names.
 
 <!-- generated:kind-families -->
-| Family | Kinds | Docs | Run one |
+| Family | What it answers | Kinds | Run one |
 |---|---|---|---|
-| **Clocks, timing and holdover** | [`clock`](docs/KINDS.md#clock), [`sweep`](docs/KINDS.md#sweep), [`sweep-nd`](docs/KINDS.md#sweep-nd), [`telecom-timing`](docs/KINDS.md#telecom-timing), [`slot-timing`](docs/KINDS.md#slot-timing), [`timetransfer`](docs/KINDS.md#timetransfer), [`time-transfer-budget`](docs/KINDS.md#time-transfer-budget), [`holdover-test`](docs/KINDS.md#holdover-test), [`quantum-time-transfer`](docs/KINDS.md#quantum-time-transfer) | [TELECOM-TIMING](docs/TELECOM-TIMING.md), [SLOT-TIMING](docs/SLOT-TIMING.md), [TIMING-HIL](docs/TIMING-HIL.md), [CLOCK-LOG-FORMATS](docs/CLOCK-LOG-FORMATS.md) | `kshana scenarios/clock-holdover.toml` |
-| **Inertial, fusion and quantum sensors** | [`inertial`](docs/KINDS.md#inertial), [`hybrid`](docs/KINDS.md#hybrid), [`fusion`](docs/KINDS.md#fusion), [`hybrid-ukf`](docs/KINDS.md#hybrid-ukf), [`gnss-ins`](docs/KINDS.md#gnss-ins), [`ins-trn-coast`](docs/KINDS.md#ins-trn-coast), [`quantum-gnss-free-nav`](docs/KINDS.md#quantum-gnss-free-nav), [`quantum-anomaly-detect`](docs/KINDS.md#quantum-anomaly-detect), [`quantum-trade`](docs/KINDS.md#quantum-trade) | [QUANTUM-MODELS](docs/QUANTUM-MODELS.md), [QUANTUM](docs/QUANTUM.md), [LEO-PNT-FUSION](docs/LEO-PNT-FUSION.md) | `kshana scenarios/gnss-ins.toml` |
-| **GPS-denied alternative PNT** | [`gravity-map`](docs/KINDS.md#gravity-map), [`terrain-nav`](docs/KINDS.md#terrain-nav), [`terrain-slam`](docs/KINDS.md#terrain-slam), [`combined-altpnt`](docs/KINDS.md#combined-altpnt), [`conflict-resilience`](docs/KINDS.md#conflict-resilience) | [CAPABILITY](docs/CAPABILITY.md), [RESILIENCE-CROSSWALK](docs/RESILIENCE-CROSSWALK.md) | `kshana scenarios/combined-altpnt.toml` |
-| **Constellations, coverage and geometry** | [`orbit`](docs/KINDS.md#orbit), [`ephemeris`](docs/KINDS.md#ephemeris), [`constellation-design`](docs/KINDS.md#constellation-design), [`solar-system`](docs/KINDS.md#solar-system), [`body-pnt`](docs/KINDS.md#body-pnt), [`mars-pnt`](docs/KINDS.md#mars-pnt), [`passes`](docs/KINDS.md#passes) | [CONSTELLATION-DESIGN](docs/CONSTELLATION-DESIGN.md), [COVERAGE](docs/COVERAGE.md), [SOLAR-SYSTEM](docs/SOLAR-SYSTEM.md), [SKYLINE](docs/SKYLINE.md) | `kshana scenarios/orbit-gnss-challenged.toml` |
-| **GNSS measurements, positioning and integrity** | [`integrity`](docs/KINDS.md#integrity), [`gnss-sim`](docs/KINDS.md#gnss-sim), [`pvt`](docs/KINDS.md#pvt), [`araim-reference-check`](docs/KINDS.md#araim-reference-check), [`space-weather`](docs/KINDS.md#space-weather), [`realtime-frame-eop`](docs/KINDS.md#realtime-frame-eop) | [INTEGRITY](docs/INTEGRITY.md), [POSITIONING](docs/POSITIONING.md), [ARAIM_REFERENCE](docs/ARAIM_REFERENCE.md), [OSNMA](docs/OSNMA.md) | `kshana scenarios/integrity-raim.toml` |
-| **Jamming, spoofing and the spectrum** | [`jamming`](docs/KINDS.md#jamming), [`spoof`](docs/KINDS.md#spoof), [`spoof-detect`](docs/KINDS.md#spoof-detect), [`tracking-loop`](docs/KINDS.md#tracking-loop), [`spectrum`](docs/KINDS.md#spectrum), [`impairment-eval`](docs/KINDS.md#impairment-eval) | [SPECTRUM](docs/SPECTRUM.md), [DECEIVED-TIME](docs/DECEIVED-TIME.md), [IQ-FOLLOW](docs/IQ-FOLLOW.md) | `kshana scenarios/jamming-demo.toml` |
-| **Low-Earth-orbit navigation** | [`leo-signal`](docs/KINDS.md#leo-signal), [`leo-pass`](docs/KINDS.md#leo-pass), [`leo-navmsg`](docs/KINDS.md#leo-navmsg), [`leo-pvt`](docs/KINDS.md#leo-pvt), [`leo-ppp`](docs/KINDS.md#leo-ppp), [`ntn-positioning`](docs/KINDS.md#ntn-positioning), [`leo-pnt-chain`](docs/KINDS.md#leo-pnt-chain) | [LEO-PNT](docs/LEO-PNT.md), [LEO-SIGNAL](docs/LEO-SIGNAL.md), [LEO-PASS](docs/LEO-PASS.md), [LEO-NAVMSG](docs/LEO-NAVMSG.md) | `kshana scenarios/leo-pnt-end-to-end.toml` |
-| **Lunar and cislunar** | [`lunar-integrity`](docs/KINDS.md#lunar-integrity), [`lunar-time-offset`](docs/KINDS.md#lunar-time-offset), [`lunar-time-budget`](docs/KINDS.md#lunar-time-budget), [`lunar-vlbi`](docs/KINDS.md#lunar-vlbi), [`lunar-vlbi-fim`](docs/KINDS.md#lunar-vlbi-fim), [`lunar-joint-od-clock`](docs/KINDS.md#lunar-joint-od-clock), [`lunar-frame-realisation`](docs/KINDS.md#lunar-frame-realisation), [`lunar-frame-campaign`](docs/KINDS.md#lunar-frame-campaign), [`lunar-llr-datum`](docs/KINDS.md#lunar-llr-datum), [`moonlight-service-volume`](docs/KINDS.md#moonlight-service-volume), [`lunar-differential-pnt`](docs/KINDS.md#lunar-differential-pnt), [`lunar-station-coverage`](docs/KINDS.md#lunar-station-coverage), [`lunar-beacon`](docs/KINDS.md#lunar-beacon), [`lunar-interop-export`](docs/KINDS.md#lunar-interop-export), [`cislunar-observability`](docs/KINDS.md#cislunar-observability), [`cislunar-arc-recovery`](docs/KINDS.md#cislunar-arc-recovery), [`lunar-attack-surface`](docs/KINDS.md#lunar-attack-surface), [`lunar-jamming`](docs/KINDS.md#lunar-jamming), [`earth-gnss-lunar`](docs/KINDS.md#earth-gnss-lunar), [`lunar-infrastructure`](docs/KINDS.md#lunar-infrastructure) | [LUNAR-REFERENCE-STATION](docs/LUNAR-REFERENCE-STATION.md), [LUNAR-INFRASTRUCTURE](docs/LUNAR-INFRASTRUCTURE.md), [LUNANET-AFS](docs/LUNANET-AFS.md) | `kshana scenarios/lunar-infrastructure-od-consistency.toml` |
-| **Space-user navigation** | [`gnss-ssv`](docs/KINDS.md#gnss-ssv) | [SSV](docs/SSV.md) | `kshana scenarios/gnss-ssv-shell.toml` |
-| **Optical PNT** | [`optical-atmosphere`](docs/KINDS.md#optical-atmosphere), [`hybrid-optical-rf`](docs/KINDS.md#hybrid-optical-rf) | [OPTICAL-ATMOSPHERE](docs/OPTICAL-ATMOSPHERE.md) | `kshana scenarios/optical-atmosphere-network.toml` |
-| **Mission analysis, links and space operations** | [`launch-window`](docs/KINDS.md#launch-window), [`ascent-losses`](docs/KINDS.md#ascent-losses), [`reentry`](docs/KINDS.md#reentry), [`entry-heating`](docs/KINDS.md#entry-heating), [`eo-coverage`](docs/KINDS.md#eo-coverage), [`eo-radiometry`](docs/KINDS.md#eo-radiometry), [`attitude-budget`](docs/KINDS.md#attitude-budget), [`aocs`](docs/KINDS.md#aocs), [`link-budget`](docs/KINDS.md#link-budget), [`acm-link`](docs/KINDS.md#acm-link), [`contact-schedule`](docs/KINDS.md#contact-schedule), [`aperture-duty-cycle`](docs/KINDS.md#aperture-duty-cycle), [`space-packet`](docs/KINDS.md#space-packet), [`oem-interop`](docs/KINDS.md#oem-interop) | [ENTRY-EO-ASCENT](docs/ENTRY-EO-ASCENT.md), [CONTACT-SCHEDULING](docs/CONTACT-SCHEDULING.md), [AOCS](docs/AOCS.md) | `kshana scenarios/launch-window.toml` |
-| **Campaigns** | [`campaign`](docs/KINDS.md#campaign) | [CAMPAIGNS](docs/CAMPAIGNS.md) | `kshana scenarios/campaign-jam-spoof-holdover-integrity.toml` |
+| **[Clocks, timing and holdover](docs/kinds/clocks-timing-and-holdover.md)** | how long a clock keeps time without GNSS, and how a timing system holds up against its masks | 9 | `kshana scenarios/clock-holdover.toml` |
+| **[Inertial, fusion and quantum sensors](docs/kinds/inertial-fusion-and-quantum-sensors.md)** | dead reckoning and sensor fusion through a GNSS outage, with classical and quantum sensors | 9 | `kshana scenarios/gnss-ins.toml` |
+| **[GPS-denied alternative PNT](docs/kinds/gps-denied-alternative-pnt.md)** | navigating from gravity, terrain and other fields when GNSS is gone | 5 | `kshana scenarios/combined-altpnt.toml` |
+| **[Constellations, coverage and geometry](docs/kinds/constellations-coverage-and-geometry.md)** | where satellites are, who sees them and how good the geometry is, around the Earth, the Moon or Mars | 7 | `kshana scenarios/orbit-gnss-challenged.toml` |
+| **[GNSS measurements, positioning and integrity](docs/kinds/gnss-measurements-positioning-and-integrity.md)** | pseudoranges, position fixes, protection levels and the space environment | 6 | `kshana scenarios/integrity-raim.toml` |
+| **[Jamming, spoofing and the spectrum](docs/kinds/jamming-spoofing-and-the-spectrum.md)** | how interference reaches a receiver and whether it is detected | 6 | `kshana scenarios/jamming-demo.toml` |
+| **[Low-Earth-orbit navigation](docs/kinds/low-earth-orbit-navigation.md)** | a pass, a link, a navigation message and a fused fix, stage by stage | 7 | `kshana scenarios/leo-pnt-end-to-end.toml` |
+| **[Lunar and cislunar](docs/kinds/lunar-and-cislunar.md)** | navigation, time, frames and geodesy at the Moon | 20 | `kshana scenarios/lunar-infrastructure-od-consistency.toml` |
+| **[Space-user navigation](docs/kinds/space-user-navigation.md)** | GNSS signals for spacecraft above, around and beyond the GNSS orbits | 1 | `kshana scenarios/gnss-ssv-shell.toml` |
+| **[Optical PNT](docs/kinds/optical-pnt.md)** | optical links through the atmosphere and optical-plus-RF figures of merit | 2 | `kshana scenarios/optical-atmosphere-network.toml` |
+| **[Mission analysis, links and space operations](docs/kinds/mission-analysis-links-and-space-operations.md)** | launch, ascent, entry, attitude, links, contact planning and file formats | 14 | `kshana scenarios/launch-window.toml` |
+| **[Campaigns](docs/kinds/campaigns.md)** | chained missions, sweeps and ensembles built from the other kinds | 1 | `kshana scenarios/campaign-jam-spoof-holdover-integrity.toml` |
 <!-- /generated:kind-families -->
 
 ### Every command
 
-`kshana <scenario.toml>` runs a scenario; every other command is a subcommand. `kshana --help` prints the
-usage of all of them, and each subcommand's own `--help` lists its flags. The examples run from a checkout.
-
-| Command | What it does | Example | Docs |
-|---|---|---|---|
-| `kshana <scenario.toml>` | runs a scenario of any kind and writes its result, chart and report | `kshana scenarios/clock-holdover.toml` | [Scenarios](docs/SCENARIOS.md) |
-| `kshana --study <suite.toml>` | runs a suite of scenarios into one aggregated, stamped study | `kshana --study scenarios/quantum-pnt-demonstrator.suite.toml` | [Usage](#usage) |
-| `kshana --validate <scenario.toml>` | lints a scenario without running it | `kshana --validate scenarios/gnss-ins.toml` | [Usage](#usage) |
-| `kshana kinds [--json]` | lists every scenario kind with its required and optional fields | `kshana kinds` | [Kinds](docs/KINDS.md) |
-| `kshana example [<name>]` | prints a bundled scenario to start from | `kshana example clock-holdover > clock-holdover.toml` | [Scenarios](docs/SCENARIOS.md) |
-| `kshana receiver-trust <scenario>` | scores a receiver log, `live` scores a stream, `evidence` writes a signed pack | `kshana receiver-trust examples/receiver-trust/session.toml` | [Receiver trust](docs/RECEIVER-TRUST.md) |
-| `kshana evidence keygen`, `verify`, `attach-timestamp`, `round-trip` | signs, verifies and timestamps evidence packs and links a lab run to its score | `kshana evidence keygen --out signer.key` | [Evidence packs](docs/EVIDENCE-PACKS.md) |
-| `kshana jammertest import`, `score` | reads the published Jammertest plan and scores a log against it | `kshana jammertest score --help` | [Jammertest](docs/JAMMERTEST.md) |
-| `kshana trust-telemetry` | the trust stream as Prometheus, CEF, LEEF, OTLP or MQTT messages | `kshana trust-telemetry --result session.result.json --print-metrics` | [Trust telemetry](docs/TRUST-TELEMETRY.md) |
-| `kshana imu-fit <imu.csv>` | fits hybrid sensor parameters off a stationary IMU log | `kshana imu-fit still.csv --axis x --expected-mean 0 --id bench-imu` | [Machine inputs](docs/MACHINE-INPUTS.md) |
-| `kshana nmea-scenario <scenario>` | writes synthetic bridge NMEA with scripted jamming and spoofing, and an instructor log | `kshana nmea-scenario scenarios/training/coastal-drag-off.toml --out drag.nmea` | [NMEA training](docs/NMEA-TRAINING.md) |
-| `kshana interference-map adsb`, `ais`, `daily`, `sensitivity`, `fetch-land` | builds interference maps and the observatory's daily product from aircraft and ship reports | `examples/interference-map/regenerate.sh` | [Interference map](docs/INTERFERENCE-MAP.md), [observatory](docs/observatory/METHOD.md) |
-| `kshana route-exposure` | how much of a route crosses degraded cells | `kshana route-exposure --route examples/interference-map/input/route-adsb.geojson --map examples/interference-map/output/` | [Interference map](docs/INTERFERENCE-MAP.md) |
-| `kshana bench spec`, `truth`, `cases`, `score`, `baseline`, `seal`, `reveal-check`, `manifest`, `verify-manifest`, `validate`, `leaderboard` | the kshana-bench tasks, scoring, sealed holdout and leaderboard | `kshana bench baseline --task d --split test --out results/` | [Bench](docs/BENCH.md) |
-| `kshana bench-export <scenario>` | a scenario's vehicle motion and events for a laboratory simulator (no signal is written) | `kshana bench-export scenarios/gnss-ins.toml --out run1 --epoch 2025-03-01T10:00:00Z` | [Test bench](docs/TEST-BENCH.md) |
-| `kshana compliance-report` | which rows of public resilience frameworks a set of runs supports evidence for | `kshana compliance-report --mapping` | [Compliance](docs/compliance/README.md) |
-| `kshana lunanet-afs-check spec`, `symbols`, `generate` | checks and generates the LunaNet AFS codes and frames | `kshana lunanet-afs-check spec` | [LunaNet AFS](docs/LUNANET-AFS.md) |
-| `kshana standards-pack list`, `run`, `rows`, `tests` | the scored standards packs | `kshana standards-pack run imo-circ-1575` | [Standards packs](docs/compliance/README.md) |
-| `kshana osnma verify <input>` | which satellites' navigation data a receiver can authenticate | `kshana osnma verify examples/osnma/pages-good.txt --public-key "$(cat examples/osnma/public-key.txt)" --json` | [OSNMA](docs/OSNMA.md) |
-| `kshana iq scene`, `acquire`, `track`, `sweep`, `labfit`, `campaign`, `conditions`, `frontend`, `monitor`, `inventory`, `info`, `extract`, `convert`, `decimate` | makes, reads, converts and processes baseband recordings with the software receiver | `kshana iq scene scene.sdrx --rate 2046000 --duration 1 --signal gps-l1ca --prn 3,11 --cn0 45` then `kshana iq acquire scene.sdrx --signal gps-l1ca --prn 3,11` | [IQ and the software receiver](docs/IQ-FOLLOW.md) |
-| `kshana sky <request>` | line-of-sight visibility, dilution of precision and availability under a stated skyline | `kshana sky --site 59.44,24.75 --systems gps-baseline,galileo --mask 10` | [Skyline](docs/SKYLINE.md) |
-| `kshana skyline` | the built-in obstruction profiles, with their provenance | `kshana skyline --presets` | [Skyline](docs/SKYLINE.md) |
-| `kshana --help`, `--version` | the usage of every command; the engine version | `kshana --help` | [Usage](#usage) |
+`kshana <scenario.toml>` runs a scenario; every other command is a subcommand, and `kshana --help` prints the usage
+of all of them. The commands are `--study`, `--validate`, `kinds`, `example`, `receiver-trust` (with `live` and
+`evidence`), `evidence` (`keygen`, `verify`, `attach-timestamp`, `round-trip`), `jammertest` (`import`, `score`),
+`trust-telemetry`, `imu-fit`, `nmea-scenario`, `interference-map` (`adsb`, `ais`, `daily`, `sensitivity`,
+`fetch-land`), `route-exposure`, `bench` (`spec`, `truth`, `cases`, `score`, `baseline`, `seal`, `reveal-check`,
+`manifest`, `verify-manifest`, `validate`, `leaderboard`), `bench-export`, `compliance-report`,
+`lunanet-afs-check`, `standards-pack`, `osnma`, `iq` (`scene`, `acquire`, `track`, `sweep`, `labfit`, `campaign`,
+`conditions`, `frontend`, `monitor`, `inventory`, `info`, `extract`, `convert`, `decimate`), `sky` and `skyline`.
+[`docs/COMMANDS.md`](docs/COMMANDS.md) gives each one's purpose, a verified example and its docs page.
 
 ### Every surface
 
-One engine, the same results everywhere. [`docs/SURFACES.md`](docs/SURFACES.md) lists, for every command
-and kind, which surface carries it and which do not (with the reason).
-
-| Surface | What it is | Get it | Docs |
-|---|---|---|---|
-| Command line | the `kshana` binary above | `cargo install kshana` | [Install](#install) |
-| Rust library | `kshana::api::run_toml` and the typed modules | `cargo add kshana` | [docs.rs](https://docs.rs/kshana), [README.crates.md](README.crates.md) |
-| Python | `kshana.run` and `run_full`, with type stubs | `pip install kshana` | [Python API](docs/PYTHON_API.md), [README.pypi.md](README.pypi.md) |
-| JavaScript and WebAssembly | the engine in the browser or Node | `npm install kshana` | [README.npm.md](README.npm.md) |
-| MCP server | tools for AI assistants | `cargo install kshana-mcp` | [AI assistant](#ai-assistant), [MCP install](docs/MCP-INSTALL.md) |
-| Plugin slash commands | `/kshana-run`, `/kshana-assess-receiver`, `/kshana-bench-export`, `/kshana-compliance-report`, `/kshana-evidence-pack`, `/kshana-fit-imu`, `/kshana-import-route`, `/kshana-interference-map`, `/kshana-iq`, `/kshana-jammertest`, `/kshana-lunanet-afs-check`, `/kshana-marine-integrations`, `/kshana-standards-pack`, `/kshana-training-scenario`, `/kshana-trust-telemetry` | [`commands/`](commands/) | [AI assistant](#ai-assistant) |
-| Plugin skills | `compliance-mapping`, `evidence-pack`, `gnss-iq`, `interference-map-route-exposure`, `jammertest`, `marine-integrations`, `test-bench-export`, `training-nmea-scenario`, `trust-telemetry`, `vessel-receiver-trust` | [`skills/`](skills/) | [AI assistant](#ai-assistant) |
-| Kshana Studio | the engine in the browser, no install, nothing uploaded: the [Simple and Advanced views](https://kshana.dev/studio/), plus `/studio/advanced/`, `/studio/geometry/`, `/studio/trust/`, `/studio/training/`, `/studio/replay/`, `/studio/holdover/`, `/studio/optical/`, `/studio/interference/`, `/studio/observatory/`, `/studio/lunar/`, `/studio/lunar-infra/`, `/studio/ssv/` and `/studio/tools/` | [kshana.dev/studio](https://kshana.dev/studio/) | [Kshana Studio](#kshana-studio) |
-| ROS 2 | a package that scores a receiver's topics | [`integrations/ros2/`](integrations/ros2/README.md) | [Machine inputs](docs/MACHINE-INPUTS.md) |
-| Signal K and OpenCPN | the trust score on a boat's server and in the chart plotter | [`integrations/signalk/`](integrations/signalk/README.md), [`integrations/opencpn/`](integrations/opencpn/) | [Marine integrations](docs/MARINE-INTEGRATIONS.md) |
-| GNSS-SDR and `gnss_lib_py` | adapters that feed their output to receiver trust | [`integrations/gnss-sdr/`](integrations/gnss-sdr/README.md), [`integrations/gnss_lib_py/`](integrations/gnss_lib_py/README.md) | [Machine inputs](docs/MACHINE-INPUTS.md) |
-| systemd, Docker and Grafana | a reference build with two systemd units and a container option, and a Grafana dashboard | [`deploy/reference-build/`](deploy/reference-build/README.md), [`deploy/grafana/`](deploy/grafana/) | [Marine integrations](docs/MARINE-INTEGRATIONS.md), [Trust telemetry](docs/TRUST-TELEMETRY.md) |
-| JetBrains plugin | run a scenario from the IDE | [`ide/jetbrains/`](ide/jetbrains/) | [Surfaces](docs/SURFACES.md) |
+One engine, the same results everywhere: the command line, the Rust library, Python, JavaScript and WebAssembly,
+the MCP server with its plugin commands and skills, Kshana Studio (every page runs in the browser, no install, nothing uploaded), the
+ROS 2, Signal K, OpenCPN, GNSS-SDR and `gnss_lib_py` integrations, the systemd, Docker and Grafana deploy kits, and the
+JetBrains plugin. [`docs/ALL-SURFACES.md`](docs/ALL-SURFACES.md) lists them with how to get each and the names of all
+the plugin commands, skills and Studio pages; [`docs/SURFACES.md`](docs/SURFACES.md) says, for every command and kind,
+which surface carries it and which do not, with the reason.
 
 ## How a run works
 
@@ -1091,7 +1060,7 @@ The **Status** column states the *kind* of evidence, matching the validation lad
 
 ### Capability domains
 
-Every capability of the public map, by domain, with its ledger label. The table is written by
+Every capability of the public map, by domain, with its ledger label. The domain table is written by
 [`tools/gen_readme_blocks.py`](tools/gen_readme_blocks.py) from `web/capabilities.json`, the same file the
 Studio's map of everything reads.
 
@@ -1100,44 +1069,7 @@ Studio's map of everything reads.
   <img src="docs/assets/figures/domain-coverage-map.svg" alt="Kshana capabilities by domain and maturity: validated and modelled public capabilities per domain, drawn from web/capabilities.json by tools/gen_validation_figures.py" width="900">
 </picture>
 
-<!-- generated:domains -->
-| Domain | Capabilities | Labels |
-|---|---|---|
-| **AI/ML evaluation & trade** | RF-impairment detection eval & PNT trade; Quantum-vs-classical resilience crossover map | 1 modelled, 1 validated |
-| **Alt-PNT (GPS-denied)** | Gravity, terrain & magnetic map-matching | 1 modelled |
-| **Artifact interchange** | Kshana Interchange Format (KIF) | 1 modelled |
-| **Augmentation (SBAS)** | SBAS / WAAS protection levels & dual-frequency | 1 validated |
-| **Clock & timing** | Holdover, stability & time-and-frequency transfer | 1 validated |
-| **Decision support** | Cost-per-coverage ROI | 1 modelled |
-| **Deep-space & Mars PNT** | Radiometric navigation & relay-PNT | 1 modelled |
-| **Fusion** | GNSS / INS sensor fusion | 1 modelled |
-| **GNSS authentication** | Galileo OSNMA verification | 1 validated |
-| **GNSS measurement domain** | Pseudorange, ionosphere & troposphere | 1 validated |
-| **GNSS positioning** | Single-point positioning (PVT) | 1 validated |
-| **Inertial** | Strapdown INS & map-aided navigation; Inertial and terrain-relative coasting through an outage | 2 modelled |
-| **Integrity** | Receiver autonomous integrity (ARAIM); ARAIM against published reference vectors | 2 validated |
-| **Integrity impact** | Detection-miss → integrity regions | 1 modelled |
-| **Interoperability** | RINEX, SP3 & CCSDS formats; Test-bench export | 1 modelled, 1 validated |
-| **Lunar** | Lunar reference-station study | 1 modelled |
-| **Lunar & cislunar** | CR3BP propagation & LunaNet integrity; Lunar reference-frame realisation; Lunar navigation service volume & ARAIM; Cross-provider lunar interoperability budget; Autonomous free-network fault observability; Lunar frame datum from real laser ranging; Lunar differential PNT; Lunar time scales & geodetic VLBI; Real, retrieved lunar constellation geometry; Lunar denial contour from a measured C/N₀ spread; VLBI schedule to station-coordinate covariance; Lunar orbit and surface as navigation and geodetic infrastructure | 7 modelled, 5 validated |
-| **Maneuvers & trajectory design** | Burns, Lambert & porkchop | 1 modelled |
-| **Maritime trust** | Receiver-trust score for a vessel; Crew-training NMEA streams; Interference map and route exposure; Trust telemetry for security operations; Signed evidence packs; Compliance mapping to public frameworks; Geometry-aware trust classification | 3 modelled, 4 validated |
-| **Mission analysis** | Launch, re-entry, coverage & pointing budgets; Navigation-versus-communications aperture sharing | 2 modelled |
-| **Nav-signal performance** | Modulation, anti-jam & code tracking; GNSS beyond the constellation: the Space Service Volume and past it | 2 modelled |
-| **Numerical propagator** | Cowell propagator & six-perturbation force model | 1 modelled |
-| **Observability & estimation theory** | Fisher information & observability | 1 validated |
-| **Optical / RF PNT** | Optical and RF handover with cross-modality integrity; Optical timing links through clouds and turbulence | 2 modelled |
-| **Orbit & geometry** | Orbit propagation & constellation design | 1 validated |
-| **Orbit determination** | Batch & sequential OD | 1 validated |
-| **Passive RF geolocation** | Passive RF geolocation (TDOA/FDOA) | 1 modelled |
-| **Resilience** | Jamming & multi-layer spoof detection | 1 modelled |
-| **Resilience assessment** | PNT-resilience scoring & decision-instability | 1 modelled |
-| **Sky geometry** | Skyline-masked visibility, DOP and error ellipse; Skyline presets and the sky-geometry functions | 1 modelled, 1 validated |
-| **Space environment** | Space-weather & thermospheric density | 1 validated |
-| **Time systems** | Time scales & Earth-orientation frames; Real-time Earth-orientation prediction | 1 modelled, 1 validated |
-| **Timing integrity** | Conditional Timing Protection Level | 1 modelled |
-| **Verification & assurance** | Machine-checked verification matrix; Unit and provenance on every reported quantity | 2 modelled |
-<!-- /generated:domains -->
+The full table, domain by domain with every capability and its label, is [`docs/CAPABILITY-DOMAINS.md`](docs/CAPABILITY-DOMAINS.md).
 
 ## Install
 
@@ -1305,6 +1237,11 @@ parts fit.
 <p align="center">
   <img src="docs/assets/diagrams/studio-flow.png" alt="Kshana Studio: the browser runs the engine compiled to WebAssembly locally with nothing uploaded, takes bundled scenarios or a scenario or log you open, and shows the result in the Simple view, the Advanced view and the task pages, with exports saved by the user" width="900"><br>
   <sub>How Studio runs, locally · <a href="docs/assets/diagrams/studio-flow.svg">SVG</a> · source <a href="docs/diagrams/studio-flow.mmd">studio-flow.mmd</a></sub>
+</p>
+
+<p align="center">
+  <img src="docs/assets/diagrams/release-flow.png" alt="The release flow: a pull request or integration branch passes continuous integration (formatting, lint, tests, doc-sync and matrix guards) into a green main; the auto-tag step checks version sync and pushes an annotated tag; verify runs the full suite on the tagged commit before anything is published; release builds binaries for Linux, macOS and Windows with an SBOM, checksums and build provenance and checks them again; publish pushes to crates.io, PyPI, npm, the container registry, the MCP registry and the JetBrains Marketplace; parity polls every registry until it serves the new version; and the site job rebuilds kshana.dev from the tag" width="900"><br>
+  <sub>Test and release flow, from a change to a verified release · <a href="docs/assets/diagrams/release-flow.svg">SVG</a> · source <a href="docs/diagrams/release-flow.mmd">release-flow.mmd</a> · <a href="docs/RELEASING.md">docs/RELEASING.md</a></sub>
 </p>
 
 <p align="center">

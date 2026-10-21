@@ -1,0 +1,14 @@
+flowchart TB
+    subgraph A["Before the tag"]
+        direction LR
+        PR["Pull request or integration branch<br/>CI: formatting, lint, tests<br/>doc-sync and matrix guards"] --> MAIN["main, green"]
+        MAIN --> TAG["Auto-tag<br/>check-version-sync, then an<br/>annotated vX.Y.Z tag"]
+    end
+    subgraph B["After the tag, in one release run"]
+        direction LR
+        VER["verify<br/>the full suite on the tagged commit<br/>nothing is published before it passes"] --> REL["release<br/>binaries for Linux, macOS, Windows<br/>SBOM, SHA256SUMS, SLSA provenance<br/>checked again after upload"]
+        REL --> PUB["publish<br/>crates.io, PyPI, npm<br/>ghcr.io images, MCP registry<br/>JetBrains Marketplace"]
+        PUB --> PAR["parity<br/>poll every registry until it<br/>serves the new version"]
+        PAR --> SITE["site<br/>pages.yml rebuilds kshana.dev<br/>from the tag"]
+    end
+    A --> B
