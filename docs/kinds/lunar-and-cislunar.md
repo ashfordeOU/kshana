@@ -10,26 +10,26 @@ Topic pages: [LUNAR-REFERENCE-STATION](../LUNAR-REFERENCE-STATION.md), [LUNAR-IN
 
 | Kind | What it does | Ledger |
 |---|---|---|
-| [`lunar-integrity`](#lunar-integrity) | Lunar south-pole ARAIM protection-level pass vs a representative LunaNet relay set. | MODELLED (result label) |
-| [`lunar-time-offset`](#lunar-time-offset) | Modelled relativistic Earth–Moon clock rate (Lunar Coordinate Time, LTC/TCL): the secular LTC−TT rate from the self-potential difference and the Moon's kinetic term, reported with the published 56–59  | MODELLED (result label) |
-| [`lunar-time-budget`](#lunar-time-budget) | MODELLED end-to-end Coordinated Lunar Time (LTC) time-error budget: the seven LTC error terms assembled as time-error curves x_i(τ) over a whole averaging-time grid, root-summed into x_Σ(τ), and the c | MODELLED |
-| [`lunar-vlbi`](#lunar-vlbi) | Modelled lunar geodetic VLBI delay observable: an Earth baseline (two ground stations, GCRS) observes a one-way signal from a NovaMoon-class lunar-surface beacon. | MODELLED 3 · VALIDATED 3 |
-| [`lunar-vlbi-fim`](#lunar-vlbi-fim) | Lunar-VLBI station-coordinate covariance: the delay partials of the lunar-vlbi observable accumulated over an explicit SCHEDULE (baselines x epochs) into a Fisher information matrix, inverted, and rep | MODELLED 3 · VALIDATED 2 |
-| [`lunar-joint-od-clock`](#lunar-joint-od-clock) | Modelled joint multi-technique lunar OD + clock batch estimator on a SIMULATED network: a Gauss-Newton snapshot fit that fuses Earth-baseline geodetic VLBI delays, lunar-local station↔satellite ranges | MODELLED (result label) |
-| [`lunar-frame-realisation`](#lunar-frame-realisation) | Modelled lunar reference-frame realisation: a 7-parameter Helmert (similarity) datum fit — 3 translation, 3 small-angle rotation, 1 scale — tying an estimated set of selenographic-derived MCMF point c | MODELLED (result label) |
-| [`lunar-frame-campaign`](#lunar-frame-campaign) | Seven-parameter Helmert (similarity) frame datum driven by a SIMULATED OBSERVING CAMPAIGN rather than by an injected transform. | MODELLED 2 · VALIDATED 3 |
-| [`lunar-llr-datum`](#lunar-llr-datum) | Seven-parameter Helmert lunar frame datum driven by a REAL, ARCHIVED observing campaign rather than a simulated one. | VALIDATED |
-| [`moonlight-service-volume`](#moonlight-service-volume) | Modelled lunar navigation service-volume analysis from an ILLUSTRATIVE, public-source Moonlight/LCNS-class lunar-orbit constellation (not affiliated with ESA): sweeps a selenographic lat/lon grid over | MODELLED (result label) |
-| [`lunar-differential-pnt`](#lunar-differential-pnt) | Modelled lunar DIFFERENTIAL PNT (a lunar DGNSS/SBAS analogue): a NovaMoon-class reference station at a KNOWN selenographic location computes per-satellite differential corrections from an ILLUSTRATIVE | MODELLED (result label) |
-| [`lunar-station-coverage`](#lunar-station-coverage) | Modelled lunar reference-station coverage: a Monte Carlo sweep of the lunar differential-PNT model over a south-polar user grid and a day of epochs. | MODELLED |
-| [`lunar-beacon`](#lunar-beacon) | Surface-beacon augmentation of a lunar orbital navigation service, as a runnable before/after table. | MODELLED |
-| [`lunar-interop-export`](#lunar-interop-export) | Modelled lunar interoperability export: emits the lunar reference frame, lunar time scale and lunar ephemeris in LunaNet/IOAG-aligned, CCSDS-based interchange forms with round-trip / field conformance | MODELLED (result label) |
-| [`cislunar-observability`](#cislunar-observability) | MODELLED planar cislunar constellation observability (P6): tracks a four-spacecraft differential-corrected planar-DRO constellation with inter-satellite ranging and reports how much of a spacecraft's  | MODELLED |
-| [`cislunar-arc-recovery`](#cislunar-arc-recovery) | MODELLED independent-estimator test of the cislunar arc-length observability threshold. | MODELLED |
-| [`lunar-attack-surface`](#lunar-attack-surface) | Lunar surface-navigation signal-security attack surface (P1): composes the open signal-security analyses into one binary-reachable run. | MODELLED (result label) |
-| [`lunar-jamming`](#lunar-jamming) | Lunar-native RF jamming: per-satellite jammer-to-signal ratio, effective C/N₀ and loss of lock for a selenographic surface user under a lunar surface (or raised) jammer, over the illustrative public-s | MODELLED |
-| [`earth-gnss-lunar`](#earth-gnss-lunar) | Earth-GNSS reception at lunar distance, the weak-signal layer the conflict-resilience paper names and the engine had no model for. | MODELLED |
-| [`lunar-infrastructure`](#lunar-infrastructure) | MODELLED studies of the Moon's orbit and surface as navigation and geodetic infrastructure, five studies behind one kind selected by `study`: od-consistency (onboard Earth-GNSS orbit determination in  | MODELLED (result label) |
+| [`lunar-integrity`](by-kind/lunar-integrity.md) | Lunar south-pole ARAIM protection-level pass vs a representative LunaNet relay set. | MODELLED (result label) |
+| [`lunar-time-offset`](by-kind/lunar-time-offset.md) | Modelled relativistic Earth–Moon clock rate (Lunar Coordinate Time, LTC/TCL): the secular LTC−TT rate from the self-potential difference and the Moon's kinetic term, reported with the published 56–59  | MODELLED (result label) |
+| [`lunar-time-budget`](by-kind/lunar-time-budget.md) | MODELLED end-to-end Coordinated Lunar Time (LTC) time-error budget: the seven LTC error terms assembled as time-error curves x_i(τ) over a whole averaging-time grid, root-summed into x_Σ(τ), and the c | MODELLED |
+| [`lunar-vlbi`](by-kind/lunar-vlbi.md) | Modelled lunar geodetic VLBI delay observable: an Earth baseline (two ground stations, GCRS) observes a one-way signal from a NovaMoon-class lunar-surface beacon. | MODELLED 3 · VALIDATED 3 |
+| [`lunar-vlbi-fim`](by-kind/lunar-vlbi-fim.md) | Lunar-VLBI station-coordinate covariance: the delay partials of the lunar-vlbi observable accumulated over an explicit SCHEDULE (baselines x epochs) into a Fisher information matrix, inverted, and rep | MODELLED 3 · VALIDATED 2 |
+| [`lunar-joint-od-clock`](by-kind/lunar-joint-od-clock.md) | Modelled joint multi-technique lunar OD + clock batch estimator on a SIMULATED network: a Gauss-Newton snapshot fit that fuses Earth-baseline geodetic VLBI delays, lunar-local station↔satellite ranges | MODELLED (result label) |
+| [`lunar-frame-realisation`](by-kind/lunar-frame-realisation.md) | Modelled lunar reference-frame realisation: a 7-parameter Helmert (similarity) datum fit — 3 translation, 3 small-angle rotation, 1 scale — tying an estimated set of selenographic-derived MCMF point c | MODELLED (result label) |
+| [`lunar-frame-campaign`](by-kind/lunar-frame-campaign.md) | Seven-parameter Helmert (similarity) frame datum driven by a SIMULATED OBSERVING CAMPAIGN rather than by an injected transform. | MODELLED 2 · VALIDATED 3 |
+| [`lunar-llr-datum`](by-kind/lunar-llr-datum.md) | Seven-parameter Helmert lunar frame datum driven by a REAL, ARCHIVED observing campaign rather than a simulated one. | VALIDATED |
+| [`moonlight-service-volume`](by-kind/moonlight-service-volume.md) | Modelled lunar navigation service-volume analysis from an ILLUSTRATIVE, public-source Moonlight/LCNS-class lunar-orbit constellation (not affiliated with ESA): sweeps a selenographic lat/lon grid over | MODELLED (result label) |
+| [`lunar-differential-pnt`](by-kind/lunar-differential-pnt.md) | Modelled lunar DIFFERENTIAL PNT (a lunar DGNSS/SBAS analogue): a NovaMoon-class reference station at a KNOWN selenographic location computes per-satellite differential corrections from an ILLUSTRATIVE | MODELLED (result label) |
+| [`lunar-station-coverage`](by-kind/lunar-station-coverage.md) | Modelled lunar reference-station coverage: a Monte Carlo sweep of the lunar differential-PNT model over a south-polar user grid and a day of epochs. | MODELLED |
+| [`lunar-beacon`](by-kind/lunar-beacon.md) | Surface-beacon augmentation of a lunar orbital navigation service, as a runnable before/after table. | MODELLED |
+| [`lunar-interop-export`](by-kind/lunar-interop-export.md) | Modelled lunar interoperability export: emits the lunar reference frame, lunar time scale and lunar ephemeris in LunaNet/IOAG-aligned, CCSDS-based interchange forms with round-trip / field conformance | MODELLED (result label) |
+| [`cislunar-observability`](by-kind/cislunar-observability.md) | MODELLED planar cislunar constellation observability (P6): tracks a four-spacecraft differential-corrected planar-DRO constellation with inter-satellite ranging and reports how much of a spacecraft's  | MODELLED |
+| [`cislunar-arc-recovery`](by-kind/cislunar-arc-recovery.md) | MODELLED independent-estimator test of the cislunar arc-length observability threshold. | MODELLED |
+| [`lunar-attack-surface`](by-kind/lunar-attack-surface.md) | Lunar surface-navigation signal-security attack surface (P1): composes the open signal-security analyses into one binary-reachable run. | MODELLED (result label) |
+| [`lunar-jamming`](by-kind/lunar-jamming.md) | Lunar-native RF jamming: per-satellite jammer-to-signal ratio, effective C/N₀ and loss of lock for a selenographic surface user under a lunar surface (or raised) jammer, over the illustrative public-s | MODELLED |
+| [`earth-gnss-lunar`](by-kind/earth-gnss-lunar.md) | Earth-GNSS reception at lunar distance, the weak-signal layer the conflict-resilience paper names and the engine had no model for. | MODELLED |
+| [`lunar-infrastructure`](by-kind/lunar-infrastructure.md) | MODELLED studies of the Moon's orbit and surface as navigation and geodetic infrastructure, five studies behind one kind selected by `study`: od-consistency (onboard Earth-GNSS orbit determination in  | MODELLED (result label) |
 
 ### `lunar-integrity`
 
@@ -37,20 +37,11 @@ Lunar south-pole ARAIM protection-level pass vs a representative LunaNet relay s
 
 Required fields: none. Optional: `step_s`, `duration_s`, `alert_limit_m`, `p_hmi`, `sigma_ure_m`.
 
-**Ledger:** no matrix row names this kind by name; the label on its result is the engine's own, shown below.
+**Ledger:** no matrix row names this kind; the engine labels its own result. Full page, with the inputs, results, evidence and limitations: [lunar-integrity](by-kind/lunar-integrity.md).
 
 ```sh
 kshana scenarios/lunanet-araim.toml
 ```
-
-Headline numbers from this run (read from `result.json` through its own `units` block):
-
-| Field | Value | Unit | What it is |
-|---|---|---|---|
-| `max_hpl_m` | 452.184 | m | largest horizontal protection level over the sampled pass |
-| `min_hpl_m` | 263.026 | m | smallest horizontal protection level over the sampled pass |
-| `samples_available` | 0 | count | sampled epochs whose HPL is at or below the alert limit |
-| `samples_total` | 24 | count | epochs sampled over the pass at `step_s` out to `duration_s` |
 
 <img src="../figures/kinds/lunar-integrity.svg" alt="The chart the engine writes for scenarios/lunanet-araim.toml, kind lunar-integrity" width="640">
 
@@ -60,22 +51,11 @@ Modelled relativistic Earth–Moon clock rate (Lunar Coordinate Time, LTC/TCL): 
 
 Required fields: none. Optional: `epoch_year`, `epoch_month`, `epoch_day`, `horizon_days`.
 
-**Ledger:** no matrix row names this kind by name; the label on its result is the engine's own, shown below.
+**Ledger:** no matrix row names this kind; the engine labels its own result. Full page, with the inputs, results, evidence and limitations: [lunar-time-offset](by-kind/lunar-time-offset.md).
 
 ```sh
 kshana scenarios/lunar-time-offset.toml
 ```
-
-Headline numbers from this run (read from `result.json` through its own `units` block):
-
-| Field | Value | Unit | What it is |
-|---|---|---|---|
-| `band_high` | 59 | us/day | upper bound of the published lunar-clock-rate band ([`RATE_BAND_HIGH_US_DAY`]) |
-| `band_low` | 56 | us/day | lower bound of the published lunar-clock-rate band ([`RATE_BAND_LOW_US_DAY`]), carried so the modelled rate ca |
-| `kinetic_us_per_day` | -0.458241 | us/day | second-order-Doppler term -(v.v)/(2 c^2) * 86400 * 1e6, with v the geocentric Moon velocity from a central fin |
-| `offset_at_horizon_us` | 57.0436 | us | accumulated LTC-TT offset at the horizon, secular_rate_us_per_day * horizon_days |
-| `secular_rate_us_per_day` | 57.0436 | us/day | total secular LTC-TT rate: microseconds a lunar-surface clock gains on an Earth-geoid (TT) clock per day, the  |
-| `self_potential_us_per_day` | 57.5019 | us/day | gravitational-redshift term ((W0_earth - GM_moon/R_moon) / c^2) * 86400 * 1e6, evaluated from defined constant |
 
 <img src="../figures/kinds/lunar-time-offset.svg" alt="The chart the engine writes for scenarios/lunar-time-offset.toml, kind lunar-time-offset" width="640">
 
@@ -85,30 +65,13 @@ MODELLED end-to-end Coordinated Lunar Time (LTC) time-error budget: the seven LT
 
 Required fields: none. Optional: `clock`, `tau_min_s`, `tau_max_s`, `points_per_decade`, `clocks`, `time_lab`.
 
-**Ledger:** MODELLED. The [verification matrix](../VERIFICATION-MATRIX.md) rows that name this kind:
-
-- MODELLED: One lunar-time-budget run emits a clock-vs-frame crossover row per clock class against a single shared frame term, so the clock is the only variable in the comparison; each row carries the crossover reached two ways -- b
-- MODELLED: The optional [time_lab] block of the lunar-time-budget scenario models a lunar reference station clock (default the miniRAFS class, or any named class, or a device card fitted to stated stability points) steered to Coord ([lunar_station_time_lab.rs](../../tests/lunar_station_time_lab.rs))
+**Ledger:** MODELLED. Full page, with the inputs, results, evidence and limitations: [lunar-time-budget](by-kind/lunar-time-budget.md).
 
 ```sh
 kshana scenarios/lunar-time-budget.toml
 ```
 
-Result label (the engine's): MODELLED end-to-end LTC time-error budget. The τ-slopes are closed-form and analytically checkable (clock τ^{+1/2}/τ^{+1}, floors τ^0, measurement τ^{-1/2}) and the clock rows reproduce the published one-day clock specs; the RF/optical link, frame-realisation, relativistic-residual and ephemeris flo
-
-Headline numbers from this run (read from `result.json` through its own `units` block):
-
-| Field | Value | Unit | What it is |
-|---|---|---|---|
-| `crossover_tau_s` | 86894.3 | s | the averaging time at which the growing clock term equals the constant frame term; below it the budget is fram |
-| `crossover_x_s` | 1.00069e-09 | s | the common time error at the crossover, x_clock = x_frame |
-| `frame_term_s` | 1.00069e-09 | s | the constant reference-frame realisation term delta_r / c, from the documented default frame position error (a |
-
 <img src="../figures/kinds/lunar-time-budget.svg" alt="The chart the engine writes for scenarios/lunar-time-budget.toml, kind lunar-time-budget" width="640">
-
-2 bundled scenarios use this kind; the others are in [`scenarios/`](../../scenarios/).
-
-Topic pages: [LUNAR-REFERENCE-STATION.md](../LUNAR-REFERENCE-STATION.md), [integrations.md](../integrations.md).
 
 ### `lunar-vlbi`
 
@@ -116,28 +79,11 @@ Modelled lunar geodetic VLBI delay observable: an Earth baseline (two ground sta
 
 Required fields: none. Optional: `station1_lat_deg`, `station1_lon_deg`, `station1_alt_m`, `station2_lat_deg`, `station2_lon_deg`, `station2_alt_m`, `beacon_lat_deg`, `beacon_lon_deg`, `beacon_alt_m`, `epoch_year`, `epoch_month`, `epoch_day`, `horizon_hours`, `step_min`, `planetary_kernel_path`, `earth_orientation_kernel_path`, `moon_orientation_kernel_path`.
 
-**Ledger:** MODELLED 3 · VALIDATED 3. The [verification matrix](../VERIFICATION-MATRIX.md) rows that name this kind:
-
-- MODELLED: Near-field VLBI delay for an Earth baseline observing a lunar beacon + partials
-- VALIDATED: Near-field VLBI delay for an Earth baseline observing a lunar beacon, with beacon and station partials, on the kernel path (lunar_vlbi::KernelGeometry): DE440 Earth and Moon, DE440 lunar principal axes, ITRF93 Earth orie ([naif_kernel_reader_check.rs](../../tests/naif_kernel_reader_check.rs))
-- VALIDATED: Delay partials accumulated over a schedule of baselines × epochs into a Fisher information matrix, inverted to the station coordinate covariance and the per-coordinate station sigma, replacing an assumed isotropic equipa
-- MODELLED: A third datum choice, `all-stations-fixed`, that holds every Earth station and estimates the BEACON's Moon-body-fixed coordinates alone — the configuration a lunar surface-point uncertainty is actually quoted for, since 
-- and 2 more in the matrix.
+**Ledger:** MODELLED 3 · VALIDATED 3. Full page, with the inputs, results, evidence and limitations: [lunar-vlbi](by-kind/lunar-vlbi.md).
 
 ```sh
 kshana scenarios/lunar-vlbi.toml
 ```
-
-Headline numbers from this run (read from `result.json` through its own `units` block):
-
-| Field | Value | Unit | What it is |
-|---|---|---|---|
-| `baseline_km` | 10726.7 | km | Earth baseline length /r2 - r1/ at the epoch, the two configured stations reduced to geocentric inertial (GCRS |
-| `beacon_range_km` | 402900 | km | geocentric range /r_B/ of the lunar-surface beacon at the epoch |
-| `delay_rate_s_per_s` | 1.31179e-06 | s/s | one-step forward finite difference of the full delay, (delay(t0 + dt) - delay(t0)) / dt; seconds of delay per  |
-| `delay_s` | -0.0100491 | s | full VLBI delay at the epoch: the near-field two-range difference (/r2 - r_B/ - /r1 - r_B/)/c plus the differe |
-| `max_delay_s` | 0.0224369 | s | largest full VLBI delay over the sampled horizon |
-| `min_delay_s` | -0.0100491 | s | smallest full VLBI delay over the sampled horizon |
 
 <img src="../figures/kinds/lunar-vlbi.svg" alt="The chart the engine writes for scenarios/lunar-vlbi.toml, kind lunar-vlbi" width="640">
 
@@ -147,30 +93,11 @@ Lunar-VLBI station-coordinate covariance: the delay partials of the lunar-vlbi o
 
 Required fields: none. Optional: `stations`, `beacon_lat_deg`, `beacon_lon_deg`, `beacon_alt_m`, `epoch_year`, `epoch_month`, `epoch_day`, `arc_hours`, `step_min`, `delay_sigma_s`, `elevation_mask_deg`, `datum`, `estimate_beacon`, `rel_tol`, `equipartition_g`, `planetary_kernel_path`.
 
-**Ledger:** MODELLED 3 · VALIDATED 2. The [verification matrix](../VERIFICATION-MATRIX.md) rows that name this kind:
-
-- VALIDATED: Delay partials accumulated over a schedule of baselines × epochs into a Fisher information matrix, inverted to the station coordinate covariance and the per-coordinate station sigma, replacing an assumed isotropic equipa
-- MODELLED: A third datum choice, `all-stations-fixed`, that holds every Earth station and estimates the BEACON's Moon-body-fixed coordinates alone — the configuration a lunar surface-point uncertainty is actually quoted for, since 
-- VALIDATED: The all-stations-fixed beacon covariance of the lunar-vlbi-fim scenario (every Earth station held, the beacon's Moon-body-fixed coordinates estimated alone) with the beacon placed on the JPL DE440 Moon read by the engine
-- MODELLED: The seven-parameter Helmert datum propagated from a SIMULATED OBSERVING CAMPAIGN instead of recovered from an injected transform.
-- and 1 more in the matrix.
+**Ledger:** MODELLED 3 · VALIDATED 2. Full page, with the inputs, results, evidence and limitations: [lunar-vlbi-fim](by-kind/lunar-vlbi-fim.md).
 
 ```sh
 kshana scenarios/lunar-vlbi-fim.toml
 ```
-
-Result label (the engine's): MODELLED lunar-VLBI station-coordinate covariance. The covariance is accumulated from the engine's own analytic delay partials over an explicit schedule of baselines and epochs and inverted; it is NOT converted from a scalar delay precision by an assumed geometry factor. The per-observation delay si
-
-Headline numbers from this run (read from `result.json` through its own `units` block):
-
-| Field | Value | Unit | What it is |
-|---|---|---|---|
-| `beacon_link.beacon_range_m` | 4.029e+08 | m | /r_beacon/ at the first epoch |
-| `beacon_link.equipartition_per_coordinate_sigma_m` | 0.041793 | m | the surface-point form of the equipartition link: the station-level value times the lever arm |
-| `beacon_link.lever_arm_range_over_baseline` | 32.1945 | 1 | rho / B - the factor separating a station-coordinate budget from a lunar-surface-point one |
-| `beacon_link.longest_baseline_m` | 1.25146e+07 | m | the longest station pair present; the most favourable lever arm, so the ratio built on it can only understate |
-| `fim.condition_number` | 22092.7 | 1 | lambda_max / lambda_min over the observable subspace |
-| `fim.defect` | 0 | count | dimension - rank; the unobservable directions |
 
 <img src="../figures/kinds/lunar-vlbi-fim.svg" alt="The chart the engine writes for scenarios/lunar-vlbi-fim.toml, kind lunar-vlbi-fim" width="640">
 
@@ -180,22 +107,11 @@ Modelled joint multi-technique lunar OD + clock batch estimator on a SIMULATED n
 
 Required fields: none. Optional: `n_sat`, `n_earth`, `seed`, `sigma_vlbi_s`, `sigma_range_m`, `sigma_isl_m`, `station_lat_deg`, `station_lon_deg`, `station_alt_m`, `orbit_radius_km`, `sigma_clock_s`, `orbit_ecc`, `orbit_inc_deg`, `orbit_argp_deg`, `orbit_planes`, `epoch_year`, `epoch_month`, `epoch_day`.
 
-**Ledger:** no matrix row names this kind by name; the label on its result is the engine's own, shown below.
+**Ledger:** no matrix row names this kind; the engine labels its own result. Full page, with the inputs, results, evidence and limitations: [lunar-joint-od-clock](by-kind/lunar-joint-od-clock.md).
 
 ```sh
 kshana scenarios/lunar-joint-od-clock.toml
 ```
-
-Headline numbers from this run (read from `result.json` through its own `units` block):
-
-| Field | Value | Unit | What it is |
-|---|---|---|---|
-| `observability.condition` | 1.2364e+06 | 1 | condition number lambda_max / lambda_min of the Fisher information over the observable subspace, for the confi |
-| `observability.defect` | 0 | count | datum-defect dimension n - rank, the number of unobservable directions; 0 means fully observable, for the conf |
-| `observability.e_opt` | 1.3404e+09 | 1/(10^6 m)^2 | E-optimality lambda_min of the Fisher information matrix, the worst-observed direction; the state is stored in |
-| `observability.n_params` | 16 | count | state dimension n of the Fisher information matrix, for the configured network with VLBI |
-| `observability.rank` | 16 | count | numerical rank of the Fisher information matrix, for the configured network with VLBI |
-| `observability.station_pos_crlb_m` | 20.0777 | m | Cramer-Rao lower bound on the station 3-D absolute-position error (1-sigma RSS of the three position variances |
 
 <img src="../figures/kinds/lunar-joint-od-clock.svg" alt="The chart the engine writes for scenarios/lunar-joint-od-clock.toml, kind lunar-joint-od-clock" width="640">
 
@@ -205,22 +121,11 @@ Modelled lunar reference-frame realisation: a 7-parameter Helmert (similarity) d
 
 Required fields: none. Optional: `n_points`, `tx_m`, `ty_m`, `tz_m`, `rot_x_urad`, `rot_y_urad`, `rot_z_urad`, `scale_ppb`, `noise_sigma_m`, `seed`, `epoch_year`, `epoch_month`, `epoch_day`.
 
-**Ledger:** no matrix row names this kind by name; the label on its result is the engine's own, shown below.
+**Ledger:** no matrix row names this kind; the engine labels its own result. Full page, with the inputs, results, evidence and limitations: [lunar-frame-realisation](by-kind/lunar-frame-realisation.md).
 
 ```sh
 kshana scenarios/lunar-frame-realisation.toml
 ```
-
-Headline numbers from this run (read from `result.json` through its own `units` block):
-
-| Field | Value | Unit | What it is |
-|---|---|---|---|
-| `n_points` | 8 | count | points in the synthetic selenographic network the fit ran over, the `n_points` input floored at 3 |
-| `recovered.scale_ppb` | -489.12 | ppb | scale offset recovered by the Helmert fit, in parts per billion |
-| `rms_residual_m` | 0.887327 | m | post-fit RMS coordinate residual of the Helmert fit over the point network |
-| `rot_err_norm_rad` | 3.41823e-07 | rad | Euclidean norm of the three-axis rotation recovery error |
-| `scale_err_ppb` | -589.12 | ppb | scale recovery error, recovered minus injected, in parts per billion |
-| `trans_err_norm_m` | 0.312519 | m | Euclidean norm of the three-axis translation recovery error |
 
 <img src="../figures/kinds/lunar-frame-realisation.svg" alt="The chart the engine writes for scenarios/lunar-frame-realisation.toml, kind lunar-frame-realisation" width="640">
 
@@ -230,30 +135,11 @@ Seven-parameter Helmert (similarity) frame datum driven by a SIMULATED OBSERVING
 
 Required fields: none. Optional: `stations`, `beacons`, `epoch_year`, `epoch_month`, `epoch_day`, `arc_hours`, `step_min`, `delay_sigma_s`, `elevation_mask_deg`, `earth_elevation_mask_deg`, `station_datum`, `rel_tol`, `assumed_coordinate_sigma_m`, `solver`.
 
-**Ledger:** MODELLED 2 · VALIDATED 3. The [verification matrix](../VERIFICATION-MATRIX.md) rows that name this kind:
-
-- MODELLED: The seven-parameter Helmert datum propagated from a SIMULATED OBSERVING CAMPAIGN instead of recovered from an injected transform.
-- VALIDATED: The seven-parameter Helmert datum covariance, with its two simulated inputs replaced by measured ones: the schedule is the ground-transmit epochs of 337 archived ILRS lunar laser-ranging normal points (2015-04-08 to 2015 ([lunar_llr_real_data.rs](../../tests/lunar_llr_real_data.rs))
-- MODELLED: Optional extra_reflectors and extra_beacons inputs on the lunar-llr-datum scenario add a station_geodesy block: the five-array Helmert information from the archived lunar laser ranging slice plus the information an added ([lunar_station_geodesy.rs](../../tests/lunar_station_geodesy.rs))
-- VALIDATED: The seven-parameter Helmert datum covariance of the lunar-frame-campaign scenario with the Earth stations estimated (station 1 anchored), as lunar_frame_campaign computes it in binary64: the joint station-and-beacon Fish ([lunar_frame_campaign_mpmath_oracle.rs](../../tests/lunar_frame_campaign_mpmath_oracle.rs))
-- and 1 more in the matrix.
+**Ledger:** MODELLED 2 · VALIDATED 3. Full page, with the inputs, results, evidence and limitations: [lunar-frame-campaign](by-kind/lunar-frame-campaign.md).
 
 ```sh
 kshana scenarios/lunar-frame-campaign.toml
 ```
-
-Result label (the engine's): MODELLED campaign-driven lunar frame datum. The seven-parameter Helmert covariance is propagated from a beacon-coordinate information matrix accumulated from the engine's own lunar-VLBI delay partials over an explicit schedule of beacons, baselines and epochs; NO similarity transform is injected and
-
-Headline numbers from this run (read from `result.json` through its own `units` block):
-
-| Field | Value | Unit | What it is |
-|---|---|---|---|
-| `beacon_information.defect` | 0 | count | unobservable directions in the beacon block: dimension minus rank |
-| `beacon_information.dimension` | 12 | count | 3 per beacon |
-| `beacon_information.max_interbeacon_correlation` | 0 | 1 | largest absolute correlation coefficient between coordinates of different beacons |
-| `beacon_information.offblock_fraction` | 0 | 1 | largest inter-beacon entry over the largest diagonal entry; exactly 0 when no observation touches two beacons |
-| `beacon_information.rank` | 12 | count | eigenvalues above rel_tol * lambda_max |
-| `campaign.delay_sigma_range_equivalent_m` | 0.00299792 | m | c * delay_sigma_s |
 
 <img src="../figures/kinds/lunar-frame-campaign.svg" alt="The chart the engine writes for scenarios/lunar-frame-campaign.toml, kind lunar-frame-campaign" width="640">
 
@@ -263,33 +149,13 @@ Seven-parameter Helmert lunar frame datum driven by a REAL, ARCHIVED observing c
 
 Required fields: none. Optional: `data_dir`, `normal_points_dir`, `reflectors_path`, `stations_path`, `dut1_s`, `rel_tol`, `compare_simulated_campaign`, `sensitivity_tilt_deg`, `planetary_kernel_path`, `extra_reflectors`, `extra_beacons`, `extra_earth_elevation_mask_deg`, `beacon_campaign`.
 
-**Ledger:** VALIDATED. The [verification matrix](../VERIFICATION-MATRIX.md) rows that name this kind:
-
-- VALIDATED: The seven-parameter Helmert datum covariance, with its two simulated inputs replaced by measured ones: the schedule is the ground-transmit epochs of 337 archived ILRS lunar laser-ranging normal points (2015-04-08 to 2015 ([lunar_llr_real_data.rs](../../tests/lunar_llr_real_data.rs))
-- VALIDATED: The lunar-llr-datum seven-parameter Helmert datum covariance from archived ILRS normal points and their measured weights, on the kernel path: the geocentric Moon centre is read from JPL DE440 by the engine's own kernel r ([validate_llr_datum_kernel_moon.rs](../../tests/validate_llr_datum_kernel_moon.rs))
+**Ledger:** VALIDATED. Full page, with the inputs, results, evidence and limitations: [lunar-llr-datum](by-kind/lunar-llr-datum.md).
 
 ```sh
 kshana scenarios/lunar-llr-datum.toml
 ```
 
-Result label (the engine's): Lunar frame datum from a REAL observing campaign. The schedule, the observation count and every observation weight come from archived ILRS lunar laser ranging normal points (measured); the station coordinates come from IERS ITRF2020 and the retroreflector coordinates from JPL DE430 Table 7 (publishe
-
-Headline numbers from this run (read from `result.json` through its own `units` block):
-
-| Field | Value | Unit | What it is |
-|---|---|---|---|
-| `comparison.ratio_simulated_over_measured_rotation` | 35.728 | 1 | same construction caveat as the translation ratio |
-| `comparison.ratio_simulated_over_measured_scale` | 24.4465 | 1 | same construction caveat as the translation ratio |
-| `comparison.ratio_simulated_over_measured_translation` | 345.485 | 1 | simulated over measured; a ratio between two different observables (VLBI delay against laser range) and two di |
-| `comparison.simulated_campaign.rotation_sigma_norm_rad` | 1.47112e-07 | rad | that simulated campaign's rotation figure |
-| `comparison.simulated_campaign.scale_sigma_ppb` | 43.623 | ppb | that simulated campaign's scale figure |
-| `comparison.simulated_campaign.translation_sigma_norm_m` | 6.3975 | m | the lunar-frame-campaign scenario's own figure at its defaults, RUN here rather than transcribed; its station  |
-
 <img src="../figures/kinds/lunar-llr-datum.svg" alt="The chart the engine writes for scenarios/lunar-llr-datum.toml, kind lunar-llr-datum" width="640">
-
-3 bundled scenarios use this kind; the others are in [`scenarios/`](../../scenarios/).
-
-Topic pages: [LUNAR-REFERENCE-STATION.md](../LUNAR-REFERENCE-STATION.md).
 
 ### `moonlight-service-volume`
 
@@ -297,26 +163,13 @@ Modelled lunar navigation service-volume analysis from an ILLUSTRATIVE, public-s
 
 Required fields: none. Optional: `n_sats`, `sma_km`, `eccentricity`, `inc_deg`, `argp_deg`, `lat_min_deg`, `lat_max_deg`, `lat_step_deg`, `lon_min_deg`, `lon_max_deg`, `lon_step_deg`, `horizon_hours`, `step_min`, `elev_mask_deg`, `pdop_threshold`, `alert_limit_m`, `p_hmi`, `perturbed`, `sigma_ure_m`, `export_site_lat_deg`, `export_site_lon_deg`, `export_antenna`, `ephemeris_path`, `planetary_kernel_path`, `epoch_utc`, `terrain`.
 
-**Ledger:** no matrix row names this kind by name; the label on its result is the engine's own, shown below.
+**Ledger:** no matrix row names this kind; the engine labels its own result. Full page, with the inputs, results, evidence and limitations: [moonlight-service-volume](by-kind/moonlight-service-volume.md).
 
 ```sh
 kshana scenarios/moonlight-service-volume.toml
 ```
 
-Headline numbers from this run (read from `result.json` through its own `units` block):
-
-| Field | Value | Unit | What it is |
-|---|---|---|---|
-| `coverage_pct` | 37.8472 | % | percentage of all (grid point, epoch) samples with 4 or more visible satellites AND PDOP below the threshold |
-| `hpl_max_m` | 4176.67 | m | largest horizontal protection level over those samples |
-| `hpl_min_m` | 138.726 | m | smallest horizontal protection level over the samples that admitted one |
-| `max_sats` | 7 | count | most satellites visible at any sampled point and epoch |
-| `min_sats` | 4 | count | fewest satellites visible at any sampled point and epoch |
-| `n_epochs` | 12 | count | epochs swept, from `horizon_hours` at `step_min` |
-
 <img src="../figures/kinds/moonlight-service-volume.svg" alt="The chart the engine writes for scenarios/moonlight-service-volume.toml, kind moonlight-service-volume" width="640">
-
-Topic pages: [LUNAR-REFERENCE-STATION.md](../LUNAR-REFERENCE-STATION.md), [integrations.md](../integrations.md).
 
 ### `lunar-differential-pnt`
 
@@ -324,26 +177,13 @@ Modelled lunar DIFFERENTIAL PNT (a lunar DGNSS/SBAS analogue): a NovaMoon-class 
 
 Required fields: none. Optional: `n_sats`, `sma_km`, `eccentricity`, `inc_deg`, `argp_deg`, `ref_lat_deg`, `ref_lon_deg`, `baseline_km`, `orbit_err_m`, `clock_err_m`, `noise_m`, `seed`, `t_s`, `residual_sigma_m`, `p_hmi`, `survey_sigma_m`, `latency_s`, `quantization_bits`.
 
-**Ledger:** no matrix row names this kind by name; the label on its result is the engine's own, shown below.
+**Ledger:** no matrix row names this kind; the engine labels its own result. Full page, with the inputs, results, evidence and limitations: [lunar-differential-pnt](by-kind/lunar-differential-pnt.md).
 
 ```sh
 kshana scenarios/lunar-differential-pnt.toml
 ```
 
-Headline numbers from this run (read from `result.json` through its own `units` block):
-
-| Field | Value | Unit | What it is |
-|---|---|---|---|
-| `clock_err_ns` | 100.069 | ns | the injected per-satellite clock-error magnitude clock_err_m read in the timing domain, clock_err_m / c * 1e9 |
-| `correction_link.ageing_clock_time_error_s` | 3.16228e-11 | s | sigma_y(tau)*tau for the AGEING_CLOCK power law in crate::clock_specs |
-| `correction_link.ageing_orbit_rate_m_per_s` | 0.00603477 | m/s | from the crate's own propagator; no assumed orbit-error rate |
-| `correction_link.latency_clock_position_sigma_m` | 0.0113045 | m |  |
-| `correction_link.latency_clock_range_sigma_m` | 0.00948027 | m |  |
-| `correction_link.latency_orbit_position_sigma_m` | 0.0935962 | m |  |
-
 <img src="../figures/kinds/lunar-differential-pnt.svg" alt="The chart the engine writes for scenarios/lunar-differential-pnt.toml, kind lunar-differential-pnt" width="640">
-
-Topic pages: [LUNAR-REFERENCE-STATION.md](../LUNAR-REFERENCE-STATION.md).
 
 ### `lunar-station-coverage`
 
@@ -351,32 +191,13 @@ Modelled lunar reference-station coverage: a Monte Carlo sweep of the lunar diff
 
 Required fields: none. Optional: `n_sats`, `sma_km`, `eccentricity`, `inc_deg`, `argp_deg`, `ephemeris_path`, `mask_deg`, `station_lat_deg`, `station_lon_deg`, `station_height_m`, `survey_sigma_m`, `orbit_err_m`, `clock_err_m`, `sise_sigma_m`, `sise_orbit_variance_fraction`, `noise_m`, `latency_s`, `quantization_bits`, `grid_lat_max_deg`, `grid_lat_step_deg`, `points`, `t_start_s`, `t_span_s`, `t_step_s`, `n_trials`, `accuracy_threshold_m`, `percentile`, `alert_limit_m`, `residual_sigma_m`, `p_hmi`, `seed`, `terrain`, `orbit_err_growth_m_per_s`, `receiver`, `solution`.
 
-**Ledger:** MODELLED. The [verification matrix](../VERIFICATION-MATRIX.md) rows that name this kind:
-
-- MODELLED: Monte Carlo sweep of the lunar differential-PNT model over a south-polar user grid and a day of epochs (the `lunar-station-coverage` kind): for a differential reference station at a known south-polar site, per point and  ([lunar_station_coverage_reference.rs](../../tests/lunar_station_coverage_reference.rs))
+**Ledger:** MODELLED. Full page, with the inputs, results, evidence and limitations: [lunar-station-coverage](by-kind/lunar-station-coverage.md).
 
 ```sh
 kshana scenarios/lunar-station-coverage.toml
 ```
 
-Result label (the engine's): MODELLED
-
-Headline numbers from this run (read from `result.json` through its own `units` block):
-
-| Field | Value | Unit | What it is |
-|---|---|---|---|
-| `error_model.clock_err_m` | 30 | m | clock-error magnitude injected per satellite, after any SISE split |
-| `error_model.los_sise_sigma_m` | 65.0641 | m | sqrt(orbit_err_m^2 / 3 + clock_err_m^2), the line-of-sight SISE 1-sigma |
-| `error_model.orbit_err_m` | 100 | m | orbit-error magnitude injected per satellite, after any SISE split |
-| `moon_radius_m` | 1.7374e+06 | m | the mean lunar radius the great-circle distances use |
-| `n_epochs` | 144 | count | epochs swept |
-| `n_grid_points` | 346 | count | user points swept |
-
 <img src="../figures/kinds/lunar-station-coverage.svg" alt="The chart the engine writes for scenarios/lunar-station-coverage.toml, kind lunar-station-coverage" width="640">
-
-3 bundled scenarios use this kind; the others are in [`scenarios/`](../../scenarios/).
-
-Topic pages: [LUNAR-REFERENCE-STATION.md](../LUNAR-REFERENCE-STATION.md).
 
 ### `lunar-beacon`
 
@@ -384,21 +205,11 @@ Surface-beacon augmentation of a lunar orbital navigation service, as a runnable
 
 Required fields: none. Optional: `user`, `beacons`, `n_satellites`, `comparison_n_satellites`, `epoch_s`, `elevation_mask_deg`, `clock_sync_m`, `multipath_m`, `survey_m`.
 
-**Ledger:** MODELLED. The [verification matrix](../VERIFICATION-MATRIX.md) rows that name this kind:
-
-- MODELLED: Beacon-augmented dilution of precision for a lunar surface user: the visible-satellite line-of-sight rows and the visible-surface-beacon ranging rows are concatenated into one design matrix and evaluated through the shar ([validate_p2_beacon_before_after_table.rs](../../tests/validate_p2_beacon_before_after_table.rs))
+**Ledger:** MODELLED. Full page, with the inputs, results, evidence and limitations: [lunar-beacon](by-kind/lunar-beacon.md).
 
 ```sh
 kshana scenarios/lunar-beacon.toml
 ```
-
-Headline numbers from this run (read from `result.json` through its own `units` block):
-
-| Field | Value | Unit | What it is |
-|---|---|---|---|
-| `beacon_pdop_improvement` | 2.35521 | 1 | PDOP without beacons divided by PDOP with them; greater than one is an improvement |
-| `constellation_pdop_improvement` | 4.00157 | 1 | PDOP of the baseline constellation divided by that of the larger one |
-| `sigma_ure_m` | 1.15758 | m | root-sum-square of the clock-synchronisation, multipath and survey terms, every one a modelled allocation rath |
 
 <img src="../figures/kinds/lunar-beacon.svg" alt="The chart the engine writes for scenarios/lunar-beacon.toml, kind lunar-beacon" width="640">
 
@@ -408,19 +219,11 @@ Modelled lunar interoperability export: emits the lunar reference frame, lunar t
 
 Required fields: none. Optional: `frame`, `time_system`, `n_states`, `epoch`, `step_min`, `object`.
 
-**Ledger:** no matrix row names this kind by name; the label on its result is the engine's own, shown below.
+**Ledger:** no matrix row names this kind; the engine labels its own result. Full page, with the inputs, results, evidence and limitations: [lunar-interop-export](by-kind/lunar-interop-export.md).
 
 ```sh
 kshana scenarios/lunar-interop-export.toml
 ```
-
-Headline numbers from this run (read from `result.json` through its own `units` block):
-
-| Field | Value | Unit | What it is |
-|---|---|---|---|
-| `conformance.data_lines` | 9 | count | number of well-formed OEM data lines found by the conformance check: an epoch token followed by 6 or 9 numeric |
-| `kif_bytes` | 1640 | octet | byte length of the serialised KIF envelope JSON wrapping the emitted artefacts |
-| `oem_line_count` | 23 | count | total number of text lines in the emitted CCSDS OEM message, headers and data lines together |
 
 <img src="../figures/kinds/lunar-interop-export.svg" alt="The chart the engine writes for scenarios/lunar-interop-export.toml, kind lunar-interop-export" width="640">
 
@@ -430,26 +233,11 @@ MODELLED planar cislunar constellation observability (P6): tracks a four-spacecr
 
 Required fields: none. Optional: `mu`, `arc_hours`, `epochs`, `steps`, `rel_tol`, `spatial`, `sigma_range_m`, `family`, `n_spacecraft`, `sigma_pos_threshold_km`.
 
-**Ledger:** MODELLED. The [verification matrix](../VERIFICATION-MATRIX.md) rows that name this kind:
-
-- MODELLED: The cislunar arc-length observability threshold in the SPATIAL six-state CR3BP rather than the planar four-state, across DRO, L2 halo and L2 near-rectilinear halo families, with measurement noise entering the Gramian and
+**Ledger:** MODELLED. Full page, with the inputs, results, evidence and limitations: [cislunar-observability](by-kind/cislunar-observability.md).
 
 ```sh
 kshana scenarios/cislunar-observability.toml
 ```
-
-Result label (the engine's): MODELLED planar cislunar constellation observability (P6). VALIDATED core: the observable RANK is a rank-revealing singular-value threshold cross-checked against the Gramian eigen-rank; the Gramian eigen-spectrum obeys the spectral invariants (trace = sum eig, det = prod eig, Frobenius^2 = sum eig^2
-
-Headline numbers from this run (read from `result.json` through its own `units` block):
-
-| Field | Value | Unit | What it is |
-|---|---|---|---|
-| `arc_time_tu` | 0.0574927 | rotating-frame time units | The same arc in rotating-frame time units, where 2*pi time units is one sidereal month; this is the unit the d |
-| `gdop.range_only.defect` | 2 | count | State dimension minus that rank — the size of the null space the undefined verdict rests on. |
-| `gdop.range_only.rank` | 2 | count | Rank of the range-only design at the snapshot epoch. Reported instead of a GDOP value because the geometry is  |
-| `gdop.range_rate.gdop` | 6.35257 | ratio (dimensionless) | Geometric dilution of precision of the range-rate snapshot geometry, sqrt(trace((H^T H)^-1)): the factor by wh |
-| `gdop.range_rate.rank` | 4 | count | Rank of the range-rate design at the same snapshot epoch. |
-| `gramian_spectrum.condition` | 2.04524e+09 | ratio (dimensionless) | lambda_max/lambda_min over the full state. Emitted as the string "inf" rather than a number when the Gramian i |
 
 <img src="../figures/kinds/cislunar-observability.svg" alt="The chart the engine writes for scenarios/cislunar-observability.toml, kind cislunar-observability" width="640">
 
@@ -459,26 +247,11 @@ MODELLED independent-estimator test of the cislunar arc-length observability thr
 
 Required fields: none. Optional: `mu`, `arc_hours`, `epochs`, `steps`, `spatial`, `family`, `n_spacecraft`, `observable`, `coordinates`, `trials`, `seed`, `displacement_nd`, `recovery_factor`, `sigma_range_m`, `sigma_range_rate_mm_s`, `error_bound_km`, `max_iterations`, `rel_tol`.
 
-**Ledger:** MODELLED. The [verification matrix](../VERIFICATION-MATRIX.md) rows that name this kind:
-
-- MODELLED: A batch least-squares estimator that RECOVERS the chief's initial state from simulated inter-satellite measurements over growing prefixes of the same epoch grid the rank-vs-arc table uses, with the measurement partials t ([cislunar_arc_recovery_reference.rs](../../tests/cislunar_arc_recovery_reference.rs))
+**Ledger:** MODELLED. Full page, with the inputs, results, evidence and limitations: [cislunar-arc-recovery](by-kind/cislunar-arc-recovery.md).
 
 ```sh
 kshana scenarios/cislunar-arc-recovery.toml
 ```
-
-Result label (the engine's): MODELLED cislunar arc-length recovery test (independent-estimator corroboration of the P6 observability threshold). VALIDATED core: the estimator is the crate's pre-existing weighted Gauss-Newton batch corrector (crate::batch_ls), whose design matrix is a CENTRAL FINITE DIFFERENCE of the composed fo
-
-Headline numbers from this run (read from `result.json` through its own `units` block):
-
-| Field | Value | Unit | What it is |
-|---|---|---|---|
-| `claim_under_test.estimability_ratio_estimator_over_gramian` | 1 | ratio (dimensionless) | measured boundary divided by the formal one; one means the covariance prediction is borne out |
-| `claim_under_test.estimator_estimability_boundary_hours` | 5.73913 | h | this pack's measured estimability boundary, the number to set against the formal one |
-| `claim_under_test.estimator_noise_free_boundary_hours` | 0.782609 | h | this pack's own recovery boundary, the number to set against the published rank threshold |
-| `claim_under_test.gramian_estimability_threshold_hours` | 5.73913 | h | the estimability-criterion arc-length threshold from the same cislunar-observability run: the first arc at whi |
-| `claim_under_test.gramian_rank_threshold_hours` | 2.08696 | h | the rank-criterion arc-length threshold, obtained by RUNNING cislunar-observability on the identical grid and  |
-| `claim_under_test.rank_ratio_estimator_over_gramian` | 0.375 | ratio (dimensionless) | estimator recovery boundary divided by the Gramian rank threshold; below one means the state is recoverable be |
 
 <img src="../figures/kinds/cislunar-arc-recovery.svg" alt="The chart the engine writes for scenarios/cislunar-arc-recovery.toml, kind cislunar-arc-recovery" width="640">
 
@@ -488,22 +261,11 @@ Lunar surface-navigation signal-security attack surface (P1): composes the open 
 
 Required fields: none. Optional: `afs_eirp_dbw`, `user_gain_dbi`, `slant_range_m`, `slant_range_max_m`, `carrier_hz`, `gps_reference_dbw`, `gps_reference_min_dbw`, `afs_isotropic_signal_dbw`, `transmitter_altitude_m`, `transmitter_power_dbw`, `antenna_diameter_m`, `footprint_grid`, `spoof_power_advantage_db`, `spoof_code_offset_chips`, `attacker_gain_dbi`, `spoof_capture_js_db`, `jam_denial_js_db`, `standoffs_m`, `mast_height_m`, `user_antenna_height_m`, `footprint_altitude_min_m`, `footprint_altitude_max_m`, `footprint_altitude_steps`, `footprint_altitude_scale`, `footprint_diameter_min_m`, `footprint_diameter_max_m`, `footprint_diameter_steps`, `footprint_diameter_scale`.
 
-**Ledger:** no matrix row names this kind by name; the label on its result is the engine's own, shown below.
+**Ledger:** no matrix row names this kind; the engine labels its own result. Full page, with the inputs, results, evidence and limitations: [lunar-attack-surface](by-kind/lunar-attack-surface.md).
 
 ```sh
 kshana scenarios/lunar-attack-surface.toml
 ```
-
-Headline numbers from this run (read from `result.json` through its own `units` block):
-
-| Field | Value | Unit | What it is |
-|---|---|---|---|
-| `afs_received_dbw` | -140.594 | dBW | AFS signal power received by the surface user: satellite EIRP plus user antenna gain minus the free-space path |
-| `deficit_band_hi_db` | -12.0056 | dB | largest deficit found over that same sweep |
-| `deficit_band_lo_db` | -17.9056 | dB | smallest deficit found over the reference-level x EIRP x slant-range sensitivity sweep |
-| `deficit_db` | -14.4056 | dB | how far the AFS received power sits below the terrestrial GPS reference level: gps_reference_dbw - afs_receive |
-| `deficit_factor_rounded` | 0.0398107 | 1 | the same linear power ratio with the deficit first truncated to a whole dB, 10^(trunc(nominal_deficit_db)/10)  |
-| `deficit_factor_unrounded` | 0.0362613 | 1 | the nominal deficit expressed as a linear power ratio at full precision, 10^(nominal_deficit_db/10) — the ~36x |
 
 <img src="../figures/kinds/lunar-attack-surface.svg" alt="The chart the engine writes for scenarios/lunar-attack-surface.toml, kind lunar-attack-surface" width="640">
 
@@ -513,29 +275,13 @@ Lunar-native RF jamming: per-satellite jammer-to-signal ratio, effective C/N₀ 
 
 Required fields: none. Optional: `n_sats`, `sma_km`, `eccentricity`, `inc_deg`, `argp_deg`, `site_lat_deg`, `site_lon_deg`, `site_alt_m`, `horizon_hours`, `step_min`, `elev_mask_deg`, `sat_eirp_dbw`, `carrier_hz`, `chip_rate_hz`, `user_boresight_gain_dbi`, `temp_k`, `tracking_threshold_dbhz`, `degraded_margin_db`, `jammer`.
 
-**Ledger:** MODELLED. The [verification matrix](../VERIFICATION-MATRIX.md) rows that name this kind:
-
-- MODELLED: Lunar-native jammer-to-signal ratio, effective C/N₀ and loss of lock for a selenographic surface user under a lunar surface (or raised) jammer, over the illustrative public-source Moonlight/LCNS-class constellation.
-- MODELLED: The `lunar-jamming` report no longer rests its denial contour on one scalar.
+**Ledger:** MODELLED. Full page, with the inputs, results, evidence and limitations: [lunar-jamming](by-kind/lunar-jamming.md).
 
 ```sh
 kshana scenarios/lunar-jamming.toml
 ```
 
-Headline numbers from this run (read from `result.json` through its own `units` block):
-
-| Field | Value | Unit | What it is |
-|---|---|---|---|
-| `denial_contour.cn0_nominal.asymmetry_db` | 1.43907 | dB | (p95 - median) - (median - p05) of the C/N0 sample: how far the measured distribution is from symmetric about  |
-| `denial_contour.cn0_nominal.max_dbhz` | 51.313 | dB-Hz | largest nominal C/N0 over the per-satellite table |
-| `denial_contour.cn0_nominal.mean_dbhz` | 49.3425 | dB-Hz | arithmetic mean nominal C/N0 over the table |
-| `denial_contour.cn0_nominal.median_dbhz` | 49.0855 | dB-Hz | median nominal C/N0 - the single scalar the contour used to rest on, kept beside the spread rather than in pla |
-| `denial_contour.cn0_nominal.min_dbhz` | 48.2967 | dB-Hz | smallest nominal C/N0 over the per-satellite table |
-| `denial_contour.cn0_nominal.n` | 38 | count | links in the measured wanted-signal C/N0 sample: the whole per-satellite table |
-
 <img src="../figures/kinds/lunar-jamming.svg" alt="The chart the engine writes for scenarios/lunar-jamming.toml, kind lunar-jamming" width="640">
-
-Topic pages: [integrations.md](../integrations.md).
 
 ### `earth-gnss-lunar`
 
@@ -543,24 +289,11 @@ Earth-GNSS reception at lunar distance, the weak-signal layer the conflict-resil
 
 Required fields: none. Optional: `altitude_km`, `inclination_deg`, `planes`, `sats_per_plane`, `phasing_f`, `epoch_s`, `receiver_range_m`, `receiver_ra_deg`, `receiver_dec_deg`, `tx_power_dbw`, `tx_diameter_m`, `tx_efficiency`, `freq_hz`, `rx_gain_dbi`, `system_temp_k`, `tracking_threshold_dbhz`, `back_lobe_suppression_db`, `epochs`, `span_s`.
 
-**Ledger:** MODELLED. The [verification matrix](../VERIFICATION-MATRIX.md) rows that name this kind:
-
-- MODELLED: Earth-GNSS reception at lunar distance: the weak-signal layer P7 Table 1 names and the engine had no model for.
+**Ledger:** MODELLED. Full page, with the inputs, results, evidence and limitations: [earth-gnss-lunar](by-kind/earth-gnss-lunar.md).
 
 ```sh
 kshana scenarios/earth-gnss-lunar.toml
 ```
-
-Headline numbers from this run (read from `result.json` through its own `units` block):
-
-| Field | Value | Unit | What it is |
-|---|---|---|---|
-| `earth_limb_half_angle_deg` | 13.8958 | deg | asin(R_earth / r_orbit): the minimum off-boresight angle a lunar-bound ray must exceed to clear the Earth |
-| `n_geometrically_visible` | 22 | count | satellites the Earth does not occult |
-| `n_trackable` | 0 | count | of those, the ones clearing the tracking threshold |
-| `sweep.best_cn0_dbhz` | 30.9318 | dB-Hz | best carrier-to-noise density anywhere in the sweep |
-| `sweep.fix_availability` | 0 | 1 | fraction of epochs with at least FOUR trackable links. This is the figure a layered-resilience prior should ta |
-| `sweep.max_trackable` | 2 | count | largest trackable count over the sweep |
 
 <img src="../figures/kinds/earth-gnss-lunar.svg" alt="The chart the engine writes for scenarios/earth-gnss-lunar.toml, kind earth-gnss-lunar" width="640">
 
@@ -570,16 +303,10 @@ MODELLED studies of the Moon's orbit and surface as navigation and geodetic infr
 
 Required fields: `study`. Optional: `seed`, `orbit`, `gnss`, `ground`, `monte_carlo`, `surface`, `llr`, `orbiter`, `gravimeter`, `clock`, `techniques`, `nominal`.
 
-**Ledger:** no matrix row names this kind by name; the label on its result is the engine's own, shown below.
+**Ledger:** no matrix row names this kind; the engine labels its own result. Full page, with the inputs, results, evidence and limitations: [lunar-infrastructure](by-kind/lunar-infrastructure.md).
 
 ```sh
 kshana scenarios/lunar-infrastructure-space-tie.toml
 ```
 
-Result label (the engine's): MODELLED — a restricted three-body model (Earth and Moon point masses, no Sun, no lunar gravity harmonics) with stated simplifications and ILLUSTRATIVE inputs labelled with their public sources. Numerics are checked against independent programs; nothing is compared with a measurement of a lunar quan
-
 no plot: the example writes no chart
-
-6 bundled scenarios use this kind; the others are in [`scenarios/`](../../scenarios/).
-
-Topic pages: [LUNAR-INFRASTRUCTURE.md](../LUNAR-INFRASTRUCTURE.md).

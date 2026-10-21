@@ -10,15 +10,15 @@ Topic pages: [QUANTUM-MODELS](../QUANTUM-MODELS.md), [QUANTUM](../QUANTUM.md), [
 
 | Kind | What it does | Ledger |
 |---|---|---|
-| [`inertial`](#inertial) | 1-DOF inertial dead-reckoning during a GNSS outage. | MODELLED 6 · VALIDATED 2 |
-| [`hybrid`](#hybrid) | Hybrid PNT capstone: clock + IMU + time-transfer aiding. | MODELLED |
-| [`fusion`](#fusion) | Joint Kalman sensor-fusion PNT over the same hybrid inputs. | MODELLED 4 · VALIDATED 4 |
-| [`hybrid-ukf`](#hybrid-ukf) | 17-state hybrid quantum+classical tightly-coupled GNSS/INS UKF (MODELLED): 15 INS error states + CAI-derived accel-bias correction + a 2-state (phase+frequency) clock from the q-parameter clock engine | MODELLED (result label) |
-| [`gnss-ins`](#gnss-ins) | Loosely- and tightly-coupled GNSS/INS error-state EKF. | MODELLED (result label) |
-| [`ins-trn-coast`](#ins-trn-coast) | INS/TRN coasting error model: position error against coast duration, built from IMU coefficients rather than swept as an assumed drift rate. | VALIDATED |
-| [`quantum-gnss-free-nav`](#quantum-gnss-free-nav) | MODELLED GNSS-free quantum navigation: during a GNSS outage, a quantum (cold-atom interferometer) inertial budget vs a classical navigation-grade INS — position-error growth over the coast, holdover t | MODELLED (result label) |
-| [`quantum-anomaly-detect`](#quantum-anomaly-detect) | MODELLED fault/anomaly detection for quantum PNT systems: a labelled fault catalog (clock frequency-jump/drift/lock-loss; sensor bias-step/dropout), a detection-statistic ROC AUC (with a bootstrap CI  | MODELLED (result label) |
-| [`quantum-trade`](#quantum-trade) | Quantum-vs-classical PNT trade (13503): timing-holdover + inertial-holdover benefit of a candidate clock (a measured-ADEV curve — the defensibility hinge — or a quantum clock class) vs a classical bas | MODELLED 1 · VALIDATED 2 |
+| [`inertial`](by-kind/inertial.md) | 1-DOF inertial dead-reckoning during a GNSS outage. | MODELLED 6 · VALIDATED 2 |
+| [`hybrid`](by-kind/hybrid.md) | Hybrid PNT capstone: clock + IMU + time-transfer aiding. | MODELLED |
+| [`fusion`](by-kind/fusion.md) | Joint Kalman sensor-fusion PNT over the same hybrid inputs. | MODELLED 4 · VALIDATED 4 |
+| [`hybrid-ukf`](by-kind/hybrid-ukf.md) | 17-state hybrid quantum+classical tightly-coupled GNSS/INS UKF (MODELLED): 15 INS error states + CAI-derived accel-bias correction + a 2-state (phase+frequency) clock from the q-parameter clock engine | MODELLED (result label) |
+| [`gnss-ins`](by-kind/gnss-ins.md) | Loosely- and tightly-coupled GNSS/INS error-state EKF. | MODELLED (result label) |
+| [`ins-trn-coast`](by-kind/ins-trn-coast.md) | INS/TRN coasting error model: position error against coast duration, built from IMU coefficients rather than swept as an assumed drift rate. | VALIDATED |
+| [`quantum-gnss-free-nav`](by-kind/quantum-gnss-free-nav.md) | MODELLED GNSS-free quantum navigation: during a GNSS outage, a quantum (cold-atom interferometer) inertial budget vs a classical navigation-grade INS — position-error growth over the coast, holdover t | MODELLED (result label) |
+| [`quantum-anomaly-detect`](by-kind/quantum-anomaly-detect.md) | MODELLED fault/anomaly detection for quantum PNT systems: a labelled fault catalog (clock frequency-jump/drift/lock-loss; sensor bias-step/dropout), a detection-statistic ROC AUC (with a bootstrap CI  | MODELLED (result label) |
+| [`quantum-trade`](by-kind/quantum-trade.md) | Quantum-vs-classical PNT trade (13503): timing-holdover + inertial-holdover benefit of a candidate clock (a measured-ADEV curve — the defensibility hinge — or a quantum clock class) vs a classical bas | MODELLED 1 · VALIDATED 2 |
 
 ### `inertial`
 
@@ -26,34 +26,13 @@ Topic pages: [QUANTUM-MODELS](../QUANTUM-MODELS.md), [QUANTUM](../QUANTUM.md), [
 
 Required fields: `seed`, `threshold_m`, `time`, `gnss`, `accel_quantum`, `accel_classical`. Optional: `runs`.
 
-**Ledger:** MODELLED 6 · VALIDATED 2. The [verification matrix](../VERIFICATION-MATRIX.md) rows that name this kind:
-
-- VALIDATED: Quaternion-attitude, WGS-84 NED strapdown inertial mechanization (coning/sculling-compensated) propagating a navigation state from (Δθ, Δv) increments ([classical_strapdown_ins_reference.rs](../../tests/classical_strapdown_ins_reference.rs))
-- MODELLED: Cold-atom interferometer accelerometer from first principles (k_eff·T², QPN) ([quantum_inertial_sensor_reference.rs](../../tests/quantum_inertial_sensor_reference.rs))
-- MODELLED: Mach–Zehnder fringe-ambiguity dynamic range: the 2π-periodic fringe readout sets a maximum unambiguous specific force a_max=π/(k_eff·T²), and the unambiguous range in resolution cells a_max/σ_a=π/σ_Φ is independent of th
-- MODELLED: Composed bias + scale-factor + VRW + stability-decay position budget over holdover ([quantum_inertial_dead_reckoning_reference.rs](../../tests/quantum_inertial_dead_reckoning_reference.rs))
-- and 4 more in the matrix.
+**Ledger:** MODELLED 6 · VALIDATED 2. Full page, with the inputs, results, evidence and limitations: [inertial](by-kind/inertial.md).
 
 ```sh
 kshana scenarios/imu-deadreckoning.toml
 ```
 
-Headline numbers from this run (read from `result.json` through its own `units` block):
-
-| Field | Value | Unit | What it is |
-|---|---|---|---|
-| `classical.fom.availability` | 0.131761 | 1 | fraction of all samples in the run whose absolute position error is within threshold_m |
-| `classical.fom.drift_slope_m_per_s` | 5.13808 | m/s | least-squares slope of the absolute position error against time over the outage |
-| `classical.fom.holdover_s` | 350 | s | worst-case (shortest) in-spec coast across the outage segments; grid-bounded at time.step_s |
-| `classical.fom.pos_p95_m` | 30629.9 | m | 95th percentile (nearest-rank) of the absolute position error over the outage samples |
-| `classical.fom.pos_rms_m` | 15189.2 | m | root mean square of the position error over the outage samples |
-| `quantum.fom.availability` | 1 | 1 | fraction of all samples in the run whose absolute position error is within threshold_m |
-
 <img src="../figures/kinds/inertial.svg" alt="The chart the engine writes for scenarios/imu-deadreckoning.toml, kind inertial" width="640">
-
-2 bundled scenarios use this kind; the others are in [`scenarios/`](../../scenarios/).
-
-Topic pages: [QUANTUM-MODELS.md](../QUANTUM-MODELS.md), [QUANTUM.md](../QUANTUM.md).
 
 ### `hybrid`
 
@@ -61,28 +40,13 @@ Hybrid PNT capstone: clock + IMU + time-transfer aiding.
 
 Required fields: `seed`, `timing_spec_ns`, `position_spec_m`, `time`, `gnss`, `resync`, `clock_quantum`, `clock_classical`, `accel_quantum`, `accel_classical`.
 
-**Ledger:** MODELLED. The [verification matrix](../VERIFICATION-MATRIX.md) rows that name this kind:
-
-- MODELLED: One stacked Kalman filter over position, velocity, clock phase and frequency fed pseudoranges that couple position and clock (Joseph-form updates carrying the cross-covariance); a 1-DOF variant augmented with a constant  ([fusion_coupled_filters.rs](../../tests/fusion_coupled_filters.rs))
+**Ledger:** MODELLED. Full page, with the inputs, results, evidence and limitations: [hybrid](by-kind/hybrid.md).
 
 ```sh
 kshana scenarios/hybrid-pnt.toml
 ```
 
-Headline numbers from this run (read from `result.json` through its own `units` block):
-
-| Field | Value | Unit | What it is |
-|---|---|---|---|
-| `classical.fom.integrity` | 1 | 1 | filter self-consistency on the timing channel: the fraction of outage samples whose timing error stays inside  |
-| `classical.fom.pnt_availability` | 0.131761 | 1 | fraction of all samples in the run with both the timing and the position error inside their specs |
-| `classical.fom.pnt_holdover_s` | 350 | s | worst-case (shortest) coast before either channel leaves its spec, across the outage segments; grid-bounded at |
-| `classical.fom.position_holdover_s` | 350 | s | worst-case (shortest) coast before the position error leaves position_spec_m, across the outage segments; grid |
-| `classical.fom.position_p95_m` | 31011.9 | m | 95th percentile (nearest-rank) of the absolute position error over the outage samples |
-| `classical.fom.security` | 0 | 1 | analytic spoof-detectability bound from clock stability, clamp(1 - smallest detectable offset / timing_spec_ns |
-
 <img src="../figures/kinds/hybrid.svg" alt="The chart the engine writes for scenarios/hybrid-pnt.toml, kind hybrid" width="640">
-
-Topic pages: [INTEGRITY.md](../INTEGRITY.md), [MACHINE-INPUTS.md](../MACHINE-INPUTS.md).
 
 ### `fusion`
 
@@ -90,34 +54,13 @@ Joint Kalman sensor-fusion PNT over the same hybrid inputs.
 
 Required fields: `seed`, `timing_spec_ns`, `position_spec_m`, `time`, `gnss`, `resync`, `clock_quantum`, `clock_classical`, `accel_quantum`, `accel_classical`. Optional: `coupled`.
 
-**Ledger:** MODELLED 4 · VALIDATED 4. The [verification matrix](../VERIFICATION-MATRIX.md) rows that name this kind:
-
-- VALIDATED: Recover an epoch state [r,v] from ground-station ranges via a Gauss–Newton batch differential corrector and a sequential filter, over a two-body+J2 force model ([batch_sequential_orbit_determination_reference.rs](../../tests/batch_sequential_orbit_determination_reference.rs))
-- MODELLED: Error-state EKF over 15 INS states, a two-state receiver clock and one float carrier ambiguity per tracked satellite; pseudorange, carrier phase and optional range rate from an SGP4 Walker constellation (light-time and S ([fusion_carrier_tc.rs](../../tests/fusion_carrier_tc.rs))
-- MODELLED: Three gnss-ins scenarios on the trajectory library (a vessel weaving at 8 m/s with a five-minute outage; a train through a two-satellite cutting and a tunnel; an aircraft whose outage covers a 25-degree banked turn) and  ([gnss_ins_packs.rs](../../tests/gnss_ins_packs.rs))
-- MODELLED: One stacked Kalman filter over position, velocity, clock phase and frequency fed pseudoranges that couple position and clock (Joseph-form updates carrying the cross-covariance); a 1-DOF variant augmented with a constant  ([fusion_coupled_filters.rs](../../tests/fusion_coupled_filters.rs))
-- and 4 more in the matrix.
+**Ledger:** MODELLED 4 · VALIDATED 4. Full page, with the inputs, results, evidence and limitations: [fusion](by-kind/fusion.md).
 
 ```sh
 kshana scenarios/fusion-pnt.toml
 ```
 
-Headline numbers from this run (read from `result.json` through its own `units` block):
-
-| Field | Value | Unit | What it is |
-|---|---|---|---|
-| `classical.fom.integrity` | 0.972769 | 1 | joint-filter self-consistency: the fraction of outage samples where the timing error stays inside the 3-sigma  |
-| `classical.fom.pnt_availability` | 0.807212 | 1 | fraction of all samples in the run with both the timing and the position error inside their specs |
-| `classical.fom.pnt_holdover_s` | 1330 | s | worst-case (shortest) coast before either channel leaves its spec, across the outage segments; grid-bounded at |
-| `classical.fom.position_holdover_s` | 6600 | s | worst-case (shortest) coast before the position error leaves position_spec_m, across the outage segments; grid |
-| `classical.fom.position_p95_m` | 63.6299 | m | 95th percentile (nearest-rank) of the absolute position error over the outage samples |
-| `classical.fom.security` | 0 | 1 | analytic spoof-detectability bound from clock stability, clamp(1 - smallest detectable offset / timing_spec_ns |
-
 <img src="../figures/kinds/fusion.svg" alt="The chart the engine writes for scenarios/fusion-pnt.toml, kind fusion" width="640">
-
-2 bundled scenarios use this kind; the others are in [`scenarios/`](../../scenarios/).
-
-Topic pages: [INTEGRITY.md](../INTEGRITY.md), [LEO-PNT-FUSION.md](../LEO-PNT-FUSION.md).
 
 ### `hybrid-ukf`
 
@@ -125,26 +68,13 @@ Topic pages: [INTEGRITY.md](../INTEGRITY.md), [LEO-PNT-FUSION.md](../LEO-PNT-FUS
 
 Required fields: `seed`, `time`, `gnss`, `accel`, `clock`. Optional: `residual_accel_bias_m_s2`, `speed_m_s`, `sigma_pr_m`, `sigma_rr_mps`, `consistency_seeds`, `q_factor`, `r_factor`.
 
-**Ledger:** no matrix row names this kind by name; the label on its result is the engine's own, shown below.
+**Ledger:** no matrix row names this kind; the engine labels its own result. Full page, with the inputs, results, evidence and limitations: [hybrid-ukf](by-kind/hybrid-ukf.md).
 
 ```sh
 kshana scenarios/hybrid-ukf.toml
 ```
 
-Headline numbers from this run (read from `result.json` through its own `units` block):
-
-| Field | Value | Unit | What it is |
-|---|---|---|---|
-| `clock_q_rw` | 3e-30 | 1/s | random-walk-FM clock frequency PSD, q_rw = 3*b^2 for the dimensionless +1/2-slope Allan level b at tau = 1 s;  |
-| `clock_q_wf` | 1e-26 | s^2/s | white-FM clock phase PSD from the q-parameter engine, q_wf = sigma_y(1 s)^2; the clock-phase process increment |
-| `coast.aided_pos_rms_m` | 0.360944 | m | ensemble mean, over the pooled seeds, of the three-axis position error magnitude at the last GNSS-aided epoch  |
-| `coast.coast_duration_s` | 120 | s | total GNSS-denied time, the sum of (t1 - t0) over every non-nominal window of the input timeline — the window  |
-| `coast.coast_end_pos_rms_m` | 7.69085 | m | ensemble mean, over the same seeds, of the three-axis position error magnitude at the last GNSS-denied epoch,  |
-| `consistency.nees_chi2_lower_95` | 6.47986 | 1 | lower 95% acceptance bound on the NEES mean, chi2_inv(0.025, n_x*runs)/runs on run-based degrees of freedom |
-
 <img src="../figures/kinds/hybrid-ukf.svg" alt="The chart the engine writes for scenarios/hybrid-ukf.toml, kind hybrid-ukf" width="640">
-
-Topic pages: [QUANTUM-MODELS.md](../QUANTUM-MODELS.md), [QUANTUM.md](../QUANTUM.md).
 
 ### `gnss-ins`
 
@@ -152,28 +82,13 @@ Loosely- and tightly-coupled GNSS/INS error-state EKF.
 
 Required fields: `seed`, `threshold_m`, `time`, `gnss`, `imu_quantum`, `imu_classical`. Optional: `fix_interval_s`, `sigma_pos_m`, `sigma_vel_mps`, `lat_deg`, `lon_deg`, `alt_m`, `trajectory`, `tight`.
 
-**Ledger:** no matrix row names this kind by name; the label on its result is the engine's own, shown below.
+**Ledger:** no matrix row names this kind; the engine labels its own result. Full page, with the inputs, results, evidence and limitations: [gnss-ins](by-kind/gnss-ins.md).
 
 ```sh
 kshana scenarios/gnss-ins.toml
 ```
 
-Headline numbers from this run (read from `result.json` through its own `units` block):
-
-| Field | Value | Unit | What it is |
-|---|---|---|---|
-| `classical.fom.availability` | 1 | 1 | fraction in [0, 1] of the samples of the WHOLE run — not just the outage — whose /error_m/ is within threshold |
-| `classical.fom.drift_slope_m_per_s` | 0.0904637 | m/s | least-squares slope of /series[].error_m/ against t over the GNSS-denied samples: the growth rate of the horiz |
-| `classical.fom.holdover_s` | 60 | s | worst-case (shortest) in-spec coast across the outage segments: per segment, the time from its start to the fi |
-| `classical.fom.pos_p95_m` | 5.71376 | m | 95th percentile (nearest-rank on the sorted values) of /series[].error_m/ over the GNSS-denied samples only |
-| `classical.fom.pos_rms_m` | 3.13443 | m | root-mean-square of series[].error_m over the GNSS-denied (outage) samples only |
-| `classical.free_outage_rms_m` | 314.336 | m | time-RMS horizontal error over the same GNSS-denied samples of the unaided free-running INS, which never recei |
-
 <img src="../figures/kinds/gnss-ins.svg" alt="The chart the engine writes for scenarios/gnss-ins.toml, kind gnss-ins" width="640">
-
-6 bundled scenarios use this kind; the others are in [`scenarios/`](../../scenarios/).
-
-Topic pages: [TEST-BENCH.md](../TEST-BENCH.md), [CAMPAIGNS.md](../CAMPAIGNS.md).
 
 ### `ins-trn-coast`
 
@@ -181,32 +96,13 @@ INS/TRN coasting error model: position error against coast duration, built from 
 
 Required fields: none. Optional: `imu_grade`, `accel_bias_ug`, `accel_vrw_m_s_per_sqrt_hr`, `accel_scale_factor_ppm`, `gyro_bias_deg_per_hr`, `gyro_arw_deg_per_sqrt_hr`, `speed_m_s`, `ref_accel_m_s2`, `latitude_deg`, `height_m`, `combination`, `crossing_thresholds_m`, `grades`, `drift_band_lo_m_per_s`, `drift_band_hi_m_per_s`, `trn_fix_mode`, `trn_fix_interval_s`, `trn_fix_residual_m`, `mission_duration_s`.
 
-**Ledger:** VALIDATED. The [verification matrix](../VERIFICATION-MATRIX.md) rows that name this kind:
-
-- VALIDATED: Position-error-vs-coast-duration budget built from IMU coefficients, each error source (accelerometer bias, gyro bias, velocity random walk, angle random walk, scale factor cruising and under sustained specific force) pr
+**Ledger:** VALIDATED. Full page, with the inputs, results, evidence and limitations: [ins-trn-coast](by-kind/ins-trn-coast.md).
 
 ```sh
 kshana scenarios/ins-trn-coast.toml
 ```
 
-Result label (the engine's): MODELLED INS/TRN coasting error budget. Each contribution is propagated through a nine-state local-level inertial error model with Schuler feedback (level platform heading north at a stated site, free-inertial including the unstable vertical channel); its short-coast leading-order laws (bias t^2, gy
-
-Headline numbers from this run (read from `result.json` through its own `units` block):
-
-| Field | Value | Unit | What it is |
-|---|---|---|---|
-| `imu.accel_bias_m_s2` | 0.000245166 | m/s^2 |  |
-| `imu.accel_vrw_m_s_per_sqrt_s` | 0.000116667 | (m/s)/sqrt(s) | square of this is the white acceleration PSD q_va |
-| `imu.gyro_arw_rad_per_sqrt_s` | 5.81776e-07 | rad/sqrt(s) | square of this is the white angular-rate PSD q_arw |
-| `imu.gyro_bias_rad_s` | 4.84814e-08 | rad/s |  |
-| `site.gravity_m_s2` | 9.8062 | m/s^2 | WGS-84 normal gravity at the site |
-| `site.schuler_period_s` | 5063.02 | s | 2 pi sqrt(R_N / g) at the site |
-
 <img src="../figures/kinds/ins-trn-coast.svg" alt="The chart the engine writes for scenarios/ins-trn-coast.toml, kind ins-trn-coast" width="640">
-
-3 bundled scenarios use this kind; the others are in [`scenarios/`](../../scenarios/).
-
-Topic pages: [RESILIENCE-CROSSWALK.md](../RESILIENCE-CROSSWALK.md).
 
 ### `quantum-gnss-free-nav`
 
@@ -214,26 +110,13 @@ MODELLED GNSS-free quantum navigation: during a GNSS outage, a quantum (cold-ato
 
 Required fields: none. Optional: `outage_s`, `threshold_m`, `quantum_bias_m_s2`, `classical_bias_m_s2`.
 
-**Ledger:** no matrix row names this kind by name; the label on its result is the engine's own, shown below.
+**Ledger:** no matrix row names this kind; the engine labels its own result. Full page, with the inputs, results, evidence and limitations: [quantum-gnss-free-nav](by-kind/quantum-gnss-free-nav.md).
 
 ```sh
 kshana scenarios/quantum-gnss-free-nav.toml
 ```
 
-Headline numbers from this run (read from `result.json` through its own `units` block):
-
-| Field | Value | Unit | What it is |
-|---|---|---|---|
-| `classical_holdover_s` | 533.734 | s | coast time at which the classical INS budget's position error first reaches threshold_m |
-| `classical_pos_err_m` | 37.313 | m | position error 1 sigma of the navigation-grade INS budget at the end of the outage, the RSS of 0.5*bias*t^2, t |
-| `improvement_x` | 8289.5 | 1 | classical_pos_err_m / quantum_pos_err_m at the end of the outage: a dimensionless ratio, greater than 1 when t |
-| `quantum_holdover_s` | 44721.3 | s | coast time at which the quantum inertial budget's position error first reaches threshold_m |
-| `quantum_pos_err_m` | 0.00450123 | m | position error 1 sigma of the cold-atom (quantum) inertial budget at the end of the outage, the RSS of its bia |
-| `trade.frame.seed` | 0 | 1 | the RNG seed stamped into the trade's comparison frame so the comparison is reproducible; a dimensionless inte |
-
 <img src="../figures/kinds/quantum-gnss-free-nav.svg" alt="The chart the engine writes for scenarios/quantum-gnss-free-nav.toml, kind quantum-gnss-free-nav" width="640">
-
-Topic pages: [QUANTUM-MODELS.md](../QUANTUM-MODELS.md), [QUANTUM.md](../QUANTUM.md).
 
 ### `quantum-anomaly-detect`
 
@@ -241,24 +124,13 @@ MODELLED fault/anomaly detection for quantum PNT systems: a labelled fault catal
 
 Required fields: none. Optional: `fault_mu`, `quantum_sigma`, `classical_sigma`, `pfa`, `pd`, `samples`, `seed`.
 
-**Ledger:** no matrix row names this kind by name; the label on its result is the engine's own, shown below.
+**Ledger:** no matrix row names this kind; the engine labels its own result. Full page, with the inputs, results, evidence and limitations: [quantum-anomaly-detect](by-kind/quantum-anomaly-detect.md).
 
 ```sh
 kshana scenarios/quantum-anomaly-detect.toml
 ```
 
-Headline numbers from this run (read from `result.json` through its own `units` block):
-
-| Field | Value | Unit | What it is |
-|---|---|---|---|
-| `classical_auc` | 0.76025 | 1 | the same closed-form ROC area for the classical monitor, Phi(mu / (sigma_c * sqrt(2))) |
-| `classical_min_detectable` | 4.37178 | 1 | the same minimum detectable statistic shift for the classical monitor, sigma_c * (Phi^-1(1 - pfa) + Phi^-1(pd) |
-| `quantum_auc` | 0.990789 | 1 | ROC area under the curve of the quantum-clock-aided monitor, Phi(mu / (sigma_q * sqrt(2))): the probability a  |
-| `quantum_min_detectable` | 1.31154 | 1 | smallest fault the quantum monitor detects at the configured pd and pfa, sigma_q * (Phi^-1(1 - pfa) + Phi^-1(p |
-
 <img src="../figures/kinds/quantum-anomaly-detect.svg" alt="The chart the engine writes for scenarios/quantum-anomaly-detect.toml, kind quantum-anomaly-detect" width="640">
-
-Topic pages: [QUANTUM-MODELS.md](../QUANTUM-MODELS.md).
 
 ### `quantum-trade`
 
@@ -266,29 +138,10 @@ Quantum-vs-classical PNT trade (13503): timing-holdover + inertial-holdover bene
 
 Required fields: `timing_threshold_s`, `position_threshold_m`, `baseline_clock_class`, `candidate_adev_taus+candidate_adev_values|candidate_clock_class`. Optional: `baseline_ins`, `candidate_ins`, `resilience_times_s`, `alt_pnt_bound_m`.
 
-**Ledger:** MODELLED 1 · VALIDATED 2. The [verification matrix](../VERIFICATION-MATRIX.md) rows that name this kind:
-
-- VALIDATED: Power-law (white-FM + red-noise-floor) NNLS recovery from a published measured ⁸⁸Sr optical-clock-transition Allan deviation — reproducing σ_y(τ) and the headline 4.7e-16/√τ short-τ scaling with a genuine measured long-τ ([optical_clock_adev_reference.rs](../../tests/optical_clock_adev_reference.rs))
-- VALIDATED: Measured-ADEV NNLS fit, NEES/NIS χ² consistency bands, and the clock van-Loan discrete process-noise (holdover-coast) covariance — the trade engine's computational spine ([scipy_reference.rs](../../tests/scipy_reference.rs))
-- MODELLED: Measured-ADEV ingestion (NNLS), trade table (timing/inertial holdover + benefit), resilience-vs-time envelope; floor caveat carried on the artifact.
+**Ledger:** MODELLED 1 · VALIDATED 2. Full page, with the inputs, results, evidence and limitations: [quantum-trade](by-kind/quantum-trade.md).
 
 ```sh
 kshana scenarios/quantum-trade.toml
 ```
 
-Result label (the engine's): MODELLED — quantifies (never validates) a partner clock/sensor; not flight-demonstrated
-
-Headline numbers from this run (read from `result.json` through its own `units` block):
-
-| Field | Value | Unit | What it is |
-|---|---|---|---|
-| `resilience.coast_time_s` | 14108.3 | s | time since GNSS loss at which the composed resilience envelope first reaches resilience.threshold_m, found by  |
-| `trade.baseline.inertial_holdover_s` | 377.849 | s | coast time at which the classical baseline INS budget's position drift first reaches trade.position_threshold_ |
-| `trade.baseline.timing_holdover_s` | 202.567 | s | coast time at which the classical baseline clock's phase error first reaches trade.timing_threshold_s |
-| `trade.candidate.inertial_holdover_s` | 14108.3 | s | coast time at which the candidate INS budget's position drift first reaches trade.position_threshold_m |
-| `trade.candidate.timing_holdover_s` | 2.62195e+06 | s | coast time at which the candidate clock's phase error first reaches trade.timing_threshold_s |
-| `trade.inertial_benefit_x` | 37.3385 | 1 | candidate / baseline inertial-holdover ratio, a dimensionless factor greater than 1 when the candidate sensor  |
-
 <img src="../figures/kinds/quantum-trade.svg" alt="The chart the engine writes for scenarios/quantum-trade.toml, kind quantum-trade" width="640">
-
-Topic pages: [POSITIONING.md](../POSITIONING.md), [QUANTUM-MODELS.md](../QUANTUM-MODELS.md).

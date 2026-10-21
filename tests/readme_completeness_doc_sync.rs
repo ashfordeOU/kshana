@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 //! The README must name everything the repository offers, and every link in it must resolve.
 //!
-//! PIN-SCOPE:    every scenario kind the engine dispatches has an entry in a docs/kinds family page whose
-//!               description and fields equal the engine's, and a row in the docs/KINDS.md index; every command in
+//! PIN-SCOPE:    every scenario kind the engine dispatches has its own page under docs/kinds/by-kind/ whose
+//!               description and required fields equal the engine's and that has the seven sections, a row in the
+//!               docs/KINDS.md index and a link in the README's family table; every command in
 //!               the usage text, every plugin command, every skill and every Studio page is named in the README
 //!               or on the page it links (docs/COMMANDS.md, docs/ALL-SURFACES.md); every relative link, image and in-page anchor in
 //!               the README resolves
@@ -39,41 +40,41 @@ fn entry_text(k: &kshana::api::ScenarioMeta) -> (String, String) {
 }
 
 #[test]
-fn every_scenario_kind_has_an_entry_that_matches_the_engine() {
+fn every_scenario_kind_has_a_docs_page_that_matches_the_engine() {
     let readme = readme();
-    let dir = root().join("docs/kinds");
-    let mut pages = String::new();
-    for e in std::fs::read_dir(&dir).expect("docs/kinds").flatten() {
-        if e.path().extension().and_then(|x| x.to_str()) == Some("md") {
-            pages.push_str(&std::fs::read_to_string(e.path()).unwrap());
-        }
-    }
     let index = std::fs::read_to_string(root().join("docs/KINDS.md")).expect("docs/KINDS.md");
-    assert!(readme.contains("docs/KINDS.md") && readme.contains("docs/kinds/"), "the README must link docs/KINDS.md and the family pages");
-    let mut no_entry = Vec::new();
-    let mut drifted = Vec::new();
-    let mut not_indexed = Vec::new();
+    assert!(readme.contains("docs/KINDS.md"), "the README must link docs/KINDS.md");
+    let mut problems = Vec::new();
     for k in kshana::api::list_scenario_kinds() {
-        if !index.contains(&format!("| `{}` |", k.name)) {
-            not_indexed.push(k.name);
-        }
-        if !pages.contains(&format!("### `{}`", k.name)) {
-            no_entry.push(k.name);
+        let page = root().join("docs/kinds/by-kind").join(format!("{}.md", k.name));
+        let Ok(text) = std::fs::read_to_string(&page) else {
+            problems.push(format!("{}: no page docs/kinds/by-kind/{}.md", k.name, k.name));
             continue;
-        }
+        };
         let (desc, fields) = entry_text(&k);
-        if !pages.contains(&desc) || !pages.contains(&fields) {
-            drifted.push(k.name);
+        if !text.contains(&desc) {
+            problems.push(format!("{}: the page's description differs from the engine's", k.name));
+        }
+        let req_line = fields.split(". Optional:").next().unwrap().trim_end_matches('.').to_string();
+        if !text.contains(&req_line) {
+            problems.push(format!("{}: the page's required fields differ from the engine's", k.name));
+        }
+        for section in ["## What it does", "## Inputs", "## Run it", "## What it gives", "## Evidence", "## Limitations", "## See also"] {
+            if !text.contains(section) {
+                problems.push(format!("{}: the page has no '{section}' section", k.name));
+            }
+        }
+        if !index.contains(&format!("kinds/by-kind/{}.md", k.name)) {
+            problems.push(format!("{}: not linked from docs/KINDS.md", k.name));
+        }
+        if !readme.contains(&format!("docs/kinds/by-kind/{}.md", k.name)) {
+            problems.push(format!("{}: not linked from the README's family table", k.name));
         }
     }
     assert!(
-        no_entry.is_empty() && not_indexed.is_empty(),
-        "kinds with no entry: {no_entry:?}; not in the KINDS.md index: {not_indexed:?}. Run `python3 tools/gen_kinds_index.py` \
-         (a new kind must also be filed under a family in tools/kind_families.py)"
-    );
-    assert!(
-        drifted.is_empty(),
-        "kind entries whose description or fields differ from the engine: {drifted:?}. Run `python3 tools/gen_kinds_index.py`"
+        problems.is_empty(),
+        "kind pages out of step with the engine: {problems:#?}. Run `python3 tools/gen_kinds_index.py` and \
+         `python3 tools/gen_readme_blocks.py` (a new kind must also be filed under a family in tools/kind_families.py)"
     );
 }
 
@@ -282,8 +283,12 @@ fn every_relative_link_image_and_anchor_in_the_readme_and_the_generated_pages_re
         root().join("docs/ALL-SURFACES.md"),
         root().join("docs/CAPABILITY-DOMAINS.md"),
     ];
-    for e in std::fs::read_dir(root().join("docs/kinds")).expect("docs/kinds").flatten() {
-        pages.push(e.path());
+    for dir in ["docs/kinds", "docs/kinds/by-kind"] {
+        for e in std::fs::read_dir(root().join(dir)).expect(dir).flatten() {
+            if e.path().is_file() {
+                pages.push(e.path());
+            }
+        }
     }
     let mut report = Vec::new();
     for p in &pages {

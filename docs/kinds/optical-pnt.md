@@ -10,8 +10,8 @@ Topic pages: [OPTICAL-ATMOSPHERE](../OPTICAL-ATMOSPHERE.md). Run one: `kshana sc
 
 | Kind | What it does | Ledger |
 |---|---|---|
-| [`optical-atmosphere`](#optical-atmosphere) | MODELLED optical PNT through the atmosphere: for an optical link and a set of ground sites with stated cloud climates it reports the wavelength- and elevation-dependent clear-air loss (Kim visibility  | MODELLED |
-| [`hybrid-optical-rf`](#hybrid-optical-rf) | MODELLED heterogeneous optical + RF PNT joint figure of merit (P5): composes the 1550 nm two-way optical link budget (photon-limited two-way ranging CRLB σ_τ/√N and diffraction footprint λ/D·range), a | HETEROGENEOUS (result label) |
+| [`optical-atmosphere`](by-kind/optical-atmosphere.md) | MODELLED optical PNT through the atmosphere: for an optical link and a set of ground sites with stated cloud climates it reports the wavelength- and elevation-dependent clear-air loss (Kim visibility  | MODELLED |
+| [`hybrid-optical-rf`](by-kind/hybrid-optical-rf.md) | MODELLED heterogeneous optical + RF PNT joint figure of merit (P5): composes the 1550 nm two-way optical link budget (photon-limited two-way ranging CRLB σ_τ/√N and diffraction footprint λ/D·range), a | HETEROGENEOUS (result label) |
 
 ### `optical-atmosphere`
 
@@ -19,35 +19,13 @@ MODELLED optical PNT through the atmosphere: for an optical link and a set of gr
 
 Required fields: none. Optional: `wavelength_nm`, `elevation_deg`, `availability_targets_pct`, `link`, `atmosphere`, `site`, `network`, `technique`, `clock`, `timeseries`.
 
-**Ledger:** MODELLED. The [verification matrix](../VERIFICATION-MATRIX.md) rows that name this kind:
-
-- MODELLED: Hufnagel-Valley Cn2 integrated along a slant path for the plane- and spherical-wave Rytov variance (uplink and downlink), the Andrews-Phillips scintillation index and gamma-gamma parameters, the gamma-gamma fade probabil ([optical_atmosphere_reference.rs](../../tests/optical_atmosphere_reference.rs))
-- MODELLED: Availability of an optical link against a stated link margin from a log-normal cloud liquid-water climate (ITU-R P.840 amount, geometric-optics extinction) and the independent gamma-gamma turbulence fade, the link margin ([optical_atmosphere_identities.rs](../../tests/optical_atmosphere_identities.rs))
-- MODELLED: The outage-duration distribution of an optical site coupled to the closed-form coast variance of the clock holdover model: timing and ranging error at stated outage quantiles, the holdover to a timing threshold, the frac ([optical_atmosphere_identities.rs](../../tests/optical_atmosphere_identities.rs))
-- MODELLED: An opt-in `[timeseries]` table (duration, step, seed) makes the `optical-atmosphere` kind also write, per site, one seeded realisation of the stated site model through time: cloud episodes (clear spells exponential, clou ([optical_atmosphere_timeseries.rs](../../tests/optical_atmosphere_timeseries.rs))
+**Ledger:** MODELLED. Full page, with the inputs, results, evidence and limitations: [optical-atmosphere](by-kind/optical-atmosphere.md).
 
 ```sh
 kshana scenarios/optical-atmosphere-network.toml
 ```
 
-Result label (the engine's): MODELLED — optical PNT through the atmosphere: clear-air extinction (Kim visibility law + Rayleigh), cloud optical depth from a stated liquid-water climate (P.840 amount, geometric-optics extinction), Hufnagel-Valley turbulence with gamma-gamma fades and aperture averaging, availability against the 
-
-Headline numbers from this run (read from `result.json` through its own `units` block):
-
-| Field | Value | Unit | What it is |
-|---|---|---|---|
-| `inputs.correlation_length_km` | 500 | km | weather decorrelation length of the site-diversity model |
-| `inputs.zenith_deg` | 60 | deg | zenith angle, 90 degrees minus the elevation |
-| `link.footprint_m` | 15.5 | m | diffraction footprint (lambda/D) x range |
-| `link.geometric_loss_db` | 31.7654 | dB | far-field geometric capture loss |
-| `link.margin_no_atmosphere_db` | 19.214 | dB | received power over the requirement with no atmosphere |
-| `link.received_power_no_atmosphere_dbm` | -10.786 | dBm | received power with no atmospheric loss |
-
 <img src="../figures/kinds/optical-atmosphere.svg" alt="The chart the engine writes for scenarios/optical-atmosphere-network.toml, kind optical-atmosphere" width="640">
-
-2 bundled scenarios use this kind; the others are in [`scenarios/`](../../scenarios/).
-
-Topic pages: [OPTICAL-ATMOSPHERE.md](../OPTICAL-ATMOSPHERE.md).
 
 ### `hybrid-optical-rf`
 
@@ -55,23 +33,10 @@ MODELLED heterogeneous optical + RF PNT joint figure of merit (P5): composes the
 
 Required fields: none. Optional: `wavelength_nm`, `tx_power_w`, `tx_aperture_m`, `rx_aperture_m`, `range_km`, `pulse_rms_ps`, `integration_s`, `atmospheric_loss_db`, `pointing_loss_db`, `optics_efficiency`, `detector_efficiency`, `two_way`, `rf_pos_sigma_m`, `rf_vertical_sigma_m`, `rf_clock_sigma_s`, `p_fa`, `p_md`, `alert_limit_h_m`, `alert_limit_v_m`, `alert_limit_t_s`, `grade_pos_m`, `grade_time_s`, `n_optical_sites`, `site_correlation`, `fom_correlation`, `handoff_inflation`, `p_hmi`, `fault_ramp_rate_pos_m_s`, `fault_ramp_rate_clock_s_s`, `process_noise_pos_psd_m2_s`, `process_noise_clock_psd_s2_s`, `coast_coverage_k`, `rf_band`, `rf_eirp_dbw`, `rf_g_over_t_db`, `rf_other_losses_db`, `rf_data_rate_bps`, `rf_required_eb_n0_db`, `rf_chip_rate_hz`, `rf_correlator_spacing_chips`, `rf_dll_bandwidth_hz`, `rf_tracking_threshold_dbhz`, `rf_degraded_margin_db`.
 
-**Ledger:** no matrix row names this kind by name; the label on its result is the engine's own, shown below.
+**Ledger:** no matrix row names this kind; the engine labels its own result. Full page, with the inputs, results, evidence and limitations: [hybrid-optical-rf](by-kind/hybrid-optical-rf.md).
 
 ```sh
 kshana scenarios/hybrid-optical-rf.toml
 ```
-
-Result label (the engine's): Heterogeneous optical + RF PNT joint availability / precision / integrity figure of merit (P5). VALIDATED closed form: the photon-limited ranging CRLB (σ_τ/√N) and diffraction footprint (λ/D·range), the χ² cross-modality protection-level quantile, the N-station independent-union availability (1 − Π(
-
-Headline numbers from this run (read from `result.json` through its own `units` block):
-
-| Field | Value | Unit | What it is |
-|---|---|---|---|
-| `cross_modality_raim.chi2_statistic` | 0 | 1 | the monitor statistic sum_axes (y_rf - y_opt)^2/(sigma_rf^2 + sigma_opt^2); chi-square with n_axes = 4 degrees |
-| `cross_modality_raim.chi2_threshold` | 28.4733 | 1 | the detection threshold chi-square_{1-P_fa}(n_axes): the exact quantile at 4 degrees of freedom, the same valu |
-| `cross_modality_raim.hpl_m` | 6.24768 | m |  |
-| `cross_modality_raim.n_axes` | 4 | count | number of monitored axes, which is also the degrees of freedom of the chi-square detector |
-| `cross_modality_raim.tpl_s` | 1.32555e-08 | s |  |
-| `cross_modality_raim.vpl_m` | 6.62636 | m |  |
 
 <img src="../figures/kinds/hybrid-optical-rf.svg" alt="The chart the engine writes for scenarios/hybrid-optical-rf.toml, kind hybrid-optical-rf" width="640">

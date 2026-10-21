@@ -10,12 +10,12 @@ Topic pages: [SPECTRUM](../SPECTRUM.md), [DECEIVED-TIME](../DECEIVED-TIME.md), [
 
 | Kind | What it does | Ledger |
 |---|---|---|
-| [`jamming`](#jamming) | Link-budget jamming: J/S → effective C/N₀ → loss of lock. | MODELLED |
-| [`spoof`](#spoof) | Stochastic time-spoof detector (Neyman–Pearson / χ²₁) with Monte-Carlo P_fa/P_md. | MODELLED |
-| [`spoof-detect`](#spoof-detect) | Combined RF/measurement spoof detector (multi-SV RAIM-consistency + AGC + SQM, fused) vs a parameterised attack (power advantage, carrier-phase alignment, time/position push; TEXBAT-style). | MODELLED |
-| [`tracking-loop`](#tracking-loop) | Tracking-loop loss of lock: C/N0 -> lock/unlock WITH HYSTERESIS, the time it takes to lose lock, and spoof pull-in as a function of code and carrier offset RATE. | MODELLED |
-| [`spectrum`](#spectrum) | L-band spectrum model and waterfall: the whole GNSS L band as one power spectral density (PSD), frequency across, time down, over a scripted jammer timeline. | MODELLED 3 · VALIDATED 2 |
-| [`impairment-eval`](#impairment-eval) | AI/ML RF-impairment detection evaluation testbed (13494): generate a labelled, parameter-grounded SYNTHETIC corpus (nominal/jamming/spoof-time/spoof-position/multipath), score a detector (energy/agc/s | MODELLED 1 · VALIDATED 2 |
+| [`jamming`](by-kind/jamming.md) | Link-budget jamming: J/S → effective C/N₀ → loss of lock. | MODELLED |
+| [`spoof`](by-kind/spoof.md) | Stochastic time-spoof detector (Neyman–Pearson / χ²₁) with Monte-Carlo P_fa/P_md. | MODELLED |
+| [`spoof-detect`](by-kind/spoof-detect.md) | Combined RF/measurement spoof detector (multi-SV RAIM-consistency + AGC + SQM, fused) vs a parameterised attack (power advantage, carrier-phase alignment, time/position push; TEXBAT-style). | MODELLED |
+| [`tracking-loop`](by-kind/tracking-loop.md) | Tracking-loop loss of lock: C/N0 -> lock/unlock WITH HYSTERESIS, the time it takes to lose lock, and spoof pull-in as a function of code and carrier offset RATE. | MODELLED |
+| [`spectrum`](by-kind/spectrum.md) | L-band spectrum model and waterfall: the whole GNSS L band as one power spectral density (PSD), frequency across, time down, over a scripted jammer timeline. | MODELLED 3 · VALIDATED 2 |
+| [`impairment-eval`](by-kind/impairment-eval.md) | AI/ML RF-impairment detection evaluation testbed (13494): generate a labelled, parameter-grounded SYNTHETIC corpus (nominal/jamming/spoof-time/spoof-position/multipath), score a detector (energy/agc/s | MODELLED 1 · VALIDATED 2 |
 
 ### `jamming`
 
@@ -23,32 +23,13 @@ Link-budget jamming: J/S → effective C/N₀ → loss of lock.
 
 Required fields: `seed`, `time`, `receiver`, `constellation`. Optional: `jammer`, `mask_deg`, `tracking_threshold_dbhz`, `degraded_margin_db`, `signal_power_dbw`, `temp_k`, `freq_hz`, `chip_rate_hz`, `skyline`.
 
-**Ledger:** MODELLED. The [verification matrix](../VERIFICATION-MATRIX.md) rows that name this kind:
-
-- MODELLED: Geometry J/S link budget, anti-jam C/N₀, per-satellite loss-of-lock ([gnss_denied_jamming_resilience_reference.rs](../../tests/gnss_denied_jamming_resilience_reference.rs))
-- MODELLED: The hybrid-optical-rf report states an RF link availability, composed from quantities the engine already computes rather than from an imported climatology, and states the composition as a named rule: A_rf = I_closure * I
-- MODELLED: Lunar-native jammer-to-signal ratio, effective C/N₀ and loss of lock for a selenographic surface user under a lunar surface (or raised) jammer, over the illustrative public-source Moonlight/LCNS-class constellation.
-- MODELLED: The `lunar-jamming` report no longer rests its denial contour on one scalar.
-- and 5 more in the matrix.
+**Ledger:** MODELLED. Full page, with the inputs, results, evidence and limitations: [jamming](by-kind/jamming.md).
 
 ```sh
 kshana scenarios/jamming-demo.toml
 ```
 
-Headline numbers from this run (read from `result.json` through its own `units` block):
-
-| Field | Value | Unit | What it is |
-|---|---|---|---|
-| `fom.availability_nominal` | 1 | 1 | fraction of epochs at which at least four satellites are geometrically visible — the clean-sky ceiling for thi |
-| `fom.availability_under_jamming` | 0 | 1 | fraction of epochs at which at least four satellites are still tracking under the jammer |
-| `fom.mean_js_db` | 72.1649 | dB | mean jammer-to-signal power ratio over every visible-satellite sample; not-a-number (so null once serialised)  |
-| `fom.min_tracking` | 0 | count | fewest satellites still tracking at any epoch of the run |
-
 <img src="../figures/kinds/jamming.svg" alt="The chart the engine writes for scenarios/jamming-demo.toml, kind jamming" width="640">
-
-3 bundled scenarios use this kind; the others are in [`scenarios/`](../../scenarios/).
-
-Topic pages: [CAMPAIGNS.md](../CAMPAIGNS.md), [SPECTRUM.md](../SPECTRUM.md).
 
 ### `spoof`
 
@@ -56,32 +37,13 @@ Stochastic time-spoof detector (Neyman–Pearson / χ²₁) with Monte-Carlo P_f
 
 Required fields: `threshold_ns`, `time`, `attack`, `clock_quantum`, `clock_classical`.
 
-**Ledger:** MODELLED. The [verification matrix](../VERIFICATION-MATRIX.md) rows that name this kind:
-
-- MODELLED: Clock-aided χ², RAIM, AGC, SQM fused per-epoch security FoM ([spoof_texbat_validation.rs](../../tests/spoof_texbat_validation.rs))
-- MODELLED: The `leo-pass` kind's `[spoofer]` section: a spoofer counterfeits, self-consistently in range and range rate, the signals seen at a claimed position that jumps and/or is pushed from the true one after an onset (per LEO b ([leo_resilience_verticals.rs](../../tests/leo_resilience_verticals.rs))
-- MODELLED: For every LEO satellite and pair of ranging bands the `[spoofer]` section forms the geometry-free pseudorange combination, removes the receiver's ionospheric model and tests its epoch-to-epoch step against the two bands' ([leo_resilience_verticals.rs](../../tests/leo_resilience_verticals.rs))
+**Ledger:** MODELLED. Full page, with the inputs, results, evidence and limitations: [spoof](by-kind/spoof.md).
 
 ```sh
 kshana scenarios/spoof-attack.toml
 ```
 
-Headline numbers from this run (read from `result.json` through its own `units` block):
-
-| Field | Value | Unit | What it is |
-|---|---|---|---|
-| `classical.detect_time_s` | 430 | s | time since the start of the run at which the injected offset first exceeds the classical clock's detection bou |
-| `classical.detection.analytic_pmd` | 0.442031 | 1 | closed-form probability the classical clock's detector misses a spoof of eval_offset_ns, Phi((gamma-mu)/sigma) |
-| `classical.detection.boundary_ns` | 18.9284 | ns | the two-sided detection boundary on /y/ for the classical clock, gamma = monitor_sigma * inverse-normal-CDF(1  |
-| `classical.detection.mc_pfa` | 0.0088 | 1 | Monte-Carlo false-alarm probability for the classical clock: the fraction of noise-only trials whose /y/ excee |
-| `classical.detection.mc_pmd` | 0.4439 | 1 | Monte-Carlo missed-detection probability for the classical clock: the fraction of signal-plus-noise trials who |
-| `classical.detection.monitor_sigma_ns` | 7.34848 | ns | 1-sigma of the classical clock's monitor statistic — the discrepancy between the GNSS-asserted time and the cl |
-
 <img src="../figures/kinds/spoof.svg" alt="The chart the engine writes for scenarios/spoof-attack.toml, kind spoof" width="640">
-
-2 bundled scenarios use this kind; the others are in [`scenarios/`](../../scenarios/).
-
-Topic pages: [CAMPAIGNS.md](../CAMPAIGNS.md), [INTEGRITY.md](../INTEGRITY.md).
 
 ### `spoof-detect`
 
@@ -89,30 +51,13 @@ Combined RF/measurement spoof detector (multi-SV RAIM-consistency + AGC + SQM, f
 
 Required fields: `attack`. Optional: `satellites`, `detector`.
 
-**Ledger:** MODELLED. The [verification matrix](../VERIFICATION-MATRIX.md) rows that name this kind:
-
-- MODELLED: Clock-aided χ², RAIM, AGC, SQM fused per-epoch security FoM ([spoof_texbat_validation.rs](../../tests/spoof_texbat_validation.rs))
+**Ledger:** MODELLED. Full page, with the inputs, results, evidence and limitations: [spoof-detect](by-kind/spoof-detect.md).
 
 ```sh
 kshana scenarios/spoof-detect.toml
 ```
 
-Headline numbers from this run (read from `result.json` through its own `units` block):
-
-| Field | Value | Unit | What it is |
-|---|---|---|---|
-| `decision.agc_excess_db` | 1.5 | dB | measured_dbm minus power_floor_dbm: the received-power excess the AGC monitor tests, negative when below the e |
-| `decision.fused.score` | 0.7 | 1 | the fused evidence score: the sum of the configured weights of the layers that fired, compared against fusion_ |
-| `decision.raim.dof` | 4 | count | redundancy of the geometry, n_sats - 4: the chi-squared degrees of freedom of the statistic |
-| `decision.raim.statistic` | 103.49 | 1 | the parity-space test statistic: the leftover residual sum of squares divided by sigma_m^2, so dimensionless,  |
-| `decision.raim.threshold` | 18.4668 | 1 | the chi-squared quantile at 1 - raim_p_fa for dof degrees of freedom that statistic is compared against; also  |
-| `decision.sqm_el_metric` | 0.12 | 1 | the signal-quality Early-minus-Late imbalance (E - L)/(E + L) of the correlation peak; zero for a symmetric, u |
-
 <img src="../figures/kinds/spoof-detect.svg" alt="The chart the engine writes for scenarios/spoof-detect.toml, kind spoof-detect" width="640">
-
-2 bundled scenarios use this kind; the others are in [`scenarios/`](../../scenarios/).
-
-Topic pages: [CAMPAIGNS.md](../CAMPAIGNS.md), [RESILIENCE-CROSSWALK.md](../RESILIENCE-CROSSWALK.md).
 
 ### `tracking-loop`
 
@@ -120,27 +65,11 @@ Tracking-loop loss of lock: C/N0 -> lock/unlock WITH HYSTERESIS, the time it tak
 
 Required fields: none. Optional: `pll_bandwidth_hz`, `dll_bandwidth_hz`, `predetection_integration_s`, `correlator_spacing_chips`, `carrier_allowance_deg`, `code_allowance_chips`, `pullin_bandwidth_ratio`, `drop_confirm_epochs`, `relock_confirm_epochs`, `doppler_rate_hz_per_s`, `code_slew_chips_per_s`, `cn0_high_dbhz`, `cn0_low_dbhz`, `ramp_duration_s`, `jitter_table_cn0_dbhz`, `jammer_power_dbw`, `jammer_gain_dbi`, `rx_gain_toward_jammer_db`, `rx_gain_toward_sat_db`, `signal_power_dbw`, `temp_k`, `freq_hz`, `chip_rate_hz`, `jammer_type`, `q_override`, `denial_js_threshold_db`, `capture_js_threshold_db`, `spoof_code_slew_chips_per_s`, `spoof_doppler_rate_hz_per_s`.
 
-**Ledger:** MODELLED. The [verification matrix](../VERIFICATION-MATRIX.md) rows that name this kind:
-
-- MODELLED: The `lunar-jamming` report no longer rests its denial contour on one scalar.
-- MODELLED: Loss of lock computed from loop dynamics instead of a power ratio: carrier (Costas) and code (non-coherent early/late) 1σ thermal jitter against C/N₀ with the squaring loss, against the stated rules 3σ_PLL + θ_e ≤ 45° an
+**Ledger:** MODELLED. Full page, with the inputs, results, evidence and limitations: [tracking-loop](by-kind/tracking-loop.md).
 
 ```sh
 kshana scenarios/tracking-loop.toml
 ```
-
-Result label (the engine's): MIXED — VALIDATED loop closed forms, MODELLED loop configuration. The carrier and code thermal-jitter expressions, the loop-filter reduction sqrt(2*B_n*T) and the first-order ramp lag are cross-checked against the engine's own sdr correlator stepped forward on seeded synthetic IF (a different route 
-
-Headline numbers from this run (read from `result.json` through its own `units` block):
-
-| Field | Value | Unit | What it is |
-|---|---|---|---|
-| `denial.capture_radius_threshold_km` | 2852.43 | km |  |
-| `denial.denial_cn0_at_threshold_radius_dbhz` | 32.8642 | dB-Hz |  |
-| `denial.denial_js_delta_db` | 7.59106 | dB |  |
-| `denial.denial_js_loop_db` | 37.5911 | dB | the J/S the loop-dynamics radius corresponds to |
-| `denial.denial_radius_delta_km` | -74.2438 | km | loop-dynamics radius minus threshold radius |
-| `denial.denial_radius_loop_dynamics_km` | 53.1694 | km | standoff at which the effective C/N0 falls to thresholds.drop_cn0_dbhz |
 
 <img src="../figures/kinds/tracking-loop.svg" alt="The chart the engine writes for scenarios/tracking-loop.toml, kind tracking-loop" width="640">
 
@@ -150,36 +79,13 @@ L-band spectrum model and waterfall: the whole GNSS L band as one power spectral
 
 Required fields: none. Optional: `seed`, `duration_s`, `step_s`, `receiver`, `grid`, `bands`, `jammers`, `iq`, `recording`.
 
-**Ledger:** MODELLED 3 · VALIDATED 2. The [verification matrix](../VERIFICATION-MATRIX.md) rows that name this kind:
-
-- VALIDATED: Unit-area power spectral densities of GPS L1 C/A and L2C (BPSK(1)), GPS L5 and Galileo E5a (BPSK(10)), sine-BOC(1,1) and Galileo E1 MBOC(6,1,1/11) (navsignal::Modulation::psd, with an MBOC variant added), their numerical
-- MODELLED: The `spectrum` kind: a frequency-by-time grid of the L-band power spectral density (thermal floor k T_sys with T_sys = T_ant + 290 K (F - 1), the signals at their interface-specification minimum received powers, and cont
-- VALIDATED: sigmf: read and write Signal Metadata Format recordings (JSON .sigmf-meta with the core global, captures and annotations fields; raw .sigmf-data as cf32_le, ci16_le or ci8, the integer decoders shared with realdata::iqif
-- MODELLED: The `spectrum` kind extended beyond the L band: bands given as a preset signal design (drawn with every component, band-limited to the transmit bandwidth, C/N0 and J/S referred to the tracked component) or as a custom ca ([leo_signal_reference.rs](../../tests/leo_signal_reference.rs))
-- and 1 more in the matrix.
+**Ledger:** MODELLED 3 · VALIDATED 2. Full page, with the inputs, results, evidence and limitations: [spectrum](by-kind/spectrum.md).
 
 ```sh
 kshana scenarios/l-band-waterfall-jamming.toml
 ```
 
-Result label (the engine's): MODELLED: an L-band power spectral density built from closed-form signal spectra (VALIDATED against the textbook main-lobe widths and spectral separation coefficients), jammer spectra and a kT noise floor, reduced to J/S and effective C/N0 by the spectral separation coefficient. The jammer powers, t
-
-Headline numbers from this run (read from `result.json` through its own `units` block):
-
-| Field | Value | Unit | What it is |
-|---|---|---|---|
-| `iq.comparison.bins_compared` | 912 | count | Welch bins compared with the model: away from tones and inside 90 % of the Nyquist band |
-| `iq.comparison.integrated_power_ratio` | 0.999883 | 1 | Welch total power over model total power across the band, tones included |
-| `iq.comparison.mean_abs_difference_db` | 5.43937 | dB | mean absolute Welch-minus-model difference over the compared bins |
-| `iq.comparison.median_difference_db` | -0.521006 | dB | median Welch-minus-model difference; the estimator's bias, near zero |
-| `iq.enbw_hz` | 30000 | Hz | equivalent noise bandwidth of one Welch bin, f_s sum(w^2)/sum(w)^2 |
-| `iq.segments` | 127 | count | Welch segments averaged |
-
 <img src="../figures/kinds/spectrum.svg" alt="The chart the engine writes for scenarios/l-band-waterfall-jamming.toml, kind spectrum" width="640">
-
-3 bundled scenarios use this kind; the others are in [`scenarios/`](../../scenarios/).
-
-Topic pages: [LEO-PNT.md](../LEO-PNT.md), [LEO-SIGNAL.md](../LEO-SIGNAL.md).
 
 ### `impairment-eval`
 
@@ -187,29 +93,10 @@ AI/ML RF-impairment detection evaluation testbed (13494): generate a labelled, p
 
 Required fields: none. Optional: `seed`, `n_per_class`, `nominal_cn0_dbhz`, `meas_noise`, `detector`, `target_pfa`, `shift_severity_scale`, `optimism_tol`.
 
-**Ledger:** MODELLED 1 · VALIDATED 2. The [verification matrix](../VERIFICATION-MATRIX.md) rows that name this kind:
-
-- VALIDATED: AUC (Mann-Whitney, ties ½), confusion matrix at threshold, P_d/P_md/P_fa/precision/accuracy/F1 ([eval_metrics_reference.rs](../../tests/eval_metrics_reference.rs))
-- VALIDATED: ROC AUC + bootstrap CI separating real labelled anomalies; transparent detector (reproduces-labels) ([opssat_ad_reference.rs](../../tests/opssat_ad_reference.rs))
-- MODELLED: Labelled synthetic impairment corpus + detector-agnostic ROC/AUC/confusion/Pfa-Pmd harness; leakage guard, stratified split, distribution-shift (in- vs out-of-regime) optimism report.
+**Ledger:** MODELLED 1 · VALIDATED 2. Full page, with the inputs, results, evidence and limitations: [impairment-eval](by-kind/impairment-eval.md).
 
 ```sh
 kshana scenarios/impairment-eval.toml
 ```
 
-Result label (the engine's): MODELLED — synthetic parameter-grounded corpus (never field/IQ); operating characteristics only, no good/bad verdict
-
-Headline numbers from this run (read from `result.json` through its own `units` block):
-
-| Field | Value | Unit | What it is |
-|---|---|---|---|
-| `auc` | 0.997719 | 1 | threshold-free ROC area under the curve of the scored detector over the in-distribution corpus, from the Mann- |
-| `corpus.n_cases` | 1000 | count | cases scored from the in-distribution corpus: n_per_class times the number of impairment classes |
-| `distribution_shift.auc_in` | 0.997719 | 1 | the detector's ROC area on the in-distribution (nominal-severity) corpus |
-| `distribution_shift.auc_out` | 0.981131 | 1 | the detector's ROC area on the out-of-distribution corpus, the same corpus regenerated with impairment severit |
-| `distribution_shift.optimism_gap` | 0.0165875 | 1 | auc_in - auc_out: how much the in-distribution area over-states the shifted-regime performance; a difference o |
-| `operating_point.accuracy` | 0.983 | 1 | fraction of all cases classified correctly at the operating threshold, (TP + TN) / N |
-
 <img src="../figures/kinds/impairment-eval.svg" alt="The chart the engine writes for scenarios/impairment-eval.toml, kind impairment-eval" width="640">
-
-Topic pages: [BENCH.md](../BENCH.md).

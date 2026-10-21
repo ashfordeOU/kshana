@@ -10,13 +10,13 @@ Topic pages: [CONSTELLATION-DESIGN](../CONSTELLATION-DESIGN.md), [COVERAGE](../C
 
 | Kind | What it does | Ledger |
 |---|---|---|
-| [`orbit`](#orbit) | GNSS availability + DOP from an orbital constellation (Walker / TLE / RINEX). | MODELLED 4 · VALIDATED 4 |
-| [`ephemeris`](#ephemeris) | Ephemeris & ground track: propagate one satellite (TLE→SGP4 or analytic orbit) and emit its TEME/GCRS state (position + velocity), ITRF/ECEF position, WGS-84 sub-satellite lat/lon/alt, and per-step st | VALIDATED |
-| [`constellation-design`](#constellation-design) | Constellation design at scale: Walker DELTA and Walker STAR patterns in the i: T/P/F convention (nodes spread over 360 or 180 deg, in-plane spacing 360*P/T, inter-plane phase offset 360*F/T), explicit | MODELLED 1 · VALIDATED 2 |
-| [`solar-system`](#solar-system) | The whole solar system at one epoch, for PNT (positioning, navigation and timing) around any body. | MODELLED 2 · VALIDATED 3 |
-| [`body-pnt`](#body-pnt) | Positioning around any solar-system body: an orbiter or a surface lander around a central body chosen by name (Mars, the Moon, Europa, Ganymede, Titan and the rest of the solar-system catalogue), navi | MODELLED 1 · VALIDATED 1 |
-| [`mars-pnt`](#mars-pnt) | Deep-space Mars PNT: a simulated MARCONI relay constellation (areostationary + inclined relays broadcasting one-way + relaying two-way to a deep-space station) navigates a reference user (transfer / l | MODELLED |
-| [`passes`](#passes) | Ground-station pass prediction: the time-domain visibility passes (AOS/TCA/LOS, maximum apparent elevation, duration) of a circular orbit, as SGP4 mean elements at the window start, over a station abo | MODELLED 2 · VALIDATED 2 |
+| [`orbit`](by-kind/orbit.md) | GNSS availability + DOP from an orbital constellation (Walker / TLE / RINEX). | MODELLED 4 · VALIDATED 4 |
+| [`ephemeris`](by-kind/ephemeris.md) | Ephemeris & ground track: propagate one satellite (TLE→SGP4 or analytic orbit) and emit its TEME/GCRS state (position + velocity), ITRF/ECEF position, WGS-84 sub-satellite lat/lon/alt, and per-step st | VALIDATED |
+| [`constellation-design`](by-kind/constellation-design.md) | Constellation design at scale: Walker DELTA and Walker STAR patterns in the i: T/P/F convention (nodes spread over 360 or 180 deg, in-plane spacing 360*P/T, inter-plane phase offset 360*F/T), explicit | MODELLED 1 · VALIDATED 2 |
+| [`solar-system`](by-kind/solar-system.md) | The whole solar system at one epoch, for PNT (positioning, navigation and timing) around any body. | MODELLED 2 · VALIDATED 3 |
+| [`body-pnt`](by-kind/body-pnt.md) | Positioning around any solar-system body: an orbiter or a surface lander around a central body chosen by name (Mars, the Moon, Europa, Ganymede, Titan and the rest of the solar-system catalogue), navi | MODELLED 1 · VALIDATED 1 |
+| [`mars-pnt`](by-kind/mars-pnt.md) | Deep-space Mars PNT: a simulated MARCONI relay constellation (areostationary + inclined relays broadcasting one-way + relaying two-way to a deep-space station) navigates a reference user (transfer / l | MODELLED |
+| [`passes`](by-kind/passes.md) | Ground-station pass prediction: the time-domain visibility passes (AOS/TCA/LOS, maximum apparent elevation, duration) of a circular orbit, as SGP4 mean elements at the window start, over a station abo | MODELLED 2 · VALIDATED 2 |
 
 ### `orbit`
 
@@ -24,34 +24,13 @@ GNSS availability + DOP from an orbital constellation (Walker / TLE / RINEX).
 
 Required fields: `seed`, `threshold_ns`, `mask_deg`, `time`, `user|user_site`, `constellation`, `clock_quantum`, `clock_classical`. Optional: `sigma_uere_m`, `constellations`, `epoch`, `export_sp3`, `export_omm`, `export_oem`, `skyline`.
 
-**Ledger:** MODELLED 4 · VALIDATED 4. The [verification matrix](../VERIFICATION-MATRIX.md) rows that name this kind:
-
-- VALIDATED: Earth rotation from a two-part UT1 Julian date on the orbit path, so the Earth-fixed position keeps the microsecond a single-f64 date loses (about 3e-9 rad near 2020): jd2::gmst82 (IAU 1982 GMST, the TEME convention, on 
-- VALIDATED: GDOP/PDOP/HDOP/VDOP/TDOP from line-of-sight geometry via Q=(HᵀH)⁻¹ with a local ENU split ([dop_reference.rs](../../tests/dop_reference.rs))
-- MODELLED: dop_error_mc::run_geometry and check: a seeded Monte Carlo (N = 20,000 epochs per geometry, sigma = 1.5 m, ChaCha8 seed 36 + i) of the engine's own iterated least-squares fix (pvt::solve_spp, unit weights, solved from th ([uere_dop_monte_carlo.rs](../../tests/uere_dop_monte_carlo.rs))
-- VALIDATED: skyline + frames::look_angles + geometry::sky_geometry: the geodetic (WGS-84) azimuth and elevation of a satellite from a ground site, an azimuth/elevation mask table linearly interpolated in azimuth with wrap at 360 deg ([skyline_orekit_oracle.rs](../../tests/skyline_orekit_oracle.rs))
-- and 4 more in the matrix.
+**Ledger:** MODELLED 4 · VALIDATED 4. Full page, with the inputs, results, evidence and limitations: [orbit](by-kind/orbit.md).
 
 ```sh
 kshana scenarios/orbit-rinex.toml
 ```
 
-Headline numbers from this run (read from `result.json` through its own `units` block):
-
-| Field | Value | Unit | What it is |
-|---|---|---|---|
-| `classical.filter_health.nees_chi2_lower_95` | 1.54017 | 1 | lower 95% chi-squared acceptance bound on the NEES mean, chi2_0.025(2*seeds)/seeds |
-| `classical.filter_health.nees_chi2_upper_95` | 2.51893 | 1 | upper 95% chi-squared acceptance bound on the NEES mean, chi2_0.975(2*seeds)/seeds |
-| `classical.filter_health.nees_mean` | 1.9636 | 1 | pooled mean normalised estimation error squared; a matched two-state filter gives 2 |
-| `classical.filter_health.nis_chi2_lower_95` | 0.975649 | 1 | lower 95% chi-squared acceptance bound on the NIS mean, chi2_0.025(K)/K over K pooled innovations |
-| `classical.filter_health.nis_chi2_upper_95` | 1.02465 | 1 | upper 95% chi-squared acceptance bound on the NIS mean, chi2_0.975(K)/K over K pooled innovations |
-| `classical.filter_health.nis_mean` | 1.00012 | 1 | pooled mean normalised innovation squared over the consistency ensemble; a matched filter gives 1 |
-
 <img src="../figures/kinds/orbit.svg" alt="The chart the engine writes for scenarios/orbit-rinex.toml, kind orbit" width="640">
-
-7 bundled scenarios use this kind; the others are in [`scenarios/`](../../scenarios/).
-
-Topic pages: [SKYLINE.md](../SKYLINE.md), [LEO-PASS.md](../LEO-PASS.md).
 
 ### `ephemeris`
 
@@ -59,28 +38,13 @@ Ephemeris & ground track: propagate one satellite (TLE→SGP4 or analytic orbit)
 
 Required fields: `tle|orbit+epoch`. Optional: `step_s`, `duration_s`, `station`, `dut1_s`, `xp_arcsec`, `yp_arcsec`, `carrier_hz`, `eop_finals2000a`.
 
-**Ledger:** VALIDATED. The [verification matrix](../VERIFICATION-MATRIX.md) rows that name this kind:
-
-- VALIDATED: Earth rotation from a two-part UT1 Julian date on the orbit path, so the Earth-fixed position keeps the microsecond a single-f64 date loses (about 3e-9 rad near 2020): jd2::gmst82 (IAU 1982 GMST, the TEME convention, on 
+**Ledger:** VALIDATED. Full page, with the inputs, results, evidence and limitations: [ephemeris](by-kind/ephemeris.md).
 
 ```sh
 kshana scenarios/ephemeris.toml
 ```
 
-Headline numbers from this run (read from `result.json` through its own `units` block):
-
-| Field | Value | Unit | What it is |
-|---|---|---|---|
-| `alt_max_km` | 433.646 | km | largest WGS-84 geodetic height of the satellite over the samples |
-| `alt_min_km` | 419.459 | km | smallest WGS-84 geodetic height of the satellite over the samples |
-| `jd_utc0` | 2.45889e+06 | day | Julian Date, UTC scale, of t = 0: the scenario `epoch` when given, otherwise the TLE's own epoch (its 1950-ori |
-| `lat_max_deg` | 51.7997 | deg | largest WGS-84 geodetic sub-satellite latitude over the samples |
-| `lat_min_deg` | -51.7991 | deg | smallest WGS-84 geodetic sub-satellite latitude over the samples |
-| `max_elevation_deg` | 25.7036 | deg | highest station elevation above the local horizon reached over the samples; absent when the scenario declares  |
-
 <img src="../figures/kinds/ephemeris.svg" alt="The chart the engine writes for scenarios/ephemeris.toml, kind ephemeris" width="640">
-
-Topic pages: [SOLAR-SYSTEM.md](../SOLAR-SYSTEM.md), [AGENCY-ORBIT-VALIDATION.md](../AGENCY-ORBIT-VALIDATION.md).
 
 ### `constellation-design`
 
@@ -88,34 +52,13 @@ Constellation design at scale: Walker DELTA and Walker STAR patterns in the i: T
 
 Required fields: none. Optional: `body`, `duration_s`, `step_s`, `mask_deg`, `pdop_threshold`, `grid_step_deg`, `lat_min_deg`, `lat_max_deg`, `lon_min_deg`, `lon_max_deg`, `clock`, `j2`, `track_points`, `max_tracks`, `constellation`.
 
-**Ledger:** MODELLED 1 · VALIDATED 2. The [verification matrix](../VERIFICATION-MATRIX.md) rows that name this kind:
-
-- VALIDATED: The `constellation-design` kind's generators: Walker delta and star patterns in the T/P/F convention (node spacing 360/P or 180/P, in-plane spacing 360·P/T, inter-plane phase offset 360·F/T), and the GPS baseline and exp
-- VALIDATED: The `constellation-design` coverage engine on the GPS baseline 24-slot preset under the GPS Standard Positioning Service Performance Standard (SPS PS) Appendix B conditions (one sidereal day, 287 five-minute steps, a 4 x
-- MODELLED: The `constellation-design` kind beyond the two pinned cases: explicit and multi-shell designs, several constellations per run with one receiver clock per constellation, the Earth, the Moon and Mars from the body constant ([coverage_dop_gnss_lib_py_oracle.rs](../../tests/coverage_dop_gnss_lib_py_oracle.rs))
+**Ledger:** MODELLED 1 · VALIDATED 2. Full page, with the inputs, results, evidence and limitations: [constellation-design](by-kind/constellation-design.md).
 
 ```sh
 kshana scenarios/leo-pnt-mega-shell.toml
 ```
 
-Result label (the engine's): MODELLED - two-body Keplerian orbits (optional secular J2) around a spherical body, geometric visibility above an elevation mask, all-in-view dilution of precision with one receiver clock per constellation unless clock = "common"; no signal power, health or terrain. The Walker geometry and the publi
-
-Headline numbers from this run (read from `result.json` through its own `units` block):
-
-| Field | Value | Unit | What it is |
-|---|---|---|---|
-| `body.mu_km3_s2` | 398600 | km^3/s^2 | gravitational parameter of the central body (crate::body) |
-| `body.radius_km` | 6378.14 | km | reference radius of the central body (crate::body) |
-| `body.rotation_rate_deg_s` | 0.00417807 | deg/s | sidereal spin rate of the central body (crate::body) |
-| `global.availability_pct` | 99.2187 | % | area-weighted share of time-space points with a fix and PDOP at or below pdop_threshold |
-| `global.fix_pct` | 100 | % | area-weighted share of time-space points with enough satellites in view for a non-singular fix |
-| `global.gdop.max` | 19.4446 | 1 | largest value of the geometric dilution of precision (GDOP: position plus the reference clock) over the time-s |
-
 <img src="../figures/kinds/constellation-design.svg" alt="The chart the engine writes for scenarios/leo-pnt-mega-shell.toml, kind constellation-design" width="640">
-
-3 bundled scenarios use this kind; the others are in [`scenarios/`](../../scenarios/).
-
-Topic pages: [LEO-PNT.md](../LEO-PNT.md), [SOLAR-SYSTEM.md](../SOLAR-SYSTEM.md).
 
 ### `solar-system`
 
@@ -123,29 +66,13 @@ The whole solar system at one epoch, for PNT (positioning, navigation and timing
 
 Required fields: none. Optional: `epoch`, `epoch_jd_tdb`, `bodies`, `observer`, `track_points`, `table`, `links`.
 
-**Ledger:** MODELLED 2 · VALIDATED 3. The [verification matrix](../VERIFICATION-MATRIX.md) rows that name this kind:
-
-- VALIDATED: The `solar-system` kind with planetary_kernel_path: each reported body whose own NAIF code the SPK holds takes its heliocentric J2000 position and velocity from the kernel through the engine's own reader (label KERNEL), 
-- VALIDATED: Heliocentric positions of Mercury, Venus, the Earth-Moon barycentre, the Earth, Mars, Jupiter and Saturn from Standish Table 1 (1800 AD to 2050 AD), and of all eight planets from Tables 2a/2b (3000 BC to 3000 AD, with th ([solar_system_standish_earth_icrf_preregistered.rs](../../tests/solar_system_standish_earth_icrf_preregistered.rs))
-- VALIDATED: The Newtonian one-way light time from any body to any other, received at an epoch, solved by the radiometric fixed-point light-time solver (radiometric::light_time_solution, transmitter at its retarded position) through  ([solar_system_light_time_preregistered.rs](../../tests/solar_system_light_time_preregistered.rs))
-- MODELLED: Positions of Uranus and Neptune from Standish Table 1 (the default inside 1800 AD to 2050 AD), Pluto from the 1992 Table 1 row the current JPL page no longer lists, and the heliocentric velocity of every planet: the two- ([solar_system_horizons_reference.rs](../../tests/solar_system_horizons_reference.rs))
-- and 1 more in the matrix.
+**Ledger:** MODELLED 2 · VALIDATED 3. Full page, with the inputs, results, evidence and limitations: [solar-system](by-kind/solar-system.md).
 
 ```sh
 kshana scenarios/solar-system-tour.toml
 ```
 
-Result label (the engine's): MIXED: each body carries its own label. Planet positions are VALIDATED against JPL Horizons within twice the Standish nominal error (Mercury to Saturn and the Earth from Table 1; all eight planets from Tables 2a/2b); Uranus and Neptune from Table 1, Pluto, the Moon and the seven moons are MODELLED. 
-
-Headline numbers from this run (read from `result.json` through its own `units` block):
-
-| Field | Value | Unit | What it is |
-|---|---|---|---|
-| `n_bodies` | 18 | count | bodies in the report |
-
 <img src="../figures/kinds/solar-system.svg" alt="The chart the engine writes for scenarios/solar-system-tour.toml, kind solar-system" width="640">
-
-Topic pages: [SOLAR-SYSTEM.md](../SOLAR-SYSTEM.md), [CONSTELLATION-DESIGN.md](../CONSTELLATION-DESIGN.md).
 
 ### `body-pnt`
 
@@ -153,33 +80,13 @@ Positioning around any solar-system body: an orbiter or a surface lander around 
 
 Required fields: none. Optional: `body`, `epoch`, `epoch_jd_tdb`, `duration_s`, `step_s`, `seed`, `table`, `user`, `constellation`, `earth_link`.
 
-**Ledger:** MODELLED 1 · VALIDATED 1. The [verification matrix](../VERIFICATION-MATRIX.md) rows that name this kind:
-
-- VALIDATED: The Newtonian one-way light time from any body to any other, received at an epoch, solved by the radiometric fixed-point light-time solver (radiometric::light_time_solution, transmitter at its retarded position) through  ([solar_system_light_time_preregistered.rs](../../tests/solar_system_light_time_preregistered.rs))
-- MODELLED: The `body-pnt` kind: an orbiter or a surface lander around a body chosen by name navigates with one-way pseudoranges from a Walker navigation constellation around the body (two-body orbits with the body's J2 secular drif
+**Ledger:** MODELLED 1 · VALIDATED 1. Full page, with the inputs, results, evidence and limitations: [body-pnt](by-kind/body-pnt.md).
 
 ```sh
 kshana scenarios/mars-orbit-pnt.toml
 ```
 
-Result label (the engine's): MODELLED: two-body relay orbits with J2 secular drift, geometric visibility, Gaussian range noise and an instantaneous measurement model around a body from the published constants; not validated against a mission's navigation data. The Earth-to-body geometry inherits the solar-system ephemeris label
-
-Headline numbers from this run (read from `result.json` through its own `units` block):
-
-| Field | Value | Unit | What it is |
-|---|---|---|---|
-| `body.gm_m3_s2` | 4.28284e+13 | m^3/s^2 | central body's gravitational parameter GM, cited in body.rs |
-| `body.j2` | 0.00196045 | 1 | central body's unnormalised J2 where one is carried; drives the relay and user secular drift |
-| `body.j2_reference_radius_m` | 3.3962e+06 | m | the radius the J2 value is referenced to |
-| `body.radius_mean_m` | 3.3895e+06 | m | central body's mean radius: the occultation sphere and the surface |
-| `body.sidereal_rotation_period_h` | 24.623 | h | 360 degrees over the IAU prime-meridian rate; negative for retrograde rotation |
-| `earth_to_body.geometric_distance_m` | 1.01425e+11 | m | Earth-to-body distance at the epoch |
-
 <img src="../figures/kinds/body-pnt.svg" alt="The chart the engine writes for scenarios/mars-orbit-pnt.toml, kind body-pnt" width="640">
-
-2 bundled scenarios use this kind; the others are in [`scenarios/`](../../scenarios/).
-
-Topic pages: [SOLAR-SYSTEM.md](../SOLAR-SYSTEM.md), [CONSTELLATION-DESIGN.md](../CONSTELLATION-DESIGN.md).
 
 ### `mars-pnt`
 
@@ -187,30 +94,13 @@ Deep-space Mars PNT: a simulated MARCONI relay constellation (areostationary + i
 
 Required fields: none. Optional: `user`, `clock_class`, `step_s`, `duration_s`, `nmax`, `range_sigma_m`, `doppler_sigma_mps`, `dynamic_tightness`, `two_way_period_s`, `seed`.
 
-**Ledger:** MODELLED. The [verification matrix](../VERIFICATION-MATRIX.md) rows that name this kind:
-
-- MODELLED: The `body-pnt` kind: an orbiter or a surface lander around a body chosen by name navigates with one-way pseudoranges from a Walker navigation constellation around the body (two-body orbits with the body's J2 secular drif
+**Ledger:** MODELLED. Full page, with the inputs, results, evidence and limitations: [mars-pnt](by-kind/mars-pnt.md).
 
 ```sh
 kshana scenarios/mars-pnt-lmo.toml
 ```
 
-Headline numbers from this run (read from `result.json` through its own `units` block):
-
-| Field | Value | Unit | What it is |
-|---|---|---|---|
-| `areostationary_radius_m` | 2.04277e+07 | m | areocentric synchronous radius, cbrt(mu_Mars / omega_Mars^2) |
-| `fom.converged_pos_3sigma_m` | 0.927387 | m | 3 * fom.converged_pos_sigma_m |
-| `fom.converged_pos_rms_m` | 0.245604 | m | RMS of the 3-D position error against the synthetic truth over the converged back half of the arc |
-| `fom.converged_pos_sigma_m` | 0.309129 | m | mean formal 1-sigma position uncertainty over the converged back half; a filter covariance bound, not a certif |
-| `fom.epochs` | 120 | count | estimation epochs on the arc |
-| `fom.final_clock_freq_sigma` | 3.70721e-13 | 1 | formal 1-sigma uncertainty of the recovered onboard-clock FRACTIONAL frequency offset at the last epoch; dimen |
-
 <img src="../figures/kinds/mars-pnt.svg" alt="The chart the engine writes for scenarios/mars-pnt-lmo.toml, kind mars-pnt" width="640">
-
-3 bundled scenarios use this kind; the others are in [`scenarios/`](../../scenarios/).
-
-Topic pages: [SOLAR-SYSTEM.md](../SOLAR-SYSTEM.md).
 
 ### `passes`
 
@@ -218,27 +108,10 @@ Ground-station pass prediction: the time-domain visibility passes (AOS/TCA/LOS, 
 
 Required fields: none. Optional: `altitude_km`, `inclination_deg`, `raan_deg`, `arg_lat_deg`, `station_lat_deg`, `station_lon_deg`, `station_alt_m`, `epoch`, `mask_deg`, `duration_hours`, `step_s`, `refraction`, `light_time`, `ut1_minus_utc_s`, `xp_arcsec`, `yp_arcsec`.
 
-**Ledger:** MODELLED 2 · VALIDATED 2. The [verification matrix](../VERIFICATION-MATRIX.md) rows that name this kind:
-
-- VALIDATED: Time-domain visibility passes (AOS/TCA/LOS, max elevation, duration) of an engine propagator over a station above an elevation mask, with interpolated rise/set crossings and total access: passes::predict_passes, the geom ([ground_station_pass_prediction_reference.rs](../../tests/ground_station_pass_prediction_reference.rs))
-- VALIDATED: Visibility passes (AOS, TCA, LOS, maximum apparent elevation, duration) of an SGP4 element set over a WGS-84 station on the validated Earth-orbit path (IAU 2006/2000A, optional Earth orientation parameters), with ITU-R P ([pass_predictor_on_path_orekit_oracle.rs](../../tests/pass_predictor_on_path_orekit_oracle.rs))
-- MODELLED: Downlink Es/N0 along each pass of one satellite over one station (EIRP, free-space loss, cosecant-law atmospheric loss, other losses, G/T, Boltzmann's constant, symbol rate), the most efficient DVB-S2 MODCOD that clears 
-- MODELLED: One run takes a contact plan (a list of aos_s/los_s windows, each asking the aperture for navigation or communications — the same window vocabulary `passes::predict_passes` emits, converted by `aperture_duty::windows_fro
+**Ledger:** MODELLED 2 · VALIDATED 2. Full page, with the inputs, results, evidence and limitations: [passes](by-kind/passes.md).
 
 ```sh
 kshana scenarios/passes.toml
 ```
 
-Result label (the engine's): MODELLED — time-domain ground-station pass prediction; SGP4/SDP4 propagation, IAU 2006/2000A Earth-fixed frame (UT1 = UTC, no polar motion unless Earth orientation parameters are given), apparent elevation with ITU-R P.834-9 refraction and light time when switched on, crossings and culmination refin
-
-Headline numbers from this run (read from `result.json` through its own `units` block):
-
-| Field | Value | Unit | What it is |
-|---|---|---|---|
-| `best_max_elevation_deg` | 70.0816 | deg | the largest per-pass maximum elevation above the station's local horizon; null when the window contains no pas |
-| `pass_count` | 5 | count | number of mask-clearing visibility passes found in the window |
-| `total_access_s` | 1659.1 | s | sum of every pass duration_s: total time the satellite is above the mask during the window |
-
 <img src="../figures/kinds/passes.svg" alt="The chart the engine writes for scenarios/passes.toml, kind passes" width="640">
-
-Topic pages: [CONTACT-SCHEDULING.md](../CONTACT-SCHEDULING.md).
