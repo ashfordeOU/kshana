@@ -17,6 +17,10 @@
       "svg": "module-map.svg",
       "svg_sha256": "af58779a74935f7a8cf060106f2da43a40099bff4d1c4ce2112276109b6fd225"
     },
+    "release-flow.png": {
+      "svg": "release-flow.svg",
+      "svg_sha256": "9127df2e44c07e74886db4325e844553c255f726cd0c61f66dee82d0f062e481"
+    },
     "studio-flow.png": {
       "svg": "studio-flow.svg",
       "svg_sha256": "98f4591b2ae5546f1644ee4e82af0aff2aa366a66a1caf2d2a42444669d33142"

@@ -30,7 +30,7 @@ README = (ROOT / "README.md").read_text()
 # docs pages that are catalogues of everything: they mention every kind and prove nothing about a topic page.
 CATALOGUE_PAGES = {"SURFACES.md", "VERIFICATION-MATRIX.md", "MODELLED-RATIONALE.md", "SCENARIOS.md", "SCHEMA.md", "CAPABILITY.md",
                    "CLAIMS-VS-REALITY.md", "REPORTS.md", "ARCHITECTURE.md", "VALIDATION.md", "PYTHON_API.md", "INTEROP.md", "STANDARDS.md",
-                   "GLOSSARY.md", "CONCEPTS.md", "AGENTS.md", "DEPLOYMENT-TARGETS.md", "PRO.md"}
+                   "GLOSSARY.md", "CONCEPTS.md", "AGENTS.md", "DEPLOYMENT-TARGETS.md", "PRO.md", "KINDS.md", "COMMANDS.md", "ALL-SURFACES.md", "CAPABILITY-DOMAINS.md"}
 
 
 def find_engine(arg: str | None) -> str:
@@ -63,7 +63,9 @@ def code_fences(text: str) -> list[str]:
     return out
 
 
-FENCES = "\n".join(code_fences(README))
+# pages the README links for the long tables: a name there counts as named by the README
+LINKED_TEXT = README + "".join((ROOT / f).read_text() for f in ("docs/COMMANDS.md", "docs/ALL-SURFACES.md", "docs/CAPABILITY-DOMAINS.md") if (ROOT / f).exists())
+FENCES = "\n".join(code_fences(LINKED_TEXT))
 DOCS = {p.name: p.read_text() for p in sorted((ROOT / "docs").glob("*.md"))}
 README_LINKED_DOCS = set(re.findall(r"docs/([A-Za-z0-9_./-]+\.md)", README)) | set(re.findall(r"\]\(([A-Za-z0-9_./-]+\.md)", README))
 
@@ -139,15 +141,13 @@ def readme_command_for(kind: str, files: list[str], name: str) -> str:
 
 
 def kinds_index() -> dict[str, dict]:
-    """What docs/KINDS.md (linked from the README, one entry per kind) gives each kind: a chart and a command."""
-    path = ROOT / "docs" / "KINDS.md"
+    """What the family pages under docs/kinds/ (linked from the README through docs/KINDS.md) give each kind: a chart and a command."""
     out: dict[str, dict] = {}
-    if not path.exists():
-        return out
-    for sec in re.split(r"\n### ", path.read_text())[1:]:
-        name = sec.split("\n")[0].strip("`")
-        m = re.search(r"```sh\n(kshana [^\n]+)\n```", sec)
-        out[name] = {"figure": "figures/kinds/" + name + ".svg" if "<img" in sec else "", "command": m.group(1) if m else ""}
+    for path in sorted((ROOT / "docs" / "kinds").glob("*.md")) if (ROOT / "docs" / "kinds").exists() else []:
+        for sec in re.split(r"\n### ", path.read_text())[1:]:
+            name = sec.split("\n")[0].strip("`")
+            m = re.search(r"```sh\n(kshana [^\n]+)\n```", sec)
+            out[name] = {"page": f"kinds/{path.name}", "figure": f"figures/kinds/{name}.svg" if "<img" in sec else "no plot", "command": m.group(1) if m else ""}
     return out
 
 
@@ -163,10 +163,10 @@ def audit_kinds(exe: str) -> list[dict]:
         linked = [p for p in pages if p in README_LINKED_DOCS]
         rows.append({
             "kind": n,
-            "mentioned": bool(re.search(r"[`\"']" + re.escape(n) + r"[`\"']", README)),
-            "docs_page": pages[0] if pages else "",
-            "docs_page_linked_from_readme": bool(linked),
-            "figure": figs.get(n, []) or ([idx[n]["figure"]] if idx.get(n, {}).get("figure") else []),
+            "mentioned": bool(re.search(r"[`\"']" + re.escape(n) + r"[`\"']", README)) or n in idx,
+            "docs_page": pages[0] if pages else idx.get(n, {}).get("page", ""),
+            "docs_page_linked_from_readme": bool(linked) or ("docs/KINDS.md" in README and n in idx),
+            "figure": figs.get(n, []) or ([idx[n]["figure"]] if idx.get(n, {}).get("figure", "no plot") != "no plot" else []),
             "command": readme_command_for(n, scn.get(n, []), n) or idx.get(n, {}).get("command", ""),
             "scenario_files": len(scn.get(n, [])),
         })
@@ -218,15 +218,15 @@ def audit_cli(exe: str) -> list[dict]:
             subs |= set(sub_help_subs(exe, cmd))
         c["subcommands"] = sorted(subs - {"live"} | ({"live"} if "live" in subs else set()))
         base = cmd if not cmd.startswith(("<", "-")) else cmd
-        mentioned = bool(re.search(r"kshana\s+" + re.escape(cmd), README)) if not cmd.startswith("<") else True
+        mentioned = bool(re.search(r"kshana\s+" + re.escape(cmd), LINKED_TEXT)) if not cmd.startswith("<") else True
         pages = [] if cmd.startswith(("<", "-")) else topic_pages(cmd, extra_terms=(f"kshana {cmd}",))
         sub_rows = []
         for s in c["subcommands"]:
-            sub_rows.append({"sub": s, "mentioned": bool(re.search(r"kshana\s+" + re.escape(cmd) + r"\s+" + re.escape(s), README)) or bool(re.search(r"(?<![\w-])" + re.escape(s) + r"(?![\w-])", README))})
+            sub_rows.append({"sub": s, "mentioned": bool(re.search(r"kshana\s+" + re.escape(cmd) + r"\s+" + re.escape(s), LINKED_TEXT)) or bool(re.search(r"(?<![\w-])" + re.escape(s) + r"(?![\w-])", LINKED_TEXT))})
         rows.append({
             "command": cmd, "mentioned": mentioned,
             "docs_page": pages[0] if pages else "", "docs_page_linked_from_readme": any(p in README_LINKED_DOCS for p in pages),
-            "runnable": bool(re.search(r"^\s*(\$ )?kshana\s+" + re.escape(cmd) + r"(\s|$)", FENCES, re.M) or re.search(r"`kshana\s+" + re.escape(cmd) + r"\s[^`]+`", README)) if not cmd.startswith(("<", "-")) else bool(re.search(r"^\s*kshana\s+(scenarios/|\S+\.toml)", FENCES, re.M)),
+            "runnable": bool(re.search(r"^\s*(\$ )?kshana\s+" + re.escape(cmd) + r"(\s|$)", FENCES, re.M) or re.search(r"`kshana\s+" + re.escape(cmd) + r"\s[^`]+`", LINKED_TEXT)) if not cmd.startswith(("<", "-")) else bool(re.search(r"^\s*kshana\s+(scenarios/|\S+\.toml)", FENCES, re.M)),
             "subcommands": sub_rows,
         })
     return rows
@@ -244,28 +244,28 @@ def audit_surfaces() -> dict:
             names.append(tt[3:].split("(")[0])
             in_attr = False
     tools = sorted(names)
-    out["mcp_tools"] = [{"name": t, "mentioned": t in README} for t in tools]
-    out["plugin_commands"] = [{"name": p.stem, "mentioned": ("/" + p.stem) in README or p.stem in README} for p in sorted((ROOT / "commands").glob("*.md"))]
-    out["skills"] = [{"name": p.name, "mentioned": p.name in README} for p in sorted((ROOT / "skills").iterdir()) if p.is_dir()]
+    out["mcp_tools"] = [{"name": t, "mentioned": t in LINKED_TEXT} for t in tools]
+    out["plugin_commands"] = [{"name": p.stem, "mentioned": ("/" + p.stem) in LINKED_TEXT or p.stem in LINKED_TEXT} for p in sorted((ROOT / "commands").glob("*.md"))]
+    out["skills"] = [{"name": p.name, "mentioned": p.name in LINKED_TEXT} for p in sorted((ROOT / "skills").iterdir()) if p.is_dir()]
     pages = []
     studio = ROOT / "web" / "studio"
     for p in sorted(studio.iterdir()):
         if p.is_dir() and (p / "index.html").exists():
-            pages.append({"page": f"/studio/{p.name}/", "mentioned": f"studio/{p.name}" in README})
+            pages.append({"page": f"/studio/{p.name}/", "mentioned": f"studio/{p.name}" in LINKED_TEXT})
     out["studio_pages"] = pages
     integ = []
     for p in sorted((ROOT / "integrations").iterdir()):
         if p.is_dir():
             terms = {"ros2": ("ROS 2", "ros2"), "signalk": ("Signal K", "signalk"), "opencpn": ("OpenCPN",), "gnss-sdr": ("GNSS-SDR",), "gnss_lib_py": ("gnss_lib_py",)}.get(p.name, (p.name,))
-            integ.append({"name": f"integrations/{p.name}", "mentioned": any(t in README for t in terms)})
+            integ.append({"name": f"integrations/{p.name}", "mentioned": any(t in LINKED_TEXT for t in terms)})
     for label, terms in (("JetBrains plugin", ("JetBrains",)), ("VS Code", ("VS Code", "vscode")), ("systemd unit", ("systemd",)), ("Docker / OCI image", ("docker", "Docker")),
                          ("Python wheel (pip)", ("pip install kshana",)), ("npm / WebAssembly", ("npm install", "npm i ")), ("Rust crate (crates.io)", ("cargo add", "crates.io")),
                          ("Homebrew / winget / apt", ("brew install", "winget", "apt"))):
-        integ.append({"name": label, "mentioned": any(t in README for t in terms)})
+        integ.append({"name": label, "mentioned": any(t in LINKED_TEXT for t in terms)})
     out["integrations"] = integ
     cap = json.loads((ROOT / "web" / "capabilities.json").read_text())
     names = sorted({c["domain"] for c in cap["capabilities"]})
-    out["capability_domains"] = [{"name": n, "mentioned": bool(n) and n.lower() in README.lower()} for n in names if n]
+    out["capability_domains"] = [{"name": n, "mentioned": bool(n) and n.lower() in LINKED_TEXT.lower()} for n in names if n]
     return out
 
 

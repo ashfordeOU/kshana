@@ -1,9 +1,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 //! The README must name everything the repository offers, and every link in it must resolve.
 //!
-//! PIN-SCOPE:    every scenario kind the engine dispatches is named in the README and has an entry in
-//!               `docs/KINDS.md`; every command in the usage text, every plugin command, every skill and
-//!               every Studio page is named in the README; every relative link, image and in-page anchor in
+//! PIN-SCOPE:    every scenario kind the engine dispatches has an entry in a docs/kinds family page whose
+//!               description and fields equal the engine's, and a row in the docs/KINDS.md index; every command in
+//!               the usage text, every plugin command, every skill and every Studio page is named in the README
+//!               or on the page it links (docs/COMMANDS.md, docs/ALL-SURFACES.md); every relative link, image and in-page anchor in
 //!               the README resolves
 //! PIN-EXCLUDES: whether a description is right (the generators write the tables from the engine, and
 //!               `tools/readme_audit.py` reports the per-item gaps), and external URLs
@@ -19,28 +20,60 @@ fn readme() -> String {
     std::fs::read_to_string(root().join("README.md")).expect("README.md")
 }
 
+/// The text of every kind's entry that comes from the engine: its description and its fields, as
+/// `tools/gen_kinds_index.py` writes them. Pinned here so that part cannot drift from the engine even
+/// when the Python tool is not run.
+fn entry_text(k: &kshana::api::ScenarioMeta) -> (String, String) {
+    let req = if k.required_fields.is_empty() {
+        "none".to_string()
+    } else {
+        k.required_fields.iter().map(|f| format!("`{f}`")).collect::<Vec<_>>().join(", ")
+    };
+    let mut fields = format!("Required fields: {req}");
+    if !k.optional_fields.is_empty() {
+        let opt = k.optional_fields.iter().map(|f| format!("`{f}`")).collect::<Vec<_>>().join(", ");
+        fields.push_str(&format!(". Optional: {opt}"));
+    }
+    fields.push('.');
+    (k.description.to_string(), fields)
+}
+
 #[test]
-fn every_scenario_kind_is_in_the_readme_and_in_the_kinds_index() {
+fn every_scenario_kind_has_an_entry_that_matches_the_engine() {
     let readme = readme();
-    let kinds_doc = std::fs::read_to_string(root().join("docs/KINDS.md")).expect("docs/KINDS.md");
-    let mut missing_readme = Vec::new();
-    let mut missing_doc = Vec::new();
-    for k in kshana::api::list_scenario_kinds() {
-        if !readme.contains(&format!("[`{}`](docs/KINDS.md#{})", k.name, k.name)) {
-            missing_readme.push(k.name);
+    let dir = root().join("docs/kinds");
+    let mut pages = String::new();
+    for e in std::fs::read_dir(&dir).expect("docs/kinds").flatten() {
+        if e.path().extension().and_then(|x| x.to_str()) == Some("md") {
+            pages.push_str(&std::fs::read_to_string(e.path()).unwrap());
         }
-        if !kinds_doc.contains(&format!("### `{}`", k.name)) {
-            missing_doc.push(k.name);
+    }
+    let index = std::fs::read_to_string(root().join("docs/KINDS.md")).expect("docs/KINDS.md");
+    assert!(readme.contains("docs/KINDS.md") && readme.contains("docs/kinds/"), "the README must link docs/KINDS.md and the family pages");
+    let mut no_entry = Vec::new();
+    let mut drifted = Vec::new();
+    let mut not_indexed = Vec::new();
+    for k in kshana::api::list_scenario_kinds() {
+        if !index.contains(&format!("| `{}` |", k.name)) {
+            not_indexed.push(k.name);
+        }
+        if !pages.contains(&format!("### `{}`", k.name)) {
+            no_entry.push(k.name);
+            continue;
+        }
+        let (desc, fields) = entry_text(&k);
+        if !pages.contains(&desc) || !pages.contains(&fields) {
+            drifted.push(k.name);
         }
     }
     assert!(
-        missing_readme.is_empty(),
-        "kinds the README's family table does not link: {missing_readme:?}. Run \
-         `python3 tools/gen_readme_blocks.py` (a new kind must be filed under a family there)"
+        no_entry.is_empty() && not_indexed.is_empty(),
+        "kinds with no entry: {no_entry:?}; not in the KINDS.md index: {not_indexed:?}. Run `python3 tools/gen_kinds_index.py` \
+         (a new kind must also be filed under a family in tools/kind_families.py)"
     );
     assert!(
-        missing_doc.is_empty(),
-        "kinds with no entry in docs/KINDS.md: {missing_doc:?}. Run `python3 tools/gen_kinds_index.py`"
+        drifted.is_empty(),
+        "kind entries whose description or fields differ from the engine: {drifted:?}. Run `python3 tools/gen_kinds_index.py`"
     );
 }
 
@@ -63,7 +96,8 @@ fn usage_commands() -> BTreeSet<String> {
 
 #[test]
 fn every_command_in_the_usage_text_is_in_the_readme() {
-    let readme = readme();
+    let readme = readme() + &std::fs::read_to_string(root().join("docs/COMMANDS.md")).expect("docs/COMMANDS.md");
+    assert!(self::readme().contains("docs/COMMANDS.md"), "the README must link docs/COMMANDS.md");
     let cmds = usage_commands();
     assert!(cmds.len() >= 15, "only {} commands parsed from USAGE: {cmds:?}", cmds.len());
     let missing: Vec<&String> = cmds
@@ -100,7 +134,8 @@ fn stems(dir: &str, ext: Option<&str>, dirs: bool) -> Vec<String> {
 
 #[test]
 fn every_plugin_command_skill_and_studio_page_is_in_the_readme() {
-    let readme = readme();
+    assert!(readme().contains("docs/ALL-SURFACES.md"), "the README must link docs/ALL-SURFACES.md");
+    let readme = readme() + &std::fs::read_to_string(root().join("docs/ALL-SURFACES.md")).expect("docs/ALL-SURFACES.md");
     let mut missing = Vec::new();
     for c in stems("commands", Some("md"), false) {
         if !readme.contains(&format!("`/{c}`")) {
@@ -203,10 +238,10 @@ fn link_targets(text: &str) -> Vec<String> {
     out
 }
 
-#[test]
-fn every_relative_link_image_and_anchor_in_the_readme_resolves() {
-    let text = readme();
+fn broken_links(page: &Path) -> Vec<String> {
+    let text = std::fs::read_to_string(page).expect("page");
     let own = anchors(&text);
+    let dir = page.parent().unwrap().to_path_buf();
     let mut bad = Vec::new();
     for l in link_targets(&text) {
         if l.starts_with("http") || l.starts_with("mailto:") || l.starts_with("data:") || l.is_empty() {
@@ -223,8 +258,8 @@ fn every_relative_link_image_and_anchor_in_the_readme_resolves() {
             None => (l.clone(), None),
         };
         let path = path.split('?').next().unwrap().to_string();
-        let target: PathBuf = root().join(&path);
-        if !Path::new(&target).exists() {
+        let target = dir.join(&path);
+        if !target.exists() {
             bad.push(l);
             continue;
         }
@@ -235,5 +270,27 @@ fn every_relative_link_image_and_anchor_in_the_readme_resolves() {
             }
         }
     }
-    assert!(bad.is_empty(), "README links that do not resolve: {bad:?}");
+    bad
+}
+
+#[test]
+fn every_relative_link_image_and_anchor_in_the_readme_and_the_generated_pages_resolves() {
+    let mut pages = vec![
+        root().join("README.md"),
+        root().join("docs/KINDS.md"),
+        root().join("docs/COMMANDS.md"),
+        root().join("docs/ALL-SURFACES.md"),
+        root().join("docs/CAPABILITY-DOMAINS.md"),
+    ];
+    for e in std::fs::read_dir(root().join("docs/kinds")).expect("docs/kinds").flatten() {
+        pages.push(e.path());
+    }
+    let mut report = Vec::new();
+    for p in &pages {
+        let bad = broken_links(p);
+        if !bad.is_empty() {
+            report.push(format!("{}: {bad:?}", p.strip_prefix(root()).unwrap().display()));
+        }
+    }
+    assert!(report.is_empty(), "links that do not resolve: {report:#?}");
 }
