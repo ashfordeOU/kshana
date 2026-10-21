@@ -4,10 +4,10 @@
 
 Two blocks in README.md sit between marker comments and are rewritten here, never by hand:
 
-    <!-- generated:kind-families -->   every scenario kind the engine dispatches, filed under one family,
-                                       with a docs page and one command per family;
-    <!-- generated:domains -->         every capability domain of web/capabilities.json with its capabilities
-                                       and their ledger labels.
+    README.md   <!-- generated:kind-families -->   the families the scenario kinds are filed under, with a page
+                                                    (docs/kinds/<family>.md) and one command each;
+    docs/CAPABILITY-DOMAINS.md  <!-- generated:domains -->   every capability domain of web/capabilities.json
+                                                    with its capabilities and their ledger labels.
 
 A kind the engine adds and that no family below names makes this script fail, so a new kind cannot be
 left out of the README. `--check` fails if the README differs from what would be written.
@@ -26,38 +26,12 @@ import subprocess
 import sys
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from kind_families import BLURB, FAMILIES, slug  # noqa: E402
+
 ROOT = Path(__file__).resolve().parent.parent
 README = ROOT / "README.md"
-
-# family -> (docs pages, one command that runs a kind of the family, kinds)
-FAMILIES = [
-    ("Clocks, timing and holdover", ("docs/TELECOM-TIMING.md", "docs/SLOT-TIMING.md", "docs/TIMING-HIL.md", "docs/CLOCK-LOG-FORMATS.md"), "kshana scenarios/clock-holdover.toml",
-     ["clock", "sweep", "sweep-nd", "telecom-timing", "slot-timing", "timetransfer", "time-transfer-budget", "holdover-test", "quantum-time-transfer"]),
-    ("Inertial, fusion and quantum sensors", ("docs/QUANTUM-MODELS.md", "docs/QUANTUM.md", "docs/LEO-PNT-FUSION.md"), "kshana scenarios/gnss-ins.toml",
-     ["inertial", "hybrid", "fusion", "hybrid-ukf", "gnss-ins", "ins-trn-coast", "quantum-gnss-free-nav", "quantum-anomaly-detect", "quantum-trade"]),
-    ("GPS-denied alternative PNT", ("docs/CAPABILITY.md", "docs/RESILIENCE-CROSSWALK.md"), "kshana scenarios/combined-altpnt.toml",
-     ["gravity-map", "terrain-nav", "terrain-slam", "combined-altpnt", "conflict-resilience"]),
-    ("Constellations, coverage and geometry", ("docs/CONSTELLATION-DESIGN.md", "docs/COVERAGE.md", "docs/SOLAR-SYSTEM.md", "docs/SKYLINE.md"), "kshana scenarios/orbit-gnss-challenged.toml",
-     ["orbit", "ephemeris", "constellation-design", "solar-system", "body-pnt", "mars-pnt", "passes"]),
-    ("GNSS measurements, positioning and integrity", ("docs/INTEGRITY.md", "docs/POSITIONING.md", "docs/ARAIM_REFERENCE.md", "docs/OSNMA.md"), "kshana scenarios/integrity-raim.toml",
-     ["integrity", "gnss-sim", "pvt", "araim-reference-check", "space-weather", "realtime-frame-eop"]),
-    ("Jamming, spoofing and the spectrum", ("docs/SPECTRUM.md", "docs/DECEIVED-TIME.md", "docs/IQ-FOLLOW.md"), "kshana scenarios/jamming-demo.toml",
-     ["jamming", "spoof", "spoof-detect", "tracking-loop", "spectrum", "impairment-eval"]),
-    ("Low-Earth-orbit navigation", ("docs/LEO-PNT.md", "docs/LEO-SIGNAL.md", "docs/LEO-PASS.md", "docs/LEO-NAVMSG.md"), "kshana scenarios/leo-pnt-end-to-end.toml",
-     ["leo-signal", "leo-pass", "leo-navmsg", "leo-pvt", "leo-ppp", "ntn-positioning", "leo-pnt-chain"]),
-    ("Lunar and cislunar", ("docs/LUNAR-REFERENCE-STATION.md", "docs/LUNAR-INFRASTRUCTURE.md", "docs/LUNANET-AFS.md"), "kshana scenarios/lunar-infrastructure-od-consistency.toml",
-     ["lunar-integrity", "lunar-time-offset", "lunar-time-budget", "lunar-vlbi", "lunar-vlbi-fim", "lunar-joint-od-clock", "lunar-frame-realisation",
-      "lunar-frame-campaign", "lunar-llr-datum", "moonlight-service-volume", "lunar-differential-pnt", "lunar-station-coverage", "lunar-beacon",
-      "lunar-interop-export", "cislunar-observability", "cislunar-arc-recovery", "lunar-attack-surface", "lunar-jamming", "earth-gnss-lunar",
-      "lunar-infrastructure"]),
-    ("Space-user navigation", ("docs/SSV.md",), "kshana scenarios/gnss-ssv-shell.toml", ["gnss-ssv"]),
-    ("Optical PNT", ("docs/OPTICAL-ATMOSPHERE.md",), "kshana scenarios/optical-atmosphere-network.toml", ["optical-atmosphere", "hybrid-optical-rf"]),
-    ("Mission analysis, links and space operations", ("docs/ENTRY-EO-ASCENT.md", "docs/CONTACT-SCHEDULING.md", "docs/AOCS.md"), "kshana scenarios/launch-window.toml",
-     ["launch-window", "ascent-losses", "reentry", "entry-heating", "eo-coverage", "eo-radiometry", "attitude-budget", "aocs", "link-budget",
-      "acm-link", "contact-schedule", "aperture-duty-cycle", "space-packet", "oem-interop"]),
-    ("Campaigns", ("docs/CAMPAIGNS.md",), "kshana scenarios/campaign-jam-spoof-holdover-integrity.toml", ["campaign"]),
-]
-
+DOMAINS_DOC = ROOT / "docs" / "CAPABILITY-DOMAINS.md"
 
 def find_engine(arg):
     for c in (arg, os.environ.get("KSHANA_BIN"), str(ROOT / "target" / "release" / "kshana"), shutil.which("kshana")):
@@ -81,11 +55,9 @@ def kind_families_block(exe: str) -> str:
         scn = re.search(r"scenarios/\S+", cmd)
         if scn and not (ROOT / scn.group(0)).exists():
             sys.exit(f"gen_readme_blocks: {scn.group(0)} does not exist")
-    L = ["| Family | Kinds | Docs | Run one |", "|---|---|---|---|"]
+    L = ["| Family | What it answers | Kinds | Run one |", "|---|---|---|---|"]
     for fam, pages, cmd, ks in FAMILIES:
-        links = ", ".join(f"[`{k}`](docs/KINDS.md#{k})" for k in ks)
-        docs = ", ".join(f"[{Path(p).stem}]({p})" for p in pages)
-        L.append(f"| **{fam}** | {links} | {docs} | `{cmd}` |")
+        L.append(f"| **[{fam}](docs/kinds/{slug(fam)}.md)** | {BLURB[fam]} | {len(ks)} | `{cmd}` |")
     return "\n".join(L)
 
 
@@ -119,17 +91,18 @@ def main() -> int:
     ap.add_argument("--check", action="store_true")
     a = ap.parse_args()
     exe = find_engine(a.kshana)
-    old = README.read_text()
-    new = apply(old, "kind-families", kind_families_block(exe))
-    new = apply(new, "domains", domains_block())
+    old_readme, old_domains = README.read_text(), DOMAINS_DOC.read_text()
+    new_readme = apply(old_readme, "kind-families", kind_families_block(exe))
+    new_domains = apply(old_domains, "domains", domains_block())
     if a.check:
-        if new != old:
-            print("gen_readme_blocks: README.md generated blocks are out of date")
+        if new_readme != old_readme or new_domains != old_domains:
+            print("gen_readme_blocks: a generated block is out of date")
             return 1
-        print("gen_readme_blocks: README.md generated blocks up to date")
+        print("gen_readme_blocks: generated blocks up to date")
         return 0
-    README.write_text(new)
-    print("gen_readme_blocks: README.md generated blocks written")
+    README.write_text(new_readme)
+    DOMAINS_DOC.write_text(new_domains)
+    print("gen_readme_blocks: generated blocks written")
     return 0
 
 

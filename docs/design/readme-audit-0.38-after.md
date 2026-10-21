@@ -11,65 +11,65 @@ Scenario kinds: 87; mentioned 87; docs page linked 87; figure 87; runnable comma
 | `orbit` | yes | SKYLINE.md | yes | figures/kinds/orbit.svg | `cargo run -- scenarios/orbit-gnss-challenged.toml` |
 | `ephemeris` | yes | SOLAR-SYSTEM.md | yes | figures/kinds/ephemeris.svg | `kshana scenarios/ephemeris.toml` |
 | `integrity` | yes | CAMPAIGNS.md | yes | figures/kinds/integrity.svg | `cargo run -- scenarios/integrity-raim.toml` |
-| `lunar-integrity` | yes | KINDS.md | yes | figures/kinds/lunar-integrity.svg | `kshana scenarios/lunanet-araim.toml` |
-| `lunar-time-offset` | yes | KINDS.md | yes | figures/kinds/lunar-time-offset.svg | `kshana scenarios/lunar-time-offset.toml` |
-| `lunar-vlbi` | yes | KINDS.md | yes | figures/kinds/lunar-vlbi.svg | `kshana scenarios/lunar-vlbi.toml` |
-| `lunar-joint-od-clock` | yes | KINDS.md | yes | figures/kinds/lunar-joint-od-clock.svg | `kshana scenarios/lunar-joint-od-clock.toml` |
-| `lunar-frame-realisation` | yes | KINDS.md | yes | figures/kinds/lunar-frame-realisation.svg | `kshana scenarios/lunar-frame-realisation.toml` |
+| `lunar-integrity` | yes | kinds/lunar-and-cislunar.md | yes | figures/kinds/lunar-integrity.svg | `kshana scenarios/lunanet-araim.toml` |
+| `lunar-time-offset` | yes | kinds/lunar-and-cislunar.md | yes | figures/kinds/lunar-time-offset.svg | `kshana scenarios/lunar-time-offset.toml` |
+| `lunar-vlbi` | yes | kinds/lunar-and-cislunar.md | yes | figures/kinds/lunar-vlbi.svg | `kshana scenarios/lunar-vlbi.toml` |
+| `lunar-joint-od-clock` | yes | kinds/lunar-and-cislunar.md | yes | figures/kinds/lunar-joint-od-clock.svg | `kshana scenarios/lunar-joint-od-clock.toml` |
+| `lunar-frame-realisation` | yes | kinds/lunar-and-cislunar.md | yes | figures/kinds/lunar-frame-realisation.svg | `kshana scenarios/lunar-frame-realisation.toml` |
 | `moonlight-service-volume` | yes | LUNAR-REFERENCE-STATION.md | yes | figures/kinds/moonlight-service-volume.svg | `kshana scenarios/moonlight-service-volume.toml` |
 | `lunar-differential-pnt` | yes | LUNAR-REFERENCE-STATION.md | yes | figures/kinds/lunar-differential-pnt.svg | `kshana scenarios/lunar-differential-pnt.toml` |
 | `lunar-station-coverage` | yes | LUNAR-REFERENCE-STATION.md | yes | figures/kinds/lunar-station-coverage.svg | `kshana scenarios/lunar-station-coverage.toml` |
-| `lunar-interop-export` | yes | KINDS.md | yes | figures/kinds/lunar-interop-export.svg | `kshana scenarios/lunar-interop-export.toml` |
-| `timetransfer` | yes | KINDS.md | yes | figures/kinds/timetransfer.svg | `cargo run -- scenarios/timetransfer.toml` |
+| `lunar-interop-export` | yes | kinds/lunar-and-cislunar.md | yes | figures/kinds/lunar-interop-export.svg | `kshana scenarios/lunar-interop-export.toml` |
+| `timetransfer` | yes | kinds/clocks-timing-and-holdover.md | yes | figures/kinds/timetransfer.svg | `cargo run -- scenarios/timetransfer.toml` |
 | `quantum-anomaly-detect` | yes | QUANTUM-MODELS.md | yes | figures/kinds/quantum-anomaly-detect.svg | `kshana scenarios/quantum-anomaly-detect.toml` |
 | `quantum-gnss-free-nav` | yes | QUANTUM-MODELS.md | yes | figures/kinds/quantum-gnss-free-nav.svg | `kshana scenarios/quantum-gnss-free-nav.toml` |
 | `quantum-time-transfer` | yes | QUANTUM-MODELS.md | yes | figures/kinds/quantum-time-transfer.svg | `kshana scenarios/quantum-time-transfer.toml` |
-| `hybrid` | yes | KINDS.md | yes | figures/kinds/hybrid.svg | `cargo run -- scenarios/hybrid-pnt.toml` |
-| `fusion` | yes | KINDS.md | yes | figures/kinds/fusion.svg | `kshana scenarios/fusion-pnt.toml` |
+| `hybrid` | yes | MACHINE-INPUTS.md | yes | figures/kinds/hybrid.svg | `cargo run -- scenarios/hybrid-pnt.toml` |
+| `fusion` | yes | MACHINE-INPUTS.md | yes | figures/kinds/fusion.svg | `kshana scenarios/fusion-pnt.toml` |
 | `hybrid-ukf` | yes | QUANTUM-MODELS.md | yes | figures/kinds/hybrid-ukf.svg | `kshana scenarios/hybrid-ukf.toml` |
 | `gnss-ins` | yes | TEST-BENCH.md | yes | figures/kinds/gnss-ins.svg | `kshana scenarios/gnss-ins.toml` |
-| `gnss-sim` | yes | KINDS.md | yes | figures/kinds/gnss-sim.svg | `kshana scenarios/gnss-sim-raim.toml` |
+| `gnss-sim` | yes | TEST-BENCH.md | yes | figures/kinds/gnss-sim.svg | `kshana scenarios/gnss-sim-raim.toml` |
 | `jamming` | yes | CAMPAIGNS.md | yes | figures/kinds/jamming.svg | `cargo run -- scenarios/jamming-demo.toml --export all` |
 | `spoof` | yes | CAMPAIGNS.md | yes | figures/kinds/spoof.svg | `kshana scenarios/spoof-attack.toml` |
-| `spoof-detect` | yes | KINDS.md | yes | figures/kinds/spoof-detect.svg | `kshana scenarios/spoof-detect.toml` |
+| `spoof-detect` | yes | CAMPAIGNS.md | yes | figures/kinds/spoof-detect.svg | `kshana scenarios/spoof-detect.toml` |
 | `sweep` | yes | CAMPAIGNS.md | yes | figures/kinds/sweep.svg | `kshana scenarios/sweep-clock-stability.toml` |
-| `sweep-nd` | yes | KINDS.md | yes | figures/kinds/sweep-nd.svg | `kshana scenarios/sweep-nd-inertial.toml` |
-| `gravity-map` | yes | KINDS.md | yes | figures/kinds/gravity-map.svg | `kshana scenarios/gravity-map-nav.toml` |
-| `terrain-nav` | yes | KINDS.md | yes | figures/kinds/terrain-nav.svg | `kshana scenarios/terrain-nav.toml` |
-| `terrain-slam` | yes | KINDS.md | yes | figures/kinds/terrain-slam.svg | `kshana scenarios/terrain-slam.toml` |
-| `combined-altpnt` | yes | KINDS.md | yes | figures/kinds/combined-altpnt.svg | `kshana scenarios/combined-altpnt.toml` |
+| `sweep-nd` | yes | CAMPAIGNS.md | yes | figures/kinds/sweep-nd.svg | `kshana scenarios/sweep-nd-inertial.toml` |
+| `gravity-map` | yes | kinds/gps-denied-alternative-pnt.md | yes | figures/kinds/gravity-map.svg | `kshana scenarios/gravity-map-nav.toml` |
+| `terrain-nav` | yes | kinds/gps-denied-alternative-pnt.md | yes | figures/kinds/terrain-nav.svg | `kshana scenarios/terrain-nav.toml` |
+| `terrain-slam` | yes | kinds/gps-denied-alternative-pnt.md | yes | figures/kinds/terrain-slam.svg | `kshana scenarios/terrain-slam.toml` |
+| `combined-altpnt` | yes | kinds/gps-denied-alternative-pnt.md | yes | figures/kinds/combined-altpnt.svg | `kshana scenarios/combined-altpnt.toml` |
 | `pvt` | yes | POSITIONING.md | yes | figures/kinds/pvt.svg | `kshana scenarios/pvt-abmf.toml` |
-| `mars-pnt` | yes | KINDS.md | yes | figures/kinds/mars-pnt.svg | `kshana scenarios/mars-pnt-lmo.toml` |
-| `impairment-eval` | yes | KINDS.md | yes | figures/kinds/impairment-eval.svg | `kshana scenarios/impairment-eval.toml` |
-| `quantum-trade` | yes | KINDS.md | yes | figures/kinds/quantum-trade.svg | `kshana scenarios/quantum-trade.toml` |
-| `space-weather` | yes | KINDS.md | yes | figures/kinds/space-weather.svg | `kshana scenarios/space-weather.toml` |
-| `oem-interop` | yes | KINDS.md | yes | figures/kinds/oem-interop.svg | `kshana scenarios/oem-interop.toml` |
-| `launch-window` | yes | KINDS.md | yes | figures/kinds/launch-window.svg | `kshana scenarios/launch-window.toml` |
-| `reentry` | yes | KINDS.md | yes | figures/kinds/reentry.svg | `kshana scenarios/reentry.toml` |
-| `eo-coverage` | yes | KINDS.md | yes | figures/kinds/eo-coverage.svg | `kshana scenarios/eo-coverage.toml` |
-| `space-packet` | yes | KINDS.md | yes | figures/kinds/space-packet.svg | `kshana scenarios/space-packet.toml` |
-| `attitude-budget` | yes | KINDS.md | yes | figures/kinds/attitude-budget.svg | `kshana scenarios/attitude-budget.toml` |
-| `passes` | yes | KINDS.md | yes | figures/kinds/passes.svg | `kshana scenarios/passes.toml` |
-| `link-budget` | yes | KINDS.md | yes | figures/kinds/link-budget.svg | `kshana scenarios/link-budget.toml` |
-| `lunar-time-budget` | yes | KINDS.md | yes | figures/kinds/lunar-time-budget.svg | `kshana scenarios/lunar-time-budget.toml` |
-| `hybrid-optical-rf` | yes | KINDS.md | yes | figures/kinds/hybrid-optical-rf.svg | `kshana scenarios/hybrid-optical-rf.toml` |
-| `cislunar-observability` | yes | KINDS.md | yes | figures/kinds/cislunar-observability.svg | `kshana scenarios/cislunar-observability.toml` |
+| `mars-pnt` | yes | SOLAR-SYSTEM.md | yes | figures/kinds/mars-pnt.svg | `kshana scenarios/mars-pnt-lmo.toml` |
+| `impairment-eval` | yes | BENCH.md | yes | figures/kinds/impairment-eval.svg | `kshana scenarios/impairment-eval.toml` |
+| `quantum-trade` | yes | QUANTUM-MODELS.md | yes | figures/kinds/quantum-trade.svg | `kshana scenarios/quantum-trade.toml` |
+| `space-weather` | yes | kinds/gnss-measurements-positioning-and-integrity.md | yes | figures/kinds/space-weather.svg | `kshana scenarios/space-weather.toml` |
+| `oem-interop` | yes | kinds/mission-analysis-links-and-space-operations.md | yes | figures/kinds/oem-interop.svg | `kshana scenarios/oem-interop.toml` |
+| `launch-window` | yes | ENTRY-EO-ASCENT.md | yes | figures/kinds/launch-window.svg | `kshana scenarios/launch-window.toml` |
+| `reentry` | yes | ENTRY-EO-ASCENT.md | yes | figures/kinds/reentry.svg | `kshana scenarios/reentry.toml` |
+| `eo-coverage` | yes | ENTRY-EO-ASCENT.md | yes | figures/kinds/eo-coverage.svg | `kshana scenarios/eo-coverage.toml` |
+| `space-packet` | yes | kinds/mission-analysis-links-and-space-operations.md | yes | figures/kinds/space-packet.svg | `kshana scenarios/space-packet.toml` |
+| `attitude-budget` | yes | kinds/mission-analysis-links-and-space-operations.md | yes | figures/kinds/attitude-budget.svg | `kshana scenarios/attitude-budget.toml` |
+| `passes` | yes | CONTACT-SCHEDULING.md | yes | figures/kinds/passes.svg | `kshana scenarios/passes.toml` |
+| `link-budget` | yes | kinds/mission-analysis-links-and-space-operations.md | yes | figures/kinds/link-budget.svg | `kshana scenarios/link-budget.toml` |
+| `lunar-time-budget` | yes | integrations.md | yes | figures/kinds/lunar-time-budget.svg | `kshana scenarios/lunar-time-budget.toml` |
+| `hybrid-optical-rf` | yes | kinds/optical-pnt.md | yes | figures/kinds/hybrid-optical-rf.svg | `kshana scenarios/hybrid-optical-rf.toml` |
+| `cislunar-observability` | yes | kinds/lunar-and-cislunar.md | yes | figures/kinds/cislunar-observability.svg | `kshana scenarios/cislunar-observability.toml` |
 | `conflict-resilience` | yes | RESILIENCE-CROSSWALK.md | yes | figures/kinds/conflict-resilience.svg | `kshana scenarios/conflict-resilience.toml` |
-| `lunar-attack-surface` | yes | KINDS.md | yes | figures/kinds/lunar-attack-surface.svg | `kshana scenarios/lunar-attack-surface.toml` |
-| `realtime-frame-eop` | yes | KINDS.md | yes | figures/kinds/realtime-frame-eop.svg | `kshana scenarios/realtime-frame-eop.toml` |
-| `aperture-duty-cycle` | yes | KINDS.md | yes | figures/kinds/aperture-duty-cycle.svg | `kshana scenarios/aperture-duty-cycle.toml` |
-| `lunar-jamming` | yes | KINDS.md | yes | figures/kinds/lunar-jamming.svg | `kshana scenarios/lunar-jamming.toml` |
-| `ins-trn-coast` | yes | KINDS.md | yes | figures/kinds/ins-trn-coast.svg | `kshana scenarios/ins-trn-coast.toml` |
-| `lunar-vlbi-fim` | yes | KINDS.md | yes | figures/kinds/lunar-vlbi-fim.svg | `kshana scenarios/lunar-vlbi-fim.toml` |
-| `tracking-loop` | yes | KINDS.md | yes | figures/kinds/tracking-loop.svg | `kshana scenarios/tracking-loop.toml` |
-| `araim-reference-check` | yes | KINDS.md | yes | figures/kinds/araim-reference-check.svg | `kshana scenarios/araim-reference-check.toml` |
-| `lunar-frame-campaign` | yes | KINDS.md | yes | figures/kinds/lunar-frame-campaign.svg | `kshana scenarios/lunar-frame-campaign.toml` |
-| `lunar-llr-datum` | yes | KINDS.md | yes | figures/kinds/lunar-llr-datum.svg | `kshana scenarios/lunar-llr-datum.toml` |
-| `lunar-beacon` | yes | KINDS.md | yes | figures/kinds/lunar-beacon.svg | `kshana scenarios/lunar-beacon.toml` |
-| `earth-gnss-lunar` | yes | KINDS.md | yes | figures/kinds/earth-gnss-lunar.svg | `kshana scenarios/earth-gnss-lunar.toml` |
-| `lunar-infrastructure` | yes | KINDS.md | yes | 0.38/lunar-frame, 0.38/lunar-geodesy, 0.38/lunar-od, 0.38/lunar-tie | `kshana scenarios/lunar-infrastructure-od-consistency.toml` |
-| `cislunar-arc-recovery` | yes | KINDS.md | yes | figures/kinds/cislunar-arc-recovery.svg | `kshana scenarios/cislunar-arc-recovery.toml` |
-| `telecom-timing` | yes | KINDS.md | yes | figures/kinds/telecom-timing.svg | `kshana scenarios/telecom-synce-eec.toml` |
+| `lunar-attack-surface` | yes | kinds/lunar-and-cislunar.md | yes | figures/kinds/lunar-attack-surface.svg | `kshana scenarios/lunar-attack-surface.toml` |
+| `realtime-frame-eop` | yes | integrations.md | yes | figures/kinds/realtime-frame-eop.svg | `kshana scenarios/realtime-frame-eop.toml` |
+| `aperture-duty-cycle` | yes | kinds/mission-analysis-links-and-space-operations.md | yes | figures/kinds/aperture-duty-cycle.svg | `kshana scenarios/aperture-duty-cycle.toml` |
+| `lunar-jamming` | yes | integrations.md | yes | figures/kinds/lunar-jamming.svg | `kshana scenarios/lunar-jamming.toml` |
+| `ins-trn-coast` | yes | RESILIENCE-CROSSWALK.md | yes | figures/kinds/ins-trn-coast.svg | `kshana scenarios/ins-trn-coast.toml` |
+| `lunar-vlbi-fim` | yes | kinds/lunar-and-cislunar.md | yes | figures/kinds/lunar-vlbi-fim.svg | `kshana scenarios/lunar-vlbi-fim.toml` |
+| `tracking-loop` | yes | kinds/jamming-spoofing-and-the-spectrum.md | yes | figures/kinds/tracking-loop.svg | `kshana scenarios/tracking-loop.toml` |
+| `araim-reference-check` | yes | INTEGRITY.md | yes | figures/kinds/araim-reference-check.svg | `kshana scenarios/araim-reference-check.toml` |
+| `lunar-frame-campaign` | yes | kinds/lunar-and-cislunar.md | yes | figures/kinds/lunar-frame-campaign.svg | `kshana scenarios/lunar-frame-campaign.toml` |
+| `lunar-llr-datum` | yes | LUNAR-REFERENCE-STATION.md | yes | figures/kinds/lunar-llr-datum.svg | `kshana scenarios/lunar-llr-datum.toml` |
+| `lunar-beacon` | yes | kinds/lunar-and-cislunar.md | yes | figures/kinds/lunar-beacon.svg | `kshana scenarios/lunar-beacon.toml` |
+| `earth-gnss-lunar` | yes | kinds/lunar-and-cislunar.md | yes | figures/kinds/earth-gnss-lunar.svg | `kshana scenarios/earth-gnss-lunar.toml` |
+| `lunar-infrastructure` | yes | LUNAR-INFRASTRUCTURE.md | yes | 0.38/lunar-frame, 0.38/lunar-geodesy, 0.38/lunar-od, 0.38/lunar-tie | `kshana scenarios/lunar-infrastructure-od-consistency.toml` |
+| `cislunar-arc-recovery` | yes | kinds/lunar-and-cislunar.md | yes | figures/kinds/cislunar-arc-recovery.svg | `kshana scenarios/cislunar-arc-recovery.toml` |
+| `telecom-timing` | yes | integrations.md | yes | figures/kinds/telecom-timing.svg | `kshana scenarios/telecom-synce-eec.toml` |
 | `slot-timing` | yes | LEO-PNT.md | yes | figures/kinds/slot-timing.svg | `kshana scenarios/slot-timing-ocxo-leo.toml` |
 | `spectrum` | yes | LEO-PNT.md | yes | readme/lband-waterfall | `kshana scenarios/l-band-waterfall-jamming.toml` |
 | `solar-system` | yes | SOLAR-SYSTEM.md | yes | figures/kinds/solar-system.svg | `kshana scenarios/solar-system-tour.toml` |
@@ -83,13 +83,13 @@ Scenario kinds: 87; mentioned 87; docs page linked 87; figure 87; runnable comma
 | `leo-ppp` | yes | LEO-PNT.md | yes | figures/kinds/leo-ppp.svg | `kshana scenarios/leo-ppp-convergence.toml` |
 | `ntn-positioning` | yes | LEO-PNT.md | yes | figures/kinds/ntn-positioning.svg | `kshana scenarios/ntn-5g-positioning.toml` |
 | `leo-pnt-chain` | yes | LEO-PNT.md | yes | readme/flow-leo-chain | `kshana scenarios/leo-pnt-end-to-end.toml` |
-| `contact-schedule` | yes | KINDS.md | yes | figures/kinds/contact-schedule.svg | `kshana scenarios/contact-schedule.toml` |
-| `acm-link` | yes | KINDS.md | yes | figures/kinds/acm-link.svg | `kshana scenarios/acm-link.toml` |
-| `aocs` | yes | KINDS.md | yes | figures/kinds/aocs.svg | `kshana scenarios/aocs-slew.toml` |
-| `entry-heating` | yes | KINDS.md | yes | figures/kinds/entry-heating.svg | `kshana scenarios/entry-heating-stardust.toml` |
-| `eo-radiometry` | yes | KINDS.md | yes | figures/kinds/eo-radiometry.svg | `kshana scenarios/eo-radiometry.toml` |
-| `ascent-losses` | yes | KINDS.md | yes | figures/kinds/ascent-losses.svg | `kshana scenarios/ascent-losses.toml` |
-| `time-transfer-budget` | yes | KINDS.md | yes | figures/kinds/time-transfer-budget.svg | `kshana scenarios/time-transfer-budget.toml` |
+| `contact-schedule` | yes | CONTACT-SCHEDULING.md | yes | figures/kinds/contact-schedule.svg | `kshana scenarios/contact-schedule.toml` |
+| `acm-link` | yes | CONTACT-SCHEDULING.md | yes | figures/kinds/acm-link.svg | `kshana scenarios/acm-link.toml` |
+| `aocs` | yes | AOCS.md | yes | figures/kinds/aocs.svg | `kshana scenarios/aocs-slew.toml` |
+| `entry-heating` | yes | ENTRY-EO-ASCENT.md | yes | figures/kinds/entry-heating.svg | `kshana scenarios/entry-heating-stardust.toml` |
+| `eo-radiometry` | yes | ENTRY-EO-ASCENT.md | yes | figures/kinds/eo-radiometry.svg | `kshana scenarios/eo-radiometry.toml` |
+| `ascent-losses` | yes | ENTRY-EO-ASCENT.md | yes | figures/kinds/ascent-losses.svg | `kshana scenarios/ascent-losses.toml` |
+| `time-transfer-budget` | yes | kinds/clocks-timing-and-holdover.md | yes | figures/kinds/time-transfer-budget.svg | `kshana scenarios/time-transfer-budget.toml` |
 | `optical-atmosphere` | yes | OPTICAL-ATMOSPHERE.md | yes | 0.38/optical | `kshana scenarios/optical-atmosphere-network.toml` |
 | `holdover-test` | yes | TIMING-HIL.md | yes | 0.38/timing | `kshana scenarios/holdover-test-example.toml` |
 | `gnss-ssv` | yes | SSV.md | yes | 0.38/ssv-formation, 0.38/ssv-heo, 0.38/ssv-nav, 0.38/ssv-shell | `kshana scenarios/gnss-ssv-shell.toml            # shell: the upper spa` |
@@ -118,7 +118,7 @@ Scenario kinds: 87; mentioned 87; docs page linked 87; figure 87; runnable comma
 | `kshana iq` | acquire, campaign, conditions, convert, decimate, extract, frontend, info, inventory, labfit, monitor, scene, sweep, track | yes | IQ-FOLLOW.md | yes | yes |
 | `kshana sky` | - | yes | SKYLINE.md | yes | yes |
 | `kshana skyline` | - | yes | SKYLINE.md | yes | yes |
-| `kshana kinds` | - | yes | KINDS.md | yes | yes |
+| `kshana kinds` | - | yes | TIMING-HIL.md | yes | yes |
 | `kshana example` | - | yes | LEO-SIGNAL.md | yes | yes |
 | `kshana --help` | - | yes | - | - | yes |
 
@@ -154,7 +154,7 @@ Scenario kinds: 87; mentioned 87; docs page linked 87; figure 87; runnable comma
 
 ## Figure and diagram files under docs/
 
-215 files; not embedded in the README: 93.
+229 files; not embedded in the README: 104.
 
 | file | README | docs pages |
 |---|---|---|
@@ -167,6 +167,8 @@ Scenario kinds: 87; mentioned 87; docs page linked 87; figure 87; runnable comma
 | docs/assets/diagrams/lab-round-trip.svg | yes | - |
 | docs/assets/diagrams/module-map.png | yes | - |
 | docs/assets/diagrams/module-map.svg | yes | - |
+| docs/assets/diagrams/release-flow.png | yes | - |
+| docs/assets/diagrams/release-flow.svg | yes | - |
 | docs/assets/diagrams/studio-flow.png | yes | - |
 | docs/assets/diagrams/studio-flow.svg | yes | - |
 | docs/assets/diagrams/surfaces.png | yes | - |
@@ -243,6 +245,7 @@ Scenario kinds: 87; mentioned 87; docs page linked 87; figure 87; runnable comma
 | docs/diagrams/engine-flow.mmd | yes | - |
 | docs/diagrams/lab-round-trip.mmd | yes | - |
 | docs/diagrams/module-map.mmd | yes | - |
+| docs/diagrams/release-flow.mmd | yes | - |
 | docs/diagrams/studio-flow.mmd | yes | - |
 | docs/diagrams/surfaces.mmd | yes | - |
 | docs/diagrams/system-overview.mmd | yes | - |
@@ -286,93 +289,104 @@ Scenario kinds: 87; mentioned 87; docs page linked 87; figure 87; runnable comma
 | docs/figures/0.38/standards-light.svg | yes | - |
 | docs/figures/0.38/timing-dark.svg | yes | TIMING-HIL.md |
 | docs/figures/0.38/timing-light.svg | yes | TIMING-HIL.md |
-| docs/figures/kinds/acm-link.svg | **NO** | KINDS.md |
-| docs/figures/kinds/aocs.svg | **NO** | KINDS.md |
-| docs/figures/kinds/aperture-duty-cycle.svg | **NO** | KINDS.md |
-| docs/figures/kinds/araim-reference-check.svg | **NO** | KINDS.md |
-| docs/figures/kinds/ascent-losses.svg | **NO** | KINDS.md |
-| docs/figures/kinds/attitude-budget.svg | **NO** | KINDS.md |
-| docs/figures/kinds/body-pnt.svg | **NO** | KINDS.md |
-| docs/figures/kinds/campaign.svg | **NO** | KINDS.md |
-| docs/figures/kinds/cislunar-arc-recovery.svg | **NO** | KINDS.md |
-| docs/figures/kinds/cislunar-observability.svg | **NO** | KINDS.md |
-| docs/figures/kinds/clock.svg | yes | KINDS.md |
-| docs/figures/kinds/combined-altpnt.svg | **NO** | KINDS.md |
-| docs/figures/kinds/conflict-resilience.svg | **NO** | KINDS.md |
-| docs/figures/kinds/constellation-design.svg | **NO** | KINDS.md |
-| docs/figures/kinds/contact-schedule.svg | **NO** | KINDS.md |
-| docs/figures/kinds/earth-gnss-lunar.svg | **NO** | KINDS.md |
-| docs/figures/kinds/entry-heating.svg | **NO** | KINDS.md |
-| docs/figures/kinds/eo-coverage.svg | **NO** | KINDS.md |
-| docs/figures/kinds/eo-radiometry.svg | **NO** | KINDS.md |
-| docs/figures/kinds/ephemeris.svg | **NO** | KINDS.md |
-| docs/figures/kinds/fusion.svg | **NO** | KINDS.md |
-| docs/figures/kinds/gnss-ins.svg | **NO** | KINDS.md |
-| docs/figures/kinds/gnss-sim.svg | **NO** | KINDS.md |
-| docs/figures/kinds/gnss-ssv.svg | **NO** | KINDS.md |
-| docs/figures/kinds/gravity-map.svg | **NO** | KINDS.md |
-| docs/figures/kinds/holdover-test.svg | **NO** | KINDS.md |
-| docs/figures/kinds/hybrid-optical-rf.svg | **NO** | KINDS.md |
-| docs/figures/kinds/hybrid-ukf.svg | **NO** | KINDS.md |
-| docs/figures/kinds/hybrid.svg | **NO** | KINDS.md |
-| docs/figures/kinds/impairment-eval.svg | **NO** | KINDS.md |
-| docs/figures/kinds/inertial.svg | yes | KINDS.md |
-| docs/figures/kinds/ins-trn-coast.svg | **NO** | KINDS.md |
-| docs/figures/kinds/integrity.svg | **NO** | KINDS.md |
-| docs/figures/kinds/jamming.svg | **NO** | KINDS.md |
-| docs/figures/kinds/launch-window.svg | **NO** | KINDS.md |
-| docs/figures/kinds/leo-navmsg.svg | **NO** | KINDS.md |
-| docs/figures/kinds/leo-pass.svg | **NO** | KINDS.md |
-| docs/figures/kinds/leo-pnt-chain.svg | **NO** | KINDS.md |
-| docs/figures/kinds/leo-ppp.svg | **NO** | KINDS.md |
-| docs/figures/kinds/leo-pvt.svg | **NO** | KINDS.md |
-| docs/figures/kinds/leo-signal.svg | **NO** | KINDS.md |
-| docs/figures/kinds/link-budget.svg | **NO** | KINDS.md |
-| docs/figures/kinds/lunar-attack-surface.svg | **NO** | KINDS.md |
-| docs/figures/kinds/lunar-beacon.svg | **NO** | KINDS.md |
-| docs/figures/kinds/lunar-differential-pnt.svg | **NO** | KINDS.md |
-| docs/figures/kinds/lunar-frame-campaign.svg | **NO** | KINDS.md |
-| docs/figures/kinds/lunar-frame-realisation.svg | **NO** | KINDS.md |
-| docs/figures/kinds/lunar-infrastructure.svg | **NO** | KINDS.md |
-| docs/figures/kinds/lunar-integrity.svg | **NO** | KINDS.md |
-| docs/figures/kinds/lunar-interop-export.svg | **NO** | KINDS.md |
-| docs/figures/kinds/lunar-jamming.svg | **NO** | KINDS.md |
-| docs/figures/kinds/lunar-joint-od-clock.svg | **NO** | KINDS.md |
-| docs/figures/kinds/lunar-llr-datum.svg | **NO** | KINDS.md |
-| docs/figures/kinds/lunar-station-coverage.svg | **NO** | KINDS.md |
-| docs/figures/kinds/lunar-time-budget.svg | **NO** | KINDS.md |
-| docs/figures/kinds/lunar-time-offset.svg | **NO** | KINDS.md |
-| docs/figures/kinds/lunar-vlbi-fim.svg | **NO** | KINDS.md |
-| docs/figures/kinds/lunar-vlbi.svg | **NO** | KINDS.md |
-| docs/figures/kinds/mars-pnt.svg | **NO** | KINDS.md |
-| docs/figures/kinds/moonlight-service-volume.svg | **NO** | KINDS.md |
-| docs/figures/kinds/ntn-positioning.svg | **NO** | KINDS.md |
-| docs/figures/kinds/oem-interop.svg | **NO** | KINDS.md |
-| docs/figures/kinds/optical-atmosphere.svg | **NO** | KINDS.md |
-| docs/figures/kinds/orbit.svg | **NO** | KINDS.md |
-| docs/figures/kinds/passes.svg | **NO** | KINDS.md |
-| docs/figures/kinds/pvt.svg | **NO** | KINDS.md |
-| docs/figures/kinds/quantum-anomaly-detect.svg | **NO** | KINDS.md |
-| docs/figures/kinds/quantum-gnss-free-nav.svg | **NO** | KINDS.md |
-| docs/figures/kinds/quantum-time-transfer.svg | **NO** | KINDS.md |
-| docs/figures/kinds/quantum-trade.svg | **NO** | KINDS.md |
-| docs/figures/kinds/realtime-frame-eop.svg | **NO** | KINDS.md |
-| docs/figures/kinds/reentry.svg | **NO** | KINDS.md |
-| docs/figures/kinds/slot-timing.svg | **NO** | KINDS.md |
-| docs/figures/kinds/solar-system.svg | **NO** | KINDS.md |
-| docs/figures/kinds/space-packet.svg | **NO** | KINDS.md |
-| docs/figures/kinds/space-weather.svg | **NO** | KINDS.md |
-| docs/figures/kinds/spectrum.svg | **NO** | KINDS.md |
-| docs/figures/kinds/spoof-detect.svg | **NO** | KINDS.md |
-| docs/figures/kinds/spoof.svg | **NO** | KINDS.md |
-| docs/figures/kinds/sweep-nd.svg | **NO** | KINDS.md |
-| docs/figures/kinds/sweep.svg | **NO** | KINDS.md |
-| docs/figures/kinds/telecom-timing.svg | **NO** | KINDS.md |
-| docs/figures/kinds/terrain-nav.svg | **NO** | KINDS.md |
-| docs/figures/kinds/terrain-slam.svg | **NO** | KINDS.md |
-| docs/figures/kinds/time-transfer-budget.svg | **NO** | KINDS.md |
-| docs/figures/kinds/timetransfer.svg | **NO** | KINDS.md |
-| docs/figures/kinds/tracking-loop.svg | **NO** | KINDS.md |
+| docs/figures/kinds/acm-link.svg | **NO** | - |
+| docs/figures/kinds/aocs.svg | **NO** | - |
+| docs/figures/kinds/aperture-duty-cycle.svg | **NO** | - |
+| docs/figures/kinds/araim-reference-check.svg | **NO** | - |
+| docs/figures/kinds/ascent-losses.svg | **NO** | - |
+| docs/figures/kinds/attitude-budget.svg | **NO** | - |
+| docs/figures/kinds/body-pnt.svg | **NO** | - |
+| docs/figures/kinds/campaign.svg | **NO** | - |
+| docs/figures/kinds/cislunar-arc-recovery.svg | **NO** | - |
+| docs/figures/kinds/cislunar-observability.svg | **NO** | - |
+| docs/figures/kinds/clock.svg | yes | - |
+| docs/figures/kinds/combined-altpnt.svg | **NO** | - |
+| docs/figures/kinds/conflict-resilience.svg | **NO** | - |
+| docs/figures/kinds/constellation-design.svg | **NO** | - |
+| docs/figures/kinds/contact-schedule.svg | **NO** | - |
+| docs/figures/kinds/earth-gnss-lunar.svg | **NO** | - |
+| docs/figures/kinds/entry-heating.svg | **NO** | - |
+| docs/figures/kinds/eo-coverage.svg | **NO** | - |
+| docs/figures/kinds/eo-radiometry.svg | **NO** | - |
+| docs/figures/kinds/ephemeris.svg | **NO** | - |
+| docs/figures/kinds/fusion.svg | **NO** | - |
+| docs/figures/kinds/gnss-ins.svg | **NO** | - |
+| docs/figures/kinds/gnss-sim.svg | **NO** | - |
+| docs/figures/kinds/gnss-ssv.svg | **NO** | - |
+| docs/figures/kinds/gravity-map.svg | **NO** | - |
+| docs/figures/kinds/holdover-test.svg | **NO** | - |
+| docs/figures/kinds/hybrid-optical-rf.svg | **NO** | - |
+| docs/figures/kinds/hybrid-ukf.svg | **NO** | - |
+| docs/figures/kinds/hybrid.svg | **NO** | - |
+| docs/figures/kinds/impairment-eval.svg | **NO** | - |
+| docs/figures/kinds/inertial.svg | yes | - |
+| docs/figures/kinds/ins-trn-coast.svg | **NO** | - |
+| docs/figures/kinds/integrity.svg | **NO** | - |
+| docs/figures/kinds/jamming.svg | **NO** | - |
+| docs/figures/kinds/launch-window.svg | **NO** | - |
+| docs/figures/kinds/leo-navmsg.svg | **NO** | - |
+| docs/figures/kinds/leo-pass.svg | **NO** | - |
+| docs/figures/kinds/leo-pnt-chain.svg | **NO** | - |
+| docs/figures/kinds/leo-ppp.svg | **NO** | - |
+| docs/figures/kinds/leo-pvt.svg | **NO** | - |
+| docs/figures/kinds/leo-signal.svg | **NO** | - |
+| docs/figures/kinds/link-budget.svg | **NO** | - |
+| docs/figures/kinds/lunar-attack-surface.svg | **NO** | - |
+| docs/figures/kinds/lunar-beacon.svg | **NO** | - |
+| docs/figures/kinds/lunar-differential-pnt.svg | **NO** | - |
+| docs/figures/kinds/lunar-frame-campaign.svg | **NO** | - |
+| docs/figures/kinds/lunar-frame-realisation.svg | **NO** | - |
+| docs/figures/kinds/lunar-integrity.svg | **NO** | - |
+| docs/figures/kinds/lunar-interop-export.svg | **NO** | - |
+| docs/figures/kinds/lunar-jamming.svg | **NO** | - |
+| docs/figures/kinds/lunar-joint-od-clock.svg | **NO** | - |
+| docs/figures/kinds/lunar-llr-datum.svg | **NO** | - |
+| docs/figures/kinds/lunar-station-coverage.svg | **NO** | - |
+| docs/figures/kinds/lunar-time-budget.svg | **NO** | - |
+| docs/figures/kinds/lunar-time-offset.svg | **NO** | - |
+| docs/figures/kinds/lunar-vlbi-fim.svg | **NO** | - |
+| docs/figures/kinds/lunar-vlbi.svg | **NO** | - |
+| docs/figures/kinds/mars-pnt.svg | **NO** | - |
+| docs/figures/kinds/moonlight-service-volume.svg | **NO** | - |
+| docs/figures/kinds/ntn-positioning.svg | **NO** | - |
+| docs/figures/kinds/oem-interop.svg | **NO** | - |
+| docs/figures/kinds/optical-atmosphere.svg | **NO** | - |
+| docs/figures/kinds/orbit.svg | **NO** | - |
+| docs/figures/kinds/passes.svg | **NO** | - |
+| docs/figures/kinds/pvt.svg | **NO** | - |
+| docs/figures/kinds/quantum-anomaly-detect.svg | **NO** | - |
+| docs/figures/kinds/quantum-gnss-free-nav.svg | **NO** | - |
+| docs/figures/kinds/quantum-time-transfer.svg | **NO** | - |
+| docs/figures/kinds/quantum-trade.svg | **NO** | - |
+| docs/figures/kinds/realtime-frame-eop.svg | **NO** | - |
+| docs/figures/kinds/reentry.svg | **NO** | - |
+| docs/figures/kinds/sheet-campaigns.svg | **NO** | KINDS.md |
+| docs/figures/kinds/sheet-clocks-timing-and-holdover.svg | **NO** | KINDS.md |
+| docs/figures/kinds/sheet-constellations-coverage-and-geometry.svg | **NO** | KINDS.md |
+| docs/figures/kinds/sheet-gnss-measurements-positioning-and-integrity.svg | **NO** | KINDS.md |
+| docs/figures/kinds/sheet-gps-denied-alternative-pnt.svg | **NO** | KINDS.md |
+| docs/figures/kinds/sheet-inertial-fusion-and-quantum-sensors.svg | **NO** | KINDS.md |
+| docs/figures/kinds/sheet-jamming-spoofing-and-the-spectrum.svg | **NO** | KINDS.md |
+| docs/figures/kinds/sheet-low-earth-orbit-navigation.svg | **NO** | KINDS.md |
+| docs/figures/kinds/sheet-lunar-and-cislunar.svg | **NO** | KINDS.md |
+| docs/figures/kinds/sheet-mission-analysis-links-and-space-operations.svg | **NO** | KINDS.md |
+| docs/figures/kinds/sheet-optical-pnt.svg | **NO** | KINDS.md |
+| docs/figures/kinds/sheet-space-user-navigation.svg | **NO** | KINDS.md |
+| docs/figures/kinds/slot-timing.svg | **NO** | - |
+| docs/figures/kinds/solar-system.svg | **NO** | - |
+| docs/figures/kinds/space-packet.svg | **NO** | - |
+| docs/figures/kinds/space-weather.svg | **NO** | - |
+| docs/figures/kinds/spectrum.svg | **NO** | - |
+| docs/figures/kinds/spoof-detect.svg | **NO** | - |
+| docs/figures/kinds/spoof.svg | **NO** | - |
+| docs/figures/kinds/sweep-nd.svg | **NO** | - |
+| docs/figures/kinds/sweep.svg | **NO** | - |
+| docs/figures/kinds/telecom-timing.svg | **NO** | - |
+| docs/figures/kinds/terrain-nav.svg | **NO** | - |
+| docs/figures/kinds/terrain-slam.svg | **NO** | - |
+| docs/figures/kinds/time-transfer-budget.svg | **NO** | - |
+| docs/figures/kinds/timetransfer.svg | **NO** | - |
+| docs/figures/kinds/tracking-loop.svg | **NO** | - |
 
 ## Mermaid diagrams
 

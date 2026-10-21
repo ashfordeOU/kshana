@@ -11,13 +11,15 @@ breaking changes are called out explicitly.
 
 ### Added
 
-- README completeness pass: a contents list; every scenario kind filed by family and linked to `docs/KINDS.md` (a
-  generated entry per kind with its fields, example command, ledger rows and the chart the engine writes);
-  every command and subcommand, plugin command, skill, Studio page and integration named with a runnable example;
-  every capability domain listed from `web/capabilities.json`; seven Mermaid diagrams embedded (system overview,
-  surfaces, inner loop, receiver trust, lab round trip, Studio, module map, distribution). Written by
+- README completeness pass: a contents list; the scenario kinds filed under families, each with a page under
+  `docs/kinds/` (the engine's description and fields, an example command, headline numbers from a run, the ledger rows
+  that name it and the chart the engine writes, plus a contact sheet per family) indexed by `docs/KINDS.md`; every
+  command in `docs/COMMANDS.md`; every surface, plugin command, skill and Studio page in `docs/ALL-SURFACES.md`; every
+  capability domain in `docs/CAPABILITY-DOMAINS.md`; eight Mermaid diagrams embedded (system overview, surfaces,
+  inner loop, receiver trust, lab round trip, Studio, release flow, module map, distribution). Written by
   `tools/gen_kinds_index.py`, `tools/gen_readme_blocks.py` and `tools/gen_figures_038.py`; audited by
-  `tools/readme_audit.py`; guarded by `tests/readme_completeness_doc_sync.rs`.
+  `tools/readme_audit.py`; guarded by `tests/readme_completeness_doc_sync.rs`, which also pins every entry's
+  description and fields to the engine.
 - `tools/render-diagram-chromium.sh`: renders a Mermaid diagram to SVG and PNG on Linux and updates the render record.
 
 ### Fixed
