@@ -9,6 +9,24 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+### Added
+
+- README completeness pass: a contents list; every scenario kind filed by family and linked to `docs/KINDS.md` (a
+  generated entry per kind with its fields, example command, ledger rows and the chart the engine writes);
+  every command and subcommand, plugin command, skill, Studio page and integration named with a runnable example;
+  every capability domain listed from `web/capabilities.json`; seven Mermaid diagrams embedded (system overview,
+  surfaces, inner loop, receiver trust, lab round trip, Studio, module map, distribution). Written by
+  `tools/gen_kinds_index.py`, `tools/gen_readme_blocks.py` and `tools/gen_figures_038.py`; audited by
+  `tools/readme_audit.py`; guarded by `tests/readme_completeness_doc_sync.rs`.
+- `tools/render-diagram-chromium.sh`: renders a Mermaid diagram to SVG and PNG on Linux and updates the render record.
+
+### Fixed
+
+- README: the space-user and lunar figures used paths relative to `docs/`, so they did not load from the README; one
+  link pointed at `../../docs/JAMMERTEST.md`.
+- Removed two stale hand-copied chart files (`docs/assets/clock-ensemble-band.svg`, `sweep-clock-stability.svg`) that no
+  page used and that no longer matched the engine; `docs/KINDS.md` carries the current charts.
+
 ## [0.38.0] - 2026-10-19
 
 ### Added
