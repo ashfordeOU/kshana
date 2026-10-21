@@ -10,13 +10,13 @@ Topic pages: [LEO-PNT](../LEO-PNT.md), [LEO-SIGNAL](../LEO-SIGNAL.md), [LEO-PASS
 
 | Kind | What it does | Ledger |
 |---|---|---|
-| [`leo-signal`](#leo-signal) | LEO-PNT signal designs: parameterised low Earth orbit (LEO) positioning, navigation and timing (PNT) signals for any system, band and structure. | MODELLED 2 · VALIDATED 2 |
-| [`leo-pass`](#leo-pass) | LEO pass and link budget, band by band, for LEO-PNT (positioning, navigation and timing from low Earth orbit), system-agnostic: a user (ground, maritime, air or indoor, static or moving) and one or mo | MODELLED 7 · VALIDATED 5 |
-| [`leo-navmsg`](#leo-navmsg) | LEO navigation message: the broadcast ephemeris and clock of a low Earth orbit (LEO) positioning, navigation and timing satellite, for any orbit, carrier and model, with optional named presets (Xona P | MODELLED 5 · VALIDATED 6 |
-| [`leo-pvt`](#leo-pvt) | Fused medium-Earth-orbit (MEO) and low-Earth-orbit (LEO) positioning, navigation and timing (PNT) over ANY constellations: each [[system]] is a GNSS preset of the constellation-design kind, a LEO pres | MODELLED 3 · VALIDATED 2 |
-| [`leo-ppp`](#leo-ppp) | Precise point positioning (PPP) convergence with GNSS only and with LEO augmentation: a float extended Kalman filter on ionosphere-free code and carrier phase with the static station coordinates, a wh | MODELLED |
-| [`ntn-positioning`](#ntn-positioning) | Positioning from a 5G non-terrestrial network (NTN) downlink in the mobile-satellite service (MSS) S band (3GPP band n256, downlink 2170 to 2200 MHz; default carrier 2172.5 MHz): the Cramér-Rao bound  | VALIDATED |
-| [`leo-pnt-chain`](#leo-pnt-chain) | One LEO-PNT (positioning, navigation and timing from low Earth orbit) system end to end, for any constellation and signal: the leo-signal design named by signal_design (a public preset or an inline [s | MODELLED |
+| [`leo-signal`](by-kind/leo-signal.md) | LEO-PNT signal designs: parameterised low Earth orbit (LEO) positioning, navigation and timing (PNT) signals for any system, band and structure. | MODELLED 2 · VALIDATED 2 |
+| [`leo-pass`](by-kind/leo-pass.md) | LEO pass and link budget, band by band, for LEO-PNT (positioning, navigation and timing from low Earth orbit), system-agnostic: a user (ground, maritime, air or indoor, static or moving) and one or mo | MODELLED 7 · VALIDATED 5 |
+| [`leo-navmsg`](by-kind/leo-navmsg.md) | LEO navigation message: the broadcast ephemeris and clock of a low Earth orbit (LEO) positioning, navigation and timing satellite, for any orbit, carrier and model, with optional named presets (Xona P | MODELLED 5 · VALIDATED 6 |
+| [`leo-pvt`](by-kind/leo-pvt.md) | Fused medium-Earth-orbit (MEO) and low-Earth-orbit (LEO) positioning, navigation and timing (PNT) over ANY constellations: each [[system]] is a GNSS preset of the constellation-design kind, a LEO pres | MODELLED 3 · VALIDATED 2 |
+| [`leo-ppp`](by-kind/leo-ppp.md) | Precise point positioning (PPP) convergence with GNSS only and with LEO augmentation: a float extended Kalman filter on ionosphere-free code and carrier phase with the static station coordinates, a wh | MODELLED |
+| [`ntn-positioning`](by-kind/ntn-positioning.md) | Positioning from a 5G non-terrestrial network (NTN) downlink in the mobile-satellite service (MSS) S band (3GPP band n256, downlink 2170 to 2200 MHz; default carrier 2172.5 MHz): the Cramér-Rao bound  | VALIDATED |
+| [`leo-pnt-chain`](by-kind/leo-pnt-chain.md) | One LEO-PNT (positioning, navigation and timing from low Earth orbit) system end to end, for any constellation and signal: the leo-signal design named by signal_design (a public preset or an inline [s | MODELLED |
 
 ### `leo-signal`
 
@@ -24,31 +24,13 @@ LEO-PNT signal designs: parameterised low Earth orbit (LEO) positioning, navigat
 
 Required fields: none. Optional: `presets`, `signals`, `receiver`, `acquisition`, `compatibility`, `trade`, `shape_checks`, `psd_points`.
 
-**Ledger:** MODELLED 2 · VALIDATED 2. The [verification matrix](../VERIFICATION-MATRIX.md) rows that name this kind:
-
-- VALIDATED: navsignal: the sine integral (sine_integral), the BPSK-R fraction of power inside a double-sided band in closed form (bpsk_power_in_band_closed_form), the band-limited BPSK Gabor bandwidth in closed form (bpsk_gabor_band
-- VALIDATED: leo_signal::max_doppler_hz: the largest satellite Doppler on an overhead pass at the elevation mask for a circular orbit, v R_E cos(el) / (R_E + h) times f / c, from each preset's own carrier and orbit altitude; the `leo
-- MODELLED: The `leo-signal` kind: parameterised signal designs (band, transmit bandwidth, ITU allocation; acquisition, data and pilot components with BPSK(n), BOC(m,n), MBOC or flat spectra, power shares, FDMA sub-carriers, code le ([leo_signal_reference.rs](../../tests/leo_signal_reference.rs))
-- MODELLED: The `spectrum` kind extended beyond the L band: bands given as a preset signal design (drawn with every component, band-limited to the transmit bandwidth, C/N0 and J/S referred to the tracked component) or as a custom ca ([leo_signal_reference.rs](../../tests/leo_signal_reference.rs))
+**Ledger:** MODELLED 2 · VALIDATED 2. Full page, with the inputs, results, evidence and limitations: [leo-signal](by-kind/leo-signal.md).
 
 ```sh
 kshana scenarios/leo-band-trade.toml
 ```
 
-Result label (the engine's): MODELLED: parameterised low Earth orbit (LEO) positioning, navigation and timing (PNT) signal designs, band-limited to their transmit bandwidth. The closed forms underneath are VALIDATED (BPSK power in band and Gabor bandwidth, the band-limited early-late code-tracking jitter reducing to the textboo
-
-Headline numbers from this run (read from `result.json` through its own `units` block):
-
-| Field | Value | Unit | What it is |
-|---|---|---|---|
-| `receiver.noise_density_dbw_per_hz` | -201.975 | dBW/Hz | thermal noise floor 10 log10(k T_sys) |
-| `receiver.system_temp_k` | 459.619 | K | T_ant + 290 K x (F - 1) |
-
 <img src="../figures/kinds/leo-signal.svg" alt="The chart the engine writes for scenarios/leo-band-trade.toml, kind leo-signal" width="640">
-
-3 bundled scenarios use this kind; the others are in [`scenarios/`](../../scenarios/).
-
-Topic pages: [LEO-PNT.md](../LEO-PNT.md), [LEO-PASS.md](../LEO-PASS.md).
 
 ### `leo-pass`
 
@@ -56,36 +38,13 @@ LEO pass and link budget, band by band, for LEO-PNT (positioning, navigation and
 
 Required fields: none. Optional: `epoch`, `duration_s`, `step_s`, `user`, `atmosphere`, `ionosphere`, `satellite`, `leo_constellation`, `gnss`, `iono_free_pairs`, `iot`, `spoofer`, `name`, `description`, `skyline`.
 
-**Ledger:** MODELLED 7 · VALIDATED 5. The [verification matrix](../VERIFICATION-MATRIX.md) rows that name this kind:
-
-- VALIDATED: ITU-R (International Telecommunication Union, Radiocommunication Sector) P.838-3 equations (1) to (5): k_H, alpha_H, k_V, alpha_V from the Tables 1 to 4 curve fits, the path- and polarisation-dependent (k, alpha) and the ([leo_link_reference.rs](../../tests/leo_link_reference.rs))
-- VALIDATED: ITU-R P.618-14 section 2.2.1.1 steps 2 to 10 (slant and horizontal path below the rain height, horizontal reduction and vertical adjustment factors, A0.01 and its scaling to 0.001 % to 5 % of an average year), with the r ([leo_link_reference.rs](../../tests/leo_link_reference.rs))
-- VALIDATED: ITU-R P.618-14 section 2.4.1 steps 3 to 9 (reference sigma from N_wet, effective path length, antenna averaging factor, fade depth for 0.01 % to 50 % of the time), with N_wet an input or computed from temperature, humidi ([leo_link_reference.rs](../../tests/leo_link_reference.rs))
-- VALIDATED: ITU-R P.2109-2 Annex 1 equations (1) to (10) with Table 1: the loss not exceeded with probability P for traditional and thermally-efficient buildings at the elevation of the path at the facade, 80 MHz to 100 GHz; applied ([leo_link_reference.rs](../../tests/leo_link_reference.rs))
-- and 8 more in the matrix.
+**Ledger:** MODELLED 7 · VALIDATED 5. Full page, with the inputs, results, evidence and limitations: [leo-pass](by-kind/leo-pass.md).
 
 ```sh
 kshana scenarios/leo-pass-iridium.toml
 ```
 
-Result label (the engine's): MODELLED: LEO pass geometry and per-band link budget from stated EIRPs and idealised antenna patterns with ITU-R propagation terms; component models carry their own labels in the verification matrix. Not a measurement of any satellite.
-
-Headline numbers from this run (read from `result.json` through its own `units` block):
-
-| Field | Value | Unit | What it is |
-|---|---|---|---|
-| `comparison.gnss_max_cn0_dbhz` | 51.1187 | dB-Hz | highest GNSS C/N0 |
-| `comparison.gnss_median_cn0_dbhz` | 46.1941 | dB-Hz | median GNSS C/N0 |
-| `comparison.leo_pass_duration_s` | 750 | s | LEO time above the mask |
-| `comparison.leo_peak_above_gnss_median_db` | 34.2941 | dB | LEO peak minus GNSS median |
-| `comparison.leo_peak_cn0_dbhz` | 80.4882 | dB-Hz | peak C/N0 of the first LEO satellite's first band |
-| `comparison.leo_seconds_above_gnss_max` | 750 | s | time the LEO C/N0 exceeds the strongest GNSS carrier |
-
 <img src="../figures/kinds/leo-pass.svg" alt="The chart the engine writes for scenarios/leo-pass-iridium.toml, kind leo-pass" width="640">
-
-8 bundled scenarios use this kind; the others are in [`scenarios/`](../../scenarios/).
-
-Topic pages: [LEO-PNT.md](../LEO-PNT.md), [LEO-PASS.md](../LEO-PASS.md).
 
 ### `leo-navmsg`
 
@@ -93,36 +52,13 @@ LEO navigation message: the broadcast ephemeris and clock of a low Earth orbit (
 
 Required fields: none. Optional: `name`, `description`, `seed`, `analysis`, `preset`, `orbit`, `clock`, `message`, `trade`, `comparison`, `midpass`.
 
-**Ledger:** MODELLED 5 · VALIDATED 6. The [verification matrix](../VERIFICATION-MATRIX.md) rows that name this kind:
-
-- VALIDATED: leo_navmsg::sisre::sisre_weights: the radial weight w_R and the squared transverse weight w_AC^2 as averages of cos^2 and half sin^2 of the line-of-sight nadir angle over users uniformly distributed on the visible Earth 
-- VALIDATED: leo_navmsg::elements::kepler_point: the Galileo OS SIS ICD Keplerian evaluation (Kepler's equation, second-harmonic corrections, Earth-fixed node) written separately from the engine's RINEX evaluator, returning the posit ([leo_navmsg_reference.rs](../../tests/leo_navmsg_reference.rs))
-- VALIDATED: leo_navmsg::codec::crc24q: generator polynomial 0x1864CFB, initial value 0, no reflection, no final XOR, the check the Kshana LEO frame carries over every preceding byte
-- VALIDATED: The `leo-navmsg` kind's fitter and trade: a truth orbit integrated with zonal J2-J6 or EGM2008 gravity to the chosen degree and drag, and a seeded free or steered clock; a Levenberg-Marquardt fit of the Galileo Keplerian
-- and 7 more in the matrix.
+**Ledger:** MODELLED 5 · VALIDATED 6. Full page, with the inputs, results, evidence and limitations: [leo-navmsg](by-kind/leo-navmsg.md).
 
 ```sh
 kshana scenarios/leo-navmsg-celeste-iod.toml
 ```
 
-Result label (the engine's): MIXED — VALIDATED building blocks, MODELLED results. The SISRE weights reproduce the published MEO/GEO table (Montenbruck et al. 2018), the Galileo ICD user algorithm reproduces RTKLIB on real Galileo broadcast ephemerides, and CRC-24Q reproduces its catalogue check value and the RTCM 1005 example f
-
-Headline numbers from this run (read from `result.json` through its own `units` block):
-
-| Field | Value | Unit | What it is |
-|---|---|---|---|
-| `encode_decode.csv_round_trip_max_pos_m` | 0 | m | largest position difference after CSV export and import |
-| `encode_decode.ephemeris_clock_bits` | 891 | bit | ephemeris and clock bits |
-| `encode_decode.frame_bytes` | 152 | byte | encoded frame length |
-| `encode_decode.payload_bits` | 1156 | bit | payload bits before padding |
-| `encode_decode.quantised_max_clock_m` | 9.49285e-05 | m | largest clock change from quantisation times c |
-| `encode_decode.quantised_max_pos_m` | 0.000515901 | m | largest position change from quantisation over the usage period |
-
 <img src="../figures/kinds/leo-navmsg.svg" alt="The chart the engine writes for scenarios/leo-navmsg-celeste-iod.toml, kind leo-navmsg" width="640">
-
-5 bundled scenarios use this kind; the others are in [`scenarios/`](../../scenarios/).
-
-Topic pages: [LEO-PNT.md](../LEO-PNT.md), [LEO-NAVMSG.md](../LEO-NAVMSG.md).
 
 ### `leo-pvt`
 
@@ -130,32 +66,13 @@ Fused medium-Earth-orbit (MEO) and low-Earth-orbit (LEO) positioning, navigation
 
 Required fields: none. Optional: `mode`, `seed`, `duration_s`, `step_s`, `user`, `dll`, `doppler`, `joint`, `polar`, `timing`, `system`, `skyline`.
 
-**Ledger:** MODELLED 3 · VALIDATED 2. The [verification matrix](../VERIFICATION-MATRIX.md) rows that name this kind:
-
-- VALIDATED: Exact range rate of a satellite whose Earth-fixed position and velocity come from a two-body orbit with the secular J2 drift and the Earth's rotation (leo_fusion::geom::EarthOrbit::state, velocity the exact time derivati ([leo_doppler_reference.rs](../../tests/leo_doppler_reference.rs))
-- MODELLED: Batch Gauss-Newton positioning from range rate with analytic partials (d rho_dot / d r = -(I - u u^T)(v_s - v_u)/rho, d/dv = -u, d/d drift = 1), a constant user velocity as an option, a height pseudo-measurement for a su ([leo_fusion_scenarios.rs](../../tests/leo_fusion_scenarios.rs))
-- MODELLED: Weighted least-squares Gauss-Newton fixes over any mix of systems, one receiver clock per system (the inter-system bias estimated with the position) or a known broadcast offset on the reference time scale; per-measuremen ([leo_fusion_scenarios.rs](../../tests/leo_fusion_scenarios.rs))
-- MODELLED: Clock measurements from every LEO satellite in view at a known position, combined by inverse variance from the pseudorange noise model, filtered by a two-state (phase, frequency) Kalman filter whose process noise is the  ([leo_fusion_scenarios.rs](../../tests/leo_fusion_scenarios.rs))
-- and 1 more in the matrix.
+**Ledger:** MODELLED 3 · VALIDATED 2. Full page, with the inputs, results, evidence and limitations: [leo-pvt](by-kind/leo-pvt.md).
 
 ```sh
 kshana scenarios/leo-pvt-fjord-skyline.toml
 ```
 
-Result label (the engine's): MODELLED joint weighted least-squares pseudorange positioning with one clock per system or a known offset; noise from the delay-lock-loop model at the C/N0 envelope plus the signal-in-space range error
-
-Headline numbers from this run (read from `result.json` through its own `units` block):
-
-| Field | Value | Unit | What it is |
-|---|---|---|---|
-| `joint.fraction_epochs_with_leo` | 1 | 1 | fraction of epochs with at least one LEO ranging satellite in view |
-| `skyline.open_fraction` | 0.751799 | 1 | fraction of the upper hemisphere's solid angle above max(mask_deg, skyline): the mean of 1 - sin(cut) over azi |
-
 <img src="../figures/kinds/leo-pvt.svg" alt="The chart the engine writes for scenarios/leo-pvt-fjord-skyline.toml, kind leo-pvt" width="640">
-
-7 bundled scenarios use this kind; the others are in [`scenarios/`](../../scenarios/).
-
-Topic pages: [LEO-PNT-FUSION.md](../LEO-PNT-FUSION.md), [LEO-PNT.md](../LEO-PNT.md).
 
 ### `leo-ppp`
 
@@ -163,30 +80,13 @@ Precise point positioning (PPP) convergence with GNSS only and with LEO augmenta
 
 Required fields: none. Optional: `seed`, `duration_s`, `step_s`, `runs`, `criterion_horizontal_m`, `criterion_vertical_m`, `compare_li_2019`, `noise`, `site`, `gnss`, `case`.
 
-**Ledger:** MODELLED. The [verification matrix](../VERIFICATION-MATRIX.md) rows that name this kind:
-
-- MODELLED: A float PPP extended Kalman filter on ionosphere-free code and phase: static coordinates, a white receiver clock, one inter-system bias per extra system, a random-walk zenith wet delay mapped by 1/sin(elevation), a float ([leo_fusion_scenarios.rs](../../tests/leo_fusion_scenarios.rs))
+**Ledger:** MODELLED. Full page, with the inputs, results, evidence and limitations: [leo-ppp](by-kind/leo-ppp.md).
 
 ```sh
 kshana scenarios/leo-ppp-convergence.toml
 ```
 
-Result label (the engine's): MODELLED float PPP (ionosphere-free code and phase, white clock, random-walk wet delay, float ambiguities per arc) on simulated measurements from the same model; the Li et al. (2019) figures are a comparison of trend, not a reproduction
-
-Headline numbers from this run (read from `result.json` through its own `units` block):
-
-| Field | Value | Unit | What it is |
-|---|---|---|---|
-| `noise.amb0_sigma_m` | 30 | m | float ambiguity prior one-sigma |
-| `noise.clock_sigma_m` | 1000 | m | receiver clock one-sigma, white each epoch |
-| `noise.isb0_sigma_m` | 10 | m | inter-system bias prior one-sigma |
-| `noise.pos0_sigma_m` | 5 | m | initial position one-sigma per axis |
-| `noise.sigma_code_m` | 0.6 | m | ionosphere-free code noise at the zenith |
-| `noise.sigma_phase_m` | 0.006 | m | ionosphere-free phase noise at the zenith |
-
 <img src="../figures/kinds/leo-ppp.svg" alt="The chart the engine writes for scenarios/leo-ppp-convergence.toml, kind leo-ppp" width="640">
-
-Topic pages: [LEO-PNT.md](../LEO-PNT.md), [LEO-PNT-FUSION.md](../LEO-PNT-FUSION.md).
 
 ### `ntn-positioning`
 
@@ -194,30 +94,13 @@ Positioning from a 5G non-terrestrial network (NTN) downlink in the mobile-satel
 
 Required fields: none. Optional: `seed`, `carrier_hz`, `signal`, `integration_s`, `doppler_integration_s`, `cn0_dbhz`, `sync_error_m`, `user`, `duration_s`, `step_s`, `system`.
 
-**Ledger:** VALIDATED. The [verification matrix](../VERIFICATION-MATRIX.md) rows that name this kind:
-
-- VALIDATED: The Cramér-Rao bound on time of arrival from the root-mean-square (Gabor) bandwidth, c/(2 pi beta sqrt(2 (C/N0) T)), for a flat OFDM spectrum (beta = B/sqrt(12)), a band-limited BPSK spectrum (closed-form numerator) or a ([leo_fusion_scenarios.rs](../../tests/leo_fusion_scenarios.rs))
+**Ledger:** VALIDATED. Full page, with the inputs, results, evidence and limitations: [ntn-positioning](by-kind/ntn-positioning.md).
 
 ```sh
 kshana scenarios/ntn-5g-positioning.toml
 ```
 
-Result label (the engine's): MODELLED positioning from Cramér-Rao bounds: the bandwidth-to-bound step is a textbook closed form (checked against numerical integration, not against a published worked figure); the accuracy is a bound on a multipath-free channel with a stated synchronisation error, not an achieved result
-
-Headline numbers from this run (read from `result.json` through its own `units` block):
-
-| Field | Value | Unit | What it is |
-|---|---|---|---|
-| `doppler_pass.duration_s` | 520 | s | pass duration used |
-| `doppler_pass.horizontal_error_m` | 1.8722 | m | horizontal error of the seeded one-satellite Doppler fix |
-| `doppler_pass.n_obs` | 53 | count | Doppler measurements over the pass |
-| `doppler_pass.satellite` | 255 | index | satellite whose pass is used |
-| `doppler_pass.sigma_range_rate_mps` | 0.001 | m/s | range-rate one-sigma: wavelength times the Doppler bound at the mask C/N0 (at least 1 mm/s) |
-| `doppler_sigma_zenith_hz` | 0.00123281 | Hz | Cramér-Rao bound on the tone frequency at the zenith C/N0, sqrt(3/(2 pi^2 C/N0 T^3)) |
-
 <img src="../figures/kinds/ntn-positioning.svg" alt="The chart the engine writes for scenarios/ntn-5g-positioning.toml, kind ntn-positioning" width="640">
-
-Topic pages: [LEO-PNT.md](../LEO-PNT.md), [LEO-PNT-FUSION.md](../LEO-PNT-FUSION.md).
 
 ### `leo-pnt-chain`
 
@@ -225,29 +108,10 @@ One LEO-PNT (positioning, navigation and timing from low Earth orbit) system end
 
 Required fields: `signal_design`, `pass`, `fusion`. Optional: `name`, `description`, `seed`, `signal`, `navmsg`, `od_sisre_m`, `ppp`.
 
-**Ledger:** MODELLED. The [verification matrix](../VERIFICATION-MATRIX.md) rows that name this kind:
-
-- MODELLED: The `leo-pnt-chain` kind: a leo-signal design (public preset or inline) sets a leo-pass band's centre, bandwidth, chip rate and EIRP split; the pass gives the tracked-component C/N0 and band-limited code jitter per epoch ([leo_pnt_chain.rs](../../tests/leo_pnt_chain.rs))
+**Ledger:** MODELLED. Full page, with the inputs, results, evidence and limitations: [leo-pnt-chain](by-kind/leo-pnt-chain.md).
 
 ```sh
 kshana scenarios/leo-pnt-end-to-end.toml
 ```
 
-Result label (the engine's): MODELLED — the chain hands each stage's output to the next; the stages keep their own labels (leo-signal, leo-pass, leo-navmsg, leo-pvt and leo-ppp rows of the verification matrix).
-
-Headline numbers from this run (read from `result.json` through its own `units` block):
-
-| Field | Value | Unit | What it is |
-|---|---|---|---|
-| `fusion.fraction_epochs_with_leo` | 1 | 1 | fraction of epochs with at least one LEO satellite |
-| `fusion.fused.availability` | 1 | 1 | fraction of epochs with a fused fix |
-| `fusion.fused.median_pdop` | 1.06478 | 1 | median position dilution of precision, GNSS + LEO |
-| `fusion.fused.median_sigma_3d_m` | 0.433791 | m | median formal 3D one-sigma, GNSS + LEO |
-| `fusion.fused.rms_error_3d_m` | 0.434888 | m | root-mean-square 3D error, GNSS + LEO |
-| `fusion.gnss.availability` | 1 | 1 | fraction of epochs with a GNSS-only fix |
-
 <img src="../figures/kinds/leo-pnt-chain.svg" alt="The chart the engine writes for scenarios/leo-pnt-end-to-end.toml, kind leo-pnt-chain" width="640">
-
-3 bundled scenarios use this kind; the others are in [`scenarios/`](../../scenarios/).
-
-Topic pages: [LEO-PNT.md](../LEO-PNT.md), [LEO-PASS.md](../LEO-PASS.md).

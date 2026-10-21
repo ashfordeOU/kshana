@@ -147,7 +147,7 @@ def kinds_index() -> dict[str, dict]:
         for sec in re.split(r"\n### ", path.read_text())[1:]:
             name = sec.split("\n")[0].strip("`")
             m = re.search(r"```sh\n(kshana [^\n]+)\n```", sec)
-            out[name] = {"page": f"kinds/{path.name}", "figure": f"figures/kinds/{name}.svg" if "<img" in sec else "no plot", "command": m.group(1) if m else ""}
+            out[name] = {"page": f"kinds/by-kind/{name}.md", "figure": f"figures/kinds/{name}.svg" if "<img" in sec else "no plot", "command": m.group(1) if m else ""}
     return out
 
 
