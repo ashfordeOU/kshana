@@ -572,7 +572,7 @@ enabled = <span class="hljs-literal">true</span></code></pre><p><a href="/studio
 <span class="hljs-attr">preset</span> = <span class="hljs-string">&quot;heo&quot;</span>
 <span class="hljs-attr">duration_min</span> = <span class="hljs-number">400.0</span>
 <span class="hljs-attr">step_s</span> = <span class="hljs-number">60.0</span>
-<span class="hljs-attr">antennas</span> = [<span class="hljs-string">&quot;booklet-high-gain-nadir&quot;</span>, <span class="hljs-string">&quot;booklet-patch-zenith&quot;</span>]</code></pre><p><a href="/studio/?scenario=gnss-ssv-formation-heo&amp;tab=overview">Open in Kshana Studio</a> · <span class="not-pushed">Not yet on GitHub</span></p></div>
+<span class="hljs-attr">antennas</span> = [<span class="hljs-string">&quot;booklet-high-gain-nadir&quot;</span>, <span class="hljs-string">&quot;booklet-patch-zenith&quot;</span>]</code></pre><p><a href="/studio/?scenario=gnss-ssv-formation-heo&amp;tab=overview">Open in Kshana Studio</a> · <a href="https://github.com/ashfordeOU/kshana/blob/main/scenarios/gnss-ssv-formation-heo.toml">View on GitHub</a></p></div>
 <div class="ref-card" id="gnss-ssv-heo"><h3>gnss-ssv-heo.toml</h3><div class="ref-meta"><span>kind gnss-ssv</span><span>not matched to a ledger module by name</span></div><p>A highly elliptical orbit through the GNSS orbits: what a user sees from perigee to apogee.</p><pre data-lang="scenario · toml"><code class="hljs language-ini"><span class="hljs-attr">kind</span> = <span class="hljs-string">&quot;gnss-ssv&quot;</span>
 <span class="hljs-attr">name</span> = <span class="hljs-string">&quot;HEO, high-gain nadir and patch zenith antennas, parametric sidelobes, limb medium&quot;</span>
 <span class="hljs-attr">include</span> = [<span class="hljs-string">&quot;gps&quot;</span>, <span class="hljs-string">&quot;glonass&quot;</span>, <span class="hljs-string">&quot;galileo&quot;</span>, <span class="hljs-string">&quot;bds&quot;</span>]
@@ -580,7 +580,7 @@ enabled = <span class="hljs-literal">true</span></code></pre><p><a href="/studio
 <span class="hljs-attr">pattern</span> = <span class="hljs-string">&quot;parametric&quot;</span>
 <span class="hljs-attr">preset</span> = <span class="hljs-string">&quot;heo&quot;</span>
 <span class="hljs-attr">duration_periods</span> = <span class="hljs-number">1.0</span>
-<span class="hljs-attr">step_min</span> = <span class="hljs-number">10.0</span></code></pre><p><a href="/studio/?scenario=gnss-ssv-heo&amp;tab=overview">Open in Kshana Studio</a> · <span class="not-pushed">Not yet on GitHub</span></p></div>
+<span class="hljs-attr">step_min</span> = <span class="hljs-number">10.0</span></code></pre><p><a href="/studio/?scenario=gnss-ssv-heo&amp;tab=overview">Open in Kshana Studio</a> · <a href="https://github.com/ashfordeOU/kshana/blob/main/scenarios/gnss-ssv-heo.toml">View on GitHub</a></p></div>
 <div class="ref-card" id="gnss-ssv-lunar-weak"><h3>gnss-ssv-lunar-weak.toml</h3><div class="ref-meta"><span>kind gnss-ssv</span><span>not matched to a ledger module by name</span></div><p>GNSS on a lunar transfer, with a weak-signal receiver that earns its sensitivity.</p><pre data-lang="scenario · toml"><code class="hljs language-ini"><span class="hljs-attr">kind</span> = <span class="hljs-string">&quot;gnss-ssv&quot;</span>
 <span class="hljs-attr">name</span> = <span class="hljs-string">&quot;Lunar transfer, weak-signal receiver, parametric sidelobes&quot;</span>
 <span class="hljs-attr">include</span> = [<span class="hljs-string">&quot;gps&quot;</span>, <span class="hljs-string">&quot;galileo&quot;</span>, <span class="hljs-string">&quot;glonass&quot;</span>, <span class="hljs-string">&quot;bds&quot;</span>]
@@ -588,7 +588,7 @@ enabled = <span class="hljs-literal">true</span></code></pre><p><a href="/studio
 <span class="hljs-attr">pattern</span> = <span class="hljs-string">&quot;parametric&quot;</span>
 <span class="hljs-attr">apply</span> = <span class="hljs-string">&quot;acquisition&quot;</span>
 <span class="hljs-attr">t_coh_s</span> = <span class="hljs-number">0.1</span>
-<span class="hljs-attr">n_noncoherent</span> = <span class="hljs-number">100.0</span></code></pre><p><a href="/studio/?scenario=gnss-ssv-lunar-weak&amp;tab=overview">Open in Kshana Studio</a> · <span class="not-pushed">Not yet on GitHub</span></p></div>
+<span class="hljs-attr">n_noncoherent</span> = <span class="hljs-number">100.0</span></code></pre><p><a href="/studio/?scenario=gnss-ssv-lunar-weak&amp;tab=overview">Open in Kshana Studio</a> · <a href="https://github.com/ashfordeOU/kshana/blob/main/scenarios/gnss-ssv-lunar-weak.toml">View on GitHub</a></p></div>
 <div class="ref-card" id="gnss-ssv-nav-lunar"><h3>gnss-ssv-nav-lunar.toml</h3><div class="ref-meta"><span>kind gnss-ssv</span><span>not matched to a ledger module by name</span></div><p>Onboard GNSS navigation on the way to the Moon: an extended Kalman filter on pseudoranges alone.</p><pre data-lang="scenario · toml"><code class="hljs language-ini"><span class="hljs-attr">kind</span> = <span class="hljs-string">&quot;gnss-ssv&quot;</span>
 <span class="hljs-attr">name</span> = <span class="hljs-string">&quot;Lunar transfer, onboard GNSS EKF (reduced length)&quot;</span>
 <span class="hljs-attr">include</span> = [<span class="hljs-string">&quot;gps&quot;</span>, <span class="hljs-string">&quot;glonass&quot;</span>, <span class="hljs-string">&quot;galileo&quot;</span>, <span class="hljs-string">&quot;bds&quot;</span>]
@@ -596,7 +596,7 @@ enabled = <span class="hljs-literal">true</span></code></pre><p><a href="/studio
 <span class="hljs-attr">preset</span> = <span class="hljs-string">&quot;lunar-transfer&quot;</span>
 <span class="hljs-attr">duration_min</span> = <span class="hljs-number">1440.0</span>
 <span class="hljs-attr">step_s</span> = <span class="hljs-number">300.0</span>
-<span class="hljs-attr">antennas</span> = [<span class="hljs-string">&quot;booklet-high-gain-nadir&quot;</span>, <span class="hljs-string">&quot;booklet-patch-zenith&quot;</span>]</code></pre><p><a href="/studio/?scenario=gnss-ssv-nav-lunar&amp;tab=overview">Open in Kshana Studio</a> · <span class="not-pushed">Not yet on GitHub</span></p></div>
+<span class="hljs-attr">antennas</span> = [<span class="hljs-string">&quot;booklet-high-gain-nadir&quot;</span>, <span class="hljs-string">&quot;booklet-patch-zenith&quot;</span>]</code></pre><p><a href="/studio/?scenario=gnss-ssv-nav-lunar&amp;tab=overview">Open in Kshana Studio</a> · <a href="https://github.com/ashfordeOU/kshana/blob/main/scenarios/gnss-ssv-nav-lunar.toml">View on GitHub</a></p></div>
 <div class="ref-card" id="gnss-ssv-shell"><h3>gnss-ssv-shell.toml</h3><div class="ref-meta"><span>kind gnss-ssv</span><span>not matched to a ledger module by name</span></div><p>GNSS signal availability on the upper-SSV shell: the booklet's global metric, at a size that runs in a second.</p><pre data-lang="scenario · toml"><code class="hljs language-ini"><span class="hljs-attr">kind</span> = <span class="hljs-string">&quot;gnss-ssv&quot;</span>
 <span class="hljs-attr">name</span> = <span class="hljs-string">&quot;Upper SSV shell, 20 dB-Hz (reduced size)&quot;</span>
 <span class="hljs-attr">include</span> = [<span class="hljs-string">&quot;gps&quot;</span>, <span class="hljs-string">&quot;glonass&quot;</span>, <span class="hljs-string">&quot;galileo&quot;</span>, <span class="hljs-string">&quot;bds&quot;</span>]
@@ -604,7 +604,7 @@ enabled = <span class="hljs-literal">true</span></code></pre><p><a href="/studio
 <span class="hljs-attr">altitude_km</span> = <span class="hljs-number">36000.0</span>
 <span class="hljs-attr">antenna</span> = <span class="hljs-string">&quot;hemisphere&quot;</span>
 <span class="hljs-attr">grid_levels</span> = <span class="hljs-number">2</span>
-<span class="hljs-attr">duration_min</span> = <span class="hljs-number">4320.0</span></code></pre><p><a href="/studio/?scenario=gnss-ssv-shell&amp;tab=overview">Open in Kshana Studio</a> · <span class="not-pushed">Not yet on GitHub</span></p></div>
+<span class="hljs-attr">duration_min</span> = <span class="hljs-number">4320.0</span></code></pre><p><a href="/studio/?scenario=gnss-ssv-shell&amp;tab=overview">Open in Kshana Studio</a> · <a href="https://github.com/ashfordeOU/kshana/blob/main/scenarios/gnss-ssv-shell.toml">View on GitHub</a></p></div>
 <h2 id="kind-gravity-map">gravity-map<a class="anchor" href="#kind-gravity-map" aria-label="Link to this section">#</a></h2>
 <p>GPS-denied gravity-map-matching navigation: a cold-atom gravimeter recovers a constant INS drift from the gravity-anomaly sequence it flies through.</p>
 <div class="ref-card" id="gps-denied-gravity-nav"><h3>gps-denied-gravity-nav.toml</h3><div class="ref-meta"><span>kind gravity-map</span><span>not matched to a ledger module by name</span></div><p>60-minute GPS-denied gravity-map-matching benchmark (quantum alt-PNT).</p><pre data-lang="scenario · toml"><code class="hljs language-ini"><span class="hljs-attr">kind</span> = <span class="hljs-string">&quot;gravity-map&quot;</span>
@@ -648,7 +648,7 @@ enabled = <span class="hljs-literal">true</span></code></pre><p><a href="/studio
 <span class="hljs-attr">locked_duration_days</span> = <span class="hljs-number">5.0</span>
 <span class="hljs-attr">recovery_band_ns</span> = <span class="hljs-number">100.0</span>
 <span class="hljs-attr">recovery_dwell_s</span> = <span class="hljs-number">60.0</span>
-<span class="hljs-attr">samples</span> = [</code></pre><p><a href="/studio/?scenario=holdover-test-example&amp;tab=overview">Open in Kshana Studio</a> · <span class="not-pushed">Not yet on GitHub</span></p></div>
+<span class="hljs-attr">samples</span> = [</code></pre><p><a href="/studio/?scenario=holdover-test-example&amp;tab=overview">Open in Kshana Studio</a> · <a href="https://github.com/ashfordeOU/kshana/blob/main/scenarios/holdover-test-example.toml">View on GitHub</a></p></div>
 <div class="ref-card" id="holdover-test-ptp4l"><h3>holdover-test-ptp4l.toml</h3><div class="ref-meta"><span>kind holdover-test</span><span>not matched to a ledger module by name</span></div><p>Holdover test of a linuxptp log: the same four steps as holdover-test-example.toml, with the record read from a ptp4l servo log through [series.clock_log] (format &quot;ptp4l&quot;, offsets in ns, the daemon's own time stamps, 5 s apart here).</p><pre data-lang="scenario · toml"><code class="hljs language-ini"><span class="hljs-attr">kind</span> = <span class="hljs-string">&quot;holdover-test&quot;</span>
 <span class="hljs-attr">masks</span> = [<span class="hljs-string">&quot;prtc-a&quot;</span>, <span class="hljs-string">&quot;eprtc-a-holdover&quot;</span>]
 <span class="hljs-attr">gnss_removed_s</span> = <span class="hljs-number">600.0</span>
@@ -656,7 +656,7 @@ enabled = <span class="hljs-literal">true</span></code></pre><p><a href="/studio
 <span class="hljs-attr">locked_duration_days</span> = <span class="hljs-number">5.0</span>
 <span class="hljs-attr">recovery_band_ns</span> = <span class="hljs-number">100.0</span>
 <span class="hljs-attr">recovery_dwell_s</span> = <span class="hljs-number">60.0</span>
-<span class="hljs-attr">format</span> = <span class="hljs-string">&quot;ptp4l&quot;</span></code></pre><p><a href="/studio/?scenario=holdover-test-ptp4l&amp;tab=overview">Open in Kshana Studio</a> · <span class="not-pushed">Not yet on GitHub</span></p></div>
+<span class="hljs-attr">format</span> = <span class="hljs-string">&quot;ptp4l&quot;</span></code></pre><p><a href="/studio/?scenario=holdover-test-ptp4l&amp;tab=overview">Open in Kshana Studio</a> · <a href="https://github.com/ashfordeOU/kshana/blob/main/scenarios/holdover-test-ptp4l.toml">View on GitHub</a></p></div>
 <h2 id="kind-hybrid">hybrid<a class="anchor" href="#kind-hybrid" aria-label="Link to this section">#</a></h2>
 <p>Hybrid PNT capstone: clock + IMU + time-transfer aiding.</p>
 <div class="ref-card" id="hybrid-pnt"><h3>hybrid-pnt.toml</h3><div class="ref-meta"><span>kind hybrid</span><span>not matched to a ledger module by name</span></div><p>Hybrid PNT capstone: all-quantum suite (optical clock + cold-atom IMU + optical ISL time-transfer aiding) vs all-classical suite (CSAC + nav-grade IMU + RF). GNSS denied 1.8 h.</p><pre data-lang="scenario · toml"><code class="hljs language-ini"><span class="hljs-attr">kind</span> = <span class="hljs-string">&quot;hybrid&quot;</span>
@@ -1088,7 +1088,7 @@ provenance = <span class="hljs-string">&quot;Cold-atom (Rb-87 D2) interferometri
 <span class="hljs-attr">sample_s</span> = <span class="hljs-number">600.0</span>
 <span class="hljs-attr">arcs_days</span> = [<span class="hljs-number">0.25</span>, <span class="hljs-number">0.5</span>]
 <span class="hljs-attr">lat_deg</span> = <span class="hljs-number">0.0</span>
-<span class="hljs-attr">lon_deg</span> = <span class="hljs-number">0.0</span></code></pre><p><a href="/studio/?scenario=lunar-infrastructure-carrier-phase&amp;tab=overview">Open in Kshana Studio</a> · <span class="not-pushed">Not yet on GitHub</span></p></div>
+<span class="hljs-attr">lon_deg</span> = <span class="hljs-number">0.0</span></code></pre><p><a href="/studio/?scenario=lunar-infrastructure-carrier-phase&amp;tab=overview">Open in Kshana Studio</a> · <a href="https://github.com/ashfordeOU/kshana/blob/main/scenarios/lunar-infrastructure-carrier-phase.toml">View on GitHub</a></p></div>
 <div class="ref-card" id="lunar-infrastructure-frame-coestimation"><h3>lunar-infrastructure-frame-coestimation.toml</h3><div class="ref-meta"><span>kind lunar-infrastructure</span><span>not matched to a ledger module by name</span></div><p>Kshana lunar-infrastructure scenario: frame-coestimation. MODELLED; the design, inputs and bars are fixed in xval/lunar-infra/PREREGISTRATION.md (committed before any run). ILLUSTRATIVE inputs are labelled with their public sources there.</p><pre data-lang="scenario · toml"><code class="hljs language-ini"><span class="hljs-attr">kind</span> = <span class="hljs-string">&quot;lunar-infrastructure&quot;</span>
 <span class="hljs-attr">study</span> = <span class="hljs-string">&quot;frame-coestimation&quot;</span>
 <span class="hljs-attr">seed</span> = <span class="hljs-number">20261019</span>
@@ -1096,7 +1096,7 @@ provenance = <span class="hljs-string">&quot;Cold-atom (Rb-87 D2) interferometri
 <span class="hljs-attr">arc_days</span> = <span class="hljs-number">6.56</span>
 <span class="hljs-attr">sample_s</span> = <span class="hljs-number">900.0</span>
 <span class="hljs-attr">sigma_m</span> = <span class="hljs-number">0.05</span>
-<span class="hljs-attr">epochs</span> = <span class="hljs-number">200</span></code></pre><p><a href="/studio/?scenario=lunar-infrastructure-frame-coestimation&amp;tab=overview">Open in Kshana Studio</a> · <span class="not-pushed">Not yet on GitHub</span></p></div>
+<span class="hljs-attr">epochs</span> = <span class="hljs-number">200</span></code></pre><p><a href="/studio/?scenario=lunar-infrastructure-frame-coestimation&amp;tab=overview">Open in Kshana Studio</a> · <a href="https://github.com/ashfordeOU/kshana/blob/main/scenarios/lunar-infrastructure-frame-coestimation.toml">View on GitHub</a></p></div>
 <div class="ref-card" id="lunar-infrastructure-geodesy-sensitivity"><h3>lunar-infrastructure-geodesy-sensitivity.toml</h3><div class="ref-meta"><span>kind lunar-infrastructure</span><span>not matched to a ledger module by name</span></div><p>Kshana lunar-infrastructure scenario: geodesy-sensitivity. MODELLED; the design, inputs and bars are fixed in xval/lunar-infra/PREREGISTRATION.md (committed before any run). ILLUSTRATIVE inputs are labelled with their public sources there.</p><pre data-lang="scenario · toml"><code class="hljs language-ini"><span class="hljs-attr">kind</span> = <span class="hljs-string">&quot;lunar-infrastructure&quot;</span>
 <span class="hljs-attr">study</span> = <span class="hljs-string">&quot;geodesy-sensitivity&quot;</span>
 <span class="hljs-attr">seed</span> = <span class="hljs-number">20261019</span>
@@ -1104,7 +1104,7 @@ provenance = <span class="hljs-string">&quot;Cold-atom (Rb-87 D2) interferometri
 <span class="hljs-attr">epochs</span> = <span class="hljs-number">400</span>
 <span class="hljs-attr">sigma_mm_s</span> = <span class="hljs-number">0.05</span>
 <span class="hljs-attr">arc_days</span> = <span class="hljs-number">27.3</span>
-<span class="hljs-attr">sample_s</span> = <span class="hljs-number">3600.0</span></code></pre><p><a href="/studio/?scenario=lunar-infrastructure-geodesy-sensitivity&amp;tab=overview">Open in Kshana Studio</a> · <span class="not-pushed">Not yet on GitHub</span></p></div>
+<span class="hljs-attr">sample_s</span> = <span class="hljs-number">3600.0</span></code></pre><p><a href="/studio/?scenario=lunar-infrastructure-geodesy-sensitivity&amp;tab=overview">Open in Kshana Studio</a> · <a href="https://github.com/ashfordeOU/kshana/blob/main/scenarios/lunar-infrastructure-geodesy-sensitivity.toml">View on GitHub</a></p></div>
 <div class="ref-card" id="lunar-infrastructure-od-consistency"><h3>lunar-infrastructure-od-consistency.toml</h3><div class="ref-meta"><span>kind lunar-infrastructure</span><span>not matched to a ledger module by name</span></div><p>Kshana lunar-infrastructure scenario: od-consistency. MODELLED; the design, inputs and bars are fixed in xval/lunar-infra/PREREGISTRATION.md (committed before any run). ILLUSTRATIVE inputs are labelled with their public sources there.</p><pre data-lang="scenario · toml"><code class="hljs language-ini"><span class="hljs-attr">kind</span> = <span class="hljs-string">&quot;lunar-infrastructure&quot;</span>
 <span class="hljs-attr">study</span> = <span class="hljs-string">&quot;od-consistency&quot;</span>
 <span class="hljs-attr">seed</span> = <span class="hljs-number">20261019</span>
@@ -1112,7 +1112,7 @@ provenance = <span class="hljs-string">&quot;Cold-atom (Rb-87 D2) interferometri
 <span class="hljs-attr">arc_days</span> = <span class="hljs-number">3.0</span>
 <span class="hljs-attr">sample_s</span> = <span class="hljs-number">600.0</span>
 <span class="hljs-attr">altitude_km</span> = <span class="hljs-number">20180.0</span>
-<span class="hljs-attr">inclination_deg</span> = <span class="hljs-number">55.0</span></code></pre><p><a href="/studio/?scenario=lunar-infrastructure-od-consistency&amp;tab=overview">Open in Kshana Studio</a> · <span class="not-pushed">Not yet on GitHub</span></p></div>
+<span class="hljs-attr">inclination_deg</span> = <span class="hljs-number">55.0</span></code></pre><p><a href="/studio/?scenario=lunar-infrastructure-od-consistency&amp;tab=overview">Open in Kshana Studio</a> · <a href="https://github.com/ashfordeOU/kshana/blob/main/scenarios/lunar-infrastructure-od-consistency.toml">View on GitHub</a></p></div>
 <div class="ref-card" id="lunar-infrastructure-od-consistency-model-error"><h3>lunar-infrastructure-od-consistency-model-error.toml</h3><div class="ref-meta"><span>kind lunar-infrastructure</span><span>not matched to a ledger module by name</span></div><p>Kshana lunar-infrastructure scenario: od-consistency with an unmodelled acceleration. MODELLED; the design, inputs and bars are fixed in xval/lunar-infra/PREREGISTRATION.md (committed before any run). ILLUSTRATIVE inputs are labelled with their public sources there.</p><pre data-lang="scenario · toml"><code class="hljs language-ini"><span class="hljs-attr">kind</span> = <span class="hljs-string">&quot;lunar-infrastructure&quot;</span>
 <span class="hljs-attr">study</span> = <span class="hljs-string">&quot;od-consistency&quot;</span>
 <span class="hljs-attr">seed</span> = <span class="hljs-number">20261019</span>
@@ -1120,7 +1120,7 @@ provenance = <span class="hljs-string">&quot;Cold-atom (Rb-87 D2) interferometri
 <span class="hljs-attr">arc_days</span> = <span class="hljs-number">3.0</span>
 <span class="hljs-attr">sample_s</span> = <span class="hljs-number">600.0</span>
 <span class="hljs-attr">altitude_km</span> = <span class="hljs-number">20180.0</span>
-<span class="hljs-attr">inclination_deg</span> = <span class="hljs-number">55.0</span></code></pre><p><a href="/studio/?scenario=lunar-infrastructure-od-consistency-model-error&amp;tab=overview">Open in Kshana Studio</a> · <span class="not-pushed">Not yet on GitHub</span></p></div>
+<span class="hljs-attr">inclination_deg</span> = <span class="hljs-number">55.0</span></code></pre><p><a href="/studio/?scenario=lunar-infrastructure-od-consistency-model-error&amp;tab=overview">Open in Kshana Studio</a> · <a href="https://github.com/ashfordeOU/kshana/blob/main/scenarios/lunar-infrastructure-od-consistency-model-error.toml">View on GitHub</a></p></div>
 <div class="ref-card" id="lunar-infrastructure-space-tie"><h3>lunar-infrastructure-space-tie.toml</h3><div class="ref-meta"><span>kind lunar-infrastructure</span><span>not matched to a ledger module by name</span></div><p>Kshana lunar-infrastructure scenario: space-tie. MODELLED; the design, inputs and bars are fixed in xval/lunar-infra/PREREGISTRATION.md (committed before any run). ILLUSTRATIVE inputs are labelled with their public sources there.</p><pre data-lang="scenario · toml"><code class="hljs language-ini"><span class="hljs-attr">kind</span> = <span class="hljs-string">&quot;lunar-infrastructure&quot;</span>
 <span class="hljs-attr">study</span> = <span class="hljs-string">&quot;space-tie&quot;</span>
 <span class="hljs-attr">seed</span> = <span class="hljs-number">20261019</span>
@@ -1128,7 +1128,7 @@ provenance = <span class="hljs-string">&quot;Cold-atom (Rb-87 D2) interferometri
 <span class="hljs-attr">arc_days</span> = <span class="hljs-number">6.56</span>
 <span class="hljs-attr">sample_s</span> = <span class="hljs-number">900.0</span>
 <span class="hljs-attr">gnss_sigma_m</span> = <span class="hljs-number">10.0</span>
-<span class="hljs-attr">vlbi_sigma_m</span> = <span class="hljs-number">1.0</span></code></pre><p><a href="/studio/?scenario=lunar-infrastructure-space-tie&amp;tab=overview">Open in Kshana Studio</a> · <span class="not-pushed">Not yet on GitHub</span></p></div>
+<span class="hljs-attr">vlbi_sigma_m</span> = <span class="hljs-number">1.0</span></code></pre><p><a href="/studio/?scenario=lunar-infrastructure-space-tie&amp;tab=overview">Open in Kshana Studio</a> · <a href="https://github.com/ashfordeOU/kshana/blob/main/scenarios/lunar-infrastructure-space-tie.toml">View on GitHub</a></p></div>
 <h2 id="kind-lunar-integrity">lunar-integrity<a class="anchor" href="#kind-lunar-integrity" aria-label="Link to this section">#</a></h2>
 <p>Lunar south-pole ARAIM protection-level pass vs a representative LunaNet relay set. sigma_ure_m exposes the signal-in-space ranging accuracy (protection levels scale linearly with it, so sweeping it answers what ranging accuracy an alert limit requires). Defaults to the historical LNIS-class south-pole case.</p>
 <div class="ref-card" id="lunanet-araim"><h3>lunanet-araim.toml</h3><div class="ref-meta"><span>kind lunar-integrity</span><span>not matched to a ledger module by name</span></div><p>Lunar south-pole integrity: an Artemis-region landed receiver against a representative LunaNet relay set, ARAIM protection levels over a 24 h pass.</p><pre data-lang="scenario · toml"><code class="hljs language-ini"><span class="hljs-attr">kind</span> = <span class="hljs-string">&quot;lunar-integrity&quot;</span>

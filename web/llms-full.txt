@@ -26,9 +26,9 @@ Event log · campaign-jam-spoof-holdover-integrityReal events
 
 Where every trace comes from
 
-Campaign: Engine v0.38.0, build 15dc490 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
+Campaign: Engine v0.38.0, build 242b803 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
 
-Orbits: Engine v0.38.0, build 15dc490 · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
+Orbits: Engine v0.38.0, build 242b803 · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
 
 The console, the three cards and the log replay one chained run of 6 phases and 18 member runs on its 10 s grid (T+01:16:10 of mission time). The orbits are the 102 satellites of GPS, Galileo, BeiDou and GLONASS from the constellation run, each recovered as a circular two-body orbit from the engine's ground track (worst residual 0.0034°), radii compressed for display. Links are drawn to satellites above the constellation run's 10° mask (25° in the integrity-alarm phase, the campaign's reacquisition mask), dimmed by its jamming and cut in holdover. Earth: NASA Blue Marble and Black Marble. Kshana Studio replays the chained run in your browser; the engine's own report and the command reproduce each run.
 
@@ -162,7 +162,7 @@ NominalJammingSpoofingHoldoverIntegrity alarmRecovery
 
 T+00:00:00 → T+01:16:10 mission time · the chained run, not three runs side by sidePL = protection level · AL = alert limit · INS = inertial navigation system
 
-Engine v0.38.0, build 15dc490 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
+Engine v0.38.0, build 242b803 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
 
 02Capabilities
 
@@ -218,7 +218,7 @@ Integrity
 
 Protection levels (PL) from receiver autonomous integrity monitoring (RAIM) and its advanced form (ARAIM), checked against the alert limit: here, the chained mission's integrity-alarm phase. Hatched bars are epochs where no protection level could be formed.
 
-Engine v0.38.0, build 15dc490 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
+Engine v0.38.0, build 242b803 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
 
 Telecom
 
@@ -426,7 +426,7 @@ Same run in the Studio: Engine v0.38.0 · clock-holdover.toml · seed 42Open in 
 
 04Scroll story · one chained run
 
-## A lie that looks like a fix.
+## From a clean sky to a free-running clock.
 
 One receiver, T+01:16:10 of mission time: a clean sky, a jammer, a spoofer that moves the answer instead of blocking it, then a clock left on its own. The 102 satellites are the four systems of the constellation run, on the real Earth. Scroll.
 
@@ -454,9 +454,9 @@ A spoofer pushes the clock at 0.1 ns/s. The RF (radio-frequency) detector alarms
 
 The jammer goes to 10 dBW and every satellite is lost. The clock free-runs from the 37.0 ns the spoofer left and crosses its 50 ns guard at T+00:35:40; the inertial error reaches 24.3 km.
 
-Campaign: Engine v0.38.0, build 15dc490 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
+Campaign: Engine v0.38.0, build 242b803 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
 
-Orbits: Engine v0.38.0, build 15dc490 · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
+Orbits: Engine v0.38.0, build 242b803 · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
 
 Open core, Kshana Pro, custom study
 ## Free for everyone. Pro when the answer has to stand up in a review.
@@ -1037,7 +1037,7 @@ Orbit view
 
 engine v0.38.0t = 0 sReal engine run, replayed
 
-Engine v0.38.0, build 15dc490 · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
+Engine v0.38.0, build 242b803 · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
 
 Orbits: re-propagated from the run's own elements and checked against the engine's ground tracks. Planets: NASA imagery.
 
@@ -2444,7 +2444,7 @@ One square per compared vector, coloured by its position error.
 
 oracle · AIAA 2006-6753 verification vectorsHow it was checked
 
-Engine v0.38.0, build 15dc490 · tests/sgp4_verification.rs · deterministic, no seedOpen in Kshana Studio: the same propagator, orbit-sgp4-gps.toml · seed 17
+Engine v0.38.0, build 242b803 · tests/sgp4_verification.rs · deterministic, no seedOpen in Kshana Studio: the same propagator, orbit-sgp4-gps.toml · seed 17
 
 171 of 171 RAIM (receiver autonomous integrity monitoring) threshold cases match SciPy inside the band. Seed 7.
 
@@ -2460,7 +2460,7 @@ One square per SciPy case, grouped by kernel.
 
 oracle · SciPyHow it was checked
 
-Engine v0.38.0, build 15dc490 · tests/raim_reference.rs · deterministic, no seedOpen in Kshana Studio: the kernel at work, integrity-raim.toml · seed 7
+Engine v0.38.0, build 242b803 · tests/raim_reference.rs · deterministic, no seedOpen in Kshana Studio: the kernel at work, integrity-raim.toml · seed 7
 
 Numerical (Cowell) orbit propagation against Orekit over a 24-hour arc: worst difference 0.08 m in force tiers 1 to 5.
 
@@ -2476,7 +2476,7 @@ Position difference against time, per force tier.
 
 oracle · Orekit 12.2How it was checked
 
-Engine v0.38.0, build 15dc490 · tests/numerical_cowell_propagator_reference.rs · deterministic, no seedNo Kshana Studio view: this comparison runs as an engine test.
+Engine v0.38.0, build 242b803 · tests/numerical_cowell_propagator_reference.rs · deterministic, no seedNo Kshana Studio view: this comparison runs as an engine test.
 
 Orbits · millimetres to metresValidated
 
@@ -2490,7 +2490,7 @@ Each residual on a logarithmic scale from a millimetre to twenty metres.
 
 oracle · ESA precise ephemerides, the lunar orbiter's reconstructed trajectory, Orekit 12.2, AIAA vectorsHow it was checked
 
-Engine v0.38.0 · docs/AGENCY-ORBIT-VALIDATION.md residual tables, with the two propagator checks recomputed at build 15dc490 · deterministic, no seedNo Kshana Studio view: precise orbit determination runs as engine tests.
+Engine v0.38.0 · docs/AGENCY-ORBIT-VALIDATION.md residual tables, with the two propagator checks recomputed at build 242b803 · deterministic, no seedNo Kshana Studio view: precise orbit determination runs as engine tests.
 
 Clocks · stabilityValidated
 
@@ -2504,7 +2504,7 @@ Four deviations against averaging time, with the published values as rings.
 
 oracle · NIST SP 1065How it was checked
 
-Engine v0.38.0, build 15dc490 · tests/allan_nist_sp1065_1000point.rs · deterministic, no seedOpen in Kshana Studio: the estimators on a clock, clock-holdover.toml · seed 42
+Engine v0.38.0, build 242b803 · tests/allan_nist_sp1065_1000point.rs · deterministic, no seedOpen in Kshana Studio: the estimators on a clock, clock-holdover.toml · seed 42
 
 Holdover prediction on a measured caesium clock record: predicted over measured between 0.84 and 1.03, inside the pre-set factor of 1.5.
 
@@ -2520,7 +2520,7 @@ Measured and predicted time error against coast time, and the ratio window.
 
 oracle · measured caesium recordHow it was checked
 
-Engine v0.38.0, build 15dc490 · tests/slot_timing_cs5071a_holdout.rs · deterministic, no seedOpen in Kshana Studio: the same inversion, slot-timing-ocxo-leo.toml · deterministic
+Engine v0.38.0, build 242b803 · tests/slot_timing_cs5071a_holdout.rs · deterministic, no seedOpen in Kshana Studio: the same inversion, slot-timing-ocxo-leo.toml · deterministic
 
 02Verification matrix
 
@@ -8429,7 +8429,7 @@ Terminal · kshana v0.38.0 Recorded run
 
 ```
 
-A recorded command-line session, engine v0.38.0 (build 15dc490):
+A recorded command-line session, engine v0.38.0 (build 242b803):
 
 - $ kshana --version: kshana 0.38.0
 
@@ -15950,7 +15950,7 @@ step_s = 60.0
 antennas = ["booklet-high-gain-nadir", "booklet-patch-zenith"]
 ```
 
-Open in Kshana Studio · Not yet on GitHub
+Open in Kshana Studio · View on GitHub
 
 ### gnss-ssv-heo.toml
 
@@ -15969,7 +15969,7 @@ duration_periods = 1.0
 step_min = 10.0
 ```
 
-Open in Kshana Studio · Not yet on GitHub
+Open in Kshana Studio · View on GitHub
 
 ### gnss-ssv-lunar-weak.toml
 
@@ -15988,7 +15988,7 @@ t_coh_s = 0.1
 n_noncoherent = 100.0
 ```
 
-Open in Kshana Studio · Not yet on GitHub
+Open in Kshana Studio · View on GitHub
 
 ### gnss-ssv-nav-lunar.toml
 
@@ -16007,7 +16007,7 @@ step_s = 300.0
 antennas = ["booklet-high-gain-nadir", "booklet-patch-zenith"]
 ```
 
-Open in Kshana Studio · Not yet on GitHub
+Open in Kshana Studio · View on GitHub
 
 ### gnss-ssv-shell.toml
 
@@ -16026,7 +16026,7 @@ grid_levels = 2
 duration_min = 4320.0
 ```
 
-Open in Kshana Studio · Not yet on GitHub
+Open in Kshana Studio · View on GitHub
 
 ## gravity-map#
 
@@ -16129,7 +16129,7 @@ recovery_dwell_s = 60.0
 samples = [
 ```
 
-Open in Kshana Studio · Not yet on GitHub
+Open in Kshana Studio · View on GitHub
 
 ### holdover-test-ptp4l.toml
 
@@ -16148,7 +16148,7 @@ recovery_dwell_s = 60.0
 format = "ptp4l"
 ```
 
-Open in Kshana Studio · Not yet on GitHub
+Open in Kshana Studio · View on GitHub
 
 ## hybrid#
 
@@ -17174,7 +17174,7 @@ lat_deg = 0.0
 lon_deg = 0.0
 ```
 
-Open in Kshana Studio · Not yet on GitHub
+Open in Kshana Studio · View on GitHub
 
 ### lunar-infrastructure-frame-coestimation.toml
 
@@ -17193,7 +17193,7 @@ sigma_m = 0.05
 epochs = 200
 ```
 
-Open in Kshana Studio · Not yet on GitHub
+Open in Kshana Studio · View on GitHub
 
 ### lunar-infrastructure-geodesy-sensitivity.toml
 
@@ -17212,7 +17212,7 @@ arc_days = 27.3
 sample_s = 3600.0
 ```
 
-Open in Kshana Studio · Not yet on GitHub
+Open in Kshana Studio · View on GitHub
 
 ### lunar-infrastructure-od-consistency.toml
 
@@ -17231,7 +17231,7 @@ altitude_km = 20180.0
 inclination_deg = 55.0
 ```
 
-Open in Kshana Studio · Not yet on GitHub
+Open in Kshana Studio · View on GitHub
 
 ### lunar-infrastructure-od-consistency-model-error.toml
 
@@ -17250,7 +17250,7 @@ altitude_km = 20180.0
 inclination_deg = 55.0
 ```
 
-Open in Kshana Studio · Not yet on GitHub
+Open in Kshana Studio · View on GitHub
 
 ### lunar-infrastructure-space-tie.toml
 
@@ -17269,7 +17269,7 @@ gnss_sigma_m = 10.0
 vlbi_sigma_m = 1.0
 ```
 
-Open in Kshana Studio · Not yet on GitHub
+Open in Kshana Studio · View on GitHub
 
 ## lunar-integrity#
 

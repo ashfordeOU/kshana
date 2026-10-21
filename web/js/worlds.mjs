@@ -81,14 +81,19 @@ function whenVisible(el, fn) {
 const earthVert = `varying vec2 vUv; varying vec3 vN; void main(){ vUv = uv; vN = normalize(mat3(modelMatrix) * normal); gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }`;
 // sRGB textures are sampled as linear light; colorspace_fragment re-encodes for the screen.
 const earthFrag = `uniform sampler2D day; uniform sampler2D night; uniform vec3 sun; varying vec2 vUv; varying vec3 vN;
-void main(){ float d = dot(normalize(vN), normalize(sun)); float k = smoothstep(-0.08, 0.18, d);
-  vec3 dc = texture2D(day, vUv).rgb * (0.34 + 1.1 * max(d, 0.0)); vec3 nc = texture2D(night, vUv).rgb * 1.35;
-  gl_FragColor = vec4(mix(nc, dc, k), 1.0);
+void main(){ float d = dot(normalize(vN), normalize(sun)); float k = smoothstep(-0.10, 0.20, d);
+  // One sun direction drives all three: the daylight map and its shading by k and d, the terminator by k, and the city lights, which only the night side (1 - k) shows.
+  vec3 dc = texture2D(day, vUv).rgb * (0.30 + 1.15 * max(d, 0.0)); vec3 nc = texture2D(night, vUv).rgb * 1.35 * (1.0 - k);
+  gl_FragColor = vec4(dc * k + nc, 1.0);
   #include <colorspace_fragment>
 }`;
-const atmoFrag = `uniform vec3 sun; varying vec3 vN; varying vec3 vV; void main(){ float rim = pow(1.0 - max(dot(normalize(vN), normalize(vV)), 0.0), 2.4);
-  float lit = clamp(dot(normalize(vN), normalize(sun)) * 0.8 + 0.35, 0.08, 1.0); gl_FragColor = vec4(vec3(0.33,0.58,1.0) * rim * lit, rim * 0.85); }`;
-const atmoVert = `varying vec3 vN; varying vec3 vV; void main(){ vec4 wp = modelMatrix * vec4(position,1.0); vN = normalize(mat3(modelMatrix) * normal); vV = normalize(cameraPosition - wp.xyz); gl_Position = projectionMatrix * viewMatrix * wp; }`;
+// A thin glow shell just outside the globe: the view-facing term fades to zero at the shell's own silhouette (no hard edge), and the sunlit limb is the brightest.
+const atmoFrag = `uniform vec3 sun; varying vec3 vN; varying vec3 vV; varying vec3 vP;
+void main(){ float ndv = max(dot(-normalize(vN), normalize(vV)), 0.0); float t = clamp(ndv / 0.24, 0.0, 1.0);
+  float glow = pow(t, 1.7) * (1.0 - t) * 3.2 + pow(t, 6.0) * 0.6;
+  float lit = mix(0.30, 1.0, smoothstep(-0.30, 0.55, dot(normalize(vP), normalize(sun))));
+  gl_FragColor = vec4(vec3(0.34, 0.60, 1.0) * glow * lit, glow * lit * 0.9); }`;
+const atmoVert = `varying vec3 vN; varying vec3 vV; varying vec3 vP; void main(){ vec4 wp = modelMatrix * vec4(position,1.0); vN = normalize(mat3(modelMatrix) * normal); vV = normalize(cameraPosition - wp.xyz); vP = wp.xyz; gl_Position = projectionMatrix * viewMatrix * wp; }`;
 
 export function earthMesh(loader, onFirst, redraw = () => {}) {
   const uni = { day: { value: null }, night: { value: null }, sun: { value: new THREE.Vector3(1, 0, 0) } };
@@ -96,7 +101,7 @@ export function earthMesh(loader, onFirst, redraw = () => {}) {
   uni.night.value = loadTex(loader, TEX.earthNight, redraw, (hi) => { uni.night.value = hi; redraw(); });
   const mat = new THREE.ShaderMaterial({ uniforms: uni, vertexShader: earthVert, fragmentShader: earthFrag });
   const earth = new THREE.Mesh(new THREE.SphereGeometry(1, 96, 64), mat);
-  const atmo = new THREE.Mesh(new THREE.SphereGeometry(1.035, 64, 48), new THREE.ShaderMaterial({
+  const atmo = new THREE.Mesh(new THREE.SphereGeometry(1.03, 64, 48), new THREE.ShaderMaterial({
     uniforms: { sun: mat.uniforms.sun }, vertexShader: atmoVert, fragmentShader: atmoFrag, transparent: true, depthWrite: false, side: THREE.BackSide, blending: THREE.AdditiveBlending,
   }));
   return { earth, atmo, mat };
