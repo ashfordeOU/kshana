@@ -10,7 +10,7 @@ Topic pages: [CAMPAIGNS](../CAMPAIGNS.md). Run one: `kshana scenarios/campaign-j
 
 | Kind | What it does | Ledger |
 |---|---|---|
-| [`campaign`](#campaign) | Campaign: existing scenario kinds composed into one run, with every number read from a real run of the named kind. | MODELLED |
+| [`campaign`](by-kind/campaign.md) | Campaign: existing scenario kinds composed into one run, with every number read from a real run of the named kind. | MODELLED |
 
 ### `campaign`
 
@@ -18,28 +18,10 @@ Campaign: existing scenario kinds composed into one run, with every number read 
 
 Required fields: none. Optional: `title`, `seed`, `timeline`, `phases`, `sweep`, `monte_carlo`, `compose`.
 
-**Ledger:** MODELLED. The [verification matrix](../VERIFICATION-MATRIX.md) rows that name this kind:
-
-- MODELLED: iq::campaign::detect and the campaign runner: an optional [monitors] table runs the IQ monitors on every cell in the runner's single pass. ([iq_campaign.rs](../../tests/iq_campaign.rs))
-- MODELLED: iq::campaign::detect (windows, roc) and iq::campaign::report::rocs: each cell of a campaign with monitors keeps, per alarm kind and channel, the maximum of the monitor's own test statistic over each stated event window (
-- MODELLED: iq::labfit (campaign, cn0, iqfit, iqreport) and `[input] campaign` on `kshana iq labfit`, Python `kshana.iq_labfit` and the MCP labfit tool (campaign folders inside its work directory only): reads a `kshana iq campaign`  ([iq_labfit_followup.rs](../../tests/iq_labfit_followup.rs))
-- MODELLED: The `campaign` kind's phases: each phase runs one or more scenarios of existing kinds through run_toml, reads their outputs into named channels (clock time error and guard, mean effective carrier-to-noise density ratio a ([campaign_composition_reference.rs](../../tests/campaign_composition_reference.rs))
-- and 4 more in the matrix.
+**Ledger:** MODELLED. Full page, with the inputs, results, evidence and limitations: [campaign](by-kind/campaign.md).
 
 ```sh
 kshana scenarios/campaign-sweep-jammer-power.toml
 ```
 
-Result label (the engine's): MODELLED composition of existing scenario kinds. Every number is read from a real run of the named kind; the chaining (additive carry of a channel across a phase boundary, zero-order hold onto the timeline grid, a phase ended at a computed time) is a modelling choice, and each phase carries the labe
-
-Headline numbers from this run (read from `result.json` through its own `units` block):
-
-| Field | Value | Unit | What it is |
-|---|---|---|---|
-| `reproducibility.runs_total` | 13 | count | member scenario runs the campaign dispatched |
-
 <img src="../figures/kinds/campaign.svg" alt="The chart the engine writes for scenarios/campaign-sweep-jammer-power.toml, kind campaign" width="640">
-
-22 bundled scenarios use this kind; the others are in [`scenarios/`](../../scenarios/).
-
-Topic pages: [LEO-PNT.md](../LEO-PNT.md), [RESILIENCE-CROSSWALK.md](../RESILIENCE-CROSSWALK.md).

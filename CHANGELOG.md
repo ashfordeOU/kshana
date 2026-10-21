@@ -12,11 +12,12 @@ breaking changes are called out explicitly.
 ### Added
 
 - README completeness pass: a contents list; the scenario kinds filed under families, each with a page under
-  `docs/kinds/` (the engine's description and fields, an example command, headline numbers from a run, the ledger rows
-  that name it and the chart the engine writes, plus a contact sheet per family) indexed by `docs/KINDS.md`; every
+  `docs/kinds/by-kind/` (the engine's description and fields, the inputs and results of an example run, the ledger rows
+  and oracles, the limitations the run's report states, and the chart the engine writes), a contact sheet per
+  family, all indexed by `docs/KINDS.md`; every
   command in `docs/COMMANDS.md`; every surface, plugin command, skill and Studio page in `docs/ALL-SURFACES.md`; every
-  capability domain in `docs/CAPABILITY-DOMAINS.md`; eight Mermaid diagrams embedded (system overview, surfaces,
-  inner loop, receiver trust, lab round trip, Studio, release flow, module map, distribution). Written by
+  capability domain in `docs/CAPABILITY-DOMAINS.md`; Mermaid diagrams embedded (system overview, surfaces,
+  inner loop, receiver trust, lab round trip, Studio, test and release flow, module map, distribution). Written by
   `tools/gen_kinds_index.py`, `tools/gen_readme_blocks.py` and `tools/gen_figures_038.py`; audited by
   `tools/readme_audit.py`; guarded by `tests/readme_completeness_doc_sync.rs`, which also pins every entry's
   description and fields to the engine.

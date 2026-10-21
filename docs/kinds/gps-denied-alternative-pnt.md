@@ -10,11 +10,11 @@ Topic pages: [CAPABILITY](../CAPABILITY.md), [RESILIENCE-CROSSWALK](../RESILIENC
 
 | Kind | What it does | Ledger |
 |---|---|---|
-| [`gravity-map`](#gravity-map) | GPS-denied gravity-map-matching navigation: a cold-atom gravimeter recovers a constant INS drift from the gravity-anomaly sequence it flies through. | MODELLED (result label) |
-| [`terrain-nav`](#terrain-nav) | GPS-denied terrain-referenced navigation (TERCOM/SITAN): a radar/baro altimeter matches the ground-elevation profile against an SRTM-style DEM to recover the INS drift. | MODELLED (result label) |
-| [`terrain-slam`](#terrain-slam) | GPS-denied sequential (recursive) terrain-referenced navigation: a particle filter runs the terrain-match measurement model epoch by epoch (SITAN as a running filter) so a time-varying INS drift is tr | MODELLED (result label) |
-| [`combined-altpnt`](#combined-altpnt) | GPS-denied combined gravity + magnetic + terrain navigator: three scalar field channels fused per waypoint for a sharper (lower-CRLB) drift fix than any single field. | MODELLED (result label) |
-| [`conflict-resilience`](#conflict-resilience) | MODELLED layered-PNT conflict resilience (P7): a contested-environment user fields several PNT layers (open-service GNSS, wideband GNSS, an authenticated constellation, an augmentation relay), each wi | MODELLED (result label) |
+| [`gravity-map`](by-kind/gravity-map.md) | GPS-denied gravity-map-matching navigation: a cold-atom gravimeter recovers a constant INS drift from the gravity-anomaly sequence it flies through. | MODELLED (result label) |
+| [`terrain-nav`](by-kind/terrain-nav.md) | GPS-denied terrain-referenced navigation (TERCOM/SITAN): a radar/baro altimeter matches the ground-elevation profile against an SRTM-style DEM to recover the INS drift. | MODELLED (result label) |
+| [`terrain-slam`](by-kind/terrain-slam.md) | GPS-denied sequential (recursive) terrain-referenced navigation: a particle filter runs the terrain-match measurement model epoch by epoch (SITAN as a running filter) so a time-varying INS drift is tr | MODELLED (result label) |
+| [`combined-altpnt`](by-kind/combined-altpnt.md) | GPS-denied combined gravity + magnetic + terrain navigator: three scalar field channels fused per waypoint for a sharper (lower-CRLB) drift fix than any single field. | MODELLED (result label) |
+| [`conflict-resilience`](by-kind/conflict-resilience.md) | MODELLED layered-PNT conflict resilience (P7): a contested-environment user fields several PNT layers (open-service GNSS, wideband GNSS, an authenticated constellation, an augmentation relay), each wi | MODELLED (result label) |
 
 ### `gravity-map`
 
@@ -22,23 +22,13 @@ GPS-denied gravity-map-matching navigation: a cold-atom gravimeter recovers a co
 
 Required fields: `nmax`, `start_lat_deg`, `start_lon_deg`, `step_lat_deg`, `step_lon_deg`, `waypoints`, `drift_lat_deg`, `drift_lon_deg`, `gravimeter_asd`, `averaging_time_s`, `map_sigma_mgal`, `search_half_deg`, `search_step_deg`. Optional: `coeffs`, `mascons`, `refine_stages`, `refine_factor`, `noise_seed`, `reference`, `map_error_mc`.
 
-**Ledger:** no matrix row names this kind by name; the label on its result is the engine's own, shown below.
+**Ledger:** no matrix row names this kind; the engine labels its own result. Full page, with the inputs, results, evidence and limitations: [gravity-map](by-kind/gravity-map.md).
 
 ```sh
 kshana scenarios/gravity-map-nav.toml
 ```
 
-Headline numbers from this run (read from `result.json` through its own `units` block):
-
-| Field | Value | Unit | What it is |
-|---|---|---|---|
-| `free_inertial_drift_m` | 78301.9 | m | horizontal position error of the unaided inertial solution at the end of the outage: the configured constant d |
-| `map_matched_error_m` | 1881.79 | m | residual horizontal position error after gravity-map matching: the true drift minus the recovered offset estim |
-| `measurement_sigma_mgal` | 2 | mGal | 1 sigma matching noise used by the likelihood: the gravimeter white floor ASD/sqrt(tau) combined in quadrature |
-
 <img src="../figures/kinds/gravity-map.svg" alt="The chart the engine writes for scenarios/gravity-map-nav.toml, kind gravity-map" width="640">
-
-4 bundled scenarios use this kind; the others are in [`scenarios/`](../../scenarios/).
 
 ### `terrain-nav`
 
@@ -46,19 +36,11 @@ GPS-denied terrain-referenced navigation (TERCOM/SITAN): a radar/baro altimeter 
 
 Required fields: `dem_seed`, `start_lat_deg`, `start_lon_deg`, `step_lat_deg`, `step_lon_deg`, `waypoints`, `drift_lat_deg`, `drift_lon_deg`, `altimeter_sigma_m`, `map_sigma_m`, `search_half_deg`, `search_step_deg`. Optional: `refine_stages`, `refine_factor`, `noise_seed`.
 
-**Ledger:** no matrix row names this kind by name; the label on its result is the engine's own, shown below.
+**Ledger:** no matrix row names this kind; the engine labels its own result. Full page, with the inputs, results, evidence and limitations: [terrain-nav](by-kind/terrain-nav.md).
 
 ```sh
 kshana scenarios/terrain-nav.toml
 ```
-
-Headline numbers from this run (read from `result.json` through its own `units` block):
-
-| Field | Value | Unit | What it is |
-|---|---|---|---|
-| `free_inertial_drift_m` | 70658.6 | m | horizontal position error of the unaided inertial solution: the configured constant drift in degrees converted |
-| `matched_error_m` | 52.6654 | m | residual horizontal position error after terrain matching: the true drift minus the recovered offset estimate, |
-| `measurement_sigma_m` | 17 | m | 1 sigma matching noise used by the likelihood: hypot(altimeter sigma, map sigma) |
 
 <img src="../figures/kinds/terrain-nav.svg" alt="The chart the engine writes for scenarios/terrain-nav.toml, kind terrain-nav" width="640">
 
@@ -68,22 +50,11 @@ GPS-denied sequential (recursive) terrain-referenced navigation: a particle filt
 
 Required fields: `dem_seed`, `start_lat_deg`, `start_lon_deg`, `step_lat_deg`, `step_lon_deg`, `waypoints`, `drift_rate_lat_deg`, `drift_rate_lon_deg`, `altimeter_sigma_m`, `map_sigma_m`. Optional: `n_particles`, `init_pos_sigma_deg`, `process_sigma_deg`, `resample_ess_frac`, `seed`.
 
-**Ledger:** no matrix row names this kind by name; the label on its result is the engine's own, shown below.
+**Ledger:** no matrix row names this kind; the engine labels its own result. Full page, with the inputs, results, evidence and limitations: [terrain-slam](by-kind/terrain-slam.md).
 
 ```sh
 kshana scenarios/terrain-slam.toml
 ```
-
-Headline numbers from this run (read from `result.json` through its own `units` block):
-
-| Field | Value | Unit | What it is |
-|---|---|---|---|
-| `free_inertial_final_m` | 5081.6 | m | horizontal position error of the unaided inertial solution at the last waypoint, where the injected drift ramp |
-| `free_inertial_rms_m` | 2946.53 | m | root-mean-square unaided inertial horizontal position error over every waypoint of the track |
-| `matched_final_m` | 69.357 | m | horizontal position error of the particle-filter estimate at the last waypoint |
-| `matched_rms_m` | 1240.77 | m | root-mean-square particle-filter horizontal position error over every waypoint of the track |
-| `mean_ess` | 2599.16 | count | mean effective sample size of the particle cloud over the track, an effective number of particles and a filter |
-| `measurement_sigma_m` | 17 | m | 1 sigma matching noise used by the terrain-match likelihood: hypot(altimeter sigma, map sigma) |
 
 <img src="../figures/kinds/terrain-slam.svg" alt="The chart the engine writes for scenarios/terrain-slam.toml, kind terrain-slam" width="640">
 
@@ -93,21 +64,11 @@ GPS-denied combined gravity + magnetic + terrain navigator: three scalar field c
 
 Required fields: `start_lat_deg`, `start_lon_deg`, `step_lat_deg`, `step_lon_deg`, `waypoints`, `drift_lat_deg`, `drift_lon_deg`, `search_half_deg`, `search_step_deg`, `nmax`, `gravity_sigma_mgal`, `igrf_year`, `magnetic_sigma_nt`, `dem_seed`, `terrain_sigma_m`. Optional: `coeffs`, `mascons`, `magnetic_mascons`, `igrf_alt_km`, `refine_stages`, `refine_factor`, `noise_seed`, `magnetic_grid`.
 
-**Ledger:** no matrix row names this kind by name; the label on its result is the engine's own, shown below.
+**Ledger:** no matrix row names this kind; the engine labels its own result. Full page, with the inputs, results, evidence and limitations: [combined-altpnt](by-kind/combined-altpnt.md).
 
 ```sh
 kshana scenarios/combined-altpnt.toml
 ```
-
-Headline numbers from this run (read from `result.json` through its own `units` block):
-
-| Field | Value | Unit | What it is |
-|---|---|---|---|
-| `combined_m` | 364.881 | m | residual horizontal position error when all three channels are fused, the search maximising the product of the |
-| `free_inertial_drift_m` | 70658.6 | m | horizontal position error of the unaided inertial solution: the configured constant drift in degrees converted |
-| `gravity_only_m` | 464.136 | m | residual horizontal position error when only the gravity-anomaly channel drives the offset search |
-| `magnetic_only_m` | 782.43 | m | residual horizontal position error when only the magnetic-anomaly channel drives the offset search |
-| `terrain_only_m` | 367.623 | m | residual horizontal position error when only the ground-elevation channel drives the offset search |
 
 <img src="../figures/kinds/combined-altpnt.svg" alt="The chart the engine writes for scenarios/combined-altpnt.toml, kind combined-altpnt" width="640">
 
@@ -117,24 +78,10 @@ MODELLED layered-PNT conflict resilience (P7): a contested-environment user fiel
 
 Required fields: none. Optional: `layers`, `intensity`, `correlation`, `trials`, `seed`, `primary_layer`.
 
-**Ledger:** no matrix row names this kind by name; the label on its result is the engine's own, shown below.
+**Ledger:** no matrix row names this kind; the engine labels its own result. Full page, with the inputs, results, evidence and limitations: [conflict-resilience](by-kind/conflict-resilience.md).
 
 ```sh
 kshana scenarios/conflict-resilience.toml
 ```
 
-Result label (the engine's): MODELLED layered-PNT conflict resilience (P7). VALIDATED core: the Monte-Carlo total-loss probability converges to the closed-form independent product Pi_i p_deny_i (asserted within Monte-Carlo standard error at a fixed seed and large N); the inverse-variance position fuse sigma_fused = (sum_i 1/sig
-
-Headline numbers from this run (read from `result.json` through its own `units` block):
-
-| Field | Value | Unit | What it is |
-|---|---|---|---|
-| `correlation_sweep.min_ratio_over_grid` | 1.21098 | 1 | the smallest finite resilience_ratio found over the correlation grid |
-| `prior_sensitivity.nominal_ratio` | 6.73191 | 1 | the closed-form resilience ratio evaluated at the catalog-nominal vulnerability priors |
-| `prior_sensitivity.samples` | 2000 | count | prior draws behind each percentile interval and behind the effort re-allocation; a fixed engine setting (2000) |
-| `resilience_ratio.closed_form_independent` | 6.73191 | 1 | the primary layer's loss probability divided by the closed-form layered total-loss probability at the referenc |
-| `resilience_ratio.monte_carlo_independent` | 6.19162 | 1 | the same ratio estimated from the independent Monte-Carlo: the primary layer's empirical loss fraction divided |
-
 <img src="../figures/kinds/conflict-resilience.svg" alt="The chart the engine writes for scenarios/conflict-resilience.toml, kind conflict-resilience" width="640">
-
-Topic pages: [RESILIENCE-CROSSWALK.md](../RESILIENCE-CROSSWALK.md).

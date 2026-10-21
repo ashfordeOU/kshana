@@ -10,7 +10,7 @@ Topic pages: [SSV](../SSV.md). Run one: `kshana scenarios/gnss-ssv-shell.toml`. 
 
 | Kind | What it does | Ledger |
 |---|---|---|
-| [`gnss-ssv`](#gnss-ssv) | MODELLED GNSS availability and link strength in the Space Service Volume and beyond: for a user on a sphere (the ICG booklet's global shell) or on a Keplerian trajectory (LEO to lunar transfer) it cou | MODELLED |
+| [`gnss-ssv`](by-kind/gnss-ssv.md) | MODELLED GNSS availability and link strength in the Space Service Volume and beyond: for a user on a sphere (the ICG booklet's global shell) or on a Keplerian trajectory (LEO to lunar transfer) it cou | MODELLED |
 
 ### `gnss-ssv`
 
@@ -18,31 +18,10 @@ MODELLED GNSS availability and link strength in the Space Service Volume and bey
 
 Required fields: `shell|trajectory|navigation`. Optional: `name`, `constellations`, `transmit`, `receiver`, `atmosphere`, `formation`.
 
-**Ledger:** MODELLED. The [verification matrix](../VERIFICATION-MATRIX.md) rows that name this kind:
-
-- MODELLED: The `gnss-ssv` kind's availability sweeps: per constellation (GPS, GLONASS, Galileo, BDS, QZSS, NavIC) and combined, the share of (user, epoch) pairs with at least one and at least four signals and the longest outage, fo
-- MODELLED: The `gnss-ssv` kind's `[navigation]` mode: a nine-state extended Kalman filter (position, velocity, receiver clock bias and drift, a solar-radiation-pressure scale) on pseudoranges whose availability, noise and C/N0 come
-- MODELLED: The `gnss-ssv` kind's `[formation]` mode: a chief and deputies each run the absolute filter; the deputy's position relative to the chief is estimated by subtracting the absolute estimates and by a relative filter on sing
+**Ledger:** MODELLED. Full page, with the inputs, results, evidence and limitations: [gnss-ssv](by-kind/gnss-ssv.md).
 
 ```sh
 kshana scenarios/gnss-ssv-heo.toml
 ```
 
-Result label (the engine's): MODELLED: a geometric and link-budget sweep. The booklet pattern is a constant-power main lobe, the parametric pattern a representative stand-in, and the limb-ray medium a simple stated model; nothing here is a measurement of a signal in space. The availability and outage figures follow the method o
-
-Headline numbers from this run (read from `result.json` through its own `units` block):
-
-| Field | Value | Unit | What it is |
-|---|---|---|---|
-| `atmosphere_model.gamma0_db_per_km` | 0.0072 | dB/km | sea-level oxygen absorption at the carrier |
-| `atmosphere_model.gamma_scale_km` | 5.3 | km | absorption scale height |
-| `atmosphere_model.h_scale_km` | 60 | km | Chapman-layer scale height |
-| `atmosphere_model.hmf2_km` | 300 | km | Chapman-layer peak height |
-| `atmosphere_model.n0` | 315 | N-units | sea-level refractivity |
-| `atmosphere_model.n_scale_km` | 7.35 | km | refractivity scale height |
-
 <img src="../figures/kinds/gnss-ssv.svg" alt="The chart the engine writes for scenarios/gnss-ssv-heo.toml, kind gnss-ssv" width="640">
-
-5 bundled scenarios use this kind; the others are in [`scenarios/`](../../scenarios/).
-
-Topic pages: [SSV.md](../SSV.md).

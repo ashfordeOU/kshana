@@ -57,7 +57,8 @@ def kind_families_block(exe: str) -> str:
             sys.exit(f"gen_readme_blocks: {scn.group(0)} does not exist")
     L = ["| Family | What it answers | Kinds | Run one |", "|---|---|---|---|"]
     for fam, pages, cmd, ks in FAMILIES:
-        L.append(f"| **[{fam}](docs/kinds/{slug(fam)}.md)** | {BLURB[fam]} | {len(ks)} | `{cmd}` |")
+        links = ", ".join(f"[`{k}`](docs/kinds/by-kind/{k}.md)" for k in ks)
+        L.append(f"| **[{fam}](docs/kinds/{slug(fam)}.md)** | {BLURB[fam]} | {links} | `{cmd}` |")
     return "\n".join(L)
 
 
