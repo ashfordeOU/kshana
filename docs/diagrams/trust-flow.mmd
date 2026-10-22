@@ -1,0 +1,9 @@
+flowchart LR
+    LOG["Receiver log or stream<br/>NMEA, u-blox UBX, RINEX, SBF<br/>RTCM, NovAtel, RTKLIB, IQ"] --> ING["Ingest<br/>per-epoch observables<br/>and the receiver's own flags"]
+    ING --> MON["Monitors<br/>C/N0, AGC, jamming indicator<br/>position jump, RAIM, clock<br/>geometry, self-report"]
+    MON --> SCORE["Trust score 0 to 100<br/>band and reasons<br/>advisory only"]
+    SCORE --> STU["Studio<br/>strips, replay, skyplot"]
+    SCORE --> TEL["Telemetry<br/>Prometheus, CEF, LEEF<br/>OTLP, MQTT"]
+    SCORE --> PACK["Signed evidence pack<br/>offline-verifiable"]
+    SCORE --> JT["Jammertest and bench scoring<br/>against stated truth"]
+    SCORE --> COMP["compliance-report<br/>supports evidence for"]

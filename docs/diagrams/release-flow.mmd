@@ -1,0 +1,21 @@
+flowchart TB
+    subgraph A["Before a change reaches main"]
+        direction LR
+        LOC["Local gates<br/>formatting, clippy, no-attribution<br/>doc-coverage ratchet<br/>scripts/gate.sh: the full suite and<br/>repeat runs, which writes the receipt<br/>the pre-push hook checks"] --> PR["CI-only pull request<br/>the full CI workflow runs on the branch"]
+        PR --> CI["Full CI green<br/>tests, doc-sync and matrix guards<br/>web tests, wasm check"]
+    end
+    subgraph B["Release"]
+        direction LR
+        FF["Owner fast-forwards main<br/>to the green commit<br/>an annotated vX.Y.Z tag lands on it<br/>after check-version-sync"] --> VER["release.yml verify<br/>the full suite on the tagged commit<br/>nothing is published before it passes"]
+        VER --> REL["release<br/>binaries for Linux, macOS, Windows<br/>SBOM, SHA256SUMS, SLSA provenance<br/>checked again after upload"]
+        REL --> PUB["publish<br/>crates.io, PyPI, npm<br/>ghcr.io images, MCP registry<br/>JetBrains Marketplace"]
+        PUB --> PAR["parity<br/>poll every registry until it<br/>serves the new version"]
+        PAR --> SITE["site dispatch<br/>pages.yml rebuilds kshana.dev<br/>from the tag"]
+    end
+    subgraph C["Site-only fix, no release"]
+        direction LR
+        MAINDEP["pages.yml dispatched with tag main"] --> GUARD["Guard<br/>refused unless nothing outside web/<br/>and .github/ changed since the<br/>latest release"]
+        GUARD --> LIVE["kshana.dev deploys main<br/>the engine and version still equal<br/>the latest release"]
+    end
+    A --> B
+    B -.-> C
