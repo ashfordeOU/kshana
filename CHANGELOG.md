@@ -88,7 +88,9 @@ breaking changes are called out explicitly.
   IQ, timing holdover prediction (IGS clocks) and the out-of-distribution optimism gap; split manifests
   with pinned hashes and fetch scripts (no data vendored), a sealed holdout by commit and reveal, a
   result-file schema and a static leaderboard page. Baselines under bars pre-registered in
-  `xval/bench/PREREGISTRATION.md`: scorer bars met, C1 to C3 met, D2 met, **D1 NOT MET** (pinned). Every
+  `xval/bench/PREREGISTRATION.md`: scorer bars met, C1 to C3 met, D2 met; **A2 NOT MET** (`agc_k_sigma` AUC 0.766
+  against at least 0.80 on the test split), **D1 NOT MET** (largest gap 0.0301) and **task (b) R1 NOT MET** (carried,
+  not re-run), each pinned (`xval/bench/RESULTS-v2.md`). Every
   score is MODELLED. Python `bench_score`, `bench_leaderboard`; WebAssembly the same; MCP
   `score_benchmark`, `render_leaderboard`.
 - **Interference observatory** (`kshana interference-map daily`, `sensitivity`,
