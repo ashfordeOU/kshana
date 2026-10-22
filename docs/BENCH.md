@@ -7,6 +7,10 @@ CC-BY-4.0 / CC0 proposed, owner decision pending). The dataset licence review is
 [`xval/bench/PREREGISTRATION.md`](../xval/bench/PREREGISTRATION.md) and, for 2.0.0, [`PREREGISTRATION-v2.md`](../xval/bench/PREREGISTRATION-v2.md) and their results are in
 [`xval/bench/RESULTS-v2.md`](../xval/bench/RESULTS-v2.md).
 
+Verdicts as recorded there: the scorer bars, C1 to C3 and D2 are met; **A2 is NOT MET** (`agc_k_sigma` AUC 0.766
+against at least 0.80 on the test split), **D1 is NOT MET** (largest gap 0.0301) and **task (b) R1 is NOT MET**
+(carried, not re-run). No bar is loosened.
+
 What it is: a way to compare methods on the same data with the same metric code. What it is not: a ranking of products, an approval, or evidence that a method works in the field. Every score is MODELLED,
 and a score describes a log or a corpus, never a product. Kshana results are advisory.
 
