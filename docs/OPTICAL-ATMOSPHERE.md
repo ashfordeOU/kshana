@@ -21,7 +21,7 @@ not any dataset's values.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="figures/0.38/optical-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="figures/0.38/optical-light.svg">
-  <img src="figures/0.38/optical-light.svg" alt="One seeded realisation of the link margin of the site 'northern' over 336 h, from a real run of engine v0.38.0 on scenarios/optical-atmosphere-network.toml (seed 37, a step of 600 s). The margin falls below zero during cloud episodes; in this draw the link is up 40.5 % of the time, with 27 outages and a longest outage of 30.7 h. The inputs are illustrative, the series is one draw from the model and not the climate, and it differs from the statistical availability (37.8 %) by the sampling error of the draw. Advisory analysis only: not a certified availability, integrity or navigation product, and not a prediction for any real site unless its climate inputs come from a stated dataset.">
+  <img src="figures/0.38/optical-light.svg" alt="One seeded realisation of the link margin of the site 'northern' over 336 h, from a real run of engine v0.39.0 on scenarios/optical-atmosphere-network.toml (seed 37, a step of 600 s). The margin falls below zero during cloud episodes; in this draw the link is up 40.5 % of the time, with 27 outages and a longest outage of 30.7 h. The inputs are illustrative, the series is one draw from the model and not the climate, and it differs from the statistical availability (37.8 %) by the sampling error of the draw. Advisory analysis only: not a certified availability, integrity or navigation product, and not a prediction for any real site unless its climate inputs come from a stated dataset.">
 </picture>
 
 ## What is computed

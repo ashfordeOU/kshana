@@ -1,6 +1,6 @@
 {
   "generator": "tools/gen_figures_038.py",
-  "engine_version": "0.38.0",
+  "engine_version": "0.39.0",
   "figures": {
     "jammertest": {
       "files": [
@@ -10,8 +10,8 @@
       "drawn_from": "kshana jammertest score (synthetic NMEA log, catalogue and plan written by this script)",
       "input_files": {},
       "svg_sha256": {
-        "jammertest-light.svg": "c9516e9a44dccd982459747ed13e0ce8ad3c879992be64304d1785db6d886b1e",
-        "jammertest-dark.svg": "09c862747e5bc7e635a44e7401aa15846bb05f091e161d8b938af14d2b4c870c"
+        "jammertest-light.svg": "3cc56b54d0e7422f6ae6ac5408c2c7ac1a1e18c579748a9da9e6fd9ce796ea28",
+        "jammertest-dark.svg": "0f4e1e76a9b0e23c67c7b6c617b34c7f07d9eccc1426f96b87e6a88eb69e7493"
       }
     },
     "receiver-flags": {
@@ -22,8 +22,8 @@
       "drawn_from": "kshana receiver-trust (synthetic UBX log written by this script)",
       "input_files": {},
       "svg_sha256": {
-        "receiver-flags-light.svg": "b5573d1f5a419f0c4bbdfbbd2144a9582b30d36a007d91f663a8ecee543736c0",
-        "receiver-flags-dark.svg": "8bb8a12c2f69ffb393ea671b639bcdb1589d25449f5072d79cd118e66145612b"
+        "receiver-flags-light.svg": "cbdc67382f3bf4b07e2d54f9c1c81352b7d1ae6929a640f0e467217578ca1fe5",
+        "receiver-flags-dark.svg": "a02097f397e3671d38893950004110a88e306f6d4a59c0f373b0e7357d79e718"
       }
     },
     "machine-inputs": {
@@ -34,8 +34,8 @@
       "drawn_from": "kshana imu-fit (synthetic stationary IMU CSV written by this script)",
       "input_files": {},
       "svg_sha256": {
-        "machine-inputs-light.svg": "52f91522b54bf5f0f1878336e181bc0b755779f9a4bc709f99ae6ac26c83bb72",
-        "machine-inputs-dark.svg": "a5557543cf4873495ab5179670bc19343a1e316d57c1bf3697bdc362468e1810"
+        "machine-inputs-light.svg": "8f2dbc11f8c0fa55c46fb14b1aa6e4f064989db9ee31167f42fcbe72b47aaaa2",
+        "machine-inputs-dark.svg": "826b9c143930c8fdea881261c3bc646663a23c576cd4fc1ed5eec4738749c0af"
       }
     },
     "timing": {
@@ -48,8 +48,8 @@
         "scenarios/holdover-test-example.toml": "ed81320e34fa8875760ccf002faf8eb801e73f1309863d2f6736fa95e865f753"
       },
       "svg_sha256": {
-        "timing-light.svg": "3ea99c8a8b77f3df42fc41cbae16eee37f7019f014e26b2afcebaaed62f102d6",
-        "timing-dark.svg": "e563132b57a8c936e861abeaccdb63e35cbef540ed18e61eeb39cb44e9237f05"
+        "timing-light.svg": "d6e4383fff830fd250e80eaf97cbbe9f662d0221d2c5a112e9ff233af8064fee",
+        "timing-dark.svg": "016e3f21c4fc6bac88e40eedfb08bdb71ff4664f305d8a95df6677608419bbb6"
       }
     },
     "standards": {
@@ -64,8 +64,8 @@
         "standards/icao-doc9849-appf/pack.toml": "18a5f98a7707b29cff1f29c234a22fcf85a6170cf1d5c6b24c901153e7f4820a"
       },
       "svg_sha256": {
-        "standards-light.svg": "4631032beff7c18f499d7b54f66b17bf5c15726d9555dcefa28a119567bf7aa9",
-        "standards-dark.svg": "4ddba6bd951d4de8e100ded24a902e76bf11e15e815e96b221faae9e0f4b490f"
+        "standards-light.svg": "37085204abab93af91c65656f5cb43e359d04cb2d1de38971805748078c21f81",
+        "standards-dark.svg": "ea996f0f573d15b537cf78093033970f290c4ec76686bcca47c14279ae28f1aa"
       }
     },
     "lunanet-afs": {
@@ -76,8 +76,8 @@
       "drawn_from": "kshana lunanet-afs-check spec --json",
       "input_files": {},
       "svg_sha256": {
-        "lunanet-afs-light.svg": "97d760f724dca001656531b69cc822a7be01acfe26f8fe0b940c44c77ad0e1b1",
-        "lunanet-afs-dark.svg": "b665ed1eeae948963310e415300db02a600d3f1e42944a98fab6a17445b4dfe9"
+        "lunanet-afs-light.svg": "a6e2ea9105505fd804c23f36c5c3c6a4f113d51734613c23ed2778794afeefa3",
+        "lunanet-afs-dark.svg": "10df351dfbc91991ce618ef1036765aa1c189d92630cd1287031596ff44a5c5b"
       }
     },
     "bench": {
@@ -88,8 +88,8 @@
       "drawn_from": "kshana bench baseline --task d --split test",
       "input_files": {},
       "svg_sha256": {
-        "bench-light.svg": "2271d503aad4f94f0dd9ecf784df257827c7d83d97b0f0e68fcd113424437db1",
-        "bench-dark.svg": "7b32d8350341a7a88c067be1375e2a7e1cbe2e248d96eb65ab737b8f62b205e0"
+        "bench-light.svg": "7db7cd7154112caf5636a493a02a73fd7f7dbac4cf834d73417539ad23c5661e",
+        "bench-dark.svg": "832d79ce11bef3069ec01f5061df41c6326e694aae99da2b900aaa7dfc7a13b2"
       }
     },
     "exporters": {
@@ -103,8 +103,8 @@
         "examples/maritime-trust/tallinn-helsinki.nmea": "008462359dbed742a84445c1585aa465827709ff146d92d4f6069901df82efe0"
       },
       "svg_sha256": {
-        "exporters-light.svg": "6afc8f084e9e765cf66850a630a62566e871c8ea018084976eef62a45b0b3847",
-        "exporters-dark.svg": "60ada935693e8b9c94b41079a0d293bf73ad33a99eb6f6cd6ecb19921566ee2f"
+        "exporters-light.svg": "c247618d8147aebc8cfa2628906e3f6913dd3ac173a89fe73d2d55f625f0b0e9",
+        "exporters-dark.svg": "619ac42ec78c835a23c1a2d4d9d5533304555c5da3c50bf7552e8f979f3788d9"
       }
     },
     "optical": {
@@ -117,8 +117,8 @@
         "scenarios/optical-atmosphere-network.toml": "11619483f35d9939d9a50ebdf73c167feb0b3ac2c52b05fe757ed6bc3490cbc5"
       },
       "svg_sha256": {
-        "optical-light.svg": "14fb6eaf28e88564d8c5159c49a38216cffc53410adb6ec800c47d30df9437df",
-        "optical-dark.svg": "520b868f74a659dfe1927b757fdd89d653f778151be8493b5ce0d771683d8b5c"
+        "optical-light.svg": "0afde37a222b2850aaf72e938b2d3fb80ce8c92dba5b133d98c32c4f3628e95f",
+        "optical-dark.svg": "e971c45f22bc75ae497a47d31d16643f49118360da9a217ed9dde1cf48a98d9f"
       }
     },
     "ssv-shell": {
@@ -131,8 +131,8 @@
         "scenarios/gnss-ssv-shell.toml": "6f2ce21c2a01dbdc13c37fe0de8d0741ce92f876298eccf4c20ea264672fd324"
       },
       "svg_sha256": {
-        "ssv-shell-light.svg": "942173eb771fd1208fa9342358069565f76f48c91ae21ee3f92073ff1f070da4",
-        "ssv-shell-dark.svg": "0071a59cd3edb5d01c9349dca06da1c1d24fb924742ffac363bef4947bc98f23"
+        "ssv-shell-light.svg": "71aa92244e7827fb6bac0fba0fc9375f88029dcf744ab96d88399907adb96e9f",
+        "ssv-shell-dark.svg": "de0c890655e8f3f205620ddb2d8bd4825789a7846a8fe488d5deb6474d2829cc"
       }
     },
     "ssv-heo": {
@@ -145,8 +145,8 @@
         "scenarios/gnss-ssv-heo.toml": "d57b184438e995788447bc58b38bf27b8713e0da517754e16b4e7c2817786825"
       },
       "svg_sha256": {
-        "ssv-heo-light.svg": "460c62bb62e5baef3bd8afcfd1f0131e1c044a61641d61700389c5c9dedbf242",
-        "ssv-heo-dark.svg": "0d857476becf02301e94fa8dd61197e6f8676bd17f5accf89305a6418cd911c0"
+        "ssv-heo-light.svg": "ced3b08d6b4aa52a1857fcef11608d965967dfcc3f7e47e03ea110c58bdeb200",
+        "ssv-heo-dark.svg": "c9d0b16648c739276164b985ab9760f0ce7f9073a00b391afdaa70e629e9e4d2"
       }
     },
     "ssv-nav": {
@@ -159,8 +159,8 @@
         "scenarios/gnss-ssv-nav-lunar.toml": "fd9a0ba49a63aa1ef88a5f5cfa3ed8fd044b6efd61ab7b15c25ec76c9460e8d8"
       },
       "svg_sha256": {
-        "ssv-nav-light.svg": "75a51daf3c150cf436262ece0013f7cbd06198567998a385c66d0a9e52fd1971",
-        "ssv-nav-dark.svg": "78c374c639fe1263911176188e37e51462ab59485038611c3ea077d1bf2ea79d"
+        "ssv-nav-light.svg": "be9c3310dd2e70c00ed73c078f245d2deb57d19f6b796a4c52a593a28a22fb52",
+        "ssv-nav-dark.svg": "7f8424fc4b8c7d7f82adb448094549ae20ea4c0d89354339f5d2cfd8ac91dcb9"
       }
     },
     "ssv-formation": {
@@ -173,8 +173,8 @@
         "scenarios/gnss-ssv-formation-heo.toml": "43ca1199d98bb770237fa75a8c26823c89f28d4e1ab102eddd83d10bcfb6934d"
       },
       "svg_sha256": {
-        "ssv-formation-light.svg": "38d14002531f0c019c9adc672eb7469161f3ac9895525a56460b51fee46024ac",
-        "ssv-formation-dark.svg": "b4917a89bdafb4b83c505bdf07ad66c55fd305e05c8010530647b10289894171"
+        "ssv-formation-light.svg": "ae322ed80c698f7b4e19619985d949273b8b79cb241712565e820574d3be693b",
+        "ssv-formation-dark.svg": "c80095bd541e6f4b26b45bc9c1292e3a9ac3807c792e2bb410de43021be0c902"
       }
     },
     "lunar-od": {
@@ -188,8 +188,8 @@
         "scenarios/lunar-infrastructure-od-consistency-model-error.toml": "e9b9005486797bd5aafc01df590b5cc22e6ffc6cd444877ffbf12c88277b2bf5"
       },
       "svg_sha256": {
-        "lunar-od-light.svg": "2d1e44aa5e398802693816bf27f679c797d6dfef104524e51a294aeade855e57",
-        "lunar-od-dark.svg": "7ae46f975dcde3b78207723d0d9a326210e474f3644c30e89c9f18435f5b708b"
+        "lunar-od-light.svg": "4a58e19d5b963118c34c32fdc1afade0d7ef7e2a06625db52dc1a255288a48b6",
+        "lunar-od-dark.svg": "a0727150ff6df4d5127c3813f86133bbbab7c22a67f8950919dde0c30e26e5ab"
       }
     },
     "lunar-carrier": {
@@ -202,8 +202,8 @@
         "tests/fixtures/lunar_infra/phase_full_run.json": "14f424cdcb31d92c365db587fdaf70e8c4a46a53bc4044c5f785b7b8676b7aaa"
       },
       "svg_sha256": {
-        "lunar-carrier-light.svg": "f1b67dc94a7c4d1dd362230b746a36d4158b4b989b19283dd30ba6736289696e",
-        "lunar-carrier-dark.svg": "5c625e2c28180709ff2e37dc7a5a358edeb56c1553c1591cd329fb2fdbb338cd"
+        "lunar-carrier-light.svg": "c285e686aaacbcfb5f718f75121629c72cf7309dc494f6e9c231096f15ec9f13",
+        "lunar-carrier-dark.svg": "e96b00352879e52014e881a8c801c893694d963f6517902e7a72b50de14e847b"
       }
     },
     "lunar-frame": {
@@ -216,8 +216,8 @@
         "scenarios/lunar-infrastructure-frame-coestimation.toml": "1b426123b83333cf298153e48b3568413928aac6e12bd3270ca5655ce49adb48"
       },
       "svg_sha256": {
-        "lunar-frame-light.svg": "758ff4a34120af1b330129a3e52e19ebac5ba87eb405e85c94e7443fce171048",
-        "lunar-frame-dark.svg": "6bac21e1f8b2b48431e10af24a206b601afb0ffc197d87c2b98ebd6d4d7a638f"
+        "lunar-frame-light.svg": "794500c3b29d1ba257d3f22e5c7963b6f87197c757a9728935dfb1e2bea51499",
+        "lunar-frame-dark.svg": "90b766e694748bbce089346a1615ae26bb2590b6fccbc72dffd7dcefa7b6e257"
       }
     },
     "lunar-tie": {
@@ -230,8 +230,8 @@
         "scenarios/lunar-infrastructure-space-tie.toml": "8c58360620e2de3a459b6419749f6733abb28ba2cedfb2c22da238c61f6cbb47"
       },
       "svg_sha256": {
-        "lunar-tie-light.svg": "6020579f5b5a63632751750ffdf3a53b4820f185c92669a0a33556d88ecb96ad",
-        "lunar-tie-dark.svg": "bff3690a59d86473f073f5daba63bfd0b9340c2badd25c23f66349b9bc2f7255"
+        "lunar-tie-light.svg": "cf15a0901b99d42321ff04be481307f17473cf2856f997f516f2b33e09630835",
+        "lunar-tie-dark.svg": "ef04f0cdd5fdcfcbbb8ce63785f839ae6f20310c17a76902af4bf6b1d7f0ea97"
       }
     },
     "lunar-geodesy": {
@@ -244,8 +244,8 @@
         "scenarios/lunar-infrastructure-geodesy-sensitivity.toml": "3253c074ef7afdf34b298dcf7377d8dc31781ca3d17a153251ee504c9c02f655"
       },
       "svg_sha256": {
-        "lunar-geodesy-light.svg": "38edd0a664c52954fc5f425c4806c8766114c071e144a3086e0d51d31d9a203f",
-        "lunar-geodesy-dark.svg": "f35ddc30011372942da97488976949d3f559a8c125b6cf33306dafa4ee26df2f"
+        "lunar-geodesy-light.svg": "ca16e2d6407f07629cd6bf7cca5f66917a5d8ac299ada8c0b4273af1ef6401c6",
+        "lunar-geodesy-dark.svg": "a0d29c58bf0c0252b96d81609712c28ac207aa75ee0ac343d242c574192347da"
       }
     },
     "ssv-booklet": {
@@ -260,8 +260,8 @@
         "xval/gnss-ssv/results-s7.json": "9d542eb0523a2d87564eae434a7183ad780d4ca6b3c52ebcb1ee833842937396"
       },
       "svg_sha256": {
-        "ssv-booklet-light.svg": "fae3838eda9706832b5c8191fc1454e16dbc169191be63d7c98cd8e52834dead",
-        "ssv-booklet-dark.svg": "6095b0a65aa08c650e1f9879de78b95a08215bfa66de5a80a46fb11d62f1e58b"
+        "ssv-booklet-light.svg": "0d651ab6723f49f40a69d4d5ac16f4f2b2e93b9696126b68ae93dca44ba3b3d3",
+        "ssv-booklet-dark.svg": "8e0c9d7a3c94eec6d3b127bc6e3b48db9c1925bbf2e1e43a7b9e1a57c986a2c1"
       }
     }
   }
