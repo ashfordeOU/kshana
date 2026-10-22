@@ -99,7 +99,7 @@ a status names only what was checked, and the ledger row and the linked page say
 | **More receivers and sensors** | RTKLIB `.pos`, NovAtel OEM7, RTCM 3 MSM4/MSM7 C/N0 (from the BSD-licensed pyrtcm tables, not the RTCM text), GNSS-SDR monitor streams, an IMU log as a second sensor, a ROS 2 package, a `gnss_lib_py` bridge, and `imu-fit` for hybrid sensor parameters | **MODELLED**: six ledger rows; self-written fixtures only, no capture from a real receiver, IMU, GNSS-SDR run or ROS graph was read | [Machine inputs](docs/MACHINE-INPUTS.md) |
 | **Timing and holdover tests** | the `holdover-test` kind scores a holdover test (GNSS removed by the operator, holdover, recovery) from a measured time-error record against ITU-T masks, "measured against the mask"; linuxptp and chrony log readers; the hardware stages and the `lab-attestation` field | **MODELLED**: two ledger rows; the times are the operator's statement, not verified | [Timing HIL](docs/TIMING-HIL.md), [Hardware safety](docs/HARDWARE-SAFETY.md) |
 | **Standards packs, LunaNet AFS, lab round trip** | scored packs for DHS RPCF, IMO MSC.1/Circ.1575 and ICAO Doc 9849 Appendix F against bars stated before the run, "supports evidence for"; a NIST IR 8323r1 crosswalk; a LunaNet AFS code generator and checker; a signed pack that links a lab run's scenario, test conditions, receiver log and score | **MODELLED** for the packs and the round trip; the AFS code check is **VALIDATED** against its printed check columns (see the ledger rows) | [Standards](docs/STANDARDS.md), [LunaNet AFS](docs/LUNANET-AFS.md) |
-| **kshana-bench and the observatory** | fixed tasks, splits and metrics for interference detection, IQ detection, holdover prediction and the optimism gap, with a sealed holdout and a static leaderboard; a reproducible daily interference product with a 24 h delay, coarse cells and no attribution | no ledger row of its own: it scores submissions, and its baselines are labelled MODELLED in the result files; against the pre-registered bars the scorer, C1 to C3 and D2 are met and **D1 is NOT MET** (pinned by a test) | [Bench](docs/BENCH.md), [Observatory](docs/observatory/METHOD.md) |
+| **kshana-bench and the observatory** | fixed tasks, splits and metrics for interference detection, IQ detection, holdover prediction and the optimism gap, with a sealed holdout and a static leaderboard; a reproducible daily interference product with a 24 h delay, coarse cells and no attribution | no ledger row of its own: it scores submissions, and its baselines are labelled MODELLED in the result files; against the pre-registered bars the scorer, C1 to C3 and D2 are met and three bars are **NOT MET** (pinned by tests): A2 (`agc_k_sigma` AUC 0.766 against at least 0.80 on the test split), D1 (largest gap 0.0301) and task (b) R1 (carried, not re-run); see `xval/bench/RESULTS-v2.md` | [Bench](docs/BENCH.md), [Observatory](docs/observatory/METHOD.md) |
 | **Exporters** | trust telemetry as Home Assistant MQTT discovery and state messages (publish only, no credentials) beside Prometheus, CEF, LEEF and OTLP | **MODELLED**: one ledger row | [Trust telemetry](docs/TRUST-TELEMETRY.md) |
 | **Optical link margin against time** | the `optical-atmosphere` kind can write one seeded realisation of a site's weather as a link-margin series | **MODELLED**: one ledger row; one draw from the model, not the climate | [Optical atmosphere](docs/OPTICAL-ATMOSPHERE.md) |
 
@@ -283,8 +283,10 @@ kshana bench baseline --task d --split test --out results/
 </picture>
 
 **Ledger status:** no ledger row of its own; the baselines are labelled MODELLED in the result files.
-Against the pre-registered bars the scorer, C1 to C3 and D2 are met and D1 is NOT MET (pinned by a
-test). [Bench](docs/BENCH.md).
+Against the pre-registered bars the scorer, C1 to C3 and D2 are met and three bars are NOT MET, each
+pinned by a test: A2 (`agc_k_sigma` AUC 0.766 against at least 0.80 on the test split), D1 (largest gap
+0.0301) and task (b) R1 (carried from the earlier campaign, not re-run). The figures are in
+[`xval/bench/RESULTS-v2.md`](xval/bench/RESULTS-v2.md). [Bench](docs/BENCH.md).
 
 ### Interference observatory
 
