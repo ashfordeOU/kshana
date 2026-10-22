@@ -9,8 +9,34 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
-### Added
+## [0.39.0] - 2026-10-22
 
+No new features: one command-line fix, dependency updates in the cross-validation tooling, and documentation. The
+engine's results are unchanged from 0.38.0.
+
+### Fixed
+
+- The command line exits quietly with status 141 when its standard output closes (`kshana kinds | head`), instead of
+  panicking with "failed printing to stdout: Broken pipe". 141 is 128 plus SIGPIPE, the status a shell reports for
+  `yes | head`. Only a closed pipe is handled: a full disk or any other write error still reports itself, and a live
+  feed writing to a closed socket still gets its write error. `tests/cli_closed_pipe.rs` closes the reader before the
+  program starts, so the first write fails on every run.
+
+### Security
+
+Dependency updates in the cross-validation tooling (`xval/`); no shipped crate, wheel or package changes.
+
+- `memmap2` 0.9.10 to 0.9.11 (RUSTSEC-2026-0186) in the ANISE cross-check locks (`xval/anise-lunar-od`, `xval/anise-mars-od`);
+  the locks also re-sync the in-repo `kshana` path dependency.
+- `pillow` 12.3.0 to 13.0.0 and `certifi` 2026.7.22 to 2026.10.19 in the oracle environment pins
+  (`xval/oracles/requirements.lock`, `requirements.frozen.txt`): the patched releases for eight pillow advisories
+  and one certifi advisory.
+
+### Docs
+
+- `docs/BENCH.md`, the README and this file list every kshana-bench bar that is NOT MET, as recorded in
+  `xval/bench/RESULTS-v2.md`: **A2** (`agc_k_sigma` AUC 0.766 against at least 0.80 on the test split), **D1** (largest
+  gap 0.0301) and **task (b) R1** (carried, not re-run). No bar is loosened.
 - README completeness pass: a contents list; the scenario kinds filed under families, each with a page under
   `docs/kinds/by-kind/` (the engine's description and fields, the inputs and results of an example run, the ledger rows
   and oracles, the limitations the run's report states, and the chart the engine writes), a contact sheet per
@@ -22,9 +48,6 @@ breaking changes are called out explicitly.
   `tools/readme_audit.py`; guarded by `tests/readme_completeness_doc_sync.rs`, which also pins every entry's
   description and fields to the engine.
 - `tools/render-diagram-chromium.sh`: renders a Mermaid diagram to SVG and PNG on Linux and updates the render record.
-
-### Fixed
-
 - README: the space-user and lunar figures used paths relative to `docs/`, so they did not load from the README; one
   link pointed at `../../docs/JAMMERTEST.md`.
 - Removed two stale hand-copied chart files (`docs/assets/clock-ensemble-band.svg`, `sweep-clock-stability.svg`) that no
