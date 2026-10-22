@@ -4,7 +4,7 @@
 <rect width="1376" height="363" fill="#060A14"/>
 <text x="14" y="34" font-size="20" font-weight="600" fill="#EAF0FF">Space-user navigation</text>
 <rect x="14" y="56" width="440" height="279" rx="8" fill="#0D1528" stroke="#232B3E"/>
-<svg x="22.0" y="62" width="424.0" height="14.4" viewBox="0 0 1180 40"><rect width="1180" height="40" fill="#060A14"/><text x="10" y="24">gnss-ssv trajectory 497 to 58622 km altitude: l1 combined 1+ 100.0% 4+ 97.4% (max outage 0 min); l5 combined 1+ 100.0% 4+ 100.0% (max outage 0 min)</text><text x="1172" y="34" text-anchor="end" fill="#8190B0" font-size="10" font-family="Geist, ui-sans-serif, system-ui, sans-serif">Kshana v0.38.0 · scenario d57b184438e9 · kshana.dev</text></svg>
+<svg x="22.0" y="62" width="424.0" height="14.4" viewBox="0 0 1180 40"><rect width="1180" height="40" fill="#060A14"/><text x="10" y="24">gnss-ssv trajectory 497 to 58622 km altitude: l1 combined 1+ 100.0% 4+ 97.4% (max outage 0 min); l5 combined 1+ 100.0% 4+ 100.0% (max outage 0 min)</text><text x="1172" y="34" text-anchor="end" fill="#8190B0" font-size="10" font-family="Geist, ui-sans-serif, system-ui, sans-serif">Kshana v0.39.0 · scenario d57b184438e9 · kshana.dev</text></svg>
 <text x="26" y="309" font-size="13" font-weight="600" fill="#EAF0FF">gnss-ssv</text>
 <text x="26" y="326" font-size="11" fill="#8190B0">MODELLED</text>
 </svg>
