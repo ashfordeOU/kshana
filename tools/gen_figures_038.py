@@ -35,6 +35,7 @@ import argparse
 import hashlib
 import json
 import math
+import os
 import random
 import re
 import shutil
@@ -1355,14 +1356,15 @@ DOC_PAGES.update({n: "docs/LUNAR-INFRASTRUCTURE.md" for n in ("lunar-od", "lunar
 FIGURE_PAGES = {name: ("README.md", DOC_PAGES[name]) for name in FIGURES}
 
 
-def check_alt_text(assets: dict[str, bytes]) -> list[tuple[str, str]]:
+def check_alt_text(assets: dict[str, bytes], out_dir: Path = DEFAULT_OUT) -> list[tuple[str, str]]:
     bad = []
     for name, pages in FIGURE_PAGES.items():
         want = f'alt="{svg_desc(assets[f"{name}-light.svg"])}"'
         for page in pages:
             text = (ROOT / page).read_text()
-            if f"{name}-light.svg" not in text:
-                bad.append((page, f"{name} is not embedded"))
+            rel = os.path.relpath(out_dir / f"{name}-light.svg", (ROOT / page).parent)
+            if f'src="{rel}"' not in text:
+                bad.append((page, f"{name} is not embedded with the path {rel}"))
             elif want not in text:
                 bad.append((page, f"{name} alt text differs from the figure's description"))
     return bad
@@ -1384,7 +1386,7 @@ def main() -> int:
     if args.check:
         bad = [fn for fn, b in assets.items() if not (out / fn).exists() or (out / fn).read_bytes() != b]
         stale = sorted(p.name for p in out.glob("*") if p.name not in assets) if out.exists() else []
-        alt = check_alt_text(assets)
+        alt = check_alt_text(assets, out)
         if bad or stale or alt:
             print("gen_figures_038: out of date:", ", ".join(bad + [f"{n} (stale)" for n in stale] + [f"{p}: {m}" for p, m in alt]))
             return 1

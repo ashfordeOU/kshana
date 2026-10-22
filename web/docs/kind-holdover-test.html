@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>holdover-test (scenario kind) · Kshana docs</title>
+<meta name="description" content="MODELLED holdover test of a timing system, scored from a time-error record the OPERATOR supplies (a linuxptp ptp4l, phc2sys or ts2phc log, a chrony…">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#E8ECF3" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#060A14" media="(prefers-color-scheme: dark)">
+<link rel="apple-touch-icon" href="../assets/brand/apple-touch-icon.png">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 64 64'%3E%3Cstyle%3E.d%7Bdisplay:none%7D%40media (prefers-color-scheme:dark)%7B.l%7Bdisplay:none%7D.d%7Bdisplay:inline%7D%7D%3C/style%3E%3Cimage class='l' width='64' height='64' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAMFElEQVR42qWbaaxdVRXHf3vf84Y%2BqC1tqS2UFCwUAko1UqMgEhIcMEoc0DgkDkiiET6oERFwilMCipioifBBgyZqFNREFA1OiaLEOiGKRAaFliqTrS2P17737tl%2B4L/rYncP5%2BFNTu65555hr3mt/1rHzazaTOPj9B0K/wV9x/3A8E/r3hT%2Bd4Vj6bk%2BWZNL9vGFB7vkWMj8nzsnmOOucu90sU5r8cnCa0yprTd%2B%2BgIdznKIBrGh8oBQOZZjRkqwZZyVVF94Rnpvl7lHjiEuw7AA0A3gssuoel9Qx9y%2BGyAZKqZTMpMhgqldCxD8gIvjgl2yn5Nqbj9ng88FTh6g1qHgV1xFYOm5vsAkDzhf4WBOlUPFCYUBdhmfdypwSsMMQ8Peo59IBeKAkb4ngMMisRmTYTSxbLUb4GiG/u8KzPEJcf8E7gT2JOf7RhRxA6NCEBM2AWcAfwf2527YLdEWW2EuFJiQmtVRwCKwo%2BJL0numpuQK2uKBGWANcBnwCmAa%2BAHwoJ57wJd1FZVeSqwOhf0SYSNg0iykyxDTVzSq5Ejt%2BT0wC9wNPALM5QTZZcKVK/iAGpN8wQ%2Bk%2B/F7NfCYzh9XNGpkiClJP13HWN/PB64E1gK/B/blaOgaHjunYi2vm2NWDJ0L%2Bh1V8SRFhLHOmZN/2A7co3MwTqzPJFyWWWPgSOB84MvAfcBDhviDaIhOMOe1fUXlS%2BoeCils0P3WaaHH6rwdIniXtmXACcDpwNnan9c5wXj3VEidiD8ReD9wtRxfJ%2BcXSg7TmVrAVZKIIWHQHveSVgcsB46QZAJwB/Bx2ec7K%2Bp/uLTjDN3v%2B8BPEmnHkLcIbAU%2BIgbcZtbga4mbG1AMLaWwsUw5WhKfBh6VROakjlu0qD8l/sMV0uETgVfpXl%2BSeVjizwI%2BDbxODO6Mty8JEcB1hZQ1JMfDAK8f9OBJ4FkiYDuwWwyIqtoD66Xaltj0Gd7kBbdr2wq8BfgF8HP5lNeI%2BJclxOfM8CBt7yoqPsSureSn5XFPkITubiQ4LXMKGSe4Dfgd8FpghWL8Z%2BUzbjO%2BYEhJfUADaBQMrTohyHkdJTvfJoeWS1ZS6VJzUMmxXioP8A3gA8CHgWcCf8lIvpZSH6DDDyQ%2BVBa2TCq9DrjFEB8KdUVkwKiQ47tKhhnzhiuBj8nmNyc%2BI6e9xYjmB%2Bb/pbR3QoRvBH4tJ%2BcKBLskxI4G1hkhqUQ/D7wHeClwvfzNeYmGDMkaswtzSyyKDpXa32zUr5RZpgzJaVifATW8OfY14ALg5cCNcrgfBV4CvMCExhoQ8oRn%2Bga44DIwljNq9XTgD8aju4L6t2p6KslYLwd7HfB64FzgBmlfL8Z/EvigzHEotJf1zqEARqQE9HI%2B9ymu%2B0oqXZNAqZawydQK4LvAK4E3SO0nFAIXtf9H4Fbg4sQUQiFqkTpB1/DEqdSO1IMekdrV6nOXASR8ZpEhk9evlaq/GHgb8HVDfPws6n6fkWlsMDYfKlVtERXuG8RHxzenBMcnmpODxlJvPGEYMJEwJxK/EbgJeB5woTLAkYh3maRpJ/Ar4B2mbmiV88Fnyl/fyPFXaNF/TQDSUIjpXudPaYtET%2Bi/eHykY2MhOT8Sbngh8AVj8yWQ1QHXyiEeYhxiqAGnfkAiYm0yquXeDIdz1WInBzYpAmbkqCa1P2V%2BP0XSPUlFz/HAe0X8qJLeWlzwt/JJp5s116KY9wNzgMiYFVrov43th0rY7LRNSSrLRPihYsyMtuXCB0%2BT5Dcq1l9ptCJUsABrXtuAMxtRLDKv94V8gALgEI8/PACbmxDxE4bwGaG0a8SQFfq9qMTme3KwFwNXZSSfC8fps3%2BqoikHq6VMcD4TKkroT6%2B6flXB2aWLGZnqcFoEr5YDXS7i1%2Buac5TkHAZcAlwhZvUNGw5GePG8O4GV5noy5hBsNUgD5UmZsNPgbiVm%2BYT45TKdNTpvrX6vBp4NXKrzPyQ0Z60Ak1FGKKHSd3DAvdKaDcDfjO8KmQSLrtIMKTnCfQ0gE/0fuT8p5zaSKWwRYDkr1Ods3fMS4Cti2H8UZsOT6EnOCQZbmcEaDrq%2ByxA4MhLstD8polYp7T3axPLOXGND3rS2qI5HybmdITtHnr6X7f9LoMZubfMiZEHnjJNtUdvYMLw3/mqlGB7LZItAR41wXSGERc89YUJYJCp69N6EuciEkbl2ShKOTFgtJqzLSG9CQKkXI9aI%2BFlD4H4xJabAC0Yb5w0TYl0SzS/SNE5CZoiNkTT3n9c2W4gK80J7Wp9J2f6MbHqVGLBTah%2BAfyjZOUsx/GrjX3b9H/jkgtL05j26JQwhkKSuvjItYrVluek/LEjdpyXF74gpF6iiO0XI7j26Lko6DLB/C9BMKVeptemwnaHW%2BEv8f4%2Bkae3KVXA%2BJ03qje2N1RjZJXW/VyDnWwVsbAVerYRmslBs1TpTh8sUdzacerV3XsIIZhW%2BukIOYKNArNRm1QbbLbV8UIzco4bHvI5dJCZMA78B3m7s2Tc008b5TWLu3oQ%2Bt1QG5BgyqxvNFKo9O0Eyb5zWPl27V62qB7TI3VLVOd3zWkFcNwJfVIk7SjI6V%2BlWOTVT/pzQ50r5g2/cLEV0x1rwdCZ/SHsJYxG/IEbMSRP2alvQd9SQWdnv/UqL3we8W7XBcgN0hELuEk3lVNNB6luAb2tCJFW/XhI81pS2roAlBMOAfQpj8XtRWEIkfl7f%2B83zPgW8EHiGurubdF1X0IZeecYK%2BZTawJfLIUIlCKtPsIIHRNQhjbmASMiiCIxmEAzBYx3fl8TyGG1%2BrDD5kJhwsoHBchjGeeoY7S1oy0G%2Bw1e6PVTUbQdwjFlIqU63v8emsps3hC4WGhoxfX5A9f31YsKZuj7NYqdUTl%2BbADWuMFZXhcVzdb79b6cqt/WZerw02mI9dT8gtDnT3Q2S7mWy73OMJkSk6HxBYnclMB1DfYBrTIOm0rxdOf2ogSSViqVcCe4zDOxNeX058Gbgm8AbjY85AniRMARXGLQMrWKoHzD5YY9FLdiqrpBPYnIotL1Lrbac%2BfXJ/iTwVeUP15hw%2Bhx1jHZl5gFKWncAEgsDZnBdQUvu0f5xpjiiQLwrSMMP6OJavxCd47lqjl6hOuOmDEIdEka6EiRWcn6tenxObenD1CVayJhVSLpJNRg%2BNDpHGEZH4h4DnpZp9NRadAfWlhuUzCVFoXDMK3bvlx2ulWmU/EhUzxPkxO40md4QYNaZuv9Eo3G7dOzuwv2KeGdXKXxcwZvnmPCwCDpOTcptJq57Q7gNfaEyYttnzM3rukngXUqjL9X/pylMnq1e5cjUI77ic5wf2LujMJpuJbtb5rBdqM9Gk8KmUxsTA2b8rdnEJugpPD4RcpecYMQdb%2Bbx0ZnrhAWODYrd1ybNu8JUtjNg4lLeztinhuku%2BYT1Ona/St/4jEf539wQhQzSOq91wJt0v8%2BpKzUyzJ0EfqgO8beULO0v2b097mZWbc6NkdVmg2qDDD6BnI5RE%2BRw09C8QwVLEDhSm0HeLJxwE/AzSTgdkwsmdV6QeWxVnmBnhkKuPzB0TK42REXDb0Ss8KmKFrslqQeV2UViOmENG1QAxYLrFs0D9A21xgA1V8kvfaIwO0SNAa4yBucqLyW5Ss8/XewWha8FEevFIGcAkttkTiQjdqHhp6IWXgN8W9iCzzjWkIsCpcSolBfUwk2fAV9ie3ujnn2D8IU4y7%2B/MCwdElWumWFk0kXqLd6q0Jx9L8EXpjPDgHhcwxBCobCx948w916TS2BMxmWaork154a0Y1S6XICrLwgniweEAa/BhIGpsiuYz9jA7qPk3HEDCA2FdaXvGozUGvulqsc%2B9%2BpMrb8XBjx8yHBl7r/7TYe5r2hOzcGWSndvmDySDzhEZtfn5gTdwBw8VCRN5UXK3Ls8qxQeHUt7NykMQIf7xOwcjw9ZbVKoLE6I1KQw5EWJ1psi1kMfrxi/lJcyQ%2BUt1VbWOqsUeSo9t/a%2BwFLH42k0V6wGjJ/EvWpNm1ZzppQIBd8YhK5FgNBwfKV54XEyLO0KpevQ94MZMKqTY1KgULu3HthSzSHmkJtFKFWdtcmV1subzbHfVufELUFNSxOmbgBzfAFUrYG2ruGb%2BsL7hk9Y738BiK3K27ls0kUAAAAASUVORK5CYII='/%3E%3Cimage class='d' width='64' height='64' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAMDUlEQVR42qWbaaxeVRWGn32%2Bcwc6UNrS0kJJwTIYUKqRGgSREHGMEgc0DokDkmiEH2pERJzilAAiJmoi/NBUEzVKlShaDU6JoERURBSJQBVKKy1Dr5TLHb%2Bz/dF3Xxe7ezi33uTkO/eMe81rvWsdt3fCU/lz%2BvWZc16/Yb/6wEU8m8x5lzkWX9tEa3LRPk3mxS465hPnU9d4c9wVnh0v1mktTbTwElNK6w1/XYYOZzlEhVhfeIEvHEsxIybYMs5Kqsu8I362SzwjxRCXYJgHaHtw2SVUvcuoY2rf9ZAMBdPJmUkfwZTuBfBNj5vDgl20n5Jqaj9lg2cAp/VQa5/xK64gsPjaJsOkBnBNgYMpVfYFJ%2BR72GV435nA6RUz9BV7D34iFogDBvodAVYGYhMmQ5sgJpYehfM5de0ShFuivg/MZ7x21yN61HzPUEw4HtgC/BB4InV9u0hbrIW5OCTmzOpYMeChgi%2BJnxmbkstoSwMsAY4ErgBeA4wDPwH26r0LvqxdhFR95ZzLOKcUYQNg1CykTRDTZZhZcqT2%2Bg6YBO4HHgOmUoJsE%2BHKZXxAiUlNxlTi/fC7GnjKqGvub2CIyUk/XsdQvy8ErgHWAn8CplM0tBWPnVKxmtd1Gb/SAXP6P6jiqYoIQ10zBfwb2AnsMH6iMc/wmRA40HOOAS4Cvg48CDxiiD%2BIBrd3wudSzqZAvMssxBdS2AY4SpI/S4u6B1gKLAPGgPXARkltVAT8BrgjoRF2Ha2YdQrwPuBq4F4d7wp5C87UAq6QRPQJg/Z48OYtsBw4WpLxIvozss/3FtR/jbTjHD3vx8AvImmHkDcvb/9J4MPAXWYNTSlxcz2KocUUNvZhxwHr5IGfBP4pFZ8GNmtRf4n8h8ukw6cAr9OzvibzsMSfB3weeJMY3BpvnxMigGszKauPjvseXj%2Bo4ijwXBGwE5gQAzAquR6YjYiN39EYM7xb2xbgHTKLX8unvEHEvyoinkouA%2BDbgorX7Do2h3HZ7jMlofvNNU0hc3SFxCZ2grcDfwTeCKxQjP8icLbUvo2iiqvkN64tXOB71gkeOEzJzTFa5L5MshJLt0%2BWaeP6QMe%2BA3wU%2BATwHOBvCcmXUuoFOpqexPvCwg6TSq8DbjPE%2B0xdERgwyOT4rpBhhrzhGuDTsvmTIp%2BR0t4c7rFwwh2C0/MqNtYpdP1OTs5lCHZRSBz0BDx8VGN8GfgA8Epgm/zNhZGG9MkakwtzlcXEi10mtb81Km5cJinymQrQRxlfqupzwLeAi4FXA9vlcD8FvBx4kQmNJSDkae9sKuCCS8BYzqjVs5SkzGZSZt%2Bzps%2BV0CGGjwM3AG8GLgBukvZ1YvzngI/JHPtCe0nv7DNgRExAJ%2BfzoOJ6U0ilSxLI1RI2mVoB3Ai8FniL1H5EIXBe%2B38G7gQui0zBZ6IWsRN0i6z3j9GLHpPalVBblwAkmsQifSKvXytVfxnwLuDbhvjwN6/nfUGmscHYvC9UtVlUuKsQHxzflBKcJtKcFDQWe%2BMRw4CRiDmB%2BI3AzcALgEuUAQ5EvEskTbuB3wLv0fsGPcp53yTK36aS46/Qov8eAaQ%2BE9MbXT%2BmLRA9onPh%2BEDHhsAm4GfCDS8BvmJsPgeyOmCrHOJS4xB9CVVqesJd3tTaa4H9CQ6n6v5WDmxUBCyRoxrV/pj5/3BJ91QVPScDHxTxg0J6a3HBP8gnnW3WXIpiTdMzBwiMWaGFPm5s3xfCZqttTFI5TIQvE2OWaFsuzO4sSX6jYv01Rit8AQuw5nU7cG4ligXmdU0mHyADOITjj/bA5kZE/IghfIlQ2iPFkBX6f16JzY/kYC8Drk1IPhWO43f/UkVTClaLmeCaRKjIoT%2Bd6vpVGWcXL2ZgqsNxEbxaDnS5iF%2Bve85XkrMSuBy4SszqKjbsjfDCdfcCR5j7SZiDt9VgCeBMMWG3wd1yzGoi4pfLdI7UdWv1/2rgecBHdP3Hget0ftIgQLlcJWWqD0hrNgD/ML4rCb%2B3hWZIzhFOV4BMdD5wf1TObSBT2CzAclKozyv0zMuBb4hh/1GY9YfQF5gCZqQFZLTIWycVEzgwEmy1PyqiVintPc7E8tbcY0PeuLagjsfKuZ0jO0eevpPtPyxQY0LbrAiZ0zXDaJvXNjQM74y/OkIMD2WyRaCDRrg2E8KC5x4xISwQFTx6Z8JcYMLA3DsmCQcmrBYT1iWkNwKcIAY%2BLFOZkZYEAmfElJACzxltnDVMCHVJML9A0zAKmT40RuLcf1bbZCYqzArtqf2NyvaXyKZXiQG7pfYe%2BJeSnfMUw68z/mXf/4FPzilNrz6jXcQQAlHq2hSmRay2LDf9hzmp%2B7ik%2BAMx5WJVdKcL2d2h%2B4KkfQ/7twDNmHKVUpsO2xmqjb%2BE809ImtauXAHnc9KkztjeUI2RfVL3BwRyvlPAxhbg9UpoRjPFVqkztUamuLvi1Iu98xxGMKnw1WZyABsFQqU2qWbIhNRyrxj5hLpAszp2qZgwDvweeLex56aimTbObxJz90f0ucUyIMWQST1oSabasxMks8ZpTeve/WpV7dEiJ6SqU3rmVkFc24GvqsQdRBldLmMN584A/hrR53L5Q1N5WIzoDrXg8UT%2BEPcShiJ%2BToyYkibs1zan36Ahk7LfXUqLPwS8X7XBcgN0%2BEzuEkzlTNNB6mqAb21CJFa/ThI8wZS2LoMleMOAaYWx8DsvLCEQP6vfGfO%2Bq4GXAM9Wd3eT7msz2tApz1ghn1Ia%2BHIpRCgHYXURVrBHRC2tzAUEQuZFYDADbwge6vh0FMtDtPm5wuQjYsJpBgZLYRgXqmO0P6MtB/mOptDtoaBuD3Fg/GSkMMbmE2Mr8yaX6IyjTDU0Qvq8R/X9NjHhXN0fZ7FjKqe3RkCNy4zVFWHxVJ1vz%2B1W5bY%2BUY/nRlusp%2B56hDZnurte0r1C9n2%2B0YSAFF0kSOy%2BCKajrw9wlWnQWJp3K6cfVJCkXLGUKsGbBAM7U15fCbwd%2BC7wVuNjjgZeKgzBZQYtfa0Y6npMfthjQQu2qCvURDHZZ9reuVZbyvy6aH8U%2BKbyh%2BtNOH2%2BOkb7EvMAOa1bgMR8jxlcl9GSHdo/0RRHZIh3GWk0Pbq41i8E53iBmqNXqc64OYFQ%2B8RESRISyzm/Wj0%2Bpbb0SnWJ5hJm5aNuUgmG95XOEYbRgbingGckGj2lFt3C2vpw31Ug7yelCYcL3ekKQ9EUxmf7ToqGaLISuEVm8DjwYh0fFCC%2Bg8J1Wyh8XMabuwQTHtXLT1ST8nYT1xtjlzb0%2BcKIbZcwt0b3jXJgEGpCUBoKf9tUZt9hmiu5Ya8FupqevTsyo%2BnWjidkDjuF%2Bmw0KWw8tTHSY8bfmk1ogp7OgYmQ%2B%2BQEA%2B54KwdGZ24QFjg0KHZX0oI2M5XtDJi4mK8zptUw3SefsF7Hdqn0De94kv/NDZHJIK3zWge8Tc/7krpSA8PcUeCn6hB/T8nSTGEOeuG42zvhU2NktZk/VwBNLeR0vJoga0xD8x4VLF7gSGkG%2BSThhJuAX0nC8ZicN6nznMxji/IEOzPkU/2BvmNypSEqKn4jYIVHyXFNSFJ7ldkFYlo50g0qgELBdZvmAbqKWmOAmmvllz6bmR2ixABXGINzhWlSV%2Bj5xy/ZrPA1J2LDFKkzAMldMieiETtf8VNBC6/nwFj%2B9kgzk%2BPyLsrgXGEWv9RKd4VzjWlvb9S7b1IIm9E1M5lhaR%2BpcskMA5MuVW/xTmWtLjW212SmM33FHFwFQ/CZwsY%2BP8Dc%2B7U/Y4geRFC2TwxclYa0Q1S6UoBrkxFOEg/wPT6D8T1TZZcxn6GB3QfRtcMKEOoz64q/NRioNXaLqscu9elMqb/ne7y8z3Bl6twu02HuCppTcrC50r0xTB7IByyV2XWpOUHXMwf3BUlT%2BJAyZthAxcuyymyC64lU5ypIm1HeqFA6UpoQKUmhz4cStS9FrIc%2BWTF%2BMR9l%2BsJXqrWsdVIp8lh8bel7gcWOx1NprlgNGB7Cs0pNm1pzJpcI%2BaYyCF2KAL7i%2BHLzwsNoWNplSte%2B3wfTY1QnxSRPpnavvbCmmn3MITWL4Cuf4vien9Muauy31jlxi1DT3ISp68GcJgOqlkBbV/FNXeZ7w6et978oq/I35bE6mwAAAABJRU5ErkJggg=='/%3E%3C/svg%3E">
+<script>try{var t=localStorage.getItem('kshana-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link href="../fonts/geist-geist-mono-unbounded.css" rel="stylesheet">
+<link href="../fonts/noto-sans-devanagari.css" rel="stylesheet">
+<link rel="stylesheet" href="../tokens.css">
+<link rel="stylesheet" href="../theme.css">
+<link rel="stylesheet" href="../site.css">
+<link rel="stylesheet" href="../css/docs.css">
+<link rel="stylesheet" href="../css/light.css">
+<!-- seo:head -->
+<link rel="canonical" href="https://kshana.dev/docs/kind-holdover-test">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Kshana">
+<meta property="og:locale" content="en_GB">
+<meta property="og:url" content="https://kshana.dev/docs/kind-holdover-test">
+<meta property="og:title" content="holdover-test (scenario kind) · Kshana docs">
+<meta property="og:description" content="MODELLED holdover test of a timing system, scored from a time-error record the OPERATOR supplies (a linuxptp ptp4l, phc2sys or ts2phc log, a chrony…">
+<meta property="og:image" content="https://kshana.dev/og-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:alt" content="Kshana, a PNT (positioning, navigation and timing) resilience simulator. 176 of 388 capabilities validated against external oracles.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="holdover-test (scenario kind) · Kshana docs">
+<meta name="twitter:description" content="MODELLED holdover test of a timing system, scored from a time-error record the OPERATOR supplies (a linuxptp ptp4l, phc2sys or ts2phc log, a chrony…">
+<meta name="twitter:image" content="https://kshana.dev/og-card.png">
+<meta name="twitter:image:alt" content="Kshana, a PNT (positioning, navigation and timing) resilience simulator. 176 of 388 capabilities validated against external oracles.">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://kshana.dev/"}, {"@type": "ListItem", "position": 2, "name": "Docs", "item": "https://kshana.dev/docs/"}, {"@type": "ListItem", "position": 3, "name": "holdover-test (scenario kind)", "item": "https://kshana.dev/docs/kind-holdover-test"}]}</script>
+<!-- /seo:head -->
+</head>
+<body data-page="docs">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-copy" viewBox="0 0 16 16"><rect x="5" y="5" width="9" height="9" rx="2" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M11 5V3.5A1.5 1.5 0 0 0 9.5 2h-6A1.5 1.5 0 0 0 2 3.5v6A1.5 1.5 0 0 0 3.5 11H5" fill="none" stroke="currentColor" stroke-width="1.4"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 16 16"><path d="M3 8h9M8.5 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-play" viewBox="0 0 12 12"><path d="M3 1.5v9l7.5-4.5Z" fill="currentColor"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 12 12"><path d="M3 1.5h2v9H3zM7 1.5h2v9H7z" fill="currentColor"/></symbol>
+  <symbol id="i-ext" viewBox="0 0 16 16"><path d="M9 3h4v4M13 3 7.5 8.5M12 9.5V13H3V4h3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></g></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="m20 20-3.5-3.5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></symbol>
+  <symbol id="i-theme" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.2" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M8 1.8a6.2 6.2 0 0 1 0 12.4z" fill="currentColor"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 16 16"><path d="M2.5 4.5h11M2.5 8h11M2.5 11.5h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
+</svg>
+<a class="skip" href="#main">Skip to content</a>
+<div class="bg-field" aria-hidden="true"></div>
+<header class="nav" id="nav">
+  <div class="nav-in">
+    <a class="brand" href="/" aria-label="Kshana home"><span class="brand-mark" aria-hidden="true"></span><span class="brand-t">kshana</span> <small>v0.38.0</small></a>
+    <nav class="nav-links" id="navLinks" aria-label="Primary">
+      <a href="/missions">Missions</a>
+      <a href="/capabilities">Capabilities</a>
+      <a href="/evidence">Evidence</a>
+      <a href="/evidence#research">Research</a>
+      <a href="/developers">Developers</a>
+      <a href="/docs/" aria-current="page">Docs</a>
+      <a href="/editions">Editions</a>
+    </nav>
+    <div class="nav-right">
+      <button class="k-btn" id="kbtn" type="button" aria-haspopup="dialog" aria-controls="palette"><svg width="14" height="14" aria-hidden="true"><use href="#i-search"/></svg><span class="lbl">Search</span><kbd class="kmod">⌘K</kbd></button>
+      <button class="icon-btn" id="themeBtn" type="button" aria-label="Switch between light and dark theme" title="Switch theme"><svg class="moon" aria-hidden="true"><use href="#i-moon"/></svg><svg class="sun" aria-hidden="true"><use href="#i-sun"/></svg></button>
+      <a class="pill" href="/studio/"><span class="pill-l">Launch&nbsp;</span>Kshana Studio</a>
+      <button class="icon-btn menu-btn" id="menuBtn" type="button" aria-label="Open the menu" aria-expanded="false" aria-controls="navLinks"><svg aria-hidden="true"><use href="#i-menu"/></svg></button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+<div class="docs docs-page">
+  <aside class="docs-side" aria-label="Documentation">
+    <div class="docs-search"><label class="vh" for="docsQ">Search the docs</label><input id="docsQ" type="search" placeholder="Search the docs" autocomplete="off" aria-keyshortcuts="/" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="docsR"><div class="docs-results" id="docsR" role="listbox" aria-label="Search results"></div><p class="vh" id="docsCount" aria-live="polite"></p></div>
+    <details class="docs-nav-d" open><summary>All docs pages</summary><nav class="docs-nav" aria-label="Docs pages"><div><h2>Get started</h2><a href="/docs/overview">Overview</a><a href="/docs/concepts">Concepts primer</a><a href="/docs/glossary">Glossary</a><a href="/docs/studio">Studio guide</a><a href="/docs/tutorials">Tutorials</a><a href="/docs/tutorial-first-orbit">1 · Your first orbit</a><a href="/docs/tutorial-clock-holdover">2 · Clock holdover</a><a href="/docs/tutorial-quantum-vs-classical">3 · Quantum against classical</a><a href="/docs/example-multi-tool">Worked example: multi-tool pipeline</a></div><div><h2>Scenarios</h2><a href="/docs/scenarios">Scenario kinds</a><a href="/docs/kinds">Every scenario kind, by family</a><a href="/docs/commands">Every command</a><a href="/docs/all-surfaces">Every surface</a><a href="/docs/capability-domains">Capability domains</a><a href="/docs/scenario-reference">Scenario reference</a><a href="/docs/schema">Result schema</a><a href="/docs/real-tle-guide">Using real TLEs</a><a href="/docs/campaigns">Campaigns</a></div><div><h2>Outputs and exports</h2><a href="/docs/reports">Run reports</a><a href="/docs/animation">Animation export</a><a href="/docs/interop">Interoperability exports and imports</a></div><div><h2>Validation and evidence</h2><a href="/docs/validation">Validation status</a><a href="/docs/verification-matrix">Verification matrix</a><a href="/docs/capability-reference">Capability reference</a><a href="/docs/modelled-rationale">Why rows stay Modelled</a><a href="/docs/claims-vs-reality">Claims against reality</a><a href="/docs/provenance">Provenance</a><a href="/docs/reproducibility">Reproducibility</a><a href="/docs/capability-map">Capability map</a><a href="/docs/standards">Standards and interoperability</a><a href="/docs/line-coverage">Line coverage</a><a href="/docs/evidence-packs">Evidence packs</a></div><div><h2>Timing</h2><a href="/docs/optical-atmosphere">Optical links through the atmosphere</a><a href="/docs/slot-timing">Slot timing</a><a href="/docs/telecom-timing">Telecom timing</a><a href="/docs/deceived-time">Deceived time</a><a href="/docs/timing-hil">Holdover test and timing hardware in the loop</a><a href="/docs/clock-log-formats">Clock log formats</a><a href="/docs/hardware-safety">Hardware safety</a></div><div><h2>Integrity and interference</h2><a href="/docs/integrity">Integrity and security</a><a href="/docs/spectrum">Spectrum and waterfall</a><a href="/docs/araim-reference">ARAIM reference</a><a href="/docs/compliance">DO-316 / DO-229E map</a><a href="/docs/resilience-crosswalk">Resilience cross-walk</a></div><div><h2>Receiver trust and maritime</h2><a href="/docs/receiver-trust">Receiver trust</a><a href="/docs/maritime-trust">Maritime trust</a><a href="/docs/nmea-training">NMEA training streams</a><a href="/docs/interference-map">Interference map and route exposure</a><a href="/docs/interference-data-sources">Interference map: data sources and licences</a><a href="/docs/marine-integrations">Marine integrations</a><a href="/docs/skyline">Sky geometry and skylines</a><a href="/docs/trust-telemetry">Trust as security telemetry</a><a href="/docs/osnma">Galileo OSNMA verification</a><a href="/docs/lunanet-afs">LunaNet augmented forward signal</a><a href="/docs/jammertest">Jammertest as a referee</a><a href="/docs/machine-inputs">Machine and sensor inputs</a><a href="/docs/receiver-protocols">Receiver protocols read</a><a href="/docs/observatory-method">Interference observatory: method</a><a href="/docs/observatory-results">Interference observatory: results</a><a href="/docs/bench">kshana-bench</a></div><div><h2>Compliance and test bench</h2><a href="/docs/test-bench">Running a receiver against a scenario</a><a href="/docs/compliance-mapping">Compliance mapping</a><a href="/docs/compliance-dhs-rpcf">US DHS resilient PNT framework</a><a href="/docs/compliance-imo-ships">IMO guidance for ships</a><a href="/docs/compliance-easa-aviation">EASA guidance for aviation</a><a href="/docs/compliance-nis2-art21">EU NIS2, Article 21</a><a href="/docs/compliance-en-16803">EN 16803</a></div><div><h2>Orbits</h2><a href="/docs/sgp4-validation">SGP4 validation</a><a href="/docs/agency-orbit-validation">Force-model validation</a><a href="/docs/solar-system">Solar system and other bodies</a><a href="/docs/lunar-reference-station">Lunar reference station</a><a href="/docs/ssv">Space-user navigation (gnss-ssv)</a><a href="/docs/lunar-infrastructure">Lunar orbit and surface as infrastructure</a></div><div><h2>Low Earth orbit (LEO) navigation</h2><a href="/docs/leo-pnt">LEO positioning, navigation and timing</a><a href="/docs/leo-signal">LEO signal designs</a><a href="/docs/leo-pass">LEO pass and link budget</a><a href="/docs/leo-navmsg">LEO navigation message</a><a href="/docs/leo-pnt-fusion">Fused MEO and LEO positioning</a><a href="/docs/constellation-design">Constellation design</a></div><div><h2>Quantum sensors</h2><a href="/docs/quantum-models">Quantum-sensor models</a><a href="/docs/quantum-physics">Cold-atom interferometer</a></div><div><h2>APIs and integrations</h2><a href="/docs/python-api">Python API</a><a href="/docs/npm">npm and WebAssembly</a><a href="/docs/rust">Rust crate</a><a href="/docs/mcp">MCP server</a><a href="/docs/mcp-install">MCP server: every install channel</a><a href="/docs/mcp-http">MCP server: self-hosted HTTP mode</a><a href="/docs/agents">Using Kshana from an agent</a><a href="/docs/surfaces">Where each capability is reachable</a><a href="/docs/jetbrains">JetBrains plugin</a><a href="/docs/deployment-targets">Where Kshana runs</a><a href="/docs/architecture">Architecture</a><a href="/docs/positioning">Where Kshana sits</a></div><div><h2>Project</h2><a href="/docs/changelog">Changelog</a><a href="/docs/licensing">Licensing</a><a href="/docs/security">Security</a><a href="/docs/contributing">Contributing</a><a href="/docs/governance">Governance</a><a href="/docs/code-of-conduct">Code of conduct</a></div><div><h2>Scenario kind families</h2><a href="/docs/kinds-campaigns">Campaigns</a><a href="/docs/kinds-clocks-timing-and-holdover">Clocks timing and holdover</a><a href="/docs/kinds-constellations-coverage-and-geometry">Constellations coverage and geometry</a><a href="/docs/kinds-gnss-measurements-positioning-and-integrity">Gnss measurements positioning and integrity</a><a href="/docs/kinds-gps-denied-alternative-pnt">Gps denied alternative pnt</a><a href="/docs/kinds-inertial-fusion-and-quantum-sensors">Inertial fusion and quantum sensors</a><a href="/docs/kinds-jamming-spoofing-and-the-spectrum">Jamming spoofing and the spectrum</a><a href="/docs/kinds-low-earth-orbit-navigation">Low earth orbit navigation</a><a href="/docs/kinds-lunar-and-cislunar">Lunar and cislunar</a><a href="/docs/kinds-mission-analysis-links-and-space-operations">Mission analysis links and space operations</a><a href="/docs/kinds-optical-pnt">Optical pnt</a><a href="/docs/kinds-space-user-navigation">Space user navigation</a></div><div><h2>Scenario kind pages</h2><a href="/docs/kind-acm-link">acm-link</a><a href="/docs/kind-aocs">aocs</a><a href="/docs/kind-aperture-duty-cycle">aperture-duty-cycle</a><a href="/docs/kind-araim-reference-check">araim-reference-check</a><a href="/docs/kind-ascent-losses">ascent-losses</a><a href="/docs/kind-attitude-budget">attitude-budget</a><a href="/docs/kind-body-pnt">body-pnt</a><a href="/docs/kind-campaign">campaign</a><a href="/docs/kind-cislunar-arc-recovery">cislunar-arc-recovery</a><a href="/docs/kind-cislunar-observability">cislunar-observability</a><a href="/docs/kind-clock">clock</a><a href="/docs/kind-combined-altpnt">combined-altpnt</a><a href="/docs/kind-conflict-resilience">conflict-resilience</a><a href="/docs/kind-constellation-design">constellation-design</a><a href="/docs/kind-contact-schedule">contact-schedule</a><a href="/docs/kind-earth-gnss-lunar">earth-gnss-lunar</a><a href="/docs/kind-entry-heating">entry-heating</a><a href="/docs/kind-eo-coverage">eo-coverage</a><a href="/docs/kind-eo-radiometry">eo-radiometry</a><a href="/docs/kind-ephemeris">ephemeris</a><a href="/docs/kind-fusion">fusion</a><a href="/docs/kind-gnss-ins">gnss-ins</a><a href="/docs/kind-gnss-sim">gnss-sim</a><a href="/docs/kind-gnss-ssv">gnss-ssv</a><a href="/docs/kind-gravity-map">gravity-map</a><a href="/docs/kind-holdover-test" aria-current="page">holdover-test</a><a href="/docs/kind-hybrid-optical-rf">hybrid-optical-rf</a><a href="/docs/kind-hybrid-ukf">hybrid-ukf</a><a href="/docs/kind-hybrid">hybrid</a><a href="/docs/kind-impairment-eval">impairment-eval</a><a href="/docs/kind-inertial">inertial</a><a href="/docs/kind-ins-trn-coast">ins-trn-coast</a><a href="/docs/kind-integrity">integrity</a><a href="/docs/kind-jamming">jamming</a><a href="/docs/kind-launch-window">launch-window</a><a href="/docs/kind-leo-navmsg">leo-navmsg</a><a href="/docs/kind-leo-pass">leo-pass</a><a href="/docs/kind-leo-pnt-chain">leo-pnt-chain</a><a href="/docs/kind-leo-ppp">leo-ppp</a><a href="/docs/kind-leo-pvt">leo-pvt</a><a href="/docs/kind-leo-signal">leo-signal</a><a href="/docs/kind-link-budget">link-budget</a><a href="/docs/kind-lunar-attack-surface">lunar-attack-surface</a><a href="/docs/kind-lunar-beacon">lunar-beacon</a><a href="/docs/kind-lunar-differential-pnt">lunar-differential-pnt</a><a href="/docs/kind-lunar-frame-campaign">lunar-frame-campaign</a><a href="/docs/kind-lunar-frame-realisation">lunar-frame-realisation</a><a href="/docs/kind-lunar-infrastructure">lunar-infrastructure</a><a href="/docs/kind-lunar-integrity">lunar-integrity</a><a href="/docs/kind-lunar-interop-export">lunar-interop-export</a><a href="/docs/kind-lunar-jamming">lunar-jamming</a><a href="/docs/kind-lunar-joint-od-clock">lunar-joint-od-clock</a><a href="/docs/kind-lunar-llr-datum">lunar-llr-datum</a><a href="/docs/kind-lunar-station-coverage">lunar-station-coverage</a><a href="/docs/kind-lunar-time-budget">lunar-time-budget</a><a href="/docs/kind-lunar-time-offset">lunar-time-offset</a><a href="/docs/kind-lunar-vlbi-fim">lunar-vlbi-fim</a><a href="/docs/kind-lunar-vlbi">lunar-vlbi</a><a href="/docs/kind-mars-pnt">mars-pnt</a><a href="/docs/kind-moonlight-service-volume">moonlight-service-volume</a><a href="/docs/kind-ntn-positioning">ntn-positioning</a><a href="/docs/kind-oem-interop">oem-interop</a><a href="/docs/kind-optical-atmosphere">optical-atmosphere</a><a href="/docs/kind-orbit">orbit</a><a href="/docs/kind-passes">passes</a><a href="/docs/kind-pvt">pvt</a><a href="/docs/kind-quantum-anomaly-detect">quantum-anomaly-detect</a><a href="/docs/kind-quantum-gnss-free-nav">quantum-gnss-free-nav</a><a href="/docs/kind-quantum-time-transfer">quantum-time-transfer</a><a href="/docs/kind-quantum-trade">quantum-trade</a><a href="/docs/kind-realtime-frame-eop">realtime-frame-eop</a><a href="/docs/kind-reentry">reentry</a><a href="/docs/kind-slot-timing">slot-timing</a><a href="/docs/kind-solar-system">solar-system</a><a href="/docs/kind-space-packet">space-packet</a><a href="/docs/kind-space-weather">space-weather</a><a href="/docs/kind-spectrum">spectrum</a><a href="/docs/kind-spoof-detect">spoof-detect</a><a href="/docs/kind-spoof">spoof</a><a href="/docs/kind-sweep-nd">sweep-nd</a><a href="/docs/kind-sweep">sweep</a><a href="/docs/kind-telecom-timing">telecom-timing</a><a href="/docs/kind-terrain-nav">terrain-nav</a><a href="/docs/kind-terrain-slam">terrain-slam</a><a href="/docs/kind-time-transfer-budget">time-transfer-budget</a><a href="/docs/kind-timetransfer">timetransfer</a><a href="/docs/kind-tracking-loop">tracking-loop</a></div></nav></details>
+  </aside>
+  <article class="docs-main">
+    <div class="docs-meta"><span>Scenario kind pages</span><a href="https://github.com/ashfordeOU/kshana/blob/main/docs/kinds/by-kind/holdover-test.md">Edit on GitHub</a><span>Source: <code>docs/kinds/by-kind/holdover-test.md</code></span></div>
+    <div class="prose"><!-- SPDX-License-Identifier: AGPL-3.0-only -->
+<!-- Generated by tools/gen_kinds_index.py from the engine, the schema, the verification matrix and one run of the example. Do not edit by hand. -->
+<h1 id="holdover-test"><code>holdover-test</code> (scenario kind)</h1>
+<p>Scenario kind of the engine v0.38.0, family <a href="/docs/kinds-clocks-timing-and-holdover">Clocks, timing and holdover</a>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine&#39;s or the verification matrix&#39;s; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README&#39;s Evidence section).</p>
+<h2 id="what-it-does">What it does<a class="anchor" href="#what-it-does" aria-label="Link to this section">#</a></h2>
+<p>MODELLED holdover test of a timing system, scored from a time-error record the OPERATOR supplies (a linuxptp ptp4l, phc2sys or ts2phc log, a chrony tracking or statistics log, a TICC, TimeLab or RINEX clock log, or time_s,time_error_ns pairs). The test has four steps and Kshana performs none of them: a locked BASELINE, GNSS REMOVED by the operator (the antenna cable or the simulator output; Kshana transmits and drives nothing) at a stated time, HOLDOVER on the system&#39;s own oscillator, and RECOVERY after the operator restores GNSS at a second stated time. The record is split at those two times. Baseline: time-error statistics and the ITU-T masks written for a locked clock. Holdover: statistics, the fractional frequency offset the system held (a least-squares line), the masks written for holdover or an autonomous clock, the ePRTC-A holdover envelope from the stated locked duration, and the time to exceed each time-error budget. Recovery: whether and when |TE| came inside a stated band and stayed there, the peak and the largest step. Every limit is transcribed from a public ITU-T table (the telecom-timing masks); the words are &#39;measured against the mask&#39;, and the two times are the operator&#39;s statement, not verified. A record too short for a mask is INCOMPLETE, never extrapolated. See docs/TIMING-HIL.md.</p>
+<p>One run of <code>scenarios/holdover-test-ptp4l.toml</code> summarises as: holdover-test: holdover 1795 s, max|TE| 59.0 ns; prtc-a PASS, eprtc-a-holdover FAIL; recovered 0 s after GNSS returned (MODELLED, measured against the mask)</p>
+<h2 id="inputs">Inputs<a class="anchor" href="#inputs" aria-label="Link to this section">#</a></h2>
+<p>From the schema (<code>kshana kinds --json</code>):</p>
+<ul>
+<li>Required fields: <code>test</code>, <code>series</code></li>
+<li>Optional fields: <code>masks</code>, <code>budgets</code></li>
+</ul>
+<p>The example <code>scenarios/holdover-test-ptp4l.toml</code> sets, among others:</p>
+<div class="tbl"><table><thead><tr>
+<th>Field</th>
+<th>Value</th>
+<th>Unit</th>
+</tr>
+</thead><tbody><tr>
+<td><code>kind</code></td>
+<td>holdover-test</td>
+<td>text</td>
+</tr>
+<tr>
+<td><code>masks</code></td>
+<td>[prtc-a, eprtc-a-holdover]</td>
+<td>not stated</td>
+</tr>
+<tr>
+<td><code>series.clock_log.format</code></td>
+<td>ptp4l</td>
+<td>text</td>
+</tr>
+<tr>
+<td><code>series.clock_log.text</code></td>
+<td>ptp4l[1000.000]: master offset         -4 s2 freq +  1200 pa</td>
+<td>text</td>
+</tr>
+<tr>
+<td><code>test.gnss_removed_s</code></td>
+<td>600</td>
+<td>s</td>
+</tr>
+<tr>
+<td><code>test.gnss_restored_s</code></td>
+<td>2400</td>
+<td>s</td>
+</tr>
+<tr>
+<td><code>test.locked_duration_days</code></td>
+<td>5</td>
+<td>d</td>
+</tr>
+<tr>
+<td><code>test.recovery_band_ns</code></td>
+<td>100</td>
+<td>ns</td>
+</tr>
+<tr>
+<td><code>test.recovery_dwell_s</code></td>
+<td>60</td>
+<td>s</td>
+</tr>
+</tbody></table></div>
+<h2 id="run-it">Run it<a class="anchor" href="#run-it" aria-label="Link to this section">#</a></h2>
+<pre data-lang="shell"><code class="hljs language-bash">kshana scenarios/holdover-test-ptp4l.toml</code></pre>
+<p>2 bundled scenarios use this kind; the others are in <a href="https://github.com/ashfordeOU/kshana/blob/main/scenarios"><code>scenarios/</code></a>.</p>
+<h2 id="what-it-gives">What it gives<a class="anchor" href="#what-it-gives" aria-label="Link to this section">#</a></h2>
+<p>The scalar results of that run, with the units the engine states:</p>
+<div class="tbl"><table><thead><tr>
+<th>Result</th>
+<th>Value</th>
+<th>Unit</th>
+</tr>
+</thead><tbody><tr>
+<td><code>clock_log.clock</code></td>
+<td>master</td>
+<td>text</td>
+</tr>
+<tr>
+<td><code>clock_log.data</code></td>
+<td>phase</td>
+<td>text</td>
+</tr>
+<tr>
+<td><code>clock_log.format</code></td>
+<td>ptp4l</td>
+<td>text</td>
+</tr>
+<tr>
+<td><code>clock_log.gap_policy</code></td>
+<td>refuse</td>
+<td>text</td>
+</tr>
+<tr>
+<td><code>clock_log.n_duplicates</code></td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td><code>clock_log.n_gaps</code></td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td><code>clock_log.n_grid</code></td>
+<td>600</td>
+<td>1</td>
+</tr>
+<tr>
+<td><code>clock_log.n_interpolated</code></td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td><code>clock_log.n_missing</code></td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td><code>clock_log.n_off_grid</code></td>
+<td>0</td>
+<td>1</td>
+</tr>
+</tbody></table></div>
+<p>Result label (the engine&#39;s): MODELLED — a holdover test scored from a time-error record the operator supplied. Every limit is transcribed from the named public ITU-T Recommendation and the result is measured against the mask; it says nothing about whether any clock or system meets a Recommendation, and nobody has rated or appro</p>
+<img src="data:image/svg+xml;charset=utf-8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22900%22 height=%22460%22 font-family=%22Geist, ui-sans-serif, system-ui, sans-serif%22 font-size=%2212%22 fill=%22%23A7B4D2%22%3E%3Crect width=%22900%22 height=%22460%22 fill=%22%23060A14%22/%3E%3Ctext x=%2224%22 y=%2224%22 font-size=%2215%22 font-weight=%22bold%22%3EHoldover test: time error by step%3C/text%3E%3Ctext x=%2224%22 y=%2240%22 font-size=%2211%22 fill=%22%238190B0%22%3Eholdover-test: holdover 1795 s, max%7CTE%7C 59.0 ns; prtc-a PASS, eprtc-a-holdover FAIL; recovered 0 s after GNSS returned (MODELLED, measured against the mask)%3C/text%3E%3Cline x1=%2280%22 y1=%22400.0%22 x2=%22840%22 y2=%22400.0%22 stroke=%22%23161C2B%22/%3E%3Ctext x=%2274%22 y=%22404.0%22 text-anchor=%22end%22 fill=%22%238190B0%22 font-size=%2211%22%3E0%3C/text%3E%3Cline x1=%2280%22 y1=%22320.0%22 x2=%22840%22 y2=%22320.0%22 stroke=%22%23161C2B%22/%3E%3Ctext x=%2274%22 y=%22324.0%22 text-anchor=%22end%22 fill=%22%238190B0%22 font-size=%2211%22%3E26%3C/text%3E%3Cline x1=%2280%22 y1=%22240.0%22 x2=%22840%22 y2=%22240.0%22 stroke=%22%23161C2B%22/%3E%3Ctext x=%2274%22 y=%22244.0%22 text-anchor=%22end%22 fill=%22%238190B0%22 font-size=%2211%22%3E52%3C/text%3E%3Cline x1=%2280%22 y1=%22160.0%22 x2=%22840%22 y2=%22160.0%22 stroke=%22%23161C2B%22/%3E%3Ctext x=%2274%22 y=%22164.0%22 text-anchor=%22end%22 fill=%22%238190B0%22 font-size=%2211%22%3E79%3C/text%3E%3Cline x1=%2280%22 y1=%2280.0%22 x2=%22840%22 y2=%2280.0%22 stroke=%22%23161C2B%22/%3E%3Ctext x=%2274%22 y=%2284.0%22 text-anchor=%22end%22 fill=%22%238190B0%22 font-size=%2211%22%3E105%3C/text%3E%3Ctext x=%2216%22 y=%22240.0%22 text-anchor=%22middle%22 fill=%22%238190B0%22 font-size=%2212%22 transform=%22rotate(-90 16 240.0)%22%3E%7Ctime error%7C (ns)%3C/text%3E%3Ctext x=%2280%22 y=%2272%22 font-size=%2212%22 fill=%22%238190B0%22%3Eabsolute time error; holdover step shaded; dashed lines are the time-error budgets%3C/text%3E%3Cline x1=%2280%22 y1=%2280%22 x2=%2280%22 y2=%22400%22 stroke=%22%23343F57%22/%3E%3Cline x1=%2280%22 y1=%22400%22 x2=%22840%22 y2=%22400%22 stroke=%22%23343F57%22/%3E%3Crect x=%22232.3%22 y=%2280%22 width=%22456.8%22 height=%22320%22 fill=%22%236A98FF%22 opacity=%220.08%22/%3E%3Cpolyline fill=%22none%22 stroke=%22%23FFB547%22 stroke-width=%221.2%22 points=%2280.0,387.8 81.3,390.9 82.5,397.0 83.8,400.0 85.1,393.9 86.3,400.0 87.6,397.0 88.9,400.0 90.2,400.0 91.4,393.9 92.7,397.0 94.0,397.0 95.2,400.0 96.5,397.0 97.8,397.0 99.0,397.0 100.3,393.9 101.6,397.0 102.8,400.0 104.1,400.0 105.4,390.9 106.6,397.0 107.9,393.9 109.2,390.9 110.5,387.8 111.7,393.9 113.0,400.0 114.3,400.0 115.5,400.0 116.8,400.0 118.1,397.0 119.3,387.8 120.6,397.0 121.9,393.9 123.1,400.0 124.4,393.9 125.7,400.0 126.9,397.0 128.2,397.0 129.5,393.9 130.8,397.0 132.0,400.0 133.3,400.0 134.6,397.0 135.8,387.8 137.1,384.8 138.4,397.0 139.6,397.0 140.9,390.9 142.2,393.9 143.4,393.9 144.7,397.0 146.0,400.0 147.2,393.9 148.5,397.0 149.8,393.9 151.1,393.9 152.3,390.9 153.6,387.8 154.9,390.9 156.1,397.0 157.4,387.8 158.7,393.9 159.9,397.0 161.2,393.9 162.5,397.0 163.7,393.9 165.0,393.9 166.3,397.0 167.5,390.9 168.8,397.0 170.1,393.9 171.4,400.0 172.6,390.9 173.9,400.0 175.2,390.9 176.4,397.0 177.7,393.9 179.0,390.9 180.2,387.8 181.5,400.0 182.8,397.0 184.0,393.9 185.3,397.0 186.6,393.9 187.8,397.0 189.1,393.9 190.4,397.0 191.7,400.0 192.9,393.9 194.2,393.9 195.5,397.0 196.7,390.9 198.0,393.9 199.3,384.8 200.5,400.0 201.8,397.0 203.1,387.8 204.3,397.0 205.6,387.8 206.9,393.9 208.1,393.9 209.4,397.0 210.7,400.0 212.0,393.9 213.2,397.0 214.5,393.9 215.8,400.0 217.0,397.0 218.3,397.0 219.6,397.0 220.8,393.9 222.1,400.0 223.4,400.0 224.6,397.0 225.9,400.0 227.2,387.8 228.4,400.0 229.7,393.9 231.0,400.0 232.3,397.0 233.5,393.9 234.8,397.0 236.1,397.0 237.3,387.8 238.6,400.0 239.9,400.0 241.1,397.0 242.4,390.9 243.7,397.0 244.9,393.9 246.2,381.7 247.5,397.0 248.7,387.8 250.0,393.9 251.3,387.8 252.6,397.0 253.8,390.9 255.1,397.0 256.4,378.7 257.6,390.9 258.9,390.9 260.2,378.7 261.4,384.8 262.7,384.8 264.0,381.7 265.2,378.7 266.5,378.7 267.8,381.7 269.0,387.8 270.3,375.6 271.6,384.8 272.9,375.6 274.1,378.7 275.4,375.6 276.7,375.6 277.9,381.7 279.2,378.7 280.5,372.6 281.7,375.6 283.0,372.6 284.3,381.7 285.5,372.6 286.8,381.7 288.1,369.5 289.3,375.6 290.6,384.8 291.9,372.6 293.2,378.7 294.4,366.5 295.7,375.6 297.0,375.6 298.2,378.7 299.5,366.5 300.8,375.6 302.0,366.5 303.3,375.6 304.6,384.8 305.8,378.7 307.1,369.5 308.4,369.5 309.6,366.5 310.9,381.7 312.2,372.6 313.5,372.6 314.7,381.7 316.0,372.6 317.3,351.2 318.5,363.4 319.8,369.5 321.1,369.5 322.3,357.3 323.6,366.5 324.9,363.4 326.1,354.3 327.4,366.5 328.7,378.7 329.9,354.3 331.2,351.2 332.5,360.4 333.8,354.3 335.0,357.3 336.3,357.3 337.6,363.4 338.8,357.3 340.1,345.1 341.4,360.4 342.6,351.2 343.9,360.4 345.2,354.3 346.4,357.3 347.7,360.4 349.0,345.1 350.3,369.5 351.5,363.4 352.8,351.2 354.1,354.3 355.3,351.2 356.6,357.3 357.9,354.3 359.1,357.3 360.4,351.2 361.7,351.2 362.9,363.4 364.2,354.3 365.5,354.3 366.7,339.0 368.0,348.2 369.3,348.2 370.6,342.1 371.8,345.1 373.1,348.2 374.4,351.2 375.6,342.1 376.9,348.2 378.2,348.2 379.4,345.1 380.7,351.2 382.0,348.2 383.2,354.3 384.5,345.1 385.8,354.3 387.0,339.0 388.3,336.0 389.6,342.1 390.9,339.0 392.1,336.0 393.4,333.0 394.7,342.1 395.9,336.0 397.2,336.0 398.5,329.9 399.7,342.1 401.0,326.9 402.3,333.0 403.5,326.9 404.8,326.9 406.1,339.0 407.3,336.0 408.6,345.1 409.9,333.0 411.2,329.9 412.4,323.8 413.7,329.9 415.0,326.9 416.2,342.1 417.5,342.1 418.8,333.0 420.0,326.9 421.3,339.0 422.6,326.9 423.8,323.8 425.1,320.8 426.4,320.8 427.6,329.9 428.9,320.8 430.2,329.9 431.5,302.5 432.7,336.0 434.0,326.9 435.3,333.0 436.5,336.0 437.8,323.8 439.1,317.7 440.3,323.8 441.6,333.0 442.9,314.7 444.1,323.8 445.4,320.8 446.7,323.8 447.9,311.6 449.2,317.7 450.5,317.7 451.8,317.7 453.0,305.5 454.3,311.6 455.6,314.7 456.8,302.5 458.1,320.8 459.4,311.6 460.6,317.7 461.9,320.8 463.2,311.6 464.4,305.5 465.7,311.6 467.0,320.8 468.2,317.7 469.5,317.7 470.8,311.6 472.1,311.6 473.3,308.6 474.6,308.6 475.9,314.7 477.1,296.4 478.4,299.4 479.7,305.5 480.9,290.3 482.2,296.4 483.5,311.6 484.7,302.5 486.0,308.6 487.3,311.6 488.5,305.5 489.8,302.5 491.1,299.4 492.4,308.6 493.6,302.5 494.9,302.5 496.2,287.2 497.4,302.5 498.7,305.5 500.0,299.4 501.2,293.3 502.5,299.4 503.8,305.5 505.0,302.5 506.3,293.3 507.6,299.4 508.8,296.4 510.1,299.4 511.4,299.4 512.7,302.5 513.9,293.3 515.2,290.3 516.5,287.2 517.7,293.3 519.0,296.4 520.3,296.4 521.5,293.3 522.8,290.3 524.1,293.3 525.3,305.5 526.6,296.4 527.9,299.4 529.1,299.4 530.4,287.2 531.7,284.2 533.0,290.3 534.2,302.5 535.5,296.4 536.8,299.4 538.0,290.3 539.3,284.2 540.6,287.2 541.8,281.1 543.1,278.1 544.4,287.2 545.6,287.2 546.9,296.4 548.2,278.1 549.4,284.2 550.7,275.0 552.0,278.1 553.3,281.1 554.5,281.1 555.8,281.1 557.1,272.0 558.3,275.0 559.6,287.2 560.9,275.0 562.1,281.1 563.4,265.9 564.7,275.0 565.9,281.1 567.2,265.9 568.5,284.2 569.7,269.0 571.0,275.0 572.3,272.0 573.6,265.9 574.8,272.0 576.1,265.9 577.4,278.1 578.6,269.0 579.9,269.0 581.2,269.0 582.4,281.1 583.7,265.9 585.0,265.9 586.2,265.9 587.5,272.0 588.8,265.9 590.1,275.0 591.3,256.8 592.6,272.0 593.9,272.0 595.1,275.0 596.4,272.0 597.7,259.8 598.9,272.0 600.2,269.0 601.5,269.0 602.7,253.7 604.0,256.8 605.3,259.8 606.5,256.8 607.8,256.8 609.1,262.9 610.4,275.0 611.6,253.7 612.9,262.9 614.2,244.6 615.4,262.9 616.7,259.8 618.0,256.8 619.2,253.7 620.5,250.7 621.8,265.9 623.0,259.8 624.3,250.7 625.6,247.6 626.8,250.7 628.1,256.8 629.4,256.8 630.7,247.6 631.9,259.8 633.2,259.8 634.5,247.6 635.7,250.7 637.0,250.7 638.3,253.7 639.5,259.8 640.8,244.6 642.1,244.6 643.3,250.7 644.6,244.6 645.9,247.6 647.1,244.6 648.4,256.8 649.7,253.7 651.0,244.6 652.2,250.7 653.5,256.8 654.8,247.6 656.0,244.6 657.3,241.5 658.6,247.6 659.8,241.5 661.1,244.6 662.4,238.5 663.6,235.4 664.9,232.4 666.2,247.6 667.4,238.5 668.7,238.5 670.0,244.6 671.3,235.4 672.5,238.5 673.8,232.4 675.1,238.5 676.3,235.4 677.6,244.6 678.9,238.5 680.1,229.3 681.4,235.4 682.7,220.2 683.9,235.4 685.2,238.5 686.5,226.3 687.7,235.4 689.0,244.6 690.3,241.5 691.6,278.1 692.8,278.1 694.1,290.3 695.4,296.4 696.6,311.6 697.9,329.9 699.2,323.8 700.4,333.0 701.7,354.3 703.0,351.2 704.2,351.2 705.5,363.4 706.8,360.4 708.0,366.5 709.3,363.4 710.6,375.6 711.9,375.6 713.1,384.8 714.4,381.7 715.7,393.9 716.9,384.8 718.2,378.7 719.5,378.7 720.7,378.7 722.0,390.9 723.3,397.0 724.5,390.9 725.8,390.9 727.1,393.9 728.3,387.8 729.6,393.9 730.9,400.0 732.2,393.9 733.4,400.0 734.7,390.9 736.0,400.0 737.2,397.0 738.5,390.9 739.8,393.9 741.0,400.0 742.3,393.9 743.6,393.9 744.8,397.0 746.1,393.9 747.4,387.8 748.6,384.8 749.9,397.0 751.2,397.0 752.5,397.0 753.7,397.0 755.0,400.0 756.3,397.0 757.5,397.0 758.8,390.9 760.1,393.9 761.3,400.0 762.6,390.9 763.9,400.0 765.1,397.0 766.4,393.9 767.7,390.9 768.9,393.9 770.2,390.9 771.5,400.0 772.8,397.0 774.0,397.0 775.3,397.0 776.6,393.9 777.8,393.9 779.1,397.0 780.4,387.8 781.6,400.0 782.9,400.0 784.2,397.0 785.4,397.0 786.7,390.9 788.0,393.9 789.2,397.0 790.5,400.0 791.8,400.0 793.1,387.8 794.3,393.9 795.6,397.0 796.9,397.0 798.1,397.0 799.4,390.9 800.7,397.0 801.9,400.0 803.2,393.9 804.5,400.0 805.7,400.0 807.0,393.9 808.3,384.8 809.5,393.9 810.8,397.0 812.1,397.0 813.4,393.9 814.6,400.0 815.9,390.9 817.2,400.0 818.4,393.9 819.7,393.9 821.0,393.9 822.2,397.0 823.5,400.0 824.8,387.8 826.0,387.8 827.3,400.0 828.6,400.0 829.8,393.9 831.1,400.0 832.4,393.9 833.7,393.9 834.9,397.0 836.2,387.8 837.5,397.0 838.7,400.0 840.0,393.9%22/%3E%3Cline x1=%2280%22 y1=%2295.2%22 x2=%22840%22 y2=%2295.2%22 stroke=%22%238190B0%22 stroke-dasharray=%224 3%22/%3E%3Ctext x=%22836%22 y=%2292.2%22 font-size=%2210%22 fill=%22%238190B0%22 text-anchor=%22end%22%3E100 ns%3C/text%3E%3Cline x1=%22232.3%22 y1=%2280%22 x2=%22232.3%22 y2=%22400%22 stroke=%22%236A98FF%22 stroke-dasharray=%222 3%22/%3E%3Ctext x=%22235.3%22 y=%2292%22 font-size=%2210%22 fill=%22%236A98FF%22%3EGNSS removed%3C/text%3E%3Cline x1=%22689.0%22 y1=%2280%22 x2=%22689.0%22 y2=%22400%22 stroke=%22%236A98FF%22 stroke-dasharray=%222 3%22/%3E%3Ctext x=%22692.0%22 y=%2292%22 font-size=%2210%22 fill=%22%236A98FF%22%3EGNSS restored%3C/text%3E%3Ctext x=%22460%22 y=%22428%22 text-anchor=%22middle%22 fill=%22%238190B0%22%3Etime on the record's axis (49.9 min)%3C/text%3E%3Ctext x=%22892%22 y=%22454%22 text-anchor=%22end%22 fill=%22%238190B0%22 font-size=%2210%22 font-family=%22Geist, ui-sans-serif, system-ui, sans-serif%22%3EKshana v0.38.0 · scenario 6c0202534b53 · kshana.dev%3C/text%3E%3C/svg%3E" alt="The chart the engine writes for scenarios/holdover-test-ptp4l.toml, kind holdover-test" width="640" loading="lazy">
+
+<h2 id="evidence">Evidence<a class="anchor" href="#evidence" aria-label="Link to this section">#</a></h2>
+<p>MODELLED: the <a href="/docs/verification-matrix">verification matrix</a> rows that name this kind.</p>
+<ul>
+<li><strong>MODELLED</strong> The <code>holdover-test</code> kind: a time-error record (a linuxptp, chrony, TICC, TimeLab or RINEX clock log, or time_s,time_error_ns pairs) is split at the two times the operator states for GNSS removal and restoration into a baseline, a holdover a</li>
+</ul>
+<p>The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):</p>
+<ul>
+<li><strong>MODELLED</strong> Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): SBOM conformance to the official CycloneDX 1.5 JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED</li>
+<li><strong>VALIDATED</strong> The maximum time interval error and time deviation the <code>telecom-timing</code> scenario kind reports, on a telecom-scale holdover record: an O(n) monotonic-queue slidi. Oracle (ExternalDataset): allantools 2024.06 — an independent third-party frequency-stability library — mtie() and tdev() on tests/fixtures/telecom_timing/holdover_te_series.csv, the series parsed from the same 17-significant-figure text on both sides; the reference records the series&#39; SHA-256 and is regenerable offline via tests/fixtures/telecom_timing/generate_telecom_timing_reference.py. Validates the ESTIMATORS on this record, not the syn</li>
+<li><strong>MODELLED</strong> Transcribed limits of ITU-T G.8272 (07/2025) PRTC-A/B, G.8272.1 (2024) Amd. 1 (07/2025) ePRTC locked and ePRTC-A holdover (including the Table 3 time-error enve. Oracle (InternalConsistency): Transcription of the named Recommendations (freely downloadable from itu.int), each limit carrying its table or clause, listed with every unconfirmed or unimplemented item in docs/TELECOM-TIMING.md; the breakpoint-continuity identities the tables imply are checked in the tests. A standards transcription with internal consistency checks, not a conformance test and not an external validation. 0.30 round 2 (pre-register</li>
+<li><strong>MODELLED</strong> The <code>holdover-test</code> kind: a time-error record (a linuxptp, chrony, TICC, TimeLab or RINEX clock log, or time_s,time_error_ns pairs) is split at the two times th. Oracle (InternalConsistency): Hand computation on records built from formulas whose slope, step, extremum and recovery time are known before the run (the tests state them), and the masks, envelope and budgets of the telecom-timing rows above. No laboratory measurement of a real holdover was scored and no external oracle was compared, so the kind makes no claim about any clock or system; a timing-lab partner is needed before any per-clock-class fi</li>
+</ul>
+<h2 id="limitations">Limitations<a class="anchor" href="#limitations" aria-label="Link to this section">#</a></h2>
+<p>What the run&#39;s own report says is not modelled or not validated:</p>
+<ul>
+<li>MODELLED — a holdover test scored from a time-error record the operator supplied. Every limit is transcribed from the named public ITU-T Recommendation and the result is measured against the mask; it says nothing about whether any clock or system meets a Recommendation, and nobody has rated or approved it. The times at which GNSS was removed and restored are the operator&#39;s statement and are not verified. Advisory sof (result <code>label</code>)</li>
+<li>MODELLED holdover test of a timing system, scored from a time-error record the OPERATOR supplies (a linuxptp ptp4l, phc2sys or ts2phc log, a chrony tracking or statistics log, a TICC, TimeLab or RINEX clock log, or time_s,time_error_ns pairs). (kind catalogue (<code>kshana kinds --json</code>))</li>
+<li>Reproducibility &amp; software assurance is MODELLED, not validated: a sub-claim is externally checked, but the whole capability composes modelled pieces, so the capability stays Modelled. (verification matrix (docs/MODELLED-RATIONALE.md))</li>
+<li>ITU-T telecom synchronisation masks with PASS/FAIL and margin is MODELLED, not validated: checked against its own closed-form / analytic identity — catches transcription and coefficient errors, but is not an external oracle. (verification matrix (docs/MODELLED-RATIONALE.md))</li>
+<li>Holdover test scored from an operator-supplied time-error record is MODELLED, not validated: checked against its own closed-form / analytic identity — catches transcription and coefficient errors, but is not an external oracle. (verification matrix (docs/MODELLED-RATIONALE.md))</li>
+</ul>
+<h2 id="see-also">See also<a class="anchor" href="#see-also" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Family page: <a href="/docs/kinds-clocks-timing-and-holdover#holdover-test">Clocks, timing and holdover</a></li>
+<li>All kinds: <a href="/docs/kinds">KINDS.md</a></li>
+<li>Topic page: <a href="/docs/timing-hil">TIMING-HIL.md</a></li>
+<li>Topic page: <a href="/docs/hardware-safety">HARDWARE-SAFETY.md</a></li>
+</ul>
+</div>
+    <nav class="docs-pn" aria-label="Previous and next"><a class="prev" href="/docs/kind-gravity-map"><small>Previous</small>gravity-map</a><a class="next" href="/docs/kind-hybrid-optical-rf"><small>Next</small>hybrid-optical-rf</a></nav>
+  </article>
+  <nav class="docs-toc" aria-label="On this page"><h2>On this page</h2><a class="l2" href="#what-it-does">What it does</a><a class="l2" href="#inputs">Inputs</a><a class="l2" href="#run-it">Run it</a><a class="l2" href="#what-it-gives">What it gives</a><a class="l2" href="#evidence">Evidence</a><a class="l2" href="#limitations">Limitations</a><a class="l2" href="#see-also">See also</a></nav>
+</div>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand"><a class="brand" href="/"><span class="brand-mark" aria-hidden="true"></span>kshana</a><p class="kname">Kshana · <span lang="sa" class="dev">क्षण</span> · <em>the precise instant</em></p><p>Open-source PNT (positioning, navigation and timing) resilience simulator. It drives no radio hardware and transmits nothing: its signal-level output is baseband IQ sample files, and its software GNSS receiver is an analysis tool. Not a flight product.</p><div class="foot-by">by Ashforde®</div></div>
+      <div><h2>Product</h2><a href="/studio/">Kshana Studio</a><a href="/missions">Missions</a><a href="/capabilities">Capabilities</a><a href="/evidence">Evidence</a><a href="/evidence#research">Research</a><a href="/benchmark">Benchmark</a></div>
+      <div><h2>Developers</h2><a href="/developers#install">Install</a><a href="/developers#mcp">MCP server</a><a href="/docs/">Docs</a><a href="https://github.com/ashfordeOU/kshana">GitHub</a></div>
+      <div><h2>Company</h2><a href="/editions">Editions</a><a href="/editions#pro">Kshana Pro</a><a href="mailto:contact@ashforde.org">contact@ashforde.org</a><a href="https://ashforde.org">ashforde.org</a></div>
+    </div>
+    <div class="foot-bottom">
+      <span>Kshana v0.38.0 · by Ashforde® OÜ · AGPL-3.0, with a commercial licence option</span>
+      <span>Every chart is drawn from a recorded run of engine v0.38.0 and names its scenario, seed and route to reproduce it. Imagery: NASA Visible Earth (Blue Marble, Black Marble), NASA Scientific Visualization Studio (CGI Moon Kit), NASA/JPL (Mars), NASA, JPL and USGS mission mosaics (moons and Pluto); Sun, Mercury, Venus, Jupiter, Saturn, Uranus and Neptune maps: Solar System Scope, Creative Commons Attribution (CC BY) 4.0; Deimos map: Oleg-Pluton, Creative Commons Attribution-ShareAlike (CC BY-SA) 3.0; coastlines: Natural Earth.</span>
+    </div>
+  </div>
+</footer>
+
+<div class="pal" id="palette" role="dialog" aria-modal="true" aria-label="Search pages, sections, scenarios and docs" hidden>
+  <div class="pal-box">
+    <div class="pal-in"><svg aria-hidden="true"><use href="#i-search"/></svg><input id="palInput" type="text" placeholder="Search pages, scenarios, docs and actions…" autocomplete="off" spellcheck="false" aria-controls="palList" aria-label="Search"><kbd>esc</kbd></div>
+    <div class="pal-list" id="palList" role="listbox" aria-label="Results"></div>
+    <div class="pal-foot"><span><kbd>↑</kbd> <kbd>↓</kbd> move</span><span><kbd>↵</kbd> open</span><span class="pal-count" id="palCount"></span></div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>window.KSITE={root:"../",page:"docs",version:"0.38.0",studio:"Kshana Studio"};</script>
+<script src="../site.js" defer></script>
+<script src="docs.js" defer></script>
+</body>
+</html>
