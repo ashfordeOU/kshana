@@ -8,7 +8,7 @@ never changes the trust assessment and transmits nothing but telemetry.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="figures/0.38/exporters-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="figures/0.38/exporters-light.svg">
-  <img src="figures/0.38/exporters-light.svg" alt="One trust result in three export formats, from real runs of engine v0.38.0 (`kshana trust-telemetry`) on examples/maritime-trust: Prometheus text exposition (the latest trust score is 5.9 and the untrusted band is the one set), and the last CEF and LEEF messages. The command publishes nothing unless given a destination, holds no credentials, and transmits no radio signal. Advisory software, not type-approved navigation equipment (IEC 61108, IEC 61162): the operator remains responsible for the navigation of the vessel.">
+  <img src="figures/0.38/exporters-light.svg" alt="One trust result in three export formats, from real runs of engine v0.39.0 (`kshana trust-telemetry`) on examples/maritime-trust: Prometheus text exposition (the latest trust score is 5.9 and the untrusted band is the one set), and the last CEF and LEEF messages. The command publishes nothing unless given a destination, holds no credentials, and transmits no radio signal. Advisory software, not type-approved navigation equipment (IEC 61108, IEC 61162): the operator remains responsible for the navigation of the vessel.">
 </picture>
 
 ## Run it
