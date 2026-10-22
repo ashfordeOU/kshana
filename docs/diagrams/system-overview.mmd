@@ -1,11 +1,12 @@
 flowchart LR
-    subgraph DOORS[Five front doors]
+    subgraph DOORS[Front doors]
         direction TB
         CLI[CLI<br/>kshana run]
         PY[Python wheel<br/>run and run_full]
-        WASM[WebAssembly<br/>browser playground]
-        MCP[MCP server]
+        WASM[WebAssembly and npm<br/>Kshana Studio in the browser]
+        MCP[MCP server<br/>plugins and skills]
         IDE[JetBrains plugin]
+        INT[Integrations<br/>ROS 2, Signal K, OpenCPN<br/>GNSS-SDR, Grafana]
     end
 
     DISPATCH[Single dispatch<br/>api::run_toml<br/>87 ScenarioKind variants]
@@ -14,7 +15,7 @@ flowchart LR
         direction TB
         CORE[Shared core<br/>scenario, types, chart, Kalman]
         PACKS[Sensor packs<br/>and Astrodynamics / Frames]
-        DOMAIN[Integrity, Fusion, Lunar<br/>Deep-space, Resilience]
+        DOMAIN[Integrity, Fusion, Lunar<br/>Deep-space, Resilience<br/>Referee: trust, packs, bench]
         CORE --> PACKS
         PACKS --> DOMAIN
     end
@@ -26,6 +27,7 @@ flowchart LR
     WASM --> DISPATCH
     MCP --> DISPATCH
     IDE --> DISPATCH
+    INT --> DISPATCH
 
     DISPATCH --> ENGINE
     ENGINE --> OUT

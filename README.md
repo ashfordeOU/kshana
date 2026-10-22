@@ -48,6 +48,21 @@
   <img src="docs/assets/readme/hero-light.svg" alt="Rehearse the minute GNSS goes dark. Kshana's mission console, drawn from a real run of engine v0.38.0: the chained campaign campaign-jam-spoof-holdover-integrity (seed 20260928, 6 phases, 18 member runs over T+01:16:10) and the 102 satellites of GPS, Galileo, BeiDou and GLONASS from constellation-multi-gnss-coverage, each drawn on the circular two-body orbit recovered from the engine's ground track, radii compressed for display. Clock time error peaks at 62.7 ns against a 50 ns guard, carrier-to-noise density falls to -12.2 dB-Hz against a 25 dB-Hz floor, and the vertical protection level reaches 135.4 m against a 50 m alert limit." width="100%">
 </picture>
 
+<details>
+<summary><strong>Contents</strong></summary>
+
+- [Rehearse the minute GNSS goes dark](#rehearse-the-minute-gnss-goes-dark)
+- [What's new in 0.38](#whats-new-in-038), and [0.38 in depth](#038-in-depth): jammertest scoring, the receiver's own flags, machine inputs, timing and holdover, standards packs, LunaNet AFS, the lab round trip, kshana-bench, the observatory, exporters, optical, [space-user navigation](#space-user-navigation-gnss-ssv) and [lunar infrastructure](#lunar-infrastructure-lunar-infrastructure)
+- [Kshana Studio](#kshana-studio) and every Studio page
+- [Capabilities](#capabilities): the table of areas, [every scenario kind by family](#every-scenario-kind-by-family), [every command](#every-command), [every surface](#every-surface)
+- [How a run works](#how-a-run-works), [Missions](#missions)
+- [Evidence](#evidence): the ledger, [capability domains](#capability-domains)
+- [Install](#install), [Architecture](#architecture) (and the [diagrams](#diagrams)), [AI assistant](#ai-assistant)
+- [Editions](#editions), [Research](#research), [Cite](#cite), [Licence](#licence)
+- [Reference](#reference): usage, scenario format, output, repository layout, FAQ, troubleshooting, versioning, roadmap, contributing, documentation
+
+</details>
+
 ## Rehearse the minute GNSS goes dark
 
 Kshana replays jamming, spoofing and clock holdover when GNSS (Global Navigation Satellite
@@ -357,27 +372,27 @@ kshana scenarios/gnss-ssv-formation-heo.toml    # formation: relative navigation
 ```
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="figures/0.38/ssv-shell-dark.svg">
-  <source media="(prefers-color-scheme: light)" srcset="figures/0.38/ssv-shell-light.svg">
-  <img src="figures/0.38/ssv-shell-light.svg" alt="Signal availability for a user on a sphere at 36000 km altitude with a hemisphere antenna, from a real run of engine v0.38.0 on scenarios/gnss-ssv-shell.toml (a reduced run: 162 users, 3 days, 10 min steps), at a 20 dB-Hz threshold. For each constellation and band, two bars: the share of (user, epoch) pairs with at least one signal and with at least four. Combined, L1: 99.4 % at least one, 73.2 % at least four, longest outage below four signals 160 min. Combined, L5: 100.0 % at least one, 99.9 % at least four, longest outage below four signals 20 min. MODELLED: a modelled study from stated inputs, not a measurement and not a service-volume claim for any system. The reduced size is not the booklet comparison. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service.">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/ssv-shell-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/ssv-shell-light.svg">
+  <img src="docs/figures/0.38/ssv-shell-light.svg" alt="Signal availability for a user on a sphere at 36000 km altitude with a hemisphere antenna, from a real run of engine v0.38.0 on scenarios/gnss-ssv-shell.toml (a reduced run: 162 users, 3 days, 10 min steps), at a 20 dB-Hz threshold. For each constellation and band, two bars: the share of (user, epoch) pairs with at least one signal and with at least four. Combined, L1: 99.4 % at least one, 73.2 % at least four, longest outage below four signals 160 min. Combined, L5: 100.0 % at least one, 99.9 % at least four, longest outage below four signals 20 min. MODELLED: a modelled study from stated inputs, not a measurement and not a service-volume claim for any system. The reduced size is not the booklet comparison. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service.">
 </picture>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="figures/0.38/ssv-heo-dark.svg">
-  <source media="(prefers-color-scheme: light)" srcset="figures/0.38/ssv-heo-light.svg">
-  <img src="figures/0.38/ssv-heo-light.svg" alt="Signals along one high Earth orbit (perigee 497 km, apogee 58622 km, period 18.8 h), from a real run of engine v0.38.0 on scenarios/gnss-ssv-heo.toml, band L1. Top: the best carrier-to-noise density among the signals in view, against the 20 dB-Hz threshold. Middle: the number of signals in view from all constellations, from 4 to 55 along the sampled points. Of the links received, 2252 came through a main lobe and 696 through sidelobes, using a labelled parametric stand-in pattern, not any system's measured pattern. Median PDOP 67, 95th percentile 358. MODELLED: a modelled study from stated inputs, not a measurement and not a service-volume claim for any system. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service.">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/ssv-heo-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/ssv-heo-light.svg">
+  <img src="docs/figures/0.38/ssv-heo-light.svg" alt="Signals along one high Earth orbit (perigee 497 km, apogee 58622 km, period 18.8 h), from a real run of engine v0.38.0 on scenarios/gnss-ssv-heo.toml, band L1. Top: the best carrier-to-noise density among the signals in view, against the 20 dB-Hz threshold. Middle: the number of signals in view from all constellations, from 4 to 55 along the sampled points. Of the links received, 2252 came through a main lobe and 696 through sidelobes, using a labelled parametric stand-in pattern, not any system's measured pattern. Median PDOP 67, 95th percentile 358. MODELLED: a modelled study from stated inputs, not a measurement and not a service-volume claim for any system. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service.">
 </picture>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="figures/0.38/ssv-nav-dark.svg">
-  <source media="(prefers-color-scheme: light)" srcset="figures/0.38/ssv-nav-light.svg">
-  <img src="figures/0.38/ssv-nav-light.svg" alt="An onboard nine-state filter on a transfer from low orbit toward the Moon, from a real run of engine v0.38.0 on scenarios/gnss-ssv-nav-lunar.toml (289 epochs, 13 points drawn). On a log axis, the true position error and the filter's own one-sigma bound against time since the start. Inside the GNSS orbits the position RMS is 1.4 m; above them it is 90 m, with the final error 184 m at 193,330 km altitude with 1 measurement. Mean normalised estimation error squared over the whole run is 4.4 (about 3 for a consistent position block). Truth and filter share their Sun and Moon stand-ins. MODELLED: a modelled study from stated inputs, not a measurement and not a service-volume claim for any system. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service.">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/ssv-nav-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/ssv-nav-light.svg">
+  <img src="docs/figures/0.38/ssv-nav-light.svg" alt="An onboard nine-state filter on a transfer from low orbit toward the Moon, from a real run of engine v0.38.0 on scenarios/gnss-ssv-nav-lunar.toml (289 epochs, 13 points drawn). On a log axis, the true position error and the filter's own one-sigma bound against time since the start. Inside the GNSS orbits the position RMS is 1.4 m; above them it is 90 m, with the final error 184 m at 193,330 km altitude with 1 measurement. Mean normalised estimation error squared over the whole run is 4.4 (about 3 for a consistent position block). Truth and filter share their Sun and Moon stand-ins. MODELLED: a modelled study from stated inputs, not a measurement and not a service-volume claim for any system. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service.">
 </picture>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="figures/0.38/ssv-formation-dark.svg">
-  <source media="(prefers-color-scheme: light)" srcset="figures/0.38/ssv-formation-light.svg">
-  <img src="figures/0.38/ssv-formation-light.svg" alt="Relative navigation of 2 deputies around a chief on a high orbit, from a real run of engine v0.38.0 on scenarios/gnss-ssv-formation-heo.toml (401 epochs). For each deputy, two bars: the relative position RMS from subtracting the two independent absolute estimates, and from the relative filter on single-differenced pseudoranges. Baseline 0.8 km: 5.1 m and 1.2 m. Baseline 2.0 km: 4.1 m and 2.1 m. The absolute filter is not consistent here: mean normalised estimation error squared 187 against about 3 for a consistent filter, so its stated uncertainty is far too small. MODELLED: a modelled study from stated inputs, not a measurement and not a service-volume claim for any system. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service.">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/ssv-formation-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/ssv-formation-light.svg">
+  <img src="docs/figures/0.38/ssv-formation-light.svg" alt="Relative navigation of 2 deputies around a chief on a high orbit, from a real run of engine v0.38.0 on scenarios/gnss-ssv-formation-heo.toml (401 epochs). For each deputy, two bars: the relative position RMS from subtracting the two independent absolute estimates, and from the relative filter on single-differenced pseudoranges. Baseline 0.8 km: 5.1 m and 1.2 m. Baseline 2.0 km: 4.1 m and 2.1 m. The absolute filter is not consistent here: mean normalised estimation error squared 187 against about 3 for a consistent filter, so its stated uncertainty is far too small. MODELLED: a modelled study from stated inputs, not a measurement and not a service-volume claim for any system. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service.">
 </picture>
 
 **Ledger status: MODELLED, and the comparison with the booklet mostly misses.** The bars were fixed before
@@ -391,9 +406,9 @@ VALIDATED. The formation run's absolute filter is also overconfident (mean norma
 well above the value of about 3 that a consistent filter gives).
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="figures/0.38/ssv-booklet-dark.svg">
-  <source media="(prefers-color-scheme: light)" srcset="figures/0.38/ssv-booklet-light.svg">
-  <img src="figures/0.38/ssv-booklet-light.svg" alt="The recorded comparison of the space-user availability model with the public Space Service Volume booklet, from the committed results of the pre-registered run (xval/gnss-ssv/results-run1.json, written by the ssv_booklet_check example of engine v0.38.0). Bar by bar, the cells within tolerance: S0 13 of 13 (MET); S1 43 of 52 (NOT MET); S2 48 of 52 (NOT MET); S3 122 of 155 (NOT MET); S4 132 of 156 (NOT MET); S5 18 of 26 (NOT MET); S6 26 of 26 (MET); S7 0 of 20 panel patterns (NOT MET). Only S0 and S6 are met under the pre-registered reading. A diagnostic variant that uses the booklet's other GLONASS angles brings S1, S2 and S4 to every cell, but does not replace the run of record. No ledger row is VALIDATED. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service.">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/ssv-booklet-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/ssv-booklet-light.svg">
+  <img src="docs/figures/0.38/ssv-booklet-light.svg" alt="The recorded comparison of the space-user availability model with the public Space Service Volume booklet, from the committed results of the pre-registered run (xval/gnss-ssv/results-run1.json, written by the ssv_booklet_check example of engine v0.38.0). Bar by bar, the cells within tolerance: S0 13 of 13 (MET); S1 43 of 52 (NOT MET); S2 48 of 52 (NOT MET); S3 122 of 155 (NOT MET); S4 132 of 156 (NOT MET); S5 18 of 26 (NOT MET); S6 26 of 26 (MET); S7 0 of 20 panel patterns (NOT MET). Only S0 and S6 are met under the pre-registered reading. A diagnostic variant that uses the booklet's other GLONASS angles brings S1, S2 and S4 to every cell, but does not replace the run of record. No ledger row is VALIDATED. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service.">
 </picture>
 
 [Space-user navigation](docs/SSV.md), [what the comparison shows](docs/SSV.md#what-the-comparison-with-the-booklet-shows).
@@ -418,33 +433,33 @@ kshana scenarios/lunar-infrastructure-geodesy-sensitivity.toml
 ```
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="figures/0.38/lunar-od-dark.svg">
-  <source media="(prefers-color-scheme: light)" srcset="figures/0.38/lunar-od-light.svg">
-  <img src="figures/0.38/lunar-od-light.svg" alt="Consistency of an onboard Earth-GNSS orbit determination in a near-rectilinear halo orbit with an independent ground orbit determination, from real runs of engine v0.38.0 on scenarios/lunar-infrastructure-od-consistency.toml and the model-error variant (400 trials each). Mean normalised difference q is 5.81 with no model error and 5.95 with an injected acceleration error of 3e-10 m/s2, against 6 expected: the two orbit solutions are consistent (bar C1 MET). The share of trials above the 95 % point is 0.040 and 0.052; the bar for detecting the injected error was at least 0.5, so it is NOT MET (C3): the onboard solution is known to about 352 m against 23 m for the ground one, so a ten-metre displacement hides inside its covariance. MODELLED: a restricted three-body model with stated simplifications and illustrative inputs, not a measurement of any lunar quantity. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service.">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/lunar-od-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/lunar-od-light.svg">
+  <img src="docs/figures/0.38/lunar-od-light.svg" alt="Consistency of an onboard Earth-GNSS orbit determination in a near-rectilinear halo orbit with an independent ground orbit determination, from real runs of engine v0.38.0 on scenarios/lunar-infrastructure-od-consistency.toml and the model-error variant (400 trials each). Mean normalised difference q is 5.81 with no model error and 5.95 with an injected acceleration error of 3e-10 m/s2, against 6 expected: the two orbit solutions are consistent (bar C1 MET). The share of trials above the 95 % point is 0.040 and 0.052; the bar for detecting the injected error was at least 0.5, so it is NOT MET (C3): the onboard solution is known to about 352 m against 23 m for the ground one, so a ten-metre displacement hides inside its covariance. MODELLED: a restricted three-body model with stated simplifications and illustrative inputs, not a measurement of any lunar quantity. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service.">
 </picture>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="figures/0.38/lunar-carrier-dark.svg">
-  <source media="(prefers-color-scheme: light)" srcset="figures/0.38/lunar-carrier-light.svg">
-  <img src="figures/0.38/lunar-carrier-light.svg" alt="Carrier-phase integer ambiguity fixing between lunar surface stations and an orbiter, from the committed result of the scored run of engine v0.38.0 (tests/fixtures/lunar_infra/phase_full_run.json: 3 arc lengths, a Monte Carlo of 400 draws each, written by scenarios/carrier-phase-scored.toml). 1 day: success 1.0 % (standard error 0.5 %), 134 ambiguities, orbiter position sigma 45.6 m float and 18.5 m fixed; 2 day: success 0.5 % (standard error 0.4 %), 259 ambiguities, orbiter position sigma 21.5 m float and 8.7 m fixed; 3 day: success 2.8 % (standard error 0.8 %), 375 ambiguities, orbiter position sigma 6.3 m float and 2.1 m fixed. Integer fixing is not achieved: success stays between 1 % and 3 % at 25 dBi, and at the registered 12 dBi the problem cannot be formed. MODELLED: a restricted three-body model with stated simplifications and illustrative inputs, not a measurement of any lunar quantity. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service.">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/lunar-carrier-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/lunar-carrier-light.svg">
+  <img src="docs/figures/0.38/lunar-carrier-light.svg" alt="Carrier-phase integer ambiguity fixing between lunar surface stations and an orbiter, from the committed result of the scored run of engine v0.38.0 (tests/fixtures/lunar_infra/phase_full_run.json: 3 arc lengths, a Monte Carlo of 400 draws each, written by scenarios/carrier-phase-scored.toml). 1 day: success 1.0 % (standard error 0.5 %), 134 ambiguities, orbiter position sigma 45.6 m float and 18.5 m fixed; 2 day: success 0.5 % (standard error 0.4 %), 259 ambiguities, orbiter position sigma 21.5 m float and 8.7 m fixed; 3 day: success 2.8 % (standard error 0.8 %), 375 ambiguities, orbiter position sigma 6.3 m float and 2.1 m fixed. Integer fixing is not achieved: success stays between 1 % and 3 % at 25 dBi, and at the registered 12 dBi the problem cannot be formed. MODELLED: a restricted three-body model with stated simplifications and illustrative inputs, not a measurement of any lunar quantity. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service.">
 </picture>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="figures/0.38/lunar-frame-dark.svg">
-  <source media="(prefers-color-scheme: light)" srcset="figures/0.38/lunar-frame-light.svg">
-  <img src="figures/0.38/lunar-frame-light.svg" alt="Precision of the seven-parameter lunar datum (three translations, a scale and three rotations) from Earth-station ranging, with and without orbiter-to-surface-station ranges, from a real run of engine v0.38.0 on scenarios/lunar-infrastructure-frame-coestimation.toml. The Cramer-Rao sigma of the translations and rotations falls with the orbiter links (for example t_z from 0.98 m to 0.046 m); the smallest information eigenvalue rises 111-fold and the CRLB trace falls to 1.0 % (bar F3 MET). This assumes the orbit is known in the lunar axes, with its error carried by the orbiter range sigma of 1 m. MODELLED: a restricted three-body model with stated simplifications and illustrative inputs, not a measurement of any lunar quantity. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service.">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/lunar-frame-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/lunar-frame-light.svg">
+  <img src="docs/figures/0.38/lunar-frame-light.svg" alt="Precision of the seven-parameter lunar datum (three translations, a scale and three rotations) from Earth-station ranging, with and without orbiter-to-surface-station ranges, from a real run of engine v0.38.0 on scenarios/lunar-infrastructure-frame-coestimation.toml. The Cramer-Rao sigma of the translations and rotations falls with the orbiter links (for example t_z from 0.98 m to 0.046 m); the smallest information eigenvalue rises 111-fold and the CRLB trace falls to 1.0 % (bar F3 MET). This assumes the orbit is known in the lunar axes, with its error carried by the orbiter range sigma of 1 m. MODELLED: a restricted three-body model with stated simplifications and illustrative inputs, not a measurement of any lunar quantity. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service.">
 </picture>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="figures/0.38/lunar-tie-dark.svg">
-  <source media="(prefers-color-scheme: light)" srcset="figures/0.38/lunar-tie-light.svg">
-  <img src="figures/0.38/lunar-tie-light.svg" alt="Precision of the offsets between laser ranging, VLBI and GNSS positions of one spacecraft, against the error of the ground local tie, from a real run of engine v0.38.0 on scenarios/lunar-infrastructure-space-tie.toml (one 6.56-day arc, technique sigmas GNSS 10 m, VLBI 1 m, laser 0.1 m). With a local tie from 1 mm to 1 m, the laser-minus-GNSS translation sigma stays near 1.04 m until the tie reaches 1 m: it is limited by the measurement noise of the techniques, not by the local tie. The floor set by the tie alone is the square root of two times its sigma. MODELLED: a restricted three-body model with stated simplifications and illustrative inputs, not a measurement of any lunar quantity. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service.">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/lunar-tie-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/lunar-tie-light.svg">
+  <img src="docs/figures/0.38/lunar-tie-light.svg" alt="Precision of the offsets between laser ranging, VLBI and GNSS positions of one spacecraft, against the error of the ground local tie, from a real run of engine v0.38.0 on scenarios/lunar-infrastructure-space-tie.toml (one 6.56-day arc, technique sigmas GNSS 10 m, VLBI 1 m, laser 0.1 m). With a local tie from 1 mm to 1 m, the laser-minus-GNSS translation sigma stays near 1.04 m until the tie reaches 1 m: it is limited by the measurement noise of the techniques, not by the local tie. The floor set by the tie alone is the square root of two times its sigma. MODELLED: a restricted three-body model with stated simplifications and illustrative inputs, not a measurement of any lunar quantity. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service.">
 </picture>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="figures/0.38/lunar-geodesy-dark.svg">
-  <source media="(prefers-color-scheme: light)" srcset="figures/0.38/lunar-geodesy-light.svg">
-  <img src="figures/0.38/lunar-geodesy-light.svg" alt="Which observable family is sensitive to the lunar Love numbers h2, k2 and l2, from a real run of engine v0.38.0 on scenarios/lunar-infrastructure-geodesy-sensitivity.toml. Each cell is the RMS partial derivative of a family's observations with respect to a parameter, in that family's own units (so cells are compared across a row, not down a column); a dash means the family has no sensitivity. laser ranging: h2 7.6, k2 none, l2 9.8. orbiter tracking: h2 none, k2 0.00086, l2 none. surface gravimeter: h2 2.9e+03, k2 4.3e+03, l2 none. surface clock: h2 2.8e-17, k2 2.8e-17, l2 none. With all four families, the Cramer-Rao sigma is 0.36 % of nominal h2, 0.52 % of k2 and 1.16 % of l2. Adding a family never lowered the smallest eigenvalue (28 of 28 additions), but the trace of the pseudo-inverse was no larger in only 16 of 28: that half of bar G3 is NOT MET. The orbiter family sees the line-of-sight integral of the k2 acceleration, an upper-end figure. MODELLED: a restricted three-body model with stated simplifications and illustrative inputs, not a measurement of any lunar quantity. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service.">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/lunar-geodesy-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/lunar-geodesy-light.svg">
+  <img src="docs/figures/0.38/lunar-geodesy-light.svg" alt="Which observable family is sensitive to the lunar Love numbers h2, k2 and l2, from a real run of engine v0.38.0 on scenarios/lunar-infrastructure-geodesy-sensitivity.toml. Each cell is the RMS partial derivative of a family's observations with respect to a parameter, in that family's own units (so cells are compared across a row, not down a column); a dash means the family has no sensitivity. laser ranging: h2 7.6, k2 none, l2 9.8. orbiter tracking: h2 none, k2 0.00086, l2 none. surface gravimeter: h2 2.9e+03, k2 4.3e+03, l2 none. surface clock: h2 2.8e-17, k2 2.8e-17, l2 none. With all four families, the Cramer-Rao sigma is 0.36 % of nominal h2, 0.52 % of k2 and 1.16 % of l2. Adding a family never lowered the smallest eigenvalue (28 of 28 additions), but the trace of the pseudo-inverse was no larger in only 16 of 28: that half of bar G3 is NOT MET. The orbiter family sees the line-of-sight integral of the k2 acceleration, an upper-end figure. MODELLED: a restricted three-body model with stated simplifications and illustrative inputs, not a measurement of any lunar quantity. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service.">
 </picture>
 
 **Ledger status: MODELLED, and three bars are NOT MET.** The numerics are checked against independent
@@ -809,6 +824,53 @@ stage hands its numbers to the next. See [`docs/LEO-PNT.md`](docs/LEO-PNT.md).
   <img src="docs/assets/readme/flow-leo-chain-light.svg" alt="The LEO PNT chain from a real run of leo-pnt-chain (leo-pnt-end-to-end.toml): the signal stage (generic-l at 1191.795 MHz, pilot tracked at 10.23 Mchip/s) hands to the pass stage (1080 km, tracked C/N0 peak 58.2 dB-Hz), which hands to the navigation message (kepler-rac, 300 s fit, representation SISRE 0.91 mm RMS, 0.250 m with orbit determination), which feeds the fused fix (GNSS only 1.60 m RMS 3D, GNSS plus LEO 0.43 m) and precise point positioning (convergence 11.5 min GNSS only, 7.5 min with 240 LEO satellites). 11 values are handed between stages." width="100%">
 </picture>
 
+### Every scenario kind by family
+
+The engine's scenario kinds, filed under families. Each family has a page with one entry per kind (the
+engine's description and fields, an example command, headline numbers from a run, the
+[verification matrix](docs/VERIFICATION-MATRIX.md) rows that name it, and the chart the engine itself writes) and a
+contact sheet of those charts; [`docs/KINDS.md`](docs/KINDS.md) indexes them all. The table is written by
+[`tools/gen_readme_blocks.py`](tools/gen_readme_blocks.py) and the pages by
+[`tools/gen_kinds_index.py`](tools/gen_kinds_index.py), and both fail if the engine gains a kind no family names.
+
+<!-- generated:kind-families -->
+| Family | What it answers | Kinds | Run one |
+|---|---|---|---|
+| **[Clocks, timing and holdover](docs/kinds/clocks-timing-and-holdover.md)** | how long a clock keeps time without GNSS, and how a timing system holds up against its masks | [`clock`](docs/kinds/by-kind/clock.md), [`sweep`](docs/kinds/by-kind/sweep.md), [`sweep-nd`](docs/kinds/by-kind/sweep-nd.md), [`telecom-timing`](docs/kinds/by-kind/telecom-timing.md), [`slot-timing`](docs/kinds/by-kind/slot-timing.md), [`timetransfer`](docs/kinds/by-kind/timetransfer.md), [`time-transfer-budget`](docs/kinds/by-kind/time-transfer-budget.md), [`holdover-test`](docs/kinds/by-kind/holdover-test.md), [`quantum-time-transfer`](docs/kinds/by-kind/quantum-time-transfer.md) | `kshana scenarios/clock-holdover.toml` |
+| **[Inertial, fusion and quantum sensors](docs/kinds/inertial-fusion-and-quantum-sensors.md)** | dead reckoning and sensor fusion through a GNSS outage, with classical and quantum sensors | [`inertial`](docs/kinds/by-kind/inertial.md), [`hybrid`](docs/kinds/by-kind/hybrid.md), [`fusion`](docs/kinds/by-kind/fusion.md), [`hybrid-ukf`](docs/kinds/by-kind/hybrid-ukf.md), [`gnss-ins`](docs/kinds/by-kind/gnss-ins.md), [`ins-trn-coast`](docs/kinds/by-kind/ins-trn-coast.md), [`quantum-gnss-free-nav`](docs/kinds/by-kind/quantum-gnss-free-nav.md), [`quantum-anomaly-detect`](docs/kinds/by-kind/quantum-anomaly-detect.md), [`quantum-trade`](docs/kinds/by-kind/quantum-trade.md) | `kshana scenarios/gnss-ins.toml` |
+| **[GPS-denied alternative PNT](docs/kinds/gps-denied-alternative-pnt.md)** | navigating from gravity, terrain and other fields when GNSS is gone | [`gravity-map`](docs/kinds/by-kind/gravity-map.md), [`terrain-nav`](docs/kinds/by-kind/terrain-nav.md), [`terrain-slam`](docs/kinds/by-kind/terrain-slam.md), [`combined-altpnt`](docs/kinds/by-kind/combined-altpnt.md), [`conflict-resilience`](docs/kinds/by-kind/conflict-resilience.md) | `kshana scenarios/combined-altpnt.toml` |
+| **[Constellations, coverage and geometry](docs/kinds/constellations-coverage-and-geometry.md)** | where satellites are, who sees them and how good the geometry is, around the Earth, the Moon or Mars | [`orbit`](docs/kinds/by-kind/orbit.md), [`ephemeris`](docs/kinds/by-kind/ephemeris.md), [`constellation-design`](docs/kinds/by-kind/constellation-design.md), [`solar-system`](docs/kinds/by-kind/solar-system.md), [`body-pnt`](docs/kinds/by-kind/body-pnt.md), [`mars-pnt`](docs/kinds/by-kind/mars-pnt.md), [`passes`](docs/kinds/by-kind/passes.md) | `kshana scenarios/orbit-gnss-challenged.toml` |
+| **[GNSS measurements, positioning and integrity](docs/kinds/gnss-measurements-positioning-and-integrity.md)** | pseudoranges, position fixes, protection levels and the space environment | [`integrity`](docs/kinds/by-kind/integrity.md), [`gnss-sim`](docs/kinds/by-kind/gnss-sim.md), [`pvt`](docs/kinds/by-kind/pvt.md), [`araim-reference-check`](docs/kinds/by-kind/araim-reference-check.md), [`space-weather`](docs/kinds/by-kind/space-weather.md), [`realtime-frame-eop`](docs/kinds/by-kind/realtime-frame-eop.md) | `kshana scenarios/integrity-raim.toml` |
+| **[Jamming, spoofing and the spectrum](docs/kinds/jamming-spoofing-and-the-spectrum.md)** | how interference reaches a receiver and whether it is detected | [`jamming`](docs/kinds/by-kind/jamming.md), [`spoof`](docs/kinds/by-kind/spoof.md), [`spoof-detect`](docs/kinds/by-kind/spoof-detect.md), [`tracking-loop`](docs/kinds/by-kind/tracking-loop.md), [`spectrum`](docs/kinds/by-kind/spectrum.md), [`impairment-eval`](docs/kinds/by-kind/impairment-eval.md) | `kshana scenarios/jamming-demo.toml` |
+| **[Low-Earth-orbit navigation](docs/kinds/low-earth-orbit-navigation.md)** | a pass, a link, a navigation message and a fused fix, stage by stage | [`leo-signal`](docs/kinds/by-kind/leo-signal.md), [`leo-pass`](docs/kinds/by-kind/leo-pass.md), [`leo-navmsg`](docs/kinds/by-kind/leo-navmsg.md), [`leo-pvt`](docs/kinds/by-kind/leo-pvt.md), [`leo-ppp`](docs/kinds/by-kind/leo-ppp.md), [`ntn-positioning`](docs/kinds/by-kind/ntn-positioning.md), [`leo-pnt-chain`](docs/kinds/by-kind/leo-pnt-chain.md) | `kshana scenarios/leo-pnt-end-to-end.toml` |
+| **[Lunar and cislunar](docs/kinds/lunar-and-cislunar.md)** | navigation, time, frames and geodesy at the Moon | [`lunar-integrity`](docs/kinds/by-kind/lunar-integrity.md), [`lunar-time-offset`](docs/kinds/by-kind/lunar-time-offset.md), [`lunar-time-budget`](docs/kinds/by-kind/lunar-time-budget.md), [`lunar-vlbi`](docs/kinds/by-kind/lunar-vlbi.md), [`lunar-vlbi-fim`](docs/kinds/by-kind/lunar-vlbi-fim.md), [`lunar-joint-od-clock`](docs/kinds/by-kind/lunar-joint-od-clock.md), [`lunar-frame-realisation`](docs/kinds/by-kind/lunar-frame-realisation.md), [`lunar-frame-campaign`](docs/kinds/by-kind/lunar-frame-campaign.md), [`lunar-llr-datum`](docs/kinds/by-kind/lunar-llr-datum.md), [`moonlight-service-volume`](docs/kinds/by-kind/moonlight-service-volume.md), [`lunar-differential-pnt`](docs/kinds/by-kind/lunar-differential-pnt.md), [`lunar-station-coverage`](docs/kinds/by-kind/lunar-station-coverage.md), [`lunar-beacon`](docs/kinds/by-kind/lunar-beacon.md), [`lunar-interop-export`](docs/kinds/by-kind/lunar-interop-export.md), [`cislunar-observability`](docs/kinds/by-kind/cislunar-observability.md), [`cislunar-arc-recovery`](docs/kinds/by-kind/cislunar-arc-recovery.md), [`lunar-attack-surface`](docs/kinds/by-kind/lunar-attack-surface.md), [`lunar-jamming`](docs/kinds/by-kind/lunar-jamming.md), [`earth-gnss-lunar`](docs/kinds/by-kind/earth-gnss-lunar.md), [`lunar-infrastructure`](docs/kinds/by-kind/lunar-infrastructure.md) | `kshana scenarios/lunar-infrastructure-od-consistency.toml` |
+| **[Space-user navigation](docs/kinds/space-user-navigation.md)** | GNSS signals for spacecraft above, around and beyond the GNSS orbits | [`gnss-ssv`](docs/kinds/by-kind/gnss-ssv.md) | `kshana scenarios/gnss-ssv-shell.toml` |
+| **[Optical PNT](docs/kinds/optical-pnt.md)** | optical links through the atmosphere and optical-plus-RF figures of merit | [`optical-atmosphere`](docs/kinds/by-kind/optical-atmosphere.md), [`hybrid-optical-rf`](docs/kinds/by-kind/hybrid-optical-rf.md) | `kshana scenarios/optical-atmosphere-network.toml` |
+| **[Mission analysis, links and space operations](docs/kinds/mission-analysis-links-and-space-operations.md)** | launch, ascent, entry, attitude, links, contact planning and file formats | [`launch-window`](docs/kinds/by-kind/launch-window.md), [`ascent-losses`](docs/kinds/by-kind/ascent-losses.md), [`reentry`](docs/kinds/by-kind/reentry.md), [`entry-heating`](docs/kinds/by-kind/entry-heating.md), [`eo-coverage`](docs/kinds/by-kind/eo-coverage.md), [`eo-radiometry`](docs/kinds/by-kind/eo-radiometry.md), [`attitude-budget`](docs/kinds/by-kind/attitude-budget.md), [`aocs`](docs/kinds/by-kind/aocs.md), [`link-budget`](docs/kinds/by-kind/link-budget.md), [`acm-link`](docs/kinds/by-kind/acm-link.md), [`contact-schedule`](docs/kinds/by-kind/contact-schedule.md), [`aperture-duty-cycle`](docs/kinds/by-kind/aperture-duty-cycle.md), [`space-packet`](docs/kinds/by-kind/space-packet.md), [`oem-interop`](docs/kinds/by-kind/oem-interop.md) | `kshana scenarios/launch-window.toml` |
+| **[Campaigns](docs/kinds/campaigns.md)** | chained missions, sweeps and ensembles built from the other kinds | [`campaign`](docs/kinds/by-kind/campaign.md) | `kshana scenarios/campaign-jam-spoof-holdover-integrity.toml` |
+<!-- /generated:kind-families -->
+
+### Every command
+
+`kshana <scenario.toml>` runs a scenario; every other command is a subcommand, and `kshana --help` prints the usage
+of all of them. The commands are `--study`, `--validate`, `kinds`, `example`, `receiver-trust` (with `live` and
+`evidence`), `evidence` (`keygen`, `verify`, `attach-timestamp`, `round-trip`), `jammertest` (`import`, `score`),
+`trust-telemetry`, `imu-fit`, `nmea-scenario`, `interference-map` (`adsb`, `ais`, `daily`, `sensitivity`,
+`fetch-land`), `route-exposure`, `bench` (`spec`, `truth`, `cases`, `score`, `baseline`, `seal`, `reveal-check`,
+`manifest`, `verify-manifest`, `validate`, `leaderboard`), `bench-export`, `compliance-report`,
+`lunanet-afs-check`, `standards-pack`, `osnma`, `iq` (`scene`, `acquire`, `track`, `sweep`, `labfit`, `campaign`,
+`conditions`, `frontend`, `monitor`, `inventory`, `info`, `extract`, `convert`, `decimate`), `sky` and `skyline`.
+[`docs/COMMANDS.md`](docs/COMMANDS.md) gives each one's purpose, a verified example and its docs page.
+
+### Every surface
+
+One engine, the same results everywhere: the command line, the Rust library, Python, JavaScript and WebAssembly,
+the MCP server with its plugin commands and skills, Kshana Studio (every page runs in the browser, no install, nothing uploaded), the
+ROS 2, Signal K, OpenCPN, GNSS-SDR and `gnss_lib_py` integrations, the systemd, Docker and Grafana deploy kits, and the
+JetBrains plugin. [`docs/ALL-SURFACES.md`](docs/ALL-SURFACES.md) lists them with how to get each and the names of all
+the plugin commands, skills and Studio pages; [`docs/SURFACES.md`](docs/SURFACES.md) says, for every command and kind,
+which surface carries it and which do not, with the reason.
+
 ## How a run works
 
 A scenario is a TOML (Tom's Obvious, Minimal Language) file: a kind, a seed and the
@@ -996,6 +1058,19 @@ The **Status** column states the *kind* of evidence, matching the validation lad
 
 </details>
 
+### Capability domains
+
+Every capability of the public map, by domain, with its ledger label. The domain table is written by
+[`tools/gen_readme_blocks.py`](tools/gen_readme_blocks.py) from `web/capabilities.json`, the same file the
+Studio's map of everything reads.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/figures/domain-coverage-map.svg">
+  <img src="docs/assets/figures/domain-coverage-map.svg" alt="Kshana capabilities by domain and maturity: validated and modelled public capabilities per domain, drawn from web/capabilities.json by tools/gen_validation_figures.py" width="900">
+</picture>
+
+The full table, domain by domain with every capability and its label, is [`docs/CAPABILITY-DOMAINS.md`](docs/CAPABILITY-DOMAINS.md).
+
 ## Install
 
 One line gets the command-line tool: **`cargo install kshana`**. Every channel ships
@@ -1085,7 +1160,7 @@ top as a separate overlay that depends on the engine and never forks it.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/architecture-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/architecture-light.svg">
-  <img src="docs/assets/readme/architecture-light.svg" alt="Kshana's architecture: one open engine at the centre, kshana 0.38.0 under the AGPL-3.0, with api::run_toml, a typed dispatch over 87 kinds, and the verification ledger of 388 capabilities (176 VALIDATED, 208 MODELLED, 4 PARTNER). Around it, every surface runs the same engine: Command line (cargo install kshana); Rust library (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); MCP server (cargo install kshana-mcp); Docker image (ghcr.io/ashfordeou/kshana-mcp); JetBrains plugin (Marketplace: &quot;Kshana&quot;). Below it, Kshana Pro, a proprietary overlay that depends on the open engine as a library and never forks it, and adds no physical model." width="100%">
+  <img src="docs/assets/readme/architecture-light.svg" alt="Kshana's architecture: one open engine at the centre, kshana 0.38.0 under the AGPL-3.0, with api::run_toml, a typed dispatch over every kind, and the verification ledger of 388 capabilities (176 VALIDATED, 208 MODELLED, 4 PARTNER). Around it, every surface runs the same engine: Command line (cargo install kshana); Rust library (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); MCP server (cargo install kshana-mcp); Docker image (ghcr.io/ashfordeou/kshana-mcp); JetBrains plugin (Marketplace: &quot;Kshana&quot;). Below it, Kshana Pro, a proprietary overlay that depends on the open engine as a library and never forks it, and adds no physical model." width="100%">
 </picture>
 
 <details>
@@ -1125,6 +1200,59 @@ project. See [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) for the full set of 
 The rendered diagrams (engine flow, module map, distribution) are in [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
 
 </details>
+
+### Diagrams
+
+The diagrams are Mermaid sources in [`docs/diagrams/`](docs/diagrams/), rendered to SVG and PNG into
+[`docs/assets/diagrams/`](docs/assets/diagrams/) (`tools/render-diagram-chromium.sh <name>` on Linux, the other two
+`render-diagram` scripts elsewhere), and a record binds each PNG to the exact SVG it came from. Tests pin the
+counts they state. The charts in the sections above are drawn by tools from engine runs; these show how the
+parts fit.
+
+<p align="center">
+  <img src="docs/assets/diagrams/system-overview.png" alt="The system: six front doors (command line, Python, WebAssembly and npm with Kshana Studio, MCP server with plugins and skills, JetBrains plugin, integrations) all call one dispatch over every scenario kind, which runs one engine of shared core, sensor packs and frames, and domain models, and writes a reproducible result and chart" width="900"><br>
+  <sub>One dispatch, one engine, reproducible output · <a href="docs/assets/diagrams/system-overview.svg">SVG</a> · source <a href="docs/diagrams/system-overview.mmd">system-overview.mmd</a></sub>
+</p>
+
+<p align="center">
+  <img src="docs/assets/diagrams/surfaces.png" alt="The surfaces: one deterministic offline engine feeds the command line, the Rust library, Python, WebAssembly and npm, and the MCP server; Studio runs on the WebAssembly build, plugin commands and skills on the MCP server, integrations and deploy kits on the command line, and the JetBrains plugin on the library" width="900"><br>
+  <sub>Every surface, from the same engine · <a href="docs/assets/diagrams/surfaces.svg">SVG</a> · source <a href="docs/diagrams/surfaces.mmd">surfaces.mmd</a></sub>
+</p>
+
+<p align="center">
+  <img src="docs/assets/diagrams/engine-flow.png" alt="Inside one run: a scenario file with its seed and GNSS timeline feeds the engine, which per time step evolves the error model, runs the estimator and scores the figures of merit, and writes a reproducible result and chart" width="900"><br>
+  <sub>The inner loop of a run · <a href="docs/assets/diagrams/engine-flow.svg">SVG</a> · source <a href="docs/diagrams/engine-flow.mmd">engine-flow.mmd</a></sub>
+</p>
+
+<p align="center">
+  <img src="docs/assets/diagrams/trust-flow.png" alt="Receiver trust: a receiver log or stream is ingested into per-epoch observables and the receiver own flags, passes the monitors, and becomes an advisory trust score with a band and reasons, which feeds Studio, telemetry, a signed evidence pack, Jammertest and bench scoring, and the compliance report" width="900"><br>
+  <sub>From a receiver log to a trust score and what uses it · <a href="docs/assets/diagrams/trust-flow.svg">SVG</a> · source <a href="docs/diagrams/trust-flow.mmd">trust-flow.mmd</a></sub>
+</p>
+
+<p align="center">
+  <img src="docs/assets/diagrams/lab-round-trip.png" alt="The lab round trip: a scenario is exported with its events and test conditions, an operator outside Kshana replays a file through a laboratory simulator, the receiver log is scored against the stated events, and the evidence round trip links the scenario, conditions and log hashes and the score into a signed pack" width="420"><br>
+  <sub>Scenario to signed pack; Kshana never produces or replays a signal · <a href="docs/assets/diagrams/lab-round-trip.svg">SVG</a> · source <a href="docs/diagrams/lab-round-trip.mmd">lab-round-trip.mmd</a></sub>
+</p>
+
+<p align="center">
+  <img src="docs/assets/diagrams/studio-flow.png" alt="Kshana Studio: the browser runs the engine compiled to WebAssembly locally with nothing uploaded, takes bundled scenarios or a scenario or log you open, and shows the result in the Simple view, the Advanced view and the task pages, with exports saved by the user" width="900"><br>
+  <sub>How Studio runs, locally · <a href="docs/assets/diagrams/studio-flow.svg">SVG</a> · source <a href="docs/diagrams/studio-flow.mmd">studio-flow.mmd</a></sub>
+</p>
+
+<p align="center">
+  <img src="docs/assets/diagrams/release-flow.png" alt="The test and release flow: local gates (formatting, clippy, the no-attribution check, the doc-coverage ratchet, and scripts/gate.sh, which runs the full suite and repeat runs and writes the receipt the pre-push hook checks) lead to a CI-only pull request and a green full CI; the owner fast-forwards main to the green commit and an annotated tag lands on it after the version-sync check; the release workflow verifies the full suite on the tagged commit before anything is published, builds the binaries with an SBOM, checksums and build provenance, publishes to crates.io, PyPI, npm, the container registry, the MCP registry and the JetBrains Marketplace, polls every registry until it serves the new version, and dispatches the site build from the tag; a separate site-only path dispatches the pages workflow with the tag main and is refused unless nothing outside web/ and .github/ changed since the latest release" width="900"><br>
+  <sub>Test and release flow, from local gates to a verified release and the site-only path · <a href="docs/assets/diagrams/release-flow.svg">SVG</a> · source <a href="docs/diagrams/release-flow.mmd">release-flow.mmd</a> · <a href="docs/RELEASING.md">docs/RELEASING.md</a></sub>
+</p>
+
+<p align="center">
+  <img src="docs/assets/diagrams/module-map.png" alt="The module map: the command line, Python, WebAssembly, MCP server and JetBrains plugin call the typed dispatch over every kind, which reaches the shared core, time and frames, sensor packs, astrodynamics, integrity, spoof detection, fusion, deep space and lunar, resilience, and the referee and benchmark modules, all underwritten by the verification matrix" width="1000"><br>
+  <sub>Where the code lives · <a href="docs/assets/diagrams/module-map.svg">SVG</a> · source <a href="docs/diagrams/module-map.mmd">module-map.mmd</a></sub>
+</p>
+
+<p align="center">
+  <img src="docs/assets/diagrams/distribution.png" alt="Distribution: one repository ships the core crate, the MCP server, the IDE plugin and the cross-check crates to crates.io, PyPI, npm, GitHub Releases, the Pages playground, the container registry, the MCP registry and the JetBrains Marketplace, with a Zenodo archive" width="900"><br>
+  <sub>What ships where, and what checks it · <a href="docs/assets/diagrams/distribution.svg">SVG</a> · source <a href="docs/diagrams/distribution.mmd">distribution.mmd</a></sub>
+</p>
 
 ## AI assistant
 
@@ -1218,7 +1346,7 @@ in the official MCP registry as `io.github.ashfordeOU/kshana-mcp`.
 | `build_interference_map` | A GNSS interference map from ADS-B or AIS position reports as CSV text (at most 4 MiB) |
 | `route_exposure` | The share of a route's length in degraded, not-degraded, unassessed and not-observed cells of one or more interference maps, optionally within a date range |
 | `trust_telemetry` | A trust stream (JSON lines) or `receiver-trust` result rendered as Prometheus text, CEF or LEEF syslog lines or an OTLP JSON payload, with the `kshana trust-telemetry` encoders |
-| `jammertest_import` | Read the published Jammertest test catalogue and transmission plan (NPRA/jammertest-plan, MIT) as scheduled truth (`kshana jammertest import`): one test area's slots become receiver-trust events with the catalogue id and year in each label. Planned slots, not recorded on-air times; no contact field of the plan is read. MODELLED. See [`docs/JAMMERTEST.md`](../../docs/JAMMERTEST.md). |
+| `jammertest_import` | Read the published Jammertest test catalogue and transmission plan (NPRA/jammertest-plan, MIT) as scheduled truth (`kshana jammertest import`): one test area's slots become receiver-trust events with the catalogue id and year in each label. Planned slots, not recorded on-air times; no contact field of the plan is read. MODELLED. See [`docs/JAMMERTEST.md`](docs/JAMMERTEST.md). |
 | `jammertest_score` | Score a receiver log against that schedule (`kshana jammertest score`): per test the detection latency, missed alarms and time to recover, and the false alarms outside every slot. Text logs as `log`, binary (`ubx`, `sbf`) as `log_base64`. A signed pack needs a key: command line. Advisory only; MODELLED. |
 | `fit_imu_log` | Accelerometer and gyro parameters of the `hybrid` and `fusion` scenarios fitted from a stationary IMU log (CSV or EuRoC) by Allan deviation, with a ready-to-paste `[accel_classical]` table and the log's SHA-256 (`kshana imu-fit`). Text in, JSON out; MODELLED. |
 
@@ -2153,6 +2281,7 @@ entry for every user-visible change. Participation is governed by our
 | [Concepts primer](docs/CONCEPTS.md) | everyone, start here | what Kshana does and why, from zero to the physics |
 | [Kshana Studio](web/README.md) | everyone | run the engine in your browser (WebAssembly); build &amp; deploy notes |
 | [Glossary](docs/GLOSSARY.md) | everyone | plain-language definitions of every term |
+| [Scenario kinds](docs/KINDS.md) | everyone | every kind the engine dispatches: what it does, its fields, an example command, its ledger rows and the chart the engine writes for it |
 | [Architecture](docs/ARCHITECTURE.md) | developers / reviewers | module map, engine pipeline, dispatch, and diagrams |
 | [Validation status](docs/VALIDATION.md) | reviewers / citers | what is `validated` vs `not modeled`, with evidence |
 | [Verification matrix](docs/VERIFICATION-MATRIX.md) | reviewers / citers | the machine-checked evidence ledger — every capability row with its status, module, test and external oracle, generated from `src/verification.rs` |
