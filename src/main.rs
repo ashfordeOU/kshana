@@ -70,7 +70,44 @@ fn civil_from_days(z: i64) -> (i64, u32, u32) {
     (if m <= 2 { y + 1 } else { y }, m, d)
 }
 
+/// Exit status when stdout (or stderr) closes under us: 128 + SIGPIPE, what a shell reports
+/// for `yes | head -1`, so a pipeline with `set -o pipefail` sees the conventional value.
+const EXIT_CLOSED_PIPE: i32 = 141;
+
+/// True when a panic message is `println!`/`eprintln!` failing because the reader went away
+/// (EPIPE on Unix, ERROR_NO_DATA / ERROR_BROKEN_PIPE on Windows), and nothing else: a full
+/// disk or any other write error still panics loudly.
+fn is_closed_pipe_panic(msg: &str) -> bool {
+    (msg.starts_with("failed printing to stdout") || msg.starts_with("failed printing to stderr"))
+        && (msg.contains("Broken pipe")
+            || msg.contains("os error 32)")
+            || msg.contains("os error 232)")
+            || msg.contains("os error 109)"))
+}
+
+/// Rust ignores SIGPIPE, so a closed stdout (`kshana kinds | head`) turns the next `println!`
+/// into a panic with a backtrace hint. Restoring the default signal action would end the
+/// process the way other tools end, but would also kill a live feed on a closed socket instead
+/// of returning its write error, so only a closed stdout or stderr is handled: the process
+/// exits quietly with [`EXIT_CLOSED_PIPE`]. Every other panic keeps the default report.
+fn exit_quietly_when_stdout_closes() {
+    let default_hook = std::panic::take_hook();
+    std::panic::set_hook(Box::new(move |info| {
+        let payload = info.payload();
+        let msg = payload
+            .downcast_ref::<String>()
+            .map(String::as_str)
+            .or_else(|| payload.downcast_ref::<&str>().copied())
+            .unwrap_or("");
+        if is_closed_pipe_panic(msg) {
+            std::process::exit(EXIT_CLOSED_PIPE);
+        }
+        default_hook(info);
+    }));
+}
+
 fn main() -> ExitCode {
+    exit_quietly_when_stdout_closes();
     let args: Vec<String> = std::env::args().collect();
     // `kshana kinds [--json]` is a terminal subcommand, resolved before the flag loop
     // because that loop's positional arm would otherwise read `kinds` as a scenario
