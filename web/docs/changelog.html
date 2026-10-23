@@ -56,7 +56,7 @@
 <div class="bg-field" aria-hidden="true"></div>
 <header class="nav" id="nav">
   <div class="nav-in">
-    <a class="brand" href="/" aria-label="Kshana home"><span class="brand-mark" aria-hidden="true"></span><span class="brand-t">kshana</span> <small>v0.38.0</small></a>
+    <a class="brand" href="/" aria-label="Kshana home"><span class="brand-mark" aria-hidden="true"></span><span class="brand-t">kshana</span> <small>v0.39.0</small></a>
     <nav class="nav-links" id="navLinks" aria-label="Primary">
       <a href="/missions">Missions</a>
       <a href="/capabilities">Capabilities</a>
@@ -90,8 +90,31 @@ and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semant
 While the project is pre-1.0, the public scenario/result schema may still change;
 breaking changes are called out explicitly.</p>
 <h2 id="unreleased"><a href="https://github.com/AshfordeOU/kshana/compare/v0.30.0...HEAD">Unreleased</a><a class="anchor" href="#unreleased" aria-label="Link to this section">#</a></h2>
-<h3 id="added">Added<a class="anchor" href="#added" aria-label="Link to this section">#</a></h3>
+<h2 id="0390---2026-10-22">[0.39.0] - 2026-10-22<a class="anchor" href="#0390---2026-10-22" aria-label="Link to this section">#</a></h2>
+<p>No new features: one command-line fix, dependency updates in the cross-validation tooling, and documentation. The
+engine&#39;s results are unchanged from 0.38.0.</p>
+<h3 id="fixed">Fixed<a class="anchor" href="#fixed" aria-label="Link to this section">#</a></h3>
 <ul>
+<li>The command line exits quietly with status 141 when its standard output closes (<code>kshana kinds | head</code>), instead of
+panicking with &quot;failed printing to stdout: Broken pipe&quot;. 141 is 128 plus SIGPIPE, the status a shell reports for
+<code>yes | head</code>. Only a closed pipe is handled: a full disk or any other write error still reports itself, and a live
+feed writing to a closed socket still gets its write error. <code>tests/cli_closed_pipe.rs</code> closes the reader before the
+program starts, so the first write fails on every run.</li>
+</ul>
+<h3 id="security">Security<a class="anchor" href="#security" aria-label="Link to this section">#</a></h3>
+<p>Dependency updates in the cross-validation tooling (<code>xval/</code>); no shipped crate, wheel or package changes.</p>
+<ul>
+<li><code>memmap2</code> 0.9.10 to 0.9.11 (RUSTSEC-2026-0186) in the ANISE cross-check locks (<code>xval/anise-lunar-od</code>, <code>xval/anise-mars-od</code>);
+the locks also re-sync the in-repo <code>kshana</code> path dependency.</li>
+<li><code>pillow</code> 12.3.0 to 13.0.0 and <code>certifi</code> 2026.7.22 to 2026.10.19 in the oracle environment pins
+(<code>xval/oracles/requirements.lock</code>, <code>requirements.frozen.txt</code>): the patched releases for eight pillow advisories
+and one certifi advisory.</li>
+</ul>
+<h3 id="docs">Docs<a class="anchor" href="#docs" aria-label="Link to this section">#</a></h3>
+<ul>
+<li><code>docs/BENCH.md</code>, the README and this file list every kshana-bench bar that is NOT MET, as recorded in
+<code>xval/bench/RESULTS-v2.md</code>: <strong>A2</strong> (<code>agc_k_sigma</code> AUC 0.766 against at least 0.80 on the test split), <strong>D1</strong> (largest
+gap 0.0301) and <strong>task (b) R1</strong> (carried, not re-run). No bar is loosened.</li>
 <li>README completeness pass: a contents list; the scenario kinds filed under families, each with a page under
 <code>docs/kinds/by-kind/</code> (the engine&#39;s description and fields, the inputs and results of an example run, the ledger rows
 and oracles, the limitations the run&#39;s report states, and the chart the engine writes), a contact sheet per
@@ -103,16 +126,13 @@ inner loop, receiver trust, lab round trip, Studio, test and release flow, modul
 <code>tools/readme_audit.py</code>; guarded by <code>tests/readme_completeness_doc_sync.rs</code>, which also pins every entry&#39;s
 description and fields to the engine.</li>
 <li><code>tools/render-diagram-chromium.sh</code>: renders a Mermaid diagram to SVG and PNG on Linux and updates the render record.</li>
-</ul>
-<h3 id="fixed">Fixed<a class="anchor" href="#fixed" aria-label="Link to this section">#</a></h3>
-<ul>
 <li>README: the space-user and lunar figures used paths relative to <code>docs/</code>, so they did not load from the README; one
 link pointed at <code>../../docs/JAMMERTEST.md</code>.</li>
 <li>Removed two stale hand-copied chart files (<code>docs/assets/clock-ensemble-band.svg</code>, <code>sweep-clock-stability.svg</code>) that no
 page used and that no longer matched the engine; <code>docs/KINDS.md</code> carries the current charts.</li>
 </ul>
 <h2 id="0380---2026-10-19">[0.38.0] - 2026-10-19<a class="anchor" href="#0380---2026-10-19" aria-label="Link to this section">#</a></h2>
-<h3 id="added-1">Added<a class="anchor" href="#added-1" aria-label="Link to this section">#</a></h3>
+<h3 id="added">Added<a class="anchor" href="#added" aria-label="Link to this section">#</a></h3>
 <ul>
 <li><strong>GNSS beyond the constellation (<code>gnss-ssv</code>).</strong> A new scenario kind for spacecraft above, around and past the GNSS orbits
 (<a href="/docs/ssv"><code>docs/SSV.md</code></a>): availability of one and four signals, outage durations, C/N0, DOP and main-lobe against
@@ -168,7 +188,9 @@ fixed tasks, splits and metrics for GNSS interference detection on receiver logs
 IQ, timing holdover prediction (IGS clocks) and the out-of-distribution optimism gap; split manifests
 with pinned hashes and fetch scripts (no data vendored), a sealed holdout by commit and reveal, a
 result-file schema and a static leaderboard page. Baselines under bars pre-registered in
-<code>xval/bench/PREREGISTRATION.md</code>: scorer bars met, C1 to C3 met, D2 met, <strong>D1 NOT MET</strong> (pinned). Every
+<code>xval/bench/PREREGISTRATION.md</code>: scorer bars met, C1 to C3 met, D2 met; <strong>A2 NOT MET</strong> (<code>agc_k_sigma</code> AUC 0.766
+against at least 0.80 on the test split), <strong>D1 NOT MET</strong> (largest gap 0.0301) and <strong>task (b) R1 NOT MET</strong> (carried,
+not re-run), each pinned (<code>xval/bench/RESULTS-v2.md</code>). Every
 score is MODELLED. Python <code>bench_score</code>, <code>bench_leaderboard</code>; WebAssembly the same; MCP
 <code>score_benchmark</code>, <code>render_leaderboard</code>.</li>
 <li><strong>Interference observatory</strong> (<code>kshana interference-map daily</code>, <code>sensitivity</code>,
@@ -267,7 +289,7 @@ The plugin is compatible with and clean on 2024.3 (the since-build, unchanged) a
 runs <code>verifyPlugin</code> and fails on compatibility problems and on any use of API scheduled for removal.</li>
 </ul>
 <h2 id="0370---2026-10-17">[0.37.0] - 2026-10-17<a class="anchor" href="#0370---2026-10-17" aria-label="Link to this section">#</a></h2>
-<h3 id="added-2">Added<a class="anchor" href="#added-2" aria-label="Link to this section">#</a></h3>
+<h3 id="added-1">Added<a class="anchor" href="#added-1" aria-label="Link to this section">#</a></h3>
 <ul>
 <li><strong>Optical PNT through the atmosphere</strong> (<code>optical-atmosphere</code> scenario kind,
 <a href="/docs/optical-atmosphere"><code>docs/OPTICAL-ATMOSPHERE.md</code></a>, design note
@@ -288,7 +310,7 @@ normal CDF in use was a 1.5e-7 approximation; the CDF was replaced and the bar l
 registered. The native and WebAssembly builds return byte-identical documents for both bundled scenarios (A7, run on the 0.37.0 integration commit).</li>
 </ul>
 <h2 id="0360---2026-10-16">[0.36.0] - 2026-10-16<a class="anchor" href="#0360---2026-10-16" aria-label="Link to this section">#</a></h2>
-<h3 id="added-3">Added<a class="anchor" href="#added-3" aria-label="Link to this section">#</a></h3>
+<h3 id="added-2">Added<a class="anchor" href="#added-2" aria-label="Link to this section">#</a></h3>
 <ul>
 <li><p><strong>Detection ROC of the IQ monitors</strong> (PRO-32,
 <a href="https://github.com/ashfordeOU/kshana/blob/main/docs/design/DETECTION-ROC.md"><code>docs/design/DETECTION-ROC.md</code></a>). A campaign with monitors
@@ -1762,7 +1784,7 @@ A sample Grafana dashboard is in <code>deploy/grafana/</code>. Metric names, lab
 CEF/LEEF field mapping are in <code>docs/TRUST-TELEMETRY.md</code>. The stream format is isolated
 in <code>src/telemetry/sample.rs</code>.</li>
 </ul>
-<h3 id="added-4">Added<a class="anchor" href="#added-4" aria-label="Link to this section">#</a></h3>
+<h3 id="added-3">Added<a class="anchor" href="#added-3" aria-label="Link to this section">#</a></h3>
 <ul>
 <li><strong>Maritime trust: a live 0-100 trust score for a moving vessel&#39;s fix, from the NMEA 0183
 the receiver already outputs, with an opt-in gate.</strong> <code>kshana receiver-trust</code> takes a
@@ -1981,7 +2003,7 @@ inside the band for both clocks (NIS 0.990 and 1.001). Known follow-up: the fusi
 same gap (classical integrity 0.80 with a floor); the hybrid kind stays above 0.99.</li>
 </ul>
 <h2 id="0341---2026-10-10">[0.34.1] - 2026-10-10<a class="anchor" href="#0341---2026-10-10" aria-label="Link to this section">#</a></h2>
-<h3 id="security">Security<a class="anchor" href="#security" aria-label="Link to this section">#</a></h3>
+<h3 id="security-1">Security<a class="anchor" href="#security-1" aria-label="Link to this section">#</a></h3>
 <ul>
 <li><strong>MCP server input hardened.</strong> The MCP server&#39;s scenario tools now accept inline content only
 and refuse file-source fields; input size is capped.
@@ -1994,7 +2016,7 @@ class: everything below is <strong>MODELLED</strong> or checked for internal con
 forms and seeded simulation; none of it adds a VALIDATED row, and the verification ledger is
 unchanged (251 rows: 124 Validated, 123 Modelled, 4 Partner). It is a software analysis
 layer: nothing here synthesises a jammer or spoofer waveform, and nothing transmits.</p>
-<h3 id="added-5">Added<a class="anchor" href="#added-5" aria-label="Link to this section">#</a></h3>
+<h3 id="added-4">Added<a class="anchor" href="#added-4" aria-label="Link to this section">#</a></h3>
 <ul>
 <li><p><strong>Lab replay: test conditions, campaign runner and scoring (0.34.0).</strong> <code>kshana iq campaign &lt;campaign.toml&gt;</code> replays recordings × front-end chains × loop designs (<code>kshana.loop-design/1</code>)
 and scores every cell against a per-recording test-condition file (<code>kshana.test-conditions/1</code>,
@@ -2350,7 +2372,7 @@ default <code>bn_t_max = 0.1</code>); M2M4 is insensitive. BeiDou B1C data at 5 
 the signal-matrix T5 rows for GPS L2C and BeiDou B1C stay ignored findings with these causes.</li>
 </ul>
 <h2 id="0331---2026-10-08">[0.33.1] - 2026-10-08<a class="anchor" href="#0331---2026-10-08" aria-label="Link to this section">#</a></h2>
-<h3 id="security-1">Security<a class="anchor" href="#security-1" aria-label="Link to this section">#</a></h3>
+<h3 id="security-2">Security<a class="anchor" href="#security-2" aria-label="Link to this section">#</a></h3>
 <ul>
 <li><strong>Chart text and Studio chart adoption hardened.</strong> Text that a scenario carries into a generated chart is now escaped consistently by one shared routine, and the Studio adopts only drawing markup from a chart. The Studio&#39;s address parameters, kind-keyed lookups and scenario fetches are restricted to known values. Bundled charts, recorded results and published numbers are unchanged. Upgrading is recommended for anyone who opens scenario files from untrusted sources in the Studio or embeds generated charts in web pages.
 Advisory: <a href="https://github.com/ashfordeOU/kshana/security/advisories/GHSA-h25h-cg9f-v2cg">GHSA-h25h-cg9f-v2cg</a>.</li>
@@ -2381,7 +2403,7 @@ Doppler. At 0.5 chip it is harmless at 1500 Hz Doppler but 2× with a 0.011 chip
 0 Hz, and at 0.25 or 0.1 chip it is 8–10× the code error. Carrier tracking is unaffected.
 <code>docs/design/iq-notes/receiver.md</code> has the measurements.</li>
 </ul>
-<h3 id="added-6">Added<a class="anchor" href="#added-6" aria-label="Link to this section">#</a></h3>
+<h3 id="added-5">Added<a class="anchor" href="#added-5" aria-label="Link to this section">#</a></h3>
 <ul>
 <li><p><strong>GNSS IQ layer on the MCP server (Phase B.1).</strong> <code>kshana-mcp</code> gains six tools that drive
 the <code>kshana iq</code> layer from an agent: <code>iq_signals</code> (the accepted signal names and the IQ
@@ -2562,7 +2584,7 @@ sidecar writes <code>k = -7</code> as <code>sat_id</code> 4294967289 (<code>k + 
 </li>
 </ul>
 <h2 id="0320---2026-10-05">[0.32.0] - 2026-10-05<a class="anchor" href="#0320---2026-10-05" aria-label="Link to this section">#</a></h2>
-<h3 id="added-7">Added<a class="anchor" href="#added-7" aria-label="Link to this section">#</a></h3>
+<h3 id="added-6">Added<a class="anchor" href="#added-6" aria-label="Link to this section">#</a></h3>
 <ul>
 <li><strong>GNSS IQ layer on the CLI and Python (0.32.0 Phase A).</strong> The existing <code>iq</code> module is now
 usable without writing Rust. Five new <code>kshana iq</code> commands join the data-handling group:
@@ -2610,7 +2632,7 @@ the channel/front-end unit tests and <code>tests/iq_cli.rs</code>.</li>
 </li>
 </ul>
 <h2 id="0310---2026-10-04">[0.31.0] - 2026-10-04<a class="anchor" href="#0310---2026-10-04" aria-label="Link to this section">#</a></h2>
-<h3 id="added-8">Added<a class="anchor" href="#added-8" aria-label="Link to this section">#</a></h3>
+<h3 id="added-7">Added<a class="anchor" href="#added-7" aria-label="Link to this section">#</a></h3>
 <ul>
 <li><strong>GNSS IQ layer: signal-level simulation and software-receiver processing.</strong> A new <code>iq</code>
 module takes Kshana from a single-satellite, short-block L1 C/A front end to a full
@@ -3463,7 +3485,7 @@ pair; the lunar joint solve uses a QR step; the NTN bound is evaluated at the tr
 the constellation-design clock reference is the lowest constellation in view; the DE440
 orientation series spans 2014-2030 and errors outside it instead of clamping.</li>
 </ul>
-<h3 id="added-9">Added<a class="anchor" href="#added-9" aria-label="Link to this section">#</a></h3>
+<h3 id="added-8">Added<a class="anchor" href="#added-8" aria-label="Link to this section">#</a></h3>
 <ul>
 <li><code>leo_navmsg::truth::TruthOrbit::from_ecef_states</code>, a truth orbit built from tabulated
 Earth-fixed states, used by the real-orbit fitter comparison.</li>
@@ -3532,7 +3554,7 @@ its own address, makes the site readable by search engines and AI assistants, fi
 several small things in the Studio, and lets npm releases publish without a stored
 token. No engine output changes: every bundled scenario gives a byte-identical result
 to 0.29.1 apart from the version stamp.</p>
-<h3 id="added-10">Added<a class="anchor" href="#added-10" aria-label="Link to this section">#</a></h3>
+<h3 id="added-9">Added<a class="anchor" href="#added-9" aria-label="Link to this section">#</a></h3>
 <ul>
 <li><strong>A light theme for kshana.dev.</strong> Every page can be read light or dark. The site
 follows the reader&#39;s system setting and has a switch to change it.</li>
@@ -3603,7 +3625,7 @@ surface <code>tests/coverage_figure_doc_sync.rs</code> pins moves together: <cod
 README badge, Evidence line and CI table, the crates.io, PyPI and npm badges, the
 technical report and the kshana.dev coverage page. The 85 % floor is unchanged.</li>
 </ul>
-<h3 id="added-11">Added<a class="anchor" href="#added-11" aria-label="Link to this section">#</a></h3>
+<h3 id="added-10">Added<a class="anchor" href="#added-10" aria-label="Link to this section">#</a></h3>
 <ul>
 <li><strong>The name line on kshana.dev.</strong> &quot;Kshana · क्षण · the precise instant&quot; now opens the Home
 hero and sits under the brand in every page&#39;s footer. kshana.dev still makes no request
@@ -4193,7 +4215,7 @@ position error below 0.6 times the decoupled one, winning at least 90 of 100 tri
 capabilities built since (the constellation-wide fault mode and the integrity support
 message) leave its gap list.</li>
 </ul>
-<h3 id="added-12">Added<a class="anchor" href="#added-12" aria-label="Link to this section">#</a></h3>
+<h3 id="added-11">Added<a class="anchor" href="#added-11" aria-label="Link to this section">#</a></h3>
 <h4 id="spectrum">Spectrum</h4>
 <ul>
 <li><strong><code>spectrum</code> scenario kind: an L-band spectrum model and waterfall</strong>
@@ -4902,7 +4924,7 @@ above because it moves published output.</p>
 </li>
 </ul>
 <h2 id="0280---2026-09-26"><a href="https://github.com/AshfordeOU/kshana/compare/v0.27.4...v0.28.0">0.28.0</a> - 2026-09-26<a class="anchor" href="#0280---2026-09-26" aria-label="Link to this section">#</a></h2>
-<h3 id="added-13">Added<a class="anchor" href="#added-13" aria-label="Link to this section">#</a></h3>
+<h3 id="added-12">Added<a class="anchor" href="#added-12" aria-label="Link to this section">#</a></h3>
 <ul>
 <li><strong><code>slot-timing</code> scenario kind</strong> (<code>src/slot_timing.rs</code>): seconds until a free-running
 clock leaves the guard of a time-indexed routing or tasking slot, every contributing
@@ -4981,7 +5003,7 @@ SonarCloud quality gate had gone red on new-code duplication (4.0% against 3%), 
 every duplicated block was a units row or an ITU-T mask entry.</li>
 </ul>
 <h2 id="0273---2026-09-25"><a href="https://github.com/AshfordeOU/kshana/compare/v0.27.2...v0.27.3">0.27.3</a> - 2026-09-25<a class="anchor" href="#0273---2026-09-25" aria-label="Link to this section">#</a></h2>
-<h3 id="added-14">Added<a class="anchor" href="#added-14" aria-label="Link to this section">#</a></h3>
+<h3 id="added-13">Added<a class="anchor" href="#added-13" aria-label="Link to this section">#</a></h3>
 <ul>
 <li><p><strong><code>scenarios/small-uas-jammed-nav.toml</code>: how long a small drone&#39;s navigation holds
 after GNSS is jammed.</strong> It runs a flight-controller-class micro-electro-mechanical
@@ -5550,7 +5572,7 @@ shell. No verification job, golden pin or local gate script was removed or loose
 </ul>
 </li>
 </ul>
-<h3 id="security-2">Security<a class="anchor" href="#security-2" aria-label="Link to this section">#</a></h3>
+<h3 id="security-3">Security<a class="anchor" href="#security-3" aria-label="Link to this section">#</a></h3>
 <ul>
 <li><p><strong>Every third-party GitHub Action is pinned by commit SHA</strong> — 93 references across
 15 workflows, 92 of them newly — with the tag kept as a trailing comment for
@@ -5578,7 +5600,7 @@ which fixes an argument-injection advisory (≥ 4.0, &lt; 6.0).</p>
 </li>
 </ul>
 <h2 id="0272---2026-09-22"><a href="https://github.com/AshfordeOU/kshana/compare/v0.27.1...v0.27.2">0.27.2</a> - 2026-09-22<a class="anchor" href="#0272---2026-09-22" aria-label="Link to this section">#</a></h2>
-<h3 id="added-15">Added<a class="anchor" href="#added-15" aria-label="Link to this section">#</a></h3>
+<h3 id="added-14">Added<a class="anchor" href="#added-14" aria-label="Link to this section">#</a></h3>
 <ul>
 <li><p><strong>Every Rust item a verification-matrix row cites is now resolved against the
 crate.</strong> The existing guard checked the citations shaped like file paths; 63 of
@@ -5744,7 +5766,7 @@ is separately asserted to state the running version, so that fact is checked
 more precisely than the hash ever checked it.</li>
 </ul>
 <h2 id="0270---2026-09-22"><a href="https://github.com/AshfordeOU/kshana/compare/v0.26.0...v0.27.0">0.27.0</a> - 2026-09-22<a class="anchor" href="#0270---2026-09-22" aria-label="Link to this section">#</a></h2>
-<h3 id="added-16">Added<a class="anchor" href="#added-16" aria-label="Link to this section">#</a></h3>
+<h3 id="added-15">Added<a class="anchor" href="#added-15" aria-label="Link to this section">#</a></h3>
 <ul>
 <li><p><strong><code>lunar-llr-datum</code> — the lunar frame datum from a real observing campaign.</strong>
 <code>lunar-frame-campaign</code> replaced an injected Helmert transform with a <em>simulated</em>
@@ -5941,7 +5963,7 @@ the apparent plateau was the clamp. Behaviour change for <code>n_sats &gt; 12</c
 <p>A documentation, transparency and playground release. No engine behaviour
 changes: the verification matrix stands at <strong>102 rows — 56 VALIDATED, 42
 MODELLED, 4 PARTNER</strong>, unchanged from 0.25.0.</p>
-<h3 id="added-17">Added<a class="anchor" href="#added-17" aria-label="Link to this section">#</a></h3>
+<h3 id="added-16">Added<a class="anchor" href="#added-16" aria-label="Link to this section">#</a></h3>
 <ul>
 <li><strong>Crate-level rustdoc</strong> (<code>//!</code> in <code>lib.rs</code>) covering entry points, the
 honesty/tier model and reproducibility, so docs.rs opens on a real landing
@@ -5992,7 +6014,7 @@ schema errors and every atomic licence id still in the official SPDX
 enumeration.</li>
 </ul>
 <h2 id="0250---2026-07-15"><a href="https://github.com/AshfordeOU/kshana/compare/v0.24.0...v0.25.0">0.25.0</a> - 2026-07-15<a class="anchor" href="#0250---2026-07-15" aria-label="Link to this section">#</a></h2>
-<h3 id="added-18">Added<a class="anchor" href="#added-18" aria-label="Link to this section">#</a></h3>
+<h3 id="added-17">Added<a class="anchor" href="#added-17" aria-label="Link to this section">#</a></h3>
 <ul>
 <li><strong>Five capabilities promoted to externally VALIDATED</strong>, each now cross-checked
 against an independent third-party implementation of the same uniquely-defined
@@ -6093,7 +6115,7 @@ external-oracle validations of the decision-analysis and timing estimators, chec
 against independent libraries (SciPy, pymcdm, pyDecision, allantools) to tight
 tolerance, while the new PNT capability surface is surfaced honestly as MODELLED. As
 ever, no numeric model claim is upgraded without an external dataset behind it.</p>
-<h3 id="added-19">Added<a class="anchor" href="#added-19" aria-label="Link to this section">#</a></h3>
+<h3 id="added-18">Added<a class="anchor" href="#added-18" aria-label="Link to this section">#</a></h3>
 <p><strong>Runnable scenarios</strong> — each a registered scenario <code>kind</code>, dispatched through the
 engine and CI-proven end-to-end by <code>tests/determinism.rs</code> (which runs every bundled
 <code>scenarios/*.toml</code> and hard-fails on any unrunnable fixture):</p>
@@ -6196,7 +6218,7 @@ observability paper rests on. The machine-checked validation matrix grows to
 across 89): the new estimation engine is checked against an external oracle and is
 VALIDATED; the lunar application of it is honestly MODELLED. As ever, no numeric
 model claim is upgraded without an external dataset behind it.</p>
-<h3 id="added-20">Added<a class="anchor" href="#added-20" aria-label="Link to this section">#</a></h3>
+<h3 id="added-19">Added<a class="anchor" href="#added-19" aria-label="Link to this section">#</a></h3>
 <ul>
 <li><strong><code>src/fim.rs</code> — Fisher information, Cramér–Rao bounds, and optimal experiment
 design.</strong> A general, reusable estimation-theory engine: the Fisher information
@@ -6259,7 +6281,7 @@ capabilities against independent external oracles. Every distributed artifact no
 a cryptographic SLSA build-provenance attestation, ships a CycloneDX SBOM, and is published
 in lockstep across all surfaces. No numeric model claim is upgraded without an external
 dataset behind it; new capability remains honestly MODELLED.</p>
-<h3 id="added-21">Added<a class="anchor" href="#added-21" aria-label="Link to this section">#</a></h3>
+<h3 id="added-20">Added<a class="anchor" href="#added-20" aria-label="Link to this section">#</a></h3>
 <ul>
 <li><strong>Attitude dynamics</strong> (<code>src/attitude_dynamics.rs</code>, MODELLED) — torque-free rigid-body
 Euler equations + quaternion kinematics (RK4), with conservation-law self-tests
@@ -6342,7 +6364,7 @@ the machine-checked validation matrix to <strong>15 VALIDATED · 42 MODELLED · 
 across its 61 rows. The new application numbers are MODELLED from illustrative
 public-source parameters — no TRL, flight heritage, certification, or agency
 endorsement — and the validated kernels they reuse are labelled as such.</p>
-<h3 id="added-22">Added<a class="anchor" href="#added-22" aria-label="Link to this section">#</a></h3>
+<h3 id="added-21">Added<a class="anchor" href="#added-21" aria-label="Link to this section">#</a></h3>
 <ul>
 <li><strong>Quantum-Enabled PNT demonstrator suite</strong> (<code>quantum-time-transfer</code>,
 <code>quantum-gnss-free-nav</code>, <code>quantum-anomaly-detect</code>). Three runnable MODELLED
@@ -6420,7 +6442,7 @@ reproducible from one command and writing a byte-deterministic artifact. All stu
 are MODELLED (synthetic or public-dataset calibration), carry their honest provenance
 (engine version, seeds, config hash) and validation labels, and are not
 certifications.</p>
-<h3 id="added-23">Added<a class="anchor" href="#added-23" aria-label="Link to this section">#</a></h3>
+<h3 id="added-22">Added<a class="anchor" href="#added-22" aria-label="Link to this section">#</a></h3>
 <ul>
 <li><strong>Conditional Timing Protection Level (<code>tpl</code>).</strong> A holdover-limited bound on the
 undetected time error under GNSS spoofing, with a k-sigma monitor floor, a van Loan
@@ -6481,7 +6503,7 @@ Apache-2.0 permissive terms can continue using the last Apache-2.0 release
 </ul>
 </li>
 </ul>
-<h3 id="security-3">Security<a class="anchor" href="#security-3" aria-label="Link to this section">#</a></h3>
+<h3 id="security-4">Security<a class="anchor" href="#security-4" aria-label="Link to this section">#</a></h3>
 <ul>
 <li><strong>Bumped <code>pyo3</code> 0.24 → 0.29</strong> to clear RUSTSEC-2026-0176 / RUSTSEC-2026-0177
 (GHSA-36hh-v3qg-5jq4 / GHSA-chgr-c6px-7xpp) from external OSV/dependency scans.
@@ -6494,7 +6516,7 @@ Migrated <code>src/python.rs</code> to the pyo3 0.29 API (Bound return type for
 All 11 Python binding tests pass against the rebuilt extension.</li>
 </ul>
 <h2 id="0180---2026-06-17"><a href="https://github.com/AshfordeOU/kshana/compare/v0.17.0...v0.18.0">0.18.0</a> - 2026-06-17<a class="anchor" href="#0180---2026-06-17" aria-label="Link to this section">#</a></h2>
-<h3 id="added-24">Added<a class="anchor" href="#added-24" aria-label="Link to this section">#</a></h3>
+<h3 id="added-23">Added<a class="anchor" href="#added-23" aria-label="Link to this section">#</a></h3>
 <ul>
 <li><p><strong>Eleven new runnable scenario kinds — two-tender demonstrators, a CCSDS interop
 bridge, and a first-order mission-analysis / environment suite (all MODELLED,
@@ -6642,7 +6664,7 @@ count can no longer drift from the dispatcher.</p>
 </li>
 </ul>
 <h2 id="0170---2026-06-14"><a href="https://github.com/AshfordeOU/kshana/compare/v0.16.0...v0.17.0">0.17.0</a> - 2026-06-14<a class="anchor" href="#0170---2026-06-14" aria-label="Link to this section">#</a></h2>
-<h3 id="added-25">Added<a class="anchor" href="#added-25" aria-label="Link to this section">#</a></h3>
+<h3 id="added-24">Added<a class="anchor" href="#added-24" aria-label="Link to this section">#</a></h3>
 <ul>
 <li><strong>Deep-space &amp; Mars PNT — open radiometric navigation engine + GSE simulation.</strong>
 A new, fully additive capability axis on top of the Earth-validated core (every
@@ -6688,7 +6710,7 @@ an error instead of silently producing zero Doppler (it had made λ = c/carrier
 infinite), matching the existing <code>step_s</code> guard.</li>
 </ul>
 <h2 id="0160---2026-06-11"><a href="https://github.com/AshfordeOU/kshana/compare/v0.15.1...v0.16.0">0.16.0</a> - 2026-06-11<a class="anchor" href="#0160---2026-06-11" aria-label="Link to this section">#</a></h2>
-<h3 id="added-26">Added<a class="anchor" href="#added-26" aria-label="Link to this section">#</a></h3>
+<h3 id="added-25">Added<a class="anchor" href="#added-25" aria-label="Link to this section">#</a></h3>
 <ul>
 <li><strong>Force-model validation by ephemeris fitting, cross-validated against real
 agency products.</strong> A new batch least-squares estimator (<code>src/precise_od.rs</code>)
@@ -6745,7 +6767,7 @@ is actually sweepable, so no pack offers a control that plots nothing.</li>
 rotation error, well inside SGP4&#39;s own model error) and refreshed <code>CAPABILITY.md</code>.</li>
 </ul>
 <h2 id="0151---2026-06-09"><a href="https://github.com/AshfordeOU/kshana/compare/v0.15.0...v0.15.1">0.15.1</a> - 2026-06-09<a class="anchor" href="#0151---2026-06-09" aria-label="Link to this section">#</a></h2>
-<h3 id="added-27">Added<a class="anchor" href="#added-27" aria-label="Link to this section">#</a></h3>
+<h3 id="added-26">Added<a class="anchor" href="#added-26" aria-label="Link to this section">#</a></h3>
 <ul>
 <li>The <strong>Kshana — PNT simulator</strong> JetBrains plugin is now published and approved on the
 <a href="https://plugins.jetbrains.com/plugin/32181-kshana--pnt-simulator">JetBrains Marketplace</a>.
@@ -6765,7 +6787,7 @@ version&quot; response as a no-op success.</li>
 track the release, so returning visitors always get the current build.</li>
 </ul>
 <h2 id="0150---2026-06-08"><a href="https://github.com/AshfordeOU/kshana/compare/v0.14.1...v0.15.0">0.15.0</a> - 2026-06-08<a class="anchor" href="#0150---2026-06-08" aria-label="Link to this section">#</a></h2>
-<h3 id="added-28">Added<a class="anchor" href="#added-28" aria-label="Link to this section">#</a></h3>
+<h3 id="added-27">Added<a class="anchor" href="#added-27" aria-label="Link to this section">#</a></h3>
 <ul>
 <li><strong><code>kshana-mcp</code> — Kshana as a Model Context Protocol (MCP) server</strong> (<code>mcp/kshana-mcp/</code>).
 A standalone, workspace-excluded crate (the <code>rmcp</code> SDK is edition 2024) that exposes the
@@ -6787,7 +6809,7 @@ optional developer signing) on each release tag.</li>
 </li>
 </ul>
 <h2 id="0141---2026-06-08"><a href="https://github.com/AshfordeOU/kshana/compare/v0.14.0...v0.14.1">0.14.1</a> - 2026-06-08<a class="anchor" href="#0141---2026-06-08" aria-label="Link to this section">#</a></h2>
-<h3 id="added-29">Added<a class="anchor" href="#added-29" aria-label="Link to this section">#</a></h3>
+<h3 id="added-28">Added<a class="anchor" href="#added-28" aria-label="Link to this section">#</a></h3>
 <ul>
 <li><strong>Independent ANISE/SPICE reference-frame cross-validation</strong> (<code>xval/anise-frames/</code>).
 A standalone, workspace-excluded crate cross-checks <code>kshana</code>&#39;s IAU 2006/2000A CIO
@@ -6828,7 +6850,7 @@ instead of spinning the adaptive controller forever. (3) The DEM cell helper no 
 a single-sample (1×N) grid. (4) <code>lunar_look_angle</code> azimuth is held strictly in <code>[0, 360)</code>.
 (5) <code>SphericalHarmonicField::from_gfc</code> rejects non-physical (NaN / non-positive) <code>GM</code>/radius.</li>
 </ul>
-<h3 id="added-30">Added<a class="anchor" href="#added-30" aria-label="Link to this section">#</a></h3>
+<h3 id="added-29">Added<a class="anchor" href="#added-29" aria-label="Link to this section">#</a></h3>
 <ul>
 <li><strong><code>validation_report</code> binary + release artifact</strong>: a dependency-free generator that emits a
 one-page, print-ready HTML validation summary indexing every CI-enforced validation (SGP4
@@ -6964,7 +6986,7 @@ the new ARAIM scenarios). <code>chi2_quantile</code> now guards <code>p</code>/<
 Stanford-noise <code>Normal</code> clamps to a strictly-positive σ — so the integrity/ARAIM
 stack never panics on mutated or mis-configured scenarios.</li>
 </ul>
-<h3 id="added-31">Added<a class="anchor" href="#added-31" aria-label="Link to this section">#</a></h3>
+<h3 id="added-30">Added<a class="anchor" href="#added-30" aria-label="Link to this section">#</a></h3>
 <ul>
 <li><strong>Cross-platform reproducibility CI matrix.</strong> A new <code>reproducibility-matrix</code>
 job runs the reproducibility tests on <strong>ubuntu-latest, macos-latest, and
@@ -7198,7 +7220,7 @@ gravity-map-matching alt-PNT layer that recovers a 60-minute GPS-denied track to
 tightly-coupled GNSS/INS UKF with quantum-CAI dead-reckoning. Every numerical capability
 is pinned against analytic truth or a hand-derived closed form; the off-by-default
 perturbations leave the released goldens untouched.</p>
-<h3 id="added-32">Added<a class="anchor" href="#added-32" aria-label="Link to this section">#</a></h3>
+<h3 id="added-31">Added<a class="anchor" href="#added-31" aria-label="Link to this section">#</a></h3>
 <ul>
 <li><strong>Post-Newtonian (Schwarzschild) relativistic correction (<code>forces::relativistic_accel</code> +
 <code>propagator::ForceModel::relativity</code>).</strong> Adds the dominant general-relativistic perturbation on a
@@ -7424,7 +7446,7 @@ item</strong> (Mach–Zehnder CAI phase, projection noise, vibration tensor) so 
 the first-principles physics is scoped-and-coming, not abandoned. No behaviour or
 API change.</li>
 </ul>
-<h3 id="added-33">Added<a class="anchor" href="#added-33" aria-label="Link to this section">#</a></h3>
+<h3 id="added-32">Added<a class="anchor" href="#added-32" aria-label="Link to this section">#</a></h3>
 <ul>
 <li><strong>Constellation-design trade study: Walker design sweep with a Pareto front, revisit-time
 JSON, and a sub-kilometre Walker-formula validation.</strong> <code>src/walker.rs</code> gains
@@ -7854,7 +7876,7 @@ and that ARAIM&#39;s levels meet the allocated <code>P_HMI</code>. Closes the
 validated-on-synthetic-geometry-only gap (receiver-domain gLAB parity over a full
 RINEX arc remains a roadmap item — it needs a pseudorange solution).</li>
 </ul>
-<h3 id="added-34">Added<a class="anchor" href="#added-34" aria-label="Link to this section">#</a></h3>
+<h3 id="added-33">Added<a class="anchor" href="#added-33" aria-label="Link to this section">#</a></h3>
 <ul>
 <li><strong>Per-node confidence intervals for the N-D parameter sweep</strong> (<code>sweep::nd_sweep_ensemble</code>).
 Each grid node of the N-dimensional Cartesian-product sweep can now be evaluated as a
@@ -8060,7 +8082,7 @@ GPS broadcast data can now drive the same geometry, visibility, and integrity
 a RINEX-file scenario kind — that and multi-GNSS/SP3 are next.)</li>
 </ul>
 <h2 id="092---2026-06-03"><a href="https://github.com/AshfordeOU/kshana/compare/v0.9.1...v0.9.2">0.9.2</a> - 2026-06-03<a class="anchor" href="#092---2026-06-03" aria-label="Link to this section">#</a></h2>
-<h3 id="added-35">Added<a class="anchor" href="#added-35" aria-label="Link to this section">#</a></h3>
+<h3 id="added-34">Added<a class="anchor" href="#added-34" aria-label="Link to this section">#</a></h3>
 <ul>
 <li><strong>Archival DOI.</strong> Releases are now deposited to Zenodo and assigned a citable DOI.</li>
 </ul>
@@ -8077,7 +8099,7 @@ substrate: a genuine three-axis strapdown INS, a loosely-coupled GNSS/INS
 error-state EKF with closed-loop feedback, real snapshot and solution-separation
 (ARAIM-style) RAIM with HPL/VPL and a runnable <code>integrity</code> scenario, and the first
 step of GNSS-format interoperability (RINEX-3 GPS ephemeris ingestion).</p>
-<h3 id="added-36">Added<a class="anchor" href="#added-36" aria-label="Link to this section">#</a></h3>
+<h3 id="added-35">Added<a class="anchor" href="#added-35" aria-label="Link to this section">#</a></h3>
 <ul>
 <li><strong>RINEX 3 GPS navigation-message parser (<code>src/rinex.rs</code>).</strong> First step toward
 GNSS-format interoperability: <code>parse_nav</code> reads a RINEX 3.x navigation file and
@@ -8283,7 +8305,7 @@ prebuilt binary via <code>taiki-e/install-action</code> instead of the Docker-ba
 change affects the checks performed.</li>
 </ul>
 <h2 id="080---2026-06-02"><a href="https://github.com/AshfordeOU/kshana/compare/v0.7.0...v0.8.0">0.8.0</a> - 2026-06-02<a class="anchor" href="#080---2026-06-02" aria-label="Link to this section">#</a></h2>
-<h3 id="added-37">Added<a class="anchor" href="#added-37" aria-label="Link to this section">#</a></h3>
+<h3 id="added-36">Added<a class="anchor" href="#added-36" aria-label="Link to this section">#</a></h3>
 <ul>
 <li><p><strong>Inertial velocity is exposed downstream.</strong> <code>Propagator::velocity_eci</code> and
 <code>Propagator::state_eci</code> (returning <code>StateEci { r_m, v_m_s }</code>) thread the analytic
@@ -8394,7 +8416,7 @@ reference), <code>INTEGRITY.md</code>, <code>QUANTUM-MODELS.md</code>, <code>REA
 fails if the README version badge drifts from <code>Cargo.toml</code>.</li>
 </ul>
 <h2 id="070---2026-06-02"><a href="https://github.com/AshfordeOU/kshana/compare/v0.6.0...v0.7.0">0.7.0</a> - 2026-06-02<a class="anchor" href="#070---2026-06-02" aria-label="Link to this section">#</a></h2>
-<h3 id="added-38">Added<a class="anchor" href="#added-38" aria-label="Link to this section">#</a></h3>
+<h3 id="added-37">Added<a class="anchor" href="#added-37" aria-label="Link to this section">#</a></h3>
 <ul>
 <li><strong>SGP4/SDP4 orbit propagation.</strong> A full, dependency-free implementation of the
 standard simplified-perturbations propagator — near-Earth SGP4 together with the
@@ -8414,7 +8436,7 @@ constellation in real two-line format, propagated with SGP4) — drop in a curre
 Celestrak &quot;gps-ops&quot; set to study the live constellation.</li>
 </ul>
 <h2 id="060---2026-06-02"><a href="https://github.com/AshfordeOU/kshana/compare/v0.5.0...v0.6.0">0.6.0</a> - 2026-06-02<a class="anchor" href="#060---2026-06-02" aria-label="Link to this section">#</a></h2>
-<h3 id="added-39">Added<a class="anchor" href="#added-39" aria-label="Link to this section">#</a></h3>
+<h3 id="added-38">Added<a class="anchor" href="#added-38" aria-label="Link to this section">#</a></h3>
 <ul>
 <li><strong>Active spoofing-attack demonstrator.</strong> A new <code>spoof</code> scenario kind injects a
 ramping false-time spoof and runs each clock&#39;s clock-aided integrity monitor,
@@ -8427,7 +8449,7 @@ constellations (a <code>[[constellations]]</code> list alongside the primary
 GPS plus Galileo. New <code>orbit-multignss.toml</code> reference scenario.</li>
 </ul>
 <h2 id="050---2026-06-02"><a href="https://github.com/AshfordeOU/kshana/compare/v0.4.0...v0.5.0">0.5.0</a> - 2026-06-02<a class="anchor" href="#050---2026-06-02" aria-label="Link to this section">#</a></h2>
-<h3 id="added-40">Added<a class="anchor" href="#added-40" aria-label="Link to this section">#</a></h3>
+<h3 id="added-39">Added<a class="anchor" href="#added-39" aria-label="Link to this section">#</a></h3>
 <ul>
 <li><strong>HTML scorecard report.</strong> Every run now also produces a self-contained, branded
 HTML scorecard — the one-line summary, the chart (embedded as an inert data-URI
@@ -8454,7 +8476,7 @@ Keplerian elements and propagates them two-body — not SGP4 — which is sound 
 snapshot study from a common epoch. New <code>orbit-real-tle.toml</code> reference scenario.</li>
 </ul>
 <h2 id="040---2026-06-02"><a href="https://github.com/AshfordeOU/kshana/compare/v0.3.0...v0.4.0">0.4.0</a> - 2026-06-02<a class="anchor" href="#040---2026-06-02" aria-label="Link to this section">#</a></h2>
-<h3 id="added-41">Added<a class="anchor" href="#added-41" aria-label="Link to this section">#</a></h3>
+<h3 id="added-40">Added<a class="anchor" href="#added-40" aria-label="Link to this section">#</a></h3>
 <ul>
 <li><strong>Trade-study parameter sweeps.</strong> A new <code>sweep</code> scenario kind varies one
 parameter (<code>threshold_ns</code>, <code>duration_s</code>, <code>quantum_q_wf</code>, or <code>classical_q_wf</code>)
@@ -8489,7 +8511,7 @@ clock-aided spoof-detection score against the timing spec.</li>
 instead of listing raw commits.</li>
 </ul>
 <h2 id="030---2026-06-02"><a href="https://github.com/AshfordeOU/kshana/compare/v0.2.0...v0.3.0">0.3.0</a> - 2026-06-02<a class="anchor" href="#030---2026-06-02" aria-label="Link to this section">#</a></h2>
-<h3 id="added-42">Added<a class="anchor" href="#added-42" aria-label="Link to this section">#</a></h3>
+<h3 id="added-41">Added<a class="anchor" href="#added-41" aria-label="Link to this section">#</a></h3>
 <ul>
 <li><strong>Security</strong> figure of merit (previously unpopulated): a clock-aided
 spoof-detection score for the clock-holdover and orbit packs. It models an
@@ -8516,7 +8538,7 @@ axis title (via a shared <code>chart</code> helper), so magnitudes are readable.
 gated on its registry token and triggered by a published release.</li>
 </ul>
 <h2 id="020---2026-06-02"><a href="https://github.com/AshfordeOU/kshana/compare/v0.1.0...v0.2.0">0.2.0</a> - 2026-06-02<a class="anchor" href="#020---2026-06-02" aria-label="Link to this section">#</a></h2>
-<h3 id="added-43">Added<a class="anchor" href="#added-43" aria-label="Link to this section">#</a></h3>
+<h3 id="added-42">Added<a class="anchor" href="#added-42" aria-label="Link to this section">#</a></h3>
 <ul>
 <li>Flicker (1/f) FM floor for the clock error model, synthesised as a sum of
 log-spaced Ornstein-Uhlenbeck processes and calibrated so the flat
@@ -8560,7 +8582,7 @@ reflecting the combined accelerometer and gyro channels.</li>
 </ul>
 <h2 id="010---2026-06-01"><a href="https://github.com/AshfordeOU/kshana/releases/tag/v0.1.0">0.1.0</a> - 2026-06-01<a class="anchor" href="#010---2026-06-01" aria-label="Link to this section">#</a></h2>
 <p>Initial release.</p>
-<h3 id="added-44">Added<a class="anchor" href="#added-44" aria-label="Link to this section">#</a></h3>
+<h3 id="added-43">Added<a class="anchor" href="#added-43" aria-label="Link to this section">#</a></h3>
 <ul>
 <li><strong>Deterministic simulation engine</strong> for hybrid quantum/classical PNT: a common
 error-model interface, declarative GNSS-availability scenarios, holdover /
@@ -8600,7 +8622,7 @@ services, not license fees.</li>
 </div>
     <nav class="docs-pn" aria-label="Previous and next"><a class="prev" href="/docs/positioning"><small>Previous</small>Where Kshana sits</a><a class="next" href="/docs/licensing"><small>Next</small>Licensing</a></nav>
   </article>
-  <nav class="docs-toc" aria-label="On this page"><h2>On this page</h2><a class="l2" href="#unreleased">Unreleased</a><a class="l3" href="#added">Added</a><a class="l3" href="#fixed">Fixed</a><a class="l2" href="#0380---2026-10-19">[0.38.0] - 2026-10-19</a><a class="l3" href="#added-1">Added</a><a class="l3" href="#fixed-1">Fixed</a><a class="l2" href="#0370---2026-10-17">[0.37.0] - 2026-10-17</a><a class="l3" href="#added-2">Added</a><a class="l2" href="#0360---2026-10-16">[0.36.0] - 2026-10-16</a><a class="l3" href="#added-3">Added</a><a class="l3" href="#changed">Changed</a><a class="l3" href="#fixed-2">Fixed</a><a class="l3" href="#planned">Planned</a><a class="l2" href="#0350---2026-10-12">[0.35.0] - 2026-10-12</a><a class="l3" href="#galileo-osnma-verifier">Galileo OSNMA verifier</a><a class="l3" href="#added-mcp-server-channels">Added (MCP server channels)</a><a class="l3" href="#added-surfaces">Added (surfaces)</a><a class="l3" href="#added-evidence-packs">Added (evidence packs)</a><a class="l3" href="#added-trust-telemetry">Added (trust telemetry)</a><a class="l3" href="#added-4">Added</a><a class="l3" href="#interference-map">Interference map</a><a class="l3" href="#added-training-streams">Added (training streams)</a><a class="l3" href="#marine-integrations-0350-workstream-b">Marine integrations (0.35.0, workstream B)</a><a class="l3" href="#added-compliance-mapping-and-test-bench-export">Added: compliance mapping and test-bench export</a><a class="l3" href="#interference-map-validation">Interference map validation</a><a class="l3" href="#added-validation-of-the-telemetry-formats-and-evidence-packs">Added (validation of the telemetry formats and evidence packs)</a><a class="l3" href="#added-validation-of-the-cef-events">Added (validation of the CEF events)</a><a class="l3" href="#changed-1">Changed</a><a class="l3" href="#fixed-3">Fixed</a><a class="l2" href="#0341---2026-10-10">[0.34.1] - 2026-10-10</a><a class="l3" href="#security">Security</a><a class="l2" href="#0340---2026-10-09">[0.34.0] - 2026-10-09</a><a class="l3" href="#added-5">Added</a><a class="l3" href="#changed-2">Changed</a><a class="l3" href="#fixed-4">Fixed</a><a class="l3" href="#known-limitations">Known limitations</a><a class="l2" href="#0331---2026-10-08">[0.33.1] - 2026-10-08</a><a class="l3" href="#security-1">Security</a><a class="l2" href="#0330---2026-10-08">[0.33.0] - 2026-10-08</a><a class="l3" href="#documentation">Documentation</a><a class="l3" href="#added-6">Added</a><a class="l3" href="#changed-3">Changed</a><a class="l3" href="#fixed-5">Fixed</a><a class="l2" href="#0320---2026-10-05">[0.32.0] - 2026-10-05</a><a class="l3" href="#added-7">Added</a><a class="l2" href="#0310---2026-10-04">[0.31.0] - 2026-10-04</a><a class="l3" href="#added-8">Added</a><a class="l2" href="#0300---2026-10-03">0.30.0 - 2026-10-03</a><a class="l3" href="#validated">Validated</a><a class="l3" href="#findings">Findings</a><a class="l3" href="#validation-round-2">Validation round 2</a><a class="l3" href="#validation-packages">Validation packages</a><a class="l3" href="#fixed-6">Fixed</a><a class="l3" href="#added-9">Added</a><a class="l2" href="#0293---2026-10-01">[0.29.3] - 2026-10-01</a><a class="l3" href="#changed-4">Changed</a><a class="l3" href="#fixed-7">Fixed</a><a class="l2" href="#0292---2026-10-01">0.29.2 - 2026-10-01</a><a class="l3" href="#added-10">Added</a><a class="l3" href="#changed-5">Changed</a></nav>
+  <nav class="docs-toc" aria-label="On this page"><h2>On this page</h2><a class="l2" href="#unreleased">Unreleased</a><a class="l2" href="#0390---2026-10-22">[0.39.0] - 2026-10-22</a><a class="l3" href="#fixed">Fixed</a><a class="l3" href="#security">Security</a><a class="l3" href="#docs">Docs</a><a class="l2" href="#0380---2026-10-19">[0.38.0] - 2026-10-19</a><a class="l3" href="#added">Added</a><a class="l3" href="#fixed-1">Fixed</a><a class="l2" href="#0370---2026-10-17">[0.37.0] - 2026-10-17</a><a class="l3" href="#added-1">Added</a><a class="l2" href="#0360---2026-10-16">[0.36.0] - 2026-10-16</a><a class="l3" href="#added-2">Added</a><a class="l3" href="#changed">Changed</a><a class="l3" href="#fixed-2">Fixed</a><a class="l3" href="#planned">Planned</a><a class="l2" href="#0350---2026-10-12">[0.35.0] - 2026-10-12</a><a class="l3" href="#galileo-osnma-verifier">Galileo OSNMA verifier</a><a class="l3" href="#added-mcp-server-channels">Added (MCP server channels)</a><a class="l3" href="#added-surfaces">Added (surfaces)</a><a class="l3" href="#added-evidence-packs">Added (evidence packs)</a><a class="l3" href="#added-trust-telemetry">Added (trust telemetry)</a><a class="l3" href="#added-3">Added</a><a class="l3" href="#interference-map">Interference map</a><a class="l3" href="#added-training-streams">Added (training streams)</a><a class="l3" href="#marine-integrations-0350-workstream-b">Marine integrations (0.35.0, workstream B)</a><a class="l3" href="#added-compliance-mapping-and-test-bench-export">Added: compliance mapping and test-bench export</a><a class="l3" href="#interference-map-validation">Interference map validation</a><a class="l3" href="#added-validation-of-the-telemetry-formats-and-evidence-packs">Added (validation of the telemetry formats and evidence packs)</a><a class="l3" href="#added-validation-of-the-cef-events">Added (validation of the CEF events)</a><a class="l3" href="#changed-1">Changed</a><a class="l3" href="#fixed-3">Fixed</a><a class="l2" href="#0341---2026-10-10">[0.34.1] - 2026-10-10</a><a class="l3" href="#security-1">Security</a><a class="l2" href="#0340---2026-10-09">[0.34.0] - 2026-10-09</a><a class="l3" href="#added-4">Added</a><a class="l3" href="#changed-2">Changed</a><a class="l3" href="#fixed-4">Fixed</a><a class="l3" href="#known-limitations">Known limitations</a><a class="l2" href="#0331---2026-10-08">[0.33.1] - 2026-10-08</a><a class="l3" href="#security-2">Security</a><a class="l2" href="#0330---2026-10-08">[0.33.0] - 2026-10-08</a><a class="l3" href="#documentation">Documentation</a><a class="l3" href="#added-5">Added</a><a class="l3" href="#changed-3">Changed</a><a class="l3" href="#fixed-5">Fixed</a><a class="l2" href="#0320---2026-10-05">[0.32.0] - 2026-10-05</a><a class="l3" href="#added-6">Added</a><a class="l2" href="#0310---2026-10-04">[0.31.0] - 2026-10-04</a><a class="l3" href="#added-7">Added</a><a class="l2" href="#0300---2026-10-03">0.30.0 - 2026-10-03</a><a class="l3" href="#validated">Validated</a><a class="l3" href="#findings">Findings</a><a class="l3" href="#validation-round-2">Validation round 2</a><a class="l3" href="#validation-packages">Validation packages</a><a class="l3" href="#fixed-6">Fixed</a><a class="l3" href="#added-8">Added</a><a class="l2" href="#0293---2026-10-01">[0.29.3] - 2026-10-01</a><a class="l3" href="#changed-4">Changed</a><a class="l3" href="#fixed-7">Fixed</a><a class="l2" href="#0292---2026-10-01">0.29.2 - 2026-10-01</a></nav>
 </div>
 </main>
 
@@ -8613,8 +8635,8 @@ services, not license fees.</li>
       <div><h2>Company</h2><a href="/editions">Editions</a><a href="/editions#pro">Kshana Pro</a><a href="mailto:contact@ashforde.org">contact@ashforde.org</a><a href="https://ashforde.org">ashforde.org</a></div>
     </div>
     <div class="foot-bottom">
-      <span>Kshana v0.38.0 · by Ashforde® OÜ · AGPL-3.0, with a commercial licence option</span>
-      <span>Every chart is drawn from a recorded run of engine v0.38.0 and names its scenario, seed and route to reproduce it. Imagery: NASA Visible Earth (Blue Marble, Black Marble), NASA Scientific Visualization Studio (CGI Moon Kit), NASA/JPL (Mars), NASA, JPL and USGS mission mosaics (moons and Pluto); Sun, Mercury, Venus, Jupiter, Saturn, Uranus and Neptune maps: Solar System Scope, Creative Commons Attribution (CC BY) 4.0; Deimos map: Oleg-Pluton, Creative Commons Attribution-ShareAlike (CC BY-SA) 3.0; coastlines: Natural Earth.</span>
+      <span>Kshana v0.39.0 · by Ashforde® OÜ · AGPL-3.0, with a commercial licence option</span>
+      <span>Every chart is drawn from a recorded run of engine v0.39.0 and names its scenario, seed and route to reproduce it. Imagery: NASA Visible Earth (Blue Marble, Black Marble), NASA Scientific Visualization Studio (CGI Moon Kit), NASA/JPL (Mars), NASA, JPL and USGS mission mosaics (moons and Pluto); Sun, Mercury, Venus, Jupiter, Saturn, Uranus and Neptune maps: Solar System Scope, Creative Commons Attribution (CC BY) 4.0; Deimos map: Oleg-Pluton, Creative Commons Attribution-ShareAlike (CC BY-SA) 3.0; coastlines: Natural Earth.</span>
     </div>
   </div>
 </footer>
@@ -8627,7 +8649,7 @@ services, not license fees.</li>
   </div>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script>window.KSITE={root:"../",page:"docs",version:"0.38.0",studio:"Kshana Studio"};</script>
+<script>window.KSITE={root:"../",page:"docs",version:"0.39.0",studio:"Kshana Studio"};</script>
 <script src="../site.js" defer></script>
 <script src="docs.js" defer></script>
 </body>

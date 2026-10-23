@@ -1,7 +1,7 @@
 {
   "format": "kshana-evidence/1",
   "title": "Synthetic demonstration pack",
-  "engine_version": "0.38.0",
+  "engine_version": "0.39.0",
   "created_utc": "2026-01-01T00:00:00Z",
   "disclaimer": "This pack is a technical record of what the Kshana engine computed from the stated receiver log with the stated configuration. It is not a legal opinion, not a finding of fact about any event or its cause, and not a certification.",
   "window": {
@@ -24,8 +24,8 @@
   },
   "signer": {
     "algorithm": "ed25519",
-    "public_key": "5abee6e7c9d30ac8b91e6ec228bc9cbb8df50ae9d085e78712b8ef7e61a68c2c",
-    "fingerprint": "f366256c39e63991f65ceb822f29b169"
+    "public_key": "b5ae93684dc0fac606044bf2e4f8da69eb7452e26ef610904bc3d837c4026869",
+    "fingerprint": "e7bfa473e51311e485ae7be414b38394"
   },
   "artifacts": [
     {
@@ -53,9 +53,9 @@
       "name": "summary.html",
       "role": "human-readable summary",
       "bytes": 21169,
-      "sha256": "9b904603be835676bc4f5cbb4bd0539fa955464e8901212cedfc6270173fd7c1",
-      "link": "a4f7e2b831ad27d414896aa569a442679f702612a6032bc54cab88ffe74399cc"
+      "sha256": "425db12f3eaa3ee10e85d9495387ee77a303d85e1f059d54914faac7037ec336",
+      "link": "c546a96c0bb07459e488092e8099aa81dba6e9631c51e2166158d62639073954"
     }
   ],
-  "chain_head": "a4f7e2b831ad27d414896aa569a442679f702612a6032bc54cab88ffe74399cc"
+  "chain_head": "c546a96c0bb07459e488092e8099aa81dba6e9631c51e2166158d62639073954"
 }
