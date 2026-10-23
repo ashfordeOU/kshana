@@ -56,7 +56,7 @@
 <div class="bg-field" aria-hidden="true"></div>
 <header class="nav" id="nav">
   <div class="nav-in">
-    <a class="brand" href="/" aria-label="Kshana home"><span class="brand-mark" aria-hidden="true"></span><span class="brand-t">kshana</span> <small>v0.38.0</small></a>
+    <a class="brand" href="/" aria-label="Kshana home"><span class="brand-mark" aria-hidden="true"></span><span class="brand-t">kshana</span> <small>v0.39.0</small></a>
     <nav class="nav-links" id="navLinks" aria-label="Primary">
       <a href="/missions">Missions</a>
       <a href="/capabilities">Capabilities</a>
@@ -87,7 +87,7 @@
 <p class="omitted">A passage naming third-party AI clients is left out here; it is in <a href="https://github.com/ashfordeOU/kshana/blob/main/docs/deploy/mcp-http.md">docs/deploy/mcp-http.md</a> on GitHub.</p>
 <p><strong>Kshana does not host an endpoint.</strong> There is no shared <code>kshana</code> server to point a client at. You run
 it on your own machine, container or cloud project, and you own its access control and cost.
-The 0.38.0 server is the one in this repository: its figures carry their VALIDATED or MODELLED labels
+The 0.39.0 server is the one in this repository: its figures carry their VALIDATED or MODELLED labels
 exactly as over stdio.</p>
 <h2 id="the-safe-defaults">The safe defaults<a class="anchor" href="#the-safe-defaults" aria-label="Link to this section">#</a></h2>
 <div class="tbl"><table><thead><tr>
@@ -154,7 +154,7 @@ be read on the wire.</p>
 <h2 id="docker">Docker<a class="anchor" href="#docker" aria-label="Link to this section">#</a></h2>
 <pre data-lang="shell"><code class="hljs language-bash"><span class="hljs-built_in">export</span> KSHANA_MCP_HTTP_TOKEN=<span class="hljs-string">&quot;<span class="hljs-subst">$(openssl rand -hex 32)</span>&quot;</span>
 docker run --<span class="hljs-built_in">rm</span> -p 127.0.0.1:8080:8080 -e KSHANA_MCP_HTTP_TOKEN \
-  ghcr.io/ashfordeou/kshana-mcp:0.38.0 \
+  ghcr.io/ashfordeou/kshana-mcp:0.39.0 \
   --http 0.0.0.0:8080 --allow-remote --allowed-host localhost:8080 --allowed-host 127.0.0.1:8080</code></pre>
 <p>Inside the container the server must listen on <code>0.0.0.0</code>, so it needs <code>--allow-remote</code> and the token.
 Publishing the port as <code>127.0.0.1:8080:8080</code> keeps it on your machine; drop the <code>127.0.0.1:</code> only when you
@@ -196,8 +196,8 @@ The simulator&#39;s outputs are modelled or validated figures for analysis, as e
       <div><h2>Company</h2><a href="/editions">Editions</a><a href="/editions#pro">Kshana Pro</a><a href="mailto:contact@ashforde.org">contact@ashforde.org</a><a href="https://ashforde.org">ashforde.org</a></div>
     </div>
     <div class="foot-bottom">
-      <span>Kshana v0.38.0 · by Ashforde® OÜ · AGPL-3.0, with a commercial licence option</span>
-      <span>Every chart is drawn from a recorded run of engine v0.38.0 and names its scenario, seed and route to reproduce it. Imagery: NASA Visible Earth (Blue Marble, Black Marble), NASA Scientific Visualization Studio (CGI Moon Kit), NASA/JPL (Mars), NASA, JPL and USGS mission mosaics (moons and Pluto); Sun, Mercury, Venus, Jupiter, Saturn, Uranus and Neptune maps: Solar System Scope, Creative Commons Attribution (CC BY) 4.0; Deimos map: Oleg-Pluton, Creative Commons Attribution-ShareAlike (CC BY-SA) 3.0; coastlines: Natural Earth.</span>
+      <span>Kshana v0.39.0 · by Ashforde® OÜ · AGPL-3.0, with a commercial licence option</span>
+      <span>Every chart is drawn from a recorded run of engine v0.39.0 and names its scenario, seed and route to reproduce it. Imagery: NASA Visible Earth (Blue Marble, Black Marble), NASA Scientific Visualization Studio (CGI Moon Kit), NASA/JPL (Mars), NASA, JPL and USGS mission mosaics (moons and Pluto); Sun, Mercury, Venus, Jupiter, Saturn, Uranus and Neptune maps: Solar System Scope, Creative Commons Attribution (CC BY) 4.0; Deimos map: Oleg-Pluton, Creative Commons Attribution-ShareAlike (CC BY-SA) 3.0; coastlines: Natural Earth.</span>
     </div>
   </div>
 </footer>
@@ -210,7 +210,7 @@ The simulator&#39;s outputs are modelled or validated figures for analysis, as e
   </div>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script>window.KSITE={root:"../",page:"docs",version:"0.38.0",studio:"Kshana Studio"};</script>
+<script>window.KSITE={root:"../",page:"docs",version:"0.39.0",studio:"Kshana Studio"};</script>
 <script src="../site.js" defer></script>
 <script src="docs.js" defer></script>
 </body>
