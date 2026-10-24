@@ -57,6 +57,6 @@ the engine's MTIE against allantools' phase-mode MTIE of the plain integral (`mt
 within 1e-10 at every window; the test asserts it.
 
 Verdict, by the rule in the pre-registration: the ledger row for the clock-log formats stays **MODELLED**.
-Everything above is on measured clocks (D1, D2 caesium and a standards-laboratory series, D3 and D4 IGS
-clocks), but the TICC logs are re-encoded, the reference reader has the same author, and allantools checks the
+Everything above is on measured series (D1 the Stable32 PHASE.DAT, D2 a caesium clock against a hydrogen
+maser, D3 and D4 IGS clocks), but the TICC logs are re-encoded, the reference reader has the same author, and allantools checks the
 estimators, which are validated elsewhere.
