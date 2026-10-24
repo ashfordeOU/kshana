@@ -1556,6 +1556,8 @@ mod tests {
             trn_source: Some("terrain-nav".into()),
             lunar_time_mode: Some("tt".into()),
             n_trials: Some(10),
+            // An explicit seed, so the matcher's noise is the same in the phase and in the reference run.
+            seed: Some(7),
             ..Default::default()
         };
         let out = s.run_phase(&carried(), &default_ctx()).unwrap();
