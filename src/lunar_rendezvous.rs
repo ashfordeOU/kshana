@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-only
-//! `lunar-rendezvous`: relative navigation for an Orion-lander style docking in low lunar orbit or an
+//! `lunar-orbit-rendezvous`: relative navigation for an Orion-lander style docking in low lunar orbit or an
 //! elliptical polar orbit, with a lunar gravity field and LunaNet-style signals.
 //!
 //! **What is modelled.** Two vehicles, a chaser and a target, fly the same lunar orbit with a stated initial
@@ -30,8 +30,10 @@
 //! remove, the overconfidence (see `xval/mission-thread-lunar/RESULTS.md` for the numbers). The batch estimate
 //! relinearises about its own converged solution, which removes the sequential-linearisation error.
 //!
-//! The core is [`LunarRendezvousScenario::run_phase`], a function of `(config, carried state)`; a standalone
-//! run calls it with [`Carried::default_llo`] amended by the scenario's own prior.
+//! The core is [`LunarRendezvousScenario::run_phase`], a function of `(config, entry state, thread context)`;
+//! a standalone run calls it with [`default_entry`] amended by the scenario's own prior. The phase flies its
+//! own nominal orbit (the `orbit` fields), so the entry's position and velocity vector is not used, only its
+//! covariance, its frame and its clock; the result says so in an event.
 //!
 //! **Honesty.** MODELLED. The relay set, the signal-in-space error, the common-mode fraction and every prior
 //! are ILLUSTRATIVE inputs to be varied, not measurements. Consistency of the estimate with its own model is
@@ -46,8 +48,13 @@ use crate::gravity_sh::SphericalHarmonicField;
 use crate::lunar::{LUNAR_SIGMA_URE_M, MOON_GM_M3_S2, R_MOON_M};
 use crate::lunar_od::LunarForceModel;
 use crate::lunar_perturbed::elements_to_state;
-use crate::lunar_phase::{Carried, Cov6, Dm};
+use crate::lunar_phase::{
+    age_clock, cov_is_valid, default_ctx, default_entry, epoch_jd, kind_seed, Cov6, Dm, Frame,
+    NavState,
+};
 use crate::lunar_service::LunarConstellation;
+use crate::mission_thread::sensors::{sensor_sigma, RelNavSensor, SensorParams};
+use crate::mission_thread::ThreadCtx;
 use crate::orbit::dop_cofactor;
 use crate::portable_distr::{Distribution, Normal};
 use crate::precise_od::ForceModel;
@@ -59,13 +66,15 @@ use serde_json::{json, Value};
 type Vec3 = [f64; 3];
 
 const LABEL: &str = "MODELLED";
+/// The registered kind name, standalone and as a thread phase.
+pub const KIND: &str = "lunar-orbit-rendezvous";
 const C_LIGHT: f64 = 299_792_458.0;
 /// AFS-Q pilot chip rate (chips per second), BPSK(5): LSIS-AFS, see docs/LUNANET-AFS.md.
 const AFS_Q_CHIP_RATE: f64 = 5.115e6;
 /// Parameters: two 6-state vehicles and three 3-vector position biases.
 const NP: usize = 21;
 
-/// The `lunar-rendezvous` scenario. Every field is optional.
+/// The `lunar-orbit-rendezvous` scenario. Every field is optional.
 #[derive(Clone, Debug, Default, Deserialize)]
 pub struct LunarRendezvousScenario {
     /// Orbit preset: `llo` (100 km circular polar, default) or `elfo` (100 km by 3000 km polar, periapsis over
@@ -124,8 +133,11 @@ pub struct LunarRendezvousScenario {
 /// A phase's result: the state it hands on, the report document and a one-line summary.
 #[derive(Clone, Debug)]
 pub struct RendezvousOut {
-    /// The chaser's absolute MCI covariance at the end of the arc.
-    pub carried_out: Carried,
+    /// The state handed on: the chaser's nominal MCI state and absolute covariance at the end of the arc, the
+    /// clock aged across it.
+    pub exit: NavState,
+    /// The chaser's absolute 1-sigmas over the arc, `(t_s, position m, velocity m/s)`, for the thread's series.
+    pub abs_series: Vec<(f64, f64, f64)>,
     /// The result document.
     pub report: Value,
     /// One line for the terminal.
@@ -701,20 +713,21 @@ impl LunarRendezvousScenario {
         })
     }
 
-    /// The carried state a standalone run starts from: the default amended by the scenario's own prior.
-    pub fn standalone_carried(&self) -> Carried {
-        let mut c = Carried::default_llo();
-        c.cov = crate::lunar_phase::diag6(
+    /// The entry state a standalone run starts from: the default amended by the scenario's own prior.
+    pub fn standalone_entry(&self) -> NavState {
+        let mut c = default_entry();
+        c.p = crate::lunar_phase::diag6(
             self.carried_pos_sigma_m.unwrap_or(100.0),
             self.carried_vel_sigma_m_s.unwrap_or(0.1),
         );
         c
     }
 
-    /// The phase core: run the arc from `carried` (the chaser's absolute MCI covariance at its start).
-    pub fn run_phase(&self, carried: &Carried) -> Result<RendezvousOut, String> {
+    /// The phase core: run the arc from `entry` (the chaser's absolute MCI covariance at its start).
+    pub fn run_phase(&self, entry: &NavState, ctx: &ThreadCtx) -> Result<RendezvousOut, String> {
         self.run_inner(
-            carried,
+            entry,
+            ctx,
             Toggles {
                 position: true,
                 range: true,
@@ -722,23 +735,32 @@ impl LunarRendezvousScenario {
         )
     }
 
-    fn run_inner(&self, carried: &Carried, tog: Toggles) -> Result<RendezvousOut, String> {
-        let cfg = self.resolve()?;
-        if carried.frame != crate::lunar_phase::Frame::Mci {
-            return Err("lunar-rendezvous expects the carried covariance in MCI; the thread converts frames".into());
+    fn run_inner(
+        &self,
+        entry: &NavState,
+        ctx: &ThreadCtx,
+        tog: Toggles,
+    ) -> Result<RendezvousOut, String> {
+        let mut cfg = self.resolve()?;
+        if self.seed.is_none() {
+            cfg.seed = kind_seed(ctx, KIND);
         }
-        if !carried.is_valid() {
-            return Err("carried covariance is not symmetric with a non-negative diagonal".into());
+        if entry.frame != Frame::Mci {
+            return Err("lunar-orbit-rendezvous expects the entry covariance in MCI; the thread converts frames".into());
         }
+        if !cov_is_valid(&entry.p) {
+            return Err("entry covariance is not symmetric with a non-negative diagonal".into());
+        }
+        let epoch_jd_tdb = epoch_jd(ctx, entry.t_s)?;
         let field = lunar_field(
             self.gravity_table_path.as_deref(),
             self.gravity_degree.unwrap_or(150),
         )?;
-        let truth_model = LunarForceModel::new(field, carried.epoch_jd_tdb);
+        let truth_model = LunarForceModel::new(field, epoch_jd_tdb);
         let est_model = if cfg.same_model {
             truth_model.clone()
         } else {
-            LunarForceModel::new(point_mass_field(), carried.epoch_jd_tdb)
+            LunarForceModel::new(point_mass_field(), epoch_jd_tdb)
         };
         let constellation = LunarConstellation::illustrative_lcns(cfg.n_relays);
         let n_steps = (cfg.arc_s / cfg.dt).round() as usize;
@@ -748,7 +770,7 @@ impl LunarRendezvousScenario {
         // Prior over theta = [chaser(6), target(6), b_common(3), b_chaser(3), b_target(3)].
         let sis2 = cfg.sis_m * cfg.sis_m;
         let mut p0 = Dm::zeros(NP, NP);
-        set_block(&mut p0, 0, 0, &cov_to_dm(&carried.cov));
+        set_block(&mut p0, 0, 0, &cov_to_dm(&entry.p));
         set_block(
             &mut p0,
             6,
@@ -783,6 +805,7 @@ impl LunarRendezvousScenario {
 
         let mut series: Vec<Value> = Vec::new();
         let mut conv_time: Option<f64> = None;
+        let mut abs_series: Vec<(f64, f64, f64)> = Vec::new();
         let mut final_pair: Option<Dm> = None;
         let mut err_lvlh: Vec<[f64; 6]> = Vec::new();
         let mut nees: Vec<f64> = Vec::new();
@@ -924,6 +947,12 @@ impl LunarRendezvousScenario {
                     if conv_time.is_none() && s3 <= cfg.conv_m {
                         conv_time = Some(t);
                     }
+                    {
+                        let pk_pair = pair_cov(&pk, &pass.pc[k], &pass.pt[k]);
+                        let ap = (pk_pair.at(0, 0) + pk_pair.at(1, 1) + pk_pair.at(2, 2)).sqrt();
+                        let av = (pk_pair.at(3, 3) + pk_pair.at(4, 4) + pk_pair.at(5, 5)).sqrt();
+                        abs_series.push((t, ap, av));
+                    }
                     if (k + 1) % step_report == 0 || k + 1 == n_steps {
                         let sv = (rk.at(3, 3) + rk.at(4, 4) + rk.at(5, 5)).sqrt();
                         series.push(json!({
@@ -937,8 +966,9 @@ impl LunarRendezvousScenario {
         }
 
         // Formal relative covariance at the end, in the target's LVLH axes at the end of the nominal arc.
-        let (_, tn) = truth_pass(&truth_model, &theta_bar, n_steps, cfg.dt);
+        let (cn, tn) = truth_pass(&truth_model, &theta_bar, n_steps, cfg.dt);
         let tn_end = tn[n_steps - 1];
+        let cn_end = cn[n_steps - 1];
         let bs_end = lvlh_basis(
             [tn_end[0], tn_end[1], tn_end[2]],
             [tn_end[3], tn_end[4], tn_end[5]],
@@ -965,7 +995,7 @@ impl LunarRendezvousScenario {
 
         // What ignoring the field costs with no measurements at all: the relative drift over the arc.
         let grav_sens = {
-            let pm = LunarForceModel::new(point_mass_field(), carried.epoch_jd_tdb);
+            let pm = LunarForceModel::new(point_mass_field(), epoch_jd_tdb);
             let (mut a_c, mut a_t, mut b_c, mut b_t) = (c0, t0, c0, t0);
             let mut tt = 0.0;
             for _ in 0..n_steps {
@@ -982,21 +1012,47 @@ impl LunarRendezvousScenario {
 
         // Closed-form Hill/Clohessy-Wiltshire check, circular orbit only.
         let cw_check = if cfg.ecc < 1e-9 {
-            Some(cw_vs_numerical(&cfg, carried.epoch_jd_tdb))
+            Some(cw_vs_numerical(&cfg, epoch_jd_tdb))
         } else {
             None
         };
 
         let chaser_p_end = block(&pair_end, 0, 0, 6);
-        let mut carried_out = carried.clone();
-        carried_out.cov = dm_to_cov(&chaser_p_end);
+        // The chaser's nominal state and absolute covariance at the end, the clock aged across the arc. The phase
+        // flies its own nominal orbit, so the entry's state vector is not used (an event in the thread says so).
+        let mut exit = entry.clone();
+        exit.t_s += cfg.arc_s;
+        exit.x = cn_end;
+        exit.p = dm_to_cov(&chaser_p_end);
+        exit.clock = age_clock(&entry.clock, cfg.arc_s);
         let observability_lost = avail < 0.05;
         let pos_sig3 = (sig_lvlh[0].powi(2) + sig_lvlh[1].powi(2) + sig_lvlh[2].powi(2)).sqrt();
         let t_end = n_steps as f64 * cfg.dt;
+        // The terminal relative sensors of the thread's shared models (ILLUSTRATIVE parameters) against what the
+        // signals alone give: at which ranges a sensor's 1-sigma relative position beats the formal figure.
+        let mut relative_sensors: Vec<Value> = Vec::new();
+        for sensor in [
+            RelNavSensor::OpticalCamera,
+            RelNavSensor::Lidar,
+            RelNavSensor::RfRanging,
+        ] {
+            let params = SensorParams::illustrative(sensor);
+            for range_m in [1000.0, 300.0, 100.0, 30.0, 10.0] {
+                if let Ok(sg) = sensor_sigma(&params, range_m) {
+                    relative_sensors.push(json!({
+                        "sensor": sensor.name(),
+                        "range_m": range_m,
+                        "pos_sigma_m": sg.pos_sigma_m,
+                        "vel_sigma_m_s": sg.vel_sigma_mps,
+                        "beats_signals_alone": sg.pos_sigma_m < pos_sig3,
+                    }));
+                }
+            }
+        }
         let mean_iters = iters.iter().sum::<usize>() as f64 / iters.len().max(1) as f64;
 
         let mut report = json!({
-            "kind": "lunar-rendezvous",
+            "kind": KIND,
             "label": LABEL,
             "advisory": "Advisory software, not certified navigation equipment. MODELLED: an illustrative relay set and error budget, not a real ephemeris or vehicle.",
             "orbit": {
@@ -1033,12 +1089,13 @@ impl LunarRendezvousScenario {
                 "mean_nees_velocity": nees_vel_mean,
                 "mean_gauss_newton_iterations": mean_iters,
             },
+            "relative_sensors": relative_sensors,
             "unmodelled_gravity_relative_drift_m": grav_sens,
             "cw_check": cw_check,
             "series": series,
         });
         let part3 = json!({
-            "carried_out": {
+            "exit_state": {
                 "frame": "mci",
                 "pos_sigma_m": [chaser_p_end.at(0, 0).sqrt(), chaser_p_end.at(1, 1).sqrt(), chaser_p_end.at(2, 2).sqrt()],
                 "vel_sigma_m_s": [chaser_p_end.at(3, 3).sqrt(), chaser_p_end.at(4, 4).sqrt(), chaser_p_end.at(5, 5).sqrt()],
@@ -1059,7 +1116,7 @@ impl LunarRendezvousScenario {
             base.extend(p3);
         }
         let summary = format!(
-            "lunar-rendezvous | {} {:.0}x{:.0} km | sep {:.0} m | fixes {:.0}% | rel pos 1-sigma R/A/C {:.2}/{:.2}/{:.2} m | mean NEES {:.2} (6 expected) | converged {} (MODELLED)",
+            "lunar-orbit-rendezvous | {} {:.0}x{:.0} km | sep {:.0} m | fixes {:.0}% | rel pos 1-sigma R/A/C {:.2}/{:.2}/{:.2} m | mean NEES {:.2} (6 expected) | converged {} (MODELLED)",
             self.orbit.as_deref().unwrap_or("llo"),
             (cfg.sma_m * (1.0 - cfg.ecc) - R_MOON_M) / 1000.0,
             (cfg.sma_m * (1.0 + cfg.ecc) - R_MOON_M) / 1000.0,
@@ -1072,7 +1129,8 @@ impl LunarRendezvousScenario {
             conv_time.map_or("never".to_string(), |s| format!("at {s:.0} s")),
         );
         Ok(RendezvousOut {
-            carried_out,
+            exit,
+            abs_series,
             report,
             summary,
         })
@@ -1112,7 +1170,7 @@ impl LunarRendezvousScenario {
 
     /// Standalone entry: run the phase from the scenario's own prior and return `(json, summary)`.
     pub fn run_json(&self) -> Result<(String, String), String> {
-        let out = self.run_phase(&self.standalone_carried())?;
+        let out = self.run_phase(&self.standalone_entry(), &default_ctx())?;
         let json = serde_json::to_string_pretty(&out.report).map_err(|e| e.to_string())?;
         Ok((json, out.summary))
     }
@@ -1203,11 +1261,14 @@ fn units() -> Value {
         ("cw_check.max_position_difference_m", "m", "computed", "closed-form Hill propagation against the numerical two-body relative orbit, one orbit"),
         ("cw_check.ratio_to_separation", "1", "computed", "that difference over the separation"),
         ("cw_check.separation_m", "m", "input", "separation used for the check"),
+        ("relative_sensors.range_m", "m", "input", "range at which the sensor model is evaluated"),
+        ("relative_sensors.pos_sigma_m", "m", "computed", "the sensor's 3-D relative position 1-sigma at that range (ILLUSTRATIVE parameters)"),
+        ("relative_sensors.vel_sigma_m_s", "m/s", "computed", "the sensor's relative velocity 1-sigma per axis at that range"),
         ("series.t_s", "s", "computed", "time since the start of the arc"),
         ("series.rel_pos_sigma_m", "m", "computed", "formal 3-D relative position 1-sigma from the data to that time"),
         ("series.rel_vel_sigma_mm_s", "mm/s", "computed", "formal 3-D relative velocity 1-sigma from the data to that time"),
-        ("carried_out.pos_sigma_m", "m", "computed", "chaser absolute position 1-sigma per MCI axis at the end"),
-        ("carried_out.vel_sigma_m_s", "m/s", "computed", "chaser absolute velocity 1-sigma per MCI axis at the end"),
+        ("exit_state.pos_sigma_m", "m", "computed", "chaser absolute position 1-sigma per MCI axis at the end"),
+        ("exit_state.vel_sigma_m_s", "m/s", "computed", "chaser absolute velocity 1-sigma per MCI axis at the end"),
         ("budget_rows.sigma_m", "m", "computed", "per-source 1-sigma in the budget table"),
     ];
     let mut m = serde_json::Map::new();
@@ -1235,8 +1296,8 @@ mod tests {
 
     #[test]
     fn default_runs_modelled_with_the_advisory_line() {
-        let out = quick().run_phase(&Carried::default_llo()).unwrap();
-        assert_eq!(out.report["kind"], "lunar-rendezvous");
+        let out = quick().run_phase(&default_entry(), &default_ctx()).unwrap();
+        assert_eq!(out.report["kind"], "lunar-orbit-rendezvous");
         assert_eq!(out.report["label"], "MODELLED");
         assert!(out.report["advisory"]
             .as_str()
@@ -1252,12 +1313,14 @@ mod tests {
     }
 
     #[test]
-    fn output_covariance_is_a_valid_covariance_that_started_from_the_carried_one() {
-        let c = Carried::default_llo();
-        let out = quick().run_phase(&c).unwrap();
-        assert!(out.carried_out.is_valid());
-        assert_eq!(out.carried_out.epoch_jd_tdb, c.epoch_jd_tdb);
-        assert_eq!(out.carried_out.evidence, "MODELLED");
+    fn the_exit_state_is_a_valid_covariance_and_the_clock_only_aged() {
+        let c = default_entry();
+        let out = quick().run_phase(&c, &default_ctx()).unwrap();
+        assert!(cov_is_valid(&out.exit.p));
+        assert_eq!(out.exit.t_s, 2400.0);
+        assert_eq!(out.exit.frame, Frame::Mci);
+        assert!(out.exit.clock.cov[0][0] >= c.clock.cov[0][0]);
+        assert_eq!(out.exit.upstream, c.upstream);
     }
 
     /// Pre-registered B1 matrix: both orbits at both stated C/N0 values, 200 trials, seed 20261024, default
@@ -1276,7 +1339,7 @@ mod tests {
                     isl_cn0_dbhz: Some(cn0),
                     ..Default::default()
                 };
-                let out = s.run_phase(&Carried::default_llo()).unwrap();
+                let out = s.run_phase(&default_entry(), &default_ctx()).unwrap();
                 let nees = out.report["monte_carlo"]["mean_nees"].as_f64().unwrap();
                 println!(
                     "B1 {orbit} cn0 {cn0}: mean NEES {nees:.3} (pos {:.3}, vel {:.3}); iterations {:.1}; rel sigma {}",
@@ -1312,10 +1375,12 @@ mod tests {
             step_s: Some(30.0),
             ..Default::default()
         };
-        let carried = Carried::default_llo();
+        let carried = default_entry();
+        let ctx = default_ctx();
         let out = s
             .run_inner(
                 &carried,
+                &ctx,
                 Toggles {
                     position: false,
                     range: false,
@@ -1324,7 +1389,7 @@ mod tests {
             .unwrap();
         let cfg = s.resolve().unwrap();
         let field = lunar_field(None, 150).unwrap();
-        let model = LunarForceModel::new(field, carried.epoch_jd_tdb);
+        let model = LunarForceModel::new(field, epoch_jd(&ctx, 0.0).unwrap());
         let (mut st, _) = nominal_states(&cfg);
         let mut phi = Dm::eye(6);
         let mut t = 0.0;
@@ -1334,8 +1399,8 @@ mod tests {
             st = next;
             t += cfg.dt;
         }
-        let want = phi.mul(&cov_to_dm(&carried.cov)).mul(&phi.t());
-        let got = cov_to_dm(&out.carried_out.cov);
+        let want = phi.mul(&cov_to_dm(&carried.p)).mul(&phi.t());
+        let got = cov_to_dm(&out.exit.p);
         let scale = (0..6).map(|i| want.at(i, i).abs()).fold(0.0, f64::max);
         for i in 0..6 {
             for j in 0..6 {
@@ -1352,7 +1417,7 @@ mod tests {
         // B2: relative position difference at most 1 % of the separation plus 1 m, 1 km separation.
         let mut s = quick();
         s.separation_m = Some(1000.0);
-        let out = s.run_phase(&Carried::default_llo()).unwrap();
+        let out = s.run_phase(&default_entry(), &default_ctx()).unwrap();
         let d = out.report["cw_check"]["max_position_difference_m"]
             .as_f64()
             .unwrap();
@@ -1364,7 +1429,7 @@ mod tests {
     fn elliptical_orbit_runs_and_has_no_cw_check() {
         let mut s = quick();
         s.orbit = Some("elfo".into());
-        let out = s.run_phase(&Carried::default_llo()).unwrap();
+        let out = s.run_phase(&default_entry(), &default_ctx()).unwrap();
         assert!(out.report["cw_check"].is_null());
     }
 
@@ -1372,13 +1437,13 @@ mod tests {
     fn bad_inputs_are_rejected() {
         let mut s = quick();
         s.orbit = Some("geo".into());
-        assert!(s.run_phase(&Carried::default_llo()).is_err());
+        assert!(s.run_phase(&default_entry(), &default_ctx()).is_err());
         let mut s = quick();
         s.common_mode_fraction = Some(1.0);
-        assert!(s.run_phase(&Carried::default_llo()).is_err());
-        let mut c = Carried::default_llo();
-        c.frame = crate::lunar_phase::Frame::Mcmf;
-        assert!(quick().run_phase(&c).is_err());
+        assert!(s.run_phase(&default_entry(), &default_ctx()).is_err());
+        let mut c = default_entry();
+        c.frame = Frame::Mcmf;
+        assert!(quick().run_phase(&c, &default_ctx()).is_err());
     }
 
     #[test]

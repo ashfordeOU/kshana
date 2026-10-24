@@ -1439,6 +1439,30 @@ impl BuiltinKind for crate::lunar_time_budget_scenario::LunarTimeBudgetScenario 
     }
 }
 
+fn run_lunar_ascent(scn: &crate::lunar_ascent::LunarAscentScenario) -> Result<RunOutput, String> {
+    let (json, summary) = scn.run_json()?;
+    let svg = scn.chart_svg(&json);
+    Ok(RunOutput {
+        json,
+        svg,
+        summary,
+        csv: None,
+    })
+}
+
+impl Scenario for crate::lunar_ascent::LunarAscentScenario {
+    fn run(&self) -> Result<RunOutput, KshanaError> {
+        run_lunar_ascent(self).map_err(KshanaError::from)
+    }
+}
+
+impl BuiltinKind for crate::lunar_ascent::LunarAscentScenario {
+    const KIND: ScenarioKind = ScenarioKind::LunarAscent;
+    fn parse(src: &str) -> Result<Self, String> {
+        parse_toml(src, "lunar-ascent")
+    }
+}
+
 fn run_lunar_surface_map(
     scn: &crate::lunar_surface_map::LunarSurfaceMapScenario,
 ) -> Result<RunOutput, String> {
@@ -1461,7 +1485,7 @@ impl Scenario for crate::lunar_surface_map::LunarSurfaceMapScenario {
 impl BuiltinKind for crate::lunar_surface_map::LunarSurfaceMapScenario {
     const KIND: ScenarioKind = ScenarioKind::LunarSurfaceMap;
     fn parse(src: &str) -> Result<Self, String> {
-        parse_toml(src, "lunar-surface-pnt-map")
+        parse_toml(src, "lunar-surface")
     }
 }
 
@@ -1487,7 +1511,7 @@ impl Scenario for crate::lunar_landing::LunarLandingScenario {
 impl BuiltinKind for crate::lunar_landing::LunarLandingScenario {
     const KIND: ScenarioKind = ScenarioKind::LunarLanding;
     fn parse(src: &str) -> Result<Self, String> {
-        parse_toml(src, "lunar-landing-dispersion")
+        parse_toml(src, "lunar-descent")
     }
 }
 
@@ -1513,7 +1537,7 @@ impl Scenario for crate::lunar_rendezvous::LunarRendezvousScenario {
 impl BuiltinKind for crate::lunar_rendezvous::LunarRendezvousScenario {
     const KIND: ScenarioKind = ScenarioKind::LunarRendezvous;
     fn parse(src: &str) -> Result<Self, String> {
-        parse_toml(src, "lunar-rendezvous")
+        parse_toml(src, "lunar-orbit-rendezvous")
     }
 }
 

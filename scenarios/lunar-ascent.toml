@@ -1,0 +1,37 @@
+# Lunar ascent: the powered ascent from a south-polar surface site (Artemis-class) to the 100 km rendezvous
+# orbit, and the position-velocity covariance it carries back to orbit.
+#
+# The five-state per-axis inertial error model of lunar-descent (position, velocity, accelerometer bias,
+# attitude tilt, gyro bias, driven by the specific force) runs on east, north and up from the state the
+# vehicle left the surface with. An AFS position fix from the visible relays of an ILLUSTRATIVE LCNS-class
+# constellation, differential against a reference station, is taken every 30 s; lunar time enters through the
+# vehicle clock at the fixes. What is carried back is the navigation covariance at insertion, a full 6x6 in the
+# Moon-centred inertial frame; the engine cutoff dispersion is reported beside it and is not carried.
+#
+# HONESTY: MODELLED. The IMU class, the alignment, the specific force and the cutoff dispersion are
+# ILLUSTRATIVE inputs, not measurements. The errors are held in the launch site's east-north-up axes, without
+# the downrange curvature of the path, and the nominal exit state is a stand-in at the site's local vertical:
+# only the covariance is the result. No agreement with any real vehicle is claimed. Advisory software, not
+# certified navigation equipment.
+kind = "lunar-ascent"
+
+site_lat_deg = -89.5               # ILLUSTRATIVE south-polar site
+site_lon_deg = 0.0
+ascent_s = 450.0
+specific_force_m_s2 = 5.0          # ILLUSTRATIVE
+insertion_altitude_km = 100.0
+accel_bias_ug = 100.0              # ILLUSTRATIVE IMU class
+align_arcmin = 3.0                 # ILLUSTRATIVE
+gyro_bias_deg_per_hr = 0.01        # ILLUSTRATIVE
+surface_pos_sigma_m = 10.0         # the state the vehicle left the surface with
+surface_vel_sigma_m_s = 0.01
+cutoff_sigma_m_s = 1.0             # ILLUSTRATIVE, reported and not carried
+afs_mode = "differential"
+baseline_km = 10.0
+n_relays = 8                       # ILLUSTRATIVE
+mask_deg = 5.0
+afs_cn0_dbhz = 35.0
+afs_first_fix_s = 60.0
+afs_interval_s = 30.0
+lunar_time_mode = "ltc"
+time_since_sync_days = 3.0

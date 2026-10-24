@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-only
-//! `lunar-surface-pnt-map`: surface positioning and timing availability by site and season.
+//! `lunar-surface`: surface positioning and timing availability by site and season.
 //!
 //! **What is modelled.** For each site of a list and each season (an epoch with a window after it), three
 //! things are evaluated over the window at a stated step, all against the site's own horizon:
@@ -18,7 +18,7 @@
 //! * **Timing**: a surface clock disciplined by any one relay in view or by the Earth, `relay_timing` or
 //!   `earth_visible`, and the longest stretch with neither (the holdover the clock has to ride out).
 //!
-//! The core is [`LunarSurfaceMapScenario::run_phase`], a function of `(config, carried state)`; the carried
+//! The core is [`LunarSurfaceMapScenario::run_phase`], a function of `(config, entry state, thread context)`; the entry
 //! state passes through (a map holds no filter), and the report flags `observability_lost` for a site whose
 //! positioning is almost never available, which is the thread's cue to inflate the covariance.
 //!
@@ -31,12 +31,13 @@
 
 use crate::lunar::{selenographic_to_mcmf, Selenographic};
 use crate::lunar_od::{AnalyticLunarEnvironment, LunarEnvironment};
-use crate::lunar_phase::Carried;
+use crate::lunar_phase::{age_clock, default_ctx, default_entry, epoch_jd, Frame, NavState};
 use crate::lunar_service::{
     coverage_masked, masked_visible, topocentric, LunarConstellation, LunarSat,
     LunarServiceScenario,
 };
 use crate::lunar_terrain::{clears_horizon, LunarTerrainCfg};
+use crate::mission_thread::ThreadCtx;
 use crate::skyline::Skyline;
 use serde::Deserialize;
 use serde_json::{json, Value};
@@ -44,6 +45,8 @@ use serde_json::{json, Value};
 type Vec3 = [f64; 3];
 
 const LABEL: &str = "MODELLED";
+/// The registered kind name, standalone and as a thread phase.
+pub const KIND: &str = "lunar-surface";
 /// Julian Date of 2028-01-01 00:00 UTC.
 const JD_2028: f64 = 2_461_771.5;
 const SEASON_SPACING_DAYS: f64 = 91.3;
@@ -59,7 +62,7 @@ pub struct SiteIn {
     pub lon_deg: Option<f64>,
 }
 
-/// The `lunar-surface-pnt-map` scenario. Every field is optional.
+/// The `lunar-surface` scenario. Every field is optional.
 #[derive(Clone, Debug, Default, Deserialize)]
 pub struct LunarSurfaceMapScenario {
     /// Sites. Default four south-polar sites at longitude 0: -89.9, -89.5, -88.5 and -85.0 deg.
@@ -89,6 +92,10 @@ pub struct LunarSurfaceMapScenario {
     pub earth_mask_deg: Option<f64>,
     /// Flat elevation mask for the Sun (deg). Default 0.
     pub sun_mask_deg: Option<f64>,
+    /// Time on the surface the phase spans (days); mission time advances by it. Default the window.
+    pub stay_days: Option<f64>,
+    /// 1-sigma of a clock disciplined by a relay or the Earth when one is in view (s). ILLUSTRATIVE, default 5e-8.
+    pub timing_floor_s: Option<f64>,
     /// The terrain horizon section, as in `moonlight-service-volume` and `lunar-station-coverage`.
     pub terrain: Option<LunarTerrainCfg>,
 }
@@ -96,8 +103,9 @@ pub struct LunarSurfaceMapScenario {
 /// A phase's result.
 #[derive(Clone, Debug)]
 pub struct MapOut {
-    /// The carried state, unchanged: a map holds no filter.
-    pub carried_out: Carried,
+    /// The state handed on: position and velocity covariance unchanged (a map holds no positioning filter),
+    /// the clock disciplined to the timing floor and left to hold over only the longest gap with no timing source.
+    pub exit: NavState,
     /// The result document.
     pub report: Value,
     /// One line for the terminal.
@@ -318,15 +326,27 @@ impl LunarSurfaceMapScenario {
     }
 
     /// The phase core.
-    pub fn run_phase(&self, carried: &Carried) -> Result<MapOut, String> {
+    pub fn run_phase(&self, carried: &NavState, ctx: &ThreadCtx) -> Result<MapOut, String> {
         let cfg = self.resolve()?;
+        if !matches!(carried.frame, Frame::Mci | Frame::Mcmf) {
+            return Err(
+                "lunar-surface expects the entry state in MCI or MCMF; the thread converts frames"
+                    .into(),
+            );
+        }
+        let stay_s = self.stay_days.map_or(cfg.window_s, |d| d * 86_400.0);
+        let floor_s = self.timing_floor_s.unwrap_or(5.0e-8);
+        if !(stay_s > 0.0 && stay_s.is_finite() && floor_s > 0.0 && floor_s.is_finite()) {
+            return Err("stay_days and timing_floor_s must be positive and finite".into());
+        }
+        let _ = epoch_jd(ctx, carried.t_s)?;
         let constellation = constellation_of(&cfg.svc);
         let times = epochs(cfg.window_s, cfg.step_s);
         let env = AnalyticLunarEnvironment;
         let mut cells: Vec<Value> = Vec::new();
         let mut site_rows: Vec<Value> = Vec::new();
         let mut csv = String::from(
-            "# lunar-surface-pnt-map long-form table (MODELLED; advisory software, not certified navigation equipment)\n\
+            "# lunar-surface long-form table (MODELLED; advisory software, not certified navigation equipment)\n\
              site_index,lat_deg,lon_deg,season,season_start_jd_utc,position_availability,relay_timing_availability,earth_visible,sun_visible,timing_availability,longest_timing_gap_h,longest_position_gap_h\n",
         );
         let mut min_pos = f64::INFINITY;
@@ -442,8 +462,29 @@ impl LunarSurfaceMapScenario {
             }));
         }
         let observability_lost = min_pos < 0.05;
+        // The clock: disciplined to the floor when any timing source is in view in some window, left to hold over
+        // the longest stretch with none; with none ever, it ages across the whole stay.
+        let max_gap_h = cells
+            .iter()
+            .filter_map(|c| c["longest_timing_gap_h"].as_f64())
+            .fold(0.0, f64::max);
+        let best_timing = cells
+            .iter()
+            .filter_map(|c| c["timing_availability"].as_f64())
+            .fold(0.0, f64::max);
+        let exit_clock = if best_timing > 0.0 {
+            let drift_sigma = carried.clock.cov[1][1].max(0.0).sqrt();
+            let gap_s = max_gap_h * 3600.0;
+            let mut c = carried.clock;
+            c.cov[0][0] = floor_s * floor_s + (drift_sigma * gap_s).powi(2);
+            c.cov[0][1] = 0.0;
+            c.cov[1][0] = 0.0;
+            c
+        } else {
+            age_clock(&carried.clock, stay_s)
+        };
         let mut report = json!({
-            "kind": "lunar-surface-pnt-map",
+            "kind": KIND,
             "label": LABEL,
             "advisory": "Advisory software, not certified navigation equipment. MODELLED: an illustrative relay set and an analytic Sun and Moon; not a service prediction for any site.",
             "n_sites": cfg.sites.len(),
@@ -461,7 +502,15 @@ impl LunarSurfaceMapScenario {
         let part2 = json!({
             "sites": site_rows,
             "cells": cells,
-            "carried_out": { "frame": "mci", "evidence": "MODELLED", "passes_through": true },
+            "exit_state": {
+                "frame": format!("{:?}", carried.frame).to_lowercase(),
+                "evidence": "MODELLED",
+                "position_velocity_covariance": "passes through unchanged",
+                "clock_sigma_s": exit_clock.sigma_bias_s(),
+                "stay_days": stay_s / 86_400.0,
+                "timing_floor_s": floor_s,
+                "longest_timing_gap_h": max_gap_h,
+            },
             "units": units(),
         });
         if let (Some(base), Value::Object(p2)) = (report.as_object_mut(), part2) {
@@ -472,7 +521,7 @@ impl LunarSurfaceMapScenario {
             .filter_map(|c| c["timing_availability"].as_f64())
             .fold(f64::INFINITY, f64::min);
         let summary = format!(
-            "lunar-surface-pnt-map | {} sites x {} seasons | positioning {:.0}% to {:.0}% | worst timing availability {:.1}% | longest timing gap {:.1} h (MODELLED)",
+            "lunar-surface | {} sites x {} seasons | positioning {:.0}% to {:.0}% | worst timing availability {:.1}% | longest timing gap {:.1} h (MODELLED)",
             cfg.sites.len(),
             cfg.seasons.len(),
             100.0
@@ -492,7 +541,12 @@ impl LunarSurfaceMapScenario {
                 .fold(0.0, f64::max),
         );
         Ok(MapOut {
-            carried_out: carried.clone(),
+            exit: {
+                let mut e = carried.clone();
+                e.t_s += stay_s;
+                e.clock = exit_clock;
+                e
+            },
             report,
             summary,
             csv,
@@ -533,7 +587,7 @@ impl LunarSurfaceMapScenario {
 
     /// Standalone entry.
     pub fn run_json(&self) -> Result<(String, String, String), String> {
-        let out = self.run_phase(&Carried::default_llo())?;
+        let out = self.run_phase(&default_entry(), &default_ctx())?;
         let json = serde_json::to_string_pretty(&out.report).map_err(|e| e.to_string())?;
         Ok((json, out.summary, out.csv))
     }
@@ -541,6 +595,30 @@ impl LunarSurfaceMapScenario {
 
 fn units() -> Value {
     const ROWS: &[(&str, &str, &str, &str)] = &[
+        (
+            "exit_state.clock_sigma_s",
+            "s",
+            "computed",
+            "surface clock 1-sigma handed on",
+        ),
+        (
+            "exit_state.stay_days",
+            "d",
+            "input",
+            "time on the surface the phase spans",
+        ),
+        (
+            "exit_state.timing_floor_s",
+            "s",
+            "modelled-input",
+            "1-sigma of a clock disciplined by a source in view",
+        ),
+        (
+            "exit_state.longest_timing_gap_h",
+            "h",
+            "computed",
+            "longest stretch with no timing source, over sites and seasons",
+        ),
         ("n_sites", "1", "input", "sites mapped"),
         ("n_seasons", "1", "input", "seasons mapped"),
         (
@@ -695,14 +773,14 @@ mod tests {
         }
     }
 
-    fn c() -> Carried {
-        Carried::default_llo()
+    fn c() -> NavState {
+        default_entry()
     }
 
     #[test]
     fn default_runs_modelled_with_the_advisory_line() {
-        let out = small().run_phase(&c()).unwrap();
-        assert_eq!(out.report["kind"], "lunar-surface-pnt-map");
+        let out = small().run_phase(&c(), &default_ctx()).unwrap();
+        assert_eq!(out.report["kind"], KIND);
         assert_eq!(out.report["label"], "MODELLED");
         assert!(out.report["advisory"]
             .as_str()
@@ -743,7 +821,7 @@ mod tests {
                 step_min: Some(20.0),
                 ..Default::default()
             };
-            let out = scn.run_phase(&c()).unwrap();
+            let out = scn.run_phase(&c(), &default_ctx()).unwrap();
             let mine = out.report["cells"][0]["position_availability"]
                 .as_f64()
                 .unwrap();
@@ -790,7 +868,7 @@ mod tests {
             terrain: Some(terrain),
             ..Default::default()
         };
-        let out = scn.run_phase(&c()).unwrap();
+        let out = scn.run_phase(&c(), &default_ctx()).unwrap();
         let mine = out.report["cells"][0]["position_availability"]
             .as_f64()
             .unwrap();
@@ -808,7 +886,7 @@ mod tests {
 
     #[test]
     fn terrain_never_adds_availability() {
-        let flat = small().run_phase(&c()).unwrap();
+        let flat = small().run_phase(&c(), &default_ctx()).unwrap();
         let mut t = small();
         t.terrain = Some(LunarTerrainCfg {
             dem_path: Some("data/lunar-dem/lola_ldem_75s_1200m_crop.toml".into()),
@@ -820,7 +898,7 @@ mod tests {
             station_horizon: None,
             user_horizon: None,
         });
-        let rough = t.run_phase(&c()).unwrap();
+        let rough = t.run_phase(&c(), &default_ctx()).unwrap();
         for (a, b) in flat.report["cells"]
             .as_array()
             .unwrap()
@@ -843,7 +921,7 @@ mod tests {
 
     #[test]
     fn timing_is_at_least_either_source_and_the_season_moves_the_earth_and_sun() {
-        let out = small().run_phase(&c()).unwrap();
+        let out = small().run_phase(&c(), &default_ctx()).unwrap();
         let cells = out.report["cells"].as_array().unwrap();
         for x in cells {
             let t = x["timing_availability"].as_f64().unwrap();
@@ -887,7 +965,7 @@ mod tests {
                 ..Default::default()
             },
         ] {
-            assert!(s.run_phase(&c()).is_err());
+            assert!(s.run_phase(&c(), &default_ctx()).is_err());
         }
     }
 }

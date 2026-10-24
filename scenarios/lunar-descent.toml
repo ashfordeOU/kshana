@@ -1,4 +1,4 @@
-# Lunar landing dispersion with the real LOLA south-polar DEM: the budget for a powered descent to a south-polar site (Artemis-class), from the
+# Lunar landing dispersion: the budget for a powered descent to a south-polar site (Artemis-class), from the
 # inertial drift of the descent stack and what terrain-relative navigation, LunaNet signals and lunar time
 # each take off it.
 #
@@ -11,18 +11,14 @@
 # the landing dispersion: navigation at touchdown plus an independent guidance term, with the ablation of
 # every aid combination beside it.
 #
-# This scenario reads the DEM from the repository (data/lunar-dem/), so it is not bundled in the binary: run
-# `kshana scenarios/lunar-landing-dispersion-lola.toml` from a checkout. The terrain term is a Cramer-Rao bound
-# on matching a 12 km elevation window of that DEM (1200 m per pixel), not a camera.
-#
 # HONESTY: MODELLED. The IMU class, the descent profile, the relay set, the signal-in-space error and the
 # guidance term are ILLUSTRATIVE inputs, not measurements. The terrain-nav mode uses the self-contained
 # synthetic relief and an Earth metre scale, so the terrain term here is the matcher's behaviour on a
-# stand-in, not a statement about south-polar relief: the lola-crlb variant (lunar-landing-dispersion-lola.toml)
+# stand-in, not a statement about south-polar relief: the lola-crlb variant (lunar-descent-lola.toml)
 # uses the real LOLA DEM and must be run from a checkout. AFS availability is taken at one epoch and a flat
 # mask. No agreement with any real vehicle or site is claimed. Advisory software, not certified navigation
 # equipment.
-kind = "lunar-landing-dispersion"
+kind = "lunar-descent"
 
 site_lat_deg = -89.5            # ILLUSTRATIVE south-polar site
 site_lon_deg = 0.0
@@ -43,11 +39,7 @@ mask_deg = 5.0
 afs_cn0_dbhz = 35.0
 afs_first_fix_s = 60.0
 afs_interval_s = 60.0
-trn_source = "lola-crlb"
-dem_descriptor = "data/lunar-dem/lola_ldem_75s_1200m_crop.toml"
-trn_window_m = 12000.0
-trn_height_sigma_m = 5.0
-trn_registration_sigma_m = 30.0   # ILLUSTRATIVE
+trn_source = "terrain-nav"
 trn_fix_time_s = 480.0
 lunar_time_mode = "ltc"
 time_since_sync_days = 3.0
