@@ -189,8 +189,10 @@ const TIERED: &[&str] = &[
 
 fn check(g: &Golden) {
     let src = fs::read_to_string(g.path).unwrap_or_else(|e| panic!("read {}: {e}", g.path));
-    let mut out =
-        kshana::api::run_toml(&src).unwrap_or_else(|e| panic!("run_toml {} failed: {e}", g.path));
+    // The evidence label is additive and pinned on its own (tests/evidence_labels_doc_sync.rs): hash the run without it.
+    let mut out = kshana::api::without_evidence_labels(
+        kshana::api::run_toml(&src).unwrap_or_else(|e| panic!("run_toml {} failed: {e}", g.path)),
+    );
     match kshana::api::without_figure_tiers(&out.json) {
         Some(stripped) => {
             assert!(
@@ -256,7 +258,7 @@ fn zzz_emit_goldens() {
         "scenarios/conflict-resilience.toml",
     ] {
         let src = fs::read_to_string(path).unwrap();
-        let out = kshana::api::run_toml(&src).unwrap();
+        let out = kshana::api::without_evidence_labels(kshana::api::run_toml(&src).unwrap());
         // Hash what `check` hashes: the document without its figure_tiers block.
         let json = kshana::api::without_figure_tiers(&out.json).unwrap_or(out.json);
         println!(

@@ -409,7 +409,8 @@ fn strip_comments_and_strings(src: &str) -> String {
 fn the_released_observability_document_is_unchanged() {
     let out = run_toml("kind = \"cislunar-observability\"\n").expect("the released default runs");
     // RM-04's trailing `figure_tiers` block is pinned on its own; R1 is the released document.
-    let json = kshana::api::without_figure_tiers(&out.json).unwrap_or(out.json);
+    let json = kshana::api::without_evidence(&out.json);
+    let json = kshana::api::without_figure_tiers(&json).unwrap_or(json);
     let doc: Value = serde_json::from_str(&json).expect("valid JSON");
 
     let keys: Vec<&str> = doc

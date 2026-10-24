@@ -11,7 +11,8 @@ use serde_json::Value;
 /// The scenario document without RM-04's trailing `figure_tiers` block, whose legend names
 /// every tier ("VALIDATED: ..."): the no-overclaim guard is about the document's own claims.
 fn scenario_doc(json: &str) -> String {
-    kshana::api::without_figure_tiers(json).unwrap_or_else(|| json.to_string())
+    let json = kshana::api::without_evidence(json);
+    kshana::api::without_figure_tiers(&json).unwrap_or(json)
 }
 
 fn run(src: &str) -> Value {
