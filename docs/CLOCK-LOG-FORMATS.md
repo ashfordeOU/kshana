@@ -38,8 +38,12 @@ gaps = "linear"             # "refuse" (default), "longest" or "linear"
 
 ## The formats
 
-**`rinex-clk`**: RINEX clock files, versions 2 and 3.00 to 3.04 (including the 3.04
-nine-character name field). The header is read only for its `TIME SYSTEM ID` and is skipped
+**`rinex-clk`**: RINEX clock files, versions 2.00 and 3.00 to 3.04 (including the 3.04
+nine-character name field). The `RINEX VERSION / TYPE` record is checked and any other
+version is refused, naming the version found: IGS publishes the clock format
+(`rinex_clock300.txt`, `302`, `304`) up to 3.04, and the RINEX 4.00, 4.01 and 4.02
+documents define observation, navigation and meteorological files only, so there is no
+version 4.00 of the clock file to read. The header is read only for its `TIME SYSTEM ID` and is skipped
 up to `END OF HEADER`. Of the data records, only the `AS` (satellite) and `AR` (receiver or
 station) records of one clock, selected by name, are kept. Their first value field, the
 clock bias in seconds, is the phase. Continuation lines and the `CR`, `DR` and `MS` records
@@ -59,8 +63,13 @@ separated by white space, commas or semicolons.
   integrated to phase as `x[i+1] = x[i] + y[i]·tau0` (NIST SP 1065, 2008, §4.1).
 - TimeLab's binary and `.tim` project files are not read.
 
-**`ticc`**: logs of the TAPR TICC counter (TICC Operation Manual, revision of 23 November
-2016, "measurement modes"). Every data field is seconds with 12 decimal places.
+**`ticc`**: logs of the TAPR TICC counter (TICC Operation Manual, revisions of 23 November
+2016 and 15 December 2025, "measurement modes"). Every data field is seconds with 12
+decimal places (11 by default from firmware 20251101: any count up to 15 is read). A time
+stamp is read from its decimal text as a whole number of femtoseconds, not as a binary
+float, so the phase of a log taken days after the counter started keeps the counter's own
+resolution: an `f64` time stamp at 3.0e5 s has a spacing of 5.8e-11 s, about the counter's
+60 ps.
 
 - Timestamp-mode lines (`<seconds> chA`, `<seconds> chB`) and the TimeLab mode's
   pseudo-timestamp channel (`chC`) are event time stamps. The phase of the selected channel
@@ -69,8 +78,11 @@ separated by white space, commas or semicolons.
 - Interval-mode lines (`<seconds> TI(A->B)`, or any label starting `TI`) are read directly
   as phase, one reading per `tau0`. The scenario must state `tau0_s`, because the line
   carries no time.
+- Paired Timestamp mode prints the same lines in channel order and is read as Timestamp
+  mode; 3-Corner Hat mode adds the synthesised `chC`, read as above.
 - Period-mode and Debug-mode output is refused. A channel whose readings do not increase is
-  reported as Period mode.
+  reported as Period mode. Binary Timestamp mode is not text, and a file of it is refused
+  with a message that says so.
 - Lines starting with `#`, and lines that are not `<number> <label>` (such as the start-up
   menu), are skipped and counted.
 
@@ -148,6 +160,18 @@ kept). The gap policy is one of:
 
 The estimators need a gap-free record, which is why gaps are resolved here.
 
+## Your own clock
+
+A `[clock_log]` table on the clock kind reports how stable your own clock was, beside the
+simulation: `scenarios/clock-measured-log.toml` (`kshana example clock-measured-log`) is
+`clock-holdover.toml` with a 96-reading extract of an IGS satellite clock as an inline
+TimeLab log. Replace `text` with `path` and `format` for your own file. The `measured` block
+in the result holds how the log was read (format, `tau0` and where it came from, every gap)
+and its ADEV, TDEV and MTIE; it does not change the simulation.
+
+A malformed log is an error that names what was found (the line, the version, the missing
+selector), never a partial result: `tests/clock_log_real_allantools.rs` pins 24 such cases.
+
 ## Evidence
 
 MODELLED. This is a parser, and its output feeds estimators that are validated elsewhere
@@ -157,5 +181,22 @@ linuxptp and chrony formats the fixtures in `tests/fixtures/clock_log/linuxptp_c
 `tests/fixtures/clock_log/PREREGISTRATION.md`: three seeded synthetic logs, one per format,
 read back by an independent reader written from this page by the same author, with the
 ADEV, TDEV and MTIE checked against allantools 2024.6; that comparison covers the first three
-formats only, and the linuxptp and chrony readers have parser tests but no oracle comparison. The logs are synthetic, so nothing
-here describes a real clock or counter.
+formats only, and the linuxptp and chrony readers have parser tests but no oracle comparison. The logs of that comparison are synthetic, so nothing
+there describes a real clock or counter; the comparison on measured series is described below.
+
+### On measured data
+
+`tests/clock_log_real_allantools.rs` runs the comparison pre-registered in
+`tests/fixtures/clock_log_real/PREREGISTRATION.md` (committed before any fixture or run) on four measured
+series: the Stable32 `PHASE.DAT`, the first 65 536 readings of a 5071A caesium clock against a hydrogen
+maser, and the clocks of IGS satellite G01 (30 s) and station ABMF (300 s) from the IGS final clock of
+2026-08-02, as a vendored cut with its NOTICE. The first two carry no redistribution grant: the logs written
+from them are in the git-ignored `realdata-cache/` (`scripts/gen_clock_log_real_ref.py`), and the test says
+so and passes when they are absent unless `KSHANA_REQUIRE_REALDATA=1`. Each log is read by the engine and by
+an independent reader, and ADEV, TDEV and MTIE are compared with allantools 2024.6. Recorded in
+`tests/fixtures/clock_log_real/RESULTS.md`: on the shipped reader the TICC logs, the header version and five
+error messages failed the pre-registered bars; they were fixed and the comparison re-run unchanged. Met,
+except one pair: the MTIE of a frequency log differs from allantools', because allantools integrates the
+frequency minus its mean (pinned as NOT MET; the like-for-like comparison is met). The row stays MODELLED:
+the TICC logs are measured clock data re-encoded into the counter's layout by our script (no real TICC
+capture was found), and the reference reader has the same author as the engine's.
