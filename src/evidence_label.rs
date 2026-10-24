@@ -435,6 +435,11 @@ pub const TOOL_ROWS: &[(&str, &[&str])] = &[
     ),
     // `kshana interference-map route` exposure report.
     ("interference-map", &["VM-c7e45641"]),
+    // `kshana receiver-trust evidence` packs (the pack's `config.json`); the jammertest and round-trip packs add rows.
+    (
+        "evidence-pack",
+        &["VM-a66b5cd1", "VM-f220938a", "VM-834a5b4f", "VM-f7f6e62d"],
+    ),
     // `kshana iq acquire --json/--csv`.
     ("iq-acquire", &["VM-3ed8a076", "VM-0430afb5"]),
     // `kshana iq track --summary` and `kshana iq sweep --json/--csv`.

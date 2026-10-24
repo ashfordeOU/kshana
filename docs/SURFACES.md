@@ -205,3 +205,26 @@ Small entry points that are not a capability row, and where each lives:
   forecast. It is aggregate only: no identifier is returned.
 - Training NMEA is **text only**: no RF, IQ or waveform is synthesised, nothing is transmitted,
   and it is never for a vessel's live navigation systems.
+
+## The evidence label, and the outputs that carry none
+
+Every figure and table a run writes carries its evidence tier (`VALIDATED`, `MODELLED` or `PARTNER`, the weakest of the
+ledger rows behind it) and the ids of those rows, on every surface that runs a scenario: the result JSON (`evidence`
+key), the chart SVG (metadata element and a line under the plot) and the CSV table (`# evidence:` comment lines). The
+same label is on the receiver-trust outputs (CLI, MCP, Python), `jammertest score --json`, `iq acquire`, `iq sweep`,
+`iq track --summary`, `iq monitor --json`, the interference-map route report, and inside the `config.json` of every
+evidence pack (signed; `kshana evidence verify` reports it). Row ids are stable (`VM-` and eight hex digits, the `ID`
+column of `docs/VERIFICATION-MATRIX.md`).
+
+These outputs carry no label, each for a stated reason (the list is `UNLABELLED_WRITERS` in
+`tests/evidence_labels_doc_sync.rs`, which fails on a writer that is neither labelled nor listed):
+
+| Output | Why it carries no label |
+|---|---|
+| kshana-bench result files | a fixed schema pinned by the holdout commitments; each carries its own `label` (MODELLED or measured) |
+| interference observatory daily products (GeoJSON, PNG, incident JSON) | a frozen, published schema; the method note's caveats travel with them |
+| IQ campaign cell, scorecard and report files | digest-pinned; each states the campaign scorecard it restates |
+| IQ samples, SigMF and SDR metadata, scene truth, track epoch and event streams, live session logs | format-bound files and record streams read by other tools |
+| SP3, OMM, OEM, CZML, KML, GeoJSON, STK, test-bench motion and NMEA exports; the NMEA training stream | format-bound files read by third-party tools |
+| telemetry wire formats (Prometheus, OTLP, CEF, LEEF) | defined by their wire formats |
+| generated documents (the ledger itself, the committed study and data tables) | not the output of a run |
