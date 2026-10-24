@@ -241,6 +241,7 @@ pub mod mars_frame;
 pub mod mars_od;
 pub mod mars_pnt;
 pub mod mcda;
+pub mod mission_thread;
 pub mod models;
 pub mod monitor_network;
 pub mod naif_kernel;
