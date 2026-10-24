@@ -279,6 +279,11 @@ def main():
         ph = r.pop("phase_s")
         fr = r.pop("freq", None)
         r["curves"] = curves(ph, r["tau0_s"], fr)
+        if fr is not None:
+            # Diagnostic recorded after run 1 (RESULTS.md): allantools 2024.6 subtracts the mean
+            # frequency before it integrates a frequency log, so its MTIE of `fr` is the MTIE of a
+            # different phase; its phase-mode MTIE of the plain integral is the like-for-like number.
+            r["mtie_of_plain_integral"] = curves(ph, r["tau0_s"])["mtie"]
         r["phase_sha256"] = sha256(struct.pack(f"<{len(ph)}d", *ph))
         if keep_phase == "cache":
             open(os.path.join(a.cache, "ref_phase", name + ".f64"), "wb").write(struct.pack(f"<{len(ph)}d", *ph))

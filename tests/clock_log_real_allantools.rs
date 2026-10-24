@@ -21,6 +21,8 @@ use serde_json::Value;
 use std::path::PathBuf;
 
 const DIR: &str = concat!(env!("CARGO_MANIFEST_DIR"), "/tests/fixtures/clock_log_real");
+/// The one pair where B2 is NOT MET (the MTIE of the frequency log of D2), pinned in `b2_*`.
+const PINNED_NOT_MET: &str = "d2_TL-F.txt";
 const CUT: &str = "igs_clk_30s_2026214_G01_ABMF.clk";
 
 fn reference() -> Value {
@@ -259,6 +261,7 @@ fn b2_adev_tdev_and_mtie_agree_with_allantools() {
         let mut worst = 0.0_f64;
         let mut compared = 0usize;
         let mut unevaluated = Vec::new();
+        let mut pinned: Vec<f64> = Vec::new();
         let mut check = |name: &str, tau: f64, got: f64| {
             let Some(want) = at(&c[name], tau) else {
                 unevaluated.push(format!("{name}@{tau}"));
@@ -267,7 +270,9 @@ fn b2_adev_tdev_and_mtie_agree_with_allantools() {
             let rel = ((got - want) / want).abs();
             worst = worst.max(rel);
             compared += 1;
-            if rel > case.tol_rel {
+            if name == "mtie" && case.key == PINNED_NOT_MET {
+                pinned.push(rel);
+            } else if rel > case.tol_rel {
                 misses.push(format!(
                     "{} {name} at {tau} s: {got:e} vs {want:e} ({rel:e}, bar {:e})",
                     case.key, case.tol_rel
@@ -282,6 +287,32 @@ fn b2_adev_tdev_and_mtie_agree_with_allantools() {
         }
         for p in &m.mtie {
             check("mtie", p.tau_s, p.mtie_s);
+        }
+        if case.key == PINNED_NOT_MET {
+            // B2 is NOT MET here, and pinned as such: the sixteen MTIE values of the frequency log
+            // of D2 differ from allantools' by 1.7e-5 to 6.8e-2 (relative), because allantools
+            // integrates the frequency minus its mean (RESULTS.md). The like-for-like check, the
+            // engine against allantools' phase-mode MTIE of the plain integral, is met.
+            assert_eq!(pinned.len(), 16, "the pinned miss changed");
+            let (lo, hi) = (
+                pinned.iter().cloned().fold(f64::MAX, f64::min),
+                pinned.iter().cloned().fold(0.0, f64::max),
+            );
+            assert!(
+                lo > 1e-5 && lo < 2e-5 && hi > 6e-2 && hi < 7e-2,
+                "pinned miss moved: {lo:e} .. {hi:e}"
+            );
+            let plain = &r["cases"][&case.key]["mtie_of_plain_integral"];
+            for p in &m.mtie {
+                let want = at(plain, p.tau_s).expect("allantools evaluates every window here");
+                let rel = ((p.mtie_s - want) / want).abs();
+                if rel > 1e-10 {
+                    misses.push(format!(
+                        "{} mtie against the plain integral at {} s: {rel:e}",
+                        case.key, p.tau_s
+                    ));
+                }
+            }
         }
         let each = m.adev.len();
         let floor = if case.key.contains("ABMF") { 5 } else { 8 };
