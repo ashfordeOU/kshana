@@ -23,6 +23,7 @@ pub mod phase;
 pub mod sensors;
 
 use phase::{EvidenceLabel, Frame, NavState, PhaseOutcome, Timescale};
+use sha2::{Digest, Sha256};
 
 /// The thread-level context every phase runs in.
 #[derive(Clone, Debug, PartialEq)]
@@ -43,15 +44,26 @@ impl ThreadCtx {
         }
     }
 
-    /// The seed of phase number `index` (zero-based): the thread seed mixed with the index by the
-    /// splitmix64 finaliser, so neighbouring phases do not share a stream.
-    pub fn phase_seed(&self, index: usize) -> u64 {
-        let mut z = self
-            .seed
-            .wrapping_add((index as u64 + 1).wrapping_mul(0x9E37_79B9_7F4A_7C15));
-        z = (z ^ (z >> 30)).wrapping_mul(0xBF58_476D_1CE4_E5B9);
-        z = (z ^ (z >> 27)).wrapping_mul(0x94D0_49BB_1331_11EB);
-        z ^ (z >> 31)
+    /// The seed of the phase with the given id: the first eight bytes of SHA-256 over the thread
+    /// seed (little-endian) and the id. The id is unique within a thread and stable when phases
+    /// are reordered, so a phase run on its own with the same id gets the numbers it gets in the
+    /// thread, and two phases of the same kind (two rendezvous repeats) get different noise.
+    pub fn phase_seed(&self, id: &str) -> u64 {
+        let mut h = Sha256::new();
+        h.update(self.seed.to_le_bytes());
+        h.update(id.as_bytes());
+        let d = h.finalize();
+        u64::from_le_bytes([d[0], d[1], d[2], d[3], d[4], d[5], d[6], d[7]])
+    }
+
+    /// The per-phase context for the phase with this index, id and duration.
+    pub fn phase_ctx(&self, index: usize, id: &str, duration_s: f64) -> PhaseCtx {
+        PhaseCtx {
+            index,
+            id: id.to_string(),
+            duration_s,
+            seed: self.phase_seed(id),
+        }
     }
 
     /// Converts a state to another frame at a handover, returning the converted state and the
@@ -89,13 +101,50 @@ impl ThreadCtx {
     }
 }
 
+/// What the thread tells one phase about its place in the thread.
+#[derive(Clone, Debug, PartialEq)]
+pub struct PhaseCtx {
+    /// Zero-based position in the thread (0 when run standalone).
+    pub index: usize,
+    /// The phase id from the document; unique within the thread.
+    pub id: String,
+    /// The phase length the thread passes, seconds.
+    pub duration_s: f64,
+    /// The phase's seed, derived from the thread seed and the phase id.
+    pub seed: u64,
+}
+
+impl PhaseCtx {
+    /// Checks a phase kind's own length key (`arc_s`, `descent_s`, `stay_days` converted to
+    /// seconds, `ascent_s`) against the length the thread passes. They must agree; the phase
+    /// refuses a mismatch rather than silently using one of the two.
+    pub fn require_duration(&self, key: &str, own_s: f64) -> Result<(), String> {
+        let tol = 1e-9 * self.duration_s.abs().max(own_s.abs()).max(1.0);
+        if (own_s - self.duration_s).abs() <= tol {
+            Ok(())
+        } else {
+            Err(format!(
+                "phase `{}`: its model's {key} is {own_s} s but the thread gives the phase \
+                 duration_s = {} s; make them agree or leave {key} out",
+                self.id, self.duration_s
+            ))
+        }
+    }
+}
+
 /// A mission phase.
 pub trait MissionPhase: Send + Sync {
     /// The registered kind name.
     fn kind(&self) -> &'static str;
 
-    /// Runs the phase from the state the previous phase exited with.
-    fn run(&self, entry: &NavState, ctx: &ThreadCtx) -> Result<PhaseOutcome, String>;
+    /// Runs the phase from the state the previous phase exited with. Call it through
+    /// [`run_phase`], which sets the budget's phase id to the document's id.
+    fn run(
+        &self,
+        entry: &NavState,
+        ctx: &ThreadCtx,
+        phase: &PhaseCtx,
+    ) -> Result<PhaseOutcome, String>;
 }
 
 /// Builds a phase from the phase kind's own `[phase.model]` table.
@@ -124,7 +173,12 @@ impl MissionPhase for Stub {
         self.kind
     }
 
-    fn run(&self, _entry: &NavState, _ctx: &ThreadCtx) -> Result<PhaseOutcome, String> {
+    fn run(
+        &self,
+        _entry: &NavState,
+        _ctx: &ThreadCtx,
+        _phase: &PhaseCtx,
+    ) -> Result<PhaseOutcome, String> {
         Err(format!(
             "phase kind `{}` is registered but not implemented in this build",
             self.kind
@@ -193,6 +247,19 @@ pub static PHASE_KINDS: &[PhaseKindInfo] = &[
     },
 ];
 
+/// Runs a phase and stamps the document's phase id on its budget, whatever id the phase put
+/// there. The thread calls phases only through this.
+pub fn run_phase(
+    phase: &dyn MissionPhase,
+    entry: &NavState,
+    ctx: &ThreadCtx,
+    pctx: &PhaseCtx,
+) -> Result<PhaseOutcome, String> {
+    let mut out = phase.run(entry, ctx, pctx)?;
+    out.budget.phase_id = pctx.id.clone();
+    Ok(out)
+}
+
 /// Looks a phase kind up by name; an unknown name lists the registered ones.
 pub fn phase_kind(kind: &str) -> Result<&'static PhaseKindInfo, String> {
     PHASE_KINDS.iter().find(|k| k.kind == kind).ok_or_else(|| {
@@ -252,9 +319,9 @@ mod tests {
         let info = phase_kind("launch-ascent").unwrap();
         let p = (info.ctor)(&toml::Table::new()).unwrap();
         assert_eq!(p.kind(), "launch-ascent");
-        let e = p
-            .run(&entry(), &ThreadCtx::new("2028-01-01T00:00:00Z", 1))
-            .unwrap_err();
+        let ctx = ThreadCtx::new("2028-01-01T00:00:00Z", 1);
+        let pctx = ctx.phase_ctx(0, "ascent", 600.0);
+        let e = run_phase(p.as_ref(), &entry(), &ctx, &pctx).unwrap_err();
         assert!(e.contains("not implemented"), "{e}");
         let e = phase_kind("warp-drive").err().unwrap();
         assert!(
@@ -264,19 +331,89 @@ mod tests {
     }
 
     #[test]
-    fn phase_seeds_are_reproducible_and_differ_between_phases() {
+    fn phase_seeds_come_from_the_id_not_the_index_or_the_kind() {
         let a = ThreadCtx::new("2028-01-01T00:00:00Z", 20261024);
         let b = ThreadCtx::new("2028-01-01T00:00:00Z", 20261024);
-        assert_eq!(a.phase_seed(3), b.phase_seed(3));
-        let seeds: Vec<u64> = (0..16).map(|i| a.phase_seed(i)).collect();
-        let mut s = seeds.clone();
-        s.sort_unstable();
-        s.dedup();
-        assert_eq!(s.len(), seeds.len());
-        assert_ne!(
-            a.phase_seed(0),
-            ThreadCtx::new("2028-01-01T00:00:00Z", 1).phase_seed(0)
+        // Reproducible, and a standalone context for the same id gives the in-thread seed.
+        assert_eq!(a.phase_seed("rdv-2"), b.phase_seed("rdv-2"));
+        assert_eq!(
+            a.phase_ctx(5, "rdv-2", 3600.0).seed,
+            b.phase_ctx(0, "rdv-2", 3600.0).seed
         );
+        // Two repeats of one kind get different noise; changing the thread seed changes it.
+        assert_ne!(a.phase_seed("rdv-1"), a.phase_seed("rdv-2"));
+        assert_ne!(
+            a.phase_seed("rdv-1"),
+            ThreadCtx::new("2028-01-01T00:00:00Z", 1).phase_seed("rdv-1")
+        );
+        // Moving a phase to another index does not move its seed.
+        assert_eq!(
+            a.phase_ctx(0, "rdv-1", 1.0).seed,
+            a.phase_ctx(7, "rdv-1", 1.0).seed
+        );
+        let seeds: Vec<u64> = (0..16).map(|i| a.phase_seed(&format!("p{i}"))).collect();
+        let mut sorted = seeds.clone();
+        sorted.sort_unstable();
+        sorted.dedup();
+        assert_eq!(sorted.len(), seeds.len());
+    }
+
+    #[test]
+    fn a_model_length_that_disagrees_with_the_thread_duration_is_refused() {
+        let ctx = ThreadCtx::new("2028-01-01T00:00:00Z", 1);
+        let pctx = ctx.phase_ctx(2, "descent", 900.0);
+        assert!(pctx.require_duration("descent_s", 900.0).is_ok());
+        let e = pctx.require_duration("descent_s", 600.0).unwrap_err();
+        assert!(
+            e.contains("descent_s") && e.contains("900") && e.contains("descent"),
+            "{e}"
+        );
+    }
+
+    struct IdEcho;
+    impl MissionPhase for IdEcho {
+        fn kind(&self) -> &'static str {
+            "echo"
+        }
+        fn run(
+            &self,
+            entry: &NavState,
+            _ctx: &ThreadCtx,
+            _phase: &PhaseCtx,
+        ) -> Result<PhaseOutcome, String> {
+            Ok(PhaseOutcome {
+                exit: entry.clone(),
+                budget: budget::PhaseBudget {
+                    phase_id: "whatever the phase wrote".into(),
+                    kind: "echo".into(),
+                    entry_sigma_pos_m: 0.0,
+                    entry_sigma_vel_mps: 0.0,
+                    entry_sigma_time_s: 0.0,
+                    exit_sigma_pos_m: 0.0,
+                    exit_sigma_vel_mps: 0.0,
+                    exit_sigma_time_s: 0.0,
+                    peak_sigma_pos_m: 0.0,
+                    peak_sigma_vel_mps: 0.0,
+                    peak_sigma_time_s: 0.0,
+                    nav_sources: vec![],
+                    time_source: phase::TimeSource::Gnss,
+                    limiting_source: None,
+                    rows: vec![],
+                    label: EvidenceLabel::modelled(),
+                },
+                series: vec![],
+                events: vec![],
+                label: EvidenceLabel::modelled(),
+            })
+        }
+    }
+
+    #[test]
+    fn the_thread_stamps_the_document_id_on_the_budget() {
+        let ctx = ThreadCtx::new("2028-01-01T00:00:00Z", 1);
+        let pctx = ctx.phase_ctx(1, "docking-a", 10.0);
+        let out = run_phase(&IdEcho, &entry(), &ctx, &pctx).unwrap();
+        assert_eq!(out.budget.phase_id, "docking-a");
     }
 
     #[test]
