@@ -9,6 +9,19 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+### Added
+
+- **Second campaigns for the `gnss-ssv` and `lunar-infrastructure` bars not met**, run as pre-registered
+  ([`xval/gnss-ssv/PREREGISTRATION-v2.md`](xval/gnss-ssv/PREREGISTRATION-v2.md),
+  [`xval/lunar-infra/PREREGISTRATION-v2.md`](xval/lunar-infra/PREREGISTRATION-v2.md); signed off before any run). Every original
+  miss stays NOT MET and pinned. `gnss-ssv`: the control reproduces run 1 cell for cell; five single-reading ablations bring 2 of
+  the 78 missed cells within tolerance (EXPLORATORY, no bar); the new bar S7b (a roll-off-and-floor transmit shape fitted on Classic
+  IIR panels) is NOT MET on the IIR-M panels at 3.83 to 3.95 dB against 3 dB; the held-out published-reception campaign did not run
+  (no source pinned) ([`xval/gnss-ssv/RESULTS-v2.md`](xval/gnss-ssv/RESULTS-v2.md)). `lunar-infrastructure`: new bars C3a, C3b
+  (a detection limit of about 3e-9 m/s2), Q3a, Q3b (an accurate normal CDF removes the 1.7e-6 difference) and G3'' are met as their own
+  bars, and G3' with illustrative priors is met and labelled EXPLORATORY ([`xval/lunar-infra/RESULTS-v2.md`](xval/lunar-infra/RESULTS-v2.md)).
+  Everything stays MODELLED. New public items: `kshana::lambda::{erfc_accurate, normal_cdf_accurate, bootstrap_success_rate_accurate}`.
+
 ## [0.39.0] - 2026-10-22
 
 No new features: one command-line fix, dependency updates in the cross-validation tooling, and documentation. The

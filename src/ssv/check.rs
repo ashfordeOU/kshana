@@ -6,7 +6,7 @@
 use super::constellations::{mrtp_dbw, Band, Constellation, SIGNALS};
 use super::pattern::{Axis, NamedAntenna, TxPattern, UserAntenna};
 use super::sweep::{
-    run_shell, run_trajectory, BandResult, NoEffects, ShellConfig, TrajectoryConfig,
+    run_shell, run_trajectory, Ablation, BandResult, NoEffects, ShellConfig, TrajectoryConfig,
     TrajectoryResult, UserOrbit,
 };
 use serde_json::{json, Value};
@@ -121,16 +121,25 @@ fn shell_rows(table: &[Value], res: &[BandResult], tag: &str, tol: f64) -> Vec<V
     out
 }
 
+/// What a scored run changes: the one ablation of campaign B and the step, nothing else.
+#[derive(Clone, Copy, Debug, Default)]
+struct Opts {
+    ablation: Ablation,
+    /// Step in minutes replacing the run's own (B2: 0.5).
+    step_min: Option<f64>,
+}
+
 fn shell(
     ov: &[(Constellation, Band, f64)],
     size: Size,
     alt: f64,
     hemi: bool,
     cn0: Option<f64>,
+    o: Opts,
 ) -> Result<Vec<BandResult>, String> {
     let (grid_levels, duration_min, step_min) = match size {
-        Size::Full => (4, RUN_MIN, 1.0),
-        Size::Reduced => (2, 1440.0, 10.0),
+        Size::Full => (4, RUN_MIN, o.step_min.unwrap_or(1.0)),
+        Size::Reduced => (2, 1440.0, o.step_min.unwrap_or(10.0)),
     };
     run_shell(&ShellConfig {
         altitude_km: alt,
@@ -143,6 +152,7 @@ fn shell(
         bands: vec![Band::L1, Band::L5],
         mrtp_reference_alt_km: 36_000.0,
         beam_override_deg: ov.to_vec(),
+        ablation: o.ablation,
     })
 }
 
@@ -152,6 +162,7 @@ fn trajectory(
     duration_min: f64,
     step_min: f64,
     antennas: &[(NamedAntenna, Axis)],
+    o: Opts,
 ) -> Result<TrajectoryResult, String> {
     let ants = [Band::L1, Band::L5]
         .into_iter()
@@ -179,6 +190,7 @@ fn trajectory(
             series_every_epochs: 0,
             collect_limb: false,
             beam_override_deg: ov.to_vec(),
+            ablation: o.ablation,
         },
         &NoEffects,
     )
@@ -244,6 +256,79 @@ fn verdict(cells: &[Value]) -> Value {
 /// pre-registered reading) to table 4.2's (26 and 34 degrees); it is a diagnostic variant, reported beside the
 /// pre-registered run and never in place of it.
 pub fn run(tables: &str, size: Size, glonass_table_4_2: bool) -> Result<Value, String> {
+    run_core(tables, size, glonass_table_4_2, Opts::default(), None)
+}
+
+/// One ablation of campaign B of `xval/gnss-ssv/PREREGISTRATION-v2.md`, run on the run-1 configuration and read on the bars
+/// that campaign names for it: `"B1"` (Fibonacci grid, S1 to S3), `"B2"` (30-second epochs, S1 to S3), `"B3"` (antenna with
+/// the most satellites, S4 and S5), `"B4"` (propagated HEO and lunar trajectories, S5 and S6) and `"B5"` (cosine user-antenna
+/// gain, S1 and S3). The report has the same shape as [`run`]'s, with only those bars; the verdicts in it are the original
+/// tolerances applied cell by cell and are **not bars** (campaign B is a sensitivity table).
+pub fn run_ablation(tables: &str, size: Size, id: &str) -> Result<Value, String> {
+    let (opts, bars): (Opts, &[&str]) = match id {
+        "B1" => (
+            Opts {
+                ablation: Ablation {
+                    fibonacci_points: Some(2562),
+                    ..Ablation::default()
+                },
+                step_min: None,
+            },
+            &["S1", "S2", "S3"],
+        ),
+        "B2" => (
+            Opts {
+                ablation: Ablation::default(),
+                step_min: Some(0.5),
+            },
+            &["S1", "S2", "S3"],
+        ),
+        "B3" => (
+            Opts {
+                ablation: Ablation {
+                    antenna_by_count: true,
+                    ..Ablation::default()
+                },
+                step_min: None,
+            },
+            &["S4", "S5"],
+        ),
+        "B4" => (
+            Opts {
+                ablation: Ablation {
+                    propagated: true,
+                    ..Ablation::default()
+                },
+                step_min: None,
+            },
+            &["S5", "S6"],
+        ),
+        "B5" => (
+            Opts {
+                ablation: Ablation {
+                    cosine_user_gain: true,
+                    ..Ablation::default()
+                },
+                step_min: None,
+            },
+            &["S1", "S3"],
+        ),
+        other => return Err(format!("unknown ablation `{other}`: B1 to B5")),
+    };
+    let mut v = run_core(tables, size, false, opts, Some(bars))?;
+    v["ablation"] = json!(id);
+    Ok(v)
+}
+
+#[allow(clippy::too_many_lines)]
+fn run_core(
+    tables: &str,
+    size: Size,
+    glonass_table_4_2: bool,
+    o: Opts,
+    only: Option<&[&str]>,
+) -> Result<Value, String> {
+    let want = |b: &str| only.is_none_or(|l| l.contains(&b));
     let ov: Vec<(Constellation, Band, f64)> = if glonass_table_4_2 {
         vec![
             (Constellation::Glonass, Band::L1, 26.0),
@@ -264,42 +349,51 @@ pub fn run(tables: &str, size: Size, glonass_table_4_2: bool) -> Result<Value, S
     };
 
     // S0: the inverse link budget.
-    let s0: Vec<Value> = SIGNALS
-        .iter()
-        .zip(S0_EXPECTED)
-        .map(|(s, e)| {
-            cell(
-                &format!("MRTP {} dBW", s.name),
-                Some(e),
-                mrtp_dbw(s, 36_000.0),
-                0.1,
-            )
-        })
-        .collect();
-    put(
-        "S0",
-        "inverse link budget reproduces table B6 within 0.1 dB",
-        s0,
-    );
+    if want("S0") {
+        let s0: Vec<Value> = SIGNALS
+            .iter()
+            .zip(S0_EXPECTED)
+            .map(|(s, e)| {
+                cell(
+                    &format!("MRTP {} dBW", s.name),
+                    Some(e),
+                    mrtp_dbw(s, 36_000.0),
+                    0.1,
+                )
+            })
+            .collect();
+        put(
+            "S0",
+            "inverse link budget reproduces table B6 within 0.1 dB",
+            s0,
+        );
+    }
 
     // S1: upper SSV geometry.
-    let r1 = shell(&ov, size, 36_000.0, true, None)?;
-    put(
-        "S1",
-        "upper SSV geometry (table B4)",
-        shell_rows(&arr(&t["upper_geometry"]), &r1, "B4", 2.0),
-    );
+    if want("S1") {
+        let r1 = shell(&ov, size, 36_000.0, true, None, o)?;
+        put(
+            "S1",
+            "upper SSV geometry (table B4)",
+            shell_rows(&arr(&t["upper_geometry"]), &r1, "B4", 2.0),
+        );
+    }
     // S2: lower SSV.
-    let r2 = shell(&ov, size, 8_000.0, false, None)?;
-    put(
-        "S2",
-        "lower SSV geometry (table 5.2)",
-        shell_rows(&arr(&t["lower_geometry"]), &r2, "5.2", 2.0),
-    );
+    if want("S2") {
+        let r2 = shell(&ov, size, 8_000.0, false, None, o)?;
+        put(
+            "S2",
+            "lower SSV geometry (table 5.2)",
+            shell_rows(&arr(&t["lower_geometry"]), &r2, "5.2", 2.0),
+        );
+    }
     // S3: upper SSV with RF thresholds.
     let mut s3 = Vec::new();
     for thr in [15.0, 20.0, 25.0] {
-        let r = shell(&ov, size, 36_000.0, true, Some(thr))?;
+        if !want("S3") {
+            break;
+        }
+        let r = shell(&ov, size, 36_000.0, true, Some(thr), o)?;
         let key = format!("{}", thr as u32);
         s3.extend(shell_rows(
             &arr(&t["upper_rf"][&key]),
@@ -308,20 +402,25 @@ pub fn run(tables: &str, size: Size, glonass_table_4_2: bool) -> Result<Value, S
             2.0,
         ));
     }
-    put(
-        "S3",
-        "upper SSV with RF thresholds 15/20/25 dB-Hz (table B9)",
-        s3,
-    );
+    if want("S3") {
+        put(
+            "S3",
+            "upper SSV with RF thresholds 15/20/25 dB-Hz (table B9)",
+            s3,
+        );
+    }
 
     // S4: GEO.
     let (geo_min, step) = match size {
-        Size::Full => (RUN_MIN, 1.0),
-        Size::Reduced => (1440.0, 10.0),
+        Size::Full => (RUN_MIN, o.step_min.unwrap_or(1.0)),
+        Size::Reduced => (1440.0, o.step_min.unwrap_or(10.0)),
     };
     let era0 = super::geom::earth_rotation_angle(0.0).to_degrees();
     let mut s4 = Vec::new();
     for lon in [0, 60, 120, 180, 240, 300] {
+        if !want("S4") {
+            break;
+        }
         let orbit = UserOrbit {
             a_km: 42_164.0,
             e: 0.0,
@@ -336,6 +435,7 @@ pub fn run(tables: &str, size: Size, glonass_table_4_2: bool) -> Result<Value, S
             geo_min,
             step,
             &[(NamedAntenna::BookletHighGain, Axis::Nadir)],
+            o,
         )?;
         s4.extend(traj_rows(
             &arr(&t["geo"][&lon.to_string()]),
@@ -345,11 +445,13 @@ pub fn run(tables: &str, size: Size, glonass_table_4_2: bool) -> Result<Value, S
             true,
         ));
     }
-    put(
-        "S4",
-        "six GEO missions (tables 5.4 to 5.9), 20 dB-Hz, high-gain nadir antenna",
-        s4,
-    );
+    if want("S4") {
+        put(
+            "S4",
+            "six GEO missions (tables 5.4 to 5.9), 20 dB-Hz, high-gain nadir antenna",
+            s4,
+        );
+    }
 
     // S5: HEO.
     let heo = super::scenario::preset_orbit("heo").ok_or("heo preset")?;
@@ -357,21 +459,24 @@ pub fn run(tables: &str, size: Size, glonass_table_4_2: bool) -> Result<Value, S
         Size::Full => (1.5 * heo.period_min()).round(),
         Size::Reduced => 1440.0,
     };
-    let r5 = trajectory(
-        &ov,
-        heo,
-        heo_min,
-        step,
-        &[
-            (NamedAntenna::BookletHighGain, Axis::Nadir),
-            (NamedAntenna::BookletPatch, Axis::Zenith),
-        ],
-    )?;
-    put(
-        "S5",
-        "HEO mission (table 5.11)",
-        traj_rows(&arr(&t["heo"]), &r5, "HEO", 5.0, true),
-    );
+    if want("S5") {
+        let r5 = trajectory(
+            &ov,
+            heo,
+            heo_min,
+            step,
+            &[
+                (NamedAntenna::BookletHighGain, Axis::Nadir),
+                (NamedAntenna::BookletPatch, Axis::Zenith),
+            ],
+            o,
+        )?;
+        put(
+            "S5",
+            "HEO mission (table 5.11)",
+            traj_rows(&arr(&t["heo"]), &r5, "HEO", 5.0, true),
+        );
+    }
 
     // S6: lunar, perigee to apogee.
     let lunar = super::scenario::preset_orbit("lunar-transfer").ok_or("lunar preset")?;
@@ -379,21 +484,24 @@ pub fn run(tables: &str, size: Size, glonass_table_4_2: bool) -> Result<Value, S
         Size::Full => (0.5 * lunar.period_min()).round(),
         Size::Reduced => 1440.0,
     };
-    let r6 = trajectory(
-        &ov,
-        lunar,
-        lun_min,
-        step,
-        &[
-            (NamedAntenna::BookletHighGain, Axis::Nadir),
-            (NamedAntenna::BookletPatch, Axis::Zenith),
-        ],
-    )?;
-    put(
-        "S6",
-        "lunar mission (table 5.13)",
-        traj_rows(&arr(&t["lunar"]), &r6, "lunar", 10.0, false),
-    );
+    if want("S6") {
+        let r6 = trajectory(
+            &ov,
+            lunar,
+            lun_min,
+            step,
+            &[
+                (NamedAntenna::BookletHighGain, Axis::Nadir),
+                (NamedAntenna::BookletPatch, Axis::Zenith),
+            ],
+            o,
+        )?;
+        put(
+            "S6",
+            "lunar mission (table 5.13)",
+            traj_rows(&arr(&t["lunar"]), &r6, "lunar", 10.0, false),
+        );
+    }
 
     Ok(
         json!({"size": if size == Size::Full { "full" } else { "reduced" }, "glonass_table_4_2": glonass_table_4_2, "bars": Value::Object(bars)}),
@@ -443,4 +551,134 @@ pub fn s7(csv: &str) -> Result<Value, String> {
               "patterns": by_sv.len(), "median_rms_db": median, "min_rms_db": rms_all.first(), "max_rms_db": rms_all.last(),
               "verdict": verdict(&cells), "cells": cells}),
     )
+}
+
+/// The twelve Classic IIR satellites of the NAVCEN document's table of satellite types: the training set of bar S7b.
+pub const S7B_TRAIN: [&str; 12] = [
+    "SVN41", "SVN43", "SVN44", "SVN45", "SVN46", "SVN47", "SVN51", "SVN54", "SVN56", "SVN59",
+    "SVN60", "SVN61",
+];
+/// The eight IIR-M satellites: the test set of bar S7b.
+pub const S7B_TEST: [&str; 8] = [
+    "SVN48", "SVN49", "SVN50", "SVN52", "SVN53", "SVN55", "SVN57", "SVN58",
+];
+
+/// The registered two-parameter shape: the power falls from the boresight at `rolloff_db_per_deg` and stops at
+/// `floor_db` below the peak.
+fn s7b_shape(rolloff_db_per_deg: f64, floor_db: f64, theta_deg: f64) -> f64 {
+    -(rolloff_db_per_deg * theta_deg).min(floor_db)
+}
+
+/// The samples of one pattern at theta = 0, 2, ..., 30 degrees, each normalised to the pattern's own peak (over every
+/// tabulated angle), in dB.
+fn s7b_samples(pts: &[(f64, f64)]) -> Vec<(f64, f64)> {
+    let peak = pts.iter().map(|x| x.1).fold(f64::NEG_INFINITY, f64::max);
+    pts.iter()
+        .filter(|x| x.0 <= 30.0 && (x.0 / 2.0).fract() == 0.0)
+        .map(|&(th, db)| (th, db - peak))
+        .collect()
+}
+
+/// Bar S7b of `xval/gnss-ssv/PREREGISTRATION-v2.md` (campaign C): fit the two numbers of the registered shape by least
+/// squares to the training patterns (pooled, theta = 0 to 30 degrees, each pattern normalised to its own peak), by a
+/// deterministic grid search (roll-off 0 to 3 dB/deg in 0.001 steps, floor 0 to 40 dB in 0.01 steps) refined once on a
+/// grid a hundred times finer around the best cell; then report, for every test pattern, the RMS difference at theta = 0,
+/// 2, ..., 30 degrees against the 3 dB bar. The fit is made and recorded in the report before any test pattern is read.
+pub fn s7b(csv: &str, train: &[&str], test: &[&str]) -> Result<Value, String> {
+    use std::collections::BTreeMap;
+    let mut by_sv: BTreeMap<String, Vec<(f64, f64)>> = BTreeMap::new();
+    for line in csv.lines().skip(1) {
+        let f: Vec<&str> = line.split(',').collect();
+        if f.len() != 3 {
+            continue;
+        }
+        let th: f64 = f[1].parse().map_err(|_| "theta")?;
+        let db: f64 = f[2].parse().map_err(|_| "gain")?;
+        by_sv.entry(f[0].to_string()).or_default().push((th, db));
+    }
+    let train_pts: Vec<(f64, f64)> = train
+        .iter()
+        .map(|sv| {
+            by_sv
+                .get(*sv)
+                .map(|p| s7b_samples(p))
+                .ok_or(format!("training pattern {sv} missing"))
+        })
+        .collect::<Result<Vec<_>, _>>()?
+        .into_iter()
+        .flatten()
+        .collect();
+    let sse = |r: f64, fl: f64| -> f64 {
+        train_pts
+            .iter()
+            .map(|&(th, y)| {
+                let d = s7b_shape(r, fl, th) - y;
+                d * d
+            })
+            .sum()
+    };
+    let search = |r_lo: f64, r_hi: f64, dr: f64, f_lo: f64, f_hi: f64, df: f64| -> (f64, f64) {
+        let mut best = (f64::INFINITY, r_lo, f_lo);
+        let nr = ((r_hi - r_lo) / dr).round() as usize;
+        let nf = ((f_hi - f_lo) / df).round() as usize;
+        for i in 0..=nr {
+            let r = r_lo + i as f64 * dr;
+            for j in 0..=nf {
+                let fl = f_lo + j as f64 * df;
+                let e = sse(r, fl);
+                if e < best.0 {
+                    best = (e, r, fl);
+                }
+            }
+        }
+        (best.1, best.2)
+    };
+    let (r0, f0) = search(0.0, 3.0, 0.001, 0.0, 40.0, 0.01);
+    let (rolloff, floor) = search(
+        (r0 - 0.001).max(0.0),
+        r0 + 0.001,
+        0.00001,
+        (f0 - 0.01).max(0.0),
+        f0 + 0.01,
+        0.0001,
+    );
+    let train_rms = (sse(rolloff, floor) / train_pts.len() as f64).sqrt();
+    let rms_of = |sv: &str| -> Result<f64, String> {
+        let pts = by_sv
+            .get(sv)
+            .map(|p| s7b_samples(p))
+            .ok_or(format!("pattern {sv} missing"))?;
+        let sq: f64 = pts
+            .iter()
+            .map(|&(th, y)| {
+                let d = s7b_shape(rolloff, floor, th) - y;
+                d * d
+            })
+            .sum();
+        Ok((sq / pts.len() as f64).sqrt())
+    };
+    let mut cells = Vec::new();
+    let mut rms_test = Vec::new();
+    for sv in test {
+        let rms = rms_of(sv)?;
+        rms_test.push(rms);
+        cells.push(json!({"cell": format!("{sv} L1 RMS dB"), "published": 3.0, "sim": rms, "scored": true, "pass": rms <= 3.0, "tol": 3.0}));
+    }
+    let train_each: Vec<Value> = train
+        .iter()
+        .map(|sv| json!({"svn": sv, "rms_db": rms_of(sv).ok()}))
+        .collect();
+    let mut sorted = rms_test.clone();
+    sorted.sort_by(f64::total_cmp);
+    Ok(json!({
+        "statement": "S7b: the two-parameter roll-off and floor shape fitted to the Classic IIR patterns, against each IIR-M pattern, RMS at theta = 0, 2, ..., 30 degrees",
+        "fit": {"rolloff_db_per_deg": rolloff, "floor_db": floor, "training_patterns": train.len(), "training_points": train_pts.len(), "training_rms_db": train_rms},
+        "training_each": train_each,
+        "test_patterns": test.len(),
+        "median_rms_db": sorted.get(sorted.len() / 2),
+        "min_rms_db": sorted.first(),
+        "max_rms_db": sorted.last(),
+        "verdict": verdict(&cells),
+        "cells": cells,
+    }))
 }
