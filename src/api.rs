@@ -469,6 +469,54 @@ struct WithMeasured<'a, T: serde::Serialize> {
     measured: &'a crate::clock_log::MeasuredPhaseReport,
 }
 
+/// The clock kind's optional `[clock_fit]` table, read beside the scenario and its `[clock_log]`:
+/// the measured series replaces the named simulated clock's noise ([`crate::clock_fit`]).
+#[derive(serde::Deserialize)]
+struct ClockFitTable {
+    #[serde(default)]
+    clock_log: Option<crate::clock_log::ClockLogInput>,
+    #[serde(default)]
+    clock_fit: Option<crate::clock_fit::ClockFitInput>,
+}
+
+/// The scenario with its clock replaced by the fitted one, and the `fitted` block, when the source
+/// has a `[clock_fit]` table; `None` otherwise (the scenario is then used as parsed).
+fn clock_fit_of(
+    src: &str,
+    scn: &crate::scenario::Scenario,
+) -> Result<Option<(crate::scenario::Scenario, crate::clock_fit::FittedClockReport)>, String> {
+    use sha2::{Digest, Sha256};
+    let t: ClockFitTable = toml::from_str(src).map_err(|e| format!("invalid scenario: {e}"))?;
+    let Some(fit) = &t.clock_fit else {
+        return Ok(None);
+    };
+    let Some(log_in) = &t.clock_log else {
+        return Err(
+            "[clock_fit] needs a [clock_log] table: the measured series the fit is made from".into(),
+        );
+    };
+    let canonical = serde_json::to_string(log_in).map_err(|e| e.to_string())?;
+    let log = crate::clock_log::read_input(log_in).map_err(|e| format!("clock_log: {e}"))?;
+    let mut fitted_scn = scn.clone();
+    let report = crate::clock_fit::apply(
+        &mut fitted_scn,
+        &log,
+        hex::encode(Sha256::digest(canonical.as_bytes())),
+        fit,
+    )?;
+    Ok(Some((fitted_scn, report)))
+}
+
+/// A clock run with its `fitted` block (and, for one run, its `measured` block) appended.
+#[derive(serde::Serialize)]
+struct WithFitted<'a, T: serde::Serialize> {
+    #[serde(flatten)]
+    run: &'a T,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    measured: Option<&'a crate::clock_log::MeasuredPhaseReport>,
+    fitted: &'a crate::clock_fit::FittedClockReport,
+}
+
 /// A minimal one-line SVG banner for scenario kinds whose primary artifact is the
 /// JSON report (the rich table lives in the JSON, not a bespoke chart).
 fn minimal_svg(summary: &str) -> String {
