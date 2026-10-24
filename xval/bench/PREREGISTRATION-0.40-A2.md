@@ -1,6 +1,6 @@
-# Pre-registration (DRAFT, awaiting owner sign-off): task (a), a folder-clustered bound on the `agc_k_sigma` AUC
+# Pre-registration (EXPLORATORY): task (a), a folder-clustered bound on the `agc_k_sigma` AUC
 
-**Status: DRAFT. Not committed as a registration until the owner signs it off. Nothing has been run for it.**
+**Status: SIGNED OFF by the owner on 24 Oct 2026 (below). Nothing has been run for it as of the sign-off commit.**
 
 This is a new bar, **A3**. It does not replace, change or reinterpret **A2** or any figure in `RESULTS-v2.md`:
 A2 (`agc_k_sigma` AUC >= 0.80 on the `test` split of spec 2.0.0) was measured at 0.766, is NOT MET, and stays
@@ -53,3 +53,9 @@ folders). These are not bars and are not used to change A3.
 That `agc_k_sigma` works outside this event and receiver; that the bootstrap over 14 folders is a population
 statement; that a pass makes A2 met. Two strata of 7 folders is a small number of clusters and the interval is
 wide by construction.
+
+## Owner sign-off
+
+24 Oct 2026, verbatim: "All three, A3/D3 exploratory". Marked EXPLORATORY: cannot close A2/D1; evidence about this archive only.
+
+The bars above are fixed from this commit. No bar, seed, recipe or setting changes after a result is seen.
