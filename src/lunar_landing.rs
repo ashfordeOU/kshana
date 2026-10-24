@@ -40,6 +40,10 @@
 //! descent, from a flat mask without the site's horizon (the map kind adds the horizon). Advisory software,
 //! not certified navigation equipment.
 
+// Small dense-matrix and per-axis loops read as the maths they implement when indexed; iterator chains would
+// hide which index is which.
+#![allow(clippy::needless_range_loop)]
+
 use crate::altpnt::terrain::{run_terrain_nav, TerrainNavCfg};
 use crate::gravimeter::M_PER_DEG;
 use crate::lunar::{
@@ -460,7 +464,7 @@ impl LunarLandingScenario {
             return Err("site latitude must be in [-90, 90] and longitude in [-180, 360]".into());
         }
         let t_end = self.descent_s.unwrap_or(600.0);
-        if !(t_end >= 60.0 && t_end <= 3600.0) {
+        if !(60.0..=3600.0).contains(&t_end) {
             return Err("descent_s must be in [60, 3600]".into());
         }
         let pos = |v: Option<f64>, d: f64, name: &str| -> Result<f64, String> {
@@ -513,7 +517,7 @@ impl LunarLandingScenario {
             return Err("trn_window_m must be at least 3600".into());
         }
         let trn_h_sigma = self.trn_height_sigma_m.unwrap_or(5.0);
-        if !(trn_h_sigma > 0.0) {
+        if trn_h_sigma.is_nan() || trn_h_sigma <= 0.0 {
             return Err("trn_height_sigma_m must be positive".into());
         }
         Ok(Resolved {
