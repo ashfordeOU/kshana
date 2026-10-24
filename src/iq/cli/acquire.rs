@@ -158,10 +158,13 @@ fn write_outputs(
     r: &[AcqResult],
 ) -> Result<(), Fail> {
     if let Some(p) = a.get("--json") {
-        std::fs::write(p, to_json(spec, cfg, r)).map_err(|e| Fail::Run(format!("{p}: {e}")))?;
+        let body = crate::evidence_label::label_json("iq-acquire", &to_json(spec, cfg, r))
+            .map_err(Fail::Run)?;
+        std::fs::write(p, body).map_err(|e| Fail::Run(format!("{p}: {e}")))?;
     }
     if let Some(p) = a.get("--csv") {
-        std::fs::write(p, to_csv(r)).map_err(|e| Fail::Run(format!("{p}: {e}")))?;
+        let body = crate::evidence_label::label_csv("iq-acquire", &to_csv(r)).map_err(Fail::Run)?;
+        std::fs::write(p, body).map_err(|e| Fail::Run(format!("{p}: {e}")))?;
     }
     Ok(())
 }

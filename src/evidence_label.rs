@@ -419,6 +419,65 @@ pub fn strip_csv(csv: &str) -> Option<String> {
     Some(lines.next().unwrap_or("").to_string())
 }
 
+/// The ledger rows behind the output of each tool that writes figures or tables outside `api::run_toml`, by stable row id.
+/// This is a crosswalk, like [`crate::advanced_report::KIND_CAPABILITIES`]: it says which rows a tool leans on; the
+/// status, wording and tier come from the matrix. `tests/evidence_labels_doc_sync.rs` checks every id exists.
+pub const TOOL_ROWS: &[(&str, &[&str])] = &[
+    // `kshana receiver-trust`, `receiver-trust live`, the MCP and Python receiver-log assessments.
+    (
+        "receiver-trust",
+        &["VM-f220938a", "VM-834a5b4f", "VM-f7f6e62d", "VM-51f0c17d"],
+    ),
+    // `kshana jammertest score`.
+    (
+        "jammertest-score",
+        &["VM-47968885", "VM-35257d18", "VM-f220938a", "VM-834a5b4f"],
+    ),
+    // `kshana interference-map route` exposure report.
+    ("interference-map", &["VM-c7e45641"]),
+    // `kshana iq acquire --json/--csv`.
+    ("iq-acquire", &["VM-3ed8a076", "VM-0430afb5"]),
+    // `kshana iq track --summary` and `kshana iq sweep --json/--csv`.
+    ("iq-track", &["VM-3ed8a076", "VM-77d4bf93"]),
+    // `kshana iq monitor --json`.
+    ("iq-monitor", &["VM-59bb0091", "VM-6254a75d"]),
+];
+
+impl EvidenceLabel {
+    /// The label of the rows with these stable ids; `None` if the list is empty or an id is not in the matrix.
+    pub fn for_ids(ids: &[&str]) -> Option<Self> {
+        let matrix = verification_matrix();
+        let mut rows = Vec::new();
+        for id in ids {
+            let it = matrix.iter().find(|m| m.id == *id)?;
+            rows.push((it.requirement.to_string(), it.status));
+        }
+        // Matrix order, as for a run's label.
+        rows.sort_by_key(|(req, _)| matrix.iter().position(|m| m.requirement == req.as_str()));
+        Self::from_rows(&rows)
+    }
+
+    /// The label of a tool's output ([`TOOL_ROWS`]); `None` for a tool not listed.
+    pub fn for_tool(tool: &str) -> Option<Self> {
+        let (_, ids) = TOOL_ROWS.iter().find(|(t, _)| *t == tool)?;
+        Self::for_ids(ids)
+    }
+}
+
+/// `json` labelled for `tool` ([`TOOL_ROWS`]); an error if the tool or its rows are not in the matrix.
+pub fn label_json(tool: &str, json: &str) -> Result<String, String> {
+    EvidenceLabel::for_tool(tool)
+        .ok_or_else(|| format!("no evidence rows are listed for `{tool}`"))?
+        .apply_json(json)
+}
+
+/// `csv` labelled for `tool`.
+pub fn label_csv(tool: &str, csv: &str) -> Result<String, String> {
+    Ok(EvidenceLabel::for_tool(tool)
+        .ok_or_else(|| format!("no evidence rows are listed for `{tool}`"))?
+        .apply_csv(csv))
+}
+
 /// The matrix's status of the row with this requirement text, for a label check.
 pub fn matrix_status(requirement: &str) -> Option<VerificationStatus> {
     verification_matrix()

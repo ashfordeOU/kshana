@@ -274,13 +274,135 @@ fn a_label_can_be_removed_leaving_exactly_the_unlabelled_bytes() {
     assert!(!svg.contains("kshana-evidence") && !svg.contains("Evidence: "));
 }
 
-/// Every place the engine writes a chart or a table that is not a `run_toml` output, and why it carries no label.
-/// A new writer must be labelled or added here with its reason; the scan below fails otherwise.
-const UNLABELLED_WRITERS: &[(&str, &str)] = &[];
+/// Source files that write figures or tables and label them: each must call into `kshana::evidence_label`.
+const LABELLED_WRITERS: &[&str] = &[
+    "src/api.rs",
+    "src/interference_map/cli.rs",
+    "src/jammertest/cli.rs",
+    "src/iq/cli/acquire.rs",
+    "src/iq/cli/monitor.rs",
+    "src/iq/cli/sweep.rs",
+    "src/iq/cli/track.rs",
+];
+
+/// Every other source file that writes a file, and why what it writes carries no evidence label. A new writer must be
+/// labelled (and moved to the list above) or added here with its reason; the scan below fails otherwise, and fails on a
+/// stale entry.
+const UNLABELLED_WRITERS: &[(&str, &str)] = &[
+    ("src/altpnt/terrain.rs", "writes only in a unit test (a temporary grid)"),
+    ("src/lunar_service.rs", "writes only in a unit test (a temporary ephemeris)"),
+    ("src/time_transfer_budget.rs", "writes only in a unit test (a temporary clock CSV)"),
+    ("src/iq/signals/galileo.rs", "writes only in a unit test (a temporary code table)"),
+    ("src/python.rs", "writes the CSV a labelled `run` already carries (RunOutput::csv)"),
+    ("src/bin/crossover_study.rs", "a generator of a committed study document, not the output of a run"),
+    ("src/bin/gen_araim_m3_study.rs", "a generator of a committed study document, not the output of a run"),
+    ("src/bin/gen_calibration_ensembles.rs", "a generator of a committed data table, not the output of a run"),
+    ("src/bin/gen_validation_artifacts.rs", "generates the ledger itself (docs/VERIFICATION-MATRIX.md and its siblings)"),
+    ("src/bin/validation_report.rs", "writes the validation summary, which is built from the ledger"),
+    ("src/main.rs", "run outputs are labelled by api::run_toml and receiver_trust::run_scenario before main writes them; what main writes besides is a study aggregate (its member documents are labelled) or a format-bound export read by third-party tools (SP3, OMM, OEM, CZML, KML, GeoJSON, STK, SigMF, the test-bench motion and NMEA files)"),
+    ("src/bench/cli.rs", "kshana-bench result files have a fixed schema pinned by the holdout commitments and the baselines; each carries its own `label` (MODELLED or measured) and names the truth it scores against"),
+    ("src/evidence/cli.rs", "signed evidence packs: a label inside would change signed, hash-chained bytes that the verification procedure and pinned packs cover (ledger row VM-a66b5cd1); the pack's scorecard is labelled where the command prints it"),
+    ("src/interference_map/observatory.rs", "the observatory's daily products (GeoJSON, PNG, incident JSON) have a frozen published schema and are produced by the observatory method note (docs/observatory/METHOD.md), whose own caveats travel with them"),
+    ("src/iq/campaign/conditions.rs", "writes the lab-conditions file a campaign is replayed under, an input"),
+    ("src/iq/campaign/report.rs", "campaign cell, scorecard and report files are digest-pinned (tests/iq_campaign.rs) and each states the campaign scorecard it restates"),
+    ("src/iq/campaign/runner.rs", "campaign cell files are digest-pinned (tests/iq_campaign.rs)"),
+    ("src/iq/cli/campaign.rs", "writes the campaign manifest, an input to the runner"),
+    ("src/iq/cli/labfit.rs", "writes the fitted receiver-trust parameters, an input to later runs"),
+    ("src/iq/cli/scene.rs", "writes IQ scene truth and SigMF/SDR metadata beside the samples: format-bound files read by other tools"),
+    ("src/iq/io/cli.rs", "writes converted sample files and SigMF metadata: format-bound"),
+    ("src/iq/io/inventory.rs", "writes a file inventory of recordings, a catalogue of inputs"),
+    ("src/iq/io/sigmf_stream.rs", "writes SigMF sample and metadata files: format-bound"),
+    ("src/iq/io/stream.rs", "writes the sample stream of a recording: format-bound"),
+    ("src/live_io.rs", "writes the append-only session log of a live receiver feed (a stream of records, each labelled by its schema)"),
+    ("src/nmea_synth/cli.rs", "writes the NMEA training stream and its truth log, which simulators and receivers read as plain NMEA"),
+    ("src/realtime_frame_eop.rs", "writes the run's CSV, already labelled when it came from api::run_toml (RunOutput::write_csv)"),
+];
+
+fn source_files(dir: &Path, out: &mut Vec<String>) {
+    for e in std::fs::read_dir(dir).unwrap().flatten() {
+        let p = e.path();
+        if p.is_dir() {
+            source_files(&p, out);
+        } else if p.extension().is_some_and(|x| x == "rs") {
+            out.push(
+                p.strip_prefix(root())
+                    .unwrap()
+                    .to_string_lossy()
+                    .replace('\\', "/"),
+            );
+        }
+    }
+}
 
 #[test]
-fn no_unlisted_writer_of_svg_or_csv_exists() {
-    // Phase 1 covers the `run` path; the other writers are inventoried in docs/design/evidence-labels-writers.md
-    // and enumerated here as they are labelled.
-    let _ = UNLABELLED_WRITERS;
+fn no_unlisted_writer_of_files_exists_and_every_labelled_writer_calls_the_labeller() {
+    let mut files = Vec::new();
+    source_files(&root().join("src"), &mut files);
+    files.sort();
+    let writes = |text: &str| {
+        text.contains("fs::write(")
+            || text.contains("write_atomic(")
+            || text.contains("File::create(")
+            || text.contains("OpenOptions")
+    };
+    let mut unlisted = Vec::new();
+    for f in &files {
+        let text = std::fs::read_to_string(root().join(f)).unwrap();
+        if !writes(&text) {
+            continue;
+        }
+        if LABELLED_WRITERS.contains(&f.as_str()) {
+            assert!(
+                text.contains("evidence_label"),
+                "{f} is listed as labelled but never calls evidence_label"
+            );
+        } else if !UNLABELLED_WRITERS.iter().any(|(n, _)| n == f) {
+            unlisted.push(f.clone());
+        }
+    }
+    assert!(
+        unlisted.is_empty(),
+        "these files write files and are neither labelled nor listed with a reason in UNLABELLED_WRITERS: {unlisted:?}"
+    );
+    // No stale entries: every listed file still exists and still writes.
+    for f in LABELLED_WRITERS
+        .iter()
+        .copied()
+        .chain(UNLABELLED_WRITERS.iter().map(|(n, _)| *n))
+    {
+        let text = std::fs::read_to_string(root().join(f))
+            .unwrap_or_else(|_| panic!("{f} is listed but does not exist"));
+        assert!(
+            writes(&text) || f == "src/api.rs",
+            "{f} is listed but no longer writes a file"
+        );
+    }
+    for (f, why) in UNLABELLED_WRITERS {
+        assert!(why.len() > 20, "{f}: give a real reason");
+    }
+}
+
+/// Every tool crosswalk id exists in the matrix, and every tool the labeller names resolves to a label.
+#[test]
+fn every_tool_row_id_exists_and_the_tool_labels_agree_with_the_matrix() {
+    let matrix = matrix_from_markdown();
+    let by_id: BTreeMap<&str, (&str, &str)> = matrix
+        .iter()
+        .map(|(req, (id, st))| (id.as_str(), (req.as_str(), st.as_str())))
+        .collect();
+    for (tool, ids) in kshana::evidence_label::TOOL_ROWS {
+        for id in *ids {
+            assert!(
+                by_id.contains_key(id),
+                "tool `{tool}` names row {id}, which is not in the matrix"
+            );
+        }
+        let label = kshana::evidence_label::EvidenceLabel::for_tool(tool).expect(tool);
+        let rows: Vec<(String, String, String)> = label
+            .rows
+            .iter()
+            .map(|r| (r.id.clone(), r.requirement.clone(), r.status.clone()))
+            .collect();
+        check_label(&format!("tool {tool}"), &label.tier, &rows, &matrix);
+    }
 }
