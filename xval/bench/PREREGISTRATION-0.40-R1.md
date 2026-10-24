@@ -1,6 +1,6 @@
-# Pre-registration (DRAFT, awaiting owner sign-off): task (b), detection on IQ with negatives from null recordings
+# Pre-registration: task (b), detection on IQ with negatives from null recordings
 
-**Status: DRAFT. Not committed as a registration until the owner signs it off. Nothing has been run for it.**
+**Status: SIGNED OFF by the owner on 24 Oct 2026 (below). Nothing has been run for it as of the sign-off commit.**
 
 These are new bars, **R3** and **R4**. They do not replace, change or reinterpret **R1** of
 `docs/design/DETECTION-ROC.md` (`cn0_drop` AUC >= 0.95 over 18 positive and 36 negative windows; measured 0.7855,
@@ -53,3 +53,9 @@ That the monitors detect interference in the field (no interference waveform is 
 satellites' own signals, as in PRO-31); that a pass repairs R1 (it stays NOT MET); that a null recording is a clean
 real recording; that the windowing handles detector memory in a continuous stream, which this design avoids rather
 than solves.
+
+## Owner sign-off
+
+24 Oct 2026, verbatim: "All three, A3/D3 exploratory".
+
+The bars above are fixed from this commit. No bar, seed, recipe or setting changes after a result is seen.
