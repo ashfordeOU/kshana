@@ -560,6 +560,8 @@ pub struct EventRow {
 /// One verification-matrix row the run used.
 #[derive(Clone, Debug, Serialize)]
 pub struct CapabilityRow {
+    /// The ledger row id the evidence label of this run's figures uses ([`crate::evidence_label::row_id`]).
+    pub id: String,
     /// The matrix row's `requirement` text, the key [`KIND_CAPABILITIES`] maps kinds to.
     pub requirement: String,
     /// The capability the matrix row describes.
@@ -1651,6 +1653,7 @@ fn build_capabilities(
             let it = &matrix[i];
             let partner = it.status == VerificationStatus::PartnerOwned;
             CapabilityRow {
+                id: crate::evidence_label::row_id(it.requirement),
                 requirement: it.requirement.to_string(),
                 capability: it.capability.to_string(),
                 label: status_tag(it.status).to_string(),
@@ -2482,6 +2485,38 @@ fn build_aggregation(kind: &str, doc: &Value) -> Option<Aggregation> {
 /// Build the report of one run. `src` is the scenario file's exact text (before any
 /// `--eop` injection), `out` the run's output, `inv` how it was invoked. Pure: the same
 /// three inputs always give the same report.
+/// The verification-matrix requirements the run of `src` that produced `json` exercised, in matrix order, with their
+/// status: the rows of the report's capabilities section ([`build_capabilities`]), so the evidence label a figure
+/// carries and the report's own table cannot disagree. `json` is the result document.
+pub fn exercised_requirements(
+    src: &str,
+    json: &str,
+) -> Result<Vec<(String, VerificationStatus)>, String> {
+    let doc: Value =
+        serde_json::from_str(json).map_err(|e| format!("the result document is not JSON: {e}"))?;
+    let scn = toml::from_str::<toml::Value>(src)
+        .map(|v| toml_to_json(&v))
+        .map_err(|e| format!("the scenario is not TOML: {e}"))?;
+    let kind = crate::api::ScenarioKind::classify(src)
+        .map(|k| k.as_str().to_string())
+        .map_err(|e| e.to_string())?;
+    let catalogue = crate::api::list_scenario_kinds();
+    let known: BTreeSet<&'static str> = catalogue.iter().map(|m| m.name).collect();
+    let matrix = verification_matrix();
+    let members = member_kinds(&scn, &doc, &known);
+    let caps = build_capabilities(&kind, &members, &scn, &doc, &matrix);
+    Ok(caps
+        .rows
+        .iter()
+        .filter_map(|r| {
+            matrix
+                .iter()
+                .find(|m| m.requirement == r.requirement)
+                .map(|m| (m.requirement.to_string(), m.status))
+        })
+        .collect())
+}
+
 pub fn build(out: &crate::api::RunOutput, src: &str, inv: &Invocation) -> Result<Report, String> {
     let doc: Value = serde_json::from_str(&out.json)
         .map_err(|e| format!("the result document is not JSON: {e}"))?;
@@ -3402,8 +3437,9 @@ fn render_html(r: &Report, chart_svg: &str) -> String {
     h.push_str("<div class=\"wrap\"><table class=\"fixed\"><colgroup><col style=\"width:25%\"/><col style=\"width:13%\"/><col style=\"width:10%\"/><col style=\"width:28%\"/><col style=\"width:24%\"/></colgroup><thead><tr><th>Capability (matrix requirement)</th><th>Label</th><th>Used by</th><th>Source: oracle</th><th>Test evidence</th></tr></thead><tbody>");
     for c in &r.capabilities.rows {
         h.push_str(&format!(
-            "<tr><td><strong>{}</strong><br/><span class=\"note\">{}</span></td><td>{}<br/><span class=\"note\">{}</span></td><td>{}</td><td class=\"note\">{} <em>({})</em></td><td class=\"note\">{}</td></tr>",
+            "<tr><td><strong>{}</strong> <code>{}</code><br/><span class=\"note\">{}</span></td><td>{}<br/><span class=\"note\">{}</span></td><td>{}</td><td class=\"note\">{} <em>({})</em></td><td class=\"note\">{}</td></tr>",
             esc(&c.requirement),
+            esc(&c.id),
             esc(&c.capability),
             tag(&c.label),
             esc(&c.role),

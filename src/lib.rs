@@ -137,6 +137,7 @@ pub mod ephem_provider;
 pub mod ephemeris;
 pub mod estimator;
 pub mod eval_stats;
+pub mod evidence_label;
 mod fes2004_data;
 pub mod field_schema;
 pub mod filter_health;

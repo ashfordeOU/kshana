@@ -77,7 +77,9 @@ fn every_named_row_exists_and_no_tier_is_written() {
 
 /// One kind's checks; `Err` names the first failure.
 fn check_kind(k: &str, src: &str) -> Result<(), String> {
-    let tiered = run_toml(src).map_err(|e| format!("{k}: {e}"))?;
+    // The evidence label is additive and pinned on its own (tests/evidence_labels_doc_sync.rs).
+    let tiered =
+        kshana::api::without_evidence_labels(run_toml(src).map_err(|e| format!("{k}: {e}"))?);
     let plain = run_toml_untiered(src).map_err(|e| format!("{k}: {e}"))?;
     let stripped = without_figure_tiers(&tiered.json);
     let excluded = FROZEN_PREDICTION_KINDS.contains(&k)
