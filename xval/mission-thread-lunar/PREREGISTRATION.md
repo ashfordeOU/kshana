@@ -110,3 +110,42 @@ area-to-mass value for either spacecraft is registered here.
 Everything else in section A applies unchanged: reachability, window choice by rule, "not run" when a source or the
 field table is missing, the result recording URLs, hashes and commit, and the statement that A1 and A2 test the shared
 propagator only. A miss is published and the row stays MODELLED.
+
+---
+
+# Amendment 2 (2026-10-24): fetch spans and a usable maneuver test for A1 and A2; still before any fetch
+
+Made before any oracle data was fetched or inspected, and before any propagation was run against it. It changes
+no bar. It fixes two things the original text left open or got wrong.
+
+## What was open: the fetch spans
+
+Rule 2 of section A picks the window "from the first day available in the fetched span" without saying what the
+span is, which would leave the span to be chosen after the fact. They are fixed here.
+
+| Id | Target and reference | Request (fixed now) |
+|---|---|---|
+| A1 | JPL Horizons, spacecraft LRO (NAIF id -85), centre Moon (`500@301`), ICRF, kilometres and seconds, state vectors, TDB | 2025-01-01 00:00 to 2025-01-02 00:00 UTC, step 10 minutes (145 states) |
+| A2 | JPL Horizons, spacecraft CAPSTONE (NAIF id -1176), centre Moon (`500@301`), ICRF, kilometres and seconds, state vectors, TDB | 2023-01-01 00:00 to 2023-03-31 00:00 UTC, step 1 hour (2161 states) |
+
+If Horizons does not carry a target over its span, or the response is not parseable state vectors, the row is
+"not run" (rule 1). No other span or target is tried afterwards.
+
+## What was wrong: the maneuver test of A2
+
+Rule 3 judged a window maneuver-free by a jump in osculating energy above 1e-6 of its mean. In a near
+rectilinear halo orbit the Earth's tide moves the osculating energy by about a percent per hour near apolune, so
+that test would flag every sample and make A2 "not run" whatever the spacecraft did. It is replaced.
+
+**Replacement rule (dynamical consistency).** For every pair of consecutive reference samples one hour apart,
+the crate's force model (the A2 model of section A, as amended) propagates the earlier reference state across the
+hour and the result is compared with the later reference state. The hour is a **maneuver hour** if the position
+difference exceeds **100 m**, which a velocity change of about 28 mm/s produces over an hour and which the model
+error of an hour-long arc is far below (an acceleration error of 1e-8 m/s^2 gives 0.07 m). The window is the first
+run of consecutive hours with no maneuver hour that is at least one revolution long, one revolution being the
+osculating period of the first sample of the run, from the 9:2 resonant orbit's published value of about 6.5 days.
+If the run needed is not found in the fetched span, A2 is "not run". The test uses the propagator under test only
+to choose the window, and the bar is applied to the propagation from the window's first sample; this is stated in
+the result.
+
+Nothing else in section A or in Amendment 1 changes. A miss is published and the row stays MODELLED.
