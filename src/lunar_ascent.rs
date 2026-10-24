@@ -25,6 +25,10 @@
 //! all three axes. The nominal exit state is a stand-in at the site's local vertical at the insertion
 //! altitude; only its covariance is the result. Advisory software, not certified navigation equipment.
 
+// Small dense-matrix and per-axis loops read as the maths they implement when indexed; iterator chains would
+// hide which index is which.
+#![allow(clippy::needless_range_loop)]
+
 use crate::lunar::{
     mci_to_mcmf, selenographic_to_mcmf, Selenographic, LUNAR_SIGMA_URE_M, MOON_GM_M3_S2, R_MOON_M,
 };

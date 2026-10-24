@@ -43,6 +43,10 @@
 //! and the report shows how large that gap is. The lunar field is built-in low degree (central term, J2, C22)
 //! unless a PDS SHADR table is named. Advisory software, not certified navigation equipment.
 
+// Small dense-matrix and per-axis loops read as the maths they implement when indexed; iterator chains would
+// hide which index is which.
+#![allow(clippy::needless_range_loop)]
+
 use crate::cw_dynamics;
 use crate::gravity_sh::SphericalHarmonicField;
 use crate::lunar::{LUNAR_SIGMA_URE_M, MOON_GM_M3_S2, R_MOON_M};
@@ -582,7 +586,7 @@ fn normal_equations(
                     );
                     let rho = norm(d);
                     let u = scl(d, 1.0 / rho);
-                    let mut h = vec![0.0; NP];
+                    let mut h = [0.0; NP];
                     for j in 0..6 {
                         h[j] = (0..3).map(|i| u[i] * pass.pc[k].at(i, j)).sum();
                         h[6 + j] = -(0..3).map(|i| u[i] * pass.pt[k].at(i, j)).sum::<f64>();
@@ -672,7 +676,7 @@ impl LunarRendezvousScenario {
             return Err("n_relays must be in 4..=24".into());
         }
         let int_s = self.integration_s.unwrap_or(1.0);
-        if !(int_s > 0.0) {
+        if int_s.is_nan() || int_s <= 0.0 {
             return Err("integration_s must be positive".into());
         }
         let cn0 = self.afs_cn0_dbhz.unwrap_or(35.0);

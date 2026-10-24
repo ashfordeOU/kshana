@@ -284,7 +284,10 @@ impl LunarSurfaceMapScenario {
         };
         let window_days = self.window_days.unwrap_or(27.3217);
         let step_min = self.step_min.unwrap_or(30.0);
-        if !(window_days > 0.0 && window_days <= 400.0 && step_min >= 1.0 && step_min <= 720.0) {
+        if !(window_days > 0.0
+            && (0.0..=400.0).contains(&window_days)
+            && (1.0..=720.0).contains(&step_min))
+        {
             return Err("window_days must be in (0, 400] and step_min in [1, 720]".into());
         }
         let mut svc = LunarServiceScenario::default();
