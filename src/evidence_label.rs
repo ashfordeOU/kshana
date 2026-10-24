@@ -11,9 +11,11 @@
 //! leans on one modelled row is labelled MODELLED however many validated rows sit beside it. The label can therefore
 //! never claim more than its weakest row; it states what the ledger says, it upgrades nothing.
 //!
-//! **Row id.** `VM-` and the first eight hexadecimal digits of the SHA-256 of the row's `requirement` text. The matrix
-//! has no id column (adding one would move the generated matrix, the README counts and the web data); the requirement
-//! text is already unique, and the test `evidence_labels_doc_sync` recomputes every id from `docs/VERIFICATION-MATRIX.md`.
+//! **Row id.** Each matrix row has a stable, explicit `id` ([`crate::verification::VerificationItem::id`], rendered as the
+//! `ID` column of `docs/VERIFICATION-MATRIX.md`): `VM-` and eight hex digits, seeded once from the SHA-256 of the
+//! requirement text as it stood in 0.40 ([`seed_id`]) and never recomputed, so rewording a requirement keeps its id. The
+//! test `evidence_labels_doc_sync` reads ids and statuses from the markdown ledger independently, and
+//! `tests/fixtures/evidence_ids.txt` freezes every id ever issued.
 //!
 //! **Placement.** JSON: a top-level `evidence` key, inserted before the trailing `figure_tiers` block when there is one
 //! (so that block stays the last key) and appended otherwise; [`strip_json`] removes it, byte for byte. SVG: a
@@ -61,10 +63,19 @@ pub struct EvidenceLabel {
     pub rows: Vec<EvidenceRow>,
 }
 
-/// The id of the matrix row whose requirement text is `requirement`.
-pub fn row_id(requirement: &str) -> String {
+/// The seed of a row id: `VM-` and the first eight hex digits of the SHA-256 of the requirement text. Used once, to issue
+/// the ids in `src/verification.rs`; a row's id is its `id` field, not this function of its current wording.
+pub fn seed_id(requirement: &str) -> String {
     let h = Sha256::digest(requirement.as_bytes());
     format!("VM-{}", hex::encode(&h[..4]))
+}
+
+/// The stable id of the matrix row whose requirement text is `requirement`.
+pub fn row_id(requirement: &str) -> Option<&'static str> {
+    verification_matrix()
+        .into_iter()
+        .find(|r| r.requirement == requirement)
+        .map(|r| r.id)
 }
 
 fn rank(status: &str) -> u8 {
@@ -81,10 +92,17 @@ impl EvidenceLabel {
         if rows.is_empty() {
             return None;
         }
+        let matrix = verification_matrix();
         let rows: Vec<EvidenceRow> = rows
             .iter()
             .map(|(req, st)| EvidenceRow {
-                id: row_id(req),
+                // A requirement the matrix does not hold has no id; the id field then says so, and the doc-sync test
+                // fails on it (the report only ever passes matrix rows).
+                id: matrix
+                    .iter()
+                    .find(|m| &m.requirement == req)
+                    .map_or("VM-unknown", |m| m.id)
+                    .to_string(),
                 requirement: req.clone(),
                 status: st.tag().to_string(),
             })
@@ -438,11 +456,14 @@ mod tests {
     }
 
     #[test]
-    fn a_row_id_is_computed_from_the_requirement_text() {
-        let id = row_id("Alpha");
+    fn a_seed_id_is_computed_from_the_requirement_text_and_a_row_id_is_the_matrix_field() {
+        let id = seed_id("Alpha");
         assert!(id.starts_with("VM-") && id.len() == 11);
-        assert_eq!(id, row_id("Alpha"));
-        assert_ne!(id, row_id("Alpha "));
+        assert_eq!(id, seed_id("Alpha"));
+        assert_ne!(id, seed_id("Alpha "));
+        let first = verification_matrix().into_iter().next().unwrap();
+        assert_eq!(row_id(first.requirement), Some(first.id));
+        assert_eq!(row_id("not a row"), None);
     }
 
     #[test]
