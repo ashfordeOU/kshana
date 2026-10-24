@@ -129,10 +129,7 @@ fn the_pseudo_locale_accents_brackets_pads_and_keeps_the_arguments() {
     assert!(s.starts_with('['), "{s}");
     assert!(s.ends_with(']'), "{s}");
     assert!(s.contains("4.00"), "the argument is not accented: {s}");
-    assert!(
-        s.contains("RÍNEX") || s.contains("RINEX") && s.contains("clóck"),
-        "{s}"
-    );
+    assert!(s.contains("RÍÑÉX") && s.contains("çlóçk"), "{s}");
     assert!(s.contains('~'), "padded: {s}");
     let en = tr_in(
         &Lang::english(),
