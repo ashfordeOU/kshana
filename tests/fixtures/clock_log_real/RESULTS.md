@@ -38,3 +38,25 @@ instead of stopping at the first (the first attempt stopped at B1's first miss).
 
 Each fix is a separate commit after this record; the comparison is then re-run unchanged and the table
 below is extended, never rewritten.
+
+### Run 3: the reader after the fixes (ab4ebfd0), bars unchanged
+
+| bar | result | numbers |
+|---|---|---|
+| B1 phase, 1e-14 s | **met, 11 of 11 cases** | the largest phase difference is 0 s in every case (bit-identical), including the TICC logs 3.5 days after power-up and the 11-decimal log |
+| B2 estimators | **met except one pair** | largest relative difference: D1 `TL-P` 8.8e-16, D1 `TL-F` 1.4e-15, D1 `TICC-0` and `TICC-3` 1.6e-15, D1 `TICC-11` 1.7e-15, D2 `TL-P` 9.7e-15, D2 `TICC-0` and `TICC-3` 1.7e-14, D3 (G01) 2.8e-11, D4 (ABMF) 1.4e-12. **NOT MET:** MTIE of D2 `TL-F` against allantools (16 values, 1.7e-5 at 1 s to 6.8e-2 at 32 768 s); its ADEV and TDEV are met. |
+| B3 malformed input | **met, 24 of 24** | |
+| B4 versions | **met** | 2.00 and 3.00 to 3.04 read; 1.00, 3.05, 4.00, 4.02 and 5.00 refused, naming the version and 3.04 |
+| B5 no change elsewhere | **met, with one recorded change** | 3 591 library tests, `prediction_frozen`, `field_units_global`, `source_guards`, `gnss_denied_clock_holdover_reference`, `cti_holdover_coverage_reference` pass. `tests/clock_log_allantools.rs` failed on the TICC log, because its reference reader shared the engine's float rounding; its reference was regenerated with an exact reader (addendum in `tests/fixtures/clock_log/RESULTS.md`), bars and test unchanged. |
+
+The one pair not met is **pinned** by `b2_adev_tdev_and_mtie_agree_with_allantools` (sixteen values, their
+range) and is not a defect of the engine: allantools 2024.6 `frequency2phase` removes the mean frequency
+before it integrates, which leaves ADEV and TDEV unchanged and moves MTIE. The like-for-like comparison,
+the engine's MTIE against allantools' phase-mode MTIE of the plain integral (`mtie_of_plain_integral` in
+`reference.json`, added to the generator after run 1 as a diagnostic, not a substitute for the bar), agrees
+within 1e-10 at every window; the test asserts it.
+
+Verdict, by the rule in the pre-registration: the ledger row for the clock-log formats stays **MODELLED**.
+Everything above is on measured clocks (D1, D2 caesium and a standards-laboratory series, D3 and D4 IGS
+clocks), but the TICC logs are re-encoded, the reference reader has the same author, and allantools checks the
+estimators, which are validated elsewhere.
