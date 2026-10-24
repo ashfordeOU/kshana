@@ -1741,7 +1741,40 @@ pub fn run_toml(src: &str) -> Result<RunOutput, String> {
     let mut out = run_toml_inner(src, true)?;
     let hash = extract_scenario_hash(&out.json).unwrap_or_else(|| src_fingerprint(src));
     out.svg = with_provenance(out.svg, &hash);
+    label_evidence(&mut out, src)?;
     Ok(out)
+}
+
+/// `json` without the evidence label ([`crate::evidence_label`]); unchanged if it carries none. The golden harnesses
+/// use it (with [`without_evidence_labels`]) to hash the document exactly as it was before the label existed, which
+/// proves the label additive.
+pub fn without_evidence(json: &str) -> String {
+    crate::evidence_label::strip_json(json).unwrap_or_else(|| json.to_string())
+}
+
+/// `out` with the evidence label removed from its JSON, SVG and CSV, byte for byte as the run produced them before
+/// the label existed; an output without a label is unchanged.
+pub fn without_evidence_labels(mut out: RunOutput) -> RunOutput {
+    out.json = without_evidence(&out.json);
+    if let Some(svg) = crate::evidence_label::strip_svg(&out.svg) {
+        out.svg = svg;
+    }
+    out.csv = out
+        .csv
+        .map(|c| crate::evidence_label::strip_csv(&c).unwrap_or(c));
+    out
+}
+
+/// Put the run's evidence label ([`crate::evidence_label`]) on its JSON, SVG and CSV: the weakest tier of the
+/// verification-matrix rows the run exercised, and their ids, computed from the matrix, not typed.
+fn label_evidence(out: &mut RunOutput, src: &str) -> Result<(), String> {
+    let label = crate::evidence_label::EvidenceLabel::for_run(src, &out.json)?;
+    out.json = label.apply_json(&out.json)?;
+    out.svg = label.apply_svg(std::mem::take(&mut out.svg));
+    if let Some(csv) = &out.csv {
+        out.csv = Some(label.apply_csv(csv));
+    }
+    Ok(())
 }
 
 /// [`run_toml`] without the per-kind `figure_tiers` block that [`run_toml_inner`]
@@ -2311,7 +2344,9 @@ mod tests {
         assert!(v["units"]["denial_contour.cn0_nominal.stdev_dbhz"]["provenance"].is_string());
         // The table is also published as a CSV artifact, one row per link.
         let csv = out.csv.as_ref().expect("a CSV table artifact");
-        assert_eq!(csv.lines().count(), links.len() + 1);
+        // Two evidence comment lines, the header and one row per link.
+        assert_eq!(csv.lines().count(), links.len() + 1 + 2);
+        assert!(csv.starts_with("# evidence:"));
         assert!(out.svg.starts_with("<svg"));
         assert!(out.summary.contains("lunar-jamming"));
         assert!(out.json.contains("MODELLED"));
@@ -2606,7 +2641,10 @@ mod tests {
     #[test]
     fn figure_tiers_is_purely_additive_for_every_kind_that_emits_it() {
         fn same(label: &str, new_doc: &str, old_doc: &str) {
-            let stripped = without_figure_tiers(new_doc)
+            // The evidence label sits before `figure_tiers`; remove it first (it is pinned on its own).
+            let unlabelled = crate::evidence_label::strip_json(new_doc)
+                .unwrap_or_else(|| panic!("{label}: no evidence label"));
+            let stripped = without_figure_tiers(&unlabelled)
                 .unwrap_or_else(|| panic!("{label}: no trailing figure_tiers block"));
             assert_eq!(
                 stripped, old_doc,

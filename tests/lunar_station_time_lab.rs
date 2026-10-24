@@ -28,6 +28,7 @@ fn run(src: &str) -> Value {
 /// own figures too: additivity is about the scenario document, the block is pinned apart.
 fn run_untiered(src: &str) -> Value {
     let json = run_toml(src).expect("runs").json;
+    let json = kshana::api::without_evidence(&json);
     let json = kshana::api::without_figure_tiers(&json).unwrap_or(json);
     serde_json::from_str(&json).expect("json")
 }
