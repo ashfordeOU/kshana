@@ -535,7 +535,11 @@ fn b3_malformed_input_is_an_error_that_names_its_cause() {
 fn b3_a_binary_ticc_log_is_refused_not_misread() {
     // E24: binary timestamp mode is not UTF-8 text. The path reader reports it; there is no
     // text to give inline, so this goes through a file.
-    let p = std::env::temp_dir().join(format!("kshana-ticc-bin-{}.log", std::process::id()));
+    // Per-call unique, as tests/source_guards.rs requires: the sequence, not the pid, separates
+    // threads of this one process.
+    static SEQ: std::sync::atomic::AtomicU64 = std::sync::atomic::AtomicU64::new(0);
+    let seq = SEQ.fetch_add(1, std::sync::atomic::Ordering::Relaxed);
+    let p = std::env::temp_dir().join(format!("kshana-ticc-bin-{}-{seq}.log", std::process::id()));
     std::fs::write(
         &p,
         [
