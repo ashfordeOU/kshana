@@ -11,11 +11,11 @@
 //! A phase here is a thin wrapper: the kind's `[phase.model]` table is the standalone scenario's own table,
 //! the core runs on the entry [`NavState`] and returns the exit state, and the wrapper turns the result into a
 //! [`PhaseOutcome`]. The core never converts a frame or a timescale (the thread does, at the handover) and
-//! never resets a covariance. A phase's length is its model's own (`arc_s`, `descent_s`, `stay_days`,
-//! `ascent_s`); the thread's `duration_s` is not passed in, so a document states the length once, in the
-//! model, and the exit state's mission time is the entry's plus it. The seed is derived from the thread's
-//! seed and the kind, so a phase run on its own with the thread's seed returns the numbers it returns inside
-//! the thread. Everything is MODELLED; none of it rests on an external oracle.
+//! never resets a covariance. A phase's length is the thread's `duration_s`: a model that also states its own
+//! length key (`arc_s`, `descent_s`, `stay_days`, `ascent_s`) must agree with it or the phase refuses, and a
+//! model that leaves the key out takes the thread's. The seed is the thread's id-keyed phase seed
+//! ([`PhaseCtx::seed`]), so a phase run on its own under the same id and thread seed returns the numbers it
+//! returns inside the thread. Everything is MODELLED; none of it rests on an external oracle.
 //!
 //! Advisory software, not certified navigation equipment.
 
@@ -28,7 +28,7 @@ use crate::mission_thread::budget::{BudgetRow, PhaseBudget};
 use crate::mission_thread::phase::{
     Event, EvidenceLabel, NavSource, NavState, PhaseOutcome, Sample, TimeSource,
 };
-use crate::mission_thread::{MissionPhase, ThreadCtx};
+use crate::mission_thread::{MissionPhase, PhaseCtx, ThreadCtx};
 use serde_json::Value;
 
 /// The keys each phase kind's model table may hold: the standalone scenario's own fields. A misspelt key is
@@ -270,8 +270,18 @@ impl MissionPhase for OrbitRendezvousPhase {
         RENDEZVOUS
     }
 
-    fn run(&self, entry: &NavState, ctx: &ThreadCtx) -> Result<PhaseOutcome, String> {
-        let out = self.0.run_phase(entry, ctx)?;
+    fn run(
+        &self,
+        entry: &NavState,
+        ctx: &ThreadCtx,
+        phase: &PhaseCtx,
+    ) -> Result<PhaseOutcome, String> {
+        let mut sc = self.0.clone();
+        match sc.arc_s {
+            Some(own) => phase.require_duration("arc_s", own)?,
+            None => sc.arc_s = Some(phase.duration_s),
+        }
+        let out = sc.run_phase_seeded(entry, ctx, phase.seed)?;
         let r = &out.report;
         let mut events = vec![ev(
             entry.t_s,
@@ -332,8 +342,18 @@ impl MissionPhase for DescentPhase {
         DESCENT
     }
 
-    fn run(&self, entry: &NavState, ctx: &ThreadCtx) -> Result<PhaseOutcome, String> {
-        let out = self.0.run_phase(entry, ctx)?;
+    fn run(
+        &self,
+        entry: &NavState,
+        ctx: &ThreadCtx,
+        phase: &PhaseCtx,
+    ) -> Result<PhaseOutcome, String> {
+        let mut sc = self.0.clone();
+        match sc.descent_s {
+            Some(own) => phase.require_duration("descent_s", own)?,
+            None => sc.descent_s = Some(phase.duration_s),
+        }
+        let out = sc.run_phase_seeded(entry, ctx, phase.seed)?;
         let r = &out.report;
         let mut events = vec![ev(entry.t_s, "powered descent starts")];
         if let Some(n) = r["aids"]["afs"]["fixes_used"].as_u64().filter(|&n| n > 0) {
@@ -395,8 +415,18 @@ impl MissionPhase for SurfacePhase {
         SURFACE
     }
 
-    fn run(&self, entry: &NavState, ctx: &ThreadCtx) -> Result<PhaseOutcome, String> {
-        let out = self.0.run_phase(entry, ctx)?;
+    fn run(
+        &self,
+        entry: &NavState,
+        ctx: &ThreadCtx,
+        phase: &PhaseCtx,
+    ) -> Result<PhaseOutcome, String> {
+        let mut sc = self.0.clone();
+        match sc.stay_days {
+            Some(own) => phase.require_duration("stay_days", own * 86_400.0)?,
+            None => sc.stay_days = Some(phase.duration_s / 86_400.0),
+        }
+        let out = sc.run_phase(entry, ctx)?;
         let r = &out.report;
         let cells = r["cells"].as_array().cloned().unwrap_or_default();
         let min_of = |k: &str| {
@@ -487,8 +517,18 @@ impl MissionPhase for AscentPhase {
         ASCENT
     }
 
-    fn run(&self, entry: &NavState, ctx: &ThreadCtx) -> Result<PhaseOutcome, String> {
-        let out = self.0.run_phase(entry, ctx)?;
+    fn run(
+        &self,
+        entry: &NavState,
+        ctx: &ThreadCtx,
+        phase: &PhaseCtx,
+    ) -> Result<PhaseOutcome, String> {
+        let mut sc = self.0.clone();
+        match sc.ascent_s {
+            Some(own) => phase.require_duration("ascent_s", own)?,
+            None => sc.ascent_s = Some(phase.duration_s),
+        }
+        let out = sc.run_phase(entry, ctx)?;
         let r = &out.report;
         let mut events = vec![ev(entry.t_s, "liftoff")];
         if let Some(n) = r["aids"]["afs"]["fixes_used"].as_u64().filter(|&n| n > 0) {
@@ -531,7 +571,7 @@ mod tests {
     use super::*;
     use crate::lunar_phase::{default_ctx, default_entry};
     use crate::mission_thread::phase::LabelTier;
-    use crate::mission_thread::phase_kind;
+    use crate::mission_thread::{phase_kind, run_phase};
 
     fn table(s: &str) -> toml::Table {
         s.parse::<toml::Table>().unwrap()
@@ -545,6 +585,28 @@ mod tests {
             SURFACE => table("window_days = 3.0\nstep_min = 60.0\nseason_dates = [\"2028-01-01\"]"),
             _ => table(""),
         }
+    }
+
+    /// The phase length the thread passes for each kind in these tests (the models either match it or leave
+    /// their own key out).
+    fn duration(kind: &str) -> f64 {
+        match kind {
+            RENDEZVOUS => 1800.0,
+            DESCENT => 600.0,
+            SURFACE => 3.0 * 86_400.0,
+            _ => 450.0,
+        }
+    }
+
+    /// Runs a kind through the thread's entry point under the given id.
+    fn go(kind: &str, id: &str, entry: &NavState, ctx: &ThreadCtx) -> Result<PhaseOutcome, String> {
+        let p = (phase_kind(kind).unwrap().ctor)(&quick(kind))?;
+        run_phase(
+            p.as_ref(),
+            entry,
+            ctx,
+            &ctx.phase_ctx(0, id, duration(kind)),
+        )
     }
 
     #[test]
@@ -567,17 +629,18 @@ mod tests {
     }
 
     /// Every phase runs from the default entry, hands on a valid exit state later in mission time, labels
-    /// itself MODELLED, names a limiting source and carries a budget in metres or seconds.
+    /// itself MODELLED, names a limiting source and carries a budget in metres or seconds, under the
+    /// document's id.
     #[test]
     fn every_phase_runs_and_returns_a_modelled_outcome() {
         for kind in [RENDEZVOUS, DESCENT, SURFACE, ASCENT] {
-            let p = (phase_kind(kind).unwrap().ctor)(&quick(kind)).unwrap();
             let entry = default_entry();
-            let o = p.run(&entry, &default_ctx()).unwrap();
+            let o = go(kind, "phase-x", &entry, &default_ctx()).unwrap();
             assert_eq!(o.label.tier, LabelTier::Modelled, "{kind}");
             assert!(crate::lunar_phase::cov_is_valid(&o.exit.p), "{kind}");
             assert!(o.exit.t_s > entry.t_s, "{kind}");
             assert_eq!(o.budget.kind, kind);
+            assert_eq!(o.budget.phase_id, "phase-x", "{kind}");
             assert!(
                 !o.budget.rows.is_empty() && !o.series.is_empty() && !o.events.is_empty(),
                 "{kind}"
@@ -590,15 +653,70 @@ mod tests {
         }
     }
 
-    /// A phase run on its own with the thread's seed returns what it returns inside the thread: the seed
-    /// does not depend on the position in the chain, and a second run is identical.
+    /// A phase run on its own returns what it returns inside the thread: the seed is the id-keyed one, so a
+    /// standalone run (the kind name as the id) equals the thread's run of a phase with that id, at any
+    /// position in the chain, and a second run is identical. Another id gets other noise.
     #[test]
-    fn a_phase_is_reproducible_for_the_same_entry_and_context() {
+    fn a_phase_is_reproducible_and_a_standalone_run_equals_the_thread_run_under_the_same_id() {
         for kind in [RENDEZVOUS, DESCENT] {
-            let p = (phase_kind(kind).unwrap().ctor)(&quick(kind)).unwrap();
-            let a = p.run(&default_entry(), &default_ctx()).unwrap();
-            let b = p.run(&default_entry(), &default_ctx()).unwrap();
-            assert_eq!(a, b, "{kind}");
+            let ctx = default_ctx();
+            let entry = default_entry();
+            let thread = go(kind, kind, &entry, &ctx).unwrap();
+            let again = go(kind, kind, &entry, &ctx).unwrap();
+            assert_eq!(thread, again, "{kind}");
+            // The standalone core with the kind's own seed gives the same exit covariance.
+            let standalone_p = match kind {
+                RENDEZVOUS => {
+                    let sc: LunarRendezvousScenario =
+                        toml::Value::Table(quick(kind)).try_into().unwrap();
+                    sc.run_phase(&entry, &ctx).unwrap().exit.p
+                }
+                _ => {
+                    let sc: LunarLandingScenario =
+                        toml::Value::Table(quick(kind)).try_into().unwrap();
+                    sc.run_phase(&entry, &ctx).unwrap().exit.p
+                }
+            };
+            assert_eq!(thread.exit.p, standalone_p, "{kind}");
+            let other = go(kind, "another-id", &entry, &ctx).unwrap();
+            assert_ne!(
+                thread.budget.rows, other.budget.rows,
+                "{kind} must get other noise under another id"
+            );
+        }
+    }
+
+    /// The model's own length key must agree with the thread's duration, or be left out and the thread's used.
+    #[test]
+    fn a_model_length_that_disagrees_with_the_thread_duration_is_refused() {
+        let ctx = default_ctx();
+        let entry = default_entry();
+        for (kind, key, own) in [
+            (RENDEZVOUS, "arc_s", "arc_s = 1800.0"),
+            (DESCENT, "descent_s", "descent_s = 600.0"),
+            (SURFACE, "stay_days", "stay_days = 3.0"),
+            (ASCENT, "ascent_s", "ascent_s = 450.0"),
+        ] {
+            let mut t = quick(kind);
+            let extra: toml::Table = own.parse().unwrap();
+            t.extend(extra);
+            let p = (phase_kind(kind).unwrap().ctor)(&t).unwrap();
+            // Agreeing: fine. Disagreeing: refused with the key named.
+            let ok = run_phase(
+                p.as_ref(),
+                &entry,
+                &ctx,
+                &ctx.phase_ctx(0, "x", duration(kind)),
+            );
+            assert!(ok.is_ok(), "{kind}: {:?}", ok.err());
+            let e = run_phase(
+                p.as_ref(),
+                &entry,
+                &ctx,
+                &ctx.phase_ctx(0, "x", duration(kind) * 2.0),
+            )
+            .unwrap_err();
+            assert!(e.contains(key), "{kind}: {e}");
         }
     }
 
@@ -606,12 +724,10 @@ mod tests {
     /// entered with (the phases use no clock measurement).
     #[test]
     fn a_descent_then_ascent_chain_hands_a_valid_state_on() {
-        let d = (phase_kind(DESCENT).unwrap().ctor)(&quick(DESCENT)).unwrap();
-        let a = (phase_kind(ASCENT).unwrap().ctor)(&quick(ASCENT)).unwrap();
         let ctx = default_ctx();
         let entry = default_entry();
-        let landed = d.run(&entry, &ctx).unwrap();
-        let up = a.run(&landed.exit, &ctx).unwrap();
+        let landed = go(DESCENT, "descent", &entry, &ctx).unwrap();
+        let up = go(ASCENT, "ascent", &landed.exit, &ctx).unwrap();
         assert!(up.exit.t_s > landed.exit.t_s);
         assert!(crate::lunar_phase::cov_is_valid(&up.exit.p));
         assert!(up.exit.clock.cov[0][0] >= landed.exit.clock.cov[0][0]);
@@ -621,15 +737,12 @@ mod tests {
     fn a_frame_or_timescale_the_phase_cannot_use_is_refused_with_the_reason() {
         let mut e = default_entry();
         e.frame = crate::lunar_phase::Frame::Gcrf;
-        let p = (phase_kind(DESCENT).unwrap().ctor)(&quick(DESCENT)).unwrap();
-        assert!(p
-            .run(&e, &default_ctx())
+        assert!(go(DESCENT, "d", &e, &default_ctx())
             .unwrap_err()
             .contains("converts frames"));
         let mut e = default_entry();
         e.clock.timescale = crate::lunar_phase::Timescale::Utc;
-        assert!(p
-            .run(&e, &default_ctx())
+        assert!(go(DESCENT, "d", &e, &default_ctx())
             .unwrap_err()
             .contains("converts timescales"));
     }
