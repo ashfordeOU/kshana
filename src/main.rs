@@ -30,6 +30,7 @@ const USAGE: &str = "usage: kshana <scenario.toml> [--study-name <s>] [--eop <fi
    or: kshana compliance-report [--out <base>] <result.json>... | --mapping | --sources
    or: kshana lunanet-afs-check <spec [--json] [--strict]|symbols <file> [--max-sp-errors <n>] [--json]|generate --frames <n> [--toi0 <t>] --out <file>>
    or: kshana standards-pack <list|run <id> [--json] [--out <base>]|rows <id>|tests <id>>
+   or: kshana partner check <submission.toml> [--json]
    or: kshana osnma verify <pages|vectors.csv|stream.ubx> [--merkle-root <hex>] [--public-key <id:type:hex>] [--reference-time <gst-s>] [--json] (kshana osnma --help)
    or: kshana iq <scene|acquire|track|sweep|labfit|campaign|conditions|frontend|monitor|inventory|info|extract|convert|decimate> ... (kshana iq --help)
    or: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
@@ -170,6 +171,11 @@ fn main() -> ExitCode {
     // `kshana bench ...` scores kshana-bench result files (bench/SPEC.md); local files only.
     if args.get(1).map(String::as_str) == Some("bench") {
         return ExitCode::from(kshana::bench::cli::run(&args[2..]) as u8);
+    }
+    // `kshana partner check <submission.toml>` checks a data-partner submission's format and
+    // metadata (docs/PARTNER-DATA.md). Terminal; it reads local files and scores nothing.
+    if args.get(1).map(String::as_str) == Some("partner") {
+        return kshana::partner::cli::run(&args[2..]);
     }
     // `kshana bench-export <scenario.toml>` writes a scenario's vehicle motion and events
     // for a laboratory GNSS simulator (docs/TEST-BENCH.md). Terminal, like the others.
