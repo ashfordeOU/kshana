@@ -1,63 +1,19 @@
 // SPDX-License-Identifier: AGPL-3.0-only
-//! Shared pieces of the lunar segment of the Artemis-class mission thread: the state a phase receives and
-//! hands on, and a small dense-matrix helper the phase filters use.
+//! Shared pieces of the lunar segment of the Artemis-class mission thread: helpers over the thread's carried
+//! state ([`NavState`]) and a small dense-matrix helper the phase estimators use.
 //!
-//! The lunar kinds (`lunar-rendezvous`, `lunar-landing-dispersion`, `lunar-surface-pnt-map`) each keep their
-//! core as a function of `(config, carried state)`, so a mission-thread phase calls the same code a standalone
-//! run does; a standalone run uses [`Carried::default_llo`].
+//! The lunar kinds (`lunar-orbit-rendezvous`, `lunar-descent`, `lunar-surface`, `lunar-ascent`) each keep their
+//! core as a function of `(config, entry state, thread context)`, so a mission-thread phase calls the same code
+//! a standalone run does; a standalone run builds [`default_entry`] and [`default_ctx`].
 //!
-//! [`Carried`] is the full 6x6 position-velocity covariance in a stated frame, the clock sigmas, a timescale
-//! tag and the upstream evidence label. The thread, not a phase, converts frames and timescales at a handover,
-//! and a handover that loses observability inflates the covariance by a stated rule and never resets it: a
-//! phase here only ever receives a covariance and returns the covariance it ends with.
+//! The thread, not a phase, converts frames and timescales at a handover, and a handover that loses
+//! observability inflates the covariance by a stated rule and never resets it: a phase here only ever receives
+//! a covariance and returns the covariance it ends with.
 //!
 //! Advisory software, not certified navigation equipment. MODELLED.
 
-use serde::{Deserialize, Serialize};
-
-/// The frame a carried covariance is expressed in.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
-#[serde(rename_all = "lowercase")]
-pub enum Frame {
-    /// Moon-centred inertial.
-    Mci,
-    /// Moon-centred, Moon-fixed.
-    Mcmf,
-}
-
-/// The timescale a carried clock sigma refers to.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
-#[serde(rename_all = "lowercase")]
-pub enum TimeScale {
-    /// Terrestrial Time.
-    Tt,
-    /// Barycentric Dynamical Time.
-    Tdb,
-    /// Lunar Coordinate Time.
-    Ltc,
-}
-
-/// 6x6 covariance, row-major, order `[x, y, z, vx, vy, vz]` in m and m/s.
-pub type Cov6 = [[f64; 6]; 6];
-
-/// What a phase receives from the one before it, and hands to the next.
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
-pub struct Carried {
-    /// Epoch of the covariance, Julian Date (TDB).
-    pub epoch_jd_tdb: f64,
-    /// Frame of `cov`.
-    pub frame: Frame,
-    /// Full 6x6 position-velocity covariance (m, m/s).
-    pub cov: Cov6,
-    /// Clock-bias 1-sigma (s) in `timescale`.
-    pub clock_bias_sigma_s: f64,
-    /// Clock-drift 1-sigma (s/s) in `timescale`.
-    pub clock_drift_sigma_s_per_s: f64,
-    /// Timescale of the clock sigmas.
-    pub timescale: TimeScale,
-    /// The upstream evidence label (`MODELLED` unless an earlier phase earned more).
-    pub evidence: String,
-}
+pub use crate::mission_thread::phase::{Cov6, Frame, NavState, Timescale};
+use crate::mission_thread::ThreadCtx;
 
 /// Diagonal 6x6 covariance from a position and a velocity 1-sigma.
 pub fn diag6(pos_sigma_m: f64, vel_sigma_m_s: f64) -> Cov6 {
@@ -72,32 +28,87 @@ pub fn diag6(pos_sigma_m: f64, vel_sigma_m_s: f64) -> Cov6 {
     c
 }
 
-impl Carried {
-    /// The state a standalone run starts from: a Moon-centred inertial covariance of 100 m and 0.1 m/s per axis
-    /// (an ILLUSTRATIVE low-lunar-orbit knowledge), epoch 2028-01-01 00:00 TDB, a 1 us clock in LTC.
-    pub fn default_llo() -> Self {
-        Self {
-            epoch_jd_tdb: 2_461_771.5,
-            frame: Frame::Mci,
-            cov: diag6(100.0, 0.1),
-            clock_bias_sigma_s: 1.0e-6,
-            clock_drift_sigma_s_per_s: 1.0e-11,
-            timescale: TimeScale::Ltc,
-            evidence: "MODELLED".to_string(),
-        }
-    }
+/// The entry a standalone run starts from: a Moon-centred inertial covariance of 100 m and 0.1 m/s per axis
+/// (an ILLUSTRATIVE low-lunar-orbit knowledge), a 1 us clock in LTC with a 1e-11 drift sigma, at mission time
+/// zero.
+pub fn default_entry() -> NavState {
+    NavState::diagonal(
+        0.0,
+        Frame::Mci,
+        [0.0; 6],
+        100.0,
+        0.1,
+        Timescale::Ltc,
+        1.0e-6,
+        1.0e-11,
+    )
+}
 
-    /// `true` if the covariance is symmetric to a relative `1e-9` and has a non-negative diagonal.
-    pub fn is_valid(&self) -> bool {
-        let scale = (0..6)
-            .map(|i| self.cov[i][i].abs())
-            .fold(0.0, f64::max)
-            .max(1e-300);
-        (0..6).all(|i| {
-            self.cov[i][i] >= 0.0
-                && (0..6).all(|j| (self.cov[i][j] - self.cov[j][i]).abs() <= 1e-9 * scale)
-        })
+/// The context a standalone run uses: the thread's default 2028-01-01 epoch and the default seed.
+pub fn default_ctx() -> ThreadCtx {
+    ThreadCtx::new("2028-01-01T00:00:00Z", 20_261_024)
+}
+
+/// `true` if the covariance is symmetric to a relative `1e-9` and has a non-negative diagonal.
+pub fn cov_is_valid(p: &Cov6) -> bool {
+    let scale = (0..6)
+        .map(|i| p[i][i].abs())
+        .fold(0.0, f64::max)
+        .max(1e-300);
+    (0..6).all(|i| p[i][i] >= 0.0 && (0..6).all(|j| (p[i][j] - p[j][i]).abs() <= 1e-9 * scale))
+}
+
+/// Julian Date of the thread's epoch plus `t_s` seconds of mission time. The epoch is read as UTC and used as the
+/// time argument of the lunar orientation and ephemeris series without the 69 s UTC to TDB offset, which moves
+/// the Moon by about 70 m along its track and nothing a phase here is sensitive to.
+pub fn epoch_jd(ctx: &ThreadCtx, t_s: f64) -> Result<f64, String> {
+    let s = ctx.epoch_utc.trim();
+    let (date, time) = match s.split_once('T') {
+        Some((d, t)) => (d, t.trim_end_matches('Z')),
+        None => (s.trim_end_matches('Z'), "00:00:00"),
+    };
+    let d: Vec<&str> = date.split('-').collect();
+    let t: Vec<&str> = time.split(':').collect();
+    if d.len() != 3 || t.len() != 3 {
+        return Err(format!("epoch `{s}` is not YYYY-MM-DDTHH:MM:SSZ"));
     }
+    let num = |x: &str| {
+        x.parse::<f64>()
+            .map_err(|_| format!("epoch `{s}`: bad number `{x}`"))
+    };
+    let (y, m, day) = (num(d[0])? as i64, num(d[1])? as i64, num(d[2])? as i64);
+    if !(1901..=2099).contains(&y) || !(1..=12).contains(&m) || !(1..=31).contains(&day) {
+        return Err(format!("epoch `{s}` is outside 1901-2099 or not a date"));
+    }
+    let jd0 = (367 * y - (7 * (y + (m + 9) / 12)) / 4 + (275 * m) / 9 + day) as f64 + 1_721_013.5;
+    let frac = (num(t[0])? * 3600.0 + num(t[1])? * 60.0 + num(t[2])?) / 86_400.0;
+    Ok(jd0 + frac + t_s / 86_400.0)
+}
+
+/// A seed for a phase kind from the thread's seed, so a phase run on its own with the thread's seed returns
+/// the numbers it returns inside the thread whatever its position in the chain.
+pub fn kind_seed(ctx: &ThreadCtx, kind: &str) -> u64 {
+    let mut h: u64 = 0xcbf2_9ce4_8422_2325;
+    for b in kind.bytes() {
+        h ^= u64::from(b);
+        h = h.wrapping_mul(0x0100_0000_01b3);
+    }
+    ctx.seed ^ h
+}
+
+/// The clock state carried across `dt` seconds with its covariance grown by the constant-drift model
+/// `P' = F P F'`, `F = [[1, dt], [0, 1]]`, and the bias moved by the drift. The phases here use no clock
+/// measurement, so the clock only ages.
+pub fn age_clock(
+    c: &crate::mission_thread::phase::ClockState,
+    dt: f64,
+) -> crate::mission_thread::phase::ClockState {
+    let mut o = *c;
+    o.bias_s += c.drift_s_per_s * dt;
+    o.cov[0][0] = c.cov[0][0] + 2.0 * dt * c.cov[0][1] + dt * dt * c.cov[1][1];
+    o.cov[0][1] = c.cov[0][1] + dt * c.cov[1][1];
+    o.cov[1][0] = o.cov[0][1];
+    o
 }
 
 /// A dense row-major matrix, small enough that clarity beats speed.
@@ -345,11 +356,45 @@ mod tests {
     use super::*;
 
     #[test]
-    fn default_carried_is_valid_and_modelled() {
-        let c = Carried::default_llo();
-        assert!(c.is_valid());
-        assert_eq!(c.evidence, "MODELLED");
+    fn default_entry_is_valid_and_modelled() {
+        let c = default_entry();
+        assert!(cov_is_valid(&c.p));
+        assert_eq!(
+            c.upstream.tier,
+            crate::mission_thread::phase::LabelTier::Modelled
+        );
         assert_eq!(c.frame, Frame::Mci);
+    }
+
+    #[test]
+    fn the_epoch_is_read_and_mission_time_added() {
+        let ctx = default_ctx();
+        assert_eq!(epoch_jd(&ctx, 0.0).unwrap(), 2_461_771.5);
+        assert!((epoch_jd(&ctx, 86_400.0).unwrap() - 2_461_772.5).abs() < 1e-12);
+        let noon = ThreadCtx::new("2028-01-01T12:00:00Z", 1);
+        assert_eq!(epoch_jd(&noon, 0.0).unwrap(), 2_461_772.0);
+        assert!(epoch_jd(&ThreadCtx::new("nope", 1), 0.0).is_err());
+    }
+
+    #[test]
+    fn the_seed_depends_on_the_kind_and_not_on_a_position() {
+        let a = default_ctx();
+        assert_eq!(
+            kind_seed(&a, "lunar-descent"),
+            kind_seed(&a, "lunar-descent")
+        );
+        assert_ne!(
+            kind_seed(&a, "lunar-descent"),
+            kind_seed(&a, "lunar-ascent")
+        );
+    }
+
+    #[test]
+    fn an_aging_clock_only_grows_its_covariance() {
+        let c = default_entry().clock;
+        let o = age_clock(&c, 3600.0);
+        assert!(o.cov[0][0] > c.cov[0][0]);
+        assert_eq!(o.cov[1][1], c.cov[1][1]);
     }
 
     #[test]

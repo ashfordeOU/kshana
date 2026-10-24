@@ -9,14 +9,14 @@
 # holdover a surface clock has to ride out. Every site's horizon is ray-marched
 # (src/lunar_terrain.rs) over the vendored LRO LOLA south-polar DEM crop, data/lunar-dem/ (public domain), at
 # 1200 m per pixel, from a 2 m mast; this scenario reads it from the repository, so it is not bundled in the
-# binary: run `kshana scenarios/lunar-surface-pnt-map-terrain.toml` from a checkout.
+# binary: run `kshana scenarios/lunar-surface-terrain.toml` from a checkout.
 #
 # HONESTY: MODELLED. The relay set is illustrative and Keplerian, with the Moon turning at the mean rate
 # for the relays (no libration) as in moonlight-service-volume; the Earth and Sun use the analytic
 # orientation, so the two frames differ by that omission. The relay positioning figure does not change
 # with the season in this model; the Earth and Sun figures do. No agreement with any real service or site
 # is claimed. Advisory software, not certified navigation equipment.
-kind = "lunar-surface-pnt-map"
+kind = "lunar-surface"
 
 season_dates = ["2028-01-01", "2028-04-01", "2028-07-01", "2028-09-30"]   # 91.3 days apart, ILLUSTRATIVE
 window_days = 27.3217     # one sidereal month
