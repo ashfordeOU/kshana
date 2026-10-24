@@ -560,7 +560,7 @@ pub struct EventRow {
 /// One verification-matrix row the run used.
 #[derive(Clone, Debug, Serialize)]
 pub struct CapabilityRow {
-    /// The ledger row id the evidence label of this run's figures uses ([`crate::evidence_label::row_id`]).
+    /// The stable ledger row id the evidence label of this run's figures uses ([`VerificationItem::id`]).
     pub id: String,
     /// The matrix row's `requirement` text, the key [`KIND_CAPABILITIES`] maps kinds to.
     pub requirement: String,
@@ -1653,7 +1653,7 @@ fn build_capabilities(
             let it = &matrix[i];
             let partner = it.status == VerificationStatus::PartnerOwned;
             CapabilityRow {
-                id: crate::evidence_label::row_id(it.requirement),
+                id: it.id.to_string(),
                 requirement: it.requirement.to_string(),
                 capability: it.capability.to_string(),
                 label: status_tag(it.status).to_string(),
