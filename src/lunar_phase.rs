@@ -85,15 +85,11 @@ pub fn epoch_jd(ctx: &ThreadCtx, t_s: f64) -> Result<f64, String> {
     Ok(jd0 + frac + t_s / 86_400.0)
 }
 
-/// A seed for a phase kind from the thread's seed, so a phase run on its own with the thread's seed returns
-/// the numbers it returns inside the thread whatever its position in the chain.
+/// The seed a standalone run of a kind uses: the thread's id-keyed seed ([`ThreadCtx::phase_seed`]) with the kind
+/// name as the id. Inside a thread the seed comes from the phase's own id; a phase whose id is its kind name
+/// returns the standalone numbers.
 pub fn kind_seed(ctx: &ThreadCtx, kind: &str) -> u64 {
-    let mut h: u64 = 0xcbf2_9ce4_8422_2325;
-    for b in kind.bytes() {
-        h ^= u64::from(b);
-        h = h.wrapping_mul(0x0100_0000_01b3);
-    }
-    ctx.seed ^ h
+    ctx.phase_seed(kind)
 }
 
 /// The clock state carried across `dt` seconds with its covariance grown by the constant-drift model
@@ -377,8 +373,12 @@ mod tests {
     }
 
     #[test]
-    fn the_seed_depends_on_the_kind_and_not_on_a_position() {
+    fn the_standalone_seed_is_the_id_keyed_seed_with_the_kind_as_the_id() {
         let a = default_ctx();
+        assert_eq!(
+            kind_seed(&a, "lunar-descent"),
+            a.phase_ctx(3, "lunar-descent", 1.0).seed
+        );
         assert_eq!(
             kind_seed(&a, "lunar-descent"),
             kind_seed(&a, "lunar-descent")

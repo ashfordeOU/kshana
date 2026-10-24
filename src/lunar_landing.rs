@@ -796,9 +796,20 @@ impl LunarLandingScenario {
 
     /// The phase core.
     pub fn run_phase(&self, carried: &NavState, ctx: &ThreadCtx) -> Result<LandingOut, String> {
+        self.run_phase_seeded(carried, ctx, kind_seed(ctx, KIND))
+    }
+
+    /// [`Self::run_phase`] with the phase's own seed (the thread's id-keyed seed); the scenario's own `seed`,
+    /// when it states one, still takes precedence.
+    pub fn run_phase_seeded(
+        &self,
+        carried: &NavState,
+        ctx: &ThreadCtx,
+        seed: u64,
+    ) -> Result<LandingOut, String> {
         let mut cfg = self.resolve()?;
         if self.seed.is_none() {
-            cfg.seed = kind_seed(ctx, KIND);
+            cfg.seed = seed;
         }
         if !matches!(carried.clock.timescale, Timescale::Ltc | Timescale::Tt) {
             return Err(format!(

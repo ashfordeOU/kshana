@@ -729,9 +729,21 @@ impl LunarRendezvousScenario {
 
     /// The phase core: run the arc from `entry` (the chaser's absolute MCI covariance at its start).
     pub fn run_phase(&self, entry: &NavState, ctx: &ThreadCtx) -> Result<RendezvousOut, String> {
+        self.run_phase_seeded(entry, ctx, kind_seed(ctx, KIND))
+    }
+
+    /// [`Self::run_phase`] with the phase's own seed (the thread's id-keyed seed); the scenario's own `seed`,
+    /// when it states one, still takes precedence.
+    pub fn run_phase_seeded(
+        &self,
+        entry: &NavState,
+        ctx: &ThreadCtx,
+        seed: u64,
+    ) -> Result<RendezvousOut, String> {
         self.run_inner(
             entry,
             ctx,
+            seed,
             Toggles {
                 position: true,
                 range: true,
@@ -743,11 +755,12 @@ impl LunarRendezvousScenario {
         &self,
         entry: &NavState,
         ctx: &ThreadCtx,
+        seed: u64,
         tog: Toggles,
     ) -> Result<RendezvousOut, String> {
         let mut cfg = self.resolve()?;
         if self.seed.is_none() {
-            cfg.seed = kind_seed(ctx, KIND);
+            cfg.seed = seed;
         }
         if entry.frame != Frame::Mci {
             return Err("lunar-orbit-rendezvous expects the entry covariance in MCI; the thread converts frames".into());
@@ -1385,6 +1398,7 @@ mod tests {
             .run_inner(
                 &carried,
                 &ctx,
+                0,
                 Toggles {
                     position: false,
                     range: false,
