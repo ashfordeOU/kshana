@@ -473,6 +473,7 @@ pub fn reason_for_kind(kind: ScenarioKind) -> Option<String> {
         | K::LunarStationCoverage
         | K::LunarInterop
         | K::LunarTimeBudget
+        | K::LunarAscent
         | K::LunarSurfaceMap
         | K::LunarLanding
         | K::LunarRendezvous

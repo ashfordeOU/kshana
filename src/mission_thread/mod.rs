@@ -18,6 +18,7 @@
 
 pub mod budget;
 pub mod handover;
+pub mod lunar;
 pub mod phase;
 pub mod sensors;
 
@@ -169,26 +170,26 @@ pub static PHASE_KINDS: &[PhaseKindInfo] = &[
     PhaseKindInfo {
         kind: "lunar-orbit-rendezvous",
         segment: "lunar",
-        ctor: stub_ctor!("lunar-orbit-rendezvous"),
-        implemented: false,
+        ctor: lunar::orbit_rendezvous_ctor,
+        implemented: true,
     },
     PhaseKindInfo {
         kind: "lunar-descent",
         segment: "lunar",
-        ctor: stub_ctor!("lunar-descent"),
-        implemented: false,
+        ctor: lunar::descent_ctor,
+        implemented: true,
     },
     PhaseKindInfo {
         kind: "lunar-surface",
         segment: "lunar",
-        ctor: stub_ctor!("lunar-surface"),
-        implemented: false,
+        ctor: lunar::surface_ctor,
+        implemented: true,
     },
     PhaseKindInfo {
         kind: "lunar-ascent",
         segment: "lunar",
-        ctor: stub_ctor!("lunar-ascent"),
-        implemented: false,
+        ctor: lunar::ascent_ctor,
+        implemented: true,
     },
 ];
 

@@ -12,7 +12,7 @@
 # term, J2 and C22). The pre-registered consistency check (mean NEES in [5.2, 6.8]) is met at 35 dB-Hz and
 # NOT met at 45 dB-Hz: see xval/mission-thread-lunar/RESULTS.md. No agreement with any real vehicle is
 # claimed. Advisory software, not certified navigation equipment.
-kind = "lunar-rendezvous"
+kind = "lunar-orbit-rendezvous"
 
 orbit = "llo"               # 100 km circular polar
 separation_m = 2000.0       # chaser behind the target, along track

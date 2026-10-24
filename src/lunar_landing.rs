@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-only
-//! `lunar-landing-dispersion`: a landing-dispersion budget for a south-polar powered descent, from the
+//! `lunar-descent`: a landing-dispersion budget for a south-polar powered descent, from the
 //! inertial drift of the descent stack and what terrain-relative navigation, LunaNet signals and lunar time
 //! each take off it.
 //!
@@ -31,7 +31,7 @@
 //! Landing dispersion is the navigation error at touchdown plus an independent guidance dispersion. The
 //! `ablation` table runs every on/off combination of the aids, so each one's worth is read off, not argued.
 //!
-//! The core is [`LunarLandingScenario::run_phase`], a function of `(config, carried state)`.
+//! The core is [`LunarLandingScenario::run_phase`], a function of `(config, entry state, thread context)`.
 //!
 //! **Honesty.** MODELLED. The IMU class, the specific-force profile, the relay set, the signal-in-space error,
 //! the registration and guidance terms are ILLUSTRATIVE inputs, not measurements. The terrain-relative
@@ -42,12 +42,18 @@
 
 use crate::altpnt::terrain::{run_terrain_nav, TerrainNavCfg};
 use crate::gravimeter::M_PER_DEG;
-use crate::lunar::{mci_to_mcmf, selenographic_to_mcmf, Selenographic, LUNAR_SIGMA_URE_M};
+use crate::lunar::{
+    mci_to_mcmf, selenographic_to_mcmf, Selenographic, LUNAR_SIGMA_URE_M, R_MOON_M,
+};
 use crate::lunar_dpnt::LunarDpntScenario;
-use crate::lunar_phase::{Carried, Cov6, Dm};
+use crate::lunar_phase::{
+    age_clock, cov_is_valid, default_ctx, default_entry, epoch_jd, kind_seed, Cov6, Dm, Frame,
+    NavState, Timescale,
+};
 use crate::lunar_service::{topocentric_basis, visible_sat_positions, LunarConstellation};
 use crate::lunar_terrain::PolarDem;
 use crate::lunar_time::{LunarTimeScenario, RATE_BAND_HIGH_US_DAY, RATE_BAND_LOW_US_DAY};
+use crate::mission_thread::ThreadCtx;
 use crate::orbit::dop_cov;
 use crate::portable_distr::{Distribution, Normal};
 use rand::SeedableRng;
@@ -58,13 +64,15 @@ use serde_json::{json, Value};
 type Vec3 = [f64; 3];
 
 const LABEL: &str = "MODELLED";
+/// The registered kind name, standalone and as a thread phase.
+pub const KIND: &str = "lunar-descent";
 const C_LIGHT: f64 = 299_792_458.0;
 const AFS_Q_CHIP_RATE: f64 = 5.115e6;
 const NS: usize = 5;
 /// Probability mass inside the 3-sigma contour of a 2-D Gaussian: `1 - exp(-9/2)`.
 const P_3SIGMA_2D: f64 = 0.988_891_003_461_757_9;
 
-/// The `lunar-landing-dispersion` scenario. Every field is optional.
+/// The `lunar-descent` scenario. Every field is optional.
 #[derive(Clone, Debug, Default, Deserialize)]
 pub struct LunarLandingScenario {
     /// Site selenographic latitude (deg). Default -89.5.
@@ -137,7 +145,10 @@ pub struct LunarLandingScenario {
 #[derive(Clone, Debug)]
 pub struct LandingOut {
     /// The covariance handed on, at touchdown, in MCI.
-    pub carried_out: Carried,
+    pub exit: NavState,
+    /// The horizontal navigation 1-sigmas over the descent, `(t_s since PDI, position m, velocity m/s)`, with the
+    /// enabled aids applied at their own times.
+    pub series: Vec<(f64, f64, f64)>,
     /// The result document.
     pub report: Value,
     /// One line for the terminal.
@@ -215,14 +226,14 @@ fn sub(a: Vec3, b: Vec3) -> Vec3 {
     [a[0] - b[0], a[1] - b[1], a[2] - b[2]]
 }
 
-fn sigma_th(cn0_dbhz: f64) -> f64 {
+pub(crate) fn sigma_th(cn0_dbhz: f64) -> f64 {
     let cn0 = 10f64.powf(cn0_dbhz / 10.0);
     let beta = std::f64::consts::PI * AFS_Q_CHIP_RATE / 3f64.sqrt();
     C_LIGHT / (beta * (2.0 * cn0).sqrt())
 }
 
 /// State-transition matrix of the five-state axis model over `dt`.
-fn phi(dt: f64, s: f64) -> Dm {
+pub(crate) fn phi(dt: f64, s: f64) -> Dm {
     let mut m = Dm::eye(NS);
     m.set(0, 1, dt);
     m.set(0, 2, 0.5 * dt * dt);
@@ -235,7 +246,7 @@ fn phi(dt: f64, s: f64) -> Dm {
     m
 }
 
-fn predict(p: &Dm, dt: f64, s: f64) -> Dm {
+pub(crate) fn predict(p: &Dm, dt: f64, s: f64) -> Dm {
     let f = phi(dt, s);
     let mut q = f.mul(p).mul(&f.t());
     q.symmetrise();
@@ -243,7 +254,7 @@ fn predict(p: &Dm, dt: f64, s: f64) -> Dm {
 }
 
 /// Joseph-form scalar position update.
-fn update(p: &Dm, r: f64) -> Dm {
+pub(crate) fn update(p: &Dm, r: f64) -> Dm {
     let pht: Vec<f64> = (0..NS).map(|i| p.at(i, 0)).collect();
     let sv = p.at(0, 0) + r;
     let k: Vec<f64> = pht.iter().map(|x| x / sv).collect();
@@ -262,7 +273,7 @@ fn update(p: &Dm, r: f64) -> Dm {
 }
 
 /// One axis: prior `p0`, the position fixes `(time, variance)` sorted in time, run to `t_end`.
-fn axis_cov(p0: &Dm, s: f64, t_end: f64, fixes: &[(f64, f64)]) -> Dm {
+pub(crate) fn axis_cov(p0: &Dm, s: f64, t_end: f64, fixes: &[(f64, f64)]) -> Dm {
     let mut p = p0.clone();
     let mut t = 0.0;
     for &(tf, r) in fixes {
@@ -324,7 +335,7 @@ fn axis_trial(
 
 /// The ENU position cofactor (3x3) of a visible set, with the clock estimated (four or more) or aided
 /// (exactly three, returning also the clock-to-position transfer vector `w = Q H' 1` in ENU).
-fn enu_cofactor(user: Vec3, vis: &[Vec3]) -> Option<(Dm, Option<[f64; 3]>)> {
+pub(crate) fn enu_cofactor(user: Vec3, vis: &[Vec3]) -> Option<(Dm, Option<[f64; 3]>)> {
     match vis.len() {
         n if n >= 4 => dop_cov(user, vis).map(|c| {
             let mut m = Dm::zeros(3, 3);
@@ -566,14 +577,18 @@ impl LunarLandingScenario {
     fn carried_to_enu(
         &self,
         cfg: &Resolved,
-        carried: &Carried,
+        carried: &NavState,
         lat: f64,
+        seconds: f64,
     ) -> Result<([f64; 4], [Vec3; 3]), String> {
-        if carried.frame != crate::lunar_phase::Frame::Mci {
-            return Err("lunar-landing-dispersion expects the carried covariance in MCI; the thread converts frames".into());
+        if carried.frame != Frame::Mci {
+            return Err(
+                "lunar-descent expects the entry covariance in MCI; the thread converts frames"
+                    .into(),
+            );
         }
-        if !carried.is_valid() {
-            return Err("carried covariance is not symmetric with a non-negative diagonal".into());
+        if !cov_is_valid(&carried.p) {
+            return Err("entry covariance is not symmetric with a non-negative diagonal".into());
         }
         let site = selenographic_to_mcmf(Selenographic {
             lat_rad: lat.to_radians(),
@@ -581,11 +596,11 @@ impl LunarLandingScenario {
             alt_m: 0.0,
         });
         let (e, n, u) = topocentric_basis(site);
-        // The MCI-to-MCMF rotation at the start of the descent, as columns of images of the unit vectors.
+        // The MCI-to-MCMF rotation at the stated mission time (the lunar axes are aligned at the thread's epoch), as columns of images of the unit vectors.
         let img: [Vec3; 3] = [
-            mci_to_mcmf([1.0, 0.0, 0.0], 0.0),
-            mci_to_mcmf([0.0, 1.0, 0.0], 0.0),
-            mci_to_mcmf([0.0, 0.0, 1.0], 0.0),
+            mci_to_mcmf([1.0, 0.0, 0.0], seconds),
+            mci_to_mcmf([0.0, 1.0, 0.0], seconds),
+            mci_to_mcmf([0.0, 0.0, 1.0], seconds),
         ];
         // ENU basis vectors expressed in MCI: component k is the dot of the MCMF vector with the image of x_k.
         let to_mci = |v: Vec3| -> Vec3 { [dot(v, img[0]), dot(v, img[1]), dot(v, img[2])] };
@@ -594,7 +609,7 @@ impl LunarLandingScenario {
             let mut s = 0.0;
             for i in 0..3 {
                 for j in 0..3 {
-                    s += b[i] * carried.cov[off + i][off + j] * b[j];
+                    s += b[i] * carried.p[off + i][off + j] * b[j];
                 }
             }
             s.max(0.0).sqrt()
@@ -610,7 +625,7 @@ impl LunarLandingScenario {
         ))
     }
 
-    fn clock_sigma_s(&self, cfg: &Resolved, carried: &Carried) -> (f64, f64) {
+    fn clock_sigma_s(&self, cfg: &Resolved, carried: &NavState) -> (f64, f64) {
         let horizon = cfg.sync_days;
         let ltc_us = LunarTimeScenario {
             horizon_days: horizon,
@@ -619,8 +634,8 @@ impl LunarLandingScenario {
         .run()
         .offset_at_horizon_us;
         let age_s = horizon * 86_400.0;
-        let base = carried.clock_bias_sigma_s.powi(2)
-            + (carried.clock_drift_sigma_s_per_s * age_s).powi(2);
+        let drift_sigma = carried.clock.cov[1][1].max(0.0).sqrt();
+        let base = carried.clock.cov[0][0].max(0.0) + (drift_sigma * age_s).powi(2);
         let extra = match cfg.time {
             TimeMode::Off => return (0.0, ltc_us),
             TimeMode::Tt => (ltc_us.abs() * 1e-6).powi(2),
@@ -636,7 +651,7 @@ impl LunarLandingScenario {
     fn site_aids(
         &self,
         cfg: &Resolved,
-        carried: &Carried,
+        carried: &NavState,
         lat: f64,
         ins_sigma_at_trn: (f64, f64),
         dem: Option<&PolarDem>,
@@ -653,7 +668,8 @@ impl LunarLandingScenario {
         let mut visible = 0usize;
         let mut aided = false;
         if cfg.afs != AfsMode::Off {
-            let relays = LunarConstellation::illustrative_lcns(cfg.n_relays).positions_mcmf(0.0);
+            let relays =
+                LunarConstellation::illustrative_lcns(cfg.n_relays).positions_mcmf(carried.t_s);
             let vis = visible_sat_positions(site, &relays, cfg.mask_rad);
             visible = vis.len();
             let range_sigma = match cfg.afs {
@@ -775,9 +791,20 @@ impl LunarLandingScenario {
     }
 
     /// The phase core.
-    pub fn run_phase(&self, carried: &Carried) -> Result<LandingOut, String> {
-        let cfg = self.resolve()?;
-        let ([spe, spn, sve, svn], basis) = self.carried_to_enu(&cfg, carried, cfg.lat)?;
+    pub fn run_phase(&self, carried: &NavState, ctx: &ThreadCtx) -> Result<LandingOut, String> {
+        let mut cfg = self.resolve()?;
+        if self.seed.is_none() {
+            cfg.seed = kind_seed(ctx, KIND);
+        }
+        if !matches!(carried.clock.timescale, Timescale::Ltc | Timescale::Tt) {
+            return Err(format!(
+                "lunar-descent expects the entry clock in LTC or TT, got {:?}; the thread converts timescales",
+                carried.clock.timescale
+            ));
+        }
+        let _ = epoch_jd(ctx, carried.t_s)?;
+        let ([spe, spn, sve, svn], _) = self.carried_to_enu(&cfg, carried, cfg.lat, carried.t_s)?;
+        let (_, basis) = self.carried_to_enu(&cfg, carried, cfg.lat, carried.t_s + cfg.t_end)?;
         let priors = [
             self.axis_prior(&cfg, spe, sve),
             self.axis_prior(&cfg, spn, svn),
@@ -886,7 +913,7 @@ impl LunarLandingScenario {
         let mut sites =
             vec![self.site_row(&cfg, carried, cfg.lat, &aids_main, &priors, dem.as_ref())?];
         for &lat in &cfg.more_lats {
-            let ([a, b, c, d], _) = self.carried_to_enu(&cfg, carried, lat)?;
+            let ([a, b, c, d], _) = self.carried_to_enu(&cfg, carried, lat, carried.t_s)?;
             let pri = [self.axis_prior(&cfg, a, c), self.axis_prior(&cfg, b, d)];
             let ins = |t: f64| {
                 (
@@ -915,14 +942,30 @@ impl LunarLandingScenario {
         for (i, row) in cov.iter_mut().enumerate().skip(3) {
             row[i] = sig_vel * sig_vel;
         }
-        let mut carried_out = carried.clone();
-        carried_out.cov = cov;
-        carried_out.epoch_jd_tdb += cfg.t_end / 86_400.0;
+        // The landed vehicle in MCI: the site on the surface, turning with the Moon.
+        let omega = std::f64::consts::TAU / crate::lunar::LUNAR_SIDEREAL_DAY_S;
+        let pos_mci = [
+            R_MOON_M * basis[2][0],
+            R_MOON_M * basis[2][1],
+            R_MOON_M * basis[2][2],
+        ];
+        let mut exit = carried.clone();
+        exit.t_s += cfg.t_end;
+        exit.x = [
+            pos_mci[0],
+            pos_mci[1],
+            pos_mci[2],
+            -omega * pos_mci[1],
+            omega * pos_mci[0],
+            0.0,
+        ];
+        exit.p = cov;
+        exit.clock = age_clock(&carried.clock, cfg.t_end);
 
         let (maj, min, az) = ellipse3(sig_e, sig_n);
         let aids_ok = aids_main.afs_sigma.is_some() || aids_main.trn_sigma.is_some();
         let mut report = json!({
-            "kind": "lunar-landing-dispersion",
+            "kind": KIND,
             "label": LABEL,
             "advisory": "Advisory software, not certified navigation equipment. MODELLED: illustrative IMU class, relay set and error budget; not a landing-accuracy prediction for any vehicle or site.",
             "site": { "lat_deg": cfg.lat, "lon_deg": cfg.lon },
@@ -981,7 +1024,7 @@ impl LunarLandingScenario {
             "sites": sites,
         });
         let part3 = json!({
-            "carried_out": {
+            "exit_state": {
                 "frame": "mci",
                 "pos_sigma_enu_m": [sig_e, sig_n, sig_up],
                 "vel_sigma_m_s": sig_vel,
@@ -1005,7 +1048,7 @@ impl LunarLandingScenario {
             base.extend(p3);
         }
         let summary = format!(
-            "lunar-landing-dispersion | {:.2} deg | inertial only {:.0}/{:.0} m (E/N) | with aids {:.1}/{:.1} m | dispersion R95 {:.0} m | 3-sigma ellipse {:.0} x {:.0} m | {:.1}% inside (expect {:.1}%) (MODELLED)",
+            "lunar-descent | {:.2} deg | inertial only {:.0}/{:.0} m (E/N) | with aids {:.1}/{:.1} m | dispersion R95 {:.0} m | 3-sigma ellipse {:.0} x {:.0} m | {:.1}% inside (expect {:.1}%) (MODELLED)",
             cfg.lat,
             nav_none.0,
             nav_none.1,
@@ -1017,8 +1060,19 @@ impl LunarLandingScenario {
             100.0 * frac,
             100.0 * P_3SIGMA_2D
         );
+        let per_axis: Vec<Vec<(f64, f64, f64)>> = (0..2)
+            .map(|k| crate::lunar_ascent::axis_series(&priors[k], cfg.s, cfg.t_end, &fx[k], 10.0))
+            .collect();
+        let series: Vec<(f64, f64, f64)> = (0..per_axis[0].len())
+            .map(|i| {
+                let pv: f64 = (0..2).map(|k| per_axis[k][i].1).sum();
+                let vv: f64 = (0..2).map(|k| per_axis[k][i].2).sum();
+                (per_axis[0][i].0, pv.max(0.0).sqrt(), vv.max(0.0).sqrt())
+            })
+            .collect();
         Ok(LandingOut {
-            carried_out,
+            series,
+            exit,
             report,
             summary,
         })
@@ -1027,7 +1081,7 @@ impl LunarLandingScenario {
     fn site_row(
         &self,
         cfg: &Resolved,
-        _carried: &Carried,
+        _carried: &NavState,
         lat: f64,
         aids: &SiteAids,
         priors: &[Dm; 2],
@@ -1094,12 +1148,12 @@ impl LunarLandingScenario {
 
     /// Standalone entry.
     pub fn run_json(&self) -> Result<(String, String), String> {
-        let mut c = Carried::default_llo();
-        c.cov = crate::lunar_phase::diag6(
+        let mut c = default_entry();
+        c.p = crate::lunar_phase::diag6(
             self.carried_pos_sigma_m.unwrap_or(100.0),
             self.carried_vel_sigma_m_s.unwrap_or(0.1),
         );
-        let out = self.run_phase(&c)?;
+        let out = self.run_phase(&c, &default_ctx())?;
         let json = serde_json::to_string_pretty(&out.report).map_err(|e| e.to_string())?;
         Ok((json, out.summary))
     }
@@ -1402,13 +1456,13 @@ fn units() -> Value {
             "radius holding 95 % of landings",
         ),
         (
-            "carried_out.pos_sigma_enu_m",
+            "exit_state.pos_sigma_enu_m",
             "m",
             "computed",
             "touchdown position 1-sigma per ENU axis (vertical is an input)",
         ),
         (
-            "carried_out.vel_sigma_m_s",
+            "exit_state.vel_sigma_m_s",
             "m/s",
             "modelled-input",
             "touchdown velocity 1-sigma",
@@ -1442,20 +1496,20 @@ mod tests {
         }
     }
 
-    fn carried() -> Carried {
-        Carried::default_llo()
+    fn carried() -> NavState {
+        default_entry()
     }
 
     #[test]
     fn default_runs_modelled_with_the_advisory_line() {
-        let out = quick().run_phase(&carried()).unwrap();
-        assert_eq!(out.report["kind"], "lunar-landing-dispersion");
+        let out = quick().run_phase(&carried(), &default_ctx()).unwrap();
+        assert_eq!(out.report["kind"], KIND);
         assert_eq!(out.report["label"], "MODELLED");
         assert!(out.report["advisory"]
             .as_str()
             .unwrap()
             .contains("not certified navigation equipment"));
-        assert!(out.carried_out.is_valid());
+        assert!(cov_is_valid(&out.exit.p));
     }
 
     #[test]
@@ -1472,10 +1526,10 @@ mod tests {
             n_trials: Some(10),
             ..Default::default()
         };
-        let out = s.run_phase(&carried()).unwrap();
+        let out = s.run_phase(&carried(), &default_ctx()).unwrap();
         let cfg = s.resolve().unwrap();
         let t = cfg.t_end;
-        let ([spe, _, sve, _], _) = s.carried_to_enu(&cfg, &carried(), cfg.lat).unwrap();
+        let ([spe, _, sve, _], _) = s.carried_to_enu(&cfg, &carried(), cfg.lat, 0.0).unwrap();
         let want_nav = (spe.powi(2)
             + (sve * t).powi(2)
             + (cfg.sig_ab * t * t / 2.0).powi(2)
@@ -1504,7 +1558,7 @@ mod tests {
             n_trials: Some(10),
             ..Default::default()
         };
-        let out = s.run_phase(&carried()).unwrap();
+        let out = s.run_phase(&carried(), &default_ctx()).unwrap();
         let cfg = s.resolve().unwrap();
         // lunar-differential-pnt
         let d = LunarDpntScenario {
@@ -1531,7 +1585,7 @@ mod tests {
             lt.offset_at_horizon_us
         );
         // terrain-nav, for the inertial drift at the fix time
-        let ([spe, spn, sve, svn], _) = s.carried_to_enu(&cfg, &carried(), cfg.lat).unwrap();
+        let ([spe, spn, sve, svn], _) = s.carried_to_enu(&cfg, &carried(), cfg.lat, 0.0).unwrap();
         let pe = s.axis_prior(&cfg, spe, sve);
         let pn = s.axis_prior(&cfg, spn, svn);
         let de = axis_cov(&pe, cfg.s, cfg.trn_t, &[]).at(0, 0).sqrt();
@@ -1553,7 +1607,7 @@ mod tests {
             seed: Some(20_261_024),
             ..Default::default()
         };
-        let out = s.run_phase(&carried()).unwrap();
+        let out = s.run_phase(&carried(), &default_ctx()).unwrap();
         let f = out.report["monte_carlo"]["fraction_inside_3sigma_ellipse"]
             .as_f64()
             .unwrap();
@@ -1566,7 +1620,7 @@ mod tests {
 
     #[test]
     fn terrain_and_signals_help_and_never_hurt() {
-        let out = quick().run_phase(&carried()).unwrap();
+        let out = quick().run_phase(&carried(), &default_ctx()).unwrap();
         let rows = out.report["ablation"].as_array().unwrap();
         let r95: Vec<f64> = rows.iter().map(|r| r["r95_m"].as_f64().unwrap()).collect();
         // none, afs only, terrain only, both
@@ -1583,7 +1637,7 @@ mod tests {
                 time_since_sync_days: Some(30.0),
                 ..Default::default()
             };
-            s.run_phase(&carried()).unwrap().report["aids"]["time"]["clock_sigma_s"]
+            s.run_phase(&carried(), &default_ctx()).unwrap().report["aids"]["time"]["clock_sigma_s"]
                 .as_f64()
                 .unwrap()
         };
@@ -1594,9 +1648,9 @@ mod tests {
     #[test]
     fn the_covariance_handed_on_is_valid_and_starts_from_the_carried_epoch() {
         let c = carried();
-        let out = quick().run_phase(&c).unwrap();
-        assert!(out.carried_out.is_valid());
-        assert!(out.carried_out.epoch_jd_tdb > c.epoch_jd_tdb);
+        let out = quick().run_phase(&c, &default_ctx()).unwrap();
+        assert!(cov_is_valid(&out.exit.p));
+        assert!(out.exit.t_s > c.t_s);
     }
 
     #[test]
@@ -1666,7 +1720,7 @@ mod tests {
                 n_trials: Some(10),
                 ..Default::default()
             };
-            let r = s.run_phase(&carried()).unwrap().report;
+            let r = s.run_phase(&carried(), &default_ctx()).unwrap().report;
             assert_eq!(r["aids"]["afs"]["relays_visible"], 3);
             assert_eq!(r["aids"]["afs"]["clock_aided_three_relay_fix"], true);
             r["aids"]["afs"]["fix_sigma_east_m"].as_f64().unwrap()
@@ -1701,10 +1755,10 @@ mod tests {
                 ..Default::default()
             },
         ] {
-            assert!(s.run_phase(&carried()).is_err());
+            assert!(s.run_phase(&carried(), &default_ctx()).is_err());
         }
         let mut c = carried();
-        c.frame = crate::lunar_phase::Frame::Mcmf;
-        assert!(quick().run_phase(&c).is_err());
+        c.frame = Frame::Mcmf;
+        assert!(quick().run_phase(&c, &default_ctx()).is_err());
     }
 }

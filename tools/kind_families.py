@@ -24,7 +24,7 @@ FAMILIES = [
     ("Low-Earth-orbit navigation", ("docs/LEO-PNT.md", "docs/LEO-SIGNAL.md", "docs/LEO-PASS.md", "docs/LEO-NAVMSG.md"), "kshana scenarios/leo-pnt-end-to-end.toml",
      ["leo-signal", "leo-pass", "leo-navmsg", "leo-pvt", "leo-ppp", "ntn-positioning", "leo-pnt-chain"]),
     ("Lunar and cislunar", ("docs/LUNAR-REFERENCE-STATION.md", "docs/LUNAR-INFRASTRUCTURE.md", "docs/LUNANET-AFS.md"), "kshana scenarios/lunar-infrastructure-od-consistency.toml",
-     ["lunar-integrity", "lunar-time-offset", "lunar-time-budget", "lunar-surface-pnt-map", "lunar-landing-dispersion", "lunar-rendezvous", "lunar-vlbi", "lunar-vlbi-fim", "lunar-joint-od-clock", "lunar-frame-realisation",
+     ["lunar-integrity", "lunar-time-offset", "lunar-time-budget", "lunar-ascent", "lunar-surface", "lunar-descent", "lunar-orbit-rendezvous", "lunar-vlbi", "lunar-vlbi-fim", "lunar-joint-od-clock", "lunar-frame-realisation",
       "lunar-frame-campaign", "lunar-llr-datum", "moonlight-service-volume", "lunar-differential-pnt", "lunar-station-coverage", "lunar-beacon",
       "lunar-interop-export", "cislunar-observability", "cislunar-arc-recovery", "lunar-attack-surface", "lunar-jamming", "earth-gnss-lunar",
       "lunar-infrastructure"]),

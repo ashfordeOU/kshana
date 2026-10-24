@@ -144,10 +144,11 @@ pub const BUNDLED: &[(&str, &str)] = &[
     bundled!("lunar-station-coverage-public-sources"),
     bundled!("lunar-station-time-lab"),
     bundled!("lunar-time-budget"),
-    bundled!("lunar-surface-pnt-map"),
-    bundled!("lunar-landing-dispersion"),
-    bundled!("lunar-rendezvous-elfo"),
-    bundled!("lunar-rendezvous"),
+    bundled!("lunar-ascent"),
+    bundled!("lunar-surface"),
+    bundled!("lunar-descent"),
+    bundled!("lunar-orbit-rendezvous-elfo"),
+    bundled!("lunar-orbit-rendezvous"),
     bundled!("lunar-time-offset"),
     bundled!("lunar-vlbi"),
     bundled!("lunar-vlbi-fim"),
@@ -254,17 +255,17 @@ pub const REPO_ONLY: &[(&str, &str)] = &[
          from the checkout, or set `data_dir` to a copy of that slice",
     ),
     (
-        "lunar-landing-dispersion-lola",
+        "lunar-descent-lola",
         "reads the LRO LOLA south-polar DEM crop under data/lunar-dem, which ships with the \
          repository but not with the registry packages; clone \
-         https://github.com/ashfordeOU/kshana and run `kshana scenarios/lunar-landing-dispersion-lola.toml` \
+         https://github.com/ashfordeOU/kshana and run `kshana scenarios/lunar-descent-lola.toml` \
          from the checkout, or set `dem_descriptor` to a copy of that descriptor and its image",
     ),
     (
-        "lunar-surface-pnt-map-terrain",
+        "lunar-surface-terrain",
         "reads the LRO LOLA south-polar DEM crop under data/lunar-dem, which ships with the \
          repository but not with the registry packages; clone \
-         https://github.com/ashfordeOU/kshana and run `kshana scenarios/lunar-surface-pnt-map-terrain.toml` \
+         https://github.com/ashfordeOU/kshana and run `kshana scenarios/lunar-surface-terrain.toml` \
          from the checkout, or set `dem_path` to a copy of that descriptor and its image",
     ),
     (
