@@ -170,3 +170,31 @@ label rests on it):** the analytic orientation, to show how much the choice move
 
 If the DE440 orientation cannot be built for the span (outside its coverage), A1 and A2 are "not run"; the analytic
 orientation does not stand in for them.
+
+---
+
+# Amendment 4 (2026-10-24): what the A1 and A2 quantities are, exactly; still before any fetch
+
+Made before any oracle data was fetched or inspected. It changes no bar; it defines the quantities the bars name,
+because "radial difference" and "perilune radius" cannot be computed from the sampled references as the earlier
+text left them.
+
+- **A1 differences.** The propagation starts from the first reference state (00:00 UTC) and is compared with the
+  reference at each later 10-minute sample (144 comparisons; the first sample is the initial condition). The 3-D
+  difference is the Euclidean norm of the position difference; the radial difference is its component along the
+  unit position vector of the *reference* from the Moon's centre; the RMS radial difference is the root mean
+  square of those 144 values. The bar on the maximum is taken over the 144 3-D differences.
+- **A2 perilune.** The reference is sampled hourly, which cannot resolve a perilune passage (about 2.4 km/s, so
+  8600 km of path in an hour). The perilune radius of a state is therefore its **osculating periapsis radius**
+  about the Moon, `a (1 - e)` from the state's vis-viva energy and angular momentum. The bar compares the
+  osculating periapsis radius of the propagated state at the end of the window with that of the reference state at
+  the end of the window (the window is one revolution long, so both lie at the same orbital phase as the start).
+- **A2 revolution length.** The window is as long as the osculating Keplerian period of its first sample,
+  rounded up to a whole number of hours, and the end-of-window position bar is applied at that time.
+- **Integration.** A Dormand-Prince driver with a relative tolerance of 1e-12 and an absolute tolerance of
+  1e-9 (metres and seconds); the result records both and the step count. The integration error this leaves is far
+  below a metre.
+- **Reference states as given.** The reference position and velocity are taken from the Horizons response
+  unaltered, kilometres converted to metres; no fitting, smoothing or time shift is applied to either side.
+
+Nothing else changes. The bars stay as Amendment 1 set them.
