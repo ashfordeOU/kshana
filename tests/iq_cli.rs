@@ -1268,6 +1268,8 @@ fn sweep_orders_lock_fraction_with_carrier_bandwidth() {
     let rows: Vec<String> = std::fs::read_to_string(&csv)
         .unwrap()
         .lines()
+        // The run's evidence label is `#` comment lines in front of the table.
+        .filter(|l| !l.starts_with('#'))
         .skip(1)
         .map(str::to_string)
         .collect();
@@ -1403,6 +1405,7 @@ fn track_and_sweep_take_loop_designs_and_stream_their_outputs() {
     let rows: Vec<Vec<String>> = std::fs::read_to_string(&csv)
         .unwrap()
         .lines()
+        .filter(|l| !l.starts_with('#'))
         .skip(1)
         .map(|l| l.split(',').map(str::to_string).collect())
         .collect();
