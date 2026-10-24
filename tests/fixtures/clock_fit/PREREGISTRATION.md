@@ -124,3 +124,21 @@ white FM, flicker FM and random-walk FM, no drift term) with the true closed for
 realisation of random-walk FM has a spurious fitted drift of the same order as its noise at the longest
 averaging times; F1 also records the fitted drift and flicker coefficient of every record (not barred). F3(a)
 writes the clock's `q_wf`, `q_rw`, `drift` and `flicker_floor` literally.
+
+## Addendum 2 (written after run 2 of the comparison, before the records it names exist)
+
+Run 2 (RESULTS.md) showed that the registered C3 cannot test the recovery of both coefficients: with `h_-2 =
+1.52e-29` beside `h_0 = 1.8e-19` the two noises cross over at tau = 3.0e4 s, a quarter of the record, so
+random-walk FM is 1.9 % of the Allan variance at the longest averaging time the fit uses, and the fit correctly
+gives it zero. The result for C3 stays as recorded (NOT MET, pinned). A new configuration, registered now
+before it is generated or run:
+
+- C4, white FM and random-walk FM, independent, `h_0 = 1.8e-19` and `h_-2 = 1.52e-27`
+  (`sigma_y(1e4 s) = 1e-11`). Their crossover is at tau = sqrt(3 h_0 / (4 pi^2 h_-2)) = 3.0e3 s, so at 4096 s
+  random-walk FM is about 1.8 times the white-FM contribution and is identifiable.
+- Seeds 20261104, 20261105, 20261106; `N = 131 072`, `tau0 = 1 s`, the same generator.
+- F1(a) as registered: `h_0` and `h_-2` (and the `q_wf`, `q_rw` the run uses) each within a factor of 1.5 of the
+  truth; F1(b): the card's noise deviation within a factor of 1.35 of the true closed form at every averaging
+  time the card was fitted at; F2 as registered, on these three records as well.
+- If `h_-2` is not recovered within 1.5 on any of the three, that is a miss of the engine's fit and is recorded
+  as such.
