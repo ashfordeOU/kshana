@@ -103,3 +103,24 @@ device-card procedure, the synthetic oracle checks the mapping and the fit on no
 no measured holdover has been compared with a holdover predicted from its own earlier data in this
 comparison. All of F1 to F4 met: recorded as passing on this data; no VALIDATED row is added. A miss: recorded
 with its numbers, the defect fixed in a separate commit and the comparison re-run unchanged.
+
+## Addendum 1 (written before the generator, the code or any run)
+
+Reading `src/models.rs` and `src/scenario.rs` to write the code: the simulated clock (`ClockCfg`) already has a
+linear drift (`drift`, fractional frequency per second) and a flicker FM Allan-deviation floor
+(`flicker_floor`), so "The change" item 4 was wrong that only white FM and random-walk FM are in the holdover
+model. Corrected, in place of items 3 and 4:
+
+- The replaced clock keeps `y0` and takes `q_wf = h_0 / 2`, `q_rw = 2 pi^2 h_-2`, `drift` = the card's
+  `drift_per_s` (signed), and `flicker_floor = sqrt(2 ln 2 h_-1)` (the Allan-deviation floor of flicker FM,
+  from `sigma_y^2 = 2 ln 2 h_-1`; zero when `h_-1 = 0`). The simulated holdover predictor removes the
+  deterministic frequency (`y0` and `drift`) as it does today.
+- Only white phase noise is fitted and reported without being simulated (the clock model has no white-PM
+  term). The `fitted` block says so.
+- A fit with `q_wf`, `q_rw` and `flicker_floor` all zero is an error (no frequency noise to predict from).
+
+Bar wording made exact: F1(b) compares the card's NOISE Allan deviation (`noise_allan_variance`: white PM,
+white FM, flicker FM and random-walk FM, no drift term) with the true closed form, because a single
+realisation of random-walk FM has a spurious fitted drift of the same order as its noise at the longest
+averaging times; F1 also records the fitted drift and flicker coefficient of every record (not barred). F3(a)
+writes the clock's `q_wf`, `q_rw`, `drift` and `flicker_floor` literally.
