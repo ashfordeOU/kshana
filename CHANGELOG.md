@@ -9,6 +9,16 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+### Added
+
+- `kshana partner check <submission.toml>`: checks the format and metadata of a data-partner submission
+  (`kshana.partner-submission/1`: device, data file and SHA-256, how it was taken, the MODELLED rows it is offered against, licence,
+  statements) and reads the data with the engine's own clock-log or IMU readers. It scores nothing and validates nothing. A synthetic
+  example is in `examples/partner-submission/`.
+- `docs/PARTNER-DATA.md`: which MODELLED ledger rows measured data could promote, the formats accepted, how a submission is checked,
+  scored against a pre-registered bar and credited, and what PARTNER and VALIDATED each mean; a draft outreach note for the owner in
+  `docs/drafts/PARTNER-OUTREACH.md` (nothing is sent).
+
 ## [0.39.0] - 2026-10-22
 
 No new features: one command-line fix, dependency updates in the cross-validation tooling, and documentation. The
