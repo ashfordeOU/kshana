@@ -15,7 +15,7 @@ engine, and is checked against theory by allantools `oadev` before anything is c
 printed and recorded in RESULTS.md, it is not a bar of the engine.
 
 reference.json holds the truth coefficients, the SHA-256 of each record's phase samples, and allantools'
-lag-1 noise identification (`noise_id`, dmin = 0, dmax = 2, phase data, the record's least-squares quadratic
+lag-1 noise identification (`ci.autocorr_noise_id`, dmin = 0, dmax = 2, phase data, the record's least-squares quadratic
 removed) at every octave averaging factor, for the nine records and for two measured ones: D2 (the first
 65 536 readings of the 5071A caesium clock) and D3 (the IGS clock of satellite G01).
 """
@@ -81,11 +81,11 @@ def alphas(x, tau0=TAU0):
     out = []
     m = 1
     while len(d) // m >= 32:
-        try:
-            a = allantools.noise_id(d, m, dmin=0, dmax=2, data_type="phase")
-        except Exception:  # noqa: BLE001
-            a = None
-        out.append([m, None if a is None else int(a[0]) if isinstance(a, tuple) else int(a)])
+        # allantools 2024.6 keeps the lag-1 method in allantools.ci (the pre-registration says `noise_id`);
+        # it returns (alpha as int, alpha, d, rho). The first version of this script called a name that
+        # does not exist, swallowed the error and wrote null for every point (RESULTS.md, run 1).
+        a = allantools.ci.autocorr_noise_id(d, m, data_type="phase", dmin=0, dmax=2)
+        out.append([m, int(a[0])])
         m *= 2
     return out
 

@@ -16,55 +16,55 @@
    "alphas": [
     [
      1,
-     null
+     0
     ],
     [
      2,
-     null
+     0
     ],
     [
      4,
-     null
+     0
     ],
     [
      8,
-     null
+     0
     ],
     [
      16,
-     null
+     0
     ],
     [
      32,
-     null
+     0
     ],
     [
      64,
-     null
+     0
     ],
     [
      128,
-     null
+     0
     ],
     [
      256,
-     null
+     0
     ],
     [
      512,
-     null
+     0
     ],
     [
      1024,
-     null
+     0
     ],
     [
      2048,
-     null
+     0
     ],
     [
      4096,
-     null
+     0
     ]
    ],
    "generator_check": [
@@ -91,55 +91,55 @@
    "alphas": [
     [
      1,
-     null
+     0
     ],
     [
      2,
-     null
+     0
     ],
     [
      4,
-     null
+     0
     ],
     [
      8,
-     null
+     0
     ],
     [
      16,
-     null
+     0
     ],
     [
      32,
-     null
+     0
     ],
     [
      64,
-     null
+     0
     ],
     [
      128,
-     null
+     0
     ],
     [
      256,
-     null
+     0
     ],
     [
      512,
-     null
+     0
     ],
     [
      1024,
-     null
+     0
     ],
     [
      2048,
-     null
+     0
     ],
     [
      4096,
-     null
+     0
     ]
    ],
    "generator_check": [
@@ -166,55 +166,55 @@
    "alphas": [
     [
      1,
-     null
+     0
     ],
     [
      2,
-     null
+     0
     ],
     [
      4,
-     null
+     0
     ],
     [
      8,
-     null
+     0
     ],
     [
      16,
-     null
+     0
     ],
     [
      32,
-     null
+     0
     ],
     [
      64,
-     null
+     0
     ],
     [
      128,
-     null
+     0
     ],
     [
      256,
-     null
+     0
     ],
     [
      512,
-     null
+     0
     ],
     [
      1024,
-     null
+     0
     ],
     [
      2048,
-     null
+     0
     ],
     [
      4096,
-     null
+     1
     ]
    ],
    "generator_check": [
@@ -241,55 +241,55 @@
    "alphas": [
     [
      1,
-     null
+     -2
     ],
     [
      2,
-     null
+     -2
     ],
     [
      4,
-     null
+     -2
     ],
     [
      8,
-     null
+     -2
     ],
     [
      16,
-     null
+     -2
     ],
     [
      32,
-     null
+     -2
     ],
     [
      64,
-     null
+     -2
     ],
     [
      128,
-     null
+     -2
     ],
     [
      256,
-     null
+     -2
     ],
     [
      512,
-     null
+     -2
     ],
     [
      1024,
-     null
+     -2
     ],
     [
      2048,
-     null
+     -3
     ],
     [
      4096,
-     null
+     -3
     ]
    ],
    "generator_check": [
@@ -316,55 +316,55 @@
    "alphas": [
     [
      1,
-     null
+     -2
     ],
     [
      2,
-     null
+     -2
     ],
     [
      4,
-     null
+     -2
     ],
     [
      8,
-     null
+     -2
     ],
     [
      16,
-     null
+     -2
     ],
     [
      32,
-     null
+     -2
     ],
     [
      64,
-     null
+     -2
     ],
     [
      128,
-     null
+     -2
     ],
     [
      256,
-     null
+     -2
     ],
     [
      512,
-     null
+     -2
     ],
     [
      1024,
-     null
+     -2
     ],
     [
      2048,
-     null
+     -2
     ],
     [
      4096,
-     null
+     -2
     ]
    ],
    "generator_check": [
@@ -391,55 +391,55 @@
    "alphas": [
     [
      1,
-     null
+     -2
     ],
     [
      2,
-     null
+     -2
     ],
     [
      4,
-     null
+     -2
     ],
     [
      8,
-     null
+     -2
     ],
     [
      16,
-     null
+     -2
     ],
     [
      32,
-     null
+     -2
     ],
     [
      64,
-     null
+     -2
     ],
     [
      128,
-     null
+     -2
     ],
     [
      256,
-     null
+     -2
     ],
     [
      512,
-     null
+     -2
     ],
     [
      1024,
-     null
+     -2
     ],
     [
      2048,
-     null
+     -2
     ],
     [
      4096,
-     null
+     -2
     ]
    ],
    "generator_check": [
@@ -466,55 +466,55 @@
    "alphas": [
     [
      1,
-     null
+     0
     ],
     [
      2,
-     null
+     0
     ],
     [
      4,
-     null
+     0
     ],
     [
      8,
-     null
+     0
     ],
     [
      16,
-     null
+     0
     ],
     [
      32,
-     null
+     0
     ],
     [
      64,
-     null
+     0
     ],
     [
      128,
-     null
+     0
     ],
     [
      256,
-     null
+     0
     ],
     [
      512,
-     null
+     0
     ],
     [
      1024,
-     null
+     0
     ],
     [
      2048,
-     null
+     0
     ],
     [
      4096,
-     null
+     0
     ]
    ],
    "generator_check": [
@@ -549,55 +549,55 @@
    "alphas": [
     [
      1,
-     null
+     0
     ],
     [
      2,
-     null
+     0
     ],
     [
      4,
-     null
+     0
     ],
     [
      8,
-     null
+     0
     ],
     [
      16,
-     null
+     0
     ],
     [
      32,
-     null
+     0
     ],
     [
      64,
-     null
+     0
     ],
     [
      128,
-     null
+     0
     ],
     [
      256,
-     null
+     0
     ],
     [
      512,
-     null
+     0
     ],
     [
      1024,
-     null
+     0
     ],
     [
      2048,
-     null
+     0
     ],
     [
      4096,
-     null
+     0
     ]
    ],
    "generator_check": [
@@ -632,55 +632,55 @@
    "alphas": [
     [
      1,
-     null
+     0
     ],
     [
      2,
-     null
+     0
     ],
     [
      4,
-     null
+     0
     ],
     [
      8,
-     null
+     0
     ],
     [
      16,
-     null
+     0
     ],
     [
      32,
-     null
+     0
     ],
     [
      64,
-     null
+     0
     ],
     [
      128,
-     null
+     0
     ],
     [
      256,
-     null
+     0
     ],
     [
      512,
-     null
+     0
     ],
     [
      1024,
-     null
+     0
     ],
     [
      2048,
-     null
+     0
     ],
     [
      4096,
-     null
+     0
     ]
    ],
    "generator_check": [
@@ -711,51 +711,51 @@
    "alphas": [
     [
      1,
-     null
+     2
     ],
     [
      2,
-     null
+     1
     ],
     [
      4,
-     null
+     1
     ],
     [
      8,
-     null
+     1
     ],
     [
      16,
-     null
+     1
     ],
     [
      32,
-     null
+     0
     ],
     [
      64,
-     null
+     2
     ],
     [
      128,
-     null
+     2
     ],
     [
      256,
-     null
+     2
     ],
     [
      512,
-     null
+     2
     ],
     [
      1024,
-     null
+     2
     ],
     [
      2048,
-     null
+     2
     ]
    ]
   },
@@ -764,31 +764,31 @@
    "alphas": [
     [
      1,
-     null
+     1
     ],
     [
      2,
-     null
+     1
     ],
     [
      4,
-     null
+     1
     ],
     [
      8,
-     null
+     0
     ],
     [
      16,
-     null
+     0
     ],
     [
      32,
-     null
+     0
     ],
     [
      64,
-     null
+     0
     ]
    ],
    "tau0": 30.0
