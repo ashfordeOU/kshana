@@ -1439,6 +1439,84 @@ impl BuiltinKind for crate::lunar_time_budget_scenario::LunarTimeBudgetScenario 
     }
 }
 
+fn run_lunar_surface_map(
+    scn: &crate::lunar_surface_map::LunarSurfaceMapScenario,
+) -> Result<RunOutput, String> {
+    let (json, summary, csv) = scn.run_json()?;
+    let svg = scn.chart_svg(&json);
+    Ok(RunOutput {
+        json,
+        svg,
+        summary,
+        csv: Some(csv),
+    })
+}
+
+impl Scenario for crate::lunar_surface_map::LunarSurfaceMapScenario {
+    fn run(&self) -> Result<RunOutput, KshanaError> {
+        run_lunar_surface_map(self).map_err(KshanaError::from)
+    }
+}
+
+impl BuiltinKind for crate::lunar_surface_map::LunarSurfaceMapScenario {
+    const KIND: ScenarioKind = ScenarioKind::LunarSurfaceMap;
+    fn parse(src: &str) -> Result<Self, String> {
+        parse_toml(src, "lunar-surface-pnt-map")
+    }
+}
+
+fn run_lunar_landing(
+    scn: &crate::lunar_landing::LunarLandingScenario,
+) -> Result<RunOutput, String> {
+    let (json, summary) = scn.run_json()?;
+    let svg = scn.chart_svg(&json);
+    Ok(RunOutput {
+        json,
+        svg,
+        summary,
+        csv: None,
+    })
+}
+
+impl Scenario for crate::lunar_landing::LunarLandingScenario {
+    fn run(&self) -> Result<RunOutput, KshanaError> {
+        run_lunar_landing(self).map_err(KshanaError::from)
+    }
+}
+
+impl BuiltinKind for crate::lunar_landing::LunarLandingScenario {
+    const KIND: ScenarioKind = ScenarioKind::LunarLanding;
+    fn parse(src: &str) -> Result<Self, String> {
+        parse_toml(src, "lunar-landing-dispersion")
+    }
+}
+
+fn run_lunar_rendezvous(
+    scn: &crate::lunar_rendezvous::LunarRendezvousScenario,
+) -> Result<RunOutput, String> {
+    let (json, summary) = scn.run_json()?;
+    let svg = scn.chart_svg(&json);
+    Ok(RunOutput {
+        json,
+        svg,
+        summary,
+        csv: None,
+    })
+}
+
+impl Scenario for crate::lunar_rendezvous::LunarRendezvousScenario {
+    fn run(&self) -> Result<RunOutput, KshanaError> {
+        run_lunar_rendezvous(self).map_err(KshanaError::from)
+    }
+}
+
+impl BuiltinKind for crate::lunar_rendezvous::LunarRendezvousScenario {
+    const KIND: ScenarioKind = ScenarioKind::LunarRendezvous;
+    fn parse(src: &str) -> Result<Self, String> {
+        parse_toml(src, "lunar-rendezvous")
+    }
+}
+
 fn run_realtime_frame_eop(
     scn: &crate::realtime_frame_eop::RealtimeFrameEopScenario,
 ) -> Result<RunOutput, String> {
