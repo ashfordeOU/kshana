@@ -1,8 +1,10 @@
-# Pre-registration v2 for the `lunar-infrastructure` bars not met (0.40 WS-D): DRAFT, awaiting owner sign-off
+# Pre-registration v2 for the `lunar-infrastructure` bars not met (0.40 WS-D): signed off 24 October 2026
 
-**Status: DRAFT. Nothing in this document has been run, and nothing may be run until the owner signs it off in
-writing in the commit that promotes it.** It is committed alone, before any code for it exists and before any number
-it would produce has been computed. A change after sign-off is a new pre-registration.
+**Status: signed off by the owner on 24 October 2026, before any run.** The owner's answer, as relayed, verbatim: "Sign off, weak
+parts exploratory (Recommended)". The option chosen reads: "Run them as drafted. Campaigns relying on illustrative priors, or on a
+source not pinned before the run, are labelled EXPLORATORY and can't close the original bars. Any campaign whose source isn't pinned
+simply doesn't run. The original misses stay NOT MET." Nothing had been run or computed when this was signed. No bar below changes after
+this commit; a later change is a new pre-registration. A campaign that passes is reported as its own bar, never as an original one.
 
 **What stays as it is.** `PREREGISTRATION.md`, `PREREGISTRATION-amendment-1.md`, `RESULTS.md` and the stored results
 (`tests/fixtures/lunar_infra/phase_full_run.json` and the study results) are the record and are not edited. The three
@@ -67,8 +69,9 @@ statistic behave as theory says at every size?
 ## Campaign Q: the success-rate oracle with an accurate normal CDF (re-test of Q3 after a stated fix)
 
 - **Change.** The normal CDF inside the bootstrapped success-rate routine is replaced by an implementation of the
-  complementary error function accurate to better than 1e-14 relative error in double precision, from a published
-  rational-approximation algorithm (public, not a copy of any library). Nothing else in the study changes.
+  complementary error function accurate to better than 1e-14 relative error in double precision, by a published
+  algorithm (public, not a copy of any library): the Taylor series of erf for |x| up to 3 and the continued fraction of erfc beyond (a
+  choice of algorithm made at sign-off in place of a rational approximation, before any run; Q3a checks its accuracy independently). Nothing else in the study changes.
 - **Bar Q3a (the CDF alone).** On 10,000 arguments drawn from [-8, 8] with the stated seed, the new CDF equals
   `scipy.special.ndtr` to a relative 1e-12 (absolute 1e-300 for results below 1e-300).
 - **Bar Q3b (the original bar, the same data).** On the float design `phase_design.json` (SHA-256 above), the Rust ambiguity
@@ -84,7 +87,7 @@ The pseudo-inverse trace of a rank-deficient information matrix can rise when a 
 now contributes variance that was previously dropped). So the statement of G3 about the trace is not a property of the
 estimator but of the pseudo-inverse. Two honest forms follow.
 
-- **Bar G3' (with priors: the trace statement is a theorem, so this tests the implementation).** Add a prior information
+- **Bar G3' (with priors: the trace statement is a theorem, so this tests the implementation). EXPLORATORY: the h2, l2 and libration prior widths are illustrative, so a pass here cannot close G3, and the bar is labelled EXPLORATORY in the result.** Add a prior information
   matrix P = diag(1 / sigma_p^2) over the five parameters (h2, k2, l2, two libration angles), with prior sigmas fixed now:
   k2 0.000108 (the cited GRAIL uncertainty); h2 and l2 each 20 % of their nominal values; each libration angle 1 arcsecond.
   **The h2, l2 and libration widths are ILLUSTRATIVE, not measurements, and are labelled so.** With P included every subset's
@@ -112,7 +115,10 @@ estimator but of the pseudo-inverse. Two honest forms follow.
 
 | | |
 |---|---|
-| Owner sign-off | **not given** |
-| Date of sign-off | |
+| Owner sign-off | **given, 24 October 2026**, quote and option above |
+| EXPLORATORY | G3' (illustrative prior widths) and its prior-width sensitivity |
+| Not exploratory | C3a and C3b (analytic, from the study's own matrices); Q3a and Q3b (against scipy and the pinned design); G3'' (rank-aware, no priors) |
+| Sources | the pinned fixtures and the cited GRAIL k2 result already named above; no source is needed beyond them |
+| Date of sign-off | 24 October 2026 |
 
-Nothing is run, and no code for these campaigns is written, until this table is filled in by the owner.
+The scored runs are made on the commit that follows this one. Results go to `RESULTS-v2.md`; the recorded results and their tests are untouched.
