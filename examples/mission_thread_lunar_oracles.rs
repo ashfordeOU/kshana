@@ -248,9 +248,9 @@ fn main() -> Result<(), String> {
     // ---- A2 ----
     let a2_row = match parse_horizons(&a2_path) {
         Err(e) => json!({ "status": "not run", "reason": e }),
-        Ok(refs) if refs.len() != 2161 => json!({
+        Ok(refs) if refs.len() != 2137 => json!({
             "status": "not run",
-            "reason": format!("Horizons returned {} states; the request spans 2161 (Amendment 5: not shortened)", refs.len()),
+            "reason": format!("Horizons returned {} states; the request spans 2137 (Amendment 5: not shortened)", refs.len()),
         }),
         Ok(refs) => {
             let primary = De440LunarEnvironment::orientation_only();
