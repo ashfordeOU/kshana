@@ -45,6 +45,7 @@ pub const BUNDLED: &[(&str, &str)] = &[
     bundled!("cislunar-arc-recovery"),
     bundled!("cislunar-observability"),
     bundled!("clock-ensemble"),
+    bundled!("clock-fitted-log"),
     bundled!("clock-holdover"),
     bundled!("clock-measured-log"),
     bundled!("clock-holdover-labsr"),

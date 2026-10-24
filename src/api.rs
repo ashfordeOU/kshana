@@ -484,7 +484,13 @@ struct ClockFitTable {
 fn clock_fit_of(
     src: &str,
     scn: &crate::scenario::Scenario,
-) -> Result<Option<(crate::scenario::Scenario, crate::clock_fit::FittedClockReport)>, String> {
+) -> Result<
+    Option<(
+        crate::scenario::Scenario,
+        crate::clock_fit::FittedClockReport,
+    )>,
+    String,
+> {
     use sha2::{Digest, Sha256};
     let t: ClockFitTable = toml::from_str(src).map_err(|e| format!("invalid scenario: {e}"))?;
     let Some(fit) = &t.clock_fit else {
@@ -492,7 +498,8 @@ fn clock_fit_of(
     };
     let Some(log_in) = &t.clock_log else {
         return Err(
-            "[clock_fit] needs a [clock_log] table: the measured series the fit is made from".into(),
+            "[clock_fit] needs a [clock_log] table: the measured series the fit is made from"
+                .into(),
         );
     };
     let canonical = serde_json::to_string(log_in).map_err(|e| e.to_string())?;
