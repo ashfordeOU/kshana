@@ -1,0 +1,31 @@
+# Lunar rendezvous: relative navigation for an Orion-lander style docking in a 100 km circular polar
+# low lunar orbit (Artemis-class), with a lunar gravity field and LunaNet-style signals.
+#
+# Two vehicles, a chaser 2 km behind a target, each with its own Moon-centred inertial estimate. A joint
+# 12-state extended Kalman filter runs over the arc with an absolute position fix per vehicle from an
+# ILLUSTRATIVE LCNS-class relay set (relays behind the Moon dropped, at least four needed), the common-mode
+# part of the signal-in-space error cancelling between the vehicles, and a crosslink range. Ranging
+# precision is the code-tracking bound on the LunaNet AFS pilot (BPSK(5), 5.115 Mchip/s) at the stated C/N0.
+#
+# HONESTY: MODELLED. The relay set, the signal-in-space error, the common-mode fraction and the priors are
+# ILLUSTRATIVE inputs, not measurements; the truth and the filter share the force model (a built-in central
+# term, J2 and C22). The pre-registered consistency check (mean NEES in [5.2, 6.8]) is met at 35 dB-Hz and
+# NOT met at 45 dB-Hz: see xval/mission-thread-lunar/RESULTS.md. No agreement with any real vehicle is
+# claimed. Advisory software, not certified navigation equipment.
+kind = "lunar-rendezvous"
+
+orbit = "llo"               # 100 km circular polar
+separation_m = 2000.0       # chaser behind the target, along track
+arc_s = 7200.0
+step_s = 20.0
+n_relays = 8                # ILLUSTRATIVE
+afs_cn0_dbhz = 35.0         # ILLUSTRATIVE
+isl_cn0_dbhz = 35.0         # ILLUSTRATIVE
+sis_ure_m = 30.0            # the LNIS nominal user range error
+common_mode_fraction = 0.9  # ILLUSTRATIVE
+carried_pos_sigma_m = 100.0 # chaser prior at the start of the arc
+carried_vel_sigma_m_s = 0.1
+target_pos_sigma_m = 50.0
+target_vel_sigma_m_s = 0.05
+n_trials = 50
+seed = 20261024
