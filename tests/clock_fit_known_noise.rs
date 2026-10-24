@@ -183,7 +183,7 @@ fn f1_known_coefficients_are_recovered() {
         }
     }
     if ran > 0 {
-        assert_eq!(ran, 9, "all nine synthetic records or none");
+        assert_eq!(ran, 12, "all twelve synthetic records or none");
         assert_eq!(
             pinned_c3, 6,
             "the pinned F1(a) miss: h_-2 and its q on three C3 records"

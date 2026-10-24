@@ -38,26 +38,32 @@ TAU0 = 1.0
 SEEDS = (20261101, 20261102, 20261103)
 H0 = 1.8e-19  # white FM: 2 sigma_y(1 s)^2 with sigma_y(1 s) = 3e-10 (SA.45s)
 HM2 = 1.52e-29  # random-walk FM: 3 sigma_y(1e4 s)^2 / (2 pi^2 1e4 s) with sigma_y = 1e-12
+HM2_C4 = 1.52e-27  # Addendum 2: C4, sigma_y(1e4 s) = 1e-11, crossover with white FM at 3.0e3 s
+SEEDS_C4 = (20261104, 20261105, 20261106)
 PI = math.pi
+
+
+def hm2_of(config):
+    return HM2_C4 if config == 4 else HM2
 
 
 def record(config, seed):
     rng = np.random.default_rng(seed)
     y = np.zeros(N)
-    if config in (1, 3):
+    if config in (1, 3, 4):
         y += rng.standard_normal(N) * math.sqrt(H0 / (2 * TAU0))
-    if config in (2, 3):
-        y += np.cumsum(rng.standard_normal(N) * math.sqrt(2 * PI**2 * HM2 * TAU0))
+    if config in (2, 3, 4):
+        y += np.cumsum(rng.standard_normal(N) * math.sqrt(2 * PI**2 * hm2_of(config) * TAU0))
     x = np.concatenate([[0.0], np.cumsum(y[:-1]) * TAU0])
     return x
 
 
 def truth_adev(tau, config):
     v = 0.0
-    if config in (1, 3):
+    if config in (1, 3, 4):
         v += H0 / (2 * tau)
-    if config in (2, 3):
-        v += (2 * PI**2 / 3) * HM2 * tau
+    if config in (2, 3, 4):
+        v += (2 * PI**2 / 3) * hm2_of(config) * tau
     return math.sqrt(v)
 
 
@@ -113,8 +119,8 @@ def main():
     ref = {"generator": "scripts/gen_clock_fit_ref.py", "allantools": allantools.__version__,
            "numpy": np.__version__, "h0": H0, "h_m2": HM2, "n": N, "tau0": TAU0, "records": {}}
     worst = 0.0
-    for cfg in (1, 2, 3):
-        for seed in SEEDS:
+    for cfg in (1, 2, 3, 4):
+        for seed in (SEEDS_C4 if cfg == 4 else SEEDS):
             x = record(cfg, seed)
             name = f"fit_C{cfg}_{seed}.txt"
             write_log(os.path.join(a.cache, name), x.tolist())
@@ -129,7 +135,7 @@ def main():
             print(f"{name}: oadev/theory {[(int(t), round(r, 3)) for t, r in chk]}")
             ref["records"][name] = {
                 "config": cfg, "seed": seed,
-                "h0": H0 if cfg in (1, 3) else 0.0, "h_m2": HM2 if cfg in (2, 3) else 0.0,
+                "h0": H0 if cfg in (1, 3, 4) else 0.0, "h_m2": hm2_of(cfg) if cfg in (2, 3, 4) else 0.0,
                 "phase_sha256": sha_f64(x.tolist()), "alphas": alphas(x),
                 "generator_check": chk,
             }
