@@ -2598,6 +2598,17 @@ fn run_clock(scn: &crate::scenario::Scenario, src: Option<&str>) -> Result<RunOu
         Some(s) => clock_log_measured(s),
         None => Ok(None),
     };
+    // `[clock_fit]`: the measured series replaces the named clock's noise; the run below uses the
+    // replaced scenario, so its hash covers the fitted values.
+    let fitted_run = match src {
+        Some(s) => clock_fit_of(s, scn)?,
+        None => None,
+    };
+    let (fitted_scn, fitted) = match fitted_run {
+        Some((s, f)) => (Some(s), Some(f)),
+        None => (None, None),
+    };
+    let scn = fitted_scn.as_ref().unwrap_or(scn);
     scn.time.validate()?;
     if scn.integrity.is_some() && scn.runs > 1 {
         return Err(
@@ -2606,7 +2617,7 @@ fn run_clock(scn: &crate::scenario::Scenario, src: Option<&str>) -> Result<RunOu
         );
     }
     if scn.runs > 1 {
-        if measured_of(src)?.is_some() {
+        if fitted.is_none() && measured_of(src)?.is_some() {
             return Err("[clock_log] needs runs = 1: a measured log is one record".into());
         }
         // Monte Carlo ensemble: report confidence bands instead of one run.
@@ -2619,13 +2630,33 @@ fn run_clock(scn: &crate::scenario::Scenario, src: Option<&str>) -> Result<RunOu
             q.holdover_s.mean, q.holdover_s.p05, q.holdover_s.p95, ns1(q.timing_p95_ns.mean), SECURITY_NA,
             c.holdover_s.mean, c.holdover_s.p05, c.holdover_s.p95, ns1(c.timing_p95_ns.mean), SECURITY_NA,
         );
-        return Ok(RunOutput {
-            json: json_of_with_units_and_tiers(
+        let json = match &fitted {
+            None => json_of_with_units_and_tiers(
                 &r,
                 crate::ensemble::UNITS,
                 &["quantum", "classical"],
                 crate::fom_label::CLOCK_FOM_FIELDS,
             )?,
+            Some(f) => {
+                let units: Vec<_> = crate::ensemble::UNITS
+                    .iter()
+                    .chain(crate::clock_fit::FITTED_UNITS)
+                    .copied()
+                    .collect();
+                json_of_with_units_and_tiers(
+                    &WithFitted {
+                        run: &r,
+                        measured: None,
+                        fitted: f,
+                    },
+                    &units,
+                    &["quantum", "classical"],
+                    crate::fom_label::CLOCK_FOM_FIELDS,
+                )?
+            }
+        };
+        return Ok(RunOutput {
+            json,
             svg: crate::ensemble::to_svg(&r),
             summary,
             csv: None,
@@ -2656,14 +2687,31 @@ fn run_clock(scn: &crate::scenario::Scenario, src: Option<&str>) -> Result<RunOu
                 .collect()
         }
     };
-    let json = match &measured {
-        None => json_of_with_units_and_tiers(
+    let json = match (&measured, &fitted) {
+        (m, Some(f)) => {
+            let mut units: Vec<_> = units.clone();
+            if m.is_some() {
+                units.extend(crate::clock_log::MEASURED_UNITS.iter().copied());
+            }
+            units.extend(crate::clock_fit::FITTED_UNITS.iter().copied());
+            json_of_with_units_and_tiers(
+                &WithFitted {
+                    run: &r,
+                    measured: m.as_ref(),
+                    fitted: f,
+                },
+                &units,
+                &["quantum.fom", "classical.fom"],
+                crate::fom_label::CLOCK_FOM_FIELDS,
+            )?
+        }
+        (None, None) => json_of_with_units_and_tiers(
             &r,
             &units,
             &["quantum.fom", "classical.fom"],
             crate::fom_label::CLOCK_FOM_FIELDS,
         )?,
-        Some(m) => {
+        (Some(m), None) => {
             let units: Vec<_> = units
                 .iter()
                 .chain(crate::clock_log::MEASURED_UNITS)
