@@ -65,3 +65,48 @@ Rules for section A:
 
 No agreement with any agency product, no flight heritage, no endorsement, no certification. The ILLUSTRATIVE
 constellation and error budgets are inputs to be varied, not measurements.
+
+---
+
+# Amendment 1 (2026-10-24): A1 and A2 bars tightened, with the reason for each; still before any run
+
+Made before any oracle data was fetched or any number computed. It only tightens. The original A1 and A2 rows above
+are left as written and are superseded by this amendment for A1 and A2 only; nothing else changes.
+
+## Why the original bars were too loose
+
+The original bars (5 km / 1 km for LRO, 200 km / 100 km for CAPSTONE) were set before the literature was read. Public
+sources say the method should do clearly better:
+
+- **LRO requirements.** The flight-dynamics orbit requirements are 500 m total-position RMS and 18 m radial RMS for the
+  definitive orbit, and 800 m root-sum-square over an 84-hour prediction; operationally the 84-hour requirement was
+  violated three times in two years, mostly in full-Sun periods where radiation pressure dominates (ISSFD 24 abstract,
+  "Lunar Reconnaissance Orbiter Orbit Determination Accuracy Analysis", https://issfd.org/ISSFD_2014/ISSFD24_abstract_S5-4_Slojkowski.pdf).
+- **LRO with a GRAIL-derived field.** A 2.5-day laser-ranging-only prediction with the GRAIL GL0420 field differs from a
+  definitive orbit by less than 80 m total and less than 10 m radial (ILRS Laser Workshop 18 poster 13-Po26,
+  https://ilrs.gsfc.nasa.gov/lw18/docs/posters/13-Po26-Mao.pdf). That is a fitted state, a degree-420 field and modelled
+  radiation pressure, so it is the best case for the method, not the expectation for ours.
+- **CAPSTONE.** A published high-precision propagation of the CAPSTONE NRHO over 6.5 days from 2022-11-25 against the
+  Horizons ephemeris, with a 150 x 150 lunar field, Earth harmonics, Sun, Jupiter, radiation pressure, albedo and
+  relativity, gives an RMSE of 1.443 km (arXiv 2410.03372, section 4.4.1, Table 9). Its position error is not stated as a
+  maximum or as growth in time.
+
+## Method change (more faithful, not looser)
+
+The original text said the field is "already in the crate". Only degree-20 crops of the GRAIL GL0660B table are committed;
+the full table is public (PDS) and is checked in CI only when `KSHANA_GRAIL_SHA` is set. For A1 and A2 the lunar field is
+therefore **GL0660B truncated to degree and order 150**, read from the PDS table, with the file's SHA-256 recorded in the
+result. If the table cannot be fetched, A1 and A2 are "not run" and stay MODELLED. The force model otherwise stays as in
+the table, with the crate's relativistic term added. Radiation pressure and albedo are not modelled, because no public
+area-to-mass value for either spacecraft is registered here.
+
+## Bars as amended
+
+| Id | Bar (replaces the original) | Why this bar |
+|---|---|---|
+| A1 | maximum 3-D position difference over the 24 h window is at most **500 m**, and the 24 h RMS radial difference is at most **60 m** | 500 m is LRO's own total-position requirement. The best published prediction with a high-degree field is under 80 m total and 10 m radial over 2.5 days; allowing about a factor of six for a degree-150 field, no radiation pressure and a single reference state gives 60 m radial. |
+| A2 | position difference at the end of the revolution is at most **25 km**, and the perilune radius differs by at most **10 km** | A full-force published propagation reaches 1.4 km RMS over 6.5 days. Omitting radiation pressure and albedo, and ending at the maximum of a growing error rather than its RMS, justifies about an order of magnitude on top; NRHO error growth is steepest after perilune. |
+
+Everything else in section A applies unchanged: reachability, window choice by rule, "not run" when a source or the
+field table is missing, the result recording URLs, hashes and commit, and the statement that A1 and A2 test the shared
+propagator only. A miss is published and the row stays MODELLED.
