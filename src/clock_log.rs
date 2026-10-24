@@ -522,8 +522,9 @@ fn parse_rinex(
     let (tau0, src) = match inp.tau0_s {
         Some(t) => (t, "input"),
         None => (
-            detect_tau0(&epochs)
-                .ok_or("the clock has a single epoch; at least two are needed (tau0 cannot be found)")?,
+            detect_tau0(&epochs).ok_or(
+                "the clock has a single epoch; at least two are needed (tau0 cannot be found)",
+            )?,
             "median-spacing",
         ),
     };
@@ -783,7 +784,11 @@ fn ticc_value_fs(tok: &str) -> Option<i128> {
         if int_s.len() > 18 {
             return None;
         }
-        let int: i128 = if int_s.is_empty() { 0 } else { int_s.parse().ok()? };
+        let int: i128 = if int_s.is_empty() {
+            0
+        } else {
+            int_s.parse().ok()?
+        };
         let kept = frac_s.len().min(15);
         let mut frac: i128 = 0;
         for c in frac_s.bytes().take(15) {
@@ -796,7 +801,10 @@ fn ticc_value_fs(tok: &str) -> Option<i128> {
         let v = int * 1_000_000_000_000_000 + frac;
         return Some(if neg { -v } else { v });
     }
-    let x: f64 = tok.parse().ok().filter(|x: &f64| x.is_finite() && x.abs() < 1e18)?;
+    let x: f64 = tok
+        .parse()
+        .ok()
+        .filter(|x: &f64| x.is_finite() && x.abs() < 1e18)?;
     Some((x * FS_PER_S).round() as i128)
 }
 
@@ -833,7 +841,9 @@ fn parse_ticc(text: &str, inp: &ClockLogInput, gaps: GapPolicy) -> Result<Normal
         None => match labels.as_slice() {
             [one] => one.to_string(),
             [] => {
-                return Err("the TICC log has no readings (`<seconds> chA|chB|chC|TI(...)` lines)".into())
+                return Err(
+                    "the TICC log has no readings (`<seconds> chA|chB|chC|TI(...)` lines)".into(),
+                )
             }
             many => {
                 return Err(format!(
