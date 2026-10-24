@@ -238,3 +238,38 @@ fn sgp4_regime_bars_svg_shows_the_fixture_values() {
          ({tol:e}) disagree"
     );
 }
+
+/// Every committed figure SVG must be exactly what `tools/gen_validation_figures.py` produces from
+/// its source today. The substring tests above pin the counts of three figures; this one pins all
+/// of them byte for byte, so a data change (a capability card added to `web/capabilities.json`, a
+/// fixture refreshed) without regenerating the figure fails the build. `domain-coverage-map.svg`
+/// had drifted this way (59 capabilities drawn, 61 in the file) with nothing to catch it.
+/// `--check` needs only the Python standard library; `scenario-fom.svg` is checked only when its
+/// clock-holdover result file exists, as the script states.
+#[test]
+fn every_committed_figure_svg_regenerates_identically() {
+    let out = std::process::Command::new("python3")
+        .args(["tools/gen_validation_figures.py", "--check"])
+        .current_dir(env!("CARGO_MANIFEST_DIR"))
+        .output()
+        .expect("python3 is required to run tools/gen_validation_figures.py --check");
+    assert!(
+        out.status.success(),
+        "a committed figure differs from its generator's output; run \
+         `python3 tools/gen_validation_figures.py` and commit the SVG and PNG:\n{}{}",
+        String::from_utf8_lossy(&out.stdout),
+        String::from_utf8_lossy(&out.stderr)
+    );
+    let text = String::from_utf8_lossy(&out.stdout);
+    for name in [
+        "validation-breakdown.svg",
+        "oracle-kind-stacked.svg",
+        "domain-coverage-map.svg",
+        "sgp4-regime-bars.svg",
+    ] {
+        assert!(
+            text.contains(&format!("{name} is in sync.")),
+            "{name} was not checked: {text}"
+        );
+    }
+}
