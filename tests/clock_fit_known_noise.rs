@@ -178,7 +178,7 @@ fn f1_known_coefficients_are_recovered() {
                     // the fit uses, so no fit can identify it; the card fits zero.
                     assert_eq!(got, 0.0, "{name}: the pinned miss changed ({what} {got:e})");
                     pinned_c3 += 1;
-                } else if !(ratio >= 1.0 / 1.5 && ratio <= 1.5) {
+                } else if !(1.0 / 1.5..=1.5).contains(&ratio) {
                     misses.push(format!(
                         "{name}: {what} fitted {got:e}, true {want:e} (ratio {ratio:.3})"
                     ));
@@ -189,7 +189,7 @@ fn f1_known_coefficients_are_recovered() {
         for p in f["fit_points"].as_array().unwrap() {
             let tau = p["tau_s"].as_f64().unwrap();
             let ratio = noise_adev(f, tau) / truth_adev(h0, hm2, tau);
-            if !(ratio >= 1.0 / 1.35 && ratio <= 1.35) {
+            if !(1.0 / 1.35..=1.35).contains(&ratio) {
                 misses.push(format!("{name}: card ADEV / truth at {tau} s = {ratio:.3}"));
             }
         }
@@ -199,6 +199,10 @@ fn f1_known_coefficients_are_recovered() {
         assert_eq!(
             pinned_c3, 6,
             "the pinned F1(a) miss: h_-2 and its q on three C3 records"
+        );
+        assert_eq!(
+            pinned_c4, 4,
+            "the pinned F1(a) miss: h_-2 and its q on two C4 records"
         );
     }
     finish("F1", misses);
