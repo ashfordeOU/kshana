@@ -377,6 +377,72 @@ pub fn bootstrap_success_rate(q: &Mat) -> Option<f64> {
     Some(p)
 }
 
+/// The complementary error function to double precision (relative error under 1e-14 for `x >= 0`),
+/// by a published algorithm: the non-alternating Taylor series of erf below 2, and the continued
+/// fraction of erfc from 2 up. Used by the pre-registered re-test of bar Q3
+/// (`xval/lunar-infra/PREREGISTRATION-v2.md`); the approximation behind
+/// [`bootstrap_success_rate`] is left as it is, so the recorded miss stays reproducible.
+pub fn erfc_accurate(x: f64) -> f64 {
+    if x.is_nan() {
+        return f64::NAN;
+    }
+    if x < 0.0 {
+        return 2.0 - erfc_accurate(-x);
+    }
+    if x < 2.0 {
+        // erf(x) = 2/sqrt(pi) exp(-x^2) sum_n 2^n x^(2n+1) / (1 3 5 ... (2n+1)): every term is positive.
+        let x2 = x * x;
+        let mut term = x;
+        let mut sum = x;
+        let mut n = 0.0_f64;
+        loop {
+            n += 1.0;
+            term *= 2.0 * x2 / (2.0 * n + 1.0);
+            sum += term;
+            if term < sum * 1e-17 || n > 500.0 {
+                break;
+            }
+        }
+        let erf = 2.0 / core::f64::consts::PI.sqrt() * (-x2).exp() * sum;
+        return 1.0 - erf;
+    }
+    // erfc(x) = exp(-x^2)/sqrt(pi) * 1/(x + (1/2)/(x + 1/(x + (3/2)/(x + 2/(x + ...))))), by the modified Lentz method.
+    let tiny = 1e-300;
+    let mut f = x;
+    let mut c = x;
+    let mut d = 0.0_f64;
+    for k in 1..2000 {
+        let a = k as f64 / 2.0;
+        d = x + a * d;
+        d = if d.abs() < tiny { tiny } else { d };
+        c = x + a / c;
+        c = if c.abs() < tiny { tiny } else { c };
+        d = 1.0 / d;
+        let delta = c * d;
+        f *= delta;
+        if (delta - 1.0).abs() < 1e-16 {
+            break;
+        }
+    }
+    (-x * x).exp() / core::f64::consts::PI.sqrt() / f
+}
+
+/// The standard normal CDF through [`erfc_accurate`].
+pub fn normal_cdf_accurate(x: f64) -> f64 {
+    0.5 * erfc_accurate(-x / core::f64::consts::SQRT_2)
+}
+
+/// [`bootstrap_success_rate`] with [`normal_cdf_accurate`] in place of the CDF approximation.
+pub fn bootstrap_success_rate_accurate(q: &Mat) -> Option<f64> {
+    let (_l, d) = ldlt(q)?;
+    let mut p = 1.0;
+    for &di in &d {
+        let sigma = di.sqrt();
+        p *= 2.0 * normal_cdf_accurate(1.0 / (2.0 * sigma)) - 1.0;
+    }
+    Some(p)
+}
+
 // ----------------------------------------------------------------------------
 // top-level resolve
 // ----------------------------------------------------------------------------
@@ -421,6 +487,27 @@ mod tests {
             }
         }
         q
+    }
+
+    #[test]
+    fn erfc_accurate_matches_known_values() {
+        // Values to 16 digits from the standard tables of the complementary error function.
+        for (x, want) in [
+            (0.0, 1.0),
+            (0.5, 0.4795001221869535),
+            (1.0, 0.15729920705028513),
+            (2.0, 0.004677734981047266),
+            (3.0, 2.209049699858544e-05),
+            (5.0, 1.537_459_794_428_035e-12),
+        ] {
+            let got = erfc_accurate(x);
+            assert!(
+                ((got - want) / want).abs() < 1e-13,
+                "erfc({x}) = {got:e}, want {want:e}"
+            );
+        }
+        assert!((erfc_accurate(-1.0) - (2.0 - 0.15729920705028513)).abs() < 1e-15);
+        assert!((normal_cdf_accurate(0.0) - 0.5).abs() < 1e-16);
     }
 
     #[test]
