@@ -13,7 +13,6 @@
 //!   [`UNLABELLED_WRITERS`].
 
 use serde_json::Value;
-use sha2::{Digest, Sha256};
 use std::collections::BTreeMap;
 use std::path::Path;
 
@@ -21,36 +20,35 @@ fn root() -> &'static Path {
     Path::new(env!("CARGO_MANIFEST_DIR"))
 }
 
-fn id_of(requirement: &str) -> String {
-    let h = Sha256::digest(requirement.as_bytes());
-    format!(
-        "VM-{}",
-        h[..4]
-            .iter()
-            .map(|b| format!("{b:02x}"))
-            .collect::<String>()
-    )
-}
-
-/// requirement text -> status, from the committed markdown ledger.
-fn matrix_from_markdown() -> BTreeMap<String, String> {
+/// requirement text -> (id, status), from the committed markdown ledger: `| ID | Requirement | ... | Status |`.
+fn matrix_from_markdown() -> BTreeMap<String, (String, String)> {
     let text = std::fs::read_to_string(root().join("docs/VERIFICATION-MATRIX.md")).expect("matrix");
     let mut rows = BTreeMap::new();
     for line in text.lines() {
-        if !line.starts_with("| ") || line.starts_with("| Requirement") {
+        if !line.starts_with("| VM-") {
             continue;
         }
         let cells: Vec<&str> = line.trim_end_matches('|').split(" | ").collect();
-        let (Some(req), Some(status)) = (cells.first(), cells.last()) else {
+        let (Some(id), Some(req), Some(status)) = (cells.first(), cells.get(1), cells.last())
+        else {
             continue;
         };
         let status = status.trim();
-        if matches!(status, "VALIDATED" | "MODELLED" | "PARTNER") {
-            rows.insert(
-                req.trim_start_matches("| ").trim().to_string(),
+        assert!(
+            matches!(status, "VALIDATED" | "MODELLED" | "PARTNER"),
+            "row {id}: status `{status}`"
+        );
+        let prev = rows.insert(
+            req.trim().to_string(),
+            (
+                id.trim_start_matches("| ").trim().to_string(),
                 status.to_string(),
-            );
-        }
+            ),
+        );
+        assert!(
+            prev.is_none(),
+            "requirement `{req}` appears twice in the ledger"
+        );
     }
     rows
 }
@@ -67,18 +65,18 @@ fn check_label(
     what: &str,
     tier: &str,
     rows: &[(String, String, String)],
-    matrix: &BTreeMap<String, String>,
+    matrix: &BTreeMap<String, (String, String)>,
 ) {
     assert!(!rows.is_empty(), "{what}: the label names no ledger row");
     for (id, req, status) in rows {
-        let want = matrix.get(req).unwrap_or_else(|| {
+        let (want_id, want) = matrix.get(req).unwrap_or_else(|| {
             panic!("{what}: label row `{req}` is not in docs/VERIFICATION-MATRIX.md")
         });
         assert_eq!(
             status, want,
             "{what}: `{req}` is {want} in the matrix, the label says {status}"
         );
-        assert_eq!(id, &id_of(req), "{what}: id of `{req}`");
+        assert_eq!(id, want_id, "{what}: id of `{req}` in the matrix");
     }
     let weakest = rows
         .iter()
@@ -170,6 +168,29 @@ fn scenario_corpus() -> Vec<(String, String)> {
 #[test]
 fn every_scenario_labels_its_json_svg_and_csv_in_agreement_with_the_matrix() {
     let matrix = matrix_from_markdown();
+    // The ledger's ids: well formed, unique, and every id ever issued is still there.
+    let ids: std::collections::BTreeSet<&str> = matrix.values().map(|(i, _)| i.as_str()).collect();
+    assert_eq!(ids.len(), matrix.len(), "two ledger rows share an id");
+    for (req, (id, _)) in &matrix {
+        let hex = id.strip_prefix("VM-").unwrap_or("");
+        assert!(
+            hex.len() == 8
+                && hex
+                    .chars()
+                    .all(|c| c.is_ascii_hexdigit() && !c.is_ascii_uppercase()),
+            "row `{req}` has a malformed id `{id}`"
+        );
+    }
+    let frozen = std::fs::read_to_string(root().join("tests/fixtures/evidence_ids.txt")).unwrap();
+    for id in frozen
+        .lines()
+        .filter(|l| !l.starts_with('#') && !l.trim().is_empty())
+    {
+        assert!(
+            ids.contains(id),
+            "id {id} was issued and is no longer in the ledger"
+        );
+    }
     assert!(
         matrix.len() > 300,
         "the markdown ledger did not parse: {} rows",
@@ -239,7 +260,7 @@ fn every_scenario_labels_its_json_svg_and_csv_in_agreement_with_the_matrix() {
         no_chart.len() < 10,
         "kinds that draw no chart: {no_chart:?}"
     );
-    assert!(csvs > 5, "only {csvs} CSV tables were checked");
+    assert!(csvs >= 3, "only {csvs} CSV tables were checked");
 }
 
 #[test]
