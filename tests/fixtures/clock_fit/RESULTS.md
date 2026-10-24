@@ -50,3 +50,34 @@ behaviour: it is not refused (negligible noise).
   that step removed from the record allantools sees, its exponents equal the engine's at **12 of 12** points
   (`alphas_after_step_removal` in `reference.json`, a diagnostic added after run 1, not a replacement of the bar).
   The difference is the conditioning step the card procedure includes by design.
+
+## Run 3: the C4 records (Addendum 2; records and reference committed before this run)
+
+Generator check for C4 (information, not a bar): allantools `oadev` / theory within 19 % at 1, 8, 64, 512 and
+4096 s (largest 1.188 at 4096 s, sampling scatter).
+
+| record | `h_0` fitted (true 1.8e-19) | `h_-2` fitted (true 1.52e-27) | ratio | `h_-1` fitted | drift fitted (1/s) |
+|---|---|---|---|---|---|
+| C4 seed 20261104 | 1.808e-19 | **0** | 0 | 1.97e-23 | 1.05e-15 |
+| C4 seed 20261105 | 1.794e-19 | 1.774e-27 | 1.17 | 0 | 8.76e-16 |
+| C4 seed 20261106 | 1.800e-19 | 5.83e-28 | **0.38** | 9.87e-24 | -1.75e-16 |
+
+- **F1(a): NOT MET on two of the three C4 records, pinned.** White FM is recovered within 1 % on all three. Where
+  random-walk FM is present in the record the fit gives it, in part or in whole, to flicker FM and to the fitted
+  linear drift (the quadratic it removes is the first step of the card procedure): a single realisation of
+  random-walk FM has an apparent drift of the same order as its noise at the longest averaging times, and
+  flicker FM and random-walk FM are close in shape over the one or two octaves where random-walk FM shows. The
+  card's Allan deviation still matches the truth: **F1(b) is met on all twelve synthetic records**.
+- **F2: met on all twelve synthetic records and D3; NOT MET on D2 (pinned, 12 of 12 like-for-like).**
+
+What this means for a run, stated in `docs/CLOCK-LOG-FORMATS.md`: the fitted `q_wf` is reliable where white FM
+dominates, the split between random-walk FM and flicker FM is not reliable from one record, and a holdover
+run driven by the fit reproduces the log's stability over the averaging times of the log but extrapolates
+differently beyond them, depending on which of the two the fit chose.
+
+## Verdict
+
+F1(b), F3 and F4 met; F1(a) NOT MET on C3 (unidentifiable by construction) and on two of three C4 records
+(random-walk FM absorbed by flicker FM and drift); F2 met on eleven of twelve records plus D3 and NOT MET on D2
+as registered (met like-for-like). All misses are pinned by `tests/clock_fit_known_noise.rs`. By the verdict
+rule the `fitted` block and the holdover driven by it stay **MODELLED**. No VALIDATED row is added.
