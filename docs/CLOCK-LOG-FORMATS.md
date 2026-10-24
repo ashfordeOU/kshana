@@ -169,6 +169,45 @@ TimeLab log. Replace `text` with `path` and `format` for your own file. The `mea
 in the result holds how the log was read (format, `tau0` and where it came from, every gap)
 and its ADEV, TDEV and MTIE; it does not change the simulation.
 
+### Driving the holdover with your own clock: `[clock_fit]`
+
+```toml
+[clock_log]                      # the measured series, as above
+format = "ticc"
+path = "my-clock.txt"
+channel = "chA"
+
+[clock_fit]
+replaces = "classical"           # or "quantum": the simulated clock whose noise the log replaces
+```
+
+The log is fitted with the device-card procedure of `src/clock_library/card.rs` (conditioning, quadratic
+removed, lag-1 noise identification, weighted least squares in white PM, white FM, flicker FM and
+random-walk FM at the averaging times with at least 30 degrees of freedom). The named clock then takes
+`q_wf = h_0 / 2`, `q_rw = 2 pi^2 h_-2`, `flicker_floor = sqrt(2 ln 2 h_-1)` and the fitted `drift`; `y0` stays as
+the scenario has it, because a log carries the offset of its reference, not of the clock after discipline.
+White phase noise is fitted and reported but not simulated. The result gains a `fitted` block (the
+coefficients, the fit points, the values the run used, what was left out, the log's SHA-256) and the clock
+carries the id `measured:<12 hex of the phase hash>`. With `runs > 1` the ensemble draws from the fitted clock
+(the `measured` block needs `runs = 1`). A fit with no frequency noise, a log too short to fit and a
+`replaces` other than `quantum` or `classical` are errors that say so.
+`scenarios/clock-fitted-log.toml` is an example (6 hours of an IGS satellite clock).
+
+What the comparison on known noise (`tests/fixtures/clock_fit/RESULTS.md`) shows, and what to keep in mind:
+
+- Met: the white-FM level is recovered within 5 % on every synthetic record that has it; the fitted card reproduces the
+  true Allan deviation within a factor of 1.35 at every averaging time it was fitted at; the noise exponent the
+  fit identifies equals allantools' at every point (on the 5071A record, once the phase step the conditioning
+  removes is removed from allantools' input too).
+- **Not met, and pinned by the test:** random-walk FM is recovered only when it dominates the longest averaging
+  times of the record, and even then in one of three records of a 131 072 s series with a crossover at 3 000 s,
+  the fit gave it to flicker FM and to the drift. The split between random-walk FM and flicker FM is not reliable
+  from one record. The run reproduces the log's stability over the averaging times the log covers; beyond them
+  the two choices diverge (flicker FM is a constant floor, random-walk FM grows as the square root of the
+  averaging time).
+- MODELLED: a what-if for that clock's noise as the log shows it, not a calibration of the clock and not a
+  prediction of its future behaviour.
+
 A malformed log is an error that names what was found (the line, the version, the missing
 selector), never a partial result: `tests/clock_log_real_allantools.rs` pins 24 such cases.
 

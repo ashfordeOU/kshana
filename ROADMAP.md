@@ -37,8 +37,9 @@ this list says what comes first.
      fits (`src/clock_library/`), and measured Allan-deviation ingest in `quantum-trade` —
      so a study can run on the user's own clock. *(Delivered: RINEX-clock (2.00, 3.00 to 3.04; no
      4.00 clock format exists), TimeLab and TICC logs, phase and frequency input, compared with
-     allantools on measured clocks, [`docs/CLOCK-LOG-FORMATS.md`](docs/CLOCK-LOG-FORMATS.md). The `clock`
-     kind's holdover run driven from the user's own series remains.)*
+     allantools on measured clocks, [`docs/CLOCK-LOG-FORMATS.md`](docs/CLOCK-LOG-FORMATS.md); and the `clock`
+     kind's holdover run driven from the user's own series, `[clock_fit]`, MODELLED, with its limits stated.
+     Remaining: a measured holdover compared with a holdover predicted from its own earlier data.)*
 
    Next:
    - a figure-by-figure VALIDATED / MODELLED label in the run output, not only in the
