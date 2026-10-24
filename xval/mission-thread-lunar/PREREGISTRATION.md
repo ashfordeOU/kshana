@@ -227,3 +227,24 @@ points a run would otherwise have to settle by judgement are fixed with it.
   states, over the window the primary selected for A2, and is reported without a bar.
 
 Nothing else changes. The bars stay as Amendment 1 set them.
+
+---
+
+# Amendment 6 (2026-10-24): the A2 state count was an arithmetic error; made after the fetch, before any A2 result
+
+**Disclosure of timing.** Unlike Amendments 1 to 5, this one is made after the data was fetched. The runner reported
+`not run` for A2 because Horizons returned 2137 states and the runner expected 2161, the figure Amendment 2 gave
+for the A2 request. Before this amendment, no A2 state value had been read and no A2 propagation had been run: the
+only thing looked at was the number of rows and the first and last epoch of the response.
+
+**The error.** The A2 request of Amendment 2 is 2023-01-01 00:00 to 2023-03-31 00:00 UTC at one hour. That span is
+31 + 28 + 30 = 89 days, which is 89 x 24 + 1 = **2137** states. Amendment 2 wrote 2161, which is the count for 90
+days. The response is complete: its first epoch is 2023-01-01 00:00 and its last 2023-03-31 00:00, one hour
+apart throughout the 89 days, and it is the whole of what the request spans.
+
+**The correction.** The A2 state count is 2137 (the A1 count of 145 is right: 24 hours at ten minutes is 144
+intervals). The "not run when fewer states than the request spans" rule of Amendment 5 stands and is met here: the
+response carries every state the request spans, so A2 is run. The span is not changed and no other is tried.
+
+No bar, window length, threshold or definition changes. The runner's constant is corrected to 2137 in the commit that
+follows this amendment, and the result records that the A2 run came after this correction.
