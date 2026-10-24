@@ -301,7 +301,7 @@ const UNLABELLED_WRITERS: &[(&str, &str)] = &[
     ("src/bin/validation_report.rs", "writes the validation summary, which is built from the ledger"),
     ("src/main.rs", "run outputs are labelled by api::run_toml and receiver_trust::run_scenario before main writes them; what main writes besides is a study aggregate (its member documents are labelled) or a format-bound export read by third-party tools (SP3, OMM, OEM, CZML, KML, GeoJSON, STK, SigMF, the test-bench motion and NMEA files)"),
     ("src/bench/cli.rs", "kshana-bench result files have a fixed schema pinned by the holdout commitments and the baselines; each carries its own `label` (MODELLED or measured) and names the truth it scores against"),
-    ("src/evidence/cli.rs", "signed evidence packs: a label inside would change signed, hash-chained bytes that the verification procedure and pinned packs cover (ledger row VM-a66b5cd1); the pack's scorecard is labelled where the command prints it"),
+    ("src/evidence/cli.rs", "writes the pack the library built: the label is inside the pack's config.json (src/evidence/assemble.rs), covered by the hash chain and the signature, and `kshana evidence verify` reports it (tests/evidence_pack_label.rs)"),
     ("src/interference_map/observatory.rs", "the observatory's daily products (GeoJSON, PNG, incident JSON) have a frozen published schema and are produced by the observatory method note (docs/observatory/METHOD.md), whose own caveats travel with them"),
     ("src/iq/campaign/conditions.rs", "writes the lab-conditions file a campaign is replayed under, an input"),
     ("src/iq/campaign/report.rs", "campaign cell, scorecard and report files are digest-pinned (tests/iq_campaign.rs) and each states the campaign scorecard it restates"),
