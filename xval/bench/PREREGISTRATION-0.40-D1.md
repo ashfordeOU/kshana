@@ -1,6 +1,6 @@
-# Pre-registration (DRAFT, awaiting owner sign-off): task (d), the optimism gap on the second track (scale 0.25)
+# Pre-registration (EXPLORATORY): task (d), the optimism gap on the second track (scale 0.25)
 
-**Status: DRAFT. Not committed as a registration until the owner signs it off. Nothing has been run for it.**
+**Status: SIGNED OFF by the owner on 24 Oct 2026 (below). Nothing has been run for it as of the sign-off commit.**
 
 This is a new bar, **D3**. It does not replace, change or reinterpret **D1** or `RESULTS-v1.md` / `RESULTS-v2.md`:
 D1 (some detector has `optimism_gap > 0.05` on `test` at severity scale 0.5) was measured at a largest gap of
@@ -48,3 +48,9 @@ field.
 
 That the corpus is representative (it is a separability and pipeline check, labels are model-derived); that a pass
 changes D1; that gap > 0.05 means a detector is bad rather than that scale 0.25 is a larger shift.
+
+## Owner sign-off
+
+24 Oct 2026, verbatim: "All three, A3/D3 exploratory". Marked EXPLORATORY: scale chosen after D1 missed.
+
+The bars above are fixed from this commit. No bar, seed, recipe or setting changes after a result is seen.
