@@ -120,3 +120,13 @@ the reference reader has the same author as the Rust reader, and allantools chec
 are validated elsewhere. All of B1 to B5 met: the comparison is recorded as passing, on this data, and no
 VALIDATED row is added. Any bar missed: recorded as a miss with the numbers, the defect fixed in a separate
 commit with a re-run, never a widened bar.
+
+## Addendum 1 (written before the fixtures were cut and before any run)
+
+Looking at D1 and D2 to write the generator: D1 (`PHASE.DAT`) spans -4.71 s to 4.36 s with steps up to 0.51 s
+at tau0 = 1 s, which is not a series a time-interval counter can print as time stamps (the nominal tick
+`n[k]` is found by rounding `(t[k] - t[0]) / tau0`, so a phase excursion beyond half a tick is
+indistinguishable from a missed event). D2 spans 7.64e-7 s to 7.87e-7 s. Therefore, for the `TICC-0`, `TICC-3`
+and `TICC-11` logs only, D1's values are read as nanoseconds (divided by 1e9) before the time stamps are
+formed; the reference reader, allantools and every bar apply to that scaled series. D1 keeps its original
+scale in `TL-P` and `TL-F`. Nothing else in the registration changes: bars, data, offsets, cases.
