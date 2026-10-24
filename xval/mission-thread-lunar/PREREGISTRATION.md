@@ -149,3 +149,24 @@ to choose the window, and the bar is applied to the propagation from the window'
 the result.
 
 Nothing else in section A or in Amendment 1 changes. A miss is published and the row stays MODELLED.
+
+---
+
+# Amendment 3 (2026-10-24): the lunar orientation used for A1 and A2; still before any fetch
+
+Made before any oracle data was fetched or inspected. It changes no bar.
+
+Sections A and the two amendments before this one name "the crate's lunar force model" but not the frame inputs
+behind it. The crate has two: the kernel-free analytic lunar orientation (the default), and the embedded daily DE440
+principal-axis orientation series, 2014 to 2030, that the same force model takes through
+`De440LunarEnvironment::orientation_only` (Sun and Moon stay the analytic series). The two differ by tens of
+arc-seconds (the crate's own cross-check against ANISE, `xval/anise-lunar-od`), which is some hundreds of metres of
+where the body-fixed gravity field sits at the surface: not negligible against the A1 bar.
+
+**Primary (the bars apply):** the DE440 orientation, because it is the more accurate input the crate has and the
+whole of the A1 and A2 spans (2023 and 2025) lie inside its coverage. **Secondary (reported, no bar applies, no
+label rests on it):** the analytic orientation, to show how much the choice moves the result. The relativistic
+(Schwarzschild) term of the force model is on in both. Nothing else changes.
+
+If the DE440 orientation cannot be built for the span (outside its coverage), A1 and A2 are "not run"; the analytic
+orientation does not stand in for them.
