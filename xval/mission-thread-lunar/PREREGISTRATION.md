@@ -198,3 +198,32 @@ text left them.
   unaltered, kilometres converted to metres; no fitting, smoothing or time shift is applied to either side.
 
 Nothing else changes. The bars stay as Amendment 1 set them.
+
+---
+
+# Amendment 5 (2026-10-24): the A2 window length, and the remaining loose ends of A1 and A2; still before any fetch
+
+Made before any oracle data was fetched or inspected. It changes no bar. Reading Amendment 4 again, its
+"osculating Keplerian period of the first sample" is undefined for the part of a near rectilinear halo orbit where
+the osculating orbit is hyperbolic (near perilune the speed, about 2.4 km/s at a radius of about 3300 km, exceeds
+the escape speed there, about 1.7 km/s), so it cannot decide a window length. The rule is replaced, and the other
+points a run would otherwise have to settle by judgement are fixed with it.
+
+- **A2 window length.** 156 hours, which is 6.5 days: the published period of the orbit, "about 6.5 days" (the
+  figure Amendment 2 already cited). The window is the first run of 156 consecutive hours, that is 157 consecutive
+  reference samples with no maneuver hour between any two of them, and the end-of-window bars are applied at +156
+  h. Amendment 4's length rule is withdrawn and everything else in it stands.
+- **Periapsis of a hyperbolic state.** The osculating periapsis radius `p / (1 + e)` is defined for any conic,
+  hyperbolic included, and is the quantity used whatever the state's energy.
+- **Model for the maneuver test.** The primary model of Amendment 3 (the DE440 orientation), with the field,
+  relativity and tolerances of Amendments 1, 3 and 4, evaluated with the epoch of the earlier sample of each pair.
+- **Identifiers checked, not data.** The Horizons lookup service names `-85` as `LRO (spacecraft)`, designator
+  2009-031A, and `-1176` as `CAPSTONE (spacecraft)`, designator 2022-070A; the requests of Amendment 2 use them.
+- **Coverage.** If Horizons returns fewer states than the request spans (it stops where its ephemeris stops), or
+  an error, the row is "not run"; the span is not shortened and no other is tried (rule 1). The moon-centred ICRF
+  vectors and their Barycentric Dynamical Time stamps are used as returned (the Julian Date of each row is the
+  epoch, so no leap-second handling enters).
+- **Secondary orientation.** The analytic-orientation propagation of Amendment 3 is run from the same initial
+  states, over the window the primary selected for A2, and is reported without a bar.
+
+Nothing else changes. The bars stay as Amendment 1 set them.
