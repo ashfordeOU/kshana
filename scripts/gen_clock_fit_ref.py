@@ -149,7 +149,15 @@ def main():
     long_worst = max(abs(r - 1) for _, r in long_chk)
     # measured records: D2 and D3
     d2 = read_series(a.cs5071a, 65536)
-    ref["records"]["D2"] = {"phase_sha256": sha_f64(d2), "alphas": alphas(d2)}
+    # Diagnostic added after run 1 (RESULTS.md): the engine's conditioning logs one phase step in D2, of
+    # 1.960272139399993e-8 s between samples 0 and 1, and removes it from every later sample before it
+    # identifies the noise; allantools is given the raw record in the registered comparison. The same
+    # record with that step removed is the like-for-like input.
+    d2s = list(d2)
+    for i in range(1, len(d2s)):
+        d2s[i] -= 1.960272139399993e-8
+    ref["records"]["D2"] = {"phase_sha256": sha_f64(d2), "alphas": alphas(d2),
+                            "alphas_after_step_removal": alphas(d2s)}
     real = json.load(open(a.clock_real_ref))
     d3 = real["cases"]["igs_clk_30s_2026214_G01_ABMF.clk:G01"]["phase_s"]
     # D3 is at tau0 = 30 s: identify with that spacing (allantools sees the same phase and af)
