@@ -9,7 +9,7 @@ seg-22eb3a688624 = Source: <c1/>
 seg-561a783e9516 = Low-Earth-orbit navigation (scenario kind family)
 
 # text
-seg-a57e35414fc4 = { "7" } scenario kinds of the engine { "v0.39.0" }. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
+seg-6800289a282d = { "7" } scenario kinds of the engine v{ $version }. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
 
 # text
 # c1: kshana scenarios/leo-pnt-end-to-end.toml

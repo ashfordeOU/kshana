@@ -12,7 +12,7 @@ seg-81a87d14efda = Kshana: the mark, a compass reticle marking the precise insta
 seg-32c82b87acd6 = <b>Kshana · <s1>क्षण</s1> · <em>the precise instant</em></b><br/> An open-source simulator for PNT (positioning, navigation and timing) resilience.
 
 # text
-seg-bcc02d802ca2 = Release { "v0.39.0" }
+seg-3b861b2f08b8 = Release v{ $version }
 
 # text
 seg-ebe636986f46 = { "176" } of { "388" } capabilities validated against independent external oracles
@@ -190,7 +190,7 @@ seg-e21e9bb02d00 = <b>Campaigns</b>: a chained mission, a sweep or a Monte Carlo
 seg-ba5057da54e4 = <b>Reports, animation and exports</b>: every figure with its unit and label; an animated drawing of a run; SP3 (Standard Product { "3" }), CCSDS (Consultative Committee for Space Data Systems) orbit messages, CZML (Cesium Language), KML (Keyhole Markup Language), GeoJSON, STK (Systems Tool Kit) and SigMF (Signal Metadata Format) files.
 
 # attr:alt
-seg-941eb70d5965 = One open engine at the centre, kshana { "0.39.0" }, with a typed dispatch over { "75" } kinds; around it the command line, the Rust library, Python, WebAssembly and Kshana Studio, the MCP server, the Docker image and the JetBrains plugin; below it Kshana Pro, a proprietary overlay that depends on the open engine and never forks it
+seg-6b43a8c3031e = One open engine at the centre, kshana { $version }, with a typed dispatch over { "75" } kinds; around it the command line, the Rust library, Python, WebAssembly and Kshana Studio, the MCP server, the Docker image and the JetBrains plugin; below it Kshana Pro, a proprietary overlay that depends on the open engine and never forks it
 
 # text
 # c1: kshana-mcp

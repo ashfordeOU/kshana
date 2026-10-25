@@ -5,7 +5,7 @@
 seg-1a7b32606cb4 = Kshana documentation
 
 # text
-seg-c878d647b713 = Everything here is rendered at build time from Markdown files tracked in the <a1>Kshana repository</a1> (engine { "v0.39.0" }), plus two reference pages generated from the scenario files and the verification matrix. Nothing is written by hand for the site.
+seg-6d9a76ed1406 = Everything here is rendered at build time from Markdown files tracked in the <a1>Kshana repository</a1> (engine v{ $version }), plus two reference pages generated from the scenario files and the verification matrix. Nothing is written by hand for the site.
 
 # text
 seg-e3ca722e9c36 = <s1>Overview</s1><s2>Kshana replays jamming, spoofing and clock holdover when GNSS (Global Navigation Satellite System) signals…</s2>
@@ -38,7 +38,7 @@ seg-50dd8e4077fd = <s1>Worked example: multi-tool pipeline</s1><s2>This walks on
 seg-78756a9f6704 = <s1>Scenario kinds</s1><s2>The { "87" } built-in scenario kinds that kshana::api::run_toml dispatches over, each with its one-line…</s2>
 
 # text
-seg-e5170ac77cfd = <s1>Every scenario kind, by family</s1><s2>Every scenario kind the engine { "v0.39.0" } dispatches ({ "87" }), filed under { "12" } families.</s2>
+seg-051029eb3525 = <s1>Every scenario kind, by family</s1><s2>Every scenario kind the engine v{ $version } dispatches ({ "87" }), filed under { "12" } families.</s2>
 
 # text
 seg-86b2b5f29f35 = <s1>Every command</s1><s2>kshana <scenario.toml> runs a scenario; every other command is a subcommand. kshana --help prints the usage…</s2>
@@ -305,40 +305,40 @@ seg-43a346878a68 = <s1>Governance</s1><s2>This document states how Kshana is gov
 seg-147b50bc526f = <s1>Code of conduct</s1><s2>We as members, contributors, and leaders pledge to make participation in our community a harassment-free…</s2>
 
 # text
-seg-40f091eecb53 = <s1>Campaigns</s1><s2>{ "1" } scenario kind of the engine { "v0.39.0" }. Advisory: analysis output from a research and engineering tool, not…</s2>
+seg-f614d6e8b1f4 = <s1>Campaigns</s1><s2>{ "1" } scenario kind of the engine v{ $version }. Advisory: analysis output from a research and engineering tool, not…</s2>
 
 # text
-seg-c04c66f0cec2 = <s1>Clocks timing and holdover</s1><s2>{ "9" } scenario kinds of the engine { "v0.39.0" }. Advisory: analysis output from a research and engineering tool, not…</s2>
+seg-c4fc43121c22 = <s1>Clocks timing and holdover</s1><s2>{ "9" } scenario kinds of the engine v{ $version }. Advisory: analysis output from a research and engineering tool, not…</s2>
 
 # text
-seg-355c555b9d26 = <s1>Constellations coverage and geometry</s1><s2>{ "7" } scenario kinds of the engine { "v0.39.0" }. Advisory: analysis output from a research and engineering tool, not…</s2>
+seg-d4b063147d18 = <s1>Constellations coverage and geometry</s1><s2>{ "7" } scenario kinds of the engine v{ $version }. Advisory: analysis output from a research and engineering tool, not…</s2>
 
 # text
-seg-417d27f2d266 = <s1>Gnss measurements positioning and integrity</s1><s2>{ "6" } scenario kinds of the engine { "v0.39.0" }. Advisory: analysis output from a research and engineering tool, not…</s2>
+seg-c46df00b4c34 = <s1>Gnss measurements positioning and integrity</s1><s2>{ "6" } scenario kinds of the engine v{ $version }. Advisory: analysis output from a research and engineering tool, not…</s2>
 
 # text
-seg-dd6fe735f026 = <s1>Gps denied alternative pnt</s1><s2>{ "5" } scenario kinds of the engine { "v0.39.0" }. Advisory: analysis output from a research and engineering tool, not…</s2>
+seg-ec2b7abf2d82 = <s1>Gps denied alternative pnt</s1><s2>{ "5" } scenario kinds of the engine v{ $version }. Advisory: analysis output from a research and engineering tool, not…</s2>
 
 # text
-seg-9b24aad08bc2 = <s1>Inertial fusion and quantum sensors</s1><s2>{ "9" } scenario kinds of the engine { "v0.39.0" }. Advisory: analysis output from a research and engineering tool, not…</s2>
+seg-bfa814d38dca = <s1>Inertial fusion and quantum sensors</s1><s2>{ "9" } scenario kinds of the engine v{ $version }. Advisory: analysis output from a research and engineering tool, not…</s2>
 
 # text
-seg-b7c13f0fc626 = <s1>Jamming spoofing and the spectrum</s1><s2>{ "6" } scenario kinds of the engine { "v0.39.0" }. Advisory: analysis output from a research and engineering tool, not…</s2>
+seg-69525243f8f1 = <s1>Jamming spoofing and the spectrum</s1><s2>{ "6" } scenario kinds of the engine v{ $version }. Advisory: analysis output from a research and engineering tool, not…</s2>
 
 # text
-seg-0aff93485317 = <s1>Low earth orbit navigation</s1><s2>{ "7" } scenario kinds of the engine { "v0.39.0" }. Advisory: analysis output from a research and engineering tool, not…</s2>
+seg-0541e0421253 = <s1>Low earth orbit navigation</s1><s2>{ "7" } scenario kinds of the engine v{ $version }. Advisory: analysis output from a research and engineering tool, not…</s2>
 
 # text
-seg-8afb701957cc = <s1>Lunar and cislunar</s1><s2>{ "20" } scenario kinds of the engine { "v0.39.0" }. Advisory: analysis output from a research and engineering tool, not…</s2>
+seg-1da177a1654b = <s1>Lunar and cislunar</s1><s2>{ "20" } scenario kinds of the engine v{ $version }. Advisory: analysis output from a research and engineering tool, not…</s2>
 
 # text
-seg-9fc01e3bf615 = <s1>Mission analysis links and space operations</s1><s2>{ "14" } scenario kinds of the engine { "v0.39.0" }. Advisory: analysis output from a research and engineering tool, not…</s2>
+seg-671dc0d705c5 = <s1>Mission analysis links and space operations</s1><s2>{ "14" } scenario kinds of the engine v{ $version }. Advisory: analysis output from a research and engineering tool, not…</s2>
 
 # text
-seg-56cc1e002edc = <s1>Optical pnt</s1><s2>{ "2" } scenario kinds of the engine { "v0.39.0" }. Advisory: analysis output from a research and engineering tool, not…</s2>
+seg-5de091b18fe4 = <s1>Optical pnt</s1><s2>{ "2" } scenario kinds of the engine v{ $version }. Advisory: analysis output from a research and engineering tool, not…</s2>
 
 # text
-seg-9018e95ea5c5 = <s1>Space user navigation</s1><s2>{ "1" } scenario kind of the engine { "v0.39.0" }. Advisory: analysis output from a research and engineering tool, not…</s2>
+seg-35db5b51a590 = <s1>Space user navigation</s1><s2>{ "1" } scenario kind of the engine v{ $version }. Advisory: analysis output from a research and engineering tool, not…</s2>
 
 # text
 seg-0144518c94fc = { "87" } pages, one for each scenario kind, linked from <a1>Every scenario kind, by family</a1>.

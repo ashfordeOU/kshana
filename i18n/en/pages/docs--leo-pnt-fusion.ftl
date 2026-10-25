@@ -25,7 +25,7 @@ seg-3e7c6608d5c4 = Systems and presets
 # text
 # c1: [[system]]
 # c2: kshana <file>.toml
-seg-c89b1e241636 = A scenario lists its systems as <c1/> tables. This complete scenario joins the GPS baseline constellation with a generic LEO layer and runs as written (<c2/>; engine { "0.39.0" } gives a median position dilution of precision of { "2.43" } for GPS alone and { "1.17" } fused, and a root-mean-square 3D error of { "2.06" } m and { "0.47" } m):
+seg-1031746214ab = A scenario lists its systems as <c1/> tables. This complete scenario joins the GPS baseline constellation with a generic LEO layer and runs as written (<c2/>; engine { $version } gives a median position dilution of precision of { "2.43" } for GPS alone and { "1.17" } fused, and a root-mean-square 3D error of { "2.06" } m and { "0.47" } m):
 
 # text
 # c1: preset = "gps-baseline"

@@ -10,7 +10,7 @@ seg-c68502b9d675 = Source: <c1/>
 seg-46072326d616 = <c1/> (scenario kind)
 
 # text
-seg-75bcebd6664f = Scenario kind of the engine { "v0.39.0" }, family <a1>Constellations, coverage and geometry</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
+seg-11e8c29ecb45 = Scenario kind of the engine v{ $version }, family <a1>Constellations, coverage and geometry</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
 
 # text
 seg-3f749aef8d89 = Deep-space Mars PNT: a simulated MARCONI relay constellation (areostationary + inclined relays broadcasting one-way + relaying two-way to a deep-space station) navigates a reference user (transfer | lmo | surface) through the joint one-way/two-way radiometric fusion estimator. Reports per-epoch geometry/visibility, achieved RMS vs truth, and the formal covariance (1σ / 3σ position) — an honest simulated FoM, NOT a certified protection level.

@@ -15,6 +15,9 @@ seg-bbc8f38627f1 = The format is based on <a1>Keep a Changelog</a1>, and this pr
 seg-985f7b4c001a = Unreleased
 
 # text
+seg-66749e5be121 = [{ $version }] - 2026-10-22
+
+# text
 seg-a2f583aadd0b = No new features: one command-line fix, dependency updates in the cross-validation tooling, and documentation. The engine's results are unchanged from { "0.38.0" }.
 
 # text

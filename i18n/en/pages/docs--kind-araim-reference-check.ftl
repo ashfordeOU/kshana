@@ -10,7 +10,7 @@ seg-c53da0bf140d = Source: <c1/>
 seg-82884391dd77 = <c1/> (scenario kind)
 
 # text
-seg-77aa6de43477 = Scenario kind of the engine { "v0.39.0" }, family <a1>GNSS measurements, positioning and integrity</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
+seg-8e845ce908ee = Scenario kind of the engine v{ $version }, family <a1>GNSS measurements, positioning and integrity</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
 
 # text
 # c1: published
