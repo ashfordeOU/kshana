@@ -31,7 +31,7 @@ import re
 import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-FTL = os.path.join(ROOT, "locales/en/engine.ftl")
+FTL = os.path.join(ROOT, "i18n/en/engine.ftl")
 CORPUS = os.path.join(ROOT, "tests/fixtures/i18n/corpus.json")
 
 IDENT_START = re.compile(r"[A-Za-z_]")
@@ -394,9 +394,9 @@ def ftl_message(mid, pieces):
     if trail:
         rendered[-1] = rendered[-1] + fl_literal("\n" * trail)
     if len(rendered) == 1:
-        return f"{mid} = {rendered[0]}\n"
+        return f"engine-{mid} = {rendered[0]}\n"
     body = "\n".join(("    " + l) if l != "" else "" for l in rendered)
-    return f"{mid} =\n{body}\n"
+    return f"engine-{mid} =\n{body}\n"
 
 
 def slug(text):
@@ -415,7 +415,7 @@ def area_of(path):
 class Catalogue:
     def __init__(self):
         self.text = open(FTL, encoding="utf-8").read() if os.path.exists(FTL) else ""
-        self.ids = set(re.findall(r"^([a-z][a-z0-9-]*)\s*=", self.text, re.M))
+        self.ids = set(re.findall(r"^engine-([a-z][a-z0-9-]*)\s*=", self.text, re.M))
         self.corpus = json.load(open(CORPUS)) if os.path.exists(CORPUS) else []
         self.by_template = {}
         for e in self.corpus:

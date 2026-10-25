@@ -12,9 +12,9 @@
 //!
 //! # The catalogue
 //!
-//! Messages are [Project Fluent](https://projectfluent.org) (`.ftl`). `locales/en/engine.ftl` is the
+//! Messages are [Project Fluent](https://projectfluent.org) (`.ftl`). `i18n/en/engine.ftl` is the
 //! source: the English text of every message, moved verbatim from the Rust source, so the English
-//! output is byte-for-byte what it was before. The other languages (`locales/<tag>/engine.ftl`) are
+//! output is byte-for-byte what it was before. The other languages (`i18n/<tag>/engine.ftl`) are
 //! translations of it, embedded in the binary (a `cargo install kshana` has no repository to read
 //! from); a message missing from a translation falls back to English, per message. The pseudo-locale
 //! `en-XA` is made from the English catalogue at first use (accented, bracketed and about 40 % longer:
@@ -54,10 +54,10 @@ use unic_langid::LanguageIdentifier;
 
 mod pseudo;
 
-/// The languages the tool is localised in: English (the source) and the sixteen others.
-pub const LANGS: [&str; 17] = [
-    "en", "nl", "pl", "pt", "fi", "sv", "da", "nb", "cs", "uk", "ru", "de", "fr", "es", "et", "ja",
-    "zh-Hans",
+/// The languages the tool is localised in: English (the source) and the seventeen others.
+pub const LANGS: [&str; 18] = [
+    "en", "nl", "pl", "pt-BR", "pt-PT", "fi", "sv", "da", "nb", "cs", "uk", "ru", "de", "fr", "es",
+    "et", "ja", "zh-Hans",
 ];
 /// The pseudo-locale used by the tests.
 pub const PSEUDO: &str = "en-XA";
@@ -65,23 +65,24 @@ pub const PSEUDO: &str = "en-XA";
 /// The embedded catalogues, English first. A language whose file does not exist yet is absent here
 /// and falls back to English entirely.
 const CATALOGUES: &[(&str, &str)] = &[
-    ("en", include_str!("../../locales/en/engine.ftl")),
-    ("nl", include_str!("../../locales/nl/engine.ftl")),
-    ("pl", include_str!("../../locales/pl/engine.ftl")),
-    ("pt", include_str!("../../locales/pt/engine.ftl")),
-    ("fi", include_str!("../../locales/fi/engine.ftl")),
-    ("sv", include_str!("../../locales/sv/engine.ftl")),
-    ("da", include_str!("../../locales/da/engine.ftl")),
-    ("nb", include_str!("../../locales/nb/engine.ftl")),
-    ("cs", include_str!("../../locales/cs/engine.ftl")),
-    ("uk", include_str!("../../locales/uk/engine.ftl")),
-    ("ru", include_str!("../../locales/ru/engine.ftl")),
-    ("de", include_str!("../../locales/de/engine.ftl")),
-    ("fr", include_str!("../../locales/fr/engine.ftl")),
-    ("es", include_str!("../../locales/es/engine.ftl")),
-    ("et", include_str!("../../locales/et/engine.ftl")),
-    ("ja", include_str!("../../locales/ja/engine.ftl")),
-    ("zh-Hans", include_str!("../../locales/zh-Hans/engine.ftl")),
+    ("en", include_str!("../../i18n/en/engine.ftl")),
+    ("nl", include_str!("../../i18n/nl/engine.ftl")),
+    ("pl", include_str!("../../i18n/pl/engine.ftl")),
+    ("pt-BR", include_str!("../../i18n/pt-BR/engine.ftl")),
+    ("pt-PT", include_str!("../../i18n/pt-PT/engine.ftl")),
+    ("fi", include_str!("../../i18n/fi/engine.ftl")),
+    ("sv", include_str!("../../i18n/sv/engine.ftl")),
+    ("da", include_str!("../../i18n/da/engine.ftl")),
+    ("nb", include_str!("../../i18n/nb/engine.ftl")),
+    ("cs", include_str!("../../i18n/cs/engine.ftl")),
+    ("uk", include_str!("../../i18n/uk/engine.ftl")),
+    ("ru", include_str!("../../i18n/ru/engine.ftl")),
+    ("de", include_str!("../../i18n/de/engine.ftl")),
+    ("fr", include_str!("../../i18n/fr/engine.ftl")),
+    ("es", include_str!("../../i18n/es/engine.ftl")),
+    ("et", include_str!("../../i18n/et/engine.ftl")),
+    ("ja", include_str!("../../i18n/ja/engine.ftl")),
+    ("zh-Hans", include_str!("../../i18n/zh-Hans/engine.ftl")),
 ];
 
 /// The English catalogue text (the source of every message).
@@ -149,6 +150,13 @@ pub fn resolve(tag: &str) -> Result<Lang, String> {
             "zh-Hans".to_string()
         }
         "no" | "nb" | "nn" => "nb".to_string(),
+        // Portuguese has two locales: Portugal's own, and Brazil's for bare `pt` and every other region.
+        "pt" => if lower.starts_with("pt-pt") {
+            "pt-PT"
+        } else {
+            "pt-BR"
+        }
+        .to_string(),
         other => match LANGS.iter().find(|l| **l == other) {
             Some(l) => l.to_string(),
             None => return Err(unsupported(raw)),
@@ -287,7 +295,10 @@ pub fn tr_in(lang: &Lang, id: &str, args: &[(&str, String)]) -> String {
     }
     for tag in [lang.tag(), "en"] {
         let bundle = bundle_of(tag);
-        if let Some(pattern) = bundle.get_message(id).and_then(|m| m.value()) {
+        if let Some(pattern) = bundle
+            .get_message(&format!("engine-{id}"))
+            .and_then(|m| m.value())
+        {
             let mut errors = Vec::new();
             let s = bundle
                 .format_pattern(pattern, Some(&fa), &mut errors)
