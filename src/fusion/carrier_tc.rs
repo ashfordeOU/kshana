@@ -577,14 +577,22 @@ impl CarrierTcCfg {
             if v.is_finite() && v > 0.0 {
                 Ok(())
             } else {
-                Err(format!("{name} must be finite and > 0, got {v}"))
+                Err(crate::terr!(
+                    "e-fusion-carrier-tc-must-be-finite-and-got",
+                    name = name,
+                    v = v
+                ))
             }
         };
         let nonneg = |name: &str, v: f64| -> Result<(), String> {
             if v.is_finite() && v >= 0.0 {
                 Ok(())
             } else {
-                Err(format!("{name} must be finite and >= 0, got {v}"))
+                Err(crate::terr!(
+                    "e-fusion-carrier-tc-must-be-finite-and-got-2",
+                    name = name,
+                    v = v
+                ))
             }
         };
         pos("gnss_interval_s", self.gnss_interval_s)?;
@@ -613,20 +621,25 @@ impl CarrierTcCfg {
             nonneg(n, v)?;
         }
         if !(self.mask_deg.is_finite() && (-90.0..90.0).contains(&self.mask_deg)) {
-            return Err(format!(
-                "mask_deg must be in [-90, 90), got {}",
-                self.mask_deg
+            return Err(crate::terr!(
+                "e-fusion-carrier-tc-mask-deg-must-be-in",
+                mask_deg = self.mask_deg
             ));
         }
         if self.constellation.total() == 0 {
-            return Err("constellation has no satellites".into());
+            return Err(crate::terr!(
+                "e-fusion-carrier-tc-constellation-has-no-satellites"
+            ));
         }
         if self.max_sats == Some(0) {
-            return Err("max_sats must be >= 1 when set".into());
+            return Err(crate::terr!("e-fusion-carrier-tc-max-sats-must-be-when"));
         }
         for s in &self.slips {
             if s.sat >= self.constellation.total() {
-                return Err(format!("slip satellite {} out of range", s.sat));
+                return Err(crate::terr!(
+                    "e-fusion-carrier-tc-slip-satellite-out-of-range",
+                    sat = s.sat
+                ));
             }
         }
         Ok(())

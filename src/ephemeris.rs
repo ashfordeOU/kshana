@@ -387,11 +387,11 @@ fn build(scn: &EphemerisScenario) -> Result<(Propagator, f64, String), String> {
         let l1 = lines
             .iter()
             .find(|l| l.starts_with("1 "))
-            .ok_or("TLE is missing line 1 (a line starting `1 `)")?;
+            .ok_or_else(|| crate::terr!("e-ephemeris-tle-is-missing-line-line"))?;
         let l2 = lines
             .iter()
             .find(|l| l.starts_with("2 "))
-            .ok_or("TLE is missing line 2 (a line starting `2 `)")?;
+            .ok_or_else(|| crate::terr!("e-ephemeris-tle-is-missing-line-line-2"))?;
         let t = crate::tle::parse_tle(l1, l2)?;
         let jd0 = match &scn.epoch {
             Some(e) => julian_date(e.year, e.month, e.day, e.hour, e.minute, e.second),
@@ -403,24 +403,26 @@ fn build(scn: &EphemerisScenario) -> Result<(Propagator, f64, String), String> {
         let e = scn
             .epoch
             .as_ref()
-            .ok_or("an analytic `orbit` ephemeris requires an `epoch`")?;
+            .ok_or_else(|| crate::terr!("e-ephemeris-an-analytic-orbit-ephemeris-requires"))?;
         let jd0 = julian_date(e.year, e.month, e.day, e.hour, e.minute, e.second);
         Ok((Propagator::Kepler(o.to_orbit()), jd0, "kepler".to_string()))
     } else {
-        Err("ephemeris scenario needs either a `tle` or an `orbit`".to_string())
+        Err(crate::terr!(
+            "e-ephemeris-ephemeris-scenario-needs-either-tle"
+        ))
     }
 }
 
 /// Run the ephemeris / ground-track scenario.
 pub fn run_ephemeris(scn: &EphemerisScenario) -> Result<EphemerisResult, String> {
     if !scn.step_s.is_finite() || scn.step_s <= 0.0 {
-        return Err("step_s must be positive".to_string());
+        return Err(crate::terr!("e-ephemeris-step-must-be-positive"));
     }
     if scn.duration_s < 0.0 {
-        return Err("duration_s must be non-negative".to_string());
+        return Err(crate::terr!("e-ephemeris-duration-must-be-non-negative"));
     }
     if !scn.carrier_hz.is_finite() || scn.carrier_hz <= 0.0 {
-        return Err("carrier_hz must be a positive, finite frequency".to_string());
+        return Err(crate::terr!("e-ephemeris-carrier-hz-must-be-positive"));
     }
     let (prop, jd_utc0, source) = build(scn)?;
     let station = scn.station;
@@ -681,13 +683,16 @@ pub fn to_svg(r: &EphemerisResult) -> String {
             "<circle cx=\"{x:.1}\" cy=\"{y:.1}\" r=\"3.5\" fill=\"{INK}\" stroke=\"{BG}\" stroke-width=\"0.8\"/>"
         ));
     }
-    let title = format!(
-        "{} ground track · {} samples · alt {:.0}–{:.0} km · |lat| ≤ {:.1}°",
-        r.source,
-        r.n_samples,
-        r.alt_min_km,
-        r.alt_max_km,
-        r.lat_max_deg.abs().max(r.lat_min_deg.abs()),
+    let title = crate::t!(
+        "ephemeris-ground-track-samples-alt-km",
+        source = r.source,
+        n_samples = r.n_samples,
+        alt_min_km = crate::i18n::localise_decimal(format!("{:.0}", r.alt_min_km)),
+        alt_max_km = crate::i18n::localise_decimal(format!("{:.0}", r.alt_max_km)),
+        r = crate::i18n::localise_decimal(format!(
+            "{:.1}",
+            r.lat_max_deg.abs().max(r.lat_min_deg.abs())
+        ))
     );
     svg.push_str(&format!(
         "<text x=\"10\" y=\"20\" fill=\"{TITLE}\" font-family=\"{FONT_SANS}\" font-size=\"13\">{}</text>",

@@ -312,16 +312,19 @@ impl LoopCore {
         init_doppler_hz: f64,
     ) -> Result<Self, String> {
         if !(cfg.spacing_chips > 0.0 && cfg.spacing_chips <= 2.0) {
-            return Err(format!(
-                "early-late spacing must lie in (0, 2] chips (got {})",
-                cfg.spacing_chips
+            return Err(crate::terr!(
+                "e-iq-track-early-late-spacing-must-lie",
+                spacing_chips = cfg.spacing_chips
             ));
         }
         if cfg.dll_order == 0 || cfg.dll_order > 2 {
-            return Err(format!("DLL order must be 1 or 2 (got {})", cfg.dll_order));
+            return Err(crate::terr!(
+                "e-iq-track-dll-order-must-be-or",
+                dll_order = cfg.dll_order
+            ));
         }
         if !(chip_rate_hz > 0.0 && carrier_hz > 0.0) {
-            return Err("chip rate and carrier frequency must be positive".into());
+            return Err(crate::terr!("e-iq-track-chip-rate-and-carrier-frequency"));
         }
         if let Some(b) = &cfg.boc {
             b.validate(cfg.spacing_chips)?;

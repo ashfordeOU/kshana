@@ -148,8 +148,10 @@ impl Representativeness {
         let mut v = Vec::new();
         let (lo, hi) = self.trl_band;
         if lo > hi || hi > 9 {
-            v.push(format!(
-                "TRL band ({lo},{hi}) is not well-formed (need 0<=lo<=hi<=9)"
+            v.push(crate::t!(
+                "representativeness-trl-band-is-not-well",
+                lo = lo,
+                hi = hi
             ));
         }
         match self.status {
@@ -165,8 +167,10 @@ impl Representativeness {
                     v.push("Modelled claim must list at least one gap-to-flight".to_string());
                 }
                 if hi > MODELLED_TRL_CEILING {
-                    v.push(format!(
-                        "Modelled (simulation-only) claim cannot be representative above TRL {MODELLED_TRL_CEILING} (band hi={hi}); higher TRL is a gap, not a simulation output"
+                    v.push(crate::t!(
+                        "representativeness-modelled-simulation-only-claim-cannot",
+                        MODELLED_TRL_CEILING = MODELLED_TRL_CEILING,
+                        hi = hi
                     ));
                 }
             }
@@ -197,10 +201,12 @@ impl Representativeness {
     pub fn report(&self) -> String {
         let mut s = String::new();
         let (lo, hi) = self.trl_band;
-        s.push_str(&format!(
-            "Representativeness [{}] — {} (representative for TRL {lo}-{hi})\n",
-            self.status.tag(),
-            self.claim
+        s.push_str(&crate::t!(
+            "representativeness-representativeness-representative-for-trl",
+            status = self.status.tag(),
+            claim = self.claim,
+            lo = lo,
+            hi = hi
         ));
         if !self.anchors.is_empty() {
             s.push_str("  anchored to:\n");

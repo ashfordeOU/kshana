@@ -84,19 +84,25 @@ impl Trajectory {
     pub fn validate(&self) -> Result<(), String> {
         let finite = |v: &Vec3| v.iter().all(|x| x.is_finite());
         match self {
-            Trajectory::Static(p) if !finite(p) => Err("static position not finite".into()),
-            Trajectory::ConstantVelocity { pos0, vel } if !finite(pos0) || !finite(vel) => {
-                Err("constant-velocity trajectory not finite".into())
-            }
+            Trajectory::Static(p) if !finite(p) => Err(crate::terr!(
+                "e-iq-scene-geometry-static-position-not-finite"
+            )),
+            Trajectory::ConstantVelocity { pos0, vel } if !finite(pos0) || !finite(vel) => Err(
+                crate::terr!("e-iq-scene-geometry-constant-velocity-trajectory-not-finite"),
+            ),
             Trajectory::Waypoints(w) => {
                 if w.is_empty() {
-                    return Err("waypoint trajectory has no waypoints".into());
+                    return Err(crate::terr!(
+                        "e-iq-scene-geometry-waypoint-trajectory-has-no-waypoints"
+                    ));
                 }
                 if w.iter().any(|(t, p)| !t.is_finite() || !finite(p)) {
-                    return Err("waypoint not finite".into());
+                    return Err(crate::terr!("e-iq-scene-geometry-waypoint-not-finite"));
                 }
                 if w.windows(2).any(|p| p[1].0 <= p[0].0) {
-                    return Err("waypoint times must increase strictly".into());
+                    return Err(crate::terr!(
+                        "e-iq-scene-geometry-waypoint-times-must-increase-strictly"
+                    ));
                 }
                 Ok(())
             }

@@ -298,7 +298,11 @@ pub fn trajectory_of(src: &str, epoch: Option<UtcEpoch>) -> Result<Trajectory, E
     let kind = ScenarioKind::classify(src).map_err(|e| ExportError::Failed(e.to_string()))?;
     let epoch = epoch.unwrap_or_else(default_epoch);
     let bad = |e: toml::de::Error| {
-        ExportError::Failed(format!("invalid {} scenario: {e}", kind.as_str()))
+        ExportError::Failed(crate::terr!(
+            "e-interop-scene-invalid-scenario",
+            kind = kind.as_str(),
+            e = e
+        ))
     };
     let hash = super::scene::short_hash(src);
     match kind {
@@ -334,10 +338,11 @@ pub fn trajectory_of(src: &str, epoch: Option<UtcEpoch>) -> Result<Trajectory, E
             let (time, lat, lon, alt, jammer) = if kind == ScenarioKind::Jamming {
                 let s: crate::jamming::JammingScenario = toml::from_str(src).map_err(bad)?;
                 let j = s.jammer.as_ref().map(|j| {
-                    format!(
-                        "{} jammer, {} dBW transmit power, {} dBi antenna gain (a parameter of \
-                         the scenario's link budget, not a signal)",
-                        j.jammer_type, j.power_dbw, j.gain_dbi
+                    crate::t!(
+                        "interop-testbench-jammer-dbw-transmit-power-dbi",
+                        jammer_type = j.jammer_type,
+                        power_dbw = j.power_dbw,
+                        gain_dbi = j.gain_dbi
                     )
                 });
                 (
@@ -389,10 +394,9 @@ pub fn trajectory_of(src: &str, epoch: Option<UtcEpoch>) -> Result<Trajectory, E
                 events,
             })
         }
-        other => Err(ExportError::NotApplicable(format!(
-            "`{}` has no vehicle trajectory to export; the test-bench export covers the \
-             gnss-ins, jamming and gnss-sim kinds",
-            other.as_str()
+        other => Err(ExportError::NotApplicable(crate::terr!(
+            "e-interop-testbench-has-no-vehicle-trajectory-to",
+            other = other.as_str()
         ))),
     }
 }
@@ -453,10 +457,13 @@ pub fn write_motion_csv(t: &Trajectory) -> String {
 /// [`MOTION_COLUMNS`]; the `utc` and `kshana_row` columns are checked for shape only.
 pub fn read_motion_csv(text: &str) -> Result<Vec<MotionSample>, String> {
     let mut lines = text.lines();
-    let head = lines.next().ok_or("empty motion CSV")?;
+    let head = lines
+        .next()
+        .ok_or_else(|| crate::terr!("e-interop-testbench-empty-motion-csv"))?;
     if head.trim() != MOTION_COLUMNS.join(",") {
-        return Err(format!(
-            "motion CSV header is not the expected columns: {head:?}"
+        return Err(crate::terr!(
+            "e-interop-testbench-motion-csv-header-is-not",
+            head = format!("{:?}", head)
         ));
     }
     let mut out = Vec::new();
@@ -466,11 +473,11 @@ pub fn read_motion_csv(text: &str) -> Result<Vec<MotionSample>, String> {
         }
         let f: Vec<&str> = line.split(',').collect();
         if f.len() != MOTION_COLUMNS.len() {
-            return Err(format!(
-                "row {}: {} fields, expected {}",
-                n + 1,
-                f.len(),
-                MOTION_COLUMNS.len()
+            return Err(crate::terr!(
+                "e-interop-testbench-row-fields-expected",
+                v1 = n + 1,
+                f = f.len(),
+                motion_columns = MOTION_COLUMNS.len()
             ));
         }
         let num = |i: usize| -> Result<f64, String> {
@@ -479,10 +486,10 @@ pub fn read_motion_csv(text: &str) -> Result<Vec<MotionSample>, String> {
                 .ok()
                 .filter(|v| v.is_finite())
                 .ok_or_else(|| {
-                    format!(
-                        "row {}: column {} is not a number",
-                        n + 1,
-                        MOTION_COLUMNS[i]
+                    crate::terr!(
+                        "e-interop-testbench-row-column-is-not-number",
+                        v1 = n + 1,
+                        motion_columns = MOTION_COLUMNS[i]
                     )
                 })
         };
@@ -645,53 +652,66 @@ pub fn read_nmea(text: &str, epoch: &UtcEpoch) -> Result<Vec<NmeaFix>, String> {
         }
         let body = line
             .strip_prefix('$')
-            .ok_or_else(|| format!("line {}: no `$`", n + 1))?;
+            .ok_or_else(|| crate::terr!("e-interop-testbench-line-no", v1 = n + 1))?;
         let (body, sum) = body
             .split_once('*')
-            .ok_or_else(|| format!("line {}: no checksum", n + 1))?;
+            .ok_or_else(|| crate::terr!("e-interop-testbench-line-no-checksum", v1 = n + 1))?;
         let want = u8::from_str_radix(sum.trim(), 16)
-            .map_err(|_| format!("line {}: bad checksum field", n + 1))?;
+            .map_err(|_| crate::terr!("e-interop-testbench-line-bad-checksum-field", v1 = n + 1))?;
         if nmea_checksum(body) != want {
-            return Err(format!("line {}: checksum mismatch", n + 1));
+            return Err(crate::terr!(
+                "e-interop-testbench-line-checksum-mismatch",
+                v1 = n + 1
+            ));
         }
         let f: Vec<&str> = body.split(',').collect();
         match f[0] {
             "GPGGA" => {
                 if f.len() < 12 {
-                    return Err(format!("line {}: short GGA", n + 1));
+                    return Err(crate::terr!(
+                        "e-interop-testbench-line-short-gga",
+                        v1 = n + 1
+                    ));
                 }
-                let lat =
-                    parse_angle(f[2], f[3], 2).ok_or(format!("line {}: bad latitude", n + 1))?;
-                let lon =
-                    parse_angle(f[4], f[5], 3).ok_or(format!("line {}: bad longitude", n + 1))?;
-                let alt: f64 = f[9]
-                    .parse()
-                    .map_err(|_| format!("line {}: bad altitude", n + 1))?;
-                let sep: f64 = f[11]
-                    .parse()
-                    .map_err(|_| format!("line {}: bad separation", n + 1))?;
+                let lat = parse_angle(f[2], f[3], 2)
+                    .ok_or(crate::t!("interop-testbench-line-bad-latitude", v1 = n + 1))?;
+                let lon = parse_angle(f[4], f[5], 3).ok_or(crate::t!(
+                    "interop-testbench-line-bad-longitude",
+                    v1 = n + 1
+                ))?;
+                let alt: f64 = f[9].parse().map_err(|_| {
+                    crate::terr!("e-interop-testbench-line-bad-altitude", v1 = n + 1)
+                })?;
+                let sep: f64 = f[11].parse().map_err(|_| {
+                    crate::terr!("e-interop-testbench-line-bad-separation", v1 = n + 1)
+                })?;
                 pending = Some((f[1].to_string(), lat, lon, alt + sep));
             }
             "GPRMC" => {
                 if f.len() < 10 {
-                    return Err(format!("line {}: short RMC", n + 1));
+                    return Err(crate::terr!(
+                        "e-interop-testbench-line-short-rmc",
+                        v1 = n + 1
+                    ));
                 }
-                let (tf, lat, lon, h) = pending
-                    .take()
-                    .ok_or_else(|| format!("line {}: RMC with no preceding GGA", n + 1))?;
+                let (tf, lat, lon, h) = pending.take().ok_or_else(|| {
+                    crate::terr!("e-interop-testbench-line-rmc-with-no-preceding", v1 = n + 1)
+                })?;
                 if tf != f[1] {
-                    return Err(format!("line {}: GGA and RMC times differ", n + 1));
+                    return Err(crate::terr!(
+                        "e-interop-testbench-line-gga-and-rmc-times",
+                        v1 = n + 1
+                    ));
                 }
                 let speed: f64 = f[7]
                     .parse()
-                    .map_err(|_| format!("line {}: bad speed", n + 1))?;
+                    .map_err(|_| crate::terr!("e-interop-testbench-line-bad-speed", v1 = n + 1))?;
                 let course = if f[8].is_empty() {
                     None
                 } else {
-                    Some(
-                        f[8].parse::<f64>()
-                            .map_err(|_| format!("line {}: bad course", n + 1))?,
-                    )
+                    Some(f[8].parse::<f64>().map_err(|_| {
+                        crate::terr!("e-interop-testbench-line-bad-course", v1 = n + 1)
+                    })?)
                 };
                 let num = |s: &str| -> Option<u32> { s.parse().ok() };
                 let (hh, mi, ss) = (
@@ -708,7 +728,10 @@ pub fn read_nmea(text: &str, epoch: &UtcEpoch) -> Result<Vec<NmeaFix>, String> {
                 let (Some(hh), Some(mi), Some(ss), Some(dd), Some(mo), Some(yy)) =
                     (hh, mi, ss, dd, mo, yy)
                 else {
-                    return Err(format!("line {}: bad time or date", n + 1));
+                    return Err(crate::terr!(
+                        "e-interop-testbench-line-bad-time-or-date",
+                        v1 = n + 1
+                    ));
                 };
                 // Two-digit years: 2000 to 2099, the range the writer produces.
                 let t_s = epoch.offset_to_calendar(2000 + yy as i32, mo, dd, hh, mi, ss);
@@ -725,7 +748,9 @@ pub fn read_nmea(text: &str, epoch: &UtcEpoch) -> Result<Vec<NmeaFix>, String> {
         }
     }
     if pending.is_some() {
-        return Err("a GGA with no following RMC".into());
+        return Err(crate::terr!(
+            "e-interop-testbench-gga-with-no-following-rmc"
+        ));
     }
     Ok(out)
 }
@@ -746,22 +771,27 @@ pub const WAYPOINT_HEIGHT_TOL_M: f64 = 1.0e-3;
 /// otherwise this is an error rather than a silently re-timed file.
 pub fn write_waypoints(t: &Trajectory) -> Result<String, String> {
     if t.samples.len() < 2 {
-        return Err("a waypoint file needs at least two samples".into());
+        return Err(crate::terr!(
+            "e-interop-testbench-waypoint-file-needs-at-least"
+        ));
     }
     let step = t.samples[1].t_s - t.samples[0].t_s;
     let ms = step * 1000.0;
     if ms.is_nan() || ms < 1.0 || (ms - ms.round()).abs() > 1e-6 {
-        return Err(format!(
-            "the sample step {step} s is not a whole number of milliseconds"
+        return Err(crate::terr!(
+            "e-interop-testbench-the-sample-step-is-not",
+            step = step
         ));
     }
     // Every interval, not only the first: one resolution describes the whole file.
     for (i, w) in t.samples.windows(2).enumerate() {
         let dt = w[1].t_s - w[0].t_s;
         if (dt - step).abs() > 1e-6 {
-            return Err(format!(
-                "the samples are not equally spaced: interval {} is {dt} s, the first is {step} s",
-                i + 1
+            return Err(crate::terr!(
+                "e-interop-testbench-the-samples-are-not-equally",
+                v1 = i + 1,
+                dt = dt,
+                step = step
             ));
         }
     }
@@ -784,7 +814,9 @@ pub type Waypoint = (f64, f64, f64);
 /// the `(longitude, latitude, altitude)` rows.
 pub fn read_waypoints(text: &str) -> Result<(u64, Vec<Waypoint>), String> {
     let mut lines = text.lines();
-    let head = lines.next().ok_or("empty waypoint file")?;
+    let head = lines
+        .next()
+        .ok_or_else(|| crate::terr!("e-interop-testbench-empty-waypoint-file"))?;
     let ms: u64 = head
         .trim()
         .strip_prefix("RESOLUTION:")
@@ -801,12 +833,14 @@ pub fn read_waypoints(text: &str) -> Result<(u64, Vec<Waypoint>), String> {
             .split(',')
             .map(|x| x.trim().parse::<f64>())
             .collect::<Result<_, _>>()
-            .map_err(|_| format!("waypoint {}: not three numbers", n + 1))?;
+            .map_err(|_| {
+                crate::terr!("e-interop-testbench-waypoint-not-three-numbers", v1 = n + 1)
+            })?;
         if f.len() != 3 {
-            return Err(format!(
-                "waypoint {}: {} fields, expected 3",
-                n + 1,
-                f.len()
+            return Err(crate::terr!(
+                "e-interop-testbench-waypoint-fields-expected",
+                v1 = n + 1,
+                f = f.len()
             ));
         }
         rows.push((f[0], f[1], f[2]));
@@ -850,7 +884,7 @@ pub fn write_events_csv(t: &Trajectory) -> String {
 pub fn read_events_csv(text: &str) -> Result<Vec<MotionEvent>, String> {
     let mut lines = text.lines();
     if lines.next().map(str::trim) != Some("label,kind,onset_s,end_s,description") {
-        return Err("events CSV header is not label,kind,onset_s,end_s,description".into());
+        return Err(crate::terr!("e-interop-testbench-events-csv-header-is-not"));
     }
     let mut out = Vec::new();
     for (n, line) in lines.enumerate() {
@@ -859,18 +893,26 @@ pub fn read_events_csv(text: &str) -> Result<Vec<MotionEvent>, String> {
         }
         let f: Vec<&str> = line.splitn(5, ',').collect();
         if f.len() != 5 {
-            return Err(format!("event row {}: expected 5 fields", n + 1));
+            return Err(crate::terr!(
+                "e-interop-testbench-event-row-expected-fields",
+                v1 = n + 1
+            ));
         }
         out.push(MotionEvent {
             label: f[0].to_string(),
-            kind: EventKind::parse(f[1])
-                .ok_or_else(|| format!("event row {}: unknown kind {:?}", n + 1, f[1]))?,
+            kind: EventKind::parse(f[1]).ok_or_else(|| {
+                crate::terr!(
+                    "e-interop-testbench-event-row-unknown-kind",
+                    v1 = n + 1,
+                    f = format!("{:?}", f[1])
+                )
+            })?,
             onset_s: f[2]
                 .parse()
-                .map_err(|_| format!("event row {}: bad onset", n + 1))?,
+                .map_err(|_| crate::terr!("e-interop-testbench-event-row-bad-onset", v1 = n + 1))?,
             end_s: f[3]
                 .parse()
-                .map_err(|_| format!("event row {}: bad end", n + 1))?,
+                .map_err(|_| crate::terr!("e-interop-testbench-event-row-bad-end", v1 = n + 1))?,
             description: f[4].to_string(),
         });
     }
@@ -932,12 +974,12 @@ pub fn write_events_toml(t: &Trajectory) -> String {
          # first sample; add the offset to the receiver log's first epoch if they differ.\n",
     );
     for e in &t.events {
-        s.push_str(&format!(
-            "\n[[events]]\nlabel = {:?}\nkind = {:?}\nonset_s = {:.3}\nend_s = {:.3}\n",
-            e.label,
-            e.kind.as_str(),
-            round_dp(e.onset_s, 3),
-            round_dp(e.end_s, 3)
+        s.push_str(&crate::t!(
+            "interop-testbench-events-label-kind-onset-end",
+            label = format!("{:?}", e.label),
+            kind = format!("{:?}", e.kind.as_str()),
+            round_dp = crate::i18n::localise_decimal(format!("{:.3}", round_dp(e.onset_s, 3))),
+            round_dp2 = crate::i18n::localise_decimal(format!("{:.3}", round_dp(e.end_s, 3)))
         ));
     }
     s
@@ -983,7 +1025,10 @@ pub fn files_and_notes_of(t: &Trajectory) -> (Vec<ExportFile>, Vec<String>) {
     // one has no such file, and the reason is returned.
     match write_waypoints(t) {
         Ok(w) => files.push(mk(".waypoints.txt", w)),
-        Err(e) => notes.push(format!("no .waypoints.txt written: {e}")),
+        Err(e) => notes.push(crate::t!(
+            "interop-testbench-no-waypoints-txt-written",
+            e = e
+        )),
     }
     files.push(mk(".events.csv", write_events_csv(t)));
     files.push(mk(".events.toml", write_events_toml(t)));

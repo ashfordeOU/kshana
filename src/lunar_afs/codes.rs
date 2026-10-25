@@ -74,7 +74,11 @@ fn check_prn(prn: u16) -> Result<usize, String> {
     if (1..=MAX_PRN).contains(&prn) {
         Ok((prn - 1) as usize)
     } else {
-        Err(format!("AFS PRN {prn} is outside 1..={MAX_PRN}"))
+        Err(crate::terr!(
+            "e-lunar-afs-codes-afs-prn-is-outside",
+            prn = prn,
+            MAX_PRN = MAX_PRN
+        ))
     }
 }
 
@@ -158,7 +162,10 @@ pub fn afs_q_primary(prn: u16) -> Result<Vec<u8>, String> {
     let w = weil(&legendre_sequence(Q_PRIMARY_LEGENDRE_LEN), w as usize);
     let p = p as usize;
     if !(1..=Q_PRIMARY_LEGENDRE_LEN).contains(&p) {
-        return Err(format!("insertion index {p} outside 1..=10223"));
+        return Err(crate::terr!(
+            "e-lunar-afs-codes-insertion-index-outside-10223",
+            p = p
+        ));
     }
     // Chips 0..p-2 are W(0..p-2); the expansion fills p-1..p+5; then W(t-7).
     let mut code = Vec::with_capacity(Q_PRIMARY_LEN);
@@ -198,20 +205,17 @@ impl LsisCodes {
             370,
         );
         if gold.len() != 210 || ter.len() != 210 {
-            return Err(format!(
-                "Annex 3 files hold {} and {} codes, 210 expected",
-                gold.len(),
-                ter.len()
+            return Err(crate::terr!(
+                "e-lunar-afs-codes-annex-files-hold-and-codes",
+                gold = gold.len(),
+                ter = ter.len()
             ));
         }
         let mut g2_delay = Vec::with_capacity(210);
         for (i, h) in gold.iter().enumerate() {
             let code = lsis::hex_bits_last(h, I_PRIMARY_LEN);
             let d = g2_delay_of(&code).ok_or_else(|| {
-                format!(
-                    "Annex 3 AFS-I PRN {} is not a Gold code of g1, g2 (LSIS Figure C-1)",
-                    i + 1
-                )
+                crate::terr!("e-lunar-afs-codes-annex-afs-prn-is-not", v1 = i + 1)
             })?;
             g2_delay.push(d as u16);
         }
@@ -238,7 +242,7 @@ pub fn afs_q_secondary(id: u8) -> Result<[u8; 4], String> {
     Q_SECONDARY_CODES
         .get(id as usize)
         .copied()
-        .ok_or_else(|| format!("secondary code S{id} does not exist (S0 to S3)"))
+        .ok_or_else(|| crate::terr!("e-lunar-afs-codes-secondary-code-does-not-exist", id = id))
 }
 
 /// The code combination of one LunaNet service provider (LNSP) node (LSIS-260).
@@ -264,8 +268,9 @@ impl NodeCodes {
     /// The standard marks the final assignment {LSIS-TBD-2001}.
     pub fn interim(node_id: u16) -> Result<Self, String> {
         if !(1..=12).contains(&node_id) {
-            return Err(format!(
-                "LSIS V1.0 Table 11 assigns codes to node identifiers 1 to 12 only, not {node_id}"
+            return Err(crate::terr!(
+                "e-lunar-afs-codes-lsis-v1-table-11-assigns",
+                node_id = node_id
             ));
         }
         Ok(NodeCodes {

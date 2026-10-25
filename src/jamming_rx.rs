@@ -38,16 +38,16 @@ impl AcquisitionCfg {
         if !(self.acquisition_threshold_dbhz.is_finite()
             && self.acquisition_threshold_dbhz >= tracking_threshold_dbhz)
         {
-            return Err(format!(
-                "acquisition.acquisition_threshold_dbhz ({}) must be finite and at or above \
-                 tracking_threshold_dbhz ({tracking_threshold_dbhz})",
-                self.acquisition_threshold_dbhz
+            return Err(crate::terr!(
+                "e-jamming-rx-acquisition-acquisition-threshold-dbhz-must",
+                acquisition_threshold_dbhz = self.acquisition_threshold_dbhz,
+                tracking_threshold_dbhz = tracking_threshold_dbhz
             ));
         }
         if !(self.reacquisition_delay_s.is_finite() && self.reacquisition_delay_s >= 0.0) {
-            return Err(format!(
-                "acquisition.reacquisition_delay_s must be finite and non-negative (got {})",
-                self.reacquisition_delay_s
+            return Err(crate::terr!(
+                "e-jamming-rx-acquisition-reacquisition-delay-must-be",
+                reacquisition_delay_s = self.reacquisition_delay_s
             ));
         }
         Ok(())
@@ -119,15 +119,16 @@ impl FrontEndCfg {
     /// Check the section's numbers.
     pub fn check(&self) -> Result<(), String> {
         if !(1..=16).contains(&self.adc_bits) {
-            return Err(format!(
-                "front_end.adc_bits must be 1 to 16 (got {})",
-                self.adc_bits
+            return Err(crate::terr!(
+                "e-jamming-rx-front-end-adc-bits-must",
+                adc_bits = self.adc_bits
             ));
         }
         if let Some(b) = self.bandwidth_mhz {
             if !(b.is_finite() && b > 0.0) {
-                return Err(format!(
-                    "front_end.bandwidth_mhz must be positive (got {b})"
+                return Err(crate::terr!(
+                    "e-jamming-rx-front-end-bandwidth-mhz-must",
+                    b = b
                 ));
             }
         }

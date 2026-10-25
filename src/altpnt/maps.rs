@@ -262,26 +262,35 @@ impl GeoGrid {
             }
             let p: Vec<&str> = t.split(',').map(str::trim).collect();
             if p.len() < 8 {
-                return Err(format!(
-                    "EMAG2 line {}: expected 8 comma-separated columns, found {}",
-                    ln + 1,
-                    p.len()
+                return Err(crate::terr!(
+                    "e-altpnt-maps-emag2-line-expected-comma-separated",
+                    v1 = ln + 1,
+                    p = p.len()
                 ));
             }
             let num = |k: usize, what: &str| {
-                p[k].parse::<f64>()
-                    .map_err(|_| format!("EMAG2 line {}: bad {what} `{}`", ln + 1, p[k]))
+                p[k].parse::<f64>().map_err(|_| {
+                    crate::terr!(
+                        "e-altpnt-maps-emag2-line-bad",
+                        v1 = ln + 1,
+                        what = what,
+                        p = p[k]
+                    )
+                })
             };
             let lon = num(2, "longitude")?;
             let lat = num(3, "latitude")?;
             let v = num(col, "anomaly")?;
             if !(lon.is_finite() && lat.is_finite() && v.is_finite()) {
-                return Err(format!("EMAG2 line {}: non-finite value", ln + 1));
+                return Err(crate::terr!(
+                    "e-altpnt-maps-emag2-line-non-finite-value",
+                    v1 = ln + 1
+                ));
             }
             rows.push((lat, lon, if v == EMAG2_VOID { f64::NAN } else { v }));
         }
         if rows.is_empty() {
-            return Err("EMAG2: no data rows".into());
+            return Err(crate::terr!("e-altpnt-maps-emag2-no-data-rows"));
         }
         let lats = distinct_sorted(rows.iter().map(|r| r.0));
         let lons = distinct_sorted(rows.iter().map(|r| r.1));
@@ -289,9 +298,11 @@ impl GeoGrid {
         let dlon = regular_step(&lons, "longitude")?;
         let (n_lat, n_lon) = (lats.len(), lons.len());
         if rows.len() != n_lat * n_lon {
-            return Err(format!(
-                "EMAG2: {} rows do not fill the {n_lat} x {n_lon} lattice they span",
-                rows.len()
+            return Err(crate::terr!(
+                "e-altpnt-maps-emag2-rows-do-not-fill",
+                rows = rows.len(),
+                n_lat = n_lat,
+                n_lon = n_lon
             ));
         }
         let (lat0, lon0) = (lats[0], lons[0]);
@@ -302,7 +313,11 @@ impl GeoGrid {
             let j = ((lon - lon0) / dlon).round() as usize;
             let k = i * n_lon + j;
             if seen[k] {
-                return Err(format!("EMAG2: duplicate node at {lat}, {lon}"));
+                return Err(crate::terr!(
+                    "e-altpnt-maps-emag2-duplicate-node-at",
+                    lat = lat,
+                    lon = lon
+                ));
             }
             seen[k] = true;
             values[k] = v;
@@ -328,20 +343,31 @@ fn box_shape(
     step: f64,
 ) -> Result<(usize, usize), String> {
     if !(step.is_finite() && step > 0.0) {
-        return Err(format!("grid step must be finite and positive, got {step}"));
+        return Err(crate::terr!(
+            "e-altpnt-maps-grid-step-must-be-finite",
+            step = step
+        ));
     }
     if !(south.is_finite() && north.is_finite() && west.is_finite() && east.is_finite())
         || north <= south
         || east <= west
     {
-        return Err(format!(
-            "grid box must have north > south and east > west, got [{south}, {north}] x [{west}, {east}]"
+        return Err(crate::terr!(
+            "e-altpnt-maps-grid-box-must-have-north",
+            south = south,
+            north = north,
+            west = west,
+            east = east
         ));
     }
     let n = |span: f64| ((span / step - 1e-9).ceil() as usize + 1).max(2);
     let (n_lat, n_lon) = (n(north - south), n(east - west));
     if n_lat.saturating_mul(n_lon) > 50_000_000 {
-        return Err(format!("grid of {n_lat} x {n_lon} nodes is too large"));
+        return Err(crate::terr!(
+            "e-altpnt-maps-grid-of-nodes-is-too",
+            n_lat = n_lat,
+            n_lon = n_lon
+        ));
     }
     Ok((n_lat, n_lon))
 }
@@ -357,16 +383,20 @@ fn distinct_sorted(it: impl Iterator<Item = f64>) -> Vec<f64> {
 /// The common spacing of sorted axis values, refusing an irregular axis.
 fn regular_step(axis: &[f64], what: &str) -> Result<f64, String> {
     if axis.len() < 2 {
-        return Err(format!(
-            "EMAG2: the {what} axis needs at least 2 distinct values"
+        return Err(crate::terr!(
+            "e-altpnt-maps-emag2-the-axis-needs-at",
+            what = what
         ));
     }
     let step = (axis[axis.len() - 1] - axis[0]) / (axis.len() - 1) as f64;
     for w in axis.windows(2) {
         if ((w[1] - w[0]) - step).abs() > 1e-6 {
-            return Err(format!(
-                "EMAG2: the {what} axis is not regular ({} to {} against a mean step of {step})",
-                w[0], w[1]
+            return Err(crate::terr!(
+                "e-altpnt-maps-emag2-the-axis-is-not",
+                what = what,
+                w = w[0],
+                w2 = w[1],
+                step = step
             ));
         }
     }
@@ -396,13 +426,15 @@ pub fn correlated_error_field(
     seed: u64,
 ) -> Result<GeoGrid, String> {
     if !(sigma.is_finite() && sigma >= 0.0) {
-        return Err(format!(
-            "error sigma must be finite and non-negative, got {sigma}"
+        return Err(crate::terr!(
+            "e-altpnt-maps-error-sigma-must-be-finite",
+            sigma = sigma
         ));
     }
     if !(corr_len_deg.is_finite() && corr_len_deg > 0.0) {
-        return Err(format!(
-            "correlation length must be finite and positive, got {corr_len_deg}"
+        return Err(crate::terr!(
+            "e-altpnt-maps-correlation-length-must-be-finite",
+            corr_len_deg = corr_len_deg
         ));
     }
     let (n_lat, n_lon) = box_shape(south, north, west, east, step_deg)?;

@@ -101,10 +101,11 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
     let mut results = Vec::new();
     for (code, need) in codes.iter().zip(&needed) {
         if samples.len() < *need {
-            return Err(Fail::Run(format!(
-                "{}: recording holds {} samples, {need} needed for this search",
-                code.name(),
-                samples.len()
+            return Err(Fail::Run(crate::t!(
+                "iq-cli-acquire-recording-holds-samples-needed-for",
+                code = code.name(),
+                samples = samples.len(),
+                need = need
             )));
         }
         results.push(acquire_peak(&samples, &spec, code, &cfg).map_err(Fail::Run)?);
@@ -136,9 +137,9 @@ fn write_surface(
     let fmt = match a.get("--surface-format") {
         Some(f) => SurfaceFormat::parse(f).map_err(Fail::Usage)?,
         None => SurfaceFormat::from_path(path).ok_or_else(|| {
-            Fail::Usage(format!(
-                "--surface {path}: name the format with --surface-format csv|json|bin, or end \
-                 the path in .csv, .json or .bin"
+            Fail::Usage(crate::t!(
+                "iq-cli-acquire-surface-name-the-format-with",
+                path = path
             ))
         })?,
     };
@@ -220,9 +221,12 @@ fn to_csv(r: &[AcqResult]) -> String {
 
 /// A human-readable table.
 fn table(spec: &SampleSpec, cfg: &AcqConfig, r: &[AcqResult]) -> String {
-    let mut out = format!(
-        "acquisition: {} Hz, {} coherent period(s) x {} non-coherent, pfa {}\n",
-        spec.fs_hz, cfg.coherent_periods, cfg.noncoherent, cfg.pfa
+    let mut out = crate::t!(
+        "iq-cli-acquire-acquisition-hz-coherent-period-non",
+        fs_hz = spec.fs_hz,
+        coherent_periods = cfg.coherent_periods,
+        noncoherent = cfg.noncoherent,
+        pfa = cfg.pfa
     );
     out.push_str(
         "code\tacquired\tdoppler_hz\tcode_phase_chips\tstatistic\tthreshold\tpeak_ratio\n",

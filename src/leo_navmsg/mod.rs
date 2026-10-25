@@ -299,7 +299,11 @@ impl LeoNavmsgScenario {
         let preset = match &self.preset {
             Some(k) => Some(presets::by_key(k).ok_or_else(|| {
                 let keys: Vec<&str> = presets::all().iter().map(|p| p.key).collect();
-                format!("unknown preset '{k}'; available: {}", keys.join(", "))
+                crate::t!(
+                    "leo-navmsg-unknown-preset-available",
+                    k = k,
+                    keys = keys.join(", ")
+                )
             })?),
             None => None,
         };
@@ -373,9 +377,10 @@ impl LeoNavmsgScenario {
             .unwrap_or(fit_interval_s);
         let period_ok = update_period_s > 0.0 && update_period_s <= fit_interval_s;
         if !(10.0..=3600.0).contains(&fit_interval_s) || !period_ok {
-            return Err(format!(
-                "fit_interval_s must be 10-3600 s and update_period_s in (0, fit_interval_s]; \
-                 got {fit_interval_s} and {update_period_s}"
+            return Err(crate::terr!(
+                "e-leo-navmsg-fit-interval-must-be-10",
+                fit_interval_s = fit_interval_s,
+                update_period_s = update_period_s
             ));
         }
         let zero_clock = m
@@ -385,23 +390,26 @@ impl LeoNavmsgScenario {
         let fit_sample_s = m.fit_sample_s.unwrap_or(5.0);
         let eval_step_s = m.eval_step_s.unwrap_or(5.0);
         if !(0.5..=60.0).contains(&fit_sample_s) || !(0.5..=60.0).contains(&eval_step_s) {
-            return Err("fit_sample_s and eval_step_s must be 0.5-60 s".to_string());
+            return Err(crate::terr!("e-leo-navmsg-fit-sample-and-eval-step"));
         }
         let carrier_hz = m
             .carrier_hz
             .or(preset.map(|p| p.carrier_hz))
             .unwrap_or(services::L1_HZ);
         if carrier_hz.is_nan() || carrier_hz <= 1e7 {
-            return Err(format!("carrier_hz must exceed 10 MHz; got {carrier_hz}"));
+            return Err(crate::terr!(
+                "e-leo-navmsg-carrier-hz-must-exceed-10",
+                carrier_hz = carrier_hz
+            ));
         }
         let svid = m.svid.unwrap_or(4);
         if svid == 0 {
-            return Err("svid must be 1-255".to_string());
+            return Err(crate::terr!("e-leo-navmsg-svid-must-be-255"));
         }
         let band = m.band.unwrap_or(0);
         let health = m.health.unwrap_or(0);
         if band > 15 || health > 3 {
-            return Err("band must be 0-15 and health 0-3".to_string());
+            return Err(crate::terr!("e-leo-navmsg-band-must-be-15-and"));
         }
         let template = LeoNavMessage {
             svid,
@@ -439,7 +447,10 @@ impl LeoNavmsgScenario {
         };
         let csv_schema = m.csv_schema.clone().unwrap_or_else(|| "kshana".to_string());
         if csv_schema != "kshana" && presets::csv_schema(&csv_schema).is_none() {
-            return Err(format!("unknown csv_schema '{csv_schema}'"));
+            return Err(crate::terr!(
+                "e-leo-navmsg-unknown-csv-schema",
+                csv_schema = csv_schema
+            ));
         }
         Ok(Resolved {
             preset,
@@ -466,13 +477,14 @@ impl LeoNavmsgScenario {
             .clone()
             .unwrap_or_else(|| ANALYSES.iter().map(|s| s.to_string()).collect());
         if list.is_empty() {
-            return Err("analysis must name at least one analysis".to_string());
+            return Err(crate::terr!("e-leo-navmsg-analysis-must-name-at-least"));
         }
         for a in &list {
             if !ANALYSES.contains(&a.as_str()) {
-                return Err(format!(
-                    "unknown analysis '{a}'; use {}",
-                    ANALYSES.join(", ")
+                return Err(crate::terr!(
+                    "e-leo-navmsg-unknown-analysis-use",
+                    a = a,
+                    analyses = ANALYSES.join(", ")
                 ));
             }
         }
@@ -491,14 +503,17 @@ impl LeoNavmsgScenario {
     pub fn compute(&self) -> Result<(Value, String, String, Option<String>), String> {
         if let Some(k) = &self.kind {
             if k != "leo-navmsg" {
-                return Err(format!("kind must be leo-navmsg; got {k}"));
+                return Err(crate::terr!("e-leo-navmsg-kind-must-be-leo-navmsg", k = k));
             }
         }
         let res = self.resolve()?;
         let analyses = self.analyses()?;
         let mask = self.trade.as_ref().and_then(|t| t.mask_deg).unwrap_or(0.0);
         if !(0.0..60.0).contains(&mask) {
-            return Err(format!("mask_deg must be in [0, 60); got {mask}"));
+            return Err(crate::terr!(
+                "e-leo-navmsg-mask-deg-must-be-in",
+                mask = mask
+            ));
         }
         let r = sisre::EARTH_RADIUS_M + res.orbit.altitude_m;
         let w = sisre_weights(r, mask);
@@ -536,16 +551,18 @@ impl LeoNavmsgScenario {
                 "carrier_hz": res.carrier_hz,
             },
         });
-        let mut summary = format!(
-            "LEO navigation message — {:.0} km, {:.1} deg, gravity degree {}, model {}\n  \
-             SISRE weights: w_R {:.3}, w_AC^2 1/{:.2} (mask {:.0} deg)\n",
-            res.orbit.altitude_m / 1e3,
-            res.orbit.inclination_rad.to_degrees(),
-            res.orbit.gravity_degree,
-            res.model.code(),
-            w.w_r,
-            1.0 / w.w_ac2,
-            mask
+        let mut summary = crate::t!(
+            "leo-navmsg-leo-navigation-message-km-deg",
+            res = crate::i18n::localise_decimal(format!("{:.0}", res.orbit.altitude_m / 1e3)),
+            res2 = crate::i18n::localise_decimal(format!(
+                "{:.1}",
+                res.orbit.inclination_rad.to_degrees()
+            )),
+            gravity_degree = res.orbit.gravity_degree,
+            res3 = res.model.code(),
+            w_r = crate::i18n::localise_decimal(format!("{:.3}", w.w_r)),
+            v6 = crate::i18n::localise_decimal(format!("{:.2}", 1.0 / w.w_ac2)),
+            mask = crate::i18n::localise_decimal(format!("{:.0}", mask))
         );
         let mut csv = None;
         let mut chart_rows: Vec<TradeRow> = Vec::new();
@@ -735,7 +752,7 @@ impl LeoNavmsgScenario {
         let res = self.resolve()?;
         let span = self.trade.as_ref().and_then(|t| t.span_s).unwrap_or(1800.0);
         if !(60.0..=86_400.0).contains(&span) {
-            return Err("trade.span_s must be 60-86400 s".to_string());
+            return Err(crate::terr!("e-leo-navmsg-trade-span-must-be-60"));
         }
         let r = sisre::EARTH_RADIUS_M + res.orbit.altitude_m;
         let w = sisre_weights(r, 0.0);
@@ -778,7 +795,7 @@ impl LeoNavmsgScenario {
             .models
             .unwrap_or_else(|| vec!["kepler16".to_string(), "kepler-rac".to_string()]);
         if intervals.is_empty() || intervals.iter().any(|&l| !(10.0..=3600.0).contains(&l)) {
-            return Err("trade.fit_intervals_s must be non-empty, each 10-3600 s".to_string());
+            return Err(crate::terr!("e-leo-navmsg-trade-fit-intervals-must-be"));
         }
         if periods.iter().any(|&p| !(p > 0.0 && p <= upd_interval)) {
             return Err(
@@ -786,7 +803,7 @@ impl LeoNavmsgScenario {
             );
         }
         if !(60.0..=86_400.0).contains(&span) {
-            return Err("trade.span_s must be 60-86400 s".to_string());
+            return Err(crate::terr!("e-leo-navmsg-trade-span-must-be-60"));
         }
         let models = model_list(&names, res)?;
         let lmax = intervals.iter().copied().fold(upd_interval, f64::max);
@@ -847,12 +864,22 @@ impl LeoNavmsgScenario {
                 });
             }
         }
-        let mut s =
-            format!("  fit-interval trade over {span:.0} s (usage period = fit interval):\n");
+        let mut s = crate::t!(
+            "leo-navmsg-fit-interval-trade-over-usage",
+            span = crate::i18n::localise_decimal(format!("{:.0}", span))
+        );
         for r in &rows {
-            s.push_str(&format!(
-                "    {:<10} {:>5.0} s  SISRE orbit RMS {:>8.4} m  max {:>8.4} m  with clock RMS {:>8.4} m\n",
-                r.model, r.fit_interval_s, r.stats.sisre_orb_rms_m, r.stats.sisre_orb_max_m, r.stats.sisre_rms_m
+            s.push_str(&crate::t!(
+                "leo-navmsg-sisre-orbit-rms-max-with",
+                model = format!("{:<10}", r.model),
+                fit_interval_s =
+                    crate::i18n::localise_decimal(format!("{:>5.0}", r.fit_interval_s)),
+                sisre_orb_rms_m =
+                    crate::i18n::localise_decimal(format!("{:>8.4}", r.stats.sisre_orb_rms_m)),
+                sisre_orb_max_m =
+                    crate::i18n::localise_decimal(format!("{:>8.4}", r.stats.sisre_orb_max_m)),
+                sisre_rms_m =
+                    crate::i18n::localise_decimal(format!("{:>8.4}", r.stats.sisre_rms_m))
             ));
         }
         let why = explain_trade(&rows);
@@ -880,10 +907,12 @@ impl LeoNavmsgScenario {
             .unwrap_or_else(|| vec![60.0, 300.0, 600.0]);
         let span = c.span_s.unwrap_or(1200.0);
         if intervals.is_empty() || intervals.iter().any(|&l| !(10.0..=3600.0).contains(&l)) {
-            return Err("comparison.fit_intervals_s must be non-empty, each 10-3600 s".to_string());
+            return Err(crate::terr!(
+                "e-leo-navmsg-comparison-fit-intervals-must-be"
+            ));
         }
         if !(60.0..=86_400.0).contains(&span) {
-            return Err("comparison.span_s must be 60-86400 s".to_string());
+            return Err(crate::terr!("e-leo-navmsg-comparison-span-must-be-60"));
         }
         let models = model_list(&names, res)?;
         let lmax = intervals.iter().copied().fold(0.0, f64::max);
@@ -911,13 +940,15 @@ impl LeoNavmsgScenario {
                 let m0 = &msgs[0];
                 let bits = codec::ephemeris_clock_bits(m0).ok();
                 let fits = codec::encode(m0).is_ok();
-                s.push_str(&format!(
-                    "    {:<10} {:>5.0} s  {:>2} params  SISRE orbit RMS {:>8.4} m  with clock {:>8.4} m\n",
-                    kind.code(),
-                    l,
-                    m0.ephemeris.n_parameters(),
-                    stats.sisre_orb_rms_m,
-                    stats.sisre_rms_m
+                s.push_str(&crate::t!(
+                    "leo-navmsg-params-sisre-orbit-rms-with",
+                    kind = format!("{:<10}", kind.code()),
+                    l = crate::i18n::localise_decimal(format!("{:>5.0}", l)),
+                    m0 = format!("{:>2}", m0.ephemeris.n_parameters()),
+                    sisre_orb_rms_m =
+                        crate::i18n::localise_decimal(format!("{:>8.4}", stats.sisre_orb_rms_m)),
+                    sisre_rms_m =
+                        crate::i18n::localise_decimal(format!("{:>8.4}", stats.sisre_rms_m))
                 ));
                 rows.push(json!({
                     "model": kind.code(),
@@ -998,9 +1029,12 @@ impl LeoNavmsgScenario {
             .filter(|(a, b, _)| b - a >= p.min(60.0))
             .max_by(|a, b| a.2.total_cmp(&b.2))
         else {
-            return Err(format!(
-                "no pass above {mask} deg for the user at {lat}, {lon} within {search} s; \
-                 widen midpass.search_s or move the user"
+            return Err(crate::terr!(
+                "e-leo-navmsg-no-pass-above-deg-for",
+                mask = mask,
+                lat = lat,
+                lon = lon,
+                search = search
             ));
         };
         // Messages on the global schedule (k·P from the origin) covering the pass.
@@ -1080,17 +1114,16 @@ impl LeoNavmsgScenario {
             tt += res.eval_step_s;
         }
         let pass_ok = max_jump <= threshold;
-        let s = format!(
-            "  mid-pass update: pass {:.0}-{:.0} s (max elevation {:.1} deg), {} switches, \
-             largest user range jump {:.4} m (worst-case geometry {:.4} m) vs threshold {:.3} m: {}\n",
-            p0,
-            p1,
-            pmax,
-            switches.len(),
-            max_jump,
-            max_worst,
-            threshold,
-            if pass_ok { "PASS" } else { "FAIL" }
+        let s = crate::t!(
+            "leo-navmsg-mid-pass-update-pass-max",
+            p0 = crate::i18n::localise_decimal(format!("{:.0}", p0)),
+            p1 = crate::i18n::localise_decimal(format!("{:.0}", p1)),
+            pmax = crate::i18n::localise_decimal(format!("{:.1}", pmax)),
+            switches = switches.len(),
+            max_jump = crate::i18n::localise_decimal(format!("{:.4}", max_jump)),
+            max_worst = crate::i18n::localise_decimal(format!("{:.4}", max_worst)),
+            threshold = crate::i18n::localise_decimal(format!("{:.3}", threshold)),
+            v8 = if pass_ok { "PASS" } else { "FAIL" }
         );
         Ok((
             json!({
@@ -1231,22 +1264,23 @@ impl LeoNavmsgScenario {
                 elements::norm(sub(sat_state(m, &t).pos, sat_state(&back, &t).pos))
             })
             .fold(0.0, f64::max);
-        let s = format!(
-            "  encode-decode: {} model, frame {} bytes ({} payload bits, {} ephemeris+clock bits), CRC-24Q 0x{}\n    \
-             quantisation: largest position change {:.2} mm, clock {:.2} mm; SISRE exact {:.4} m, quantised {:.4} m\n    \
-             corrupted frame rejected: {}; RINEX round trip {:.2e} m; CSV round trip {}\n",
-            m.ephemeris.code(),
-            frame.len(),
-            payload_bits,
-            eph_bits,
-            &hex[hex.len() - 6..],
-            qpos * 1e3,
-            qclk * 1e3,
-            acc_exact.finish().sisre_rms_m,
-            acc_q.finish().sisre_rms_m,
-            corrupted_rejected,
-            rin_dp,
-            csv_dp.map(|d| format!("{d:.2e} m")).unwrap_or_else(|| "n/a (model not tabulated)".into()),
+        let s = crate::t!(
+            "leo-navmsg-encode-decode-model-frame-bytes",
+            m = m.ephemeris.code(),
+            frame = frame.len(),
+            payload_bits = payload_bits,
+            eph_bits = eph_bits,
+            hex = &hex[hex.len() - 6..],
+            v6 = crate::i18n::localise_decimal(format!("{:.2}", qpos * 1e3)),
+            v7 = crate::i18n::localise_decimal(format!("{:.2}", qclk * 1e3)),
+            acc_exact =
+                crate::i18n::localise_decimal(format!("{:.4}", acc_exact.finish().sisre_rms_m)),
+            acc_q = crate::i18n::localise_decimal(format!("{:.4}", acc_q.finish().sisre_rms_m)),
+            corrupted_rejected = corrupted_rejected,
+            rin_dp = crate::i18n::localise_decimal(format!("{:.2e}", rin_dp)),
+            csv_dp = csv_dp
+                .map(|d| format!("{d:.2e} m"))
+                .unwrap_or_else(|| "n/a (model not tabulated)".into())
         );
         let v = json!({
             "model": m.ephemeris.code(),
@@ -1290,7 +1324,7 @@ pub const LIU2025_TABLE: [(&str, f64, f64, f64); 5] = [
 /// 20-minute arcs each, beside the published figures.
 pub fn liu_comparison(res: &Resolved, arcs: usize) -> Result<(Value, String), String> {
     if arcs == 0 || arcs > 20 {
-        return Err("comparison.liu_arcs must be 1-20".to_string());
+        return Err(crate::terr!("e-leo-navmsg-comparison-liu-arcs-must-be"));
     }
     let arc = 1200.0;
     let mut rows = Vec::new();
@@ -1329,10 +1363,13 @@ pub fn liu_comparison(res: &Resolved, arcs: usize) -> Result<(Value, String), St
             );
         }
         let st = acc.finish();
-        s.push_str(&format!(
-            "    {name:<12} {alt:>5.0} km  Kshana {:.4} m  published {published:.4} m  ratio {:.2}\n",
-            st.sisre_orb_rms_m,
-            st.sisre_orb_rms_m / published
+        s.push_str(&crate::t!(
+            "leo-navmsg-km-kshana-published-ratio",
+            name = format!("{:<12}", name),
+            alt = crate::i18n::localise_decimal(format!("{:>5.0}", alt)),
+            sisre_orb_rms_m = crate::i18n::localise_decimal(format!("{:.4}", st.sisre_orb_rms_m)),
+            published = crate::i18n::localise_decimal(format!("{:.4}", published)),
+            st = crate::i18n::localise_decimal(format!("{:.2}", st.sisre_orb_rms_m / published))
         ));
         rows.push(json!({
             "satellite": name,
@@ -1370,16 +1407,8 @@ fn explain_trade(rows: &[TradeRow]) -> String {
         ls.iter().copied().fold(0.0, f64::max),
     );
     match (get("kepler16", lo), get("kepler16", hi), get("kepler-rac", hi)) {
-        (Some(a), Some(b), Some(c)) => format!(
-            "The 16-parameter Keplerian set degrades from {a:.4} m at {lo:.0} s to {b:.4} m at {hi:.0} s: \
-             one Keplerian set with twice-per-revolution harmonics cannot follow the higher-frequency \
-             gravity terms and the drag of a LEO arc for more than a few minutes, and its least-squares \
-             residual oscillates across the window. The along/cross/radial polynomials, of higher degree \
-             than the Keplerian set spans, absorb what is left, giving {c:.4} m at {hi:.0} s."
-        ),
-        (Some(a), Some(b), None) => format!(
-            "The 16-parameter Keplerian set goes from {a:.4} m at {lo:.0} s to {b:.4} m at {hi:.0} s."
-        ),
+        (Some(a), Some(b), Some(c)) => crate::t!("leo-navmsg-the-16-parameter-keplerian-set", a = crate::i18n::localise_decimal(format!("{:.4}", a)), lo = crate::i18n::localise_decimal(format!("{:.0}", lo)), b = crate::i18n::localise_decimal(format!("{:.4}", b)), hi = crate::i18n::localise_decimal(format!("{:.0}", hi)), c = crate::i18n::localise_decimal(format!("{:.4}", c))),
+        (Some(a), Some(b), None) => crate::t!("leo-navmsg-the-16-parameter-keplerian-set-2", a = crate::i18n::localise_decimal(format!("{:.4}", a)), lo = crate::i18n::localise_decimal(format!("{:.0}", lo)), b = crate::i18n::localise_decimal(format!("{:.4}", b)), hi = crate::i18n::localise_decimal(format!("{:.0}", hi))),
         _ => "Include kepler16 and kepler-rac in trade.models to see the effect of the correction polynomials.".to_string(),
     }
 }
@@ -1451,11 +1480,14 @@ fn to_svg(res: &Resolved, rows: &[TradeRow], doc: &Value) -> String {
         w,
         h,
         "LEO navigation message: SISRE versus fit interval",
-        &format!(
-            "{:.0} km, {:.1} deg, gravity degree {} · representation error against the truth · MODELLED",
-            res.orbit.altitude_m / 1e3,
-            res.orbit.inclination_rad.to_degrees(),
-            res.orbit.gravity_degree
+        &crate::t!(
+            "leo-navmsg-km-deg-gravity-degree-representation",
+            res = crate::i18n::localise_decimal(format!("{:.0}", res.orbit.altitude_m / 1e3)),
+            res2 = crate::i18n::localise_decimal(format!(
+                "{:.1}",
+                res.orbit.inclination_rad.to_degrees()
+            )),
+            gravity_degree = res.orbit.gravity_degree
         ),
     );
     let (ml, mt, pw, ph) = (80.0, 70.0, 780.0, 340.0);

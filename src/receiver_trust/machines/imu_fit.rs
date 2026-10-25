@@ -98,30 +98,39 @@ pub fn fit_accel_cfg(
     expected_mean: f64,
 ) -> Result<ImuFit, String> {
     if axis > 2 {
-        return Err("axis must be 0, 1 or 2 (x, y, z)".into());
+        return Err(crate::terr!(
+            "e-receiver-trust-machines-imu-fit-axis-must-be-or"
+        ));
     }
     if !expected_mean.is_finite() {
-        return Err("expected_mean must be finite".into());
+        return Err(crate::terr!(
+            "e-receiver-trust-machines-imu-fit-expected-mean-must-be-finite"
+        ));
     }
     let n = samples.len();
     if n < MIN_SAMPLES {
-        return Err(format!(
-            "the log has {n} samples; at least {MIN_SAMPLES} are needed for an Allan fit"
+        return Err(crate::terr!(
+            "e-receiver-trust-machines-imu-fit-the-log-has-samples-at",
+            n = n,
+            MIN_SAMPLES = MIN_SAMPLES
         ));
     }
     let span = samples[n - 1].t_s - samples[0].t_s;
     let dt = span / (n - 1) as f64;
     if !(dt.is_finite() && dt > 0.0) {
-        return Err("the log's time does not advance".into());
+        return Err(crate::terr!(
+            "e-receiver-trust-machines-imu-fit-the-log-time-does-not"
+        ));
     }
     let uneven = samples
         .windows(2)
         .filter(|w| ((w[1].t_s - w[0].t_s) / dt - 1.0).abs() > 0.25)
         .count();
     if uneven * 20 > n {
-        return Err(format!(
-            "the sample interval is not uniform ({uneven} of {n} intervals differ by over 25 %): \
-             resample the log first"
+        return Err(crate::terr!(
+            "e-receiver-trust-machines-imu-fit-the-sample-interval-is-not",
+            uneven = uneven,
+            n = n
         ));
     }
     let a: Vec<f64> = samples.iter().map(|s| s.accel[axis]).collect();
@@ -129,7 +138,9 @@ pub fn fit_accel_cfg(
     let ca = curve(&a, dt);
     let cg = curve(&g, dt);
     if ca.is_empty() || cg.is_empty() {
-        return Err("the log is too short to form an Allan curve".into());
+        return Err(crate::terr!(
+            "e-receiver-trust-machines-imu-fit-the-log-is-too-short"
+        ));
     }
     let mut notes = Vec::new();
     let n_a = ca[0].1 * ca[0].0.sqrt();
@@ -153,11 +164,15 @@ pub fn fit_accel_cfg(
     let (sa, sg) = (white_slope(&ca), white_slope(&cg));
     for (name, s) in [("accelerometer", sa), ("gyro", sg)] {
         match s {
-            Some(v) if !(-0.8..=-0.2).contains(&v) => notes.push(format!(
-                "the {name} curve's early slope is {v:.2}, not about -0.5: white noise does not \
-                 dominate (is the sensor still?), so its noise coefficient is unreliable"
+            Some(v) if !(-0.8..=-0.2).contains(&v) => notes.push(crate::t!(
+                "receiver-trust-machines-imu-fit-the-curve-early-slope-is",
+                name = name,
+                v = crate::i18n::localise_decimal(format!("{:.2}", v))
             )),
-            None => notes.push(format!("the {name} curve is too short to check its slope")),
+            None => notes.push(crate::t!(
+                "receiver-trust-machines-imu-fit-the-curve-is-too-short",
+                name = name
+            )),
             _ => {}
         }
     }
@@ -180,10 +195,17 @@ impl ImuFit {
     /// The fit as an `[accel_classical]` table for a `hybrid` or `fusion` scenario, with the
     /// given sensor id and provenance text.
     pub fn to_toml(&self, table: &str, id: &str, provenance: &str) -> String {
-        format!(
-            "[{table}]\nid = {id:?}\nprovenance = {provenance:?}\nbias = {:e}\nq_va = {:e}\n\
-             gyro_bias = {:e}\nq_arw = {:e}\nbias_instability = {:e}\n",
-            self.bias, self.q_va, self.gyro_bias, self.q_arw, self.bias_instability
+        crate::t!(
+            "receiver-trust-machines-imu-fit-id-provenance-bias-va-gyro",
+            table = table,
+            id = format!("{:?}", id),
+            provenance = format!("{:?}", provenance),
+            bias = crate::i18n::localise_decimal(format!("{:e}", self.bias)),
+            q_va = crate::i18n::localise_decimal(format!("{:e}", self.q_va)),
+            gyro_bias = crate::i18n::localise_decimal(format!("{:e}", self.gyro_bias)),
+            q_arw = crate::i18n::localise_decimal(format!("{:e}", self.q_arw)),
+            bias_instability =
+                crate::i18n::localise_decimal(format!("{:e}", self.bias_instability))
         )
     }
 }

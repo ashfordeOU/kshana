@@ -175,10 +175,9 @@ fn norm(a: Vec3) -> f64 {
 pub fn body_by_name(name: &str) -> Result<Body, String> {
     match Body::by_name(name) {
         Some(b) if b.name != "Sun" => Ok(b),
-        _ => Err(format!(
-            "unknown central body {:?}: expected a planet, Pluto, the Moon or a major moon \
-             (earth, moon, mars, europa, titan, ...; see crate::body::SOLAR_SYSTEM)",
-            name.trim().to_ascii_lowercase()
+        _ => Err(crate::terr!(
+            "e-constellation-unknown-central-body-expected-planet",
+            name = format!("{:?}", name.trim().to_ascii_lowercase())
         )),
     }
 }
@@ -248,18 +247,20 @@ impl WalkerSpec {
     /// of it at mean anomaly `m0 + j·2πP/T + k·2πF/T`.
     pub fn elements(&self) -> Result<Vec<Elements>, String> {
         if self.planes == 0 || self.total == 0 {
-            return Err("a Walker shell needs total > 0 and planes > 0".into());
+            return Err(crate::terr!("e-constellation-walker-shell-needs-total-and"));
         }
         if self.total % self.planes != 0 {
-            return Err(format!(
-                "Walker total {} is not a multiple of planes {}",
-                self.total, self.planes
+            return Err(crate::terr!(
+                "e-constellation-walker-total-is-not-multiple",
+                total = self.total,
+                planes = self.planes
             ));
         }
         if self.phasing >= self.planes {
-            return Err(format!(
-                "Walker phasing F = {} must lie in 0..planes (= {})",
-                self.phasing, self.planes
+            return Err(crate::terr!(
+                "e-constellation-walker-phasing-must-lie-in",
+                phasing = self.phasing,
+                planes = self.planes
             ));
         }
         let per_plane = self.total / self.planes;
@@ -386,9 +387,9 @@ fn gps_slot(raan_deg: f64, arglat_deg: f64) -> Elements {
 pub fn gps_slots(expanded: &[String]) -> Result<Vec<(String, Elements)>, String> {
     for name in expanded {
         if !GPS_EXPANDABLE_SLOTS.iter().any(|(s, _)| s == name) {
-            return Err(format!(
-                "{name:?} is not an expandable GPS slot (SPS PS Table 3.2-2 lists B1, D2, F2, \
-                 A2, C4, E3)"
+            return Err(crate::terr!(
+                "e-constellation-is-not-an-expandable-gps",
+                name = format!("{:?}", name)
             ));
         }
     }
@@ -737,19 +738,26 @@ fn semi_major_axis(
 ) -> Result<f64, String> {
     let a = match (alt_km, a_km) {
         (Some(_), Some(_)) => {
-            return Err(format!(
-                "{what}: give altitude_km or semi_major_axis_km, not both"
+            return Err(crate::terr!(
+                "e-constellation-give-altitude-km-or-semi",
+                what = what
             ))
         }
         (Some(h), None) => body.re + h * 1000.0,
         (None, Some(a)) => a * 1000.0,
-        (None, None) => return Err(format!("{what}: needs altitude_km or semi_major_axis_km")),
+        (None, None) => {
+            return Err(crate::terr!(
+                "e-constellation-needs-altitude-km-or-semi",
+                what = what
+            ))
+        }
     };
     if !a.is_finite() || a <= body.re {
-        return Err(format!(
-            "{what}: semi-major axis {:.1} km is not above the {} radius",
-            a / 1000.0,
-            body.name
+        return Err(crate::terr!(
+            "e-constellation-semi-major-axis-km-is",
+            what = what,
+            v1 = crate::i18n::localise_decimal(format!("{:.1}", a / 1000.0)),
+            name = body.name
         ));
     }
     Ok(a)
@@ -757,12 +765,17 @@ fn semi_major_axis(
 
 fn check_ecc(e: f64, a: f64, body: &Body, what: &str) -> Result<(), String> {
     if !(0.0..0.9).contains(&e) {
-        return Err(format!("{what}: eccentricity {e} must lie in [0, 0.9)"));
+        return Err(crate::terr!(
+            "e-constellation-eccentricity-must-lie-in",
+            what = what,
+            e = e
+        ));
     }
     if a * (1.0 - e) <= body.re {
-        return Err(format!(
-            "{what}: perigee is below the {} surface",
-            body.name
+        return Err(crate::terr!(
+            "e-constellation-perigee-is-below-the-surface",
+            what = what,
+            name = body.name
         ));
     }
     Ok(())
@@ -777,9 +790,11 @@ impl ConstellationCfg {
         let mut sources = Vec::new();
         if let Some(p) = &self.preset {
             if body.name != "Earth" {
-                return Err(format!(
-                    "constellation {:?}: preset {p:?} is an Earth constellation, the body is {}",
-                    self.name, body.name
+                return Err(crate::terr!(
+                    "e-constellation-constellation-preset-is-an-earth",
+                    name = format!("{:?}", self.name),
+                    p = format!("{:?}", p),
+                    name2 = body.name
                 ));
             }
             let (list, src): (Vec<(String, Elements)>, &str) = match p.as_str() {
@@ -824,17 +839,17 @@ impl ConstellationCfg {
                     "GLONASS 24/3/1, GLONASS ICD edition 5.1 (2008) section 5.2",
                 ),
                 other => {
-                    return Err(format!(
-                        "constellation {:?}: unknown preset {other:?} (expected gps-baseline, \
-                         gps-expandable, galileo, beidou, beidou-meo or glonass)",
-                        self.name
+                    return Err(crate::terr!(
+                        "e-constellation-constellation-unknown-preset-expected-gps",
+                        name = format!("{:?}", self.name),
+                        other = format!("{:?}", other)
                     ))
                 }
             };
             if self.expanded.is_some() && p != "gps-expandable" {
-                return Err(format!(
-                    "constellation {:?}: `expanded` applies only to the gps-expandable preset",
-                    self.name
+                return Err(crate::terr!(
+                    "e-constellation-constellation-expanded-applies-only-to",
+                    name = format!("{:?}", self.name)
                 ));
             }
             sources.push(src.to_string());
@@ -844,7 +859,11 @@ impl ConstellationCfg {
             }
         }
         for (k, s) in self.shell.iter().enumerate() {
-            let what = format!("constellation {:?} shell {}", self.name, k + 1);
+            let what = crate::t!(
+                "constellation-constellation-shell",
+                name = format!("{:?}", self.name),
+                v2 = k + 1
+            );
             let a = semi_major_axis(s.altitude_km, s.semi_major_axis_km, body, &what)?;
             check_ecc(s.eccentricity, a, body, &what)?;
             let w = WalkerSpec {
@@ -877,10 +896,17 @@ impl ConstellationCfg {
             }
         }
         if !self.satellite.is_empty() {
-            sources.push(format!("{} explicit element sets", self.satellite.len()));
+            sources.push(crate::t!(
+                "constellation-explicit-element-sets",
+                satellite = self.satellite.len()
+            ));
         }
         for (k, s) in self.satellite.iter().enumerate() {
-            let what = format!("constellation {:?} satellite {}", self.name, k + 1);
+            let what = crate::t!(
+                "constellation-constellation-satellite",
+                name = format!("{:?}", self.name),
+                v2 = k + 1
+            );
             let a = semi_major_axis(s.altitude_km, s.semi_major_axis_km, body, &what)?;
             check_ecc(s.eccentricity, a, body, &what)?;
             ids.push(s.id.clone().unwrap_or_else(|| format!("X{:03}", k + 1)));
@@ -894,10 +920,9 @@ impl ConstellationCfg {
             });
         }
         if elements.is_empty() {
-            return Err(format!(
-                "constellation {:?} has no satellites: give a preset, a [[constellation.shell]] \
-                 or a [[constellation.satellite]]",
-                self.name
+            return Err(crate::terr!(
+                "e-constellation-constellation-has-no-satellites-give",
+                name = format!("{:?}", self.name)
             ));
         }
         Ok(BuiltConstellation {
@@ -1317,13 +1342,13 @@ pub fn coverage(
     brute_force: bool,
 ) -> Result<CoverageResult, String> {
     if constellations.is_empty() {
-        return Err("no constellation given".into());
+        return Err(crate::terr!("e-constellation-no-constellation-given"));
     }
     if spec.clock == ClockModel::PerConstellation && constellations.len() > MAX_CLOCKS {
-        return Err(format!(
-            "{} constellations with one clock each exceeds the {MAX_CLOCKS}-clock limit; \
-             use clock = \"common\" or merge constellations",
-            constellations.len()
+        return Err(crate::terr!(
+            "e-constellation-constellations-with-one-clock-each",
+            constellations = constellations.len(),
+            MAX_CLOCKS = MAX_CLOCKS
         ));
     }
     let sats: Vec<Sat> = constellations
@@ -1697,44 +1722,48 @@ impl ConstellationDesignScenario {
             if x.is_finite() {
                 Ok(())
             } else {
-                Err(format!("{what} must be finite"))
+                Err(crate::terr!("e-constellation-must-be-finite", what = what))
             }
         };
         fin(self.duration_s, "duration_s")?;
         fin(self.step_s, "step_s")?;
         if self.step_s <= 0.0 || self.duration_s < self.step_s {
-            return Err("need step_s > 0 and duration_s >= step_s".into());
+            return Err(crate::terr!("e-constellation-need-step-and-duration-step"));
         }
         if self.duration_s / self.step_s > 100_000.0 {
-            return Err("more than 100 000 epochs; raise step_s".into());
+            return Err(crate::terr!("e-constellation-more-than-100-000-epochs"));
         }
         if !(0.0..90.0).contains(&self.mask_deg) {
-            return Err("mask_deg must lie in [0, 90)".into());
+            return Err(crate::terr!("e-constellation-mask-deg-must-lie-in"));
         }
         if self.pdop_threshold.is_nan() || self.pdop_threshold <= 0.0 {
-            return Err("pdop_threshold must be positive".into());
+            return Err(crate::terr!(
+                "e-constellation-pdop-threshold-must-be-positive"
+            ));
         }
         if !(self.grid_step_deg >= 0.25 && self.grid_step_deg <= 90.0) {
-            return Err("grid_step_deg must lie in [0.25, 90]".into());
+            return Err(crate::terr!("e-constellation-grid-step-deg-must-lie"));
         }
         if !(-90.0..=90.0).contains(&self.lat_min_deg)
             || !(-90.0..=90.0).contains(&self.lat_max_deg)
             || self.lat_min_deg >= self.lat_max_deg
         {
-            return Err("need -90 <= lat_min_deg < lat_max_deg <= 90".into());
+            return Err(crate::terr!("e-constellation-need-90-lat-min-deg"));
         }
         if !(-360.0..=360.0).contains(&self.lon_min_deg)
             || !(-360.0..=360.0).contains(&self.lon_max_deg)
             || self.lon_min_deg >= self.lon_max_deg
             || self.lon_max_deg - self.lon_min_deg > 360.0
         {
-            return Err("need lon_min_deg < lon_max_deg spanning at most 360 deg".into());
+            return Err(crate::terr!("e-constellation-need-lon-min-deg-lon"));
         }
         if self.constellation.is_empty() {
-            return Err("give at least one [[constellation]]".into());
+            return Err(crate::terr!(
+                "e-constellation-give-at-least-one-constellation"
+            ));
         }
         if self.track_points > 2_000 {
-            return Err("track_points is capped at 2000".into());
+            return Err(crate::terr!("e-constellation-track-points-is-capped-at"));
         }
         Ok(())
     }
@@ -1750,7 +1779,10 @@ impl ConstellationDesignScenario {
             .collect::<Result<Vec<_>, _>>()?;
         let total: usize = built.iter().map(|b| b.elements.len()).sum();
         if total > 50_000 {
-            return Err(format!("{total} satellites exceeds the 50 000 limit"));
+            return Err(crate::terr!(
+                "e-constellation-satellites-exceeds-the-50-000",
+                total = total
+            ));
         }
         Ok((body, built))
     }
@@ -1884,22 +1916,25 @@ impl ConstellationDesignScenario {
             },
         });
         let names: Vec<&str> = built.iter().map(|b| b.name.as_str()).collect();
-        let summary = format!(
-            "constellation-design: {total} satellites ({}) around the {}; availability {:.2}% \
-             (PDOP <= {} at {} deg mask), worst site {:.2}%, median PDOP {}, mean {:.1} in view; \
-             {} grid points x {} epochs (MODELLED)",
-            names.join(", "),
-            body.name,
-            cov.global_availability_pct,
-            self.pdop_threshold,
-            self.mask_deg,
-            cov.worst_site_availability_pct,
-            cov.hist_pdop
+        let summary = crate::t!(
+            "constellation-constellation-design-satellites-around-the",
+            total = total,
+            names = names.join(", "),
+            name = body.name,
+            global_availability_pct =
+                crate::i18n::localise_decimal(format!("{:.2}", cov.global_availability_pct)),
+            pdop_threshold = self.pdop_threshold,
+            mask_deg = self.mask_deg,
+            worst_site_availability_pct =
+                crate::i18n::localise_decimal(format!("{:.2}", cov.worst_site_availability_pct)),
+            cov = cov
+                .hist_pdop
                 .quantile(0.5)
                 .map_or("n/a".to_string(), |v| format!("{v:.2}")),
-            cov.global_mean_visible,
-            w.grid_points,
-            w.epochs,
+            global_mean_visible =
+                crate::i18n::localise_decimal(format!("{:.1}", cov.global_mean_visible)),
+            grid_points = w.grid_points,
+            epochs = w.epochs
         );
         let svg = to_svg(&cov, &body, &summary, self.pdop_threshold);
         let json = serde_json::to_string_pretty(&doc).map_err(|e| e.to_string())?;
@@ -1939,7 +1974,10 @@ fn to_svg(cov: &CoverageResult, body: &Body, summary: &str, thr: f64) -> String 
     let mut s = crate::chart::frame_open(
         w,
         h,
-        &format!("Constellation coverage over the {}", body.name),
+        &crate::t!(
+            "constellation-constellation-coverage-over-the",
+            name = body.name
+        ),
         head,
     );
     s.push_str(&format!(

@@ -86,8 +86,12 @@ pub fn fmt_utc(t: i64) -> String {
 /// The earliest Unix time (s) the product of `day` may be released: the end of that UTC day plus
 /// `delay_hours`.
 pub fn earliest_release(day: &str, delay_hours: f64) -> Result<i64, MapError> {
-    let d = parse_day(day)
-        .ok_or_else(|| MapError::Format(format!("--day `{day}` is not a date (YYYY-MM-DD)")))?;
+    let d = parse_day(day).ok_or_else(|| {
+        MapError::Format(crate::terr!(
+            "e-interference-map-observatory-day-is-not-date-yyyy",
+            day = day
+        ))
+    })?;
     Ok((d + 1) * 86_400 + (delay_hours * 3600.0).round() as i64)
 }
 
@@ -99,20 +103,24 @@ pub fn check_release(
     as_of: i64,
 ) -> Result<(), MapError> {
     if !delay_hours.is_finite() || delay_hours < MIN_DELAY_HOURS {
-        return Err(MapError::Format(format!(
-            "--delay-hours must be {MIN_DELAY_HOURS} or more: the observatory does not publish sooner"
+        return Err(MapError::Format(crate::terr!(
+            "e-interference-map-observatory-delay-hours-must-be-or",
+            MIN_DELAY_HOURS = MIN_DELAY_HOURS
         )));
     }
     if !cell_deg.is_finite() || cell_deg < MIN_CELL_DEG {
-        return Err(MapError::Format(format!(
-            "--cell-deg must be {MIN_CELL_DEG} or coarser: the observatory publishes coarse cells only"
+        return Err(MapError::Format(crate::terr!(
+            "e-interference-map-observatory-cell-deg-must-be-or",
+            MIN_CELL_DEG = MIN_CELL_DEG
         )));
     }
     let at = earliest_release(day, delay_hours)?;
     if as_of < at {
-        return Err(MapError::Format(format!(
-            "{day} is not publishable yet: its product is released no earlier than {} ({delay_hours} h after the day ends)",
-            fmt_utc(at)
+        return Err(MapError::Format(crate::terr!(
+            "e-interference-map-observatory-is-not-publishable-yet-its",
+            day = day,
+            fmt_utc = fmt_utc(at),
+            delay_hours = delay_hours
         )));
     }
     Ok(())
@@ -639,16 +647,19 @@ fn render_png(
         margin,
         14,
         2,
-        &format!("KSHANA OBSERVATORY  ADS-B  {date}"),
+        &crate::t!(
+            "interference-map-observatory-kshana-observatory-ads",
+            date = date
+        ),
         INK,
     );
     cv.text(
         margin,
         38,
         1,
-        &format!(
-            "{} DEG CELLS  UTC DAY  NOT OBSERVED IS NOT CLEAR  NO CAUSE ATTRIBUTED",
-            trim_deg(grid.cell_deg)
+        &crate::t!(
+            "interference-map-observatory-deg-cells-utc-day-not",
+            trim_deg = trim_deg(grid.cell_deg)
         ),
         INK,
     );
@@ -693,21 +704,23 @@ fn render_png(
         }
         lx = cv.text(lx + 22, ly, 2, label, INK) + 28;
     }
-    let src = format!(
-        "SOURCE {}  LICENCE {}",
-        dataset.key.to_ascii_uppercase(),
-        dataset.licence.to_ascii_uppercase()
+    let src = crate::t!(
+        "interference-map-observatory-source-licence",
+        dataset = dataset.key.to_ascii_uppercase(),
+        dataset2 = dataset.licence.to_ascii_uppercase()
     );
     cv.text(margin, ly + 26, 1, &src, INK);
-    let meta = format!(
-        "{} DEGRADED  {} NOT DEGRADED  {} NOT OBSERVED (PUBLISHED CELLS)",
-        summary["degraded"], summary["not_degraded"], summary["not_observed_published"]
+    let meta = crate::t!(
+        "interference-map-observatory-degraded-not-degraded-not-observed",
+        summary = summary["degraded"],
+        summary2 = summary["not_degraded"],
+        summary3 = summary["not_observed_published"]
     );
     cv.text(margin, ly + 40, 1, &meta, INK);
     encode_png(
         &cv,
         &[
-            ("Title", format!("Kshana observatory, ADS-B navigation-accuracy map, {date}")),
+            ("Title", crate::t!("interference-map-observatory-kshana-observatory-ads-navigation-accuracy", date = date)),
             (
                 "Description",
                 "Degraded, not degraded or not observed per cell. Not observed is not clear. No cause is attributed. Advisory only.".into(),
@@ -810,13 +823,19 @@ fn write_new(path: &Path, bytes: &[u8]) -> Result<(), MapError> {
         .create_new(true)
         .open(path)
         .map_err(|e| {
-            MapError::Io(format!(
-                "cannot create {} (Kshana does not overwrite products): {e}",
-                path.display()
+            MapError::Io(crate::terr!(
+                "e-interference-map-observatory-cannot-create-kshana-does-not",
+                path = path.display(),
+                e = e
             ))
         })?;
-    f.write_all(bytes)
-        .map_err(|e| MapError::Io(format!("cannot write {}: {e}", path.display())))
+    f.write_all(bytes).map_err(|e| {
+        MapError::Io(crate::terr!(
+            "e-evidence-cli-cannot-write",
+            path = path.display(),
+            e = e
+        ))
+    })
 }
 
 fn read_day(
@@ -901,9 +920,11 @@ pub fn run_daily(rest: &[String]) -> Result<(), MapError> {
     let stats = agg.stats.clone();
     let days = agg.finish();
     let Some(d) = days.iter().find(|d| d.date == day) else {
-        return Err(MapError::Format(format!(
-            "the input has no usable report on {day} (days found: {})",
-            days.iter()
+        return Err(MapError::Format(crate::terr!(
+            "e-interference-map-observatory-the-input-has-no-usable",
+            day = day,
+            days = days
+                .iter()
                 .map(|d| d.date.as_str())
                 .collect::<Vec<_>>()
                 .join(", ")
@@ -917,23 +938,35 @@ pub fn run_daily(rest: &[String]) -> Result<(), MapError> {
         "input as given"
     });
     let p = build_product(d, &grid, method, &ds, region, delay)?;
-    std::fs::create_dir_all(&out)
-        .map_err(|e| MapError::Io(format!("cannot create {}: {e}", out.display())))?;
-    let stem = format!("observatory-adsb-{}-{day}", ds.key);
+    std::fs::create_dir_all(&out).map_err(|e| {
+        MapError::Io(crate::terr!(
+            "e-interference-map-cli-cannot-create",
+            out = out.display(),
+            e = e
+        ))
+    })?;
+    let stem = crate::t!(
+        "interference-map-observatory-observatory-adsb",
+        key = ds.key,
+        day = day
+    );
     let gj = to_text(&p.geojson)?;
     let inc = to_text(&p.incidents)?;
     let names = [
         (format!("{stem}.geojson"), gj.into_bytes()),
         (format!("{stem}.png"), p.png),
-        (format!("{stem}.incidents.json"), inc.into_bytes()),
+        (
+            crate::t!("interference-map-observatory-incidents-json", stem = stem),
+            inc.into_bytes(),
+        ),
     ];
     let mut files = Vec::new();
     for (name, _) in &names {
         let path = out.join(name);
         if path.exists() {
-            return Err(MapError::Io(format!(
-                "{} already exists; Kshana does not overwrite products",
-                path.display()
+            return Err(MapError::Io(crate::terr!(
+                "e-interference-map-observatory-already-exists-kshana-does-not",
+                path = path.display()
             )));
         }
     }
@@ -953,14 +986,20 @@ pub fn run_daily(rest: &[String]) -> Result<(), MapError> {
         "files": files,
     });
     write_new(
-        &out.join(format!("{stem}.manifest.json")),
+        &out.join(crate::t!(
+            "interference-map-observatory-manifest-json",
+            stem = stem
+        )),
         to_text(&manifest)?.as_bytes(),
     )?;
     println!(
-        "{} cells published, {} degraded, {} incident(s)",
-        p.geojson["kshana_observatory"]["summary"]["cells_published"],
-        p.geojson["kshana_observatory"]["summary"]["degraded"],
-        p.incidents["incidents"].as_array().map_or(0, Vec::len)
+        "{}",
+        crate::t!(
+            "interference-map-observatory-cells-published-degraded-incident",
+            p = p.geojson["kshana_observatory"]["summary"]["cells_published"],
+            p2 = p.geojson["kshana_observatory"]["summary"]["degraded"],
+            p3 = p.incidents["incidents"].as_array().map_or(0, Vec::len)
+        )
     );
     Ok(())
 }
@@ -1246,9 +1285,13 @@ pub fn run_sensitivity(rest: &[String]) -> Result<(), MapError> {
     let rep = sensitivity_report(&rows, &day, region);
     write_new(Path::new(out), to_text(&rep)?.as_bytes())?;
     println!(
-        "{} rows replayed under {} variants: {out}",
-        rows.len(),
-        variants().len()
+        "{}",
+        crate::t!(
+            "interference-map-observatory-rows-replayed-under-variants",
+            rows = rows.len(),
+            variants = variants().len(),
+            out = out
+        )
     );
     Ok(())
 }

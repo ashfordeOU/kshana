@@ -217,7 +217,7 @@ pub fn solve_float(d: &Design) -> Result<Float, String> {
     }
     let reference = (0..d.n_pass)
         .max_by_key(|&p| len[p])
-        .ok_or("no common satellite between the receivers")?;
+        .ok_or_else(|| crate::terr!("e-lunar-infra-phase-no-common-satellite-between-the"))?;
     // Connected component of the reference: passes that share an epoch.
     let mut epochs_of: Vec<Vec<usize>> = vec![vec![]; d.epochs];
     for r in &d.rows {
@@ -307,12 +307,14 @@ pub fn solve_float(d: &Design) -> Result<Float, String> {
         i0 = i1;
     }
     let info = la::sym(&info);
-    let p = la::inverse(&info).ok_or("the carrier-phase normal equations are singular")?;
+    let p = la::inverse(&info)
+        .ok_or_else(|| crate::terr!("e-lunar-infra-phase-the-carrier-phase-normal-equations"))?;
     let q: Mat = (9..dim)
         .map(|i| (9..dim).map(|j| p[i][j]).collect())
         .collect();
     let p_float = la::block(&p, 9);
-    let p_fixed = la::inverse(&la::block(&info, 9)).ok_or("the position block is singular")?;
+    let p_fixed = la::inverse(&la::block(&info, 9))
+        .ok_or_else(|| crate::terr!("e-lunar-infra-phase-the-position-block-is-singular"))?;
     Ok(Float {
         passes_used,
         q,
@@ -341,7 +343,7 @@ pub fn run(
         .unwrap_or_else(|| vec![orbit.arc_days.unwrap_or(1.0)]);
     let trials = mc.trials.unwrap_or(2000);
     if trials == 0 {
-        return Err("monte_carlo.trials must be at least 1".into());
+        return Err(crate::terr!("e-lunar-infra-od-monte-carlo-trials-must-be"));
     }
     let mut out = Vec::new();
     for (ai, &arc) in arcs.iter().enumerate() {
@@ -353,7 +355,8 @@ pub fn run(
         let zero = vec![0.0; n];
         let res = lambda::resolve(&f.q, &zero);
         let boot_decor = res.as_ref().map(|r| r.success_rate);
-        let l = la::cholesky(&f.q).ok_or("the ambiguity covariance is not positive definite")?;
+        let l = la::cholesky(&f.q)
+            .ok_or_else(|| crate::terr!("e-lunar-infra-phase-the-ambiguity-covariance-is-not"))?;
         let mut rng =
             ChaCha8Rng::seed_from_u64(seed ^ (ai as u64 + 1).wrapping_mul(0x9E37_79B9_7F4A_7C15));
         let (mut ok, mut exhausted) = (0usize, 0usize);

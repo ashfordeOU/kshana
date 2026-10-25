@@ -1078,8 +1078,10 @@ fn fit_unit(
     };
     let min_rec = cf.min_recordings.max(5);
     if m < min_rec {
-        report.status = format!(
-            "insufficient data: not fitted ({m} recordings; at least {min_rec} are needed)"
+        report.status = crate::t!(
+            "iq-labfit-iqfit-insufficient-data-not-fitted-recordings",
+            m = m,
+            min_rec = min_rec
         );
         report.reacq = "not fitted: insufficient data".into();
         return UnitOut {
@@ -1115,17 +1117,19 @@ fn fit_unit(
     let (mode, _) = cn0::choose_mode(&pts_all, &ctx.cfg);
     let reason = (mode == QMode::FixedStated).then(|| {
         if full.cn0.span_db < cn0::MIN_SPAN_DB {
-            format!(
-                "uncensored J/S span {:.1} dB is under {} dB",
-                full.cn0.span_db,
-                cn0::MIN_SPAN_DB
+            crate::t!(
+                "iq-labfit-iqfit-uncensored-span-db-is-under",
+                span_db = crate::i18n::localise_decimal(format!("{:.1}", full.cn0.span_db)),
+                v2 = cn0::MIN_SPAN_DB
             )
         } else {
-            format!(
-                "Q_eff and delta are not separately identifiable (|corr| {:.4} >= {}): the \
-                 model depends on delta - 10 log10 Q_eff only",
-                full.cn0.corr_q_delta.map_or(1.0, f64::abs),
-                cn0::MAX_ABS_CORR
+            crate::t!(
+                "iq-labfit-iqfit-eff-and-delta-are-not",
+                full = crate::i18n::localise_decimal(format!(
+                    "{:.4}",
+                    full.cn0.corr_q_delta.map_or(1.0, f64::abs)
+                )),
+                v2 = cn0::MAX_ABS_CORR
             )
         }
     });
@@ -1334,7 +1338,10 @@ fn fit_unit(
     report.reacq = if !cf.lock_models {
         "not fitted: lock models not requested".into()
     } else if n_reacq < 3 {
-        format!("not fitted: {n_reacq} re-acquisitions observed (at least 3 are needed)")
+        crate::t!(
+            "iq-labfit-iqfit-not-fitted-re-acquisitions-observed",
+            n_reacq = n_reacq
+        )
     } else {
         "fitted".into()
     };
@@ -1696,7 +1703,7 @@ fn evaluate(v: &ValidationCfg, h: &HoldoutReport) -> ValidationReport {
     for g in &i.events {
         let r = g.rms_s;
         bars.push(BarResult {
-            bar: format!("loss_time_rms_s[{}]", g.model.as_str()),
+            bar: crate::t!("iq-labfit-iqfit-loss-time-rms", model = g.model.as_str()),
             limit: format!("<= {}", v.loss_time_rms_s_max),
             value: r,
             verdict: verdict(r.is_some_and(|x| x <= v.loss_time_rms_s_max)),
@@ -1731,24 +1738,33 @@ pub fn analyse(data: &CampaignData, sc: &LabFitScenario) -> Result<LabFitIqRepor
     }
     if let Some(m) = &sc.mode {
         if m != "validation" {
-            return Err(format!("unknown mode `{m}` (only `validation`)"));
+            return Err(crate::terr!(
+                "e-iq-labfit-iqfit-unknown-mode-only-validation",
+                m = m
+            ));
         }
     }
     if let Some(v) = &sc.validation {
         let [a, b] = v.pi90_coverage;
         if !(0.0..=1.0).contains(&a) || !(a..=1.0).contains(&b) {
-            return Err("validation.pi90_coverage must be [lower, upper] within [0, 1]".into());
+            return Err(crate::terr!(
+                "e-iq-labfit-iqfit-validation-pi90-coverage-must-be"
+            ));
         }
     }
     let cf = sc.campaign_fit.unwrap_or_default();
     if !(cf.q_bounds[0] > 0.0 && cf.q_bounds[1] > cf.q_bounds[0]) {
-        return Err("campaign_fit.q_bounds must be [lower, upper] with 0 < lower < upper".into());
+        return Err(crate::terr!(
+            "e-iq-labfit-iqfit-campaign-fit-bounds-must-be"
+        ));
     }
     if cf.delta_bounds_db[1] <= cf.delta_bounds_db[0] {
-        return Err("campaign_fit.delta_bounds_db must be [lower, upper]".into());
+        return Err(crate::terr!(
+            "e-iq-labfit-iqfit-campaign-fit-delta-bounds-db"
+        ));
     }
     if data.units.is_empty() {
-        return Err("the campaign has no event with a stated power profile to fit".into());
+        return Err(crate::terr!("e-iq-labfit-iqfit-the-campaign-has-no-event"));
     }
     let mut units = Vec::new();
     let mut residuals = Vec::new();

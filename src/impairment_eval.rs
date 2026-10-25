@@ -959,10 +959,10 @@ impl ImpairmentEvalScenario {
     /// Run the scenario; return `(pretty JSON report, one-line summary)`.
     pub fn run_json(&self) -> Result<(String, String), String> {
         if !(0.0..=1.0).contains(&self.target_pfa) {
-            return Err("target_pfa must be in [0, 1]".into());
+            return Err(crate::terr!("e-impairment-eval-target-pfa-must-be-in"));
         }
         if self.n_per_class == 0 {
-            return Err("n_per_class must be >= 1".into());
+            return Err(crate::terr!("e-impairment-eval-per-class-must-be"));
         }
         let in_cfg = CorpusConfig {
             n_per_class: self.n_per_class,
@@ -1012,17 +1012,17 @@ impl ImpairmentEvalScenario {
                 "note": "auc_out uses a subtler out-of-tuning-regime corpus; optimism_gap = auc_in - auc_out. Never headline auc_in alone.",
             },
         });
-        let summary = format!(
-            "impairment-eval | detector {} | AUC {:.3} in / {:.3} out (gap {:.3}{}) | Pd {:.2} Pfa {:.2} @ target {:.2} | {} cases | MODELLED synthetic",
-            report.detector,
-            shift.auc_in,
-            shift.auc_out,
-            shift.optimism_gap,
-            if shift.optimistic { ", OPTIMISTIC" } else { "" },
-            report.operating.pd(),
-            report.operating.pfa(),
-            report.target_pfa,
-            report.n_cases,
+        let summary = crate::t!(
+            "impairment-eval-impairment-eval-detector-auc-in",
+            detector = report.detector,
+            auc_in = crate::i18n::localise_decimal(format!("{:.3}", shift.auc_in)),
+            auc_out = crate::i18n::localise_decimal(format!("{:.3}", shift.auc_out)),
+            optimism_gap = crate::i18n::localise_decimal(format!("{:.3}", shift.optimism_gap)),
+            v5 = if shift.optimistic { ", OPTIMISTIC" } else { "" },
+            report = crate::i18n::localise_decimal(format!("{:.2}", report.operating.pd())),
+            report2 = crate::i18n::localise_decimal(format!("{:.2}", report.operating.pfa())),
+            target_pfa = crate::i18n::localise_decimal(format!("{:.2}", report.target_pfa)),
+            n_cases = report.n_cases
         );
         let json = serde_json::to_string_pretty(&value).map_err(|e| e.to_string())?;
         Ok((json, summary))
@@ -1053,8 +1053,9 @@ impl ImpairmentEvalScenario {
             "parity" => run_det!(ParityDetector),
             "fused" => run_det!(FusedDetector),
             other => {
-                return Err(format!(
-                    "unknown detector '{other}' (energy|agc|sqm|parity|fused)"
+                return Err(crate::terr!(
+                    "e-impairment-eval-unknown-detector-energy-agc-sqm",
+                    other = other
                 ))
             }
         };

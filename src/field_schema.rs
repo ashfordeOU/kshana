@@ -448,14 +448,18 @@ fn entry_fields(entry: &Value) -> Result<(&str, ProvenanceClass, Option<&str>), 
         .and_then(|u| u.as_str())
         .ok_or_else(|| "no `unit` string".to_string())?;
     if unit.is_empty() {
-        return Err("`unit` is the empty string".to_string());
+        return Err(crate::terr!("e-field-schema-unit-is-the-empty-string"));
     }
     let prov_str = obj
         .get("provenance")
         .and_then(|p| p.as_str())
         .ok_or_else(|| "no `provenance` string".to_string())?;
-    let provenance = ProvenanceClass::parse(prov_str)
-        .ok_or_else(|| format!("`provenance` {prov_str:?} is outside the vocabulary"))?;
+    let provenance = ProvenanceClass::parse(prov_str).ok_or_else(|| {
+        crate::terr!(
+            "e-field-schema-provenance-is-outside-the-vocabulary",
+            prov_str = format!("{:?}", prov_str)
+        )
+    })?;
     let note = obj.get("note").and_then(|n| n.as_str());
     Ok((unit, provenance, note))
 }

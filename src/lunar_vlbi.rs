@@ -368,7 +368,7 @@ impl KernelGeometry {
                 });
             }
         }
-        Err("light time did not converge to 1e-15 s in 30 iterations".into())
+        Err(crate::terr!("e-lunar-vlbi-light-time-did-not-converge"))
     }
 
     /// The near-field VLBI delay `LT(station 2) − LT(station 1)` (s) at the common reception
@@ -852,9 +852,7 @@ impl LunarVlbiScenario {
                 std::path::Path::new(earth),
                 std::path::Path::new(moon),
             )?)),
-            _ => Err("the kernel path needs planetary_kernel_path, \
-                      earth_orientation_kernel_path and moon_orientation_kernel_path together"
-                .to_string()),
+            _ => Err(crate::terr!("e-lunar-vlbi-the-kernel-path-needs-planetary")),
         }
     }
 

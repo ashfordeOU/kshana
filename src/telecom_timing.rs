@@ -1434,10 +1434,10 @@ pub struct HoldoverModel {
 /// Build the oscillator model for `h` (preset, fitted noise, and any override).
 pub fn holdover_model(h: &HoldoverInput) -> Result<HoldoverModel, String> {
     let preset = preset_by_id(&h.oscillator).ok_or_else(|| {
-        format!(
-            "unknown oscillator {:?}; expected one of {}",
-            h.oscillator,
-            PRESETS.iter().map(|p| p.id).collect::<Vec<_>>().join(", ")
+        crate::terr!(
+            "e-telecom-timing-unknown-oscillator-expected-one-of",
+            oscillator = format!("{:?}", h.oscillator),
+            presets = PRESETS.iter().map(|p| p.id).collect::<Vec<_>>().join(", ")
         )
     })?;
     let aging = h.aging_per_day.unwrap_or(preset.aging_per_day);
@@ -1445,7 +1445,9 @@ pub fn holdover_model(h: &HoldoverInput) -> Result<HoldoverModel, String> {
         .temperature_coeff_per_k
         .unwrap_or_else(|| preset.temperature_coeff_per_k());
     if !aging.is_finite() || !tc.is_finite() {
-        return Err("aging_per_day and temperature_coeff_per_k must be finite".into());
+        return Err(crate::terr!(
+            "e-telecom-timing-aging-per-day-and-temperature"
+        ));
     }
     Ok(HoldoverModel {
         preset,
@@ -1491,27 +1493,31 @@ pub fn synthesize_holdover(
 ) -> Result<TeRecord, String> {
     let dt = h.sample_interval_s;
     if !(dt.is_finite() && dt > 0.0) {
-        return Err("sample_interval_s must be finite and positive".into());
+        return Err(crate::terr!(
+            "e-telecom-timing-sample-interval-must-be-finite"
+        ));
     }
     if !(h.duration_s.is_finite() && h.duration_s >= 12.0 * dt) {
-        return Err("duration_s must be finite and at least twelve samples long".into());
+        return Err(crate::terr!("e-telecom-timing-duration-must-be-finite-and"));
     }
     if !(h.gnss_loss_s.is_finite() && h.gnss_loss_s >= 0.0 && h.gnss_loss_s < h.duration_s) {
-        return Err("gnss_loss_s must lie in [0, duration_s)".into());
+        return Err(crate::terr!("e-telecom-timing-gnss-loss-must-lie-in"));
     }
     if !(h.locked_te_sigma_ns.is_finite() && h.locked_te_sigma_ns >= 0.0) {
-        return Err("locked_te_sigma_ns must be finite and >= 0".into());
+        return Err(crate::terr!("e-telecom-timing-locked-te-sigma-ns-must"));
     }
     if !(h.temperature_period_s.is_finite()
         && h.temperature_period_s > 0.0
         && h.temperature_amplitude_k.is_finite()
         && h.initial_frequency_offset.is_finite())
     {
-        return Err("temperature and frequency-offset inputs must be finite (period > 0)".into());
+        return Err(crate::terr!(
+            "e-telecom-timing-temperature-and-frequency-offset-inputs"
+        ));
     }
     let n = (h.duration_s / dt).floor() as usize + 1;
     if n > 5_000_000 {
-        return Err("the record would exceed 5 000 000 samples; raise sample_interval_s".into());
+        return Err(crate::terr!("e-telecom-timing-the-record-would-exceed-000"));
     }
     let hold_len = h.duration_s - h.gnss_loss_s;
     let mut clock = ClockModel::new(
@@ -1559,24 +1565,26 @@ pub fn synthesize_holdover(
 /// Build a record from `(time_s, time_error_ns)` pairs, requiring uniform sampling.
 pub fn record_from_pairs(pairs: &[[f64; 2]]) -> Result<TeRecord, String> {
     if pairs.len() < 13 {
-        return Err(format!(
-            "a time-error series needs at least 13 samples, got {}",
-            pairs.len()
+        return Err(crate::terr!(
+            "e-telecom-timing-time-error-series-needs-at",
+            pairs = pairs.len()
         ));
     }
     if pairs.iter().any(|p| !p[0].is_finite() || !p[1].is_finite()) {
-        return Err("every time_s and time_error_ns must be finite".into());
+        return Err(crate::terr!("e-telecom-timing-every-time-and-time-error"));
     }
     let dt = pairs[1][0] - pairs[0][0];
     if dt.is_nan() || dt <= 0.0 {
-        return Err("time_s must increase".into());
+        return Err(crate::terr!("e-telecom-timing-time-must-increase"));
     }
     for (i, w) in pairs.windows(2).enumerate() {
         let d = w[1][0] - w[0][0];
         if (d - dt).abs() > 1e-6 * dt.max(1.0) {
-            return Err(format!(
-                "the series must be uniformly sampled: step {} is {d} s, the first is {dt} s",
-                i + 1
+            return Err(crate::terr!(
+                "e-telecom-timing-the-series-must-be-uniformly",
+                v1 = i + 1,
+                d = d,
+                dt = dt
             ));
         }
     }
@@ -1601,7 +1609,12 @@ pub fn parse_csv_pairs(text: &str) -> Result<Vec<[f64; 2]>, String> {
         match (it.next(), it.next()) {
             (Some(Ok(t)), Some(Ok(v))) => out.push([t, v]),
             _ if out.is_empty() && !header_seen => header_seen = true,
-            _ => return Err(format!("CSV line {} is not `time_s,time_error_ns`", i + 1)),
+            _ => {
+                return Err(crate::terr!(
+                    "e-telecom-timing-csv-line-is-not-time",
+                    v1 = i + 1
+                ))
+            }
         }
     }
     Ok(out)
@@ -1609,8 +1622,13 @@ pub fn parse_csv_pairs(text: &str) -> Result<Vec<[f64; 2]>, String> {
 
 #[cfg(not(target_arch = "wasm32"))]
 fn read_csv(path: &str) -> Result<Vec<[f64; 2]>, String> {
-    let text =
-        std::fs::read_to_string(path).map_err(|e| format!("cannot read csv_path {path:?}: {e}"))?;
+    let text = std::fs::read_to_string(path).map_err(|e| {
+        crate::terr!(
+            "e-holdover-test-cannot-read-csv-path",
+            path = format!("{:?}", path),
+            e = e
+        )
+    })?;
     parse_csv_pairs(&text)
 }
 
@@ -1879,11 +1897,10 @@ pub fn check_mask(
         }
         MeasurementFilter::LowPass0p1Hz => {
             if rec.dt_s > MAX_FILTER_DT_S {
-                let note = format!(
-                    "the mask is defined through a 0.1 Hz low-pass filter, which this \
-                     engine applies only at sample intervals of {MAX_FILTER_DT_S} s or \
-                     less; this record is sampled every {} s",
-                    rec.dt_s
+                let note = crate::t!(
+                    "telecom-timing-the-mask-is-defined-through",
+                    MAX_FILTER_DT_S = MAX_FILTER_DT_S,
+                    dt_s = rec.dt_s
                 );
                 for (metric, present, source) in [
                     (
@@ -2017,7 +2034,9 @@ pub fn series_sha256(te_ns: &[f64]) -> String {
 impl TelecomTimingScenario {
     fn mode(&self) -> Result<&'static str, String> {
         match (&self.holdover, &self.series) {
-            (Some(_), Some(_)) => Err("give either [holdover] or [series], not both".into()),
+            (Some(_), Some(_)) => Err(crate::terr!(
+                "e-telecom-timing-give-either-holdover-or-series"
+            )),
             (_, Some(_)) => Ok("ingested-series"),
             _ => Ok("synthetic-holdover"),
         }
@@ -2038,9 +2057,10 @@ impl TelecomTimingScenario {
         let mut masks = Vec::new();
         for id in &self.masks {
             masks.push(mask_by_id(id).ok_or_else(|| {
-                format!(
-                    "unknown mask {id:?}; expected one of {}",
-                    MASKS.iter().map(|m| m.id).collect::<Vec<_>>().join(", ")
+                crate::terr!(
+                    "e-holdover-test-unknown-mask-expected-one-of",
+                    id = format!("{:?}", id),
+                    masks = MASKS.iter().map(|m| m.id).collect::<Vec<_>>().join(", ")
                 )
             })?);
         }
@@ -2049,7 +2069,7 @@ impl TelecomTimingScenario {
             .iter()
             .any(|b| !(b.max_abs_te_ns.is_finite() && b.max_abs_te_ns > 0.0))
         {
-            return Err("every budget max_abs_te_ns must be finite and positive".into());
+            return Err(crate::terr!("e-holdover-test-every-budget-max-abs-te"));
         }
         let mut clock_log = None;
         let (record, start, locked_days, model) = if mode == "synthetic-holdover" {
@@ -2082,7 +2102,9 @@ impl TelecomTimingScenario {
                     pairs
                 }
                 (Some(_), false, _) => {
-                    return Err("give either series.samples or series.csv_path, not both".into())
+                    return Err(crate::terr!(
+                        "e-telecom-timing-give-either-series-samples-or"
+                    ))
                 }
                 (Some(p), true, _) => read_csv(p)?,
                 (None, _, _) => s.samples.clone(),
@@ -2091,7 +2113,9 @@ impl TelecomTimingScenario {
             (rec, s.holdover_start_s, s.locked_duration_days, None)
         };
         if !(locked_days.is_finite() && locked_days >= 0.0) {
-            return Err("locked_duration_days must be finite and >= 0".into());
+            return Err(crate::terr!(
+                "e-telecom-timing-locked-duration-days-must-be"
+            ));
         }
         let mtie = mtie_curve_ns(&record.te_ns, record.dt_s);
         let tdev = tdev_curve_ns(&record.te_ns, record.dt_s);
@@ -2286,18 +2310,25 @@ fn summary_line(r: &TelecomRun) -> String {
         .map(|m| format!("{} {}", m.id, m.verdict))
         .collect();
     let first_budget = r.budgets.first().map(|b| match b.time_to_exceed_s {
-        Some(t) => format!(
-            "; {:.0} ns budget exceeded after {:.0} s",
-            b.max_abs_te_ns, t
+        Some(t) => crate::t!(
+            "telecom-timing-ns-budget-exceeded-after",
+            max_abs_te_ns = crate::i18n::localise_decimal(format!("{:.0}", b.max_abs_te_ns)),
+            t = crate::i18n::localise_decimal(format!("{:.0}", t))
         ),
-        None => format!("; {:.0} ns budget never exceeded", b.max_abs_te_ns),
+        None => crate::t!(
+            "telecom-timing-ns-budget-never-exceeded",
+            max_abs_te_ns = crate::i18n::localise_decimal(format!("{:.0}", b.max_abs_te_ns))
+        ),
     });
-    format!(
-        "telecom-timing: max|TE| {:.1} ns over {:.0} s; {}{} (MODELLED)",
-        max_abs,
-        (r.record.te_ns.len() - 1) as f64 * r.record.dt_s,
-        masks.join(", "),
-        first_budget.unwrap_or_default()
+    crate::t!(
+        "telecom-timing-telecom-timing-max-te-ns",
+        max_abs = crate::i18n::localise_decimal(format!("{:.1}", max_abs)),
+        v2 = crate::i18n::localise_decimal(format!(
+            "{:.0}",
+            (r.record.te_ns.len() - 1) as f64 * r.record.dt_s
+        )),
+        masks = masks.join(", "),
+        first_budget = first_budget.unwrap_or_default()
     )
 }
 
@@ -2307,11 +2338,11 @@ fn csv_table(r: &TelecomRun) -> String {
     for m in &r.masks {
         if let Some(mask) = mask_by_id(m.id) {
             if let Some(c) = mask.mtie {
-                header.push_str(&format!(",{}_mtie_limit_ns", m.id));
+                header.push_str(&crate::t!("telecom-timing-mtie-limit-ns", id = m.id));
                 cols.push((c.segments, true));
             }
             if let Some(c) = mask.tdev {
-                header.push_str(&format!(",{}_tdev_limit_ns", m.id));
+                header.push_str(&crate::t!("telecom-timing-tdev-limit-ns", id = m.id));
                 cols.push((c.segments, false));
             }
         }

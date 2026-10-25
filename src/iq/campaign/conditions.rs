@@ -89,9 +89,9 @@ impl RecordingSpec {
                 datetime: self.start_utc.clone(),
                 description: None,
             })),
-            _ => Err(format!(
-                "recording '{}': format and sample_rate_hz must be given together",
-                self.id
+            _ => Err(crate::terr!(
+                "e-iq-campaign-conditions-recording-format-and-sample-rate",
+                id = self.id
             )),
         }
     }
@@ -362,9 +362,11 @@ impl TestConditions {
     /// Parse TOML or JSON (JSON when the first non-blank character is `{`) and validate.
     pub fn parse(text: &str) -> Result<Self, String> {
         let tc: TestConditions = if text.trim_start().starts_with('{') {
-            serde_json::from_str(text).map_err(|e| format!("test conditions (JSON): {e}"))?
+            serde_json::from_str(text)
+                .map_err(|e| crate::terr!("e-iq-campaign-conditions-test-conditions-json", e = e))?
         } else {
-            toml::from_str(text).map_err(|e| format!("test conditions (TOML): {e}"))?
+            toml::from_str(text)
+                .map_err(|e| crate::terr!("e-iq-campaign-conditions-test-conditions-toml", e = e))?
         };
         tc.validate()?;
         Ok(tc)
@@ -388,13 +390,15 @@ impl TestConditions {
             let rec = tc.recording_path(path);
             let name = rec.to_string_lossy().to_string();
             let meta = match name.strip_suffix(".sigmf-data") {
-                Some(base) => PathBuf::from(format!("{base}.sigmf-meta")),
+                Some(base) => {
+                    PathBuf::from(crate::t!("iq-campaign-conditions-sigmf-meta", base = base))
+                }
                 None if name.ends_with(".sigmf-meta") => rec.clone(),
                 None => {
-                    return Err(format!(
-                        "{}: events_from_sigmf needs a SigMF recording (got {})",
-                        path.display(),
-                        rec.display()
+                    return Err(crate::terr!(
+                        "e-iq-campaign-conditions-events-from-sigmf-needs-sigmf",
+                        path = path.display(),
+                        rec = rec.display()
                     ))
                 }
             };
@@ -426,12 +430,14 @@ impl TestConditions {
     /// `type`, `affects`, `q`, `power`), and times in it are seconds from the recording's
     /// first sample. Annotations without the object are ignored.
     pub fn import_sigmf_events(meta_json: &str) -> Result<Vec<Event>, String> {
-        let meta: serde_json::Value =
-            serde_json::from_str(meta_json).map_err(|e| format!("SigMF metadata: {e}"))?;
+        let meta: serde_json::Value = serde_json::from_str(meta_json)
+            .map_err(|e| crate::terr!("e-iq-campaign-conditions-sigmf-metadata", e = e))?;
         let fs = meta["global"]["core:sample_rate"]
             .as_f64()
             .filter(|f| *f > 0.0)
-            .ok_or("SigMF metadata: global core:sample_rate is missing")?;
+            .ok_or_else(|| {
+                crate::terr!("e-iq-campaign-conditions-sigmf-metadata-global-core-sample")
+            })?;
         let center = meta["captures"][0]["core:frequency"].as_f64();
         let mut out = Vec::new();
         let empty = Vec::new();
@@ -441,10 +447,10 @@ impl TestConditions {
                 continue;
             };
             let at = format!("annotation {i}");
-            let start = a["core:sample_start"]
-                .as_u64()
-                .ok_or(format!("{at}: core:sample_start is missing"))?
-                as f64;
+            let start = a["core:sample_start"].as_u64().ok_or(crate::t!(
+                "iq-campaign-conditions-core-sample-start-is-missing",
+                at = at
+            ))? as f64;
             let mut v = serde_json::Value::Object(obj.clone());
             let m = v.as_object_mut().expect("an object");
             if !m.contains_key("id") {
@@ -463,8 +469,9 @@ impl TestConditions {
                     .and_then(|p| p["points"].as_array())
                     .and_then(|p| p.last())
                     .and_then(|p| p[0].as_f64())
-                    .ok_or(format!(
-                        "{at}: no core:sample_count and no power points to end the event"
+                    .ok_or(crate::t!(
+                        "iq-campaign-conditions-no-core-sample-count-and",
+                        at = at
                     ))?,
             };
             m.insert("offset_s".into(), offset.into());
@@ -478,8 +485,9 @@ impl TestConditions {
                         .or_insert(((lo + hi) / 2.0 - c).into());
                 }
             }
-            let ev: Event =
-                serde_json::from_value(v).map_err(|e| format!("{at}: kshana:test_event: {e}"))?;
+            let ev: Event = serde_json::from_value(v).map_err(|e| {
+                crate::terr!("e-iq-campaign-conditions-kshana-test-event", at = at, e = e)
+            })?;
             out.push(ev);
         }
         Ok(out)
@@ -493,49 +501,65 @@ impl TestConditions {
     /// Check the rules a schema alone cannot express.
     pub fn validate(&self) -> Result<(), String> {
         if self.schema != SCHEMA {
-            return Err(format!(
-                "schema must be \"{SCHEMA}\" (got \"{}\")",
-                self.schema
+            return Err(crate::terr!(
+                "e-iq-campaign-conditions-schema-must-be-got",
+                SCHEMA = SCHEMA,
+                schema = self.schema
             ));
         }
         let r = &self.recording;
         if r.id.trim().is_empty() {
-            return Err("recording.id must not be empty".into());
+            return Err(crate::terr!(
+                "e-iq-campaign-conditions-recording-id-must-not-be"
+            ));
         }
         if !(r.settle_s.is_finite() && r.settle_s >= 0.0) {
-            return Err("recording.settle_s must be finite and >= 0".into());
+            return Err(crate::terr!(
+                "e-iq-campaign-conditions-recording-settle-must-be-finite"
+            ));
         }
         if let Some(h) = &r.sha256 {
             if h.len() != 64 || !h.chars().all(|c| c.is_ascii_hexdigit()) {
-                return Err("recording.sha256 must be 64 hex digits".into());
+                return Err(crate::terr!(
+                    "e-iq-campaign-conditions-recording-sha256-must-be-64"
+                ));
             }
         }
         r.raw_sidecar()?;
         match r.kind.as_deref() {
             None | Some("iq") | Some("receiver-log") => {}
             Some(k) => {
-                return Err(format!(
-                    "recording.kind must be \"iq\" or \"receiver-log\" (got \"{k}\")"
+                return Err(crate::terr!(
+                    "e-iq-campaign-conditions-recording-kind-must-be-iq",
+                    k = k
                 ))
             }
         }
         if self.expected.is_empty() && r.kind.as_deref() != Some("receiver-log") {
-            return Err("at least one [[expected]] group is required".into());
+            return Err(crate::terr!(
+                "e-iq-campaign-conditions-at-least-one-expected-group"
+            ));
         }
         let mut all_ids = Vec::new();
         for (i, g) in self.expected.iter().enumerate() {
             let at = format!("expected[{i}] ({})", g.signal);
             if g.ids.is_empty() {
-                return Err(format!("{at}: ids must not be empty"));
+                return Err(crate::terr!(
+                    "e-iq-campaign-conditions-ids-must-not-be-empty",
+                    at = at
+                ));
             }
             for (key, n) in [
                 ("doppler_hz", g.doppler_hz.len()),
                 ("code_phase_chips", g.code_phase_chips.len()),
             ] {
                 if n != 0 && n != g.ids.len() {
-                    return Err(format!(
-                        "{at}: {key} lists {n} value(s); give one per id ({})",
-                        g.ids.len()
+                    return Err(crate::terr!(
+                        "e-iq-campaign-conditions-lists-value-give-one-per",
+                        at = at,
+                        key = key,
+                        n = n,
+                        ids = g.ids.len()
                     ));
                 }
             }
@@ -545,45 +569,71 @@ impl TestConditions {
         for e in &self.events {
             let at = format!("event '{}'", e.id);
             if !seen.insert(e.id.as_str()) {
-                return Err(format!("{at}: duplicate id"));
+                return Err(crate::terr!(
+                    "e-iq-campaign-conditions-duplicate-id",
+                    at = at
+                ));
             }
             if !(e.onset_s.is_finite() && e.offset_s.is_finite() && e.offset_s > e.onset_s) {
-                return Err(format!("{at}: offset_s must be after onset_s"));
+                return Err(crate::terr!(
+                    "e-iq-campaign-conditions-offset-must-be-after-onset",
+                    at = at
+                ));
             }
             match &e.affects {
                 Affects::All(s) if s != "all" => {
-                    return Err(format!("{at}: affects must be \"all\" or a list of ids"))
+                    return Err(crate::terr!(
+                        "e-iq-campaign-conditions-affects-must-be-all-or",
+                        at = at
+                    ))
                 }
                 Affects::Ids(v) => {
                     if let Some(bad) = v.iter().find(|id| !all_ids.contains(id)) {
-                        return Err(format!("{at}: affects id {bad} is not in [[expected]]"));
+                        return Err(crate::terr!(
+                            "e-iq-campaign-conditions-affects-id-is-not-in",
+                            at = at,
+                            bad = bad
+                        ));
                     }
                 }
                 _ => {}
             }
             if let Some(q) = e.q {
                 if !(q.is_finite() && q > 0.0) {
-                    return Err(format!("{at}: q must be positive"));
+                    return Err(crate::terr!(
+                        "e-iq-campaign-conditions-must-be-positive",
+                        at = at
+                    ));
                 }
             }
             if let Some(p) = &e.power {
                 if p.points.is_empty() {
-                    return Err(format!("{at}: power.points must not be empty"));
+                    return Err(crate::terr!(
+                        "e-iq-campaign-conditions-power-points-must-not-be",
+                        at = at
+                    ));
                 }
                 for w in p.points.windows(2) {
                     if w[1][0] < w[0][0] {
-                        return Err(format!("{at}: power.points must be in time order"));
+                        return Err(crate::terr!(
+                            "e-iq-campaign-conditions-power-points-must-be-in",
+                            at = at
+                        ));
                     }
                 }
                 if p.points
                     .iter()
                     .any(|[t, v]| !t.is_finite() || !v.is_finite())
                 {
-                    return Err(format!("{at}: power.points must be finite"));
+                    return Err(crate::terr!(
+                        "e-iq-campaign-conditions-power-points-must-be-finite",
+                        at = at
+                    ));
                 }
                 if p.quantity == PowerQuantity::JammerDbm && p.reference_signal_dbm.is_none() {
-                    return Err(format!(
-                        "{at}: power.quantity = \"jammer_dbm\" needs reference_signal_dbm"
+                    return Err(crate::terr!(
+                        "e-iq-campaign-conditions-power-quantity-jammer-dbm-needs",
+                        at = at
                     ));
                 }
             }
@@ -597,9 +647,10 @@ impl TestConditions {
                         .iter()
                         .any(|&id| a.affects.includes(id) && b.affects.includes(id))
                 {
-                    return Err(format!(
-                        "events '{}' and '{}' overlap on a shared satellite",
-                        a.id, b.id
+                    return Err(crate::terr!(
+                        "e-iq-campaign-conditions-events-and-overlap-on-shared",
+                        id = a.id,
+                        id2 = b.id
                     ));
                 }
             }

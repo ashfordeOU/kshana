@@ -476,20 +476,20 @@ impl ReentryScenario {
         let h = self.scale_height_m.unwrap_or(SCALE_HEIGHT_EARTH_M);
         let rho0 = self.rho0_kg_m3.unwrap_or(RHO0_EARTH);
         if !self.entry_velocity_m_s.is_finite() || self.entry_velocity_m_s <= 0.0 {
-            return Err("entry_velocity_m_s must be finite and positive".to_string());
+            return Err(crate::terr!("e-reentry-entry-velocity-must-be-finite"));
         }
         if !(0.0..90.0).contains(&self.flight_path_angle_deg) || self.flight_path_angle_deg == 0.0 {
-            return Err("flight_path_angle_deg must be in (0, 90)".to_string());
+            return Err(crate::terr!("e-reentry-flight-path-angle-deg-must"));
         }
         if !self.ballistic_coeff_kg_m2.is_finite() || self.ballistic_coeff_kg_m2 <= 0.0 {
-            return Err("ballistic_coeff_kg_m2 must be finite and positive".to_string());
+            return Err(crate::terr!("e-reentry-ballistic-coeff-kg-m2-must"));
         }
         if !h.is_finite() || h <= 0.0 || !rho0.is_finite() || rho0 <= 0.0 {
-            return Err("scale_height_m and rho0_kg_m3 must be finite and positive".to_string());
+            return Err(crate::terr!("e-reentry-scale-height-and-rho0-kg"));
         }
         let h_ei = self.entry_interface_altitude_m.unwrap_or(ENTRY_INTERFACE_M);
         if !h_ei.is_finite() || !(10_000.0..=1_000_000.0).contains(&h_ei) {
-            return Err("entry_interface_altitude_m must be in [10 km, 1000 km]".to_string());
+            return Err(crate::terr!("e-reentry-entry-interface-altitude-must-be"));
         }
         let gamma = self.flight_path_angle_deg.to_radians();
         let v = self.entry_velocity_m_s;
@@ -531,17 +531,19 @@ impl ReentryScenario {
                 "flight_path_angle_at_peak_deg": pm.flight_path_angle_at_peak_rad.to_degrees(),
             },
         });
-        let summary = format!(
-            "reentry (Allen–Eggers): V_e {:.0} m/s, γ {:.1}° -> peak {:.1} g at {:.0} km, \
-             {:.0} m/s; heating peaks at {:.0} m/s; point mass (gravity, curvature, US76) \
-             peak {:.1} g (MODELLED ballistic, no aerothermal)",
-            v,
-            self.flight_path_angle_deg,
-            a_max / G0,
-            (h_star / 1000.0).max(0.0),
-            velocity_at_peak_deceleration(v),
-            velocity_at_peak_heating(v),
-            pm.peak_deceleration_g,
+        let summary = crate::t!(
+            "reentry-reentry-allen-eggers-peak-at",
+            v = crate::i18n::localise_decimal(format!("{:.0}", v)),
+            flight_path_angle_deg =
+                crate::i18n::localise_decimal(format!("{:.1}", self.flight_path_angle_deg)),
+            v3 = crate::i18n::localise_decimal(format!("{:.1}", a_max / G0)),
+            v4 = crate::i18n::localise_decimal(format!("{:.0}", (h_star / 1000.0).max(0.0))),
+            velocity_at_peak_deceleration =
+                crate::i18n::localise_decimal(format!("{:.0}", velocity_at_peak_deceleration(v))),
+            velocity_at_peak_heating =
+                crate::i18n::localise_decimal(format!("{:.0}", velocity_at_peak_heating(v))),
+            peak_deceleration_g =
+                crate::i18n::localise_decimal(format!("{:.1}", pm.peak_deceleration_g))
         );
         let json = serde_json::to_string_pretty(&json).map_err(|e| e.to_string())?;
         Ok((json, summary))

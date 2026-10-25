@@ -58,7 +58,11 @@ pub fn quantum_clock_card(class: QuantumClockClass) -> DeviceCard {
         name: name.to_string(),
         key_spec: format!("sigma_y(1 s) = {adev:.0e}"),
         representativeness: Representativeness::modelled(name, (3, 4))
-            .with_assumption(&format!("sigma_y(1 s) = {adev:.0e} from {refr}"))
+            .with_assumption(&crate::t!(
+                "quantum-devices-sigma-from",
+                adev = crate::i18n::localise_decimal(format!("{:.0e}", adev)),
+                refr = refr
+            ))
             .with_assumption("long-tau red-noise floor synthesised from the class default")
             .with_gap(clock_gap()),
     }
@@ -91,7 +95,11 @@ pub fn classical_clock_card(class: ClockClass) -> DeviceCard {
         name: name.to_string(),
         key_spec: format!("sigma_y(1 s) = {adev:.0e}"),
         representativeness: Representativeness::modelled(name, (3, 4))
-            .with_assumption(&format!("sigma_y(1 s) = {adev:.0e} from {refr}"))
+            .with_assumption(&crate::t!(
+                "quantum-devices-sigma-from",
+                adev = crate::i18n::localise_decimal(format!("{:.0e}", adev)),
+                refr = refr
+            ))
             .with_gap(clock_gap()),
     }
 }

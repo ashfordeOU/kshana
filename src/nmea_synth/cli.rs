@@ -65,7 +65,11 @@ pub fn run_cli(args: &[String]) -> ExitCode {
     let mut seed: Option<u64> = None;
     let mut it = args.iter();
     while let Some(a) = it.next() {
-        let mut val = |name: &str| it.next().cloned().ok_or(format!("{name} needs a value"));
+        let mut val = |name: &str| {
+            it.next()
+                .cloned()
+                .ok_or(crate::t!("bench-cli-needs-value", name = name))
+        };
         let r: Result<(), String> = (|| {
             match a.as_str() {
                 "-h" | "--help" => {
@@ -89,7 +93,7 @@ pub fn run_cli(args: &[String]) -> ExitCode {
                         .parse()
                         .map_err(|_| "--speed: not a number")?;
                     if !(x >= 0.0 && x.is_finite()) {
-                        return Err("--speed must be 0 or positive".into());
+                        return Err(crate::terr!("e-nmea-synth-cli-speed-must-be-or-positive"));
                     }
                     speed = Some(x)
                 }
@@ -100,9 +104,11 @@ pub fn run_cli(args: &[String]) -> ExitCode {
                             .map_err(|_| "--seed: not an integer")?,
                     )
                 }
-                s if s.starts_with('-') => return Err(format!("unknown option {s}")),
+                s if s.starts_with('-') => {
+                    return Err(crate::terr!("e-iq-io-cli-unknown-option", s = s))
+                }
                 s if path.is_none() => path = Some(s.to_string()),
-                s => return Err(format!("unexpected argument {s}")),
+                s => return Err(crate::terr!("e-nmea-synth-cli-unexpected-argument", s = s)),
             }
             Ok(())
         })();
@@ -155,22 +161,39 @@ pub fn run_cli(args: &[String]) -> ExitCode {
         None => PathBuf::from(&scn.scenario.name),
     });
     let (jp, tp) = (
-        PathBuf::from(format!("{}.instructor.json", prefix.display())),
-        PathBuf::from(format!("{}.instructor.txt", prefix.display())),
+        PathBuf::from(crate::t!(
+            "nmea-synth-cli-instructor-json",
+            prefix = prefix.display()
+        )),
+        PathBuf::from(crate::t!(
+            "nmea-synth-cli-instructor-txt",
+            prefix = prefix.display()
+        )),
     );
     if let Err(e) = fs::write(&jp, g.log.to_json()).and_then(|_| fs::write(&tp, g.log.to_text())) {
-        return fail(format!("instructor log: {e}"));
+        return fail(crate::t!("nmea-synth-cli-instructor-log", e = e));
     }
     eprintln!("{NOT_FOR_NAVIGATION}");
-    eprintln!("instructor log: {} and {}", jp.display(), tp.display());
+    eprintln!(
+        "{}",
+        crate::t!(
+            "nmea-synth-cli-instructor-log-and",
+            jp = jp.display(),
+            tp = tp.display()
+        )
+    );
 
     let mut server_keepalive = None;
     if let Some(addr) = &tcp {
         match TcpServer::bind(addr.as_str()) {
             Ok(s) => {
                 eprintln!(
-                    "TCP server listening on {}; waiting for {wait_clients} client(s)",
-                    s.local_addr()
+                    "{}",
+                    crate::t!(
+                        "nmea-synth-cli-tcp-server-listening-on-waiting",
+                        s = s.local_addr(),
+                        wait_clients = wait_clients
+                    )
                 );
                 if !s.wait_for_clients(wait_clients, Some(Duration::from_secs(3600))) {
                     return fail("no client connected within an hour");

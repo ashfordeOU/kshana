@@ -278,7 +278,7 @@ pub fn evidence_attach_timestamp(
     replace: bool,
 ) -> Result<String, JsValue> {
     let v: serde_json::Value = serde_json::from_str(files_json)
-        .map_err(|e| JsValue::from_str(&format!("files_json is not JSON: {e}")))?;
+        .map_err(|e| JsValue::from_str(&crate::t!("wasm-files-json-is-not-json", e = e)))?;
     let files = crate::surface::files_from_json(&v).map_err(|e| JsValue::from_str(&e))?;
     let token = crate::permalink::base64_decode(token_base64.trim())
         .ok_or_else(|| JsValue::from_str("token_base64 is not base64"))?;
@@ -369,7 +369,7 @@ pub fn standards_pack_run(id: &str) -> Result<String, JsValue> {
 pub fn compliance_report(runs_json: &str) -> Result<String, JsValue> {
     use crate::surface::{ComplianceRunText, MAX_INPUT_BYTES};
     let v: serde_json::Value = serde_json::from_str(runs_json)
-        .map_err(|e| JsValue::from_str(&format!("runs_json is not JSON: {e}")))?;
+        .map_err(|e| JsValue::from_str(&crate::t!("wasm-runs-json-is-not-json", e = e)))?;
     let arr = v.as_array().ok_or_else(|| {
         JsValue::from_str("runs_json must be an array of {label, result, scenario?}")
     })?;
@@ -378,9 +378,9 @@ pub fn compliance_report(runs_json: &str) -> Result<String, JsValue> {
         let field = |k: &str| r.get(k).and_then(|x| x.as_str()).map(str::to_string);
         texts.push(ComplianceRunText {
             label: field("label")
-                .ok_or_else(|| JsValue::from_str(&format!("runs[{i}] needs `label`")))?,
+                .ok_or_else(|| JsValue::from_str(&crate::t!("wasm-runs-needs-label", i = i)))?,
             result_json: field("result")
-                .ok_or_else(|| JsValue::from_str(&format!("runs[{i}] needs `result`")))?,
+                .ok_or_else(|| JsValue::from_str(&crate::t!("wasm-runs-needs-result", i = i)))?,
             scenario_toml: field("scenario"),
         });
     }
@@ -410,9 +410,8 @@ pub fn bench_score(
 /// page (HTML).
 #[wasm_bindgen]
 pub fn bench_leaderboard(results_json: &str) -> Result<String, JsValue> {
-    let results: Vec<String> = serde_json::from_str(results_json).map_err(|e| {
-        JsValue::from_str(&format!("results_json is not a JSON array of strings: {e}"))
-    })?;
+    let results: Vec<String> = serde_json::from_str(results_json)
+        .map_err(|e| JsValue::from_str(&crate::t!("wasm-results-json-is-not-json", e = e)))?;
     crate::surface::bench_leaderboard(&results, crate::surface::MAX_INPUT_BYTES)
         .map_err(|e| JsValue::from_str(&e))
 }
@@ -490,9 +489,8 @@ pub fn route_exposure(
     date_from: &str,
     date_to: &str,
 ) -> Result<String, JsValue> {
-    let maps: Vec<String> = serde_json::from_str(maps_json).map_err(|e| {
-        JsValue::from_str(&format!("maps_json must be a JSON array of strings: {e}"))
-    })?;
+    let maps: Vec<String> = serde_json::from_str(maps_json)
+        .map_err(|e| JsValue::from_str(&crate::t!("wasm-maps-json-must-be-json", e = e)))?;
     let refs: Vec<&str> = maps.iter().map(String::as_str).collect();
     crate::surface::route_exposure(
         route,
@@ -566,9 +564,8 @@ pub fn jammertest_import(
     local_offset_h: f64,
     year: u32,
 ) -> Result<String, JsValue> {
-    let plans: Vec<String> = serde_json::from_str(plans_json).map_err(|e| {
-        JsValue::from_str(&format!("plans_json is not a JSON array of strings: {e}"))
-    })?;
+    let plans: Vec<String> = serde_json::from_str(plans_json)
+        .map_err(|e| JsValue::from_str(&crate::t!("wasm-plans-json-is-not-json", e = e)))?;
     let refs: Vec<&str> = plans.iter().map(String::as_str).collect();
     crate::surface::jammertest_import_json(
         catalog_json,
@@ -601,9 +598,8 @@ pub fn jammertest_score(
     recover_hold_s: f64,
     guard_s: f64,
 ) -> Result<String, JsValue> {
-    let plans: Vec<String> = serde_json::from_str(plans_json).map_err(|e| {
-        JsValue::from_str(&format!("plans_json is not a JSON array of strings: {e}"))
-    })?;
+    let plans: Vec<String> = serde_json::from_str(plans_json)
+        .map_err(|e| JsValue::from_str(&crate::t!("wasm-plans-json-is-not-json", e = e)))?;
     let refs: Vec<&str> = plans.iter().map(String::as_str).collect();
     let log = crate::permalink::base64_decode(log_base64.trim())
         .ok_or_else(|| JsValue::from_str("log_base64 is not base64"))?;
@@ -641,7 +637,7 @@ pub fn evidence_verify(
     require_timestamp: bool,
 ) -> Result<String, JsValue> {
     let v: serde_json::Value = serde_json::from_str(files_json)
-        .map_err(|e| JsValue::from_str(&format!("files_json is not JSON: {e}")))?;
+        .map_err(|e| JsValue::from_str(&crate::t!("wasm-files-json-is-not-json", e = e)))?;
     let files = crate::surface::files_from_json(&v).map_err(|e| JsValue::from_str(&e))?;
     let report = crate::surface::evidence_verify(
         &files,
@@ -674,7 +670,7 @@ pub fn trust_telemetry(
     let mut opts = TelemetryOptions::default();
     if !options_json.trim().is_empty() {
         let v: serde_json::Value = serde_json::from_str(options_json)
-            .map_err(|e| err(format!("options_json is not JSON: {e}")))?;
+            .map_err(|e| err(crate::t!("wasm-options-json-is-not-json", e = e)))?;
         opts.expose_position = v["expose_position"].as_bool().unwrap_or(false);
         opts.syslog_all = v["syslog_all"].as_bool().unwrap_or(false);
         opts.unix_nano = v["unix_nano"].as_f64().unwrap_or(0.0) as u64;
@@ -738,10 +734,10 @@ pub fn osnma_verify(
 ) -> Result<String, JsValue> {
     let b64 = input_base64.trim();
     if b64.len() / 4 * 3 > crate::surface::MAX_INPUT_BYTES {
-        return Err(JsValue::from_str(&format!(
-            "input is about {} bytes, over the {}-byte limit",
-            b64.len() / 4 * 3,
-            crate::surface::MAX_INPUT_BYTES
+        return Err(JsValue::from_str(&crate::t!(
+            "wasm-input-is-about-bytes-over",
+            b64 = b64.len() / 4 * 3,
+            v2 = crate::surface::MAX_INPUT_BYTES
         )));
     }
     let bytes = crate::permalink::base64_decode(b64)

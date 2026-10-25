@@ -540,20 +540,23 @@ impl SpaceWeatherScenario {
     pub fn run_json(&self) -> Result<(String, String), String> {
         let f107a = self.f107a.unwrap_or(self.f107);
         if !self.f107.is_finite() || self.f107 <= 0.0 {
-            return Err("f107 must be finite and positive".to_string());
+            return Err(crate::terr!("e-space-weather-f107-must-be-finite-and"));
         }
         if !f107a.is_finite() || f107a <= 0.0 {
-            return Err("f107a must be finite and positive".to_string());
+            return Err(crate::terr!("e-space-weather-f107a-must-be-finite-and"));
         }
         if !self.kp.is_finite() || !(0.0..=9.0).contains(&self.kp) {
-            return Err("kp must be in [0, 9]".to_string());
+            return Err(crate::terr!("e-space-weather-kp-must-be-in"));
         }
         if self.altitudes_km.is_empty() {
-            return Err("altitudes_km must be non-empty".to_string());
+            return Err(crate::terr!("e-space-weather-altitudes-km-must-be-non"));
         }
         for &h in &self.altitudes_km {
             if !h.is_finite() || h <= 0.0 {
-                return Err(format!("altitude {h} km must be finite and positive"));
+                return Err(crate::terr!(
+                    "e-space-weather-altitude-km-must-be-finite",
+                    h = h
+                ));
             }
         }
         let sw = SpaceWeather {
@@ -592,16 +595,18 @@ impl SpaceWeatherScenario {
             "mean_exospheric_temperature_k": t_mean,
             "altitudes": rows,
         });
-        let summary = format!(
-            "space-weather: F10.7={:.0} F10.7a={:.0} Kp={:.1} (ap={:.0}) -> T_inf={:.0} K; \
-             density x{:.2} at {:.0} km (MODELLED)",
-            self.f107,
-            f107a,
-            self.kp,
-            sw.ap(),
-            t_inf,
-            density_activity_factor(self.altitudes_km[0] * 1000.0, t_mean),
-            self.altitudes_km[0],
+        let summary = crate::t!(
+            "space-weather-space-weather-f10-f10-7a",
+            f107 = crate::i18n::localise_decimal(format!("{:.0}", self.f107)),
+            f107a = crate::i18n::localise_decimal(format!("{:.0}", f107a)),
+            kp = crate::i18n::localise_decimal(format!("{:.1}", self.kp)),
+            sw = crate::i18n::localise_decimal(format!("{:.0}", sw.ap())),
+            t_inf = crate::i18n::localise_decimal(format!("{:.0}", t_inf)),
+            density_activity_factor = crate::i18n::localise_decimal(format!(
+                "{:.2}",
+                density_activity_factor(self.altitudes_km[0] * 1000.0, t_mean)
+            )),
+            value = crate::i18n::localise_decimal(format!("{:.0}", self.altitudes_km[0]))
         );
         let json = serde_json::to_string_pretty(&json).map_err(|e| e.to_string())?;
         Ok((json, summary))

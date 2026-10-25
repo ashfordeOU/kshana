@@ -381,7 +381,7 @@ fn site_geodetic(s: &Site) -> Result<Geodetic, String> {
     if !(s.lat_deg.is_finite() && s.lon_deg.is_finite() && s.height_m.is_finite())
         || s.lat_deg.abs() > 90.0
     {
-        return Err("sky: site lat_deg must be in [-90, 90] and every field finite".into());
+        return Err(crate::terr!("e-geometry-sky-site-lat-deg-must"));
     }
     Ok(Geodetic {
         lat_rad: s.lat_deg.to_radians(),
@@ -417,8 +417,11 @@ fn build_system(spec: &SystemSpec) -> Result<crate::leo_fusion::system::System, 
                 }
                 .build()
                 .map_err(|e_leo| {
-                    format!(
-                        "sky: \"{name}\" is neither a GNSS preset ({e_gnss}) nor a LEO preset ({e_leo})"
+                    crate::terr!(
+                        "e-geometry-sky-is-neither-gnss-preset",
+                        name = name,
+                        e_gnss = e_gnss,
+                        e_leo = e_leo
                     )
                 })
             })
@@ -429,11 +432,11 @@ fn build_system(spec: &SystemSpec) -> Result<crate::leo_fusion::system::System, 
 fn user_geodetic(req: &SkyRequest) -> Result<Option<Geodetic>, String> {
     let geo = req.site.as_ref().map(site_geodetic).transpose()?;
     match (geo, req.user_ecef_m) {
-        (Some(_), Some(_)) => Err("sky: give the user as `site` or `user_ecef_m`, not both".into()),
+        (Some(_), Some(_)) => Err(crate::terr!("e-geometry-sky-give-the-user-as")),
         (Some(g), None) => Ok(Some(g)),
         (None, Some(r)) => {
             if !r.iter().all(|v| v.is_finite()) || r.iter().all(|v| *v == 0.0) {
-                return Err("sky: user_ecef_m must be finite and not the geocentre".into());
+                return Err(crate::terr!("e-geometry-sky-user-ecef-must-be"));
             }
             Ok(Some(crate::frames::ecef_to_geodetic(r)))
         }
@@ -458,30 +461,39 @@ fn direct_look(
     let (az, el) = match (s.az_deg, s.el_deg, s.ecef_m) {
         (Some(az), Some(el), None) => {
             if !(az.is_finite() && el.is_finite() && (-90.0..=90.0).contains(&el)) {
-                return Err(format!(
-                    "sky: satellite {id}: azimuth/elevation out of range"
+                return Err(crate::terr!(
+                    "e-geometry-sky-satellite-azimuth-elevation-out",
+                    id = id
                 ));
             }
             (crate::skyline::wrap_deg(az), el)
         }
         (None, None, Some(p)) => {
             let Some(g) = user else {
-                return Err(format!(
-                    "sky: satellite {id} is given in ECEF; the request needs `site` or `user_ecef_m`"
+                return Err(crate::terr!(
+                    "e-geometry-sky-satellite-is-given-in",
+                    id = id
                 ));
             };
             if !p.iter().all(|v| v.is_finite()) {
-                return Err(format!("sky: satellite {id}: ECEF position not finite"));
+                return Err(crate::terr!(
+                    "e-geometry-sky-satellite-ecef-position-not",
+                    id = id
+                ));
             }
             let l = look_angles(g, p);
             if l.range_m == 0.0 {
-                return Err(format!("sky: satellite {id} coincides with the user"));
+                return Err(crate::terr!(
+                    "e-geometry-sky-satellite-coincides-with-the",
+                    id = id
+                ));
             }
             (l.az_rad.to_degrees(), l.el_rad.to_degrees())
         }
         _ => {
-            return Err(format!(
-                "sky: satellite {id}: give az_deg and el_deg, or ecef_m, and nothing else"
+            return Err(crate::terr!(
+                "e-geometry-sky-satellite-give-az-deg",
+                id = id
             ))
         }
     };
@@ -517,9 +529,10 @@ fn tle_looks(
     use crate::interop::UtcEpoch;
     use crate::jd2::Jd2;
     if text.len() > MAX_TLE_BYTES {
-        return Err(format!(
-            "sky: tle is {} bytes; the cap is {MAX_TLE_BYTES} (4 MiB)",
-            text.len()
+        return Err(crate::terr!(
+            "e-geometry-sky-tle-is-bytes-the",
+            text = text.len(),
+            MAX_TLE_BYTES = MAX_TLE_BYTES
         ));
     }
     let system = req.tle_system.clone().unwrap_or_else(|| "TLE".to_string());
@@ -569,7 +582,7 @@ fn tle_looks(
                     sets.push((id, orbit));
                 }
                 Err(e) => {
-                    ignore(n1, &format!("element set refused: {e}"), l1);
+                    ignore(n1, &crate::t!("geometry-element-set-refused", e = e), l1);
                     name = None;
                 }
             }
@@ -585,9 +598,10 @@ fn tle_looks(
     }
     if sets.is_empty() {
         return Err(match ignored.first() {
-            Some(first) => format!(
-                "sky: tle holds no complete two-line element set; {n_ignored} lines ignored, the \
-                 first: {first}"
+            Some(first) => crate::t!(
+                "geometry-sky-tle-holds-no-complete",
+                n_ignored = n_ignored,
+                first = first
             ),
             None => "sky: tle holds no complete two-line element set".into(),
         });
@@ -595,7 +609,7 @@ fn tle_looks(
     let (jd0, dated) = match &req.epoch {
         Some(e) => (
             UtcEpoch::parse_iso(e)
-                .map_err(|e| format!("sky: epoch: {e}"))?
+                .map_err(|e| crate::terr!("e-geometry-sky-epoch", e = e))?
                 .jd_utc(0.0),
             true,
         ),
@@ -637,25 +651,21 @@ fn tle_looks(
     }
     if n_skipped > skipped.len() {
         let more = n_skipped - skipped.len();
-        skipped.push(format!("... and {more} more"));
+        skipped.push(crate::t!("geometry-and-more", more = more));
     }
     let n = sets.len();
     let (source, statement) = if dated {
         (
             "tle-at-epoch",
-            format!(
-                "{n} element sets propagated by the engine's SGP4 (WGS-72) to {iso} and rotated to \
-                 Earth-fixed with UT1 taken as UTC and no polar motion: the sky those element \
-                 sets give at that epoch, not a measurement of it."
-            ),
+            crate::t!("geometry-element-sets-propagated-by-the", n = n, iso = iso),
         )
     } else {
         (
             "tle-at-element-epoch",
-            format!(
-                "{n} element sets propagated by the engine's SGP4 (WGS-72) to the newest \
-                 element set's epoch plus time_s ({iso}). No epoch was given, so this is a \
-                 representative sky, not the sky of a stated date."
+            crate::t!(
+                "geometry-element-sets-propagated-by-the-2",
+                n = n,
+                iso = iso
             ),
         )
     };
@@ -675,10 +685,10 @@ fn looks(req: &SkyRequest) -> Result<(Vec<Look>, usize, Basis), String> {
     // An empty `systems` list is no systems: it adds no presets and no `presets` source.
     let systems = req.systems.as_ref().filter(|s| !s.is_empty());
     if systems.is_none() && req.satellites.is_none() && req.tle.is_none() {
-        return Err("sky: give `systems` or `tle` (with a `site`), or `satellites`".into());
+        return Err(crate::terr!("e-geometry-sky-give-systems-or-tle"));
     }
     if req.tle.is_none() && req.tle_system.is_some() {
-        return Err("sky: tle_system names the `tle` satellites; the request has no `tle`".into());
+        return Err(crate::terr!("e-geometry-sky-tle-system-names-the"));
     }
     if req.tle.is_none() && req.epoch.is_some() {
         return Err(
@@ -693,17 +703,17 @@ fn looks(req: &SkyRequest) -> Result<(Vec<Look>, usize, Basis), String> {
     let user = user_geodetic(req)?;
     if let Some(m) = req.mask_deg {
         if !(m.is_finite() && (-90.0..90.0).contains(&m)) {
-            return Err(format!("sky: mask_deg must be in [-90, 90), got {m}"));
+            return Err(crate::terr!("e-geometry-sky-mask-deg-must-be", m = m));
         }
     }
     let mut all = Vec::new();
     if let Some(systems) = systems {
         let Some(g) = user else {
-            return Err("sky: `systems` needs a `site` (or `user_ecef_m`) to look from".into());
+            return Err(crate::terr!("e-geometry-sky-systems-needs-site-or"));
         };
         let t = req.time_s.unwrap_or(0.0);
         if !t.is_finite() {
-            return Err("sky: time_s must be finite".into());
+            return Err(crate::terr!("e-geometry-sky-time-must-be-finite"));
         }
         for spec in systems {
             // Refuse an oversized table before building it: a short request can ask for
@@ -714,10 +724,11 @@ fn looks(req: &SkyRequest) -> Result<(Vec<Look>, usize, Basis), String> {
                     .iter()
                     .fold(cfg.satellite.len(), |n, sh| n.saturating_add(sh.total));
                 if all.len().saturating_add(asked) > MAX_SATELLITES {
-                    return Err(format!(
-                        "sky: system \"{}\" asks for {asked} satellites; a request holds at most \
-                         {MAX_SATELLITES}",
-                        cfg.name
+                    return Err(crate::terr!(
+                        "e-geometry-sky-system-asks-for-satellites",
+                        name = cfg.name,
+                        asked = asked,
+                        MAX_SATELLITES = MAX_SATELLITES
                     ));
                 }
             }
@@ -735,7 +746,10 @@ fn looks(req: &SkyRequest) -> Result<(Vec<Look>, usize, Basis), String> {
                 });
             }
             if all.len() > MAX_SATELLITES {
-                return Err(format!("sky: more than {MAX_SATELLITES} satellites"));
+                return Err(crate::terr!(
+                    "e-geometry-sky-more-than-satellites",
+                    MAX_SATELLITES = MAX_SATELLITES
+                ));
             }
         }
         parts.push("presets");
@@ -748,16 +762,17 @@ fn looks(req: &SkyRequest) -> Result<(Vec<Look>, usize, Basis), String> {
     let mut below = 0usize;
     if let Some(text) = &req.tle {
         let Some(g) = user else {
-            return Err("sky: `tle` needs a `site` (or `user_ecef_m`) to look from".into());
+            return Err(crate::terr!("e-geometry-sky-tle-needs-site-or"));
         };
         let t = req.time_s.unwrap_or(0.0);
         if !t.is_finite() {
-            return Err("sky: time_s must be finite".into());
+            return Err(crate::terr!("e-geometry-sky-time-must-be-finite"));
         }
         let (mut l, b, basis) = tle_looks(req, text, g, t)?;
         if all.len() + l.len() > MAX_SATELLITES {
-            return Err(format!(
-                "sky: more than {MAX_SATELLITES} satellites above the horizon"
+            return Err(crate::terr!(
+                "e-geometry-sky-more-than-satellites-above",
+                MAX_SATELLITES = MAX_SATELLITES
             ));
         }
         all.append(&mut l);
@@ -773,7 +788,10 @@ fn looks(req: &SkyRequest) -> Result<(Vec<Look>, usize, Basis), String> {
     }
     if let Some(sats) = &req.satellites {
         if all.len() + sats.len() > MAX_SATELLITES {
-            return Err(format!("sky: more than {MAX_SATELLITES} satellites"));
+            return Err(crate::terr!(
+                "e-geometry-sky-more-than-satellites",
+                MAX_SATELLITES = MAX_SATELLITES
+            ));
         }
         let mask = req.mask_deg.unwrap_or(DEFAULT_MASK_DEG);
         for (i, s) in sats.iter().enumerate() {
@@ -801,12 +819,16 @@ fn looks(req: &SkyRequest) -> Result<(Vec<Look>, usize, Basis), String> {
 fn sigma_and_confidence(req: &SkyRequest) -> Result<(f64, f64), String> {
     let sigma = req.sigma_uere_m.unwrap_or(crate::orbit::DEFAULT_UERE_M);
     if !(sigma.is_finite() && sigma > 0.0) {
-        return Err(format!("sky: sigma_uere_m must be positive, got {sigma}"));
+        return Err(crate::terr!(
+            "e-geometry-sky-sigma-uere-must-be",
+            sigma = sigma
+        ));
     }
     let confidence = req.confidence.unwrap_or(DEFAULT_CONFIDENCE);
     if !(confidence.is_finite() && confidence > 0.0 && confidence < 1.0) {
-        return Err(format!(
-            "sky: confidence must be in (0, 1), got {confidence}"
+        return Err(crate::terr!(
+            "e-geometry-sky-confidence-must-be-in",
+            confidence = confidence
         ));
     }
     Ok((sigma, confidence))
@@ -864,10 +886,9 @@ fn solve(req: &SkyRequest) -> Result<Solved, String> {
                     Some(k) => k,
                     None => {
                         if clock_labels.len() == MAX_CLOCKS {
-                            return Err(format!(
-                                "sky: more than {MAX_CLOCKS} systems in view, each with its own \
-                                 clock; group satellites under fewer `system` labels or use \
-                                 clock = \"common\""
+                            return Err(crate::terr!(
+                                "e-geometry-sky-more-than-systems-in",
+                                MAX_CLOCKS = MAX_CLOCKS
                             ));
                         }
                         clock_labels.push(l.system.clone());
@@ -1011,13 +1032,17 @@ pub fn sky_monte_carlo(req: &SkyRequest, seed: u64, n: usize) -> Result<SkyMonte
     use crate::portable_distr::{Distribution, Normal};
     use rand::SeedableRng;
     if n == 0 || n > MAX_MC_SAMPLES {
-        return Err(format!("sky: n must be in 1..={MAX_MC_SAMPLES}, got {n}"));
+        return Err(crate::terr!(
+            "e-geometry-sky-must-be-in-got",
+            MAX_MC_SAMPLES = MAX_MC_SAMPLES,
+            n = n
+        ));
     }
     let (sigma, _) = sigma_and_confidence(req)?;
     let s = solve(req)?;
     let q =
         s.q.as_ref()
-            .ok_or("sky: too few satellites in view for a fix; no Monte Carlo cloud")?;
+            .ok_or_else(|| crate::terr!("e-geometry-sky-too-few-satellites-in"))?;
     let states = q.len();
     let m = s.los.len();
     // S = Q Hᵀ, with H's rows [-e, one-hot clock]: the least-squares map from range errors to
@@ -1039,7 +1064,7 @@ pub fn sky_monte_carlo(req: &SkyRequest, seed: u64, n: usize) -> Result<SkyMonte
                 .collect()
         })
         .collect();
-    let noise = Normal::new(0.0, sigma).map_err(|e| format!("sky: {e}"))?;
+    let noise = Normal::new(0.0, sigma).map_err(|e| crate::terr!("e-geometry-sky", e = e))?;
     let mut rng = rand_chacha::ChaCha8Rng::seed_from_u64(seed);
     let (qee, qen, qnn) = (q[0][0], q[0][1], q[1][1]);
     let det = qee * qnn - qen * qen;
@@ -1220,7 +1245,14 @@ pub fn skyplot_svg(req: &SkyRequest) -> Result<String, String> {
     let dop = g
         .dop
         .as_ref()
-        .map(|d| format!("PDOP {:.2} HDOP {:.2} VDOP {:.2}", d.pdop, d.hdop, d.vdop))
+        .map(|d| {
+            crate::t!(
+                "geometry-pdop-hdop-vdop",
+                pdop = crate::i18n::localise_decimal(format!("{:.2}", d.pdop)),
+                hdop = crate::i18n::localise_decimal(format!("{:.2}", d.hdop)),
+                vdop = crate::i18n::localise_decimal(format!("{:.2}", d.vdop))
+            )
+        })
         .unwrap_or_else(|| "no fix".into());
     out.push_str(&format!(
         "<text x=\"20\" y=\"50\" fill=\"{MUTED}\" font-size=\"11\">{} in view, {} hidden by the \
@@ -1229,7 +1261,7 @@ pub fn skyplot_svg(req: &SkyRequest) -> Result<String, String> {
     ));
     // The sky's basis, from engine-made strings only (the epoch is formatted here).
     let basis = match (&g.epoch_utc, g.sky_source.contains("tle-at-epoch")) {
-        (Some(e), true) => format!("TLE sky at {e}, not a measurement"),
+        (Some(e), true) => crate::t!("geometry-tle-sky-at-not-measurement", e = e),
         _ if g.sky_source == "satellites" => "satellites as given".to_string(),
         _ => "representative sky, not a dated one".to_string(),
     };
@@ -1248,18 +1280,20 @@ pub fn skyplot_svg(req: &SkyRequest) -> Result<String, String> {
 /// Parse a request from JSON (text starting with `{`) or TOML.
 pub fn parse_request(text: &str) -> Result<SkyRequest, String> {
     if text.trim_start().starts_with('{') {
-        serde_json::from_str(text).map_err(|e| format!("invalid sky request (JSON): {e}"))
+        serde_json::from_str(text)
+            .map_err(|e| crate::terr!("e-geometry-invalid-sky-request-json", e = e))
     } else {
-        toml::from_str(text).map_err(|e| format!("invalid sky request (TOML): {e}"))
+        toml::from_str(text).map_err(|e| crate::terr!("e-geometry-invalid-sky-request-toml", e = e))
     }
 }
 
 /// Parse a skyline section from JSON or TOML text.
 pub fn parse_skyline(text: &str) -> Result<SkylineCfg, String> {
     if text.trim_start().starts_with('{') {
-        serde_json::from_str(text).map_err(|e| format!("invalid skyline (JSON): {e}"))
+        serde_json::from_str(text)
+            .map_err(|e| crate::terr!("e-geometry-invalid-skyline-json", e = e))
     } else {
-        toml::from_str(text).map_err(|e| format!("invalid skyline (TOML): {e}"))
+        toml::from_str(text).map_err(|e| crate::terr!("e-geometry-invalid-skyline-toml", e = e))
     }
 }
 
