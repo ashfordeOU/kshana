@@ -20,6 +20,7 @@ pub const FILE_SOURCE_KEYS: &[&str] = &[
     "ephemeris_path",
     "gfc_path",
     "meta_path",
+    "moon_kernel_path",
     "moon_orientation_kernel_path",
     "normal_points_dir",
     "pattern_csv",

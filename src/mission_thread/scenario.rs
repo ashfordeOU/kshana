@@ -534,6 +534,7 @@ impl ThreadResult {
             })),
             "phases": phases,
             "timeline": timeline,
+            "units": units(),
             "notice": "MODELLED navigation and timing error budget for a stated chain of phases; \
                        public sources only; not affiliated with or endorsed by any agency; \
                        advisory software, nothing is transmitted and no hardware is driven.",
@@ -554,6 +555,57 @@ impl ThreadResult {
             self.label.tier.name()
         )
     }
+}
+
+impl MissionThreadScenario {
+    /// Runs the thread and returns the report as pretty JSON and the one-line summary, with the
+    /// timeline figure next to them through [`ThreadResult::svg`].
+    pub fn run_json(&self) -> Result<(String, String, String), String> {
+        let r = run_thread(self)?;
+        let json = serde_json::to_string_pretty(&r.to_json(self)).map_err(|e| e.to_string())?;
+        let svg = r.svg(self.title.as_deref().unwrap_or("Mission thread"));
+        Ok((json, r.summary(self), svg))
+    }
+}
+
+/// The `units` block of the report: every numeric field with its unit and where it came from.
+fn units() -> Value {
+    const ROWS: &[(&str, &str, &str, &str)] = &[
+        ("seed", "1", "input", "the thread seed; each phase's seed is derived from it and the phase id"),
+        ("weakest_link.margin", "1", "computed", "limit over peak position, velocity or time of the weakest phase: above 1 meets the stated requirement"),
+        ("phases[].index", "1", "computed", "zero-based position of the phase in the thread"),
+        ("phases[].start_s", "s", "computed", "mission elapsed time at phase entry"),
+        ("phases[].end_s", "s", "computed", "mission elapsed time at phase exit"),
+        ("phases[].duration_s", "s", "input", "phase length as the document states it"),
+        ("phases[].entry_sigma_pos_m", "m", "modelled", "1-sigma position at phase entry, after the handover and conversions"),
+        ("phases[].entry_sigma_vel_mps", "m/s", "modelled", "1-sigma velocity at phase entry"),
+        ("phases[].entry_sigma_time_s", "s", "modelled", "1-sigma clock bias at phase entry"),
+        ("phases[].peak_sigma_pos_m", "m", "modelled", "largest 1-sigma position over the phase"),
+        ("phases[].peak_sigma_vel_mps", "m/s", "modelled", "largest 1-sigma velocity over the phase"),
+        ("phases[].peak_sigma_time_s", "s", "modelled", "largest 1-sigma clock bias over the phase"),
+        ("phases[].exit_sigma_pos_m", "m", "modelled", "1-sigma position at phase exit"),
+        ("phases[].exit_sigma_vel_mps", "m/s", "modelled", "1-sigma velocity at phase exit"),
+        ("phases[].exit_sigma_time_s", "s", "modelled", "1-sigma clock bias at phase exit"),
+        ("phases[].requirement.max_pos_m", "m", "input", "the position limit the phase must meet, when stated"),
+        ("phases[].requirement.max_vel_mps", "m/s", "input", "the velocity limit the phase must meet, when stated"),
+        ("phases[].requirement.max_time_s", "s", "input", "the time limit the phase must meet, when stated"),
+        ("phases[].margin", "1", "computed", "smallest ratio of a stated limit to the phase's peak: above 1 meets the requirement"),
+        ("phases[].budget_rows[].sigma", "see the sibling `unit` field", "modelled", "1-sigma of one budget line; the row's `unit` field gives its unit (m, m/s, s or deg)"),
+        ("phases[].events[].t_s", "s", "computed", "mission elapsed time of the event"),
+        ("timeline[].t_s", "s", "computed", "mission elapsed time of the sample"),
+        ("timeline[].phase_index", "1", "computed", "index of the phase the sample belongs to"),
+        ("timeline[].sigma_pos_m", "m", "modelled", "1-sigma position at the sample"),
+        ("timeline[].sigma_vel_mps", "m/s", "modelled", "1-sigma velocity at the sample"),
+        ("timeline[].sigma_time_s", "s", "modelled", "1-sigma clock bias at the sample"),
+    ];
+    let mut m = serde_json::Map::new();
+    for (k, unit, prov, note) in ROWS {
+        m.insert(
+            (*k).to_string(),
+            json!({ "unit": unit, "provenance": prov, "note": note }),
+        );
+    }
+    Value::Object(m)
 }
 
 use crate::chart::{esc, frame_open, panel_axes};
