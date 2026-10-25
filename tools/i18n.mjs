@@ -19,7 +19,7 @@
 
 import { createHash } from 'node:crypto';
 import { readdirSync, readFileSync, writeFileSync, mkdirSync, existsSync, statSync, rmSync, copyFileSync } from 'node:fs';
-import { join, relative, dirname, sep } from 'node:path';
+import { join, relative, dirname, sep, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const BLOCK = new Set(['address', 'article', 'aside', 'blockquote', 'body', 'caption', 'dd', 'details', 'div', 'dl', 'dt',
@@ -100,7 +100,7 @@ function buildTree(nodes) {
   return root;
 }
 const textOf = (n) => (n.k === 'el' ? n.kids.map(textOf).join('') : n.k === 'code' || n.k === 'text' ? n.v : n.k === 'br' ? ' ' : '');
-const isDeco = (n) => (n.k === 'el' && !hasLetters(textOf(n))) || n.k === 'br' && false;
+const isDeco = (n) => (n.k === 'el' && !hasLetters(textOf(n))) || (n.k === 'code' && n.opaque);
 const isBlankText = (n) => n.k === 'text' && !/\S/.test(n.v);
 
 /** Reduce a run to its segment: strip edge decorations, unwrap a lone wrapper element, render the skeleton. Null if nothing translatable. */
@@ -185,6 +185,7 @@ export function segments(html) {
       if (!inHead) for (const a of ATTRS) if (tk.attrs[a]) attrSeg(tk, a, `attr:${a}`);
       if (tk.name === 'title' && inHead) { flush(); run = { nodes: [], title: true }; continue; }
       if (inHead) continue;
+      if ((tk.name === 'svg' || tk.name === 'math') && !tk.selfClose && !skipping()) { if (!run) run = { nodes: [] }; if (!run.depth && run.nodes.length && lastIsElement(run)) { flush(); run = { nodes: [] }; } run.svg = { s: tk.s, name: tk.name }; continue; }
       if (tk.attrs['data-no-i18n'] !== undefined || tk.attrs.translate === 'no') { stack.push({ name: tk.name, skip: true }); flush(); continue; }
       if (BLOCK.has(tk.name)) { flush(); if (!tk.selfClose) stack.push({ name: tk.name }); continue; }
       if (skipping()) { if (!VOID.has(tk.name)) stack.push({ name: tk.name, skip: false, dummy: true }); continue; }
@@ -201,6 +202,7 @@ export function segments(html) {
       if (tk.name === 'head') { flush(); inHead = false; continue; }
       if (tk.name === 'title' && inHead) { flush(); continue; }
       if (inHead) continue;
+      if ((tk.name === 'svg' || tk.name === 'math') && run && run.svg) { run.nodes.push({ k: 'code', v: '', s: run.svg.s, e: tk.e, name: tk.name, opaque: true }); run.svg = null; continue; }
       if (BLOCK.has(tk.name)) { flush(); const i = stack.map((s) => s.name).lastIndexOf(tk.name); if (i >= 0) stack.length = i; continue; }
       if (VOID.has(tk.name)) continue;
       if (CODE.has(tk.name) && run && run.code) { run.nodes.push({ k: 'code', v: run.code.v, s: run.code.s, os: run.code.os, name: run.code.name, e: tk.e }); run.code = null; run.depth--; continue; }
@@ -208,7 +210,7 @@ export function segments(html) {
       if (i >= 0) { const s = stack[i]; stack.length = i; if (s.skip || s.dummy) continue; }
       if (run) { run.nodes.push({ k: 'close', name: tk.name, s: tk.s, e: tk.e }); run.depth = Math.max(0, (run.depth || 1) - 1); }
     } else if (tk.t === 'raw') {
-      if (!inHead) flush();
+      if (!inHead && tk.name !== 'svg' && tk.name !== 'math') flush();
     } else if (tk.t === 'text') {
       if (inHead && !(run && run.title)) continue;
       if (skipping()) continue;
@@ -240,7 +242,7 @@ function readVersion(opt) {
   if (opt.version) return opt.version;
   try { return /^version\s*=\s*"([^"]+)"/m.exec(readFileSync('Cargo.toml', 'utf8'))?.[1] || ''; } catch { return ''; }
 }
-function fmtText(text, keepEdges = false) {
+export function fmtText(text, keepEdges = false) {
   let t = text.replace(/\s+/g, ' ');
   if (!keepEdges) t = t.trim();
   t = t.replace(/[{}]/g, (c) => `{ "${c}" }`);
@@ -342,9 +344,11 @@ async function status(args) {
   const { opt, pos } = args2opt(args, { root: 'i18n', json: false });
   const langs = pos.length ? pos : L.LANGS;
   const res = langs.map((l) => L.statusLang(opt.root, l));
-  if (opt.json) { console.log(JSON.stringify(res, null, 1)); return; }
-  console.log('lang      translated   missing  total   pages not started  orphans');
-  for (const r of res) console.log(`${r.lang.padEnd(8)} ${String(r.translated).padStart(10)} ${String(r.missing).padStart(9)} ${String(r.total).padStart(6)} ${String(r.pagesNotStarted).padStart(18)} ${String(r.orphans.length).padStart(8)}`);
+  if (opt.json) { console.log(JSON.stringify(res.map((r) => ({ ...r, files: L.statusFiles(opt.root, r.lang) })), null, 1)); return; }
+  console.log('lang      translated   missing   total  coverage  pages >= 80%  pages not started  orphans');
+  for (const r of res) { const ok80 = r.rows.filter((x) => x.translated + x.missing && x.translated / (x.translated + x.missing) >= 0.8).length; console.log(`${r.lang.padEnd(8)} ${String(r.translated).padStart(10)} ${String(r.missing).padStart(9)} ${String(r.total).padStart(7)} ${((100 * r.translated) / (r.total || 1)).toFixed(1).padStart(8)}%  ${String(ok80).padStart(5)} of ${String(r.rows.length).padEnd(4)} ${String(r.pagesNotStarted).padStart(18)} ${String(r.orphans.length).padStart(8)}`); }
+  console.log('\nwhole-file catalogues (translated of total messages):');
+  for (const r of res) console.log(`${r.lang.padEnd(8)} ` + L.statusFiles(opt.root, r.lang).map((x) => `${x.file.replace(/\.ftl$/, '')} ${x.translated}/${x.total}`).join('  '));
 }
 
 async function check(args) {
@@ -419,6 +423,15 @@ async function apply(args) {
     }
     const loc = (rel) => `${opt.origin}/${lang}${S.pageUrl(rel)}`;
     writeFileSync(join(opt.out, lang, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${listed.map((rel) => `  <url><loc>${loc(rel)}</loc></url>`).join('\n')}\n</urlset>\n`);
+    // the JSON data files, translated through i18n/<lang>/data.ftl (the pages load <lang>/<file> when it exists)
+    try {
+      const D = await import('./i18n-data.mjs');
+      const spec = D.loadSpec(opt.root);
+      const dbundle = L.bundleFor(lang, [join(opt.root, lang, 'data.ftl')], { localise: false });
+      const tr = (str) => { const m = dbundle.getMessage(D.dataId(str)); if (!m || !m.value) return null; try { return dbundle.formatPattern(m.value, { version: VERSION }); } catch { return null; } };
+      const r = D.applyData(opt.src, join(opt.out, lang), spec, tr);
+      report.push(`${lang}: ${r.replaced} of ${r.total} data strings translated`);
+    } catch (e) { if (e.code !== 'ENOENT') throw e; }
     report.push(`${lang}: ${T} segments translated, ${M} left in English, ${pages.length} pages`);
   }
   console.log(report.join('\n'));
@@ -517,7 +530,7 @@ async function langsCmd(args) {
  *  code spans and link targets must be equal, and the machine-translation notice must be present (design v2, section 5). */
 async function verify(args) {
   const L = await lang();
-  const { opt, pos } = args2opt(args, { src: 'web', dist: 'dist', skip: 'studio,playground,assets' });
+  const { opt, pos } = args2opt(args, { src: 'web', dist: 'dist', root: 'i18n', skip: 'studio,playground,assets' });
   const pages = walk(opt.src, [...String(opt.skip).split(',').filter(Boolean), ...L.LANGS, 'en-XA']);
   const langs = pos.length ? pos : L.LANGS.filter((l) => existsSync(join(opt.dist, l)));
   const visible = (h) => h.replace(/<(script|style|svg|template|head)\b[\s\S]*?<\/\1>/gi, ' ').replace(/<[^>]*>/g, ' ');
@@ -528,6 +541,11 @@ async function verify(args) {
   let bad = 0;
   for (const lang of langs) {
     let n = 0;
+    const rend = L.tokenRenderings(opt.root, lang);
+    // the pseudo-locale accents every word, so the glossary-worded advisory checks apply to the real languages only
+    const legal = lang === 'en-XA' ? [] : L.legalSentences(opt.root, lang);
+    const taStem = lang === 'en-XA' ? null : L.termStem(opt.root, lang, '-term-type-approved');
+    const mt = (() => { try { const b = L.bundleFor(lang, [join(opt.root, lang, 'glossary.ftl'), join(opt.root, lang, 'ui.ftl')]); const m = b.getMessage('notice-machine-translation'); return m && m.value ? b.formatPattern(m.value, {}) : null; } catch { return null; } })();
     for (const rel of pages) {
       const p = join(opt.dist, lang, rel);
       if (!existsSync(p)) { console.log(`ERROR ${lang}/${rel}: page missing`); bad++; continue; }
@@ -545,6 +563,31 @@ async function verify(args) {
       const b = all(t).map((h) => norm(h, '/' + lang)).filter((h) => !/^[a-z]+:/i.test(h)).sort();
       if (a.join('\n') !== b.join('\n')) { bad++; n++; console.log(`ERROR ${lang}/${rel}: the link targets differ from the English page`); }
       if (!/class="i18n-notice"/.test(tr)) { bad++; n++; console.log(`ERROR ${lang}/${rel}: the machine-translation notice is missing`); }
+      else if (mt && !tr.includes(mt.replace(/&/g, '&amp;').replace(/</g, '&lt;'))) { bad++; n++; console.log(`ERROR ${lang}/${rel}: the machine-translation notice is not the language's own text`); }
+      // tier, verdict and status tokens: the count of each on the page equals the English count (as the language renders it)
+      const vt = (h) => visible(h).replace(/&nbsp;/g, ' ').replace(/&[a-z#0-9]+;/gi, ' ').replace(/\s+/g, ' ');
+      const ve = vt(en), vtr = vt(t);
+      const count = (txt, w) => { if (!w) return 0; let c = 0, i = 0; for (;;) { i = txt.indexOf(w, i); if (i < 0) break; const pre = txt[i - 1] || ' ', post = txt[i + w.length] || ' '; if (!/[A-Za-z]/.test(pre) && !/[A-Za-z]/.test(post)) c++; i += w.length; } return c; };
+      for (const tk of L.TIER_TOKENS) {
+        let ce = count(ve, tk); if (tk === 'MET') ce -= count(ve, 'NOT MET');
+        const r = rend[tk];
+        let ct = count(vtr, r) + (r !== tk ? count(vtr, tk) : 0); if (tk === 'MET') ct -= count(vtr, rend['NOT MET']) + (rend['NOT MET'] !== 'NOT MET' ? count(vtr, 'NOT MET') : 0);
+        if (ce !== ct) { bad++; n++; console.log(`ERROR ${lang}/${rel}: ${tk} appears ${ct} times, the English page has ${ce}`); }
+      }
+      // the advisory: every place the English page says "type-approved" is still said in the translation (the glossary's rendering of the term, or English where untranslated)
+      if (taStem) {
+        const lowE = ve.toLowerCase(), lowT = vtr.toLowerCase();
+        const cnt = (txt, w) => { let c = 0, i = 0; for (;;) { i = txt.indexOf(w, i); if (i < 0) break; c++; i += w.length; } return c; };
+        const ne = cnt(lowE, 'type-approved');
+        if (ne && cnt(lowT, taStem) + cnt(lowT, 'type-approved') < ne) { bad++; n++; console.log(`ERROR ${lang}/${rel}: the advisory wording is incomplete (the English page says "type-approved" ${ne} times; the translation has ${cnt(lowT, taStem) + cnt(lowT, 'type-approved')})`); }
+      }
+      // the advisories and notices the engine and the glossary fix: present, and exactly the language's sentence (or English where the segment is not translated yet)
+      const norm2 = (x) => x.replace(/\s+/g, ' ');
+      for (const sn of legal) {
+        if (!ve.includes(sn.en)) continue;
+        if (sn.tr === null) continue;
+        if (!vtr.includes(sn.tr) && !vtr.includes(sn.en)) { bad++; n++; console.log(`ERROR ${lang}/${rel}: the sentence ${sn.id} is missing or altered (it must read exactly as the language's catalogue says)`); }
+      }
     }
     console.log(`${lang}: ${pages.length} pages verified, ${n} problems`);
   }
@@ -609,9 +652,15 @@ function csslint(args) {
 /** todo: the English page messages a language lacks, in chunks of about 26 KB (the translators' work list). */
 async function todo(args) {
   const L = await lang();
-  const { opt, pos } = args2opt(args, { root: 'i18n', out: '', chunkKb: '26', page: '' });
+  const { opt, pos } = args2opt(args, { root: 'i18n', out: '', chunkKb: '26', page: '', file: '' });
   const l = pos[0];
   if (!l) { console.error('usage: i18n.mjs todo <lang> [--out DIR] [--chunk-kb 26] [--page slug-prefix]'); process.exit(2); }
+  if (opt.file) { // a whole-file catalogue: ui.ftl, studio-js.ftl, site-js.ftl, studio-pages.ftl, data.ftl, glossary.ftl
+    const fc = L.todoFileChunks(opt.root, l, opt.file, +opt.chunkKb);
+    if (opt.out) { mkdirSync(opt.out, { recursive: true }); for (const c of fc) writeFileSync(join(opt.out, c.name), c.text); }
+    console.log(`todo ${l} ${opt.file}: ${fc.reduce((n, c) => n + c.count, 0)} messages in ${fc.length} chunks${opt.out ? ' in ' + opt.out : ''}`);
+    return;
+  }
   const chunks = L.todoChunks(opt.root, l, { chunkKb: +opt.chunkKb, page: opt.page });
   if (opt.out) { mkdirSync(opt.out, { recursive: true }); for (const c of chunks) writeFileSync(join(opt.out, c.name), c.text); }
   console.log(`todo ${l}: ${chunks.reduce((n, c) => n + c.ids.length, 0)} messages in ${chunks.length} chunks${opt.out ? ' in ' + opt.out : ''}`);
@@ -620,19 +669,239 @@ async function todo(args) {
 /** merge: put translated messages (chunk files in the same format) into i18n/<lang>/pages/, after the same checks as `check`. */
 async function merge(args) {
   const L = await lang();
-  const { opt, pos } = args2opt(args, { root: 'i18n', replace: false });
+  const { opt, pos } = args2opt(args, { root: 'i18n', replace: false, file: '' });
   const [l, ...files] = pos;
   if (!l || !files.length) { console.error('usage: i18n.mjs merge <lang> <file.ftl>... [--replace]'); process.exit(2); }
-  const r = L.mergeTranslations(opt.root, l, files.map((f) => readFileSync(f, 'utf8')), { replace: opt.replace });
+  const r = opt.file ? L.mergeFile(opt.root, l, opt.file, files.map((f) => readFileSync(f, 'utf8'))) : L.mergeTranslations(opt.root, l, files.map((f) => readFileSync(f, 'utf8')), { replace: opt.replace });
   for (const x of r.rejected.slice(0, 50)) console.log(`REJECTED ${x.id}: ${x.why}`);
   if (r.unknown.length) console.log(`${r.unknown.length} ids are not in the English catalogue (stale chunk?): ${r.unknown.slice(0, 5).join(', ')}`);
   console.log(`merge ${l}: ${r.added} messages written, ${r.rejected.length} rejected`);
   if (r.rejected.length) process.exit(1);
 }
 
+// ---- jsx: the t(id, english, vars) call sites of the Studio and site scripts become a catalogue ----
+
+/** Parse a JS string, template (no ${}) or { one: "..", other: ".." } literal starting at i (after spaces). Returns {value, end} or null. */
+function jsLiteral(src, i) {
+  while (/\s/.test(src[i] || '')) i++;
+  const q = src[i];
+  if (q === '"' || q === "'" || q === '`') {
+    let out = '';
+    for (let j = i + 1; j < src.length; j++) {
+      const c = src[j];
+      if (c === '\\') { const n = src[++j]; out += n === 'n' ? '\n' : n === 't' ? '\t' : n === 'u' ? (() => { const h = src.slice(j + 1, j + 5); j += 4; return String.fromCharCode(parseInt(h, 16)); })() : n; continue; }
+      if (q === '`' && c === '$' && src[j + 1] === '{') return { error: 'template literal with ${}: write the placeables as { $name } and pass the values as the third argument' };
+      if (c === q) return { value: out, end: j + 1 };
+      out += c;
+    }
+    return null;
+  }
+  if (q === '{') {
+    const obj = {};
+    let j = i + 1;
+    for (;;) {
+      while (/[\s,]/.test(src[j] || '')) j++;
+      if (src[j] === '}') return { value: obj, end: j + 1 };
+      const km = /^([A-Za-z0-9_]+)\s*:/.exec(src.slice(j, j + 40));
+      if (!km) return null;
+      j += km[0].length;
+      const v = jsLiteral(src, j);
+      if (!v || v.error || typeof v.value !== 'string') return v || null;
+      obj[km[1]] = v.value; j = v.end;
+    }
+  }
+  return null;
+}
+
+/** All t(...) call sites in a source: [{id, en, line, file}] and errors. A call is `t(` not preceded by a word character or a dot. */
+export function jsCallSites(src, file) {
+  const out = [], errors = [];
+  const re = /(?<![\w.$])t\(\s*(["'])([\w-]+)\1\s*,/g;
+  let m;
+  while ((m = re.exec(src))) {
+    const line = src.slice(0, m.index).split('\n').length;
+    const lit = jsLiteral(src, re.lastIndex);
+    if (!lit) { errors.push(`${file}:${line}: ${m[2]}: the English text must be a string literal or { one: "..", other: ".." }`); continue; }
+    if (lit.error) { errors.push(`${file}:${line}: ${m[2]}: ${lit.error}`); continue; }
+    out.push({ id: m[2], en: lit.value, line, file });
+  }
+  return { out, errors };
+}
+
+function jsxFtl(sites, header) {
+  const lines = [header, ''];
+  const byId = new Map();
+  const errors = [];
+  for (const s of sites) {
+    const prev = byId.get(s.id);
+    if (prev) { if (JSON.stringify(prev.en) !== JSON.stringify(s.en)) errors.push(`${s.file}:${s.line}: ${s.id} has different English at ${prev.file}:${prev.line}`); continue; }
+    byId.set(s.id, s);
+  }
+  const bad = (t, s) => /\n/.test(t) ? 'a newline' : /^\s|\s$/.test(t) ? 'leading or trailing space (build the spacing in code)' : /[{}]/.test(t.replace(/\{ \$[A-Za-z0-9_-]+ \}/g, '')) ? 'a brace that is not a { $name } placeable' : null;
+  for (const s of [...byId.values()].sort((a, b) => a.id.localeCompare(b.id))) {
+    lines.push(`# ${s.file}:${s.line}`);
+    if (typeof s.en === 'string') {
+      const b = bad(s.en); if (b) errors.push(`${s.file}:${s.line}: ${s.id}: ${b}`);
+      lines.push(`${s.id} = ${s.en}`);
+    } else {
+      if (s.en.other === undefined) errors.push(`${s.file}:${s.line}: ${s.id}: a plural needs an 'other' form`);
+      lines.push(`${s.id} =`, '    { $n ->');
+      for (const k of ['zero', 'one', 'two', 'few', 'many']) if (s.en[k] !== undefined) { const b = bad(s.en[k]); if (b) errors.push(`${s.file}:${s.line}: ${s.id}[${k}]: ${b}`); lines.push(`        [${k}] ${s.en[k]}`); }
+      const b = bad(s.en.other || ''); if (b) errors.push(`${s.file}:${s.line}: ${s.id}[other]: ${b}`);
+      lines.push(`       *[other] ${s.en.other}`, '    }');
+    }
+    lines.push('');
+  }
+  return { text: lines.join('\n'), errors, count: byId.size };
+}
+
+/** jsx --src DIR[,DIR] --out i18n/en/studio-js.ftl [--check] [--lint]: write (or verify) the English catalogue of the scripts' t() calls. */
+function jsx(args) {
+  const { opt } = args2opt(args, { src: '', out: '', check: false, lint: false, skip: 'recorded,pkg,data,assets,node_modules,vendor' });
+  const skip = String(opt.skip).split(',');
+  const files = [], shown = new Map();
+  const gather = (p, root) => { const st = statSync(p); if (st.isDirectory()) { for (const e of readdirSync(p)) if (!skip.includes(e)) gather(join(p, e), root); } else if (/\.(m?js)$/.test(p) && !/\.test\.m?js$/.test(p) && !/(^|\/)tools_/.test(p)) { files.push(p); shown.set(p, relative(dirname(root), p).split(sep).join('/')); } };
+  for (const d of String(opt.src).split(',').filter(Boolean)) gather(d, resolve(d));
+  const sites = [], errors = [];
+  for (const f of files) { const r = jsCallSites(readFileSync(f, 'utf8'), shown.get(f)); sites.push(...r.out); errors.push(...r.errors); }
+  const out = jsxFtl(sites, `# Generated by tools/i18n.mjs jsx from the t(id, english, vars) calls of ${String(opt.src).split(',').map((d) => d.replace(/\/+$/, '').split('/').pop()).join(', ')}. Do not edit: change the call site.\n# Translators: copy to i18n/<lang>/, translate the values, keep ids, { $variables } and plural categories.`);
+  errors.push(...out.errors);
+  for (const e of errors.slice(0, 40)) console.log('ERROR ' + e);
+  if (opt.lint) {
+    const dom = /(?:\.textContent|\.innerText|\.title|\.placeholder|\.alt)\s*=\s*(["'`])((?:(?!\1).)*[A-Za-z]{3,}\s+[A-Za-z]{2,}(?:(?!\1).)*)\1|setAttribute\(\s*["'](?:aria-label|title|placeholder|alt)["']\s*,\s*(["'`])((?:(?!\3).)*[A-Za-z]{3,}\s+[A-Za-z]{2,}(?:(?!\3).)*)\3/g;
+    let n = 0; const per = [];
+    for (const f of files) { const t = readFileSync(f, 'utf8'); let c = 0; let m; while ((m = dom.exec(t))) { c++; if (c <= 2 && per.length < 12) per.push(`${relative(process.cwd(), f)}: ${(m[2] || m[4]).slice(0, 60)}`); } n += c; }
+    console.log(`lint: ${n} text literals reach the DOM outside t()${per.length ? '; e.g.\n  ' + per.join('\n  ') : ''}`);
+  }
+  if (opt.out) {
+    if (opt.check) {
+      const cur = existsSync(opt.out) ? readFileSync(opt.out, 'utf8') : '';
+      if (cur !== out.text) { console.log(`ERROR ${opt.out} is out of date: run node tools/i18n.mjs jsx --src <the same directories> --out ${opt.out}`); process.exit(1); }
+    } else if (!errors.length) { mkdirSync(dirname(opt.out), { recursive: true }); writeFileSync(opt.out, out.text); }
+  }
+  console.log(`jsx: ${out.count} messages from ${sites.length} call sites in ${files.length} files${errors.length ? ', ' + errors.length + ' errors' : ''}`);
+  if (errors.length) process.exit(1);
+}
+
+// ---- studio-pages: static Studio text with inline markup becomes rich messages (data-l10n-rich) ----
+
+const VOID_TAGS = new Set(['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'param', 'source', 'track', 'wbr']);
+const jsonAttr = (o) => JSON.stringify(o).replace(/&/g, '&amp;').replace(/"/g, '&quot;');
+
+/** The page as it was before any run of studio-pages: wrapper spans (data-l10n-rich on a span) unwrapped, the other rich attributes dropped.
+ *  Annotating this each time makes the command idempotent (a wrapper is never wrapped again). */
+export function stripRich(html) {
+  const cuts = []; // [start, end) ranges to remove
+  const stack = [];
+  for (const tk of tokens(html)) {
+    if (tk.t === 'open' && tk.name === 'span' && !tk.selfClose) {
+      const w = tk.attrs['data-l10n-rich'] !== undefined && Object.keys(tk.attrs).every((a) => /^data-l10n(-rich|-tags)?$/.test(a));
+      stack.push(w);
+      if (w) cuts.push([tk.s, tk.e]);
+    } else if (tk.t === 'close' && tk.name === 'span') {
+      if (stack.pop()) cuts.push([tk.s, tk.e]);
+    }
+  }
+  let out = '', last = 0;
+  for (const [a, b] of cuts.sort((x, y) => x[0] - y[0])) { out += html.slice(last, a); last = b; }
+  out += html.slice(last);
+  return out.replace(/ data-l10n-rich="seg-[0-9a-f]{12}"( data-l10n-tags="[^"]*")?/g, '');
+}
+
+/** Annotate the static text segments of one Studio page: the element that holds exactly the segment gets data-l10n-rich and
+ *  data-l10n-tags; otherwise the segment's range is wrapped in a span that does. Returns {html, messages:[{id, skel, codes}]}. */
+export function studioRich(html) {
+  const segs = segments(html).filter((x) => !x.attr && x.kind === 'text');
+  const edits = [], messages = [];
+  for (const sg of segs) {
+    const before = html.slice(0, sg.start), after = html.slice(sg.end);
+    // an element that already carries a message (a previous run, or data-l10n) is left alone
+    const open = /<([a-zA-Z][\w-]*)\b((?:"[^"]*"|'[^']*'|[^'">])*)>\s*$/.exec(before);
+    const wholeEl = open && !VOID_TAGS.has(open[1].toLowerCase()) && new RegExp(`^\\s*</${open[1]}\\s*>`, 'i').test(after);
+    if (wholeEl && /\bdata-l10n=/.test(open[2])) continue;
+    const annotated = wholeEl && /\bdata-l10n-rich=/.test(open[2]);
+    // inside an element that is a message already (the wrapper of an earlier run)
+    const id = 'seg-' + sha12(sg.skel + '\0' + sg.codes.join('\0'));
+    const tags = {};
+    for (const [k, v] of Object.entries(sg.tags)) tags[k] = v.h !== undefined ? { h: v.h } : { o: v.o, c: v.c };
+    for (const k of Object.keys(tags)) { if (tags[k].o) tags[k].o = tags[k].o.replace(/ data-i18n-t/, ''); for (const f of ['o', 'h']) if (tags[k][f]) tags[k][f] = tags[k][f].replace(/ data-l10n(?:-rich|-tags|-attr)?=("[^"]*"|'[^']*')/g, ''); }
+    if (annotated) { messages.push({ id, skel: sg.skel, codes: sg.codes }); continue; }
+    const attrs = ` data-l10n-rich="${id}"${Object.keys(tags).length ? ` data-l10n-tags="${jsonAttr(tags)}"` : ''}`;
+    if (wholeEl) edits.push({ at: open.index + open[0].lastIndexOf('>'), text: attrs, kind: 'attr' });
+    else edits.push({ start: sg.start, end: sg.end, text: `<span${attrs}>${html.slice(sg.start, sg.end)}</span>`, kind: 'wrap' });
+    messages.push({ id, skel: sg.skel, codes: sg.codes });
+  }
+  let out = html;
+  for (const e of edits.sort((a, b) => (b.start ?? b.at) - (a.start ?? a.at))) {
+    if (e.kind === 'attr') out = out.slice(0, e.at) + e.text + out.slice(e.at);
+    else out = out.slice(0, e.start) + e.text + out.slice(e.end);
+  }
+  return { html: out, messages };
+}
+
+/** studio-pages --src DIR --out FILE [--write]: write the English catalogue of the Studio pages' rich static text; --write also annotates the HTML. */
+function studioPages(args) {
+  const { opt } = args2opt(args, { src: '', out: '', write: false, version: '' });
+  setVersion(readVersion(opt));
+  const files = walk(opt.src, ['recorded', 'pkg', 'data', 'assets', 'lib', 'REVIEW', 'node_modules']).filter((r) => /^([\w-]+\/)?index\.html$/.test(r));
+  const all = new Map();
+  let wrapped = 0, whole = 0;
+  for (const rel of files) {
+    const p = join(opt.src, rel);
+    const html = readFileSync(p, 'utf8');
+    const r = studioRich(stripRich(html));
+    for (const m of r.messages) if (!all.has(m.id)) all.set(m.id, { ...m, page: rel });
+    if (opt.write && r.html !== html) writeFileSync(p, r.html);
+  }
+  // messages already annotated by an earlier run are read from the HTML so the catalogue stays complete
+  for (const rel of files) {
+    const html = readFileSync(join(opt.src, rel), 'utf8');
+    for (const m of html.matchAll(/data-l10n-rich="(seg-[0-9a-f]{12})"/g)) if (!all.has(m[1])) all.set(m[1], { id: m[1], missing: true, page: rel });
+  }
+  // an earlier run's messages for elements that are annotated already stay in the catalogue (blocks of the existing file, by id)
+  const old = new Map();
+  if (opt.out && existsSync(opt.out)) for (const b of readFileSync(opt.out, 'utf8').split(/\n\n+/)) { const m = /^(seg-[0-9a-f]{12}) =/m.exec(b); if (m) old.set(m[1], b.trim()); }
+  const lines = ['# Static text of the Studio pages that carries inline markup (generated by tools/i18n.mjs studio-pages). Do not edit.', '# Translators: copy to i18n/<lang>/, translate the values, keep every id, { "literal" } and numbered tag (<a1>..</a1>, <b>, <em>, <s1>, <c1/>, <br/>).', ''];
+  for (const m of [...all.values()].filter((x) => !x.missing).sort((a, b) => a.id.localeCompare(b.id))) {
+    lines.push(`# ${m.page}`);
+    m.codes.forEach((c, i) => lines.push(`# c${i + 1}: ${c.replace(/\n/g, ' ')}`));
+    lines.push(`${m.id} = ${m.skel}`, '');
+  }
+  for (const m of [...all.values()].filter((x) => x.missing)) if (old.has(m.id)) lines.push(old.get(m.id), '');
+  if (opt.out) writeFileSync(opt.out, lines.join('\n'));
+  console.log(`studio-pages: ${all.size} rich messages from ${files.length} pages${opt.out ? ' into ' + opt.out : ''}`);
+}
+
+/** migrate <lang>: carry translations to the new id of a segment whose English text is unchanged (--from-rev names the revision the ids came from). */
+async function migrate(args) {
+  const L = await lang();
+  const { opt, pos } = args2opt(args, { root: 'i18n', fromRev: '5a8d284', gitPath: 'i18n', dryRun: false });
+  const old = L.oldEnglish(opt.fromRev, opt.gitPath);
+  const langs = pos.length ? pos : L.LANGS.filter((l) => existsSync(join(opt.root, l, 'pages')));
+  for (const l of langs) {
+    const r = L.migrateLang(opt.root, l, old, { dryRun: opt.dryRun });
+    console.log(`migrate ${l}: ${r.moved} segments moved to their new id, ${r.merged} dropped because the same text already has a translation, ${r.dropped.length} orphans dropped, ${r.unmatched.length} unmatched (English changed: retranslate), ${r.retag.length} need retranslating (markup differs)${opt.dryRun ? ' (dry run)' : ''}`);
+  }
+}
+
+/** data --src DIR --out i18n/en/data.ftl [--check]: the prose of the JSON files in i18n/data-spec.json as one English catalogue. */
+async function dataCmd(args) {
+  const D = await import('./i18n-data.mjs');
+  const { opt } = args2opt(args, { src: 'web', out: 'i18n/en/data.ftl', root: 'i18n', check: false, version: '' });
+  setVersion(readVersion(opt));
+  const spec = D.loadSpec(opt.root);
+  const strings = D.collectData(opt.src, spec);
+  const r = D.dataFtl(strings, (x) => fmtText(x));
+  if (opt.check) {
+    const cur = existsSync(opt.out) ? readFileSync(opt.out, 'utf8') : '';
+    if (cur !== r.text) { console.log(`ERROR ${opt.out} is out of date: run node tools/i18n.mjs data`); process.exit(1); }
+  } else writeFileSync(opt.out, r.text);
+  console.log(`data: ${r.count} messages from ${spec.files.length} JSON files into ${opt.out}`);
+}
+
 const [cmd, ...rest] = process.argv.slice(2);
 if (import.meta.url === `file://${process.argv[1]}`) {
-  const run = { extract: async () => extract(rest), status: () => status(rest), check: () => check(rest), pseudo: () => pseudo(rest), apply: () => apply(rest), images: async () => images(rest), todo: () => todo(rest), merge: () => merge(rest), csslint: async () => csslint(rest), verify: () => verify(rest), langs: () => langsCmd(rest), sitemaps: async () => sitemaps(rest), size: async () => size(rest), english: () => english(rest) }[cmd];
+  const run = { extract: async () => extract(rest), status: () => status(rest), check: () => check(rest), pseudo: () => pseudo(rest), apply: () => apply(rest), images: async () => images(rest), data: () => dataCmd(rest), migrate: () => migrate(rest), 'studio-pages': async () => studioPages(rest), jsx: async () => jsx(rest), todo: () => todo(rest), merge: () => merge(rest), csslint: async () => csslint(rest), verify: () => verify(rest), langs: () => langsCmd(rest), sitemaps: async () => sitemaps(rest), size: async () => size(rest), english: () => english(rest) }[cmd];
   if (run) await run();
   else if (!cmd) { console.error('usage: node tools/i18n.mjs extract|apply|check|status|pseudo|csslint'); process.exit(2); }
   else { console.error(`i18n: '${cmd}' is not built yet`); process.exit(2); }
