@@ -786,7 +786,8 @@ fn egl_svg(r: &EarthGnssLunarReport) -> String {
          font-family=\"{FONT_SANS}\" font-size=\"12\" fill=\"{INK_2}\">\
          <rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"{BG}\"/>\
          <text x=\"24\" y=\"30\" font-size=\"15\" fill=\"{TITLE}\">\
-         Earth-GNSS at lunar distance — C/N0 against off-boresight angle</text>"
+         {}</text>",
+        crate::t!("earth-gnss-lunar-chart-title")
     );
     let (ml, mt, pw, ph) = (70.0_f64, 56.0_f64, w - 110.0, h - 110.0);
     let cn0s: Vec<f64> = r.links.iter().map(|l| l.cn0_dbhz).collect();
@@ -823,22 +824,28 @@ fn egl_svg(r: &EarthGnssLunarReport) -> String {
     s.push_str(&format!(
         "<line x1=\"{ml}\" y1=\"{ty:.1}\" x2=\"{:.1}\" y2=\"{ty:.1}\" stroke=\"{CORAL}\" \
          stroke-dasharray=\"5,4\"/>\
-         <text x=\"{:.1}\" y=\"{:.1}\" fill=\"{CORAL}\">track {:.0} dB-Hz</text>",
+         <text x=\"{:.1}\" y=\"{:.1}\" fill=\"{CORAL}\">{}</text>",
         ml + pw,
         ml + pw - 96.0,
         ty - 5.0,
-        r.tracking_threshold_dbhz
+        crate::t!(
+            "earth-gnss-lunar-chart-track-threshold",
+            threshold = crate::i18n::num(r.tracking_threshold_dbhz, 0)
+        )
     ));
     // Earth-limb line.
     let lx = ml + (r.earth_limb_half_angle_deg / max_ang) * pw;
     s.push_str(&format!(
         "<line x1=\"{lx:.1}\" y1=\"{mt}\" x2=\"{lx:.1}\" y2=\"{:.1}\" stroke=\"{INK_4}\" \
          stroke-dasharray=\"3,3\"/>\
-         <text x=\"{:.1}\" y=\"{:.1}\" fill=\"{MUTED}\">Earth limb {:.1}°</text>",
+         <text x=\"{:.1}\" y=\"{:.1}\" fill=\"{MUTED}\">{}</text>",
         mt + ph,
         lx + 6.0,
         mt + 14.0,
-        r.earth_limb_half_angle_deg
+        crate::t!(
+            "earth-gnss-lunar-chart-earth-limb",
+            angle = crate::i18n::num(r.earth_limb_half_angle_deg, 1)
+        )
     ));
     // One marker per link.
     for l in &r.links {
@@ -856,14 +863,19 @@ fn egl_svg(r: &EarthGnssLunarReport) -> String {
         ));
     }
     s.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"{:.0}\" fill=\"{MUTED}\">off-boresight angle (deg)</text>\
-         <text x=\"20\" y=\"{:.0}\" fill=\"{MUTED}\">C/N0 (dB-Hz)</text>\
-         <text x=\"24\" y=\"{:.0}\" fill=\"{MUTED}\">gold = trackable · red = too weak · \
-         grey = Earth-occulted · MODELLED transmit pattern</text></svg>",
+        "<text x=\"{:.0}\" y=\"{:.0}\" fill=\"{MUTED}\">{}</text>\
+         <text x=\"20\" y=\"{:.0}\" fill=\"{MUTED}\">{}</text>\
+         <text x=\"24\" y=\"{:.0}\" fill=\"{MUTED}\">{}</text></svg>",
         ml + pw / 2.0 - 70.0,
         mt + ph + 34.0,
+        crate::t!("earth-gnss-lunar-chart-off-boresight-angle"),
         mt - 12.0,
-        h - 16.0
+        crate::t!("earth-gnss-lunar-chart-cn0"),
+        h - 16.0,
+        crate::t!(
+            "earth-gnss-lunar-chart-legend",
+            modelled = crate::t!("fom-verdict-modelled")
+        )
     ));
     s
 }

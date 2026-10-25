@@ -72,11 +72,14 @@ fn with_provenance(svg: String, hash12: &str) -> String {
     let w = parse_svg_dim(&svg, "width").unwrap_or(800.0);
     let h = parse_svg_dim(&svg, "height").unwrap_or(420.0);
     let footer = format!(
-        "<text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"end\" fill=\"{MUTED}\" font-size=\"10\" font-family=\"{FONT_SANS}\">Kshana v{} \u{00b7} scenario {} \u{00b7} kshana.dev</text>",
+        "<text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"end\" fill=\"{MUTED}\" font-size=\"10\" font-family=\"{FONT_SANS}\">{}</text>",
         w - 8.0,
         h - 6.0,
-        env!("CARGO_PKG_VERSION"),
-        hash12,
+        crate::t!(
+            "api-chart-provenance-footer",
+            version = env!("CARGO_PKG_VERSION"),
+            hash = hash12
+        ),
     );
     match svg.rfind("</svg>") {
         Some(i) => {

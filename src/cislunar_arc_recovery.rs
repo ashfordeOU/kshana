@@ -1232,12 +1232,14 @@ fn svg(c: &Computed) -> String {
     s.push_str(&format!(
         "<rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"{BG}\"/>"
     ));
-    s.push_str(
-        "<text x=\"24\" y=\"24\" font-size=\"15\" font-weight=\"bold\">Cislunar arc-length recovery — an estimator that does not share the Jacobians</text>",
-    );
-    s.push_str(
-        &format!("<text x=\"24\" y=\"40\" font-size=\"11\" fill=\"{MUTED}\">finite-difference batch least squares · measured state recovery error · no analytic Jacobian, no variational STM, no SVD rank tolerance</text>"),
-    );
+    s.push_str(&format!(
+        "<text x=\"24\" y=\"24\" font-size=\"15\" font-weight=\"bold\">{}</text>",
+        crate::t!("cislunar-arc-recovery-chart-title")
+    ));
+    s.push_str(&format!(
+        "<text x=\"24\" y=\"40\" font-size=\"11\" fill=\"{MUTED}\">{}</text>",
+        crate::t!("cislunar-arc-recovery-chart-subtitle")
+    ));
 
     let log_panel = |s: &mut String,
                      x0: f64,
@@ -1286,9 +1288,13 @@ fn svg(c: &Computed) -> String {
             px + pw
         ));
         s.push_str(&format!(
-            "<text x=\"{:.0}\" y=\"{:.1}\" text-anchor=\"end\" font-size=\"10\" fill=\"{MUTED}\">bound {bound:.3e}</text>",
+            "<text x=\"{:.0}\" y=\"{:.1}\" text-anchor=\"end\" font-size=\"10\" fill=\"{MUTED}\">{}</text>",
             px + pw,
-            by - 4.0
+            by - 4.0,
+            crate::t!(
+                "cislunar-arc-recovery-chart-bound",
+                bound = crate::i18n::num_e(bound, 3)
+            )
         ));
         if let Some(mk) = marker {
             let mx = xof(mk);
@@ -1327,9 +1333,10 @@ fn svg(c: &Computed) -> String {
             axis_y + 16.0
         ));
         s.push_str(&format!(
-            "<text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"end\" font-size=\"10\" fill=\"{MUTED}\">{tmax:.2} h</text>",
+            "<text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"end\" font-size=\"10\" fill=\"{MUTED}\">{} h</text>",
             px + pw,
-            axis_y + 16.0
+            axis_y + 16.0,
+            crate::i18n::num(tmax, 2)
         ));
     };
 
@@ -1347,20 +1354,20 @@ fn svg(c: &Computed) -> String {
     log_panel(
         &mut s,
         60.0,
-        "Monte-Carlo RMS position recovery error (km)",
+        &crate::t!("cislunar-arc-recovery-chart-monte-carlo-rms"),
         &mc,
         c.error_bound_km,
         c.claim.rank_threshold_hours,
-        "Gramian rank threshold",
+        &crate::t!("cislunar-arc-recovery-chart-gramian-rank-threshold"),
     );
     log_panel(
         &mut s,
         500.0,
-        "noise-free worst recovery ratio (final error / displacement)",
+        &crate::t!("cislunar-arc-recovery-chart-noise-free-worst-ratio"),
         &nf,
         c.recovery_factor,
         c.claim.rank_threshold_hours,
-        "Gramian rank threshold",
+        &crate::t!("cislunar-arc-recovery-chart-gramian-rank-threshold"),
     );
     s.push_str("</svg>");
     s
