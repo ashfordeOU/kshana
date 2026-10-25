@@ -140,8 +140,7 @@ seg-1e466f300d6e = Pin v{ $version }
 seg-d8008680650d = For anyone, nothing to install.
 
 # text
-# c1: 
-seg-dca88d8e959c = <a1>Launch Kshana Studio <c1/></a1>
+seg-f79048f88b5c = Launch Kshana Studio
 
 # text
 seg-567be575c392 = The engine runs locally as WebAssembly; nothing is uploaded.
@@ -499,8 +498,7 @@ seg-62b5564e8d90 = The recorded session plays here step by step.
 seg-2359edf78388 = <b>Same run in the Studio:</b> Engine v{ $version } · <c1/> · seed { "42" }
 
 # text
-# c1: 
-seg-0d9fca5fdcfe = <a1>Open in Kshana Studio<c1/></a1>
+seg-9a86ef058d27 = Open in Kshana Studio
 
 # attr:title
 seg-34a0cf94d83d = Open the run's exports in Kshana Studio: reproducible HTML report, JSON, CSV
@@ -1386,8 +1384,7 @@ seg-e47be3bb3de3 = Any bundled scenario, run on your machine as WebAssembly; not
 seg-b21664dae8a2 = Only Kshana Studio, for a course page or a report, with the scenario and view preselected
 
 # text
-# c1: 
-seg-a1eb14667da4 = <a1>Open an embedded view <c1/></a1>
+seg-d124f667aba2 = Open an embedded view
 
 # text
 seg-a08d0d3e393c = kshana <scenario>.toml writes result.json, chart.svg and report.html
@@ -1429,8 +1426,7 @@ seg-4ad1a7669b03 = The MCP server without a Rust toolchain, multi-architecture
 seg-9e409a07b3c9 = Right-click a scenario .toml, Run Kshana Scenario, read the figures in a tool window
 
 # text
-# c1: 
-seg-5adf0fce3ddc = <a1>Open the page <c1/></a1>
+seg-5c54a28b6aec = Open the page
 
 # text
 seg-a942825ac543 = Command line · libraries · formats
@@ -1546,8 +1542,7 @@ seg-fb4a40bdf623 = run.mjs · Node.js, after <c1/>
 seg-fcdffb554680 = The same package runs in the browser; it is what Kshana Studio uses. <a1>npm docs</a1>
 
 # text
-# c1: 
-seg-4d9255bdc9d0 = <a1>Open in Kshana Studio: clock-holdover <c1/></a1>
+seg-c313ec6ff2e9 = Open in Kshana Studio: clock-holdover
 
 # text
 seg-bca1c3e60fc6 = Interoperability · read and write
@@ -1685,8 +1680,7 @@ seg-844c84c5252d = Prefer to click?
 seg-6b24b242333a = The "Kshana — PNT simulator" plugin: right-click any scenario <c1/>, choose Run Kshana Scenario, and read the figures of merit in a tool window.
 
 # text
-# c1: 
-seg-4130e4cf64aa = <a1>Open in JetBrains Marketplace <c1/></a1>
+seg-65bab13d3eb4 = Open in JetBrains Marketplace
 
 # text
 seg-8b49f6477e8f = Open core
@@ -1706,5 +1700,4 @@ seg-bd7b70852d88 = Run the benchmark.
 seg-193ee1ab991e = <c1/> turns a submission file and a split's truth into a result file, and <c2/> renders result files into a static page. Nothing runs on your behalf and nothing is uploaded.
 
 # text
-# c1: 
-seg-eb0b1bc759e2 = <a1>Open the benchmark <c1/></a1>
+seg-0c50b3629e39 = Open the benchmark
