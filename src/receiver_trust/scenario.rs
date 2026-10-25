@@ -1283,13 +1283,31 @@ pub fn run_toml(src: &str) -> Result<TrustOutput, String> {
 }
 
 /// Run an already-parsed scenario and render every output.
+///
+/// The result document and the CSV are machine files and are English in every language. The chart
+/// and the summary are for a person: in another language the run is made again in that language
+/// for them (an English run is one run).
 pub fn run_scenario(scn: &ReceiverTrustScenario) -> Result<TrustOutput, String> {
-    let r = run_receiver_trust(scn)?;
+    let wanted = crate::i18n::current();
+    let r = crate::i18n::in_english_or_localised_error(|| run_receiver_trust(scn))?;
+    let (json, csv) = crate::i18n::in_english(|| {
+        Ok::<_, String>((
+            serde_json::to_string_pretty(&r).map_err(|e| e.to_string())?,
+            to_csv(&r),
+        ))
+    })?;
+    // A run that succeeds in English succeeds in every language; if it does not, English stands.
+    let human = if wanted.is_english() {
+        None
+    } else {
+        run_receiver_trust(scn).ok()
+    };
+    let h = human.as_ref().unwrap_or(&r);
     Ok(TrustOutput {
-        json: serde_json::to_string_pretty(&r).map_err(|e| e.to_string())?,
-        csv: to_csv(&r),
-        svg: to_svg(&r),
-        summary: summary(&r),
+        json,
+        csv,
+        svg: to_svg(h),
+        summary: summary(h),
     })
 }
 

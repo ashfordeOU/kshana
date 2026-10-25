@@ -446,13 +446,12 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
         std::fs::write(p, serde_json::to_string_pretty(&v).unwrap_or_default())
             .map_err(|e| Fail::Run(format!("{p}: {e}")))?;
     }
-    Ok(table(&names, &summary.channels) + &warning_lines(&warnings))
+    Ok(table(&names, &summary.channels) + &warning_lines(&spec, &codes))
 }
 
-/// The `commensurate_sampling` warnings for `codes` on a stream sampled as `spec`: one per
-/// distinct chip rate whose samples per chip is a multiple of 1/2 (see
-/// [`commensurate_samples_per_chip`]).
-pub(crate) fn sampling_warnings(spec: &SampleSpec, codes: &[SignalCode]) -> Vec<serde_json::Value> {
+/// The commensurate-sampling findings for `codes` on a stream sampled as `spec`: the chip rate,
+/// the samples per chip and the code's name, one per distinct chip rate.
+fn commensurate_findings(spec: &SampleSpec, codes: &[SignalCode]) -> Vec<(f64, f64, String)> {
     let mut seen: Vec<f64> = Vec::new();
     let mut out = Vec::new();
     for c in codes {
@@ -462,23 +461,48 @@ pub(crate) fn sampling_warnings(spec: &SampleSpec, codes: &[SignalCode]) -> Vec<
         }
         seen.push(rate);
         if let Some(r) = commensurate_samples_per_chip(spec.fs_hz, rate) {
-            out.push(serde_json::json!({
-                "kind": "commensurate_sampling",
-                "fs_hz": spec.fs_hz,
-                "chip_rate_hz": rate,
-                "samples_per_chip": r,
-                "message": crate::t!("iq-cli-track-hz-is-samples-per-chip", fs_hz = spec.fs_hz, r = r, c = c.name(), lit_0_09 = crate::i18n::num(0.09_f64, 2)),
-            }));
+            out.push((rate, r, c.name().to_string()));
         }
     }
     out
 }
 
-/// The warnings as lines for the command's printed output.
-pub(crate) fn warning_lines(w: &[serde_json::Value]) -> String {
-    w.iter()
-        .filter_map(|v| v["message"].as_str())
-        .map(|m| format!("\nwarning: {m}"))
+/// The `commensurate_sampling` warnings for `codes` on a stream sampled as `spec`: one per
+/// distinct chip rate whose samples per chip is a multiple of 1/2 (see
+/// [`commensurate_samples_per_chip`]). These go into JSON documents, so their text is English
+/// in every language; [`warning_lines`] is the same warnings for the terminal.
+pub(crate) fn sampling_warnings(spec: &SampleSpec, codes: &[SignalCode]) -> Vec<serde_json::Value> {
+    crate::i18n::in_english(|| {
+        commensurate_findings(spec, codes)
+            .into_iter()
+            .map(|(rate, r, c)| {
+                serde_json::json!({
+                    "kind": "commensurate_sampling",
+                    "fs_hz": spec.fs_hz,
+                    "chip_rate_hz": rate,
+                    "samples_per_chip": r,
+                    "message": commensurate_message(spec.fs_hz, r, &c),
+                })
+            })
+            .collect()
+    })
+}
+
+fn commensurate_message(fs_hz: f64, r: f64, c: &str) -> String {
+    crate::t!(
+        "iq-cli-track-hz-is-samples-per-chip",
+        fs_hz = fs_hz,
+        r = r,
+        c = c,
+        lit_0_09 = crate::i18n::num(0.09_f64, 2)
+    )
+}
+
+/// The warnings as lines for the command's printed output, in the language of the run.
+pub(crate) fn warning_lines(spec: &SampleSpec, codes: &[SignalCode]) -> String {
+    commensurate_findings(spec, codes)
+        .into_iter()
+        .map(|(_, r, c)| format!("\nwarning: {}", commensurate_message(spec.fs_hz, r, &c)))
         .collect()
 }
 

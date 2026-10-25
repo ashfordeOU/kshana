@@ -181,7 +181,8 @@ fn dispatch(cmd: &str, a: &Args) -> Result<String, Fail> {
                 hash: !a.has("--no-hash"),
                 workers: a.num("--workers").map_err(Fail::Usage)?.unwrap_or(0),
             };
-            let rows = scan_dir(Path::new(&a.pos[0]), opts)?;
+            // The rows go into JSON and CSV: their error texts are English in every language.
+            let rows = crate::i18n::in_english(|| scan_dir(Path::new(&a.pos[0]), opts))?;
             if let Some(p) = a.opts.get("--json") {
                 std::fs::write(p, rows_to_json(&rows)?)
                     .map_err(|e| Fail::Run(format!("{p}: {e}")))?;
@@ -192,7 +193,8 @@ fn dispatch(cmd: &str, a: &Args) -> Result<String, Fail> {
             }
             Ok(inventory_table(&rows))
         }
-        "info" => {
+        // The document is the whole output and is read by programs: English in every language.
+        "info" => crate::i18n::in_english_or_localised_error(|| {
             need_pos(a, 1, cmd)?;
             let p = Path::new(&a.pos[0]);
             let mut e = super::inventory::inventory_entry(p, true);
@@ -210,7 +212,7 @@ fn dispatch(cmd: &str, a: &Args) -> Result<String, Fail> {
                 e.error = None;
             }
             serde_json::to_string_pretty(&e).map_err(|e| Fail::Run(e.to_string()))
-        }
+        }),
         "extract" | "convert" | "decimate" => {
             need_pos(a, 2, cmd)?;
             let input = open_recording_with(

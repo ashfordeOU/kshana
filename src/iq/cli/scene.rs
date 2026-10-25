@@ -240,6 +240,8 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
     // Optional propagation channel applied to every satellite.
     let chan = super::channel::ChannelParams::from_args(&a)?;
     let mut chan_desc = chan.describe();
+    // The same description for the files (the SigMF annotation): English in every language.
+    let mut chan_desc_en = crate::i18n::in_english(|| chan.describe());
     let mut inner = None;
     if chan.any() {
         let carrier = scene
@@ -266,6 +268,13 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
                 chan_desc = chan_desc,
                 segments = prof.segments.len()
             );
+            chan_desc_en = crate::i18n::in_english(|| {
+                crate::t!(
+                    "iq-cli-scene-n0-profile-segment",
+                    chan_desc = chan_desc_en,
+                    segments = prof.segments.len()
+                )
+            });
             scene.set_channel(Box::new(Cn0ProfileChannel::new(prof.clone(), inner)));
         }
         (None, Some(ch)) => scene.set_channel(ch),
@@ -363,21 +372,35 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
             crate::i18n::localise_decimal(format!("{:.4}", rms / sc)),
         )
     });
+    // The note written into the sidecar and the metadata files: English in every language.
+    let scale_note_en = crate::i18n::in_english(|| {
+        scale.map(|sc| {
+            (
+                crate::i18n::localise_decimal(format!("{:.6e}", sc)),
+                crate::i18n::localise_decimal(format!("{:.4}", rms / sc)),
+            )
+        })
+    });
 
     let meta_note = if want_sdrx {
-        let comment = match &scale_note {
-            Some((sc, v1)) => crate::t!(
-                "iq-cli-scene-written-by-kshana-iq-scene-integer-scale",
-                sc = sc,
-                v1 = v1,
-                clipped = clipped
-            ),
-            None => crate::t!("iq-cli-scene-written-by-kshana-iq-scene"),
+        let comment = match &scale_note_en {
+            Some((sc, v1)) => crate::i18n::in_english(|| {
+                crate::t!(
+                    "iq-cli-scene-written-by-kshana-iq-scene-integer-scale",
+                    sc = sc,
+                    v1 = v1,
+                    clipped = clipped
+                )
+            }),
+            None => {
+                crate::i18n::in_english(|| crate::t!("iq-cli-scene-written-by-kshana-iq-scene"))
+            }
         };
         let path = write_sdrx_meta(&a.pos[0], &data_path, format, &spec, &comment)?;
         crate::t!("iq-cli-scene-ion-sdr-metadata", path = path)
     } else if want_sigmf {
-        let meta_path = write_sigmf_meta(&a.pos[0], &spec, &sat_meta, &chan_desc, summary.samples)?;
+        let meta_path =
+            write_sigmf_meta(&a.pos[0], &spec, &sat_meta, &chan_desc_en, summary.samples)?;
         crate::t!(
             "iq-cli-scene-sigmf-data-meta",
             data_path = data_path,
@@ -393,14 +416,18 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
             channels: None,
             channel: None,
             datetime: None,
-            description: Some(match &scale_note {
-                Some((sc, v1)) => crate::t!(
-                    "iq-cli-scene-written-by-kshana-iq-scene-2-integer-scale",
-                    sc = sc,
-                    v1 = v1,
-                    clipped = clipped
-                ),
-                None => crate::t!("iq-cli-scene-written-by-kshana-iq-scene-2"),
+            description: Some(match &scale_note_en {
+                Some((sc, v1)) => crate::i18n::in_english(|| {
+                    crate::t!(
+                        "iq-cli-scene-written-by-kshana-iq-scene-2-integer-scale",
+                        sc = sc,
+                        v1 = v1,
+                        clipped = clipped
+                    )
+                }),
+                None => crate::i18n::in_english(|| {
+                    crate::t!("iq-cli-scene-written-by-kshana-iq-scene-2")
+                }),
             }),
         };
         let sidecar_path = write_sidecar(out, &sidecar)?;
@@ -611,7 +638,7 @@ fn write_sdrx_meta(
 
 /// The `.sigmf-data` path for `path`.
 fn sigmf_data_path(path: &str) -> String {
-    crate::t!("iq-cli-scene-sigmf-data", sigmf_base = sigmf_base(path))
+    crate::i18n::in_english(|| crate::t!("iq-cli-scene-sigmf-data", sigmf_base = sigmf_base(path)))
 }
 
 /// Write the `.sigmf-meta` document (one capture, one annotation per satellite plus one for
@@ -653,7 +680,9 @@ fn write_sigmf_meta(
         comment: Some(chan_desc.to_string()),
     });
     let json = meta_to_json(&meta).map_err(Fail::Run)?;
-    let meta_path = crate::t!("iq-cli-scene-sigmf-meta", sigmf_base = sigmf_base(path));
+    let meta_path = crate::i18n::in_english(|| {
+        crate::t!("iq-cli-scene-sigmf-meta", sigmf_base = sigmf_base(path))
+    });
     std::fs::write(&meta_path, json).map_err(|e| Fail::Run(format!("{meta_path}: {e}")))?;
     Ok(meta_path)
 }

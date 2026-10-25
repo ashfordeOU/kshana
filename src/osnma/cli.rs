@@ -372,8 +372,11 @@ fn report_json(a: &Analysis, p: &VerifyParams) -> serde_json::Value {
 /// any satellite's data failed a check (the command line's exit status 3). Nothing is read from
 /// or written to disk. The report states the advisory in its `advisory` field.
 pub fn verify_report(raw: Vec<u8>, p: &VerifyParams) -> Result<(serde_json::Value, bool), String> {
-    let a = analyse(raw, p)?;
-    Ok((report_json(&a, p), a.any_failed()))
+    // The report is a machine document: English in every language.
+    crate::i18n::in_english_or_localised_error(|| {
+        let a = analyse(raw.clone(), p)?;
+        Ok((report_json(&a, p), a.any_failed()))
+    })
 }
 
 /// Parse a `ID:TYPE:HEX` trusted public key, as `--public-key` takes it.
@@ -424,7 +427,13 @@ pub fn run(args: &[String]) -> i32 {
         reference: o.reference,
         max_err: o.max_err,
     };
-    let a = match analyse(raw, &params) {
+    // `--json` prints a machine document: it is analysed and built in English in every language.
+    let analysed = if o.json {
+        crate::i18n::in_english_or_localised_error(|| analyse(raw.clone(), &params))
+    } else {
+        analyse(raw, &params)
+    };
+    let a = match analysed {
         Ok(a) => a,
         Err(e) => {
             eprintln!("{advisory}\n\nerror: {e}");
@@ -432,7 +441,7 @@ pub fn run(args: &[String]) -> i32 {
         }
     };
     if o.json {
-        match serde_json::to_string_pretty(&report_json(&a, &params)) {
+        match serde_json::to_string_pretty(&crate::i18n::in_english(|| report_json(&a, &params))) {
             Ok(s) => println!("{s}"),
             Err(e) => {
                 eprintln!("{advisory}\n\nerror: {e}");

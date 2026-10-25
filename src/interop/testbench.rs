@@ -1000,8 +1000,10 @@ pub fn export_with_notes(
     src: &str,
     epoch: Option<UtcEpoch>,
 ) -> Result<(Vec<ExportFile>, Vec<String>), ExportError> {
-    let t = trajectory_of(src, epoch)?;
-    Ok(files_and_notes_of(&t))
+    crate::i18n::in_english_or_localised_error(|| {
+        let t = trajectory_of(src, epoch)?;
+        Ok(files_and_notes_of(&t))
+    })
 }
 
 /// The files of an already-built trajectory.
