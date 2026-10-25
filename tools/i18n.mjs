@@ -18,8 +18,9 @@
 //    unchanged English segment keeps its id (translation memory) and a changed one gets a new id.
 
 import { createHash } from 'node:crypto';
-import { readdirSync, readFileSync, writeFileSync, mkdirSync, existsSync, statSync, rmSync } from 'node:fs';
+import { readdirSync, readFileSync, writeFileSync, mkdirSync, existsSync, statSync, rmSync, copyFileSync } from 'node:fs';
 import { join, relative, dirname, sep } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 const BLOCK = new Set(['address', 'article', 'aside', 'blockquote', 'body', 'caption', 'dd', 'details', 'div', 'dl', 'dt',
   'fieldset', 'figcaption', 'figure', 'footer', 'form', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'header', 'hgroup', 'hr', 'html',
@@ -319,6 +320,7 @@ function args2opt(args, defaults) {
 }
 
 async function lang() { return import('./i18n-lang.mjs'); }
+async function site() { return import('./i18n-site.mjs'); }
 
 const NAMES = { de: 'Deutsch', fr: 'Français', es: 'Español', 'pt-BR': 'Português (Brasil)', 'pt-PT': 'Português (Portugal)', nl: 'Nederlands', da: 'Dansk', sv: 'Svenska', nb: 'Norsk bokmål', pl: 'Polski', cs: 'Čeština', uk: 'Українська', ru: 'Русский', fi: 'Suomi', et: 'Eesti', ja: '日本語', 'zh-Hans': '简体中文' };
 
@@ -369,6 +371,7 @@ async function pseudo(args) {
 /** apply: write the translated tree of one language next to the English tree. */
 async function apply(args) {
   const L = await lang();
+  const S = await site();
   const { opt, pos } = args2opt(args, { src: 'web', root: 'i18n', out: 'dist', skip: 'studio,playground,assets', origin: 'https://kshana.dev' });
   const skip = String(opt.skip).split(',').filter(Boolean);
   const pages = walk(opt.src, skip);
@@ -385,50 +388,38 @@ async function apply(args) {
       T += r.translated; M += r.missing;
       const dst = join(opt.out, lang, rel);
       mkdirSync(dirname(dst), { recursive: true });
-      writeFileSync(dst, decorate(r.html, { lang, rel, bundle, missing: r.missing, translated: r.translated, pages, origin: opt.origin, langs: L.LANGS }));
+      writeFileSync(dst, S.decoratePage(r.html, { lang, rel, bundle, missing: r.missing, translated: r.translated, pages, origin: opt.origin, langs: L.LANGS }));
     }
     report.push(`${lang}: ${T} segments translated, ${M} left in English, ${pages.length} pages`);
   }
   console.log(report.join('\n'));
 }
 
-const DIR = (lang) => (['ar', 'he', 'fa', 'ur'].includes(lang.split('-')[0]) ? 'rtl' : 'ltr');
-const pageUrl = (rel) => '/' + rel.replace(/(^|\/)index\.html$/, '$1').replace(/\.html$/, '');
-
-/** lang and dir, the notices, hreflang, a base for relative URLs, links to other pages kept inside the language. */
-function decorate(html, { lang, rel, bundle, missing, translated, pages, origin, langs }) {
-  const pageSet = new Set(pages.map(pageUrl));
-  const pre = '/' + lang;
-  const here = pageUrl(rel);
-  const dirOfPage = here.endsWith('/') ? here : here.slice(0, here.lastIndexOf('/') + 1);
-  let out = html.replace(/<html\b[^>]*>/i, `<html lang="${lang}" dir="${DIR(lang)}">`);
-  // links to other site pages and in-page fragments stay inside the language (a <base> would otherwise send them out)
-  out = out.replace(/(<a\b[^>]*?\shref=)("([^"]*)"|'([^']*)')/gi, (m, a, q, d, s2) => {
-    const href = d ?? s2;
-    if (href.startsWith('#')) return `${a}"${pre}${here}${href}"`;
-    if (/^[a-z][a-z0-9+.-]*:|^\/\//i.test(href)) return m;
-    const u = new URL(href, 'https://x' + (here.endsWith('/') ? here : here)); // resolve against the page's own URL
-    const p = u.pathname.replace(/\/index\.html$/, '/').replace(/\.html$/, '');
-    if (pageSet.has(p) || pageSet.has(p + '/') || pageSet.has(p.replace(/\/$/, ''))) return `${a}"${pre}${p}${u.search}${u.hash}"`;
-    return m;
-  });
-  // the original directory stays the base for assets and scripts that use relative URLs
-  if (!/<base\b/i.test(out)) out = out.replace(/<head\b[^>]*>/i, (h) => `${h}<base href="${dirOfPage}">`);
-  const alt = ['en', ...langs].map((l) => `<link rel="alternate" hreflang="${l}" href="${origin}${l === 'en' ? '' : '/' + l}${here}">`).join('') + `<link rel="alternate" hreflang="x-default" href="${origin}${here}">`;
-  out = out.replace('</head>', `${alt}<link rel="canonical" href="${origin}${pre}${here}"></head>`);
-  const msg = (id, vars) => { const m = bundle.getMessage(id); return m && m.value ? bundle.formatPattern(m.value, vars || {}) : null; };
-  const mt = msg('notice-machine-translation');
-  const fb = missing ? msg('notice-fallback', { n: missing }) : null;
-  const adv = msg('-advisory') ;
-  const notice = `<div class="i18n-notice" role="note" lang="${lang}"><p>${esc2(mt || '')}</p>${fb ? `<p>${esc2(fb)}</p>` : ''}</div>`;
-  out = out.replace(/(<main\b[^>]*>)/i, `$1${notice}`);
-  return out;
+/** english: decorate the English tree in place (or into --out): language script, switcher, hreflang. Run after the site build. */
+async function english(args) {
+  const L = await lang();
+  const S = await site();
+  const { opt } = args2opt(args, { src: 'web', root: 'i18n', out: '', skip: 'studio,playground,assets', origin: 'https://kshana.dev' });
+  const out = opt.out || opt.src;
+  const pages = walk(opt.src, String(opt.skip).split(',').filter(Boolean));
+  const all = walk(opt.src, []);
+  for (const rel of all) {
+    const html = readFileSync(join(opt.src, rel), 'utf8');
+    const inScope = pages.includes(rel);
+    const bundle = L.bundleFor('en', L.catalogueFiles(opt.root, 'en', rel));
+    const res = inScope ? S.decoratePage(html, { lang: 'en', rel, bundle, pages, origin: opt.origin, langs: L.LANGS }) : html;
+    const dst = join(out, rel);
+    mkdirSync(dirname(dst), { recursive: true });
+    writeFileSync(dst, res);
+  }
+  mkdirSync(join(out, 'css'), { recursive: true });
+  copyFileSync(join(dirname(fileURLToPath(import.meta.url)), 'i18n-assets', 'i18n.css'), join(out, 'css', 'i18n.css'));
+  console.log(`english: ${pages.length} pages decorated in ${out}`);
 }
-const esc2 = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
 
 const [cmd, ...rest] = process.argv.slice(2);
 if (import.meta.url === `file://${process.argv[1]}`) {
-  const run = { extract: async () => extract(rest), status: () => status(rest), check: () => check(rest), pseudo: () => pseudo(rest), apply: () => apply(rest) }[cmd];
+  const run = { extract: async () => extract(rest), status: () => status(rest), check: () => check(rest), pseudo: () => pseudo(rest), apply: () => apply(rest), english: () => english(rest) }[cmd];
   if (run) await run();
   else if (!cmd) { console.error('usage: node tools/i18n.mjs extract|apply|check|status|pseudo|csslint'); process.exit(2); }
   else { console.error(`i18n: '${cmd}' is not built yet`); process.exit(2); }
