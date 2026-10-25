@@ -9,3 +9,7 @@ seg-5ad814c7ef9e = Примітки
 seg-aab745a65e76 = Модуль
 
 seg-bf09433a7342 = GeoJSON
+
+seg-906440b861cd = Кадр
+
+seg-32b620b3574e = Використання
