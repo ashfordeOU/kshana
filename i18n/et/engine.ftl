@@ -2,3 +2,7451 @@
 # et catalogue of the engine messages (i18n/en/engine.ftl is the source).
 # A message missing here is shown in English, per message. Translators: keep every $variable
 # of the English message, keep the message ids, and do not translate error codes (E-...).
+
+## src/clock_log.rs
+
+engine-e-clock-log-unknown-clock-log-format-expected = tundmatu kellalogi formaat { $other }; oodatud on üks järgmistest: { $format_names }
+
+engine-e-clock-log-unknown-gap-policy-expected-refuse = tundmatu lünga käsitlemise reegel { $other }; oodatud on refuse, longest või linear
+
+engine-e-clock-log-give-either-the-log-text = esita kas logi tekst või selle tee, mitte mõlemat
+
+engine-e-clock-log-clock-log-needs-its-text = kellalogi jaoks on vaja selle teksti või teed
+
+engine-e-clock-log-tau0-must-be-finite-and = tau0_s peab olema lõplik ja > 0 (saadi { $t })
+
+engine-e-clock-log-units-and-data-apply-to = units ja data kehtivad ainult timelab-formaadile
+
+engine-e-clock-log-channel-applies-to-the-ticc = channel kehtib ainult ticc-formaadile
+
+engine-e-clock-log-cannot-read-clock-log = kellalogi { $path } lugemine ebaõnnestus: { $e }
+
+engine-e-clock-log-clock-log-path-is-not = kellalogi teed WebAssembly-järgus ei toetata; esita logi tekstina
+
+engine-e-clock-log-the-log-has-missing-epoch =
+    { $n_missing ->
+        [one] { $format } logis puudub { $n_missing } epohh (lünkasid: { $n_gaps }) { $tau0 } s ruudustikul; kasuta gaps = "longest", et säilitada pikim lünkadeta lõik, või gaps = "linear", et interpoleerida
+       *[other] { $format } logis puudub { $n_missing } epohhi (lünkasid: { $n_gaps }) { $tau0 } s ruudustikul; kasuta gaps = "longest", et säilitada pikim lünkadeta lõik, või gaps = "linear", et interpoleerida
+    }
+
+engine-e-clock-log-the-log-yields-usable-sample = { $format } logist saadakse kasutatavaid valimeid: { $x }; vaja on vähemalt 3
+
+engine-e-clock-log-not-rinex-clock-file-no = pole RINEX-i kellafail: puudub END OF HEADER kirje
+
+engine-e-clock-log-the-rinex-clock-file-has = RINEX-i kellafailis puuduvad AS- ja AR-kirjed
+
+engine-e-clock-log-the-rinex-clock-file-holds = RINEX-i kellafail sisaldab kelli: { $many }; nimeta üks valikuga clock = "..." ({ $many2 })
+
+engine-e-clock-log-no-as-or-ar-records = kellal { $id } puuduvad AS- ja AR-kirjed
+
+engine-e-clock-log-the-clock-has-single-epoch = kellal on üksainus epohh; tau0 väärtust ei saa leida
+
+engine-e-clock-log-the-log-has-no-readings = { $format } logis pole näite
+
+engine-e-clock-log-unknown-phase-unit-expected-ms = tundmatu faasiühik { $other }; oodatud on s, ms, us, ns või ps
+
+engine-e-clock-log-timelab-line-has-column-the = TimeLab-i real { $v1 } on veerge: { $v }, esimesel andmereal: { $first }
+
+engine-e-clock-log-timelab-line-has-columns-one = TimeLab-i real { $v1 } on veerge: { $v }; loetakse üks (väärtus) või kaks (aeg väärtus)
+
+engine-e-clock-log-timelab-line-is-not-numeric = TimeLab-i rida { $v1 } ei ole arvuline: { $l }
+
+engine-e-clock-log-the-timelab-log-has-no = timelab-logis pole näite
+
+engine-e-clock-log-unknown-data-expected-phase-or = tundmatu data { $other }; oodatud on phase või frequency
+
+engine-e-clock-log-tau0-header-is-not-positive = tau0 päis { $v } ei ole positiivne sekundite arv
+
+engine-e-clock-log-frequency-data-is-fractional-frequency = sagedusandmed on suhteline sagedus; units võib olla ainult 1
+
+engine-e-clock-log-two-column-frequency-logs-are = kahe veeruga sagedusloge ei loeta; anna sagedus ühe veeruna koos tau0-ga
+
+engine-e-clock-log-unknown-time-units-expected-or = tundmatu time_units { $o }; oodatud on s või mjd
+
+engine-e-clock-log-the-timelab-log-time-column = timelab-logi ajaveerg peab kasvama
+
+engine-e-clock-log-single-reading-tau0-cannot-be = üksainus näit; tau0 väärtust ei saa leida
+
+engine-e-clock-log-the-timelab-log-has-non = timelab-logis on mittelõplikke näite: { $non_finite }
+
+engine-e-clock-log-the-ticc-log-holds-channels = TICC logi sisaldab kanaleid { $many }; nimeta üks valikuga channel = "..."
+
+engine-e-clock-log-no-readings-on-channel-found = kanalil { $channel } pole näite (leitud: { $labels })
+
+engine-e-clock-log-ticc-interval-mode-lines-carry = TICC intervallirežiimi read ei sisalda aega; anna tau0_s (sündmuse periood)
+
+engine-e-clock-log-the-readings-do-not-increase = { $channel } näidud ei kasva, seega need pole ajatemplid (TICC Period-režiimi väljundit ei loeta; kasuta Timestamp-režiimi)
+
+engine-e-clock-log-single-time-stamp-tau0-cannot = üksainus ajatempel; tau0 väärtust ei saa leida
+
+engine-e-clock-log-two-time-stamps-apart-under = kaks { $channel } ajatemplit { $w } s kaugusel, alla poole tau0 = { $tau0 } s
+
+engine-e-clock-log-the-time-stamps-of-go = { $format } logi { $clock } ajatemplid lähevad tagasi (taaskäivitatud deemon või kellahüpe); jaga logi ja loe iga osa eraldi
+
+engine-e-clock-log-the-log-has-no-readings-2 = logis pole { $what } näite
+
+engine-e-clock-log-the-log-holds-sources-name = logi sisaldab allikaid: { $many }; nimeta üks valikuga { $selector } = "..." ({ $many2 })
+
+engine-e-clock-log-no-readings-for-found = { $id } jaoks pole { $what } näite (leitud: { $names })
+
+engine-e-clock-log-the-servo-of-never-reached = { $id } servo ei jõudnud kunagi lukustatud olekusse s2
+
+engine-e-clock-log-the-log-has-no-chrony = logis pole chrony jälgimisnäite
+
+## src/acquisition.rs
+
+engine-e-acquisition-sample-rate-hz-is-not = valimisagedus { $fs_hz } Hz ei anna täisarvu valimeid millisekundi kohta
+
+engine-e-acquisition-coherent-ms-and-noncoherent-must = coherent_ms ja noncoherent peavad olema positiivsed
+
+engine-e-acquisition-the-doppler-grid-needs-positive = Doppleri ruudustik vajab positiivset sammu ja mittenegatiivset maksimumi
+
+engine-e-acquisition-pfa-must-lie-in = pfa peab olema vahemikus (0, 1)
+
+engine-e-acquisition-samples-supplied-needed = antud valimeid: { $samples }, vaja: { $needed }
+
+engine-e-acquisition-empty-doppler-grid = tühi Doppleri ruudustik
+
+engine-e-acquisition-the-samples-carry-no-power = valimid ei sisalda võimsust
+
+## src/adm.rs
+
+engine-e-adm-unknown-attitude-type = tundmatu ATTITUDE_TYPE { $s }
+
+engine-e-adm-an-aem-needs-at-least = AEM vajab vähemalt ühte segmenti
+
+engine-e-adm-segment-is-not-version-attitude = segment { $i }: { $t } ei ole versiooni { $version } orientatsioonitüüp
+
+engine-e-adm-segment-values-for = segment { $i }: väärtusi { $values } tüübi { $t } jaoks
+
+engine-e-adm-aem-version-has-no-ndm = AEM versioonil 1.0 puudub siin NDM/XML-vorm; kirjuta KVN-ina
+
+engine-e-adm-this-attitude-type-has-no = sellel orientatsioonitüübil puudub versiooni 2.0 vorm
+
+engine-e-adm-expected-meta-start-found = oodatud META_START, leitud { $l }
+
+engine-e-adm-meta-start-without-meta-stop = META_START ilma META_STOP-ita
+
+engine-e-adm-unexpected-metadata-line = ootamatu metaandmete rida { $other }
+
+engine-e-adm-in-version-aem = { $att } versiooni { $version } AEM-is
+
+engine-e-adm-interpolation-degree = INTERPOLATION_DEGREE { $d }: { $e }
+
+engine-e-adm-expected-data-start-after-meta = oodatud DATA_START pärast META_STOP-i
+
+engine-e-adm-data-start-without-data-stop = DATA_START ilma DATA_STOP-ita
+
+engine-e-adm-empty-data-line = tühi andmerida
+
+engine-e-adm-values-on-line = väärtusi { $vals } { $att } real: { $b }
+
+engine-e-adm-unexpected-data-line = ootamatu andmerida { $other }
+
+engine-e-adm-attitude-type-has-no-xml = orientatsioonitüübil puudub XML-vorm
+
+engine-e-adm-message-without-version-attribute = sõnum ilma versiooniatribuudita
+
+engine-e-adm-expected-found = oodatud { $vers_key }, leitud { $other }
+
+engine-e-adm-header-without-creation-date-or = päisel puudub CREATION_DATE või ORIGINATOR
+
+engine-e-adm-missing = puudub { $k }
+
+engine-e-adm-unexpected-keyword = ootamatu võtmesõna { $k }
+
+engine-e-adm-spin-block-holds-nutation-or = spin-plokk sisaldab nutatsiooni- või impulsimomendi andmeid, mitte mõlemaid
+
+engine-e-adm-unexpected-apm-keyword = ootamatu APM-i võtmesõna { $other }
+
+engine-e-adm-unexpected-apm-line = ootamatu APM-i rida { $b }
+
+engine-e-adm-without = { $b }: puudub { $stop }
+
+engine-e-adm-unexpected-line-in = ootamatu rida plokis { $b }: { $other }
+
+engine-e-adm-incomplete-group = mittetäielik rühm { $keys }
+
+engine-e-adm-unknown-apm-block-start = tundmatu APM-i plokk { $other }_START
+
+engine-e-adm-apm-metadata-needs-object-name = APM-i metaandmed vajavad väärtusi OBJECT_NAME, OBJECT_ID ja TIME_SYSTEM
+
+engine-e-adm-apm-without-epoch = APM ilma EPOCH-ita
+
+engine-e-adm-rotation-axis = pöörlemistelg { $o }
+
+engine-e-adm-values-for = väärtusi { $values } tüübi { $t } jaoks
+
+engine-e-adm-euler-record-without-euler-rot = Euleri kirje ilma EULER_ROT_SEQ-ita
+
+engine-e-adm-rotation-sequence = pöörete jada { $seq }
+
+engine-e-adm-epoch-has-no = epohhil { $s } puudub 'T'
+
+engine-e-adm-epoch-date = epohhi kuupäev { $date }
+
+engine-e-adm-epoch-time = epohhi kellaaeg { $time }
+
+## src/advanced_report.rs
+
+engine-advanced-report-text-as-the-document-states = „{ $s }“ (tekst nii, nagu dokument selle esitab)
+
+engine-advanced-report-mean-5th-to-95th-percentile = keskmine { $fmt_num } (5. kuni 95. protsentiil { $fmt_num2 } kuni { $fmt_num3 })
+
+engine-advanced-report-field-units-schema-units-entry = väljaühikute skeem: units-kirje `{ $key }`
+
+engine-advanced-report-field-units-schema-input-entry = väljaühikute skeem: input-kirje `{ $key }`, sobitatud välja nime järgi
+
+engine-advanced-report-rows-of-non-numeric-column =
+    { $n ->
+        [one] { $n } mittearvulise veeru rida
+       *[other] { $n } mittearvulise veeru rida
+    }
+
+engine-advanced-report-rows-from-to = ridu: { $nums }, vahemikus { $fmt_num } kuni { $fmt_num2 }
+
+engine-advanced-report-phase-ended-by = faas { $name } (lõpetas { $ended })
+
+engine-advanced-report-result-timeline-phases = tulemus `timeline.phases[{ $i }]`
+
+engine-advanced-report-hand-off-into-phase = üleandmine faasi { $phase }: { $h } → { $h2 } = { $h3 } { $h4 }
+
+engine-advanced-report-result-timeline-handoffs = tulemus `timeline.handoffs[{ $i }]`
+
+engine-advanced-report-scenario-input = stsenaariumi sisend `{ $prefix }`
+
+engine-advanced-report-scenario-file-comment-line = stsenaariumifaili kommentaar, rida { $start }
+
+engine-advanced-report-scenario-file-comment-lines-to = stsenaariumifaili kommentaar, read { $start } kuni { $v1 }
+
+engine-advanced-report-is-modelled-not-validated = { $requirement } on MODELLED, mitte kinnitatud: { $it }.
+
+engine-advanced-report-sweep-of-scale = Parameetri { $param } pühkimine (skaala: { $str_of })
+
+engine-e-advanced-report-the-result-document-is-not = tulemusdokument ei ole JSON: { $e }
+
+engine-e-advanced-report-the-scenario-is-not-toml = stsenaarium ei ole TOML: { $e }
+
+engine-advanced-report-monte-carlo-distribution-of = Monte Carlo jaotus: { $metric }
+
+engine-advanced-report-recorded-at-build-time-from = salvestatud ehitamise ajal keskkonnamuutujast { $GIT_COMMIT_ENV }
+
+engine-advanced-report-not-recorded-this-engine-was = salvestamata: see mootor ehitati ilma keskkonnamuutujata { $GIT_COMMIT_ENV }; mootori versioon identifitseerib väljalaske
+
+engine-advanced-report-the-kind-own-fingerprint-of = { $esc } (stsenaariumi liigi enda sõrmejälg; mitte faili räsi)
+
+engine-advanced-report-input-file = Sisendfail { $path }
+
+engine-advanced-report-study-generated = { " " }Koostatud uuring { $esc }.
+
+## src/altpnt/maps.rs
+
+engine-e-altpnt-maps-emag2-line-expected-comma-separated = EMAG2 rida { $v1 }: oodatud 8 komaga eraldatud veergu, leitud { $p }
+
+engine-e-altpnt-maps-emag2-line-bad = EMAG2 rida { $v1 }: vigane { $what } `{ $p }`
+
+engine-e-altpnt-maps-emag2-line-non-finite-value = EMAG2 rida { $v1 }: mittelõplik väärtus
+
+engine-e-altpnt-maps-emag2-no-data-rows = EMAG2: andmeridu pole
+
+engine-e-altpnt-maps-emag2-rows-do-not-fill =
+    { $n_lat ->
+        [one] EMAG2: { $rows } rida ei täida neid hõlmavat { $n_lat } x { $n_lon } võret
+       *[other] EMAG2: { $rows } rida ei täida neid hõlmavat { $n_lat } x { $n_lon } võret
+    }
+
+engine-e-altpnt-maps-emag2-duplicate-node-at = EMAG2: dubleeriv sõlm kohal { $lat }, { $lon }
+
+engine-e-altpnt-maps-grid-step-must-be-finite = ruudustiku samm peab olema lõplik ja positiivne, saadi { $step }
+
+engine-e-altpnt-maps-grid-box-must-have-north = ruudustiku kastil peab olema põhjapiir > lõunapiir ja idapiir > läänepiir, saadi [{ $south }, { $north }] x [{ $west }, { $east }]
+
+engine-e-altpnt-maps-grid-of-nodes-is-too =
+    { $n_lat ->
+        [one] { $n_lat } x { $n_lon } sõlmega ruudustik on liiga suur
+       *[other] { $n_lat } x { $n_lon } sõlmega ruudustik on liiga suur
+    }
+
+engine-e-altpnt-maps-emag2-the-axis-needs-at = EMAG2: { $what } telg vajab vähemalt 2 erinevat väärtust
+
+engine-e-altpnt-maps-emag2-the-axis-is-not = EMAG2: { $what } telg ei ole regulaarne (sammud { $w } kuni { $w2 } keskmise sammu { $step } suhtes)
+
+engine-e-altpnt-maps-error-sigma-must-be-finite = veasigma peab olema lõplik ja mittenegatiivne, saadi { $sigma }
+
+engine-e-altpnt-maps-correlation-length-must-be-finite = korrelatsioonipikkus peab olema lõplik ja positiivne, saadi { $corr_len_deg }
+
+## src/altpnt/terrain.rs
+
+engine-e-altpnt-terrain-samples-per-side-must-be =
+    { $n ->
+        [one] samples_per_side peab olema >= 2, saadi { $n }
+       *[other] samples_per_side peab olema >= 2, saadi { $n }
+    }
+
+engine-e-altpnt-terrain-srtm-hgt-length =
+    { $n ->
+        [one] SRTM .hgt pikkus { $bytes } != 2*{ $n }*{ $n } = { $v2 }
+       *[other] SRTM .hgt pikkus { $bytes } != 2*{ $n }*{ $n } = { $v2 }
+    }
+
+engine-e-altpnt-terrain-an-hgt-window-needs-at =
+    { $n_rows ->
+        [one] .hgt aken vajab vähemalt 2 x 2 valimit, saadi { $n_rows } x { $n_cols }
+       *[other] .hgt aken vajab vähemalt 2 x 2 valimit, saadi { $n_rows } x { $n_cols }
+    }
+
+engine-e-altpnt-terrain-step-must-be-finite-and = samm peab olema lõplik ja positiivne, saadi { $step_deg }
+
+engine-e-altpnt-terrain-hgt-window-length =
+    { $n_rows ->
+        [one] { "." }hgt akna pikkus { $bytes } != 2*{ $n_rows }*{ $n_cols } = { $v2 }
+       *[other] { "." }hgt akna pikkus { $bytes } != 2*{ $n_rows }*{ $n_cols } = { $v2 }
+    }
+
+engine-e-altpnt-terrain-combined-altpnt-unknown-magnetic-grid = combined-altpnt: tundmatu magnetic_grid veerg `{ $other }` (kasuta "sealevel" või "upcont")
+
+engine-e-altpnt-terrain-combined-altpnt-cannot-read-magnetic = combined-altpnt: magnetic_grid csv_path { $csv_path } lugemine ebaõnnestus: { $e }
+
+## src/animation.rs
+
+engine-e-animation-unknown-animation-format-expected-svg = tundmatu animatsiooni formaat '{ $other }'; oodatud on svg, html, frames või all
+
+engine-e-animation-no-animation-format-given-expected = animatsiooni formaat puudub; oodatud on svg, html, frames või all
+
+engine-e-animation-animation-fps-must-be-between = animatsiooni fps peab olema vahemikus 1 kuni 60, saadi { $fps }
+
+engine-e-animation-animation-duration-must-be-between = animatsiooni kestus peab olema vahemikus 0.5 s kuni 600 s, saadi { $duration_s }
+
+engine-e-animation-animation-width-must-be-between = animatsiooni laius peab olema vahemikus 480 kuni 3840 pikslit, saadi { $width }
+
+engine-e-animation-duration-fps-gives-frames-the =
+    { $n ->
+        [one] kestus x fps annab { $n } kaadri; kaadrijada vajab vahemikus 2 kuni { $v1 } kaadrit
+       *[other] kestus x fps annab { $n } kaadrit; kaadrijada vajab vahemikus 2 kuni { $v1 } kaadrit
+    }
+
+engine-e-animation-result-is-not-json = tulemus ei ole JSON: { $e }
+
+engine-animation-mission-time = missiooniaeg ({ $lay })
+
+engine-animation-ffmpeg-framerate-frame-04d-svg = ffmpeg -framerate { $fps } -i frame_%04d.svg -pix_fmt yuv420p animation.mp4  (vajab librsvg-iga ehitatud ffmpeg-i; vastasel juhul rasteriseeri kaadrid enne)
+
+engine-animation-further-series-were-found-but = { " " }Leiti veel jadasid, mida ei joonistatud: { $omitted } (esitaja näitab kuni { $MAX_CHARTS } paneeli, igaühel kuni { $MAX_TRACES } jälge); need on loetletud frames-ekspordi manifestis.
+
+## src/antenna.rs
+
+engine-antenna-altitude-beamwidth-deg-points = kõrgus { $a_lo }-{ $a_hi } m x kiirelaius { $b_lo }-{ $b_hi } deg, punkte: { $points }
+
+engine-antenna-limb-capture-is-reached-on = serva haaramine ON selles ruudustikus ({ $grid }) saavutatud: serva haaravaid valitud tööpunkte { $points } / { $points2 } ja leitud telgede lõikepunkte: { $crossings }; tugevaim valitud serva J/S on { $limb_js_db } dB kõrgusel { $altitude_m } m / kiirelaiusel { $hpbw_deg } deg, haaramislävega { $thr } dB võrreldes.
+
+engine-antenna-limb-capture-is-not-reached = serva haaramist EI saavutata kusagil selles ruudustikus ({ $grid }) - mitte nullhaaramine, vaid serva haaramise puudumine: parim serva J/S on { $limb_js_db } dB kõrgusel { $altitude_m } m / kiirelaiusel { $hpbw_deg } deg, { $shortfall } dB alla { $thr } dB haaramisläve; see tööpunkt haaraks serva saatevõimsusel { $limb_capture_tx_power_dbw } dBW, kui lennatud võimsus oli { $p_tx_dbw } dBW.
+
+engine-e-antenna-azimuths-must-strictly-increase = asimuudid peavad rangelt kasvama
+
+engine-e-antenna-azimuths-must-span-less-than = asimuudid peavad katma alla 360 deg
+
+engine-e-antenna-off-boresight-angles-must-strictly = kiirgusteljest kõrvalekalde nurgad peavad rangelt kasvama
+
+engine-e-antenna-gain-grid-does-not-match = võimenduse ruudustik ei vasta telgedele
+
+## src/aocs.rs
+
+engine-e-aocs-gains-and-must-be-finite = võimendused K ja P peavad olema lõplikud ja positiivsed
+
+engine-e-aocs-at-least-three-reaction-wheels = vaja on vähemalt kolme reaktsioonratast
+
+engine-e-aocs-wheel-spin-axis-must-be = ratas { $i }: pöörlemistelg peab olema ühikvektor
+
+engine-e-aocs-wheel-js-and-max-must = ratas { $i }: js ja u_max peavad olema lõplikud ja positiivsed
+
+engine-e-aocs-the-wheel-spin-axes-do = rataste pöörlemisteljed ei hõlma kolme dimensiooni
+
+engine-e-aocs-inertia-minus-the-wheels-spin = inertsimoment miinus rataste pöörlemisinerts peab olema positiivselt määratud
+
+engine-e-aocs-inertia-must-be-finite-and = inertsimoment peab olema lõplik ja sümmeetriline
+
+## src/aocs_kind.rs
+
+engine-e-aocs-kind-wheels-axis-must-be-non = wheels[{ $i }].axis peab olema nullist erinev lõplik vektor
+
+engine-e-aocs-kind-must-be-finite-and-positive =
+    { $n ->
+        [one] { $n } peab olema lõplik ja positiivne
+       *[other] { $n } peab olema lõplik ja positiivne
+    }
+
+engine-e-aocs-kind-duration-dt-must-be-at = duration_s / dt_s võib olla kuni 2e6 sammu
+
+engine-e-aocs-kind-sample-must-be-whole-multiple = sample_s peab olema dt_s täisarvkordne
+
+engine-e-aocs-kind-sigma0-and-omega0-rad-must = sigma0 ja omega0_rad_s peavad olema lõplikud
+
+engine-e-aocs-kind-wheels-speed0-rpm-must-be = wheels[{ $i }].speed0_rpm peab olema lõplik
+
+engine-e-aocs-kind-estimator-gyro-bias0-rad-must = estimator.gyro_bias0_rad_s peab olema lõplik
+
+engine-e-aocs-kind-estimator-star-tracker-every-must = estimator.star_tracker_every_s peab olema vähemalt dt_s
+
+engine-aocs-kind-aocs-wheels-slew-from-deg =
+    { $n_w ->
+        [one] aocs: { $n_w } ratas, { $duration_s } s manööver väärtusest { $series_err } deg -> { $settle } | lõpp { $final_err } deg | ratta tippkiirus { $peak_speed } rpm | { $v7 }
+       *[other] aocs: { $n_w } ratast, { $duration_s } s manööver väärtusest { $series_err } deg -> { $settle } | lõpp { $final_err } deg | ratta tippkiirus { $peak_speed } rpm | { $v7 }
+    }
+
+## src/aperture_duty.rs
+
+engine-e-aperture-duty-unknown-service-expected-navigation-nav = tundmatu teenus '{ $other }' (oodatud navigation|nav või communications|comms)
+
+engine-e-aperture-duty-unknown-arbitration-policy-expected-navigation = tundmatu arbitreerimisreegel '{ $other }' (oodatud navigation-priority, communications-priority või first-come-first-served)
+
+engine-e-aperture-duty-contact-plan-needs-at-least = kontaktiplaan vajab vähemalt ühte kontaktiakent
+
+engine-e-aperture-duty-apertures-must-be = apertuure peab olema >= 1
+
+engine-e-aperture-duty-the-reporting-horizon-must-be = aruandlushorisont peab olema lõplik
+
+engine-e-aperture-duty-contact-has-non-finite-aos = kontaktil '{ $name }' on mittelõplik aos_s või los_s
+
+engine-e-aperture-duty-contact-must-have-los-aos = kontaktil '{ $name }' peab olema los_s > aos_s
+
+engine-e-aperture-duty-contact-plan-needs-at-least-2 = kontaktiplaan vajab vähemalt ühte [[contacts]] akent
+
+engine-aperture-duty-aperture-duty-cycle-session-on = aperture-duty-cycle: seansse { $sessions }, apertuure { $apertures }, reegel { $policy } -> navigatsioonikoormus { $navigation_duty }, sidekoormus { $communications_duty }, jõudeolek { $idle_duty }; vaidluse tõttu kaotsi läinud aeg { $total_outage_s } s (nõutud { $total_requested_s } s) (MODELLED)
+
+## src/api.rs
+
+engine-api-study-generated = { " " }Koostatud uuring { $html_escape }.
+
+engine-e-api-failed-to-serialise-report-to = aruande serialiseerimine JSON-iks ebaõnnestus: { $e }
+
+engine-e-api-invalid-scenario = vigane stsenaarium: { $e }
+
+engine-api-unknown-scenario-kind-did-you =
+    { $n ->
+        [one] tundmatu stsenaariumi liik { $other } — kas mõtlesid { $hint }? `kshana kinds` loetleb kõik sisseehitatud liigid (kokku { $n }).
+       *[other] tundmatu stsenaariumi liik { $other } — kas mõtlesid { $hint }? `kshana kinds` loetleb kõik sisseehitatud liigid (kokku { $n }).
+    }
+
+engine-api-unknown-scenario-kind-kshana-kinds =
+    { $n ->
+        [one] tundmatu stsenaariumi liik { $other }. `kshana kinds` loetleb kõik sisseehitatud liigid (kokku { $n }).
+       *[other] tundmatu stsenaariumi liik { $other }. `kshana kinds` loetleb kõik sisseehitatud liigid (kokku { $n }).
+    }
+
+engine-api-required-fields = - **Nõutavad väljad:** { $fields }{ "\u000A" }
+
+engine-api-optional-fields = - **Valikulised väljad:** { $fields }{ "\u000A\u000A" }
+
+engine-api-toml-parse-error = TOML-i parsimisviga: { $e }
+
+engine-api-could-not-classify-scenario-kind = stsenaariumi liiki ei õnnestunud tuvastada: { $e }
+
+engine-api-missing-required-field = { $kind_name }: puuduvad nõutavad väljad — { $options }
+
+engine-api-missing-required-field-2 = { $kind_name }: puudub nõutav väli "{ $entry }"
+
+engine-e-api-invalid-orbit-scenario = vigane orbiidistsenaarium: { $e }
+
+engine-e-api-sp3-export-requires-an-orbit = SP3 eksport vajab orbiidistsenaariumi, mitte '{ $k }'
+
+engine-e-api-omm-export-requires-an-orbit = OMM eksport vajab orbiidistsenaariumi, mitte '{ $k }'
+
+engine-e-api-oem-export-requires-an-orbit = OEM eksport vajab orbiidistsenaariumi, mitte '{ $k }'
+
+engine-e-api-invalid-scenario-toml = vigane stsenaariumi TOML: { $e }
+
+engine-e-api-could-not-re-serialise-scenario = stsenaariumi uuesti serialiseerimine ebaõnnestus: { $e }
+
+engine-api-scenario-jamming-availability-under-jamming = stsenaarium { $r } | segamine { $v2 } | kättesaadavus segamise korral { $availability_under_jamming } (nominaalne { $availability_nominal }) | väikseim jälgimine { $min_tracking } | keskmine J/S { $v6 }
+
+engine-e-api-the-result-document-already-carries = tulemusdokument sisaldab juba võtit `{ $FIGURE_TIERS_KEY }`
+
+engine-e-api-failed-to-serialise-figure-tiers = figure_tiers serialiseerimine ebaõnnestus: { $e }
+
+## src/api/builtins.rs
+
+engine-e-api-builtins-invalid-scenario = vigane { $label } stsenaarium: { $e }
+
+engine-api-builtins-scenario-quantum-holdover-p95-classical = stsenaarium { $r } | kvant-holdover { $holdover_s }s p95 { $pos_p95_m }m | klassikaline holdover { $holdover_s2 }s p95 { $pos_p95_m2 }m
+
+engine-api-builtins-scenario-spoof-vs-ns-spec = stsenaarium { $r } | spuufimine { $scn } vs { $threshold_ns } ns spetsifikatsioon (P_fa { $target_pfa }) | kvantturve { $security_fom } (P_md { $analytic_pmd }, MC { $mc_pmd }) { $det } | klassikaline turve { $security_fom2 } (P_md { $analytic_pmd2 }, MC { $mc_pmd2 }) { $det2 }
+
+engine-api-builtins-integrity-satellites-epochs-available-hal =
+    { $n_sats ->
+        [one] terviklikkus | { $n_sats } satelliit | epohhe saadaval: { $samples_available }/{ $samples_total } ({ $report }%) | HAL { $al_h_m } m VAL { $al_v_m } m | sigma { $sigma_uere_m } m | Stanford(V): terviklikkuse sündmusi { $report2 }, HMI { $report3 }
+       *[other] terviklikkus | { $n_sats } satelliiti | epohhe saadaval: { $samples_available }/{ $samples_total } ({ $report }%) | HAL { $al_h_m } m VAL { $al_v_m } m | sigma { $sigma_uere_m } m | Stanford(V): terviklikkuse sündmusi { $report2 }, HMI { $report3 }
+    }
+
+engine-api-builtins-lunar-integrity-south-pole-epochs = lunar-integrity | lõunapoolus | epohhe saadaval: { $samples_available }/{ $samples_total } ({ $report }%) | AL { $alert_limit_m } m | σ_URE { $sigma_ure_m } m | HPL { $min_hpl_m }–{ $max_hpl_m } m
+
+engine-api-builtins-lunar-time-offset-secular-ltc = lunar-time-offset | sekulaarne LTC−TT kiirus { $secular_rate_us_per_day } µs/day (riba { $band_low }–{ $band_high }) | isepotentsiaal { $self_potential_us_per_day } kineetiline { $kinetic_us_per_day } | nihe @ { $horizon_days } d = { $offset_at_horizon_us } µs
+
+engine-api-builtins-lunar-vlbi-baseline-km-beacon = lunar-vlbi | baas { $baseline_km } km | majaka kaugus { $beacon_range_km } km | viivitus { $report } µs (kiirus { $delay_rate_s_per_s } s/s) | lähiväli { $near_field_correction_us } µs | valimeid { $samples } ajavahemikus { $horizon_hours } h
+
+engine-api-builtins-lunar-joint-od-clock-sats =
+    { $n_sat ->
+        [one] lunar-joint-od-clock | { $n_sat } satelliit, Maa jaamu: { $n_earth } | jaama 3D-viga VLBI-ga { $station_pos_err_m } m vs ainult kaugusmõõtmisega { $station_pos_err_m2 } m ({ $station_observability_improvement_factor }× teravam) | sat. asukoha RMS { $sat_pos_rms_m } m | jaama kellaviga { $station_clock_err_s } s | vaatlusi/parameetreid: { $n_obs }/{ $n_params }
+       *[other] lunar-joint-od-clock | { $n_sat } satelliiti, Maa jaamu: { $n_earth } | jaama 3D-viga VLBI-ga { $station_pos_err_m } m vs ainult kaugusmõõtmisega { $station_pos_err_m2 } m ({ $station_observability_improvement_factor }× teravam) | sat. asukoha RMS { $sat_pos_rms_m } m | jaama kellaviga { $station_clock_err_s } s | vaatlusi/parameetreid: { $n_obs }/{ $n_params }
+    }
+
+engine-api-builtins-lunar-frame-realisation-points-translation =
+    { $n_points ->
+        [one] lunar-frame-realisation | { $n_points } punkt | nihkeviga { $trans_err_norm_m } m, pöördeviga { $rot_err_norm_rad } rad, skaalaviga { $scale_err_ppb } ppb | RMS-jääk { $rms_residual_m } m | koondunud { $converged }
+       *[other] lunar-frame-realisation | { $n_points } punkti | nihkeviga { $trans_err_norm_m } m, pöördeviga { $rot_err_norm_rad } rad, skaalaviga { $scale_err_ppb } ppb | RMS-jääk { $rms_residual_m } m | koondunud { $converged }
+    }
+
+engine-api-builtins-moonlight-service-volume-sats-pts =
+    { $n_sats ->
+        [one] moonlight-service-volume | { $n_sats } satelliit ({ $geometry_label }) | punkte × epohhe: { $n_grid_points } × { $n_epochs } | kate { $coverage_pct }% (PDOP<{ $pdop_threshold }) | satelliite { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | PL kättesaadavus { $pl_availability_pct }% | MODELLED
+       *[other] moonlight-service-volume | { $n_sats } satelliiti ({ $geometry_label }) | punkte × epohhe: { $n_grid_points } × { $n_epochs } | kate { $coverage_pct }% (PDOP<{ $pdop_threshold }) | satelliite { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | PL kättesaadavus { $pl_availability_pct }% | MODELLED
+    }
+
+engine-api-builtins-ephemeris-ure-required-vs-keplerian = { " " }| efemeriid { $report } ({ $provenance }) nõutav σ_URE { $fmt } vs Kepleri { $fmt2 } vs häiritud { $fmt3 } (Δ { $fmt4 })
+
+engine-api-builtins-lunar-differential-pnt-sats-illustrative =
+    { $n_sats ->
+        [one] lunar-differential-pnt | { $n_sats } satelliit (illustratiivne LCNS-klass, mitteseotud) | baas { $baseline_km } km | kasutaja viga { $user_error_uncorrected_m } m → { $user_error_corrected_m } m (vähenemine { $reduction_factor }×) | HPL { $protection_level_m } m (σ_resid { $residual_sigma_m } m) | MODELLED
+       *[other] lunar-differential-pnt | { $n_sats } satelliiti (illustratiivne LCNS-klass, mitteseotud) | baas { $baseline_km } km | kasutaja viga { $user_error_uncorrected_m } m → { $user_error_corrected_m } m (vähenemine { $reduction_factor }×) | HPL { $protection_level_m } m (σ_resid { $residual_sigma_m } m) | MODELLED
+    }
+
+engine-api-builtins-lunar-station-coverage-points-epochs =
+    { $n_trials ->
+        [one] lunar-station-coverage | punkte x epohhe x katseid: { $n_grid_points } x { $n_epochs } x { $n_trials } | kättesaadavus { $v4 } % | kate { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | korrigeeritud p{ $percentile } 3D { $f } (korrigeerimata { $f2 }) | HPL maks { $f3 } | MODELLED; ei ole väide ühegi reaalse süsteemi kohta
+       *[other] lunar-station-coverage | punkte x epohhe x katseid: { $n_grid_points } x { $n_epochs } x { $n_trials } | kättesaadavus { $v4 } % | kate { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | korrigeeritud p{ $percentile } 3D { $f } (korrigeerimata { $f2 }) | HPL maks { $f3 } | MODELLED; ei ole väide ühegi reaalse süsteemi kohta
+    }
+
+engine-api-builtins-terrain-horizon-at-the-station = { " " }| maastikuhorisont ({ $sources }) jaamas maks { $horizon_max_deg } deg, kasutajapunktide keskmine maks { $user_horizon_max_deg_mean } deg
+
+engine-api-builtins-lunar-interop-export-ref-frame =
+    { $n_states ->
+        [one] lunar-interop-export | REF_FRAME { $frame } / TIME_SYSTEM { $time_system } | olekuid { $n_states }, OEM-i ridu { $oem_line_count } | vastavuskontroll { $v5 } (olemas { $present_fields } / puudu { $missing_fields }) | OEM-i edasi-tagasi teisendus { $v8 } | ajametaandmete edasi-tagasi teisendus { $v9 } | KIF { $kif_bytes } baiti | MODELLED
+       *[other] lunar-interop-export | REF_FRAME { $frame } / TIME_SYSTEM { $time_system } | olekuid { $n_states }, OEM-i ridu { $oem_line_count } | vastavuskontroll { $v5 } (olemas { $present_fields } / puudu { $missing_fields }) | OEM-i edasi-tagasi teisendus { $v8 } | ajametaandmete edasi-tagasi teisendus { $v9 } | KIF { $kif_bytes } baiti | MODELLED
+    }
+
+## src/api/builtins.rs
+
+engine-api-builtins-scenario-optical-sync-rms-ps = stsenaarium { $r } | optiline sync_rms { $sync_rms_ps }ps range_rms { $range_rms_mm }mm adev(1s) { $adev_tau0 } | RF sync_rms { $sync_rms_ps2 }ps range_rms { $range_rms_mm2 }mm adev(1s) { $adev_tau02 }
+
+engine-api-builtins-quantum-time-transfer-quantum-chain = quantum-time-transfer | kvantahel { $quantum_chain_sigma_s }s vs klassikaline { $classical_chain_sigma_s }s | PL { $protection_level_ns } ns | turve Pd { $security_pd } (Pfa { $monitor_pfa }) | anomaalia Pd { $anomaly_pd } | kompromissivõrdlus: kvant võidab { $r }/{ $foms } | MODELLED
+
+engine-api-builtins-quantum-gnss-free-nav-outage = quantum-gnss-free-nav | katkestus { $outage_s }s | kvandi asukohaviga { $quantum_pos_err_m } m vs klassikaline { $classical_pos_err_m } m ({ $improvement_x }x) | holdover kvant { $quantum_holdover_s }s vs klassikaline { $classical_holdover_s }s (lävi { $threshold_m } m) | kompromissivõrdlus: kvant võidab { $r }/{ $foms } | MODELLED
+
+engine-api-builtins-quantum-anomaly-detect-auc-quantum = quantum-anomaly-detect | AUC kvant { $quantum_auc } vs klassikaline { $classical_auc } | väikseim tuvastatav rike kvant { $quantum_min_detectable } vs klassikaline { $classical_min_detectable } | rikkeklasse: { $fault_catalog } | kompromissivõrdlus: kvant võidab { $r }/{ $foms } | MODELLED
+
+engine-e-api-builtins-coupled-applies-to-the-fusion = { "[" }coupled] kehtib ainult fusion-liigile
+
+engine-api-builtins-scenario-quantum-pnt-holdover-integrity = stsenaarium { $r } | kvant PNT-holdover { $pnt_holdover_s }s (aeg { $timing_holdover_s }s/asukoht { $position_holdover_s }s) terviklikkus { $integ } turve { $security_na } | klassikaline PNT-holdover { $pnt_holdover_s2 }s (aeg { $timing_holdover_s2 }s/asukoht { $position_holdover_s2 }s) terviklikkus { $integ2 } turve { $security_na }
+
+engine-api-builtins-scenario-fused-quantum-pnt-holdover = stsenaarium { $r } | liidetud | kvant PNT-holdover { $pnt_holdover_s }s (aeg { $timing_holdover_s }s/asukoht { $position_holdover_s }s) terviklikkus { $integ } turve { $security_na } | klassikaline PNT-holdover { $pnt_holdover_s2 }s (aeg { $timing_holdover_s2 }s/asukoht { $position_holdover_s2 }s) terviklikkus { $integ2 } turve { $security_na }
+
+engine-api-builtins-scenario-hybrid-ukf-17-state = stsenaarium { $r } | hybrid-ukf (17 olekut, MODELLED) | andur { $v2 } (q_va { $effective_q_va }) | kell q_wf { $clock_q_wf } q_rw { $clock_q_rw } | NIS { $nis_mean }/{ $nis_dof } vahemikus [{ $nis_chi2_lower_95 },{ $nis_chi2_upper_95 }] | NEES { $nees_mean }/{ $nees_dof } vahemikus [{ $nees_chi2_lower_95 },{ $nees_chi2_upper_95 }] | { $v14 } | toetatud { $aided_pos_rms_m }m -> vabajooks { $coast_end_pos_rms_m }m { $coast_duration_s }s jooksul | sisemine kooskõla, mitte täpsus
+
+engine-api-builtins-scenario-gnss-ins-quantum-outage = stsenaarium { $r } | gnss-ins | kvant katkestuse-RMS liidetud { $fused_outage_rms_m }m vs vaba { $free_outage_rms_m }m (hold { $holdover_s }s, kättesaadavus { $availability }) | klassikaline liidetud { $fused_outage_rms_m2 }m vs vaba { $free_outage_rms_m2 }m (hold { $holdover_s2 }s, kättesaadavus { $availability2 })
+
+engine-api-builtins-scenario-gnss-sim-mean-iono = stsenaarium { $r } | gnss-sim | keskmine iono { $mean_iono_m }m tropo { $mean_tropo_m }m | RAIM kättesaadavus { $raim_availability } keskmine HPL { $mean_hpl_m }m VPL { $mean_vpl_m }m rikete sagedus { $fault_rate }
+
+engine-api-builtins-scenario-spoof-detect-svs-db =
+    { $n_sats ->
+        [one] stsenaarium { $r } | spoof-detect | { $n_sats } SV, +{ $power_advantage_db } dB{ $v4 } | { $push } tõuge | liidetud skoor { $score } (lävi { $fusion_threshold }) | { $verdict }
+       *[other] stsenaarium { $r } | spoof-detect | { $n_sats } SV, +{ $power_advantage_db } dB{ $v4 } | { $push } tõuge | liidetud skoor { $score } (lävi { $fusion_threshold }) | { $verdict }
+    }
+
+engine-api-builtins-sweep-over-pts-scale-quantum = pühkimine { $metric } parameetri { $parameter } üle ({ $first }..{ $last }, punkte: { $points }, skaala { $scale }) | kvant { $first2 }->{ $last2 } | klassikaline { $first3 }->{ $last3 }
+
+engine-api-builtins-scenario-samples-gnss-nominal-best = stsenaarium { $r } | valimeid GNSS-nominaalne: { $nominal }/{ $series } | parim PDOP { $fnum } asukoht { $posm } | kvant holdover { $holdover_s }s p95 { $ns1 }ns terviklikkus { $integ } turve { $security_na } | klassikaline holdover { $holdover_s2 }s p95 { $ns12 }ns terviklikkus { $integ2 } turve { $security_na }
+
+engine-api-builtins-max-el-peak-doppler-khz = { " " }| maks kõrgusnurk { $el }° Doppleri tipp { $v1 } kHz
+
+engine-api-builtins-scenario-samples-alt-km-lat =
+    { $n_samples ->
+        [one] stsenaarium { $r } | { $source } | { $n_samples } valim | kõrgus { $alt_min_km }–{ $alt_max_km } km | |lat| ≤ { $r2 }° | kiirus { $speed_min_m_s }–{ $speed_max_m_s } m/s{ $pass }
+       *[other] stsenaarium { $r } | { $source } | { $n_samples } valimit | kõrgus { $alt_min_km }–{ $alt_max_km } km | |lat| ≤ { $r2 }° | kiirus { $speed_min_m_s }–{ $speed_max_m_s } m/s{ $pass }
+    }
+
+engine-api-builtins-generic-sweep-of-over-nodes = `{ $kind }` üldine pühkimine üle [{ $keys }] | sõlmi: { $points } (kuju { $shape }) | mõõdikud [{ $metrics }]
+
+engine-api-builtins-gravity-map-free-inertial-drift = gravity-map | vaba-inertsiaalne triiv { $free_inertial_drift_m } m | gravitatsioonisobitatud { $map_matched_error_m } m | sobitamise sigma { $measurement_sigma_mgal } mGal
+
+engine-api-builtins-reference-degree-anomaly-std-mgal = { " " }| viiteaste { $reference_nmax } anomaalia std { $reference_anomaly_std_mgal } mGal
+
+engine-api-builtins-map-error-mc-p95-within = { " " }| kaardivea MC x{ $realisations } p95 { $matched_error_p95_m } m, { $v3 }% piires { $target_m } m
+
+engine-api-builtins-terrain-nav-free-inertial-drift = terrain-nav | vaba-inertsiaalne triiv { $free_inertial_drift_m } m | maastikusobitatud { $matched_error_m } m ({ $v3 }x vähenemine) | sobitamise sigma { $measurement_sigma_m } m
+
+engine-api-builtins-terrain-slam-waypoints-free-inertial = terrain-slam | teekonnapunkte: { $waypoints } | vaba-inertsiaalne RMS { $free_inertial_rms_m } m (lõpp { $free_inertial_final_m } m) | maastikusobitatud RMS { $matched_rms_m } m (lõpp { $matched_final_m } m, { $v6 }x vähenemine) | keskmine ESS { $mean_ess }/{ $cfg } | sobitamise sigma { $measurement_sigma_m } m
+
+engine-api-builtins-combined-altpnt-free-inertial-drift = combined-altpnt | vaba-inertsiaalne triiv { $free_inertial_drift_m } m | gravitatsioon { $gravity_only_m } m magnetiline { $magnetic_only_m } m maastik { $terrain_only_m } m | LIIDETUD { $combined_m } m
+
+engine-e-api-builtins-clock-log-needs-runs-measured = { "[" }clock_log] vajab runs = 1: mõõdetud logi on üks kirje
+
+engine-api-builtins-scenario-runs-quantum-holdover-p95 = stsenaarium { $r } | käivitusi: { $runs } | kvant holdover { $mean }s [{ $p05 }-{ $p95 }] p95 { $ns1 }ns turve { $security_na } | klassikaline holdover { $mean2 }s [{ $p052 }-{ $p952 }] p95 { $ns12 }ns turve { $security_na }
+
+engine-api-builtins-scenario-quantum-holdover-p95-ns = stsenaarium { $r } | kvant holdover { $holdover_s }s p95 { $ns1 }ns terviklikkus { $integ } turve { $security_na } | klassikaline holdover { $holdover_s2 }s p95 { $ns12 }ns terviklikkus { $integ2 } turve { $security_na }
+
+engine-api-builtins-raim-available-of-epochs-denied =
+    { $n_epochs ->
+        [one] { " " }| RAIM saadaval epohhe: { $n_available } / { $n_epochs } (keelatud { $n_denied }, alarme { $n_alarm }; MODELLED)
+       *[other] { " " }| RAIM saadaval epohhe: { $n_available } / { $n_epochs } (keelatud { $n_denied }, alarme { $n_alarm }; MODELLED)
+    }
+
+## src/araim_reference.rs
+
+engine-e-araim-reference-reference-case-needs-at-least = viitejuhtum vajab vähemalt ühte satelliiti
+
+engine-e-araim-reference-reference-case-needs-at-least-2 = viitejuhtum vajab vähemalt ühte satelliidikonstellatsiooni
+
+engine-e-araim-reference-satellite-names-constellation-but-only = satelliit { $i } viitab konstellatsioonile { $constellation }, kuid deklareeritud on ainult { $constellations }
+
+engine-e-araim-reference-satellite-has-non-positive-error = satelliidil { $i } on mittepositiivne vea dispersioon
+
+engine-e-araim-reference-both-integrity-risk-allocations-must = mõlemad terviklikkusriski jaotused peavad olema positiivsed
+
+engine-e-araim-reference-this-reference-implementation-monitors-single = see viiterealisatsioon jälgib ainult üksiksündmuse rikkerežiime, kuid juhtumi apriooritõenäosused nõuavad N_fault,max = { $nfm } (samaaegsed mitmesündmuselised alamhulgad). Keeldutakse, selle asemel et rikkerežiime alaarvestada.
+
+engine-e-araim-reference-the-all-in-view-geometry = kõigi nähtavate satelliitide geomeetria on singulaarne
+
+engine-e-araim-reference-no-fault-mode-is-observable = ühtegi rikkerežiimi ei saa selles geomeetrias jälgida
+
+engine-e-araim-reference-unknown-reference-vector-known-vectors = tundmatu viitevektor '{ $vector }'; tuntud vektorid: { $ids } (või 'all')
+
+engine-araim-reference-araim-reference-check-published-wg = araim-reference-check: avaldatud WG-C viitevektoreid: { $wanted }; halvim VPL/HPL lahknevus { $worst_acceptance } m viite enda TOL_PL = { $tol } m suhtes (vastuvõtuvektoreid: { $acceptance_checked })
+
+engine-e-araim-reference-sat-needs-one-value-per = P_sat vajab ühte väärtust satelliidi kohta ja P_const ühte konstellatsiooni kohta
+
+engine-e-araim-reference-satellite-names-an-undeclared-constellation = satelliit viitab deklareerimata konstellatsioonile
+
+engine-e-araim-reference-every-prior-must-lie-in = iga apriooritõenäosus peab olema vahemikus [0, 1)
+
+engine-e-araim-reference-the-priors-need-subsets-of =
+    { $n_fault_max ->
+        [one] apriooritõenäosused vajavad alamhulki samaaegsete sündmuste arvuga: { $n_fault_max }; see tee loendab kuni { $most }
+       *[other] apriooritõenäosused vajavad alamhulki samaaegsete sündmuste arvuga: { $n_fault_max }; see tee loendab kuni { $most }
+    }
+
+engine-e-araim-reference-the-all-in-view-solution = kõigi nähtavate satelliitide lahendit ei valitud
+
+engine-e-araim-reference-an-add-v4-case-needs = ADD v4.2 juhtum vajab satelliite ja konstellatsioone
+
+engine-e-araim-reference-nom-and-sat-need-one = b_nom ja P_sat vajavad ühte väärtust satelliidi kohta
+
+engine-e-araim-reference-const-needs-one-value-per = P_const vajab ühte väärtust konstellatsiooni kohta
+
+engine-e-araim-reference-satellite-names-an-undeclared-constellation-2 = satelliit { $i } viitab deklareerimata konstellatsioonile
+
+engine-e-araim-reference-one-constellation-index-per-satellite = üks konstellatsiooniindeks satelliidi kohta
+
+engine-e-araim-reference-satellite-names-constellation-with-no = satelliit { $i } viitab konstellatsioonile { $c }, millel puudub ISM
+
+engine-e-araim-reference-fewer-than-four-satellites-above = maskist kõrgemal on alla nelja satelliidi
+
+## src/attack_surface.rs
+
+engine-e-attack-surface-standoffs-must-contain-at-least = standoffs_m peab sisaldama vähemalt ühte turvakaugust (standoff)
+
+engine-attack-surface-lunar-attack-surface-afs-dbw = lunar-attack-surface | AFS { $afs_received_dbw } dBW, { $sense } { $a } dB (riba { $deficit_band_lo_db }–{ $deficit_band_hi_db }, { $shown_rounded }×/{ $shown_unrounded }× { $sense }) | spoof@{ $value } m { $nearest } W | jalajälg { $a2 }% haaramine, serv { $footprint_limb_captured } | spuufimise haaramine { $spoof_captured } (lukk { $spoof_lock_time_s } s) | masti ulatus { $a3 } km | OSNMA { $nma_overhead_bps } bit/s ({ $a4 }% väärtusest 50 bit/s), { $nma_auth_latency_s } s latentsus
+
+engine-attack-surface-reached-crossing-best-db = saavutatud (lõikepunkte: { $crossings }, parim { $best_limb_js_db } dB)
+
+engine-attack-surface-not-reached-on-this-grid = EI saavutata selles ruudustikus (parim { $best_limb_js_db } dB, { $best_limb_shortfall_db } dB puudu; vaja { $best_limb_capture_tx_power_dbw } dBW vs { $p_tx_dbw } dBW)
+
+engine-attack-surface-footprint-sweep-alt-km-hpbw = { " " }| jalajälje pühkimine { $s }x{ $s2 } (kõrgus { $v3 }-{ $v4 } km x HPBW { $bw_lo }-{ $bw_hi } deg), haaramine { $v5 }-{ $v6 }% | serv { $limb }
+
+engine-attack-surface-afs-received-dbw = AFS vastuvõetud: { $afs_received_dbw } dBW
+
+engine-attack-surface-deficit-db-band-db = Puudujääk: { $deficit_db } dB (riba { $deficit_band_lo_db }-{ $deficit_band_hi_db } dB, { $deficit_factor_rounded }x/{ $deficit_factor_unrounded }x)
+
+engine-attack-surface-capture-footprint-of-disk-limb = Haaramise jalajälg: { $a }% kettast, serv haaratud: { $footprint_limb_captured }
+
+engine-attack-surface-spoof-capture-pull-in-lock = Spuufimise haaramise sissetõmme: { $spoof_captured } (lukk { $spoof_lock_time_s } s)
+
+engine-attack-surface-mast-reach-km-osnma-bit = Masti ulatus: { $a } km | OSNMA { $nma_overhead_bps } bit/s ({ $a2 }%)
+
+engine-attack-surface-limb-captured-on-grid-crossing = Serv: haaratud { $na }x{ $nb } ruudustikul, lõikepunkte: { $crossings }
+
+engine-attack-surface-limb-not-captured-on-grid = Serv: ei haaratud { $na }x{ $nb } ruudustikul; vaja { $best_limb_capture_tx_power_dbw } dBW (lennatud { $p_tx_dbw })
+
+## src/attitude_budget.rs
+
+engine-e-attitude-budget-altitude-km-must-be-finite = altitude_km peab olema lõplik ja positiivne
+
+engine-e-attitude-budget-inertias-must-be-finite-and = inertsimomendid peavad olema lõplikud ja positiivsed
+
+engine-e-attitude-budget-max-kg-m2-must-be = i_max_kg_m2 peab olema >= i_min_kg_m2
+
+engine-e-attitude-budget-at-least-one-pointing-contributor = vaja on vähemalt ühte sihtimise panustajat
+
+engine-e-attitude-budget-contributor-sigma-must-be-finite = panustaja '{ $name }' sigma peab olema lõplik ja >= 0
+
+engine-attitude-budget-attitude-budget-km-kg-gg = attitude-budget: { $altitude_km } km, ΔI { $delta_i } kg·m² -> GG moment { $t_gg } N·m; sihtimine { $total }" RSS (domineeriv: { $dominant }) (MODELLED skalaarbilanss)
+
+## src/bench/cli.rs
+
+engine-bench-cli-needs-value = { $name } vajab väärtust
+
+engine-bench-cli-unknown-option = tundmatu valik `{ $a }`
+
+engine-bench-cli-unexpected-argument = ootamatu argument `{ $pos }`
+
+engine-bench-cli-cannot-read = { $p } lugemine ebaõnnestus: { $e }
+
+engine-bench-cli-cannot-create = { $d } loomine ebaõnnestus: { $e }
+
+engine-bench-cli-cannot-write = { $p } kirjutamine ebaõnnestus: { $e }
+
+engine-bench-cli-unknown-task-or = tundmatu ülesanne `{ $t }` (a, b, c või d)
+
+engine-bench-cli-scored-epochs-in-folder = hinnatud epohhe: { $labels }, kaustu: { $folders }
+
+engine-bench-cli-wrote-cases-json-and-truth = kirjutatud { $out }/cases.json ja { $out }/truth.json
+
+engine-bench-cli-refused-this-commitment-is-provisional = REFUSED: see sidumine (commitment) on esialgne ja selle algväärtus (seed) on avalikustatud; see ei ole väljalaske holdout
+
+engine-bench-cli-mismatch-the-seed-is-not = MISMATCH: algväärtus (seed) ei ole see, mis on selle sidumise (commitment) taga
+
+engine-bench-cli-is-not-json = { $f } ei ole JSON: { $e }
+
+engine-bench-cli-cannot-read-2 = { $i } lugemine ebaõnnestus: { $e }
+
+engine-bench-cli-result-rendered = renderdatud tulemusi: { $results }
+
+engine-bench-cli-unknown-subcommand =
+    tundmatu alamkäsk `{ $other }`
+    { $BENCH_USAGE }
+
+engine-bench-cli-cannot-create-an-existing-seed = { $path } loomine ebaõnnestus (olemasolevat algväärtusefaili ei kirjutata kunagi üle): { $e }
+
+engine-bench-cli-cannot-write-2 = { $path } kirjutamine ebaõnnestus: { $e }
+
+engine-bench-cli-seed-written-to-keep-it = algväärtus (seed) kirjutatud faili { $path }: hoia seda versioonihalduse ja kõigi sõnumite väljaspool; avalik on ainult allolev räsi
+
+engine-bench-cli-test-kshana-iq-cn0-drop = b-test-kshana-iq-cn0-drop (üle võetud, mitte uuesti käivitatud)
+
+engine-bench-cli-impairment-eval-baseline = impairment-eval lähtetase: { $det }
+
+engine-bench-cli-no-scenario-json-under = kausta { $root } all puudub scenario.json
+
+engine-bench-cli-is-not-json-2 = { $path } ei ole JSON: { $e }
+
+engine-bench-cli-ok-mismatched-missing-unpinned = korras: { $ok }, lahknevaid: { $bad }, puuduvaid: { $missing }, fikseerimata: { $unpinned }
+
+## src/bench/mod.rs
+
+engine-bench-unknown-split-dev-test-or = tundmatu jaotus `{ $other }` (dev, test või holdout)
+
+engine-bench-score-for-is-not-finite = `{ $id }` skoor ei ole lõplik
+
+engine-bench-case-have-no-score-the = skoorita juhtumeid: { $missing }, esimene on `{ $first_missing }`
+
+engine-bench-predictions-name-case-that-is = ennustused nimetavad juhtumit, mida tõeandmetes pole: `{ $extra }`
+
+engine-bench-schema-must-be = `schema` peab olema `{ $RESULT_SCHEMA }`
+
+engine-bench-must-be-64-digit-hex = `{ $k }` peab olema 64-kohaline kuueteistkümnendsüsteemi SHA-256
+
+engine-bench-truth-is-not-json = tõeandmed ei ole JSON: { $e }
+
+engine-bench-predictions-are-not-json = ennustused ei ole JSON: { $e }
+
+engine-bench-truth-schema-must-be = tõeandmete `schema` peab olema `{ $TRUTH_SCHEMA }`
+
+engine-bench-predictions-schema-must-be = ennustuste `schema` peab olema `{ $PREDICTIONS_SCHEMA }`
+
+engine-bench-truth-was-made-under-another = tõeandmed on koostatud muu spetsifikatsiooniversiooni all kui { $SPEC_VERSION }; erinevate põhiversioonide tulemusi ei segata kunagi
+
+engine-bench-unknown-task = tundmatu ülesanne `{ $other }`
+
+## src/bench/site.rs
+
+engine-bench-site-result-is-not-valid = tulemus { $v1 } ei ole kehtiv: { $p }
+
+engine-bench-site-result-is-task-holdout-result = tulemus { $v1 } on ülesande (d) holdout-tulemus ilma võtmeta `holdout_commitment`
+
+engine-bench-site-result-is-scored-on-provisional = tulemus { $v1 } on hinnatud esialgse, avalikustatud holdout-algväärtuse (seed) alusel: see ei ole väljalaske holdout
+
+engine-bench-site-result-was-scored-under-this = tulemus { $v1 } hinnati versiooni { $v } all; see leht on versiooni { $SPEC_VERSION } jaoks
+
+## src/bench/tasks.rs
+
+engine-bench-tasks-score-for-is-not-number = `{ $k }` skoor ei ole arv
+
+engine-bench-tasks-kshana-receiver-trust-35-default = kshana receiver-trust { $s } (0.35 vaikimisi seirestatistik)
+
+engine-bench-tasks-malformed-clock-line = vigane kellarida `{ $line }`
+
+engine-bench-tasks-the-clock-file-does-not = kellafail ei vasta fikseeritud SHA-256-le (saadi { $got }, soovitud { $C_CLOCKS_SHA256 })
+
+engine-bench-tasks-satellite-is-not-in-the = satelliiti { $prn } kellafailis pole
+
+engine-bench-tasks-kshana-bench-baseline = kshana-bench lähtetase: { $baseline }
+
+engine-bench-tasks-predictions-cover-cases-the-truth = ennustused katavad juhtumeid: { $pmap }, tõeandmetes on { $tarr }
+
+engine-bench-tasks-case-has-no-number-array = juhtumil `{ $id }` puudub arvumassiiv
+
+engine-bench-tasks-case-needs-values-has =
+    { $n ->
+        [one] juhtum `{ $id }` vajab { $n } väärtust, olemas: { $a }
+       *[other] juhtum `{ $id }` vajab { $n } väärtust, olemas: { $a }
+    }
+
+engine-bench-tasks-case-has-non-finite-value = juhtumil `{ $id }` on mittelõplik väärtus
+
+## src/bin/crossover_study.rs
+
+engine-e-bin-crossover-study-serialize = serialiseerimine { $name }: { $e }
+
+engine-e-bin-crossover-study-write = kirjutamine { $path }: { $e }
+
+engine-bin-crossover-study-error-cannot-create = viga: { $dir } loomine ebaõnnestus: { $e }
+
+engine-bin-crossover-study-done-inertial-nodes-clock-curves = valmis: inertsiaal { $nodes } sõlme, kell { $curves } kõverat (algväärtus 42)
+
+## src/bin/gen_araim_m3_study.rs
+
+engine-bin-gen-araim-m3-study-user-epochs-ura-values-in =
+    { $n ->
+        [one] { $n } kasutajaepohh x 3 URA väärtust { $dt } s jooksul = { $v1 } ms kasutajaepohhi kohta (lahendatavaid: { $ok })
+       *[other] { $n } kasutajaepohhi x 3 URA väärtust { $dt } s jooksul = { $v1 } ms kasutajaepohhi kohta (lahendatavaid: { $ok })
+    }
+
+## src/bin/gen_validation_artifacts.rs
+
+engine-bin-gen-validation-artifacts-wrote-docs-interop-md-export = kirjutatud docs/INTEROP.md (ekspordi tabel)
+
+## src/bin/validation_report.rs
+
+engine-bin-validation-report-wrote-validation-summary-to = valideerimise kokkuvõte kirjutatud faili { $path }
+
+## src/body_pnt.rs
+
+engine-e-body-pnt-unknown-body = tundmatu taevakeha '{ $body_name }'
+
+engine-e-body-pnt-body-pnt-navigates-around-body = body-pnt navigeerib Maast erineva taevakeha ümber Maa-lingiga; { $name } pole siin toetatud
+
+engine-e-body-pnt-duration-and-step-must-be = duration_s ja step_s peavad olema positiivsed, kuni 20000 epohhi; saadi { $duration } ja { $step }
+
+engine-e-body-pnt-user-kind-must-be-orbiter = user.kind peab olema orbiter või surface; saadi '{ $k }'
+
+engine-e-body-pnt-user-altitude-must-be-positive = kasutaja kõrgus peab olema positiivne ja ekstsentrilisus vahemikus [0, 0.9)
+
+engine-e-body-pnt-the-user-orbit-periapsis-is = kasutaja orbiidi periapsis on pinna all
+
+engine-e-body-pnt-constellation-needs-to-200-satellites = konstellatsioon vajab 1 kuni 200 satelliiti vähemalt ühes tasandis
+
+engine-e-body-pnt-constellation-altitude-must-be-positive = konstellatsiooni kõrgus peab olema positiivne
+
+engine-e-body-pnt-range-sigmas-must-be-positive = kaugussigmad peavad olema positiivsed
+
+engine-e-body-pnt-no-earth-position-relative-to = Maa asukoht taevakeha { $name } suhtes puudub JD { $jd } juures
+
+engine-e-body-pnt-serialising-report = aruande serialiseerimine: { $e }
+
+engine-e-body-pnt-the-report-must-serialise-to = aruanne peab serialiseeruma JSON-objektiks
+
+engine-body-pnt-positioning-around-user-relays-at =
+    Positsioneerimine { $name } ümber — { $user_kind } kasutaja, releesid: { $n_relays } kaugusel { $r } km, epohhe: { $n_epochs }
+    { "  " }Maa valgusaeg { $one_way_light_time_s } s ühesuunaline, { $two_way_light_time_s } s edasi-tagasi; Päike–Maa–taevakeha nurk { $sun_separation_deg } deg
+    { "  " }kättesaadavus: { $availability_relays } ainult konstellatsioon, { $availability_with_earth } koos Maa kaugusega (Maa nähtav { $earth_visibility })
+    { "  " }mediaan-PDOP { $opt }; RMS-viga { $opt2 } ainult konstellatsioon, { $opt3 } koos Maa kaugusega
+    { "  " }mediaanne formaalne sigma { $opt4 } ainult konstellatsioon, { $opt5 } koos Maa kaugusega{ "\u000A" }
+
+engine-body-pnt-positioning-around = Positsioneerimine { $name } ümber
+
+engine-body-pnt-user-relays-earth-light-time =
+    { $n_relays ->
+        [one] { $user_kind } kasutaja · { $n_relays } relee · Maa valgusaeg { $one_way_light_time_s } s · MODELLED
+       *[other] { $user_kind } kasutaja · { $n_relays } releed · Maa valgusaeg { $one_way_light_time_s } s · MODELLED
+    }
+
+## src/calibration_ensembles.rs
+
+engine-e-calibration-ensembles-e1-scenario-is-not-table = E1 stsenaarium ei ole tabel
+
+engine-e-calibration-ensembles-e1-scenario-has-no-monte = E1 stsenaariumil puudub [monte_carlo]
+
+engine-e-calibration-ensembles-e1-final-error-missing = E1: final_error.{ $k } puudub
+
+engine-calibration-ensembles-e1-is-scenarios-campaign-monte = { "\u000A" }E1 on `scenarios/campaign-monte-carlo-clock-holdover.toml`, 200 ansamblit 200 realisatsiooniga igaüks, võrreldes suletud kujuga: keskmine 0, sigma = { $sigma } ns. Ansambel j kasutab baasalgväärtust (seed) 1 000 000 + 1000 j ja bootstrap-algväärtust (seed) 20260928 + j. Suurim suhteline ADEV-viga oli { $max } ansamblil E2 ja { $max2 } ansamblil E3 (üle 1, 10 ja 100 s).{ "\u000A" }
+
+## src/campaign.rs
+
+engine-e-campaign-empty-result-path = tühi tulemustee
+
+engine-e-campaign-result-path-has-an-empty = tulemustee `{ $path }` sisaldab tühja segmenti
+
+engine-e-campaign-result-path-bad-index-in = tulemustee `{ $path }`: vigane indeks osas `{ $part }`
+
+engine-e-campaign-result-path-no-field = tulemustee `{ $path }`: väli `{ $name }` puudub
+
+engine-e-campaign-result-path-indexed-value-is = tulemustee `{ $path }`: indekseeritud väärtus ei ole massiiv
+
+engine-e-campaign-result-path-index-out-of =
+    { $n ->
+        [one] tulemustee `{ $path }`: indeks { $i } väljaspool vahemikku ({ $n })
+       *[other] tulemustee `{ $path }`: indeks { $i } väljaspool vahemikku ({ $n })
+    }
+
+engine-e-campaign-result-path-value-is-not = tulemustee `{ $path }`: väärtus ei ole arv ega lipp
+
+engine-e-campaign-result-path-is-not-an = tulemustee `{ $path }`: `{ $k }` ei ole massiiv
+
+engine-e-campaign-result-path-must-name-one = tulemustee `{ $path }` peab nimetama ühte väärtust, mitte ridu
+
+engine-e-campaign-result-path-is-not-an-2 = tulemustee `{ $path }`: `{ $name }` ei ole massiiv
+
+engine-e-campaign-metric-path-has-no-entry = mõõdikutee `{ $path }` kirje puudub selle liigi units-plokis; deklareeri selle `unit` kampaanias
+
+engine-e-campaign-must-be-non-empty-letters = { $what } `{ $name }` peab olema mittetühi: tähed, numbrid, `_` või `-`
+
+engine-e-campaign-campaign-cannot-contain-campaign = { $label }: kampaania ei saa sisaldada kampaaniat
+
+engine-e-campaign-serialise = { $label }: serialiseerimine: { $e }
+
+engine-e-campaign-result-did-not-parse = { $label }: tulemust ei õnnestunud parsida: { $e }
+
+engine-e-campaign-seed-key-no-field-in = algväärtuse võti `{ $key }`: stsenaariumis puudub väli `{ $part }`
+
+engine-e-campaign-seed-key-is-not-non = algväärtuse võti `{ $key }` ei ole mittenegatiivne täisarv
+
+engine-e-campaign-seed-does-not-fit-toml = algväärtus { $seed } ei mahu TOML-i täisarvu
+
+engine-campaign-time-path-must-name-rows = ajatee `{ $t }` peab nimetama ridu märgendiga `[]`
+
+engine-campaign-compare-is-not-below-above = compare `{ $c }` ei ole below, above ega abs_above
+
+engine-campaign-threshold-is-null = lävi `{ $p }` on null
+
+engine-campaign-reduce-is-not-mean-min = reduce `{ $r }` ei ole mean, min, max ega count
+
+engine-campaign-time-path-gives-several-values = ajatee `{ $t }` annab rea kohta mitu väärtust
+
+engine-campaign-value-path-has-fewer-rows = väärtustee `{ $y }` sisaldab vähem ridu kui `{ $t }`
+
+engine-campaign-value-path-has-rows-time = väärtusteel `{ $y }` on ridu: { $r }, ajateel `{ $t }` ridu: { $t_rows }
+
+engine-e-campaign-campaign-with-phases-needs-timeline = faasidega kampaania vajab sektsiooni [timeline], milles on step_s
+
+engine-e-campaign-timeline-step-must-be-positive = timeline.step_s peab olema positiivne, saadi { $step }
+
+engine-e-campaign-phase-is-named-twice = faas `{ $name }` on nimetatud kaks korda
+
+engine-e-campaign-phase-duration-must-be-non = faas `{ $name }`: duration_s peab olema mittenegatiivne
+
+engine-e-campaign-phase-has-no-runs = faasil `{ $name }` puuduvad käivitused (runs)
+
+engine-e-campaign-phase-the-first-phase-has = faas `{ $name }`: esimesel faasil pole midagi edasi anda
+
+engine-e-campaign-phase-handoff-from-channel-which = faas `{ $name }`: üleandmine kanalist `{ $ch }`, millega eelmine faas ei lõppenud
+
+engine-e-campaign-phase-handoff-from-run-does = faas `{ $name }`: üleandmise from_run { $from_run } ei ole olemas
+
+engine-e-campaign-phase-handoff-is-null = faas `{ $name }`: üleandmine `{ $from }` on null
+
+engine-e-campaign-phase-handoff-run-does-not = faas `{ $name }`: üleandmise käivitust { $run } ei ole olemas
+
+engine-e-campaign-phase = faas `{ $name }`: { $e }
+
+engine-campaign-phase-run = faas { $name }/käivitus { $ri }
+
+engine-e-campaign-phase-end-at-run-does = faas `{ $name }`: end_at_run { $end_at_run } ei ole olemas
+
+engine-campaign-duration-end-at-is-later = duration_s (end_at { $p } = { $x } s on hilisem)
+
+engine-campaign-duration-end-at-is-null = duration_s (end_at { $p } on null)
+
+engine-e-campaign-phase-side-is-not-classical = faas `{ $name }`: pool `{ $side }` ei ole classical ega quantum
+
+engine-e-campaign-phase-skip-must-be-non = faas `{ $name }`: skip_s peab olema mittenegatiivne
+
+engine-e-campaign-phase-alarm-compare-is-not = faas `{ $name }`: alarmi compare `{ $compare }` ei ole below, above ega abs_above
+
+engine-e-campaign-phase-alarm-threshold-is-null = faas `{ $name }`: alarmi lävi `{ $p }` on null
+
+engine-e-campaign-phase-channel-is-in-not = faas `{ $name }`: kanal `{ $channel }` on ühikus { $u }, mitte { $du }
+
+## src/campaign.rs
+
+engine-e-campaign-phase-channel-needs-unit = faas `{ $name }`: kanal `{ $channel }` vajab ühikut
+
+engine-e-campaign-phase-two-runs-both-provide = faas `{ $name }`: kaks käivitust annavad mõlemad kanali `{ $channel }`
+
+engine-e-campaign-phase-carries-which-the-previous = faas `{ $name }` kannab edasi `{ $ch }`, millega eelmine faas ei lõppenud
+
+engine-e-campaign-phase-carries-but-no-run = faas `{ $name }` kannab edasi `{ $ch }`, kuid ükski selle käivitus ei anna `{ $ch }`
+
+engine-e-campaign-channel-is-in-in-one = kanal `{ $name }` on ühes faasis ühikus { $unit } ja teises ühikus { $unit2 }
+
+engine-e-campaign-at-least-one-metric-is = vaja on vähemalt ühte mõõdikut
+
+engine-e-campaign-metric-is-named-twice = mõõdik `{ $name }` on nimetatud kaks korda
+
+engine-e-campaign-seed-overflow-in-the-ensemble = algväärtuse (seed) ületäitumine ansamblis
+
+engine-e-campaign-an-ensemble-needs-at-least = ansambel vajab vähemalt ühte käivitust
+
+engine-e-campaign-sweep-takes-one-to-three = pühkimine võtab ühe kuni kolm telge, saadi { $axes }
+
+engine-e-campaign-axis-is-named-twice = telg `{ $name }` on nimetatud kaks korda
+
+engine-e-campaign-axis-needs-at-least-two = telg `{ $name }` vajab vähemalt kahte sammu
+
+engine-e-campaign-axis-scale-must-be-lin = telg `{ $name }`: scale peab olema lin või log
+
+engine-e-campaign-axis-log-axis-needs-positive = telg `{ $name }`: logaritmiline telg vajab positiivseid otspunkte
+
+engine-campaign-sweep-node = pühkimise sõlm { $flat }
+
+engine-e-campaign-monte-carlo-runs-must-be = monte_carlo.runs peab olema vähemalt kaks
+
+engine-e-campaign-compose-needs-at-least-one = compose vajab vähemalt ühte liiget
+
+engine-e-campaign-shared-value-must-be-number = jagatud väärtus `{ $name }` peab olema arv või arvud
+
+engine-e-campaign-shared-value-is-named-twice = jagatud väärtus `{ $name }` on nimetatud kaks korda
+
+engine-e-campaign-member-binds-unknown-shared = liige `{ $label }` seob tundmatu jagatud väärtuse `{ $name }`
+
+engine-e-campaign-member = liige `{ $label }`: { $e }
+
+engine-e-campaign-metric-is-in-for-one = mõõdik `{ $name }` on ühel liikmel ühikus { $u } ja liikmel `{ $label }` ühikus { $unit }
+
+engine-e-campaign-member-is-named-twice = liige `{ $label }` on nimetatud kaks korda
+
+engine-e-campaign-invalid-campaign-scenario = vigane kampaania stsenaarium: { $e }
+
+engine-e-campaign-invalid-campaign = vigane kampaania: { $e }
+
+engine-campaign-of-across-the-realisations = { $d }: { $what } üle realisatsioonide
+
+engine-campaign-value-of-at-the-end = { $ch } väärtus eelmise faasi lõpus, lisatud selle faasi väärtusele { $ch }
+
+engine-campaign-on-the-timeline-grid-the = { $label } ajajoone ruudustikul: omanikufaasi käivituse viimane valim igal ruudustiku ajahetkel või enne seda (nullindat järku hoidja); null seal, kus selle faasi ükski käivitus seda ei anna
+
+engine-campaign-values-of-the-scenario-key = stsenaariumi võtme { $key } väärtused piki telge { $name }
+
+engine-campaign-value-of-the-scenario-key = stsenaariumi võtme { $key } väärtus selles sõlmes
+
+engine-campaign-of-the-node-result = { $path } sõlme tulemusest
+
+engine-campaign-of-each-realisation-in-seed = { $path } igast realisatsioonist algväärtuse (seed) järjekorras
+
+engine-campaign-shared-value-written-into-every = jagatud väärtus { $name }, kirjutatud igasse seda siduvasse liikmesse
+
+engine-campaign-metric-read-from-the-member = mõõdik { $name } loetud liikme tulemusest
+
+engine-campaign-smallest-across-the-members = väikseim { $name } üle liikmete
+
+engine-campaign-largest-across-the-members = suurim { $name } üle liikmete
+
+engine-campaign-mean-across-the-members = keskmine { $name } üle liikmete
+
+engine-e-campaign-failed-to-serialise-campaign-result = kampaania tulemuse serialiseerimine ebaõnnestus: { $e }
+
+engine-campaign-chain-phases-over-events-alarm = ahel: faase { $phases }, kestus { $duration_s } s, sündmusi { $events }, alarm tõstetud ruudustiku { $alarm_s } s jooksul
+
+engine-campaign-sweep-of-nodes-over = `{ $scenario_kind }` pühkimine: sõlmi { $nodes } üle [{ $axis_order }]{ $v4 }
+
+engine-campaign-monte-carlo-of-seeds = `{ $scenario_kind }` Monte Carlo: algväärtusi (seed): { $runs }
+
+engine-campaign-compose-members = compose: liikmeid { $members }
+
+engine-campaign-member-runs-modelled = liikmete käivitusi: { $runs_total } (MODELLED)
+
+engine-campaign-sweep-of-over-nodes-each = `{ $scenario_kind }` pühkimine üle { $axis_order } (sõlmi { $nodes }{ $v4 }; iga joon oma vahemikus)
+
+engine-campaign-campaign-modelled-composition-every-value = kampaania { $r } | MODELLED koosseis; iga väärtus on loetud nimetatud liigi tegelikust käivitusest
+
+## src/campaign/optimize.rs
+
+engine-e-campaign-optimize-an-optimisation-takes-one-to = optimeerimine võtab ühe kuni kolm parameetrit (params), saadi { $params }
+
+engine-e-campaign-optimize-param-is-named-twice = param `{ $name }` on nimetatud kaks korda
+
+engine-e-campaign-optimize-param-needs-finite-lo-hi = param `{ $name }`: vajab lõplikku lo < hi
+
+engine-e-campaign-optimize-param-scale-must-be-lin = param `{ $name }`: scale peab olema lin või log
+
+engine-e-campaign-optimize-param-log-param-needs-positive = param `{ $name }`: logaritmiline param vajab positiivseid piire
+
+engine-e-campaign-optimize-param-start-must-lie-in = param `{ $name }`: start peab olema vahemikus [lo, hi]
+
+engine-e-campaign-optimize-param-grid-needs-steps-of = param `{ $name }`: ruudustik vajab vähemalt kahte sammu (steps)
+
+engine-e-campaign-optimize-objective-target-is-only-read = objective.target loetakse ainult siis, kui goal = "target"
+
+engine-e-campaign-optimize-goal-target-needs-finite-objective = goal = "target" vajab lõplikku objective.target-it
+
+engine-e-campaign-optimize-objective-goal-must-be-minimize = objective.goal peab olema minimize, maximize või target, saadi `{ $other }`
+
+engine-e-campaign-optimize-grid-of-nodes-is-above = { $total } sõlmega ruudustik ületab piiri 100000
+
+engine-e-campaign-optimize-params-steps-is-only-read = params.steps loetakse ainult siis, kui method = "grid"
+
+engine-e-campaign-optimize-max-evals-must-cover-the = max_evals peab katma algse simpleksi (params + 1)
+
+engine-e-campaign-optimize-step-must-lie-in = step peab olema vahemikus (0, 1]
+
+engine-e-campaign-optimize-ftol-and-xtol-must-be = ftol ja xtol peavad olema mittenegatiivsed
+
+engine-e-campaign-optimize-method-must-be-grid-or = method peab olema grid või nelder-mead, saadi `{ $other }`
+
+engine-campaign-optimize-optimize-eval = optimeerimise hindamine { $trace }
+
+engine-campaign-optimize-lower-bound-of-the-scenario = stsenaariumi võtme { $key } alampiir
+
+engine-campaign-optimize-upper-bound-of-the-scenario = stsenaariumi võtme { $key } ülempiir
+
+engine-campaign-optimize-value-of-the-scenario-key = stsenaariumi võtme { $key } väärtus parimal hindamisel
+
+engine-campaign-optimize-value-of-the-scenario-key-2 = stsenaariumi võtme { $key } väärtus sellel hindamisel
+
+engine-campaign-optimize-target-value-of = { $what } sihtväärtus
+
+engine-campaign-optimize-at-the-best-evaluation = { $what } parimal hindamisel
+
+engine-campaign-optimize-of-this-evaluation-the-seed = { $what } sellel hindamisel (algväärtuste (seed) keskmine, kui runs > 1)
+
+engine-campaign-optimize-optimize-of-by-evals-best = optimeeri `{ $objective_name }` ({ $goal } { $o }) liigil `{ $scenario_kind }` meetodiga { $method }: hindamisi { $evals } ({ $stop_reason }), parim { $o2 } kohal [{ $at }]
+
+## src/ccsds_tdm.rs
+
+engine-e-ccsds-tdm-tdm-meta-start-before-ccsds = TDM: META_START enne CCSDS_TDM_VERS päist
+
+engine-e-ccsds-tdm-tdm-malformed-header-line = TDM: vigane päise rida: { $line }
+
+engine-e-ccsds-tdm-tdm-malformed-metadata-line = TDM: vigane metaandmete rida: { $line }
+
+engine-e-ccsds-tdm-tdm-malformed-data-line = TDM: vigane andmerida: { $line }
+
+engine-e-ccsds-tdm-tdm-unrecognised-data-keyword = TDM: tundmatu andmete võtmesõna { $k }
+
+engine-e-ccsds-tdm-tdm-data-line-missing-epoch = TDM: andmerida { $k }: puudub epohh
+
+engine-e-ccsds-tdm-tdm-data-line-missing-value = TDM: andmerida { $k }: puudub väärtus
+
+engine-e-ccsds-tdm-tdm-data-line-bad-value = TDM: andmerida { $k }: vigane väärtus { $val_str }
+
+engine-e-ccsds-tdm-tdm-unterminated-segment-missing-meta = TDM: lõpetamata segment (puudub META_STOP/DATA_STOP)
+
+engine-e-ccsds-tdm-tdm-bad-turnaround-numerator = TDM: vigane TURNAROUND_NUMERATOR { $value }
+
+engine-e-ccsds-tdm-tdm-bad-turnaround-denominator = TDM: vigane TURNAROUND_DENOMINATOR { $value }
+
+## src/cislunar_arc_recovery.rs
+
+engine-e-cislunar-arc-recovery-unknown-observable-expected-one-of = tundmatu vaadeldav suurus `{ $other }`: oodatud on üks järgmistest: range, range-rate
+
+engine-e-cislunar-arc-recovery-unknown-coordinates-expected-one-of = tundmatu koordinaatide esitus `{ $other }`: oodatud on üks järgmistest: cartesian, polar
+
+engine-e-cislunar-arc-recovery-arc-hours-must-be-finite = arc_hours peab olema lõplik ja positiivne, saadi { $arc_hours }
+
+engine-e-cislunar-arc-recovery-epochs-must-be-got = epochs peab olema ≥ 2, saadi { $epochs }
+
+engine-e-cislunar-arc-recovery-steps-must-be = steps peab olema ≥ 1
+
+engine-e-cislunar-arc-recovery-trials-must-be = trials peab olema ≥ 1
+
+engine-e-cislunar-arc-recovery-max-iterations-must-be = max_iterations peab olema ≥ 1
+
+engine-e-cislunar-arc-recovery-displacement-nd-must-be-finite = displacement_nd peab olema lõplik ja positiivne, saadi { $displacement_nd }
+
+engine-e-cislunar-arc-recovery-recovery-factor-must-be-finite = recovery_factor peab olema lõplik ja positiivne, saadi { $recovery_factor }
+
+engine-e-cislunar-arc-recovery-error-bound-km-must-be = error_bound_km peab olema lõplik ja positiivne, saadi { $error_bound_km }
+
+engine-e-cislunar-arc-recovery-sigma-range-must-be-finite = sigma_range_m peab olema lõplik ja positiivne, saadi { $sigma_range_m }
+
+engine-e-cislunar-arc-recovery-sigma-range-rate-mm-must = sigma_range_rate_mm_s peab olema lõplik ja positiivne, saadi { $sigma_range_rate_mm_s }
+
+engine-e-cislunar-arc-recovery-the-constellation-must-carry-at = konstellatsioon peab sisaldama vähemalt juhtsatelliiti (chief) ja ühte viitesatelliiti
+
+engine-e-cislunar-arc-recovery-family-is-an-out-of = perekond `{ $family }` on tasandiväline perekond ja sellel puudub tasapinnaline nelja olekuga esitus: selle pühkimiseks sea spatial = true
+
+engine-e-cislunar-arc-recovery-the-forward-model-produced-non = otsemudel andis mittelõpliku tõemõõtmise
+
+engine-cislunar-arc-recovery-first-arc-length-at-which = esimene kaare pikkus, mille korral IGA algväärtustatud (seeded) katse müravaba pakettlahendus viib lõppoleku vea kuni { $recovery_factor } korrani algselt lähtutud apriorsest nihkest. See on astakukriteeriumi taastamise analoog: täpsete mõõtmistega muutub küsimus `is the state observable?` küsimuseks `can an estimator get it back?`, ja vastusesse ei lähe ühtki singulaarväärtuse tolerantsi.
+
+engine-cislunar-arc-recovery-first-arc-length-at-which-2 = esimene kaare pikkus, mille korral Monte Carlo RMS asukoha taastamisviga üle algväärtustatud (seeded) müra realisatsioonide (katseid: { $trials }) langeb tasemele { $error_bound_km } km või allapoole. See on hinnatavuse kriteeriumi taastamise analoog, mõõdetud, mitte ennustatud: viga on hinnangu kaugus teadaolevast tõest, mitte formaalse kovariatsiooni jälg.
+
+engine-cislunar-arc-recovery-corroborated-within-one-epoch-grid = CORROBORATED ühe epohhiruudustiku sammu piires: hindaja taastub alates { $e } h, Gramiani astakukriteerium lülitub { $g } h juures (suhe { $v1 }, ruudustik { $grid_hours } h).
+
+engine-cislunar-arc-recovery-not-corroborated-as-recoverability-boundary = NOT CORROBORATED taastatavuse piirina: hindaja taastub alates { $e } h, { $v1 } Gramiani astakukriteeriumi { $g } h (suhe { $v2 }, ruudustik { $grid_hours } h). Astakukriteerium on suhteline singulaarväärtuse kokkulepe; taastamispiir on mõõdetud olekuviga ja need kaks ei lange siin kokku.
+
+engine-cislunar-arc-recovery-not-corroborated-the-estimator-never = NOT CORROBORATED: hindaja ei täida sellel kaarel kunagi oma taastamispiiri, samas kui Gramiani astakukriteerium lülitub { $g } h juures.
+
+engine-cislunar-arc-recovery-the-gramian-rank-criterion-is = Gramiani astakukriteeriumi ei täideta sellel kaarel kunagi (geomeetria ei jõua kunagi täisastakuni), samas kui hindaja taastub alates { $e } h — need kaks ei ole üksmeelel selles, kas piir üldse eksisteerib.
+
+engine-cislunar-arc-recovery-cislunar-arc-recovery-family-state = cislunar-arc-recovery | perekond { $family }, { $state_dim } olekut, { $n_spacecraft } s/c, vaadeldav suurus { $observable }, parametriseering { $coordinates } | kaar { $arc_hours } h, epohhe { $epochs } (ruudustik { $grid_hours } h), katseid { $trials }, algväärtus { $seed } | lõplike vahede osatuletised, ilma analüütilise Jacobi maatriksi / STM / SVD / SRIF-ita | müravaba taastamine alates { $nf } (tegur { $recovery_factor }) vs Gramiani astakulävi { $gram } | Monte Carlo hinnatavus alates { $est } (RMS asukoht ≤ { $error_bound_km } km, σ { $sigma_range_m } m) vs Gramiani hinnatavus { $gram_est } | kaare lõpu RMS asukoht { $last } km
+
+## src/cislunar_observability.rs
+
+engine-e-cislunar-observability-unknown-family-expected-one-of = tundmatu perekond `{ $other }`: oodatud on üks järgmistest: dro, halo, nrho
+
+engine-e-cislunar-observability-dro-at-crossing-distance-did = DRO ristumiskaugusel { $d } ei õnnestunud diferentsiaalselt korrigeerida
+
+engine-e-cislunar-observability-member-at-x0-did-not = { $label } liiget { $i } kohal x0 = { $x0 } ei õnnestunud diferentsiaalselt korrigeerida
+
+engine-e-cislunar-observability-spacecraft-must-be-between-and = n_spacecraft peab olema vahemikus 2 kuni { $MAX_SPACECRAFT }, saadi { $n }
+
+engine-e-cislunar-observability-epochs-must-be-got = epochs peab olema ≥ 2, saadi { $n_epochs }
+
+engine-e-cislunar-observability-rel-tol-must-be-finite = rel_tol peab olema lõplik ja positiivne, saadi { $rel_tol }
+
+engine-e-cislunar-observability-sigma-range-must-be-finite = sigma_range_m peab olema lõplik ja mittenegatiivne, saadi { $sigma_range_m }
+
+engine-e-cislunar-observability-sigma-pos-threshold-km-must = sigma_pos_threshold_km peab olema lõplik ja positiivne, saadi { $sigma_pos_threshold_km }
+
+engine-cislunar-observability-cislunar-observability-refs-arc-epochs = cislunar-observability | { $c } s/c (viiteid { $refs }) | kaar { $arc_hours } h, { $rank_arc } epohhi | astak { $first } → { $last } / { $state_dim } üle kaare | Gramiani λ [{ $min_eigenvalue }…{ $max_eigenvalue }] cond { $condition_str } | hetkeastak ainult range { $rank_range_only } → range+rate { $rank_range_rate } (linke { $n_links }) | GDOP ainult range { $ro } range+rate { $rr } | DRO algtingimused (maks perioodilisuse jääk { $max_resid }) | SRIF posterioor lõplik astak-4 epohhil { $srif_epoch } (kinnitatud astak/STM/DRO-sulgumine/SRIF, modelleeritud kavand)
+
+engine-cislunar-observability-never-rank-of = mitte kunagi (astak { $rank } / { $state_dim })
+
+engine-cislunar-observability-family-state-range-rank-threshold = { $base } | perekond { $family }, { $state_dim } olekut, { $n_spacecraft } s/c, σ_range { $sigma_range_m } m | astakulävi { $rank_thr } (ruudustik { $c } h) | hinnatavuse lävi (σ_pos ≤ { $sigma_pos_threshold_km } km) { $est_thr }
+
+engine-cislunar-observability-first-arc-length-at-which = esimene kaare pikkus, mille korral juhtsatelliidi (chief) ALGOLEKU formaalne 1σ asukoha määramatus, σ_pos = sqrt(trace(P_rr)) kus P = (ÕᵀÕ)⁻¹ ja Õ on mõõtemürast valgendatud jälgitavusmaatriks, langeb tasemele { $sigma_pos_threshold_km } km või allapoole. See on kriteerium, mille korral kaarepikkuse lävi on üldse mürast sõltuv: P skaleerub kui σ², seega σ_pos skaleerub kui σ, samas kui ülaltoodud astakukriteerium σ-ga ei liigu. Piir on ETTE ANTUD inseneeriline valik, mitte sobitatud — estimability_sweep annab läve nelja muu piiri jaoks.
+
+engine-cislunar-observability-extension-r3-this-run-is = LAIENDUS (R3) — see käivitus EI OLE tasapinnaline DRO konfiguratsioon, mida ülaltoodud `label` kirjeldab. Olekudimensioon { $state_dim }; orbiidiperekond { $family }; { $n_spacecraft } kosmoseaparaati; kaugusmõõtmise sigma { $sigma_range_m } m. Kus `label` ütleb "planar" ja "planar DROs", lugege siin nimetatud perekonda. VALIDATED täiendused: 6x6 variatsiooniline STM on sama lõplike vahedega kinnitatud CR3BP STM (crate::cr3bp), mida kasutatakse täislaiuses; ruumilised range / range-rate Jacobi maatriksi read on lõplike vahedega kinnitatud analüütilised osatuletised, range-rate rida on komponent-komponendi haaval kontrollitud crate'i sõltumatu 3D deepspace_od::range_rate_observable vastu; halo / NRHO algtingimused on diferentsiaalselt korrigeeritud perioodilised orbiidid sama korrektori abil, mis reprodutseerib avaldatud L2 lõunapoolset 9:2 NRHO-d, jätkatud sellest avaldatud algväärtusest (seed), ja iga liikme sulgumisjääk on esitatud; kuue oleku ASTAKU otsused on kinnitatud SÕLTUMATU rea-astmelise astaku vastu (Gaussi elimineerimine osalise pöördvalikuga), mis ei jaga koodi omaväärtuste/SVD teega. SRIF-HARU AUS PIIRANG: ülaltoodud SRIF-i ristvalideerimine kasutab SAMU mõõtmise Jacobi maatrikseid ja taandub samale O^T O-le, seega on selle kooskõla kahe numbrilise masina vaheline järjepidevuskontroll, MITTE sõltumatu kinnitus lävele — seda ei loeta ühegi siinse arvu kinnitusena. MODELLED: perekonna kavand (millised abstsissid, amplituudid ja faasid), epohhiruudustik, ühe lingi kaar ja hinnatavuse kriteeriumi ette antud asukohapiir.
+
+engine-cislunar-observability-validated-each-constellation-initial-condition = Kinnitatud: iga konstellatsiooni algtingimus on perekonna { $family } diferentsiaalselt korrigeeritud perioodiline orbiit, mis sulgub ühe perioodi jooksul teatatud perioodilisusjäägini (tasapinnalised DRO-d on lisaks Kuu suhtes retrograadsed). Perekond on korrigeeritud Maa–Kuu massisuhte juures. Modelleeritud: perekonna parameetrite ja faaside valik (konstellatsiooni kavand). Võtmenimi `dro_provenance` on säilitatud avaldatud dokumendiskeemi jaoks; see kannab seda perekonda, mida käivitus küsis.
+
+## src/clock_integrity.rs
+
+engine-e-clock-integrity-integrity-must-be-finite-and = integrity: { $n } peab olema lõplik ja positiivne, saadi { $v }
+
+engine-e-clock-integrity-integrity-must-lie-in-got = integrity: { $n } peab olema vahemikus (0, 1), saadi { $v }
+
+engine-e-clock-integrity-integrity-mask-deg-must-lie = integrity: mask_deg peab olema vahemikus [0, 90)
+
+engine-e-clock-integrity-integrity-systems-must-name-at = integrity: systems peab nimetama vähemalt ühe eelseadistuse (preset)
+
+engine-e-clock-integrity-integrity-injected-bias-needs-finite = integrity: injected_bias vajab lõplikke bias_m, t0_s ja t1_s
+
+engine-e-clock-integrity-integrity-epochs-exceed-the-epoch =
+    { $n ->
+        [one] integrity: { $n } epohh ületab { $MAX_EPOCHS } epohhi piiri; suurenda step_s
+       *[other] integrity: { $n } epohhi ületavad { $MAX_EPOCHS } epohhi piiri; suurenda step_s
+    }
+
+## src/clock_library/card.rs
+
+engine-e-clock-library-card-no-records = { $name }: kirjed puuduvad
+
+engine-e-clock-library-card-records-at-different-tau0 = { $name }: kirjed erinevatel tau0 väärtustel
+
+engine-e-clock-library-card-periodic-least-squares-failed = { $name }: perioodiline vähimruutude meetod ebaõnnestus
+
+engine-e-clock-library-card-stability-points-with-edf-card = { $name }: stabiilsuspunkte edf >= { $MIN_FIT_EDF } korral: { $used }; kaart vajab kolme
+
+## src/clock_library/condition.rs
+
+engine-clock-library-condition-gaps-phase-outliers-phase-steps = lüngad { $g }, faasi erandid { $o }, faasihüpped { $p }, pursked { $b }, sagedushüpped { $f } (robustne sigma_y { $sigma_y })
+
+## src/compliance/mod.rs
+
+engine-e-compliance-is-not-non-negative-integer = `{ $p }` ei ole mittenegatiivne täisarv
+
+engine-e-compliance-is-missing = `{ $p }` puudub
+
+engine-compliance-events-detected-exceeds-events-evaluable = events_detected { $ed } ületab väärtuse events_evaluable { $ee }
+
+engine-compliance-predictions-agreeing-exceeds-predictions-evaluable = predictions_agreeing { $pa } ületab väärtuse predictions_evaluable { $pe }
+
+engine-compliance-receiver-trust-counts-malformed-excluded = { $label }: receiver-trust arvud on vigased ({ $malformed_counts }); välja jäetud
+
+engine-e-compliance-not-json = { $label }: ei ole JSON: { $e }
+
+engine-compliance-cannot-read = { $label }: lugemine ebaõnnestus: { $e }
+
+engine-e-compliance-the-sibling-scenario-says-kind = { $label }: kõrvalstsenaarium ütleb liigiks `{ $s }`, kuid tulemus ütleb `{ $o }`; ei kasutata
+
+engine-e-compliance-scenario-kind-not-found-no = { $label }: stsenaariumi liiki ei leitud (kõrvalstsenaariumi faili pole, ei ole receiver-trust tulemus, ülemisel tasemel puudub `kind`)
+
+engine-e-compliance-is-not-scenario-kind-the = { $label }: `{ $kind }` ei ole mootorile tuntud stsenaariumi liik; ei kasutata
+
+engine-compliance-written-by-kshana = Koostanud kshana { $engine_version }.{ "\u000A\u000A" }
+
+engine-compliance-test-with-every-stated-bar =
+    ### { $cell } ({ $cell2 })
+
+    Testide arv, mille kõik nimetatud läved on täidetud: { $met }, mõne täitmata lävega: { $not_met }, sisendit vajavad: { $needs_input }.{ "\u000A\u000A" }
+
+## src/conflict_resilience.rs
+
+engine-e-conflict-resilience-intensity-grid-must-have-finite = intensiivsuse ruudustikul peab olema lõplik min < max, saadi [{ $min }, { $max }]
+
+engine-e-conflict-resilience-intensity-grid-needs-steps-got = intensiivsuse ruudustik vajab >= 2 sammu, saadi { $steps }
+
+engine-e-conflict-resilience-correlation-grid-must-have-at = korrelatsiooniruudustikul peab olema vähemalt üks väärtus
+
+engine-e-conflict-resilience-correlation-values-must-lie-in = korrelatsiooniväärtused peavad olema vahemikus [0, 1], saadi { $r }
+
+engine-e-conflict-resilience-conflict-resilience-needs-at-least = conflict-resilience vajab vähemalt ühte kihti
+
+engine-e-conflict-resilience-layer-availability-not-in = kiht { $i } kättesaadavus { $availability } ei ole vahemikus [0, 1]
+
+engine-e-conflict-resilience-layer-sigma-must-be-finite = kiht { $i } sigma_m peab olema lõplik ja positiivne
+
+engine-e-conflict-resilience-layer-vulnerability-must-be-finite = kiht { $i } haavatavus peab olema lõplik ja >= 0
+
+engine-e-conflict-resilience-layer-vector-weight-must-be = kiht { $i } vector_weight peab olema lõplik ja >= 0
+
+engine-e-conflict-resilience-primary-layer-out-of-range = primary_layer { $primary } väljaspool vahemikku (0..{ $layers })
+
+engine-e-conflict-resilience-trials-must-be = trials peab olema >= 1
+
+engine-conflict-resilience-conflict-resilience-layers-baseline-reference = conflict-resilience | kihte { $layers } ({ $primary } baastase) | viiteintensiivsus { $reference_intensity } | vastupidavuse suhe suletud kuju { $ratio_closed_form }x MC { $ratio_mc_independent }x (kihiline vs ühekihiline) | korrelatsioon nullib kihilisuse: suhe { $first }x @ rho { $first2 } -> { $last }x @ rho { $last2 } | apriooriline CI [{ $ratio_lo }-{ $ratio_hi }]x | vektorikohane ellujäämine @ viide segamine { $surv }% spuufimine { $surv2 }% kineetiline { $surv3 }% küber { $surv4 }% (teravaim { $sharpest }) | ~7x pealkirjaarv MODELLED, VALIDATED MC->closed-form / fuse-identity / copula-marginals / per-vector-survival
+
+## src/constellation.rs
+
+engine-e-constellation-unknown-central-body-expected-planet = tundmatu keskkeha { $name }: oodatud on planeet, Pluuto, Kuu või suurem kuu (earth, moon, mars, europa, titan, ...; vt crate::body::SOLAR_SYSTEM)
+
+engine-e-constellation-walker-shell-needs-total-and = Walkeri kest vajab total > 0 ja planes > 0
+
+engine-e-constellation-walker-total-is-not-multiple = Walkeri total { $total } ei ole planes { $planes } kordne
+
+engine-e-constellation-walker-phasing-must-lie-in = Walkeri faasistus F = { $phasing } peab olema vahemikus 0..planes (= { $planes })
+
+engine-e-constellation-is-not-an-expandable-gps = { $name } ei ole laiendatav GPS-i slott (SPS PS tabel 3.2-2 loetleb B1, D2, F2, A2, C4, E3)
+
+engine-e-constellation-give-altitude-km-or-semi = { $what }: anna altitude_km või semi_major_axis_km, mitte mõlemat
+
+engine-e-constellation-needs-altitude-km-or-semi = { $what }: vajab altitude_km või semi_major_axis_km
+
+engine-e-constellation-semi-major-axis-km-is = { $what }: poolsuurtelg { $v1 } km ei ole { $name } raadiusest suurem
+
+engine-e-constellation-eccentricity-must-lie-in = { $what }: ekstsentrilisus { $e } peab olema vahemikus [0, 0.9)
+
+engine-e-constellation-perigee-is-below-the-surface = { $what }: perigee on pinna all (keha { $name })
+
+engine-e-constellation-constellation-preset-is-an-earth = konstellatsioon { $name }: eelseadistus { $p } on Maa konstellatsioon, keha on { $name2 }
+
+engine-e-constellation-constellation-unknown-preset-expected-gps = konstellatsioon { $name }: tundmatu eelseadistus { $other } (oodatud on gps-baseline, gps-expandable, galileo, beidou, beidou-meo või glonass)
+
+engine-e-constellation-constellation-expanded-applies-only-to = konstellatsioon { $name }: `expanded` kehtib ainult eelseadistusele gps-expandable
+
+engine-constellation-constellation-shell = konstellatsioon { $name } kest { $v2 }
+
+engine-constellation-explicit-element-sets = selgesõnalisi elemendikomplekte: { $satellite }
+
+engine-constellation-constellation-satellite = konstellatsioon { $name } satelliit { $v2 }
+
+engine-e-constellation-constellation-has-no-satellites-give = konstellatsioonil { $name } puuduvad satelliidid: anna eelseadistus, [[constellation.shell]] või [[constellation.satellite]]
+
+engine-e-constellation-no-constellation-given = konstellatsiooni pole antud
+
+## src/constellation.rs
+
+engine-e-constellation-constellations-with-one-clock-each = konstellatsioone { $constellations }, igaühel üks kell, ületab piiri { $MAX_CLOCKS } kella; kasuta clock = "common" või ühenda konstellatsioonid
+
+engine-e-constellation-must-be-finite = { $what } peab olema lõplik
+
+engine-e-constellation-need-step-and-duration-step = vaja on step_s > 0 ja duration_s >= step_s
+
+engine-e-constellation-more-than-100-000-epochs = rohkem kui 100 000 epohhi; suurenda step_s
+
+engine-e-constellation-mask-deg-must-lie-in = mask_deg peab olema vahemikus [0, 90)
+
+engine-e-constellation-pdop-threshold-must-be-positive = pdop_threshold peab olema positiivne
+
+engine-e-constellation-grid-step-deg-must-lie = grid_step_deg peab olema vahemikus [0.25, 90]
+
+engine-e-constellation-need-90-lat-min-deg = vaja on -90 <= lat_min_deg < lat_max_deg <= 90
+
+engine-e-constellation-need-lon-min-deg-lon = vaja on lon_min_deg < lon_max_deg, hõlmates kuni 360 deg
+
+engine-e-constellation-give-at-least-one-constellation = anna vähemalt üks [[constellation]]
+
+engine-e-constellation-track-points-is-capped-at = track_points on piiratud väärtusega 2000
+
+engine-e-constellation-satellites-exceeds-the-50-000 = satelliitide arv { $total } ületab piiri 50 000
+
+engine-constellation-constellation-design-satellites-around-the = constellation-design: satelliite { $total } ({ $names }) ümber: { $name }; kättesaadavus { $global_availability_pct }% (PDOP <= { $pdop_threshold } maskil { $mask_deg } deg), halvim asukoht { $worst_site_availability_pct }%, mediaan-PDOP { $cov }, keskmiselt nähtaval { $global_mean_visible }; ruudustiku punkte { $grid_points } x epohhe { $epochs } (MODELLED)
+
+engine-constellation-constellation-coverage-over-the = Konstellatsiooni kate: { $name }
+
+## src/contact_schedule.rs
+
+engine-e-contact-schedule-link-must-be-finite-and = link.{ $n } peab olema lõplik ja positiivne
+
+engine-e-contact-schedule-link-must-be-finite-and-2 = link.{ $n } peab olema lõplik ja >= 0
+
+engine-e-contact-schedule-link-eirp-dbw-must-be = link.eirp_dbw peab olema lõplik
+
+engine-e-contact-schedule-satellite-altitude-km-must-be = satelliit '{ $name }': altitude_km peab olema vahemikus (100, 40000)
+
+engine-e-contact-schedule-satellite-inclination-deg-must-be = satelliit '{ $name }': inclination_deg peab olema vahemikus [0, 180]
+
+engine-e-contact-schedule-satellite-backlog-mbit-must-be = satelliit '{ $name }': backlog_mbit peab olema >= 0
+
+engine-e-contact-schedule-satellite-priority-must-be = satelliit '{ $name }': priority peab olema > 0
+
+engine-e-contact-schedule-satellite-eirp-dbw-must-be = satelliit '{ $name }': eirp_dbw peab olema lõplik
+
+engine-e-contact-schedule-station-lat-deg-in-90 = jaam '{ $name }': lat_deg vahemikus [-90, 90], lon_deg lõplik
+
+engine-e-contact-schedule-station-mask-deg-must-be = jaam '{ $name }': mask_deg peab olema vahemikus [0, 90)
+
+engine-e-contact-schedule-station-alt-must-be-in = jaam '{ $name }': alt_m peab olema vahemikus [0, 3000] (ITU-R P.834 vahemik)
+
+engine-e-contact-schedule-station-setup-and-over-db = jaam '{ $name }': setup_s >= 0 ja g_over_t_db lõplik
+
+engine-e-contact-schedule-duration-hours-must-be-in = duration_hours peab olema vahemikus (0, 168]
+
+engine-e-contact-schedule-step-must-be-in-300 = step_s peab olema vahemikus (0, 300]
+
+engine-e-contact-schedule-at-least-one-satellite-and = vaja on vähemalt ühte satelliiti ja ühte jaama
+
+engine-e-contact-schedule-at-most-32-satellites-and = kuni 32 satelliiti ja 32 jaama
+
+engine-contact-schedule-contact-schedule-satellites-stations-over = contact-schedule: satelliite { $satellites } x jaamu { $stations } ajavahemikus { $duration_hours } h -> kandidaatkontakte { $cands }, planeeritud { $greedy }; edastatud { $total_del } / { $total_backlog } Mbit{ $v8 } (MODELLED)
+
+engine-contact-schedule-acm-link-pass-es-acm = acm-link: läbilende { $pairs }; ACM { $acm } Mbit vs CCM { $ccm } { $ccm_v } Mbit{ $v5 } (MODELLED)
+
+## src/dop_error_ci.rs
+
+engine-e-dop-error-ci-need-at-least-trials-and = vaja on vähemalt 2 katset ja lõplikku sigma_m > 0
+
+engine-e-dop-error-ci-alpha-total-must-be-in = alpha_total peab olema vahemikus (0, 1)
+
+engine-e-dop-error-ci-no-local-frame-at-the = kasutajal puudub lokaalne koordinaatsüsteem
+
+engine-e-dop-error-ci-singular-geometry = { $name }: singulaarne geomeetria
+
+engine-e-dop-error-ci-no-noise-free-fix = { $name }: müravaba asukohamäärangut pole
+
+engine-e-dop-error-ci-no-fix = { $name }: asukohamäärangut pole
+
+## src/dop_error_mc.rs
+
+engine-e-dop-error-mc-singular-geometry = { $label }: singulaarne geomeetria
+
+engine-e-dop-error-mc-no-fix = { $label }: asukohamäärangut pole
+
+## src/earth_gnss_lunar.rs
+
+engine-e-earth-gnss-lunar-altitude-km-must-be-positive = altitude_km peab olema positiivne; saadi { $altitude_km }
+
+engine-e-earth-gnss-lunar-planes-and-sats-per-plane = planes ja sats_per_plane peavad mõlemad olema nullist erinevad
+
+engine-e-earth-gnss-lunar-freq-hz-must-be-positive = freq_hz peab olema positiivne; saadi { $freq_hz }
+
+engine-e-earth-gnss-lunar-tx-efficiency-must-be-in = tx_efficiency peab olema vahemikus (0, 1]; saadi { $tx_efficiency }
+
+engine-e-earth-gnss-lunar-system-temp-must-be-positive = system_temp_k peab olema positiivne; saadi { $temp_k }
+
+engine-e-earth-gnss-lunar-back-lobe-suppression-db-must = back_lobe_suppression_db peab olema mittenegatiivne; saadi { $back_lobe_suppression_db }
+
+engine-e-earth-gnss-lunar-receiver-range-must-be-outside = receiver_range_m peab olema Maast väljaspool; saadi { $range_m }
+
+engine-earth-gnss-lunar-earth-gnss-at-lunar-distance =
+    { $n_satellites ->
+        [one] Maa GNSS Kuu kaugusel — { $n_satellites } satelliit, vastuvõtja kaugusel { $r } km{ "\u000A" }
+       *[other] Maa GNSS Kuu kaugusel — { $n_satellites } satelliiti, vastuvõtja kaugusel { $r } km{ "\u000A" }
+    }
+
+engine-earth-gnss-lunar-earth-limb-from-the-constellation = { "  " }Maa serv konstellatsioonist vaadatuna: { $earth_limb_half_angle_deg } deg nadiirist — iga Kuu poole suunatud kiir peab seda ületama{ "\u000A" }
+
+engine-earth-gnss-lunar-of-not-occulted-clear-the = { "  " }varjamata: { $n_geometrically_visible } / { $n_satellites }; jälgimisläve { $tracking_threshold_dbhz } dB-Hz ületab: { $n_trackable }{ "\u000A" }
+
+engine-earth-gnss-lunar-best-link-db-hz = { "  " }parim link { $c } dB-Hz{ "\u000A" }
+
+engine-earth-gnss-lunar-every-trackable-line-of-sight = { "  " }iga jälgitav nähtavusjoon jääb { $a } deg poolkoonuse sisse — geomeetria on peaaegu degenereerunud{ "\u000A" }
+
+engine-earth-gnss-lunar-sweep-over-epochs-signal-availability = { "  " }PÜHKIMINE { $epochs } epohhi / { $span_s } s jooksul: signaali kättesaadavus { $signal_availability }, asukohamäärangu kättesaadavus { $fix_availability }{ "\u000A" }
+
+engine-earth-gnss-lunar-trackable-links-mean-max-best = { "    " }jälgitavaid linke keskmiselt { $mean_trackable }, maks { $max_trackable }; parim C/N0 { $w }; parim PDOP { $w2 }{ "\u000A" }
+
+## src/entry_eo_ascent/ascent.rs
+
+engine-e-entry-eo-ascent-ascent-between-one-and-six-stages = nõutav on üks kuni kuus astet
+
+engine-e-entry-eo-ascent-ascent-stages-dry-mass-kg-must = stages[{ $i }].dry_mass_kg peab olema lõplik ja mittenegatiivne
+
+engine-e-entry-eo-ascent-ascent-stages-exit-area-m2-must = stages[{ $i }].exit_area_m2 peab olema lõplik ja mittenegatiivne
+
+engine-e-entry-eo-ascent-ascent-payload-kg-must-be-finite = payload_kg peab olema lõplik ja mittenegatiivne
+
+engine-e-entry-eo-ascent-ascent-kick-altitude-must-be-finite = kick_altitude_m peab olema lõplik ja mittenegatiivne
+
+engine-e-entry-eo-ascent-ascent-kick-angle-deg-must-be = kick_angle_deg peab olema vahemikus [0, 45)
+
+engine-e-entry-eo-ascent-ascent-kick-duration-must-be-finite = kick_duration_s peab olema lõplik ja mittenegatiivne
+
+engine-e-entry-eo-ascent-ascent-lift-off-thrust-to-weight = stardi tõukejõu ja kaalu suhe { $tw } peab ületama 1
+
+engine-entry-eo-ascent-ascent-ascent-losses-ideal-dv-losses = ascent-losses: ideaalne dv { $ideal_dv_m_s } m/s, kaod { $losses } m/s (gravitatsioon { $gravity_loss_m_s }, takistus { $drag_loss_m_s }, juhtimine { $steering_loss_m_s }, vastusurve { $back_pressure_loss_m_s }); põlemise lõpp { $r } km kiirusel { $end_speed_m_s } m/s, gamma { $r2 } deg; max-Q { $r3 } kPa (MODELLED)
+
+## src/entry_eo_ascent/entry_heating.rs
+
+engine-e-entry-eo-ascent-entry-heating-must-be-finite-and-positive = { $name } peab olema lõplik ja positiivne
+
+engine-e-entry-eo-ascent-entry-heating-body-must-be-earth-or = keha peab olema "earth" või "mars", saadi "{ $other }"
+
+engine-e-entry-eo-ascent-entry-heating-atmosphere-is-not-available-for = atmosfäär "{ $a }" ei ole keha "{ $b }" jaoks saadaval (earth: us76|exponential, mars: mars|exponential)
+
+engine-e-entry-eo-ascent-entry-heating-flight-path-angle-deg-must = flight_path_angle_deg peab olema vahemikus (0, 90) (positiivne allapoole)
+
+engine-e-entry-eo-ascent-entry-heating-entry-interface-altitude-must-be = entry_interface_altitude_m peab olema vahemikus [20 km, 1000 km]
+
+engine-e-entry-eo-ascent-entry-heating-latitude-deg-must-be-finite = latitude_deg peab olema lõplik, |latitude| < 89 deg
+
+engine-e-entry-eo-ascent-entry-heating-heading-deg-and-longitude-deg = heading_deg ja longitude_deg peavad olema lõplikud
+
+engine-e-entry-eo-ascent-entry-heating-lift-to-drag-must-be = lift_to_drag peab olema vahemikus [0, 3]
+
+engine-e-entry-eo-ascent-entry-heating-bank-angle-deg-must-be = bank_angle_deg peab olema lõplik
+
+engine-e-entry-eo-ascent-entry-heating-step-must-be-in = step_s peab olema vahemikus (0, 1] s
+
+engine-e-entry-eo-ascent-entry-heating-terminal-altitude-must-be-in = terminal_altitude_m peab olema vahemikus [0, entry_interface_altitude_m)
+
+engine-e-entry-eo-ascent-entry-heating-max-time-must-be-in = max_time_s peab olema vahemikus (0, 20000] s
+
+engine-e-entry-eo-ascent-entry-heating-velocity-frame-must-be-inertial = velocity_frame peab olema inertial|relative, saadi "{ $o }"
+
+engine-entry-eo-ascent-entry-heating-entry-heating-rel-peak-at = entry-heating ({ $body }): V_rel { $speed_m_s } m/s, γ { $gam_abs }° -> tipp { $pk_g } g kõrgusel { $r } km, tipp q { $r2 } W/cm² kõrgusel { $r3 } km, soojuskoormus { $r4 } J/cm², tipp q_dyn { $r5 } kPa; { $outcome } ajahetkel { $end_time_s } s (suletud kuju { $cf_g } g; MODELLED 3-DoF, ilma kiirgus-/TPS-ita)
+
+## src/entry_eo_ascent/eo_radiometry.rs
+
+engine-e-entry-eo-ascent-eo-radiometry-must-be-in = { $n } peab olema vahemikus (0, 1]
+
+engine-e-entry-eo-ascent-eo-radiometry-must-be-finite-and-non = { $n } peab olema lõplik ja mittenegatiivne
+
+engine-e-entry-eo-ascent-eo-radiometry-sun-zenith-deg-must-be = sun_zenith_deg peab olema vahemikus [0, 90)
+
+engine-e-entry-eo-ascent-eo-radiometry-adc-bits-must-be-in = adc_bits peab olema vahemikus 1..=24
+
+engine-entry-eo-ascent-eo-radiometry-eo-radiometry-gsd-snr-well = eo-radiometry: GSD { $gsd } m, Q { $im }, SNR { $snr } (kaevu täitumus { $v4 } %), MTF@Nyquist { $fac }, RER { $rer }, GIQE4 NIIRS { $niirs } (MODELLED)
+
+## src/eo_payload.rs
+
+engine-e-eo-payload-nadir-angle-exceeds-the-earth = nadiirinurk { $eta_rad }° ületab Maa nurkraadiuse { $rho }° (möödub Maast)
+
+engine-e-eo-payload-no-sun-synchronous-inclination-at = päikesesünkroonset kaldenurka kõrgusel { $v1 } km pole
+
+engine-e-eo-payload-half-fov-deg-must-be = half_fov_deg peab olema vahemikus (0, 90)
+
+engine-e-eo-payload-ifov-microrad-must-be-finite = ifov_microrad peab olema lõplik ja positiivne
+
+engine-e-eo-payload-half-fov-too-large = half_fov on liiga suur: { $e }
+
+engine-eo-payload-eo-coverage-km-fov-km = eo-coverage: { $altitude_km } km, ±{ $half_fov_deg }° FOV -> { $v3 } km lai riba (swath), { $gsd } m nadiiri GSD, ligipääs kuni { $v5 } km nadiirist kõrvale; sõlmevahe { $v6 } km ({ $v7 }) (MODELLED)
+
+## src/ephem_provider.rs
+
+engine-ephem-provider-earth-moon-barycentre-from-split = Maa–Kuu barütsenter tabelist { $table }, jagatud Montenbrucki ja Gilli Kuu-rea järgi, presesseeritud epohhile J2000
+
+engine-ephem-provider-jpl-mean-elements-in-the = JPL keskmised elemendid Laplace'i tasandis, keskmise pikkuse muutumiskiirus IAU sünkroonse pöörlemiskiiruse järgi, liidetud oma planeedile tabelist { $table }
+
+engine-ephem-provider-iau-synchronous-rotation-direction-at = IAU sünkroonse pöörlemise suund JPL keskmisel kaugusel, liidetud Saturnile tabelist { $table }
+
+engine-e-ephem-provider-read = lugemine { $path }: { $e }
+
+## src/ephemeris.rs
+
+engine-e-ephemeris-tle-is-missing-line-line = TLE-l puudub rida 1 (rida, mis algab `1 `)
+
+engine-e-ephemeris-tle-is-missing-line-line-2 = TLE-l puudub rida 2 (rida, mis algab `2 `)
+
+engine-e-ephemeris-an-analytic-orbit-ephemeris-requires = analüütiline `orbit` efemeriid nõuab `epoch`-i
+
+engine-e-ephemeris-ephemeris-scenario-needs-either-tle = efemeriidi stsenaarium vajab kas `tle` või `orbit`
+
+engine-e-ephemeris-step-must-be-positive = step_s peab olema positiivne
+
+engine-e-ephemeris-duration-must-be-non-negative = duration_s peab olema mittenegatiivne
+
+engine-e-ephemeris-carrier-hz-must-be-positive = carrier_hz peab olema positiivne lõplik sagedus
+
+engine-ephemeris-ground-track-samples-alt-km =
+    { $n_samples ->
+        [one] { $source } maapealne jälg · { $n_samples } valim · kõrgus { $alt_min_km }–{ $alt_max_km } km · |lat| ≤ { $r }°
+       *[other] { $source } maapealne jälg · { $n_samples } valimit · kõrgus { $alt_min_km }–{ $alt_max_km } km · |lat| ≤ { $r }°
+    }
+
+## src/evidence/assemble.rs
+
+engine-e-evidence-assemble-is-not-finite = `{ $arg }` ei ole lõplik
+
+engine-e-evidence-assemble-is-neither-seconds-nor-an = `{ $arg }` ei ole sekundid ega ISO-8601 UTC aeg
+
+engine-e-evidence-assemble-no-epoch-of-the-log = ükski logi epohh ei jää vahemikku { $t0 } s kuni { $t1 } s (logi katab vahemiku 0 kuni { $duration_s } s)
+
+engine-e-evidence-assemble-config-is-not-an-object = config ei ole objekt
+
+engine-e-evidence-assemble-config-json-already-has-an = config.json sisaldab juba kirjet `{ $k }`
+
+## src/evidence/bundle.rs
+
+engine-e-evidence-bundle-from-to = alates { $from_s } kuni { $to_s }
+
+engine-e-evidence-bundle-is-not-utc-time-like = `{ $c }` ei ole UTC aeg kujul 2026-01-02T03:04:05Z
+
+engine-e-evidence-bundle-in-log-of-bytes = { $s }..{ $e } logis suurusega { $log_bytes } baiti
+
+## src/evidence/cli.rs
+
+engine-e-evidence-cli-needs-value = { $name } vajab väärtust
+
+engine-e-evidence-cli-cannot-create = { $path } loomine ebaõnnestus: { $e }
+
+engine-e-evidence-cli-cannot-write = { $path } kirjutamine ebaõnnestus: { $e }
+
+engine-evidence-cli-warning-is-readable-by-other = hoiatus: { $path } on teistele kasutajatele loetav; piira juurdepääsu (chmod 600)
+
+engine-e-evidence-cli-cannot-read-key = võtme { $path } lugemine ebaõnnestus: { $e }
+
+engine-e-evidence-cli-is-not-hex-key = { $path } ei ole heksadetsimaalne võti
+
+engine-e-evidence-cli-must-hold-32-byte-key = { $path } peab sisaldama 32-baidist võtit 64 heksanumbrina
+
+engine-e-evidence-cli-cannot-read = { $dir } lugemine ebaõnnestus: { $e }
+
+engine-e-evidence-cli-cannot-read-2 = { $name } lugemine ebaõnnestus: { $e }
+
+engine-e-evidence-cli-exists-and-is-not-empty = { $dir } on olemas ja ei ole tühi
+
+engine-e-evidence-cli-cannot-create-2 = { $dir } loomine ebaõnnestus: { $e }
+
+engine-evidence-cli-warning-is-owner-only-mode = hoiatus: { $arg } on ainult omanikule (režiim 600) ja nimi ei ole *.pub: see võib olla privaatvõti. Anna avaliku võtme fail.
+
+engine-e-evidence-cli-pubkey-is-neither-64-hex = --pubkey `{ $arg }` ei ole 64 heksanumbrit ega loetav fail ({ $e })
+
+engine-e-evidence-cli-pubkey-does-not-hold-hex = --pubkey `{ $arg }` ei sisalda heksanumbreid
+
+engine-evidence-cli-private-key-keep-it-secret = privaatvõti: { $out }  (hoia salajas; ära kunagi versioonihaldusse lisa)
+
+engine-evidence-cli-public-key-pub = avalik võti:  { $out }.pub
+
+engine-evidence-cli-public-key-hex = avalik võti (hex): { $pk }
+
+engine-evidence-cli-give-verifiers-the-public-key = Anna kontrollijatele avalik võti nende usaldatud kanali kaudu; nad fikseerivad selle valikuga --pubkey.
+
+engine-e-evidence-cli-verify-needs-bundle-directory = verify vajab komplekti kataloogi
+
+engine-e-evidence-cli-cannot-read-3 = { $p } lugemine ebaõnnestus: { $e }
+
+engine-e-evidence-cli-no-pem-certificate-found = { $p }: PEM-sertifikaati ei leitud
+
+engine-evidence-cli-timestamp-authority-signature-not-verified = { "      " }ajatempliasutuse allkirja Kshana ei kontrolli
+
+engine-evidence-cli-this-is-technical-record-not = See on tehniline kirje, mitte juriidiline arvamus.
+
+engine-e-evidence-cli-attach-timestamp-needs-bundle-directory = attach-timestamp vajab komplekti kataloogi
+
+engine-e-evidence-cli-attach-timestamp-needs-token-file = attach-timestamp vajab tokenifaili
+
+engine-e-evidence-cli-cannot-read-4 = { $tok } lugemine ebaõnnestus: { $e }
+
+engine-e-evidence-cli-cannot-write-2 = { $target } kirjutamine ebaõnnestus: { $e }
+
+engine-evidence-cli-note-the-token-sits-beside = märkus: token asub allkirjastatud manifesti kõrval, mitte selle sees; kontrolli valikuga --require-timestamp, et seda nõuda.
+
+engine-e-evidence-cli-round-trip-packs-are-not = edasi-tagasi pakette ei ehitata WebAssembly jaoks
+
+engine-e-evidence-cli-needs-scenario-path = vajab stsenaariumi teed
+
+engine-e-evidence-cli-needs-from = vajab valikut --from
+
+engine-e-evidence-cli-needs-to = vajab valikut --to
+
+engine-e-evidence-cli-cannot-read-lab-attestation = labori atesteeringu { $p } lugemine ebaõnnestus: { $e }
+
+engine-e-evidence-cli-cannot-read-5 = { $scn_path } lugemine ebaõnnestus: { $e }
+
+engine-e-evidence-cli-invalid-receiver-trust-scenario = vigane receiver-trust stsenaarium: { $e }
+
+engine-e-evidence-cli-lab-attestation-applies-to-receiver = --lab-attestation kehtib käsule `receiver-trust evidence`, mitte käsule `evidence round-trip` (mille pakett salvestab katsetingimused)
+
+engine-e-evidence-cli-cannot-read-6 = { $sp } lugemine ebaõnnestus: { $e }
+
+engine-e-evidence-cli-cannot-read-7 = { $cp } lugemine ebaõnnestus: { $e }
+
+engine-evidence-cli-evidence-pack-written-to = tõendipakett kirjutatud kataloogi { $out }
+
+engine-evidence-cli-epochs-in-window-to = { "  " }epohhe aknas: { $epochs_in_window }  ({ $from_s } s kuni { $to_s } s)
+
+engine-evidence-cli-signer-fingerprint = { "  " }allkirjastaja sõrmejälg: { $signer_fingerprint }
+
+engine-evidence-cli-sha-256-of-manifest-json = { "  " }manifest.json-i SHA-256 (mida RFC 3161 asutus peaks tempeldama): { $manifest_sha256 }
+
+engine-evidence-cli-log-slice-bytes-to-of = { "  " }logi lõik: baidid { $a } kuni { $b } / { $log_bytes }
+
+engine-evidence-cli-log-slice-whole-log-this = { "  " }logi lõik: kogu logi (see logi ei anna aknale baidivahemikku)
+
+engine-evidence-cli-lab-attestation-recorded-in-the = { "  " }labori atesteering on salvestatud allkirjastatud manifesti ({ $v1 })
+
+engine-evidence-cli-pack-is-technical-record-not = Pakett on tehniline kirje, mitte juriidiline arvamus.
+
+## src/evidence/html.rs
+
+engine-evidence-html-to-after-the-first-epoch = { $from_s } s kuni { $to_s } s pärast logi esimest epohhi
+
+## src/evidence/lab.rs
+
+engine-e-evidence-lab-invalid-lab-attestation-toml = vigane lab-attestation TOML: { $e }
+
+engine-e-evidence-lab-lab-attestation-must-be-table = `lab-attestation` peab olema tabel
+
+engine-e-evidence-lab-invalid-lab-attestation = vigane lab-attestation: { $e }
+
+engine-e-evidence-lab-lab-attestation-is-required = lab-attestation: { $name } on nõutav
+
+engine-e-evidence-lab-lab-attestation-is-over-bytes = lab-attestation: { $name } ületab { $MAX_FIELD } baiti
+
+engine-e-evidence-lab-lab-attestation-date-is-not = lab-attestation: kuupäev { $date } ei ole päev kujul 2026-11-02
+
+engine-e-evidence-lab-lab-attestation-shielded-setup-needs = lab-attestation: varjestatud seadistus vajab korpust (enclosure)
+
+engine-e-evidence-lab-lab-attestation-setup-must-be = lab-attestation: setup peab olema "conducted" või "shielded" (saadi { $other }); õhukaudne seadistus ei ole labori käivitusena aktsepteeritav
+
+engine-e-evidence-lab-lab-attestation-attenuation-db-must = lab-attestation: attenuation_db peab olema lõplik
+
+## src/evidence/roundtrip.rs
+
+engine-e-evidence-roundtrip-the-test-conditions-state-event = katsetingimused esitavad sündmusi: { $events }, kuid hindamisstsenaariumis on neid { $events2 }
+
+engine-e-evidence-roundtrip-event-in-the-test-conditions = sündmus '{ $id }' katsetingimustes ({ $onset_s } s kuni { $offset_s } s) ei vasta sündmusele '{ $label }' hindamisstsenaariumis ({ $onset_s2 } s kuni { $end_s } s)
+
+engine-e-evidence-roundtrip-the-log-sha-256-is = logi SHA-256 ({ $have }) ei ole see, mille katsetingimused esitavad ({ $h })
+
+## src/evidence/tsa.rs
+
+engine-e-evidence-tsa-truncated-der = kärbitud DER
+
+engine-e-evidence-tsa-bad-der-length = vigane DER-i pikkus
+
+engine-e-evidence-tsa-unexpected-der-tag = { $what }: ootamatu DER-i silt { $tag }
+
+engine-e-evidence-tsa-empty-algorithmidentifier = tühi AlgorithmIdentifier
+
+engine-e-evidence-tsa-bad-utctime = vigane UTCTime
+
+engine-e-evidence-tsa-bad-generalizedtime = vigane GeneralizedTime
+
+engine-e-evidence-tsa-bad-time = vigane aeg
+
+engine-e-evidence-tsa-time-not-in-utc = aeg ei ole UTC-s
+
+engine-e-evidence-tsa-bad-time-digits = vigased ajanumbrid
+
+engine-e-evidence-tsa-bad-bit-string = vigane BIT STRING
+
+engine-e-evidence-tsa-certificate-three-elements-expected = Certificate: oodatud on kolm elementi
+
+engine-e-evidence-tsa-tbscertificate-too-short = TBSCertificate: liiga lühike
+
+engine-e-evidence-tsa-empty-extension = tühi Extension
+
+engine-e-evidence-tsa-extension-value-not-an-octet = Extension: väärtus ei ole OCTET STRING
+
+engine-e-evidence-tsa-validity-empty = Validity: tühi
+
+engine-e-evidence-tsa-validity-short = Validity: lühike
+
+engine-e-evidence-tsa-pem-end-without-begin = PEM: END ilma BEGIN-ita
+
+engine-e-evidence-tsa-pem-bad-base64 = PEM: vigane base64
+
+engine-e-evidence-tsa-pem-bad-base64-length = PEM: vigane base64 pikkus
+
+engine-e-evidence-tsa-spki-empty = SPKI: tühi
+
+engine-e-evidence-tsa-spki-no-oid = SPKI: OID puudub
+
+engine-e-evidence-tsa-spki-no-key = SPKI: võti puudub
+
+engine-e-evidence-tsa-rsapublickey-two-integers-expected = RSAPublicKey: oodatud on kaks täisarvu
+
+engine-e-evidence-tsa-unsupported-elliptic-curve = toetamata elliptkõver
+
+engine-e-evidence-tsa-unsupported-public-key-algorithm = toetamata avaliku võtme algoritm
+
+engine-e-evidence-tsa-rsa-key-or-signature-too = RSA võti või allkiri liiga suur
+
+engine-e-evidence-tsa-rsa-modulus-not-odd = RSA moodul ei ole paaritu
+
+engine-e-evidence-tsa-rsa-signature-out-of-range = RSA allkiri väljaspool vahemikku
+
+engine-e-evidence-tsa-rsa-key-too-small = RSA võti liiga väike
+
+engine-e-evidence-tsa-invalid-padding = vigane täide
+
+engine-e-evidence-tsa-pss-encoded-message-too-long = PSS: kodeeritud sõnum liiga pikk
+
+engine-e-evidence-tsa-last-octet-invalid = viimane oktett vigane
+
+engine-e-evidence-tsa-pss-leftmost-bits-not-zero = PSS: vasakpoolseimad bitid ei ole nullid
+
+engine-e-evidence-tsa-pss-bad-padding = PSS: vigane täide
+
+engine-e-evidence-tsa-pss-signature-mismatch = PSS: allkiri ei vasta
+
+engine-e-evidence-tsa-unsupported-mask-generation-function = toetamata maski genereerimisfunktsioon
+
+engine-e-evidence-tsa-mgf1-without-hash = MGF1 ilma räsita
+
+engine-e-evidence-tsa-bad-pss-salt-length = vigane PSS-i soola pikkus
+
+engine-e-evidence-tsa-an-ecdsa-signature-needs-an = ECDSA allkiri vajab EC võtit
+
+engine-e-evidence-tsa-an-rsa-signature-needs-an = RSA allkiri vajab RSA võtit
+
+engine-e-evidence-tsa-rsaencryption-without-digest-algorithm = rsaEncryption ilma räsialgoritmita
+
+engine-e-evidence-tsa-an-rsa-pss-signature-needs = RSA-PSS allkiri vajab RSA võtit
+
+engine-e-evidence-tsa-id-ecpublickey-without-digest-algorithm = id-ecPublicKey ilma räsialgoritmita
+
+engine-e-evidence-tsa-unsupported-signature-algorithm = toetamata allkirjaalgoritm
+
+engine-e-evidence-tsa-pkistatusinfo-empty = PKIStatusInfo: tühi
+
+engine-e-evidence-tsa-time-stamp-request-not-granted = ajatemplipäringut ei rahuldatud
+
+engine-e-evidence-tsa-no-time-stamp-token-in = vastuses puudub ajatempli token
+
+engine-e-evidence-tsa-not-timestampresp-or-timestamptoken = ei ole TimeStampResp ega TimeStampToken
+
+engine-e-evidence-tsa-not-cms-signeddata = ei ole CMS SignedData
+
+engine-e-evidence-tsa-contentinfo-no-content = ContentInfo: sisu puudub
+
+engine-e-evidence-tsa-signeddata-short = SignedData: lühike
+
+engine-e-evidence-tsa-encapsulatedcontentinfo-empty = EncapsulatedContentInfo: tühi
+
+engine-e-evidence-tsa-encapsulated-content-is-not-tstinfo = kapseldatud sisu ei ole TSTInfo
+
+engine-e-evidence-tsa-no-tstinfo = TSTInfo puudub
+
+engine-e-evidence-tsa-tstinfo-not-in-an-octet = TSTInfo ei ole OCTET STRING-us
+
+engine-e-evidence-tsa-tstinfo-short = TSTInfo: lühike
+
+engine-e-evidence-tsa-tstinfo-no-gentime = TSTInfo: genTime puudub
+
+engine-e-evidence-tsa-signeddata-no-signerinfos = SignedData: signerInfos puudub
+
+engine-e-evidence-tsa-exactly-one-signerinfo-expected = oodatud on täpselt üks SignerInfo
+
+engine-e-evidence-tsa-signerinfo-no-sid = SignerInfo: sid puudub
+
+engine-e-evidence-tsa-signerinfo-no-digest-algorithm = SignerInfo: räsialgoritm puudub
+
+engine-e-evidence-tsa-signerinfo-short = SignerInfo: lühike
+
+engine-e-evidence-tsa-signerinfo-no-signed-attributes = SignerInfo: allkirjastatud atribuudid puuduvad
+
+engine-e-evidence-tsa-signerinfo-no-signature-algorithm = SignerInfo: allkirjaalgoritm puudub
+
+engine-e-evidence-tsa-signerinfo-no-signature = SignerInfo: allkiri puudub
+
+engine-e-evidence-tsa-no-serial = seerianumber puudub
+
+engine-e-evidence-tsa-signer-certificate-not-found = allkirjastaja sertifikaati ei leitud
+
+engine-e-evidence-tsa-attribute-empty = Attribute: tühi
+
+engine-e-evidence-tsa-attribute-no-values = Attribute: väärtused puuduvad
+
+engine-e-evidence-tsa-attribute-no-value = Attribute: väärtus puudub
+
+engine-e-evidence-tsa-content-type-attribute-mismatch = content-type atribuut ei vasta
+
+engine-e-evidence-tsa-digest-failure = räsi viga
+
+engine-e-evidence-tsa-signature-not-an-octet-string = allkiri ei ole OCTET STRING
+
+engine-e-evidence-tsa-ess-signing-certificate-attribute-missing = ess signing certificate atribuut puudub
+
+engine-e-evidence-tsa-signingcertificate-empty = SigningCertificate: tühi
+
+engine-e-evidence-tsa-ess-cert-id-not-found = ess cert id-d ei leitud
+
+engine-e-evidence-tsa-esscertidv2-no-hash = ESSCertIDv2: räsi puudub
+
+engine-e-evidence-tsa-unsuitable-certificate-purpose = sobimatu sertifikaadi eesmärk
+
+engine-e-evidence-tsa-certificate-is-not-yet-valid = sertifikaat ei ole veel kehtiv
+
+engine-e-evidence-tsa-certificate-has-expired = sertifikaat on aegunud
+
+engine-e-evidence-tsa-invalid-ca-certificate = vigane CA sertifikaat
+
+engine-e-evidence-tsa-certificate-chain-too-long = sertifikaadiahel liiga pikk
+
+engine-e-evidence-tsa-messageimprint-empty = MessageImprint: tühi
+
+engine-e-evidence-tsa-messageimprint-no-digest = MessageImprint: räsi puudub
+
+engine-e-evidence-tsa-message-imprint-mismatch = message imprint ei vasta
+
+## src/evidence/tsr.rs
+
+engine-e-evidence-tsr-indefinite-length-ber-is-not = määramata pikkusega BER-i ei toetata
+
+engine-e-evidence-tsr-expected-tag-found = oodatud { $what } (silt { $tag }), leitud { $t }
+
+engine-e-evidence-tsr-malformed-pkistatusinfo = vigane PKIStatusInfo
+
+engine-e-evidence-tsr-the-timestamp-response-was-not = ajatemplivastust ei rahuldatud
+
+engine-e-evidence-tsr-not-timestamp-token = ei ole ajatempli token
+
+engine-e-evidence-tsr-the-token-content-type-is = tokeni sisutüüp ei ole CMS SignedData
+
+engine-e-evidence-tsr-the-token-does-not-carry = token ei kanna TSTInfo-d
+
+## src/evidence/tsr.rs
+
+engine-e-evidence-tsr-message-imprint-uses-an-unsupported = sõnumi jäljend kasutab toetamata räsialgoritmi
+
+engine-e-evidence-tsr-the-imprint-is-bytes-not = jäljend on { $digest } baiti, mitte { $want_len } baiti, mida annab { $hash_alg }
+
+engine-e-evidence-tsr-gentime-is-not-utc = genTime ei ole UTC
+
+engine-e-evidence-tsr-malformed-gentime = vigane genTime
+
+engine-e-evidence-tsr-gentime-is-not-real-calendar = genTime ei ole tegelik kalendriaeg
+
+## src/evidence/verify.rs
+
+engine-e-evidence-verify-not-lower-case-hex = ei ole väiketähtedes kuueteistkümnendkood
+
+engine-e-evidence-verify-expected-bytes-found = oodati { $N } baiti, leiti { $v }
+
+engine-e-evidence-verify-the-pack-already-has-timestamp = paketil on juba ajatempli token; asendamiseks anna --replace
+
+engine-e-evidence-verify-not-attached-the-pack-with = ei lisatud: selle tokeniga pakett ei läbi kontrolli ({ $v1 })
+
+engine-evidence-verify-the-pack-records-lab-attestation = pakett registreerib labori kinnituse: { $operator } ({ $organisation }, { $setup }): { $v4 }
+
+engine-e-evidence-verify-the-signature-file-does-not = allkirjafail ei lõpe reavahetusega
+
+engine-evidence-verify-signer-not-pinned-the-signature = allkirjastaja ei ole kinnitatud: allkiri tõendab, et pakett on terve võtme { $r } suhtes, mille nimetab pakett ise. Võrdle seda sõrmejälge allkirjastajalt saadud sõrmejäljega või anna võti.
+
+engine-evidence-verify-range-is-not-inside-log = vahemik { $start }..{ $end } ei asu { $full_bytes } baidi pikkuse logi sees
+
+engine-evidence-verify-timestamp-token-states-its-imprint = ajatempli token osutab ajale { $gen_time }; selle jäljend { $v2 } manifest.json. Ajatempliautoriteedi allkirja Kshana ei kontrolli: kontrolli seda käsuga `openssl ts -verify`.
+
+engine-evidence-verify-timestamp-token-states-its-imprint-2 = ajatempli token osutab ajale { $gen_time }; selle jäljend { $v2 } manifest.json; ajatempliautoriteedi allkiri ja ahel { $v3 } antud ankrute suhtes.
+
+## src/field_schema.rs
+
+engine-e-field-schema-unit-is-the-empty-string = `unit` on tühi sõne
+
+engine-e-field-schema-provenance-is-outside-the-vocabulary = `provenance` { $prov_str } jääb sõnavarast välja
+
+## src/frugal.rs
+
+engine-e-frugal-cost-bracket-must-be-finite = kuluvahemik peab olema lõplik, mittenegatiivne, järjestatud low≤nominal≤high ja sisaldama allikat
+
+engine-e-frugal-coverage-fraction-and-availability-must = coverage_fraction ja availability peavad olema murrud vahemikus [0, 1]
+
+## src/fusion/carrier_tc.rs
+
+engine-e-fusion-carrier-tc-must-be-finite-and-got = { $name } peab olema lõplik ja > 0, saadi { $v }
+
+engine-e-fusion-carrier-tc-must-be-finite-and-got-2 = { $name } peab olema lõplik ja >= 0, saadi { $v }
+
+engine-e-fusion-carrier-tc-mask-deg-must-be-in = mask_deg peab olema vahemikus [-90, 90), saadi { $mask_deg }
+
+engine-e-fusion-carrier-tc-constellation-has-no-satellites = satelliidikonstellatsioonis ei ole satelliite
+
+engine-e-fusion-carrier-tc-max-sats-must-be-when = max_sats peab olema >= 1, kui see on määratud
+
+engine-e-fusion-carrier-tc-slip-satellite-out-of-range = libisemise satelliit { $sat } on vahemikust väljas
+
+## src/fusion/kfgins.rs
+
+engine-e-fusion-kfgins-line = rida { $lineno }: { $e }
+
+engine-e-fusion-kfgins-line-columns-at-least-expected = rida { $lineno }: veerge { $v }, oodati vähemalt { $min }
+
+engine-e-fusion-kfgins-line-columns = rida { $v1 }: veerge { $v }
+
+engine-e-fusion-kfgins-line-block-lists-are-not = rida { $lineno }: plokkloendeid ei toetata
+
+engine-e-fusion-kfgins-line-expected-key-value = rida { $lineno }: oodati kuju `key: value`
+
+engine-e-fusion-kfgins-line-indented-key-without-parent = rida { $lineno }: taandega võti ilma vanemata
+
+engine-e-fusion-kfgins-line-only-one-level-of = rida { $lineno }: lubatud on ainult üks pesastustase
+
+engine-e-fusion-kfgins-line-unterminated-flow-list = rida { $lineno }: lõpetamata vooloend
+
+engine-e-fusion-kfgins-is-list-scalar-expected = `{ $k }` on loend, oodati skalaari
+
+engine-e-fusion-kfgins-missing = `{ $k }` puudub
+
+engine-e-fusion-kfgins-must-be-three-element-list = `{ $k }` peab olema kolmeelemendiline loend
+
+engine-e-fusion-kfgins-no-imu-sample-at-or = IMU näidist ajal starttime või pärast seda ei ole
+
+engine-e-fusion-kfgins-imu-time-not-increasing-at = IMU aeg ei kasva kohas { $t }
+
+## src/fusion/pack.rs
+
+engine-e-fusion-pack-filter-prior-must-be-finite = { $slot }.filter_prior.{ $name } peab olema lõplik ja > 0, saadi { $v }
+
+engine-e-fusion-pack-tight-sigma-range-must-be = tight.sigma_range_m peab olema lõplik ja > 0, saadi { $sigma_range_m }
+
+engine-e-fusion-pack-tight-mask-deg-must-be = tight.mask_deg peab olema vahemikus [-90, 90), saadi { $mask_deg }
+
+## src/fusion/trajectory.rs
+
+engine-e-fusion-trajectory-trajectory-csv-line-not-numbers = trajektoori csv rida { $v1 }: ei ole arvud: { $line }
+
+engine-e-fusion-trajectory-trajectory-csv-line-expected-10 = trajektoori csv rida { $v1 }: oodati 10 veergu, saadi { $v }
+
+engine-e-fusion-trajectory-trajectory-csv-line-time-does = trajektoori csv rida { $v1 }: aeg ei kasva
+
+engine-e-fusion-trajectory-trajectory-csv-needs-at-least = trajektoori csv vajab vähemalt kahte rida
+
+engine-e-fusion-trajectory-trajectory-csv-covers-but-the = trajektoori csv katab { $rows } s, aga stsenaarium kestab { $v2 } s
+
+## src/geometry.rs
+
+engine-e-geometry-sky-site-lat-deg-must = sky: asukoha lat_deg peab olema vahemikus [-90, 90] ja iga väli lõplik
+
+engine-e-geometry-sky-is-neither-gnss-preset = sky: „{ $name }“ ei ole ei GNSS-i eelseadistus ({ $e_gnss }) ega LEO eelseadistus ({ $e_leo })
+
+engine-e-geometry-sky-give-the-user-as = sky: anna kasutaja kas `site` või `user_ecef_m` kaudu, mitte mõlemaga
+
+engine-e-geometry-sky-user-ecef-must-be = sky: user_ecef_m peab olema lõplik ja mitte geotsenter
+
+engine-e-geometry-sky-satellite-azimuth-elevation-out = sky: satelliit { $id }: asimuut/tõusunurk on vahemikust väljas
+
+engine-e-geometry-sky-satellite-is-given-in = sky: satelliit { $id } on antud ECEF-is; päring vajab `site` või `user_ecef_m`
+
+engine-e-geometry-sky-satellite-ecef-position-not = sky: satelliit { $id }: ECEF-asukoht ei ole lõplik
+
+engine-e-geometry-sky-satellite-coincides-with-the = sky: satelliit { $id } langeb kokku kasutajaga
+
+engine-e-geometry-sky-satellite-give-az-deg = sky: satelliit { $id }: anna az_deg ja el_deg või ecef_m ja mitte midagi muud
+
+engine-e-geometry-sky-tle-is-bytes-the = sky: tle on { $text } baiti; ülempiir on { $MAX_TLE_BYTES } (4 MiB)
+
+engine-geometry-element-set-refused = elemendikomplekt tagasi lükatud: { $e }
+
+engine-geometry-sky-tle-holds-no-complete =
+    { $n_ignored ->
+        [one] sky: tle ei sisalda täielikku kaherealist elemendikomplekti; { $n_ignored } rida ignoreeriti, esimene: { $first }
+       *[other] sky: tle ei sisalda täielikku kaherealist elemendikomplekti; { $n_ignored } rida ignoreeriti, esimene: { $first }
+    }
+
+engine-e-geometry-sky-epoch = sky: epohh: { $e }
+
+engine-geometry-and-more = { "." }.. ja veel { $more }
+
+engine-geometry-element-sets-propagated-by-the =
+    { $n ->
+        [one] { $n } elemendikomplekt levitati mootori SGP4-ga (WGS-72) ajahetkeni { $iso } ja pöörati Maaga seotud süsteemi, võttes UT1 võrdseks UTC-ga ja ilma poolusliikumiseta: need elemendikomplektid annavad sel epohhil sellise taeva, mitte selle mõõtmise.
+       *[other] { $n } elemendikomplekti levitati mootori SGP4-ga (WGS-72) ajahetkeni { $iso } ja pöörati Maaga seotud süsteemi, võttes UT1 võrdseks UTC-ga ja ilma poolusliikumiseta: need elemendikomplektid annavad sel epohhil sellise taeva, mitte selle mõõtmise.
+    }
+
+engine-geometry-element-sets-propagated-by-the-2 =
+    { $n ->
+        [one] { $n } elemendikomplekt levitati mootori SGP4-ga (WGS-72) uusima elemendikomplekti epohhini pluss time_s ({ $iso }). Epohhi ei antud, seega on see esindav taevas, mitte nimetatud kuupäeva taevas.
+       *[other] { $n } elemendikomplekti levitati mootori SGP4-ga (WGS-72) uusima elemendikomplekti epohhini pluss time_s ({ $iso }). Epohhi ei antud, seega on see esindav taevas, mitte nimetatud kuupäeva taevas.
+    }
+
+engine-e-geometry-sky-give-systems-or-tle = sky: anna `systems` või `tle` (koos `site`-ga) või `satellites`
+
+engine-e-geometry-sky-tle-system-names-the = sky: tle_system nimetab `tle` satelliidid; päringus ei ole `tle`
+
+engine-e-geometry-sky-mask-deg-must-be = sky: mask_deg peab olema vahemikus [-90, 90), saadi { $m }
+
+engine-e-geometry-sky-systems-needs-site-or = sky: `systems` vajab `site` (või `user_ecef_m`), kust vaadata
+
+engine-e-geometry-sky-time-must-be-finite = sky: time_s peab olema lõplik
+
+engine-e-geometry-sky-system-asks-for-satellites = sky: süsteem „{ $name }“ nõuab { $asked } satelliiti; päring mahutab kuni { $MAX_SATELLITES }
+
+engine-e-geometry-sky-more-than-satellites = sky: rohkem kui { $MAX_SATELLITES } satelliiti
+
+engine-e-geometry-sky-tle-needs-site-or = sky: `tle` vajab `site` (või `user_ecef_m`), kust vaadata
+
+engine-e-geometry-sky-more-than-satellites-above = sky: rohkem kui { $MAX_SATELLITES } satelliiti horisondi kohal
+
+engine-e-geometry-sky-sigma-uere-must-be = sky: sigma_uere_m peab olema positiivne, saadi { $sigma }
+
+engine-e-geometry-sky-confidence-must-be-in = sky: confidence peab olema vahemikus (0, 1), saadi { $confidence }
+
+engine-e-geometry-sky-more-than-systems-in = sky: nähtavas on rohkem kui { $MAX_CLOCKS } süsteemi, igaühel oma kell; rühmita satelliidid vähemate `system` siltide alla või kasuta clock = "common"
+
+engine-e-geometry-sky-must-be-in-got =
+    { $n ->
+        [one] sky: n peab olema vahemikus 1..={ $MAX_MC_SAMPLES }, saadi { $n }
+       *[other] sky: n peab olema vahemikus 1..={ $MAX_MC_SAMPLES }, saadi { $n }
+    }
+
+engine-e-geometry-sky-too-few-satellites-in = sky: nähtavas on positsiooni leidmiseks liiga vähe satelliite; Monte Carlo pilve ei ole
+
+engine-e-geometry-sky = sky: { $e }
+
+engine-geometry-pdop-hdop-vdop = PDOP { $pdop } HDOP { $hdop } VDOP { $vdop }
+
+engine-geometry-tle-sky-at-not-measurement = TLE taevas ajal { $e }, mitte mõõtmine
+
+engine-e-geometry-invalid-sky-request-json = vigane sky päring (JSON): { $e }
+
+engine-e-geometry-invalid-sky-request-toml = vigane sky päring (TOML): { $e }
+
+engine-e-geometry-invalid-skyline-json = vigane horisondijoon (JSON): { $e }
+
+engine-e-geometry-invalid-skyline-toml = vigane horisondijoon (TOML): { $e }
+
+## src/glonass.rs
+
+engine-e-glonass-bad-glonass-prn-in = vigane GLONASS PRN kohas { $head }
+
+## src/gnss_navmsg/gal_fnav.rs
+
+engine-e-gnss-navmsg-gal-fnav-page-type-is-not-encoded = lehetüüpi { $pt } ei kodeerita siin
+
+engine-e-gnss-navmsg-gal-fnav-bits-expected = { $data } bitti, oodati { $DATA_BITS }
+
+engine-e-gnss-navmsg-gal-fnav-bits-expected-2 = { $p } bitti, oodati { $PAGE_BITS }
+
+engine-e-gnss-navmsg-gal-fnav-tail-bits-are-not-zero = lõpubitid ei ole null
+
+engine-e-gnss-navmsg-gal-fnav-crc-24q-mismatch = CRC-24Q ei klapi
+
+engine-e-gnss-navmsg-gal-fnav-page-type-is-not-decoded = lehetüüpi { $pt } ei dekodeerita siin
+
+engine-e-gnss-navmsg-gal-fnav-symbols-expected = { $symbols } sümbolit, oodati { $PAGE_SYMBOLS }
+
+engine-e-gnss-navmsg-gal-fnav-synchronisation-pattern-not-found = sünkroniseerimismustrit ei leitud
+
+engine-e-gnss-navmsg-gal-fnav-page-type-missing = lehetüüp { $t } puudub
+
+engine-e-gnss-navmsg-gal-fnav-iod-nav-of-page-type = lehetüübi { $t } IOD_nav erineb lehetüübi 1 omast
+
+## src/gnss_navmsg/gal_inav.rs
+
+engine-e-gnss-navmsg-gal-inav-no-galileo-field = Galileo välja { $name } ei ole
+
+engine-e-gnss-navmsg-gal-inav-word-type-is-not-encoded = sõnatüüpi { $wt } ei kodeerita siin
+
+engine-e-gnss-navmsg-gal-inav-bits-expected = { $word } bitti, oodati { $WORD_BITS }
+
+engine-e-gnss-navmsg-gal-inav-word-type-is-not-decoded = sõnatüüpi { $wt } ei dekodeerita siin
+
+engine-e-gnss-navmsg-gal-inav-page-parts-must-be-120 = lehe osad peavad olema 120 bitti
+
+engine-e-gnss-navmsg-gal-inav-even-odd-flags-are-not = paaris/paaritu lipud ei ole 0 ja siis 1
+
+engine-e-gnss-navmsg-gal-inav-not-nominal-page-page-type = ei ole nominaalne leht (lehetüüp 1 on häirelehekülg)
+
+engine-e-gnss-navmsg-gal-inav-bits-expected-2 = { $part } bitti, oodati { $PART_BITS }
+
+engine-e-gnss-navmsg-gal-inav-symbols-expected = { $symbols } sümbolit, oodati { $PART_SYMBOLS }
+
+engine-e-gnss-navmsg-gal-inav-word-type-missing = sõnatüüp { $t } puudub
+
+engine-e-gnss-navmsg-gal-inav-iod-nav-of-word-type = sõnatüübi { $t } IOD_nav erineb sõnatüübi 1 omast
+
+## src/gnss_navmsg/galileo.rs
+
+engine-e-gnss-navmsg-galileo-record-is-system-not-galileo = kirje on süsteemi { $system }, mitte Galileo
+
+## src/gnss_navmsg/gps_cnav.rs
+
+engine-e-gnss-navmsg-gps-cnav-type-10-has-no-field = tüübil 10 ei ole välja { $name }
+
+engine-e-gnss-navmsg-gps-cnav-type-11-has-no-field = tüübil 11 ei ole välja { $name }
+
+engine-e-gnss-navmsg-gps-cnav-type-30-has-no-field = tüübil 30 ei ole välja { $name }
+
+engine-e-gnss-navmsg-gps-cnav-cnav-body-has-bits-expected = CNAV keha on { $body } bitti, oodati 238
+
+engine-e-gnss-navmsg-gps-cnav-prn-or-tow-count-out =
+    { $tow_count ->
+        [one] PRN { $prn } või TOW-loendur { $tow_count } on vahemikust väljas
+       *[other] PRN { $prn } või TOW-loendur { $tow_count } on vahemikust väljas
+    }
+
+engine-e-gnss-navmsg-gps-cnav-bits-expected = { $bits } bitti, oodati { $MESSAGE_BITS }
+
+engine-e-gnss-navmsg-gps-cnav-preamble-is-not-10001011 = preambul ei ole 10001011
+
+engine-e-gnss-navmsg-gps-cnav-message-type-is-not-decoded = sõnumitüüpi { $t } ei dekodeerita siin
+
+engine-e-gnss-navmsg-gps-cnav-need-type-10-and-type = vaja on tüübi 10 ja tüübi 11 sõnumit
+
+## src/gnss_navmsg/mod.rs
+
+engine-e-gnss-navmsg-at-lsb-does-not-fit = { $name }: { $value } LSB-l { $value2 } ei mahu { $bits } { $v4 } bitti
+
+engine-e-gnss-navmsg-bits-layout-needs = { $bits } bitti, paigutus vajab { $need }
+
+engine-e-gnss-navmsg-no-field = välja { $name } ei ole
+
+## src/gps_lnav.rs
+
+engine-e-gps-lnav-at-scale-does-not-fit = { $value } skaalal 2^{ $scale_pow2 } ei mahu { $bits } { $v1 } bitti
+
+engine-e-gps-lnav-no-value-for = väärtust { $name } jaoks ei ole
+
+## src/gravimeter.rs
+
+engine-e-gravimeter-gravity-map-reference-model-gfc = gravity-map: etalonmudel „gfc“ vajab `gfc_path`
+
+engine-e-gravimeter-gravity-map-cannot-read-gfc = gravity-map: gfc_path { $path } ei saa lugeda: { $e }
+
+engine-e-gravimeter-gravity-map-unknown-reference-model = gravity-map: tundmatu etalonmudel `{ $other }` (kasuta „egm2008“ või „gfc“)
+
+engine-e-gravimeter-gravity-map-unknown-ellipsoid-use = gravity-map: tundmatu ellipsoid `{ $other }` (kasuta „wgs84“ või „grs80“)
+
+engine-e-gravimeter-gravity-map-map-error-mc = gravity-map: map_error_mc.realisations peab olema vähemalt 1
+
+engine-e-gravimeter-gravity-map-map-error-mc-2 = gravity-map: map_error_mc.realisations ülempiir on 10000
+
+## src/gravity_pds.rs
+
+engine-e-gravity-pds-bad-real = vigane reaalarv '{ $t }'
+
+engine-e-gravity-pds-bad-integer = vigane täisarv '{ $t }'
+
+engine-e-gravity-pds-empty-shadr-table = tühi SHADR tabel
+
+engine-e-gravity-pds-shadr-header-has-fields-expected = SHADR päisel on { $f } välja, oodati vähemalt 6
+
+engine-e-gravity-pds-shadr-header-negative-degree-order = SHADR päis: negatiivne aste/järk või tundmatu normeerimine
+
+engine-e-gravity-pds-shadr-normalization-state-only-fully = SHADR normeerimisolek { $normalization } (toetatud on ainult täielikult normeeritud, olek 1)
+
+engine-e-gravity-pds-shadr-reference-longitude-latitude-must = SHADR etalonpikkus/-laius peab olema 0
+
+engine-e-gravity-pds-non-physical-gm-must-be = mittefüüsikaline GM (peab olema lõplik ja positiivne)
+
+engine-e-gravity-pds-non-physical-reference-radius-must = mittefüüsikaline etalonraadius (peab olema lõplik ja positiivne)
+
+engine-e-gravity-pds-shadr-record-fields = SHADR kirje { $v1 }: { $f } välja
+
+engine-e-gravity-pds-shadr-record-bad =
+    { $n ->
+        [one] SHADR kirje { $v1 }: vigane (n, m) = ({ $n }, { $m })
+       *[other] SHADR kirje { $v1 }: vigane (n, m) = ({ $n }, { $m })
+    }
+
+engine-e-gravity-pds-shadr-record-non-finite-coefficient = SHADR kirje { $v1 }: mittelõplik koefitsient
+
+engine-e-gravity-pds-no-shadr-coefficient-records = SHADR koefitsiendikirjeid ei ole
+
+engine-e-gravity-pds-shadr-table-incomplete-missing =
+    { $n ->
+        [one] SHADR tabel on mittetäielik: puudub (n, m) = ({ $n }, { $m })
+       *[other] SHADR tabel on mittetäielik: puudub (n, m) = ({ $n }, { $m })
+    }
+
+## src/gravity_sh.rs
+
+engine-e-gravity-sh-missing-earth-gravity-constant-gravity = earth_gravity_constant / gravity_constant puudub
+
+engine-e-gravity-sh-missing-radius = radius puudub
+
+engine-e-gravity-sh-non-physical-earth-gravity-constant = mittefüüsikaline earth_gravity_constant (peab olema lõplik ja positiivne)
+
+engine-e-gravity-sh-non-physical-radius-must-be = mittefüüsikaline radius (peab olema lõplik ja positiivne)
+
+engine-e-gravity-sh-no-gfc-coefficient-lines = gfc koefitsiendiridu ei ole
+
+engine-e-gravity-sh-read-error = lugemisviga: { $e }
+
+engine-e-gravity-sh-line-norm-is-not-supported = rida { $lineno }: norm { $v } ei ole toetatud (ainult fully_normalized)
+
+engine-gravity-sh-line-bad = rida { $lineno }: vigane { $what }
+
+engine-e-gravity-sh-line-degree-above-the-declared =
+    { $n ->
+        [one] rida { $lineno }: aste { $n } ületab deklareeritud max_degree { $dm }
+       *[other] rida { $lineno }: aste { $n } ületab deklareeritud max_degree { $dm }
+    }
+
+engine-e-gravity-sh-line-order-above-degree =
+    { $n ->
+        [one] rida { $lineno }: järk { $m } ületab astet { $n }
+       *[other] rida { $lineno }: järk { $m } ületab astet { $n }
+    }
+
+engine-e-gravity-sh-line-time-variable-term-is = rida { $lineno }: ajast sõltuv liige `{ $key }` ei ole toetatud (ainult staatilised mudelid)
+
+engine-e-gravity-sh-missing-end-of-head = end_of_head puudub
+
+## src/gse_sim.rs
+
+engine-e-gse-sim-step-must-be-positive-got = step_s peab olema positiivne, saadi { $step_s }
+
+engine-e-gse-sim-duration-must-be-positive-got = duration_s peab olema positiivne, saadi { $duration_s }
+
+engine-e-gse-sim-scenario-produces-epochs-need-increase =
+    { $n ->
+        [one] stsenaarium annab { $n } epohhi (vaja ≥ 2); suurenda duration_s või vähenda step_s
+       *[other] stsenaarium annab { $n } epohhi (vaja ≥ 2); suurenda duration_s või vähenda step_s
+    }
+
+## src/holdover_test.rs
+
+engine-e-holdover-test-the-record-holds-non-finite = kirje sisaldab mittelõplikku ajaviga
+
+engine-e-holdover-test-unknown-mask-expected-one-of = tundmatu mask { $id }; oodati üht väärtustest { $masks }
+
+engine-e-holdover-test-every-budget-max-abs-te = iga eelarve max_abs_te_ns peab olema lõplik ja positiivne
+
+engine-e-holdover-test-gnss-removed-lies-outside-the = gnss_removed_s = { $gnss_removed_s } jääb kirjest välja ({ $t0_s } kuni { $t_end } s selle enda ajateljel)
+
+engine-e-holdover-test-gnss-restored-must-be-later = gnss_restored_s = { $r } peab olema hilisem kui gnss_removed_s ({ $gnss_removed_s }) ega tohi ületada kirje lõppu ({ $t_end } s)
+
+engine-e-holdover-test-the-holdover-step-holds-no = holdover-etapp ei sisalda ühtegi näidist
+
+engine-holdover-test-the-record-has-no-step = kirjes ei ole etappi { $step }: GNSS eemaldati esimesel näidisel
+
+engine-holdover-test-the-step-has-samples-the = etapil { $step } on { $te_ns } näidist; hinnangud vajavad vähemalt 13
+
+engine-e-holdover-test-step-with-mask-has-no = maskiga etapil ei ole kõverat
+
+engine-e-holdover-test-cannot-read-csv-path = csv_path { $path } ei saa lugeda: { $e }
+
+engine-holdover-test-recovered-after-gnss-returned = ; taastus { $t } s pärast GNSS-i naasmist
+
+engine-holdover-test-holdover-test-holdover-max-te = holdover-test: holdover { $hold } s, max|TE| { $max_abs } ns; { $masks }{ $rec } (MODELLED, mõõdetud maski suhtes)
+
+## src/hybrid.rs
+
+engine-e-hybrid-coupled-sigma-pr-must-be = coupled.sigma_pr_m peab olema lõplik ja > 0, saadi { $sigma_pr_m }
+
+engine-e-hybrid-coupled-ba-must-be-and = coupled.q_ba peab olema >= 0 ja coupled.bias_var > 0
+
+## src/hybrid_integrity.rs
+
+engine-hybrid-integrity-refused-the-two-legs-are = REFUSED: kaks haru ei ole ühisel keskmistamisajal. Optiline haru akumuleerib ajavahemikul integration_s = { $integration_s } s; RF-haru ahela mürajoone laius B_L = { $dll_bandwidth_hz } Hz keskmistab ajal 1/(2*B_L) = { $rf_equivalent_averaging_s } s. Kahe sigma suhe, mis on võetud eri keskmistamisaegadel, ei ole võrdlus, seega seda ei esitata. Eemalda rf_dll_bandwidth_hz alistus (siis on vaikeväärtus 1/(2*integration_s)) või sea see väärtusele { $v4 } Hz.
+
+engine-hybrid-integrity-refused-leg-is-not-usable = REFUSED: haru ei ole kasutatav positiivne lõplik sigma (optiline { $opt_sigma_range_m } m, RF { $rf_sigma_range_m } m), seega suhet ei moodustata.
+
+engine-e-hybrid-integrity-unknown-rf-band-expected-ka = tundmatu rf_band '{ $other }' (oodati s|x|ka)
+
+engine-e-hybrid-integrity-must-be-finite = { $name } peab olema lõplik
+
+engine-e-hybrid-integrity-rf-other-losses-db-must = rf_other_losses_db peab olema lõplik ja >= 0
+
+engine-hybrid-integrity-hybrid-optical-rf-optical-footprint =
+    { $n_sites ->
+        [one] hybrid-optical-rf | optilise jalajälje { $footprint_m } m, { $detected_photons } footonit -> kauguse σ { $c } mm, aja σ { $c2 } ps | cross-RAIM HPL { $hpl_m } m / VPL { $vpl_m } m / TPL { $c3 } ns ({ $v8 }) | kättesaadavus { $c4 }% ({ $n_sites } asukoht) | üleandmine ilma hüppeta { $v11 } NEES { $final_nees }∈[{ $c5 },{ $c6 }] { $v15 } | ühine FoM { $score } (A { $availability } · P { $precision_grade } · I { $integrity_assured }) | Validated CRLB/χ²-PL/union/handoff, Modelled σ/climatology
+       *[other] hybrid-optical-rf | optilise jalajälje { $footprint_m } m, { $detected_photons } footonit -> kauguse σ { $c } mm, aja σ { $c2 } ps | cross-RAIM HPL { $hpl_m } m / VPL { $vpl_m } m / TPL { $c3 } ns ({ $v8 }) | kättesaadavus { $c4 }% ({ $n_sites } asukohta) | üleandmine ilma hüppeta { $v11 } NEES { $final_nees }∈[{ $c5 },{ $c6 }] { $v15 } | ühine FoM { $score } (A { $availability } · P { $precision_grade } · I { $integrity_assured }) | Validated CRLB/χ²-PL/union/handoff, Modelled σ/climatology
+    }
+
+## src/impairment_eval.rs
+
+engine-e-impairment-eval-target-pfa-must-be-in = target_pfa peab olema vahemikus [0, 1]
+
+engine-e-impairment-eval-per-class-must-be = n_per_class peab olema >= 1
+
+engine-impairment-eval-impairment-eval-detector-auc-in =
+    { $n_cases ->
+        [one] impairment-eval | detektor { $detector } | AUC { $auc_in } sees / { $auc_out } väljas (vahe { $optimism_gap }{ $v5 }) | Pd { $report } Pfa { $report2 } @ siht { $target_pfa } | { $n_cases } juhtum | MODELLED synthetic
+       *[other] impairment-eval | detektor { $detector } | AUC { $auc_in } sees / { $auc_out } väljas (vahe { $optimism_gap }{ $v5 }) | Pd { $report } Pfa { $report2 } @ siht { $target_pfa } | { $n_cases } juhtumit | MODELLED synthetic
+    }
+
+engine-e-impairment-eval-unknown-detector-energy-agc-sqm = tundmatu detektor '{ $other }' (energy|agc|sqm|parity|fused)
+
+## src/inertial/coast.rs
+
+engine-e-inertial-coast-unknown-imu-grade-expected-one = tundmatu imu_grade { $other }; oodati üht väärtustest navigation, tactical, industrial, consumer
+
+engine-e-inertial-coast-unknown-combination-expected-one-of = tundmatu combination { $other }; oodati üht väärtustest rss, linear-sum, det-sum-stoch-rss
+
+engine-e-inertial-coast-unknown-trn-fix-mode-expected = tundmatu trn_fix_mode { $other }; oodati üht väärtustest none, position-only, full-reset
+
+engine-e-inertial-coast-must-be-finite-and-non = { $name } peab olema lõplik ja mittenegatiivne (saadi { $v })
+
+engine-e-inertial-coast-crossing-thresholds-must-name-at = crossing_thresholds_m peab nimetama vähemalt ühe läve
+
+engine-e-inertial-coast-crossing-thresholds-entries-must-be = crossing_thresholds_m kirjed peavad olema lõplikud ja positiivsed (saadi { $t })
+
+engine-e-inertial-coast-grades-must-name-at-least = grades peab nimetama vähemalt ühe IMU klassi
+
+engine-e-inertial-coast-speed-must-be-finite-and = speed_m_s peab olema lõplik ja mittenegatiivne (saadi { $v })
+
+engine-e-inertial-coast-ref-accel-s2-must-be = ref_accel_m_s2 peab olema lõplik ja mittenegatiivne (saadi { $a })
+
+engine-e-inertial-coast-latitude-deg-must-be-finite = latitude_deg peab olema lõplik ja vahemikus (-89, 89) (saadi { $lat })
+
+engine-e-inertial-coast-height-must-be-within-1000 = height_m peab olema vahemikus [-1000, 100000] (saadi { $h })
+
+engine-e-inertial-coast-mission-duration-must-be-positive = mission_duration_s peab olema positiivne
+
+engine-e-inertial-coast-drift-band-must-satisfy-lo = triivivahemik peab rahuldama 0 < lo < hi (saadi lo={ $lo }, hi={ $hi })
+
+engine-e-inertial-coast-serializing-ins-trn-coast-result = ins-trn-coast tulemuse serialiseerimine: { $e }
+
+engine-inertial-coast-ins-trn-coast-imu-combination = ins-trn-coast | { $grade } IMU, { $speed } m/s, combination { $comb } | { $heads } | TRN { $mode } tipp { $peak_error_m } m ajavahemikul { $mission } s
+
+## src/inertial/mod.rs
+
+engine-inertial-va-derived-from-cold-atom = { $provenance } (q_va tuletatud külma aatomi interferomeetria füüsikast)
+
+## src/inline_only.rs
+
+engine-e-inline-only-scenario-is-bytes-over-the = stsenaarium on { $toml_text } baiti, üle { $max_bytes }-baidise piiri
+
+engine-e-inline-only-the-scenario-kind-reads-its = stsenaariumi liik `{ $kind }` loeb oma andmed hostil olevatest failidest, seega see pind seda ei käivita; kasuta käsurida `kshana`
+
+engine-e-inline-only-the-field-names-file-this = väli `{ $k }` nimetab faili: see pind aktsepteerib ainult sisemist sisu
+
+## src/interference_map/adsb.rs
+
+engine-e-interference-map-adsb-gzip = gzip: { $e }
+
+engine-e-interference-map-adsb-trace-json = jälje JSON: { $e }
+
+## src/interference_map/api.rs
+
+engine-e-interference-map-api-unknown-dataset-approved-or-custom = tundmatu andmekogum `{ $key }`; kinnitatud: { $v1 }, või kohandatud andmekogum
+
+engine-e-interference-map-api-dataset-is-data-but-the = andmekogum `{ $key }` on { $kind } andmed, aga sisendi liik on { $kind2 }
+
+engine-e-interference-map-api-is-not-yyyy-mm-dd = { $name } ei ole kuupäev kujul YYYY-MM-DD
+
+## src/interference_map/cli.rs
+
+engine-e-interference-map-cli-unknown-option = tundmatu valik `{ $a }`
+
+engine-e-interference-map-cli-expected-positional-argument-got = oodati { $positionals } positsioonilist argumenti, saadi { $pos }
+
+engine-e-interference-map-cli-cannot-read = { $path } ei saa lugeda: { $e }
+
+engine-e-interference-map-cli-dataset-custom-needs =
+    { $n ->
+        [one] --dataset custom vajab { $n }
+       *[other] --dataset custom vajab { $n }
+    }
+
+engine-e-interference-map-cli-already-exists-kshana-does-not = { $existing } on juba olemas; Kshana ei kirjuta kaarte üle. Eemalda see või vali teine --out kataloog
+
+engine-interference-map-cli-note-cell-deg-is-not = märkus: --cell-deg { $cell_deg } ei ole eelregistreeritud lahtri suurus ({ $PREREGISTERED_CELL_DEG }); kaardid ütlevad seda ise
+
+engine-e-interference-map-cli-cannot-create = { $out } ei saa luua: { $e }
+
+engine-interference-map-cli-wrote-cells-published-flagged =
+    { $n_deg ->
+        [one] kirjutati { $path }: { $cells } lahtrit avaldatud, { $n_deg } märgitud
+       *[other] kirjutati { $path }: { $cells } lahtrit avaldatud, { $n_deg } märgitud
+    }
+
+engine-interference-map-cli-no-usable-rows-nothing-written = kasutatavaid ridu ei ole: midagi ei kirjutatud
+
+engine-e-interference-map-cli-unknown-subcommand = tundmatu alamkäsk `{ $other }`
+
+engine-e-interference-map-cli-the-downloaded-file-sha-256 = allalaaditud faili SHA-256 ({ $got }) ei vasta kinnitatud väärtusele ({ $expected }); see visati ära
+
+engine-e-interference-map-cli-cannot-write = { $dest } ei saa kirjutada: { $e }
+
+engine-e-interference-map-cli-curl-was-not-found-on = curl-i ei leitud PATH-ist. Paigalda curl või laadi { $NATURAL_EARTH_LAND_URL } ise alla ja kontrolli, et selle SHA-256 on { $NATURAL_EARTH_LAND_SHA256 }
+
+engine-e-interference-map-cli-cannot-run-curl = curl-i ei saa käivitada: { $e }
+
+engine-interference-map-cli-wrote-natural-earth-land-polygons = kirjutati { $out }: Natural Earth maapolügoonid, SHA-256 kontrollitud (avalik omand, https://www.naturalearthdata.com/about/terms-of-use/)
+
+engine-e-interference-map-cli-no-trace-full-files-under = trace_full_* faile kataloogis { $path } ei ole
+
+engine-e-interference-map-cli-cannot-read-2 = { $spec } ei saa lugeda: { $e }
+
+engine-e-interference-map-cli-is-not-yyyy-mm-dd =
+    { $n ->
+        [one] { $n } ei ole kuupäev kujul YYYY-MM-DD
+       *[other] { $n } ei ole kuupäev kujul YYYY-MM-DD
+    }
+
+engine-e-interference-map-cli-bad-map-date = { $f }: vigane kaardi kuupäev
+
+engine-e-interference-map-cli-cannot-write-2 = { $out } ei saa kirjutada: { $e }
+
+engine-interference-map-cli-route-length-km = marsruudi pikkus { $rows } km
+
+engine-interference-map-cli-caveats-degraded-cell-does-not = Hoiatused: halvenenud lahter ei tuvasta häiret põhjusena; vaatlemata lahtrid ei ole tõend selgest marsruudist; see ei ole prognoos.
+
+## src/interference_map/land.rs
+
+engine-e-interference-map-land-land-polygons-invalid-json = maapolügoonid: vigane JSON: { $e }
+
+## src/interference_map/mod.rs
+
+engine-e-interference-map-missing-required-column = nõutav veerg `{ $name }` puudub
+
+engine-e-interference-map-cannot-read-input = sisendit ei saa lugeda: { $e }
+
+## src/interference_map/observatory.rs
+
+engine-e-interference-map-observatory-day-is-not-date-yyyy = --day `{ $day }` ei ole kuupäev (YYYY-MM-DD)
+
+engine-e-interference-map-observatory-delay-hours-must-be-or = --delay-hours peab olema { $MIN_DELAY_HOURS } või rohkem: observatoorium ei avalda varem
+
+engine-e-interference-map-observatory-cell-deg-must-be-or = --cell-deg peab olema { $MIN_CELL_DEG } või jämedam: observatoorium avaldab ainult jämedaid lahtreid
+
+engine-e-interference-map-observatory-is-not-publishable-yet-its = { $day } ei ole veel avaldatav: selle toode vabastatakse mitte varem kui { $fmt_utc } ({ $delay_hours } h pärast päeva lõppu)
+
+engine-interference-map-observatory-kshana-observatory-ads = KSHANA OBSERVATORY  ADS-B  { $date }
+
+engine-interference-map-observatory-deg-cells-utc-day-not = { $trim_deg } DEG CELLS  UTC DAY  NOT OBSERVED IS NOT CLEAR  NO CAUSE ATTRIBUTED
+
+engine-interference-map-observatory-source-licence = SOURCE { $dataset }  LICENCE { $dataset2 }
+
+## src/interference_map/observatory.rs
+
+engine-interference-map-observatory-degraded-not-degraded-not-observed = { $summary } DEGRADED  { $summary2 } NOT DEGRADED  { $summary3 } NOT OBSERVED (PUBLISHED CELLS)
+
+engine-interference-map-observatory-kshana-observatory-ads-navigation-accuracy = Kshana observatoorium, ADS-B navigatsioonitäpsuse kaart, { $date }
+
+engine-e-interference-map-observatory-cannot-create-kshana-does-not = { $path } ei saa luua (Kshana ei kirjuta tooteid üle): { $e }
+
+engine-e-interference-map-observatory-the-input-has-no-usable = sisendis ei ole kasutatavat aruannet päeva { $day } kohta (leitud päevad: { $days })
+
+engine-e-interference-map-observatory-already-exists-kshana-does-not = { $path } on juba olemas; Kshana ei kirjuta tooteid üle
+
+engine-interference-map-observatory-cells-published-degraded-incident = lahtreid avaldatud { $p }, halvenenud { $p2 }, intsidente { $p3 }
+
+engine-interference-map-observatory-rows-replayed-under-variants = { $rows } rida taasesitati { $variants } variandi all: { $out }
+
+## src/interference_map/route.rs
+
+engine-e-interference-map-route-map-is-not-valid-json = kaart ei ole kehtiv JSON: { $e }
+
+engine-e-interference-map-route-route-invalid-json = marsruut: vigane JSON: { $e }
+
+engine-e-interference-map-route-route-line-is-not-lat = marsruut: rida { $v1 } ei ole kujul `lat,lon`
+
+## src/interop/czml.rs
+
+engine-interop-czml-kshana-export-epoch-moving-objects = Kshana { $v1 } eksport. Epohh: { $epoch_note }. Liikuvad objektid: GCRS (referenceFrame INERTIAL), meetrites, sekundites epohhi järel. Fikseeritud asukohad: Maaga seotud WGS 84 (referenceFrame FIXED), meetrites.
+
+engine-interop-czml-position-gcrs-metres = { $description } ({ $role }). Asukoht: GCRS, meetrites.
+
+engine-interop-czml-latitude-deg-longitude-deg-height = { $description } ({ $role }). Laiuskraad { $lat_deg } deg, pikkuskraad { $lon_deg } deg, kõrgus { $h_m } m WGS 84 ellipsoidi kohal. Asukoht: Maaga seotud, meetrites.
+
+engine-interop-czml-radius-along-the-ground = { $description }. Raadius { $radius_m } m piki maapinda.
+
+engine-interop-czml-untimed-wgs-84-longitude-and = { $description }. Ajata: WGS 84 pikkus- ja laiuskraad kraadides, kinnitatud maapinnale.
+
+## src/interop/geojson.rs
+
+engine-interop-geojson-earth-fixed-positions-multilinestring-is = { $description }. Maaga seotud asukohad; MultiLineString lõigatakse antimeridiaanil ja times_utc loetleb siis ainult algsed näidised.
+
+engine-interop-geojson-kshana-export-epoch = Kshana { $v1 } eksport. Epohh: { $epoch_note }.
+
+engine-e-interop-geojson-invalid-geojson = vigane GeoJSON: { $e }
+
+engine-e-interop-geojson-linestring-has-no-coordinates-array = LineString ei sisalda koordinaatide massiivi
+
+engine-e-interop-geojson-an-rfc-7946-linestring-needs = RFC 7946 LineString vajab kahte või enamat asukohta
+
+engine-interop-geojson-position-is-not-an-array = asukoht { $i } ei ole kahe või kolme arvu massiiv
+
+engine-interop-geojson-position-longitude-is-not-number = asukoht { $i }: pikkuskraad ei ole arv
+
+engine-interop-geojson-position-latitude-is-not-number = asukoht { $i }: laiuskraad ei ole arv
+
+engine-e-interop-geojson-position-longitude-is-outside-180 = asukoht { $i }: pikkuskraad { $lon } jääb vahemikust [-180, 180] välja (GeoJSON annab pikkuskraadi esimesena)
+
+engine-e-interop-geojson-position-latitude-is-outside-90 = asukoht { $i }: laiuskraad { $lat } jääb vahemikust [-90, 90] välja (GeoJSON annab pikkuskraadi esimesena)
+
+engine-e-interop-geojson-track-needs-two-or-more = rada vajab kahte või enamat teekonnapunkti
+
+engine-e-interop-geojson-the-route-spans-more-than = marsruut hõlmab rohkem kui 180 kraadi pikkuskraadi; rajaliigid astuvad lihtsates kraadides ega saa antimeridiaani ületada
+
+engine-e-interop-geojson-position-is-deg-from-an = asukoht { $worst } on { $worst2 } deg kaugusel ühtlase sammuga sirgest rajast (tolerants { $tol_deg } deg); rajaliigid lendavad start + i*step, seega anna ühtlase sammuga asukohad sirgel või ainult kaks otspunkti
+
+engine-e-interop-geojson-route-applies-to-the-kinds = marsruut kehtib liikidele, mis lendavad teekonnapunktide rada (terrain-nav, terrain-slam, gravity-map, combined-altpnt); `{ $k }` ei võta trajektoorisisendit
+
+engine-e-interop-geojson-scenario-toml-is-not-table = stsenaariumi TOML ei ole tabel
+
+engine-e-interop-geojson-cannot-serialise-scenario = stsenaariumi ei saa serialiseerida: { $e }
+
+## src/interop/mod.rs
+
+engine-e-interop-unknown-export-format-expected-one = tundmatu ekspordivorming '{ $other }'; oodati üht väärtustest czml, kml, geojson, stk, sigmf, all või list
+
+engine-e-interop-member = liige { $label }: { $e }
+
+engine-interop-the-scenario-could-not-be = stsenaariumi ei saanud eksportida: { $m }
+
+engine-e-interop-invalid-spectrum-scenario = vigane spektristsenaarium: { $e }
+
+## src/interop/scene.rs
+
+engine-e-interop-scene-time-samples-is-more-than =
+    { $n ->
+        [one] { $n } ajanäidis on rohkem, kui eksport kirjutab ({ $MAX_SAMPLES })
+       *[other] { $n } ajanäidist on rohkem, kui eksport kirjutab ({ $MAX_SAMPLES })
+    }
+
+engine-e-interop-scene-objects-samples-is-more-than = { $items } objekti x { $times } näidist on rohkem, kui eksport kirjutab ({ $MAX_SAMPLES })
+
+engine-e-interop-scene-invalid-scenario = vigane { $kind } stsenaarium: { $e }
+
+engine-interop-scene-jammer-dbw-transmit-power-dbi = { $jammer_type } segaja, { $power_dbw } dBW saatevõimsus, { $gain_dbi } dBi antennivõimendus
+
+engine-interop-scene-from-the-jamming-kind-link = { $what }; { $r } m, segamisliigi lingivõrrandite järgi, kus segaja on vastuvõtja horisondil ja vabaruumi sumbuvus
+
+engine-interop-scene-the-chain-pass-stage = { $epoch_note } (ahela [pass] etapp)
+
+engine-interop-scene-circular-orbit-km-altitude-deg = ringorbiit, kõrgus { $altitude_km } km, kaldenurk { $inclination_deg } deg (SGP4 keskmised elemendid akna alguses, nagu passes-liik neid levitab)
+
+engine-interop-scene-ground-station-deg-elevation-mask = maajaam, tõusunurga mask { $mask_deg } deg
+
+engine-interop-scene-gcrs-and-earth-fixed-states = { $source }; GCRS ja Maaga seotud olekud on ephemeris-liigi enda väljund (UT1 ja poolusliikumine nii, nagu stsenaarium need määrab)
+
+engine-interop-scene-static-scene-the-kind-flies = staatiline stseen: liik { $kind } lendab ajata teekonnapunktide rada
+
+engine-interop-scene-true-track-flown-gps-denied = tegelik rada lennati GPS-i keelatuna: { $track } teekonnapunkti alates start_lat_deg/start_lon_deg sammuga step_lat_deg/step_lon_deg
+
+engine-e-interop-scene-has-no-scene = `{ $kind }` ei sisalda stseeni
+
+engine-e-interop-scene-missing-numeric = arvuline `{ $k }` puudub
+
+engine-e-interop-scene-missing-integer-waypoints = täisarvuline `waypoints` puudub
+
+engine-e-interop-scene-waypoints-is-outside-1000000 =
+    { $n ->
+        [one] waypoints = { $n } jääb vahemikust 1..=1000000 välja
+       *[other] waypoints = { $n } jääb vahemikust 1..=1000000 välja
+    }
+
+engine-interop-scene-walker-at-km-deg-inclination = Walker { $w }/{ $planes }/{ $phasing_f } kõrgusel { $altitude_km } km, kaldenurk { $inclination_deg } deg (SGP4)
+
+engine-interop-scene-the-scenario-gives-no-epoch = stsenaarium ei anna `epoch`; t = 0 on { $epoch }, varaseim epohh, mida satelliitide enda andmed kannavad (TLE, edastatud efemeriid või SP3 epohh). Iga satelliiti levitatakse tema enda epohhist ja need hõlmavad { $spread_h } h: ajamärgised järgivad mootori eeldust, et iga satelliit algab hetkel t = 0, samas kui iga asukoht pööratakse GCRS- ja Maaga seotud süsteemi selle satelliidi enda ajahetkel. SP3 ja OEM eksport märgivad t = 0 hoopis kui 2000-01-01T00:00:00Z
+
+engine-interop-scene-the-scenario-gives-no-epoch-2 = stsenaarium ei anna `epoch`; t = 0 on { $epoch }, epohh, mida satelliitide enda andmed kannavad (TLE, edastatud efemeriid või SP3 epohh). SP3 ja OEM eksport märgivad t = 0 hoopis kui 2000-01-01T00:00:00Z
+
+engine-e-interop-scene-objects-samples-is-more-than-2 = { $satellites } objekti x { $times_s } näidist on rohkem, kui eksport kirjutab ({ $MAX_SAMPLES })
+
+engine-interop-scene-user-moving-the-kind-constant = { $user_environment } kasutaja, liikuv (liigi konstantne kiirus ja suund)
+
+engine-interop-scene-user-receiver = { $user_environment } kasutaja (vastuvõtja)
+
+engine-interop-scene-user-orbit-km-altitude-deg = kasutaja orbiit, kõrgus { $altitude_km } km, kaldenurk { $inclination_deg } deg (Kepleri{ $v3 })
+
+## src/interop/stk.rs
+
+engine-e-interop-stk-no-moving-object = liikuvat objekti { $index } ei ole
+
+engine-interop-stk-kshana-export-object = # Kshana { $v1 } eksport: { $scene }, objekt { $id } ({ $role }){ "\u000A" }
+
+## src/interop/testbench.rs
+
+engine-interop-testbench-jammer-dbw-transmit-power-dbi = { $jammer_type } segaja, { $power_dbw } dBW saatevõimsus, { $gain_dbi } dBi antennivõimendus (stsenaariumi lingieelarve parameeter, mitte signaal)
+
+engine-e-interop-testbench-has-no-vehicle-trajectory-to = `{ $other }` ei sisalda eksporditavat sõiduki trajektoori; katsestendi eksport katab liigid gnss-ins, jamming ja gnss-sim
+
+engine-e-interop-testbench-empty-motion-csv = tühi liikumise CSV
+
+engine-e-interop-testbench-motion-csv-header-is-not = liikumise CSV päis ei ole oodatud veerud: { $head }
+
+engine-e-interop-testbench-row-fields-expected = rida { $v1 }: { $f } välja, oodati { $motion_columns }
+
+engine-e-interop-testbench-row-column-is-not-number = rida { $v1 }: veerg { $motion_columns } ei ole arv
+
+engine-e-interop-testbench-line-no = rida { $v1 }: puudub `$`
+
+engine-e-interop-testbench-line-no-checksum = rida { $v1 }: kontrollsumma puudub
+
+engine-e-interop-testbench-line-bad-checksum-field = rida { $v1 }: vigane kontrollsumma väli
+
+engine-e-interop-testbench-line-checksum-mismatch = rida { $v1 }: kontrollsumma ei klapi
+
+engine-e-interop-testbench-line-short-gga = rida { $v1 }: lühike GGA
+
+engine-interop-testbench-line-bad-latitude = rida { $v1 }: vigane laiuskraad
+
+engine-interop-testbench-line-bad-longitude = rida { $v1 }: vigane pikkuskraad
+
+engine-e-interop-testbench-line-bad-altitude = rida { $v1 }: vigane kõrgus
+
+engine-e-interop-testbench-line-bad-separation = rida { $v1 }: vigane geoidi kõrgus
+
+engine-e-interop-testbench-line-short-rmc = rida { $v1 }: lühike RMC
+
+engine-e-interop-testbench-line-rmc-with-no-preceding = rida { $v1 }: RMC ilma eelneva GGA-ta
+
+engine-e-interop-testbench-line-gga-and-rmc-times = rida { $v1 }: GGA ja RMC ajad erinevad
+
+engine-e-interop-testbench-line-bad-speed = rida { $v1 }: vigane kiirus
+
+engine-e-interop-testbench-line-bad-course = rida { $v1 }: vigane kurss
+
+engine-e-interop-testbench-line-bad-time-or-date = rida { $v1 }: vigane aeg või kuupäev
+
+engine-e-interop-testbench-gga-with-no-following-rmc = GGA ilma järgneva RMC-ta
+
+engine-e-interop-testbench-waypoint-file-needs-at-least = teekonnapunktide fail vajab vähemalt kahte näidist
+
+engine-e-interop-testbench-the-sample-step-is-not = näidissamm { $step } s ei ole täisarv millisekundeid
+
+engine-e-interop-testbench-the-samples-are-not-equally = näidised ei ole võrdse vahega: intervall { $v1 } on { $dt } s, esimene on { $step } s
+
+engine-e-interop-testbench-empty-waypoint-file = tühi teekonnapunktide fail
+
+engine-e-interop-testbench-waypoint-not-three-numbers = teekonnapunkt { $v1 }: ei ole kolm arvu
+
+engine-e-interop-testbench-waypoint-fields-expected = teekonnapunkt { $v1 }: { $f } välja, oodati 3
+
+engine-e-interop-testbench-events-csv-header-is-not = sündmuste CSV päis ei ole label,kind,onset_s,end_s,description
+
+engine-e-interop-testbench-event-row-expected-fields = sündmuse rida { $v1 }: oodati 5 välja
+
+engine-e-interop-testbench-event-row-unknown-kind = sündmuse rida { $v1 }: tundmatu liik { $f }
+
+engine-e-interop-testbench-event-row-bad-onset = sündmuse rida { $v1 }: vigane algus
+
+engine-e-interop-testbench-event-row-bad-end = sündmuse rida { $v1 }: vigane lõpp
+
+engine-interop-testbench-no-waypoints-txt-written = .waypoints.txt-d ei kirjutatud: { $e }
+
+## src/interop/time.rs
+
+engine-interop-time-not-utc-time-yyyy-mm = ei ole UTC aeg kujul `YYYY-MM-DDTHH:MM:SS`: { $why }: { $text }
+
+## src/ionex.rs
+
+engine-e-ionex-missing = puudub { $what }
+
+engine-e-ionex-bad-number-in = { $what }: vigane arv veerus { $col }
+
+engine-e-ionex-two-digit-year = { $what }: kahekohaline aasta { $year }
+
+engine-e-ionex-no-end-of-header = END OF HEADER puudub
+
+engine-e-ionex-height-dependent-ionex-maps-are = kõrgusest sõltuvaid (3-D) IONEX kaarte ei toetata
+
+engine-e-ionex-zero-grid-step = nullist ruudustikusamm
+
+engine-e-ionex-grid-needs-at-least-nodes = ruudustik vajab vähemalt 2 x 2 sõlme
+
+engine-e-ionex-map-no = kaart { $index }: puudub { $end_label }
+
+engine-e-ionex-map-band-latitude-header-grid = kaart { $index }: riba { $band } laiuskraad { $band_lat }, päise ruudustik { $want }
+
+engine-e-ionex-map-band-longitudes-differ = kaart { $index }: riba { $band } pikkuskraadid erinevad
+
+engine-e-ionex-map-band-truncated = kaart { $index }: riba { $band } on kärbitud
+
+engine-e-ionex-map-bands-header-grid-has =
+    { $n_lat ->
+        [one] kaart { $index }: ribasid { $band }, päise ruudustikul on { $n_lat }
+       *[other] kaart { $index }: ribasid { $band }, päise ruudustikul on { $n_lat }
+    }
+
+engine-e-ionex-map-no-epoch-of-current = kaart { $index }: EPOCH OF CURRENT MAP puudub
+
+engine-e-ionex-tec-maps-header-of-maps =
+    { $n_maps ->
+        [one] TEC kaarte { $tec_maps }, päis # OF MAPS IN FILE { $n_maps }
+       *[other] TEC kaarte { $tec_maps }, päis # OF MAPS IN FILE { $n_maps }
+    }
+
+engine-e-ionex-tec-map-epochs-not-increasing = TEC kaardi epohhid ei kasva
+
+## src/iq/acq.rs
+
+engine-e-iq-acq-hz-does-not-hold-whole = { $fs_hz } Hz ei sisalda täisarvu näidiseid { $code } perioodi kohta ({ $spc } näidist)
+
+engine-e-iq-acq-coherent-periods-and-noncoherent-must = coherent_periods ja noncoherent peavad olema positiivsed
+
+engine-e-iq-acq-stream-ended-after-of-samples = voog lõppes pärast { $got } näidist { $needed }-st
+
+engine-e-iq-acq-cfar-reference-cells-must-be =
+    { $n ->
+        [one] CFAR etalonlahtrid peavad olema paarisarv ja vähemalt 2 (saadi { $n })
+       *[other] CFAR etalonlahtrid peavad olema paarisarv ja vähemalt 2 (saadi { $n })
+    }
+
+engine-e-iq-acq-cfar-stride-must-be-at = CFAR samm peab olema vähemalt 1 nihe
+
+engine-e-iq-acq-cfar-per-cell-pfa-must = CFAR lahtripõhine Pfa peab olema vahemikus (0, 1) (saadi { $pfa_cell })
+
+engine-e-iq-acq-cfar-window-reaches-lags-each = CFAR aken ulatub { $reach } nihet mõlemale poole, liiga lai { $samples_per_period }-nihkelise perioodi jaoks
+
+## src/iq/acq_surface.rs
+
+engine-e-iq-acq-surface-unknown-surface-format-expected-csv = tundmatu pinna vorming { $s }: oodati csv, json või bin
+
+engine-e-iq-acq-surface-the-surface-would-hold-cells = pind sisaldaks { $spc_cells } lahtrit (piir { $MAX_SURFACE_CELLS }): suurenda Doppleri sammu või kitsenda Doppleri vahemikku
+
+engine-e-iq-acq-surface-surface-header = pinna päis: { $e }
+
+engine-e-iq-acq-surface-surface-schema-expected = pinna skeem { $schema }; oodati { $SURFACE_SCHEMA }
+
+engine-e-iq-acq-surface-surface-body = pinna keha: { $e }
+
+## src/iq/campaign/conditions.rs
+
+engine-e-iq-campaign-conditions-recording-format-and-sample-rate = salvestus '{ $id }': format ja sample_rate_hz tuleb anda koos
+
+engine-e-iq-campaign-conditions-test-conditions-json = katsetingimused (JSON): { $e }
+
+engine-e-iq-campaign-conditions-test-conditions-toml = katsetingimused (TOML): { $e }
+
+engine-e-iq-campaign-conditions-events-from-sigmf-needs-sigmf = { $path }: events_from_sigmf vajab SigMF-salvestust (saadi { $rec })
+
+engine-e-iq-campaign-conditions-sigmf-metadata = SigMF metaandmed: { $e }
+
+engine-e-iq-campaign-conditions-sigmf-metadata-global-core-sample = SigMF metaandmed: global core:sample_rate puudub
+
+engine-iq-campaign-conditions-core-sample-start-is-missing = { $at }: core:sample_start puudub
+
+engine-iq-campaign-conditions-no-core-sample-count-and = { $at }: core:sample_count puudub ja sündmuse lõpetamiseks ei ole võimsuspunkte
+
+engine-e-iq-campaign-conditions-kshana-test-event = { $at }: kshana:test_event: { $e }
+
+engine-e-iq-campaign-conditions-schema-must-be-got = schema peab olema „{ $SCHEMA }“ (saadi „{ $schema }“)
+
+engine-e-iq-campaign-conditions-recording-id-must-not-be = recording.id ei tohi olla tühi
+
+engine-e-iq-campaign-conditions-recording-settle-must-be-finite = recording.settle_s peab olema lõplik ja >= 0
+
+engine-e-iq-campaign-conditions-recording-sha256-must-be-64 = recording.sha256 peab olema 64 kuueteistkümnendnumbrit
+
+engine-e-iq-campaign-conditions-recording-kind-must-be-iq = recording.kind peab olema „iq“ või „receiver-log“ (saadi „{ $k }“)
+
+engine-e-iq-campaign-conditions-at-least-one-expected-group = vähemalt üks [[expected]] rühm on nõutav
+
+engine-e-iq-campaign-conditions-ids-must-not-be-empty = { $at }: ids ei tohi olla tühi
+
+engine-e-iq-campaign-conditions-lists-value-give-one-per =
+    { $n ->
+        [one] { $at }: { $key } loetleb { $n } väärtuse; anna üks iga id kohta ({ $ids })
+       *[other] { $at }: { $key } loetleb { $n } väärtust; anna üks iga id kohta ({ $ids })
+    }
+
+engine-e-iq-campaign-conditions-duplicate-id = { $at }: dubleeritud id
+
+engine-e-iq-campaign-conditions-offset-must-be-after-onset = { $at }: offset_s peab olema hilisem kui onset_s
+
+engine-e-iq-campaign-conditions-affects-must-be-all-or = { $at }: affects peab olema „all“ või id-de loend
+
+engine-e-iq-campaign-conditions-affects-id-is-not-in = { $at }: affects id { $bad } ei ole väljal [[expected]]
+
+engine-e-iq-campaign-conditions-must-be-positive = { $at }: q peab olema positiivne
+
+engine-e-iq-campaign-conditions-power-points-must-not-be = { $at }: power.points ei tohi olla tühi
+
+engine-e-iq-campaign-conditions-power-points-must-be-in = { $at }: power.points peab olema ajalises järjekorras
+
+engine-e-iq-campaign-conditions-power-points-must-be-finite = { $at }: power.points peab olema lõplik
+
+engine-e-iq-campaign-conditions-power-quantity-jammer-dbm-needs = { $at }: power.quantity = "jammer_dbm" vajab reference_signal_dbm
+
+engine-e-iq-campaign-conditions-events-and-overlap-on-shared = sündmused '{ $id }' ja '{ $id2 }' kattuvad ühisel satelliidil
+
+## src/iq/campaign/detect.rs
+
+engine-e-iq-campaign-detect-monitors-detect-grace-must-be = monitors.detect_grace_s peab olema >= 0
+
+engine-e-iq-campaign-detect-monitors-roc-window-must-be = monitors.roc_window_s peab olema positiivne
+
+## src/iq/campaign/runner.rs
+
+engine-e-iq-campaign-runner-recording-sha-256-does-not = salvestus '{ $id }': SHA-256 { $sha } ei vasta märgitud väärtusele { $want }
+
+engine-e-iq-campaign-runner-runs-jsonl = runs.jsonl: { $e }
+
+engine-e-iq-campaign-runner-recording-holds-samples-needed-to =
+    { $n ->
+        [one] { $code }: salvestus sisaldab { $buf } näidist, haaramiseks on vaja { $n }
+       *[other] { $code }: salvestus sisaldab { $buf } näidist, haaramiseks on vaja { $n }
+    }
+
+## src/iq/campaign/score.rs
+
+engine-e-iq-campaign-score-scoring-baseline-window-must-be = scoring.baseline_window_s peab olema positiivne
+
+engine-e-iq-campaign-score-scoring-js-bin-db-must = scoring.js_bin_db peab olema positiivne
+
+engine-e-iq-campaign-score-scoring-reacq-grace-must-be = scoring.reacq_grace_s peab olema >= 0
+
+engine-e-iq-campaign-score-scoring-false-lock-doppler-hz = scoring.false_lock_doppler_hz peab olema positiivne
+
+engine-e-iq-campaign-score-scoring-false-lock-min-epochs = scoring.false_lock_min_epochs peab olema vähemalt 1
+
+## src/iq/campaign/spec.rs
+
+engine-e-iq-campaign-spec-campaign-json = kampaania (JSON): { $e }
+
+engine-e-iq-campaign-spec-campaign-toml = kampaania (TOML): { $e }
+
+engine-e-iq-campaign-spec-inputs-conditions-must-list-at = inputs.conditions peab loetlema vähemalt ühe faili või glob-mustri
+
+engine-e-iq-campaign-spec-run-max-seconds-must-be = run.max_seconds peab olema >= 0
+
+engine-e-iq-campaign-spec-frontend-names-must-be-non = frontend-nimed peavad olema mittetühjad ja unikaalsed ('{ $name }')
+
+engine-e-iq-campaign-spec-inputs-conditions-matches-no-file = inputs.conditions: '{ $pat }' ei sobi ühegi failiga
+
+engine-e-iq-campaign-spec-recording-id-appears-in-both = salvestuse id '{ $w }' esineb nii failis { $w2 } kui ka failis { $w3 }
+
+engine-e-iq-campaign-spec-inputs-design-names-needs-inputs = inputs.design_names vajab inputs.designs
+
+engine-e-iq-campaign-spec-inputs-design-names-no-design =
+    { $n ->
+        [one] inputs.design_names: kujundust '{ $n }' ei ole failis { $path }
+       *[other] inputs.design_names: kujundust '{ $n }' ei ole failis { $path }
+    }
+
+## src/iq/campaign/truth.rs
+
+engine-e-iq-campaign-truth-truth-line = tõe rida { $v1 }: { $e }
+
+## src/iq/channel/cn0_profile.rs
+
+engine-e-iq-channel-cn0-profile-n0-profile = C/N0 profiil: { $e }
+
+engine-e-iq-channel-cn0-profile-n0-profile-2 = C/N0 profiil: { $m }
+
+engine-iq-channel-cn0-profile-segment-step-values-must-be = segment { $i }: astmeväärtused peavad olema lõplikud
+
+engine-iq-channel-cn0-profile-segment-ramp-needs-end-start = segment { $i }: ramp vajab end_s > start_s
+
+engine-iq-channel-cn0-profile-segment-points-need-equal-non = segment { $i }: punktid vajavad võrdse pikkusega mittetühje t_s ja db
+
+engine-iq-channel-cn0-profile-segment-must-increase-strictly = segment { $i }: t_s peab rangelt kasvama
+
+engine-iq-channel-cn0-profile-segment-points-must-be-finite = segment { $i }: punktid peavad olema lõplikud
+
+engine-iq-channel-cn0-profile-segment-fade-s4-must-be = segment { $i }: hääbumise s4 peab olema vahemikus (0, 1]
+
+engine-iq-channel-cn0-profile-segment-fade-tau-must-be = segment { $i }: hääbumise tau_s peab olema positiivne
+
+## src/iq/cli/acquire.rs
+
+engine-iq-cli-acquire-recording-holds-samples-needed-for = { $code }: salvestus sisaldab { $samples } näidist, selle otsingu jaoks on vaja { $need }
+
+engine-iq-cli-acquire-surface-name-the-format-with = --surface { $path }: nimeta vorming valikuga --surface-format csv|json|bin või lõpeta tee laiendiga .csv, .json või .bin
+
+engine-iq-cli-acquire-acquisition-hz-coherent-period-non = haaramine: { $fs_hz } Hz, koherentseid perioode { $coherent_periods } x mittekoherentseid { $noncoherent }, pfa { $pfa }{ "\u000A" }
+
+## src/iq/cli/campaign.rs
+
+engine-iq-cli-campaign-report-rebuilt-of-cell-row = aruanne ehitati uuesti: lahtreid { $cells_present } / { $cells_total }, ridu { $rows }, läve ei täitnud { $rows_failed }; räsi { $s }
+
+engine-iq-cli-campaign-campaign-cell-already-done-run =
+    kampaania { $name }: lahtreid { $cells_total }; juba tehtud { $cells_skipped }, nüüd käivitati { $cells_run }, ebaõnnestus { $cells_failed }, ootel { $cells_pending }
+    väljund: { $out_dir }
+
+engine-iq-cli-campaign-first-failure =
+    { $msg }
+    esimene ebaõnnestumine ({ $key }…): { $e }
+
+engine-iq-cli-campaign-ok-event-expected-satellite-condition =
+    { $resolved }
+    OK: sündmusi { $events }, oodatud satelliite { $tc }; tingimuste räsi { $tc2 }
+
+## src/iq/cli/channel.rs
+
+engine-iq-cli-channel-iono-slant-tecu = iono kaldtee { $t } TECU
+
+engine-iq-cli-channel-iono-vertical-tecu = iono vertikaal { $t } TECU
+
+engine-iq-cli-channel-tropo-doy = tropo doy { $tropo_doy }
+
+engine-iq-cli-channel-multipath-ground = mitmeteelevi { $h }m { $multipath_ground } maapind
+
+engine-e-iq-cli-channel-multipath-ground-must-be-dry = --multipath-ground peab olema dry, wet või sea (saadi { $other })
+
+engine-e-iq-cli-channel-give-at-most-one-of = anna valikutest --iono-stec, --iono-vtec, --iono-klobuchar kõige rohkem üks
+
+## src/iq/cli/frontend.rs
+
+engine-iq-cli-frontend-bandpass-wants-lo-hi-got = --bandpass ootab kuju lo,hi (saadi { $v })
+
+engine-e-iq-cli-frontend-bandpass-needs-lo-hi = --bandpass vajab lo < hi
+
+engine-e-iq-cli-frontend-bandpass-with-transition-hz-does = --bandpass { $lo },{ $hi } üleminekuga { $transition } Hz ei mahu alla fs/2 ({ $v1 } Hz); kitsenda riba või üleminekut
+
+engine-e-iq-cli-frontend-bits-must-be-16-got = --bits peab olema 1..=16 (saadi { $bits })
+
+engine-iq-cli-frontend-filtered-samples-hz-to-sidecar = filtreeriti { $total } näidist ({ $fs_hz } Hz) faili { $out } ({ $format }); kõrvalfail { $sidecar_path }
+
+## src/iq/cli/labfit.rs
+
+engine-iq-cli-labfit-cannot-read = { $path } ei saa lugeda: { $e }
+
+engine-iq-cli-labfit-invalid-labfit-scenario = vigane labfit-stsenaarium: { $e }
+
+engine-iq-cli-labfit-fitted-run-wrote = sobitati käivitusi { $runs }; kirjutati { $written }
+
+engine-iq-cli-labfit-fitted-unit-from-campaign-wrote = sobitati üksusi { $fit_units } kampaaniast; kirjutati { $written }
+
+engine-iq-cli-labfit-cannot-write = { $target } ei saa kirjutada: { $e }
+
+## src/iq/cli/mod.rs
+
+engine-iq-cli-needs-value = { $s } vajab väärtust
+
+engine-e-iq-cli-cannot-parse = { $k }: { $v } ei saa parsida
+
+engine-iq-cli-iq-takes-positional-argument-got =
+    { $n ->
+        [one] iq { $cmd } võtab { $n } positsioonilise argumendi, saadi { $pos }
+       *[other] iq { $cmd } võtab { $n } positsioonilist argumenti, saadi { $pos }
+    }
+
+engine-e-iq-cli-cannot-parse-2 = { $k }: { $p } ei saa parsida
+
+engine-iq-cli-unknown-iq-processing-command-expected = tundmatu iq töötlemiskäsk { $other }; oodati scene, acquire, track, sweep, labfit, frontend, monitor, campaign või conditions
+
+## src/iq/cli/scene.rs
+
+engine-e-iq-cli-scene-prn-is-out-of-range = PRN { $id } on GPS-i jaoks vahemikust väljas
+
+engine-e-iq-cli-scene-no-healthy-gps-ephemeris-found = soovitud PRN-ide jaoks ei leitud terve GPS-i efemeriidi
+
+engine-iq-cli-scene-rx-pos-wants-lat-lon = --rx-pos ootab kuju lat,lon,alt (saadi { $v })
+
+engine-iq-cli-scene-n0-profile-segment = { $chan_desc }; C/N0 profiil (segmente { $segments })
+
+engine-iq-cli-scene-truth-format-must-be-csv = --truth-format peab olema csv või jsonl (saadi { $other })
+
+engine-iq-cli-scene-integer-scale-lsb-noise-normalised = ; täisarvuskaala: 1 LSB = { $sc } müra suhtes normeeritud ühikut (oodatav RMS { $v1 } LSB komponendi kohta), kärbiti elemente { $clipped }
+
+engine-iq-cli-scene-written-by-kshana-iq-scene = kirjutas kshana iq scene: SIMULEERITUD stseen, mitte salvestus{ $scale_note }
+
+engine-iq-cli-scene-ion-sdr-metadata = ION SDR metaandmed { $path }
+
+engine-iq-cli-scene-sigmf-data-meta = SigMF andmed { $data_path }, meta { $meta_path }
+
+engine-iq-cli-scene-written-by-kshana-iq-scene-2 = kirjutas kshana iq scene{ $scale_note }
+
+engine-iq-cli-scene-wrote-samples-hz-to-truth = kirjutati { $samples } näidist ({ $format }, { $fs_hz } Hz) faili { $data_path }; { $truth_records } tõekirjet faili { $truth_path }; { $meta_note }; kanal: { $chan_desc }{ $scale_note }
+
+## src/iq/cli/sweep.rs
+
+engine-iq-cli-sweep-cannot-be-combined-with-design = { $k } ei saa kombineerida valikuga --design: sweep käivitab iga failis oleva kujunduse
+
+engine-iq-cli-sweep-loop-design-sweep-design-prn = ahelakujunduse sweep: { $rows } (kujundus, PRN) tulemust{ "\u000A" }
+
+## src/iq/cli/track.rs
+
+engine-iq-cli-track-recording-holds-samples-needed-to = { $code }: salvestus sisaldab { $samples } näidist, haaramiseks on vaja { $need }
+
+engine-iq-cli-track-not-acquired-statistic-threshold-raise = { $code }: ei haaratud (statistik { $statistic } < lävi { $threshold }); suurenda --doppler-max, --acq-coherent või --acq-noncoherent või kontrolli salvestust
+
+engine-iq-cli-track-designs-and-differ-in-integration = kujundused { $first } ja { $d } erinevad väljas integration.extra_taps_chips; ühe käivituse kujundused peavad ühtima, et iga väljundkirje oleks samade veergudega
+
+## src/iq/cli/track.rs
+
+engine-iq-cli-track-epochs-name-the-format-with = --epochs { $p }: nimeta vorming valikuga --epochs-format csv|jsonl|bin või lõpeta tee laiendiga .csv, .jsonl või .bin
+
+engine-iq-cli-track-hz-is-samples-per-chip = { $fs_hz } Hz on { $r } näidist kiibi kohta signaalil { $c }: ühismõõduline diskreetimine muudab koodidiskriminaatori trepiks (2 näidise/kiibi korral DLL võngub, umbes 0,09 kiibi RMS koodiviga 45 dB-Hz juures); selle salvestuse koodiahela jitter ja nihe ei ole esinduslikud. Koodiahelate hindamiseks kasuta diskreetimissagedust, mis ei ole kiibisageduse poole kordne.
+
+## src/iq/io/batch.rs
+
+engine-e-iq-io-batch-worker-exited-before-processing-this = tööprotsess lõpetas enne selle sisendi töötlemist
+
+## src/iq/io/cli.rs
+
+engine-e-iq-io-cli-unknown-option = tundmatu valik { $s }
+
+engine-e-iq-io-cli-format-needs-rate = --format vajab --rate
+
+engine-iq-io-cli-iq-takes-path-argument-got =
+    { $n ->
+        [one] iq { $cmd } võtab { $n } teeargumendi, saadi { $pos }
+       *[other] iq { $cmd } võtab { $n } teeargumenti, saadi { $pos }
+    }
+
+engine-iq-io-cli-unknown-iq-command = tundmatu iq käsk { $other }
+
+engine-iq-io-cli-wrote-samples-hz-to-saturated =
+    { $n ->
+        [one] kirjutati { $n } näidis ({ $to }, { $fs_hz } Hz) faili { $files }; küllastunud elemente { $w }{ $v4 }
+       *[other] kirjutati { $n } näidist ({ $to }, { $fs_hz } Hz) faili { $files }; küllastunud elemente { $w }{ $v4 }
+    }
+
+## src/iq/io/follow.rs
+
+engine-e-iq-io-follow-follow-reads-single-channel-recordings = { $meta_path }: --follow loeb ainult üherealisi salvestusi
+
+engine-e-iq-io-follow-follow-reads-recording-with-one = { $meta_path }: --follow loeb salvestust ühe jäädvustusega, selles on { $captures }
+
+engine-e-iq-io-follow-no-positive-core-sample-rate = { $meta_path }: positiivset core:sample_rate ei ole
+
+engine-e-iq-io-follow-the-capture-does-not-start = { $meta_path }: jäädvustus ei alga baidipiiril
+
+## src/iq/io/format.rs
+
+engine-e-iq-io-format-unknown-sample-format-expected-ci8 = tundmatu näidisvorming { $name }: oodati nt ci8, cu8, ci16_le, ci16_be, cf32_le, cf32_be, ri16_le, ci12r_le, ci12l_be, cu16_le, cu12r_be, ci4_msb, cu4_lsb, c2tc_msb, r2sm_lsb, c2sm_byte, kompleksarvu korral valikuliselt lõpus _qi
+
+## src/iq/io/inventory.rs
+
+engine-e-iq-io-inventory-sidecar-sample-rate-hz-is = kõrvalfaili sample_rate_hz { $sample_rate_hz } ei ole positiivne
+
+engine-e-iq-io-inventory-sdrx-recordings-hold-one-stream = { $path }: .sdrx salvestused sisaldavad ühte voogu; kanalit { $channel } ei ole
+
+engine-e-iq-io-inventory-raw-file-with-no-sidecar = { $path }: toorfail ilma kõrvalfailita; nimeta selle vorming või kirjuta { $sidecar_candidates }
+
+## src/iq/io/report.rs
+
+engine-e-iq-io-report-cannot-serialise-row = rida ei saa serialiseerida: { $e }
+
+## src/iq/io/resample.rs
+
+engine-e-iq-io-resample-invalid-filter-design-passband-frac = vigane filtri kujundus { $design }: passband_frac vahemikus (0, 1), summutus > 0
+
+engine-e-iq-io-resample-if-hz-must-lie-strictly = IF { $if_hz } Hz peab jääma rangelt vahemikku 0 kuni pool diskreetimissagedust ({ $v1 } Hz)
+
+## src/iq/io/sdrx.rs
+
+engine-e-iq-io-sdrx-sdrx-data = { "." }sdrx andmed: { $e }
+
+engine-iq-io-sdrx-sdrx-bit-bits-sample = sdrx { $quantization }-bitine { $enc } { $fmt } ({ $packed_bits } bitti/näidis)
+
+## src/iq/io/sigmf_stream.rs
+
+engine-e-iq-io-sigmf-stream-unsupported-sigmf-core-datatype-supported = toetamata SigMF core:datatype { $datatype }: toetatud on ci8, cu8, ci16_le, ci16_be, cf32_le, cf32_be ja reaalarvulised ri8, ru8, ri16_le, ri16_be, rf32_le, rf32_be
+
+engine-e-iq-io-sigmf-stream-is-not-sigmf-core-datatype = { $datatype } ei ole SigMF core:datatype
+
+engine-e-iq-io-sigmf-stream-invalid-sigmf-metadata = vigased SigMF metaandmed: { $e }
+
+engine-e-iq-io-sigmf-stream-has-no-sigmf-core-datatype = { $format } ei ole SigMF core:datatype; kirjuta see toorfailina
+
+engine-e-iq-io-sigmf-stream-core-num-channels-does-not = { $name }: core:num_channels { $ch } ei vasta esimese salvestuse omale { $c0 }
+
+engine-e-iq-io-sigmf-stream-no-core-sample-rate = { $name }: core:sample_rate puudub
+
+engine-e-iq-io-sigmf-stream-core-sample-rate-is-not = { $name }: core:sample_rate { $rate } ei ole positiivne
+
+engine-e-iq-io-sigmf-stream-at-hz-does-not-match = { $name }: { $f } sagedusel { $rate } Hz ei vasta esimese salvestuse omale { $f0 } sagedusel { $r0 } Hz
+
+engine-e-iq-io-sigmf-stream-capture-at-sample-is-out =
+    { $n_file ->
+        [one] { $name }: jäädvustus näidisel { $sample_start } on vales järjekorras või väljaspool andmetes olevat { $n_file } näidist
+       *[other] { $name }: jäädvustus näidisel { $sample_start } on vales järjekorras või väljaspool andmetes olevat { $n_file } näidist
+    }
+
+engine-e-iq-io-sigmf-stream-first-capture-does-not-start = { $name }: esimene jäädvustus ei alga baidipiiril
+
+engine-e-iq-io-sigmf-stream-channel-requested-the-recording-has = nõutud kanal { $channel }; salvestuses on { $channels } (kanalid algavad numbrist 0)
+
+engine-e-iq-io-sigmf-stream-invalid-sigmf-collection = vigane SigMF kollektsioon: { $e }
+
+engine-e-iq-io-sigmf-stream-sha-512-does-not-match = { $mp }: SHA-512 { $got } ei vasta kollektsiooni väärtusele { $h }
+
+## src/iq/io/stream.rs
+
+engine-e-iq-io-stream-stream-of-interleaved-streams-does = voogu { $select } { $channels } läbisegi voost ei ole (vood algavad numbrist 0)
+
+engine-e-iq-io-stream-sample-of-does-not-start = näidis { $k } vormingust { $format } ei alga baidipiiril
+
+engine-e-iq-io-stream-time-window-start-duration-both = ajaaken algus { $start_s } s, kestus { $duration_s } s: mõlemad peavad olema mittenegatiivsed
+
+## src/iq/labfit/campaign.rs
+
+engine-iq-labfit-campaign-most-damaging-stated-cw-no = kahjulikum märgitud Q (cw): tüübi `{ $event_type }` tabeliväärtust ei ole
+
+engine-e-iq-labfit-campaign-the-campaign-is-not-complete = { $out_dir }: kampaania ei ole lõpetatud
+
+engine-e-iq-labfit-campaign-digest-does-not-match-the = { $out_dir }: DIGEST { $on_disk } ei vasta lahtritele ({ $digest })
+
+engine-e-iq-labfit-campaign-recording-test-conditions-hash-does = salvestus `{ $id }`: katsetingimuste räsi { $h } ei vasta registreeritud väärtusele { $conditions_hash }
+
+engine-e-iq-labfit-campaign-signal-unknown-chip-rate = signaal `{ $signal }`: tundmatu kiibisagedus
+
+## src/iq/labfit/fit.rs
+
+engine-e-iq-labfit-fit-no-run-is-usable-for = ükski käivitus ei ole lukusobituseks kasutatav: { $v1 }
+
+## src/iq/labfit/iqfit.rs
+
+engine-iq-labfit-iqfit-insufficient-data-not-fitted-recordings = andmeid ei ole piisavalt: ei sobitatud ({ $m } salvestust; vaja on vähemalt { $min_rec })
+
+engine-iq-labfit-iqfit-uncensored-span-db-is-under = tsenseerimata J/S ulatus { $span_db } dB on alla { $v2 } dB
+
+engine-iq-labfit-iqfit-eff-and-delta-are-not = Q_eff ja delta ei ole eraldi tuvastatavad (|corr| { $full } >= { $v2 }): mudel sõltub ainult suurusest delta - 10 log10 Q_eff
+
+engine-iq-labfit-iqfit-not-fitted-re-acquisitions-observed =
+    { $n_reacq ->
+        [one] ei sobitatud: vaadeldi { $n_reacq } uuesti haaramist (vaja on vähemalt 3)
+       *[other] ei sobitatud: vaadeldi { $n_reacq } uuesti haaramist (vaja on vähemalt 3)
+    }
+
+engine-iq-labfit-iqfit-loss-time-rms = loss_time_rms_s[{ $model }]
+
+engine-e-iq-labfit-iqfit-unknown-mode-only-validation = tundmatu režiim `{ $m }` (ainult `validation`)
+
+engine-e-iq-labfit-iqfit-validation-pi90-coverage-must-be = validation.pi90_coverage peab olema [lower, upper] vahemikus [0, 1]
+
+engine-e-iq-labfit-iqfit-campaign-fit-bounds-must-be = campaign_fit.q_bounds peab olema [lower, upper], kus 0 < lower < upper
+
+engine-e-iq-labfit-iqfit-campaign-fit-delta-bounds-db = campaign_fit.delta_bounds_db peab olema [lower, upper]
+
+engine-e-iq-labfit-iqfit-the-campaign-has-no-event = kampaanias ei ole sobitamiseks sündmust märgitud võimsusprofiiliga
+
+## src/iq/labfit/iqreport.rs
+
+engine-iq-labfit-iqreport-lab-fit-from-iq-campaign =
+    # Labori sobitus IQ kampaaniast: { $r }
+
+    Skeem `{ $schema }`, mootor { $engine_version }. Silt: **{ $label }**.
+
+    { $statement }
+
+    { $advisory }{ "\u000A\u000A" }
+
+engine-iq-labfit-iqreport-campaign-digest-campaign-json-sha = Kampaania DIGEST `{ $campaign_digest }`; `campaign.json` SHA-256 `{ $campaign_json_sha256 }`; stsenaariumi SHA-256 `{ $scenario_sha256 }`; lahtreid { $cells }; algkogumi kordusi { $bootstrap } (seed { $seed }).{ "\u000A\u000A" }
+
+engine-iq-labfit-iqreport-unit-status-recordings-satellites-events =
+    ## Üksus { $i }: { $signal } / { $name } / { $name2 } / { $jammer_type }
+
+    Olek: { $status }. Salvestusi { $recordings }, satelliite { $satellites }, sündmusi { $events }; sobitati vahemikke { $bins_used }, tsenseeriti { $bins_censored }.{ "\u000A\u000A" }
+
+engine-iq-labfit-iqreport-n0-model-delta-eff-db = C/N0 mudel ({ $q_mode }): `delta_eff` = { $ci } dB (tuvastatav nihe, taandatud väärtusele Q = 1); `Q_eff` = { $q }; `delta` selle Q korral = { $ci2 } dB; corr(Q, delta) { $om }; jääkide RMS { $residual_rms_db } dB J/S ulatuses { $span_db } dB. Q_eff ei ole C/N0 andmetest tuvastatav ilma sõltumatu võimsusmõõtmiseta.{ "\u000A\u000A" }
+
+engine-iq-labfit-iqreport-held-at-its-stated-value = Q hoitud märgitud väärtusel: { $why }.{ "\u000A\u000A" }
+
+engine-iq-labfit-iqreport-threshold-direct-median-db-over =
+    { $n ->
+        [one] Lävi J/S, otse: mediaan { $om } dB { $n } kaotuse kohta (IQR { $t }).{ "\u000A\u000A" }
+       *[other] Lävi J/S, otse: mediaan { $om } dB { $n } kaotuse kohta (IQR { $t }).{ "\u000A\u000A" }
+    }
+
+engine-iq-labfit-iqreport-hold-out-leave-one-recording = Kõrvalejätmine (üks salvestus jäetakse välja), interpolatsioon: vahemikke { $bins }, C/N0 RMS { $om } dB, PI90 kate { $om2 }
+
+engine-iq-labfit-iqreport-events-loss-time-rms-pi90 =
+    { $n ->
+        [one] ; { $model }: { $n } sündmus, kaotusaja RMS { $om } s, PI90 kate { $om2 }
+       *[other] ; { $model }: { $n } sündmust, kaotusaja RMS { $om } s, PI90 kate { $om2 }
+    }
+
+engine-iq-labfit-iqreport-validation-table-sha-256-registered =
+    Valideerimistabeli SHA-256 `{ $table_sha256 }` (registreeritud { $registered }):
+
+    | lävi | piir | väärtus | otsus |
+    |---|---|---|---|{ "\u000A" }
+
+## src/iq/labfit/mod.rs
+
+engine-iq-labfit-run-log = käivitus `{ $label }` logi
+
+engine-e-iq-labfit-run = käivitus `{ $label }`: { $e }
+
+engine-e-iq-labfit-the-scenario-input-names-no = stsenaariumi [input] ei nimeta ühtegi kampaaniat
+
+engine-e-iq-labfit-input-campaign-and-runs-are = { "[" }input] campaign ja [[runs]] välistavad teineteist: anna üks
+
+engine-e-iq-labfit-iq-labfit-scenario = iq-labfit stsenaarium: { $e }
+
+## src/iq/labfit/observe.rs
+
+engine-iq-labfit-observe-the-log-carries-no-per = logis ei ole satelliidipõhist C/N0{ $cfg } (vaatlussuurused: [{ $observables }])
+
+engine-iq-labfit-observe-no-epoch-before-the-onset = enne algust hetkel { $onset } s epohhi ei ole
+
+engine-iq-labfit-observe-no-epoch-at-or-after = alguse hetkel { $onset } s või pärast seda epohhi ei ole
+
+## src/iq/labfit/report.rs
+
+engine-iq-labfit-report-lab-fit-label-settings-sha =
+    # Labori sobitus: { $r }
+
+    Silt: **{ $label }**. Seadete SHA-256 `{ $settings_sha256 }`.{ "\u000A\u000A" }
+
+engine-iq-labfit-report-n0-samples-residual-rms-db =
+    { $n_samples ->
+        [one] { "\u000A" }{ $n_samples } C/N0 näidis, jääkide RMS { $om } dB.{ $r }{ "\u000A" }
+       *[other] { "\u000A" }{ $n_samples } C/N0 näidist, jääkide RMS { $om } dB.{ $r }{ "\u000A" }
+    }
+
+engine-iq-labfit-report-model-parameter-value-bounds-at =
+    { "\u000A" }## Mudel: { $model } ({ $label })
+
+    | parameeter | väärtus | piirid | piiril | algkogumi sd (95 %) |
+    |---|---|---|---|---|{ "\u000A" }
+
+engine-iq-labfit-report-event-time-rms-over-events =
+    { $n_events ->
+        [one] { "\u000A" }Sündmuseaja RMS { $om } s { $n_events } sündmuse kohta; kaotusi vahele jäetud { $loss_missed } / lisaks { $loss_extra }, uuesti haaramisi vahele jäetud { $reacq_missed } / lisaks { $reacq_extra }.
+
+            | käivitus | langus dB-Hz | uuesti lukustus dB-Hz | sündmusi | RMS s |
+            |---|---|---|---|---|{ "\u000A" }
+       *[other] { "\u000A" }Sündmuseaja RMS { $om } s { $n_events } sündmuse kohta; kaotusi vahele jäetud { $loss_missed } / lisaks { $loss_extra }, uuesti haaramisi vahele jäetud { $reacq_missed } / lisaks { $reacq_extra }.
+
+            | käivitus | langus dB-Hz | uuesti lukustus dB-Hz | sündmusi | RMS s |
+            |---|---|---|---|---|{ "\u000A" }
+    }
+
+engine-iq-labfit-report-hold-out-folds-all-interpolation =
+    { "\u000A" }Kõrvalejätmine ({ $scheme }, { $folds } voldi): kõik { $om } s, interpolatsioon { $om2 } s, ekstrapolatsioon { $om3 } s.
+
+    | väljajäetud käivitus | klass | kaugus | lähim treeningkäivitus | RMS s |
+    |---|---|---|---|---|{ "\u000A" }
+
+## src/iq/lunanet_afs.rs
+
+engine-iq-lunanet-afs-fid-is-reserved-for-future = FID { $fid } on reserveeritud edaspidiseks kasutuseks (määratletud on ainult FID 0)
+
+engine-iq-lunanet-afs-toi-is-outside-99 = TOI { $toi } jääb vahemikust 0..=99 välja
+
+engine-iq-lunanet-afs-sb1-symbol-disagree-with-the = SB1 sümbolite ja dekodeeritud välja lahknevus: { $sb1_err }
+
+engine-iq-lunanet-afs-frames-at-and-are-symbols = kaadrid kohtades { $w } ja { $w2 } on { $gap } sümbolit teineteisest, mitte { $FRAME_SYMBOLS }
+
+engine-iq-lunanet-afs-toi-follows-toi-expected = TOI { $w } järgneb TOI-le { $w2 }, oodati { $want }
+
+engine-e-iq-lunanet-afs-unexpected-character-in-symbol-stream = ootamatu märk { $c } sümbolivoos (lubatud on ainult 0, 1 ja tühik)
+
+engine-iq-lunanet-afs-prn-first-24-chips-differ = { $name } PRN { $prn }: esimesed 24 kiipi erinevad
+
+engine-iq-lunanet-afs-prn-last-24-chips-differ = { $name } PRN { $prn }: viimased 24 kiipi erinevad
+
+engine-iq-lunanet-afs-the-document-prints-a14850-for = { $miss } (dokument esitab mõlema PRN 147 ja PRN 151 jaoks A14850; generaator taastoodab PRN 151 oma, seega on PRN 147 kirje tõenäoliselt dokumendi trükiviga)
+
+engine-iq-lunanet-afs-encoded-0x-decoded-fid-toi = kodeeritud 0x{ $word }, dekodeeritud FID { $fid } TOI { $toi }
+
+## src/iq/monitor/run.rs
+
+engine-e-iq-monitor-run-monitor-settings = monitori seaded: { $e }
+
+## src/iq/scene/geometry.rs
+
+engine-e-iq-scene-geometry-static-position-not-finite = staatiline asukoht ei ole lõplik
+
+engine-e-iq-scene-geometry-constant-velocity-trajectory-not-finite = konstantse kiirusega trajektoor ei ole lõplik
+
+engine-e-iq-scene-geometry-waypoint-trajectory-has-no-waypoints = teekonnapunktide trajektooril ei ole teekonnapunkte
+
+engine-e-iq-scene-geometry-waypoint-not-finite = teekonnapunkt ei ole lõplik
+
+engine-e-iq-scene-geometry-waypoint-times-must-increase-strictly = teekonnapunktide ajad peavad rangelt kasvama
+
+## src/iq/scene/mod.rs
+
+engine-e-iq-scene-prn-is-not-gps-prn = PRN { $prn } ei ole GPS C/A PRN
+
+engine-e-iq-scene-ephemeris-system-is-not-gps = efemeriidisüsteem { $system } ei ole GPS
+
+engine-e-iq-scene-satellite = satelliit { $value }: { $e }
+
+## src/iq/scene/nav.rs
+
+engine-e-iq-scene-nav-is-pilot-data-free-component = on pilootkomponent (andmeteta) ega kanna navigatsiooniandmeid
+
+engine-e-iq-scene-nav-carries-data-the-scene-does = kannab andmeid, mida stseen ei modelleeri; genereeri see ilma andmeteta
+
+engine-e-iq-scene-nav-does-not-carry-gps-lnav = ei kanna GPS LNAV-i (seda kannab ainult GPS L1 C/A); kasuta algväärtusega (seed) andmeid
+
+engine-e-iq-scene-nav-not-an-lnav-source = ei ole LNAV allikas
+
+## src/iq/scene/synthetic.rs
+
+engine-e-iq-scene-synthetic-scene-needs-at-least-one = stseen vajab vähemalt ühte satelliiti (--prn)
+
+engine-e-iq-scene-synthetic-doppler-lists-value-give-one = --doppler loetleb väärtusi { $dopplers }; anna üks iga --prn kohta ({ $ids }) või üks ühine väärtus
+
+engine-e-iq-scene-synthetic-data = --data: { $code } { $e }
+
+## src/iq/scene/truth.rs
+
+engine-e-iq-scene-truth-truth-row-has-fields-expected = tõerea väljade arv on { $f }, oodati 10
+
+engine-e-iq-scene-truth-truth-field = tõe väli { $i }: { $e }
+
+engine-e-iq-scene-truth-truth-sat-id = tõe sat_id: { $e }
+
+## src/iq/short.rs
+
+engine-e-iq-short-fs-hz-must-be-positive = fs_hz peab olema positiivne arv
+
+engine-e-iq-short-duration-must-be-in = duration_s peab olema vahemikus (0, { $MAX_DURATION_S }]
+
+engine-e-iq-short-ids-must-hold-to-satellites = ids peab sisaldama 1 kuni { $MAX_SATELLITES } satelliiti
+
+engine-e-iq-short-dopplers-must-be-finite = dopplers peab olema lõplik
+
+engine-e-iq-short-samples-requested-short-run-holds =
+    { $n ->
+        [one] nõutud { $n } näidis; lühike käivitus mahutab kuni { $MAX_SAMPLES }
+       *[other] nõutud { $n } näidist; lühike käivitus mahutab kuni { $MAX_SAMPLES }
+    }
+
+## src/iq/signals/beidou.rs
+
+engine-iq-signals-beidou-beidou-b1c-data-prn = BeiDou B1C andme-PRN { $prn }
+
+engine-iq-signals-beidou-beidou-b1c-pilot-prn = BeiDou B1C piloot-PRN { $prn }
+
+## src/iq/signals/by_name.rs
+
+engine-e-iq-signals-by-name-prn-is-out-of-range = { $signal }: PRN { $id } on vahemikust väljas
+
+engine-e-iq-signals-by-name-glonass-l1of-frequency-channel-is = GLONASS L1OF sageduskanal { $id } jääb vahemikust -7..=6 välja
+
+engine-e-iq-signals-by-name-unknown-signal-expected-one-of = tundmatu signaal { $other }; oodati üht väärtustest: { $signal_names }
+
+## src/iq/signals/galileo.rs
+
+engine-e-iq-signals-galileo-line-no = rida { $v1 }: puudub ';'
+
+engine-e-iq-signals-galileo-line-no-code-number-in = rida { $v1 }: koodi numbrit ei ole väljas { $label }
+
+engine-e-iq-signals-galileo-code-appears-twice = kood { $number } esineb kaks korda
+
+engine-e-iq-signals-galileo-codes-the-icd-defines =
+    { $n ->
+        [one] { $path }: { $n } kood, ICD määratleb { $CODES_PER_COMPONENT }
+       *[other] { $path }: { $n } koodi, ICD määratleb { $CODES_PER_COMPONENT }
+    }
+
+## src/iq/signals/lunanet.rs
+
+engine-iq-signals-lunanet-lunanet-afs-primary-tertiary = LunaNet AFS-Q esmane { $primary_prn } S{ $secondary } kolmandajärguline { $t }
+
+engine-iq-signals-lunanet-lunanet-afs-primary-tertiary-omitted = LunaNet AFS-Q esmane { $primary_prn } S{ $secondary } (kolmandajärguline välja jäetud)
+
+## src/iq/signals/mod.rs
+
+engine-e-iq-signals-non-hex-character = mitte-kuueteistkümnendmärk { $c }
+
+engine-e-iq-signals-hex-symbols-cannot-hold-exactly = { $hex } kuueteistkümnendsümbolit ei saa mahutada täpselt { $len } kiipi
+
+engine-iq-signals-primary-only = { $name } (ainult esmane)
+
+## src/iq/track/boc.rs
+
+engine-e-iq-track-boc-boc-tracking-needs-an-early = BOC jälgimine vajab vara-hilise vahet vahemikus (0, { $max }) kiipi, et E ja L jääksid peamisele tipule (saadi { $spacing_chips })
+
+engine-e-iq-track-boc-bump-jump-threshold-must-be = bump-jump lävi peab olema vähemalt 1
+
+## src/iq/track/channel.rs
+
+engine-e-iq-track-channel-sample-rate-must-be-positive = diskreetimissagedus peab olema positiivne
+
+engine-e-iq-track-channel-coherent-periods-must-be-positive = coherent_periods peab olema positiivne
+
+engine-e-iq-track-channel-cn0-windows-must-be-positive = cn0_windows peab olema positiivne
+
+engine-e-iq-track-channel-coherent-periods-must-divide-the = coherent_periods { $coherent_periods } peab jagama bitipikkuse { $ppb }
+
+engine-e-iq-track-channel-at-most-extra-taps-are = toetatud on kuni { $MAX_EXTRA_TAPS } lisaharu (saadi { $extra_taps_chips }{ $v2 })
+
+engine-e-iq-track-channel-extra-tap-offsets-must-be = lisaharude nihked peavad olema lõplikud ja vahemikus ±{ $MAX_TAP_OFFSET_CHIPS } kiipi (saadi { $t })
+
+engine-e-iq-track-channel-n0-window-needs-at-least = C/N0 aken vajab vähemalt 2 prompt-väärtust
+
+## src/iq/track/design.rs
+
+engine-e-iq-track-design-carrier-pll-discriminator-expected-atan2 = carrier.pll_discriminator { $o }: oodati atan2, costas-atan või costas-decision-directed
+
+engine-e-iq-track-design-carrier-fll-discriminator-expected-cross = carrier.fll_discriminator { $o }: oodati cross-product, atan2 või atan2-pilot
+
+engine-e-iq-track-design-carrier-fll-assist-expected-pull = carrier.fll_assist { $o }: oodati pull-in või always
+
+engine-e-iq-track-design-code-discriminator-expected-eml-power = code.discriminator { $o }: oodati eml-power, dot-product või eml-envelope
+
+engine-iq-track-design-carrier-kind-expected-pll-fll = carrier.kind { $k }: oodati pll, fll või fll-assisted-pll
+
+engine-iq-track-design-carrier-does-not-apply-to = carrier.{ $key } ei kehti, kui carrier.kind = { $kind }
+
+engine-iq-track-design-carrier-bn-max-expected-number = carrier.bn_t_max { $v }: oodati arvu >= 0 (0 keelab piirangu)
+
+engine-e-iq-track-design-must-be-positive-number-got = { $k } peab olema positiivne arv (saadi { $v })
+
+engine-e-iq-track-design-integration-coherent-periods-must-be = integration.coherent_periods peab olema vähemalt 1
+
+engine-e-iq-track-design-integration-spacing-chips-must-lie = integration.spacing_chips peab olema vahemikus (0, 2] (saadi { $d })
+
+engine-e-iq-track-design-integration-extra-taps-chips-holds = integration.extra_taps_chips sisaldab kuni { $MAX_EXTRA_TAPS } nihet (saadi { $taps })
+
+engine-e-iq-track-design-integration-extra-taps-chips-offsets = integration.extra_taps_chips nihked peavad olema lõplikud ja vahemikus ±{ $MAX_TAP_OFFSET_CHIPS } kiipi (saadi { $t })
+
+engine-e-iq-track-design-carrier-fll-on-pli-must = carrier.fll_on_pli ({ $on }) peab olema väiksem kui carrier.fll_off_pli ({ $off }), mõlemad vahemikus (-1, 1]
+
+engine-e-iq-track-design-carrier-fll-gate-dwell-must = carrier.fll_gate_dwell_s peab olema null või positiivne (saadi { $t })
+
+engine-e-iq-track-design-carrier-fll-pull-in-max = carrier.fll_pull_in_max_s peab olema positiivne (saadi { $t })
+
+engine-e-iq-track-design-carrier-pll-order-must-be = carrier.pll_order peab olema 1, 2 või 3 (saadi { $o })
+
+engine-e-iq-track-design-carrier-fll-order-must-be = carrier.fll_order peab olema 1 või 2 (saadi { $o })
+
+engine-e-iq-track-design-code-order-must-be-or = code.order peab olema 1 või 2 (saadi { $order })
+
+engine-e-iq-track-design-lock-pli-threshold-must-lie = lock.pli_threshold peab olema vahemikus [-1, 1] (saadi { $pli })
+
+engine-e-iq-track-design-lock-cn0-windows-must-be = lock.cn0_windows peab olema vähemalt 1
+
+engine-e-iq-track-design-lock-cn0-window-periods-must = lock.cn0_window_periods peab olema vähemalt 2
+
+engine-e-iq-track-design-lock-reacq-max-interval-must = lock.reacq_max_interval_s ({ $reacq_max_interval_s }) ei tohi olla väiksem kui lock.reacq_interval_s ({ $reacq_interval_s })
+
+engine-e-iq-track-design-lock-false-lock-margin-db = lock.false_lock_margin_db peab olema lõplik
+
+engine-e-iq-track-design-bit-sync-min-votes-must = bit_sync.min_votes peab olema vähemalt 1
+
+engine-e-iq-track-design-acquisition-coherent-periods-must-be = acquisition.coherent_periods peab olema vähemalt 1 (või "auto")
+
+engine-e-iq-track-design-acquisition-noncoherent-must-be-at = acquisition.noncoherent peab olema vähemalt 1
+
+engine-e-iq-track-design-acquisition-pfa-must-lie-in = acquisition.pfa peab olema vahemikus (0, 1) (saadi { $pfa })
+
+engine-e-iq-track-design-design-overrides = kujunduse alistused: { $e }
+
+engine-e-iq-track-design-design-overrides-may-not-set = kujunduse alistused ei tohi määrata name ega extends
+
+engine-e-iq-track-design-loop-design-file = loop-design fail: { $e }
+
+engine-e-iq-track-design-loop-design-file-schema-is = loop-design fail: skeem { $other } ei ole toetatud; oodati { $SCHEMA }
+
+engine-e-iq-track-design-loop-design-file-missing-schema = loop-design fail: puudub schema = { $SCHEMA }
+
+engine-e-iq-track-design-loop-design-file-no-design = loop-design fail: [[design]] tabeleid ei ole
+
+engine-e-iq-track-design-loop-design-file-design-number = loop-design fail: [[design]] number { $v1 } nimi puudub
+
+engine-e-iq-track-design-loop-design-file-design-name = loop-design fail: kujunduse nimi { $name } on reserveeritud või tühi
+
+engine-e-iq-track-design-loop-design-file-design-is = loop-design fail: kujundus { $name } on määratletud kaks korda
+
+engine-e-iq-track-design-no-design-named-the-file =
+    { $n ->
+        [one] kujundust nimega { $n } ei ole; failis on { $value }
+       *[other] kujundust nimega { $n } ei ole; failis on { $value }
+    }
+
+engine-e-iq-track-design-loop-design-file-design-extends = loop-design fail: kujundus { $name } laiendab iseennast (tsükkel)
+
+engine-e-iq-track-design-loop-design-file-design-extends-2 = loop-design fail: kujundus { $name } laiendab tundmatut kujundust { $parent }
+
+## src/iq/track/filter.rs
+
+engine-e-iq-track-filter-phase-loop-needs-order-and = faasiahel vajab järku 1..=3 ja Bn > 0 (saadi { $o }, { $bn })
+
+engine-e-iq-track-filter-frequency-loop-needs-bn-got = sageduseahel vajab Bn > 0 (saadi { $bn })
+
+engine-e-iq-track-filter-frequency-loop-order-must-be = sageduseahela järk peab olema 1 või 2 (saadi { $o })
+
+engine-e-iq-track-filter-loop-filter-needs-phase-path = ahelafilter vajab faasirada, sagedusrada või mõlemat
+
+## src/iq/track/mod.rs
+
+engine-e-iq-track-early-late-spacing-must-lie = vara-hilise vahe peab olema vahemikus (0, 2] kiipi (saadi { $spacing_chips })
+
+engine-e-iq-track-dll-order-must-be-or = DLL järk peab olema 1 või 2 (saadi { $dll_order })
+
+engine-e-iq-track-chip-rate-and-carrier-frequency = kiibisagedus ja kandesagedus peavad olema positiivsed
+
+## src/iq/track/sink.rs
+
+engine-e-iq-track-sink-an-epoch-carries-extra-taps =
+    { $n ->
+        [one] epohh kannab { $extra } lisaharu, aga väljund seadistati { $n } jaoks: kõik ühe käivituse kanalid peavad kasutama sama extra_taps_chips
+       *[other] epohh kannab { $extra } lisaharu, aga väljund seadistati { $n } jaoks: kõik ühe käivituse kanalid peavad kasutama sama extra_taps_chips
+    }
+
+engine-e-iq-track-sink-record-is-bytes-expected = kirje on { $b } baiti; oodati { $want }
+
+engine-e-iq-track-sink-unknown-lock-state-code = tundmatu lukuoleku kood { $b }
+
+engine-e-iq-track-sink-epoch-file-header = epohhifaili päis: { $e }
+
+engine-e-iq-track-sink-epoch-file-schema-expected = epohhifaili skeem { $schema }; oodati { $EPOCH_SCHEMA }
+
+engine-e-iq-track-sink-epoch-file-records-are-bytes = epohhifaili kirjed on { $record_bytes } baiti; see lugeja ootab { $want } ({ $BINARY_RECORD_BYTES } pluss { $BINARY_TAP_BYTES } iga lisaharu kohta)
+
+engine-e-iq-track-sink-epoch-file-ends-inside-record = epohhifail lõpeb kirje sees ({ $got } baiti { $size }-st)
+
+engine-e-iq-track-sink-epoch-format-expected-csv-jsonl = epohhivorming { $o }: oodati csv, jsonl või bin
+
+## src/jammertest/cli.rs
+
+engine-e-jammertest-cli-is-not-number = { $name }: `{ $s }` ei ole arv
+
+engine-e-jammertest-cli-is-not-utf-text = { $path } ei ole UTF-8 tekst
+
+engine-e-jammertest-cli-needs-catalog = vajab --catalog
+
+engine-e-jammertest-cli-needs-at-least-one-plan = vajab vähemalt ühte --plan
+
+engine-e-jammertest-cli-is-not-utf = { $cat } ei ole UTF-8
+
+engine-e-jammertest-cli-is-not-utf-2 = { $p } ei ole UTF-8
+
+engine-e-jammertest-cli-format-is-not-one-of = --format: `{ $s }` ei ole üks väärtustest ubx, rinex, android, nmea
+
+engine-e-jammertest-cli-log-start-is-not-utc = --log-start `{ $t }` ei ole UTC ISO-8601
+
+engine-e-jammertest-cli-needs-log-start-or-log = vajab --log-start või --log koos --format
+
+engine-e-jammertest-cli-log-needs-format = --log vajab --format
+
+engine-e-jammertest-cli-the-log-does-not-state = logi ei nimeta oma algusaega: kasuta --log-start
+
+engine-e-jammertest-cli-the-log-states-its-start = logi nimetab oma alguse kujul `{ $label }`: kasuta --log-start
+
+engine-e-jammertest-cli-is-not-utf-3 = { $a } ei ole UTF-8
+
+engine-e-jammertest-cli-cannot-write = { $o } ei saa kirjutada: { $e }
+
+engine-jammertest-cli-events-written-to-non-rf = { $events } { $SCHEDULED_TRUTH } sündmust kirjutati faili { $o } ({ $skipped_non_rf } mitte-RF pesa vahele jäetud, { $outside_log } logist väljas, { $unknown_ids } id-d ei ole kataloogis)
+
+engine-jammertest-cli-note-ids-not-in-the = märkus: kataloogis puuduvad id-d: { $unknown_ids }
+
+engine-jammertest-cli-note-these-are-the-plan = märkus: need on plaani ajastatud pesad, mitte salvestatud eetriajad.
+
+engine-jammertest-cli-test-name = { $v1 } { $v2 } { $v3 } { $v4 } { $v5 } { $v6 } { $v7 }  testi nimi
+
+## src/jammertest/cli.rs
+
+engine-jammertest-cli-tests-evaluable-detected-within-tolerance = teste: { $tests }, hinnatavaid: { $evaluable }; tolerantsi piires tuvastati { $detected }, hilinenult { $late }, tuvastamata jäi { $missed }; mediaanlatentsus { $fmt_opt }, mediaantaastumisaeg { $fmt_opt2 }
+
+engine-jammertest-cli-false-alarms-outside-every-slot = valehäired väljaspool kõiki pesasid: käivitusi { $false_alarm_runs }, { $false_alarm_epochs } puhtast epohhist { $clean_epochs }
+
+engine-e-jammertest-cli-needs-session-path = vajab seansi teed
+
+engine-e-jammertest-cli-needs-catalog-and-plan-or = vajab --catalog ja --plan või --attack-log
+
+engine-jammertest-cli-evidence-pack-written-to-signer = tõendipakett kirjutati faili { $out }; allkirjastaja sõrmejälg { $signer_fingerprint }
+
+## src/jammertest/dataset.rs
+
+engine-e-jammertest-dataset-no-folder-with-scenario-json = kataloogis { $root } ei ole kausta, kus oleks scenario.json ja .ubx
+
+engine-e-jammertest-dataset-scenario = stsenaarium: { $e }
+
+engine-e-jammertest-dataset-read = lugemine: { $e }
+
+engine-e-jammertest-dataset-scenario-json-has-no-date = scenario.json ei sisalda kuupäeva
+
+engine-e-jammertest-dataset-scenario-json-date-is-not = scenario.json kuupäev `{ $date }` ei ole kuupäev
+
+engine-e-jammertest-dataset-no-readable-epoch-in-mon = failides mon_rf.csv ja rinex.csv ei ole loetavat epohhi
+
+engine-e-jammertest-dataset-no-folder-with-scenario-json-2 = kataloogis { $root } ei ole kausta, kus oleks scenario.json
+
+engine-jammertest-dataset-recovered-of-median = { $f2 } taastus ({ $recovered } / { $alarmed }), mediaan { $f22 } s
+
+## src/jammertest/mod.rs
+
+engine-e-jammertest-the-log-states-its-start = logi nimetab oma alguse kujul `{ $l }`, mis ei ole UTC ISO-8601: anna algus selgesõnaliselt
+
+engine-e-jammertest-the-log-does-not-state = logi ei nimeta oma algusaega: anna see selgesõnaliselt
+
+## src/jammertest/plan.rs
+
+engine-e-jammertest-plan-catalogue-is-not-json = kataloog ei ole JSON: { $e }
+
+engine-e-jammertest-plan-catalogue-has-no-test-types = kataloogis ei ole massiivi `test_types`
+
+engine-e-jammertest-plan-test-type-has-no-type = testitüübil puudub `type_id`
+
+engine-e-jammertest-plan-test-group-has-no-group = testirühmal puudub `group_id`
+
+engine-e-jammertest-plan-test-has-no-test-id = testil puudub `test_id`
+
+engine-e-jammertest-plan-catalogue-lists-no-tests = kataloog ei loetle ühtegi testi
+
+engine-e-jammertest-plan-is-not-plan-time-like = `{ $text }` ei ole plaaniaeg kujul 2025-09-15T14:00:00
+
+engine-e-jammertest-plan-plan-is-not-json = plaan ei ole JSON: { $e }
+
+engine-e-jammertest-plan-plan-has-no-locations-array = plaanis ei ole massiivi `locations`
+
+engine-e-jammertest-plan-test-end-time-is-not = test { $id }: end_time ei ole hilisem kui start_time
+
+engine-e-jammertest-plan-the-plan-has-no-test = plaanis ei ole katsepiirkonda { $l }; selles on { $areas }
+
+engine-e-jammertest-plan-the-plan-has-several-test = plaanis on mitu katsepiirkonda { $areas }; nimeta, millises neist logi salvestati
+
+engine-e-jammertest-plan-scenario-json-is-not-json = scenario.json ei ole JSON: { $e }
+
+engine-e-jammertest-plan-no-attack-log-array = massiivi `attack_log` ei ole
+
+engine-jammertest-plan-jammertest-2024-test-window =
+    { $n ->
+        [one] { $SCHEDULED_TRUTH }: Jammertest 2024 test { $id } aken { $n } ({ $attack })
+       *[other] { $SCHEDULED_TRUTH }: Jammertest 2024 test { $id } aken { $n } ({ $attack })
+    }
+
+engine-e-jammertest-plan-the-attack-log-holds-no = attack_log ei sisalda alguse/lõpu akent
+
+## src/jammertest/score.rs
+
+engine-e-jammertest-score-scheduled-events-but-the-run = ajastatud sündmusi { $events }, aga käivitus hindas { $events2 }: anna käivituse enda sündmused
+
+engine-e-jammertest-score-recover-hold-must-be-positive = recover_hold_s peab olema positiivne ja guard_s mitte negatiivne
+
+## src/jamming.rs
+
+engine-e-jamming-crpa-elements-enu-must-list = crpa.elements_enu_m peab loetlema vähemalt ühe elemendi
+
+engine-e-jamming-crpa-elements-enu-must-be = crpa.elements_enu_m peab olema lõplik
+
+engine-e-jamming-crpa-weighting-expected-null-steering = crpa.weighting { $weighting }: oodati „null-steering“ või „mvdr“
+
+engine-e-jamming-crpa-bandwidth-mhz-must-be = crpa.bandwidth_mhz peab olema positiivne (saadi { $b })
+
+engine-e-jamming-terrain-the-section-needs-jammer = terrain: jaotis vajab [jammer]
+
+## src/jamming_rx.rs
+
+engine-e-jamming-rx-acquisition-acquisition-threshold-dbhz-must = acquisition.acquisition_threshold_dbhz ({ $acquisition_threshold_dbhz }) peab olema lõplik ning võrdne tracking_threshold_dbhz-ga ({ $tracking_threshold_dbhz }) või sellest suurem
+
+engine-e-jamming-rx-acquisition-reacquisition-delay-must-be = acquisition.reacquisition_delay_s peab olema lõplik ja mittenegatiivne (saadi { $reacquisition_delay_s })
+
+engine-e-jamming-rx-front-end-adc-bits-must = front_end.adc_bits peab olema 1 kuni 16 (saadi { $adc_bits })
+
+engine-e-jamming-rx-front-end-bandwidth-mhz-must = front_end.bandwidth_mhz peab olema positiivne (saadi { $b })
+
+## src/jamming_terrain.rs
+
+engine-e-jamming-terrain-terrain-samples-per-side-must = terrain.samples_per_side peab olema vähemalt 2 (saadi { $samples_per_side })
+
+engine-e-jamming-terrain-terrain-must-be-finite-got = terrain.{ $name } peab olema lõplik (saadi { $v })
+
+engine-e-jamming-terrain-terrain-must-be-positive-got = terrain.{ $name } peab olema positiivne (saadi { $v })
+
+engine-e-jamming-terrain-terrain-dem-hgt = terrain.dem_hgt { $dem_hgt }: { $e }
+
+engine-e-jamming-terrain-terrain-profile-point-is-outside = terrain: profiilipunkt { $points } ({ $lat }, { $lon }) jääb DEM-ruudust välja
+
+engine-e-jamming-terrain-terrain-profile-point-is-on = terrain: profiilipunkt { $points } ({ $lat }, { $lon }) on DEM-i tühimikul
+
+## src/jd2.rs
+
+engine-e-jd2-utc-calendar-date-out-of = UTC kalendrikuupäev on vahemikust väljas: { $year }-{ $month }-{ $day } { $hour }:{ $minute }
+
+engine-e-jd2-no-such-calendar-date = sellist kalendrikuupäeva ei ole: { $year }-{ $month }-{ $day }
+
+engine-e-jd2-utc-second-out-of-range = UTC sekund { $second } on vahemikust väljas hetkel { $hour }:{ $minute }
+
+## src/launch.rs
+
+engine-e-launch-launch-site-at-the-pole = poolusel asuval stardipaigal ei ole määratletud asimuuti
+
+engine-e-launch-inclination-unreachable-from-latitude-without = kaldenurk { $inclination_rad }° ei ole laiuskraadilt { $lat_rad }° saavutatav ilma dogleg-manöövrita (vaja |lat| ≤ i ≤ 180−|lat|)
+
+engine-e-launch-the-true-pole-site-speed = tegeliku poolusepaiga kiirus vajab nii `epoch` kui ka `eop_finals2000a` (tegelik IERS finals2000A sisu)
+
+engine-e-launch-site-lon-deg-must-be = site_lon_deg peab olema vahemikus [-180, 360]
+
+engine-e-launch-eop-finals2000a-contained-no-readable = eop_finals2000a ei sisaldanud loetavaid IERS finals2000A ridu
+
+engine-e-launch-epoch-mjd-is-outside-the = epohh { $epoch } (MJD { $mjd_utc }) jääb antud EOP ridadest välja (MJD { $mjd } kuni { $mjd2 })
+
+engine-e-launch-site-lat-deg-must-be = site_lat_deg peab olema vahemikus [-90, 90]
+
+engine-e-launch-target-inclination-deg-must-be = target_inclination_deg peab olema vahemikus [0, 180]
+
+engine-launch-launch-window-lat-az-asc = launch-window: lat { $site_lat_deg }° -> i { $target_inclination_deg }°: Az { $asc }° tõusev, v_circ { $v_orbit } m/s, +{ $site_rotation_speed } m/s Maa pöörlemise lisa, { $opportunities } võimalust päevas (MODELLED)
+
+## src/leo_fusion/doppler.rs
+
+engine-e-leo-fusion-doppler-every-range-rate-needs-positive = iga kauguskiirus vajab positiivset lõplikku sigmat
+
+engine-e-leo-fusion-doppler-measurements-cannot-resolve-doppler-unknowns =
+    { $n_meas ->
+        [one] { $n_meas } mõõtmine ei saa lahendada { $n } Doppleri tundmatut
+       *[other] { $n_meas } mõõtmist ei saa lahendada { $n } Doppleri tundmatut
+    }
+
+engine-e-leo-fusion-doppler-the-doppler-geometry-is-singular = Doppleri geomeetria on singulaarne
+
+engine-e-leo-fusion-doppler-no-covariance = kovariatsiooni ei ole
+
+## src/leo_fusion/joint_pvt.rs
+
+engine-e-leo-fusion-joint-pvt-every-pseudorange-needs-positive-finite = iga pseudovahemaa vajab positiivset lõplikku sigmat
+
+engine-e-leo-fusion-joint-pvt-pseudoranges-cannot-resolve-unknowns-position =
+    { $n ->
+        [one] { $obs } pseudovahemaad ei saa lahendada { $n } tundmatut (3 asukohta + { $n_clock } kella)
+       *[other] { $obs } pseudovahemaad ei saa lahendada { $n } tundmatut (3 asukohta + { $n_clock } kella)
+    }
+
+engine-e-leo-fusion-joint-pvt-satellite-coincides-with-the-position = satelliit langeb kokku asukohahinnanguga
+
+engine-e-leo-fusion-joint-pvt-the-geometry-is-singular = geomeetria on singulaarne
+
+engine-e-leo-fusion-joint-pvt-no-iteration-ran = ühtegi iteratsiooni ei käivitatud
+
+engine-e-leo-fusion-joint-pvt-degenerate-final-geometry = degenereerunud lõppgeomeetria
+
+engine-e-leo-fusion-joint-pvt-the-dop-is-not-finite = DOP ei ole lõplik
+
+## src/leo_fusion/ntn.rs
+
+engine-e-leo-fusion-ntn-must-be-positive = { $w } peab olema positiivne
+
+engine-e-leo-fusion-ntn-sync-error-must-be-non = sync_error_m peab olema mittenegatiivne ja käivitus kuni 5000 epohhi
+
+engine-e-leo-fusion-ntn-every-signal-needs-positive-bandwidth = iga signaal vajab positiivset ribalaiust
+
+engine-leo-fusion-ntn-5g-ntn-positioning-at-mhz =
+    { $n_satellites ->
+        [one] 5G NTN positsioneerimine sagedusel { $r } MHz, C/N0 { $r2 } kuni { $r3 } dB-Hz, satelliite: { $n_satellites } (nähtavas { $mean_in_view }){ "\u000A" }
+       *[other] 5G NTN positsioneerimine sagedusel { $r } MHz, C/N0 { $r2 } kuni { $r3 } dB-Hz, satelliite: { $n_satellites } (nähtavas { $mean_in_view }){ "\u000A" }
+    }
+
+engine-leo-fusion-ntn-khz-crb-range-to-median = { "  " }{ $name }: { $s } kHz, CRB vahemaa { $range_sigma_zenith_m } kuni { $range_sigma_mask_m } m; mediaan formaalne 3D { $s2 } m, RMS viga { $s3 } m{ "\u000A" }
+
+engine-leo-fusion-ntn-one-satellite-doppler-pass-samples =
+    { $n_obs ->
+        [one] { "  " }ühe satelliidi Doppleri läbimine: { $n_obs } näidis ajavahemikul { $duration_s } s, horisontaalviga { $horizontal_error_m } m{ "\u000A" }
+       *[other] { "  " }ühe satelliidi Doppleri läbimine: { $n_obs } näidist ajavahemikul { $duration_s } s, horisontaalviga { $horizontal_error_m } m{ "\u000A" }
+    }
+
+## src/leo_fusion/ppp.rs
+
+engine-e-leo-fusion-ppp-ppp-needs-at-least-one = PPP vajab vähemalt ühte süsteemi
+
+engine-e-leo-fusion-ppp-duration-and-step-must-be = kestus ja samm peavad olema positiivsed, kuni 20000 epohhiga
+
+engine-e-leo-fusion-ppp-runs-must-be-to-200 = käivitusi peab olema 1 kuni 200
+
+engine-e-leo-fusion-ppp-convergence-thresholds-must-be-positive = koondumislävid peavad olema positiivsed
+
+engine-leo-fusion-ppp-ppp-convergence-to-horizontal-vertical =
+    { $n_gnss ->
+        [one] PPP koondumine { $criterion_horizontal_m } m horisontaalselt / { $criterion_vertical_m } m vertikaalselt, { $runs_per_case } käivitust juhtumi kohta, GNSS-satelliite: { $n_gnss }{ "\u000A" }
+       *[other] PPP koondumine { $criterion_horizontal_m } m horisontaalselt / { $criterion_vertical_m } m vertikaalselt, { $runs_per_case } käivitust juhtumi kohta, GNSS-satelliite: { $n_gnss }{ "\u000A" }
+    }
+
+engine-leo-fusion-ppp-leo-median-min-converged-nees =
+    { $n_leo ->
+        [one] { "  " }{ $name } { $n_leo } LEO  mediaan { $c } min  koondus { $v4 }%  NEES keskmine { $nees_mean }{ "\u000A" }
+       *[other] { "  " }{ $name } { $n_leo } LEO  mediaan { $c } min  koondus { $v4 }%  NEES keskmine { $nees_mean }{ "\u000A" }
+    }
+
+engine-leo-fusion-ppp-median-horizontal-error-across-runs = horisontaalvea mediaan { $runs_per_case } käivituse peale · MODELLED
+
+## src/leo_fusion/presets/mod.rs
+
+engine-e-leo-fusion-presets-preset-carries-no-signal = eelseadistus { $id } ei kanna signaali
+
+engine-e-leo-fusion-presets-preset-has-no-signal-it = eelseadistusel { $id } ei ole signaali { $n }; sellel on { $value }
+
+engine-e-leo-fusion-presets-unknown-leo-preset-known = tundmatu LEO eelseadistus { $id }; tuntud: { $all }
+
+## src/leo_fusion/pvt_kind.rs
+
+engine-e-leo-fusion-pvt-kind-duration-and-step-must-be = duration_s ja step_s peavad olema positiivsed, kuni 20000 epohhiga
+
+engine-e-leo-fusion-pvt-kind-polar-steps-must-be-positive = polaarsammud peavad olema positiivsed
+
+engine-e-leo-fusion-pvt-kind-mode-must-be-doppler-joint = mode peab olema doppler, joint, polar või timing; saadi { $m }
+
+engine-e-leo-fusion-pvt-kind-doppler-mode-needs-at-least = doppler-režiim vajab vähemalt ühte LEO süsteemi
+
+engine-e-leo-fusion-pvt-kind-timing-mode-needs-leo-system = timing-režiim vajab LEO süsteemi koodivahemõõtmisega
+
+engine-e-leo-fusion-pvt-kind-unknown-clock-class = tundmatu kellaklass { $c }
+
+engine-leo-fusion-pvt-kind-leo-pvt-at-over = LEO PVT ({ $mode }) asukohas { $user_lat_deg }, { $user_lon_deg } ajavahemikul { $duration_s } s{ "\u000A" }
+
+engine-leo-fusion-pvt-kind-sats-at-km-mhz =
+    { $n_satellites ->
+        [one] { "  " }{ $name } { $role } satelliite: { $n_satellites }, kõrgus { $mean_altitude_km } km, { $sys } MHz{ $v6 }{ "\u000A" }
+       *[other] { "  " }{ $name } { $role } satelliite: { $n_satellites }, kõrgus { $mean_altitude_km } km, { $sys } MHz{ $v6 }{ "\u000A" }
+    }
+
+engine-leo-fusion-pvt-kind-doppler-fix-measurements-from-satellites =
+    { $n_obs ->
+        [one] { "  " }Doppleri positsioon: mõõtmisi { $n_obs }, satelliite { $n_sats }, 3D viga { $error_3d_m } m (horisontaalne { $horizontal_error_m } m){ "\u000A" }
+       *[other] { "  " }Doppleri positsioon: mõõtmisi { $n_obs }, satelliite { $n_sats }, 3D viga { $error_3d_m } m (horisontaalne { $horizontal_error_m } m){ "\u000A" }
+    }
+
+engine-leo-fusion-pvt-kind-window-sats-3d-error =
+    { $n_sats ->
+        [one] { "    " }aken { $window_s } s: satelliite { $n_sats }, 3D viga { $f } m{ "\u000A" }
+       *[other] { "    " }aken { $window_s } s: satelliite { $n_sats }, 3D viga { $f } m{ "\u000A" }
+    }
+
+engine-leo-fusion-pvt-kind-overhead-pass-max-doppler-hz = { "  " }{ $system } kesktaeva läbimine: max Doppler { $max_doppler_hz } Hz, kiirus { $max_doppler_rate_hz_s } Hz/s, jerk { $max_doppler_jerk_hz_s2 } Hz/s^2{ "\u000A" }
+
+engine-leo-fusion-pvt-kind-leo-ranging-satellite-in-view = { "  " }LEO kaugusmõõtmise satelliit nähtaval { $v1 }% epohhidest{ "\u000A" }
+
+engine-leo-fusion-pvt-kind-availability-median-pdop-rms-3d =
+    { $n ->
+        [one] { "  " }{ $n } kättesaadavus { $availability }, PDOP mediaan { $f }, RMS 3D viga { $f2 } m{ "\u000A" }
+       *[other] { "  " }{ $n } kättesaadavus { $availability }, PDOP mediaan { $f }, RMS 3D viga { $f2 } m{ "\u000A" }
+    }
+
+engine-leo-fusion-pvt-kind-lat-vdop-gnss-leo-fused = { "  " }lat { $lat_deg }: VDOP GNSS { $f } LEO { $f2 } liidetud { $f3 }; nähtavas { $mean_in_view }/{ $mean_in_view2 }{ "\u000A" }
+
+engine-leo-fusion-pvt-kind-n0-db-rms-ns-95 = { "  " }{ $clock } C/N0 { $cn0_offset_db } dB: RMS { $row } ns, 95% { $row2 } ns, max { $row3 } ns (nähtavas { $fraction_in_view }){ "\u000A" }
+
+engine-leo-fusion-pvt-kind-leo-pvt-mode = LEO PVT — režiim { $mode }
+
+## src/leo_fusion/system.rs
+
+engine-e-leo-fusion-system-system-role-must-be-gnss = süsteem { $name }: role peab olema gnss või leo, saadi { $r }
+
+engine-e-leo-fusion-system-system-clock-must-be-estimated = süsteem { $name }: clock peab olema estimated või known, saadi { $c }
+
+engine-e-leo-fusion-system-system-must-be-positive = süsteem { $name }: { $what } peab olema positiivne
+
+engine-e-leo-fusion-system-system-mask-deg-must-be = süsteem { $name }: mask_deg peab olema vahemikus [0, 90)
+
+engine-e-leo-fusion-system-system-sigma-pr-must-be = süsteem { $name }: sigma_pr_m peab olema positiivne
+
+engine-e-leo-fusion-system-give-at-least-one-system = anna vähemalt üks [[system]]
+
+## src/leo_fusion/timing.rs
+
+engine-e-leo-fusion-timing-the-epoch-spacing-must-be = epohhide samm peab olema positiivne
+
+engine-e-leo-fusion-timing-no-epochs = epohhe ei ole
+
+engine-e-leo-fusion-timing-no-satellite-was-ever-in = ükski satelliit ei olnud kunagi nähtaval: vastuvõtja ei haaranud kunagi aega
+
+## src/leo_link/antenna.rs
+
+engine-e-leo-link-antenna-polarisation-must-be-rhcp-lhcp = polarisatsioon peab olema rhcp, lhcp või linear; saadi '{ $o }'
+
+## src/leo_link/geometry.rs
+
+engine-e-leo-link-geometry-sgp4-error-code-at = SGP4 veakood { $code } hetkel t = { $t } s
+
+engine-e-leo-link-geometry-an-orbit-inclined-deg-never = orbiit kaldenurgaga { $inc } deg ei läbi kunagi laiuskraadi { $phi } deg
+
+engine-e-leo-link-geometry-the-requested-maximum-elevation-is = nõutud maksimaalne tõusunurk jääb horisondi ulatusest allapoole
+
+## src/leo_link/itu.rs
+
+engine-e-leo-link-itu-building-class-must-be-traditional = hoone klass peab olema traditional või thermally-efficient; saadi '{ $o }'
+
+## src/leo_navmsg/codec.rs
+
+engine-e-leo-navmsg-codec-field-is-not-finite = väli { $name } ei ole lõplik
+
+engine-e-leo-navmsg-codec-field-is-outside-its-bit = väli { $name } = { $value } { $unit } jääb väljapoole oma { $bits }-bitist vahemikku (|x| <= { $spec })
+
+engine-e-leo-navmsg-codec-message-truncated = sõnum on kärbitud
+
+engine-e-leo-navmsg-codec-field-list-exhausted = väljade loend on ammendatud
+
+engine-e-leo-navmsg-codec-field-order-mismatch-vs = väljade järjekord ei klapi: { $name } vs { $name2 }
+
+engine-e-leo-navmsg-codec-svid-must-be-255 = SVID peab olema 1-255
+
+engine-e-leo-navmsg-codec-each-correction-polynomial-needs-coefficients = iga paranduspolünoom vajab 1-8 koefitsienti
+
+engine-e-leo-navmsg-codec-correction-time-scale-must-be = paranduse ajaskaala peab olema kahe aste vahemikus 1 s kuni 32768 s; saadi { $tau_s }
+
+engine-e-leo-navmsg-codec-ecef-polynomial-needs-11-coefficients = ECEF polünoom vajab 1-11 koefitsienti, telje kohta võrdselt
+
+engine-e-leo-navmsg-codec-ecef-polynomial-degree-exceeds-10 = ECEF polünoomi aste { $v1 } ületab 10
+
+engine-e-leo-navmsg-codec-unknown-model-id = tundmatu mudeli id { $m }
+
+engine-e-leo-navmsg-codec-payload-exceeds-4095-bytes = andmemaht ületab 4095 baiti
+
+engine-e-leo-navmsg-codec-frame-shorter-than-header-and = kaader on päisest ja CRC-st lühem
+
+engine-e-leo-navmsg-codec-bad-preamble-0x = vigane preambul 0x{ $frame }
+
+engine-e-leo-navmsg-codec-unsupported-version = toetamata versioon { $version }
+
+engine-e-leo-navmsg-codec-frame-length-does-not-match = kaadri pikkus { $frame } ei vasta deklareeritud { $len } baidi andmemahule
+
+engine-e-leo-navmsg-codec-crc-24q-mismatch-computed-0x = CRC-24Q ei klapi: arvutatud 0x{ $crc }, kaader kannab 0x{ $got }
+
+## src/leo_navmsg/fit.rs
+
+engine-e-leo-navmsg-fit-rac-degrees-must-each-be = rac_degrees peavad igaüks olema kuni 7; saadi { $rac_degrees }
+
+engine-e-leo-navmsg-fit-poly-degree-must-be-10 = poly_degree peab olema 1-10; saadi { $poly_degree }
+
+engine-e-leo-navmsg-fit-unknown-ephemeris-model-use-kepler16 = tundmatu efemeriidimudel '{ $other }': kasuta kepler16, kepler-rac, liu22 või ecef-poly
+
+engine-e-leo-navmsg-fit-fit-interval-must-be-at = sobitusintervall peab olema vähemalt 10 s; saadi { $len }
+
+engine-e-leo-navmsg-fit-fit-window-lies-outside-the = sobitusaken [{ $t0 }, { $v1 }] s jääb väljapoole tõeorbiiti [0, { $truth }] s
+
+engine-e-leo-navmsg-fit-ecef-polynomial-fit-is-singular = ECEF polünoomi sobitus on singulaarne (liiga vähe näidiseid selle astme jaoks)
+
+engine-e-leo-navmsg-fit-clock-fit-is-singular = kella sobitus on singulaarne
+
+engine-e-leo-navmsg-fit-keplerian-fit-diverged = Kepleri sobitus hajus
+
+## src/leo_navmsg/mod.rs
+
+engine-leo-navmsg-unknown-preset-available = tundmatu eelseadistus '{ $k }'; saadaval: { $keys }
+
+engine-e-leo-navmsg-fit-interval-must-be-10 = fit_interval_s peab olema 10-3600 s ja update_period_s vahemikus (0, fit_interval_s]; saadi { $fit_interval_s } ja { $update_period_s }
+
+engine-e-leo-navmsg-fit-sample-and-eval-step = fit_sample_s ja eval_step_s peavad olema 0.5-60 s
+
+engine-e-leo-navmsg-carrier-hz-must-exceed-10 = carrier_hz peab ületama 10 MHz; saadi { $carrier_hz }
+
+engine-e-leo-navmsg-svid-must-be-255 = svid peab olema 1-255
+
+engine-e-leo-navmsg-band-must-be-15-and = band peab olema 0-15 ja health 0-3
+
+engine-e-leo-navmsg-unknown-csv-schema = tundmatu csv_schema '{ $csv_schema }'
+
+engine-e-leo-navmsg-analysis-must-name-at-least = analysis peab nimetama vähemalt ühe analüüsi
+
+engine-e-leo-navmsg-unknown-analysis-use = tundmatu analüüs '{ $a }'; kasuta { $analyses }
+
+engine-e-leo-navmsg-kind-must-be-leo-navmsg = kind peab olema leo-navmsg; saadi { $k }
+
+engine-e-leo-navmsg-mask-deg-must-be-in = mask_deg peab olema vahemikus [0, 60); saadi { $mask }
+
+engine-leo-navmsg-leo-navigation-message-km-deg =
+    LEO navigatsioonisõnum — { $res } km, { $res2 } deg, gravitatsiooniaste { $gravity_degree }, mudel { $res3 }
+    { "  " }SISRE kaalud: w_R { $w_r }, w_AC^2 1/{ $v6 } (mask { $mask } deg){ "\u000A" }
+
+engine-e-leo-navmsg-trade-span-must-be-60 = trade.span_s peab olema 60-86400 s
+
+engine-e-leo-navmsg-trade-fit-intervals-must-be = trade.fit_intervals_s peab olema mittetühi, igaüks 10-3600 s
+
+engine-leo-navmsg-fit-interval-trade-over-usage = { "  " }sobitusintervalli kompromiss ajavahemikul { $span } s (kasutusperiood = sobitusintervall):{ "\u000A" }
+
+engine-leo-navmsg-sisre-orbit-rms-max-with = { "    " }{ $model } { $fit_interval_s } s  SISRE orbiidi RMS { $sisre_orb_rms_m } m  max { $sisre_orb_max_m } m  kellaga RMS { $sisre_rms_m } m{ "\u000A" }
+
+engine-e-leo-navmsg-comparison-fit-intervals-must-be = comparison.fit_intervals_s peab olema mittetühi, igaüks 10-3600 s
+
+engine-e-leo-navmsg-comparison-span-must-be-60 = comparison.span_s peab olema 60-86400 s
+
+engine-leo-navmsg-params-sisre-orbit-rms-with = { "    " }{ $kind } { $l } s  { $m0 } parameetrit  SISRE orbiidi RMS { $sisre_orb_rms_m } m  kellaga { $sisre_rms_m } m{ "\u000A" }
+
+engine-e-leo-navmsg-no-pass-above-deg-for = kasutajale asukohas { $lat }, { $lon } ei ole { $search } s jooksul läbimist üle { $mask } deg; laienda midpass.search_s või liiguta kasutajat
+
+engine-leo-navmsg-mid-pass-update-pass-max = { "  " }läbimise keskel uuendus: läbimine { $p0 }-{ $p1 } s (max tõusunurk { $pmax } deg), { $switches } lülitust, suurim kasutajavahemaa hüpe { $max_jump } m (halvima juhu geomeetria { $max_worst } m) vs lävi { $threshold } m: { $v8 }{ "\u000A" }
+
+engine-leo-navmsg-encode-decode-model-frame-bytes =
+    { "  " }kodeerimine-dekodeerimine: mudel { $m }, kaader { $frame } baiti (andmemaht { $payload_bits } bitti, efemeriid+kell { $eph_bits } bitti), CRC-24Q 0x{ $hex }
+    { "    " }kvantimine: suurim asukohamuutus { $v6 } mm, kell { $v7 } mm; SISRE täpne { $acc_exact } m, kvantitud { $acc_q } m
+    { "    " }rikutud kaader tagasi lükatud: { $corrupted_rejected }; RINEX edasi-tagasi { $rin_dp } m; CSV edasi-tagasi { $csv_dp }{ "\u000A" }
+
+engine-e-leo-navmsg-comparison-liu-arcs-must-be = comparison.liu_arcs peab olema 1-20
+
+engine-leo-navmsg-km-kshana-published-ratio = { "    " }{ $name } { $alt } km  Kshana { $sisre_orb_rms_m } m  avaldatud { $published } m  suhe { $st }{ "\u000A" }
+
+engine-leo-navmsg-the-16-parameter-keplerian-set = 16-parameetriline Kepleri komplekt halveneb väärtuselt { $a } m hetkel { $lo } s väärtusele { $b } m hetkel { $hi } s: üks Kepleri komplekt kaks korda tiirus harmoonikutega ei suuda LEO kaare kõrgsageduslikke gravitatsiooniliikmeid ega õhutakistust jälgida kauem kui paar minutit ning selle vähimruutude jääk võngub üle akna. Piki/risti/raadiuse polünoomid, mille aste on kõrgem kui Kepleri komplekt hõlmab, neelavad ülejäänu ja annavad { $c } m hetkel { $hi } s.
+
+engine-leo-navmsg-the-16-parameter-keplerian-set-2 = 16-parameetriline Kepleri komplekt läheb väärtuselt { $a } m hetkel { $lo } s väärtusele { $b } m hetkel { $hi } s.
+
+engine-leo-navmsg-km-deg-gravity-degree-representation = { $res } km, { $res2 } deg, gravitatsiooniaste { $gravity_degree } · esitusviga tõe suhtes · MODELLED
+
+## src/leo_navmsg/tests.rs
+
+engine-leo-navmsg-tests-is-the-host-library = { $v1 }: `{ $call }` on hostiteleteegi oma
+
+engine-leo-navmsg-tests-rand-distr-samplers-call-the = { $v1 }: `rand_distr` valimid kutsuvad harvades harudes hosti `exp` ja `ln`; kasuta `portable_math::standard_normal`
+
+engine-leo-navmsg-tests-acceleration-is-the-host-library = { $v1 }: `.acceleration(` on hostiteleteegi gravitatsioonivälja; kasuta `.acceleration_portable(`
+
+engine-leo-navmsg-tests-has-not-been-reviewed = { $v1 }: `{ $path }` ei ole üle vaadatud
+
+## src/leo_navmsg/text.rs
+
+engine-e-leo-navmsg-text-no-end-of-header-line = rida END OF HEADER puudub
+
+engine-e-leo-navmsg-text-expected-eph-record-header-got = oodati kirje päist '> EPH', saadi { $head }
+
+engine-e-leo-navmsg-text-bad-satellite-id = vigane satelliidi id { $parts }
+
+engine-e-leo-navmsg-text-missing-epoch-line = epohhirida puudub
+
+engine-e-leo-navmsg-text-bad-epoch-line = vigane epohhirida { $ep }
+
+engine-e-leo-navmsg-text-bad-epoch-field-in = vigane epohhiväli kohas { $ep }
+
+engine-e-leo-navmsg-text-epoch-line-needs-three-clock = epohhirida vajab kolme kelle liiget: { $ep }
+
+engine-e-leo-navmsg-text-record-truncated = kirje on kärbitud
+
+engine-e-leo-navmsg-text-unknown-record-type = tundmatu kirjetüüp { $other }
+
+engine-e-leo-navmsg-text-the-csv-table-carries-kepler16 = CSV tabel kannab kepler16 ja kepler-rac sõnumeid; saadi { $m }
+
+engine-e-leo-navmsg-text-empty-csv = tühi CSV
+
+engine-e-leo-navmsg-text-row-has-cells-header = real on { $cells } lahtrit, päises { $header }
+
+engine-e-leo-navmsg-text-bad-number-in-column = vigane arv { $c } veerus { $k }
+
+engine-e-leo-navmsg-text-csv-row-lacks = CSV real puudub { $k }
+
+## src/leo_navmsg/truth.rs
+
+engine-e-leo-navmsg-truth-orbit-altitude-must-be-between = orbiidi kõrgus peab olema vahemikus 100 km kuni 3000 km; saadi { $cfg } km
+
+engine-e-leo-navmsg-truth-eccentricity-must-be-in-for = ekstsentrilisus peab LEO sobituse jaoks olema vahemikus [0, 0.1); saadi { $eccentricity }
+
+engine-e-leo-navmsg-truth-integration-step-must-be-in = integreerimissamm peab olema vahemikus (0, 30] s; saadi { $step_s }
+
+engine-e-leo-navmsg-truth-duration-must-be-positive-with = kestus peab olema positiivne, kuni 200000 sammuga; saadi { $duration_s } s
+
+engine-e-leo-navmsg-truth-gravity-degree-must-be-zonal = gravity_degree peab olema 0, 2-6 (zonaalne) või 7-{ $v1 } (EGM2008); saadi { $gravity_degree }
+
+engine-e-leo-navmsg-truth-truth-propagation-diverged = tõe levitamine hajus
+
+engine-e-leo-navmsg-truth-truth-orbit-decayed-below-80 = tõeorbiit lagunes alla 80 km
+
+engine-e-leo-navmsg-truth-node-spacing-must-be-in = sõlmevahe peab olema vahemikus (0, 60] s; saadi { $step_s }
+
+engine-e-leo-navmsg-truth-tabulated-truth-orbit-needs-at = tabelina antud tõeorbiit vajab vähemalt kahte olekut; saadi { $states }
+
+engine-e-leo-navmsg-truth-state-is-not-finite = olek { $k } ei ole lõplik
+
+engine-e-leo-navmsg-truth-clock-adev-1s-must-be = kella adev_1s peab olema vahemikus [0, 1e-6); saadi { $adev_1s }
+
+engine-e-leo-navmsg-truth-measured-clock-is-built-with = mõõdetud kell ehitatakse funktsiooniga TruthClock::from_samples
+
+engine-e-leo-navmsg-truth-steered-clock-needs-sigma-in = juhitud kell vajab sigma_s vahemikus [0, 1e-3) ja tau_s > 0; saadi { $sigma_s }, { $tau_s }
+
+engine-e-leo-navmsg-truth-measured-clock-needs-positive-step = mõõdetud kell vajab positiivset sammu ja vähemalt kahte näidist
+
+engine-e-leo-navmsg-truth-measured-clock-sample-is-not = mõõdetud kella näidis ei ole lõplik
+
+## src/leo_pass.rs
+
+engine-e-leo-pass-epoch-is-not-yyyy-mm = epohh '{ $s }' ei ole kujul YYYY-MM-DDTHH:MM:SS
+
+engine-leo-pass-epoch-is-not-yyyy-mm = epohh '{ $s }' ei ole kujul YYYY-MM-DDTHH:MM:SS
+
+engine-e-leo-pass-epoch-has-bad-seconds-field = epohhi '{ $s }' sekundiväli on vigane
+
+engine-e-leo-pass-epoch-is-out-of-range = epohh '{ $s }' on vahemikust väljas
+
+engine-e-leo-pass-band-unknown-signal-design-public =
+    { $n ->
+        [one] riba '{ $name }': tundmatu signaali kujundus '{ $n }'; avalikud kujundused: { $v2 }
+       *[other] riba '{ $name }': tundmatu signaali kujundus '{ $n }'; avalikud kujundused: { $v2 }
+    }
+
+engine-e-leo-pass-band-is-not-in-the = riba '{ $name }' ei ole süsteemi eelseadistuses: anna frequency_mhz ja eirp_dbw
+
+engine-e-leo-pass-band-needs-eirp-dbw = riba '{ $name }' vajab eirp_dbw
+
+engine-e-leo-pass-pattern-must-be-isoflux-gaussian = pattern peab olema isoflux, gaussian või flat; saadi '{ $o }'
+
+engine-e-leo-pass-band-frequency-out-of-range = riba '{ $name }' sagedus on vahemikust väljas
+
+engine-leo-pass-overridden-in-the-scenario = { $source } (stsenaariumis alistatud)
+
+engine-e-leo-pass-system-has-no-band =
+    { $n ->
+        [one] süsteemil '{ $id }' ei ole riba '{ $n }'
+       *[other] süsteemil '{ $id }' ei ole riba '{ $n }'
+    }
+
+engine-e-leo-pass-leo-satellite-needs-at-least = LEO satelliit vajab vähemalt ühte riba
+
+engine-e-leo-pass-at-most-12-bands-per = kuni 12 riba satelliidi kohta
+
+engine-leo-pass-unknown-system-presets-in-this =
+    { $n ->
+        [one] tundmatu süsteem '{ $n }'; selle järgu eelseadistused: { $ids }
+       *[other] tundmatu süsteem '{ $n }'; selle järgu eelseadistused: { $ids }
+    }
+
+engine-e-leo-pass-no-sun-synchronous-orbit-at = päikesesünkroonset orbiiti kõrgusel { $v1 } km ei ole
+
+engine-e-leo-pass-duration-at-most-86400-and = duration_s (kuni 86400) ja step_s peavad olema positiivsed, kuni 20000 epohhiga; saadi { $duration } ja { $step }
+
+engine-leo-pass-leo-satellite-km-deg = { $system } LEO satelliit, { $s } km, { $inclination_deg } deg ({ $orbit_source })
+
+engine-leo-pass-the-scenario-epoch-read-as = stsenaariumi `epoch` { $epoch }, loetud UTC-na
+
+engine-leo-pass-the-kind-default-epoch-utc = liigi vaikeepohh { $epoch } UTC (stsenaarium ei anna ühtegi)
+
+engine-e-leo-pass-user-environment-must-be-ground = user.environment peab olema ground, maritime, air või indoor; saadi '{ $o }'
+
+engine-e-leo-pass-user-lat-deg-must-be = user.lat_deg peab jääma vahemikku +/-90
+
+## src/leo_pass.rs
+
+engine-e-leo-pass-user-speed-must-be-to = kasutaja kiirus peab olema 0 kuni 3000 m/s ja kõrgus -500 kuni 100000 m
+
+engine-e-leo-pass-user-antenna-must-be-patch = user.antenna peab olema patch, hemispherical või isotropic; saadi '{ $o }'
+
+engine-e-leo-pass-user-building-probability-must-be = user.building_probability peab olema vahemikus (0, 1)
+
+engine-e-leo-pass-ionosphere-model-must-be-klobuchar = ionosphere.model peab olema klobuchar, vtec või none; saadi '{ $o }'
+
+engine-e-leo-pass-direction-must-be-ascending-or = direction peab olema ascending või descending; saadi '{ $o }'
+
+engine-e-leo-pass-satellite-bad-eccentricity-or-perigee = satelliit { $id }: vigane ekstsentrilisus või perigee
+
+engine-e-leo-pass-satellite-tle-needs-tle-line1 = satelliit { $id }: tle vajab tle_line1 ja tle_line2
+
+engine-e-leo-pass-orbit-must-be-pass-elements = orbit peab olema pass, elements või tle; saadi '{ $o }'
+
+engine-e-leo-pass-leo-constellation-needs-system-or = leo_constellation vajab süsteemi või kavandit
+
+engine-e-leo-pass-no-sun-synchronous-inclination = päikesesünkroonset inklinatsiooni pole
+
+engine-e-leo-pass-leo-constellation-at-most-5000 = leo_constellation: kuni 5000 satelliiti
+
+engine-e-leo-pass-no-leo-satellite-rises-above = ükski LEO satelliit ei tõuse aknas maskist kõrgemale
+
+engine-e-leo-pass-spoofer-window-must-be-in = spoofer.window_s peab olema vahemikus (0, 3600]
+
+engine-e-leo-pass-spoofer-bands-is-not-band = spoofer.bands: '{ $b }' ei ole ühegi LEO satelliidi sagedusriba ({ $names })
+
+engine-e-leo-pass-no-gnss-signal-for-constellation = GNSS-signaali '{ $bname }' satelliidikonstellatsioonile '{ $cons }' pole
+
+engine-e-leo-pass-empty-gnss-constellation = tühi GNSS-i satelliidikonstellatsioon
+
+engine-e-leo-pass-iono-free-pairs-are-not = iono_free_pairs: '{ $a }'/'{ $b }' ei ole kaks erinevat sagedusriba objektil { $id }
+
+engine-e-leo-pass-iot-powers-and-battery-must = iot võimsused ja aku peavad olema positiivsed
+
+engine-e-leo-pass-iot-cn0-from-must-be = iot.cn0_from peab olema median või peak; saadi '{ $o }'
+
+engine-leo-pass-detection-threshold-db-after-integration = tuvastuslävi { $detection_snr_db } dB pärast integreerimist
+
+engine-leo-pass-coherent-integration-at-most-ms = koherentne integreerimine kuni { $rx } ms, piiratud Doppleri kiirusega
+
+engine-leo-pass-serial-search-with-correlators = järjestikotsing korrelaatoritega: { $correlators }
+
+engine-leo-pass-hot-start-doppler-known-to = kuumkäivitus: Doppler teada täpsusega +/-{ $aided } Hz, efemeriid kehtiv
+
+engine-leo-pass-leo-pass-link-budget-user = LEO ülelennu ühendusbilanss, { $environment } kasutaja asukohas { $lat_deg }, { $lon_deg }; LEO satelliite: { $satellites }, aken { $duration_s } s{ "\u000A" }
+
+engine-leo-pass-km-max-elevation-deg-at = { "  " }{ $id } [{ $system } { $source_kind }]: { $sat } km, maksimaalne kõrgusnurk { $max_elevation_deg } deg ajahetkel { $tca_s } s, maski kohal { $duration_above_mask_s } s{ "\u000A" }
+
+engine-leo-pass-mhz-n0-peak-median-doppler = { "    " }{ $name } { $b } MHz: C/N0 tipp { $opt } mediaan { $opt2 }; |Doppler| maks { $opt3 }; iono { $b2 }{ "\u000A" }
+
+engine-leo-pass-gnss-in-view-n0-to = { "  " }GNSS { $constellation } { $band }: nähtaval { $satellites_in_view }, C/N0 { $opt } kuni { $opt2 } (mediaan { $opt3 }){ "\u000A" }
+
+engine-leo-pass-leo-peak-db-hz-is = { "  " }LEO { $leo_band } tipp { $leo_peak_cn0_dbhz } dB-Hz on { $leo_peak_above_gnss_median_db } dB GNSS-i mediaanist kõrgem; tugevaimast GNSS-i kandjast kõrgem { $leo_seconds_above_gnss_max } s{ "\u000A" }
+
+engine-leo-pass-iot-cold-ttff-mj-hot = { "  " }IoT { $signal }: külmkäivituse TTFF { $ttff_s } s ({ $energy_per_fix_mj } mJ), kuumkäivituse { $ttff_s2 } s ({ $energy_per_fix_mj2 } mJ){ "\u000A" }
+
+engine-leo-pass-spoofer-from-jump-push-doppler = { "  " }Spuuferi algus { $onset_s } s (hüpe { $offset_m } m, lükkekiirus { $push_rate_m_s } m/s): Doppleri test GNSS { $t }, LEO { $t2 }, liidetud { $t3 }; ribadevaheline { $t4 }{ "\u000A" }
+
+engine-leo-pass-user-leo-peak-db-hz = { $environment } kasutaja · LEO tipp { $leo_peak_cn0_dbhz } dB-Hz, { $leo_peak_above_gnss_median_db } dB GNSS-i mediaanist kõrgem · MODELLED
+
+engine-leo-pass-user-modelled = { $environment } kasutaja · MODELLED
+
+engine-leo-pass-doppler-of-each-leo-satellite = iga LEO satelliidi esimese sagedusriba Doppler (±{ $v1 } kHz skaala täisulatus)
+
+## src/leo_pnt_chain.rs
+
+engine-e-leo-pnt-chain-invalid-table = vigane tabel [{ $what }]: { $e }
+
+engine-e-leo-pnt-chain-signal-design-is-neither-in = signal_design '{ $signal_design }' ei ole ei jaotises [signal] ega avalik kavand ({ $v2 })
+
+engine-e-leo-pnt-chain-signal-design-has-no-code = signal_design '{ $name }' ei sisalda koodjälgitavat komponenti, seega ei anna see pseudovahemaad
+
+engine-e-leo-pnt-chain-kind-must-be-leo-pnt = kind peab olema leo-pnt-chain; saadi { $k }
+
+engine-e-leo-pnt-chain-the-tracked-component-has-no = jälgitaval komponendil puudub kiibisagedus
+
+engine-e-leo-pnt-chain-no-band-of-pass-names = ükski jaotise [pass] sagedusriba ei nimeta signaali signal = "{ $name }"; ahel vajab ühte, mis kavandit kannaks
+
+engine-e-leo-pnt-chain-the-pass-gives-no-code = ülelend ei anna koodivabinat
+
+engine-e-leo-pnt-chain-od-sisre-must-be-in = od_sisre_m peab olema vahemikus [0, 100] m; saadi { $od }
+
+engine-e-leo-pnt-chain-fusion-must-run-mode-joint = { "[" }fusion] peab töötama režiimis mode = "joint"; saadi { $mode }
+
+engine-leo-pnt-chain-tracked-n0-at-the-deg = jälgitav C/N0 maskil { $mask } deg (sirgsobitus sin kõrgusnurga järgi)
+
+engine-e-leo-pnt-chain-fusion-has-no-leo-system = { "[" }fusion] ei sisalda LEO süsteemi, mis ahela väärtused vastu võtaks
+
+engine-e-leo-pnt-chain-fusion-produced-no-joint-block = { "[" }fusion] ei andnud ühisplokki
+
+engine-leo-pnt-chain-leo-pnt-chain = LEO-PNT ahel: { $name }
+
+engine-leo-pnt-chain-signal-tracked-at-mchip-n0 =
+    { $name }
+    { "  " }signaal { $name2 } ({ $design }), jälgitud { $design2 } sagedusel { $v4 } Mchip/s, C/N0 nihe { $offset } dB{ "\u000A" }
+
+engine-leo-pnt-chain-pass-km-tracked-n0-peak = { "  " }ülelend { $id } { $sat } km: jälgitud C/N0 tipp { $peak_tracked_cn0_dbhz } dB-Hz, koodivabin mediaan { $jitter_median } m; C/N0 sirge { $a } + { $b } sin(el) dB-Hz{ "\u000A" }
+
+engine-leo-pnt-chain-message-fit-update-representation-sisre = { "  " }teade { $res } { $fit_interval_s } s sobitus / { $update_period_s } s uuendus: esitus-SISRE { $stats } mm RMS (orbiit { $stats2 } mm), orbiidi määramisega { $od } m: edasi antud { $sisre } m{ "\u000A" }
+
+engine-leo-pnt-chain-pdop-rms-3d = PDOP { $f } RMS 3D { $f2 }
+
+engine-leo-pnt-chain-fused-fix-gnss-only-gnss = { "  " }liidetud lahend: ainult GNSS { $f3 } -> GNSS + LEO { $f32 }{ "\u000A" }
+
+engine-leo-pnt-chain-ppp-convergence = { "  " }PPP koondumine: { $cells }{ "\u000A" }
+
+engine-leo-pnt-chain-values-handed-between-stages-modelled = { "  " }{ $doc } etappide vahel edasi antud väärtused. MODELLED.
+
+engine-leo-pnt-chain-code-tracking-jitter-the-ranging = koodijälgimise vabin, kaugusmõõtmise viga (m, 0 kuni { $jmax })
+
+engine-leo-pnt-chain-sisre-gnss-only-rms-3d = SISRE { $f } · ainult GNSS RMS 3D { $f2 } · GNSS + LEO RMS 3D { $f3 }
+
+## src/leo_signal.rs
+
+engine-e-leo-signal-modulation-the-width-must-be = modulatsioon { $label }: laius peab olema positiivne
+
+engine-e-leo-signal-unknown-signal-preset-the-library = tundmatu signaali eelseadistus { $name }: teegis on { $preset_names }
+
+engine-e-leo-signal-preset-invalid-preset-file = eelseadistus { $name }: vigane eelseadistuse fail: { $e }
+
+engine-e-leo-signal-preset-file-names-itself = eelseadistuse fail { $name } nimetab end { $name2 }
+
+engine-e-leo-signal-centre-mhz-must-be-positive = { $name }: centre_mhz peab olema positiivne
+
+engine-e-leo-signal-tx-bandwidth-mhz-must-be = { $name }: tx_bandwidth_mhz peab olema positiivne
+
+engine-e-leo-signal-signal-needs-at-least-one = { $name }: signaal vajab vähemalt ühte komponenti
+
+engine-e-leo-signal-component-power-fraction-must-be = { $name }: komponendi { $v1 } power_fraction peab olema positiivne
+
+engine-e-leo-signal-component-has-fdma-shares-but = { $name }: komponendil { $v1 } on fdma_shares, kuid puudub fdma_offsets_mhz
+
+engine-e-leo-signal-component-fdma-shares-must-be = { $name }: komponendi { $v1 } fdma_shares peab olema positiivne ja summeeruma ühele
+
+engine-e-leo-signal-component-needs-one-fdma-share = { $name }: komponent { $v1 } vajab ühte fdma_share'i nihke kohta
+
+engine-e-leo-signal-data-rate-sps-must-be = { $name }: data_rate_sps peab olema positiivne
+
+engine-e-leo-signal-code-length-chips-must-be = { $name }: code_length_chips peab olema positiivne
+
+engine-e-leo-signal-component-power-fractions-sum-to = { $name }: komponentide võimsusosade summa on { $total }, mitte 1
+
+engine-e-leo-signal-orbit-altitude-km-must-be = { $name }: orbit_altitude_km peab olema positiivne
+
+engine-e-leo-signal-flat-ofdm-like-component-cannot = { $name }: lamedat (OFDM-laadset) komponenti ei saa spektrimudelis paigutada
+
+engine-e-leo-signal-the-tracked-component-sits-on = { $name }: jälgitav komponent asub FDMA alamkandjatel; spektrimudel jälgib komponenti sagedusriba keskel
+
+engine-e-leo-signal-signal-is-given-twice = signaal { $w } on antud kaks korda
+
+engine-e-leo-signal-signals-is-more-than-the = { $out } signaali on rohkem kui lubatud 24
+
+engine-e-leo-signal-receiver-loop-bandwidth-hz-integration = receiver: loop_bandwidth_hz x integration_time_s peab olema väiksem kui 1
+
+engine-e-leo-signal-receiver-give-to-40-cn0 = receiver: anna 1 kuni 40 cn0_dbhz väärtust
+
+engine-e-leo-signal-trade-slant-range-km-and = trade: slant_range_km > 0 ja slant_tec_tecu ≥ 0
+
+engine-e-leo-signal-psd-points-must-be-between = psd_points peab olema vahemikus 21 kuni 2001
+
+engine-e-leo-signal-receiver-early-late-use-coherent = receiver.early_late { $o }: kasuta "coherent" või "non-coherent"
+
+engine-e-leo-signal-the-system-noise-temperature-must = süsteemi müratemperatuur peab olema positiivne
+
+engine-e-leo-signal-compatibility-unknown-gnss-signal-known = ühilduvus: tundmatu GNSS-signaal { $n } (tuntud: { $gnss_victim_names })
+
+engine-e-leo-signal-trade-reference-signal-is-not = trade.reference_signal { $n } ei ole stsenaariumi signaal
+
+engine-e-leo-signal-shape-check-signal-is-not = kujukontroll: signaal { $signal } ei kuulu stsenaariumi
+
+engine-leo-signal-scenario-leo-signal-signals-noise = stsenaarium leo-signal | signaale: { $runs } | müratase { $n0_db } dBW/Hz{ $v3 }{ $v4 }
+
+engine-leo-signal-left-band-limited-psd-of = vasakul: iga kavandi sagedusribaga piiratud PSD (dB tipust allpool, kogu selle saatesagedusriba ulatuses); paremal: koodivabin ja kogu C/N0 kiibivahe { $reference_spacing_chips } korral
+
+## src/linkbudget.rs
+
+engine-e-linkbudget-unknown-band-expected-ka = tundmatu sagedusriba '{ $other }' (oodatud s|x|ka)
+
+engine-e-linkbudget-range-km-must-be-finite = range_km peab olema lõplik ja positiivne
+
+engine-e-linkbudget-data-rate-bps-must-be = data_rate_bps peab olema lõplik ja positiivne
+
+engine-e-linkbudget-other-losses-db-must-be = other_losses_db peab olema lõplik ja >= 0
+
+engine-e-linkbudget-tsys-must-be-finite-and = tsys_k peab olema lõplik ja positiivne, kui see on antud
+
+engine-linkbudget-link-budget-band-km-bit = link-budget: { $value }-riba, { $range_km } km, { $data_rate_bps } bit/s -> FSPL { $fsl_db } dB, Eb/N0 { $eb_n0_db } dB, varu { $margin_db } dB ({ $v7 })
+
+## src/live_io.rs
+
+engine-e-live-io-cannot-listen-on = ei saa kuulata aadressil { $addr }: { $e }
+
+engine-live-io-kshana-live-listening-on-tcp = kshana live: kuulab tcp-l { $addr }
+
+engine-live-io-kshana-live-tcp-client-connected = kshana live: tcp klient ühendus
+
+engine-live-io-kshana-live-warning-is-not = kshana live: hoiatus: { $addr } ei ole loopback-aadress; igaüks, kes selleni ulatub, saab voogu lugeda
+
+engine-e-live-io-cannot-open = ei saa avada { $spec }: { $e }
+
+engine-live-io-kshana-live-dropped-tcp-client = kshana live: tcp klient katkestati, sest see ei suutnud sammu pidada
+
+engine-e-live-io-cannot-open-2 = ei saa avada { $path }: { $e }
+
+engine-live-io-kshana-live-warning-is-not-2 = kshana live: hoiatus: { $addr } ei ole loopback-aadress; igaüks, kes selleni ulatub, saab sellele kihile voogu saata
+
+engine-e-live-io-cannot-bind-udp = ei saa siduda udp-d { $addr }: { $e }
+
+engine-live-io-kshana-live-listening-on-udp = kshana live: kuulab udp-l { $addr }
+
+engine-e-live-io-cannot-connect-to = ei saa ühenduda aadressiga { $addr }: { $e }
+
+engine-live-io-kshana-live-connected-to-tcp = kshana live: ühendatud tcp-ga { $addr }
+
+engine-live-io-kshana-live-reading-serial-at = kshana live: loeb jadaporti { $path } kiirusel { $baud } baud (ainult lugemine)
+
+engine-live-io-the-was-closed-by-the = { $v1 } sulges vastaspool (kiht ei ühendu uuesti: käivita see järelevalvaja all, mis selle taaskäivitab)
+
+engine-e-live-io-baud-use-1200-2400-4800 = --baud { $baud }: kasuta 1200, 2400, 4800, 9600, 19200, 38400, 57600, 115200 või 230400
+
+engine-e-live-io-is-not-serial-device-tcgetattr = { $path } ei ole jadaseade (tcgetattr ebaõnnestus)
+
+engine-e-live-io-cannot-set-baud = ei saa seada kiirust { $baud } baud
+
+engine-e-live-io-cannot-set-the-line-mode = ei saa seada seadme { $path } rearežiimi
+
+engine-e-live-io-serial-is-supported-on-unix = --serial on toetatud ainult Unixis; kasuta --file, --tcp või --stdin
+
+engine-live-io-unknown-option = tundmatu valik { $s }
+
+engine-live-io-cannot-read = ei saa lugeda { $session }: { $e }
+
+engine-live-io-kshana-live-vessel-platform-calibrating = kshana live: laeva platvorm, kalibreerimine { $calibration_s } s; värav { $v2 }. Nõuandev tarkvara, mitte tüübikinnitust omav navigatsiooniseade: vastutab jätkuvalt operaator.
+
+engine-live-io-write-failed = kirjutamine ebaõnnestus: { $e }
+
+engine-live-io-kshana-live-dropped-udp-datagram =
+    { $n ->
+        [one] kshana live: jäeti kõrvale { $n } udp datagramm, mida mootor vastu võtta ei suutnud ({ $udp_dropped } kokku)
+       *[other] kshana live: jäeti kõrvale { $n } udp datagrammi, mida mootor vastu võtta ei suutnud ({ $udp_dropped } kokku)
+    }
+
+## src/lunar_afs/codes.rs
+
+engine-e-lunar-afs-codes-afs-prn-is-outside = AFS PRN { $prn } on väljaspool vahemikku 1..={ $MAX_PRN }
+
+engine-e-lunar-afs-codes-insertion-index-outside-10223 = lisamisindeks { $p } on väljaspool vahemikku 1..=10223
+
+engine-e-lunar-afs-codes-annex-files-hold-and-codes = Annex 3 failid sisaldavad { $gold } ja { $ter } koodi, oodatud 210
+
+engine-e-lunar-afs-codes-annex-afs-prn-is-not = Annex 3 AFS-I PRN { $v1 } ei ole g1, g2 Goldi kood (LSIS Figure C-1)
+
+engine-e-lunar-afs-codes-secondary-code-does-not-exist = järelkoodi S{ $id } pole olemas (S0 kuni S3)
+
+engine-e-lunar-afs-codes-lsis-v1-table-11-assigns = LSIS V1.0 Table 11 määrab koodid ainult sõlmetunnustele 1 kuni 12, mitte { $node_id }
+
+## src/lunar_afs/frame.rs
+
+engine-e-lunar-afs-frame-fid-does-not-fit-two = FID { $fid } ei mahu kahele bitile (0..3)
+
+engine-e-lunar-afs-frame-toi-outside-99-lsis-410 = TOI { $toi } on väljaspool vahemikku 0..99 (LSIS-410)
+
+engine-e-lunar-afs-frame-subframe-symbols-expected = oodatud { $SB1_SYMBOLS } alamkaadri-1 sümbolit
+
+engine-e-lunar-afs-frame-subframe-data-lengths-expected = alamkaadri andmete pikkused { $sb2 }/{ $sb3 }/{ $sb4 } (oodatud { $SB2_DATA_BITS }/{ $SB34_DATA_BITS }/{ $SB34_DATA_BITS })
+
+engine-e-lunar-afs-frame-symbols-expected-given = oodatud { $FRAME_SYMBOLS } sümbolit, antud { $soft }
+
+## src/lunar_afs/ldpc.rs
+
+engine-e-lunar-afs-ldpc-line-expected-row-column = rida { $v1 }: oodatud `row,column`
+
+engine-e-lunar-afs-ldpc-line = rida { $v1 }: { $e }
+
+engine-e-lunar-afs-ldpc-line-outside = rida { $v1 }: ({ $r },{ $c }) on väljaspool { $rows }x{ $cols }
+
+engine-e-lunar-afs-ldpc-ldpc-information-bits-expected-given = LDPC { $subframe }: oodatud { $info_bits } infobitti, antud { $info }
+
+## src/lunar_afs/lsis.rs
+
+engine-lunar-afs-lsis-the-lsis-v1-data-is = LSIS V1.0 andmeid pole kataloogis { $cache_dir } (sea KSHANA_LSIS_DIR või käivita xval/lunar-afs/fetch_lsis.sh, mis laadib alla { $LSIS_PDF_URL } ja pakib lahti selle manused; neid Kshanaga ei levitata)
+
+engine-e-lunar-afs-lsis-is-not-pinned-lsis-file = { $name } ei ole kinnitatud LSIS-i fail
+
+engine-e-lunar-afs-lsis-has-sha-256-expected-pinned = { $path } SHA-256 on { $got }, oodatud { $want } (kinnitatud LSIS V1.0 järgi, 29. jaanuar 2025); { $fetch_hint }
+
+## src/lunar_afs/waveform.rs
+
+engine-lunar-afs-waveform-lunanet-augmented-forward-signal-baseband = LunaNet Augmented Forward Signal baasriba, { $LSIS_VERSION }; Kshana etalongeneraator
+
+engine-lunar-afs-waveform-afs-node = AFS sõlm { $node_id }
+
+engine-lunar-afs-waveform-afs-node-frame-toi = AFS sõlm { $node_id } kaader TOI { $toi }
+
+## src/lunar_beacon.rs
+
+engine-e-lunar-beacon-satellites-must-be-at-least = n_satellites peab olema vähemalt 1
+
+engine-e-lunar-beacon-comparison-satellites-must-be-at = comparison_n_satellites peab olema vähemalt 1
+
+engine-e-lunar-beacon-elevation-mask-deg-must-be = elevation_mask_deg peab olema vahemikus [0, 90); saadi { $mask_deg }
+
+engine-lunar-beacon-satellites-no-beacons =
+    { $n_sats ->
+        [one] { $n_sats } satelliit, majakaid pole
+       *[other] { $n_sats } satelliiti, majakaid pole
+    }
+
+engine-lunar-beacon-satellites-visible-beacons =
+    { $n_sats ->
+        [one] { $n_sats } satelliit
+       *[other] { $n_sats } satelliiti
+    } + { $n_vis_beacons ->
+        [one] { $n_vis_beacons } nähtav majakas
+       *[other] { $n_vis_beacons } nähtavat majakat
+    }
+
+engine-lunar-beacon-satellites-no-beacons-2 =
+    { $n_cmp ->
+        [one] { $n_cmp } satelliit, majakaid pole
+       *[other] { $n_cmp } satelliiti, majakaid pole
+    }
+
+engine-e-lunar-beacon-serialising-beacon-report = majakaruande serialiseerimine: { $e }
+
+engine-e-lunar-beacon-the-beacon-report-must-serialise = majakaruanne peab serialiseeruma JSON-objektiks
+
+engine-lunar-beacon-lunar-surface-beacon-augmentation-mask = Kuu pinnamajakate täiendus — mask { $elevation_mask_deg } deg, epohh +{ $epoch_s } s, majaka kohta sigma_URE { $sigma_ure_m } m{ "\u000A" }
+
+engine-lunar-beacon-sats-beacons =
+    { "  " }{ $label }  { $n_visible_sats ->
+        [one] { $n_visible_sats } satelliit
+       *[other] { $n_visible_sats } satelliiti
+    }  { $n_visible_beacons ->
+        [one] { $n_visible_beacons } majakas
+       *[other] { $n_visible_beacons } majakat
+    }  { $fmt_dop }{ "\u000A" }
+
+engine-lunar-beacon-realised-sigma-3d = { "  " }{ $v1 }  realiseerunud 1-sigma: 3D { $pos_3d_m } m  H { $horizontal_m } m  V { $vertical_m } m{ "\u000A" }
+
+engine-lunar-beacon-beacons-improve-pdop-by = { "  " }majakad parandavad PDOP-i { $f } korda;{ " " }
+
+engine-lunar-beacon-larger-constellation-instead = suurem satelliidikonstellatsioon selle asemel, { $f } korda{ "\u000A" }
+
+## src/lunar_ephemeris.rs
+
+engine-e-lunar-ephemeris-cannot-read-lunar-ephemeris = ei saa lugeda Kuu efemeriidi { $path }: { $e }
+
+engine-e-lunar-ephemeris-lunar-ephemeris-first-line-must = Kuu efemeriid: esimene rida peab olema `{ $MAGIC }`, leiti `{ $line }`
+
+engine-e-lunar-ephemeris-lunar-ephemeris-file-is-empty = Kuu efemeriid: fail on tühi
+
+engine-e-lunar-ephemeris-lunar-ephemeris-format-must-be = Kuu efemeriid: `# format:` peab olema `states` või `elements`, leiti `{ $other }`
+
+engine-e-lunar-ephemeris-lunar-ephemeris-no-data-rows = Kuu efemeriid: andmeridu pole
+
+engine-e-lunar-ephemeris-lunar-ephemeris-missing-column = Kuu efemeriid: puudub veerg `{ $name }`
+
+engine-e-lunar-ephemeris-lunar-ephemeris-elements-frame-must = Kuu efemeriid: `# elements_frame:` peab olema `icrf` või `mci`, leiti `{ $other }`
+
+engine-e-lunar-ephemeris-lunar-ephemeris-elements-frame-icrf = Kuu efemeriid: `elements_frame: icrf` vajab `# epoch_jd_tdb:` (epohh, millele elemendid viitavad ja millal hinnatakse ka ICRF-ist Kuuga seotud süsteemi pööret): { $e }
+
+engine-e-lunar-ephemeris-lunar-ephemeris-short-element-row = Kuu efemeriid: lühike elemendirida { $v1 }
+
+engine-e-lunar-ephemeris-lunar-ephemeris-element-row = Kuu efemeriid: elemendirida { $v1 }: { $e }
+
+engine-e-lunar-ephemeris-lunar-ephemeris-element-row-has = Kuu efemeriid: elemendireal { $v1 } on mittepositiivne pooltelg
+
+engine-e-lunar-ephemeris-lunar-ephemeris-element-row-has-2 = Kuu efemeriid: elemendireal { $v1 } on ekstsentrilisus { $ecc }, väljaspool [0, 1)
+
+engine-e-lunar-ephemeris-lunar-ephemeris-states-file-needs = Kuu efemeriid: `states` fail vajab `# frame: icrf` või `# frame: mci`, leiti `{ $other }`
+
+engine-e-lunar-ephemeris-lunar-ephemeris-an-icrf-states = Kuu efemeriid: `icrf` states fail vajab `# epoch_jd_tdb:`: { $e }
+
+engine-e-lunar-ephemeris-lunar-ephemeris-short-state-row = Kuu efemeriid: lühike olekurida { $v1 }
+
+engine-e-lunar-ephemeris-lunar-ephemeris-state-row = Kuu efemeriid: olekurida { $v1 }: { $e }
+
+engine-e-lunar-ephemeris-lunar-ephemeris-state-row-is = Kuu efemeriid: olekurida { $v1 } ei ole lõplik
+
+engine-e-lunar-ephemeris-lunar-ephemeris-state-row-for = Kuu efemeriid: satelliidi { $sat } olekurida { $v1 } läheb ajas tagasi ({ $t } pärast { $last }); epohhid peavad satelliidi kohta rangelt kasvama
+
+engine-lunar-ephemeris-tabulated-moon-centred-state-ephemeris = Tabuleeritud Kuu-keskne olekuefemeriid ({ $e } süsteem), Lagrange'i interpoleeritud järgus { $LAGRANGE_ORDER } tabeli epohhide vahel ja taandatud MCMF-i meetodiga { $v2 }. Neid olekuid see mootor EI propageeri. Päritoluklass `published-ephemeris`: erineb igast elementidest tuletatud suurusest.
+
+engine-lunar-ephemeris-published-constellation-definition-stated-in = Avaldatud satelliidikonstellatsiooni MÄÄRATLUS, antud Kuu-keskses ICRF-is (`{ $v1 }`), propageeritud selle mootori enda Kepleri lahendajaga samas inertsiaalsüsteemis ja taandatud MCMF-i IAU 2015 / WGCCRE Kuu orientatsiooniga (pretsesseeruv pool, analüütiline füüsikaline libratsioon) igal epohhil. Süsteemi lähendust POLE: allikas nimetab süsteemi ja epohhi ning mõlemat kasutatakse. Päritoluklass `published-elements`: erineb igast kernelist tuletatud suurusest.
+
+engine-lunar-ephemeris-published-constellation-definition-propagated-by = Avaldatud satelliidikonstellatsiooni MÄÄRATLUS, propageeritud selle mootori enda Kepleri lahendajaga ja taandatud keskmise pöörde Kuu pöörlemismudeliga — täpselt sama teed, mida illustreeriv satelliidikonstellatsioon läbib, nii et kahe käitamise ainus erinevus on satelliidikonstellatsiooni kavand. Allikas esitab elemendid süsteemis `{ $v1 }`; need loetakse siin MCI-na, mis kallutab satelliidikonstellatsiooni `published_frame_tie_angle_deg` võrra. Päritoluklass `published-elements`: erineb igast kernelist tuletatud suurusest.
+
+## src/lunar_frame_campaign.rs
+
+engine-e-lunar-frame-campaign-unknown-station-datum-expected-fixed = tundmatu station_datum { $other }: oodatud "fixed" või "estimated-anchor-first"
+
+engine-e-lunar-frame-campaign-vlbi-campaign-needs-at-least = VLBI kampaania vajab baasjoone moodustamiseks vähemalt 2 jaama, saadi { $raw }
+
+engine-e-lunar-frame-campaign-station-has-non-finite-coordinate = jaamal { $name } on mittelõplik koordinaat
+
+engine-e-lunar-frame-campaign-station-latitude-deg-is-outside = jaama { $name } laiuskraad { $lat } deg on väljaspool vahemikku [-90, 90]
+
+engine-e-lunar-frame-campaign-seven-parameter-helmert-datum-needs = seitsmeparameetriline Helmerti datum vajab vähemalt 3 mittekollineaarset majakat, saadi { $raw }
+
+engine-e-lunar-frame-campaign-beacon-has-non-finite-coordinate = majakal { $name } on mittelõplik koordinaat
+
+engine-e-lunar-frame-campaign-beacon-latitude-deg-is-outside = majaka { $name } laiuskraad { $lat } deg on väljaspool vahemikku [-90, 90]
+
+engine-e-lunar-frame-campaign-arc-hours-must-be-positive = arc_hours peab olema positiivne ja lõplik, saadi { $arc }
+
+engine-e-lunar-frame-campaign-step-min-must-be-positive = step_min peab olema positiivne ja lõplik, saadi { $step }
+
+engine-e-lunar-frame-campaign-schedule-of-epochs-is-beyond = { $v1 } epohhi ajakava ületab selle stsenaariumi 5000 epohhi piirangu; pikenda step_min või lühenda arc_hours
+
+engine-e-lunar-frame-campaign-delay-sigma-must-be-positive = delay_sigma_s peab olema positiivne ja lõplik, saadi { $s }
+
+engine-e-lunar-frame-campaign-elevation-mask-deg-must-be = elevation_mask_deg peab olema lõplik ja vahemikus [-90, 90), saadi { $m }
+
+engine-e-lunar-frame-campaign-earth-elevation-mask-deg-must = earth_elevation_mask_deg peab olema lõplik ja vahemikus [-90, 90), saadi { $m }
+
+engine-e-lunar-frame-campaign-rel-tol-must-be-finite = rel_tol peab olema lõplik ja vahemikus [0, 1), saadi { $t }
+
+engine-e-lunar-frame-campaign-assumed-coordinate-sigma-must-be = assumed_coordinate_sigma_m peab olema positiivne ja lõplik, saadi { $s }
+
+engine-e-lunar-frame-campaign-solver-must-be-spectral-or = solver peab olema "spectral" või "srif", saadi "{ $other }"
+
+engine-e-lunar-frame-campaign-serializing-lunar-frame-campaign-result = lunar-frame-campaign tulemuse serialiseerimine: { $e }
+
+engine-e-lunar-frame-campaign-no-observation-in-the-campaign =
+    { $n_epochs ->
+        [one] ükski vaatlus kampaanias ei ületa Maa-poolset kõrgusnurga maski { $mask } deg baasjoone mõlemas otsas JA maski { $earth_mask } deg majaka enda horisondi kohal: { $n_epochs } epohh x { $v1 } baasjoont x
+       *[other] ükski vaatlus kampaanias ei ületa Maa-poolset kõrgusnurga maski { $mask } deg baasjoone mõlemas otsas JA maski { $earth_mask } deg majaka enda horisondi kohal: { $n_epochs } epohhi x { $v1 } baasjoont x
+    } { $n_beacons ->
+        [one] { $n_beacons } majakas, kõik tagasi lükatud. Pikenda arc_hours, langeta maski või liiguta jaamu.
+       *[other] { $n_beacons } majakat, kõik tagasi lükatud. Pikenda arc_hours, langeta maski või liiguta jaamu.
+    }
+
+engine-lunar-frame-campaign-full-rank-all-similarity-parameters = täisastak: kõiki 7 sarnasusparameetrit piirab see kampaania (tinglikkuse arv { $condition })
+
+engine-lunar-frame-campaign-rank-deficient-of-similarity-directions = RANK-DEFICIENT: { $defect } 7-st sarnasussuunast on sellest kampaaniast mittejälgitavad, seega datumi sigmat EI avaldata; mittejälgitavad suunad on loetletud seitsmeparameetrilises baasis
+
+engine-lunar-frame-campaign-lunar-frame-campaign-beacons-baselines =
+    { $n_beacons ->
+        [one] lunar-frame-campaign | { $n_beacons } majakas x { $v1 } baasjoont x
+       *[other] lunar-frame-campaign | { $n_beacons } majakat x { $v1 } baasjoont x
+    } { $n_epochs ->
+        [one] { $n_epochs } epohh
+       *[other] { $n_epochs } epohhi
+    } = { $n_obs ->
+        [one] { $n_obs } vaatlus
+       *[other] { $n_obs } vaatlust
+    } (viivituse sigma { $sigma_tau } s) | jaama datum { $station_datum } | Helmerti astak { $rank }/7 tinglikkus { $condition } | datumi nihke sigma { $v5 } vs süstitud teisenduse taastamisviga { $trans_err_norm_m } m (suhe { $v7 })
+
+engine-lunar-frame-campaign-of-beacons-have-no-observation = majakaid { $names } / { $beacons } ei sisalda selles ajakavas vaatlust ({ $names2 }); need ei kanna infot, nende sigmad on null ja datum realiseeritakse ainult vaadeldud majakatest
+
+## src/lunar_infra/geodesy.rs
+
+engine-e-lunar-infra-geodesy-all-sigmas-must-be-positive = kõik sigmad peavad olema positiivsed
+
+## src/lunar_infra/gnss.rs
+
+engine-e-lunar-infra-gnss-gnss-planes-sats-per-plane = gnss: planes, sats_per_plane ja altitude_km peavad olema positiivsed
+
+engine-e-lunar-infra-gnss-gnss-tx-efficiency-must-be = gnss: tx_efficiency peab olema vahemikus (0, 1]
+
+## src/lunar_infra/mod.rs
+
+engine-lunar-infra-lunar-infrastructure-od-consistency-gnss = lunar-infrastructure od-consistency: GNSS { $v } m vs maapealne { $v2 } m asukoha sigma, keskmine q { $v3 } (hii-ruut 6 eeldab 6)
+
+engine-lunar-infra-lunar-infrastructure-carrier-phase-ambiguities = lunar-infrastructure carrier-phase: { $last } mitmetähenduslikkust, ILS edukus { $last2 } (bootstrap { $last3 }) pikimal kaarel
+
+engine-lunar-infra-lunar-infrastructure-frame-coestimation-smallest = lunar-infrastructure frame-coestimation: väikseim infoomaväärtus x{ $v } orbiteri sidemetega, CRLB jälg x{ $v2 }
+
+## src/lunar_infra/mod.rs
+
+engine-lunar-infra-lunar-infrastructure-space-tie-sweep = lunar-infrastructure space-tie: { $last } pühkimispunkti { $v } kaarel; laser vs GNSS x nihke sigma { $last2 } m registreeritud kohalikul sidemel
+
+engine-lunar-infra-lunar-infrastructure-geodesy-sensitivity-crlb = lunar-infrastructure geodesy-sensitivity: CRLB sigma h2 { $v }, k2 { $v2 }, l2 { $v3 }
+
+engine-e-lunar-infra-unknown-study-expected-one-of = tundmatu uuring `{ $other }`: oodatud üks väärtustest { $studies }
+
+## src/lunar_infra/od.rs
+
+engine-e-lunar-infra-od-the-measurement-set-does-not = mõõtmiskomplekt ei määra orbiiti (singulaarne info)
+
+engine-e-lunar-infra-od-monte-carlo-trials-must-be = monte_carlo.trials peab olema vähemalt 1
+
+engine-e-lunar-infra-od-ground-sigmas-must-be-positive = maapealsed sigmad peavad olema positiivsed
+
+engine-e-lunar-infra-od-unknown-station-dss-14-dss = tundmatu jaam `{ $nm }`: DSS-14, DSS-63 või DSS-43
+
+engine-e-lunar-infra-od-too-few-ground-measurements-to = liiga vähe maapealseid mõõtmisi orbiidi määramiseks
+
+engine-e-lunar-infra-od-the-covariance-of-the-difference = vahe kovariatsioon on singulaarne
+
+## src/lunar_infra/orbit.rs
+
+engine-e-lunar-infra-orbit-the-nrho-differential-correction-did = NRHO diferentsiaalparandus ei koondunud algväärtusest (seed)
+
+engine-e-lunar-infra-orbit-elfo-needs-perilune-altitude-apolune = elfo vajab tingimust 0 < perilune kõrgus < apolune kõrgus
+
+engine-e-lunar-infra-orbit-unknown-orbit-family-nrho-or = tundmatu orbiidiperekond `{ $other }`: nrho või elfo
+
+engine-e-lunar-infra-orbit-sample-and-arc-days-must = sample_s ja arc_days peavad olema positiivsed
+
+## src/lunar_infra/phase.rs
+
+engine-e-lunar-infra-phase-no-common-satellite-between-the = vastuvõtjatel puudub ühine satelliit
+
+engine-e-lunar-infra-phase-the-carrier-phase-normal-equations = kandelaine faasi normaalvõrrandid on singulaarsed
+
+engine-e-lunar-infra-phase-the-position-block-is-singular = asukohaplokk on singulaarne
+
+engine-e-lunar-infra-phase-the-ambiguity-covariance-is-not = mitmetähenduslikkuste kovariatsioon ei ole positiivselt määratud
+
+## src/lunar_infra/tie.rs
+
+engine-e-lunar-infra-tie-technique-sigmas-must-be-positive = meetodi sigmad peavad olema positiivsed
+
+engine-e-lunar-infra-tie-local-tie-sigmas-must-be = kohaliku sideme sigmad peavad olema positiivsed
+
+## src/lunar_jamming.rs
+
+engine-e-lunar-jamming-carrier-hz-must-be-finite = carrier_hz peab olema lõplik ja positiivne
+
+engine-e-lunar-jamming-chip-rate-hz-must-be = chip_rate_hz peab olema lõplik ja positiivne
+
+engine-e-lunar-jamming-temp-must-be-finite-and = temp_k peab olema lõplik ja positiivne
+
+engine-e-lunar-jamming-sma-km-must-be-finite = sma_km peab olema lõplik ja Kuu raadiusest suurem
+
+engine-e-lunar-jamming-eccentricity-must-be-in = eccentricity peab olema vahemikus [0, 1)
+
+engine-e-lunar-jamming-jammer-power-dbw-must-be = jammer.power_dbw peab olema lõplik
+
+engine-lunar-jamming-lunar-jamming-sats-epochs-links =
+    lunar-jamming | { $n_sats ->
+        [one] { $n_sats } satelliit
+       *[other] { $n_sats } satelliiti
+    }, { $n_epochs ->
+        [one] { $n_epochs } epohh
+       *[other] { $n_epochs } epohhi
+    }, { $n_links ->
+        [one] { $n_links } ühendus
+       *[other] { $n_links } ühendust
+    } punktist ({ $site_lat_deg }, { $site_lon_deg }) | J/S { $min_js_db }..{ $max_js_db } dB (keskmine { $mean_js_db }) | { $n_lost ->
+        [one] { $n_lost } LOST
+       *[other] { $n_lost } LOST
+    } | kättesaadavus { $availability_under_jamming } nominaalsest { $availability_nominal }
+
+engine-lunar-jamming-lunar-jamming-sats-epochs-links-2 =
+    lunar-jamming | { $n_sats ->
+        [one] { $n_sats } satelliit
+       *[other] { $n_sats } satelliiti
+    }, { $n_epochs ->
+        [one] { $n_epochs } epohh
+       *[other] { $n_epochs } epohhi
+    }, { $n_links ->
+        [one] { $n_links } ühendus
+       *[other] { $n_links } ühendust
+    } punktist ({ $site_lat_deg }, { $site_lon_deg }) | segajat pole (puhta taeva Kuu baastase) | { $n_lost ->
+        [one] { $n_lost } LOST
+       *[other] { $n_lost } LOST
+    } | kättesaadavus { $availability_nominal }
+
+## src/lunar_llr.rs
+
+engine-e-lunar-llr-unexpected-reflector-catalogue-header = ootamatu peegelduskataloogi päis { $t }
+
+engine-e-lunar-llr-short-reflector-catalogue-row = lühike peegelduskataloogi rida { $t }
+
+engine-e-lunar-llr-unreadable-reflector-field-in = loetamatu peegeldaja väli { $i } real { $t }
+
+engine-e-lunar-llr-reflector-but-the-published-radius = peegeldaja { $f }: |(x,y,z)| = { $norm3 } m, kuid avaldatud raadiuse veerg ütleb { $radius } m — rida on muudetud
+
+engine-e-lunar-llr-reflector-catalogue-has-no-rows = peegelduskataloogis pole ridu
+
+engine-e-lunar-llr-unreadable-position-epoch-year = loetamatu position_epoch_year { $rest }
+
+engine-e-lunar-llr-unexpected-station-catalogue-header = ootamatu jaamakataloogi päis { $t }
+
+engine-e-lunar-llr-short-station-catalogue-row = lühike jaamakataloogi rida { $t }
+
+engine-e-lunar-llr-unreadable-station-field-in = loetamatu jaama väli { $i } real { $t }
+
+engine-e-lunar-llr-unreadable-ilrs-id-in = loetamatu ILRS id real { $t }
+
+engine-e-lunar-llr-station-catalogue-has-no-rows = jaamakataloogis pole ridu
+
+engine-e-lunar-llr-cannot-read-this-scenario-runs = ei saa lugeda { $path } ({ $e }). See stsenaarium töötab kataloogis { $DEFAULT_DATA_DIR } oleva kinnitatud päris andmete lõigu peal, mis tarnitakse hoidlaga, kuid mitte avaldatud crate'iga; suuna `data_dir` selle koopiale.
+
+engine-e-lunar-llr-only-usable-normal-points-for = ainult { $used } kasutatavat normaalpunkti { $reflectors } peegeldaja kohta — liiga vähe, et piirata { $v3 } koordinaati; laienda arhiivilõiku
+
+engine-e-lunar-llr-the-simulated-campaign-own-report = simuleeritud kampaania enda aruannet ei õnnestunud parsida: { $e }
+
+engine-lunar-llr-lunar-llr-datum-archived-normal =
+    lunar-llr-datum: { $used } arhiveeritud normaalpunkti ({ $n_parsed ->
+        [one] { $n_parsed } parsitud
+       *[other] { $n_parsed } parsitud
+    }) { $station_counts } jaamast { $reflectors } retroreflektorimassiivini { $v5 } d jooksul; mõõdetud normaalpunkti korduvtäpsuse mediaan { $median } mm ühesuunaline; peegeldajate infoastak { $rank }/{ $n }; Helmerti astak { $rank2 }/{ $n_helmert } tinglikkus { $condition }; datumi nihke sigma { $v12 } m; vaadeldud-miinus-arvutatud ühesuunalise jääkvea RMS { $rms_m } m ({ $v14 })
+
+engine-e-lunar-llr-extra-earth-elevation-mask-deg = extra_earth_elevation_mask_deg peab olema lõplik ja vahemikus [-90, 90), saadi { $mask }
+
+engine-e-lunar-llr-has-non-finite-coordinate = { $kind } { $name } sisaldab mittelõplikku koordinaati
+
+engine-e-lunar-llr-latitude-deg-is-outside-90 = { $kind } { $name } laiuskraad { $lat_deg } deg on väljaspool vahemikku [-90, 90]
+
+engine-e-lunar-llr-serialising-the-lunar-llr-datum = lunar-llr-datum aruande serialiseerimine ebaõnnestus: { $e }
+
+## src/lunar_perturbed.rs
+
+engine-e-lunar-perturbed-the-integration-step-must-divide = integreerimissamm peab jagama väljundsammu
+
+## src/lunar_receiver.rs
+
+engine-e-lunar-receiver-receiver = receiver: { $w }
+
+engine-lunar-receiver-must-be-finite-and-not =
+    { $n ->
+        [one] { $n } peab olema lõplik ja mittenegatiivne
+       *[other] { $n } peab olema lõplik ja mittenegatiivne
+    }
+
+engine-lunar-receiver-must-be-finite-and-positive =
+    { $n ->
+        [one] { $n } peab olema lõplik ja positiivne
+       *[other] { $n } peab olema lõplik ja positiivne
+    }
+
+## src/lunar_service.rs
+
+engine-e-lunar-service-moonlight-service-volume = moonlight-service-volume: { $e }
+
+engine-e-lunar-service-moonlight-service-volume-export-site = moonlight-service-volume: asukoha eksport: { $e }
+
+engine-e-lunar-service-lunar-ephemeris-covers-past-its = Kuu efemeriid { $path } katab { $until } s oma epohhist edasi, kuid stsenaariumi horisont ulatub { $last } s-ni; lühenda horizon_hours või hangi pikem kaar (tabuleeritud efemeriidi ekstrapoleerimisest keeldutakse)
+
+engine-e-lunar-service-planetary-kernel-path-needs-epoch = planetary_kernel_path vajab epoch_utc (YYYY-MM-DDTHH:MM:SS UTC)
+
+engine-lunar-service-op-frame-at-utc-earth = OP süsteem ajahetkel { $epoch } UTC (Maa näiv orbiidi normaal Kuu ümber, x piki selle sõlme IAU Kuu ekvaatoril); Kuu GM, J2 ja C22 IAU Kuuga seotud süsteemis, Maa ja Päike kolmanda kehana DE440 asukohtades failist { $spk_path }; neljandat järku Runge-Kutta, samm 10 s
+
+## src/lunar_solution.rs
+
+engine-e-lunar-solution-solution-height-sigma-must-be = solution: height_sigma_m peab olema lõplik ja positiivne
+
+engine-e-lunar-solution-solution-range-sigma-must-be = solution: range_sigma_m peab olema lõplik ja positiivne
+
+engine-e-lunar-solution-solution-min-satellites-needs-height = solution: min_satellites = 3 vajab height_aided = true
+
+engine-e-lunar-solution-solution-min-satellites-must-be =
+    { $n ->
+        [one] solution: min_satellites peab olema 3 või 4, saadi { $n }
+       *[other] solution: min_satellites peab olema 3 või 4, saadi { $n }
+    }
+
+engine-e-lunar-solution-solution-window-epochs-must-be = solution: window_epochs peab olema 1 kuni 144
+
+## src/lunar_station.rs
+
+engine-lunar-station-must-be-finite-and-positive = { $name } peab olema lõplik ja positiivne
+
+engine-lunar-station-must-be-finite-and-not = { $name } peab olema lõplik ja mittenegatiivne
+
+engine-lunar-station-points-epochs-trials-exceeds-lower = n_points x n_epochs x n_trials = { $work } ületab piiri { $MAX_WORK }; vähenda n_trials, tee grid_lat_step_deg jämedamaks (või loetle vähem punkte) või suurenda t_step_s / lühenda t_span_s
+
+engine-e-lunar-station-kind-must-be-got = kind peab olema { $KIND }; saadi { $k }
+
+engine-e-lunar-station-the-ephemeris-covers-but-the = { $KIND }: efemeriid { $path } katab { $until } s, kuid käitus ulatub { $last } s-ni (viimane epohh pluss latency_s); lühenda t_span_s
+
+engine-e-lunar-station-no-case = { $KIND }: juhtu pole ({ $j }, { $i }, { $k })
+
+engine-lunar-station-points-epochs-trials =
+    { $n_grid_points ->
+        [one] { $n_grid_points } punkt
+       *[other] { $n_grid_points } punkti
+    } · { $n_epochs ->
+        [one] { $n_epochs } epohh
+       *[other] { $n_epochs } epohhi
+    } · { $n_trials ->
+        [one] { $n_trials } katse
+       *[other] { $n_trials } katset
+    }
+
+engine-lunar-station-hpl-max = HPL maks { $f }
+
+engine-lunar-station-survey-latency-bits = mõõdistus { $survey_sigma_m } m · latentsus { $latency_s } s · { $quantization_bits } bitti
+
+## src/lunar_terrain.rs
+
+engine-e-lunar-terrain-dem-lines-and-samples-must = dem: lines ja samples peavad olema 2 kuni { $MAX_DEM_SIDE }, saadi { $lines } x { $samples }
+
+engine-e-lunar-terrain-dem-heights-for-grid = dem: { $heights_m } kõrgust { $lines } x { $samples } ruudustiku jaoks
+
+engine-e-lunar-terrain-dem-map-scale-must-be = dem: map_scale_m peab olema positiivne, saadi { $map_scale_m }
+
+engine-e-lunar-terrain-dem-reference-radius-must-be = dem: reference_radius_m peab olema positiivne, saadi { $reference_radius_m }
+
+engine-e-lunar-terrain-dem-cannot-read = dem: ei saa lugeda { $descriptor_path }: { $e }
+
+engine-e-lunar-terrain-dem = dem: { $descriptor_path }: { $e }
+
+engine-e-lunar-terrain-dem-projection-must-be-south = dem: projection peab olema south-polar-stereographic, saadi { $projection }
+
+engine-e-lunar-terrain-dem-sample-type-must-be = dem: sample_type peab olema int16-le, saadi { $sample_type }
+
+engine-e-lunar-terrain-dem-cannot-read-2 = dem: ei saa lugeda { $img }: { $e }
+
+engine-e-lunar-terrain-dem-grid-over-the-pixel = dem: ruudustik ületab { $MAX_DEM_SIDE } piksli piiri
+
+engine-e-lunar-terrain-dem-is-bytes-int16-needs = dem: { $img } on { $bytes } baiti; { $lines } x { $samples } int16 vajab { $d }
+
+engine-e-lunar-terrain-dem-sha-256-does-not = dem: { $img } SHA-256 { $digest } ei ühti deskriptori väärtusega { $image_sha256 }
+
+engine-e-lunar-terrain-dem-scaling-factor-must-be = dem: scaling_factor peab olema positiivne
+
+engine-e-lunar-terrain-dem-tile-cannot-read = dem_tile: ei saa lugeda { $path }: { $e }
+
+engine-e-lunar-terrain-dem-tile = dem_tile: { $path }: { $e }
+
+engine-e-lunar-terrain-dem-tile-needs-at-least = dem_tile: { $path }: vajab vähemalt 2 x 2 punkti, kasvavat ulatust vahemikus [-90, 90] deg ja 360 deg pikkuskraadi ning lõplikke kõrgusi
+
+engine-e-lunar-terrain-terrain-must-be-finite-and = terrain: { $what } peab olema lõplik ja positiivne, saadi { $v }
+
+engine-e-lunar-terrain-terrain-antenna-height-must-be = terrain: antenna_height_m peab olema lõplik ja mittenegatiivne, saadi { $antenna_height_m }
+
+engine-e-lunar-terrain-terrain-azimuth-step-deg-must = terrain: azimuth_step_deg peab olema kuni 90
+
+engine-e-lunar-terrain-terrain-max-range-range-step = terrain: max_range_m / range_step_m peab olema 1 kuni 1e6
+
+engine-e-lunar-terrain-terrain-the-site-is-outside = terrain: asukoht on kõrgusvälja väljaspool
+
+engine-e-lunar-terrain-terrain-stated-horizon-needs-non = terrain: esitatud horisont vajab mittetühja allikat
+
+engine-e-lunar-terrain-terrain-stated-horizon = terrain: esitatud horisont: { $e }
+
+engine-e-lunar-terrain-terrain-give-dem-path-or = terrain: anna dem_path või dem_tile_path, mitte mõlemat
+
+engine-e-lunar-terrain-terrain-max-range-km-must = terrain: max_range_km peab olema lõplik ja positiivne
+
+engine-e-lunar-terrain-terrain-range-step-must-be = terrain: range_step_m peab olema lõplik ja positiivne
+
+engine-e-lunar-terrain-site-deg-deg = { $e } (asukoht { $lat_deg } deg, { $lon_deg } deg)
+
+## src/lunar_time_budget_scenario.rs
+
+engine-e-lunar-time-budget-scenario-unknown-clock-expected-one-of = tundmatu kell { $other }; oodatud üks väärtustest optical-master, passive-h-maser, rafs, mini-rafs
+
+engine-e-lunar-time-budget-scenario-clocks-must-name-at-least = clocks peab nimetama vähemalt ühe kellaklassi
+
+engine-e-lunar-time-budget-scenario-tau-min-must-be-finite = tau_min_s peab olema lõplik ja positiivne, saadi { $lo }
+
+engine-e-lunar-time-budget-scenario-tau-max-must-be-finite = tau_max_s peab olema lõplik ja suurem kui tau_min_s ({ $lo }), saadi { $hi }
+
+engine-e-lunar-time-budget-scenario-points-per-decade-must-be = points_per_decade peab olema ≥ 1
+
+engine-e-lunar-time-budget-scenario-term-is-shorter-than-the = liige { $name } on tau-ruudustikust lühem
+
+engine-lunar-time-budget-scenario-lunar-time-budget-clock-term = lunar-time-budget | kell { $clock } | 7-liikmeline x_Σ(τ) { $taus } τ-punkti kohta ({ $taus2 }–{ $taus3 } s) | ristumispunkt τ { $crossover_tau_s } s (x { $crossover_x_s } s) | süsteemi põhi { $frame_term_s } s | kell x(1 d) { $x_1day_ns } ns (MODELLED)
+
+engine-lunar-time-budget-scenario-time-lab-to-ltc-ns = { $summary } | ajalabor: { $lab } { $lab2 } LTC-ni, x(1 d) { $lab3 } ns (MODELLED)
+
+## src/lunar_time_lab.rs
+
+engine-e-lunar-time-lab-time-lab-unknown-clock-expected = time_lab: tundmatu kell { $other }; oodatud üks väärtustest optical-master, passive-h-maser, rafs, mini-rafs, või anna selle asemel device_card
+
+engine-e-lunar-time-lab-time-lab-give-either-clock = time_lab: anna kas clock või device_card, mitte mõlemat
+
+engine-e-lunar-time-lab-time-lab-device-card = time_lab: device_card: { $e }
+
+engine-e-lunar-time-lab-time-lab-steer-interval-must =
+    { $n ->
+        [one] time_lab: steer_interval_s peab olema lõplik ja positiivne, saadi { $n }
+       *[other] time_lab: steer_interval_s peab olema lõplik ja positiivne, saadi { $n }
+    }
+
+engine-e-lunar-time-lab-time-lab-must-be-finite = time_lab: { $name } peab olema lõplik ja mittenegatiivne, saadi { $v }
+
+engine-e-lunar-time-lab-time-lab-horizons-must-be = time_lab: horizons_s peavad olema positiivsed arvud
+
+engine-lunar-time-lab-station-height-not-modelled-exactly = jaama kõrgust ei modelleerita täpselt: { $height_sigma_m } m ühe sigma kõrgusviga nihutab kiirust { $value } ns/päevas, rakendatuna lineaarse liikmena alates viimasest juhtimisest
+
+## src/lunar_vlbi.rs
+
+engine-e-lunar-vlbi-light-time-did-not-converge = valguse levimisaeg ei koondunud 30 iteratsiooniga täpsuseni 1e-15 s
+
+engine-e-lunar-vlbi-the-kernel-path-needs-planetary = kerneli tee vajab koos planetary_kernel_path, earth_orientation_kernel_path ja moon_orientation_kernel_path
+
+## src/lunar_vlbi_fim.rs
+
+engine-e-lunar-vlbi-fim-unknown-datum-expected-anchor-first = tundmatu datum { $other }: oodatud "anchor-first-station", "free-network" või "all-stations-fixed"
+
+engine-e-lunar-vlbi-fim-vlbi-schedule-needs-at-least = VLBI ajakava vajab baasjoone moodustamiseks vähemalt 2 jaama, saadi { $raw }
+
+engine-e-lunar-vlbi-fim-beacon-coordinates-must-be-finite = majaka koordinaadid peavad olema lõplikud
+
+engine-e-lunar-vlbi-fim-beacon-latitude-deg-is-outside = majaka laiuskraad { $lat } deg on väljaspool vahemikku [-90, 90]
+
+engine-e-lunar-vlbi-fim-schedule-of-epochs-is-beyond = { $v1 } epohhi ajakava ületab selle stsenaariumi 20000 epohhi piirangu; pikenda step_min või lühenda arc_hours
+
+engine-e-lunar-vlbi-fim-equipartition-must-be-positive-and = equipartition_g peab olema positiivne ja lõplik, saadi { $g }
+
+engine-e-lunar-vlbi-fim-serializing-lunar-vlbi-fim-result = lunar-vlbi-fim tulemuse serialiseerimine: { $e }
+
+engine-e-lunar-vlbi-fim-no-observation-in-the-schedule =
+    { $n_epochs ->
+        [one] ükski ajakava vaatlus ei ületa kõrgusnurga maski { $mask } deg baasjoone mõlemas otsas: { $n_epochs } epohh x { $v1 } baasjoont, kõik tagasi lükatud. Pikenda arc_hours, langeta elevation_mask_deg või liiguta jaamu.
+       *[other] ükski ajakava vaatlus ei ületa kõrgusnurga maski { $mask } deg baasjoone mõlemas otsas: { $n_epochs } epohhi x { $v1 } baasjoont, kõik tagasi lükatud. Pikenda arc_hours, langeta elevation_mask_deg või liiguta jaamu.
+    }
+
+engine-e-lunar-vlbi-fim-the-datum-leaves-no-parameter = datum ei jäta hinnatavaid parameetreid
+
+engine-lunar-vlbi-fim-rank-deficient-of-directions-are = RANK-DEFICIENT: { $defect } / { $dim } suunast on mittejälgitavad, seega koordinaadipõhist sigmat ei anta; allpool olev jälgitava alamruumi väärtus on { $rank } jälgitavale suunale piiratud pseudo-pöördmaatriks ja EI ole jaama sigma
+
+engine-lunar-vlbi-fim-lunar-vlbi-fim-stations-baselines =
+    lunar-vlbi-fim | { $n_stations ->
+        [one] { $n_stations } jaam
+       *[other] { $n_stations } jaama
+    } / { $v2 } baasjoont x { $n_epochs ->
+        [one] { $n_epochs } epohh
+       *[other] { $n_epochs } epohhi
+    } = { $n_obs ->
+        [one] { $n_obs } vaatlus
+       *[other] { $n_obs } vaatlust
+    } (mask { $mask } deg) | datum { $datum } | astak { $rank }/{ $dim } tinglikkus { $condition } | jaama sigma { $v10 } vs equipartition g={ $g } { $eq_g } m (suhe { $v13 })
+
+## src/main.rs
+
+engine-main-error-validate-needs-scenario-path = viga: --validate vajab stsenaariumi teed
+
+engine-main-error-study-needs-suite-manifest = viga: --study vajab komplekti manifesti teed
+
+engine-main-error-study-name-needs-value = viga: --study-name vajab väärtust
+
+engine-main-error-export-sp3-needs-path = viga: --export-sp3 vajab teed
+
+engine-main-error-export-omm-needs-path = viga: --export-omm vajab teed
+
+engine-main-error-export-oem-needs-path = viga: --export-oem vajab teed
+
+engine-main-error-animate-needs-format-svg = viga: --animate vajab vormingut: svg, html, frames või all
+
+engine-main-error-animate = viga: --animate: { $e }
+
+engine-main-error-animate-fps-needs-whole = viga: --animate-fps vajab täisarvulist kaadrite arvu sekundis
+
+engine-main-error-export-needs-format-czml = viga: --export vajab vormingut: czml, kml, geojson, stk, sigmf, all või list
+
+engine-main-error-animate-duration-needs-length = viga: --animate-duration vajab pikkust sekundites
+
+engine-main-error-import-route-needs-geojson = viga: --import-route vajab GeoJSON-faili teed
+
+engine-main-error-eop-needs-finals2000a-file = viga: --eop vajab finals2000A faili teed
+
+engine-main-error-unknown-option = viga: tundmatu valik '{ $other }'
+
+engine-main-error-unexpected-argument-one-scenario = viga: ootamatu argument '{ $other }'; üks stsenaariumi fail käitluse kohta
+
+engine-main-warning-animate-fps-and-animate = hoiatus: --animate-fps ja --animate-duration ei tee ilma --animate-ta midagi
+
+engine-main-error-animate-exports-one-scenario = viga: --animate ekspordib ühe stsenaariumi käituse; seda ei saa kombineerida valikuga --validate või --study
+
+engine-main-error-validate-lints-one-scenario = viga: --validate kontrollib ühte stsenaariumi; ära anna lisaks stsenaariumi faili
+
+engine-main-error-cannot-read = viga: ei saa lugeda { $validate_file }: { $e }
+
+engine-main-ok-kind-resolves-this-kind = ok: { $kind } — kind lahendub; see kind ei nõua ühtegi välja (tühi keha käitab selle etalonseadistuse), seega polnud midagi rohkem kontrollida
+
+engine-main-ok-kind-resolves-and-all = ok: { $kind } — kind lahendub ja kõik { $n_required } selle avaldatud kohustusliku välja kirjet on täidetud; väljade väärtusi ei kontrollita
+
+engine-main-error-study-runs-suite-do = viga: --study käitab komplekti; ära anna lisaks üksikut stsenaariumi faili
+
+engine-main-warning-study-name-is-ignored = hoiatus: --study-name ignoreeritakse koos --study-ga; uuringu pealkiri tuleb komplekti manifesti `title =` väärtusest
+
+engine-main-error-cannot-read-2 = viga: ei saa lugeda { $path }: { $e }
+
+engine-main-hint-kshana-example-lists-the = vihje: `kshana example` loetleb komplekteeritud etalonstsenaariumid; `kshana example clock-holdover > clock-holdover.toml` kirjutab ühe
+
+engine-main-error-cannot-read-3 = viga: ei saa lugeda { $eop_file }: { $e }
+
+engine-main-error-eop = viga: --eop: { $e }
+
+engine-main-error-cannot-read-4 = viga: ei saa lugeda { $route_file }: { $e }
+
+engine-main-error-import-route = viga: --import-route: { $e }
+
+engine-main-does-not-apply = { $fmt }: ei kehti: { $why }
+
+engine-main-error-export = viga: --export: { $e }
+
+engine-main-error-animate-2 = viga: --animate { $f }: { $e }
+
+engine-main-error-export-2 = viga: { $fmt } eksport: { $e }
+
+engine-main-error-cannot-write = viga: ei saa kirjutada { $json_path }: { $e }
+
+engine-main-error-cannot-write-2 = viga: ei saa kirjutada { $svg_path }: { $e }
+
+engine-main-error-cannot-build-the-report = viga: ei saa aruannet koostada: { $e }
+
+engine-main-error-cannot-write-3 = viga: ei saa kirjutada { $html_path }: { $e }
+
+engine-main-error-cannot-write-4 = viga: ei saa kirjutada { $report_json_path }: { $e }
+
+engine-main-error-cannot-write-5 = viga: ei saa kirjutada { $csv_path }: { $e }
+
+engine-main-wrote-and = kirjutati { $json_path }, { $svg_path }, { $html_path }, { $report_json_path } ja { $csv_path }
+
+engine-main-wrote-and-2 = kirjutati { $json_path }, { $svg_path }, { $html_path } ja { $report_json_path }
+
+engine-main-error-cannot-write-6 = viga: ei saa kirjutada { $target }: { $e }
+
+engine-main-error-cannot-write-7 = viga: ei saa kirjutada { $sp3_path }: { $e }
+
+engine-main-error-sp3-export-failed = viga: SP3 eksport ebaõnnestus: { $e }
+
+engine-main-error-cannot-write-8 = viga: ei saa kirjutada { $omm_path }: { $e }
+
+engine-main-error-omm-export-failed = viga: OMM eksport ebaõnnestus: { $e }
+
+engine-main-error-cannot-write-9 = viga: ei saa kirjutada { $oem_path }: { $e }
+
+engine-main-error-oem-export-failed = viga: OEM eksport ebaõnnestus: { $e }
+
+engine-main-error-unexpected-argument-after-kinds = viga: ootamatu argument '{ $other }' pärast `kinds`; lubatud on ainult --json
+
+engine-main-bundled-reference-scenarios-write-one =
+    Komplekteeritud etalonstsenaariumid ({ $v1 }). Kirjuta üks faili ja käivita see:
+    { "  " }kshana example clock-holdover > clock-holdover.toml
+    { "  " }kshana clock-holdover.toml
+
+engine-main-not-bundled-run-kshana-example = (pole komplekteeritud: { $name } — põhjuse nägemiseks käivita `kshana example { $name }`)
+
+engine-main-error-is-not-bundled-it = viga: '{ $name }' ei ole komplekteeritud: see { $why }
+
+engine-main-error-no-bundled-scenario-named = viga: komplekteeritud stsenaariumi nimega '{ $name }' pole; `kshana example` loetleb need { $v1 }, mis on
+
+engine-main-error-cannot-read-5 = viga: ei saa lugeda { $suite_path }: { $e }
+
+engine-main-wrote-and-3 = kirjutati { $json_path } ja { $html_path }
+
+engine-main-error-needs-value = viga: { $a } vajab väärtust
+
+engine-main-error-expected-mean-needs-number = viga: --expected-mean vajab arvu
+
+engine-main-error-unknown-imu-fit-option = viga: tundmatu imu-fit valik { $x }
+
+engine-main-error-imu-fit-needs-an = viga: imu-fit vajab IMU logi teed
+
+engine-main-error-needs-value-2 = viga: { $args } vajab väärtust
+
+engine-main-error-epoch = viga: --epoch: { $e }
+
+engine-main-error-unknown-bench-export-option = viga: tundmatu bench-export valik { $a }
+
+engine-main-error-bench-export-needs-scenario = viga: bench-export vajab stsenaariumi teed
+
+engine-main-needs-value = { $a } vajab väärtust
+
+engine-main-site-takes-lat-lon-height = --site võtab argumendid lat,lon[,height_m], saadi { $v }
+
+engine-main-error-is-bytes-the-tle = viga: { $p } on { $m } baiti; TLE piir on { $cap } (4 MiB)
+
+engine-main-error-cannot-read-6 = viga: ei saa lugeda { $p }: { $e }
+
+engine-e-main-monte-carlo = --monte-carlo: { $e }
+
+engine-e-main-seed = --seed: { $e }
+
+engine-main-unknown-sky-option = tundmatu sky valik { $a }
+
+engine-e-main-svg-and-monte-carlo-are = --svg ja --monte-carlo on eraldi väljundid; anna üks
+
+engine-main-error-preset-needs-name =
+    viga: --preset vajab nime
+    { $SKYLINE_USAGE }
+
+engine-main-error-profile-needs-file =
+    viga: --profile vajab faili
+    { $SKYLINE_USAGE }
+
+engine-main-symbols-frame-found = { $r } sümbolit, leiti kaadreid: { $r2 }; { $v3 }
+
+engine-main-frame-at-fid-toi-sb1 = { "  " }kaader kohal { $f }: FID { $f2 } TOI { $f3 } (SB1 mõõdik { $f4 }, SP vigu: { $f5 }, SB1 vigu: { $f6 })
+
+engine-main-not-checked = kontrollimata: { $r }
+
+engine-main-wrote-frame-of-6000-symbols = kirjutati { $out }: kaadreid: { $frames }, igaüks 6000 sümbolit; alamkaadrid 2 kuni 4 on kohahoidjad (ei ole LDPC-kodeeritud, teadet pole)
+
+engine-main-error-cannot-write-10 = viga: ei saa kirjutada { $out }: { $e }
+
+engine-main-unknown-lunanet-afs-check-subcommand = tundmatu lunanet-afs-check alamkäsk { $other }
+
+engine-main-needs-pack-id = { $cmd } vajab paketi id-d
+
+engine-main-unknown-standards-pack-run-option = tundmatu standards-pack run valik { $a }
+
+engine-main-unknown-standards-pack-subcommand = tundmatu standards-pack alamkäsk { $other }
+
+engine-main-error-out-needs-value = viga: --out vajab väärtust
+
+engine-main-error-unknown-compliance-report-option = viga: tundmatu compliance-report valik { $a }
+
+engine-main-error-compliance-report-needs-at = viga: compliance-report vajab vähemalt ühte tulemuste .json faili
+
+engine-main-runs-read-not-used-rows = loetud käitusi: { $runs }, kasutamata: { $unrecognised }; read: tõendatud { $n }, osaliselt { $n2 }, tõendamata { $n3 }, ulatusest väljas { $n4 }
+
+engine-main-error-receiver-trust-needs-scenario = viga: receiver-trust vajab stsenaariumi teed
+
+engine-main-error-invalid-receiver-trust-scenario = viga: vigane receiver-trust stsenaarium: { $e }
+
+## src/maneuver.rs
+
+engine-e-maneuver-burn-exhausts-mass-m0-kg = põletus kulutab massi otsa: m0={ $m0_kg } kg, ṁ={ $mdot } kg/s, burn={ $burn_s } s ⇒ mf={ $mf } kg
+
+engine-e-maneuver-time-of-flight-must-be = lennuaeg peab olema positiivne
+
+engine-e-maneuver-collinear-endpoints-transfer-plane-is = kollineaarsed otspunktid: üleminekutasand on määramata (≈0°/180°)
+
+engine-e-maneuver-lambert-revs-is-for-use = lambert_revs on M >= 1 jaoks; M = 0 korral kasuta lambert
+
+engine-e-maneuver-no-revolution-transfer-the-time = { $revs }-tiirulist üleminekut pole: lennuaeg on alla selle miinimumi
+
+engine-e-maneuver-grid-step-days-must-be = grid_step_days peab olema positiivne, saadi { $grid_step_days }
+
+engine-e-maneuver-each-window-must-run-forward = iga aken peab kulgema edasi (start <= end)
+
+engine-e-maneuver-no-transfer-of-the-requested = akendes pole nõutud tüüpi üleminekut
+
+engine-e-maneuver-the-optimum-left-the-feasible = optimum lahkus lubatavast piirkonnast
+
+## src/mars_od.rs
+
+engine-e-mars-od-dss = DSS-{ $id } { $field }: { $e }
+
+engine-e-mars-od-dss-expected-values = DSS-{ $id } { $field }: oodatud 3 väärtust
+
+engine-e-mars-od-dss-epoch-is-not-2003 = DSS-{ $id } epohh ei ole 2003-JAN-01: { $val }
+
+engine-e-mars-od-dss-has-no-dxyz = DSS-{ $id } puudub DXYZ
+
+engine-e-mars-od-no-coordinates-for-dss = DSS { $station } koordinaate pole
+
+engine-e-mars-od-no-ramps-for-dss = DSS { $station } ramp-e pole
+
+engine-e-mars-od-ramp-table-does-not-cover = ramp-tabel ei kata intervalli
+
+engine-e-mars-od-epoch-outside-the-integrated-span = epohh { $et } on väljaspool integreeritud ulatust
+
+## src/mars_od.rs
+
+engine-e-mars-od-normal-matrix-is-not-positive = normaalmaatriks ei ole positiivselt määratud
+
+engine-e-mars-od-no-points = punkte pole
+
+engine-e-mars-od-parameter-has-no-partial-on = parameetril puudub osatuletis säilitatud punktides
+
+## src/mars_pnt.rs
+
+engine-mars-pnt-mars-pnt-user-clock-relays =
+    mars-pnt { $r } | { $user } kasutaja, { $clock_class } kell | { $n_relays ->
+        [one] { $n_relays } relee
+       *[other] { $n_relays } releed
+    } (keskmiselt { $mean_relays_in_view } nähtaval) | koondunud asukoha RMS { $converged_pos_rms_m } m, formaalne 1σ { $converged_pos_sigma_m } m (3σ { $converged_pos_3sigma_m } m — kovariatsiooni FoM, mitte kinnitatud PL) | kella sageduse σ { $final_clock_freq_sigma } | cov-PD { $covariance_pd_throughout }
+
+engine-mars-pnt-mars-pnt-user-clock-position = Mars-PNT — { $user } kasutaja, { $clock_class } kell: 3-D asukohaviga vs tegelik (koondunud RMS { $converged_pos_rms_m } m)
+
+## src/mcda/ahp.rs
+
+engine-e-mcda-ahp-pairwise-matrix-is-empty = paarvõrdlusmaatriks on tühi
+
+engine-e-mcda-ahp-pairwise-matrix-is-not-square = paarvõrdlusmaatriks ei ole ruut (real { $i } on väärtuseid { $row }, vaja { $n })
+
+engine-e-mcda-ahp-entry-must-be-finite-and = element a[{ $i }][{ $j }] = { $v } peab olema lõplik ja positiivne
+
+engine-e-mcda-ahp-diagonal-must-be = diagonaal a[{ $i }][{ $i }] = { $row } peab olema 1
+
+engine-e-mcda-ahp-entries-must-be-reciprocal = elemendid a[{ $i }][{ $j }]·a[{ $j }][{ $i }] = { $prod } peavad olema pöördarvud (≈ 1)
+
+engine-e-mcda-ahp-upper-row-has-entries-expected = ülemisel real { $i } on elemente { $row }, oodatud { $v2 }
+
+engine-e-mcda-ahp-upper-entry-must-be-finite = ülemine element ({ $i },{ $j }) = { $v } peab olema lõplik ja positiivne
+
+## src/mcda/copras.rs
+
+engine-e-mcda-copras-copras-empty-decision-matrix = COPRAS: tühi otsusemaatriks
+
+engine-e-mcda-copras-copras-no-criteria = COPRAS: kriteeriume pole
+
+engine-e-mcda-copras-copras-weights-but-criterion-types = COPRAS: kaalude arv { $n }, kuid kriteeriumitüüpide arv { $types }
+
+engine-e-mcda-copras-copras-requires-at-least-one = COPRAS: nõuab vähemalt ühte kulukriteeriumi (Min)
+
+engine-e-mcda-copras-copras-alternative-has-values-but = COPRAS: alternatiivil { $i } on väärtuseid { $row }, kuid kriteeriumide arv on { $n }
+
+engine-e-mcda-copras-copras-alternative-criterion-value-must = COPRAS: alternatiivi { $i } kriteeriumi { $j } väärtus { $x } peab olema lõplik ja > 0
+
+## src/mcda/electre.rs
+
+engine-e-mcda-electre-electre-empty-dataset = ELECTRE I: tühi andmestik
+
+engine-e-mcda-electre-electre-no-criteria = ELECTRE I: kriteeriume pole
+
+engine-e-mcda-electre-electre-alternative-has-values-but = ELECTRE I: alternatiivil { $i } on väärtuseid { $row }, kuid kriteeriumide arv on { $n }
+
+engine-e-mcda-electre-electre-alternative-has-non-finite = ELECTRE I: alternatiivil { $i } on mittelõplik väärtus
+
+## src/mcda/moora.rs
+
+engine-e-mcda-moora-moora-empty-decision-matrix = MOORA: tühi otsusemaatriks
+
+engine-e-mcda-moora-moora-no-criteria = MOORA: kriteeriume pole
+
+engine-e-mcda-moora-moora-weights-but-criterion-types = MOORA: kaalude arv { $n }, kuid kriteeriumitüüpide arv { $types }
+
+engine-e-mcda-moora-moora-alternative-has-values-but = MOORA: alternatiivil { $i } on väärtuseid { $row }, kuid kriteeriumide arv on { $n }
+
+engine-e-mcda-moora-moora-alternative-has-non-finite = MOORA: alternatiivil { $i } on mittelõplik väärtus
+
+engine-e-mcda-moora-moora-criterion-has-zero-l2 = MOORA: kriteeriumi { $j } L2 norm on null
+
+## src/mcda/promethee.rs
+
+engine-e-mcda-promethee-promethee-ii-empty-decision-matrix = PROMETHEE II: tühi otsusemaatriks
+
+engine-e-mcda-promethee-promethee-ii-no-criteria = PROMETHEE II: kriteeriume pole
+
+engine-e-mcda-promethee-promethee-ii-weights-but-types = PROMETHEE II: kaalude arv { $n }, kuid tüüpide arv { $types } / eelistusfunktsioonide arv { $prefs }
+
+engine-e-mcda-promethee-promethee-ii-alternative-has-values = PROMETHEE II: alternatiivil { $i } on väärtuseid { $row }, kuid kriteeriumide arv on { $n }
+
+engine-e-mcda-promethee-promethee-ii-alternative-has-non = PROMETHEE II: alternatiivil { $i } on mittelõplik väärtus
+
+## src/mcda/topsis.rs
+
+engine-e-mcda-topsis-topsis-empty-decision-matrix = TOPSIS: tühi otsusemaatriks
+
+engine-e-mcda-topsis-topsis-no-criteria = TOPSIS: kriteeriume pole
+
+engine-e-mcda-topsis-topsis-weights-but-criterion-types = TOPSIS: kaalude arv { $n }, kuid kriteeriumitüüpide arv { $types }
+
+engine-e-mcda-topsis-topsis-alternative-has-values-but = TOPSIS: alternatiivil { $i } on väärtuseid { $row }, kuid kriteeriumide arv on { $n }
+
+engine-e-mcda-topsis-topsis-alternative-has-non-finite = TOPSIS: alternatiivil { $i } on mittelõplik väärtus
+
+## src/mcda/utility.rs
+
+engine-e-mcda-utility-additive-utility-has-no-attributes = aditiivsel kasulikkusel puuduvad atribuudid
+
+engine-e-mcda-utility-attributes-but-weights = atribuutide arv { $attributes }, kuid kaalude arv { $weights }
+
+engine-e-mcda-utility-invalid-scaling-constant = vigane skaleerimiskonstant { $w }
+
+engine-e-mcda-utility-scaling-constants-sum-to-zero = skaleerimiskonstantide summa on null
+
+engine-e-mcda-utility-attribute-values-expected-got = oodatud atribuudiväärtuste arv { $attributes }, saadi { $x }
+
+## src/mcda/vikor.rs
+
+engine-e-mcda-vikor-vikor-empty-decision-matrix = VIKOR: tühi otsusemaatriks
+
+engine-e-mcda-vikor-vikor-no-criteria = VIKOR: kriteeriume pole
+
+engine-e-mcda-vikor-vikor-weights-but-criterion-types = VIKOR: kaalude arv { $n }, kuid kriteeriumitüüpide arv { $types }
+
+engine-e-mcda-vikor-vikor-alternative-has-values-but = VIKOR: alternatiivil { $i } on väärtuseid { $row }, kuid kriteeriumide arv on { $n }
+
+engine-e-mcda-vikor-vikor-alternative-has-non-finite = VIKOR: alternatiivil { $i } on mittelõplik väärtus
+
+## src/mcda/waspas.rs
+
+engine-e-mcda-waspas-waspas-empty-decision-matrix = WASPAS: tühi otsusemaatriks
+
+engine-e-mcda-waspas-waspas-no-criteria = WASPAS: kriteeriume pole
+
+engine-e-mcda-waspas-waspas-weights-but-criterion-types = WASPAS: kaalude arv { $n }, kuid kriteeriumitüüpide arv { $types }
+
+engine-e-mcda-waspas-waspas-lambda-must-lie-in = WASPAS: lambda { $lambda } peab olema vahemikus [0, 1]
+
+engine-e-mcda-waspas-waspas-alternative-has-values-but = WASPAS: alternatiivil { $i } on väärtuseid { $row }, kuid kriteeriumide arv on { $n }
+
+engine-e-mcda-waspas-waspas-alternative-criterion-value-must = WASPAS: alternatiivi { $i } kriteeriumi { $j } väärtus { $x } peab olema lõplik ja > 0
+
+## src/mcda/wpm.rs
+
+engine-e-mcda-wpm-wpm-empty-decision-matrix = WPM: tühi otsusemaatriks
+
+engine-e-mcda-wpm-wpm-no-criteria = WPM: kriteeriume pole
+
+engine-e-mcda-wpm-wpm-weights-but-criterion-types = WPM: kaalude arv { $n }, kuid kriteeriumitüüpide arv { $types }
+
+engine-e-mcda-wpm-wpm-alternative-has-values-but = WPM: alternatiivil { $i } on väärtuseid { $row }, kuid kriteeriumide arv on { $n }
+
+engine-e-mcda-wpm-wpm-alternative-criterion-value-must = WPM: alternatiivi { $i } kriteeriumi { $j } väärtus { $x } peab olema lõplik ja > 0
+
+## src/mcda/wsm.rs
+
+engine-e-mcda-wsm-decision-matrix-has-no-criteria = otsusemaatriksis pole kriteeriume
+
+engine-e-mcda-wsm-decision-matrix-has-no-alternatives = otsusemaatriksis pole alternatiive
+
+engine-e-mcda-wsm-criterion-has-an-invalid-weight = kriteeriumil '{ $name }' on vigane kaal { $weight }
+
+engine-e-mcda-wsm-criterion-weights-sum-to-zero = kriteeriumide kaalude summa on null
+
+engine-e-mcda-wsm-alternative-has-values-but-there = alternatiivil '{ $name }' on väärtuseid { $values }, kuid kriteeriumide arv on { $n }
+
+engine-e-mcda-wsm-alternative-has-non-finite-value = alternatiivil '{ $name }' on kriteeriumil '{ $value }' mittelõplik väärtus
+
+## src/naif_kernel.rs
+
+engine-e-naif-kernel-not-daf-shorter-than-one = ei ole DAF: lühem kui üks kirje
+
+engine-e-naif-kernel-not-daf-identification-word = ei ole DAF: tunnussõna { $id_word }
+
+engine-e-naif-kernel-unsupported-daf-binary-format = toetamata DAF binaarvorming { $other }
+
+engine-e-naif-kernel-implausible-daf-header-nd-ni = ebausutav DAF päis: ND { $nd }, NI { $ni }, FWARD { $fward }
+
+engine-e-naif-kernel-daf-address-beyond-the-end = DAF aadress { $addr } on faili lõpust kaugemal
+
+engine-e-naif-kernel-bad-daf-address-range = vigane DAF aadressivahemik { $first }..={ $last }
+
+engine-e-naif-kernel-daf-summary-list-does-not = DAF kokkuvõtete loend ei lõpe
+
+engine-e-naif-kernel-daf-summary-record-claims-summaries = DAF kokkuvõtte kirje { $rec } väidab kokkuvõtete arvuks { $count }
+
+engine-e-naif-kernel-malformed-type-segment-rsize-intlen = vigane tüüp-2 segment: RSIZE { $rsize }, INTLEN { $intlen }, N { $n }
+
+engine-e-naif-kernel-type-segment-size-does-not = tüüp-2 segmendi suurus ei ühti selle kataloogiga
+
+engine-e-naif-kernel-epoch-outside-the-record = epohh { $et } on kirjest väljaspool [{ $v1 }, { $v2 }]
+
+engine-e-naif-kernel-type-segment-size-does-not-2 = tüüp-1 segmendi suurus ei ühti selle väärtusega N = { $n }
+
+engine-e-naif-kernel-malformed-type-record-kqmax1-kq = vigane tüüp-1 kirje: KQMAX1 { $kqmax1 }, KQ { $kq }
+
+engine-e-naif-kernel-not-an-spk = ei ole SPK: { $id_word }
+
+engine-e-naif-kernel-spk-summary-is-not-nd = SPK kokkuvõte ei ole ND=2, NI=6
+
+engine-e-naif-kernel-no-spk-type-data-for = keha { $target } kohta puuduvad SPK tüüp-1/2 andmed ajahetkel ET { $et }
+
+engine-e-naif-kernel-spk-segment-for-is-in = SPK segment keha { $target } jaoks on süsteemis { $frame }, mitte J2000
+
+engine-e-naif-kernel-spk-centre-chain-does-not = SPK keskmete ahel ei ulatu barütsentrini
+
+engine-e-naif-kernel-not-binary-pck = ei ole binaarne PCK: { $id_word }
+
+engine-e-naif-kernel-pck-summary-is-not-nd = PCK kokkuvõte ei ole ND=2, NI=5
+
+engine-e-naif-kernel-no-pck-type-data-for = süsteemi { $body_frame } kohta puuduvad PCK tüüp-2 andmed ajahetkel ET { $et }
+
+engine-e-naif-kernel-pck-frame-is-given-against = PCK süsteem { $body_frame } on antud süsteemi { $other } suhtes, mis ei ole J2000 ega ECLIPJ2000
+
+## src/navsignal.rs
+
+engine-e-navsignal-bad-number = vigane arv { $s }
+
+engine-e-navsignal-must-be-positive-number = { $s } peab olema positiivne arv
+
+engine-e-navsignal-modulation-expected-name-args-bpsk = modulatsioon { $label }: oodatud NAME(args), nt BPSK(10)
+
+engine-e-navsignal-modulation-missing-closing-parenthesis = modulatsioon { $label }: sulgev sulg puudub
+
+engine-e-navsignal-modulation-is-not-one-of = modulatsioon { $label } ei ole ükski kujudest BPSK(n), BOC(m,n) või MBOC(6,1,p)
+
+## src/ndm_xml.rs
+
+engine-e-ndm-xml-unterminated-entity-in = lõpetamata olem real { $s }
+
+engine-e-ndm-xml-bad-character-reference = vigane märgiviide &{ $ent };
+
+engine-e-ndm-xml-unknown-entity = tundmatu olem &{ $ent };
+
+engine-e-ndm-xml-unterminated-processing-instruction = lõpetamata töötlusjuhis
+
+engine-e-ndm-xml-unterminated-comment = lõpetamata kommentaar
+
+engine-e-ndm-xml-unterminated-declaration = lõpetamata deklaratsioon
+
+engine-e-ndm-xml-expected-an-element-at-byte = oodatud element baidil { $pos }
+
+engine-e-ndm-xml-unterminated-start-tag = lõpetamata algussilt
+
+engine-e-ndm-xml-attribute-without-value = atribuut ilma väärtuseta
+
+engine-e-ndm-xml-unterminated-attribute-value = lõpetamata atribuudi väärtus
+
+engine-e-ndm-xml-unterminated-end-tag = lõpetamata lõpusilt
+
+engine-e-ndm-xml-unterminated-cdata = lõpetamata CDATA
+
+engine-e-ndm-xml-content-after-the-root-element = sisu pärast juurelementi
+
+## src/nma_budget.rs
+
+engine-e-nma-budget-must-be-finite-and-non = { $name } peab olema lõplik ja mittenegatiivne
+
+engine-e-nma-budget-subframe-must-be-positive = subframe_s peab olema positiivne
+
+engine-e-nma-budget-nav-data-rate-bps-must = nav_data_rate_bps peab olema positiivne
+
+## src/nmea_synth/cli.rs
+
+engine-e-nmea-synth-cli-speed-must-be-or-positive = --speed peab olema 0 või positiivne
+
+engine-e-nmea-synth-cli-unexpected-argument = ootamatu argument { $s }
+
+engine-nmea-synth-cli-instructor-log = instruktori logi: { $e }
+
+engine-nmea-synth-cli-instructor-log-and = instruktori logi: { $jp } ja { $tp }
+
+engine-nmea-synth-cli-tcp-server-listening-on-waiting = TCP server kuulab aadressil { $s }; ootab kliente: { $wait_clients }
+
+## src/nmea_synth/clock.rs
+
+engine-e-nmea-synth-clock-expected-yyyy-mm-ddthh-mm = oodatud YYYY-MM-DDTHH:MM:SSZ
+
+engine-e-nmea-synth-clock-date-or-time-out-of = kuupäev või kellaaeg on vahemikust väljas (aastad 1980 kuni 2099)
+
+engine-e-nmea-synth-clock-no-such-calendar-date = sellist kalendrikuupäeva pole
+
+## src/nmea_synth/config.rs
+
+engine-e-nmea-synth-config-must-be-finite-number = { $name } peab olema lõplik arv
+
+engine-e-nmea-synth-config-scenario-start-utc = scenario.start_utc { $start_utc }: { $e }
+
+engine-e-nmea-synth-config-scenario-duration-must-lie-in = scenario.duration_s peab olema vahemikus 1 kuni 86400 s
+
+engine-e-nmea-synth-config-scenario-rate-hz-must-be = scenario.rate_hz peab olema 1, 2, 5 või 10
+
+engine-e-nmea-synth-config-vessel-position-must-lie-within = laeva asukoht peab jääma 89 kraadi piiresse ekvaatorist
+
+engine-e-nmea-synth-config-vessel-speed-kn-must-lie = vessel.speed_kn peab olema vahemikus 0 kuni 60
+
+engine-e-nmea-synth-config-vessel-rate-of-turn-and = laeva pöördekiiruse ja kiirenduse piirid peavad olema positiivsed
+
+engine-e-nmea-synth-config-give-at-least-one-waypoint = anna vähemalt üks [[waypoint]] või vessel.heading_deg
+
+engine-e-nmea-synth-config-waypoint-is-out-of-range = teekonnapunkt { $v1 } on vahemikust väljas
+
+engine-e-nmea-synth-config-waypoint-speed-kn-must-lie = teekonnapunkti { $v1 } speed_kn peab olema vahemikus 0 kuni 60
+
+engine-e-nmea-synth-config-receiver-systems-must-name-at = receiver.systems peab nimetama vähemalt ühe satelliidikonstellatsiooni
+
+engine-e-nmea-synth-config-output-sentences-is-not-one = output.sentences: { $s } ei ole ükski väärtustest { $all_sentences }
+
+engine-e-nmea-synth-config-output-log-interval-must-be = output.log_interval_s peab olema vähemalt 1
+
+engine-e-nmea-synth-config-event = sündmus { $v1 } ({ $kind }): { $why }
+
+engine-e-nmea-synth-config-start-must-lie-inside-the = start_s peab jääma käituse sisse
+
+engine-e-nmea-synth-config-duration-must-be-positive-ramp = duration_s peab olema positiivne; ramp_s ja recovery_s ei tohi olla negatiivsed
+
+engine-e-nmea-synth-config-ramp-must-not-exceed-duration = ramp_s ei tohi ületada duration_s
+
+engine-e-nmea-synth-config-does-not-apply-to-this = { $n } ei kehti sellele liigile
+
+engine-e-nmea-synth-config-counterfeit-cn0-dbhz-must-lie = counterfeit_cn0_dbhz peab olema vahemikus 20 kuni 60
+
+engine-e-nmea-synth-config-cn0-drop-db-is-required = cn0_drop_db on kohustuslik
+
+engine-e-nmea-synth-config-cn0-drop-db-must-lie = cn0_drop_db peab olema vahemikus 0 kuni 80
+
+engine-e-nmea-synth-config-spread-db-must-lie-in = spread_db peab olema vahemikus 0 kuni 30
+
+engine-e-nmea-synth-config-final-offset-is-required = final_offset_m on kohustuslik
+
+engine-e-nmea-synth-config-final-offset-must-lie-in = final_offset_m peab olema vahemikus 0 kuni 500000
+
+engine-e-nmea-synth-config-the-drag-would-accelerate-the = äratõmme kiirendaks võltsrada kuni { $need } m/s^2, mis ületab väärtuse max_accel_mps2 = { $a }; pikenda ramp_s/recovery_s
+
+engine-e-nmea-synth-config-give-exactly-one-of-bearing = anna täpselt üks väärtustest bearing_deg, relative_bearing_deg
+
+engine-e-nmea-synth-config-offset-is-required = offset_s on kohustuslik
+
+engine-e-nmea-synth-config-offset-must-be-non-zero = offset_s peab olema nullist erinev ja ööpäeva piires
+
+engine-e-nmea-synth-config-delay-is-required = delay_s on kohustuslik
+
+engine-e-nmea-synth-config-delay-must-lie-in-to = delay_s peab olema vahemikus 0 kuni 3600
+
+engine-e-nmea-synth-config-the-skyline-describes-no-obstruction = taevapiir ei kirjelda ühtegi takistust
+
+## src/nmea_synth/gen.rs
+
+engine-nmea-synth-gen-has-ended = { $kind } on lõppenud
+
+engine-nmea-synth-gen-the-receiver-reports-fix-again = vastuvõtja annab taas lahendi (kasutatud satelliite: { $n_used })
+
+engine-nmea-synth-gen-the-receiver-has-no-fix = vastuvõtjal pole lahendit (kasutatavaid satelliite: { $n_used }, vaja neli)
+
+## src/nmea_synth/log.rs
+
+engine-nmea-synth-log-from-for-onset-ramp-recovery = alates T+{ $start_s } s kestusega { $duration_s } s (algusramp { $ramp_s } s, taastumisramp { $recovery_s } s)
+
+engine-nmea-synth-log-every-tracked-satellite-shows-db = ; iga jälgitav satelliit näitab { $c } dB-Hz niikaua, kuni see kestab
+
+engine-nmea-synth-log-jamming-received-n0-falls-by = segamine: vastuvõetud C/N0 langeb kuni { $cn0_drop_db } dB (satelliidipõhine hajuvus { $spread_db } dB); satelliidid langevad välja ja lahend kaob, kui kasutatavaid jääb alla nelja
+
+engine-nmea-synth-log-towards-deg-true = suunas { $b } deg tõene
+
+engine-nmea-synth-log-towards-deg-true-deg-relative = suunas { $t } deg tõene ({ $r } deg suhtes kursiga alguse hetkel, seejärel hoitud)
+
+engine-nmea-synth-log-position-drag-off-the-reported = asukoha äratõmme: raporteeritud asukoht nihkub { $final_offset_m } m kaugusele suunas { $dir }, samal ajal kui vastuvõtja hoiab kehtivat lahendit (võltsraja tipp { $pv } m/s ja { $pa } m/s^2){ $cf }
+
+engine-nmea-synth-log-time-spoof-reported-utc-moves = aja spuufimine: raporteeritud UTC nihkub tegelikust { $offset_s } s; asukoht jääb tegelikuks{ $cf }
+
+engine-nmea-synth-log-replay-delay-meaconing-style-position = taasesituse viivitus (meaconing-laadne): asukoht{ $v1 } jääb tegelikust maha { $delay_s } s{ $cf }
+
+engine-nmea-synth-log-natural-degradation-the-sky-closes = loomulik halvenemine: taevas sulgub esitatud taevapiiri taga ({ $e }); selle taga olevad satelliidid jäävad loendisse ilma SNR-ita ja neid ei kasutata, ülejäänute C/N0 on muutumatu ja miski pole võlts
+
+engine-nmea-synth-log-instructor-log = INSTRUKTORI LOGI: { $scenario }{ "\u000A" }
+
+engine-nmea-synth-log-trainer-note = Treeneri märkus: { $trainer_note }{ "\u000A\u000A" }
+
+engine-nmea-synth-log-start-duration-seed = Algus { $start_utc }   kestus { $duration_s } s   algväärtus (seed) { $seed }{ "\u000A\u000A" }
+
+engine-nmea-synth-log-peaks-true-kn-reported-kn = { "\u000A" }TIPUD  tegelik: { $true_peak_sog_kn } kn, { $true_peak_accel_mps2 } m/s^2   raporteeritud: { $reported_peak_sog_kn } kn, { $reported_peak_accel_mps2 } m/s^2{ "\u000A" }
+
+## src/nmea_synth/sky.rs
+
+engine-e-nmea-synth-sky-receiver-systems-unknown-constellation-gps = receiver.systems: tundmatu satelliidikonstellatsioon { $other } (gps, glonass, galileo, beidou)
+
+## src/observability_gramian.rs
+
+engine-observability-gramian-the-tolerance-is-below-the = { " " }Tolerants on alla f64 astaku lugemise müra põhitaseme { $RANK_TOLERANCE_NOISE_FLOOR } (= sqrt(f64::EPSILON)): selle samaväärne omaväärtuse põhi rel_tol^2 = { $v1 } jääb Grami maatriksi ümardusmüra alla, seega lisasuunad on aritmeetiline jääk, mitte jälgitavus.
+
+engine-observability-gramian-rank-clamped-from-the-singular = astak piiratud singulaarväärtuste arvult { $counted } väärtuseni min(rows, cols) = min({ $n_rows }, { $n_cols }) = { $shape_bound } kui rel_tol { $rel_tol }: { $n_rows }x{ $n_cols } maatriksi astak ei saa olla { $counted }.{ $floor_note }
+
+engine-observability-gramian-gdop-undefined-rank-deficient-singular = GDOP on määramata (astakupuudulik / singulaarne geomeetria): astak { $rank } olekust { $n }, datumi defekt { $v3 }, tinglikkus { $v4 }
+
+## src/odf.rs
+
+engine-e-odf-bytes-is-not-whole-number = { $bytes } baiti ei ole 36-baidiste kirjete täisarv
+
+engine-e-odf-record-precedes-any-group-header = kirje { $v1 } eelneb igale grupipäisele
+
+engine-e-odf-no-orbit-data-group = orbiidiandmete gruppi pole
+
+## src/odm.rs
+
+engine-e-odm-is-not-keyword-of = { $k } ei ole { $name } märksõna
+
+engine-e-odm-without = { $name } ilma { $k }
+
+engine-e-odm-needs-exactly-one-of = { $name } vajab täpselt ühte väärtustest { $group }
+
+engine-e-odm-classification-and-message-id-are = CLASSIFICATION ja MESSAGE_ID on versiooni 3.0 päise märksõnad (versioon { $version })
+
+engine-e-odm-unexpected-line = ootamatu rida { $b }
+
+engine-e-odm-unknown-keyword = tundmatu märksõna { $k }
+
+engine-e-odm-block-repeated-or-out-of = { $block } plokk on korratud või vales järjekorras kohas { $key }
+
+engine-e-odm-repeated = { $key } on korratud
+
+engine-e-odm-comments-after-the-last-keyword = kommentaarid pärast viimast märksõna
+
+engine-e-odm-given-twice = { $b } on antud kaks korda
+
+engine-e-odm-opm-without-metadata = OPM ilma metaandmeteta
+
+engine-e-odm-opm-without-state-vector = OPM ilma olekuvektorita
+
+engine-e-odm-omm-without-metadata = OMM ilma metaandmeteta
+
+engine-e-odm-omm-without-mean-elements = OMM ilma keskmiste elementideta
+
+engine-e-odm-is-not-keyword-of-the = { $k } ei ole { $kind } ploki märksõna
+
+engine-e-odm-block-without = { $kind } plokk ilma { $k }
+
+engine-e-odm-block-with-data-lines = { $kind } plokk andmeridadega
+
+engine-e-odm-line-has-values-expected = { $kind } real { $l } on väärtuseid { $l2 }, oodatud { $n }
+
+engine-e-odm-is-not-an-ocm-metadata = { $k } ei ole OCM metaandmete märksõna
+
+engine-e-odm-ocm-metadata-without = OCM metaandmed ilma { $k }
+
+engine-e-odm-block-repeated = { $kind } plokk on korratud
+
+engine-e-odm-inside-block = { $t } ploki sees
+
+engine-e-odm-unsupported-ocm-block = toetamata OCM plokk { $tag }
+
+engine-odm-outside-block = { $t } väljaspool plokki
+
+engine-e-odm-closes-block = { $t } sulgeb { $want } ploki
+
+engine-e-odm-unexpected-line-2 = ootamatu rida { $t }
+
+engine-e-odm-outside-block = { $k } väljaspool plokki
+
+engine-e-odm-unterminated-block = lõpetamata plokk
+
+## src/oem.rs
+
+engine-e-oem-epoch-missing-date-time-separator = epohhil puudub kuupäeva ja kellaaja eraldaja 'T': { $s }
+
+engine-e-oem-unsupported-oem-epoch-date-expected = toetamata OEM epohhi kuupäev '{ $date }' (oodatud yyyy-mm-dd)
+
+engine-e-oem-unsupported-oem-epoch-time-expected = toetamata OEM epohhi kellaaeg '{ $time }' (oodatud HH:MM:SS)
+
+engine-e-oem-bad-epoch-year = vigane epohhi aasta: { $d }
+
+engine-e-oem-bad-epoch-month = vigane epohhi kuu: { $d }
+
+engine-e-oem-bad-epoch-day = vigane epohhi päev: { $d }
+
+engine-e-oem-bad-epoch-hour = vigane epohhi tund: { $t }
+
+engine-e-oem-bad-epoch-minute = vigane epohhi minut: { $t }
+
+engine-e-oem-bad-epoch-second = vigane epohhi sekund: { $t }
+
+engine-e-oem-oem-epoch-field-out-of = OEM epohhi väli on vahemikust väljas: { $s }
+
+engine-e-oem-unexpected-oem-header-line = ootamatu OEM päiserida: { $line }
+
+engine-e-oem-expected-meta-start-found = oodatud META_START, leiti: { $line }
+
+engine-e-oem-unexpected-oem-metadata-line = ootamatu OEM metaandmete rida: { $line }
+
+engine-e-oem-oem-segment-metadata-missing-meta = OEM segmendi metaandmetest puudub META_STOP
+
+engine-e-oem-oem-metadata-missing-object-name = OEM metaandmetest puudub OBJECT_NAME
+
+engine-e-oem-oem-metadata-missing-object-id = OEM metaandmetest puudub OBJECT_ID
+
+engine-e-oem-oem-metadata-missing-center-name = OEM metaandmetest puudub CENTER_NAME
+
+engine-e-oem-oem-metadata-missing-ref-frame = OEM metaandmetest puudub REF_FRAME
+
+engine-e-oem-oem-metadata-missing-time-system = OEM metaandmetest puudub TIME_SYSTEM
+
+engine-e-oem-oem-metadata-missing-start-time = OEM metaandmetest puudub START_TIME
+
+engine-e-oem-oem-metadata-missing-stop-time = OEM metaandmetest puudub STOP_TIME
+
+engine-e-oem-oem-data-line-needs-position = OEM andmerida vajab asukoha+kiiruse (6) või +kiirenduse (9) komponente, saadi { $n }: { $line }
+
+engine-e-oem-non-numeric-oem-state-value = mittenumbriline OEM olekuväärtus '{ $t }' real: { $line }
+
+engine-e-oem-oem-missing-ccsds-oem-vers = OEM-ist puudub päis CCSDS_OEM_VERS
+
+engine-e-oem-oem-missing-creation-date-header = OEM-ist puudub päis CREATION_DATE
+
+engine-e-oem-oem-missing-originator-header = OEM-ist puudub päis ORIGINATOR
+
+engine-e-oem-oem-carried-no-segments = OEM ei sisaldanud segmente
+
+engine-oem-oem-interop-round-tripped-segment = oem-interop: tsükliliselt läbitud segmente: { $segments }, olekuid { $n_states_total }; maksimaalne tsükli viga { $p } km / { $v } km/s (MODELLED interop)
+
+engine-oem-oem-interop-ingested-segment-states = oem-interop: sisse loetud segmente: { $segments }, olekuid { $n_states_total } välisest OEM-ist (koostaja { $originator }) (MODELLED interop)
+
+engine-e-oem-no-covariance-start-block = plokki COVARIANCE_START pole
+
+engine-e-oem-no-covariance-stop = COVARIANCE_STOP puudub
+
+engine-e-oem-bad-covariance-value = vigane kovariatsiooni väärtus '{ $tok }': { $e }
+
+engine-e-oem-expected-21-covariance-values-found = oodatud 21 kovariatsiooni väärtust, leiti { $vals }
+
+## src/omm.rs
+
+engine-e-omm-omm-export-needs-full-line = OMM eksport vajab täielikke (rida 1 + rida 2) TLE-sid; selles plokis neid pole
+
+## src/optical_atmosphere_scenario.rs
+
+engine-e-optical-atmosphere-scenario-must-be-in = { $n } peab olema vahemikus [0, 1]
+
+engine-e-optical-atmosphere-scenario-elevation-deg-must-be-in = elevation_deg peab olema vahemikus [5, 90]
+
+engine-e-optical-atmosphere-scenario-atmosphere-wave-must-be-plane = atmosphere.wave peab olema "plane" või "spherical"
+
+engine-e-optical-atmosphere-scenario-atmosphere-direction-must-be-downlink = atmosphere.direction peab olema "downlink" või "uplink"
+
+engine-e-optical-atmosphere-scenario-availability-targets-pct-entries-must = availability_targets_pct kirjed peavad olema vahemikus (0, 100)
+
+engine-e-optical-atmosphere-scenario-timeseries-duration-must-be-at = timeseries.duration_h peab olema kuni 8760 (üks aasta)
+
+engine-e-optical-atmosphere-scenario-timeseries-steps-is-above-the = timeseries: { $steps } sammu ületab tulemuse piiri { $MAX_STEPS }; suurenda step_s või lühenda duration_h
+
+engine-e-optical-atmosphere-scenario-unknown-clock-class = tundmatu kellaklass "{ $c }"
+
+engine-e-optical-atmosphere-scenario-every-site-needs-name = igal asukohal peab olema nimi
+
+engine-e-optical-atmosphere-scenario-site-latitude-longitude-out-of = asukoht { $name }: laius-/pikkuskraad on vahemikust väljas
+
+engine-e-optical-atmosphere-scenario-site-altitude-must-be-in = asukoht { $name }: altitude_m peab olema vahemikus [0, top)
+
+engine-optical-atmosphere-scenario-optical-atmosphere-nm-at-deg = optical-atmosphere: { $wavelength_nm } nm kõrgusnurgal { $elevation_deg } deg, varu { $margin0 } dB enne atmosfääri; parim asukoht { $scn } { $v5 } %; { $order }-asukohaline võrk { $last } % sõltumatu / { $last2 } % korreleeritud ilmaga (MODELLED, nõuandev)
+
+## src/orbit.rs
+
+engine-e-orbit-rinex-block-parsed-but-contained = RINEX plokk parsiti, kuid see ei sisaldanud toetatud efemeriide
+
+## src/orbit.rs
+
+engine-e-orbit-user-site-lat-deg-must = user_site: lat_deg peab olema vahemikus [-90, 90] ja iga väli lõplik
+
+engine-e-orbit-no-satellites-to-export = eksportimiseks pole satelliite
+
+engine-e-orbit-time-step-must-be-positive = time.step_s peab SP3 ekspordi jaoks olema positiivne
+
+engine-e-orbit-time-step-must-be-positive-2 = time.step_s peab OEM ekspordi jaoks olema positiivne
+
+## src/orbital_timing.rs
+
+engine-e-orbital-timing-must-be-positive-got = { $name } peab olema positiivne; saadi { $v }
+
+engine-e-orbital-timing-receiver-time-sigma-must-be = receiver_time_sigma_s peab olema lõplik ja mittenegatiivne
+
+engine-e-orbital-timing-max-ramp-rate-must-be = max_ramp_rate peab olema lõplik ja mittenegatiivne
+
+engine-e-orbital-timing-spoofer-minimum-elevation-must-be = spuuferi minimaalne kõrgusnurk peab olema vahemikus [0, 90) kraadi
+
+engine-e-orbital-timing-cross-check-sigma-ns-must = ristkontrolli sigma_ns peab olema lõplik ja mittenegatiivne
+
+engine-orbital-timing-the-in-plane-neighbour-degrees = samal orbiiditasandil olev naaber, { $v1 } kraadi ees, jääb ühe spuuferi leviala välja ({ $v2 } kraadi ulatuses)
+
+engine-orbital-timing-the-in-plane-neighbour-degrees-2 = samal orbiiditasandil olev naaber, { $v1 } kraadi ees, võib jääda sama spuuferi leviala sisse ({ $v2 } kraadi ulatuses), seega võib mõlemat kella koos mõjutada
+
+## src/osnma/cli.rs
+
+engine-e-osnma-cli-missing-input-file = sisendfail puudub
+
+engine-e-osnma-cli-max-time-error-has-no = --max-time-error ei mõju ilma --reference-time-ita
+
+engine-e-osnma-cli-not-number = ei ole arv: { $s }
+
+engine-e-osnma-cli-public-key-must-be-id = avalik võti peab olema kujul ID:TYPE:HEX
+
+engine-e-osnma-cli-public-key-type-must-be = avaliku võtme tüüp peab olema p256 või p521
+
+engine-e-osnma-cli-unknown-format = tundmatu vorming { $f }
+
+engine-e-osnma-cli-is-not-text-use-format = { $label } ei ole tekst; UBX-voo jaoks kasuta --format ubx
+
+engine-e-osnma-cli-vector-csv-needs-start-gst = vektori-CSV vajab valikut --start-gst või kuupäevaga failinime
+
+engine-osnma-cli-error-cannot-read =
+    { $ADVISORY }
+
+    viga: ei saa lugeda { $input }: { $e }
+
+engine-osnma-cli-galileo-osnma-verification =
+    Galileo OSNMA kontroll
+    { $ADVISORY }{ "\u000A" }
+
+engine-osnma-cli-input-pages = sisend: { $input } (lehti: { $pages })
+
+engine-osnma-cli-ubx-frames-nav-pages-decoded = ubx: kaadreid { $frames }; I/NAV lehti dekodeeritud { $inav_pages }, ajas paigutatud { $pages } (vigane CRC { $bad_crc }, paigutamatuid { $unstamped }, ajakonflikte { $time_conflicts })
+
+engine-osnma-cli-overall-nma-status = üldine: { $status_word }   NMA olek: { $nma_status }
+
+engine-osnma-cli-alert-verified-osnma-alert-message = HOIATUS: võeti vastu kontrollitud OSNMA hoiatusteade. Lõpeta OSNMA andmete kasutamine; midagi ei raporteerita autentituna.
+
+engine-osnma-cli-freshness-not-enforced-no-reference = värskus: EI rakendata. Etalonaega ei antud, seega võetakse alamkaadrite ajad sisendist ja vanade andmete taasesitus autentiks.
+
+engine-osnma-cli-freshness-sub-frames-within-of = värskus: kasutatakse alamkaadreid, mis jäävad etalonajast { $v2 } { $max_err } s piiresse; kõrvale jäeti { $set_aside }. Etalonaeg on üks ajahetk.
+
+engine-osnma-cli-satellite-status-authenticated-failed-pending = { "\u000A" }satelliit  olek            autenditud  ebaõnnestunud  ootel  hüljatud  viimati autenditud
+
+engine-osnma-cli-epoch-tag-sub-frame-tx = { "\u000A" }epohh (sildi alamkaader)      tx   andmed  adkd  ctr  tulemus
+
+## src/osnma/input.rs
+
+engine-e-osnma-input-line-expected-fields = rida { $v1 }: oodatud 3 välja
+
+engine-e-osnma-input-line-bad-svid = rida { $v1 }: vigane SVID
+
+engine-e-osnma-input-line-bad-bit-count = rida { $v1 }: vigane bittide arv
+
+engine-e-osnma-input-line-data-is-not-hex = rida { $v1 }: andmed ei ole kuueteistkümnendkoodis
+
+engine-e-osnma-input-line-bit-count-does-not = rida { $v1 }: bittide arv ei ühti andmetega
+
+## src/osnma/verifier.rs
+
+engine-e-osnma-verifier-the-time-tolerance-must-be = ajatolerants peab olema väiksem kui üks alamkaader ({ $SUBFRAME_S } s), saadi { $t } s
+
+## src/passes.rs
+
+engine-e-passes-itu-834-refraction-is-defined = ITU-R P.834 murdumine on defineeritud jaama kõrgustele 0 kuni 3 km; saadi { $h_km } km
+
+engine-e-passes-duration-and-step-must-be = duration_s ja step_s peavad olema positiivsed
+
+engine-e-passes-station-lat-deg-must-be = station_lat_deg peab olema vahemikus [-90, 90]
+
+engine-e-passes-mask-deg-must-be-in = mask_deg peab olema vahemikus [0, 90)
+
+engine-e-passes-duration-hours-must-be-finite = duration_hours peab olema lõplik ja positiivne
+
+engine-e-passes-step-must-be-finite-and = step_s peab olema lõplik ja positiivne
+
+engine-passes-passes-pass-es-of-km = passes: ülelende { $passes }; orbiit { $altitude_km } km / { $inclination_deg }° punkti ({ $station_lat_deg }°, { $station_lon_deg }°) kohal > { $mask_deg }° { $duration_hours } h jooksul; kokku { $total_access_s } s juurdepääsu (MODELLED)
+
+## src/precise_products.rs
+
+engine-e-precise-products-short-record = lühike { $record } kirje: { $line }
+
+engine-e-precise-products-bad-number-in = vigane arv { $s } real { $line }
+
+engine-e-precise-products-bad-field-in = vigane väli { $s } real { $line }
+
+engine-e-precise-products-bad-antex-epoch = vigane ANTEX epohh { $s }
+
+engine-e-precise-products-bad-offset = vigane nihe { $body }
+
+## src/propagator.rs
+
+engine-e-propagator-the-ephemeris-provider-has-no = efemeriidiallikal puudub geotsentriline { $name } ajahetkel JD(TT) { $epoch_jd_tt }
+
+## src/pvt.rs
+
+engine-pvt-3d-error-rms-max = { " " }| 3D vea RMS { $rms } m (maks { $max } m)
+
+engine-pvt-post-fit-rms = { " " }| sobitusjärgne RMS { $mean_postfit_rms_m } m
+
+engine-pvt-pvt-sat-nav-epochs-solved =
+    pvt { $r } | { $n_satellites_nav ->
+        [one] { $n_satellites_nav } nav-satelliit
+       *[other] { $n_satellites_nav } nav-satelliiti
+    } | lahendatud epohhe { $epochs_solved }/{ $epochs_total } | keskmiselt { $mean_n_used } sat, PDOP { $mean_pdop }{ $acc }
+
+engine-pvt-single-point-positioning-3d-error = Üksikpunktpositsioneerimine — 3D viga vs mõõdistatud koordinaat (RMS { $rms_3d_m } m)
+
+engine-pvt-single-point-positioning-post-fit = Üksikpunktpositsioneerimine — sobitusjärgne jääkvea RMS (keskmiselt { $mean_postfit_rms_m } m)
+
+## src/python.rs
+
+engine-e-python-runoutput-array-accessors-need-numpy = RunOutput-i massiivipäringud vajavad NumPy-d (pip install numpy): { $e }
+
+engine-e-python-is-not-numeric-array-list = { $path } ei ole arvmassiiv (arvude loend või võrdse pikkusega arvuloendite loend)
+
+engine-e-python-is-not-non-empty-list = { $path } ei ole kirjete mittetühi loend
+
+engine-e-python-and-must-be-the-same = i ja q peavad olema sama pikkusega ({ $i } vs { $q })
+
+engine-e-python-not-acquired-statistic-threshold = { $code }: haaramata (statistik { $statistic } < lävi { $threshold })
+
+engine-python-design-prn-channels-at-most = { $designs } (kavand, PRN) kanalit; kuni 256 pühkimise kohta
+
+engine-python-not-acquired-statistic-threshold = { $code }: haaramata (statistik { $statistic } < lävi { $threshold })
+
+engine-e-python-runs-needs-label = runs[{ $i }] vajab `label`
+
+engine-e-python-runs-needs-result = runs[{ $i }] vajab `result`
+
+engine-e-python-must-be-between-and-32 = { $name } peab olema vahemikus 0 kuni 2**32 - 1
+
+## src/qtrade.rs
+
+engine-qtrade-seed-quantum-wins-foms = { $scenario } | algväärtus (seed) { $seed } | v{ $engine_version } | kvant võidab { $value }/{ $foms } FoM-is | { $status }
+
+## src/quantum_devices.rs
+
+engine-quantum-devices-sigma-from = sigma_y(1 s) = { $adev } allikast { $refr }
+
+## src/quantum_trade.rs
+
+engine-e-quantum-trade-unknown-baseline-clock-class-csac = tundmatu baseline_clock_class '{ $s }' (csac|uso|dsac|tcxo|ocxo|rafs)
+
+engine-e-quantum-trade-unknown-candidate-clock-class-optical = tundmatu candidate_clock_class '{ $other }' (optical-lattice|trapped-ion|mercury-ion)
+
+engine-e-quantum-trade-adev-taus-values-must-be = ADEV taus/values peavad olema lõplikud ja > 0
+
+engine-quantum-trade-quantum-trade-candidate-timing-holdover = quantum-trade | kandidaat { $candidate_source } | aja holdover { $timing_holdover_s }s vs { $timing_holdover_s2 }s ({ $timing_benefit_x }x) | inertsiaalne { $inertial_holdover_s }s vs { $inertial_holdover_s2 }s ({ $inertial_benefit_x }x) | vastupidavuse väljasõit { $coast_time_s }s{ $v9 } | MODELLED{ $v10 }
+
+## src/realdata/clk.rs
+
+engine-e-realdata-clk-rinex-clock-file-declares-time = RINEX kellafail deklareerib ajasüsteemi { $id }, mida see lugeja ei tunne (tuntud: { $known_clock_time_systems }); fail lükatakse tagasi, selle asemel et lugeda selle epohhe GPS-ajana
+
+engine-e-realdata-clk-rinex-clock-file-has-satellite = RINEX kellafailis on satelliidisüsteem { $other } ja see ei deklareeri TIME SYSTEM ID-d; keeldutakse selle epohhide ajasüsteemi ära arvamast
+
+engine-e-realdata-clk-rinex-clock-files-declare-different = RINEX kellafailid deklareerivad erinevaid ajasüsteeme ({ $s } ja { $ts }); keeldutakse neid ühele ajateljele ühendamast
+
+engine-e-realdata-clk-no-as-or-ar-records = objektile { $id } pole AS ega AR kirjeid
+
+engine-e-realdata-clk-short-circular-row = lühike Circular T rida: { $t }
+
+engine-e-realdata-clk-bad-value-in = vigane väärtus { $s } real { $t }
+
+engine-e-realdata-clk-no-section-mjd-header-found = Section 1 MJD päist ei leitud
+
+## src/realdata/ion_sdr.rs
+
+engine-e-realdata-ion-sdr-unterminated-closing-tag = lõpetamata sulgemissilt
+
+engine-e-realdata-ion-sdr-unbalanced-closing-tag = tasakaalustamata sulgemissilt
+
+engine-e-realdata-ion-sdr-unterminated-tag = lõpetamata silt
+
+engine-e-realdata-ion-sdr-attribute-value-missing = atribuudi väärtus puudub
+
+engine-e-realdata-ion-sdr-element-outside-the-document = element dokumendist väljaspool
+
+engine-e-realdata-ion-sdr-text-outside-the-document = tekst dokumendist väljaspool
+
+engine-e-realdata-ion-sdr-element-left-open = lahtiseks jäänud elemente: { $stack }
+
+engine-e-realdata-ion-sdr-expected-one-root-element-found = oodatud üks juurelement, leiti: { $n }
+
+engine-e-realdata-ion-sdr-unknown-frequency-format = tundmatu sagedusvorming { $f }
+
+engine-e-realdata-ion-sdr-unsupported-encoding = toetamata kodeering { $other }
+
+engine-e-realdata-ion-sdr-streams-only-single-stream-files = vooge: { $streams }; loetakse ainult ühe vooga faile
+
+engine-e-realdata-ion-sdr-block-of-cycles-with-header = { $cycles } tsükli plokk päise või jalusega kordub; loetakse ainult ühte kogu faili hõlmavat plokki
+
+engine-e-realdata-ion-sdr-chunk-of-words-of-bytes = tükk { $words_per_chunk } sõnast, igaüks { $word_bytes } baiti
+
+engine-e-realdata-ion-sdr-unsupported-sample-format = toetamata valimivorming { $other }
+
+engine-e-realdata-ion-sdr-quantization-in-packed-bits-per = kvantimine { $quantization } pakitud { $packed_bits } bitiga valimi kohta
+
+engine-e-realdata-ion-sdr-sample-rate-of-hz-is = valimisagedus { $sample_rate_hz } Hz ei ole sagedustegurist { $samples_per_lump } täisarvuline kordne
+
+engine-e-realdata-ion-sdr-chunk-holds-no-whole-lump = tükk ei sisalda ühtegi tervet kimpu
+
+engine-e-realdata-ion-sdr-samples-requested-the-file-holds = nõutud valimid { $start }..{ $v1 }, fail sisaldab { $total }
+
+## src/realdata/llr_crd.rs
+
+engine-realdata-llr-crd-unreadable-crd-version = loetamatu CRD versioon { $f }
+
+engine-realdata-llr-crd-crd-format-version-is-not = CRD vormingu versioon { $v } ei ole toetatud (ainult 1 ja 2 jagavad kirje-11 väljade järjekorda, millele see lugeja toetub)
+
+engine-realdata-llr-crd-unreadable-station-id = loetamatu jaama id { $f }
+
+engine-realdata-llr-crd-unreadable-time-scale = loetamatu ajaskaala { $f }
+
+engine-realdata-llr-crd-crd-epoch-time-scale-is = CRD epohhi ajaskaala { $time_scale } ei ole ükski kolmest, mida vormingu spetsifikatsioon analüütikutele lubab (3 = UTC(USNO), 4 = UTC(GPS), 7 = UTC(BIH)); keeldutakse seda UTC-na lugemast
+
+engine-realdata-llr-crd-unreadable-h4-field = loetamatu h4 väli { $i }: { $f }
+
+engine-realdata-llr-crd-unreadable-field = loetamatu väli { $i }: { $f }
+
+engine-realdata-llr-crd-unreadable-epoch-event = loetamatu epohhi sündmus { $f }
+
+engine-realdata-llr-crd-non-physical-time-of-flight = mittefüüsikaline lennuaeg { $tof }
+
+engine-e-realdata-llr-crd-cannot-read-normal-point-directory = ei saa lugeda normaalpunktide kataloogi { $dir }: { $e }
+
+engine-e-realdata-llr-crd-no-npt-normal-point-files = kataloogis { $dir } pole *.npt normaalpunktide faile — see stsenaarium loeb päris arhiveeritud mõõtmisi ega käitu ilma nendeta
+
+## src/realdata/lola_dem.rs
+
+engine-e-realdata-lola-dem-bad-number = vigane arv '{ $t }': { $e }
+
+engine-e-realdata-lola-dem-dem-has-zero-dimension = DEM-il on null mõõde
+
+## src/realdata/lugre.rs
+
+engine-e-realdata-lugre-coding-lugre-batch-is-two = kodeering { $encoding }: LuGRE partii on kahendkomplement
+
+engine-e-realdata-lugre-bytes-shorter-than-the-iqs = { $bytes } baiti: lühem kui IQS päis
+
+engine-e-realdata-lugre-not-an-iqs-frame = ei ole IQS kaader: { $bytes }
+
+engine-realdata-lugre-sample-rate-metadata-hz-header = valimisagedus: metaandmed { $sample_rate_hz } Hz, päis { $sampling_freq_hz } Hz
+
+engine-realdata-lugre-quantisation-metadata-bits-header-bits = kvantimine: metaandmed { $quantization } bitti, päis { $quant_bits } bitti
+
+engine-realdata-lugre-centre-frequency-metadata-hz-header = keskmine sagedus: metaandmed { $center_freq_hz } Hz, päis { $central_freq_hz } Hz
+
+engine-realdata-lugre-intermediate-frequency-metadata-hz-header = vahesagedus: metaandmed { $translated_freq_hz } Hz, päis { $intermediate_freq_hz } Hz
+
+engine-realdata-lugre-sample-count-metadata-layout-gives = valimite arv: metaandmete paigutus annab { $layout }, päis { $n_samples }
+
+engine-realdata-lugre-header-footer-metadata-bytes-format = päis/jalus: metaandmed { $header_bytes }/{ $footer_bytes } baiti, vorming { $IQS_HEADER_BYTES }/{ $IQS_FOOTER_BYTES }
+
+engine-realdata-lugre-file-length-is-not-header = faili pikkus { $file_len } ei ole päis + { $value } valimibaiti + jalus
+
+engine-realdata-lugre-field-missing = väli { $key } puudub
+
+engine-e-realdata-lugre-field-unreadable = väli { $key } on loetamatu
+
+engine-realdata-lugre-raw-line = RAW rida { $v1 }: { $e }
+
+engine-realdata-lugre-acq-line = ACQ rida { $v1 }: { $e }
+
+engine-realdata-lugre-nav-line = NAV rida { $v1 }: { $e }
+
+engine-e-realdata-lugre-clk-row-unreadable = CLK rida { $v1 }: loetamatu
+
+engine-e-realdata-lugre-clk-row-columns-expected = CLK rida { $v1 }: veerge { $v }, oodatud 3
+
+## src/realdata/yunnan.rs
+
+engine-e-realdata-yunnan-parse-json = JSON-i parsimine: { $e }
+
+engine-e-realdata-yunnan-expected-json-object-at-the = oodatud JSON-objekt ülemisel tasemel
+
+engine-e-realdata-yunnan-missing-recordtime-array = recordTime massiiv puudub
+
+## src/realtime_frame_eop.rs
+
+engine-e-realtime-frame-eop-cannot-read-eop-file = ei saa lugeda EOP faili { $path }: { $e }
+
+engine-e-realtime-frame-eop-latency-must-be-finite-and = latency_s peab olema lõplik ja mittenegatiivne, saadi { $latency_s }
+
+engine-e-realtime-frame-eop-cannot-read-later-vintage-eop = ei saa lugeda hilisema väljalaske EOP faili { $path }: { $e }
+
+engine-realtime-frame-eop-empty-and-deliberately-so-predicted = TÜHI, ja see on tahtlik: ennustatud-versus-lõpliku rea jaoks on vaja väljaandmise epohhi, mille taga on TÄIELIK { $window_days }-päevane sobitusaken, ning avaldatud Bulletin B lõplikku väärtust sihtepohhil. Kehtiv sisend ({ $eop_source }) ei anna ühtegi epohhi, mis vastaks mõlemale. Lühenda `operational_window_days` või anna pikem päris finals2000A rida — tabeli täitmiseks ei valmistata ühtegi rida.
+
+engine-realtime-frame-eop-measured-over-the-real-series = Mõõdetud kehtiva päris rea ({ $eop_source }) põhjal. Iga rida on tõeline ennustusviga: T+h ennustus, mis on moodustatud T hetkel või varem avaldatud kiirete Bulletin A ridade põhjal ja hinnatud HILJEM AVALDATUD Bulletin B lõpliku väärtuse vastu hetkel T+h. Püsivust hinnatakse identsel epohhide hulgal identsete lõplike väärtuste vastu, seega erinevad kaks veergu ennustaja poolest ja mitte millegi muu poolest. `improvement_factor` alla 1 tähendab, et operatiivne ennustaja on sellel horisondil püsivusest HALVEM ja seda ka nii raporteeritakse.
+
+engine-realtime-frame-eop-measured-over-genuine-two-vintage = Mõõdetud tõelise kahe väljalaskega paari põhjal: välja antud väljalase ({ $eop_source }) sisaldab päris Bulletin A ennustusi oma andmepiirist kaugemale ja arhiveeritud hilisem väljalase ({ $c }) sisaldab Bulletin B lõplikke väärtusi, mille need kuupäevad lõpuks said. Selle lõpliku väärtuse vastu hinnatakse kolme ennustust — arhiveeritud Bulletin A ennustus ise, selle crate'i operatiivlaadne sobitus välja antud väljalaske peal ja püsivus andmepiiril.
+
+engine-realtime-frame-eop-empty-and-deliberately-so-later = TÜHI, ja see on tahtlik: esitati hilisem väljalase ({ $c }), kuid ühtegi kuupäeva ei kanta välja antud failis ({ $eop_source }) Bulletin A PREDICTION-ina ja hilisemas failis Bulletin B LÕPLIKU väärtusena üheski nõutud horisondis. Ühtegi rida ei sünteesita.
+
+engine-realtime-frame-eop-empty-and-deliberately-so-scoring = TÜHI, ja see on tahtlik. TÕELISE ARHIVEERITUD ennustuse hindamiseks on vaja sama finals2000A toote kahte väljalaset; sellele käitusele anti üks ({ $eop_source }). Hoidla ei tarni arhiveeritud varasemat väljalaset ja seda EI valmistata olemasoleva väljalaske häirimisel — sünteesitud arhiiv muudaks iga selle tabeli arvu häirimise mõõtmiseks. Tabeli täitmiseks anna päris arhiveeritud hilisem väljalase valiku `eop_finals2000a_later` kaudu. Seni on tõelised ennustatud-versus-lõplikud vead, mida see aruanne sisaldab, väljal `table5_operational_vs_persistence`, kus ennustus on selle crate'i enda ja tõde on hiljem avaldatud Bulletin B lõplik väärtus.
+
+engine-realtime-frame-eop-realtime-frame-eop-table-post = realtime-frame-eop | Table 1: järeltöötlus { $c } m ({ $c2 } ms UT1) ↔ reaalajas { $c3 } m ({ $c4 } ms UT1) | Table 2: lõplik põhi { $floor } ms → { $far }-päevane { $far2 } ms | eelarve kokku { $total_m } m ({ $total_time_ns } ns) | L19 hoovavars + L18 päris andmed (Validated), OD cov (Modelled)
+
+engine-realtime-frame-eop-measured-over-genuine-two-vintage-2 = Mõõdetud tõelise kahe väljalaskega paari põhjal: välja antud faili ({ $eop_source }) Bulletin A ENNUSTATUD UT1 miinus arhiveeritud hilisema väljalaske ({ $c }) lõpuks saadud Bulletin B LÕPLIK väärtus, horisontidel: { $predicted_vs_final }.
+
+engine-realtime-frame-eop-empty-and-deliberately-so-an = TÜHI, ja see on tahtlik: esitati arhiveeritud hilisem väljalase ({ $c }), kuid ühtegi kuupäeva ei kanta välja antud failis ({ $eop_source }) Bulletin A PREDICTION-ina ja hilisemas failis Bulletin B LÕPLIKU väärtusena üheski nõutud horisondis, seega pole ennustatud-versus-lõplikku jääki, mida raporteerida. Ühtegi rida ei sünteesita.
+
+engine-realtime-frame-eop-empty-and-deliberately-so-predicted-2 = TÜHI, ja see on tahtlik: ennustatud-versus-lõpliku jäägi jaoks on vaja sama finals2000A toote KAHTE väljalaset. Sellele käitusele anti üks ({ $eop_source }). Selle Bulletin A ennustusread on tulevaste kuupäevade kohta, millel pole veel Bulletin B lõplikku väärtust, seega pole jääki, mida mõõta, ja siin ei mõelda ühtegi välja. Tabeli täitmiseks anna arhiveeritud hilisem väljalase valiku `eop_finals2000a_later` kaudu. Seni on väljal `table2_error_vs_horizon` raporteeritud mitmepäevane kasv PÜSIVUSE ennustaja, mida hinnatakse päris lõplike väärtuste vastu — päris mõõdetud viga, kuid Modelled ennustaja ja mitte IERS Bulletin A ennustuse jääk.
+
+## src/receiver_trust/assess.rs
+
+engine-e-receiver-trust-assess-vessel-assessment-needs-platform-kind = laeva hindamine vajab [platform] kind = "vessel"
+
+engine-e-receiver-trust-assess-excerpt-is-bytes-the-limit = väljavõte on { $excerpt } baiti; piir on { $MAX_EXCERPT_BYTES }
+
+engine-e-receiver-trust-assess-excerpt-holds-more-than-epochs = väljavõte sisaldab rohkem kui { $MAX_EXCERPT_EPOCHS } epohhi; lühenda seda
+
+engine-e-receiver-trust-assess-the-excerpt-ends-inside-the = väljavõte lõpeb { $calibration_s } s kalibreerimisakna sees (epohhe { $epochs }): midagi ei hinnatud
+
+## src/receiver_trust/calibration.rs
+
+engine-e-receiver-trust-calibration-run-monitors = run_monitors: { $e }
+
+engine-e-receiver-trust-calibration-no-utc-labelled-epoch-in = UBX logis pole ühtegi UTC-märgisega epohhi
+
+engine-e-receiver-trust-calibration-no-scenario-json-under = kataloogis { $root } pole scenario.json
+
+engine-receiver-trust-calibration-b1-held-out-clean-pfa = B1 { $config_field }: kõrvale jäetud puhas Pfa <= { $B1_MAX_PFA } (kalibreeritud: { $r })
+
+## src/receiver_trust/geometry.rs
+
+engine-e-receiver-trust-geometry-geometry-must-be-finite-and = geometry: { $name } peab olema lõplik ja > 0 (saadi { $v })
+
+engine-e-receiver-trust-geometry-geometry-reported-vs-derived-rel = geometry: reported_vs_derived_rel peab olema lõplik ja >= 0 (saadi { $reported_vs_derived_rel })
+
+engine-e-receiver-trust-geometry-geometry-min-used-must-be = geometry: min_used peab olema vähemalt 1
+
+engine-e-receiver-trust-geometry-geometry-low-elev-deg-must = geometry: low_elev_deg peab olema vahemikus [0, 90] (saadi { $low_elev_deg })
+
+engine-e-receiver-trust-geometry-geometry-azimuth-gap-deg-must = geometry: azimuth_gap_deg peab olema vahemikus (0, 360] (saadi { $azimuth_gap_deg })
+
+engine-e-receiver-trust-geometry-geometry-cap-points-must-be = geometry: cap_points peab olema vahemikus [0, 100] (saadi { $cap_points })
+
+engine-e-receiver-trust-geometry-geometry-full-ratio-must-be = geometry: full_ratio peab olema lõplik ja > 1 (saadi { $full_ratio })
+
+engine-e-receiver-trust-geometry-geometry-floor-must-be-in = geometry: floor peab olema vahemikus (0, 100] (saadi { $f })
+
+engine-e-receiver-trust-geometry-geometry-floor-is-below-the = geometry: floor ({ $f }) on alla hinde degraded_min ({ $degraded_min }): ainuüksi geomeetria võiks jõuda ebausaldusväärsesse vahemikku
+
+engine-receiver-trust-geometry-geometry-hdop-pdop-vdop-satellites =
+    geometry { $label }: HDOP { $fmt_dop }, PDOP { $fmt_dop2 }, VDOP { $fmt_dop3 }, { $n_used ->
+        [one] { $n_used } satelliit
+       *[other] { $n_used } satelliiti
+    }{ $v6 }
+
+## src/receiver_trust/geometry.rs
+
+engine-receiver-trust-geometry-the-geometry-deduction-is-classed = { $why }: geomeetria järeldus liigitatakse vastuoluks
+
+engine-receiver-trust-geometry-reported-not-scored-the-geometry = { $why }: teatatud, kuid punkte ei anta (geomeetria ei ole kehv)
+
+engine-receiver-trust-geometry-not-scored-the-score-deducts = punkte ei anta (skoorist arvatakse maha ainult siis, kui HDOP on üle { $hdop_max }, PDOP üle { $pdop_max } või satelliite on alla { $min_used })
+
+engine-receiver-trust-geometry-derived-from-logged-satellites =
+    { $n ->
+        [one] tuletatud { $n } logitud satelliidist
+       *[other] tuletatud { $n } logitud satelliidist
+    }
+
+engine-receiver-trust-geometry-as-the-receiver-reports-it =
+    { $n ->
+        [one] nagu vastuvõtja teatab, kasutusel { $n } satelliit
+       *[other] nagu vastuvõtja teatab, kasutusel { $n } satelliiti
+    }
+
+engine-receiver-trust-geometry-the-stated-hdop-disagrees-with = teatatud HDOP { $fmt_dop } erineb teatatud taevast tuletatud HDOP-ist { $fmt_dop2 } rohkem, kui tolerants lubab
+
+engine-receiver-trust-geometry-satellites-in-view-but-not = taevas nähtavad, kuid jälgimata satelliidid ({ $g } / { $in_view } kõrgusel vähemalt { $low_elev_deg } deg): signaalikeskkond, mitte geomeetria
+
+engine-receiver-trust-geometry-satellites-fewer-than =
+    { $n ->
+        [one] { $n } satelliit, vähem kui { $min_used }
+       *[other] { $n } satelliiti, vähem kui { $min_used }
+    }
+
+engine-receiver-trust-geometry-pdop-above = PDOP { $fmt_dop } üle { $pdop_max }
+
+engine-receiver-trust-geometry-hdop-above = HDOP { $fmt_dop } üle { $hdop_max }
+
+engine-receiver-trust-geometry-satellites-behind-the-stated-skyline = { $m } satelliiti teatatud silmapiirijoone taga
+
+engine-receiver-trust-geometry-every-satellite-in-one-half = kõik satelliidid taeva ühes pooles (vahe { $max_azimuth_gap_deg } deg)
+
+engine-receiver-trust-geometry-degraded-by-geometry-not-an = geomeetria tõttu halvenenud: { $parts } ({ $from }); mitte vastuolu
+
+## src/receiver_trust/ingest.rs
+
+engine-e-receiver-trust-ingest-the-log-holds-no-epochs = logis ei ole ühtegi epohhi: midagi selles ei olnud loetav kui { $name } ({ $skipped_records } kirjet jäeti vahele rikutuna või parsimatuna); vormingu säte tuleb üle kontrollida
+
+engine-receiver-trust-ingest-gps-week-tow = GPS nädal { $week } TOW { $tow } s
+
+engine-receiver-trust-ingest-gps-week-tow-2 = GPS nädal { $w } TOW { $tow } s
+
+engine-receiver-trust-ingest-gps-tow = GPS TOW { $tow } s
+
+engine-receiver-trust-ingest-utc-date-not-in-log = { $v1 }:{ $v2 }:{ $v3 }.{ $v4 } UTC (kuupäev logis puudub)
+
+## src/receiver_trust/live.rs
+
+engine-e-receiver-trust-live-live-must-be-finite-and = live: { $name } peab olema lõplik ja >= 0 (saadi { $v })
+
+engine-e-receiver-trust-live-live-idle-flush-must-be = live: idle_flush_s peab olema suurem kui 0
+
+engine-e-receiver-trust-live-invalid-session = vigane seanss: { $e }
+
+engine-receiver-trust-live-no-score-could-be-produced = skoori ei õnnestunud arvutada: { $msg }
+
+## src/receiver_trust/machines/gnss_sdr.rs
+
+engine-e-receiver-trust-machines-gnss-sdr-no-gnss-sdr-synchro-or = ühtegi GNSS-SDR synchro- ega pvt-kirjet ei saanud lugeda ({ $skipped } rida jäeti vahele); reavormingu kohta vt integrations/gnss-sdr/README.md
+
+engine-receiver-trust-machines-gnss-sdr-gps-tow = GPS TOW { $v1 } s
+
+## src/receiver_trust/machines/imu.rs
+
+engine-e-receiver-trust-machines-imu-the-imu-file-is-empty = IMU fail on tühi
+
+engine-e-receiver-trust-machines-imu-imu-csv-no-column = IMU csv: veerg `{ $n }` puudub
+
+engine-e-receiver-trust-machines-imu-imu-euroc-no-column = IMU euroc: veerg `{ $n }` puudub
+
+engine-e-receiver-trust-machines-imu-the-imu-file-holds-no = IMU fail ei sisalda ühtegi loetavat näidist
+
+## src/receiver_trust/machines/imu_fit.rs
+
+engine-e-receiver-trust-machines-imu-fit-axis-must-be-or = telg peab olema 0, 1 või 2 (x, y, z)
+
+engine-e-receiver-trust-machines-imu-fit-expected-mean-must-be-finite = expected_mean peab olema lõplik
+
+engine-e-receiver-trust-machines-imu-fit-the-log-has-samples-at =
+    { $n ->
+        [one] logis on { $n } näidis; Alani sobitamiseks on vaja vähemalt { $MIN_SAMPLES }
+       *[other] logis on { $n } näidist; Alani sobitamiseks on vaja vähemalt { $MIN_SAMPLES }
+    }
+
+engine-e-receiver-trust-machines-imu-fit-the-log-time-does-not = logi aeg ei edene
+
+engine-e-receiver-trust-machines-imu-fit-the-sample-interval-is-not =
+    { $n ->
+        [one] näidisintervall ei ole ühtlane ({ $n } intervallist erineb { $uneven } üle 25 %): logi tuleb esmalt uuesti diskreetida
+       *[other] näidisintervall ei ole ühtlane ({ $n } intervallist erineb { $uneven } üle 25 %): logi tuleb esmalt uuesti diskreetida
+    }
+
+engine-e-receiver-trust-machines-imu-fit-the-log-is-too-short = logi on Alani kõvera moodustamiseks liiga lühike
+
+engine-receiver-trust-machines-imu-fit-the-curve-early-slope-is = kõvera { $name } algne kalle on { $v }, mitte ligikaudu -0.5: valge müra ei domineeri (kas andur on paigal?), seega selle mürategur on ebausaldusväärne
+
+engine-receiver-trust-machines-imu-fit-the-curve-is-too-short = kõver { $name } on kalde kontrollimiseks liiga lühike
+
+## src/receiver_trust/machines/novatel.rs
+
+engine-receiver-trust-machines-novatel-gps-week-tow = GPS nädal { $week } TOW { $r } s
+
+engine-e-receiver-trust-machines-novatel-no-bestpos-range-or-rxstatus = ühtegi BESTPOS-, RANGE- ega RXSTATUS-logi ei saanud lugeda ({ $skipped } kirjet jäeti vahele)
+
+## src/receiver_trust/machines/rtcm3.rs
+
+engine-receiver-trust-machines-rtcm3-no-valid-rtcm-frame-was = kehtivat RTCM 3 kaadrit ei leitud ({ $skipped } kandidaati ei läbinud CRC-kontrolli)
+
+## src/receiver_trust/maritime.rs
+
+engine-e-receiver-trust-maritime-maritime-must-be-finite-and = maritime: { $name } peab olema lõplik ja > 0 (saadi { $v })
+
+engine-e-receiver-trust-maritime-maritime-kin-limit-guard-must = maritime: kin_limit_guard peab olema vahemikus (0, 1) (saadi { $kin_limit_guard })
+
+engine-e-receiver-trust-maritime-maritime-kin-sog-frac-must = maritime: kin_sog_frac peab olema vahemikus [0, 1] (saadi { $kin_sog_frac })
+
+engine-e-receiver-trust-maritime-maritime-must-be-in-got = maritime: { $name } peab olema vahemikus (0, 1) (saadi { $v })
+
+engine-e-receiver-trust-maritime-maritime-cn0-spread-min-sats = maritime: cn0_spread_min_sats peab olema vähemalt 3
+
+engine-e-receiver-trust-maritime-maritime-kin-window-must-be = maritime: kin_window_s peab olema vähemalt 2 s
+
+## src/receiver_trust/monitors.rs
+
+engine-e-receiver-trust-monitors-monitor-config-unknown-profile-known = monitor config: tundmatu profiil „{ $other }“; teadaolevad: { $threshold_profiles }
+
+engine-e-receiver-trust-monitors-monitor-config-must-be-finite = monitor config: { $name } peab olema lõplik ja > 0 (saadi { $v })
+
+engine-e-receiver-trust-monitors-monitor-config-jam-ind-threshold = monitor config: jam_ind_threshold peab olema lõplik
+
+engine-e-receiver-trust-monitors-monitor-config-mask-deg-must = monitor config: mask_deg peab olema vahemikus [-90, 90) (saadi { $mask_deg })
+
+engine-e-receiver-trust-monitors-monitor-config-raim-pfa-must = monitor config: raim_pfa peab olema vahemikus (0, 1) (saadi { $raim_pfa })
+
+engine-e-receiver-trust-monitors-monitor-config-cn0-min-sats = monitor config: cn0_min_sats peab olema vähemalt 1
+
+engine-e-receiver-trust-monitors-monitor-config-sats-lost-must = monitor config: sats_lost peab olema vähemalt 1
+
+engine-receiver-trust-monitors-the-receiver-own-set-against = vastuvõtja enda { $self_report_source } kogum võrrelduna Kshana monitoritega; kumbki ei ole tegelik tõde, kokkulangevus ei ole valideerimine
+
+engine-e-receiver-trust-monitors-receiver-timeline-has-non-finite = vastuvõtja ajajoonel on mittelõplik epohhi aeg
+
+engine-e-receiver-trust-monitors-the-log-is-shorter-than = logi on kalibreerimisaknast lühem: { $calibration_epochs } epohh(i) enne { $cal_s } s (logi ulatus { $span } s); baastaseme moodustamiseks on vaja vähemalt 3
+
+## src/receiver_trust/platform.rs
+
+engine-e-receiver-trust-platform-platform-must-be-in-got = platform: { $name } peab olema vahemikus ({ $lo }, { $hi }] (saadi { $x })
+
+engine-e-receiver-trust-platform-platform-applies-only-to-kind = platform: { $name } kehtib ainult kind = "vessel" korral (kind on "static")
+
+## src/receiver_trust/scenario.rs
+
+engine-e-receiver-trust-scenario-cannot-read-the-webassembly-build = faili { $path } ei saa lugeda: WebAssembly versioonil puudub failisüsteem; fail tuleb anda otse `text` või `base64` kaudu
+
+engine-e-receiver-trust-scenario-base64-is-not-valid-standard = { $what }: `base64` ei ole kehtiv standardne base64
+
+engine-e-receiver-trust-scenario-give-one-of-path-text = { $what }: tuleb anda üks väljadest `path`, `text` või `base64`
+
+engine-e-receiver-trust-scenario-give-only-one-of-path = { $what }: tuleb anda ainult üks väljadest `path`, `text` või `base64`
+
+engine-e-receiver-trust-scenario-must-be-positive-number-got = { $name } peab olema positiivne arv, saadi { $v }
+
+engine-e-receiver-trust-scenario-event-onset-must-be-non = sündmus { $label }: onset_s peab olema mittenegatiivne arv
+
+engine-e-receiver-trust-scenario-event-end-must-be-after = sündmus { $label }: end_s peab olema hilisem kui onset_s
+
+engine-e-receiver-trust-scenario-log-imu-heading0-deg-and = log.imu: heading0_deg ja time_offset_s peavad olema lõplikud
+
+engine-receiver-trust-scenario-trusted-throughout-no-monitor-alarmed = usaldusväärne kogu aeg: ükski monitor ei andnud häiret { $after_cal } epohhil (epohh(i)) pärast kalibreerimist
+
+engine-receiver-trust-scenario-first-alarm-at-untrusted-for = esimene häire ajal { $t } s; epohhe pärast kalibreerimist { $after_cal }, neist ebausaldusväärne: { $untrusted_epochs }, halvenenud: { $degraded_epochs }
+
+engine-receiver-trust-scenario-of-stated-events-detected-within = ; nimetatud sündmustest tuvastati { $events_detected } / { $events_evaluable } { $detect_tol_s } s jooksul
+
+engine-receiver-trust-scenario-of-n0-predictions-within-db = ; C/N0 ennustusi, mis jäävad { $cn0_tol_db } dB piiresse: { $predictions_agreeing } / { $predictions_evaluable }
+
+engine-receiver-trust-scenario-trust-score-lowest-final = ; usaldusskoor madalaim { $min }, lõplik { $last }
+
+engine-receiver-trust-scenario-scenario-receiver-trust-log-epochs = stsenaarium { $r } | receiver-trust | { $format_name } logi, epohhe: { $epochs }, kestus { $duration_s } s | monitore: { $monitors_run } | { $verdict }
+
+engine-e-receiver-trust-scenario-this-is-scenario-not-receiver = see on { $k } stsenaarium, mitte receiver-trust-stsenaarium
+
+## src/receiver_trust/score.rs
+
+engine-e-receiver-trust-score-score-must-be-finite-got = score: { $name } peab olema lõplik (saadi { $v })
+
+engine-e-receiver-trust-score-score-need-degraded-min-nominal = score: vaja on 0 < degraded_min < nominal_min <= 100 (saadi { $degraded_min } ja { $nominal_min })
+
+engine-e-receiver-trust-score-score-evidence-hold-must-be = score: evidence_hold_s peab olema lõplik ja >= 0 (saadi { $evidence_hold_s })
+
+engine-e-receiver-trust-score-score-need-onset-ratio-full = score: vaja on 0 <= onset_ratio < full_ratio (saadi { $onset_ratio } ja { $full_ratio })
+
+engine-e-receiver-trust-score-score-weight-of-must-be = score: { $m } kaal peab olema vahemikus [0, 100] (saadi { $w })
+
+## src/reentry.rs
+
+engine-e-reentry-entry-velocity-must-be-finite = entry_velocity_m_s peab olema lõplik ja positiivne
+
+engine-e-reentry-flight-path-angle-deg-must = flight_path_angle_deg peab olema vahemikus (0, 90)
+
+engine-e-reentry-ballistic-coeff-kg-m2-must = ballistic_coeff_kg_m2 peab olema lõplik ja positiivne
+
+engine-e-reentry-scale-height-and-rho0-kg = scale_height_m ja rho0_kg_m3 peavad olema lõplikud ja positiivsed
+
+engine-e-reentry-entry-interface-altitude-must-be = entry_interface_altitude_m peab olema vahemikus [10 km, 1000 km]
+
+engine-reentry-reentry-allen-eggers-peak-at = taassisenemine (Allen–Eggers): V_e { $v } m/s, γ { $flight_path_angle_deg }° -> tipp { $v3 } g kõrgusel { $v4 } km, kiirusel { $velocity_at_peak_deceleration } m/s; kuumenemise tipp kiirusel { $velocity_at_peak_heating } m/s; punktmass (gravitatsioon, kõverus, US76) tipp { $peak_deceleration_g } g (MODELLED ballistiline, ilma aerotermilise mudelita)
+
+## src/registry.rs
+
+engine-e-registry-unknown-scenario-id = tundmatu stsenaariumi id: { $id }
+
+## src/representativeness.rs
+
+engine-representativeness-trl-band-is-not-well = TRL riba ({ $lo },{ $hi }) ei ole korrektselt vormistatud (nõutav 0<=lo<=hi<=9)
+
+engine-representativeness-modelled-simulation-only-claim-cannot = Modelleeritud (ainult simulatsioonil põhinev) väide ei saa olla representatiivne TRL { $MODELLED_TRL_CEILING } kohal (riba hi={ $hi }); kõrgem TRL on lünk, mitte simulatsiooni väljund
+
+engine-representativeness-representativeness-representative-for-trl = Representatiivsus [{ $status }] — { $claim } (representatiivne TRL { $lo }-{ $hi } jaoks){ "\u000A" }
+
+## src/resilience/score.rs
+
+engine-resilience-score-declared-mean-source-quality = { $t } = deklareeritud({ $arch }) x allikate keskmine kvaliteet
+
+engine-resilience-score-weakest-rpcf-sub-score-bounded = nõrgim RPCF alamskoor = { $min_sub }; piiratud halvenemine = { $bounded } (piiramata korral piirdub tasemega 2)
+
+## src/rinex.rs
+
+engine-e-rinex-unsupported-navigation-record-header-line = toetamata navigatsioonikirje päis { $head }: '>' märgiga algav rida on RINEX 4 kirje päis, mitte RINEX 3 navigatsioonikirje
+
+engine-e-rinex-bad-prn-in = vigane PRN kirjes { $head }
+
+engine-e-rinex-rinex-navigation-expected-record-header = RINEX 4 navigatsioon: oodati '>' kirjepäist, leiti { $head }
+
+engine-e-rinex-rinex-record-has-lines-ephemeris = RINEX 4 kirje { $head } sisaldab ridu: { $body }, { $msg } efemeriid vajab 8 rida
+
+engine-e-rinex-rinex-record-is-followed-by = RINEX 4 kirjele { $head } järgneb { $body }, mitte { $sv }
+
+## src/rinex_obs.rs
+
+engine-e-rinex-obs-bad = vigane { $what }: { $s }
+
+engine-e-rinex-obs-rinex-observation-file-has-no = RINEX vaatlusfailis puudub END OF HEADER
+
+engine-e-rinex-obs-rinex-observation-file-contained-no = RINEX vaatlusfail ei sisaldanud ühtegi epohhikirjet
+
+## src/scenario.rs
+
+engine-e-scenario-time-step-must-be-finite = time.step_s peab olema lõplik ja > 0 (saadi { $step_s })
+
+engine-e-scenario-time-duration-must-be-finite = time.duration_s peab olema lõplik ja > 0 (saadi { $duration_s })
+
+engine-e-scenario-time-step-must-not-exceed = time.step_s ({ $step_s }) ei tohi ületada time.duration_s ({ $duration_s })
+
+engine-e-scenario-time-grid-too-large-steps =
+    { $n ->
+        [one] ajaruudustik on liiga suur: { $n } samm ületab MAX_TIME_STEPS ({ $MAX_TIME_STEPS }); tuleb kasutada jämedamat sammu või lühemat kestust
+       *[other] ajaruudustik on liiga suur: { $n } sammu ületab MAX_TIME_STEPS ({ $MAX_TIME_STEPS }); tuleb kasutada jämedamat sammu või lühemat kestust
+    }
+
+## src/sdr.rs
+
+engine-sdr-sampling-rate-is-commensurate-with = diskreetimissagedus on koodikiirusega kommensureeruv ({ $samples_per_chip } näidist/chip, { $offset_from_integer_samples } näidist täisarvust): nullastme hoidega koodikoopia ei suuda lahendada koodifaasi muutust, mis on väiksem kui { $dead_band_chips } chip, mistõttu Early/Late diskriminaator on kolmnurga asemel ühenäidise surnud tsooniga astmeline ja DLL stabiliseerub vale nihke juures. Diskreetimissagedus tuleb nihutada täisarvkordsest eemale (5 MHz on 4.8876 näidist/chip; 25 MHz on 24.4379) või diskreetida üle piisavalt, et surnud tsoon jääks vajaliku koodifaasi täpsusest väiksemaks.
+
+## src/sgp4.rs
+
+engine-e-sgp4-sgp4-error-code = SGP4 veakood { $code }
+
+## src/sigmf.rs
+
+engine-e-sigmf-unsupported-sigmf-core-datatype-this = toetamata SigMF core:datatype { $other }: see lugeja käsitleb kompleksseid tüüpe cf32_le, ci16_le ja ci8
+
+engine-e-sigmf-sigmf-core-num-channels-only = SigMF core:num_channels = { $ch }: loetakse ainult ühekanalilisi salvestisi
+
+engine-e-sigmf-cannot-serialise-sigmf-metadata = SigMF metaandmeid ei saa serialiseerida: { $e }
+
+engine-e-sigmf-invalid-sigmf-extension-namespace = vigane SigMF laiendi nimeruum { $ns }
+
+engine-e-sigmf-annotation-extension-maps-for-annotations = annotatsioonilaiendi kaarte: { $annotations }, annotatsioone: { $annotations2 }
+
+engine-e-sigmf-extension-key-is-not-in = laiendi võti { $k } ei kuulu nimeruumi { $ns }
+
+engine-e-sigmf-extension-key-is-already-present = laiendi võti { $k } on juba olemas
+
+engine-e-sigmf-global-is-not-an-object = global ei ole objekt
+
+engine-e-sigmf-annotations-is-not-an-array = annotations ei ole massiiv
+
+engine-e-sigmf-annotation-is-not-an-object = annotation ei ole objekt
+
+engine-e-sigmf-invalid-sigmf-metadata-json = vigane SigMF metaandmete JSON: { $e }
+
+engine-e-sigmf-the-sigmf-recording-states-no = SigMF salvestis ei sea ühtegi positiivset core:sample_rate väärtust
+
+engine-e-sigmf-sigmf-capture-starts-at-sample = SigMF salvestus algab näidisest { $start }, mis jääb kaugemale kui andmetes olevad näidised: { $data }
+
+## src/skyline.rs
+
+engine-e-skyline-skyline-must-be-in-90 = skyline: { $what } peab olema vahemikus [0, 90) kraadi, saadi { $el }
+
+engine-e-skyline-skyline-must-be-finite-number = skyline: { $what } peab olema lõplik arv, saadi { $v }
+
+engine-e-skyline-skyline-canyon-needs-width = skyline: kanjon vajab width_m
+
+engine-e-skyline-skyline-width-must-be-positive = skyline: width_m peab olema positiivne, saadi { $width_m }
+
+engine-e-skyline-skyline-canyon-heights-and-antenna = skyline: kanjoni kõrgused ja antenna_m peavad olema mittenegatiivsed
+
+engine-e-skyline-skyline-length-must-be-positive = skyline: length_m peab olema positiivne, saadi { $l }
+
+engine-e-skyline-skyline-table-is-empty = skyline: tabel on tühi
+
+engine-e-skyline-skyline-table-has-rows-over = skyline: tabelis on ridu: { $rows }, mis ületab piiri { $MAX_TABLE_ROWS } rida
+
+engine-e-skyline-skyline-table-azimuth-is-outside = skyline: tabeli asimuut { $az } jääb vahemikust [0, 360) välja
+
+engine-e-skyline-skyline-table-azimuths-must-be = skyline: tabeli asimuudid peavad rangelt kasvama ({ $az } järgneb väärtusele { $prev })
+
+engine-e-skyline-skyline-more-than-sectors = skyline: rohkem kui { $MAX_SECTORS } sektorit
+
+engine-e-skyline-skyline-the-sector-az-from = skyline: sektor az_from = { $az_from } kuni az_to = { $az_to } on tühi (täisring on tabel või mask)
+
+engine-e-skyline-skyline-more-than-terrain-points = skyline: rohkem kui { $MAX_TABLE_ROWS } maastikupunkti
+
+engine-e-skyline-skyline-terrain-distance-must-be = skyline: maastiku distance_m peab olema positiivne, saadi { $distance_m }
+
+engine-skyline-with-fields-overridden-or-added = { $provenance }; väljad, mida on üle kirjutatud või lisatud: { $user }
+
+engine-skyline-stated-input = Nimetatud sisend: { $user }
+
+engine-e-skyline-unknown-skyline-preset-known-presets = tundmatu silmapiiri eelseadistus „{ $name }“; teadaolevad eelseadistused: { $preset_names }
+
+## src/slot_timing.rs
+
+engine-e-slot-timing-datasheet-needs-at-least-two = andmelehel peab olema vähemalt kaks Alani hälbe punkti
+
+engine-e-slot-timing-datasheet-point-must-have-positive = andmelehe punktil ({ $t }, { $s }) peavad olema positiivne keskmistamisaeg ja positiivne Alani hälve
+
+engine-e-slot-timing-tau0-must-be-positive-number = tau0_s peab olema positiivne sekundite arv
+
+engine-e-slot-timing-phase-record-needs-at-least = müramudeli sobitamiseks on faasiregistris vaja vähemalt 32 näidist; saadi { $phase_s }
+
+engine-e-slot-timing-the-phase-record-contains-non = faasiregister sisaldab mittelõplikku näidist
+
+engine-e-slot-timing-the-phase-record-yields-fewer = faasiregistrist saab vähem kui kolm Alani hälbe punkti
+
+engine-e-slot-timing-must-be-finite-and-non = { $name } peab olema lõplik ja mittenegatiivne; saadi { $v }
+
+engine-e-slot-timing-the-slot-guard-must-be = ajapesa kaitseintervall peab olema positiivne aeg
+
+engine-e-slot-timing-sigma-must-be-positive = k_sigma peab olema positiivne
+
+engine-e-slot-timing-residual-frequency-offset-must-be = residual_frequency_offset peab olema lõplik
+
+engine-e-slot-timing-temperature-excursion-must-be-finite = temperature_excursion_k peab olema lõplik
+
+engine-e-slot-timing-give-exactly-one-of-oscillator = tuleb anda täpselt üks väljadest oscillator.class, oscillator.preset, oscillator.datasheet või oscillator.record
+
+engine-e-slot-timing-unknown-oscillator-class-csac-uso = tundmatu oscillator.class '{ $id }' (csac|uso|dsac|tcxo|ocxo|rafs)
+
+engine-e-slot-timing-unknown-oscillator-preset-ocxo-rubidium = tundmatu oscillator.preset '{ $id }' (ocxo|rubidium|caesium|csac)
+
+engine-slot-timing-class-default-sigma-from-red = klassi { $c } vaikeväärtus: sigma_y(1 s) väärtusest { $c2 }; punase müra põhi on sünteesitud sellest kahe ja nelja dekaadi võrra allapoole (eeldus, mitte mõõtmine)
+
+engine-slot-timing-fitted-to-the-allan-deviation = sobitatud dokumendi { $document } Alani hälbe maksimumidele ja skaleeritud nii, et see asub igal punktil või sellest kõrgemal
+
+engine-slot-timing-fitted-to-the-overlapping-allan =
+    { $n_samples ->
+        [one] sobitatud { $n_samples } näidisest koosneva registri kattuvale Alani hälbele sagedusel { $tau0_s } s IEEE Std 1139 sageduse modulatsiooni baasis
+       *[other] sobitatud { $n_samples } näidisest koosneva registri kattuvale Alani hälbele sagedusel { $tau0_s } s IEEE Std 1139 sageduse modulatsiooni baasis
+    }
+
+engine-slot-timing-slot-timing-source-guard-ns =
+    { $n ->
+        [one] slot-timing ({ $n } allikas): kaitseintervall { $c } ns juures k={ $k_sigma } katkeb { $fmt_s } pärast fiksi (jäänud { $fmt_s2 }); fiks vähemalt iga { $fmt_s3 } järel ({ $fixes_per_day } päevas); domineeriv liige: { $b }{ $v9 }
+       *[other] slot-timing ({ $n } allikat): kaitseintervall { $c } ns juures k={ $k_sigma } katkeb { $fmt_s } pärast fiksi (jäänud { $fmt_s2 }); fiks vähemalt iga { $fmt_s3 } järel ({ $fixes_per_day } päevas); domineeriv liige: { $b }{ $v9 }
+    }
+
+## src/solar_system.rs
+
+engine-e-solar-system-epoch-must-be-yyyy-mm = epohh '{ $s }' peab olema kujul YYYY-MM-DDTHH:MM:SS
+
+engine-solar-system-epoch-bad = epohh '{ $s }': vigane { $what } '{ $v }'
+
+engine-e-solar-system-epoch-jd-tdb-must-be = epoch_jd_tdb peab olema lõplik
+
+engine-e-solar-system-table-must-be-auto-table1 = table peab olema auto, table1 või table2; saadi '{ $v }'
+
+engine-solar-system-no-ephemeris-for-the-to = lingil { $name } – { $name2 } puudub efemeriid ajahetkel JD { $jd_tdb } TDB
+
+engine-e-solar-system-epoch-jd-tdb-is-outside = epohh JD { $jd } TDB jääb väljapoole vahemikku 3000 BC kuni 3000 AD, mis on Standishi tabelite ulatus
+
+engine-e-solar-system-track-points-must-be-to = track_points peab olema 8 kuni 2000; saadi { $n_track }
+
+engine-e-solar-system-unknown-observer-body = tundmatu vaatlejakeha '{ $observer_name }'
+
+engine-e-solar-system-bodies-must-name-at-least = bodies peab nimetama vähemalt ühe keha
+
+engine-e-solar-system-unknown-body = tundmatu keha '{ $n }'
+
+engine-e-solar-system-no-position-for-at-jd = kehal { $name } puudub positsioon ajahetkel JD { $jd } TDB (Pluuto ainult 1800 AD kuni 2050 AD)
+
+engine-e-solar-system-no-standish-elements-for = kehal { $name } puuduvad Standishi elemendid
+
+engine-solar-system-jpl-spk-sha-256-heliocentric = JPL SPK { $k } (SHA-256 { $k2 }), heliotsentriline olek, mille luges mootori oma lugeja
+
+engine-e-solar-system-unknown-link-body = tundmatu lingi keha '{ $from }'
+
+engine-e-solar-system-unknown-link-body-2 = tundmatu lingi keha '{ $to }'
+
+engine-e-solar-system-link-needs-two-different-bodies = link vajab kahte erinevat keha; saadi { $name }
+
+engine-solar-system-solar-system-at-jd-tdb =
+    { $n_bodies ->
+        [one] Päikesesüsteem ajahetkel { $input } (JD { $jd_tdb } TDB), { $n_bodies } keha, vaatleja { $observer }
+       *[other] Päikesesüsteem ajahetkel { $input } (JD { $jd_tdb } TDB), { $n_bodies } keha, vaatleja { $observer }
+    }
+    { "  " }{ $standish_table }{ "\u000A" }
+
+engine-solar-system-light-time = valgusaeg { $one_way_light_time_s } s
+
+engine-solar-system-au-lon-deg = { "  " }{ $name } { $heliocentric_distance_au } au  pikkus { $ecliptic_longitude_deg } deg  { $lt }  [{ $label }]{ "\u000A" }
+
+engine-solar-system-link-one-way-two-way = { "  " }link { $from } -> { $to }: ühesuunaline { $one_way_light_time_s } s, kahesuunaline { $two_way_light_time_s } s, Shapiro { $l } us, Päike { $sun_separation_deg } deg{ "\u000A" }
+
+engine-solar-system-epoch-positions-from-the-standish = epohh { $input } · { $standish_table } · positsioonid Standishi elementidest
+
+## src/sp3.rs
+
+engine-e-sp3-epoch-needs-time-fields-got = epohh vajab 6 ajavälja, saadi { $tokens }
+
+engine-e-sp3-bad-second = vigane sekund: { $tokens }
+
+engine-e-sp3-record-needs-values-missing-column = kirje vajab 4 väärtust, puudub veerg { $v1 }
+
+engine-e-sp3-bad-number = vigane arv: { $field }
+
+engine-e-sp3-empty-sp3-input = tühi SP3 sisend
+
+engine-e-sp3-first-line-is-not-an = esimene rida ei ole SP3 päis: { $first }
+
+engine-e-sp3-unsupported-sp3-version-in = toetamata SP3 versioon real { $first }
+
+engine-e-sp3-missing-epoch-count-on-header = päise real 1 puudub epohhide arv
+
+engine-e-sp3-record-has-no-satellite-id = kirjel puudub satelliidi id: { $line }
+
+engine-e-sp3-position-record-before-any-epoch = positsioonikirje enne ühtegi epohhi päist
+
+engine-e-sp3-sp3-file-contained-no-epoch = SP3 fail ei sisaldanud ühtegi epohhikirjet
+
+engine-e-sp3-bad-accuracy-exponent-in = vigane täpsuse astendaja { $f } real { $line }
+
+engine-e-sp3-bad-header-accuracy = vigane päise täpsus { $t }
+
+engine-e-sp3-short-line = lühike %f rida { $line }
+
+engine-e-sp3-bad-base-in = vigane %f alus real { $line }
+
+## src/space_packet.rs
+
+engine-e-space-packet-version-exceeds-bits = versioon ületab 3 bitti
+
+engine-e-space-packet-apid-exceeds-11-bits-2047 = APID ületab 11 bitti (0..=2047)
+
+engine-e-space-packet-sequence-count-exceeds-14-bits = sequence_count ületab 14 bitti (0..=16383)
+
+engine-e-space-packet-data-field-must-be-at = andmeväli peab olema vähemalt üks oktett
+
+engine-e-space-packet-data-field-exceeds-65536-octets = andmeväli ületab 65536 oktetti
+
+engine-e-space-packet-packet-shorter-than-the-octet = pakett on lühem kui 6-oktetine päis: baite { $bytes }
+
+engine-e-space-packet-declared-data-length-header-octets = deklareeritud andmepikkus { $data_len } (+6 päist) = { $total } oktetti, kuid puhvri suurus on { $bytes }
+
+engine-e-space-packet-cuc-coarse-octets-outside = CUC jämedate oktettide arv { $coarse_octets } jääb väljapoole vahemikku 1..=4
+
+engine-e-space-packet-cuc-fine-octets-outside-the = CUC peente oktettide arv { $fine_octets } jääb väljapoole vahemikku 0..=3 (laiendatud P-välja ei toetata)
+
+engine-e-space-packet-cuc-field-extended-field-not = CUC P-väli { $p }: laiendatud P-välja ei toetata
+
+engine-e-space-packet-field-time-code-id-is = P-väli { $p }: ajakoodi id { $id } ei ole CUC
+
+engine-e-space-packet-field-is-not-cds-field = P-väli { $p } ei ole CDS P-väli
+
+engine-e-space-packet-cds-field-reserved-sub-ms = CDS P-väli { $p }: reserveeritud alam-ms kood 11
+
+engine-e-space-packet-cuc-coarse-does-not-fit = CUC jäme { $coarse } ei mahu { $c } oktetti
+
+engine-e-space-packet-cuc-fine-does-not-fit =
+    { $n ->
+        [one] CUC peen { $fine } ei mahu { $n } oktetit
+       *[other] CUC peen { $fine } ei mahu { $n } oktetti
+    }
+
+engine-e-space-packet-cds-days-do-not-fit = CDS päevad { $days } ei mahu { $f } oktetti
+
+engine-e-space-packet-cds-ms-of-day-above = CDS ms päevas { $ms_of_day } üle 86 400 999
+
+engine-e-space-packet-cds-sub-millisecond-above = CDS alammillisekund { $submillis } ületab väärtust { $max_sub }
+
+engine-e-space-packet-time-code-format-and-value = ajakoodi vorming ja väärtus on erinevatest koodidest
+
+engine-e-space-packet-time-code-no-field-octet = ajakood: P-välja oktett puudub
+
+engine-e-space-packet-time-code-needs-octets-present = ajakood vajab { $end } oktetti, olemas on { $bytes }
+
+engine-e-space-packet-time-code-format-differs-from = ajakoodi vorming erineb implitsiitsest P-väljast
+
+engine-e-space-packet-the-format-has-time-code = vormingul on ajakoodi väli; ühtegi ei antud
+
+engine-e-space-packet-the-format-has-no-time = vormingul puudub ajakoodi väli
+
+engine-e-space-packet-ancillary-data-is-octets-the = lisaandmed on { $ancillary } oktetti; vorming ütleb { $ancillary_octets }
+
+engine-e-space-packet-secondary-header-must-hold-at = sekundaarne päis peab sisaldama vähemalt ühe oktetti
+
+engine-e-space-packet-secondary-header-needs-octets-present = sekundaarne päis vajab { $end } oktetti, olemas on { $bytes }
+
+engine-e-space-packet-the-format-has-secondary-header = vormingul on sekundaarne päis; ühtegi ei antud
+
+engine-e-space-packet-the-format-has-no-secondary = vormingul puudub sekundaarne päis
+
+engine-e-space-packet-secondary-header-flag-disagrees-with = sekundaarse päise lipp { $v1 } ei ühti vorminguga
+
+engine-e-space-packet-data-field-shorter-than-the = andmeväli on PEC-ist lühem
+
+## src/space_packet.rs
+
+engine-e-space-packet-pec-does-not-match-the = PEC { $v1 } ei ühti paketi CRC-ga { $crc16_ccitt_false }
+
+engine-e-space-packet-nothing-to-segment-empty-user = segmenteerida pole midagi: kasutajaandmed on tühjad
+
+engine-e-space-packet-max-user-octets-must-be = max_user_octets peab olema vähemalt 1
+
+engine-e-space-packet-first-count-exceeds-14-bits = first_count ületab 14 bitti (0..=16383)
+
+engine-space-packet-apid-where-was-expected = APID { $apid } seal, kus oodati { $a }
+
+engine-space-packet-sequence-count-repeated = järjenumbri loendur { $sequence_count } kordub
+
+engine-space-packet-sequence-count-gap-after-packet = järjenumbri loenduri lünk: { $sequence_count } pärast { $last } ({ $v2 } pakett(i) puudub)
+
+engine-space-packet-sequence-count-out-of-order = järjenumbri loendur on vales järjekorras: { $sequence_count } pärast { $last }
+
+engine-space-packet-packet-with-no-unit-open = { $f } pakett, kuid ühtegi üksust pole avatud
+
+engine-space-packet-packet-while-unit-is-open = { $f } pakett, kui üksus on avatud
+
+engine-e-space-packet-packet = pakett { $i }: { $e }
+
+engine-e-space-packet-the-sequence-ends-with-unit = jada lõpeb endiselt avatud üksusega (viimane pakett puudub)
+
+engine-e-space-packet-apid-must-be-in-2047 = apid peab olema vahemikus 0..=2047
+
+engine-e-space-packet-packet-count-must-be = packet_count peab olema >= 1
+
+engine-e-space-packet-data-len-must-be-in = data_len peab olema vahemikus 1..=65536
+
+engine-e-space-packet-internal-error-encode-decode-round = sisemine viga: kodeerimise ja dekodeerimise ringkäik ei ühti
+
+engine-space-packet-space-packet-framed-ccsds-133 =
+    { $packet_count ->
+        [one] space-packet: kaadriks koostatud { $packet_count } CCSDS-133.0 { $v2 } pakett APID { $apid }, kokku { $total_bytes } oktetti, ringkäik täpne ({ $round_trip_ok })
+       *[other] space-packet: kaadriks koostatud { $packet_count } CCSDS-133.0 { $v2 } paketti APID { $apid }, kokku { $total_bytes } oktetti, ringkäik täpne ({ $round_trip_ok })
+    }
+
+## src/space_weather.rs
+
+engine-e-space-weather-f107-must-be-finite-and = f107 peab olema lõplik ja positiivne
+
+engine-e-space-weather-f107a-must-be-finite-and = f107a peab olema lõplik ja positiivne
+
+engine-e-space-weather-kp-must-be-in = kp peab olema vahemikus [0, 9]
+
+engine-e-space-weather-altitudes-km-must-be-non = altitudes_km ei tohi olla tühi
+
+engine-e-space-weather-altitude-km-must-be-finite = kõrgus { $h } km peab olema lõplik ja positiivne
+
+engine-space-weather-space-weather-f10-f10-7a = space-weather: F10.7={ $f107 } F10.7a={ $f107a } Kp={ $kp } (ap={ $sw }) -> T_inf={ $t_inf } K; tihedus x{ $density_activity_factor } kõrgusel { $value } km (MODELLED)
+
+## src/spectrum.rs
+
+engine-e-spectrum-jammer-needs-positive-bandwidth-mhz = { $name }: { $what } segaja vajab positiivset bandwidth_mhz
+
+engine-e-spectrum-chirp-jammer-needs-positive-sweep = { $name }: chirp-segaja vajab positiivset sweep_period_us
+
+engine-e-spectrum-matched-to-names-unknown-band = { $name }: matched_to nimetab tundmatu riba { $target }
+
+engine-e-spectrum-give-either-received-power-dbw = { $name }: tuleb anda kas received_power_dbw või eirp_dbw koos positiivse range_m-ga (mitte mõlemad)
+
+engine-e-spectrum-off-must-be-later-than = { $name }: off_s peab olema hilisem kui on_s
+
+engine-e-spectrum-welch-the-sample-rate-must = welch: diskreetimissagedus peab olema positiivne
+
+engine-e-spectrum-welch-nfft-must-be-power = welch: nfft = { $nfft } peab olema kahe aste, vähemalt 8
+
+engine-e-spectrum-welch-samples-is-fewer-than = welch: { $x } näidist on vähem kui üks { $nfft }-punktiline segment
+
+engine-e-spectrum-iq-must-be-power-of = iq: n = { $n } peab olema kahe aste, vähemalt 16
+
+engine-e-spectrum-cannot-read-recording-meta-path = salvestise meta_path { $meta_path } ei saa lugeda: { $e }
+
+engine-e-spectrum-cannot-read-recording-data = salvestise andmeid { $data_path } ei saa lugeda: { $e }
+
+engine-e-spectrum-rx-bandwidth-mhz-must-be = { $name }: rx_bandwidth_mhz peab olema positiivne
+
+engine-e-spectrum-modulation-is-not-selectable-only = { $n }: modulation { $m } ei ole valitav (ainult galileo-e1 võtab väärtused "mboc" või "boc11")
+
+engine-e-spectrum-signal-is-not-in-the = { $name }: signaal { $sig } puudub signaalide eelseadistuste teegis ({ $v2 })
+
+engine-e-spectrum-preset-signal-carries-its-own = { $name }: eelseadistatud signaal kannab oma modulatsiooni; `modulation` tuleb ära jätta
+
+engine-e-spectrum-signal-publishes-no-received-power = { $name }: signaal { $sig } ei avalda vastuvõetud võimsust; tuleb anda signal_power_dbw
+
+engine-e-spectrum-custom-band-needs-modulation-bpsk = { $name }: kohandatud riba vajab `modulation`, nt "BPSK(10)"
+
+engine-e-spectrum-custom-band-needs-signal-power = { $name }: kohandatud riba vajab signal_power_dbw
+
+engine-e-spectrum-give-either-signal-or-centre = { $name }: tuleb anda kas `signal` või `centre_mhz`, mitte mõlemad
+
+engine-e-spectrum-give-rx-bandwidth-mhz-no = { $name }: tuleb anda rx_bandwidth_mhz (peasagarat ei õnnestunud leida)
+
+engine-e-spectrum-duration-must-be-at-least = duration_s peab olema vähemalt üks step_s
+
+engine-e-spectrum-time-rows-is-more-than = { $rows } ajarida on rohkem kui lubatud 5000
+
+engine-e-spectrum-at-most-extra-panels = lisapaneele võib olla kuni 8
+
+engine-e-spectrum-panel-need-max-mhz-min = paneel { $name }: vaja on f_max_mhz > f_min_mhz ja 2 ≤ n_freq ≤ 4096
+
+engine-e-spectrum-grid-need-max-mhz-min = ruudustik: vaja on f_max_mhz > f_min_mhz ja 2 ≤ n_freq ≤ 4096
+
+engine-spectrum-scenario-spectrum-bands-jammers-noise = stsenaarium spectrum | ribasid: { $bands } | segajaid: { $jammers } | müratase { $n0_db } dBW/Hz | halvim riba { $name } min C/N0 { $c } dB-Hz{ $v6 }
+
+engine-spectrum-scenario-spectrum-no-bands-noise = stsenaarium spectrum | ribasid pole | müratase { $n0_db } dBW/Hz
+
+engine-e-spectrum-iq-log2-samples-must-be = iq.log2_samples peab olema vahemikus 10 kuni 20
+
+engine-e-spectrum-iq-datatype-use-cf32-le = iq.datatype: kasutada cf32_le või ci16_le
+
+engine-spectrum-frequency-across-time-down-colour = sagedus risti, aeg alla, värv = võimsusspektri tihedus (dBW/Hz); müratase { $n0_db } dBW/Hz
+
+engine-spectrum-each-panel-its-own-frequency = igal paneelil oma sagedusvahemik, üks ajatelg alla, üks värviskaala (dBW/Hz); müratase { $n0_db } dBW/Hz
+
+## src/spk_writer.rs
+
+engine-e-spk-writer-frame-has-no-supported-naif = kaadril { $other } puudub toetatud NAIF-kood
+
+engine-e-spk-writer-segment-name-longer-than-40 = segmendi nimi on pikem kui 40 tähemärki: { $name }
+
+engine-e-spk-writer-segment-name-has-non-printing = segmendi nimi sisaldab mittetrükitavaid märke: { $name }
+
+engine-e-spk-writer-bad-target-for-centre = vigane siht { $target } tsentri { $centre } jaoks
+
+engine-e-spk-writer-degree-outside-27 = aste { $degree } jääb väljapoole vahemikku 1..=27
+
+engine-e-spk-writer-type-13-degree-is-not = tüüp 13 aste { $degree } ei ole paaritu
+
+engine-e-spk-writer-states-for-epochs =
+    { $n ->
+        [one] { $states } olekut { $n } epohhi kohta
+       *[other] { $states } olekut { $n } epohhi kohta
+    }
+
+engine-e-spk-writer-states-degree-needs =
+    { $n ->
+        [one] { $n } olek; aste { $degree } vajab { $value }
+       *[other] { $n } olekut; aste { $degree } vajab { $value }
+    }
+
+engine-e-spk-writer-descriptor-start-is-not-before = deskriptori algus ei eelne selle lõpule
+
+engine-e-spk-writer-epochs-are-not-strictly-increasing = epohhid ei kasva rangelt
+
+engine-e-spk-writer-the-epochs-do-not-cover = epohhid ei kata deskriptori intervalli
+
+engine-e-spk-writer-type-or-13-segment-carries = tüüp 9 või 13 segment kannab olekuid, mitte kirjeid
+
+engine-e-spk-writer-type-segment-needs-at-least = tüüp 3 segment vajab vähemalt ühte kirjet
+
+engine-e-spk-writer-type-degree-outside-27 = tüüp 3 aste { $degree } jääb väljapoole vahemikku 0..=27
+
+engine-e-spk-writer-type-interval-length-is-not = tüüp 3 intervalli pikkus { $intlen } ei ole positiivne
+
+engine-e-spk-writer-type-record-has-coefficients-expected = tüüp 3 kirjel { $i } on kordajaid: { $value }, oodati { $ncof }
+
+engine-e-spk-writer-descriptor-start-is-after-its = deskriptori algus on pärast selle lõppu
+
+engine-e-spk-writer-descriptor-starts-before-the-first = deskriptor algab enne esimest kirjet
+
+engine-e-spk-writer-descriptor-ends-after-the-last = deskriptor lõpeb pärast viimast kirjet
+
+engine-e-spk-writer-type-segment-carries-records-not = tüüp 3 segment kannab kirjeid, mitte epohhe ega olekuid
+
+engine-e-spk-writer-type-21-segment-needs-at = tüüp 21 segment vajab vähemalt ühte diferentsirida
+
+engine-e-spk-writer-difference-line-size-is-not = diferentsirea suurus { $dlsize } ei ole 4 MAXDIM + 11, kus MAXDIM on vahemikus 15..=25
+
+engine-e-spk-writer-difference-lines-of-different-sizes = erineva suurusega diferentsiread
+
+engine-e-spk-writer-epochs-for-difference-lines =
+    { $n ->
+        [one] { $epochs } epohhi { $n } diferentsirea kohta
+       *[other] { $epochs } epohhi { $n } diferentsirea kohta
+    }
+
+engine-e-spk-writer-difference-line-epochs-are-not = diferentsirea epohhid ei kasva rangelt
+
+engine-e-spk-writer-the-last-difference-line-ends = viimane diferentsirida lõpeb enne deskriptorit
+
+engine-e-spk-writer-zero-step-size-in-difference = nullsammu suurus { $j } diferentsireas { $i }
+
+engine-e-spk-writer-type-21-segment-carries-difference = tüüp 21 segment kannab diferentsiridu, mitte olekuid
+
+engine-e-spk-writer-an-spk-needs-at-least = SPK vajab vähemalt ühte segmenti
+
+engine-e-spk-writer-segment = segment { $i }: { $e }
+
+engine-e-spk-writer-comment-line-has-non-printing = kommentaarirea sisaldab mittetrükitavaid märke: { $l }
+
+engine-e-spk-writer-comments-need-characters-are-reserved = kommentaarid vajavad { $nchars } märki; { $v1 } on reserveeritud (ncomch tuleb suurendada)
+
+engine-e-spk-writer-difference-line-orders-out-of = diferentsirea järgud { $kqmax1 } { $kq } on vahemikust väljas
+
+engine-e-spk-writer-zero-step-size-at-index = nullsammu suurus indeksil { $j }
+
+engine-e-spk-writer-et-outside-the-segment = ET { $et } jääb segmendist [{ $start }, { $end }] välja
+
+engine-e-spk-writer-type-segment-too-short = tüüp 3 segment { $name } on liiga lühike
+
+engine-e-spk-writer-type-segment-words-for-rsize = tüüp 3 segment { $name }: { $nw } sõna, kui N = { $n }, RSIZE = { $rsize }
+
+engine-e-spk-writer-type-21-segment-too-short = tüüp 21 segment { $name } on liiga lühike
+
+engine-e-spk-writer-type-21-segment-words-for = tüüp 21 segment { $name }: { $nw } sõna, kui N = { $n }, MAXDIM = { $maxdim }
+
+engine-e-spk-writer-segment-too-short = segment { $name } on liiga lühike
+
+engine-e-spk-writer-segment-words-for = segment { $name }: { $nw } sõna, kui N = { $n }
+
+engine-e-spk-writer-segment-is-in-frame = segment { $name } on kaadris { $frame }
+
+engine-e-spk-writer-spk-centre-chain-does-not = SPK tsentriahel ei lõpe
+
+engine-e-spk-writer-no-spk-chain-connects-and = ükski SPK ahel ei ühenda { $target } ja { $observer } ajahetkel ET { $et }
+
+engine-e-spk-writer-epoch-is-not-yyyy-mm = epohh { $s } ei ole kujul YYYY-MM-DDTHH:MM:SS
+
+engine-e-spk-writer-time-system-not-supported-utc = ajasüsteem { $other } ei ole toetatud (UTC või TDB)
+
+engine-e-spk-writer-centre-has-no-supported-naif = tsentril { $other } puudub toetatud NAIF id
+
+engine-e-spk-writer-oem-segment-has-no-data = OEM segmendis { $name } ei ole andmeridu
+
+engine-e-spk-writer-oem-segment-no = OEM segment { $idx }: puudub { $k }
+
+engine-e-spk-writer-no-export-settings-for-oem = OEM segmendi { $idx } jaoks ei ole ekspordisätteid
+
+engine-e-spk-writer-oem-data-line-has-fields = OEM andmereal on väljade arv { $f }: { $line }
+
+engine-e-spk-writer-oem-value = OEM väärtus { $f }: { $e }
+
+engine-e-spk-writer-oem-segments-for-export-settings = OEM segmente: { $out }, ekspordisätteid: { $exports }
+
+## src/spoof_detect.rs
+
+engine-spoof-detect-spoof-detected-fused-layers = SPOOF DETECTED (liidetud) — kihid: { $fired }
+
+engine-spoof-detect-single-layer-indication-below-the = ühekihiline viide ({ $fired }) jääb liidetud läve alla — vajalik on kinnitus
+
+## src/srp_boxwing.rs
+
+engine-e-srp-boxwing-mass-kg-must-be-positive = mass_kg peab olema positiivne, saadi { $mass_kg }
+
+engine-e-srp-boxwing-panel-area-must-be = paneel { $i }: pind peab olema >= 0
+
+engine-e-srp-boxwing-panel-outside = paneel { $i }: { $name } = { $c } jääb väljapoole vahemikku [0, 1]
+
+engine-e-srp-boxwing-panel-absorption-specular-diffuse = paneel { $i }: absorptsioon + peegelpeegeldus + hajuspeegeldus = { $sum } != 1
+
+engine-e-srp-boxwing-panel-zero-normal-axis = paneel { $i }: normaal ja telg on null
+
+engine-e-srp-boxwing-ecom2-normal-matrix-is-singular = ECOM2 normaalmaatriks on singulaarne või halvasti tingitud
+
+## src/ssv/check.rs
+
+engine-e-ssv-check-heo-preset = heo eelseadistus
+
+engine-e-ssv-check-lunar-preset = kuu eelseadistus
+
+## src/ssv/formation.rs
+
+engine-e-ssv-formation-formation-needs-at-least-one = moodustis vajab vähemalt ühte abisatelliiti
+
+engine-e-ssv-formation-duration-min-and-step-must = duration_min ja step_s peavad olema positiivsed
+
+## src/ssv/nav.rs
+
+engine-e-ssv-nav-no-signals-for-the-chosen = valitud konstellatsioonidele ja ribadele ei ole signaale
+
+## src/ssv/scenario.rs
+
+engine-e-ssv-scenario-unknown-antenna = tundmatu antenn `{ $other }`
+
+engine-e-ssv-scenario-pattern-csv-is-empty = mustri CSV on tühi
+
+engine-e-ssv-scenario-is-not-number-in-the = `{ $s }` ei ole mustri CSV-s arv
+
+engine-e-ssv-scenario-pattern-csv-row-has-columns = mustri CSV rida `{ $l }` sisaldab veerge: { $f }, oodati { $azimuths }
+
+engine-e-ssv-scenario-transmit-pattern-table-needs-exactly = transmit.pattern = "table" vajab täpselt ühte väljadest pattern_csv ja pattern_text
+
+engine-e-ssv-scenario-transmit-pattern-is-not-booklet = transmit.pattern `{ $other }` ei ole booklet, parametric ega table
+
+engine-e-ssv-scenario-receiver-give-cn0-min-dbhz = receiver: tuleb anda cn0_min_dbhz või weak_signal, mitte mõlemad
+
+engine-e-ssv-scenario-the-carrier-loop-cannot-hold = kandelaine silmus ei suuda hoida nimetatud Doppleri kiirust üheski C/N0 juures
+
+engine-e-ssv-scenario-receiver-apply-is-not-acquisition = receiver.apply `{ $other }` ei ole acquisition, tracking ega both
+
+engine-e-ssv-scenario-receiver-cn0-min-dbhz-must = receiver.cn0_min_dbhz peab olema lõplik
+
+engine-e-ssv-scenario-navigation-give-exactly-one-of = navigation: tuleb anda täpselt üks väljadest preset ja orbit
+
+engine-e-ssv-scenario-navigation-preset-is-not-leo = navigation.preset `{ $p }` ei ole leo, meo, geo, heo ega lunar-transfer
+
+engine-e-ssv-scenario-navigation-give-exactly-one-of-2 = navigation: tuleb anda täpselt üks väljadest duration_min ja duration_periods
+
+engine-e-ssv-scenario-navigation-must-be-positive = navigation.{ $name } peab olema positiivne
+
+engine-e-ssv-scenario-formation-offsets-deg-needs-to = formation.offsets_deg vajab 1 kuni 8 lõplikku nihet
+
+engine-e-ssv-scenario-formation-rel-accel-psd-must = formation.rel_accel_psd ei tohi olla negatiivne
+
+engine-e-ssv-scenario-give-exactly-one-of-shell = tuleb anda täpselt üks väljadest [shell], [trajectory] ja [navigation]
+
+engine-e-ssv-scenario-formation-needs-navigation-table-for = { "[" }formation] vajab peasatelliidi jaoks tabelit [navigation]
+
+engine-e-ssv-scenario-constellations-include-and-constellations-bands = constellations.include ja constellations.bands ei tohi olla tühjad
+
+engine-e-ssv-scenario-shell-altitude-km-must-be = shell.altitude_km peab olema üle 100
+
+engine-e-ssv-scenario-shell-grid-levels-above-is = shell.grid_levels üle 5 ei ole toetatud
+
+engine-e-ssv-scenario-shell-antenna-must-be-hemisphere = shell.antenna peab olema hemisphere või omni
+
+engine-e-ssv-scenario-the-shell-sweep-supports-the = shell-pühkimine toetab ainult booklet-edastusmustrit (kujundatud muster vajab trajectory-pühkimist)
+
+engine-e-ssv-scenario-atmosphere-applies-to-trajectory-not = { "[" }atmosphere] kehtib tabelile [trajectory], mitte tabelile [shell]
+
+engine-e-ssv-scenario-trajectory-give-exactly-one-of = trajectory: tuleb anda täpselt üks väljadest preset ja orbit
+
+engine-e-ssv-scenario-trajectory-preset-is-not-leo = trajectory.preset `{ $p }` ei ole leo, meo, geo, heo ega lunar-transfer
+
+engine-e-ssv-scenario-unknown-preset = tundmatu eelseadistus
+
+engine-ssv-scenario-gnss-ssv-shell-km = gnss-ssv kest { $altitude_km } km: { $parts }
+
+engine-ssv-scenario-gnss-ssv-navigation-position-rms = gnss-ssv navigatsioon: asukoha RMS kokku { $p }, GNSS-i orbiitide sees { $p2 }, nendest kõrgemal { $p3 }; pikim vahe { $longest_gap_min } min
+
+engine-ssv-scenario-deputy-at-deg-km-relative = abisatelliit nurgal { $offset_deg } deg ({ $baseline_km } km): suhteline RMS { $rel_rms_filter_m } m filtreeritult vs { $rel_rms_from_absolute_m } m absoluutsetest fiksidest
+
+engine-ssv-scenario-combined-max-outage-min = { $band } kombineeritud 1+ { $at_least_1_pct }% 4+ { $at_least_4_pct }% (suurim katkestus { $max_outage_1_min } min)
+
+engine-ssv-scenario-gnss-ssv-trajectory-to-km = gnss-ssv trajektoor { $perigee_alt_km } kuni { $apogee_alt_km } km kõrgus: { $parts }
+
+## src/ssv/sweep.rs
+
+engine-e-ssv-sweep-duration-min-and-step-min = duration_min ja step_min peavad olema positiivsed
+
+## src/ssv/weak.rs
+
+engine-e-ssv-weak-receiver-must-be-positive-number = receiver.{ $n } peab olema positiivne arv, saadi { $v }
+
+## src/standards_pack.rs
+
+engine-e-standards-pack-no-standards-pack-named-the = standardipakett nimega `{ $id }` puudub; paketid on: { $ids }
+
+engine-e-standards-pack-pack-manifest = paketi manifest: { $e }
+
+engine-e-standards-pack-test-duplicate-id = test { $id }: dubleeritud id
+
+engine-e-standards-pack-test-scenario-is-not-in = test { $id }: stsenaarium `{ $s }` ei kuulu paketti
+
+engine-e-standards-pack-test-scored-test-needs-bar = test { $id }: hinnatav test vajab läve
+
+engine-e-standards-pack-test-test-that-needs-input = test { $id }: test, mis vajab sisendit, ei sisalda lävesid
+
+engine-e-standards-pack-test-give-either-scenario-or = test { $id }: tuleb anda kas `scenario` või `needs_input`, mitte mõlemad ega mitte kumbagi
+
+engine-e-standards-pack-test-supports-unknown-row = test { $id }: toetab tundmatut rida `{ $r }`
+
+engine-e-standards-pack-test-unknown-op = test { $id }: tundmatu op `{ $op }`
+
+engine-e-standards-pack-test-bar-on-needs-exactly = test { $id }: lävi väärtusel { $pointer } vajab täpselt ühte väljadest `value` ja `against`
+
+engine-e-standards-pack-row-duplicate-id = rida { $id }: dubleeritud id
+
+engine-e-standards-pack-row-asks-must-be-short = rida { $id }: `asks` peab olema lühike parafraas
+
+engine-e-standards-pack-row-no-test-supports-it = rida { $id }: ükski test seda ei toeta
+
+engine-standards-pack-not-scored-needs-input = hindamata: vajab sisendit ({ $n })
+
+## src/study.rs
+
+engine-e-study-study-has-no-scenarios-to = uuringus pole käivitatavaid stsenaariume
+
+engine-e-study-cannot-read-scenario = stsenaariumi { $path } ei saa lugeda: { $e }
+
+engine-e-study-scenario-failed = stsenaarium { $path } ebaõnnestus: { $e }
+
+engine-e-study-scenario-produced-unparseable-json = stsenaarium { $path } andis parsimatu JSON-i: { $e }
+
+## src/suite.rs
+
+engine-e-suite-invalid-suite-manifest = vigane komplekti manifest: { $e }
+
+## src/surface.rs
+
+engine-e-surface-unknown-source-use-adsb-or = tundmatu allikas `{ $o }`: kasutada `adsb` või `ais`
+
+engine-e-surface-is-bytes-over-the-byte = { $what }: baite { $len }, üle piiri { $limit } baiti
+
+engine-e-surface-log-start-utc-is-not = log_start_utc `{ $log_start_utc }` ei ole ISO-8601 UTC aeg
+
+engine-e-surface-invalid-receiver-trust-session = vigane receiver-trust seanss: { $e }
+
+engine-e-surface-log-start-utc-is-not-2 = log_start_utc `{ $t }` ei ole ISO-8601 UTC aeg
+
+engine-e-surface-dataset-custom-needs-licence-licence = andmekogum `custom` vajab väljasid licence, licence_url ja attribution
+
+engine-e-surface-at-least-one-map-is = vajalik on vähemalt üks kaart
+
+engine-e-surface-epoch = epohh: { $e }
+
+engine-e-surface-not-utf = { $suffix }: ei ole UTF-8
+
+engine-e-surface-unknown-scenario-kind-the-kind = tundmatu stsenaariumi liik `{ $k }`; liikide loend nimetab kõik liigid
+
+engine-surface-is-not-bundled-it = `{ $name }` ei ole komplekteeritud: see { $why }
+
+engine-surface-no-bundled-scenario-named-the = komplekteeritud stsenaariumi nimega `{ $name }` ei ole; näidete loend nimetab olemasolevad: { $v1 }
+
+engine-e-surface-invalid-toml = vigane TOML: { $e }
+
+engine-e-surface-unknown-export-format-expected-one = tundmatu ekspordivorming `{ $format }`; oodati ühte väärtustest czml, kml, geojson, stk või sigmf
+
+engine-e-surface-duration-fps-gives-frames-and = duration_s x fps annab { $opts } kaadrit, kuid tagastatakse kuni { $MAX_ANIMATION_FRAMES }; fps-i või duration_s tuleb vähendada või pikem jada käsureaga kirjutada
+
+engine-e-surface-scenario-run-failed = stsenaariumi käivitamine ebaõnnestus: { $e }
+
+engine-e-surface-runs-log-names-file-path = runs[{ $i }].log nimetab faili `path`; log tuleb anda kujul `text` või `base64` (see liides ei loe faile)
+
+engine-e-surface-max-sp-errors-must-be = max_sp_errors võib olla kuni 20
+
+engine-e-surface-frames-must-be-to = frames peab olema 1 kuni { $MAX_AFS_FRAMES }
+
+engine-e-surface-toi0-must-be-to-99 = toi0 peab olema 0 kuni 99
+
+engine-e-surface-runs-given-at-most-per = käivitusi antud: { $runs }; ühes aruandes kuni { $MAX_COMPLIANCE_RUNS }
+
+engine-e-surface-the-runs-total-bytes-the = käivituste kogumaht baitides: { $total }; ühe aruande piir on { $max_bytes }
+
+engine-e-surface-result-files-given-at-most = tulemusfaile antud: { $results }, kuni 256
+
+engine-e-surface-result-is-not-json = tulemus { $v1 } ei ole JSON: { $e }
+
+engine-e-surface-unknown-format-use-prometheus-cef = tundmatu vorming `{ $o }`: kasutada `prometheus`, `cef`, `leef`, `otlp` või `mqtt`
+
+engine-e-surface-unknown-imu-format-use-csv = tundmatu IMU vorming `{ $o }`: kasutada `csv` või `euroc`
+
+engine-e-surface-unknown-axis-use-or = tundmatu telg `{ $o }`: kasutada `x`, `y` või `z`
+
+engine-e-surface-id-must-be-to-64 = id peab olema 1 kuni 64 trükitavat ASCII märki ilma tühikuteta
+
+engine-surface-fitted-from-stationary-imu-log = sobitatud statsionaarse IMU logi põhjal, sha256 { $sha }, telg { $axis }, Alani hinnang
+
+engine-e-surface-unknown-input-kind-use-result = tundmatu input_kind `{ $o }`: kasutada `result` või `jsonl`
+
+engine-e-surface-the-input-holds-no-trust = sisend ei sisalda ühtegi usaldusepohhi
+
+engine-e-surface-the-reply-is-over-the = vastus ületab piiri { $max_bytes } baiti; tuleb saata vähem epohhe või jätta `syslog_all` välja lülitatuks
+
+engine-e-surface-otlp-needs-build-with-the = otlp vajab ehitust funktsiooniga `otlp`
+
+engine-e-surface-the-pack-and-token-total = paketi ja märgendi kogumaht on { $total } baiti; piir on { $max_bytes }
+
+engine-e-surface-the-timestamp-token-is-empty = ajatempli märgend on tühi
+
+engine-e-surface-must-be-64-lower-case = { $what } peab olema 64 väiketähelist kuueteistkümnendnumbrit
+
+engine-e-surface-must-be-32-bytes = { $what } peab olema 32 baiti
+
+engine-surface-verified-against-the-public-key = VERIFIED esitatud avaliku võtme vastu (allkirjastaja sõrmejälg { $fp }).
+
+engine-surface-intact-but-the-signer-is = INTACT, BUT THE SIGNER IS NOT PINNED: räsid ja allkiri on kooskõlas võtmega { $fp }, mille pakett ise nimetab. Selleks et tuvastada, kes allkirjastas, tuleb esitada allkirjastaja avalik võti, mis on saadud allkirjastajalt muud teed pidi.
+
+engine-e-surface-files-must-be-json-object = files peab olema nime ja sisu JSON-objekt
+
+engine-e-surface-pack-has-at-most-64 = paketis võib olla kuni 64 faili
+
+engine-e-surface-file-name-must-be-plain = failinimi `{ $k }` peab olema lihtnimi
+
+engine-e-surface-base64-is-not-valid-standard = { $k }: `base64` ei ole kehtiv standardne base64
+
+## src/sweep.rs
+
+engine-e-sweep-unknown-sweep-parameter = tundmatu pühkimisparameeter: { $other }
+
+engine-e-sweep-unknown-sweep-metric = tundmatu pühkimismeetrika: { $other }
+
+engine-e-sweep-nd-sweep-needs-at-least = nd_sweep vajab vähemalt ühte telge
+
+engine-e-sweep-sweep-key-is-malformed = pühkimisvõti `{ $key }` on vigane
+
+engine-e-sweep-sweep-key-follows-an-array = pühkimisvõti `{ $key }`: `{ $part }` järgneb massiivile, seega peab olema indeks
+
+engine-e-sweep-unreachable = kättesaamatu
+
+engine-e-sweep-sweep-key-index-is-past =
+    { $n ->
+        [one] pühkimisvõti `{ $key }`: indeks { $i } jääb massiivi { $n } kirjest kaugemale
+       *[other] pühkimisvõti `{ $key }`: indeks { $i } jääb massiivi { $n } kirjest kaugemale
+    }
+
+engine-e-sweep-sweep-key-parent-is-not = pühkimisvõti `{ $key }`: `{ $part }` vanem ei ole tabel
+
+engine-e-sweep-sweep-key-no-field = pühkimisvõti `{ $key }`: välja `{ $part }` ei ole
+
+engine-e-sweep-sweep-key-parent-of-is = pühkimisvõti `{ $key }`: `{ $last }` vanem ei ole tabel
+
+engine-e-sweep-sweep-key-no-field-2 = pühkimisvõti `{ $key }`: välja `{ $last }` ei ole
+
+engine-e-sweep-metric-no-field-in-result = meetrika `{ $path }`: tulemuses puudub väli `{ $part }`
+
+engine-e-sweep-metric-value-is-not-number = meetrika `{ $path }`: väärtus ei ole arv
+
+engine-e-sweep-sweep-node-serialize = pühkimissõlme serialiseerimine: { $e }
+
+engine-e-sweep-sweep-node-result-parse = pühkimissõlme tulemuse parsimine: { $e }
+
+engine-e-sweep-sweep-axis-declared-unit-but = pühkimistelg `{ $key }`: deklareeritud ühik `{ $d }`, kuid pühitud pakett avaldab `{ $p }`
+
+engine-e-sweep-sweep-worker-thread-panicked = pühkimise töölõim jooksis kokku
+
+engine-e-sweep-generic-sweep-needs-at-least = üldine pühkimine vajab vähemalt ühte telge
+
+engine-e-sweep-generic-sweep-needs-at-least-2 = üldine pühkimine vajab vähemalt ühte meetrikat
+
+engine-e-sweep-generic-sweep-base-must-carry = üldise pühkimise `base` peab kandma oma `kind`
+
+engine-e-sweep-generic-sweep-cannot-sweep-another = üldine pühkimine ei saa pühkida teist pühkimist
+
+## src/telecom_timing.rs
+
+engine-e-telecom-timing-unknown-oscillator-expected-one-of = tundmatu ostsillaator { $oscillator }; oodati ühte väärtustest { $presets }
+
+engine-e-telecom-timing-aging-per-day-and-temperature = aging_per_day ja temperature_coeff_per_k peavad olema lõplikud
+
+engine-e-telecom-timing-sample-interval-must-be-finite = sample_interval_s peab olema lõplik ja positiivne
+
+engine-e-telecom-timing-duration-must-be-finite-and = duration_s peab olema lõplik ja vähemalt kaheteistkümne näidise pikkune
+
+engine-e-telecom-timing-gnss-loss-must-lie-in = gnss_loss_s peab asuma vahemikus [0, duration_s)
+
+engine-e-telecom-timing-locked-te-sigma-ns-must = locked_te_sigma_ns peab olema lõplik ja >= 0
+
+engine-e-telecom-timing-temperature-and-frequency-offset-inputs = temperatuuri ja sagedusnihke sisendid peavad olema lõplikud (periood > 0)
+
+engine-e-telecom-timing-the-record-would-exceed-000 = register ületaks 5 000 000 näidist; sample_interval_s tuleb suurendada
+
+engine-e-telecom-timing-time-error-series-needs-at = ajaveasari vajab vähemalt 13 näidist, saadi { $pairs }
+
+engine-e-telecom-timing-every-time-and-time-error = iga time_s ja time_error_ns peab olema lõplik
+
+engine-e-telecom-timing-time-must-increase = time_s peab kasvama
+
+engine-e-telecom-timing-the-series-must-be-uniformly = sari peab olema ühtlaselt diskreteeritud: samm { $v1 } on { $d } s, esimene on { $dt } s
+
+engine-e-telecom-timing-csv-line-is-not-time = CSV rida { $v1 } ei ole `time_s,time_error_ns`
+
+## src/telecom_timing.rs
+
+engine-telecom-timing-the-mask-is-defined-through = mask on defineeritud 0.1 Hz madalpääsfiltri kaudu, mida see mootor rakendab ainult valimiintervallidel { $MAX_FILTER_DT_S } s või vähem; see register on diskreeritud iga { $dt_s } s järel
+
+engine-e-telecom-timing-give-either-holdover-or-series = tuleb anda kas [holdover] või [series], mitte mõlemad
+
+engine-e-telecom-timing-give-either-series-samples-or = tuleb anda kas series.samples või series.csv_path, mitte mõlemad
+
+engine-e-telecom-timing-locked-duration-days-must-be = locked_duration_days peab olema lõplik ja >= 0
+
+engine-telecom-timing-ns-budget-exceeded-after = ; { $max_abs_te_ns } ns eelarve ületati pärast { $t } s
+
+engine-telecom-timing-ns-budget-never-exceeded = ; { $max_abs_te_ns } ns eelarvet ei ületatud kunagi
+
+engine-telecom-timing-telecom-timing-max-te-ns = telecom-timing: max|TE| { $max_abs } ns { $v2 } s jooksul; { $masks }{ $first_budget } (MODELLED)
+
+## src/telemetry/cli.rs
+
+engine-e-telemetry-cli-unknown-format-cef-or-leef = tundmatu --format `{ $f }` (cef või leef)
+
+engine-e-telemetry-cli-unknown-option = tundmatu valik `{ $x }`
+
+engine-e-telemetry-cli-input-and-result-are-alternatives = --input ja --result on teineteist välistavad
+
+engine-e-telemetry-cli-listen-no-address = --listen { $l }: aadress puudub
+
+engine-telemetry-cli-warning-metrics-is-served-without = hoiatus: /metrics on aadressil { $addr } avatud ilma autentimiseta; siduda tuleb localhost-iga või panna see oma juurdepääsukontrolli taha
+
+engine-e-telemetry-cli-bind = sidumine { $addr }: { $e }
+
+engine-telemetry-cli-serving-http-metrics = teenindab http://{ $bound }/metrics
+
+engine-e-telemetry-cli-syslog-udp-and-syslog-tcp = --syslog-udp ja --syslog-tcp on teineteist välistavad
+
+engine-e-telemetry-cli-syslog-octet-counting-applies-to = --syslog-octet-counting kehtib valiku --syslog-tcp kohta
+
+engine-e-telemetry-cli-topic-part-must-be-non = { $name }: teemaosa ei tohi olla tühi, ei tohi sisaldada #, + ega alguses olevat /
+
+engine-e-telemetry-cli-otlp-needs-build-with-features = --otlp vajab ehitust valikuga `--features otlp`
+
+engine-telemetry-cli-warning-input-line = hoiatus: sisendrida { $line_no }: { $e }
+
+engine-e-telemetry-cli-cannot-open = ei saa avada { $p }: { $e }
+
+engine-telemetry-cli-warning-mqtt-messages-were-not =
+    { $n ->
+        [one] hoiatus: { $n } MQTT sõnum ei toimetatud kohale
+       *[other] hoiatus: { $n } MQTT sõnumit ei toimetatud kohale
+    }
+
+## src/telemetry/otlp.rs
+
+engine-e-telemetry-otlp-endpoint-must-start-with-http = lõpp-punkt peab algama väärtusega http://
+
+engine-e-telemetry-otlp-endpoint-has-no-host = lõpp-punktil puudub host
+
+engine-e-telemetry-otlp-resolve = lahendamine { $hostport }: { $e }
+
+engine-telemetry-otlp-no-address-for = { $hostport } jaoks puudub aadress
+
+engine-telemetry-otlp-warning-otlp-export-failed = hoiatus: otlp eksport ebaõnnestus: { $e }
+
+## src/telemetry/sample.rs
+
+engine-e-telemetry-sample-not-json = ei ole JSON: { $e }
+
+engine-e-telemetry-sample-not-json-object = ei ole JSON-objekt
+
+engine-e-telemetry-sample-is-not-number = `{ $k }` ei ole arv
+
+engine-e-telemetry-sample-is-not-finite = `{ $k }` ei ole lõplik
+
+engine-e-telemetry-sample-missing = `t_s` puudub
+
+engine-e-telemetry-sample-score-outside-100 = `score` { $s } jääb väljapoole vahemikku 0..=100
+
+engine-e-telemetry-sample-missing-state = `state` puudub
+
+engine-e-telemetry-sample-is-not-an-array = `{ $key }` ei ole massiiv
+
+engine-e-telemetry-sample-entry-has-no-name = `{ $key }` kirjel puudub nimi
+
+engine-e-telemetry-sample-position-is-missing-or-not = `position.{ $k }` puudub või ei ole lõplik arv
+
+engine-e-telemetry-sample-position-is-not-an-object = `position` ei ole objekt ega null
+
+engine-e-telemetry-sample-geometry-status-is-missing-or = `geometry.status` puudub või ei ole string
+
+engine-e-telemetry-sample-geometry-is-not-finite-number = `geometry.{ $k }` ei ole lõplik arv >= 0
+
+engine-e-telemetry-sample-geometry-label-is-not-string = `geometry.label` ei ole string
+
+engine-e-telemetry-sample-geometry-signal-loss-is-not = `geometry.signal_loss` ei ole tõeväärtus
+
+engine-e-telemetry-sample-geometry-is-not-an-object = `geometry` ei ole objekt ega null
+
+engine-e-telemetry-sample-result-has-no-epochs = tulemusel puudub `epochs`
+
+engine-e-telemetry-sample-bad-epochs = vigane `epochs`: { $e }
+
+## src/telemetry/syslog.rs
+
+engine-e-telemetry-syslog-host-is-bytes-syslog-host = host: baite { $host }; syslog hosti nimi on kuni 255
+
+engine-e-telemetry-syslog-host-must-be-printable-ascii = host peab olema trükitav ASCII ilma tühikuteta
+
+## src/test_support.rs
+
+engine-test-support-vs-not-representable-as-f64 = { "  " }{ $path }: { $g } vs { $w } (ei ole esitatav kui f64)
+
+engine-test-support-present-expected-absent = { "  " }{ $path }.{ $k }: olemas, oodati puudumist
+
+engine-test-support-absent-expected-present = { "  " }{ $path }.{ $k }: puudub, oodati olemasolu
+
+## src/time_transfer_budget.rs
+
+engine-e-time-transfer-budget-must-be-finite = { $name }: { $n } peab olema lõplik
+
+engine-e-time-transfer-budget-slant-tec-tecu-must-be = { $name }: slant_tec_tecu peab olema lõplik ja mittenegatiivne
+
+engine-e-time-transfer-budget-line-not-mjd-ns = { $p }: rida { $v1 }: ei ole MJD,ns
+
+engine-e-time-transfer-budget-no-ar-records-for = { $p }: koodi { $code } jaoks puuduvad AR-kirjed
+
+engine-e-time-transfer-budget-unknown-series-format-circular-mjd = tundmatu seeria vorming { $f } (circular-t, mjd-csv, rinex-clock)
+
+engine-e-time-transfer-budget-must-be-finite-2 = { $n } peab olema lõplik
+
+engine-e-time-transfer-budget-span-days-step-must-give = span_days / step_s peab andma 16 kuni 20000 mõõtmist
+
+engine-time-transfer-budget-time-transfer-budget-offset-ns = time-transfer-budget: { $name } - { $name2 } nihe { $ns } ns (Sagnac { $ns2 } ns, ionosfäär { $ns3 } ns); kombineeritud u { $ns4 } ns (tüüp A { $ns5 } ns juures { $averaging_s } s); { $series } tegelik seeria (MODELLED)
+
+## src/tle.rs
+
+engine-e-tle-non-ascii-characters-in-tle = mitte-ASCII märgid TLE-s { $label }: { $line }
+
+engine-e-tle-tle-truncated-reading-columns = TLE katkes { $what } lugemisel (veerud { $v1 }..{ $z })
+
+engine-e-tle-tle-too-short-for-column = TLE { $label } on veeru 69 kontrollsumma jaoks liiga lühike
+
+engine-e-tle-tle-has-no-checksum-digit = TLE { $label } real puudub veerus 69 kontrollsumma number
+
+engine-e-tle-tle-checksum-mismatch-column-69 = TLE { $label } kontrollsumma ei ühti: veerg 69 ütleb { $want }, arvutatud { $got }
+
+engine-e-tle-not-tle-line = ei ole TLE rida 1: { $line1 }
+
+engine-e-tle-not-tle-line-2 = ei ole TLE rida 2: { $line2 }
+
+engine-e-tle-invalid-in-tle = vigane { $what } TLE-s: { $s }
+
+engine-e-tle-invalid-epoch-year-in-tle = vigane epohhi aasta TLE-s: { $col }
+
+engine-e-tle-invalid-catalogue-number-in-tle = vigane katalooginumber TLE-s: { $col }
+
+engine-e-tle-inclination-out-of-range-180 = kalle väljaspool vahemikku [0, 180] deg: { $inclination_deg }
+
+engine-e-tle-eccentricity-out-of-range = ekstsentrilisus väljaspool vahemikku [0, 1): { $eccentricity }
+
+engine-e-tle-non-positive-mean-motion = mittepositiivne keskmine liikumine: { $mean_motion_rev_day }
+
+engine-e-tle-invalid-mantissa-in-tle = vigane { $what } mantiss TLE-s: { $mant }
+
+engine-e-tle-invalid-exponent-in-tle = vigane { $what } astendaja TLE-s: { $exp }
+
+engine-tle-satellite-line-only-element-set = satelliit { $satnum }: ainult rea 2 elemendikomplekt parsiti analüütiliste Kepleri (kahe keha) elementidena — rea 1 takistus/B* ja SGP4 sekulaarsed liikmed puuduvad, mistõttu see orbiit triivib epohhist eemal tõelisest SGP4 sobitusest; SGP4 täpsuse saamiseks tuleb esitada vastav rida 1
+
+## src/tracking_loop.rs
+
+engine-e-tracking-loop-tracking-loop-the-n0-profile = tracking-loop: C/N0 profiil vajab positiivset epohhi ja kestust
+
+engine-e-tracking-loop-tracking-loop-the-n0-profile-2 = tracking-loop: C/N0 profiil vajaks rohkem kui { $MAX_DETECTOR_STEPS } detektorisammu ({ $total } s, kui epohhi pikkus on { $epoch_s } s); ramp_duration_s tuleb lühendada või predetection_integration_s pikendada
+
+engine-e-tracking-loop-tracking-loop-must-be-finite = tracking-loop: { $name } peab olema lõplik
+
+engine-e-tracking-loop-tracking-loop-must-be-positive = tracking-loop: { $name } peab olema positiivne (saadi { $v })
+
+engine-e-tracking-loop-tracking-loop-correlator-spacing-chips = tracking-loop: correlator_spacing_chips peab olema alla 1.9 chip (saadi { $correlator_spacing_chips })
+
+engine-e-tracking-loop-tracking-loop-pullin-bandwidth-ratio = tracking-loop: pullin_bandwidth_ratio peab olema vähemalt 1 (saadi { $pullin_bandwidth_ratio }) — silmus, mis haaratakse uuesti KITSAMA ribalaiusega kui see, millega ta jälgib, pööraks hüstereesi ümber
+
+engine-e-tracking-loop-tracking-loop-ramp-duration-must = tracking-loop: ramp_duration_s ei tohi olla negatiivne
+
+engine-e-tracking-loop-tracking-loop-cn0-low-dbhz = tracking-loop: cn0_low_dbhz ({ $cn0_low_dbhz }) ei tohi ületada cn0_high_dbhz ({ $cn0_high_dbhz })
+
+engine-e-tracking-loop-tracking-loop-must-not-be = tracking-loop: { $name } ei tohi olla tühi
+
+engine-e-tracking-loop-tracking-loop-has-entries-the = tracking-loop: { $name } sisaldab kirjeid: { $axis }; ülempiir on { $MAX_AXIS_LEN }
+
+engine-e-tracking-loop-tracking-loop-holds-non-finite = tracking-loop: { $name } sisaldab mittelõplikku väärtust
+
+engine-e-tracking-loop-tracking-loop-the-confirmation-dwells = tracking-loop: kinnitusviiteajad peavad olema vähemalt 1 epohh
+
+## src/twstft_budget.rs
+
+engine-e-twstft-budget-at-least-eight-samples-are = vaja on vähemalt kaheksat näidist
+
+engine-e-twstft-budget-samples-must-increase-in-time = näidised peavad ajas kasvama
+
+engine-e-twstft-budget-samples-must-be-on-regular = näidised peavad asuma korrapärasel ruudustikul
+
+## src/verification.rs
+
+engine-verification-rows-externally-validated-modelled-partner = { "\u000A" }Ridu kokku: { $total }; väliselt kinnitatud { $validated }, modelleeritud { $modelled }, partneri vastutusel { $partner_owned }.{ "\u000A" }
+
+engine-verification-the-complete-machine-checked-evidence = Täielik, masinkontrollitud tõendite register (ledger): **ridu: { $total } — { $validated } VALIDATED, { $modelled } MODELLED, { $partner_owned } PARTNER**. Rida võib olla VALIDATED ainult sõltumatu välise oraakli (sõltumatu etalon) korral (maatriksi invariantide testid jõustavad seda). Samad andmed, koos klõpsatavate ridakaupa linkidega igale testile, moodulile ja sissekantud fikstuurile, on *Valideerimisregister (Validation ledger)* aadressil https://kshana.dev. Miks ükski modelleeritud rida ei ole väliselt kinnitatud, vt [MODELLED-RATIONALE.md](MODELLED-RATIONALE.md).{ "\u000A\u000A" }
+
+engine-verification-capabilities-labelled-modelled = { "\u000A" }Võimekusi märgisega MODELLED: { $modelled }.{ "\u000A" }
+
+## src/wasm.rs
+
+engine-wasm-files-json-is-not-json = files_json ei ole JSON: { $e }
+
+engine-wasm-runs-json-is-not-json = runs_json ei ole JSON: { $e }
+
+engine-wasm-runs-needs-label = runs[{ $i }] vajab `label`
+
+engine-wasm-runs-needs-result = runs[{ $i }] vajab `result`
+
+engine-wasm-results-json-is-not-json = results_json ei ole stringide JSON-massiiv: { $e }
+
+engine-wasm-maps-json-must-be-json = maps_json peab olema stringide JSON-massiiv: { $e }
+
+engine-wasm-plans-json-is-not-json = plans_json ei ole stringide JSON-massiiv: { $e }
+
+engine-wasm-options-json-is-not-json = options_json ei ole JSON: { $e }
+
+engine-wasm-input-is-about-bytes-over = sisend on umbes { $b64 } baiti, üle piiri { $v2 } baiti
