@@ -249,6 +249,256 @@ engine-advanced-report-input-file = Input file { $path }
 
 engine-advanced-report-study-generated = { " " }Study generated { $esc }.
 
+engine-advanced-report-eyebrow = Kshana run report
+
+engine-advanced-report-meta = Kind <code>{ $kind }</code> · engine { $engine } · scenario <code>{ $scenario }</code> (file digest { $digest }…)
+
+engine-advanced-report-toc-summary = 1 Summary
+
+engine-advanced-report-toc-inputs = 2 Inputs
+
+engine-advanced-report-toc-results = 3 Results
+
+engine-advanced-report-toc-aggregation = 3a Aggregation
+
+engine-advanced-report-toc-companions = 3b Animation and exports
+
+engine-advanced-report-toc-events = 4 Events
+
+engine-advanced-report-toc-labels = 5 Verification labels
+
+engine-advanced-report-toc-not-modelled = 6 Not modelled
+
+engine-advanced-report-toc-reproducibility = 7 Reproducibility
+
+engine-advanced-report-h-summary = 1. Executive summary
+
+engine-advanced-report-honesty-label = <strong>Honesty label</strong> ({ $source }): { $label }
+
+engine-advanced-report-capabilities-used = <strong>Capabilities used:</strong> { $n_validated } VALIDATED, { $n_modelled } MODELLED, { $n_partner } PARTNER (relied on, not provided); see section 5.
+
+engine-advanced-report-member-runs = <strong>Member runs:</strong> { $n }, aggregated in section 3a.
+
+engine-advanced-report-h-inputs = 2. Inputs
+
+engine-advanced-report-inputs-note = Every field the scenario file sets, flattened to its path. Units come from the result's <code>units</code> block (the field-units schema, docs/field-units-schema.json) where it describes the field, otherwise from the field-name suffix; a unit neither states is shown as not stated.
+
+engine-advanced-report-th-parameter = Parameter
+
+engine-advanced-report-th-value = Value
+
+engine-advanced-report-th-unit = Unit
+
+engine-advanced-report-th-unit-source = Unit source
+
+engine-advanced-report-h-results = 3. Results
+
+engine-advanced-report-chart-alt = Result chart
+
+engine-advanced-report-also-written-to = { " " }(also written to { $file })
+
+engine-advanced-report-h-scalars = Scalar results
+
+engine-advanced-report-h-columns = Numeric columns
+
+engine-advanced-report-th-result = Result
+
+engine-advanced-report-th-column = Column
+
+engine-advanced-report-th-count = Count
+
+engine-advanced-report-th-min = Min
+
+engine-advanced-report-th-max = Max
+
+engine-advanced-report-th-first = First
+
+engine-advanced-report-th-last = Last
+
+engine-advanced-report-omitted-inputs = <p class="note">{ $n } further inputs are left out of this page; report.json lists the same rows, and the result document carries every value.</p>{ "\u000A" }
+
+engine-advanced-report-omitted-scalars = <p class="note">{ $n } further scalar results are left out of this page; report.json lists the same rows, and the result document carries every value.</p>{ "\u000A" }
+
+engine-advanced-report-omitted-columns = <p class="note">{ $n } further numeric columns are left out of this page; report.json lists the same rows, and the result document carries every value.</p>{ "\u000A" }
+
+engine-advanced-report-omitted-events = <p class="note">{ $n } further events are left out of this page; report.json lists the same rows, and the result document carries every value.</p>{ "\u000A" }
+
+engine-advanced-report-h-aggregation = 3a. Aggregation of member runs
+
+engine-advanced-report-mode = <p>Mode <strong>{ $mode }</strong>.</p>{ "\u000A" }
+
+engine-advanced-report-mode-kind = <p>Mode <strong>{ $mode }</strong> over the <code>{ $kind }</code> kind.</p>{ "\u000A" }
+
+engine-advanced-report-mode-runs = <p>Mode <strong>{ $mode }</strong>, { $n_runs } member runs.</p>{ "\u000A" }
+
+engine-advanced-report-mode-kind-runs = <p>Mode <strong>{ $mode }</strong> over the <code>{ $kind }</code> kind, { $n_runs } member runs.</p>{ "\u000A" }
+
+engine-advanced-report-run-digest = Run digest (SHA-256 over the member result digests, in dispatch order): <code>{ $digest }</code>
+
+engine-advanced-report-table-empty = This table has no rows: the result lists none.
+
+engine-advanced-report-distribution-caption = Monte Carlo distribution of { $metric } ({ $n } samples), 20 equal-width bins; dashed lines mark the 5th, 50th and 95th percentiles.
+
+engine-advanced-report-distribution-caption-unit = Monte Carlo distribution of { $metric } ({ $n } samples, { $unit }), 20 equal-width bins; dashed lines mark the 5th, 50th and 95th percentiles.
+
+engine-advanced-report-h-companions = 3b. Animation and exports
+
+engine-advanced-report-animation-alt = Animation of the run's time series
+
+engine-advanced-report-animation-caption = The run's own samples drawing in behind a moving time cursor (the animated drawing of <code>--animate svg</code>; it shows the finished picture under reduced motion and in print).
+
+engine-advanced-report-no-animation = No animation: { $reason }
+
+engine-advanced-report-no-animation-default = the result carries no time series
+
+engine-advanced-report-player-written-by = The interactive player is written by <code>{ $command }</code>.
+
+engine-advanced-report-written-beside = Written beside this report: { $links }.
+
+engine-advanced-report-th-export = Export
+
+engine-advanced-report-th-applies = Applies
+
+engine-advanced-report-th-files-or-reason = Files or reason
+
+engine-advanced-report-written-by = written by <code>{ $command }</code>
+
+engine-advanced-report-does-not-apply = does not apply
+
+engine-advanced-report-yes = yes
+
+engine-advanced-report-no = no
+
+engine-advanced-report-h-events = 4. Events timeline
+
+engine-advanced-report-events-caption = Windows as bars, point events as dots, on the run's own time axis.
+
+engine-advanced-report-th-start = Start (s)
+
+engine-advanced-report-th-end = End (s)
+
+engine-advanced-report-th-event = Event
+
+engine-advanced-report-th-source = Source
+
+engine-advanced-report-point-event = point event
+
+engine-advanced-report-events-timeline = Events timeline
+
+engine-advanced-report-point-events = point events ({ $n })
+
+engine-advanced-report-distribution-of = Distribution of { $metric }
+
+engine-advanced-report-max-bin = max bin { $n }
+
+engine-advanced-report-h-labels = 5. Verification labels
+
+engine-advanced-report-th-capability = Capability (matrix requirement)
+
+engine-advanced-report-th-label = Label
+
+engine-advanced-report-th-used-by = Used by
+
+engine-advanced-report-th-oracle = Source: oracle
+
+engine-advanced-report-th-test-evidence = Test evidence
+
+engine-advanced-report-h-figure-tiers = Per-figure tiers stated by the result
+
+engine-advanced-report-th-figure = Figure
+
+engine-advanced-report-th-tier = Tier
+
+engine-advanced-report-th-matrix-requirement = Matrix requirement
+
+engine-advanced-report-th-applicable = Applicable
+
+engine-advanced-report-no-attack = no (no attack configured)
+
+engine-advanced-report-h-not-modelled = 6. Not modelled, and assumptions
+
+engine-advanced-report-not-modelled-note = Each item is quoted from where it is stated: the result document, the kind catalogue, the scenario file, or the verification matrix's reason a MODELLED row stays modelled.
+
+engine-advanced-report-th-statement = Statement
+
+engine-advanced-report-h-reproducibility = 7. Reproducibility record
+
+engine-advanced-report-rk-command = Command to reproduce
+
+engine-advanced-report-rk-working-directory = Working directory
+
+engine-advanced-report-rk-engine-version = Engine version
+
+engine-advanced-report-rk-source-commit = Source commit
+
+engine-advanced-report-rk-scenario-file = Scenario file
+
+engine-advanced-report-rk-scenario-sha = Scenario file SHA-256 (Secure Hash Algorithm 256-bit)
+
+engine-advanced-report-rk-result-hash = Result scenario_hash
+
+engine-advanced-report-rk-result-sha = Result document SHA-256
+
+engine-advanced-report-rk-seed = Seed
+
+engine-advanced-report-rk-platform = Platform
+
+engine-advanced-report-rk-generated = Study generated (UTC)
+
+engine-advanced-report-rk-determinism = Determinism
+
+engine-advanced-report-result-hash-none = the result document states none
+
+engine-advanced-report-print-note = To print this page to a Portable Document Format (PDF) file, use the browser's print dialog and choose “Save as PDF”; the print stylesheet fits A4 and US Letter paper, repeats table headers across pages and starts the inputs, results, labels and reproducibility sections on a new page. The engine writes no PDF itself. report.json carries the same content as this page.
+
+engine-advanced-report-footer = Generated by Kshana { $engine }.{ $stamp } Reproducible from scenario + seed + engine version. Free and open source (GNU Affero General Public License, AGPL-3.0) — <a href="https://github.com/AshfordeOU/kshana">source &amp; docs</a>.
+
+engine-advanced-report-empty-inputs = The scenario sets no field beyond `kind`: the kind ran its reference configuration from its documented defaults.
+
+engine-advanced-report-empty-scalars = The result document carries no scalar outside its arrays; its numbers are summarised by column below.
+
+engine-advanced-report-empty-series = The result document carries no numeric array: every result is a scalar in the table above.
+
+engine-advanced-report-empty-events = No timed event: the scenario scripts no window or onset time and the result reports no event. The kind evaluates its configuration as one case.
+
+engine-advanced-report-empty-not-modelled = Nothing in the result, the kind catalogue, the scenario or the matrix rows used states a modelling limitation for this run.
+
+engine-advanced-report-capabilities-statement = Each row is a verification-matrix row this run's kinds exercise, with the label and the oracle the matrix gives it (src/verification.rs, docs/VERIFICATION-MATRIX.md). A label grades the capability as the matrix records it; it does not grade this scenario's configuration, and a VALIDATED row does not make the run's inputs measured. A PARTNER row is a discipline the run relies on that Kshana does not provide.
+
+engine-advanced-report-no-run-label = The result carries no run-level honesty label; the verification labels of the capabilities it used are listed in their own section, and the per-figure tiers where the result states them.
+
+engine-advanced-report-no-seed = Neither the scenario nor the result carries a seed. The result is fixed by the scenario file and the engine build alone; the determinism test re-runs every bundled scenario and requires byte-identical output.
+
+engine-advanced-report-working-directory = Run the command from the directory the original run was started in: the scenario path, and any relative data path inside the scenario, resolve against it. Check the scenario file against scenario_sha256 first.
+
+engine-advanced-report-determinism-stamped = Same scenario bytes, seed and engine build give the same result document, except its meta.generated_utc stamp, which --study-name writes from the clock; run without --study-name for byte-identical output. Floating-point results are pinned per platform; another operating system or architecture may differ in the last digits.
+
+engine-advanced-report-determinism-plain = Same scenario bytes, seed and engine build give a byte-identical result document and report; this report carries no timestamp. Floating-point results are pinned per platform; another operating system or architecture may differ in the last digits.
+
+engine-advanced-report-not-applicable-no-attack = not applicable (no attack configured)
+
+engine-advanced-report-what-ran-default = A `{ $kind }` scenario.
+
+engine-advanced-report-nothing-carried = nothing carried
+
+engine-advanced-report-tbl-sweep-nodes = Sweep nodes
+
+engine-advanced-report-tbl-mc-summary = Monte Carlo distribution summary (percentiles are nearest-rank; the 95% confidence interval on the mean is a fixed-seed percentile bootstrap)
+
+engine-advanced-report-tbl-chain-phases = Chain phases
+
+engine-advanced-report-tbl-shared = Shared conditions
+
+engine-advanced-report-tbl-members = Members
+
+engine-advanced-report-tbl-combined = Combined across members
+
+engine-advanced-report-tbl-optimiser-best = Optimiser best (a local optimum over the stated bounds)
+
+engine-advanced-report-tbl-optimiser-trace = Optimiser trace
+
+engine-advanced-report-tbl-sweep-grid = Sweep grid
+
 ## src/altpnt/maps.rs
 
 engine-e-altpnt-maps-emag2-line-expected-comma-separated = EMAG2 line { $v1 }: expected 8 comma-separated columns, found { $p }
