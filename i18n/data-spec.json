@@ -1,15 +1,78 @@
 {
-  "note": "JSON files whose strings a person reads. Every string value that reads as prose (two words or more, letters) becomes one message dat-<sha12 of the English string> in i18n/en/data.ftl, except values under the skipped keys. Object keys, identifiers, commands, urls and numbers are never messages. tools/i18n.mjs data writes the catalogue; apply writes <lang>/<file> with the translated strings; the pages load <lang>/<file> when it exists (lib/t.mjs fetchData).",
-  "skipKeys": ["id", "file", "url", "href", "path", "command", "pinned", "verify", "toml", "json", "csv", "svg", "kind", "scenario", "slug", "key", "generated_from", "repo_blob_base", "head", "_comment", "match", "parity", "docs_url", "registry_url", "version", "name_id"],
+  "note": "JSON files whose strings a person reads. Every string value that reads as prose (two words or more, letters) becomes one message dat-<sha12 of the English string> in i18n/en/data.ftl, except values under the skipped keys. Object keys, identifiers, commands, urls and numbers are never messages. tools/i18n.mjs data writes the catalogue; apply writes <lang>/<file> with the translated strings; the pages load <lang>/<file> when it exists (lib/t.mjs fetchData). A file marked module is `export default <JSON>;`, handled the same way.",
+  "skipKeys": [
+    "id",
+    "file",
+    "url",
+    "href",
+    "path",
+    "command",
+    "pinned",
+    "verify",
+    "toml",
+    "json",
+    "csv",
+    "svg",
+    "kind",
+    "scenario",
+    "slug",
+    "key",
+    "generated_from",
+    "repo_blob_base",
+    "head",
+    "_comment",
+    "match",
+    "parity",
+    "docs_url",
+    "registry_url",
+    "version",
+    "name_id"
+  ],
   "files": [
-    { "file": "data/verification-matrix.json" },
-    { "file": "data/card-matrix-map.json" },
-    { "file": "data/standards-matrix-map.json" },
-    { "file": "data/series.json" },
-    { "file": "data/search.json" },
-    { "file": "studio/channels.json", "skipKeys": ["requires_cmd"] },
-    { "file": "studio/data/capabilities.json" },
-    { "file": "studio/data/areas.json", "skipKeys": ["note"] },
-    { "file": "assets/capabilities/capabilities.json" }
+    {
+      "file": "data/verification-matrix.json"
+    },
+    {
+      "file": "data/card-matrix-map.json"
+    },
+    {
+      "file": "data/standards-matrix-map.json"
+    },
+    {
+      "file": "data/series.json"
+    },
+    {
+      "file": "data/search.json"
+    },
+    {
+      "file": "studio/channels.json",
+      "skipKeys": [
+        "requires_cmd"
+      ]
+    },
+    {
+      "file": "studio/data/capabilities.json"
+    },
+    {
+      "file": "studio/data/areas.json",
+      "skipKeys": [
+        "note"
+      ]
+    },
+    {
+      "file": "assets/capabilities/capabilities.json"
+    },
+    {
+      "file": "js/evidence-data.mjs",
+      "module": true
+    },
+    {
+      "file": "js/developers-data.mjs",
+      "module": true
+    },
+    {
+      "file": "js/missions-runs.mjs",
+      "module": true
+    }
   ]
 }
