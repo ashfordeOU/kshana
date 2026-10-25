@@ -279,7 +279,7 @@ engine-e-animation-no-animation-format-given-expected = формат аніма�
 
 engine-e-animation-animation-fps-must-be-between = fps анімації має бути від 1 до 60, отримано { $fps }
 
-engine-e-animation-animation-duration-must-be-between = тривалість анімації має бути від 0.5 s до 600 s, отримано { $duration_s }
+engine-e-animation-animation-duration-must-be-between = тривалість анімації має бути від { $lit_0_5 } s до 600 s, отримано { $duration_s }
 
 engine-e-animation-animation-width-must-be-between = ширина анімації має бути від 480 до 3840 пікселів, отримано { $width }
 
@@ -293,11 +293,9 @@ engine-animation-further-series-were-found-but = { " " }Додаткових р�
 
 ## src/antenna.rs
 
-engine-antenna-altitude-beamwidth-deg-points = висота { $a_lo }-{ $a_hi } m x ширина променя { $b_lo }-{ $b_hi } deg, точок: { $points }
+engine-antenna-limb-capture-is-reached-on = захоплення лімба ДОСЯГАЄТЬСЯ на цій сітці (висота { $a_lo }-{ $a_hi } m x ширина променя { $b_lo }-{ $b_hi } deg, точок: { $points2 }): робочих точок вибірки, що захоплюють лімб — { $points } із { $points2 }, знайдених перетинів осі — { $crossings }; найсильніше J/S лімба у вибірці — { $limb_js_db } dB на висоті { $altitude_m } m / за ширини променя { $hpbw_deg } deg, за порога захоплення { $thr } dB.
 
-engine-antenna-limb-capture-is-reached-on = захоплення лімба ДОСЯГАЄТЬСЯ на цій сітці ({ $grid }): робочих точок вибірки, що захоплюють лімб — { $points } із { $points2 }, знайдених перетинів осі — { $crossings }; найсильніше J/S лімба у вибірці — { $limb_js_db } dB на висоті { $altitude_m } m / за ширини променя { $hpbw_deg } deg, за порога захоплення { $thr } dB.
-
-engine-antenna-limb-capture-is-not-reached = захоплення лімба НЕ досягається ніде на цій сітці ({ $grid }) — це не нульове захоплення, а відсутність захоплення лімба: найкраще J/S лімба — { $limb_js_db } dB на висоті { $altitude_m } m / за ширини променя { $hpbw_deg } deg, що на { $shortfall } dB нижче за поріг захоплення { $thr } dB; ця робоча точка захоплювала б лімб за потужності передавача { $limb_capture_tx_power_dbw } dBW проти { $p_tx_dbw } dBW у польоті.
+engine-antenna-limb-capture-is-not-reached = захоплення лімба НЕ досягається ніде на цій сітці (висота { $a_lo }-{ $a_hi } m x ширина променя { $b_lo }-{ $b_hi } deg, точок: { $points }) — це не нульове захоплення, а відсутність захоплення лімба: найкраще J/S лімба — { $limb_js_db } dB на висоті { $altitude_m } m / за ширини променя { $hpbw_deg } deg, що на { $shortfall } dB нижче за поріг захоплення { $thr } dB; ця робоча точка захоплювала б лімб за потужності передавача { $limb_capture_tx_power_dbw } dBW проти { $p_tx_dbw } dBW у польоті.
 
 engine-e-antenna-azimuths-must-strictly-increase = азимути мають строго зростати
 
@@ -649,7 +647,7 @@ engine-bench-site-result-was-scored-under-this = результат { $v1 } оц
 
 engine-bench-tasks-score-for-is-not-number = оцінка для `{ $k }` не є числом
 
-engine-bench-tasks-kshana-receiver-trust-35-default = kshana: довіра до приймача { $s } (типова статистика монітора 0.35)
+engine-bench-tasks-kshana-receiver-trust-35-default = kshana: довіра до приймача { $s } (типова статистика монітора { $lit_0_35 })
 
 engine-bench-tasks-malformed-clock-line = некоректний рядок годинника `{ $line }`
 
@@ -695,7 +693,7 @@ engine-e-body-pnt-duration-and-step-must-be = duration_s і step_s мають б
 
 engine-e-body-pnt-user-kind-must-be-orbiter = user.kind має бути orbiter або surface; отримано '{ $k }'
 
-engine-e-body-pnt-user-altitude-must-be-positive = висота користувача має бути додатною, а ексцентриситет — у [0, 0.9)
+engine-e-body-pnt-user-altitude-must-be-positive = висота користувача має бути додатною, а ексцентриситет — у [0, { $lit_0_9 })
 
 engine-e-body-pnt-the-user-orbit-periapsis-is = перицентр орбіти користувача нижче за поверхню
 
@@ -911,7 +909,7 @@ engine-campaign-compose-members = compose: учасників: { $members }
 
 engine-campaign-member-runs-modelled = прогонів учасників: { $runs_total } (MODELLED)
 
-engine-campaign-sweep-of-over-nodes-each = розгортка `{ $scenario_kind }` за { $axis_order } (вузлів: { $nodes }{ $v4 }; кожна лінія у своєму діапазоні)
+engine-campaign-sweep-of-over-nodes-each = розгортка `{ $scenario_kind }` за { $axis_order } (вузлів: { $nodes }; кожна лінія у своєму діапазоні)
 
 engine-campaign-campaign-modelled-composition-every-value = кампанія { $r } | MODELLED композиція; кожне значення прочитано з реального прогону названого виду
 
@@ -1158,7 +1156,7 @@ engine-e-constellation-needs-altitude-km-or-semi = { $what }: потрібен a
 
 engine-e-constellation-semi-major-axis-km-is = { $what }: велика піввісь { $v1 } km не перевищує радіус { $name }
 
-engine-e-constellation-eccentricity-must-lie-in = { $what }: ексцентриситет { $e } має лежати в [0, 0.9)
+engine-e-constellation-eccentricity-must-lie-in = { $what }: ексцентриситет { $e } має лежати в [0, { $lit_0_9 })
 
 engine-e-constellation-perigee-is-below-the-surface = { $what }: перигей нижче за поверхню { $name }
 
@@ -1192,7 +1190,7 @@ engine-e-constellation-mask-deg-must-lie-in = mask_deg має лежати в [0
 
 engine-e-constellation-pdop-threshold-must-be-positive = pdop_threshold має бути додатним
 
-engine-e-constellation-grid-step-deg-must-lie = grid_step_deg має лежати в [0.25, 90]
+engine-e-constellation-grid-step-deg-must-lie = grid_step_deg має лежати в [{ $lit_0_25 }, 90]
 
 engine-e-constellation-need-90-lat-min-deg = потрібно -90 <= lat_min_deg < lat_max_deg <= 90
 
@@ -2090,9 +2088,7 @@ engine-e-holdover-test-step-with-mask-has-no = крок із маскою не �
 
 engine-e-holdover-test-cannot-read-csv-path = не вдалося прочитати csv_path { $path }: { $e }
 
-engine-holdover-test-recovered-after-gnss-returned = ; відновлено через { $t } s після повернення GNSS
-
-engine-holdover-test-holdover-test-holdover-max-te = holdover-test: holdover { $hold } s, max|TE| { $max_abs } ns; { $masks }{ $rec } (MODELLED, виміряно щодо маски)
+engine-holdover-test-holdover-test-holdover-max-te = holdover-test: holdover { $hold } s, max|TE| { $max_abs } ns; { $masks } (MODELLED, виміряно щодо маски)
 
 ## src/hybrid.rs
 
@@ -2720,17 +2716,15 @@ engine-iq-cli-scene-n0-profile-segment = { $chan_desc }; профіль C/N0 (с
 
 engine-iq-cli-scene-truth-format-must-be-csv = --truth-format має бути csv або jsonl (отримано { $other })
 
-engine-iq-cli-scene-integer-scale-lsb-noise-normalised = ; цілочисельний масштаб: 1 LSB = { $sc } нормованих за шумом одиниць (очікуване RMS { $v1 } LSB на компоненту), обрізано елементів: { $clipped }
-
-engine-iq-cli-scene-written-by-kshana-iq-scene = записано kshana iq scene: СИМУЛЬОВАНА сцена, а не запис{ $scale_note }
+engine-iq-cli-scene-written-by-kshana-iq-scene = записано kshana iq scene: СИМУЛЬОВАНА сцена, а не запис
 
 engine-iq-cli-scene-ion-sdr-metadata = метадані ION SDR { $path }
 
 engine-iq-cli-scene-sigmf-data-meta = дані SigMF { $data_path }, метадані { $meta_path }
 
-engine-iq-cli-scene-written-by-kshana-iq-scene-2 = записано kshana iq scene{ $scale_note }
+engine-iq-cli-scene-written-by-kshana-iq-scene-2 = записано kshana iq scene
 
-engine-iq-cli-scene-wrote-samples-hz-to-truth = записано відліків: { $samples } ({ $format }, { $fs_hz } Hz) у { $data_path }; записів істини: { $truth_records } у { $truth_path }; { $meta_note }; канал: { $chan_desc }{ $scale_note }
+engine-iq-cli-scene-wrote-samples-hz-to-truth = записано відліків: { $samples } ({ $format }, { $fs_hz } Hz) у { $data_path }; записів істини: { $truth_records } у { $truth_path }; { $meta_note }; канал: { $chan_desc }
 
 ## src/iq/cli/sweep.rs
 
@@ -2750,7 +2744,7 @@ engine-iq-cli-track-designs-and-differ-in-integration = проєкти { $first 
 
 engine-iq-cli-track-epochs-name-the-format-with = --epochs { $p }: вкажіть формат через --epochs-format csv|jsonl|bin або завершіть шлях на .csv, .jsonl чи .bin
 
-engine-iq-cli-track-hz-is-samples-per-chip = { $fs_hz } Hz дорівнює { $r } відліку на чіп для { $c }: співмірна дискретизація перетворює дискримінатор коду на сходинки (за 2 відліків/чіп DLL тремтить, приблизно 0.09 чіпа RMS похибки коду за 45 dB-Hz); джитер і зміщення контуру коду за цим записом не є репрезентативними. Щоб оцінювати контури коду, використовуйте частоту, що не кратна половині чіпової частоти.
+engine-iq-cli-track-hz-is-samples-per-chip = { $fs_hz } Hz дорівнює { $r } відліку на чіп для { $c }: співмірна дискретизація перетворює дискримінатор коду на сходинки (за 2 відліків/чіп DLL тремтить, приблизно { $lit_0_09 } чіпа RMS похибки коду за 45 dB-Hz); джитер і зміщення контуру коду за цим записом не є репрезентативними. Щоб оцінювати контури коду, використовуйте частоту, що не кратна половині чіпової частоти.
 
 ## src/iq/io/batch.rs
 
@@ -3545,7 +3539,7 @@ engine-leo-navmsg-unknown-preset-available = невідомий пресет '{ 
 
 engine-e-leo-navmsg-fit-interval-must-be-10 = fit_interval_s має бути 10-3600 s, а update_period_s у (0, fit_interval_s]; отримано { $fit_interval_s } і { $update_period_s }
 
-engine-e-leo-navmsg-fit-sample-and-eval-step = fit_sample_s і eval_step_s мають бути 0.5-60 s
+engine-e-leo-navmsg-fit-sample-and-eval-step = fit_sample_s і eval_step_s мають бути { $lit_0_5 }-60 s
 
 engine-e-leo-navmsg-carrier-hz-must-exceed-10 = carrier_hz має перевищувати 10 MHz; отримано { $carrier_hz }
 
@@ -3644,7 +3638,7 @@ engine-e-leo-navmsg-text-csv-row-lacks = у рядку CSV бракує { $k }
 
 engine-e-leo-navmsg-truth-orbit-altitude-must-be-between = висота орбіти має бути між 100 km і 3000 km; отримано { $cfg } km
 
-engine-e-leo-navmsg-truth-eccentricity-must-be-in-for = ексцентриситет має бути в [0, 0.1) для підгонки LEO; отримано { $eccentricity }
+engine-e-leo-navmsg-truth-eccentricity-must-be-in-for = ексцентриситет має бути в [0, { $lit_0_1 }) для підгонки LEO; отримано { $eccentricity }
 
 engine-e-leo-navmsg-truth-integration-step-must-be-in = крок інтегрування має бути в (0, 30] s; отримано { $step_s }
 
@@ -4362,8 +4356,6 @@ engine-e-lunar-time-budget-scenario-term-is-shorter-than-the = доданок { 
 
 engine-lunar-time-budget-scenario-lunar-time-budget-clock-term = lunar-time-budget | годинник { $clock } | 7-доданковий x_Σ(τ) за точками τ: { $taus } ({ $taus2 }–{ $taus3 } с) | перетин τ { $crossover_tau_s } с (x { $crossover_x_s } с) | поріг системи координат { $frame_term_s } с | x(1 d) годинника { $x_1day_ns } ns (MODELLED)
 
-engine-lunar-time-budget-scenario-time-lab-to-ltc-ns = { $summary } | лабораторія часу: { $lab } { $lab2 } до LTC, x(1 d) { $lab3 } ns (MODELLED)
-
 ## src/lunar_time_lab.rs
 
 engine-e-lunar-time-lab-time-lab-unknown-clock-expected = time_lab: невідомий годинник { $other }; очікується одне з optical-master, passive-h-maser, rafs, mini-rafs, або вкажіть натомість device_card
@@ -4929,19 +4921,11 @@ engine-nmea-synth-gen-has-ended = { $kind } завершено
 
 engine-nmea-synth-log-from-for-onset-ramp-recovery = від T+{ $start_s } с тривалістю { $duration_s } с (наростання на початку { $ramp_s } с, наростання відновлення { $recovery_s } с)
 
-engine-nmea-synth-log-every-tracked-satellite-shows-db = ; кожен відстежуваний супутник показує { $c } dB-Hz, поки триває
-
 engine-nmea-synth-log-jamming-received-n0-falls-by = глушіння: прийняте C/N0 падає до { $cn0_drop_db } dB (розкид за супутниками { $spread_db } dB); супутники випадають, і рішення втрачається, коли придатними лишається менше чотирьох
 
 engine-nmea-synth-log-towards-deg-true = у напрямку { $b } deg істинних
 
 engine-nmea-synth-log-towards-deg-true-deg-relative = у напрямку { $t } deg істинних ({ $r } deg відносно курсу на початку, далі утримується)
-
-engine-nmea-synth-log-position-drag-off-the-reported = відведення положення: повідомлене положення віддаляється на { $final_offset_m } м { $dir }, тоді як приймач зберігає дійсне рішення (хибний трек сягає піку { $pv } m/s і { $pa } m/s^2){ $cf }
-
-engine-nmea-synth-log-time-spoof-reported-utc-moves = спуфінг часу: повідомлений UTC зсувається на { $offset_s } с від істинного; положення лишається істинним{ $cf }
-
-engine-nmea-synth-log-replay-delay-meaconing-style-position = затримка відтворення (у стилі meaconing): положення{ $v1 } відстає від істини на { $delay_s } с{ $cf }
 
 engine-nmea-synth-log-natural-degradation-the-sky-closes = природна деградація: небо закривається за заданою лінією горизонту ({ $e }); супутники за нею лишаються в переліку без SNR і не використовуються, C/N0 решти не змінюється, і нічого не підроблено
 
@@ -5632,11 +5616,11 @@ engine-receiver-trust-scenario-trusted-throughout-no-monitor-alarmed = дові�
 
 engine-receiver-trust-scenario-first-alarm-at-untrusted-for = перша тривога на { $t } с; епох без довіри: { $untrusted_epochs }, знижених: { $degraded_epochs } із { $after_cal } після калібрування
 
-engine-receiver-trust-scenario-of-stated-events-detected-within = ; виявлено заявлених подій: { $events_detected } з { $events_evaluable } протягом { $detect_tol_s } с
+engine-receiver-trust-scenario-of-stated-events-detected-within = виявлено заявлених подій: { $events_detected } з { $events_evaluable } протягом { $detect_tol_s } s
 
-engine-receiver-trust-scenario-of-n0-predictions-within-db = ; прогнозів C/N0 у межах { $cn0_tol_db } dB: { $predictions_agreeing } з { $predictions_evaluable }
+engine-receiver-trust-scenario-of-n0-predictions-within-db = прогнозів C/N0 у межах { $cn0_tol_db } dB: { $predictions_agreeing } з { $predictions_evaluable }
 
-engine-receiver-trust-scenario-trust-score-lowest-final = ; оцінка довіри: найнижча { $min }, кінцева { $last }
+engine-receiver-trust-scenario-trust-score-lowest-final = оцінка довіри: найнижча { $min }, кінцева { $last }
 
 engine-receiver-trust-scenario-scenario-receiver-trust-log-epochs = сценарій { $r } | receiver-trust | журнал { $format_name }, епох: { $epochs } за { $duration_s } с | моніторів: { $monitors_run } | { $verdict }
 
@@ -5716,7 +5700,7 @@ engine-e-scenario-time-step-must-not-exceed = time.step_s ({ $step_s }) не м�
 
 ## src/sdr.rs
 
-engine-sdr-sampling-rate-is-commensurate-with = частота дискретизації сумірна зі швидкістю коду ({ $samples_per_chip } відліків/чип, { $offset_from_integer_samples } відліків від цілого числа): репліка коду з утриманням нульового порядку не може розрізнити зміну фази коду менше за { $dead_band_chips } чипів, тож дискримінатор Early/Late є сходинковим із мертвою зоною в один відлік замість трикутного, і DLL встановлюється з хибним відставанням. Зсуньте частоту дискретизації від цілого кратного (5 MHz дає 4.8876 відліків/чип; 25 MHz дає 24.4379) або збільште передискретизацію настільки, щоб мертва зона була нижчою за потрібну вам точність фази коду.
+engine-sdr-sampling-rate-is-commensurate-with = частота дискретизації сумірна зі швидкістю коду ({ $samples_per_chip } відліків/чип, { $offset_from_integer_samples } відліків від цілого числа): репліка коду з утриманням нульового порядку не може розрізнити зміну фази коду менше за { $dead_band_chips } чипів, тож дискримінатор Early/Late є сходинковим із мертвою зоною в один відлік замість трикутного, і DLL встановлюється з хибним відставанням. Зсуньте частоту дискретизації від цілого кратного (5 MHz дає { $lit_4_8876 } відліків/чип; 25 MHz дає { $lit_24_4379 }) або збільште передискретизацію настільки, щоб мертва зона була нижчою за потрібну вам точність фази коду.
 
 ## src/sgp4.rs
 
@@ -6484,7 +6468,7 @@ engine-e-telecom-timing-csv-line-is-not-time = рядок CSV { $v1 } не ма�
 
 ## src/telecom_timing.rs
 
-engine-telecom-timing-the-mask-is-defined-through = маску визначено через фільтр нижніх частот 0.1 Hz, який цей рушій застосовує лише за інтервалів відліків { $MAX_FILTER_DT_S } s або менше; цей запис дискретизовано кожні { $dt_s } s
+engine-telecom-timing-the-mask-is-defined-through = маску визначено через фільтр нижніх частот { $lit_0_1 } Hz, який цей рушій застосовує лише за інтервалів відліків { $MAX_FILTER_DT_S } s або менше; цей запис дискретизовано кожні { $dt_s } s
 
 engine-e-telecom-timing-give-either-holdover-or-series = вкажіть або [holdover], або [series], не обидва
 
@@ -6492,11 +6476,7 @@ engine-e-telecom-timing-give-either-series-samples-or = вкажіть або se
 
 engine-e-telecom-timing-locked-duration-days-must-be = locked_duration_days має бути скінченним і >= 0
 
-engine-telecom-timing-ns-budget-exceeded-after = ; бюджет { $max_abs_te_ns } ns перевищено після { $t } s
-
-engine-telecom-timing-ns-budget-never-exceeded = ; бюджет { $max_abs_te_ns } ns ніколи не перевищено
-
-engine-telecom-timing-telecom-timing-max-te-ns = telecom-timing: max|TE| { $max_abs } ns за { $v2 } s; { $masks }{ $first_budget } (MODELLED)
+engine-telecom-timing-telecom-timing-max-te-ns = telecom-timing: max|TE| { $max_abs } ns за { $v2 } s; { $masks } (MODELLED)
 
 ## src/telemetry/cli.rs
 
@@ -6656,7 +6636,7 @@ engine-e-tracking-loop-tracking-loop-must-be-finite = tracking-loop: { $name } �
 
 engine-e-tracking-loop-tracking-loop-must-be-positive = tracking-loop: { $name } має бути додатним (отримано { $v })
 
-engine-e-tracking-loop-tracking-loop-correlator-spacing-chips = tracking-loop: correlator_spacing_chips має бути менше за 1.9 chips (отримано { $correlator_spacing_chips })
+engine-e-tracking-loop-tracking-loop-correlator-spacing-chips = tracking-loop: correlator_spacing_chips має бути менше за { $lit_1_9 } chips (отримано { $correlator_spacing_chips })
 
 engine-e-tracking-loop-tracking-loop-pullin-bandwidth-ratio = tracking-loop: pullin_bandwidth_ratio має бути не менше 1 (отримано { $pullin_bandwidth_ratio }) — контур, що повторно захоплює з УЗЬКОЮ смугою, ніж та, з якою стежить, інвертував би гістерезис
 
@@ -7026,8 +7006,6 @@ engine-campaign-chart-alarm-flags-and-events = прапорці тривог і 
 
 engine-campaign-chart-mission-time = час місії: { $duration } s
 
-engine-campaign-chart-sweep-percentile-band = , медіана зі смугою від 5-го до 95-го перцентиля за зернами (seed): { $n_runs }
-
 engine-campaign-chart-sweep-line-at = { $name } ({ $unit }) за { $lead }
 
 engine-campaign-chart-monte-carlo-of = Монте-Карло для `{ $scenario_kind }`: зерен (seed): { $n_runs }, починаючи з { $base_seed } (5-й, 50-й, 95-й перцентилі; смуга = бутстрепний 95% довірчий інтервал середнього)
@@ -7138,9 +7116,9 @@ engine-frame-eop-chart-growth = ~{ $factor }x, 1 d→{ $far_days } d
 
 engine-fusion-hybrid-ukf-chart-title = 17-станний гібридний UKF — самоузгодженість фільтра (modelled)
 
-engine-fusion-hybrid-ukf-chart-subtitle = NEES + білизна інновацій проти 95% смуг χ²; 1.0 = узгоджено. Самоузгодженість, а не точність.
+engine-fusion-hybrid-ukf-chart-subtitle = NEES + білизна інновацій проти 95% смуг χ²; { $lit_1_0 } = узгоджено. Самоузгодженість, а не точність.
 
-engine-fusion-hybrid-ukf-chart-target = ціль 1.0
+engine-fusion-hybrid-ukf-chart-target = ціль { $lit_1_0 }
 
 engine-fusion-hybrid-ukf-chart-nis-whiteness = NIS (білизна)
 
@@ -7188,8 +7166,6 @@ engine-gnss-sim-chart-protection-level-m = рівень захисту (m)
 
 ## src/holdover_test.rs
 
-engine-holdover-test-not-recovered-within-record = ; не відновлено в межах запису
-
 engine-holdover-test-chart-title = Тест holdover (утримання часу): похибка часу за кроками
 
 engine-holdover-test-chart-y-title = |похибка часу| (ns)
@@ -7204,11 +7180,11 @@ engine-holdover-test-chart-time-axis = час на осі запису ({ $min }
 
 ## src/hybrid.rs
 
-engine-hybrid-chart-title = Використання специфікації гібридною PNT під час відмови GNSS (1.0 = специфікація)
+engine-hybrid-chart-title = Використання специфікації гібридною PNT під час відмови GNSS ({ $lit_1_0 } = специфікація)
 
 engine-hybrid-chart-y-title = використання специфікації
 
-engine-hybrid-chart-spec-line = специфікація (1.0)
+engine-hybrid-chart-spec-line = специфікація ({ $lit_1_0 })
 
 engine-hybrid-chart-classical-suite = класичний комплект
 
@@ -7340,7 +7316,7 @@ engine-leo-pnt-chain-chart-not-available = н/д
 
 engine-leo-signal-chart-title = Проєкти сигналів LEO-PNT
 
-engine-leo-signal-chart-psd-axis = зсув у межах ±0.6 × смуга передавання; від 0 до −50 dB нижче кожного піка
+engine-leo-signal-chart-psd-axis = зсув у межах ±{ $lit_0_6 } × смуга передавання; від 0 до −50 dB нижче кожного піка
 
 engine-leo-signal-chart-jitter-caption = джитер коду (m, логарифмічна шкала) залежно від сумарного C/N0 (dB-Hz)
 
@@ -7704,10 +7680,10 @@ engine-iq-labfit-iqreport-threshold-direct-median-db-over =
 
 engine-iq-labfit-iqreport-events-loss-time-rms-pi90 =
     { $n ->
-        [one] ; { $model }: { $n } подія, RMS часу втрати { $om } s, покриття PI90 { $om2 }
-        [few] ; { $model }: { $n } події, RMS часу втрати { $om } s, покриття PI90 { $om2 }
-        [many] ; { $model }: { $n } подій, RMS часу втрати { $om } s, покриття PI90 { $om2 }
-       *[other] ; { $model }: { $n } події, RMS часу втрати { $om } s, покриття PI90 { $om2 }
+        [one] { $model }: { $n } подія, RMS часу втрати { $om } s, покриття PI90 { $om2 }
+        [few] { $model }: { $n } події, RMS часу втрати { $om } s, покриття PI90 { $om2 }
+        [many] { $model }: { $n } подій, RMS часу втрати { $om } s, покриття PI90 { $om2 }
+       *[other] { $model }: { $n } події, RMS часу втрати { $om } s, покриття PI90 { $om2 }
     }
 
 engine-iq-labfit-report-n0-samples-residual-rms-db =
@@ -8312,3 +8288,409 @@ engine-legal-bench-notice = Лише консультативно: змодел�
 
 # legal: native review
 engine-legal-osnma-advisory = Лише консультативно: це результат аналізу та моніторингу, а не навігаційне обладнання із затвердженням типу. Наведений тут стан автентифікації не є послугою цілісності навігації і не може бути єдиною підставою для будь-якого навігаційного рішення або рішення щодо безпеки.
+
+## added in the 0.40 delta
+
+engine-campaign-sweep-of-over-nodes-each-percentile-band = розгортка `{ $scenario_kind }` за { $axis_order } (вузлів: { $nodes }, медіана зі смугою від 5-го до 95-го процентиля за зернами: { $n_runs }; кожна лінія у своєму діапазоні)
+
+engine-holdover-test-holdover-not-recovered-within-record = holdover-test: holdover { $hold } s, max|TE| { $max_abs } ns; { $masks }; не відновлено протягом запису (MODELLED, виміряно щодо маски)
+
+engine-holdover-test-holdover-recovered-after-gnss-returned = holdover-test: holdover { $hold } s, max|TE| { $max_abs } ns; { $masks }; відновлено через { $t } s після повернення GNSS (MODELLED, виміряно щодо маски)
+
+engine-iq-cli-scene-written-by-kshana-iq-scene-integer-scale = записано kshana iq scene: СИМУЛЬОВАНА сцена, а не запис; цілочисельний масштаб: 1 LSB = { $sc } одиниць, нормованих на шум (очікуваний RMS { $v1 } LSB на компоненту), обрізано елементів: { $clipped }
+
+engine-iq-cli-scene-written-by-kshana-iq-scene-2-integer-scale = записано kshana iq scene; цілочисельний масштаб: 1 LSB = { $sc } одиниць, нормованих на шум (очікуваний RMS { $v1 } LSB на компоненту), обрізано елементів: { $clipped }
+
+engine-iq-cli-scene-wrote-samples-hz-to-truth-integer-scale = записано відліків: { $samples } ({ $format }, { $fs_hz } Hz) у { $data_path }; записів істини: { $truth_records } у { $truth_path }; { $meta_note }; канал: { $chan_desc }; цілочисельний масштаб: 1 LSB = { $sc } одиниць, нормованих на шум (очікуваний RMS { $v1 } LSB на компоненту), обрізано елементів: { $clipped }
+
+engine-lunar-chart-title = HPL південного полюса Місяця (доступність { $availability }%, AL { $al } m, σ_URE { $sigma } m)
+
+engine-lunar-beacon-chart-title = Доповнення поверхневими маяками — PDOP за конфігураціями
+
+engine-lunar-beacon-chart-no-solution = розв'язку немає
+
+engine-lunar-beacon-chart-footnote = менше — краще; sigma_URE на маяк { $sigma } m, маска { $mask } deg
+
+engine-lunar-combination-chart-title = Спільне визначення орбіти (OD) та годинника на Місяці — 3-D похибка положення станції (VLBI відновлює спостережуваність)
+
+engine-lunar-combination-chart-subtitle = супутників: { $n_sat }, земних станцій: { $n_earth } · коефіцієнт покращення { $factor }×
+
+engine-lunar-combination-chart-with-vlbi = з VLBI: { $m } m
+
+engine-lunar-combination-chart-range-only = лише за дальністю: { $m } m
+
+engine-lunar-combination-chart-axis-note = log10 похибки станції (m); збіжність з/без = { $with }/{ $without }
+
+engine-lunar-dpnt-chart-title = Диференційна PNT на Місяці — супутників: { $n_sats }: скоригована похибка проти бази (зменшення у × { $factor } на { $km } km)
+
+engine-lunar-dpnt-chart-subtitle = нескоригована { $uncorrected } m | скоригована { $corrected } m | HPL { $hpl } m (σ_resid { $sigma } m) | { $label }
+
+engine-lunar-dpnt-chart-uncorrected-standalone = нескоригована (автономно)
+
+engine-lunar-dpnt-chart-baseline-km = база (km)
+
+engine-lunar-dpnt-chart-err-m = похибка (m)
+
+engine-lunar-frame-realise-chart-title = Реалізація місячної системи відліку — відновлення 7-параметричного перетворення Гельмерта
+
+engine-lunar-frame-realise-chart-subtitle = точок: { $n_points } · RMS залишку { $rms } m · збіжність { $converged }
+
+engine-lunar-frame-realise-chart-scale = масштаб (ppb)
+
+engine-lunar-frame-realise-chart-row = { $label }: введено { $inj } { $unit } · відновлено { $rec } { $unit } · похибка { $err }
+
+engine-lunar-interop-chart-title = Експорт для інтероперабельності на Місяці — CCSDS OEM + KIF (узгоджено з LunaNet/IOAG)
+
+engine-lunar-interop-chart-header = REF_FRAME = { $frame } | TIME_SYSTEM = { $time_system } | станів: { $n_states } | рядків OEM: { $oem_lines }
+
+engine-lunar-interop-chart-artifacts = артефакти: { $list }
+
+engine-lunar-interop-chart-conformance = відповідність полів: { $verdict } (наявних: { $present }, відсутніх: { $missing }, рядків даних: { $data_lines })
+
+engine-lunar-interop-chart-roundtrip = цикл OEM туди й назад: { $oem } | цикл метаданих часу туди й назад: { $time_metadata } | KIF { $kif_bytes } bytes
+
+engine-lunar-interop-chart-footnote = Цикл туди й назад / відповідність полів проти CCSDS OEM та опублікованої семантики полів LunaNet/IOAG. { $label } — це не сертифікований тест відповідності щодо інтероперабельності; жодного схвалення з боку агенцій.
+
+engine-lunar-jamming-chart-title = J/S на супутник проти висоти над горизонтом, користувач на поверхні Місяця
+
+engine-lunar-jamming-chart-x-title = висота супутника над горизонтом (deg)
+
+engine-lunar-jamming-chart-n-links = каналів: { $n_links }
+
+engine-lunar-service-chart-title = Об'єм обслуговування на Місяці — супутників: { $n_sats }, точок: { $n_points } × епох: { $n_epochs }: покриття { $coverage }% (PDOP&lt;{ $threshold })
+
+engine-lunar-service-chart-subtitle = супутників { $min_sats }–{ $max_sats } | HPL { $hpl_min }–{ $hpl_max } m | VPL { $vpl_min }–{ $vpl_max } m | доступність PL { $pl_avail }% (AL { $al } m, σ_URE { $sigma } m)
+
+engine-lunar-service-chart-pdop-min = PDOP мін. { $v }
+
+engine-lunar-service-chart-pdop-mean = PDOP середнє { $v }
+
+engine-lunar-service-chart-pdop-max = PDOP макс. { $v }
+
+engine-lunar-station-chart-title = Місячна опорна станція: p{ $percentile } скоригованої 3-D похибки над південно-полярним регіоном (MODELLED)
+
+engine-lunar-station-chart-threshold = поріг { $thr } m при p{ $percentile }
+
+engine-lunar-station-chart-availability = доступність { $v } %
+
+engine-lunar-station-chart-coverage = покриття { $v } %
+
+engine-lunar-station-chart-corrected-3d = скоригована 3-D { $f }
+
+engine-lunar-station-chart-uncorrected-3d = нескоригована 3-D { $f }
+
+engine-lunar-station-chart-legend-half = ≤ половини порога
+
+engine-lunar-station-chart-legend-within = ≤ порога
+
+engine-lunar-station-chart-legend-twice = ≤ подвійного порога
+
+engine-lunar-station-chart-legend-above = понад подвійний поріг
+
+engine-lunar-station-chart-station-note = ◆ станція · пунктир: відстань, до якої покриття тримається на рівні 95 %
+
+engine-lunar-station-chart-disclaimer = MODELLED за заявлених припущень; не є твердженням про жодну реальну систему; не пов'язано з жодною агенцією і не схвалено нею.
+
+engine-lunar-time-chart-title = Місячний координатний час LTC−TT (швидкість { $rate } µs/day, смуга { $low }–{ $high })
+
+engine-lunar-time-chart-offset = { $offset } µs за { $days } d
+
+engine-lunar-time-budget-scenario-lunar-time-budget-clock-term-time-lab = lunar-time-budget | годинник { $clock } | 7-складовий x_Σ(τ) за { $taus } τ-точками ({ $taus2 }–{ $taus3 } s) | перетин τ { $crossover_tau_s } s (x { $crossover_x_s } s) | поріг системи відліку { $frame_term_s } s | годинник x(1 d) { $x_1day_ns } ns (MODELLED) | лабораторія часу: { $lab } { $lab2 } до LTC, x(1 d) { $lab3 } ns (MODELLED)
+
+engine-lunar-vlbi-chart-title = Затримка місячного VLBI (база { $baseline } km, дальність маяка { $range } km, ближнє поле { $near_field } µs)
+
+engine-lunar-vlbi-chart-footnote = затримка { $delay } µs на епоху · відліків: { $samples } за { $hours } h
+
+engine-mars-pnt-chart-formal-3sigma = формальне 3σ (коваріація, не сертифікований PL)
+
+engine-nmea-synth-log-position-drag-off-counterfeit-cn0 = відтягування положення: повідомлене положення відходить на { $final_offset_m } m { $dir }, тоді як приймач зберігає дійсне визначення (хибний трек сягає піка { $pv } m/s і { $pa } m/s^2); кожен супутник, що відстежується, показує { $c } dB-Hz, поки це триває
+
+engine-nmea-synth-log-position-drag-off-genuine-cn0 = відтягування положення: повідомлене положення відходить на { $final_offset_m } m { $dir }, тоді як приймач зберігає дійсне визначення (хибний трек сягає піка { $pv } m/s і { $pa } m/s^2); справжній профіль C/N0 зберігається
+
+engine-nmea-synth-log-time-spoof-counterfeit-cn0 = спуфінг часу: повідомлений UTC зсувається на { $offset_s } s від істинного; положення залишається істинним; кожен супутник, що відстежується, показує { $c } dB-Hz, поки це триває
+
+engine-nmea-synth-log-time-spoof-genuine-cn0 = спуфінг часу: повідомлений UTC зсувається на { $offset_s } s від істинного; положення залишається істинним; справжній профіль C/N0 зберігається
+
+engine-nmea-synth-log-replay-delay-counterfeit-cn0 = затримка відтворення (у стилі міконінгу): положення{ $v1 } відстає від істини на { $delay_s } s; кожен супутник, що відстежується, показує { $c } dB-Hz, поки це триває
+
+engine-nmea-synth-log-replay-delay-genuine-cn0 = затримка відтворення (у стилі міконінгу): положення{ $v1 } відстає від істини на { $delay_s } s; справжній профіль C/N0 зберігається
+
+engine-pvt-chart-3d-error-m = 3D похибка (m)
+
+engine-pvt-chart-postfit-rms-m = RMS після підгонки (m)
+
+engine-quantum-faults-chart-quantum = квантовий
+
+engine-quantum-faults-chart-classical = класичний
+
+engine-raim-stanford-chart-title = Діаграма Стенфорда — цілісність (епох: { $n_epochs }, AL = { $al } m)
+
+engine-raim-chart-title = Рівні захисту RAIM і доступність (доступно { $availability }%)
+
+engine-receiver-trust-chart-track-caption = трек, повідомлений приймачем, північ угорі
+
+engine-receiver-trust-chart-start = початок
+
+engine-receiver-trust-chart-end-of-log = кінець журналу
+
+engine-receiver-trust-chart-no-positions = у журналі немає положень
+
+engine-receiver-trust-chart-score-axis = оцінка довіри, від 0 до 100
+
+engine-receiver-trust-chart-legend-vessel = довіра: зелений — номінальна (оцінка не нижча за { $nominal }), бурштиновий — погіршена (не нижча за { $degraded }), червоний — недовірена, сірий — калібрування
+
+engine-receiver-trust-chart-legend = довіра: зелений — номінальна, бурштиновий — погіршена, червоний — недовірена, сірий — калібрування
+
+engine-receiver-trust-chart-advisory = Консультативне програмне забезпечення, не навігаційне обладнання із затвердженням типу; відповідальність залишається на операторі.
+
+engine-receiver-trust-chart-cn0-axis = середнє C/N0, dB-Hz
+
+engine-report-chart-title = Holdover (утримання часу) годинника: похибка часу під час відмови GNSS
+
+engine-slot-timing-chart-aria = Прогнозована похибка часу проти часу від останнього визначення, із запасом слота
+
+engine-slot-timing-chart-time-since-fix = час від визначення, від 0 до { $t }
+
+engine-slot-timing-chart-predicted-error = прогнозована похибка часу (ns); пунктир: запас { $guard } ns
+
+engine-slot-timing-never = ніколи
+
+engine-solar-system-chart-title = Сонячна система — екліптика J2000, вигляд зверху
+
+engine-solar-system-chart-inner = Внутрішня система (до Марса)
+
+engine-solar-system-chart-whole = Уся система (до Плутона)
+
+engine-solar-system-chart-legend = зелений: VALIDATED за JPL Horizons · бурштиновий: MODELLED · супутники планет наведено в result.json із треками щодо центра планети
+
+engine-spectrum-chart-title = Водоспад спектра L-діапазону
+
+engine-spectrum-chart-multi-title = Водоспад спектра в кількох діапазонах
+
+engine-spectrum-chart-frequency-mhz = частота (MHz)
+
+engine-spectrum-chart-cn0-caption = C/N0 (dB-Hz): номінальне (сіре) / мінімальне
+
+engine-spectrum-chart-threshold = поріг { $thr }
+
+engine-spoof-chart-title = Виявлення спуфінгу часу: зсув проти меж виявлення за допомогою годинника
+
+engine-spoof-chart-offset-ns = зсув спуфінгу (ns)
+
+engine-spoof-chart-spoof-offset = зсув спуфінгу
+
+engine-spoof-chart-quantum-bound = квантова межа виявлення
+
+engine-spoof-chart-classical-bound = класична межа виявлення
+
+engine-sweep-chart-title = { $metric } проти { $parameter } (масштаб: { $scale })
+
+engine-sweep-nd-chart-title = { $n_dims }-вимірна розгортка `{ $kind }` — вузлів: { $n_nodes }
+
+engine-sweep-nd-chart-axes = осі: { $axes } (форма { $shape })
+
+engine-sweep-nd-chart-metrics = метрики: { $metrics } — повна сітка в JSON
+
+engine-sweep-nd-chart-line-title = розгортка `{ $kind }` за { $key }
+
+engine-sweep-nd-chart-y-title = метрика
+
+engine-telecom-timing-max-te-ns-budget-never-exceeded = telecom-timing: max|TE| { $max_abs } ns за { $v2 } s; { $masks }; бюджет { $max_abs_te_ns } ns ніколи не перевищено (MODELLED)
+
+engine-telecom-timing-max-te-ns-budget-exceeded-after = telecom-timing: max|TE| { $max_abs } ns за { $v2 } s; { $masks }; бюджет { $max_abs_te_ns } ns перевищено через { $t } s (MODELLED)
+
+engine-telecom-timing-chart-title = Телекомунікаційна синхронізація: похибка часу, MTIE і TDEV
+
+engine-telecom-timing-chart-y-title = |похибка часу| (ns)
+
+engine-telecom-timing-chart-te-caption = абсолютна похибка часу проти бюджетів
+
+engine-telecom-timing-chart-holdover = holdover
+
+engine-telecom-timing-chart-time-record = час (запис тривалістю { $h } h)
+
+engine-telecom-timing-chart-mtie-caption = MTIE (суцільна), TDEV (пунктир), перша маска MTIE (сіра), ns
+
+engine-timetransfer-chart-title = Похибка синхронізації передавання часу (оптичного проти RF)
+
+engine-timetransfer-chart-y-title = похибка синхронізації (ps)
+
+engine-timetransfer-chart-spec = специфікація { $mm } mm = { $ps } ps
+
+engine-timetransfer-chart-x-title = час вимірювання (s)
+
+engine-timetransfer-chart-optical = оптичний: { $id }
+
+engine-kind-clock-description = Holdover (утримання часу) годинника проти специфікації; необов'язковий ансамбль Монте-Карло (запусків > 1).
+
+engine-kind-inertial-description = 1-DOF інерціальна навігація зліченням шляху під час відмови GNSS.
+
+engine-kind-orbit-description = Доступність GNSS + DOP від орбітального угруповання (Walker / TLE / RINEX).
+
+engine-kind-ephemeris-description = Ефемериди та наземний трек: розповсюдження одного супутника (TLE→SGP4 або аналітична орбіта) і видача його стану TEME/GCRS (положення + швидкість), положення ITRF/ECEF, широти/довготи/висоти підсупутникової точки WGS-84 та азимута/висоти/дальності станції і швидкості зміни дальності (Доплер) на кожному кроці. Супутник береться з `tle` або з аналітичної `orbit` з її `epoch` (`tle` має перевагу, коли задано обидва); за наявності `tle` значення `epoch` перевизначає власну епоху TLE як t = 0.
+
+engine-kind-integrity-description = Миттєвий / з поділом розв'язків / ARAIM RAIM з HPL/VPL і діаграмою Стенфорда.
+
+engine-kind-lunar-integrity-description = Прохід рівня захисту ARAIM на південному полюсі Місяця проти репрезентативного набору ретрансляторів LunaNet. sigma_ure_m задає точність дальнометрії сигналу в просторі (рівні захисту масштабуються з нею лінійно, тож розгортка за нею відповідає на питання, якої точності дальнометрії потребує межа тривоги). Типово — історичний випадок південного полюса класу LNIS.
+
+engine-kind-lunar-time-offset-description = Модельована релятивістська швидкість ходу годинника Земля–Місяць (місячний координатний час, LTC/TCL): вікова швидкість LTC−TT із різниці власних потенціалів і кінетичного члена Місяця, подана з опублікованою смугою 56–59 µs/day, а також накопичений зсув на горизонті.
+
+engine-kind-lunar-vlbi-description = Модельована спостережувана затримка місячного геодезичного VLBI: земна база (дві наземні станції, GCRS) спостерігає односпрямований сигнал від маяка класу NovaMoon на поверхні Місяця. Видає затримку як різницю двох дальностей в ближньому полі, її швидкість і поправку на кривину хвильового фронту в ближньому полі на проході — перехресно перевірену щодо спостережуваної Δ-DOR для плоскої хвилі з тієї самої кодової бази в межі дальнього поля, з частинними похідними, перевіреними скінченними різницями. Типовий аналітичний шлях є MODELLED і несе застереження щодо узгодженості систем відліку, полярного руху xp=yp=0 та порівняння плоскої хвилі з ближнім полем. Задання planetary_kernel_path, earth_orientation_kernel_path і moon_orientation_kernel_path запускає натомість шлях на ядрах (DE440, MOON_PA_DE440, ITRF93; збіжні барицентричні світлові часи; додає частинні похідні для маяка й станції на епоху), чия ньютонівська затримка й частинні похідні узгоджуються зі збіжними світловими часами NAIF SPICE з точністю до { $lit_0_06 } ps і 7.4e-9. Не перевірено за реальними даними VLBI.
+
+engine-kind-lunar-joint-od-clock-description = Модельований спільний багатотехнічний пакетний оцінювач місячної OD + годинника на СИМУЛЬОВАНІЙ мережі: знімковий підбір Гаусса–Ньютона, що зводить затримки земної бази геодезичного VLBI, місячно-локальні дальності станція↔супутник і міжсупутникові дальності, щоб відновити разом 3-D положення місячної поверхневої станції, положення невеликого угруповання та зсув годинника кожного об'єкта за введеною істиною. Головний чесний результат — VLBI робить повне 3-D положення станції спостережуваним там, де самі лише місячно-локальні дальності залишають слабко спостережуваний напрямок — подано як контраст похибки станції з VLBI і без нього. MODELLED симульоване замкнене відновлення (істина ділить модель спостережень), детерміноване (із зерном), НЕ перевірене за реальними даними; усередині розв'язувача немає розповсюдження за силовою моделлю; жодних TRL, спадковості чи схвалення агенцій.
+
+engine-kind-lunar-frame-realisation-description = Модельована реалізація місячної системи відліку: підбір 7-параметричного датума Гельмерта (подібності) — 3 зсуви, 3 повороти малих кутів, 1 масштаб — що прив'язує оцінений набір координат точок MCMF, виведених із селенографічних, до датума зваженим методом найменших квадратів (crate::batch_ls::gauss_newton), плюс проста орієнтаційна прив'язка, що виражає реалізований малий поворот навколо осей ICRF відносно орієнтації тіла за моделлю IAU 2015 WGCCRE. Сценарій вводить відоме мале перетворення (зсув ~десятки m, поворот ~µrad, масштаб ~1e-7) у добре розподілену синтетичну мережу точок, додає гауссів шум із зерном, відновлює датум і подає відновлене перетворення, похибку відновлення за параметрами проти введеної істини та RMS залишку після підгонки. MODELLED самоузгодженість — відновлює введене перетворення подібності (без шуму майже до машинної точності), НЕ є реалізацією за реальними даними стеження/VLBI; детерміноване (із зерном); жодних TRL, спадковості чи схвалення агенцій.
+
+engine-kind-moonlight-service-volume-description = Модельований аналіз об'єму навігаційного обслуговування на Місяці за ІЛЮСТРАТИВНИМ орбітальним угрупованням на місячній орбіті класу Moonlight/LCNS із публічних джерел (не пов'язаним з ESA): розгортає селенографічну сітку широти/довготи на часовому горизонті та подає DOP / покриття / доступність (≥4 супутники І PDOP < поріг), а також узагальнену огинаючу місячного рівня захисту ARAIM (HPL/VPL) над об'ємом. Геометрія DOP ПОВТОРНО ВИКОРИСТОВУЄ ядро, VALIDATED за gnss_lib_py (crate::orbit::dop); рівень захисту ПОВТОРНО ВИКОРИСТОВУЄ механізм місячного ARAIM LunaNet LNIS (crate::lunar, σ_URE≈30 m) і зводиться до наявного рівня захисту південного полюса як окремого випадку. MODELLED композиція: набір ретрансляторів на колових/еліптичних кеплерівських орбітах (не реальні диференційно скориговані ефемериди LCNS/NRHO), Місяць із середнім обертанням (без лібрації / прецесійного полюса). Детерміновано (суто геометрія). Жодних TRL, спадковості чи схвалення агенцій.
+
+engine-kind-lunar-differential-pnt-description = Модельована ДИФЕРЕНЦІЙНА PNT на Місяці (аналог місячних DGNSS/SBAS): опорна станція класу NovaMoon у ВІДОМОМУ селенографічному місці обчислює диференційні поправки на супутник за ІЛЮСТРАТИВНИМ орбітальним угрупованням класу Moonlight/LCNS із публічних джерел (NovaMoon згадано лише як КЛАС системи, не пов'язаний з ESA), а користувач, зміщений на baseline_km, застосовує їх, так що СПІЛЬНІ похибки орбіти + годинника скасовуються. Складова годинника скасовується ТОЧНО (алгебраїчна тотожність); складова орбіти залишає лише проєкцію різниці напрямків візування, яка → 0 зі зменшенням бази → 0 (межа просторової декореляції) і зростає приблизно лінійно з базою. Подає 3-D похибку положення користувача З поправками і БЕЗ них, коефіцієнт зменшення, криву похибки проти бази та рівень захисту користувача, що ПОВТОРНО ВИКОРИСТОВУЄ механізм SBAS DO-229E (crate::sbas) з диференційним залишком σ. MODELLED — точна тотожність скасування + модель декореляції першого порядку; не перевірено за реальними даними; жодних TRL, спадковості чи схвалення агенцій. Детерміновано, якщо задано зерно.
+
+engine-kind-lunar-station-coverage-description = Модельоване покриття місячної опорної станції: розгортка Монте-Карло місячної диференційної моделі PNT над південно-полярною сіткою користувачів і добою епох. Диференційна опорна станція у відомому південно-полярному місці коригує заявлене угруповання (ілюстративне кеплерівське або табличні ефемериди) із заявленою похибкою сигналу в просторі, похибкою зйомки, затримкою поправок і квантуванням каналу; для кожної точки та по регіону подає процентильну скориговану та нескориговану похибку положення (3-D, горизонтальну, вертикальну), доступність, покриття щодо заявленого порога, рівні захисту DO-229E, радіус покриття за азимутом і бюджет каналу поправок на станції та в найгіршій точці. Не є твердженням про характеристики будь-якої реальної системи; не пов'язано з жодною агенцією і не схвалено нею. MODELLED.
+
+engine-kind-lunar-interop-export-description = Модельований експорт для інтероперабельності на Місяці: видає місячну систему відліку, місячну шкалу часу та місячні ефемериди в узгоджених із LunaNet/IOAG обмінних формах на основі CCSDS із перевіркою відповідності полів та циклу туди й назад. ПОВТОРНО ВИКОРИСТОВУЄ емітер+парсер CCSDS OEM 2.0 крейта (crate::oem), перемарковані для місячного контексту — OEM REF_FRAME несе місячну систему координат тіла IAU 2015 WGCCRE (MOON_ME / MOON_PA), TIME_SYSTEM — місячну шкалу часу (LTC / TCL / UTC), CENTER_NAME = MOON — над зразковими ілюстративними ефемеридами класу LCNS (положення з crate::lunar_service, швидкість скінченною різницею). Також видає узгоджений із LunaNet/IOAG дескриптор місячного часу (ідентифікатор шкали, вікова швидкість µs/day з crate::lunar_time, опублікована смуга, опорна поверхня), що проходить цикл туди й назад через serde_json, і обгортає артефакти в наявну оболонку KIF (crate::interchange) з чесною міткою MODELLED. Подає видані артефакти, кількість рядків OEM, результат перевірки відповідності полів + список наявних/відсутніх полів, успіх циклу OEM туди й назад, успіх циклу метаданих часу туди й назад і розмір KIF у байтах. MODELLED — оракулом є детермінований цикл туди й назад + відповідність назв полів опублікованим CCSDS OEM + семантиці полів LunaNet/IOAG; це НЕ сертифікований тест відповідності щодо інтероперабельності; ілюстративні ефемериди з публічних джерел, не пов'язані з ESA; жодних TRL, спадковості чи схвалення агенцій.
+
+engine-kind-timetransfer-description = Оптичне проти RF двостороннє передавання часу/частоти.
+
+engine-kind-quantum-anomaly-detect-description = MODELLED виявлення відмов/аномалій для квантових систем PNT: позначений каталог відмов (стрибок частоти/дрейф/втрата захоплення годинника; крок зміщення/пропуск датчика), ROC AUC статистики виявлення (з бутстреп-довірчим інтервалом із зовнішньо перевірених eval_stats) і мінімально виявна відмова за фіксованої частоти хибних тривог, причому монітор з квантовим годинником (нижчий шум) виявляє менші відмови — як чесний TradeEvidence + репрезентативність. Гауссова модель статистики виявлення (AUC = Phi(mu/(sigma*sqrt2))); моделює клас, ілюстративні параметри з публічних джерел, жодних TRL/польотів/сертифікації.
+
+engine-kind-quantum-gnss-free-nav-description = MODELLED квантова навігація без GNSS: під час відмови GNSS — інерціальний бюджет квантового (інтерферометр на холодних атомах) проти класичного інерціальної навігаційної системи навігаційного класу: зростання похибки положення на вибігу, holdover до порога положення та компроміс квантового проти класичного як чесний TradeEvidence з репрезентативністю. Чесна примітка про спостережуваність: без зовнішнього визначення зміщення акселерометра неспостережуване, тож похибка зростає; квантовий датчик уповільнює, але не усуває цей розрив. Ілюстративні параметри пристрою з публічних джерел; моделює клас, жодних TRL/польотів/сертифікації.
+
+engine-kind-quantum-time-transfer-description = MODELLED ланцюг довіреної квантової синхронізації: наскрізний бюджет передавання часу квантового (годинник на оптичній ґратці + канал заплутаності/одиночних фотонів) проти класичного (CSAC + RF двостороннє), повторно використаний рівень захисту синхронізації + показник якості безпеки від атаки затримкою/відтворенням (1-P_md), імовірність виявлення аномалії годинника + затримка CUSUM, а також компроміс квантового проти класичного як чесний TradeEvidence із записом репрезентативності та розривів до польоту. Ілюстративні параметри пристрою/каналу з публічних джерел; моделює клас, жодних TRL/польотів/сертифікації не заявлено.
+
+engine-kind-hybrid-description = Завершальний гібрид PNT: годинник + IMU + допомога передаванням часу.
+
+engine-kind-fusion-description = Спільне комплексування датчиків PNT фільтром Калмана за тими самими гібридними входами.
+
+engine-kind-hybrid-ukf-description = 17-станний гібридний квантово-класичний щільно зв'язаний UKF GNSS/INS (MODELLED): 15 станів похибок INS + поправка зміщення акселерометра, виведена з CAI + 2-станний (фаза + частота) годинник із рушія годинника q-параметрів, керований обмеженою моделлю похибок CAI. Показником якості є самоузгодженість фільтра (NEES + білизна інновацій проти меж χ²) — твердження про самоузгодженість, а НЕ гарантія точності в реальному світі. Лише симуляція; жодних TRL>3, жодної польотної спадковості, жодної зовнішньої перевірки.
+
+engine-kind-gnss-ins-description = Слабко та щільно зв'язаний EKF станів похибок GNSS/INS.
+
+engine-kind-gnss-sim-description = Симуляція псевдодальностей у області вимірювань (іоносфера Klobuchar, тропосфера Saastamoinen/Niell) + RAIM.
+
+engine-kind-jamming-description = Глушіння за бюджетом каналу: J/S → ефективне C/N₀ → втрата захоплення.
+
+engine-kind-spoof-description = Стохастичний детектор спуфінгу часу (Неймана–Пірсона / χ²₁) з P_fa/P_md за методом Монте-Карло.
+
+engine-kind-spoof-detect-description = Комбінований детектор спуфінгу за RF/вимірюваннями (багатосупутникова узгодженість RAIM + AGC + SQM, зведені) проти параметризованої атаки (перевага за потужністю, вирівнювання фази несівної, зсув часу/положення; у стилі TEXBAT).
+
+engine-kind-sweep-description = 1-D розгортка дослідження компромісів за параметром пакета годинника.
+
+engine-kind-sweep-nd-description = Узагальнена N-вимірна розгортка за будь-яким пакетом через ключі TOML із крапками / шляхи метрик JSON.
+
+engine-kind-gravity-map-description = Навігація зіставленням гравітаційної карти без GPS: гравіметр на холодних атомах відновлює сталий дрейф INS за послідовністю гравітаційних аномалій, крізь яку він летить.
+
+engine-kind-terrain-nav-description = Навігація за рельєфом без GPS (TERCOM/SITAN): радіо- або баровисотомір зіставляє профіль висоти землі з DEM у стилі SRTM, щоб відновити дрейф INS.
+
+engine-kind-terrain-slam-description = Послідовна (рекурсивна) навігація за рельєфом без GPS: фільтр часток проганяє модель вимірювань зіставлення рельєфу епоха за епохою (SITAN як поточний фільтр), тож змінний у часі дрейф INS відстежується вздовж треку, тоді як пакетна terrain-nav відновлює лише єдиний сталий зсув.
+
+engine-kind-combined-altpnt-description = Комбінований навігатор без GPS за гравітаційним + магнітним + рельєфним полями: три скалярні канали поля зведені на кожну шляхову точку для чіткішого (з меншою CRLB) визначення дрейфу, ніж за будь-яким одним полем.
+
+engine-kind-pvt-description = Одноточкове позиціонування за реальними спостереженнями: розв'язання положення приймача за файлом спостережень RINEX 3 і файлом широкомовної навігації (кодові псевдодальності, широкомовні ефемериди, іоносфера Klobuchar, тропосфера Saastamoinen/Niell) з необов'язковою перевіркою за зйомочною координатою.
+
+engine-kind-mars-pnt-description = PNT для далекого космосу на Марсі: симульоване угруповання ретрансляторів MARCONI (ареостаціонарні + похилі ретранслятори, що транслюють односпрямовано + ретранслюють двоспрямовано до станції далекого космосу) навігує опорного користувача (transfer | lmo | surface) через спільний оцінювач односпрямованої/двоспрямованої радіометрії. Подає геометрію/видимість на епоху, досягнуте RMS проти істини та формальну коваріацію (1σ / 3σ положення) — чесний симульований показник якості, а НЕ сертифікований рівень захисту.
+
+engine-kind-impairment-eval-description = Випробувальний стенд оцінювання виявлення RF-погіршень за допомогою ШІ/МН (13494): генерує позначений, обґрунтований параметрами СИНТЕТИЧНИЙ корпус (nominal/jamming/spoof-time/spoof-position/multipath), оцінює детектор (energy|agc|sqm|parity|fused) детектороагностичною обв'язкою та подає AUC/ROC/матрицю помилок + Pd за класами при цільовій Pfa, а також розрив оптимізму між розподілом навчання та поза ним. Лише MODELLED робочі характеристики — ніколи польові/IQ, жодного вердикту «добре/погано».
+
+engine-kind-quantum-trade-description = Компроміс квантової проти класичної PNT (13503): користь timing-holdover + inertial-holdover від кандидатного годинника (виміряна крива ADEV — опора обґрунтованості — або клас квантового годинника) проти класу класичної бази, із застереженням про припущення щодо порога на великих τ, що супроводжує артефакт, плюс огинаюча стійкості без GNSS залежно від часу. MODELLED; кількісно оцінює (ніколи не перевіряє) партнерський пристрій. Кандидатний годинник — це виміряна крива (`candidate_adev_taus` + `candidate_adev_values`, однакової довжини, щонайменше 2 точки; вона має перевагу, коли задано обидві форми) або `candidate_clock_class`.
+
+engine-kind-space-weather-description = Модель космічної погоди: індекси сонячної (F10.7/F10.7a) та геомагнітної (Kp, з означальною таблицею Kp↔ap) активності, температура екзосфери за Jacchia-1971, яку вони задають (перевірена за опублікованими мінімумом/середнім/максимумом Сонця), і густина нейтральної термосфери за Jacchia-1971 при добовій середній температурі екзосфери проти статичного профілю без активності на наборі висот — залежність густини від сонячного циклу, яку статична атмосфера опускає. MODELLED: густина узгоджується з густинами, виведеними з акселерометрів (TOLEOS CHAMP і GRACE), у межах множника 2 у максимумі Сонця, але приблизно в { $lit_1_7 }x завелика в мінімумі Сонця 2008 року.
+
+engine-kind-oem-interop-description = Міст інтероперабельності CCSDS OEM: імпорт Orbit Ephemeris Message, створеного зовнішнім інструментом динаміки польоту (GMAT/Orekit/STK усі видають OEM), і подання його сегментів/об'єктів/систем координат/проміжку епох плюс перевірка узгодженості швидкості; без входу він проганяє згенеровану опорну орбіту туди й назад і подає точність імпорт↔експорт. MODELLED структурна/фізична перевірка прийому, НЕ перевірка точності орбіти джерела.
+
+engine-kind-launch-window-description = Двотільна геометрія запуску й виведення: азимут(и) запуску (sin Az = cos i / cos lat), мінімальний досяжний нахил, колова швидкість, східний бонус обертання Землі, Δv зміни площини з «собачою ніжкою», коли цільовий нахил менший за широту майданчика, і кількість добових можливостей запуску. MODELLED геометрія зі сферичною Землею (без поправки швидкісного трикутника обертової Землі, без моделі втрат на виведення/опір).
+
+engine-kind-reentry-description = Коридор балістичного входу в атмосферу за Алленом–Еггерсом: пікове гальмування (незалежне від балістичного коефіцієнта, V_e^2 sin|γ|/(2eH)), швидкість і висота на піку g та швидкість піку нагріву — для швидкості входу/кута траєкторії/балістичного коефіцієнта крізь експоненціальну атмосферу, а також планарне інтегрування матеріальної точки того самого балістичного входу з гравітацією, кривиною Землі та Стандартною атмосферою США 1976 (пікове гальмування, швидкість, висота й час на піку). MODELLED балістичний (без підйомної сили) вхід; вихід нагріву — це ШВИДКІСТЬ піку нагріву, а не тепловий потік (без аеротермічної моделі/TPS).
+
+engine-kind-eo-coverage-description = Геометрія слідів і покриття корисного навантаження спостереження Землі (космічний трикутник SMAD): кутовий радіус Землі, ширина смуги огляду, надирна відстань вибірки на землі, максимальний доступ поза надиром, коловий період, вузловий період J2 та відстань між екваторіальними наземними треками з ознакою безперервного покриття — для висоти орбіти, нахилу (типово сонячно-синхронного) і FOV/IFOV датчика. MODELLED геометрія зі сферичною Землею (без радіометрії/MTF/атмосфери/джитера/відблисків); відстань між вузлами R_e·(ω − Ω̇)·T_nodal із віковими швидкостями J2 першого порядку.
+
+engine-kind-space-packet-description = Фреймінг CCSDS 133.0-B Space Packet Protocol: кодування синтетичного потоку пакетів TM/TC (6-октетний первинний заголовок + поле даних) і подання декодування заголовка кожного пакета, загальної кількості октетів та точного циклу кодування↔декодування туди й назад. Детермінований точний бітовий фреймінг — рівень інтероперабельності формату пакетів агенцій; НЕ сертифікація відповідності (жодної логіки вторинного заголовка/CRC/сегментації, окрім прапорців).
+
+engine-kind-attitude-budget-description = 3-DOF бюджет похибок орієнтації та наведення: найгірший збурювальний момент гравітаційного градієнта ((3/2)(μ/R³)ΔI) і бюджет похибки наведення як корінь із суми квадратів за іменованими внесками 1σ (шум датчика, джитер реакційного колеса, тепловий, юстування) із домінувальним членом — для висоти орбіти + розкиду інерції тіла. MODELLED скалярний бюджет AOCS — доапаратне доповнення до Basilisk/42, а не симуляція контуру керування/6-DoF/гнучких мод.
+
+engine-kind-passes-description = Прогноз проходів над наземною станцією: проходи видимості в часовій області (AOS/TCA/LOS, максимальна видима висота над горизонтом, тривалість) колової орбіти, як середні елементи SGP4 на початку вікна, над станцією вище за маску висоти протягом вікна, із загальним часом доступу. Розповсюдження SGP4/SDP4 у земній системі IAU 2006/2000A (необов'язково UT1 - UTC і полярний рух), тропосферна рефракція ITU-R P.834-9 і світловий час низхідної лінії (обидва типово ввімкнені), перетини розв'язано до 1e-7 s, а кульмінацію — пошуком золотого перетину. Геометрію проходу VALIDATED за Orekit 13.1.8 на станціях на рівні моря; орбіта й станція сценарію є ілюстративними входами.
+
+engine-kind-link-budget-description = Односпрямований бюджет каналу за рівнянням каналу CCSDS 401 / DSN 810-005: втрати у вільному просторі, C/N₀, Eb/N₀, запас і замикання для EIRP передавача, G/T приймача, дальності, швидкості даних і діапазону (s|x|ka) проти потрібного Eb/N₀. Детермінований інженерний розрахунок за наданими входами (не відкалібрований паспорт терміналу).
+
+engine-kind-lunar-time-budget-description = MODELLED наскрізний бюджет похибки часу Координованого місячного часу (LTC): сім складових похибки LTC, зібраних як криві похибки часу x_i(τ) на всій сітці часів усереднення, підсумованих коренем у x_Σ(τ), і ПЕРЕТИН годинника з системою відліку τ, за якого зростальна складова годинника обганяє сталу складову реалізації системи відліку в реальному часі (нижче нього бюджет обмежений системою відліку, вище — годинником) — чесна відповідь на артефакт одного τ. Нахили за τ замкнені й аналітично перевірювані (годинник τ^{ "{" }+1/2{ "}" }/τ^{ "{" }+1{ "}" }, пороги τ^0, вимірювання τ^{ "{" }-1/2{ "}" }), а рядки годинника відтворюють опубліковані одноденні специфікації годинників (crate::clock_specs); ВЕЛИЧИНИ порогів RF/оптичного каналу, реалізації системи відліку, релятивістського залишку й ефемерид — це Modelled розподіли бюджету (документовані типові значення, перевизначувані викликачем), а не вимірювання. Внеском є відтворюваний перетин τ, а не сертифіковане число для кожної складової; не сертифіковано для оперативного ведення часу.
+
+engine-kind-hybrid-optical-rf-description = MODELLED гетерогенний оптичний + RF спільний показник якості PNT (P5): складає бюджет двостороннього оптичного каналу 1550 nm (фотонно-обмежена CRLB двосторонньої дальнометрії σ_τ/√N і дифракційний слід λ/D·дальність), міжмодальний рівень захисту RAIM з поділом розв'язків (положення І час), що зводить слабко зв'язані RF і щільні оптичні розв'язки з різнорідними коваріаціями, доступність оптичного ясного неба для N станцій (незалежне об'єднання 1−Π(1−a_i) і просторово корельований варіант), передачу стану/коваріації оптика↔RF з ДОВЕДЕНИМ бітово безперервним (без стрибка) середнім і шлюзом узгодженості NEES χ², а також спільну оцінку P(доступно І прецизійний клас І забезпечена цілісність) з урахуванням кореляції. VALIDATED замкнена форма: CRLB дальнометрії, дифракційний слід, квантиль рівня захисту χ², комбінаторика об'єднання, безперервність середнього передачі + шлюз NEES і спільний незалежний добуток. MODELLED: оптичні розподіли втрат, величини σ RF/оптики, входи клімату хмарності, кореляції та бюджет P_HMI. Не є сертифікованим продуктом доступності/цілісності.
+
+engine-kind-cislunar-observability-description = MODELLED спостережуваність планарного цисмісячного угруповання (P6): відстежує угруповання з чотирьох апаратів на диференційно скоригованих планарних DRO з міжсупутниковою дальнометрією та подає, яку частину чотиристанового вектора [x,y,ẋ,ẏ] апарата робить спостережуваною дуга. Видає (1) таблицю ранг-проти-довжини-дуги для одного каналу лише з дальністю — миттєво ранг 1, що зростає до повних чотирьох станів із подовженням дуги (P6, таблиця 1); (2) власний спектр граміана спостережуваності + число обумовленості на дузі; (3) порівняння миттєвого рангу лише за дальністю й за дальністю+швидкістю зміни дальності (важіль Доплера) плюс подання GDOP, сингулярного для лише дальності й визначеного за дальністю+швидкістю; та (4) незалежну перехресну перевірку SRIF, чия апостеріорна коваріація стає скінченною / добре обумовленою саме на дузі, де ранг спостережуваності сягає чотирьох. VALIDATED ядро: ранг спостережуваності — це поріг сингулярних значень, що виявляє ранг, перехресно перевірений за власним рангом граміана; власний спектр підкоряється спектральним інваріантам (trace=Σλ, det=Πλ, Frobenius²=Σλ²); варіаційна STM є перевіреною скінченними різницями STM для CR3BP; рядки якобіана дальності/швидкості зміни дальності є аналітичними частинними похідними, перевіреними скінченними різницями (перехресно перевіреними за 3-D спостережуваною швидкості зміни дальності крейта); чотири початкові умови — диференційно скориговані планарні DRO, що замикаються до щільного залишку періодичності й ретроградні; перехід рангу перехресно перевірено за квадратнокореневим інформаційним фільтром крейта (апостеріорна коваріація скінченна саме за повного рангу, cond(P)=cond(OᵀO)); знімок з дефіцитом рангу позначається як GDOP-невизначений (fim condition=inf), ніколи як фіктивне скінченне значення — той самий захист від сингулярної геометрії, що застосовує pvt::solve_spp. MODELLED: проєкт угруповання (амплітуди й фази перилюнія DRO) і конкретна послідовність рангів, яку він дає. Не є сертифікованим продуктом навігаційних характеристик.
+
+engine-kind-conflict-resilience-description = MODELLED стійкість багаторівневої PNT до конфлікту (P7): користувач у конфліктному середовищі має кілька рівнів PNT (відкрита служба GNSS, широкосмугова GNSS, автентифіковане орбітальне угруповання, ретранслятор доповнення), кожен із базовою доступністю, точністю 1σ і вразливістю до відмови за вектором щодо спільної загрози глушіння/спуфінгу. Розгорнений за інтенсивністю Монте-Карло З ЗЕРНОМ відмовляє кожному рівню з імовірністю clamp(vulnerability·intensity·vector_weight,0,1), зводить тих, що вижили, замкненим правилом оберненої дисперсії σ_fused=(Σ 1/σ_i²)^(−1/2) і подає імовірність повної втрати (усі рівні відмовлено), медіанну зведену похибку та статистику придатності/відмов за рівнями проти інтенсивності. Головне співвідношення стійкості (імовірність повної втрати одного рівня проти багаторівневого) сягає ~7x за припущення НЕЗАЛЕЖНОСТІ; однофакторна гауссова копула-розгортка корельованої відмови потім показує, що це ~7x сходить до 1 зі зростанням кореляції відмов (кореляція нівелює багаторівневість). Блок чутливості до апріорних значень розгортає головний показник за ДЖЕРЕЛЬНИМИ апріорними вразливостями через торнадо mcda + перерозподіл зусиль загрози за Діріхле + процентильні довірчі інтервали. VALIDATED ядро: загальна втрата за Монте-Карло збігається із замкненим незалежним добутком Π_i p_deny_i (у межах стандартної похибки MC за фіксованого зерна й великого N); зведення оберненою дисперсією є замкненою тотожністю; за ρ=0 копула зводиться до незалежної моделі, а будь-яке ρ зберігає маргінальну частоту відмов кожного рівня. MODELLED: величини вразливості/доступності/точності кожного рівня є джерельними, але Modelled входами (JammerTest 2024, TEXBAT, EASA SIB, RTCA DO-229, LunaNet/IOAG — див. conflict_threat_params), а конкретна величина ~7x і форма кривої співвідношення проти кореляції випливають із цієї параметризації. Розбивка виживання за векторами у §4.2 далі розкладає спільну RF-загрозу на чотири іменовані вектори (jamming/spoofing/kinetic/cyber) і подає для кожного вектора криву плавної деградації придатної PNT S_v(x)=1-Prod_i(1-a_i(1-clamp(susceptibility_i,v·x,0,1))) — VALIDATED: Монте-Карло з зерном за рівнями збігається з цією замкненою формою; глушіння є найгострішим вектором для корельованої RF-бази, а нечутливий до RF інерціальний рівень є вирішальним уцілілим. Не є сертифікованим продуктом навігаційної доступності.
+
+engine-kind-lunar-attack-surface-description = Поверхня атаки на безпеку сигналу місячної поверхневої навігації (P1): збирає відкриті аналізи безпеки сигналу в один запуск, досяжний із бінарника. Подає (1) прийняту потужність AFS і її ПЕРЕВИЩЕННЯ над земним опорним GPS, а також смугу чутливості 12-18 dB як справжню багатоосьову розгортку за входами каналу (опорний рівень x EIRP x похила дальність) зі зведенням лінійних множників 25x округленого / 28x неокругленого. ПЕРЕГЛЯНУТО (правило R4): тут повідомлялося про ДЕФІЦИТ потужності { $lit_15_6 } dB і множник 32x/36x, доки опорне значення GPS не виправили з -125 / -{ $lit_128_5 } (це значення в dBm) на -155 / -{ $lit_158_5 } dBW — значення ICD-GPS-200, які модуль глушіння завжди мав. Знак змінюється на протилежний: модельований місячний сигнал AFS на { $lit_14_4 } dB СИЛЬНІШИЙ за земний GPS L1 C/A, а не слабший. Сама прийнята потужність не змінилася ні на біт, а лінійний множник — це старий, поділений рівно на 1000, що є якраз зсувом 30 dB між dBm і dBW; (2) потрібну потужність передавача зловмисника для спуфінгу (J/S = 3 dB) і для відмови (J/S = 30 dB) на кожній відстані, обернену до каналу J/S; (3) орбітальний слід захоплення за реальною діаграмою антени з рівномірною апертурою (Ері [2 J1(x)/x]^2), обмежений висотою субпівсферичний сегмент, чий лімб НЕ захоплюється; (4) обчислений результат затягування захоплення спуфінгу контурами стеження (чи справді спуфер з відповідним кодом за заданої переваги потужності й зсуву коду тягне DLL/PLL), а не заявлений поріг 3 dB; (5) геометричну дальність горизонту безатмосферного тіла для піднятого поверхневого передавача; і (6) бюджет автентифікації OSNMA/TESLA (накладні 20 bit/s = ~40 % навігаційного повідомлення AFS 50 bit/s, затримка розкриття ключа, підробка 2^-40). Порожнє тіло відтворює базу P1; кожен вхід має типове значення й може бути перевизначений. VALIDATED підрезультати несуть оракул свого вихідного модуля (замкнена радіометрія в dB; цикл обернений J/S туди й назад; діаграма Ері проти Бесселя A&S і геометрії сферичного сегмента; затягування DLL/PLL проти Kaplan & Hegarty; тотожність сферичного дотичного горизонту проти eo_payload; розмірність полів SIS-ICD OSNMA). MODELLED: репрезентативні величини геометрії/потужності та конкретні значення комірок карти захоплення. Не є сертифікованим продуктом безпеки.
+
+engine-kind-realtime-frame-eop-description = Бюджет прогнозу місячної системи відліку / орієнтації Землі в реальному часі: P4, таблиця 1 (перевірка узгодженості похибки системи відліку — постобробка ~{ $lit_0_27 } m ↔ ~{ $lit_0_010 } ms і реальний час ~15 m ↔ ~{ $lit_0_5 } ms, кожне положення системи відліку виражене як еквівалентна похибка UT1 через важіль L19 Δr = D_EM·ω⊕·ΔUT1) і таблиця 2 (виміряна похибка прогнозу UT1 проти горизонту — крива L18, прочитана безпосередньо з реального ряду IERS finals2000A: підлога Bulletin A − Bulletin B final і похибка багатодобового предиктора стійкості, кожна відображена на положення в системі Місяця через L19), плюс бюджет похибки системи відліку в реальному часі L21 як корінь із суми квадратів (EOP + ефемериди + підлога реалізації). VALIDATED замкнена форма (важіль L19, ω⊕ перехресно перевірено за кутом обертання Землі CIO) і VALIDATED реальні дані (крива L18 за реальними рядками finals2000A); MODELLED — величини коваріації OD місячного ретранслятора й підлога реалізації системи відліку (репрезентативні розподіли) та предиктор стійкості (не оперативний алгоритм Bulletin A від IERS). Не є сертифікованим продуктом системи відліку реального часу.
+
+engine-kind-aperture-duty-cycle-description = Робочий цикл апертури: розподіл часу між навігацією та зв'язком, який план контактів передбачає для пулу керованих апертур. Бере план контактів (список вікон `[[contacts]]` aos_s/los_s, кожне з яких запитує навігацію або зв'язок — той самий словник aos_s/los_s, що його видає предиктор `passes`), кількість апертур і ПОЛІТИКУ АРБІТРАЖУ (за замовчуванням пріоритет навігації, або пріоритет зв'язку, або невитісняюче «першим прийшов — першим обслужено») та подає навігаційний робочий цикл, робочий цикл зв'язку, цикл простою та простій на сеанс — час контакту, який сеанс запитав і який жодна апертура не обслужила. Точне зведення інтервалів за межами вікон, тож вікна, що торкаються, ніколи не конкурують, а жодна апертуро-секунда не рахується двічі; апертуро-секунди навігації, зв'язку й простою накопичуються незалежно та замикаються на apertures*horizon_s. Звіт наводить розв'язану політику, її повне означення та означення робочого циклу й простою, бо наведений без політики арбітражу показник робочого циклу не є відтворюваним. MODELLED арифметика планування: жодного часу на перенаведення / перенастроювання / передачу не враховано, коли апертура змінює службу чи сеанс, у рішенні не беруть участі ні обсяг даних, ні стан буфера, ні енергобюджет, ні замикання каналу, а вікна контактів є входами — їхня геометрія така, яка їх породила. Не є продуктом планування наземного сегмента.
+
+engine-kind-lunar-jamming-description = Власне місячне RF-глушіння: відношення глушник-сигнал на кожен супутник, ефективне C/N₀ і втрата захоплення для селенографічного користувача на поверхні під місячним поверхневим (або піднятим) глушником, над ілюстративним орбітальним угрупованням на місячній орбіті класу Moonlight/LCNS із публічних джерел. Складає наявну відкриту фізику глушіння (jamming::j_over_s_db, effective_cn0_dbhz, rx_antenna_gain_db, lock_status, q_factor) з наявною геометрією місячного неба (lunar_service::LunarConstellation + topocentric, lunar::selenographic_to_mcmf); жодна геометрія чи радіометрія не виводиться наново. На відміну від земного виду `jamming`, сигнальна ланка НЕ є фіксованою прийнятою потужністю: ізотропна прийнята потужність кожного супутника — це його власний бюджет каналу EIRP − FSPL(похила дальність), тож J/S змінюється від супутника до супутника з місячною дальністю й висотою над горизонтом. Подає ОДИН РЯДОК НА КОЖЕН ВИДИМИЙ КАНАЛ (епоха, супутник) — азимут, висота над горизонтом, похила дальність, обидві прийняті потужності, різницею яких є J/S, J/S, номінальне та ефективне C/N₀ і стан захоплення — плюс сукупні показники якості поруч із цією таблицею (ніколи замість неї) і ту саму таблицю як артефакт CSV. Кожне видане числове поле несе одиницю й клас походження. VALIDATED підрезультати несуть оракул свого вихідного модуля (рівняння антиглушіння та канал J/S за Kaplan & Hegarty §9.4, зовнішньо зіставлені в тестах tests/gnss_denied_jamming_resilience_reference.rs; місячна геометрія lunar_service). Саму композицію перехресно перевірено за незалежним шляхом із двох бюджетів каналу (linkbudget::received_signal_power_dbw, інший вираз втрат у вільному просторі) до 1e-9 dB. MODELLED: ілюстративне угруповання, репрезентативні EIRP / потужність глушника / підсилення антен / шумова температура та відсутність затінення рельєфом, багатопроменевості, динаміки AGC і адаптивного обнулення. Не є сертифікованим продуктом відмови в обслуговуванні. За налаштованого глушника звіт також несе КОНТУР ВІДМОВИ З ПОЛОСОЮ НЕВИЗНАЧЕНОСТІ, а не контур, прочитаний з одного скаляра: повний виміряний розподіл C/N₀ бажаного сигналу за таблицею на супутник (n, min, p05, p25, медіана, p75, p95, max, середнє, вибіркове стандартне відхилення та власна асиметрія вибірки) і контур, обчислений на кожній із цих порядкових статистик за ОБОМА критеріями відмови, які розпізнає рушій — чинним критерієм відношення потужностей (J/S = 30 dB, як в attack-surface і tracking-loop) і критерієм втрати захоплення (ефективне C/N₀ спадає до tracking_threshold_dbhz, критерій, який використовує власний стовпець стану цього звіту) — на обох осях площини відмови (потрібна EIRP глушника на відстані сценарію, відстань відмови за EIRP сценарію). Краї смуги Є contour(p05) і contour(p95), те саме замкнене відображення, застосоване до власних квантилів вибірки: не сигма, підігнана до вибірки, і не медіана ± k·stdev, причому stdev видано для наступності й нічим не використано. Квантиль, що вже на рівні tracking threshold або нижче, не має скінченного J/S для відмови, а його стовпці втрати захоплення є null із підрахованою причиною, ніколи не обрізаний радіус.
+
+engine-kind-ins-trn-coast-description = Модель похибки вибігу INS/TRN: похибка положення проти тривалості вибігу, побудована за коефіцієнтами IMU, а не розгорнута за припущеною швидкістю дрейфу. П'ять внесків зростання — зміщення акселерометра, нахил від зміщення гіроскопа через гравітацію, випадкове блукання швидкості, випадкове блукання кута та масштабний коефіцієнт проти пройденої відстані — кожен розповсюджений крізь дев'ятистанову модель інерціальних похибок у місцевому горизонті зі зворотним зв'язком Шулера на заявленій широті та висоті (закони провідного порядку для короткого вибігу t², t³, t^1.5, t^2.5 і t¹/t² подано поруч) і зведений за ЗАЯВЛЕНИМ правилом (корінь із суми квадратів за замовчуванням, або лінійна сума, або детермінована сума зі стохастичним rss; усі три обчислюються на кожному запуску, тож вибір видно, а не сховано). Тривалості вибігу, що досягають заданих викликачем порогів положення (типово 10 m і 50 m), знаходяться наявним бісекційним методом рушія, кожна з розбивкою за внесками, що називає домінантне джерело, а перетин кожного окремого внеску додатково обертається алгебраїчно, щоб обидва збігалися. Режим навігації за рельєфом обмежує вибіг періодичними визначеннями положення та подає найбільший інтервал визначень, що тримає кожен поріг; визначення лише положення залишає живими похибку швидкості та нахил крізь визначення, тож воно не завжди обмежує вибіг за будь-якої частоти визначень, і звіт каже про це, а не повертає нуль. MODELLED: коефіцієнти класу IMU є репрезентативними діапазонними цифрами, а не паспортом, а залишок визначення за рельєфом є входом. Недосягнутий поріг подається як null зі статусом, ніколи як нуль. Не є сертифікованим продуктом характеристик інерціальної навігації.
+
+engine-kind-lunar-vlbi-fim-description = Коваріація координат станцій місячного VLBI: частинні похідні затримки спостережуваної lunar-vlbi, накопичені за явним РОЗКЛАДОМ (бази x епохи) в інформаційну матрицю Фішера, обернені та подані як коваріація координат станцій і сигма станції за координатами — обчислений вихід рушія, а не скалярна точність затримки, пропущена крізь припущений ізотропний коефіцієнт рівнорозподілу g = 3. Стан несе ЗЕМНІ ФІКСОВАНІ (ITRS) координати станцій, тож якобіан є інерціальною частинною похідною, повернутою матрицею GCRS->ITRS кожної епохи: саме обертання Землі робить ці координати спостережуваними, а звіт ВИМІРЮЄ розмах лінії візування в земній фіксованій системі та схилення маяка, а не припускає їх. Одне спостереження — це одна пара (база, епоха), де ОБИДВІ станції вище за маску висоти, зважена 1/delay_sigma_s^2. Подає ранг, дефект датума, число обумовленості, повний інформаційний спектр, матрицю коваріації, сигми за станціями за осями та 3-D, а також нуль-простір вільної мережі на кожному запуску; за дефіциту рангу головна сигма публікується як NULL зі статусом, ніколи не зчитується з майже сингулярного оберненого. Значення рівнорозподілу c*delay_sigma_s*sqrt(g/N) для ТОГО САМОГО розкладу видається поруч з обчисленим значенням зі співвідношенням, разом з ізотропною межею за слідом sqrt(p/trace(M)), яку AM-HM робить жорсткою нижньою межею, — тож співвідношення є анізотропією, яку припущення відкинуло. Замикання затримки tau_ik = tau_ij + tau_jk робить геометрично незалежними лише n-1 з n(n-1)/2 баз; звіт наводить обидві кількості. MODELLED: ефемериди центра Місяця, годинники станцій, тропосфера та параметри орієнтації Землі ЗАФІКСОВАНІ, а спостереження вважаються незалежними, тож коваріація є межею Крамера–Рао для зменшеного набору параметрів, а не прогнозованим результатом сеансу; сигма затримки, координати станцій і розклад є входами. Частинна похідна, яку якобіан геометричної затримки пропускає (різницевий член Шапіро), вимірюється скінченною різницею та видається. Не є геодезичним продуктом.
+
+engine-kind-tracking-loop-description = Втрата захоплення контуром стеження: C/N0 -> захоплення/втрата З ГІСТЕРЕЗИСОМ, час до втрати захоплення та затягування спуфінгу залежно від ШВИДКОСТІ зсуву коду й несівної. Наявні критерії відмови й захоплення рушія — це відношення прийнятих потужностей (глушник відмовляє за J/S = 30 dB, спуфер захоплює за 3 dB); реальна втрата захоплення не є відношенням потужностей, це місце, де джитер контуру плюс динамічне напруження виходять за бюджет його порога стеження. Подає (1) 1-сигма тепловий джитер несівної (Костас) і коду (некогерентний early/late) проти C/N0, зі втратою квадрування, проти заявлених правил 3*sigma_PLL + theta_e <= 45 deg (правило 15 градусів у формі трьох сигм) і 3*sigma_DLL + ramp lag <= d/2 chips; (2) пороги C/N0 зриву й повторного захоплення з названим визначальним контуром, поріг повторного захоплення ВИВЕДЕНО із ширшої смуги, у якій приймач повторно затягується, а не заявлено, тож ширина гістерезису має лежати між 5*log10(ratio) і 10*log10(ratio) dB; (3) заявлений час до втрати захоплення від двопорогового детектора захоплення з підтверджувальними витримками, що проходить рампу C/N0, поданий окремо від фізичного часу фазового зриву (середній час Вітербі між проковзуваннями циклу, у log10 s, бо він охоплює сотні порядків); (4) межі затягування спуфінгу — найбільший зсув коду та доплерівська швидкість несівної, за якими можуть стежити контури жертви, з картою за обома осями, бо спуфер, що зсувається швидше за ці межі, не захоплює контур, а випереджає його; і (5) РАДІУС ВІДМОВИ, що випливає з динаміки контуру, поданий ПОРУЧ з наявним радіусом відношення потужностей, ніколи замість нього, з їхньою знаковою різницею як окремим іменованим полем (denial_radius_delta_km) і означенням поруч. Кожне видане числове поле несе одиницю й клас походження. VALIDATED замкнені форми: вирази джитера несівної й коду, зведення фільтра контуру sqrt(2*B_n*T) та лаг рампи першого порядку перехресно перевірено за власним корелятором sdr рушія, прокрученим вперед на синтетичній IF із зерном — іншим шляхом до тих самих чисел — до { $lit_0_6 } %, { $lit_3_7 } % і { $lit_0_17 } % відповідно, а модифіковану функцію Бесселя I0, що стоїть за часом проковзування циклу, — за стандартними табличними значеннями до 1e-7. Нижню межу застосовності стверджено, а не лише заявлено: нижче ~32 dB-Hz за 1 ms реальний дискримінатор atan насичується проти свого діапазону +-pi/2 і вимірює менший джитер, ніж будь-яка лінійна теорія. MODELLED: смуги контурів, час інтегрування, інтервал корелятора, співвідношення смуги затягування, підтверджувальні витримки, потужність глушника й підсилення антен є репрезентативними діапазонними цифрами, а не паспортом. НЕ змодельовано: джитер генератора (девіації Аллана) і вібрацій, обмеження смуги фронтенда, багатопроменевість, динаміку AGC, втрату на переходах бітів даних, зовнішню допомогу та будь-яку поправку на пів-циклу до формули проковзування циклу Костаса. За динаміки контуру захоплення спуфінгу взагалі не має радіуса — визначальним обмеженням є швидкість зсуву, а не потужність — тож це поле є null з причиною, а не вигаданим числом. Не є сертифікованим продуктом характеристик приймача.
+
+engine-kind-araim-reference-check-description = Опубліковані еталонні вектори ARAIM: горизонтальні та вертикальні рівні захисту ARAIM рушія, прогнані проти ВЛАСНИХ розроблених чисельних прикладів Технічної підгрупи WG-C ARAIM, за допуску (TOL_PL = 5e-2 m), який ці документи самі заявляють. Два вектори зафіксовано як фікстури, кожен з URL отримання, датою отримання, SHA-256 вихідного файла й сторінкою: Reference Airborne Algorithm Description Document v3.1 (2019), додаток D — самоузгоджений і вектор прийняття — та Milestone 3 Report (2016), додаток A, розділ A.IX, твердження, на яке посилаються дослідницькі бібліографії. Кожен опублікований вхід (матриця геометрії 10 супутників 2 орбітальних угруповань, діагоналі дисперсій C_int і C_acc, b_nom, P_sat, P_const і набір констант LPV-200) та кожен опублікований вихід (VPL, HPL, EMT, sigma_v_acc, K_fa_3 і sigma_3, sigma_ss_3 та b_3 двох режимів відмови орбітального угруповання) подано поруч з власним числом рушія та їхньою абсолютною різницею. Рівняння рівня захисту тут НЕ розв'язується заново: список режимів еталона передається наявним raim::araim_protection_level / araim_integrity_risk рушія, тож бісекція та гауссова хвостова алгебра під перевіркою — власні для рушія; для нього збудовано лише геометрію, підрозв'язки, пороги виявлення та опублікований поділ бюджету. ЗОВНІШНЬО ПЕРЕВІРЕНО за вектором 2019: VPL { $lit_18_2926 } m проти { $lit_18_3 } m опублікованих, HPL { $lit_13_4063 } m проти { $lit_13_45 } m, EMT { $lit_7_2997 } m проти { $lit_7_2998 } m, sigma_v_acc { $lit_1_3694 } m проти { $lit_1_3694 } m, і всі шість опублікованих проміжних величин у межах половини одиниці останнього надрукованого десяткового розряду. Вектор 2016 несе два внутрішні дефекти, які звіт заявляє, а не ховає, — помилку знака в рядку 3 матриці G і K_fa_3, обчислений для 57 режимів відмови, тоді як документ заявляє N_fault_max = 1 (12 режимів), — тож його проміжні величини геометрії відтворюються точно, а рівні захисту подаються як виміряні розбіжності й виключені з показника прийняття; допуск ніколи не розширюється, щоб їх поглинути. Кожне видане числове поле несе одиницю й клас походження, а переписане число позначається `published`, щоб його ніколи не сплутали з обчисленим. ОБСЯГ: реалізовано лише N_fault_max = 1 (режими відмови одного супутника й одного орбітального угруповання), а випадок, апріорні значення якого вимагають одночасних підмножин відмов із кількох подій, ВІДХИЛЯЄТЬСЯ (REFUSED), а не мовчки усікається; виявлення відмов, виключення, перевірка узгодженості хі-квадрат і крок перерозподілу подвійного підрахунку алгоритму еталона — поза обсягом. Це відтворює розроблений приклад опублікованого еталонного алгоритму — це не сертифікація, не артефакт льотної придатності й не затвердження.
+
+engine-kind-lunar-frame-campaign-description = Сімпараметричний датум системи відліку Гельмерта (подібності), що керується СИМУЛЬОВАНОЮ КАМПАНІЄЮ СПОСТЕРЕЖЕНЬ, а не введеним перетворенням. Мережа земних станцій спостерігає каталог маяків на поверхні Місяця за явним розкладом; частинні похідні затримки місячного VLBI накопичуються за цим розкладом в інформаційну матрицю Фішера координат маяків точно так, як це робить lunar-vlbi-fim; і ця інформація розповсюджується крізь схему Гельмерта A = [I3 | [p]_x | p] у точках каталогу в коваріацію датума H = A^T M_b A, що діагностується crate::fim::crlb. ЖОДНОГО перетворення не вводиться, і нічого не відновлюється із закладеної відповіді, тож подана точність датума випливає з програми спостережень: удвічі менша сигма затримки точно вдвічі зменшує її, а подовження дуги покращує її, бо лібрація, яку звіт ВИМІРЮЄ (sub_earth_direction_sweep_deg), відокремлює координату маяка вздовж лінії візування від координат у площині неба. Ранг, дефект датума, число обумовленості, повний спектр, неспостережувані напрямки У СІМПАРАМЕТРИЧНОМУ БАЗИСІ, найслабший напрямок навіть за повного рангу та частка кожного параметра в ньому видаються на кожному запуску; параметр, який кампанія не обмежує, публікується як NULL зі статусом, ніколи не зчитується з майже сингулярного оберненого. Кореляцію похибок маяків виміряно, а не припущено: за фіксованих станцій жодне спостереження не торкається двох маяків, тож інформаційна матриця точно блочно-діагональна (offblock_fraction 0), а за оцінюваних станцій блок, маргіналізований за Шуром, зв'язаний, з надрукованою наведеною кореляцією та цілим розповсюдженням, перепрогнаним з її відкиданням, тож ціна припущення про незалежність є числом. Те саме розповсюдження за ізотропної сигми на координату та похибка відновлення, яку подає сценарій lunar-frame-realisation, прогнані тут обидва й надруковані поруч зі значенням кампанії з їхніми співвідношеннями. MODELLED: каталог маяків має джерело, але КАМПАНІЯ симульована — мережа станцій і сигма затримки є ілюстративними входами, окремі спостереження затримки вважаються незалежними, а ефемериди центра Місяця, годинники станцій, тропосфера та параметри орієнтації Землі ЗАФІКСОВАНІ, тож коваріація датума є межею Крамера–Рао для зменшеного набору параметрів. Не є геодезичним продуктом.
+
+engine-kind-lunar-llr-datum-description = Сімпараметричний датум місячної системи відліку Гельмерта, що керується РЕАЛЬНОЮ, АРХІВНОЮ кампанією спостережень, а не симульованою. Там, де lunar-frame-campaign прибрав введене перетворення, але все ще заявляв свою мережу станцій, розклад і сигму на спостереження як ІЛЮСТРАТИВНІ входи, цей вид бере всі три з вимірювань: епохи — це часи передавання на землі архівних нормальних точок ILRS Consolidated Laser Ranging Data, спостереження — це лазерні дальності, справді випущені на п'ять ретрорефлекторних решіток на Місяці, а вага кожного спостереження — це власна архівна точність цієї нормальної точки bin_rms/sqrt(n_raw), прочитана з файла. Координати станцій походять із розв'язку IERS ITRF2020 SLR (розповсюджені на епоху за їхніми опублікованими швидкостями), а координати рефлекторів — з таблиці 7 JPL DE430 у системі середньої Землі / середнього обертання, яку реалізує модель IAU 2015 WGCCRE. Частинні похідні дальності накопичуються в спільну інформаційну матрицю Фішера координат рефлекторів і розповсюджуються крізь ту саму схему Гельмерта в коваріацію датума, що діагностується crate::fim::crlb. Ранг, дефект, обумовленість, спектр, неспостережувані напрямки в сімпараметричному базисі, найслабший напрямок за повного рангу та частка кожного параметра в ньому видаються на кожному запуску, а необмежений параметр публікується як NULL зі статусом. Міжрешіткову кореляцію ВИМІРЯНО точно нульовою, а не припущено, бо лазерна дальність торкається однієї решітки. Запис, який каталоги не можуть розмістити, — станція без опублікованого положення ITRF — ПРОПУСКАЄТЬСЯ І ПІДРАХОВУЄТЬСЯ, їй ніколи не дають підставленої координати. ЯКІ ЛАНКИ ВИМІРЯНО, А ЯКІ MODELLED — ЦЕ ЗВІТ, А НЕ ПРИМІТКА: ефемериди центра Місяця та орієнтація тіла за IAU залишаються модельованими, а їхній сумарний розмір видається як залишок «спостережене мінус обчислене» односпрямованої дальності за кожною використаною точкою; тропосфера, твердотільні припливи, ексцентриситет станції, полярний рух, UT1-UTC, релятивістська затримка та годинники станцій відсутні й перебувають усередині цього залишку. Оскільки похибка ефемерид досягає коваріації лише через напрямок кожної лінії візування, кожен запуск також розв'язує весь датум наново з усіма частинними похідними, нахиленими на sensitivity_tilt_deg (зі змінним знаком), і видає співвідношення, тож нечутливість коваріації до модельованих ефемерид є числом, а не аргументом. Власні цифри симульованої кампанії ПРОГОНЯЮТЬСЯ та друкуються поруч з виміряними, а не переписуються. MODELLED: сімпараметричні цифри є межею Крамера–Рао для зменшеного набору параметрів на реальному розкладі — не розв'язаний датум, не аналіз LLR і не геодезичний продукт. Зафіксований зріз реальних даних постачається з репозиторієм, але не з опублікованим крейтом; вкажіть data_dir на його копію.
+
+engine-kind-lunar-beacon-description = Доповнення місячної орбітальної навігаційної служби поверхневими маяками як запускна таблиця до/після. Південно-полярний користувач бачить розріджений орбітальний набір у вузькій ділянці неба, тож геометрія дальнометрії погано обумовлена; кілька ЗНЯТИХ ПОВЕРХНЕВИХ МАЯКІВ дають рядки ліній візування з малою висотою над горизонтом і широким азимутом, яких бракує набору, що весь над головою, і горизонтальний геометричний чинник погіршення точності падає. Сценарій подає три конфігурації на одну епоху — самі супутники, супутники плюс видимі маяки та більше угруповання як альтернативний шлях до тієї самої геометрії — кожну з кількостями видимих джерел, повним DOP та реалізованою 1-сигма точністю в МЕТРАХ, отриманою множенням на еквівалентну користувачеві похибку дальнометрії на маяк, складену як корінь із суми квадратів доданків синхронізації годинників, багатопроменевості та зйомки. Видимість маяків — це геометричний горизонт безатмосферного Місяця за двома висотами (атмосфери немає, тож межа точна), а складання DOP — те саме ядро, перехресно перевірене за gnss_lib_py у tests/dop_reference.rs. ЧОМУ ЦЕЙ ВИД ІСНУЄ: модуль за ним був у рушії та перевірявся за незалежним шляхом DOP відколи L08/L09, але не був досяжний із запуску — ні виду, ні гілки диспетчеризації, ні вбудованого файла. README рекламував можливість, а матриця верифікації НЕ мала для неї жодного рядка, тож вона одночасно заявлялася в тексті та була незаявлена в реєстрі, залишаючись недосяжною в рушії. Типові значення — геометрія, що вже має зафіксований еталон (користувач на -80 deg з антеною 2 m, три маяки на -80/0, -79/+60 і -79/-60 на 2 km, шестисупутниковий ілюстративний знімок LCNS у t=0, маска 5 deg), тож голий запуск відтворює таблицю, яку оракул уже покриває, а не вигадує свіжі числа. MODELLED: проєкт угруповання, розміщення маяків і кожна величина бюджету похибок є ілюстративними входами, а не польовою зйомкою чи виміряним каналом; лише арифметика DOP, замкнена форма горизонту та співвідношення sigma = DOP x sigma_URE прив'язані ззовні. Не є зобов'язанням щодо характеристик служби.
+
+engine-kind-earth-gnss-lunar-description = Прийом земної GNSS на місячній відстані — слабкосигнальний рівень, який називає стаття про стійкість до конфлікту і для якого в рушія не було моделі. Супутник GNSS спрямовує антену на Землю; приймач біля Місяця перебуває приблизно за п'ятнадцять орбітальних радіусів, тож діють одразу три речі. Земля ЗАКРИВАЄ ВІСЬ ПРОМЕНЯ: з 26,560 km вона має половинний кут { $lit_13_9 } deg, тож будь-який промінь у бік Місяця має залишати передавач щонайменше на цей кут від надира, що прибирає пік променя ще до обчислення будь-якої потужності. Залишається КРАЙ ГОЛОВНОЇ ПЕЛЮСТКИ ТА БІЧНІ ПЕЛЮСТКИ — режим, у якому справді працювало корисне навантаження LuGRE у 2025 році. А втрати у вільному просторі становлять близько 208 dB на L1, приблизно на 25 dB більше, ніж платить земний користувач. Звіт видає один рядок на супутник (кут від осі променя, закриття Землею, дальність, втрати на трасі, підсилення передавача під цим кутом, прийнята потужність, відношення несівна/шум за густиною) і зводить лише канали, що проходять поріг стеження. ВІН ТАКОЖ ПОДАЄ ОБУМОВЛЕНІСТЬ, бо саме вона визначає цей рівень: кожен видимий супутник лежить усередині конуса шириною кілька градусів, якщо дивитися з Місяця, тож лінії візування майже паралельні, геометричний чинник погіршення точності величезний, а визначення за земною GNSS на місячній відстані є спостереженням класу СИНХРОНІЗАЦІЇ набагато більше, ніж класу положення. MODELLED, і причина в діаграмі передавання: підсилення під кутом — це рівномірна колова апертура (Ері), тоді як реальна антена GPS L1 — це дванадцятиелементна спіральна решітка з сформованою головною пелюсткою та неериївськими бічними пелюстками. Виміряні діаграми існують і тут не постачаються, тож порядки й порядки величин змістовні, а dB жодного окремого супутника — ні. Навмисно ВІДСУТНІ, і кожне робить бюджет оптимістичним: жодних іоносферних чи тропосферних втрат на променях, що ковзають по лімбу, жодної поляризації, наведення чи втрат реалізації, і сферична Земля без рефракційного подовження. Положення Місяця є ВХОДОМ (дальність плюс інерціальний напрямок), а не пошуком в ефемеридах, бо досліджується величина каналу та геометрія променя. Підвищення цього рядка до Validated потребує виміряної діаграми передавання та нормальних точок LuGRE; жодного з них у репозиторії немає, і жодного тут не вигадано.
+
+engine-kind-lunar-infrastructure-description = MODELLED дослідження орбіти й поверхні Місяця як навігаційної та геодезичної інфраструктури, п'ять досліджень за одним видом, що вибирається через `study`: od-consistency (бортове визначення орбіти за земною GNSS на NRHO або ELFO проти незалежного наземного радіометричного визначення орбіти, судячи за їхніми власними коваріаціями на Монте-Карло із зерном), carrier-phase (спільна подвійно диференційована фаза несівної поверхня–орбітер і розв'язання цілочисельної неоднозначності за LAMBDA), frame-coestimation (поверхнева станція й орбітери, додані до дальнометрії земних станцій для сімпараметричного датума місячної системи відліку), space-tie (GNSS, VLBI і лазерна дальнометрія на одному апараті, точність прив'язки системи відліку проти похибки локальної прив'язки) і geodesy-sensitivity (інформація Фішера про числа Лява місяця h2, k2, l2 та фізичну лібрацію з лазерної дальнометрії, стеження за орбітерами, поверхневого гравіметра й поверхневого годинника). Обмежена модель трьох тіл із заявленими спрощеннями; чисельні методи перевірено незалежними програмами, і жодна величина не порівнюється з вимірюванням місячної величини.
+
+engine-kind-cislunar-arc-recovery-description = MODELLED тест незалежним оцінювачем порога спостережуваності за довжиною дуги в цисмісячному просторі. Цей поріг — це ЧИТАННЯ РАНГУ матриці спостережуваності, зібраної з АНАЛІТИЧНИХ рядків якобіана дальності та АНАЛІТИЧНОЇ варіаційної матриці переходу стану, а його перехресна перевірка квадратнокореневим інформаційним фільтром згортає ті самі рядки — перевірка узгодженості двох чисельних машин, а не підтвердження. Цей вид дає бракуючого арбітра: пакетний оцінювач за методом найменших квадратів, що справді ВІДНОВЛЮЄ початковий стан головного апарата із симульованих вимірювань, з частинними похідними вимірювань, узятими як ЦЕНТРАЛЬНІ СКІНЧЕННІ РІЗНИЦІ складеної прямої моделі. Він не викликає жодного аналітичного рядка якобіана, жодної варіаційної STM, жодного сингулярного чи власного розкладу, жодного допуску рангу й жодного квадратнокореневого інформаційного фільтра — захист за вихідним текстом у tests/cislunar_arc_recovery_reference.rs робить це забезпечуваним — тоді як динаміка (той самий потік RK4 CR3BP), початкові умови (те саме диференційно скориговане угруповання), скалярна спостережувана та сітка епох навмисно спільні й названі у виданому блоці `independence`, бо два аналізи однієї фізичної задачі мають погоджуватися щодо фізики, щоб бути порівнянними. Два критерії, кожен розгорнутий на п'ять декад власної межі: БЕЗШУМОВЕ ВІДНОВЛЕННЯ (похибка кінцевого стану кожного випробування із зерном щонайбільше recovery_factor разів його апріорного зміщення — аналог рангу, без допуску сингулярних значень) і ОЦІНЮВАНІСТЬ ЗА МОНТЕ-КАРЛО (виміряна RMS-похибка положення за ансамблем шуму із зерном нижча за заявлену межу — аналог оцінюваності, виміряний, а не прогнозований). Підтримує планарний чотиристановий і просторовий шестистановий вектори, родини DRO / L2 halo / L2 NRHO, спостережувані дальності та швидкості зміни дальності й полярну параметризацію з центром у Місяці, у якій перетворення застосовується до СТАНУ, а пряма модель диференціюється там наново. ВИМІРЯНО на опублікованій планарній сітці DRO: оцінювач відновлює чотиристановий вектор з { $lit_0_782609 } h проти { $lit_2_086957 } h критерію рангу за rel_tol 1e-6 (співвідношення { $lit_0_375 }) — поріг рангу НЕ підтверджено (NOT corroborated) як межу відновлюваності — тоді як виміряна межа оцінюваності потрапляє в ту саму комірку сітки, що й формальна, { $lit_5_739130 } h, а виміряна крива похибки відтворює формальну 1-сигму на 21 довжині дуги до співвідношення геометричних середніх { $lit_0_98 }. MODELLED: проєкт угруповання, сітка епох, єдиний відстежуваний канал, величина зміщення, сигма вимірювання та дві заявлені межі. Не є сертифікованим продуктом навігаційних характеристик.
+
+engine-kind-telecom-timing-description = Телекомунікаційна синхронізація: похибка часу, максимальна похибка часового інтервалу (MTIE) і девіація часу (TDEV) holdover за GNSS, перевірені за масками ITU-T з PASS або FAIL і запасом на маску. Вхід — або СИНТЕТИЧНИЙ HOLDOVER (пресет генератора -- ocxo, rubidium, caesium або csac, кожен з цифрами стабільності, старіння та температури названого публічного паспорта Microchip -- плюс час втрати GNSS, довжина запису та інтервал відліків; вільний годинник несе білий, фліккер і, де цього потребує підгонка паспорта, випадкове блукання частотного шуму, лінійне старіння та синусоїдальний температурний член) або ЗАВАНТАЖЕНИЙ РЯД пар [time_s, time_error_ns], поданих вбудовано (а в нативних збірках ще й файл CSV). Маски: ITU-T G.8272 (07/2025) PRTC-A і PRTC-B (max|TE| 100 / 40 ns, MTIE таблиці 1-2, TDEV таблиці 3-4); G.8272.1 (2024) Amd. 1 (07/2025) ePRTC із захопленням (30 ns, таблиці 1-2) і ePRTC-A holdover (огинаюча похибки часу з таблиці 3, що зростає від 30 ns до 100 ns за період holdover H, заданий тривалістю захопленого стану, MTIE таблиця 4, TDEV таблиця 5); G.8273.2 (2023) Amd. 2 (11/2025) класи T-BC/T-TSC A-C (max|TE|, стала похибка часу, MTIE і TDEV після фільтра нижніх частот) і клас D (max|TE_L| 5 ns, єдина цифра класу D, не залишена для подальшого вивчення); G.8271.1 (2022) Amd. 3 (05/2025) опорна точка C (max|TE_L| 1100 / 600 / 100 ns з MTIE таблиці 7-1 до 7-3). Кожен запис, який Рекомендація позначає для подальшого вивчення, відсутній, а не заповнений, і кожен звіт перелічує, що не реалізовано. Також подає час до перевищення кожного бюджету максимальної похибки часу (типово: 100 ns ePRTC max|TE_HO|, 400 ns розподілу holdover мережі, 1100 ns точки C, { $lit_1_5 } us класу 4), криві MTIE/TDEV як таблицю CSV з кожною межею маски та запис одиниць і походження на кожне числове поле. VALIDATED: оцінювачі MTIE і TDEV за пакетом allantools на зафіксованому ряді holdover. MODELLED: таблиці масок є переписаними, а синтетичний holdover — це модель, збудована з максимумів паспорта, а не вимірювання будь-якого пристрою. Не є тестом відповідності.
+
+engine-kind-slot-timing-description = Часування слотів: секунди, поки вільний годинник вийде за запас слота маршрутизації чи завдань, індексованого за часом (найбільша абсолютна похибка часу, яку слот терпить), внесок кожного члена в цей момент з названим домінантним (невизначеність визначення, білий фазовий шум, білий, фліккер, випадкове блукання та випадковий біг частотного шуму, залишковий зсув частоти, температура, старіння), час, що лишився від останнього визначення, і найбільший інтервал визначень, що тримає годинник усередині, за вирахуванням затримки визначення. Генератор — це типове значення за КЛАСОМ (csac, uso, dsac, tcxo, ocxo або rafs: одна цитована односекундна девіація Аллана та припущений поріг червоного шуму), ПРЕСЕТ ПАСПОРТА telecom-timing або вбудований ПАСПОРТ (максимуми девіації Аллана, підігнані як огинаюча, плюс старіння та температурний коефіцієнт), або вбудований ВИМІРЯНИЙ ЗАПИС ФАЗИ (його перекривна девіація Аллана, підігнана зваженим методом найменших квадратів у базисі білої фази та частотної модуляції за IEEE Std 1139, тож поріг червоного шуму виміряно, а не припущено). Порушення за межами найдовшого часу усереднення, який підтримує паспорт чи запис, позначається як екстрапольоване. Необов'язковий розділ спуфінгу додає рівень захисту синхронізації для приймача на орбіті: орбітальну швидкість і період, як довго один наземний спуфер може діяти на супутник за прохід, поріг монітора з годинником і затримку виявлення CUSUM, умовну межу, затягування, яке спуфер із заявленою максимальною швидкістю рампи накопичує, поки супутник не залишить його зону або не виконається незалежна перевірка, і чи є кожна наземна контактна або перехресна перевірка незалежною від цього спуфера. VALIDATED: інверсія holdover із підігнаного запису, відкладена на реальному цезієвому годиннику, виміряному проти водневого мазера (tests/slot_timing_cs5071a_holdout.rs, з умовою наявності даних); на виміряному кварцовому генераторі відкладений прогноз консервативний, але не в межах порога, тож кварцовий випадок є MODELLED. MODELLED: джерела класів і паспортів, детерміновані члени та оцінка спуфінгу.
+
+engine-kind-spectrum-description = Модель спектра L-діапазону та водоспад: увесь L-діапазон GNSS як одна спектральна густина потужності (PSD), частота по горизонталі, час донизу, за сценарним графіком глушників. СИГНАЛИ: GPS L1 C/A і L2C (BPSK(1)), відкрита служба Galileo E1 (MBOC(6,1,1/11) або BOC(1,1)), GPS L5 і Galileo E5a (BPSK(10)), кожен на своїй несівній з мінімальною прийнятою потужністю за специфікацією інтерфейсу (IS-GPS-200, IS-GPS-705, Galileo OS SIS ICD), якщо не перевизначено; GLONASS, BeiDou і Galileo E6 не моделюються. ГЛУШНИКИ: тон незмодульованої хвилі, плоский вузькосмуговий шум, лінійний пилкоподібний чирп і широкосмуговий шум, узгоджений із власною модуляцією діапазону, кожен із центром, смугою, прийнятою потужністю (прямою або EIRP і дальністю через втрати у вільному просторі виду jamming) і часами вмикання/вимикання. Кожен глушник оцінюється щодо кожного діапазону за його коефіцієнтом спектрального розділення kappa в смузі приймача, а (C/N0)_eff = [1/(C/N0) + sum (J/S) kappa]^-1; для одного глушника це дорівнює рівнянню антиглушіння виду jamming із Q = 1/(R_c kappa), і звіт несе цю перехресну перевірку (та репрезентативну цифру Q виду jamming поруч). Поріг шуму — k T_sys із T_sys = T_ant + 290 K (F - 1). Водоспад усереднює кожну комірку за її смугою та рядком (чирпи точно, цілі розгортки плюс неповна; глушники, що перемикаються посеред рядка, за їхньою скважністю), тож часова лінія C/N0 і картинка походять з тих самих чисел; result.json несе сітку, усереднену блоками за потужністю, C/N0 і J/S за діапазонами на рядок, а на кожен глушник на кожен діапазон — SSC, Q, J/S, J/S у смузі та сталий C/N0. Необов'язково [iq]: модель, намальована як комплексний IQ в один момент, записана в запис SigMF (cf32_le або ci16_le) і прочитана з нього назад, та порівняна з оцінкою Велча. Необов'язково [recording] (нативні збірки): PSD Велча реального запису SigMF поруч із моделлю. VALIDATED: PSD сигналів проти підручникових ширин головної пелюстки (BPSK(n) 2n x { $lit_1_023 } MHz від нуля до нуля; пелюстки BOC(1,1) з центрами на +/-{ $lit_1_023 } MHz) і коефіцієнти спектрального розділення проти їхніх замкнених форм за Парсевалем та Q = 1 (CW) і { $lit_1_5 } (узгоджений) за Kaplan & Hegarty. MODELLED: потужності глушників, часова лінія, смуги фронтенда, трактування неперервного спектра (без кодових ліній) і відсутність AGC, гасіння та діаграми антени.
+
+engine-kind-solar-system-description = Уся Сонячна система в одну епоху, для PNT (позиціонування, навігації та часу) навколо будь-якого тіла. Для Сонця, восьми планет, Плутона, Місяця, Фобоса, Деймоса, Іо, Європи, Ганімеда, Калісто і Титана подає геліоцентричне положення та швидкість в ICRF (Міжнародна небесна система відліку, екваторіальна J2000), геліоцентричну відстань і екліптичні довготу та широту J2000, гравітаційний параметр, екваторіальний і середній радіус, J2 там, де опубліковано, і його опорний радіус, сидеричний період обертання, полюс IAU і початковий меридіан на епоху, трек орбіти, дискретизований за один оберт (геліоцентричний для планет, із центром у планеті для супутників), а також світловий час, односпрямовану та двоспрямовану дальність, сонячну затримку Шапіро й кутову відстань від Сонця від тіла-спостерігача (типово Земля); додаткові зв'язки from/to отримують те саме. Положення: кеплерівські елементи JPL Стендіша й Вільямса (таблиця 1 для 1800 AD – 2050 AD, таблиці 2a/2b для 3000 BC – 3000 AD) з номінальною похибкою кожної планети, місячний ряд Монтенбрука й Гілла для поділу Земля–Місяць, середні елементи JPL із синхронною швидкістю обертання IAU для марсіанських і галілеєвих супутників та модель обертання IAU для Титана. Світловий час: радіометричний розв'язок із нерухомою точкою, передавач у запізнілому положенні; ньютонівський, із затримкою Шапіро, поданою окремо. VALIDATED за JPL Horizons (DE441) у межах подвійної номінальної похибки: від Меркурія до Сатурна і Земля з таблиці 1 (найгірше { $lit_1_87 } номінальної) і всі вісім планет із таблиць 2a/2b (найгірше в { $lit_1_71 } разів), а також світловий час Земля–Марс і Земля–Юпітер. MODELLED, кожен рядок позначено: Уран і Нептун із таблиці 1 ({ $lit_2_0 } і { $lit_5_2 } номінальної похибки проти DE441), Плутон (рядок 1992; заявленої похибки немає), Місяць і сім супутників (виміряно проти Horizons, опублікованої межі немає).
+
+engine-kind-body-pnt-description = Позиціонування навколо будь-якого тіла Сонячної системи: орбітер або поверхневий спускний апарат навколо центрального тіла, вибраного за назвою (Марс, Місяць, Європа, Ганімед, Титан та решта каталогу Сонячної системи), що навігує за односпрямованими псевдодальностями від малого навігаційного угруповання Walker навколо тіла (двотільні орбіти з віковим дрейфом J2 власного тіла, невідомий годинник користувача) і необов'язково за безгодинниковою далекокосмічною двоспрямованою дальністю від Землі, чиї напрямок і відстань беруться з аналітичних ефемерид Сонячної системи на кожну епоху. Лінії візування блокуються середньою сферою тіла, а поверхневому користувачеві також потрібна маска висоти. На епоху: ретранслятори в полі зору, чи Земля над лімбом, GDOP і PDOP лише від угруповання (геометричний чинник і чинник положення погіршення точності), формальна одно-сигма невизначеність положення з рядком Землі та без нього і похибка розв'язку методом найменших квадратів Гаусса–Ньютона із зерном кожним способом; за запуск: доступність, видимість Землі, медіанний PDOP, RMS-похибка й медіанна формальна сигма, а також світловий час від Землі до тіла, туди й назад, затримка Шапіро й кутова відстань від Сонця на епоху. MODELLED: орбіти ретрансляторів, рівні шуму й миттєва модель вимірювань є вибором моделювання, не перевіреним за навігаційними даними місії; константи тіла — опубліковані значення, процитовані в body.rs, а геометрія Землі успадковує мітки ефемерид Сонячної системи.
+
+engine-kind-constellation-design-description = Проєктування орбітальних угруповань у масштабі: схеми Walker DELTA і Walker STAR у позначенні i: T/P/F (вузли, розподілені на 360 або 180 deg, міжплощинна відстань у площині 360*P/T, фазовий зсув між площинами 360*F/T), явні списки елементів і багатошарові проєкти, кілька угруповань в одному запуску, навколо Землі, Місяця, Марса або будь-якої іншої планети, Плутона чи великого супутника за константами в модулі body (тими самими, що використовують види solar-system і body-pnt). ПРЕСЕТИ з опублікованих номінальних елементів: gps-baseline і gps-expandable (24 слоти й шість розширюваних пар передніх/задніх Стандарту характеристик служби стандартного позиціонування GPS, 5-е видання 2020, таблиці 3.2-1 – 3.2-3), galileo (Walker 24/3/1 на 29 599.801 km і 56 deg, Galileo Open Service Service Definition Document, випуск 1.1, таблиці 1 і 23), beidou і beidou-meo (Walker 24/3/1 на 21 528 km і 55 deg плюс три геостаціонарні супутники на 80, { $lit_110_5 } і 140 deg E і три похилі геосинхронні супутники на 55 deg, BeiDou Open Service Performance Standard 3.0, розділ 4.1; фаза MEO і перетин похилої геосинхронної орбіти на 118 deg E змодельовано, бо стандарт їх не називає) і glonass (24/3/1 на 19 100 km і { $lit_64_8 } deg за формулою слота з Інтерфейсного контрольного документа GLONASS, видання 5.1, розділ 5.2). ПОКРИТТЯ ТА ПОГІРШЕННЯ ТОЧНОСТІ: за сіткою широта/довгота й дискретизованим вікном із маскою висоти — кількість супутників у полі зору, GDOP, PDOP, HDOP і VDOP на комірку, доступність (визначення з PDOP не вище порога, типово 6) на комірку, глобально (зважено за площею) та в найгіршому місці, з одним годинником приймача на угруповання, якщо не clock = "common". Масштабується до тисяч супутників: видимість — це скалярний добуток із половинним кутом покриття кожного супутника, а супутники розбиваються на смуги за широтою підсупутникової точки на кожну епоху, тож рядок сітки перевіряє лише тих, що можуть бути в полі зору; звіт рахує заощаджені перевірки пар. JSON несе карти сітки та проріджені наземні треки супутників. VALIDATED: генератор Walker проти таблиці 23 Galileo OS SDD і формули слота GLONASS ICD, пресет GPS проти опублікованого стовпця екваторіальних перетинів таблиці 3.2-1 SPS PS, а глобальний розподіл HDOP бази GPS проти додатка B SPS PS (медіана { $lit_0_94 }, 95% { $lit_1_25 }, середнє { $lit_0_96 }, допуск { $lit_0_03 }). MODELLED: двотільні орбіти з необов'язковим віковим J2, сферичне тіло, лише геометрична видимість (без потужності сигналу, стану чи рельєфу) та відносна фаза між різними системами, що не є знімком жодної реальної дати.
+
+engine-kind-campaign-description = Кампанія: наявні види сценаріїв, складені в один запуск, де кожне число прочитано з реального запуску названого виду. Чотири розділи в будь-якій комбінації. ФАЗИ: ланцюгова місія на одній спільній часовій осі -- кожна фаза проганяє один чи кілька сценаріїв (наприклад, глушіння, потім спуфінг, потім годинник у holdover з інерціальною навігаційною системою, що виконує вибіг поруч, потім тривога цілісності, потім відновлення), їхні виходи зчитуються в іменовані канали (похибка часу годинника проти запасу, відношення несівна/шум за густиною проти порога стеження, рівень захисту проти порога тривоги, похибка положення, супутники, що стежать, прапорці тривоги) пресетом за видом або явними шляхами результатів і передискретизуються на спільну сітку утриманням нульового порядку, з межами фаз і подіями; стан передається через carry (канал продовжується від кінцевого значення попередньої фази), handoff (число попередньої фази, записане в сценарій цієї фази) і end_at (фаза закінчується в час, обчислений запуском, наприклад час виявлення монітора спуфінгу). РОЗГОРТКА: сітка за одним–трьома ключами сценарію з крапками будь-якого виду (цілочисельний сегмент індексує масив таблиць, як у system.2.sisre_m), з метриками, прочитаними за шляхом результату, і, за запусків понад один, ансамбль Монте-Карло із зерном у кожному вузлі. MONTE_CARLO: реалізація k запускається на base_seed + k; кожна метрика подає середнє, стандартне відхилення, процентилі 5-й/50-й/95-й за найближчим рангом і бутстреп-95% довірчий інтервал середнього з фіксованим зерном. COMPOSE: кілька сценаріїв зі спільними значеннями (потужність і положення одного глушника, записані в морський і дорожній приймач), із зведеним підсумком найкращого/найгіршого. Результат несе хеш кампанії, дайджест за кожним результатом-членом і запис одиниць на кожне видане число; експорти інтероперабельності записують кожен сценарій-член, що має геометрію, як власний набір файлів. Тотожності складання перевіряються: однофазова кампанія відтворює автономний запуск біт у біт, ансамбль із фіксованим зерном байт-стабільний, а на годиннику з білим частотним шумом середнє ансамблю потрапляє всередину поданого інтервалу зі спадом, що збігається з sqrt(q_wf * tau). MODELLED: адитивне перенесення та утримання нульового порядку є вибором моделювання, а кожна фаза несе мітку виду, що її запустив.
+
+engine-kind-leo-signal-description = Проєкти сигналів LEO-PNT: параметризовані сигнали позиціонування, навігації та часу (PNT) низької навколоземної орбіти (LEO) для будь-якої системи, діапазону й структури. СИГНАЛ — це діапазон (центральна частота, смуга передавання, розподіл ITU RNSS/RDSS/MSS/EESS/non-RNSS/other) і компоненти (захоплення, дані, пілот; будь-яка підмножина), кожен із модуляцією (BPSK(n) з дробовим n, BOC(m,n), MBOC(6,1,p) або плоска OFDM-подібна смуга), часткою потужності, необов'язковими зсувами піднесучих FDMA, довжиною коду та швидкістю даних. Сигнали беруться зі вбудованих публічних файлів пресетів (xona-pulsar, iridium-stl, starlink-soo, centispace, generic-c-band, generic-bands; кожен з URL свого джерела, а кожне неопубліковане значення позначено REPRESENTATIVE) або записуються вбудовано. НА СИГНАЛ: обмежена за смугою спектральна густина потужності та частка потужності кожного компонента, яку пропускає смуга передавання (замкнена форма BPSK поруч із чисельним значенням), RMS (Габора) смуга, тепловий джитер відстеження коду контуром DLL проти C/N0 та інтервалу early-late за обмеженою за смугою формулою когерентного (або некогерентного) early-late Бетца й Колодзейського 2009 з її підручниковою формою для необмеженої смуги та її межею Габора за зникомого інтервалу, точність дальнометрії в метрах, простір пошуку захоплення (доплерівські комірки з максимального Доплера орбіти плюс члени генератора та користувача, помножені на кодові комірки), імовірність виявлення квадратичним детектором і середній час захоплення послідовного та кодово-паралельного, коефіцієнт спектрального розділення сигналу в GPS L1 C/A, Galileo E1, GPS L5, Galileo E5a, E5b і E5 AltBOC та кожного з них у сигнал із погіршенням C/N0, а також CW, широкосмугове й узгоджене J/S, яке терпить стежений компонент, з власного механізму SSC виду spectrum. КОМПРОМІС ДІАПАЗОНІВ: іоносферна затримка першого порядку ({ $lit_40_3 } TEC/f^2), втрати у вільному просторі, точність дальнометрії за рівного C/N0 і за рівної EIRP та стійкість до глушника. Необов'язкові ПЕРЕВІРКИ ФОРМИ зіставляють спектр проєкту з описаним вимірюванням (MODELLED узгодженість). VALIDATED: замкнені форми потужності BPSK у смузі ({ $lit_90_3 } % у головній пелюстці) і смуги Габора, обмежений за смугою джитер, що зводиться до підручникової форми когерентного early-late і до своєї межі Габора, коефіцієнт спектрального розділення зсунутого BPSK проти його замкненої форми за Парсевалем, одинична площа спектра AltBOC та максимальний доплер LEO проти опублікованих цифр Xona Pulsar (32-34 kHz) та Iridium (36 kHz). MODELLED: кожен проєкт, розподіл потужності, C/N0 і рівень глушника; спектри EFQPSK, CSK та OFDM апроксимовано.
+
+engine-kind-leo-pass-description = Прохід LEO і бюджет каналу за діапазонами для LEO-PNT (позиціонування, навігація та час з низької навколоземної орбіти), незалежно від системи: користувач (наземний, морський, повітряний чи в приміщенні, нерухомий або рухомий) і один чи кілька супутників LEO із ЗАПРОЄКТОВАНОГО ПРОХОДУ (колова орбіта, розміщена так, щоб користувач бачив один прохід вибраної максимальної висоти над горизонтом у вибраний час, сонячно-синхронна, якщо просять), явних ЕЛЕМЕНТІВ, TLE (дворядковий набір елементів) через SGP4 рушія або угруповання WALKER, збудованого кодом проєктування угруповань (подаються найвищі проходи). Діапазони беруться з названого пресета (загальний багатодіапазонний UHF/L/S/C, загальний C-діапазон, Xona Pulsar X1/X5, Iridium STL, Starlink як сигнал нагоди лише з Доплером, CentiSpace і необов'язковий пресет Celeste IOD, позначений WORKSHOP) або записуються в сценарій; кожен пресет заявляє, чи його числа PUBLIC (з URL), REPRESENTATIVE або WORKSHOP. На супутник, діапазон і епоху: висота над горизонтом, азимут, дальність, швидкість зміни дальності та прискорення дальності; втрати у вільному просторі; EIRP і підсилення діаграми супутника (ізофлюкс, гауссів промінь або плоска); підсилення антени користувача залежно від висоти над горизонтом (патч, напівсферична або ізотропна); газове загасання (ITU-R P.676-10, додаток 2), дощове загасання (коефіцієнти ITU-R P.838-3 і процедура P.618-14, за інтенсивністю й висотою дощу), тропосферна сцинтиляція (ITU-R P.618-14, розділ 2.4.1), втрати на проникнення в будівлю для користувача в приміщенні (ITU-R P.2109-2), поляризаційна невідповідність, шумова температура системи та C/N0 (відношення несівна/шум за густиною); Доплер і швидкість Доплера в замкненій формі зі швидкості зміни дальності та прискорення дальності, кожне перевірене центральними різницями; іоносферна затримка першого порядку { $lit_40_3 } STEC/f^2 із Klobuchar або вертикального TEC, похилого TEC, масштабованого на частину іоносфери нижче супутника. Пари діапазонів отримують безіоносферні коефіцієнти, підсилення шуму та кодовий шум на піку проходу. Супутники MEO GNSS (пресети Galileo або GPS) оцінюються тією самою моделлю антен і шуму за прийнятими потужностями з інтерфейсних документів, тож дзвоноподібний прохід LEO та пласкі несівні GNSS ділять один графік. Необов'язковий розділ [iot] подає час до першого визначення, енергію на визначення та час роботи батареї проти скважності для заявленого енергобюджету приймача (MODELLED). Кожна пара діапазонів також подає похилий TEC, який її безгеометрична комбінація відновлює на піку, та сигму кодового шуму цієї оцінки (зондування іоносфери). Необов'язковий розділ [spoofer] підробляє сигнали заявленого положення, що стрибає або зсувається від істинного після початку, і запускає два монітори із заявленими імовірностями хибної тривоги та пропущеного виявлення: узгодженість Доплера та геометрії проходу (виміряні швидкості зміни дальності проти прогнозованих з орбіт і незалежного апріорного положення та швидкості, узагальнений тест хі-квадрат за методом найменших квадратів на вікні, за каналами GNSS, LEO і всіма) та міждіапазонну узгодженість (крок від епохи до епохи безгеометричної комбінації кожної пари діапазонів LEO зі скоригованою моделлю геометрією), подаючи статистики на епоху та коли кожен монітор виявляє (MODELLED). VALIDATED компоненти: втрати у вільному просторі, коефіцієнти P.838-3 проти його таблиці 5, процедури P.618-14 для дощу та сцинтиляції і втрати на проникнення в будівлю P.2109 проти прикладів перевірки Study Group 3 ITU-R, співвідношення групових затримок L1/L2 за IS-GPS-200 і максимальний Доплер нерухомого користувача на коловій орбіті проти таблиці 1 arXiv 2509.19551. MODELLED: EIRP, діаграми, частка Чепмена TEC нижче супутника та весь прохід.
+
+engine-kind-leo-navmsg-description = Навігаційне повідомлення LEO: широкомовні ефемериди й годинник супутника позиціонування, навігації та часу низької навколоземної орбіти (LEO), для будь-якої орбіти, несівної та моделі, з необов'язковими названими пресетами (Xona Pulsar, Iridium, Starlink, CentiSpace, репрезентативна система C-діапазону, модель нульового годинника ATOMIC, Celeste IOD). ВМІСТ: допоміжні дані (SVID, випуск даних, діапазон, стан сигналу), синхронізація (тиждень, час тижня, поліном годинника другого порядку af0-af2 навколо toc), ефемериди в одній із чотирьох моделей -- 16-параметричний кеплерівський набір Galileo OS SIS ICD; цей набір плюс поліноми поправок уздовж треку, поперек треку та радіальні; 22-параметрична модель Liu et al. 2025; поліном ECEF без членів годинника (нульовий годинник ATOMIC) -- та інші служби (широкомовний набір Klobuchar, NeQuick-G ai0-ai2 з ефективним рівнем іонізації та параметри переходу від системного часу до UTC за логікою високосної секунди ICD). ПІДГОНКА: істинна орбіта, проінтегрована із зональною гравітацією J2-J6 або EGM2008 до вибраного ступеня та опором, і вільний або кермований годинник із зерном; підгонка Левенберга–Марквардта кеплерівського набору за неособливими елементами, потім лінійні поліноми поправок за найменшими квадратами; годинник підігнано за вирахуванням релятивістського члена, який додає користувач. АНАЛІЗИ: fit-interval-trade (похибка дальності сигналу в просторі, SISRE, з глобально усередненими вагами для висоти орбіти, проти інтервалу підгонки та періоду оновлення, лише орбіта та з годинником), model-comparison (чотири моделі, кількість параметрів, закодовані біти та підгонка Kshana на висотах Liu et al. поруч з опублікованими цифрами), midpass-update (найвищий прохід над користувачем, стрибок положення, годинника та дальності користувача при кожному перемиканні повідомлення, стрибок у найгіршій геометрії, PASS/FAIL проти порога безперервності), encode-decode (власний задокументований бінарний фрейм Kshana з CRC-24Q, бюджет квантування за півкроком на поле, перевірка пошкодженого фрейма, експорт та імпорт запису у стилі RINEX-4, позначені розширенням Kshana, і таблиця CSV). VALIDATED: ваги SISRE проти опублікованої таблиці MEO/GEO (Montenbruck et al. 2018); користувацький алгоритм Galileo проти RTKLIB на реальних широкомовних ефемеридах Galileo; CRC-24Q проти його каталожного контрольного значення та прикладу фрейма RTCM 1005. MODELLED: кожна цифра підгонки та SISRE є похибкою подання проти істини, проінтегрованої Kshana (без похибки визначення чи прогнозу орбіти); порівняння з Liu et al. використовує інші орбіти; формати кодування й тексту — власні для Kshana.
+
+engine-kind-leo-pvt-description = Комплексоване позиціонування, навігація та час (PNT) на середній навколоземній орбіті (MEO) і низькій навколоземній орбіті (LEO) над БУДЬ-ЯКИМИ угрупованнями: кожна [[system]] — це пресет GNSS виду constellation-design, пресет LEO (xona-pulsar, iridium-stl, starlink-sop, centispace, generic-c-band, модель ефемерид atomic-zero-clock або інший файл пресета, кожен у власному файлі з джерелами, позначеними PUBLIC, WORKSHOP або DERIVED), оболонки Walker або явні набори елементів, з несівною, чіповою швидкістю, огинаючою відношення несівна/шум за густиною (C/N0) від маски висоти до зеніту, похибкою дальності сигналу в просторі (SISRE), сигмою Доплера та моделлю годинника (власний годинник приймача, тож міжсистемне зміщення оцінюється, або відоме широкомовне зміщення). Чотири режими. DOPPLER: пакетне позиціонування Гаусса–Ньютона зі швидкості зміни дальності з аналітичними частинними похідними, станами дрейфу годинника та необов'язковою швидкістю й необов'язковим обмеженням висоти, одно- чи багатосупутникове, похибка проти довжини вікна, огинаюча Доплера, швидкості Доплера й ривка кожної системи LEO та точність за треком і поперек треку для одного проходу проти зсуву поперек треку (похибка поперек треку необмежено зростає, коли прохід іде над головою; один прохід також має дзеркальний розв'язок через наземний трек). Тут запускається сигнал нагоди лише з Доплером (starlink-sop). JOINT: покрокові зважені розв'язки псевдодальностей методом найменших квадратів за епохою лише з GNSS, лише з LEO та з обома, сигми на вимірювання з моделі теплового шуму контуру DLL за C/N0 плюс SISRE (або фіксована сигма, щоб їх міг живити модель сигналу), оцінені міжсистемні зміщення та PDOP/HDOP/VDOP проти кількості доданих супутників LEO. POLAR: супутники в полі зору та DOP проти широти для GNSS, LEO та обох. TIMING: передавання часу до Всесвітнього координованого часу (UTC) від супутників LEO у відомому положенні з двостановим фільтром годинника, чий шум процесу походить із класів генераторів рушія, проти C/N0 та генератора, і вираз IS-GPS-200 системного часу до UTC; за [timing] trace = true кожен рядок також подає свою похибку часу та прогнозовану сигму на кожну епоху. VALIDATED: найбільший Доплер проходу від зеніту до горизонту проти опублікованих цифр Iridium (до 36 kHz) і Xona Pulsar X1 (32-34 kHz). MODELLED: усе інше; DOP перевірено на виведеному вручну випадку, розв'язки — за їхньою коваріацією, а модель Доплера — за тотожністю прискорення дальності.
+
+engine-kind-leo-ppp-description = Збіжність точного одноточкового позиціонування (PPP) лише з GNSS і з доповненням LEO: плаваючий розширений фільтр Калмана за безіоносферними кодом і фазою несівної з нерухомими координатами станції, білим годинником приймача, одним міжсистемним зміщенням на кожну додаткову систему, випадковим блуканням зенітної вологої затримки, відображеним 1/sin(elevation), і плаваючою неоднозначністю на дугу супутника; точна похибка орбіти й годинника біла та спільна для коду й фази супутника, тож кожен супутник є одним корельованим дворядковим оновленням у стабілізованій за Джозефом формі. Вимірювання симулюються з тієї самої моделі зі зерновим шумом за кількома пунктами та зернами, і кожен випадок (спершу лише GNSS, потім кожен [[case]] систем LEO, будь-яке угруповання чи пресет) подає медіанний час збіжності (першу епоху, після якої горизонтальна й вертикальна похибки залишаються нижче порогів, типово 10 cm), частку збіжних, медіанні криві похибки та узгодженість фільтра (усереднений за запусками NEES положення проти двостороннього 95% смуги хі-квадрат). Необов'язково поруч з опублікованими цифрами Li et al. (2019, J. Geod. 93:749, doi 10.1007/s00190-018-1195-2) для середніх широт: { $lit_9_6 } min для мульти-GNSS, скорочені до { $lit_7_0 }, { $lit_3_2 }, { $lit_2_1 } і { $lit_1_3 } min із 60, 96, 192 і 288 супутниками LEO. MODELLED: порівняння узгодженості тренду, а не відтворення угруповань, шуму чи станцій того дослідження; без розв'язання неоднозначностей, проковзувань циклу, намотування фази, припливів чи корельованих у часі похибок продуктів.
+
+engine-kind-ntn-positioning-description = Позиціонування за низхідною лінією нетерестріальної мережі (NTN) 5G у S-діапазоні мобільної супутникової служби (MSS) (діапазон 3GPP n256, низхідна лінія від 2170 до 2200 MHz; типова несівна { $lit_2172_5 } MHz): межа Крамера–Рао (CRB) за часом прибуття, c / (2 pi beta sqrt(2 (C/N0) T)), де beta — середньоквадратична (Габора) смуга плоского спектра OFDM (B/sqrt(12)), і за Доплером комплексного тону, sqrt(3 / (2 pi^2 (C/N0) T^3)), для кожного сигналу (типово 5 MHz канал New Radio із зайнятими { $lit_4_5 } MHz і вузькосмуговий канал 200 kHz із зайнятими 180 kHz); далі, над будь-яким угрупованням LEO, визначення за часом прибуття низхідної лінії з невідомим годинником приймача (із зерном, з межею плюс похибкою синхронізації мережі як сигмою), їхній PDOP і формальна 3D сигма та односупутникове визначення за Доплером на найдовшому проході з утриманою висотою. MODELLED: крок від смуги до межі — підручникова замкнена форма, перевірена чисельним інтегруванням плоского та обмеженого за смугою спектрів BPSK (внутрішня узгодженість, жодної опублікованої розробленої цифри не закріплено), а точність позиціонування — це межа для каналу без багатопроменевості із заявленою похибкою синхронізації, а не досягнутий результат.
+
+engine-kind-leo-pnt-chain-description = Одна система LEO-PNT (позиціонування, навігація та час з низької навколоземної орбіти) наскрізно, для будь-якого угруповання та сигналу: проєкт leo-signal, названий signal_design (публічний пресет або вбудований проєкт [signal]), задає центр, смугу, чіпову швидкість і поділ EIRP діапазону [pass], бюджет каналу leo-pass дає стежений C/N0 і обмежений за смугою кодовий джитер на проході, лінія C/N0 за sin(elevation) і широкомовна SISRE повідомлення [navmsg] (підігнана на висоті супутника проходу) живлять кожну систему LEO спільного визначення leo-pvt у [fusion] і, необов'язково, випадки leo-ppp у [ppp]; кожну передачу перелічено з її значенням і одиницею. MODELLED.
+
+engine-kind-contact-schedule-description = Планування наземних контактів для кількох супутників над кількома станціями: видимі вікна доступу (SGP4, земна система IAU 2006/2000A, рефракція ITU-R P.834, світловий час), обсяг даних DVB-S2 ACM кожного проходу (пороги таблиці 13 ETSI EN 302 307-1) і безконфліктний розклад (один супутник на антену з переналагодженням, одна станція на супутник, зважена за пріоритетом доставка, обмежена кожним накопиченням) жадібним методом граничної цінності, базовим «першим прийшов» і точним методом гілок і меж на малих наборах, з розривом оптимальності жадібного. MODELLED.
+
+engine-kind-acm-link-description = Один супутник над однією станцією: похила дальність, висота над горизонтом і Es/N0 кожного проходу вздовж проходу, MODCOD DVB-S2, вибраний на кожному кроці (пороги таблиці 13 ETSI EN 302 307-1 плюс запас реалізації), і обсяг даних, який переносить ACM, проти базового сталого кодування, що замикається на масці. MODELLED.
+
+engine-kind-aocs-description = Керування орієнтацією космічного апарата: інерціальний розворот жорсткого корпусу з трьома чи більше збалансованими реакційними колесами за зворотним зв'язком MRP (L = -K sigma - P omega), моменти коліс мінімальної норми, обрізані до межі кожного двигуна, RK4 з утриманням нульового порядку; необов'язково замкнене на мультиплікативний EKF за симульованим гіроскопом (випадкове блукання кута й швидкості) і зоряним датчиком. Подає час усталення, кінцеву та пікову похибку наведення, пікові швидкість і момент коліс, частку насичення, дрейф кутового моменту та, з оцінювачем, його похибку орієнтації та NEES. Цикл істинного стану VALIDATED проти Basilisk 2.9.1; оцінювач MODELLED.
+
+engine-kind-entry-heating-description = 3-DoF вхід матеріальної точки в атмосферу над обертовою сферичною Землею або Марсом (балістичний або з підйомною силою за сталого крену), RK4, крізь US76, експоненціальну або марсіанську атмосферу, з конвективним нагрівом у точці гальмування за Саттоном–Грейвсом (NASA TR R-376): пікове гальмування, тепловий потік і динамічний тиск, теплове навантаження, дальність по землі, перевірка енергії в обертовій системі та замкнена форма Аллена–Еггерса поруч. Пікове гальмування перевіряється за опублікованим номіналом Stardust; нагрів є MODELLED.
+
+engine-kind-eo-radiometry-description = Радіометрія та якість зображення надирного знімача: радіанс сцени Ламберта на апертурі, рівняння камери, сигнал і шуми дробовий/темновий/зчитування/квантування та SNR; MTF системи на Найквісті (дифракція x детектор x змазування x джитер), відносний відгук на межі з неї, Q = lambda F/p і NIIRS за GIQE версії 4 без компенсації MTF. MODELLED.
+
+engine-kind-ascent-losses-description = Планарне виведення багатоступеневого носія за гравітаційним поворотом над необертовою сферичною Землею крізь Стандартну атмосферу США 1976 (вертикальний підйом, поштовх тангажа, тяга вздовж швидкості), що інтегрує втрати на гравітацію, опір, керування та протитиск і перевіряє ідеальне dv мінус втрати проти швидкості вигоряння; max-Q, пікове прискорення та стан вигоряння. MODELLED.
+
+engine-kind-time-transfer-budget-description = Двостороннє супутникове передавання часу й частоти між двома станціями крізь геостаціонарний ретранслятор: двостороннє рівняння, розв'язане для T_A - T_B з кожним нереципрокним членом (затримки обладнання станцій, іоносфера Ku-діапазону, транспондер, Саньяк), бюджет невизначеності в квадратурі, чий член типу A — це TDEV симульованого каналу на часі усереднення, симульований канал із білим і фліккерним фазовим шумом та добовою нереципрокністю, а також стабільність (швидкість, залишковий RMS, TDEV, ADEV) будь-якого наданого ряду розділу 1 BIPM Circular T, CSV MJD,ns або записів годинників станцій IGS RINEX. MODELLED.
+
+engine-kind-optical-atmosphere-description = MODELLED оптична PNT крізь атмосферу: для оптичного каналу та набору наземних пунктів із заявленим кліматом хмарності подає залежні від довжини хвилі й висоти над горизонтом втрати в ясному повітрі (закон видимості Кіма плюс Релей), стан турбулентності Hufnagel-Valley (дисперсія Рито, індекс сцинтиляції, параметри gamma-gamma, усереднення за апертурою), керовану погодою доступність проти запасу каналу (оптична товщина хмар із лог-нормального клімату рідкої води, екстинкція геометричної оптики, незалежне турбулентне завмирання), запас каналу, потрібний для цільових доступностей, розподіл тривалості перерв, зростання похибки синхронізації та дальнометрії на перерву через модель holdover годинника, залежну від відстані доступність за рознесенням пунктів і гіпотетичні виграші від методів покращення (довжина хвилі, приймальна апертура, зменшення сцинтиляції адаптивною оптикою, додатковий запас). VALIDATED як реалізація заявлених формул проти незалежного оракула mpmath: дисперсія Рито, індекс сцинтиляції, ймовірність завмирання gamma-gamma, коефіцієнт усереднення за апертурою, оптична товщина хмар і ясного повітря. MODELLED: кожен вхід погоди, методу та годинника, а також припущення про незалежність і копулу; жодного виміряного запису доступності не порівнювалося. Консультативний аналіз, не сертифікований продукт доступності чи навігації.
+
+engine-kind-holdover-test-description = MODELLED тест holdover системи часу, оцінений за записом похибки часу, який надає ОПЕРАТОР (журнал linuxptp ptp4l, phc2sys або ts2phc, журнал відстеження чи статистики chrony, журнал годинника TICC, TimeLab або RINEX, чи пари time_s,time_error_ns). Тест має чотири кроки, і Kshana не виконує жодного з них: БАЗОВИЙ захоплений стан, GNSS ПРИБРАНО оператором (антенний кабель або вихід симулятора; Kshana нічого не передає і нічим не керує) у заявлений час, HOLDOVER на власному генераторі системи та ВІДНОВЛЕННЯ після того, як оператор повертає GNSS у другий заявлений час. Запис розділяється за цими двома часами. База: статистика похибки часу та маски ITU-T, написані для захопленого годинника. Holdover: статистика, дробове зміщення частоти, яке тримала система (лінія за найменшими квадратами), маски, написані для holdover чи автономного годинника, огинаюча holdover ePRTC-A із заявленої тривалості захопленого стану та час до перевищення кожного бюджету похибки часу. Відновлення: чи й коли |TE| потрапила в заявлену смугу та залишилася там, пік і найбільший крок. Кожну межу переписано з публічної таблиці ITU-T (маски telecom-timing); формулювання — «виміряно щодо маски», а ці два часи є твердженням оператора, не перевіреним. Запис, закороткий для маски, є INCOMPLETE, ніколи не екстраполюється. Див. docs/TIMING-HIL.md.
+
+engine-kind-gnss-ssv-description = MODELLED доступність GNSS і сила каналу в Космічному об'ємі обслуговування та за його межами: для користувача на сфері (глобальна оболонка буклета ICG) або на кеплерівській траєкторії (від LEO до місячного переходу) подає на орбітальне угруповання (GPS, GLONASS, Galileo, BDS, QZSS, NavIC) і для всіх разом сигнали, придатні вище порога C/N0 - доступність щонайменше одного та чотирьох сигналів, максимальну тривалість перерви, прийняте C/N0, погіршення точності, канали головної пелюстки проти бічних - з буклетною, параметричною або наданою користувачем діаграмою передавання, необов'язковими ефектами іоносфери променів по лімбу, плазмосфери й атмосфери та необов'язковим проєктом слабкосигнального приймача; а також бортовий розширений фільтр Калмана GNSS для апаратів на HEO та місячному переході (орбітальна динаміка, тиск сонячного випромінювання, треті тіла, годинник) і відносну навігацію групи з кількох апаратів за одинарними різницями псевдодальностей. Перевірено за таблицями буклета ICG SSV за попередньої реєстрації (xval/gnss-ssv)
