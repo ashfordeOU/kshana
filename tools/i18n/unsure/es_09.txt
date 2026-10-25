@@ -1,0 +1,13 @@
+engine-legal-compliance-statement | "evidenced" rendered "con evidencia"; "framework is met" -> "se satisfaga un marco normativo" (avoids forbidden cumple); "rated or approved" -> "calificado ni aprobado" (negated)
+engine-legal-bench-surface-notice | "authorised" -> "permitido" (avoids forbidden autorizado); "conducted" -> "conducidas"
+engine-legal-lunanet-afs-advisory | no glossary block; "safety-of-life" -> "seguridad de la vida humana"; "Advisory" -> "Orientativo"
+engine-legal-standards-pack-advisory | same wording choices as lunanet advisory
+engine-legal-geometry-statement | long technical sentence; "non-line-of-sight" -> "sin línea de visión"
+engine-legal-iqfit-statement | "front-end chain" -> "cadena de etapa de entrada"
+engine-legal-standards-pack-notice | lowercase "modelled" -> "calculado a partir de un modelo"; "MET bar" -> "umbral MET"
+engine-legal-resilience-disclaimer | "is not a certification or accreditation" kept negated
+engine-legal-lunar-time-lab-source-statement | "nanosecond-level" -> "del orden del nanosegundo"
+engine-fom-verdict-partial | PARTIAL not in tier list; kept in English
+engine-advanced-report-th-oracle | "Source: oracle" -> "Origen: referencia independiente"
+engine-geometry-chart-west | W -> O (Spanish Oeste)
+engine-advanced-report-rk-source-commit | "commit" kept as loanword
