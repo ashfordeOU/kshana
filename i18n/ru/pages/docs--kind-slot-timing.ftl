@@ -65,3 +65,5 @@ seg-1a72034c1343 = Тематическая страница: <a1>DECEIVED-TIME.
 seg-10e6cd8ce00c = <s1>Предыдущий</s1>reentry
 
 seg-b8ec9e10ee84 = <s1>Следующий</s1>solar-system
+
+seg-cb91473bfdda = Тематическая страница: <a1>LEO-PNT.md</a1>

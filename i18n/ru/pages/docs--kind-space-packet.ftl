@@ -39,3 +39,5 @@ seg-94f3381476ee = <b>VALIDATED</b> Кодирование и декодиров
 seg-bca17769398b = <s1>Предыдущий</s1>solar-system
 
 seg-6ef772483f30 = <s1>Следующий</s1>space-weather
+
+seg-2ac27c1e55c0 = октет
