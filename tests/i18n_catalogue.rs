@@ -16,7 +16,10 @@ use std::collections::{BTreeMap, BTreeSet};
 use std::path::{Path, PathBuf};
 
 /// Messages that have no original template to compare with: new text, with the reason.
-const NEW_MESSAGES: &[(&str, &str)] = &[];
+const NEW_MESSAGES: &[(&str, &str)] = &[(
+    "main-fail",
+    "the command line's `error: ` label for a failed run, which was a literal next to the printed error",
+)];
 
 fn root() -> PathBuf {
     PathBuf::from(env!("CARGO_MANIFEST_DIR"))

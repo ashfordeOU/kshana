@@ -284,7 +284,16 @@ fn bundle_of(tag: &str) -> Arc<Bundle> {
 /// Render message `id` in the current language with `args`; English if the language has no such
 /// message; the id itself (visibly) if English has none either.
 pub fn tr(id: &str, args: &[(&str, String)]) -> String {
+    if is_error_id(id) {
+        return terr(id, args);
+    }
     tr_in(&current(), id, args)
+}
+
+/// Error messages have ids that start `e-` (library errors) or `main-error-` (command-line errors);
+/// their codes are remembered when they are rendered.
+fn is_error_id(id: &str) -> bool {
+    id.starts_with("e-") || id.starts_with("main-error-")
 }
 
 /// [`tr`] in a given language.
@@ -314,7 +323,7 @@ pub fn tr_in(lang: &Lang, id: &str, args: &[(&str, String)]) -> String {
 
 /// Render error message `id` and remember its code so that [`code_of`] can find it later.
 pub fn terr(id: &str, args: &[(&str, String)]) -> String {
-    let msg = tr(id, args);
+    let msg = tr_in(&current(), id, args);
     let code = code_of_id(id);
     // Keyed by the English rendering too, so the code is found whichever language was shown.
     let english = tr_in(&Lang::english(), id, args);
@@ -331,6 +340,33 @@ pub fn terr(id: &str, args: &[(&str, String)]) -> String {
         }
     });
     msg
+}
+
+static VERBOSE: std::sync::atomic::AtomicBool = std::sync::atomic::AtomicBool::new(false);
+
+/// Make [`error_report`] add the code line in every language (`--verbose`).
+pub fn set_verbose(on: bool) {
+    VERBOSE.store(on, std::sync::atomic::Ordering::Relaxed);
+}
+
+/// An error text as the command line prints it. English is the text unchanged. Another language
+/// gets the code after the message, `text [E-CODE]`, so a report in any language can be matched to
+/// the catalogue. With `--verbose` the code is also on a second line in every language, `code: E-CODE`
+/// (the code is an identifier and is never translated). A text with no known code is unchanged.
+pub fn error_report(text: &str) -> String {
+    let Some(code) = code_of(text) else {
+        return text.to_string();
+    };
+    let mut out = if current().is_english() {
+        text.to_string()
+    } else {
+        format!("{text} [{code}]")
+    };
+    if VERBOSE.load(std::sync::atomic::Ordering::Relaxed) {
+        out.push_str("\ncode: ");
+        out.push_str(&code);
+    }
+    out
 }
 
 /// The code of an error message id: the id in capitals (`e-clock-version` is `E-CLOCK-VERSION`).
