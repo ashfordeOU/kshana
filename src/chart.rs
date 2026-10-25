@@ -30,11 +30,11 @@ fn fmt_tick(v: f64) -> String {
     if a == 0.0 {
         "0".to_string()
     } else if a >= 10.0 {
-        format!("{v:.0}")
+        crate::i18n::num(v, 0)
     } else if a >= 1.0 {
-        format!("{v:.1}")
+        crate::i18n::num(v, 1)
     } else {
-        format!("{v:.2}")
+        crate::i18n::num(v, 2)
     }
 }
 

@@ -932,10 +932,16 @@ fn combined_core(
 /// for a [`TerrainNavResult`] — the drift-reduction the terrain matcher buys.
 pub fn terrain_nav_svg(r: &TerrainNavResult) -> String {
     bars_svg(
-        "Terrain-referenced navigation (TERCOM/SITAN)",
+        &crate::t!("altpnt-terrain-title-terrain-referenced"),
         &[
-            ("free-inertial drift", r.free_inertial_drift_m),
-            ("terrain-matched", r.matched_error_m),
+            (
+                crate::t!("altpnt-terrain-free-inertial-drift"),
+                r.free_inertial_drift_m,
+            ),
+            (
+                crate::t!("altpnt-terrain-terrain-matched"),
+                r.matched_error_m,
+            ),
         ],
     )
 }
@@ -945,10 +951,16 @@ pub fn terrain_nav_svg(r: &TerrainNavResult) -> String {
 /// as terrain-referenced.
 pub fn gravity_nav_svg(free_inertial_drift_m: f64, gravity_matched_m: f64) -> String {
     bars_svg(
-        "Gravity-map matched navigation",
+        &crate::t!("altpnt-terrain-title-gravity-map"),
         &[
-            ("free-inertial drift", free_inertial_drift_m),
-            ("gravity-matched", gravity_matched_m),
+            (
+                crate::t!("altpnt-terrain-free-inertial-drift"),
+                free_inertial_drift_m,
+            ),
+            (
+                crate::t!("altpnt-terrain-gravity-matched"),
+                gravity_matched_m,
+            ),
         ],
     )
 }
@@ -957,20 +969,23 @@ pub fn gravity_nav_svg(free_inertial_drift_m: f64, gravity_matched_m: f64) -> St
 /// matched residual, and the fused residual for a [`CombinedAltPntResult`].
 pub fn combined_altpnt_svg(r: &CombinedAltPntResult) -> String {
     bars_svg(
-        "Combined gravity + magnetic + terrain alt-PNT",
+        &crate::t!("altpnt-terrain-title-combined"),
         &[
-            ("free-inertial drift", r.free_inertial_drift_m),
-            ("gravity only", r.gravity_only_m),
-            ("magnetic only", r.magnetic_only_m),
-            ("terrain only", r.terrain_only_m),
-            ("combined (fused)", r.combined_m),
+            (
+                crate::t!("altpnt-terrain-free-inertial-drift"),
+                r.free_inertial_drift_m,
+            ),
+            (crate::t!("altpnt-terrain-gravity-only"), r.gravity_only_m),
+            (crate::t!("altpnt-terrain-magnetic-only"), r.magnetic_only_m),
+            (crate::t!("altpnt-terrain-terrain-only"), r.terrain_only_m),
+            (crate::t!("altpnt-terrain-combined-fused"), r.combined_m),
         ],
     )
 }
 
 /// A minimal labelled horizontal-bar chart (metres), log-scaled so a 70 km bar and a 100 m
 /// bar are both legible. No external chart dependency — plain SVG text, like the other packs.
-fn bars_svg(title: &str, rows: &[(&str, f64)]) -> String {
+fn bars_svg(title: &str, rows: &[(String, f64)]) -> String {
     let w = 720.0;
     let h = 60.0 + rows.len() as f64 * 34.0;
     let x0 = 220.0;
@@ -989,7 +1004,8 @@ fn bars_svg(title: &str, rows: &[(&str, f64)]) -> String {
     s.push_str(&format!(
         "<text x=\"16\" y=\"28\" font-size=\"16\" font-weight=\"bold\">{title}</text>"
     ));
-    for (i, &(label, v)) in rows.iter().enumerate() {
+    for (i, (label, v)) in rows.iter().enumerate() {
+        let v = *v;
         let y = 50.0 + i as f64 * 34.0;
         let frac = if v <= 1.0 {
             0.0
@@ -1006,10 +1022,10 @@ fn bars_svg(title: &str, rows: &[(&str, f64)]) -> String {
              fill=\"{BLUE}\" rx=\"3\"/>"
         ));
         s.push_str(&format!(
-            "<text x=\"{:.0}\" y=\"{:.0}\" font-size=\"12\">{:.0} m</text>",
+            "<text x=\"{:.0}\" y=\"{:.0}\" font-size=\"12\">{} m</text>",
             x0 + len + 6.0,
             y + 14.0,
-            v
+            crate::i18n::num(v, 0)
         ));
     }
     s.push_str("</svg>");
