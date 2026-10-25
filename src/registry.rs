@@ -90,9 +90,13 @@ const BUILTIN_KINDS: &[crate::api::ScenarioKind] = {
         Passes,
         LinkBudget,
         LunarTimeBudget,
+        /// `lunar-ascent`.
         LunarAscent,
+        /// `lunar-surface`.
         LunarSurfaceMap,
+        /// `lunar-descent`.
         LunarLanding,
+        /// `lunar-orbit-rendezvous`.
         LunarRendezvous,
         RealtimeFrameEop,
         HybridOpticalRf,
@@ -196,9 +200,13 @@ pub mod ids {
     pub const PASSES: ScenarioId = ScenarioId::from_static("passes");
     pub const LINK_BUDGET: ScenarioId = ScenarioId::from_static("link-budget");
     pub const LUNAR_TIME_BUDGET: ScenarioId = ScenarioId::from_static("lunar-time-budget");
+    /// `lunar-ascent`.
     pub const LUNAR_ASCENT: ScenarioId = ScenarioId::from_static("lunar-ascent");
+    /// `lunar-surface`.
     pub const LUNAR_SURFACE_PNT_MAP: ScenarioId = ScenarioId::from_static("lunar-surface");
+    /// `lunar-descent`.
     pub const LUNAR_LANDING_DISPERSION: ScenarioId = ScenarioId::from_static("lunar-descent");
+    /// `lunar-orbit-rendezvous`.
     pub const LUNAR_RENDEZVOUS: ScenarioId = ScenarioId::from_static("lunar-orbit-rendezvous");
     pub const REALTIME_FRAME_EOP: ScenarioId = ScenarioId::from_static("realtime-frame-eop");
     pub const HYBRID_OPTICAL_RF: ScenarioId = ScenarioId::from_static("hybrid-optical-rf");
