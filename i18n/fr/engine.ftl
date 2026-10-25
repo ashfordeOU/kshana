@@ -769,9 +769,9 @@ engine-bench-cli-scored-epochs-in-folder = { $labels } époques notées dans { $
 
 engine-bench-cli-wrote-cases-json-and-truth = { $out }/cases.json et { $out }/truth.json écrits
 
-engine-bench-cli-refused-this-commitment-is-provisional = REFUSÉ : cet engagement est provisoire et sa graine a été exposée ; ce n'est pas un jeu réservé de publication
+engine-bench-cli-refused-this-commitment-is-provisional = REFUSED : cet engagement est provisoire et sa graine a été exposée ; ce n'est pas un jeu réservé de publication
 
-engine-bench-cli-mismatch-the-seed-is-not = DISCORDANCE : la graine n'est pas celle qui correspond à cet engagement
+engine-bench-cli-mismatch-the-seed-is-not = MISMATCH : la graine n'est pas celle qui correspond à cet engagement
 
 engine-bench-cli-is-not-json = { $f } n'est pas du JSON : { $e }
 
@@ -2467,9 +2467,9 @@ engine-e-hybrid-coupled-ba-must-be-and = coupled.q_ba doit être >= 0 et coupled
 
 ## src/hybrid_integrity.rs
 
-engine-hybrid-integrity-refused-the-two-legs-are = REFUSÉ : les deux branches ne sont pas à un temps de moyennage commun. La branche optique accumule sur integration_s = { $integration_s } s ; la largeur de bande de bruit de boucle de la branche RF B_L = { $dll_bandwidth_hz } Hz moyenne sur 1/(2*B_L) = { $rf_equivalent_averaging_s } s. Un rapport de deux sigmas pris à des temps de moyennage différents n'est pas une comparaison ; aucun n'est donc cité. Retirez le remplacement rf_dll_bandwidth_hz (il vaut alors par défaut 1/(2*integration_s)) ou fixez-le à { $v4 } Hz.
+engine-hybrid-integrity-refused-the-two-legs-are = REFUSED : les deux branches ne sont pas à un temps de moyennage commun. La branche optique accumule sur integration_s = { $integration_s } s ; la largeur de bande de bruit de boucle de la branche RF B_L = { $dll_bandwidth_hz } Hz moyenne sur 1/(2*B_L) = { $rf_equivalent_averaging_s } s. Un rapport de deux sigmas pris à des temps de moyennage différents n'est pas une comparaison ; aucun n'est donc cité. Retirez le remplacement rf_dll_bandwidth_hz (il vaut alors par défaut 1/(2*integration_s)) ou fixez-le à { $v4 } Hz.
 
-engine-hybrid-integrity-refused-leg-is-not-usable = REFUSÉ : une branche n'est pas un sigma positif fini utilisable (optique { $opt_sigma_range_m } m, RF { $rf_sigma_range_m } m) ; aucun rapport n'est donc formé.
+engine-hybrid-integrity-refused-leg-is-not-usable = REFUSED : une branche n'est pas un sigma positif fini utilisable (optique { $opt_sigma_range_m } m, RF { $rf_sigma_range_m } m) ; aucun rapport n'est donc formé.
 
 engine-e-hybrid-integrity-unknown-rf-band-expected-ka = rf_band '{ $other }' inconnu (s|x|ka attendu)
 
@@ -2621,11 +2621,11 @@ engine-e-interference-map-observatory-is-not-publishable-yet-its = { $day } n'es
 
 engine-interference-map-observatory-kshana-observatory-ads = OBSERVATOIRE KSHANA  ADS-B  { $date }
 
-engine-interference-map-observatory-deg-cells-utc-day-not = CELLULES DE { $trim_deg } DEG  JOUR UTC  NON OBSERVÉ NE VEUT PAS DIRE DÉGAGÉ  AUCUNE CAUSE ATTRIBUÉE
+engine-interference-map-observatory-deg-cells-utc-day-not = CELLULES DE { $trim_deg } DEG  JOUR UTC  NOT OBSERVED NE VEUT PAS DIRE DÉGAGÉ  AUCUNE CAUSE ATTRIBUÉE
 
 engine-interference-map-observatory-source-licence = SOURCE { $dataset }  LICENCE { $dataset2 }
 
-engine-interference-map-observatory-degraded-not-degraded-not-observed = { $summary } DÉGRADÉES  { $summary2 } NON DÉGRADÉES  { $summary3 } NON OBSERVÉES (CELLULES PUBLIÉES)
+engine-interference-map-observatory-degraded-not-degraded-not-observed = { $summary } DEGRADED  { $summary2 } NOT DEGRADED  { $summary3 } NOT OBSERVED (CELLULES PUBLIÉES)
 
 engine-interference-map-observatory-kshana-observatory-ads-navigation-accuracy = Observatoire Kshana, carte de précision de navigation ADS-B, { $date }
 
@@ -4884,7 +4884,7 @@ engine-e-lunar-frame-campaign-no-observation-in-the-campaign =
 
 engine-lunar-frame-campaign-full-rank-all-similarity-parameters = rang plein : les 7 paramètres de similitude sont tous contraints par cette campagne (nombre de conditionnement { $condition })
 
-engine-lunar-frame-campaign-rank-deficient-of-similarity-directions = DÉFICIENT EN RANG : { $defect } directions de similitude sur 7 sont inobservables à partir de cette campagne, donc AUCUN sigma de datum n'est publié ; les directions inobservables sont listées dans la base à sept paramètres
+engine-lunar-frame-campaign-rank-deficient-of-similarity-directions = RANK-DEFICIENT : { $defect } directions de similitude sur 7 sont inobservables à partir de cette campagne, donc AUCUN sigma de datum n'est publié ; les directions inobservables sont listées dans la base à sept paramètres
 
 engine-lunar-frame-campaign-lunar-frame-campaign-beacons-baselines =
     { $n_beacons ->
@@ -5263,7 +5263,7 @@ engine-e-lunar-vlbi-fim-the-datum-leaves-no-parameter = le datum ne laisse aucun
 
 engine-lunar-vlbi-fim-beacon-mcmf = beacon_mcmf.{ $ax }
 
-engine-lunar-vlbi-fim-rank-deficient-of-directions-are = DÉFICIENT EN RANG : { $defect } directions sur { $dim } sont inobservables, donc aucun sigma par coordonnée n'est rapporté ; la valeur du sous-espace observable ci-dessous est une pseudo-inverse restreinte aux { $rank } directions observables et n'est PAS un sigma de station
+engine-lunar-vlbi-fim-rank-deficient-of-directions-are = RANK-DEFICIENT : { $defect } directions sur { $dim } sont inobservables, donc aucun sigma par coordonnée n'est rapporté ; la valeur du sous-espace observable ci-dessous est une pseudo-inverse restreinte aux { $rank } directions observables et n'est PAS un sigma de station
 
 engine-lunar-vlbi-fim-lunar-vlbi-fim-stations-baselines =
     { $n_stations ->
@@ -6518,7 +6518,7 @@ engine-realtime-frame-eop-measured-over-the-real-series = Mesuré sur la série 
 
 engine-realtime-frame-eop-measured-over-genuine-two-vintage = Mesuré sur une véritable paire à deux millésimes : le millésime tel qu'émis ({ $eop_source }) porte de vraies prédictions du Bulletin A au-delà de sa propre date limite de données, et le millésime ultérieur archivé ({ $c }) porte les finals du Bulletin B que ces dates ont fini par recevoir. Trois prévisions sont notées par rapport à ce final : la prédiction archivée du Bulletin A elle-même, l'ajustement de style opérationnel de ce crate sur le millésime tel qu'émis, et la persistance à la date limite.
 
-engine-realtime-frame-eop-empty-and-deliberately-so-later = VIDE, et c'est voulu : un millésime ultérieur a été fourni ({ $c }) mais aucune date n'est portée comme PRÉDICTION du Bulletin A dans le fichier tel qu'émis ({ $eop_source }) et comme FINAL du Bulletin B dans le fichier ultérieur, à un horizon demandé quelconque. Aucune ligne n'est synthétisée.
+engine-realtime-frame-eop-empty-and-deliberately-so-later = VIDE, et c'est voulu : un millésime ultérieur a été fourni ({ $c }) mais aucune date n'est portée comme PREDICTION du Bulletin A dans le fichier tel qu'émis ({ $eop_source }) et comme FINAL du Bulletin B dans le fichier ultérieur, à un horizon demandé quelconque. Aucune ligne n'est synthétisée.
 
 engine-realtime-frame-eop-empty-and-deliberately-so-scoring = VIDE, et c'est voulu. Noter une prédiction ARCHIVÉE AUTHENTIQUE nécessite deux millésimes du même produit finals2000A ; cette exécution n'en a reçu qu'un ({ $eop_source }). Le dépôt ne fournit aucun millésime antérieur archivé, et on n'en fabrique PAS un en perturbant celui qu'il contient — une archive synthétisée ferait de chaque nombre de cette table une mesure de la perturbation. Fournissez un véritable millésime ultérieur archivé via `eop_finals2000a_later` pour la remplir. D'ici là, les véritables erreurs prédit-contre-final que ce rapport contient figurent dans `table5_operational_vs_persistence`, où la prévision est celle de ce crate et la vérité est le final du Bulletin B publié ultérieurement.
 
@@ -6616,7 +6616,7 @@ engine-realtime-frame-eop-rows-rms-light-time-ns-2 = { $t6 }.rows[].*.{ $p }.rms
 
 engine-realtime-frame-eop-measured-over-genuine-two-vintage-2 = Mesuré sur une véritable paire à deux millésimes : l'UT1 PRÉDIT par le Bulletin A du fichier tel qu'émis ({ $eop_source }), comparé au FINAL du Bulletin B qui en a résulté dans le millésime ultérieur archivé ({ $c }), à { $predicted_vs_final } horizon(s).
 
-engine-realtime-frame-eop-empty-and-deliberately-so-an = VIDE, et c'est voulu : un millésime ultérieur archivé a été fourni ({ $c }) mais aucune date n'est portée comme PRÉDICTION du Bulletin A dans le fichier tel qu'émis ({ $eop_source }) et comme FINAL du Bulletin B dans le fichier ultérieur, à un horizon demandé quelconque, de sorte qu'il n'y a aucun résidu prédit-contre-final à rapporter. Aucune ligne n'est synthétisée.
+engine-realtime-frame-eop-empty-and-deliberately-so-an = VIDE, et c'est voulu : un millésime ultérieur archivé a été fourni ({ $c }) mais aucune date n'est portée comme PREDICTION du Bulletin A dans le fichier tel qu'émis ({ $eop_source }) et comme FINAL du Bulletin B dans le fichier ultérieur, à un horizon demandé quelconque, de sorte qu'il n'y a aucun résidu prédit-contre-final à rapporter. Aucune ligne n'est synthétisée.
 
 engine-realtime-frame-eop-empty-and-deliberately-so-predicted-2 = VIDE, et c'est voulu : un résidu prédit-contre-final nécessite DEUX millésimes du même produit finals2000A. Cette exécution n'en a reçu qu'un ({ $eop_source }). Ses lignes de prédiction du Bulletin A concernent des dates futures qui n'ont pas encore de final du Bulletin B, le résidu n'existe donc pas à mesurer et aucun n'est inventé ici. Fournissez un millésime ultérieur archivé via `eop_finals2000a_later` pour remplir cette table. D'ici là, la croissance sur plusieurs jours rapportée dans `table2_error_vs_horizon` est celle du prédicteur de PERSISTANCE noté sur les vrais finals — une erreur réellement mesurée, mais d'un prédicteur modélisé, et non le résidu de prédiction du Bulletin A de l'IERS.
 

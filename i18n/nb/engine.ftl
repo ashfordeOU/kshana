@@ -4714,7 +4714,7 @@ engine-e-lunar-frame-campaign-no-observation-in-the-campaign =
 
 engine-lunar-frame-campaign-full-rank-all-similarity-parameters = full rang: alle 7 likhetsparametere er bundet av denne kampanjen (kondisjonstall { $condition })
 
-engine-lunar-frame-campaign-rank-deficient-of-similarity-directions = RANGMANGEL: { $defect } av 7 likhetsretninger kan ikke observeres fra denne kampanjen, så INGEN datum-sigma publiseres; de uobserverbare retningene er oppført i sjuparameter-basisen
+engine-lunar-frame-campaign-rank-deficient-of-similarity-directions = RANK-DEFICIENT: { $defect } av 7 likhetsretninger kan ikke observeres fra denne kampanjen, så INGEN datum-sigma publiseres; de uobserverbare retningene er oppført i sjuparameter-basisen
 
 engine-lunar-frame-campaign-lunar-frame-campaign-beacons-baselines =
     { $n_epochs ->
@@ -5060,7 +5060,7 @@ engine-e-lunar-vlbi-fim-the-datum-leaves-no-parameter = datumet etterlater ingen
 
 engine-lunar-vlbi-fim-beacon-mcmf = beacon_mcmf.{ $ax }
 
-engine-lunar-vlbi-fim-rank-deficient-of-directions-are = RANGMANGEL: { $defect } av { $dim } retninger kan ikke observeres, så ingen sigma per koordinat rapporteres; verdien for det observerbare underrommet nedenfor er en pseudoinvers begrenset til de { $rank } observerbare retningene og er IKKE en stasjonssigma
+engine-lunar-vlbi-fim-rank-deficient-of-directions-are = RANK-DEFICIENT: { $defect } av { $dim } retninger kan ikke observeres, så ingen sigma per koordinat rapporteres; verdien for det observerbare underrommet nedenfor er en pseudoinvers begrenset til de { $rank } observerbare retningene og er IKKE en stasjonssigma
 
 engine-lunar-vlbi-fim-lunar-vlbi-fim-stations-baselines =
     { $n_stations ->
@@ -6326,7 +6326,7 @@ engine-realtime-frame-eop-measured-over-the-real-series = Målt over den virkeli
 
 engine-realtime-frame-eop-measured-over-genuine-two-vintage = Målt over et ekte par med to utgaver: utgaven slik den ble utstedt ({ $eop_source }) har virkelige Bulletin A-prediksjoner forbi sin egen datagrense, og den arkiverte senere utgaven ({ $c }) har de endelige Bulletin B-verdiene disse datoene til slutt fikk. Tre prognoser scores mot den endelige verdien — selve den arkiverte Bulletin A-prediksjonen, denne cratens tilpasning i operativ stil over utgaven slik den ble utstedt, og persistens ved datagrensen.
 
-engine-realtime-frame-eop-empty-and-deliberately-so-later = TOM, og med vilje: en senere utgave ble oppgitt ({ $c }), men ingen dato finnes både som Bulletin A-PREDIKSJON i filen slik den ble utstedt ({ $eop_source }) og som ENDELIG Bulletin B-verdi i den senere, ved noen forespurt horisont. Ingen rad syntetiseres.
+engine-realtime-frame-eop-empty-and-deliberately-so-later = TOM, og med vilje: en senere utgave ble oppgitt ({ $c }), men ingen dato finnes både som Bulletin A-PREDICTION i filen slik den ble utstedt ({ $eop_source }) og som ENDELIG Bulletin B-verdi i den senere, ved noen forespurt horisont. Ingen rad syntetiseres.
 
 engine-realtime-frame-eop-empty-and-deliberately-so-scoring = TOM, og med vilje. Å score en EKTE ARKIVERT prediksjon krever to utgaver av samme finals2000A-produkt; denne kjøringen fikk én ({ $eop_source }). Depotet leverer ingen arkivert tidligere utgave, og en lages IKKE ved å forstyrre utgaven det har — et syntetisert arkiv ville gjort hvert tall i denne tabellen til en måling av forstyrrelsen. Oppgi en virkelig arkivert senere utgave via `eop_finals2000a_later` for å fylle den. Inntil da finnes de ekte feilene mellom predikert og endelig verdi som denne rapporten har, i `table5_operational_vs_persistence`, der prognosen er denne cratens egen og referansen er den senere publiserte endelige Bulletin B-verdien.
 
@@ -6424,7 +6424,7 @@ engine-realtime-frame-eop-rows-rms-light-time-ns-2 = { $t6 }.rows[].*.{ $p }.rms
 
 engine-realtime-frame-eop-measured-over-genuine-two-vintage-2 = Målt over et ekte par med to utgaver: den Bulletin A-PREDIKERTE UT1 i filen slik den ble utstedt ({ $eop_source }) differensiert mot den til slutt ENDELIGE Bulletin B-verdien i den arkiverte senere utgaven ({ $c }), ved { $predicted_vs_final } horisont(er).
 
-engine-realtime-frame-eop-empty-and-deliberately-so-an = TOM, og med vilje: en arkivert senere utgave ble oppgitt ({ $c }), men ingen dato finnes både som Bulletin A-PREDIKSJON i filen slik den ble utstedt ({ $eop_source }) og som ENDELIG Bulletin B-verdi i den senere, ved noen forespurt horisont, så det finnes ingen residual mellom predikert og endelig verdi å rapportere. Ingen rad syntetiseres.
+engine-realtime-frame-eop-empty-and-deliberately-so-an = TOM, og med vilje: en arkivert senere utgave ble oppgitt ({ $c }), men ingen dato finnes både som Bulletin A-PREDICTION i filen slik den ble utstedt ({ $eop_source }) og som ENDELIG Bulletin B-verdi i den senere, ved noen forespurt horisont, så det finnes ingen residual mellom predikert og endelig verdi å rapportere. Ingen rad syntetiseres.
 
 engine-realtime-frame-eop-empty-and-deliberately-so-predicted-2 = TOM, og med vilje: en residual mellom predikert og endelig verdi krever TO utgaver av samme finals2000A-produkt. Denne kjøringen fikk én ({ $eop_source }). Bulletin A-prediksjonsradene i den gjelder fremtidige datoer som ennå ikke har noen endelig Bulletin B-verdi, så residualen finnes ikke å måle, og ingen er funnet på her. Oppgi en arkivert senere utgave via `eop_finals2000a_later` for å fylle denne tabellen. Inntil da er veksten over flere dager som rapporteres i `table2_error_vs_horizon` PERSISTENS-prediktoren scoret over de virkelige endelige verdiene — en virkelig målt feil, men en prediktor beregnet fra en modell, og ikke IERS Bulletin A-prediksjonens residual.
 

@@ -24,13 +24,15 @@ def load(path):
         elif isinstance(e,ast.Message):
             v=V(); v.visit(e)
             raw=text[e.span.start:e.span.end]
+            # a leading comment (the `# legal: native review` line) is not part of the message: do not count it as a line
+            raw=re.sub(r'\A(?:[ \t]*#[^\n]*\n)+','',raw)
             val=raw.split('=',1)[1]
             plain=re.sub(r'\{[^{}]*\}',' ',val)
-            msgs[e.id.name]=dict(vars=v.vars,lits=collections.Counter(v.lits),
+            msgs[e.id.name]=dict(plain=plain,vars=v.vars,lits=collections.Counter(v.lits),
                 lines=len(raw.rstrip('\n').split('\n')),
                 ticks=collections.Counter(re.findall(r'`[^`]*`',plain)),
                 digits=collections.Counter(re.findall(r'\d+',plain)),
-                tiers=collections.Counter(re.findall(r'\bNOT MET\b|\bMET\b|\bMODELLED\b|\bVALIDATED\b|\bPARTNER\b|\bEXPLORATORY\b|\bPREDICTION\b|\bNOT CORROBORATED\b|\bCORROBORATED\b|\bREFUSED\b|\bDEGRADED\b|\bDEFICIENT\b|\bOBSERVED\b|\bLOST\b|\bMISMATCH\b',plain)))
+                tiers=collections.Counter(re.findall(r'(?<![A-Za-z])(?:NOT MET|MET|MODELLED|VALIDATED|PARTNER|EXPLORATORY|PREDICTION|NOT CORROBORATED|CORROBORATED|REFUSED|DEGRADED|DEFICIENT|OBSERVED|LOST|MISMATCH)(?![A-Za-z])',plain)))
     return msgs,junk
 en,ej=load(sys.argv[1]); tr,tj=load(sys.argv[2])
 bad=[]
@@ -48,7 +50,9 @@ for k,m in tr.items():
     if m['lits']!=e['lits']: bad.append(f'{k}: string-literal placeables differ')
     if m['lines']!=e['lines']: bad.append(f'{k}: line count {m["lines"]} != {e["lines"]}')
     if m['ticks']!=e['ticks']: bad.append(f'{k}: backtick spans differ')
-    if m['digits']!=e['digits']: bad.append(f'{k}: numbers differ')
+    # ja and zh-Hans write a month or a count as a numeral (June -> 6月, four -> 4つ): extra digits there are not a problem
+    cjk = bool(re.search(r'[\u3040-\u30ff\u4e00-\u9fff]', m['plain'])) and not (e['digits']-m['digits'])
+    if m['digits']!=e['digits'] and not cjk: bad.append(f'{k}: numbers differ')
     if m['tiers']!=e['tiers']: bad.append(f'{k}: tier/verdict words differ')
 missing=[k for k in en if k not in tr]
 print(f'{len(tr)} translated, {len(missing)} omitted of {len(en)}; {len(bad)} problems')
