@@ -1603,7 +1603,11 @@
   "id": "e-animation-animation-duration-must-be-between",
   "error": true,
   "parts": [
-   "animation duration must be between 0.5 s and 600 s, got ",
+   "animation duration must be between ",
+   {
+    "var": "lit_0_5"
+   },
+   " s and 600 s, got ",
    {
     "var": "duration_s"
    }
@@ -1848,111 +1852,6 @@
     "var": "MAX_TRACES"
    },
    " traces); they are listed in the manifest of the frames export."
-  ]
- },
- {
-  "id": "antenna-altitude-beamwidth-deg-points",
-  "error": false,
-  "parts": [
-   "altitude ",
-   {
-    "var": "a_lo"
-   },
-   "-",
-   {
-    "var": "a_hi"
-   },
-   " m x beamwidth ",
-   {
-    "var": "b_lo"
-   },
-   "-",
-   {
-    "var": "b_hi"
-   },
-   " deg, ",
-   {
-    "var": "points"
-   },
-   " points"
-  ]
- },
- {
-  "id": "antenna-limb-capture-is-reached-on",
-  "error": false,
-  "parts": [
-   "limb capture IS reached on this grid (",
-   {
-    "var": "grid"
-   },
-   "): ",
-   {
-    "var": "points"
-   },
-   " of ",
-   {
-    "var": "points2"
-   },
-   " sampled operating points capture the limb and ",
-   {
-    "var": "crossings"
-   },
-   " axis crossing(s) were located; the strongest limb J/S sampled is ",
-   {
-    "var": "limb_js_db"
-   },
-   " dB at altitude ",
-   {
-    "var": "altitude_m"
-   },
-   " m / beamwidth ",
-   {
-    "var": "hpbw_deg"
-   },
-   " deg, against a ",
-   {
-    "var": "thr"
-   },
-   " dB capture threshold."
-  ]
- },
- {
-  "id": "antenna-limb-capture-is-not-reached",
-  "error": false,
-  "parts": [
-   "limb capture is NOT reached anywhere on this grid (",
-   {
-    "var": "grid"
-   },
-   ") - not zero capture, but no limb capture: the best limb J/S is ",
-   {
-    "var": "limb_js_db"
-   },
-   " dB at altitude ",
-   {
-    "var": "altitude_m"
-   },
-   " m / beamwidth ",
-   {
-    "var": "hpbw_deg"
-   },
-   " deg, ",
-   {
-    "var": "shortfall"
-   },
-   " dB short of the ",
-   {
-    "var": "thr"
-   },
-   " dB capture threshold; that operating point would capture the limb at ",
-   {
-    "var": "limb_capture_tx_power_dbw"
-   },
-   " dBW transmit power against the ",
-   {
-    "var": "p_tx_dbw"
-   },
-   " dBW flown."
   ]
  },
  {
@@ -5110,7 +5009,11 @@
    {
     "var": "s"
    },
-   " (0.35 default monitor statistic)"
+   " (",
+   {
+    "var": "lit_0_35"
+   },
+   " default monitor statistic)"
   ]
  },
  {
@@ -5372,7 +5275,11 @@
   "id": "e-body-pnt-user-altitude-must-be-positive",
   "error": true,
   "parts": [
-   "user altitude must be positive and eccentricity in [0, 0.9)"
+   "user altitude must be positive and eccentricity in [0, ",
+   {
+    "var": "lit_0_9"
+   },
+   ")"
   ]
  },
  {
@@ -6874,29 +6781,6 @@
     "var": "runs_total"
    },
    " member runs (MODELLED)"
-  ]
- },
- {
-  "id": "campaign-sweep-of-over-nodes-each",
-  "error": false,
-  "parts": [
-   "sweep of `",
-   {
-    "var": "scenario_kind"
-   },
-   "` over ",
-   {
-    "var": "axis_order"
-   },
-   " (",
-   {
-    "var": "nodes"
-   },
-   " nodes",
-   {
-    "var": "v4"
-   },
-   "; each line on its own range)"
   ]
  },
  {
@@ -8620,7 +8504,11 @@
    {
     "var": "e"
    },
-   " must lie in [0, 0.9)"
+   " must lie in [0, ",
+   {
+    "var": "lit_0_9"
+   },
+   ")"
   ]
  },
  {
@@ -8793,7 +8681,11 @@
   "id": "e-constellation-grid-step-deg-must-lie",
   "error": true,
   "parts": [
-   "grid_step_deg must lie in [0.25, 90]"
+   "grid_step_deg must lie in [",
+   {
+    "var": "lit_0_25"
+   },
+   ", 90]"
   ]
  },
  {
@@ -13233,39 +13125,6 @@
   ]
  },
  {
-  "id": "holdover-test-recovered-after-gnss-returned",
-  "error": false,
-  "parts": [
-   "; recovered ",
-   {
-    "var": "t"
-   },
-   " s after GNSS returned"
-  ]
- },
- {
-  "id": "holdover-test-holdover-test-holdover-max-te",
-  "error": false,
-  "parts": [
-   "holdover-test: holdover ",
-   {
-    "var": "hold"
-   },
-   " s, max|TE| ",
-   {
-    "var": "max_abs"
-   },
-   " ns; ",
-   {
-    "var": "masks"
-   },
-   {
-    "var": "rec"
-   },
-   " (MODELLED, measured against the mask)"
-  ]
- },
- {
   "id": "e-hybrid-coupled-sigma-pr-must-be",
   "error": true,
   "parts": [
@@ -16833,35 +16692,6 @@
   ]
  },
  {
-  "id": "iq-cli-scene-integer-scale-lsb-noise-normalised",
-  "error": false,
-  "parts": [
-   "; integer scale: 1 LSB = ",
-   {
-    "var": "sc"
-   },
-   " noise-normalised units (expected RMS ",
-   {
-    "var": "v1"
-   },
-   " LSB per component), ",
-   {
-    "var": "clipped"
-   },
-   " element(s) clipped"
-  ]
- },
- {
-  "id": "iq-cli-scene-written-by-kshana-iq-scene",
-  "error": false,
-  "parts": [
-   "written by kshana iq scene: a SIMULATED scene, not a recording",
-   {
-    "var": "scale_note"
-   }
-  ]
- },
- {
   "id": "iq-cli-scene-ion-sdr-metadata",
   "error": false,
   "parts": [
@@ -16882,57 +16712,6 @@
    ", meta ",
    {
     "var": "meta_path"
-   }
-  ]
- },
- {
-  "id": "iq-cli-scene-written-by-kshana-iq-scene-2",
-  "error": false,
-  "parts": [
-   "written by kshana iq scene",
-   {
-    "var": "scale_note"
-   }
-  ]
- },
- {
-  "id": "iq-cli-scene-wrote-samples-hz-to-truth",
-  "error": false,
-  "parts": [
-   "wrote ",
-   {
-    "var": "samples"
-   },
-   " samples (",
-   {
-    "var": "format"
-   },
-   ", ",
-   {
-    "var": "fs_hz"
-   },
-   " Hz) to ",
-   {
-    "var": "data_path"
-   },
-   "; ",
-   {
-    "var": "truth_records"
-   },
-   " truth records to ",
-   {
-    "var": "truth_path"
-   },
-   "; ",
-   {
-    "var": "meta_note"
-   },
-   "; channel: ",
-   {
-    "var": "chan_desc"
-   },
-   {
-    "var": "scale_note"
    }
   ]
  },
@@ -17099,7 +16878,11 @@
    {
     "var": "c"
    },
-   ": commensurate sampling turns the code discriminator into a staircase (at 2 samples/chip the DLL dithers, about 0.09 chip RMS code error at 45 dB-Hz); code-loop jitter and bias from this recording are not representative. Use a rate that is not a multiple of half the chip rate to judge code loops."
+   ": commensurate sampling turns the code discriminator into a staircase (at 2 samples/chip the DLL dithers, about ",
+   {
+    "var": "lit_0_09"
+   },
+   " chip RMS code error at 45 dB-Hz); code-loop jitter and bias from this recording are not representative. Use a rate that is not a multiple of half the chip rate to judge code loops."
   ]
  },
  {
@@ -17953,28 +17736,6 @@
     "var": "om"
    },
    " dB, PI90 coverage ",
-   {
-    "var": "om2"
-   }
-  ]
- },
- {
-  "id": "iq-labfit-iqreport-events-loss-time-rms-pi90",
-  "error": false,
-  "parts": [
-   "; ",
-   {
-    "var": "model"
-   },
-   ": ",
-   {
-    "var": "n"
-   },
-   " events, loss-time RMS ",
-   {
-    "var": "om"
-   },
-   " s, PI90 coverage ",
    {
     "var": "om2"
    }
@@ -21677,7 +21438,11 @@
   "id": "e-leo-navmsg-fit-sample-and-eval-step",
   "error": true,
   "parts": [
-   "fit_sample_s and eval_step_s must be 0.5-60 s"
+   "fit_sample_s and eval_step_s must be ",
+   {
+    "var": "lit_0_5"
+   },
+   "-60 s"
   ]
  },
  {
@@ -22306,7 +22071,11 @@
   "id": "e-leo-navmsg-truth-eccentricity-must-be-in-for",
   "error": true,
   "parts": [
-   "eccentricity must be in [0, 0.1) for a LEO fit; got ",
+   "eccentricity must be in [0, ",
+   {
+    "var": "lit_0_1"
+   },
+   ") for a LEO fit; got ",
    {
     "var": "eccentricity"
    }
@@ -26691,28 +26460,6 @@
   ]
  },
  {
-  "id": "lunar-time-budget-scenario-time-lab-to-ltc-ns",
-  "error": false,
-  "parts": [
-   {
-    "var": "summary"
-   },
-   " | time lab: ",
-   {
-    "var": "lab"
-   },
-   " ",
-   {
-    "var": "lab2"
-   },
-   " to LTC, x(1 d) ",
-   {
-    "var": "lab3"
-   },
-   " ns (MODELLED)"
-  ]
- },
- {
   "id": "e-lunar-time-lab-time-lab-unknown-clock-expected",
   "error": true,
   "parts": [
@@ -29872,17 +29619,6 @@
   ]
  },
  {
-  "id": "nmea-synth-log-every-tracked-satellite-shows-db",
-  "error": false,
-  "parts": [
-   "; every tracked satellite shows ",
-   {
-    "var": "c"
-   },
-   " dB-Hz while it lasts"
-  ]
- },
- {
   "id": "nmea-synth-log-jamming-received-n0-falls-by",
   "error": false,
   "parts": [
@@ -29921,64 +29657,6 @@
     "var": "r"
    },
    " deg relative to the course at onset, then held)"
-  ]
- },
- {
-  "id": "nmea-synth-log-position-drag-off-the-reported",
-  "error": false,
-  "parts": [
-   "position drag-off: the reported position walks ",
-   {
-    "var": "final_offset_m"
-   },
-   " m away ",
-   {
-    "var": "dir"
-   },
-   " while the receiver keeps a valid fix (false track peaks at ",
-   {
-    "var": "pv"
-   },
-   " m/s and ",
-   {
-    "var": "pa"
-   },
-   " m/s^2)",
-   {
-    "var": "cf"
-   }
-  ]
- },
- {
-  "id": "nmea-synth-log-time-spoof-reported-utc-moves",
-  "error": false,
-  "parts": [
-   "time spoof: reported UTC moves ",
-   {
-    "var": "offset_s"
-   },
-   " s from true; position stays true",
-   {
-    "var": "cf"
-   }
-  ]
- },
- {
-  "id": "nmea-synth-log-replay-delay-meaconing-style-position",
-  "error": false,
-  "parts": [
-   "replay delay (meaconing style): position",
-   {
-    "var": "v1"
-   },
-   " lags the truth by ",
-   {
-    "var": "delay_s"
-   },
-   " s",
-   {
-    "var": "cf"
-   }
   ]
  },
  {
@@ -34538,58 +34216,6 @@
   ]
  },
  {
-  "id": "receiver-trust-scenario-of-stated-events-detected-within",
-  "error": false,
-  "parts": [
-   "; ",
-   {
-    "var": "events_detected"
-   },
-   " of ",
-   {
-    "var": "events_evaluable"
-   },
-   " stated events detected within ",
-   {
-    "var": "detect_tol_s"
-   },
-   " s"
-  ]
- },
- {
-  "id": "receiver-trust-scenario-of-n0-predictions-within-db",
-  "error": false,
-  "parts": [
-   "; ",
-   {
-    "var": "predictions_agreeing"
-   },
-   " of ",
-   {
-    "var": "predictions_evaluable"
-   },
-   " C/N0 predictions within ",
-   {
-    "var": "cn0_tol_db"
-   },
-   " dB"
-  ]
- },
- {
-  "id": "receiver-trust-scenario-trust-score-lowest-final",
-  "error": false,
-  "parts": [
-   "; trust score lowest ",
-   {
-    "var": "min"
-   },
-   ", final ",
-   {
-    "var": "last"
-   }
-  ]
- },
- {
   "id": "receiver-trust-scenario-scenario-receiver-trust-log-epochs",
   "error": false,
   "parts": [
@@ -35027,7 +34653,15 @@
    {
     "var": "dead_band_chips"
    },
-   " chips, so the Early/Late discriminator is a staircase with a one-sample dead band instead of a triangle and the DLL settles at the wrong lag. Offset the sample rate off the integer multiple (5 MHz is 4.8876 samples/chip; 25 MHz is 24.4379) or oversample far enough that the dead band is below the code-phase accuracy you need."
+   " chips, so the Early/Late discriminator is a staircase with a one-sample dead band instead of a triangle and the DLL settles at the wrong lag. Offset the sample rate off the integer multiple (5 MHz is ",
+   {
+    "var": "lit_4_8876"
+   },
+   " samples/chip; 25 MHz is ",
+   {
+    "var": "lit_24_4379"
+   },
+   ") or oversample far enough that the dead band is below the code-phase accuracy you need."
   ]
  },
  {
@@ -39242,7 +38876,11 @@
   "id": "telecom-timing-the-mask-is-defined-through",
   "error": false,
   "parts": [
-   "the mask is defined through a 0.1 Hz low-pass filter, which this engine applies only at sample intervals of ",
+   "the mask is defined through a ",
+   {
+    "var": "lit_0_1"
+   },
+   " Hz low-pass filter, which this engine applies only at sample intervals of ",
    {
     "var": "MAX_FILTER_DT_S"
    },
@@ -39272,54 +38910,6 @@
   "error": true,
   "parts": [
    "locked_duration_days must be finite and >= 0"
-  ]
- },
- {
-  "id": "telecom-timing-ns-budget-exceeded-after",
-  "error": false,
-  "parts": [
-   "; ",
-   {
-    "var": "max_abs_te_ns"
-   },
-   " ns budget exceeded after ",
-   {
-    "var": "t"
-   },
-   " s"
-  ]
- },
- {
-  "id": "telecom-timing-ns-budget-never-exceeded",
-  "error": false,
-  "parts": [
-   "; ",
-   {
-    "var": "max_abs_te_ns"
-   },
-   " ns budget never exceeded"
-  ]
- },
- {
-  "id": "telecom-timing-telecom-timing-max-te-ns",
-  "error": false,
-  "parts": [
-   "telecom-timing: max|TE| ",
-   {
-    "var": "max_abs"
-   },
-   " ns over ",
-   {
-    "var": "v2"
-   },
-   " s; ",
-   {
-    "var": "masks"
-   },
-   {
-    "var": "first_budget"
-   },
-   " (MODELLED)"
   ]
  },
  {
@@ -40575,7 +40165,11 @@
   "id": "e-tracking-loop-tracking-loop-correlator-spacing-chips",
   "error": true,
   "parts": [
-   "tracking-loop: correlator_spacing_chips must be below 1.9 chips (got ",
+   "tracking-loop: correlator_spacing_chips must be below ",
+   {
+    "var": "lit_1_9"
+   },
+   " chips (got ",
    {
     "var": "correlator_spacing_chips"
    },

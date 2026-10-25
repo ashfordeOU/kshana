@@ -96,7 +96,7 @@ fn typescript_vocabulary_matches_the_engine() {
 #[test]
 fn the_typed_signatures_use_the_vocabulary() {
     let pyi = std::fs::read_to_string("kshana.pyi").unwrap();
-    assert!(pyi.contains("def scenario_kinds() -> list[KindMeta]:"));
+    assert!(pyi.contains("def scenario_kinds(lang: Optional[str] = None) -> list[KindMeta]:"));
     assert!(pyi
         .contains("def error_kind(toml: str, lang: Optional[str] = None) -> Optional[ErrorKind]:"));
     let wasm = std::fs::read_to_string("src/wasm.rs").unwrap();

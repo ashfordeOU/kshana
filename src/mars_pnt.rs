@@ -1200,7 +1200,14 @@ pub fn to_svg(result: &MarsPntResult) -> String {
     svg.push_str(&format!(
         "<text x=\"{ml:.0}\" y=\"18\" font-size=\"14\" font-weight=\"bold\">{title}</text>"
     ));
-    svg.push_str(&y_axis(ml, mt, pw, ph, y_max, "position error (m)"));
+    svg.push_str(&y_axis(
+        ml,
+        mt,
+        pw,
+        ph,
+        y_max,
+        &crate::t!("inertial-chart-y-title"),
+    ));
 
     // The 3σ covariance bound as a horizontal reference line (labelled a covariance bound, not a PL).
     let y3 = mt + ph - (sigma3.min(y_max) / y_max) * ph;
@@ -1209,9 +1216,10 @@ pub fn to_svg(result: &MarsPntResult) -> String {
         ml + pw
     ));
     svg.push_str(&format!(
-        "<text x=\"{:.1}\" y=\"{:.1}\" text-anchor=\"end\" fill=\"{AMBER}\" font-size=\"10\">formal 3σ (covariance, not a certified PL)</text>",
+        "<text x=\"{:.1}\" y=\"{:.1}\" text-anchor=\"end\" fill=\"{AMBER}\" font-size=\"10\">{}</text>",
         ml + pw,
-        y3 - 4.0
+        y3 - 4.0,
+        crate::t!("mars-pnt-chart-formal-3sigma")
     ));
 
     // Bars, one per epoch (the achieved error).

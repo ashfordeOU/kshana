@@ -2212,7 +2212,7 @@ fn chart(runs: &[SignalRun], r: &ReceiverCfg) -> String {
         "<text x=\"{:.1}\" y=\"{:.1}\" text-anchor=\"middle\" font-size=\"11\" fill=\"{MUTED}\">{}</text>",
         lx + lw / 2.0,
         70.0 + n as f64 * row_h + 4.0,
-        crate::t!("leo-signal-chart-psd-axis")
+        crate::t!("leo-signal-chart-psd-axis", lit_0_6 = crate::i18n::num(0.6_f64, 1))
     ));
     // Jitter panel.
     let (px, py, pw, ph) = (590.0, 80.0, 370.0, 360.0);

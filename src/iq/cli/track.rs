@@ -467,7 +467,7 @@ pub(crate) fn sampling_warnings(spec: &SampleSpec, codes: &[SignalCode]) -> Vec<
                 "fs_hz": spec.fs_hz,
                 "chip_rate_hz": rate,
                 "samples_per_chip": r,
-                "message": crate::t!("iq-cli-track-hz-is-samples-per-chip", fs_hz = spec.fs_hz, r = r, c = c.name()),
+                "message": crate::t!("iq-cli-track-hz-is-samples-per-chip", fs_hz = spec.fs_hz, r = r, c = c.name(), lit_0_09 = crate::i18n::num(0.09_f64, 2)),
             }));
         }
     }

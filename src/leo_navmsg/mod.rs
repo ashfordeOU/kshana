@@ -390,7 +390,10 @@ impl LeoNavmsgScenario {
         let fit_sample_s = m.fit_sample_s.unwrap_or(5.0);
         let eval_step_s = m.eval_step_s.unwrap_or(5.0);
         if !(0.5..=60.0).contains(&fit_sample_s) || !(0.5..=60.0).contains(&eval_step_s) {
-            return Err(crate::terr!("e-leo-navmsg-fit-sample-and-eval-step"));
+            return Err(crate::terr!(
+                "e-leo-navmsg-fit-sample-and-eval-step",
+                lit_0_5 = crate::i18n::num(0.5_f64, 1)
+            ));
         }
         let carrier_hz = m
             .carrier_hz

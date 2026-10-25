@@ -62,10 +62,14 @@ pub const LANGS: [&str; 18] = [
 /// The pseudo-locale used by the tests.
 pub const PSEUDO: &str = "en-XA";
 
-/// The embedded catalogues, English first. A language whose file does not exist yet is absent here
-/// and falls back to English entirely.
-const CATALOGUES: &[(&str, &str)] = &[
-    ("en", include_str!("../../i18n/en/engine.ftl")),
+/// The English catalogue, embedded in every build.
+const ENGLISH: &str = include_str!("../../i18n/en/engine.ftl");
+
+/// The other catalogues, embedded in the native library, the command line and the Python wheel. The
+/// WebAssembly build embeds English only (the other sixteen would add about 150 kB gzip each); there the
+/// page fetches `i18n/<lang>/engine.ftl` and hands it to [`register_catalogue`].
+#[cfg(not(target_arch = "wasm32"))]
+const OTHERS: &[(&str, &str)] = &[
     ("nl", include_str!("../../i18n/nl/engine.ftl")),
     ("pl", include_str!("../../i18n/pl/engine.ftl")),
     ("pt-BR", include_str!("../../i18n/pt-BR/engine.ftl")),
@@ -84,15 +88,55 @@ const CATALOGUES: &[(&str, &str)] = &[
     ("ja", include_str!("../../i18n/ja/engine.ftl")),
     ("zh-Hans", include_str!("../../i18n/zh-Hans/engine.ftl")),
 ];
+#[cfg(target_arch = "wasm32")]
+const OTHERS: &[(&str, &str)] = &[];
+
+fn registered() -> &'static RwLock<HashMap<String, &'static str>> {
+    static R: OnceLock<RwLock<HashMap<String, &'static str>>> = OnceLock::new();
+    R.get_or_init(|| RwLock::new(HashMap::new()))
+}
+
+/// Use `ftl` as the catalogue of language `tag` from now on, in place of any embedded one. This is how
+/// the WebAssembly build gets its languages: the page fetches `i18n/<lang>/engine.ftl` and registers it.
+/// The text is checked first; a catalogue that does not parse, or a tag that is not supported, is an
+/// error and changes nothing. A message the catalogue lacks is shown in English.
+pub fn register_catalogue(tag: &str, ftl: &str) -> Result<(), String> {
+    let lang = resolve(tag)?;
+    if lang.is_english() {
+        return Err("English is built in and cannot be replaced".to_string());
+    }
+    let tag = lang.tag().to_string();
+    build(&tag, ftl)?;
+    let text: &'static str = Box::leak(ftl.to_string().into_boxed_str());
+    registered()
+        .write()
+        .unwrap_or_else(|e| e.into_inner())
+        .insert(tag.clone(), text);
+    bundles()
+        .lock()
+        .unwrap_or_else(|e| e.into_inner())
+        .remove(&tag);
+    Ok(())
+}
 
 /// The English catalogue text (the source of every message).
 pub fn english_source() -> &'static str {
-    CATALOGUES[0].1
+    ENGLISH
 }
 
 /// The embedded catalogue text of `tag`, as the translators deliver it.
 pub fn catalogue_source(tag: &str) -> Option<&'static str> {
-    CATALOGUES.iter().find(|(t, _)| *t == tag).map(|(_, s)| *s)
+    if tag == "en" {
+        return Some(ENGLISH);
+    }
+    if let Some(s) = registered()
+        .read()
+        .unwrap_or_else(|e| e.into_inner())
+        .get(tag)
+    {
+        return Some(s);
+    }
+    OTHERS.iter().find(|(t, _)| *t == tag).map(|(_, s)| *s)
 }
 
 /// A supported language: one of [`LANGS`] or [`PSEUDO`].
