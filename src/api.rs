@@ -1809,6 +1809,22 @@ pub fn run_scenario_lang(src: &str, lang: &str) -> Result<RunOutput, KshanaError
     run_toml_lang(src, lang).map_err(KshanaError::InvalidInput)
 }
 
+/// Run `src` in language `lang` and, if it fails, describe the failure as a JSON object
+/// `{"kind": <kind_tag>, "code": <stable code or null>, "message": <text in the language>}`.
+/// Returns an empty string when the run succeeds. The code is the same in every language; callers
+/// match on `kind` and `code`, never on the message.
+pub fn error_info_json(src: &str, lang: &str) -> String {
+    match run_scenario_lang(src, lang) {
+        Ok(_) => String::new(),
+        Err(e) => serde_json::json!({
+            "kind": e.kind_tag(),
+            "code": e.code(),
+            "message": e.to_string(),
+        })
+        .to_string(),
+    }
+}
+
 fn run_toml_in_current_language(src: &str) -> Result<RunOutput, String> {
     let mut out = run_toml_inner(src, true)?;
     let hash = extract_scenario_hash(&out.json).unwrap_or_else(|| src_fingerprint(src));
