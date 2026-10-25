@@ -2527,3 +2527,5 @@ seg-417a52c9c154 = PDF
 seg-4e31c8daf798 = Реєстр (ledger)
 
 seg-c3c260b7063e = Тести
+
+seg-8980b5ae869b = Показник
