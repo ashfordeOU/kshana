@@ -1,0 +1,7 @@
+# docs--marine-integrations: translations (sv)
+
+seg-2e34ace70d11 = Signal K-plugin
+
+seg-0857a94a948e = Begränsningar
+
+seg-2247a2344710 = Betydelse
