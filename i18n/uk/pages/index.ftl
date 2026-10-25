@@ -273,3 +273,5 @@ seg-5cce5bd43a6b = ШІ-асистент
 seg-f42465f7d066 = нс
 
 seg-ff90679d1de9 = Виявлення спуфінгу
+
+seg-257c477dc510 = WebAssembly

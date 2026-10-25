@@ -9,3 +9,5 @@ seg-fdbb9db68f1d = немає
 seg-f63dd3d7aad4 = Джерело
 
 seg-c353e7bec219 = Ключ
+
+seg-98151954f217 = false
