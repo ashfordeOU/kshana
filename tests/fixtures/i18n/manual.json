@@ -1,0 +1,1029 @@
+[
+ {
+  "id": "advanced-report-eyebrow",
+  "error": false,
+  "parts": [
+   "Kshana run report"
+  ]
+ },
+ {
+  "id": "advanced-report-meta",
+  "error": false,
+  "parts": [
+   "Kind <code>",
+   {
+    "var": "kind"
+   },
+   "</code> · engine ",
+   {
+    "var": "engine"
+   },
+   " · scenario <code>",
+   {
+    "var": "scenario"
+   },
+   "</code> (file digest ",
+   {
+    "var": "digest"
+   },
+   "…)"
+  ]
+ },
+ {
+  "id": "advanced-report-toc-summary",
+  "error": false,
+  "parts": [
+   "1 Summary"
+  ]
+ },
+ {
+  "id": "advanced-report-toc-inputs",
+  "error": false,
+  "parts": [
+   "2 Inputs"
+  ]
+ },
+ {
+  "id": "advanced-report-toc-results",
+  "error": false,
+  "parts": [
+   "3 Results"
+  ]
+ },
+ {
+  "id": "advanced-report-toc-aggregation",
+  "error": false,
+  "parts": [
+   "3a Aggregation"
+  ]
+ },
+ {
+  "id": "advanced-report-toc-companions",
+  "error": false,
+  "parts": [
+   "3b Animation and exports"
+  ]
+ },
+ {
+  "id": "advanced-report-toc-events",
+  "error": false,
+  "parts": [
+   "4 Events"
+  ]
+ },
+ {
+  "id": "advanced-report-toc-labels",
+  "error": false,
+  "parts": [
+   "5 Verification labels"
+  ]
+ },
+ {
+  "id": "advanced-report-toc-not-modelled",
+  "error": false,
+  "parts": [
+   "6 Not modelled"
+  ]
+ },
+ {
+  "id": "advanced-report-toc-reproducibility",
+  "error": false,
+  "parts": [
+   "7 Reproducibility"
+  ]
+ },
+ {
+  "id": "advanced-report-h-summary",
+  "error": false,
+  "parts": [
+   "1. Executive summary"
+  ]
+ },
+ {
+  "id": "advanced-report-honesty-label",
+  "error": false,
+  "parts": [
+   "<strong>Honesty label</strong> (",
+   {
+    "var": "source"
+   },
+   "): ",
+   {
+    "var": "label"
+   }
+  ]
+ },
+ {
+  "id": "advanced-report-capabilities-used",
+  "error": false,
+  "parts": [
+   "<strong>Capabilities used:</strong> ",
+   {
+    "var": "n_validated"
+   },
+   " VALIDATED, ",
+   {
+    "var": "n_modelled"
+   },
+   " MODELLED, ",
+   {
+    "var": "n_partner"
+   },
+   " PARTNER (relied on, not provided); see section 5."
+  ]
+ },
+ {
+  "id": "advanced-report-member-runs",
+  "error": false,
+  "parts": [
+   "<strong>Member runs:</strong> ",
+   {
+    "var": "n"
+   },
+   ", aggregated in section 3a."
+  ]
+ },
+ {
+  "id": "advanced-report-h-inputs",
+  "error": false,
+  "parts": [
+   "2. Inputs"
+  ]
+ },
+ {
+  "id": "advanced-report-inputs-note",
+  "error": false,
+  "parts": [
+   "Every field the scenario file sets, flattened to its path. Units come from the result's <code>units</code> block (the field-units schema, docs/field-units-schema.json) where it describes the field, otherwise from the field-name suffix; a unit neither states is shown as not stated."
+  ]
+ },
+ {
+  "id": "advanced-report-th-parameter",
+  "error": false,
+  "parts": [
+   "Parameter"
+  ]
+ },
+ {
+  "id": "advanced-report-th-value",
+  "error": false,
+  "parts": [
+   "Value"
+  ]
+ },
+ {
+  "id": "advanced-report-th-unit",
+  "error": false,
+  "parts": [
+   "Unit"
+  ]
+ },
+ {
+  "id": "advanced-report-th-unit-source",
+  "error": false,
+  "parts": [
+   "Unit source"
+  ]
+ },
+ {
+  "id": "advanced-report-h-results",
+  "error": false,
+  "parts": [
+   "3. Results"
+  ]
+ },
+ {
+  "id": "advanced-report-chart-alt",
+  "error": false,
+  "parts": [
+   "Result chart"
+  ]
+ },
+ {
+  "id": "advanced-report-also-written-to",
+  "error": false,
+  "parts": [
+   " (also written to ",
+   {
+    "var": "file"
+   },
+   ")"
+  ]
+ },
+ {
+  "id": "advanced-report-h-scalars",
+  "error": false,
+  "parts": [
+   "Scalar results"
+  ]
+ },
+ {
+  "id": "advanced-report-h-columns",
+  "error": false,
+  "parts": [
+   "Numeric columns"
+  ]
+ },
+ {
+  "id": "advanced-report-th-result",
+  "error": false,
+  "parts": [
+   "Result"
+  ]
+ },
+ {
+  "id": "advanced-report-th-column",
+  "error": false,
+  "parts": [
+   "Column"
+  ]
+ },
+ {
+  "id": "advanced-report-th-count",
+  "error": false,
+  "parts": [
+   "Count"
+  ]
+ },
+ {
+  "id": "advanced-report-th-min",
+  "error": false,
+  "parts": [
+   "Min"
+  ]
+ },
+ {
+  "id": "advanced-report-th-max",
+  "error": false,
+  "parts": [
+   "Max"
+  ]
+ },
+ {
+  "id": "advanced-report-th-first",
+  "error": false,
+  "parts": [
+   "First"
+  ]
+ },
+ {
+  "id": "advanced-report-th-last",
+  "error": false,
+  "parts": [
+   "Last"
+  ]
+ },
+ {
+  "id": "advanced-report-omitted-inputs",
+  "error": false,
+  "parts": [
+   "<p class=\"note\">",
+   {
+    "var": "n"
+   },
+   " further inputs are left out of this page; report.json lists the same rows, and the result document carries every value.</p>\n"
+  ]
+ },
+ {
+  "id": "advanced-report-omitted-scalars",
+  "error": false,
+  "parts": [
+   "<p class=\"note\">",
+   {
+    "var": "n"
+   },
+   " further scalar results are left out of this page; report.json lists the same rows, and the result document carries every value.</p>\n"
+  ]
+ },
+ {
+  "id": "advanced-report-omitted-columns",
+  "error": false,
+  "parts": [
+   "<p class=\"note\">",
+   {
+    "var": "n"
+   },
+   " further numeric columns are left out of this page; report.json lists the same rows, and the result document carries every value.</p>\n"
+  ]
+ },
+ {
+  "id": "advanced-report-omitted-events",
+  "error": false,
+  "parts": [
+   "<p class=\"note\">",
+   {
+    "var": "n"
+   },
+   " further events are left out of this page; report.json lists the same rows, and the result document carries every value.</p>\n"
+  ]
+ },
+ {
+  "id": "advanced-report-h-aggregation",
+  "error": false,
+  "parts": [
+   "3a. Aggregation of member runs"
+  ]
+ },
+ {
+  "id": "advanced-report-mode",
+  "error": false,
+  "parts": [
+   "<p>Mode <strong>",
+   {
+    "var": "mode"
+   },
+   "</strong>.</p>\n"
+  ]
+ },
+ {
+  "id": "advanced-report-mode-kind",
+  "error": false,
+  "parts": [
+   "<p>Mode <strong>",
+   {
+    "var": "mode"
+   },
+   "</strong> over the <code>",
+   {
+    "var": "kind"
+   },
+   "</code> kind.</p>\n"
+  ]
+ },
+ {
+  "id": "advanced-report-mode-runs",
+  "error": false,
+  "parts": [
+   "<p>Mode <strong>",
+   {
+    "var": "mode"
+   },
+   "</strong>, ",
+   {
+    "var": "n_runs"
+   },
+   " member runs.</p>\n"
+  ]
+ },
+ {
+  "id": "advanced-report-mode-kind-runs",
+  "error": false,
+  "parts": [
+   "<p>Mode <strong>",
+   {
+    "var": "mode"
+   },
+   "</strong> over the <code>",
+   {
+    "var": "kind"
+   },
+   "</code> kind, ",
+   {
+    "var": "n_runs"
+   },
+   " member runs.</p>\n"
+  ]
+ },
+ {
+  "id": "advanced-report-run-digest",
+  "error": false,
+  "parts": [
+   "Run digest (SHA-256 over the member result digests, in dispatch order): <code>",
+   {
+    "var": "digest"
+   },
+   "</code>"
+  ]
+ },
+ {
+  "id": "advanced-report-table-empty",
+  "error": false,
+  "parts": [
+   "This table has no rows: the result lists none."
+  ]
+ },
+ {
+  "id": "advanced-report-distribution-caption",
+  "error": false,
+  "parts": [
+   "Monte Carlo distribution of ",
+   {
+    "var": "metric"
+   },
+   " (",
+   {
+    "var": "n"
+   },
+   " samples), 20 equal-width bins; dashed lines mark the 5th, 50th and 95th percentiles."
+  ]
+ },
+ {
+  "id": "advanced-report-distribution-caption-unit",
+  "error": false,
+  "parts": [
+   "Monte Carlo distribution of ",
+   {
+    "var": "metric"
+   },
+   " (",
+   {
+    "var": "n"
+   },
+   " samples, ",
+   {
+    "var": "unit"
+   },
+   "), 20 equal-width bins; dashed lines mark the 5th, 50th and 95th percentiles."
+  ]
+ },
+ {
+  "id": "advanced-report-h-companions",
+  "error": false,
+  "parts": [
+   "3b. Animation and exports"
+  ]
+ },
+ {
+  "id": "advanced-report-animation-alt",
+  "error": false,
+  "parts": [
+   "Animation of the run's time series"
+  ]
+ },
+ {
+  "id": "advanced-report-animation-caption",
+  "error": false,
+  "parts": [
+   "The run's own samples drawing in behind a moving time cursor (the animated drawing of <code>--animate svg</code>; it shows the finished picture under reduced motion and in print)."
+  ]
+ },
+ {
+  "id": "advanced-report-no-animation",
+  "error": false,
+  "parts": [
+   "No animation: ",
+   {
+    "var": "reason"
+   }
+  ]
+ },
+ {
+  "id": "advanced-report-no-animation-default",
+  "error": false,
+  "parts": [
+   "the result carries no time series"
+  ]
+ },
+ {
+  "id": "advanced-report-player-written-by",
+  "error": false,
+  "parts": [
+   "The interactive player is written by <code>",
+   {
+    "var": "command"
+   },
+   "</code>."
+  ]
+ },
+ {
+  "id": "advanced-report-written-beside",
+  "error": false,
+  "parts": [
+   "Written beside this report: ",
+   {
+    "var": "links"
+   },
+   "."
+  ]
+ },
+ {
+  "id": "advanced-report-th-export",
+  "error": false,
+  "parts": [
+   "Export"
+  ]
+ },
+ {
+  "id": "advanced-report-th-applies",
+  "error": false,
+  "parts": [
+   "Applies"
+  ]
+ },
+ {
+  "id": "advanced-report-th-files-or-reason",
+  "error": false,
+  "parts": [
+   "Files or reason"
+  ]
+ },
+ {
+  "id": "advanced-report-written-by",
+  "error": false,
+  "parts": [
+   "written by <code>",
+   {
+    "var": "command"
+   },
+   "</code>"
+  ]
+ },
+ {
+  "id": "advanced-report-does-not-apply",
+  "error": false,
+  "parts": [
+   "does not apply"
+  ]
+ },
+ {
+  "id": "advanced-report-yes",
+  "error": false,
+  "parts": [
+   "yes"
+  ]
+ },
+ {
+  "id": "advanced-report-no",
+  "error": false,
+  "parts": [
+   "no"
+  ]
+ },
+ {
+  "id": "advanced-report-h-events",
+  "error": false,
+  "parts": [
+   "4. Events timeline"
+  ]
+ },
+ {
+  "id": "advanced-report-events-caption",
+  "error": false,
+  "parts": [
+   "Windows as bars, point events as dots, on the run's own time axis."
+  ]
+ },
+ {
+  "id": "advanced-report-th-start",
+  "error": false,
+  "parts": [
+   "Start (s)"
+  ]
+ },
+ {
+  "id": "advanced-report-th-end",
+  "error": false,
+  "parts": [
+   "End (s)"
+  ]
+ },
+ {
+  "id": "advanced-report-th-event",
+  "error": false,
+  "parts": [
+   "Event"
+  ]
+ },
+ {
+  "id": "advanced-report-th-source",
+  "error": false,
+  "parts": [
+   "Source"
+  ]
+ },
+ {
+  "id": "advanced-report-point-event",
+  "error": false,
+  "parts": [
+   "point event"
+  ]
+ },
+ {
+  "id": "advanced-report-events-timeline",
+  "error": false,
+  "parts": [
+   "Events timeline"
+  ]
+ },
+ {
+  "id": "advanced-report-point-events",
+  "error": false,
+  "parts": [
+   "point events (",
+   {
+    "var": "n"
+   },
+   ")"
+  ]
+ },
+ {
+  "id": "advanced-report-distribution-of",
+  "error": false,
+  "parts": [
+   "Distribution of ",
+   {
+    "var": "metric"
+   }
+  ]
+ },
+ {
+  "id": "advanced-report-max-bin",
+  "error": false,
+  "parts": [
+   "max bin ",
+   {
+    "var": "n"
+   }
+  ]
+ },
+ {
+  "id": "advanced-report-h-labels",
+  "error": false,
+  "parts": [
+   "5. Verification labels"
+  ]
+ },
+ {
+  "id": "advanced-report-th-capability",
+  "error": false,
+  "parts": [
+   "Capability (matrix requirement)"
+  ]
+ },
+ {
+  "id": "advanced-report-th-label",
+  "error": false,
+  "parts": [
+   "Label"
+  ]
+ },
+ {
+  "id": "advanced-report-th-used-by",
+  "error": false,
+  "parts": [
+   "Used by"
+  ]
+ },
+ {
+  "id": "advanced-report-th-oracle",
+  "error": false,
+  "parts": [
+   "Source: oracle"
+  ]
+ },
+ {
+  "id": "advanced-report-th-test-evidence",
+  "error": false,
+  "parts": [
+   "Test evidence"
+  ]
+ },
+ {
+  "id": "advanced-report-h-figure-tiers",
+  "error": false,
+  "parts": [
+   "Per-figure tiers stated by the result"
+  ]
+ },
+ {
+  "id": "advanced-report-th-figure",
+  "error": false,
+  "parts": [
+   "Figure"
+  ]
+ },
+ {
+  "id": "advanced-report-th-tier",
+  "error": false,
+  "parts": [
+   "Tier"
+  ]
+ },
+ {
+  "id": "advanced-report-th-matrix-requirement",
+  "error": false,
+  "parts": [
+   "Matrix requirement"
+  ]
+ },
+ {
+  "id": "advanced-report-th-applicable",
+  "error": false,
+  "parts": [
+   "Applicable"
+  ]
+ },
+ {
+  "id": "advanced-report-no-attack",
+  "error": false,
+  "parts": [
+   "no (no attack configured)"
+  ]
+ },
+ {
+  "id": "advanced-report-h-not-modelled",
+  "error": false,
+  "parts": [
+   "6. Not modelled, and assumptions"
+  ]
+ },
+ {
+  "id": "advanced-report-not-modelled-note",
+  "error": false,
+  "parts": [
+   "Each item is quoted from where it is stated: the result document, the kind catalogue, the scenario file, or the verification matrix's reason a MODELLED row stays modelled."
+  ]
+ },
+ {
+  "id": "advanced-report-th-statement",
+  "error": false,
+  "parts": [
+   "Statement"
+  ]
+ },
+ {
+  "id": "advanced-report-h-reproducibility",
+  "error": false,
+  "parts": [
+   "7. Reproducibility record"
+  ]
+ },
+ {
+  "id": "advanced-report-rk-command",
+  "error": false,
+  "parts": [
+   "Command to reproduce"
+  ]
+ },
+ {
+  "id": "advanced-report-rk-working-directory",
+  "error": false,
+  "parts": [
+   "Working directory"
+  ]
+ },
+ {
+  "id": "advanced-report-rk-engine-version",
+  "error": false,
+  "parts": [
+   "Engine version"
+  ]
+ },
+ {
+  "id": "advanced-report-rk-source-commit",
+  "error": false,
+  "parts": [
+   "Source commit"
+  ]
+ },
+ {
+  "id": "advanced-report-rk-scenario-file",
+  "error": false,
+  "parts": [
+   "Scenario file"
+  ]
+ },
+ {
+  "id": "advanced-report-rk-scenario-sha",
+  "error": false,
+  "parts": [
+   "Scenario file SHA-256 (Secure Hash Algorithm 256-bit)"
+  ]
+ },
+ {
+  "id": "advanced-report-rk-result-hash",
+  "error": false,
+  "parts": [
+   "Result scenario_hash"
+  ]
+ },
+ {
+  "id": "advanced-report-rk-result-sha",
+  "error": false,
+  "parts": [
+   "Result document SHA-256"
+  ]
+ },
+ {
+  "id": "advanced-report-rk-seed",
+  "error": false,
+  "parts": [
+   "Seed"
+  ]
+ },
+ {
+  "id": "advanced-report-rk-platform",
+  "error": false,
+  "parts": [
+   "Platform"
+  ]
+ },
+ {
+  "id": "advanced-report-rk-generated",
+  "error": false,
+  "parts": [
+   "Study generated (UTC)"
+  ]
+ },
+ {
+  "id": "advanced-report-rk-determinism",
+  "error": false,
+  "parts": [
+   "Determinism"
+  ]
+ },
+ {
+  "id": "advanced-report-result-hash-none",
+  "error": false,
+  "parts": [
+   "the result document states none"
+  ]
+ },
+ {
+  "id": "advanced-report-print-note",
+  "error": false,
+  "parts": [
+   "To print this page to a Portable Document Format (PDF) file, use the browser's print dialog and choose “Save as PDF”; the print stylesheet fits A4 and US Letter paper, repeats table headers across pages and starts the inputs, results, labels and reproducibility sections on a new page. The engine writes no PDF itself. report.json carries the same content as this page."
+  ]
+ },
+ {
+  "id": "advanced-report-footer",
+  "error": false,
+  "parts": [
+   "Generated by Kshana ",
+   {
+    "var": "engine"
+   },
+   ".",
+   {
+    "var": "stamp"
+   },
+   " Reproducible from scenario + seed + engine version. Free and open source (GNU Affero General Public License, AGPL-3.0) — <a href=\"https://github.com/AshfordeOU/kshana\">source &amp; docs</a>."
+  ]
+ },
+ {
+  "id": "advanced-report-empty-inputs",
+  "error": false,
+  "parts": [
+   "The scenario sets no field beyond `kind`: the kind ran its reference configuration from its documented defaults."
+  ]
+ },
+ {
+  "id": "advanced-report-empty-scalars",
+  "error": false,
+  "parts": [
+   "The result document carries no scalar outside its arrays; its numbers are summarised by column below."
+  ]
+ },
+ {
+  "id": "advanced-report-empty-series",
+  "error": false,
+  "parts": [
+   "The result document carries no numeric array: every result is a scalar in the table above."
+  ]
+ },
+ {
+  "id": "advanced-report-empty-events",
+  "error": false,
+  "parts": [
+   "No timed event: the scenario scripts no window or onset time and the result reports no event. The kind evaluates its configuration as one case."
+  ]
+ },
+ {
+  "id": "advanced-report-empty-not-modelled",
+  "error": false,
+  "parts": [
+   "Nothing in the result, the kind catalogue, the scenario or the matrix rows used states a modelling limitation for this run."
+  ]
+ },
+ {
+  "id": "advanced-report-capabilities-statement",
+  "error": false,
+  "parts": [
+   "Each row is a verification-matrix row this run's kinds exercise, with the label and the oracle the matrix gives it (src/verification.rs, docs/VERIFICATION-MATRIX.md). A label grades the capability as the matrix records it; it does not grade this scenario's configuration, and a VALIDATED row does not make the run's inputs measured. A PARTNER row is a discipline the run relies on that Kshana does not provide."
+  ]
+ },
+ {
+  "id": "advanced-report-no-run-label",
+  "error": false,
+  "parts": [
+   "The result carries no run-level honesty label; the verification labels of the capabilities it used are listed in their own section, and the per-figure tiers where the result states them."
+  ]
+ },
+ {
+  "id": "advanced-report-no-seed",
+  "error": false,
+  "parts": [
+   "Neither the scenario nor the result carries a seed. The result is fixed by the scenario file and the engine build alone; the determinism test re-runs every bundled scenario and requires byte-identical output."
+  ]
+ },
+ {
+  "id": "advanced-report-working-directory",
+  "error": false,
+  "parts": [
+   "Run the command from the directory the original run was started in: the scenario path, and any relative data path inside the scenario, resolve against it. Check the scenario file against scenario_sha256 first."
+  ]
+ },
+ {
+  "id": "advanced-report-determinism-stamped",
+  "error": false,
+  "parts": [
+   "Same scenario bytes, seed and engine build give the same result document, except its meta.generated_utc stamp, which --study-name writes from the clock; run without --study-name for byte-identical output. Floating-point results are pinned per platform; another operating system or architecture may differ in the last digits."
+  ]
+ },
+ {
+  "id": "advanced-report-determinism-plain",
+  "error": false,
+  "parts": [
+   "Same scenario bytes, seed and engine build give a byte-identical result document and report; this report carries no timestamp. Floating-point results are pinned per platform; another operating system or architecture may differ in the last digits."
+  ]
+ },
+ {
+  "id": "advanced-report-not-applicable-no-attack",
+  "error": false,
+  "parts": [
+   "not applicable (no attack configured)"
+  ]
+ },
+ {
+  "id": "advanced-report-what-ran-default",
+  "error": false,
+  "parts": [
+   "A `",
+   {
+    "var": "kind"
+   },
+   "` scenario."
+  ]
+ },
+ {
+  "id": "advanced-report-nothing-carried",
+  "error": false,
+  "parts": [
+   "nothing carried"
+  ]
+ },
+ {
+  "id": "advanced-report-tbl-sweep-nodes",
+  "error": false,
+  "parts": [
+   "Sweep nodes"
+  ]
+ },
+ {
+  "id": "advanced-report-tbl-mc-summary",
+  "error": false,
+  "parts": [
+   "Monte Carlo distribution summary (percentiles are nearest-rank; the 95% confidence interval on the mean is a fixed-seed percentile bootstrap)"
+  ]
+ },
+ {
+  "id": "advanced-report-tbl-chain-phases",
+  "error": false,
+  "parts": [
+   "Chain phases"
+  ]
+ },
+ {
+  "id": "advanced-report-tbl-shared",
+  "error": false,
+  "parts": [
+   "Shared conditions"
+  ]
+ },
+ {
+  "id": "advanced-report-tbl-members",
+  "error": false,
+  "parts": [
+   "Members"
+  ]
+ },
+ {
+  "id": "advanced-report-tbl-combined",
+  "error": false,
+  "parts": [
+   "Combined across members"
+  ]
+ },
+ {
+  "id": "advanced-report-tbl-optimiser-best",
+  "error": false,
+  "parts": [
+   "Optimiser best (a local optimum over the stated bounds)"
+  ]
+ },
+ {
+  "id": "advanced-report-tbl-optimiser-trace",
+  "error": false,
+  "parts": [
+   "Optimiser trace"
+  ]
+ },
+ {
+  "id": "advanced-report-tbl-sweep-grid",
+  "error": false,
+  "parts": [
+   "Sweep grid"
+  ]
+ }
+]
