@@ -2455,3 +2455,21 @@ seg-eb11dcb816ff = система координат между TEME и ITRF
 seg-4682fd9daa70 = PG01 / PRN120 / GSAT0101
 
 seg-47cc346307a6 = идентификаторы спутников: метка спутника GPS в SP3, номер псевдослучайного шума SBAS, название спутника Galileo
+
+seg-5907283b71da = Сокращение
+
+seg-900c7c7e99cd = GMAT
+
+seg-c730f9c69d6e = ISB
+
+seg-ef9ba270513c = межсистемное смещение
+
+seg-7dabf60fd17e = QPN
+
+seg-dae80c23262e = шум квантовой проекции
+
+seg-430b3c681347 = RTKLIB
+
+seg-051a168f774c = TCXO
+
+seg-ba5d469b1c66 = VLBI
