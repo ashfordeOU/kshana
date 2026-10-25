@@ -356,21 +356,24 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
     };
 
     let clipped = iq.clipped();
-    let scale_note = match scale {
-        Some(sc) => crate::t!(
-            "iq-cli-scene-integer-scale-lsb-noise-normalised",
-            sc = crate::i18n::localise_decimal(format!("{:.6e}", sc)),
-            v1 = crate::i18n::localise_decimal(format!("{:.4}", rms / sc)),
-            clipped = clipped
-        ),
-        None => String::new(),
-    };
+    // The integer scale, stated when the format is an integer one: (scale, expected RMS, clipped).
+    let scale_note = scale.map(|sc| {
+        (
+            crate::i18n::localise_decimal(format!("{:.6e}", sc)),
+            crate::i18n::localise_decimal(format!("{:.4}", rms / sc)),
+        )
+    });
 
     let meta_note = if want_sdrx {
-        let comment = crate::t!(
-            "iq-cli-scene-written-by-kshana-iq-scene",
-            scale_note = scale_note
-        );
+        let comment = match &scale_note {
+            Some((sc, v1)) => crate::t!(
+                "iq-cli-scene-written-by-kshana-iq-scene-integer-scale",
+                sc = sc,
+                v1 = v1,
+                clipped = clipped
+            ),
+            None => crate::t!("iq-cli-scene-written-by-kshana-iq-scene"),
+        };
         let path = write_sdrx_meta(&a.pos[0], &data_path, format, &spec, &comment)?;
         crate::t!("iq-cli-scene-ion-sdr-metadata", path = path)
     } else if want_sigmf {
@@ -390,27 +393,47 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
             channels: None,
             channel: None,
             datetime: None,
-            description: Some(crate::t!(
-                "iq-cli-scene-written-by-kshana-iq-scene-2",
-                scale_note = scale_note
-            )),
+            description: Some(match &scale_note {
+                Some((sc, v1)) => crate::t!(
+                    "iq-cli-scene-written-by-kshana-iq-scene-2-integer-scale",
+                    sc = sc,
+                    v1 = v1,
+                    clipped = clipped
+                ),
+                None => crate::t!("iq-cli-scene-written-by-kshana-iq-scene-2"),
+            }),
         };
         let sidecar_path = write_sidecar(out, &sidecar)?;
         format!("sidecar {}", sidecar_path.display())
     };
 
-    Ok(crate::t!(
-        "iq-cli-scene-wrote-samples-hz-to-truth",
-        samples = summary.samples,
-        format = format.name(),
-        fs_hz = spec.fs_hz,
-        data_path = data_path,
-        truth_records = summary.truth_records,
-        truth_path = truth_path,
-        meta_note = meta_note,
-        chan_desc = chan_desc,
-        scale_note = scale_note
-    ))
+    Ok(match &scale_note {
+        Some((sc, v1)) => crate::t!(
+            "iq-cli-scene-wrote-samples-hz-to-truth-integer-scale",
+            samples = summary.samples,
+            format = format.name(),
+            fs_hz = spec.fs_hz,
+            data_path = data_path,
+            truth_records = summary.truth_records,
+            truth_path = truth_path,
+            meta_note = meta_note,
+            chan_desc = chan_desc,
+            sc = sc,
+            v1 = v1,
+            clipped = clipped
+        ),
+        None => crate::t!(
+            "iq-cli-scene-wrote-samples-hz-to-truth",
+            samples = summary.samples,
+            format = format.name(),
+            fs_hz = spec.fs_hz,
+            data_path = data_path,
+            truth_records = summary.truth_records,
+            truth_path = truth_path,
+            meta_note = meta_note,
+            chan_desc = chan_desc
+        ),
+    })
 }
 
 /// Fraction of the integer full scale the expected per-component RMS is placed at: 1/4,
