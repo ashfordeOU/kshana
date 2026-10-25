@@ -7000,6 +7000,24 @@ engine-receiver-trust-scenario-scenario-receiver-trust-log-epochs = scenario { $
 
 engine-e-receiver-trust-scenario-this-is-scenario-not-receiver = this is a { $k } scenario, not a receiver-trust one
 
+engine-receiver-trust-chart-track-caption = receiver-reported track, north up
+
+engine-receiver-trust-chart-start = start
+
+engine-receiver-trust-chart-end-of-log = end of log
+
+engine-receiver-trust-chart-no-positions = no positions in the log
+
+engine-receiver-trust-chart-score-axis = trust score, 0 to 100
+
+engine-receiver-trust-chart-legend-vessel = trust: green nominal (score at or above { $nominal }), amber degraded (at or above { $degraded }), red untrusted, grey calibrating
+
+engine-receiver-trust-chart-legend = trust: green nominal, amber degraded, red untrusted, grey calibrating
+
+engine-receiver-trust-chart-advisory = Advisory software, not type-approved navigation equipment; the operator remains responsible.
+
+engine-receiver-trust-chart-cn0-axis = mean C/N0, dB-Hz
+
 ## src/receiver_trust/score.rs
 
 engine-e-receiver-trust-score-score-must-be-finite-got = score: { $name } must be finite (got { $v })
@@ -7029,6 +7047,10 @@ engine-reentry-reentry-allen-eggers-peak-at = reentry (Allen–Eggers): V_e { $v
 ## src/registry.rs
 
 engine-e-registry-unknown-scenario-id = unknown scenario id: { $id }
+
+## src/report.rs
+
+engine-report-chart-title = Clock holdover: timing error during GNSS outage
 
 ## src/representativeness.rs
 
@@ -7186,6 +7208,14 @@ engine-slot-timing-fitted-to-the-overlapping-allan = fitted to the overlapping A
 
 engine-slot-timing-slot-timing-source-guard-ns = slot-timing ({ $n } source): guard { $c } ns at k={ $k_sigma } breaks { $fmt_s } after a fix ({ $fmt_s2 } left); fix at least every { $fmt_s3 } ({ $fixes_per_day } per day); dominant term: { $b }{ $v9 }
 
+engine-slot-timing-chart-aria = Predicted time error against time since the last fix, with the slot guard
+
+engine-slot-timing-chart-time-since-fix = time since fix, 0 to { $t }
+
+engine-slot-timing-chart-predicted-error = predicted time error (ns); dashed: guard { $guard } ns
+
+engine-slot-timing-never = never
+
 ## src/solar_system.rs
 
 engine-e-solar-system-epoch-must-be-yyyy-mm = epoch '{ $s }' must be YYYY-MM-DDTHH:MM:SS
@@ -7231,6 +7261,14 @@ engine-solar-system-au-lon-deg = { "  " }{ $name } { $heliocentric_distance_au }
 engine-solar-system-link-one-way-two-way = { "  " }link { $from } -> { $to }: one-way { $one_way_light_time_s } s, two-way { $two_way_light_time_s } s, Shapiro { $l } us, Sun { $sun_separation_deg } deg{ "\u000A" }
 
 engine-solar-system-epoch-positions-from-the-standish = epoch { $input } · { $standish_table } · positions from the Standish elements
+
+engine-solar-system-chart-title = Solar system — J2000 ecliptic, top-down
+
+engine-solar-system-chart-inner = Inner system (to Mars)
+
+engine-solar-system-chart-whole = Whole system (to Pluto)
+
+engine-solar-system-chart-legend = green: VALIDATED against JPL Horizons · amber: MODELLED · moons are listed in result.json with parent-centred tracks
 
 ## src/sp3.rs
 
@@ -7446,6 +7484,16 @@ engine-spectrum-frequency-across-time-down-colour = frequency across, time down,
 
 engine-spectrum-each-panel-its-own-frequency = each panel its own frequency range, one timeline down, one colour scale (dBW/Hz); noise floor { $n0_db } dBW/Hz
 
+engine-spectrum-chart-title = L-band spectrum waterfall
+
+engine-spectrum-chart-multi-title = Multi-band spectrum waterfall
+
+engine-spectrum-chart-frequency-mhz = frequency (MHz)
+
+engine-spectrum-chart-cn0-caption = C/N0 (dB-Hz): nominal (grey) / minimum
+
+engine-spectrum-chart-threshold = threshold { $thr }
+
 ## src/spk_writer.rs
 
 engine-e-spk-writer-frame-has-no-supported-naif = frame { $other } has no supported NAIF code
@@ -7553,6 +7601,18 @@ engine-e-spk-writer-oem-data-line-has-fields = OEM data line has { $f } fields: 
 engine-e-spk-writer-oem-value = OEM value { $f }: { $e }
 
 engine-e-spk-writer-oem-segments-for-export-settings = { $out } OEM segments for { $exports } export settings
+
+## src/spoof.rs
+
+engine-spoof-chart-title = Time-spoof detection: offset vs clock-aided detection bounds
+
+engine-spoof-chart-offset-ns = spoof offset (ns)
+
+engine-spoof-chart-spoof-offset = spoof offset
+
+engine-spoof-chart-quantum-bound = quantum detect bound
+
+engine-spoof-chart-classical-bound = classical detect bound
 
 ## src/spoof_detect.rs
 
@@ -7856,6 +7916,18 @@ engine-e-sweep-generic-sweep-base-must-carry = generic sweep `base` must carry i
 
 engine-e-sweep-generic-sweep-cannot-sweep-another = a generic sweep cannot sweep another sweep
 
+engine-sweep-chart-title = { $metric } vs { $parameter } ({ $scale } scale)
+
+engine-sweep-nd-chart-title = { $n_dims }-D sweep of `{ $kind }` — { $n_nodes } nodes
+
+engine-sweep-nd-chart-axes = axes: { $axes } (shape { $shape })
+
+engine-sweep-nd-chart-metrics = metrics: { $metrics } — full grid in JSON
+
+engine-sweep-nd-chart-line-title = sweep of `{ $kind }` over { $key }
+
+engine-sweep-nd-chart-y-title = metric
+
 ## src/telecom_timing.rs
 
 engine-e-telecom-timing-unknown-oscillator-expected-one-of = unknown oscillator { $oscillator }; expected one of { $presets }
@@ -7901,6 +7973,18 @@ engine-telecom-timing-telecom-timing-max-te-ns = telecom-timing: max|TE| { $max_
 engine-telecom-timing-mtie-limit-ns = ,{ $id }_mtie_limit_ns
 
 engine-telecom-timing-tdev-limit-ns = ,{ $id }_tdev_limit_ns
+
+engine-telecom-timing-chart-title = Telecom timing: time error, MTIE and TDEV
+
+engine-telecom-timing-chart-y-title = |time error| (ns)
+
+engine-telecom-timing-chart-te-caption = absolute time error against the budgets
+
+engine-telecom-timing-chart-holdover = holdover
+
+engine-telecom-timing-chart-time-record = time ({ $h } h record)
+
+engine-telecom-timing-chart-mtie-caption = MTIE (solid), TDEV (dashed), first MTIE mask (grey), ns
 
 ## src/telemetry/cli.rs
 
@@ -8083,6 +8167,24 @@ engine-e-time-transfer-budget-must-be-finite-2 = { $n } must be finite
 engine-e-time-transfer-budget-span-days-step-must-give = span_days / step_s must give 16 to 20000 measurements
 
 engine-time-transfer-budget-time-transfer-budget-offset-ns = time-transfer-budget: { $name } - { $name2 } offset { $ns } ns (Sagnac { $ns2 } ns, ionosphere { $ns3 } ns); combined u { $ns4 } ns (type A { $ns5 } ns at { $averaging_s } s); { $series } real series (MODELLED)
+
+## src/timetransfer.rs
+
+engine-timetransfer-chart-title = Time-transfer synchronization error (optical vs RF)
+
+engine-timetransfer-chart-y-title = sync error (ps)
+
+engine-timetransfer-chart-spec = spec { $mm } mm = { $ps } ps
+
+engine-timetransfer-chart-x-title = measurement time (s)
+
+engine-timetransfer-chart-rf = RF: { $id }
+
+engine-timetransfer-chart-optical = optical: { $id }
+
+## src/timetransfer_chain.rs
+
+engine-timetransfer-chain-chart-title = quantum-time-transfer (MODELLED)
 
 ## src/tle.rs
 

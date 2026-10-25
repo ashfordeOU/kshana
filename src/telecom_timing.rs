@@ -2379,7 +2379,7 @@ pub fn to_svg(r: &TelecomRun) -> String {
     let mut s = crate::chart::frame_open(
         w,
         h,
-        "Telecom timing: time error, MTIE and TDEV",
+        &crate::t!("telecom-timing-chart-title"),
         &summary_line(r),
     );
     // Left panel: |TE| (ns) vs time (h).
@@ -2399,14 +2399,14 @@ pub fn to_svg(r: &TelecomRun) -> String {
         pw,
         ph,
         y_max,
-        "|time error| (ns)",
+        &crate::t!("telecom-timing-chart-y-title"),
     ));
     s.push_str(&crate::chart::panel_axes(
         lx,
         top,
         pw,
         top + ph,
-        "absolute time error against the budgets",
+        &crate::t!("telecom-timing-chart-te-caption"),
     ));
     let t_span = ((n - 1) as f64 * rec.dt_s).max(1e-9);
     let stride = (n / 600).max(1);
@@ -2439,17 +2439,21 @@ pub fn to_svg(r: &TelecomRun) -> String {
         let x = lx + pw * (t0 - rec.t0_s) / t_span;
         s.push_str(&format!(
             "<line x1=\"{x:.1}\" y1=\"{top:.0}\" x2=\"{x:.1}\" y2=\"{:.0}\" stroke=\"{BLUE}\" stroke-dasharray=\"2 3\"/>\
-             <text x=\"{:.1}\" y=\"{:.0}\" font-size=\"10\" fill=\"{BLUE}\">holdover</text>",
+             <text x=\"{:.1}\" y=\"{:.0}\" font-size=\"10\" fill=\"{BLUE}\">{}</text>",
             top + ph,
             x + 3.0,
-            top + 12.0
+            top + 12.0,
+            crate::t!("telecom-timing-chart-holdover")
         ));
     }
     s.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"middle\" fill=\"{MUTED}\">time ({:.1} h record)</text>",
+        "<text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"middle\" fill=\"{MUTED}\">{}</text>",
         lx + pw / 2.0,
         top + ph + 28.0,
-        t_span / 3600.0
+        crate::t!(
+            "telecom-timing-chart-time-record",
+            h = crate::i18n::num(t_span / 3600.0, 1)
+        )
     ));
     // Right panel: log-log MTIE / TDEV.
     let (rx, rw) = (660.0, 480.0);
@@ -2458,7 +2462,7 @@ pub fn to_svg(r: &TelecomRun) -> String {
         top,
         rw,
         top + ph,
-        "MTIE (solid), TDEV (dashed), first MTIE mask (grey), ns",
+        &crate::t!("telecom-timing-chart-mtie-caption"),
     ));
     let mut vals: Vec<f64> = r
         .mtie

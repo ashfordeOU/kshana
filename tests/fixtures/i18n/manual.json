@@ -3332,5 +3332,411 @@
    },
    " m"
   ]
+ },
+ {
+  "id": "receiver-trust-chart-track-caption",
+  "error": false,
+  "parts": [
+   "receiver-reported track, north up"
+  ]
+ },
+ {
+  "id": "receiver-trust-chart-start",
+  "error": false,
+  "parts": [
+   "start"
+  ]
+ },
+ {
+  "id": "receiver-trust-chart-end-of-log",
+  "error": false,
+  "parts": [
+   "end of log"
+  ]
+ },
+ {
+  "id": "receiver-trust-chart-no-positions",
+  "error": false,
+  "parts": [
+   "no positions in the log"
+  ]
+ },
+ {
+  "id": "receiver-trust-chart-score-axis",
+  "error": false,
+  "parts": [
+   "trust score, 0 to 100"
+  ]
+ },
+ {
+  "id": "receiver-trust-chart-legend-vessel",
+  "error": false,
+  "parts": [
+   "trust: green nominal (score at or above ",
+   {
+    "var": "nominal"
+   },
+   "), amber degraded (at or above ",
+   {
+    "var": "degraded"
+   },
+   "), red untrusted, grey calibrating"
+  ]
+ },
+ {
+  "id": "receiver-trust-chart-legend",
+  "error": false,
+  "parts": [
+   "trust: green nominal, amber degraded, red untrusted, grey calibrating"
+  ]
+ },
+ {
+  "id": "receiver-trust-chart-advisory",
+  "error": false,
+  "parts": [
+   "Advisory software, not type-approved navigation equipment; the operator remains responsible."
+  ]
+ },
+ {
+  "id": "receiver-trust-chart-cn0-axis",
+  "error": false,
+  "parts": [
+   "mean C/N0, dB-Hz"
+  ]
+ },
+ {
+  "id": "report-chart-title",
+  "error": false,
+  "parts": [
+   "Clock holdover: timing error during GNSS outage"
+  ]
+ },
+ {
+  "id": "slot-timing-chart-aria",
+  "error": false,
+  "parts": [
+   "Predicted time error against time since the last fix, with the slot guard"
+  ]
+ },
+ {
+  "id": "slot-timing-chart-time-since-fix",
+  "error": false,
+  "parts": [
+   "time since fix, 0 to ",
+   {
+    "var": "t"
+   }
+  ]
+ },
+ {
+  "id": "slot-timing-chart-predicted-error",
+  "error": false,
+  "parts": [
+   "predicted time error (ns); dashed: guard ",
+   {
+    "var": "guard"
+   },
+   " ns"
+  ]
+ },
+ {
+  "id": "slot-timing-never",
+  "error": false,
+  "parts": [
+   "never"
+  ]
+ },
+ {
+  "id": "solar-system-chart-title",
+  "error": false,
+  "parts": [
+   "Solar system — J2000 ecliptic, top-down"
+  ]
+ },
+ {
+  "id": "solar-system-chart-inner",
+  "error": false,
+  "parts": [
+   "Inner system (to Mars)"
+  ]
+ },
+ {
+  "id": "solar-system-chart-whole",
+  "error": false,
+  "parts": [
+   "Whole system (to Pluto)"
+  ]
+ },
+ {
+  "id": "solar-system-chart-legend",
+  "error": false,
+  "parts": [
+   "green: VALIDATED against JPL Horizons · amber: MODELLED · moons are listed in result.json with parent-centred tracks"
+  ]
+ },
+ {
+  "id": "spectrum-chart-title",
+  "error": false,
+  "parts": [
+   "L-band spectrum waterfall"
+  ]
+ },
+ {
+  "id": "spectrum-chart-multi-title",
+  "error": false,
+  "parts": [
+   "Multi-band spectrum waterfall"
+  ]
+ },
+ {
+  "id": "spectrum-chart-frequency-mhz",
+  "error": false,
+  "parts": [
+   "frequency (MHz)"
+  ]
+ },
+ {
+  "id": "spectrum-chart-cn0-caption",
+  "error": false,
+  "parts": [
+   "C/N0 (dB-Hz): nominal (grey) / minimum"
+  ]
+ },
+ {
+  "id": "spectrum-chart-threshold",
+  "error": false,
+  "parts": [
+   "threshold ",
+   {
+    "var": "thr"
+   }
+  ]
+ },
+ {
+  "id": "spoof-chart-title",
+  "error": false,
+  "parts": [
+   "Time-spoof detection: offset vs clock-aided detection bounds"
+  ]
+ },
+ {
+  "id": "spoof-chart-offset-ns",
+  "error": false,
+  "parts": [
+   "spoof offset (ns)"
+  ]
+ },
+ {
+  "id": "spoof-chart-spoof-offset",
+  "error": false,
+  "parts": [
+   "spoof offset"
+  ]
+ },
+ {
+  "id": "spoof-chart-quantum-bound",
+  "error": false,
+  "parts": [
+   "quantum detect bound"
+  ]
+ },
+ {
+  "id": "spoof-chart-classical-bound",
+  "error": false,
+  "parts": [
+   "classical detect bound"
+  ]
+ },
+ {
+  "id": "sweep-chart-title",
+  "error": false,
+  "parts": [
+   {
+    "var": "metric"
+   },
+   " vs ",
+   {
+    "var": "parameter"
+   },
+   " (",
+   {
+    "var": "scale"
+   },
+   " scale)"
+  ]
+ },
+ {
+  "id": "sweep-nd-chart-title",
+  "error": false,
+  "parts": [
+   {
+    "var": "n_dims"
+   },
+   "-D sweep of `",
+   {
+    "var": "kind"
+   },
+   "` — ",
+   {
+    "var": "n_nodes"
+   },
+   " nodes"
+  ]
+ },
+ {
+  "id": "sweep-nd-chart-axes",
+  "error": false,
+  "parts": [
+   "axes: ",
+   {
+    "var": "axes"
+   },
+   " (shape ",
+   {
+    "var": "shape"
+   },
+   ")"
+  ]
+ },
+ {
+  "id": "sweep-nd-chart-metrics",
+  "error": false,
+  "parts": [
+   "metrics: ",
+   {
+    "var": "metrics"
+   },
+   " — full grid in JSON"
+  ]
+ },
+ {
+  "id": "sweep-nd-chart-line-title",
+  "error": false,
+  "parts": [
+   "sweep of `",
+   {
+    "var": "kind"
+   },
+   "` over ",
+   {
+    "var": "key"
+   }
+  ]
+ },
+ {
+  "id": "sweep-nd-chart-y-title",
+  "error": false,
+  "parts": [
+   "metric"
+  ]
+ },
+ {
+  "id": "telecom-timing-chart-title",
+  "error": false,
+  "parts": [
+   "Telecom timing: time error, MTIE and TDEV"
+  ]
+ },
+ {
+  "id": "telecom-timing-chart-y-title",
+  "error": false,
+  "parts": [
+   "|time error| (ns)"
+  ]
+ },
+ {
+  "id": "telecom-timing-chart-te-caption",
+  "error": false,
+  "parts": [
+   "absolute time error against the budgets"
+  ]
+ },
+ {
+  "id": "telecom-timing-chart-holdover",
+  "error": false,
+  "parts": [
+   "holdover"
+  ]
+ },
+ {
+  "id": "telecom-timing-chart-time-record",
+  "error": false,
+  "parts": [
+   "time (",
+   {
+    "var": "h"
+   },
+   " h record)"
+  ]
+ },
+ {
+  "id": "telecom-timing-chart-mtie-caption",
+  "error": false,
+  "parts": [
+   "MTIE (solid), TDEV (dashed), first MTIE mask (grey), ns"
+  ]
+ },
+ {
+  "id": "timetransfer-chart-title",
+  "error": false,
+  "parts": [
+   "Time-transfer synchronization error (optical vs RF)"
+  ]
+ },
+ {
+  "id": "timetransfer-chart-y-title",
+  "error": false,
+  "parts": [
+   "sync error (ps)"
+  ]
+ },
+ {
+  "id": "timetransfer-chart-spec",
+  "error": false,
+  "parts": [
+   "spec ",
+   {
+    "var": "mm"
+   },
+   " mm = ",
+   {
+    "var": "ps"
+   },
+   " ps"
+  ]
+ },
+ {
+  "id": "timetransfer-chart-x-title",
+  "error": false,
+  "parts": [
+   "measurement time (s)"
+  ]
+ },
+ {
+  "id": "timetransfer-chart-rf",
+  "error": false,
+  "parts": [
+   "RF: ",
+   {
+    "var": "id"
+   }
+  ]
+ },
+ {
+  "id": "timetransfer-chart-optical",
+  "error": false,
+  "parts": [
+   "optical: ",
+   {
+    "var": "id"
+   }
+  ]
+ },
+ {
+  "id": "timetransfer-chain-chart-title",
+  "error": false,
+  "parts": [
+   "quantum-time-transfer (MODELLED)"
+  ]
  }
 ]

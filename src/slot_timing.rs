@@ -1041,13 +1041,13 @@ impl SlotTimingScenario {
 
 fn fmt_s(s: f64) -> String {
     if !s.is_finite() {
-        "never".to_string()
+        crate::t!("slot-timing-never")
     } else if s >= DAY_S {
-        format!("{:.2} d", s / DAY_S)
+        format!("{} d", crate::i18n::num(s / DAY_S, 2))
     } else if s >= 3600.0 {
-        format!("{:.2} h", s / 3600.0)
+        format!("{} h", crate::i18n::num(s / 3600.0, 2))
     } else {
-        format!("{s:.1} s")
+        format!("{} s", crate::i18n::num(s, 1))
     }
 }
 
@@ -1082,21 +1082,25 @@ fn growth_svg(curve: &[(f64, f64)], guard_ns: f64) -> String {
         .collect();
     format!(
         "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 {w} {h}\" role=\"img\" \
-         aria-label=\"Predicted time error against time since the last fix, with the slot \
-         guard\"><rect width=\"{w}\" height=\"{h}\" fill=\"{BG}\"/>\
+         aria-label=\"{aria}\"><rect width=\"{w}\" height=\"{h}\" fill=\"{BG}\"/>\
          <line x1=\"{pad}\" y1=\"{gy:.1}\" x2=\"{gx2}\" y2=\"{gy:.1}\" stroke=\"{CORAL}\" \
          stroke-dasharray=\"6 4\"/>\
          <polyline fill=\"none\" stroke=\"{BLUE}\" stroke-width=\"2\" points=\"{pts}\"/>\
          <text x=\"{pad}\" y=\"{ty}\" font-size=\"12\" font-family=\"{FONT_MONO}\" \
-         fill=\"{TEXT}\">time since fix, 0 to {tlabel}</text>\
+         fill=\"{TEXT}\">{since_fix}</text>\
          <text x=\"{pad}\" y=\"20\" font-size=\"12\" font-family=\"{FONT_MONO}\" \
-         fill=\"{TEXT}\">predicted time error (ns); dashed: guard {guard_ns:.1} ns</text>\
+         fill=\"{TEXT}\">{predicted}</text>\
          </svg>",
         gy = y(guard_ns),
         gx2 = w - pad,
         pts = pts.join(" "),
         ty = h - 14.0,
-        tlabel = fmt_s(tmax),
+        aria = crate::t!("slot-timing-chart-aria"),
+        since_fix = crate::t!("slot-timing-chart-time-since-fix", t = fmt_s(tmax)),
+        predicted = crate::t!(
+            "slot-timing-chart-predicted-error",
+            guard = crate::i18n::num(guard_ns, 1)
+        ),
     )
 }
 

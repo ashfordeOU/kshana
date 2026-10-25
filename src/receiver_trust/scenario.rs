@@ -968,7 +968,7 @@ fn to_svg_vessel(r: &ReceiverTrustResult) -> String {
          <desc>{}</desc>\
          <rect width=\"{w}\" height=\"{h}\" fill=\"{BG}\"/>\
          <text x=\"12\" y=\"22\" fill=\"{TITLE}\" font-family=\"{FONT_SANS}\" font-size=\"13\">{}</text>",
-        esc(super::ADVISORY),
+        esc(&crate::legal::text("legal-receiver-trust-advisory")),
         esc(&r.verdict.chars().take(110).collect::<String>())
     );
 
@@ -993,8 +993,9 @@ fn to_svg_vessel(r: &ReceiverTrustResult) -> String {
     };
     let (ty0, ty1) = (46.0_f64, 292.0_f64);
     svg.push_str(&format!(
-        "<text x=\"12\" y=\"{}\" fill=\"{MUTED}\" font-family=\"{FONT_SANS}\" font-size=\"11\">receiver-reported track, north up</text>",
-        ty0 - 6.0
+        "<text x=\"12\" y=\"{}\" fill=\"{MUTED}\" font-family=\"{FONT_SANS}\" font-size=\"11\">{}</text>",
+        ty0 - 6.0,
+        crate::t!("receiver-trust-chart-track-caption")
     ));
     if pts.len() >= 2 {
         let (mut e_lo, mut e_hi, mut n_lo, mut n_hi) = (f64::MAX, f64::MIN, f64::MAX, f64::MIN);
@@ -1034,11 +1035,13 @@ fn to_svg_vessel(r: &ReceiverTrustResult) -> String {
         let (first, last) = (pts[0], pts[pts.len() - 1]);
         svg.push_str(&format!(
             "<circle cx=\"{:.1}\" cy=\"{:.1}\" r=\"4\" fill=\"{INK}\"/>\
-             <text x=\"{:.1}\" y=\"{:.1}\" fill=\"{TITLE}\" font-family=\"{FONT_SANS}\" font-size=\"10\">start</text>\
+             <text x=\"{:.1}\" y=\"{:.1}\" fill=\"{TITLE}\" font-family=\"{FONT_SANS}\" font-size=\"10\">{}</text>\
              <circle cx=\"{:.1}\" cy=\"{:.1}\" r=\"4\" fill=\"none\" stroke=\"{INK}\" stroke-width=\"1.5\"/>\
-             <text x=\"{:.1}\" y=\"{:.1}\" fill=\"{TITLE}\" font-family=\"{FONT_SANS}\" font-size=\"10\">end of log</text>",
+             <text x=\"{:.1}\" y=\"{:.1}\" fill=\"{TITLE}\" font-family=\"{FONT_SANS}\" font-size=\"10\">{}</text>",
             px(first.0), py(first.1), px(first.0) + 7.0, py(first.1) + 3.0,
+            crate::t!("receiver-trust-chart-start"),
             px(last.0), py(last.1), px(last.0) - 52.0, py(last.1) - 8.0,
+            crate::t!("receiver-trust-chart-end-of-log"),
         ));
         // A scale bar of a round length.
         let target = 0.2 * (x1 - x0) / scale;
@@ -1049,9 +1052,9 @@ fn to_svg_vessel(r: &ReceiverTrustResult) -> String {
             .filter(|b| *b <= target)
             .fold(mag, f64::max);
         let label = if bar_m >= 1000.0 {
-            format!("{:.0} km", bar_m / 1000.0)
+            format!("{} km", crate::i18n::num(bar_m / 1000.0, 0))
         } else {
-            format!("{bar_m:.0} m")
+            format!("{} m", crate::i18n::num(bar_m, 0))
         };
         svg.push_str(&format!(
             "<line x1=\"{x0}\" x2=\"{:.1}\" y1=\"{}\" y2=\"{}\" stroke=\"{INK}\"/>\
@@ -1063,8 +1066,9 @@ fn to_svg_vessel(r: &ReceiverTrustResult) -> String {
         ));
     } else {
         svg.push_str(&format!(
-            "<text x=\"{x0}\" y=\"{}\" fill=\"{MUTED}\" font-family=\"{FONT_SANS}\" font-size=\"11\">no positions in the log</text>",
-            (ty0 + ty1) / 2.0
+            "<text x=\"{x0}\" y=\"{}\" fill=\"{MUTED}\" font-family=\"{FONT_SANS}\" font-size=\"11\">{}</text>",
+            (ty0 + ty1) / 2.0,
+            crate::t!("receiver-trust-chart-no-positions")
         ));
     }
 
@@ -1074,8 +1078,9 @@ fn to_svg_vessel(r: &ReceiverTrustResult) -> String {
     let sx = |t: f64| x0 + (x1 - x0) * t / t_max;
     let sc = |v: f64| sy1 - (sy1 - sy0) * v / 100.0;
     svg.push_str(&format!(
-        "<text x=\"12\" y=\"{}\" fill=\"{MUTED}\" font-family=\"{FONT_SANS}\" font-size=\"11\">trust score, 0 to 100</text>",
-        sy0 - 8.0
+        "<text x=\"12\" y=\"{}\" fill=\"{MUTED}\" font-family=\"{FONT_SANS}\" font-size=\"11\">{}</text>",
+        sy0 - 8.0,
+        crate::t!("receiver-trust-chart-score-axis")
     ));
     for (v, label) in [
         (100.0, "100"),
@@ -1132,12 +1137,18 @@ fn to_svg_vessel(r: &ReceiverTrustResult) -> String {
     svg.push_str(&format!(
         "<text x=\"{x0}\" y=\"{}\" fill=\"{MUTED}\" font-family=\"{FONT_SANS}\" font-size=\"10\">0 s</text>\
          <text x=\"{x1}\" y=\"{}\" fill=\"{MUTED}\" font-family=\"{FONT_SANS}\" font-size=\"10\" text-anchor=\"end\">{t_max:.0} s</text>\
-         <text x=\"{x0}\" y=\"{}\" fill=\"{MUTED}\" font-family=\"{FONT_SANS}\" font-size=\"10\">trust: green nominal (score at or above {nominal_min:.0}), amber degraded (at or above {degraded_min:.0}), red untrusted, grey calibrating</text>\
-         <text x=\"{x0}\" y=\"{}\" fill=\"{MUTED}\" font-family=\"{FONT_SANS}\" font-size=\"9\">Advisory software, not type-approved navigation equipment; the operator remains responsible.</text></svg>",
+         <text x=\"{x0}\" y=\"{}\" fill=\"{MUTED}\" font-family=\"{FONT_SANS}\" font-size=\"10\">{}</text>\
+         <text x=\"{x0}\" y=\"{}\" fill=\"{MUTED}\" font-family=\"{FONT_SANS}\" font-size=\"9\">{}</text></svg>",
         band_y + 26.0,
         band_y + 26.0,
         band_y + 42.0,
-        band_y + 56.0
+        crate::t!(
+            "receiver-trust-chart-legend-vessel",
+            nominal = crate::i18n::num(nominal_min, 0),
+            degraded = crate::i18n::num(degraded_min, 0)
+        ),
+        band_y + 56.0,
+        crate::t!("receiver-trust-chart-advisory")
     ));
     svg
 }
@@ -1173,10 +1184,11 @@ pub fn to_svg(r: &ReceiverTrustResult) -> String {
         "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w}\" height=\"{h}\" viewBox=\"0 0 {w} {h}\">\
          <rect width=\"{w}\" height=\"{h}\" fill=\"{BG}\"/>\
          <text x=\"12\" y=\"22\" fill=\"{TITLE}\" font-family=\"{FONT_SANS}\" font-size=\"13\">{}</text>\
-         <text x=\"12\" y=\"{}\" fill=\"{MUTED}\" font-family=\"{FONT_SANS}\" font-size=\"11\" transform=\"rotate(-90 12 {})\">mean C/N0, dB-Hz</text>",
+         <text x=\"12\" y=\"{}\" fill=\"{MUTED}\" font-family=\"{FONT_SANS}\" font-size=\"11\" transform=\"rotate(-90 12 {})\">{}</text>",
         esc(&r.verdict.chars().take(110).collect::<String>()),
         (y0 + y1) / 2.0 + 40.0,
-        (y0 + y1) / 2.0 + 40.0
+        (y0 + y1) / 2.0 + 40.0,
+        crate::t!("receiver-trust-chart-cn0-axis")
     );
     for c in [lo, (lo + hi) / 2.0, hi] {
         svg.push_str(&format!(
@@ -1227,10 +1239,11 @@ pub fn to_svg(r: &ReceiverTrustResult) -> String {
     svg.push_str(&format!(
         "<text x=\"{x0}\" y=\"{}\" fill=\"{MUTED}\" font-family=\"{FONT_SANS}\" font-size=\"10\">0 s</text>\
          <text x=\"{x1}\" y=\"{}\" fill=\"{MUTED}\" font-family=\"{FONT_SANS}\" font-size=\"10\" text-anchor=\"end\">{t_max:.0} s</text>\
-         <text x=\"{x0}\" y=\"{}\" fill=\"{MUTED}\" font-family=\"{FONT_SANS}\" font-size=\"10\">trust: green nominal, amber degraded, red untrusted, grey calibrating</text></svg>",
+         <text x=\"{x0}\" y=\"{}\" fill=\"{MUTED}\" font-family=\"{FONT_SANS}\" font-size=\"10\">{}</text></svg>",
         band_y + 26.0,
         band_y + 26.0,
-        band_y + 40.0
+        band_y + 40.0,
+        crate::t!("receiver-trust-chart-legend")
     ));
     svg
 }
