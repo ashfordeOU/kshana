@@ -549,6 +549,12 @@ impl std::fmt::Display for KshanaError {
 impl KshanaError {
     /// A stable machine tag for the failure kind, so binding callers can branch on
     /// it without parsing the human-readable message.
+    /// The stable code of the message (`E-CLOCK-VERSION`), the same in every language, when the
+    /// message is a catalogue error raised on this thread. Callers match on this, never on the text.
+    pub fn code(&self) -> Option<String> {
+        crate::i18n::code_of(&self.to_string())
+    }
+
     pub fn kind_tag(&self) -> &'static str {
         match self {
             KshanaError::InvalidInput(_) => "invalid_input",
@@ -1754,6 +1760,56 @@ pub fn run_scenario(src: &str) -> Result<RunOutput, KshanaError> {
 /// the existing bindings (see [`run_scenario`] for the structured-error variant).
 /// Every chart is stamped with a provenance footer so saved images stand alone.
 pub fn run_toml(src: &str) -> Result<RunOutput, String> {
+    run_toml_in_current_language(src)
+}
+
+/// [`run_toml`] for a user in language `lang` (a tag such as `de`, `pt-BR`, `zh-Hans`, `en-XA`).
+///
+/// The machine outputs (`json`, `csv`) never depend on the language: they come from a run in
+/// English. For another language the scenario is run a second time in that language and its
+/// human-facing parts (`summary`, `svg`) replace the English ones. An error is the localised
+/// message; [`KshanaError::code`] gives its stable code. English (or an empty tag) is exactly
+/// [`run_toml`], with no second run.
+pub fn run_toml_lang(src: &str, lang: &str) -> Result<RunOutput, String> {
+    let (mut out, human) = run_toml_bilingual(src, lang)?;
+    if let Some(h) = human {
+        out.summary = h.summary;
+        out.svg = h.svg;
+    }
+    Ok(out)
+}
+
+/// The two runs of [`run_toml_lang`] kept apart: the English run, whose `json` and `csv` are the
+/// machine files, and, for another language, the run in that language for everything a person
+/// reads. English gives `None` for the second.
+pub fn run_toml_bilingual(src: &str, lang: &str) -> Result<(RunOutput, Option<RunOutput>), String> {
+    let wanted = crate::i18n::resolve(lang)?;
+    if wanted.is_english() {
+        return crate::i18n::with_lang(wanted, || run_toml_in_current_language(src))
+            .map(|o| (o, None));
+    }
+    let english = crate::i18n::with_lang(crate::i18n::Lang::english(), || {
+        run_toml_in_current_language(src)
+    });
+    // An error is shown in the user's language; a run that succeeds in English has the same
+    // outcome in every language, so a failure of the second run is a bug and falls back to English.
+    let localised = crate::i18n::with_lang(wanted, || run_toml_in_current_language(src));
+    match (english, localised) {
+        (Ok(out), Ok(loc)) => Ok((out, Some(loc))),
+        (Ok(out), Err(_)) => Ok((out, None)),
+        (Err(_), Err(e)) => Err(e),
+        (Err(e), Ok(_)) => Err(e),
+    }
+}
+
+/// [`run_scenario`] for a user in language `lang`; see [`run_toml_lang`].
+pub fn run_scenario_lang(src: &str, lang: &str) -> Result<RunOutput, KshanaError> {
+    let wanted = crate::i18n::resolve(lang).map_err(KshanaError::InvalidInput)?;
+    crate::i18n::with_lang(wanted, || ScenarioKind::classify(src))?;
+    run_toml_lang(src, lang).map_err(KshanaError::InvalidInput)
+}
+
+fn run_toml_in_current_language(src: &str) -> Result<RunOutput, String> {
     let mut out = run_toml_inner(src, true)?;
     let hash = extract_scenario_hash(&out.json).unwrap_or_else(|| src_fingerprint(src));
     out.svg = with_provenance(out.svg, &hash);
