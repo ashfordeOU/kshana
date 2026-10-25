@@ -65,6 +65,9 @@ Nothing about the bar changed; the estimator did.
 | 3c. Diagnostics of 3b | prior 1 m: 5.6 to 5.9; 10 m: 7.4; 30 m: 8.3; 100 m: 9.05; crosslink sigma 12.8, 4.1, 0.72, 0.13 m: 5.8, 6.0, 6.5, 21.5 (before the second-order term) | the inconsistency grows with the width of the prior and the precision of the range: a limit of an extended filter, not a coding error |
 | 3d. Attempts to model the persistence of the signal-in-space error in the filter: fixes only every 600 s; variance inflated by the correlation time over the step | NEES **142 to 2e7**; **19 to 11 315** | range-only regimes made the filter far worse |
 | **4. Batch Gauss-Newton estimate over the arc, signal-in-space error as persistent bias parameters (common and independent)** | **5.854, 5.855, 5.931, 5.929** (both orbits, both C/N0) | **MET** |
+| **4b. As 4, with the Gauss-Newton iteration run on a growing arc (a quarter, a half, all) with step halving on the cost** | shipped 2 h scenario: **6.51** (llo, 50 trials, 2 trials stopped with no further cost decrease), **6.33** (elfo, 0); before 4b the same scenario gave **1.0e9** with 4 of 50 trials in a local minimum | added after design 4 was recorded, when the integration suites showed the shipped 2 h scenario failing. The B1 bar was not touched; the four B1 configurations (1 h arcs) are re-run on 4b below |
+
+Design 4b re-run on the four B1 configurations gives 5.854, 5.855, 5.931, 5.929, identical to design 4 to the printed digits (the short arcs are nearly linear, so the staging changes nothing there), and B1 stays MET.
 
 The batch estimate is the design the kind uses. The persistence model (constant biases over the arc) is conservative about
 averaging; the truth and the estimator share a force model, so B1 says nothing about model error. The `point-mass` option
