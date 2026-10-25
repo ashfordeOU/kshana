@@ -17,6 +17,7 @@
 //! silently skipped.
 
 pub mod budget;
+pub mod conversions;
 pub mod handover;
 pub mod lunar;
 pub mod phase;
@@ -67,37 +68,25 @@ impl ThreadCtx {
     }
 
     /// Converts a state to another frame at a handover, returning the converted state and the
-    /// budget lines the conversion adds. The identity conversion adds no line. Other pairs are
-    /// not available yet and fail loudly.
+    /// budget lines the conversion adds ([`conversions`] says what each pair does). The identity
+    /// conversion adds no line; pairs that are not available fail loudly.
     pub fn convert_frame(
         &self,
         state: &NavState,
         to: Frame,
     ) -> Result<(NavState, Vec<budget::BudgetRow>), String> {
-        if state.frame == to {
-            return Ok((state.clone(), Vec::new()));
-        }
-        Err(format!(
-            "frame conversion {:?} -> {:?} is not implemented yet",
-            state.frame, to
-        ))
+        conversions::convert_frame(self, state, to)
     }
 
     /// Converts a state's clock to another timescale at a handover, returning the converted state
-    /// and the budget lines the conversion adds. The identity conversion adds no line. Other
-    /// pairs are not available yet and fail loudly.
+    /// and the budget lines the conversion adds, one per hop through TT. The identity conversion
+    /// adds no line.
     pub fn convert_timescale(
         &self,
         state: &NavState,
         to: Timescale,
     ) -> Result<(NavState, Vec<budget::BudgetRow>), String> {
-        if state.clock.timescale == to {
-            return Ok((state.clone(), Vec::new()));
-        }
-        Err(format!(
-            "timescale conversion {:?} -> {:?} is not implemented yet",
-            state.clock.timescale, to
-        ))
+        conversions::convert_timescale(self, state, to)
     }
 }
 
@@ -417,17 +406,16 @@ mod tests {
     }
 
     #[test]
-    fn identity_conversions_add_no_line_and_the_others_fail_loudly() {
+    fn identity_conversions_add_no_line_and_unavailable_pairs_fail_loudly() {
         let ctx = ThreadCtx::new("2028-01-01T00:00:00Z", 1);
         let s = entry();
         let (same, rows) = ctx.convert_frame(&s, Frame::Gcrf).unwrap();
         assert_eq!(same, s);
         assert!(rows.is_empty());
-        assert!(ctx.convert_frame(&s, Frame::Mci).is_err());
+        assert!(ctx.convert_frame(&s, Frame::Itrf).is_err());
         let (same, rows) = ctx.convert_timescale(&s, Timescale::Utc).unwrap();
         assert_eq!(same, s);
         assert!(rows.is_empty());
-        assert!(ctx.convert_timescale(&s, Timescale::Ltc).is_err());
     }
 
     #[test]
