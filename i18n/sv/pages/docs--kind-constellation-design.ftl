@@ -53,3 +53,13 @@ seg-87c4e19dc780 = <b>VALIDATED</b> Täckningsmotorn i typen <c1/> på GPS-basli
 seg-04289f7252cd = <b>MODELLED</b> Typen <c1/> utöver de två fastlåsta fallen: explicita utformningar och utformningar med flera skal, flera konstellationer per körning med en mottagarklocka per konst. Oberoende referens (InternalConsistency): Inre samstämmighet: den brute-force-baserade elevationsskanningen, de handräknade reduktionerna och orbit::dop, och den slutna Walker- och geosynkrona geometrin. Tvåkroppsbanor med en valfri sekulär J2, en sfärisk kropp med lokal vertikal längs radien, enbart geometrisk synlighet (ingen signaleffekt, satellithälsa, terräng eller störning från tredje kropp), och den relativa fasen mellan system tagen från olika re
 
 seg-00fa65d44cbd = MODELLED - keplerska tvåkroppsbanor (valfri sekulär J2) kring en sfärisk kropp, geometrisk synlighet över en elevationsmask, dilution of precision med alla satelliter i sikte med en mottagarklocka per konstellation om inte clock = "common"; ingen signaleffekt, hälsostatus eller terräng. Walker-geometrin och de publicerade förinställningarna kontrolleras mot Galileo OS SDD, GLONASS ICD och platstabellerna i GPS SPS Performance Standard, a (resultat <c1/>)
+
+seg-62f0fc16a247 = MODELLED: tvåkroppsbanor med valfri sekulär J2, en sfärisk kropp, enbart geometrisk sikt (ingen signaleffekt, hälsostatus eller terräng) och den relativa fasen mellan olika system, som inte är en ögonblicksbild av något verkligt datum. (kind catalogue (<c1/>))
+
+seg-3ef4276dd40b = Vad körningen besvarar: satelliter i sikte, PDOP/HDOP/VDOP/GDOP per cell på { "10" } deg och andelen tid med PDOP vid eller under { "3" } över en mask på { "20" } deg under två timmar. Den svaga punkten som kartan visar är polarkalotterna: inget skal når högre än cirka { "82" } deg latitud, så en användare nära en pol ser alla satelliter på ena sidan av himlen och den vertikala geometrin försämras. MODELLED: en illustrativ utformning, tvåkroppsbanor med J2, en sph (scenario file comment, lines { "17" } to { "21" })
+
+seg-c333d3fe22cd = Täcknings- och DOP-kartor (dilution of precision) för godtyckliga multikonstellationsutformningar i stor skala, kring valfri central kropp, är MODELLED, inte validerade: kontrollerade mot sin egen slutna/analytiska identitet. Det fångar transkriptions- och koefficientfel men är ingen extern oberoende referens. (verification matrix (docs/MODELLED-RATIONALE.md))
+
+seg-436504a8b26f = <s1>Föregående</s1>conflict-resilience
+
+seg-cba188459c80 = <s1>Nästa</s1>contact-schedule

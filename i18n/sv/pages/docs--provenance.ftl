@@ -15,3 +15,9 @@ seg-f63dd3d7aad4 = Källa
 seg-638b8d451550 = Sensor
 
 seg-d4a762001549 = Licens
+
+seg-60cd077d82a7 = Modell
+
+seg-2afa300864a9 = Parametrar
+
+seg-32b620b3574e = Användning

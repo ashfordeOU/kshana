@@ -5,3 +5,5 @@ seg-1f17ef6a853e = Scenariotyp i motor v{ $version }, familj <a1>Måne och cislu
 seg-1c1eeb2dcaa0 = Familjesida: <a1>Måne och cislunart</a1>
 
 seg-619127334cf3 = Ingen matrisrad nämner den här typen vid namn; etiketten på dess resultat är motorns egen, ovan.
+
+seg-d1beb62cf742 = { "6" } medföljande scenarier använder denna kind; de övriga finns i <a1><c1/></a1>.
