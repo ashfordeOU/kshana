@@ -83,6 +83,15 @@ pub struct TomlRequest {
     pub toml: String,
 }
 
+/// Parameters for [`KshanaServer::list_scenario_kinds`].
+#[derive(Debug, Default, serde::Deserialize, schemars::JsonSchema)]
+pub struct ListKindsRequest {
+    /// Language of each kind's `description`, as a tag such as `de`, `fr`, `ja` or `zh-Hans`.
+    /// Omit it for English. The names and the field lists are the same in every language.
+    #[serde(default)]
+    pub lang: Option<String>,
+}
+
 /// Parameters for [`KshanaServer::list_example_scenarios`].
 #[derive(Debug, serde::Deserialize, schemars::JsonSchema)]
 pub struct ListExamplesRequest {
@@ -366,10 +375,16 @@ impl KshanaServer {
     #[tool(
         description = "List every built-in Kshana scenario kind with its description and required/optional TOML fields, as a JSON array. Use this to discover what scenarios can be run and how to construct a valid scenario TOML for run_scenario."
     )]
-    fn list_scenario_kinds(&self) -> Result<CallToolResult, McpError> {
-        Ok(CallToolResult::success(vec![ContentBlock::text(
-            kshana::api::list_scenario_kinds_json(),
-        )]))
+    fn list_scenario_kinds(
+        &self,
+        Parameters(ListKindsRequest { lang }): Parameters<ListKindsRequest>,
+    ) -> Result<CallToolResult, McpError> {
+        let json = match lang.as_deref() {
+            None => kshana::api::list_scenario_kinds_json(),
+            Some(l) => kshana::api::list_scenario_kinds_json_lang(l)
+                .map_err(|e| McpError::invalid_params(e, None))?,
+        };
+        Ok(CallToolResult::success(vec![ContentBlock::text(json)]))
     }
 
     #[tool(

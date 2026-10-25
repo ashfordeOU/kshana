@@ -1161,6 +1161,54 @@ pub fn list_scenario_kinds_json() -> String {
         .expect("ScenarioMeta is all-static-string data; JSON serialisation is infallible")
 }
 
+mod kind_descriptions;
+pub use kind_descriptions::KIND_DESCRIPTION_IDS;
+
+/// The description of the built-in scenario kind `kind` in `lang`, from the catalogue (English when
+/// the language has no translation of it); `None` for a name that is not a built-in kind. The English
+/// text equals [`ScenarioMeta::description`].
+pub fn kind_description_in(lang: &crate::i18n::Lang, kind: &str) -> Option<String> {
+    let (_, id, numbers) = KIND_DESCRIPTION_IDS.iter().find(|(k, _, _)| *k == kind)?;
+    let args: Vec<(&str, String)> = numbers
+        .iter()
+        .map(|(var, value, decimals)| (*var, crate::i18n::num(*value, *decimals)))
+        .collect();
+    Some(crate::i18n::tr_in(lang, id, &args))
+}
+
+/// [`kind_description_in`] in the current language ([`crate::i18n::current`]).
+pub fn kind_description(kind: &str) -> Option<String> {
+    kind_description_in(&crate::i18n::current(), kind)
+}
+
+/// [`list_scenario_kinds_json`] with each `description` in `lang` (a tag as `--lang` takes, such as
+/// `de` or `zh-Hans`); the names and the field lists are the same in every language, and for English
+/// the document is byte-identical to [`list_scenario_kinds_json`]. Machine documents keep calling the
+/// English one.
+pub fn list_scenario_kinds_json_lang(lang: &str) -> Result<String, String> {
+    #[derive(serde::Serialize)]
+    struct Localised {
+        name: &'static str,
+        description: String,
+        required_fields: &'static [&'static str],
+        optional_fields: &'static [&'static str],
+    }
+    let lang = crate::i18n::resolve(lang)?;
+    crate::i18n::with_lang(lang.clone(), || {
+        let kinds: Vec<Localised> = list_scenario_kinds()
+            .into_iter()
+            .map(|m| Localised {
+                name: m.name,
+                description: kind_description_in(&lang, m.name)
+                    .unwrap_or_else(|| m.description.to_string()),
+                required_fields: m.required_fields,
+                optional_fields: m.optional_fields,
+            })
+            .collect();
+        json_of(&kinds)
+    })
+}
+
 /// For each scenario kind whose verification-matrix rows name a module other than the kind's own
 /// name (the kind with hyphens as underscores, or as written), the module names its rows use.
 ///
