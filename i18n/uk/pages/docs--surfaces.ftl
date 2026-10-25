@@ -561,3 +561,7 @@ seg-b2fd2a05842f = Навчальні NMEA — <b>лише текст</b>: жо�
 seg-4e3bbacda9ac = <s1>Назад</s1>Використання Kshana з агента
 
 seg-c5fbfab85e01 = <s1>Далі</s1>Плагін JetBrains
+
+seg-d5b5bdf6081c = Rust
+
+seg-40a7552d2ba9 = MCP
