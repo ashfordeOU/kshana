@@ -20,9 +20,9 @@ const GLOBE = '<svg aria-hidden="true" viewBox="0 0 24 24" width="16" height="16
 export function switcherHtml(lang, here, langs, label) {
   const items = ['en', ...langs].map((l) => {
     const href = (l === 'en' ? '' : '/' + l) + here;
-    return `<li><a href="${href}" hreflang="${l}" lang="${l}" data-lang-switch="${l}"${l === lang ? ' aria-current="true"' : ''}>${esc(NAMES[l])}<span class="lang-tag">${l}</span></a></li>`;
+    return `<li><a href="${href}" hreflang="${l}" lang="${l}" data-lang-switch="${l}"${l === lang ? ' aria-current="true"' : ''}>${esc(NAMES[l] || l)}<span class="lang-tag">${l}</span></a></li>`;
   }).join('');
-  return `<details class="lang-menu"><summary class="icon-btn" aria-label="${esc(label)}: ${esc(NAMES[lang])}" title="${esc(label)}">${GLOBE}<span class="lang-code">${esc(lang)}</span></summary><ul translate="no">${items}</ul></details>`;
+  return `<details class="lang-menu"><summary class="icon-btn" aria-label="${esc(label)}: ${esc(NAMES[lang] || lang)}" title="${esc(label)}">${GLOBE}<span class="lang-code">${esc(lang)}</span></summary><ul translate="no">${items}</ul></details>`;
 }
 
 /**
@@ -79,10 +79,12 @@ export function decoratePage(html, ctx) {
     const det = bundle.getMessage('notice-detected');
     let tpl = '';
     if (det && det.value) {
-      const raw = bundle.formatPattern(det.value, { language: NAMES[lang] });
+      const raw = bundle.formatPattern(det.value, { language: NAMES[lang] || lang });
       tpl = `<template id="i18n-detected" data-dismiss="${esc(msg('notice-dismiss') || 'Dismiss')}">${renderHtml(raw, { a1: { o: `<a href="${here}" data-lang-switch="en">`, c: '</a>' } })}</template>`;
     }
     out = out.replace('</body>', `${tpl}<script>${asset('lang-tail.js')}</script></body>`);
+    // script-written text: the site's own catalogue files, loaded by the Studio's boot module (shared l10n), with a promise the page scripts wait on
+    out = out.replace('</head>', `<script>window.kshanaL10nFiles=["ui.ftl","glossary.ftl","site-js.ftl"];window.kshanaL10nReady=new Promise(function(r){window.kshanaL10nResolve=r})</script><script type="module" src="/studio/lib/l10n-boot.mjs"></script></head>`);
   } else {
     out = out.replace('</body>', `<script>${asset('lang-tail.js')}</script></body>`);
   }
