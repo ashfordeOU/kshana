@@ -23,8 +23,6 @@ engine-e-clock-log-cannot-read-clock-log = не удалось прочитат�
 
 engine-e-clock-log-clock-log-path-is-not = путь к журналу часов недоступен в сборке WebAssembly; передайте журнал в виде текста
 
-engine-e-clock-log-the-log-has-missing-epoch = журнал { $format }: пропущено эпох: { $n_missing }, разрывов: { $n_gaps }, сетка { $tau0 } s; задайте gaps = "longest", чтобы сохранить самый длинный участок без разрывов, или gaps = "linear" для интерполяции
-
 engine-e-clock-log-the-log-yields-usable-sample = журнал { $format }: пригодных отсчётов: { $x }; нужно не менее 3
 
 engine-e-clock-log-not-rinex-clock-file-no = это не файл часов RINEX: нет записи END OF HEADER
@@ -193,8 +191,6 @@ engine-advanced-report-field-units-schema-units-entry = схема единиц 
 
 engine-advanced-report-field-units-schema-input-entry = схема единиц полей: запись input `{ $key }`, сопоставлена по имени поля
 
-engine-advanced-report-rows-of-non-numeric-column = строк нечислового столбца: { $n }
-
 engine-advanced-report-rows-from-to = строк: { $nums }, от { $fmt_num } до { $fmt_num2 }
 
 engine-advanced-report-phase-ended-by = фаза { $name } (завершена: { $ended })
@@ -287,8 +283,6 @@ engine-e-animation-animation-duration-must-be-between = длительность
 
 engine-e-animation-animation-width-must-be-between = ширина анимации должна быть от 480 до 3840 пикселей, получено: { $width }
 
-engine-e-animation-duration-fps-gives-frames-the = duration x fps даёт кадров: { $n }; для последовательности кадров нужно от 2 до { $v1 }
-
 engine-e-animation-result-is-not-json = результат не является JSON: { $e }
 
 engine-animation-mission-time = время миссии ({ $lay })
@@ -347,8 +341,6 @@ engine-e-aocs-kind-estimator-gyro-bias0-rad-must = estimator.gyro_bias0_rad_s д
 
 engine-e-aocs-kind-estimator-star-tracker-every-must = estimator.star_tracker_every_s должно быть не меньше dt_s
 
-engine-aocs-kind-aocs-wheels-slew-from-deg = aocs: маховиков: { $n_w }, разворот { $duration_s } s с { $series_err } deg -> { $settle } | итог { $final_err } deg | пик маховика { $peak_speed } rpm | { $v7 }
-
 ## src/aperture_duty.rs
 
 engine-e-aperture-duty-unknown-service-expected-navigation-nav = неизвестная служба '{ $other }' (ожидается navigation|nav или communications|comms)
@@ -378,10 +370,6 @@ engine-e-api-failed-to-serialise-report-to = не удалось сериали�
 engine-e-api-invalid-scenario = недопустимый сценарий: { $e }
 
 engine-e-api-clock-log = clock_log: { $e }
-
-engine-api-unknown-scenario-kind-did-you = неизвестный вид сценария { $other } — возможно, вы имели в виду { $hint }? `kshana kinds` перечисляет все встроенные виды: { $n }.
-
-engine-api-unknown-scenario-kind-kshana-kinds = неизвестный вид сценария { $other }. `kshana kinds` перечисляет все встроенные виды: { $n }.
 
 engine-api-required-fields = - **Обязательные поля:** { $fields }{ "\u000A" }
 
@@ -421,29 +409,17 @@ engine-api-builtins-scenario-quantum-holdover-p95-classical = сценарий {
 
 engine-api-builtins-scenario-spoof-vs-ns-spec = сценарий { $r } | спуфинг { $scn } против допуска { $threshold_ns } ns (P_fa { $target_pfa }) | квантовая безопасность { $security_fom } (P_md { $analytic_pmd }, MC { $mc_pmd }) { $det } | классическая безопасность { $security_fom2 } (P_md { $analytic_pmd2 }, MC { $mc_pmd2 }) { $det2 }
 
-engine-api-builtins-integrity-satellites-epochs-available-hal = целостность | спутников: { $n_sats } | доступных эпох: { $samples_available }/{ $samples_total } ({ $report }%) | HAL { $al_h_m } m VAL { $al_v_m } m | sigma { $sigma_uere_m } m | Stanford(V): событий целостности: { $report2 }, HMI: { $report3 }
-
 engine-api-builtins-lunar-integrity-south-pole-epochs = lunar-integrity | южный полюс | доступных эпох: { $samples_available }/{ $samples_total } ({ $report }%) | AL { $alert_limit_m } m | σ_URE { $sigma_ure_m } m | HPL { $min_hpl_m }–{ $max_hpl_m } m
 
 engine-api-builtins-lunar-time-offset-secular-ltc = lunar-time-offset | вековой дрейф LTC−TT { $secular_rate_us_per_day } µs/day (диапазон { $band_low }–{ $band_high }) | собственный потенциал { $self_potential_us_per_day } кинетический { $kinetic_us_per_day } | смещение @ { $horizon_days } d = { $offset_at_horizon_us } µs
 
 engine-api-builtins-lunar-vlbi-baseline-km-beacon = lunar-vlbi | база { $baseline_km } km | дальность до маяка { $beacon_range_km } km | задержка { $report } µs (скорость { $delay_rate_s_per_s } s/s) | ближнее поле { $near_field_correction_us } µs | отсчётов: { $samples } за { $horizon_hours } h
 
-engine-api-builtins-lunar-joint-od-clock-sats = lunar-joint-od-clock | спутников: { $n_sat }, земных станций: { $n_earth } | 3-D ошибка станции с VLBI { $station_pos_err_m } m против только дальномерных { $station_pos_err_m2 } m (точнее в { $station_observability_improvement_factor }×) | СКО положения спутника { $sat_pos_rms_m } m | ошибка часов станции { $station_clock_err_s } s | набл. { $n_obs }/{ $n_params } парам.
-
-engine-api-builtins-lunar-frame-realisation-points-translation = lunar-frame-realisation | точек: { $n_points } | ошибка сдвига { $trans_err_norm_m } m, ошибка поворота { $rot_err_norm_rad } rad, ошибка масштаба { $scale_err_ppb } ppb | остаточное RMS { $rms_residual_m } m | сошлось: { $converged }
-
-engine-api-builtins-moonlight-service-volume-sats-pts = moonlight-service-volume | спутников: { $n_sats } ({ $geometry_label }) | точек: { $n_grid_points } × эпох: { $n_epochs } | покрытие { $coverage_pct }% (PDOP<{ $pdop_threshold }) | спутников { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | доступность PL { $pl_availability_pct }% | MODELLED
-
 engine-api-builtins-ephemeris-ure-required-vs-keplerian = { " " }| эфемериды { $report } ({ $provenance }) требуемое σ_URE { $fmt } против кеплеровых { $fmt2 } против возмущённых { $fmt3 } (Δ { $fmt4 })
-
-engine-api-builtins-lunar-differential-pnt-sats-illustrative = lunar-differential-pnt | спутников: { $n_sats } (иллюстративные, класса LCNS, не аффилированы) | база { $baseline_km } km | ошибка пользователя { $user_error_uncorrected_m } m → { $user_error_corrected_m } m (снижение в { $reduction_factor }×) | HPL { $protection_level_m } m (σ_resid { $residual_sigma_m } m) | MODELLED
 
 engine-api-builtins-lunar-station-coverage-points-epochs = lunar-station-coverage | точек: { $n_grid_points } x эпох: { $n_epochs } x испытаний: { $n_trials } | доступность { $v4 } % | покрытие { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | скорректированная p{ $percentile } 3-D { $f } (нескорректированная { $f2 }) | HPL макс. { $f3 } | MODELLED; не является утверждением о какой-либо реальной системе
 
 engine-api-builtins-terrain-horizon-at-the-station = { " " }| горизонт рельефа ({ $sources }) на станции макс. { $horizon_max_deg } deg, у пользовательских точек средний макс. { $user_horizon_max_deg_mean } deg
-
-engine-api-builtins-lunar-interop-export-ref-frame = lunar-interop-export | REF_FRAME { $frame } / TIME_SYSTEM { $time_system } | состояний: { $n_states }, строк OEM: { $oem_line_count } | соответствие { $v5 } (присутствует полей: { $present_fields }, отсутствует: { $missing_fields }) | круговой обход OEM { $v8 } | круговой обход метаданных времени { $v9 } | KIF { $kif_bytes } bytes | MODELLED
 
 ## src/api/builtins.rs
 
@@ -477,8 +453,6 @@ engine-e-api-builtins-ephemeris = эфемериды: { $e }
 
 engine-api-builtins-max-el-peak-doppler-khz = { " " }| макс. угол места { $el }° пиковый Доплер { $v1 } kHz
 
-engine-api-builtins-scenario-samples-alt-km-lat = сценарий { $r } | { $source } | отсчётов: { $n_samples } | высота { $alt_min_km }–{ $alt_max_km } km | |широта| ≤ { $r2 }° | скорость { $speed_min_m_s }–{ $speed_max_m_s } m/s{ $pass }
-
 engine-api-builtins-generic-sweep-of-over-nodes = обобщённый перебор `{ $kind }` по [{ $keys }] | узлов: { $points } (форма { $shape }) | метрики [{ $metrics }]
 
 engine-api-builtins-gravity-map-free-inertial-drift = gravity-map | дрейф свободной инерциальной системы { $free_inertial_drift_m } m | по гравитационной карте { $map_matched_error_m } m | сигма сопоставления { $measurement_sigma_mgal } mGal
@@ -498,8 +472,6 @@ engine-e-api-builtins-clock-log-needs-runs-measured = { "[" }clock_log] треб
 engine-api-builtins-scenario-runs-quantum-holdover-p95 = сценарий { $r } | прогонов: { $runs } | квантовый holdover { $mean }s [{ $p05 }-{ $p95 }] p95 { $ns1 }ns безопасность { $security_na } | классический holdover { $mean2 }s [{ $p052 }-{ $p952 }] p95 { $ns12 }ns безопасность { $security_na }
 
 engine-api-builtins-scenario-quantum-holdover-p95-ns = сценарий { $r } | квантовый holdover { $holdover_s }s p95 { $ns1 }ns целостность { $integ } безопасность { $security_na } | классический holdover { $holdover_s2 }s p95 { $ns12 }ns целостность { $integ2 } безопасность { $security_na }
-
-engine-api-builtins-raim-available-of-epochs-denied = { " " }| RAIM доступен: { $n_available } из { $n_epochs } эпох (отказов: { $n_denied }, тревог: { $n_alarm }; MODELLED)
 
 ## src/araim_reference.rs
 
@@ -528,8 +500,6 @@ engine-e-araim-reference-sat-needs-one-value-per = для P_sat нужно по 
 engine-e-araim-reference-satellite-names-an-undeclared-constellation = спутник указывает необъявленную орбитальную группировку
 
 engine-e-araim-reference-every-prior-must-lie-in = каждая априорная вероятность должна лежать в [0, 1)
-
-engine-e-araim-reference-the-priors-need-subsets-of = для априорных вероятностей нужны подмножества из { $n_fault_max } одновременных событий; этот путь перебирает не более { $most }
 
 engine-e-araim-reference-the-all-in-view-solution = решение по всем видимым спутникам не было выбрано
 
@@ -691,8 +661,6 @@ engine-bench-tasks-predictions-cover-cases-the-truth = предсказания 
 
 engine-bench-tasks-case-has-no-number-array = у случая `{ $id }` нет числового массива
 
-engine-bench-tasks-case-needs-values-has = для случая `{ $id }` нужно значений: { $n }, имеется: { $a }
-
 engine-bench-tasks-case-has-non-finite-value = у случая `{ $id }` есть нечисловое значение
 
 ## src/bin/crossover_study.rs
@@ -706,8 +674,6 @@ engine-bin-crossover-study-error-cannot-create = ошибка: не удалос
 engine-bin-crossover-study-done-inertial-nodes-clock-curves = готово: инерциальных узлов: { $nodes }, кривых часов: { $curves } (начальное значение (seed) 42)
 
 ## src/bin/gen_araim_m3_study.rs
-
-engine-bin-gen-araim-m3-study-user-epochs-ura-values-in = эпох пользователя: { $n } x 3 значения URA за { $dt } s = { $v1 } ms на эпоху пользователя (разрешимых: { $ok })
 
 ## src/bin/gen_validation_artifacts.rs
 
@@ -743,16 +709,7 @@ engine-e-body-pnt-serialising-report = сериализация отчёта: { 
 
 engine-e-body-pnt-the-report-must-serialise-to = отчёт должен сериализоваться в объект JSON
 
-engine-body-pnt-positioning-around-user-relays-at =
-    Позиционирование вокруг { $name } — пользователь: { $user_kind }, ретрансляторов: { $n_relays } на { $r } km, эпох: { $n_epochs }
-    { "  " }Световое время до Земли { $one_way_light_time_s } s в одну сторону, { $two_way_light_time_s } s туда и обратно; угол Солнце–Земля–тело { $sun_separation_deg } deg
-    { "  " }доступность: { $availability_relays } только орбитальная группировка, { $availability_with_earth } с дальностью до Земли (Земля в зоне видимости { $earth_visibility })
-    { "  " }медианный PDOP { $opt }; ошибка RMS { $opt2 } только орбитальная группировка, { $opt3 } с дальностью до Земли
-    { "  " }медианная формальная сигма { $opt4 } только орбитальная группировка, { $opt5 } с дальностью до Земли{ "\u000A" }
-
 engine-body-pnt-positioning-around = Позиционирование вокруг { $name }
-
-engine-body-pnt-user-relays-earth-light-time = пользователь: { $user_kind } · ретрансляторов: { $n_relays } · световое время до Земли { $one_way_light_time_s } s · MODELLED
 
 ## src/calibration_ensembles.rs
 
@@ -1076,8 +1033,6 @@ engine-cislunar-arc-recovery-not-corroborated-the-estimator-never = NOT CORROBOR
 
 engine-cislunar-arc-recovery-the-gramian-rank-criterion-is = критерий ранга грамиана на этой дуге не выполняется никогда (геометрия не достигает полного ранга), тогда как оценщик восстанавливает состояние начиная с { $e } h — они расходятся даже в том, существует ли граница вообще.
 
-engine-cislunar-arc-recovery-cislunar-arc-recovery-family-state = cislunar-arc-recovery | семейство { $family }, состояний: { $state_dim }, аппаратов: { $n_spacecraft }, наблюдаемая { $observable }, параметризация { $coordinates } | дуга { $arc_hours } h, эпох: { $epochs } (сетка { $grid_hours } h), испытаний: { $trials }, начальное значение (seed) { $seed } | частные производные конечными разностями, без аналитического якобиана / STM / SVD / SRIF | восстановление без шума с { $nf } (коэффициент { $recovery_factor }) против порога ранга грамиана { $gram } | оцениваемость по Монте-Карло с { $est } (RMS положения ≤ { $error_bound_km } km, σ { $sigma_range_m } m) против оцениваемости по грамиану { $gram_est } | RMS положения в конце дуги { $last } km
-
 ## src/cislunar_observability.rs
 
 engine-e-cislunar-observability-unknown-family-expected-one-of = неизвестное семейство `{ $other }`: ожидается одно из dro, halo, nrho
@@ -1096,15 +1051,9 @@ engine-e-cislunar-observability-sigma-range-must-be-finite = sigma_range_m до�
 
 engine-e-cislunar-observability-sigma-pos-threshold-km-must = sigma_pos_threshold_km должно быть конечным и положительным, получено: { $sigma_pos_threshold_km }
 
-engine-cislunar-observability-cislunar-observability-refs-arc-epochs = cislunar-observability | аппаратов: { $c } ({ $refs } опорных) | дуга { $arc_hours } h, эпох: { $rank_arc } | ранг { $first } → { $last } из { $state_dim } по дуге | λ грамиана [{ $min_eigenvalue }…{ $max_eigenvalue }] число обусловленности { $condition_str } | мгновенный ранг только по дальности { $rank_range_only } → дальность+скорость { $rank_range_rate } (связей: { $n_links }) | GDOP только по дальности { $ro } дальность+скорость { $rr } | начальные условия DRO (максимальная невязка периодичности { $max_resid }) | апостериорная оценка SRIF конечна в эпоху ранга 4 { $srif_epoch } (подтверждены ранг/STM/замыкание DRO/SRIF, конструкция смоделирована)
-
 engine-cislunar-observability-never-rank-of = никогда (ранг { $rank } из { $state_dim })
 
-engine-cislunar-observability-family-state-range-rank-threshold = { $base } | семейство { $family }, состояний: { $state_dim }, аппаратов: { $n_spacecraft }, σ_range { $sigma_range_m } m | порог ранга { $rank_thr } (сетка { $c } h) | порог оцениваемости (σ_pos ≤ { $sigma_pos_threshold_km } km) { $est_thr }
-
 engine-cislunar-observability-first-arc-length-at-which = первая длина дуги, при которой формальная неопределённость положения 1σ НАЧАЛЬНОГО состояния ведущего аппарата, σ_pos = sqrt(trace(P_rr)) при P = (ÕᵀÕ)⁻¹, где Õ матрица наблюдаемости, отбелённая по шуму измерений, опускается до { $sigma_pos_threshold_km } km или ниже. Это критерий, при котором порог длины дуги вообще зависит от шума: P масштабируется как σ², поэтому σ_pos масштабируется как σ, тогда как приведённый выше критерий ранга с σ не меняется. Граница это ЗАЯВЛЕННЫЙ инженерный выбор, а не подогнанный — estimability_sweep сообщает порог при четырёх других границах.
-
-engine-cislunar-observability-extension-r3-this-run-is = РАСШИРЕНИЕ (R3) — этот прогон НЕ является плоской конфигурацией DRO, которую описывает приведённая выше `label`. Размерность состояния { $state_dim }; семейство орбит { $family }; аппаратов: { $n_spacecraft }; сигма измерения дальности { $sigma_range_m } m. Там, где `label` говорит «planar» и «planar DROs», читайте названное здесь семейство. VALIDATED, дополнения: вариационная STM 6x6 это та же проверенная конечными разностями STM CR3BP (crate::cr3bp), что используется при полной ширине; строки пространственного якобиана дальности и скорости изменения дальности это аналитические частные производные, проверенные конечными разностями, причём строка скорости изменения дальности сверена покомпонентно с независимым трёхмерным deepspace_od::range_rate_observable из этого крейта; начальные условия halo / NRHO это периодические орбиты, скорректированные дифференциально тем же корректором, который воспроизводит опубликованную южную NRHO 9:2 у L2, продолженные от этого опубликованного начального приближения, и невязка замыкания каждого элемента приводится; шестикомпонентные вердикты по РАНГУ подтверждены НЕЗАВИСИМЫМ рангом по ступенчатому виду (метод Гаусса с частичным выбором ведущего элемента), не разделяющим кода с маршрутом через собственные значения/SVD. ЧЕСТНЫЕ РАМКИ ЗВЕНА SRIF: перекрёстная проверка SRIF выше использует ТЕ ЖЕ якобианы измерений и сводится к той же O^T O, поэтому её согласие это проверка согласованности двух численных механизмов, а НЕ независимое подтверждение порога — оно не засчитывается как подтверждение какого-либо значения здесь. MODELLED: проект семейства (какие абсциссы, амплитуды и фазы), сетка эпох, дуга с единственной связью и заявленная граница положения критерия оцениваемости.
 
 engine-cislunar-observability-validated-each-constellation-initial-condition = Подтверждено: каждое начальное условие орбитальной группировки это периодическая орбита семейства { $family }, скорректированная дифференциально и замыкающаяся за один период с указанной невязкой периодичности (плоские DRO дополнительно ретроградны относительно Луны). Семейство корректируется при отношении масс Земля–Луна. Смоделировано: выбор параметров и фаз семейства (проект орбитальной группировки). Имя ключа `dro_provenance` сохранено для выпущенной схемы документа; в нём содержится то семейство, которое запросил этот прогон.
 
@@ -1119,8 +1068,6 @@ engine-e-clock-integrity-integrity-mask-deg-must-lie = integrity: mask_deg до�
 engine-e-clock-integrity-integrity-systems-must-name-at = integrity: systems должно называть хотя бы один пресет
 
 engine-e-clock-integrity-integrity-injected-bias-needs-finite = integrity: для injected_bias нужны конечные bias_m, t0_s и t1_s
-
-engine-e-clock-integrity-integrity-epochs-exceed-the-epoch = integrity: эпох { $n } превышает предел в { $MAX_EPOCHS } эпох; увеличьте step_s
 
 ## src/clock_library/card.rs
 
@@ -1333,8 +1280,6 @@ engine-e-earth-gnss-lunar-back-lobe-suppression-db-must = back_lobe_suppression_
 
 engine-e-earth-gnss-lunar-receiver-range-must-be-outside = receiver_range_m должно лежать вне Земли; получено: { $range_m }
 
-engine-earth-gnss-lunar-earth-gnss-at-lunar-distance = Земной GNSS на лунном расстоянии — спутников: { $n_satellites }, приёмник на { $r } km{ "\u000A" }
-
 engine-earth-gnss-lunar-earth-limb-from-the-constellation = { "  " }Лимб Земли с орбитальной группировки: { $earth_limb_half_angle_deg } deg от надира — любой луч к Луне должен превышать это значение{ "\u000A" }
 
 engine-earth-gnss-lunar-of-not-occulted-clear-the = { "  " }не затенено: { $n_geometrically_visible } из { $n_satellites }; порог слежения { $tracking_threshold_dbhz } dB-Hz превышают: { $n_trackable }{ "\u000A" }
@@ -1448,8 +1393,6 @@ engine-e-ephemeris-step-must-be-positive = step_s должно быть поло
 engine-e-ephemeris-duration-must-be-non-negative = duration_s должно быть неотрицательным
 
 engine-e-ephemeris-carrier-hz-must-be-positive = carrier_hz должно быть положительной конечной частотой
-
-engine-ephemeris-ground-track-samples-alt-km = трасса { $source } · отсчётов: { $n_samples } · высота { $alt_min_km }–{ $alt_max_km } km · |широта| ≤ { $r }°
 
 ## src/evidence/assemble.rs
 
@@ -1929,10 +1872,6 @@ engine-e-geometry-sky-epoch = sky: эпоха: { $e }
 
 engine-geometry-and-more = { "." }.. и ещё { $more }
 
-engine-geometry-element-sets-propagated-by-the = Наборы элементов (число: { $n }) распространены алгоритмом SGP4 (WGS-72) движка на { $iso } и повёрнуты в земную систему координат при UT1, принятом равным UTC, и без учёта движения полюса: это небо, которое эти наборы элементов дают на данную эпоху, а не его измерение.
-
-engine-geometry-element-sets-propagated-by-the-2 = Наборы элементов (число: { $n }) распространены алгоритмом SGP4 (WGS-72) движка на эпоху самого нового набора элементов плюс time_s ({ $iso }). Эпоха не задана, поэтому это репрезентативное небо, а не небо на указанную дату.
-
 engine-e-geometry-sky-give-systems-or-tle = sky: задайте `systems` или `tle` (вместе с `site`), либо `satellites`
 
 engine-e-geometry-sky-tle-system-names-the = sky: tle_system именует спутники `tle`; в запросе нет `tle`
@@ -2139,8 +2078,6 @@ engine-e-gse-sim-step-must-be-positive-got = step_s должно быть пол
 
 engine-e-gse-sim-duration-must-be-positive-got = duration_s должно быть положительным, получено { $duration_s }
 
-engine-e-gse-sim-scenario-produces-epochs-need-increase = сценарий даёт эпох: { $n } (нужно ≥ 2); увеличьте duration_s или уменьшите step_s
-
 ## src/holdover_test.rs
 
 engine-e-holdover-test-the-record-holds-non-finite = запись содержит неконечную ошибку времени
@@ -2185,15 +2122,11 @@ engine-e-hybrid-integrity-must-be-finite = { $name } должно быть ко�
 
 engine-e-hybrid-integrity-rf-other-losses-db-must = rf_other_losses_db должно быть конечным и >= 0
 
-engine-hybrid-integrity-hybrid-optical-rf-optical-footprint = hybrid-optical-rf | оптический след { $footprint_m } м, фотонов: { $detected_photons } -> σ дальнометрии { $c } мм, σ времени { $c2 } пс | cross-RAIM HPL { $hpl_m } м / VPL { $vpl_m } м / TPL { $c3 } нс ({ $v8 }) | доступность { $c4 }% (площадок: { $n_sites }) | передача без скачка { $v11 } NEES { $final_nees }∈[{ $c5 },{ $c6 }] { $v15 } | совместный FoM { $score } (A { $availability } · P { $precision_grade } · I { $integrity_assured }) | подтверждено: CRLB/χ²-PL/union/handoff, смоделировано: σ/климатология
-
 ## src/impairment_eval.rs
 
 engine-e-impairment-eval-target-pfa-must-be-in = target_pfa должно быть в [0, 1]
 
 engine-e-impairment-eval-per-class-must-be = n_per_class должно быть >= 1
-
-engine-impairment-eval-impairment-eval-detector-auc-in = impairment-eval | детектор { $detector } | AUC { $auc_in } на обучающих / { $auc_out } на отложенных (разрыв { $optimism_gap }{ $v5 }) | Pd { $report } Pfa { $report2 } @ цель { $target_pfa } | случаев: { $n_cases } | MODELLED, синтетические данные
 
 engine-e-impairment-eval-unknown-detector-energy-agc-sqm = неизвестный детектор '{ $other }' (energy|agc|sqm|parity|fused)
 
@@ -2408,8 +2341,6 @@ engine-interop-the-scenario-could-not-be = сценарий не удалось 
 engine-e-interop-invalid-spectrum-scenario = некорректный сценарий спектра: { $e }
 
 ## src/interop/scene.rs
-
-engine-e-interop-scene-time-samples-is-more-than = временных отсчётов: { $n }, это больше, чем записывает экспорт ({ $MAX_SAMPLES })
 
 engine-e-interop-scene-objects-samples-is-more-than = объектов: { $items } x отсчётов: { $times } — это больше, чем записывает экспорт ({ $MAX_SAMPLES })
 
@@ -2627,8 +2558,6 @@ engine-e-iq-campaign-conditions-at-least-one-expected-group = требуется
 
 engine-e-iq-campaign-conditions-ids-must-not-be-empty = { $at }: ids не должны быть пустыми
 
-engine-e-iq-campaign-conditions-lists-value-give-one-per = { $at }: { $key } перечисляет значений: { $n }; задайте по одному на id ({ $ids })
-
 engine-e-iq-campaign-conditions-duplicate-id = { $at }: повторяющийся id
 
 engine-e-iq-campaign-conditions-offset-must-be-after-onset = { $at }: offset_s должно быть позже onset_s
@@ -2660,8 +2589,6 @@ engine-e-iq-campaign-detect-monitors-roc-window-must-be = monitors.roc_window_s 
 engine-e-iq-campaign-runner-recording-sha-256-does-not = запись '{ $id }': SHA-256 { $sha } не совпадает с заявленным { $want }
 
 engine-e-iq-campaign-runner-runs-jsonl = runs.jsonl: { $e }
-
-engine-e-iq-campaign-runner-recording-holds-samples-needed-to = { $code }: запись содержит отсчётов: { $buf }, для захвата нужно { $n }
 
 ## src/iq/campaign/score.rs
 
@@ -2787,8 +2714,6 @@ engine-iq-cli-needs-value = { $s } требует значения
 
 engine-e-iq-cli-cannot-parse = { $k }: не удаётся разобрать { $v }
 
-engine-iq-cli-iq-takes-positional-argument-got = iq { $cmd } принимает позиционных аргументов: { $n }, получено: { $pos }
-
 engine-e-iq-cli-cannot-parse-2 = { $k }: не удаётся разобрать { $p }
 
 engine-iq-cli-unknown-iq-processing-command-expected = неизвестная команда обработки iq { $other }; ожидалась одна из: scene, acquire, track, sweep, labfit, frontend, monitor, campaign или conditions
@@ -2847,11 +2772,7 @@ engine-e-iq-io-cli-unknown-option = неизвестный параметр { $s
 
 engine-e-iq-io-cli-format-needs-rate = --format требует --rate
 
-engine-iq-io-cli-iq-takes-path-argument-got = iq { $cmd } принимает аргументов-путей: { $n }, получено: { $pos }
-
 engine-iq-io-cli-unknown-iq-command = неизвестная команда iq { $other }
-
-engine-iq-io-cli-wrote-samples-hz-to-saturated = записано отсчётов: { $n } ({ $to }, { $fs_hz } Hz) в { $files }; элементов с насыщением: { $w }{ $v4 }
 
 ## src/iq/io/follow.rs
 
@@ -2909,8 +2830,6 @@ engine-e-iq-io-sigmf-stream-core-sample-rate-is-not = { $name }: core:sample_rat
 
 engine-e-iq-io-sigmf-stream-at-hz-does-not-match = { $name }: { $f } при { $rate } Hz не совпадает с { $f0 } при { $r0 } Hz первой записи
 
-engine-e-iq-io-sigmf-stream-capture-at-sample-is-out = { $name }: захват на отсчёте { $sample_start } нарушает порядок или выходит за пределы { $n_file } отсчётов данных
-
 engine-e-iq-io-sigmf-stream-first-capture-does-not-start = { $name }: первый захват не начинается на границе байта
 
 engine-e-iq-io-sigmf-stream-channel-requested-the-recording-has = запрошен канал { $channel }; в записи каналов: { $channels } (нумерация каналов с 0)
@@ -2951,8 +2870,6 @@ engine-iq-labfit-iqfit-uncensored-span-db-is-under = нецензурирова�
 
 engine-iq-labfit-iqfit-eff-and-delta-are-not = Q_eff и delta не идентифицируются раздельно (|corr| { $full } >= { $v2 }): модель зависит только от delta - 10 log10 Q_eff
 
-engine-iq-labfit-iqfit-not-fitted-re-acquisitions-observed = подгонка не выполнена: наблюдалось повторных захватов: { $n_reacq } (нужно не менее 3)
-
 engine-iq-labfit-iqfit-loss-time-rms = loss_time_rms_s[{ $model }]
 
 engine-e-iq-labfit-iqfit-unknown-mode-only-validation = неизвестный режим `{ $m }` (допустим только `validation`)
@@ -2987,11 +2904,7 @@ engine-iq-labfit-iqreport-n0-model-delta-eff-db = Модель C/N0 ({ $q_mode }
 
 engine-iq-labfit-iqreport-held-at-its-stated-value = Q удержана на заявленном значении: { $why }.{ "\u000A\u000A" }
 
-engine-iq-labfit-iqreport-threshold-direct-median-db-over = Пороговое J/S, прямое: медиана { $om } dB по потерям: { $n } (IQR { $t }).{ "\u000A\u000A" }
-
 engine-iq-labfit-iqreport-hold-out-leave-one-recording = Отложенная проверка (исключение по одной записи), интерполяция: интервалов { $bins }, RMS C/N0 { $om } dB, охват PI90 { $om2 }
-
-engine-iq-labfit-iqreport-events-loss-time-rms-pi90 = ; { $model }: событий: { $n }, RMS времени потери { $om } с, охват PI90 { $om2 }
 
 engine-iq-labfit-iqreport-validation-table-sha-256-registered =
     SHA-256 таблицы валидации `{ $table_sha256 }` (зарегистрирована { $registered }):
@@ -3026,18 +2939,10 @@ engine-iq-labfit-report-lab-fit-label-settings-sha =
 
     Метка: **{ $label }**. SHA-256 настроек `{ $settings_sha256 }`.{ "\u000A\u000A" }
 
-engine-iq-labfit-report-n0-samples-residual-rms-db = { "\u000A" }Отсчётов C/N0: { $n_samples }, остаточное RMS { $om } dB.{ $r }{ "\u000A" }
-
 engine-iq-labfit-report-model-parameter-value-bounds-at =
     { "\u000A" }## Модель: { $model } ({ $label })
 
     | параметр | значение | границы | на границе | sd бутстрепа (95 %) |
-    |---|---|---|---|---|{ "\u000A" }
-
-engine-iq-labfit-report-event-time-rms-over-events =
-    { "\u000A" }RMS времени события { $om } с по событиям: { $n_events }; потери: пропущено { $loss_missed } / лишних { $loss_extra }, повторные захваты: пропущено { $reacq_missed } / лишних { $reacq_extra }.
-
-    | прогон | падение dB-Hz | повторная фиксация dB-Hz | событий | RMS с |
     |---|---|---|---|---|{ "\u000A" }
 
 engine-iq-labfit-report-hold-out-folds-all-interpolation =
@@ -3128,8 +3033,6 @@ engine-e-iq-short-ids-must-hold-to-satellites = ids должны содержа�
 
 engine-e-iq-short-dopplers-must-be-finite = dopplers должны быть конечными
 
-engine-e-iq-short-samples-requested-short-run-holds = запрошено отсчётов: { $n }; короткий прогон вмещает не более { $MAX_SAMPLES }
-
 ## src/iq/signals/lunanet.rs
 
 engine-iq-signals-lunanet-lunanet-afs-primary-tertiary = LunaNet AFS-Q первичный { $primary_prn } S{ $secondary } третичный { $t }
@@ -3159,8 +3062,6 @@ engine-e-iq-signals-galileo-line-no = строка { $v1 }: нет ';'
 engine-e-iq-signals-galileo-line-no-code-number-in = строка { $v1 }: нет номера кода в { $label }
 
 engine-e-iq-signals-galileo-code-appears-twice = код { $number } встречается дважды
-
-engine-e-iq-signals-galileo-codes-the-icd-defines = { $path }: кодов: { $n }, ICD определяет { $CODES_PER_COMPONENT }
 
 ## src/iq/track/boc.rs
 
@@ -3482,8 +3383,6 @@ engine-launch-launch-window-lat-az-asc = launch-window: lat { $site_lat_deg }° 
 
 engine-e-leo-fusion-doppler-every-range-rate-needs-positive = каждой скорости изменения дальности нужна положительная конечная сигма
 
-engine-e-leo-fusion-doppler-measurements-cannot-resolve-doppler-unknowns = измерений: { $n_meas } недостаточно для разрешения неизвестных Доплера: { $n }
-
 engine-e-leo-fusion-doppler-the-doppler-geometry-is-singular = геометрия Доплера вырождена
 
 engine-e-leo-fusion-doppler-no-covariance = нет ковариации
@@ -3491,8 +3390,6 @@ engine-e-leo-fusion-doppler-no-covariance = нет ковариации
 ## src/leo_fusion/joint_pvt.rs
 
 engine-e-leo-fusion-joint-pvt-every-pseudorange-needs-positive-finite = каждой псевдодальности нужна положительная конечная сигма
-
-engine-e-leo-fusion-joint-pvt-pseudoranges-cannot-resolve-unknowns-position = псевдодальностей: { $obs } недостаточно для разрешения неизвестных: { $n } (3 положения + часов: { $n_clock })
 
 engine-e-leo-fusion-joint-pvt-satellite-coincides-with-the-position = спутник совпадает с оценкой положения
 
@@ -3512,11 +3409,7 @@ engine-e-leo-fusion-ntn-sync-error-must-be-non = sync_error_m должно бы�
 
 engine-e-leo-fusion-ntn-every-signal-needs-positive-bandwidth = каждому сигналу нужна положительная полоса
 
-engine-leo-fusion-ntn-5g-ntn-positioning-at-mhz = позиционирование 5G NTN на { $r } MHz, C/N0 от { $r2 } до { $r3 } dB-Hz, спутников: { $n_satellites } (в зоне видимости: { $mean_in_view }){ "\u000A" }
-
 engine-leo-fusion-ntn-khz-crb-range-to-median = { "  " }{ $name }: { $s } kHz, дальность CRB от { $range_sigma_zenith_m } до { $range_sigma_mask_m } m; медианная формальная 3D { $s2 } m, ошибка RMS { $s3 } m{ "\u000A" }
-
-engine-leo-fusion-ntn-one-satellite-doppler-pass-samples = { "  " }доплеровский пролёт одного спутника: отсчётов: { $n_obs } за { $duration_s } s, горизонтальная ошибка { $horizontal_error_m } m{ "\u000A" }
 
 engine-leo-fusion-ntn-mhz-n0-db-hz-modelled = { $r } MHz · C/N0 { $r2 }-{ $r3 } dB-Hz · MODELLED
 
@@ -3529,8 +3422,6 @@ engine-e-leo-fusion-ppp-duration-and-step-must-be = длительность и 
 engine-e-leo-fusion-ppp-runs-must-be-to-200 = runs должно быть от 1 до 200
 
 engine-e-leo-fusion-ppp-convergence-thresholds-must-be-positive = пороги сходимости должны быть положительными
-
-engine-leo-fusion-ppp-ppp-convergence-to-horizontal-vertical = сходимость PPP до { $criterion_horizontal_m } m по горизонтали / { $criterion_vertical_m } m по вертикали, прогонов на случай: { $runs_per_case }, спутников GNSS: { $n_gnss }{ "\u000A" }
 
 engine-leo-fusion-ppp-leo-median-min-converged-nees = { "  " }{ $name } LEO: { $n_leo }  медиана { $c } min  сошлось { $v4 }%  NEES среднее { $nees_mean }{ "\u000A" }
 
@@ -3559,12 +3450,6 @@ engine-e-leo-fusion-pvt-kind-timing-mode-needs-leo-system = для режима 
 engine-e-leo-fusion-pvt-kind-unknown-clock-class = неизвестный класс часов { $c }
 
 engine-leo-fusion-pvt-kind-leo-pvt-at-over = LEO PVT ({ $mode }) в точке { $user_lat_deg }, { $user_lon_deg } за { $duration_s } s{ "\u000A" }
-
-engine-leo-fusion-pvt-kind-sats-at-km-mhz = { "  " }{ $name } { $role }: спутников { $n_satellites } на высоте { $mean_altitude_km } km, { $sys } MHz{ $v6 }{ "\u000A" }
-
-engine-leo-fusion-pvt-kind-doppler-fix-measurements-from-satellites = { "  " }доплеровское определение: измерений { $n_obs } от спутников { $n_sats }, 3D ошибка { $error_3d_m } m (горизонтальная { $horizontal_error_m } m){ "\u000A" }
-
-engine-leo-fusion-pvt-kind-window-sats-3d-error = { "    " }окно { $window_s } s: спутников { $n_sats }, 3D ошибка { $f } m{ "\u000A" }
 
 engine-leo-fusion-pvt-kind-overhead-pass-max-doppler-hz = { "  " }{ $system }, пролёт в зените: макс. Доплер { $max_doppler_hz } Hz, скорость { $max_doppler_rate_hz_s } Hz/s, рывок { $max_doppler_jerk_hz_s2 } Hz/s^2{ "\u000A" }
 
@@ -4097,14 +3982,6 @@ engine-live-io-kshana-live-vessel-platform-calibrating = kshana live: судов
 
 engine-live-io-write-failed = сбой записи: { $e }
 
-engine-live-io-kshana-live-dropped-udp-datagram =
-    { $n ->
-        [one] kshana live: отброшено udp-датаграмм: { $n }, которые движок не смог принять (всего { $udp_dropped })
-        [few] kshana live: отброшено udp-датаграмм: { $n }, которые движок не смог принять (всего { $udp_dropped })
-        [many] kshana live: отброшено udp-датаграмм: { $n }, которые движок не смог принять (всего { $udp_dropped })
-       *[other] kshana live: отброшено udp-датаграмм: { $n }, которые движок не смог принять (всего { $udp_dropped })
-    }
-
 ## src/lunar_afs/codes.rs
 
 engine-e-lunar-afs-codes-afs-prn-is-outside = AFS PRN { $prn } вне диапазона 1..={ $MAX_PRN }
@@ -4289,14 +4166,6 @@ engine-lunar-frame-campaign-full-rank-all-similarity-parameters = полный �
 
 engine-lunar-frame-campaign-rank-deficient-of-similarity-directions = RANK-DEFICIENT: ненаблюдаемы { $defect } из 7 направлений подобия в этой кампании, поэтому sigma датума НЕ публикуется; ненаблюдаемые направления перечислены в семипараметрическом базисе
 
-engine-lunar-frame-campaign-lunar-frame-campaign-beacons-baselines =
-    { $n_beacons ->
-        [one] lunar-frame-campaign | маяков: { $n_beacons } x базовых линий: { $v1 } x эпох: { $n_epochs } = наблюдений: { $n_obs } (delay sigma { $sigma_tau } s) | datum станций { $station_datum } | ранг Гельмерта { $rank }/7 cond { $condition } | sigma сдвига датума { $v5 } против ошибки восстановления внесённого преобразования { $trans_err_norm_m } m (отношение { $v7 })
-        [few] lunar-frame-campaign | маяков: { $n_beacons } x базовых линий: { $v1 } x эпох: { $n_epochs } = наблюдений: { $n_obs } (delay sigma { $sigma_tau } s) | datum станций { $station_datum } | ранг Гельмерта { $rank }/7 cond { $condition } | sigma сдвига датума { $v5 } против ошибки восстановления внесённого преобразования { $trans_err_norm_m } m (отношение { $v7 })
-        [many] lunar-frame-campaign | маяков: { $n_beacons } x базовых линий: { $v1 } x эпох: { $n_epochs } = наблюдений: { $n_obs } (delay sigma { $sigma_tau } s) | datum станций { $station_datum } | ранг Гельмерта { $rank }/7 cond { $condition } | sigma сдвига датума { $v5 } против ошибки восстановления внесённого преобразования { $trans_err_norm_m } m (отношение { $v7 })
-       *[other] lunar-frame-campaign | маяков: { $n_beacons } x базовых линий: { $v1 } x эпох: { $n_epochs } = наблюдений: { $n_obs } (delay sigma { $sigma_tau } s) | datum станций { $station_datum } | ранг Гельмерта { $rank }/7 cond { $condition } | sigma сдвига датума { $v5 } против ошибки восстановления внесённого преобразования { $trans_err_norm_m } m (отношение { $v7 })
-    }
-
 engine-lunar-frame-campaign-of-beacons-have-no-observation = маяки без наблюдений в этом расписании: { $names } из { $beacons } ({ $names2 }); они не несут информации, их sigma равны null, а датум реализуется только по наблюдаемым маякам
 
 ## src/lunar_infra/geodesy.rs
@@ -4378,22 +4247,6 @@ engine-e-lunar-jamming-sma-km-must-be-finite = sma_km должно быть ко
 engine-e-lunar-jamming-eccentricity-must-be-in = eccentricity должно лежать в [0, 1)
 
 engine-e-lunar-jamming-jammer-power-dbw-must-be = jammer.power_dbw должно быть конечным
-
-engine-lunar-jamming-lunar-jamming-sats-epochs-links =
-    { $n_sats ->
-        [one] lunar-jamming | спутников: { $n_sats }, эпох: { $n_epochs }, линий связи: { $n_links } из ({ $site_lat_deg }, { $site_lon_deg }) | J/S { $min_js_db }..{ $max_js_db } dB (среднее { $mean_js_db }) | LOST: { $n_lost } | доступность { $availability_under_jamming } при номинальной { $availability_nominal }
-        [few] lunar-jamming | спутников: { $n_sats }, эпох: { $n_epochs }, линий связи: { $n_links } из ({ $site_lat_deg }, { $site_lon_deg }) | J/S { $min_js_db }..{ $max_js_db } dB (среднее { $mean_js_db }) | LOST: { $n_lost } | доступность { $availability_under_jamming } при номинальной { $availability_nominal }
-        [many] lunar-jamming | спутников: { $n_sats }, эпох: { $n_epochs }, линий связи: { $n_links } из ({ $site_lat_deg }, { $site_lon_deg }) | J/S { $min_js_db }..{ $max_js_db } dB (среднее { $mean_js_db }) | LOST: { $n_lost } | доступность { $availability_under_jamming } при номинальной { $availability_nominal }
-       *[other] lunar-jamming | спутников: { $n_sats }, эпох: { $n_epochs }, линий связи: { $n_links } из ({ $site_lat_deg }, { $site_lon_deg }) | J/S { $min_js_db }..{ $max_js_db } dB (среднее { $mean_js_db }) | LOST: { $n_lost } | доступность { $availability_under_jamming } при номинальной { $availability_nominal }
-    }
-
-engine-lunar-jamming-lunar-jamming-sats-epochs-links-2 =
-    { $n_sats ->
-        [one] lunar-jamming | спутников: { $n_sats }, эпох: { $n_epochs }, линий связи: { $n_links } из ({ $site_lat_deg }, { $site_lon_deg }) | без источника помех (лунный базис при чистом небе) | LOST: { $n_lost } | доступность { $availability_nominal }
-        [few] lunar-jamming | спутников: { $n_sats }, эпох: { $n_epochs }, линий связи: { $n_links } из ({ $site_lat_deg }, { $site_lon_deg }) | без источника помех (лунный базис при чистом небе) | LOST: { $n_lost } | доступность { $availability_nominal }
-        [many] lunar-jamming | спутников: { $n_sats }, эпох: { $n_epochs }, линий связи: { $n_links } из ({ $site_lat_deg }, { $site_lon_deg }) | без источника помех (лунный базис при чистом небе) | LOST: { $n_lost } | доступность { $availability_nominal }
-       *[other] lunar-jamming | спутников: { $n_sats }, эпох: { $n_epochs }, линий связи: { $n_links } из ({ $site_lat_deg }, { $site_lon_deg }) | без источника помех (лунный базис при чистом небе) | LOST: { $n_lost } | доступность { $availability_nominal }
-    }
 
 ## src/lunar_llr.rs
 
@@ -4639,25 +4492,9 @@ engine-e-lunar-vlbi-fim-equipartition-must-be-positive-and = equipartition_g д�
 
 engine-e-lunar-vlbi-fim-serializing-lunar-vlbi-fim-result = сериализация результата lunar-vlbi-fim: { $e }
 
-engine-e-lunar-vlbi-fim-no-observation-in-the-schedule =
-    { $n_epochs ->
-        [one] ни одно наблюдение расписания не проходит маску угла места { $mask } deg на обоих концах базовой линии: эпох: { $n_epochs } x базовых линий: { $v1 }, все отклонены. Увеличьте arc_hours, снизьте elevation_mask_deg или переместите станции.
-        [few] ни одно наблюдение расписания не проходит маску угла места { $mask } deg на обоих концах базовой линии: эпох: { $n_epochs } x базовых линий: { $v1 }, все отклонены. Увеличьте arc_hours, снизьте elevation_mask_deg или переместите станции.
-        [many] ни одно наблюдение расписания не проходит маску угла места { $mask } deg на обоих концах базовой линии: эпох: { $n_epochs } x базовых линий: { $v1 }, все отклонены. Увеличьте arc_hours, снизьте elevation_mask_deg или переместите станции.
-       *[other] ни одно наблюдение расписания не проходит маску угла места { $mask } deg на обоих концах базовой линии: эпох: { $n_epochs } x базовых линий: { $v1 }, все отклонены. Увеличьте arc_hours, снизьте elevation_mask_deg или переместите станции.
-    }
-
 engine-e-lunar-vlbi-fim-the-datum-leaves-no-parameter = датум не оставляет параметров для оценивания
 
 engine-lunar-vlbi-fim-rank-deficient-of-directions-are = RANK-DEFICIENT: ненаблюдаемы { $defect } из { $dim } направлений, поэтому sigma по координатам не сообщается; значение в наблюдаемом подпространстве ниже — это псевдообратная матрица, ограниченная { $rank } наблюдаемыми направлениями, и она НЕ является sigma станции
-
-engine-lunar-vlbi-fim-lunar-vlbi-fim-stations-baselines =
-    { $n_stations ->
-        [one] lunar-vlbi-fim | станций: { $n_stations } / базовых линий: { $v2 } x эпох: { $n_epochs } = наблюдений: { $n_obs } (маска { $mask } deg) | датум { $datum } | ранг { $rank }/{ $dim } cond { $condition } | sigma станции { $v10 } против equipartition g={ $g } { $eq_g } m (отношение { $v13 })
-        [few] lunar-vlbi-fim | станций: { $n_stations } / базовых линий: { $v2 } x эпох: { $n_epochs } = наблюдений: { $n_obs } (маска { $mask } deg) | датум { $datum } | ранг { $rank }/{ $dim } cond { $condition } | sigma станции { $v10 } против equipartition g={ $g } { $eq_g } m (отношение { $v13 })
-        [many] lunar-vlbi-fim | станций: { $n_stations } / базовых линий: { $v2 } x эпох: { $n_epochs } = наблюдений: { $n_obs } (маска { $mask } deg) | датум { $datum } | ранг { $rank }/{ $dim } cond { $condition } | sigma станции { $v10 } против equipartition g={ $g } { $eq_g } m (отношение { $v13 })
-       *[other] lunar-vlbi-fim | станций: { $n_stations } / базовых линий: { $v2 } x эпох: { $n_epochs } = наблюдений: { $n_obs } (маска { $mask } deg) | датум { $datum } | ранг { $rank }/{ $dim } cond { $condition } | sigma станции { $v10 } против equipartition g={ $g } { $eq_g } m (отношение { $v13 })
-    }
 
 ## src/main.rs
 
@@ -4904,14 +4741,6 @@ engine-e-mars-od-parameter-has-no-partial-on = у параметра нет ча
 
 ## src/mars_pnt.rs
 
-engine-mars-pnt-mars-pnt-user-clock-relays =
-    { $n_relays ->
-        [one] mars-pnt { $r } | пользователь { $user }, часы { $clock_class } | ретрансляторов: { $n_relays } (в среднем в зоне видимости: { $mean_relays_in_view }) | сошедшаяся RMS положения { $converged_pos_rms_m } m, формальная 1σ { $converged_pos_sigma_m } m (3σ { $converged_pos_3sigma_m } m — показатель качества по ковариации, не утверждённый PL) | σ частоты часов { $final_clock_freq_sigma } | cov-PD { $covariance_pd_throughout }
-        [few] mars-pnt { $r } | пользователь { $user }, часы { $clock_class } | ретрансляторов: { $n_relays } (в среднем в зоне видимости: { $mean_relays_in_view }) | сошедшаяся RMS положения { $converged_pos_rms_m } m, формальная 1σ { $converged_pos_sigma_m } m (3σ { $converged_pos_3sigma_m } m — показатель качества по ковариации, не утверждённый PL) | σ частоты часов { $final_clock_freq_sigma } | cov-PD { $covariance_pd_throughout }
-        [many] mars-pnt { $r } | пользователь { $user }, часы { $clock_class } | ретрансляторов: { $n_relays } (в среднем в зоне видимости: { $mean_relays_in_view }) | сошедшаяся RMS положения { $converged_pos_rms_m } m, формальная 1σ { $converged_pos_sigma_m } m (3σ { $converged_pos_3sigma_m } m — показатель качества по ковариации, не утверждённый PL) | σ частоты часов { $final_clock_freq_sigma } | cov-PD { $covariance_pd_throughout }
-       *[other] mars-pnt { $r } | пользователь { $user }, часы { $clock_class } | ретрансляторов: { $n_relays } (в среднем в зоне видимости: { $mean_relays_in_view }) | сошедшаяся RMS положения { $converged_pos_rms_m } m, формальная 1σ { $converged_pos_sigma_m } m (3σ { $converged_pos_3sigma_m } m — показатель качества по ковариации, не утверждённый PL) | σ частоты часов { $final_clock_freq_sigma } | cov-PD { $covariance_pd_throughout }
-    }
-
 engine-mars-pnt-mars-pnt-user-clock-position = Mars-PNT — пользователь { $user }, часы { $clock_class }: ошибка положения 3-D относительно истины (сошедшаяся RMS { $converged_pos_rms_m } m)
 
 ## src/mcda/ahp.rs
@@ -4941,14 +4770,6 @@ engine-e-mcda-ahp-upper-entry-must-be-finite = верхний элемент ({ 
 engine-e-mcda-copras-copras-empty-decision-matrix = COPRAS: пустая матрица решений
 
 engine-e-mcda-copras-copras-no-criteria = COPRAS: нет критериев
-
-engine-e-mcda-copras-copras-weights-but-criterion-types =
-    { $n ->
-        [one] COPRAS: весов: { $n }, а типов критериев: { $types }
-        [few] COPRAS: весов: { $n }, а типов критериев: { $types }
-        [many] COPRAS: весов: { $n }, а типов критериев: { $types }
-       *[other] COPRAS: весов: { $n }, а типов критериев: { $types }
-    }
 
 engine-e-mcda-copras-copras-requires-at-least-one = COPRAS: требуется хотя бы один критерий затрат (Min)
 
@@ -4984,14 +4805,6 @@ engine-e-mcda-moora-moora-empty-decision-matrix = MOORA: пустая матри
 
 engine-e-mcda-moora-moora-no-criteria = MOORA: нет критериев
 
-engine-e-mcda-moora-moora-weights-but-criterion-types =
-    { $n ->
-        [one] MOORA: весов: { $n }, а типов критериев: { $types }
-        [few] MOORA: весов: { $n }, а типов критериев: { $types }
-        [many] MOORA: весов: { $n }, а типов критериев: { $types }
-       *[other] MOORA: весов: { $n }, а типов критериев: { $types }
-    }
-
 engine-e-mcda-moora-moora-alternative-has-values-but =
     { $n ->
         [one] MOORA: у альтернативы { $i } значений: { $row }, а критериев: { $n }
@@ -5010,14 +4823,6 @@ engine-e-mcda-promethee-promethee-ii-empty-decision-matrix = PROMETHEE II: пу�
 
 engine-e-mcda-promethee-promethee-ii-no-criteria = PROMETHEE II: нет критериев
 
-engine-e-mcda-promethee-promethee-ii-weights-but-types =
-    { $n ->
-        [one] PROMETHEE II: весов: { $n }, а типов: { $types } / функций предпочтения: { $prefs }
-        [few] PROMETHEE II: весов: { $n }, а типов: { $types } / функций предпочтения: { $prefs }
-        [many] PROMETHEE II: весов: { $n }, а типов: { $types } / функций предпочтения: { $prefs }
-       *[other] PROMETHEE II: весов: { $n }, а типов: { $types } / функций предпочтения: { $prefs }
-    }
-
 engine-e-mcda-promethee-promethee-ii-alternative-has-values =
     { $n ->
         [one] PROMETHEE II: у альтернативы { $i } значений: { $row }, а критериев: { $n }
@@ -5033,14 +4838,6 @@ engine-e-mcda-promethee-promethee-ii-alternative-has-non = PROMETHEE II: у ал
 engine-e-mcda-topsis-topsis-empty-decision-matrix = TOPSIS: пустая матрица решений
 
 engine-e-mcda-topsis-topsis-no-criteria = TOPSIS: нет критериев
-
-engine-e-mcda-topsis-topsis-weights-but-criterion-types =
-    { $n ->
-        [one] TOPSIS: весов: { $n }, а типов критериев: { $types }
-        [few] TOPSIS: весов: { $n }, а типов критериев: { $types }
-        [many] TOPSIS: весов: { $n }, а типов критериев: { $types }
-       *[other] TOPSIS: весов: { $n }, а типов критериев: { $types }
-    }
 
 engine-e-mcda-topsis-topsis-alternative-has-values-but =
     { $n ->
@@ -5070,14 +4867,6 @@ engine-e-mcda-vikor-vikor-empty-decision-matrix = VIKOR: пустая матри
 
 engine-e-mcda-vikor-vikor-no-criteria = VIKOR: нет критериев
 
-engine-e-mcda-vikor-vikor-weights-but-criterion-types =
-    { $n ->
-        [one] VIKOR: весов: { $n }, а типов критериев: { $types }
-        [few] VIKOR: весов: { $n }, а типов критериев: { $types }
-        [many] VIKOR: весов: { $n }, а типов критериев: { $types }
-       *[other] VIKOR: весов: { $n }, а типов критериев: { $types }
-    }
-
 engine-e-mcda-vikor-vikor-alternative-has-values-but =
     { $n ->
         [one] VIKOR: у альтернативы { $i } значений: { $row }, а критериев: { $n }
@@ -5093,14 +4882,6 @@ engine-e-mcda-vikor-vikor-alternative-has-non-finite = VIKOR: у альтерн�
 engine-e-mcda-waspas-waspas-empty-decision-matrix = WASPAS: пустая матрица решений
 
 engine-e-mcda-waspas-waspas-no-criteria = WASPAS: нет критериев
-
-engine-e-mcda-waspas-waspas-weights-but-criterion-types =
-    { $n ->
-        [one] WASPAS: весов: { $n }, а типов критериев: { $types }
-        [few] WASPAS: весов: { $n }, а типов критериев: { $types }
-        [many] WASPAS: весов: { $n }, а типов критериев: { $types }
-       *[other] WASPAS: весов: { $n }, а типов критериев: { $types }
-    }
 
 engine-e-mcda-waspas-waspas-lambda-must-lie-in = WASPAS: lambda { $lambda } должна лежать в [0, 1]
 
@@ -5119,14 +4900,6 @@ engine-e-mcda-waspas-waspas-alternative-criterion-value-must = WASPAS: знач�
 engine-e-mcda-wpm-wpm-empty-decision-matrix = WPM: пустая матрица решений
 
 engine-e-mcda-wpm-wpm-no-criteria = WPM: нет критериев
-
-engine-e-mcda-wpm-wpm-weights-but-criterion-types =
-    { $n ->
-        [one] WPM: весов: { $n }, а типов критериев: { $types }
-        [few] WPM: весов: { $n }, а типов критериев: { $types }
-        [many] WPM: весов: { $n }, а типов критериев: { $types }
-       *[other] WPM: весов: { $n }, а типов критериев: { $types }
-    }
 
 engine-e-mcda-wpm-wpm-alternative-has-values-but =
     { $n ->
@@ -5173,14 +4946,6 @@ engine-e-naif-kernel-daf-address-beyond-the-end = адрес DAF { $addr } за 
 engine-e-naif-kernel-bad-daf-address-range = неверный диапазон адресов DAF { $first }..={ $last }
 
 engine-e-naif-kernel-daf-summary-list-does-not = список сводок DAF не завершается
-
-engine-e-naif-kernel-daf-summary-record-claims-summaries =
-    { $count ->
-        [one] запись сводок DAF { $rec } заявляет сводок: { $count }
-        [few] запись сводок DAF { $rec } заявляет сводок: { $count }
-        [many] запись сводок DAF { $rec } заявляет сводок: { $count }
-       *[other] запись сводок DAF { $rec } заявляет сводок: { $count }
-    }
 
 engine-e-naif-kernel-malformed-type-segment-rsize-intlen =
     { $n ->
@@ -5364,22 +5129,6 @@ engine-e-nmea-synth-config-the-skyline-describes-no-obstruction = линия г�
 
 engine-nmea-synth-gen-has-ended = { $kind } завершилось
 
-engine-nmea-synth-gen-the-receiver-reports-fix-again =
-    { $n_used ->
-        [one] приёмник снова сообщает решение (используется спутников: { $n_used })
-        [few] приёмник снова сообщает решение (используется спутников: { $n_used })
-        [many] приёмник снова сообщает решение (используется спутников: { $n_used })
-       *[other] приёмник снова сообщает решение (используется спутников: { $n_used })
-    }
-
-engine-nmea-synth-gen-the-receiver-has-no-fix =
-    { $n_used ->
-        [one] у приёмника нет решения (пригодных спутников: { $n_used }, нужно четыре)
-        [few] у приёмника нет решения (пригодных спутников: { $n_used }, нужно четыре)
-        [many] у приёмника нет решения (пригодных спутников: { $n_used }, нужно четыре)
-       *[other] у приёмника нет решения (пригодных спутников: { $n_used }, нужно четыре)
-    }
-
 ## src/nmea_synth/log.rs
 
 engine-nmea-synth-log-from-for-onset-ramp-recovery = с T+{ $start_s } s в течение { $duration_s } s (нарастание в начале { $ramp_s } s, спад { $recovery_s } s)
@@ -5422,14 +5171,6 @@ engine-observability-gramian-rank-clamped-from-the-singular =
         [few] ранг ограничен с числа сингулярных значений { $counted } до min(rows, cols) = min({ $n_rows }, { $n_cols }) = { $shape_bound } при rel_tol { $rel_tol }: матрица { $n_rows }x{ $n_cols } не может иметь ранг { $counted }.{ $floor_note }
         [many] ранг ограничен с числа сингулярных значений { $counted } до min(rows, cols) = min({ $n_rows }, { $n_cols }) = { $shape_bound } при rel_tol { $rel_tol }: матрица { $n_rows }x{ $n_cols } не может иметь ранг { $counted }.{ $floor_note }
        *[other] ранг ограничен с числа сингулярных значений { $counted } до min(rows, cols) = min({ $n_rows }, { $n_cols }) = { $shape_bound } при rel_tol { $rel_tol }: матрица { $n_rows }x{ $n_cols } не может иметь ранг { $counted }.{ $floor_note }
-    }
-
-engine-observability-gramian-gdop-undefined-rank-deficient-singular =
-    { $n ->
-        [one] GDOP не определён (геометрия с дефицитом ранга / сингулярная): ранг { $rank } из состояний: { $n }, дефект датума { $v3 }, обусловленность { $v4 }
-        [few] GDOP не определён (геометрия с дефицитом ранга / сингулярная): ранг { $rank } из состояний: { $n }, дефект датума { $v3 }, обусловленность { $v4 }
-        [many] GDOP не определён (геометрия с дефицитом ранга / сингулярная): ранг { $rank } из состояний: { $n }, дефект датума { $v3 }, обусловленность { $v4 }
-       *[other] GDOP не определён (геометрия с дефицитом ранга / сингулярная): ранг { $rank } из состояний: { $n }, дефект датума { $v3 }, обусловленность { $v4 }
     }
 
 ## src/odf.rs
@@ -5565,22 +5306,6 @@ engine-e-oem-oem-missing-creation-date-header = в OEM нет заголовка
 engine-e-oem-oem-missing-originator-header = в OEM нет заголовка ORIGINATOR
 
 engine-e-oem-oem-carried-no-segments = OEM не содержит сегментов
-
-engine-oem-oem-interop-round-tripped-segment =
-    { $n_states_total ->
-        [one] oem-interop: сегментов в круговом преобразовании: { $segments }, состояний: { $n_states_total }; максимальная ошибка кругового преобразования { $p } km / { $v } km/s (MODELLED interop)
-        [few] oem-interop: сегментов в круговом преобразовании: { $segments }, состояний: { $n_states_total }; максимальная ошибка кругового преобразования { $p } km / { $v } km/s (MODELLED interop)
-        [many] oem-interop: сегментов в круговом преобразовании: { $segments }, состояний: { $n_states_total }; максимальная ошибка кругового преобразования { $p } km / { $v } km/s (MODELLED interop)
-       *[other] oem-interop: сегментов в круговом преобразовании: { $segments }, состояний: { $n_states_total }; максимальная ошибка кругового преобразования { $p } km / { $v } km/s (MODELLED interop)
-    }
-
-engine-oem-oem-interop-ingested-segment-states =
-    { $n_states_total ->
-        [one] oem-interop: принято сегментов: { $segments }, состояний: { $n_states_total } из внешнего OEM (отправитель { $originator }) (MODELLED interop)
-        [few] oem-interop: принято сегментов: { $segments }, состояний: { $n_states_total } из внешнего OEM (отправитель { $originator }) (MODELLED interop)
-        [many] oem-interop: принято сегментов: { $segments }, состояний: { $n_states_total } из внешнего OEM (отправитель { $originator }) (MODELLED interop)
-       *[other] oem-interop: принято сегментов: { $segments }, состояний: { $n_states_total } из внешнего OEM (отправитель { $originator }) (MODELLED interop)
-    }
 
 engine-e-oem-no-covariance-start-block = нет блока COVARIANCE_START
 
@@ -5752,14 +5477,6 @@ engine-e-propagator-the-ephemeris-provider-has-no = у поставщика эф
 engine-pvt-3d-error-rms-max = { " " }| RMS ошибки 3D { $rms } m (макс. { $max } m)
 
 engine-pvt-post-fit-rms = { " " }| RMS после подгонки { $mean_postfit_rms_m } m
-
-engine-pvt-pvt-sat-nav-epochs-solved =
-    { $n_satellites_nav ->
-        [one] pvt { $r } | спутников навигации: { $n_satellites_nav } | решено эпох: { $epochs_solved }/{ $epochs_total } | в среднем спутников: { $mean_n_used }, PDOP { $mean_pdop }{ $acc }
-        [few] pvt { $r } | спутников навигации: { $n_satellites_nav } | решено эпох: { $epochs_solved }/{ $epochs_total } | в среднем спутников: { $mean_n_used }, PDOP { $mean_pdop }{ $acc }
-        [many] pvt { $r } | спутников навигации: { $n_satellites_nav } | решено эпох: { $epochs_solved }/{ $epochs_total } | в среднем спутников: { $mean_n_used }, PDOP { $mean_pdop }{ $acc }
-       *[other] pvt { $r } | спутников навигации: { $n_satellites_nav } | решено эпох: { $epochs_solved }/{ $epochs_total } | в среднем спутников: { $mean_n_used }, PDOP { $mean_pdop }{ $acc }
-    }
 
 engine-pvt-single-point-positioning-3d-error = Одноточечное позиционирование — ошибка 3D относительно съёмной координаты (RMS { $rms_3d_m } m)
 
@@ -6012,14 +5729,6 @@ engine-e-receiver-trust-geometry-geometry-full-ratio-must-be = geometry: full_ra
 engine-e-receiver-trust-geometry-geometry-floor-must-be-in = geometry: floor должно лежать в (0, 100] (получено { $f })
 
 engine-e-receiver-trust-geometry-geometry-floor-is-below-the = geometry: floor ({ $f }) ниже degraded_min оценки ({ $degraded_min }): одна лишь геометрия могла бы достичь полосы недоверия
-
-engine-receiver-trust-geometry-geometry-hdop-pdop-vdop-satellites =
-    { $n_used ->
-        [one] geometry { $label }: HDOP { $fmt_dop }, PDOP { $fmt_dop2 }, VDOP { $fmt_dop3 }, спутников: { $n_used }{ $v6 }
-        [few] geometry { $label }: HDOP { $fmt_dop }, PDOP { $fmt_dop2 }, VDOP { $fmt_dop3 }, спутников: { $n_used }{ $v6 }
-        [many] geometry { $label }: HDOP { $fmt_dop }, PDOP { $fmt_dop2 }, VDOP { $fmt_dop3 }, спутников: { $n_used }{ $v6 }
-       *[other] geometry { $label }: HDOP { $fmt_dop }, PDOP { $fmt_dop2 }, VDOP { $fmt_dop3 }, спутников: { $n_used }{ $v6 }
-    }
 
 ## src/receiver_trust/geometry.rs
 
@@ -6409,14 +6118,6 @@ engine-slot-timing-fitted-to-the-overlapping-allan =
        *[other] подогнано по перекрывающейся девиации Аллана записи из { $n_samples } отсчёта при { $tau0_s } s в базисе частотной модуляции IEEE Std 1139
     }
 
-engine-slot-timing-slot-timing-source-guard-ns =
-    { $n ->
-        [one] slot-timing ({ $n } источник): защитный интервал { $c } ns при k={ $k_sigma } нарушается через { $fmt_s } после фиксации (осталось { $fmt_s2 }); фиксация нужна не реже чем через { $fmt_s3 } ({ $fixes_per_day } в сутки); доминирующий член: { $b }{ $v9 }
-        [few] slot-timing ({ $n } источника): защитный интервал { $c } ns при k={ $k_sigma } нарушается через { $fmt_s } после фиксации (осталось { $fmt_s2 }); фиксация нужна не реже чем через { $fmt_s3 } ({ $fixes_per_day } в сутки); доминирующий член: { $b }{ $v9 }
-        [many] slot-timing ({ $n } источников): защитный интервал { $c } ns при k={ $k_sigma } нарушается через { $fmt_s } после фиксации (осталось { $fmt_s2 }); фиксация нужна не реже чем через { $fmt_s3 } ({ $fixes_per_day } в сутки); доминирующий член: { $b }{ $v9 }
-       *[other] slot-timing ({ $n } источника): защитный интервал { $c } ns при k={ $k_sigma } нарушается через { $fmt_s } после фиксации (осталось { $fmt_s2 }); фиксация нужна не реже чем через { $fmt_s3 } ({ $fixes_per_day } в сутки); доминирующий член: { $b }{ $v9 }
-    }
-
 ## src/solar_system.rs
 
 engine-e-solar-system-epoch-must-be-yyyy-mm = эпоха '{ $s }' должна иметь вид YYYY-MM-DDTHH:MM:SS
@@ -6450,10 +6151,6 @@ engine-e-solar-system-unknown-link-body = неизвестное тело лин
 engine-e-solar-system-unknown-link-body-2 = неизвестное тело линии '{ $to }'
 
 engine-e-solar-system-link-needs-two-different-bodies = для линии нужны два разных тела; получено { $name }
-
-engine-solar-system-solar-system-at-jd-tdb =
-    Солнечная система на { $input } (JD { $jd_tdb } TDB), тел: { $n_bodies }, наблюдатель { $observer }
-    { "  " }{ $standish_table }{ "\u000A" }
 
 engine-solar-system-light-time = время распространения света { $one_way_light_time_s } s
 
@@ -6599,8 +6296,6 @@ engine-e-space-packet-data-len-must-be-in = data_len должно лежать �
 
 engine-e-space-packet-internal-error-encode-decode-round = внутренняя ошибка: несовпадение при круговом кодировании и декодировании
 
-engine-space-packet-space-packet-framed-ccsds-133 = space-packet: сформировано пакетов CCSDS-133.0 { $v2 }: { $packet_count }, APID { $apid }, всего октетов: { $total_bytes }, круговое преобразование точное ({ $round_trip_ok })
-
 ## src/space_weather.rs
 
 engine-e-space-weather-f107-must-be-finite-and = f107 должно быть конечным и положительным
@@ -6693,10 +6388,6 @@ engine-e-spk-writer-degree-outside-27 = степень { $degree } вне 1..=27
 
 engine-e-spk-writer-type-13-degree-is-not = степень { $degree } для типа 13 не является нечётной
 
-engine-e-spk-writer-states-for-epochs = состояний: { $states }, эпох: { $n }
-
-engine-e-spk-writer-states-degree-needs = состояний: { $n }; степени { $degree } нужно { $value }
-
 engine-e-spk-writer-descriptor-start-is-not-before = начало дескриптора не раньше его конца
 
 engine-e-spk-writer-epochs-are-not-strictly-increasing = эпохи не возрастают строго
@@ -6726,8 +6417,6 @@ engine-e-spk-writer-type-21-segment-needs-at = сегменту типа 21 ну
 engine-e-spk-writer-difference-line-size-is-not = размер строки разностей { $dlsize } не равен 4 MAXDIM + 11 при MAXDIM в 15..=25
 
 engine-e-spk-writer-difference-lines-of-different-sizes = строки разностей разных размеров
-
-engine-e-spk-writer-epochs-for-difference-lines = эпох: { $epochs }, строк разностей: { $n }
 
 engine-e-spk-writer-difference-line-epochs-are-not = эпохи строк разностей не возрастают строго
 
@@ -7332,6 +7021,682 @@ engine-wasm-plans-json-is-not-json = plans_json не является JSON-ма�
 engine-wasm-options-json-is-not-json = options_json не является JSON: { $e }
 
 engine-wasm-input-is-about-bytes-over = ввод занимает около { $b64 } байт, больше предела в { $v2 } байт
+
+## plural forms
+
+engine-e-clock-log-the-log-has-missing-epoch =
+    { $n_missing ->
+        [one] журнал { $format }: пропущена { $n_missing } эпоха, разрывов: { $n_gaps }, сетка { $tau0 } s; задайте gaps = "longest", чтобы сохранить самый длинный участок без разрывов, или gaps = "linear" для интерполяции
+        [few] журнал { $format }: пропущено { $n_missing } эпохи, разрывов: { $n_gaps }, сетка { $tau0 } s; задайте gaps = "longest", чтобы сохранить самый длинный участок без разрывов, или gaps = "linear" для интерполяции
+        [many] журнал { $format }: пропущено { $n_missing } эпох, разрывов: { $n_gaps }, сетка { $tau0 } s; задайте gaps = "longest", чтобы сохранить самый длинный участок без разрывов, или gaps = "linear" для интерполяции
+       *[other] журнал { $format }: пропущено { $n_missing } эпохи, разрывов: { $n_gaps }, сетка { $tau0 } s; задайте gaps = "longest", чтобы сохранить самый длинный участок без разрывов, или gaps = "linear" для интерполяции
+    }
+
+engine-advanced-report-rows-of-non-numeric-column =
+    { $n ->
+        [one] { $n } строка нечислового столбца
+        [few] { $n } строки нечислового столбца
+        [many] { $n } строк нечислового столбца
+       *[other] { $n } строки нечислового столбца
+    }
+
+engine-e-animation-duration-fps-gives-frames-the =
+    { $n ->
+        [one] duration x fps даёт { $n } кадр; для последовательности кадров нужно от 2 до { $v1 }
+        [few] duration x fps даёт { $n } кадра; для последовательности кадров нужно от 2 до { $v1 }
+        [many] duration x fps даёт { $n } кадров; для последовательности кадров нужно от 2 до { $v1 }
+       *[other] duration x fps даёт { $n } кадра; для последовательности кадров нужно от 2 до { $v1 }
+    }
+
+engine-aocs-kind-aocs-wheels-slew-from-deg =
+    { $n_w ->
+        [one] aocs: { $n_w } маховик, разворот { $duration_s } s с { $series_err } deg -> { $settle } | итог { $final_err } deg | пик маховика { $peak_speed } rpm | { $v7 }
+        [few] aocs: { $n_w } маховика, разворот { $duration_s } s с { $series_err } deg -> { $settle } | итог { $final_err } deg | пик маховика { $peak_speed } rpm | { $v7 }
+        [many] aocs: { $n_w } маховиков, разворот { $duration_s } s с { $series_err } deg -> { $settle } | итог { $final_err } deg | пик маховика { $peak_speed } rpm | { $v7 }
+       *[other] aocs: { $n_w } маховика, разворот { $duration_s } s с { $series_err } deg -> { $settle } | итог { $final_err } deg | пик маховика { $peak_speed } rpm | { $v7 }
+    }
+
+engine-api-unknown-scenario-kind-did-you =
+    { $n ->
+        [one] неизвестный вид сценария { $other } — возможно, вы имели в виду { $hint }? `kshana kinds` перечисляет все { $n } встроенный вид.
+        [few] неизвестный вид сценария { $other } — возможно, вы имели в виду { $hint }? `kshana kinds` перечисляет все { $n } встроенных вида.
+        [many] неизвестный вид сценария { $other } — возможно, вы имели в виду { $hint }? `kshana kinds` перечисляет все { $n } встроенных видов.
+       *[other] неизвестный вид сценария { $other } — возможно, вы имели в виду { $hint }? `kshana kinds` перечисляет все { $n } встроенных вида.
+    }
+
+engine-api-unknown-scenario-kind-kshana-kinds =
+    { $n ->
+        [one] неизвестный вид сценария { $other }. `kshana kinds` перечисляет все { $n } встроенный вид.
+        [few] неизвестный вид сценария { $other }. `kshana kinds` перечисляет все { $n } встроенных вида.
+        [many] неизвестный вид сценария { $other }. `kshana kinds` перечисляет все { $n } встроенных видов.
+       *[other] неизвестный вид сценария { $other }. `kshana kinds` перечисляет все { $n } встроенных вида.
+    }
+
+engine-api-builtins-integrity-satellites-epochs-available-hal =
+    { $n_sats ->
+        [one] целостность | { $n_sats } спутник | доступных эпох: { $samples_available }/{ $samples_total } ({ $report }%) | HAL { $al_h_m } m VAL { $al_v_m } m | sigma { $sigma_uere_m } m | Stanford(V): событий целостности: { $report2 }, HMI: { $report3 }
+        [few] целостность | { $n_sats } спутника | доступных эпох: { $samples_available }/{ $samples_total } ({ $report }%) | HAL { $al_h_m } m VAL { $al_v_m } m | sigma { $sigma_uere_m } m | Stanford(V): событий целостности: { $report2 }, HMI: { $report3 }
+        [many] целостность | { $n_sats } спутников | доступных эпох: { $samples_available }/{ $samples_total } ({ $report }%) | HAL { $al_h_m } m VAL { $al_v_m } m | sigma { $sigma_uere_m } m | Stanford(V): событий целостности: { $report2 }, HMI: { $report3 }
+       *[other] целостность | { $n_sats } спутника | доступных эпох: { $samples_available }/{ $samples_total } ({ $report }%) | HAL { $al_h_m } m VAL { $al_v_m } m | sigma { $sigma_uere_m } m | Stanford(V): событий целостности: { $report2 }, HMI: { $report3 }
+    }
+
+engine-api-builtins-lunar-joint-od-clock-sats =
+    { $n_sat ->
+        [one] lunar-joint-od-clock | { $n_sat } спутник, земных станций: { $n_earth } | 3-D ошибка станции с VLBI { $station_pos_err_m } m против только дальномерных { $station_pos_err_m2 } m (точнее в { $station_observability_improvement_factor }×) | СКО положения спутника { $sat_pos_rms_m } m | ошибка часов станции { $station_clock_err_s } s | набл. { $n_obs }/{ $n_params } парам.
+        [few] lunar-joint-od-clock | { $n_sat } спутника, земных станций: { $n_earth } | 3-D ошибка станции с VLBI { $station_pos_err_m } m против только дальномерных { $station_pos_err_m2 } m (точнее в { $station_observability_improvement_factor }×) | СКО положения спутника { $sat_pos_rms_m } m | ошибка часов станции { $station_clock_err_s } s | набл. { $n_obs }/{ $n_params } парам.
+        [many] lunar-joint-od-clock | { $n_sat } спутников, земных станций: { $n_earth } | 3-D ошибка станции с VLBI { $station_pos_err_m } m против только дальномерных { $station_pos_err_m2 } m (точнее в { $station_observability_improvement_factor }×) | СКО положения спутника { $sat_pos_rms_m } m | ошибка часов станции { $station_clock_err_s } s | набл. { $n_obs }/{ $n_params } парам.
+       *[other] lunar-joint-od-clock | { $n_sat } спутника, земных станций: { $n_earth } | 3-D ошибка станции с VLBI { $station_pos_err_m } m против только дальномерных { $station_pos_err_m2 } m (точнее в { $station_observability_improvement_factor }×) | СКО положения спутника { $sat_pos_rms_m } m | ошибка часов станции { $station_clock_err_s } s | набл. { $n_obs }/{ $n_params } парам.
+    }
+
+engine-api-builtins-lunar-frame-realisation-points-translation =
+    { $n_points ->
+        [one] lunar-frame-realisation | { $n_points } точка | ошибка сдвига { $trans_err_norm_m } m, ошибка поворота { $rot_err_norm_rad } rad, ошибка масштаба { $scale_err_ppb } ppb | остаточное RMS { $rms_residual_m } m | сошлось: { $converged }
+        [few] lunar-frame-realisation | { $n_points } точки | ошибка сдвига { $trans_err_norm_m } m, ошибка поворота { $rot_err_norm_rad } rad, ошибка масштаба { $scale_err_ppb } ppb | остаточное RMS { $rms_residual_m } m | сошлось: { $converged }
+        [many] lunar-frame-realisation | { $n_points } точек | ошибка сдвига { $trans_err_norm_m } m, ошибка поворота { $rot_err_norm_rad } rad, ошибка масштаба { $scale_err_ppb } ppb | остаточное RMS { $rms_residual_m } m | сошлось: { $converged }
+       *[other] lunar-frame-realisation | { $n_points } точки | ошибка сдвига { $trans_err_norm_m } m, ошибка поворота { $rot_err_norm_rad } rad, ошибка масштаба { $scale_err_ppb } ppb | остаточное RMS { $rms_residual_m } m | сошлось: { $converged }
+    }
+
+engine-api-builtins-moonlight-service-volume-sats-pts =
+    { $n_sats ->
+        [one] moonlight-service-volume | { $n_sats } спутник ({ $geometry_label }) | точек: { $n_grid_points } × эпох: { $n_epochs } | покрытие { $coverage_pct }% (PDOP<{ $pdop_threshold }) | спутников { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | доступность PL { $pl_availability_pct }% | MODELLED
+        [few] moonlight-service-volume | { $n_sats } спутника ({ $geometry_label }) | точек: { $n_grid_points } × эпох: { $n_epochs } | покрытие { $coverage_pct }% (PDOP<{ $pdop_threshold }) | спутников { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | доступность PL { $pl_availability_pct }% | MODELLED
+        [many] moonlight-service-volume | { $n_sats } спутников ({ $geometry_label }) | точек: { $n_grid_points } × эпох: { $n_epochs } | покрытие { $coverage_pct }% (PDOP<{ $pdop_threshold }) | спутников { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | доступность PL { $pl_availability_pct }% | MODELLED
+       *[other] moonlight-service-volume | { $n_sats } спутника ({ $geometry_label }) | точек: { $n_grid_points } × эпох: { $n_epochs } | покрытие { $coverage_pct }% (PDOP<{ $pdop_threshold }) | спутников { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | доступность PL { $pl_availability_pct }% | MODELLED
+    }
+
+engine-api-builtins-lunar-differential-pnt-sats-illustrative =
+    { $n_sats ->
+        [one] lunar-differential-pnt | { $n_sats } спутник (иллюстративный, класса LCNS, не аффилирован) | база { $baseline_km } km | ошибка пользователя { $user_error_uncorrected_m } m → { $user_error_corrected_m } m (снижение в { $reduction_factor }×) | HPL { $protection_level_m } m (σ_resid { $residual_sigma_m } m) | MODELLED
+        [few] lunar-differential-pnt | { $n_sats } спутника (иллюстративные, класса LCNS, не аффилированы) | база { $baseline_km } km | ошибка пользователя { $user_error_uncorrected_m } m → { $user_error_corrected_m } m (снижение в { $reduction_factor }×) | HPL { $protection_level_m } m (σ_resid { $residual_sigma_m } m) | MODELLED
+        [many] lunar-differential-pnt | { $n_sats } спутников (иллюстративные, класса LCNS, не аффилированы) | база { $baseline_km } km | ошибка пользователя { $user_error_uncorrected_m } m → { $user_error_corrected_m } m (снижение в { $reduction_factor }×) | HPL { $protection_level_m } m (σ_resid { $residual_sigma_m } m) | MODELLED
+       *[other] lunar-differential-pnt | { $n_sats } спутника (иллюстративные, класса LCNS, не аффилированы) | база { $baseline_km } km | ошибка пользователя { $user_error_uncorrected_m } m → { $user_error_corrected_m } m (снижение в { $reduction_factor }×) | HPL { $protection_level_m } m (σ_resid { $residual_sigma_m } m) | MODELLED
+    }
+
+engine-api-builtins-lunar-interop-export-ref-frame =
+    { $n_states ->
+        [one] lunar-interop-export | REF_FRAME { $frame } / TIME_SYSTEM { $time_system } | { $n_states } состояние, строк OEM: { $oem_line_count } | соответствие { $v5 } (присутствует полей: { $present_fields }, отсутствует: { $missing_fields }) | круговой обход OEM { $v8 } | круговой обход метаданных времени { $v9 } | KIF { $kif_bytes } bytes | MODELLED
+        [few] lunar-interop-export | REF_FRAME { $frame } / TIME_SYSTEM { $time_system } | { $n_states } состояния, строк OEM: { $oem_line_count } | соответствие { $v5 } (присутствует полей: { $present_fields }, отсутствует: { $missing_fields }) | круговой обход OEM { $v8 } | круговой обход метаданных времени { $v9 } | KIF { $kif_bytes } bytes | MODELLED
+        [many] lunar-interop-export | REF_FRAME { $frame } / TIME_SYSTEM { $time_system } | { $n_states } состояний, строк OEM: { $oem_line_count } | соответствие { $v5 } (присутствует полей: { $present_fields }, отсутствует: { $missing_fields }) | круговой обход OEM { $v8 } | круговой обход метаданных времени { $v9 } | KIF { $kif_bytes } bytes | MODELLED
+       *[other] lunar-interop-export | REF_FRAME { $frame } / TIME_SYSTEM { $time_system } | { $n_states } состояния, строк OEM: { $oem_line_count } | соответствие { $v5 } (присутствует полей: { $present_fields }, отсутствует: { $missing_fields }) | круговой обход OEM { $v8 } | круговой обход метаданных времени { $v9 } | KIF { $kif_bytes } bytes | MODELLED
+    }
+
+engine-api-builtins-scenario-samples-alt-km-lat =
+    { $n_samples ->
+        [one] сценарий { $r } | { $source } | { $n_samples } отсчёт | высота { $alt_min_km }–{ $alt_max_km } km | |широта| ≤ { $r2 }° | скорость { $speed_min_m_s }–{ $speed_max_m_s } m/s{ $pass }
+        [few] сценарий { $r } | { $source } | { $n_samples } отсчёта | высота { $alt_min_km }–{ $alt_max_km } km | |широта| ≤ { $r2 }° | скорость { $speed_min_m_s }–{ $speed_max_m_s } m/s{ $pass }
+        [many] сценарий { $r } | { $source } | { $n_samples } отсчётов | высота { $alt_min_km }–{ $alt_max_km } km | |широта| ≤ { $r2 }° | скорость { $speed_min_m_s }–{ $speed_max_m_s } m/s{ $pass }
+       *[other] сценарий { $r } | { $source } | { $n_samples } отсчёта | высота { $alt_min_km }–{ $alt_max_km } km | |широта| ≤ { $r2 }° | скорость { $speed_min_m_s }–{ $speed_max_m_s } m/s{ $pass }
+    }
+
+engine-api-builtins-raim-available-of-epochs-denied =
+    { $n_epochs ->
+        [one] { " " }| RAIM доступен в { $n_available } из { $n_epochs } эпохи (отказов: { $n_denied }, тревог: { $n_alarm }; MODELLED)
+        [few] { " " }| RAIM доступен в { $n_available } из { $n_epochs } эпох (отказов: { $n_denied }, тревог: { $n_alarm }; MODELLED)
+        [many] { " " }| RAIM доступен в { $n_available } из { $n_epochs } эпох (отказов: { $n_denied }, тревог: { $n_alarm }; MODELLED)
+       *[other] { " " }| RAIM доступен в { $n_available } из { $n_epochs } эпохи (отказов: { $n_denied }, тревог: { $n_alarm }; MODELLED)
+    }
+
+engine-e-araim-reference-the-priors-need-subsets-of =
+    { $n_fault_max ->
+        [one] для априорных вероятностей нужны подмножества из { $n_fault_max } одновременного события; этот путь перебирает не более { $most }
+        [few] для априорных вероятностей нужны подмножества из { $n_fault_max } одновременных событий; этот путь перебирает не более { $most }
+        [many] для априорных вероятностей нужны подмножества из { $n_fault_max } одновременных событий; этот путь перебирает не более { $most }
+       *[other] для априорных вероятностей нужны подмножества из { $n_fault_max } одновременного события; этот путь перебирает не более { $most }
+    }
+
+engine-bench-tasks-case-needs-values-has =
+    { $n ->
+        [one] для случая `{ $id }` нужно { $n } значение, имеется: { $a }
+        [few] для случая `{ $id }` нужно { $n } значения, имеется: { $a }
+        [many] для случая `{ $id }` нужно { $n } значений, имеется: { $a }
+       *[other] для случая `{ $id }` нужно { $n } значения, имеется: { $a }
+    }
+
+engine-bin-gen-araim-m3-study-user-epochs-ura-values-in =
+    { $n ->
+        [one] { $n } эпоха пользователя x 3 значения URA за { $dt } s = { $v1 } ms на эпоху пользователя (разрешимых: { $ok })
+        [few] { $n } эпохи пользователя x 3 значения URA за { $dt } s = { $v1 } ms на эпоху пользователя (разрешимых: { $ok })
+        [many] { $n } эпох пользователя x 3 значения URA за { $dt } s = { $v1 } ms на эпоху пользователя (разрешимых: { $ok })
+       *[other] { $n } эпохи пользователя x 3 значения URA за { $dt } s = { $v1 } ms на эпоху пользователя (разрешимых: { $ok })
+    }
+
+engine-body-pnt-positioning-around-user-relays-at =
+    { $n_relays ->
+        [one] Позиционирование вокруг { $name } — пользователь: { $user_kind }, { $n_relays } ретранслятор на { $r } km, эпох: { $n_epochs }
+            { "  " }Световое время до Земли { $one_way_light_time_s } s в одну сторону, { $two_way_light_time_s } s туда и обратно; угол Солнце–Земля–тело { $sun_separation_deg } deg
+            { "  " }доступность: { $availability_relays } только орбитальная группировка, { $availability_with_earth } с дальностью до Земли (Земля в зоне видимости { $earth_visibility })
+            { "  " }медианный PDOP { $opt }; ошибка RMS { $opt2 } только орбитальная группировка, { $opt3 } с дальностью до Земли
+            { "  " }медианная формальная сигма { $opt4 } только орбитальная группировка, { $opt5 } с дальностью до Земли{ "\u000A" }
+        [few] Позиционирование вокруг { $name } — пользователь: { $user_kind }, { $n_relays } ретранслятора на { $r } km, эпох: { $n_epochs }
+            { "  " }Световое время до Земли { $one_way_light_time_s } s в одну сторону, { $two_way_light_time_s } s туда и обратно; угол Солнце–Земля–тело { $sun_separation_deg } deg
+            { "  " }доступность: { $availability_relays } только орбитальная группировка, { $availability_with_earth } с дальностью до Земли (Земля в зоне видимости { $earth_visibility })
+            { "  " }медианный PDOP { $opt }; ошибка RMS { $opt2 } только орбитальная группировка, { $opt3 } с дальностью до Земли
+            { "  " }медианная формальная сигма { $opt4 } только орбитальная группировка, { $opt5 } с дальностью до Земли{ "\u000A" }
+        [many] Позиционирование вокруг { $name } — пользователь: { $user_kind }, { $n_relays } ретрансляторов на { $r } km, эпох: { $n_epochs }
+            { "  " }Световое время до Земли { $one_way_light_time_s } s в одну сторону, { $two_way_light_time_s } s туда и обратно; угол Солнце–Земля–тело { $sun_separation_deg } deg
+            { "  " }доступность: { $availability_relays } только орбитальная группировка, { $availability_with_earth } с дальностью до Земли (Земля в зоне видимости { $earth_visibility })
+            { "  " }медианный PDOP { $opt }; ошибка RMS { $opt2 } только орбитальная группировка, { $opt3 } с дальностью до Земли
+            { "  " }медианная формальная сигма { $opt4 } только орбитальная группировка, { $opt5 } с дальностью до Земли{ "\u000A" }
+       *[other] Позиционирование вокруг { $name } — пользователь: { $user_kind }, { $n_relays } ретранслятора на { $r } km, эпох: { $n_epochs }
+            { "  " }Световое время до Земли { $one_way_light_time_s } s в одну сторону, { $two_way_light_time_s } s туда и обратно; угол Солнце–Земля–тело { $sun_separation_deg } deg
+            { "  " }доступность: { $availability_relays } только орбитальная группировка, { $availability_with_earth } с дальностью до Земли (Земля в зоне видимости { $earth_visibility })
+            { "  " }медианный PDOP { $opt }; ошибка RMS { $opt2 } только орбитальная группировка, { $opt3 } с дальностью до Земли
+            { "  " }медианная формальная сигма { $opt4 } только орбитальная группировка, { $opt5 } с дальностью до Земли{ "\u000A" }
+    }
+
+engine-body-pnt-user-relays-earth-light-time =
+    { $n_relays ->
+        [one] пользователь: { $user_kind } · { $n_relays } ретранслятор · световое время до Земли { $one_way_light_time_s } s · MODELLED
+        [few] пользователь: { $user_kind } · { $n_relays } ретранслятора · световое время до Земли { $one_way_light_time_s } s · MODELLED
+        [many] пользователь: { $user_kind } · { $n_relays } ретрансляторов · световое время до Земли { $one_way_light_time_s } s · MODELLED
+       *[other] пользователь: { $user_kind } · { $n_relays } ретранслятора · световое время до Земли { $one_way_light_time_s } s · MODELLED
+    }
+
+engine-cislunar-arc-recovery-cislunar-arc-recovery-family-state =
+    { $n_spacecraft ->
+        [one] cislunar-arc-recovery | семейство { $family }, состояний: { $state_dim }, { $n_spacecraft } аппарат, наблюдаемая { $observable }, параметризация { $coordinates } | дуга { $arc_hours } h, эпох: { $epochs } (сетка { $grid_hours } h), испытаний: { $trials }, начальное значение (seed) { $seed } | частные производные конечными разностями, без аналитического якобиана / STM / SVD / SRIF | восстановление без шума с { $nf } (коэффициент { $recovery_factor }) против порога ранга грамиана { $gram } | оцениваемость по Монте-Карло с { $est } (RMS положения ≤ { $error_bound_km } km, σ { $sigma_range_m } m) против оцениваемости по грамиану { $gram_est } | RMS положения в конце дуги { $last } km
+        [few] cislunar-arc-recovery | семейство { $family }, состояний: { $state_dim }, { $n_spacecraft } аппарата, наблюдаемая { $observable }, параметризация { $coordinates } | дуга { $arc_hours } h, эпох: { $epochs } (сетка { $grid_hours } h), испытаний: { $trials }, начальное значение (seed) { $seed } | частные производные конечными разностями, без аналитического якобиана / STM / SVD / SRIF | восстановление без шума с { $nf } (коэффициент { $recovery_factor }) против порога ранга грамиана { $gram } | оцениваемость по Монте-Карло с { $est } (RMS положения ≤ { $error_bound_km } km, σ { $sigma_range_m } m) против оцениваемости по грамиану { $gram_est } | RMS положения в конце дуги { $last } km
+        [many] cislunar-arc-recovery | семейство { $family }, состояний: { $state_dim }, { $n_spacecraft } аппаратов, наблюдаемая { $observable }, параметризация { $coordinates } | дуга { $arc_hours } h, эпох: { $epochs } (сетка { $grid_hours } h), испытаний: { $trials }, начальное значение (seed) { $seed } | частные производные конечными разностями, без аналитического якобиана / STM / SVD / SRIF | восстановление без шума с { $nf } (коэффициент { $recovery_factor }) против порога ранга грамиана { $gram } | оцениваемость по Монте-Карло с { $est } (RMS положения ≤ { $error_bound_km } km, σ { $sigma_range_m } m) против оцениваемости по грамиану { $gram_est } | RMS положения в конце дуги { $last } km
+       *[other] cislunar-arc-recovery | семейство { $family }, состояний: { $state_dim }, { $n_spacecraft } аппарата, наблюдаемая { $observable }, параметризация { $coordinates } | дуга { $arc_hours } h, эпох: { $epochs } (сетка { $grid_hours } h), испытаний: { $trials }, начальное значение (seed) { $seed } | частные производные конечными разностями, без аналитического якобиана / STM / SVD / SRIF | восстановление без шума с { $nf } (коэффициент { $recovery_factor }) против порога ранга грамиана { $gram } | оцениваемость по Монте-Карло с { $est } (RMS положения ≤ { $error_bound_km } km, σ { $sigma_range_m } m) против оцениваемости по грамиану { $gram_est } | RMS положения в конце дуги { $last } km
+    }
+
+engine-cislunar-observability-cislunar-observability-refs-arc-epochs =
+    { $n_links ->
+        [one] cislunar-observability | аппаратов: { $c } ({ $refs } опорных) | дуга { $arc_hours } h, эпох: { $rank_arc } | ранг { $first } → { $last } из { $state_dim } по дуге | λ грамиана [{ $min_eigenvalue }…{ $max_eigenvalue }] число обусловленности { $condition_str } | мгновенный ранг только по дальности { $rank_range_only } → дальность+скорость { $rank_range_rate } ({ $n_links } связь) | GDOP только по дальности { $ro } дальность+скорость { $rr } | начальные условия DRO (максимальная невязка периодичности { $max_resid }) | апостериорная оценка SRIF конечна в эпоху ранга 4 { $srif_epoch } (подтверждены ранг/STM/замыкание DRO/SRIF, конструкция смоделирована)
+        [few] cislunar-observability | аппаратов: { $c } ({ $refs } опорных) | дуга { $arc_hours } h, эпох: { $rank_arc } | ранг { $first } → { $last } из { $state_dim } по дуге | λ грамиана [{ $min_eigenvalue }…{ $max_eigenvalue }] число обусловленности { $condition_str } | мгновенный ранг только по дальности { $rank_range_only } → дальность+скорость { $rank_range_rate } ({ $n_links } связи) | GDOP только по дальности { $ro } дальность+скорость { $rr } | начальные условия DRO (максимальная невязка периодичности { $max_resid }) | апостериорная оценка SRIF конечна в эпоху ранга 4 { $srif_epoch } (подтверждены ранг/STM/замыкание DRO/SRIF, конструкция смоделирована)
+        [many] cislunar-observability | аппаратов: { $c } ({ $refs } опорных) | дуга { $arc_hours } h, эпох: { $rank_arc } | ранг { $first } → { $last } из { $state_dim } по дуге | λ грамиана [{ $min_eigenvalue }…{ $max_eigenvalue }] число обусловленности { $condition_str } | мгновенный ранг только по дальности { $rank_range_only } → дальность+скорость { $rank_range_rate } ({ $n_links } связей) | GDOP только по дальности { $ro } дальность+скорость { $rr } | начальные условия DRO (максимальная невязка периодичности { $max_resid }) | апостериорная оценка SRIF конечна в эпоху ранга 4 { $srif_epoch } (подтверждены ранг/STM/замыкание DRO/SRIF, конструкция смоделирована)
+       *[other] cislunar-observability | аппаратов: { $c } ({ $refs } опорных) | дуга { $arc_hours } h, эпох: { $rank_arc } | ранг { $first } → { $last } из { $state_dim } по дуге | λ грамиана [{ $min_eigenvalue }…{ $max_eigenvalue }] число обусловленности { $condition_str } | мгновенный ранг только по дальности { $rank_range_only } → дальность+скорость { $rank_range_rate } ({ $n_links } связи) | GDOP только по дальности { $ro } дальность+скорость { $rr } | начальные условия DRO (максимальная невязка периодичности { $max_resid }) | апостериорная оценка SRIF конечна в эпоху ранга 4 { $srif_epoch } (подтверждены ранг/STM/замыкание DRO/SRIF, конструкция смоделирована)
+    }
+
+engine-cislunar-observability-family-state-range-rank-threshold =
+    { $n_spacecraft ->
+        [one] { $base } | семейство { $family }, состояний: { $state_dim }, { $n_spacecraft } аппарат, σ_range { $sigma_range_m } m | порог ранга { $rank_thr } (сетка { $c } h) | порог оцениваемости (σ_pos ≤ { $sigma_pos_threshold_km } km) { $est_thr }
+        [few] { $base } | семейство { $family }, состояний: { $state_dim }, { $n_spacecraft } аппарата, σ_range { $sigma_range_m } m | порог ранга { $rank_thr } (сетка { $c } h) | порог оцениваемости (σ_pos ≤ { $sigma_pos_threshold_km } km) { $est_thr }
+        [many] { $base } | семейство { $family }, состояний: { $state_dim }, { $n_spacecraft } аппаратов, σ_range { $sigma_range_m } m | порог ранга { $rank_thr } (сетка { $c } h) | порог оцениваемости (σ_pos ≤ { $sigma_pos_threshold_km } km) { $est_thr }
+       *[other] { $base } | семейство { $family }, состояний: { $state_dim }, { $n_spacecraft } аппарата, σ_range { $sigma_range_m } m | порог ранга { $rank_thr } (сетка { $c } h) | порог оцениваемости (σ_pos ≤ { $sigma_pos_threshold_km } km) { $est_thr }
+    }
+
+engine-cislunar-observability-extension-r3-this-run-is =
+    { $n_spacecraft ->
+        [one] РАСШИРЕНИЕ (R3) — этот прогон НЕ является плоской конфигурацией DRO, которую описывает приведённая выше `label`. Размерность состояния { $state_dim }; семейство орбит { $family }; { $n_spacecraft } аппарат; сигма измерения дальности { $sigma_range_m } m. Там, где `label` говорит «planar» и «planar DROs», читайте названное здесь семейство. VALIDATED, дополнения: вариационная STM 6x6 это та же проверенная конечными разностями STM CR3BP (crate::cr3bp), что используется при полной ширине; строки пространственного якобиана дальности и скорости изменения дальности это аналитические частные производные, проверенные конечными разностями, причём строка скорости изменения дальности сверена покомпонентно с независимым трёхмерным deepspace_od::range_rate_observable из этого крейта; начальные условия halo / NRHO это периодические орбиты, скорректированные дифференциально тем же корректором, который воспроизводит опубликованную южную NRHO 9:2 у L2, продолженные от этого опубликованного начального приближения, и невязка замыкания каждого элемента приводится; шестикомпонентные вердикты по РАНГУ подтверждены НЕЗАВИСИМЫМ рангом по ступенчатому виду (метод Гаусса с частичным выбором ведущего элемента), не разделяющим кода с маршрутом через собственные значения/SVD. ЧЕСТНЫЕ РАМКИ ЗВЕНА SRIF: перекрёстная проверка SRIF выше использует ТЕ ЖЕ якобианы измерений и сводится к той же O^T O, поэтому её согласие это проверка согласованности двух численных механизмов, а НЕ независимое подтверждение порога — оно не засчитывается как подтверждение какого-либо значения здесь. MODELLED: проект семейства (какие абсциссы, амплитуды и фазы), сетка эпох, дуга с единственной связью и заявленная граница положения критерия оцениваемости.
+        [few] РАСШИРЕНИЕ (R3) — этот прогон НЕ является плоской конфигурацией DRO, которую описывает приведённая выше `label`. Размерность состояния { $state_dim }; семейство орбит { $family }; { $n_spacecraft } аппарата; сигма измерения дальности { $sigma_range_m } m. Там, где `label` говорит «planar» и «planar DROs», читайте названное здесь семейство. VALIDATED, дополнения: вариационная STM 6x6 это та же проверенная конечными разностями STM CR3BP (crate::cr3bp), что используется при полной ширине; строки пространственного якобиана дальности и скорости изменения дальности это аналитические частные производные, проверенные конечными разностями, причём строка скорости изменения дальности сверена покомпонентно с независимым трёхмерным deepspace_od::range_rate_observable из этого крейта; начальные условия halo / NRHO это периодические орбиты, скорректированные дифференциально тем же корректором, который воспроизводит опубликованную южную NRHO 9:2 у L2, продолженные от этого опубликованного начального приближения, и невязка замыкания каждого элемента приводится; шестикомпонентные вердикты по РАНГУ подтверждены НЕЗАВИСИМЫМ рангом по ступенчатому виду (метод Гаусса с частичным выбором ведущего элемента), не разделяющим кода с маршрутом через собственные значения/SVD. ЧЕСТНЫЕ РАМКИ ЗВЕНА SRIF: перекрёстная проверка SRIF выше использует ТЕ ЖЕ якобианы измерений и сводится к той же O^T O, поэтому её согласие это проверка согласованности двух численных механизмов, а НЕ независимое подтверждение порога — оно не засчитывается как подтверждение какого-либо значения здесь. MODELLED: проект семейства (какие абсциссы, амплитуды и фазы), сетка эпох, дуга с единственной связью и заявленная граница положения критерия оцениваемости.
+        [many] РАСШИРЕНИЕ (R3) — этот прогон НЕ является плоской конфигурацией DRO, которую описывает приведённая выше `label`. Размерность состояния { $state_dim }; семейство орбит { $family }; { $n_spacecraft } аппаратов; сигма измерения дальности { $sigma_range_m } m. Там, где `label` говорит «planar» и «planar DROs», читайте названное здесь семейство. VALIDATED, дополнения: вариационная STM 6x6 это та же проверенная конечными разностями STM CR3BP (crate::cr3bp), что используется при полной ширине; строки пространственного якобиана дальности и скорости изменения дальности это аналитические частные производные, проверенные конечными разностями, причём строка скорости изменения дальности сверена покомпонентно с независимым трёхмерным deepspace_od::range_rate_observable из этого крейта; начальные условия halo / NRHO это периодические орбиты, скорректированные дифференциально тем же корректором, который воспроизводит опубликованную южную NRHO 9:2 у L2, продолженные от этого опубликованного начального приближения, и невязка замыкания каждого элемента приводится; шестикомпонентные вердикты по РАНГУ подтверждены НЕЗАВИСИМЫМ рангом по ступенчатому виду (метод Гаусса с частичным выбором ведущего элемента), не разделяющим кода с маршрутом через собственные значения/SVD. ЧЕСТНЫЕ РАМКИ ЗВЕНА SRIF: перекрёстная проверка SRIF выше использует ТЕ ЖЕ якобианы измерений и сводится к той же O^T O, поэтому её согласие это проверка согласованности двух численных механизмов, а НЕ независимое подтверждение порога — оно не засчитывается как подтверждение какого-либо значения здесь. MODELLED: проект семейства (какие абсциссы, амплитуды и фазы), сетка эпох, дуга с единственной связью и заявленная граница положения критерия оцениваемости.
+       *[other] РАСШИРЕНИЕ (R3) — этот прогон НЕ является плоской конфигурацией DRO, которую описывает приведённая выше `label`. Размерность состояния { $state_dim }; семейство орбит { $family }; { $n_spacecraft } аппарата; сигма измерения дальности { $sigma_range_m } m. Там, где `label` говорит «planar» и «planar DROs», читайте названное здесь семейство. VALIDATED, дополнения: вариационная STM 6x6 это та же проверенная конечными разностями STM CR3BP (crate::cr3bp), что используется при полной ширине; строки пространственного якобиана дальности и скорости изменения дальности это аналитические частные производные, проверенные конечными разностями, причём строка скорости изменения дальности сверена покомпонентно с независимым трёхмерным deepspace_od::range_rate_observable из этого крейта; начальные условия halo / NRHO это периодические орбиты, скорректированные дифференциально тем же корректором, который воспроизводит опубликованную южную NRHO 9:2 у L2, продолженные от этого опубликованного начального приближения, и невязка замыкания каждого элемента приводится; шестикомпонентные вердикты по РАНГУ подтверждены НЕЗАВИСИМЫМ рангом по ступенчатому виду (метод Гаусса с частичным выбором ведущего элемента), не разделяющим кода с маршрутом через собственные значения/SVD. ЧЕСТНЫЕ РАМКИ ЗВЕНА SRIF: перекрёстная проверка SRIF выше использует ТЕ ЖЕ якобианы измерений и сводится к той же O^T O, поэтому её согласие это проверка согласованности двух численных механизмов, а НЕ независимое подтверждение порога — оно не засчитывается как подтверждение какого-либо значения здесь. MODELLED: проект семейства (какие абсциссы, амплитуды и фазы), сетка эпох, дуга с единственной связью и заявленная граница положения критерия оцениваемости.
+    }
+
+engine-e-clock-integrity-integrity-epochs-exceed-the-epoch =
+    { $n ->
+        [one] integrity: { $n } эпоха превышает предел в { $MAX_EPOCHS } эпох; увеличьте step_s
+        [few] integrity: { $n } эпохи превышают предел в { $MAX_EPOCHS } эпох; увеличьте step_s
+        [many] integrity: { $n } эпох превышают предел в { $MAX_EPOCHS } эпох; увеличьте step_s
+       *[other] integrity: { $n } эпохи превышают предел в { $MAX_EPOCHS } эпох; увеличьте step_s
+    }
+
+engine-earth-gnss-lunar-earth-gnss-at-lunar-distance =
+    { $n_satellites ->
+        [one] Земной GNSS на лунном расстоянии — { $n_satellites } спутник, приёмник на { $r } km{ "\u000A" }
+        [few] Земной GNSS на лунном расстоянии — { $n_satellites } спутника, приёмник на { $r } km{ "\u000A" }
+        [many] Земной GNSS на лунном расстоянии — { $n_satellites } спутников, приёмник на { $r } km{ "\u000A" }
+       *[other] Земной GNSS на лунном расстоянии — { $n_satellites } спутника, приёмник на { $r } km{ "\u000A" }
+    }
+
+engine-ephemeris-ground-track-samples-alt-km =
+    { $n_samples ->
+        [one] трасса { $source } · { $n_samples } отсчёт · высота { $alt_min_km }–{ $alt_max_km } km · |широта| ≤ { $r }°
+        [few] трасса { $source } · { $n_samples } отсчёта · высота { $alt_min_km }–{ $alt_max_km } km · |широта| ≤ { $r }°
+        [many] трасса { $source } · { $n_samples } отсчётов · высота { $alt_min_km }–{ $alt_max_km } km · |широта| ≤ { $r }°
+       *[other] трасса { $source } · { $n_samples } отсчёта · высота { $alt_min_km }–{ $alt_max_km } km · |широта| ≤ { $r }°
+    }
+
+engine-geometry-element-sets-propagated-by-the =
+    { $n ->
+        [one] { $n } набор элементов распространён алгоритмом SGP4 (WGS-72) движка на { $iso } и повёрнут в земную систему координат при UT1, принятом равным UTC, и без учёта движения полюса: это небо, которое этот набор элементов даёт на данную эпоху, а не его измерение.
+        [few] { $n } набора элементов распространены алгоритмом SGP4 (WGS-72) движка на { $iso } и повёрнуты в земную систему координат при UT1, принятом равным UTC, и без учёта движения полюса: это небо, которое эти наборы элементов дают на данную эпоху, а не его измерение.
+        [many] { $n } наборов элементов распространены алгоритмом SGP4 (WGS-72) движка на { $iso } и повёрнуты в земную систему координат при UT1, принятом равным UTC, и без учёта движения полюса: это небо, которое эти наборы элементов дают на данную эпоху, а не его измерение.
+       *[other] { $n } набора элементов распространены алгоритмом SGP4 (WGS-72) движка на { $iso } и повёрнуты в земную систему координат при UT1, принятом равным UTC, и без учёта движения полюса: это небо, которое эти наборы элементов дают на данную эпоху, а не его измерение.
+    }
+
+engine-geometry-element-sets-propagated-by-the-2 =
+    { $n ->
+        [one] { $n } набор элементов распространён алгоритмом SGP4 (WGS-72) движка на эпоху самого нового набора элементов плюс time_s ({ $iso }). Эпоха не задана, поэтому это репрезентативное небо, а не небо на указанную дату.
+        [few] { $n } набора элементов распространены алгоритмом SGP4 (WGS-72) движка на эпоху самого нового набора элементов плюс time_s ({ $iso }). Эпоха не задана, поэтому это репрезентативное небо, а не небо на указанную дату.
+        [many] { $n } наборов элементов распространены алгоритмом SGP4 (WGS-72) движка на эпоху самого нового набора элементов плюс time_s ({ $iso }). Эпоха не задана, поэтому это репрезентативное небо, а не небо на указанную дату.
+       *[other] { $n } набора элементов распространены алгоритмом SGP4 (WGS-72) движка на эпоху самого нового набора элементов плюс time_s ({ $iso }). Эпоха не задана, поэтому это репрезентативное небо, а не небо на указанную дату.
+    }
+
+engine-e-gse-sim-scenario-produces-epochs-need-increase =
+    { $n ->
+        [one] сценарий даёт { $n } эпоху (нужно ≥ 2); увеличьте duration_s или уменьшите step_s
+        [few] сценарий даёт { $n } эпохи (нужно ≥ 2); увеличьте duration_s или уменьшите step_s
+        [many] сценарий даёт { $n } эпох (нужно ≥ 2); увеличьте duration_s или уменьшите step_s
+       *[other] сценарий даёт { $n } эпохи (нужно ≥ 2); увеличьте duration_s или уменьшите step_s
+    }
+
+engine-hybrid-integrity-hybrid-optical-rf-optical-footprint =
+    { $n_sites ->
+        [one] hybrid-optical-rf | оптический след { $footprint_m } м, фотонов: { $detected_photons } -> σ дальнометрии { $c } мм, σ времени { $c2 } пс | cross-RAIM HPL { $hpl_m } м / VPL { $vpl_m } м / TPL { $c3 } нс ({ $v8 }) | доступность { $c4 }% ({ $n_sites } площадка) | передача без скачка { $v11 } NEES { $final_nees }∈[{ $c5 },{ $c6 }] { $v15 } | совместный FoM { $score } (A { $availability } · P { $precision_grade } · I { $integrity_assured }) | подтверждено: CRLB/χ²-PL/union/handoff, смоделировано: σ/климатология
+        [few] hybrid-optical-rf | оптический след { $footprint_m } м, фотонов: { $detected_photons } -> σ дальнометрии { $c } мм, σ времени { $c2 } пс | cross-RAIM HPL { $hpl_m } м / VPL { $vpl_m } м / TPL { $c3 } нс ({ $v8 }) | доступность { $c4 }% ({ $n_sites } площадки) | передача без скачка { $v11 } NEES { $final_nees }∈[{ $c5 },{ $c6 }] { $v15 } | совместный FoM { $score } (A { $availability } · P { $precision_grade } · I { $integrity_assured }) | подтверждено: CRLB/χ²-PL/union/handoff, смоделировано: σ/климатология
+        [many] hybrid-optical-rf | оптический след { $footprint_m } м, фотонов: { $detected_photons } -> σ дальнометрии { $c } мм, σ времени { $c2 } пс | cross-RAIM HPL { $hpl_m } м / VPL { $vpl_m } м / TPL { $c3 } нс ({ $v8 }) | доступность { $c4 }% ({ $n_sites } площадок) | передача без скачка { $v11 } NEES { $final_nees }∈[{ $c5 },{ $c6 }] { $v15 } | совместный FoM { $score } (A { $availability } · P { $precision_grade } · I { $integrity_assured }) | подтверждено: CRLB/χ²-PL/union/handoff, смоделировано: σ/климатология
+       *[other] hybrid-optical-rf | оптический след { $footprint_m } м, фотонов: { $detected_photons } -> σ дальнометрии { $c } мм, σ времени { $c2 } пс | cross-RAIM HPL { $hpl_m } м / VPL { $vpl_m } м / TPL { $c3 } нс ({ $v8 }) | доступность { $c4 }% ({ $n_sites } площадки) | передача без скачка { $v11 } NEES { $final_nees }∈[{ $c5 },{ $c6 }] { $v15 } | совместный FoM { $score } (A { $availability } · P { $precision_grade } · I { $integrity_assured }) | подтверждено: CRLB/χ²-PL/union/handoff, смоделировано: σ/климатология
+    }
+
+engine-impairment-eval-impairment-eval-detector-auc-in =
+    { $n_cases ->
+        [one] impairment-eval | детектор { $detector } | AUC { $auc_in } на обучающих / { $auc_out } на отложенных (разрыв { $optimism_gap }{ $v5 }) | Pd { $report } Pfa { $report2 } @ цель { $target_pfa } | { $n_cases } случай | MODELLED, синтетические данные
+        [few] impairment-eval | детектор { $detector } | AUC { $auc_in } на обучающих / { $auc_out } на отложенных (разрыв { $optimism_gap }{ $v5 }) | Pd { $report } Pfa { $report2 } @ цель { $target_pfa } | { $n_cases } случая | MODELLED, синтетические данные
+        [many] impairment-eval | детектор { $detector } | AUC { $auc_in } на обучающих / { $auc_out } на отложенных (разрыв { $optimism_gap }{ $v5 }) | Pd { $report } Pfa { $report2 } @ цель { $target_pfa } | { $n_cases } случаев | MODELLED, синтетические данные
+       *[other] impairment-eval | детектор { $detector } | AUC { $auc_in } на обучающих / { $auc_out } на отложенных (разрыв { $optimism_gap }{ $v5 }) | Pd { $report } Pfa { $report2 } @ цель { $target_pfa } | { $n_cases } случая | MODELLED, синтетические данные
+    }
+
+engine-e-interop-scene-time-samples-is-more-than =
+    { $n ->
+        [one] { $n } временной отсчёт, это больше, чем записывает экспорт ({ $MAX_SAMPLES })
+        [few] { $n } временных отсчёта, это больше, чем записывает экспорт ({ $MAX_SAMPLES })
+        [many] { $n } временных отсчётов, это больше, чем записывает экспорт ({ $MAX_SAMPLES })
+       *[other] { $n } временных отсчёта, это больше, чем записывает экспорт ({ $MAX_SAMPLES })
+    }
+
+engine-e-iq-campaign-conditions-lists-value-give-one-per =
+    { $n ->
+        [one] { $at }: { $key } перечисляет { $n } значение; задайте по одному на id ({ $ids })
+        [few] { $at }: { $key } перечисляет { $n } значения; задайте по одному на id ({ $ids })
+        [many] { $at }: { $key } перечисляет { $n } значений; задайте по одному на id ({ $ids })
+       *[other] { $at }: { $key } перечисляет { $n } значения; задайте по одному на id ({ $ids })
+    }
+
+engine-e-iq-campaign-runner-recording-holds-samples-needed-to =
+    { $n ->
+        [one] { $code }: запись содержит отсчётов: { $buf }, для захвата нужно { $n } отсчёт
+        [few] { $code }: запись содержит отсчётов: { $buf }, для захвата нужно { $n } отсчёта
+        [many] { $code }: запись содержит отсчётов: { $buf }, для захвата нужно { $n } отсчётов
+       *[other] { $code }: запись содержит отсчётов: { $buf }, для захвата нужно { $n } отсчёта
+    }
+
+engine-iq-cli-iq-takes-positional-argument-got =
+    { $n ->
+        [one] iq { $cmd } принимает { $n } позиционный аргумент, получено: { $pos }
+        [few] iq { $cmd } принимает { $n } позиционных аргумента, получено: { $pos }
+        [many] iq { $cmd } принимает { $n } позиционных аргументов, получено: { $pos }
+       *[other] iq { $cmd } принимает { $n } позиционных аргумента, получено: { $pos }
+    }
+
+engine-iq-io-cli-iq-takes-path-argument-got =
+    { $n ->
+        [one] iq { $cmd } принимает { $n } аргумент-путь, получено: { $pos }
+        [few] iq { $cmd } принимает { $n } аргумента-пути, получено: { $pos }
+        [many] iq { $cmd } принимает { $n } аргументов-путей, получено: { $pos }
+       *[other] iq { $cmd } принимает { $n } аргумента-пути, получено: { $pos }
+    }
+
+engine-iq-io-cli-wrote-samples-hz-to-saturated =
+    { $n ->
+        [one] записан { $n } отсчёт ({ $to }, { $fs_hz } Hz) в { $files }; элементов с насыщением: { $w }{ $v4 }
+        [few] записано { $n } отсчёта ({ $to }, { $fs_hz } Hz) в { $files }; элементов с насыщением: { $w }{ $v4 }
+        [many] записано { $n } отсчётов ({ $to }, { $fs_hz } Hz) в { $files }; элементов с насыщением: { $w }{ $v4 }
+       *[other] записано { $n } отсчёта ({ $to }, { $fs_hz } Hz) в { $files }; элементов с насыщением: { $w }{ $v4 }
+    }
+
+engine-e-iq-io-sigmf-stream-capture-at-sample-is-out =
+    { $n_file ->
+        [one] { $name }: захват на отсчёте { $sample_start } нарушает порядок или выходит за пределы { $n_file } отсчёта данных
+        [few] { $name }: захват на отсчёте { $sample_start } нарушает порядок или выходит за пределы { $n_file } отсчётов данных
+        [many] { $name }: захват на отсчёте { $sample_start } нарушает порядок или выходит за пределы { $n_file } отсчётов данных
+       *[other] { $name }: захват на отсчёте { $sample_start } нарушает порядок или выходит за пределы { $n_file } отсчёта данных
+    }
+
+engine-iq-labfit-iqfit-not-fitted-re-acquisitions-observed =
+    { $n_reacq ->
+        [one] подгонка не выполнена: наблюдался { $n_reacq } повторный захват (нужно не менее 3)
+        [few] подгонка не выполнена: наблюдалось { $n_reacq } повторных захвата (нужно не менее 3)
+        [many] подгонка не выполнена: наблюдалось { $n_reacq } повторных захватов (нужно не менее 3)
+       *[other] подгонка не выполнена: наблюдалось { $n_reacq } повторных захвата (нужно не менее 3)
+    }
+
+engine-iq-labfit-iqreport-threshold-direct-median-db-over =
+    { $n ->
+        [one] Пороговое J/S, прямое: медиана { $om } dB для { $n } потери (IQR { $t }).{ "\u000A\u000A" }
+        [few] Пороговое J/S, прямое: медиана { $om } dB для { $n } потерь (IQR { $t }).{ "\u000A\u000A" }
+        [many] Пороговое J/S, прямое: медиана { $om } dB для { $n } потерь (IQR { $t }).{ "\u000A\u000A" }
+       *[other] Пороговое J/S, прямое: медиана { $om } dB для { $n } потери (IQR { $t }).{ "\u000A\u000A" }
+    }
+
+engine-iq-labfit-iqreport-events-loss-time-rms-pi90 =
+    { $n ->
+        [one] ; { $model }: { $n } событие, RMS времени потери { $om } с, охват PI90 { $om2 }
+        [few] ; { $model }: { $n } события, RMS времени потери { $om } с, охват PI90 { $om2 }
+        [many] ; { $model }: { $n } событий, RMS времени потери { $om } с, охват PI90 { $om2 }
+       *[other] ; { $model }: { $n } события, RMS времени потери { $om } с, охват PI90 { $om2 }
+    }
+
+engine-iq-labfit-report-n0-samples-residual-rms-db =
+    { $n_samples ->
+        [one] { "\u000A" }{ $n_samples } отсчёт C/N0, остаточное RMS { $om } dB.{ $r }{ "\u000A" }
+        [few] { "\u000A" }{ $n_samples } отсчёта C/N0, остаточное RMS { $om } dB.{ $r }{ "\u000A" }
+        [many] { "\u000A" }{ $n_samples } отсчётов C/N0, остаточное RMS { $om } dB.{ $r }{ "\u000A" }
+       *[other] { "\u000A" }{ $n_samples } отсчёта C/N0, остаточное RMS { $om } dB.{ $r }{ "\u000A" }
+    }
+
+engine-iq-labfit-report-event-time-rms-over-events =
+    { $n_events ->
+        [one] { "\u000A" }RMS времени события { $om } с для { $n_events } события; потери: пропущено { $loss_missed } / лишних { $loss_extra }, повторные захваты: пропущено { $reacq_missed } / лишних { $reacq_extra }.
+
+            | прогон | падение dB-Hz | повторная фиксация dB-Hz | событий | RMS с |
+            |---|---|---|---|---|{ "\u000A" }
+        [few] { "\u000A" }RMS времени события { $om } с для { $n_events } событий; потери: пропущено { $loss_missed } / лишних { $loss_extra }, повторные захваты: пропущено { $reacq_missed } / лишних { $reacq_extra }.
+
+            | прогон | падение dB-Hz | повторная фиксация dB-Hz | событий | RMS с |
+            |---|---|---|---|---|{ "\u000A" }
+        [many] { "\u000A" }RMS времени события { $om } с для { $n_events } событий; потери: пропущено { $loss_missed } / лишних { $loss_extra }, повторные захваты: пропущено { $reacq_missed } / лишних { $reacq_extra }.
+
+            | прогон | падение dB-Hz | повторная фиксация dB-Hz | событий | RMS с |
+            |---|---|---|---|---|{ "\u000A" }
+       *[other] { "\u000A" }RMS времени события { $om } с для { $n_events } события; потери: пропущено { $loss_missed } / лишних { $loss_extra }, повторные захваты: пропущено { $reacq_missed } / лишних { $reacq_extra }.
+
+            | прогон | падение dB-Hz | повторная фиксация dB-Hz | событий | RMS с |
+            |---|---|---|---|---|{ "\u000A" }
+    }
+
+engine-e-iq-short-samples-requested-short-run-holds =
+    { $n ->
+        [one] запрошен { $n } отсчёт; короткий прогон вмещает не более { $MAX_SAMPLES }
+        [few] запрошено { $n } отсчёта; короткий прогон вмещает не более { $MAX_SAMPLES }
+        [many] запрошено { $n } отсчётов; короткий прогон вмещает не более { $MAX_SAMPLES }
+       *[other] запрошено { $n } отсчёта; короткий прогон вмещает не более { $MAX_SAMPLES }
+    }
+
+engine-e-iq-signals-galileo-codes-the-icd-defines =
+    { $n ->
+        [one] { $path }: { $n } код, ICD определяет { $CODES_PER_COMPONENT }
+        [few] { $path }: { $n } кода, ICD определяет { $CODES_PER_COMPONENT }
+        [many] { $path }: { $n } кодов, ICD определяет { $CODES_PER_COMPONENT }
+       *[other] { $path }: { $n } кода, ICD определяет { $CODES_PER_COMPONENT }
+    }
+
+engine-e-leo-fusion-doppler-measurements-cannot-resolve-doppler-unknowns =
+    { $n_meas ->
+        [one] { $n_meas } измерение недостаточно для разрешения неизвестных Доплера: { $n }
+        [few] { $n_meas } измерения недостаточно для разрешения неизвестных Доплера: { $n }
+        [many] { $n_meas } измерений недостаточно для разрешения неизвестных Доплера: { $n }
+       *[other] { $n_meas } измерения недостаточно для разрешения неизвестных Доплера: { $n }
+    }
+
+engine-e-leo-fusion-joint-pvt-pseudoranges-cannot-resolve-unknowns-position =
+    { $n ->
+        [one] псевдодальностей: { $obs } недостаточно для разрешения { $n } неизвестной (3 положения + часов: { $n_clock })
+        [few] псевдодальностей: { $obs } недостаточно для разрешения { $n } неизвестных (3 положения + часов: { $n_clock })
+        [many] псевдодальностей: { $obs } недостаточно для разрешения { $n } неизвестных (3 положения + часов: { $n_clock })
+       *[other] псевдодальностей: { $obs } недостаточно для разрешения { $n } неизвестной (3 положения + часов: { $n_clock })
+    }
+
+engine-leo-fusion-ntn-5g-ntn-positioning-at-mhz =
+    { $n_satellites ->
+        [one] позиционирование 5G NTN на { $r } MHz, C/N0 от { $r2 } до { $r3 } dB-Hz, { $n_satellites } спутник (в зоне видимости: { $mean_in_view }){ "\u000A" }
+        [few] позиционирование 5G NTN на { $r } MHz, C/N0 от { $r2 } до { $r3 } dB-Hz, { $n_satellites } спутника (в зоне видимости: { $mean_in_view }){ "\u000A" }
+        [many] позиционирование 5G NTN на { $r } MHz, C/N0 от { $r2 } до { $r3 } dB-Hz, { $n_satellites } спутников (в зоне видимости: { $mean_in_view }){ "\u000A" }
+       *[other] позиционирование 5G NTN на { $r } MHz, C/N0 от { $r2 } до { $r3 } dB-Hz, { $n_satellites } спутника (в зоне видимости: { $mean_in_view }){ "\u000A" }
+    }
+
+engine-leo-fusion-ntn-one-satellite-doppler-pass-samples =
+    { $n_obs ->
+        [one] { "  " }доплеровский пролёт одного спутника: { $n_obs } отсчёт за { $duration_s } s, горизонтальная ошибка { $horizontal_error_m } m{ "\u000A" }
+        [few] { "  " }доплеровский пролёт одного спутника: { $n_obs } отсчёта за { $duration_s } s, горизонтальная ошибка { $horizontal_error_m } m{ "\u000A" }
+        [many] { "  " }доплеровский пролёт одного спутника: { $n_obs } отсчётов за { $duration_s } s, горизонтальная ошибка { $horizontal_error_m } m{ "\u000A" }
+       *[other] { "  " }доплеровский пролёт одного спутника: { $n_obs } отсчёта за { $duration_s } s, горизонтальная ошибка { $horizontal_error_m } m{ "\u000A" }
+    }
+
+engine-leo-fusion-ppp-ppp-convergence-to-horizontal-vertical =
+    { $n_gnss ->
+        [one] сходимость PPP до { $criterion_horizontal_m } m по горизонтали / { $criterion_vertical_m } m по вертикали, прогонов на случай: { $runs_per_case }, { $n_gnss } спутник GNSS{ "\u000A" }
+        [few] сходимость PPP до { $criterion_horizontal_m } m по горизонтали / { $criterion_vertical_m } m по вертикали, прогонов на случай: { $runs_per_case }, { $n_gnss } спутника GNSS{ "\u000A" }
+        [many] сходимость PPP до { $criterion_horizontal_m } m по горизонтали / { $criterion_vertical_m } m по вертикали, прогонов на случай: { $runs_per_case }, { $n_gnss } спутников GNSS{ "\u000A" }
+       *[other] сходимость PPP до { $criterion_horizontal_m } m по горизонтали / { $criterion_vertical_m } m по вертикали, прогонов на случай: { $runs_per_case }, { $n_gnss } спутника GNSS{ "\u000A" }
+    }
+
+engine-leo-fusion-pvt-kind-sats-at-km-mhz =
+    { $n_satellites ->
+        [one] { "  " }{ $name } { $role }: { $n_satellites } спутник на высоте { $mean_altitude_km } km, { $sys } MHz{ $v6 }{ "\u000A" }
+        [few] { "  " }{ $name } { $role }: { $n_satellites } спутника на высоте { $mean_altitude_km } km, { $sys } MHz{ $v6 }{ "\u000A" }
+        [many] { "  " }{ $name } { $role }: { $n_satellites } спутников на высоте { $mean_altitude_km } km, { $sys } MHz{ $v6 }{ "\u000A" }
+       *[other] { "  " }{ $name } { $role }: { $n_satellites } спутника на высоте { $mean_altitude_km } km, { $sys } MHz{ $v6 }{ "\u000A" }
+    }
+
+engine-leo-fusion-pvt-kind-doppler-fix-measurements-from-satellites =
+    { $n_obs ->
+        [one] { "  " }доплеровское определение: { $n_obs } измерение (от спутников: { $n_sats }), 3D ошибка { $error_3d_m } m (горизонтальная { $horizontal_error_m } m){ "\u000A" }
+        [few] { "  " }доплеровское определение: { $n_obs } измерения (от спутников: { $n_sats }), 3D ошибка { $error_3d_m } m (горизонтальная { $horizontal_error_m } m){ "\u000A" }
+        [many] { "  " }доплеровское определение: { $n_obs } измерений (от спутников: { $n_sats }), 3D ошибка { $error_3d_m } m (горизонтальная { $horizontal_error_m } m){ "\u000A" }
+       *[other] { "  " }доплеровское определение: { $n_obs } измерения (от спутников: { $n_sats }), 3D ошибка { $error_3d_m } m (горизонтальная { $horizontal_error_m } m){ "\u000A" }
+    }
+
+engine-leo-fusion-pvt-kind-window-sats-3d-error =
+    { $n_sats ->
+        [one] { "    " }окно { $window_s } s: { $n_sats } спутник, 3D ошибка { $f } m{ "\u000A" }
+        [few] { "    " }окно { $window_s } s: { $n_sats } спутника, 3D ошибка { $f } m{ "\u000A" }
+        [many] { "    " }окно { $window_s } s: { $n_sats } спутников, 3D ошибка { $f } m{ "\u000A" }
+       *[other] { "    " }окно { $window_s } s: { $n_sats } спутника, 3D ошибка { $f } m{ "\u000A" }
+    }
+
+engine-live-io-kshana-live-dropped-udp-datagram =
+    { $n ->
+        [one] kshana live: отброшена { $n } udp-датаграмма, которую движок не смог принять (всего { $udp_dropped })
+        [few] kshana live: отброшено { $n } udp-датаграммы, которые движок не смог принять (всего { $udp_dropped })
+        [many] kshana live: отброшено { $n } udp-датаграмм, которые движок не смог принять (всего { $udp_dropped })
+       *[other] kshana live: отброшено { $n } udp-датаграммы, которые движок не смог принять (всего { $udp_dropped })
+    }
+
+engine-lunar-frame-campaign-lunar-frame-campaign-beacons-baselines =
+    { $n_beacons ->
+        [one] lunar-frame-campaign | { $n_beacons } маяк x базовых линий: { $v1 } x эпох: { $n_epochs } = наблюдений: { $n_obs } (delay sigma { $sigma_tau } s) | datum станций { $station_datum } | ранг Гельмерта { $rank }/7 cond { $condition } | sigma сдвига датума { $v5 } против ошибки восстановления внесённого преобразования { $trans_err_norm_m } m (отношение { $v7 })
+        [few] lunar-frame-campaign | { $n_beacons } маяка x базовых линий: { $v1 } x эпох: { $n_epochs } = наблюдений: { $n_obs } (delay sigma { $sigma_tau } s) | datum станций { $station_datum } | ранг Гельмерта { $rank }/7 cond { $condition } | sigma сдвига датума { $v5 } против ошибки восстановления внесённого преобразования { $trans_err_norm_m } m (отношение { $v7 })
+        [many] lunar-frame-campaign | { $n_beacons } маяков x базовых линий: { $v1 } x эпох: { $n_epochs } = наблюдений: { $n_obs } (delay sigma { $sigma_tau } s) | datum станций { $station_datum } | ранг Гельмерта { $rank }/7 cond { $condition } | sigma сдвига датума { $v5 } против ошибки восстановления внесённого преобразования { $trans_err_norm_m } m (отношение { $v7 })
+       *[other] lunar-frame-campaign | { $n_beacons } маяка x базовых линий: { $v1 } x эпох: { $n_epochs } = наблюдений: { $n_obs } (delay sigma { $sigma_tau } s) | datum станций { $station_datum } | ранг Гельмерта { $rank }/7 cond { $condition } | sigma сдвига датума { $v5 } против ошибки восстановления внесённого преобразования { $trans_err_norm_m } m (отношение { $v7 })
+    }
+
+engine-lunar-jamming-lunar-jamming-sats-epochs-links =
+    { $n_sats ->
+        [one] lunar-jamming | { $n_sats } спутник, эпох: { $n_epochs }, линий связи: { $n_links } из ({ $site_lat_deg }, { $site_lon_deg }) | J/S { $min_js_db }..{ $max_js_db } dB (среднее { $mean_js_db }) | LOST: { $n_lost } | доступность { $availability_under_jamming } при номинальной { $availability_nominal }
+        [few] lunar-jamming | { $n_sats } спутника, эпох: { $n_epochs }, линий связи: { $n_links } из ({ $site_lat_deg }, { $site_lon_deg }) | J/S { $min_js_db }..{ $max_js_db } dB (среднее { $mean_js_db }) | LOST: { $n_lost } | доступность { $availability_under_jamming } при номинальной { $availability_nominal }
+        [many] lunar-jamming | { $n_sats } спутников, эпох: { $n_epochs }, линий связи: { $n_links } из ({ $site_lat_deg }, { $site_lon_deg }) | J/S { $min_js_db }..{ $max_js_db } dB (среднее { $mean_js_db }) | LOST: { $n_lost } | доступность { $availability_under_jamming } при номинальной { $availability_nominal }
+       *[other] lunar-jamming | { $n_sats } спутника, эпох: { $n_epochs }, линий связи: { $n_links } из ({ $site_lat_deg }, { $site_lon_deg }) | J/S { $min_js_db }..{ $max_js_db } dB (среднее { $mean_js_db }) | LOST: { $n_lost } | доступность { $availability_under_jamming } при номинальной { $availability_nominal }
+    }
+
+engine-lunar-jamming-lunar-jamming-sats-epochs-links-2 =
+    { $n_sats ->
+        [one] lunar-jamming | { $n_sats } спутник, эпох: { $n_epochs }, линий связи: { $n_links } из ({ $site_lat_deg }, { $site_lon_deg }) | без источника помех (лунный базис при чистом небе) | LOST: { $n_lost } | доступность { $availability_nominal }
+        [few] lunar-jamming | { $n_sats } спутника, эпох: { $n_epochs }, линий связи: { $n_links } из ({ $site_lat_deg }, { $site_lon_deg }) | без источника помех (лунный базис при чистом небе) | LOST: { $n_lost } | доступность { $availability_nominal }
+        [many] lunar-jamming | { $n_sats } спутников, эпох: { $n_epochs }, линий связи: { $n_links } из ({ $site_lat_deg }, { $site_lon_deg }) | без источника помех (лунный базис при чистом небе) | LOST: { $n_lost } | доступность { $availability_nominal }
+       *[other] lunar-jamming | { $n_sats } спутника, эпох: { $n_epochs }, линий связи: { $n_links } из ({ $site_lat_deg }, { $site_lon_deg }) | без источника помех (лунный базис при чистом небе) | LOST: { $n_lost } | доступность { $availability_nominal }
+    }
+
+engine-e-lunar-vlbi-fim-no-observation-in-the-schedule =
+    { $n_epochs ->
+        [one] ни одно наблюдение расписания не проходит маску угла места { $mask } deg на обоих концах базовой линии: { $n_epochs } эпоха x базовых линий: { $v1 }, все отклонены. Увеличьте arc_hours, снизьте elevation_mask_deg или переместите станции.
+        [few] ни одно наблюдение расписания не проходит маску угла места { $mask } deg на обоих концах базовой линии: { $n_epochs } эпохи x базовых линий: { $v1 }, все отклонены. Увеличьте arc_hours, снизьте elevation_mask_deg или переместите станции.
+        [many] ни одно наблюдение расписания не проходит маску угла места { $mask } deg на обоих концах базовой линии: { $n_epochs } эпох x базовых линий: { $v1 }, все отклонены. Увеличьте arc_hours, снизьте elevation_mask_deg или переместите станции.
+       *[other] ни одно наблюдение расписания не проходит маску угла места { $mask } deg на обоих концах базовой линии: { $n_epochs } эпохи x базовых линий: { $v1 }, все отклонены. Увеличьте arc_hours, снизьте elevation_mask_deg или переместите станции.
+    }
+
+engine-lunar-vlbi-fim-lunar-vlbi-fim-stations-baselines =
+    { $n_stations ->
+        [one] lunar-vlbi-fim | { $n_stations } станция / базовых линий: { $v2 } x эпох: { $n_epochs } = наблюдений: { $n_obs } (маска { $mask } deg) | датум { $datum } | ранг { $rank }/{ $dim } cond { $condition } | sigma станции { $v10 } против equipartition g={ $g } { $eq_g } m (отношение { $v13 })
+        [few] lunar-vlbi-fim | { $n_stations } станции / базовых линий: { $v2 } x эпох: { $n_epochs } = наблюдений: { $n_obs } (маска { $mask } deg) | датум { $datum } | ранг { $rank }/{ $dim } cond { $condition } | sigma станции { $v10 } против equipartition g={ $g } { $eq_g } m (отношение { $v13 })
+        [many] lunar-vlbi-fim | { $n_stations } станций / базовых линий: { $v2 } x эпох: { $n_epochs } = наблюдений: { $n_obs } (маска { $mask } deg) | датум { $datum } | ранг { $rank }/{ $dim } cond { $condition } | sigma станции { $v10 } против equipartition g={ $g } { $eq_g } m (отношение { $v13 })
+       *[other] lunar-vlbi-fim | { $n_stations } станции / базовых линий: { $v2 } x эпох: { $n_epochs } = наблюдений: { $n_obs } (маска { $mask } deg) | датум { $datum } | ранг { $rank }/{ $dim } cond { $condition } | sigma станции { $v10 } против equipartition g={ $g } { $eq_g } m (отношение { $v13 })
+    }
+
+engine-mars-pnt-mars-pnt-user-clock-relays =
+    { $n_relays ->
+        [one] mars-pnt { $r } | пользователь { $user }, часы { $clock_class } | { $n_relays } ретранслятор (в среднем в зоне видимости: { $mean_relays_in_view }) | сошедшаяся RMS положения { $converged_pos_rms_m } m, формальная 1σ { $converged_pos_sigma_m } m (3σ { $converged_pos_3sigma_m } m — показатель качества по ковариации, не утверждённый PL) | σ частоты часов { $final_clock_freq_sigma } | cov-PD { $covariance_pd_throughout }
+        [few] mars-pnt { $r } | пользователь { $user }, часы { $clock_class } | { $n_relays } ретранслятора (в среднем в зоне видимости: { $mean_relays_in_view }) | сошедшаяся RMS положения { $converged_pos_rms_m } m, формальная 1σ { $converged_pos_sigma_m } m (3σ { $converged_pos_3sigma_m } m — показатель качества по ковариации, не утверждённый PL) | σ частоты часов { $final_clock_freq_sigma } | cov-PD { $covariance_pd_throughout }
+        [many] mars-pnt { $r } | пользователь { $user }, часы { $clock_class } | { $n_relays } ретрансляторов (в среднем в зоне видимости: { $mean_relays_in_view }) | сошедшаяся RMS положения { $converged_pos_rms_m } m, формальная 1σ { $converged_pos_sigma_m } m (3σ { $converged_pos_3sigma_m } m — показатель качества по ковариации, не утверждённый PL) | σ частоты часов { $final_clock_freq_sigma } | cov-PD { $covariance_pd_throughout }
+       *[other] mars-pnt { $r } | пользователь { $user }, часы { $clock_class } | { $n_relays } ретранслятора (в среднем в зоне видимости: { $mean_relays_in_view }) | сошедшаяся RMS положения { $converged_pos_rms_m } m, формальная 1σ { $converged_pos_sigma_m } m (3σ { $converged_pos_3sigma_m } m — показатель качества по ковариации, не утверждённый PL) | σ частоты часов { $final_clock_freq_sigma } | cov-PD { $covariance_pd_throughout }
+    }
+
+engine-e-mcda-copras-copras-weights-but-criterion-types =
+    { $n ->
+        [one] COPRAS: { $n } вес, а типов критериев: { $types }
+        [few] COPRAS: { $n } веса, а типов критериев: { $types }
+        [many] COPRAS: { $n } весов, а типов критериев: { $types }
+       *[other] COPRAS: { $n } веса, а типов критериев: { $types }
+    }
+
+engine-e-mcda-moora-moora-weights-but-criterion-types =
+    { $n ->
+        [one] MOORA: { $n } вес, а типов критериев: { $types }
+        [few] MOORA: { $n } веса, а типов критериев: { $types }
+        [many] MOORA: { $n } весов, а типов критериев: { $types }
+       *[other] MOORA: { $n } веса, а типов критериев: { $types }
+    }
+
+engine-e-mcda-promethee-promethee-ii-weights-but-types =
+    { $n ->
+        [one] PROMETHEE II: { $n } вес, а типов: { $types } / функций предпочтения: { $prefs }
+        [few] PROMETHEE II: { $n } веса, а типов: { $types } / функций предпочтения: { $prefs }
+        [many] PROMETHEE II: { $n } весов, а типов: { $types } / функций предпочтения: { $prefs }
+       *[other] PROMETHEE II: { $n } веса, а типов: { $types } / функций предпочтения: { $prefs }
+    }
+
+engine-e-mcda-topsis-topsis-weights-but-criterion-types =
+    { $n ->
+        [one] TOPSIS: { $n } вес, а типов критериев: { $types }
+        [few] TOPSIS: { $n } веса, а типов критериев: { $types }
+        [many] TOPSIS: { $n } весов, а типов критериев: { $types }
+       *[other] TOPSIS: { $n } веса, а типов критериев: { $types }
+    }
+
+engine-e-mcda-vikor-vikor-weights-but-criterion-types =
+    { $n ->
+        [one] VIKOR: { $n } вес, а типов критериев: { $types }
+        [few] VIKOR: { $n } веса, а типов критериев: { $types }
+        [many] VIKOR: { $n } весов, а типов критериев: { $types }
+       *[other] VIKOR: { $n } веса, а типов критериев: { $types }
+    }
+
+engine-e-mcda-waspas-waspas-weights-but-criterion-types =
+    { $n ->
+        [one] WASPAS: { $n } вес, а типов критериев: { $types }
+        [few] WASPAS: { $n } веса, а типов критериев: { $types }
+        [many] WASPAS: { $n } весов, а типов критериев: { $types }
+       *[other] WASPAS: { $n } веса, а типов критериев: { $types }
+    }
+
+engine-e-mcda-wpm-wpm-weights-but-criterion-types =
+    { $n ->
+        [one] WPM: { $n } вес, а типов критериев: { $types }
+        [few] WPM: { $n } веса, а типов критериев: { $types }
+        [many] WPM: { $n } весов, а типов критериев: { $types }
+       *[other] WPM: { $n } веса, а типов критериев: { $types }
+    }
+
+engine-e-naif-kernel-daf-summary-record-claims-summaries =
+    { $count ->
+        [one] запись сводок DAF { $rec } заявляет { $count } сводку
+        [few] запись сводок DAF { $rec } заявляет { $count } сводки
+        [many] запись сводок DAF { $rec } заявляет { $count } сводок
+       *[other] запись сводок DAF { $rec } заявляет { $count } сводки
+    }
+
+engine-nmea-synth-gen-the-receiver-reports-fix-again =
+    { $n_used ->
+        [one] приёмник снова сообщает решение (использован { $n_used } спутник)
+        [few] приёмник снова сообщает решение (использовано { $n_used } спутника)
+        [many] приёмник снова сообщает решение (использовано { $n_used } спутников)
+       *[other] приёмник снова сообщает решение (использовано { $n_used } спутника)
+    }
+
+engine-nmea-synth-gen-the-receiver-has-no-fix =
+    { $n_used ->
+        [one] у приёмника нет решения ({ $n_used } пригодный спутник, нужно четыре)
+        [few] у приёмника нет решения ({ $n_used } пригодных спутника, нужно четыре)
+        [many] у приёмника нет решения ({ $n_used } пригодных спутников, нужно четыре)
+       *[other] у приёмника нет решения ({ $n_used } пригодных спутника, нужно четыре)
+    }
+
+engine-observability-gramian-gdop-undefined-rank-deficient-singular =
+    { $n ->
+        [one] GDOP не определён (геометрия с дефицитом ранга / сингулярная): ранг { $rank } из { $n } состояния, дефект датума { $v3 }, обусловленность { $v4 }
+        [few] GDOP не определён (геометрия с дефицитом ранга / сингулярная): ранг { $rank } из { $n } состояний, дефект датума { $v3 }, обусловленность { $v4 }
+        [many] GDOP не определён (геометрия с дефицитом ранга / сингулярная): ранг { $rank } из { $n } состояний, дефект датума { $v3 }, обусловленность { $v4 }
+       *[other] GDOP не определён (геометрия с дефицитом ранга / сингулярная): ранг { $rank } из { $n } состояния, дефект датума { $v3 }, обусловленность { $v4 }
+    }
+
+engine-oem-oem-interop-round-tripped-segment =
+    { $n_states_total ->
+        [one] oem-interop: сегментов в круговом преобразовании: { $segments }, { $n_states_total } состояние; максимальная ошибка кругового преобразования { $p } km / { $v } km/s (MODELLED interop)
+        [few] oem-interop: сегментов в круговом преобразовании: { $segments }, { $n_states_total } состояния; максимальная ошибка кругового преобразования { $p } km / { $v } km/s (MODELLED interop)
+        [many] oem-interop: сегментов в круговом преобразовании: { $segments }, { $n_states_total } состояний; максимальная ошибка кругового преобразования { $p } km / { $v } km/s (MODELLED interop)
+       *[other] oem-interop: сегментов в круговом преобразовании: { $segments }, { $n_states_total } состояния; максимальная ошибка кругового преобразования { $p } km / { $v } km/s (MODELLED interop)
+    }
+
+engine-oem-oem-interop-ingested-segment-states =
+    { $n_states_total ->
+        [one] oem-interop: принято сегментов: { $segments }, { $n_states_total } состояние из внешнего OEM (отправитель { $originator }) (MODELLED interop)
+        [few] oem-interop: принято сегментов: { $segments }, { $n_states_total } состояния из внешнего OEM (отправитель { $originator }) (MODELLED interop)
+        [many] oem-interop: принято сегментов: { $segments }, { $n_states_total } состояний из внешнего OEM (отправитель { $originator }) (MODELLED interop)
+       *[other] oem-interop: принято сегментов: { $segments }, { $n_states_total } состояния из внешнего OEM (отправитель { $originator }) (MODELLED interop)
+    }
+
+engine-pvt-pvt-sat-nav-epochs-solved =
+    { $n_satellites_nav ->
+        [one] pvt { $r } | { $n_satellites_nav } спутник навигации | решено эпох: { $epochs_solved }/{ $epochs_total } | в среднем спутников: { $mean_n_used }, PDOP { $mean_pdop }{ $acc }
+        [few] pvt { $r } | { $n_satellites_nav } спутника навигации | решено эпох: { $epochs_solved }/{ $epochs_total } | в среднем спутников: { $mean_n_used }, PDOP { $mean_pdop }{ $acc }
+        [many] pvt { $r } | { $n_satellites_nav } спутников навигации | решено эпох: { $epochs_solved }/{ $epochs_total } | в среднем спутников: { $mean_n_used }, PDOP { $mean_pdop }{ $acc }
+       *[other] pvt { $r } | { $n_satellites_nav } спутника навигации | решено эпох: { $epochs_solved }/{ $epochs_total } | в среднем спутников: { $mean_n_used }, PDOP { $mean_pdop }{ $acc }
+    }
+
+engine-receiver-trust-geometry-geometry-hdop-pdop-vdop-satellites =
+    { $n_used ->
+        [one] geometry { $label }: HDOP { $fmt_dop }, PDOP { $fmt_dop2 }, VDOP { $fmt_dop3 }, { $n_used } спутник{ $v6 }
+        [few] geometry { $label }: HDOP { $fmt_dop }, PDOP { $fmt_dop2 }, VDOP { $fmt_dop3 }, { $n_used } спутника{ $v6 }
+        [many] geometry { $label }: HDOP { $fmt_dop }, PDOP { $fmt_dop2 }, VDOP { $fmt_dop3 }, { $n_used } спутников{ $v6 }
+       *[other] geometry { $label }: HDOP { $fmt_dop }, PDOP { $fmt_dop2 }, VDOP { $fmt_dop3 }, { $n_used } спутника{ $v6 }
+    }
+
+engine-solar-system-solar-system-at-jd-tdb =
+    { $n_bodies ->
+        [one] Солнечная система на { $input } (JD { $jd_tdb } TDB), { $n_bodies } тело, наблюдатель { $observer }
+            { "  " }{ $standish_table }{ "\u000A" }
+        [few] Солнечная система на { $input } (JD { $jd_tdb } TDB), { $n_bodies } тела, наблюдатель { $observer }
+            { "  " }{ $standish_table }{ "\u000A" }
+        [many] Солнечная система на { $input } (JD { $jd_tdb } TDB), { $n_bodies } тел, наблюдатель { $observer }
+            { "  " }{ $standish_table }{ "\u000A" }
+       *[other] Солнечная система на { $input } (JD { $jd_tdb } TDB), { $n_bodies } тела, наблюдатель { $observer }
+            { "  " }{ $standish_table }{ "\u000A" }
+    }
+
+engine-e-spk-writer-states-for-epochs =
+    { $n ->
+        [one] состояний: { $states } на { $n } эпоху
+        [few] состояний: { $states } на { $n } эпохи
+        [many] состояний: { $states } на { $n } эпох
+       *[other] состояний: { $states } на { $n } эпохи
+    }
+
+engine-e-spk-writer-states-degree-needs =
+    { $n ->
+        [one] { $n } состояние; степени { $degree } нужно { $value }
+        [few] { $n } состояния; степени { $degree } нужно { $value }
+        [many] { $n } состояний; степени { $degree } нужно { $value }
+       *[other] { $n } состояния; степени { $degree } нужно { $value }
+    }
+
+engine-e-spk-writer-epochs-for-difference-lines =
+    { $n ->
+        [one] эпох: { $epochs }, на { $n } строку разностей
+        [few] эпох: { $epochs }, на { $n } строки разностей
+        [many] эпох: { $epochs }, на { $n } строк разностей
+       *[other] эпох: { $epochs }, на { $n } строки разностей
+    }
+
+engine-space-packet-space-packet-framed-ccsds-133 =
+    { $packet_count ->
+        [one] space-packet: сформирован { $packet_count } пакет CCSDS-133.0 { $v2 }, APID { $apid }, всего октетов: { $total_bytes }, круговое преобразование точное ({ $round_trip_ok })
+        [few] space-packet: сформировано { $packet_count } пакета CCSDS-133.0 { $v2 }, APID { $apid }, всего октетов: { $total_bytes }, круговое преобразование точное ({ $round_trip_ok })
+        [many] space-packet: сформировано { $packet_count } пакетов CCSDS-133.0 { $v2 }, APID { $apid }, всего октетов: { $total_bytes }, круговое преобразование точное ({ $round_trip_ok })
+       *[other] space-packet: сформировано { $packet_count } пакета CCSDS-133.0 { $v2 }, APID { $apid }, всего октетов: { $total_bytes }, круговое преобразование точное ({ $round_trip_ok })
+    }
+
+engine-slot-timing-slot-timing-source-guard-ns = slot-timing (источник { $n }): защитный интервал { $c } ns при k={ $k_sigma } нарушается через { $fmt_s } после фиксации (осталось { $fmt_s2 }); фиксация нужна не реже чем через { $fmt_s3 } ({ $fixes_per_day } в сутки); доминирующий член: { $b }{ $v9 }
 
 ## legal
 
