@@ -148,6 +148,22 @@ export function applyPage({ html, segs, bundle, lang, vars = {} }) {
 const PLURAL_NEEDS = (lang) => new Intl.PluralRules(BCP47[lang] || lang).resolvedOptions().pluralCategories;
 const TOKENS = ['NOT CORROBORATED', 'NOT MET', 'VALIDATED', 'MODELLED', 'PARTNER', 'EXPLORATORY', 'MET', 'PREDICTION', 'CORROBORATED', 'REFUSED', 'DEGRADED', 'DEFICIENT', 'OBSERVED', 'LOST', 'MISMATCH', 'VERIFIED', 'CONSISTENT', 'INCONSISTENT'];
 
+/** How many times each all-caps tier, verdict and status token stands in a message text (a { -tier-modelled } term counts as its token; NOT MET is not MET).
+ *  A translation must have exactly the English counts: a lowercase "validated" or "modelled" is a word and stays a word, never the label. */
+export function capsCounts(text, rend = {}) {
+  let t = text.replace(/\{ -(tier|verdict|status)-([a-z-]+) \}/g, (_, k, n) => n.toUpperCase().replace(/-/g, ' '));
+  const out = {};
+  for (const tk of TOKENS) {
+    const forms = [...new Set([tk, rend[tk] || tk])];
+    let c = 0;
+    for (const f of forms) { let i = 0; for (;;) { i = t.indexOf(f, i); if (i < 0) break; const pre = t[i - 1] || ' ', post = t[i + f.length] || ' '; if (!/[A-Za-z]/.test(pre) && !/[A-Za-z]/.test(post)) c++; i += f.length; } }
+    if (tk === 'MET') for (const f of new Set(['NOT MET', rend['NOT MET'] || 'NOT MET'])) { let i = 0; for (;;) { i = t.indexOf(f, i); if (i < 0) break; c--; i += f.length; } }
+    if (c) out[tk] = c;
+  }
+  return out;
+}
+const capsDiff = (a, b) => { const ks = new Set([...Object.keys(a), ...Object.keys(b)]); const d = []; for (const k of ks) if ((a[k] || 0) !== (b[k] || 0)) d.push(`${k}: ${b[k] || 0} instead of ${a[k] || 0}`); return d.join(', '); };
+
 /** What a message must keep: variables, terms, string literals, and (for page text) tags. */
 export function signature(entry) {
   const vars = [], terms = [], lits = [], selects = [];
@@ -193,6 +209,7 @@ export function checkLang(root, lang) {
     return e ? textOfPattern(e.value) : null;
   };
   const tokenTerm = (t) => '-' + (['VALIDATED', 'MODELLED', 'PARTNER', 'EXPLORATORY'].includes(t) ? 'tier-' : ['MET', 'NOT MET'].includes(t) ? 'verdict-' : 'status-') + t.toLowerCase().replace(/ /g, '-');
+  const rendMap = tokenRenderings(root, lang);
   let n = 0;
   for (const f of [...files, ...engine]) {
     const en = entriesOf(join(root, 'en', f));
@@ -219,6 +236,7 @@ export function checkLang(root, lang) {
         const enText = flat(src), trText = flat(e);
         if (tagsOf(enText) !== tagsOf(trText) && !a.selects.length) errors.push(`${here}: markup tags differ (English: ${tagsOf(enText) || 'none'}; here: ${tagsOf(trText) || 'none'})`);
         if (f.startsWith('pages/') && digits(strip(enText)) !== digits(strip(trText))) errors.push(`${here}: digits in the text differ from the English (numbers must stay in their placeables)`);
+        if (!a.selects.length) { const cd = capsDiff(capsCounts(enText), capsCounts(trText, rendMap)); if (cd) errors.push(`${here}: the tier, verdict and status words differ from the English (${cd}); a lowercase word stays a word`); }
         if (f.startsWith('pages/')) for (const t of TOKENS) {
           const re = new RegExp(`(?<![A-Z])${t}(?![A-Z])`);
           const en2 = t === 'MET' ? enText.replace(/NOT MET/g, '') : enText;
@@ -351,6 +369,7 @@ export function mergeTranslations(root, lang, texts, { replace = false } = {}) {
   const out = new Map(); // file -> Map id -> text
   const rejected = [], unknown = [];
   let added = 0;
+  const rend0 = tokenRenderings(root, lang);
   const gl = (() => { const g = entriesOf(join(root, lang, 'glossary.ftl')), en = entriesOf(join(root, 'en', 'glossary.ftl')); return (id) => { const e = (g && g.map.get(id)) || (en && en.map.get(id)); return e ? textOfPattern(e.value) : null; }; })();
   const tokenTerm = (t) => '-' + (['VALIDATED', 'MODELLED', 'PARTNER', 'EXPLORATORY'].includes(t) ? 'tier-' : ['MET', 'NOT MET'].includes(t) ? 'verdict-' : 'status-') + t.toLowerCase().replace(/ /g, '-');
   for (const text of texts) {
@@ -367,6 +386,7 @@ export function mergeTranslations(root, lang, texts, { replace = false } = {}) {
       else if (a.lits.join('\0') !== b.lits.join('\0')) why = 'string-literal placeables differ';
       else if (!a.selects.length && tagsOf(flat(src)) !== tagsOf(flat(e))) why = 'markup tags differ';
       else if (digits(strip(flat(src))) !== digits(strip(flat(e)))) why = 'digits differ';
+      else if (!a.selects.length && capsDiff(capsCounts(flat(src)), capsCounts(flat(e), rend0))) why = `the tier, verdict and status words differ (${capsDiff(capsCounts(flat(src)), capsCounts(flat(e), rend0))}); a lowercase word stays a word`;
       else {
         const t = flat(e);
         for (const tk of TOKENS) {
@@ -571,6 +591,7 @@ export function todoFileChunks(root, lang, file, chunkKb = 26) {
 /** Append translated messages to i18n/<lang>/<file> after the checks of `check` (variables, literals, tags, digits for text files). */
 export function mergeFile(root, lang, file, texts) {
   const enE = entriesOf(join(root, 'en', file));
+  const rendF = tokenRenderings(root, lang);
   const lp = join(root, lang, file);
   const old = existsSync(lp) ? readText(lp) : `# ${file} (${lang}): translations\n\n`;
   const have = new Set(existsSync(lp) ? messageBlocks(readText(lp)).map((m) => m.id) : []);
@@ -591,6 +612,7 @@ export function mergeFile(root, lang, file, texts) {
       else if (a.lits.join('\0') !== b.lits.join('\0')) why = 'string-literal placeables differ';
       else if (file !== 'glossary.ftl' && !a.selects.length && tagsOf(flat(src)) !== tagsOf(flat(e))) why = 'markup tags differ';
       else if (file !== 'glossary.ftl' && !a.selects.length && digits(strip(flat(src))) !== digits(strip(flat(e)))) why = 'digits differ';
+      else if (file !== 'glossary.ftl' && file !== 'engine.ftl' && !a.selects.length && capsDiff(capsCounts(flat(src)), capsCounts(flat(e), rendF))) why = `the tier, verdict and status words differ (${capsDiff(capsCounts(flat(src)), capsCounts(flat(e), rendF))}); a lowercase word stays a word`;
       if (why) { rejected.push({ id, why }); continue; }
       add += text.slice(e.span.start, e.span.end).trim() + '\n\n'; have.add(id); n++;
     }
