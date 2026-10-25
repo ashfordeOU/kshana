@@ -11,8 +11,7 @@ seg-f3455321c508 = No page at this address. <s1>The rest is where it was.</s1>
 seg-22c78a9a284b = The address may be mistyped, or it may be from the earlier single-page site. Start from the home page, read the docs, or run a scenario in Kshana Studio. Search finds every page, scenario and doc.
 
 # text
-# c1: 
-seg-f11a4097381b = <a1>Home <c1/></a1>
+seg-9d181c032a9e = Home
 
 # text
 seg-f79048f88b5c = Launch Kshana Studio
