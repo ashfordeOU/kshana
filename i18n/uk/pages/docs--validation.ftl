@@ -1255,3 +1255,5 @@ seg-6b1bb731f966 = Довірений квантовий час — наскрі
 seg-3332c6c1ae86 = Квантова навігація без GNSS (src/quantum_nav_od.rs)
 
 seg-9b46a5add4ab = Виявлення несправностей / аномалій у квантових системах PNT (src/quantum_faults.rs)
+
+seg-b17f1501a267 = Рівень захисту SBAS (satellite-based augmentation system) (DO-229E, додаток J) → горизонтальний / вертикальний рівень захисту (HPL / VPL)
