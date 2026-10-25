@@ -17,10 +17,6 @@ seg-aec7fc2a4070 = <b>VALIDATED</b> ARAIM-Mehrfachhypothesen-Lösungstrennung na
 seg-8ed008b206de = Quelle: <c1/>
 
 # text
-# c1: lunar-integrity
-seg-26f0cf6d63c0 = <c1/> (Szenario-Kind)
-
-# text
 seg-4b6daea39f5c = ARAIM-Schutzniveau-Überflug am lunaren Südpol gegen einen repräsentativen Satz von LunaNet-Relais. sigma_ure_m legt die Genauigkeit der Signal-in-Space-Entfernungsmessung offen (Schutzniveaus skalieren linear damit, sodass ein Durchfahren die Frage beantwortet, welche Entfernungsmessgenauigkeit ein Alarmgrenzwert verlangt). Standardmäßig der historische Südpolfall der Klasse LNIS.
 
 # text
@@ -39,9 +35,6 @@ seg-79da500e2726 = Optionale Felder: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>
 # c1: scenarios/lunanet-araim.toml
 seg-21d10aa98c33 = Das Beispiel <c1/> setzt unter anderem:
 
-# attr:alt
-seg-610fa190a393 = Das Diagramm, das die Engine für scenarios/lunanet-araim.toml schreibt, Kind lunar-integrity
-
 # text
 seg-1903c67a762d = <b>VALIDATED</b> Der Schritt von der Geometrie zur Kovarianz beim lunaren Schutzniveau — (GᵀG)⁻¹ über die Gesamtgeometrie aller sichtbaren Satelliten und jede Teilgeometrie mit einem einzelnen Fehler, projiziert auf die lokale Vertikale a. Orakel (ExternalDataset): Zwei etablierte Implementierungen von Drittanbietern, zusammengesetzt, beide offline ausgeführt, wobei die Fixture von Anfang bis Ende neu erzeugt und als byteidentisch verifiziert wurde. RTKLIB 2.4.2-p13 (T. Takasu, BSD-2-Clause), Commit 71db0ff, src/rtkcmn.c, aus dem C-Quelltext mit -ULAPACK kompiliert: lsq() → matinv() → ludcmp()/lubksb() invertiert die Normalmatrix durch Crout-LU mit Teilpivotisierung, ein Algorithmus, der nichts mit dem handgeschriebenen Gauß-Jordan-invert4() von kshana zu tun hat
 
@@ -50,3 +43,10 @@ seg-3c54da43686e = <s1>Zurück</s1>lunar-infrastructure
 
 # text
 seg-f6b399c3fd4a = <s1>Weiter</s1>lunar-interop-export
+
+# text
+# c1: lunar-integrity
+seg-26f0cf6d63c0 = <c1/> (Szenarioart)
+
+# attr:alt
+seg-610fa190a393 = Das Diagramm, das die Engine für scenarios/lunanet-araim.toml schreibt, Szenarioart lunar-integrity

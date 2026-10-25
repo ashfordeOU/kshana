@@ -20,10 +20,6 @@ seg-98133e74f88a = Familienseite: <a1>GPS-gesperrtes alternatives PNT</a1>
 seg-bb7c9c4d4b5d = Quelle: <c1/>
 
 # text
-# c1: terrain-slam
-seg-562e59d703e3 = <c1/> (Szenario-Kind)
-
-# text
 seg-6bdc150ab25b = GPS-verweigerte sequenzielle (rekursive) geländereferenzierte Navigation: Ein Partikelfilter führt das Messmodell des Geländeabgleichs Epoche für Epoche aus (SITAN als laufendes Filter), sodass eine zeitveränderliche INS-Drift entlang der Spur verfolgt wird, wo das Batch-terrain-nav nur einen einzelnen konstanten Versatz zurückgewinnt.
 
 # text
@@ -55,11 +51,15 @@ seg-5ceb5b8597ac = Optionale Felder: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>
 # c1: scenarios/terrain-slam.toml
 seg-48e022b0945e = Das Beispiel <c1/> setzt unter anderem:
 
-# attr:alt
-seg-4aca87f022dc = Das Diagramm, das die Engine für scenarios/terrain-slam.toml schreibt, Kind terrain-slam
-
 # text
 seg-832919783819 = <s1>Zurück</s1>terrain-nav
 
 # text
 seg-1693abd546fe = <s1>Weiter</s1>time-transfer-budget
+
+# attr:alt
+seg-4aca87f022dc = Das Diagramm, das die Engine für scenarios/terrain-slam.toml schreibt, Szenarioart terrain-slam
+
+# text
+# c1: terrain-slam
+seg-562e59d703e3 = <c1/> (Szenarioart)

@@ -21,10 +21,6 @@ seg-a2889fb2b42a = Themenseite: <a1>integrations.md</a1>
 seg-11f512367036 = Quelle: <c1/>
 
 # text
-# c1: lunar-time-budget
-seg-f7cd4fcfc62d = <c1/> (Szenario-Kind)
-
-# text
 seg-cac3a0bcbfc6 = MODELLED durchgängiges Zeitfehlerbudget der koordinierten Mondzeit (LTC): die sieben LTC-Fehlerterme, zusammengestellt als Zeitfehlerkurven x_i(τ) über ein ganzes Gitter von Mittelungszeiten, per Wurzelsumme zu x_Σ(τ) zusammengefasst, und der ÜBERGANG τ zwischen Uhr und Bezugssystem, bei dem der wachsende Uhrenterm den konstanten Echtzeit-Term der Bezugssystemrealisierung überholt (darunter ist das Budget vom Bezugssystem begrenzt, darüber von der Uhr) — die ehrliche Antwort auf das Artefakt eines einzelnen τ. Die τ-Steigungen sind in geschlossener Form und analytisch prüfbar (Uhr τ^{ "{" }+1/2{ "}" }/τ^{ "{" }+{ "1" }{ "}" }, Böden τ^{ "0" }, Messung τ^{ "{" }-1/2{ "}" }), und die Uhrenzeilen reproduzieren die veröffentlichten Eintages-Spezifikationen der Uhren (crate::clock_specs); die GRÖSSEN der Böden für HF-/optischen Link, Bezugssystemrealisierung, relativistisches Residuum und Ephemeride sind modellierte Budgetzuweisungen (dokumentierte Standardwerte, vom Aufrufer überschreibbar), keine Messungen. Der Beitrag ist das reproduzierbare Übergangs-τ, keine zertifizierte Zahl je Term; nicht zertifiziert für den operativen Zeithaltebetrieb.
 
 # text
@@ -47,9 +43,6 @@ seg-c050033b32c3 = Das Beispiel <c1/> setzt unter anderem:
 # text
 seg-eebd3e40d0b9 = Ergebnisbezeichnung (der Engine): MODELLED durchgängiges LTC-Zeitfehlerbudget. Die τ-Steigungen sind in geschlossener Form und analytisch prüfbar (Uhr τ^{ "{" }+1/2{ "}" }/τ^{ "{" }+{ "1" }{ "}" }, Böden τ^{ "0" }, Messung τ^{ "{" }-1/2{ "}" }), und die Uhrenzeilen reproduzieren die veröffentlichten Eintages-Spezifikationen der Uhren; die Böden für HF-/optischen Link, Bezugssystemrealisierung, relativistisches Residuum und Ephemeride
 
-# attr:alt
-seg-56fe184f2a12 = Das Diagramm, das die Engine für scenarios/lunar-time-budget.toml schreibt, Kind lunar-time-budget
-
 # text
 seg-b03509dfcb1b = <b>MODELLED</b> Ein Lauf von lunar-time-budget gibt je Uhrenklasse eine Übergangszeile zwischen Uhr und Bezugssystem gegen einen einzigen gemeinsamen Bezugssystemterm aus, sodass die Uhr die einzige Variable des Vergleichs ist; jede Zeile trägt den auf zwei Wegen erreichten Übergang -- per Bisektion aus der gen
 
@@ -67,10 +60,6 @@ seg-4c0d7da4f7f6 = <b>MODELLED</b> Das Szenario lunar-time-budget veröffentlich
 seg-8abdeb1a36e1 = MODELLED durchgängiges LTC-Zeitfehlerbudget. Die τ-Steigungen sind in geschlossener Form und analytisch prüfbar (Uhr τ^{ "{" }+1/2{ "}" }/τ^{ "{" }+{ "1" }{ "}" }, Böden τ^{ "0" }, Messung τ^{ "{" }-1/2{ "}" }), und die Uhrenzeilen reproduzieren die veröffentlichten Eintages-Spezifikationen der Uhren; die GRÖSSEN der Böden für HF-/optischen Link, Bezugssystemrealisierung, relativistisches Residuum und Ephemeride sind modellierte Budgetzuweisungen (dokumentierte Standardwerte, vom Aufrufer überschreibbar), keine Messungen. Der Beitrag (Ergebnis <c1/>)
 
 # text
-# c1: kshana kinds --json
-seg-66a794432751 = MODELLED durchgängiges Zeitfehlerbudget der koordinierten Mondzeit (LTC): die sieben LTC-Fehlerterme, zusammengestellt als Zeitfehlerkurven x_i(τ) über ein ganzes Gitter von Mittelungszeiten, per Wurzelsumme zu x_Σ(τ) zusammengefasst, und der ÜBERGANG τ zwischen Uhr und Bezugssystem, bei dem der wachsende Uhrenterm den konstanten Echtzeit-Term der Bezugssystemrealisierung überholt (darunter ist das Budget vom Bezugssystem begrenzt, darüber von der Uhr) — die ehrliche Antwort auf das Artefak (Kind-Katalog (<c1/>))
-
-# text
 seg-ca1763d4a416 = Ehrlichkeit: MODELLED. Die Tau-Steigungen sind in geschlossener Form und analytisch prüfbar (Uhr tau^{ "{" }+1/2{ "}" } oder tau^{ "{" }+{ "1" }{ "}" }, Böden tau^{ "0" }, Messung tau^{ "{" }-1/2{ "}" }), und die Uhrenzeilen reproduzieren die veröffentlichten Eintages-Spezifikationen der Uhren; aber die GRÖSSEN der Böden für HF-/optischen Link, Bezugssystemrealisierung, relativistisches Residuum und Ephemeride sind modellierte Budgetzuweisungen (dokumentierte Standardwerte, vom Aufrufer überschreibbar), keine Messungen. Der Beitrag ist (Kommentar in der Szenariodatei, Zeilen { "13" } bis { "18" })
 
 # text
@@ -84,3 +73,14 @@ seg-988e99fc26be = <s1>Zurück</s1>lunar-station-coverage
 
 # text
 seg-a0992d394960 = <s1>Weiter</s1>lunar-time-offset
+
+# attr:alt
+seg-56fe184f2a12 = Das Diagramm, das die Engine für scenarios/lunar-time-budget.toml schreibt, Szenarioart lunar-time-budget
+
+# text
+# c1: kshana kinds --json
+seg-66a794432751 = MODELLED durchgängiges Zeitfehlerbudget der koordinierten Mondzeit (LTC): die sieben LTC-Fehlerterme, zusammengestellt als Zeitfehlerkurven x_i(τ) über ein ganzes Gitter von Mittelungszeiten, per Wurzelsumme zu x_Σ(τ) zusammengefasst, und der ÜBERGANG τ zwischen Uhr und Bezugssystem, bei dem der wachsende Uhrenterm den konstanten Echtzeit-Term der Bezugssystemrealisierung überholt (darunter ist das Budget vom Bezugssystem begrenzt, darüber von der Uhr) — die ehrliche Antwort auf das Artefak (Szenarioarten-Katalog (<c1/>))
+
+# text
+# c1: lunar-time-budget
+seg-f7cd4fcfc62d = <c1/> (Szenarioart)

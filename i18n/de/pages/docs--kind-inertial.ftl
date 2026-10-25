@@ -57,10 +57,6 @@ seg-7bebd09c614b = Quarz-Beschleunigungsmesser der Navigationsklasse (Honeywell 
 seg-cead54058894 = Quelle: <c1/>
 
 # text
-# c1: inertial
-seg-783be547f01e = <c1/> (Szenario-Kind)
-
-# text
 seg-bdedf28adc48 = Inertiale 1-DOF-Koppelnavigation während eines GNSS-Ausfalls.
 
 # text
@@ -87,12 +83,6 @@ seg-bd021b5dff80 = Das Beispiel <c1/> setzt unter anderem:
 # text
 seg-8a9e52e38b05 = Hybrider Quanten-Beschleunigungsmesser-Triade von Exail: Bias-Stabilität 6e-
 
-# attr:alt
-seg-873c402bb724 = Das Diagramm, das die Engine für scenarios/imu-deadreckoning.toml schreibt, Kind inertial
-
-# text
-seg-801740520370 = MODELLED { "6" } · VALIDATED { "2" }: die Zeilen der <a1>Verifikationsmatrix</a1>, die dieses Kind nennen.
-
 # text
 seg-41f3a20fadfb = <b>VALIDATED</b> Strapdown-Inertialmechanisierung mit Quaternionen-Lage im WGS-84-NED-System (Coning/Sculling-kompensiert), die einen Navigationszustand aus (Δθ, Δv)-Inkrementen fortschreibt Tests: <a1>classical_strapdown_ins_reference.rs</a1>.
 
@@ -113,3 +103,13 @@ seg-fab4c926e628 = <s1>Zurück</s1>impairment-eval
 
 # text
 seg-aa783749183d = <s1>Weiter</s1>ins-trn-coast
+
+# text
+# c1: inertial
+seg-783be547f01e = <c1/> (Szenarioart)
+
+# text
+seg-801740520370 = MODELLED { "6" } · VALIDATED { "2" }: die Zeilen der <a1>Verifikationsmatrix</a1>, die diese Szenarioart nennen.
+
+# attr:alt
+seg-873c402bb724 = Das Diagramm, das die Engine für scenarios/imu-deadreckoning.toml schreibt, Szenarioart inertial

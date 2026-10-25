@@ -19,9 +19,6 @@ seg-59afd80736c5 = <b>PARTNER</b> Nicht bereitgestellt — Kshana modelliert Sig
 seg-a3697ad561db = Hz
 
 # text
-seg-304496607bd7 = Szenario-Kind der Engine v{ $version }, Familie <a1>Jamming, spoofing and the spectrum</a1>. Hinweis (beratend): Analyseausgabe eines Forschungs- und Engineering-Werkzeugs, keine typzugelassene Navigationsausrüstung und kein Safety-of-Life-Dienst. Jede Bezeichnung hier stammt von der Engine oder der Verifikationsmatrix; ein Kind ist MODELLED, sofern die Matrix nichts anderes sagt (wie eine Bezeichnung erworben wird: der Abschnitt Evidence der README).
-
-# text
 seg-5d23d7f8f872 = Familienseite: <a1>Jamming, spoofing and the spectrum</a1>
 
 # text
@@ -31,10 +28,6 @@ seg-edcd55ccc993 = <b>MODELLED</b> Der Bericht von <c1/> stützt seine Verweiger
 # text
 # c1: docs/kinds/by-kind/tracking-loop.md
 seg-4f57723d340e = Quelle: <c1/>
-
-# text
-# c1: tracking-loop
-seg-e84aabe07c43 = <c1/> (Szenario-Kind)
 
 # text
 seg-f6ff1c8c78db = Lock-Verlust der Tracking-Schleife: C/N0 -> Lock/Unlock MIT HYSTERESE, die Zeit bis zum Lock-Verlust und Spoof-Pull-in als Funktion der RATE von Code- und Trägerversatz. Die bestehenden Verweigerungs- und Capture-Kriterien der Engine sind Verhältnisse der Empfangsleistung (ein Jammer verweigert bei J/S = { "30" } dB, ein Spoofer übernimmt bei { "3" } dB); der reale Lock-Verlust ist kein Leistungsverhältnis, sondern dort, wo der Jitter einer Schleife plus dynamische Belastung ihr Tracking-Schwellenbudget verlässt. Gibt aus ({ "1" }) den thermischen 1-Sigma-Jitter von Träger- (Costas) und Code-Schleife (nichtkohärent Early/Late) gegen C/N0, Quadrierungsverlust eingeschlossen, gegen die angegebenen Regeln { "3" }<em>sigma_PLL + theta_e <= { "45" } deg (die 15-Grad-Regel in Drei-Sigma-Form) und { "3" }</em>sigma_DLL + Rampennachlauf <= d/2 Chips; ({ "2" }) die C/N0-Schwellen für Abfall und erneutes Locken mit der benannten bindenden Schleife, wobei die Schwelle für das erneute Locken aus der breiteren Bandbreite, mit der ein Empfänger wieder einzieht, ABGELEITET und nicht behauptet wird, sodass die Hysteresebreite zwischen { "5" }<em>log10(Verhältnis) und { "10" }</em>log10(Verhältnis) dB liegen muss; ({ "3" }) die deklarierte Zeit bis zum Lock-Verlust aus einem Zwei-Schwellen-Lock-Detektor mit Bestätigungs-Verweilzeiten, getrieben über eine C/N0-Rampe, getrennt ausgewiesen von der physikalischen Phasenausbruchszeit (die mittlere Viterbi-Zeit zwischen Cycle Slips, in log10 s, weil sie sich über Hunderte von Dekaden erstreckt); ({ "4" }) Spoof-Pull-in-Grenzen — die größte Code-Verschiebung und Träger-Dopplerrate, denen die Schleifen eines Opfers folgen können, mit einer Karte über beide Achsen, denn ein Spoofer, der schneller verschiebt als diese, übernimmt die Schleife nicht, er überholt sie; und ({ "5" }) den VERWEIGERUNGSRADIUS, den die Schleifendynamik impliziert, AUSGEWIESEN NEBEN dem bestehenden Leistungsverhältnis-Radius, nie an dessen Stelle, mit ihrer vorzeichenbehafteten Differenz als eigenem benanntem Feld (denial_radius_delta_km) und einer Definition daneben. Jedes ausgegebene numerische Feld trägt eine Einheit und eine Herkunftsklasse. VALIDATED geschlossene Formen: die Ausdrücke für den Träger- und Code-Jitter, die Schleifenfilter-Reduktion sqrt({ "2" }<em>B_n</em>T) und der Rampennachlauf erster Ordnung sind gegen den eigenen sdr-Korrelator der Engine, vorwärts geschaltet auf synthetischer ZF mit Seed, gegengeprüft — ein anderer Weg zu denselben Zahlen — auf { "0.6" } %, { "3.7" } % bzw. { "0.17" } %, und die modifizierte Bessel-I0 hinter der Cycle-Slip-Zeit gegen übliche tabellierte Werte auf { "1e-7" }. Die untere Gültigkeitsgrenze wird behauptet, nicht nur genannt: Unterhalb von ~{ "32" } dB-Hz bei { "1" } ms sättigt der reale atan-Diskriminator an seinem Bereich von +-pi/2 und misst weniger Jitter als jede lineare Theorie. MODELLED: die Schleifenbandbreiten, die Integrationszeit, der Korrelatorabstand, das Pull-in-Bandbreitenverhältnis, die Bestätigungs-Verweilzeiten, die Jammer-Leistung und die Antennengewinne sind repräsentative Bandwerte, kein Datenblatt. NICHT modelliert: Oszillator-(Allan-Abweichungs-) und Vibrationsjitter, Begrenzung der Front-End-Bandbreite, Mehrweg, AGC-Dynamik, Datenbit-Übergangsverlust, externe Stützung und jede Halbzyklus-Korrektur der Costas-Cycle-Slip-Formel. Unter Schleifendynamik hat die Spoof-Übernahme überhaupt keinen Radius — die bindende Randbedingung ist die Versatzrate, nicht die Leistung —, sodass dieses Feld mit einer Begründung null ist, statt eine erfundene Zahl zu tragen. Kein zertifiziertes Produkt zur Bewertung der Empfängerleistung.
@@ -85,9 +78,6 @@ seg-773fff0feaf7 = bracketed
 # text
 seg-23f3aa5c2064 = Ergebnisbezeichnung (die der Engine): MIXED — VALIDATED geschlossene Formen der Schleife, MODELLED Schleifenkonfiguration. Die Ausdrücke für den thermischen Jitter von Träger und Code, die Schleifenfilter-Reduktion sqrt({ "2" }<em>B_n</em>T) und der Rampennachlauf erster Ordnung sind gegen den eigenen sdr-Korrelator der Engine, vorwärts geschaltet auf synthetischer ZF mit Seed, gegengeprüft (ein anderer Weg
 
-# attr:alt
-seg-72182c1aecd9 = Das Diagramm, das die Engine für scenarios/tracking-loop.toml schreibt, Kind tracking-loop
-
 # text
 seg-346594a654f2 = <b>MODELLED</b> Lock-Verlust, berechnet aus der Schleifendynamik statt aus einem Leistungsverhältnis: thermischer 1σ-Jitter von Träger- (Costas) und Code-Schleife (nichtkohärent Early/Late) gegen C/N₀ mit dem Quadrierungsverlust, gegen die angegebenen Regeln 3σ_PLL + θ_e ≤ { "45" }° und 3σ_DLL + Rampennachlauf
 
@@ -97,14 +87,6 @@ seg-3aa7f9748dc2 = <b>MODELLED</b> Lock-Verlust, berechnet aus der Schleifendyna
 # text
 # c1: label
 seg-de048f9cf1f6 = MIXED — VALIDATED geschlossene Formen der Schleife, MODELLED Schleifenkonfiguration. Die Ausdrücke für den thermischen Jitter von Träger und Code, die Schleifenfilter-Reduktion sqrt({ "2" }<em>B_n</em>T) und der Rampennachlauf erster Ordnung sind gegen den eigenen sdr-Korrelator der Engine, vorwärts geschaltet auf synthetischer ZF mit Seed, gegengeprüft (ein anderer Weg zu denselben Zahlen), und die modifizierte Bessel-I0 gegen übliche tabellierte Werte. MODELLED: die Schleifenbandbreiten, Integ (Ergebnis <c1/>)
-
-# text
-# c1: kshana kinds --json
-seg-0dc70b7607f0 = MODELLED: die Schleifenbandbreiten, die Integrationszeit, der Korrelatorabstand, das Pull-in-Bandbreitenverhältnis, die Bestätigungs-Verweilzeiten, die Jammer-Leistung und die Antennengewinne sind repräsentative Bandwerte, kein Datenblatt. (Kind-Katalog (<c1/>))
-
-# text
-# c1: kshana kinds --json
-seg-a679a9732b2a = NICHT modelliert: Oszillator-(Allan-Abweichungs-) und Vibrationsjitter, Begrenzung der Front-End-Bandbreite, Mehrweg, AGC-Dynamik, Datenbit-Übergangsverlust, externe Stützung und jede Halbzyklus-Korrektur der Costas-Cycle-Slip-Formel. (Kind-Katalog (<c1/>))
 
 # text
 seg-f8d50cbc6f2c = Jeder Schleifenparameter unten ist ein MODELLED repräsentativer Bandwert, kein Datenblatt. (Kommentar der Szenariodatei, Zeile { "22" })
@@ -117,3 +99,21 @@ seg-3a677e343081 = Lock-Verlust der Tracking-Schleife und Spoof-Pull-in unter St
 
 # text
 seg-e3a8f20108f3 = <s1>Zurück</s1>timetransfer
+
+# text
+# c1: kshana kinds --json
+seg-0dc70b7607f0 = MODELLED: die Schleifenbandbreiten, die Integrationszeit, der Korrelatorabstand, das Pull-in-Bandbreitenverhältnis, die Bestätigungs-Verweilzeiten, die Jammer-Leistung und die Antennengewinne sind repräsentative Bandwerte, kein Datenblatt. (Szenarioarten-Katalog (<c1/>))
+
+# text
+seg-304496607bd7 = Szenarioart der Engine v{ $version }, Familie <a1>Jamming, spoofing and the spectrum</a1>. Hinweis (beratend): Analyseausgabe eines Forschungs- und Engineering-Werkzeugs, keine typzugelassene Navigationsausrüstung und kein Safety-of-Life-Dienst. Jede Bezeichnung hier stammt von der Engine oder der Verifikationsmatrix; eine Szenarioart ist MODELLED, sofern die Matrix nichts anderes sagt (wie eine Bezeichnung erworben wird: der Abschnitt Evidence der README).
+
+# attr:alt
+seg-72182c1aecd9 = Das Diagramm, das die Engine für scenarios/tracking-loop.toml schreibt, Szenarioart tracking-loop
+
+# text
+# c1: kshana kinds --json
+seg-a679a9732b2a = NICHT modelliert: Oszillator-(Allan-Abweichungs-) und Vibrationsjitter, Begrenzung der Front-End-Bandbreite, Mehrweg, AGC-Dynamik, Datenbit-Übergangsverlust, externe Stützung und jede Halbzyklus-Korrektur der Costas-Cycle-Slip-Formel. (Szenarioarten-Katalog (<c1/>))
+
+# text
+# c1: tracking-loop
+seg-e84aabe07c43 = <c1/> (Szenarioart)

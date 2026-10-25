@@ -37,24 +37,11 @@ seg-cf1dce5fc824 = Das Diagramm, das die Engine für scenarios/earth-gnss-lunar.
 # text
 seg-8ac5ac006ae7 = Modelliertes lunares DIFFERENTIELLES PNT (ein lunares Analogon zu DGNSS/SBAS): Eine Referenzstation der Klasse NovaMoon an einem BEKANNTEN selenographischen Ort berechnet differentielle Korrekturen je Satellit aus einer ILLUSTRATIVEN Konstellation der Klasse Moonlight/LCNS aus öffentlichen Quellen (NovaMoon nur als Systemklasse genannt, ohne Verbindung zur ESA), und ein um baseline_km versetzter Nutzer wendet sie an, sodass sich die gleichtaktigen Bahn- + Uhrenfehler aufheben. Der Uhrenterm hebt sich EXAKT auf (eine algebraische Identität); der Bahnterm hinterlässt nur die Projektion der Sichtliniendifferenz, die für Basislinie → { "0" } gegen { "0" } geht (die Untergrenze der räumlichen Dekorrelation) und etwa linear mit der Basislinie wächst. Es werden der 3D-Positionsfehler des Nutzers MIT gegenüber OHNE Korrekturen, der Reduktionsfaktor, die Kurve Fehler gegen Basislinie und ein Schutzniveau des Nutzers ausgegeben, das die SBAS-Maschinerie nach DO-229E (crate::sbas) MIT dem differentiellen Restfehler σ WIEDERVERWENDET. MODELLED — exakte Aufhebungsidentität + Dekorrelationsmodell erster Ordnung; nicht mit realen Daten validiert; kein TRL/Flugerbe/keine Billigung durch eine Agentur. Deterministisch, wenn mit Seed erzeugt.
 
-# attr:alt
-seg-8e67df89448a = Das Diagramm, das die Engine für scenarios/lunar-differential-pnt.toml schreibt, Kind lunar-differential-pnt
-
 # text
 seg-55679aff66db = Helmert-Bezugssystemdatum (Ähnlichkeit) mit sieben Parametern, angetrieben von einer SIMULIERTEN BEOBACHTUNGSKAMPAGNE statt von einer eingespeisten Transformation. Ein Netz von Erdstationen beobachtet einen Katalog von Baken auf der Mondoberfläche nach einem expliziten Zeitplan; die Partiellen der lunaren VLBI-Verzögerung werden über diesen Zeitplan zu einer Fisher-Informationsmatrix der Bakenkoordinaten akkumuliert, genau wie es lunar-vlbi-fim tut; und diese Information wird über den Helmert-Entwurf A = [I3 | [p]_x | p] an den Katalogpunkten in die Datumskovarianz H = A^T M_b A fortgepflanzt, diagnostiziert durch crate::fim::crlb. KEINE Transformation wird eingespeist, und nichts wird aus einer untergeschobenen Antwort wiedergewonnen, sodass die ausgegebene Datumsgenauigkeit aus dem Beobachtungsprogramm folgt: Eine Halbierung des Verzögerungs-Sigmas halbiert sie exakt, und eine Verlängerung des Bogens verbessert sie, weil die Libration, die der Bericht MISST (sub_earth_direction_sweep_deg), das ist, was die Bakenkoordinate in Sichtlinienrichtung von denen in der Himmelsebene trennt. Rang, Datumsdefekt, Konditionszahl, das gesamte Spektrum, die nicht beobachtbaren Richtungen IN DER SIEBENPARAMETER-BASIS, die schwächste Richtung auch bei vollem Rang und der Anteil jedes Parameters daran werden bei jedem Lauf ausgegeben; ein Parameter, den die Kampagne nicht beschränkt, wird als NULL mit einem Status veröffentlicht, nie aus einer fast singulären Inversen abgelesen. Die Korrelation der Bakenfehler wird gemessen, nicht angenommen: Bei festgehaltenen Stationen berührt keine Beobachtung zwei Baken, sodass die Informationsmatrix exakt blockdiagonal ist (offblock_fraction { "0" }), und bei geschätzten Stationen ist der Schur-marginalisierte Block gekoppelt, wobei die induzierte Korrelation ausgegeben und die gesamte Fortpflanzung ohne sie erneut ausgeführt wird, sodass der Preis einer Unabhängigkeitsannahme eine Zahl ist. Dieselbe Fortpflanzung unter einem isotropen Sigma je Koordinate und der Wiedergewinnungsfehler, den das Szenario lunar-frame-realisation ausgibt, werden beide hier ausgeführt und mit ihren Verhältnissen neben dem Kampagnenwert ausgegeben. MODELLED: Der Bakenkatalog hat Quellen, aber die KAMPAGNE ist simuliert — das Stationsnetz und das Verzögerungs-Sigma sind illustrative Eingaben, einzelne Verzögerungsbeobachtungen werden als unabhängig behandelt, und die Ephemeride des Mondzentrums, die Stationsuhren, die Troposphäre und die Erdorientierungsparameter werden FEST gehalten, sodass die Datumskovarianz eine Cramér-Rao-Schranke für einen reduzierten Parametersatz ist. Kein geodätisches Produkt.
 
-# attr:alt
-seg-883d94b321b4 = Das Diagramm, das die Engine für scenarios/lunar-frame-campaign.toml schreibt, Kind lunar-frame-campaign
-
 # text
 seg-0c4c119abfca = Modellierte Realisierung des lunaren Bezugssystems: eine Anpassung eines Helmert-Datums (Ähnlichkeit) mit 7 Parametern — { "3" } Translationen, { "3" } Kleinwinkel-Rotationen, { "1" } Maßstab —, die einen geschätzten Satz von aus der Selenographie abgeleiteten MCMF-Punktkoordinaten durch gewichtete kleinste Quadrate (crate::batch_ls::gauss_newton) an ein Datum bindet, plus eine einfache Orientierungsanbindung, die die realisierte kleine Rotation um die ICRF-Achsen relativ zur Körperorientierung IAU { "2015" } WGCCRE ausdrückt. Das Szenario speist eine bekannte kleine Transformation (Translation ~einige zehn m, Rotation ~µrad, Maßstab ~{ "1e-7" }) in ein gut verteiltes synthetisches Punktnetz ein, fügt Gaußsches Rauschen mit Seed hinzu, gewinnt das Datum zurück und gibt die zurückgewonnene Transformation, den Wiedergewinnungsfehler je Parameter gegen die eingespeiste Wahrheit und das RMS-Residuum nach der Anpassung aus. MODELLED Selbstkonsistenz — gewinnt eine eingespeiste Ähnlichkeitstransformation zurück (rauschfrei bis auf ~Maschinengenauigkeit), KEINE Realisierung gegen echte Verfolgungs-/VLBI-Daten; deterministisch (mit Seed); kein TRL/Flugerbe/keine Billigung durch eine Agentur.
-
-# attr:alt
-seg-f3a6d69d0225 = Das Diagramm, das die Engine für scenarios/lunar-frame-realisation.toml schreibt, Kind lunar-frame-realisation
-
-# text
-# c1: study
-seg-d0fb90f506c9 = MODELLED Studien zu Umlaufbahn und Oberfläche des Mondes als Navigations- und Geodäsie-Infrastruktur, fünf Studien hinter einem Kind, ausgewählt durch <c1/>: od-consistency (Bahnbestimmung an Bord mit Erd-GNSS in einer NRHO oder ELFO gegen eine unabhängige radiometrische Bahnbestimmung vom Boden, beurteilt an ihren eigenen Kovarianzen über eine Monte-Carlo-Simulation mit Seed), carrier-phase (gemeinsame doppeltdifferenzierte Trägerphase von Oberfläche und Orbiter und Auflösung der ganzzahligen Mehrdeutigkeit mit LAMBDA), frame-coestimation (eine Oberflächenstation und Orbiter, die der Entfernungsmessung von Erdstationen für das Helmert-Bezugssystemdatum des Mondes mit sieben Parametern hinzugefügt werden), space-tie (GNSS, VLBI und Laserentfernungsmessung auf einem Raumfahrzeug, Präzision der Bezugssystemanbindung gegen den Fehler der lokalen Anbindung) und geodesy-sensitivity (Fisher-Information der Love-Zahlen h2, k2, l2 des Mondes und der physikalischen Libration aus Laserentfernungsmessung, Orbiter-Verfolgung, einem Oberflächengravimeter und einer Oberflächenuhr). Ein eingeschränktes Dreikörpermodell mit angegebenen Vereinfachungen; die Numerik wird gegen unabhängige Programme geprüft, und nichts wird mit einer Messung einer lunaren Größe verglichen.
 
 # text
 seg-f3b4a80a739b = kein Plot: Das Beispiel schreibt kein Diagramm
@@ -62,63 +49,23 @@ seg-f3b4a80a739b = kein Plot: Das Beispiel schreibt kein Diagramm
 # text
 seg-4b6daea39f5c = ARAIM-Schutzniveau-Überflug am lunaren Südpol gegen einen repräsentativen Satz von LunaNet-Relais. sigma_ure_m legt die Genauigkeit der Signal-in-Space-Entfernungsmessung offen (Schutzniveaus skalieren linear damit, sodass ein Durchfahren die Frage beantwortet, welche Entfernungsmessgenauigkeit ein Alarmgrenzwert verlangt). Standardmäßig der historische Südpolfall der Klasse LNIS.
 
-# attr:alt
-seg-610fa190a393 = Das Diagramm, das die Engine für scenarios/lunanet-araim.toml schreibt, Kind lunar-integrity
-
-# attr:alt
-seg-0e86ff364c17 = Das Diagramm, das die Engine für scenarios/lunar-interop-export.toml schreibt, Kind lunar-interop-export
-
-# text
-# c1: jamming
-seg-a91a9ad5d8d1 = Mondeigenes HF-Jamming: Störer-zu-Signal-Verhältnis je Satellit, effektives C/N₀ und Verlust der Aufschaltung für einen selenographischen Oberflächennutzer unter einem Störer an der Mondoberfläche (oder erhöht), über der illustrativen Konstellation im Mondorbit der Klasse Moonlight/LCNS aus öffentlichen Quellen. Setzt die vorhandene offene Jamming-Physik zusammen (jamming::j_over_s_db, effective_cn0_dbhz, rx_antenna_gain_db, lock_status, q_factor) mit der vorhandenen lunaren Himmelsgeometrie (lunar_service::LunarConstellation + topocentric, lunar::selenographic_to_mcmf); weder Geometrie noch Radiometrie werden neu abgeleitet. Anders als beim Erd-Kind <c1/> ist der Signalzweig NICHT eine feste Empfangsleistung: Die isotrope Empfangsleistung jedes Satelliten ist sein eigenes Link-Budget EIRP − FSPL(Schrägentfernung), sodass das J/S von Satellit zu Satellit mit lunarer Entfernung und Elevation variiert. Gibt EINE ZEILE JE SICHTBAREM (Epoche, Satellit) LINK aus — Azimut, Elevation, Schrägentfernung, beide Empfangsleistungen, deren Differenz das J/S ist, das J/S, das nominelle und das effektive C/N₀ und den Aufschaltstatus — sowie aggregierte Gütezahlen neben (nie anstelle von) dieser Tabelle und dieselbe Tabelle als CSV-Artefakt. Jedes ausgegebene numerische Feld trägt eine Einheit und eine Herkunftsklasse. VALIDATED Teilergebnisse tragen die Referenz ihres Quellmoduls (die Anti-Jam-Gleichung und das J/S-Link von Kaplan & Hegarty §{ "9.4" }, extern referenziert in tests/gnss_denied_jamming_resilience_reference.rs; die lunare Geometrie von lunar_service). Die Zusammensetzung selbst wird gegen einen unabhängigen Pfad mit zwei Link-Budgets (linkbudget::received_signal_power_dbw, ein anderer Ausdruck für die Freiraumdämpfung) bis auf { "1e-9" } dB gegengeprüft. MODELLED: die illustrative Konstellation, die repräsentative EIRP / Störerleistung / Antennengewinne / Rauschtemperatur und das Fehlen von Geländeabschattung, Mehrwegeausbreitung, AGC-Dynamik und adaptiver Nullung. Kein zertifiziertes Produkt zur Dienstverweigerung. Ist ein Störer konfiguriert, enthält der Bericht außerdem eine VERWEIGERUNGSKONTUR MIT EINEM UNSICHERHEITSBAND statt einer von einem einzigen Skalar abgelesenen Kontur: die vollständige gemessene Verteilung des C/N₀ des Nutzsignals über die Tabelle je Satellit (n, min, p05, p25, Median, p75, p95, max, Mittelwert, Stichproben-Standardabweichung und die eigene Asymmetrie der Stichprobe) und die Kontur, ausgewertet an jeder dieser Ordnungsstatistiken unter BEIDEN Verweigerungskriterien, die die Engine kennt — dem bisherigen Leistungsverhältnis (J/S = { "30" } dB, wie in attack-surface und tracking-loop) und dem Verlust der Aufschaltung (effektives C/N₀ fällt auf tracking_threshold_dbhz, das Kriterium, das die eigene Statusspalte dieses Berichts verwendet) — auf beiden Achsen der Verweigerungsebene (erforderliche Störer-EIRP beim Abstand des Szenarios, Verweigerungsabstand bei der EIRP des Szenarios). Die Bandgrenzen SIND contour(p05) und contour(p95), dieselbe Abbildung in geschlossener Form, angewandt auf die eigenen Quantile der Stichprobe: kein an die Stichprobe angepasstes Sigma und nicht Median ± k·Standardabweichung, wobei die Standardabweichung der Kontinuität halber ausgegeben und von nichts verwendet wird. Ein Quantil, das bereits an oder unter der Tracking-Schwelle liegt, hat kein endliches verweigerndes J/S, und seine Spalten zum Verlust der Aufschaltung sind null mit einem gezählten Grund, nie ein auf einen Wert begrenzter Radius.
-
-# attr:alt
-seg-6fe8b3c6c584 = Das Diagramm, das die Engine für scenarios/lunar-jamming.toml schreibt, Kind lunar-jamming
-
 # text
 seg-200e58e189c2 = Modellierter gemeinsamer Batch-Schätzer für lunare Bahnbestimmung (OD) + Uhren mit mehreren Techniken auf einem SIMULIERTEN Netz: eine Gauss-Newton-Momentaufnahmeanpassung, die geodätische VLBI-Verzögerungen auf Erdbasislinien, lunar-lokale Entfernungen zwischen Station und Satellit und Entfernungen zwischen Satelliten fusioniert, um gemeinsam die 3D-Position einer lunaren Oberflächenstation, die Positionen einer kleinen Konstellation und den Uhrenversatz jedes Assets aus einer eingespeisten Wahrheit zurückzugewinnen. Das ehrliche Hauptergebnis — VLBI macht die volle 3D-Position der Station beobachtbar, wo die lunar-lokale Entfernungsmessung allein eine schwach beobachtete Richtung lässt — wird als Kontrast des Stationsfehlers mit gegenüber ohne VLBI ausgegeben. MODELLED simulierte Wiedergewinnung im geschlossenen Regelkreis (die Wahrheit teilt das Beobachtungsmodell), deterministisch (mit Seed), NICHT mit realen Daten validiert; keine Kraftmodell-Propagation im Löser; kein TRL/Flugerbe/keine Billigung durch eine Agentur.
-
-# attr:alt
-seg-cfa051b87e59 = Das Diagramm, das die Engine für scenarios/lunar-joint-od-clock.toml schreibt, Kind lunar-joint-od-clock
-
-# text
-seg-25455a33523c = Helmert-Bezugssystemdatum des Mondes mit sieben Parametern, angetrieben von einer ECHTEN, ARCHIVIERTEN Beobachtungskampagne statt von einer simulierten. Wo lunar-frame-campaign die eingespeiste Transformation entfernte, aber sein Stationsnetz, seinen Zeitplan und sein Sigma je Beobachtung weiterhin als ILLUSTRATIVE Eingaben angab, entnimmt dieses Kind alle drei der Messung: Die Epochen sind die Sendezeiten vom Boden archivierter Normalpunkte der ILRS Consolidated Laser Ranging Data, die Beobachtungen sind die tatsächlich auf die fünf Retroreflektor-Arrays auf dem Mond abgefeuerten Laserentfernungen, und jedes Beobachtungsgewicht ist die eigene archivierte Präzision bin_rms/sqrt(n_raw) dieses Normalpunkts, aus der Datei ausgelesen. Die Stationskoordinaten stammen aus der SLR-Lösung IERS ITRF2020 (mit ihren veröffentlichten Geschwindigkeiten auf die Epoche fortgeschrieben) und die Reflektorkoordinaten aus JPL DE430 Tabelle { "7" } in dem Mean-Earth/Mean-Rotation-Bezugssystem, das das Modell IAU { "2015" } WGCCRE realisiert. Entfernungspartielle werden zur gemeinsamen Fisher-Informationsmatrix der Reflektorkoordinaten akkumuliert und über denselben Helmert-Entwurf in die Datumskovarianz fortgepflanzt, diagnostiziert durch crate::fim::crlb. Rang, Defekt, Kondition, Spektrum, nicht beobachtbare Richtungen in der Basis mit sieben Parametern, die schwächste Richtung bei vollem Rang und der Anteil jedes Parameters daran werden bei jedem Lauf ausgegeben, und ein nicht beschränkter Parameter wird als NULL mit einem Status veröffentlicht. Die Korrelation zwischen den Arrays wird bei genau null GEMESSEN statt angenommen, weil eine Laserentfernung ein Array berührt. Ein Datensatz, den die Kataloge nicht platzieren können — eine Station ohne veröffentlichte ITRF-Position — wird ÜBERSPRUNGEN UND GEZÄHLT, nie mit einer ersatzweisen Koordinate versehen. WELCHE VERBINDUNGEN GEMESSEN UND WELCHE MODELLED SIND, IST DER BERICHT, KEINE FUSSNOTE: Die Ephemeride des Mondzentrums und die Orientierung des IAU-Körpers bleiben modelliert, und ihre gemeinsame Größe wird als Residuum der Einwegentfernung beobachtet minus berechnet über jeden verwendeten Punkt ausgegeben; Troposphäre, Festkörpergezeiten, Stationsexzentrizität, Polbewegung, UT1-UTC, relativistische Verzögerung und Stationsuhren fehlen und stecken in diesem Residuum. Weil ein Ephemeridenfehler eine Kovarianz nur über die Richtung jeder Sichtlinie erreicht, löst jeder Lauf außerdem das gesamte Datum mit allen um sensitivity_tilt_deg gekippten Partiellen (mit wechselndem Vorzeichen) erneut und gibt das Verhältnis aus, sodass die Unempfindlichkeit der Kovarianz gegenüber der modellierten Ephemeride eine Zahl ist statt eines Arguments. Die Zahlen der simulierten Kampagne werden AUSGEFÜHRT und neben den gemessenen ausgegeben, nicht übertragen. MODELLED: Die Zahlen mit sieben Parametern sind eine Cramér-Rao-Schranke für einen reduzierten Parametersatz auf einem realen Zeitplan — kein gelöstes Datum, keine LLR-Analyse und kein geodätisches Produkt. Der eingecheckte Ausschnitt realer Daten wird mit dem Repository ausgeliefert, aber nicht mit dem veröffentlichten Crate; richten Sie data_dir auf eine Kopie davon.
-
-# attr:alt
-seg-e4da113cbe18 = Das Diagramm, das die Engine für scenarios/lunar-llr-datum.toml schreibt, Kind lunar-llr-datum
 
 # text
 seg-f7ea776e70c9 = Modellierte Abdeckung einer lunaren Referenzstation: ein Monte-Carlo-Durchlauf des Modells für lunares differentielles PNT über ein Nutzergitter am Südpol und einen Tag an Epochen. Eine differentielle Referenzstation an einem bekannten Standort am Südpol korrigiert eine angegebene Konstellation (illustrativ keplersch oder eine tabellierte Ephemeride) mit einem angegebenen Signal-in-Space-Fehler, Vermessungsfehler, einer Korrekturlatenz und Quantisierung der Verbindung; je Punkt und über die Region gibt es den Perzentilwert des korrigierten und des unkorrigierten Positionsfehlers (3D, horizontal, vertikal), die Verfügbarkeit, die Abdeckung gegen eine angegebene Schwelle, Schutzniveaus nach DO-229E, den Abdeckungsradius je Azimut und das Link-Budget der Korrekturstrecke an der Station und am ungünstigsten Punkt an. Keine Aussage über die Leistung irgendeines realen Systems; nicht mit einer Agentur verbunden oder von ihr gebilligt. MODELLED.
 
-# attr:alt
-seg-922b8656fcae = Das Diagramm, das die Engine für scenarios/lunar-station-coverage.toml schreibt, Kind lunar-station-coverage
-
 # text
 seg-cac3a0bcbfc6 = MODELLED durchgängiges Zeitfehlerbudget der koordinierten Mondzeit (LTC): die sieben LTC-Fehlerterme, zusammengestellt als Zeitfehlerkurven x_i(τ) über ein ganzes Gitter von Mittelungszeiten, per Wurzelsumme zu x_Σ(τ) zusammengefasst, und der ÜBERGANG τ zwischen Uhr und Bezugssystem, bei dem der wachsende Uhrenterm den konstanten Echtzeit-Term der Bezugssystemrealisierung überholt (darunter ist das Budget vom Bezugssystem begrenzt, darüber von der Uhr) — die ehrliche Antwort auf das Artefakt eines einzelnen τ. Die τ-Steigungen sind in geschlossener Form und analytisch prüfbar (Uhr τ^{ "{" }+1/2{ "}" }/τ^{ "{" }+{ "1" }{ "}" }, Böden τ^{ "0" }, Messung τ^{ "{" }-1/2{ "}" }), und die Uhrenzeilen reproduzieren die veröffentlichten Eintages-Spezifikationen der Uhren (crate::clock_specs); die GRÖSSEN der Böden für HF-/optischen Link, Bezugssystemrealisierung, relativistisches Residuum und Ephemeride sind modellierte Budgetzuweisungen (dokumentierte Standardwerte, vom Aufrufer überschreibbar), keine Messungen. Der Beitrag ist das reproduzierbare Übergangs-τ, keine zertifizierte Zahl je Term; nicht zertifiziert für den operativen Zeithaltebetrieb.
-
-# attr:alt
-seg-56fe184f2a12 = Das Diagramm, das die Engine für scenarios/lunar-time-budget.toml schreibt, Kind lunar-time-budget
 
 # text
 seg-7f3e13712f10 = Modellierte relativistische Uhrenrate Erde–Mond (Lunar Coordinate Time, LTC/TCL): die säkulare Rate LTC−TT aus der Differenz der Eigenpotenziale und dem kinetischen Term des Mondes, ausgegeben mit dem veröffentlichten Band von { "56" }–{ "59" } µs/Tag, plus der über einen Horizont akkumulierte Versatz.
 
-# attr:alt
-seg-e9deb6ed41c1 = Das Diagramm, das die Engine für scenarios/lunar-time-offset.toml schreibt, Kind lunar-time-offset
-
 # text
 seg-1bc37634ba9f = Kovarianz der Stationskoordinaten bei lunarer VLBI: die Verzögerungspartiellen der Observablen lunar-vlbi, über einen expliziten ZEITPLAN (Basislinien x Epochen) zu einer Fisher-Informationsmatrix akkumuliert, invertiert und als Kovarianz der Stationskoordinaten und als Stations-Sigma je Koordinate ausgegeben — eine berechnete Engine-Ausgabe statt einer skalaren Verzögerungspräzision, die durch einen angenommenen isotropen Gleichverteilungsfaktor g = { "3" } geschoben wird. Der Zustand trägt erdFESTE (ITRS) Stationskoordinaten, sodass die Jacobi-Matrix die inertiale Partielle ist, gedreht mit der GCRS->ITRS-Matrix jeder Epoche: Die Erdrotation macht diese Koordinaten beobachtbar, und der Bericht MISST den erdfesten Sichtliniendurchlauf und die Deklination der Bake, statt sie anzunehmen. Eine Beobachtung ist ein Paar (Basislinie, Epoche) mit BEIDEN Stationen oberhalb der Elevationsmaske, gewichtet mit 1/delay_sigma_s^{ "2" }. Gibt bei jedem Lauf Rang, Datumsdefekt, Konditionszahl, das gesamte Informationsspektrum, die Kovarianzmatrix, Sigmas je Station und Achse sowie in 3D und den Nullraum des freien Netzes aus; bei einem Rangdefizit wird das Haupt-Sigma als NULL mit einem Status veröffentlicht, nie aus einer fast singulären Inversen abgelesen. Der Gleichverteilungswert c<em>delay_sigma_s</em>sqrt(g/N) für DENSELBEN Zeitplan wird mit dem Verhältnis neben dem berechneten Wert ausgegeben, zusammen mit der isotropen Spurschranke sqrt(p/trace(M)), die AM-HM zu einer harten Untergrenze macht — das Verhältnis ist also die Anisotropie, die die Annahme verworfen hat. Die Verzögerungsschließung tau_ik = tau_ij + tau_jk macht nur n-1 der n(n-1)/2 Basislinien geometrisch unabhängig; der Bericht nennt beide Zahlen. MODELLED: Die Ephemeride des Mondzentrums, die Stationsuhren, die Troposphäre und die Erdorientierungsparameter werden FEST gehalten, und Beobachtungen werden als unabhängig behandelt, sodass die Kovarianz eine Cramér-Rao-Schranke für einen reduzierten Parametersatz ist, kein vorhergesagtes Sitzungsergebnis; das Verzögerungs-Sigma, die Stationskoordinaten und der Zeitplan sind Eingaben. Die Partielle, die die Jacobi-Matrix der geometrischen Verzögerung auslässt (der differenzierte Shapiro-Term), wird durch finite Differenz gemessen und ausgegeben. Kein geodätisches Produkt.
 
-# attr:alt
-seg-19c383444296 = Das Diagramm, das die Engine für scenarios/lunar-vlbi-fim.toml schreibt, Kind lunar-vlbi-fim
-
 # text
 seg-e01f77d493a0 = Modellierte geodätische Lunar-VLBI-Laufzeitobservable: Eine Erdbasislinie (zwei Bodenstationen, GCRS) beobachtet ein Einweg-Signal eines Beacons der NovaMoon-Klasse auf der Mondoberfläche. Sie liefert die Nahfeld-Laufzeit als Zwei-Entfernungs-Differenz, ihre Rate und die Wellenfrontkrümmungs-Nahfeldkorrektur über einen Durchgang — gegengeprüft gegen die Ebene-Welle-Δ-DOR-Observable derselben Codebasis im Fernfeldgrenzfall, mit durch finite Differenzen verifizierten Partialableitungen. Der analytische Standardpfad ist MODELLED und trägt die Vorbehalte zu Bezugssystemkonsistenz, Polbewegung xp=yp={ "0" } und Ebene-Welle-gegen-Nahfeld. Wird planetary_kernel_path, earth_orientation_kernel_path und moon_orientation_kernel_path gesetzt, läuft stattdessen der Kernel-Pfad (DE440, MOON_PA_DE440, ITRF93; konvergierte baryzentrische Lichtlaufzeiten; ergänzt die Beacon- und Stationspartialableitungen der Epoche), dessen newtonsche Laufzeit und Partialableitungen mit den konvergierten Lichtlaufzeiten von NAIF SPICE auf { "0.06" } ps und { "7.4e-9" } übereinstimmen. Nicht gegen reale VLBI-Daten validiert.
-
-# attr:alt
-seg-07d97fc1abac = Das Diagramm, das die Engine für scenarios/lunar-vlbi.toml schreibt, Kind lunar-vlbi
-
-# attr:alt
-seg-edb738273a3a = Das Diagramm, das die Engine für scenarios/moonlight-service-volume.toml schreibt, Kind moonlight-service-volume
 
 # text
 seg-4e31c8daf798 = Register
@@ -137,17 +84,8 @@ seg-02706b96f8fa = MODELLED { "3" } · VALIDATED { "2" }
 seg-a240ef37dc6d = Quelle: <c1/>
 
 # text
-seg-befef5f2f8dd = Mond und cislunar (Szenario-Kind-Familie)
-
-# text
-seg-f964724ea446 = { "20" } Szenario-Kinds der Engine v{ $version }. Beratend: Analyseausgabe eines Forschungs- und Ingenieurwerkzeugs, keine typzugelassene Navigationsausrüstung und kein Safety-of-Life-Dienst. Jedes Label hier stammt von der Engine oder von der Verifikationsmatrix; ein Kind ist MODELLED, sofern die Matrix nichts anderes sagt (wie ein Label verdient wird: der Abschnitt Evidence der README).
-
-# text
 # c1: kshana scenarios/lunar-infrastructure-od-consistency.toml
 seg-369e7cfcc1d3 = Themenseiten: <a1>LUNAR-REFERENCE-STATION</a1>, <a2>LUNAR-INFRASTRUCTURE</a2>, <a3>LUNANET-AFS</a3>. Einen ausführen: <c1/>. Alle Familien: <a4>KINDS.md</a4>.
-
-# attr:alt
-seg-15b8e26dc24b = Kontaktbogen der Diagramme, die die Engine für die Kinds der Familie Mond und cislunar schreibt
 
 # text
 seg-fd2a12be04c2 = Durchlauf der lunaren Südpol-ARAIM-Schutzniveaus gegen einen repräsentativen LunaNet-Relaissatz.
@@ -210,10 +148,6 @@ seg-64c78e211181 = Mondeigenes HF-Jamming: Jammer-zu-Signal-Verhältnis pro Sate
 seg-df68720ee7a5 = Erd-GNSS-Empfang in lunarer Entfernung, die Schwachsignalschicht, die die Arbeit zur Konfliktresilienz nennt und für die die Engine kein Modell hatte.
 
 # text
-# c1: study
-seg-e6475fe9f443 = MODELLED Studien zur Mondbahn und -oberfläche als Navigations- und geodätische Infrastruktur, fünf Studien hinter einem Kind, ausgewählt durch <c1/>: od-consistency (Bordbahnbestimmung mit Erd-GNSS in
-
-# text
 # c1: step_s
 # c2: duration_s
 # c3: alert_limit_m
@@ -222,17 +156,11 @@ seg-e6475fe9f443 = MODELLED Studien zur Mondbahn und -oberfläche als Navigation
 seg-ca4fac406beb = Erforderliche Felder: keine. Optional: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>.
 
 # text
-seg-da20b48985b9 = <b>Register:</b> keine Matrixzeile nennt dieses Kind; die Engine kennzeichnet ihr eigenes Ergebnis. Vollständige Seite mit den Eingaben, Ergebnissen, Evidenz und Einschränkungen: <a1>lunar-integrity</a1>.
-
-# text
 # c1: epoch_year
 # c2: epoch_month
 # c3: epoch_day
 # c4: horizon_days
 seg-564b491c4bb8 = Erforderliche Felder: keine. Optional: <c1/>, <c2/>, <c3/>, <c4/>.
-
-# text
-seg-0f0b2d0ca0b4 = <b>Register:</b> keine Matrixzeile nennt dieses Kind; die Engine kennzeichnet ihr eigenes Ergebnis. Vollständige Seite mit den Eingaben, Ergebnissen, Evidenz und Einschränkungen: <a1>lunar-time-offset</a1>.
 
 # text
 # c1: clock
@@ -313,9 +241,6 @@ seg-3119d4005897 = <b>Register:</b> MODELLED { "3" } · VALIDATED { "2" }. Volls
 seg-6f59a33a35b3 = Erforderliche Felder: keine. Optional: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>.
 
 # text
-seg-142f2253e4d6 = <b>Register:</b> keine Matrixzeile nennt dieses Kind; die Engine kennzeichnet ihr eigenes Ergebnis. Vollständige Seite mit den Eingaben, Ergebnissen, Evidenz und Einschränkungen: <a1>lunar-joint-od-clock</a1>.
-
-# text
 # c1: n_points
 # c2: tx_m
 # c3: ty_m
@@ -330,9 +255,6 @@ seg-142f2253e4d6 = <b>Register:</b> keine Matrixzeile nennt dieses Kind; die Eng
 # c12: epoch_month
 # c13: epoch_day
 seg-32c31af24e1b = Erforderliche Felder: keine. Optional: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>.
-
-# text
-seg-73c0415efd2f = <b>Register:</b> keine Matrixzeile nennt dieses Kind; die Engine kennzeichnet ihr eigenes Ergebnis. Vollständige Seite mit den Eingaben, Ergebnissen, Evidenz und Einschränkungen: <a1>lunar-frame-realisation</a1>.
 
 # text
 # c1: stations
@@ -403,9 +325,6 @@ seg-4f05fad4b146 = <b>Register:</b> VALIDATED. Vollständige Seite mit den Einga
 seg-8d9e0277303e = Erforderliche Felder: keine. Optional: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>, <c19/>, <c20/>, <c21/>, <c22/>, <c23/>, <c24/>, <c25/>, <c26/>.
 
 # text
-seg-204901ae3684 = <b>Register:</b> keine Matrixzeile nennt dieses Kind; die Engine kennzeichnet ihr eigenes Ergebnis. Vollständige Seite mit den Eingaben, Ergebnissen, Evidenz und Einschränkungen: <a1>moonlight-service-volume</a1>.
-
-# text
 # c1: n_sats
 # c2: sma_km
 # c3: eccentricity
@@ -425,9 +344,6 @@ seg-204901ae3684 = <b>Register:</b> keine Matrixzeile nennt dieses Kind; die Eng
 # c17: latency_s
 # c18: quantization_bits
 seg-6fe67fa619d0 = Erforderliche Felder: keine. Optional: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>.
-
-# text
-seg-c83350735643 = <b>Register:</b> keine Matrixzeile nennt dieses Kind; die Engine kennzeichnet ihr eigenes Ergebnis. Vollständige Seite mit den Eingaben, Ergebnissen, Evidenz und Einschränkungen: <a1>lunar-differential-pnt</a1>.
 
 # text
 # c1: n_sats
@@ -493,9 +409,6 @@ seg-4efffcd615df = <b>Register:</b> MODELLED. Vollständige Seite mit den Eingab
 # c5: step_min
 # c6: object
 seg-720d0bbeaf6e = Erforderliche Felder: keine. Optional: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>.
-
-# text
-seg-019ca0f1051e = <b>Register:</b> keine Matrixzeile nennt dieses Kind; die Engine kennzeichnet ihr eigenes Ergebnis. Vollständige Seite mit den Eingaben, Ergebnissen, Evidenz und Einschränkungen: <a1>lunar-interop-export</a1>.
 
 # text
 # c1: mu
@@ -654,3 +567,90 @@ seg-28c6a5644152 = Modellierte Analyse des lunaren Navigations-Service-Volumens 
 
 # text
 seg-5a4dcb93a643 = Modellierter lunarer Interoperabilitätsexport: gibt das lunare Bezugssystem, die lunare Zeitskala und die lunare Ephemeride in an LunaNet/IOAG angelehnten, auf CCSDS basierenden Austauschformen mit Rundlauf-/Feldkonformität aus. WIEDERVERWENDET den CCSDS-OEM-{ "2.0" }-Emitter und -Parser des Crates (crate::oem), für den lunaren Kontext neu etikettiert — REF_FRAME trägt das lunare Körperbezugssystem IAU { "2015" } WGCCRE (MOON_ME / MOON_PA), TIME_SYSTEM die lunare Zeitskala (LTC / TCL / UTC), CENTER_NAME = MOON — über eine beispielhafte illustrative Ephemeride der Klasse LCNS (Positionen aus crate::lunar_service, Geschwindigkeit per finiter Differenz). Gibt außerdem einen an LunaNet/IOAG angelehnten Deskriptor der Mondzeit aus (Skalen-ID, säkulare Rate µs/Tag aus crate::lunar_time, veröffentlichtes Band, Bezugsfläche), der über serde_json einen Rundlauf besteht, und verpackt die Artefakte in den bestehenden KIF-Umschlag (crate::interchange) mit der Ehrlichkeitsbezeichnung MODELLED. Meldet ausgegebene Artefakte, OEM-Zeilenzahl, Feldkonformitätsprüfung (bestanden) samt Liste vorhandener/fehlender Felder, OEM-Rundlauf in Ordnung, Zeitmetadaten-Rundlauf in Ordnung und KIF-Bytegröße. MODELLED — deterministischer Rundlauf und Feldnamenkonformität gegenüber dem veröffentlichten CCSDS-OEM und der Feldsemantik von LunaNet/IOAG sind die unabhängige Referenz; KEIN zertifizierter Test der Interoperabilitätskonformität; illustrative Ephemeride aus öffentlichen Quellen, nicht mit der ESA verbunden; keine TRL-/Heritage-/Behördenbestätigung.
+
+# text
+seg-019ca0f1051e = <b>Register:</b> keine Matrixzeile nennt diese Szenarioart; die Engine kennzeichnet ihr eigenes Ergebnis. Vollständige Seite mit den Eingaben, Ergebnissen, Evidenz und Einschränkungen: <a1>lunar-interop-export</a1>.
+
+# attr:alt
+seg-07d97fc1abac = Das Diagramm, das die Engine für scenarios/lunar-vlbi.toml schreibt, Szenarioart lunar-vlbi
+
+# attr:alt
+seg-0e86ff364c17 = Das Diagramm, das die Engine für scenarios/lunar-interop-export.toml schreibt, Szenarioart lunar-interop-export
+
+# text
+seg-0f0b2d0ca0b4 = <b>Register:</b> keine Matrixzeile nennt diese Szenarioart; die Engine kennzeichnet ihr eigenes Ergebnis. Vollständige Seite mit den Eingaben, Ergebnissen, Evidenz und Einschränkungen: <a1>lunar-time-offset</a1>.
+
+# text
+seg-142f2253e4d6 = <b>Register:</b> keine Matrixzeile nennt diese Szenarioart; die Engine kennzeichnet ihr eigenes Ergebnis. Vollständige Seite mit den Eingaben, Ergebnissen, Evidenz und Einschränkungen: <a1>lunar-joint-od-clock</a1>.
+
+# attr:alt
+seg-15b8e26dc24b = Kontaktbogen der Diagramme, die die Engine für die Szenarioarten der Familie Mond und cislunar schreibt
+
+# attr:alt
+seg-19c383444296 = Das Diagramm, das die Engine für scenarios/lunar-vlbi-fim.toml schreibt, Szenarioart lunar-vlbi-fim
+
+# text
+seg-204901ae3684 = <b>Register:</b> keine Matrixzeile nennt diese Szenarioart; die Engine kennzeichnet ihr eigenes Ergebnis. Vollständige Seite mit den Eingaben, Ergebnissen, Evidenz und Einschränkungen: <a1>moonlight-service-volume</a1>.
+
+# text
+seg-25455a33523c = Helmert-Bezugssystemdatum des Mondes mit sieben Parametern, angetrieben von einer ECHTEN, ARCHIVIERTEN Beobachtungskampagne statt von einer simulierten. Wo lunar-frame-campaign die eingespeiste Transformation entfernte, aber sein Stationsnetz, seinen Zeitplan und sein Sigma je Beobachtung weiterhin als ILLUSTRATIVE Eingaben angab, entnimmt diese Szenarioart alle drei der Messung: Die Epochen sind die Sendezeiten vom Boden archivierter Normalpunkte der ILRS Consolidated Laser Ranging Data, die Beobachtungen sind die tatsächlich auf die fünf Retroreflektor-Arrays auf dem Mond abgefeuerten Laserentfernungen, und jedes Beobachtungsgewicht ist die eigene archivierte Präzision bin_rms/sqrt(n_raw) dieses Normalpunkts, aus der Datei ausgelesen. Die Stationskoordinaten stammen aus der SLR-Lösung IERS ITRF2020 (mit ihren veröffentlichten Geschwindigkeiten auf die Epoche fortgeschrieben) und die Reflektorkoordinaten aus JPL DE430 Tabelle { "7" } in dem Mean-Earth/Mean-Rotation-Bezugssystem, das das Modell IAU { "2015" } WGCCRE realisiert. Entfernungspartielle werden zur gemeinsamen Fisher-Informationsmatrix der Reflektorkoordinaten akkumuliert und über denselben Helmert-Entwurf in die Datumskovarianz fortgepflanzt, diagnostiziert durch crate::fim::crlb. Rang, Defekt, Kondition, Spektrum, nicht beobachtbare Richtungen in der Basis mit sieben Parametern, die schwächste Richtung bei vollem Rang und der Anteil jedes Parameters daran werden bei jedem Lauf ausgegeben, und ein nicht beschränkter Parameter wird als NULL mit einem Status veröffentlicht. Die Korrelation zwischen den Arrays wird bei genau null GEMESSEN statt angenommen, weil eine Laserentfernung ein Array berührt. Ein Datensatz, den die Kataloge nicht platzieren können — eine Station ohne veröffentlichte ITRF-Position — wird ÜBERSPRUNGEN UND GEZÄHLT, nie mit einer ersatzweisen Koordinate versehen. WELCHE VERBINDUNGEN GEMESSEN UND WELCHE MODELLED SIND, IST DER BERICHT, KEINE FUSSNOTE: Die Ephemeride des Mondzentrums und die Orientierung des IAU-Körpers bleiben modelliert, und ihre gemeinsame Größe wird als Residuum der Einwegentfernung beobachtet minus berechnet über jeden verwendeten Punkt ausgegeben; Troposphäre, Festkörpergezeiten, Stationsexzentrizität, Polbewegung, UT1-UTC, relativistische Verzögerung und Stationsuhren fehlen und stecken in diesem Residuum. Weil ein Ephemeridenfehler eine Kovarianz nur über die Richtung jeder Sichtlinie erreicht, löst jeder Lauf außerdem das gesamte Datum mit allen um sensitivity_tilt_deg gekippten Partiellen (mit wechselndem Vorzeichen) erneut und gibt das Verhältnis aus, sodass die Unempfindlichkeit der Kovarianz gegenüber der modellierten Ephemeride eine Zahl ist statt eines Arguments. Die Zahlen der simulierten Kampagne werden AUSGEFÜHRT und neben den gemessenen ausgegeben, nicht übertragen. MODELLED: Die Zahlen mit sieben Parametern sind eine Cramér-Rao-Schranke für einen reduzierten Parametersatz auf einem realen Zeitplan — kein gelöstes Datum, keine LLR-Analyse und kein geodätisches Produkt. Der eingecheckte Ausschnitt realer Daten wird mit dem Repository ausgeliefert, aber nicht mit dem veröffentlichten Crate; richten Sie data_dir auf eine Kopie davon.
+
+# attr:alt
+seg-56fe184f2a12 = Das Diagramm, das die Engine für scenarios/lunar-time-budget.toml schreibt, Szenarioart lunar-time-budget
+
+# attr:alt
+seg-610fa190a393 = Das Diagramm, das die Engine für scenarios/lunanet-araim.toml schreibt, Szenarioart lunar-integrity
+
+# attr:alt
+seg-6fe8b3c6c584 = Das Diagramm, das die Engine für scenarios/lunar-jamming.toml schreibt, Szenarioart lunar-jamming
+
+# text
+seg-73c0415efd2f = <b>Register:</b> keine Matrixzeile nennt diese Szenarioart; die Engine kennzeichnet ihr eigenes Ergebnis. Vollständige Seite mit den Eingaben, Ergebnissen, Evidenz und Einschränkungen: <a1>lunar-frame-realisation</a1>.
+
+# attr:alt
+seg-883d94b321b4 = Das Diagramm, das die Engine für scenarios/lunar-frame-campaign.toml schreibt, Szenarioart lunar-frame-campaign
+
+# attr:alt
+seg-8e67df89448a = Das Diagramm, das die Engine für scenarios/lunar-differential-pnt.toml schreibt, Szenarioart lunar-differential-pnt
+
+# attr:alt
+seg-922b8656fcae = Das Diagramm, das die Engine für scenarios/lunar-station-coverage.toml schreibt, Szenarioart lunar-station-coverage
+
+# text
+# c1: jamming
+seg-a91a9ad5d8d1 = Mondeigenes HF-Jamming: Störer-zu-Signal-Verhältnis je Satellit, effektives C/N₀ und Verlust der Aufschaltung für einen selenographischen Oberflächennutzer unter einem Störer an der Mondoberfläche (oder erhöht), über der illustrativen Konstellation im Mondorbit der Klasse Moonlight/LCNS aus öffentlichen Quellen. Setzt die vorhandene offene Jamming-Physik zusammen (jamming::j_over_s_db, effective_cn0_dbhz, rx_antenna_gain_db, lock_status, q_factor) mit der vorhandenen lunaren Himmelsgeometrie (lunar_service::LunarConstellation + topocentric, lunar::selenographic_to_mcmf); weder Geometrie noch Radiometrie werden neu abgeleitet. Anders als bei der Erd-Szenarioart <c1/> ist der Signalzweig NICHT eine feste Empfangsleistung: Die isotrope Empfangsleistung jedes Satelliten ist sein eigenes Link-Budget EIRP − FSPL(Schrägentfernung), sodass das J/S von Satellit zu Satellit mit lunarer Entfernung und Elevation variiert. Gibt EINE ZEILE JE SICHTBAREM (Epoche, Satellit) LINK aus — Azimut, Elevation, Schrägentfernung, beide Empfangsleistungen, deren Differenz das J/S ist, das J/S, das nominelle und das effektive C/N₀ und den Aufschaltstatus — sowie aggregierte Gütezahlen neben (nie anstelle von) dieser Tabelle und dieselbe Tabelle als CSV-Artefakt. Jedes ausgegebene numerische Feld trägt eine Einheit und eine Herkunftsklasse. VALIDATED Teilergebnisse tragen die Referenz ihres Quellmoduls (die Anti-Jam-Gleichung und das J/S-Link von Kaplan & Hegarty §{ "9.4" }, extern referenziert in tests/gnss_denied_jamming_resilience_reference.rs; die lunare Geometrie von lunar_service). Die Zusammensetzung selbst wird gegen einen unabhängigen Pfad mit zwei Link-Budgets (linkbudget::received_signal_power_dbw, ein anderer Ausdruck für die Freiraumdämpfung) bis auf { "1e-9" } dB gegengeprüft. MODELLED: die illustrative Konstellation, die repräsentative EIRP / Störerleistung / Antennengewinne / Rauschtemperatur und das Fehlen von Geländeabschattung, Mehrwegeausbreitung, AGC-Dynamik und adaptiver Nullung. Kein zertifiziertes Produkt zur Dienstverweigerung. Ist ein Störer konfiguriert, enthält der Bericht außerdem eine VERWEIGERUNGSKONTUR MIT EINEM UNSICHERHEITSBAND statt einer von einem einzigen Skalar abgelesenen Kontur: die vollständige gemessene Verteilung des C/N₀ des Nutzsignals über die Tabelle je Satellit (n, min, p05, p25, Median, p75, p95, max, Mittelwert, Stichproben-Standardabweichung und die eigene Asymmetrie der Stichprobe) und die Kontur, ausgewertet an jeder dieser Ordnungsstatistiken unter BEIDEN Verweigerungskriterien, die die Engine kennt — dem bisherigen Leistungsverhältnis (J/S = { "30" } dB, wie in attack-surface und tracking-loop) und dem Verlust der Aufschaltung (effektives C/N₀ fällt auf tracking_threshold_dbhz, das Kriterium, das die eigene Statusspalte dieses Berichts verwendet) — auf beiden Achsen der Verweigerungsebene (erforderliche Störer-EIRP beim Abstand des Szenarios, Verweigerungsabstand bei der EIRP des Szenarios). Die Bandgrenzen SIND contour(p05) und contour(p95), dieselbe Abbildung in geschlossener Form, angewandt auf die eigenen Quantile der Stichprobe: kein an die Stichprobe angepasstes Sigma und nicht Median ± k·Standardabweichung, wobei die Standardabweichung der Kontinuität halber ausgegeben und von nichts verwendet wird. Ein Quantil, das bereits an oder unter der Tracking-Schwelle liegt, hat kein endliches verweigerndes J/S, und seine Spalten zum Verlust der Aufschaltung sind null mit einem gezählten Grund, nie ein auf einen Wert begrenzter Radius.
+
+# text
+seg-befef5f2f8dd = Mond und cislunar (Szenarioarten-Familie)
+
+# text
+seg-c83350735643 = <b>Register:</b> keine Matrixzeile nennt diese Szenarioart; die Engine kennzeichnet ihr eigenes Ergebnis. Vollständige Seite mit den Eingaben, Ergebnissen, Evidenz und Einschränkungen: <a1>lunar-differential-pnt</a1>.
+
+# attr:alt
+seg-cfa051b87e59 = Das Diagramm, das die Engine für scenarios/lunar-joint-od-clock.toml schreibt, Art lunar-joint-od-clock
+
+# text
+# c1: study
+seg-d0fb90f506c9 = MODELLED Studien zu Umlaufbahn und Oberfläche des Mondes als Navigations- und Geodäsie-Infrastruktur, fünf Studien hinter einer Szenarioart, ausgewählt durch <c1/>: od-consistency (Bahnbestimmung an Bord mit Erd-GNSS in einer NRHO oder ELFO gegen eine unabhängige radiometrische Bahnbestimmung vom Boden, beurteilt an ihren eigenen Kovarianzen über eine Monte-Carlo-Simulation mit Seed), carrier-phase (gemeinsame doppeltdifferenzierte Trägerphase von Oberfläche und Orbiter und Auflösung der ganzzahligen Mehrdeutigkeit mit LAMBDA), frame-coestimation (eine Oberflächenstation und Orbiter, die der Entfernungsmessung von Erdstationen für das Helmert-Bezugssystemdatum des Mondes mit sieben Parametern hinzugefügt werden), space-tie (GNSS, VLBI und Laserentfernungsmessung auf einem Raumfahrzeug, Präzision der Bezugssystemanbindung gegen den Fehler der lokalen Anbindung) und geodesy-sensitivity (Fisher-Information der Love-Zahlen h2, k2, l2 des Mondes und der physikalischen Libration aus Laserentfernungsmessung, Orbiter-Verfolgung, einem Oberflächengravimeter und einer Oberflächenuhr). Ein eingeschränktes Dreikörpermodell mit angegebenen Vereinfachungen; die Numerik wird gegen unabhängige Programme geprüft, und nichts wird mit einer Messung einer lunaren Größe verglichen.
+
+# text
+seg-da20b48985b9 = <b>Register:</b> keine Matrixzeile nennt diese Szenarioart; die Engine kennzeichnet ihr eigenes Ergebnis. Vollständige Seite mit den Eingaben, Ergebnissen, Evidenz und Einschränkungen: <a1>lunar-integrity</a1>.
+
+# attr:alt
+seg-e4da113cbe18 = Das Diagramm, das die Engine für scenarios/lunar-llr-datum.toml schreibt, Art lunar-llr-datum
+
+# text
+# c1: study
+seg-e6475fe9f443 = MODELLED Studien zur Mondbahn und -oberfläche als Navigations- und geodätische Infrastruktur, fünf Studien hinter einer Szenarioart, ausgewählt durch <c1/>: od-consistency (Bordbahnbestimmung mit Erd-GNSS in
+
+# attr:alt
+seg-e9deb6ed41c1 = Das Diagramm, das die Engine für scenarios/lunar-time-offset.toml schreibt, Art lunar-time-offset
+
+# attr:alt
+seg-edb738273a3a = Das Diagramm, das die Engine für scenarios/moonlight-service-volume.toml schreibt, Art moonlight-service-volume
+
+# attr:alt
+seg-f3a6d69d0225 = Das Diagramm, das die Engine für scenarios/lunar-frame-realisation.toml schreibt, Art lunar-frame-realisation
+
+# text
+seg-f964724ea446 = { "20" } Szenarioarten der Engine v{ $version }. Beratend: Analyseausgabe eines Forschungs- und Ingenieurwerkzeugs, keine typzugelassene Navigationsausrüstung und kein Safety-of-Life-Dienst. Jedes Label hier stammt von der Engine oder von der Verifikationsmatrix; eine Szenarioart ist MODELLED, sofern die Matrix nichts anderes sagt (wie ein Label verdient wird: der Abschnitt Evidence der README).

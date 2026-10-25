@@ -18,10 +18,6 @@ seg-51362910dcb7 = { "2" } mitgelieferte Szenarien verwenden diese Art; die ande
 seg-73929aeded02 = Quelle: <c1/>
 
 # text
-# c1: holdover-test
-seg-218f00012d0e = <c1/> (Szenario-Kind)
-
-# text
 seg-c0924aa36e64 = MODELLED Holdover-Test eines Zeitgebungssystems, bewertet anhand eines Zeitfehlerprotokolls, das der BETREIBER liefert (ein linuxptp-Protokoll von ptp4l, phc2sys oder ts2phc, ein chrony-Tracking- oder Statistikprotokoll, ein TICC-, TimeLab- oder RINEX-Uhrenprotokoll oder Paare aus time_s,time_error_ns). Der Test hat vier Schritte, und Kshana führt keinen davon aus: eine eingerastete BASISLINIE, GNSS ENTFERNT durch den Betreiber (das Antennenkabel oder der Simulatorausgang; Kshana sendet nichts und steuert nichts an) zu einem angegebenen Zeitpunkt, HOLDOVER auf dem eigenen Oszillator des Systems und WIEDERHERSTELLUNG, nachdem der Betreiber GNSS zu einem zweiten angegebenen Zeitpunkt wiederherstellt. Das Protokoll wird an diesen beiden Zeitpunkten geteilt. Basislinie: Zeitfehlerstatistik und die für eine eingerastete Uhr geschriebenen ITU-T-Masken. Holdover: Statistik, der Bruchteil des Frequenzversatzes, den das System gehalten hat (eine Ausgleichsgerade nach kleinsten Quadraten), die für Holdover oder eine autonome Uhr geschriebenen Masken, die ePRTC-A-Holdover-Hüllkurve aus der angegebenen Dauer im eingerasteten Zustand und die Zeit bis zur Überschreitung jedes Zeitfehlerbudgets. Wiederherstellung: ob und wann |TE| in ein angegebenes Band gelangte und dort blieb, der Spitzenwert und der größte Sprung. Jeder Grenzwert ist aus einer öffentlichen ITU-T-Tabelle übertragen (die Masken für Telekom-Zeitgebung); die Formulierung lautet 'gegen die Maske gemessen', und die beiden Zeitpunkte sind die Angabe des Betreibers, nicht verifiziert. Ein für eine Maske zu kurzes Protokoll ist INCOMPLETE, nie extrapoliert. Siehe docs/TIMING-HIL.md.
 
 # text
@@ -60,31 +56,12 @@ seg-29a012ae4735 = refuse
 # text
 seg-d578fc8e6052 = Ergebnisbezeichnung (der Engine): MODELLED — ein Holdover-Test, bewertet anhand eines Zeitfehlerprotokolls, das der Betreiber geliefert hat. Jeder Grenzwert ist aus der benannten öffentlichen ITU-T-Empfehlung übertragen, und das Ergebnis wird gegen die Maske gemessen; es sagt nichts darüber aus, ob eine Uhr oder ein System eine Empfehlung erfüllt, und niemand hat es bewertet oder genehmigt
 
-# attr:alt
-seg-8ce93392747b = Das Diagramm, das die Engine für scenarios/holdover-test-ptp4l.toml schreibt, Kind holdover-test
-
-# text
-# c1: holdover-test
-seg-3361819ae321 = <b>MODELLED</b> Das Kind <c1/>: Ein Zeitfehlerprotokoll (ein linuxptp-, chrony-, TICC-, TimeLab- oder RINEX-Uhrenprotokoll oder Paare aus time_s,time_error_ns) wird an den beiden vom Betreiber angegebenen Zeitpunkten für das Entfernen und Wiederherstellen von GNSS in eine Basislinie, einen Holdover und
-
-# text
-# c1: telecom-timing
-seg-e7273fd2a640 = <b>VALIDATED</b> Das maximale Zeitintervallfehler- und Zeitabweichungsmaß, das das Szenario-Kind <c1/> auf einem Holdover-Protokoll im Telekom-Maßstab meldet: ein O(n) monotones Warteschlangen-Schiebefenster. Orakel (ExternalDataset): allantools { "2024.06" } — eine unabhängige Frequenzstabilitätsbibliothek eines Drittanbieters — mtie() und tdev() auf tests/fixtures/telecom_timing/holdover_te_series.csv, wobei die Reihe auf beiden Seiten aus demselben Text mit 17 signifikanten Stellen geparst wird; die Referenz zeichnet das SHA-256 der Reihe auf und ist offline über tests/fixtures/telecom_timing/generate_telecom_timing_reference.py neu erzeugbar. Validiert die SCHÄTZER auf diesem Protokoll, nicht die syn
-
 # text
 seg-4cf0f94f96c9 = <b>MODELLED</b> Übertragene Grenzwerte von ITU-T G.8272 (07/2025) PRTC-A/B, G.8272.1 ({ "2024" }) Amd. { "1" } (07/2025) ePRTC eingerastet und ePRTC-A-Holdover (einschließlich der Zeitfehler-Hüllkurve nach Tabelle { "3" }. Orakel (InternalConsistency): Übertragung der benannten Empfehlungen (frei herunterladbar von itu.int), wobei jeder Grenzwert seine Tabelle oder Klausel trägt, aufgelistet zusammen mit jedem unbestätigten oder nicht implementierten Punkt in docs/TELECOM-TIMING.md; die Stetigkeitsidentitäten an den Knickpunkten, die die Tabellen implizieren, werden in den Tests geprüft. Eine Normübertragung mit Prüfungen auf interne Konsistenz, kein Konformitätstest und keine externe Validierung. { "0.30" } round { "2" } (pre-register
 
 # text
-# c1: holdover-test
-seg-142528f34e66 = <b>MODELLED</b> Das Kind <c1/>: Ein Zeitfehlerprotokoll (ein linuxptp-, chrony-, TICC-, TimeLab- oder RINEX-Uhrenprotokoll oder Paare aus time_s,time_error_ns) wird an den beiden Zeitpunkten geteilt. Orakel (InternalConsistency): Handrechnung an Protokollen, die aus Formeln aufgebaut sind, deren Steigung, Sprung, Extremum und Wiederherstellungszeit vor dem Lauf bekannt sind (die Tests geben sie an), sowie die Masken, die Hüllkurve und die Budgets der oben stehenden Telecom-Timing-Zeilen. Es wurde keine Labormessung eines echten Holdovers bewertet und keine externe unabhängige Referenz verglichen, daher erhebt das Kind keine Aussage über irgendeine Uhr oder ein System; vor jedem Abschluss je Uhrenklasse ist ein Zeitlabor-Partner nötig
-
-# text
 # c1: label
 seg-59ff0b0e3d2d = MODELLED — ein Holdover-Test, bewertet anhand eines Zeitfehlerprotokolls, das der Betreiber geliefert hat. Jeder Grenzwert ist aus der benannten öffentlichen ITU-T-Empfehlung übertragen, und das Ergebnis wird gegen die Maske gemessen; es sagt nichts darüber aus, ob eine Uhr oder ein System eine Empfehlung erfüllt, und niemand hat es bewertet oder genehmigt. Die Zeitpunkte, zu denen GNSS entfernt und wiederhergestellt wurde, sind die Angabe des Betreibers und nicht verifiziert. Beratende Soft (Ergebnis <c1/>)
-
-# text
-# c1: kshana kinds --json
-seg-daeb4ad7aa35 = MODELLED Holdover-Test eines Zeitgebungssystems, bewertet anhand eines Zeitfehlerprotokolls, das der BETREIBER liefert (ein linuxptp-Protokoll von ptp4l, phc2sys oder ts2phc, ein chrony-Tracking- oder Statistikprotokoll, ein TICC-, TimeLab- oder RINEX-Uhrenprotokoll oder Paare aus time_s,time_error_ns). (Kind-Katalog (<c1/>))
 
 # text
 seg-ff3008c250cc = Die ITU-T-Masken für Telekom-Synchronisation mit PASS/FAIL und Marge sind MODELLED, nicht validiert: Sie werden gegen ihre eigene geschlossene bzw. analytische Identität geprüft - das fängt Übertragungs- und Koeffizientenfehler ab, ist aber keine externe unabhängige Referenz. (Verifikationsmatrix (docs/MODELLED-RATIONALE.md))
@@ -103,3 +80,26 @@ seg-b754be35fb52 = <s1>Zurück</s1>gravity-map
 
 # text
 seg-e7665ee5e30e = <s1>Weiter</s1>hybrid-optical-rf
+
+# text
+# c1: holdover-test
+seg-142528f34e66 = <b>MODELLED</b> Die Szenarioart <c1/>: Ein Zeitfehlerprotokoll (ein linuxptp-, chrony-, TICC-, TimeLab- oder RINEX-Uhrenprotokoll oder Paare aus time_s,time_error_ns) wird an den beiden Zeitpunkten geteilt. Orakel (InternalConsistency): Handrechnung an Protokollen, die aus Formeln aufgebaut sind, deren Steigung, Sprung, Extremum und Wiederherstellungszeit vor dem Lauf bekannt sind (die Tests geben sie an), sowie die Masken, die Hüllkurve und die Budgets der oben stehenden Telecom-Timing-Zeilen. Es wurde keine Labormessung eines echten Holdovers bewertet und keine externe unabhängige Referenz verglichen, daher erhebt die Szenarioart keine Aussage über irgendeine Uhr oder ein System; vor jedem Abschluss je Uhrenklasse ist ein Zeitlabor-Partner nötig
+
+# text
+# c1: holdover-test
+seg-218f00012d0e = <c1/> (Szenarioart)
+
+# text
+# c1: holdover-test
+seg-3361819ae321 = <b>MODELLED</b> Die Szenarioart <c1/>: Ein Zeitfehlerprotokoll (ein linuxptp-, chrony-, TICC-, TimeLab- oder RINEX-Uhrenprotokoll oder Paare aus time_s,time_error_ns) wird an den beiden vom Betreiber angegebenen Zeitpunkten für das Entfernen und Wiederherstellen von GNSS in eine Basislinie, einen Holdover und
+
+# attr:alt
+seg-8ce93392747b = Das Diagramm, das die Engine für scenarios/holdover-test-ptp4l.toml schreibt, Szenarioart holdover-test
+
+# text
+# c1: kshana kinds --json
+seg-daeb4ad7aa35 = MODELLED Holdover-Test eines Zeitgebungssystems, bewertet anhand eines Zeitfehlerprotokolls, das der BETREIBER liefert (ein linuxptp-Protokoll von ptp4l, phc2sys oder ts2phc, ein chrony-Tracking- oder Statistikprotokoll, ein TICC-, TimeLab- oder RINEX-Uhrenprotokoll oder Paare aus time_s,time_error_ns). (Szenarioarten-Katalog (<c1/>))
+
+# text
+# c1: telecom-timing
+seg-e7273fd2a640 = <b>VALIDATED</b> Das maximale Zeitintervallfehler- und Zeitabweichungsmaß, das die Szenarioart <c1/> auf einem Holdover-Protokoll im Telekom-Maßstab meldet: ein O(n) monotones Warteschlangen-Schiebefenster. Orakel (ExternalDataset): allantools { "2024.06" } — eine unabhängige Frequenzstabilitätsbibliothek eines Drittanbieters — mtie() und tdev() auf tests/fixtures/telecom_timing/holdover_te_series.csv, wobei die Reihe auf beiden Seiten aus demselben Text mit 17 signifikanten Stellen geparst wird; die Referenz zeichnet das SHA-256 der Reihe auf und ist offline über tests/fixtures/telecom_timing/generate_telecom_timing_reference.py neu erzeugbar. Validiert die SCHÄTZER auf diesem Protokoll, nicht die syn

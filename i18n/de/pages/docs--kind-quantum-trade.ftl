@@ -29,10 +29,6 @@ seg-51cac2f918e0 = Themenseite: <a1>POSITIONING.md</a1>
 seg-3a8c76a2396f = Quelle: <c1/>
 
 # text
-# c1: quantum-trade
-seg-f9af2813532e = <c1/> (Szenario-Kind)
-
-# text
 # c1: candidate_adev_taus
 # c2: candidate_adev_values
 # c3: candidate_clock_class
@@ -69,9 +65,6 @@ seg-a6551a61cf69 = klassische Basislinie
 # text
 seg-f5fa445702c6 = Ergebnisbezeichnung (die der Engine): MODELLED — quantifiziert (validiert nie) eine Partneruhr/einen Partnersensor; nicht im Flug demonstriert
 
-# attr:alt
-seg-c74c63ffd859 = Das Diagramm, das die Engine für scenarios/quantum-trade.toml schreibt, Kind quantum-trade
-
 # text
 seg-93310aaa6ead = <b>VALIDATED</b> NNLS-Rückgewinnung eines Potenzgesetzes (Weiß-FM + Rotrausch-Boden) aus einer veröffentlichten gemessenen Allan-Abweichung des optischen ⁸⁸Sr-Uhrenübergangs — reproduziert σ_y(τ) und die Skalierung 4.7e-16/√τ bei kurzem τ mit einer echten gemessenen Langzeit-Untergrenze, statt Tests: <a1>optical_clock_adev_reference.rs</a1>.
 
@@ -92,14 +85,6 @@ seg-6b8aa8cd6d3e = <b>MODELLED</b> Einlesen gemessener ADEV (NNLS), Trade-Tabell
 seg-3d678f64e41c = MODELLED — quantifiziert (validiert nie) eine Partneruhr/einen Partnersensor; nicht im Flug demonstriert (Ergebnis <c1/>)
 
 # text
-# c1: kshana kinds --json
-seg-20ba66ae9518 = Quanten-gegen-klassisch-PNT-Trade ({ "13503" }): Nutzen einer Kandidatenuhr bei Zeitgebungs-Holdover + inertialem Holdover (eine gemessene ADEV-Kurve — der Angelpunkt der Verteidigbarkeit — oder eine Quantenuhrklasse) gegen eine klassische Basislinienklasse, mit dem am Artefakt mitgeführten Vorbehalt zur Annahme einer Langzeit-Untergrenze, plus eine Hüllkurve der GNSS-verweigerten Resilienz über die Zeit. (Kind-Katalog (<c1/>))
-
-# text
-# c1: kshana kinds --json
-seg-45a1d84eef18 = MODELLED; quantifiziert (validiert nie) ein Partnergerät. (Kind-Katalog (<c1/>))
-
-# text
 seg-15275d27252a = Berechnet den Nutzen bei Zeitgebungs-Holdover und inertialem Holdover einer KANDIDATEN-Uhr gegenüber einer KLASSISCHEN Basislinie, plus eine Hüllkurve der GNSS-verweigerten Resilienz über die Zeit. Die Untergrenze des Kandidaten wird durch die GEMESSENE überlappende ADEV-Kurve einer Partneruhr (der Angelpunkt der Verteidigbarkeit) getrieben, angepasst durch nichtnegative kleinste Quadrate — das Holdover-Budget beruht also auf realen Daten, nicht auf einer angenommenen Langzeit-Untergrenze. (Kommentar der Szenariodatei, Zeilen { "3" } bis { "7" })
 
 # text
@@ -113,3 +98,18 @@ seg-e6498fae3ba7 = <s1>Zurück</s1>quantum-time-transfer
 
 # text
 seg-50d4bbb7486b = <s1>Weiter</s1>realtime-frame-eop
+
+# text
+# c1: kshana kinds --json
+seg-20ba66ae9518 = Quanten-gegen-klassisch-PNT-Trade ({ "13503" }): Nutzen einer Kandidatenuhr bei Zeitgebungs-Holdover + inertialem Holdover (eine gemessene ADEV-Kurve — der Angelpunkt der Verteidigbarkeit — oder eine Quantenuhrklasse) gegen eine klassische Basislinienklasse, mit dem am Artefakt mitgeführten Vorbehalt zur Annahme einer Langzeit-Untergrenze, plus eine Hüllkurve der GNSS-verweigerten Resilienz über die Zeit. (Szenarioarten-Katalog (<c1/>))
+
+# text
+# c1: kshana kinds --json
+seg-45a1d84eef18 = MODELLED; quantifiziert (validiert nie) ein Partnergerät. (Szenarioarten-Katalog (<c1/>))
+
+# attr:alt
+seg-c74c63ffd859 = Das Diagramm, das die Engine für scenarios/quantum-trade.toml schreibt, Art quantum-trade
+
+# text
+# c1: quantum-trade
+seg-f9af2813532e = <c1/> (Szenarioart)

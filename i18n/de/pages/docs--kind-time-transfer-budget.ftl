@@ -21,10 +21,6 @@ seg-cd04f5662884 = MODELLED. (Artenkatalog (<c1/>))
 seg-937ebbbd612c = Quelle: <c1/>
 
 # text
-# c1: time-transfer-budget
-seg-6af6f07f5f5a = <c1/> (Szenario-Kind)
-
-# text
 seg-9a2bb9809aed = Zweiweg-Satelliten-Zeit- und Frequenzübertragung zwischen zwei Stationen über ein geostationäres Relais: die nach T_A - T_B aufgelöste Zweiweg-Gleichung mit jedem nichtreziproken Term (Stationsgerätelaufzeiten, Ku-Band-Ionosphäre, Transponder, Sagnac), ein quadratisches Unsicherheitsbudget, dessen Typ-A-Term die TDEV der simulierten Strecke bei der Mittelungszeit ist, eine simulierte Strecke mit weißem und Flicker-Phasenrauschen und einer täglichen Nichtreziprozität sowie die Stabilität (Rate, Rest-RMS, TDEV, ADEV) jeder gelieferten Reihe aus BIPM Circular T Abschnitt { "1" }, MJD,ns-CSV oder IGS-RINEX-Stationsuhr-Aufzeichnungen. MODELLED.
 
 # text
@@ -62,9 +58,6 @@ seg-00026a1d3760 = Das Beispiel <c1/> setzt unter anderem:
 # text
 seg-2409cc9397c7 = Ergebnisbezeichnung (die der Engine): MODELLED — TWSTFT-Zweiweg-Gleichung (Stationslaufzeiten, Ku-Band-Ionosphäre, Transponder, Sagnac), aufgelöst aus angegebenen Laufzeiten, ein quadratisches Unsicherheitsbudget mit der TDEV der simulierten Strecke als Typ-A-Term, eine simulierte Strecke mit Flicker-Phasenrauschen und täglicher Nichtreziprozität und die Stabilität jeder r
 
-# attr:alt
-seg-92d3c84024d7 = Das Diagramm, das die Engine für scenarios/time-transfer-budget.toml schreibt, Kind time-transfer-budget
-
 # text
 seg-83b9c66b9e92 = <b>MODELLED</b> Die nach T_A - T_B aufgelöste TWSTFT-Zweiweg-Gleichung mit Sende- und Empfangslaufzeiten der Stationen, der Ku-Band-Ionosphärenasymmetrie zwischen Auf- und Abwärtsstrecke, der Laufzeitdifferenz der Transponder und den Sagnac-Termen, gegen ihr exaktes Vorwärtsmodell; eine quadratische Unsicher
 
@@ -86,3 +79,10 @@ seg-52e06909ccc5 = <s1>Zurück</s1>terrain-slam
 
 # text
 seg-a22fa1c51042 = <s1>Weiter</s1>timetransfer
+
+# text
+# c1: time-transfer-budget
+seg-6af6f07f5f5a = <c1/> (Szenarioart)
+
+# attr:alt
+seg-92d3c84024d7 = Das Diagramm, das die Engine für scenarios/time-transfer-budget.toml schreibt, Szenarioart time-transfer-budget

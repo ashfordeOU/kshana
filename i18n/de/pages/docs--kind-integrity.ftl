@@ -36,10 +36,6 @@ seg-78ff7db5ad3d = <b>VALIDATED</b> Der Verteilungskern, auf dem jedes Schutzniv
 seg-4bec24cd43f6 = Quelle: <c1/>
 
 # text
-# c1: integrity
-seg-dd304550e695 = <c1/> (Szenario-Kind)
-
-# text
 seg-eb7e0c2feb2b = Snapshot-/Lösungstrennungs-/ARAIM-RAIM mit HPL/VPL und einem Stanford-Diagramm.
 
 # text
@@ -72,12 +68,6 @@ seg-7b28ab6567df = Optionale Felder: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <
 # c1: scenarios/integrity-raim.toml
 seg-581a5231b230 = Das Beispiel <c1/> setzt unter anderem:
 
-# attr:alt
-seg-ce7f6130ddee = Das Diagramm, das die Engine für scenarios/integrity-raim.toml schreibt, Kind integrity
-
-# text
-seg-c8c38ffbb63f = MODELLED { "6" } · VALIDATED { "4" }: die Zeilen der <a1>Verifikationsmatrix</a1>, die dieses Kind nennen.
-
 # text
 seg-dff469738ec3 = <b>VALIDATED</b> TPL durch Lösungstrennung für skalare Zeit über heterogene Quellen; PL getrieben vom Rauschen der Teilmenge mit dem schlechtesten Ausschluss + UTC(k)-Bias
 
@@ -95,3 +85,13 @@ seg-b4bc9ccbcee2 = <s1>Zurück</s1>ins-trn-coast
 
 # text
 seg-f1ba804baade = <s1>Weiter</s1>jamming
+
+# text
+seg-c8c38ffbb63f = MODELLED { "6" } · VALIDATED { "4" }: die Zeilen der <a1>Verifikationsmatrix</a1>, die diese Szenarioart nennen.
+
+# attr:alt
+seg-ce7f6130ddee = Das Diagramm, das die Engine für scenarios/integrity-raim.toml schreibt, Art integrity
+
+# text
+# c1: integrity
+seg-dd304550e695 = <c1/> (Szenarioart)

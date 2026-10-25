@@ -14,10 +14,6 @@ seg-3319b18ac61f = und { "1" } weitere in der Matrix.
 seg-dd57b833cb20 = Quelle: <c1/>
 
 # text
-# c1: lunar-frame-campaign
-seg-120769aba2cc = <c1/> (Szenario-Kind)
-
-# text
 seg-55679aff66db = Helmert-Bezugssystemdatum (Ähnlichkeit) mit sieben Parametern, angetrieben von einer SIMULIERTEN BEOBACHTUNGSKAMPAGNE statt von einer eingespeisten Transformation. Ein Netz von Erdstationen beobachtet einen Katalog von Baken auf der Mondoberfläche nach einem expliziten Zeitplan; die Partiellen der lunaren VLBI-Verzögerung werden über diesen Zeitplan zu einer Fisher-Informationsmatrix der Bakenkoordinaten akkumuliert, genau wie es lunar-vlbi-fim tut; und diese Information wird über den Helmert-Entwurf A = [I3 | [p]_x | p] an den Katalogpunkten in die Datumskovarianz H = A^T M_b A fortgepflanzt, diagnostiziert durch crate::fim::crlb. KEINE Transformation wird eingespeist, und nichts wird aus einer untergeschobenen Antwort wiedergewonnen, sodass die ausgegebene Datumsgenauigkeit aus dem Beobachtungsprogramm folgt: Eine Halbierung des Verzögerungs-Sigmas halbiert sie exakt, und eine Verlängerung des Bogens verbessert sie, weil die Libration, die der Bericht MISST (sub_earth_direction_sweep_deg), das ist, was die Bakenkoordinate in Sichtlinienrichtung von denen in der Himmelsebene trennt. Rang, Datumsdefekt, Konditionszahl, das gesamte Spektrum, die nicht beobachtbaren Richtungen IN DER SIEBENPARAMETER-BASIS, die schwächste Richtung auch bei vollem Rang und der Anteil jedes Parameters daran werden bei jedem Lauf ausgegeben; ein Parameter, den die Kampagne nicht beschränkt, wird als NULL mit einem Status veröffentlicht, nie aus einer fast singulären Inversen abgelesen. Die Korrelation der Bakenfehler wird gemessen, nicht angenommen: Bei festgehaltenen Stationen berührt keine Beobachtung zwei Baken, sodass die Informationsmatrix exakt blockdiagonal ist (offblock_fraction { "0" }), und bei geschätzten Stationen ist der Schur-marginalisierte Block gekoppelt, wobei die induzierte Korrelation ausgegeben und die gesamte Fortpflanzung ohne sie erneut ausgeführt wird, sodass der Preis einer Unabhängigkeitsannahme eine Zahl ist. Dieselbe Fortpflanzung unter einem isotropen Sigma je Koordinate und der Wiedergewinnungsfehler, den das Szenario lunar-frame-realisation ausgibt, werden beide hier ausgeführt und mit ihren Verhältnissen neben dem Kampagnenwert ausgegeben. MODELLED: Der Bakenkatalog hat Quellen, aber die KAMPAGNE ist simuliert — das Stationsnetz und das Verzögerungs-Sigma sind illustrative Eingaben, einzelne Verzögerungsbeobachtungen werden als unabhängig behandelt, und die Ephemeride des Mondzentrums, die Stationsuhren, die Troposphäre und die Erdorientierungsparameter werden FEST gehalten, sodass die Datumskovarianz eine Cramér-Rao-Schranke für einen reduzierten Parametersatz ist. Kein geodätisches Produkt.
 
 # text
@@ -51,12 +47,6 @@ seg-df90e5910fb4 = hr
 # text
 seg-d9523213de9f = Ergebnisbezeichnung (der Engine): MODELLED kampagnengetriebenes lunares Bezugssystemdatum. Die Helmert-Kovarianz mit sieben Parametern wird aus einer Informationsmatrix der Bakenkoordinaten fortgepflanzt, die aus den eigenen Partiellen der lunaren VLBI-Verzögerung der Engine über einen expliziten Zeitplan aus Baken, Basislinien und Epochen akkumuliert wurde; KEINE Ähnlichkeitstransformation wird eingespeist und
 
-# attr:alt
-seg-883d94b321b4 = Das Diagramm, das die Engine für scenarios/lunar-frame-campaign.toml schreibt, Kind lunar-frame-campaign
-
-# text
-seg-fbac1cbb2422 = MODELLED { "2" } · VALIDATED { "3" }: die Zeilen der <a1>Verifikationsmatrix</a1>, die dieses Kind nennen.
-
 # text
 seg-2595bd629ffb = <b>MODELLED</b> Das Helmert-Datum mit sieben Parametern, fortgepflanzt aus einer SIMULIERTEN BEOBACHTUNGSKAMPAGNE statt wiedergewonnen aus einer eingespeisten Transformation.
 
@@ -80,14 +70,6 @@ seg-d024abcfd87c = <b>MODELLED</b> Das Helmert-Datum mit sieben Parametern, fort
 seg-0abd7b181f21 = MODELLED kampagnengetriebenes lunares Bezugssystemdatum. Die Helmert-Kovarianz mit sieben Parametern wird aus einer Informationsmatrix der Bakenkoordinaten fortgepflanzt, die aus den eigenen Partiellen der lunaren VLBI-Verzögerung der Engine über einen expliziten Zeitplan aus Baken, Basislinien und Epochen akkumuliert wurde; KEINE Ähnlichkeitstransformation wird eingespeist, und nichts wird aus einer untergeschobenen Antwort wiedergewonnen. Der Bakenkatalog ist die Tabelle benannter Standorte des Crates mit Quellen, aber die KAMPA (Ergebnis <c1/>)
 
 # text
-# c1: kshana kinds --json
-seg-f92d22c06cd5 = Die Korrelation der Bakenfehler wird gemessen, nicht angenommen: Bei festgehaltenen Stationen berührt keine Beobachtung zwei Baken, sodass die Informationsmatrix exakt blockdiagonal ist (offblock_fraction { "0" }), und bei geschätzten Stationen ist der Schur-marginalisierte Block gekoppelt, wobei die induzierte Korrelation ausgegeben und die gesamte Fortpflanzung ohne sie erneut ausgeführt wird, sodass der Preis einer Unabhängigkeitsannahme eine Zahl ist. (Kind-Katalog (<c1/>))
-
-# text
-# c1: kshana kinds --json
-seg-534cea416496 = MODELLED: Der Bakenkatalog hat Quellen, aber die KAMPAGNE ist simuliert — das Stationsnetz und das Verzögerungs-Sigma sind illustrative Eingaben, einzelne Verzögerungsbeobachtungen werden als unabhängig behandelt, und die Ephemeride des Mondzentrums, die Stationsuhren, die Troposphäre und die Erdorientierungsparameter werden FEST gehalten, sodass die Datumskovarianz eine Cramér-Rao-Schranke für einen reduzierten Parametersatz ist. (Kind-Katalog (<c1/>))
-
-# text
 seg-ec67b9d3adbb = Die Korrelation der Bakenfehler wird GEMESSEN, nicht angenommen. Bei festgehaltenen Stationen berührt keine Beobachtung zwei Baken, sodass die Informationsmatrix exakt blockdiagonal ist (offblock_fraction { "0" }); bei geschätzten Stationen ist der Schur-marginalisierte Block gekoppelt, die induzierte Korrelation wird ausgegeben, und die gesamte Fortpflanzung wird ohne sie erneut ausgeführt, sodass der Preis einer Unabhängigkeitsannahme eine Zahl ist statt einer c (Kommentar in der Szenariodatei, Zeilen { "17" } bis { "21" })
 
 # text
@@ -101,3 +83,21 @@ seg-7b56c979b2c9 = <s1>Zurück</s1>lunar-differential-pnt
 
 # text
 seg-70072dbfa305 = <s1>Weiter</s1>lunar-frame-realisation
+
+# text
+# c1: lunar-frame-campaign
+seg-120769aba2cc = <c1/> (Szenarioart)
+
+# text
+# c1: kshana kinds --json
+seg-534cea416496 = MODELLED: Der Bakenkatalog hat Quellen, aber die KAMPAGNE ist simuliert — das Stationsnetz und das Verzögerungs-Sigma sind illustrative Eingaben, einzelne Verzögerungsbeobachtungen werden als unabhängig behandelt, und die Ephemeride des Mondzentrums, die Stationsuhren, die Troposphäre und die Erdorientierungsparameter werden FEST gehalten, sodass die Datumskovarianz eine Cramér-Rao-Schranke für einen reduzierten Parametersatz ist. (Szenarioarten-Katalog (<c1/>))
+
+# attr:alt
+seg-883d94b321b4 = Das Diagramm, das die Engine für scenarios/lunar-frame-campaign.toml schreibt, Szenarioart lunar-frame-campaign
+
+# text
+# c1: kshana kinds --json
+seg-f92d22c06cd5 = Die Korrelation der Bakenfehler wird gemessen, nicht angenommen: Bei festgehaltenen Stationen berührt keine Beobachtung zwei Baken, sodass die Informationsmatrix exakt blockdiagonal ist (offblock_fraction { "0" }), und bei geschätzten Stationen ist der Schur-marginalisierte Block gekoppelt, wobei die induzierte Korrelation ausgegeben und die gesamte Fortpflanzung ohne sie erneut ausgeführt wird, sodass der Preis einer Unabhängigkeitsannahme eine Zahl ist. (Szenarioarten-Katalog (<c1/>))
+
+# text
+seg-fbac1cbb2422 = MODELLED { "2" } · VALIDATED { "3" }: die Zeilen der <a1>Verifikationsmatrix</a1>, die diese Szenarioart nennen.

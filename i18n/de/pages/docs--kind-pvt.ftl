@@ -20,10 +20,6 @@ seg-af0bb84bda32 = <b>MODELLED</b> dop_error_mc::run_geometry und check: eine Mo
 seg-aab2f85048b7 = Quelle: <c1/>
 
 # text
-# c1: pvt
-seg-56f864d32367 = <c1/> (Szenario-Kind)
-
-# text
 seg-b7b67e03f125 = Einzelpunkt-Positionierung aus realen Beobachtungen: die Position eines Empfängers aus einer RINEX-{ "3" }-Beobachtungsdatei und einer Broadcast-Navigationsdatei lösen (Code-Pseudoentfernungen, Broadcast-Ephemeride, Klobuchar-Ionosphäre, Saastamoinen/Niell-Troposphäre), optional gegen eine vermessene Koordinate validiert.
 
 # text
@@ -55,9 +51,6 @@ seg-e0415c4dab88 = { "3.02" } OBSERVATION DATA M
 # text
 seg-22ad318a2d61 = [{ "2.9198e6" }, -5.3837e6, { "1.7746e6" }]
 
-# attr:alt
-seg-d76d59644d84 = Das Diagramm, das die Engine für scenarios/pvt-abmf.toml schreibt, Kind pvt
-
 # text
 seg-e6f678eeb384 = <b>MODELLED</b> Divergenzfreier Hatch-Filter (ionosphärenfreier Code, getragen von der ionosphärenfreien Trägerphase, Fenster N Epochen, Neustart bei Lock-Verlust, geometriefreiem Sprung oder Lücke) in der Anordnung der präzisen Einzelpunkt-Positionierung
 
@@ -72,3 +65,10 @@ seg-8ea056f1d7e0 = <s1>Zurück</s1>passes
 
 # text
 seg-d1dc82bbfb73 = <s1>Weiter</s1>quantum-anomaly-detect
+
+# text
+# c1: pvt
+seg-56f864d32367 = <c1/> (Szenarioart)
+
+# attr:alt
+seg-d76d59644d84 = Das Diagramm, das die Engine für scenarios/pvt-abmf.toml schreibt, Art pvt

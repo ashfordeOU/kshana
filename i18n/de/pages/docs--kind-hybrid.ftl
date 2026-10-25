@@ -72,10 +72,6 @@ seg-f7f12029e0ec = Familienseite: <a1>Inertial-, Fusions- und Quantensensoren</a
 seg-d91dc5633e67 = Quelle: <c1/>
 
 # text
-# c1: hybrid
-seg-3b43d9c5624d = <c1/> (Szenario-Kind)
-
-# text
 seg-22cd963c7042 = Hybrid-PNT-Abschlussszenario: Uhr + IMU + Zeitübertragungsstützung.
 
 # text
@@ -98,9 +94,6 @@ seg-4f5fd1bc8a4e = Hybrider Quanten-Beschleunigungsmesser-Triade von Exail, Bias
 # text
 seg-49bff8dc860e = Quarz-Beschleunigungsmesser der Navigationsklasse (H
 
-# attr:alt
-seg-52378a7b074c = Das Diagramm, das die Engine für scenarios/hybrid-pnt.toml schreibt, Kind hybrid
-
 # text
 seg-a1810bbca337 = <b>MODELLED</b> Zweiweg/TWSTFT (Sagnac), GNSS-Common-View, PPP; Link-Jitter→Entfernung. Orakel (ExternalDataset): Sagnac-Betrag geprüft gegen einen maßgeblichen VERÖFFENTLICHTEN WERT — N. Ashby, 'Relativity in the GPS', Living Reviews in Relativity { "6" }:{ "1" } ({ "2003" }), Gl. { "1.29" }: Eine ostwärtige Umrundung am Äquator summiert { "207.4" } ns (2ωA_E/c²); kshana reproduziert { "207.386" } ns. Unabhängig bestätigt durch RTKLIB { "2.4.3" } geodist() (Takasu, BSD-2-Clause), das dieselbe 2Aω/c²-Geometrie trägt. Der zusammengesetzte BIPM-TWSTFT-Transponder/Common-View/
 
@@ -115,3 +108,10 @@ seg-cc86939900fe = <s1>Zurück</s1>hybrid-ukf
 
 # text
 seg-53b95026bf54 = <s1>Weiter</s1>impairment-eval
+
+# text
+# c1: hybrid
+seg-3b43d9c5624d = <c1/> (Szenarioart)
+
+# attr:alt
+seg-52378a7b074c = Das Diagramm, das die Engine für scenarios/hybrid-pnt.toml schreibt, Szenarioart hybrid

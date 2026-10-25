@@ -44,10 +44,6 @@ seg-eb75c6a4dcec = Quanten-gegen-klassisch-Trade-Evidenz (gemeinsame Form) ist M
 seg-eee91dc5741d = Quelle: <c1/>
 
 # text
-# c1: quantum-time-transfer
-seg-05060df7f0b7 = <c1/> (Szenario-Kind)
-
-# text
 seg-540545e6f846 = MODELLED vertrauenswürdige Quantenzeitkette: ein durchgängiges Zeitübertragungsbudget mit Quanten- (optische Gitteruhr + Verschränkungs-/Einzelphotonenstrecke) gegen klassisch (CSAC + RF-Zweiweg), ein wiederverwendetes Zeitgebungs-Schutzniveau + eine Sicherheitsgütezahl gegen Verzögerungs-/Replay-Angriffe (1-P_md), eine Erkennungswahrscheinlichkeit für Uhrenanomalien + CUSUM-Latenz und der Quanten-gegen-klassisch-Trade als ehrliche TradeEvidence mit einem Repräsentativitäts- + Gaps-to-flight-Eintrag. Illustrative Geräte-/Streckenparameter aus öffentlichen Quellen; modelliert die Klasse, kein TRL/Flug/Zertifizierung beansprucht.
 
 # text
@@ -68,15 +64,8 @@ seg-80e94491c3df = Optionale Felder: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <
 # c1: scenarios/quantum-time-transfer.toml
 seg-6b03fa15a60d = Das Beispiel <c1/> setzt unter anderem:
 
-# attr:alt
-seg-09760f892c7b = Das Diagramm, das die Engine für scenarios/quantum-time-transfer.toml schreibt, Kind quantum-time-transfer
-
 # text
 seg-873de4d05663 = <b>VALIDATED</b> Tabellarischer CUSUM-Detektor: Erkennungslatenz im ungünstigsten Fall (⌊h/(z−k)⌋+{ "1" }) und mittlere Lauflänge außer Kontrolle, verwendet von den Zeitgebungs-Schutzniveau- und Spoof-Monitoren. Unabhängige Referenz (ExternalDataset): Veröffentlichte tabellarische CUSUM-ARL: Siegmund-({ "1985" })-Brownsche-Bewegung-Näherung (Hawkins & Olwell { "1998" }, Gl. { "3.7" }), kreuzverankert an die ARL-Tabellen aus Montgomery, Introduction to Statistical Quality Control (Wiley) für k=½, h∈{ "{" }{ "4,5" }{ "}" }; deterministische Latenz exakt gegen eine Erstdurchgangs-Referenz abgeglichen. Die zusammengesetzte TPL-Schranke bleibt MODELLED
-
-# text
-# c1: kshana kinds --json
-seg-b51e62b8dc63 = MODELLED vertrauenswürdige Quantenzeitkette: ein durchgängiges Zeitübertragungsbudget mit Quanten- (optische Gitteruhr + Verschränkungs-/Einzelphotonenstrecke) gegen klassisch (CSAC + RF-Zweiweg), ein wiederverwendetes Zeitgebungs-Schutzniveau + eine Sicherheitsgütezahl gegen Verzögerungs-/Replay-Angriffe (1-P_md), eine Erkennungswahrscheinlichkeit für Uhrenanomalien + CUSUM-Latenz und der Quanten-gegen-klassisch-Trade als ehrliche TradeEvidence mit einem Repräsentativitäts- + Gaps-to-flight-Eintrag. (Kind-Katalog (<c1/>))
 
 # text
 seg-dee0faf63e7f = Vertrauenswürdige Quantenzeit — durchgängige Zeitübertragungskette, sichere Verteilung, Anomalieerkennung und ein Quanten-gegen-klassisch-Trade. MODELLED; illustrative Geräte-/Streckenparameter aus öffentlichen Quellen; modelliert die Klasse, keine TRL-/Flugaussage. (Kommentar der Szenariodatei, Zeilen { "1" } bis { "3" })
@@ -89,3 +78,14 @@ seg-d3665be74ff1 = <s1>Zurück</s1>quantum-gnss-free-nav
 
 # text
 seg-0d4b1f97541f = <s1>Weiter</s1>quantum-trade
+
+# text
+# c1: quantum-time-transfer
+seg-05060df7f0b7 = <c1/> (Szenarioart)
+
+# attr:alt
+seg-09760f892c7b = Das Diagramm, das die Engine für scenarios/quantum-time-transfer.toml schreibt, Szenarioart quantum-time-transfer
+
+# text
+# c1: kshana kinds --json
+seg-b51e62b8dc63 = MODELLED vertrauenswürdige Quantenzeitkette: ein durchgängiges Zeitübertragungsbudget mit Quanten- (optische Gitteruhr + Verschränkungs-/Einzelphotonenstrecke) gegen klassisch (CSAC + RF-Zweiweg), ein wiederverwendetes Zeitgebungs-Schutzniveau + eine Sicherheitsgütezahl gegen Verzögerungs-/Replay-Angriffe (1-P_md), eine Erkennungswahrscheinlichkeit für Uhrenanomalien + CUSUM-Latenz und der Quanten-gegen-klassisch-Trade als ehrliche TradeEvidence mit einem Repräsentativitäts- + Gaps-to-flight-Eintrag. (Szenarioarten-Katalog (<c1/>))

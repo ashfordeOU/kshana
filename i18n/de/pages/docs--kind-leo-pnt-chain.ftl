@@ -18,9 +18,6 @@ seg-cd04f5662884 = MODELLED. (Artenkatalog (<c1/>))
 seg-cb91473bfdda = Themenseite: <a1>LEO-PNT.md</a1>
 
 # text
-seg-49964654d5f4 = Szenario-Kind der Engine v{ $version }, Familie <a1>Low-Earth-orbit navigation</a1>. Hinweis (beratend): Analyseausgabe eines Forschungs- und Engineering-Werkzeugs, keine typzugelassene Navigationsausrüstung und kein Safety-of-Life-Dienst. Jede Bezeichnung hier stammt von der Engine oder der Verifikationsmatrix; ein Kind ist MODELLED, sofern die Matrix nichts anderes sagt (wie eine Bezeichnung erworben wird: der Abschnitt Evidence der README).
-
-# text
 seg-c5478f572d21 = Familienseite: <a1>Low-Earth-orbit navigation</a1>
 
 # text
@@ -35,10 +32,6 @@ seg-ae15d15bf151 = Themenseite: <a1>LEO-PASS.md</a1>
 # text
 # c1: docs/kinds/by-kind/leo-pnt-chain.md
 seg-d24f2cccc926 = Quelle: <c1/>
-
-# text
-# c1: leo-pnt-chain
-seg-3a66efa79aa2 = <c1/> (Szenario-Kind)
 
 # text
 seg-81d1604171a5 = Ein LEO-PNT-System (Positionierung, Navigation und Zeitgebung aus dem niedrigen Erdorbit) von Anfang bis Ende, für jede Konstellation und jedes Signal: Das mit signal_design benannte leo-signal-Design (eine öffentliche Voreinstellung oder ein Inline-Design [signal]) legt Mitte, Bandbreite, Chiprate und EIRP-Aufteilung eines Bandes [pass] fest, das Link-Budget von leo-pass liefert das verfolgte C/N0 und den bandbegrenzten Codejitter über den Überflug, eine C/N0-Gerade in sin(Elevation) und das ausgesendete SISRE der Nachricht [navmsg] (angepasst in der Höhe des Überflugsatelliten) speisen jedes LEO-System des gemeinsamen Fixes leo-pvt unter [fusion] und optional die Fälle leo-ppp unter [ppp]; jede Übergabe wird mit Wert und Einheit aufgelistet. MODELLED.
@@ -79,19 +72,8 @@ seg-28b34c8ae7c5 = galileo
 # text
 seg-0093705edf63 = Ergebnisbezeichnung (der Engine): MODELLED — die Kette reicht die Ausgabe jeder Stufe an die nächste weiter; die Stufen behalten ihre eigenen Bezeichnungen (die Zeilen leo-signal, leo-pass, leo-navmsg, leo-pvt und leo-ppp der Verifikationsmatrix).
 
-# attr:alt
-seg-abe0599498c9 = Das Diagramm, das die Engine für scenarios/leo-pnt-end-to-end.toml schreibt, Kind leo-pnt-chain
-
-# text
-# c1: leo-pnt-chain
-seg-d8b7c2c82566 = <b>MODELLED</b> Das Kind <c1/>: Ein leo-signal-Design (öffentliche Voreinstellung oder inline) legt Mitte, Bandbreite, Chiprate und EIRP-Aufteilung eines Bandes von leo-pass fest; der Überflug liefert je Epoche das C/N0 der verfolgten Komponente und den bandbegrenzten Codejitter; ein C/ Tests: <a1>leo_pnt_chain.rs</a1>.
-
 # text
 seg-59b976838ef1 = <b>VALIDATED</b> navsignal: das Sinusintegral (sine_integral), der BPSK-R-Leistungsanteil innerhalb eines doppelseitigen Bandes in geschlossener Form (bpsk_power_in_band_closed_form), das Band. Orakel (ExternalDataset): Extern festgelegt: { "90.3" } Prozent Hauptkeulenleistung, der kohärente Early-Late-Jitter am angegebenen Arbeitspunkt, die Tabellenwerte des Sinusintegrals und der spektrale Selbst-Trennungskoeffizient von BPSK 2/({ "3" } R_c) bei Nullversatz. Nur interne Gegenprüfungen, keine externe Validierung: die geschlossene Form der bandbegrenzten BPSK-Gabor-Bandbreite und ihre Asymptote sowie der spektrale Trennungskoeffizient von BPSK mit Versatz bei von null verschiedenen Versätzen, beide
-
-# text
-# c1: leo-signal
-seg-faf2775f3003 = <b>MODELLED</b> Das Kind <c1/>: parametrisierte Signaldesigns (Band, Sendebandbreite, ITU-Zuweisung; Akquisitions-, Daten- und Pilotkomponenten mit BPSK(n), BOC(m,n), MB. Orakel (InternalConsistency): Die validierten geschlossenen Formen der beiden Zeilen darüber, die Quadratgesetz-Identität des Fehlalarms P_d(snr = { "0" }) = P_fa und die mittlere Akquisitionszeit nach Holmes sowie die Reduktion auf die eigene SSC-Kette des Spektrum-Kinds (derselbe Code Jammer::ssc). Die Designs selbst sind Eingaben: Als REPRESENTATIVE oder WORKSHOP markierte Voreinstellungen sind keine veröffentlichten Spezifikationen, erweiterte Feher-QPSK-, Code-Shift-Keying- und OFDM-Spektren werden angenähert, und die Form
 
 # text
 # c1: limitations[0]
@@ -125,3 +107,21 @@ seg-0bff72185f12 = <s1>Zurück</s1>leo-pass
 
 # text
 seg-851e55b87d01 = <s1>Weiter</s1>leo-ppp
+
+# text
+# c1: leo-pnt-chain
+seg-3a66efa79aa2 = <c1/> (Szenarioart)
+
+# text
+seg-49964654d5f4 = Szenarioart der Engine v{ $version }, Familie <a1>Low-Earth-orbit navigation</a1>. Hinweis (beratend): Analyseausgabe eines Forschungs- und Engineering-Werkzeugs, keine typzugelassene Navigationsausrüstung und kein Safety-of-Life-Dienst. Jede Bezeichnung hier stammt von der Engine oder der Verifikationsmatrix; eine Szenarioart ist MODELLED, sofern die Matrix nichts anderes sagt (wie eine Bezeichnung erworben wird: der Abschnitt Evidence der README).
+
+# attr:alt
+seg-abe0599498c9 = Das Diagramm, das die Engine für scenarios/leo-pnt-end-to-end.toml schreibt, Szenarioart leo-pnt-chain
+
+# text
+# c1: leo-pnt-chain
+seg-d8b7c2c82566 = <b>MODELLED</b> Die Szenarioart <c1/>: Ein leo-signal-Design (öffentliche Voreinstellung oder inline) legt Mitte, Bandbreite, Chiprate und EIRP-Aufteilung eines Bandes von leo-pass fest; der Überflug liefert je Epoche das C/N0 der verfolgten Komponente und den bandbegrenzten Codejitter; ein C/ Tests: <a1>leo_pnt_chain.rs</a1>.
+
+# text
+# c1: leo-signal
+seg-faf2775f3003 = <b>MODELLED</b> Die Szenarioart <c1/>: parametrisierte Signaldesigns (Band, Sendebandbreite, ITU-Zuweisung; Akquisitions-, Daten- und Pilotkomponenten mit BPSK(n), BOC(m,n), MB. Orakel (InternalConsistency): Die validierten geschlossenen Formen der beiden Zeilen darüber, die Quadratgesetz-Identität des Fehlalarms P_d(snr = { "0" }) = P_fa und die mittlere Akquisitionszeit nach Holmes sowie die Reduktion auf die eigene SSC-Kette des Spektrum-Szenarioart (derselbe Code Jammer::ssc). Die Designs selbst sind Eingaben: Als REPRESENTATIVE oder WORKSHOP markierte Voreinstellungen sind keine veröffentlichten Spezifikationen, erweiterte Feher-QPSK-, Code-Shift-Keying- und OFDM-Spektren werden angenähert, und die Form

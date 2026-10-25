@@ -17,10 +17,6 @@ seg-4d208b6c0eb8 = Tag
 seg-64813e3da228 = Quelle: <c1/>
 
 # text
-# c1: lunar-time-offset
-seg-000bb13909f1 = <c1/> (Szenario-Kind)
-
-# text
 seg-7f3e13712f10 = Modellierte relativistische Uhrenrate Erde–Mond (Lunar Coordinate Time, LTC/TCL): die säkulare Rate LTC−TT aus der Differenz der Eigenpotenziale und dem kinetischen Term des Mondes, ausgegeben mit dem veröffentlichten Band von { "56" }–{ "59" } µs/Tag, plus der über einen Horizont akkumulierte Versatz.
 
 # text
@@ -41,9 +37,6 @@ seg-4731141e6aac = Das Beispiel <c1/> setzt unter anderem:
 # text
 seg-3843825d0733 = us
 
-# attr:alt
-seg-e9deb6ed41c1 = Das Diagramm, das die Engine für scenarios/lunar-time-offset.toml schreibt, Kind lunar-time-offset
-
 # text
 seg-982426693747 = <b>VALIDATED</b> Relativistische Uhrenrate Erde-Mond (LTC/TCL) + Verkettung TT/TAI/UTC + Ensemble. Orakel (ExternalDataset): Ashby & Patla { "2024" }, 'A Relativistic Framework to Estimate Clock Rates on the Moon', Astronomical Journal { "167" }:{ "149" } (NIST; Grundlage der LTC von IAU/IAG LunaNet): Eigenpotenzial der Mondoberfläche L_m = { "3.13881e-11" } und säkulare Gesamtrate { "56.02" } µs/Tag, übereinstimmend als veröffentlichte Zahlenwerte; geozentrische Geschwindigkeit des Mondes gegengeprüft mit JPL DE440 (de440s.bsp über SPICE)
 
@@ -55,3 +48,10 @@ seg-e4552368a6a7 = <s1>Zurück</s1>lunar-time-budget
 
 # text
 seg-777dc23bac6a = <s1>Weiter</s1>lunar-vlbi-fim
+
+# text
+# c1: lunar-time-offset
+seg-000bb13909f1 = <c1/> (Szenarioart)
+
+# attr:alt
+seg-e9deb6ed41c1 = Das Diagramm, das die Engine für scenarios/lunar-time-offset.toml schreibt, Art lunar-time-offset

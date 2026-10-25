@@ -12,14 +12,8 @@ seg-b03d56f501c3 = Typ
 # text
 seg-d1e9715513b4 = Beispiel
 
-# attr:alt
-seg-b49ec180e810 = Kontaktbogen der Diagramme, die die Engine für die Kinds der Familie Kampagnen schreibt
-
 # text
 seg-4e31c8daf798 = Register
-
-# attr:alt
-seg-b333618375db = Kontaktbogen der Diagramme, die die Engine für die Kinds der Familie Uhren, Zeitgebung und Holdover schreibt
 
 # text
 seg-efd15cff3d32 = MODELLED (Ergebnisbezeichnung)
@@ -29,9 +23,6 @@ seg-651ef9489065 = MODELLED { "5" } · VALIDATED { "1" }
 
 # text
 seg-23dbca6bce68 = MODELLED { "2" } · VALIDATED { "1" }
-
-# attr:alt
-seg-f044822c2fab = Kontaktbogen der Diagramme, die die Engine für die Kinds der Familie Konstellationen, Abdeckung und Geometrie schreibt
 
 # text
 seg-be0cfeeb1680 = MODELLED { "4" } · VALIDATED { "4" }
@@ -48,38 +39,20 @@ seg-436e412d99fd = MODELLED { "1" } · VALIDATED { "1" }
 # text
 seg-23f3c33445d1 = MODELLED { "2" } · VALIDATED { "2" }
 
-# attr:alt
-seg-9c60c8803b6b = Kontaktbogen der Diagramme, die die Engine für die Kinds der Familie GNSS-Messungen, Positionierung und Integrität schreibt
-
 # text
 seg-045ecd7c036f = MODELLED { "6" } · VALIDATED { "4" }
-
-# attr:alt
-seg-6dfd2dc2721a = Kontaktbogen der Diagramme, die die Engine für die Kinds der Familie GPS-verweigerte alternative PNT schreibt
-
-# attr:alt
-seg-0e73a37b716b = Kontaktbogen der Diagramme, die die Engine für die Kinds der Familie Inertial-, Fusions- und Quantensensoren schreibt
 
 # text
 seg-c2245de16d5f = MODELLED { "6" } · VALIDATED { "2" }
 
-# attr:alt
-seg-cc031b964086 = Kontaktbogen der Diagramme, die die Engine für die Kinds der Familie Jamming, Spoofing und das Spektrum schreibt
-
 # text
 seg-02706b96f8fa = MODELLED { "3" } · VALIDATED { "2" }
-
-# attr:alt
-seg-4867ae5d108b = Kontaktbogen der Diagramme, die die Engine für die Kinds der Familie Navigation im niedrigen Erdorbit schreibt
 
 # text
 seg-3f28c23605a4 = MODELLED { "7" } · VALIDATED { "5" }
 
 # text
 seg-04fdaadf1cba = MODELLED { "5" } · VALIDATED { "6" }
-
-# attr:alt
-seg-15b8e26dc24b = Kontaktbogen der Diagramme, die die Engine für die Kinds der Familie Mond und cislunar schreibt
 
 # text
 seg-528223b4d676 = MODELLED { "3" } · VALIDATED { "3" }
@@ -147,3 +120,30 @@ seg-3040e2ec62b1 = <s1>Zurück</s1>Szenariotypen
 
 # text
 seg-1d6e6cc607f2 = <s1>Weiter</s1>Jeder Befehl
+
+# attr:alt
+seg-0e73a37b716b = Kontaktbogen der Diagramme, die die Engine für die Szenarioarten der Familie Inertial-, Fusions- und Quantensensoren schreibt
+
+# attr:alt
+seg-15b8e26dc24b = Kontaktbogen der Diagramme, die die Engine für die Szenarioarten der Familie Mond und cislunar schreibt
+
+# attr:alt
+seg-4867ae5d108b = Kontaktbogen der Diagramme, die die Engine für die Szenarioarten der Familie Navigation im niedrigen Erdorbit schreibt
+
+# attr:alt
+seg-6dfd2dc2721a = Kontaktbogen der Diagramme, die die Engine für die Szenarioarten der Familie GPS-verweigerte alternative PNT schreibt
+
+# attr:alt
+seg-9c60c8803b6b = Kontaktbogen der Diagramme, die die Engine für die Szenarioarten der Familie GNSS-Messungen, Positionierung und Integrität schreibt
+
+# attr:alt
+seg-b333618375db = Kontaktbogen der Diagramme, die die Engine für die Szenarioarten der Familie Uhren, Zeitgebung und Holdover schreibt
+
+# attr:alt
+seg-b49ec180e810 = Kontaktbogen der Diagramme, die die Engine für die Szenarioarten der Familie Kampagnen schreibt
+
+# attr:alt
+seg-cc031b964086 = Kontaktbogen der Diagramme, die die Engine für die Szenarioarten der Familie Jamming, Spoofing und das Spektrum schreibt
+
+# attr:alt
+seg-f044822c2fab = Kontaktbogen der Diagramme, die die Engine für die Szenarioarten der Familie Konstellationen, Abdeckung und Geometrie schreibt
