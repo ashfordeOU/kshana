@@ -1,4 +1,7 @@
 # SPDX-License-Identifier: AGPL-3.0-only
+# COUNTS: a variable named n, count, n_*, num_* or *_count holding a whole number is passed as a
+# number, so plural selectors work ({ $n -> [one] ... *[other] ... }). The messages that have such
+# variables are listed in i18n/en/engine-counts.txt. English renders each exactly as before.
 # The English catalogue of the engine messages: the source of every other language.
 #
 # Rules for this file (checked by tests/i18n_catalogue.rs):
@@ -4763,6 +4766,8 @@ engine-lunar-vlbi-fim-rank-deficient-of-directions-are = RANK-DEFICIENT: { $defe
 engine-lunar-vlbi-fim-lunar-vlbi-fim-stations-baselines = lunar-vlbi-fim | { $n_stations } stations / { $v2 } baselines x { $n_epochs } epochs = { $n_obs } obs (mask { $mask } deg) | datum { $datum } | rank { $rank }/{ $dim } cond { $condition } | station sigma { $v10 } vs equipartition g={ $g } { $eq_g } m (ratio { $v13 })
 
 ## src/main.rs
+
+engine-main-fail = error: { $e }
 
 engine-main-error-validate-needs-scenario-path = error: --validate needs a scenario path
 
