@@ -108,7 +108,38 @@ fn exit_quietly_when_stdout_closes() {
 
 fn main() -> ExitCode {
     exit_quietly_when_stdout_closes();
-    let args: Vec<String> = std::env::args().collect();
+    let mut args: Vec<String> = std::env::args().collect();
+    // `--lang <tag>` and `--verbose` are global: they are taken out of the arguments wherever they
+    // stand, so every subcommand sees the same command line it always did. The language is
+    // `--lang`, then KSHANA_LANG, LC_ALL, LC_MESSAGES, LANG, then English.
+    let mut lang_flag: Option<String> = None;
+    let mut k = 1;
+    while k < args.len() {
+        if args[k] == "--verbose" {
+            kshana::i18n::set_verbose(true);
+            args.remove(k);
+        } else if args[k] == "--lang" && k + 1 < args.len() {
+            lang_flag = Some(args[k + 1].clone());
+            args.drain(k..k + 2);
+        } else if let Some(v) = args[k].strip_prefix("--lang=") {
+            lang_flag = Some(v.to_string());
+            args.remove(k);
+        } else {
+            k += 1;
+        }
+    }
+    let lang = match kshana::i18n::select(lang_flag.as_deref()) {
+        Ok(l) => l,
+        Err(e) => {
+            eprintln!("error: {e}");
+            return ExitCode::from(2);
+        }
+    };
+    kshana::i18n::set_default(lang.clone());
+    kshana::i18n::with_lang(lang, || main_in_language(args))
+}
+
+fn main_in_language(args: Vec<String>) -> ExitCode {
     // `kshana kinds [--json]` is a terminal subcommand, resolved before the flag loop
     // because that loop's positional arm would otherwise read `kinds` as a scenario
     // path. The engine's unknown-kind error tells the user "`kshana kinds` lists all N
@@ -620,10 +651,19 @@ fn main() -> ExitCode {
         }
     }
 
-    let mut out = match kshana::api::run_toml(&src) {
+    // The result files come from an English run whatever the language; the language is for the
+    // summary, the chart text and the messages (kshana::api::run_toml_lang).
+    let lang = kshana::i18n::current();
+    kshana::i18n::set_default(kshana::i18n::Lang::english());
+    let ran = kshana::api::run_toml_bilingual(&src, lang.tag());
+    kshana::i18n::set_default(lang);
+    let (mut out, human) = match ran {
         Ok(o) => o,
         Err(e) => {
-            eprintln!("error: {e}");
+            eprintln!(
+                "{}",
+                kshana::i18n::error_report(&kshana::t!("main-fail", e = e))
+            );
             return ExitCode::FAILURE;
         }
     };
@@ -767,7 +807,7 @@ fn main() -> ExitCode {
         return ExitCode::FAILURE;
     }
     let svg_path = output_base.with_extension("chart.svg");
-    if let Err(e) = std::fs::write(&svg_path, &out.svg) {
+    if let Err(e) = std::fs::write(&svg_path, human.as_ref().map_or(&out.svg, |h| &h.svg)) {
         eprintln!(
             "{}",
             kshana::t!(
@@ -794,7 +834,10 @@ fn main() -> ExitCode {
         animation_files,
         export_files,
     };
-    let report = match kshana::advanced_report::build(&out, &scenario_src, &invocation) {
+    // report.json is a machine file and is built in English; report.html is built in the language.
+    let report = match kshana::i18n::with_lang(kshana::i18n::Lang::english(), || {
+        kshana::advanced_report::build(&out, &scenario_src, &invocation)
+    }) {
         Ok(r) => r,
         Err(e) => {
             eprintln!(
@@ -804,7 +847,22 @@ fn main() -> ExitCode {
             return ExitCode::FAILURE;
         }
     };
-    if let Err(e) = std::fs::write(&html_path, report.to_html(&out.svg)) {
+    let html = match &human {
+        None => report.to_html(&out.svg),
+        Some(h) => {
+            let shown = kshana::api::RunOutput {
+                json: out.json.clone(),
+                svg: h.svg.clone(),
+                summary: h.summary.clone(),
+                csv: out.csv.clone(),
+            };
+            match kshana::advanced_report::build(&shown, &scenario_src, &invocation) {
+                Ok(r) => r.to_html(&shown.svg),
+                Err(_) => report.to_html(&out.svg),
+            }
+        }
+    };
+    if let Err(e) = std::fs::write(&html_path, html) {
         eprintln!(
             "{}",
             kshana::t!(
@@ -845,7 +903,7 @@ fn main() -> ExitCode {
             return ExitCode::FAILURE;
         }
     }
-    println!("{}", out.summary);
+    println!("{}", human.as_ref().map_or(&out.summary, |h| &h.summary));
     if wrote_csv {
         println!(
             "{}",

@@ -1,0 +1,188 @@
+# Messages whose variables are counts. In every language these reach Fluent as numbers, so a
+# translation may write { $n -> [one] ... [few] ... *[other] ... }. One message per line: id: variables.
+e-clock-log-the-log-has-missing-epoch: n_gaps n_missing
+advanced-report-rows-of-non-numeric-column: n
+e-altpnt-maps-emag2-rows-do-not-fill: n_lat n_lon
+e-altpnt-maps-grid-of-nodes-is-too: n_lat n_lon
+e-altpnt-terrain-samples-per-side-must-be: n
+e-altpnt-terrain-srtm-hgt-length: n
+e-altpnt-terrain-an-hgt-window-needs-at: n_cols n_rows
+e-altpnt-terrain-hgt-window-length: n_cols n_rows
+e-animation-duration-fps-gives-frames-the: n
+e-aocs-kind-must-be-finite-and-positive: n
+aocs-kind-aocs-wheels-slew-from-deg: n_w
+api-unknown-scenario-kind-did-you: n
+api-unknown-scenario-kind-kshana-kinds: n
+api-builtins-integrity-satellites-epochs-available-hal: n_sats
+api-builtins-lunar-joint-od-clock-sats: n_earth n_obs n_params n_sat
+api-builtins-lunar-frame-realisation-points-translation: n_points
+api-builtins-moonlight-service-volume-sats-pts: n_epochs n_grid_points n_sats
+api-builtins-lunar-differential-pnt-sats-illustrative: n_sats
+api-builtins-lunar-station-coverage-points-epochs: n_epochs n_grid_points n_trials
+api-builtins-lunar-interop-export-ref-frame: n_states oem_line_count
+api-builtins-scenario-spoof-detect-svs-db: n_sats
+api-builtins-scenario-samples-alt-km-lat: n_samples
+api-builtins-raim-available-of-epochs-denied: n_alarm n_available n_denied n_epochs
+e-araim-reference-the-priors-need-subsets-of: n_fault_max
+bench-tasks-case-needs-values-has: n
+bin-gen-araim-m3-study-user-epochs-ura-values-in: n
+body-pnt-positioning-around-user-relays-at: n_epochs n_relays
+body-pnt-user-relays-earth-light-time: n_relays
+e-campaign-result-path-index-out-of: n
+cislunar-arc-recovery-cislunar-arc-recovery-family-state: n_spacecraft
+e-cislunar-observability-spacecraft-must-be-between-and: n
+e-cislunar-observability-epochs-must-be-got: n_epochs
+cislunar-observability-cislunar-observability-refs-arc-epochs: n_links
+cislunar-observability-family-state-range-rank-threshold: n_spacecraft
+cislunar-observability-extension-r3-this-run-is: n_spacecraft
+e-clock-integrity-integrity-must-be-finite-and: n
+e-clock-integrity-integrity-must-lie-in-got: n
+e-clock-integrity-integrity-epochs-exceed-the-epoch: n
+e-contact-schedule-link-must-be-finite-and: n
+e-contact-schedule-link-must-be-finite-and-2: n
+earth-gnss-lunar-earth-gnss-at-lunar-distance: n_satellites
+earth-gnss-lunar-of-not-occulted-clear-the: n_geometrically_visible n_satellites n_trackable
+e-entry-eo-ascent-eo-radiometry-must-be-in: n
+e-entry-eo-ascent-eo-radiometry-must-be-finite-and-non: n
+ephemeris-ground-track-samples-alt-km: n_samples
+geometry-sky-tle-holds-no-complete: n_ignored
+geometry-element-sets-propagated-by-the: n
+geometry-element-sets-propagated-by-the-2: n
+e-geometry-sky-must-be-in-got: n
+e-gnss-navmsg-gps-cnav-prn-or-tow-count-out: tow_count
+e-gravity-pds-shadr-record-bad: n
+e-gravity-pds-shadr-table-incomplete-missing: n
+e-gravity-sh-line-degree-above-the-declared: n
+e-gravity-sh-line-order-above-degree: n
+e-gse-sim-scenario-produces-epochs-need-increase: n
+hybrid-integrity-hybrid-optical-rf-optical-footprint: n_sites
+impairment-eval-impairment-eval-detector-auc-in: n_cases
+e-interference-map-cli-dataset-custom-needs: n
+interference-map-cli-wrote-cells-published-flagged: n_deg
+e-interference-map-cli-is-not-yyyy-mm-dd: n
+e-interop-scene-time-samples-is-more-than: n
+e-interop-scene-waypoints-is-outside-1000000: n
+e-ionex-map-bands-header-grid-has: n_lat
+e-ionex-tec-maps-header-of-maps: n_maps
+e-iq-acq-cfar-reference-cells-must-be: n
+e-iq-campaign-conditions-lists-value-give-one-per: n
+e-iq-campaign-runner-recording-holds-samples-needed-to: n
+e-iq-campaign-spec-inputs-design-names-no-design: n
+iq-cli-iq-takes-positional-argument-got: n
+iq-io-cli-iq-takes-path-argument-got: n
+iq-io-cli-wrote-samples-hz-to-saturated: n
+e-iq-io-sigmf-stream-capture-at-sample-is-out: n_file
+iq-labfit-iqfit-not-fitted-re-acquisitions-observed: n_reacq
+iq-labfit-iqreport-threshold-direct-median-db-over: n
+iq-labfit-iqreport-events-loss-time-rms-pi90: n
+iq-labfit-report-n0-samples-residual-rms-db: n_samples
+iq-labfit-report-event-time-rms-over-events: n_events
+e-iq-short-samples-requested-short-run-holds: n
+e-iq-signals-galileo-codes-the-icd-defines: n
+e-iq-track-design-no-design-named-the-file: n
+e-iq-track-sink-an-epoch-carries-extra-taps: n
+jammertest-plan-jammertest-2024-test-window: n
+e-leo-fusion-doppler-measurements-cannot-resolve-doppler-unknowns: n n_meas
+e-leo-fusion-joint-pvt-pseudoranges-cannot-resolve-unknowns-position: n n_clock
+leo-fusion-ntn-5g-ntn-positioning-at-mhz: n_satellites
+leo-fusion-ntn-one-satellite-doppler-pass-samples: n_obs
+leo-fusion-ppp-ppp-convergence-to-horizontal-vertical: n_gnss
+leo-fusion-ppp-leo-median-min-converged-nees: n_leo
+e-leo-fusion-presets-preset-has-no-signal-it: n
+leo-fusion-pvt-kind-sats-at-km-mhz: n_satellites
+leo-fusion-pvt-kind-doppler-fix-measurements-from-satellites: n_obs n_sats
+leo-fusion-pvt-kind-window-sats-3d-error: n_sats
+leo-fusion-pvt-kind-availability-median-pdop-rms-3d: n
+e-leo-pass-band-unknown-signal-design-public: n
+e-leo-pass-system-has-no-band: n
+leo-pass-unknown-system-presets-in-this: n
+e-leo-signal-compatibility-unknown-gnss-signal-known: n
+e-leo-signal-trade-reference-signal-is-not: n
+live-io-kshana-live-dropped-udp-datagram: n
+lunar-beacon-satellites-no-beacons: n_sats
+lunar-beacon-satellites-visible-beacons: n_sats n_vis_beacons
+lunar-beacon-satellites-no-beacons-2: n_cmp
+lunar-beacon-sats-beacons: n_visible_beacons n_visible_sats
+e-lunar-frame-campaign-no-observation-in-the-campaign: n_beacons n_epochs
+lunar-frame-campaign-lunar-frame-campaign-beacons-baselines: n_beacons n_epochs n_obs
+lunar-jamming-lunar-jamming-sats-epochs-links: n_epochs n_links n_lost n_sats
+lunar-jamming-lunar-jamming-sats-epochs-links-2: n_epochs n_links n_lost n_sats
+lunar-llr-lunar-llr-datum-archived-normal: n n_helmert n_parsed
+lunar-receiver-must-be-finite-and-not: n
+lunar-receiver-must-be-finite-and-positive: n
+e-lunar-solution-solution-min-satellites-must-be: n
+lunar-station-points-epochs-trials: n_epochs n_grid_points n_trials
+e-lunar-time-lab-time-lab-steer-interval-must: n
+e-lunar-vlbi-fim-no-observation-in-the-schedule: n_epochs
+lunar-vlbi-fim-lunar-vlbi-fim-stations-baselines: n_epochs n_obs n_stations
+main-ok-kind-resolves-and-all: n_required
+main-runs-read-not-used-rows: n
+mars-pnt-mars-pnt-user-clock-relays: n_relays
+e-mcda-ahp-pairwise-matrix-is-not-square: n
+e-mcda-copras-copras-weights-but-criterion-types: n
+e-mcda-copras-copras-alternative-has-values-but: n
+e-mcda-electre-electre-alternative-has-values-but: n
+e-mcda-moora-moora-weights-but-criterion-types: n
+e-mcda-moora-moora-alternative-has-values-but: n
+e-mcda-promethee-promethee-ii-weights-but-types: n
+e-mcda-promethee-promethee-ii-alternative-has-values: n
+e-mcda-topsis-topsis-weights-but-criterion-types: n
+e-mcda-topsis-topsis-alternative-has-values-but: n
+e-mcda-vikor-vikor-weights-but-criterion-types: n
+e-mcda-vikor-vikor-alternative-has-values-but: n
+e-mcda-waspas-waspas-weights-but-criterion-types: n
+e-mcda-waspas-waspas-alternative-has-values-but: n
+e-mcda-wpm-wpm-weights-but-criterion-types: n
+e-mcda-wpm-wpm-alternative-has-values-but: n
+e-mcda-wsm-alternative-has-values-but-there: n
+e-naif-kernel-daf-summary-record-claims-summaries: count
+e-naif-kernel-malformed-type-segment-rsize-intlen: n
+e-naif-kernel-type-segment-size-does-not-2: n
+e-nmea-synth-config-does-not-apply-to-this: n
+nmea-synth-gen-the-receiver-reports-fix-again: n_used
+nmea-synth-gen-the-receiver-has-no-fix: n_used
+observability-gramian-rank-clamped-from-the-singular: n_cols n_rows
+observability-gramian-gdop-undefined-rank-deficient-singular: n
+e-odm-line-has-values-expected: n
+e-oem-oem-data-line-needs-position: n
+oem-oem-interop-round-tripped-segment: n_states_total
+oem-oem-interop-ingested-segment-states: n_states_total
+e-optical-atmosphere-scenario-must-be-in: n
+pvt-pvt-sat-nav-epochs-solved: n_satellites_nav
+e-realdata-ion-sdr-expected-one-root-element-found: n
+realdata-lugre-sample-count-metadata-layout-gives: n_samples
+receiver-trust-geometry-geometry-hdop-pdop-vdop-satellites: n_used
+receiver-trust-geometry-derived-from-logged-satellites: n
+receiver-trust-geometry-as-the-receiver-reports-it: n
+receiver-trust-geometry-satellites-fewer-than: n
+e-receiver-trust-machines-imu-imu-csv-no-column: n
+e-receiver-trust-machines-imu-imu-euroc-no-column: n
+e-receiver-trust-machines-imu-fit-the-log-has-samples-at: n
+e-receiver-trust-machines-imu-fit-the-sample-interval-is-not: n
+e-scenario-time-grid-too-large-steps: n
+slot-timing-fitted-to-the-overlapping-allan: n_samples
+slot-timing-slot-timing-source-guard-ns: n
+e-solar-system-track-points-must-be-to: n_track
+e-solar-system-unknown-body: n
+solar-system-solar-system-at-jd-tdb: n_bodies
+sp3-cp-orbit-igs14-hlm-kshana: num_epochs
+e-space-packet-cuc-fine-does-not-fit: n
+space-packet-sequence-count-repeated: sequence_count
+space-packet-sequence-count-gap-after-packet: sequence_count
+space-packet-sequence-count-out-of-order: sequence_count
+space-packet-space-packet-framed-ccsds-133: packet_count
+e-spectrum-iq-must-be-power-of: n
+e-spectrum-modulation-is-not-selectable-only: n
+e-spk-writer-states-for-epochs: n
+e-spk-writer-states-degree-needs: n
+e-spk-writer-epochs-for-difference-lines: n
+e-spk-writer-type-segment-words-for-rsize: n
+e-spk-writer-type-21-segment-words-for: n
+e-spk-writer-segment-words-for: n
+e-ssv-weak-receiver-must-be-positive-number: n
+standards-pack-not-scored-needs-input: n
+e-sweep-sweep-key-index-is-past: n
+telemetry-cli-warning-mqtt-messages-were-not: n
+telemetry-prometheus-kshana-trust-reason-epochs-total: n
+e-time-transfer-budget-must-be-finite: n
+e-time-transfer-budget-must-be-finite-2: n
