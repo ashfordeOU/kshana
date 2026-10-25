@@ -6857,8 +6857,6 @@ engine-e-telemetry-sample-bad-epochs = nieprawidłowe `epochs`: { $e }
 
 ## src/telemetry/syslog.rs
 
-engine-telemetry-syslog-cef-gnss-trust = CEF:0|{ $cef_header_escape }|{ $cef_header_escape2 }|{ $cef_header_escape3 }|{ $EVENT_PREFIX }.{ $band }|zaufanie GNSS { $band }|{ $cef_severity }|{ $ext }
-
 engine-e-telemetry-syslog-host-is-bytes-syslog-host = host ma { $host } bajtów; nazwa hosta syslog ma najwyżej 255
 
 engine-e-telemetry-syslog-host-must-be-printable-ascii = host musi składać się z drukowalnych znaków ASCII bez spacji
