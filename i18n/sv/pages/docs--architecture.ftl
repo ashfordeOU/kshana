@@ -151,3 +151,5 @@ seg-b48f69ea54b3 = Ett privat overlay-repo innehåller exportkänslig resiliensd
 seg-2f88ab8f67e8 = <s1>Föregående</s1>Där { -brand } körs
 
 seg-02b0e0fdcdbe = <s1>Nästa</s1>Där { -brand } passar in
+
+seg-8c9d1d90dc8e = <b><c1/></b> — en poängmotor för PNT-resiliens i linje med ramverk (kategorierna i DHS (Department of Homeland Security) RPCF (Resilient PNT Conformance Framework)) plus en studie av beslutsinstabilitet: en Dirichlet-viktningssimplex, Kendall-τ-rankinginstabilitet, frekvens för byte av topp-1-vinnare, och <b>mångfaldskollaps</b> i gemensam mod (Hill-N2), med en integritetshashad säkerställanderapport och { "35" } för hand härledda tester mot oberoende referens. Se <a1>RESILIENCE-CROSSWALK</a1>. Syntetiska arkitekturer i linje med RPCF v2.0 — en självbedömning, inte en certifiering.
