@@ -64,7 +64,12 @@ const probe = () => {
     if (!t.includes('⟦')) bad.push(t.slice(0, 80));
   }
   const de = document.documentElement;
-  return { bad, width: de.scrollWidth, client: de.clientWidth };
+  const wide = [];
+  if (de.scrollWidth > de.clientWidth + 1) {
+    const clipped = (e) => { for (let a = e.parentElement; a && a !== document.body; a = a.parentElement) if (getComputedStyle(a).overflowX !== 'visible') return true; return false; };
+    for (const e of document.body.querySelectorAll('*')) { const r = e.getBoundingClientRect(); if (r.right > de.clientWidth + 1 && r.width > 0 && !clipped(e)) wide.push(`${e.tagName.toLowerCase()}${e.className ? '.' + String(e.className).split(' ')[0] : ''} right=${Math.round(r.right)}`); }
+  }
+  return { bad, width: de.scrollWidth, client: de.clientWidth, wide: wide.slice(0, 5) };
 };
 for (const width of [1440, 390]) {
   for (const js of [false, true]) {
@@ -78,7 +83,7 @@ for (const width of [1440, 390]) {
       if (!js) {
         await page.goto(`${base}/${path}`, { waitUntil: 'load' });
         const en = await page.evaluate(probe);
-        if (r.width > en.width + 2) { failures++; console.log(`FAIL ${width}px /${opt.lang}/${p}: horizontal overflow (${r.width} against ${en.width} in English)`); }
+        if (r.width > en.width + 2) { failures++; console.log(`FAIL ${width}px /${opt.lang}/${p}: horizontal overflow (${r.width} against ${en.width} in English; widest: ${r.wide.join(', ')})`); }
         if (r.bad.length) { failures++; console.log(`FAIL ${width}px /${opt.lang}/${p}: ${r.bad.length} static text blocks without markers, e.g. ${JSON.stringify(r.bad.slice(0, 3))}`); }
       } else if (r.bad.length && width === 1440) {
         dynamic += r.bad.length;
