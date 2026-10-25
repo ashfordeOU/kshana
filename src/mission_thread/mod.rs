@@ -18,6 +18,7 @@
 
 pub mod budget;
 pub mod conversions;
+pub mod earth;
 pub mod handover;
 pub mod phase;
 pub mod scenario;
@@ -105,13 +106,29 @@ impl ThreadCtx {
         u64::from_le_bytes([d[0], d[1], d[2], d[3], d[4], d[5], d[6], d[7]])
     }
 
-    /// The per-phase context for the phase with this index, id and duration.
+    /// The per-phase context for the phase with this index, id and duration, with no navigation
+    /// sources stated (the phase uses its own defaults) and a GNSS time source.
     pub fn phase_ctx(&self, index: usize, id: &str, duration_s: f64) -> PhaseCtx {
         PhaseCtx {
             index,
             id: id.to_string(),
             duration_s,
             seed: self.phase_seed(id),
+            nav: Vec::new(),
+            time: phase::TimeSource::Gnss,
+        }
+    }
+
+    /// The per-phase context for a phase the document states: id, duration, navigation sources
+    /// and time source from the spec.
+    pub fn phase_ctx_for(&self, index: usize, spec: &phase::PhaseSpec) -> PhaseCtx {
+        PhaseCtx {
+            index,
+            id: spec.id.clone(),
+            duration_s: spec.duration_s,
+            seed: self.phase_seed(&spec.id),
+            nav: spec.nav.clone(),
+            time: spec.time,
         }
     }
 
@@ -149,9 +166,20 @@ pub struct PhaseCtx {
     pub duration_s: f64,
     /// The phase's seed, derived from the thread seed and the phase id.
     pub seed: u64,
+    /// The navigation sources the document lists for the phase. Empty means "not stated" (a
+    /// standalone run): the phase then uses its own default list.
+    pub nav: Vec<phase::NavSource>,
+    /// The time source the document gives the phase.
+    pub time: phase::TimeSource,
 }
 
 impl PhaseCtx {
+    /// Whether the phase may use a navigation source: true when the document lists it, and true
+    /// for every source when the document lists none (a standalone run).
+    pub fn uses(&self, source: phase::NavSource) -> bool {
+        self.nav.is_empty() || self.nav.contains(&source)
+    }
+
     /// Checks a phase kind's own length key (`arc_s`, `descent_s`, `stay_days` converted to
     /// seconds, `ascent_s`) against the length the thread passes. They must agree; the phase
     /// refuses a mismatch rather than silently using one of the two.
@@ -237,8 +265,8 @@ pub static PHASE_KINDS: &[PhaseKindInfo] = &[
     PhaseKindInfo {
         kind: "launch-ascent",
         segment: "earth",
-        ctor: stub_ctor!("launch-ascent"),
-        implemented: false,
+        ctor: earth::launch::ctor,
+        implemented: true,
     },
     PhaseKindInfo {
         kind: "leo-rendezvous",
@@ -353,9 +381,9 @@ mod tests {
 
     #[test]
     fn a_stub_fails_loudly_when_run_and_an_unknown_kind_lists_the_known_ones() {
-        let info = phase_kind("launch-ascent").unwrap();
+        let info = phase_kind("entry").unwrap();
         let p = (info.ctor)(&toml::Table::new()).unwrap();
-        assert_eq!(p.kind(), "launch-ascent");
+        assert_eq!(p.kind(), "entry");
         let ctx = ThreadCtx::new("2028-01-01T00:00:00Z", 1);
         let pctx = ctx.phase_ctx(0, "ascent", 600.0);
         let e = run_phase(p.as_ref(), &entry(), &ctx, &pctx).unwrap_err();
