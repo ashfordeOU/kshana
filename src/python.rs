@@ -398,6 +398,15 @@ fn error_kind(toml: &str, lang: Option<&str>) -> Option<String> {
         .map(|e| e.kind_tag().to_string())
 }
 
+/// Run a scenario once in `lang` and return `(summary, svg)`, what a person reads. The result
+/// document and CSV are the English run's (`run_typed`), not this run's.
+#[pyfunction]
+fn run_human(toml: &str, lang: &str) -> PyResult<(String, String)> {
+    crate::api::run_toml_human(toml, lang)
+        .map(|h| (h.summary, h.svg))
+        .map_err(PyValueError::new_err)
+}
+
 /// Why a scenario fails: `None` when it runs, else a dict `{"kind", "code", "message"}` with the
 /// message in `lang` and the code (`E-...`, or `None`) the same in every language.
 #[pyfunction]
@@ -2442,6 +2451,7 @@ fn kshana(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(list_kinds, m)?)?;
     m.add_function(wrap_pyfunction!(error_kind, m)?)?;
     m.add_function(wrap_pyfunction!(error_info, m)?)?;
+    m.add_function(wrap_pyfunction!(run_human, m)?)?;
     m.add_function(wrap_pyfunction!(version, m)?)?;
     m.add_function(wrap_pyfunction!(receiver_trust, m)?)?;
     m.add_function(wrap_pyfunction!(receiver_trust_replay, m)?)?;

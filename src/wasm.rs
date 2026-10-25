@@ -147,6 +147,26 @@ pub fn error_kind(toml: &str, lang: Option<String>) -> String {
         .unwrap_or_default()
 }
 
+/// Run a scenario ONCE in `lang` and return what a person reads, as an object `{summary, svg}`. The
+/// result document and CSV are not part of it: they are the English run's (`run_typed`), so a page
+/// shows the English result at once and calls this afterwards to localise the summary and the chart.
+#[wasm_bindgen(unchecked_return_type = "{ summary: string; svg: string }")]
+pub fn run_human(toml: &str, lang: &str) -> Result<JsValue, JsValue> {
+    let h = crate::api::run_toml_human(toml, lang).map_err(|e| JsValue::from_str(&e))?;
+    Ok(json_parse(
+        &serde_json::json!({"summary": h.summary, "svg": h.svg}).to_string(),
+    ))
+}
+
+/// Use `ftl` (the text of `i18n/<lang>/engine.ftl`) as the catalogue of language `tag`. The WebAssembly
+/// build embeds English only; a page fetches the file of the chosen language and registers it here
+/// before `run_human`, `run_typed(.., lang)` or `list_kinds(lang)`. Throws if the tag is not a supported
+/// language or the text is not a valid catalogue; the page then stays in English.
+#[wasm_bindgen]
+pub fn register_catalogue(tag: &str, ftl: &str) -> Result<(), JsValue> {
+    crate::i18n::register_catalogue(tag, ftl).map_err(|e| JsValue::from_str(&e))
+}
+
 /// Why a scenario fails, as a JSON object string `{"kind", "code", "message"}` (`message` in `lang`,
 /// `code` the same in every language, null when the message has none); empty when it runs.
 #[wasm_bindgen]

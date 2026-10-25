@@ -1853,6 +1853,27 @@ pub fn run_toml_bilingual(src: &str, lang: &str) -> Result<(RunOutput, Option<Ru
     }
 }
 
+/// What a person reads from a run: the summary and the chart, in the user's language.
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct HumanOutput {
+    /// The one-line summary in the language.
+    pub summary: String,
+    /// The SVG chart with its text in the language.
+    pub svg: String,
+}
+
+/// The second pass of [`run_toml_bilingual`] on its own: run the scenario once in `lang` and return
+/// only what a person reads. The result document and CSV of that run are not returned, because they
+/// are not the machine files (those come from the English run, [`run_toml`]). A page that has shown
+/// the English result can call this afterwards, in the background, to localise it.
+pub fn run_toml_human(src: &str, lang: &str) -> Result<HumanOutput, String> {
+    let wanted = crate::i18n::resolve(lang)?;
+    crate::i18n::with_lang(wanted, || run_toml_in_current_language(src)).map(|o| HumanOutput {
+        summary: o.summary,
+        svg: o.svg,
+    })
+}
+
 /// [`run_scenario`] for a user in language `lang`; see [`run_toml_lang`].
 pub fn run_scenario_lang(src: &str, lang: &str) -> Result<RunOutput, KshanaError> {
     let wanted = crate::i18n::resolve(lang).map_err(KshanaError::InvalidInput)?;

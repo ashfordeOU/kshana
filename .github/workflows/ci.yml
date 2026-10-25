@@ -642,6 +642,9 @@ jobs:
         # --lib: the registry lives in the library, and the crate's native-only
         # binaries (e.g. gen_validation_artifacts) are not WASM targets.
         run: cargo build -p kshana --lib --target wasm32-unknown-unknown
+      - name: Build the WebAssembly bindings (the wasm feature, release)
+        # The bindings (src/wasm.rs, the i18n catalogue loader) compile only with --features wasm.
+        run: cargo build -p kshana --lib --release --target wasm32-unknown-unknown --features wasm
   # ---------------------------------------------------------------------------
   # The MCP server crate (mcp/kshana-mcp).
   #
