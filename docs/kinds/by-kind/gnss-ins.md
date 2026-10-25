@@ -15,7 +15,7 @@ One run of `scenarios/gnss-ins.toml` summarises as: scenario c55a6246bd6f | gnss
 From the schema (`kshana kinds --json`):
 
 - Required fields: `seed`, `threshold_m`, `time`, `gnss`, `imu_quantum`, `imu_classical`
-- Optional fields: `sis_correlation_s`, `sigma_pos_m`, `sigma_vel_mps`, `lat_deg`, `lon_deg`, `alt_m`, `trajectory`, `tight`
+- Optional fields: `fix_interval_s`, `sigma_pos_m`, `sigma_vel_mps`, `lat_deg`, `lon_deg`, `alt_m`, `trajectory`, `tight`
 
 The example `scenarios/gnss-ins.toml` sets, among others:
 
