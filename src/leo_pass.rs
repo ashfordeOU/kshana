@@ -3495,7 +3495,7 @@ pub fn to_svg(r: &LeoPassReport) -> String {
         ),
         None => crate::t!("leo-pass-user-modelled", environment = r.user.environment),
     };
-    let mut s = crate::chart::frame_open(w, h, "LEO pass: C/N0 per band and Doppler", &sub);
+    let mut s = crate::chart::frame_open(w, h, &crate::t!("leo-pass-chart-title"), &sub);
     let (ml, pw) = (70.0, 800.0);
     let x = |t: f64| ml + pw * t / r.duration_s.max(1.0);
     // Panel 1: C/N0.
@@ -3507,17 +3507,18 @@ pub fn to_svg(r: &LeoPassReport) -> String {
         top1,
         pw,
         top1 + ph1,
-        "C/N0 (dB-Hz, 20 to 80): LEO bands in colour, GNSS in grey",
+        &crate::t!("leo-pass-chart-cn0-caption"),
     ));
     for v in [30.0, 40.0, 50.0, 60.0, 70.0] {
         s.push_str(&format!(
             "<line x1=\"{ml:.0}\" y1=\"{:.1}\" x2=\"{:.0}\" y2=\"{:.1}\" stroke=\"{GRID}\"/>\
-             <text x=\"{:.0}\" y=\"{:.1}\" text-anchor=\"end\" font-size=\"10\" fill=\"{MUTED}\">{v:.0}</text>",
+             <text x=\"{:.0}\" y=\"{:.1}\" text-anchor=\"end\" font-size=\"10\" fill=\"{MUTED}\">{}</text>",
             y1(v),
             ml + pw,
             y1(v),
             ml - 6.0,
-            y1(v) + 3.0
+            y1(v) + 3.0,
+            crate::i18n::num(v, 0)
         ));
     }
     if let Some(g) = &r.gnss {
@@ -3598,8 +3599,11 @@ pub fn to_svg(r: &LeoPassReport) -> String {
         }
     }
     s.push_str(&format!(
-        "<text x=\"{ml:.0}\" y=\"505\" font-size=\"10\" fill=\"{MUTED}\">time since epoch, 0 to {:.0} s</text></svg>",
-        r.duration_s
+        "<text x=\"{ml:.0}\" y=\"505\" font-size=\"10\" fill=\"{MUTED}\">{}</text></svg>",
+        crate::t!(
+            "leo-pass-chart-time-axis",
+            s = crate::i18n::num(r.duration_s, 0)
+        )
     ));
     s
 }

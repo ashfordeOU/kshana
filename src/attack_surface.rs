@@ -1065,7 +1065,8 @@ impl LunarAttackSurfaceScenario {
             "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"640\" height=\"240\" viewBox=\"0 0 640 240\">\
              <rect width=\"640\" height=\"240\" fill=\"{BG}\"/>\
              <text x=\"28\" y=\"36\" fill=\"{TITLE}\" font-family=\"{FONT_SANS}\" font-size=\"18\" font-weight=\"bold\">\
-             Lunar signal-security attack surface (P1)</text>{body}</svg>"
+             {}</text>{body}</svg>",
+            crate::t!("attack-surface-chart-title")
         )
     }
 }

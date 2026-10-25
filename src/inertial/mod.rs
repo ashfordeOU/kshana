@@ -942,14 +942,18 @@ pub fn to_svg(result: &InertialResult) -> String {
     svg.push_str(&format!(
         "<rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"{BG}\"/>"
     ));
-    svg.push_str(&format!("<text x=\"{:.0}\" y=\"18\" font-size=\"15\" font-weight=\"bold\">Dead-reckoning position error during GNSS outage</text>", ml));
+    svg.push_str(&format!(
+        "<text x=\"{:.0}\" y=\"18\" font-size=\"15\" font-weight=\"bold\">{}</text>",
+        ml,
+        crate::t!("inertial-chart-title")
+    ));
     svg.push_str(&crate::chart::y_axis(
         ml,
         mt,
         pw,
         ph,
         y_max,
-        "position error (m)",
+        &crate::t!("inertial-chart-y-title"),
     ));
     svg.push_str(&format!(
         "<line x1=\"{ml:.0}\" y1=\"{mt:.0}\" x2=\"{ml:.0}\" y2=\"{axis_y:.0}\" stroke=\"{AXIS}\"/>"
@@ -960,10 +964,13 @@ pub fn to_svg(result: &InertialResult) -> String {
     ));
     svg.push_str(&format!("<line x1=\"{ml:.0}\" y1=\"{thr_y:.1}\" x2=\"{:.0}\" y2=\"{thr_y:.1}\" stroke=\"{CORAL}\" stroke-dasharray=\"6 4\"/>", ml + pw));
     svg.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"{:.1}\" fill=\"{CORAL}\">spec {:.0} m</text>",
+        "<text x=\"{:.0}\" y=\"{:.1}\" fill=\"{CORAL}\">{}</text>",
         ml + 4.0,
         thr_y - 4.0,
-        result.threshold_m
+        crate::t!(
+            "inertial-chart-spec-line",
+            m = crate::i18n::num(result.threshold_m, 0)
+        )
     ));
     svg.push_str(&format!(
         "<polyline fill=\"none\" stroke=\"{AMBER}\" stroke-width=\"2\" points=\"{}\"/>",
@@ -974,19 +981,26 @@ pub fn to_svg(result: &InertialResult) -> String {
         points(q)
     ));
     svg.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"middle\">time (s)</text>",
+        "<text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"middle\">{}</text>",
         ml + pw / 2.0,
-        h - 12.0
+        h - 12.0,
+        crate::t!("ensemble-chart-time-s")
     ));
     svg.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"44\" fill=\"{AMBER}\">classical: {}</text>",
+        "<text x=\"{:.0}\" y=\"44\" fill=\"{AMBER}\">{}</text>",
         ml + 10.0,
-        crate::chart::esc(&result.classical.spec.id)
+        crate::t!(
+            "inertial-chart-classical",
+            id = crate::chart::esc(&result.classical.spec.id)
+        )
     ));
     svg.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"60\" fill=\"{CYAN}\">quantum: {}</text>",
+        "<text x=\"{:.0}\" y=\"60\" fill=\"{CYAN}\">{}</text>",
         ml + 10.0,
-        crate::chart::esc(&result.quantum.spec.id)
+        crate::t!(
+            "inertial-chart-quantum",
+            id = crate::chart::esc(&result.quantum.spec.id)
+        )
     ));
     svg.push_str("</svg>");
     svg

@@ -667,7 +667,10 @@ fn to_svg(doc: &Value, name: &str) -> String {
         w,
         h,
         name,
-        "signal design -> pass C/N0 and code jitter -> message SISRE -> fused fix · MODELLED",
+        &crate::t!(
+            "leo-pnt-chain-chart-subtitle",
+            label = crate::t!("fom-verdict-modelled")
+        ),
     );
     let (ml, pw) = (70.0, 800.0);
     let t = nums(&doc["series"]["t_s"]);
@@ -687,7 +690,7 @@ fn to_svg(doc: &Value, name: &str) -> String {
         top1,
         pw,
         top1 + ph1,
-        "Tracked-component C/N0 over the pass (dB-Hz, 20 to 80)",
+        &crate::t!("leo-pnt-chain-chart-cn0-caption"),
     ));
     let pts: Vec<String> = t
         .iter()
@@ -735,9 +738,17 @@ fn to_svg(doc: &Value, name: &str) -> String {
     let f = |p: &str| doc.pointer(p).and_then(Value::as_f64);
     let line = crate::t!(
         "leo-pnt-chain-sisre-gnss-only-rms-3d",
-        f = f("/navmsg/sisre_rms_m").map_or("n/a".into(), |v| format!("{v:.3} m")),
-        f2 = f("/fusion/gnss/rms_error_3d_m").map_or("n/a".into(), |v| format!("{v:.2} m")),
-        f3 = f("/fusion/fused/rms_error_3d_m").map_or("n/a".into(), |v| format!("{v:.2} m"))
+        f = f("/navmsg/sisre_rms_m").map_or(crate::t!("leo-pnt-chain-chart-not-available"), |v| {
+            format!("{} m", crate::i18n::num(v, 3))
+        }),
+        f2 = f("/fusion/gnss/rms_error_3d_m").map_or(
+            crate::t!("leo-pnt-chain-chart-not-available"),
+            |v| format!("{} m", crate::i18n::num(v, 2))
+        ),
+        f3 = f("/fusion/fused/rms_error_3d_m").map_or(
+            crate::t!("leo-pnt-chain-chart-not-available"),
+            |v| format!("{} m", crate::i18n::num(v, 2))
+        )
     );
     s.push_str(&format!(
         "<text x=\"{ml:.0}\" y=\"450\" font-size=\"13\">{}</text>",

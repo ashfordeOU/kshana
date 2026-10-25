@@ -1572,8 +1572,12 @@ fn svg(c: &Computed) -> String {
     s.push_str(&crate::chart::frame_open(
         w,
         h,
-        "Layered-PNT conflict resilience (P7)",
-        "total-loss vs threat intensity (MC vs closed form) · resilience ratio vs denial correlation · MODELLED priors, VALIDATED MC->closed-form / copula marginals",
+        &crate::t!("conflict-resilience-chart-title"),
+        &crate::t!(
+            "conflict-resilience-chart-subtitle",
+            modelled = crate::t!("fom-verdict-modelled"),
+            validated = crate::t!("fom-verdict-validated")
+        ),
     ));
 
     // ── Left panel: total-loss probability vs intensity ──
@@ -1584,7 +1588,7 @@ fn svg(c: &Computed) -> String {
         ly,
         lw,
         axis_y,
-        "total-loss probability vs intensity",
+        &crate::t!("conflict-resilience-chart-total-loss-probability"),
     ));
     // y is a probability in [0, 1].
     for g in 0..=4 {
@@ -1595,10 +1599,10 @@ fn svg(c: &Computed) -> String {
             lx + lw
         ));
         s.push_str(&format!(
-            "<text x=\"{:.0}\" y=\"{:.1}\" text-anchor=\"end\" fill=\"{MUTED}\">{:.2}</text>",
+            "<text x=\"{:.0}\" y=\"{:.1}\" text-anchor=\"end\" fill=\"{MUTED}\">{}</text>",
             lx - 6.0,
             gy + 4.0,
-            frac
+            crate::i18n::num(frac, 2)
         ));
     }
     let imax = c.grid.last().copied().unwrap_or(1.0).max(1e-9);
@@ -1643,19 +1647,22 @@ fn svg(c: &Computed) -> String {
         single.trim_end()
     ));
     s.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"middle\" fill=\"{MUTED}\">threat intensity</text>",
+        "<text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"middle\" fill=\"{MUTED}\">{}</text>",
         lx + lw / 2.0,
-        axis_y + 26.0
+        axis_y + 26.0,
+        crate::t!("conflict-resilience-chart-threat-intensity")
     ));
     s.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"{:.0}\" fill=\"{AMBER}\" font-size=\"10\">layered MC</text>",
+        "<text x=\"{:.0}\" y=\"{:.0}\" fill=\"{AMBER}\" font-size=\"10\">{}</text>",
         lx + 8.0,
-        ly + 12.0
+        ly + 12.0,
+        crate::t!("conflict-resilience-chart-layered-mc")
     ));
     s.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"{:.0}\" fill=\"{CORAL}\" font-size=\"10\">single layer</text>",
+        "<text x=\"{:.0}\" y=\"{:.0}\" fill=\"{CORAL}\" font-size=\"10\">{}</text>",
         lx + 8.0,
-        ly + 26.0
+        ly + 26.0,
+        crate::t!("conflict-resilience-chart-single-layer")
     ));
 
     // ── Right panel: resilience ratio vs correlation ──
@@ -1666,7 +1673,7 @@ fn svg(c: &Computed) -> String {
         ryy,
         rw,
         raxis_y,
-        "resilience ratio vs denial correlation",
+        &crate::t!("conflict-resilience-chart-resilience-ratio"),
     ));
     let ratio_max = c
         .correlation_sweep
@@ -1684,10 +1691,10 @@ fn svg(c: &Computed) -> String {
             rx + rw
         ));
         s.push_str(&format!(
-            "<text x=\"{:.0}\" y=\"{:.1}\" text-anchor=\"end\" fill=\"{MUTED}\">{:.1}x</text>",
+            "<text x=\"{:.0}\" y=\"{:.1}\" text-anchor=\"end\" fill=\"{MUTED}\">{}x</text>",
             rx - 6.0,
             gy + 4.0,
-            val
+            crate::i18n::num(val, 1)
         ));
     }
     let rxof = |rho: f64| rx + rho.clamp(0.0, 1.0) * rw;
@@ -1716,9 +1723,10 @@ fn svg(c: &Computed) -> String {
         }
     }
     s.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"middle\" fill=\"{MUTED}\">denial correlation ρ</text>",
+        "<text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"middle\" fill=\"{MUTED}\">{}</text>",
         rx + rw / 2.0,
-        raxis_y + 26.0
+        raxis_y + 26.0,
+        crate::t!("conflict-resilience-chart-denial-correlation")
     ));
     s.push_str("</svg>");
     s
