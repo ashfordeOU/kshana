@@ -993,6 +993,64 @@ engine-bench-site-result-is-scored-on-provisional = result { $v1 } is scored on 
 
 engine-bench-site-result-was-scored-under-this = result { $v1 } was scored under { $v }; this page is for { $SPEC_VERSION }
 
+engine-bench-site-title-a = Task (a): detection on receiver logs
+
+engine-bench-site-title-b = Task (b): detection on IQ
+
+engine-bench-site-title-c = Task (c): timing holdover prediction
+
+engine-bench-site-title-d = Task (d): out-of-distribution optimism gap
+
+engine-bench-site-col-rmse-3600 = RMSE 3600 s (ns)
+
+engine-bench-site-col-rmse-300 = RMSE 300 s (ns)
+
+engine-bench-site-col-rmse-7200 = RMSE 7200 s (ns)
+
+engine-bench-site-col-auc-in = AUC in
+
+engine-bench-site-col-auc-out = AUC out
+
+engine-bench-site-col-optimism-gap = Optimism gap
+
+engine-bench-site-col-flag = Flag
+
+engine-bench-site-col-auc = AUC
+
+engine-bench-site-col-pd-at-pfa-cap = P_d at P_fa cap (upper bound)
+
+engine-bench-site-flag-optimistic = optimistic
+
+engine-bench-site-flag-within-tolerance = within tolerance
+
+engine-bench-site-not-available = n/a
+
+engine-bench-site-none-published = No results published yet. A row appears here only when a result file is scored and added; nothing on this page is an estimate.
+
+engine-bench-site-none-for-task = No results yet for this task.
+
+engine-bench-site-region-label = { $title } { $split } results
+
+engine-bench-site-caption-split = Split: { $split }
+
+engine-bench-site-th-system = System
+
+engine-bench-site-th-provenance = Provenance
+
+engine-bench-site-th-truth-sha256 = Truth SHA-256
+
+engine-bench-site-provenance-carried = carried: { $note }
+
+engine-bench-site-provenance-scored = scored
+
+engine-bench-site-heading = kshana-bench leaderboard
+
+engine-bench-site-lede = Result files scored under <code>{ $spec }</code>. A row says this file scored this number on this split. It does not mean any product has been rated or approved by anyone, and no organisation is named as an endorser.
+
+engine-bench-site-foot = Every score is modelled unless a row says an external oracle agreed. Licence of the specification and manifests: CC-BY-4.0 / CC0 proposed, owner decision pending. The real-data holdout is not secret: see the specification, section 4.
+
+engine-bench-site-meta-description = Scores of submitted result files under kshana-bench { $spec }. Advisory only.
+
 ## src/bench/tasks.rs
 
 engine-bench-tasks-score-for-is-not-number = score for `{ $k }` is not a number
@@ -3296,6 +3354,92 @@ engine-iq-campaign-report-curve-more-series = +{ $n } more series in the scoreca
 engine-iq-campaign-report-curve-point-tooltip = { $fe } / { $d }: J/S { $x } dB, measured degradation { $y } dB
 
 engine-iq-campaign-report-curve-measured-legend = { $fe } / { $d } (measured)
+
+engine-iq-campaign-report-roc-heading = Detection ROC
+
+engine-iq-campaign-report-roc-note = <p class="note">Labelled <b>{ $label }</b>. Each stated event window is a positive and each window of the configured length outside the events a negative. A window counts at a threshold when the monitor's own test statistic reaches it in the window. P<sub>fa</sub> is per negative window, not per test. The same figures are in <code>roc.json</code>.</p>
+
+engine-iq-campaign-report-th-alarm-kind = Alarm kind
+
+engine-iq-campaign-report-th-positives = Positives
+
+engine-iq-campaign-report-th-negatives = Negatives
+
+engine-iq-campaign-report-th-auc = AUC
+
+engine-iq-campaign-report-th-threshold = Threshold
+
+engine-iq-campaign-report-th-pd-at-it = P<sub>d</sub> at it
+
+engine-iq-campaign-report-th-pfa-at-it = P<sub>fa</sub> at it
+
+engine-iq-campaign-report-title = Campaign { $name }
+
+engine-iq-campaign-report-heading = Lab replay campaign: { $name }
+
+engine-iq-campaign-report-meta = Data class <b>{ $data_class }</b> · Kshana { $engine } · { $n_recordings } recording(s) × { $n_frontends } front end(s) × { $n_designs } design(s) = { $n_cells } cells, { $n_done } done · digest <code>{ $digest }</code>
+
+engine-iq-campaign-report-digest-incomplete = (incomplete: not every cell is done)
+
+engine-iq-campaign-report-reference-note = <p class="note">Measured values come from tracking the recordings. Dashed lines labelled <b>{ $label }</b> are the analytic spectral-separation reference <code>{ $formula }</code> at the lab's stated J/S, with Q from the stated interference type. They are a model of the stated condition, not a measurement and not a simulation of the interference.</p>
+
+engine-iq-campaign-report-summary-heading = Summary
+
+engine-iq-campaign-report-th-recording = Recording
+
+engine-iq-campaign-report-th-front-end = Front end
+
+engine-iq-campaign-report-th-design = Design
+
+engine-iq-campaign-report-th-satellites = Satellites
+
+engine-iq-campaign-report-th-mean-availability = Mean availability
+
+engine-iq-campaign-report-th-events-lost = Events lost
+
+engine-iq-campaign-report-th-median-reacq = Median re-acq (s)
+
+engine-iq-campaign-report-th-pass = Pass
+
+engine-iq-campaign-report-th-fail = Fail
+
+engine-iq-campaign-report-degradation-heading = C/N0 degradation against stated J/S
+
+engine-iq-campaign-report-scorecard-heading = Scorecard
+
+engine-iq-campaign-report-scorecard-note-nwpr = <p class="meta">The same rows as <code>scorecard.csv</code>. Re-acquisition is measured from the event offset; outage is measured from the loss of lock. The C/N0 column and the degradation curves use the NWPR (reads low by about 8 dB · Bn·T under the loop's own jitter, so its readings depend on the loop design) estimate; both estimates are in <code>scorecard.json</code>.</p>
+
+engine-iq-campaign-report-scorecard-note-m2m4 = <p class="meta">The same rows as <code>scorecard.csv</code>. Re-acquisition is measured from the event offset; outage is measured from the loss of lock. The C/N0 column and the degradation curves use the M2M4 (insensitive to the loop's own jitter) estimate; both estimates are in <code>scorecard.json</code>.</p>
+
+engine-iq-campaign-report-th-sat = Sat
+
+engine-iq-campaign-report-th-scope = Scope
+
+engine-iq-campaign-report-th-event = Event
+
+engine-iq-campaign-report-th-avail = Avail.
+
+engine-iq-campaign-report-th-loss = Loss (s)
+
+engine-iq-campaign-report-th-js-at-loss = J/S at loss
+
+engine-iq-campaign-report-th-reacq = Re-acq (s)
+
+engine-iq-campaign-report-th-outage = Outage (s)
+
+engine-iq-campaign-report-th-cn0 = C/N0
+
+engine-iq-campaign-report-th-pll = PLL σ (°)
+
+engine-iq-campaign-report-th-dll = DLL σ (chip)
+
+engine-iq-campaign-report-th-false-locks = False locks
+
+engine-iq-campaign-report-th-verdict = Verdict
+
+engine-iq-campaign-report-scope-run = run
+
+engine-iq-campaign-report-scope-event = event
 
 ## src/iq/campaign/runner.rs
 
@@ -7066,6 +7210,34 @@ engine-representativeness-modelled-simulation-only-claim-cannot = Modelled (simu
 
 engine-representativeness-representativeness-representative-for-trl = Representativeness [{ $status }] — { $claim } (representative for TRL { $lo }-{ $hi }){ "\u000A" }
 
+## src/resilience/report.rs
+
+engine-resilience-report-title = PNT Resilience Self-Assessment
+
+engine-resilience-report-status-partner = PARTNER
+
+engine-resilience-report-summary = <p>Engine { $engine }, scenario { $scenario }, seed { $seed }. Evidence split: { $n_validated } { $validated } / { $n_modelled } { $modelled } sub-scores. Tentative RPCF Level: { $level } ({ $level_basis }).</p>
+
+engine-resilience-report-h-rpcf = DHS RPCF technique categories
+
+engine-resilience-report-h-rdrr = RethinkPNT functions
+
+engine-resilience-report-h-yang = Yang criteria
+
+engine-resilience-report-th-category = Category
+
+engine-resilience-report-th-function = Function
+
+engine-resilience-report-th-criterion = Criterion
+
+engine-resilience-report-th-subscore = Sub-score
+
+engine-resilience-report-th-status = Status
+
+engine-resilience-report-th-basis = Basis
+
+engine-resilience-report-integrity = <p>SHA-256 integrity: <code>{ $integrity }</code></p>
+
 ## src/resilience/score.rs
 
 engine-resilience-score-declared-mean-source-quality = { $t } = declared({ $arch }) x mean source quality
@@ -7785,6 +7957,38 @@ engine-e-study-cannot-read-scenario = cannot read scenario { $path }: { $e }
 engine-e-study-scenario-failed = scenario { $path } failed: { $e }
 
 engine-e-study-scenario-produced-unparseable-json = scenario { $path } produced unparseable JSON: { $e }
+
+engine-study-summary = study "{ $title }": { $n_scenarios } scenarios
+
+engine-study-metric-holdover = Holdover (s)
+
+engine-study-metric-timing-rms = Timing RMS (ns)
+
+engine-study-metric-timing-p95 = Timing p95 (ns)
+
+engine-study-metric-resilience-slope = Resilience slope (ns/s)
+
+engine-study-metric-availability = Availability
+
+engine-study-metric-integrity = Integrity
+
+engine-study-metric-security = Security
+
+engine-study-th-metric = Metric
+
+engine-study-th-validation = Validation
+
+engine-study-not-applicable-no-attack = n/a (no attack)
+
+engine-study-page-title = { $title } — Kshana study
+
+engine-study-eyebrow = क्षण · the precise instant
+
+engine-study-h-comparison = Side-by-side comparison
+
+engine-study-tier-note = Each figure of merit is tagged { $validated } (checked against an external oracle) or { $modelled } (first-principles, internally tested), derived from the verification matrix. Columns are independent scenarios; values are not normalised across scenarios.
+
+engine-study-footer = Generated by Kshana { $version } as an aggregated study of { $n_scenarios } scenarios. Each scenario is reproducible from its scenario + seed + engine version. Free and open source (AGPL-3.0) — <a href="https://github.com/AshfordeOU/kshana">source &amp; docs</a>.
 
 ## src/suite.rs
 

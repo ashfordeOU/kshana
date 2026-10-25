@@ -5203,5 +5203,850 @@
    },
    " ns (MODELLED)"
   ]
+ },
+ {
+  "id": "iq-campaign-report-roc-heading",
+  "error": false,
+  "parts": [
+   "Detection ROC"
+  ]
+ },
+ {
+  "id": "iq-campaign-report-roc-note",
+  "error": false,
+  "parts": [
+   "<p class=\"note\">Labelled <b>",
+   {
+    "var": "label"
+   },
+   "</b>. Each stated event window is a positive and each window of the configured length outside the events a negative. A window counts at a threshold when the monitor's own test statistic reaches it in the window. P<sub>fa</sub> is per negative window, not per test. The same figures are in <code>roc.json</code>.</p>"
+  ]
+ },
+ {
+  "id": "iq-campaign-report-th-alarm-kind",
+  "error": false,
+  "parts": [
+   "Alarm kind"
+  ]
+ },
+ {
+  "id": "iq-campaign-report-th-positives",
+  "error": false,
+  "parts": [
+   "Positives"
+  ]
+ },
+ {
+  "id": "iq-campaign-report-th-negatives",
+  "error": false,
+  "parts": [
+   "Negatives"
+  ]
+ },
+ {
+  "id": "iq-campaign-report-th-auc",
+  "error": false,
+  "parts": [
+   "AUC"
+  ]
+ },
+ {
+  "id": "iq-campaign-report-th-threshold",
+  "error": false,
+  "parts": [
+   "Threshold"
+  ]
+ },
+ {
+  "id": "iq-campaign-report-th-pd-at-it",
+  "error": false,
+  "parts": [
+   "P<sub>d</sub> at it"
+  ]
+ },
+ {
+  "id": "iq-campaign-report-th-pfa-at-it",
+  "error": false,
+  "parts": [
+   "P<sub>fa</sub> at it"
+  ]
+ },
+ {
+  "id": "iq-campaign-report-title",
+  "error": false,
+  "parts": [
+   "Campaign ",
+   {
+    "var": "name"
+   }
+  ]
+ },
+ {
+  "id": "iq-campaign-report-heading",
+  "error": false,
+  "parts": [
+   "Lab replay campaign: ",
+   {
+    "var": "name"
+   }
+  ]
+ },
+ {
+  "id": "iq-campaign-report-meta",
+  "error": false,
+  "parts": [
+   "Data class <b>",
+   {
+    "var": "data_class"
+   },
+   "</b> · Kshana ",
+   {
+    "var": "engine"
+   },
+   " · ",
+   {
+    "var": "n_recordings"
+   },
+   " recording(s) × ",
+   {
+    "var": "n_frontends"
+   },
+   " front end(s) × ",
+   {
+    "var": "n_designs"
+   },
+   " design(s) = ",
+   {
+    "var": "n_cells"
+   },
+   " cells, ",
+   {
+    "var": "n_done"
+   },
+   " done · digest <code>",
+   {
+    "var": "digest"
+   },
+   "</code>"
+  ]
+ },
+ {
+  "id": "iq-campaign-report-digest-incomplete",
+  "error": false,
+  "parts": [
+   "(incomplete: not every cell is done)"
+  ]
+ },
+ {
+  "id": "iq-campaign-report-reference-note",
+  "error": false,
+  "parts": [
+   "<p class=\"note\">Measured values come from tracking the recordings. Dashed lines labelled <b>",
+   {
+    "var": "label"
+   },
+   "</b> are the analytic spectral-separation reference <code>",
+   {
+    "var": "formula"
+   },
+   "</code> at the lab's stated J/S, with Q from the stated interference type. They are a model of the stated condition, not a measurement and not a simulation of the interference.</p>"
+  ]
+ },
+ {
+  "id": "iq-campaign-report-summary-heading",
+  "error": false,
+  "parts": [
+   "Summary"
+  ]
+ },
+ {
+  "id": "iq-campaign-report-th-recording",
+  "error": false,
+  "parts": [
+   "Recording"
+  ]
+ },
+ {
+  "id": "iq-campaign-report-th-front-end",
+  "error": false,
+  "parts": [
+   "Front end"
+  ]
+ },
+ {
+  "id": "iq-campaign-report-th-design",
+  "error": false,
+  "parts": [
+   "Design"
+  ]
+ },
+ {
+  "id": "iq-campaign-report-th-satellites",
+  "error": false,
+  "parts": [
+   "Satellites"
+  ]
+ },
+ {
+  "id": "iq-campaign-report-th-mean-availability",
+  "error": false,
+  "parts": [
+   "Mean availability"
+  ]
+ },
+ {
+  "id": "iq-campaign-report-th-events-lost",
+  "error": false,
+  "parts": [
+   "Events lost"
+  ]
+ },
+ {
+  "id": "iq-campaign-report-th-median-reacq",
+  "error": false,
+  "parts": [
+   "Median re-acq (s)"
+  ]
+ },
+ {
+  "id": "iq-campaign-report-th-pass",
+  "error": false,
+  "parts": [
+   "Pass"
+  ]
+ },
+ {
+  "id": "iq-campaign-report-th-fail",
+  "error": false,
+  "parts": [
+   "Fail"
+  ]
+ },
+ {
+  "id": "iq-campaign-report-degradation-heading",
+  "error": false,
+  "parts": [
+   "C/N0 degradation against stated J/S"
+  ]
+ },
+ {
+  "id": "iq-campaign-report-scorecard-heading",
+  "error": false,
+  "parts": [
+   "Scorecard"
+  ]
+ },
+ {
+  "id": "iq-campaign-report-scorecard-note-nwpr",
+  "error": false,
+  "parts": [
+   "<p class=\"meta\">The same rows as <code>scorecard.csv</code>. Re-acquisition is measured from the event offset; outage is measured from the loss of lock. The C/N0 column and the degradation curves use the NWPR (reads low by about 8 dB · Bn·T under the loop's own jitter, so its readings depend on the loop design) estimate; both estimates are in <code>scorecard.json</code>.</p>"
+  ]
+ },
+ {
+  "id": "iq-campaign-report-scorecard-note-m2m4",
+  "error": false,
+  "parts": [
+   "<p class=\"meta\">The same rows as <code>scorecard.csv</code>. Re-acquisition is measured from the event offset; outage is measured from the loss of lock. The C/N0 column and the degradation curves use the M2M4 (insensitive to the loop's own jitter) estimate; both estimates are in <code>scorecard.json</code>.</p>"
+  ]
+ },
+ {
+  "id": "iq-campaign-report-th-sat",
+  "error": false,
+  "parts": [
+   "Sat"
+  ]
+ },
+ {
+  "id": "iq-campaign-report-th-scope",
+  "error": false,
+  "parts": [
+   "Scope"
+  ]
+ },
+ {
+  "id": "iq-campaign-report-th-event",
+  "error": false,
+  "parts": [
+   "Event"
+  ]
+ },
+ {
+  "id": "iq-campaign-report-th-avail",
+  "error": false,
+  "parts": [
+   "Avail."
+  ]
+ },
+ {
+  "id": "iq-campaign-report-th-loss",
+  "error": false,
+  "parts": [
+   "Loss (s)"
+  ]
+ },
+ {
+  "id": "iq-campaign-report-th-js-at-loss",
+  "error": false,
+  "parts": [
+   "J/S at loss"
+  ]
+ },
+ {
+  "id": "iq-campaign-report-th-reacq",
+  "error": false,
+  "parts": [
+   "Re-acq (s)"
+  ]
+ },
+ {
+  "id": "iq-campaign-report-th-outage",
+  "error": false,
+  "parts": [
+   "Outage (s)"
+  ]
+ },
+ {
+  "id": "iq-campaign-report-th-cn0",
+  "error": false,
+  "parts": [
+   "C/N0"
+  ]
+ },
+ {
+  "id": "iq-campaign-report-th-pll",
+  "error": false,
+  "parts": [
+   "PLL σ (°)"
+  ]
+ },
+ {
+  "id": "iq-campaign-report-th-dll",
+  "error": false,
+  "parts": [
+   "DLL σ (chip)"
+  ]
+ },
+ {
+  "id": "iq-campaign-report-th-false-locks",
+  "error": false,
+  "parts": [
+   "False locks"
+  ]
+ },
+ {
+  "id": "iq-campaign-report-th-verdict",
+  "error": false,
+  "parts": [
+   "Verdict"
+  ]
+ },
+ {
+  "id": "iq-campaign-report-scope-run",
+  "error": false,
+  "parts": [
+   "run"
+  ]
+ },
+ {
+  "id": "iq-campaign-report-scope-event",
+  "error": false,
+  "parts": [
+   "event"
+  ]
+ },
+ {
+  "id": "study-summary",
+  "error": false,
+  "parts": [
+   "study \"",
+   {
+    "var": "title"
+   },
+   "\": ",
+   {
+    "var": "n_scenarios"
+   },
+   " scenarios"
+  ]
+ },
+ {
+  "id": "study-metric-holdover",
+  "error": false,
+  "parts": [
+   "Holdover (s)"
+  ]
+ },
+ {
+  "id": "study-metric-timing-rms",
+  "error": false,
+  "parts": [
+   "Timing RMS (ns)"
+  ]
+ },
+ {
+  "id": "study-metric-timing-p95",
+  "error": false,
+  "parts": [
+   "Timing p95 (ns)"
+  ]
+ },
+ {
+  "id": "study-metric-resilience-slope",
+  "error": false,
+  "parts": [
+   "Resilience slope (ns/s)"
+  ]
+ },
+ {
+  "id": "study-metric-availability",
+  "error": false,
+  "parts": [
+   "Availability"
+  ]
+ },
+ {
+  "id": "study-metric-integrity",
+  "error": false,
+  "parts": [
+   "Integrity"
+  ]
+ },
+ {
+  "id": "study-metric-security",
+  "error": false,
+  "parts": [
+   "Security"
+  ]
+ },
+ {
+  "id": "study-th-metric",
+  "error": false,
+  "parts": [
+   "Metric"
+  ]
+ },
+ {
+  "id": "study-th-validation",
+  "error": false,
+  "parts": [
+   "Validation"
+  ]
+ },
+ {
+  "id": "study-not-applicable-no-attack",
+  "error": false,
+  "parts": [
+   "n/a (no attack)"
+  ]
+ },
+ {
+  "id": "study-page-title",
+  "error": false,
+  "parts": [
+   {
+    "var": "title"
+   },
+   " — Kshana study"
+  ]
+ },
+ {
+  "id": "study-eyebrow",
+  "error": false,
+  "parts": [
+   "क्षण · the precise instant"
+  ]
+ },
+ {
+  "id": "study-h-comparison",
+  "error": false,
+  "parts": [
+   "Side-by-side comparison"
+  ]
+ },
+ {
+  "id": "study-tier-note",
+  "error": false,
+  "parts": [
+   "Each figure of merit is tagged ",
+   {
+    "var": "validated"
+   },
+   " (checked against an external oracle) or ",
+   {
+    "var": "modelled"
+   },
+   " (first-principles, internally tested), derived from the verification matrix. Columns are independent scenarios; values are not normalised across scenarios."
+  ]
+ },
+ {
+  "id": "study-footer",
+  "error": false,
+  "parts": [
+   "Generated by Kshana ",
+   {
+    "var": "version"
+   },
+   " as an aggregated study of ",
+   {
+    "var": "n_scenarios"
+   },
+   " scenarios. Each scenario is reproducible from its scenario + seed + engine version. Free and open source (AGPL-3.0) — <a href=\"https://github.com/AshfordeOU/kshana\">source &amp; docs</a>."
+  ]
+ },
+ {
+  "id": "resilience-report-title",
+  "error": false,
+  "parts": [
+   "PNT Resilience Self-Assessment"
+  ]
+ },
+ {
+  "id": "resilience-report-status-partner",
+  "error": false,
+  "parts": [
+   "PARTNER"
+  ]
+ },
+ {
+  "id": "resilience-report-summary",
+  "error": false,
+  "parts": [
+   "<p>Engine ",
+   {
+    "var": "engine"
+   },
+   ", scenario ",
+   {
+    "var": "scenario"
+   },
+   ", seed ",
+   {
+    "var": "seed"
+   },
+   ". Evidence split: ",
+   {
+    "var": "n_validated"
+   },
+   " ",
+   {
+    "var": "validated"
+   },
+   " / ",
+   {
+    "var": "n_modelled"
+   },
+   " ",
+   {
+    "var": "modelled"
+   },
+   " sub-scores. Tentative RPCF Level: ",
+   {
+    "var": "level"
+   },
+   " (",
+   {
+    "var": "level_basis"
+   },
+   ").</p>"
+  ]
+ },
+ {
+  "id": "resilience-report-h-rpcf",
+  "error": false,
+  "parts": [
+   "DHS RPCF technique categories"
+  ]
+ },
+ {
+  "id": "resilience-report-h-rdrr",
+  "error": false,
+  "parts": [
+   "RethinkPNT functions"
+  ]
+ },
+ {
+  "id": "resilience-report-h-yang",
+  "error": false,
+  "parts": [
+   "Yang criteria"
+  ]
+ },
+ {
+  "id": "resilience-report-th-category",
+  "error": false,
+  "parts": [
+   "Category"
+  ]
+ },
+ {
+  "id": "resilience-report-th-function",
+  "error": false,
+  "parts": [
+   "Function"
+  ]
+ },
+ {
+  "id": "resilience-report-th-criterion",
+  "error": false,
+  "parts": [
+   "Criterion"
+  ]
+ },
+ {
+  "id": "resilience-report-th-subscore",
+  "error": false,
+  "parts": [
+   "Sub-score"
+  ]
+ },
+ {
+  "id": "resilience-report-th-status",
+  "error": false,
+  "parts": [
+   "Status"
+  ]
+ },
+ {
+  "id": "resilience-report-th-basis",
+  "error": false,
+  "parts": [
+   "Basis"
+  ]
+ },
+ {
+  "id": "resilience-report-integrity",
+  "error": false,
+  "parts": [
+   "<p>SHA-256 integrity: <code>",
+   {
+    "var": "integrity"
+   },
+   "</code></p>"
+  ]
+ },
+ {
+  "id": "bench-site-title-a",
+  "error": false,
+  "parts": [
+   "Task (a): detection on receiver logs"
+  ]
+ },
+ {
+  "id": "bench-site-title-b",
+  "error": false,
+  "parts": [
+   "Task (b): detection on IQ"
+  ]
+ },
+ {
+  "id": "bench-site-title-c",
+  "error": false,
+  "parts": [
+   "Task (c): timing holdover prediction"
+  ]
+ },
+ {
+  "id": "bench-site-title-d",
+  "error": false,
+  "parts": [
+   "Task (d): out-of-distribution optimism gap"
+  ]
+ },
+ {
+  "id": "bench-site-col-rmse-3600",
+  "error": false,
+  "parts": [
+   "RMSE 3600 s (ns)"
+  ]
+ },
+ {
+  "id": "bench-site-col-rmse-300",
+  "error": false,
+  "parts": [
+   "RMSE 300 s (ns)"
+  ]
+ },
+ {
+  "id": "bench-site-col-rmse-7200",
+  "error": false,
+  "parts": [
+   "RMSE 7200 s (ns)"
+  ]
+ },
+ {
+  "id": "bench-site-col-auc-in",
+  "error": false,
+  "parts": [
+   "AUC in"
+  ]
+ },
+ {
+  "id": "bench-site-col-auc-out",
+  "error": false,
+  "parts": [
+   "AUC out"
+  ]
+ },
+ {
+  "id": "bench-site-col-optimism-gap",
+  "error": false,
+  "parts": [
+   "Optimism gap"
+  ]
+ },
+ {
+  "id": "bench-site-col-flag",
+  "error": false,
+  "parts": [
+   "Flag"
+  ]
+ },
+ {
+  "id": "bench-site-col-auc",
+  "error": false,
+  "parts": [
+   "AUC"
+  ]
+ },
+ {
+  "id": "bench-site-col-pd-at-pfa-cap",
+  "error": false,
+  "parts": [
+   "P_d at P_fa cap (upper bound)"
+  ]
+ },
+ {
+  "id": "bench-site-flag-optimistic",
+  "error": false,
+  "parts": [
+   "optimistic"
+  ]
+ },
+ {
+  "id": "bench-site-flag-within-tolerance",
+  "error": false,
+  "parts": [
+   "within tolerance"
+  ]
+ },
+ {
+  "id": "bench-site-not-available",
+  "error": false,
+  "parts": [
+   "n/a"
+  ]
+ },
+ {
+  "id": "bench-site-none-published",
+  "error": false,
+  "parts": [
+   "No results published yet. A row appears here only when a result file is scored and added; nothing on this page is an estimate."
+  ]
+ },
+ {
+  "id": "bench-site-none-for-task",
+  "error": false,
+  "parts": [
+   "No results yet for this task."
+  ]
+ },
+ {
+  "id": "bench-site-region-label",
+  "error": false,
+  "parts": [
+   {
+    "var": "title"
+   },
+   " ",
+   {
+    "var": "split"
+   },
+   " results"
+  ]
+ },
+ {
+  "id": "bench-site-caption-split",
+  "error": false,
+  "parts": [
+   "Split: ",
+   {
+    "var": "split"
+   }
+  ]
+ },
+ {
+  "id": "bench-site-th-system",
+  "error": false,
+  "parts": [
+   "System"
+  ]
+ },
+ {
+  "id": "bench-site-th-provenance",
+  "error": false,
+  "parts": [
+   "Provenance"
+  ]
+ },
+ {
+  "id": "bench-site-th-truth-sha256",
+  "error": false,
+  "parts": [
+   "Truth SHA-256"
+  ]
+ },
+ {
+  "id": "bench-site-provenance-carried",
+  "error": false,
+  "parts": [
+   "carried: ",
+   {
+    "var": "note"
+   }
+  ]
+ },
+ {
+  "id": "bench-site-provenance-scored",
+  "error": false,
+  "parts": [
+   "scored"
+  ]
+ },
+ {
+  "id": "bench-site-heading",
+  "error": false,
+  "parts": [
+   "kshana-bench leaderboard"
+  ]
+ },
+ {
+  "id": "bench-site-lede",
+  "error": false,
+  "parts": [
+   "Result files scored under <code>",
+   {
+    "var": "spec"
+   },
+   "</code>. A row says this file scored this number on this split. It does not mean any product has been rated or approved by anyone, and no organisation is named as an endorser."
+  ]
+ },
+ {
+  "id": "bench-site-foot",
+  "error": false,
+  "parts": [
+   "Every score is modelled unless a row says an external oracle agreed. Licence of the specification and manifests: CC-BY-4.0 / CC0 proposed, owner decision pending. The real-data holdout is not secret: see the specification, section 4."
+  ]
+ },
+ {
+  "id": "bench-site-meta-description",
+  "error": false,
+  "parts": [
+   "Scores of submitted result files under kshana-bench ",
+   {
+    "var": "spec"
+   },
+   ". Advisory only."
+  ]
  }
 ]
