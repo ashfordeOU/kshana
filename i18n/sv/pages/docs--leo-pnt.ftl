@@ -15,3 +15,5 @@ seg-f63dd3d7aad4 = Källa
 seg-587beeccaa11 = Förinställning
 
 seg-e305279d5b11 = Innehåll
+
+seg-b03d56f501c3 = Typ

@@ -110,11 +110,11 @@ seg-bb02568e8f8f = Exporterad rörelse och exporterade händelser kan styra en l
 
 seg-b81625e9e071 = Avsnitt { "8.6" } (delar i en testplan)
 
-seg-27d645a79672 = En testplan anger nivå, krav, indata, referenser, nödvändig dataåtkomst, procedur med PASS- eller FAIL-kriterier, resultat och anteckningar.
+seg-27d645a79672 = En testplan anger nivå, krav, indata, referenser, nödvändig dataåtkomst, procedur med kriterier för godkänt eller underkänt, resultat och anteckningar.
 
 seg-1f2898855ccc = Reproducerbart ursprung för körningar; Bedömning av förtroende i mottagarloggar
 
-seg-d8b08da48cb2 = PASS- eller FAIL-kriterierna väljs av bedömaren; Kshana registrerar de indata, trösklar och hashvärden som den körde med.
+seg-d8b08da48cb2 = Kriterierna för godkänt eller underkänt väljs av bedömaren; Kshana registrerar de indata, trösklar och hashvärden som den körde med.
 
 seg-ccfdf53a1e54 = <s1>Föregående</s1>Compliance-kartläggning
 

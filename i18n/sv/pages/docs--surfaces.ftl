@@ -13,3 +13,9 @@ seg-d6476863f862 = Förmåga
 seg-e0426ffe2628 = Anmärkning
 
 seg-de6c33774c9c = CLI
+
+seg-98f4f946a7ac = WASM
+
+seg-206c78a69ded = Ruttexponering
+
+seg-4dbf41c0ec3b = Funktion
