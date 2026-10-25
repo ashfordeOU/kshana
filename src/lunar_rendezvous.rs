@@ -536,6 +536,56 @@ fn meas_epoch(m: &Meas) -> usize {
     }
 }
 
+/// Weighted least-squares cost at `theta`: the measurement residuals plus the prior term.
+fn batch_cost(
+    theta: &[f64],
+    pass: &Pass,
+    meas: &[Meas],
+    n_steps: usize,
+    theta_bar: &[f64],
+    p0_inv: &Dm,
+) -> f64 {
+    let mut c = 0.0;
+    let mut mi = 0usize;
+    for k in 0..n_steps {
+        while mi < meas.len() && meas_epoch(&meas[mi]) == k {
+            match &meas[mi] {
+                Meas::Fix { v, z, w, .. } => {
+                    let (state, bcol) = if *v == 0 {
+                        (&pass.sc[k], 15usize)
+                    } else {
+                        (&pass.st[k], 18usize)
+                    };
+                    let y: Vec<f64> = (0..3)
+                        .map(|i| z[i] - (state[i] + theta[12 + i] + theta[bcol + i]))
+                        .collect();
+                    for i in 0..3 {
+                        for j in 0..3 {
+                            c += y[i] * w.at(i, j) * y[j];
+                        }
+                    }
+                }
+                Meas::Range { z, w, .. } => {
+                    let d = sub(
+                        [pass.sc[k][0], pass.sc[k][1], pass.sc[k][2]],
+                        [pass.st[k][0], pass.st[k][1], pass.st[k][2]],
+                    );
+                    let y = z - norm(d);
+                    c += w * y * y;
+                }
+            }
+            mi += 1;
+        }
+    }
+    let dv: Vec<f64> = (0..NP).map(|i| theta[i] - theta_bar[i]).collect();
+    for i in 0..NP {
+        for j in 0..NP {
+            c += dv[i] * p0_inv.at(i, j) * dv[j];
+        }
+    }
+    c
+}
+
 /// Normal equations at `theta`: `(information, gradient)` over the measurements, without the prior. Also
 /// returns the information accumulated up to each epoch when `cumulative` is set (the formal series).
 fn normal_equations(
@@ -829,6 +879,7 @@ impl LunarRendezvousScenario {
         let mut nees_pos: Vec<f64> = Vec::new();
         let mut nees_vel: Vec<f64> = Vec::new();
         let mut iters: Vec<usize> = Vec::new();
+        let mut non_converged = 0usize;
         let unit = Normal::new(0.0, 1.0).map_err(|e| e.to_string())?;
         let step_report = (n_steps / 24).max(1);
 
@@ -873,49 +924,83 @@ impl LunarRendezvousScenario {
                 }
             }
 
-            // Gauss-Newton from the prior mean.
+            // Gauss-Newton from the prior mean on a growing arc (a quarter, a half, then all of it), each stage
+            // starting from the last, with step halving on the cost. A prior velocity error of a few tenths of a
+            // metre per second moves a vehicle by kilometres over a full orbit, so the full-arc problem alone
+            // has local minima; the short arcs are nearly linear and lead the iteration into the right basin.
             let mut theta = theta_bar.clone();
             let mut n_it = 0usize;
             let mut last_lam = Dm::zeros(NP, NP);
-            for it in 0..20 {
-                n_it = it + 1;
-                let pass = propagate_pass(&est_model, &theta, n_steps, cfg.dt);
-                let (lam_m, grad_m, _) = normal_equations(&theta, &pass, &meas, n_steps, false);
-                let mut lam = lam_m.plus(&p0_inv);
-                lam.symmetrise();
-                let prior_g: Vec<f64> = (0..NP)
-                    .map(|i| {
-                        (0..NP)
-                            .map(|j| p0_inv.at(i, j) * (theta_bar[j] - theta[j]))
-                            .sum()
-                    })
-                    .collect();
-                let rhs = Dm {
-                    r: NP,
-                    c: 1,
-                    d: (0..NP).map(|i| grad_m[i] + prior_g[i]).collect(),
+            let mut did_converge = false;
+            let mut pass = propagate_pass(&est_model, &theta, n_steps, cfg.dt);
+            for frac in [0.25, 0.5, 1.0] {
+                let k_stage = if frac < 1.0 {
+                    ((n_steps as f64 * frac) as usize).max(1)
+                } else {
+                    n_steps
                 };
-                let delta = lam
-                    .solve_spd(&rhs)
-                    .ok_or("normal equations are not positive definite")?;
-                // Converged when the step is small against the formal sigma of every parameter.
-                let converged = (0..NP).all(|i| {
-                    let sig = (1.0 / lam.at(i, i)).sqrt();
-                    delta.d[i].abs() <= 1e-3 * sig.max(1e-12)
-                });
-                for i in 0..NP {
-                    theta[i] += delta.d[i];
+                let m_end = meas.partition_point(|m| meas_epoch(m) < k_stage);
+                let ms = &meas[..m_end];
+                did_converge = false;
+                let mut cost0 = batch_cost(&theta, &pass, ms, k_stage, &theta_bar, &p0_inv);
+                for _ in 0..80 {
+                    n_it += 1;
+                    let (lam_m, grad_m, _) = normal_equations(&theta, &pass, ms, k_stage, false);
+                    let mut lam = lam_m.plus(&p0_inv);
+                    lam.symmetrise();
+                    let prior_g: Vec<f64> = (0..NP)
+                        .map(|i| {
+                            (0..NP)
+                                .map(|j| p0_inv.at(i, j) * (theta_bar[j] - theta[j]))
+                                .sum()
+                        })
+                        .collect();
+                    let rhs = Dm {
+                        r: NP,
+                        c: 1,
+                        d: (0..NP).map(|i| grad_m[i] + prior_g[i]).collect(),
+                    };
+                    let delta = lam
+                        .solve_spd(&rhs)
+                        .ok_or("normal equations are not positive definite")?;
+                    // Converged when the step is small against the formal sigma of every parameter.
+                    let converged = (0..NP).all(|i| {
+                        let sig = (1.0 / lam.at(i, i)).sqrt();
+                        delta.d[i].abs() <= 1e-3 * sig.max(1e-12)
+                    });
+                    last_lam = lam;
+                    let mut alpha = 1.0;
+                    let mut accepted = false;
+                    for _ in 0..12 {
+                        let cand: Vec<f64> =
+                            (0..NP).map(|i| theta[i] + alpha * delta.d[i]).collect();
+                        let cand_pass = propagate_pass(&est_model, &cand, n_steps, cfg.dt);
+                        let c1 = batch_cost(&cand, &cand_pass, ms, k_stage, &theta_bar, &p0_inv);
+                        if c1 <= cost0 * (1.0 + 1e-12) {
+                            theta = cand;
+                            pass = cand_pass;
+                            cost0 = c1;
+                            accepted = true;
+                            break;
+                        }
+                        alpha *= 0.5;
+                    }
+                    if converged {
+                        did_converge = true;
+                        break;
+                    }
+                    if !accepted {
+                        break;
+                    }
                 }
-                last_lam = lam;
-                if converged {
-                    break;
-                }
+            }
+            if !did_converge {
+                non_converged += 1;
             }
             iters.push(n_it);
             let p_theta = last_lam
                 .solve_spd(&Dm::eye(NP))
                 .ok_or("posterior information is not positive definite")?;
-            let pass = propagate_pass(&est_model, &theta, n_steps, cfg.dt);
             let k_end = n_steps - 1;
             let pair = pair_cov(&p_theta, &pass.pc[k_end], &pass.pt[k_end]);
             let prel = rel_cov(&pair);
@@ -1105,6 +1190,7 @@ impl LunarRendezvousScenario {
                 "mean_nees_position": nees_pos_mean,
                 "mean_nees_velocity": nees_vel_mean,
                 "mean_gauss_newton_iterations": mean_iters,
+                "non_converged_trials": non_converged,
             },
             "relative_sensors": relative_sensors,
             "unmodelled_gravity_relative_drift_m": grav_sens,
@@ -1274,6 +1360,7 @@ fn units() -> Value {
         ("monte_carlo.mean_nees_velocity", "1", "computed", "mean NEES of the relative velocity alone; 3 expected"),
         ("monte_carlo.nees_dof", "1", "closed-form", "degrees of freedom of the relative state"),
         ("monte_carlo.mean_gauss_newton_iterations", "1", "computed", "mean Gauss-Newton iterations to converge"),
+        ("monte_carlo.non_converged_trials", "1", "computed", "trials whose Gauss-Newton iteration did not reach its step tolerance"),
         ("unmodelled_gravity_relative_drift_m", "m", "computed", "relative-position drift over the arc from ignoring the harmonics, no measurements"),
         ("cw_check.max_position_difference_m", "m", "computed", "closed-form Hill propagation against the numerical two-body relative orbit, one orbit"),
         ("cw_check.ratio_to_separation", "1", "computed", "that difference over the separation"),
