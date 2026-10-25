@@ -100,7 +100,7 @@ impl EvidenceLabel {
                 // fails on it (the report only ever passes matrix rows).
                 id: matrix
                     .iter()
-                    .find(|m| &m.requirement == req)
+                    .find(|m| m.requirement == req)
                     .map_or("VM-unknown", |m| m.id)
                     .to_string(),
                 requirement: req.clone(),

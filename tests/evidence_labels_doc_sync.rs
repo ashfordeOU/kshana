@@ -64,7 +64,7 @@ fn rank(s: &str) -> u8 {
 fn check_label(
     what: &str,
     tier: &str,
-    rows: &[(String, String, String)],
+    rows: &[LabelRow],
     matrix: &BTreeMap<String, (String, String)>,
 ) {
     assert!(!rows.is_empty(), "{what}: the label names no ledger row");
@@ -89,7 +89,10 @@ fn check_label(
     );
 }
 
-fn json_label(doc: &Value) -> Option<(String, Vec<(String, String, String)>)> {
+/// One label row: (id, requirement, status).
+type LabelRow = (String, String, String);
+
+fn json_label(doc: &Value) -> Option<(String, Vec<LabelRow>)> {
     let e = doc.get("evidence")?;
     let tier = e.get("tier")?.as_str()?.to_string();
     let rows = e
