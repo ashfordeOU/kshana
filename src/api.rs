@@ -738,6 +738,8 @@ pub enum ScenarioKind {
     HoldoverTest,
     /// GNSS signal availability and link strength for a user in the Space Service Volume and beyond: a global shell or a trajectory, six constellations, transmit-pattern models, limb-ray effects and a weak-signal receiver.
     GnssSsv,
+    /// The navigation and timing error budget of a chain of mission phases, from launch to entry (`mission-thread`).
+    MissionThread,
 }
 
 impl ScenarioKind {
@@ -835,6 +837,7 @@ impl ScenarioKind {
             ScenarioKind::OpticalAtmosphere => "optical-atmosphere",
             ScenarioKind::HoldoverTest => "holdover-test",
             ScenarioKind::GnssSsv => "gnss-ssv",
+            ScenarioKind::MissionThread => "mission-thread",
         }
     }
 
@@ -936,6 +939,7 @@ impl ScenarioKind {
             "optical-atmosphere" => ScenarioKind::OpticalAtmosphere,
             "holdover-test" => ScenarioKind::HoldoverTest,
             "gnss-ssv" => ScenarioKind::GnssSsv,
+            "mission-thread" => ScenarioKind::MissionThread,
             // The clock pack, named explicitly. It had no arm of its own before, because
             // it was reached through the catch-all below — so removing that catch-all
             // orphaned the one kind the engine has always had. The round-trip test found
@@ -1155,6 +1159,7 @@ pub fn list_scenario_kinds() -> Vec<ScenarioMeta> {
         ScenarioMeta { name: "optical-atmosphere", description: "MODELLED optical PNT through the atmosphere: for an optical link and a set of ground sites with stated cloud climates it reports the wavelength- and elevation-dependent clear-air loss (Kim visibility law plus Rayleigh), the Hufnagel-Valley turbulence state (Rytov variance, scintillation index, gamma-gamma parameters, aperture averaging), the weather-driven availability against the link margin (cloud optical depth from a log-normal liquid-water climate, geometric-optics extinction, independent turbulence fade), the link margin needed for target availabilities, the outage-duration distribution, the timing and ranging error growth per outage through the clock holdover model, distance-correlated site-diversity availability, and what-if gains for enhancement techniques (wavelength, receive aperture, adaptive-optics scintillation reduction, extra margin). VALIDATED as implementation of the stated formulas against an independent mpmath oracle: Rytov variance, scintillation index, gamma-gamma fade probability, aperture-averaging factor, cloud and clear-air optical depth. MODELLED: every weather, technique and clock input and the independence and copula assumptions; no measured availability record has been compared. Advisory analysis, not a certified availability or navigation product.", required_fields: &[], optional_fields: &["wavelength_nm", "elevation_deg", "availability_targets_pct", "link", "atmosphere", "site", "network", "technique", "clock", "timeseries"] },
         ScenarioMeta { name: "holdover-test", description: "MODELLED holdover test of a timing system, scored from a time-error record the OPERATOR supplies (a linuxptp ptp4l, phc2sys or ts2phc log, a chrony tracking or statistics log, a TICC, TimeLab or RINEX clock log, or time_s,time_error_ns pairs). The test has four steps and Kshana performs none of them: a locked BASELINE, GNSS REMOVED by the operator (the antenna cable or the simulator output; Kshana transmits and drives nothing) at a stated time, HOLDOVER on the system's own oscillator, and RECOVERY after the operator restores GNSS at a second stated time. The record is split at those two times. Baseline: time-error statistics and the ITU-T masks written for a locked clock. Holdover: statistics, the fractional frequency offset the system held (a least-squares line), the masks written for holdover or an autonomous clock, the ePRTC-A holdover envelope from the stated locked duration, and the time to exceed each time-error budget. Recovery: whether and when |TE| came inside a stated band and stayed there, the peak and the largest step. Every limit is transcribed from a public ITU-T table (the telecom-timing masks); the words are 'measured against the mask', and the two times are the operator's statement, not verified. A record too short for a mask is INCOMPLETE, never extrapolated. See docs/TIMING-HIL.md.", required_fields: &["test", "series"], optional_fields: &["masks", "budgets"] },
         ScenarioMeta { name: "gnss-ssv", description: "MODELLED GNSS availability and link strength in the Space Service Volume and beyond: for a user on a sphere (the ICG booklet's global shell) or on a Keplerian trajectory (LEO to lunar transfer) it counts, per constellation (GPS, GLONASS, Galileo, BDS, QZSS, NavIC) and for all together, the signals usable above a C/N0 threshold - availability of at least one and of four signals, maximum outage duration, received C/N0, dilution of precision, main-lobe against sidelobe links - with a booklet, parametric or user-supplied transmit pattern, optional limb-ray ionosphere, plasmasphere and atmosphere effects and an optional weak-signal receiver design; also an onboard GNSS extended Kalman filter for HEO and lunar-transfer craft (orbital dynamics, solar radiation pressure, third bodies, clock) and relative navigation of a multi-craft formation by single-differenced pseudoranges. Checked against the ICG SSV booklet tables under a pre-registration (xval/gnss-ssv)", required_fields: &["shell|trajectory|navigation"], optional_fields: &["name", "constellations", "transmit", "receiver", "atmosphere", "formation"] },
+        ScenarioMeta { name: "mission-thread", description: "MODELLED navigation and timing error budget of a stated chain of mission phases, from launch to entry: launch and ascent, low-Earth-orbit rendezvous and docking (repeatable), trans-lunar injection and cislunar cruise, lunar-orbit rendezvous, descent, surface stay, ascent and the return and entry, each phase one of eight registered kinds with its own sensors and filter. The 6x6 covariance, the clock and the frame are handed from phase to phase under a stated rule (carry, inflate or reacquire); frame and timescale conversions (GCRF, MCI, MCMF, UTC, TT, TDB, LTC) are their own budget rows, with the Moon's state from an optional DE440 kernel cut and the analytic series as the stated fallback. An optional ground-network overlay sets the tracking duty of each phase. Reports the per-phase budget (entry, peak and exit 1-sigmas, every contribution with its unit), the margin against a stated requirement, the weakest link, the events and a timeline figure. MODELLED: every number is a stated input; the chain follows one stack and no vehicle is modelled. Public sources only; not affiliated with or endorsed by any agency; advisory software, not certified navigation equipment.", required_fields: &["epoch_utc", "entry", "phase"], optional_fields: &["kind", "title", "seed", "moon_kernel_path", "ground_network"] },
     ]
 }
 
@@ -1195,6 +1200,7 @@ pub const KIND_MODULES: &[(&str, &[&str])] = &[
     ("lunar-surface", &["lunar_surface_map"]),
     ("lunar-descent", &["lunar_landing"]),
     ("lunar-orbit-rendezvous", &["lunar_rendezvous"]),
+    ("mission-thread", &["mission_thread"]),
     ("lunar-differential-pnt", &["lunar_dpnt"]),
     ("lunar-joint-od-clock", &["lunar_combination"]),
     ("lunar-interop-export", &["lunar_interop"]),
@@ -2058,6 +2064,9 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
         }
         ScenarioKind::GnssSsv => {
             builtins::run_builtin::<crate::ssv::scenario::GnssSsvScenario>(src)
+        }
+        ScenarioKind::MissionThread => {
+            builtins::run_builtin::<crate::mission_thread::scenario::MissionThreadScenario>(src)
         }
         ScenarioKind::LeoNavmsg => {
             builtins::run_builtin::<crate::leo_navmsg::LeoNavmsgScenario>(src)

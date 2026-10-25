@@ -97,7 +97,8 @@ export type ScenarioKind =
   | "time-transfer-budget"
   | "optical-atmosphere"
   | "holdover-test"
-  | "gnss-ssv";
+  | "gnss-ssv"
+  | "mission-thread";
 
 /** The failure category `error_kind` returns (`""` on success). */
 export type ErrorKind = "invalid_input" | "non_convergence" | "unsupported" | "io_error";

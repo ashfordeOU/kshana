@@ -2860,6 +2860,31 @@ impl BuiltinKind for crate::ssv::scenario::GnssSsvScenario {
     }
 }
 
+fn run_mission_thread(
+    scn: &crate::mission_thread::scenario::MissionThreadScenario,
+) -> Result<RunOutput, String> {
+    let (json, summary, svg) = scn.run_json()?;
+    Ok(RunOutput {
+        json,
+        svg,
+        summary,
+        csv: None,
+    })
+}
+
+impl Scenario for crate::mission_thread::scenario::MissionThreadScenario {
+    fn run(&self) -> Result<RunOutput, KshanaError> {
+        run_mission_thread(self).map_err(KshanaError::from)
+    }
+}
+
+impl BuiltinKind for crate::mission_thread::scenario::MissionThreadScenario {
+    const KIND: ScenarioKind = ScenarioKind::MissionThread;
+    fn parse(src: &str) -> Result<Self, String> {
+        crate::mission_thread::scenario::MissionThreadScenario::parse(src)
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

@@ -168,6 +168,10 @@ const RUNNERS: &[(&str, &str)] = &[
     ),
     ("holdover-test", "scenarios/holdover-test-ptp4l.toml"),
     ("gnss-ssv", "scenarios/gnss-ssv-heo.toml"),
+    (
+        "mission-thread",
+        "scenarios/mission-thread-artemis-class.toml",
+    ),
 ];
 
 /// The kinds whose reports do not yet describe every numeric field they emit, each with

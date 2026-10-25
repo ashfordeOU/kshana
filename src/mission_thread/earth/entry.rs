@@ -25,7 +25,9 @@
 //! `clock_q_f`, `clock_q_d`, `process_q_acc`, `ssv_*`, `ground_*`), and `interface_alt_m`,
 //! `ballistic_coeff_kg_m2`, `corridor_min_deg` and `corridor_max_deg` (the flight-path-angle
 //! corridor as positive angles below the horizontal, shallow to steep), `downrange_sensitivity_km_per_deg`,
-//! `flight_time_s`, and optionally `max_decel_g` and `scale_height_m`.
+//! `flight_time_s`, and optionally `max_decel_g`, `scale_height_m` and `start_state_gcrf` (six numbers:
+//! the nominal return state at the start of the coast, in place of the incoming nominal state; the
+//! covariance, the clock and the time still come from the thread).
 
 // 6x6 covariance loops index several arrays by one variable.
 #![allow(clippy::needless_range_loop)]
@@ -152,7 +154,7 @@ impl MissionPhase for Entry {
         o.events.push(Event {
             t_s: t_end,
             what: format!(
-                "entry interface at {:.0} km: speed {:.0} m/s, flight-path angle {:.2} deg below the horizontal (1-sigma {:.3} deg)",
+                "entry interface at {:.0} km: speed {:.0} m/s, flight-path angle {:.2} deg below the horizontal (1-sigma {:.2e} deg)",
                 self.interface_alt_m / 1e3,
                 speed,
                 gamma,
@@ -169,7 +171,8 @@ impl MissionPhase for Entry {
                 100.0 * prob
             ),
         });
-        // Peak deceleration at the nominal angle and at both corridor edges.
+        // Peak deceleration at the nominal angle and at both corridor edges. A run that is still going
+        // near the integrator's bound skips out of the atmosphere (ballistic, no lift) and has no peak.
         let peak = |g_deg: f64| {
             let r = simulate_planar_entry(&PlanarEntry {
                 entry_speed_m_s: speed,
@@ -177,9 +180,16 @@ impl MissionPhase for Entry {
                 interface_altitude_m: self.interface_alt_m,
                 ballistic_coeff_kg_m2: self.ballistic_coeff,
             });
-            r.peak_deceleration_g
+            (r.peak_deceleration_g, r.end_time_s > 15_000.0)
         };
-        let (g_nom, g_lo, g_hi) = (
+        let show = |(g, skipped): (f64, bool)| {
+            if skipped {
+                "skips out of the atmosphere".to_string()
+            } else {
+                format!("{g:.1} g")
+            }
+        };
+        let (nom, lo, hi) = (
             peak(gamma.max(0.1)),
             peak(self.corridor_min_deg),
             peak(self.corridor_max_deg),
@@ -192,17 +202,28 @@ impl MissionPhase for Entry {
         o.events.push(Event {
             t_s: t_end,
             what: format!(
-                "peak deceleration, planar ballistic point mass: {g_nom:.1} g at the nominal angle, {g_lo:.1} g at the shallow edge, {g_hi:.1} g at the steep edge (Allen-Eggers closed form at the steep edge: {ae:.1} g)"
+                "peak deceleration, planar ballistic point mass: {} at the nominal angle, {} at the shallow edge, {} at the steep edge (Allen-Eggers closed form at the steep edge: {ae:.1} g)",
+                show(nom),
+                show(lo),
+                show(hi)
             ),
         });
+        if lo.1 {
+            o.events.push(Event {
+                t_s: t_end,
+                what: "the shallow edge of the corridor skips out for this ballistic coefficient (no lift is modelled)".to_string(),
+            });
+        }
         if let Some(limit) = self.max_decel_g {
-            if g_hi > limit {
-                o.events.push(Event {
-                    t_s: t_end,
-                    what: format!(
-                        "the steep edge of the corridor peaks at {g_hi:.1} g, above the stated limit of {limit:.1} g"
-                    ),
-                });
+            for (what, (g, skipped)) in [("nominal angle", nom), ("steep edge", hi)] {
+                if !skipped && g > limit {
+                    o.events.push(Event {
+                        t_s: t_end,
+                        what: format!(
+                            "the {what} peaks at {g:.1} g, above the stated limit of {limit:.1} g"
+                        ),
+                    });
+                }
             }
         }
         // The footprint: downrange from the angle's sigma, crossrange across the orbit plane.
@@ -376,5 +397,30 @@ mod tests {
             .err()
             .unwrap()
             .contains("needs `ballistic_coeff_kg_m2`"));
+    }
+
+    #[test]
+    fn a_stated_start_state_replaces_the_nominal_but_not_the_covariance() {
+        let plain = run("", 600.0);
+        let mut t = model("");
+        t.insert(
+            "start_state_gcrf".into(),
+            toml::Value::Array(
+                [7.0e6, 0.0, 0.0, 0.0, 7546.0, 0.0]
+                    .iter()
+                    .map(|v| toml::Value::Float(*v))
+                    .collect(),
+            ),
+        );
+        let phase = ctor(&t).unwrap();
+        let ctx = ThreadCtx::new("2028-03-01T00:00:00Z", 9);
+        let mut pctx = ctx.phase_ctx(0, "entry", 600.0);
+        pctx.nav = vec![NavSource::Inertial];
+        let stated = phase.run(&entry_state(), &ctx, &pctx).unwrap();
+        assert_ne!(stated.exit.x, plain.exit.x);
+        assert_eq!(
+            stated.budget.entry_sigma_pos_m,
+            plain.budget.entry_sigma_pos_m
+        );
     }
 }
