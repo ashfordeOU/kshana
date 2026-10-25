@@ -11,3 +11,7 @@ seg-6e0cb6acc073 = VALIDATED
 seg-60cd077d82a7 = Модель
 
 seg-c5ce76c91ff7 = Метка
+
+seg-430edd66bda0 = Не моделируется
+
+seg-7670cf4ceda3 = По умолчанию
