@@ -79,3 +79,7 @@ seg-e5b97a088d7c = cargo install kshana-mcp
 seg-34908f7d11bb = crates.io: kshana-mcp
 
 seg-61a4eb09767f = Руководство по серверу MCP
+
+seg-70a79ec95bf4 = не выполнен
+
+seg-7a33a168b020 = выполнен
