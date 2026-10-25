@@ -9,3 +9,5 @@ seg-587beeccaa11 = Передналаштування
 seg-a6c63abeb7e6 = Вбудовані сценарії
 
 seg-c5ce76c91ff7 = Позначка
+
+seg-354b42e3a5d0 = RNTF

@@ -853,3 +853,5 @@ seg-6d6b07b26966 = Документ стану JSON і повідомлення 
 seg-68caf86157c2 = Пакет receiver-trust для ROS { "2" } і міст gnss_lib_py
 
 seg-e7d7d99fe538 = Міст без ROS, що записує повідомлення про фікс і супутники як NMEA та оцінює їх через прив'язку Python (integrations/ros2/kshana_trust), і міст gnss_lib_py від NavData до receiver-trust через формат rtklib-pos (integrations/gnss_lib_py).
+
+seg-c3c260b7063e = Тести
