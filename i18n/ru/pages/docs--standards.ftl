@@ -9,3 +9,5 @@ seg-5ad814c7ef9e = Примечания
 seg-aab745a65e76 = Модуль
 
 seg-bf09433a7342 = GeoJSON
+
+seg-906440b861cd = Кадр
