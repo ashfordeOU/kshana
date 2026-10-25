@@ -279,7 +279,7 @@ engine-e-animation-no-animation-format-given-expected = nie podano formatu anima
 
 engine-e-animation-animation-fps-must-be-between = fps animacji musi mieścić się między 1 a 60, otrzymano { $fps }
 
-engine-e-animation-animation-duration-must-be-between = czas trwania animacji musi mieścić się między 0.5 s a 600 s, otrzymano { $duration_s }
+engine-e-animation-animation-duration-must-be-between = czas trwania animacji musi mieścić się między { $lit_0_5 } s a 600 s, otrzymano { $duration_s }
 
 engine-e-animation-animation-width-must-be-between = szerokość animacji musi mieścić się między 480 a 3840 pikseli, otrzymano { $width }
 
@@ -293,11 +293,9 @@ engine-animation-further-series-were-found-but = { " " }Dalsze serie znaleziono,
 
 ## src/antenna.rs
 
-engine-antenna-altitude-beamwidth-deg-points = wysokość { $a_lo }-{ $a_hi } m x szerokość wiązki { $b_lo }-{ $b_hi } deg, punkty: { $points }
+engine-antenna-limb-capture-is-reached-on = przechwycenie limbu JEST osiągane na tej siatce (wysokość { $a_lo }-{ $a_hi } m x szerokość wiązki { $b_lo }-{ $b_hi } deg, punkty: { $points2 }): punkty pracy przechwytujące limb: { $points } z { $points2 } próbkowanych; zlokalizowane przecięcia osi: { $crossings }; najsilniejszy próbkowany J/S limbu wynosi { $limb_js_db } dB przy wysokości { $altitude_m } m / szerokości wiązki { $hpbw_deg } deg, względem progu przechwycenia { $thr } dB.
 
-engine-antenna-limb-capture-is-reached-on = przechwycenie limbu JEST osiągane na tej siatce ({ $grid }): punkty pracy przechwytujące limb: { $points } z { $points2 } próbkowanych; zlokalizowane przecięcia osi: { $crossings }; najsilniejszy próbkowany J/S limbu wynosi { $limb_js_db } dB przy wysokości { $altitude_m } m / szerokości wiązki { $hpbw_deg } deg, względem progu przechwycenia { $thr } dB.
-
-engine-antenna-limb-capture-is-not-reached = przechwycenie limbu NIE jest osiągane nigdzie na tej siatce ({ $grid }) - nie zerowe przechwycenie, lecz brak przechwycenia limbu: najlepszy J/S limbu wynosi { $limb_js_db } dB przy wysokości { $altitude_m } m / szerokości wiązki { $hpbw_deg } deg, czyli { $shortfall } dB poniżej progu przechwycenia { $thr } dB; ten punkt pracy przechwyciłby limb przy mocy nadawania { $limb_capture_tx_power_dbw } dBW, względem { $p_tx_dbw } dBW zastosowanych w locie.
+engine-antenna-limb-capture-is-not-reached = przechwycenie limbu NIE jest osiągane nigdzie na tej siatce (wysokość { $a_lo }-{ $a_hi } m x szerokość wiązki { $b_lo }-{ $b_hi } deg, punkty: { $points }) - nie zerowe przechwycenie, lecz brak przechwycenia limbu: najlepszy J/S limbu wynosi { $limb_js_db } dB przy wysokości { $altitude_m } m / szerokości wiązki { $hpbw_deg } deg, czyli { $shortfall } dB poniżej progu przechwycenia { $thr } dB; ten punkt pracy przechwyciłby limb przy mocy nadawania { $limb_capture_tx_power_dbw } dBW, względem { $p_tx_dbw } dBW zastosowanych w locie.
 
 engine-e-antenna-azimuths-must-strictly-increase = azymuty muszą ściśle rosnąć
 
@@ -647,7 +645,7 @@ engine-bench-site-result-was-scored-under-this = wynik { $v1 } oceniono w wersji
 
 engine-bench-tasks-score-for-is-not-number = wynik dla `{ $k }` nie jest liczbą
 
-engine-bench-tasks-kshana-receiver-trust-35-default = kshana receiver-trust { $s } (domyślna statystyka monitora 0.35)
+engine-bench-tasks-kshana-receiver-trust-35-default = kshana receiver-trust { $s } (domyślna statystyka monitora { $lit_0_35 })
 
 engine-bench-tasks-malformed-clock-line = nieprawidłowy wiersz zegara `{ $line }`
 
@@ -695,7 +693,7 @@ engine-e-body-pnt-duration-and-step-must-be = duration_s i step_s muszą być do
 
 engine-e-body-pnt-user-kind-must-be-orbiter = user.kind musi mieć wartość orbiter lub surface; otrzymano '{ $k }'
 
-engine-e-body-pnt-user-altitude-must-be-positive = wysokość użytkownika musi być dodatnia, a mimośród w [0, 0.9)
+engine-e-body-pnt-user-altitude-must-be-positive = wysokość użytkownika musi być dodatnia, a mimośród w [0, { $lit_0_9 })
 
 engine-e-body-pnt-the-user-orbit-periapsis-is = perycentrum orbity użytkownika leży poniżej powierzchni
 
@@ -911,7 +909,7 @@ engine-campaign-compose-members = compose: człony: { $members }
 
 engine-campaign-member-runs-modelled = przebiegi członów: { $runs_total } (MODELLED)
 
-engine-campaign-sweep-of-over-nodes-each = przemiatanie `{ $scenario_kind }` po { $axis_order } (węzły: { $nodes }{ $v4 }; każda linia we własnym zakresie)
+engine-campaign-sweep-of-over-nodes-each = przemiatanie `{ $scenario_kind }` po { $axis_order } (węzły: { $nodes }; każda linia we własnym zakresie)
 
 engine-campaign-campaign-modelled-composition-every-value = kampania { $r } | kompozycja MODELLED; każda wartość odczytana z rzeczywistego przebiegu wskazanego rodzaju
 
@@ -1162,7 +1160,7 @@ engine-e-constellation-needs-altitude-km-or-semi = { $what }: wymaga altitude_km
 
 engine-e-constellation-semi-major-axis-km-is = { $what }: półoś wielka { $v1 } km nie przekracza promienia { $name }
 
-engine-e-constellation-eccentricity-must-lie-in = { $what }: mimośród { $e } musi leżeć w [0, 0.9)
+engine-e-constellation-eccentricity-must-lie-in = { $what }: mimośród { $e } musi leżeć w [0, { $lit_0_9 })
 
 engine-e-constellation-perigee-is-below-the-surface = { $what }: perygeum leży poniżej powierzchni { $name }
 
@@ -1196,7 +1194,7 @@ engine-e-constellation-mask-deg-must-lie-in = mask_deg musi leżeć w [0, 90)
 
 engine-e-constellation-pdop-threshold-must-be-positive = pdop_threshold musi być dodatni
 
-engine-e-constellation-grid-step-deg-must-lie = grid_step_deg musi leżeć w [0.25, 90]
+engine-e-constellation-grid-step-deg-must-lie = grid_step_deg musi leżeć w [{ $lit_0_25 }, 90]
 
 engine-e-constellation-need-90-lat-min-deg = wymagane -90 <= lat_min_deg < lat_max_deg <= 90
 
@@ -2098,9 +2096,7 @@ engine-e-holdover-test-step-with-mask-has-no = krok z maską nie ma krzywej
 
 engine-e-holdover-test-cannot-read-csv-path = nie można odczytać csv_path { $path }: { $e }
 
-engine-holdover-test-recovered-after-gnss-returned = ; odzyskano po { $t } s od powrotu GNSS
-
-engine-holdover-test-holdover-test-holdover-max-te = holdover-test: holdover { $hold } s, max|TE| { $max_abs } ns; { $masks }{ $rec } (MODELLED, zmierzone względem maski)
+engine-holdover-test-holdover-test-holdover-max-te = holdover-test: holdover { $hold } s, max|TE| { $max_abs } ns; { $masks } (MODELLED, zmierzone względem maski)
 
 ## src/hybrid.rs
 
@@ -2730,17 +2726,15 @@ engine-iq-cli-scene-n0-profile-segment = { $chan_desc }; profil C/N0 (segmenty: 
 
 engine-iq-cli-scene-truth-format-must-be-csv = --truth-format musi mieć wartość csv lub jsonl (otrzymano: { $other })
 
-engine-iq-cli-scene-integer-scale-lsb-noise-normalised = ; skala całkowita: 1 LSB = { $sc } jednostek znormalizowanych do szumu (oczekiwane RMS { $v1 } LSB na składową), elementy obcięte: { $clipped }
-
-engine-iq-cli-scene-written-by-kshana-iq-scene = zapisane przez kshana iq scene: scena SYMULOWANA, a nie nagranie{ $scale_note }
+engine-iq-cli-scene-written-by-kshana-iq-scene = zapisane przez kshana iq scene: scena SYMULOWANA, a nie nagranie
 
 engine-iq-cli-scene-ion-sdr-metadata = metadane ION SDR { $path }
 
 engine-iq-cli-scene-sigmf-data-meta = SigMF dane { $data_path }, meta { $meta_path }
 
-engine-iq-cli-scene-written-by-kshana-iq-scene-2 = zapisane przez kshana iq scene{ $scale_note }
+engine-iq-cli-scene-written-by-kshana-iq-scene-2 = zapisane przez kshana iq scene
 
-engine-iq-cli-scene-wrote-samples-hz-to-truth = zapisano próbek: { $samples } ({ $format }, { $fs_hz } Hz) do { $data_path }; rekordów prawdy odniesienia: { $truth_records } do { $truth_path }; { $meta_note }; kanał: { $chan_desc }{ $scale_note }
+engine-iq-cli-scene-wrote-samples-hz-to-truth = zapisano próbek: { $samples } ({ $format }, { $fs_hz } Hz) do { $data_path }; rekordów prawdy odniesienia: { $truth_records } do { $truth_path }; { $meta_note }; kanał: { $chan_desc }
 
 ## src/iq/cli/sweep.rs
 
@@ -2760,7 +2754,7 @@ engine-iq-cli-track-designs-and-differ-in-integration = projekty { $first } i { 
 
 engine-iq-cli-track-epochs-name-the-format-with = --epochs { $p }: nazwij format przez --epochs-format csv|jsonl|bin albo zakończ ścieżkę na .csv, .jsonl lub .bin
 
-engine-iq-cli-track-hz-is-samples-per-chip = { $fs_hz } Hz to { $r } próbek na chip { $c }: próbkowanie współmierne zamienia dyskryminator kodu w schodki (przy 2 próbkach/chip DLL drga, ok. 0,09 chip RMS błędu kodu przy 45 dB-Hz); drgania i obciążenie pętli kodu z tego nagrania nie są reprezentatywne. Aby ocenić pętle kodu, użyj częstotliwości, która nie jest wielokrotnością połowy częstotliwości chipów.
+engine-iq-cli-track-hz-is-samples-per-chip = { $fs_hz } Hz to { $r } próbek na chip { $c }: próbkowanie współmierne zamienia dyskryminator kodu w schodki (przy 2 próbkach/chip DLL drga, ok. { $lit_0_09 } chip RMS błędu kodu przy 45 dB-Hz); drgania i obciążenie pętli kodu z tego nagrania nie są reprezentatywne. Aby ocenić pętle kodu, użyj częstotliwości, która nie jest wielokrotnością połowy częstotliwości chipów.
 
 ## src/iq/io/batch.rs
 
@@ -3565,7 +3559,7 @@ engine-leo-navmsg-unknown-preset-available = nieznany zestaw '{ $k }'; dostępne
 
 engine-e-leo-navmsg-fit-interval-must-be-10 = fit_interval_s musi mieścić się w 10-3600 s, a update_period_s w (0, fit_interval_s]; otrzymano: { $fit_interval_s } i { $update_period_s }
 
-engine-e-leo-navmsg-fit-sample-and-eval-step = fit_sample_s i eval_step_s muszą mieścić się w 0.5-60 s
+engine-e-leo-navmsg-fit-sample-and-eval-step = fit_sample_s i eval_step_s muszą mieścić się w { $lit_0_5 }-60 s
 
 engine-e-leo-navmsg-carrier-hz-must-exceed-10 = carrier_hz musi przekraczać 10 MHz; otrzymano: { $carrier_hz }
 
@@ -3664,7 +3658,7 @@ engine-e-leo-navmsg-text-csv-row-lacks = w wierszu CSV brak { $k }
 
 engine-e-leo-navmsg-truth-orbit-altitude-must-be-between = wysokość orbity musi mieścić się między 100 km a 3000 km; otrzymano: { $cfg } km
 
-engine-e-leo-navmsg-truth-eccentricity-must-be-in-for = mimośród musi należeć do [0, 0.1) dla dopasowania LEO; otrzymano: { $eccentricity }
+engine-e-leo-navmsg-truth-eccentricity-must-be-in-for = mimośród musi należeć do [0, { $lit_0_1 }) dla dopasowania LEO; otrzymano: { $eccentricity }
 
 engine-e-leo-navmsg-truth-integration-step-must-be-in = krok całkowania musi należeć do (0, 30] s; otrzymano: { $step_s }
 
@@ -4418,8 +4412,6 @@ engine-lunar-time-budget-scenario-total-false = { $i },{ $tau },total,{ $total }
 
 engine-lunar-time-budget-scenario-lunar-time-budget-clock-term = lunar-time-budget | zegar { $clock } | 7 członów x_Σ(τ) w punktach τ: { $taus } ({ $taus2 }–{ $taus3 } s) | przecięcie τ { $crossover_tau_s } s (x { $crossover_x_s } s) | dno układu odniesienia { $frame_term_s } s | zegar x(1 d) { $x_1day_ns } ns (MODELLED)
 
-engine-lunar-time-budget-scenario-time-lab-to-ltc-ns = { $summary } | laboratorium czasu: { $lab } { $lab2 } do LTC, x(1 d) { $lab3 } ns (MODELLED)
-
 ## src/lunar_time_lab.rs
 
 engine-e-lunar-time-lab-time-lab-unknown-clock-expected = time_lab: nieznany zegar { $other }; oczekiwano jednego z: optical-master, passive-h-maser, rafs, mini-rafs, lub podaj device_card
@@ -4995,19 +4987,11 @@ engine-nmea-synth-gen-has-ended = { $kind }: zakończono
 
 engine-nmea-synth-log-from-for-onset-ramp-recovery = od T+{ $start_s } s przez { $duration_s } s (narastanie na początku { $ramp_s } s, narastanie przy powrocie { $recovery_s } s)
 
-engine-nmea-synth-log-every-tracked-satellite-shows-db = ; każdy śledzony satelita pokazuje { $c } dB-Hz, dopóki trwa zdarzenie
-
 engine-nmea-synth-log-jamming-received-n0-falls-by = zagłuszanie (jamming): odbierane C/N0 spada nawet o { $cn0_drop_db } dB (rozrzut między satelitami { $spread_db } dB); satelity wypadają, a rozwiązanie jest tracone, gdy użytecznych pozostaje mniej niż cztery
 
 engine-nmea-synth-log-towards-deg-true = w kierunku { $b } deg (rzeczywisty)
 
 engine-nmea-synth-log-towards-deg-true-deg-relative = w kierunku { $t } deg (rzeczywisty) ({ $r } deg względem kursu w chwili początku, następnie utrzymywany)
-
-engine-nmea-synth-log-position-drag-off-the-reported = odciąganie położenia: raportowane położenie oddala się o { $final_offset_m } m { $dir }, a odbiornik zachowuje ważne rozwiązanie (fałszywy tor osiąga szczyt { $pv } m/s i { $pa } m/s^2){ $cf }
-
-engine-nmea-synth-log-time-spoof-reported-utc-moves = spoofing czasu: raportowany UTC odchyla się o { $offset_s } s od prawdziwego; położenie pozostaje prawdziwe{ $cf }
-
-engine-nmea-synth-log-replay-delay-meaconing-style-position = opóźnienie powtórki (styl meaconing): położenie{ $v1 } spóźnia się względem rzeczywistego o { $delay_s } s{ $cf }
 
 engine-nmea-synth-log-natural-degradation-the-sky-closes = degradacja naturalna: niebo zamyka się za podaną linią horyzontu ({ $e }); satelity za nią pozostają na liście bez SNR i nie są używane, C/N0 pozostałych nie zmienia się i nic nie jest fałszowane
 
@@ -5702,11 +5686,11 @@ engine-receiver-trust-scenario-trusted-throughout-no-monitor-alarmed = zaufany p
 
 engine-receiver-trust-scenario-first-alarm-at-untrusted-for = pierwszy alarm w { $t } s; epoki niezaufane: { $untrusted_epochs }, epoki pogorszone: { $degraded_epochs }, z { $after_cal } epok po kalibracji
 
-engine-receiver-trust-scenario-of-stated-events-detected-within = ; podanych zdarzeń wykrytych w ciągu { $detect_tol_s } s: { $events_detected } z { $events_evaluable }
+engine-receiver-trust-scenario-of-stated-events-detected-within = podanych zdarzeń wykrytych w ciągu { $detect_tol_s } s: { $events_detected } z { $events_evaluable }
 
-engine-receiver-trust-scenario-of-n0-predictions-within-db = ; prognoz C/N0 mieszczących się w { $cn0_tol_db } dB: { $predictions_agreeing } z { $predictions_evaluable }
+engine-receiver-trust-scenario-of-n0-predictions-within-db = prognoz C/N0 mieszczących się w { $cn0_tol_db } dB: { $predictions_agreeing } z { $predictions_evaluable }
 
-engine-receiver-trust-scenario-trust-score-lowest-final = ; wynik zaufania: najniższy { $min }, końcowy { $last }
+engine-receiver-trust-scenario-trust-score-lowest-final = wskaźnik zaufania: najniższy { $min }, końcowy { $last }
 
 engine-receiver-trust-scenario-scenario-receiver-trust-log-epochs = scenariusz { $r } | receiver-trust | zapis { $format_name }, epok: { $epochs } w ciągu { $duration_s } s | monitory { $monitors_run } | { $verdict }
 
@@ -5786,7 +5770,7 @@ engine-e-scenario-time-step-must-not-exceed = time.step_s ({ $step_s }) nie moż
 
 ## src/sdr.rs
 
-engine-sdr-sampling-rate-is-commensurate-with = częstotliwość próbkowania jest współmierna z szybkością kodu ({ $samples_per_chip } próbek/chip, { $offset_from_integer_samples } próbek od liczby całkowitej): replika kodu z zerowym podtrzymaniem nie rozróżnia zmiany fazy kodu poniżej { $dead_band_chips } chip, więc dyskryminator Early/Late jest schodkowy z jednopróbkowym pasmem martwym zamiast trójkątnego, a DLL ustala się przy błędnym opóźnieniu. Przesuń częstotliwość próbkowania poza całkowitą wielokrotność (5 MHz to 4.8876 próbki/chip; 25 MHz to 24.4379) albo próbkuj z nadmiarem na tyle, aby pasmo martwe było mniejsze od wymaganej dokładności fazy kodu.
+engine-sdr-sampling-rate-is-commensurate-with = częstotliwość próbkowania jest współmierna z szybkością kodu ({ $samples_per_chip } próbek/chip, { $offset_from_integer_samples } próbek od liczby całkowitej): replika kodu z zerowym podtrzymaniem nie rozróżnia zmiany fazy kodu poniżej { $dead_band_chips } chip, więc dyskryminator Early/Late jest schodkowy z jednopróbkowym pasmem martwym zamiast trójkątnego, a DLL ustala się przy błędnym opóźnieniu. Przesuń częstotliwość próbkowania poza całkowitą wielokrotność (5 MHz to { $lit_4_8876 } próbki/chip; 25 MHz to { $lit_24_4379 }) albo próbkuj z nadmiarem na tyle, aby pasmo martwe było mniejsze od wymaganej dokładności fazy kodu.
 
 ## src/sgp4.rs
 
@@ -6558,7 +6542,7 @@ engine-e-telecom-timing-csv-line-is-not-time = wiersz CSV { $v1 } nie ma postaci
 
 ## src/telecom_timing.rs
 
-engine-telecom-timing-the-mask-is-defined-through = maska jest zdefiniowana przez filtr dolnoprzepustowy 0.1 Hz, który ten silnik stosuje tylko przy odstępach próbkowania nie większych niż { $MAX_FILTER_DT_S } s; ten zapis jest próbkowany co { $dt_s } s
+engine-telecom-timing-the-mask-is-defined-through = maska jest zdefiniowana przez filtr dolnoprzepustowy { $lit_0_1 } Hz, który ten silnik stosuje tylko przy odstępach próbkowania nie większych niż { $MAX_FILTER_DT_S } s; ten zapis jest próbkowany co { $dt_s } s
 
 engine-e-telecom-timing-give-either-holdover-or-series = podaj [holdover] albo [series], nie oba
 
@@ -6566,11 +6550,7 @@ engine-e-telecom-timing-give-either-series-samples-or = podaj series.samples alb
 
 engine-e-telecom-timing-locked-duration-days-must-be = locked_duration_days musi być skończone i >= 0
 
-engine-telecom-timing-ns-budget-exceeded-after = ; budżet { $max_abs_te_ns } ns przekroczony po { $t } s
-
-engine-telecom-timing-ns-budget-never-exceeded = ; budżet { $max_abs_te_ns } ns nigdy nieprzekroczony
-
-engine-telecom-timing-telecom-timing-max-te-ns = telecom-timing: max|TE| { $max_abs } ns w ciągu { $v2 } s; { $masks }{ $first_budget } (MODELLED)
+engine-telecom-timing-telecom-timing-max-te-ns = telecom-timing: max|TE| { $max_abs } ns w ciągu { $v2 } s; { $masks } (MODELLED)
 
 ## src/telemetry/cli.rs
 
@@ -6730,7 +6710,7 @@ engine-e-tracking-loop-tracking-loop-must-be-finite = tracking-loop: { $name } m
 
 engine-e-tracking-loop-tracking-loop-must-be-positive = tracking-loop: { $name } musi być dodatnie (otrzymano { $v })
 
-engine-e-tracking-loop-tracking-loop-correlator-spacing-chips = tracking-loop: correlator_spacing_chips musi być poniżej 1.9 chip (otrzymano { $correlator_spacing_chips })
+engine-e-tracking-loop-tracking-loop-correlator-spacing-chips = tracking-loop: correlator_spacing_chips musi być poniżej { $lit_1_9 } chip (otrzymano { $correlator_spacing_chips })
 
 engine-e-tracking-loop-tracking-loop-pullin-bandwidth-ratio = tracking-loop: pullin_bandwidth_ratio musi wynosić co najmniej 1 (otrzymano { $pullin_bandwidth_ratio }) — pętla, która ponownie wchodzi w zakres z WĘŻSZYM pasmem niż to, z którym śledzi, odwróciłaby histerezę
 
@@ -7100,8 +7080,6 @@ engine-campaign-chart-alarm-flags-and-events = flagi alarmowe i zdarzenia
 
 engine-campaign-chart-mission-time = czas misji { $duration } s
 
-engine-campaign-chart-sweep-percentile-band = , mediana z pasmem od 5. do 95. percentyla dla ziaren (seed): { $n_runs }
-
 engine-campaign-chart-sweep-line-at = { $name } ({ $unit }) przy { $lead }
 
 engine-campaign-chart-monte-carlo-of = Monte Carlo dla `{ $scenario_kind }`: ziarna (seed): { $n_runs }, od { $base_seed } (5., 50., 95. percentyl; słupek = bootstrapowy 95% przedział ufności średniej)
@@ -7220,9 +7198,9 @@ engine-frame-eop-chart-growth = ~{ $factor }x, 1 d→{ $far_days } d
 
 engine-fusion-hybrid-ukf-chart-title = 17-stanowy hybrydowy UKF — samospójność filtru (modelowane)
 
-engine-fusion-hybrid-ukf-chart-subtitle = NEES + biel innowacji a pasma χ² 95%; 1.0 = spójny. Samospójność, nie dokładność.
+engine-fusion-hybrid-ukf-chart-subtitle = NEES + biel innowacji a pasma χ² 95%; { $lit_1_0 } = spójny. Samospójność, nie dokładność.
 
-engine-fusion-hybrid-ukf-chart-target = cel 1.0
+engine-fusion-hybrid-ukf-chart-target = cel { $lit_1_0 }
 
 engine-fusion-hybrid-ukf-chart-nis-whiteness = NIS (biel)
 
@@ -7282,8 +7260,6 @@ engine-gnss-sim-chart-vpl = VPL
 
 ## src/holdover_test.rs
 
-engine-holdover-test-not-recovered-within-record = ; nieodzyskany w obrębie zapisu
-
 engine-holdover-test-chart-title = Test holdover: błąd czasu według kroku
 
 engine-holdover-test-chart-y-title = |błąd czasu| (ns)
@@ -7298,11 +7274,11 @@ engine-holdover-test-chart-time-axis = czas na osi zapisu ({ $min } min)
 
 ## src/hybrid.rs
 
-engine-hybrid-chart-title = Wykorzystanie specyfikacji hybrydowego PNT podczas przerwy w GNSS (1.0 = specyfikacja)
+engine-hybrid-chart-title = Wykorzystanie specyfikacji hybrydowego PNT podczas przerwy w GNSS ({ $lit_1_0 } = specyfikacja)
 
 engine-hybrid-chart-y-title = wykorzystanie specyfikacji
 
-engine-hybrid-chart-spec-line = specyfikacja (1.0)
+engine-hybrid-chart-spec-line = specyfikacja ({ $lit_1_0 })
 
 engine-hybrid-chart-classical-suite = zestaw klasyczny
 
@@ -7434,7 +7410,7 @@ engine-leo-pnt-chain-chart-not-available = b/d
 
 engine-leo-signal-chart-title = Projekty sygnałów LEO-PNT
 
-engine-leo-signal-chart-psd-axis = przesunięcie w zakresie ±0.6 × pasmo nadawania; od 0 do −50 dB poniżej każdego szczytu
+engine-leo-signal-chart-psd-axis = przesunięcie w zakresie ±{ $lit_0_6 } × pasmo nadawania; od 0 do −50 dB poniżej każdego szczytu
 
 engine-leo-signal-chart-jitter-caption = jitter kodu (m, skala logarytmiczna) a całkowite C/N0 (dB-Hz)
 
@@ -7838,10 +7814,10 @@ engine-iq-labfit-iqreport-threshold-direct-median-db-over =
 
 engine-iq-labfit-iqreport-events-loss-time-rms-pi90 =
     { $n ->
-        [one] ; { $model }: { $n } zdarzenie, RMS czasu utraty { $om } s, pokrycie PI90 { $om2 }
-        [few] ; { $model }: { $n } zdarzenia, RMS czasu utraty { $om } s, pokrycie PI90 { $om2 }
-        [many] ; { $model }: { $n } zdarzeń, RMS czasu utraty { $om } s, pokrycie PI90 { $om2 }
-       *[other] ; { $model }: { $n } zdarzenia, RMS czasu utraty { $om } s, pokrycie PI90 { $om2 }
+        [one] { $model }: { $n } zdarzenie, RMS czasu utraty { $om } s, pokrycie PI90 { $om2 }
+        [few] { $model }: { $n } zdarzenia, RMS czasu utraty { $om } s, pokrycie PI90 { $om2 }
+        [many] { $model }: { $n } zdarzeń, RMS czasu utraty { $om } s, pokrycie PI90 { $om2 }
+       *[other] { $model }: { $n } zdarzenia, RMS czasu utraty { $om } s, pokrycie PI90 { $om2 }
     }
 
 engine-iq-labfit-report-n0-samples-residual-rms-db =
@@ -8408,3 +8384,423 @@ engine-legal-bench-notice = Wyłącznie doradczo: modelowane lub mierzone wzglę
 
 # legal: native review
 engine-legal-osnma-advisory = Wyłącznie doradczo: to wynik analizy i monitorowania, a nie sprzęt nawigacyjny z zatwierdzeniem typu. Podany tu stan uwierzytelniania nie jest usługą integralności nawigacji i nie może być jedyną podstawą żadnej decyzji nawigacyjnej ani dotyczącej bezpieczeństwa.
+
+## added in the 0.40 delta
+
+engine-campaign-sweep-of-over-nodes-each-percentile-band = przemiatanie `{ $scenario_kind }` po { $axis_order } (węzły: { $nodes }, mediana z pasmem percentyli 5.-95. dla ziaren (seed): { $n_runs }; każda linia we własnym zakresie)
+
+engine-holdover-test-holdover-not-recovered-within-record = holdover-test: holdover { $hold } s, max|TE| { $max_abs } ns; { $masks }; brak powrotu w obrębie zapisu (MODELLED, zmierzone względem maski)
+
+engine-holdover-test-holdover-recovered-after-gnss-returned = holdover-test: holdover { $hold } s, max|TE| { $max_abs } ns; { $masks }; powrót po { $t } s od odzyskania GNSS (MODELLED, zmierzone względem maski)
+
+engine-iq-cli-scene-written-by-kshana-iq-scene-integer-scale = zapisane przez kshana iq scene: scena SYMULOWANA, a nie nagranie; skala całkowitoliczbowa: 1 LSB = { $sc } jednostek znormalizowanych do szumu (oczekiwane RMS { $v1 } LSB na składową), obcięte elementy: { $clipped }
+
+engine-iq-cli-scene-written-by-kshana-iq-scene-2-integer-scale = zapisane przez kshana iq scene; skala całkowitoliczbowa: 1 LSB = { $sc } jednostek znormalizowanych do szumu (oczekiwane RMS { $v1 } LSB na składową), obcięte elementy: { $clipped }
+
+engine-iq-cli-scene-wrote-samples-hz-to-truth-integer-scale = zapisano próbek: { $samples } ({ $format }, { $fs_hz } Hz) do { $data_path }; rekordów prawdy odniesienia: { $truth_records } do { $truth_path }; { $meta_note }; kanał: { $chan_desc }; skala całkowitoliczbowa: 1 LSB = { $sc } jednostek znormalizowanych do szumu (oczekiwane RMS { $v1 } LSB na składową), obcięte elementy: { $clipped }
+
+engine-lunar-chart-title = HPL na południowym biegunie Księżyca (dostępność { $availability }%, AL { $al } m, σ_URE { $sigma } m)
+
+engine-lunar-beacon-chart-title = Wzmocnienie radiolatarniami powierzchniowymi — PDOP według konfiguracji
+
+engine-lunar-beacon-chart-pdop = PDOP { $pdop }
+
+engine-lunar-beacon-chart-no-solution = brak rozwiązania
+
+engine-lunar-beacon-chart-footnote = mniej znaczy lepiej; sigma_URE na radiolatarnię { $sigma } m, maska { $mask } deg
+
+engine-lunar-combination-chart-title = Księżycowe łączne OD + zegar — błąd położenia stacji 3-D (VLBI przywraca obserwowalność)
+
+engine-lunar-combination-chart-subtitle = satelity: { $n_sat }, stacje ziemskie: { $n_earth } · współczynnik poprawy { $factor }×
+
+engine-lunar-combination-chart-with-vlbi = z VLBI: { $m } m
+
+engine-lunar-combination-chart-range-only = tylko odległość: { $m } m
+
+engine-lunar-combination-chart-axis-note = log10 błędu stacji (m); zbieżność z/bez = { $with }/{ $without }
+
+engine-lunar-dpnt-chart-title = Księżycowy różnicowy PNT — satelity: { $n_sats }: błąd po korekcji a baza (redukcja × { $factor } przy { $km } km)
+
+engine-lunar-dpnt-chart-subtitle = bez korekcji { $uncorrected } m | po korekcji { $corrected } m | HPL { $hpl } m (σ_resid { $sigma } m) | { $label }
+
+engine-lunar-dpnt-chart-uncorrected-standalone = bez korekcji (autonomicznie)
+
+engine-lunar-dpnt-chart-baseline-km = baza (km)
+
+engine-lunar-dpnt-chart-err-m = błąd (m)
+
+engine-lunar-frame-realise-chart-title = Realizacja księżycowego układu odniesienia — odzyskiwanie 7-parametrowej transformacji Helmerta
+
+engine-lunar-frame-realise-chart-subtitle = punkty: { $n_points } · reszta RMS { $rms } m · zbieżność: { $converged }
+
+engine-lunar-frame-realise-chart-scale = skala (ppb)
+
+engine-lunar-frame-realise-chart-row = { $label }: wprowadzone { $inj } { $unit } · odzyskane { $rec } { $unit } · błąd { $err }
+
+engine-lunar-interop-chart-title = Eksport interoperacyjności księżycowej — CCSDS OEM + KIF (zgodny z założeniami LunaNet/IOAG)
+
+engine-lunar-interop-chart-header = REF_FRAME = { $frame } | TIME_SYSTEM = { $time_system } | stany: { $n_states } | OEM, linie: { $oem_lines }
+
+engine-lunar-interop-chart-artifacts = artefakty: { $list }
+
+engine-lunar-interop-chart-conformance = zgodność pól: { $verdict } (obecne: { $present }, brakujące: { $missing }, linie danych: { $data_lines })
+
+engine-lunar-interop-chart-roundtrip = pełny obieg OEM: { $oem } | pełny obieg metadanych czasu: { $time_metadata } | KIF, bajty: { $kif_bytes }
+
+engine-lunar-interop-chart-footnote = Pełny obieg / zgodność pól względem CCSDS OEM oraz opublikowanej semantyki pól LunaNet/IOAG. { $label } — nie jest to certyfikowany test zgodności interoperacyjności; bez poparcia żadnej agencji.
+
+engine-lunar-jamming-chart-title = J/S dla każdego satelity a elewacja, użytkownik na powierzchni Księżyca
+
+engine-lunar-jamming-chart-x-title = elewacja satelity (deg)
+
+engine-lunar-jamming-chart-n-links = łącza: { $n_links }
+
+engine-lunar-service-chart-title = Wolumen usługi księżycowej — satelity: { $n_sats }, punkty: { $n_points } × epoki: { $n_epochs }: pokrycie { $coverage }% (PDOP&lt;{ $threshold })
+
+engine-lunar-service-chart-subtitle = satelity { $min_sats }–{ $max_sats } | HPL { $hpl_min }–{ $hpl_max } m | VPL { $vpl_min }–{ $vpl_max } m | dostępność PL { $pl_avail }% (AL { $al } m, σ_URE { $sigma } m)
+
+engine-lunar-service-chart-pdop-min = PDOP min. { $v }
+
+engine-lunar-service-chart-pdop-mean = PDOP średnio { $v }
+
+engine-lunar-service-chart-pdop-max = PDOP maks. { $v }
+
+engine-lunar-station-chart-title = Księżycowa stacja referencyjna: p{ $percentile } skorygowanego błędu 3-D w regionie okołobiegunowym południowym (MODELLED)
+
+engine-lunar-station-chart-threshold = próg { $thr } m dla p{ $percentile }
+
+engine-lunar-station-chart-availability = dostępność { $v } %
+
+engine-lunar-station-chart-coverage = pokrycie { $v } %
+
+engine-lunar-station-chart-corrected-3d = po korekcji 3-D { $f }
+
+engine-lunar-station-chart-uncorrected-3d = bez korekcji 3-D { $f }
+
+engine-lunar-station-chart-legend-half = ≤ połowa progu
+
+engine-lunar-station-chart-legend-within = ≤ próg
+
+engine-lunar-station-chart-legend-twice = ≤ dwukrotność progu
+
+engine-lunar-station-chart-legend-above = powyżej dwukrotności progu
+
+engine-lunar-station-chart-station-note = ◆ stacja · linia przerywana: odległość, do której pokrycie wynosi 95 %
+
+engine-lunar-station-chart-disclaimer = MODELLED przy podanych założeniach; nie jest to stwierdzenie o żadnym rzeczywistym systemie; bez powiązań z żadną agencją i bez jej poparcia.
+
+engine-lunar-time-chart-title = Księżycowy czas współrzędnych LTC−TT (szybkość { $rate } µs/day, pasmo { $low }–{ $high })
+
+engine-lunar-time-chart-offset = { $offset } µs po { $days } d
+
+engine-lunar-time-budget-scenario-lunar-time-budget-clock-term-time-lab = lunar-time-budget | zegar { $clock } | 7-składnikowe x_Σ(τ) dla punktów τ: { $taus } ({ $taus2 }–{ $taus3 } s) | τ przecięcia { $crossover_tau_s } s (x { $crossover_x_s } s) | dolna granica układu odniesienia { $frame_term_s } s | zegar x(1 d) { $x_1day_ns } ns (MODELLED) | laboratorium czasu: { $lab } { $lab2 } do LTC, x(1 d) { $lab3 } ns (MODELLED)
+
+engine-lunar-vlbi-chart-title = Opóźnienie VLBI Księżyca (baza { $baseline } km, odległość do radiolatarni { $range } km, pole bliskie { $near_field } µs)
+
+engine-lunar-vlbi-chart-footnote = opóźnienie { $delay } µs w epoce · próbki: { $samples } w ciągu { $hours } h
+
+engine-mars-pnt-chart-formal-3sigma = formalne 3σ (kowariancja, nie certyfikowany PL)
+
+engine-nmea-synth-log-position-drag-off-counterfeit-cn0 = odciągnięcie położenia: raportowane położenie oddala się o { $final_offset_m } m w kierunku { $dir }, a odbiornik utrzymuje ważne rozwiązanie (fałszywy tor osiąga maksimum { $pv } m/s i { $pa } m/s^2); każdy śledzony satelita pokazuje { $c } dB-Hz, dopóki to trwa
+
+engine-nmea-synth-log-position-drag-off-genuine-cn0 = odciągnięcie położenia: raportowane położenie oddala się o { $final_offset_m } m w kierunku { $dir }, a odbiornik utrzymuje ważne rozwiązanie (fałszywy tor osiąga maksimum { $pv } m/s i { $pa } m/s^2); zachowany jest prawdziwy wzorzec C/N0
+
+engine-nmea-synth-log-time-spoof-counterfeit-cn0 = spoofing czasu: raportowany UTC odsuwa się o { $offset_s } s od prawdziwego; położenie pozostaje prawdziwe; każdy śledzony satelita pokazuje { $c } dB-Hz, dopóki to trwa
+
+engine-nmea-synth-log-time-spoof-genuine-cn0 = spoofing czasu: raportowany UTC odsuwa się o { $offset_s } s od prawdziwego; położenie pozostaje prawdziwe; zachowany jest prawdziwy wzorzec C/N0
+
+engine-nmea-synth-log-replay-delay-counterfeit-cn0 = opóźnienie powtórki (styl meaconingu): położenie{ $v1 } opóźnia się względem prawdy o { $delay_s } s; każdy śledzony satelita pokazuje { $c } dB-Hz, dopóki to trwa
+
+engine-nmea-synth-log-replay-delay-genuine-cn0 = opóźnienie powtórki (styl meaconingu): położenie{ $v1 } opóźnia się względem prawdy o { $delay_s } s; zachowany jest prawdziwy wzorzec C/N0
+
+engine-pvt-chart-3d-error-m = błąd 3D (m)
+
+engine-pvt-chart-postfit-rms-m = RMS po dopasowaniu (m)
+
+engine-quantum-faults-chart-title = AUC quantum-anomaly-detect (MODELLED)
+
+engine-quantum-faults-chart-quantum = kwantowy
+
+engine-quantum-faults-chart-classical = klasyczny
+
+engine-quantum-nav-od-chart-title = quantum-gnss-free-nav (MODELLED)
+
+engine-raim-stanford-chart-title = Diagram Stanforda — integralność (epoki: { $n_epochs }, AL = { $al } m)
+
+engine-raim-chart-title = Poziomy ochrony RAIM i dostępność ({ $availability }% dostępności)
+
+engine-raim-chart-hal = HAL { $al } m
+
+engine-raim-chart-val = VAL { $al } m
+
+engine-receiver-trust-chart-track-caption = tor raportowany przez odbiornik, północ u góry
+
+engine-receiver-trust-chart-start = początek
+
+engine-receiver-trust-chart-end-of-log = koniec dziennika
+
+engine-receiver-trust-chart-no-positions = brak położeń w dzienniku
+
+engine-receiver-trust-chart-score-axis = wskaźnik zaufania, od 0 do 100
+
+engine-receiver-trust-chart-legend-vessel = zaufanie: zielony nominalne (wskaźnik co najmniej { $nominal }), bursztynowy obniżone (co najmniej { $degraded }), czerwony niezaufane, szary kalibracja
+
+engine-receiver-trust-chart-legend = zaufanie: zielony nominalne, bursztynowy obniżone, czerwony niezaufane, szary kalibracja
+
+engine-receiver-trust-chart-advisory = Oprogramowanie wyłącznie doradcze, nie jest to sprzęt nawigacyjny z zatwierdzeniem typu; za nawigację odpowiada nadal operator.
+
+engine-receiver-trust-chart-cn0-axis = średnie C/N0, dB-Hz
+
+engine-report-chart-title = Holdover zegara: błąd czasu podczas przerwy w GNSS
+
+engine-slot-timing-chart-aria = Przewidywany błąd czasu a czas od ostatniego rozwiązania, z marginesem szczeliny
+
+engine-slot-timing-chart-time-since-fix = czas od rozwiązania, od 0 do { $t }
+
+engine-slot-timing-chart-predicted-error = przewidywany błąd czasu (ns); linia przerywana: margines { $guard } ns
+
+engine-slot-timing-never = nigdy
+
+engine-solar-system-chart-title = Układ Słoneczny — ekliptyka J2000, widok z góry
+
+engine-solar-system-chart-inner = Układ wewnętrzny (do Marsa)
+
+engine-solar-system-chart-whole = Cały układ (do Plutona)
+
+engine-solar-system-chart-legend = zielony: VALIDATED względem JPL Horizons · bursztynowy: MODELLED · księżyce są wymienione w result.json ze śladami o środku w ciele macierzystym
+
+engine-spectrum-chart-title = Wodospad widma pasma L
+
+engine-spectrum-chart-multi-title = Wodospad widma wielu pasm
+
+engine-spectrum-chart-frequency-mhz = częstotliwość (MHz)
+
+engine-spectrum-chart-cn0-caption = C/N0 (dB-Hz): nominalne (szare) / minimalne
+
+engine-spectrum-chart-threshold = próg { $thr }
+
+engine-spoof-chart-title = Detekcja spoofingu czasu: przesunięcie a granice detekcji wspomaganej zegarem
+
+engine-spoof-chart-offset-ns = przesunięcie spoofingu (ns)
+
+engine-spoof-chart-spoof-offset = przesunięcie spoofingu
+
+engine-spoof-chart-quantum-bound = granica detekcji kwantowej
+
+engine-spoof-chart-classical-bound = granica detekcji klasycznej
+
+engine-sweep-chart-title = { $metric } a { $parameter } (skala: { $scale })
+
+engine-sweep-nd-chart-title = { $n_dims }-D przemiatanie `{ $kind }` — węzły: { $n_nodes }
+
+engine-sweep-nd-chart-axes = osie: { $axes } (kształt { $shape })
+
+engine-sweep-nd-chart-metrics = metryki: { $metrics } — pełna siatka w JSON
+
+engine-sweep-nd-chart-line-title = przemiatanie `{ $kind }` po { $key }
+
+engine-sweep-nd-chart-y-title = metryka
+
+engine-telecom-timing-max-te-ns-budget-never-exceeded = telecom-timing: max|TE| { $max_abs } ns w ciągu { $v2 } s; { $masks }; budżet { $max_abs_te_ns } ns nigdy nie został przekroczony (MODELLED)
+
+engine-telecom-timing-max-te-ns-budget-exceeded-after = telecom-timing: max|TE| { $max_abs } ns w ciągu { $v2 } s; { $masks }; budżet { $max_abs_te_ns } ns przekroczony po { $t } s (MODELLED)
+
+engine-telecom-timing-chart-title = Telecom timing: błąd czasu, MTIE i TDEV
+
+engine-telecom-timing-chart-y-title = |błąd czasu| (ns)
+
+engine-telecom-timing-chart-te-caption = bezwzględny błąd czasu względem budżetów
+
+engine-telecom-timing-chart-holdover = holdover
+
+engine-telecom-timing-chart-time-record = czas (zapis { $h } h)
+
+engine-telecom-timing-chart-mtie-caption = MTIE (linia ciągła), TDEV (linia przerywana), pierwsza maska MTIE (szara), ns
+
+engine-timetransfer-chart-title = Błąd synchronizacji transferu czasu (optyczny a RF)
+
+engine-timetransfer-chart-y-title = błąd synchronizacji (ps)
+
+engine-timetransfer-chart-spec = specyfikacja { $mm } mm = { $ps } ps
+
+engine-timetransfer-chart-x-title = czas pomiaru (s)
+
+engine-timetransfer-chart-rf = RF: { $id }
+
+engine-timetransfer-chart-optical = optyczny: { $id }
+
+engine-timetransfer-chain-chart-title = quantum-time-transfer (MODELLED)
+
+engine-kind-clock-description = Holdover zegara względem specyfikacji; opcjonalny zespół Monte Carlo (runs > 1).
+
+engine-kind-inertial-description = Jednostopniowa nawigacja zliczeniowa inercjalna (1-DOF) podczas przerwy w GNSS.
+
+engine-kind-orbit-description = Dostępność GNSS + DOP z konstelacji orbitalnej (Walker / TLE / RINEX).
+
+engine-kind-ephemeris-description = Efemerydy i ślad naziemny: propagacja jednego satelity (TLE→SGP4 lub orbita analityczna) i wyznaczenie jego stanu TEME/GCRS (położenie + prędkość), położenia ITRF/ECEF, szerokości/długości/wysokości podsatelitarnej WGS-84 oraz, dla każdego kroku, az/el/odległości stacji i prędkości zmiany odległości (Doppler). Satelita pochodzi z `tle` albo z orbity analitycznej `orbit` z jej `epoch` (`tle` ma pierwszeństwo, gdy podano oba); przy `tle` wartość `epoch` zastępuje własną epokę TLE jako t = 0.
+
+engine-kind-integrity-description = RAIM migawkowy / separacji rozwiązań / ARAIM z HPL/VPL i diagramem Stanforda.
+
+engine-kind-lunar-integrity-description = Przebieg poziomów ochrony ARAIM dla południowego bieguna Księżyca względem reprezentatywnego zestawu przekaźników LunaNet. sigma_ure_m ujawnia dokładność pseudoodległości sygnału w przestrzeni (poziomy ochrony skalują się z nią liniowo, więc przemiatanie tej wartości odpowiada na pytanie, jakiej dokładności wymaga limit alarmowy). Domyślnie przypadek południowego bieguna klasy LNIS ze względów historycznych.
+
+engine-kind-lunar-time-offset-description = Modelowana relatywistyczna szybkość zegara Ziemia–Księżyc (księżycowy czas współrzędnych, LTC/TCL): wiekowa szybkość LTC−TT wynikająca z różnicy potencjału własnego i z członu kinetycznego Księżyca, podana wraz z opublikowanym pasmem 56–59 µs/day oraz skumulowanym przesunięciem w horyzoncie.
+
+engine-kind-lunar-vlbi-description = Modelowana obserwabla opóźnienia geodezyjnego VLBI Księżyca: baza ziemska (dwie stacje naziemne, GCRS) obserwuje sygnał jednokierunkowy z radiolatarni klasy NovaMoon na powierzchni Księżyca. Wyznacza opóźnienie pola bliskiego jako różnicę dwóch odległości, jego szybkość oraz poprawkę na krzywiznę czoła fali w polu bliskim w trakcie przelotu — z kontrolą krzyżową względem obserwabli Δ-DOR fali płaskiej z tej samej bazy kodu w granicy pola dalekiego, z pochodnymi cząstkowymi zweryfikowanymi różnicami skończonymi. Domyślna ścieżka analityczna jest MODELLED i niesie zastrzeżenia dotyczące spójności układu odniesienia, ruchu bieguna xp=yp=0 oraz fali płaskiej względem pola bliskiego. Ustawienie planetary_kernel_path, earth_orientation_kernel_path i moon_orientation_kernel_path uruchamia zamiast niej ścieżkę jądrową (DE440, MOON_PA_DE440, ITRF93; zbieżne barycentryczne czasy światła; dodaje pochodne cząstkowe radiolatarni i stacji w epoce), której newtonowskie opóźnienie i pochodne cząstkowe zgadzają się z zbieżnymi czasami światła NAIF SPICE do { $lit_0_06 } ps i 7.4e-9. Nie zwalidowano względem rzeczywistych danych VLBI.
+
+engine-kind-lunar-joint-od-clock-description = Modelowany łączny wielotechnikowy estymator wsadowy OD + zegar dla Księżyca w SYMULOWANEJ sieci: dopasowanie migawkowe Gaussa-Newtona, które łączy opóźnienia geodezyjnego VLBI bazy ziemskiej, odległości stacja↔satelita lokalne dla Księżyca oraz odległości międzysatelitarne, aby odzyskać razem położenie 3-D księżycowej stacji powierzchniowej, położenia małej konstelacji i przesunięcie zegara każdego obiektu względem wprowadzonej prawdy odniesienia. Główny uczciwy wynik — VLBI czyni obserwowalnym pełne położenie stacji 3-D tam, gdzie same pomiary odległości lokalne dla Księżyca zostawiają słabo obserwowalny kierunek — jest podany jako kontrast błędu stacji z VLBI i bez VLBI. MODELLED symulowane odzyskiwanie w pętli zamkniętej (prawda odniesienia dzieli model obserwacji), deterministyczne (z ziarnem), NIE zwalidowane na rzeczywistych danych; bez propagacji modelu sił wewnątrz solwera; bez poparcia w postaci TRL, dziedzictwa lotniczego ani agencji.
+
+engine-kind-lunar-frame-realisation-description = Modelowana realizacja księżycowego układu odniesienia: 7-parametrowe dopasowanie datum Helmerta (podobieństwa) — 3 translacje, 3 rotacje małego kąta, 1 skala — wiążące oszacowany zbiór współrzędnych punktów MCMF pochodzących z selenograficznych z datum metodą ważonych najmniejszych kwadratów (crate::batch_ls::gauss_newton), a także proste powiązanie orientacji wyrażające zrealizowaną małą rotację wokół osi ICRF względem orientacji ciała według IAU 2015 WGCCRE. Scenariusz wprowadza znaną małą transformację (translacja ~dziesiątki m, rotacja ~µrad, skala ~1e-7) do dobrze rozłożonej syntetycznej sieci punktów, dodaje szum gaussowski z ziarnem, odzyskuje datum i podaje odzyskaną transformację, błąd odzyskiwania każdego parametru względem wprowadzonej prawdy odniesienia oraz resztę RMS po dopasowaniu. MODELLED samospójność — odzyskuje wprowadzoną transformację podobieństwa (bez szumu do ~precyzji maszynowej), NIE jest realizacją względem rzeczywistych danych śledzenia/VLBI; deterministyczne (z ziarnem); bez poparcia w postaci TRL, dziedzictwa lotniczego ani agencji.
+
+engine-kind-moonlight-service-volume-description = Modelowana analiza wolumenu usługi nawigacji księżycowej na podstawie ILUSTRACYJNEJ, opartej na źródłach publicznych konstelacji na orbicie księżycowej klasy Moonlight/LCNS (bez powiązań z ESA): przemiata siatkę selenograficznej szerokości/długości w horyzoncie czasu i podaje DOP / pokrycie / dostępność (≥4 satelity ORAZ PDOP < próg) oraz uogólnioną obwiednię księżycowego poziomu ochrony ARAIM (HPL/VPL) w całym wolumenie. Geometria DOP UŻYWA PONOWNIE jądra o statusie VALIDATED względem gnss_lib_py (crate::orbit::dop); poziom ochrony UŻYWA PONOWNIE mechanizmu księżycowego ARAIM LunaNet LNIS (crate::lunar, σ_URE≈30 m) i jako przypadek szczególny redukuje się do istniejącego PL dla południowego bieguna. MODELLED kompozycja: zestaw przekaźników kołowych/eliptycznych keplerowskich (nie rzeczywista, różnicowo poprawiona efemeryda LCNS/NRHO), Księżyc ze średnią rotacją (bez libracji/precesji bieguna). Deterministyczne (czysta geometria). Bez poparcia w postaci TRL, dziedzictwa lotniczego ani agencji.
+
+engine-kind-lunar-differential-pnt-description = Modelowany księżycowy RÓŻNICOWY PNT (odpowiednik księżycowego DGNSS/SBAS): stacja referencyjna klasy NovaMoon w ZNANYM położeniu selenograficznym oblicza dla każdego satelity poprawki różnicowe z ILUSTRACYJNEJ, opartej na źródłach publicznych konstelacji klasy Moonlight/LCNS (NovaMoon wskazany wyłącznie jako KLASA systemu, bez powiązań z ESA), a użytkownik odsunięty o baseline_km stosuje je tak, że WSPÓLNE błędy orbity i zegara znoszą się. Składnik zegara znosi się DOKŁADNIE (tożsamość algebraiczna); składnik orbity pozostawia tylko rzut różnicy kierunków widzenia, który → 0, gdy baza → 0 (dolna granica dekorelacji przestrzennej), i rośnie ≈ liniowo z bazą. Podaje błąd położenia użytkownika 3-D Z poprawkami i BEZ poprawek, współczynnik redukcji, krzywą błąd–baza oraz poziom ochrony użytkownika, który UŻYWA PONOWNIE mechanizmu SBAS z DO-229E (crate::sbas) z resztą różnicową σ. MODELLED — dokładna tożsamość znoszenia + model dekorelacji pierwszego rzędu; nie zwalidowano na rzeczywistych danych; bez poparcia w postaci TRL, dziedzictwa lotniczego ani agencji. Deterministyczne, jeśli podano ziarno.
+
+engine-kind-lunar-station-coverage-description = Modelowane pokrycie księżycowej stacji referencyjnej: przemiatanie Monte Carlo modelu księżycowego różnicowego PNT po siatce użytkowników okołobiegunowej południowej i dobie epok. Stacja różnicowa referencyjna w znanym miejscu okołobiegunowym południowym koryguje podaną konstelację (ilustracyjną keplerowską lub efemerydę tablicową) przy podanym błędzie sygnału w przestrzeni, błędzie pomiaru położenia stacji, opóźnieniu poprawek i kwantyzacji łącza; dla każdego punktu i dla całego regionu podaje percentylowy błąd położenia po korekcji i bez korekcji (3-D, poziomy, pionowy), dostępność, pokrycie względem podanego progu, poziomy ochrony DO-229E, promień pokrycia dla każdego azymutu oraz budżet łącza poprawek na stacji i w najgorszym punkcie. To nie jest stwierdzenie o parametrach żadnego rzeczywistego systemu; bez powiązań z żadną agencją i bez jej poparcia. MODELLED.
+
+engine-kind-lunar-interop-export-description = Modelowany eksport interoperacyjności księżycowej: wyznacza księżycowy układ odniesienia, księżycową skalę czasu i księżycowe efemerydy w formach wymiany zgodnych z założeniami LunaNet/IOAG, opartych na CCSDS, z pełnym obiegiem / zgodnością pól. UŻYWA PONOWNIE emitera i parsera CCSDS OEM 2.0 z tego crate (crate::oem), oznaczonych na nowo dla kontekstu księżycowego — REF_FRAME w OEM niesie księżycowy układ ciała IAU 2015 WGCCRE (MOON_ME / MOON_PA), TIME_SYSTEM księżycową skalę czasu (LTC / TCL / UTC), CENTER_NAME = MOON — dla przykładowych ilustracyjnych efemeryd klasy LCNS (położenia z crate::lunar_service, prędkość z różnic skończonych). Wyznacza też deskryptor czasu księżycowego zgodny z założeniami LunaNet/IOAG (identyfikator skali, wiekowa szybkość µs/day z crate::lunar_time, opublikowane pasmo, powierzchnia odniesienia), który przechodzi pełny obieg przez serde_json, i pakuje artefakty w istniejącą kopertę KIF (crate::interchange) z etykietą uczciwości MODELLED. Podaje wyemitowane artefakty, liczbę linii OEM, wynik zgodności pól oraz listę pól obecnych/brakujących, powodzenie pełnego obiegu OEM, powodzenie pełnego obiegu metadanych czasu i rozmiar KIF w bajtach. MODELLED — wzorcem (oracle) jest deterministyczny pełny obieg + zgodność nazw pól względem opublikowanego CCSDS OEM oraz semantyki pól LunaNet/IOAG; NIE jest to certyfikowany test zgodności interoperacyjności; ilustracyjne efemerydy ze źródeł publicznych, bez powiązań z ESA; bez poparcia w postaci TRL, dziedzictwa lotniczego ani agencji.
+
+engine-kind-timetransfer-description = Optyczny i RF dwukierunkowy transfer czasu/częstotliwości.
+
+engine-kind-quantum-anomaly-detect-description = MODELLED detekcja uszkodzeń/anomalii dla kwantowych systemów PNT: oznaczony katalog uszkodzeń (skok częstotliwości/dryf/utrata sprzężenia zegara; skok biasu/zanik czujnika), statystyka detekcji ROC AUC (z przedziałem ufności bootstrap z zewnętrznie zwalidowanego eval_stats) oraz minimalne wykrywalne uszkodzenie przy stałym poziomie fałszywych alarmów, przy czym monitor wspomagany zegarem kwantowym (niższy szum) wykrywa mniejsze uszkodzenia — jako uczciwy TradeEvidence + reprezentatywność. Gaussowski model statystyki detekcji (AUC = Phi(mu/(sigma*sqrt2))); modeluje klasę, ilustracyjne parametry ze źródeł publicznych, bez TRL/lotu/certyfikacji.
+
+engine-kind-quantum-gnss-free-nav-description = MODELLED kwantowa nawigacja bez GNSS: podczas przerwy w GNSS budżet inercjalny kwantowy (interferometr zimnych atomów) a klasyczny INS klasy nawigacyjnej — narastanie błędu położenia podczas dryfu, holdover do progu położenia oraz kompromis kwantowy–klasyczny jako uczciwy TradeEvidence z reprezentatywnością. Uczciwa uwaga o obserwowalności: bez zewnętrznego rozwiązania bias akcelerometru jest nieobserwowalny, więc błąd rośnie; czujnik kwantowy spowalnia tę lukę, ale jej nie zamyka. Ilustracyjne parametry urządzeń ze źródeł publicznych; modeluje klasę, bez TRL/lotu/certyfikacji.
+
+engine-kind-quantum-time-transfer-description = MODELLED łańcuch zaufanej synchronizacji kwantowej: kompletny budżet transferu czasu kwantowego (zegar na sieci optycznej + łącze splątania/pojedynczych fotonów) a klasycznego (CSAC + RF dwukierunkowy), ponownie użyty poziom ochrony czasu + miara jakości bezpieczeństwa wobec ataku opóźnienia/powtórki (1-P_md), prawdopodobieństwo detekcji anomalii zegara + opóźnienie CUSUM oraz kompromis kwantowy–klasyczny jako uczciwy TradeEvidence z rekordem reprezentatywności i luk do lotu. Ilustracyjne parametry urządzeń/łączy ze źródeł publicznych; modeluje klasę, bez deklarowania TRL/lotu/certyfikacji.
+
+engine-kind-hybrid-description = Hybrydowy PNT (zwieńczenie): wspomaganie zegarem + IMU + transferem czasu.
+
+engine-kind-fusion-description = Łączny PNT z fuzją czujników filtrem Kalmana dla tych samych danych hybrydowych.
+
+engine-kind-hybrid-ukf-description = 17-stanowy hybrydowy kwantowo-klasyczny ściśle sprzężony UKF dla GNSS/INS (MODELLED): 15 stanów błędów INS + korekcja biasu przyspieszenia wyprowadzona z CAI + 2-stanowy zegar (faza + częstotliwość) z silnika zegara q-parametrów, napędzany przez ujęty w nawiasy model błędu CAI. Miarą jakości jest samospójność filtra (NEES + biel innowacji a granice χ²) — stwierdzenie samospójności, NIE gwarancja dokładności w świecie rzeczywistym. Tylko symulacja; bez TRL>3, bez dziedzictwa lotniczego, bez zewnętrznej walidacji.
+
+engine-kind-gnss-ins-description = Luźno i ściśle sprzężony EKF stanu błędów dla GNSS/INS.
+
+engine-kind-gnss-sim-description = Symulacja pseudoodległości w dziedzinie pomiarów (jonosfera Klobuchara, troposfera Saastamoinena/Niella) + RAIM.
+
+engine-kind-jamming-description = Zagłuszanie (jamming) w budżecie łącza: J/S → efektywne C/N₀ → utrata sprzężenia.
+
+engine-kind-spoof-description = Stochastyczny detektor spoofingu czasu (Neyman–Pearson / χ²₁) z P_fa/P_md metodą Monte Carlo.
+
+engine-kind-spoof-detect-description = Połączony detektor spoofingu RF/pomiarowy (spójność RAIM wielu SV + AGC + SQM, połączone) względem sparametryzowanego ataku (przewaga mocy, wyrównanie fazy nośnej, przesunięcie czasu/położenia; w stylu TEXBAT).
+
+engine-kind-sweep-description = Przemiatanie 1-D w studium kompromisów po parametrze pakietu zegara.
+
+engine-kind-sweep-nd-description = Ogólne przemiatanie N-D po dowolnym pakiecie przez klucze TOML z kropkami / ścieżki metryk JSON.
+
+engine-kind-gravity-map-description = Nawigacja z dopasowaniem do mapy grawitacyjnej bez GPS: grawimetr zimnych atomów odzyskuje stały dryf INS z ciągu anomalii grawitacyjnych, przez które leci.
+
+engine-kind-terrain-nav-description = Nawigacja odniesiona do terenu bez GPS (TERCOM/SITAN): wysokościomierz radarowy/barometryczny dopasowuje profil wysokości terenu do DEM w stylu SRTM, aby odzyskać dryf INS.
+
+engine-kind-terrain-slam-description = Sekwencyjna (rekurencyjna) nawigacja odniesiona do terenu bez GPS: filtr cząsteczkowy uruchamia model pomiaru dopasowania do terenu epoka po epoce (SITAN jako filtr działający w trybie ciągłym), tak że zmienny w czasie dryf INS jest śledzony wzdłuż toru, podczas gdy wsadowa terrain-nav odzyskuje tylko jedno stałe przesunięcie.
+
+engine-kind-combined-altpnt-description = Połączony nawigator grawitacyjno-magnetyczno-terenowy bez GPS: trzy skalarne kanały pól łączone w każdym punkcie trasy, aby uzyskać ostrzejszą (niższe CRLB) poprawkę dryfu niż z którymkolwiek pojedynczym polem.
+
+engine-kind-pvt-description = Wyznaczanie pojedynczego punktu z rzeczywistych obserwacji: obliczenie położenia odbiornika z pliku obserwacji RINEX 3 i pliku nawigacyjnego rozgłaszanego (pseudoodległości kodowe, efemerydy rozgłaszane, jonosfera Klobuchara, troposfera Saastamoinena/Niella), opcjonalnie zwalidowane względem współrzędnej pomiarowej.
+
+engine-kind-mars-pnt-description = PNT dalekiego kosmosu na Marsie: symulowana konstelacja przekaźników MARCONI (przekaźniki areostacjonarne + nachylone, nadające jednokierunkowo + przekazujące dwukierunkowo do stacji dalekiego kosmosu) nawiguje użytkownika referencyjnego (transfer | lmo | surface) przez łączny estymator fuzji radiometrycznej jedno- i dwukierunkowej. Podaje geometrię/widoczność dla każdej epoki, osiągnięte RMS względem prawdy odniesienia oraz formalną kowariancję (położenie 1σ / 3σ) — uczciwa symulowana miara jakości, NIE certyfikowany poziom ochrony.
+
+engine-kind-impairment-eval-description = Stanowisko oceny detekcji zakłóceń RF metodami AI/ML (13494): generuje oznaczony, uzasadniony parametrami korpus SYNTETYCZNY (nominalny/jamming/spoof-time/spoof-position/multipath), ocenia detektor (energy|agc|sqm|parity|fused) za pomocą niezależnego od detektora zestawu testowego i podaje AUC/ROC/macierz pomyłek + Pd dla każdej klasy przy docelowym Pfa, a także lukę optymizmu między danymi z rozkładu a spoza rozkładu. Wyłącznie charakterystyki działania MODELLED — nigdy dane terenowe/IQ, bez werdyktu dobry/zły.
+
+engine-kind-quantum-trade-description = Kompromis kwantowy–klasyczny dla PNT (13503): korzyść w holdover czasu + holdover inercjalnym z kandydackiego zegara (zmierzona krzywa ADEV — punkt obronności — lub klasa zegara kwantowego) względem klasy punktu odniesienia klasycznego, z zastrzeżeniem o założeniu dolnej granicy przy długim tau niesionym przez artefakt, a także obwiednia odporności a czas bez GNSS. MODELLED; określa ilościowo (nigdy nie waliduje) urządzenie partnera. Zegar kandydacki to zmierzona krzywa (`candidate_adev_taus` + `candidate_adev_values`, równej długości, co najmniej 2 punkty; ma pierwszeństwo, gdy podano obie formy) albo `candidate_clock_class`.
+
+engine-kind-space-weather-description = Model środowiska pogody kosmicznej: wskaźniki aktywności słonecznej (F10.7/F10.7a) i geomagnetycznej (Kp, z definicyjną tabelą Kp↔ap), temperatura egzosferyczna Jacchia-1971, którą napędzają, (zwalidowana względem opublikowanych wartości dla minimum/średniej/maksimum słonecznego) oraz gęstość neutralna termosfery Jacchia-1971 przy dobowo uśrednionej temperaturze egzosferycznej względem statycznego profilu niezależnego od aktywności w zestawie wysokości — zależność gęstości od cyklu słonecznego, którą atmosfera statyczna pomija. MODELLED: gęstość zgadza się z gęstościami wyprowadzonymi z akcelerometrów (TOLEOS CHAMP i GRACE) z dokładnością do czynnika 2 przy maksimum słonecznym, ale jest około { $lit_1_7 }x zbyt duża w minimum słonecznym 2008.
+
+engine-kind-oem-interop-description = Most interoperacyjności CCSDS OEM: import Orbit Ephemeris Message wytworzonej przez zewnętrzne narzędzie dynamiki lotu (GMAT/Orekit/STK wszystkie emitują OEM) i podanie jego segmentów/obiektów/układów/przedziału epok oraz kontroli spójności prędkości; bez danych wejściowych wykonuje pełny obieg wygenerowanej orbity referencyjnej i podaje wierność importu↔eksportu. MODELLED strukturalna/fizyczna kontrola wczytania, NIE walidacja dokładności orbity źródła.
+
+engine-kind-launch-window-description = Dwuciałowa geometria startu i wznoszenia: azymut(y) startu (sin Az = cos i / cos lat), minimalna osiągalna inklinacja, prędkość kołowa, wschodni bonus rotacji Ziemi, Δv zmiany płaszczyzny typu dogleg, gdy inklinacja docelowa jest mniejsza od szerokości geograficznej miejsca startu, oraz liczba dobowych okazji startowych. MODELLED geometria kulistej Ziemi (bez korekty trójkąta prędkości obracającej się Ziemi, bez modelu strat wznoszenia/oporu).
+
+engine-kind-reentry-description = Korytarz balistycznego wejścia w atmosferę Allena-Eggersa: szczytowe opóźnienie (niezależne od współczynnika balistycznego, V_e^2 sin|γ|/(2eH)), prędkość i wysokość przy szczytowym przeciążeniu oraz prędkość szczytowego nagrzewania, dla prędkości wejścia/kąta toru lotu/współczynnika balistycznego w atmosferze wykładniczej, a także planarne całkowanie punktu materialnego tego samego wejścia balistycznego z grawitacją, krzywizną Ziemi i atmosferą US Standard Atmosphere 1976 (szczytowe opóźnienie, prędkość, wysokość i czas w szczycie). MODELLED wejście balistyczne (bez siły nośnej); wynikiem nagrzewania jest PRĘDKOŚĆ szczytowego nagrzewania, a nie strumień ciepła (bez modelu aerotermicznego/TPS).
+
+engine-kind-eo-coverage-description = Geometria śladu i pokrycia ładunku obserwacji Ziemi (trójkąt kosmiczny SMAD): kątowy promień Ziemi, szerokość pasa, odległość próbkowania gruntu w nadirze, maksymalny dostęp poza nadirem, okres kołowy, okres węzłowy J2 i odstęp równikowy śladu naziemnego z flagą pokrycia ciągłego, dla wysokości orbity, inklinacji (domyślnie heliosynchronicznej) i FOV/IFOV czujnika. MODELLED geometria kulistej Ziemi (bez radiometrii/MTF/atmosfery/drgań/odblasków); odstęp węzłów R_e·(ω − Ω̇)·T_nodal z wiekowymi szybkościami J2 pierwszego rzędu.
+
+engine-kind-space-packet-description = Ramkowanie CCSDS 133.0-B Space Packet Protocol: kodowanie syntetycznego strumienia pakietów TM/TC (6-oktetowy nagłówek główny + pole danych) i podanie dekodowania nagłówka każdego pakietu, łącznej liczby oktetów oraz dokładnego pełnego obiegu kodowanie↔dekodowanie. Deterministyczne, dokładne ramkowanie układu bitów — warstwa interoperacyjności formatu pakietów agencji; NIE jest to certyfikacja zgodności (bez logiki nagłówka wtórnego/CRC/segmentacji poza flagami).
+
+engine-kind-attitude-budget-description = Trójstopniowy (3-DOF) budżet błędu orientacji i celowania: najgorszy przypadek momentu zakłócenia gradientu grawitacji ((3/2)(μ/R³)ΔI) oraz budżet błędu celowania jako pierwiastek sumy kwadratów po nazwanych składnikach 1σ (szum czujnika, drgania koła reakcyjnego, termika, ustawienie) z wyróżnionym składnikiem dominującym, dla wysokości orbity + rozrzutu bezwładności ciała. MODELLED skalarny budżet AOCS — uzupełnienie przed sprzętem dla Basilisk/42, a nie symulacja pętli sterowania/6-DoF/modów podatnych.
+
+engine-kind-passes-description = Predykcja przelotów nad stacją naziemną: przeloty widoczności w dziedzinie czasu (AOS/TCA/LOS, maksymalna pozorna elewacja, czas trwania) orbity kołowej, jako średnie elementy SGP4 na początku okna, nad stacją powyżej maski elewacji w oknie, z łącznym czasem dostępu. Propagacja SGP4/SDP4 w układzie związanym z Ziemią IAU 2006/2000A (opcjonalnie UT1 - UTC i ruch bieguna), refrakcja troposferyczna ITU-R P.834-9 i czas światła łącza w dół (oba domyślnie włączone), przejścia wyznaczone z dokładnością 1e-7 s, a kulminacja wyszukiwaniem złotego podziału. Geometria przelotu jest VALIDATED względem Orekit 13.1.8 dla stacji na poziomie morza; orbita i stacja scenariusza są danymi ilustracyjnymi.
+
+engine-kind-link-budget-description = Jednokierunkowy budżet łącza według równania łącza CCSDS 401 / DSN 810-005: tłumienie w wolnej przestrzeni, C/N₀, Eb/N₀, margines i zamknięcie dla EIRP nadawania, G/T odbioru, odległości, szybkości danych i pasma (s|x|ka) względem wymaganego Eb/N₀. Deterministyczne obliczenie inżynierskie z podanych danych wejściowych (nie jest to skalibrowana karta katalogowa terminala).
+
+engine-kind-lunar-time-budget-description = MODELLED kompletny budżet błędu czasu księżycowego czasu skoordynowanego (LTC): siedem składników błędu LTC złożonych jako krzywe błędu czasu x_i(τ) w całej siatce czasów uśredniania, zsumowanych pierwiastkowo do x_Σ(τ), oraz PRZECIĘCIE τ zegar–układ odniesienia, przy którym rosnący składnik zegara przejmuje stały składnik realizacji układu odniesienia w czasie rzeczywistym (poniżej budżet jest ograniczony układem odniesienia, powyżej zegarem) — uczciwa odpowiedź na artefakt pojedynczego τ. Nachylenia τ są w postaci zamkniętej i sprawdzalne analitycznie (zegar τ^{ "{" }+1/2{ "}" }/τ^{ "{" }+1{ "}" }, dolne granice τ^0, pomiar τ^{ "{" }-1/2{ "}" }), a wiersze zegara odtwarzają opublikowane jednodniowe specyfikacje zegarów (crate::clock_specs); WIELKOŚCI dolnych granic łącza RF/optycznego, realizacji układu odniesienia, reszty relatywistycznej i efemeryd to modelowane przydziały budżetu (udokumentowane wartości domyślne, możliwe do nadpisania przez wywołującego), a nie pomiary. Wkładem jest odtwarzalne τ przecięcia, a nie certyfikowana liczba dla każdego składnika; nie jest certyfikowane do operacyjnego pomiaru czasu.
+
+engine-kind-hybrid-optical-rf-description = MODELLED łączna miara jakości heterogenicznego PNT optycznego + RF (P5): składa budżet dwukierunkowego łącza optycznego 1550 nm (ograniczone fotonami CRLB dwukierunkowego pomiaru odległości σ_τ/√N i ślad dyfrakcyjny λ/D·odległość), poziom ochrony RAIM separacji rozwiązań między modalnościami (położenie ORAZ czas), który łączy luźne rozwiązanie RF i ścisłe rozwiązanie optyczne o odmiennych kowariancjach, dostępność przy bezchmurnym niebie dla N stacji optycznych (niezależna suma 1−Π(1−a_i) oraz wariant skorelowany przestrzennie), przekazanie stanu/kowariancji optyczne↔RF z UDOWODNIONĄ bitowo ciągłą (bez skoku) średnią i bramką spójności NEES χ², a także łączny wynik P(dostępne ORAZ klasy precyzyjnej ORAZ z zapewnioną integralnością) z obsługą korelacji. VALIDATED postać zamknięta: CRLB pomiaru odległości, ślad dyfrakcyjny, kwantyl poziomu ochrony χ², kombinatoryka sumy, ciągłość średniej przekazania + bramka NEES oraz łączny iloczyn niezależny. MODELLED: przydziały strat optycznych, wielkości σ RF/optyczne, dane klimatologii zachmurzenia, korelacje i budżet P_HMI. Nie jest to certyfikowany produkt dostępności/integralności.
+
+engine-kind-cislunar-observability-description = MODELLED obserwowalność planarnej konstelacji cislunarnej (P6): śledzi czterostatkową konstelację planarnych DRO z korekcją różnicową z pomiarami odległości międzysatelitarnych i podaje, jaka część czterostanowego wektora [x,y,ẋ,ẏ] statku jest obserwowalna na łuku. Wyznacza (1) tabelę rząd–długość łuku dla pojedynczego łącza tylko odległościowego — chwilowo rząd 1, rosnący ku pełnym czterem stanom w miarę wydłużania łuku (tabela 1 z P6); (2) widmo wartości własnych gramianu obserwowalności + liczbę uwarunkowania na łuku; (3) porównanie chwilowego rzędu tylko odległość a odległość+szybkość zmiany odległości (dźwignia projektowa Dopplera) wraz z raportowaniem GDOP osobliwego dla samej odległości / określonego dla odległość+szybkość; oraz (4) niezależną walidację krzyżową SRIF, której kowariancja a posteriori staje się skończona / dobrze uwarunkowana dokładnie na łuku, na którym rząd obserwowalny osiąga cztery. Rdzeń VALIDATED: rząd obserwowalny jest progiem wartości osobliwych ujawniającym rząd, sprawdzonym krzyżowo z rzędem własnym gramianu; widmo wartości własnych spełnia niezmienniki spektralne (ślad=Σλ, wyznacznik=Πλ, Frobenius²=Σλ²); wariacyjna STM jest zweryfikowaną różnicami skończonymi STM CR3BP; wiersze jakobianu odległości/szybkości zmiany odległości są zweryfikowanymi różnicami skończonymi analitycznymi pochodnymi cząstkowymi (sprawdzonymi krzyżowo z obserwablą 3-D szybkości zmiany odległości tego crate); cztery warunki początkowe to planarne DRO z korekcją różnicową, które zamykają się do ciasnej reszty okresowości i są wsteczne; przejście rzędu jest zwalidowane krzyżowo z pierwiastkowym filtrem informacyjnym tego crate (kowariancja a posteriori skończona dokładnie przy pełnym rzędzie, cond(P)=cond(OᵀO)); migawka o niepełnym rzędzie jest oznaczana jako GDOP nieokreślony (fim condition=inf), nigdy jako zmyślona wartość skończona — ta sama ochrona przed osobliwą geometrią, którą stosuje pvt::solve_spp. MODELLED: projekt konstelacji (amplitudy i fazy perycyntium DRO) i konkretna progresja rzędu, którą wytwarza. Nie jest to certyfikowany produkt wydajności nawigacji.
+
+engine-kind-conflict-resilience-description = MODELLED odporność warstwowego PNT w konflikcie (P7): użytkownik w środowisku spornym wykorzystuje kilka warstw PNT (GNSS usługi otwartej, szerokopasmowy GNSS, uwierzytelniona konstelacja, przekaźnik wzmocnienia), każda z bazową dostępnością, dokładnością 1σ i podatnością na odmowę dla każdego wektora wspólnego zagrożenia zagłuszaniem/spoofingiem. Sterowane intensywnością przemiatanie Monte Carlo Z ZIARNEM odmawia każdej warstwie z prawdopodobieństwem clamp(vulnerability·intensity·vector_weight,0,1), łączy ocalałe regułą odwrotnej wariancji w postaci zamkniętej σ_fused=(Σ 1/σ_i²)^(−1/2) i podaje prawdopodobieństwo całkowitej utraty (wszystkie warstwy odrzucone), medianę błędu połączonego oraz statystyki użyteczności/odmowy dla każdej warstwy w funkcji intensywności. Nagłówkowy współczynnik odporności (prawdopodobieństwo całkowitej utraty dla pojedynczej warstwy a dla warstw) wynosi ~7x przy założeniu NIEZALEŻNOŚCI; jednoczynnikowe przemiatanie skorelowanej odmowy z kopułą gaussowską pokazuje następnie, że to ~7x załamuje się ku 1 wraz ze wzrostem korelacji odmowy (korelacja niweczy warstwowanie). Blok czułości na wartości a priori rozciąga wynik nagłówkowy po ŹRÓDŁOWYCH priorach podatności przez tornado mcda + realokację wysiłku zagrożenia Dirichleta + przedziały ufności percentylowe. Rdzeń VALIDATED: całkowita utrata Monte Carlo zbiega do niezależnego iloczynu w postaci zamkniętej Π_i p_deny_i (w granicach błędu standardowego MC przy ustalonym ziarnie i dużym N); fuzja odwrotnej wariancji jest tożsamością w postaci zamkniętej; przy ρ=0 kopuła redukuje się do modelu niezależnego, a każde ρ zachowuje brzegową szybkość odmowy każdej warstwy. MODELLED: wielkości podatności/dostępności/dokładności dla każdej warstwy są danymi wejściowymi ze źródeł, lecz modelowane (JammerTest 2024, TEXBAT, EASA SIB, RTCA DO-229, LunaNet/IOAG — zob. conflict_threat_params), a konkretna wielkość ~7x i kształt krzywej współczynnik–korelacja wynikają z tej parametryzacji. Podział przeżywalności według wektorów w §4.2 rozkłada następnie wspólne zagrożenie RF na cztery nazwane wektory (jamming/spoofing/kinetyczny/cybernetyczny) i podaje dla każdego wektora krzywą łagodnej degradacji użytecznego PNT S_v(x)=1-Prod_i(1-a_i(1-clamp(susceptibility_i,v·x,0,1))) — VALIDATED: Monte Carlo z ziarnem dla każdej warstwy zbiega do tej postaci zamkniętej; zagłuszanie jest najostrzejszym wektorem dla skorelowanego punktu odniesienia RF, a odporna na RF warstwa inercjalna jest rozstrzygającym ocalałym. Nie jest to certyfikowany produkt dostępności nawigacji.
+
+engine-kind-lunar-attack-surface-description = Powierzchnia ataku na bezpieczeństwo sygnału nawigacji powierzchni Księżyca (P1): składa otwarte analizy bezpieczeństwa sygnału w jeden przebieg osiągalny z binarki. Podaje (1) moc odbieraną AFS i jej NADWYŻKĘ mocy względem odniesienia GPS na Ziemi, a także pasmo czułości 12-18 dB jako prawdziwe wieloosiowe przemiatanie danych wejściowych łącza (poziom odniesienia x EIRP x odległość ukośna) z uzgodnieniem współczynnika liniowego 25x po zaokrągleniu / 28x bez zaokrąglenia. ZMIENIONE (reguła R4): podawało to { $lit_15_6 } dB DEFICYTU mocy i współczynnik 32x/36x, dopóki odniesienie GPS nie zostało poprawione z -125 / -{ $lit_128_5 } (to wartości w dBm) na -155 / -{ $lit_158_5 } dBW, wartości z ICD-GPS-200, które moduł jammingu zawsze zawierał. Znak się odwraca: modelowany księżycowy sygnał AFS jest o { $lit_14_4 } dB SILNIEJSZY niż ziemski GPS L1 C/A, a nie słabszy. Sama moc odbierana nie zmieniła się ani o bit, a współczynnik liniowy to stary podzielony przez dokładnie 1000, co jest dokładnie przesunięciem 30 dB między dBm a dBW; (2) wymaganą moc nadawania atakującego do spoofingu (J/S = 3 dB) i do odmowy (J/S = 30 dB) przy każdym oddaleniu, odwrotność łącza J/S; (3) orbitalny ślad przechwycenia przy rzeczywistej charakterystyce anteny o jednorodnej aperturze (Airy [2 J1(x)/x]^2), ograniczoną wysokością podhemisferyczną czaszę, której limb NIE jest przechwytywany; (4) obliczony wynik wciągnięcia przy przechwyceniu pętli śledzenia przez spoofing (czy spoofer z dopasowanym kodem przy danej przewadze mocy i przesunięciu kodu rzeczywiście przeciąga DLL/PLL), zamiast zakładanego progu 3 dB; (5) geometryczny zasięg horyzontu ciała bez atmosfery dla podniesionego nadajnika powierzchniowego; oraz (6) budżet uwierzytelniania OSNMA/TESLA (narzut 20 bit/s = ~40 % komunikatu nawigacyjnego AFS 50 bit/s, opóźnienie ujawnienia klucza, fałszerstwo 2^-40). Pusta treść odtwarza punkt odniesienia P1; każda wartość wejściowa ma wartość domyślną i może być nadpisana. Podwyniki VALIDATED niosą wzorzec (oracle) swojego modułu źródłowego (radiometria dB w postaci zamkniętej; pełny obieg odwrotnego J/S; wzór Airy względem Bessela z A&S i geometria czaszy sferycznej; DLL/PLL wciągnięcie względem Kaplan & Hegarty; tożsamość horyzontu stycznej sferycznej względem eo_payload; wymiarowanie pól OSNMA SIS-ICD). MODELLED: reprezentatywne wielkości geometrii/mocy i konkretne wartości komórek mapy przechwycenia. Nie jest to certyfikowany produkt bezpieczeństwa.
+
+engine-kind-realtime-frame-eop-description = Budżet predykcji księżycowego układu odniesienia / orientacji Ziemi w czasie rzeczywistym: tabela 1 z P4 (kontrola spójności błędu układu odniesienia — po przetworzeniu ~{ $lit_0_27 } m ↔ ~{ $lit_0_010 } ms oraz w czasie rzeczywistym ~15 m ↔ ~{ $lit_0_5 } ms, każde położenie w układzie odniesienia wyrażone jako równoważny błąd UT1 przez ramię dźwigni L19 Δr = D_EM·ω⊕·ΔUT1) oraz tabela 2 (zmierzony błąd predykcji UT1 a horyzont — krzywa L18 odczytana wprost z rzeczywistej serii IERS finals2000A: dolna granica końcowa Bulletin A − Bulletin B i wielodniowy błąd predyktora persystencji, każdy odwzorowany na położenie w układzie Księżyca przez L19), a także budżet błędu układu odniesienia w czasie rzeczywistym L21 jako pierwiastek sumy kwadratów (EOP + efemerydy + dolna granica realizacji). VALIDATED postać zamknięta (ramię dźwigni L19, ω⊕ sprawdzone krzyżowo z kątem obrotu Ziemi CIO) oraz VALIDATED rzeczywiste dane (krzywa L18 z rzeczywistych wierszy finals2000A); MODELLED są wielkości kowariancji OD przekaźników księżycowych i dolna granica realizacji układu odniesienia (reprezentatywne przydziały) oraz predyktor persystencji (nie operacyjny algorytm Bulletin A z IERS). Nie jest to certyfikowany produkt układu odniesienia w czasie rzeczywistym.
+
+engine-kind-aperture-duty-cycle-description = Cykl pracy apertur: podział czasu między nawigację a łączność, który plan kontaktów narzuca pulii sterowalnych apertur. Przyjmuje plan kontaktów (listę okien aos_s/los_s w `[[contacts]]`, z których każde żąda nawigacji lub łączności — to samo słownictwo aos_s/los_s, które emituje predyktor `passes`), liczbę apertur oraz POLITYKĘ ARBITRAŻU (domyślnie priorytet nawigacji, albo priorytet łączności, albo niewywłaszczające kto pierwszy, ten lepszy) i podaje cykl pracy nawigacji, cykl pracy łączności, cykl bezczynności oraz przerwę dla każdej sesji — czas kontaktu, o który sesja prosiła, a którego żadna apertura nie obsłużyła. Dokładne przemiatanie przedziałów po granicach okien, więc stykające się okna nigdy nie konkurują i żadna sekunda apertury nie jest liczona podwójnie; sekundy apertur nawigacji, łączności i bezczynności są akumulowane niezależnie i zamykają się względem apertures*horizon_s. Raport podaje rozstrzygniętą politykę, jej pełną definicję oraz definicje cyklu pracy i przerwy, ponieważ wartość cyklu pracy podana bez polityki arbitrażu nie jest odtwarzalna. MODELLED arytmetyka harmonogramowania: nie nalicza się żadnego czasu przestawienia / przestrojenia / zmiany, gdy apertura zmienia usługę lub sesję, do decyzji nie wchodzi objętość danych, stan bufora, budżet energii ani zamknięcie łącza, a okna kontaktów są danymi wejściowymi — ich geometria jest taka, jaka je wytworzyła. Nie jest to produkt harmonogramowania segmentu naziemnego.
+
+engine-kind-lunar-jamming-description = Księżycowy jamming RF: stosunek zagłuszania do sygnału dla każdego satelity, efektywne C/N₀ i utrata sprzężenia dla użytkownika selenograficznego na powierzchni pod księżycowym (lub podniesionym) zagłuszaczem, w ilustracyjnej, opartej na źródłach publicznych konstelacji na orbicie księżycowej klasy Moonlight/LCNS. Składa istniejącą otwartą fizykę jammingu (jamming::j_over_s_db, effective_cn0_dbhz, rx_antenna_gain_db, lock_status, q_factor) z istniejącą geometrią nieba księżycowego (lunar_service::LunarConstellation + topocentric, lunar::selenographic_to_mcmf); żadna geometria ani radiometria nie jest wyprowadzana na nowo. W odróżnieniu od ziemskiego rodzaju `jamming`, tor sygnału NIE jest stałą mocą odbieraną: izotropowa moc odbierana każdego satelity wynika z jego własnego budżetu łącza EIRP − FSPL(odległość ukośna), więc J/S zmienia się od satelity do satelity wraz z odległością i elewacją księżycową. Podaje JEDEN WIERSZ NA KAŻDE WIDOCZNE ŁĄCZE (epoka, satelita) — azymut, elewację, odległość ukośną, obie moce odbierane, których różnicą jest J/S, J/S, nominalne i efektywne C/N₀ oraz stan sprzężenia — a także zbiorcze miary jakości obok (nigdy zamiast) tej tabeli, i tę samą tabelę jako artefakt CSV. Każde wyemitowane pole liczbowe niesie jednostkę i klasę pochodzenia. Podwyniki VALIDATED niosą wzorzec (oracle) swojego modułu źródłowego (równanie przeciwzagłuszeniowe i łącze J/S z Kaplan & Hegarty §9.4, zewnętrznie przywołane w tests/gnss_denied_jamming_resilience_reference.rs; geometria księżycowa z lunar_service). Sama kompozycja jest sprawdzona krzyżowo względem niezależnej ścieżki dwóch budżetów łącza (linkbudget::received_signal_power_dbw, inne wyrażenie tłumienia w wolnej przestrzeni) z dokładnością do 1e-9 dB. MODELLED: ilustracyjna konstelacja, reprezentatywne EIRP / moc zagłuszacza / zyski anten / temperatura szumowa oraz brak zacienienia terenem, wielodrogowości, dynamiki AGC i adaptacyjnego zerowania. Nie jest to certyfikowany produkt odmowy usługi. Gdy skonfigurowano zagłuszacz, raport niesie także KONTUR ODMOWY Z PASMEM NIEPEWNOŚCI, a nie kontur odczytany z jednego skalara: pełny zmierzony rozkład C/N₀ sygnału użytecznego po tabeli dla każdego satelity (n, min, p05, p25, mediana, p75, p95, maks., średnia, odchylenie standardowe z próby oraz własna asymetria próby) oraz kontur obliczony przy każdej z tych statystyk pozycyjnych według OBU kryteriów odmowy, które silnik rozpoznaje — dotychczasowego opartego na stosunku mocy (J/S = 30 dB, jak w attack-surface i tracking-loop) i opartego na utracie sprzężenia (efektywne C/N₀ spadające do tracking_threshold_dbhz, kryterium, którego używa kolumna stanu tego raportu) — na obu osiach płaszczyzny odmowy (wymagane EIRP zagłuszacza przy oddaleniu ze scenariusza, oddalenie odmowy przy EIRP ze scenariusza). Krawędzie pasma TO contour(p05) i contour(p95), to samo odwzorowanie w postaci zamkniętej zastosowane do własnych kwantyli próby: nie sigma dopasowana do próby i nie mediana ± k·stdev, przy czym stdev jest emitowane dla ciągłości i nie jest przez nic używane. Kwantyl równy progowi śledzenia lub niższy od niego nie ma skończonego zabijającego J/S, a jego kolumny utraty sprzężenia są null z policzonym powodem, nigdy ze ściętym promieniem.
+
+engine-kind-ins-trn-coast-description = Model błędu dryfu INS/TRN: błąd położenia a czas dryfu, zbudowany ze współczynników IMU, a nie przemiatany po założonej szybkości dryfu. Pięć składników narastania — bias akcelerometru, przechył od biasu żyroskopu przez grawitację, błądzenie losowe prędkości, błądzenie losowe kąta i współczynnik skali względem przebytej odległości — z których każdy jest propagowany przez dziewięciostanowy model błędu inercjalnego w układzie lokalnym z sprzężeniem Schulera dla podanej szerokości geograficznej i wysokości (prawa wiodącego rzędu dla krótkiego dryfu t², t³, t^1.5, t^2.5 i t¹/t² są podane obok) i łączony według PODANEJ reguły (domyślnie pierwiastek sumy kwadratów, albo suma liniowa, albo suma deterministyczna ze stochastycznym rss; wszystkie trzy są obliczane przy każdym przebiegu, aby wybór był widoczny, a nie ukryty). Czasy dryfu osiągające podane przez wywołującego progi położenia (domyślnie 10 m i 50 m) są lokalizowane istniejącą bisekcją silnika, każdy z rozkładem na składniki wskazującym źródło dominujące, a przecięcie każdego pojedynczego składnika jest dodatkowo odwracane algebraicznie, tak aby oba wyniki się zgadzały. Tryb nawigacji odniesionej do terenu ogranicza dryf okresowymi poprawkami położenia i podaje największy odstęp między poprawkami, który dotrzymuje każdego progu; poprawka samego położenia pozostawia błąd prędkości i przechył aktywne po poprawce, więc nie zawsze ogranicza dryf przy dowolnej częstości poprawek, a raport tak mówi, zamiast zwracać zero. MODELLED: współczynniki klasy IMU są reprezentatywnymi wartościami pasma, a nie kartą katalogową, a reszta poprawki terenowej jest daną wejściową. Nieosiągnięty próg jest podawany jako null ze statusem, nigdy jako zero. Nie jest to certyfikowany produkt wydajności nawigacji inercjalnej.
+
+engine-kind-lunar-vlbi-fim-description = Kowariancja współrzędnych stacji z VLBI Księżyca: pochodne cząstkowe opóźnienia obserwabli lunar-vlbi zebrane po jawnym HARMONOGRAMIE (bazy x epoki) w macierz informacyjną Fishera, odwrócone i podane jako kowariancja współrzędnych stacji oraz sigma stacji dla każdej współrzędnej — obliczony wynik silnika, a nie skalarna precyzja opóźnienia przepuszczona przez założony izotropowy współczynnik równego podziału g = 3. Stan niesie współrzędne stacji STAŁE względem Ziemi (ITRS), więc jakobian jest pochodną inercjalną obróconą macierzą GCRS->ITRS każdej epoki: to rotacja Ziemi czyni te współrzędne obserwowalnymi, a raport MIERZY przemiatanie linii widzenia w układzie związanym z Ziemią i deklinację radiolatarni, zamiast je zakładać. Jedna obserwacja to jedna para (baza, epoka), przy której OBIE stacje są powyżej maski elewacji, z wagą 1/delay_sigma_s^2. Przy każdym przebiegu podaje rząd, defekt datum, liczbę uwarunkowania, pełne widmo informacyjne, macierz kowariancji, sigmy 3-D i dla każdej osi każdej stacji oraz przestrzeń zerową sieci swobodnej; przy niedoborze rzędu sigma nagłówkowa jest publikowana jako NULL ze statusem, nigdy odczytana z prawie osobliwej odwrotności. Wartość równego podziału c*delay_sigma_s*sqrt(g/N) dla TEGO SAMEGO harmonogramu jest emitowana obok wartości obliczonej wraz ze stosunkiem, razem z izotropową granicą śladu sqrt(p/trace(M)), którą AM-HM czyni twardą dolną granicą — więc stosunek to anizotropia, którą odrzuciło założenie. Zamknięcie opóźnień tau_ik = tau_ij + tau_jk czyni geometrycznie niezależnymi tylko n-1 z n(n-1)/2 baz; raport podaje obie liczby. MODELLED: efemeryda środka Księżyca, zegary stacji, troposfera i parametry orientacji Ziemi są utrzymywane jako STAŁE, a obserwacje są traktowane jako niezależne, więc kowariancja jest granicą Craméra-Rao dla zredukowanego zbioru parametrów, a nie przewidywanym wynikiem sesji; sigma opóźnienia, współrzędne stacji i harmonogram są danymi wejściowymi. Pochodna cząstkowa, którą jakobian opóźnienia geometrycznego pomija (różnicowany człon Shapiro), jest mierzona różnicą skończoną i emitowana. Nie jest to produkt geodezyjny.
+
+engine-kind-tracking-loop-description = Utrata sprzężenia pętli śledzenia: C/N0 -> sprzężenie/utrata ZE ZJAWISKIEM HISTEREZY, czas utraty sprzężenia oraz wciągnięcie przez spoofing w funkcji SZYBKOŚCI przesunięcia kodu i nośnej. Istniejące kryteria odmowy i przechwycenia silnika są stosunkami mocy odbieranej (zagłuszacz odmawia przy J/S = 30 dB, spoofer przechwytuje przy 3 dB); rzeczywista utrata sprzężenia nie jest stosunkiem mocy, lecz miejscem, w którym drgania pętli plus naprężenie dynamiczne wychodzą poza budżet jej progu śledzenia. Podaje (1) termiczne drgania 1-sigma nośnej (Costas) i kodu (niekoherentne early/late) w funkcji C/N0, z uwzględnieniem strat kwadratowania, względem podanych reguł 3*sigma_PLL + theta_e <= 45 deg (reguła 15 stopni w postaci trzech sigma) i 3*sigma_DLL + ramp lag <= d/2 chip; (2) progi C/N0 utraty i ponownego uzyskania sprzężenia ze wskazaniem pętli ograniczającej, przy czym próg ponownego uzyskania jest WYPROWADZONY z szerszego pasma, w którym odbiornik ponownie się wciąga, a nie zakładany, więc szerokość histerezy musi mieścić się między 5*log10(ratio) a 10*log10(ratio) dB; (3) deklarowany czas utraty sprzężenia z detektora sprzężenia o dwóch progach z oknami potwierdzenia, sterowanego rampą C/N0, podawany osobno od fizycznego czasu ucieczki fazy (średni czas Viterbiego między poślizgami cyklu, w log10 s, ponieważ obejmuje setki dekad); (4) granice wciągnięcia przez spoofing — największe przesunięcie kodu i szybkość Dopplera nośnej, za którymi pętle ofiary mogą nadążyć, z mapą po obu osiach, ponieważ spoofer, który przesuwa szybciej niż te granice, nie przechwytuje pętli, tylko ją wyprzedza; oraz (5) PROMIEŃ ODMOWY wynikający z dynamiki pętli, podawany OBOK istniejącego promienia opartego na stosunku mocy, nigdy zamiast niego, z ich różnicą ze znakiem jako osobnym nazwanym polem (denial_radius_delta_km) i definicją obok. Każde wyemitowane pole liczbowe niesie jednostkę i klasę pochodzenia. Postacie zamknięte VALIDATED: wyrażenia drgań nośnej i kodu, redukcja filtra pętli sqrt(2*B_n*T) i opóźnienie rampy pierwszego rzędu są sprawdzone krzyżowo względem własnego korelatora sdr silnika krokowanego na syntetycznym IF z ziarnem — inną drogą do tych samych liczb — odpowiednio do { $lit_0_6 } %, { $lit_3_7 } % i { $lit_0_17 } %, a zmodyfikowana funkcja Bessela I0 stojąca za czasem poślizgu cyklu względem standardowych wartości tablicowych do 1e-7. Dolna granica ważności jest wymuszona, a nie tylko podana: poniżej ~32 dB-Hz przy 1 ms rzeczywisty dyskryminator atan nasyca się względem swojego zakresu +-pi/2 i mierzy mniejsze drgania niż jakakolwiek teoria liniowa. MODELLED: pasma pętli, czas całkowania, odstęp korelatora, stosunek pasma wciągnięcia, okna potwierdzenia, moc zagłuszacza i zyski anten są reprezentatywnymi wartościami pasma, a nie kartą katalogową. NIE są modelowane: drgania oscylatora (odchylenie Allana) i wibracji, ograniczenie pasma toru wejściowego, wielodrogowość, dynamika AGC, strata na przejściach bitów danych, wspomaganie zewnętrzne oraz jakakolwiek korekta półcyklu we wzorze na poślizg cyklu Costasa. Przy dynamice pętli przechwycenie przez spoofing nie ma żadnego promienia — ograniczeniem wiążącym jest szybkość przesunięcia, a nie moc — więc to pole jest null z podanym powodem, a nie zmyśloną liczbą. Nie jest to certyfikowany produkt wydajności odbiornika.
+
+engine-kind-araim-reference-check-description = Opublikowane wektory referencyjne ARAIM (do celów certyfikacji): poziomy ochrony ARAIM poziomy i pionowy z silnika uruchomione względem WŁASNYCH rozwiązanych przykładów numerycznych Podgrupy Technicznej ARAIM WG-C, przy tolerancji (TOL_PL = 5e-2 m), którą te dokumenty same podają. Dwa wektory są zatwierdzone jako fixtures, każdy z adresem URL pobrania, datą pobrania, SHA-256 pliku źródłowego i stroną: Reference Airborne Algorithm Description Document v3.1 (2019) Appendix D — samospójny i będący wektorem akceptacji — oraz Milestone 3 Report (2016) Annex A section A.IX, zestawienie cytowane przez bibliografie badawcze. Każda opublikowana dana wejściowa (macierz geometrii 10 satelitów 2 konstelacji, przekątne wariancji C_int i C_acc, b_nom, P_sat, P_const i zestaw stałych LPV-200) oraz każda opublikowana dana wyjściowa (VPL, HPL, EMT, sigma_v_acc, K_fa_3 oraz sigma_3, sigma_ss_3 i b_3 dwóch trybów uszkodzenia konstelacji) jest podana obok liczby z silnika i ich różnicy bezwzględnej. Równanie poziomu ochrony NIE jest tu rozwiązywane na nowo: lista trybów z odniesienia jest przekazywana do istniejących raim::araim_protection_level / araim_integrity_risk silnika, więc bisekcja i algebra ogona gaussowskiego poddane próbie są własnymi silnika; dla niego budowane są tylko geometria, rozwiązania cząstkowe, progi detekcji i opublikowany podział budżetu. ZEWNĘTRZNIE SPRAWDZONE względem wektora z 2019: VPL { $lit_18_2926 } m wobec { $lit_18_3 } m opublikowanych, HPL { $lit_13_4063 } m wobec { $lit_13_45 } m, EMT { $lit_7_2997 } m wobec { $lit_7_2998 } m, sigma_v_acc { $lit_1_3694 } m wobec { $lit_1_3694 } m oraz wszystkie sześć opublikowanych wielkości pośrednich z dokładnością do połowy jednostki na ostatnim wydrukowanym miejscu dziesiętnym. Wektor z 2016 niesie dwa wewnętrzne defekty, które raport podaje, a nie ukrywa — literówkę w znaku w wierszu 3 macierzy G oraz K_fa_3 wyznaczone dla 57 trybów uszkodzeń, gdy dokument podaje N_fault_max = 1 (12 trybów) — więc jego wielkości pośrednie geometrii odtwarzają się dokładnie, natomiast jego poziomy ochrony są podawane jako zmierzone rozbieżności i wyłączone z wyniku akceptacji; tolerancja nigdy nie jest poszerzana, aby je wchłonąć. Każde wyemitowane pole liczbowe niesie jednostkę i klasę pochodzenia, a przepisana wartość jest oznaczona `published`, aby nigdy nie można było jej pomylić z obliczoną. ZAKRES: zaimplementowano tylko N_fault_max = 1 (tryby uszkodzenia pojedynczego satelity i pojedynczej konstelacji), a przypadek, którego priory wymagają jednoczesnych podzbiorów uszkodzeń wielu zdarzeń, jest REFUSED, a nie po cichu obcinany; detekcja uszkodzeń, wykluczanie, kontrola spójności chi-kwadrat i krok realokacji przy podwójnym zliczaniu z algorytmu referencyjnego są poza zakresem. Odtwarza to rozwiązany przykład opublikowanego algorytmu referencyjnego — nie jest to certyfikacja, artefakt zdatności do lotu ani zatwierdzenie.
+
+engine-kind-lunar-frame-campaign-description = Siedmioparametrowe datum układu odniesienia Helmerta (podobieństwa) wyznaczone przez SYMULOWANĄ KAMPANIĘ OBSERWACYJNĄ, a nie przez wprowadzoną transformację. Sieć stacji ziemskich obserwuje katalog radiolatarni na powierzchni Księżyca według jawnego harmonogramu; pochodne cząstkowe opóźnienia VLBI Księżyca są zbierane po tym harmonogramie w macierz informacyjną Fishera współrzędnych radiolatarni dokładnie tak jak w lunar-vlbi-fim; a ta informacja jest propagowana przez układ Helmerta A = [I3 | [p]_x | p] w punktach katalogu do kowariancji datum H = A^T M_b A, diagnozowanej przez crate::fim::crlb. ŻADNA transformacja nie jest wprowadzana i nic nie jest odzyskiwane z podłożonej odpowiedzi, więc podana dokładność datum wynika z programu obserwacji: zmniejszenie sigmy opóźnienia o połowę zmniejsza ją dokładnie o połowę, a wydłużenie łuku ją poprawia, ponieważ libracja, którą raport MIERZY (sub_earth_direction_sweep_deg), oddziela współrzędną radiolatarni wzdłuż linii widzenia od współrzędnych w płaszczyźnie nieba. Przy każdym przebiegu emitowane są: rząd, defekt datum, liczba uwarunkowania, pełne widmo, kierunki nieobserwowalne W BAZIE SIEDMIU PARAMETRÓW, kierunek najsłabszy nawet przy pełnym rzędzie i udział każdego parametru w nim; parametr, którego kampania nie ogranicza, jest publikowany jako NULL ze statusem, nigdy odczytany z prawie osobliwej odwrotności. Korelacja błędów radiolatarni jest mierzona, a nie zakładana: przy utrzymanych stałych stacjach żadna obserwacja nie dotyka dwóch radiolatarni, więc macierz informacyjna jest dokładnie blokowo-diagonalna (offblock_fraction 0), a przy estymowanych stacjach blok zmarginalizowany metodą Schura jest sprzężony, z wydrukowaną wywołaną korelacją, i cała propagacja jest uruchamiana ponownie z jej pominięciem, tak że cena założenia niezależności jest liczbą. Ta sama propagacja przy izotropowej sigmie na współrzędną oraz błąd odzyskiwania podawany przez scenariusz lunar-frame-realisation są tu uruchamiane i wydrukowane obok wartości z kampanii wraz ze stosunkami. MODELLED: katalog radiolatarni pochodzi ze źródeł, ale KAMPANIA jest symulowana — sieć stacji i sigma opóźnienia są danymi ilustracyjnymi, pojedyncze obserwacje opóźnienia są traktowane jako niezależne, a efemeryda środka Księżyca, zegary stacji, troposfera i parametry orientacji Ziemi są utrzymywane jako STAŁE, więc kowariancja datum jest granicą Craméra-Rao dla zredukowanego zbioru parametrów. Nie jest to produkt geodezyjny.
+
+engine-kind-lunar-llr-datum-description = Siedmioparametrowe datum księżycowego układu odniesienia Helmerta wyznaczone przez RZECZYWISTĄ, ZARCHIWIZOWANĄ kampanię obserwacyjną, a nie symulowaną. Tam, gdzie lunar-frame-campaign usunęło wprowadzoną transformację, ale nadal podawało sieć stacji, harmonogram i sigmę pojedynczej obserwacji jako dane ILUSTRACYJNE, ten rodzaj bierze wszystkie trzy z pomiaru: epoki to czasy nadawania z ziemi zarchiwizowanych punktów normalnych ILRS Consolidated Laser Ranging Data, obserwacje to rzeczywiście wystrzelone pomiary odległości laserem do pięciu macierzy retroreflektorów na Księżycu, a każda waga obserwacji to własna zarchiwizowana precyzja tego punktu normalnego bin_rms/sqrt(n_raw) odczytana z pliku. Współrzędne stacji pochodzą z rozwiązania SLR IERS ITRF2020 (propagowane do epoki ich opublikowanymi prędkościami), a współrzędne reflektorów z JPL DE430 Table 7 w układzie średniej Ziemi/średniej rotacji, który realizuje model IAU 2015 WGCCRE. Pochodne cząstkowe odległości są zbierane w łączną macierz informacyjną Fishera współrzędnych reflektorów i propagowane przez ten sam układ Helmerta do kowariancji datum, diagnozowanej przez crate::fim::crlb. Przy każdym przebiegu emitowane są: rząd, defekt, uwarunkowanie, widmo, kierunki nieobserwowalne w bazie siedmiu parametrów, kierunek najsłabszy przy pełnym rzędzie i udział każdego parametru w nim, a nieograniczony parametr jest publikowany jako NULL ze statusem. Korelacja między macierzami jest MIERZONA jako dokładnie zero, a nie zakładana, ponieważ pomiar laserowy dotyka jednej macierzy. Rekord, którego katalogi nie potrafią umieścić — stacja bez opublikowanego położenia ITRF — jest POMIJANY I ZLICZANY, nigdy nie dostaje podstawionej współrzędnej. KTÓRE ŁĄCZA SĄ MIERZONE, A KTÓRE MAJĄ STATUS MODELLED, TO TREŚĆ RAPORTU, A NIE PRZYPIS: efemeryda środka Księżyca i orientacja ciała IAU pozostają modelowane, a ich łączna wielkość jest emitowana jako reszta obserwowana-minus-obliczona jednokierunkowej odległości po wszystkich użytych punktach; troposfera, pływy ciała stałego, mimośrodowość stacji, ruch bieguna, UT1-UTC, opóźnienie relatywistyczne i zegary stacji są nieobecne i zawarte w tej reszcie. Ponieważ błąd efemerydy dociera do kowariancji tylko przez kierunek każdej linii widzenia, każdy przebieg rozwiązuje też od nowa całe datum ze wszystkimi pochodnymi cząstkowymi przechylonymi o sensitivity_tilt_deg (ze znakiem na przemian) i emituje stosunek, tak że niewrażliwość kowariancji na modelowaną efemerydę jest liczbą, a nie argumentem. Własne wartości kampanii symulowanej są URUCHAMIANE i drukowane obok zmierzonych, a nie przepisywane. MODELLED: wartości siedmiu parametrów są granicą Craméra-Rao dla zredukowanego zbioru parametrów na rzeczywistym harmonogramie — nie jest to rozwiązane datum, analiza LLR ani produkt geodezyjny. Zatwierdzony wycinek rzeczywistych danych jest dostarczany z repozytorium, ale nie z opublikowanym crate; wskaż data_dir na jego kopię.
+
+engine-kind-lunar-beacon-description = Wzmocnienie księżycowej usługi nawigacji orbitalnej radiolatarniami powierzchniowymi, jako uruchamialna tabela przed/po. Użytkownik w okolicy bieguna południowego widzi rzadki zbiór orbitalny w wąskim wycinku nieba, więc geometria pomiaru odległości jest źle uwarunkowana; kilka ZMIERZONYCH RADIOLATARNI POWIERZCHNIOWYCH dostarcza wierszy linii widzenia o niskiej elewacji i szerokim azymucie, których brakuje zbiorowi całkowicie nad głową, a poziomy współczynnik rozmycia dokładności gwałtownie maleje. Scenariusz podaje trzy konfiguracje w jednej epoce — same satelity, satelity plus widoczne radiolatarnie oraz większą konstelację jako alternatywną drogę do tej samej geometrii — każdą z liczbami widocznych źródeł, pełnym DOP i zrealizowaną dokładnością 1-sigma w METRACH, uzyskaną przez przemnożenie przez błąd pomiaru odległości równoważny dla użytkownika każdej radiolatarni, złożony jako pierwiastek sumy kwadratów składników synchronizacji zegara, wielodrogowości i pomiaru położenia. Widoczność radiolatarni to geometryczny horyzont Księżyca bez atmosfery dla dwóch wysokości (brak atmosfery, więc granica jest dokładna), a złożenie DOP to to samo jądro sprawdzone krzyżowo względem gnss_lib_py w tests/dop_reference.rs. DLACZEGO TEN RODZAJ ISTNIEJE: moduł za nim jest w silniku i jest sprawdzany względem niezależnej ścieżki DOP od L08/L09, ale nie był osiągalny z przebiegu — bez rodzaju, bez gałęzi wywołania, bez dołączonego pliku. README reklamowało tę możliwość, a macierz weryfikacji nie miała dla niej ŻADNEGO wiersza, więc była jednocześnie deklarowana w prozie i niedeklarowana w rejestrze, będąc nieosiągalną w silniku. Wartości domyślne to geometria, która już ma zatwierdzony wzorzec złoty (użytkownik na -80 deg z anteną 2 m, trzy radiolatarnie na -80/0, -79/+60 i -79/-60 na 2 km, sześciosatelitarna ilustracyjna migawka LCNS w t=0, maska 5 deg), więc goły przebieg odtwarza tabelę, którą wzorzec (oracle) już pokrywa, a nie wymyśla nowych liczb. MODELLED: projekt konstelacji, rozmieszczenie radiolatarni i każda wielkość budżetu błędów są danymi ilustracyjnymi, a nie wdrożonym pomiarem położenia ani zmierzonym łączem; zewnętrznie zakotwiczone są tylko arytmetyka DOP, postać zamknięta horyzontu i zależność sigma = DOP x sigma_URE. Nie jest to zobowiązanie co do parametrów usługi.
+
+engine-kind-earth-gnss-lunar-description = Odbiór GNSS z Ziemi w odległości księżycowej, warstwa słabego sygnału, którą wymienia artykuł o odporności w konflikcie, a dla której silnik nie miał modelu. Satelita GNSS kieruje antenę na Ziemię; odbiornik w pobliżu Księżyca znajduje się w odległości około piętnastokrotnego promienia orbity, więc trzy rzeczy działają naraz. Ziemia ZASŁANIA OŚ GŁÓWNĄ: z 26,560 km widać ją pod półkątem { $lit_13_9 } deg, więc każdy promień skierowany ku Księżycowi musi opuścić nadajnik co najmniej tyle poza nadirem, co usuwa szczyt wiązki, zanim zostanie obliczona jakakolwiek moc. Pozostaje KRAWĘDŹ LISTKA GŁÓWNEGO I LISTKI BOCZNE, reżim, w którym ładunek LuGRE faktycznie pracował w 2025. A strata w wolnej przestrzeni wynosi około 208 dB na L1, mniej więcej o 25 dB więcej, niż płaci użytkownik naziemny. Raport emituje jeden wiersz na satelitę (kąt poza osią główną, zasłonięcie przez Ziemię, odległość, tłumienie na drodze, zysk nadawania pod tym kątem, moc odbierana, gęstość nośna do szumu) i agreguje tylko łącza przekraczające próg śledzenia. RAPORTUJE TAKŻE UWARUNKOWANIE, ponieważ to definiuje tę warstwę: każdy widoczny satelita leży w stożku o kilku stopniach szerokości widzianym z Księżyca, więc linie widzenia są prawie równoległe, rozmycie dokładności jest ogromne, a rozwiązanie z GNSS z Ziemi w odległości księżycowej jest obserwacją klasy SYNCHRONIZACJI czasu znacznie bardziej niż klasy położenia. MODELLED, a powodem jest charakterystyka nadawania: zysk pod kątem to jednorodna apertura kołowa (Airy), podczas gdy rzeczywista antena GPS L1 to dwunastoelementowa macierz helikalna z ukształtowanym listkiem głównym i listkami bocznymi innymi niż Airy. Charakterystyki zmierzone istnieją i nie są tu dołączone, więc kolejności i rzędy wielkości są znaczące, a dB pojedynczego satelity nie. Celowo NIEOBECNE, każde czyni budżet optymistycznym: brak straty jonosferycznej lub troposferycznej na promieniach muskających limb, brak strat polaryzacji, celowania i implementacji, a Ziemia jest kulista bez rozszerzenia refrakcyjnego. Położenie Księżyca jest DANĄ WEJŚCIOWĄ (odległość plus kierunek inercjalny), a nie wyszukaniem efemerydy, ponieważ badaną wielkością jest łącze i geometria wiązki. Podniesienie tego wiersza do statusu Validated wymaga zmierzonej charakterystyki nadawania i punktów normalnych LuGRE; żadne z nich nie ma w repozytorium i żadnego z nich tu nie wymyślono.
+
+engine-kind-lunar-infrastructure-description = MODELLED studia orbity i powierzchni Księżyca jako infrastruktury nawigacyjnej i geodezyjnej, pięć studiów za jednym rodzajem wybieranym przez `study`: od-consistency (pokładowe wyznaczanie orbity z GNSS z Ziemi na NRHO lub ELFO względem niezależnego naziemnego radiometrycznego wyznaczania orbity, oceniane według ich własnych kowariancji w Monte Carlo z ziarnem), carrier-phase (łączna faza nośnej podwójnie różnicowana powierzchnia–orbiter i rozwiązywanie niejednoznaczności całkowitoliczbowych metodą LAMBDA), frame-coestimation (stacja powierzchniowa i orbitery dodane do pomiarów odległości ze stacji ziemskich dla siedmioparametrowego datum księżycowego układu odniesienia), space-tie (GNSS, VLBI i pomiar laserowy na jednym statku, precyzja powiązania układów a błąd powiązania lokalnego) oraz geodesy-sensitivity (informacja Fishera o liczbach Love'a Księżyca h2, k2, l2 i fizycznej libracji z pomiarów laserowych, śledzenia orbiterów, grawimetru powierzchniowego i zegara powierzchniowego). Ograniczony model trzech ciał z podanymi uproszczeniami; numeryka jest sprawdzana względem niezależnych programów, a nic nie jest porównywane z pomiarem wielkości księżycowej.
+
+engine-kind-cislunar-arc-recovery-description = MODELLED test niezależnego estymatora progu obserwowalności długości łuku cislunarnego. Ten próg to ODCZYT RZĘDU macierzy obserwowalności złożonej z ANALITYCZNYCH wierszy jakobianu odległości i ANALITYCZNEJ wariacyjnej macierzy przejścia stanu, a jego kontrola krzyżowa pierwiastkowym filtrem informacyjnym składa te same wiersze — kontrola spójności między dwiema maszynami numerycznymi, a nie potwierdzenie. Ten rodzaj dostarcza brakującego arbitra: estymator wsadowy metodą najmniejszych kwadratów, który faktycznie ODZYSKUJE stan początkowy statku głównego z symulowanych pomiarów, z pochodnymi cząstkowymi pomiarów wziętymi jako RÓŻNICE SKOŃCZONE CENTRALNE złożonego modelu w przód. Nie wywołuje żadnego analitycznego wiersza jakobianu, żadnej wariacyjnej STM, żadnego rozkładu na wartości osobliwe ani własne, żadnej tolerancji rzędu i żadnego pierwiastkowego filtra informacyjnego — strażnik tekstu źródłowego w tests/cislunar_arc_recovery_reference.rs czyni to egzekwowalnym — podczas gdy dynamika (ten sam przepływ RK4 CR3BP), warunki początkowe (ta sama konstelacja z korekcją różnicową), obserwabla skalarna i siatka epok są współdzielone celowo i nazwane w emitowanym bloku `independence`, ponieważ dwie analizy jednego problemu fizycznego muszą zgadzać się co do fizyki, aby były porównywalne. Dwa kryteria, każde przemiatane po pięciu dekadach własnej granicy: ODZYSKANIE BEZ SZUMU (końcowy błąd stanu każdej próby z ziarnem co najwyżej recovery_factor razy jej przemieszczenie a priori — analog rzędu, bez tolerancji wartości osobliwych) oraz ESTYMOWALNOŚĆ MONTE CARLO (zmierzony błąd położenia RMS w zespole szumu z ziarnem poniżej podanej granicy — analog estymowalności, zmierzony, a nie przewidziany). Obsługuje planarne czterostanowe i przestrzenne sześciostanowe, rodziny DRO / halo L2 / NRHO L2, obserwable odległości i szybkości zmiany odległości oraz parametryzację biegunową o środku w Księżycu, w której transformację stosuje się do STANU, a model w przód różniczkuje się tam ponownie. ZMIERZONE na opublikowanej planarnej siatce DRO: estymator odzyskuje stan czterowymiarowy od { $lit_0_782609 } h wobec { $lit_2_086957 } h według kryterium rzędu przy rel_tol 1e-6 (stosunek { $lit_0_375 }) — próg rzędu NIE jest potwierdzony (not corroborated) jako granica odzyskiwalności — podczas gdy zmierzona granica estymowalności ląduje w tej samej komórce siatki co formalna, { $lit_5_739130 } h, a zmierzona krzywa błędu odtwarza formalne 1-sigma na 21 długościach łuku ze średnim geometrycznym stosunkiem { $lit_0_98 }. MODELLED: projekt konstelacji, siatka epok, pojedyncze śledzone łącze, wielkość przemieszczenia, sigma pomiaru i dwie podane granice. Nie jest to certyfikowany produkt wydajności nawigacji.
+
+engine-kind-telecom-timing-description = Telecom timing: błąd czasu, maksymalny błąd przedziału czasu (MTIE) i odchylenie czasu (TDEV) holdover z GNSS, sprawdzone względem masek ITU-T z wynikiem PASS lub FAIL i marginesem dla każdej maski. Dane wejściowe to albo SYNTETYCZNY HOLDOVER (ustawienie wstępne oscylatora -- ocxo, rubidowy, cezowy lub csac, każde niosące wartości stabilności, starzenia i temperatury z nazwanej publicznej karty katalogowej Microchip -- plus czas utraty GNSS, długość zapisu i odstęp próbkowania; zegar swobodny niesie szum częstotliwości biały, flicker i, gdzie dopasowanie do karty katalogowej tego wymaga, błądzenia losowego, liniowe starzenie i sinusoidalny składnik temperaturowy) albo WCZYTANA SERIA par [time_s, time_error_ns] podanych w treści (oraz, tylko w kompilacjach natywnych, plik CSV). Maski: ITU-T G.8272 (07/2025) PRTC-A i PRTC-B (max|TE| 100 / 40 ns, MTIE tabele 1-2, TDEV tabele 3-4); G.8272.1 (2024) Amd. 1 (07/2025) ePRTC w stanie sprzężenia (30 ns, tabele 1-2) i ePRTC-A holdover (obwiednia błędu czasu z tabeli 3 rosnąca od 30 ns do 100 ns w okresie holdover H wyznaczonym przez czas sprzężenia, MTIE tabela 4, TDEV tabela 5); G.8273.2 (2023) Amd. 2 (11/2025) klasy T-BC/T-TSC A-C (max|TE|, stały błąd czasu, MTIE i TDEV po filtrze dolnoprzepustowym) i klasa D (max|TE_L| 5 ns, jedyna wartość klasy D niepozostawiona do dalszych badań); G.8271.1 (2022) Amd. 3 (05/2025) punkt odniesienia C (max|TE_L| 1100 / 600 / 100 ns z MTIE tabele 7-1 do 7-3). Każda pozycja, którą zalecenie oznacza do dalszych badań, jest nieobecna, a nie wypełniona, a każdy raport wymienia, czego nie zaimplementowano. Podaje także czas przekroczenia każdego budżetu maksymalnego błędu czasu (domyślnie: 100 ns ePRTC max|TE_HO|, 400 ns przydział holdover sieci, 1100 ns punkt C, { $lit_1_5 } us klasa 4), krzywe MTIE/TDEV jako tabelę CSV z limitem każdej maski oraz wpis jednostek i pochodzenia dla każdego pola liczbowego. VALIDATED: estymatory MTIE i TDEV względem pakietu allantools na zatwierdzonej serii holdover. MODELLED: tabele masek są transkrypcjami, a syntetyczny holdover jest modelem zbudowanym z maksimów z kart katalogowych, a nie pomiarem żadnego egzemplarza. To nie jest test zgodności.
+
+engine-kind-slot-timing-description = Slot timing: sekundy, zanim zegar swobodny opuści margines szczeliny routingu lub zadań indeksowanej czasem (największy bezwzględny błąd czasu, jaki szczelina toleruje), udział każdego składnika w tej chwili ze wskazaniem dominującego (niepewność poprawki, szum fazy biały, szum częstotliwości biały, flicker, błądzenia losowego i losowego biegu, resztkowe przesunięcie częstotliwości, temperatura, starzenie), czas pozostały od ostatniej poprawki oraz największy odstęp między poprawkami, który utrzymuje zegar w granicach, po odjęciu opóźnienia poprawki. Oscylator jest domyślną KLASĄ (csac, uso, dsac, tcxo, ocxo lub rafs: jedno przytoczone jednosekundowe odchylenie Allana i założona dolna granica szumu czerwonego), USTAWIENIEM WSTĘPNYM KARTY KATALOGOWEJ telecom-timing lub wbudowaną KARTĄ KATALOGOWĄ (maksima odchylenia Allana dopasowane jako obwiednia, plus starzenie i współczynnik temperaturowy), albo wbudowanym ZMIERZONYM ZAPISEM FAZY (jego nakładające się odchylenie Allana dopasowane ważoną metodą najmniejszych kwadratów w bazie fazy białej i modulacji częstotliwości według IEEE Std 1139, tak że dolna granica szumu czerwonego jest zmierzona, a nie założona). Przekroczenie poza najdłuższy czas uśredniania, który obsługuje karta katalogowa lub zapis, jest oznaczane jako ekstrapolowane. Opcjonalna sekcja spoofingu dodaje poziom ochrony czasu dla odbiornika na orbicie: prędkość i okres orbitalny, jak długo pojedynczy spoofer naziemny może sięgać satelity w jednym przelocie, dolną granicę monitora wspomaganego zegarem i opóźnienie detekcji CUSUM, granicę warunkową, przesunięcie, które spoofer przy podanej maksymalnej szybkości rampy kumuluje, zanim satelita opuści jego zasięg lub zostanie wykonana niezależna kontrola, oraz czy każda kontrola kontaktu naziemnego lub łącza międzysatelitarnego jest niezależna od tego spoofera. VALIDATED: inwersja holdover z dopasowanego zapisu, wstrzymana na rzeczywistym zegarze cezowym zmierzonym względem masera wodorowego (tests/slot_timing_cs5071a_holdout.rs, zależne od danych); na zmierzonym oscylatorze kwarcowym wstrzymana predykcja jest zachowawcza, ale nie mieści się w progu, więc przypadek kwarcowy jest MODELLED. MODELLED: klasy i źródła kart katalogowych, składniki deterministyczne i ocena spoofingu.
+
+engine-kind-spectrum-description = Model widma pasma L i wodospad: całe pasmo L GNSS jako jedna widmowa gęstość mocy (PSD), częstotliwość w poprzek, czas w dół, dla zaplanowanej osi czasu zagłuszacza. SYGNAŁY: GPS L1 C/A i L2C (BPSK(1)), usługa otwarta Galileo E1 (MBOC(6,1,1/11) lub BOC(1,1)), GPS L5 i Galileo E5a (BPSK(10)), każdy na swojej nośnej z minimalną mocą odbieraną wynikającą ze specyfikacji interfejsu (IS-GPS-200, IS-GPS-705, Galileo OS SIS ICD), chyba że ją nadpisano; GLONASS, BeiDou i Galileo E6 nie są modelowane. ZAGŁUSZACZE: ton fali ciągłej, płaski szum wąskopasmowy, liniowy chirp piłokształtny i szum szerokopasmowy dopasowany do własnej modulacji pasma, każdy ze środkiem, szerokością pasma, mocą odbieraną (bezpośrednio albo EIRP i odległość przez tłumienie w wolnej przestrzeni rodzaju jamming) oraz czasami włączenia/wyłączenia. Każdy zagłuszacz jest oceniany względem każdego pasma przez swój widmowy współczynnik separacji kappa w paśmie odbiornika oraz (C/N0)_eff = [1/(C/N0) + sum (J/S) kappa]^-1; dla jednego zagłuszacza jest to równe równaniu przeciwzagłuszeniowemu rodzaju jamming z Q = 1/(R_c kappa), a raport niesie tę kontrolę krzyżową (i obok niej reprezentatywną wartość Q rodzaju jamming). Poziom szumów to k T_sys z T_sys = T_ant + 290 K (F - 1). Wodospad uśrednia każdą komórkę po jej przedziale i wierszu (chirpy dokładnie, całe przemiatania plus częściowe; zagłuszacze przełączane w środku wiersza według swojego wypełnienia), więc oś czasu C/N0 i obraz pochodzą z tych samych liczb; result.json niesie siatkę uśrednioną blokowo w mocy, C/N0 i J/S dla każdego pasma w każdym wierszu oraz dla każdego zagłuszacza w każdym paśmie SSC, Q, J/S, J/S w paśmie i ustalone C/N0. Opcjonalnie [iq]: model narysowany jako zespolone IQ w jednej chwili, zapisany do nagrania SigMF i odczytany z niego (cf32_le lub ci16_le) i porównany z oszacowaniem Welcha. Opcjonalnie [recording] (kompilacje natywne): PSD Welcha rzeczywistego nagrania SigMF obok modelu. VALIDATED: PSD sygnałów względem podręcznikowych szerokości listka głównego (BPSK(n) 2n x { $lit_1_023 } MHz od zera do zera; listki BOC(1,1) wyśrodkowane na +/-{ $lit_1_023 } MHz) oraz widmowe współczynniki separacji względem ich postaci zamkniętych z równości Parsevala i Q Kaplana i Hegarty'ego równego 1 (CW) i { $lit_1_5 } (dopasowane). MODELLED: moce zagłuszaczy, oś czasu, pasma toru wejściowego, traktowanie widma ciągłego (bez linii kodu) oraz brak AGC, wygaszania i charakterystyki anteny.
+
+engine-kind-solar-system-description = Cały Układ Słoneczny w jednej epoce, dla PNT (pozycjonowanie, nawigacja i czas) wokół dowolnego ciała. Dla Słońca, ośmiu planet, Plutona, Księżyca, Fobosa, Deimosa, Io, Europy, Ganimedesa, Kallisto i Tytana podaje położenie i prędkość heliocentryczną w ICRF (International Celestial Reference Frame, równikowy J2000), odległość heliocentryczną oraz długość i szerokość ekliptyczną J2000, parametr grawitacyjny, promień równikowy i średni, J2 tam, gdzie opublikowano, i jego promień odniesienia, okres obrotu gwiazdowego, biegun IAU i południk zerowy w epoce, ślad orbity próbkowany przez jeden obieg (heliocentryczny dla planet, o środku w ciele macierzystym dla księżyców), a także czas światła, odległość jedno- i dwukierunkową, opóźnienie Shapiro od Słońca i odstęp od Słońca z ciała obserwatora (domyślnie Ziemi); dodatkowe łącza from/to otrzymują to samo traktowanie. Położenia: elementy keplerowskie JPL według Standisha i Williamsa (tabela 1 dla lat 1800 AD do 2050 AD, tabele 2a/2b dla lat 3000 BC do 3000 AD) z nominalnym błędem każdej planety, seria księżycowa Montenbrucka i Gilla dla podziału Ziemia–Księżyc, średnie elementy JPL z synchroniczną szybkością obrotu IAU dla księżyców Marsa i galileuszowych oraz model rotacji IAU dla Tytana. Czas światła: radiometryczne rozwiązanie punktu stałego, nadajnik w swoim położeniu opóźnionym; newtonowskie, z opóźnieniem Shapiro podawanym osobno. VALIDATED względem JPL Horizons (DE441) w granicach dwukrotności błędu nominalnego: od Merkurego do Saturna i Ziemia z tabeli 1 (najgorzej { $lit_1_87 } razy nominalny) oraz wszystkie osiem planet z tabel 2a/2b (najgorzej { $lit_1_71 } razy), a także czas światła z Ziemi do Marsa i Jowisza. MODELLED, każdy wiersz oznaczony: Uran i Neptun z tabeli 1 ({ $lit_2_0 } i { $lit_5_2 } razy błąd nominalny względem DE441), Pluton (wiersz z 1992; bez podanego błędu), Księżyc i siedem księżyców (zmierzone względem Horizons, bez opublikowanej granicy).
+
+engine-kind-body-pnt-description = Pozycjonowanie wokół dowolnego ciała Układu Słonecznego: orbiter albo lądownik powierzchniowy wokół ciała centralnego wybranego po nazwie (Mars, Księżyc, Europa, Ganimedes, Tytan i reszta katalogu Układu Słonecznego), nawigujący za pomocą jednokierunkowych pseudoodległości z małej konstelacji nawigacyjnej Walkera wokół ciała (orbity dwuciałowe z wiekowym dryfem J2 własnym dla ciała, nieznany zegar użytkownika) oraz opcjonalnie niezależnej od zegara dwukierunkowej odległości dalekiego kosmosu od Ziemi, której kierunek i odległość pochodzą z analitycznych efemeryd Układu Słonecznego w każdej epoce. Linie widzenia są blokowane przez średnią sferę ciała, a użytkownik na powierzchni potrzebuje też maski elewacji. Dla każdej epoki: przekaźniki w zasięgu widzenia, czy Ziemia jest nad limbem, GDOP i PDOP samej konstelacji (geometryczny i położenia współczynnik rozmycia dokładności), formalna niepewność położenia jedna sigma z wierszem Ziemi i bez niego oraz błąd rozwiązania metodą najmniejszych kwadratów Gaussa-Newtona z ziarnem w każdym z tych wariantów; w całym przebiegu: dostępność, widoczność Ziemi, mediana PDOP, błąd RMS i mediana formalnej sigmy, a także czas światła Ziemia–ciało, czas obiegu tam i z powrotem, opóźnienie Shapiro i odstęp od Słońca w epoce. MODELLED: orbity przekaźników, poziomy szumów i chwilowy model pomiaru są wyborami modelowymi, niezwalidowanymi względem danych nawigacyjnych misji; stałe ciał to opublikowane wartości przytoczone w body.rs, a geometria Ziemi dziedziczy etykiety efemeryd Układu Słonecznego.
+
+engine-kind-constellation-design-description = Projekt konstelacji w dużej skali: wzorce Walker DELTA i Walker STAR w konwencji i: T/P/F (węzły rozłożone na 360 lub 180 deg, odstęp w płaszczyźnie 360*P/T, przesunięcie fazowe między płaszczyznami 360*F/T), jawne listy elementów i projekty wielopowłokowe, kilka konstelacji w jednym przebiegu, wokół Ziemi, Księżyca, Marsa lub dowolnej innej planety, Plutona albo większego księżyca z użyciem stałych z modułu body (tych samych, których używają rodzaje solar-system i body-pnt). USTAWIENIA WSTĘPNE z opublikowanych elementów nominalnych: gps-baseline i gps-expandable (24 sloty i sześć rozszerzalnych par przód/tył z GPS Standard Positioning Service Performance Standard, wydanie 5 z 2020, tabele 3.2-1 do 3.2-3), galileo (Walker 24/3/1 na 29 599.801 km i 56 deg, Galileo Open Service Service Definition Document wydanie 1.1 tabele 1 i 23), beidou i beidou-meo (Walker 24/3/1 na 21 528 km i 55 deg plus trzy satelity geostacjonarne na 80, { $lit_110_5 } i 140 deg E oraz trzy nachylone satelity geosynchroniczne na 55 deg, BeiDou Open Service Performance Standard 3.0 sekcja 4.1; faza MEO i przecięcie nachylonej orbity geosynchronicznej na 118 deg E są modelowane, ponieważ standard ich nie podaje) oraz glonass (24/3/1 na 19 100 km i { $lit_64_8 } deg ze wzoru na sloty z GLONASS Interface Control Document wydanie 5.1 sekcja 5.2). POKRYCIE I ROZMYCIE DOKŁADNOŚCI: po siatce szerokość/długość geograficzna i próbkowanym oknie z maską elewacji liczba satelitów w zasięgu widzenia, GDOP, PDOP, HDOP i VDOP dla każdej komórki, dostępność (rozwiązanie z PDOP nie większym niż próg, domyślnie 6) dla każdej komórki, globalnie (ważona powierzchnią) i w najgorszym miejscu, z jednym zegarem odbiornika na konstelację, chyba że clock = "common". Skaluje się do tysięcy satelitów: widoczność to iloczyn skalarny względem półkąta pokrycia każdego satelity, a satelity są grupowane w pasma według szerokości podsatelitarnej w każdej epoce, więc wiersz siatki testuje tylko te, które mogą być w zasięgu; raport zlicza zaoszczędzone testy par. JSON niesie mapy siatki i zredukowane próbkowaniem ślady naziemne każdego satelity. VALIDATED: generator Walkera względem tabeli 23 w Galileo OS SDD i wzoru na sloty z GLONASS ICD, ustawienie GPS względem opublikowanej kolumny przejść równikowych z tabeli 3.2-1 w SPS PS, a globalny rozkład HDOP bazowej konstelacji GPS względem dodatku B w SPS PS (mediana { $lit_0_94 }, 95% { $lit_1_25 }, średnia { $lit_0_96 }, tolerancja { $lit_0_03 }). MODELLED: orbity dwuciałowe z opcjonalnym wiekowym J2, kulisty korpus, wyłącznie widoczność geometryczna (bez mocy sygnału, stanu zdrowia ani terenu) oraz względna faza między różnymi systemami, która nie jest migawką żadnej rzeczywistej daty.
+
+engine-kind-campaign-description = Kampania: istniejące rodzaje scenariuszy złożone w jeden przebieg, z każdą liczbą odczytaną z rzeczywistego przebiegu wskazanego rodzaju. Cztery sekcje, w dowolnej kombinacji. FAZY: łańcuchowa misja na jednej wspólnej osi czasu -- każda faza uruchamia jeden lub więcej scenariuszy (na przykład jamming, potem spoofing, potem zegar w holdover z dryfującym obok systemem nawigacji inercjalnej, potem alarm integralności, potem powrót), ich wyniki są wczytywane do nazwanych kanałów (błąd czasu zegara względem marginesu, stosunek nośnej do gęstości szumu względem progu śledzenia, poziom ochrony względem limitu alarmowego, błąd położenia, śledzone satelity, flagi alarmowe) przez ustawienie wstępne dla rodzaju lub jawne ścieżki wyników i przepróbkowywane na wspólną siatkę przez podtrzymanie zerowego rzędu, z granicami faz i zdarzeniami; stan jest przekazywany przez carry (kanał kontynuuje od wartości końcowej poprzedniej fazy), handoff (liczba z poprzedniej fazy zapisana do scenariusza tej fazy) i end_at (faza kończy się w czasie obliczonym przez przebieg, takim jak czas detekcji monitora spoofingu). PRZEMIATANIE: siatka po jednym do trzech kluczy scenariusza z kropkami dowolnego rodzaju (segment będący liczbą całkowitą indeksuje tablicę tabel, jak w system.2.sisre_m), z metrykami odczytywanymi po ścieżce wyniku i, przy runs powyżej jednego, zespołem Monte Carlo z ziarnem w każdym węźle. MONTE_CARLO: realizacja k działa przy base_seed + k; każda metryka podaje średnią, odchylenie standardowe, percentyle 5./50./95. metodą najbliższej rangi oraz 95% przedział ufności bootstrap ze stałym ziarnem dla średniej. KOMPOZYCJA: kilka scenariuszy przy wspólnych wartościach (moc i położenie jednego zagłuszacza zapisane do odbiornika morskiego i drogowego), z łącznym podsumowaniem najlepszego/najgorszego przypadku. Wynik niesie skrót kampanii, skrót po każdym wyniku członka oraz wpis jednostek dla każdej wyemitowanej liczby; eksporty interoperacyjności zapisują każdy scenariusz członkowski, który ma geometrię, jako osobny zestaw plików. Tożsamości kompozycji są testowane: kampania jednofazowa odtwarza samodzielny przebieg co do bitu, zespół ze stałym ziarnem jest stabilny bajtowo, a dla zegara z białym szumem częstotliwości średnia zespołu mieści się w podanym przedziale, a rozrzut zgadza się z sqrt(q_wf * tau). MODELLED: addytywny carry i podtrzymanie zerowego rzędu są wyborami modelowymi, a każda faza niesie etykietę rodzaju, który ją uruchomił.
+
+engine-kind-leo-signal-description = Projekty sygnałów LEO-PNT: sparametryzowane sygnały pozycjonowania, nawigacji i czasu (PNT) z niskiej orbity okołoziemskiej (LEO) dla dowolnego systemu, pasma i struktury. SYGNAŁ to pasmo (częstotliwość środkowa, pasmo nadawania, przydział ITU RNSS/RDSS/MSS/EESS/non-RNSS/other) i składowe (akwizycja, dane, pilot; dowolny podzbiór), każda z modulacją (BPSK(n) z ułamkowym n, BOC(m,n), MBOC(6,1,p) lub płaskie pasmo typu OFDM), udziałem mocy, opcjonalnymi przesunięciami podnośnych FDMA, długością kodu i szybkością danych. Sygnały pochodzą z wkompilowanych publicznych plików ustawień wstępnych (xona-pulsar, iridium-stl, starlink-soo, centispace, generic-c-band, generic-bands; każdy z adresem URL źródła, a każda nieopublikowana wartość oznaczona REPRESENTATIVE) lub są zapisane w treści. DLA KAŻDEGO SYGNAŁU: ograniczona pasmem widmowa gęstość mocy i ułamek mocy każdej składowej, który przepuszcza pasmo nadawania (postać zamknięta BPSK obok wartości numerycznej), szerokość pasma RMS (Gabora), termiczny szum drgań śledzenia kodu pętli DLL w funkcji C/N0 i odstępu early-late z ograniczonego pasmem wzoru koherentnego (lub niekoherentnego) early-late Betza i Kolodziejskiego 2009 wraz z jego podręcznikową postacią dla pasma nieograniczonego i jego granicą Gabora dla zanikającego odstępu, dokładność pomiaru odległości w metrach, przestrzeń przeszukiwania akwizycji (przedziały Dopplera z maksymalnego Dopplera orbity plus składniki oscylatora i użytkownika, razy przedziały kodu), prawdopodobieństwo detekcji kwadratowej i średni czas akwizycji szeregowej i równoległej po kodzie, widmowy współczynnik separacji sygnału względem GPS L1 C/A, Galileo E1, GPS L5, Galileo E5a, E5b i E5 AltBOC oraz każdego z nich względem sygnału wraz z degradacją C/N0, a także J/S CW, szerokopasmowe i dopasowane, które toleruje śledzona składowa, z własnego mechanizmu SSC rodzaju spectrum. HANDEL PASMAMI: opóźnienie jonosferyczne pierwszego rzędu ({ $lit_40_3 } TEC/f^2), tłumienie w wolnej przestrzeni, dokładność pomiaru odległości przy równym C/N0 i przy równym EIRP oraz tolerancja na zagłuszacz. Opcjonalne KONTROLE KSZTAŁTU porównują widmo projektu z opisanym pomiarem (spójność MODELLED). VALIDATED: moc BPSK w paśmie ({ $lit_90_3 } % w listku głównym) i postacie zamknięte szerokości pasma Gabora, ograniczony pasmem szum drgań redukujący się do podręcznikowej postaci koherentnej early-late i do jej granicy Gabora, widmowy współczynnik separacji przesuniętego BPSK względem jego postaci zamkniętej z równości Parsevala, jednostkowe pole widma AltBOC oraz maksymalny Doppler LEO względem opublikowanych wartości Xona Pulsar (32-34 kHz) i Iridium (36 kHz). MODELLED: każdy projekt, podział mocy, C/N0 i poziom zagłuszacza; widma EFQPSK, CSK i OFDM są przybliżone.
+
+engine-kind-leo-pass-description = Przelot LEO i budżet łącza, pasmo po paśmie, dla LEO-PNT (pozycjonowanie, nawigacja i czas z niskiej orbity okołoziemskiej), niezależnie od systemu: użytkownik (naziemny, morski, lotniczy lub wewnątrz budynku, nieruchomy lub ruchomy) i jeden lub więcej satelitów LEO z ZAPROJEKTOWANEGO PRZELOTU (orbita kołowa umieszczona tak, aby użytkownik widział jeden przelot o wybranej maksymalnej elewacji w wybranym czasie, heliosynchroniczna na życzenie), jawnych ELEMENTÓW, TLE (zestawu elementów dwuliniowych) przez SGP4 silnika albo konstelacji WALKERA zbudowanej przez kod projektu konstelacji (podawane są najwyższe przeloty). Pasma pochodzą z nazwanego ustawienia wstępnego (ogólne wielopasmowe UHF/L/S/C, ogólne pasmo C, Xona Pulsar X1/X5, Iridium STL, Starlink jako sygnał okazji wyłącznie dopplerowski, CentiSpace oraz opcjonalne ustawienie Celeste IOD oznaczone WORKSHOP) albo są zapisane w scenariuszu; każde ustawienie wstępne podaje, czy jego liczby są PUBLIC (z adresem URL), REPRESENTATIVE czy WORKSHOP. Dla każdego satelity, pasma i epoki: elewacja, azymut, odległość, szybkość zmiany odległości i przyspieszenie odległości; tłumienie w wolnej przestrzeni; EIRP i zysk charakterystyki satelity (izoflux, wiązka gaussowska lub płaska); zysk anteny użytkownika w funkcji elewacji (płaska, półsferyczna lub izotropowa); tłumienie gazowe (ITU-R P.676-10 Annex 2), tłumienie deszczu (współczynniki ITU-R P.838-3 i procedura P.618-14, z intensywności i wysokości deszczu), scyntylacja troposferyczna (ITU-R P.618-14 sekcja 2.4.1), strata przenikania przez budynek dla użytkownika wewnątrz (ITU-R P.2109-2), niedopasowanie polaryzacji, temperatura szumowa systemu i C/N0 (gęstość nośnej do szumu); Doppler i szybkość Dopplera w postaci zamkniętej z szybkości zmiany odległości i przyspieszenia odległości, każde sprawdzone względem różnic centralnych; opóźnienie jonosferyczne pierwszego rzędu { $lit_40_3 } STEC/f^2 z nachylonego TEC według Klobuchara lub pionowego TEC, przeskalowanego do części jonosfery poniżej satelity. Pary pasm otrzymują współczynniki wolne od jonosfery, wzmocnienie szumu i szum kodu w szczycie przelotu. Satelity MEO GNSS (ustawienia Galileo lub GPS) są oceniane tym samym modelem anteny i szumu na podstawie mocy odbieranych z dokumentów interfejsu, więc dzwonowy przelot LEO i płaskie nośne GNSS dzielą jeden wykres. Opcjonalna sekcja [iot] podaje czas do pierwszego rozwiązania, energię na rozwiązanie i czas pracy baterii w funkcji cyklu pracy dla podanego budżetu mocy odbiornika (MODELLED). Każda para pasm podaje też nachylony TEC, który jej kombinacja wolna od geometrii odzyskuje w szczycie, oraz sigmę szumu kodu tego oszacowania (sondowanie jonosfery). Opcjonalna sekcja [spoofer] podrabia sygnały deklarowanego położenia, które skacze lub jest odsuwane od prawdziwego po chwili początkowej, i uruchamia dwa monitory z podanymi prawdopodobieństwami fałszywego alarmu i niewykrytego zdarzenia: spójność Dopplera i geometrii przelotu (zmierzone szybkości zmiany odległości względem przewidzianych z orbit oraz niezależnego położenia i prędkości a priori, uogólniony test chi-kwadrat metodą najmniejszych kwadratów w oknie, na kanałach GNSS, LEO i wszystkich) oraz spójność międzypasmowa (krok między epokami skorygowanej modelem kombinacji wolnej od geometrii każdej pary pasm LEO), podając statystyki dla każdej epoki i moment detekcji każdego monitora (MODELLED). Składniki VALIDATED: tłumienie w wolnej przestrzeni, współczynniki P.838-3 względem jego tabeli 5, procedury deszczu i scyntylacji P.618-14 oraz strata przenikania przez budynek P.2109 względem przykładów walidacyjnych ITU-R Study Group 3, stosunek opóźnień grupowych L1/L2 z IS-GPS-200 oraz maksymalny Doppler nieruchomego użytkownika dla orbity kołowej względem tabeli 1 z arXiv 2509.19551. MODELLED: EIRP, charakterystyki, ułamek Chapmana TEC poniżej satelity i cały przelot.
+
+engine-kind-leo-navmsg-description = Komunikat nawigacyjny LEO: rozgłaszane efemerydy i zegar satelity pozycjonowania, nawigacji i czasu (PNT) na niskiej orbicie okołoziemskiej (LEO), dla dowolnej orbity, nośnej i modelu, z opcjonalnymi nazwanymi ustawieniami wstępnymi (Xona Pulsar, Iridium, Starlink, CentiSpace, reprezentatywny system pasma C, model zerowego zegara ATOMIC, Celeste IOD). ZAWARTOŚĆ: dane pomocnicze (SVID, wydanie danych, pasmo, stan zdrowia sygnału), synchronizacja (tydzień, czas tygodnia, wielomian zegara drugiego rzędu af0-af2 wokół toc), efemerydy w jednym z czterech modeli -- 16-parametrowy zestaw keplerowski z Galileo OS SIS ICD; ten zestaw plus wielomiany korekcyjne wzdłuż toru, w poprzek toru i radialne; 22-parametrowy model Liu i in. 2025; wielomian ECEF bez składników zegara (ATOMIC zerowy zegar) -- oraz inne usługi (rozgłaszany zestaw Klobuchara, NeQuick-G ai0-ai2 z efektywnym poziomem jonizacji oraz parametry czasu systemowego do UTC z logiką sekundy przestępnej z ICD). DOPASOWANIE: orbita odniesienia całkowana z grawitacją zonalną J2-J6 lub EGM2008 do wybranego stopnia i oporem, oraz swobodny lub sterowany zegar z ziarnem; dopasowanie zestawu keplerowskiego metodą Levenberga-Marquardta na elementach nieosobliwych, potem liniowe wielomiany korekcyjne metodą najmniejszych kwadratów; zegar dopasowany po odjęciu członu relatywistycznego, który dodaje użytkownik. ANALIZY: fit-interval-trade (błąd odległości sygnału w przestrzeni, SISRE, z globalnymi wagami uśrednionymi dla wysokości orbity, w funkcji przedziału dopasowania i okresu aktualizacji, tylko orbita i z zegarem), model-comparison (cztery modele, liczba parametrów, zakodowane bity oraz dopasowanie Kshana na wysokościach Liu i in. obok opublikowanych wartości), midpass-update (najwyższy przelot nad użytkownikiem, skok położenia, zegara i odległości użytkownika przy każdym przełączeniu komunikatu, skok przy najgorszej geometrii, PASS/FAIL względem progu ciągłości), encode-decode (własna udokumentowana ramka binarna Kshana z CRC-24Q, budżet kwantyzacji półkroku dla każdego pola, kontrola uszkodzonej ramki, eksport i import rekordu w stylu RINEX-4 oznaczony jako rozszerzenie Kshana oraz tabela CSV). VALIDATED: wagi SISRE względem opublikowanej tabeli MEO/GEO (Montenbruck i in. 2018); algorytm użytkownika Galileo względem RTKLIB na rzeczywistych efemerydach rozgłaszanych Galileo; CRC-24Q względem jego wartości kontrolnej z katalogu i przykładowej ramki RTCM 1005. MODELLED: każda wartość dopasowania i SISRE jest błędem reprezentacji względem prawdy odniesienia całkowanej przez Kshana (bez błędu wyznaczania ani predykcji orbity); porównanie z Liu i in. używa innych orbit; formaty kodowania i tekstowe są własne dla Kshana.
+
+engine-kind-leo-pvt-description = Połączone PNT (pozycjonowanie, nawigacja i czas) z orbit średnich (MEO) i niskich (LEO) dla DOWOLNYCH konstelacji: każdy [[system]] to ustawienie wstępne GNSS rodzaju constellation-design, ustawienie wstępne LEO (xona-pulsar, iridium-stl, starlink-sop, centispace, generic-c-band, model efemeryd atomic-zero-clock lub inny plik ustawień wstępnych, każdy w osobnym pliku ze źródłami oznaczonymi PUBLIC, WORKSHOP lub DERIVED), powłoki Walkera lub jawne zestawy elementów, z nośną, szybkością chipów, obwiednią gęstości nośnej do szumu (C/N0) od maski elewacji do zenitu, błędem odległości sygnału w przestrzeni (SISRE), sigmą Dopplera i modelem zegara (własny zegar odbiornika, więc bias międzysystemowy jest estymowany, albo znane przesunięcie rozgłaszane). Cztery tryby. DOPPLER: wsadowe pozycjonowanie Gaussa-Newtona z szybkości zmiany odległości z analitycznymi pochodnymi cząstkowymi, stanami dryfu zegara i opcjonalnie prędkości oraz opcjonalnym ograniczeniem wysokości, z jednym lub wieloma satelitami, błąd w funkcji długości okna, obwiednia Dopplera, szybkości Dopplera i szarpnięcia każdego systemu LEO oraz dokładność wzdłuż toru i w poprzek toru dla pojedynczego przelotu w funkcji przesunięcia w poprzek toru (błąd w poprzek toru rośnie bez ograniczenia, gdy przelot przechodzi nad głową; pojedynczy przelot ma też rozwiązanie lustrzane względem śladu naziemnego). Sygnał okazji wyłącznie dopplerowski (starlink-sop) działa tutaj. ŁĄCZNIE: rozwiązania pseudoodległościowe ważoną metodą najmniejszych kwadratów w każdej epoce z samego GNSS, samego LEO i obu, sigmy każdego pomiaru z modelu termicznego szumu pętli DLL przy C/N0 plus SISRE (albo stała sigma, aby mógł je zasilać model sygnału), estymowane biasy międzysystemowe oraz PDOP/HDOP/VDOP w funkcji liczby dodanych satelitów LEO. BIEGUNOWO: satelity w zasięgu widzenia i DOP w funkcji szerokości geograficznej dla GNSS, LEO i obu. SYNCHRONIZACJA CZASU: transfer czasu do uniwersalnego czasu koordynowanego (UTC) z satelitów LEO w znanym położeniu z dwustanowym filtrem zegara, którego szum procesu pochodzi z klas oscylatorów silnika, w funkcji C/N0 i oscylatora, oraz wyrażenie czasu systemowego do UTC z IS-GPS-200; przy [timing] trace = true każdy wiersz podaje także swój błąd czasu i przewidywaną sigmę w każdej epoce. VALIDATED: największy Doppler przelotu od nadiru do horyzontu względem opublikowanych wartości Iridium (do 36 kHz) i Xona Pulsar X1 (32 do 34 kHz). MODELLED: wszystko inne; DOP jest sprawdzony na przypadku wyprowadzonym ręcznie, rozwiązania względem ich kowariancji, a model Dopplera względem tożsamości przyspieszenia odległości.
+
+engine-kind-leo-ppp-description = Zbieżność precyzyjnego pozycjonowania punktowego (PPP) z samym GNSS i ze wzmocnieniem LEO: rozszerzony filtr Kalmana typu float na kodzie i fazie nośnej wolnych od jonosfery ze stałymi współrzędnymi stacji, białym zegarem odbiornika, jednym biasem międzysystemowym na dodatkowy system, błądzeniem losowym zenitalnego opóźnienia mokrego odwzorowanym przez 1/sin(elewacja) i niejednoznacznością typu float na łuk każdego satelity; błąd precyzyjnej orbity i zegara jest biały i wspólny dla kodu i fazy satelity, więc każdy satelita to jedna skorelowana dwuwierszowa aktualizacja w postaci stabilizowanej według Josepha. Pomiary są symulowane z tego samego modelu z szumem z ziarnem dla kilku miejsc i ziaren, a każdy przypadek (najpierw sam GNSS, potem każdy [[case]] systemów LEO, dowolna konstelacja lub ustawienie wstępne) podaje medianę czasu zbieżności (pierwsza epoka, po której błędy poziomy i pionowy pozostają poniżej progów, domyślnie 10 cm), odsetek zbieżnych, mediany krzywych błędu oraz spójność filtra (uśrednione po przebiegu NEES położenia względem dwustronnego pasma chi-kwadrat 95%). Opcjonalnie obok opublikowanych wartości Li i in. (2019, J. Geod. 93:749, doi 10.1007/s00190-018-1195-2) dla średnich szerokości: { $lit_9_6 } min dla multi-GNSS skraca się do { $lit_7_0 }, { $lit_3_2 }, { $lit_2_1 } i { $lit_1_3 } min przy 60, 96, 192 i 288 satelitach LEO. MODELLED: porównanie spójności trendu, a nie odtworzenie konstelacji, szumu ani stacji z tamtego badania; bez rozwiązywania niejednoznaczności, poślizgów cyklu, wind-up fazy, pływów ani skorelowanych w czasie błędów produktów.
+
+engine-kind-ntn-positioning-description = Pozycjonowanie z łącza w dół sieci pozaziemskiej 5G (NTN) w paśmie S służby mobilnej satelitarnej (MSS) (pasmo 3GPP n256, łącze w dół 2170 do 2200 MHz; domyślna nośna { $lit_2172_5 } MHz): granica Craméra-Rao (CRB) dla czasu przybycia, c / (2 pi beta sqrt(2 (C/N0) T)), gdzie beta to pierwiastek średniokwadratowy (Gabora) szerokości pasma płaskiego widma OFDM (B/sqrt(12)), oraz dla Dopplera tonu zespolonego, sqrt(3 / (2 pi^2 (C/N0) T^3)), dla każdego sygnału (domyślnie kanał New Radio 5 MHz z { $lit_4_5 } MHz zajętymi i wąskopasmowy kanał 200 kHz ze 180 kHz zajętymi); następnie, dla dowolnej konstelacji LEO, rozwiązania z czasu przybycia łącza w dół z nieznanym zegarem odbiornika (z ziarnem, z granicą plus błędem synchronizacji sieci jako sigmą), ich PDOP i formalna sigma 3D oraz jednosatelitarne rozwiązanie Dopplera dla najdłuższego przelotu z utrzymaną wysokością. MODELLED: przejście od szerokości pasma do granicy jest podręcznikową postacią zamkniętą, sprawdzoną względem całkowania numerycznego widm płaskiego i ograniczonego pasmem BPSK (spójność wewnętrzna, bez przypiętej opublikowanej wartości z rozwiązanego przykładu), a dokładność pozycjonowania jest granicą dla kanału bez wielodrogowości z podanym błędem synchronizacji, a nie osiągniętym wynikiem.
+
+engine-kind-leo-pnt-chain-description = Jeden system LEO-PNT (pozycjonowanie, nawigacja i czas z niskiej orbity okołoziemskiej) od początku do końca, dla dowolnej konstelacji i sygnału: projekt leo-signal wskazany przez signal_design (publiczne ustawienie wstępne lub wbudowany projekt [signal]) ustala środek, pasmo, szybkość chipów i podział EIRP pasma [pass], budżet łącza leo-pass podaje śledzone C/N0 i ograniczony pasmem szum drgań kodu w trakcie przelotu, linia C/N0 względem sin(elewacja) i rozgłaszane SISRE komunikatu [navmsg] (dopasowane na wysokości satelity przelotu) zasilają każdy system LEO łącznego rozwiązania leo-pvt [fusion] oraz opcjonalnie przypadki leo-ppp [ppp]; każde przekazanie jest wymienione ze swoją wartością i jednostką. MODELLED.
+
+engine-kind-contact-schedule-description = Planowanie kontaktów naziemnych dla kilku satelitów nad kilkoma stacjami: pozorne okna dostępu (SGP4, układ związany z Ziemią IAU 2006/2000A, refrakcja ITU-R P.834, czas światła), objętość danych DVB-S2 ACM każdego przelotu (progi z tabeli 13 w ETSI EN 302 307-1) oraz harmonogram bez konfliktów (jeden satelita na antenę z czasem przezbrojenia, jedna stacja na satelitę, dostarczanie ważone priorytetem ograniczone każdym zaległym zasobem) metodą zachłanną z wartością krańcową, punktem odniesienia kto pierwszy, ten lepszy oraz dokładnym przeszukiwaniem z podziałem i ograniczeniami na małych zbiorach, z luką optymalności metody zachłannej. MODELLED.
+
+engine-kind-acm-link-description = Jeden satelita nad jedną stacją: odległość ukośna, elewacja i Es/N0 każdego przelotu wzdłuż przelotu, MODCOD DVB-S2 wybrany w każdym kroku (progi z tabeli 13 w ETSI EN 302 307-1 plus margines implementacyjny) oraz objętość danych, którą ACM przenosi, względem punktu odniesienia ze stałym kodowaniem, które zamyka się na masce. MODELLED.
+
+engine-kind-aocs-description = Sterowanie orientacją statku kosmicznego: obrót w celu wycelowania inercjalnego sztywnego korpusu z trzema lub więcej zrównoważonymi kołami reakcyjnymi ze sprzężeniem zwrotnym MRP (L = -K sigma - P omega), momenty kół o minimalnej normie obcięte do limitu każdego silnika, RK4 z podtrzymaniem zerowego rzędu; opcjonalnie zamknięte na multiplikatywnym EKF z symulowanego żyroskopu (błądzenie losowe kąta i prędkości) i śledzika gwiazd. Podaje czas ustalania, końcowy i szczytowy błąd celowania, szczytową prędkość i moment kół, ułamek nasycenia, dryf momentu pędu oraz, z estymatorem, jego błąd orientacji i NEES. Pętla stanu prawdziwego jest VALIDATED względem Basilisk 2.9.1; estymator jest MODELLED.
+
+engine-kind-entry-heating-description = Trójstopniowe (3-DoF) wejście punktu materialnego w atmosferę nad obracającą się kulistą Ziemią lub Marsem (balistyczne lub z siłą nośną przy stałym przechyleniu), RK4, przez US76, atmosferę wykładniczą lub marsjańską, z konwekcyjnym nagrzewaniem punktu stagnacji według Suttona-Gravesa (NASA TR R-376): szczytowe opóźnienie, strumień ciepła i ciśnienie dynamiczne, ładunek cieplny, zasięg w dół toru, kontrola energii w układzie obracającym się oraz obok niej postać zamknięta Allena-Eggersa. Szczytowe opóźnienie jest sprawdzone względem opublikowanego nominału Stardust; nagrzewanie jest MODELLED.
+
+engine-kind-eo-radiometry-description = Radiometria obrazowania w nadirze i jakość obrazu: radiancja w aperturze sceny lambertowskiej, równanie kamery, sygnał oraz szum śrutowy/ciemny/odczytu/kwantyzacji i SNR; MTF systemu przy Nyquiście (dyfrakcja x detektor x rozmycie x drgania), z niego względna odpowiedź krawędziowa, Q = lambda F/p oraz NIIRS według GIQE wersja 4 bez kompensacji MTF. MODELLED.
+
+engine-kind-ascent-losses-description = Planarne wznoszenie z zakrętem grawitacyjnym wielostopniowego pojazdu nad nieobracającą się kulistą Ziemią przez US Standard Atmosphere 1976 (pionowe wznoszenie, kopnięcie pochylenia, ciąg wzdłuż prędkości), całkujące straty grawitacyjne, oporu, sterowania i przeciwciśnienia oraz sprawdzające, że idealne dv minus straty zgadza się z prędkością po wypaleniu; max-Q, szczytowe przyspieszenie i stan po wypaleniu. MODELLED.
+
+engine-kind-time-transfer-budget-description = Dwukierunkowy satelitarny transfer czasu i częstotliwości między dwiema stacjami przez przekaźnik geostacjonarny: równanie dwukierunkowe rozwiązane względem T_A - T_B z każdym składnikiem niewzajemnym (opóźnienia sprzętu stacji, jonosfera w paśmie Ku, transponder, Sagnac), kwadraturowy budżet niepewności, którego składnik typu A to TDEV symulowanego łącza przy czasie uśredniania, symulowane łącze z szumem fazy białym i flicker oraz dobową niewzajemnością, a także stabilność (szybkość, reszta RMS, TDEV, ADEV) dowolnej dostarczonej serii BIPM Circular T Section 1, pliku CSV MJD,ns lub zapisów zegara stacji IGS RINEX. MODELLED.
+
+engine-kind-optical-atmosphere-description = MODELLED optyczny PNT przez atmosferę: dla łącza optycznego i zbioru stanowisk naziemnych z podanym klimatem chmur podaje zależną od długości fali i elewacji stratę w czystym powietrzu (prawo widoczności Kima plus Rayleigh), stan turbulencji Hufnagela-Valleya (wariancja Rytova, wskaźnik scyntylacji, parametry gamma-gamma, uśrednianie po aperturze), dostępność zależną od pogody względem marginesu łącza (grubość optyczna chmur z logarytmiczno-normalnego klimatu wody ciekłej, ekstynkcja optyki geometrycznej, niezależny zanik turbulencji), margines łącza potrzebny dla docelowych dostępności, rozkład czasu trwania przerw, narastanie błędu czasu i pomiaru odległości w każdej przerwie przez model holdover zegara, dostępność z różnorodnością stanowisk skorelowaną odległością oraz zyski w wariantach „co jeśli” dla technik wzmocnienia (długość fali, apertura odbiorcza, redukcja scyntylacji optyką adaptacyjną, dodatkowy margines). VALIDATED jako implementacja podanych wzorów względem niezależnej wyroczni mpmath: wariancja Rytova, wskaźnik scyntylacji, prawdopodobieństwo zaniku gamma-gamma, współczynnik uśredniania po aperturze, grubość optyczna chmur i czystego powietrza. MODELLED: każde dane wejściowe dotyczące pogody, techniki i zegara oraz założenia niezależności i kopuły; nie porównano z żadnym zmierzonym zapisem dostępności. Analiza doradcza, nie jest to certyfikowany produkt dostępności ani nawigacji.
+
+engine-kind-holdover-test-description = MODELLED test holdover systemu synchronizacji czasu, oceniany na podstawie zapisu błędu czasu dostarczonego przez OPERATORA (dziennik linuxptp ptp4l, phc2sys lub ts2phc, dziennik śledzenia lub statystyk chrony, dziennik zegara TICC, TimeLab lub RINEX albo pary time_s,time_error_ns). Test ma cztery kroki, a Kshana nie wykonuje żadnego z nich: zsynchronizowany PUNKT ODNIESIENIA, GNSS ODŁĄCZONY przez operatora (kabel anteny lub wyjście symulatora; Kshana niczego nie nadaje i niczym nie steruje) w podanym czasie, HOLDOVER na własnym oscylatorze systemu oraz POWRÓT po przywróceniu GNSS przez operatora w drugim podanym czasie. Zapis jest dzielony w tych dwóch momentach. Punkt odniesienia: statystyki błędu czasu i maski ITU-T napisane dla zegara zsynchronizowanego. Holdover: statystyki, ułamkowe przesunięcie częstotliwości utrzymane przez system (prosta metodą najmniejszych kwadratów), maski napisane dla holdover lub zegara autonomicznego, obwiednia holdover ePRTC-A z podanego czasu sprzężenia oraz czas przekroczenia każdego budżetu błędu czasu. Powrót: czy i kiedy |TE| weszło w podane pasmo i w nim pozostało, wartość szczytowa i największy skok. Każdy limit jest przepisany z publicznej tabeli ITU-T (maski telecom-timing); słowa to „zmierzone względem maski”, a oba momenty są oświadczeniem operatora, niezweryfikowanym. Zapis zbyt krótki dla maski jest INCOMPLETE, nigdy ekstrapolowany. Zob. docs/TIMING-HIL.md.
+
+engine-kind-gnss-ssv-description = MODELLED dostępność GNSS i siła łącza w Space Service Volume i poza nim: dla użytkownika na sferze (globalna powłoka z broszury ICG) lub na trajektorii keplerowskiej (od LEO do transferu księżycowego) zlicza, dla każdej konstelacji (GPS, GLONASS, Galileo, BDS, QZSS, NavIC) i dla wszystkich razem, sygnały użyteczne powyżej progu C/N0 - dostępność co najmniej jednego i czterech sygnałów, maksymalny czas trwania przerwy, odbierane C/N0, rozmycie dokładności, łącza listka głównego względem listków bocznych - z charakterystyką nadawania z broszury, parametryczną lub dostarczoną przez użytkownika, opcjonalnymi efektami jonosfery na promieniu muskającym limb, plazmosfery i atmosfery oraz opcjonalnym projektem odbiornika słabego sygnału; także pokładowy rozszerzony filtr Kalmana GNSS dla statków HEO i transferu księżycowego (dynamika orbitalna, ciśnienie promieniowania słonecznego, ciała trzecie, zegar) i nawigacja względna formacji wielu statków przez pseudoodległości różnicowane pojedynczo. Sprawdzone względem tabel broszury ICG SSV w ramach wstępnej rejestracji (xval/gnss-ssv)
