@@ -575,3 +575,584 @@ seg-9a2bb9809aed = Zweiweg-Satelliten-Zeit- und Frequenzübertragung zwischen zw
 
 # text
 seg-ccb244e60d60 = Optische gegen HF-Zweiweg-Zeit-/Frequenzübertragung.
+
+# text
+seg-1e4d5b2f4810 = Jede mitgelieferte Szenariodatei ({ "182" }), nach Art gruppiert. Die Beschreibung ist der eigene Kopfkommentar der Datei; die Schlüsselparameter sind ihre Einstellungen auf oberster Ebene. Der Status liest die Verifikationsmatrix für das Modul der Art. <b>In Kshana Studio öffnen</b> öffnet den aufgezeichneten Lauf.
+
+# text
+seg-e701392324d0 = Art acm-link
+
+# text
+seg-c4d65df7ab98 = nicht per Name einem Registermodul zugeordnet
+
+# text
+seg-7b09a77bfada = Adaptive Codierung und Modulation (ACM) nach DVB-S2 entlang der Überflüge eines Satelliten über einer Station. Entlang eines Überflugs ändern sich Schrägentfernung und Elevation, sodass sich das Es/N0 der Abwärtsstrecke ändert. Der Lauf wählt in jedem Schritt das effizienteste MODCOD, dessen Schwelle nach ETSI EN { "302" } 307-1 Tabelle { "13" } plus eine Implementierungsmarge die Strecke erreicht. Er meldet den Es/N0-Bereich jedes Überflugs und das Datenvolumen, das ACM bewegt, gegenüber der Basislinie mit konstanter Codierung, die bei der Maskenelevation und der größten Entfernung noch schließt.
+
+# text
+seg-c36379e65043 = <a1>In Kshana Studio öffnen</a1> · <a2>Auf GitHub ansehen</a2>
+
+# text
+seg-b6ddd25a35c3 = Art aocs
+
+# text
+seg-944f5a95638f = Art aperture-duty-cycle
+
+# text
+seg-2c27404856f6 = Art araim-reference-check
+
+# text
+seg-6fc2c7863922 = Art ascent-losses
+
+# text
+seg-6ad78e934bec = Aufstiegsverluste einer Schwerkraftkurve (Gravity Turn) eines ILLUSTRATIVE zweistufigen Kerosin/Sauerstoff-Trägers (kein reales Fahrzeug): senkrechter Anstieg bis { "1" } km, ein Nick-Kick von { "3" } Grad für { "10" } s, dann Schub entlang der Geschwindigkeit. Der Lauf integriert die Verluste durch Schwerkraft, Luftwiderstand, Lenkung und Gegendruck und prüft, dass das ideale dv minus die Verluste der Brennschlussgeschwindigkeit entspricht. MODELLED: ebene, nicht rotierende Erde, konstantes C_D, kein Schubabschnitt ohne Antrieb, keine Lenkung außer dem Kick.
+
+# text
+seg-602ac3a69ef9 = Art attitude-budget
+
+# text
+seg-01ed69f79080 = Art hat validierte Registerzeilen · { "1" } von { "1" } Zeilen validiert
+
+# text
+seg-be0ff8b9fe3b = Art body-pnt
+
+# text
+seg-eb1f3742071d = Art campaign
+
+# text
+seg-a40718a9a53e = Eine verkettete Mission: nominal, Jamming, Spoofing, GNSS-Verlust mit Uhren-Holdover und Inertial-Überbrückung, ein Integritätsalarm und Wiederherstellung, auf einer gemeinsamen Zeitleiste.
+
+# text
+# c1: link-budget
+# c2: trace
+seg-e745211204ab = Eine Optimierung über eine Kampagne: die X-Band-Strecke des Beispiels link-budget ({ "55" } dBW EIRP, { "53" } dB/K G/T, { "3" } dB sonstige Verluste, { "4.5" } dB erforderliches Eb/N0), über Entfernung und Datenrate durchsucht nach dem Arbeitspunkt, der genau { "3" } dB Marge übrig lässt. Jede Auswertung ist ein gewöhnlicher Lauf <c1/>. Das Nelder-Mead-Simplex arbeitet in log-normierten Koordinaten innerhalb der angegebenen Grenzen, und jede Auswertung ist im <c2/> des Ergebnisses aufgeführt.
+
+# text
+seg-decc6966e201 = Domänenübergreifende Komposition: ein Jammer, zwei Plattformen. Ein Schiff im Finnischen Meerbusen ({ "59.80" } N, { "24.90" } E, der Empfänger des Beispiels maritime-strait-jamming) und ein Auto auf einer Küstenstraße in Helsinki ({ "60.17" } N, { "24.94" } E) befinden sich unter demselben Breitbandjammer, platziert bei { "59.80" } N, { "25.44" } E, { "30" } m hoch (etwa { "30" } km vom Schiff und { "50" } km vom Auto entfernt).
+
+# text
+seg-f2588213d3d3 = Eine verkettete Mission, getrieben vom L-Band-Spektrum: Ein Chirp-Jammer nimmt GPS L1 C/A und Galileo E1, die Uhr überbrückt im Holdover, und ein auf dem L1-Träger belassener Dauerstrichton (CW) hält C/A unten, während sich E1 erholt, sodass der Empfänger auf Galileo zurückfällt und sein Integritätsmonitor auf einem reinen Galileo-Himmel läuft.
+
+# text
+# c1: jamming
+seg-031c509abbfa = Ein Parameterdurchlauf über eine Kampagne: der Empfänger des Beispiels jamming ({ "52" } N, { "4" } E, GPS-ähnliche Walker-Schale mit 24 Satelliten) unter einem Breitbandjammer in { "1" } km Entfernung, wobei die Sendeleistung des Jammers von -50 dBW ({ "10" } nW) bis +{ "10" } dBW ({ "10" } W) in { "5" }-dB-Schritten durchlaufen wird. Jeder Knoten ist ein gewöhnlicher Lauf <c1/>; die Kampagne hält je Knoten den Anteil der Epochen mit mindestens vier weiterhin verfolgten Satelliten, das mittlere Störer-zu-Signal-Verhältnis (J/S) und die geringste Zahl verfolgter Satelliten fest.
+
+# text
+seg-ef32cd18fab5 = Art cislunar-arc-recovery
+
+# text
+seg-e9866967471c = Art cislunar-observability
+
+# text
+seg-9c3bc8bbd361 = Art clock
+
+# text
+seg-ddd9856d154a = Referenzszenario von Kshana: Lauf über { "2" } h, { "10" } min GNSS-Synchronisation, dann ~{ "1.8" } h verwehrt. Weißes FM-Rauschen der Uhr kalibriert auf veröffentlichtes sigma_y({ "1" } s): q_wf = sigma_y(1s)^{ "2" }. Gegen simulierte Allan-Abweichung validiert in tests/calibration.rs (~{ "2" }%).
+
+# text
+seg-460f63835b3f = Variante: Strontium-Uhr (optisch) in Laborgüte gegenüber CSAC. Labor-Sr-Uhren erreichen sigma_y({ "1" } s) = { "4.8e-17" } (Oelker et al. { "2019" }, Nature Photonics).
+
+# text
+seg-092f76e5d820 = Art combined-altpnt
+
+# text
+seg-3455b653ea6f = Art conflict-resilience
+
+# text
+seg-c6b21e897ce0 = Konstellationsentwurf im großen Maßstab: Walker-DELTA- und Walker-STAR-Muster in der Konvention i: T/P/F (Knoten verteilt über { "360" } oder { "180" } Grad, Abstand in der Ebene { "360" }*P/T, Phasenversatz zwischen den Ebenen { "360" }*F/T), explizite Elementlisten und Mehrschalen-Entwürfe, mehrere Konstellationen in einem Lauf, um die Erde, den Mond, den Mars oder einen anderen Planeten, Pluto oder einen großen Mond mit den Konstanten im Modul body (denselben, die die Arten solar-system und body-pnt verwenden). VOREINSTELLUNGEN aus veröffentlichten nominalen Elementen: gps-baseline und gps-expandable (die { "24" } Slots und die sechs vorderen/hinteren erweiterbaren Paare des GPS Standard Positioning Service Performance Standard, 5. Ausgabe { "2020" }, Tabellen 3.2-1 bis 3.2-3), galileo (Walker 24/3/1 bei { "29 599.801" } km und { "56" } Grad, Galileo Open Service Service Definition Document Ausgabe { "1.1" } Tabellen { "1" } und { "23" }), beidou und beidou-meo (Walker 24/3/1 bei { "21 528" } km und { "55" } Grad plus drei geostationäre Satelliten bei { "80" }, { "110.5" } und { "140" } Grad Ost und drei geneigte geosynchrone Satelliten bei { "55" } Grad, BeiDou Open Service Performance Standard { "3.0" } Abschnitt { "4.1" }; die MEO-Phase und die Kreuzung der geneigten geosynchronen Bahn bei { "118" } Grad Ost werden modelliert, weil die Norm sie nicht angibt) und glonass (24/3/1 bei { "19 100" } km und { "64.8" } Grad aus der Slot-Formel des GLONASS Interface Control Document Ausgabe { "5.1" } Abschnitt { "5.2" }). ABDECKUNG UND DILUTION OF PRECISION: über einem Breiten-/Längengitter und einem abgetasteten Fenster mit Elevationsmaske die Zahl der sichtbaren Satelliten, GDOP, PDOP, HDOP und VDOP je Zelle, die Verfügbarkeit (eine Lösung mit PDOP höchstens an einer Schwelle, standardmäßig { "6" }) je Zelle, global (flächengewichtet) und am schlechtesten Standort, mit einer Empfängeruhr je Konstellation, sofern nicht clock = "common". Es skaliert auf Tausende von Satelliten: Sichtbarkeit ist ein Skalarprodukt gegen den Abdeckungs-Halbwinkel jedes Satelliten, und Satelliten werden in jeder Epoche nach der Breite des Subsatellitenpunkts in Bänder eingeteilt, sodass eine Gitterzeile nur die prüft, die in Sicht sein können; der Bericht zählt die eingesparten Paartests. Das JSON enthält die Gitterkarten und heruntergetaktete Bodenspuren je Satellit. VALIDATED: der Walker-Generator gegen Tabelle { "23" } des Galileo OS SDD und die Slot-Formel des GLONASS-ICD, die GPS-Voreinstellung gegen die veröffentlichte Spalte der Äquatorüberquerung in Tabelle 3.2-1 des SPS PS, und die globale HDOP-Verteilung der GPS-Basislinie gegen Anhang B des SPS PS (Median { "0.94" }, { "95" }% { "1.25" }, Mittel { "0.96" }, Toleranz { "0.03" }). MODELLED: Zweikörperbahnen mit optionalem säkularem J2, ein kugelförmiger Körper, nur geometrische Sichtbarkeit (keine Signalleistung, Gesundheit oder Gelände), und die Relativphase zwischen verschiedenen Systemen, die keine Momentaufnahme eines realen Datums ist.
+
+# text
+seg-fa78684a644d = Art constellation-design
+
+# text
+seg-22e4cbe23fb2 = Multi-Konstellations-Abdeckung: die vier globalen Satellitennavigationssysteme (GNSS) zusammen, als Karte der sichtbaren Satelliten, der Dilution of Precision (DOP) und der Verfügbarkeit über die ganze Erde für einen Tag.
+
+# text
+seg-cd74615ba3dd = Eine Mega-Konstellation für Positionierung, Navigation und Zeitgebung (PNT) in niedriger Erdumlaufbahn: { "5 000" } Satelliten in vier Walker-Schalen, bewertet als Karte der Abdeckung und der Dilution of Precision (DOP).
+
+# text
+seg-59bb18c802a3 = Eine Mond-Relais- und Navigationskonstellation: Satelliten in elliptischen eingefrorenen Mondumlaufbahnen (ELFO) plus eine kreisförmige Schale in niedriger Mondumlaufbahn, bewertet als Karte der Abdeckung und der Dilution of Precision (DOP) über den ganzen Mond für einen Tag.
+
+# text
+seg-64e634b04436 = Art contact-schedule
+
+# text
+seg-b6736838f1d6 = Planung von Bodenkontakten: drei illustrative Satelliten über drei illustrativen Stationen für { "12" } Stunden. Der Lauf gibt jedem Überflug Satellit–Station sein Zugriffsfenster und das Datenvolumen an, das adaptive Codierung und Modulation (ACM) nach DVB-S2 darin bewegen kann (Schwellen nach ETSI EN { "302" } 307-1 Tabelle { "13" } plus eine Implementierungsmarge). Dann baut er einen konfliktfreien Kontaktplan, in dem jede Antenne jeweils einen Satelliten bedient, mit einer Umrüstzeit zwischen Kontakten, und jeder Satellit jeweils zu einer Station sendet. Die Lieferung wird nach Priorität gewichtet und auf den Rückstand jedes Satelliten begrenzt. Drei Pläne werden nebeneinander berichtet: ein Greedy-Verfahren nach Grenznutzen, eine First-come-Basislinie und, wenn die Kandidatenmenge klein ist, das exakte Optimum, mit der Optimalitätslücke des Greedy-Verfahrens.
+
+# text
+seg-12fb09af17f6 = Art earth-gnss-lunar
+
+# text
+seg-0f550587e7e0 = die Registerzeilen der Art sind modelliert · { "0" } von { "1" } Zeilen validiert
+
+# text
+seg-435e296b48ab = Art entry-heating
+
+# text
+# c1: entry-heating
+seg-d7ec70cdbcfc = Eintritt der Stardust-Probenrückführkapsel: der veröffentlichte Fall, gegen den die Art <c1/> geprüft wird (xval/entry-stardust/PREREGISTRATION.md; tests/entry_stardust_published.rs).
+
+# text
+seg-c2dc08297b0f = Art eo-coverage
+
+# text
+seg-fbb405d27780 = Art eo-radiometry
+
+# text
+seg-f178d4dbb034 = Radiometrie und Bildqualität eines Nadir-Bildgebers für eine ILLUSTRATIVE kleine Erdbeobachtungskamera (Entwurf keines Betreibers): { "0.40" } m Apertur, { "3.6" } m Brennweite (F/9), { "5.5" } um Pixel, aus { "500" } km. Der Lauf gibt das Signal-Rausch-Budget einer Szene mit { "15" } % Reflexion, die System-MTF bei Nyquist, die relative Kantenantwort und die NIIRS nach GIQE Version { "4" } an. MODELLED: Die NIIRS ist eine empirische Regression, ausgewertet an modellierten Eingaben, kein bewertetes Bild.
+
+# text
+seg-2487ebfca518 = Art ephemeris
+
+# text
+seg-2771a42a30a7 = Art fusion
+
+# text
+seg-6452c9a86abf = Gemeinsame Sensorfusions-PNT: Ein einzelnes Kalman-Filter ist der Navigator, fusioniert die Uhren- und Inertialzustände und wird durch optische ISL-Zeitübertragung gestützt, statt unabhängige Prädiktoren zusammenzusetzen. GNSS { "1.8" } h verwehrt.
+
+# text
+# c1: fusion-pnt.toml
+# c2: [coupled]
+# c3: rho = g * position + c * clock phase + noise
+# c4: fusion-pnt.toml
+# c5: fusion-pnt.toml
+seg-9b62a8213db0 = Gekoppelte gemeinsame Sensorfusions-PNT: dieselben Suiten und derselbe GNSS-Ausfall wie in <c1/>, aber der Navigator ist EIN gestapeltes Kalman-Filter über Position, Geschwindigkeit, Uhrenphase, Uhrenfrequenz und den Beschleunigungsmesser-Bias (die Tabelle <c2/>). Solange GNSS nominal ist, nimmt es Pseudoentfernungen auf, je <c3/> entlang eines Sichtlinienfaktors g, sodass eine einzelne Messung Position und Uhr gemeinsam einschränkt und das Filter ihre Kreuzkovarianz führt; die erneuten Synchronisierungen durch optische Zeitübertragung während des Ausfalls sind reine Uhren-Pseudoentfernungen. Die Beschleunigungsmesser tragen hier einen konstanten Bias, den der Bias-Zustand vor dem Ausfall lernt (<c4/> setzt die Biases auf null, weil seine Filter keinen Bias-Zustand haben). Herstellerneutral; Uhren- und Rauschparameter wie in <c5/>, die Biases sind illustrativ. MODELLED.
+
+# text
+seg-8e5c015bcaf4 = Art gnss-ins
+
+# text
+seg-8f43fc2f8b71 = Straßenfahrzeug durch eine Straßenschlucht: GNSS/INS-Koppelnavigation durch eine Unterführung und an einem Störsender am Straßenrand vorbei, gegen ein Budget auf Fahrstreifenebene.
+
+# text
+# c1: inertial
+seg-8eefd1c4bea9 = Lose gekoppeltes GNSS/INS: der dreiachsige Strapdown-Navigator, geführt von einem EKF mit 15 Fehlerzuständen, der dann durch einen GNSS-Ausfall von { "60" } s überbrückt. Anders als das Paket <c1/> (ein 1-DOF-Skalar-Koppelnavigator mit einem Zurücksetzen auf die Wahrheit bei jeder Lösung) läuft hier das echte geschlossene Filter: Es lernt aus verrauschten Lösungen, solange GNSS verfügbar ist, und überbrückt die Lücke auf dem korrigierten Zustand. Der gemeldete Fehler ist das reale horizontale Residuum gegenüber der Wahrheit; jeder Sensor trägt außerdem seinen freien INS-RMS im offenen Regelkreis, sodass der Wert des Filters ausdrücklich ist.
+
+# text
+# c1: aircraft
+# c2: [tight]
+seg-e0a3e777d810 = Luftfahrt-GNSS/INS mit enger Kopplung: Ein Leichtflugzeug startet, steigt mit { "6" } Grad, geht in den Horizontalflug und fliegt eine koordinierte Kurve mit { "25" } Grad Querneigung (Trajektorienprofil <c1/>); GNSS ist für zwei Minuten verwehrt, die die Kurve abdecken, den schwierigsten Teil einer Überbrückung, weil sich die Kurs- und Lagefehler dann in die Horizontale projizieren. Eng gekoppelt (<c2/>) auf einer GPS-ähnlichen SGP4-Walker-Konstellation.
+
+# text
+# c1: gnss-ins.toml
+# c2: [trajectory]
+# c3: figure8
+seg-736606e5f26d = Maritimes GNSS/INS: ein Schiff mit { "8" } m/s (etwa { "15.5" } Knoten), das in vollen Kreisen mit { "1" } Grad/s kurvt, dann ein GNSS-Ausfall von fünf Minuten, auf demselben geschlossenen 15-Zustands-GNSS/INS-Filter wie <c1/>. Die Bewegung stammt aus der Trajektorienbibliothek (<c2/>, Profil <c3/>): langsames, gleichmäßiges Drehen, das Regime eines Schiffs statt eines Autos.
+
+# text
+# c1: stop_go
+# c2: [tight]
+seg-d30ac9fd7056 = Bahn-GNSS/INS mit enger Kopplung: Ein Zug fährt zwischen Halten mit { "30" } m/s durch sanfte Kurven von { "20" } Grad (Trajektorienprofil <c1/>), passiert einen tiefen Einschnitt, in dem nur zwei Satelliten in Sicht bleiben, dann einen Tunnel von zwei Minuten. Der Empfänger ist eng gekoppelt (<c2/>): Er fusioniert weiter die Pseudoentfernungen der zwei Satelliten, die er im Einschnitt noch verfolgt, wo ein lose gekoppelter Empfänger gar keine Lösung hat. Die Satelliten stammen aus einer GPS-ähnlichen SGP4-Walker-Konstellation.
+
+# text
+# c1: gnss-ins.toml
+seg-ea32ce169216 = Kleines unbemanntes Luftfahrzeug unter GNSS-Jamming: wie weit eine MEMS-Inertialeinheit der Klasse eines Flugcontrollers driftet, sobald der Empfänger den Lock verliert, gegenüber einer Einheit in taktischer Güte, auf demselben geschlossenen GNSS/INS-Filter wie <c1/>.
+
+# text
+seg-f8ac956d2974 = Art gnss-sim
+
+# text
+# c1: gnss-sim
+# c2: container-terminal
+seg-2bedb057a0e6 = Pseudoentfernungen und RAIM für einen Portalhubwagen an einem Containerkai, mit Containerbrücken zur Seeseite und Containerstapeln zur Landseite: das Szenario <c1/> unter der Horizontprofil-Voreinstellung <c2/>.
+
+# text
+seg-769a624a8ba0 = GNSS-Simulation im Messbereich: Pseudoentfernungen mit ionosphärischen und troposphärischen Verzögerungen, zugeführt an Snapshot-RAIM für Schutzniveaus.
+
+# text
+seg-4f53c4dbffec = Art gnss-ssv
+
+# text
+seg-b05ef0179faf = Art gravity-map
+
+# text
+seg-10b07a5e6990 = Art holdover-test
+
+# text
+seg-e41c625df8c5 = Holdover-Test, Beispiel zur Einspeisung: eine Zeitfehleraufzeichnung, bewertet von der Art holdover-test („Antenne abziehen, Holdover bewerten“). Die Aufzeichnung wird an den zwei Zeitpunkten geteilt, die der BETREIBER angibt, hier GNSS entfernt bei { "600" } s und wiederhergestellt bei { "2 400" } s, und jeder Schritt wird an den dafür geschriebenen Masken nach ITU-T gemessen.
+
+# text
+seg-d2d4b620af4b = Holdover-Test eines linuxptp-Logs: dieselben vier Schritte wie in holdover-test-example.toml, mit der Aufzeichnung, gelesen aus einem ptp4l-Servo-Log über [series.clock_log] (Format "ptp4l", Versätze in ns, die eigenen Zeitstempel des Daemons, hier { "5" } s auseinander).
+
+# text
+seg-56269cd82ed4 = Art hybrid
+
+# text
+seg-098fb3a74071 = Hybrid-PNT-Abschlussszenario: reine Quanten-Suite (optische Uhr + Kaltatom-IMU + Stützung durch optische ISL-Zeitübertragung) gegenüber rein klassischer Suite (CSAC + IMU in Navigationsgüte + HF). GNSS { "1.8" } h verwehrt.
+
+# text
+seg-e1678a444911 = Art hybrid-optical-rf
+
+# text
+seg-703bf09ca356 = Art hybrid-ukf
+
+# text
+seg-a65d5e564286 = Art impairment-eval
+
+# text
+seg-39f1050e5129 = Art inertial
+
+# text
+seg-3b8cc1893361 = Koppelnavigation während eines GNSS-Ausfalls: Kaltatom-Quantenbeschleunigungsmesser gegenüber Navigationsgüte. Bias = Residuum nach der GNSS-Kalibrierung = veröffentlichte Bias-Stabilität; q_va = (Rausch-Wurzel-PSD)^{ "2" }.
+
+# text
+seg-9035c0bc73eb = Quanten-Voreinstellung: ein Beschleunigungsmesser mit Kaltatom-Interferometer (CAI), aus seiner Interferometerphysik aufgebaut, gegenüber einem Quarz-Beschleunigungsmesser in Navigationsgüte während eines GNSS-Ausfalls. Eine eindimensionale Koppelnavigations-Überbrückung: { "10" } Minuten GNSS, dann { "110" } Minuten verwehrt.
+
+# text
+seg-7d03a68ac877 = Art ins-trn-coast
+
+# text
+seg-c6ab90fcbc23 = INS/TRN-Fehlermodell der Überbrückung — Positionsfehler über der Überbrückungsdauer und die Überbrückungsdauern, bei denen er { "10" } m und { "50" } m überschreitet.
+
+# text
+seg-542b2d91bff8 = Maritime Hafenanfahrt mit gestörtem GNSS: wie lange ein Inertialnavigationssystem (INS) ein Schiff innerhalb des Genauigkeitsbudgets der Hafenanfahrt hält, sobald das globale Satellitennavigationssystem (GNSS) verloren ist.
+
+# text
+seg-471f2e00f244 = Überbrückung im Bahntunnel: wie lange das Inertialnavigationssystem (INS) eines Zugs ihn in einem Budget zur Gleisunterscheidung hält, ohne globales Satellitennavigationssystem (GNSS) im Tunnel.
+
+# text
+seg-35c6036b9099 = Art integrity
+
+# text
+# c1: araim_dual
+seg-b874df525f79 = Verfügbarkeit von ARAIM mit zwei Konstellationen: GPS + Galileo, ausgewertet mit der erweiterten ARAIM-Engine, einschließlich der konstellationsweiten Fehlerhypothese (<c1/>).
+
+# text
+# c1: integrity
+# c2: user_site
+# c3: harbour-approach
+seg-af9e9ed1468c = ARAIM-Verfügbarkeit für ein Schiff bei der Hafeneinfahrt: die Art <c1/> mit einem Nutzer an einem Bodenstandort (<c2/>) unter der Horizontprofil-Voreinstellung <c3/>.
+
+# text
+seg-5387b81f072b = Art jamming
+
+# text
+# c1: jamming
+# c2: harbour-approach
+seg-79c636fca6b1 = Ein Schiff bei der Hafeneinfahrt unter einem Jammer an Land, mit den Kaigebäuden voraus, die die tiefen Satelliten in dieser Richtung wegnehmen: das Szenario <c1/> unter der Horizontprofil-Voreinstellung <c2/>.
+
+# text
+seg-d7a49be6aa37 = Maritimes GNSS-Jamming: ein landgestützter oder schiffsgestützter Breitbandjammer, der einem Schiff bei der Fahrt über offenes Wasser das globale Satellitennavigationssystem (GNSS) verwehrt.
+
+# text
+seg-6c9aae72c01b = Art launch-window
+
+# text
+seg-784412eac737 = Art leo-navmsg
+
+# text
+seg-af46a64149f5 = Voreinstellung ESA Celeste In-Orbit-Demonstration (IOD): das eine Szenario, das Material verwendet, das beim LEO-PNT-Workshop des ESA Navigation Innovation and Support Programme (NAVISP) { "2026" } vorgestellt wurde. Halten Sie es aus einem Release zurück, indem Sie diese Datei und src/leo_navmsg/presets/celeste_iod.rs löschen (siehe den Kopf dieser Datei).
+
+# text
+seg-c7deba26589d = LEO-Navigationsnachricht: die binäre Kodierung von Kshana, ihr Quantisierungsbudget und die Exporte im RINEX-Stil und als CSV.
+
+# text
+seg-ea14c04a5e2f = LEO-Navigationsnachricht: eine Nachrichtenaktualisierung mitten in einem Überflug, und ob der Nutzer einen Sprung sieht.
+
+# text
+seg-92932c07a7cb = LEO-Navigationsnachricht: vier Ephemeridenmodelle auf einer Bahn und die Tabelle SISRE gegenüber Höhe von Liu et al. { "2025" }.
+
+# text
+seg-28fc0b60d88c = Art leo-pass
+
+# text
+seg-cf353e8a27df = Art leo-pnt-chain
+
+# text
+seg-1465309100f6 = Celeste IOD durchgängig (optionale Voreinstellung): das Signal E5 Konfiguration #1 -> ein Überflug von Celeste IOD -> die Navigationsnachricht im Celeste-Stil -> fusionierte Lösung aus GPS + Galileo + Celeste IOD.
+
+# text
+seg-73db6e9fc765 = LEO-PNT durchgängig auf einer generischen Konstellation: Signalentwurf -> Streckenbudget des Überflugs -> Navigationsnachricht -> fusionierte MEO- + LEO-Lösung und Konvergenz der präzisen Punktpositionierung.
+
+# text
+seg-ad6744824a5f = Xona Pulsar durchgängig: das öffentliche Signal X5 -> ein Pulsar-Überflug -> eine LEO-Navigationsnachricht -> fusionierte Lösung aus GPS + Galileo + Pulsar und Konvergenz der präzisen Punktpositionierung.
+
+# text
+seg-b2c874e083a6 = Art leo-ppp
+
+# text
+seg-017f8db74a59 = Art leo-pvt
+
+# text
+# c1: leo-pvt
+# c2: fjord
+seg-923f04fa9b36 = Fusionierte MEO- und LEO-Positionierung für ein Schiff tief in einem Fjord, wo die Talwände alles Tiefe über den Kanal hinweg verdecken: der gemeinsame Modus <c1/> unter der Horizontprofil-Voreinstellung <c2/>.
+
+# text
+seg-dde47f233669 = Sichtbare Satelliten und Dilution of Precision vom Äquator bis zum Pol: MEO-GNSS allein, eine fast polare LEO-Konstellation allein und beide.
+
+# text
+seg-ef202b7d50ed = Art leo-signal
+
+# text
+seg-22cd3a939c19 = Signalentwürfe von Celeste IOD: die Frequenzbänder und die Signalkonfiguration „Classical Pilot“ #1 der Mission Celeste In-Orbit Demonstration (IOD) der ESA für Positionierung, Navigation und Zeitgebung (PNT) in niedriger Erdumlaufbahn (LEO), als parametrisierte Signalentwürfe.
+
+# text
+seg-f5caf70c73f0 = Bandabwägung für LEO-PNT, von UHF bis breites C-Band: was ein Signal für Positionierung, Navigation und Zeitgebung (PNT) in niedriger Erdumlaufbahn (LEO) in jedem Band gewinnt und verliert, unabhängig von einem bestimmten System.
+
+# text
+# c1: xona-pulsar
+seg-90239179296f = Signale von Xona Pulsar: die Signale X1 (L1-Band) und X5 (L5-Band) einer kommerziellen Konstellation für Positionierung, Navigation und Zeitgebung (PNT) in niedriger Erdumlaufbahn (LEO), aus ihrer veröffentlichten Signaltabelle (Leclère, Marathe und Reid, ION GNSS+ { "2025" }, https://arxiv.org/abs/2509.19551), als einkompilierte Voreinstellung <c1/>.
+
+# text
+seg-a440eecbe1c9 = Art link-budget
+
+# text
+seg-fb3f2dcccbf7 = Art lunar-attack-surface
+
+# text
+seg-4486fa88f989 = Art lunar-beacon
+
+# text
+seg-2707dd910b99 = Art lunar-differential-pnt
+
+# text
+seg-ff296a13dcc8 = Art lunar-frame-campaign
+
+# text
+seg-319137c1458e = Art lunar-frame-realisation
+
+# text
+seg-d4a6801f9670 = Art lunar-infrastructure
+
+# text
+seg-a3dc5227b366 = Szenario lunar-infrastructure von Kshana: carrier-phase, das Beispiel SCHNELL (zwei kurze Bögen, { "10" } Ziehungen, Sekunden; die bewertete Konfiguration, drei Bögen und { "400" } Ziehungen, ist xval/lunar-infra/scenarios/carrier-phase-scored.toml). MODELLED; der Entwurf, die Eingaben und die Zielwerte sind in xval/lunar-infra/PREREGISTRATION.md festgelegt (vor jedem Lauf eingecheckt). ILLUSTRATIVE Eingaben sind dort mit ihren öffentlichen Quellen gekennzeichnet.
+
+# text
+seg-1f55219aed27 = Szenario lunar-infrastructure von Kshana: frame-coestimation. MODELLED; der Entwurf, die Eingaben und die Zielwerte sind in xval/lunar-infra/PREREGISTRATION.md festgelegt (vor jedem Lauf eingecheckt). ILLUSTRATIVE Eingaben sind dort mit ihren öffentlichen Quellen gekennzeichnet.
+
+# text
+seg-4e990ecb6404 = Szenario lunar-infrastructure von Kshana: geodesy-sensitivity. MODELLED; der Entwurf, die Eingaben und die Zielwerte sind in xval/lunar-infra/PREREGISTRATION.md festgelegt (vor jedem Lauf eingecheckt). ILLUSTRATIVE Eingaben sind dort mit ihren öffentlichen Quellen gekennzeichnet.
+
+# text
+seg-e27e1de1a233 = Szenario lunar-infrastructure von Kshana: od-consistency. MODELLED; der Entwurf, die Eingaben und die Zielwerte sind in xval/lunar-infra/PREREGISTRATION.md festgelegt (vor jedem Lauf eingecheckt). ILLUSTRATIVE Eingaben sind dort mit ihren öffentlichen Quellen gekennzeichnet.
+
+# text
+seg-30dc631d148f = Szenario lunar-infrastructure von Kshana: od-consistency mit einer nicht modellierten Beschleunigung. MODELLED; der Entwurf, die Eingaben und die Zielwerte sind in xval/lunar-infra/PREREGISTRATION.md festgelegt (vor jedem Lauf eingecheckt). ILLUSTRATIVE Eingaben sind dort mit ihren öffentlichen Quellen gekennzeichnet.
+
+# text
+seg-68eaba3db338 = Szenario lunar-infrastructure von Kshana: space-tie. MODELLED; der Entwurf, die Eingaben und die Zielwerte sind in xval/lunar-infra/PREREGISTRATION.md festgelegt (vor jedem Lauf eingecheckt). ILLUSTRATIVE Eingaben sind dort mit ihren öffentlichen Quellen gekennzeichnet.
+
+# text
+seg-01d06e830746 = Art lunar-integrity
+
+# text
+seg-afb7372a588a = Integrität am Mond-Südpol: ein gelandeter Empfänger in der Artemis-Region gegenüber einem repräsentativen LunaNet-Relaissatz, ARAIM-Schutzniveaus über einen Überflug von { "24" } h.
+
+# text
+seg-e0180b8a7560 = Art lunar-interop-export
+
+# text
+seg-8a38317ae6d1 = Art lunar-jamming
+
+# text
+seg-ea44c47623c9 = Art lunar-joint-od-clock
+
+# text
+seg-f796750036cc = Art lunar-llr-datum
+
+# text
+seg-fb08183a8243 = Geodäsie der Mond-Referenzstation, MIT STATION: die fünf Retroreflektor-Arrays plus ein Retroreflektor und ein VLBI-Bake an einem südpolaren Standort einer Mond-Referenzstation.
+
+# text
+seg-2255165dd833 = Art lunar-station-coverage
+
+# text
+seg-5c55b91fa564 = Abdeckung der Mond-Referenzstation: welche Positionsgenauigkeit und welches Schutzniveau ein Nutzer von einer differentiellen Mond-Referenzstation an einem bekannten südpolaren Standort über die südpolare Region und einen Tag erhält.
+
+# text
+seg-e1a3830ad9ed = Abdeckung der Mond-Referenzstation unter den ÖFFENTLICH GENANNTEN Annahmen: dieselbe Art wie lunar-station-coverage.toml, wobei jede Eingabe, die eine öffentliche Quelle nennt, daraus gesetzt und mit der Quellen-ID zitiert ist; jede Eingabe, die keine Quelle nennt, bleibt aus dem Standard im Verzeichnisbaum und ist als ILLUSTRATIVE gekennzeichnet. Quellen (abgerufen 2026-10-12; Titel, Kennungen und Lizenzen in docs/LUNAR-REFERENCE-STATION.md): S1 arXiv:2602.08432v3 S2 IOAG Cislunar PNT Workshop { "2025" }, „Lunar local Differential PNT and Selenodetic Reference Station“ (Folien) S3 UNOOSA ICG WG-B, Lunar PNT, Juni { "2024" } (LunarPNT_Jun24_01_04.pdf) S4 IOAG Cislunar { "2026" }, „Moonlight Programme Development Status“
+
+# text
+seg-d168096a3514 = Abdeckung der Mond-Referenzstation mit Gelände: das mitgelieferte Szenario lunar-station-coverage mit einem Horizont je Standort, per Ray-Marching über einem realen digitalen Mondhöhenmodell an der Station und an jedem Nutzerpunkt, anstelle der flachen Elevationsmaske allein.
+
+# text
+seg-88a9a6405048 = Art lunar-time-budget
+
+# text
+seg-efaa5b60d16f = Zeitlabor der Mond-Referenzstation: eine Miniatur-Rubidiumuhr (miniRAFS), gesteuert auf die Koordinierte Mondzeit (LTC) und dann frei laufen gelassen.
+
+# text
+seg-debab0063d91 = Art lunar-time-offset
+
+# text
+seg-79c5a9295ed5 = Art lunar-vlbi
+
+# text
+seg-8d967bfd5689 = Kovarianz der Stationskoordinaten bei Mond-VLBI: die Verzögerungs-Partiellen der Observablen lunar-vlbi, über einen ausdrücklichen ZEITPLAN (Basislinien x Epochen) zu einer Fisher-Informationsmatrix akkumuliert, invertiert und gemeldet als Kovarianz der Stationskoordinaten und Sigma je Koordinate der Station — eine berechnete Engine-Ausgabe statt einer skalaren Verzögerungspräzision, durchgereicht durch einen angenommenen isotropen Äquipartitionsfaktor g = { "3" }. Der Zustand trägt ERDFESTE (ITRS) Stationskoordinaten, sodass die Jacobi-Matrix die inertiale Partielle ist, gedreht mit der GCRS->ITRS-Matrix jeder Epoche: Die Erdrotation macht diese Koordinaten beobachtbar, und der Bericht MISST die erdfeste Sichtlinien-Überstreichung und die Deklination der Bake, statt sie anzunehmen. Eine Beobachtung ist ein Paar (Basislinie, Epoche) mit BEIDEN Stationen über der Elevationsmaske, gewichtet mit 1/delay_sigma_s^{ "2" }. Bei jedem Lauf werden Rang, Datumsdefekt, Konditionszahl, das volle Informationsspektrum, die Kovarianzmatrix, Sigma je Station und Achse und 3-D sowie der Nullraum des freien Netzes gemeldet; bei Rangdefizit wird das Kopf-Sigma als NULL mit einem Status veröffentlicht, nie aus einer fast singulären Inversen abgelesen. Der Äquipartitionswert c*delay_sigma_s*sqrt(g/N) für denselben ZEITPLAN wird neben dem berechneten Wert mit dem Verhältnis ausgegeben, zusammen mit der isotropen Spurschranke sqrt(p/trace(M)), die AM-HM zu einer harten Untergrenze macht — das Verhältnis ist also die Anisotropie, die die Annahme verworfen hat. Der Verzögerungsschluss tau_ik = tau_ij + tau_jk macht nur n-1 der n(n-1)/2 Basislinien geometrisch unabhängig; der Bericht nennt beide Zahlen. MODELLED: Die Ephemeride des Mondmittelpunkts, die Stationsuhren, die Troposphäre und die Erdorientierungsparameter werden FEST gehalten, und Beobachtungen werden als unabhängig behandelt, sodass die Kovarianz eine Cramér-Rao-Schranke für einen reduzierten Parametersatz ist, kein vorhergesagtes Sitzungsergebnis; das Verzögerungs-Sigma, die Stationskoordinaten und der Zeitplan sind Eingaben. Die Partielle, die die Jacobi-Matrix der geometrischen Verzögerung auslässt (der differenzierte Shapiro-Term), wird per finiter Differenz gemessen und ausgegeben. Kein geodätisches Produkt.
+
+# text
+seg-a558fdefae3d = Art lunar-vlbi-fim
+
+# text
+seg-50eb943d4ef7 = Art mars-pnt
+
+# text
+seg-79aed7a6b416 = Mars-PNT — ein Nutzer in niedriger Marsumlaufbahn, navigiert gegen die simulierte MARCONI-Relaiskonstellation (areostationäre Relais, die Einweg senden + Zweiweg an eine Station im tiefen Weltraum weiterleiten) durch den gemeinsamen radiometrischen Fusionsschätzer für Einweg/Zweiweg.
+
+# text
+seg-852783147633 = Mars-PNT — ein fester Oberflächennutzer (ein Lander / Rover auf der rotierenden Marsoberfläche), navigiert gegen die simulierte MARCONI-Relaiskonstellation durch den gemeinsamen radiometrischen Fusionsschätzer für Einweg/Zweiweg.
+
+# text
+seg-1b2748b538ae = Mars-PNT — ein Mars-Transfer-/Einfangnutzer (ein hoher, exzentrischer areozentrischer Bogen — der lange Bogen, den ein Fahrzeug im Anflug / in einer Einfangbahn fliegt), navigiert gegen die simulierte MARCONI-Relaiskonstellation durch den gemeinsamen radiometrischen Fusionsschätzer für Einweg/Zweiweg.
+
+# text
+seg-28938416c04b = Art moonlight-service-volume
+
+# text
+seg-f0ccaa966a0d = Art ntn-positioning
+
+# text
+seg-95202f70f915 = Art oem-interop
+
+# text
+seg-64b58fe6b7e1 = Art optical-atmosphere
+
+# text
+seg-b8648cc3c266 = Optische PNT durch die Atmosphäre: drei ILLUSTRATIVE Bodenstandorte (ein bewölkterer nördlicher Standort, ein mittlerer zentraler Standort und ein klarerer südlicher Standort), die ein optisches LEO-Terminal bei { "30" } Grad Elevation bei { "1550" } nm sehen. Die Wolkenklimata sind angegebene Eingaben, keine Messungen oder Werte irgendeines Datensatzes, daher ist jede Verfügbarkeit unten MODELLED. Der Lauf meldet je Standort den Klarluftverlust, den Turbulenzzustand nach Hufnagel-Valley, die Verfügbarkeit gegenüber der Streckenmarge, die nötige Marge für { "40" } / { "50" } / { "60" } / { "70" } Prozent (eine optische Strecke kann dichte Wolken nicht durchdringen, sodass ein Standort eine Verfügbarkeitsobergrenze hat, die keine Marge anhebt, je Standort gemeldet), die Verteilung der Ausfalldauern und das Wachstum des Zeitfehlers je Ausfall für drei Uhrenklassen, dann die Verfügbarkeit bei Standortdiversität der besten { "1" }, { "2" } und { "3" } Standorte mit unabhängigem und mit entfernungskorreliertem Wetter ({ "500" } km Dekorrelationslänge).
+
+# text
+seg-f85f23a4fa5c = Was-wäre-wenn zu Verbesserungstechniken für einen ILLUSTRATIVE Bodenstandort: eine Wellenlängenänderung, eine größere Empfangsapertur, eine Verringerung der Szintillation durch adaptive Optik und zusätzliche Marge, jeweils vorhergesagt als Verfügbarkeitsgewinn gegenüber der Basislinie desselben Standorts. Die Gewinne sind angegebene Eingaben (Kshana modelliert keinen Regelkreis der adaptiven Optik), eine neue Wellenlänge oder Apertur wertet das Budget bei klarem Himmel, den Klarluftverlust und die Aperturmittelung neu aus, und alles ist MODELLED. Das Terminal ist absichtlich margenbegrenzt (etwa { "3" } dB vor der Atmosphäre), damit die Techniken ins Gewicht fallen; der Lauf nennt außerdem die Wolkenobergrenze, die keine Technik anhebt. Ziele unter { "100" } Prozent der Margentabelle werden als nötige Zusatzmarge gemeldet (negativ bedeutet einen Überschuss).
+
+# text
+seg-b226ac4eebdf = Art orbit
+
+# text
+# c1: orbit
+# c2: user_site
+# c3: city-street
+seg-4fe91b7e2c29 = GNSS-Verfügbarkeit und Dilution of Precision am Boden einer Stadtstraße: die Art <c1/> mit einem Nutzer an einem Bodenstandort (<c2/>) unter der Horizontprofil-Voreinstellung <c3/>.
+
+# text
+seg-9f0a005cfe62 = Art passes
+
+# text
+seg-c2f9d49da519 = Art pvt
+
+# text
+seg-1e5828af879a = Art quantum-anomaly-detect
+
+# text
+seg-d3897f9ebb6c = Fehler-/Anomalieerkennung für Quanten-PNT-Systeme — gekennzeichneter Fehlerkatalog + ROC-AUC + kleinster erkennbarer Fehler, quantenuhrengestützter gegenüber klassischem Monitor. MODELLED; illustrative Parameter aus öffentlichen Quellen; modelliert die Klasse, keine Aussage zu TRL oder Flug.
+
+# text
+seg-95db949095b8 = Art quantum-gnss-free-nav
+
+# text
+seg-b5e010553b6a = GNSS-freie Quantennavigation — Quanten- (Kaltatom-Interferometer) gegenüber klassischer INS-Koppelnavigation in Navigationsgüte über einen GNSS-Ausfall. MODELLED; illustrative Geräteparameter aus öffentlichen Quellen; modelliert die Klasse, keine Aussage zu TRL oder Flug.
+
+# text
+seg-6d0a57c5b71d = Art quantum-time-transfer
+
+# text
+seg-6d837ea24f97 = Vertrauenswürdige Quanten-Zeitgebung — durchgängige Zeitübertragungskette, gesicherte Verteilung, Anomalieerkennung und eine Abwägung Quanten gegen klassisch. MODELLED; illustrative Geräte-/Streckenparameter aus öffentlichen Quellen; modelliert die Klasse, keine Aussage zu TRL oder Flug.
+
+# text
+seg-09ba30218f38 = Art quantum-trade
+
+# text
+seg-e39997960d5d = Art realtime-frame-eop
+
+# text
+seg-bb2002e9948d = Art reentry
+
+# text
+seg-b1c293c644d1 = Art slot-timing
+
+# text
+seg-65401b133472 = Slot-Zeitgebung: wie lange ein ofenstabilisierter Quarzoszillator (OCXO) auf einem Kleinsatelliten in niedriger Erdumlaufbahn nach seiner letzten Lösung des globalen Satellitennavigationssystems (GNSS) innerhalb der Schutzzeit eines zeitindizierten Routing-Slots bleibt und wie oft er eine Lösung braucht.
+
+# text
+seg-b1d59d7a3350 = Art solar-system
+
+# text
+seg-67928e2d349f = Art space-packet
+
+# text
+seg-ce6afe97c0a4 = Art space-weather
+
+# text
+seg-008e207782f6 = Art spectrum
+
+# text
+seg-ac1083b109f8 = L-Band-Wasserfall unter Jamming: das gesamte L-Band des globalen Satellitennavigationssystems (GNSS) als eine Leistungsspektraldichte (PSD), Frequenz quer, Zeit nach unten, während eine skriptgesteuerte Folge von Jammern eingeschaltet wird.
+
+# text
+seg-859958a06acc = Mehrband-Jamming-Wasserfall: Signale für Positionierung, Navigation und Zeitgebung (PNT) in niedriger Erdumlaufbahn (LEO) in vier Bändern (UHF, L, S und C) neben GPS und Galileo, jedes Band mit seinem eigenen Jammer, gezeichnet als ein Wasserfall je Band auf einer Zeitleiste.
+
+# text
+seg-559fe9211290 = Art spoof
+
+# text
+seg-6e099f8a060a = Aktiver Zeit-Spoofing-Angriff: Kann der Integritätsmonitor jeder Uhr den Spoof erwischen, bevor er Schaden anrichtet?
+
+# text
+seg-43dad2e00cde = Art spoof-detect
+
+# text
+seg-0d6c2e664734 = Art sweep
+
+# text
+seg-5fb588430052 = Art sweep-nd
+
+# text
+# c1: sweep
+# c2: sweep-nd
+# c3: [base]
+seg-b22e7ba4a1a0 = Allgemeiner N-D-Parameterdurchlauf über JEDE Szenarioart. Anders als die reine Uhrenart <c1/> variiert <c2/> gepunktete TOML-Schlüssel des Szenarios <c3/> über das kartesische Produkt der Achsen, führt jeden Gitterknoten erneut aus und liest die gewählten Metriken per gepunktetem JSON-Pfad aus dem Ergebnis. Es funktioniert für jedes Paket (inertial, gnss-ins, integrity, spoof, …), weil es an der Grenze zwischen TOML und Ergebnis arbeitet, nicht an einem Rust-Typ je Paket. Native Läufe werten das Gitter parallel aus (keine zusätzliche Abhängigkeit); wasm fällt auf sequentiell zurück. Das Ausgabegitter ist deterministisch und zeilenweise (die letzte Achse variiert am schnellsten).
+
+# text
+seg-5f1e87304f90 = Art telecom-timing
+
+# text
+seg-999121d87895 = Zeitreferenz der Telekommunikation: eine Rubidiumuhr, die ihre Referenz des globalen Satellitennavigationssystems (GNSS) verliert und { "24" } Stunden im Holdover überbrückt, geprüft gegen die Masken der Internationalen Fernmeldeunion, Sektor Telekommunikationsstandardisierung (ITU-T).
+
+# text
+seg-3cfcd6f8717b = Zeitgebung der Telekommunikation, Frequenzsynchronisation: ein freilaufender ofenstabilisierter Quarzoszillator (OCXO), gehalten gegen die Masken für die Wander-Erzeugung der Taktgeber für synchrones Ethernet (EEC) der Internationalen Fernmeldeunion, Sektor Telekommunikationsstandardisierung (ITU-T).
+
+# text
+seg-afd374569777 = Zeitgebung der Telekommunikation, Beispiel zur Einspeisung: eine Reihe des Zeitintervallfehlers (TIE), inline angegeben und geprüft gegen die Masken der Internationalen Fernmeldeunion, Sektor Telekommunikationsstandardisierung (ITU-T).
+
+# text
+seg-eb02c7911f72 = Art terrain-nav
+
+# text
+seg-b83a1fbd3435 = Art terrain-slam
+
+# text
+seg-c988dce87d81 = Art time-transfer-budget
+
+# text
+seg-a063a0ecc543 = Zweiwege-Zeit- und Frequenzübertragung per Satellit (TWSTFT) zwischen zwei ILLUSTRATIVE Stationen, einer in Mitteleuropa und einer im Osten Nordamerikas, über ein geostationäres Relais bei { "10" } Grad W. Der Lauf löst die Zweiwege-Gleichung für T_A - T_B aus den angegebenen Termen für Ausrüstung, Transponder, Ionosphäre (Ku-Band, 14/11 GHz) und Sagnac. Er bildet ein Unsicherheitsbudget, dessen statistischer Term die TDEV bei einem Tag einer simulierten Strecke mit weißem und Flicker-Phasenrauschen und einer täglichen Nicht-Reziprozität ist. Die Verzögerungen und Unsicherheiten sind illustrativ, keine Kalibrierung irgendeines Labors. MODELLED. Unter [[series]] kann eine reale Reihe UTC-UTC(k) oder Stationsuhr hinzugefügt werden (Format circular-t, mjd-csv oder rinex-clock), um ihre Stabilität zu melden.
+
+# text
+seg-69138a582b9a = Art timetransfer
+
+# text
+seg-a79dfece857e = Lock-Verlust der Tracking-Schleife: C/N0 -> Lock/Unlock MIT HYSTERESE, die Zeit bis zum Lock-Verlust und das Einziehen eines Spoofers als Funktion der RATE des Code- und Trägerversatzes. Die bestehenden Kriterien der Engine für Verwehrung und Erfassung sind Verhältnisse der Empfangsleistung (ein Jammer verwehrt bei J/S = { "30" } dB, ein Spoofer erfasst bei { "3" } dB); der reale Lock-Verlust ist kein Leistungsverhältnis, er liegt dort, wo das Jitter einer Schleife plus dynamische Belastung ihr Budget der Tracking-Schwelle verlässt. Gemeldet werden ({ "1" }) das thermische 1-Sigma-Jitter von Träger (Costas) und Code (nicht kohärent früh/spät) über C/N0, Quadrierungsverlust eingeschlossen, gegen die angegebenen Regeln { "3" }*sigma_PLL + theta_e <= { "45" } Grad (die 15-Grad-Regel in der Drei-Sigma-Form) und { "3" }*sigma_DLL + Rampenverzug <= d/2 Chips; ({ "2" }) die C/N0-Schwellen für Abfall und Wiedereinrasten mit der benannten bindenden Schleife, wobei die Schwelle für das Wiedereinrasten aus der größeren Bandbreite ABGELEITET wird, mit der ein Empfänger wieder einzieht, statt behauptet zu werden, sodass die Breite der Hysterese zwischen { "5" }*log10(ratio) und { "10" }*log10(ratio) dB fallen muss; ({ "3" }) die deklarierte Zeit bis zum Lock-Verlust aus einem Lock-Detektor mit zwei Schwellen und Bestätigungsverweilzeiten, über eine C/N0-Rampe getrieben, getrennt gemeldet von der physikalischen Zeit des Phasenausbruchs (die mittlere Viterbi-Zeit zwischen Zyklenschlupfen, in log10 s, weil sie hunderte Dekaden überspannt); ({ "4" }) die Grenzen des Spoof-Einziehens — die größte Code-Slew- und Träger-Dopplerrate, der die Schleifen eines Opfers folgen können, mit einer Karte über beide Achsen, weil ein Spoofer, der schneller slewt als diese, die Schleife nicht erfasst, sondern ihr davonläuft; und ({ "5" }) der VERWEHRUNGSRADIUS, den die Schleifendynamik impliziert, gemeldet NEBEN dem bestehenden Leistungsverhältnis-Radius, nie an seiner Stelle, mit ihrer vorzeichenbehafteten Differenz als eigenem benannten Feld (denial_radius_delta_km) und einer Definition daneben. Jedes ausgegebene numerische Feld trägt eine Einheit und eine Herkunftsklasse. VALIDATED geschlossene Formen: Die Ausdrücke für Träger- und Code-Jitter, die Schleifenfilter-Reduktion sqrt({ "2" }*B_n*T) und der Rampenverzug erster Ordnung werden gegen den eigenen sdr-Korrelator der Engine geprüft, der auf gesäter synthetischer ZF vorwärts geschritten wird — ein anderer Weg zu denselben Zahlen — mit { "0.6" } %, { "3.7" } % bzw. { "0.17" } %, und die modifizierte Bessel-Funktion I0 hinter der Zeit bis zum Zyklenschlupf gegen tabellierte Standardwerte bis auf { "1e-7" }. Die untere Gültigkeitsgrenze wird behauptet, nicht bloß angegeben: unterhalb von ~{ "32" } dB-Hz bei { "1" } ms sättigt der reale Atan-Diskriminator an seinem Bereich +-pi/2 und misst weniger Jitter als jede lineare Theorie. MODELLED: Die Schleifenbandbreiten, die Integrationszeit, der Korrelatorabstand, das Bandbreitenverhältnis beim Einziehen, die Bestätigungsverweilzeiten, die Jammerleistung und die Antennengewinne sind repräsentative Bandwerte, kein Datenblatt. NICHT modelliert: Oszillator-Jitter (Allan-Abweichung) und Vibrations-Jitter, Bandbreitenbegrenzung des Frontends, Mehrwegeausbreitung, AGC-Dynamik, Verlust durch Datenbit-Übergänge, externe Stützung und jede Halbzyklus-Korrektur der Formel für den Costas-Zyklenschlupf. Unter Schleifendynamik hat die Spoof-Erfassung überhaupt keinen Radius — die bindende Beschränkung ist die Versatzrate, nicht die Leistung —, sodass dieses Feld mit einer Begründung null ist, statt eine erfundene Zahl zu liefern. Kein zertifiziertes Produkt zur Bewertung der Empfängerleistung.
+
+# text
+seg-0b943d7e5f66 = Art tracking-loop
+
+# text
+seg-003cc12a2c96 = Lock-Verlust der Tracking-Schleife: C/N0 -> Lock/Unlock mit Hysterese, die Zeit bis zum Lock-Verlust und die Grenzen des Spoof-Einziehens, bestimmt durch die RATE des Code- und Trägerversatzes.
+
+# text
+seg-9ce64f725193 = Studien-Suiten
+
+# text
+# c1: kshana --study
+# c2: study.json
+# c3: study.html
+seg-b871497364ff = Eine Suite ist eine Szenariodatei, die andere Szenarien auflistet; <c1/> führt sie zu einem gestempelten <c2/> und <c3/> aus. Dies ist der kostenlose Suite-Runner, nicht die kostenpflichtige individuelle Studie.
+
+# text
+seg-b0569509d058 = Quantum-Enabled PNT Demonstrator — die drei Anwendungsbereiche als eine Studie.
+
+# text
+seg-2f09b9930e10 = Auf GitHub ansehen
+
+# text
+seg-67f767701c6d = <s1>Zurück</s1>Fähigkeitsdomänen
+
+# text
+seg-ea79a68b0587 = <s1>Weiter</s1>Ergebnisschema
