@@ -269,7 +269,7 @@ engine-e-animation-no-animation-format-given-expected = アニメーション形
 
 engine-e-animation-animation-fps-must-be-between = アニメーションの fps は 1 から 60 の間でなければなりません（指定値：{ $fps }）
 
-engine-e-animation-animation-duration-must-be-between = アニメーションの長さは 0.5 s から 600 s の間でなければなりません（指定値：{ $duration_s }）
+engine-e-animation-animation-duration-must-be-between = アニメーションの長さは { $lit_0_5 } s から 600 s の間でなければなりません（指定値：{ $duration_s }）
 
 engine-e-animation-animation-width-must-be-between = アニメーションの幅は 480 から 3840 ピクセルの間でなければなりません（指定値：{ $width }）
 
@@ -283,11 +283,9 @@ engine-animation-ffmpeg-framerate-frame-04d-svg = ffmpeg -framerate { $fps } -i 
 
 engine-animation-further-series-were-found-but = { " " }描画されなかった系列がほかに { $omitted } 件あります（プレーヤーが表示するのは最大 { $MAX_CHARTS } パネル、一パネルあたり { $MAX_TRACES } トレースまでです）。それらは frames エクスポートのマニフェストに記載されています。
 
-engine-antenna-altitude-beamwidth-deg-points = 高度 { $a_lo }-{ $a_hi } m x ビーム幅 { $b_lo }-{ $b_hi } deg、{ $points } 点
+engine-antenna-limb-capture-is-reached-on = このグリッド（高度 { $a_lo }-{ $a_hi } m × ビーム幅 { $b_lo }-{ $b_hi } deg、{ $points2 } 点）ではリムキャプチャに到達します：サンプリングした { $points2 } 個の動作点のうち { $points } 個がリムをキャプチャし、軸の交差が { $crossings } 件見つかりました。サンプリングした最大のリム J/S は高度 { $altitude_m } m / ビーム幅 { $hpbw_deg } deg で { $limb_js_db } dB であり、キャプチャしきい値は { $thr } dB です。
 
-engine-antenna-limb-capture-is-reached-on = このグリッド（{ $grid }）ではリムキャプチャに到達します：サンプリングした { $points2 } 個の動作点のうち { $points } 個がリムをキャプチャし、軸の交差が { $crossings } 件見つかりました。サンプリングした最大のリム J/S は高度 { $altitude_m } m / ビーム幅 { $hpbw_deg } deg で { $limb_js_db } dB であり、キャプチャしきい値は { $thr } dB です。
-
-engine-antenna-limb-capture-is-not-reached = このグリッド（{ $grid }）のどこでもリムキャプチャには到達しません（キャプチャがゼロなのではなく、リムキャプチャがないということです）：最良のリム J/S は高度 { $altitude_m } m / ビーム幅 { $hpbw_deg } deg で { $limb_js_db } dB であり、キャプチャしきい値 { $thr } dB に { $shortfall } dB 足りません。この動作点でリムをキャプチャするには、飛行時の { $p_tx_dbw } dBW に対して送信電力 { $limb_capture_tx_power_dbw } dBW が必要です。
+engine-antenna-limb-capture-is-not-reached = このグリッド（高度 { $a_lo }-{ $a_hi } m × ビーム幅 { $b_lo }-{ $b_hi } deg、{ $points } 点）のどこでもリムキャプチャには到達しません（キャプチャがゼロなのではなく、リムキャプチャがないということです）：最良のリム J/S は高度 { $altitude_m } m / ビーム幅 { $hpbw_deg } deg で { $limb_js_db } dB であり、キャプチャしきい値 { $thr } dB に { $shortfall } dB 足りません。この動作点でリムをキャプチャするには、飛行時の { $p_tx_dbw } dBW に対して送信電力 { $limb_capture_tx_power_dbw } dBW が必要です。
 
 engine-e-antenna-azimuths-must-strictly-increase = 方位角は厳密に増加していなければなりません
 
@@ -635,7 +633,7 @@ engine-bench-site-result-was-scored-under-this = 結果 { $v1 } は { $v } で�
 
 engine-bench-tasks-score-for-is-not-number = `{ $k }` のスコアが数値ではありません
 
-engine-bench-tasks-kshana-receiver-trust-35-default = kshana receiver-trust { $s }（0.35 は既定の監視統計量）
+engine-bench-tasks-kshana-receiver-trust-35-default = kshana receiver-trust { $s }（{ $lit_0_35 } は既定の監視統計量）
 
 engine-bench-tasks-malformed-clock-line = 不正な時計行 `{ $line }`
 
@@ -675,7 +673,7 @@ engine-e-body-pnt-duration-and-step-must-be = duration_s と step_s は正でな
 
 engine-e-body-pnt-user-kind-must-be-orbiter = user.kind は orbiter または surface でなければなりません。指定値：'{ $k }'
 
-engine-e-body-pnt-user-altitude-must-be-positive = ユーザー高度は正で、離心率は [0, 0.9) の範囲内でなければなりません
+engine-e-body-pnt-user-altitude-must-be-positive = ユーザー高度は正で、離心率は [0, { $lit_0_9 }) の範囲内でなければなりません
 
 engine-e-body-pnt-the-user-orbit-periapsis-is = ユーザー軌道の近点が表面より下にあります
 
@@ -894,7 +892,7 @@ engine-campaign-compose-members = コンポーズ：メンバー { $members } �
 
 engine-campaign-member-runs-modelled = メンバーの実行 { $runs_total } 回（MODELLED）
 
-engine-campaign-sweep-of-over-nodes-each = `{ $scenario_kind }` のスイープ、{ $axis_order } にわたる（{ $nodes } ノード{ $v4 }。各線はそれぞれ独自の範囲）
+engine-campaign-sweep-of-over-nodes-each = `{ $scenario_kind }` のスイープ、{ $axis_order } にわたる（{ $nodes } ノード、各線はそれぞれ独自の範囲）
 
 engine-campaign-campaign-modelled-composition-every-value = キャンペーン { $r } | MODELLED の合成。すべての値は指定された種別の実際の実行から読み取ったもの
 
@@ -1131,7 +1129,7 @@ engine-e-constellation-needs-altitude-km-or-semi = { $what }：altitude_km ま�
 
 engine-e-constellation-semi-major-axis-km-is = { $what }：軌道長半径 { $v1 } km が { $name } の半径を上回っていません
 
-engine-e-constellation-eccentricity-must-lie-in = { $what }：離心率 { $e } は [0, 0.9) の範囲内でなければなりません
+engine-e-constellation-eccentricity-must-lie-in = { $what }：離心率 { $e } は [0, { $lit_0_9 }) の範囲内でなければなりません
 
 engine-e-constellation-perigee-is-below-the-surface = { $what }：近地点が { $name } の表面より下にあります
 
@@ -1163,7 +1161,7 @@ engine-e-constellation-mask-deg-must-lie-in = mask_deg は [0, 90) の範囲内�
 
 engine-e-constellation-pdop-threshold-must-be-positive = pdop_threshold は正でなければなりません
 
-engine-e-constellation-grid-step-deg-must-lie = grid_step_deg は [0.25, 90] の範囲内でなければなりません
+engine-e-constellation-grid-step-deg-must-lie = grid_step_deg は [{ $lit_0_25 }, 90] の範囲内でなければなりません
 
 engine-e-constellation-need-90-lat-min-deg = -90 <= lat_min_deg < lat_max_deg <= 90 が必要です
 
@@ -2037,9 +2035,7 @@ engine-e-holdover-test-step-with-mask-has-no = マスクのあるステップに
 
 engine-e-holdover-test-cannot-read-csv-path = csv_path { $path } を読み込めません：{ $e }
 
-engine-holdover-test-recovered-after-gnss-returned = ；GNSS の復帰後 { $t } s で回復
-
-engine-holdover-test-holdover-test-holdover-max-te = holdover-test: ホールドオーバー { $hold } s、max|TE| { $max_abs } ns；{ $masks }{ $rec }（MODELLED、マスクに対して測定）
+engine-holdover-test-holdover-test-holdover-max-te = holdover-test: ホールドオーバー { $hold } s、max|TE| { $max_abs } ns；{ $masks }（MODELLED、マスクに対して測定）
 
 ## src/hybrid.rs
 
@@ -2675,17 +2671,15 @@ engine-iq-cli-scene-n0-profile-segment = { $chan_desc }；C/N0 プロファイ�
 
 engine-iq-cli-scene-truth-format-must-be-csv = --truth-format は csv または jsonl でなければなりません（実際：{ $other }）
 
-engine-iq-cli-scene-integer-scale-lsb-noise-normalised = ；整数スケール：1 LSB = { $sc } 雑音正規化単位（成分あたりの期待 RMS { $v1 } LSB）、クリップされた要素 { $clipped }
-
-engine-iq-cli-scene-written-by-kshana-iq-scene = kshana iq scene による書き込み：SIMULATED シーンであり、記録ではありません{ $scale_note }
+engine-iq-cli-scene-written-by-kshana-iq-scene = kshana iq scene による書き込み：SIMULATED シーンであり、記録ではありません
 
 engine-iq-cli-scene-ion-sdr-metadata = ION SDR メタデータ { $path }
 
 engine-iq-cli-scene-sigmf-data-meta = SigMF データ { $data_path }、メタ { $meta_path }
 
-engine-iq-cli-scene-written-by-kshana-iq-scene-2 = kshana iq scene による書き込み{ $scale_note }
+engine-iq-cli-scene-written-by-kshana-iq-scene-2 = kshana iq scene による書き込み
 
-engine-iq-cli-scene-wrote-samples-hz-to-truth = { $samples } サンプル（{ $format }、{ $fs_hz } Hz）を { $data_path } に、真値レコード { $truth_records } 件を { $truth_path } に書き込みました；{ $meta_note }；チャネル：{ $chan_desc }{ $scale_note }
+engine-iq-cli-scene-wrote-samples-hz-to-truth = { $samples } サンプル（{ $format }、{ $fs_hz } Hz）を { $data_path } に、真値レコード { $truth_records } 件を { $truth_path } に書き込みました；{ $meta_note }；チャネル：{ $chan_desc }
 
 ## src/iq/cli/sweep.rs
 
@@ -2705,7 +2699,7 @@ engine-iq-cli-track-designs-and-differ-in-integration = 設計 { $first } と { 
 
 engine-iq-cli-track-epochs-name-the-format-with = --epochs { $p }：--epochs-format csv|jsonl|bin で形式を指定するか、パスを .csv、.jsonl、.bin のいずれかで終えてください
 
-engine-iq-cli-track-hz-is-samples-per-chip = { $fs_hz } Hz は { $c } のチップあたり { $r } サンプルです。整数比のサンプリングでは、コード弁別器が階段状になります（チップあたり 2 サンプルでは DLL がディザし、45 dB-Hz で約 0.09 チップ RMS のコード誤差が生じます）。この記録から得たコードループのジッターとバイアスは代表的な値ではありません。コードループを評価するには、チップレートの半分の倍数ではないレートを使用してください。
+engine-iq-cli-track-hz-is-samples-per-chip = { $fs_hz } Hz は { $c } のチップあたり { $r } サンプルです。整数比のサンプリングでは、コード弁別器が階段状になります（チップあたり 2 サンプルでは DLL がディザし、45 dB-Hz で約 { $lit_0_09 } チップ RMS のコード誤差が生じます）。この記録から得たコードループのジッターとバイアスは代表的な値ではありません。コードループを評価するには、チップレートの半分の倍数ではないレートを使用してください。
 
 ## src/iq/io/batch.rs
 
@@ -2859,7 +2853,7 @@ engine-iq-labfit-iqreport-threshold-direct-median-db-over = しきい値 J/S、�
 
 engine-iq-labfit-iqreport-hold-out-leave-one-recording = ホールドアウト（記録を一つずつ除外）、補間：ビン { $bins }、C/N0 RMS { $om } dB、PI90 カバレッジ { $om2 }
 
-engine-iq-labfit-iqreport-events-loss-time-rms-pi90 = ；{ $model }：イベント { $n } 件、ロス時刻 RMS { $om } s、PI90 カバレッジ { $om2 }
+engine-iq-labfit-iqreport-events-loss-time-rms-pi90 = { $model }：イベント { $n } 件、ロス時刻 RMS { $om } s、PI90 カバレッジ { $om2 }
 
 engine-iq-labfit-iqreport-validation-table-sha-256-registered =
     検証テーブル SHA-256 `{ $table_sha256 }`（登録 { $registered }）：
@@ -3542,7 +3536,7 @@ engine-leo-navmsg-unknown-preset-available = 不明なプリセット '{ $k }' �
 
 engine-e-leo-navmsg-fit-interval-must-be-10 = fit_interval_s は 10-3600 s、update_period_s は (0, fit_interval_s] の範囲でなければなりません（実際：{ $fit_interval_s } と { $update_period_s }）
 
-engine-e-leo-navmsg-fit-sample-and-eval-step = fit_sample_s と eval_step_s は 0.5-60 s でなければなりません
+engine-e-leo-navmsg-fit-sample-and-eval-step = fit_sample_s と eval_step_s は { $lit_0_5 }-60 s でなければなりません
 
 engine-e-leo-navmsg-carrier-hz-must-exceed-10 = carrier_hz は 10 MHz を超えなければなりません（実際：{ $carrier_hz }）
 
@@ -3641,7 +3635,7 @@ engine-e-leo-navmsg-text-csv-row-lacks = CSV の行に { $k } がありません
 
 engine-e-leo-navmsg-truth-orbit-altitude-must-be-between = 軌道高度は 100 km から 3000 km の間でなければなりません（実際：{ $cfg } km）
 
-engine-e-leo-navmsg-truth-eccentricity-must-be-in-for = LEO のフィットでは離心率は [0, 0.1) の範囲でなければなりません（実際：{ $eccentricity }）
+engine-e-leo-navmsg-truth-eccentricity-must-be-in-for = LEO のフィットでは離心率は [0, { $lit_0_1 }) の範囲でなければなりません（実際：{ $eccentricity }）
 
 engine-e-leo-navmsg-truth-integration-step-must-be-in = 積分ステップは (0, 30] s の範囲でなければなりません（実際：{ $step_s }）
 
@@ -4373,8 +4367,6 @@ engine-e-lunar-time-budget-scenario-term-is-shorter-than-the = 項 { $name } が
 
 engine-lunar-time-budget-scenario-lunar-time-budget-clock-term = lunar-time-budget | 時計 { $clock } | 7項の x_Σ(τ)、{ $taus } 個の τ 点（{ $taus2 }–{ $taus3 } s） | 交差点 τ { $crossover_tau_s } s（x { $crossover_x_s } s） | フレーム下限 { $frame_term_s } s | 時計 x(1 d) { $x_1day_ns } ns (MODELLED)
 
-engine-lunar-time-budget-scenario-time-lab-to-ltc-ns = { $summary } | タイムラボ：{ $lab } { $lab2 }（LTC まで）、x(1 d) { $lab3 } ns (MODELLED)
-
 ## src/lunar_time_lab.rs
 
 engine-e-lunar-time-lab-time-lab-unknown-clock-expected = time_lab：不明な時計 { $other }；optical-master、passive-h-maser、rafs、mini-rafs のいずれかを指定するか、代わりに device_card を指定してください
@@ -4984,19 +4976,11 @@ engine-nmea-synth-gen-the-receiver-has-no-fix = 受信機に測位解があり�
 
 engine-nmea-synth-log-from-for-onset-ramp-recovery = T+{ $start_s } s から { $duration_s } s 間（開始ランプ { $ramp_s } s、回復ランプ { $recovery_s } s）
 
-engine-nmea-synth-log-every-tracked-satellite-shows-db = ；追跡中のすべての衛星は継続する間 { $c } dB-Hz を示します
-
 engine-nmea-synth-log-jamming-received-n0-falls-by = ジャミング：受信 C/N0 が最大 { $cn0_drop_db } dB 低下します（衛星ごとのばらつき { $spread_db } dB）。衛星は脱落し、使用可能な衛星が四機を下回ると測位解が失われます
 
 engine-nmea-synth-log-towards-deg-true = 真方位 { $b } deg の方向へ
 
 engine-nmea-synth-log-towards-deg-true-deg-relative = 真方位 { $t } deg の方向へ（開始時の針路に対して相対 { $r } deg、その後は保持）
-
-engine-nmea-synth-log-position-drag-off-the-reported = 位置の引き離し：受信機が有効な測位解を保ったまま、報告位置が { $dir }に { $final_offset_m } m 離れていきます（偽の航跡のピークは { $pv } m/s と { $pa } m/s^2）{ $cf }
-
-engine-nmea-synth-log-time-spoof-reported-utc-moves = 時刻スプーフィング：報告される UTC が真値から { $offset_s } s ずれます。位置は真値のままです{ $cf }
-
-engine-nmea-synth-log-replay-delay-meaconing-style-position = リプレイ遅延（ミーコニング方式）：位置{ $v1 }は真値より { $delay_s } s 遅れます{ $cf }
 
 engine-nmea-synth-log-natural-degradation-the-sky-closes = 自然な劣化：明示されたスカイラインの背後で空が遮られます（{ $e }）。背後の衛星は SNR なしでリストに残り使用されず、その他の C/N0 は変わらず、偽装されたものはありません
 
@@ -5687,11 +5671,11 @@ engine-receiver-trust-scenario-trusted-throughout-no-monitor-alarmed = 全期間
 
 engine-receiver-trust-scenario-first-alarm-at-untrusted-for = 最初のアラームは { $t } s。較正後の { $after_cal } エポックのうち、信頼不可 { $untrusted_epochs }、劣化 { $degraded_epochs }
 
-engine-receiver-trust-scenario-of-stated-events-detected-within = ；申告されたイベント { $events_evaluable } 件中 { $events_detected } 件を { $detect_tol_s } s 以内に検出
+engine-receiver-trust-scenario-of-stated-events-detected-within = 申告されたイベント { $events_evaluable } 件中 { $events_detected } 件を { $detect_tol_s } s 以内に検出
 
-engine-receiver-trust-scenario-of-n0-predictions-within-db = ；C/N0 予測 { $predictions_evaluable } 件中 { $predictions_agreeing } 件が { $cn0_tol_db } dB 以内
+engine-receiver-trust-scenario-of-n0-predictions-within-db = C/N0 予測 { $predictions_evaluable } 件中 { $predictions_agreeing } 件が { $cn0_tol_db } dB 以内
 
-engine-receiver-trust-scenario-trust-score-lowest-final = ；信頼スコア：最低 { $min }、最終 { $last }
+engine-receiver-trust-scenario-trust-score-lowest-final = 信頼スコア：最低 { $min }、最終 { $last }
 
 engine-receiver-trust-scenario-scenario-receiver-trust-log-epochs = シナリオ { $r } | receiver-trust | { $format_name } ログ、{ $epochs } エポック、{ $duration_s } s | モニター { $monitors_run } | { $verdict }
 
@@ -5755,7 +5739,7 @@ engine-e-scenario-time-step-must-not-exceed = time.step_s（{ $step_s }）は ti
 
 engine-e-scenario-time-grid-too-large-steps = 時間グリッドが大きすぎます：{ $n } ステップは MAX_TIME_STEPS（{ $MAX_TIME_STEPS }）を超えています。ステップを粗くするか、継続時間を短くしてください
 
-engine-sdr-sampling-rate-is-commensurate-with = サンプリングレートが符号レートと整数比の関係にあります（{ $samples_per_chip } samples/chip、整数からのずれ { $offset_from_integer_samples } samples）：ゼロ次ホールドの符号レプリカは { $dead_band_chips } chips 未満の符号位相の変化を分解できないため、Early/Late 弁別器は三角形ではなく 一サンプルの不感帯を持つ階段状になり、DLL は誤ったラグに収束します。サンプルレートを整数倍からずらす（5 MHz は 4.8876 samples/chip、25 MHz は 24.4379）か、不感帯が必要な符号位相精度を下回るまで十分にオーバーサンプリングしてください。
+engine-sdr-sampling-rate-is-commensurate-with = サンプリングレートが符号レートと整数比の関係にあります（{ $samples_per_chip } samples/chip、整数からのずれ { $offset_from_integer_samples } samples）：ゼロ次ホールドの符号レプリカは { $dead_band_chips } chips 未満の符号位相の変化を分解できないため、Early/Late 弁別器は三角形ではなく 一サンプルの不感帯を持つ階段状になり、DLL は誤ったラグに収束します。サンプルレートを整数倍からずらす（5 MHz は { $lit_4_8876 } samples/chip、25 MHz は { $lit_24_4379 }）か、不感帯が必要な符号位相精度を下回るまで十分にオーバーサンプリングしてください。
 
 engine-e-sgp4-sgp4-error-code = SGP4 エラーコード { $code }
 
@@ -6491,7 +6475,7 @@ engine-e-telecom-timing-the-series-must-be-uniformly = 系列は等間隔でサ�
 
 engine-e-telecom-timing-csv-line-is-not-time = CSV の行 { $v1 } は `time_s,time_error_ns` ではありません
 
-engine-telecom-timing-the-mask-is-defined-through = このマスクは 0.1 Hz のローパスフィルターを通して定義されており、本エンジンがこれを適用するのはサンプル間隔が { $MAX_FILTER_DT_S } s 以下の場合のみです。この記録のサンプル間隔は { $dt_s } s です
+engine-telecom-timing-the-mask-is-defined-through = このマスクは { $lit_0_1 } Hz のローパスフィルターを通して定義されており、本エンジンがこれを適用するのはサンプル間隔が { $MAX_FILTER_DT_S } s 以下の場合のみです。この記録のサンプル間隔は { $dt_s } s です
 
 engine-e-telecom-timing-give-either-holdover-or-series = [holdover] か [series] のいずれか一方を指定してください（両方は不可）
 
@@ -6499,11 +6483,7 @@ engine-e-telecom-timing-give-either-series-samples-or = series.samples か serie
 
 engine-e-telecom-timing-locked-duration-days-must-be = locked_duration_days は有限かつ 0 以上でなければなりません
 
-engine-telecom-timing-ns-budget-exceeded-after = ；{ $max_abs_te_ns } ns の予算を { $t } s 後に超過
-
-engine-telecom-timing-ns-budget-never-exceeded = ；{ $max_abs_te_ns } ns の予算は超過しません
-
-engine-telecom-timing-telecom-timing-max-te-ns = telecom-timing：max|TE| { $max_abs } ns（{ $v2 } s 間）；{ $masks }{ $first_budget }（MODELLED）
+engine-telecom-timing-telecom-timing-max-te-ns = telecom-timing：max|TE| { $max_abs } ns（{ $v2 } s 間）；{ $masks }（MODELLED）
 
 engine-e-telemetry-cli-unknown-format-cef-or-leef = 未知の --format `{ $f }`（cef または leef）
 
@@ -6649,7 +6629,7 @@ engine-e-tracking-loop-tracking-loop-must-be-finite = tracking-loop：{ $name } 
 
 engine-e-tracking-loop-tracking-loop-must-be-positive = tracking-loop：{ $name } は正でなければなりません（実際の値 { $v }）
 
-engine-e-tracking-loop-tracking-loop-correlator-spacing-chips = tracking-loop：correlator_spacing_chips は 1.9 chips 未満でなければなりません（実際の値 { $correlator_spacing_chips }）
+engine-e-tracking-loop-tracking-loop-correlator-spacing-chips = tracking-loop：correlator_spacing_chips は { $lit_1_9 } chips 未満でなければなりません（実際の値 { $correlator_spacing_chips }）
 
 engine-e-tracking-loop-tracking-loop-pullin-bandwidth-ratio = tracking-loop：pullin_bandwidth_ratio は 1 以上でなければなりません（実際の値 { $pullin_bandwidth_ratio }）— 追尾時より狭い帯域幅で再引き込みを行うループは、ヒステリシスを逆転させてしまいます
 
@@ -7009,8 +6989,6 @@ engine-campaign-chart-alarm-flags-and-events = アラームフラグとイベン
 
 engine-campaign-chart-mission-time = ミッション時間 { $duration } s
 
-engine-campaign-chart-sweep-percentile-band = 、{ $n_runs } 個のシードにおける中央値と 5〜95 パーセンタイル帯
-
 engine-campaign-chart-sweep-line-at = { $name }（{ $unit }）、{ $lead } において
 
 engine-campaign-chart-monte-carlo-of = `{ $scenario_kind }` のモンテカルロ：{ $base_seed } から { $n_runs } 個のシード（5、50、95 パーセンタイル。バー = 平均のブートストラップ 95% 信頼区間）
@@ -7121,9 +7099,9 @@ engine-frame-eop-chart-growth = ~{ $factor }x、1 d→{ $far_days } d
 
 engine-fusion-hybrid-ukf-chart-title = 17 状態ハイブリッド UKF — フィルターの自己整合性（モデル化）
 
-engine-fusion-hybrid-ukf-chart-subtitle = NEES + イノベーションの白色性と 95% χ² 帯。1.0 = 整合。自己整合性であり、精度ではありません。
+engine-fusion-hybrid-ukf-chart-subtitle = NEES + イノベーションの白色性と 95% χ² 帯。{ $lit_1_0 } = 整合。自己整合性であり、精度ではありません。
 
-engine-fusion-hybrid-ukf-chart-target = 目標 1.0
+engine-fusion-hybrid-ukf-chart-target = 目標 { $lit_1_0 }
 
 engine-fusion-hybrid-ukf-chart-nis-whiteness = NIS（白色性）
 
@@ -7171,8 +7149,6 @@ engine-gnss-sim-chart-protection-level-m = 保護レベル（m）
 
 ## src/holdover_test.rs
 
-engine-holdover-test-not-recovered-within-record = ；記録内では復帰しませんでした
-
 engine-holdover-test-chart-title = ホールドオーバー試験：ステップごとの時刻誤差
 
 engine-holdover-test-chart-y-title = |時刻誤差|（ns）
@@ -7187,11 +7163,11 @@ engine-holdover-test-chart-time-axis = 記録の時間軸上の時間（{ $min }
 
 ## src/hybrid.rs
 
-engine-hybrid-chart-title = GNSS 途絶中のハイブリッド PNT の仕様利用率（1.0 = 仕様）
+engine-hybrid-chart-title = GNSS 途絶中のハイブリッド PNT の仕様利用率（{ $lit_1_0 } = 仕様）
 
 engine-hybrid-chart-y-title = 仕様利用率
 
-engine-hybrid-chart-spec-line = 仕様（1.0）
+engine-hybrid-chart-spec-line = 仕様（{ $lit_1_0 }）
 
 engine-hybrid-chart-classical-suite = 従来方式スイート
 
@@ -7323,7 +7299,7 @@ engine-leo-pnt-chain-chart-not-available = 該当なし
 
 engine-leo-signal-chart-title = LEO-PNT の信号設計
 
-engine-leo-signal-chart-psd-axis = 送信帯域幅の ±0.6 倍にわたるオフセット、各ピークから 0 〜 −50 dB 下
+engine-leo-signal-chart-psd-axis = 送信帯域幅の ±{ $lit_0_6 } 倍にわたるオフセット、各ピークから 0 〜 −50 dB 下
 
 engine-leo-signal-chart-jitter-caption = コードジッター（m、対数目盛）と総 C/N0（dB-Hz）
 
@@ -7383,3 +7359,415 @@ engine-legal-bench-notice = 助言のみ：明示された参照に対してモ�
 
 # legal: native review
 engine-legal-osnma-advisory = 助言のみ：これは解析・監視の出力であり、型式承認を受けた航法装置ではありません。ここに示す認証状態は航法のインテグリティサービスではなく、航法または安全に関するいかなる判断の唯一の根拠としても使用してはなりません。
+
+## added in the 0.40 delta
+
+engine-campaign-sweep-of-over-nodes-each-percentile-band = `{ $scenario_kind }` のスイープ、{ $axis_order } にわたる（{ $nodes } ノード、{ $n_runs } 個のシードにわたる中央値と 5〜95 パーセンタイル帯、各線はそれぞれ独自の範囲）
+
+engine-holdover-test-holdover-not-recovered-within-record = holdover-test: ホールドオーバー { $hold } s、max|TE| { $max_abs } ns；{ $masks }；記録内で回復せず（MODELLED、マスクに対して測定）
+
+engine-holdover-test-holdover-recovered-after-gnss-returned = holdover-test: ホールドオーバー { $hold } s、max|TE| { $max_abs } ns；{ $masks }；GNSS の復帰後 { $t } s で回復（MODELLED、マスクに対して測定）
+
+engine-iq-cli-scene-written-by-kshana-iq-scene-integer-scale = kshana iq scene による書き込み：SIMULATED シーンであり、記録ではありません；整数スケール：1 LSB = { $sc } 雑音正規化単位（成分あたりの期待 RMS は { $v1 } LSB）、クリップされた要素 { $clipped } 個
+
+engine-iq-cli-scene-written-by-kshana-iq-scene-2-integer-scale = kshana iq scene による書き込み；整数スケール：1 LSB = { $sc } 雑音正規化単位（成分あたりの期待 RMS は { $v1 } LSB）、クリップされた要素 { $clipped } 個
+
+engine-iq-cli-scene-wrote-samples-hz-to-truth-integer-scale = { $samples } サンプル（{ $format }、{ $fs_hz } Hz）を { $data_path } に、真値レコード { $truth_records } 件を { $truth_path } に書き込みました；{ $meta_note }；チャネル：{ $chan_desc }；整数スケール：1 LSB = { $sc } 雑音正規化単位（成分あたりの期待 RMS は { $v1 } LSB）、クリップされた要素 { $clipped } 個
+
+engine-lunar-chart-title = 月南極の HPL（可用性 { $availability }%、AL { $al } m、σ_URE { $sigma } m）
+
+engine-lunar-beacon-chart-title = 地表ビーコンによる補強 — 構成別の PDOP
+
+engine-lunar-beacon-chart-no-solution = 解なし
+
+engine-lunar-beacon-chart-footnote = 小さいほど良い；ビーコンあたり sigma_URE { $sigma } m、マスク { $mask } deg
+
+engine-lunar-combination-chart-title = 月の統合 OD + クロック — 局の 3 次元位置誤差（VLBI が可観測性を回復）
+
+engine-lunar-combination-chart-subtitle = 衛星 { $n_sat } 機、地球局 { $n_earth } 局 · 改善係数 { $factor }×
+
+engine-lunar-combination-chart-with-vlbi = VLBI あり：{ $m } m
+
+engine-lunar-combination-chart-range-only = 測距のみ：{ $m } m
+
+engine-lunar-combination-chart-axis-note = log10 局誤差（m）；収束 あり/なし = { $with }/{ $without }
+
+engine-lunar-dpnt-chart-title = 月の差動 PNT — 衛星 { $n_sats } 機：補正後誤差とベースラインの関係（{ $km } km で { $factor } 倍の低減）
+
+engine-lunar-dpnt-chart-subtitle = 補正なし { $uncorrected } m | 補正後 { $corrected } m | HPL { $hpl } m（σ_resid { $sigma } m） | { $label }
+
+engine-lunar-dpnt-chart-uncorrected-standalone = 補正なし（単独）
+
+engine-lunar-dpnt-chart-baseline-km = ベースライン（km）
+
+engine-lunar-dpnt-chart-err-m = 誤差（m）
+
+engine-lunar-frame-realise-chart-title = 月の座標系の実現 — 7 パラメーターのヘルマート変換の復元
+
+engine-lunar-frame-realise-chart-subtitle = { $n_points } 点 · RMS 残差 { $rms } m · 収束 { $converged }
+
+engine-lunar-frame-realise-chart-scale = スケール（ppb）
+
+engine-lunar-frame-realise-chart-row = { $label }：注入 { $inj } { $unit } · 復元 { $rec } { $unit } · 誤差 { $err }
+
+engine-lunar-interop-chart-title = 月の相互運用性エクスポート — CCSDS OEM + KIF（LunaNet/IOAG 準拠）
+
+engine-lunar-interop-chart-header = REF_FRAME = { $frame } | TIME_SYSTEM = { $time_system } | { $n_states } 状態 | OEM { $oem_lines } 行
+
+engine-lunar-interop-chart-artifacts = 成果物：{ $list }
+
+engine-lunar-interop-chart-conformance = フィールド適合：{ $verdict }（存在 { $present }、欠落 { $missing }、データ行 { $data_lines }）
+
+engine-lunar-interop-chart-roundtrip = OEM ラウンドトリップ：{ $oem } | 時刻メタデータのラウンドトリップ：{ $time_metadata } | KIF { $kif_bytes } バイト
+
+engine-lunar-interop-chart-footnote = CCSDS OEM および公表されている LunaNet/IOAG のフィールド意味論に対するラウンドトリップ / フィールド適合。{ $label } — 認証済みの相互運用性適合性試験ではなく、いかなる機関による承認もありません。
+
+engine-lunar-jamming-chart-title = 衛星ごとの J/S と仰角の関係（月面ユーザー）
+
+engine-lunar-jamming-chart-x-title = 衛星の仰角（deg）
+
+engine-lunar-jamming-chart-n-links = リンク { $n_links } 本
+
+engine-lunar-service-chart-title = 月のサービスボリューム — 衛星 { $n_sats } 機、{ $n_points } 点 × エポック { $n_epochs }：カバレッジ { $coverage }%（PDOP&lt;{ $threshold }）
+
+engine-lunar-service-chart-subtitle = 衛星 { $min_sats }–{ $max_sats } 機 | HPL { $hpl_min }–{ $hpl_max } m | VPL { $vpl_min }–{ $vpl_max } m | PL 可用性 { $pl_avail }%（AL { $al } m、σ_URE { $sigma } m）
+
+engine-lunar-service-chart-pdop-min = PDOP 最小 { $v }
+
+engine-lunar-service-chart-pdop-mean = PDOP 平均 { $v }
+
+engine-lunar-service-chart-pdop-max = PDOP 最大 { $v }
+
+engine-lunar-station-chart-title = 月の基準局：南極域における p{ $percentile } の補正後 3 次元誤差（MODELLED）
+
+engine-lunar-station-chart-threshold = p{ $percentile } でのしきい値 { $thr } m
+
+engine-lunar-station-chart-availability = 可用性 { $v } %
+
+engine-lunar-station-chart-coverage = カバレッジ { $v } %
+
+engine-lunar-station-chart-corrected-3d = 補正後 3 次元 { $f }
+
+engine-lunar-station-chart-uncorrected-3d = 補正なし 3 次元 { $f }
+
+engine-lunar-station-chart-legend-half = しきい値の半分以下
+
+engine-lunar-station-chart-legend-within = しきい値以下
+
+engine-lunar-station-chart-legend-twice = しきい値の二倍以下
+
+engine-lunar-station-chart-legend-above = しきい値の二倍超
+
+engine-lunar-station-chart-station-note = ◆ 局 · 破線：カバレッジが 95 % で保たれる距離
+
+engine-lunar-station-chart-disclaimer = 記載した前提のもとでの MODELLED であり、実在のいかなるシステムについての記述でもありません。いかなる機関とも提携しておらず、いかなる機関からも承認されていません。
+
+engine-lunar-time-chart-title = 月座標時 LTC−TT（レート { $rate } µs/day、範囲 { $low }–{ $high }）
+
+engine-lunar-time-chart-offset = { $days } d で { $offset } µs
+
+engine-lunar-time-budget-scenario-lunar-time-budget-clock-term-time-lab = lunar-time-budget | クロック { $clock } | { $taus } 個の τ 点（{ $taus2 }–{ $taus3 } s）にわたる 7 項 x_Σ(τ) | 交差 τ { $crossover_tau_s } s（x { $crossover_x_s } s） | 座標系の下限 { $frame_term_s } s | クロック x(1 d) { $x_1day_ns } ns（MODELLED） | 時刻ラボ：{ $lab } { $lab2 } から LTC、x(1 d) { $lab3 } ns（MODELLED）
+
+engine-lunar-vlbi-chart-title = 月の VLBI 遅延（ベースライン { $baseline } km、ビーコン距離 { $range } km、近傍場 { $near_field } µs）
+
+engine-lunar-vlbi-chart-footnote = エポックでの遅延 { $delay } µs · { $hours } h にわたる { $samples } サンプル
+
+engine-mars-pnt-chart-formal-3sigma = 形式的 3σ（共分散であり、認証済みの PL ではありません）
+
+engine-nmea-synth-log-position-drag-off-counterfeit-cn0 = 位置のドラッグオフ：受信機が有効な測位解を保ったまま、報告位置が { $dir } へ { $final_offset_m } m ずれていきます（偽の軌跡のピークは { $pv } m/s と { $pa } m/s^2）；追尾中のすべての衛星が、継続中は { $c } dB-Hz を示します
+
+engine-nmea-synth-log-position-drag-off-genuine-cn0 = 位置のドラッグオフ：受信機が有効な測位解を保ったまま、報告位置が { $dir } へ { $final_offset_m } m ずれていきます（偽の軌跡のピークは { $pv } m/s と { $pa } m/s^2）；本物の C/N0 パターンは維持されます
+
+engine-nmea-synth-log-time-spoof-counterfeit-cn0 = 時刻スプーフィング：報告される UTC が真値から { $offset_s } s ずれます；位置は真値のままです；追尾中のすべての衛星が、継続中は { $c } dB-Hz を示します
+
+engine-nmea-synth-log-time-spoof-genuine-cn0 = 時刻スプーフィング：報告される UTC が真値から { $offset_s } s ずれます；位置は真値のままです；本物の C/N0 パターンは維持されます
+
+engine-nmea-synth-log-replay-delay-counterfeit-cn0 = 再送遅延（ミーコニング方式）：位置{ $v1 }は真値より { $delay_s } s 遅れます；追尾中のすべての衛星が、継続中は { $c } dB-Hz を示します
+
+engine-nmea-synth-log-replay-delay-genuine-cn0 = 再送遅延（ミーコニング方式）：位置{ $v1 }は真値より { $delay_s } s 遅れます；本物の C/N0 パターンは維持されます
+
+engine-pvt-chart-3d-error-m = 3 次元誤差（m）
+
+engine-pvt-chart-postfit-rms-m = フィット後 RMS（m）
+
+engine-quantum-faults-chart-title = quantum-anomaly-detect の AUC（MODELLED）
+
+engine-quantum-faults-chart-quantum = 量子
+
+engine-quantum-faults-chart-classical = 古典
+
+engine-quantum-nav-od-chart-title = quantum-gnss-free-nav（MODELLED）
+
+engine-raim-stanford-chart-title = スタンフォード図 — インテグリティ（エポック { $n_epochs }、AL = { $al } m）
+
+engine-raim-chart-title = RAIM の保護レベルと可用性（可用性 { $availability }%）
+
+engine-receiver-trust-chart-track-caption = 受信機が報告した軌跡、上が北
+
+engine-receiver-trust-chart-start = 開始
+
+engine-receiver-trust-chart-end-of-log = ログの終わり
+
+engine-receiver-trust-chart-no-positions = ログに位置がありません
+
+engine-receiver-trust-chart-score-axis = 信頼スコア、0 〜 100
+
+engine-receiver-trust-chart-legend-vessel = 信頼：緑は正常（スコアが { $nominal } 以上）、琥珀色は劣化（{ $degraded } 以上）、赤は信頼不可、灰色は較正中
+
+engine-receiver-trust-chart-legend = 信頼：緑は正常、琥珀色は劣化、赤は信頼不可、灰色は較正中
+
+engine-receiver-trust-chart-advisory = 助言用ソフトウェアであり、型式承認を受けた航法装置ではありません。運用者が引き続き責任を負います。
+
+engine-receiver-trust-chart-cn0-axis = 平均 C/N0、dB-Hz
+
+engine-report-chart-title = クロックのホールドオーバー：GNSS 途絶中のタイミング誤差
+
+engine-slot-timing-chart-aria = 最後の測位からの経過時間に対する予測時刻誤差とスロットガード
+
+engine-slot-timing-chart-time-since-fix = 測位からの経過時間、0 〜 { $t }
+
+engine-slot-timing-chart-predicted-error = 予測時刻誤差（ns）；破線：ガード { $guard } ns
+
+engine-slot-timing-never = なし
+
+engine-solar-system-chart-title = 太陽系 — J2000 黄道座標、真上から見た図
+
+engine-solar-system-chart-inner = 内側の太陽系（火星まで）
+
+engine-solar-system-chart-whole = 太陽系全体（冥王星まで）
+
+engine-solar-system-chart-legend = 緑：JPL Horizons と照合して VALIDATED · 琥珀色：MODELLED · 衛星は result.json に、母天体中心の軌跡とともに記載されています
+
+engine-spectrum-chart-title = L バンドのスペクトル・ウォーターフォール
+
+engine-spectrum-chart-multi-title = マルチバンドのスペクトル・ウォーターフォール
+
+engine-spectrum-chart-frequency-mhz = 周波数（MHz）
+
+engine-spectrum-chart-cn0-caption = C/N0（dB-Hz）：公称（灰色）/ 最小
+
+engine-spectrum-chart-threshold = しきい値 { $thr }
+
+engine-spoof-chart-title = 時刻スプーフィングの検出：オフセットとクロック支援による検出限界
+
+engine-spoof-chart-offset-ns = スプーフィングのオフセット（ns）
+
+engine-spoof-chart-spoof-offset = スプーフィングのオフセット
+
+engine-spoof-chart-quantum-bound = 量子検出限界
+
+engine-spoof-chart-classical-bound = 古典検出限界
+
+engine-sweep-chart-title = { $metric } と { $parameter } の関係（{ $scale } スケール）
+
+engine-sweep-nd-chart-title = `{ $kind }` の { $n_dims } 次元スイープ — { $n_nodes } ノード
+
+engine-sweep-nd-chart-axes = 軸：{ $axes }（形状 { $shape }）
+
+engine-sweep-nd-chart-metrics = 指標：{ $metrics } — 全グリッドは JSON に記載
+
+engine-sweep-nd-chart-line-title = `{ $kind }` の { $key } にわたるスイープ
+
+engine-sweep-nd-chart-y-title = 指標
+
+engine-telecom-timing-max-te-ns-budget-never-exceeded = telecom-timing：max|TE| { $max_abs } ns（{ $v2 } s 間）；{ $masks }；{ $max_abs_te_ns } ns のバジェットは超過しませんでした（MODELLED）
+
+engine-telecom-timing-max-te-ns-budget-exceeded-after = telecom-timing：max|TE| { $max_abs } ns（{ $v2 } s 間）；{ $masks }；{ $max_abs_te_ns } ns のバジェットは { $t } s 後に超過しました（MODELLED）
+
+engine-telecom-timing-chart-title = テレコムタイミング：時刻誤差、MTIE、TDEV
+
+engine-telecom-timing-chart-y-title = |時刻誤差|（ns）
+
+engine-telecom-timing-chart-te-caption = バジェットに対する時刻誤差の絶対値
+
+engine-telecom-timing-chart-holdover = ホールドオーバー
+
+engine-telecom-timing-chart-time-record = 時間（{ $h } h の記録）
+
+engine-telecom-timing-chart-mtie-caption = MTIE（実線）、TDEV（破線）、最初の MTIE マスク（灰色）、ns
+
+engine-timetransfer-chart-title = 時刻伝送の同期誤差（光 対 RF）
+
+engine-timetransfer-chart-y-title = 同期誤差（ps）
+
+engine-timetransfer-chart-spec = 仕様 { $mm } mm = { $ps } ps
+
+engine-timetransfer-chart-x-title = 測定時刻（s）
+
+engine-timetransfer-chart-optical = 光：{ $id }
+
+engine-timetransfer-chain-chart-title = quantum-time-transfer（MODELLED）
+
+engine-kind-clock-description = 仕様に対するクロックのホールドオーバー；任意でモンテカルロのアンサンブル（runs > 1）。
+
+engine-kind-inertial-description = GNSS 途絶中の 1 自由度の慣性推測航法。
+
+engine-kind-orbit-description = 衛星コンステレーション（Walker / TLE / RINEX）からの GNSS の可用性 + DOP。
+
+engine-kind-ephemeris-description = エフェメリスと地上軌跡：一機の衛星を伝搬し（TLE→SGP4 または解析的な軌道）、その TEME/GCRS 状態（位置 + 速度）、ITRF/ECEF 位置、WGS-84 の衛星直下点の緯度・経度・高度、およびステップごとの局の方位角・仰角・距離 + 距離変化率（ドップラー）を出力します。衛星は `tle` から、または `epoch` を持つ解析的な `orbit` から与えます（両方が指定された場合は `tle` が優先されます）。`tle` を使う場合、`epoch` は TLE 自身の元期を t = 0 として上書きします。
+
+engine-kind-integrity-description = スナップショット / 解分離 / ARAIM の RAIM と、HPL/VPL およびスタンフォード図。
+
+engine-kind-lunar-integrity-description = 代表的な LunaNet 中継衛星群に対する月南極の ARAIM 保護レベル計算。sigma_ure_m は信号空間の測距精度を公開します（保護レベルはそれに比例して変化するため、これをスイープすれば、警報限界にどの測距精度が必要かが分かります）。既定値は従来の LNIS クラスの南極ケースです。
+
+engine-kind-lunar-time-offset-description = モデル化した相対論的な地球・月のクロックレート（月座標時、LTC/TCL）：自己ポテンシャル差と月の運動項から得られる LTC−TT の永年レートを、公表されている 56–59 µs/day の範囲とともに報告し、あわせて一定期間にわたる累積オフセットを示します。
+
+engine-kind-lunar-vlbi-description = モデル化した月測地 VLBI の遅延観測量：地球上の基線（二つの地上局、GCRS）が、NovaMoon クラスの月面ビーコンからの片方向信号を観測します。パスにわたって、近傍場の二距離差遅延、その変化率、および波面曲率による近傍場補正を出力し、遠方場の極限では同一コードベースの平面波 Δ-DOR 観測量と照合し、偏微分は有限差分で検証しています。既定の解析パスは MODELLED であり、座標系の整合性、xp=yp=0 の極運動、平面波と近傍場の違いという留意事項を伴います。planetary_kernel_path、earth_orientation_kernel_path、moon_orientation_kernel_path を設定すると、代わりにカーネルパスが実行されます（DE440、MOON_PA_DE440、ITRF93；収束させた太陽系重心の光行時間；エポックでのビーコンと局の偏微分を追加）。そのニュートン力学的な遅延と偏微分は、NAIF SPICE の収束させた光行時間と { $lit_0_06 } ps および 7.4e-9 で一致します。実際の VLBI データでは検証していません。
+
+engine-kind-lunar-joint-od-clock-description = SIMULATED ネットワーク上での、モデル化した月の多手法統合 OD + クロックのバッチ推定器：地球基線の測地 VLBI 遅延、月面ローカルの局↔衛星間距離、衛星間距離を融合するガウス・ニュートン法のスナップショットフィットにより、注入した真値から、月面局の 3 次元位置、小規模コンステレーションの位置、各アセットのクロックオフセットをまとめて復元します。主な率直な結果（月面ローカルの測距だけでは観測の弱い方向が残るところを、VLBI が局の 3 次元位置全体を可観測にすること）は、VLBI あり・なしでの局誤差の対比として報告されます。MODELLED のシミュレートした閉ループ復元（真値は観測モデルを共有）、決定論的（シード指定）、実データでは検証していません；ソルバー内に力モデルの伝搬はなく；TRL・実績・機関による承認はありません。
+
+engine-kind-lunar-frame-realisation-description = モデル化した月の座標系の実現：7 パラメーターのヘルマート（相似）データム・フィット — 並進 3、微小角回転 3、スケール 1 — により、推定した月面経緯度由来の MCMF 点座標の集合を、重み付き最小二乗法（crate::batch_ls::gauss_newton）でデータムに結び付け、さらに、実現された微小回転を IAU 2015 WGCCRE の天体姿勢に対する ICRF 軸まわりの回転として表す簡易な姿勢タイを加えます。このシナリオは、既知の微小な変換（並進は数十 m 程度、回転は µrad 程度、スケールは 1e-7 程度）を、よく分散させた合成の点ネットワークに注入し、シード付きのガウス雑音を加えてデータムを復元し、復元した変換、注入した真値に対するパラメーターごとの復元誤差、およびフィット後の RMS 残差を報告します。MODELLED の自己整合性 — 注入した相似変換を復元します（雑音なしならほぼ機械精度）が、実際の追跡・VLBI データに対する実現ではありません；決定論的（シード指定）；TRL・実績・機関による承認はありません。
+
+engine-kind-moonlight-service-volume-description = 例示的で公開情報に基づく Moonlight/LCNS クラスの月周回コンステレーション（ESA とは無関係）に基づく、モデル化した月航法のサービスボリューム解析：時間範囲にわたって月面経緯度グリッドをスイープし、DOP / カバレッジ / 可用性（4 機以上 かつ PDOP < しきい値）と、ボリューム全体にわたる一般化した月 ARAIM の保護レベル（HPL/VPL）包絡を報告します。DOP の幾何は gnss_lib_py で VALIDATED なカーネル（crate::orbit::dop）を再利用し、保護レベルは LunaNet LNIS の月 ARAIM の仕組み（crate::lunar、σ_URE≈30 m）を再利用して、既存の南極 PL を特殊な場合として含みます。MODELLED の構成：円・楕円ケプラー軌道の中継衛星群（実際の差動補正された LCNS/NRHO のエフェメリスではありません）、平均自転の月（秤動や歳差する極はなし）。決定論的（純粋な幾何）。TRL・実績・機関による承認はありません。
+
+engine-kind-lunar-differential-pnt-description = モデル化した月の差動 PNT（月の DGNSS/SBAS に相当するもの）：既知の月面経緯度にある NovaMoon クラスの基準局が、例示的で公開情報に基づく Moonlight/LCNS クラスのコンステレーションから衛星ごとの差動補正値を計算し（NovaMoon はシステムの CLASS としてのみ言及しており、ESA とは無関係）、baseline_km だけ離れたユーザーがそれを適用することで、共通モードの軌道 + クロック誤差が相殺されます。クロック項は正確に相殺され（代数的な恒等式）、軌道項に残るのは視線方向の差の射影だけで、これはベースラインが 0 に近づくと 0 に近づき（空間的デコリレーションの下限）、ベースラインにほぼ比例して増大します。補正あり・なしでのユーザーの 3 次元位置誤差、低減係数、誤差とベースラインの関係の曲線、および差動残差 σ を用いて DO-229E の SBAS の仕組み（crate::sbas）を再利用したユーザー保護レベルを報告します。MODELLED — 正確な相殺の恒等式 + 一次のデコリレーションモデル；実データでは検証していません；TRL・実績・機関による承認はありません。シード指定の場合は決定論的です。
+
+engine-kind-lunar-station-coverage-description = モデル化した月の基準局のカバレッジ：月南極域のユーザーグリッドと 一日分のエポックにわたる、月の差動 PNT モデルのモンテカルロ・スイープ。既知の南極域の地点にある差動基準局が、指定した信号空間誤差、測量誤差、補正の遅延、リンクの量子化を持つ、指定のコンステレーション（例示的なケプラー軌道または表形式のエフェメリス）を補正します。地点ごと、および領域全体について、補正後と補正なしの位置誤差（3 次元、水平、垂直）のパーセンタイル、可用性、指定したしきい値に対するカバレッジ、DO-229E の保護レベル、方位角ごとのカバレッジ半径、および基準局と最悪地点での補正リンクバジェットを報告します。実在のいかなるシステムの性能についての記述でもなく、いかなる機関とも提携しておらず、いかなる機関からも承認されていません。MODELLED。
+
+engine-kind-lunar-interop-export-description = モデル化した月の相互運用性エクスポート：月の座標系、月の時間スケール、月のエフェメリスを、ラウンドトリップ / フィールド適合性付きで、LunaNet/IOAG 準拠の CCSDS ベースの交換形式で出力します。月の文脈用にタグを付け直した、クレートの CCSDS OEM 2.0 エミッター + パーサー（crate::oem）を再利用します — OEM の REF_FRAME には IAU 2015 WGCCRE の月天体座標系（MOON_ME / MOON_PA）、TIME_SYSTEM には月の時間スケール（LTC / TCL / UTC）、CENTER_NAME = MOON を入れ、例示的な LCNS クラスのエフェメリス（位置は crate::lunar_service から、速度は有限差分による）のサンプルを対象とします。あわせて、serde_json でラウンドトリップする LunaNet/IOAG 準拠の月時刻記述子（スケール ID、crate::lunar_time による永年レート µs/day、公表されている範囲、基準面）を出力し、これらの成果物を、MODELLED の正直さを示すラベル付きで、既存の KIF エンベロープ（crate::interchange）に包みます。出力した成果物、OEM の行数、フィールド適合性の合否と存在する・欠落しているフィールドの一覧、OEM のラウンドトリップの成否、時刻メタデータのラウンドトリップの成否、KIF のバイトサイズを報告します。MODELLED — 決定論的なラウンドトリップと、公表されている CCSDS OEM + LunaNet/IOAG のフィールド意味論に対するフィールド名の適合性がオラクルです；認証済みの相互運用性適合性試験ではありません；例示的で公開情報に基づくエフェメリスであり、ESA とは無関係です；TRL・実績・機関による承認はありません。
+
+engine-kind-timetransfer-description = 光と RF の双方向の時刻・周波数比較。
+
+engine-kind-quantum-anomaly-detect-description = MODELLED の量子 PNT システム向け故障・異常検出：ラベル付きの故障カタログ（クロックの周波数ジャンプ / ドリフト / ロック喪失；センサーのバイアスステップ / ドロップアウト）、検出統計量の ROC AUC（外部で検証済みの eval_stats によるブートストラップ信頼区間付き）、および固定の誤警報率での最小検出可能故障を扱い、量子クロック支援モニター（低雑音）がより小さな故障を検出する様子を、正直な TradeEvidence と代表性として示します。ガウス検出統計量モデル（AUC = Phi(mu/(sigma*sqrt2))）；このクラスをモデル化し、パラメーターは例示的で公開情報に基づきます。TRL・飛行実績・認証はありません。
+
+engine-kind-quantum-gnss-free-nav-description = MODELLED の GNSS 非依存の量子航法：GNSS 途絶中の、量子（冷却原子干渉計）慣性のバジェットと古典的な航法級 INS との比較 — 惰行中の位置誤差の増大、位置しきい値までのホールドオーバー、そして量子と古典のトレードを、正直な TradeEvidence と代表性として示します。観測可能性に関する正直な注記：外部の測位解がなければ加速度計バイアスは観測できないため誤差は増大し、量子センサーはその増大を遅らせるものの、その差を解消するわけではありません。例示的で公開情報に基づくデバイスパラメーター；このクラスをモデル化し、TRL・飛行実績・認証はありません。
+
+engine-kind-quantum-time-transfer-description = MODELLED の信頼できる量子タイミングチェーン：エンドツーエンドの量子（光格子時計 + もつれ / 単一光子リンク）と古典（CSAC + RF 双方向）の時刻伝送バジェット、再利用したタイミング保護レベル + 遅延・リプレイ攻撃に対するセキュリティ FoM（1-P_md）、クロック異常の検出確率 + CUSUM 遅延、そして量子と古典のトレードを、代表性と飛行までのギャップの記録を添えた正直な TradeEvidence として示します。例示的で公開情報に基づくデバイス・リンクパラメーター；このクラスをモデル化し、TRL・飛行実績・認証は主張していません。
+
+engine-kind-hybrid-description = ハイブリッド PNT の総合例：クロック + IMU + 時刻伝送による補助。
+
+engine-kind-fusion-description = 同じハイブリッド入力に対する、カルマンフィルターによる統合センサーフュージョン PNT。
+
+engine-kind-hybrid-ukf-description = 17 状態のハイブリッド量子 + 古典の密結合 GNSS/INS UKF（MODELLED）：15 個の INS 誤差状態 + CAI 由来の加速度計バイアス補正 + q パラメータークロックエンジン由来の 2 状態（位相 + 周波数）クロックを、括弧付きの CAI 誤差モデルで駆動します。性能指標はフィルターの自己整合性（NEES + イノベーションの白色性と χ² の限界の比較）であり — これは自己整合性についての記述であって、実世界での精度の保証ではありません。シミュレーションのみ；TRL>3、飛行実績、外部検証はありません。
+
+engine-kind-gnss-ins-description = 疎結合および密結合の GNSS/INS 誤差状態 EKF。
+
+engine-kind-gnss-sim-description = 測定領域の疑似距離シミュレーション（Klobuchar 電離圏、Saastamoinen/Niell 対流圏）+ RAIM。
+
+engine-kind-jamming-description = リンクバジェットによるジャミング：J/S → 実効 C/N₀ → ロック喪失。
+
+engine-kind-spoof-description = 確率的な時刻スプーフィング検出器（Neyman–Pearson / χ²₁）、モンテカルロによる P_fa/P_md 付き。
+
+engine-kind-spoof-detect-description = パラメーター化した攻撃（電力優位、搬送波位相の整列、時刻・位置の押し出し；TEXBAT 方式）に対する、RF・測定値を組み合わせたスプーフィング検出器（複数 SV の RAIM 整合性 + AGC + SQM を融合）。
+
+engine-kind-sweep-description = クロックパックのパラメーターに対する 1 次元のトレードスタディ・スイープ。
+
+engine-kind-sweep-nd-description = ドット区切りの TOML キー / JSON の指標パスによる、任意のパックに対する汎用の N 次元スイープ。
+
+engine-kind-gravity-map-description = GPS 利用不能下の重力マップマッチング航法：冷却原子重力計が、飛行中に通過する重力異常の系列から、一定の INS ドリフトを復元します。
+
+engine-kind-terrain-nav-description = GPS 利用不能下の地形参照航法（TERCOM/SITAN）：レーダー / 気圧高度計が、地表標高プロファイルを SRTM 形式の DEM と照合して INS ドリフトを復元します。
+
+engine-kind-terrain-slam-description = GPS 利用不能下の逐次（再帰的）地形参照航法：パーティクルフィルターがエポックごとに地形照合の測定モデルを実行し（実行中のフィルターとしての SITAN）、時間変化する INS ドリフトを軌跡に沿って追跡します。一括処理の terrain-nav が復元できるのは、単一の一定オフセットだけです。
+
+engine-kind-combined-altpnt-description = GPS 利用不能下の重力 + 磁気 + 地形の統合ナビゲーター：ウェイポイントごとに三つのスカラー場チャネルを融合し、どの単一の場よりも鮮明な（CRLB の低い）ドリフト推定を得ます。
+
+engine-kind-pvt-description = 実観測による単独測位：RINEX 3 観測ファイルと放送航法ファイル（符号疑似距離、放送エフェメリス、Klobuchar 電離圏、Saastamoinen/Niell 対流圏）から受信機の位置を解き、必要に応じて測量済みの座標と照合して検証します。
+
+engine-kind-mars-pnt-description = 深宇宙の火星 PNT：シミュレートした MARCONI 中継コンステレーション（静止軌道型 + 傾斜軌道の中継衛星が、片方向の放送 + 深宇宙局への双方向の中継を行う）が、片方向・双方向の統合ラジオメトリック融合推定器を通じて、基準ユーザー（transfer | lmo | surface）を航法します。エポックごとの幾何・可視性、真値に対する達成 RMS、形式的共分散（1σ / 3σ の位置）を報告します — 正直なシミュレーション上の FoM であり、認証済みの保護レベルではありません。
+
+engine-kind-impairment-eval-description = AI/ML による RF 障害検出の評価テストベッド（13494）：ラベル付きでパラメーターに裏付けられた SYNTHETIC コーパス（nominal/jamming/spoof-time/spoof-position/multipath）を生成し、検出器非依存のハーネスで検出器（energy|agc|sqm|parity|fused）を評価し、AUC/ROC/混同行列と、目標 Pfa でのクラスごとの Pd、さらに分布内と分布外の楽観ギャップを報告します。MODELLED の動作特性のみ — 実フィールド / IQ ではなく、良い・悪いの判定もありません。
+
+engine-kind-quantum-trade-description = 量子と古典の PNT トレード（13503）：候補クロック（測定した ADEV 曲線 — 擁護可能性の要点 — または量子クロッククラス）の、古典的なベースラインクラスに対するタイミング・ホールドオーバーと慣性ホールドオーバーの利点を、成果物に添えた長 tau の下限の仮定に関する留意事項とともに示し、あわせて GNSS 利用不能下のレジリエンス対時間の包絡を示します。MODELLED；パートナーのデバイスを定量化するだけで（検証は決して行わず）。候補クロックは、測定曲線（`candidate_adev_taus` + `candidate_adev_values`、同じ長さで、少なくとも 2 点；両方の形式が指定された場合はこちらが優先されます）または `candidate_clock_class` です。
+
+engine-kind-space-weather-description = 宇宙天気の環境モデル：太陽（F10.7/F10.7a）と地磁気（Kp、定義上の Kp↔ap 表付き）の活動指数、それらが駆動する Jacchia-1971 の外圏温度（公表されている太陽活動極小・平均・極大の値と照合して検証済み）、そして外圏温度の日平均での Jacchia-1971 の熱圏中性大気密度を、一組の高度での活動に依存しない静的プロファイルと比較します — これは、静的大気が省略している太陽周期による密度依存性です。MODELLED：この密度は、太陽活動極大期には加速度計由来の密度（TOLEOS の CHAMP と GRACE）と係数 2 以内で一致しますが、2008 年の太陽活動極小期には約 { $lit_1_7 } 倍高すぎます。
+
+engine-kind-oem-interop-description = CCSDS OEM の相互運用ブリッジ：外部のフライトダイナミクスツール（GMAT/Orekit/STK はいずれも OEM を出力します）が生成した軌道エフェメリスメッセージを取り込み、そのセグメント / 天体 / 座標系 / エポック範囲と速度の整合性チェックを報告します；入力がない場合は、生成した基準軌道をラウンドトリップし、取り込みと出力の忠実度を報告します。MODELLED の構造的・物理的な取り込みチェックであり、元データの軌道精度の検証ではありません。
+
+engine-kind-launch-window-description = 二体問題の打ち上げと上昇の幾何：打ち上げ方位角（sin Az = cos i / cos lat）、到達可能な最小軌道傾斜角、円軌道速度、地球自転による東向きの利得、目標軌道傾斜角が射場の緯度より小さい場合の dogleg 面変更 Δv、および 毎日の打ち上げ機会の数。MODELLED の球形地球の幾何（自転地球の速度三角形の補正なし、上昇・抗力損失モデルなし）。
+
+engine-kind-reentry-description = Allen-Eggers の弾道再突入回廊：指数大気を通る突入速度 / 飛行経路角 / 弾道係数に対する、ピーク減速度（弾道係数に依存しない、V_e^2 sin|γ|/(2eH)）、ピーク g での速度と高度、ピーク加熱速度、さらに、同じ弾道突入を重力、地球の曲率、US Standard Atmosphere 1976 を含めて平面質点で積分した結果（ピークでの減速度、速度、高度、時刻）。MODELLED の弾道（揚力なし）突入；加熱の出力はピーク加熱の速度であり、熱流束ではありません（空力加熱・TPS モデルなし）。
+
+engine-kind-eo-coverage-description = 地球観測ペイロードのフットプリントとカバレッジの幾何（SMAD の宇宙三角形）：軌道高度、軌道傾斜角（既定は太陽同期）、センサーの FOV/IFOV に対する、地球角半径、観測幅、天底の地上サンプル間隔、最大オフナディアアクセス、円軌道の周期、J2 の交点周期、および連続カバレッジのフラグ付きの赤道上の地上軌跡間隔。MODELLED の球形地球の幾何（ラジオメトリ / MTF / 大気 / ジッター / グリントなし）；ノード間隔は R_e·(ω − Ω̇)·T_nodal、一次の J2 永年変化率を用います。
+
+engine-kind-space-packet-description = CCSDS 133.0-B スペースパケットプロトコルのフレーミング：合成の TM/TC パケット列（6 オクテットの一次ヘッダー + データフィールド）を符号化し、パケットごとのヘッダー復号、総オクテット数、および正確な符号化↔復号のラウンドトリップを報告します。決定論的で正確なビット配置のフレーミング — 機関のパケット形式の相互運用層；適合性認証ではありません（フラグ以外の二次ヘッダー / CRC / セグメンテーションのロジックはありません）。
+
+engine-kind-attitude-budget-description = 3 自由度の姿勢・ポインティング誤差バジェット：最悪ケースの重力傾斜外乱トルク（(3/2)(μ/R³)ΔI）と、名前の付いた 1σ の寄与要因（センサー雑音、リアクションホイールのジッター、熱、アライメント）についての二乗和平方根のポインティング誤差バジェットを、支配的な項とともに、軌道高度 + 機体の慣性のばらつきに対して示します。MODELLED のスカラー AOCS バジェット — ハードウェア前の Basilisk/42 の補完であり、制御ループ / 6 自由度 / 柔軟モードのシミュレーションではありません。
+
+engine-kind-passes-description = 地上局パス予測：観測窓の始点での SGP4 平均要素による円軌道について、仰角マスクより上にある局の、時間領域の可視パス（AOS/TCA/LOS、最大見かけ仰角、継続時間）を、総アクセス時間とともに示します。IAU 2006/2000A 地球固定座標系（オプションの UT1 - UTC と極運動）上の SGP4/SDP4 伝搬、ITU-R P.834-9 の対流圏屈折、およびダウンリンクの光行時間（どちらも既定でオン）を用い、交差は 1e-7 s まで解き、最大仰角は黄金分割探索で求めます。パスの幾何は海面高度の局で Orekit 13.1.8 と照合して VALIDATED であり、シナリオの軌道と局は例示的な入力です。
+
+engine-kind-link-budget-description = CCSDS 401 / DSN 810-005 のリンク方程式による片方向リンクバジェット：送信 EIRP、受信 G/T、距離、データレート、帯域（s|x|ka）に対する、自由空間伝搬損失、C/N₀、Eb/N₀、マージン、および必要な Eb/N₀ に対する成立性。与えられた入力からの決定論的な工学計算です（較正された端末のデータシートではありません）。
+
+engine-kind-lunar-time-budget-description = MODELLED のエンドツーエンドの協定月時（LTC）時刻誤差バジェット：七つの LTC 誤差項を、平均化時間グリッド全体にわたる時刻誤差曲線 x_i(τ) としてまとめ、二乗和平方根で x_Σ(τ) に合成し、増大するクロック項が一定のリアルタイム座標系実現項を上回る、クロックと座標系の交差 τ（それ以下ではバジェットは座標系が支配的、それ以上ではクロックが支配的）を求めます — 単一 τ の成果物に対する正直な答えです。τ の傾きは閉形式で解析的に確認できます（クロック τ^{ "{" }+1/2{ "}" }/τ^{ "{" }+1{ "}" }、下限 τ^0、測定 τ^{ "{" }-1/2{ "}" }）。クロックの行は公表されている一日のクロック仕様（crate::clock_specs）を再現します；RF / 光リンク、座標系実現、相対論的残差、エフェメリスの下限の大きさは、Modelled のバジェット配分（文書化された既定値で、呼び出し側が上書き可能）であり、測定値ではありません。成果物は再現可能な交差 τ であり、認証済みの項ごとの数値ではありません；運用上のタイムキーピングについては認証済みではありません。
+
+engine-kind-hybrid-optical-rf-description = MODELLED の異種の光 + RF PNT の統合性能指標（P5）：1550 nm の双方向光リンクバジェット（光子制限の双方向測距 CRLB σ_τ/√N と回折フットプリント λ/D·距離）、疎な RF 解と密な光解を異なる共分散で融合する、モダリティ横断の解分離 RAIM 保護レベル（位置と時刻の両方）、N 局の光学晴天可用性（独立の和集合 1−Π(1−a_i) と空間相関のある変種）、PROVEN なビット連続（ジャンプなし）の平均と NEES χ² 整合性ゲートを備えた光↔RF の状態・共分散の引き継ぎ、そして相関の扱いを含む P(利用可能 かつ 高精度級 かつ インテグリティ確保) の統合スコアを構成します。VALIDATED の閉形式：測距 CRLB、回折フットプリント、χ² 保護レベルの分位点、和集合の組合せ論、引き継ぎの平均連続性 + NEES ゲート、および統合の独立積。MODELLED：光学損失の配分、RF・光の σ の大きさ、雲気候学の入力、相関、および P_HMI バジェット。認証済みの可用性・インテグリティ製品ではありません。
+
+engine-kind-cislunar-observability-description = MODELLED の平面シスルナー・コンステレーションの可観測性（P6）：衛星間測距を用いた、微分補正された平面 DRO の四機コンステレーションを追跡し、そのアークが宇宙機の四状態 [x,y,ẋ,ẏ] のどれだけを可観測にするかを報告します。出力は次のとおりです。(1) 単一の距離のみのリンクについてのランクとアーク長の表 — 瞬時にはランク 1 で、アークが伸びるにつれて四状態全体に向けて増大します（P6 表 1）；(2) アークにわたる可観測性グラミアンの固有スペクトル + 条件数；(3) 距離のみと距離 + 距離変化率の瞬時ランクの比較（ドップラー設計のレバー）、および距離のみでは特異となり距離 + 変化率では定義される GDOP の報告；(4) 独立した SRIF によるクロスバリデーション。その事後共分散は、可観測ランクが四に達するまさにそのアークで有限かつ良条件になります。VALIDATED の中核：可観測ランクはランクを明らかにする特異値しきい値であり、グラミアンの固有ランクと照合されます；固有スペクトルはスペクトル不変量（trace=Σλ、det=Πλ、Frobenius²=Σλ²）に従います；変分 STM は有限差分で検証済みの CR3BP STM です；距離・距離変化率のヤコビアン行は、有限差分で検証済みの解析的偏微分です（クレートの 3 次元距離変化率観測量と照合済み）；四つの初期条件は、厳密な周期性残差に収束し逆行する、微分補正された平面 DRO です；ランクの遷移は、クレートの平方根情報フィルターとクロスバリデーションされます（事後共分散は完全ランクでまさに有限、cond(P)=cond(OᵀO)）；ランク不足のスナップショットは GDOP 未定義（fim condition=inf）とされ、でたらめな有限値は決して返しません — これは pvt::solve_spp が適用するのと同じ特異な幾何のガードです。MODELLED：コンステレーション設計（DRO の近月点の振幅と位相）と、それが生み出す具体的なランクの推移。認証済みの航法性能製品ではありません。
+
+engine-kind-conflict-resilience-description = MODELLED の多層 PNT の紛争下レジリエンス（P7）：係争環境のユーザーが複数の PNT 層（オープンサービス GNSS、広帯域 GNSS、認証付きコンステレーション、補強中継）を運用し、それぞれが基本可用性、1σ の精度、そして共有のジャミング・スプーフィング脅威に対する攻撃ベクトルごとの拒否脆弱性を持ちます。強度をスイープしたシード付きのモンテカルロは、各層を確率 clamp(vulnerability·intensity·vector_weight,0,1) で拒否し、生き残った層を閉形式の逆分散則 σ_fused=(Σ 1/σ_i²)^(−1/2) で融合し、全損失確率（全層が拒否される確率）、融合誤差の中央値、および強度に対する層ごとの使用可能・拒否の統計を報告します。主要なレジリエンス比（単一層と多層の全損失確率）は、独立性の仮定のもとで約 7 倍に達します；続く一因子ガウス・コピュラによる相関拒否のスイープでは、拒否の相関が高まるにつれてその約 7 倍が 1 に向けて崩れる様子が示されます（相関は多層化の効果を打ち消します）。事前分布感度のブロックは、主要値を、出典のある脆弱性の事前分布にわたって、mcda トルネード + ディリクレ脅威労力の再配分 + パーセンタイル信頼区間で変化させます。VALIDATED の中核：モンテカルロの全損失は、閉形式の独立積 Π_i p_deny_i に収束します（固定シードかつ十分大きな N で、モンテカルロの標準誤差の範囲内）；逆分散の融合は閉形式の恒等式です；ρ=0 ではコピュラは独立モデルに帰着し、すべての ρ で各層の周辺拒否率が保たれます。MODELLED：層ごとの脆弱性・可用性・精度の大きさは、出典はあるが Modelled の入力であり（JammerTest 2024、TEXBAT、EASA SIB、RTCA DO-229、LunaNet/IOAG — conflict_threat_params を参照）、具体的な約 7 倍という大きさと、比と相関の曲線形状は、そのパラメーター設定から導かれます。続く §4.2 の攻撃ベクトル別生存の内訳は、共有の RF 脅威を、名前の付いた四つのベクトル（ジャミング / スプーフィング / 運動エネルギー / サイバー）に分解し、各ベクトルについて使用可能な PNT の段階的劣化曲線 S_v(x)=1-Prod_i(1-a_i(1-clamp(susceptibility_i,v·x,0,1))) を報告します — VALIDATED：シード付きの層ごとのモンテカルロは、この閉形式に収束します；相関のある RF ベースラインではジャミングが最も厳しいベクトルであり、RF の影響を受けない慣性層が決定的な生き残りです。認証済みの航法可用性製品ではありません。
+
+engine-kind-lunar-attack-surface-description = 月面航法の信号セキュリティ攻撃面（P1）：公開されている信号セキュリティ解析を、バイナリから到達可能な一つの実行にまとめます。次を報告します。(1) AFS の受信電力と、地上の GPS 基準に対するその電力の余裕、およびリンク入力（基準レベル x EIRP x 斜距離）にわたる本格的な多軸スイープとしての 12-18 dB の感度帯、ならびに 25 倍に丸めた / 28 倍に丸めない線形係数の整合。改訂（規則 R4）：これまでは、GPS 基準が -125 / -{ $lit_128_5 }（これらは dBm の値です）から -155 / -{ $lit_158_5 } dBW（ジャミングモジュールが従来から保持している ICD-GPS-200 の値）に訂正されるまで、{ $lit_15_6 } dB の電力不足と 32 倍 / 36 倍の係数が報告されていました。符号は反転します：モデル化した月の AFS 信号は、地上の GPS L1 C/A より { $lit_14_4 } dB 強く、弱くはありません。受信電力そのものは 一ビットも動いておらず、線形係数は旧値をちょうど 1000 で割ったものであり、これは dBm から dBW へのちょうど 30 dB のオフセットです；(2) 各離隔距離でスプーフィング（J/S = 3 dB）と拒否（J/S = 30 dB）に必要な攻撃者の送信電力（J/S リンクの逆）；(3) 実際の一様開口アンテナパターン（Airy [2 J1(x)/x]^2）のもとでの軌道上のキャプチャフットプリント、すなわちリムがキャプチャされない、高度に制限された半球未満のキャップ；(4) 主張された 3 dB しきい値ではなく、計算した追尾ループのスプーフィング・キャプチャのプルイン結果（符号が一致するスプーファーが、ある電力優位と符号オフセットで、実際に DLL/PLL を引きずるかどうか）；(5) 持ち上げた地表送信機の、大気のない天体における幾何的な水平線到達範囲；(6) OSNMA/TESLA 認証バジェット（20 bit/s のオーバーヘッド = 50 bit/s の AFS 航法メッセージの約 40 %、鍵開示の遅延、2^-40 の偽造）。空の本文では P1 のベースラインを再現します；すべての入力に既定値があり、上書きできます。VALIDATED の下位結果は、そのもとのモジュールのオラクルを備えます（閉形式の dB ラジオメトリ；逆 J/S の往復；Airy パターンと A&S ベッセル関数および球冠の幾何；DLL/PLL のプルインと Kaplan & Hegarty；球面接線の水平線の恒等式と eo_payload）；OSNMA SIS-ICD のフィールドサイズ）。MODELLED：代表的な幾何・電力の大きさと、具体的なキャプチャマップのセルの値。認証済みのセキュリティ製品ではありません。
+
+engine-kind-realtime-frame-eop-description = リアルタイムの月座標系 / 地球姿勢予測バジェット：P4 表 1（座標系誤差の整合性チェック — 後処理の約 { $lit_0_27 } m ↔ 約 { $lit_0_010 } ms とリアルタイムの約 15 m ↔ 約 { $lit_0_5 } ms、各座標系位置は L19 のレバーアーム Δr = D_EM·ω⊕·ΔUT1 による等価な UT1 誤差として表現）と表 2（予測期間に対する UT1 予測誤差の測定値 — 実際の IERS finals2000A 系列からそのまま読み取った L18 曲線：Bulletin A − Bulletin B の最終下限と複数日の持続予測誤差で、それぞれ L19 により月座標系の位置に変換）、さらに L21 の二乗和平方根によるリアルタイム座標系誤差バジェット（EOP + エフェメリス + 実現の下限）。VALIDATED の閉形式（L19 のレバーアーム、CIO 地球回転角と照合した ω⊕）と VALIDATED の実データ（実際の finals2000A の行から得た L18 曲線）；MODELLED は、月中継の OD 共分散の大きさと座標系実現の下限（代表的な配分）、および持続予測器（IERS の運用上の Bulletin A アルゴリズムではありません）。認証済みのリアルタイム座標系製品ではありません。
+
+engine-kind-aperture-duty-cycle-description = 開口のデューティサイクル：コンタクト計画が、ステアリング可能な開口のプールに対して意味する、航法と通信の時間配分。コンタクト計画（`[[contacts]]` の aos_s/los_s の窓の一覧で、それぞれが航法または通信を要求します — `passes` 予測器が出力するのと同じ aos_s/los_s の語彙）、開口数、および調停ポリシー（既定は航法優先、または通信優先、または先着順の非プリエンプティブ）を受け取り、航法デューティ、通信デューティ、アイドルデューティ、およびセッションごとの途絶 — セッションが要求したがどの開口も提供しなかったコンタクト時間 — を報告します。窓の境界にわたる厳密な区間スイープであるため、接する窓が競合することはなく、開口秒が二重に数えられることもありません；航法、通信、アイドルの開口秒は独立に積算され、apertures*horizon_s に対して閉じます。報告には、解決されたポリシー、その完全な定義、デューティと途絶の定義が記されます。調停ポリシーなしで示されたデューティの数値は再現できないためです。MODELLED のスケジューリング演算：開口がサービスやセッションを切り替える際のスルー / 再同調 / 切り替えの時間は計上されず、データ量、バッファ状態、エネルギーバジェット、リンクの成立性は判断に入らず、コンタクトの窓は入力であり、その幾何はそれを生成したものに依存します。地上セグメントのスケジューリング製品ではありません。
+
+engine-kind-lunar-jamming-description = 月固有の RF ジャミング：例示的で公開情報に基づく Moonlight/LCNS クラスの月周回コンステレーションを対象とした、月面（または持ち上げた）ジャマーのもとでの月面経緯度ユーザーについての、衛星ごとのジャマー対信号比、実効 C/N₀、ロック喪失。既存のオープンなジャミングの物理（jamming::j_over_s_db、effective_cn0_dbhz、rx_antenna_gain_db、lock_status、q_factor）を、既存の月の空の幾何（lunar_service::LunarConstellation + topocentric、lunar::selenographic_to_mcmf）と組み合わせます；幾何もラジオメトリも再導出していません。地球の `jamming` kind とは異なり、信号側は固定の受信電力ではありません：各衛星の等方受信電力はその衛星自身のリンクバジェット EIRP − FSPL(斜距離) であるため、J/S は月の距離と仰角に応じて衛星ごとに変化します。可視な（エポック、衛星）リンクごとに一行を報告します — 方位角、仰角、斜距離、J/S の差となる二つの受信電力、J/S、公称および実効 C/N₀、ロック状態 — さらに、その表の代わりにではなく、その表とあわせて集計の性能指標と、同じ表の CSV 成果物も示します。出力されるすべての数値フィールドには、単位と出所の区分が付きます。VALIDATED の下位結果は、そのもとのモジュールのオラクルを備えます（Kaplan & Hegarty §9.4 の対ジャミング方程式と J/S リンク、tests/gnss_denied_jamming_resilience_reference.rs で外部参照；lunar_service の月の幾何）。この組み合わせ自体は、独立した二つのリンクバジェットの経路（linkbudget::received_signal_power_dbw、自由空間損失の別の式）と 1e-9 dB まで照合されています。MODELLED：例示的なコンステレーション、代表的な EIRP / ジャマー電力 / アンテナ利得 / 雑音温度、および地形による遮蔽、マルチパス、AGC の動特性、適応ヌル形成がないこと。認証済みのサービス妨害製品ではありません。ジャマーを設定すると、報告には、単一のスカラーから読み取った等高線ではなく、不確かさの帯を持つ拒否等高線も含まれます：衛星ごとの表にわたる、測定された目的信号 C/N₀ の分布全体（n、最小、p05、p25、中央値、p75、p95、最大、平均、標本標準偏差、および標本自体の非対称性）と、エンジンが認識する両方の拒否基準 — 既存の電力比基準（attack-surface と tracking-loop のとおり J/S = 30 dB）と、ロック喪失基準（実効 C/N₀ が tracking_threshold_dbhz まで低下すること、この報告自身の状態列が用いる基準）— のもとでの、それらの各順序統計量における等高線を、拒否平面の両軸（シナリオの離隔距離で必要なジャマー EIRP、シナリオの EIRP での拒否離隔距離）について示します。帯の端は contour(p05) と contour(p95) そのものであり、標本自身の分位点に適用した同じ閉形式の写像です：標本に当てはめた σ でも、中央値 ± k·stdev でもなく、stdev は連続性のために出力されるものの、何にも使われません。追跡しきい値以下にすでにある分位点には、拒否する有限の J/S がなく、そのロック喪失の列は、でたらめに丸めた半径ではなく、数えた理由とともに null になります。
+
+engine-kind-ins-trn-coast-description = INS/TRN の惰行誤差モデル：惰行時間に対する位置誤差を、仮定したドリフトレートをスイープするのではなく、IMU 係数から構築します。五つの増大要因 — 加速度計バイアス、重力を介したジャイロバイアスによる傾斜、速度ランダムウォーク、角度ランダムウォーク、走行距離に対するスケールファクター — を、指定した緯度と高度でシューラー帰還を持つ九状態のローカルレベル慣性誤差モデルに通して伝搬させ（短い惰行での先頭次数の法則 t²、t³、t^1.5、t^2.5、t¹/t² を併記します）、指定した規則（既定は二乗和平方根、または線形和、または確定的な和と確率的な二乗和平方根の組合せ；三つすべてを毎回計算するため、選択が埋もれずに見えるようになっています）で合成します。呼び出し側が与えた位置しきい値（既定は 10 m と 50 m）に達する惰行時間は、エンジンの既存の二分法で求め、それぞれに支配的な要因を示す要因別の内訳を付け、さらに各単一要因の交差は代数的にも逆算して両者が一致するようにしています。地形参照航法モードでは、定期的な位置測位で惰行を抑え、各しきい値を保てる最大の測位間隔を報告します；位置のみの測位では、測位をまたいで速度誤差と傾斜が残るため、どの測位レートでも惰行を常に抑えられるとは限らず、報告はゼロを返すのではなくその旨を示します。MODELLED：IMU クラスの係数は代表的な帯域の数値であってデータシートではなく、地形測位の残差は入力です。到達しないしきい値は、ゼロではなく状態付きの null として報告されます。認証済みの慣性航法性能製品ではありません。
+
+engine-kind-lunar-vlbi-fim-description = 月 VLBI の局座標共分散：lunar-vlbi 観測量の遅延偏微分を、明示的なスケジュール（基線 x エポック）にわたってフィッシャー情報行列に累積し、それを反転して、局座標共分散と座標ごとの局 sigma として報告します — 仮定した等方的な g = 3 の均等配分係数にスカラーの遅延精度を通すのではなく、計算されたエンジン出力です。状態は地球固定（ITRS）の局座標を持つため、ヤコビアンは慣性系の偏微分を各エポックの GCRS->ITRS 行列で回転したものです：それらの座標を可観測にするのは地球自転であり、報告は、地球固定の視線方向の掃引とビーコンの赤緯を仮定するのではなく測定します。一つの観測は、両方の局が仰角マスクより上にある一つの（基線、エポック）の組であり、1/delay_sigma_s^2 で重み付けされます。ランク、データム欠損、条件数、完全な情報スペクトル、共分散行列、局ごと・軸ごとおよび 3 次元の sigma、自由網の零空間を毎回報告します；ランク不足のときは、主要な sigma は、ほぼ特異な逆行列から読み取るのではなく、状態付きの NULL として公表されます。同じスケジュールに対する均等配分の値 c*delay_sigma_s*sqrt(g/N) は、比とともに計算値の隣に出力され、AM-HM により厳密な下限となる等方的なトレース限界 sqrt(p/trace(M)) も併記されます — したがって、この比は、この仮定が捨てた異方性です。遅延の閉包 tau_ik = tau_ij + tau_jk により、n(n-1)/2 本の基線のうち幾何的に独立なのは n-1 本だけであり、報告は両方の本数を示します。MODELLED：月中心のエフェメリス、局のクロック、対流圏、地球姿勢パラメーターは固定されており、観測は独立として扱われるため、この共分散は、縮約したパラメーター集合に対するクラメール・ラオ限界であって、予測されたセッション結果ではありません；遅延 sigma、局座標、スケジュールは入力です。幾何的な遅延ヤコビアンが省く偏微分（差分をとったシャピロ項）は有限差分で測定され、出力されます。測地製品ではありません。
+
+engine-kind-tracking-loop-description = 追尾ループのロック喪失：C/N0 -> ヒステリシス付きのロック・アンロック、ロックを失うまでの時間、そして符号と搬送波のオフセットの変化率の関数としてのスプーフィングのプルイン。エンジンの既存の拒否・キャプチャ基準は受信電力の比です（ジャマーは J/S = 30 dB で拒否し、スプーファーは 3 dB でキャプチャします）；実際のロック喪失は電力比ではなく、ループのジッターに動的ストレスを加えたものが追尾しきい値のバジェットを外れる点です。報告する内容は次のとおりです。(1) C/N0 に対する搬送波（Costas）と符号（非コヒーレント・アーリー/レイト）の 1 シグマの熱ジッター（二乗損失を含む）を、指定した規則 3*sigma_PLL + theta_e <= 45 deg（三シグマ形式にした 15 度規則）と 3*sigma_DLL + ramp lag <= d/2 chips に対して；(2) 支配的なループを明示した、脱落と再ロックの C/N0 しきい値（再ロックのしきい値は、断言するのではなく、受信機が再プルインする際のより広い帯域幅から導出され、したがってヒステリシス幅は 5*log10(ratio) と 10*log10(ratio) dB の間に収まらなければなりません）；(3) C/N0 のランプで駆動した、確認滞留付きの二しきい値ロック検出器による、宣言されたロック喪失までの時間を、物理的な位相脱出時間（周回スリップ間のビタビ平均時間で、数百桁にわたるため log10 s で表します）とは別に報告；(4) スプーフィングのプルイン限界 — 被害者のループが追従できる最大の符号スルーと搬送波ドップラーレートを、両軸にわたるマップとともに示します。これらより速くスルーするスプーファーはループをキャプチャするのではなく、追い越してしまうためです；(5) ループの動特性が意味する拒否半径を、既存の電力比の半径の代わりにではなく併記して報告し、両者の符号付きの差を独立した名前付きフィールド（denial_radius_delta_km）として定義とともに示します。出力されるすべての数値フィールドには、単位と出所の区分が付きます。VALIDATED の閉形式：搬送波と符号のジッターの式、ループフィルターの縮約 sqrt(2*B_n*T)、一次のランプ遅れは、シード付きの合成 IF で前進させたエンジン自身の sdr コリレーターと照合されており（同じ数値への別の経路）、それぞれ { $lit_0_6 } %、{ $lit_3_7 } %、{ $lit_0_17 } % 以内で一致します；周回スリップ時間の背後にある修正ベッセル関数 I0 は、標準の表の値と 1e-7 まで一致します。有効性の下限は、単に述べるだけでなく断言されています：1 ms で約 32 dB-Hz を下回ると、実際の atan 弁別器は ±pi/2 の範囲で飽和し、あらゆる線形理論より小さなジッターを測定します。MODELLED：ループ帯域幅、積分時間、コリレーター間隔、プルイン帯域幅比、確認滞留、ジャマー電力、アンテナ利得は、代表的な帯域の数値であって、データシートではありません。モデル化していないもの：発振器（アラン偏差）と振動によるジッター、フロントエンドの帯域制限、マルチパス、AGC の動特性、データビット遷移による損失、外部補助、および Costas の周回スリップの式への半周期補正。ループの動特性のもとでは、スプーフィングのキャプチャには半径がまったくありません — 拘束条件は電力ではなくオフセットの変化率です — そのため、このフィールドは、でっち上げた数値ではなく、理由付きの null になります。認証済みの受信機性能製品ではありません。
+
+engine-kind-araim-reference-check-description = 公表されている ARAIM 認証向けの参照ベクトル：エンジンの ARAIM 水平・垂直保護レベルを、WG-C ARAIM Technical Subgroup 自身の数値計算例に対して、それらの文書自身が示す許容差（TOL_PL = 5e-2 m）で実行します。二つのベクトルがフィクスチャとして保存されており、それぞれに取得 URL、取得日、元ファイルの SHA-256、ページが付いています：Reference Airborne Algorithm Description Document v3.1（2019）の付録 D — 自己整合的で、受け入れベクトル — と、Milestone 3 Report（2016）の付録 A の A.IX 節、研究文献が引用する記述です。公表されているすべての入力（10 衛星 2 コンステレーションの幾何行列、C_int と C_acc の分散対角、b_nom、P_sat、P_const、LPV-200 の定数集合）と、公表されているすべての出力（VPL、HPL、EMT、sigma_v_acc、K_fa_3、および二つのコンステレーション故障モードの sigma_3、sigma_ss_3、b_3）は、エンジン自身の数値およびそれらの絶対差とともに報告されます。保護レベルの方程式はここでは再び解かれません：参照のモードのリストは、エンジンの既存の raim::araim_protection_level / araim_integrity_risk に渡されるため、検証対象の二分法とガウス裾の代数はエンジン自身のものであり、幾何、部分解、検出しきい値、公表されているバジェットの配分だけがそのために構築されます。2019 年のベクトルに対して外部で確認済み：VPL { $lit_18_2926 } m に対し公表値 { $lit_18_3 } m、HPL { $lit_13_4063 } m に対し { $lit_13_45 } m、EMT { $lit_7_2997 } m に対し { $lit_7_2998 } m、sigma_v_acc { $lit_1_3694 } m に対し { $lit_1_3694 } m、そして公表されている六つの中間値はすべて、印字された最後の小数位の半分の単位以内で一致します。2016 年のベクトルには、報告が隠さず明記する二つの内部的な欠陥があります — G の 3 行目の符号の誤記と、文書が N_fault_max = 1（12 モード）と述べているのに 57 の故障モードで評価された K_fa_3 です — そのため、幾何の中間値は正確に再現される一方で、保護レベルは測定された不一致として報告され、受け入れの数値から除外されます；それらを吸収するために許容差が広げられることは決してありません。出力されるすべての数値フィールドには単位と出所の区分が付き、転記した数値には `published` というラベルが付くため、計算した数値と取り違えることはありません。範囲：N_fault_max = 1（単一衛星と単一コンステレーションの故障モード）のみが実装されており、同時の複数事象の故障部分集合を事前分布が必要とするケースは、黙って切り捨てられるのではなく REFUSED とされます；参照アルゴリズムの故障検出、除外、カイ二乗整合性チェック、二重計上の再配分ステップは対象外です。これは公表されている参照アルゴリズムの数値計算例を再現するものであり、認証でも、耐空性の成果物でも、承認でもありません。
+
+engine-kind-lunar-frame-campaign-description = 注入した変換ではなく、SIMULATED な観測キャンペーンによって駆動される七パラメーターのヘルマート（相似）座標系データム。地球局のネットワークが、明示的なスケジュールで月面ビーコンのカタログを観測します；月 VLBI の遅延偏微分は、lunar-vlbi-fim とまったく同じように、そのスケジュールにわたってビーコン座標のフィッシャー情報行列に累積されます；そしてその情報は、カタログ点でのヘルマート設計 A = [I3 | [p]_x | p] を通じて、データム共分散 H = A^T M_b A に伝搬され、crate::fim::crlb で診断されます。変換は注入されず、仕込まれた答えから復元されるものもないため、報告されるデータム精度は観測計画から導かれます：遅延 sigma を半分にすればちょうど半分になり、アークを長くすれば改善します。報告が測定する秤動（sub_earth_direction_sweep_deg）が、視線方向のビーコン座標を天球面内のものから分離するためです。ランク、データム欠損、条件数、完全なスペクトル、七パラメーター基底での観測不能方向、完全ランクでも最も弱い方向、およびその方向に対する各パラメーターの寄与が毎回出力されます；キャンペーンが拘束しないパラメーターは、ほぼ特異な逆行列から読み取るのではなく、状態付きの NULL として公表されます。ビーコン誤差の相関は、仮定ではなく測定されます：局を固定した場合、二つのビーコンに触れる観測はないため、情報行列はちょうどブロック対角になり（offblock_fraction 0）、局を推定した場合は、シューア補元で周辺化したブロックが結合し、その誘導された相関が印字され、それを捨てた状態で伝搬全体が再実行されるため、独立性の仮定の代償が数値になります。座標ごとの等方的な sigma のもとでの同じ伝搬と、lunar-frame-realisation シナリオが報告する復元誤差は、どちらもここで実行され、比とともにキャンペーンの値の隣に印字されます。MODELLED：ビーコンカタログは出典がありますが、キャンペーンはシミュレートされたものです — 局ネットワークと遅延 sigma は例示的な入力で、個々の遅延観測は独立として扱われ、月中心のエフェメリス、局のクロック、対流圏、地球姿勢パラメーターは固定されているため、データム共分散は、縮約したパラメーター集合に対するクラメール・ラオ限界です。測地製品ではありません。
+
+engine-kind-lunar-llr-datum-description = シミュレートしたものではなく、実際にアーカイブされた観測キャンペーンによって駆動される七パラメーターのヘルマート月座標系データム。lunar-frame-campaign は注入した変換を取り除いたものの、局ネットワーク、スケジュール、観測ごとの sigma を例示的な入力として述べていましたが、この kind は三つすべてを測定から取ります：エポックは、アーカイブされた ILRS Consolidated Laser Ranging Data のノーマルポイントの地上送信時刻であり、観測は月面の五つのレトロリフレクター・アレイに向けて実際に発射されたレーザー測距であり、すべての観測の重みは、ファイルから読み出したそのノーマルポイント自身のアーカイブされた精度 bin_rms/sqrt(n_raw) です。局座標は IERS ITRF2020 SLR 解（公表されている速度でエポックまで伝搬）から、反射器座標は IAU 2015 WGCCRE モデルが実現する平均地球・平均自転座標系での JPL DE430 表 7 から取ります。距離の偏微分は、反射器座標の結合フィッシャー情報行列に累積され、同じヘルマート設計を通じてデータム共分散に伝搬され、crate::fim::crlb で診断されます。ランク、欠損、条件数、スペクトル、七パラメーター基底での観測不能方向、完全ランクでの最も弱い方向、およびその方向に対する各パラメーターの寄与が毎回出力され、拘束されないパラメーターは状態付きの NULL として公表されます。アレイ間の相関は、仮定ではなくちょうどゼロと測定されます。レーザー測距は一つのアレイにしか触れないためです。カタログが位置を特定できない記録 — 公表された ITRF 位置のない局 — は、置換した座標を与えられることなく、スキップされて数えられます。どのリンクが測定で、どれが MODELLED かは、脚注ではなく報告そのものです：月中心のエフェメリスと IAU の天体姿勢はモデルのままで、それらを合わせた大きさは、使用したすべての点にわたる、観測値と計算値の差の片方向距離残差として出力されます；対流圏、固体潮汐、局の偏心、極運動、UT1-UTC、相対論的遅延、局のクロックは含まれず、その残差の中にあります。エフェメリス誤差は各視線方向を通じてのみ共分散に影響するため、毎回、すべての偏微分を sensitivity_tilt_deg（符号は交互）だけ傾けてデータム全体を解き直し、その比を出力します。したがって、モデル化したエフェメリスに対する共分散の鈍感さは、議論ではなく数値になります。シミュレートしたキャンペーン自身の数値は、転記されるのではなく実行され、測定値の隣に印字されます。MODELLED：七パラメーターの数値は、実際のスケジュールでの、縮約したパラメーター集合に対するクラメール・ラオ限界であり — 解いたデータムでも、LLR 解析でも、測地製品でもありません。保存された実データの一部はリポジトリに同梱されますが、公開されたクレートには同梱されません；data_dir をそのコピーに向けてください。
+
+engine-kind-lunar-beacon-description = 月軌道航法サービスの地表ビーコンによる補強を、実行可能な前後比較表として示します。南極域のユーザーには、疎な軌道上の衛星群が空の狭い領域に見えるため、測距の幾何は悪条件になります；測量済みの数基の地表ビーコンが、全天頂方向の衛星群には欠けている低仰角で広い方位角の視線行を供給し、水平精度低下率は急減します。このシナリオは、一つのエポックでの三つの構成 — 衛星のみ、衛星と可視ビーコン、そして同じ幾何への別の経路としてのより大きなコンステレーション — を報告し、それぞれに可視ソース数、完全な DOP、そしてクロック同期、マルチパス、測量の各項の二乗和平方根として組み立てたビーコンごとのユーザー等価測距誤差を掛けて得られる、メートル単位の実現 1 シグマ精度を示します。ビーコンの可視性は、大気のない月での二高度の幾何的水平線（大気がないため、限界は正確です）であり、DOP の組み立ては、tests/dop_reference.rs で gnss_lib_py と照合されたものと同じカーネルです。この kind が存在する理由：その背後のモジュールは、L08/L09 以来エンジン内にあり、独立した DOP の経路と照合されていましたが、実行から到達できませんでした — kind も、ディスパッチの分岐も、同梱ファイルもありませんでした。README はこの機能を宣伝しており、検証マトリクスにはこれに対する行がまったくなかったため、文章では主張されながら台帳では主張されず、しかもエンジンからは到達できませんでした。既定値は、すでにコミット済みの正解データを持つ幾何です（-80 deg にいる、2 m のアンテナを持つユーザー、-80/0、-79/+60、-79/-60 に 2 km の高さで置いた三つのビーコン、t=0 での六衛星の例示的な LCNS スナップショット、5 deg のマスク）。したがって、素の実行は、新しい数値をでっち上げるのではなく、オラクルがすでにカバーしている表を再現します。MODELLED：コンステレーション設計、ビーコンの配置、誤差バジェットのすべての大きさは例示的な入力であり、実際に展開された測量や測定されたリンクではありません；DOP の演算、水平線の閉形式、sigma = DOP x sigma_URE の関係だけが外部に裏付けられています。サービス性能の確約ではありません。
+
+engine-kind-earth-gnss-lunar-description = 月までの距離での地球 GNSS 受信：紛争下レジリエンスの論文が挙げており、エンジンにはモデルがなかった微弱信号の層。GNSS 衛星はアンテナを地球に向けています；月付近の受信機は軌道半径のおよそ十五倍離れているため、三つのことが同時に効いてきます。地球がボアサイトを遮蔽します：26,560 km からは地球が { $lit_13_9 } deg の半角を張るため、月に向かう光線はどれも、送信機から天底方向少なくともそれだけ離れて出なければならず、電力を計算する前にビームのピークが取り除かれます。残るのはメインローブの端とサイドローブであり、これは LuGRE ペイロードが 2025 年に実際に動作した領域です。そして自由空間損失は L1 で約 208 dB であり、地上のユーザーが払うより約 25 dB 大きくなります。報告は、衛星ごとに一行（ボアサイトからの角度、地球による掩蔽、距離、経路損失、その角度での送信利得、受信電力、搬送波対雑音密度比）を出力し、追尾しきい値を超えるリンクだけを集計します。また、この層を特徴づけるものであるため、条件も報告します：可視なすべての衛星は、月から見て数度の幅の円錐の内側にあり、視線はほぼ平行で、精度低下率は非常に大きく、月までの距離での地球 GNSS 測位は、位置級というよりはるかにタイミング級の観測です。MODELLED であり、送信パターンがその理由です：角度に対する利得は一様な円形開口（Airy）ですが、実際の GPS L1 アンテナは、整形されたメインローブと Airy 型ではないサイドローブを持つ十二素子のヘリカルアレイです。測定されたパターンは存在しますが、ここには同梱されていないため、順序と桁は意味を持ちますが、個々の衛星の dB は意味を持ちません。意図的に含めておらず、それぞれがバジェットを楽観的にするもの：地球の縁をかすめる光線に対する電離圏・対流圏損失、偏波・指向・実装損失はなく、屈折による拡張のない球形の地球を用います。月の位置は、エフェメリスの参照ではなく入力（距離と慣性系の方向）です。検証対象はリンクとビーム幾何だからです。この行を Validated に引き上げるには、測定された送信パターンと LuGRE のノーマルポイントが必要です；どちらもリポジトリになく、どちらもここででっち上げてはいません。
+
+engine-kind-lunar-infrastructure-description = 月の軌道と地表を航法・測地インフラとして扱う MODELLED の研究：`study` で選択される一つの kind の背後にある五つの研究：od-consistency（NRHO または ELFO での機上の地球 GNSS 軌道決定を、独立した地上のラジオメトリック軌道決定と比較し、シード付きモンテカルロでそれぞれの共分散により判定）、carrier-phase（地表と周回機の結合二重差搬送波位相と、LAMBDA による整数アンビギュイティの解決）、frame-coestimation（七パラメーターの月座標系データムのために、地球局の測距に地表局と周回機を加える）、space-tie（一つの宇宙機での GNSS、VLBI、レーザー測距、ローカルタイ誤差に対する座標系タイの精度）、geodesy-sensitivity（月のラブ数 h2、k2、l2 と物理秤動の、レーザー測距、周回機追跡、地表重力計、地表クロックからのフィッシャー情報）。簡略化を明示した制限三体モデル；数値計算は独立したプログラムと照合しており、月の量の測定値との比較は一切行っていません。
+
+engine-kind-cislunar-arc-recovery-description = シスルナーのアーク長可観測性しきい値についての、MODELLED の独立推定器テスト。そのしきい値は、解析的な距離ヤコビアン行と解析的な変分状態遷移行列から組み立てた可観測性行列のランクの読みであり、その平方根情報フィルターによるクロスチェックは同じ行を畳み込むものです — 二つの数値計算機構の間の整合性チェックであって、裏付けではありません。この kind は、欠けていた判定役を提供します：シミュレートした測定から、チーフの初期状態を実際に復元するバッチ最小二乗推定器であり、測定の偏微分は、合成した順方向モデルの中心有限差分で取ります。解析的なヤコビアン行も、変分 STM も、特異値分解や固有値分解も、ランクの許容差も、平方根情報フィルターも呼び出しません — tests/cislunar_arc_recovery_reference.rs のソーステキストのガードによりそれが強制されます — 一方で、力学（同じ RK4 の CR3BP フロー）、初期条件（同じ微分補正されたコンステレーション）、スカラー観測量、エポックグリッドは意図的に共有され、出力される `independence` ブロックに明記されます。一つの物理問題についての二つの解析は、比較可能であるために、物理について一致していなければならないからです。二つの基準があり、それぞれ自身の限界を五桁にわたってスイープします：ノイズなし復元（シード付きの各試行の最終状態誤差が、その事前変位の recovery_factor 倍以下 — 特異値の許容差を含まないランクの類似物）と、モンテカルロの推定可能性（シード付きのノイズアンサンブルにわたる測定 RMS 位置誤差が指定の限界を下回る — 予測ではなく測定された、推定可能性の類似物）。平面の四状態と空間の六状態、DRO / L2 ハロー / L2 NRHO のファミリー、距離と距離変化率の観測量、および、変換を状態に適用してその場で順方向モデルを再微分する月中心の極座標によるパラメーター化に対応します。公表されている平面 DRO グリッドでの測定結果：推定器は四状態を { $lit_0_782609 } h から復元し、これに対してランク基準では rel_tol 1e-6 で { $lit_2_086957 } h です（比 { $lit_0_375 }）— ランクのしきい値は、復元可能性の境界としては裏付けられていません — 一方、測定された推定可能性の境界は形式的なものと同じグリッドセル { $lit_5_739130 } h に入り、測定された誤差曲線は、21 通りのアーク長にわたって形式的な 1 シグマを、幾何平均比 { $lit_0_98 } で再現します。MODELLED：コンステレーション設計、エポックグリッド、追跡する単一のリンク、変位の大きさ、測定 sigma、および二つの指定した限界。認証済みの航法性能製品ではありません。
+
+engine-kind-telecom-timing-description = テレコムタイミング：GNSS ホールドオーバーの時刻誤差、最大時間間隔誤差（MTIE）、時間偏差（TDEV）を、マスクごとの PASS または FAIL とマージン付きで、ITU-T のマスクに照らして確認します。入力は、合成ホールドオーバー（発振器プリセット -- ocxo、rubidium、caesium、csac のそれぞれが、名前の挙がっている公開 Microchip データシートの安定度、エージング、温度の数値を持ち -- に、GNSS 喪失時刻、記録長、サンプル間隔を加えたもの；自走クロックは、白色、フリッカー、データシートへのフィットが必要な場合はランダムウォークの周波数雑音、線形エージング、正弦波の温度項を持ちます）か、インラインで与えた [time_s, time_error_ns] の組の取り込み系列（ネイティブビルドに限り CSV ファイルも可）のいずれかです。マスク：ITU-T G.8272（07/2025）の PRTC-A と PRTC-B（max|TE| 100 / 40 ns、MTIE 表 1-2、TDEV 表 3-4）；G.8272.1（2024）Amd. 1（07/2025）の ePRTC ロック（30 ns、表 1-2）と ePRTC-A ホールドオーバー（ロック時間で定まるホールドオーバー期間 H にわたって 30 ns から 100 ns に上昇する表 3 の時刻誤差包絡、MTIE 表 4、TDEV 表 5）；G.8273.2（2023）Amd. 2（11/2025）の T-BC/T-TSC クラス A-C（max|TE|、定常時刻誤差、ローパスフィルター済みの MTIE と TDEV）とクラス D（max|TE_L| 5 ns、今後の検討に残されていないクラス D の唯一の数値）；G.8271.1（2022）Amd. 3（05/2025）の基準点 C（max|TE_L| 1100 / 600 / 100 ns、MTIE 表 7-1 から 7-3）。勧告が今後の検討としているエントリーはすべて、埋められるのではなく省かれており、各報告は実装していないものを一覧にします。さらに、各最大時刻誤差バジェットを超えるまでの時間（既定：100 ns の ePRTC max|TE_HO|、400 ns のネットワーク・ホールドオーバー配分、1100 ns の基準点 C、{ $lit_1_5 } us のクラス 4）、各マスク限界付きの CSV 表としての MTIE/TDEV 曲線、数値フィールドごとの単位と出所のエントリーも報告します。VALIDATED：MTIE と TDEV の推定器は、コミット済みのホールドオーバー系列で allantools パッケージと照合されています。MODELLED：マスク表は転記であり、合成ホールドオーバーはデータシートの最大値から作ったモデルであって、いかなる個体の測定でもありません。適合性試験ではありません。
+
+engine-kind-slot-timing-description = スロットタイミング：自走クロックが、時刻で索引付けされたルーティングまたはタスキングのスロットのガード（スロットが許容する最大の絶対時刻誤差）を外れるまでの秒数、その時点での各項の寄与（支配的な項を明示：測位の不確かさ、白色位相雑音、白色・フリッカー・ランダムウォーク・ランダムランの周波数雑音、残留周波数オフセット、温度、エージング）、最後の測位からの残り時間、および測位の遅延を差し引いて、クロックをガード内に保つ最大の測位間隔。発振器は、クラスの既定値（csac、uso、dsac、tcxo、ocxo、rafs：引用された一秒のアラン偏差一つと、仮定したレッドノイズの下限）、telecom-timing のデータシートプリセット、インラインのデータシート（包絡としてフィットしたアラン偏差の最大値に、エージングと温度係数を加えたもの）、またはインラインの測定位相記録（そのオーバーラッピング・アラン偏差を、白色位相と IEEE Std 1139 の周波数変調の基底で重み付き最小二乗法によりフィットするため、レッドノイズの下限は仮定ではなく測定されます）のいずれかです。データシートまたは記録が対応する最長の平均化時間を超える逸脱は、外挿としてフラグが立てられます。任意の spoofing セクションは、軌道上の受信機のタイミング保護レベルを追加します：軌道速度と周期、単一の地上スプーファーがパスごとに衛星に到達できる時間、クロック支援モニターの下限と CUSUM の検出遅延、条件付き限界、衛星が到達範囲を離れるか独立のチェックが実行されるまでに、指定した最大ランプレートのスプーファーが蓄積する引き込み、および各地上コンタクトまたはクロスリンクのチェックがそのスプーファーから独立かどうか。VALIDATED：フィットした記録からのホールドオーバー逆算で、水素メーザーに対して測定した実際のセシウムクロックでホールドアウトしたもの（tests/slot_timing_cs5071a_holdout.rs、データによるゲート付き）；測定した水晶発振器では、ホールドアウトした予測は保守的ですが合格基準には収まらないため、水晶のケースは MODELLED です。MODELLED：クラスとデータシートの出典、決定論的な項、およびスプーフィングの評価。
+
+engine-kind-spectrum-description = L バンドのスペクトルモデルとウォーターフォール：GNSS の L バンド全体を一つのパワースペクトル密度（PSD）として、横軸を周波数、縦軸を時間とし、スクリプト化したジャマーのタイムライン上に示します。信号：GPS L1 C/A と L2C（BPSK(1)）、Galileo E1 オープンサービス（MBOC(6,1,1/11)、または BOC(1,1)）、GPS L5 と Galileo E5a（BPSK(10)）。それぞれの搬送波で、上書きしない限りインターフェース仕様の最小受信電力（IS-GPS-200、IS-GPS-705、Galileo OS SIS ICD）を持ちます；GLONASS、BeiDou、Galileo E6 はモデル化していません。ジャマー：連続波トーン、平坦な狭帯域雑音、線形のこぎり波チャープ、帯域自身の変調に整合した広帯域雑音。それぞれが、中心、帯域幅、受信電力（直接指定、またはジャミング kind の自由空間伝搬損失を通した EIRP と距離）、オン・オフ時刻を持ちます。各ジャマーは、受信機帯域幅にわたるスペクトル分離係数 kappa によって各帯域に対して評価され、(C/N0)_eff = [1/(C/N0) + sum (J/S) kappa]^-1 となります；ジャマーが一つの場合、これは Q = 1/(R_c kappa) としたジャミング kind の対ジャミング方程式に等しく、報告にはそのクロスチェック（と、その隣にジャミング kind の代表的な Q の値）が含まれます。雑音フロアは k T_sys で、T_sys = T_ant + 290 K (F - 1) です。ウォーターフォールは、各セルをそのビンと行にわたって平均します（チャープは厳密に、全スイープと端数のスイープ；行の途中で切り替わるジャマーはそのデューティによる）。そのため C/N0 のタイムラインと画像は同じ数値から得られます；result.json には、電力でブロック平均したグリッド、行ごとの帯域別 C/N0 と J/S、そしてジャマーごと・帯域ごとの SSC、Q、J/S、帯域内 J/S、定常 C/N0 が含まれます。任意の [iq]：ある一瞬のモデルを複素 IQ として描き、SigMF 記録（cf32_le または ci16_le）に書き込み、読み戻して、Welch 推定と比較します。任意の [recording]（ネイティブビルド）：実際の SigMF 記録の Welch PSD をモデルの隣に示します。VALIDATED：信号 PSD は、教科書的なメインローブ幅（BPSK(n) のヌルからヌルまで 2n x { $lit_1_023 } MHz；BOC(1,1) のローブの中心は +/-{ $lit_1_023 } MHz）と、スペクトル分離係数は、Parseval の閉形式および Kaplan & Hegarty の Q = 1（CW）と { $lit_1_5 }（整合）と照合しています。MODELLED：ジャマー電力、タイムライン、フロントエンド帯域幅、連続スペクトル（符号ラインなし）の扱い、そして AGC、ブランキング、アンテナパターンがないこと。
+
+engine-kind-solar-system-description = ある一つのエポックでの太陽系全体を、任意の天体周辺の PNT（測位・航法・時刻）のために示します。太陽、八つの惑星、冥王星、月、フォボス、ダイモス、イオ、エウロパ、ガニメデ、カリスト、タイタンについて、ICRF（国際天球基準座標系、赤道 J2000）での太陽中心の位置と速度、太陽中心距離と J2000 黄道の経度・緯度、重力パラメーター、赤道半径と平均半径、公表されている場合の J2 とその基準半径、恒星自転周期、そのエポックでの IAU の極と本初子午線、一公転にわたってサンプリングした軌道の軌跡（惑星は太陽中心、衛星は母天体中心）、そして観測者天体（既定は地球）からの光行時間、片方向と双方向の距離、太陽シャピロ遅延、太陽離角を報告します；追加の from/to リンクにも同じ処理が行われます。位置：Standish と Williams の JPL ケプラー要素（1800 AD から 2050 AD は表 1、3000 BC から 3000 AD は表 2a/2b）と各惑星の公称誤差、地球・月の分離には Montenbruck & Gill の月の級数、火星と木星のガリレオ衛星には IAU の同期自転レートを用いた JPL 平均要素、タイタンには IAU の自転モデルを用います。光行時間：ラジオメトリックな不動点の解で、送信機は遅延した位置にあります；ニュートン力学的で、シャピロ遅延は別に報告します。JPL Horizons（DE441）に対して公称誤差の二倍以内で VALIDATED：水星から土星および表 1 の地球（最悪で公称の { $lit_1_87 } 倍）と、表 2a/2b の八つの惑星すべて（最悪で { $lit_1_71 } 倍）、そして地球から火星と木星への光行時間。MODELLED、各行にラベル付き：表 1 の天王星と海王星（DE441 に対して公称誤差の { $lit_2_0 } 倍と { $lit_5_2 } 倍）、冥王星（1992 年の行；誤差の記載なし）、月と七つの衛星（Horizons に対して測定、公表された限界なし）。
+
+engine-kind-body-pnt-description = 任意の太陽系天体周辺での測位：名前で選んだ中心天体（火星、月、エウロパ、ガニメデ、タイタン、およびその他の太陽系カタログ）の周りの周回機または地表着陸機が、その天体の周りの小規模な Walker 航法コンステレーション（天体自身の J2 永年ドリフトを持つ二体軌道、未知のユーザークロック）からの片方向疑似距離と、必要に応じて地球からのクロックに依存しない深宇宙の双方向測距（その方向と距離は、各エポックで解析的な太陽系エフェメリスから得ます）で航法を行います。視線は天体の平均球で遮られ、地表のユーザーには仰角マスクも必要です。エポックごと：視界内の中継衛星、地球が縁より上にあるかどうか、コンステレーションのみの GDOP と PDOP（幾何および位置精度低下率）、地球の行がある場合とない場合の形式的な一シグマ位置不確かさ、そしてシード付きガウス・ニュートン最小二乗測位解のそれぞれの誤差；実行全体：可用性、地球の可視性、PDOP の中央値、RMS 誤差、形式的 sigma の中央値、さらにそのエポックでの地球から天体への光行時間、往復、シャピロ遅延、太陽離角。MODELLED：中継軌道、雑音レベル、瞬時の測定モデルはモデル化上の選択であり、ミッションの航法データに対して検証されたものではありません；天体定数は body.rs に引用された公表値であり、地球の幾何は太陽系エフェメリスのラベルを引き継ぎます。
+
+engine-kind-constellation-design-description = 大規模なコンステレーション設計：i: T/P/F 表記の Walker DELTA と Walker STAR パターン（ノードを 360 度または 180 度に配置、軌道面内の間隔 360*P/T、軌道面間の位相オフセット 360*F/T）、明示的な要素リスト、多層シェル設計、一回の実行内の複数のコンステレーションを、地球、月、火星、またはその他の惑星、冥王星や主要な衛星の周りで、body モジュールの定数（solar-system と body-pnt の kind が使うものと同じ）を用いて扱います。公表されている公称要素からのプリセット：gps-baseline と gps-expandable（GPS Standard Positioning Service Performance Standard 第 5 版 2020 の表 3.2-1 から 3.2-3 の 24 スロットと、前後に拡張可能な六組）、galileo（29 599.801 km、56 deg の Walker 24/3/1、Galileo Open Service Service Definition Document 第 1.1 版の表 1 と 23）、beidou と beidou-meo（21 528 km、55 deg の Walker 24/3/1 に、東経 80、{ $lit_110_5 }、140 deg の三機の静止衛星と、55 deg の三機の傾斜静止軌道衛星を加えたもの、BeiDou Open Service Performance Standard 3.0 の 4.1 節；MEO の位相と東経 118 deg の傾斜静止軌道の交差は、標準が示していないためモデル化しています）、そして glonass（19 100 km、{ $lit_64_8 } deg の 24/3/1、GLONASS Interface Control Document 第 5.1 版 5.2 節のスロット式による）。カバレッジと精度低下率：緯度・経度グリッドと仰角マスク付きのサンプリングした窓にわたって、可視衛星数、セルごとの GDOP、PDOP、HDOP、VDOP、セルごと、全球（面積加重）、最悪地点での可用性（PDOP がしきい値以下、既定は 6 の測位解）を、clock = "common" でない限りコンステレーションごとに一つの受信機クロックで示します。数千機の衛星まで拡張できます：可視性は各衛星のカバレッジ半角に対する内積であり、衛星はエポックごとに衛星直下点の緯度で帯状に分けられるため、グリッドの行は視界に入りうるものだけを検査します；報告は節約されたペア検査の数を数えます。JSON にはグリッドマップと、間引いた衛星ごとの地上軌跡が含まれます。VALIDATED：Walker 生成器は Galileo OS SDD の表 23 と GLONASS ICD のスロット式に対して、GPS プリセットは SPS PS の表 3.2-1 の公表されている赤道通過の列に対して、GPS ベースラインの全球 HDOP 分布は SPS PS の付録 B に対して（中央値 { $lit_0_94 }、95% { $lit_1_25 }、平均 { $lit_0_96 }、許容差 { $lit_0_03 }）。MODELLED：オプションの永年 J2 を持つ二体軌道、球形の天体、幾何的な可視性のみ（信号電力、健全性、地形はなし）、そして実在のいかなる日付のスナップショットでもない、異なるシステム間の相対位相。
+
+engine-kind-campaign-description = キャンペーン：既存のシナリオ kind を一回の実行に組み合わせ、すべての数値は指定した kind の実際の実行から読み取ります。四つのセクションを任意の組み合わせで使えます。PHASES：一つの共有タイムライン上の連鎖したミッション -- 各フェーズが一つ以上のシナリオを実行し（例：ジャミング、次にスプーフィング、次にクロックのホールドオーバーとその横で惰行する慣性航法システム、次にインテグリティ警報、そして回復）、それらの出力は、kind ごとのプリセットまたは明示的な結果パスにより、名前付きのチャネル（ガードに対するクロック時刻誤差、追尾下限に対する搬送波対雑音密度比、警報限界に対する保護レベル、位置誤差、追尾中の衛星、警報フラグ）に読み込まれ、ゼロ次ホールドで共通のグリッドにリサンプリングされ、フェーズの境界とイベントが付きます；状態は carry（チャネルが前のフェーズの終了値から続く）、handoff（前のフェーズの数値がこのフェーズのシナリオに書き込まれる）、end_at（スプーフィングモニターの検出時刻のように、実行が計算した時刻にフェーズが終わる）で引き継がれます。SWEEP：任意の kind の一つから三つのドット区切りのシナリオキーにわたるグリッド（整数のセグメントはテーブルの配列を指します。system.2.sisre_m のように）で、指標は結果パスで読み取り、runs が一を超える場合は、すべてのノードでシード付きのモンテカルロのアンサンブルを実行します。MONTE_CARLO：実現 k は base_seed + k で実行されます；各指標は、平均、標準偏差、最近順位法の 5/50/95 パーセンタイル、平均に対する固定シードのブートストラップ 95% 信頼区間を報告します。COMPOSE：共有の値のもとでの複数のシナリオ（一つのジャマーの電力と位置を、船舶と道路の受信機に書き込む）で、最良・最悪を合わせた要約が付きます。結果には、キャンペーンハッシュ、すべてのメンバー結果にわたるダイジェスト、出力されるすべての数値に対する単位のエントリーが含まれます；相互運用性エクスポートは、幾何を持つ各メンバーシナリオを、それぞれ独自のファイルセットとして書き出します。合成の恒等性がテストされています：単一フェーズのキャンペーンは単独の実行をビット単位で再現し、固定シードのアンサンブルはバイト単位で安定しており、白色周波数雑音クロックでは、アンサンブル平均は報告された区間の内側に入り、広がりは sqrt(q_wf * tau) と一致します。MODELLED：加算的な carry とゼロ次ホールドはモデル化上の選択であり、各フェーズにはそれを実行した kind のラベルが付きます。
+
+engine-kind-leo-signal-description = LEO-PNT の信号設計：任意のシステム、帯域、構造に対する、パラメーター化した低軌道（LEO）の測位・航法・時刻（PNT）信号。SIGNAL は、帯域（中心周波数、送信帯域幅、ITU 割り当て RNSS/RDSS/MSS/EESS/non-RNSS/other）と、成分（取得、データ、パイロット；任意の部分集合）からなり、それぞれが変調（分数 n の BPSK(n)、BOC(m,n)、MBOC(6,1,p)、または平坦な OFDM 風の帯域）、電力配分、任意の FDMA サブキャリアオフセット、符号長、データレートを持ちます。信号は、コンパイル済みの公開プリセットファイル（xona-pulsar、iridium-stl、starlink-soo、centispace、generic-c-band、generic-bands；それぞれに出典 URL が付き、公表されていないすべての値は REPRESENTATIVE とラベル付けされます）から取るか、インラインで記述します。信号ごと：帯域制限したパワースペクトル密度と、送信帯域が通す各成分の電力の割合（数値の隣に BPSK の閉形式）、RMS（Gabor）帯域幅、帯域制限したコヒーレント（または非コヒーレント）アーリー/レイトの式（Betz & Kolodziejski 2009）による、C/N0 とアーリー・レイト間隔に対する遅延ロックループの符号追尾熱雑音ジッター（無制限帯域の教科書の形と、間隔が消える極限の Gabor 限界を併記）、メートル単位の測距精度、取得の探索空間（軌道の最大ドップラーに発振器とユーザーの項を加えたドップラービン、掛ける符号ビン）、二乗則検出確率、平均的な直列と符号並列の取得時間、信号の GPS L1 C/A、Galileo E1、GPS L5、Galileo E5a、E5b、E5 AltBOC へのスペクトル分離係数と、それぞれの信号への係数（C/N0 の劣化付き）、そして追尾中の成分が耐える CW、広帯域、整合した J/S（spectrum kind 自身の SSC の仕組みによる）。BAND TRADE：一次の電離圏遅延（{ $lit_40_3 } TEC/f^2）、自由空間損失、等しい C/N0 と等しい EIRP での測距精度、ジャマー耐性。任意の SHAPE CHECKS は、設計のスペクトルを、記述された測定と突き合わせます（MODELLED の整合性）。VALIDATED：BPSK の帯域内電力（メインローブに { $lit_90_3 } %）と Gabor 帯域幅の閉形式、教科書のコヒーレント・アーリー/レイトの形とその Gabor 限界に帰着する帯域制限ジッター、オフセット BPSK のスペクトル分離係数と Parseval の閉形式、AltBOC スペクトルの単位面積、そして最大 LEO ドップラーと、公表されている Xona Pulsar（32-34 kHz）と Iridium（36 kHz）の数値。MODELLED：すべての設計、電力配分、C/N0、ジャマーレベル；EFQPSK、CSK、OFDM のスペクトルは近似です。
+
+engine-kind-leo-pass-description = LEO のパスとリンクバジェットを帯域ごとに、LEO-PNT（低軌道からの測位・航法・時刻）向けに、システムに依存せず示します：ユーザー（地上、海上、航空、屋内、静止または移動）と、DESIGNED PASS（ユーザーが選んだ時刻に選んだ最大仰角の一回のパスを見るように配置した円軌道で、要求すれば太陽同期）、明示的な ELEMENTS、エンジンの SGP4 を通した TLE（二行軌道要素）、またはコンステレーション設計コードが作る WALKER コンステレーション（最も高いパスを報告）からの一機以上の LEO 衛星。帯域は、名前付きプリセット（汎用マルチバンド UHF/L/S/C、汎用 C バンド、Xona Pulsar X1/X5、Iridium STL、ドップラーのみの機会信号としての Starlink、CentiSpace、および WORKSHOP と記されたオプションの Celeste IOD プリセット）から取るか、シナリオに書き込みます；各プリセットは、その数値が PUBLIC（URL 付き）、REPRESENTATIVE、WORKSHOP のいずれかを明示します。衛星、帯域、エポックごと：仰角、方位角、距離、距離変化率、距離加速度；自由空間伝搬損失；EIRP と衛星のパターン利得（アイソフラックス、ガウスビーム、または平坦）；仰角に対するユーザーアンテナ利得（パッチ、半球、または等方）；気体減衰（ITU-R P.676-10 Annex 2）、降雨減衰（ITU-R P.838-3 の係数と P.618-14 の手順、降雨率と降雨高から）、対流圏シンチレーション（ITU-R P.618-14 の 2.4.1 節）、屋内ユーザーの建物侵入損失（ITU-R P.2109-2）、偏波不整合、システム雑音温度、C/N0（搬送波対雑音密度）；距離変化率と距離加速度から閉形式で得るドップラーとドップラーレート（それぞれ中心差分と照合）；Klobuchar または垂直 TEC の斜め TEC から、衛星より下の電離圏の部分にスケールした、一次の電離圏遅延 { $lit_40_3 } STEC/f^2。帯域のペアには、電離圏フリー係数、雑音増幅、パスのピークでの符号雑音が与えられます。MEO GNSS 衛星（Galileo または GPS のプリセット）は、インターフェース文書の受信電力から同じアンテナと雑音モデルで評価されるため、LEO のベル型のパスと平坦な GNSS 搬送波は同じプロットを共有します。任意の [iot] セクションは、指定した受信機の電力バジェットについて、初回測位までの時間、測位あたりのエネルギー、デューティサイクルに対するバッテリー寿命を示します（MODELLED）。各帯域のペアは、そのジオメトリフリー結合が復元する、ピークでの斜め TEC と、その推定の符号雑音 sigma も示します（電離圏サウンディング）。任意の [spoofer] セクションは、onset の後に真の位置からジャンプするか押し出される、主張した位置の信号を偽造し、指定した誤警報確率と見逃し確率を持つ二つのモニターを実行します：ドップラーとパス幾何の整合性（測定した距離変化率を、軌道と独立した事前の位置・速度から予測したものと比較する、窓にわたる一般化最小二乗のカイ二乗検定、GNSS、LEO、全チャネル）と、帯域間の整合性（各 LEO 帯域ペアの、モデル補正したジオメトリフリー結合のエポック間のステップ）で、エポックごとの統計と、各モニターがいつ検出するかを報告します（MODELLED）。VALIDATED の構成要素：自由空間損失、表 5 に対する P.838-3 の係数、ITU-R Study Group 3 の検証例に対する P.618-14 の降雨・シンチレーション手順と P.2109 の建物侵入損失、IS-GPS-200 の L1/L2 群遅延比、そして arXiv 2509.19551 の表 1 に対する円軌道の静止ユーザーの最大ドップラー。MODELLED：EIRP、パターン、衛星より下の TEC のチャップマン比、そしてパス全体。
+
+engine-kind-leo-navmsg-description = LEO 航法メッセージ：低軌道（LEO）の測位・航法・時刻（PNT）衛星の放送エフェメリスとクロックを、任意の軌道、搬送波、モデルについて、任意の名前付きプリセット（Xona Pulsar、Iridium、Starlink、CentiSpace、代表的な C バンドシステム、ATOMIC ゼロクロックモデル、Celeste IOD）とともに示します。CONTENT：補助データ（SVID、データ発行番号、帯域、信号の健全性）、同期（週、週内時刻、toc を中心とする二次のクロック多項式 af0-af2）、四つのモデルのいずれかのエフェメリス -- Galileo OS SIS ICD の 16 パラメーターのケプラー要素集合；その集合に along-track、cross-track、radial の補正多項式を加えたもの；Liu et al. 2025 の 22 パラメーターモデル；クロック項のない ECEF 多項式（ATOMIC ゼロクロック）-- および他のサービス（Klobuchar の放送集合、有効電離レベル付きの NeQuick-G ai0-ai2、ICD のうるう秒ロジックを持つ system-time-to-UTC パラメーター）。FITTER：選んだ次数までの帯状 J2-J6 または EGM2008 重力と抗力で積分した真の軌道と、シード付きの自由またはステアリングされたクロック；非特異要素上でのケプラー要素集合の Levenberg-Marquardt フィットの後、線形最小二乗の補正多項式；クロックは、ユーザーが加える相対論項を差し引いてフィットされます。ANALYSES：fit-interval-trade（軌道高度に対する全球平均重みでの信号空間距離誤差 SISRE を、フィット区間と更新周期に対して、軌道のみとクロック込みで）、model-comparison（四つのモデル、パラメーター数、符号化ビット数、Liu et al. の高度での Kshana のフィットを公表されている数値の隣に）、midpass-update（ユーザー上空の最も高いパス、各メッセージ切り替えの位置、クロック、ユーザー距離のジャンプ、最悪幾何のジャンプ、連続性しきい値に対する PASS/FAIL）、encode-decode（CRC-24Q を持つ Kshana 自身の文書化されたバイナリフレーム、フィールドごとの半ステップ量子化バジェット、破損フレームのチェック、Kshana 拡張とラベル付けされた RINEX-4 風のレコードのエクスポートとインポート、CSV 表）。VALIDATED：SISRE の重みは公表されている MEO/GEO の表（Montenbruck et al. 2018）に対して；Galileo のユーザーアルゴリズムは、実際の Galileo 放送エフェメリスで RTKLIB に対して；CRC-24Q はそのカタログのチェック値と RTCM 1005 の例のフレームに対して。MODELLED：すべてのフィットと SISRE の数値は、Kshana で積分した真値に対する表現誤差です（軌道決定や予測の誤差はありません）；Liu et al. との比較は異なる軌道を使います；符号化とテキスト形式は Kshana 独自のものです。
+
+engine-kind-leo-pvt-description = 任意のコンステレーションにわたる、統合された中軌道（MEO）と低軌道（LEO）の測位・航法・時刻（PNT）：各 [[system]] は、constellation-design kind の GNSS プリセット、LEO プリセット（xona-pulsar、iridium-stl、starlink-sop、centispace、generic-c-band、atomic-zero-clock エフェメリスモデル、または別のプリセットファイル。それぞれが独自のファイルにあり、出典は PUBLIC、WORKSHOP、DERIVED と記されます）、Walker シェルまたは明示的な要素集合のいずれかで、搬送波、チップレート、仰角マスクから天頂までの搬送波対雑音密度（C/N0）の包絡、信号空間距離誤差（SISRE）、ドップラー sigma、クロックモデル（独自の受信機クロックで、システム間バイアスが推定されるか、既知の放送オフセット）を持ちます。四つのモード。DOPPLER：距離変化率からの、解析的偏微分、クロックドリフトとオプションの速度状態、オプションの高さ拘束を持つバッチ・ガウス・ニュートン測位で、単一または複数衛星、窓長に対する誤差、各 LEO システムのドップラー、ドップラーレート、ジャーク包絡、クロストラックのオフセットに対する単一パスのアロングトラックとクロストラックの精度（パスが真上に来るとクロストラック誤差は際限なく増大します；単一パスには、地上軌跡をはさんだ鏡像解も存在します）。ドップラーのみの機会信号（starlink-sop）はここで実行されます。JOINT：GNSS のみ、LEO のみ、両方によるエポックごとの重み付き最小二乗の疑似距離測位解、C/N0 での遅延ロックループ熱雑音モデルに SISRE を加えた（または固定の sigma で、信号モデルがそれらを与えられる）測定ごとの sigma、推定されたシステム間バイアス、そして追加した LEO 衛星の数に対する PDOP/HDOP/VDOP。POLAR：GNSS、LEO、両方についての、緯度に対する視界内衛星数と DOP。TIMING：既知の位置にある LEO 衛星からの協定世界時（UTC）への時刻伝送を、エンジンの発振器クラスからプロセス雑音を得る二状態クロックフィルターで、C/N0 と発振器に対して、および IS-GPS-200 の system-time-to-UTC の式；[timing] trace = true の場合、すべての行はエポックごとの時刻誤差と予測 sigma も報告します。VALIDATED：真上から地平線までのパスの最大ドップラーと、公表されている Iridium（最大 36 kHz）と Xona Pulsar X1（32 から 34 kHz）の数値。MODELLED：それ以外のすべて；DOP は手計算で導いたケースと、測位解はその共分散と、ドップラーモデルは距離加速度の恒等式と照合されます。
+
+engine-kind-leo-ppp-description = GNSS のみと LEO 補強付きの精密単独測位（PPP）の収束：静的な局座標、白色の受信機クロック、追加システムごとに一つのシステム間バイアス、1/sin(elevation) でマップしたランダムウォークの天頂湿潤遅延、衛星アークごとのフロート・アンビギュイティを持つ、電離圏フリーの符号と搬送波位相に対するフロートの拡張カルマンフィルター；精密な軌道とクロックの誤差は白色で、衛星の符号と位相に共通であるため、各衛星はジョセフ安定化形式での一つの相関のある二行の更新になります。測定は、複数の地点とシードにわたって、シード付きの雑音を加えた同じモデルからシミュレートされ、各ケース（最初は GNSS のみ、次に LEO システム（任意のコンステレーションまたはプリセット）の各 [[case]]）は、収束時間の中央値（その後は水平・垂直誤差がしきい値（既定は 10 cm）を下回り続ける最初のエポック）、収束した割合、誤差曲線の中央値、フィルターの整合性（実行平均の位置 NEES を両側 95% カイ二乗帯と比較）を報告します。任意で、公表されている Li et al.（2019、J. Geod. 93:749、doi 10.1007/s00190-018-1195-2）の中緯度の数値の隣に：マルチ GNSS の { $lit_9_6 } min が、60、96、192、288 機の LEO 衛星で { $lit_7_0 }、{ $lit_3_2 }、{ $lit_2_1 }、{ $lit_1_3 } min に短縮。MODELLED：傾向の整合性の比較であり、その研究のコンステレーション、雑音、局の再現ではありません；アンビギュイティ解決、サイクルスリップ、位相ワインドアップ、潮汐、時間相関のあるプロダクト誤差はありません。
+
+engine-kind-ntn-positioning-description = モバイル衛星サービス（MSS）S バンド（3GPP バンド n256、ダウンリンク 2170 から 2200 MHz；既定の搬送波 { $lit_2172_5 } MHz）での、5G 非地上系ネットワーク（NTN）のダウンリンクからの測位：到来時刻のクラメール・ラオ限界（CRB）c / (2 pi beta sqrt(2 (C/N0) T))（beta は平坦な OFDM スペクトルの二乗平均平方根（Gabor）帯域幅 (B/sqrt(12))）と、複素トーンのドップラーのクラメール・ラオ限界 sqrt(3 / (2 pi^2 (C/N0) T^3))、それぞれの信号について（既定は、{ $lit_4_5 } MHz を占有する 5 MHz の New Radio チャネルと、180 kHz を占有する 200 kHz の狭帯域チャネル）；続いて、任意の LEO コンステレーションにわたる、未知の受信機クロック（シード付きで、限界にネットワーク同期誤差を加えたものを sigma とする）を持つダウンリンクの到来時刻測位解、その PDOP と形式的な 3 次元 sigma、そして高さを保持した、最長のパスでの単一衛星のドップラー測位解。MODELLED：帯域幅から限界への段階は教科書の閉形式であり、平坦な BPSK スペクトルと帯域制限した BPSK スペクトルの数値積分と照合しています（内部整合性であり、公表されている具体的な数値の固定はありません）；測位精度は、指定した同期誤差を持つマルチパスのないチャネルでの限界であり、達成された結果ではありません。
+
+engine-kind-leo-pnt-chain-description = 任意のコンステレーションと信号について、一つの LEO-PNT（低軌道からの測位・航法・時刻）システムをエンドツーエンドで：signal_design で指定した leo-signal 設計（公開プリセットまたはインラインの [signal] 設計）が、[pass] 帯域の中心、帯域幅、チップレート、EIRP 配分を設定し、leo-pass のリンクバジェットが、パス上の追尾 C/N0 と帯域制限した符号ジッターを与え、sin(elevation) での C/N0 の線と、[navmsg] メッセージの放送 SISRE（パスの衛星の高度でフィット）が、[fusion] leo-pvt 結合測位解のすべての LEO システムに、そして任意で [ppp] leo-ppp のケースに入力されます；すべての受け渡しが、その値と単位とともに一覧されます。MODELLED。
+
+engine-kind-contact-schedule-description = 複数の衛星と複数の局にわたる地上コンタクトの計画：見かけのアクセス窓（SGP4、IAU 2006/2000A の地球固定座標系、ITU-R P.834 の屈折、光行時間）、各パスの DVB-S2 ACM データ量（ETSI EN 302 307-1 表 13 のしきい値）、そして、限界価値による貪欲法、先着順のベースライン、小規模な集合での厳密な分枝限定法による、競合のないスケジュール（ターンアラウンドを伴うアンテナごとに一機の衛星、衛星ごとに一つの局、各バックログで上限が付いた優先度加重の配信）を、貪欲法の最適性ギャップとともに示します。MODELLED。
+
+engine-kind-acm-link-description = 一つの局の上空の一機の衛星：パスごとの斜距離、仰角、パス上の Es/N0、各ステップで選ばれる DVB-S2 の MODCOD（ETSI EN 302 307-1 表 13 のしきい値に実装マージンを加えたもの）、そしてマスクで成立する固定符号化のベースラインに対して ACM が運ぶデータ量。MODELLED。
+
+engine-kind-aocs-description = 宇宙機の姿勢制御：MRP フィードバック（L = -K sigma - P omega）のもとで、三つ以上の釣り合ったリアクションホイールを持つ剛体ハブの慣性指向スルー、各モーターの限界でクリップした最小ノルムのホイールトルク、ゼロ次ホールド付きの RK4；任意で、シミュレートしたジャイロ（角度と角速度のランダムウォーク）とスタートラッカーからの乗法的 EKF で閉ループにします。整定時間、最終および最大の指向誤差、ホイールの最大速度とトルク、飽和した割合、角運動量のドリフト、そして推定器がある場合はその姿勢誤差と NEES を報告します。真の状態のループは Basilisk 2.9.1 に対して VALIDATED であり、推定器は MODELLED です。
+
+engine-kind-entry-heating-description = 自転する球形の地球または火星の周りでの、3 自由度の質点による大気圏突入（弾道、または一定のバンク角での揚力飛行）を、RK4 で、US76、指数大気、または火星大気を通して扱い、Sutton-Graves の淀み点対流加熱（NASA TR R-376）を含みます：ピーク減速度、熱流束と動圧、熱負荷、ダウンレンジ、回転座標系のエネルギーチェック、そしてその隣に Allen-Eggers の閉形式。ピーク減速度は、公表されている Stardust の公称値と照合されます；加熱は MODELLED です。
+
+engine-kind-eo-radiometry-description = 天底撮像のラジオメトリと画質：ランベルト面のシーンの開口面放射輝度、カメラ方程式、信号とショット/暗電流/読み出し/量子化の雑音と SNR；ナイキスト周波数でのシステム MTF（回折 x 検出器 x スミア x ジッター）、そこから得られる相対エッジ応答、Q = lambda F/p、MTF 補償なしの GIQE バージョン 4 の NIIRS。MODELLED。
+
+engine-kind-ascent-losses-description = 自転しない球形の地球上での、多段の機体の平面重力ターン上昇を、US Standard Atmosphere 1976（鉛直上昇、ピッチキック、速度方向の推力）を通して扱い、重力、抗力、操舵、背圧の損失を積分し、理想 dv から損失を引いたものを燃焼終了速度と照合します；max-Q、ピーク加速度、燃焼終了時の状態。MODELLED。
+
+engine-kind-time-transfer-budget-description = 静止中継衛星を介した二つの局の間の双方向衛星時刻・周波数比較：T_A - T_B について解いた双方向方程式に、すべての非可逆項（局の機器遅延、Ku バンド電離圏、トランスポンダー、Sagnac）を含め、タイプ A の項が平均化時間でのシミュレートしたリンクの TDEV である二乗和の不確かさバジェット、白色とフリッカーの位相雑音と日周の非可逆性を持つシミュレートしたリンク、そして与えられた BIPM Circular T Section 1 の系列、MJD,ns の CSV、または IGS RINEX の局クロック記録の安定度（レート、残差 RMS、TDEV、ADEV）。MODELLED。
+
+engine-kind-optical-atmosphere-description = 大気を通る MODELLED の光 PNT：光リンクと、雲の気候が指定された一組の地上局について、波長と仰角に依存する晴天損失（Kim の視程則に Rayleigh を加えたもの）、Hufnagel-Valley の乱流状態（Rytov 分散、シンチレーション指数、ガンマ・ガンマのパラメーター、開口平均）、リンクマージンに対する天候による可用性（対数正規の液体水の気候からの雲の光学的厚さ、幾何光学の消散、独立な乱流フェージング）、目標可用性に必要なリンクマージン、停止時間の分布、クロックのホールドオーバーモデルによる停止ごとのタイミングと測距の誤差増大、距離相関のあるサイトダイバーシティの可用性、そして強化技術（波長、受信開口、補償光学によるシンチレーション低減、追加マージン）による what-if の利得を報告します。独立した mpmath のオラクルに対する、規定の式の実装として VALIDATED：Rytov 分散、シンチレーション指数、ガンマ・ガンマのフェード確率、開口平均係数、雲と晴天の光学的厚さ。MODELLED：すべての天候、技術、クロックの入力、および独立性とコピュラの仮定；測定された可用性の記録との比較は行っていません。助言としての解析であり、認証済みの可用性・航法製品ではありません。
+
+engine-kind-holdover-test-description = オペレーターが提供する時刻誤差の記録（linuxptp の ptp4l、phc2sys、ts2phc のログ、chrony の tracking または statistics のログ、TICC、TimeLab、RINEX のクロックログ、または time_s,time_error_ns の組）から採点する、タイミングシステムの MODELLED なホールドオーバー試験。この試験には四つのステップがあり、Kshana はそのどれも実行しません：ロックした BASELINE、指定した時刻にオペレーターが GNSS を取り除く（アンテナケーブルまたはシミュレーター出力；Kshana は何も送信せず、何も駆動しません）GNSS REMOVED、システム自身の発振器での HOLDOVER、そしてオペレーターが二つ目の指定した時刻に GNSS を復旧した後の RECOVERY。記録はそれら二つの時刻で分割されます。Baseline：時刻誤差の統計と、ロックしたクロック向けに書かれた ITU-T のマスク。Holdover：統計、システムが保持した周波数偏差の割合（最小二乗直線）、ホールドオーバーまたは自律クロック向けに書かれたマスク、指定したロック時間からの ePRTC-A のホールドオーバー包絡、そして各時刻誤差バジェットを超えるまでの時間。Recovery：|TE| が指定した帯域に入り、そこにとどまったかどうかとその時期、ピーク、最大のステップ。すべての限界は公開された ITU-T の表（テレコムタイミングのマスク）から転記されています；表現は「マスクに対して測定」であり、二つの時刻はオペレーターの申告であって、検証されていません。マスクに対して短すぎる記録は INCOMPLETE であり、外挿されることはありません。docs/TIMING-HIL.md を参照してください。
+
+engine-kind-gnss-ssv-description = 宇宙サービスボリュームとその先での MODELLED の GNSS 可用性とリンク強度：球上（ICG ブックレットの全球シェル）またはケプラー軌道上（LEO から月遷移まで）のユーザーについて、コンステレーションごと（GPS、GLONASS、Galileo、BDS、QZSS、NavIC）および全体で、C/N0 しきい値を超えて利用可能な信号を数えます — 一つ以上と四つ以上の信号の可用性、最大停止時間、受信 C/N0、精度低下率、メインローブとサイドローブのリンク — ブックレット、パラメトリック、またはユーザー提供の送信パターン、オプションの縁をかすめる光線の電離圏、プラズマ圏と大気の効果、およびオプションの微弱信号受信機設計付き；さらに、HEO と月遷移の宇宙機向けの機上 GNSS 拡張カルマンフィルター（軌道力学、太陽放射圧、第三体、クロック）と、単一差分疑似距離による複数機編隊の相対航法。事前登録のもとで ICG SSV ブックレットの表と照合済み（xval/gnss-ssv）
