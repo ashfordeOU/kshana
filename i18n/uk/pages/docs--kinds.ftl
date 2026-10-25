@@ -95,3 +95,5 @@ seg-efd15cff3d32 = MODELLED (мітка результату)
 seg-651ef9489065 = MODELLED { "5" } · VALIDATED { "1" }
 
 seg-23dbca6bce68 = MODELLED { "2" } · VALIDATED { "1" }
+
+seg-d1e9715513b4 = Приклад

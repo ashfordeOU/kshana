@@ -329,3 +329,5 @@ seg-7f13ee5d254e = <s1>Далі</s1>Карта завад: джерела дан
 seg-1fc1794d9388 = Метод ADS-B (kshana-interference-map/adsb/v2)
 
 seg-a3a97ab49ed1 = Метод AIS (kshana-interference-map/ais/v2)
+
+seg-c3c260b7063e = Тести

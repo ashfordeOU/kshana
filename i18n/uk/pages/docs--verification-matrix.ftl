@@ -2359,3 +2359,5 @@ seg-68caf86157c2 = Пакет receiver-trust для ROS { "2" } і міст gnss
 seg-e7d7d99fe538 = Міст без ROS, що записує повідомлення про фікс і супутники як NMEA та оцінює їх через прив'язку Python (integrations/ros2/kshana_trust), і міст gnss_lib_py від NavData до receiver-trust через формат rtklib-pos (integrations/gnss_lib_py).
 
 seg-05ded40b17d2 = Жодного зовнішнього: вузол ROS не запускали на живому графі ROS { "2" }, а імена полів ublox_ubx_msgs не звіряли з працюючим драйвером. gnss_lib_py (MIT) запускали для тесту мосту
+
+seg-c3c260b7063e = Тести
