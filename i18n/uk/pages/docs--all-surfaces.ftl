@@ -67,3 +67,5 @@ seg-379f49bff6fb = Python
 seg-ada3fcf67363 = JavaScript і WebAssembly
 
 seg-97ea215c09db = Бібліотека Rust
+
+seg-f917e7fcac09 = Що це

@@ -251,3 +251,91 @@ seg-aa2f95806d24 = EU NIS2, стаття { "21" }
 seg-138f32dcf19f = EN { "16803" }
 
 seg-5fec3f16de7a = Посібник зі Studio
+
+seg-84f4e9e5a9a5 = Перейти до вмісту
+
+seg-724f533ab704 = Головна сторінка Kshana
+
+seg-3a9b1e33221b = Основна
+
+seg-27fce67df246 = <s1>kshana</s1> <s2>v{ $version }</s2>
+
+seg-90eeeb0abcbd = Місії
+
+seg-76a214e74ae5 = Можливості
+
+seg-6ddf1dc69523 = Докази
+
+seg-7660311d66bd = Дослідження
+
+seg-d69e23e80f28 = Розробникам
+
+seg-781a33f8799b = Документація
+
+seg-bdb4733dec65 = Видання
+
+seg-0ab06b2c95d0 = Пошук
+
+seg-b816f0777f8c = Перемкнути тему
+
+seg-436acc962a75 = Перемкнути між світлою та темною темою
+
+seg-17f8b9e13ea5 = Відкрити меню
+
+seg-7a0e37ca54da = <s1>Запустити </s1>Kshana Studio
+
+seg-e26cd70b7b56 = kshana
+
+seg-6c2ad82414f6 = Kshana · <s1>क्षण</s1> · <em>точна мить</em>
+
+seg-d25e295fab75 = Симулятор стійкості PNT (позиціонування, навігація та час) з відкритим кодом. Він не керує жодним радіообладнанням і нічого не передає: його вихідні дані на рівні сигналу — це файли відліків IQ у базовій смузі, а програмний приймач ГНСС (GNSS) є інструментом аналізу. Це не льотний виріб.
+
+seg-52524ef67781 = від Ashforde®
+
+seg-3ff5f045b0b8 = Продукт
+
+seg-6250e4ec851e = Kshana Studio
+
+seg-48c4185298a7 = Бенчмарк
+
+seg-984fd4304724 = Встановлення
+
+seg-beb0fa5d88fa = Сервер MCP
+
+seg-69c587fb2ce0 = GitHub
+
+seg-95f55687acc0 = Компанія
+
+seg-37fd98ea8b9c = Kshana Pro
+
+seg-cf742dee26e9 = contact@ashforde.org
+
+seg-9ddc420c2f24 = Kshana v{ $version } · від Ashforde® OÜ · AGPL-3.0, з можливістю комерційної ліцензії
+
+seg-87c5d84f1f40 = Кожна діаграма побудована за записаним прогоном рушія v{ $version } і вказує свій сценарій, зерно (seed) та спосіб відтворення. Зображення: NASA Visible Earth (Blue Marble, Black Marble), NASA Scientific Visualization Studio (CGI Moon Kit), NASA/JPL (Марс), мозаїки місій NASA, JPL і USGS (супутники та Плутон); карти Сонця, Меркурія, Венери, Юпітера, Сатурна, Урана та Нептуна: Solar System Scope, Creative Commons Attribution (CC BY) { "4.0" }; карта Деймоса: Oleg-Pluton, Creative Commons Attribution-ShareAlike (CC BY-SA) { "3.0" }; берегові лінії: Natural Earth.
+
+seg-da4dafedebde = Пошук сторінок, розділів, сценаріїв і документів
+
+seg-be5a0607ad13 = Пошук сторінок, сценаріїв, документів і дій…
+
+seg-fc996ea3d2ce = Результати
+
+seg-e2475745a7e2 = <c1/> <c2/> переміщення
+
+seg-510f4297d825 = <c1/> відкрити
+
+seg-a57cca86b759 = Походження
+
+seg-42a4712b944a = На цій сторінці
+
+seg-850a18066e2b = Кампанії
+
+seg-babf4fd91f17 = Синхронізація часу
+
+seg-85018a6b8966 = Орбіти
+
+seg-cbb264f9962e = Огляд
+
+seg-7fdb07b3b0ca = Місячний і цисмісячний
+
+seg-e88d3dbcfe0c = MODELLED

@@ -71,3 +71,9 @@ seg-e5b97a088d7c = cargo install kshana-mcp
 seg-34908f7d11bb = crates.io: kshana-mcp
 
 seg-61a4eb09767f = Посібник із сервера MCP
+
+seg-f79048f88b5c = Запустити Kshana Studio
+
+seg-a613a7447e3f = Індивідуальне дослідження
+
+seg-9a86ef058d27 = Відкрити в Kshana Studio
