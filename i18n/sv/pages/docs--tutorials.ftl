@@ -21,3 +21,9 @@ seg-029de6b99be0 = Tröghetsnavigering
 seg-9ef8f99ca6e4 = Tidsöverföring
 
 seg-b03d56f501c3 = Typ
+
+seg-ec26df467b88 = Gemensam PNT med Kalman-filtersensorfusion över samma hybrida indata.
+
+seg-4f19d4fb1341 = Generellt N-dimensionellt svep över valfritt paket via punktseparerade TOML-nycklar / JSON-mätvärdessökvägar.
+
+seg-e7ab7b55c969 = 1-D-svep för en avvägningsstudie över en parameter i klockpaketet.

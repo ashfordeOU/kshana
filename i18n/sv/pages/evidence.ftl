@@ -2493,3 +2493,7 @@ seg-e7d7d99fe538 = En ROS-fri brygga som skriver positions- och satellitmeddelan
 seg-05ded40b17d2 = Ingen extern oberoende referens: ROS-noden kördes inte på en levande ROS { "2" }-graf, och fältnamnen i ublox_ubx_msgs kontrollerades inte mot en körande drivrutin. gnss_lib_py (MIT) kördes för brygg-testet
 
 seg-c3c260b7063e = Tester
+
+seg-4e31c8daf798 = Register
+
+seg-8980b5ae869b = Siffra

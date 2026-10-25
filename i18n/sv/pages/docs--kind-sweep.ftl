@@ -19,3 +19,31 @@ seg-e12f672ae71d = Klockans holdover i GNSS-nekade miljöer är MODELLED, inte v
 seg-849c08d3ce70 = Familjesida: <a1>Klockor, tidssynkronisering och holdover</a1>
 
 seg-ee7dd15019d0 = Ämnessida: <a1>CAMPAIGNS.md</a1>
+
+seg-0aae0574c5e6 = <b>MODELLED</b> Tillgänglighetssvepen i kind <c1/>: per konstellation (GPS, GLONASS, Galileo, BDS, QZSS, NavIC) och kombinerat, andelen (användare, epok)-par med minst en och minst fyra signaler samt det längsta bortfallet, för en användare på en sfär
+
+seg-8b701f465117 = log
+
+seg-de72ae48731d = Källa: <c1/>
+
+seg-81c2da4650c9 = <c1/> (scenariotyp)
+
+seg-e7ab7b55c969 = 1-D-svep för en avvägningsstudie över en parameter i klockpaketet.
+
+seg-0412c0dbfb75 = En körning av <c1/> sammanfattas som: svep holdover_s över classical_q_wf ({ "1.00e-24" }..1.00e-18, { "25" } punkter, logaritmisk skala) | kvant 6600.000->{ "6600.000" } | klassisk 2610.000->{ "250.000" }
+
+seg-d2a441254bcd = Obligatoriska fält: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>
+
+seg-2b8d8159bdaf = Valfria fält: <c1/>
+
+seg-73c2e732b0c1 = Exemplet <c1/> anger bland annat:
+
+seg-f8a627a78bdb = Microchip SA.45s CSAC-datablad sigma_y(1s)={ "3e-10" }; q_wf är s
+
+seg-c784b8f22f12 = Diagrammet som motorn skriver för scenarios/sweep-clock-stability.toml, typ sweep
+
+seg-cb00aca0268d = <b>MODELLED</b> Typens <c1/> sektioner sweep (en till tre punktseparerade nycklar av valfri typ, på det generella svepets axelvärden, eventuellt med en ensemble i varje nod) och monte_carlo: realisering k körs vid base_seed + k; varje mätvärde redovisar medelvärde, standardavvikelse Tester: <a1>campaign_composition_reference.rs</a1>.
+
+seg-1750fbfc4a99 = <s1>Föregående</s1>sweep-nd
+
+seg-de5468ac32fc = <s1>Nästa</s1>telecom-timing

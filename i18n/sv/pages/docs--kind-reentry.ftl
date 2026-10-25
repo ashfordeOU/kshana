@@ -7,3 +7,7 @@ seg-8f1e7d3f5a07 = Familjesida: <a1>Uppdragsanalys, länkar och rymdoperationer<
 seg-3a3ee499961e = <b>MODELLED</b> Plan gravitationssväng-uppstigning för ett flerstegsfordon över en icke-roterande sfärisk jord genom US Standard Atmosphere { "1976" } (densitet och tryck), med en pitchsparkning, dragkraft reducerad av dysans mottryck, stegens brinntidens slut vid exakta s
 
 seg-8e62cc4af6ea = Ämnessida: <a1>ENTRY-EO-ASCENT.md</a1>
+
+seg-05ce408c2dbb = kg/m^{ "2" }
+
+seg-195347c63a8a = m/s^{ "2" }

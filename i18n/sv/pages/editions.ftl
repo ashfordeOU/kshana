@@ -80,3 +80,5 @@ seg-61a4eb09767f = Guide till MCP-servern
 seg-8b49f6477e8f = Öppen kärna
 
 seg-6555ff9a6d8e = Utdata
+
+seg-2192262e26c1 = nådd

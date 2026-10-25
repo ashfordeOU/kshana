@@ -43,3 +43,5 @@ seg-638b8d451550 = Sensor
 seg-04f69a0edb2f = typ
 
 seg-b03d56f501c3 = Typ
+
+seg-35bf9a48e566 = Term
