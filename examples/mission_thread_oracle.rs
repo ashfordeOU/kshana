@@ -129,15 +129,50 @@ fn compare(
     Ok((per, worst_pos, vel_at_end))
 }
 
+/// A diagnostic, not part of the verdict: each tabulated state propagated one hour and compared with the next
+/// tabulated state. A burn or a model deficiency shows as a step in the residual velocity.
+fn diagnose(rows: &[State], ctx: &ThreadCtx) -> Result<Vec<Value>, String> {
+    let mut out = Vec::new();
+    for w in rows.windows(2) {
+        if w[1].jd_tdb - w[0].jd_tdb > 1.0 / 24.0 + 1e-6 {
+            continue;
+        }
+        let x = run_phase(ctx, &w[0].x, 1)?;
+        let dp = [x[0] - w[1].x[0], x[1] - w[1].x[1], x[2] - w[1].x[2]];
+        let dv = [x[3] - w[1].x[3], x[4] - w[1].x[4], x[5] - w[1].x[5]];
+        out.push(json!({
+            "hour_after_start": ((w[0].jd_tdb - START_JD_TDB) * 24.0).round(),
+            "position_residual_m": norm3(dp),
+            "velocity_residual_mps": norm3(dv),
+            "velocity_residual_components_mps": dv,
+        }));
+    }
+    Ok(out)
+}
+
 fn main() -> Result<(), String> {
-    let dir = std::env::args()
-        .nth(1)
-        .ok_or("usage: mission_thread_oracle <data-dir>")?;
+    let args: Vec<String> = std::env::args().collect();
+    let dir = args
+        .get(1)
+        .cloned()
+        .ok_or("usage: mission_thread_oracle <data-dir> [diagnose]")?;
     let path = format!("{dir}/c1_artemis1_horizons.json");
     let bytes = std::fs::read(&path).map_err(|e| format!("{path}: {e}"))?;
     let sha = hex::encode(Sha256::digest(&bytes));
     let rows = parse_horizons(&path)?;
     let start = at(&rows, START_JD_TDB)?.x;
+    let with_kernel_ctx = |epoch: &str| -> Result<ThreadCtx, String> {
+        ThreadCtx::new(epoch, 1).with_moon_kernel_file(std::path::Path::new(KERNEL))
+    };
+    if args.get(2).map(String::as_str) == Some("diagnose") {
+        let ctx = with_kernel_ctx(EPOCH_STR)?;
+        let d = diagnose(&rows, &ctx)?;
+        println!(
+            "{}",
+            serde_json::to_string_pretty(&d).map_err(|e| e.to_string())?
+        );
+        return Ok(());
+    }
     let kernel_bytes = std::fs::read(KERNEL).map_err(|e| format!("{KERNEL}: {e}"))?;
     let kernel_sha = hex::encode(Sha256::digest(&kernel_bytes));
 

@@ -1,0 +1,97 @@
+{
+  "advisory": "Advisory software, not certified navigation equipment.",
+  "bars": {
+    "position_m": 5000.0,
+    "velocity_mps": 0.05
+  },
+  "document": "xval/mission-thread oracle row C1",
+  "inputs": {
+    "horizons_file": "c1_artemis1_horizons.json",
+    "horizons_sha256": "9494dc81cc8599a6519bf92d4198f2ffe5d149acf496788713b863a0b34029f9",
+    "moon_kernel": "tests/fixtures/mission_thread/de440s_moon_2022-11-16_2022-12-12.bsp",
+    "moon_kernel_sha256": "f9a1c299fd0060fd7b1d2e703c0b0c866b64f2ab7c760c650b4ae7a8f5c23695"
+  },
+  "kernel_moon": {
+    "max_position_difference_m": 45325.190043377115,
+    "per_epoch": [
+      {
+        "hours": 12,
+        "position_difference_m": 3741.5759666835866,
+        "velocity_difference_mps": 0.09528147262354454
+      },
+      {
+        "hours": 24,
+        "position_difference_m": 12043.114650744808,
+        "velocity_difference_mps": 0.29363700497486084
+      },
+      {
+        "hours": 36,
+        "position_difference_m": 21364.39904247546,
+        "velocity_difference_mps": 0.24485669308976932
+      },
+      {
+        "hours": 48,
+        "position_difference_m": 32105.11268881958,
+        "velocity_difference_mps": 0.2532930405891608
+      },
+      {
+        "hours": 60,
+        "position_difference_m": 35778.164490835676,
+        "velocity_difference_mps": 0.22311942743512134
+      },
+      {
+        "hours": 72,
+        "position_difference_m": 45325.190043377115,
+        "velocity_difference_mps": 0.2489227959762202
+      }
+    ],
+    "position_met": false,
+    "status": "NOT MET",
+    "velocity_difference_at_end_mps": 0.2489227959762202,
+    "velocity_met": false
+  },
+  "preregistration": "xval/mission-thread/PREREGISTRATION.md",
+  "secondary_analytic_moon": {
+    "max_position_difference_m": 44518.64293109408,
+    "note": "reported without a bar: the analytic series' 196 km Moon error is of the same order as the unmodelled effects at this bar",
+    "per_epoch": [
+      {
+        "hours": 12,
+        "position_difference_m": 3732.984507954249,
+        "velocity_difference_mps": 0.09494588007590209
+      },
+      {
+        "hours": 24,
+        "position_difference_m": 12040.717361832852,
+        "velocity_difference_mps": 0.29445170409855265
+      },
+      {
+        "hours": 36,
+        "position_difference_m": 21327.373599950875,
+        "velocity_difference_mps": 0.24467825832393172
+      },
+      {
+        "hours": 48,
+        "position_difference_m": 32043.3423515617,
+        "velocity_difference_mps": 0.25225367573719726
+      },
+      {
+        "hours": 60,
+        "position_difference_m": 35357.14495220709,
+        "velocity_difference_mps": 0.21468098944495215
+      },
+      {
+        "hours": 72,
+        "position_difference_m": 44518.64293109408,
+        "velocity_difference_mps": 0.23746247093204592
+      }
+    ],
+    "velocity_difference_at_end_mps": 0.23746247093204592
+  },
+  "tests": "the mean-state propagation of the tli-and-cruise phase over one coast arc; no covariance, filter, update, burn model, overlay or other phase",
+  "window": {
+    "compared_every_hours": 12,
+    "hours": 72,
+    "start_jd_tdb": 2459900.25
+  }
+}
