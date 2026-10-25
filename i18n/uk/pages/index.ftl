@@ -277,3 +277,5 @@ seg-ff90679d1de9 = Виявлення спуфінгу
 seg-257c477dc510 = WebAssembly
 
 seg-2192262e26c1 = виконано
+
+seg-785218a0ea66 = Чим Kshana не є
