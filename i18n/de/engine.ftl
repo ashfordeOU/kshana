@@ -727,9 +727,9 @@ engine-bench-cli-scored-epochs-in-folder = { $labels } bewertete Epochen in { $f
 
 engine-bench-cli-wrote-cases-json-and-truth = { $out }/cases.json und { $out }/truth.json geschrieben
 
-engine-bench-cli-refused-this-commitment-is-provisional = ABGELEHNT: diese Festlegung ist vorläufig und ihr Seed wurde offengelegt; sie ist kein Release-Holdout
+engine-bench-cli-refused-this-commitment-is-provisional = REFUSED: diese Festlegung ist vorläufig und ihr Seed wurde offengelegt; sie ist kein Release-Holdout
 
-engine-bench-cli-mismatch-the-seed-is-not = ABWEICHUNG: der Seed ist nicht der, der zu dieser Festlegung gehört
+engine-bench-cli-mismatch-the-seed-is-not = MISMATCH: der Seed ist nicht der, der zu dieser Festlegung gehört
 
 engine-bench-cli-is-not-json = { $f } ist kein JSON: { $e }
 
@@ -2413,9 +2413,9 @@ engine-e-hybrid-coupled-ba-must-be-and = coupled.q_ba muss >= 0 und coupled.bias
 
 ## src/hybrid_integrity.rs
 
-engine-hybrid-integrity-refused-the-two-legs-are = ABGELEHNT: Die beiden Zweige haben keine gemeinsame Mittelungszeit. Der optische Zweig akkumuliert über integration_s = { $integration_s } s; die Schleifenrauschbandbreite des RF-Zweigs B_L = { $dll_bandwidth_hz } Hz mittelt über 1/(2*B_L) = { $rf_equivalent_averaging_s } s. Ein Verhältnis zweier Sigmas, die zu unterschiedlichen Mittelungszeiten bestimmt wurden, ist kein Vergleich, daher wird keines angegeben. Entfernen Sie die Überschreibung rf_dll_bandwidth_hz (sie ist dann standardmäßig 1/(2*integration_s)) oder setzen Sie sie auf { $v4 } Hz.
+engine-hybrid-integrity-refused-the-two-legs-are = REFUSED: Die beiden Zweige haben keine gemeinsame Mittelungszeit. Der optische Zweig akkumuliert über integration_s = { $integration_s } s; die Schleifenrauschbandbreite des RF-Zweigs B_L = { $dll_bandwidth_hz } Hz mittelt über 1/(2*B_L) = { $rf_equivalent_averaging_s } s. Ein Verhältnis zweier Sigmas, die zu unterschiedlichen Mittelungszeiten bestimmt wurden, ist kein Vergleich, daher wird keines angegeben. Entfernen Sie die Überschreibung rf_dll_bandwidth_hz (sie ist dann standardmäßig 1/(2*integration_s)) oder setzen Sie sie auf { $v4 } Hz.
 
-engine-hybrid-integrity-refused-leg-is-not-usable = ABGELEHNT: Ein Zweig ist kein verwendbares positives endliches Sigma (optisch { $opt_sigma_range_m } m, RF { $rf_sigma_range_m } m), daher wird kein Verhältnis gebildet.
+engine-hybrid-integrity-refused-leg-is-not-usable = REFUSED: Ein Zweig ist kein verwendbares positives endliches Sigma (optisch { $opt_sigma_range_m } m, RF { $rf_sigma_range_m } m), daher wird kein Verhältnis gebildet.
 
 engine-e-hybrid-integrity-unknown-rf-band-expected-ka = unbekanntes rf_band '{ $other }' (erwartet s|x|ka)
 
@@ -2571,11 +2571,11 @@ engine-e-interference-map-observatory-is-not-publishable-yet-its = { $day } ist 
 
 engine-interference-map-observatory-kshana-observatory-ads = KSHANA OBSERVATORIUM  ADS-B  { $date }
 
-engine-interference-map-observatory-deg-cells-utc-day-not = { $trim_deg } DEG ZELLEN  UTC-TAG  NICHT BEOBACHTET HEISST NICHT FREI  KEINE URSACHE ZUGEORDNET
+engine-interference-map-observatory-deg-cells-utc-day-not = { $trim_deg } DEG ZELLEN  UTC-TAG  NOT OBSERVED HEISST NICHT FREI  KEINE URSACHE ZUGEORDNET
 
 engine-interference-map-observatory-source-licence = QUELLE { $dataset }  LIZENZ { $dataset2 }
 
-engine-interference-map-observatory-degraded-not-degraded-not-observed = { $summary } BEEINTRÄCHTIGT  { $summary2 } NICHT BEEINTRÄCHTIGT  { $summary3 } NICHT BEOBACHTET (VERÖFFENTLICHTE ZELLEN)
+engine-interference-map-observatory-degraded-not-degraded-not-observed = { $summary } DEGRADED  { $summary2 } NOT DEGRADED  { $summary3 } NOT OBSERVED (VERÖFFENTLICHTE ZELLEN)
 
 engine-interference-map-observatory-kshana-observatory-ads-navigation-accuracy = Kshana-Observatorium, ADS-B-Navigationsgenauigkeitskarte, { $date }
 
@@ -4755,7 +4755,7 @@ engine-e-lunar-frame-campaign-no-observation-in-the-campaign =
 
 engine-lunar-frame-campaign-full-rank-all-similarity-parameters = voller Rang: alle 7 Ähnlichkeitsparameter werden durch diese Kampagne bestimmt (Konditionszahl { $condition })
 
-engine-lunar-frame-campaign-rank-deficient-of-similarity-directions = RANGDEFIZIT: { $defect } von 7 Ähnlichkeitsrichtungen sind aus dieser Kampagne nicht beobachtbar, daher wird KEIN Datum-Sigma veröffentlicht; die nicht beobachtbaren Richtungen sind in der Basis der sieben Parameter aufgeführt
+engine-lunar-frame-campaign-rank-deficient-of-similarity-directions = RANK-DEFICIENT: { $defect } von 7 Ähnlichkeitsrichtungen sind aus dieser Kampagne nicht beobachtbar, daher wird KEIN Datum-Sigma veröffentlicht; die nicht beobachtbaren Richtungen sind in der Basis der sieben Parameter aufgeführt
 
 engine-lunar-frame-campaign-lunar-frame-campaign-beacons-baselines =
     { $n_beacons ->
@@ -5109,7 +5109,7 @@ engine-e-lunar-vlbi-fim-the-datum-leaves-no-parameter = das Datum lässt keinen 
 
 engine-lunar-vlbi-fim-beacon-mcmf = beacon_mcmf.{ $ax }
 
-engine-lunar-vlbi-fim-rank-deficient-of-directions-are = RANGDEFIZIT: { $defect } von { $dim } Richtungen sind nicht beobachtbar, daher wird kein Sigma je Koordinate angegeben; der Wert des beobachtbaren Unterraums unten ist eine auf die { $rank } beobachtbaren Richtungen beschränkte Pseudoinverse und KEIN Stations-Sigma
+engine-lunar-vlbi-fim-rank-deficient-of-directions-are = RANK-DEFICIENT: { $defect } von { $dim } Richtungen sind nicht beobachtbar, daher wird kein Sigma je Koordinate angegeben; der Wert des beobachtbaren Unterraums unten ist eine auf die { $rank } beobachtbaren Richtungen beschränkte Pseudoinverse und KEIN Stations-Sigma
 
 engine-lunar-vlbi-fim-lunar-vlbi-fim-stations-baselines =
     { $n_stations ->
@@ -6375,7 +6375,7 @@ engine-realtime-frame-eop-measured-over-the-real-series = Gemessen über die gü
 
 engine-realtime-frame-eop-measured-over-genuine-two-vintage = Gemessen über ein echtes Paar aus zwei Ausgaben: die ursprünglich ausgegebene Fassung ({ $eop_source }) enthält echte Bulletin-A-Vorhersagen über ihr eigenes Datenende hinaus, und die archivierte spätere Ausgabe ({ $c }) enthält die endgültigen Werte des Bulletin B, die diese Daten schließlich erhielten. Drei Vorhersagen werden gegen diesen endgültigen Wert bewertet — die archivierte Bulletin-A-Vorhersage selbst, die operationelle Anpassung dieses Crates über die ursprünglich ausgegebene Fassung und die Persistenz am Datenende.
 
-engine-realtime-frame-eop-empty-and-deliberately-so-later = LEER, und zwar absichtlich: eine spätere Ausgabe wurde geliefert ({ $c }), aber bei keinem angeforderten Horizont ist ein Datum in der ursprünglich ausgegebenen Datei ({ $eop_source }) als VORHERSAGE des Bulletin A und in der späteren als ENDGÜLTIGER Wert des Bulletin B enthalten. Es wird keine Zeile synthetisiert.
+engine-realtime-frame-eop-empty-and-deliberately-so-later = LEER, und zwar absichtlich: eine spätere Ausgabe wurde geliefert ({ $c }), aber bei keinem angeforderten Horizont ist ein Datum in der ursprünglich ausgegebenen Datei ({ $eop_source }) als PREDICTION des Bulletin A und in der späteren als ENDGÜLTIGER Wert des Bulletin B enthalten. Es wird keine Zeile synthetisiert.
 
 engine-realtime-frame-eop-empty-and-deliberately-so-scoring = LEER, und zwar absichtlich. Die Bewertung einer ECHTEN ARCHIVIERTEN Vorhersage benötigt zwei Ausgaben desselben finals2000A-Produkts; dieser Lauf erhielt eine ({ $eop_source }). Das Repository enthält keine archivierte frühere Ausgabe, und es wird keine durch Störung der vorhandenen Ausgabe erzeugt — ein synthetisches Archiv würde jede Zahl in dieser Tabelle zu einer Messung der Störung machen. Liefern Sie über `eop_finals2000a_later` eine echte archivierte spätere Ausgabe, um sie zu füllen. Bis dahin stehen die echten Fehler vorhergesagt gegen endgültig, die dieser Bericht enthält, in `table5_operational_vs_persistence`, wo die Vorhersage vom Crate selbst stammt und die Wahrheit der später veröffentlichte endgültige Wert des Bulletin B ist.
 
@@ -6473,7 +6473,7 @@ engine-realtime-frame-eop-rows-rms-light-time-ns-2 = { $t6 }.rows[].*.{ $p }.rms
 
 engine-realtime-frame-eop-measured-over-genuine-two-vintage-2 = Gemessen über ein echtes Paar aus zwei Ausgaben: das VORHERGESAGTE UT1 des Bulletin A der ursprünglich ausgegebenen Datei ({ $eop_source }), differenziert gegen den schließlich ENDGÜLTIGEN Wert des Bulletin B der archivierten späteren Ausgabe ({ $c }), bei { $predicted_vs_final } Horizont(en).
 
-engine-realtime-frame-eop-empty-and-deliberately-so-an = LEER, und zwar absichtlich: eine archivierte spätere Ausgabe wurde geliefert ({ $c }), aber bei keinem angeforderten Horizont ist ein Datum in der ursprünglich ausgegebenen Datei ({ $eop_source }) als VORHERSAGE des Bulletin A und in der späteren als ENDGÜLTIGER Wert des Bulletin B enthalten, sodass kein Residuum vorhergesagt gegen endgültig zu berichten ist. Es wird keine Zeile synthetisiert.
+engine-realtime-frame-eop-empty-and-deliberately-so-an = LEER, und zwar absichtlich: eine archivierte spätere Ausgabe wurde geliefert ({ $c }), aber bei keinem angeforderten Horizont ist ein Datum in der ursprünglich ausgegebenen Datei ({ $eop_source }) als PREDICTION des Bulletin A und in der späteren als ENDGÜLTIGER Wert des Bulletin B enthalten, sodass kein Residuum vorhergesagt gegen endgültig zu berichten ist. Es wird keine Zeile synthetisiert.
 
 engine-realtime-frame-eop-empty-and-deliberately-so-predicted-2 = LEER, und zwar absichtlich: ein Residuum vorhergesagt gegen endgültig benötigt ZWEI Ausgaben desselben finals2000A-Produkts. Dieser Lauf erhielt eine ({ $eop_source }). Ihre Bulletin-A-Vorhersagezeilen betreffen künftige Daten, für die es noch keinen endgültigen Wert des Bulletin B gibt; das Residuum existiert also nicht und kann nicht gemessen werden, und es wird hier keines erfunden. Liefern Sie über `eop_finals2000a_later` eine archivierte spätere Ausgabe, um diese Tabelle zu füllen. Bis dahin ist das in `table2_error_vs_horizon` berichtete mehrtägige Wachstum der Fehler des PERSISTENZ-Prädiktors, bewertet über die echten endgültigen Werte — ein echter gemessener Fehler, aber ein aus einem Modell berechneter Prädiktor und nicht das Vorhersageresiduum des IERS Bulletin A.
 
@@ -8684,9 +8684,9 @@ engine-lunar-interop-chart-header = REF_FRAME = { $frame } | TIME_SYSTEM = { $ti
 
 engine-lunar-interop-chart-artifacts = Artefakte: { $list }
 
-engine-lunar-interop-chart-pass = BESTANDEN
+engine-lunar-interop-chart-pass = PASS
 
-engine-lunar-interop-chart-fail = NICHT BESTANDEN
+engine-lunar-interop-chart-fail = FAIL
 
 engine-lunar-interop-chart-conformance = Feldkonformität: { $verdict } ({ $present } vorhanden, { $missing } fehlend, { $data_lines } Datenzeilen)
 
@@ -8698,7 +8698,7 @@ engine-lunar-jamming-chart-title = J/S je Satellit gegenüber Elevation, Nutzer 
 
 engine-lunar-jamming-chart-x-title = Satellitenelevation (deg)
 
-engine-lunar-jamming-chart-locked = EINGERASTET
+engine-lunar-jamming-chart-locked = LOCKED
 
 engine-lunar-jamming-chart-n-links = { $n_links } Verbindungen
 

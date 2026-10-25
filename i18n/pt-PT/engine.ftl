@@ -754,9 +754,9 @@ engine-bench-cli-scored-epochs-in-folder = { $labels } épocas pontuadas em { $f
 
 engine-bench-cli-wrote-cases-json-and-truth = { $out }/cases.json e { $out }/truth.json escritos
 
-engine-bench-cli-refused-this-commitment-is-provisional = RECUSADO: este compromisso é provisório e a sua semente foi exposta; não é um conjunto reservado de publicação
+engine-bench-cli-refused-this-commitment-is-provisional = REFUSED: este compromisso é provisório e a sua semente foi exposta; não é um conjunto reservado de publicação
 
-engine-bench-cli-mismatch-the-seed-is-not = DIVERGÊNCIA: a semente não é a que corresponde a este compromisso
+engine-bench-cli-mismatch-the-seed-is-not = MISMATCH: a semente não é a que corresponde a este compromisso
 
 engine-bench-cli-is-not-json = { $f } não é JSON: { $e }
 
@@ -2473,9 +2473,9 @@ engine-e-hybrid-coupled-ba-must-be-and = coupled.q_ba deve ser >= 0 e coupled.bi
 
 ## src/hybrid_integrity.rs
 
-engine-hybrid-integrity-refused-the-two-legs-are = RECUSADO: os dois ramos não têm um tempo de média comum. O ramo ótico acumula sobre integration_s = { $integration_s } s; a largura de banda de ruído de malha do ramo RF, B_L = { $dll_bandwidth_hz } Hz, faz a média sobre 1/(2*B_L) = { $rf_equivalent_averaging_s } s. Uma razão entre dois sigmas tomados em tempos de média diferentes não é uma comparação, de modo que nenhuma é apresentada. Remova a substituição rf_dll_bandwidth_hz (ela passa então a 1/(2*integration_s)) ou defina-a como { $v4 } Hz.
+engine-hybrid-integrity-refused-the-two-legs-are = REFUSED: os dois ramos não têm um tempo de média comum. O ramo ótico acumula sobre integration_s = { $integration_s } s; a largura de banda de ruído de malha do ramo RF, B_L = { $dll_bandwidth_hz } Hz, faz a média sobre 1/(2*B_L) = { $rf_equivalent_averaging_s } s. Uma razão entre dois sigmas tomados em tempos de média diferentes não é uma comparação, de modo que nenhuma é apresentada. Remova a substituição rf_dll_bandwidth_hz (ela passa então a 1/(2*integration_s)) ou defina-a como { $v4 } Hz.
 
-engine-hybrid-integrity-refused-leg-is-not-usable = RECUSADO: um ramo não é um sigma finito positivo utilizável (ótico { $opt_sigma_range_m } m, RF { $rf_sigma_range_m } m), de modo que nenhuma razão é formada.
+engine-hybrid-integrity-refused-leg-is-not-usable = REFUSED: um ramo não é um sigma finito positivo utilizável (ótico { $opt_sigma_range_m } m, RF { $rf_sigma_range_m } m), de modo que nenhuma razão é formada.
 
 engine-e-hybrid-integrity-unknown-rf-band-expected-ka = rf_band '{ $other }' desconhecido (esperado s|x|ka)
 
@@ -2639,11 +2639,11 @@ engine-e-interference-map-observatory-is-not-publishable-yet-its = { $day } aind
 
 engine-interference-map-observatory-kshana-observatory-ads = OBSERVATÓRIO KSHANA  ADS-B  { $date }
 
-engine-interference-map-observatory-deg-cells-utc-day-not = CÉLULAS DE { $trim_deg } DEG  DIA UTC  NÃO OBSERVADO NÃO SIGNIFICA LIVRE  NENHUMA CAUSA ATRIBUÍDA
+engine-interference-map-observatory-deg-cells-utc-day-not = CÉLULAS DE { $trim_deg } DEG  DIA UTC  NOT OBSERVED NÃO SIGNIFICA LIVRE  NENHUMA CAUSA ATRIBUÍDA
 
 engine-interference-map-observatory-source-licence = FONTE { $dataset }  LICENÇA { $dataset2 }
 
-engine-interference-map-observatory-degraded-not-degraded-not-observed = { $summary } DEGRADADAS  { $summary2 } NÃO DEGRADADAS  { $summary3 } NÃO OBSERVADAS (CÉLULAS PUBLICADAS)
+engine-interference-map-observatory-degraded-not-degraded-not-observed = { $summary } DEGRADED  { $summary2 } NOT DEGRADED  { $summary3 } NOT OBSERVED (CÉLULAS PUBLICADAS)
 
 engine-interference-map-observatory-kshana-observatory-ads-navigation-accuracy = Observatório Kshana, mapa de precisão de navegação ADS-B, { $date }
 
@@ -4920,7 +4920,7 @@ engine-e-lunar-frame-campaign-no-observation-in-the-campaign =
 
 engine-lunar-frame-campaign-full-rank-all-similarity-parameters = posto completo: todos os 7 parâmetros de similaridade são restringidos por esta campanha (número de condição { $condition })
 
-engine-lunar-frame-campaign-rank-deficient-of-similarity-directions = POSTO DEFICIENTE: { $defect } de 7 direções de similaridade não são observáveis nesta campanha, portanto NENHUM sigma de datum é publicado; as direções não observáveis são listadas na base de sete parâmetros
+engine-lunar-frame-campaign-rank-deficient-of-similarity-directions = RANK-DEFICIENT: { $defect } de 7 direções de similaridade não são observáveis nesta campanha, portanto NENHUM sigma de datum é publicado; as direções não observáveis são listadas na base de sete parâmetros
 
 engine-lunar-frame-campaign-lunar-frame-campaign-beacons-baselines =
     { $n_beacons ->
@@ -5305,7 +5305,7 @@ engine-e-lunar-vlbi-fim-the-datum-leaves-no-parameter = o datum não deixa nenhu
 
 engine-lunar-vlbi-fim-beacon-mcmf = beacon_mcmf.{ $ax }
 
-engine-lunar-vlbi-fim-rank-deficient-of-directions-are = POSTO DEFICIENTE: { $defect } de { $dim } direções não são observáveis, portanto nenhum sigma por coordenada é indicado; o valor do subespaço observável abaixo é uma pseudoinversa restrita às { $rank } direções observáveis e NÃO é um sigma de estação
+engine-lunar-vlbi-fim-rank-deficient-of-directions-are = RANK-DEFICIENT: { $defect } de { $dim } direções não são observáveis, portanto nenhum sigma por coordenada é indicado; o valor do subespaço observável abaixo é uma pseudoinversa restrita às { $rank } direções observáveis e NÃO é um sigma de estação
 
 engine-lunar-vlbi-fim-lunar-vlbi-fim-stations-baselines =
     { $n_stations ->
@@ -6608,7 +6608,7 @@ engine-realtime-frame-eop-measured-over-the-real-series = Medido sobre a série 
 
 engine-realtime-frame-eop-measured-over-genuine-two-vintage = Medido sobre um par genuíno de duas versões: a versão original ({ $eop_source }) contém previsões reais do Bulletin A além do seu próprio limite de dados, e a versão posterior arquivada ({ $c }) contém os finais do Bulletin B que essas datas acabaram recebendo. Três previsões são avaliadas face a esse final — a própria previsão arquivada do Bulletin A, o ajuste de estilo operacional deste crate sobre a versão original e a persistência no limite de dados.
 
-engine-realtime-frame-eop-empty-and-deliberately-so-later = VAZIA, e de propósito: foi fornecida uma versão posterior ({ $c }), mas nenhuma data consta como PREVISÃO do Bulletin A no ficheiro original ({ $eop_source }) e como FINAL do Bulletin B no posterior em nenhum horizonte solicitado. Nenhuma linha é sintetizada.
+engine-realtime-frame-eop-empty-and-deliberately-so-later = VAZIA, e de propósito: foi fornecida uma versão posterior ({ $c }), mas nenhuma data consta como PREDICTION do Bulletin A no ficheiro original ({ $eop_source }) e como FINAL do Bulletin B no posterior em nenhum horizonte solicitado. Nenhuma linha é sintetizada.
 
 engine-realtime-frame-eop-empty-and-deliberately-so-scoring = VAZIA, e de propósito. Avaliar uma previsão ARQUIVADA GENUÍNA exige duas versões do mesmo produto finals2000A; esta execução recebeu uma ({ $eop_source }). O repositório não inclui nenhuma versão anterior arquivada, e uma NÃO é fabricada ao perturbar a versão que ele tem — um ficheiro sintetizado faria de cada número desta tabela uma medição da perturbação. Forneça uma versão posterior arquivada real através de `eop_finals2000a_later` para preenchê-la. Até então, os erros genuínos previsto-versus-final que este relatório contém estão em `table5_operational_vs_persistence`, onde a previsão é a deste crate e a referência é o final do Bulletin B publicado depois.
 
@@ -6706,7 +6706,7 @@ engine-realtime-frame-eop-rows-rms-light-time-ns-2 = { $t6 }.rows[].*.{ $p }.rms
 
 engine-realtime-frame-eop-measured-over-genuine-two-vintage-2 = Medido sobre um par genuíno de duas versões: o UT1 PREVISTO do Bulletin A do ficheiro original ({ $eop_source }) comparado, por diferença, com o FINAL do Bulletin B da versão posterior arquivada ({ $c }), em { $predicted_vs_final } horizonte(s).
 
-engine-realtime-frame-eop-empty-and-deliberately-so-an = VAZIA, e de propósito: foi fornecida uma versão posterior arquivada ({ $c }), mas nenhuma data consta como PREVISÃO do Bulletin A no ficheiro original ({ $eop_source }) e como FINAL do Bulletin B no posterior em nenhum horizonte solicitado, de modo que não há resíduo previsto-versus-final a informar. Nenhuma linha é sintetizada.
+engine-realtime-frame-eop-empty-and-deliberately-so-an = VAZIA, e de propósito: foi fornecida uma versão posterior arquivada ({ $c }), mas nenhuma data consta como PREDICTION do Bulletin A no ficheiro original ({ $eop_source }) e como FINAL do Bulletin B no posterior em nenhum horizonte solicitado, de modo que não há resíduo previsto-versus-final a informar. Nenhuma linha é sintetizada.
 
 engine-realtime-frame-eop-empty-and-deliberately-so-predicted-2 = VAZIA, e de propósito: um resíduo previsto-versus-final exige DUAS versões do mesmo produto finals2000A. Esta execução recebeu uma ({ $eop_source }). As suas linhas de previsão do Bulletin A são de datas futuras que ainda não têm final do Bulletin B, portanto o resíduo não existe para ser medido e nenhum é inventado aqui. Forneça uma versão posterior arquivada através de `eop_finals2000a_later` para preencher esta tabela. Até então, o crescimento ao longo de vários dias indicado em `table2_error_vs_horizon` é o do preditor de PERSISTÊNCIA avaliado sobre os finais reais — um erro real medido, mas de um preditor calculado a partir de um modelo, e não o resíduo da previsão do IERS Bulletin A.
 
@@ -8955,9 +8955,9 @@ engine-lunar-interop-chart-header = REF_FRAME = { $frame } | TIME_SYSTEM = { $ti
 
 engine-lunar-interop-chart-artifacts = artefactos: { $list }
 
-engine-lunar-interop-chart-pass = SUCESSO
+engine-lunar-interop-chart-pass = PASS
 
-engine-lunar-interop-chart-fail = FALHA
+engine-lunar-interop-chart-fail = FAIL
 
 engine-lunar-interop-chart-conformance = verificação de campos: { $verdict } ({ $present } presentes, { $missing } em falta, { $data_lines } linhas de dados)
 
@@ -8969,7 +8969,7 @@ engine-lunar-jamming-chart-title = J/S por satélite vs elevação, utilizador n
 
 engine-lunar-jamming-chart-x-title = elevação do satélite (deg)
 
-engine-lunar-jamming-chart-locked = BLOQUEADO
+engine-lunar-jamming-chart-locked = LOCKED
 
 engine-lunar-jamming-chart-n-links = { $n_links } ligações
 

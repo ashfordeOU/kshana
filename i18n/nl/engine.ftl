@@ -727,9 +727,9 @@ engine-bench-cli-scored-epochs-in-folder = { $labels } gescoorde epochs in { $fo
 
 engine-bench-cli-wrote-cases-json-and-truth = geschreven: { $out }/cases.json en { $out }/truth.json
 
-engine-bench-cli-refused-this-commitment-is-provisional = GEWEIGERD: deze vastlegging is voorlopig en de seed is blootgelegd; het is geen achtergehouden set voor een release
+engine-bench-cli-refused-this-commitment-is-provisional = REFUSED: deze vastlegging is voorlopig en de seed is blootgelegd; het is geen achtergehouden set voor een release
 
-engine-bench-cli-mismatch-the-seed-is-not = AFWIJKING: de seed is niet de seed achter deze vastlegging
+engine-bench-cli-mismatch-the-seed-is-not = MISMATCH: de seed is niet de seed achter deze vastlegging
 
 engine-bench-cli-is-not-json = { $f } is geen JSON: { $e }
 
@@ -2418,9 +2418,9 @@ engine-e-hybrid-coupled-ba-must-be-and = coupled.q_ba moet >= 0 zijn en coupled.
 
 ## src/hybrid_integrity.rs
 
-engine-hybrid-integrity-refused-the-two-legs-are = GEWEIGERD: de twee takken zitten niet op een gemeenschappelijke middelingstijd. De optische tak accumuleert over integration_s = { $integration_s } s; de lusruisbandbreedte van de RF-tak B_L = { $dll_bandwidth_hz } Hz middelt over 1/(2*B_L) = { $rf_equivalent_averaging_s } s. Een verhouding van twee sigma's op verschillende middelingstijden is geen vergelijking, dus er wordt er geen genoemd. Verwijder de override rf_dll_bandwidth_hz (die valt dan terug op 1/(2*integration_s)) of stel die in op { $v4 } Hz.
+engine-hybrid-integrity-refused-the-two-legs-are = REFUSED: de twee takken zitten niet op een gemeenschappelijke middelingstijd. De optische tak accumuleert over integration_s = { $integration_s } s; de lusruisbandbreedte van de RF-tak B_L = { $dll_bandwidth_hz } Hz middelt over 1/(2*B_L) = { $rf_equivalent_averaging_s } s. Een verhouding van twee sigma's op verschillende middelingstijden is geen vergelijking, dus er wordt er geen genoemd. Verwijder de override rf_dll_bandwidth_hz (die valt dan terug op 1/(2*integration_s)) of stel die in op { $v4 } Hz.
 
-engine-hybrid-integrity-refused-leg-is-not-usable = GEWEIGERD: een tak is geen bruikbare positieve eindige sigma (optisch { $opt_sigma_range_m } m, RF { $rf_sigma_range_m } m), dus er wordt geen verhouding gevormd.
+engine-hybrid-integrity-refused-leg-is-not-usable = REFUSED: een tak is geen bruikbare positieve eindige sigma (optisch { $opt_sigma_range_m } m, RF { $rf_sigma_range_m } m), dus er wordt geen verhouding gevormd.
 
 engine-e-hybrid-integrity-unknown-rf-band-expected-ka = onbekende rf_band '{ $other }' (verwacht s|x|ka)
 
@@ -2576,11 +2576,11 @@ engine-e-interference-map-observatory-is-not-publishable-yet-its = { $day } is n
 
 engine-interference-map-observatory-kshana-observatory-ads = KSHANA OBSERVATORIUM  ADS-B  { $date }
 
-engine-interference-map-observatory-deg-cells-utc-day-not = { $trim_deg } DEG CELLEN  UTC-DAG  NIET WAARGENOMEN IS NIET VRIJ  GEEN OORZAAK TOEGEWEZEN
+engine-interference-map-observatory-deg-cells-utc-day-not = { $trim_deg } DEG CELLEN  UTC-DAG  NOT OBSERVED IS NIET VRIJ  GEEN OORZAAK TOEGEWEZEN
 
 engine-interference-map-observatory-source-licence = BRON { $dataset }  LICENTIE { $dataset2 }
 
-engine-interference-map-observatory-degraded-not-degraded-not-observed = { $summary } GEDEGRADEERD  { $summary2 } NIET GEDEGRADEERD  { $summary3 } NIET WAARGENOMEN (GEPUBLICEERDE CELLEN)
+engine-interference-map-observatory-degraded-not-degraded-not-observed = { $summary } DEGRADED  { $summary2 } NOT DEGRADED  { $summary3 } NOT OBSERVED (GEPUBLICEERDE CELLEN)
 
 engine-interference-map-observatory-kshana-observatory-ads-navigation-accuracy = Kshana-observatorium, ADS-B-navigatienauwkeurigheidskaart, { $date }
 
@@ -4786,7 +4786,7 @@ engine-e-lunar-frame-campaign-no-observation-in-the-campaign =
 
 engine-lunar-frame-campaign-full-rank-all-similarity-parameters = volle rang: alle 7 gelijkvormigheidsparameters worden door deze campagne vastgelegd (conditiegetal { $condition })
 
-engine-lunar-frame-campaign-rank-deficient-of-similarity-directions = RANGTEKORT: { $defect } van de 7 gelijkvormigheidsrichtingen zijn niet waarneembaar vanuit deze campagne, dus er wordt GEEN datumsigma gepubliceerd; de niet-waarneembare richtingen staan in de basis met zeven parameters
+engine-lunar-frame-campaign-rank-deficient-of-similarity-directions = RANK-DEFICIENT: { $defect } van de 7 gelijkvormigheidsrichtingen zijn niet waarneembaar vanuit deze campagne, dus er wordt GEEN datumsigma gepubliceerd; de niet-waarneembare richtingen staan in de basis met zeven parameters
 
 engine-lunar-frame-campaign-lunar-frame-campaign-beacons-baselines =
     { $n_beacons ->
@@ -5140,7 +5140,7 @@ engine-e-lunar-vlbi-fim-the-datum-leaves-no-parameter = de datum laat geen param
 
 engine-lunar-vlbi-fim-beacon-mcmf = beacon_mcmf.{ $ax }
 
-engine-lunar-vlbi-fim-rank-deficient-of-directions-are = RANGTEKORT: { $defect } van { $dim } richtingen zijn niet waarneembaar, dus er wordt geen sigma per coördinaat gerapporteerd; de onderstaande waarde voor de waarneembare deelruimte is een pseudo-inverse beperkt tot de { $rank } waarneembare richtingen en is GEEN stationssigma
+engine-lunar-vlbi-fim-rank-deficient-of-directions-are = RANK-DEFICIENT: { $defect } van { $dim } richtingen zijn niet waarneembaar, dus er wordt geen sigma per coördinaat gerapporteerd; de onderstaande waarde voor de waarneembare deelruimte is een pseudo-inverse beperkt tot de { $rank } waarneembare richtingen en is GEEN stationssigma
 
 engine-lunar-vlbi-fim-lunar-vlbi-fim-stations-baselines =
     { $n_stations ->
@@ -6406,7 +6406,7 @@ engine-realtime-frame-eop-measured-over-the-real-series = Gemeten over de gelden
 
 engine-realtime-frame-eop-measured-over-genuine-two-vintage = Gemeten over een echt paar van twee uitgaven: de uitgave zoals uitgegeven ({ $eop_source }) bevat echte Bulletin A-voorspellingen na haar eigen datagrens, en de gearchiveerde latere uitgave ({ $c }) bevat de definitieve Bulletin B-waarden die die data uiteindelijk kregen. Drie voorspellingen worden tegen die definitieve waarde gescoord — de gearchiveerde Bulletin A-voorspelling zelf, de fit in operationele stijl van deze crate over de uitgave zoals uitgegeven, en persistentie op de datagrens.
 
-engine-realtime-frame-eop-empty-and-deliberately-so-later = LEEG, en dat is bewust: er is een latere uitgave aangeleverd ({ $c }), maar geen enkele datum staat als Bulletin A-VOORSPELLING in het bestand zoals uitgegeven ({ $eop_source }) en als definitieve Bulletin B in het latere bestand op een gevraagde horizon. Er wordt geen rij gesynthetiseerd.
+engine-realtime-frame-eop-empty-and-deliberately-so-later = LEEG, en dat is bewust: er is een latere uitgave aangeleverd ({ $c }), maar geen enkele datum staat als Bulletin A-PREDICTION in het bestand zoals uitgegeven ({ $eop_source }) en als definitieve Bulletin B in het latere bestand op een gevraagde horizon. Er wordt geen rij gesynthetiseerd.
 
 engine-realtime-frame-eop-empty-and-deliberately-so-scoring = LEEG, en dat is bewust. Het scoren van een ECHTE GEARCHIVEERDE voorspelling vereist twee uitgaven van hetzelfde finals2000A-product; deze run kreeg er een ({ $eop_source }). De repository bevat geen gearchiveerde eerdere uitgave, en er wordt er geen gefabriceerd door de bestaande uitgave te verstoren — een gesynthetiseerd archief zou van elk getal in deze tabel een meting van de verstoring maken. Lever een echte gearchiveerde latere uitgave aan via `eop_finals2000a_later` om de tabel te vullen. Tot dan staan de echte fouten voorspeld-tegenover-definitief die dit rapport wel bevat in `table5_operational_vs_persistence`, waar de voorspelling die van deze crate zelf is en de referentie de later gepubliceerde definitieve Bulletin B.
 
@@ -6504,7 +6504,7 @@ engine-realtime-frame-eop-rows-rms-light-time-ns-2 = { $t6 }.rows[].*.{ $p }.rms
 
 engine-realtime-frame-eop-measured-over-genuine-two-vintage-2 = Gemeten over een echt paar van twee uitgaven: de Bulletin A VOORSPELDE UT1 van het bestand zoals uitgegeven ({ $eop_source }) verminderd met de uiteindelijke DEFINITIEVE Bulletin B van de gearchiveerde latere uitgave ({ $c }), op { $predicted_vs_final } horizon(nen).
 
-engine-realtime-frame-eop-empty-and-deliberately-so-an = LEEG, en dat is bewust: er is een gearchiveerde latere uitgave aangeleverd ({ $c }), maar geen enkele datum staat als Bulletin A-VOORSPELLING in het bestand zoals uitgegeven ({ $eop_source }) en als definitieve Bulletin B in het latere bestand op een gevraagde horizon, dus er is geen residu voorspeld-tegenover-definitief om te rapporteren. Er wordt geen rij gesynthetiseerd.
+engine-realtime-frame-eop-empty-and-deliberately-so-an = LEEG, en dat is bewust: er is een gearchiveerde latere uitgave aangeleverd ({ $c }), maar geen enkele datum staat als Bulletin A-PREDICTION in het bestand zoals uitgegeven ({ $eop_source }) en als definitieve Bulletin B in het latere bestand op een gevraagde horizon, dus er is geen residu voorspeld-tegenover-definitief om te rapporteren. Er wordt geen rij gesynthetiseerd.
 
 engine-realtime-frame-eop-empty-and-deliberately-so-predicted-2 = LEEG, en dat is bewust: een residu voorspeld-tegenover-definitief vereist TWEE uitgaven van hetzelfde finals2000A-product. Deze run kreeg er een ({ $eop_source }). De Bulletin A-voorspellingsrijen ervan gelden voor toekomstige data die nog geen definitieve Bulletin B hebben, dus het residu bestaat nog niet om gemeten te worden en er wordt hier geen verzonnen. Lever een gearchiveerde latere uitgave aan via `eop_finals2000a_later` om deze tabel te vullen. Tot dan is de groei over meerdere dagen die `table2_error_vs_horizon` rapporteert de PERSISTENTIE-voorspeller gescoord over de echte definitieve waarden — een echte gemeten fout, maar een gemodelleerde voorspeller, en niet het residu van de IERS Bulletin A-voorspelling.
 

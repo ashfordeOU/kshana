@@ -7431,7 +7431,7 @@ engine-legal-standards-pack-notice = 标准包依据运行前设定的判据衡�
 engine-legal-standards-pack-advisory = 仅供参考：研究与工程工具的分析输出，不是经型式认可的导航设备，也不是生命安全服务；不得作为任何导航或安全决策的唯一依据。
 
 # legal: native review
-engine-legal-geometry-statement = 在所述误差模型下的几何：相对于所述天际线的视线可见性、精度因子（DOP）以及针对独立、等值、零均值高斯测距误差（所述用户等效测距误差）的高斯误差椭圆。它不是对接收机实际误差的预测，实际误差还包含偏差、多路径和非视线误差，它也不是完好性界限。预设星座是具有代表性的几何，而不是该日期该地点的天空。
+engine-legal-geometry-statement = 在所述误差模型下的几何（MODELLED）：相对于所述天际线的视线可见性、精度因子（DOP）以及针对独立、等值、零均值高斯测距误差（所述用户等效测距误差）的高斯误差椭圆。它不是对接收机实际误差的预测，实际误差还包含偏差、多路径和非视线误差，它也不是完好性界限。预设星座是具有代表性的几何，而不是该日期该地点的天空。
 
 # legal: native review
 engine-legal-resilience-disclaimer = 基于仿真的自我评估，参照DHS RPCF v2.0。这不是认证或认可，也不代表任何机构（DHS、IEEE或其他）的批准。除非明确标记为VALIDATED，每个子评分均为MODELLED，评分是时间域和检测方面的性能指标，而不是位置域精度。
