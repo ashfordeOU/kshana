@@ -83,6 +83,8 @@ export function decoratePage(html, ctx) {
       tpl = `<template id="i18n-detected" data-dismiss="${esc(msg('notice-dismiss') || 'Dismiss')}">${renderHtml(raw, { a1: { o: `<a href="${here}" data-lang-switch="en">`, c: '</a>' } })}</template>`;
     }
     out = out.replace('</body>', `${tpl}<script>${asset('lang-tail.js')}</script></body>`);
+    // script-written text: the site's own catalogue files, loaded by the Studio's boot module (shared l10n), with a promise the page scripts wait on
+    out = out.replace('</head>', `<script>window.kshanaL10nFiles=["ui.ftl","glossary.ftl","site-js.ftl"];window.kshanaL10nReady=new Promise(function(r){window.kshanaL10nResolve=r})</script><script type="module" src="/studio/lib/l10n-boot.mjs"></script></head>`);
   } else {
     out = out.replace('</body>', `<script>${asset('lang-tail.js')}</script></body>`);
   }
