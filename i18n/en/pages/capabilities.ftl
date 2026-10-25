@@ -371,8 +371,7 @@ seg-aa8201fbbfb8 = Effective carrier-to-noise density by satellite and time
 seg-36dece8c7ecc = Engine v{ $version } · <c1/> · seed { "1" }
 
 # text
-# c1: 
-seg-0d9fca5fdcfe = <a1>Open in Kshana Studio<c1/></a1>
+seg-9a86ef058d27 = Open in Kshana Studio
 
 # attr:title
 seg-34a0cf94d83d = Open the run's exports in Kshana Studio: reproducible HTML report, JSON, CSV
@@ -1402,9 +1401,6 @@ seg-1592e576100d = The same user orbit, well inside the GNSS shell, seen by a GP
 
 # text
 seg-eb8696f54db3 = GPS-like only
-
-# text
-seg-9a86ef058d27 = Open in Kshana Studio
 
 # text
 seg-885ff6972872 = GPS-like + Galileo-like

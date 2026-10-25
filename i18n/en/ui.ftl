@@ -951,3 +951,25 @@ studio-advanced-every-change-re-runs-the = Every change re-runs the engine and u
 studio-advanced-drag-a-slider-and-the = Drag a slider and the scenario re-runs. Every control writes straight into the scenario text below.
 # advanced
 studio-advanced-in-the-editor-tab-indents = In the editor, Tab indents by two spaces. Press Escape, then Tab, to move on.
+
+## Studio pages: static text (generated list, append only)
+# mission-thread
+studio-mission-thread-time-axis = Time axis
+# mission-thread
+studio-mission-thread-mission-thread = Mission thread
+# mission-thread
+studio-mission-thread-where-does-a-mission-s = Where does a mission's navigation and timing error budget run out?
+# mission-thread
+studio-mission-thread-a-mission-is-a-chain = A mission is a chain of phases: launch, rendezvous, transfer to the Moon, landing, return. Each phase has its own sensors and its own error budget, and each hands its uncertainty to the next. This page shows the budget of the whole chain, phase by phase, and names the weakest link.
+# mission-thread
+studio-mission-thread-open-the-artemis-class-example = Open the Artemis-class example
+# mission-thread
+studio-mission-thread-open-a-result-file = Open a result file…
+# mission-thread
+studio-mission-thread-the-thread = The thread
+# mission-thread
+studio-mission-thread-error-against-mission-elapsed-time = Error against mission elapsed time
+# mission-thread
+studio-mission-thread-the-phases = The phases
+# mission-thread
+studio-mission-thread-the-budget-of-one-phase = The budget of one phase

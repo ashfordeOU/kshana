@@ -161,6 +161,9 @@ seg-2afb1b2b483b = Open the per-day GeoJSON files that <c1/> writes from openly 
 # advanced/index.html
 seg-2cbf005ed5cc = To
 
+# mission-thread/index.html
+seg-2cdf436c4e70 = <b>Advisory software.</b> Kshana is not type-approved navigation equipment (IEC { "61108" }, IEC { "61162" }) and the operator remains responsible. Every number here is MODELLED: a stated input, or a model of one. Nothing on this page is VALIDATED, certified or approved by any agency or programme.
+
 # index.html
 seg-2d4efde06a1d = <b>Evidence packs</b><s1>Check a signed pack, or attach a time stamp.</s1>
 
@@ -255,16 +258,8 @@ seg-41fbbeb0884b = Not affiliated with or endorsed by any agency.
 # advanced/index.html
 seg-42cdb8e987e6 = Budget
 
-# index.html
-# c1: 
-seg-43c0320b2ca1 = <a1>Open this result <c1/></a1>
-
 # advanced/index.html
 seg-43ed980c95fe = Reset
-
-# advanced/index.html
-# c1: 
-seg-443149a5e031 = <a1>Open the validation ledger <c1/></a1>
 
 # geometry/index.html
 seg-446a3218ccbb = Time
@@ -316,10 +311,6 @@ seg-4f96553dab9e = Speed
 
 # geometry/index.html
 seg-4fc16cd3208d = Constellation
-
-# advanced/index.html
-# c1: ↵
-seg-510f4297d825 = <c1/> open
 
 # tools/index.html
 # c1: gnss-ins
@@ -413,6 +404,11 @@ seg-64a9035e2d0d = <b>Interference observatory</b><s1>Open a day's observatory f
 # index.html
 seg-65296b223493 = Kshana is open source under the AGPL-3.0 (GNU Affero General Public License), with a commercial licence available. By Ashforde®. Every figure is labelled with its evidence tier; the <s1>Kshana Studio</s1>'s timing, integrity and security figures are modelled unless marked validated. Cite as doi:10.5281/zenodo.20528627.
 
+# trust/index.html
+# c1: $PKSHT
+# c2: 
+seg-672ddb26b9f5 = Latest <c1/><c2/>
+
 # geometry/index.html
 seg-68235723782a = Skyplot
 
@@ -430,6 +426,10 @@ seg-6c2d8128925a = Test-vector CSV
 
 # index.html
 seg-6cb7a787ac67 = References
+
+# advanced/index.html
+# c1: ⌘↵
+seg-6cb7b1848b26 = Run<c1/>
 
 # tools/index.html
 seg-6d93ea33536f = Choose a file…
@@ -533,11 +533,6 @@ seg-82128deeddae = Seed
 # tools/index.html
 seg-828bb842a924 = z (vertical)
 
-# advanced/index.html
-# c1: ↑
-# c2: ↓
-seg-8345e4b0246e = <c1/><c2/> move
-
 # geometry/index.html
 seg-83a2d13c9c59 = Error model
 
@@ -617,6 +612,9 @@ seg-92c87f96cc3b = Catalogue (JSON)…
 # lunar/index.html
 seg-9378da73161e = coverage
 
+# index.html
+seg-940ff105c3a4 = Mission thread
+
 # geometry/index.html
 seg-944448bc90f8 = Antenna height, metres
 
@@ -637,6 +635,12 @@ seg-9a71c933f4ad = <b>Lunar station</b><s1>What accuracy could a reference stati
 
 # index.html
 seg-9c1fc0ddcc14 = Engine loading. You can already explore this result.
+
+# advanced/index.html
+# c1: ↓
+# c2: ↵
+# c3: ⌘↵
+seg-9c28d67257b7 = <c1/> move<c2/> open<c3/> run
 
 # tools/index.html
 seg-9c7eb1d43601 = Log format
@@ -674,10 +678,6 @@ seg-a27cd1efd1e0 = You can run the scenarios yourself in the Studio (Advanced vi
 
 # index.html
 seg-a39633d5b858 = <b>Can I trust my position fix?</b><s1>Integrity over { "12" } hours</s1>
-
-# trust/index.html
-# c1: $PKSHT
-seg-a3aa3e79120b = Latest <c1/>
 
 # lunar-infra/index.html
 seg-a3e4a0eed763 = <b>Advisory software.</b> Kshana is not type-approved navigation equipment (IEC { "61108" }, IEC { "61162" }) and has not been assessed against any performance standard. Every figure carries the label the ledger holds for it (<b>MODELLED</b> unless an external oracle was used); it is an aid to judgement, not a finding about any place, mission or event.
@@ -780,6 +780,9 @@ seg-ba963d8caa19 = Licence URL
 
 # tools/index.html
 seg-baacf578ad9c = Log's first epoch, UTC (ISO { "8601" }; empty when the log states it)
+
+# mission-thread/index.html
+seg-baea4e05ad26 = Phase
 
 # tools/index.html
 seg-bb02baa8656c = UTC instant of motion time zero
@@ -949,10 +952,6 @@ seg-e73ea9921fcf = Parameter
 # lunar/index.html
 seg-e7572abf9b3c = corrected percentile error, over its own range
 
-# advanced/index.html
-# c1: ⌘↵
-seg-e838645a0e63 = <c1/> run
-
 # tools/index.html
 seg-e8e68a8be0a6 = Specific force that axis reads at rest, m/s² ({ "0" } horizontal, about { "9.80665" } vertical)
 
@@ -967,6 +966,9 @@ seg-ebc83a18d97c = Left building height, metres
 
 # index.html
 seg-ec3cd95a740d = <b>Geometry</b><s1>Which satellites can you see from a place, and how good is their geometry? Draw the skyline.</s1>
+
+# index.html
+seg-ed7befb0e9f6 = Open this result
 
 # advanced/index.html
 seg-ee0ffb5be403 = <b>Run</b> the engine, locally
@@ -983,6 +985,9 @@ seg-efb4dc713dd2 = Also in the Studio: <a1>Geometry</a1>, the skyplot, skyline a
 
 # holdover/index.html
 seg-f155b7ceef1f = TDEV
+
+# mission-thread/index.html
+seg-f2be7442bdf2 = Events
 
 # tools/index.html
 seg-f2ce7fc60cdf = Format
@@ -1042,6 +1047,9 @@ seg-fd600e95e731 = <b>The skyplot</b> is the sky seen from the place: each mark 
 
 # index.html
 seg-fda27ae5d5f2 = <a1>Kshana Pro</a1>: a clock digital twin calibrated to your device, a trade study with an audit-grade evidence pack, or closed-source integration, available under contract. <a2>Request an evaluation</a2> · <a3>Talk to us about a commercial licence</a3> · <a4>Request a study</a4>
+
+# advanced/index.html
+seg-fdb067cc01c0 = Open the validation ledger
 
 # observatory/index.html
 # c1: docs/observatory/METHOD.md
