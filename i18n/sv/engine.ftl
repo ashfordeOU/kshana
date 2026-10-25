@@ -311,7 +311,7 @@ engine-e-animation-no-animation-format-given-expected = inget animationsformat a
 
 engine-e-animation-animation-fps-must-be-between = animationens fps måste vara mellan 1 och 60, fick { $fps }
 
-engine-e-animation-animation-duration-must-be-between = animationens längd måste vara mellan 0.5 s och 600 s, fick { $duration_s }
+engine-e-animation-animation-duration-must-be-between = animationens längd måste vara mellan { $lit_0_5 } s och 600 s, fick { $duration_s }
 
 engine-e-animation-animation-width-must-be-between = animationens bredd måste vara mellan 480 och 3840 pixlar, fick { $width }
 
@@ -344,11 +344,9 @@ engine-animation-further-series-were-found-but = { " " }{ $omitted } ytterligare
 
 ## src/antenna.rs
 
-engine-antenna-altitude-beamwidth-deg-points = höjd { $a_lo }-{ $a_hi } m x strålbredd { $b_lo }-{ $b_hi } deg, { $points } punkter
+engine-antenna-limb-capture-is-reached-on = limbfångst UPPNÅS på det här rutnätet (höjd { $a_lo }-{ $a_hi } m x strålbredd { $b_lo }-{ $b_hi } deg, { $points2 } punkter): { $points } av { $points2 } samplade arbetspunkter fångar limben och { $crossings } axelkorsning(ar) hittades; det starkaste samplade limb-J/S är { $limb_js_db } dB vid höjd { $altitude_m } m / strålbredd { $hpbw_deg } deg, mot en fångsttröskel på { $thr } dB.
 
-engine-antenna-limb-capture-is-reached-on = limbfångst UPPNÅS på det här rutnätet ({ $grid }): { $points } av { $points2 } samplade arbetspunkter fångar limben och { $crossings } axelkorsning(ar) hittades; det starkaste samplade limb-J/S är { $limb_js_db } dB vid höjd { $altitude_m } m / strålbredd { $hpbw_deg } deg, mot en fångsttröskel på { $thr } dB.
-
-engine-antenna-limb-capture-is-not-reached = limbfångst uppnås INTE någonstans på det här rutnätet ({ $grid }) - inte noll fångst, men ingen limbfångst: det bästa limb-J/S är { $limb_js_db } dB vid höjd { $altitude_m } m / strålbredd { $hpbw_deg } deg, { $shortfall } dB under fångsttröskeln på { $thr } dB; den arbetspunkten skulle fånga limben vid { $limb_capture_tx_power_dbw } dBW sändareffekt mot de { $p_tx_dbw } dBW som flögs.
+engine-antenna-limb-capture-is-not-reached = limbfångst uppnås INTE någonstans på det här rutnätet (höjd { $a_lo }-{ $a_hi } m x strålbredd { $b_lo }-{ $b_hi } deg, { $points } punkter) - inte noll fångst, men ingen limbfångst: det bästa limb-J/S är { $limb_js_db } dB vid höjd { $altitude_m } m / strålbredd { $hpbw_deg } deg, { $shortfall } dB under fångsttröskeln på { $thr } dB; den arbetspunkten skulle fånga limben vid { $limb_capture_tx_power_dbw } dBW sändareffekt mot de { $p_tx_dbw } dBW som flögs.
 
 engine-e-antenna-azimuths-must-strictly-increase = azimuter måste öka strikt
 
@@ -770,7 +768,7 @@ engine-bench-site-result-was-scored-under-this = resultat { $v1 } poängsattes u
 
 engine-bench-tasks-score-for-is-not-number = poängen för `{ $k }` är inte ett tal
 
-engine-bench-tasks-kshana-receiver-trust-35-default = kshana receiver-trust { $s } (0.35 standardövervakningsstatistik)
+engine-bench-tasks-kshana-receiver-trust-35-default = kshana receiver-trust { $s } ({ $lit_0_35 } standardövervakningsstatistik)
 
 engine-bench-tasks-malformed-clock-line = felformad klockrad `{ $line }`
 
@@ -832,7 +830,7 @@ engine-e-body-pnt-duration-and-step-must-be = duration_s och step_s måste vara 
 
 engine-e-body-pnt-user-kind-must-be-orbiter = user.kind måste vara orbiter eller surface; fick '{ $k }'
 
-engine-e-body-pnt-user-altitude-must-be-positive = användarens höjd måste vara positiv och excentriciteten i [0, 0.9)
+engine-e-body-pnt-user-altitude-must-be-positive = användarens höjd måste vara positiv och excentriciteten i [0, { $lit_0_9 })
 
 engine-e-body-pnt-the-user-orbit-periapsis-is = användarbanans periapsis ligger under ytan
 
@@ -1088,7 +1086,7 @@ engine-campaign-compose-members = compose: { $members } medlemmar
 
 engine-campaign-member-runs-modelled = { $runs_total } medlemskörningar (MODELLED)
 
-engine-campaign-sweep-of-over-nodes-each = svep av `{ $scenario_kind }` över { $axis_order } ({ $nodes } noder{ $v4 }; varje linje har sitt eget intervall)
+engine-campaign-sweep-of-over-nodes-each = svep av `{ $scenario_kind }` över { $axis_order } ({ $nodes } noder; varje linje har sitt eget intervall)
 
 engine-campaign-campaign-modelled-composition-every-value = kampanj { $r } | MODELLED sammansättning; varje värde läst från en verklig körning av den angivna typen
 
@@ -1384,7 +1382,7 @@ engine-e-constellation-needs-altitude-km-or-semi = { $what }: kräver altitude_k
 
 engine-e-constellation-semi-major-axis-km-is = { $what }: halva storaxeln { $v1 } km ligger inte över { $name }s radie
 
-engine-e-constellation-eccentricity-must-lie-in = { $what }: excentriciteten { $e } måste ligga i [0, 0.9)
+engine-e-constellation-eccentricity-must-lie-in = { $what }: excentriciteten { $e } måste ligga i [0, { $lit_0_9 })
 
 engine-e-constellation-perigee-is-below-the-surface = { $what }: perigeum ligger under ytan på { $name }
 
@@ -1416,7 +1414,7 @@ engine-e-constellation-mask-deg-must-lie-in = mask_deg måste ligga i [0, 90)
 
 engine-e-constellation-pdop-threshold-must-be-positive = pdop_threshold måste vara positivt
 
-engine-e-constellation-grid-step-deg-must-lie = grid_step_deg måste ligga i [0.25, 90]
+engine-e-constellation-grid-step-deg-must-lie = grid_step_deg måste ligga i [{ $lit_0_25 }, 90]
 
 engine-e-constellation-need-90-lat-min-deg = kräver -90 <= lat_min_deg < lat_max_deg <= 90
 
@@ -2361,9 +2359,7 @@ engine-e-holdover-test-step-with-mask-has-no = ett steg med en mask har ingen ku
 
 engine-e-holdover-test-cannot-read-csv-path = kan inte läsa csv_path { $path }: { $e }
 
-engine-holdover-test-recovered-after-gnss-returned = ; återhämtade sig { $t } s efter att GNSS återkom
-
-engine-holdover-test-holdover-test-holdover-max-te = holdover-test: holdover { $hold } s, max|TE| { $max_abs } ns; { $masks }{ $rec } (MODELLED, uppmätt mot masken)
+engine-holdover-test-holdover-test-holdover-max-te = holdover-test: holdover { $hold } s, max|TE| { $max_abs } ns; { $masks } (MODELLED, uppmätt mot masken)
 
 ## src/hybrid.rs
 
@@ -3032,17 +3028,15 @@ engine-iq-cli-scene-n0-profile-segment = { $chan_desc }; C/N0-profil ({ $segment
 
 engine-iq-cli-scene-truth-format-must-be-csv = --truth-format måste vara csv eller jsonl (fick { $other })
 
-engine-iq-cli-scene-integer-scale-lsb-noise-normalised = ; heltalsskala: 1 LSB = { $sc } brusnormaliserade enheter (förväntad RMS { $v1 } LSB per komponent), { $clipped } element klippta
-
-engine-iq-cli-scene-written-by-kshana-iq-scene = skriven av kshana iq scene: en SIMULERAD scen, inte en inspelning{ $scale_note }
+engine-iq-cli-scene-written-by-kshana-iq-scene = skriven av kshana iq scene: en SIMULERAD scen, inte en inspelning
 
 engine-iq-cli-scene-ion-sdr-metadata = ION SDR-metadata { $path }
 
 engine-iq-cli-scene-sigmf-data-meta = SigMF-data { $data_path }, meta { $meta_path }
 
-engine-iq-cli-scene-written-by-kshana-iq-scene-2 = skriven av kshana iq scene{ $scale_note }
+engine-iq-cli-scene-written-by-kshana-iq-scene-2 = skriven av kshana iq scene
 
-engine-iq-cli-scene-wrote-samples-hz-to-truth = skrev { $samples } sampel ({ $format }, { $fs_hz } Hz) till { $data_path }; { $truth_records } referensposter till { $truth_path }; { $meta_note }; kanal: { $chan_desc }{ $scale_note }
+engine-iq-cli-scene-wrote-samples-hz-to-truth = skrev { $samples } sampel ({ $format }, { $fs_hz } Hz) till { $data_path }; { $truth_records } referensposter till { $truth_path }; { $meta_note }; kanal: { $chan_desc }
 
 engine-iq-cli-scene-sigmf-data = { $sigmf_base }.sigmf-data
 
@@ -3075,7 +3069,7 @@ engine-iq-cli-track-designs-and-differ-in-integration = utformningarna { $first 
 
 engine-iq-cli-track-epochs-name-the-format-with = --epochs { $p }: ange formatet med --epochs-format csv|jsonl|bin, eller låt sökvägen sluta på .csv, .jsonl eller .bin
 
-engine-iq-cli-track-hz-is-samples-per-chip = { $fs_hz } Hz är { $r } sampel per chip av { $c }: kommensurabel sampling gör kodens diskriminator till en trappa (vid 2 sampel/chip dithrar DLL, cirka 0.09 chip RMS kodfel vid 45 dB-Hz); kodslingans jitter och bias från den här inspelningen är inte representativa. Använd en hastighet som inte är en multipel av halva chiphastigheten för att bedöma kodslingor.
+engine-iq-cli-track-hz-is-samples-per-chip = { $fs_hz } Hz är { $r } sampel per chip av { $c }: kommensurabel sampling gör kodens diskriminator till en trappa (vid 2 sampel/chip dithrar DLL, cirka { $lit_0_09 } chip RMS kodfel vid 45 dB-Hz); kodslingans jitter och bias från den här inspelningen är inte representativa. Använd en hastighet som inte är en multipel av halva chiphastigheten för att bedöma kodslingor.
 
 ## src/iq/io/batch.rs
 
@@ -3246,10 +3240,9 @@ engine-iq-labfit-iqreport-hold-out-leave-one-recording = Undanhållen datamängd
 
 engine-iq-labfit-iqreport-events-loss-time-rms-pi90 =
     { $n ->
-        [one] ; { $model }: { $n } händelse, förlusttids-RMS { $om } s, PI90-täckning { $om2 }
-       *[other] ; { $model }: { $n } händelser, förlusttids-RMS { $om } s, PI90-täckning { $om2 }
+        [one] { $model }: { $n } händelse, förlusttids-RMS { $om } s, PI90-täckning { $om2 }
+       *[other] { $model }: { $n } händelser, förlusttids-RMS { $om } s, PI90-täckning { $om2 }
     }
-
 
 engine-iq-labfit-iqreport-validation-table-sha-256-registered =
     Valideringstabell SHA-256 `{ $table_sha256 }` (registrerad { $registered }):
@@ -4057,7 +4050,7 @@ engine-leo-navmsg-unknown-preset-available = okänd förinställning '{ $k }'; t
 
 engine-e-leo-navmsg-fit-interval-must-be-10 = fit_interval_s måste vara 10-3600 s och update_period_s i (0, fit_interval_s]; fick { $fit_interval_s } och { $update_period_s }
 
-engine-e-leo-navmsg-fit-sample-and-eval-step = fit_sample_s och eval_step_s måste vara 0.5-60 s
+engine-e-leo-navmsg-fit-sample-and-eval-step = fit_sample_s och eval_step_s måste vara { $lit_0_5 }-60 s
 
 engine-e-leo-navmsg-carrier-hz-must-exceed-10 = carrier_hz måste överstiga 10 MHz; fick { $carrier_hz }
 
@@ -4156,7 +4149,7 @@ engine-e-leo-navmsg-text-csv-row-lacks = CSV-raden saknar { $k }
 
 engine-e-leo-navmsg-truth-orbit-altitude-must-be-between = banhöjden måste vara mellan 100 km och 3000 km; fick { $cfg } km
 
-engine-e-leo-navmsg-truth-eccentricity-must-be-in-for = excentriciteten måste vara i [0, 0.1) för en LEO-anpassning; fick { $eccentricity }
+engine-e-leo-navmsg-truth-eccentricity-must-be-in-for = excentriciteten måste vara i [0, { $lit_0_1 }) för en LEO-anpassning; fick { $eccentricity }
 
 engine-e-leo-navmsg-truth-integration-step-must-be-in = integrationssteget måste vara i (0, 30] s; fick { $step_s }
 
@@ -4989,8 +4982,6 @@ engine-lunar-time-budget-scenario-total-false = { $i },{ $tau },total,{ $total }
 
 engine-lunar-time-budget-scenario-lunar-time-budget-clock-term = lunar-time-budget | klocka { $clock } | 7-terms x_Σ(τ) över { $taus } τ-punkter ({ $taus2 }–{ $taus3 } s) | skärning τ { $crossover_tau_s } s (x { $crossover_x_s } s) | referenssystemets golv { $frame_term_s } s | klocka x(1 d) { $x_1day_ns } ns (MODELLED)
 
-engine-lunar-time-budget-scenario-time-lab-to-ltc-ns = { $summary } | tidslabb: { $lab } { $lab2 } till LTC, x(1 d) { $lab3 } ns (MODELLED)
-
 ## src/lunar_time_lab.rs
 
 engine-e-lunar-time-lab-time-lab-unknown-clock-expected = time_lab: okänd klocka { $other }; förväntade en av optical-master, passive-h-maser, rafs, mini-rafs, eller ange ett device_card i stället
@@ -5733,19 +5724,11 @@ engine-nmea-synth-gen-the-receiver-has-no-fix =
 
 engine-nmea-synth-log-from-for-onset-ramp-recovery = från T+{ $start_s } s i { $duration_s } s (inledande ramp { $ramp_s } s, återhämtningsramp { $recovery_s } s)
 
-engine-nmea-synth-log-every-tracked-satellite-shows-db = ; varje spårad satellit visar { $c } dB-Hz så länge den varar
-
 engine-nmea-synth-log-jamming-received-n0-falls-by = jamming: mottagen C/N0 sjunker med upp till { $cn0_drop_db } dB (spridning per satellit { $spread_db } dB); satelliter faller bort och positionsbestämningen går förlorad när färre än fyra förblir användbara
 
 engine-nmea-synth-log-towards-deg-true = mot { $b } deg sann
 
 engine-nmea-synth-log-towards-deg-true-deg-relative = mot { $t } deg sann ({ $r } deg relativt kursen vid starten, därefter hållen)
-
-engine-nmea-synth-log-position-drag-off-the-reported = positionsbortdragning: den rapporterade positionen vandrar { $final_offset_m } m bort { $dir } medan mottagaren behåller en giltig positionsbestämning (det falska spåret når som mest { $pv } m/s och { $pa } m/s^2){ $cf }
-
-engine-nmea-synth-log-time-spoof-reported-utc-moves = tidsspoofing: rapporterad UTC avviker { $offset_s } s från sann; positionen förblir sann{ $cf }
-
-engine-nmea-synth-log-replay-delay-meaconing-style-position = återspelningsfördröjning (meaconing-stil): positionen{ $v1 } släpar { $delay_s } s efter referensen{ $cf }
 
 engine-nmea-synth-log-natural-degradation-the-sky-closes = naturlig försämring: himlen stängs bakom en angiven siluett ({ $e }); satelliter bakom den förblir listade utan SNR och används inte, C/N0 för övriga är oförändrad, och inget är förfalskat
 
@@ -6634,11 +6617,11 @@ engine-receiver-trust-scenario-trusted-throughout-no-monitor-alarmed = betrodd g
 
 engine-receiver-trust-scenario-first-alarm-at-untrusted-for = första larm vid { $t } s; ej betrodd under { $untrusted_epochs } och försämrad under { $degraded_epochs } av { $after_cal } epoker efter kalibreringen
 
-engine-receiver-trust-scenario-of-stated-events-detected-within = ; { $events_detected } av { $events_evaluable } angivna händelser upptäcktes inom { $detect_tol_s } s
+engine-receiver-trust-scenario-of-stated-events-detected-within = { $events_detected } av { $events_evaluable } angivna händelser upptäcktes inom { $detect_tol_s } s
 
-engine-receiver-trust-scenario-of-n0-predictions-within-db = ; { $predictions_agreeing } av { $predictions_evaluable } C/N0-prediktioner inom { $cn0_tol_db } dB
+engine-receiver-trust-scenario-of-n0-predictions-within-db = { $predictions_agreeing } av { $predictions_evaluable } C/N0-prediktioner inom { $cn0_tol_db } dB
 
-engine-receiver-trust-scenario-trust-score-lowest-final = ; förtroendepoäng lägst { $min }, slutlig { $last }
+engine-receiver-trust-scenario-trust-score-lowest-final = förtroendepoäng lägst { $min }, slutlig { $last }
 
 engine-receiver-trust-scenario-scenario-receiver-trust-log-epochs = scenario { $r } | receiver-trust | { $format_name }-logg, { $epochs } epoker över { $duration_s } s | monitorer { $monitors_run } | { $verdict }
 
@@ -6720,7 +6703,7 @@ engine-e-scenario-time-grid-too-large-steps = tidsrutnätet är för stort: { $n
 
 ## src/sdr.rs
 
-engine-sdr-sampling-rate-is-commensurate-with = samplingshastigheten är kommensurabel med kodhastigheten ({ $samples_per_chip } sampel/chip, { $offset_from_integer_samples } sampel från ett heltal): kodreplikan med nollte ordningens hållning kan inte särskilja en kodfasändring under { $dead_band_chips } chip, så Early/Late-diskriminatorn blir en trappa med ett dödband på ett sampel i stället för en triangel och DLL:en ställer in sig på fel fördröjning. Förskjut samplingshastigheten från heltalsmultipeln (5 MHz är 4.8876 sampel/chip; 25 MHz är 24.4379) eller översampla tillräckligt långt för att dödbandet ska ligga under den kodfasnoggrannhet du behöver.
+engine-sdr-sampling-rate-is-commensurate-with = samplingshastigheten är kommensurabel med kodhastigheten ({ $samples_per_chip } sampel/chip, { $offset_from_integer_samples } sampel från ett heltal): kodreplikan med nollte ordningens hållning kan inte särskilja en kodfasändring under { $dead_band_chips } chip, så Early/Late-diskriminatorn blir en trappa med ett dödband på ett sampel i stället för en triangel och DLL:en ställer in sig på fel fördröjning. Förskjut samplingshastigheten från heltalsmultipeln (5 MHz är { $lit_4_8876 } sampel/chip; 25 MHz är { $lit_24_4379 }) eller översampla tillräckligt långt för att dödbandet ska ligga under den kodfasnoggrannhet du behöver.
 
 ## src/sgp4.rs
 
@@ -7555,7 +7538,7 @@ engine-e-telecom-timing-the-series-must-be-uniformly = serien måste vara likfor
 
 engine-e-telecom-timing-csv-line-is-not-time = CSV-rad { $v1 } är inte `time_s,time_error_ns`
 
-engine-telecom-timing-the-mask-is-defined-through = masken definieras genom ett lågpassfilter på 0.1 Hz, som den här motorn bara tillämpar vid samplingsintervall på { $MAX_FILTER_DT_S } s eller mindre; den här posten samplas var { $dt_s } s
+engine-telecom-timing-the-mask-is-defined-through = masken definieras genom ett lågpassfilter på { $lit_0_1 } Hz, som den här motorn bara tillämpar vid samplingsintervall på { $MAX_FILTER_DT_S } s eller mindre; den här posten samplas var { $dt_s } s
 
 engine-e-telecom-timing-give-either-holdover-or-series = ange antingen [holdover] eller [series], inte båda
 
@@ -7563,11 +7546,7 @@ engine-e-telecom-timing-give-either-series-samples-or = ange antingen series.sam
 
 engine-e-telecom-timing-locked-duration-days-must-be = locked_duration_days måste vara ändligt och >= 0
 
-engine-telecom-timing-ns-budget-exceeded-after = ; budgeten på { $max_abs_te_ns } ns överskreds efter { $t } s
-
-engine-telecom-timing-ns-budget-never-exceeded = ; budgeten på { $max_abs_te_ns } ns överskreds aldrig
-
-engine-telecom-timing-telecom-timing-max-te-ns = telecom-timing: max|TE| { $max_abs } ns under { $v2 } s; { $masks }{ $first_budget } (MODELLED)
+engine-telecom-timing-telecom-timing-max-te-ns = telecom-timing: max|TE| { $max_abs } ns under { $v2 } s; { $masks } (MODELLED)
 
 engine-telecom-timing-mtie-limit-ns = ,{ $id }_mtie_limit_ns
 
@@ -7728,8 +7707,6 @@ engine-telemetry-syslog-cfp4label-geometrypdop-cfp4 = { " " }cfp4Label=geometryP
 
 engine-telemetry-syslog-cn1label-geometryusedsatellites-cn1 = { " " }cn1Label=geometryUsedSatellites cn1={ $v1 }
 
-engine-telemetry-syslog-cef-gnss-trust = CEF:0|{ $cef_header_escape }|{ $cef_header_escape2 }|{ $cef_header_escape3 }|{ $EVENT_PREFIX }.{ $band }|GNSS trust { $band }|{ $cef_severity }|{ $ext }
-
 engine-e-telemetry-syslog-host-is-bytes-syslog-host = värden är { $host } bytes; ett syslog-värdnamn är högst 255
 
 engine-e-telemetry-syslog-host-must-be-printable-ascii = host måste vara skrivbar ASCII utan blanksteg
@@ -7804,7 +7781,7 @@ engine-e-tracking-loop-tracking-loop-must-be-finite = tracking-loop: { $name } m
 
 engine-e-tracking-loop-tracking-loop-must-be-positive = tracking-loop: { $name } måste vara positivt (fick { $v })
 
-engine-e-tracking-loop-tracking-loop-correlator-spacing-chips = tracking-loop: correlator_spacing_chips måste vara under 1.9 chip (fick { $correlator_spacing_chips })
+engine-e-tracking-loop-tracking-loop-correlator-spacing-chips = tracking-loop: correlator_spacing_chips måste vara under { $lit_1_9 } chip (fick { $correlator_spacing_chips })
 
 engine-e-tracking-loop-tracking-loop-pullin-bandwidth-ratio = tracking-loop: pullin_bandwidth_ratio måste vara minst 1 (fick { $pullin_bandwidth_ratio }) — en slinga som återinfångar med en SMALARE bandbredd än den spårar med skulle invertera hysteresen
 
@@ -8178,8 +8155,6 @@ engine-campaign-chart-alarm-flags-and-events = larmflaggor och händelser
 
 engine-campaign-chart-mission-time = { $duration } s uppdragstid
 
-engine-campaign-chart-sweep-percentile-band = , median med 5:e–95:e percentilband över { $n_runs } frön
-
 engine-campaign-chart-sweep-line-at = { $name } ({ $unit }) vid { $lead }
 
 engine-campaign-chart-monte-carlo-of = Monte Carlo av `{ $scenario_kind }`: { $n_runs } frön från { $base_seed } (5:e, 50:e, 95:e percentilen; stapel = bootstrap-konfidensintervall på 95 % för medelvärdet)
@@ -8298,9 +8273,9 @@ engine-frame-eop-chart-growth = ~{ $factor }x, 1 d→{ $far_days } d
 
 engine-fusion-hybrid-ukf-chart-title = Hybrid UKF med 17 tillstånd — filtrets självkonsistens (modelled)
 
-engine-fusion-hybrid-ukf-chart-subtitle = NEES + innovationsvithet mot 95-procentiga χ²-band; 1.0 = konsistent. Självkonsistens, inte noggrannhet.
+engine-fusion-hybrid-ukf-chart-subtitle = NEES + innovationsvithet mot 95-procentiga χ²-band; { $lit_1_0 } = konsistent. Självkonsistens, inte noggrannhet.
 
-engine-fusion-hybrid-ukf-chart-target = mål 1.0
+engine-fusion-hybrid-ukf-chart-target = mål { $lit_1_0 }
 
 engine-fusion-hybrid-ukf-chart-nis-whiteness = NIS (vithet)
 
@@ -8417,8 +8392,6 @@ engine-legal-osnma-advisory = Rådgivande: det här är analys- och övervakning
 
 ## added by the second pass
 
-engine-holdover-test-not-recovered-within-record = ; inte återhämtad inom registreringen
-
 engine-holdover-test-chart-title = Holdover-test: tidsfel per steg
 
 engine-holdover-test-chart-y-title = |tidsfel| (ns)
@@ -8431,11 +8404,11 @@ engine-holdover-test-chart-gnss-restored = GNSS återställt
 
 engine-holdover-test-chart-time-axis = tid på registreringens axel ({ $min } min)
 
-engine-hybrid-chart-title = Utnyttjande av specifikationen för hybrid-PNT under GNSS-avbrott (1.0 = specifikation)
+engine-hybrid-chart-title = Utnyttjande av specifikationen för hybrid-PNT under GNSS-avbrott ({ $lit_1_0 } = specifikation)
 
 engine-hybrid-chart-y-title = utnyttjande av specifikationen
 
-engine-hybrid-chart-spec-line = specifikation (1.0)
+engine-hybrid-chart-spec-line = specifikation ({ $lit_1_0 })
 
 engine-hybrid-chart-classical-suite = klassisk svit
 
@@ -8545,6 +8518,454 @@ engine-leo-pnt-chain-chart-not-available = ej tillgängligt
 
 engine-leo-signal-chart-title = LEO-PNT-signalutformningar
 
-engine-leo-signal-chart-psd-axis = förskjutning över ±0.6 × sändarbandbredd; 0 till −50 dB under varje topp
+engine-leo-signal-chart-psd-axis = förskjutning över ±{ $lit_0_6 } × sändarbandbredd; 0 till −50 dB under varje topp
 
 engine-leo-signal-chart-jitter-caption = kodjitter (m, log-skala) mot total C/N0 (dB-Hz)
+
+## added in the 0.40 delta
+
+engine-campaign-sweep-of-over-nodes-each-percentile-band = svep av `{ $scenario_kind }` över { $axis_order } ({ $nodes } noder, median med percentilband mellan 5:e och 95:e percentilen över { $n_runs } frön; varje linje har sitt eget intervall)
+
+engine-holdover-test-holdover-not-recovered-within-record = holdover-test: holdover { $hold } s, max|TE| { $max_abs } ns; { $masks }; inte återhämtad inom registreringen (MODELLED, uppmätt mot masken)
+
+engine-holdover-test-holdover-recovered-after-gnss-returned = holdover-test: holdover { $hold } s, max|TE| { $max_abs } ns; { $masks }; återhämtad { $t } s efter att GNSS återvänt (MODELLED, uppmätt mot masken)
+
+engine-iq-cli-scene-written-by-kshana-iq-scene-integer-scale = skriven av kshana iq scene: en SIMULERAD scen, inte en inspelning; heltalsskala: 1 LSB = { $sc } brusnormaliserade enheter (förväntat RMS { $v1 } LSB per komponent), { $clipped } element klippta
+
+engine-iq-cli-scene-written-by-kshana-iq-scene-2-integer-scale = skriven av kshana iq scene; heltalsskala: 1 LSB = { $sc } brusnormaliserade enheter (förväntat RMS { $v1 } LSB per komponent), { $clipped } element klippta
+
+engine-iq-cli-scene-wrote-samples-hz-to-truth-integer-scale = skrev { $samples } sampel ({ $format }, { $fs_hz } Hz) till { $data_path }; { $truth_records } referensposter till { $truth_path }; { $meta_note }; kanal: { $chan_desc }; heltalsskala: 1 LSB = { $sc } brusnormaliserade enheter (förväntat RMS { $v1 } LSB per komponent), { $clipped } element klippta
+
+engine-lunar-chart-title = HPL vid månens sydpol ({ $availability }% tillgänglighet, AL { $al } m, σ_URE { $sigma } m)
+
+engine-lunar-beacon-chart-title = Förstärkning med ytfyrar — PDOP per konfiguration
+
+engine-lunar-beacon-chart-pdop = PDOP { $pdop }
+
+engine-lunar-beacon-chart-no-solution = ingen lösning
+
+engine-lunar-beacon-chart-footnote = lägre är bättre; sigma_URE per fyr { $sigma } m, maskvinkel { $mask } deg
+
+engine-lunar-combination-chart-title = Gemensam banbestämning och klocka på månen — stationens 3-D-positionsfel (VLBI återställer observerbarheten)
+
+engine-lunar-combination-chart-subtitle = { $n_sat } satelliter, { $n_earth } jordstationer · förbättringsfaktor { $factor }×
+
+engine-lunar-combination-chart-with-vlbi = med VLBI: { $m } m
+
+engine-lunar-combination-chart-range-only = endast avstånd: { $m } m
+
+engine-lunar-combination-chart-axis-note = log10 stationsfel (m); konvergerade med/utan = { $with }/{ $without }
+
+engine-lunar-dpnt-chart-title = Differentiell PNT på månen — { $n_sats } satelliter: korrigerat fel mot baslinje (× { $factor } minskning vid { $km } km)
+
+engine-lunar-dpnt-chart-subtitle = okorrigerat { $uncorrected } m | korrigerat { $corrected } m | HPL { $hpl } m (σ_resid { $sigma } m) | { $label }
+
+engine-lunar-dpnt-chart-uncorrected-standalone = okorrigerat (fristående)
+
+engine-lunar-dpnt-chart-baseline-km = baslinje (km)
+
+engine-lunar-dpnt-chart-err-m = fel (m)
+
+engine-lunar-frame-realise-chart-title = Realisering av månens referenssystem — återvinning av 7-parameters Helmert-transformation
+
+engine-lunar-frame-realise-chart-subtitle = { $n_points } punkter · RMS-residual { $rms } m · konvergerade { $converged }
+
+engine-lunar-frame-realise-chart-tx = tx (m)
+
+engine-lunar-frame-realise-chart-ty = ty (m)
+
+engine-lunar-frame-realise-chart-tz = tz (m)
+
+engine-lunar-frame-realise-chart-theta-x = θx (µrad)
+
+engine-lunar-frame-realise-chart-theta-y = θy (µrad)
+
+engine-lunar-frame-realise-chart-theta-z = θz (µrad)
+
+engine-lunar-frame-realise-chart-scale = skala (ppb)
+
+engine-lunar-frame-realise-chart-row = { $label }: injicerad { $inj } { $unit } · återvunnen { $rec } { $unit } · fel { $err }
+
+engine-lunar-interop-chart-title = Interoperabilitetsexport för månen — CCSDS OEM + KIF (anpassad till LunaNet/IOAG)
+
+engine-lunar-interop-chart-header = REF_FRAME = { $frame } | TIME_SYSTEM = { $time_system } | { $n_states } tillstånd | OEM { $oem_lines } rader
+
+engine-lunar-interop-chart-artifacts = artefakter: { $list }
+
+engine-lunar-interop-chart-pass = PASS
+
+engine-lunar-interop-chart-fail = FAIL
+
+engine-lunar-interop-chart-ok = OK
+
+engine-lunar-interop-chart-conformance = fältkontroll: { $verdict } ({ $present } närvarande, { $missing } saknas, { $data_lines } datarader)
+
+engine-lunar-interop-chart-roundtrip = OEM-rundtur: { $oem } | rundtur för tidsmetadata: { $time_metadata } | KIF { $kif_bytes } bytes
+
+engine-lunar-interop-chart-footnote = Rundtur / fältkontroll mot CCSDS OEM och publicerad fältsemantik för LunaNet/IOAG. { $label } — inte ett certifierat interoperabilitetstest; inget stöd från någon myndighet.
+
+engine-lunar-jamming-chart-title = J/S per satellit mot elevation, användare på månytan
+
+engine-lunar-jamming-chart-y-title = J/S (dB)
+
+engine-lunar-jamming-chart-x-title = satellitens elevation (deg)
+
+engine-lunar-jamming-chart-locked = LOCKED
+
+engine-lunar-jamming-chart-degraded = DEGRADED
+
+engine-lunar-jamming-chart-lost = LOST
+
+engine-lunar-jamming-chart-n-links = { $n_links } länkar
+
+engine-lunar-service-chart-title = Servicevolym på månen — { $n_sats } satelliter, { $n_points } punkter × { $n_epochs } epoker: { $coverage }% täckning (PDOP&lt;{ $threshold })
+
+engine-lunar-service-chart-subtitle = satelliter { $min_sats }–{ $max_sats } | HPL { $hpl_min }–{ $hpl_max } m | VPL { $vpl_min }–{ $vpl_max } m | PL-tillgänglighet { $pl_avail }% (AL { $al } m, σ_URE { $sigma } m)
+
+engine-lunar-service-chart-pdop-min = PDOP min { $v }
+
+engine-lunar-service-chart-pdop-mean = PDOP medel { $v }
+
+engine-lunar-service-chart-pdop-max = PDOP max { $v }
+
+engine-lunar-station-chart-title = Referensstation på månen: p{ $percentile } korrigerat 3-D-fel över sydpolsregionen (MODELLED)
+
+engine-lunar-station-chart-zero-east = 0° E
+
+engine-lunar-station-chart-threshold = tröskel { $thr } m vid p{ $percentile }
+
+engine-lunar-station-chart-availability = tillgänglighet { $v } %
+
+engine-lunar-station-chart-coverage = täckning { $v } %
+
+engine-lunar-station-chart-corrected-3d = korrigerat 3-D { $f }
+
+engine-lunar-station-chart-uncorrected-3d = okorrigerat 3-D { $f }
+
+engine-lunar-station-chart-legend-half = ≤ hälften av tröskeln
+
+engine-lunar-station-chart-legend-within = ≤ tröskeln
+
+engine-lunar-station-chart-legend-twice = ≤ dubbla tröskeln
+
+engine-lunar-station-chart-legend-above = över dubbla tröskeln
+
+engine-lunar-station-chart-station-note = ◆ station · streckad: avstånd inom vilket täckningen håller vid 95 %
+
+engine-lunar-station-chart-disclaimer = MODELLED under angivna antaganden; inget uttalande om något verkligt system; inte knuten till eller förordad av någon myndighet.
+
+engine-lunar-time-chart-title = Koordinattid för månen LTC−TT (takt { $rate } µs/dygn, band { $low }–{ $high })
+
+engine-lunar-time-chart-offset = { $offset } µs vid { $days } d
+
+engine-lunar-time-budget-scenario-lunar-time-budget-clock-term-time-lab = lunar-time-budget | klocka { $clock } | 7-termers x_Σ(τ) över { $taus } τ-punkter ({ $taus2 }–{ $taus3 } s) | skärnings-τ { $crossover_tau_s } s (x { $crossover_x_s } s) | systemgolv { $frame_term_s } s | klocka x(1 d) { $x_1day_ns } ns (MODELLED) | tidslaboratorium: { $lab } { $lab2 } till LTC, x(1 d) { $lab3 } ns (MODELLED)
+
+engine-lunar-vlbi-chart-title = VLBI-fördröjning på månen (baslinje { $baseline } km, fyravstånd { $range } km, närfält { $near_field } µs)
+
+engine-lunar-vlbi-chart-footnote = fördröjning { $delay } µs vid epok · { $samples } sampel över { $hours } h
+
+engine-mars-pnt-chart-formal-3sigma = formell 3σ (kovarians, inte en certifierad PL)
+
+engine-nmea-synth-log-position-drag-off-counterfeit-cn0 = positions-drag-off: den rapporterade positionen vandrar { $final_offset_m } m bort { $dir } medan mottagaren behåller en giltig positionsbestämning (falsk bana når som mest { $pv } m/s och { $pa } m/s^2); varje spårad satellit visar { $c } dB-Hz så länge det pågår
+
+engine-nmea-synth-log-position-drag-off-genuine-cn0 = positions-drag-off: den rapporterade positionen vandrar { $final_offset_m } m bort { $dir } medan mottagaren behåller en giltig positionsbestämning (falsk bana når som mest { $pv } m/s och { $pa } m/s^2); det genuina C/N0-mönstret behålls
+
+engine-nmea-synth-log-time-spoof-counterfeit-cn0 = tidsspoofing: rapporterad UTC avviker { $offset_s } s från sann; positionen förblir sann; varje spårad satellit visar { $c } dB-Hz så länge det pågår
+
+engine-nmea-synth-log-time-spoof-genuine-cn0 = tidsspoofing: rapporterad UTC avviker { $offset_s } s från sann; positionen förblir sann; det genuina C/N0-mönstret behålls
+
+engine-nmea-synth-log-replay-delay-counterfeit-cn0 = replay-fördröjning (meaconing-liknande): positionen{ $v1 } släpar efter referensen med { $delay_s } s; varje spårad satellit visar { $c } dB-Hz så länge det pågår
+
+engine-nmea-synth-log-replay-delay-genuine-cn0 = replay-fördröjning (meaconing-liknande): positionen{ $v1 } släpar efter referensen med { $delay_s } s; det genuina C/N0-mönstret behålls
+
+engine-pvt-chart-3d-error-m = 3D-fel (m)
+
+engine-pvt-chart-postfit-rms-m = RMS efter anpassning (m)
+
+engine-quantum-faults-chart-title = AUC för quantum-anomaly-detect (MODELLED)
+
+engine-quantum-faults-chart-quantum = kvant
+
+engine-quantum-faults-chart-classical = klassisk
+
+engine-quantum-nav-od-chart-title = quantum-gnss-free-nav (MODELLED)
+
+engine-raim-stanford-chart-title = Stanford-diagram — integritet ({ $n_epochs } epoker, AL = { $al } m)
+
+engine-raim-chart-title = RAIM-skyddsnivåer och tillgänglighet ({ $availability }% tillgänglig)
+
+engine-raim-chart-hal = HAL { $al } m
+
+engine-raim-chart-val = VAL { $al } m
+
+engine-receiver-trust-chart-track-caption = mottagarrapporterad bana, norr uppåt
+
+engine-receiver-trust-chart-start = start
+
+engine-receiver-trust-chart-end-of-log = slut på loggen
+
+engine-receiver-trust-chart-no-positions = inga positioner i loggen
+
+engine-receiver-trust-chart-score-axis = förtroendepoäng, 0 till 100
+
+engine-receiver-trust-chart-legend-vessel = förtroende: grönt nominellt (poäng vid eller över { $nominal }), gult försämrat (vid eller över { $degraded }), rött ej betrott, grått kalibrerar
+
+engine-receiver-trust-chart-legend = förtroende: grönt nominellt, gult försämrat, rött ej betrott, grått kalibrerar
+
+engine-receiver-trust-chart-advisory = Rådgivande programvara, inte typgodkänd navigationsutrustning; operatören är fortsatt ansvarig.
+
+engine-receiver-trust-chart-cn0-axis = medel-C/N0, dB-Hz
+
+engine-report-chart-title = Klockans holdover: tidsfel under GNSS-avbrott
+
+engine-slot-timing-chart-aria = Förutsagt tidsfel mot tiden sedan senaste positionsbestämningen, med slotskydd
+
+engine-slot-timing-chart-time-since-fix = tid sedan positionsbestämning, 0 till { $t }
+
+engine-slot-timing-chart-predicted-error = förutsagt tidsfel (ns); streckad: skydd { $guard } ns
+
+engine-slot-timing-never = aldrig
+
+engine-solar-system-chart-title = Solsystemet — ekliptika J2000, uppifrån
+
+engine-solar-system-chart-inner = Inre systemet (till Mars)
+
+engine-solar-system-chart-whole = Hela systemet (till Pluto)
+
+engine-solar-system-chart-legend = grönt: VALIDATED mot JPL Horizons · gult: MODELLED · månar listas i result.json med föräldracentrerade banor
+
+engine-spectrum-chart-title = Spektrumvattenfall för L-bandet
+
+engine-spectrum-chart-multi-title = Spektrumvattenfall för flera band
+
+engine-spectrum-chart-frequency-mhz = frekvens (MHz)
+
+engine-spectrum-chart-cn0-caption = C/N0 (dB-Hz): nominell (grå) / minimum
+
+engine-spectrum-chart-threshold = tröskel { $thr }
+
+engine-spoof-chart-title = Detektering av tidsspoofing: förskjutning mot klockstödda detekteringsgränser
+
+engine-spoof-chart-offset-ns = spoofingförskjutning (ns)
+
+engine-spoof-chart-spoof-offset = spoofingförskjutning
+
+engine-spoof-chart-quantum-bound = kvantdetekteringsgräns
+
+engine-spoof-chart-classical-bound = klassisk detekteringsgräns
+
+engine-sweep-chart-title = { $metric } mot { $parameter } ({ $scale } skala)
+
+engine-sweep-nd-chart-title = { $n_dims }-D-svep av `{ $kind }` — { $n_nodes } noder
+
+engine-sweep-nd-chart-axes = axlar: { $axes } (form { $shape })
+
+engine-sweep-nd-chart-metrics = mått: { $metrics } — hela rutnätet i JSON
+
+engine-sweep-nd-chart-line-title = svep av `{ $kind }` över { $key }
+
+engine-sweep-nd-chart-y-title = mått
+
+engine-telecom-timing-max-te-ns-budget-never-exceeded = telecom-timing: max|TE| { $max_abs } ns under { $v2 } s; { $masks }; budgeten på { $max_abs_te_ns } ns överskreds aldrig (MODELLED)
+
+engine-telecom-timing-max-te-ns-budget-exceeded-after = telecom-timing: max|TE| { $max_abs } ns under { $v2 } s; { $masks }; budgeten på { $max_abs_te_ns } ns överskreds efter { $t } s (MODELLED)
+
+engine-telecom-timing-chart-title = Telecom timing: tidsfel, MTIE och TDEV
+
+engine-telecom-timing-chart-y-title = |tidsfel| (ns)
+
+engine-telecom-timing-chart-te-caption = absolut tidsfel mot budgetarna
+
+engine-telecom-timing-chart-holdover = holdover
+
+engine-telecom-timing-chart-time-record = tid (post på { $h } h)
+
+engine-telecom-timing-chart-mtie-caption = MTIE (heldragen), TDEV (streckad), första MTIE-masken (grå), ns
+
+engine-timetransfer-chart-title = Synkroniseringsfel vid tidsöverföring (optisk mot RF)
+
+engine-timetransfer-chart-y-title = synkroniseringsfel (ps)
+
+engine-timetransfer-chart-spec = specifikation { $mm } mm = { $ps } ps
+
+engine-timetransfer-chart-x-title = mättid (s)
+
+engine-timetransfer-chart-rf = RF: { $id }
+
+engine-timetransfer-chart-optical = optisk: { $id }
+
+engine-timetransfer-chain-chart-title = quantum-time-transfer (MODELLED)
+
+engine-kind-clock-description = Klockans holdover mot specifikation; valfritt Monte Carlo-ensemble (runs > 1).
+
+engine-kind-inertial-description = Tröghetsbaserad dödräkning i 1 frihetsgrad under ett GNSS-avbrott.
+
+engine-kind-orbit-description = GNSS-tillgänglighet + DOP från en omloppskonstellation (Walker / TLE / RINEX).
+
+engine-kind-ephemeris-description = Efemerid och markspår: propagera en satellit (TLE→SGP4 eller analytisk bana) och ge dess TEME/GCRS-tillstånd (position + hastighet), ITRF/ECEF-position, WGS-84-latitud/longitud/höjd för subsatellitpunkten samt azimut/elevation/avstånd och avståndshastighet (Doppler) per steg för stationen. Satelliten kommer från en `tle` eller från en analytisk `orbit` med dess `epoch` (en `tle` går före när båda anges); med en `tle` åsidosätter en `epoch` TLE:ns egen epok som t = 0.
+
+engine-kind-integrity-description = Snapshot / solution-separation / ARAIM RAIM med HPL/VPL och ett Stanford-diagram.
+
+engine-kind-lunar-integrity-description = ARAIM-skyddsnivåpass för månens sydpol mot en representativ LunaNet-relästuppsättning. sigma_ure_m anger signal-i-rymden-avståndsnoggrannheten (skyddsnivåerna skalar linjärt med den, så att svepa den besvarar vilken avståndsnoggrannhet en larmgräns kräver). Standardvärdet är det historiska LNIS-liknande sydpolsfallet.
+
+engine-kind-lunar-time-offset-description = Modellerad relativistisk klocktakt mellan jorden och månen (koordinattid för månen, LTC/TCL): den sekulära LTC−TT-takten från självpotentialskillnaden och månens kinetiska term, redovisad med det publicerade bandet 56–59 µs/dygn, samt den ackumulerade förskjutningen över en horisont.
+
+engine-kind-lunar-vlbi-description = Modellerad geodetisk VLBI-fördröjningsobservabel för månen: en jordbaslinje (två markstationer, GCRS) observerar en enkelriktad signal från en fyr av NovaMoon-klass på månytan. Ger fördröjningen enligt närfältets differens av två avstånd, dess takt och närfältskorrektionen för vågfrontens krökning över en passage — korskontrollerad mot den planvågs-Δ-DOR-observabel som finns i samma kodbas i fjärrfältsgränsen, med partialderivator verifierade med finita differenser. Standardvägen med analytiska modeller är MODELLED och bär med sig förbehållen om systemkonsistens, polrörelse med xp=yp=0 samt planvåg mot närfält. Om planetary_kernel_path, earth_orientation_kernel_path och moon_orientation_kernel_path anges körs i stället kärnvägen (DE440, MOON_PA_DE440, ITRF93; konvergerade barycentriska ljustider; lägger till epokens partialderivator för fyr och station), vars newtonska fördröjning och partialderivator stämmer med NAIF SPICE:s konvergerade ljustider inom { $lit_0_06 } ps och 7.4e-9. Inte validerad mot verkliga VLBI-data.
+
+engine-kind-lunar-joint-od-clock-description = Modellerad gemensam multiteknik-skattare (batch) för banbestämning och klocka på månen i ett SIMULERAT nätverk: en Gauss-Newton-ögonblicksanpassning som sammanför geodetiska VLBI-fördröjningar över jordbaslinjer, lokala avstånd på månen mellan station och satellit samt avstånd mellan satelliter för att tillsammans återvinna en lunar ytstations 3-D-position, positionerna för en liten konstellation och varje enhets klockförskjutning från en injicerad referens. Det ärliga huvudresultatet — VLBI gör stationens fullständiga 3-D-position observerbar där enbart lokala avståndsmätningar på månen lämnar en svagt observerad riktning — redovisas som kontrasten i stationsfel med respektive utan VLBI. MODELLED simulerad återvinning i sluten slinga (referensen delar observationsmodellen), deterministisk (seedad), INTE validerad mot verkliga data; ingen kraftmodellspropagering inuti lösaren; inget TRL-, arv- eller myndighetsstöd.
+
+engine-kind-lunar-frame-realisation-description = Modellerad realisering av månens referenssystem: en 7-parameters Helmert-datumanpassning (likformighet) — 3 translationer, 3 småvinkelrotationer, 1 skala — som knyter en skattad uppsättning selenografiskt härledda MCMF-punktkoordinater till ett datum med viktad minstakvadratmetod (crate::batch_ls::gauss_newton), plus en enkel orienteringsknytning som uttrycker den realiserade lilla rotationen kring ICRF-axlarna relativt kroppsorienteringen enligt IAU 2015 WGCCRE. Scenariot injicerar en känd liten transformation (translation ~tiotals m, rotation ~µrad, skala ~1e-7) i ett väl spritt syntetiskt punktnätverk, lägger till seedat gaussiskt brus, återvinner datumet och redovisar den återvunna transformationen, återvinningsfelet per parameter mot den injicerade referensen samt RMS-residualen efter anpassningen. MODELLED självkonsistens — återvinner en injicerad likformighetstransformation (brusfri till ~maskinprecision), INTE en realisering mot verkliga spårnings-/VLBI-data; deterministisk (seedad); inget TRL-, arv- eller myndighetsstöd.
+
+engine-kind-moonlight-service-volume-description = Modellerad analys av navigationsservicevolym på månen från en ILLUSTRATIV konstellation i månbana av Moonlight/LCNS-klass från offentliga källor (inte knuten till ESA): sveper ett selenografiskt latitud-/longitudrutnät över en tidshorisont och redovisar DOP / täckning / tillgänglighet (≥4 satelliter OCH PDOP < tröskel) samt ett generaliserat ARAIM-skyddsnivåhölje (HPL/VPL) för månen över volymen. DOP-geometrin ÅTERANVÄNDER den av gnss_lib_py VALIDATED kärnan (crate::orbit::dop); skyddsnivån ÅTERANVÄNDER LunaNet LNIS-maskineriet för ARAIM på månen (crate::lunar, σ_URE≈30 m) och reduceras till den befintliga skyddsnivån för sydpolen som specialfall. MODELLED sammansättning: en cirkulär/elliptisk Kepler-relästuppsättning (inte de verkliga differentialkorrigerade LCNS/NRHO-efemeriderna), en måne med medelrotation (ingen libration/prekesserande pol). Deterministisk (ren geometri). Inget TRL-, arv- eller myndighetsstöd.
+
+engine-kind-lunar-differential-pnt-description = Modellerad DIFFERENTIELL PNT på månen (en motsvarighet till DGNSS/SBAS på månen): en referensstation av NovaMoon-klass på en KÄND selenografisk plats beräknar differentialkorrektioner per satellit från en ILLUSTRATIV konstellation av Moonlight/LCNS-klass från offentliga källor (NovaMoon nämns bara som en systemKLASS, inte knuten till ESA), och en användare förskjuten med baseline_km tillämpar dem så att de GEMENSAMMA ban- och klockfelen tar ut varandra. Klocktermen tar ut sig EXAKT (en algebraisk identitet); bantermen lämnar bara projektionen av skillnaden i siktlinje, som → 0 när baslinjen → 0 (golvet för rumslig dekorrelation) och växer ≈ linjärt med baslinjen. Redovisar användarens 3-D-positionsfel MED respektive UTAN korrektioner, minskningsfaktorn, kurvan för fel mot baslinje och en användarskyddsnivå som ÅTERANVÄNDER SBAS-maskineriet enligt DO-229E (crate::sbas) med differentialresidualen σ. MODELLED — exakt identitet för bortfall + dekorrelationsmodell av första ordningen; inte validerad mot verkliga data; inget TRL-, arv- eller myndighetsstöd. Deterministisk om den seedas.
+
+engine-kind-lunar-station-coverage-description = Modellerad täckning för en referensstation på månen: ett Monte Carlo-svep av modellen för differentiell PNT på månen över ett användarrutnät vid sydpolen och ett dygns epoker. En differentiell referensstation på en känd plats vid sydpolen korrigerar en angiven konstellation (illustrativ Kepler eller en tabellerad efemerid) med ett angivet signal-i-rymden-fel, mätfel, korrektionsfördröjning och länkkvantisering; per punkt och över regionen redovisas percentilen för korrigerat och okorrigerat positionsfel (3-D, horisontellt, vertikalt), tillgänglighet, täckning mot ett angivet tröskelvärde, skyddsnivåer enligt DO-229E, täckningsradien per azimut och korrektionslänkens länkbudget vid stationen och vid den sämsta punkten. Inget uttalande om prestandan hos något verkligt system; inte knuten till eller förordad av någon myndighet. MODELLED.
+
+engine-kind-lunar-interop-export-description = Modellerad interoperabilitetsexport för månen: ger månens referenssystem, tidsskala och efemerid i LunaNet/IOAG-anpassade, CCSDS-baserade utbytesformat med rundtur och fältkontroll. ÅTERANVÄNDER cratens CCSDS OEM 2.0-emitter och -parser (crate::oem) ommärkta för månkontexten — OEM-fältet REF_FRAME bär IAU 2015 WGCCRE:s kroppssystem för månen (MOON_ME / MOON_PA), TIME_SYSTEM månens tidsskala (LTC / TCL / UTC), CENTER_NAME = MOON — över en illustrativ exempelefemerid av LCNS-klass (positioner från crate::lunar_service, hastighet med finita differenser). Ger också en LunaNet/IOAG-anpassad tidsbeskrivning för månen (skal-id, sekulär takt µs/dygn från crate::lunar_time, publicerat band, referensyta) som går att göra rundtur på via serde_json, och lägger artefakterna i det befintliga KIF-höljet (crate::interchange) med hederlighetsetiketten MODELLED. Redovisar skapade artefakter, antal OEM-rader, utfall för fältkontrollen samt lista över närvarande/saknade fält, OEM-rundtur ok, rundtur för tidsmetadata ok och KIF:s storlek i byte. MODELLED — deterministisk rundtur + kontroll av fältnamn mot publicerad CCSDS OEM- och LunaNet/IOAG-fältsemantik är den oberoende referensen; INTE ett certifierat interoperabilitetstest; illustrativ efemerid från offentliga källor, inte knuten till ESA; inget TRL-, arv- eller myndighetsstöd.
+
+engine-kind-timetransfer-description = Optisk mot RF tvåvägsöverföring av tid/frekvens.
+
+engine-kind-quantum-anomaly-detect-description = MODELLED detektering av fel/anomalier för kvant-PNT-system: en märkt felkatalog (klockans frekvenshopp/drift/låsförlust; sensorns biassteg/bortfall), en ROC AUC för detekteringsstatistiken (med ett bootstrap-konfidensintervall från den externt validerade eval_stats) och ett minsta detekterbart fel vid en fast falsklarmsfrekvens, där den kvantklockstödda monitorn (lägre brus) upptäcker mindre fel — som ärlig TradeEvidence + representativitet. Gaussisk modell för detekteringsstatistiken (AUC = Phi(mu/(sigma*sqrt2))); modellerar klassen, illustrativa parametrar från offentliga källor, ingen TRL/flygning/certifiering.
+
+engine-kind-quantum-gnss-free-nav-description = MODELLED GNSS-fri kvantnavigering: under ett GNSS-avbrott en kvantbaserad (kallatomsinterferometer) tröghetsbudget mot ett klassiskt INS av navigationsklass — positionsfelets tillväxt under glidfasen, holdover till en positionströskel och avvägningen kvant mot klassiskt som ärlig TradeEvidence med representativitet. Ärlig observerbarhetsanmärkning: utan extern positionsbestämning är accelerometerns bias inte observerbar, så felet växer; kvantsensorn fördröjer men sluter inte det gapet. Illustrativa enhetsparametrar från offentliga källor; modellerar klassen, ingen TRL/flygning/certifiering.
+
+engine-kind-quantum-time-transfer-description = MODELLED kedja för betrodd kvanttidsynkronisering: en helhetsbudget för kvant (optisk gitterklocka + intrasslad länk/enfotonlänk) mot klassisk (CSAC + RF-tvåväg) tidsöverföring, en återanvänd skyddsnivå för tidssynkronisering + ett säkerhetsmått för fördröjnings-/replay-attacker (1-P_md), en sannolikhet för detektering av klockanomalier + CUSUM-latens och avvägningen kvant mot klassiskt som ärlig TradeEvidence med en post för representativitet och luckor till flygning. Illustrativa enhets-/länkparametrar från offentliga källor; modellerar klassen, ingen TRL/flygning/certifiering görs gällande.
+
+engine-kind-hybrid-description = Hybrid-PNT som slutsten: klocka + IMU + stöd från tidsöverföring.
+
+engine-kind-fusion-description = Gemensam PNT med Kalman-sensorfusion över samma hybrida indata.
+
+engine-kind-hybrid-ukf-description = Hybrid kvant+klassisk tätt kopplad GNSS/INS-UKF med 17 tillstånd (MODELLED): 15 INS-feltillstånd + CAI-härledd korrektion av accelerometerbias + en klocka med 2 tillstånd (fas+frekvens) från klockmotorn med q-parametrar, driven av den inramade CAI-felmodellen. Nyckeltalet är filtrets självkonsistens (NEES + innovationsvithet mot χ²-gränser) — ett påstående om självkonsistens, INTE en garanti för noggrannhet i verkligheten. Endast simulering; ingen TRL>3, inget flygarv, ingen extern validering.
+
+engine-kind-gnss-ins-description = Löst och tätt kopplat GNSS/INS-EKF med feltillstånd.
+
+engine-kind-gnss-sim-description = Simulering av pseudoavstånd i mätdomänen (Klobuchar-jonosfär, Saastamoinen/Niell-troposfär) + RAIM.
+
+engine-kind-jamming-description = Jamming med länkbudget: J/S → effektiv C/N₀ → förlorat lås.
+
+engine-kind-spoof-description = Stokastisk detektor för tidsspoofing (Neyman–Pearson / χ²₁) med Monte Carlo-P_fa/P_md.
+
+engine-kind-spoof-detect-description = Kombinerad RF-/mätningsbaserad spoofingdetektor (RAIM-konsistens över flera SV + AGC + SQM, fuserade) mot en parametriserad attack (effektfördel, bärvågsfasinriktning, tids-/positionspush; TEXBAT-liknande).
+
+engine-kind-sweep-description = 1-D-svep i en avvägningsstudie över en parameter i klockpaketet.
+
+engine-kind-sweep-nd-description = Generiskt N-D-svep över valfritt paket via punktseparerade TOML-nycklar / JSON-mättvägar.
+
+engine-kind-gravity-map-description = GPS-fri navigering med matchning mot gravitationskarta: en kallatomgravimeter återvinner en konstant INS-drift ur den sekvens av gravitationsanomalier den flyger genom.
+
+engine-kind-terrain-nav-description = GPS-fri terrängreferensnavigering (TERCOM/SITAN): en radar-/barohöjdmätare matchar markhöjdsprofilen mot en DEM av SRTM-typ för att återvinna INS-driften.
+
+engine-kind-terrain-slam-description = GPS-fri sekventiell (rekursiv) terrängreferensnavigering: ett partikelfilter kör mätmodellen för terrängmatchning epok för epok (SITAN som ett löpande filter) så att en tidsvarierande INS-drift följs längs banan, där batch-varianten terrain-nav bara återvinner en enda konstant förskjutning.
+
+engine-kind-combined-altpnt-description = GPS-fri kombinerad navigator för gravitation + magnetfält + terräng: tre skalära fältkanaler fuserade per vägpunkt för en skarpare (lägre CRLB) driftbestämning än något enskilt fält.
+
+engine-kind-pvt-description = Enkelpunktspositionering med verkliga observationer: lös en mottagares position ur en RINEX 3-observationsfil och en broadcast-navigationsfil (kodpseudoavstånd, broadcast-efemerid, Klobuchar-jonosfär, Saastamoinen/Niell-troposfär), valfritt kontrollerad mot en inmätt koordinat.
+
+engine-kind-mars-pnt-description = PNT för djuprymd vid Mars: en simulerad MARCONI-relä-konstellation (areostationära + lutande reläer som sänder enkelriktat + vidarebefordrar tvåvägs till en djuprymdsstation) navigerar en referensanvändare (transfer | lmo | surface) genom den gemensamma radiometriska skattaren för enkelriktad/tvåvägs fusion. Redovisar geometri/sikt per epok, uppnådd RMS mot referens och den formella kovariansen (1σ / 3σ position) — ett ärligt simulerat nyckeltal, INTE en certifierad skyddsnivå.
+
+engine-kind-impairment-eval-description = Utvärderingsbädd för AI/ML-detektering av RF-störningar (13494): generera ett märkt, parameterförankrat SYNTETISKT korpus (nominell/jamming/spoof-tid/spoof-position/flervägs), poängsätt en detektor (energy|agc|sqm|parity|fused) med den detektoroberoende testselen och redovisa AUC/ROC/förväxlingsmatris + Pd per klass vid ett mål-Pfa, samt optimismgapet mellan fördelning inom och utanför träningsdata. Endast MODELLED driftegenskaper — aldrig fält/IQ, inget dom om bra/dåligt.
+
+engine-kind-quantum-trade-description = Avvägning kvant mot klassisk PNT (13503): nyttan i tidshållning (holdover) + tröghetshållning hos en kandidatklocka (en uppmätt ADEV-kurva — försvarbarhetens angelpunkt — eller en kvantklockklass) mot en klassisk baslinjeklass, där förbehållet om golvantagandet vid långt tau följer med artefakten, plus en envelop för GNSS-nekad resiliens mot tid. MODELLED; kvantifierar (validerar aldrig) en partnerenhet. Kandidatklockan är en uppmätt kurva (`candidate_adev_taus` + `candidate_adev_values`, lika långa, minst 2 punkter; den gäller när båda formerna anges) eller en `candidate_clock_class`.
+
+engine-kind-space-weather-description = Miljömodell för rymdväder: sol- (F10.7/F10.7a) och geomagnetiska (Kp, med den definitionsmässiga Kp↔ap-tabellen) aktivitetsindex, den exosfäriska temperatur enligt Jacchia-1971 som de driver (validerad mot publicerat solminimum/medel/maximum) och den termosfäriska neutraltätheten enligt Jacchia-1971 vid den dygnsmedelvärdesbildade exosfäriska temperaturen mot den aktivitetsfria statiska profilen på en uppsättning höjder — solcykelberoendet i tätheten som den statiska atmosfären utelämnar. MODELLED: tätheten stämmer med accelerometerhärledda tätheter (TOLEOS CHAMP och GRACE) inom en faktor 2 vid solmaximum men är cirka { $lit_1_7 }x för tät vid solminimum 2008.
+
+engine-kind-oem-interop-description = Interoperabilitetsbrygga för CCSDS OEM: importera ett Orbit Ephemeris Message som tagits fram av ett externt flygdynamikverktyg (GMAT/Orekit/STK ger alla OEM) och redovisa dess segment/objekt/system/epokspann samt en hastighetskonsistenskontroll; utan indata görs en rundtur med en genererad referensbana och redovisas trohet mellan import och export. MODELLED strukturell/fysikalisk importkontroll, INTE en validering av källans banprecision.
+
+engine-kind-launch-window-description = Tvåkroppsgeometri för uppskjutning och uppstigning: uppskjutningsazimut, lägsta nåbara inklination, cirkulär hastighet, bonusen österut från jordrotationen, Δv för dogleg-planbyte när målinklinationen är lägre än platsens latitud samt antalet dagliga uppskjutningstillfällen. MODELLED geometri för sfärisk jord (ingen korrektion med hastighetstriangel för roterande jord, ingen modell för uppstignings-/luftmotståndsförluster).
+
+engine-kind-reentry-description = Allen-Eggers korridor för ballistisk återinträde: toppretardation (oberoende av ballistisk koefficient, V_e^2 sin|γ|/(2eH)), hastighet och höjd vid peak-g samt hastigheten vid toppvärmning, för en ingångshastighet/banvinkel/ballistisk koefficient genom en exponentiell atmosfär, plus en plan punktmassaintegration av samma ballistiska inträde med gravitation, jordkrökning och US Standard Atmosphere 1976 (toppretardation, hastighet, höjd och tid vid toppen). MODELLED ballistiskt inträde (utan lyft); värmeresultatet är HASTIGHETEN vid toppvärmning, inte ett värmeflöde (ingen aerotermisk modell/TPS-modell).
+
+engine-kind-eo-coverage-description = Fotavtryck och täckningsgeometri för jordobservationsnyttolast (SMAD:s rymdtriangel): jordens vinkelradie, svepbredd, markupplösning i nadir, maximal åtkomst utanför nadir, cirkulär period, nodperiod med J2 och avstånd mellan ekvatoriella markspår med en flagga för sammanhängande täckning, för en banhöjd, inklination (solsynkron som standard) och sensorns FOV/IFOV. MODELLED geometri för sfärisk jord (ingen radiometri/MTF/atmosfär/jitter/solglitter); nodavstånd R_e·(ω − Ω̇)·T_nodal med sekulära J2-takter av första ordningen.
+
+engine-kind-space-packet-description = Inramning enligt CCSDS 133.0-B Space Packet Protocol: koda en syntetisk ström av TM/TC-paket (primärhuvud på 6 oktetter + datafält) och redovisa avkodning av huvudet per paket, totalt antal oktetter och en exakt rundtur kodning↔avkodning. Deterministisk, exakt inramning av bitlayout — lagret för interoperabilitet av myndigheters paketformat; INTE en certifiering (ingen logik för sekundärhuvud/CRC/segmentering utöver flaggorna).
+
+engine-kind-attitude-budget-description = Felbudget för lägesreglering och pekning i 3 frihetsgrader: det värsta fallets gravitationsgradientstörningsmoment ((3/2)(μ/R³)ΔI) och en pekfelsbudget med kvadratisk summering över namngivna 1σ-bidrag (sensorbrus, reaktionshjulsjitter, termiskt, inriktning) med den dominerande termen, för en banhöjd + kroppens tröghetsspridning. MODELLED skalär AOCS-budget — ett komplement före hårdvara till Basilisk/42, inte en simulering av reglerslinga/6-DoF/flexibla moder.
+
+engine-kind-passes-description = Förutsägelse av överflygningar för markstation: överflygningarna i tidsdomänen (AOS/TCA/LOS, maximal skenbar elevation, varaktighet) för en cirkulär bana, som SGP4-medelelement vid fönstrets start, över en station ovanför en elevationsmask under ett fönster, med total åtkomsttid. SGP4/SDP4-propagering i det jordfasta systemet IAU 2006/2000A (valfritt UT1 - UTC och polrörelse), troposfärisk refraktion enligt ITU-R P.834-9 och nedlänkens ljustid (båda på som standard), passager lösta till 1e-7 s och kulminationen med gyllene snittet-sökning. Passagegeometrin är VALIDATED mot Orekit 13.1.8 vid stationer på havsnivå; scenariots bana och station är illustrativa indata.
+
+engine-kind-link-budget-description = Enkelriktad länkbudget över länkekvationen i CCSDS 401 / DSN 810-005: fritt rymdförlust, C/N₀, Eb/N₀, marginal och slutning för en sändande EIRP, mottagande G/T, avstånd, datahastighet och band (s|x|ka) mot ett krävt Eb/N₀. En deterministisk ingenjörsberäkning ur de angivna indata (inte ett kalibrerat databladsvärde för en terminal).
+
+engine-kind-lunar-time-budget-description = MODELLED helhetsbudget för tidsfel i koordinerad månadstid (LTC): de sju LTC-feltermerna sammanställda som tidsfelskurvor x_i(τ) över ett helt rutnät av medelvärdestider, rotsummerade till x_Σ(τ), och KORSNINGS-τ mellan klocka och system där den växande klocktermen går om den konstanta realtidstermen för systemrealisering (under det är budgeten systembegränsad, över det klockbegränsad) — det ärliga svaret på artefakten med ett enda τ. Lutningarna i τ är slutna uttryck och analytiskt kontrollerbara (klocka τ^{ "{" }+1/2{ "}" }/τ^{ "{" }+1{ "}" }, golv τ^0, mätning τ^{ "{" }-1/2{ "}" }) och klockraderna återger de publicerade klockspecifikationerna för en dag (crate::clock_specs); STORLEKARNA på golven för RF-/optisk länk, systemrealisering, relativistisk residual och efemerid är Modelled budgetallokeringar (dokumenterade standardvärden, kan åsidosättas av anroparen), inte mätningar. Bidraget är det reproducerbara korsnings-τ, inte ett certifierat tal per term; inte certifierad för operativ tidshållning.
+
+engine-kind-hybrid-optical-rf-description = MODELLED gemensamt nyckeltal för heterogen optisk + RF-PNT (P5): sätter ihop länkbudgeten för tvåvägs optisk länk vid 1550 nm (fotonbegränsad CRLB för tvåvägsavståndsmätning σ_τ/√N och diffraktionsfotavtryck λ/D·avstånd), en skyddsnivå (position OCH tid) med RAIM av lösningsseparation över modaliteter som fuserar de lösa RF-lösningarna och de täta optiska lösningarna med olika kovarianser, den optiska klarhimmelstillgängligheten för N stationer (oberoende union 1−Π(1−a_i) och en rumsligt korrelerad variant), en överlämning av tillstånd/kovarians mellan optisk↔RF med ett BEVISAT bitkontinuerligt (hoppfritt) medelvärde och en NEES χ²-konsistensspärr, samt ett gemensamt mått P(tillgänglig OCH precisionsklass OCH integritetssäkrad) med hantering av korrelation. VALIDATED sluten form: CRLB för avståndsmätning, diffraktionsfotavtryck, kvantil för χ²-skyddsnivå, unionskombinatorik, medelvärdeskontinuitet vid överlämning + NEES-spärr och den gemensamma oberoende produkten. MODELLED: de optiska förlustallokeringarna, RF-/optiska σ-storlekar, indata om molnklimatologi, korrelationer och P_HMI-budgeten. Inte en certifierad tillgänglighets-/integritetsprodukt.
+
+engine-kind-cislunar-observability-description = MODELLED observerbarhet för en plan cislunar konstellation (P6): följer en konstellation av fyra rymdfarkoster i differentialkorrigerade plana DRO med inbördes avståndsmätning och redovisar hur stor del av en rymdfarkosts fyra tillstånd [x,y,ẋ,ẏ] som bågen gör observerbar. Ger (1) tabellen rang mot båglängd för en enda länk med enbart avstånd — momentant rang 1, växande mot de fyra fulla tillstånden när bågen förlängs (P6 tabell 1); (2) egenspektrum och konditionstal för observerbarhetsgramianen över bågen; (3) jämförelsen av momentan rang med enbart avstånd mot avstånd+avståndshastighet (Doppler som designspak) samt redovisningen av GDOP som är singulär med enbart avstånd / definierad med avstånd+hastighet; och (4) en oberoende SRIF-korsvalidering vars posteriora kovarians blir ändlig / välkonditionerad exakt vid den båge där den observerbara rangen når fyra. VALIDATED kärna: den observerbara rangen är en rangavslöjande tröskel för singulärvärden som korskontrolleras mot gramianens egenrang; egenspektrumet följer de spektrala invarianterna (spår=Σλ, det=Πλ, Frobenius²=Σλ²); den variationella STM är den med finita differenser validerade CR3BP-STM; Jacobi-raderna för avstånd/avståndshastighet är analytiska partialderivator validerade med finita differenser (korskontrollerade mot cratens 3-D-observabel för avståndshastighet); de fyra begynnelsevillkoren är differentialkorrigerade plana DRO som sluter till en snäv periodicitetsresidual och är retrograda; rangövergången är korsvaliderad mot cratens kvadratrotsinformationsfilter (posteriora kovariansen ändlig exakt vid full rang, cond(P)=cond(OᵀO)); en rangdefekt ögonblicksbild flaggas som GDOP odefinierad (fim condition=inf), aldrig ett falskt ändligt värde — samma skydd mot singulär geometri som pvt::solve_spp tillämpar. MODELLED: konstellationens utformning (DRO-perilunamplituder och -faser) och den specifika rangprogression den ger. Inte en certifierad produkt för navigationsprestanda.
+
+engine-kind-conflict-resilience-description = MODELLED resiliens i skiktad PNT vid konflikt (P7): en användare i en kontesterad miljö har flera PNT-skikt (GNSS med öppen tjänst, bredbands-GNSS, en autentiserad konstellation, ett förstärkningsrelä), vart och ett med en grundtillgänglighet, en 1σ-noggrannhet och en sårbarhet per vektor för nekande från det gemensamma hotet av jamming/spoofing. En intensitetssvept SEEDAD Monte Carlo nekar varje skikt med sannolikheten clamp(vulnerability·intensity·vector_weight,0,1), fuserar de överlevande med den slutna regeln om inversvarians σ_fused=(Σ 1/σ_i²)^(−1/2) och redovisar sannolikheten för total förlust (alla skikt nekade), det mediana fusionsfelet och användbarhets-/nekandestatistik per skikt mot intensitet. Det centrala resiliensförhållandet (total förlust för ett skikt mot skiktad) landar på ~7x under antagandet om OBEROENDE; ett svep med enfaktors gaussisk kopula för korrelerat nekande visar sedan att ~7x faller mot 1 när korrelationen mellan nekanden ökar (korrelation motverkar skiktning). Ett block för priorkänslighet låter det centrala resultatet variera över de KÄLLBELAGDA sårbarhetspriorerna via mcda-tornado + en omfördelning av hotinsatsen med Dirichlet + percentilkonfidensintervall. VALIDATED kärna: Monte Carlo-totalförlusten konvergerar mot den slutna oberoende produkten Π_i p_deny_i (inom MC-standardfel vid fast seed och stort N); inversvarianssammanslagningen är en sluten identitet; vid ρ=0 reduceras kopulan till den oberoende modellen och varje ρ bevarar varje skikts marginella nekandefrekvens. MODELLED: storleken på sårbarhet/tillgänglighet/noggrannhet per skikt är källbelagda men Modelled indata (JammerTest 2024, TEXBAT, EASA SIB, RTCA DO-229, LunaNet/IOAG — se conflict_threat_params), och den specifika storleken ~7x och kurvformen för förhållande mot korrelation följer av den parametriseringen. En uppdelning av överlevnad per vektor i §4.2 delar sedan upp det gemensamma RF-hotet i de fyra namngivna vektorerna (jamming/spoofing/kinetisk/cyber) och redovisar varje vektors kurva för graciös försämring av användbar PNT S_v(x)=1-Prod_i(1-a_i(1-clamp(susceptibility_i,v·x,0,1))) — VALIDATED: den seedade Monte Carlo per skikt konvergerar mot den slutna formen; jamming är den skarpaste vektorn för den korrelerade RF-baslinjen och det RF-immuna tröghetsskiktet är den avgörande överlevaren. Inte en certifierad produkt för navigationstillgänglighet.
+
+engine-kind-lunar-attack-surface-description = Angreppsyta för signalsäkerhet vid navigering på månytan (P1): sätter ihop de öppna analyserna av signalsäkerhet till en enda körning som kan nås från binären. Redovisar (1) AFS mottagna effekt och dess effektÖVERSKOTT jämfört med en jordnära GPS-referens, plus känslighetsbandet 12-18 dB som ett genuint svep över flera axlar av länkens indata (referensnivå x EIRP x snedavstånd) med avstämningen av linjär faktor 25x avrundad / 28x oavrundad. REVIDERAD (regel R4): detta redovisade ett effekt-UNDERSKOTT på { $lit_15_6 } dB och en faktor 32x/36x tills GPS-referensen korrigerades från -125 / -{ $lit_128_5 } (som är dBm-värdena) till -155 / -{ $lit_158_5 } dBW, värdena i ICD-GPS-200 som jamming-modulen alltid har haft. Tecknet vänds: den modellerade AFS-signalen på månen är { $lit_14_4 } dB STARKARE än jordnära GPS L1 C/A, inte svagare. Själva mottagna effekten ändrades inte med en bit, och den linjära faktorn är den gamla delad med exakt 1000, vilket är exakt förskjutningen på 30 dB mellan dBm och dBW; (2) den krävda sändareffekten hos en angripare för att spoofa (J/S = 3 dB) och för att neka (J/S = 30 dB) vid varje avstånd, inversen av J/S-länken; (3) fotavtrycket för orbital fångst under ett verkligt antennmönster med likformig apertur (Airy [2 J1(x)/x]^2), en höjdbegränsad subhemisfärisk kalott vars limb INTE fångas; (4) ett beräknat utfall för inkoppling av spoofingfångst i spårningsslingan (drar en spoofer med matchad kod vid en given effektfördel och kodförskjutning faktiskt med sig DLL/PLL) i stället för det påstådda tröskelvärdet 3 dB; (5) den geometriska horisontens räckvidd på en luftlös kropp för en höjd ytsändare; och (6) autentiseringsbudgeten för OSNMA/TESLA (20 bit/s overhead = ~40 % av ett AFS-navigeringsmeddelande på 50 bit/s, fördröjning vid nyckelavslöjande, 2^-40 förfalskning). En tom kropp återger P1-baslinjen; alla indata har standardvärden och kan åsidosättas. VALIDATED delresultat bär sin källmoduls oberoende referens (sluten dB-radiometri; rundtur med inverterad J/S; Airy-mönster mot A&S-Bessel och geometri för sfärisk kalott; DLL/PLL-inkoppling mot Kaplan & Hegarty; identitet för sfärisk tangenthorisont mot eo_payload; fältstorlekar i OSNMA SIS-ICD). MODELLED: de representativa storlekarna på geometri/effekt och de specifika cellvärdena i fångstkartan. Inte en certifierad säkerhetsprodukt.
+
+engine-kind-realtime-frame-eop-description = Budget för förutsägelse av månens system / jordens orientering i realtid: P4 tabell 1 (konsistenskontrollen av systemfelet — efterbearbetat ~{ $lit_0_27 } m ↔ ~{ $lit_0_010 } ms och realtid ~15 m ↔ ~{ $lit_0_5 } ms, varje systemposition uttryckt som sitt ekvivalenta UT1-fel via hävarmen L19 Δr = D_EM·ω⊕·ΔUT1) och tabell 2 (uppmätt UT1-prediktionsfel mot horisont — L18-kurvan avläst direkt ur den verkliga IERS-serien finals2000A: det slutliga golvet Bulletin A − Bulletin B och persistensprediktorns fel över flera dagar, vart och ett avbildat på en position i månsystemet med L19), plus L21:s rotsummerade budget för systemfel i realtid (EOP + efemerid + golv för realisering). VALIDATED sluten form (hävarmen L19, ω⊕ korskontrollerad mot CIO:s jordrotationsvinkel) och VALIDATED verkliga data (L18-kurvan ur de verkliga raderna i finals2000A); MODELLED är storlekarna på kovariansen för banbestämning av månrelä och golvet för systemrealisering (representativa allokeringar) samt persistensprediktorn (inte IERS operativa Bulletin A-algoritm). Inte en certifierad produkt för system i realtid.
+
+engine-kind-aperture-duty-cycle-description = Aperturens driftcykel: tidsfördelningen mellan navigering och kommunikation som en kontaktplan innebär för en pool av styrbara aperturer. Tar en kontaktplan (en lista med fönster `[[contacts]]` med aos_s/los_s, vart och ett med begäran om navigering eller kommunikation — samma aos_s/los_s-vokabulär som prediktorn `passes` ger), ett antal aperturer och en ARBITRERINGSPOLICY (navigeringsprioritet som standard, eller kommunikationsprioritet, eller icke-avbrytande först-till-kvarn), och redovisar navigeringsdriften, kommunikationsdriften, tomgångsdriften och avbrottet per session — den kontakttid en session begärde och ingen apertur betjänade. Ett exakt intervallsvep över fönstergränserna, så att angränsande fönster aldrig konkurrerar och ingen aperturssekund räknas dubbelt; navigerings-, kommunikations- och tomgångsaperturssekunder ackumuleras oberoende och går ihop mot apertures*horizon_s. Rapporten anger den tillämpade policyn, dess fullständiga definition samt definitionerna av drift och avbrott, eftersom en driftsiffra som anges utan sin arbitreringspolicy inte går att reproducera. MODELLED schemaläggningsaritmetik: ingen omriktnings-/omstämnings-/omställningstid debiteras när en apertur byter tjänst eller session, ingen datavolym, buffertstatus, energibudget eller länkslutning ingår i beslutet, och kontaktfönstren är indata — deras geometri är vad som än gav upphov till dem. Inte en produkt för schemaläggning av marksegment.
+
+engine-kind-lunar-jamming-description = Månspecifik RF-jamming: jammer-till-signal-förhållande per satellit, effektiv C/N₀ och förlorat lås för en selenografisk ytanvändare under en jammer på månytan (eller höjd), över den illustrativa konstellationen i månbana av Moonlight/LCNS-klass från offentliga källor. Sätter ihop den befintliga öppna fysiken för jamming (jamming::j_over_s_db, effective_cn0_dbhz, rx_antenna_gain_db, lock_status, q_factor) med den befintliga himmelsgeometrin för månen (lunar_service::LunarConstellation + topocentric, lunar::selenographic_to_mcmf); ingen geometri eller radiometri härleds på nytt. Till skillnad från jordens `jamming`-slag är signalledet INTE en fast mottagen effekt: varje satellits isotropa mottagna effekt är dess egen länkbudget EIRP − FSPL(snedavstånd), så J/S varierar från satellit till satellit med avstånd och elevation på månen. Redovisar EN RAD PER SYNLIG LÄNK (epok, satellit) — azimut, elevation, snedavstånd, båda mottagna effekterna vars skillnad J/S är, J/S, nominell och effektiv C/N₀ samt låsstatus — plus sammanfattande nyckeltal vid sidan av (aldrig i stället för) den tabellen, och samma tabell som en CSV-artefakt. Varje utmatat numeriskt fält har en enhet och en proveniensklass. VALIDATED delresultat bär sin källmoduls oberoende referens (anti-jam-ekvationen och J/S-länken enligt Kaplan & Hegarty §9.4, externt refererade i tests/gnss_denied_jamming_resilience_reference.rs; månens geometri i lunar_service). Själva sammansättningen är korskontrollerad mot en oberoende väg med två länkbudgetar (linkbudget::received_signal_power_dbw, ett annat uttryck för fritt rymdförlust) till 1e-9 dB. MODELLED: den illustrativa konstellationen, den representativa EIRP / jammereffekten / antennförstärkningarna / brustemperaturen samt frånvaron av terrängskuggning, flerväg, AGC-dynamik och adaptiv nollställning. Inte en certifierad produkt för denial-of-service. Med en konfigurerad jammer innehåller rapporten också en NEKANDEKONTUR MED ETT OSÄKERHETSBAND i stället för en kontur avläst ur ett enda skalärt värde: hela den uppmätta fördelningen av C/N₀ för den önskade signalen över tabellen per satellit (n, min, p05, p25, median, p75, p95, max, medelvärde, stickprovets standardavvikelse och stickprovets egen asymmetri), samt konturen utvärderad vid var och en av dessa ordningsstatistikor under BÅDA nekandekriterierna som motorn känner igen — det etablerade effektförhållandet (J/S = 30 dB, som i attack-surface och tracking-loop) och kriteriet förlorat lås (effektiv C/N₀ som faller till tracking_threshold_dbhz, det kriterium som den här rapportens egen statuskolumn använder) — på båda axlarna i nekandeplanet (krävd jammer-EIRP vid scenariots avstånd, nekandeavstånd vid scenariots EIRP). Bandkanterna ÄR contour(p05) och contour(p95), samma slutna avbildning tillämpad på stickprovets egna kvantiler: inte ett sigma anpassat till stickprovet och inte median ± k·stdev, där stdev ges för kontinuitetens skull och inte används av något. En kvantil som redan ligger vid eller under spårningströskeln har ingen ändlig nekande J/S och dess kolumner för förlorat lås är null med en räknad orsak, aldrig en kapad radie.
+
+engine-kind-ins-trn-coast-description = Felmodell för INS/TRN-glidflygning: positionsfel mot glidtid, uppbyggd av IMU-koefficienter i stället för att svepas som en antagen driftfrekvens. Fem tillväxtbidrag — accelerometerbias, gyrobiasens lutning genom gravitationen, slumpvandring i hastighet, slumpvandring i vinkel och skalfaktor mot tillryggalagd sträcka — vart och ett propagerat genom en tröghetsfelmodell med nio tillstånd i lokalt horisontsystem med Schuler-återkoppling vid en angiven latitud och höjd (de ledande lagarna för kort glidtid t², t³, t^1.5, t^2.5 och t¹/t² redovisas vid sidan av) och kombinerade enligt en ANGIVEN regel (kvadratisk summering som standard, eller linjär summering, eller deterministisk summering med stokastisk rss; alla tre beräknas vid varje körning så att valet syns i stället för att döljas). De glidtider som når positionströsklar angivna av anroparen (10 m och 50 m som standard) hittas med motorns befintliga bisektion, var och en med en uppdelning per bidrag som anger den dominerande källan, och varje enskilt bidrags korsning inverteras dessutom algebraiskt så att de två stämmer överens. Ett läge för terrängreferensnavigering begränsar glidtiden med periodiska positionsbestämningar och redovisar det största intervall mellan bestämningar som klarar varje tröskel; en bestämning enbart av position lämnar hastighetsfel och lutning kvar över bestämningen, så den begränsar inte alltid glidtiden vid någon bestämningsfrekvens, och rapporten säger det i stället för att ge en nolla. MODELLED: IMU-klassens koefficienter är representativa bandvärden, inte ett datablad, och residualen för terrängbestämningen är en indata. En tröskel som inte nås redovisas som null med en status, aldrig som noll. Inte en certifierad produkt för prestanda hos tröghetsnavigering.
+
+engine-kind-lunar-vlbi-fim-description = Kovarians för stationskoordinater i VLBI på månen: fördröjningens partialderivator för observabeln lunar-vlbi ackumulerade över ett uttryckligt SCHEMA (baslinjer x epoker) till en Fisher-informationsmatris, inverterad och redovisad som kovariansen för stationskoordinaterna och sigma per koordinat för stationen — ett beräknat resultat från motorn i stället för en skalär fördröjningsprecision som skjuts genom en antagen isotrop ekvipartitionsfaktor g = 3. Tillståndet bär JORDFASTA (ITRS) stationskoordinater, så Jacobianen är den tröghetsbaserade partialderivatan roterad med varje epoks GCRS->ITRS-matris: jordrotationen är det som gör dessa koordinater observerbara, och rapporten MÄTER den jordfasta svepningen av siktlinjen och fyrens deklination i stället för att anta dem. En observation är ett (baslinje, epok)-par där BÅDA stationerna ligger över elevationsmasken, viktad 1/delay_sigma_s^2. Redovisar rang, datumdefekt, konditionstal, hela informationsspektrumet, kovariansmatrisen, sigma per station och axel samt i 3-D, och det fria nätverkets nollrum vid varje körning; vid rangdefekt publiceras det centrala sigma som NULL med en status, aldrig avläst ur en nästan singulär invers. Ekvipartitionsvärdet c*delay_sigma_s*sqrt(g/N) för SAMMA schema ges vid sidan av det beräknade värdet med kvoten, tillsammans med den isotropa spårgränsen sqrt(p/trace(M)) som AM-HM gör till ett hårt golv — kvoten är alltså den anisotropi som antagandet förkastade. Fördröjningsslutningen tau_ik = tau_ij + tau_jk gör att bara n-1 av de n(n-1)/2 baslinjerna är geometriskt oberoende; rapporten anger båda antalen. MODELLED: månens centrumefemerid, stationsklockor, troposfär och jordorienteringsparametrar hålls FASTA och observationerna behandlas som oberoende, så kovariansen är en Cramér–Rao-gräns för en reducerad parameteruppsättning, inte ett förutsagt sessionsresultat; fördröjningens sigma, stationskoordinaterna och schemat är indata. Den partialderivata som Jacobianen för geometrisk fördröjning utelämnar (den differentierade Shapiro-termen) mäts med finita differenser och redovisas. Inte en geodetisk produkt.
+
+engine-kind-tracking-loop-description = Förlorat lås i spårningsslingan: C/N0 -> lås/olås MED HYSTERES, tiden det tar att förlora låset och spoofingens inkoppling som funktion av HASTIGHETEN i kod- och bärvågsförskjutning. Motorns befintliga kriterier för nekande och fångst är förhållanden mellan mottagen effekt (en jammer nekar vid J/S = 30 dB, en spoofer fångar vid 3 dB); verkligt förlorat lås är inte ett effektförhållande, det är där en slingas jitter plus dynamisk belastning lämnar sin budget för spårningströskeln. Redovisar (1) termiskt 1-sigma-jitter för bärvåg (Costas) och kod (icke-koherent early/late) mot C/N0, med kvadreringsförlust inräknad, mot de angivna reglerna 3*sigma_PLL + theta_e <= 45 deg (15-gradersregeln i tresigmaform) och 3*sigma_DLL + ramp lag <= d/2 chips; (2) trösklarna för C/N0 vid tappat och återtaget lås med den styrande slingan namngiven, där tröskeln för återtaget HÄRLEDS ur den bredare bandbredd en mottagare drar in på nytt med i stället för att påstås, så att hysteresens bredd måste ligga mellan 5*log10(ratio) och 10*log10(ratio) dB; (3) den deklarerade tiden för att förlora lås från en låsdetektor med två trösklar och bekräftelsetider, driven över en C/N0-ramp, redovisad separat från den fysikaliska tiden för fasflykt (Viterbis medeltid mellan cycle slips, i log10 s eftersom den spänner över hundratals dekader); (4) gränser för spoofingens inkoppling — den största kodlutning och bärvågs-Dopplerhastighet som ett offers slingor kan följa, med en karta över båda axlarna, eftersom en spoofer som lutar snabbare än dessa inte fångar slingan utan springer ifrån den; och (5) den NEKANDERADIEN som slingdynamiken innebär redovisad TILLSAMMANS MED den befintliga radien för effektförhållandet, aldrig i stället för det, med deras teckenbehäftade skillnad som ett eget namngivet fält (denial_radius_delta_km) och en definition bredvid. Varje utmatat numeriskt fält har en enhet och en proveniensklass. VALIDATED slutna uttryck: uttrycken för bärvågs- och kodjitter, slingfilterreduktionen sqrt(2*B_n*T) och förstaordningens ramplagg korskontrolleras mot motorns egen sdr-korrelator stegad framåt på seedad syntetisk IF — en annan väg till samma tal — till { $lit_0_6 } %, { $lit_3_7 } % respektive { $lit_0_17 } %, och den modifierade Bessel I0 bakom tiden för cycle slip mot standardtabellerade värden till 1e-7. Den nedre giltighetsgränsen hävdas, inte bara anges: under ~32 dB-Hz vid 1 ms mättas den verkliga atan-diskriminatorn mot sitt intervall +-pi/2 och mäter mindre jitter än någon linjär teori. MODELLED: slingbandbredder, integrationstid, korrelatoravstånd, bandbreddskvot vid inkoppling, bekräftelsetider, jammereffekt och antennförstärkningar är representativa bandvärden, inte ett datablad. INTE modellerat: oscillatorns (Allan-deviation) och vibrationernas jitter, begränsning av frontändens bandbredd, flerväg, AGC-dynamik, förlust vid databitövergångar, externt stöd och varje halvcykelkorrektion av formeln för Costas cycle slip. Under slingdynamik har spoofingfångst ingen radie alls — den bindande begränsningen är förskjutningshastigheten, inte effekten — så det fältet är null med en orsak i stället för ett påhittat tal. Inte en certifierad produkt för mottagarprestanda.
+
+engine-kind-araim-reference-check-description = Publicerade referensvektorer för ARAIM: motorns horisontella och vertikala skyddsnivåer för ARAIM körda mot WG-C ARAIM Technical Subgroups EGNA genomräknade numeriska exempel, vid den tolerans (TOL_PL = 5e-2 m) som dessa dokument själva anger. Två vektorer ingår som fixturer, var och en med sin hämtnings-URL, hämtningsdatum, SHA-256 för källfilen och sida: Reference Airborne Algorithm Description Document v3.1 (2019) bilaga D — självkonsistent, och accepteringsvektorn — samt Milestone 3 Report (2016) bilaga A avsnitt A.IX, det underlag som forskningsbibliografierna citerar. Varje publicerad indata (geometrimatrisen för 10 satelliter i 2 konstellationer, varians-diagonalerna C_int och C_acc, b_nom, P_sat, P_const och konstantuppsättningen för LPV-200) och varje publicerad utdata (VPL, HPL, EMT, sigma_v_acc, K_fa_3 samt sigma_3, sigma_ss_3 och b_3 för de två konstellationsfelslägena) redovisas bredvid motorns eget tal och deras absoluta skillnad. Ekvationen för skyddsnivån löses INTE om här: referensens lista över lägen lämnas till motorns befintliga raim::araim_protection_level / araim_integrity_risk, så bisektionen och den gaussiska svansalgebran som testas är motorns egna; bara geometrin, delösningarna, detekteringströsklarna och den publicerade budgetuppdelningen byggs åt den. EXTERNT KONTROLLERAT mot vektorn från 2019: VPL { $lit_18_2926 } m mot { $lit_18_3 } m publicerat, HPL { $lit_13_4063 } m mot { $lit_13_45 } m, EMT { $lit_7_2997 } m mot { $lit_7_2998 } m, sigma_v_acc { $lit_1_3694 } m mot { $lit_1_3694 } m, och alla sex publicerade mellanresultat inom en halv enhet i sin sista tryckta decimal. Vektorn från 2016 har två interna defekter som rapporten anger i stället för att dölja — ett teckenfel i rad 3 i G och ett K_fa_3 utvärderat vid 57 felmoder medan dokumentet anger N_fault_max = 1 (12 moder) — så dess geometrimellanresultat återges exakt medan dess skyddsnivåer redovisas som uppmätta avvikelser och utesluts ur accepteringssiffran; toleransen vidgas aldrig för att rymma dem. Varje utmatat numeriskt fält har en enhet och en proveniensklass, och en avskriven siffra märks `published` så att den aldrig kan förväxlas med en beräknad. OMFATTNING: bara N_fault_max = 1 (felmoder för en enskild satellit och en enskild konstellation) är implementerat, och ett fall vars priorer kräver samtidiga felundermängder med flera händelser REFUSED i stället för att tyst trunkeras; feldetektering, exkludering, χ²-konsistenskontrollen och omfördelningssteget för dubbelräkning i referensalgoritmen ligger utanför omfattningen. Detta återger ett genomräknat exempel ur en publicerad referensalgoritm — det är inte en certifiering, en luftvärdighetsartefakt eller ett godkännande.
+
+engine-kind-lunar-frame-campaign-description = Helmert-datum (likformighet) med sju parametrar för ett system, drivet av en SIMULERAD OBSERVATIONSKAMPANJ i stället för av en injicerad transformation. Ett nätverk av jordstationer observerar en katalog av fyrar på månytan över ett uttryckligt schema; fördröjningens partialderivator för VLBI på månen ackumuleras över det schemat till en Fisher-informationsmatris för fyrkoordinater, precis som lunar-vlbi-fim gör; och den informationen propageras genom Helmert-designen A = [I3 | [p]_x | p] vid katalogpunkterna till datumkovariansen H = A^T M_b A, diagnostiserad av crate::fim::crlb. INGEN transformation injiceras och inget återvinns ur ett planterat svar, så den redovisade datumnoggrannheten härrör från observationsprogrammet: att halvera fördröjningens sigma halverar den exakt, och att förlänga bågen förbättrar den eftersom den libration som rapporten MÄTER (sub_earth_direction_sweep_deg) är det som skiljer fyrkoordinaten i siktlinjen från de i himmelsplanet. Rang, datumdefekt, konditionstal, hela spektrumet, de oobserverbara riktningarna I BASEN MED SJU PARAMETRAR, den svagaste riktningen även vid full rang och varje parameters andel av den redovisas vid varje körning; en parameter som kampanjen inte begränsar publiceras som NULL med en status, aldrig avläst ur en nästan singulär invers. Korrelation mellan fyrfel mäts, antas inte: med stationerna fasta berör ingen observation två fyrar så informationsmatrisen är exakt blockdiagonal (offblock_fraction 0), och med skattade stationer är det Schur-marginaliserade blocket kopplat, med den inducerade korrelationen utskriven och hela propageringen körd om med den förkastad så att priset för ett oberoendeantagande blir ett tal. Samma propagering under ett isotropt sigma per koordinat, och det återvinningsfel som scenariot lunar-frame-realisation redovisar, körs båda här och skrivs ut bredvid kampanjvärdet med sina kvoter. MODELLED: fyrkatalogen har källor men KAMPANJEN är simulerad — stationsnätverket och fördröjningens sigma är illustrativa indata, enskilda fördröjningsobservationer behandlas som oberoende, och månens centrumefemerid, stationsklockor, troposfär och jordorienteringsparametrar hålls FASTA, så datumkovariansen är en Cramér–Rao-gräns för en reducerad parameteruppsättning. Inte en geodetisk produkt.
+
+engine-kind-lunar-llr-datum-description = Helmert-datum med sju parametrar för månens system, drivet av en VERKLIG, ARKIVERAD observationskampanj i stället för en simulerad. Där lunar-frame-campaign tog bort den injicerade transformationen men ändå angav sitt stationsnätverk, sitt schema och sitt sigma per observation som ILLUSTRATIVA indata, hämtar den här sorten alla tre ur mätningar: epokerna är markens sändningstider för arkiverade normalpunkter i ILRS Consolidated Laser Ranging Data, observationerna är de laseravstånd som verkligen avfyrats mot de fem retroreflektorfälten på månen, och varje observationsvikt är den normalpunktens egen arkiverade precision bin_rms/sqrt(n_raw) avläst ur filen. Stationskoordinater kommer från IERS ITRF2020 SLR-lösning (propagerade till epoken med sina publicerade hastigheter) och reflektorkoordinaterna från JPL DE430 tabell 7 i det system med medeljord/medelrotation som IAU 2015 WGCCRE-modellen realiserar. Avståndens partialderivator ackumuleras till den gemensamma Fisher-informationsmatrisen för reflektorkoordinater och propageras genom samma Helmert-design till datumkovariansen, diagnostiserad av crate::fim::crlb. Rang, defekt, kondition, spektrum, oobserverbara riktningar i basen med sju parametrar, den svagaste riktningen vid full rang och varje parameters andel av den redovisas vid varje körning, och en obegränsad parameter publiceras som NULL med en status. Korrelation mellan fälten MÄTS till exakt noll i stället för att antas, eftersom ett laseravstånd berör ett enda fält. En post som katalogerna inte kan placera — en station utan publicerad ITRF-position — HOPPAS ÖVER OCH RÄKNAS, och får aldrig en ersatt koordinat. VILKA LÄNKAR SOM ÄR MÄTTA OCH VILKA SOM ÄR MODELLED ÄR RAPPORTEN, INTE EN FOTNOT: månens centrumefemerid och IAU:s kroppsorientering förblir modellerade och deras sammanlagda storlek redovisas som residualen observerat-minus-beräknat för enkelriktat avstånd över varje använd punkt; troposfär, fasta kroppens tidvatten, stationsexcentricitet, polrörelse, UT1-UTC, relativistisk fördröjning och stationsklockor saknas och ingår i den residualen. Eftersom ett efemeridfel når en kovarians bara genom riktningen på varje siktlinje löses hela datumet också om vid varje körning med alla partialderivator lutade med sensitivity_tilt_deg (växlande tecken) och kvoten redovisas, så att kovariansens okänslighet för den modellerade efemeriden är ett tal i stället för ett argument. Den simulerade kampanjens egna siffror KÖRS och skrivs ut bredvid de uppmätta, inte avskrivna. MODELLED: siffrorna för de sju parametrarna är en Cramér–Rao-gräns för en reducerad parameteruppsättning på ett verkligt schema — inte ett löst datum, inte en LLR-analys och inte en geodetisk produkt. Den inkluderade delmängden verkliga data levereras med arkivet men inte med den publicerade craten; peka data_dir mot en kopia av den.
+
+engine-kind-lunar-beacon-description = Förstärkning av en navigationstjänst i månbana med ytfyrar, som en körbar före/efter-tabell. En användare vid sydpolen ser en gles uppsättning i omloppsbana i en smal himmelsfläck, så avståndsgeometrin är illakonditionerad; några INMÄTTA YTFYRAR ger de rader för siktlinjer med låg elevation och bred azimut som en uppsättning rakt ovanför saknar, och den horisontella försämringen av precisionen kollapsar. Scenariot redovisar tre konfigurationer vid en epok — enbart satelliter, satelliter plus de synliga fyrarna och en större konstellation som alternativ väg till samma geometri — var och en med sina antal synliga källor, sin fullständiga DOP och den realiserade 1-sigma-noggrannheten i METER, erhållen genom att multiplicera med ett användarekvivalent avståndsfel per fyr, sammansatt som kvadratisk summa av termer för klocksynkronisering, flerväg och inmätning. Fyrens synlighet är den geometriska horisonten på den luftlösa månen med två höjder (ingen atmosfär, så gränsen är exakt), och DOP-sammansättningen är samma kärna som korskontrollerats mot gnss_lib_py i tests/dop_reference.rs. VARFÖR DEN HÄR SORTEN FINNS: modulen bakom den har funnits i motorn och kontrollerats mot en oberoende DOP-väg sedan L08/L09, men den gick inte att nå från en körning — ingen sort, ingen dispatchgren, ingen medföljande fil. README annonserade förmågan och verifieringsmatrisen hade INGEN rad alls för den, så den var samtidigt påstådd i prosa och opåstådd i registret, samtidigt som den var onåbar i motorn. Standardvärdena är den geometri som redan har en inkluderad golden (en användare vid -80 deg med en antenn på 2 m, tre fyrar vid -80/0, -79/+60 och -79/-60 på 2 km, en ögonblicksbild med sex satelliter av illustrativ LCNS vid t=0, en maskvinkel på 5 deg), så en bar körning återger en tabell som en oberoende referens redan täcker i stället för att hitta på nya tal. MODELLED: konstellationens utformning, fyrarnas placering och varje storlek i felbudgeten är illustrativa indata, inte en driftsatt inmätning eller en uppmätt länk; bara DOP-aritmetiken, den slutna formen för horisonten och sambandet sigma = DOP x sigma_URE är externt förankrade. Inget åtagande om tjänstens prestanda.
+
+engine-kind-earth-gnss-lunar-description = Mottagning av jordens GNSS på månavstånd, det svagsignalskikt som artikeln om konfliktresiliens nämner och som motorn saknade modell för. En GNSS-satellit riktar sin antenn mot jorden; en mottagare nära månen sitter ungefär femton gånger omloppsradien bort, så tre saker slår till samtidigt. Jorden SKYMMER SIKTLINJEN: från 26 560 km spänner den en halvvinkel på { $lit_13_9 } deg, så varje stråle mot månen måste lämna sändaren minst så långt från nadir, vilket tar bort strålens topp innan någon effekt beräknas. Det som återstår är HUVUDLOBENS KANT OCH SIDOLOBERNA, det regim som nyttolasten LuGRE faktiskt arbetade i under 2025. Och fritt rymdförlust är cirka 208 dB vid L1, ungefär 25 dB mer än en jordnära användare betalar. Rapporten ger en rad per satellit (vinkel utanför siktlinjen, jordens skymning, avstånd, vägförlust, sändarförstärkning vid den vinkeln, mottagen effekt, bärvåg-till-brustäthet) och aggregerar bara de länkar som klarar spårningströskeln. DEN REDOVISAR OCKSÅ KONDITIONERINGEN, eftersom det är det som definierar det här skiktet: varje synlig satellit ligger inom en kon som sedd från månen är ett par grader bred, så siktlinjerna är nästan parallella, försämringen av precisionen är enorm, och en positionsbestämning med jordens GNSS på månavstånd är en observation av TIDSSYNKRONISERINGSklass mycket mer än av positionsklass. MODELLED, och sändarmönstret är orsaken: förstärkningen som funktion av vinkeln är en likformig cirkulär apertur (Airy), medan en verklig GPS L1-antenn är en spiralantennmatris med tolv element, med en formad huvudlob och icke-Airy-sidolober. Uppmätta mönster finns och ingår inte här, så ordningsföljder och storleksordningar är meningsfulla medan dB för en enskild satellit inte är det. Medvetet FRÅNVARANDE, och vart och ett gör budgeten optimistisk: ingen jonosfärs- eller troposfärsförlust på de strålar som tangerar limben, ingen polarisations-, pekfels- eller implementeringsförlust, och en sfärisk jord utan refraktiv utsträckning. Månens position är en INDATA (avstånd plus tröghetsriktning) i stället för en efemerisökning, eftersom det som testas är länken och strålgeometrin. Att uppgradera den här raden till Validated kräver ett uppmätt sändarmönster och normalpunkter från LuGRE; ingen av dem finns i arkivet och ingen är påhittad här.
+
+engine-kind-lunar-infrastructure-description = MODELLED studier av månens omloppsbana och yta som infrastruktur för navigering och geodesi, fem studier bakom en sort som väljs med `study`: od-consistency (banbestämning ombord med jordens GNSS i en NRHO eller ELFO mot oberoende radiometrisk banbestämning från marken, bedömd med sina egna kovarianser över en seedad Monte Carlo), carrier-phase (gemensam dubbeldifferentierad bärvågsfas mellan yta och farkost och heltalsosäkerhetslösning med LAMBDA), frame-coestimation (en ytstation och farkoster tillagda till avståndsmätning från jordstationer för datumet med sju parametrar för månens system), space-tie (GNSS, VLBI och laseravstånd på en enda rymdfarkost, systemknytningens precision mot felet i den lokala knytningen) och geodesy-sensitivity (Fisher-information för månens Love-tal h2, k2, l2 och den fysiska librationen från laseravstånd, spårning av farkoster, en ytgravimeter och en ytklocka). En begränsad trekroppsmodell med angivna förenklingar; siffrorna är kontrollerade mot oberoende program och ingenting jämförs med en mätning av någon månstorhet.
+
+engine-kind-cislunar-arc-recovery-description = MODELLED test med oberoende skattare av tröskeln för observerbarhet över båglängd i cislunar bana. Den tröskeln är en RANGAVLÄSNING på observerbarhetsmatrisen som byggts av de ANALYTISKA raderna för avståndsjacobianen och den ANALYTISKA variationella övergångsmatrisen, och dess korskontroll med kvadratrotsinformationsfiltret viker in samma rader — en konsistenskontroll mellan två numeriska maskiner, inte styrkande underlag. Den här sorten tillhandahåller den saknade skiljedomaren: en batchskattare med minsta kvadrat som faktiskt ÅTERVINNER chefens begynnelsetillstånd ur simulerade mätningar, med mätningarnas partialderivator tagna som CENTRALA FINITA DIFFERENSER av den sammansatta framåtmodellen. Den anropar ingen analytisk Jacobirad, ingen variationell STM, ingen singulärvärdes- eller egenvärdesuppdelning, ingen rangtolerans och inget kvadratrotsinformationsfilter — en källtextspärr i tests/cislunar_arc_recovery_reference.rs gör det kontrollerbart — medan dynamiken (samma RK4-CR3BP-flöde), begynnelsevillkoren (samma differentialkorrigerade konstellation), den skalära observabeln och epokrutnätet delas medvetet och namnges i det utmatade blocket `independence`, eftersom två analyser av ett fysikaliskt problem måste vara överens om fysiken för att vara jämförbara. Två kriterier, vart och ett svept över fem dekader av sin egen gräns: BRUSFRI ÅTERVINNING (varje seedad försöksomgångs slutliga tillståndsfel högst recovery_factor gånger dess a priori-förskjutning — rangmotsvarigheten, utan någon singulärvärdestolerans) och MONTE CARLO-SKATTBARHET (det uppmätta RMS-positionsfelet över ett seedat brusensemble under en angiven gräns — skattbarhetsmotsvarigheten, uppmätt i stället för förutsagd). Stöder de plana fyra tillstånden och de rumsliga sex tillstånden, familjerna DRO / L2 halo / L2 NRHO, observabler för avstånd och avståndshastighet samt en månscentrerad polär parametrisering där transformationen tillämpas på TILLSTÅNDET och framåtmodellen differentieras om där. UPPMÄTT på det publicerade plana DRO-rutnätet: skattaren återvinner de fyra tillstånden från { $lit_0_782609 } h mot rangkriteriets { $lit_2_086957 } h vid rel_tol 1e-6 (kvot { $lit_0_375 }) — rangtröskeln är INTE styrkt som en gräns för återvinningsbarhet — medan den uppmätta gränsen för skattbarhet hamnar i samma rutnätscell som den formella, { $lit_5_739130 } h, och den uppmätta felkurvan återger det formella 1-sigma över 21 båglängder med en geometrisk medelkvot på { $lit_0_98 }. MODELLED: konstellationens utformning, epokrutnätet, den enda spårade länken, förskjutningens storlek, mätningens sigma och de två angivna gränserna. Inte en certifierad produkt för navigationsprestanda.
+
+engine-kind-telecom-timing-description = Telecom timing: tidsfel, maximalt tidsintervallfel (MTIE) och tidsavvikelse (TDEV) för en GNSS-holdover, kontrollerade mot ITU-T-masker med PASS eller FAIL och en marginal per mask. Indata är antingen en SYNTETISK HOLDOVER (en oscillatorförinställning -- ocxo, rubidium, caesium eller csac, var och en med stabilitets-, åldrings- och temperaturvärdena i ett namngivet offentligt datablad från Microchip -- plus tid för GNSS-förlust, postlängd och samplingsintervall; den fritt löpande klockan har vitt brus, flickerbrus och, där databladsanpassningen kräver det, slumpvandringsbrus i frekvens, linjär åldring och en sinusformad temperaturterm) eller en INLÄST SERIE av [time_s, time_error_ns]-par angivna inline (och, bara i inbyggda byggen, en CSV-fil). Masker: ITU-T G.8272 (07/2025) PRTC-A och PRTC-B (max|TE| 100 / 40 ns, MTIE tabell 1-2, TDEV tabell 3-4); G.8272.1 (2024) Amd. 1 (07/2025) ePRTC låst (30 ns, tabell 1-2) och ePRTC-A holdover (tidsfelskuvertet i tabell 3 som stiger från 30 ns till 100 ns över holdoverperioden H som bestäms av den låsta varaktigheten, MTIE tabell 4, TDEV tabell 5); G.8273.2 (2023) Amd. 2 (11/2025) T-BC/T-TSC klasserna A-C (max|TE|, konstant tidsfel, lågpassfiltrerad MTIE och TDEV) och klass D (max|TE_L| 5 ns, den enda siffra för klass D som inte lämnats för vidare studier); G.8271.1 (2022) Amd. 3 (05/2025) referenspunkt C (max|TE_L| 1100 / 600 / 100 ns med MTIE tabell 7-1 till 7-3). Varje post som en rekommendation markerar för vidare studier saknas i stället för att fyllas i, och varje rapport listar vad som inte är implementerat. Redovisar också tiden för att överskrida varje budget för maximalt tidsfel (standardvärden: 100 ns ePRTC max|TE_HO|, 400 ns nätverkets holdoverallokering, 1100 ns punkt C, { $lit_1_5 } us klass 4), MTIE-/TDEV-kurvorna som en CSV-tabell med varje maskgräns och en post för enheter och proveniens per numeriskt fält. VALIDATED: MTIE- och TDEV-skattarna mot paketet allantools på en inkluderad holdoverserie. MODELLED: masktabellerna är avskrifter, och en syntetisk holdover är en modell byggd av maxvärden i datablad, inte en mätning av någon enhet. Inte ett konformitetstest.
+
+engine-kind-slot-timing-description = Slot timing: sekunder tills en fritt löpande klocka lämnar skyddsmarginalen för en tidsindexerad routing- eller uppdragsslot (det största absoluta tidsfel som sloten tolererar), bidraget från varje term vid det ögonblicket med den dominerande namngiven (osäkerhet i positionsbestämning, vitt fasbrus, vitt brus, flickerbrus, slumpvandringsbrus och slumpkörningsbrus i frekvens, kvarstående frekvensförskjutning, temperatur, åldring), den tid som återstår sedan senaste positionsbestämningen och det största intervall mellan bestämningar som håller klockan inom, med avdrag för bestämningens latens. Oscillatorn är en KLASS-standard (csac, uso, dsac, tcxo, ocxo eller rafs: en citerad Allan-deviation för en sekund och ett antaget golv för rött brus), en DATABLADSFÖRINSTÄLLNING från telecom-timing eller ett inline-DATABLAD (maxvärden för Allan-deviation anpassade som ett kuvert, plus åldring och en temperaturkoefficient), eller en inline UPPMÄTT FASREGISTRERING (dess överlappande Allan-deviation anpassad med viktad minsta kvadrat i basen för vitt fasbrus och frekvensmodulering enligt IEEE Std 1139, så att golvet för rött brus är uppmätt i stället för antaget). Ett brott bortom den längsta medelvärdestid som databladet eller registreringen stöder flaggas som extrapolerat. Ett valfritt avsnitt om spoofing lägger till skyddsnivån för tidssynkronisering för en mottagare i omloppsbana: banhastighet och period, hur länge en enda markspoofer kan nå satelliten per passage, golvet för den klockstödda monitorn och CUSUM-latens vid detektering, den villkorade gränsen, det drag som en spoofer med en angiven maximal rampfrekvens ackumulerar innan satelliten lämnar dess räckvidd eller en oberoende kontroll körs, och om varje markkontakts- eller korslänkskontroll är oberoende av den spoofern. VALIDATED: holdoverinversionen från en anpassad registrering, undanhållen på en verklig caesiumklocka mätt mot ett vätemaser (tests/slot_timing_cs5071a_holdout.rs, datastyrd); på en uppmätt kristalloscillator är den undanhållna prediktionen konservativ men inte inom tröskeln, så kristallfallet är MODELLED. MODELLED: klass- och databladskällor, de deterministiska termerna och bedömningen av spoofing.
+
+engine-kind-spectrum-description = Spektrummodell och vattenfall för L-bandet: hela GNSS-L-bandet som en enda effektspektraltäthet (PSD), frekvens i sidled, tid nedåt, över en skriptad tidslinje för jammers. SIGNALER: GPS L1 C/A och L2C (BPSK(1)), Galileo E1 öppen tjänst (MBOC(6,1,1/11), eller BOC(1,1)), GPS L5 och Galileo E5a (BPSK(10)), var och en vid sin bärvåg med den minsta mottagna effekten enligt gränssnittsspecifikationen (IS-GPS-200, IS-GPS-705, Galileo OS SIS ICD) om den inte åsidosätts; GLONASS, BeiDou och Galileo E6 är inte modellerade. JAMMERS: kontinuerlig vågton, plant smalbandigt brus, linjär sågtandschirp och bredbandigt brus anpassat till ett bands egen modulation, var och en med en centrumfrekvens, en bandbredd, en mottagen effekt (direkt, eller EIRP och avstånd genom fritt rymdförlust enligt sorten jamming) samt på-/avtider. Varje jammer poängsätts mot varje band med sin spektrala separationskoefficient kappa över mottagarens bandbredd, och (C/N0)_eff = [1/(C/N0) + sum (J/S) kappa]^-1; för en jammer är detta lika med anti-jam-ekvationen i sorten jamming med Q = 1/(R_c kappa), och rapporten bär den korskontrollen (och sortens jamming representativa Q-värde bredvid). Brusgolvet är k T_sys med T_sys = T_ant + 290 K (F - 1). Vattenfallet medelvärdesbildar varje cell över dess bin och dess rad (chirpar exakt, hela svep plus det partiella; jammers som växlar mitt i raden efter sin arbetscykel), så att tidslinjen för C/N0 och bilden kommer från samma tal; result.json innehåller rutnätet blockmedelvärdesbildat i effekt, C/N0 och J/S per band och rad, samt per jammer och band SSC, Q, J/S, J/S i bandet och stabilt C/N0. Valfritt [iq]: modellen ritad som komplex IQ vid ett ögonblick, skriven till och läst tillbaka från en SigMF-inspelning (cf32_le eller ci16_le) och jämförd med en Welch-skattning. Valfritt [recording] (inbyggda byggen): en verklig SigMF-inspelnings Welch-PSD bredvid modellen. VALIDATED: signalernas PSD mot lärobokens huvudlobsbredder (BPSK(n) 2n x { $lit_1_023 } MHz nollställe till nollställe; BOC(1,1)-lober centrerade vid +/-{ $lit_1_023 } MHz) och de spektrala separationskoefficienterna mot sina slutna Parseval-former och Kaplan & Hegartys Q = 1 (CW) och { $lit_1_5 } (matchad). MODELLED: jammereffekter, tidslinje, frontändens bandbredder, behandlingen av kontinuerligt spektrum (inga kodlinjer) och frånvaron av AGC, blankning och antennmönster.
+
+engine-kind-solar-system-description = Hela solsystemet vid en epok, för PNT (positionering, navigering och tidssynkronisering) kring vilken kropp som helst. För solen, de åtta planeterna, Pluto, månen, Phobos, Deimos, Io, Europa, Ganymedes, Callisto och Titan redovisas den heliocentriska positionen och hastigheten i ICRF (International Celestial Reference Frame, ekvatoriellt J2000), det heliocentriska avståndet och ekliptikal longitud och latitud för J2000, gravitationsparametern, ekvatorial och medelradie, J2 där den är publicerad och dess referensradie, den sidera rotationsperioden, IAU:s pol och nollmeridianen vid epoken, ett banspår samplat över ett varv (heliocentriskt för planeter, föräldracentrerat för månar), samt ljustid, enkelriktat och tvåvägs avstånd, solens Shapiro-fördröjning och solseparation från en observatörskropp (jorden som standard); extra länkar från/till behandlas på samma sätt. Positioner: JPL:s Kepler-element enligt Standish och Williams (tabell 1 för 1800 e.Kr. till 2050 e.Kr., tabellerna 2a/2b för 3000 f.Kr. till 3000 e.Kr.) med varje planets nominella fel, Montenbruck & Gills månserie för uppdelningen jord–måne, JPL:s medelelement med IAU:s synkrona rotationshastighet för Mars- och Galileimånarna och IAU:s rotationsmodell för Titan. Ljustid: den radiometriska fixpunktslösningen, sändaren vid sin retarderade position; newtonsk, med Shapiro-fördröjningen redovisad separat. VALIDATED mot JPL Horizons (DE441) inom två gånger det nominella felet: Merkurius till Saturnus och jorden ur tabell 1 (sämst { $lit_1_87 } gånger nominellt) och alla åtta planeterna ur tabellerna 2a/2b (sämst { $lit_1_71 } gånger), samt ljustiden från jorden till Mars och Jupiter. MODELLED, varje rad märkt: Uranus och Neptunus ur tabell 1 ({ $lit_2_0 } och { $lit_5_2 } gånger det nominella felet mot DE441), Pluto (raden från 1992; inget angivet fel), månen och de sju månarna (mätta mot Horizons, ingen publicerad gräns).
+
+engine-kind-body-pnt-description = Positionering kring vilken kropp som helst i solsystemet: en farkost i omloppsbana eller en landare på ytan kring en centralkropp som väljs med namn (Mars, månen, Europa, Ganymedes, Titan och resten av solsystemets katalog), som navigerar med enkelriktade pseudoavstånd från en liten Walker-navigationskonstellation kring kroppen (tvåkroppsbanor med kroppens egen sekulära J2-drift, en okänd användarklocka) och valfritt ett klockfritt djuprymds-tvåvägsavstånd från jorden, vars riktning och avstånd kommer från den analytiska solsystemsefemeriden vid varje epok. Siktlinjer blockeras av kroppens medelsfär, och en ytanvändare behöver också elevationsmasken. Per epok: reläer i sikte, om jorden ligger ovanför limben, GDOP och PDOP för enbart konstellationen (geometrisk försämring av precisionen och försämring av positionsprecisionen), den formella ensigma-osäkerheten i position med och utan jordraden samt felet i en seedad Gauss-Newton-minstakvadratpositionsbestämning i båda fallen; över körningen: tillgänglighet, jordsikt, median-PDOP, RMS-fel och formellt mediansigma, plus ljustid mellan jorden och kroppen, rundtur, Shapiro-fördröjning och solseparation vid epoken. MODELLED: reläbanorna, brusnivåerna och den momentana mätmodellen är modellval, inte validerade mot ett uppdrags navigationsdata; kroppskonstanterna är de publicerade värden som anges i body.rs, och jordgeometrin ärver etiketterna från solsystemsefemeriden.
+
+engine-kind-constellation-design-description = Konstellationsutformning i stor skala: Walker DELTA- och Walker STAR-mönster i konventionen i: T/P/F (noder spridda över 360 eller 180 deg, avstånd i planet 360*P/T, fasförskjutning mellan plan 360*F/T), uttryckliga elementlistor och utformningar med flera skal, flera konstellationer i en körning, kring jorden, månen, Mars eller någon annan planet, Pluto eller större måne med konstanterna i modulen body (samma som sorterna solar-system och body-pnt använder). FÖRINSTÄLLNINGAR från publicerade nominella element: gps-baseline och gps-expandable (de 24 platserna och de sex expanderbara paren fram/bak i GPS Standard Positioning Service Performance Standard, 5:e upplagan 2020, tabellerna 3.2-1 till 3.2-3), galileo (Walker 24/3/1 vid 29 599,801 km och 56 deg, Galileo Open Service Service Definition Document utgåva 1.1 tabellerna 1 och 23), beidou och beidou-meo (Walker 24/3/1 vid 21 528 km och 55 deg plus tre geostationära satelliter vid 80, { $lit_110_5 } och 140 deg E och tre lutande geosynkrona satelliter vid 55 deg, BeiDou Open Service Performance Standard 3.0 avsnitt 4.1; MEO-fasen och den lutande geosynkrona korsningen vid 118 deg E är modellerade eftersom standarden inte anger dem) och glonass (24/3/1 vid 19 100 km och { $lit_64_8 } deg enligt platsformeln i GLONASS Interface Control Document utgåva 5.1 avsnitt 5.2). TÄCKNING OCH FÖRSÄMRING AV PRECISION: över ett latitud-/longitudrutnät och ett samplat fönster med en elevationsmask, antalet satelliter i sikte, GDOP, PDOP, HDOP och VDOP per cell, tillgängligheten (en positionsbestämning med PDOP vid eller under en tröskel, 6 som standard) per cell, globalt (ytviktat) och på den sämsta platsen, med en mottagarklocka per konstellation om inte clock = "common". Det skalar till tusentals satelliter: synlighet är en skalärprodukt mot varje satellits täckningshalvvinkel, och satelliterna delas in i band efter subsatellitlatitud vid varje epok så att en rutnätsrad bara testar dem som kan vara i sikte; rapporten räknar de parvisa tester som sparats. JSON innehåller rutnätskartorna och nedsamplade markspår per satellit. VALIDATED: Walker-generatorn mot Galileo OS SDD tabell 23 och GLONASS ICD:s platsformel, GPS-förinställningen mot den publicerade kolumnen för ekvatorskorsning i SPS PS tabell 3.2-1 och den globala HDOP-fördelningen för GPS-baslinjen mot SPS PS bilaga B (median { $lit_0_94 }, 95% { $lit_1_25 }, medelvärde { $lit_0_96 }, tolerans { $lit_0_03 }). MODELLED: tvåkroppsbanor med valfri sekulär J2, en sfärisk kropp, enbart geometrisk synlighet (ingen signaleffekt, hälsa eller terräng) och den relativa fasen mellan olika system, som inte är en ögonblicksbild av något verkligt datum.
+
+engine-kind-campaign-description = Kampanj: befintliga scenariosorter sammansatta till en körning, där varje tal läses ur en verklig körning av den namngivna sorten. Fyra avsnitt, i valfri kombination. FASER: ett kedjat uppdrag på en gemensam tidslinje -- varje fas kör ett eller flera scenarier (till exempel jamming, sedan spoofing, sedan en klocka i holdover med ett tröghetsnavigeringssystem som glider bredvid, sedan ett integritetslarm, sedan återhämtning), deras utdata läses in i namngivna kanaler (klockans tidsfel mot sin skyddsmarginal, förhållandet mellan bärvåg och brustäthet mot spårningsgolvet, skyddsnivå mot larmgräns, positionsfel, spårande satelliter, larmflaggor) med en förinställning per sort eller uttryckliga resultatsökvägar, och omsamplade på ett gemensamt rutnät med nollte ordningens hållning, med fasgränser och händelser; tillstånd förs vidare med carry (en kanal fortsätter från föregående fas slutvärde), handoff (ett tal från en föregående fas skrivs in i den här fasens scenario) och end_at (en fas slutar vid en tid som en körning beräknat, till exempel en spoofingmonitors detekteringstid). SVEP: ett rutnät över en till tre punktseparerade scenarionycklar av vilken sort som helst (ett heltalssegment indexerar en array av tabeller, som i system.2.sisre_m), med mått lästa efter resultatsökväg och, med fler än en körning, ett seedat Monte Carlo-ensemble vid varje nod. MONTE_CARLO: realisering k körs vid base_seed + k; varje mått redovisar medelvärde, standardavvikelse, percentilerna 5:e/50:e/95:e enligt närmaste rang och ett bootstrap-konfidensintervall på 95 % med fast seed för medelvärdet. COMPOSE: flera scenarier under gemensamma värden (en jammers effekt och position skrivna in i en maritim och en vägmottagare), med en sammanfattning av bästa/sämsta fall. Resultatet bär en kampanjhash, en sammanfattning över varje medlemsresultat och en enhetspost för varje utmatat tal; interoperabilitetsexporterna skriver varje medlemsscenario som har geometri som en egen filuppsättning. Sammansättningsidentiteter testas: en kampanj med en fas återger den fristående körningen bit för bit, ett ensemble med fast seed är bytestabilt, och på en klocka med vitt frekvensbrus faller ensemblens medelvärde inom det redovisade intervallet med spridningen i enlighet med sqrt(q_wf * tau). MODELLED: den additiva carry och nollte ordningens hållning är modellval, och varje fas bär etiketten för den sort som körde den.
+
+engine-kind-leo-signal-description = Signalutformningar för LEO-PNT: parametriserade PNT-signaler (positionering, navigering och tidssynkronisering) från låg jordbana (LEO) för vilket system, band och vilken struktur som helst. En SIGNAL är ett band (centrumfrekvens, sändningsbandbredd, ITU-tilldelning RNSS/RDSS/MSS/EESS/non-RNSS/other) och komponenter (förvärv, data, pilot; vilken delmängd som helst), var och en med en modulation (BPSK(n) med bråktals-n, BOC(m,n), MBOC(6,1,p) eller ett plant OFDM-liknande band), en effektandel, valfria FDMA-delbärvågsförskjutningar, en kodlängd och en datahastighet. Signaler kommer från inkompilerade offentliga förinställningsfiler (xona-pulsar, iridium-stl, starlink-soo, centispace, generic-c-band, generic-bands; var och en med sin käll-URL och varje opublicerat värde märkt REPRESENTATIVE) eller skrivs inline. PER SIGNAL: den bandbegränsade effektspektraltätheten och den andel av varje komponents effekt som sändningsbandet släpper igenom (sluten BPSK-form bredvid det numeriska värdet), RMS-bandbredden (Gabor), det termiska brusjittret för kodspårning med fördröjningslås (DLL) mot C/N0 och early-late-avstånd enligt den bandbegränsade koherenta (eller icke-koherenta) early-late-formeln av Betz & Kolodziejski 2009 med dess lärobokssform för obegränsat band och dess Gabor-gräns för försvinnande avstånd, avståndsnoggrannheten i meter, sökrymden för förvärv (Doppler-bin från banans maximala Doppler plus oscillator- och användartermer, gånger kodbin), detekteringssannolikhet med kvadratlag och medeltiden för seriellt och kodparallellt förvärv, den spektrala separationskoefficienten för signalen in i GPS L1 C/A, Galileo E1, GPS L5, Galileo E5a, E5b och E5 AltBOC och för var och en in i signalen med försämringen av C/N0, samt den CW-, bredbands- och matchade J/S som den spårade komponenten tål, från den egna SSC-logiken i sorten spectrum. EN BANDAVVÄGNING: jonosfärsfördröjning av första ordningen ({ $lit_40_3 } TEC/f^2), fritt rymdförlust, avståndsnoggrannhet vid lika C/N0 och vid lika EIRP samt jammertolerans. Valfria FORMKONTROLLER håller en utformnings spektrum mot en beskriven mätning (MODELLED konsistens). VALIDATED: BPSK:s effekt i bandet ({ $lit_90_3 } % i huvudloben) och de slutna formerna för Gabor-bandbredd, det bandbegränsade jittret som reduceras till lärobokens koherenta early-late-form och till sin Gabor-gräns, den förskjutna BPSK:s spektrala separationskoefficient mot sin slutna Parseval-form, AltBOC-spektrumets enhetsarea och den maximala LEO-Dopplern mot de publicerade siffrorna för Xona Pulsar (32-34 kHz) och Iridium (36 kHz). MODELLED: varje utformning, effektfördelning, C/N0- och jammernivå; spektra för EFQPSK, CSK och OFDM är approximerade.
+
+engine-kind-leo-pass-description = LEO-överflygning och länkbudget, band för band, för LEO-PNT (positionering, navigering och tidssynkronisering från låg jordbana), systemagnostisk: en användare (mark, sjö, luft eller inomhus, stillastående eller rörlig) och en eller flera LEO-satelliter från en UTFORMAD ÖVERFLYGNING (en cirkulär bana placerad så att användaren ser en överflygning med vald maximal elevation vid vald tid, solsynkron om så begärs), uttryckliga ELEMENT, en TLE (tvåradig elementuppsättning) genom motorns SGP4, eller en WALKER-konstellation byggd av koden för konstellationsutformning (de högsta överflygningarna redovisas). Band kommer från en namngiven förinställning (generisk multiband UHF/L/S/C, generiskt C-band, Xona Pulsar X1/X5, Iridium STL, Starlink som en enbart Doppler-baserad opportunitetssignal, CentiSpace och en valfri förinställning Celeste IOD märkt WORKSHOP) eller skrivs in i scenariot; varje förinställning anger om dess tal är PUBLIC (med URL), REPRESENTATIVE eller WORKSHOP. Per satellit, band och epok: elevation, azimut, avstånd, avståndshastighet och avståndsacceleration; fritt rymdförlust; EIRP och satellitens mönsterförstärkning (isoflux, gaussisk stråle eller plan); användarantennens förstärkning mot elevation (patch, halvsfärisk eller isotrop); gasdämpning (ITU-R P.676-10 bilaga 2), regndämpning (ITU-R P.838-3-koefficienter och proceduren i P.618-14, från en regnintensitet och regnhöjd), troposfärisk scintillation (ITU-R P.618-14 avsnitt 2.4.1), byggnadsintrångsförlust för en inomhusanvändare (ITU-R P.2109-2), polarisationsfel, systembrustemperatur och C/N0 (förhållandet mellan bärvåg och brustäthet); Doppler och Dopplertakt i sluten form ur avståndshastigheten och avståndsaccelerationen, var och en kontrollerad mot centrala differenser; jonosfärsfördröjningen av första ordningen { $lit_40_3 } STEC/f^2 från en Klobuchar- eller vertikal-TEC-snedriktad TEC skalad till den del av jonosfären som ligger under satelliten. Bandpar får jonosfärsfria koefficienter, brusförstärkning och kodbrus vid överflygningens topp. MEO-GNSS-satelliter (förinställningarna Galileo eller GPS) utvärderas med samma antenn- och brusmodell utifrån sina mottagna effekter enligt gränssnittsdokumenten, så att den klockformade LEO-överflygningen och de plana GNSS-bärvågorna delar en och samma plott. Ett valfritt avsnitt [iot] ger tid till första positionsbestämning, energi per positionsbestämning och batteritid mot arbetscykel för en angiven effektbudget för mottagaren (MODELLED). Varje bandpar ger också den snedriktade TEC som dess geometrifria kombination återvinner vid toppen och den skattningens kodbrus-sigma (jonosfärsundersökning). Ett valfritt avsnitt [spoofer] förfalskar signalerna från en påstådd position som hoppar eller trycks bort från den sanna efter ett insättande och kör två monitorer med angivna sannolikheter för falsklarm och missad detektering: konsistens mellan Doppler och överflygningsgeometri (uppmätta avståndshastigheter mot de som förutsägs ur banorna och en oberoende a priori-position och -hastighet, ett generaliserat minstakvadrat-χ²-test över ett fönster, på GNSS-, LEO- och alla kanaler) och konsistens mellan band (steget från epok till epok i varje LEO-bandpars modellkorrigerade geometrifria kombination), som redovisar statistik per epok och när varje monitor detekterar (MODELLED). VALIDATED komponenter: fritt rymdförlust, koefficienterna i P.838-3 mot dess tabell 5, procedurerna för regn och scintillation i P.618-14 och byggnadsintrångsförlusten i P.2109 mot valideringsexemplen från ITU-R Study Group 3, grupplöptidskvoten för IS-GPS-200 L1/L2 och den maximala Dopplern för en stillastående användare i en cirkulär bana mot arXiv 2509.19551 tabell 1. MODELLED: EIRP, mönster, Chapman-andelen av TEC under satelliten och hela överflygningen.
+
+engine-kind-leo-navmsg-description = Navigeringsmeddelande för LEO: den utsända efemeriden och klockan för en PNT-satellit (positionering, navigering och tidssynkronisering) i låg jordbana (LEO), för vilken bana, bärvåg och modell som helst, med valfria namngivna förinställningar (Xona Pulsar, Iridium, Starlink, CentiSpace, ett representativt C-bandssystem, nollklockmodellen ATOMIC, Celeste IOD). INNEHÅLL: hjälpdata (SVID, datautgåva, band, signalhälsa), synkronisering (vecka, veckotid, ett klockpolynom av andra ordningen af0-af2 kring toc), efemerid i en av fyra modeller -- Galileo OS SIS ICD:s Kepler-uppsättning med 16 parametrar; den uppsättningen plus korrektionspolynom längs banan, tvärs banan och radiellt; modellen med 22 parametrar av Liu et al. 2025; ett ECEF-polynom utan klocktermer (ATOMIC-nollklocka) -- och andra tjänster (en utsänd Klobuchar-uppsättning, NeQuick-G ai0-ai2 med den effektiva joniseringsnivån och parametrar för systemtid till UTC med ICD:s skottsekundslogik). ANPASSARE: en referensbana integrerad med zonal J2-J6 eller EGM2008-gravitation till vald grad och luftmotstånd, och en seedad fri eller styrd klocka; Levenberg-Marquardt-anpassning av Kepler-uppsättningen på icke-singulära element, därefter linjära minstakvadratkorrektionspolynom; klockan anpassad efter avdrag för den relativistiska term som användaren lägger till. ANALYSER: fit-interval-trade (avståndsfel i signalen i rymden, SISRE, med globala medelvikter för banhöjden, mot anpassningsintervall och uppdateringsperiod, enbart bana och med klocka), model-comparison (fyra modeller, antal parametrar, kodade bitar och Kshanas anpassning vid höjderna hos Liu et al. bredvid de publicerade siffrorna), midpass-update (den högsta överflygningen över en användare, varje meddelandebytes positions-, klock- och användaravståndshopp, hopp vid sämsta geometri, PASS/FAIL mot en kontinuitetströskel), encode-decode (Kshanas egen dokumenterade binära ram med CRC-24Q, en kvantiseringsbudget med halvt steg per fält, en kontroll av korrupt ram, en export och import av post i RINEX-4-stil märkt som en Kshana-utvidgning och en CSV-tabell). VALIDATED: SISRE-vikterna mot den publicerade MEO/GEO-tabellen (Montenbruck et al. 2018); Galileo-användaralgoritmen mot RTKLIB på verkliga utsända Galileo-efemerider; CRC-24Q mot sitt katalogkontrollvärde och exempelramen i RTCM 1005. MODELLED: varje anpassnings- och SISRE-siffra är representationsfel mot en referens integrerad av Kshana (inget fel i banbestämning eller prediktion); jämförelsen med Liu et al. använder andra banor; kodnings- och textformaten är Kshanas egna.
+
+engine-kind-leo-pvt-description = Fusionerad PNT (positionering, navigering och tidssynkronisering) med satelliter i medelhög jordbana (MEO) och låg jordbana (LEO) över VILKA konstellationer SOM HELST: varje [[system]] är en GNSS-förinställning av sorten constellation-design, en LEO-förinställning (xona-pulsar, iridium-stl, starlink-sop, centispace, generic-c-band, efemerismodellen atomic-zero-clock eller en annan förinställningsfil, var och en i sin egen fil med sina källor märkta PUBLIC, WORKSHOP eller DERIVED), Walker-skal eller uttryckliga elementuppsättningar, med en bärvåg, en chiphastighet, ett hölje för förhållandet mellan bärvåg och brustäthet (C/N0) från elevationsmasken till zenit, ett avståndsfel i signalen i rymden (SISRE), ett Doppler-sigma och en klockmodell (sin egen mottagarklocka, så att systemskillnadsbiaset skattas, eller en känd utsänd förskjutning). Fyra lägen. DOPPLER: batch-positionering med Gauss-Newton ur avståndshastighet med analytiska partialderivator, tillstånd för klockdrift och valfri hastighet och en valfri höjdbegränsning, med en eller flera satelliter, felet mot fönsterlängd, höljet för Doppler, Dopplertakt och ryck för varje LEO-system, samt noggrannheten längs och tvärs banan vid en enda överflygning mot tvärsförskjutningen (felet tvärs banan växer obegränsat när överflygningen går rakt ovanför; en enda överflygning har också en spegellösning över markspåret). En enbart Doppler-baserad opportunitetssignal (starlink-sop) körs här. JOINT: positionsbestämningar med viktad minsta kvadrat av pseudoavstånd per epok från enbart GNSS, enbart LEO och båda, sigma per mätning från en termisk brusmodell för fördröjningslås vid C/N0 plus SISRE (eller ett fast sigma, så att en signalmodell kan mata dem), de skattade systemskillnadsbiasen och PDOP/HDOP/VDOP mot antalet tillagda LEO-satelliter. POLAR: satelliter i sikte och DOP mot latitud för GNSS, LEO och båda. TIMING: tidsöverföring till koordinerad universell tid (UTC) från LEO-satelliter på en känd position med ett klockfilter med två tillstånd vars processbrus kommer från motorns oscillatorklasser, mot C/N0 och oscillatorn, och uttrycket för systemtid till UTC i IS-GPS-200; med [timing] trace = true redovisar varje rad också sitt tidsfel och sitt förutsagda sigma vid varje epok. VALIDATED: den största Dopplern för en överflygning från rakt ovan till horisonten mot de publicerade siffrorna för Iridium (upp till 36 kHz) och Xona Pulsar X1 (32 till 34 kHz). MODELLED: allt övrigt; DOP kontrolleras mot ett handhärlett fall, positionsbestämningarna mot sin kovarians och Dopplermodellen mot identiteten för avståndsacceleration.
+
+engine-kind-leo-ppp-description = Konvergens för precis punktpositionering (PPP) med enbart GNSS och med LEO-förstärkning: ett flytande utökat Kalman-filter på jonosfärsfri kod och bärvågsfas med statiska stationskoordinater, en vit mottagarklocka, ett systemskillnadsbias per extra system, en slumpvandrande zenitfuktfördröjning avbildad med 1/sin(elevation) och en flytande osäkerhet per satellitbåge; det precisa felet i bana och klocka är vitt och gemensamt för kod och fas hos en satellit, så varje satellit är en korrelerad uppdatering med två rader i Joseph-stabiliserad form. Mätningar simuleras ur samma modell med seedat brus över flera platser och seeds, och varje fall (först enbart GNSS, sedan varje [[case]] med LEO-system, vilken konstellation eller förinställning som helst) redovisar mediankonvergenstiden (den första epok efter vilken de horisontella och vertikala felen stannar under trösklarna, 10 cm som standard), andelen som konvergerat, mediankurvorna för felet och filtrets konsistens (det körningsmedelvärdesbildade positions-NEES mot det tvåsidiga 95-procentiga χ²-bandet). Valfritt bredvid de publicerade siffrorna från Li et al. (2019, J. Geod. 93:749, doi 10.1007/s00190-018-1195-2) för mellanlatituder: { $lit_9_6 } min för multi-GNSS förkortad till { $lit_7_0 }, { $lit_3_2 }, { $lit_2_1 } och { $lit_1_3 } min med 60, 96, 192 och 288 LEO-satelliter. MODELLED: en konsistensjämförelse av trenden, inte en reproduktion av den studiens konstellationer, brus eller stationer; ingen heltalsosäkerhetslösning, cycle slips, fasuppvridning, tidvatten eller tidskorrelerade produktfel.
+
+engine-kind-ntn-positioning-description = Positionering från en 5G-nedlänk i ett icke-terrestert nätverk (NTN) i S-bandet för mobila satellittjänster (MSS) (3GPP-band n256, nedlänk 2170 till 2200 MHz; standardbärvåg { $lit_2172_5 } MHz): Cramér–Rao-gränsen (CRB) för ankomsttid, c / (2 pi beta sqrt(2 (C/N0) T)) med beta den kvadratiska medelvärdesbandbredden (Gabor) för det plana OFDM-spektrumet (B/sqrt(12)), och för Dopplern hos en komplex ton, sqrt(3 / (2 pi^2 (C/N0) T^3)), för varje signal (som standard en 5 MHz New Radio-kanal med { $lit_4_5 } MHz upptagna och en 200 kHz smalbandskanal med 180 kHz upptagna); därefter, över vilken LEO-konstellation som helst, positionsbestämningar med nedlänkens ankomsttid med en okänd mottagarklocka (seedade, med gränsen plus ett synkroniseringsfel i nätverket som sigma), deras PDOP och formella 3D-sigma samt en Doppler-bestämning med en enda satellit över den längsta överflygningen med höjden hållen. MODELLED: steget från bandbredd till gräns är lärobokens slutna form, kontrollerad mot numerisk integration av de plana och bandbegränsade BPSK-spektrumen (intern konsistens, inget publicerat genomräknat värde fastlåst), och positioneringsnoggrannheten är en gräns på en flervägsfri kanal med ett angivet synkroniseringsfel, inte ett uppnått resultat.
+
+engine-kind-leo-pnt-chain-description = Ett LEO-PNT-system (positionering, navigering och tidssynkronisering från låg jordbana) från början till slut, för vilken konstellation och signal som helst: leo-signal-utformningen som namnges av signal_design (en offentlig förinställning eller en inline-utformning [signal]) anger centrum, bandbredd, chiphastighet och EIRP-fördelning för ett band i [pass], länkbudgeten i leo-pass ger det spårade C/N0 och det bandbegränsade kodjittret över överflygningen, en C/N0-linje i sin(elevation) och SISRE för meddelandet i [navmsg] (anpassad vid överflygningssatellitens höjd) matar varje LEO-system i den gemensamma positionsbestämningen leo-pvt i [fusion], och valfritt fallen leo-ppp i [ppp]; varje överlämning listas med sitt värde och sin enhet. MODELLED.
+
+engine-kind-contact-schedule-description = Planering av markkontakter för flera satelliter över flera stationer: skenbara åtkomstfönster (SGP4, jordfast system IAU 2006/2000A, refraktion enligt ITU-R P.834, ljustid), DVB-S2 ACM-datavolymen för varje överflygning (trösklar i ETSI EN 302 307-1 tabell 13) och ett konfliktfritt schema (en satellit per antenn med en omställningstid, en station per satellit, prioritetsviktad leverans begränsad till varje eftersläpning) med en girig metod efter marginalvärde, en baslinje med först-till-kvarn och en exakt branch and bound på små mängder, med den giriga metodens optimalitetsgap. MODELLED.
+
+engine-kind-acm-link-description = En satellit över en station: varje överflygnings snedavstånd, elevation och Es/N0 längs överflygningen, den DVB-S2-MODCOD som väljs vid varje steg (trösklar i ETSI EN 302 307-1 tabell 13 plus en implementeringsmarginal) och den datavolym som ACM flyttar mot baslinjen med konstant kodning som sluter vid masken. MODELLED.
+
+engine-kind-aocs-description = Rymdfarkostens lägesreglering: en tröghetspekande omriktning av ett stelt nav med tre eller fler balanserade reaktionshjul under MRP-återkoppling (L = -K sigma - P omega), hjulmoment med minsta norm klippta till varje motors gräns, RK4 med nollte ordningens hållning; valfritt slutet på ett multiplikativt EKF från en simulerad gyro (vinkel- och hastighetsslumpvandring) och stjärnsökare. Redovisar insvängningstid, slutligt och maximalt pekfel, maximal hjulhastighet och maximalt moment, den mättade andelen, drift i rörelsemängdsmoment och, med skattaren, dess lägesfel och NEES. Slingan med det sanna tillståndet är VALIDATED mot Basilisk 2.9.1; skattaren är MODELLED.
+
+engine-kind-entry-heating-description = Atmosfärsinträde som punktmassa i 3 frihetsgrader över en roterande sfärisk jord eller Mars (ballistiskt eller med lyft vid konstant lutning), RK4, genom US76, en exponentiell eller Mars atmosfär, med konvektiv uppvärmning i stagnationspunkten enligt Sutton-Graves (NASA TR R-376): toppretardation, värmeflöde och dynamiskt tryck, värmebelastning, räckvidd i marken, en energikontroll i det roterande systemet och Allen-Eggers slutna form bredvid. Toppretardationen kontrolleras mot den publicerade nominella för Stardust; uppvärmningen är MODELLED.
+
+engine-kind-eo-radiometry-description = Radiometri och bildkvalitet för en nadirbildsensor: radians vid aperturen för en lambertsk scen, kamerans ekvation, signal samt skott-/mörker-/avläsnings-/kvantiseringsbrus och SNR; systemets MTF vid Nyquist (diffraktion x detektor x utsmetning x jitter), det relativa kantsvaret ur den, Q = lambda F/p och GIQE version 4 NIIRS utan MTF-kompensation. MODELLED.
+
+engine-kind-ascent-losses-description = Plan gravitationssväng vid uppstigning för ett flerstegsfordon över en icke-roterande sfärisk jord genom US Standard Atmosphere 1976 (vertikal stigning, tippsteg, dragkraft längs hastigheten), som integrerar förlusterna för gravitation, luftmotstånd, styrning och mottryck och kontrollerar ideal dv minus förluster mot slutbränningshastigheten; max-Q, toppacceleration och tillstånd vid slutbränning. MODELLED.
+
+engine-kind-time-transfer-budget-description = Tvåvägs tid- och frekvensöverföring via satellit mellan två stationer genom ett geostationärt relä: tvåvägsekvationen löst för T_A - T_B med varje icke-reciprok term (stationsutrustningens fördröjningar, Ku-bandsjonosfär, transponder, Sagnac), en kvadratisk osäkerhetsbudget vars typ A-term är den simulerade länkens TDEV vid medelvärdestiden, en simulerad länk med vitt fasbrus och flickerfasbrus och en dygnsvarierande icke-reciprocitet, samt stabiliteten (takt, residual-RMS, TDEV, ADEV) hos varje angiven serie ur BIPM Circular T avsnitt 1, MJD,ns CSV eller IGS RINEX-stationsklockposter. MODELLED.
+
+engine-kind-optical-atmosphere-description = MODELLED optisk PNT genom atmosfären: för en optisk länk och en uppsättning markplatser med angivna molnklimat redovisas den våglängds- och elevationsberoende förlusten i klar luft (Kims siktlag plus Rayleigh), turbulenstillståndet enligt Hufnagel-Valley (Rytov-varians, scintillationsindex, gamma-gamma-parametrar, aperturmedelvärdesbildning), den väderstyrda tillgängligheten mot länkmarginalen (molnets optiska djup ur ett lognormalt klimat för flytande vatten, geometrisk-optisk extinktion, oberoende turbulensfädning), den länkmarginal som behövs för målsatta tillgängligheter, fördelningen av avbrottslängder, tillväxten av tids- och avståndsfel per avbrott genom klockans holdovermodell, avståndskorrelerad tillgänglighet med platsdiversitet och tänkta förbättringar för förstärkningstekniker (våglängd, mottagarapertur, scintillationsminskning med adaptiv optik, extra marginal). VALIDATED som implementering av de angivna formlerna mot en oberoende mpmath-referens: Rytov-varians, scintillationsindex, sannolikhet för gamma-gamma-fädning, aperturmedelvärdesfaktor, optiskt djup för moln och klar luft. MODELLED: varje väder-, teknik- och klockindata samt antagandena om oberoende och kopula; ingen uppmätt tillgänglighetsregistrering har jämförts. Rådgivande analys, inte en certifierad tillgänglighets- eller navigationsprodukt.
+
+engine-kind-holdover-test-description = MODELLED holdovertest av ett system för tidssynkronisering, poängsatt ur en tidsfelsregistrering som OPERATÖREN tillhandahåller (en logg från linuxptp ptp4l, phc2sys eller ts2phc, en chrony-logg för tracking eller statistics, en loggfil från TICC, TimeLab eller RINEX-klocka, eller time_s,time_error_ns-par). Testet har fyra steg och Kshana utför inget av dem: en låst BASLINJE, GNSS BORTTAGET av operatören (antennkabeln eller simulatorns utgång; Kshana sänder och styr ingenting) vid en angiven tid, HOLDOVER på systemets egen oscillator och ÅTERHÄMTNING efter att operatören återställer GNSS vid en andra angiven tid. Registreringen delas vid de två tiderna. Baslinje: tidsfelsstatistik och de ITU-T-masker som skrivits för en låst klocka. Holdover: statistik, den relativa frekvensförskjutning som systemet höll (en minstakvadratlinje), de masker som skrivits för holdover eller en autonom klocka, holdoverkuvertet för ePRTC-A utifrån den angivna låsta varaktigheten och tiden för att överskrida varje budget för tidsfel. Återhämtning: om och när |TE| kom inom ett angivet band och stannade där, toppvärdet och det största steget. Varje gräns är avskriven ur en offentlig ITU-T-tabell (masken i telecom-timing); orden är "uppmätt mot masken", och de två tiderna är operatörens uppgift, inte verifierade. En registrering som är för kort för en mask är INCOMPLETE och extrapoleras aldrig. Se docs/TIMING-HIL.md.
+
+engine-kind-gnss-ssv-description = MODELLED GNSS-tillgänglighet och länkstyrka i Space Service Volume och bortom: för en användare på en sfär (ICG-häftets globala skal) eller på en Kepler-bana (LEO till månöverföring) räknas, per konstellation (GPS, GLONASS, Galileo, BDS, QZSS, NavIC) och för alla tillsammans, de signaler som är användbara över en C/N0-tröskel - tillgänglighet för minst en och för fyra signaler, maximal avbrottslängd, mottaget C/N0, försämring av precisionen, länkar via huvudlob mot sidolob - med ett sändarmönster från häftet, parametriskt eller angivet av användaren, valfria effekter av jonosfär, plasmasfär och atmosfär för limbstrålar och en valfri utformning av svagsignalsmottagare; också ett GNSS-EKF ombord för HEO- och månöverföringsfarkoster (banmekanik, solstrålningstryck, tredje kroppar, klocka) och relativ navigering för en formation av flera farkoster med enkeldifferentierade pseudoavstånd. Kontrollerad mot tabellerna i ICG SSV-häftet under en förhandsregistrering (xval/gnss-ssv)
