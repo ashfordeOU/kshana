@@ -213,6 +213,12 @@ pub const BUNDLED: &[(&str, &str)] = &[
 /// `include_str!` of it would stop the binary compiling the moment it is withheld.
 pub const REPO_ONLY: &[(&str, &str)] = &[
     (
+        "mission-thread-artemis-class",
+        "reads the Moon kernel cut committed under tests/fixtures/mission_thread/ from a checkout, so it cannot \
+         run from a binary alone; run `kshana scenarios/mission-thread-artemis-class.toml` from a checkout of \
+         the repository",
+    ),
+    (
         "celeste-iod-classical-pilot-signals",
         "carries signal parameters presented at the ESA NAVISP LEO-PNT workshop, 2026, and is kept out of the \
          binary so a release can withhold the Celeste IOD preset by deleting \

@@ -33,6 +33,7 @@ FAMILIES = [
     ("Mission analysis, links and space operations", ("docs/ENTRY-EO-ASCENT.md", "docs/CONTACT-SCHEDULING.md", "docs/AOCS.md"), "kshana scenarios/launch-window.toml",
      ["launch-window", "ascent-losses", "reentry", "entry-heating", "eo-coverage", "eo-radiometry", "attitude-budget", "aocs", "link-budget",
       "acm-link", "contact-schedule", "aperture-duty-cycle", "space-packet", "oem-interop"]),
+    ("Mission threads", ("docs/MISSION-THREAD.md", "docs/MISSION-THREAD-LUNAR.md", "docs/mission-thread/lunar-phases.md"), "kshana scenarios/mission-thread-artemis-class.toml", ["mission-thread"]),
     ("Campaigns", ("docs/CAMPAIGNS.md",), "kshana scenarios/campaign-jam-spoof-holdover-integrity.toml", ["campaign"]),
 ]
 
@@ -54,5 +55,6 @@ BLURB = {
     "Space-user navigation": "GNSS signals for spacecraft above, around and beyond the GNSS orbits",
     "Optical PNT": "optical links through the atmosphere and optical-plus-RF figures of merit",
     "Mission analysis, links and space operations": "launch, ascent, entry, attitude, links, contact planning and file formats",
+    "Mission threads": "the navigation and timing error budget of a chain of phases from launch to entry",
     "Campaigns": "chained missions, sweeps and ensembles built from the other kinds",
 }

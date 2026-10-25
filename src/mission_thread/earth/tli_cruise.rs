@@ -36,7 +36,8 @@
 //! Model keys (`[phase.model]`): `tli_dv_mps`, `tli_dv_sigma_fraction`, `tli_pointing_sigma_rad`,
 //! `step_s`, `process_q_acc` (optional, default 1e-13 (m/s^2)^2/Hz), `clock_q_f`, `clock_q_d`,
 //! and, when the sources are used: `ssv_uere_m`, `ssv_window_s` (optional, default 21 600 s),
-//! `ssv_step_min` (optional, default 10) and `ssv_cn0_min_dbhz` (optional, default 20); and
+//! `ssv_step_min` (optional, default 10) and `ssv_cn0_min_dbhz` (optional, default 20); `start_state_gcrf`
+//! (optional, six numbers: the nominal state at the start, in place of the incoming one); and
 //! `ground_range_sigma_m`, `ground_range_rate_sigma_mps`, `ground_interval_s`, `ground_duty`
 //! (optional).
 
@@ -94,6 +95,7 @@ struct Ssv {
 /// The tli-and-cruise phase.
 pub struct TliCruise {
     pub(super) dv_mps: f64,
+    start_state: Option<[f64; 6]>,
     dv_sigma_fraction: f64,
     pointing_sigma_rad: f64,
     step_s: f64,
@@ -119,6 +121,7 @@ pub(super) fn parse(
 ) -> Result<TliCruise, String> {
     let m = Model::new(kind, t);
     let mut allowed = vec![
+        "start_state_gcrf",
         "step_s",
         "process_q_acc",
         "clock_q_f",
@@ -177,8 +180,15 @@ pub(super) fn parse(
             ));
         }
     }
+    let start_state = if t.contains_key("start_state_gcrf") {
+        let v = m.array("start_state_gcrf", 6)?;
+        Some([v[0], v[1], v[2], v[3], v[4], v[5]])
+    } else {
+        None
+    };
     let burn = |key: &str| if with_burn { m.nonneg(key) } else { Ok(0.0) };
     Ok(TliCruise {
+        start_state,
         dv_mps: burn("tli_dv_mps")?,
         dv_sigma_fraction: burn("tli_dv_sigma_fraction")?,
         pointing_sigma_rad: burn("tli_pointing_sigma_rad")?,
@@ -293,18 +303,38 @@ fn step_cov(p: &Mat6, phi: &Mat6) -> Mat6 {
     mul(&mul(phi, p), &transpose(phi))
 }
 
-/// A scalar measurement `z = h . x` of variance `r`, applied to the covariance `p`.
+/// A scalar measurement `z = h . x` of variance `r`, applied to the covariance `p` in the Joseph form
+/// `(I - K h) P (I - K h)^T + K r K^T`, which stays symmetric and non-negative where the plain
+/// `P - K h P` loses the small variances to cancellation (the position variance is many orders above
+/// the velocity's).
 fn update_scalar(p: &mut Mat6, h: &[f64; 6], r: f64) {
     let mut ph = [0.0; 6];
     for i in 0..6 {
         ph[i] = (0..6).map(|j| p[i][j] * h[j]).sum();
     }
     let s: f64 = (0..6).map(|i| h[i] * ph[i]).sum::<f64>() + r;
+    let k: Vec<f64> = ph.iter().map(|v| v / s).collect();
+    let mut ikh = [[0.0; 6]; 6];
     for i in 0..6 {
         for j in 0..6 {
-            p[i][j] -= ph[i] * ph[j] / s;
+            ikh[i][j] = if i == j { 1.0 } else { 0.0 } - k[i] * h[j];
         }
     }
+    let mut out = mul(&mul(&ikh, p), &transpose(&ikh));
+    for i in 0..6 {
+        for j in 0..6 {
+            out[i][j] += k[i] * r * k[j];
+        }
+    }
+    // Symmetrise the rounding.
+    for i in 0..6 {
+        for j in i + 1..6 {
+            let m = 0.5 * (out[i][j] + out[j][i]);
+            out[i][j] = m;
+            out[j][i] = m;
+        }
+    }
+    *p = out;
 }
 
 fn rss_pos(p: &Mat6) -> f64 {
@@ -526,6 +556,14 @@ impl TliCruise {
                 ));
             }
         }
+        // A stated start state replaces the incoming nominal: the thread's handovers advance a nominal
+        // state on a straight line, which is not an orbit, so a chain that waits between phases states
+        // the nominal here. The covariance, the clock and the time are the thread's.
+        let mut stated = entry.clone();
+        if let Some(x) = self.start_state {
+            stated.x = x;
+        }
+        let entry = &stated;
         let t0 = entry.t_s;
         let jd0 = crate::lunar_phase::epoch_jd(ctx, t0)?;
         let dur = phase.duration_s;
@@ -687,7 +725,8 @@ impl TliCruise {
         events.push(Event {
             t_s: t0 + dur,
             what: format!(
-                "end of cruise: position sigma {:.1} km, velocity sigma {:.3} m/s",
+                "end of {}: position sigma {:.1} km, velocity sigma {:.3} m/s",
+                if with_burn { "cruise" } else { "coast" },
                 last.sigma_pos_m / 1e3,
                 last.sigma_vel_mps
             ),
