@@ -76,3 +76,17 @@ fn an_error_has_the_same_code_in_every_language_and_its_message_in_the_language(
         assert_eq!(Some(code.as_str()), xa.code().as_deref());
     }
 }
+
+#[test]
+fn the_human_pass_alone_is_the_second_run_of_the_bilingual_one() {
+    let src = scenario();
+    let (_, human) = api::run_toml_bilingual(&src, "en-XA").unwrap();
+    let human = human.unwrap();
+    let only = api::run_toml_human(&src, "en-XA").unwrap();
+    assert_eq!(only.summary, human.summary);
+    assert_eq!(only.svg, human.svg);
+    assert!(api::run_toml_human(&src, "tlh").is_err());
+    // English is the plain run's text.
+    let en = api::run_toml(&src).unwrap();
+    assert_eq!(api::run_toml_human(&src, "en").unwrap().summary, en.summary);
+}
