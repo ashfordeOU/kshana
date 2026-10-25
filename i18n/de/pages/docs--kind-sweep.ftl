@@ -45,10 +45,6 @@ seg-0aae0574c5e6 = <b>MODELLED</b> Die Verfügbarkeits-Sweeps der Art <c1/>: je 
 seg-de72ae48731d = Quelle: <c1/>
 
 # text
-# c1: sweep
-seg-81c2da4650c9 = <c1/> (Szenario-Kind)
-
-# text
 seg-e7ab7b55c969 = 1-D-Trade-Study-Sweep über einen Uhrenpaket-Parameter.
 
 # text
@@ -75,15 +71,19 @@ seg-73c2e732b0c1 = Das Beispiel <c1/> setzt unter anderem:
 # text
 seg-f8a627a78bdb = Microchip-SA.45s-CSAC-Datenblatt sigma_y(1s)={ "3e-10" }; q_wf ist s
 
-# attr:alt
-seg-c784b8f22f12 = Das Diagramm, das die Engine für scenarios/sweep-clock-stability.toml schreibt, Kind sweep
-
-# text
-# c1: campaign
-seg-cb00aca0268d = <b>MODELLED</b> Die Abschnitte sweep (ein bis drei gepunktete Schlüssel eines beliebigen Kinds, auf den Achsenwerten des generischen Sweeps, optional ein Ensemble an jedem Knoten) und monte_carlo des Kinds <c1/>: Realisierung k läuft bei base_seed + k; jede Metrik gibt Mittelwert, Standardab Tests: <a1>campaign_composition_reference.rs</a1>.
-
 # text
 seg-1750fbfc4a99 = <s1>Zurück</s1>sweep-nd
 
 # text
 seg-de5468ac32fc = <s1>Weiter</s1>telecom-timing
+
+# text
+# c1: sweep
+seg-81c2da4650c9 = <c1/> (Szenarioart)
+
+# attr:alt
+seg-c784b8f22f12 = Das Diagramm, das die Engine für scenarios/sweep-clock-stability.toml schreibt, Art sweep
+
+# text
+# c1: campaign
+seg-cb00aca0268d = <b>MODELLED</b> Die Abschnitte sweep (ein bis drei gepunktete Schlüssel einer beliebigen Szenarioart, auf den Achsenwerten des generischen Sweeps, optional ein Ensemble an jedem Knoten) und monte_carlo der Szenarioart <c1/>: Realisierung k läuft bei base_seed + k; jede Metrik gibt Mittelwert, Standardab Tests: <a1>campaign_composition_reference.rs</a1>.

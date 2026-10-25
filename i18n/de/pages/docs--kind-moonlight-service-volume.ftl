@@ -20,10 +20,6 @@ seg-a2889fb2b42a = Themenseite: <a1>integrations.md</a1>
 seg-eb9f9a422d38 = Quelle: <c1/>
 
 # text
-# c1: moonlight-service-volume
-seg-f8988314faf2 = <c1/> (Szenario-Kind)
-
-# text
 # c1: scenarios/moonlight-service-volume.toml
 seg-8516d1ded5dd = Ein Lauf von <c1/> fasst sich zusammen als: moonlight-service-volume | { "8" } Satelliten (illustrativ, LCNS-Klasse, nicht verbunden) | { "24" } Punkte × { "12" } Epochen | Abdeckung { "37.8" }% (PDOP<{ "6.0" }) | Satelliten { "4" }–{ "7" } | PDOP 2.19/13.74/180.30 | HPL { "139" }–{ "4177" } m | PL-Verfügbarkeit { "0.0" }% | MODELLED
 
@@ -60,9 +56,6 @@ seg-b59e8773bcb9 = Optionale Felder: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <
 # c1: scenarios/moonlight-service-volume.toml
 seg-0d935e7c43da = Das Beispiel <c1/> setzt unter anderem:
 
-# attr:alt
-seg-edb738273a3a = Das Diagramm, das die Engine für scenarios/moonlight-service-volume.toml schreibt, Kind moonlight-service-volume
-
 # text
 seg-1974d1d64c9c = <b>VALIDATED</b> DOP / Abdeckung / Verfügbarkeit im Mond-Stil der Moonlight-Klasse + verallgemeinerte lunare ARAIM-Schutzniveaus über ein Service-Volumen. Unabhängige Referenz (ExternalDataset): Unabhängige Drittanbieter-Autorität ANISE { "0.10.2" } astro::Orbit-Kepler-Propagator (Nyx Space, MPL-2.0) — ein äquinoktialer Zweikörper-Codepfad, verschieden vom Newton-Raphson-Kepler von kshana; die MCI-Position pro Satellit stimmt auf <{ "1e-3" } m überein, und die abgeleitete Anzahl/Menge sichtbarer Satelliten stimmt an jedem Gitterpunkt exakt überein. Der DOP-Kernel ist durch gnss_lib_py validiert; die Integrität verwendet veröffentlichte LunaNet/LCNS-Parameter
 
@@ -76,11 +69,18 @@ seg-f3279128de3b = <s1>Zurück</s1>mars-pnt
 seg-92cd937a3fb7 = <s1>Weiter</s1>ntn-positioning
 
 # text
-# c1: kshana kinds --json
-seg-1f12671176ad = Zusammensetzung der Stufe MODELLED: ein kreisförmiger/elliptischer Kepler-Relaissatz (nicht die reale differenzialkorrigierte LCNS/NRHO-Ephemeride), ein Mond mit mittlerer Rotation (keine Libration/kein präzedierender Pol). (Kind-Katalog (<c1/>))
-
-# text
 seg-28c6a5644152 = Modellierte Analyse des lunaren Navigations-Service-Volumens aus einer ILLUSTRATIVEN Mondorbit-Konstellation der Moonlight/LCNS-Klasse aus öffentlichen Quellen (nicht mit der ESA verbunden): Sie überstreicht ein selenographisches Breiten-/Längengitter über einen Zeithorizont und gibt DOP / Abdeckung / Verfügbarkeit (≥{ "4" } Satelliten UND PDOP < Schwellwert) sowie eine verallgemeinerte lunare ARAIM-Schutzniveau-Hüllkurve (HPL/VPL) über das Volumen aus. Die DOP-Geometrie VERWENDET den gnss_lib_py-VALIDATED-Kern (crate::orbit::dop) wieder; das Schutzniveau VERWENDET die lunare ARAIM-Maschinerie LunaNet LNIS (crate::lunar, σ_URE≈{ "30" } m) wieder und reduziert sich als Sonderfall auf das bestehende Südpol-Schutzniveau. Zusammensetzung der Stufe MODELLED: ein kreisförmiger/elliptischer Kepler-Relaissatz (nicht die reale differenzialkorrigierte LCNS/NRHO-Ephemeride), ein Mond mit mittlerer Rotation (keine Libration/kein präzedierender Pol). Deterministisch (reine Geometrie). Kein TRL, keine Flugerfahrung, keine Billigung durch eine Agentur.
 
 # text
 seg-2ff91fe31123 = EHRLICHKEIT: Zusammensetzung der Stufe MODELLED. Die DOP-Geometrie ist validiert DURCH WIEDERVERWENDUNG des validierten Kernels; die Zusammensetzung aus Abdeckung / Verfügbarkeit / Integrität ist MODELLED — ein kreisförmiger/ elliptischer Kepler-Relaissatz (keine differenzialkorrigierte LCNS- / { "9" }:{ "2" }-NRHO-Ephemeride), ein Mond mit mittlerer Rotation (keine physische Libration / kein präzedierender Pol) und veröffentlichte LunaNet-LNIS-Integritätsparameter. Dies zeigt das lunare Service-Volumen M (Kommentar der Szenariodatei, Zeilen { "27" } bis { "32" })
+
+# text
+# c1: kshana kinds --json
+seg-1f12671176ad = Zusammensetzung der Stufe MODELLED: ein kreisförmiger/elliptischer Kepler-Relaissatz (nicht die reale differenzialkorrigierte LCNS/NRHO-Ephemeride), ein Mond mit mittlerer Rotation (keine Libration/kein präzedierender Pol). (Szenarioarten-Katalog (<c1/>))
+
+# attr:alt
+seg-edb738273a3a = Das Diagramm, das die Engine für scenarios/moonlight-service-volume.toml schreibt, Art moonlight-service-volume
+
+# text
+# c1: moonlight-service-volume
+seg-f8988314faf2 = <c1/> (Szenarioart)

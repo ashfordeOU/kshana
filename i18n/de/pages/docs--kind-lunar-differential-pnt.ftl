@@ -61,18 +61,11 @@ seg-8ac5ac006ae7 = Modelliertes lunares DIFFERENTIELLES PNT (ein lunares Analogo
 # c1: scenarios/lunar-differential-pnt.toml
 seg-3f32e0fea066 = Das Beispiel <c1/> setzt unter anderem:
 
-# attr:alt
-seg-8e67df89448a = Das Diagramm, das die Engine für scenarios/lunar-differential-pnt.toml schreibt, Kind lunar-differential-pnt
-
 # text
 seg-6f4246bd8f6f = <b>MODELLED</b> Differentielle Referenzstation der Klasse NovaMoon: Aufhebung des Gleichtakts + mit der Basislinie wachsender Restfehler + DGNSS-Schutzniveaus. Orakel (InternalConsistency): Identität der differentiellen Fehleraufhebung + Wiederverwendung der PL-Maschinerie von SBAS nach DO-229E; die Einfachdifferenz + WLS-Lösung wird zusätzlich gegen lsq()/matinv() von RTKLIB gegengeprüft (Takasu, BSD-2-Clause, kompiliertes C) — unabhängiger Löser-Code, aber dieselbe Algebra der Sichtliniendifferenz erster Ordnung, daher weiterhin InternalConsistency
 
 # text
 seg-8d02b1426187 = <b>MODELLED</b> Die drei Terme, die eine differentielle Korrektur zwischen der Epoche, in der sie berechnet wird, und der Epoche, in der sie verwendet wird, aufnimmt, jeder zuvor als nicht modellierter Spielraum belassen:. Orakel (InternalConsistency): Identitäten in geschlossener Form und Selbstkonsistenz: die Varianz step²/12 des gleichförmigen Quantisierers, die exakte Kovarianzfortpflanzung (GᵀG)⁻¹GᵀRG(GᵀG)⁻¹, die für gleiche σ auf σ·PDOP zusammenfällt, die { "1" }:{ "1" }-Übertragung des Vermessungsterms als Folge von û_user ≈ û_ref und der Abschluss der Quadratur beim Abschalten. Die PDOP-Gegenprüfung gegen orbit::dop teilt sich die Normalmatrix [−û, { "1" }], ist also eine Konsistenzprüfung und wird als solche bezeichnet, statt als
-
-# text
-# c1: kshana kinds --json
-seg-f1e7283d2e15 = MODELLED — exakte Aufhebungsidentität + Dekorrelationsmodell erster Ordnung; nicht mit realen Daten validiert; kein TRL/Flugerbe/keine Billigung durch eine Agentur. (Kind-Katalog (<c1/>))
 
 # text
 seg-9d54d8c07ca3 = EHRLICHKEIT: MODELLED. Die Aufhebung des Gleichtakts ist eine EXAKTE algebraische Identität; der Rest der räumlichen Dekorrelation ist ein geometrisches Modell ERSTER ORDNUNG (die Projektion der Sichtliniendifferenz eines eingespeisten Bahnfehlers), kein angepasstes Dekorrelationsmodell aus echter Mondverfolgung. Das Schutzniveau des Nutzers WIEDERVERWENDET die SBAS-Schutzniveau-Maschinerie nach DO-229E (crate::sbas) mit dem Sigma des differentiellen Restfehlers als Fehler je Satellit (Kommentar in der Szenariodatei, Zeilen { "23" } bis { "28" })
@@ -101,3 +94,10 @@ seg-2b8455001710 = <s1>Zurück</s1>lunar-beacon
 
 # text
 seg-dca7482d9d75 = <s1>Weiter</s1>lunar-frame-campaign
+
+# attr:alt
+seg-8e67df89448a = Das Diagramm, das die Engine für scenarios/lunar-differential-pnt.toml schreibt, Szenarioart lunar-differential-pnt
+
+# text
+# c1: kshana kinds --json
+seg-f1e7283d2e15 = MODELLED — exakte Aufhebungsidentität + Dekorrelationsmodell erster Ordnung; nicht mit realen Daten validiert; kein TRL/Flugerbe/keine Billigung durch eine Agentur. (Szenarioarten-Katalog (<c1/>))

@@ -6,14 +6,8 @@ seg-b03d56f501c3 = Typ
 # text
 seg-e6839b50b560 = MODELLED heterogene optische + HF-PNT-Gesamtgütezahl (P5): setzt zusammen das optische Zweiwege-Link-Budget bei { "1550" } nm (photonenbegrenzte Zweiwege-Entfernungsmessung mit CRLB σ_τ/√N und Beugungs-Footprint λ/D·Entfernung), ein modalitätsübergreifendes RAIM-Schutzniveau nach Lösungstrennung (Position UND Zeit), das die lockere HF- und die straffe optische Lösung mit unterschiedlichen Kovarianzen fusioniert, die optische Klarhimmel-Verfügbarkeit von N Stationen (unabhängige Vereinigung { "1" }−Π({ "1" }−a_i) und eine räumlich korrelierte Variante), eine optisch↔HF-Zustands-/Kovarianzübergabe mit einem BEWIESEN bitkontinuierlichen (sprungfreien) Mittelwert und einem NEES-χ²-Konsistenztor sowie einen gemeinsamen Score P(verfügbar UND präzisionstauglich UND integritätsgesichert) mit Behandlung von Korrelationen. VALIDATED geschlossene Form: die Entfernungs-CRLB, der Beugungs-Footprint, das χ²-Schutzniveau-Quantil, die Vereinigungskombinatorik, die Mittelwertstetigkeit der Übergabe + das NEES-Tor und das gemeinsame unabhängige Produkt. MODELLED: die optischen Verlustzuweisungen, die σ-Größen von HF und Optik, die Eingaben der Wolkenklimatologie, die Korrelationen und das P_HMI-Budget. Kein zertifiziertes Verfügbarkeits-/Integritätsprodukt.
 
-# attr:alt
-seg-5cea5229815e = Das Diagramm, das die Engine für scenarios/hybrid-optical-rf.toml schreibt, Kind hybrid-optical-rf
-
 # text
 seg-a878d9be65b7 = MODELLED optische PNT durch die Atmosphäre: Für eine optische Strecke und eine Menge von Bodenstandorten mit angegebenem Wolkenklima gibt sie den wellenlängen- und elevationsabhängigen Klarluftverlust (Kim-Sichtweitengesetz plus Rayleigh), den Hufnagel-Valley-Turbulenzzustand (Rytov-Varianz, Szintillationsindex, Gamma-Gamma-Parameter, Aperturmittelung), die wetterbedingte Verfügbarkeit gegen die Streckenreserve (optische Wolkentiefe aus einem lognormalen Flüssigwasser-Klima, geometrisch-optische Extinktion, unabhängiger Turbulenzschwund), die für Zielverfügbarkeiten nötige Streckenreserve, die Verteilung der Ausfalldauer, das Anwachsen des Zeitgebungs- und Entfernungsmessfehlers pro Ausfall über das Uhren-Holdover-Modell, die entfernungskorrelierte Standortdiversitäts-Verfügbarkeit und Was-wäre-wenn-Gewinne für Verbesserungstechniken (Wellenlänge, Empfangsapertur, Szintillationsreduktion durch adaptive Optik, zusätzliche Reserve) aus. VALIDATED als Implementierung der angegebenen Formeln gegen ein unabhängiges mpmath-Referenz: Rytov-Varianz, Szintillationsindex, Gamma-Gamma-Schwundwahrscheinlichkeit, Aperturmittelungsfaktor, optische Tiefe von Wolken und Klarluft. MODELLED: jede Wetter-, Technik- und Uhren-Eingabe sowie die Unabhängigkeits- und Copula-Annahmen; es wurde kein gemessener Verfügbarkeitsnachweis verglichen. Beratende Analyse, kein zertifiziertes Verfügbarkeits- oder Navigationsprodukt.
-
-# attr:alt
-seg-4e2b759aff17 = Das Diagramm, das die Engine für scenarios/optical-atmosphere-network.toml schreibt, Kind optical-atmosphere
 
 # text
 seg-4e31c8daf798 = Register
@@ -114,3 +108,9 @@ seg-a4baaf1fbb8c = <s1>Zurück</s1>Missionsanalyse, Funkstrecken und Raumfahrtbe
 
 # text
 seg-48792381ba0b = <s1>Weiter</s1>Navigation für Raumfahrzeugnutzer
+
+# attr:alt
+seg-4e2b759aff17 = Das Diagramm, das die Engine für scenarios/optical-atmosphere-network.toml schreibt, Szenarioart optical-atmosphere
+
+# attr:alt
+seg-5cea5229815e = Das Diagramm, das die Engine für scenarios/hybrid-optical-rf.toml schreibt, Szenarioart hybrid-optical-rf

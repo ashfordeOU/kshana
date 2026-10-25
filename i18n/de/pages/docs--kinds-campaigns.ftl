@@ -14,23 +14,11 @@ seg-b2c7cd1f9712 = Das Diagramm, das die Engine für scenarios/campaign-sweep-ja
 seg-ea93f81fa08b = Quelle: <c1/>
 
 # text
-seg-7f8e8af56bc0 = Kampagnen (Szenario-Kind-Familie)
-
-# text
-seg-c8012ee549ea = { "1" } Szenario-Kind der Engine v{ $version }. Beratend: Analyseausgabe eines Forschungs- und Ingenieurwerkzeugs, keine typzugelassene Navigationsausrüstung und kein Safety-of-Life-Dienst. Jedes Label hier stammt von der Engine oder von der Verifikationsmatrix; ein Kind ist MODELLED, sofern die Matrix nichts anderes sagt (wie ein Label verdient wird: der Abschnitt Evidence der README).
-
-# text
 # c1: kshana scenarios/campaign-jam-spoof-holdover-integrity.toml
 seg-09ed7c4e175c = Themenseiten: <a1>CAMPAIGNS</a1>. Einen ausführen: <c1/>. Alle Familien: <a2>KINDS.md</a2>.
 
-# attr:alt
-seg-b49ec180e810 = Kontaktbogen der Diagramme, die die Engine für die Kinds der Familie Kampagnen schreibt
-
 # text
 seg-4e31c8daf798 = Register
-
-# text
-seg-b2016159c9d0 = Kampagne: bestehende Szenario-Kinds, zu einem Lauf zusammengesetzt, wobei jede Zahl aus einem realen Lauf des benannten Kinds gelesen wird.
 
 # text
 # c1: title
@@ -50,3 +38,15 @@ seg-906f63ffbc30 = <s1>Zurück</s1>Verhaltenskodex
 
 # text
 seg-cdf23ced49bd = <s1>Weiter</s1>Uhren, Zeitgebung und Holdover
+
+# text
+seg-7f8e8af56bc0 = Kampagnen (Szenarioarten-Familie)
+
+# text
+seg-b2016159c9d0 = Kampagne: bestehende Szenarioarten, zu einem Lauf zusammengesetzt, wobei jede Zahl aus einem realen Lauf der benannten Szenarioart gelesen wird.
+
+# attr:alt
+seg-b49ec180e810 = Kontaktbogen der Diagramme, die die Engine für die Szenarioarten der Familie Kampagnen schreibt
+
+# text
+seg-c8012ee549ea = { "1" } Szenarioart der Engine v{ $version }. Beratend: Analyseausgabe eines Forschungs- und Ingenieurwerkzeugs, keine typzugelassene Navigationsausrüstung und kein Safety-of-Life-Dienst. Jedes Label hier stammt von der Engine oder von der Verifikationsmatrix; eine Szenarioart ist MODELLED, sofern die Matrix nichts anderes sagt (wie ein Label verdient wird: der Abschnitt Evidence der README).

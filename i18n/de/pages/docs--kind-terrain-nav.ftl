@@ -20,10 +20,6 @@ seg-98133e74f88a = Familienseite: <a1>GPS-gesperrtes alternatives PNT</a1>
 seg-1d36a7dc3fd0 = Quelle: <c1/>
 
 # text
-# c1: terrain-nav
-seg-7bfd6d049799 = <c1/> (Szenario-Kind)
-
-# text
 seg-0d7bf5a4f07e = GPS-verweigerte geländereferenzierte Navigation (TERCOM/SITAN): Ein Radar-/Baro-Höhenmesser gleicht das Bodenhöhenprofil mit einem DEM im SRTM-Stil ab, um die INS-Drift zurückzugewinnen.
 
 # text
@@ -55,11 +51,15 @@ seg-efc57f43bd6f = Optionale Felder: <c1/>, <c2/>, <c3/>
 # c1: scenarios/terrain-nav.toml
 seg-96e3607379e0 = Das Beispiel <c1/> setzt unter anderem:
 
-# attr:alt
-seg-c5e33c7122e2 = Das Diagramm, das die Engine für scenarios/terrain-nav.toml schreibt, Kind terrain-nav
-
 # text
 seg-0fcad0016c78 = <s1>Zurück</s1>telecom-timing
 
 # text
 seg-fa50992f818f = <s1>Weiter</s1>terrain-slam
+
+# text
+# c1: terrain-nav
+seg-7bfd6d049799 = <c1/> (Szenarioart)
+
+# attr:alt
+seg-c5e33c7122e2 = Das Diagramm, das die Engine für scenarios/terrain-nav.toml schreibt, Art terrain-nav

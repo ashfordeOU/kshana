@@ -15,13 +15,6 @@ seg-1d65b71c5de0 = { "5" } mitgelieferte Szenarien verwenden diese Art; die ande
 seg-648c27220789 = Quelle: <c1/>
 
 # text
-# c1: leo-navmsg
-seg-087287602b47 = <c1/> (Szenario-Kind)
-
-# text
-seg-49964654d5f4 = Szenario-Kind der Engine v{ $version }, Familie <a1>Low-Earth-orbit navigation</a1>. Hinweis (beratend): Analyseausgabe eines Forschungs- und Engineering-Werkzeugs, keine typzugelassene Navigationsausrüstung und kein Safety-of-Life-Dienst. Jede Bezeichnung hier stammt von der Engine oder der Verifikationsmatrix; ein Kind ist MODELLED, sofern die Matrix nichts anderes sagt (wie eine Bezeichnung erworben wird: der Abschnitt Evidence der README).
-
-# text
 seg-867f3e41b5ab = LEO-Navigationsnachricht: die ausgesendete Ephemeride und Uhr eines Satelliten für Positionierung, Navigation und Zeitgebung im niedrigen Erdorbit (LEO), für jede Bahn, jeden Träger und jedes Modell, mit optionalen benannten Voreinstellungen (Xona Pulsar, Iridium, Starlink, CentiSpace, ein repräsentatives C-Band-System, das ATOMIC-Nulluhr-Modell, Celeste IOD). INHALT: Hilfsdaten (SVID, Datenausgabestand, Band, Signalzustand), Synchronisation (Woche, Wochensekunde, ein Uhrenpolynom zweiter Ordnung af0-af2 um toc), Ephemeride in einem von vier Modellen -- dem 16-Parameter-Kepler-Satz des Galileo OS SIS ICD; diesem Satz plus Korrekturpolynomen in Flugrichtung, quer zur Flugrichtung und radial; dem 22-Parameter-Modell nach Liu et al. { "2025" }; einem ECEF-Polynom ohne Uhrenterme (ATOMIC-Nulluhr) -- und weitere Dienste (ein ausgesendeter Klobuchar-Satz, NeQuick-G ai0-ai2 mit dem effektiven Ionisationsniveau und Parameter von Systemzeit zu UTC mit der Schaltsekundenlogik des ICD). FITTER: eine Wahrheitsbahn, integriert mit zonaler J2-J6- oder EGM2008-Schwere bis zum gewählten Grad und mit Luftwiderstand, und eine mit Seed erzeugte freie oder gesteuerte Uhr; Levenberg-Marquardt-Anpassung des Kepler-Satzes auf nichtsingulären Elementen, dann lineare Korrekturpolynome nach kleinsten Quadraten; Uhr angepasst abzüglich des relativistischen Terms, den der Nutzer hinzufügt. ANALYSEN: fit-interval-trade (Signal-in-Space-Entfernungsfehler, SISRE, mit global gemittelten Gewichten für die Bahnhöhe, gegen Anpassungsintervall und Aktualisierungsperiode, nur Bahn und mit Uhr), model-comparison (vier Modelle, Parameterzahl, codierte Bits und die Anpassung von Kshana bei den Höhen von Liu et al. neben den veröffentlichten Werten), midpass-update (der höchste Überflug über einem Nutzer, der Sprung von Position, Uhr und Nutzerentfernung bei jedem Nachrichtenwechsel, der Sprung bei schlechtester Geometrie, PASS/FAIL gegen eine Kontinuitätsschwelle), encode-decode (das eigene dokumentierte Binärframe von Kshana mit CRC-24Q, ein Quantisierungsbudget von je einem halben Schritt pro Feld, eine Prüfung eines beschädigten Frames, ein Export und Import von Datensätzen im RINEX-4-Stil, bezeichnet als Kshana-Erweiterung, und eine CSV-Tabelle). VALIDATED: die SISRE-Gewichte gegen die veröffentlichte MEO/GEO-Tabelle (Montenbruck et al. { "2018" }); der Galileo-Nutzeralgorithmus gegen RTKLIB auf realen Galileo-Broadcast-Ephemeriden; CRC-24Q gegen seinen Katalog-Prüfwert und den RTCM-{ "1005" }-Beispielframe. MODELLED: Jede Anpassungs- und SISRE-Zahl ist ein Darstellungsfehler gegen eine von Kshana integrierte Wahrheit (kein Bahnbestimmungs- oder Vorhersagefehler); der Vergleich mit Liu et al. verwendet andere Bahnen; die Codierungs- und Textformate sind die eigenen von Kshana.
 
 # text
@@ -64,12 +57,6 @@ seg-fb689f03361c = byte
 # text
 seg-c60901596100 = Ergebnisbezeichnung (der Engine): MIXED — VALIDATED Bausteine, MODELLED Ergebnisse. Die SISRE-Gewichte reproduzieren die veröffentlichte MEO/GEO-Tabelle (Montenbruck et al. { "2018" }), der Nutzeralgorithmus des Galileo-ICD reproduziert RTKLIB auf realen Galileo-Broadcast-Ephemeriden, und CRC-24Q reproduziert seinen Katalog-Prüfwert und den RTCM-{ "1005" }-Beispielf
 
-# attr:alt
-seg-35e92abc6a23 = Das Diagramm, das die Engine für scenarios/leo-navmsg-celeste-iod.toml schreibt, Kind leo-navmsg
-
-# text
-seg-43c1d9c81ccf = MODELLED { "5" } · VALIDATED { "6" }: die Zeilen der <a1>Verifikationsmatrix</a1>, die dieses Kind nennen.
-
 # text
 seg-efbe11be7ca1 = <b>VALIDATED</b> leo_navmsg::sisre::sisre_weights: das radiale Gewicht w_R und das quadrierte Quergewicht w_AC^{ "2" } als Mittelwerte von cos^{ "2" } und halbem sin^{ "2" } des Nadirwinkels der Sichtlinie über Nutzer, die gleichmäßig auf der sichtbaren Erdkappe oberhalb einer Elevati
 
@@ -78,10 +65,6 @@ seg-b27c5fe8e179 = <b>VALIDATED</b> leo_navmsg::elements::kepler_point: die Kepl
 
 # text
 seg-3a53131dc9a4 = <b>VALIDATED</b> leo_navmsg::codec::crc24q: Generatorpolynom 0x1864CFB, Anfangswert { "0" }, keine Spiegelung, kein abschließendes XOR, die Prüfung, die der LEO-Frame von Kshana über jedes vorangehende Byte trägt
-
-# text
-# c1: leo-navmsg
-seg-2b24c2669c23 = <b>VALIDATED</b> Der Fitter und Trade des Kinds <c1/>: eine Wahrheitsbahn, integriert mit zonaler J2-J6- oder EGM2008-Schwere bis zum gewählten Grad und mit Luftwiderstand, und eine mit Seed erzeugte freie oder gesteuerte Uhr; eine Levenberg-Marquardt-Anpassung des Galileo-Kepler-Satzes auf nichtsingulären
 
 # text
 seg-ddb27b07b9af = und { "7" } weitere in der Matrix.
@@ -94,10 +77,6 @@ seg-5b43ffde4634 = <b>VALIDATED</b> leo_navmsg::elements::kepler_point: die Kepl
 
 # text
 seg-5b4f1e63795f = <b>VALIDATED</b> leo_navmsg::codec::crc24q: Generatorpolynom 0x1864CFB, Anfangswert { "0" }, keine Spiegelung, kein abschließendes XOR, die Prüfung, die der LEO-Frame von Kshana über jedes vorangehende. Orakel (ExternalDataset): Der Katalog-Prüfwert der CRC für diese Parameter (reveng.sourceforge.io CRC-Katalog, CRC-24/LTE-A: Breite { "24" }, Poly 0x864CFB, Init { "0" }, Check 0xCDE703), die die CRC-24Q-Parameter von RTCM { "10403" } und des Galileo OS SIS ICD sind, und der Beispielframe des Nachrichtentyps { "1005" }, der in RTCM { "10403" } abgedruckt ist
-
-# text
-# c1: leo-navmsg
-seg-6e2719a28884 = <b>VALIDATED</b> Der Fitter und Trade des Kinds <c1/>: eine Wahrheitsbahn, integriert mit zonaler J2-J6- oder EGM2008-Schwere bis zum gewählten Grad und mit Luftwiderstand, und eine mit Seed erzeugte freie oder gesteuerte. Orakel (ExternalDataset): Echte präzise wissenschaftliche Bahnen als Wahrheit (operationelle reduziert-dynamische Bahnen der TU Graz IfG/ITSG, frei für jede Nutzung mit Namensnennung; SHA-256-Werte im NOTICE der Fixture), angepasst mit dem 16-Parameter-Satz über Bögen von { "20" } und { "30" } min, gegen die Statistiken, die Liu et al. { "2025" } (Remote Sensing { "17" }({ "16" }):{ "2894" }, CC BY { "4.0" }) für dieselben Satelliten und Tage veröffentlichen: Flugrichtungs-, Quer- und Radial-RMS jeweils innerhalb von 1.5x (gemessen { "0.804" } bis { "1.087" }), SISR
 
 # text
 # c1: limitations[0]
@@ -128,10 +107,6 @@ seg-8ba04a3147bd = Die 22-Parameter-Terme nach Liu et al. { "2025" } folgen dem 
 seg-b3585c7feb4e = MIXED — VALIDATED Bausteine, MODELLED Ergebnisse. Die SISRE-Gewichte reproduzieren die veröffentlichte MEO/GEO-Tabelle (Montenbruck et al. { "2018" }), der Nutzeralgorithmus des Galileo-ICD reproduziert RTKLIB auf realen Galileo-Broadcast-Ephemeriden, und CRC-24Q reproduziert seinen Katalog-Prüfwert und den RTCM-{ "1005" }-Beispielframe. Jede Zahl zu Anpassung, SISRE, Kontinuität und Quantisierung ist MODELLED: der Darstellungsfehler einer Nachricht gegen eine (Ergebnis <c1/>)
 
 # text
-# c1: kshana kinds --json
-seg-d6e412aab1b4 = MODELLED: Jede Anpassungs- und SISRE-Zahl ist ein Darstellungsfehler gegen eine von Kshana integrierte Wahrheit (kein Bahnbestimmungs- oder Vorhersagefehler); der Vergleich mit Liu et al. (Kind-Katalog (<c1/>))
-
-# text
 seg-c5478f572d21 = Familienseite: <a1>Low-Earth-orbit navigation</a1>
 
 # text
@@ -142,3 +117,28 @@ seg-b0dcad22aed6 = <s1>Zurück</s1>launch-window
 
 # text
 seg-2984c4c69850 = <s1>Weiter</s1>leo-pass
+
+# text
+# c1: leo-navmsg
+seg-087287602b47 = <c1/> (Szenarioart)
+
+# text
+# c1: leo-navmsg
+seg-2b24c2669c23 = <b>VALIDATED</b> Der Fitter und Trade der Szenarioart <c1/>: eine Wahrheitsbahn, integriert mit zonaler J2-J6- oder EGM2008-Schwere bis zum gewählten Grad und mit Luftwiderstand, und eine mit Seed erzeugte freie oder gesteuerte Uhr; eine Levenberg-Marquardt-Anpassung des Galileo-Kepler-Satzes auf nichtsingulären
+
+# attr:alt
+seg-35e92abc6a23 = Das Diagramm, das die Engine für scenarios/leo-navmsg-celeste-iod.toml schreibt, Szenarioart leo-navmsg
+
+# text
+seg-43c1d9c81ccf = MODELLED { "5" } · VALIDATED { "6" }: die Zeilen der <a1>Verifikationsmatrix</a1>, die diese Szenarioart nennen.
+
+# text
+seg-49964654d5f4 = Szenarioart der Engine v{ $version }, Familie <a1>Low-Earth-orbit navigation</a1>. Hinweis (beratend): Analyseausgabe eines Forschungs- und Engineering-Werkzeugs, keine typzugelassene Navigationsausrüstung und kein Safety-of-Life-Dienst. Jede Bezeichnung hier stammt von der Engine oder der Verifikationsmatrix; eine Szenarioart ist MODELLED, sofern die Matrix nichts anderes sagt (wie eine Bezeichnung erworben wird: der Abschnitt Evidence der README).
+
+# text
+# c1: leo-navmsg
+seg-6e2719a28884 = <b>VALIDATED</b> Der Fitter und Trade der Szenarioart <c1/>: eine Wahrheitsbahn, integriert mit zonaler J2-J6- oder EGM2008-Schwere bis zum gewählten Grad und mit Luftwiderstand, und eine mit Seed erzeugte freie oder gesteuerte. Orakel (ExternalDataset): Echte präzise wissenschaftliche Bahnen als Wahrheit (operationelle reduziert-dynamische Bahnen der TU Graz IfG/ITSG, frei für jede Nutzung mit Namensnennung; SHA-256-Werte im NOTICE der Fixture), angepasst mit dem 16-Parameter-Satz über Bögen von { "20" } und { "30" } min, gegen die Statistiken, die Liu et al. { "2025" } (Remote Sensing { "17" }({ "16" }):{ "2894" }, CC BY { "4.0" }) für dieselben Satelliten und Tage veröffentlichen: Flugrichtungs-, Quer- und Radial-RMS jeweils innerhalb von 1.5x (gemessen { "0.804" } bis { "1.087" }), SISR
+
+# text
+# c1: kshana kinds --json
+seg-d6e412aab1b4 = MODELLED: Jede Anpassungs- und SISRE-Zahl ist ein Darstellungsfehler gegen eine von Kshana integrierte Wahrheit (kein Bahnbestimmungs- oder Vorhersagefehler); der Vergleich mit Liu et al. (Szenarioarten-Katalog (<c1/>))

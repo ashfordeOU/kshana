@@ -83,14 +83,8 @@ seg-bf7b52f7a01e = Das Diagramm, das die Engine für scenarios/eo-radiometry.tom
 # text
 seg-7a4e6215a488 = Zweikörper-Start- und Aufstiegsgeometrie: Startazimut(e) (sin Az = cos i / cos lat), minimal erreichbare Inklination, Kreisbahngeschwindigkeit, der ostwärtige Bonus der Erdrotation, Dogleg-Ebenenwechsel-Δv, wenn die Zielinklination unter der Breite des Startplatzes liegt, und die Zahl der täglichen Startgelegenheiten. MODELLED Geometrie der kugelförmigen Erde (keine Korrektur durch das Geschwindigkeitsdreieck der rotierenden Erde, kein Modell der Aufstiegs-/Widerstandsverluste).
 
-# attr:alt
-seg-9696283a95ae = Das Diagramm, das die Engine für scenarios/launch-window.toml schreibt, Kind launch-window
-
 # text
 seg-dbffff25b57f = CCSDS-OEM-Interoperabilitätsbrücke: Importiert eine Orbit Ephemeris Message, die von einem externen Flugdynamik-Werkzeug erzeugt wurde (GMAT/Orekit/STK geben alle OEM aus), und gibt ihre Segmente/Objekte/Bezugssysteme/Epochenspanne sowie eine Geschwindigkeits-Konsistenzprüfung aus; ohne Eingabe führt sie eine erzeugte Referenzbahn im Rundlauf und gibt die Import↔Export-Treue aus. MODELLED strukturelle/physikalische Einlesprüfung, KEINE Bahngenauigkeits-Validierung der Quelle.
-
-# attr:alt
-seg-5db5a7c812ca = Das Diagramm, das die Engine für scenarios/oem-interop.toml schreibt, Kind oem-interop
 
 # text
 seg-4e31c8daf798 = Register
@@ -362,3 +356,9 @@ seg-41996765fcf1 = <s1>Zurück</s1>Mond und cislunarer Raum
 
 # text
 seg-1951c46fe429 = <s1>Weiter</s1>Optische PNT
+
+# attr:alt
+seg-5db5a7c812ca = Das Diagramm, das die Engine für scenarios/oem-interop.toml schreibt, Szenarioart oem-interop
+
+# attr:alt
+seg-9696283a95ae = Das Diagramm, das die Engine für scenarios/launch-window.toml schreibt, Szenarioart launch-window

@@ -69,13 +69,6 @@ seg-253d5b7f94ce = <b>Render Trust Telemetry</b> auf einem Ergebnis <c2/> der Ar
 seg-ce12ebcdccb5 = <b>Fit Sensor Parameters from IMU Log</b> auf einer ruhenden IMU-<c1/> (<c2/>): die Beschleunigungsmesser- und Gyroparameter der Szenarien <c3/> und <c4/>, durch die Allan-Abweichung angepasst, als Tabelle <c5/> im Kshana-Fenster ausgegeben. Nichts wird geschrieben; die Anpassung ist MODELLED.
 
 # text
-# c1: kshana --validate
-# c2: kshana kinds
-# c3: .toml
-# c4: kshana receiver-trust live --file
-seg-b81f27c51c22 = <b>Validate Scenario</b> (<c1/>), <b>List Scenario Kinds</b> (Menü Tools; <c2/>) und <b>Assess Receiver Stream</b> (eine Schiffssitzung <c3/> plus ein von Ihnen gewähltes gespeichertes NMEA-Protokoll; <c4/>, einmal bewertet, ohne Socket und ohne Gate).
-
-# text
 # c1: kshana example
 # c2: .toml
 # c3: .toml
@@ -155,3 +148,10 @@ seg-bb286e3ce9c9 = <s1>Zurück</s1>Wo jede Fähigkeit erreichbar ist
 
 # text
 seg-e62586b5f58c = <s1>Weiter</s1>Wo Kshana läuft
+
+# text
+# c1: kshana --validate
+# c2: kshana kinds
+# c3: .toml
+# c4: kshana receiver-trust live --file
+seg-b81f27c51c22 = <b>Validate Scenario</b> (<c1/>), <b>List Scenario Kinds</b> (Menü Tools; <c2/>) und <b>Assess Receiver Stream</b> (eine Schiffssitzung <c3/> plus ein von Ihnen gewähltes gespeichertes NMEA-Protokoll; <c4/>, einmal bewertet, ohne Socket und ohne Gate).

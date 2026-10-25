@@ -44,9 +44,6 @@ seg-1dd966268e12 = { "2" } nT
 # text
 seg-d245f215f331 = Ergebnisbezeichnung (die der Engine): MODELLED — solare/geomagnetische Indizes, exosphärische Temperatur nach Jacchia-71 und statische Dichte nach Jacchia-71 bei der tagesmittleren Temperatur
 
-# attr:alt
-seg-c1c6f2f73fb5 = Das Diagramm, das die Engine für scenarios/space-weather.toml schreibt, Kind space-weather
-
 # text
 seg-15587da59e8e = <b>MODELLED</b> Solare/geomagnetische Indizes (definitorische Kp↔ap-Tabelle), die exosphärische Temperatur nach Jacchia-1971 und die thermosphärische Dichte nach Jacchia { "1971" } (SAO Special Report { "332" }: statische Diffusionsprofile, die dessen Tabelle { "7" } reproduzieren, mit den tageszeitlichen, geomagne
 
@@ -56,10 +53,6 @@ seg-f8eef6eabfb2 = <b>MODELLED</b> Solare/geomagnetische Indizes (definitorische
 # text
 # c1: label
 seg-72979b637644 = MODELLED — solare/geomagnetische Indizes, exosphärische Temperatur nach Jacchia-71 und statische Dichte nach Jacchia-71 bei der tagesmittleren Temperatur (Ergebnis <c1/>)
-
-# text
-# c1: kshana kinds --json
-seg-0306ee022298 = MODELLED: Die Dichte stimmt mit beschleunigungsmesserabgeleiteten Dichten (TOLEOS CHAMP und GRACE) im Sonnenmaximum innerhalb eines Faktors { "2" } überein, ist aber im Sonnenminimum { "2008" } etwa 1.7x zu dicht. (Kind-Katalog (<c1/>))
 
 # text
 seg-b86a312077b5 = EHRLICHER GELTUNGSBEREICH: MODELLED. Die Kp<->ap-Umrechnung ist die definitorische IAGA-Tabelle, und die exosphärische Temperatur ist gegen veröffentlichte Größenordnungen für Sonnenminimum/-mittel/-maximum validiert, aber die Dichtekorrektur ist eine KALIBRIERTE Skalenhöhenkopplung ERSTER ORDNUNG — sie erfasst das richtige Vorzeichen, die Monotonie und die Größenordnung, NICHT die absolute Genauigkeit einer datenvalidierten (NRLMSISE-00) Atmosphäre. Lauf: kshana scenarios/space-weath (Kommentar der Szenariodatei, Zeilen { "10" } bis { "15" })
@@ -72,3 +65,10 @@ seg-3dd29f8fba14 = <s1>Zurück</s1>space-packet
 
 # text
 seg-ff9d9a41692b = <s1>Weiter</s1>spectrum
+
+# text
+# c1: kshana kinds --json
+seg-0306ee022298 = MODELLED: Die Dichte stimmt mit beschleunigungsmesserabgeleiteten Dichten (TOLEOS CHAMP und GRACE) im Sonnenmaximum innerhalb eines Faktors { "2" } überein, ist aber im Sonnenminimum { "2008" } etwa 1.7x zu dicht. (Szenarioarten-Katalog (<c1/>))
+
+# attr:alt
+seg-c1c6f2f73fb5 = Das Diagramm, das die Engine für scenarios/space-weather.toml schreibt, Art space-weather

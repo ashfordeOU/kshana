@@ -27,10 +27,6 @@ seg-98133e74f88a = Familienseite: <a1>GPS-gesperrtes alternatives PNT</a1>
 seg-43227f4c8295 = Quelle: <c1/>
 
 # text
-# c1: gravity-map
-seg-2a4cb69bc920 = <c1/> (Szenario-Kind)
-
-# text
 seg-9a58a7b09423 = GPS-verweigerte Navigation mit Schwerefeld-Kartenabgleich: Ein Kaltatom-Gravimeter ermittelt aus der Folge von Schwereanomalien, die es durchfliegt, eine konstante INS-Drift.
 
 # text
@@ -67,11 +63,15 @@ seg-54272925e770 = Optionale Felder: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <
 # c1: scenarios/gravity-map-nav.toml
 seg-5dfee3a0cc22 = Das Beispiel <c1/> setzt unter anderem:
 
-# attr:alt
-seg-c42d90057e9f = Das Diagramm, das die Engine für scenarios/gravity-map-nav.toml schreibt, Kind gravity-map
-
 # text
 seg-fe3ba7e11502 = <s1>Zurück</s1>gnss-ssv
 
 # text
 seg-2b9bdd9def58 = <s1>Weiter</s1>holdover-test
+
+# text
+# c1: gravity-map
+seg-2a4cb69bc920 = <c1/> (Szenarioart)
+
+# attr:alt
+seg-c42d90057e9f = Das Diagramm, das die Engine für scenarios/gravity-map-nav.toml schreibt, Art gravity-map

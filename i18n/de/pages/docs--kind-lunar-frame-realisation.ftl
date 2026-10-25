@@ -20,10 +20,6 @@ seg-49f323360dc3 = <b>VALIDATED</b> 7-Parameter-Anpassung des Helmert-Datums + I
 seg-0225ace73ba8 = Quelle: <c1/>
 
 # text
-# c1: lunar-frame-realisation
-seg-a092c5795651 = <c1/> (Szenario-Kind)
-
-# text
 seg-0c4c119abfca = Modellierte Realisierung des lunaren Bezugssystems: eine Anpassung eines Helmert-Datums (Ähnlichkeit) mit 7 Parametern — { "3" } Translationen, { "3" } Kleinwinkel-Rotationen, { "1" } Maßstab —, die einen geschätzten Satz von aus der Selenographie abgeleiteten MCMF-Punktkoordinaten durch gewichtete kleinste Quadrate (crate::batch_ls::gauss_newton) an ein Datum bindet, plus eine einfache Orientierungsanbindung, die die realisierte kleine Rotation um die ICRF-Achsen relativ zur Körperorientierung IAU { "2015" } WGCCRE ausdrückt. Das Szenario speist eine bekannte kleine Transformation (Translation ~einige zehn m, Rotation ~µrad, Maßstab ~{ "1e-7" }) in ein gut verteiltes synthetisches Punktnetz ein, fügt Gaußsches Rauschen mit Seed hinzu, gewinnt das Datum zurück und gibt die zurückgewonnene Transformation, den Wiedergewinnungsfehler je Parameter gegen die eingespeiste Wahrheit und das RMS-Residuum nach der Anpassung aus. MODELLED Selbstkonsistenz — gewinnt eine eingespeiste Ähnlichkeitstransformation zurück (rauschfrei bis auf ~Maschinengenauigkeit), KEINE Realisierung gegen echte Verfolgungs-/VLBI-Daten; deterministisch (mit Seed); kein TRL/Flugerbe/keine Billigung durch eine Agentur.
 
 # text
@@ -56,13 +52,6 @@ seg-49baab4910f3 = ppb
 # text
 seg-a7d59ba6e225 = rad
 
-# attr:alt
-seg-f3a6d69d0225 = Das Diagramm, das die Engine für scenarios/lunar-frame-realisation.toml schreibt, Kind lunar-frame-realisation
-
-# text
-# c1: kshana kinds --json
-seg-f99a78efa965 = MODELLED Selbstkonsistenz — gewinnt eine eingespeiste Ähnlichkeitstransformation zurück (rauschfrei bis auf ~Maschinengenauigkeit), KEINE Realisierung gegen echte Verfolgungs-/VLBI-Daten; deterministisch (mit Seed); kein TRL/Flugerbe/keine Billigung durch eine Agentur. (Kind-Katalog (<c1/>))
-
 # text
 seg-238cea087ae0 = Ehrlichkeit: MODELLED Selbstkonsistenz. Die unabhängige Referenz ist die Wiedergewinnung einer eingespeisten Ähnlichkeitstransformation mit 7 Parametern (rauschfrei bis auf ~Maschinengenauigkeit) plus die algebraische Rundlaufidentität von apply_helmert. Dies ist KEINE Realisierung des lunaren Bezugssystems gegen echte Verfolgungs-/VLBI-Daten und erhebt keinen Anspruch auf eine absolute Genauigkeit des Bezugssystems. Deterministisch (mit Seed). Es wird kein TRL, kein Flugerbe und keine Billigung durch eine Agentur beansprucht. (Kommentar in der Szenariodatei, Zeilen { "23" } bis { "27" })
 
@@ -71,3 +60,14 @@ seg-07550d3d9610 = <s1>Zurück</s1>lunar-frame-campaign
 
 # text
 seg-5a3a7120aae2 = <s1>Weiter</s1>lunar-infrastructure
+
+# text
+# c1: lunar-frame-realisation
+seg-a092c5795651 = <c1/> (Szenarioart)
+
+# attr:alt
+seg-f3a6d69d0225 = Das Diagramm, das die Engine für scenarios/lunar-frame-realisation.toml schreibt, Art lunar-frame-realisation
+
+# text
+# c1: kshana kinds --json
+seg-f99a78efa965 = MODELLED Selbstkonsistenz — gewinnt eine eingespeiste Ähnlichkeitstransformation zurück (rauschfrei bis auf ~Maschinengenauigkeit), KEINE Realisierung gegen echte Verfolgungs-/VLBI-Daten; deterministisch (mit Seed); kein TRL/Flugerbe/keine Billigung durch eine Agentur. (Szenarioarten-Katalog (<c1/>))

@@ -30,10 +30,6 @@ seg-55ce02ad5dd5 = <b>MODELLED</b> Eine dritte Datumswahl, <c1/>, die jede Erdst
 seg-afeb6e26c5ad = Quelle: <c1/>
 
 # text
-# c1: lunar-vlbi
-seg-6d1a32afd780 = <c1/> (Szenario-Kind)
-
-# text
 seg-e01f77d493a0 = Modellierte geodätische Lunar-VLBI-Laufzeitobservable: Eine Erdbasislinie (zwei Bodenstationen, GCRS) beobachtet ein Einweg-Signal eines Beacons der NovaMoon-Klasse auf der Mondoberfläche. Sie liefert die Nahfeld-Laufzeit als Zwei-Entfernungs-Differenz, ihre Rate und die Wellenfrontkrümmungs-Nahfeldkorrektur über einen Durchgang — gegengeprüft gegen die Ebene-Welle-Δ-DOR-Observable derselben Codebasis im Fernfeldgrenzfall, mit durch finite Differenzen verifizierten Partialableitungen. Der analytische Standardpfad ist MODELLED und trägt die Vorbehalte zu Bezugssystemkonsistenz, Polbewegung xp=yp={ "0" } und Ebene-Welle-gegen-Nahfeld. Wird planetary_kernel_path, earth_orientation_kernel_path und moon_orientation_kernel_path gesetzt, läuft stattdessen der Kernel-Pfad (DE440, MOON_PA_DE440, ITRF93; konvergierte baryzentrische Lichtlaufzeiten; ergänzt die Beacon- und Stationspartialableitungen der Epoche), dessen newtonsche Laufzeit und Partialableitungen mit den konvergierten Lichtlaufzeiten von NAIF SPICE auf { "0.06" } ps und { "7.4e-9" } übereinstimmen. Nicht gegen reale VLBI-Daten validiert.
 
 # text
@@ -64,12 +60,6 @@ seg-1a38a07a0d70 = Optionale Felder: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <
 # c1: scenarios/lunar-vlbi.toml
 seg-11450a55fc9d = Das Beispiel <c1/> setzt unter anderem:
 
-# attr:alt
-seg-07d97fc1abac = Das Diagramm, das die Engine für scenarios/lunar-vlbi.toml schreibt, Kind lunar-vlbi
-
-# text
-seg-9af586816181 = MODELLED { "3" } · VALIDATED { "3" }: die Zeilen der <a1>Verifikationsmatrix</a1>, die dieses Kind nennen.
-
 # text
 seg-61f431e422e5 = <b>MODELLED</b> Nahfeld-VLBI-Laufzeit für eine Erdbasislinie, die ein Mond-Beacon beobachtet, + Partialableitungen
 
@@ -83,10 +73,6 @@ seg-5547f1f662d3 = und { "2" } weitere in der Matrix.
 seg-1461c84350d8 = <b>MODELLED</b> Nahfeld-VLBI-Laufzeit für eine Erdbasislinie, die ein Mond-Beacon beobachtet, + Partialableitungen. Unabhängige Referenz (ReferenceImpl): Ebene-Welle-delta_dor (dieselbe Codebasis) im Fernfeldgrenzfall; Partialableitungen durch finite Differenzen. { "0.30" } externer Vergleich, ein Befund (bleibt MODELLED): gegen ANISE { "0.10" } konvergierte Lichtlaufzeiten durch DE440 ({ "75" } Laufzeiten am 2024-01-01 über drei DSN-Basislinien, erzeugt von xval/anise-lunar-od ohne Kshana-Code), liegt keine Laufzeit innerhalb der Toleranz von { "1" } ps. Die größte Abweichung beträgt { "24" } µs, vom analytischen Mondzentrum (etwa { "200" } km von DE
 
 # text
-# c1: kshana kinds --json
-seg-b41c162b015f = Der analytische Standardpfad ist MODELLED und trägt die Vorbehalte zu Bezugssystemkonsistenz, Polbewegung xp=yp={ "0" } und Ebene-Welle-gegen-Nahfeld. (Kind-Katalog (<c1/>))
-
-# text
 seg-0beac99bb095 = Ehrlichkeit: MODELLED, NICHT gegen reale VLBI-Daten validiert. Die Polbewegung wird weggelassen (xp = yp = { "0" }), sodass die inertialen Stationspositionen einen Bezugssystemfehler von einigen Metern tragen; das Beacon mischt eine Mean-Equator-of-Date-Mondreihe mit einem ICRF-körperfesten Versatz (jd_tdb ~ jd_tt), eine Bezugssystem-Inkonsistenz unterhalb der Modellgüte; keine Lichtlaufzeit-Iteration, Medien oder Aberration über das differenzierte Shapiro hinaus. Kein TRL, keine Flugerfahrung oder Agentur- (Kommentar der Szenariodatei, Zeilen { "17" } bis { "21" })
 
 # text
@@ -97,3 +83,17 @@ seg-04089c4d6fbe = <s1>Zurück</s1>lunar-vlbi-fim
 
 # text
 seg-6adcdfbaa8be = <s1>Weiter</s1>mars-pnt
+
+# attr:alt
+seg-07d97fc1abac = Das Diagramm, das die Engine für scenarios/lunar-vlbi.toml schreibt, Szenarioart lunar-vlbi
+
+# text
+# c1: lunar-vlbi
+seg-6d1a32afd780 = <c1/> (Szenarioart)
+
+# text
+seg-9af586816181 = MODELLED { "3" } · VALIDATED { "3" }: die Zeilen der <a1>Verifikationsmatrix</a1>, die diese Szenarioart nennen.
+
+# text
+# c1: kshana kinds --json
+seg-b41c162b015f = Der analytische Standardpfad ist MODELLED und trägt die Vorbehalte zu Bezugssystemkonsistenz, Polbewegung xp=yp={ "0" } und Ebene-Welle-gegen-Nahfeld. (Szenarioarten-Katalog (<c1/>))

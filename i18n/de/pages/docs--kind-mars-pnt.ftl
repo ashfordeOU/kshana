@@ -31,10 +31,6 @@ seg-670191cf797f = Themenseite: <a1>SOLAR-SYSTEM.md</a1>
 seg-c68502b9d675 = Quelle: <c1/>
 
 # text
-# c1: mars-pnt
-seg-46072326d616 = <c1/> (Szenario-Kind)
-
-# text
 seg-3f749aef8d89 = PNT im Deep Space am Mars: Eine simulierte MARCONI-Relais-Konstellation (areostationäre + geneigte Relais, die Einweg senden + Zweiweg an eine Deep-Space-Station weiterleiten) navigiert einen Referenznutzer (transfer | lmo | surface) durch den gemeinsamen radiometrischen Einweg-/Zweiweg-Fusionsschätzer. Sie gibt pro Epoche Geometrie/Sichtbarkeit, den erreichten RMS gegen die Wahrheit und die formale Kovarianz (1σ / 3σ Position) aus — eine ehrliche simulierte Gütezahl, KEIN zertifiziertes Schutzniveau.
 
 # text
@@ -64,9 +60,6 @@ seg-8e0fecea19fc = uso
 # text
 seg-a16f2332397c = lmo
 
-# attr:alt
-seg-c564dca90854 = Das Diagramm, das die Engine für scenarios/mars-pnt-lmo.toml schreibt, Kind mars-pnt
-
 # text
 seg-83c3a84f6b98 = <b>VALIDATED</b> Einen Epochenzustand [r,v] aus Bodenstations-Entfernungen über einen Gauß-Newton-Batch-Differentialkorrektor und ein sequenzielles Filter wiedergewinnen, über ein Zweikörper+J2-Kraftmodell. Unabhängige Referenz (ExternalDataset): Orekit { "12.2" } (CS GROUP, Apache-2.0) BatchLSEstimator (Levenberg–Marquardt) + KalmanEstimator (EKF) — eine unabhängige Schätzbibliothek eines Drittanbieters auf einem abgeglichenen Kraftmodell; der wiedergewonnene Epochenzustand und der RMS der Residuen nach der Anpassung stimmen auf <{ "1e-3" } m ohne Rauschen und <{ "3" } m bei einem Rauschboden von { "5" } m überein
 
@@ -75,3 +68,10 @@ seg-4be479b81f39 = <s1>Zurück</s1>lunar-vlbi
 
 # text
 seg-2854e6a75833 = <s1>Weiter</s1>moonlight-service-volume
+
+# text
+# c1: mars-pnt
+seg-46072326d616 = <c1/> (Szenarioart)
+
+# attr:alt
+seg-c564dca90854 = Das Diagramm, das die Engine für scenarios/mars-pnt-lmo.toml schreibt, Art mars-pnt

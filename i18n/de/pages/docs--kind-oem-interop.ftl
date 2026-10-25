@@ -17,10 +17,6 @@ seg-3068552e4ab4 = VALIDATED: die Zeilen der <a1>Verifikationsmatrix</a1>, die d
 seg-4abcbdaddcf8 = Quelle: <c1/>
 
 # text
-# c1: oem-interop
-seg-a92dcafd670e = <c1/> (Szenario-Kind)
-
-# text
 seg-dbffff25b57f = CCSDS-OEM-Interoperabilitätsbrücke: Importiert eine Orbit Ephemeris Message, die von einem externen Flugdynamik-Werkzeug erzeugt wurde (GMAT/Orekit/STK geben alle OEM aus), und gibt ihre Segmente/Objekte/Bezugssysteme/Epochenspanne sowie eine Geschwindigkeits-Konsistenzprüfung aus; ohne Eingabe führt sie eine erzeugte Referenzbahn im Rundlauf und gibt die Import↔Export-Treue aus. MODELLED strukturelle/physikalische Einlesprüfung, KEINE Bahngenauigkeits-Validierung der Quelle.
 
 # text
@@ -37,9 +33,6 @@ seg-d7db74d14617 = KSHANA
 # text
 seg-b16f858574ca = Ergebnisbezeichnung (die der Engine): MODELLED — CCSDS-OEM-Import-/Rundlauf-Interop-Brücke (GMAT/Orekit/STK geben OEM aus); eine strukturelle + physikalische Einlesprüfung, KEINE Bahngenauigkeits-Validierung der Quelle
 
-# attr:alt
-seg-5db5a7c812ca = Das Diagramm, das die Engine für scenarios/oem-interop.toml schreibt, Kind oem-interop
-
 # text
 seg-cd29f08ef235 = <b>VALIDATED</b> CCSDS-{ "502.0" }-OEM-Importer (parse_oem), tolerant gegenüber COMMENT-Zeilen / zusätzlichen Metadaten-Schlüsselwörtern / Kovarianzblöcken und exakte Umkehrung des Schreibers; Rundlauf + Einlesen externer Dateien mit einer Geschwindigkeits-Konsistenzprüfung. Tests: <a1>ccsds_oem_interop_reference.rs</a1>.
 
@@ -50,10 +43,6 @@ seg-20071a16b316 = <b>VALIDATED</b> CCSDS-{ "502.0" }-OEM-Importer (parse_oem), 
 # text
 # c1: label
 seg-7ab6bb7a1b8a = MODELLED — CCSDS-OEM-Import-/Rundlauf-Interop-Brücke (GMAT/Orekit/STK geben OEM aus); eine strukturelle + physikalische Einlesprüfung, KEINE Bahngenauigkeits-Validierung der Quelle (Ergebnis <c1/>)
-
-# text
-# c1: kshana kinds --json
-seg-343a56c07d02 = MODELLED strukturelle/physikalische Einlesprüfung, KEINE Bahngenauigkeits-Validierung der Quelle. (Kind-Katalog (<c1/>))
 
 # text
 seg-44aba1ad1d37 = EHRLICHER GELTUNGSBEREICH: MODELLED strukturelle + physikalische Einlesprüfung, KEINE Bahngenauigkeits-Validierung der Quell-Ephemeride. Lauf: kshana scenarios/oem-interop.toml (Kommentar der Szenariodatei, Zeilen { "11" } bis { "13" })
@@ -67,3 +56,14 @@ seg-28254e1b38d4 = <s1>Weiter</s1>optical-atmosphere
 # text
 # c1: scenarios/oem-interop.toml
 seg-21eb1c9d7571 = Ein Lauf von <c1/> fasst sich zusammen als: oem-interop: im Rundlauf { "2" } Segment(e), { "12" } Zustände; maximaler Rundlauffehler { "4.88e-7" } km / { "4.61e-10" } km/s (Interop der Stufe MODELLED)
+
+# text
+# c1: kshana kinds --json
+seg-343a56c07d02 = MODELLED strukturelle/physikalische Einlesprüfung, KEINE Bahngenauigkeits-Validierung der Quelle. (Szenarioarten-Katalog (<c1/>))
+
+# attr:alt
+seg-5db5a7c812ca = Das Diagramm, das die Engine für scenarios/oem-interop.toml schreibt, Szenarioart oem-interop
+
+# text
+# c1: oem-interop
+seg-a92dcafd670e = <c1/> (Szenarioart)

@@ -27,10 +27,6 @@ seg-f7f12029e0ec = Familienseite: <a1>Inertial-, Fusions- und Quantensensoren</a
 seg-f7305f3a0b5a = Quelle: <c1/>
 
 # text
-# c1: ins-trn-coast
-seg-92b90cb4a839 = <c1/> (Szenario-Kind)
-
-# text
 seg-5b9a6efe6337 = INS/TRN-Auslauffehlermodell: Positionsfehler gegen Auslaufdauer, aufgebaut aus IMU-Koeffizienten statt als angenommene Driftrate durchgefahren. Fünf Wachstumsbeiträge — Beschleunigungsmesser-Bias, Kreisel-Bias-Neigung über die Schwerkraft, Geschwindigkeits-Random-Walk, Winkel-Random-Walk und Skalenfaktor gegen die zurückgelegte Strecke — jeweils fortgeschrieben durch ein inertiales Fehlermodell mit neun Zuständen in lokaler Horizontebene mit Schuler-Rückkopplung bei einer angegebenen Breite und Höhe (die führenden Gesetze für kurzes Auslaufen t², t³, t^{ "1.5" }, t^{ "2.5" } und t¹/t² werden daneben ausgegeben) und kombiniert nach einer ANGEGEBENEN Regel (standardmäßig Wurzel aus der Quadratsumme, oder lineare Summe, oder deterministische Summe mit stochastischer Quadratsummenwurzel; alle drei werden bei jedem Lauf berechnet, sodass die Wahl sichtbar ist statt vergraben). Die Auslaufdauern, die vom Aufrufer vorgegebene Positionsschwellen erreichen (standardmäßig { "10" } m und { "50" } m), werden durch die vorhandene Bisektion der Engine gefunden, jeweils mit einer Aufschlüsselung je Beitrag, die die dominante Quelle nennt, und das Überschreiten jedes einzelnen Beitrags wird zusätzlich algebraisch invertiert, sodass beide übereinstimmen. Ein Modus der geländebezogenen Navigation begrenzt das Auslaufen mit periodischen Positionsfixes und gibt das größte Fixintervall aus, das jede Schwelle hält; ein reiner Positionsfix lässt Geschwindigkeitsfehler und Neigung über den Fix hinweg bestehen, sodass er das Auslaufen nicht bei jeder Fixrate begrenzt, und der Bericht sagt das, statt eine Null auszugeben. MODELLED: Die Koeffizienten der IMU-Klasse sind repräsentative Bandwerte, kein Datenblatt, und das Residuum des Geländefixes ist eine Eingabe. Eine nicht erreichte Schwelle wird als null mit einem Status ausgegeben, nie als Null. Kein zertifiziertes Leistungsprodukt für Trägheitsnavigation.
 
 # text
@@ -75,9 +71,6 @@ seg-1918189ac2bf = ppm
 # text
 seg-7eba4c5ee1e4 = Ergebnisbezeichnung (der Engine): MODELLED INS/TRN-Auslauffehlerbudget. Jeder Beitrag wird durch ein inertiales Fehlermodell mit neun Zuständen in lokaler Horizontebene mit Schuler-Rückkopplung fortgeschrieben (ebene Plattform mit Kurs Nord an einem angegebenen Standort, frei inertial einschließlich des instabilen Vertikalkanals); seine führenden Gesetze für kurzes Auslaufen (Bias t^{ "2" }, gy
 
-# attr:alt
-seg-134a4c91da3a = Das Diagramm, das die Engine für scenarios/ins-trn-coast.toml schreibt, Kind ins-trn-coast
-
 # text
 seg-7bb77ec86a0a = <b>VALIDATED</b> Budget Positionsfehler gegen Auslaufdauer, aufgebaut aus IMU-Koeffizienten, wobei jede Fehlerquelle (Beschleunigungsmesser-Bias, Kreisel-Bias, Geschwindigkeits-Random-Walk, Winkel-Random-Walk, Skalenfaktor im Reiseflug und unter anhaltender spezifischer Kraft) durch ein n
 
@@ -89,14 +82,6 @@ seg-d69247df315f = <b>VALIDATED</b> Budget Positionsfehler gegen Auslaufdauer, a
 seg-498cb2f96fa7 = MODELLED INS/TRN-Auslauffehlerbudget. Jeder Beitrag wird durch ein inertiales Fehlermodell mit neun Zuständen in lokaler Horizontebene mit Schuler-Rückkopplung fortgeschrieben (ebene Plattform mit Kurs Nord an einem angegebenen Standort, frei inertial einschließlich des instabilen Vertikalkanals); seine führenden Gesetze für kurzes Auslaufen (Bias t^{ "2" }, Kreisel-Bias-Neigung t^{ "3" }, Geschwindigkeits-Random-Walk t^{ "1.5" }, Winkel-Random-Walk t^{ "2.5" }, Skalenfaktor x zurückgelegte Strecke) werden gegengeprüft (Ergebnis <c1/>)
 
 # text
-# c1: kshana kinds --json
-seg-63c221a546f7 = INS/TRN-Auslauffehlermodell: Positionsfehler gegen Auslaufdauer, aufgebaut aus IMU-Koeffizienten statt als angenommene Driftrate durchgefahren. (Kind-Katalog (<c1/>))
-
-# text
-# c1: kshana kinds --json
-seg-164504645f4a = MODELLED: Die Koeffizienten der IMU-Klasse sind repräsentative Bandwerte, kein Datenblatt, und das Residuum des Geländefixes ist eine Eingabe. (Kind-Katalog (<c1/>))
-
-# text
 seg-ee0281a1f401 = Die Frage, die dies beantwortet: Wenn eine GNSS-Studie (oder eine mit Apertur-Tastverhältnis) sagt „Nehmen Sie eine Koppelnavigationsdrift von { "0.001" }–{ "0.050" } m/s an“, woher kommt diese Zahl? Sie kommt aus der IMU, und dieses Szenario berechnet sie, statt sie durchzufahren. Fünf Wachstumsterme — Beschleunigungsmesser-Bias (t^{ "2" }), Kreisel-Bias-Neigung über die Schwerkraft (t^{ "3" }), Geschwindigkeits-Random-Walk (t^{ "1.5" }), Winkel-Random-Walk (t^{ "2.5" }) und Skalenfaktor mal zurückgelegte Stre (Kommentar in der Szenariodatei, Zeilen { "4" } bis { "11" })
 
 # text
@@ -104,3 +89,18 @@ seg-32d4adcfe249 = <s1>Zurück</s1>inertial
 
 # text
 seg-47366ab55be3 = <s1>Weiter</s1>integrity
+
+# attr:alt
+seg-134a4c91da3a = Das Diagramm, das die Engine für scenarios/ins-trn-coast.toml schreibt, Szenarioart ins-trn-coast
+
+# text
+# c1: kshana kinds --json
+seg-164504645f4a = MODELLED: Die Koeffizienten der IMU-Klasse sind repräsentative Bandwerte, kein Datenblatt, und das Residuum des Geländefixes ist eine Eingabe. (Szenarioarten-Katalog (<c1/>))
+
+# text
+# c1: kshana kinds --json
+seg-63c221a546f7 = INS/TRN-Auslauffehlermodell: Positionsfehler gegen Auslaufdauer, aufgebaut aus IMU-Koeffizienten statt als angenommene Driftrate durchgefahren. (Szenarioarten-Katalog (<c1/>))
+
+# text
+# c1: ins-trn-coast
+seg-92b90cb4a839 = <c1/> (Szenarioart)

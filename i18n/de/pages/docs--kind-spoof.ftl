@@ -32,9 +32,6 @@ seg-f4cf8b629797 = Themenseite: <a1>INTEGRITY.md</a1>
 seg-5a70fcb097dc = Optionale Felder: keine
 
 # text
-seg-304496607bd7 = Szenario-Kind der Engine v{ $version }, Familie <a1>Jamming, spoofing and the spectrum</a1>. Hinweis (beratend): Analyseausgabe eines Forschungs- und Engineering-Werkzeugs, keine typzugelassene Navigationsausrüstung und kein Safety-of-Life-Dienst. Jede Bezeichnung hier stammt von der Engine oder der Verifikationsmatrix; ein Kind ist MODELLED, sofern die Matrix nichts anderes sagt (wie eine Bezeichnung erworben wird: der Abschnitt Evidence der README).
-
-# text
 seg-5d23d7f8f872 = Familienseite: <a1>Jamming, spoofing and the spectrum</a1>
 
 # text
@@ -43,10 +40,6 @@ seg-03d8dc3de7ca = <b>MODELLED</b> Uhrengestütztes χ², RAIM, AGC, SQM, fusion
 # text
 # c1: docs/kinds/by-kind/spoof.md
 seg-09125f609abe = Quelle: <c1/>
-
-# text
-# c1: spoof
-seg-8bf73eca4115 = <c1/> (Szenario-Kind)
 
 # text
 seg-cbd77f6ffd63 = Stochastischer Zeit-Spoof-Detektor (Neyman–Pearson / χ²₁) mit Monte-Carlo-P_fa/P_md.
@@ -67,14 +60,6 @@ seg-b577342dfe39 = Erforderliche Felder: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>
 # c1: scenarios/spoof-attack.toml
 seg-adb7ff15a702 = Das Beispiel <c1/> setzt unter anderem:
 
-# attr:alt
-seg-6f6a8c975111 = Das Diagramm, das die Engine für scenarios/spoof-attack.toml schreibt, Kind spoof
-
-# text
-# c1: leo-pass
-# c2: [spoofer]
-seg-ecc2dc8489bb = <b>MODELLED</b> Der Abschnitt <c2/> des Kinds <c1/>: Ein Spoofer fälscht, in Entfernung und Entfernungsrate in sich konsistent, die Signale, die an einer behaupteten Position zu sehen sind, die nach einem Beginn von der wahren springt und/oder von ihr weggeschoben wird (pro LEO-Band und für das MEO Tests: <a1>leo_resilience_verticals.rs</a1>.
-
 # text
 # c1: [spoofer]
 seg-8b3523b5fa2c = <b>MODELLED</b> Für jeden LEO-Satelliten und jedes Paar von Entfernungsmessbändern bildet der Abschnitt <c1/> die geometriefreie Pseudoentfernungskombination, entfernt das Ionosphärenmodell des Empfängers und testet ihren Epoche-zu-Epoche-Schritt gegen das Codenrauschen der beiden Bänder und ein st Tests: <a1>leo_resilience_verticals.rs</a1>.
@@ -84,3 +69,18 @@ seg-e5bbd2fca4fb = <s1>Zurück</s1>spoof-detect
 
 # text
 seg-8d3311751876 = <s1>Weiter</s1>sweep-nd
+
+# text
+seg-304496607bd7 = Szenarioart der Engine v{ $version }, Familie <a1>Jamming, spoofing and the spectrum</a1>. Hinweis (beratend): Analyseausgabe eines Forschungs- und Engineering-Werkzeugs, keine typzugelassene Navigationsausrüstung und kein Safety-of-Life-Dienst. Jede Bezeichnung hier stammt von der Engine oder der Verifikationsmatrix; eine Szenarioart ist MODELLED, sofern die Matrix nichts anderes sagt (wie eine Bezeichnung erworben wird: der Abschnitt Evidence der README).
+
+# attr:alt
+seg-6f6a8c975111 = Das Diagramm, das die Engine für scenarios/spoof-attack.toml schreibt, Szenarioart spoof
+
+# text
+# c1: spoof
+seg-8bf73eca4115 = <c1/> (Szenarioart)
+
+# text
+# c1: leo-pass
+# c2: [spoofer]
+seg-ecc2dc8489bb = <b>MODELLED</b> Der Abschnitt <c2/> der Szenarioart <c1/>: Ein Spoofer fälscht, in Entfernung und Entfernungsrate in sich konsistent, die Signale, die an einer behaupteten Position zu sehen sind, die nach einem Beginn von der wahren springt und/oder von ihr weggeschoben wird (pro LEO-Band und für das MEO Tests: <a1>leo_resilience_verticals.rs</a1>.

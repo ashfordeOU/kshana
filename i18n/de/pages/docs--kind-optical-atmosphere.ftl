@@ -17,18 +17,11 @@ seg-37d29d8303fe = km
 seg-51362910dcb7 = { "2" } mitgelieferte Szenarien verwenden diese Art; die anderen sind in <a1><c1/></a1>.
 
 # text
-seg-72ad48275ebe = Szenario-Kind der Engine v{ $version }, Familie <a1>Optical PNT</a1>. Hinweis (beratend): Analyseausgabe eines Forschungs- und Engineering-Werkzeugs, keine typzugelassene Navigationsausrüstung und kein Safety-of-Life-Dienst. Jede Bezeichnung hier stammt von der Engine oder der Verifikationsmatrix; ein Kind ist MODELLED, sofern die Matrix nichts anderes sagt (wie eine Bezeichnung erworben wird: der Abschnitt Evidence der README).
-
-# text
 seg-a97755cb13eb = Familienseite: <a1>Optical PNT</a1>
 
 # text
 # c1: docs/kinds/by-kind/optical-atmosphere.md
 seg-d4e4da22fadb = Quelle: <c1/>
-
-# text
-# c1: optical-atmosphere
-seg-deb0a932a76f = <c1/> (Szenario-Kind)
 
 # text
 seg-a878d9be65b7 = MODELLED optische PNT durch die Atmosphäre: Für eine optische Strecke und eine Menge von Bodenstandorten mit angegebenem Wolkenklima gibt sie den wellenlängen- und elevationsabhängigen Klarluftverlust (Kim-Sichtweitengesetz plus Rayleigh), den Hufnagel-Valley-Turbulenzzustand (Rytov-Varianz, Szintillationsindex, Gamma-Gamma-Parameter, Aperturmittelung), die wetterbedingte Verfügbarkeit gegen die Streckenreserve (optische Wolkentiefe aus einem lognormalen Flüssigwasser-Klima, geometrisch-optische Extinktion, unabhängiger Turbulenzschwund), die für Zielverfügbarkeiten nötige Streckenreserve, die Verteilung der Ausfalldauer, das Anwachsen des Zeitgebungs- und Entfernungsmessfehlers pro Ausfall über das Uhren-Holdover-Modell, die entfernungskorrelierte Standortdiversitäts-Verfügbarkeit und Was-wäre-wenn-Gewinne für Verbesserungstechniken (Wellenlänge, Empfangsapertur, Szintillationsreduktion durch adaptive Optik, zusätzliche Reserve) aus. VALIDATED als Implementierung der angegebenen Formeln gegen ein unabhängiges mpmath-Referenz: Rytov-Varianz, Szintillationsindex, Gamma-Gamma-Schwundwahrscheinlichkeit, Aperturmittelungsfaktor, optische Tiefe von Wolken und Klarluft. MODELLED: jede Wetter-, Technik- und Uhren-Eingabe sowie die Unabhängigkeits- und Copula-Annahmen; es wurde kein gemessener Verfügbarkeitsnachweis verglichen. Beratende Analyse, kein zertifiziertes Verfügbarkeits- oder Navigationsprodukt.
@@ -72,9 +65,6 @@ seg-7707c45d1d30 = dBm
 # text
 seg-0fd6a569077f = Ergebnisbezeichnung (die der Engine): MODELLED — optische PNT durch die Atmosphäre: Klarluftextinktion (Kim-Sichtweitengesetz + Rayleigh), optische Wolkentiefe aus einem angegebenen Flüssigwasser-Klima (P.840-Menge, geometrisch-optische Extinktion), Hufnagel-Valley-Turbulenz mit Gamma-Gamma-Schwund und Aperturmittelung, Verfügbarkeit gegen die
 
-# attr:alt
-seg-4e2b759aff17 = Das Diagramm, das die Engine für scenarios/optical-atmosphere-network.toml schreibt, Kind optical-atmosphere
-
 # text
 seg-a18d144f149e = <b>MODELLED</b> Hufnagel-Valley-Cn2, entlang eines Schrägpfads integriert, für die Rytov-Varianz bei ebener und sphärischer Welle (Uplink und Downlink), den Szintillationsindex nach Andrews-Phillips und die Gamma-Gamma-Parameter, die Gamma-Gamma-Schwundwahrscheinlichkeit und die Schwundreserve, Tests: <a1>optical_atmosphere_reference.rs</a1>.
 
@@ -83,11 +73,6 @@ seg-d97535fd4875 = <b>MODELLED</b> Verfügbarkeit einer optischen Strecke gegen 
 
 # text
 seg-6e2c643df3a6 = <b>MODELLED</b> Die Verteilung der Ausfalldauer eines optischen Standorts, gekoppelt an die geschlossene Auslaufvarianz des Uhren-Holdover-Modells: Zeitgebungs- und Entfernungsmessfehler bei angegebenen Ausfall-Quantilen, das Holdover bis zu einer Zeitgebungsschwelle, der Anteil der Ausfälle und Tests: <a1>optical_atmosphere_identities.rs</a1>.
-
-# text
-# c1: [timeseries]
-# c2: optical-atmosphere
-seg-00c76aeadb90 = <b>MODELLED</b> Eine optionale Tabelle <c1/> (Dauer, Schritt, Seed) lässt das Kind <c2/> zusätzlich pro Standort eine mit Seed erzeugte Realisierung des angegebenen Standortmodells über die Zeit schreiben: Wolkenepisoden (klare Phasen exponentiell, Wolkenausfälle lognormal Tests: <a1>optical_atmosphere_timeseries.rs</a1>.
 
 # text
 seg-f1ee20e52b46 = <b>MODELLED</b> Hufnagel-Valley-Cn2, entlang eines Schrägpfads integriert, für die Rytov-Varianz bei ebener und sphärischer Welle (Uplink und Downlink), den Szintillationsindex nach Andrews-Phillips und die. Unabhängige Referenz (ExternalDataset): Die Numerik wird mit einem unabhängigen Programm verglichen (xval/optical-atmosphere/oracle.py, mpmath { "1.4.1" } bei { "30" } Stellen, Tanh-Sinh-Quadratur über die ursprüngliche Höhenvariable und Bessel-K-Gamma-Gamma-Dichten), das keinen Code mit Kshana teilt, unter Zielwerten, die festgelegt wurden, bevor irgendeine Implementierung existierte (xval/optical-atmosphere/PREREGISTRATION.md). WARUM MODELLED: Diese Referenz wertet dieselben veröffentlichten Formeln aus, es prüft also die Im
@@ -101,14 +86,6 @@ seg-b3abf6cbeba4 = <b>MODELLED</b> Die Verteilung der Ausfalldauer eines optisch
 # text
 # c1: label
 seg-c4772a9e1a26 = MODELLED — optische PNT durch die Atmosphäre: Klarluftextinktion (Kim-Sichtweitengesetz + Rayleigh), optische Wolkentiefe aus einem angegebenen Flüssigwasser-Klima (P.840-Menge, geometrisch-optische Extinktion), Hufnagel-Valley-Turbulenz mit Gamma-Gamma-Schwund und Aperturmittelung, Verfügbarkeit gegen die Streckenreserve, an Uhren-Holdover gekoppelte Ausfalldauern und entfernungskorrelierte Standortdiversität. Die Numerik wird geprüft (Ergebnis <c1/>)
-
-# text
-# c1: kshana kinds --json
-seg-32c6524b0baf = MODELLED optische PNT durch die Atmosphäre: Für eine optische Strecke und eine Menge von Bodenstandorten mit angegebenem Wolkenklima gibt sie den wellenlängen- und elevationsabhängigen Klarluftverlust (Kim-Sichtweitengesetz plus Rayleigh), den Hufnagel-Valley-Turbulenzzustand (Rytov-Varianz, Szintillationsindex, Gamma-Gamma-Parameter, Aperturmittelung), die wetterbedingte Verfügbarkeit gegen die Streckenreserve (optische Wolkentiefe aus (Kind-Katalog (<c1/>))
-
-# text
-# c1: kshana kinds --json
-seg-2c7493ee5042 = MODELLED: jede Wetter-, Technik- und Uhren-Eingabe sowie die Unabhängigkeits- und Copula-Annahmen; es wurde kein gemessener Verfügbarkeitsnachweis verglichen. (Kind-Katalog (<c1/>))
 
 # text
 seg-b4402211e3fe = Optische PNT durch die Atmosphäre: drei ILLUSTRATIVE Bodenstandorte (ein bewölkterer nördlicher Standort, ein mittlerer zentraler Standort und ein klarerer südlicher Standort), die ein optisches LEO-Terminal unter { "30" } Grad Elevation bei { "1550" } nm betrachten. Die Wolkenklimata sind angegebene Eingaben, keine Messungen oder Werte irgendeines Datensatzes, sodass jede unten genannte Verfügbarkeit MODELLED ist. Der Lauf gibt pro Standort den Klarluftverlust, den Hufnagel-Valley-Turbulenzzustand, t (Kommentar der Szenariodatei, Zeilen { "1" } bis { "8" })
@@ -130,3 +107,26 @@ seg-bd5b1654b3ed = <s1>Zurück</s1>oem-interop
 
 # text
 seg-ef0a779c300c = <s1>Weiter</s1>orbit
+
+# text
+# c1: [timeseries]
+# c2: optical-atmosphere
+seg-00c76aeadb90 = <b>MODELLED</b> Eine optionale Tabelle <c1/> (Dauer, Schritt, Seed) lässt die Szenarioart <c2/> zusätzlich pro Standort eine mit Seed erzeugte Realisierung des angegebenen Standortmodells über die Zeit schreiben: Wolkenepisoden (klare Phasen exponentiell, Wolkenausfälle lognormal Tests: <a1>optical_atmosphere_timeseries.rs</a1>.
+
+# text
+# c1: kshana kinds --json
+seg-2c7493ee5042 = MODELLED: jede Wetter-, Technik- und Uhren-Eingabe sowie die Unabhängigkeits- und Copula-Annahmen; es wurde kein gemessener Verfügbarkeitsnachweis verglichen. (Szenarioarten-Katalog (<c1/>))
+
+# text
+# c1: kshana kinds --json
+seg-32c6524b0baf = MODELLED optische PNT durch die Atmosphäre: Für eine optische Strecke und eine Menge von Bodenstandorten mit angegebenem Wolkenklima gibt sie den wellenlängen- und elevationsabhängigen Klarluftverlust (Kim-Sichtweitengesetz plus Rayleigh), den Hufnagel-Valley-Turbulenzzustand (Rytov-Varianz, Szintillationsindex, Gamma-Gamma-Parameter, Aperturmittelung), die wetterbedingte Verfügbarkeit gegen die Streckenreserve (optische Wolkentiefe aus (Szenarioarten-Katalog (<c1/>))
+
+# attr:alt
+seg-4e2b759aff17 = Das Diagramm, das die Engine für scenarios/optical-atmosphere-network.toml schreibt, Szenarioart optical-atmosphere
+
+# text
+seg-72ad48275ebe = Szenarioart der Engine v{ $version }, Familie <a1>Optical PNT</a1>. Hinweis (beratend): Analyseausgabe eines Forschungs- und Engineering-Werkzeugs, keine typzugelassene Navigationsausrüstung und kein Safety-of-Life-Dienst. Jede Bezeichnung hier stammt von der Engine oder der Verifikationsmatrix; eine Szenarioart ist MODELLED, sofern die Matrix nichts anderes sagt (wie eine Bezeichnung erworben wird: der Abschnitt Evidence der README).
+
+# text
+# c1: optical-atmosphere
+seg-deb0a932a76f = <c1/> (Szenarioart)

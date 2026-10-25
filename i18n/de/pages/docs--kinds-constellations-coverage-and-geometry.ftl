@@ -39,20 +39,11 @@ seg-0fd3c58fde09 = Das Diagramm, das die Engine für scenarios/ephemeris.toml sc
 # text
 seg-3f749aef8d89 = PNT im Deep Space am Mars: Eine simulierte MARCONI-Relais-Konstellation (areostationäre + geneigte Relais, die Einweg senden + Zweiweg an eine Deep-Space-Station weiterleiten) navigiert einen Referenznutzer (transfer | lmo | surface) durch den gemeinsamen radiometrischen Einweg-/Zweiweg-Fusionsschätzer. Sie gibt pro Epoche Geometrie/Sichtbarkeit, den erreichten RMS gegen die Wahrheit und die formale Kovarianz (1σ / 3σ Position) aus — eine ehrliche simulierte Gütezahl, KEIN zertifiziertes Schutzniveau.
 
-# attr:alt
-seg-c564dca90854 = Das Diagramm, das die Engine für scenarios/mars-pnt-lmo.toml schreibt, Kind mars-pnt
-
 # text
 seg-cb4262b66b8f = GNSS-Verfügbarkeit + DOP aus einer Bahnkonstellation (Walker / TLE / RINEX).
 
-# attr:alt
-seg-3b652c0da6de = Das Diagramm, das die Engine für scenarios/orbit-rinex.toml schreibt, Kind orbit
-
 # text
 seg-a4bdfc291fce = Vorhersage von Bodenstations-Überflügen: die Sichtbarkeits-Überflüge im Zeitbereich (AOS/TCA/LOS, maximale scheinbare Elevation, Dauer) einer Kreisbahn, als mittlere SGP4-Elemente zu Fensterbeginn, über einer Station oberhalb einer Elevationsmaske über ein Fenster hinweg, mit der gesamten Zugriffszeit. SGP4/SDP4-Propagation im erdfesten Bezugssystem IAU 2006/2000A (optional UT1 - UTC und Polbewegung), troposphärische Refraktion nach ITU-R P.834-9 und die Downlink-Lichtlaufzeit (beide standardmäßig an), Durchgänge auf { "1e-7" } s gelöst und die Kulmination per Goldener-Schnitt-Suche. Die Überflug-Geometrie ist gegen Orekit { "13.1.8" } an Stationen auf Meereshöhe VALIDATED; die Bahn und die Station des Szenarios sind illustrative Eingaben.
-
-# attr:alt
-seg-a09be8c586e3 = Das Diagramm, das die Engine für scenarios/passes.toml schreibt, Kind passes
 
 # text
 seg-4e31c8daf798 = Register
@@ -62,17 +53,8 @@ seg-4e31c8daf798 = Register
 seg-44bbec836934 = Quelle: <c1/>
 
 # text
-seg-34a6079984a7 = Konstellationen, Abdeckung und Geometrie (Szenario-Kind-Familie)
-
-# text
-seg-6800289a282d = { "7" } Szenario-Kinds der Engine v{ $version }. Beratend: Analyseausgabe eines Forschungs- und Ingenieurwerkzeugs, keine typzugelassene Navigationsausrüstung und kein Safety-of-Life-Dienst. Jedes Label hier stammt von der Engine oder von der Verifikationsmatrix; ein Kind ist MODELLED, sofern die Matrix nichts anderes sagt (wie ein Label verdient wird: der Abschnitt Evidence der README).
-
-# text
 # c1: kshana scenarios/orbit-gnss-challenged.toml
 seg-d95cc2c1e798 = Themenseiten: <a1>CONSTELLATION-DESIGN</a1>, <a2>COVERAGE</a2>, <a3>SOLAR-SYSTEM</a3>, <a4>SKYLINE</a4>. Einen ausführen: <c1/>. Alle Familien: <a5>KINDS.md</a5>.
-
-# attr:alt
-seg-f044822c2fab = Kontaktbogen der Diagramme, die die Engine für die Kinds der Familie Konstellationen, Abdeckung und Geometrie schreibt
 
 # text
 seg-be0cfeeb1680 = MODELLED { "4" } · VALIDATED { "4" }
@@ -236,3 +218,21 @@ seg-490ec99e2a38 = <s1>Zurück</s1>Uhren, Zeitgebung und Holdover
 
 # text
 seg-90ff7426b999 = <s1>Weiter</s1>GNSS-Messungen, Positionierung und Integrität
+
+# text
+seg-34a6079984a7 = Konstellationen, Abdeckung und Geometrie (Szenarioart-Familie)
+
+# attr:alt
+seg-3b652c0da6de = Das Diagramm, das die Engine für scenarios/orbit-rinex.toml schreibt, Szenarioart orbit
+
+# text
+seg-6800289a282d = { "7" } Szenarioarten der Engine v{ $version }. Beratend: Analyseausgabe eines Forschungs- und Ingenieurwerkzeugs, keine typzugelassene Navigationsausrüstung und kein Safety-of-Life-Dienst. Jedes Label hier stammt von der Engine oder von der Verifikationsmatrix; eine Szenarioart ist MODELLED, sofern die Matrix nichts anderes sagt (wie ein Label verdient wird: der Abschnitt Evidence der README).
+
+# attr:alt
+seg-a09be8c586e3 = Das Diagramm, das die Engine für scenarios/passes.toml schreibt, Szenarioart passes
+
+# attr:alt
+seg-c564dca90854 = Das Diagramm, das die Engine für scenarios/mars-pnt-lmo.toml schreibt, Art mars-pnt
+
+# attr:alt
+seg-f044822c2fab = Kontaktbogen der Diagramme, die die Engine für die Szenarioarten der Familie Konstellationen, Abdeckung und Geometrie schreibt
