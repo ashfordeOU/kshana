@@ -1,8 +1,8 @@
 {
   "coverage": {
     "described_fields_without_definition": 239,
-    "fields_described": 3275,
-    "fields_total": 3275,
+    "fields_described": 3276,
+    "fields_total": 3276,
     "fields_without_units": 0,
     "kinds_complete": 91,
     "kinds_total": 91,
@@ -14140,6 +14140,12 @@
           "provenance": "closed-form",
           "unit": "1"
         },
+        "monte_carlo.non_converged_trials": {
+          "definition": "trials whose Gauss-Newton iteration did not reach its step tolerance",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
         "monte_carlo.rms_rel_pos_error_lvlh_m.along": {
           "definition": "RMS error over trials",
           "evidence_tier": "inherits-scenario-label",
@@ -14297,8 +14303,8 @@
           "unit": "m"
         }
       },
-      "fields_described": 44,
-      "fields_total": 44,
+      "fields_described": 45,
+      "fields_total": 45,
       "fields_without_units": [],
       "label": "MODELLED",
       "source": "defaults"
