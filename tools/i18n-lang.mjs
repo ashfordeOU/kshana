@@ -179,7 +179,7 @@ function entriesOf(file) {
 export function checkLang(root, lang) {
   const errors = [], warnings = [];
   const need = PLURAL_NEEDS(lang);
-  const names = ['ui.ftl', 'glossary.ftl'];
+  const names = existsSync(join(root, 'en')) ? readdirSync(join(root, 'en')).filter((f) => f.endsWith('.ftl') && f !== 'engine.ftl').sort() : ['ui.ftl', 'glossary.ftl'];
   const langDir = join(root, lang);
   const files = [];
   for (const n of names) files.push(n);
@@ -215,7 +215,7 @@ export function checkLang(root, lang) {
         const have = new Set([...keys, def]);
         if (/^\$/.test('$') && sel.selector instanceof VariableReference) for (const c of need) if (!have.has(c)) errors.push(`${here}: select lacks the plural category [${c}] (${lang} needs ${need.join(', ')})`);
       }
-      if (f.startsWith('pages/') || f === 'ui.ftl') {
+      if (f.startsWith('pages/') || (f !== 'glossary.ftl' && f !== 'engine.ftl')) {
         const enText = flat(src), trText = flat(e);
         if (tagsOf(enText) !== tagsOf(trText) && !a.selects.length) errors.push(`${here}: markup tags differ (English: ${tagsOf(enText) || 'none'}; here: ${tagsOf(trText) || 'none'})`);
         if (f.startsWith('pages/') && digits(strip(enText)) !== digits(strip(trText))) errors.push(`${here}: digits in the text differ from the English (numbers must stay in their placeables)`);
