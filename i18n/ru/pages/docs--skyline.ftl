@@ -15,3 +15,7 @@ seg-2c53381d48ae = Горизонтальный эллипс ошибок и к�
 seg-6c6e7248496f = Геометрия неба
 
 seg-379f49bff6fb = Python
+
+seg-cbf0f9bcd2d8 = Оракул
+
+seg-6e0cb6acc073 = VALIDATED

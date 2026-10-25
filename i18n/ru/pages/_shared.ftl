@@ -341,3 +341,5 @@ seg-aa2f95806d24 = Директива ЕС NIS2, статья { "21" }
 seg-138f32dcf19f = EN { "16803" }
 
 seg-5fec3f16de7a = Руководство по Studio
+
+seg-e88d3dbcfe0c = MODELLED
