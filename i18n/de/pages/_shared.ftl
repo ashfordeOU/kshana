@@ -527,3 +527,109 @@ seg-1a26d420ba67 = Siehe auch
 
 # text
 seg-c4f4b2ca0647 = Wert
+
+# text
+seg-e8968e86f31b = Einschränkungen
+
+# text
+seg-7dc0fcd6ef77 = aocs
+
+# text
+seg-c6ced184b8eb = campaign
+
+# text
+seg-bcc7452b7e9c = clock
+
+# text
+seg-00593bd8a3ed = ephemeris
+
+# text
+seg-0cb65c6c4f53 = fusion
+
+# text
+seg-dbe8c830ef6c = hybrid
+
+# text
+seg-eae62828dc7a = inertial
+
+# text
+seg-8af88a0e2a69 = integrity
+
+# text
+seg-9a63fde1d8b1 = jamming
+
+# text
+seg-f8450911ddd6 = orbit
+
+# text
+seg-6dd5a0d55f18 = passes
+
+# text
+seg-786068921d01 = pvt
+
+# text
+seg-63f112536118 = reentry
+
+# text
+seg-f79dad339a1e = spectrum
+
+# text
+seg-8ea9f458185d = spoof
+
+# text
+seg-460826ea7719 = sweep
+
+# text
+seg-55f3ac33d883 = timetransfer
+
+# text
+seg-a37260157d35 = Eingaben
+
+# text
+# c1: kshana kinds --json
+seg-0ffd6d4b0d8c = Aus dem Schema (<c1/>):
+
+# text
+seg-7a473d2b9b37 = Pflichtfelder: keine
+
+# text
+seg-0484c5d57886 = nicht angegeben
+
+# text
+seg-619be4963365 = Text
+
+# text
+seg-15636cc68f72 = Flag
+
+# text
+seg-473eb8189015 = Ausführen
+
+# text
+seg-8b01aa51263e = Was es liefert
+
+# text
+seg-5aa75472f59d = Die skalaren Ergebnisse dieses Laufs, mit den Einheiten, die die Engine angibt:
+
+# text
+seg-dfd41abc16b5 = Ergebnis
+
+# text
+seg-0df8f55cbe06 = deg
+
+# text
+seg-4798bca2d7a7 = MODELLED: die Zeilen der <a1>Verifikationsmatrix</a1>, die diese Art nennen.
+
+# text
+seg-6338a873ee85 = Die Zeilen, die der Lauf selbst ausgeübt hat, mit der unabhängigen Referenz, die die Matrix jeder gibt (die öffentlichen Quellen sind dort genannt):
+
+# text
+seg-fe24dcc6971f = <b>MODELLED</b> Deterministisch, szenario-gehasht, SBOM- und plattformübergreifende Golden-Gates. Unabhängige Referenz (ExternalDataset): SBOM-Übereinstimmung mit dem offiziellen CycloneDX-{ "1.5" }-JSON-Schema (+ gültige SPDX-Kennungen) — ein externer veröffentlichter Standard, null Validierungsfehler über den gesamten Abhängigkeitsgraphen; der Teil FoM-Determinismus / Byte-Reproduzierbarkeit bleibt eine festgelegte Selbstkonsistenzprüfung, daher bleibt die Zeile MODELLED
+
+# text
+seg-1fc08d2f0209 = Was der eigene Bericht des Laufs als nicht modelliert oder nicht validiert nennt:
+
+# text
+seg-58c4d7218e70 = Reproduzierbarkeit und Software-Assurance ist MODELLED, nicht validiert: Eine Teilbehauptung ist extern geprüft, aber die gesamte Fähigkeit setzt sich aus modellierten Teilen zusammen, daher bleibt die Fähigkeit modelliert. (Verifikationsmatrix (docs/MODELLED-RATIONALE.md))
+
+# text
+seg-1bf3d5817274 = Alle Arten: <a1>KINDS.md</a1>

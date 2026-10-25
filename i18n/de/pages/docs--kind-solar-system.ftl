@@ -107,3 +107,27 @@ seg-ceadf891b1e2 = <s1>Zurück</s1>slot-timing
 
 # text
 seg-0493962a6937 = <s1>Weiter</s1>space-packet
+
+# text
+seg-11e8c29ecb45 = Szenarioart der Engine v{ $version }, Familie <a1>Konstellationen, Abdeckung und Geometrie</a1>. Beratend: Analyseausgabe eines Forschungs- und Entwicklungswerkzeugs, keine typzugelassene Navigationsausrüstung und kein Dienst für die Sicherheit von Menschenleben. Jede Bezeichnung hier stammt von der Engine oder der Verifikationsmatrix; eine Art ist MODELLED, sofern die Matrix nichts anderes sagt (wie eine Bezeichnung verdient wird: der Abschnitt Evidence der README).
+
+# text
+seg-dae4184bb004 = <b>VALIDATED</b> Die newtonsche Einweg-Lichtlaufzeit von einem beliebigen Körper zu einem beliebigen anderen, empfangen zu einer Epoche, gelöst vom radiometrischen Fixpunkt-Lichtlaufzeitlöser (radiometric::light_time_solution, Sender an seiner retardierten Position) über solar_system::link_o Tests: <a1>solar_system_light_time_preregistered.rs</a1>.
+
+# text
+seg-a4f1e7d2041e = Familienseite: <a1>Konstellationen, Abdeckung und Geometrie</a1>
+
+# text
+seg-670191cf797f = Themenseite: <a1>SOLAR-SYSTEM.md</a1>
+
+# text
+seg-cef32ee7d521 = Themenseite: <a1>CONSTELLATION-DESIGN.md</a1>
+
+# text
+seg-4d208b6c0eb8 = Tag
+
+# text
+seg-3319b18ac61f = und { "1" } weitere in der Matrix.
+
+# text
+seg-fbac1cbb2422 = MODELLED { "2" } · VALIDATED { "3" }: die Zeilen der <a1>Verifikationsmatrix</a1>, die dieses Kind nennen.

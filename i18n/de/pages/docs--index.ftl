@@ -185,3 +185,165 @@ seg-56d3444ce4d7 = <s1>NMEA-Trainingsströme</s1><s2>Seefahrtsakademien und Simu
 
 # text
 seg-00248bc55a42 = <s1>Störungskarte und Routenexposition</s1><s2>kshana interference-map baut ein Tagesbild davon auf, wo Luftfahrzeuge und Schiffe beeinträchtigte Navigation meldeten…</s2>
+
+# text
+seg-ac56d303e077 = <s1>Störungskarte: Datenquellen und Lizenzen</s1><s2>Ausgaben von Kshana enthalten nie Kennungen einzelner Luftfahrzeuge oder Schiffe (ICAO-Hex, MMSI, Rufzeichen, Name).</s2>
+
+# text
+seg-3a6aad677afc = <s1>Marine-Integrationen</s1><s2>Der maritime Vertrauenswert von Kshana (MARITIME-TRUST.md) ist aus Software erreichbar, die Skipper bereits nutzen: ein Signal K…</s2>
+
+# text
+seg-622b9f6fa2a3 = <s1>Himmelsgeometrie und Horizontprofile</s1><s2>Bis { "0.36" } war jeder Sichtbarkeitstest der Erde in der Engine ein einziger Elevationsgrenzwinkel, mask_deg: ein Satellit…</s2>
+
+# text
+seg-95e0020bfb9d = <s1>Vertrauen als Sicherheitstelemetrie</s1><s2>kshana trust-telemetry wandelt den GNSS-Vertrauensstrom je Epoche (Wert 0-100, Band, Gründe) in Signale um, die ein…</s2>
+
+# text
+seg-e434ec0424c5 = <s1>Galileo-OSNMA-Verifikation</s1><s2>Ein empfängerseitiger Verifizierer für die Navigationsnachrichten-Authentifizierung des Galileo Open Service (OSNMA), in reinem Rust.</s2>
+
+# text
+seg-3ff36018c274 = <s1>LunaNet Augmented Forward Signal</s1><s2>Kshana implementiert die Spreizcodes und die Nachrichtenschicht des LunaNet Augmented Forward Signal (AFS) als…</s2>
+
+# text
+seg-e02c18ac5471 = <s1>Jammertest als Schiedsrichter</s1><s2>kshana jammertest import liest den Jammertest-Testkatalog und den Sendeplan und macht aus dem eines Testgebiets…</s2>
+
+# text
+seg-fe7815293477 = <s1>Maschinen- und Sensoreingaben</s1><s2>Leser, die andere Empfänger, Löser und Sensoren in die Art receiver-trust einbinden.</s2>
+
+# text
+seg-334ea28e861d = <s1>Gelesene Empfängerprotokolle</s1><s2>Durchgehend nur lesend: Hier wird kein einziges Byte an einen Empfänger geschrieben, und es gibt keinerlei Sendepfad.</s2>
+
+# text
+seg-9df595768906 = <s1>Störungsobservatorium: Methode</s1><s2>Ein Produkt je UTC-Tag und Region, aus einem offenen Archiv von Flugzeugpositionen.</s2>
+
+# text
+seg-5fa1910359f2 = <s1>Störungsobservatorium: Ergebnisse</s1><s2>Beispiel dafür, was ein Tag ergibt: Am 2026-09-15 enthielt das Archiv { "110,619,797" } Positionszeilen in { "79,826" } Trace-Dateien…</s2>
+
+# text
+seg-ea53b862aeda = <s1>kshana-bench</s1><s2>Ein offener Satz von Aufgaben, Aufteilungen und Metriken für die GNSS-Störungserkennung und das Timing-Holdover.</s2>
+
+# text
+seg-461c01f5b420 = <s1>Einen Empfänger gegen ein Szenario laufen lassen</s1><s2>Ein Empfängerhersteller, der einen GNSS-Simulator im Labor besitzt, kann die Fahrzeugbewegung eines Kshana-Szenarios durch…</s2>
+
+# text
+seg-1038350c900b = <s1>Compliance-Zuordnung</s1><s2>Käufer und Empfängerhersteller müssen sich an öffentlichen Resilienz-Rahmenwerken messen lassen.</s2>
+
+# text
+seg-f762fbacb3e0 = <s1>US-DHS-Rahmenwerk für resiliente PNT</s1><s2>Das Rahmenwerk beschreibt die Resilienzstufen { "0" } bis { "4" }, aufgebaut aus acht nummerierten Anforderungen, und eine Bewertung…</s2>
+
+# text
+seg-70dc40f85a56 = <s1>IMO-Leitlinien für Schiffe</s1><s2>Der GNSS-Störungstext der IMO für Schiffe ist dünn: MSC.1/Circ.1644 richtet sich hauptsächlich an die Mitgliedstaaten, und…</s2>
+
+# text
+seg-6744cd5aeb52 = <s1>EASA-Leitlinien für die Luftfahrt</s1><s2>Das Safety Information Bulletin der EASA ist informativ, nicht verbindlich, und richtet sich an Behörden, Luft…</s2>
+
+# text
+seg-c0e395637b4a = <s1>EU-NIS2, Artikel { "21" }</s1><s2>Artikel { "21" } listet in Absatz { "2" }, Buchstaben (a) bis (j), die Maßnahmen auf, die wesentliche und wichtige Einrichtungen ergreifen, um…</s2>
+
+# text
+seg-c6601a36c5e1 = <s1>EN { "16803" }</s1><s2>EN { "16803" } ist eine kostenpflichtige Norm. Nur ihre Teilestruktur und die Abschnittsnummern, die in öffentlichen Katalog…</s2>
+
+# text
+seg-1e77328580a5 = <s1>SGP4-Validierung</s1><s2>Der Bahnpropagator von Kshana wird gegen die kanonische Referenz der Community für SGP4/SDP4 validiert (SGP4…</s2>
+
+# text
+seg-325b7a8b4fa1 = <s1>Validierung des Kraftmodells</s1><s2>Die Vollkraft-Engine von Kshana (src/precise_od.rs), angepasst an reale präzise Bahnprodukte von Agenturen, mit ehrlichen…</s2>
+
+# text
+seg-3f49dd18182c = <s1>Sonnensystem und andere Körper</s1><s2>Die Art constellation-design nutzt denselben Katalog, um Konstellationen um jeden dieser Körper zu bauen…</s2>
+
+# text
+seg-55ddf2511373 = <s1>Mondreferenzstation</s1><s2>MODELLED. Unter den genannten Annahmen (die Konstellation, ihr Signal-in-Space-Fehler, die Vermessung der Station…</s2>
+
+# text
+seg-98919bcd801c = <s1>Navigation von Raumnutzern (gnss-ssv)</s1><s2>Nur beratend. Modellierte Ergebnisse aus genannten Eingaben und einer simulierten Wahrheit; keine Zertifizierung, kein…</s2>
+
+# text
+seg-39391db85b5c = <s1>Mondbahn und Mondoberfläche als Infrastruktur</s1><s2>Die Entwürfe, Eingaben und Zielwerte wurden in xval/lunar-infra/PREREGISTRATION.md festgelegt (eingecheckt vor jeder Studie…</s2>
+
+# text
+seg-360565300367 = <s1>LEO-Positionierung, -Navigation und -Zeitgebung</s1><s2>LEO-PNT ist Positionierung, Navigation und Zeitgebung (PNT) von Satelliten in niedriger Erdumlaufbahn (LEO), neben oder…</s2>
+
+# text
+seg-68ecb187480e = <s1>LEO-Signalentwürfe</s1><s2>Die Szenarioart leo-signal analysiert Signale für Positionierung, Navigation und Zeitgebung (PNT) in niedriger Erdumlaufbahn (LEO).</s2>
+
+# text
+seg-af4c91197303 = <s1>LEO-Überflug und Link-Budget</s1><s2>LEO-PNT ist Positionierung, Navigation und Zeitgebung (PNT) von Satelliten in niedriger Erdumlaufbahn (LEO).</s2>
+
+# text
+seg-1a18aa855b3b = <s1>LEO-Navigationsnachricht</s1><s2>Die Szenarioart leo-navmsg baut die ausgesendete Ephemeride und Uhrennachricht eines Satelliten in niedriger Erdumlaufbahn (LEO)…</s2>
+
+# text
+seg-af9e8582abfd = <s1>Fusionierte MEO- und LEO-Positionierung</s1><s2>Drei Szenarioarten liefern Positionierung, Navigation und Zeitgebung (PNT) mit Satelliten in niedriger Erdumlaufbahn…</s2>
+
+# text
+seg-21efc56232cb = <s1>Konstellationsentwurf</s1><s2>Die Art constellation-design baut eine oder mehrere Satellitenkonstellationen um die Erde, den Mond, den Mars…</s2>
+
+# text
+seg-ed3519ca91bc = <s1>Quantensensor-Modelle</s1><s2>Kshana ist ein Simulator für PNT-Resilienz (PNT: Positionierung, Navigation und Zeitgebung) mit Quantensensor…</s2>
+
+# text
+seg-1c8c5aff3799 = <s1>Kaltatom-Interferometer</s1><s2>Der größte Teil von Kshana betreibt seine Quantensensoren mit veröffentlichten Allan-/Rauschkoeffizienten, also Datenblatt-Nachschlagewerten (siehe…</s2>
+
+# text
+seg-1c7365479fa9 = <s1>Python-API</s1><s2>Kshana liefert eine erstklassige Python-Programmierschnittstelle (API) mit, gebaut mit PyO3 und maturin.</s2>
+
+# text
+seg-2839d351f432 = <s1>npm und WebAssembly</s1><s2>Kshana spielt Jamming, Spoofing und Uhren-Holdover nach, wenn GNSS-Signale (Global Navigation Satellite System)…</s2>
+
+# text
+seg-5a3b64de0deb = <s1>Rust-Crate</s1><s2>Kshana spielt Jamming, Spoofing und Uhren-Holdover nach, wenn GNSS-Signale (Global Navigation Satellite System)…</s2>
+
+# text
+seg-9bed2e283314 = <s1>MCP-Server</s1><s2>kshana-mcp ist ein Model-Context-Protocol-Server (MCP) für Kshana, den quelloffenen Simulator für PNT…</s2>
+
+# text
+seg-64670a2ae6de = <s1>MCP-Server: jeder Installationskanal</s1><s2>Beratend, keine typzugelassene Navigationsausrüstung: Der Betreiber bleibt für die Navigation verantwortlich.</s2>
+
+# text
+seg-6ffa2ba98f8e = <s1>MCP-Server: selbst gehosteter HTTP-Modus</s1><s2>Kshana betreibt keinen Endpunkt. Es gibt keinen gemeinsamen kshana-Server, auf den ein Client zeigen könnte.</s2>
+
+# text
+seg-f466e9c87ba4 = <s1>Kshana aus einem Agenten nutzen</s1><s2>Für einen Agenten (oder die Person, die ihn lenkt): welches Werkzeug bei welcher Frage aufzurufen ist, was die Werkzeuge tun und…</s2>
+
+# text
+seg-ccfc820aac68 = <s1>Wo jede Fähigkeit erreichbar ist</s1><s2>Jede Fähigkeit ist auf den Oberflächen verfügbar, auf denen sie sinnvoll ist; wo eine keine Fähigkeit tragen kann, die…</s2>
+
+# text
+seg-1c59d26e3faf = <s1>JetBrains-Plugin</s1><s2>Ein natives Plugin, das den PNT-Resilienz-Simulator Kshana aus jeder JetBrains-IDE heraus ausführt (IntelliJ IDEA…</s2>
+
+# text
+seg-4498f8a0377b = <s1>Wo Kshana läuft</s1><s2>Eine Grenze des Umfangs, aufgeschrieben, damit niemand sie in einer Besprechung als Zusage entdeckt.</s2>
+
+# text
+seg-059aecd59596 = <s1>Architektur</s1><s2>Kshana ist eine Engine, in Schichten über einem gemeinsamen Kern organisiert: die Sensorpakete (Uhr, Inertial…</s2>
+
+# text
+seg-d04f34d58f72 = <s1>Wo Kshana einzuordnen ist</s1><s2>Kshana ist eine offene, reproduzierbare Engine für Nachweise zur Resilienz von PNT (Positionierung, Navigation und Zeitgebung).</s2>
+
+# text
+seg-1f3c2236799a = <s1>Änderungsprotokoll</s1><s2>Alle wesentlichen Änderungen an Kshana sind hier dokumentiert.</s2>
+
+# text
+seg-8a5a43f00d5c = <s1>Lizenzierung</s1><s2>Kshana ist doppelt lizenziert. Sie dürfen die offene Engine entweder unter der offenen Lizenz (AGPL-3.0) oder einer…</s2>
+
+# text
+seg-49ad1606f08e = <s1>Sicherheit</s1><s2>Bitte eröffnen Sie für sicherheitsrelevante Meldungen kein öffentliches Issue.</s2>
+
+# text
+seg-aa20c949d2dc = <s1>Mitwirken</s1><s2>Danke für Ihr Interesse. Kshana will eine neutrale, reproduzierbare, ehrlich validierte Referenz für…</s2>
+
+# text
+seg-43a346878a68 = <s1>Governance</s1><s2>Dieses Dokument legt fest, wie Kshana geführt wird: wer Entscheidungen trifft, wie, und was das Projekt tun und nicht tun wird…</s2>
+
+# text
+seg-147b50bc526f = <s1>Verhaltenskodex</s1><s2>Wir, die Mitglieder, Mitwirkenden und Verantwortlichen, verpflichten uns, die Teilnahme an unserer Gemeinschaft belästigungsfrei zu…</s2>
+
+# text
+seg-f614d6e8b1f4 = <s1>Kampagnen</s1><s2>{ "1" } Szenarioart der Engine v{ $version }. Beratend: Analyseausgabe eines Forschungs- und Entwicklungswerkzeugs, nicht…</s2>
+
+# text
+seg-c4fc43121c22 = <s1>Uhren, Zeitgebung und Holdover</s1><s2>{ "9" } Szenarioarten der Engine v{ $version }. Beratend: Analyseausgabe eines Forschungs- und Entwicklungswerkzeugs, nicht…</s2>
+
+# text
+seg-d4b063147d18 = <s1>Konstellationen, Abdeckung und Geometrie</s1><s2>{ "7" } Szenarioarten der Engine v{ $version }. Beratend: Analyseausgabe eines Forschungs- und Entwicklungswerkzeugs, nicht…</s2>

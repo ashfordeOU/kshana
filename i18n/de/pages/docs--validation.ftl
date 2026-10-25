@@ -65,3 +65,9 @@ seg-f63dd3d7aad4 = Quelle
 
 # text
 seg-638b8d451550 = Sensor
+
+# text
+seg-35bf9a48e566 = Größe
+
+# text
+seg-f3526b0d95f8 = Gemessen

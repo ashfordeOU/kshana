@@ -93,3 +93,6 @@ seg-e06f9a5a0291 = <s1>Zurück</s1>cislunar-observability
 
 # text
 seg-aba9395185fa = <s1>Weiter</s1>combined-altpnt
+
+# text
+seg-debc2f07db78 = true

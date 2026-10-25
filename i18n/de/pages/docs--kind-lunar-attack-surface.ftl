@@ -77,3 +77,30 @@ seg-1a1799e01ac4 = <s1>Zurück</s1>link-budget
 
 # text
 seg-4b0efe4b9b85 = <s1>Weiter</s1>lunar-beacon
+
+# text
+seg-8784979d6569 = dBW
+
+# text
+seg-37d16b499bc5 = dB
+
+# text
+seg-98151954f217 = false
+
+# text
+seg-cc2ad9e12064 = <b>MODELLED</b> Geometrisches J/S-Link-Budget, Anti-Jam-C/N₀, Lock-Verlust je Satellit. Unabhängige Referenz (InternalConsistency): Anti-Jam-C/N₀-Link-Budget-Gleichung, gegen eine unabhängige numpy-Neuherleitung gegengeprüft (teilt dieselbe geschlossene Form → InternalConsistency), plus eine Charakterisierung der C/N₀-Verschlechterung mit realen JammerTest-2024-Daten. { "0.30" } Runde { "2" }, blockiert (bleibt MODELLED): der gemessene C/N0-Abfall von JammerTest { "2024" } gegen eine Link-Budget-Vorhersage (vorab registriert 6a66994b, innerhalb von { "3" } dB) wurde nicht ausgeführt, weil die Antennenposition und -ausrichtung F8.1 bei
+
+# text
+seg-143f3f1cc521 = Jamming-Resilienz bei GNSS-Ausfall ist MODELLED, nicht validiert: gegen die eigene geschlossene bzw. analytische Identität geprüft — fängt Transkriptions- und Koeffizientenfehler ab, ist aber keine unabhängige Referenz. (Verifikationsmatrix (docs/MODELLED-RATIONALE.md))
+
+# text
+seg-1f17ef6a853e = Szenarioart der Engine v{ $version }, Familie <a1>Mond und cislunarer Raum</a1>. Beratend: Analyseausgabe eines Forschungs- und Entwicklungswerkzeugs, keine typzugelassene Navigationsausrüstung und kein Dienst für die Sicherheit von Menschenleben. Jede Bezeichnung hier stammt von der Engine oder der Verifikationsmatrix; eine Art ist MODELLED, sofern die Matrix nichts anderes sagt (wie eine Bezeichnung verdient wird: der Abschnitt Evidence der README).
+
+# text
+seg-1c1eeb2dcaa0 = Familienseite: <a1>Mond und cislunarer Raum</a1>
+
+# text
+seg-a3697ad561db = Hz
+
+# text
+seg-9521a296d617 = dBi

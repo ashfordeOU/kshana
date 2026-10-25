@@ -14,3 +14,6 @@ seg-aab745a65e76 = Modul
 
 # text
 seg-bf09433a7342 = GeoJSON
+
+# text
+seg-906440b861cd = Rahmen

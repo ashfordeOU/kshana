@@ -92,3 +92,34 @@ seg-04289f7252cd = <b>MODELLED</b> Der Typ <c1/> jenseits der beiden festgelegte
 # text
 # c1: label
 seg-00fa65d44cbd = MODELLED - Keplersche Zweikörperbahnen (optional säkulares J2) um einen kugelförmigen Körper, geometrische Sichtbarkeit oberhalb einer Elevationsmaske, All-in-View-Verdünnung der Präzision mit einer Empfängeruhr je Konstellation, sofern nicht clock = "common"; keine Signalleistung, kein Gesundheitszustand, kein Gelände. Die Walker-Geometrie und die veröffentlichten Voreinstellungen werden gegen die Galileo OS SDD, die GLONASS ICD und die Slot-Tabellen des GPS SPS Performance Standard geprüft, a (Ergebnis <c1/>)
+
+# text
+seg-37d29d8303fe = km
+
+# text
+seg-11e8c29ecb45 = Szenarioart der Engine v{ $version }, Familie <a1>Konstellationen, Abdeckung und Geometrie</a1>. Beratend: Analyseausgabe eines Forschungs- und Entwicklungswerkzeugs, keine typzugelassene Navigationsausrüstung und kein Dienst für die Sicherheit von Menschenleben. Jede Bezeichnung hier stammt von der Engine oder der Verifikationsmatrix; eine Art ist MODELLED, sofern die Matrix nichts anderes sagt (wie eine Bezeichnung verdient wird: der Abschnitt Evidence der README).
+
+# text
+seg-a4f1e7d2041e = Familienseite: <a1>Konstellationen, Abdeckung und Geometrie</a1>
+
+# text
+seg-670191cf797f = Themenseite: <a1>SOLAR-SYSTEM.md</a1>
+
+# text
+seg-cb91473bfdda = Themenseite: <a1>LEO-PNT.md</a1>
+
+# text
+# c1: kshana kinds --json
+seg-62f0fc16a247 = MODELLED: Zweikörperbahnen mit optionalem säkularem J2, ein kugelförmiger Körper, nur geometrische Sichtbarkeit (keine Signalleistung, Gesundheit oder Gelände) und die Relativphase zwischen verschiedenen Systemen, die kein Schnappschuss eines realen Datums ist. (Artenkatalog (<c1/>))
+
+# text
+seg-3ef4276dd40b = Was der Lauf beantwortet: Satelliten in Sicht, PDOP/HDOP/VDOP/GDOP je { "10" }-deg-Zelle und der Zeitanteil mit PDOP höchstens { "3" } über einer { "20" }-deg-Maske über zwei Stunden. Die Schwachstelle, die die Karte zeigt, sind die Polkappen: Keine Schale reicht über etwa { "82" } deg Breite hinaus, sodass ein Nutzer nahe einem Pol jeden Satelliten auf einer Seite des Himmels sieht und die vertikale Geometrie sich verschlechtert. MODELLED: ein anschaulicher Entwurf, Zweikörperbahnen mit J2, ein kugelf (Kommentar der Szenariodatei, Zeilen { "17" } bis { "21" })
+
+# text
+seg-c333d3fe22cd = Abdeckungs- und DOP-Karten (Dilution of Precision) für beliebige Multi-Konstellations-Entwürfe im großen Maßstab, um jeden Zentralkörper, sind MODELLED, nicht validiert: gegen die eigene geschlossene bzw. analytische Identität geprüft — fängt Transkriptions- und Koeffizientenfehler ab, ist aber keine unabhängige Referenz. (Verifikationsmatrix (docs/MODELLED-RATIONALE.md))
+
+# text
+seg-436504a8b26f = <s1>Zurück</s1>conflict-resilience
+
+# text
+seg-cba188459c80 = <s1>Weiter</s1>contact-schedule

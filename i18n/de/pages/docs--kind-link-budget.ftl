@@ -56,3 +56,30 @@ seg-ffbc9de75306 = <s1>Zurück</s1>leo-signal
 
 # text
 seg-59d4cb995cb9 = <s1>Weiter</s1>lunar-attack-surface
+
+# text
+seg-99ef7c1d552c = Szenarioart der Engine v{ $version }, Familie <a1>Missionsanalyse, Links und Raumfahrtbetrieb</a1>. Beratend: Analyseausgabe eines Forschungs- und Entwicklungswerkzeugs, keine typzugelassene Navigationsausrüstung und kein Dienst für die Sicherheit von Menschenleben. Jede Bezeichnung hier stammt von der Engine oder der Verifikationsmatrix; eine Art ist MODELLED, sofern die Matrix nichts anderes sagt (wie eine Bezeichnung verdient wird: der Abschnitt Evidence der README).
+
+# text
+seg-debc2f07db78 = true
+
+# text
+seg-8784979d6569 = dBW
+
+# text
+seg-37d16b499bc5 = dB
+
+# text
+seg-37d29d8303fe = km
+
+# text
+seg-8f1e7d3f5a07 = Familienseite: <a1>Missionsanalyse, Links und Raumfahrtbetrieb</a1>
+
+# text
+seg-67fb8ac75f36 = MODELLED { "1" } · VALIDATED { "1" }: die Zeilen der <a1>Verifikationsmatrix</a1>, die diese Art nennen.
+
+# text
+seg-a3697ad561db = Hz
+
+# text
+seg-cec5c06d38af = <b>MODELLED</b> Mondeigenes Störer-zu-Signal-Verhältnis, effektives C/N₀ und Verlust der Aufschaltung für einen selenographischen Oberflächennutzer unter einem Störer an der Mondoberfläche (oder erhöht) über der illustrativen Moonlight/LCNS-artigen Konstellation aus öffentlichen Quellen.

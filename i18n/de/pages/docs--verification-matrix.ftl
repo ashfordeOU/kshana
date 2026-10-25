@@ -3636,3 +3636,120 @@ seg-32ad0b0da818 = receiver_trust::calibration::run_dataset: die vorab registrie
 
 # text
 seg-3ccd1b09ad09 = Die veröffentlichten Ereignisprotokolle des Datensatzes (attack_log-Fenster) als Ereigniswahrheit, unter der Vorregistrierung xval/jammertest-trust/PREREGISTRATION.md (allein eingecheckt, 0fa012b, bevor das Prüfgerüst lief). Erster und einziger Lauf (xval/jammertest-trust/RESULTS.md): { "14" } von { "24" } Ordnern auswertbar ({ "7" } mit Jamming), { "3,502" } ungestörte und { "9,560" } Jamming-Epochen. Fehlalarmwahrscheinlichkeit bei ungestörten Epochen mit zurückgehaltenem Ordner: cn0_drop_db { "0.0231" } (81/3502) gegen einen Zielwert von { "0.02" }, FAIL; agc_k_sigma { "0.0003" }, bestanden; jam_ind_threshold { "0.0094" }, bestanden; Vereinigung der drei: Fehlalarme { "0.0328" }, Erkennung { "0.807" } gegen { "0.05" } und { "0.50" }, bestanden. Nach der registrierten Regel ist die Zeile MODELLED (ein Zielwert verfehlt). Eng gefasst: ein Empfängertyp (u-blox ZED-F9P), ein Ereignis, planmäßige Ein-Minuten-Zeitfenster als Wahrheit (Erkennung ist eine untere Schranke; ungestört heißt außerhalb der protokollierten Fenster); kalibriert an den CSV-Protokollen, und der UBX-Leser liefert bei zwei Ordnern mehr Fehlalarme. Die Vertrauenswert-Bänder für die Seefahrt sind nicht kalibriert
+
+# text
+seg-33d506570c1b = srp_shadow::tests (die ringförmige geschlossene Form, das gleichmäßige Gesetz, das den konischen Schatten reproduziert, die Grenzfälle volle Sonne und Umbra)
+
+# text
+seg-13f8f557c721 = propagator (ForceModel::with_ephemeris, ForceEphemeris), ephem_provider
+
+# text
+seg-20f163c0cb8f = tests/propagator_de440_orekit_oracle.rs ({ "5" } Fälle x { "25" } stündliche Zustände über { "24" } h, LEO, GEO und HEO, dritter Körper und dritter Körper + SRP: schlechtestes |dr| { "0.0170" } m, |dv| { "1.84e-5" } m/s; die Kontrolle mit analytischer Reihe verfehlt um { "9.96" } m; Sonne { "6.39" } m und Mond { "0.244" } m aus den DE440-Positionen von Orekit, ein festgehaltener Fehlschlag); Unit-Tests des Propagators (Ablehnung durch den Provider, über Klone geteilte Fallback-Zählung)
+
+# text
+seg-448f4acf5c7b = tides, propagator, precise_od
+
+# text
+seg-4014447d4bcc = tides::tests (der S1-Term ist täglich, dreht sich in einem Vierteltag um { "90" } Grad und hat die Lastfaktor-Amplitude jeder Zeile; physikalische Größenordnung im LEO); propagator::tests::the_s1_air_tide_flag_adds_exactly_the_s1_acceleration
+
+# text
+seg-8fda2ee90583 = gravity_sh, propagator (FieldEvaluator)
+
+# text
+seg-3f7d3003656e = tests/gravity_sh_high_degree.rs (Orekit an { "8" } Punkten außerhalb der Achse: max. |da| { "2.2e-17" } m/s^{ "2" } bei N = { "70" }, läuft immer; { "3.5e-17" }, { "3.9e-17" } und { "7.3e-17" } m/s^{ "2" } bei N = { "200" }, { "360" }, { "2190" }, datengesteuert über KSHANA_EGM2008_GFC); tests/cowell_tesseral_200_orekit_oracle.rs ({ "24" }-h-Bahn 200x200, datengesteuert: schlechtestes |dr| { "0.1317" } m, |dv| { "1.45e-4" } m/s; Kontrolle für Grad 70 { "0.726" } m); Unit-Tests von gravity_sh (Übereinstimmung mit dem klassischen Evaluator auf { "1e-13" } bei Grad { "70" }, finite Differenz und Polkontinuität an einem Feld vom Grad 2190, ein unterlaufender Term vom Grad 2190 gegen eine Rechnung mit erweitertem Exponenten)
+
+# text
+seg-296a6fe8585b = orbit_determination (determine_orbit_batch_tracking, propagate_with_stm, is_visible), batch_ls (gauss_newton_analytic)
+
+# text
+seg-9493e02e3cd1 = tests/od_tracking_measurements_reference.rs ({ "8" } Szenarien: Entfernungsrate, Az/El und gemischt, LEO und MEO, rauschfrei und mit gesetztem Sigma { "5" } m / { "5" } mm/s / { "1e-4" } rad, Masken von { "5" } und { "10" } Grad, gegen Orekit { "12.2" }: Mengen sichtbarer Satelliten identisch; Messwerte innerhalb von { "5.84e-8" } m, { "6.30e-10" } m/s, { "1.44e-13" } rad; STM innerhalb von { "1.2e-14" } relativ; verrauschte Zustände innerhalb von { "1.74" } cm und { "1.14e-5" } m/s; Post-Fit-RMS je Art innerhalb von { "2.7e-4" } relativ; rauschfreies kshana gegen die Wahrheit { "1.06e-8" } m; rauschfreies kshana gegen Orekit { "1.464" } und { "1.740" } cm bei zwei Szenarien, ein festgehaltenes Verfehlen des Zielwerts von { "1" } cm); Unit-Tests von orbit_determination und batch_ls
+
+# text
+seg-f5a76ae1fcaa = sp3, precise_od
+
+# text
+seg-39a552abfcab = Unit-Tests von src/sp3.rs; tests/agency_galileo.rs::galileo_e11_sp3_accuracy_weighted_fit (eingecheckte { "8" }-h-ESOC-Fixture, Sigma { "0.032" } m aus dem Kopfexponenten { "5" }: Tier-1-3D-RMS { "0.132" } m unverändert, Tier-2 { "0.035" } m gegenüber { "0.070" } m bei Sigma { "1" } m, wobei die Änderung aus der neu austarierten empirischen A-priori-Bedingung stammt); tests/agency_swarm.rs (das Swarm-Produkt trägt keine Genauigkeitscodes und fällt zurück, festgeschrieben)
+
+# text
+seg-409f709cceb3 = gravity_pds, body, propagator, mars_frame
+
+# text
+seg-0fe6532ca74d = tests/planetary_gravity_pds.rs::a_shadr_field_attached_to_a_body_drives_the_propagator; gravity_pds::tests::with_gravity_field_is_opt_in
+
+# text
+seg-e3d75762b979 = gnss_navmsg (gps_cnav, gal_inav, gal_fnav, fec)
+
+# text
+seg-dbe0dd5dcf47 = gnss_navmsg::tests (CRC-24Q-Prüfwert 0xCDE703; Faltungs-Impulsantwort; Viterbi korrigiert eingespeiste Fehler; Layoutbreiten); tests/gnss_navmsg_roundtrip.rs (Feldstartbits entsprechen den ICD-Bitnummern; Kodieren -> FEC -> Interleaving -> Viterbi -> Dekodieren läuft innerhalb eines halben LSB im Kreis); tests/gnss_navmsg_galileo_brdc_grid.rs (IGS-BRDC-2018-133-Galileo-Datensätze auf dem LSB-Raster, schlechtestes { "3.6e-3" } LSB; vorregistrierter Zielwert für die Satellitenzahl verfehlt, { "15" } von { "20" }, FINDING)
+
+# text
+seg-b81cd9204f64 = hatch (HatchFilter), pvt (assemble_epoch_precise_smoothed, CarrierSmoother)
+
+# text
+seg-e892fffaaf07 = hatch::tests (rauschfreies Durchreichen; Varianz weißen Rauschens 1/(2N-1); Neustarts); tests/hatch_wettzell_oracle.rs::hatch_finding_is_pinned (WTZR 2025-02-24 01-06 h, { "600" } Epochen, N = { "100" }: mittlerer 3D-Fehler { "1.553" } -> { "1.116" } m, p95 { "3.473" } -> { "3.207" } m)
+
+# text
+seg-bdda05057c91 = rinex_obs (parse_obs)
+
+# text
+seg-44b76c5cb13e = tests/rinex4_obs_mao0.rs (erste { "4" } Epochen der IGS-MGEX-RINEX-{ "4.00" }-Datei MAO000USA_R_20231980000_01D_30S_MO, { "58" } Satelliten, { "7" } Systeme: Kopfsätze und Werte der ersten Epoche entsprechen den veröffentlichten Literalen); rinex_obs::tests::parses_a_rinex_4_header_with_its_new_records (synthetischer Kopf { "4.02" } aus der Spezifikation)
+
+# text
+seg-439e23a5567e = rinex (RinexEphemeris::sv_position_ecef_bds_geo, NavParseOptions)
+
+# text
+seg-8c86b4b3a731 = tests/bds_geo_broadcast_oracle.rs (echte Datensätze C01-C04: geostationärer Radius, Längen 140.02/80.04/110.55/159.99 Grad auf den veröffentlichten Slots, |Breite| { "2.13" } Grad mit der Neigung gegenüber { "6.65" } ohne; der vorregistrierte Vergleich Rundsendung gegen präzises SP3 ist datengesteuert über KSHANA_BDS_GEO_SP3 und wurde nicht ausgeführt); rinex::tests
+
+# text
+seg-75c2ea59f607 = fusion::carrier_tc (run_carrier_tc, CarrierTcCfg), fusion::trajectory (truth_epochs)
+
+# text
+seg-e27a18b3aae9 = tests/fusion_carrier_tc.rs (Fahrt in Form einer 8: stationäres 3D-RMS { "0.025" } m Träger gegenüber { "0.470" } m Code bei identischen Messungen; { "12" } Seeds mittleres NIS/dof { "1.00" } und stationäres NEES/dof { "0.92" }; ein 1-Zyklus-Sprung wird in seiner Epoche ohne Fehlalarme erkannt, und die Lösung bleibt intakt; das Abschalten der Rundsende-Korrekturen erhöht den Codefehler von { "0.51" } m auf { "19.6" } m (Iono) und { "8.0" } m (Tropo); der rauschfreie Lauf konvergiert auf { "0.3" } mm)
+
+# text
+seg-2811d9348db2 = fusion::pack (TightCfg, [tight]), Szenarien gnss-ins-maritime / gnss-ins-rail / gnss-ins-aviation
+
+# text
+seg-3f9bc3b0027f = tests/gnss_ins_packs.rs (jedes Paket: fusioniert unter dem freien INS über den Ausfall für beide Sensoren; Schiene: eng { "5.3" } m gegenüber lose { "12.9" } m in Navigationsqualität und { "15.6" } m gegenüber { "18.8" } m taktisch über den Ausfall, Verfügbarkeit { "0.97" } gegenüber { "0.95" }; eng-Tabelle validiert); tests/gnss_ins_legacy_trajectory_pin.rs (der lose gekoppelte Standard bitidentisch)
+
+# text
+seg-726b35d3e247 = fusion::coupled (CoupledPntFilter, CoupledPntBiasFilter, CoupledPnt3d), fusion (run_coupled_suite), hybrid (CoupledCfg)
+
+# text
+seg-260ef8ae3823 = tests/fusion_coupled_filters.rs (3D-Filter über { "60" } Seeds: mittleres NEES der zweiten Hälfte { "8.12" } für { "8" } Zustände, χ²-Summe der letzten Epoche innerhalb ihres { "95" }-%-Bandes; eine Uhrkorrektur von { "0.1" } ns senkt das 3D-Positions-Sigma von { "5.58" } m auf { "3.07" } m; Bias-Filter über { "60" } Seeds: χ²({ "5" })-Summe im Band, Bias innerhalb von { "3" } Sigma in { "59" } von { "60" }; fusion-pnt-coupled mit verzerrten Beschleunigungsmessern: Position p95 { "18.7" } m / { "90.0" } m und Integrität { "1.00" } / { "0.97" } gekoppelt gegenüber { "430" } m / { "4060" } m und { "0.006" } / { "0.000" } entkoppelt); fusion::coupled::tests; tests/fusion_coupled_pack.rs (fusion und hybrid ohne [coupled] bitidentisch)
+
+# text
+seg-10d9b01f3ab2 = fusion::trajectory (TrajectoryCfg, Trajectory, kinematic_imu, parse_truth_csv), fusion::pack ([trajectory])
+
+# text
+seg-5a6b5289a473 = fusion::trajectory::tests (koordinierte Kurve hat keine Seitenkraft und Lastfaktor 1/cos φ; CSV-Import reproduziert ein geflogenes Profil auf { "1e-3" } m/s und { "1" } m); tests/gnss_ins_trajectory_library.rs (jedes Profil läuft, und die Fusion schlägt das freie INS über den Ausfall; jedes fliegt seine benannte Bewegung; Beobachtbarkeit des Steuerkurses: Gier-Sigma nach { "240" } s { "1.27" } Grad bei Geradeausfahrt gegenüber { "0.039" } Grad bei der 8 und { "0.062" } Grad bei Stop-and-go); tests/gnss_ins_legacy_trajectory_pin.rs (Altergebnis und Wahrheits-Hashes bitidentisch)
+
+# text
+seg-5807e4274501 = cr3bp (differential_correct_halo, PeriodicOrbit)
+
+# text
+seg-adec908f7883 = tests/capstone_nrho_horizons.rs::cr3bp_nrho_matches_capstone_mean_geometry (CAPSTONE März { "2023" }, { "4" } Perilunen und { "5" } Apolunen: Periode { "6.5004" } d gegenüber { "6.5699" } d ({ "1.07" } %, Zielwert { "3" } %), Apolun { "71 182" } gegenüber { "71 215" } km ({ "0.05" } %, Zielwert { "5" } %), Perilun { "3 385" } gegenüber { "3 245" } km ({ "4.1" } %, Zielwert { "20" } %)); cr3bp::tests::reproduces_l2_southern_nrho_92_regime
+
+# text
+seg-d38407c0a9ab = dop_error_mc (run_geometry, check, TOLERANCES); dop_error_ci (run, GEOMETRIES); pvt (solve_spp); orbit (dop, dop_cofactor)
+
+# text
+seg-01d0a7046f8e = tests/uere_dop_monte_carlo.rs (position_error_is_sigma_times_dop_on_the_gnss_lib_py_geometries: alle { "104" } Prüfungen bestehen beim ersten Lauf nach der Vorregistrierung e50c88d2, schlechteste Varianz { "3.2" } %, RMS { "1.6" } %, Korrelation { "0.012" }, Mittelwert { "2.2" } Standardfehler, Ellipsenanteil { "0.0039" }; negative_control_a_doubled_pdop_fails_every_geometry; negative_control_elevation_dependent_errors_fail_the_low_elevation_geometries: beide Kontrollen schlagen wie erforderlich fehl; position_error_is_sigma_times_dop_on_masked_skies: die zwei Geometrien mit maskierter Skyline der Entwurfsnotiz, der Himmel 10sat-mixed unter den Voreinstellungen city-street ({ "4" } Satelliten, PDOP { "16.6" }) und container-terminal ({ "9" } Satelliten, PDOP { "2.5" }), alle { "26" } Prüfungen bestehen beim ersten Lauf nach der Vorregistrierung 03999c11, tests/fixtures/dop/PREREGISTRATION-MASKED.md); tests/position_error_dop_ci.rs (eine erste, separate Prüfung an vier von Hand gewählten Himmeln (offen, gehäuft, Schlucht, halber Himmel; Sigma { "1" } m, Seed 0x0D0B5EED) mit Chi-Quadrat-Konfidenzintervallen bei insgesamt { "1e-6" } über { "20" } Prüfungen: Verhältnisse { "0.987" } bis { "1.009" }, das eigene PDOP/GDOP des Lösers gleich dem des Kernels auf { "2.5e-12" } und Negativkontrollen für einen DOP-Fehler von { "10" } % und Fehler wie 1/sin(Elevation); vor der Vorregistrierung ausgeführt, daher berichtet, nicht vorregistriert); dop_error_mc::tests; dop_error_ci::tests
+
+# text
+seg-557c0aa72056 = receiver_trust (geometry: GeometryTracker, geometry_ratio, sky_ratio, geometry_points, GeometryLabel; score: DeductionClass, score_with; monitors; live); telemetry (sample, prometheus, syslog, otlp)
+
+# text
+seg-fd57dab04d68 = tests/natural_degradation_trust.rs (a_stated_skyline_reads_the_fjord_as_geometry: Auf der synthetischen Fjordpassage von scenarios/training/fjord-natural-degradation.toml werden dieselben { "624" } Epochen mit und ohne die angegebene [skyline] abgezogen; mit ihr wird sky-blocked in { "680" } Epochen gemeldet ({ "0" } ohne: Der Rückfall auf die Azimutlücke sieht in einem beidseitigen Fjord nichts), open_fraction ist { "0.758" }, und die Epochen der Klasse environment fallen von { "78" } auf { "33" }, der Rest sind Verluste von Satelliten, die die angegebene Skyline im Freien lässt; außerhalb des Ereignisses ändert die Skyline keinen Wert); receiver_trust::geometry::tests (von Hand abgeleitete Verhältnisse an den Schwellenwerten, die Schwellenwertgrenzen, die Rampe und Obergrenze, die Untergrenze, die Kennzeichnungsgrenzen, [geometry]-Überschreibungen, das DOP auf dem validierten Kernel, gehaltene und abgelaufene Himmel, unbekannt nicht geraten, Signalverlust, die Toleranz für schlechte Geometrie, Sentinel-Werte ohne Lösung); tests/geometry_trust.rs (ein mittlerer maskierter Himmel gekennzeichnet und nicht bewertet, ein schlechter maskierter Himmel, ein Verlust bei niedriger Elevation, ein Leistungsabfall, ein gefälschtes HDOP, totaler Signalverlust, ein Wegziehen bei schlechter Geometrie, unbekannte Geometrie, Sitzungs-Überschreibungen, das Live-Schema); tests/geometry_trust_no_change.rs (beide Beispielsitzungen byteidentisch mit { "0.35.0" }, sobald die angehängten Schlüssel entfernt sind); tests/geometry_corpus_identity.rs (jedes eingecheckte Schiffs-NMEA-Korpus, auch als GPS-only offener Himmel, und die Crew-Trainingsszenarien: byteidentisch mit { "0.35.0" } außer bei schlechten Epochen, die sich allein durch den Geometrie-Abzug unterscheiden)
+
+# text
+seg-911ccf2cb486 = skyline (Canyon::cut_deg, Sector::contains, TerrainPoint::elevation_deg, reduce_terrain, SkylineCfg::build)
+
+# text
+seg-849ae7d82147 = skyline::tests (canyon_matches_hand_computed_wall_elevations; terrain_takes_the_curvature_drop; sectors_have_sharp_edges_and_wrap; a_preset_is_overridden_or_added_to_field_by_field; malformed_sections_are_refused)
+
+# text
+seg-d5ba7b502aec = skyline (PRESETS, preset, preset_list)
+
+# text
+seg-ef3717bfca79 = skyline::tests (presets_carry_the_note_dimensions_and_provenance)
