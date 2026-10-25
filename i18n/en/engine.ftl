@@ -1,4 +1,7 @@
 # SPDX-License-Identifier: AGPL-3.0-only
+# COUNTS: a variable named n, count, n_*, num_* or *_count holding a whole number is passed as a
+# number, so plural selectors work ({ $n -> [one] ... *[other] ... }). The messages that have such
+# variables are listed in i18n/en/engine-counts.txt. English renders each exactly as before.
 # The English catalogue of the engine messages: the source of every other language.
 #
 # Rules for this file (checked by tests/i18n_catalogue.rs):

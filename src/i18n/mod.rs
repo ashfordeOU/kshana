@@ -300,7 +300,7 @@ fn is_error_id(id: &str) -> bool {
 pub fn tr_in(lang: &Lang, id: &str, args: &[(&str, String)]) -> String {
     let mut fa = FluentArgs::new();
     for (k, v) in args {
-        fa.set(*k, FluentValue::from(v.clone()));
+        fa.set(*k, arg_value(k, v));
     }
     for tag in [lang.tag(), "en"] {
         let bundle = bundle_of(tag);
@@ -319,6 +319,28 @@ pub fn tr_in(lang: &Lang, id: &str, args: &[(&str, String)]) -> String {
         }
     }
     id.to_string()
+}
+
+/// Whether a variable name says it is a count (`n`, `n_epochs`, `sequence_count`, `num_epochs`):
+/// those reach Fluent as numbers, so a translation may select the plural form with
+/// `{ $n -> [one] ... [few] ... *[other] ... }`. Every other variable is text.
+pub fn is_count_name(name: &str) -> bool {
+    name == "n"
+        || name == "count"
+        || name.starts_with("n_")
+        || name.starts_with("num_")
+        || name.ends_with("_count")
+}
+
+fn arg_value(name: &str, v: &str) -> FluentValue<'static> {
+    // Only a plain non-negative integer is a count; anything else stays text (and shows as given).
+    if is_count_name(name) && !v.is_empty() && v.len() < 16 && v.bytes().all(|b| b.is_ascii_digit())
+    {
+        if let Ok(n) = v.parse::<u64>() {
+            return FluentValue::from(n as f64);
+        }
+    }
+    FluentValue::from(v.to_string())
 }
 
 /// Render error message `id` and remember its code so that [`code_of`] can find it later.

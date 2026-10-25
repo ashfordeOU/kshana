@@ -388,3 +388,32 @@ fn every_english_message_is_used() {
 
 /// Id prefixes of messages looked up with a computed id (`tr(&format!("verdict-{word}"), ..)`).
 const USED_BY_ID_PREFIX: &[&str] = &[];
+
+/// Sentence fragments: messages the code joins with others at run time, or that start or end
+/// mid-sentence, cannot be translated correctly. `i18n/en/engine-fragments.txt` lists them (made by
+/// `scripts/i18n_fragments.py`); every listed id must still exist, and the list may only shrink as
+/// they are merged into whole-sentence messages.
+const FRAGMENT_BASELINE: usize = 108;
+
+#[test]
+fn sentence_fragments_are_listed_and_never_grow() {
+    let text = std::fs::read_to_string(root().join("i18n/en/engine-fragments.txt"))
+        .expect("i18n/en/engine-fragments.txt");
+    let ids: Vec<&str> = text
+        .lines()
+        .filter(|l| !l.starts_with('#') && !l.trim().is_empty())
+        .map(|l| l.split(':').next().unwrap())
+        .collect();
+    let en = messages(kshana::i18n::english_source());
+    for id in &ids {
+        assert!(
+            en.contains_key(*id),
+            "{id} is listed as a fragment but is not a message"
+        );
+    }
+    assert!(
+        ids.len() <= FRAGMENT_BASELINE,
+        "{} fragments, more than the baseline {FRAGMENT_BASELINE}: write whole-sentence messages",
+        ids.len()
+    );
+}
