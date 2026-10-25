@@ -26,3 +26,9 @@ seg-d6476863f862 = Fähigkeit
 
 # text
 seg-b03d56f501c3 = Typ
+
+# text
+seg-029de6b99be0 = Inertiale Koppelnavigation
+
+# text
+seg-9ef8f99ca6e4 = Zeitübertragung

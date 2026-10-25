@@ -8,3 +8,6 @@ seg-2247a2344710 = Bedeutung
 
 # text
 seg-fdbb9db68f1d = keine
+
+# text
+seg-f63dd3d7aad4 = Quelle

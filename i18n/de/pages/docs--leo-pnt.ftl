@@ -20,3 +20,9 @@ seg-e305279d5b11 = Inhalt
 
 # text
 seg-b03d56f501c3 = Typ
+
+# text
+seg-f63dd3d7aad4 = Quelle
+
+# text
+seg-587beeccaa11 = Voreinstellung

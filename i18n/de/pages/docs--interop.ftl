@@ -17,3 +17,12 @@ seg-b03d56f501c3 = Typ
 
 # text
 seg-357c2320b43a = ja
+
+# text
+seg-507b8c235614 = CZML
+
+# text
+seg-bf09433a7342 = GeoJSON
+
+# text
+seg-9c92e0bc42aa = KML

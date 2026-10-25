@@ -266,3 +266,39 @@ seg-d4a762001549 = Lizenz
 
 # attr:alt
 seg-e251b385ff46 = Zwei synthetische Tage der Störungskarte, gezeichnet aus den eingecheckten Beispielen in examples/interference-map/output, jeweils mit eigener synthetischer Route und den Routenexpositionsanteilen, die die Engine meldet. Links ein ADS-B-Tag: { "1" } beeinträchtigte Zelle, { "6" } nicht beeinträchtigt, { "4" } nicht bewertet (schraffiert) und Zellen ohne Eintrag, leer gezeichnet, die nicht beobachtet wurden. Die Route ist { "525" } km lang: { "11.5" } % ihrer Länge in beeinträchtigten Zellen, { "38.3" } % nicht beeinträchtigt, { "9.1" } % nicht bewertet und { "41.1" } % nicht beobachtet. Rechts ein AIS-Tag: Zellen, die vom Kreis- und vom An-Land-Detektor markiert wurden, nicht anomale Zellen und leere Zellen; die Route ist { "454" } km lang, mit { "10.5" } % in anomalen Zellen, { "21.2" } % nicht anomal, { "0.0" } % nicht bewertet und { "68.3" } % nicht beobachtet. ADS-B und AIS sind getrennte Ebenen und werden nie kombiniert. Eine markierte Zelle ist kein Befund einer Störung, und eine Zelle ohne Farbe wurde nicht beobachtet, was nicht dasselbe ist wie unauffällig. Alle Daten sind erfunden, im offenen mittleren Atlantik, und keine Messung.
+
+# text
+seg-a349aa76b0ed = PARTNER
+
+# text
+seg-3d770dd786e4 = Verwendung
+
+# text
+seg-fe1abd564200 = Jammertest
+
+# text
+seg-6fcb41643035 = Vertrauens-Telemetrie
+
+# text
+seg-82155b5d0408 = Test bench
+
+# text
+seg-e35fff011b24 = Compliance
+
+# text
+seg-a50180a66dba = LunaNet AFS
+
+# text
+seg-028684a0cf3d = Standardpakete
+
+# text
+seg-9c0eb89a2fbe = Paket
+
+# attr:alt
+seg-e98e25897176 = Jeder Test der drei bewerteten Standardpakete aus echten Läufen der Engine v{ $version } (`kshana standards-pack run`): dhs-rpcf: { "6" } erreicht, { "1" } nicht erreicht, { "2" } benötigen eine Eingabe; imo-circ-1575: { "1" } erreicht, { "4" } nicht erreicht, { "2" } benötigen eine Eingabe; icao-doc9849-appf: { "6" } erreicht, { "0" } nicht erreicht, { "2" } benötigen eine Eingabe. Insgesamt { "13" } erreicht, { "5" } nicht erreicht und { "6" } benötigen eine Eingabe, die der Engine fehlt (ein Empfängerlog oder Ausrüstungsdokumentation). Jeder Zielwert wurde vor dem Lauf festgelegt; ein Verfehlen bleibt ein Verfehlen. Ein erreichter Zielwert besagt, dass ein modelliertes Szenario einen festgelegten Zielwert erreicht hat, nichts über ein Produkt. Die Pakete liefern Belege für die Zeilen, die sie nennen; sie sind keine Bewertung. Nur beratend: Analyseausgabe eines Forschungs- und Engineering-Werkzeugs, keine typzugelassene Navigationsausrüstung und kein Dienst für Menschenleben (safety of life); sie darf nicht die alleinige Grundlage einer Navigations- oder Sicherheitsentscheidung sein.
+
+# text
+seg-f891ee876b96 = Was es beantwortet
+
+# text
+seg-13fc009b947c = FAQ

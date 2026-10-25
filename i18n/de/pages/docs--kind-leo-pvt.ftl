@@ -23,3 +23,6 @@ seg-6ac7dcc57b2a = <s1>Zurück</s1>leo-ppp
 
 # text
 seg-458b3eda3250 = <s1>Weiter</s1>leo-signal
+
+# text
+seg-7f5ad6ab8c23 = GPS
