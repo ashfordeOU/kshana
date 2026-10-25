@@ -19,3 +19,5 @@ seg-d6476863f862 = Förmåga
 seg-029de6b99be0 = Tröghetsnavigering
 
 seg-9ef8f99ca6e4 = Tidsöverföring
+
+seg-b03d56f501c3 = Typ

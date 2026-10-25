@@ -118,7 +118,7 @@ seg-d48b2ec4cbe8 = Referensen för en inspelad logg är testplanens schemalagda 
 
 seg-6883a66f3bdd = En förseglad undanhållen datamängd poängsätts endast i en omgång på resultattavlan, och dess frö avslöjas efteråt. Trösklar för varje baslinje som hävdar ett värde fastställs före den poängsatta körningen och lättas aldrig efteråt; ett misslyckande registreras som NOT MET.
 
-seg-97d14f361df5 = Utfall enligt resultatfilen: poängsättarens trösklar, C1 till C3 och D2, är MET; A2 är NOT MET (agc_k_sigma AUC { "0.766" } mot minst { "0.80" } på testdelmängden), D1 är NOT MET (största glapp { "0.0301" }) och uppgift (b) R1 är NOT MET (överförd, inte körd på nytt). Ingen tröskel har lättats.
+seg-97d14f361df5 = Utfall enligt resultatfilen: poängsättarens trösklar, C1 till C3 och D2, är uppfyllda; A2 är NOT MET (agc_k_sigma AUC { "0.766" } mot minst { "0.80" } på testdelmängden), D1 är NOT MET (största glapp { "0.0301" }) och uppgift (b) R1 är NOT MET (överförd, inte körd på nytt). Ingen tröskel har lättats.
 
 seg-23023a10ef10 = Endast rådgivande: Kshana-resultat är modellerade eller uppmätta mot angivna referenser, inte ett godkännande eller ett utlåtande om överensstämmelse.
 

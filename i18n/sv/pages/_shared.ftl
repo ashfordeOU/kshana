@@ -343,3 +343,79 @@ seg-039b7c5fd78a = Enhet
 seg-37f058c4e1c3 = antal
 
 seg-e88d3dbcfe0c = MODELLED
+
+seg-852814f107a7 = Sidor för scenariotyper
+
+seg-1a26d420ba67 = Se även
+
+seg-c4f4b2ca0647 = Värde
+
+seg-e8968e86f31b = Begränsningar
+
+seg-7dc0fcd6ef77 = aocs
+
+seg-c6ced184b8eb = campaign
+
+seg-bcc7452b7e9c = clock
+
+seg-00593bd8a3ed = ephemeris
+
+seg-0cb65c6c4f53 = fusion
+
+seg-dbe8c830ef6c = hybrid
+
+seg-eae62828dc7a = inertial
+
+seg-8af88a0e2a69 = integrity
+
+seg-9a63fde1d8b1 = jamming
+
+seg-f8450911ddd6 = orbit
+
+seg-6dd5a0d55f18 = passes
+
+seg-786068921d01 = pvt
+
+seg-63f112536118 = reentry
+
+seg-f79dad339a1e = spectrum
+
+seg-8ea9f458185d = spoof
+
+seg-460826ea7719 = sweep
+
+seg-55f3ac33d883 = timetransfer
+
+seg-a37260157d35 = Indata
+
+seg-0ffd6d4b0d8c = Från schemat (<c1/>):
+
+seg-7a473d2b9b37 = Obligatoriska fält: inga
+
+seg-0484c5d57886 = inte angivet
+
+seg-619be4963365 = text
+
+seg-15636cc68f72 = flagga
+
+seg-473eb8189015 = Kör den
+
+seg-8b01aa51263e = Vad den ger
+
+seg-5aa75472f59d = De skalära resultaten av den körningen, med de enheter som motorn anger:
+
+seg-dfd41abc16b5 = Resultat
+
+seg-0df8f55cbe06 = deg
+
+seg-4798bca2d7a7 = MODELLED: raderna i <a1>verifieringsmatrisen</a1> som nämner den här typen.
+
+seg-6338a873ee85 = De rader som själva körningen använde, med den oberoende referens som matrisen anger för var och en (de offentliga källorna nämns där):
+
+seg-fe24dcc6971f = <b>MODELLED</b> Deterministisk, scenario-hashad, SBOM + golden-grindar över flera plattformar. Oberoende referens (ExternalDataset): SBOM som följer det officiella CycloneDX { "1.5" } JSON Schema (+ giltiga SPDX-identifierare) — en extern publicerad standard, noll valideringsfel över hela beroendegrafen; delen om FoM-determinism / byte-reproducerbarhet förblir en fastlåst kontroll av inre samstämmighet, så raden förblir MODELLED
+
+seg-1fc08d2f0209 = Vad körningens egen rapport säger inte är modellerat eller inte validerat:
+
+seg-58c4d7218e70 = Reproducerbarhet och programvarusäkring är MODELLED, inte validerad: ett delpåstående kontrolleras externt, men hela förmågan sätts ihop av modellerade delar, så förmågan förblir Modelled. (verifieringsmatris (docs/MODELLED-RATIONALE.md))
+
+seg-1bf3d5817274 = Alla typer: <a1>KINDS.md</a1>

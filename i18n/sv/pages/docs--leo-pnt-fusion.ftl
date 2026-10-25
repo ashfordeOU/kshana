@@ -7,3 +7,5 @@ seg-f63dd3d7aad4 = Källa
 seg-587beeccaa11 = Förinställning
 
 seg-a6c63abeb7e6 = Medföljande scenarier
+
+seg-354b42e3a5d0 = RNTF
