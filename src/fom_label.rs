@@ -502,7 +502,6 @@ pub fn kind_figures(kind: &str) -> Option<&'static [(&'static str, &'static str)
             ("final_rel_pos_sigma_lvlh_m.total", ""),
             ("fix_availability", ""),
             ("monte_carlo.mean_nees", ""),
-            ("cw_check.max_position_difference_m", ""),
         ],
         "lunar-surface" => &[
             ("exit_state.timing_floor_s", ""),
