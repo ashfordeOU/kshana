@@ -417,9 +417,56 @@ async function english(args) {
   console.log(`english: ${pages.length} pages decorated in ${out}`);
 }
 
+/** images: every inlined image of 4 KB or more becomes one shared file assets/img/<sha12>.<ext> (run on the English tree, before extract and apply). */
+function images(args) {
+  const { opt } = args2opt(args, { tree: 'web', min: '4096', dir: 'assets/img' });
+  const min = +opt.min;
+  const EXT = { 'image/png': 'png', 'image/jpeg': 'jpg', 'image/webp': 'webp', 'image/gif': 'gif', 'image/svg+xml': 'svg', 'image/avif': 'avif' };
+  const outDir = join(opt.tree, opt.dir);
+  mkdirSync(outDir, { recursive: true });
+  const files = walk(opt.tree, []);
+  let before = 0, after = 0, uses = 0;
+  const distinct = new Set();
+  const reAttr = /(\s(?:src|href|xlink:href|poster)=)(["'])data:(image\/[a-z+]+)(?:;[a-z0-9-]+=[a-z0-9-]+)*(;base64)?,([\s\S]*?)\2/g;
+  const reUrl = /url\((["']?)data:(image\/[a-z+]+)(?:;[a-z0-9-]+=[a-z0-9-]+)*(;base64)?,([\s\S]*?)\1\)/g;
+  const take = (whole, mime, b64, data, prefix) => {
+    if (whole.length < min || !EXT[mime]) return null;
+    const buf = b64 ? Buffer.from(data, 'base64') : Buffer.from(decodeURIComponent(data.replace(/&amp;/g, '&')), 'utf8');
+    const name = sha12(buf.toString('latin1')) + '.' + EXT[mime];
+    const dst = join(outDir, name);
+    if (!existsSync(dst)) writeFileSync(dst, buf);
+    distinct.add(name); uses++;
+    return `${prefix}${opt.dir}/${name}`;
+  };
+  for (const rel of files) {
+    const p = join(opt.tree, rel);
+    const html = readFileSync(p, 'utf8');
+    before += html.length;
+    const prefix = '../'.repeat(rel.split('/').length - 1);
+    let out = html.replace(reAttr, (m, a, q, mime, b64, data) => { const u = take(m, mime, b64, data, prefix); return u ? `${a}${q}${u}${q}` : m; });
+    out = out.replace(reUrl, (m, q, mime, b64, data) => { const u = take(m, mime, b64, data, prefix); return u ? `url(${q}${u}${q})` : m; });
+    after += out.length;
+    if (out !== html) writeFileSync(p, out);
+  }
+  console.log(`images: ${uses} inlined images (${distinct.size} distinct files in ${opt.dir}); HTML ${(before / 1e6).toFixed(1)} MB -> ${(after / 1e6).toFixed(1)} MB`);
+}
+
+/** size: bytes of the English tree and of each language tree; fails when the whole deploy tree is over the cap (check.py rule 12 says 500 MB). */
+function size(args) {
+  const { opt } = args2opt(args, { tree: 'web', dist: 'dist', cap: '500' });
+  const du = (d) => { let n = 0; if (!existsSync(d)) return 0; for (const e of readdirSync(d, { withFileTypes: true })) { const p = join(d, e.name); n += e.isDirectory() ? du(p) : statSync(p).size; } return n; };
+  const en = du(opt.tree);
+  console.log(`English tree: ${(en / 1e6).toFixed(1)} MB (${opt.tree})`);
+  let langs = 0;
+  if (existsSync(opt.dist)) for (const l of readdirSync(opt.dist)) { const n = du(join(opt.dist, l)); langs += n; console.log(`  ${l}: ${(n / 1e6).toFixed(1)} MB`); }
+  const total = en + langs, cap = +opt.cap * 1e6;
+  console.log(`total ${(total / 1e6).toFixed(1)} MB, cap ${opt.cap} MB: ${total > cap ? 'OVER' : 'ok'}`);
+  if (total > cap) process.exit(1);
+}
+
 const [cmd, ...rest] = process.argv.slice(2);
 if (import.meta.url === `file://${process.argv[1]}`) {
-  const run = { extract: async () => extract(rest), status: () => status(rest), check: () => check(rest), pseudo: () => pseudo(rest), apply: () => apply(rest), english: () => english(rest) }[cmd];
+  const run = { extract: async () => extract(rest), status: () => status(rest), check: () => check(rest), pseudo: () => pseudo(rest), apply: () => apply(rest), images: async () => images(rest), size: async () => size(rest), english: () => english(rest) }[cmd];
   if (run) await run();
   else if (!cmd) { console.error('usage: node tools/i18n.mjs extract|apply|check|status|pseudo|csslint'); process.exit(2); }
   else { console.error(`i18n: '${cmd}' is not built yet`); process.exit(2); }
