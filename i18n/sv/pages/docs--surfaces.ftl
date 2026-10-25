@@ -11,3 +11,5 @@ seg-2bd2101ce454 = Yta
 seg-d6476863f862 = Förmåga
 
 seg-e0426ffe2628 = Anmärkning
+
+seg-de6c33774c9c = CLI

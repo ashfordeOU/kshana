@@ -31,3 +31,13 @@ seg-c04a3591074c = Export för interoperabilitet på månen
 seg-20fee61b3107 = Bibliotek med felmodeller för kvantenheter
 
 seg-eaf341ff4522 = GNSS-fri kvantnavigering
+
+seg-75636f9419b2 = Kända begränsningar
+
+seg-9c0eb89a2fbe = Paket
+
+seg-f63dd3d7aad4 = Källa
+
+seg-638b8d451550 = Sensor
+
+seg-04f69a0edb2f = typ
