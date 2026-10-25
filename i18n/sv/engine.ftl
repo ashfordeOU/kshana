@@ -25,7 +25,20 @@ engine-e-clock-log-cannot-read-clock-log = kan inte läsa klockloggen { $path }:
 
 engine-e-clock-log-clock-log-path-is-not = en sökväg till klocklogg är inte tillgänglig i WebAssembly-bygget; ange loggen som text
 
-engine-e-clock-log-the-log-has-missing-epoch = loggen i formatet { $format } har { $n_missing } saknade epok(er) i { $n_gaps } lucka(or) på ett rutnät med { $tau0 } s steg; ange gaps = "longest" för att behålla den längsta luckfria sekvensen eller gaps = "linear" för att interpolera
+engine-e-clock-log-the-log-has-missing-epoch =
+    { $n_missing ->
+        [one]
+            { $n_gaps ->
+                [one] loggen i formatet { $format } har { $n_missing } saknad epok i { $n_gaps } lucka på ett rutnät med { $tau0 } s steg; ange gaps = "longest" för att behålla den längsta luckfria sekvensen eller gaps = "linear" för att interpolera
+               *[other] loggen i formatet { $format } har { $n_missing } saknad epok i { $n_gaps } luckor på ett rutnät med { $tau0 } s steg; ange gaps = "longest" för att behålla den längsta luckfria sekvensen eller gaps = "linear" för att interpolera
+            }
+       *[other]
+            { $n_gaps ->
+                [one] loggen i formatet { $format } har { $n_missing } saknade epoker i { $n_gaps } lucka på ett rutnät med { $tau0 } s steg; ange gaps = "longest" för att behålla den längsta luckfria sekvensen eller gaps = "linear" för att interpolera
+               *[other] loggen i formatet { $format } har { $n_missing } saknade epoker i { $n_gaps } luckor på ett rutnät med { $tau0 } s steg; ange gaps = "longest" för att behålla den längsta luckfria sekvensen eller gaps = "linear" för att interpolera
+            }
+    }
+
 
 engine-e-clock-log-the-log-yields-usable-sample = loggen i formatet { $format } ger { $x } användbara sampel; minst 3 behövs
 
@@ -195,7 +208,12 @@ engine-advanced-report-field-units-schema-units-entry = schema för fältenheter
 
 engine-advanced-report-field-units-schema-input-entry = schema för fältenheter: indatapost `{ $key }`, matchad på fältnamn
 
-engine-advanced-report-rows-of-non-numeric-column = { $n } rader i en icke-numerisk kolumn
+engine-advanced-report-rows-of-non-numeric-column =
+    { $n ->
+        [one] { $n } rad i en icke-numerisk kolumn
+       *[other] { $n } rader i en icke-numerisk kolumn
+    }
+
 
 engine-advanced-report-rows-from-to = { $nums } rader, från { $fmt_num } till { $fmt_num2 }
 
@@ -297,7 +315,12 @@ engine-e-animation-animation-duration-must-be-between = animationens längd mås
 
 engine-e-animation-animation-width-must-be-between = animationens bredd måste vara mellan 480 och 3840 pixlar, fick { $width }
 
-engine-e-animation-duration-fps-gives-frames-the = duration x fps ger { $n } bildrutor; bildrutesekvensen kräver mellan 2 och { $v1 }
+engine-e-animation-duration-fps-gives-frames-the =
+    { $n ->
+        [one] duration x fps ger { $n } bildruta; bildrutesekvensen kräver mellan 2 och { $v1 }
+       *[other] duration x fps ger { $n } bildrutor; bildrutesekvensen kräver mellan 2 och { $v1 }
+    }
+
 
 engine-e-animation-result-is-not-json = resultatet är inte JSON: { $e }
 
@@ -401,9 +424,19 @@ engine-e-api-invalid-scenario = ogiltigt scenario: { $e }
 
 engine-e-api-clock-log = clock_log: { $e }
 
-engine-api-unknown-scenario-kind-did-you = okänd scenariotyp { $other } — menade du { $hint }? `kshana kinds` listar alla { $n } inbyggda typer.
+engine-api-unknown-scenario-kind-did-you =
+    { $n ->
+        [one] okänd scenariotyp { $other } — menade du { $hint }? `kshana kinds` listar den enda inbyggda typen ({ $n }).
+       *[other] okänd scenariotyp { $other } — menade du { $hint }? `kshana kinds` listar alla { $n } inbyggda typer.
+    }
 
-engine-api-unknown-scenario-kind-kshana-kinds = okänd scenariotyp { $other }. `kshana kinds` listar alla { $n } inbyggda typer.
+
+engine-api-unknown-scenario-kind-kshana-kinds =
+    { $n ->
+        [one] okänd scenariotyp { $other }. `kshana kinds` listar den enda inbyggda typen ({ $n }).
+       *[other] okänd scenariotyp { $other }. `kshana kinds` listar alla { $n } inbyggda typer.
+    }
+
 
 engine-api-required-fields = - **Obligatoriska fält:** { $fields }{ "\u000A" }
 
@@ -443,7 +476,12 @@ engine-api-builtins-scenario-quantum-holdover-p95-classical = scenario { $r } | 
 
 engine-api-builtins-scenario-spoof-vs-ns-spec = scenario { $r } | spoof { $scn } mot { $threshold_ns } ns spec (P_fa { $target_pfa }) | quantum-säkerhet { $security_fom } (P_md { $analytic_pmd }, MC { $mc_pmd }) { $det } | klassisk säkerhet { $security_fom2 } (P_md { $analytic_pmd2 }, MC { $mc_pmd2 }) { $det2 }
 
-engine-api-builtins-integrity-satellites-epochs-available-hal = integritet | { $n_sats } satelliter | { $samples_available }/{ $samples_total } epoker tillgängliga ({ $report }%) | HAL { $al_h_m } m VAL { $al_v_m } m | sigma { $sigma_uere_m } m | Stanford(V): { $report2 } integritetshändelser, { $report3 } HMI
+engine-api-builtins-integrity-satellites-epochs-available-hal =
+    { $n_sats ->
+        [one] integritet | { $n_sats } satellit | { $samples_available }/{ $samples_total } epoker tillgängliga ({ $report }%) | HAL { $al_h_m } m VAL { $al_v_m } m | sigma { $sigma_uere_m } m | Stanford(V): { $report2 } integritetshändelser, { $report3 } HMI
+       *[other] integritet | { $n_sats } satelliter | { $samples_available }/{ $samples_total } epoker tillgängliga ({ $report }%) | HAL { $al_h_m } m VAL { $al_v_m } m | sigma { $sigma_uere_m } m | Stanford(V): { $report2 } integritetshändelser, { $report3 } HMI
+    }
+
 
 engine-api-builtins-lunar-integrity-south-pole-epochs = lunar-integrity | sydpolen | { $samples_available }/{ $samples_total } epoker tillgängliga ({ $report }%) | AL { $alert_limit_m } m | σ_URE { $sigma_ure_m } m | HPL { $min_hpl_m }–{ $max_hpl_m } m
 
@@ -451,21 +489,54 @@ engine-api-builtins-lunar-time-offset-secular-ltc = lunar-time-offset | sekulär
 
 engine-api-builtins-lunar-vlbi-baseline-km-beacon = lunar-vlbi | baslinje { $baseline_km } km | fyravstånd { $beacon_range_km } km | fördröjning { $report } µs (takt { $delay_rate_s_per_s } s/s) | närfält { $near_field_correction_us } µs | { $samples } sampel över { $horizon_hours } h
 
-engine-api-builtins-lunar-joint-od-clock-sats = lunar-joint-od-clock | { $n_sat } satelliter, { $n_earth } jordstationer | stationens 3D-fel med VLBI { $station_pos_err_m } m mot enbart avstånd { $station_pos_err_m2 } m ({ $station_observability_improvement_factor }× skarpare) | satellitposition RMS { $sat_pos_rms_m } m | stationsklockfel { $station_clock_err_s } s | obs { $n_obs }/{ $n_params } parametrar
+engine-api-builtins-lunar-joint-od-clock-sats =
+    { $n_earth ->
+        [one] lunar-joint-od-clock | { $n_sat } satelliter, { $n_earth } jordstation | stationens 3D-fel med VLBI { $station_pos_err_m } m mot enbart avstånd { $station_pos_err_m2 } m ({ $station_observability_improvement_factor }× skarpare) | satellitposition RMS { $sat_pos_rms_m } m | stationsklockfel { $station_clock_err_s } s | obs { $n_obs }/{ $n_params } parametrar
+       *[other] lunar-joint-od-clock | { $n_sat } satelliter, { $n_earth } jordstationer | stationens 3D-fel med VLBI { $station_pos_err_m } m mot enbart avstånd { $station_pos_err_m2 } m ({ $station_observability_improvement_factor }× skarpare) | satellitposition RMS { $sat_pos_rms_m } m | stationsklockfel { $station_clock_err_s } s | obs { $n_obs }/{ $n_params } parametrar
+    }
 
-engine-api-builtins-lunar-frame-realisation-points-translation = lunar-frame-realisation | { $n_points } punkter | translationsfel { $trans_err_norm_m } m, rotationsfel { $rot_err_norm_rad } rad, skalfel { $scale_err_ppb } ppb | rms-residual { $rms_residual_m } m | konvergerad { $converged }
 
-engine-api-builtins-moonlight-service-volume-sats-pts = moonlight-service-volume | { $n_sats } satelliter ({ $geometry_label }) | { $n_grid_points } punkter × { $n_epochs } epoker | täckning { $coverage_pct }% (PDOP<{ $pdop_threshold }) | satelliter { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | PL-tillgänglighet { $pl_availability_pct }% | MODELLED
+engine-api-builtins-lunar-frame-realisation-points-translation =
+    { $n_points ->
+        [one] lunar-frame-realisation | { $n_points } punkt | translationsfel { $trans_err_norm_m } m, rotationsfel { $rot_err_norm_rad } rad, skalfel { $scale_err_ppb } ppb | rms-residual { $rms_residual_m } m | konvergerad { $converged }
+       *[other] lunar-frame-realisation | { $n_points } punkter | translationsfel { $trans_err_norm_m } m, rotationsfel { $rot_err_norm_rad } rad, skalfel { $scale_err_ppb } ppb | rms-residual { $rms_residual_m } m | konvergerad { $converged }
+    }
+
+
+engine-api-builtins-moonlight-service-volume-sats-pts =
+    { $n_epochs ->
+        [one] moonlight-service-volume | { $n_sats } satelliter ({ $geometry_label }) | { $n_grid_points } punkter × { $n_epochs } epok | täckning { $coverage_pct }% (PDOP<{ $pdop_threshold }) | satelliter { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | PL-tillgänglighet { $pl_availability_pct }% | MODELLED
+       *[other] moonlight-service-volume | { $n_sats } satelliter ({ $geometry_label }) | { $n_grid_points } punkter × { $n_epochs } epoker | täckning { $coverage_pct }% (PDOP<{ $pdop_threshold }) | satelliter { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | PL-tillgänglighet { $pl_availability_pct }% | MODELLED
+    }
+
 
 engine-api-builtins-ephemeris-ure-required-vs-keplerian = { " " }| efemerid { $report } ({ $provenance }) σ_URE som krävs { $fmt } mot Kepler { $fmt2 } mot perturberad { $fmt3 } (Δ { $fmt4 })
 
 engine-api-builtins-lunar-differential-pnt-sats-illustrative = lunar-differential-pnt | { $n_sats } satelliter (illustrativ LCNS-klass, inte knuten till någon organisation) | baslinje { $baseline_km } km | användarfel { $user_error_uncorrected_m } m → { $user_error_corrected_m } m ({ $reduction_factor }× minskning) | HPL { $protection_level_m } m (σ_resid { $residual_sigma_m } m) | MODELLED
 
-engine-api-builtins-lunar-station-coverage-points-epochs = lunar-station-coverage | { $n_grid_points } punkter x { $n_epochs } epoker x { $n_trials } försök | tillgänglighet { $v4 } % | täckning { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | korrigerad p{ $percentile } 3D { $f } (okorrigerad { $f2 }) | HPL max { $f3 } | MODELLED; inget påstående om något verkligt system
+engine-api-builtins-lunar-station-coverage-points-epochs =
+    { $n_grid_points ->
+        [one]
+            { $n_epochs ->
+                [one] lunar-station-coverage | { $n_grid_points } punkt x { $n_epochs } epok x { $n_trials } försök | tillgänglighet { $v4 } % | täckning { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | korrigerad p{ $percentile } 3D { $f } (okorrigerad { $f2 }) | HPL max { $f3 } | MODELLED; inget påstående om något verkligt system
+               *[other] lunar-station-coverage | { $n_grid_points } punkt x { $n_epochs } epoker x { $n_trials } försök | tillgänglighet { $v4 } % | täckning { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | korrigerad p{ $percentile } 3D { $f } (okorrigerad { $f2 }) | HPL max { $f3 } | MODELLED; inget påstående om något verkligt system
+            }
+       *[other]
+            { $n_epochs ->
+                [one] lunar-station-coverage | { $n_grid_points } punkter x { $n_epochs } epok x { $n_trials } försök | tillgänglighet { $v4 } % | täckning { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | korrigerad p{ $percentile } 3D { $f } (okorrigerad { $f2 }) | HPL max { $f3 } | MODELLED; inget påstående om något verkligt system
+               *[other] lunar-station-coverage | { $n_grid_points } punkter x { $n_epochs } epoker x { $n_trials } försök | tillgänglighet { $v4 } % | täckning { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | korrigerad p{ $percentile } 3D { $f } (okorrigerad { $f2 }) | HPL max { $f3 } | MODELLED; inget påstående om något verkligt system
+            }
+    }
+
 
 engine-api-builtins-terrain-horizon-at-the-station = { " " }| terränghorisont ({ $sources }) vid stationen max { $horizon_max_deg } deg, användarpunkter medelmax { $user_horizon_max_deg_mean } deg
 
-engine-api-builtins-lunar-interop-export-ref-frame = lunar-interop-export | REF_FRAME { $frame } / TIME_SYSTEM { $time_system } | { $n_states } tillstånd, OEM { $oem_line_count } rader | formatkontroll { $v5 } ({ $present_fields } finns / { $missing_fields } saknas) | OEM round-trip { $v8 } | tidsmeta round-trip { $v9 } | KIF { $kif_bytes } bytes | MODELLED
+engine-api-builtins-lunar-interop-export-ref-frame =
+    { $oem_line_count ->
+        [one] lunar-interop-export | REF_FRAME { $frame } / TIME_SYSTEM { $time_system } | { $n_states } tillstånd, OEM { $oem_line_count } rad | formatkontroll { $v5 } ({ $present_fields } finns / { $missing_fields } saknas) | OEM round-trip { $v8 } | tidsmeta round-trip { $v9 } | KIF { $kif_bytes } bytes | MODELLED
+       *[other] lunar-interop-export | REF_FRAME { $frame } / TIME_SYSTEM { $time_system } | { $n_states } tillstånd, OEM { $oem_line_count } rader | formatkontroll { $v5 } ({ $present_fields } finns / { $missing_fields } saknas) | OEM round-trip { $v8 } | tidsmeta round-trip { $v9 } | KIF { $kif_bytes } bytes | MODELLED
+    }
+
 
 engine-api-builtins-scenario-optical-sync-rms-ps = scenario { $r } | optisk sync_rms { $sync_rms_ps }ps range_rms { $range_rms_mm }mm adev(1s) { $adev_tau0 } | RF sync_rms { $sync_rms_ps2 }ps range_rms { $range_rms_mm2 }mm adev(1s) { $adev_tau02 }
 
@@ -519,7 +590,12 @@ engine-api-builtins-scenario-runs-quantum-holdover-p95 = scenario { $r } | { $ru
 
 engine-api-builtins-scenario-quantum-holdover-p95-ns = scenario { $r } | quantum holdover { $holdover_s }s p95 { $ns1 }ns integritet { $integ } säkerhet { $security_na } | klassisk holdover { $holdover_s2 }s p95 { $ns12 }ns integritet { $integ2 } säkerhet { $security_na }
 
-engine-api-builtins-raim-available-of-epochs-denied = { " " }| RAIM tillgänglig { $n_available } av { $n_epochs } epoker ({ $n_denied } nekade, { $n_alarm } larm; MODELLED)
+engine-api-builtins-raim-available-of-epochs-denied =
+    { $n_epochs ->
+        [one] { " " }| RAIM tillgänglig { $n_available } av { $n_epochs } epok ({ $n_denied } nekade, { $n_alarm } larm; MODELLED)
+       *[other] { " " }| RAIM tillgänglig { $n_available } av { $n_epochs } epoker ({ $n_denied } nekade, { $n_alarm } larm; MODELLED)
+    }
+
 
 ## src/araim_reference.rs
 
@@ -549,7 +625,12 @@ engine-e-araim-reference-satellite-names-an-undeclared-constellation = en satell
 
 engine-e-araim-reference-every-prior-must-lie-in = varje apriorisannolikhet måste ligga i [0, 1)
 
-engine-e-araim-reference-the-priors-need-subsets-of = apriorisannolikheterna kräver delmängder med { $n_fault_max } samtidiga händelser; den här vägen räknar upp högst { $most }
+engine-e-araim-reference-the-priors-need-subsets-of =
+    { $n_fault_max ->
+        [one] apriorisannolikheterna kräver delmängder med { $n_fault_max } samtidig händelse; den här vägen räknar upp högst { $most }
+       *[other] apriorisannolikheterna kräver delmängder med { $n_fault_max } samtidiga händelser; den här vägen räknar upp högst { $most }
+    }
+
 
 engine-e-araim-reference-the-all-in-view-solution = lösningen med alla satelliter i sikte valdes inte
 
@@ -721,7 +802,12 @@ engine-bench-tasks-predictions-cover-cases-the-truth = prediktionerna täcker { 
 
 engine-bench-tasks-case-has-no-number-array = fallet `{ $id }` har ingen talmatris
 
-engine-bench-tasks-case-needs-values-has = fallet `{ $id }` behöver { $n } värden, har { $a }
+engine-bench-tasks-case-needs-values-has =
+    { $n ->
+        [one] fallet `{ $id }` behöver { $n } värde, har { $a }
+       *[other] fallet `{ $id }` behöver { $n } värden, har { $a }
+    }
+
 
 engine-bench-tasks-case-has-non-finite-value = fallet `{ $id }` har ett icke-ändligt värde
 
@@ -737,7 +823,12 @@ engine-bin-crossover-study-done-inertial-nodes-clock-curves = klart: tröghet { 
 
 ## src/bin/gen_araim_m3_study.rs
 
-engine-bin-gen-araim-m3-study-user-epochs-ura-values-in = { $n } användarepoker x 3 URA-värden på { $dt } s = { $v1 } ms per användarepok ({ $ok } lösbara)
+engine-bin-gen-araim-m3-study-user-epochs-ura-values-in =
+    { $n ->
+        [one] { $n } användarepok x 3 URA-värden på { $dt } s = { $v1 } ms per användarepok ({ $ok } lösbara)
+       *[other] { $n } användarepoker x 3 URA-värden på { $dt } s = { $v1 } ms per användarepok ({ $ok } lösbara)
+    }
+
 
 ## src/bin/gen_validation_artifacts.rs
 
@@ -776,15 +867,48 @@ engine-e-body-pnt-serialising-report = serialiserar rapport: { $e }
 engine-e-body-pnt-the-report-must-serialise-to = rapporten måste serialiseras till ett JSON-objekt
 
 engine-body-pnt-positioning-around-user-relays-at =
-    Positionsbestämning runt { $name } — { $user_kind }-användare, { $n_relays } reläer på { $r } km, { $n_epochs } epoker
-    { "  " }Jordens ljustid { $one_way_light_time_s } s enkel väg, { $two_way_light_time_s } s tur och retur; vinkel Sol-Jorden-kropp { $sun_separation_deg } deg
-    { "  " }tillgänglighet: { $availability_relays } enbart konstellation, { $availability_with_earth } med jordavståndet (Jorden i sikte { $earth_visibility })
-    { "  " }median-PDOP { $opt }; RMS-fel { $opt2 } enbart konstellation, { $opt3 } med jordavståndet
-    { "  " }formell mediansigma { $opt4 } enbart konstellation, { $opt5 } med jordavståndet{ "\u000A" }
+    { $n_relays ->
+        [one]
+            { $n_epochs ->
+                [one]
+                    Positionsbestämning runt { $name } — { $user_kind }-användare, { $n_relays } relä på { $r } km, { $n_epochs } epok
+                    { "  " }Jordens ljustid { $one_way_light_time_s } s enkel väg, { $two_way_light_time_s } s tur och retur; vinkel Sol-Jorden-kropp { $sun_separation_deg } deg
+                    { "  " }tillgänglighet: { $availability_relays } enbart konstellation, { $availability_with_earth } med jordavståndet (Jorden i sikte { $earth_visibility })
+                    { "  " }median-PDOP { $opt }; RMS-fel { $opt2 } enbart konstellation, { $opt3 } med jordavståndet
+                    { "  " }formell mediansigma { $opt4 } enbart konstellation, { $opt5 } med jordavståndet{ "\u000A" }
+               *[other]
+                    Positionsbestämning runt { $name } — { $user_kind }-användare, { $n_relays } relä på { $r } km, { $n_epochs } epoker
+                    { "  " }Jordens ljustid { $one_way_light_time_s } s enkel väg, { $two_way_light_time_s } s tur och retur; vinkel Sol-Jorden-kropp { $sun_separation_deg } deg
+                    { "  " }tillgänglighet: { $availability_relays } enbart konstellation, { $availability_with_earth } med jordavståndet (Jorden i sikte { $earth_visibility })
+                    { "  " }median-PDOP { $opt }; RMS-fel { $opt2 } enbart konstellation, { $opt3 } med jordavståndet
+                    { "  " }formell mediansigma { $opt4 } enbart konstellation, { $opt5 } med jordavståndet{ "\u000A" }
+            }
+       *[other]
+            { $n_epochs ->
+                [one]
+                    Positionsbestämning runt { $name } — { $user_kind }-användare, { $n_relays } reläer på { $r } km, { $n_epochs } epok
+                    { "  " }Jordens ljustid { $one_way_light_time_s } s enkel väg, { $two_way_light_time_s } s tur och retur; vinkel Sol-Jorden-kropp { $sun_separation_deg } deg
+                    { "  " }tillgänglighet: { $availability_relays } enbart konstellation, { $availability_with_earth } med jordavståndet (Jorden i sikte { $earth_visibility })
+                    { "  " }median-PDOP { $opt }; RMS-fel { $opt2 } enbart konstellation, { $opt3 } med jordavståndet
+                    { "  " }formell mediansigma { $opt4 } enbart konstellation, { $opt5 } med jordavståndet{ "\u000A" }
+               *[other]
+                    Positionsbestämning runt { $name } — { $user_kind }-användare, { $n_relays } reläer på { $r } km, { $n_epochs } epoker
+                    { "  " }Jordens ljustid { $one_way_light_time_s } s enkel väg, { $two_way_light_time_s } s tur och retur; vinkel Sol-Jorden-kropp { $sun_separation_deg } deg
+                    { "  " }tillgänglighet: { $availability_relays } enbart konstellation, { $availability_with_earth } med jordavståndet (Jorden i sikte { $earth_visibility })
+                    { "  " }median-PDOP { $opt }; RMS-fel { $opt2 } enbart konstellation, { $opt3 } med jordavståndet
+                    { "  " }formell mediansigma { $opt4 } enbart konstellation, { $opt5 } med jordavståndet{ "\u000A" }
+            }
+    }
+
 
 engine-body-pnt-positioning-around = Positionsbestämning runt { $name }
 
-engine-body-pnt-user-relays-earth-light-time = { $user_kind }-användare · { $n_relays } reläer · Jordens ljustid { $one_way_light_time_s } s · MODELLED
+engine-body-pnt-user-relays-earth-light-time =
+    { $n_relays ->
+        [one] { $user_kind }-användare · { $n_relays } relä · Jordens ljustid { $one_way_light_time_s } s · MODELLED
+       *[other] { $user_kind }-användare · { $n_relays } reläer · Jordens ljustid { $one_way_light_time_s } s · MODELLED
+    }
+
 
 ## src/calibration_ensembles.rs
 
@@ -1178,7 +1302,12 @@ engine-e-cislunar-observability-sigma-range-must-be-finite = sigma_range_m måst
 
 engine-e-cislunar-observability-sigma-pos-threshold-km-must = sigma_pos_threshold_km måste vara ändligt och positivt, fick { $sigma_pos_threshold_km }
 
-engine-cislunar-observability-cislunar-observability-refs-arc-epochs = cislunar-observability | { $c } s/c ({ $refs } ref) | båge på { $arc_hours } h, { $rank_arc } epoker | rang { $first } → { $last } av { $state_dim } över bågen | Gramian λ [{ $min_eigenvalue }…{ $max_eigenvalue }] cond { $condition_str } | momentan rang enbart avstånd { $rank_range_only } → avstånd+takt { $rank_range_rate } ({ $n_links } länkar) | GDOP enbart avstånd { $ro } avstånd+takt { $rr } | DRO ICs (största periodicitetsresidual { $max_resid }) | SRIF a posteriori ändlig vid rang 4-epok { $srif_epoch } (prövad mot oberoende referens: rang/STM/DRO-slutning/SRIF, beräknad ur en modell: utformning)
+engine-cislunar-observability-cislunar-observability-refs-arc-epochs =
+    { $n_links ->
+        [one] cislunar-observability | { $c } s/c ({ $refs } ref) | båge på { $arc_hours } h, { $rank_arc } epoker | rang { $first } → { $last } av { $state_dim } över bågen | Gramian λ [{ $min_eigenvalue }…{ $max_eigenvalue }] cond { $condition_str } | momentan rang enbart avstånd { $rank_range_only } → avstånd+takt { $rank_range_rate } ({ $n_links } länk) | GDOP enbart avstånd { $ro } avstånd+takt { $rr } | DRO ICs (största periodicitetsresidual { $max_resid }) | SRIF a posteriori ändlig vid rang 4-epok { $srif_epoch } (prövad mot oberoende referens: rang/STM/DRO-slutning/SRIF, beräknad ur en modell: utformning)
+       *[other] cislunar-observability | { $c } s/c ({ $refs } ref) | båge på { $arc_hours } h, { $rank_arc } epoker | rang { $first } → { $last } av { $state_dim } över bågen | Gramian λ [{ $min_eigenvalue }…{ $max_eigenvalue }] cond { $condition_str } | momentan rang enbart avstånd { $rank_range_only } → avstånd+takt { $rank_range_rate } ({ $n_links } länkar) | GDOP enbart avstånd { $ro } avstånd+takt { $rr } | DRO ICs (största periodicitetsresidual { $max_resid }) | SRIF a posteriori ändlig vid rang 4-epok { $srif_epoch } (prövad mot oberoende referens: rang/STM/DRO-slutning/SRIF, beräknad ur en modell: utformning)
+    }
+
 
 engine-cislunar-observability-never-rank-of = aldrig (rang { $rank } av { $state_dim })
 
@@ -1186,7 +1315,12 @@ engine-cislunar-observability-family-state-range-rank-threshold = { $base } | fa
 
 engine-cislunar-observability-first-arc-length-at-which = första båglängd vid vilken den formella 1σ-positionsosäkerheten för chiefs INITIALA tillstånd, σ_pos = sqrt(trace(P_rr)) med P = (ÕᵀÕ)⁻¹ och Õ den med mätbrus vitade observerbarhetsmatrisen, faller till eller under { $sigma_pos_threshold_km } km. Detta är kriteriet under vilket en båglängdströskel överhuvudtaget är brusberoende: P skalar som σ², så σ_pos skalar som σ, medan rangkriteriet ovan inte rör sig med σ. Gränsen är ett ANGIVET tekniskt val, inte ett anpassat — estimability_sweep redovisar tröskeln vid fyra andra gränser.
 
-engine-cislunar-observability-extension-r3-this-run-is = UTÖKNING (R3) — den här körningen är INTE den plana DRO-konfiguration som `label` ovan beskriver. Tillståndsdimension { $state_dim }; banfamilj { $family }; { $n_spacecraft } rymdfarkoster; avståndsmätningens sigma { $sigma_range_m } m. Där `label` säger "planar" och "planar DROs", läs den familj som anges här. Tillägg som är VALIDATED: den variationella 6x6-STM:en är samma med finita differenser prövade CR3BP-STM (crate::cr3bp) som används i full bredd; de rumsliga raderna för avstånd / avståndstakt i Jacobianen är analytiska partialderivator prövade med finita differenser, där raden för avståndstakt har kontrollerats komponent för komponent mot cratens oberoende 3D-funktion deepspace_od::range_rate_observable; initialvillkoren för halo / NRHO är differentialkorrigerade periodiska banor från samma korrigerare som reproducerar den publicerade södra L2 9:2-NRHO, fortsatta från det publicerade fröet, och varje medlems slutningsresidual redovisas; RANG-utfallen för sex tillstånd bekräftas mot en OBEROENDE radtrappsrang (Gauss-elimination med partiell pivotering) som inte delar någon kod med egen-/SVD-vägen. SRIF-LEDETS ÄRLIGA OMFATTNING: SRIF-korsvalideringen ovan använder SAMMA mätningsjacobianer och reduceras till samma O^T O, så dess överensstämmelse är en konsistenskontroll mellan två numeriska maskiner, INTE oberoende belägg för tröskeln — den räknas inte som prövning av någon siffra här. MODELLED: familjens utformning (vilka abskissor, amplituder och faser), epokrutnätet, den enskilda länkbågen och den angivna positionsgränsen i estimerbarhetskriteriet.
+engine-cislunar-observability-extension-r3-this-run-is =
+    { $n_spacecraft ->
+        [one] UTÖKNING (R3) — den här körningen är INTE den plana DRO-konfiguration som `label` ovan beskriver. Tillståndsdimension { $state_dim }; banfamilj { $family }; { $n_spacecraft } rymdfarkost; avståndsmätningens sigma { $sigma_range_m } m. Där `label` säger "planar" och "planar DROs", läs den familj som anges här. Tillägg som är VALIDATED: den variationella 6x6-STM:en är samma med finita differenser prövade CR3BP-STM (crate::cr3bp) som används i full bredd; de rumsliga raderna för avstånd / avståndstakt i Jacobianen är analytiska partialderivator prövade med finita differenser, där raden för avståndstakt har kontrollerats komponent för komponent mot cratens oberoende 3D-funktion deepspace_od::range_rate_observable; initialvillkoren för halo / NRHO är differentialkorrigerade periodiska banor från samma korrigerare som reproducerar den publicerade södra L2 9:2-NRHO, fortsatta från det publicerade fröet, och varje medlems slutningsresidual redovisas; RANG-utfallen för sex tillstånd bekräftas mot en OBEROENDE radtrappsrang (Gauss-elimination med partiell pivotering) som inte delar någon kod med egen-/SVD-vägen. SRIF-LEDETS ÄRLIGA OMFATTNING: SRIF-korsvalideringen ovan använder SAMMA mätningsjacobianer och reduceras till samma O^T O, så dess överensstämmelse är en konsistenskontroll mellan två numeriska maskiner, INTE oberoende belägg för tröskeln — den räknas inte som prövning av någon siffra här. MODELLED: familjens utformning (vilka abskissor, amplituder och faser), epokrutnätet, den enskilda länkbågen och den angivna positionsgränsen i estimerbarhetskriteriet.
+       *[other] UTÖKNING (R3) — den här körningen är INTE den plana DRO-konfiguration som `label` ovan beskriver. Tillståndsdimension { $state_dim }; banfamilj { $family }; { $n_spacecraft } rymdfarkoster; avståndsmätningens sigma { $sigma_range_m } m. Där `label` säger "planar" och "planar DROs", läs den familj som anges här. Tillägg som är VALIDATED: den variationella 6x6-STM:en är samma med finita differenser prövade CR3BP-STM (crate::cr3bp) som används i full bredd; de rumsliga raderna för avstånd / avståndstakt i Jacobianen är analytiska partialderivator prövade med finita differenser, där raden för avståndstakt har kontrollerats komponent för komponent mot cratens oberoende 3D-funktion deepspace_od::range_rate_observable; initialvillkoren för halo / NRHO är differentialkorrigerade periodiska banor från samma korrigerare som reproducerar den publicerade södra L2 9:2-NRHO, fortsatta från det publicerade fröet, och varje medlems slutningsresidual redovisas; RANG-utfallen för sex tillstånd bekräftas mot en OBEROENDE radtrappsrang (Gauss-elimination med partiell pivotering) som inte delar någon kod med egen-/SVD-vägen. SRIF-LEDETS ÄRLIGA OMFATTNING: SRIF-korsvalideringen ovan använder SAMMA mätningsjacobianer och reduceras till samma O^T O, så dess överensstämmelse är en konsistenskontroll mellan två numeriska maskiner, INTE oberoende belägg för tröskeln — den räknas inte som prövning av någon siffra här. MODELLED: familjens utformning (vilka abskissor, amplituder och faser), epokrutnätet, den enskilda länkbågen och den angivna positionsgränsen i estimerbarhetskriteriet.
+    }
+
 
 engine-cislunar-observability-validated-each-constellation-initial-condition = Prövad mot oberoende referens: varje initialvillkor i konstellationen är en differentialkorrigerad periodisk bana i familjen { $family }, som sluter sig över en period till den redovisade periodicitetsresidualen (plana DRO:er är dessutom retrograda kring månen). Familjen korrigeras vid massförhållandet jorden–månen. Beräknad ur en modell: valet av familjeparametrar och faser (konstellationens utformning). Nyckelnamnet `dro_provenance` behålls för det utgivna dokumentschemat; det bär den familj som den här körningen bad om.
 
@@ -1202,7 +1336,12 @@ engine-e-clock-integrity-integrity-systems-must-name-at = integrity: systems må
 
 engine-e-clock-integrity-integrity-injected-bias-needs-finite = integrity: injected_bias kräver ändliga bias_m, t0_s och t1_s
 
-engine-e-clock-integrity-integrity-epochs-exceed-the-epoch = integrity: { $n } epoker överskrider taket på { $MAX_EPOCHS } epoker; höj step_s
+engine-e-clock-integrity-integrity-epochs-exceed-the-epoch =
+    { $n ->
+        [one] integrity: { $n } epok överskrider taket på { $MAX_EPOCHS } epoker; höj step_s
+       *[other] integrity: { $n } epoker överskrider taket på { $MAX_EPOCHS } epoker; höj step_s
+    }
+
 
 ## src/clock_library/card.rs
 
@@ -1413,7 +1552,12 @@ engine-e-earth-gnss-lunar-back-lobe-suppression-db-must = back_lobe_suppression_
 
 engine-e-earth-gnss-lunar-receiver-range-must-be-outside = receiver_range_m måste ligga utanför jorden; fick { $range_m }
 
-engine-earth-gnss-lunar-earth-gnss-at-lunar-distance = Earth-GNSS på månavstånd — { $n_satellites } satelliter, mottagare på { $r } km{ "\u000A" }
+engine-earth-gnss-lunar-earth-gnss-at-lunar-distance =
+    { $n_satellites ->
+        [one] Earth-GNSS på månavstånd — { $n_satellites } satellit, mottagare på { $r } km{ "\u000A" }
+       *[other] Earth-GNSS på månavstånd — { $n_satellites } satelliter, mottagare på { $r } km{ "\u000A" }
+    }
+
 
 engine-earth-gnss-lunar-earth-limb-from-the-constellation = { "  " }Jordlimb sedd från konstellationen: { $earth_limb_half_angle_deg } deg från nadir — varje stråle mot månen måste överskrida detta{ "\u000A" }
 
@@ -2003,15 +2147,30 @@ engine-e-geometry-sky-tle-is-bytes-the = sky: tle är { $text } bytes; gränsen 
 
 engine-geometry-element-set-refused = elementuppsättningen avvisades: { $e }
 
-engine-geometry-sky-tle-holds-no-complete = sky: tle innehåller ingen fullständig tvåradig elementuppsättning; { $n_ignored } rader ignorerades, den första: { $first }
+engine-geometry-sky-tle-holds-no-complete =
+    { $n_ignored ->
+        [one] sky: tle innehåller ingen fullständig tvåradig elementuppsättning; { $n_ignored } rad ignorerades, den första: { $first }
+       *[other] sky: tle innehåller ingen fullständig tvåradig elementuppsättning; { $n_ignored } rader ignorerades, den första: { $first }
+    }
+
 
 engine-e-geometry-sky-epoch = sky: epoch: { $e }
 
 engine-geometry-and-more = { "." }.. och { $more } till
 
-engine-geometry-element-sets-propagated-by-the = { $n } elementuppsättningar propagerade med motorns SGP4 (WGS-72) till { $iso } och roterade till jordfast system med UT1 satt lika med UTC och utan polarrörelse: den himmel som de elementuppsättningarna ger vid den epoken, inte en mätning av den.
+engine-geometry-element-sets-propagated-by-the =
+    { $n ->
+        [one] { $n } elementuppsättning propagerad med motorns SGP4 (WGS-72) till { $iso } och roterad till jordfast system med UT1 satt lika med UTC och utan polarrörelse: den himmel som den elementuppsättningen ger vid den epoken, inte en mätning av den.
+       *[other] { $n } elementuppsättningar propagerade med motorns SGP4 (WGS-72) till { $iso } och roterade till jordfast system med UT1 satt lika med UTC och utan polarrörelse: den himmel som de elementuppsättningarna ger vid den epoken, inte en mätning av den.
+    }
 
-engine-geometry-element-sets-propagated-by-the-2 = { $n } elementuppsättningar propagerade med motorns SGP4 (WGS-72) till den nyaste elementuppsättningens epok plus time_s ({ $iso }). Ingen epok angavs, så det här är en representativ himmel, inte himlen för ett angivet datum.
+
+engine-geometry-element-sets-propagated-by-the-2 =
+    { $n ->
+        [one] { $n } elementuppsättning propagerad med motorns SGP4 (WGS-72) till den nyaste elementuppsättningens epok plus time_s ({ $iso }). Ingen epok angavs, så det här är en representativ himmel, inte himlen för ett angivet datum.
+       *[other] { $n } elementuppsättningar propagerade med motorns SGP4 (WGS-72) till den nyaste elementuppsättningens epok plus time_s ({ $iso }). Ingen epok angavs, så det här är en representativ himmel, inte himlen för ett angivet datum.
+    }
+
 
 engine-e-geometry-sky-give-systems-or-tle = sky: ange `systems` eller `tle` (med en `site`), eller `satellites`
 
@@ -2219,7 +2378,12 @@ engine-e-gse-sim-step-must-be-positive-got = step_s måste vara positivt, fick {
 
 engine-e-gse-sim-duration-must-be-positive-got = duration_s måste vara positivt, fick { $duration_s }
 
-engine-e-gse-sim-scenario-produces-epochs-need-increase = scenariot ger { $n } epoker (≥ 2 behövs); öka duration_s eller minska step_s
+engine-e-gse-sim-scenario-produces-epochs-need-increase =
+    { $n ->
+        [one] scenariot ger { $n } epok (≥ 2 behövs); öka duration_s eller minska step_s
+       *[other] scenariot ger { $n } epoker (≥ 2 behövs); öka duration_s eller minska step_s
+    }
+
 
 ## src/holdover_test.rs
 
@@ -2265,7 +2429,12 @@ engine-e-hybrid-integrity-must-be-finite = { $name } måste vara ändligt
 
 engine-e-hybrid-integrity-rf-other-losses-db-must = rf_other_losses_db måste vara ändligt och >= 0
 
-engine-hybrid-integrity-hybrid-optical-rf-optical-footprint = hybrid-optical-rf | optiskt fotavtryck { $footprint_m } m, { $detected_photons } fotoner -> avståndsσ { $c } mm, tidsσ { $c2 } ps | cross-RAIM HPL { $hpl_m } m / VPL { $vpl_m } m / TPL { $c3 } ns ({ $v8 }) | tillgänglighet { $c4 }% ({ $n_sites } platser) | överlämning utan hopp { $v11 } NEES { $final_nees }∈[{ $c5 },{ $c6 }] { $v15 } | gemensam FoM { $score } (A { $availability } · P { $precision_grade } · I { $integrity_assured }) | Prövade mot oberoende extern referens: CRLB/χ²-PL/union/handoff; beräknade ur en modell: σ/klimatologi
+engine-hybrid-integrity-hybrid-optical-rf-optical-footprint =
+    { $n_sites ->
+        [one] hybrid-optical-rf | optiskt fotavtryck { $footprint_m } m, { $detected_photons } fotoner -> avståndsσ { $c } mm, tidsσ { $c2 } ps | cross-RAIM HPL { $hpl_m } m / VPL { $vpl_m } m / TPL { $c3 } ns ({ $v8 }) | tillgänglighet { $c4 }% ({ $n_sites } plats) | överlämning utan hopp { $v11 } NEES { $final_nees }∈[{ $c5 },{ $c6 }] { $v15 } | gemensam FoM { $score } (A { $availability } · P { $precision_grade } · I { $integrity_assured }) | Prövade mot oberoende extern referens: CRLB/χ²-PL/union/handoff; beräknade ur en modell: σ/klimatologi
+       *[other] hybrid-optical-rf | optiskt fotavtryck { $footprint_m } m, { $detected_photons } fotoner -> avståndsσ { $c } mm, tidsσ { $c2 } ps | cross-RAIM HPL { $hpl_m } m / VPL { $vpl_m } m / TPL { $c3 } ns ({ $v8 }) | tillgänglighet { $c4 }% ({ $n_sites } platser) | överlämning utan hopp { $v11 } NEES { $final_nees }∈[{ $c5 },{ $c6 }] { $v15 } | gemensam FoM { $score } (A { $availability } · P { $precision_grade } · I { $integrity_assured }) | Prövade mot oberoende extern referens: CRLB/χ²-PL/union/handoff; beräknade ur en modell: σ/klimatologi
+    }
+
 
 ## src/impairment_eval.rs
 
@@ -2720,7 +2889,12 @@ engine-e-iq-campaign-conditions-at-least-one-expected-group = minst en [[expecte
 
 engine-e-iq-campaign-conditions-ids-must-not-be-empty = { $at }: ids får inte vara tomt
 
-engine-e-iq-campaign-conditions-lists-value-give-one-per = { $at }: { $key } listar { $n } värde(n); ange ett per id ({ $ids })
+engine-e-iq-campaign-conditions-lists-value-give-one-per =
+    { $n ->
+        [one] { $at }: { $key } listar { $n } värde; ange ett per id ({ $ids })
+       *[other] { $at }: { $key } listar { $n } värden; ange ett per id ({ $ids })
+    }
+
 
 engine-e-iq-campaign-conditions-duplicate-id = { $at }: dubblerat id
 
@@ -3065,7 +3239,12 @@ engine-iq-labfit-iqfit-uncensored-span-db-is-under = ocensurerat J/S-spann { $sp
 
 engine-iq-labfit-iqfit-eff-and-delta-are-not = Q_eff och delta kan inte identifieras separat (|corr| { $full } >= { $v2 }): modellen beror bara på delta - 10 log10 Q_eff
 
-engine-iq-labfit-iqfit-not-fitted-re-acquisitions-observed = inte anpassad: { $n_reacq } återinfångningar observerade (minst 3 behövs)
+engine-iq-labfit-iqfit-not-fitted-re-acquisitions-observed =
+    { $n_reacq ->
+        [one] inte anpassad: { $n_reacq } återinfångning observerad (minst 3 behövs)
+       *[other] inte anpassad: { $n_reacq } återinfångningar observerade (minst 3 behövs)
+    }
+
 
 engine-iq-labfit-iqfit-loss-time-rms = loss_time_rms_s[{ $model }]
 
@@ -3102,11 +3281,21 @@ engine-iq-labfit-iqreport-n0-model-delta-eff-db = C/N0-modell ({ $q_mode }): `de
 
 engine-iq-labfit-iqreport-held-at-its-stated-value = Q hålls vid sitt angivna värde: { $why }.{ "\u000A\u000A" }
 
-engine-iq-labfit-iqreport-threshold-direct-median-db-over = Tröskel-J/S, direkt: median { $om } dB över { $n } förluster (IQR { $t }).{ "\u000A\u000A" }
+engine-iq-labfit-iqreport-threshold-direct-median-db-over =
+    { $n ->
+        [one] Tröskel-J/S, direkt: median { $om } dB över { $n } förlust (IQR { $t }).{ "\u000A\u000A" }
+       *[other] Tröskel-J/S, direkt: median { $om } dB över { $n } förluster (IQR { $t }).{ "\u000A\u000A" }
+    }
+
 
 engine-iq-labfit-iqreport-hold-out-leave-one-recording = Undanhållen datamängd (en inspelning utelämnas åt gången), interpolation: { $bins } intervall, C/N0-RMS { $om } dB, PI90-täckning { $om2 }
 
-engine-iq-labfit-iqreport-events-loss-time-rms-pi90 = ; { $model }: { $n } händelser, förlusttids-RMS { $om } s, PI90-täckning { $om2 }
+engine-iq-labfit-iqreport-events-loss-time-rms-pi90 =
+    { $n ->
+        [one] ; { $model }: { $n } händelse, förlusttids-RMS { $om } s, PI90-täckning { $om2 }
+       *[other] ; { $model }: { $n } händelser, förlusttids-RMS { $om } s, PI90-täckning { $om2 }
+    }
+
 
 engine-iq-labfit-iqreport-validation-table-sha-256-registered =
     Valideringstabell SHA-256 `{ $table_sha256 }` (registrerad { $registered }):
@@ -3150,10 +3339,19 @@ engine-iq-labfit-report-model-parameter-value-bounds-at =
     |---|---|---|---|---|{ "\u000A" }
 
 engine-iq-labfit-report-event-time-rms-over-events =
-    { "\u000A" }Händelsetids-RMS { $om } s över { $n_events } händelser; förluster missade { $loss_missed } / extra { $loss_extra }, återinfångningar missade { $reacq_missed } / extra { $reacq_extra }.
+    { $n_events ->
+        [one]
+            { "\u000A" }Händelsetids-RMS { $om } s över { $n_events } händelse; förluster missade { $loss_missed } / extra { $loss_extra }, återinfångningar missade { $reacq_missed } / extra { $reacq_extra }.
 
-    | körning | fall dB-Hz | återlåsning dB-Hz | händelser | RMS s |
-    |---|---|---|---|---|{ "\u000A" }
+            | körning | fall dB-Hz | återlåsning dB-Hz | händelser | RMS s |
+            |---|---|---|---|---|{ "\u000A" }
+       *[other]
+            { "\u000A" }Händelsetids-RMS { $om } s över { $n_events } händelser; förluster missade { $loss_missed } / extra { $loss_extra }, återinfångningar missade { $reacq_missed } / extra { $reacq_extra }.
+
+            | körning | fall dB-Hz | återlåsning dB-Hz | händelser | RMS s |
+            |---|---|---|---|---|{ "\u000A" }
+    }
+
 
 engine-iq-labfit-report-hold-out-folds-all-interpolation =
     { "\u000A" }Undanhållen datamängd ({ $scheme }, { $folds } delmängder): alla { $om } s, interpolation { $om2 } s, extrapolation { $om3 } s.
@@ -3289,7 +3487,12 @@ engine-e-iq-signals-galileo-line-no-code-number-in = rad { $v1 }: inget kodnumme
 
 engine-e-iq-signals-galileo-code-appears-twice = kod { $number } förekommer två gånger
 
-engine-e-iq-signals-galileo-codes-the-icd-defines = { $path }: { $n } koder, ICD definierar { $CODES_PER_COMPONENT }
+engine-e-iq-signals-galileo-codes-the-icd-defines =
+    { $n ->
+        [one] { $path }: { $n } kod, ICD definierar { $CODES_PER_COMPONENT }
+       *[other] { $path }: { $n } koder, ICD definierar { $CODES_PER_COMPONENT }
+    }
+
 
 engine-iq-signals-galileo-galileo-e1-prn = Galileo E1-B PRN { $prn }
 
@@ -3657,7 +3860,20 @@ engine-launch-launch-window-lat-az-asc = launch-window: lat { $site_lat_deg }° 
 
 engine-e-leo-fusion-doppler-every-range-rate-needs-positive = varje avståndshastighet behöver en positiv, ändlig sigma
 
-engine-e-leo-fusion-doppler-measurements-cannot-resolve-doppler-unknowns = { $n_meas } mätningar kan inte lösa { $n } Doppler-obekanta
+engine-e-leo-fusion-doppler-measurements-cannot-resolve-doppler-unknowns =
+    { $n_meas ->
+        [one]
+            { $n ->
+                [one] { $n_meas } mätning kan inte lösa { $n } Doppler-obekant
+               *[other] { $n_meas } mätning kan inte lösa { $n } Doppler-obekanta
+            }
+       *[other]
+            { $n ->
+                [one] { $n_meas } mätningar kan inte lösa { $n } Doppler-obekant
+               *[other] { $n_meas } mätningar kan inte lösa { $n } Doppler-obekanta
+            }
+    }
+
 
 engine-e-leo-fusion-doppler-the-doppler-geometry-is-singular = Doppler-geometrin är singulär
 
@@ -3667,7 +3883,20 @@ engine-e-leo-fusion-doppler-no-covariance = ingen kovarians
 
 engine-e-leo-fusion-joint-pvt-every-pseudorange-needs-positive-finite = varje pseudoavstånd behöver en positiv, ändlig sigma
 
-engine-e-leo-fusion-joint-pvt-pseudoranges-cannot-resolve-unknowns-position = { $obs } pseudoavstånd kan inte lösa { $n } obekanta (3 position + { $n_clock } klockor)
+engine-e-leo-fusion-joint-pvt-pseudoranges-cannot-resolve-unknowns-position =
+    { $n ->
+        [one]
+            { $n_clock ->
+                [one] { $obs } pseudoavstånd kan inte lösa { $n } obekant (3 position + { $n_clock } klocka)
+               *[other] { $obs } pseudoavstånd kan inte lösa { $n } obekant (3 position + { $n_clock } klockor)
+            }
+       *[other]
+            { $n_clock ->
+                [one] { $obs } pseudoavstånd kan inte lösa { $n } obekanta (3 position + { $n_clock } klocka)
+               *[other] { $obs } pseudoavstånd kan inte lösa { $n } obekanta (3 position + { $n_clock } klockor)
+            }
+    }
+
 
 engine-e-leo-fusion-joint-pvt-satellite-coincides-with-the-position = en satellit sammanfaller med positionsskattningen
 
@@ -3687,7 +3916,12 @@ engine-e-leo-fusion-ntn-sync-error-must-be-non = sync_error_m måste vara icke-n
 
 engine-e-leo-fusion-ntn-every-signal-needs-positive-bandwidth = varje signal behöver en positiv bandbredd
 
-engine-leo-fusion-ntn-5g-ntn-positioning-at-mhz = 5G NTN-positionsbestämning vid { $r } MHz, C/N0 { $r2 } till { $r3 } dB-Hz, { $n_satellites } satelliter ({ $mean_in_view } i sikte){ "\u000A" }
+engine-leo-fusion-ntn-5g-ntn-positioning-at-mhz =
+    { $n_satellites ->
+        [one] 5G NTN-positionsbestämning vid { $r } MHz, C/N0 { $r2 } till { $r3 } dB-Hz, { $n_satellites } satellit ({ $mean_in_view } i sikte){ "\u000A" }
+       *[other] 5G NTN-positionsbestämning vid { $r } MHz, C/N0 { $r2 } till { $r3 } dB-Hz, { $n_satellites } satelliter ({ $mean_in_view } i sikte){ "\u000A" }
+    }
+
 
 engine-leo-fusion-ntn-khz-crb-range-to-median = { "  " }{ $name }: { $s } kHz, CRB-avstånd { $range_sigma_zenith_m } till { $range_sigma_mask_m } m; formell median i 3D { $s2 } m, RMS-fel { $s3 } m{ "\u000A" }
 
@@ -3705,7 +3939,12 @@ engine-e-leo-fusion-ppp-runs-must-be-to-200 = runs måste vara 1 till 200
 
 engine-e-leo-fusion-ppp-convergence-thresholds-must-be-positive = konvergenströsklarna måste vara positiva
 
-engine-leo-fusion-ppp-ppp-convergence-to-horizontal-vertical = PPP-konvergens till { $criterion_horizontal_m } m horisontellt / { $criterion_vertical_m } m vertikalt, { $runs_per_case } körningar per fall, { $n_gnss } GNSS-satelliter{ "\u000A" }
+engine-leo-fusion-ppp-ppp-convergence-to-horizontal-vertical =
+    { $n_gnss ->
+        [one] PPP-konvergens till { $criterion_horizontal_m } m horisontellt / { $criterion_vertical_m } m vertikalt, { $runs_per_case } körningar per fall, { $n_gnss } GNSS-satellit{ "\u000A" }
+       *[other] PPP-konvergens till { $criterion_horizontal_m } m horisontellt / { $criterion_vertical_m } m vertikalt, { $runs_per_case } körningar per fall, { $n_gnss } GNSS-satelliter{ "\u000A" }
+    }
+
 
 engine-leo-fusion-ppp-leo-median-min-converged-nees = { "  " }{ $name } { $n_leo } LEO  median { $c } min  konvergerade { $v4 }%  NEES medel { $nees_mean }{ "\u000A" }
 
@@ -3737,7 +3976,20 @@ engine-leo-fusion-pvt-kind-leo-pvt-at-over = LEO PVT ({ $mode }) vid { $user_lat
 
 engine-leo-fusion-pvt-kind-sats-at-km-mhz = { "  " }{ $name } { $role } { $n_satellites } sat. på { $mean_altitude_km } km, { $sys } MHz{ $v6 }{ "\u000A" }
 
-engine-leo-fusion-pvt-kind-doppler-fix-measurements-from-satellites = { "  " }Doppler-positionsbestämning: { $n_obs } mätningar från { $n_sats } satelliter, 3D-fel { $error_3d_m } m (horisontellt { $horizontal_error_m } m){ "\u000A" }
+engine-leo-fusion-pvt-kind-doppler-fix-measurements-from-satellites =
+    { $n_obs ->
+        [one]
+            { $n_sats ->
+                [one] { "  " }Doppler-positionsbestämning: { $n_obs } mätning från { $n_sats } satellit, 3D-fel { $error_3d_m } m (horisontellt { $horizontal_error_m } m){ "\u000A" }
+               *[other] { "  " }Doppler-positionsbestämning: { $n_obs } mätning från { $n_sats } satelliter, 3D-fel { $error_3d_m } m (horisontellt { $horizontal_error_m } m){ "\u000A" }
+            }
+       *[other]
+            { $n_sats ->
+                [one] { "  " }Doppler-positionsbestämning: { $n_obs } mätningar från { $n_sats } satellit, 3D-fel { $error_3d_m } m (horisontellt { $horizontal_error_m } m){ "\u000A" }
+               *[other] { "  " }Doppler-positionsbestämning: { $n_obs } mätningar från { $n_sats } satelliter, 3D-fel { $error_3d_m } m (horisontellt { $horizontal_error_m } m){ "\u000A" }
+            }
+    }
+
 
 engine-leo-fusion-pvt-kind-window-sats-3d-error = { "    " }fönster { $window_s } s: { $n_sats } sat., 3D-fel { $f } m{ "\u000A" }
 
@@ -4336,11 +4588,34 @@ engine-e-lunar-beacon-comparison-satellites-must-be-at = comparison_n_satellites
 
 engine-e-lunar-beacon-elevation-mask-deg-must-be = elevation_mask_deg måste ligga i [0, 90); fick { $mask_deg }
 
-engine-lunar-beacon-satellites-no-beacons = { $n_sats } satelliter, inga fyrar
+engine-lunar-beacon-satellites-no-beacons =
+    { $n_sats ->
+        [one] { $n_sats } satellit, inga fyrar
+       *[other] { $n_sats } satelliter, inga fyrar
+    }
 
-engine-lunar-beacon-satellites-visible-beacons = { $n_sats } satelliter + { $n_vis_beacons } synliga fyrar
 
-engine-lunar-beacon-satellites-no-beacons-2 = { $n_cmp } satelliter, inga fyrar
+engine-lunar-beacon-satellites-visible-beacons =
+    { $n_sats ->
+        [one]
+            { $n_vis_beacons ->
+                [one] { $n_sats } satellit + { $n_vis_beacons } synlig fyr
+               *[other] { $n_sats } satellit + { $n_vis_beacons } synliga fyrar
+            }
+       *[other]
+            { $n_vis_beacons ->
+                [one] { $n_sats } satelliter + { $n_vis_beacons } synlig fyr
+               *[other] { $n_sats } satelliter + { $n_vis_beacons } synliga fyrar
+            }
+    }
+
+
+engine-lunar-beacon-satellites-no-beacons-2 =
+    { $n_cmp ->
+        [one] { $n_cmp } satellit, inga fyrar
+       *[other] { $n_cmp } satelliter, inga fyrar
+    }
+
 
 engine-e-lunar-beacon-serialising-beacon-report = serialiserar fyrrapport: { $e }
 
@@ -4438,13 +4713,39 @@ engine-e-lunar-frame-campaign-solver-must-be-spectral-or = solver måste vara "s
 
 engine-e-lunar-frame-campaign-serializing-lunar-frame-campaign-result = serialiserar resultatet av lunar-frame-campaign: { $e }
 
-engine-e-lunar-frame-campaign-no-observation-in-the-campaign = ingen observation i kampanjen klarar elevationsmasken på { $mask } deg på jordsidan i båda ändar av en baslinje OCH masken på { $earth_mask } deg över fyrens egen horisont: { $n_epochs } epoker x { $v1 } baslinjer x { $n_beacons } fyrar avvisades alla. Förläng arc_hours, sänk en mask eller flytta stationerna.
+engine-e-lunar-frame-campaign-no-observation-in-the-campaign =
+    { $n_epochs ->
+        [one]
+            { $n_beacons ->
+                [one] ingen observation i kampanjen klarar elevationsmasken på { $mask } deg på jordsidan i båda ändar av en baslinje OCH masken på { $earth_mask } deg över fyrens egen horisont: { $n_epochs } epok x { $v1 } baslinjer x { $n_beacons } fyr avvisades alla. Förläng arc_hours, sänk en mask eller flytta stationerna.
+               *[other] ingen observation i kampanjen klarar elevationsmasken på { $mask } deg på jordsidan i båda ändar av en baslinje OCH masken på { $earth_mask } deg över fyrens egen horisont: { $n_epochs } epok x { $v1 } baslinjer x { $n_beacons } fyrar avvisades alla. Förläng arc_hours, sänk en mask eller flytta stationerna.
+            }
+       *[other]
+            { $n_beacons ->
+                [one] ingen observation i kampanjen klarar elevationsmasken på { $mask } deg på jordsidan i båda ändar av en baslinje OCH masken på { $earth_mask } deg över fyrens egen horisont: { $n_epochs } epoker x { $v1 } baslinjer x { $n_beacons } fyr avvisades alla. Förläng arc_hours, sänk en mask eller flytta stationerna.
+               *[other] ingen observation i kampanjen klarar elevationsmasken på { $mask } deg på jordsidan i båda ändar av en baslinje OCH masken på { $earth_mask } deg över fyrens egen horisont: { $n_epochs } epoker x { $v1 } baslinjer x { $n_beacons } fyrar avvisades alla. Förläng arc_hours, sänk en mask eller flytta stationerna.
+            }
+    }
+
 
 engine-lunar-frame-campaign-full-rank-all-similarity-parameters = full-rank: alla 7 likformighetsparametrar begränsas av den här kampanjen (konditionstal { $condition })
 
 engine-lunar-frame-campaign-rank-deficient-of-similarity-directions = RANK-DEFICIENT: { $defect } av 7 likformighetsriktningar kan inte observeras från den här kampanjen, så INGEN datum-sigma publiceras; de oobserverbara riktningarna listas i sjuparameterbasen
 
-engine-lunar-frame-campaign-lunar-frame-campaign-beacons-baselines = lunar-frame-campaign | { $n_beacons } fyrar x { $v1 } baslinjer x { $n_epochs } epoker = { $n_obs } obs (fördröjningssigma { $sigma_tau } s) | stationsdatum { $station_datum } | Helmert-rang { $rank }/7 kond { $condition } | datumtranslationens sigma { $v5 } mot återvinningsfel för injicerad transform { $trans_err_norm_m } m (kvot { $v7 })
+engine-lunar-frame-campaign-lunar-frame-campaign-beacons-baselines =
+    { $n_beacons ->
+        [one]
+            { $n_epochs ->
+                [one] lunar-frame-campaign | { $n_beacons } fyr x { $v1 } baslinjer x { $n_epochs } epok = { $n_obs } obs (fördröjningssigma { $sigma_tau } s) | stationsdatum { $station_datum } | Helmert-rang { $rank }/7 kond { $condition } | datumtranslationens sigma { $v5 } mot återvinningsfel för injicerad transform { $trans_err_norm_m } m (kvot { $v7 })
+               *[other] lunar-frame-campaign | { $n_beacons } fyr x { $v1 } baslinjer x { $n_epochs } epoker = { $n_obs } obs (fördröjningssigma { $sigma_tau } s) | stationsdatum { $station_datum } | Helmert-rang { $rank }/7 kond { $condition } | datumtranslationens sigma { $v5 } mot återvinningsfel för injicerad transform { $trans_err_norm_m } m (kvot { $v7 })
+            }
+       *[other]
+            { $n_epochs ->
+                [one] lunar-frame-campaign | { $n_beacons } fyrar x { $v1 } baslinjer x { $n_epochs } epok = { $n_obs } obs (fördröjningssigma { $sigma_tau } s) | stationsdatum { $station_datum } | Helmert-rang { $rank }/7 kond { $condition } | datumtranslationens sigma { $v5 } mot återvinningsfel för injicerad transform { $trans_err_norm_m } m (kvot { $v7 })
+               *[other] lunar-frame-campaign | { $n_beacons } fyrar x { $v1 } baslinjer x { $n_epochs } epoker = { $n_obs } obs (fördröjningssigma { $sigma_tau } s) | stationsdatum { $station_datum } | Helmert-rang { $rank }/7 kond { $condition } | datumtranslationens sigma { $v5 } mot återvinningsfel för injicerad transform { $trans_err_norm_m } m (kvot { $v7 })
+            }
+    }
+
 
 engine-lunar-frame-campaign-of-beacons-have-no-observation = { $names } av { $beacons } fyrar har ingen observation i det här schemat ({ $names2 }); de bär ingen information, deras sigman är null, och datumet realiseras bara från de observerade fyrarna
 
@@ -4526,9 +4827,35 @@ engine-e-lunar-jamming-eccentricity-must-be-in = eccentricity måste ligga i [0,
 
 engine-e-lunar-jamming-jammer-power-dbw-must-be = jammer.power_dbw måste vara ändligt
 
-engine-lunar-jamming-lunar-jamming-sats-epochs-links = lunar-jamming | { $n_sats } sat., { $n_epochs } epoker, { $n_links } länkar från ({ $site_lat_deg }, { $site_lon_deg }) | J/S { $min_js_db }..{ $max_js_db } dB (medel { $mean_js_db }) | { $n_lost } LOST | tillgänglighet { $availability_under_jamming } av { $availability_nominal } nominell
+engine-lunar-jamming-lunar-jamming-sats-epochs-links =
+    { $n_epochs ->
+        [one]
+            { $n_links ->
+                [one] lunar-jamming | { $n_sats } sat., { $n_epochs } epok, { $n_links } länk från ({ $site_lat_deg }, { $site_lon_deg }) | J/S { $min_js_db }..{ $max_js_db } dB (medel { $mean_js_db }) | { $n_lost } LOST | tillgänglighet { $availability_under_jamming } av { $availability_nominal } nominell
+               *[other] lunar-jamming | { $n_sats } sat., { $n_epochs } epok, { $n_links } länkar från ({ $site_lat_deg }, { $site_lon_deg }) | J/S { $min_js_db }..{ $max_js_db } dB (medel { $mean_js_db }) | { $n_lost } LOST | tillgänglighet { $availability_under_jamming } av { $availability_nominal } nominell
+            }
+       *[other]
+            { $n_links ->
+                [one] lunar-jamming | { $n_sats } sat., { $n_epochs } epoker, { $n_links } länk från ({ $site_lat_deg }, { $site_lon_deg }) | J/S { $min_js_db }..{ $max_js_db } dB (medel { $mean_js_db }) | { $n_lost } LOST | tillgänglighet { $availability_under_jamming } av { $availability_nominal } nominell
+               *[other] lunar-jamming | { $n_sats } sat., { $n_epochs } epoker, { $n_links } länkar från ({ $site_lat_deg }, { $site_lon_deg }) | J/S { $min_js_db }..{ $max_js_db } dB (medel { $mean_js_db }) | { $n_lost } LOST | tillgänglighet { $availability_under_jamming } av { $availability_nominal } nominell
+            }
+    }
 
-engine-lunar-jamming-lunar-jamming-sats-epochs-links-2 = lunar-jamming | { $n_sats } sat., { $n_epochs } epoker, { $n_links } länkar från ({ $site_lat_deg }, { $site_lon_deg }) | ingen jammer (månbaslinje med ren himmel) | { $n_lost } LOST | tillgänglighet { $availability_nominal }
+
+engine-lunar-jamming-lunar-jamming-sats-epochs-links-2 =
+    { $n_epochs ->
+        [one]
+            { $n_links ->
+                [one] lunar-jamming | { $n_sats } sat., { $n_epochs } epok, { $n_links } länk från ({ $site_lat_deg }, { $site_lon_deg }) | ingen jammer (månbaslinje med ren himmel) | { $n_lost } LOST | tillgänglighet { $availability_nominal }
+               *[other] lunar-jamming | { $n_sats } sat., { $n_epochs } epok, { $n_links } länkar från ({ $site_lat_deg }, { $site_lon_deg }) | ingen jammer (månbaslinje med ren himmel) | { $n_lost } LOST | tillgänglighet { $availability_nominal }
+            }
+       *[other]
+            { $n_links ->
+                [one] lunar-jamming | { $n_sats } sat., { $n_epochs } epoker, { $n_links } länk från ({ $site_lat_deg }, { $site_lon_deg }) | ingen jammer (månbaslinje med ren himmel) | { $n_lost } LOST | tillgänglighet { $availability_nominal }
+               *[other] lunar-jamming | { $n_sats } sat., { $n_epochs } epoker, { $n_links } länkar från ({ $site_lat_deg }, { $site_lon_deg }) | ingen jammer (månbaslinje med ren himmel) | { $n_lost } LOST | tillgänglighet { $availability_nominal }
+            }
+    }
+
 
 ## src/lunar_llr.rs
 
@@ -4626,7 +4953,20 @@ engine-e-lunar-station-no-case = { $KIND }: inget fall ({ $j }, { $i }, { $k })
 
 engine-lunar-station-stroke-stroke-width = { " " }stroke="{ $INK }" stroke-width="0.8"
 
-engine-lunar-station-points-epochs-trials = { $n_grid_points } punkter · { $n_epochs } epoker · { $n_trials } försök
+engine-lunar-station-points-epochs-trials =
+    { $n_grid_points ->
+        [one]
+            { $n_epochs ->
+                [one] { $n_grid_points } punkt · { $n_epochs } epok · { $n_trials } försök
+               *[other] { $n_grid_points } punkt · { $n_epochs } epoker · { $n_trials } försök
+            }
+       *[other]
+            { $n_epochs ->
+                [one] { $n_grid_points } punkter · { $n_epochs } epok · { $n_trials } försök
+               *[other] { $n_grid_points } punkter · { $n_epochs } epoker · { $n_trials } försök
+            }
+    }
+
 
 engine-lunar-station-hpl-max = HPL max { $f }
 
@@ -4748,7 +5088,12 @@ engine-e-lunar-vlbi-fim-equipartition-must-be-positive-and = equipartition_g må
 
 engine-e-lunar-vlbi-fim-serializing-lunar-vlbi-fim-result = serialiserar resultatet av lunar-vlbi-fim: { $e }
 
-engine-e-lunar-vlbi-fim-no-observation-in-the-schedule = ingen observation i schemat klarar elevationsmasken på { $mask } deg i båda ändar av en baslinje: { $n_epochs } epoker x { $v1 } baslinjer avvisades alla. Förläng arc_hours, sänk elevation_mask_deg eller flytta stationerna.
+engine-e-lunar-vlbi-fim-no-observation-in-the-schedule =
+    { $n_epochs ->
+        [one] ingen observation i schemat klarar elevationsmasken på { $mask } deg i båda ändar av en baslinje: { $n_epochs } epok x { $v1 } baslinjer avvisades alla. Förläng arc_hours, sänk elevation_mask_deg eller flytta stationerna.
+       *[other] ingen observation i schemat klarar elevationsmasken på { $mask } deg i båda ändar av en baslinje: { $n_epochs } epoker x { $v1 } baslinjer avvisades alla. Förläng arc_hours, sänk elevation_mask_deg eller flytta stationerna.
+    }
+
 
 engine-e-lunar-vlbi-fim-the-datum-leaves-no-parameter = datumet lämnar ingen parameter att skatta
 
@@ -4756,7 +5101,20 @@ engine-lunar-vlbi-fim-beacon-mcmf = beacon_mcmf.{ $ax }
 
 engine-lunar-vlbi-fim-rank-deficient-of-directions-are = RANK-DEFICIENT: { $defect } av { $dim } riktningar kan inte observeras, så ingen sigma per koordinat rapporteras; värdet för det observerbara underrummet nedan är en pseudoinvers begränsad till de { $rank } observerbara riktningarna och är INTE en stationssigma
 
-engine-lunar-vlbi-fim-lunar-vlbi-fim-stations-baselines = lunar-vlbi-fim | { $n_stations } stationer / { $v2 } baslinjer x { $n_epochs } epoker = { $n_obs } obs (mask { $mask } deg) | datum { $datum } | rang { $rank }/{ $dim } kond { $condition } | stationssigma { $v10 } mot equipartition g={ $g } { $eq_g } m (kvot { $v13 })
+engine-lunar-vlbi-fim-lunar-vlbi-fim-stations-baselines =
+    { $n_stations ->
+        [one]
+            { $n_epochs ->
+                [one] lunar-vlbi-fim | { $n_stations } station / { $v2 } baslinjer x { $n_epochs } epok = { $n_obs } obs (mask { $mask } deg) | datum { $datum } | rang { $rank }/{ $dim } kond { $condition } | stationssigma { $v10 } mot equipartition g={ $g } { $eq_g } m (kvot { $v13 })
+               *[other] lunar-vlbi-fim | { $n_stations } station / { $v2 } baslinjer x { $n_epochs } epoker = { $n_obs } obs (mask { $mask } deg) | datum { $datum } | rang { $rank }/{ $dim } kond { $condition } | stationssigma { $v10 } mot equipartition g={ $g } { $eq_g } m (kvot { $v13 })
+            }
+       *[other]
+            { $n_epochs ->
+                [one] lunar-vlbi-fim | { $n_stations } stationer / { $v2 } baslinjer x { $n_epochs } epok = { $n_obs } obs (mask { $mask } deg) | datum { $datum } | rang { $rank }/{ $dim } kond { $condition } | stationssigma { $v10 } mot equipartition g={ $g } { $eq_g } m (kvot { $v13 })
+               *[other] lunar-vlbi-fim | { $n_stations } stationer / { $v2 } baslinjer x { $n_epochs } epoker = { $n_obs } obs (mask { $mask } deg) | datum { $datum } | rang { $rank }/{ $dim } kond { $condition } | stationssigma { $v10 } mot equipartition g={ $g } { $eq_g } m (kvot { $v13 })
+            }
+    }
+
 
 ## src/main.rs
 
@@ -4800,7 +5158,12 @@ engine-main-error-cannot-read = fel: kan inte läsa { $validate_file }: { $e }
 
 engine-main-ok-kind-resolves-this-kind = ok: { $kind } — typen kan lösas upp; den här typen kräver inget fält (en tom kropp kör dess referenskonfiguration), så det fanns inget mer att kontrollera
 
-engine-main-ok-kind-resolves-and-all = ok: { $kind } — typen kan lösas upp och alla { $n_required } av dess publicerade poster för obligatoriska fält är uppfyllda; fältvärden kontrolleras inte
+engine-main-ok-kind-resolves-and-all =
+    { $n_required ->
+        [one] ok: { $kind } — typen kan lösas upp och dess { $n_required } publicerade post för obligatoriska fält är uppfylld; fältvärden kontrolleras inte
+       *[other] ok: { $kind } — typen kan lösas upp och alla { $n_required } av dess publicerade poster för obligatoriska fält är uppfyllda; fältvärden kontrolleras inte
+    }
+
 
 engine-main-error-study-runs-suite-do = fel: --study kör en svit; ange inte också en enskild scenariofil
 
@@ -4989,7 +5352,12 @@ engine-e-mars-od-parameter-has-no-partial-on = en parameter saknar partiell deri
 
 ## src/mars_pnt.rs
 
-engine-mars-pnt-mars-pnt-user-clock-relays = mars-pnt { $r } | { $user }-användare, { $clock_class }-klocka | { $n_relays } reläer (i medel { $mean_relays_in_view } i sikte) | konvergerad positions-RMS { $converged_pos_rms_m } m, formell 1σ { $converged_pos_sigma_m } m (3σ { $converged_pos_3sigma_m } m — kovariansbaserat kvalitetsmått, inte en certifierad PL) | klockfrekvens-σ { $final_clock_freq_sigma } | kov-PD { $covariance_pd_throughout }
+engine-mars-pnt-mars-pnt-user-clock-relays =
+    { $n_relays ->
+        [one] mars-pnt { $r } | { $user }-användare, { $clock_class }-klocka | { $n_relays } relä (i medel { $mean_relays_in_view } i sikte) | konvergerad positions-RMS { $converged_pos_rms_m } m, formell 1σ { $converged_pos_sigma_m } m (3σ { $converged_pos_3sigma_m } m — kovariansbaserat kvalitetsmått, inte en certifierad PL) | klockfrekvens-σ { $final_clock_freq_sigma } | kov-PD { $covariance_pd_throughout }
+       *[other] mars-pnt { $r } | { $user }-användare, { $clock_class }-klocka | { $n_relays } reläer (i medel { $mean_relays_in_view } i sikte) | konvergerad positions-RMS { $converged_pos_rms_m } m, formell 1σ { $converged_pos_sigma_m } m (3σ { $converged_pos_3sigma_m } m — kovariansbaserat kvalitetsmått, inte en certifierad PL) | klockfrekvens-σ { $final_clock_freq_sigma } | kov-PD { $covariance_pd_throughout }
+    }
+
 
 engine-mars-pnt-mars-pnt-user-clock-position = Mars-PNT — { $user }-användare, { $clock_class }-klocka: 3D-positionsfel mot referens (konvergerad RMS { $converged_pos_rms_m } m)
 
@@ -5015,11 +5383,21 @@ engine-e-mcda-copras-copras-empty-decision-matrix = COPRAS: tom beslutsmatris
 
 engine-e-mcda-copras-copras-no-criteria = COPRAS: inga kriterier
 
-engine-e-mcda-copras-copras-weights-but-criterion-types = COPRAS: { $n } vikter men { $types } kriterietyper
+engine-e-mcda-copras-copras-weights-but-criterion-types =
+    { $n ->
+        [one] COPRAS: { $n } vikt men { $types } kriterietyper
+       *[other] COPRAS: { $n } vikter men { $types } kriterietyper
+    }
+
 
 engine-e-mcda-copras-copras-requires-at-least-one = COPRAS: kräver minst ett kostnadskriterium (Min)
 
-engine-e-mcda-copras-copras-alternative-has-values-but = COPRAS: alternativ { $i } har { $row } värden men det finns { $n } kriterier
+engine-e-mcda-copras-copras-alternative-has-values-but =
+    { $n ->
+        [one] COPRAS: alternativ { $i } har { $row } värden men det finns { $n } kriterium
+       *[other] COPRAS: alternativ { $i } har { $row } värden men det finns { $n } kriterier
+    }
+
 
 engine-e-mcda-copras-copras-alternative-criterion-value-must = COPRAS: alternativ { $i } kriterium { $j } värdet { $x } måste vara ändligt och > 0
 
@@ -5029,7 +5407,12 @@ engine-e-mcda-electre-electre-empty-dataset = ELECTRE I: tom datamängd
 
 engine-e-mcda-electre-electre-no-criteria = ELECTRE I: inga kriterier
 
-engine-e-mcda-electre-electre-alternative-has-values-but = ELECTRE I: alternativ { $i } har { $row } värden men det finns { $n } kriterier
+engine-e-mcda-electre-electre-alternative-has-values-but =
+    { $n ->
+        [one] ELECTRE I: alternativ { $i } har { $row } värden men det finns { $n } kriterium
+       *[other] ELECTRE I: alternativ { $i } har { $row } värden men det finns { $n } kriterier
+    }
+
 
 engine-e-mcda-electre-electre-alternative-has-non-finite = ELECTRE I: alternativ { $i } har ett icke-ändligt värde
 
@@ -5039,9 +5422,19 @@ engine-e-mcda-moora-moora-empty-decision-matrix = MOORA: tom beslutsmatris
 
 engine-e-mcda-moora-moora-no-criteria = MOORA: inga kriterier
 
-engine-e-mcda-moora-moora-weights-but-criterion-types = MOORA: { $n } vikter men { $types } kriterietyper
+engine-e-mcda-moora-moora-weights-but-criterion-types =
+    { $n ->
+        [one] MOORA: { $n } vikt men { $types } kriterietyper
+       *[other] MOORA: { $n } vikter men { $types } kriterietyper
+    }
 
-engine-e-mcda-moora-moora-alternative-has-values-but = MOORA: alternativ { $i } har { $row } värden men det finns { $n } kriterier
+
+engine-e-mcda-moora-moora-alternative-has-values-but =
+    { $n ->
+        [one] MOORA: alternativ { $i } har { $row } värden men det finns { $n } kriterium
+       *[other] MOORA: alternativ { $i } har { $row } värden men det finns { $n } kriterier
+    }
+
 
 engine-e-mcda-moora-moora-alternative-has-non-finite = MOORA: alternativ { $i } har ett icke-ändligt värde
 
@@ -5053,9 +5446,19 @@ engine-e-mcda-promethee-promethee-ii-empty-decision-matrix = PROMETHEE II: tom b
 
 engine-e-mcda-promethee-promethee-ii-no-criteria = PROMETHEE II: inga kriterier
 
-engine-e-mcda-promethee-promethee-ii-weights-but-types = PROMETHEE II: { $n } vikter men { $types } typer / { $prefs } preferensfunktioner
+engine-e-mcda-promethee-promethee-ii-weights-but-types =
+    { $n ->
+        [one] PROMETHEE II: { $n } vikt men { $types } typer / { $prefs } preferensfunktioner
+       *[other] PROMETHEE II: { $n } vikter men { $types } typer / { $prefs } preferensfunktioner
+    }
 
-engine-e-mcda-promethee-promethee-ii-alternative-has-values = PROMETHEE II: alternativ { $i } har { $row } värden men det finns { $n } kriterier
+
+engine-e-mcda-promethee-promethee-ii-alternative-has-values =
+    { $n ->
+        [one] PROMETHEE II: alternativ { $i } har { $row } värden men det finns { $n } kriterium
+       *[other] PROMETHEE II: alternativ { $i } har { $row } värden men det finns { $n } kriterier
+    }
+
 
 engine-e-mcda-promethee-promethee-ii-alternative-has-non = PROMETHEE II: alternativ { $i } har ett icke-ändligt värde
 
@@ -5065,9 +5468,19 @@ engine-e-mcda-topsis-topsis-empty-decision-matrix = TOPSIS: tom beslutsmatris
 
 engine-e-mcda-topsis-topsis-no-criteria = TOPSIS: inga kriterier
 
-engine-e-mcda-topsis-topsis-weights-but-criterion-types = TOPSIS: { $n } vikter men { $types } kriterietyper
+engine-e-mcda-topsis-topsis-weights-but-criterion-types =
+    { $n ->
+        [one] TOPSIS: { $n } vikt men { $types } kriterietyper
+       *[other] TOPSIS: { $n } vikter men { $types } kriterietyper
+    }
 
-engine-e-mcda-topsis-topsis-alternative-has-values-but = TOPSIS: alternativ { $i } har { $row } värden men det finns { $n } kriterier
+
+engine-e-mcda-topsis-topsis-alternative-has-values-but =
+    { $n ->
+        [one] TOPSIS: alternativ { $i } har { $row } värden men det finns { $n } kriterium
+       *[other] TOPSIS: alternativ { $i } har { $row } värden men det finns { $n } kriterier
+    }
+
 
 engine-e-mcda-topsis-topsis-alternative-has-non-finite = TOPSIS: alternativ { $i } har ett icke-ändligt värde
 
@@ -5089,9 +5502,19 @@ engine-e-mcda-vikor-vikor-empty-decision-matrix = VIKOR: tom beslutsmatris
 
 engine-e-mcda-vikor-vikor-no-criteria = VIKOR: inga kriterier
 
-engine-e-mcda-vikor-vikor-weights-but-criterion-types = VIKOR: { $n } vikter men { $types } kriterietyper
+engine-e-mcda-vikor-vikor-weights-but-criterion-types =
+    { $n ->
+        [one] VIKOR: { $n } vikt men { $types } kriterietyper
+       *[other] VIKOR: { $n } vikter men { $types } kriterietyper
+    }
 
-engine-e-mcda-vikor-vikor-alternative-has-values-but = VIKOR: alternativ { $i } har { $row } värden men det finns { $n } kriterier
+
+engine-e-mcda-vikor-vikor-alternative-has-values-but =
+    { $n ->
+        [one] VIKOR: alternativ { $i } har { $row } värden men det finns { $n } kriterium
+       *[other] VIKOR: alternativ { $i } har { $row } värden men det finns { $n } kriterier
+    }
+
 
 engine-e-mcda-vikor-vikor-alternative-has-non-finite = VIKOR: alternativ { $i } har ett icke-ändligt värde
 
@@ -5101,11 +5524,21 @@ engine-e-mcda-waspas-waspas-empty-decision-matrix = WASPAS: tom beslutsmatris
 
 engine-e-mcda-waspas-waspas-no-criteria = WASPAS: inga kriterier
 
-engine-e-mcda-waspas-waspas-weights-but-criterion-types = WASPAS: { $n } vikter men { $types } kriterietyper
+engine-e-mcda-waspas-waspas-weights-but-criterion-types =
+    { $n ->
+        [one] WASPAS: { $n } vikt men { $types } kriterietyper
+       *[other] WASPAS: { $n } vikter men { $types } kriterietyper
+    }
+
 
 engine-e-mcda-waspas-waspas-lambda-must-lie-in = WASPAS: lambda { $lambda } måste ligga i [0, 1]
 
-engine-e-mcda-waspas-waspas-alternative-has-values-but = WASPAS: alternativ { $i } har { $row } värden men det finns { $n } kriterier
+engine-e-mcda-waspas-waspas-alternative-has-values-but =
+    { $n ->
+        [one] WASPAS: alternativ { $i } har { $row } värden men det finns { $n } kriterium
+       *[other] WASPAS: alternativ { $i } har { $row } värden men det finns { $n } kriterier
+    }
+
 
 engine-e-mcda-waspas-waspas-alternative-criterion-value-must = WASPAS: alternativ { $i } kriterium { $j } värdet { $x } måste vara ändligt och > 0
 
@@ -5115,9 +5548,19 @@ engine-e-mcda-wpm-wpm-empty-decision-matrix = WPM: tom beslutsmatris
 
 engine-e-mcda-wpm-wpm-no-criteria = WPM: inga kriterier
 
-engine-e-mcda-wpm-wpm-weights-but-criterion-types = WPM: { $n } vikter men { $types } kriterietyper
+engine-e-mcda-wpm-wpm-weights-but-criterion-types =
+    { $n ->
+        [one] WPM: { $n } vikt men { $types } kriterietyper
+       *[other] WPM: { $n } vikter men { $types } kriterietyper
+    }
 
-engine-e-mcda-wpm-wpm-alternative-has-values-but = WPM: alternativ { $i } har { $row } värden men det finns { $n } kriterier
+
+engine-e-mcda-wpm-wpm-alternative-has-values-but =
+    { $n ->
+        [one] WPM: alternativ { $i } har { $row } värden men det finns { $n } kriterium
+       *[other] WPM: alternativ { $i } har { $row } värden men det finns { $n } kriterier
+    }
+
 
 engine-e-mcda-wpm-wpm-alternative-criterion-value-must = WPM: alternativ { $i } kriterium { $j } värdet { $x } måste vara ändligt och > 0
 
@@ -5131,7 +5574,12 @@ engine-e-mcda-wsm-criterion-has-an-invalid-weight = kriteriet '{ $name }' har en
 
 engine-e-mcda-wsm-criterion-weights-sum-to-zero = kriterievikterna summerar till noll
 
-engine-e-mcda-wsm-alternative-has-values-but-there = alternativet '{ $name }' har { $values } värden men det finns { $n } kriterier
+engine-e-mcda-wsm-alternative-has-values-but-there =
+    { $n ->
+        [one] alternativet '{ $name }' har { $values } värden men det finns { $n } kriterium
+       *[other] alternativet '{ $name }' har { $values } värden men det finns { $n } kriterier
+    }
+
 
 engine-e-mcda-wsm-alternative-has-non-finite-value = alternativet '{ $name }' har ett icke-ändligt värde på kriteriet '{ $value }'
 
@@ -5151,7 +5599,12 @@ engine-e-naif-kernel-bad-daf-address-range = felaktigt DAF-adressintervall { $fi
 
 engine-e-naif-kernel-daf-summary-list-does-not = DAF-sammanfattningslistan avslutas inte
 
-engine-e-naif-kernel-daf-summary-record-claims-summaries = DAF-sammanfattningsposten { $rec } anger { $count } sammanfattningar
+engine-e-naif-kernel-daf-summary-record-claims-summaries =
+    { $count ->
+        [one] DAF-sammanfattningsposten { $rec } anger { $count } sammanfattning
+       *[other] DAF-sammanfattningsposten { $rec } anger { $count } sammanfattningar
+    }
+
 
 engine-e-naif-kernel-malformed-type-segment-rsize-intlen = felformat segment av typ 2: RSIZE { $rsize }, INTLEN { $intlen }, N { $n }
 
@@ -5321,9 +5774,19 @@ engine-e-nmea-synth-config-the-skyline-describes-no-obstruction = siluetten besk
 
 engine-nmea-synth-gen-has-ended = { $kind } har upphört
 
-engine-nmea-synth-gen-the-receiver-reports-fix-again = mottagaren rapporterar åter en positionsbestämning ({ $n_used } satelliter används)
+engine-nmea-synth-gen-the-receiver-reports-fix-again =
+    { $n_used ->
+        [one] mottagaren rapporterar åter en positionsbestämning ({ $n_used } satellit används)
+       *[other] mottagaren rapporterar åter en positionsbestämning ({ $n_used } satelliter används)
+    }
 
-engine-nmea-synth-gen-the-receiver-has-no-fix = mottagaren har ingen positionsbestämning ({ $n_used } användbara satelliter, fyra behövs)
+
+engine-nmea-synth-gen-the-receiver-has-no-fix =
+    { $n_used ->
+        [one] mottagaren har ingen positionsbestämning ({ $n_used } användbar satellit, fyra behövs)
+       *[other] mottagaren har ingen positionsbestämning ({ $n_used } användbara satelliter, fyra behövs)
+    }
+
 
 ## src/nmea_synth/log.rs
 
@@ -6042,7 +6505,12 @@ engine-e-receiver-trust-geometry-geometry-floor-must-be-in = geometry: floor må
 
 engine-e-receiver-trust-geometry-geometry-floor-is-below-the = geometry: floor ({ $f }) ligger under poängens degraded_min ({ $degraded_min }): enbart geometrin kunde nå det ej betrodda bandet
 
-engine-receiver-trust-geometry-geometry-hdop-pdop-vdop-satellites = geometri { $label }: HDOP { $fmt_dop }, PDOP { $fmt_dop2 }, VDOP { $fmt_dop3 }, { $n_used } satelliter{ $v6 }
+engine-receiver-trust-geometry-geometry-hdop-pdop-vdop-satellites =
+    { $n_used ->
+        [one] geometri { $label }: HDOP { $fmt_dop }, PDOP { $fmt_dop2 }, VDOP { $fmt_dop3 }, { $n_used } satellit{ $v6 }
+       *[other] geometri { $label }: HDOP { $fmt_dop }, PDOP { $fmt_dop2 }, VDOP { $fmt_dop3 }, { $n_used } satelliter{ $v6 }
+    }
+
 
 engine-receiver-trust-geometry-the-geometry-deduction-is-classed = { $why }: geometriavdraget klassas som en inkonsekvens
 
@@ -6050,15 +6518,30 @@ engine-receiver-trust-geometry-reported-not-scored-the-geometry = { $why }: redo
 
 engine-receiver-trust-geometry-not-scored-the-score-deducts = poängsätts inte (poängen drar av först över HDOP { $hdop_max }, PDOP { $pdop_max } eller under { $min_used } satelliter)
 
-engine-receiver-trust-geometry-derived-from-logged-satellites = härledd ur { $n } loggade satelliter
+engine-receiver-trust-geometry-derived-from-logged-satellites =
+    { $n ->
+        [one] härledd ur { $n } loggad satellit
+       *[other] härledd ur { $n } loggade satelliter
+    }
 
-engine-receiver-trust-geometry-as-the-receiver-reports-it = enligt mottagarens rapport, { $n } satelliter använda
+
+engine-receiver-trust-geometry-as-the-receiver-reports-it =
+    { $n ->
+        [one] enligt mottagarens rapport, { $n } satellit använd
+       *[other] enligt mottagarens rapport, { $n } satelliter använda
+    }
+
 
 engine-receiver-trust-geometry-the-stated-hdop-disagrees-with = det angivna HDOP { $fmt_dop } avviker från HDOP { $fmt_dop2 } som härletts ur den angivna himlen, mer än toleransen
 
 engine-receiver-trust-geometry-satellites-in-view-but-not = satelliter i sikte men inte spårade ({ $g } av { $in_view } vid eller över { $low_elev_deg } deg): signalmiljö, inte geometri
 
-engine-receiver-trust-geometry-satellites-fewer-than = { $n } satelliter, färre än { $min_used }
+engine-receiver-trust-geometry-satellites-fewer-than =
+    { $n ->
+        [one] { $n } satellit, färre än { $min_used }
+       *[other] { $n } satelliter, färre än { $min_used }
+    }
+
 
 engine-receiver-trust-geometry-pdop-above = PDOP { $fmt_dop } över { $pdop_max }
 
@@ -6441,8 +6924,15 @@ engine-e-solar-system-unknown-link-body-2 = okänd länkkropp '{ $to }'
 engine-e-solar-system-link-needs-two-different-bodies = en länk behöver två olika kroppar; fick { $name }
 
 engine-solar-system-solar-system-at-jd-tdb =
-    Solsystemet vid { $input } (JD { $jd_tdb } TDB), { $n_bodies } kroppar, observatör { $observer }
-    { "  " }{ $standish_table }{ "\u000A" }
+    { $n_bodies ->
+        [one]
+            Solsystemet vid { $input } (JD { $jd_tdb } TDB), { $n_bodies } kropp, observatör { $observer }
+            { "  " }{ $standish_table }{ "\u000A" }
+       *[other]
+            Solsystemet vid { $input } (JD { $jd_tdb } TDB), { $n_bodies } kroppar, observatör { $observer }
+            { "  " }{ $standish_table }{ "\u000A" }
+    }
+
 
 engine-solar-system-light-time = ljustid { $one_way_light_time_s } s
 
@@ -6516,7 +7006,12 @@ engine-e-space-packet-cds-field-reserved-sub-ms = CDS P-fält { $p }: reserverad
 
 engine-e-space-packet-cuc-coarse-does-not-fit = CUC grov { $coarse } ryms inte i { $c } oktetter
 
-engine-e-space-packet-cuc-fine-does-not-fit = CUC fin { $fine } ryms inte i { $n } oktetter
+engine-e-space-packet-cuc-fine-does-not-fit =
+    { $n ->
+        [one] CUC fin { $fine } ryms inte i { $n } oktett
+       *[other] CUC fin { $fine } ryms inte i { $n } oktetter
+    }
+
 
 engine-e-space-packet-cds-days-do-not-fit = CDS-dagar { $days } ryms inte i { $f } oktetter
 
@@ -6680,7 +7175,12 @@ engine-e-spk-writer-degree-outside-27 = grad { $degree } utanför 1..=27
 
 engine-e-spk-writer-type-13-degree-is-not = typ 13, grad { $degree } är inte udda
 
-engine-e-spk-writer-states-for-epochs = { $states } tillstånd för { $n } epoker
+engine-e-spk-writer-states-for-epochs =
+    { $n ->
+        [one] { $states } tillstånd för { $n } epok
+       *[other] { $states } tillstånd för { $n } epoker
+    }
+
 
 engine-e-spk-writer-states-degree-needs = { $n } tillstånd; grad { $degree } behöver { $value }
 
@@ -6714,7 +7214,12 @@ engine-e-spk-writer-difference-line-size-is-not = differensradens storlek { $dls
 
 engine-e-spk-writer-difference-lines-of-different-sizes = differensrader av olika storlek
 
-engine-e-spk-writer-epochs-for-difference-lines = { $epochs } epoker för { $n } differensrader
+engine-e-spk-writer-epochs-for-difference-lines =
+    { $n ->
+        [one] { $epochs } epoker för { $n } differensrad
+       *[other] { $epochs } epoker för { $n } differensrader
+    }
+
 
 engine-e-spk-writer-difference-line-epochs-are-not = differensradernas epoker ökar inte strikt
 
@@ -7046,7 +7551,12 @@ engine-e-sweep-sweep-key-follows-an-array = svepnyckeln `{ $key }`: `{ $part }` 
 
 engine-e-sweep-unreachable = onåbar
 
-engine-e-sweep-sweep-key-index-is-past = svepnyckeln `{ $key }`: index { $i } ligger efter matrisens { $n } poster
+engine-e-sweep-sweep-key-index-is-past =
+    { $n ->
+        [one] svepnyckeln `{ $key }`: index { $i } ligger efter matrisens enda post ({ $n })
+       *[other] svepnyckeln `{ $key }`: index { $i } ligger efter matrisens { $n } poster
+    }
+
 
 engine-e-sweep-sweep-key-parent-is-not = svepnyckeln `{ $key }`: förälder till `{ $part }` är inte en tabell
 
@@ -7154,7 +7664,12 @@ engine-telemetry-cli-warning-input-line = varning: indatarad { $line_no }: { $e 
 
 engine-e-telemetry-cli-cannot-open = kan inte öppna { $p }: { $e }
 
-engine-telemetry-cli-warning-mqtt-messages-were-not = varning: { $n } MQTT-meddelanden levererades inte
+engine-telemetry-cli-warning-mqtt-messages-were-not =
+    { $n ->
+        [one] varning: { $n } MQTT-meddelande levererades inte
+       *[other] varning: { $n } MQTT-meddelanden levererades inte
+    }
+
 
 ## src/telemetry/otlp.rs
 
