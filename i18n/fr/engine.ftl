@@ -539,73 +539,7 @@ engine-api-builtins-lunar-frame-realisation-points-translation =
     }
 
 
-engine-api-builtins-moonlight-service-volume-sats-pts =
-    { $n_sats ->
-        [one]
-            { $n_grid_points ->
-                [one]
-                    { $n_epochs ->
-                        [one] moonlight-service-volume | { $n_sats } satellite ({ $geometry_label }) | { $n_grid_points } point × { $n_epochs } époque | couverture { $coverage_pct } % (PDOP<{ $pdop_threshold }) | satellites { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | disponibilité PL { $pl_availability_pct } % | MODELLED
-                        [many] moonlight-service-volume | { $n_sats } satellite ({ $geometry_label }) | { $n_grid_points } point × { $n_epochs } d'époques | couverture { $coverage_pct } % (PDOP<{ $pdop_threshold }) | satellites { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | disponibilité PL { $pl_availability_pct } % | MODELLED
-                       *[other] moonlight-service-volume | { $n_sats } satellite ({ $geometry_label }) | { $n_grid_points } point × { $n_epochs } époques | couverture { $coverage_pct } % (PDOP<{ $pdop_threshold }) | satellites { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | disponibilité PL { $pl_availability_pct } % | MODELLED
-                    }
-                [many]
-                    { $n_epochs ->
-                        [one] moonlight-service-volume | { $n_sats } satellite ({ $geometry_label }) | { $n_grid_points } de points × { $n_epochs } époque | couverture { $coverage_pct } % (PDOP<{ $pdop_threshold }) | satellites { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | disponibilité PL { $pl_availability_pct } % | MODELLED
-                        [many] moonlight-service-volume | { $n_sats } satellite ({ $geometry_label }) | { $n_grid_points } de points × { $n_epochs } d'époques | couverture { $coverage_pct } % (PDOP<{ $pdop_threshold }) | satellites { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | disponibilité PL { $pl_availability_pct } % | MODELLED
-                       *[other] moonlight-service-volume | { $n_sats } satellite ({ $geometry_label }) | { $n_grid_points } de points × { $n_epochs } époques | couverture { $coverage_pct } % (PDOP<{ $pdop_threshold }) | satellites { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | disponibilité PL { $pl_availability_pct } % | MODELLED
-                    }
-               *[other]
-                    { $n_epochs ->
-                        [one] moonlight-service-volume | { $n_sats } satellite ({ $geometry_label }) | { $n_grid_points } points × { $n_epochs } époque | couverture { $coverage_pct } % (PDOP<{ $pdop_threshold }) | satellites { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | disponibilité PL { $pl_availability_pct } % | MODELLED
-                        [many] moonlight-service-volume | { $n_sats } satellite ({ $geometry_label }) | { $n_grid_points } points × { $n_epochs } d'époques | couverture { $coverage_pct } % (PDOP<{ $pdop_threshold }) | satellites { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | disponibilité PL { $pl_availability_pct } % | MODELLED
-                       *[other] moonlight-service-volume | { $n_sats } satellite ({ $geometry_label }) | { $n_grid_points } points × { $n_epochs } époques | couverture { $coverage_pct } % (PDOP<{ $pdop_threshold }) | satellites { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | disponibilité PL { $pl_availability_pct } % | MODELLED
-                    }
-            }
-        [many]
-            { $n_grid_points ->
-                [one]
-                    { $n_epochs ->
-                        [one] moonlight-service-volume | { $n_sats } de satellites ({ $geometry_label }) | { $n_grid_points } point × { $n_epochs } époque | couverture { $coverage_pct } % (PDOP<{ $pdop_threshold }) | satellites { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | disponibilité PL { $pl_availability_pct } % | MODELLED
-                        [many] moonlight-service-volume | { $n_sats } de satellites ({ $geometry_label }) | { $n_grid_points } point × { $n_epochs } d'époques | couverture { $coverage_pct } % (PDOP<{ $pdop_threshold }) | satellites { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | disponibilité PL { $pl_availability_pct } % | MODELLED
-                       *[other] moonlight-service-volume | { $n_sats } de satellites ({ $geometry_label }) | { $n_grid_points } point × { $n_epochs } époques | couverture { $coverage_pct } % (PDOP<{ $pdop_threshold }) | satellites { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | disponibilité PL { $pl_availability_pct } % | MODELLED
-                    }
-                [many]
-                    { $n_epochs ->
-                        [one] moonlight-service-volume | { $n_sats } de satellites ({ $geometry_label }) | { $n_grid_points } de points × { $n_epochs } époque | couverture { $coverage_pct } % (PDOP<{ $pdop_threshold }) | satellites { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | disponibilité PL { $pl_availability_pct } % | MODELLED
-                        [many] moonlight-service-volume | { $n_sats } de satellites ({ $geometry_label }) | { $n_grid_points } de points × { $n_epochs } d'époques | couverture { $coverage_pct } % (PDOP<{ $pdop_threshold }) | satellites { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | disponibilité PL { $pl_availability_pct } % | MODELLED
-                       *[other] moonlight-service-volume | { $n_sats } de satellites ({ $geometry_label }) | { $n_grid_points } de points × { $n_epochs } époques | couverture { $coverage_pct } % (PDOP<{ $pdop_threshold }) | satellites { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | disponibilité PL { $pl_availability_pct } % | MODELLED
-                    }
-               *[other]
-                    { $n_epochs ->
-                        [one] moonlight-service-volume | { $n_sats } de satellites ({ $geometry_label }) | { $n_grid_points } points × { $n_epochs } époque | couverture { $coverage_pct } % (PDOP<{ $pdop_threshold }) | satellites { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | disponibilité PL { $pl_availability_pct } % | MODELLED
-                        [many] moonlight-service-volume | { $n_sats } de satellites ({ $geometry_label }) | { $n_grid_points } points × { $n_epochs } d'époques | couverture { $coverage_pct } % (PDOP<{ $pdop_threshold }) | satellites { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | disponibilité PL { $pl_availability_pct } % | MODELLED
-                       *[other] moonlight-service-volume | { $n_sats } de satellites ({ $geometry_label }) | { $n_grid_points } points × { $n_epochs } époques | couverture { $coverage_pct } % (PDOP<{ $pdop_threshold }) | satellites { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | disponibilité PL { $pl_availability_pct } % | MODELLED
-                    }
-            }
-       *[other]
-            { $n_grid_points ->
-                [one]
-                    { $n_epochs ->
-                        [one] moonlight-service-volume | { $n_sats } satellites ({ $geometry_label }) | { $n_grid_points } point × { $n_epochs } époque | couverture { $coverage_pct } % (PDOP<{ $pdop_threshold }) | satellites { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | disponibilité PL { $pl_availability_pct } % | MODELLED
-                        [many] moonlight-service-volume | { $n_sats } satellites ({ $geometry_label }) | { $n_grid_points } point × { $n_epochs } d'époques | couverture { $coverage_pct } % (PDOP<{ $pdop_threshold }) | satellites { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | disponibilité PL { $pl_availability_pct } % | MODELLED
-                       *[other] moonlight-service-volume | { $n_sats } satellites ({ $geometry_label }) | { $n_grid_points } point × { $n_epochs } époques | couverture { $coverage_pct } % (PDOP<{ $pdop_threshold }) | satellites { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | disponibilité PL { $pl_availability_pct } % | MODELLED
-                    }
-                [many]
-                    { $n_epochs ->
-                        [one] moonlight-service-volume | { $n_sats } satellites ({ $geometry_label }) | { $n_grid_points } de points × { $n_epochs } époque | couverture { $coverage_pct } % (PDOP<{ $pdop_threshold }) | satellites { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | disponibilité PL { $pl_availability_pct } % | MODELLED
-                        [many] moonlight-service-volume | { $n_sats } satellites ({ $geometry_label }) | { $n_grid_points } de points × { $n_epochs } d'époques | couverture { $coverage_pct } % (PDOP<{ $pdop_threshold }) | satellites { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | disponibilité PL { $pl_availability_pct } % | MODELLED
-                       *[other] moonlight-service-volume | { $n_sats } satellites ({ $geometry_label }) | { $n_grid_points } de points × { $n_epochs } époques | couverture { $coverage_pct } % (PDOP<{ $pdop_threshold }) | satellites { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | disponibilité PL { $pl_availability_pct } % | MODELLED
-                    }
-               *[other]
-                    { $n_epochs ->
-                        [one] moonlight-service-volume | { $n_sats } satellites ({ $geometry_label }) | { $n_grid_points } points × { $n_epochs } époque | couverture { $coverage_pct } % (PDOP<{ $pdop_threshold }) | satellites { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | disponibilité PL { $pl_availability_pct } % | MODELLED
-                        [many] moonlight-service-volume | { $n_sats } satellites ({ $geometry_label }) | { $n_grid_points } points × { $n_epochs } d'époques | couverture { $coverage_pct } % (PDOP<{ $pdop_threshold }) | satellites { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | disponibilité PL { $pl_availability_pct } % | MODELLED
-                       *[other] moonlight-service-volume | { $n_sats } satellites ({ $geometry_label }) | { $n_grid_points } points × { $n_epochs } époques | couverture { $coverage_pct } % (PDOP<{ $pdop_threshold }) | satellites { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | disponibilité PL { $pl_availability_pct } % | MODELLED
-                    }
-            }
-    }
-
+engine-api-builtins-moonlight-service-volume-sats-pts = moonlight-service-volume | { $n_sats } satellites ({ $geometry_label }) | { $n_grid_points } points × { $n_epochs } époques | couverture { $coverage_pct } % (PDOP<{ $pdop_threshold }) | satellites { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | disponibilité PL { $pl_availability_pct } % | MODELLED
 
 engine-api-builtins-ephemeris-ure-required-vs-keplerian = { " " }| éphéméride { $report } ({ $provenance }) σ_URE requis { $fmt } contre képlérien { $fmt2 } contre perturbé { $fmt3 } (Δ { $fmt4 })
 
@@ -617,73 +551,7 @@ engine-api-builtins-lunar-differential-pnt-sats-illustrative =
     }
 
 
-engine-api-builtins-lunar-station-coverage-points-epochs =
-    { $n_grid_points ->
-        [one]
-            { $n_epochs ->
-                [one]
-                    { $n_trials ->
-                        [one] lunar-station-coverage | { $n_grid_points } point x { $n_epochs } époque x { $n_trials } essai | disponibilité { $v4 } % | couverture { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | corrigé p{ $percentile } 3-D { $f } (non corrigé { $f2 }) | HPL max. { $f3 } | MODELLED ; aucune affirmation sur un système réel
-                        [many] lunar-station-coverage | { $n_grid_points } point x { $n_epochs } époque x { $n_trials } d'essais | disponibilité { $v4 } % | couverture { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | corrigé p{ $percentile } 3-D { $f } (non corrigé { $f2 }) | HPL max. { $f3 } | MODELLED ; aucune affirmation sur un système réel
-                       *[other] lunar-station-coverage | { $n_grid_points } point x { $n_epochs } époque x { $n_trials } essais | disponibilité { $v4 } % | couverture { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | corrigé p{ $percentile } 3-D { $f } (non corrigé { $f2 }) | HPL max. { $f3 } | MODELLED ; aucune affirmation sur un système réel
-                    }
-                [many]
-                    { $n_trials ->
-                        [one] lunar-station-coverage | { $n_grid_points } point x { $n_epochs } d'époques x { $n_trials } essai | disponibilité { $v4 } % | couverture { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | corrigé p{ $percentile } 3-D { $f } (non corrigé { $f2 }) | HPL max. { $f3 } | MODELLED ; aucune affirmation sur un système réel
-                        [many] lunar-station-coverage | { $n_grid_points } point x { $n_epochs } d'époques x { $n_trials } d'essais | disponibilité { $v4 } % | couverture { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | corrigé p{ $percentile } 3-D { $f } (non corrigé { $f2 }) | HPL max. { $f3 } | MODELLED ; aucune affirmation sur un système réel
-                       *[other] lunar-station-coverage | { $n_grid_points } point x { $n_epochs } d'époques x { $n_trials } essais | disponibilité { $v4 } % | couverture { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | corrigé p{ $percentile } 3-D { $f } (non corrigé { $f2 }) | HPL max. { $f3 } | MODELLED ; aucune affirmation sur un système réel
-                    }
-               *[other]
-                    { $n_trials ->
-                        [one] lunar-station-coverage | { $n_grid_points } point x { $n_epochs } époques x { $n_trials } essai | disponibilité { $v4 } % | couverture { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | corrigé p{ $percentile } 3-D { $f } (non corrigé { $f2 }) | HPL max. { $f3 } | MODELLED ; aucune affirmation sur un système réel
-                        [many] lunar-station-coverage | { $n_grid_points } point x { $n_epochs } époques x { $n_trials } d'essais | disponibilité { $v4 } % | couverture { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | corrigé p{ $percentile } 3-D { $f } (non corrigé { $f2 }) | HPL max. { $f3 } | MODELLED ; aucune affirmation sur un système réel
-                       *[other] lunar-station-coverage | { $n_grid_points } point x { $n_epochs } époques x { $n_trials } essais | disponibilité { $v4 } % | couverture { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | corrigé p{ $percentile } 3-D { $f } (non corrigé { $f2 }) | HPL max. { $f3 } | MODELLED ; aucune affirmation sur un système réel
-                    }
-            }
-        [many]
-            { $n_epochs ->
-                [one]
-                    { $n_trials ->
-                        [one] lunar-station-coverage | { $n_grid_points } de points x { $n_epochs } époque x { $n_trials } essai | disponibilité { $v4 } % | couverture { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | corrigé p{ $percentile } 3-D { $f } (non corrigé { $f2 }) | HPL max. { $f3 } | MODELLED ; aucune affirmation sur un système réel
-                        [many] lunar-station-coverage | { $n_grid_points } de points x { $n_epochs } époque x { $n_trials } d'essais | disponibilité { $v4 } % | couverture { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | corrigé p{ $percentile } 3-D { $f } (non corrigé { $f2 }) | HPL max. { $f3 } | MODELLED ; aucune affirmation sur un système réel
-                       *[other] lunar-station-coverage | { $n_grid_points } de points x { $n_epochs } époque x { $n_trials } essais | disponibilité { $v4 } % | couverture { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | corrigé p{ $percentile } 3-D { $f } (non corrigé { $f2 }) | HPL max. { $f3 } | MODELLED ; aucune affirmation sur un système réel
-                    }
-                [many]
-                    { $n_trials ->
-                        [one] lunar-station-coverage | { $n_grid_points } de points x { $n_epochs } d'époques x { $n_trials } essai | disponibilité { $v4 } % | couverture { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | corrigé p{ $percentile } 3-D { $f } (non corrigé { $f2 }) | HPL max. { $f3 } | MODELLED ; aucune affirmation sur un système réel
-                        [many] lunar-station-coverage | { $n_grid_points } de points x { $n_epochs } d'époques x { $n_trials } d'essais | disponibilité { $v4 } % | couverture { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | corrigé p{ $percentile } 3-D { $f } (non corrigé { $f2 }) | HPL max. { $f3 } | MODELLED ; aucune affirmation sur un système réel
-                       *[other] lunar-station-coverage | { $n_grid_points } de points x { $n_epochs } d'époques x { $n_trials } essais | disponibilité { $v4 } % | couverture { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | corrigé p{ $percentile } 3-D { $f } (non corrigé { $f2 }) | HPL max. { $f3 } | MODELLED ; aucune affirmation sur un système réel
-                    }
-               *[other]
-                    { $n_trials ->
-                        [one] lunar-station-coverage | { $n_grid_points } de points x { $n_epochs } époques x { $n_trials } essai | disponibilité { $v4 } % | couverture { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | corrigé p{ $percentile } 3-D { $f } (non corrigé { $f2 }) | HPL max. { $f3 } | MODELLED ; aucune affirmation sur un système réel
-                        [many] lunar-station-coverage | { $n_grid_points } de points x { $n_epochs } époques x { $n_trials } d'essais | disponibilité { $v4 } % | couverture { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | corrigé p{ $percentile } 3-D { $f } (non corrigé { $f2 }) | HPL max. { $f3 } | MODELLED ; aucune affirmation sur un système réel
-                       *[other] lunar-station-coverage | { $n_grid_points } de points x { $n_epochs } époques x { $n_trials } essais | disponibilité { $v4 } % | couverture { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | corrigé p{ $percentile } 3-D { $f } (non corrigé { $f2 }) | HPL max. { $f3 } | MODELLED ; aucune affirmation sur un système réel
-                    }
-            }
-       *[other]
-            { $n_epochs ->
-                [one]
-                    { $n_trials ->
-                        [one] lunar-station-coverage | { $n_grid_points } points x { $n_epochs } époque x { $n_trials } essai | disponibilité { $v4 } % | couverture { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | corrigé p{ $percentile } 3-D { $f } (non corrigé { $f2 }) | HPL max. { $f3 } | MODELLED ; aucune affirmation sur un système réel
-                        [many] lunar-station-coverage | { $n_grid_points } points x { $n_epochs } époque x { $n_trials } d'essais | disponibilité { $v4 } % | couverture { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | corrigé p{ $percentile } 3-D { $f } (non corrigé { $f2 }) | HPL max. { $f3 } | MODELLED ; aucune affirmation sur un système réel
-                       *[other] lunar-station-coverage | { $n_grid_points } points x { $n_epochs } époque x { $n_trials } essais | disponibilité { $v4 } % | couverture { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | corrigé p{ $percentile } 3-D { $f } (non corrigé { $f2 }) | HPL max. { $f3 } | MODELLED ; aucune affirmation sur un système réel
-                    }
-                [many]
-                    { $n_trials ->
-                        [one] lunar-station-coverage | { $n_grid_points } points x { $n_epochs } d'époques x { $n_trials } essai | disponibilité { $v4 } % | couverture { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | corrigé p{ $percentile } 3-D { $f } (non corrigé { $f2 }) | HPL max. { $f3 } | MODELLED ; aucune affirmation sur un système réel
-                        [many] lunar-station-coverage | { $n_grid_points } points x { $n_epochs } d'époques x { $n_trials } d'essais | disponibilité { $v4 } % | couverture { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | corrigé p{ $percentile } 3-D { $f } (non corrigé { $f2 }) | HPL max. { $f3 } | MODELLED ; aucune affirmation sur un système réel
-                       *[other] lunar-station-coverage | { $n_grid_points } points x { $n_epochs } d'époques x { $n_trials } essais | disponibilité { $v4 } % | couverture { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | corrigé p{ $percentile } 3-D { $f } (non corrigé { $f2 }) | HPL max. { $f3 } | MODELLED ; aucune affirmation sur un système réel
-                    }
-               *[other]
-                    { $n_trials ->
-                        [one] lunar-station-coverage | { $n_grid_points } points x { $n_epochs } époques x { $n_trials } essai | disponibilité { $v4 } % | couverture { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | corrigé p{ $percentile } 3-D { $f } (non corrigé { $f2 }) | HPL max. { $f3 } | MODELLED ; aucune affirmation sur un système réel
-                        [many] lunar-station-coverage | { $n_grid_points } points x { $n_epochs } époques x { $n_trials } d'essais | disponibilité { $v4 } % | couverture { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | corrigé p{ $percentile } 3-D { $f } (non corrigé { $f2 }) | HPL max. { $f3 } | MODELLED ; aucune affirmation sur un système réel
-                       *[other] lunar-station-coverage | { $n_grid_points } points x { $n_epochs } époques x { $n_trials } essais | disponibilité { $v4 } % | couverture { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | corrigé p{ $percentile } 3-D { $f } (non corrigé { $f2 }) | HPL max. { $f3 } | MODELLED ; aucune affirmation sur un système réel
-                    }
-            }
-    }
-
+engine-api-builtins-lunar-station-coverage-points-epochs = lunar-station-coverage | { $n_grid_points } points x { $n_epochs } époques x { $n_trials } essais | disponibilité { $v4 } % | couverture { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | corrigé p{ $percentile } 3-D { $f } (non corrigé { $f2 }) | HPL max. { $f3 } | MODELLED ; aucune affirmation sur un système réel
 
 engine-api-builtins-terrain-horizon-at-the-station = { " " }| horizon du terrain ({ $sources }) à la station max. { $horizon_max_deg } deg, points utilisateur moyenne des max. { $user_horizon_max_deg_mean } deg
 
@@ -1064,27 +932,11 @@ engine-e-body-pnt-serialising-report = sérialisation du rapport : { $e }
 engine-e-body-pnt-the-report-must-serialise-to = le rapport doit se sérialiser en un objet JSON
 
 engine-body-pnt-positioning-around-user-relays-at =
-    { $n_epochs ->
-        [one]
-            Positionnement autour de { $name } — utilisateur { $user_kind }, { $n_relays } relais à { $r } km, { $n_epochs } époque
-            { "  " }Temps de lumière Terre { $one_way_light_time_s } s aller simple, { $two_way_light_time_s } s aller-retour ; angle Soleil-Terre-corps { $sun_separation_deg } deg
-            { "  " }disponibilité : { $availability_relays } constellation seule, { $availability_with_earth } avec la distance Terre (Terre en vue { $earth_visibility })
-            { "  " }PDOP médian { $opt } ; erreur RMS { $opt2 } constellation seule, { $opt3 } avec la distance Terre
-            { "  " }sigma formel médian { $opt4 } constellation seule, { $opt5 } avec la distance Terre{ "\u000A" }
-        [many]
-            Positionnement autour de { $name } — utilisateur { $user_kind }, { $n_relays } relais à { $r } km, { $n_epochs } d'époques
-            { "  " }Temps de lumière Terre { $one_way_light_time_s } s aller simple, { $two_way_light_time_s } s aller-retour ; angle Soleil-Terre-corps { $sun_separation_deg } deg
-            { "  " }disponibilité : { $availability_relays } constellation seule, { $availability_with_earth } avec la distance Terre (Terre en vue { $earth_visibility })
-            { "  " }PDOP médian { $opt } ; erreur RMS { $opt2 } constellation seule, { $opt3 } avec la distance Terre
-            { "  " }sigma formel médian { $opt4 } constellation seule, { $opt5 } avec la distance Terre{ "\u000A" }
-       *[other]
-            Positionnement autour de { $name } — utilisateur { $user_kind }, { $n_relays } relais à { $r } km, { $n_epochs } époques
-            { "  " }Temps de lumière Terre { $one_way_light_time_s } s aller simple, { $two_way_light_time_s } s aller-retour ; angle Soleil-Terre-corps { $sun_separation_deg } deg
-            { "  " }disponibilité : { $availability_relays } constellation seule, { $availability_with_earth } avec la distance Terre (Terre en vue { $earth_visibility })
-            { "  " }PDOP médian { $opt } ; erreur RMS { $opt2 } constellation seule, { $opt3 } avec la distance Terre
-            { "  " }sigma formel médian { $opt4 } constellation seule, { $opt5 } avec la distance Terre{ "\u000A" }
-    }
-
+    Positionnement autour de { $name } — utilisateur { $user_kind }, { $n_relays } relais à { $r } km, { $n_epochs } époques
+    { "  " }Temps de lumière Terre { $one_way_light_time_s } s aller simple, { $two_way_light_time_s } s aller-retour ; angle Soleil-Terre-corps { $sun_separation_deg } deg
+    { "  " }disponibilité : { $availability_relays } constellation seule, { $availability_with_earth } avec la distance Terre (Terre en vue { $earth_visibility })
+    { "  " }PDOP médian { $opt } ; erreur RMS { $opt2 } constellation seule, { $opt3 } avec la distance Terre
+    { "  " }sigma formel médian { $opt4 } constellation seule, { $opt5 } avec la distance Terre{ "\u000A" }
 
 engine-body-pnt-positioning-around = Positionnement autour de { $name }
 
@@ -5286,73 +5138,7 @@ engine-e-lunar-station-no-case = { $KIND } : aucun cas ({ $j }, { $i }, { $k })
 
 engine-lunar-station-stroke-stroke-width = { " " }stroke="{ $INK }" stroke-width="0.8"
 
-engine-lunar-station-points-epochs-trials =
-    { $n_grid_points ->
-        [one]
-            { $n_epochs ->
-                [one]
-                    { $n_trials ->
-                        [one] { $n_grid_points } point · { $n_epochs } époque · { $n_trials } essai
-                        [many] { $n_grid_points } point · { $n_epochs } époque · { $n_trials } d'essais
-                       *[other] { $n_grid_points } point · { $n_epochs } époque · { $n_trials } essais
-                    }
-                [many]
-                    { $n_trials ->
-                        [one] { $n_grid_points } point · { $n_epochs } d'époques · { $n_trials } essai
-                        [many] { $n_grid_points } point · { $n_epochs } d'époques · { $n_trials } d'essais
-                       *[other] { $n_grid_points } point · { $n_epochs } d'époques · { $n_trials } essais
-                    }
-               *[other]
-                    { $n_trials ->
-                        [one] { $n_grid_points } point · { $n_epochs } époques · { $n_trials } essai
-                        [many] { $n_grid_points } point · { $n_epochs } époques · { $n_trials } d'essais
-                       *[other] { $n_grid_points } point · { $n_epochs } époques · { $n_trials } essais
-                    }
-            }
-        [many]
-            { $n_epochs ->
-                [one]
-                    { $n_trials ->
-                        [one] { $n_grid_points } de points · { $n_epochs } époque · { $n_trials } essai
-                        [many] { $n_grid_points } de points · { $n_epochs } époque · { $n_trials } d'essais
-                       *[other] { $n_grid_points } de points · { $n_epochs } époque · { $n_trials } essais
-                    }
-                [many]
-                    { $n_trials ->
-                        [one] { $n_grid_points } de points · { $n_epochs } d'époques · { $n_trials } essai
-                        [many] { $n_grid_points } de points · { $n_epochs } d'époques · { $n_trials } d'essais
-                       *[other] { $n_grid_points } de points · { $n_epochs } d'époques · { $n_trials } essais
-                    }
-               *[other]
-                    { $n_trials ->
-                        [one] { $n_grid_points } de points · { $n_epochs } époques · { $n_trials } essai
-                        [many] { $n_grid_points } de points · { $n_epochs } époques · { $n_trials } d'essais
-                       *[other] { $n_grid_points } de points · { $n_epochs } époques · { $n_trials } essais
-                    }
-            }
-       *[other]
-            { $n_epochs ->
-                [one]
-                    { $n_trials ->
-                        [one] { $n_grid_points } points · { $n_epochs } époque · { $n_trials } essai
-                        [many] { $n_grid_points } points · { $n_epochs } époque · { $n_trials } d'essais
-                       *[other] { $n_grid_points } points · { $n_epochs } époque · { $n_trials } essais
-                    }
-                [many]
-                    { $n_trials ->
-                        [one] { $n_grid_points } points · { $n_epochs } d'époques · { $n_trials } essai
-                        [many] { $n_grid_points } points · { $n_epochs } d'époques · { $n_trials } d'essais
-                       *[other] { $n_grid_points } points · { $n_epochs } d'époques · { $n_trials } essais
-                    }
-               *[other]
-                    { $n_trials ->
-                        [one] { $n_grid_points } points · { $n_epochs } époques · { $n_trials } essai
-                        [many] { $n_grid_points } points · { $n_epochs } époques · { $n_trials } d'essais
-                       *[other] { $n_grid_points } points · { $n_epochs } époques · { $n_trials } essais
-                    }
-            }
-    }
-
+engine-lunar-station-points-epochs-trials = { $n_grid_points } points · { $n_epochs } époques · { $n_trials } essais
 
 engine-lunar-station-hpl-max = HPL max. { $f }
 
