@@ -8,3 +8,6 @@ seg-6e0cb6acc073 = VALIDATED
 
 # text
 seg-b03d56f501c3 = Typ
+
+# text
+seg-d1e9715513b4 = Beispiel

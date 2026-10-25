@@ -303,3 +303,9 @@ seg-9fa94e1a7511 = <s1>Zurück</s1>Störungskarte und Routenexposition
 
 # text
 seg-8a2c9a7992f4 = <s1>Weiter</s1>Maritime Integrationen
+
+# text
+seg-86c668236bcd = Zuordnung der Urheberschaft
+
+# text
+seg-f63dd3d7aad4 = Quelle

@@ -11,3 +11,6 @@ seg-5ad814c7ef9e = Hinweise
 
 # text
 seg-aab745a65e76 = Modul
+
+# text
+seg-bf09433a7342 = GeoJSON

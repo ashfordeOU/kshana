@@ -20,3 +20,6 @@ seg-e0426ffe2628 = Anmerkung
 
 # text
 seg-de6c33774c9c = CLI
+
+# text
+seg-98f4f946a7ac = WASM

@@ -474,3 +474,6 @@ seg-68bcf43b4e27 = <s1>Zurück</s1>Zeilenabdeckung
 
 # text
 seg-09c0b5fa6e52 = <s1>Weiter</s1>Optische Strecken durch die Atmosphäre
+
+# text
+seg-245fe1f87b08 = Datei
