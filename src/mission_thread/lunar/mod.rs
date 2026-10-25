@@ -242,6 +242,35 @@ fn outcome(
     }
 }
 
+/// The frame and timescale a phase flies in, and the conversion of the entry state onto them. The thread
+/// converts for the phase ([`ThreadCtx::convert_frame`], [`ThreadCtx::convert_timescale`]): MCI and the lunar
+/// clock, or MCMF for the surface map. A pair the thread cannot convert (ITRF, say) is refused with its message.
+fn adapt_entry(
+    entry: &NavState,
+    ctx: &ThreadCtx,
+    kind: &str,
+) -> Result<(NavState, Vec<BudgetRow>), String> {
+    use crate::lunar_phase::{Frame, Timescale};
+    let mut rows = Vec::new();
+    let mut e = entry.clone();
+    let native = e.frame == Frame::Mci || (kind == SURFACE && e.frame == Frame::Mcmf);
+    if !native {
+        let (n, r) = ctx
+            .convert_frame(&e, Frame::Mci)
+            .map_err(|m| format!("{kind}: {m}"))?;
+        e = n;
+        rows.extend(r);
+    }
+    if !matches!(e.clock.timescale, Timescale::Ltc | Timescale::Tt) {
+        let (n, r) = ctx
+            .convert_timescale(&e, Timescale::Ltc)
+            .map_err(|m| format!("{kind}: {m}"))?;
+        e = n;
+        rows.extend(r);
+    }
+    Ok((e, rows))
+}
+
 fn ev(t_s: f64, what: impl Into<String>) -> Event {
     Event {
         t_s,
@@ -276,6 +305,8 @@ impl MissionPhase for OrbitRendezvousPhase {
         ctx: &ThreadCtx,
         phase: &PhaseCtx,
     ) -> Result<PhaseOutcome, String> {
+        let (entry, conversion_rows) = adapt_entry(entry, ctx, self.kind())?;
+        let entry = &entry;
         let mut sc = self.0.clone();
         match sc.arc_s {
             Some(own) => phase.require_duration("arc_s", own)?,
@@ -307,7 +338,7 @@ impl MissionPhase for OrbitRendezvousPhase {
         }
         let rows = rows_of(r);
         let series = samples(entry, &out.abs_series);
-        Ok(outcome(
+        let mut out = outcome(
             RENDEZVOUS,
             entry,
             out.exit,
@@ -317,7 +348,9 @@ impl MissionPhase for OrbitRendezvousPhase {
             events,
             vec![NavSource::Lunanet],
             TimeSource::LunarTime,
-        ))
+        );
+        out.budget.rows.extend(conversion_rows);
+        Ok(out)
     }
 }
 
@@ -348,6 +381,8 @@ impl MissionPhase for DescentPhase {
         ctx: &ThreadCtx,
         phase: &PhaseCtx,
     ) -> Result<PhaseOutcome, String> {
+        let (entry, conversion_rows) = adapt_entry(entry, ctx, self.kind())?;
+        let entry = &entry;
         let mut sc = self.0.clone();
         match sc.descent_s {
             Some(own) => phase.require_duration("descent_s", own)?,
@@ -388,9 +423,9 @@ impl MissionPhase for DescentPhase {
         };
         let rows = rows_of(r);
         let series = samples(entry, &out.series);
-        Ok(outcome(
-            DESCENT, entry, out.exit, rows, 2, series, events, nav, time,
-        ))
+        let mut out = outcome(DESCENT, entry, out.exit, rows, 2, series, events, nav, time);
+        out.budget.rows.extend(conversion_rows);
+        Ok(out)
     }
 }
 
@@ -421,6 +456,8 @@ impl MissionPhase for SurfacePhase {
         ctx: &ThreadCtx,
         phase: &PhaseCtx,
     ) -> Result<PhaseOutcome, String> {
+        let (entry, conversion_rows) = adapt_entry(entry, ctx, self.kind())?;
+        let entry = &entry;
         let mut sc = self.0.clone();
         match sc.stay_days {
             Some(own) => phase.require_duration("stay_days", own * 86_400.0)?,
@@ -486,7 +523,7 @@ impl MissionPhase for SurfacePhase {
                 sigma_time_s: out.exit.sigma_time_s(),
             },
         ];
-        Ok(outcome(
+        let mut out = outcome(
             SURFACE,
             entry,
             out.exit,
@@ -496,7 +533,9 @@ impl MissionPhase for SurfacePhase {
             events,
             vec![NavSource::Lunanet],
             TimeSource::LunarTime,
-        ))
+        );
+        out.budget.rows.extend(conversion_rows);
+        Ok(out)
     }
 }
 
@@ -523,6 +562,8 @@ impl MissionPhase for AscentPhase {
         ctx: &ThreadCtx,
         phase: &PhaseCtx,
     ) -> Result<PhaseOutcome, String> {
+        let (entry, conversion_rows) = adapt_entry(entry, ctx, self.kind())?;
+        let entry = &entry;
         let mut sc = self.0.clone();
         match sc.ascent_s {
             Some(own) => phase.require_duration("ascent_s", own)?,
@@ -560,9 +601,9 @@ impl MissionPhase for AscentPhase {
         };
         let rows = rows_of(r);
         let series = samples(entry, &out.series);
-        Ok(outcome(
-            ASCENT, entry, out.exit, rows, 2, series, events, nav, time,
-        ))
+        let mut out = outcome(ASCENT, entry, out.exit, rows, 2, series, events, nav, time);
+        out.budget.rows.extend(conversion_rows);
+        Ok(out)
     }
 }
 
@@ -734,16 +775,22 @@ mod tests {
     }
 
     #[test]
-    fn a_frame_or_timescale_the_phase_cannot_use_is_refused_with_the_reason() {
+    fn the_thread_converts_the_entry_and_refuses_what_it_cannot_convert() {
+        // GCRF and UTC are converted by the thread, and the conversion lands in the phase's budget.
         let mut e = default_entry();
         e.frame = crate::lunar_phase::Frame::Gcrf;
-        assert!(go(DESCENT, "d", &e, &default_ctx())
-            .unwrap_err()
-            .contains("converts frames"));
-        let mut e = default_entry();
         e.clock.timescale = crate::lunar_phase::Timescale::Utc;
-        assert!(go(DESCENT, "d", &e, &default_ctx())
-            .unwrap_err()
-            .contains("converts timescales"));
+        let out = go(DESCENT, "d", &e, &default_ctx()).unwrap();
+        let conversions = out
+            .budget
+            .rows
+            .iter()
+            .filter(|r| r.source.contains("conversion"))
+            .count();
+        assert!(conversions >= 2, "{:?}", out.budget.rows);
+        // ITRF has no conversion in the thread: refused with the thread's message, not ignored.
+        let mut e = default_entry();
+        e.frame = crate::lunar_phase::Frame::Itrf;
+        assert!(go(DESCENT, "d", &e, &default_ctx()).is_err());
     }
 }
