@@ -2,11 +2,15 @@
 //! Frame and timescale conversions the thread performs at a handover, each returning the budget
 //! lines it adds.
 //!
-//! **Frames.** `Gcrf <-> Mci` shifts the origin by the Moon's geocentric state from the engine's
-//! analytic lunar series ([`crate::ephem::moon_icrf`]), whose error against JPL Horizons is about
-//! 0.05 degrees of lunar longitude; that error is added to the position and velocity covariance
-//! (it is the largest line in a Gcrf-to-Mci handover, and a thread that needs better supplies a
-//! kernel-based ephemeris). `Mci <-> Mcmf` is the mean sidereal rotation (27.321661 d) about the
+//! **Frames.** `Gcrf <-> Mci` shifts the origin by the Moon's geocentric state. With a kernel on
+//! the context ([`ThreadCtx::with_moon_kernel`]) that covers the epoch, the state is the kernel's
+//! (DE440-grade) and the line states the kernel's SHA-256 and a 5 m and 1 mm/s stand-in for its
+//! own error, which the engine has not validated in absolute terms (the reader matches SPICE to
+//! 2 mm; the tests here compare the kernel with pinned JPL Horizons values). Where no kernel
+//! covers the epoch the state is the engine's analytic lunar series
+//! ([`crate::ephem::moon_icrf`]), and the line says it is the fallback and carries the series'
+//! measured error against Horizons (195.7 km RMS, `tests/lunar_llr_real_data.rs`), which
+//! dominates any lunar handover made that way. `Mci <-> Mcmf` is the mean sidereal rotation (27.321661 d) about the
 //! lunar spin axis with the axes aligned at the thread epoch and **no libration**; a rotation
 //! preserves the covariance trace, so the line reports 0 m and says what is left out. `Itrf` and
 //! `Lvlh` are not converted here and fail loudly.
@@ -29,10 +33,20 @@ use super::phase::{ClockState, EvidenceLabel, Frame, NavState, Timescale, N};
 use super::ThreadCtx;
 use crate::interop::UtcEpoch;
 use crate::lunar::{lunar_rotation_angle, LUNAR_SIDEREAL_DAY_S};
+
 use std::f64::consts::TAU;
 
-/// The error of the analytic lunar series against JPL Horizons, degrees of lunar longitude.
-pub const MOON_SERIES_ANGLE_DEG: f64 = 0.05;
+/// The measured RMS vector error of the analytic lunar series against JPL Horizons, metres: 12
+/// weekly geocentric states in 2015 (`tests/lunar_llr_real_data.rs`; the worst epoch is 360 km).
+pub const MOON_SERIES_MEASURED_RMS_M: f64 = 195_655.0;
+
+/// The conservative 1-sigma position stand-in for a DE440-grade kernel's own error, metres: about
+/// twice the worst difference measured against pinned Horizons values (2.6 m, DE440s against the
+/// DE441 Horizons uses; see the test).
+pub const KERNEL_MOON_SIGMA_M: f64 = 5.0;
+
+/// The conservative 1-sigma velocity stand-in for a DE440-grade kernel's own error, m/s.
+pub const KERNEL_MOON_SIGMA_MPS: f64 = 1.0e-3;
 
 /// The next-largest periodic term of TDB minus TT beyond the two the engine carries, seconds.
 pub const TDB_TT_NEXT_TERM_S: f64 = 14.0e-6;
@@ -48,16 +62,63 @@ fn row(source: String, sigma: f64, unit: &str) -> BudgetRow {
     }
 }
 
-/// The 1-sigma position error of the lunar series, metres: its angular error at the mean
-/// Earth-Moon distance.
+/// The 1-sigma position error of the analytic lunar series, metres: its measured RMS against
+/// Horizons.
 pub fn moon_series_sigma_m() -> f64 {
-    crate::lunar_time::EARTH_MOON_DISTANCE_M * MOON_SERIES_ANGLE_DEG.to_radians()
+    MOON_SERIES_MEASURED_RMS_M
 }
 
-/// The 1-sigma velocity error of the lunar series, metres per second: the position error moving
-/// at the Moon's orbital angular rate.
+/// The 1-sigma velocity error of the analytic lunar series, metres per second: the position error
+/// moving at the Moon's orbital angular rate.
 pub fn moon_series_sigma_mps() -> f64 {
-    moon_series_sigma_m() * TAU / LUNAR_SIDEREAL_DAY_S
+    MOON_SERIES_MEASURED_RMS_M * TAU / LUNAR_SIDEREAL_DAY_S
+}
+
+/// Where the Moon's state came from for one conversion.
+struct MoonState {
+    pos: [f64; 3],
+    vel: [f64; 3],
+    sigma_m: f64,
+    sigma_mps: f64,
+    /// The text that goes in the budget line.
+    what: String,
+}
+
+/// The Moon's geocentric state at mission time `t_s`: the context's kernel where it covers the
+/// epoch, otherwise the analytic series (and the line says why).
+fn moon_state(ctx: &ThreadCtx, t_s: f64) -> Result<MoonState, String> {
+    let jd = jd_tdb(ctx, t_s)?;
+    let mut why_not = String::new();
+    if let Some(k) = &ctx.moon_kernel {
+        use crate::ephem_provider::naif_code::{EARTH, MOON};
+        match k.state(MOON, EARTH, crate::jd2::Jd2::new(jd)) {
+            Ok(st) => {
+                return Ok(MoonState {
+                    pos: st[0],
+                    vel: st[1],
+                    sigma_m: KERNEL_MOON_SIGMA_M,
+                    sigma_mps: KERNEL_MOON_SIGMA_MPS,
+                    what: format!(
+                        "DE440-grade SPK kernel sha256 {}, covers this epoch; 5 m and 1 mm/s conservative stand-in for its own error (worst measured against Horizons 2.6 m), its absolute accuracy not claimed",
+                        &k.kernel_sha256()[..16]
+                    ),
+                });
+            }
+            Err(e) => {
+                why_not = format!("the kernel does not cover this epoch ({e}); ");
+            }
+        }
+    }
+    Ok(MoonState {
+        pos: crate::ephem::moon_icrf(jd),
+        vel: crate::ephem::moon_icrf_velocity(jd),
+        sigma_m: moon_series_sigma_m(),
+        sigma_mps: moon_series_sigma_mps(),
+        what: format!(
+            "analytic series FALLBACK, {why_not}measured {:.1} km RMS against JPL Horizons (tests/lunar_llr_real_data.rs), added to the covariance",
+            MOON_SERIES_MEASURED_RMS_M / 1e3
+        ),
+    })
 }
 
 fn jd_tdb(ctx: &ThreadCtx, t_s: f64) -> Result<f64, String> {
@@ -171,9 +232,7 @@ pub fn convert_frame(
     }
     match (state.frame, to) {
         (Frame::Gcrf, Frame::Mci) | (Frame::Mci, Frame::Gcrf) => {
-            let jd = jd_tdb(ctx, state.t_s)?;
-            let m = crate::ephem::moon_icrf(jd);
-            let mv = crate::ephem::moon_icrf_velocity(jd);
+            let m = moon_state(ctx, state.t_s)?;
             let sign = if state.frame == Frame::Gcrf {
                 -1.0
             } else {
@@ -181,13 +240,12 @@ pub fn convert_frame(
             };
             let mut out = state.clone();
             for i in 0..3 {
-                out.x[i] += sign * m[i];
-                out.x[i + 3] += sign * mv[i];
+                out.x[i] += sign * m.pos[i];
+                out.x[i + 3] += sign * m.vel[i];
             }
-            let (sm, sv) = (moon_series_sigma_m(), moon_series_sigma_mps());
             for i in 0..3 {
-                out.p[i][i] += sm * sm;
-                out.p[i + 3][i + 3] += sv * sv;
+                out.p[i][i] += m.sigma_m * m.sigma_m;
+                out.p[i + 3][i + 3] += m.sigma_mps * m.sigma_mps;
             }
             out.frame = to;
             let from_n = if state.frame == Frame::Gcrf {
@@ -196,20 +254,17 @@ pub fn convert_frame(
                 "MCI"
             };
             let to_n = if to == Frame::Gcrf { "GCRF" } else { "MCI" };
-            let what = format!(
-                "analytic lunar series, {MOON_SERIES_ANGLE_DEG} deg against JPL Horizons, added to the covariance"
-            );
             Ok((
                 out,
                 vec![
                     row(
-                        format!("conversion: {from_n} -> {to_n} ({what}), position"),
-                        sm,
+                        format!("conversion: {from_n} -> {to_n} ({}), position", m.what),
+                        m.sigma_m,
                         "m",
                     ),
                     row(
-                        format!("conversion: {from_n} -> {to_n} ({what}), velocity"),
-                        sv,
+                        format!("conversion: {from_n} -> {to_n} ({}), velocity", m.what),
+                        m.sigma_mps,
                         "m/s",
                     ),
                 ],
@@ -449,9 +504,10 @@ mod tests {
         assert_eq!(rows.len(), 2);
         assert_eq!(rows[0].unit, "m");
         assert_eq!(rows[1].unit, "m/s");
-        // About 335 km and 0.9 m/s.
-        assert!((sm - 3.35e5).abs() < 2.0e3, "{sm}");
-        assert!((moon_series_sigma_mps() - 0.89).abs() < 0.05);
+        // The measured 195.7 km RMS of the analytic series and its velocity at the orbital rate.
+        assert!((sm - 195_655.0).abs() < 1.0, "{sm}");
+        assert!((moon_series_sigma_mps() - 0.52).abs() < 0.02);
+        assert!(rows[0].source.contains("FALLBACK"), "{}", rows[0].source);
         // Back to GCRF adds the same again and recovers the position.
         let (back, _) = convert_frame(&c, &out, Frame::Gcrf).unwrap();
         for i in 0..6 {
@@ -518,5 +574,157 @@ mod tests {
         assert!(l.sigma_time_s() >= TDB_TT_NEXT_TERM_S);
         let same = convert_timescale(&c, &s, Timescale::Tdb).unwrap();
         assert!(same.1.is_empty());
+    }
+
+    const KERNEL_2028: &[u8] =
+        include_bytes!("../../tests/fixtures/mission_thread/de440s_moon_2028-01-01_2028-04-01.bsp");
+    const KERNEL_2022: &[u8] =
+        include_bytes!("../../tests/fixtures/mission_thread/de440s_moon_2022-11-16_2022-12-12.bsp");
+    const HORIZONS_2028: &str =
+        include_str!("../../tests/fixtures/mission_thread/horizons_moon_geocentric_2028.txt");
+    const HORIZONS_2022: &str =
+        include_str!("../../tests/fixtures/mission_thread/horizons_moon_geocentric_2022.txt");
+
+    fn kernel(bytes: &[u8], name: &str) -> crate::ephem_provider::KernelEphemeris {
+        crate::ephem_provider::KernelEphemeris::from_bytes(bytes.to_vec(), name.to_string())
+            .expect("the committed kernel cut parses")
+    }
+
+    /// `(jd_tdb, [x, y, z] m, [vx, vy, vz] m/s)` rows of a pinned Horizons table.
+    fn horizons(text: &str) -> Vec<(f64, [f64; 3], [f64; 3])> {
+        let body = text
+            .split("$$SOE")
+            .nth(1)
+            .and_then(|t| t.split("$$EOE").next())
+            .expect("a Horizons vector table");
+        body.lines()
+            .filter(|l| !l.trim().is_empty())
+            .map(|l| {
+                let f: Vec<&str> = l.split(',').map(str::trim).collect();
+                let n = |i: usize| f[i].parse::<f64>().unwrap();
+                (
+                    n(0),
+                    [n(2) * 1e3, n(3) * 1e3, n(4) * 1e3],
+                    [n(5) * 1e3, n(6) * 1e3, n(7) * 1e3],
+                )
+            })
+            .collect()
+    }
+
+    /// The kernel cut against pinned JPL Horizons geocentric Moon states: both windows, five
+    /// epochs each. Measured: worst 2.6 m and 7e-6 m/s. Horizons' centre body is sourced from DE441, the kernel is DE440s, so a few
+    /// metres of disagreement is the two ephemerides, not the reader.
+    #[test]
+    fn the_committed_kernel_cuts_agree_with_pinned_horizons_values() {
+        use crate::ephem_provider::naif_code::{EARTH, MOON};
+        let mut worst_pos: f64 = 0.0;
+        let mut worst_vel: f64 = 0.0;
+        for (bytes, text) in [(KERNEL_2028, HORIZONS_2028), (KERNEL_2022, HORIZONS_2022)] {
+            let k = kernel(bytes, "cut");
+            let rows = horizons(text);
+            assert_eq!(rows.len(), 5);
+            for (jd, p, v) in rows {
+                let st = k.state(MOON, EARTH, crate::jd2::Jd2::new(jd)).unwrap();
+                let dp = (0..3)
+                    .map(|i| (st[0][i] - p[i]).powi(2))
+                    .sum::<f64>()
+                    .sqrt();
+                let dv = (0..3)
+                    .map(|i| (st[1][i] - v[i]).powi(2))
+                    .sum::<f64>()
+                    .sqrt();
+                worst_pos = worst_pos.max(dp);
+                worst_vel = worst_vel.max(dv);
+            }
+        }
+        eprintln!("kernel versus Horizons: worst position {worst_pos:.3} m, worst velocity {worst_vel:.3e} m/s");
+        // The stand-in the conversion row states must cover what was measured.
+        assert!(worst_pos < KERNEL_MOON_SIGMA_M, "position {worst_pos} m");
+        assert!(
+            worst_vel < KERNEL_MOON_SIGMA_MPS,
+            "velocity {worst_vel} m/s"
+        );
+    }
+
+    #[test]
+    fn with_a_kernel_that_covers_the_epoch_the_row_states_the_kernel_and_a_5_m_floor() {
+        let c =
+            ThreadCtx::new("2028-01-10T00:00:00Z", 1).with_moon_kernel(kernel(KERNEL_2028, "cut"));
+        let t = 86_400.0;
+        let epoch = UtcEpoch::parse_iso("2028-01-10T00:00:00Z").unwrap();
+        let jd = crate::timescales::tt_to_tdb(crate::timescales::utc_to_tt(epoch.jd_utc(t)));
+        let k = kernel(KERNEL_2028, "cut");
+        use crate::ephem_provider::naif_code::{EARTH, MOON};
+        let st = k.state(MOON, EARTH, crate::jd2::Jd2::new(jd)).unwrap();
+        let s = state(
+            Frame::Gcrf,
+            [st[0][0], st[0][1], st[0][2], st[1][0], st[1][1], st[1][2]],
+            t,
+        );
+        let (out, rows) = convert_frame(&c, &s, Frame::Mci).unwrap();
+        for i in 0..6 {
+            assert!(out.x[i].abs() < 1e-6, "x[{i}] = {}", out.x[i]);
+        }
+        assert_eq!(rows[0].sigma, KERNEL_MOON_SIGMA_M);
+        assert_eq!(rows[1].sigma, KERNEL_MOON_SIGMA_MPS);
+        assert!(
+            rows[0]
+                .source
+                .contains("SPK kernel sha256 3a845f1fdca6f442"),
+            "{}",
+            rows[0].source
+        );
+        assert!(!rows[0].source.contains("FALLBACK"));
+        // The handover cost is the 5 m floor, not hundreds of kilometres.
+        let added = (out.p[0][0] - s.p[0][0]).sqrt();
+        assert!((added - 5.0).abs() < 1e-9, "{added}");
+    }
+
+    #[test]
+    fn outside_the_kernel_the_analytic_series_is_the_fallback_and_the_row_says_so() {
+        // The 2028 cut ends on 2028-04-01; a state in 2028-09 falls back.
+        let c =
+            ThreadCtx::new("2028-09-01T00:00:00Z", 1).with_moon_kernel(kernel(KERNEL_2028, "cut"));
+        let s = state(Frame::Gcrf, [4.0e8, 0.0, 0.0, 0.0, 900.0, 0.0], 0.0);
+        let (out, rows) = convert_frame(&c, &s, Frame::Mci).unwrap();
+        assert!(rows[0].source.contains("FALLBACK"), "{}", rows[0].source);
+        assert!(
+            rows[0].source.contains("does not cover"),
+            "{}",
+            rows[0].source
+        );
+        assert!(
+            rows[0].source.contains("195.7 km RMS"),
+            "{}",
+            rows[0].source
+        );
+        assert_eq!(rows[0].sigma, MOON_SERIES_MEASURED_RMS_M);
+        assert!(out.sigma_pos_m() > s.sigma_pos_m());
+    }
+
+    /// The measured RMS the fallback quotes is the one the committed 2015 Horizons table gives.
+    #[test]
+    fn the_quoted_series_error_is_what_the_pinned_2015_table_gives() {
+        let text = include_str!("../../tests/fixtures/lunar_llr/horizons_moon_geocentric_2015.csv");
+        let mut n = 0;
+        let mut sum_sq = 0.0;
+        for line in text.lines() {
+            let t = line.trim();
+            if t.is_empty() || t.starts_with('#') || t.starts_with("jd_tt") {
+                continue;
+            }
+            let f: Vec<f64> = t.split(',').map(|x| x.parse().unwrap()).collect();
+            let t_jc = (f[0] - crate::timescales::JD_J2000) / 36_525.0;
+            let r = crate::ephem::moon_position(t_jc);
+            let d = [r[0] / 1e3 - f[1], r[1] / 1e3 - f[2], r[2] / 1e3 - f[3]];
+            sum_sq += d.iter().map(|x| x * x).sum::<f64>();
+            n += 1;
+        }
+        assert_eq!(n, 12);
+        let rms_m = (sum_sq / n as f64).sqrt() * 1e3;
+        assert!(
+            (rms_m - MOON_SERIES_MEASURED_RMS_M).abs() < 0.01 * MOON_SERIES_MEASURED_RMS_M,
+            "{rms_m} m"
+        );
     }
 }
