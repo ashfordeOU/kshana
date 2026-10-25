@@ -243,7 +243,7 @@ fn fom_tier_table(json: &str) -> String {
                 "<tr>{clock_cell}<td>{}</td><td class=\"num\">{}</td><td><span class=\"tier\">{}</span></td></tr>",
                 html_escape(&metric),
                 shown,
-                tier.tag(),
+                tier.label(),
             ));
         }
     }
